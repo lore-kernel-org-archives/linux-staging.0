@@ -1,174 +1,101 @@
-Received: from gauss.telenet-ops.be (gauss.telenet-ops.be [195.130.132.49])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC32C3D55F
-	for <linux-staging@lists.linux.dev>; Mon, 22 Jan 2024 14:33:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC08360B99
+	for <linux-staging@lists.linux.dev>; Mon, 22 Jan 2024 18:08:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705934018; cv=none; b=aiiZw2S53yh/h8ZkJlPqC1qZ0NvOLqJFu/fPmt6shrbYZVHL2UVmoGqZpjgIi6OsaCNWmKt0+tEjN9EqjyOnxVLmd73fH1bwiPRvtrJJXipT5K+tn6jIfZNq4Rc2555CtL6zePwWYlReSwB2fR/8tILWfzfQoN17puayQW+OcuQ=
+	t=1705946913; cv=none; b=I6D89Rc2KdVKqKMtp0eY+AUG9fDxExVERKzp/ZXtkoNNiQDFGwJvfIQGwTAZt0b39OO7MU/fJfsdZa9yKj2vZs0xPkG/7XEnxMFl+ees90pPW/TBdVTfe0/k+RQH1KrtMao7NjiPIV2z7JsWEYQhfcwsPwuabXt0wa9ZySRzuIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705934018; c=relaxed/simple;
-	bh=iTv19rICNpl1lnVCWMxVhw3rYmY8g6Kbzqytd3+JnzI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=iR3d2vG8eCl3e9BUyOiYP68QDLxb0mHZI4CiKEBbnGYO6iwtQuZwpAPT8zyHZAo1voxsNH8omPlFI5jlVn7x2fRtrxVWM6LcIW1Nr+Nz0l56f7P7cK4KPOVajFYxbb264Eca3g245s3hLoAMTcAWZ+lRDYv3zNEt2XtOgBFYNAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
-	by gauss.telenet-ops.be (Postfix) with ESMTPS id 4TJXY62RWCz4x04N
-	for <linux-staging@lists.linux.dev>; Mon, 22 Jan 2024 15:24:42 +0100 (CET)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:955e:bba5:7ff4:cfb6])
-	by michel.telenet-ops.be with bizsmtp
-	id dqQb2B0010ZxL6o06qQbSv; Mon, 22 Jan 2024 15:24:35 +0100
-Received: from rox.of.borg ([192.168.97.57])
-	by ramsan.of.borg with esmtp (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1rRvDF-00GGww-Rw;
-	Mon, 22 Jan 2024 15:24:34 +0100
-Received: from geert by rox.of.borg with local (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1rRvE2-00CFAf-Sl;
-	Mon, 22 Jan 2024 15:24:34 +0100
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Magnus Damm <magnus.damm@gmail.com>
-Cc: linux-staging@lists.linux.dev,
-	linux-usb@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
+	s=arc-20240116; t=1705946913; c=relaxed/simple;
+	bh=lOy0ZmteWVnevRjqTgakjKZrayLKgyaWmhHjW/PK3Qc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fnms0jFRh0qd0Xk4lJHYExnxnSgU6BMbG4f40sNpL45//A90FnJlDJz4DYT6X1AL03AXQnl3btNI6gsSqi6fhkmSUaEBtJ9yWEUnhc20cesfOV4iSCE+QyZ+J7dlvjgvJOAAtBSlFWOXrUo4zrEkzwr5r1dhm1XU42mNb86HZ4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rRyiY-000241-Lm; Mon, 22 Jan 2024 19:08:18 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rRyiX-001eQl-Sf; Mon, 22 Jan 2024 19:08:17 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rRyiX-005ZyV-2Y;
+	Mon, 22 Jan 2024 19:08:17 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Mark Brown <broonie@kernel.org>
+Cc: kernel@pengutronix.de,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	Michal Simek <michal.simek@amd.com>,
+	Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>,
+	dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2 3/4] staging: board: Remove Armadillo-800-EVA board staging code
-Date: Mon, 22 Jan 2024 15:24:32 +0100
-Message-Id: <6d51e06a8586997b31eecead55a369f01c5696a7.1705932585.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1705932585.git.geert+renesas@glider.be>
-References: <cover.1705932585.git.geert+renesas@glider.be>
+	linux-spi@vger.kernel.org
+Subject: [PATCH v2 25/33] staging: fbtft: Follow renaming of SPI "master" to "controller"
+Date: Mon, 22 Jan 2024 19:07:20 +0100
+Message-ID:  <d486dbb16fafd93a00013a555658a44e975115fd.1705944943.git.u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1705944943.git.u.kleine-koenig@pengutronix.de>
+References: <cover.1705944943.git.u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1528; i=u.kleine-koenig@pengutronix.de; h=from:subject:message-id; bh=lOy0ZmteWVnevRjqTgakjKZrayLKgyaWmhHjW/PK3Qc=; b=owGbwMvMwMXY3/A7olbonx/jabUkhtR16x44W9/NuexwblKQkcS2eVqdtoxbE2pDa9aufl5So 2JbWHW/k9GYhYGRi0FWTJHFvnFNplWVXGTn2n+XYQaxMoFMYeDiFICJaJuy/zPf0hzD7Xv4XKXA nQ6hKVGCW43/JecF+faw5V2NSIoNXsY1YXm5nNmKKXYS9S8/vzK3nqp7b/PuUv2k5Fr/uGi+iYk nRQOq5/1Ju/K3+FpTk6CUztH44uiXBidcPY35T7bUy7OLrlX7kmPMuK3qWlVDzGuZvLeyUys+CV jbmHIyudxnZTBm6Mr6J8NRU3ApZIrZUb0DvtxGJ3tbfiipm7WV3O01e1/XPOGttuSslTFNkw9fW fdbyTzk8m2bdvVZKRlHXymr7pNt/zLdkuNl7BH1axK6mlZ7c+e8FmvuvPv2cnWky+cFBw+kyu/f kx8wb/oBxd/OjJdPGrkpsT18+rHxpmd+6jLx6yzJbwsB
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-staging@lists.linux.dev
 
-Since commits 1399ebacbf590dfb ("drm: renesas: shmobile: Add DT
-support"), 138588e9fa237f97 ("ARM: dts: renesas: r8a7740: Add LCDC
-nodes"), and c9a0ed13382660c9 ("ARM: dts: renesas: armadillo800eva: Add
-LCD panel"), there is no longer any use for the Atmark Techno
-Armadillo-800-EVA board staging code.
+In commit 8caab75fd2c2 ("spi: Generalize SPI "master" to "controller"")
+some functions and struct members were renamed. To not break all drivers
+compatibility macros were provided.
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+To be able to remove these compatibility macros push the renaming into
+this driver.
+
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
-v2:
-  - New.
----
- drivers/staging/board/Makefile          |  1 -
- drivers/staging/board/armadillo800eva.c | 88 -------------------------
- 2 files changed, 89 deletions(-)
- delete mode 100644 drivers/staging/board/armadillo800eva.c
+ drivers/staging/fbtft/fbtft-core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/board/Makefile b/drivers/staging/board/Makefile
-index 5db091b5ca01596a..b6a00c93c2cc10dd 100644
---- a/drivers/staging/board/Makefile
-+++ b/drivers/staging/board/Makefile
-@@ -1,3 +1,2 @@
- # SPDX-License-Identifier: GPL-2.0
- obj-y	:= board.o
--obj-$(CONFIG_ARCH_R8A7740)	+= armadillo800eva.o
-diff --git a/drivers/staging/board/armadillo800eva.c b/drivers/staging/board/armadillo800eva.c
-deleted file mode 100644
-index 0225234dd7aa6b1c..0000000000000000
---- a/drivers/staging/board/armadillo800eva.c
-+++ /dev/null
-@@ -1,88 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0
--/*
-- * Staging board support for Armadillo 800 eva.
-- * Enable not-yet-DT-capable devices here.
-- *
-- * Based on board-armadillo800eva.c
-- *
-- * Copyright (C) 2012 Renesas Solutions Corp.
-- * Copyright (C) 2012 Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-- */
--
--#include <linux/dma-mapping.h>
--#include <linux/fb.h>
--#include <linux/kernel.h>
--#include <linux/platform_device.h>
--#include <linux/videodev2.h>
--
--#include <video/sh_mobile_lcdc.h>
--
--#include "board.h"
--
--static struct fb_videomode lcdc0_mode = {
--	.name		= "AMPIER/AM-800480",
--	.xres		= 800,
--	.yres		= 480,
--	.left_margin	= 88,
--	.right_margin	= 40,
--	.hsync_len	= 128,
--	.upper_margin	= 20,
--	.lower_margin	= 5,
--	.vsync_len	= 5,
--	.sync		= 0,
--};
--
--static struct sh_mobile_lcdc_info lcdc0_info = {
--	.clock_source	= LCDC_CLK_BUS,
--	.ch[0] = {
--		.chan		= LCDC_CHAN_MAINLCD,
--		.fourcc		= V4L2_PIX_FMT_RGB565,
--		.interface_type	= RGB24,
--		.clock_divider	= 5,
--		.flags		= 0,
--		.lcd_modes	= &lcdc0_mode,
--		.num_modes	= 1,
--		.panel_cfg = {
--			.width	= 111,
--			.height = 68,
--		},
--	},
--};
--
--static struct resource lcdc0_resources[] = {
--	DEFINE_RES_MEM_NAMED(0xfe940000, 0x4000, "LCD0"),
--	DEFINE_RES_IRQ(177 + 32),
--};
--
--static struct platform_device lcdc0_device = {
--	.name		= "sh_mobile_lcdc_fb",
--	.num_resources	= ARRAY_SIZE(lcdc0_resources),
--	.resource	= lcdc0_resources,
--	.id		= 0,
--	.dev	= {
--		.platform_data	= &lcdc0_info,
--		.coherent_dma_mask = DMA_BIT_MASK(32),
--	},
--};
--
--static const struct board_staging_clk lcdc0_clocks[] __initconst = {
--	{ "lcdc0", NULL, "sh_mobile_lcdc_fb.0" },
--};
--
--static const struct board_staging_dev armadillo800eva_devices[] __initconst = {
--	{
--		.pdev	 = &lcdc0_device,
--		.clocks	 = lcdc0_clocks,
--		.nclocks = ARRAY_SIZE(lcdc0_clocks),
--		.domain	 = "/system-controller@e6180000/pm-domains/c5/a4lc@1"
--	},
--};
--
--static void __init armadillo800eva_init(void)
--{
--	board_staging_gic_setup_xlate("arm,pl390", 32);
--	board_staging_register_devices(armadillo800eva_devices,
--				       ARRAY_SIZE(armadillo800eva_devices));
--}
--
--board_staging("renesas,armadillo800eva", armadillo800eva_init);
+diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
+index 3626f429b002..68add4d598ae 100644
+--- a/drivers/staging/fbtft/fbtft-core.c
++++ b/drivers/staging/fbtft/fbtft-core.c
+@@ -794,7 +794,7 @@ int fbtft_register_framebuffer(struct fb_info *fb_info)
+ 	if (par->txbuf.buf && par->txbuf.len >= 1024)
+ 		sprintf(text1, ", %zu KiB buffer memory", par->txbuf.len >> 10);
+ 	if (spi)
+-		sprintf(text2, ", spi%d.%d at %d MHz", spi->master->bus_num,
++		sprintf(text2, ", spi%d.%d at %d MHz", spi->controller->bus_num,
+ 			spi_get_chipselect(spi, 0), spi->max_speed_hz / 1000000);
+ 	dev_info(fb_info->dev,
+ 		 "%s frame buffer, %dx%d, %d KiB video memory%s, fps=%lu%s\n",
+@@ -1215,7 +1215,7 @@ int fbtft_probe_common(struct fbtft_display *display,
+ 
+ 	/* 9-bit SPI setup */
+ 	if (par->spi && display->buswidth == 9) {
+-		if (par->spi->master->bits_per_word_mask & SPI_BPW_MASK(9)) {
++		if (par->spi->controller->bits_per_word_mask & SPI_BPW_MASK(9)) {
+ 			par->spi->bits_per_word = 9;
+ 		} else {
+ 			dev_warn(&par->spi->dev,
 -- 
-2.34.1
+2.43.0
 
