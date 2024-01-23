@@ -1,139 +1,97 @@
-Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80FB44F202
-	for <linux-staging@lists.linux.dev>; Tue, 23 Jan 2024 00:36:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98DFE4F211
+	for <linux-staging@lists.linux.dev>; Tue, 23 Jan 2024 06:10:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705970185; cv=none; b=uKpE4iKiEfC6siIbFv7b7r6aLTf6uOc9FhbcY8jahWVgCBnhhUjok9oOC/CBcHz+FttaMpz16UTayq9cfc2hOdQbEcmnJTVSBlFFcGbMDuAi9yJXt1MKn1l3Q+s5xzrH/mEi5Cre1pjSfYAHttwkoitR43C3E+vc8++aGNf709c=
+	t=1705990237; cv=none; b=caYMLZQMXyJe9/ihFbWFacqqGER+8e98ta8WRnqi6yHXKOl+L9ooowTQAJv8OvMGLlSKnAbz0NC7V4+vK6isYczg0t+62fgQpdld/5sSWOdwL22UnzwX0lAQu9cTZLx9n4DEKw8kz1I29iCYHra7/Pjx5P/u3JWOK84p0qXnsoI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705970185; c=relaxed/simple;
-	bh=GiWhP3MrtF/n6FOjCeTrtngKdYU/XXg3g36941RXt68=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=LlujD3eDvkSYTo5hMXlsXl+AygAHh6MSyOGLTOrgjCFJnZsqVdamHxtB1Ux0gre5jMPRmYhEFiL+pSO4qleMK7a+/64LGH6OrBLyc+yH5Cr9p8FtbEmWlqf8CvlF7KREaOBbCXgd/v7tPV1K7zR+CdGEiXxBpZuF+AvnJyhPVuM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=P69WWgqx; arc=none smtp.client-ip=209.85.161.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1705990237; c=relaxed/simple;
+	bh=w3gqNh/2pOwoeMf06X/XCaRk9VzBiWnMpsT5GqVh0sc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OpQxAuEPAlR7fJb/ZFIQBgftUdGRGylXVgtNIgdZySs/bCa4fXLEfn56DJ3AwYw0tYS0LqIRBwfNH1DvBdKANAlVFePT9I7WlFMtMyv4sSTQxF55V8xlTP2EdomjqWruxo8qY/ED7xr9/LC8dQ/rtmiboI29PNoFZQMm2tNaSSk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=aH2P30z/; arc=none smtp.client-ip=209.85.222.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="P69WWgqx"
-Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-598bcccca79so2071953eaf.2
-        for <linux-staging@lists.linux.dev>; Mon, 22 Jan 2024 16:36:23 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aH2P30z/"
+Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-78324e302d4so349897185a.1
+        for <linux-staging@lists.linux.dev>; Mon, 22 Jan 2024 22:10:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1705970182; x=1706574982; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nfUPSLWLFR2aaFBB7T6PJOGyzs3EsvCpQit0VhIc77o=;
-        b=P69WWgqxosLtvdElYhdzJ6Gny9kt0/xQz0SAE+8sQzZUvzf3qxbmusaFLBZkQatUej
-         E8YQu8ah/Yw3MpWM1lGTZUnivb9IYSDSROcNXwWv7ZpJ58v+InVL6Tvw6f2HCZpWVgcD
-         fnTQgGHQo6ZOP/xIigRvClMR/9GK/YqvWRz1I=
+        d=linaro.org; s=google; t=1705990234; x=1706595034; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=5A/ClUoIrkIoreUe1TXm2hkzVatmI8TCvtYDlQ9V8pE=;
+        b=aH2P30z/MdFf/STlD70lIoimGRxOcljlxI9HqPZnkOV6ihUcHcm/EInpptzLyVpdrd
+         snX/Kmt+Jh/JGeuhR5cUYLMlhce/cplGOV+4nwPREbGIMHEEB8sxHrwPAXlWp55EbM2D
+         0OFj74Qn4F0tbkBfmhQ9C+IPCwYj3aWs1lRmWz8Mfbh6aM1cUc9nWKP3hdKBM/0niybd
+         8tqRGY5WAJMaEQdwj2C25iyrRruJlHVcGhqP77efxD+vdfVizNvOqoXM0QFmz5Te2umT
+         VsB6J/fi/CxEmHjxRT+9XbPOdLw+uN4Vyy62+Ptqdz5n5lI6aZxpKqbA2c6SWkcdoRKU
+         RN3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705970182; x=1706574982;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nfUPSLWLFR2aaFBB7T6PJOGyzs3EsvCpQit0VhIc77o=;
-        b=S1HNYGxIQ8newKJWeJfmAXf1TBi3gUM/8qLRjzfYHKvfhrWyXAKlJWZayQwGGEusdI
-         X9kYotrUfjjHdh2z1iE57QuFHs4hemBKoKfz5QpmQnPVNAgHWaBJXOGAe9h1arpgE3By
-         trhv7WNJJp7OjtVXpz0WWMTKikdaGKu+hEzwbGN3Y1lT4JxgYuEDVsN8b40fxDu0BZzO
-         FerOA69XRKhn5NqI8x9L08/++Yh7K05NQG17ZBnCA4F54ok/IJQXKJK8ZP6L9lcyYJ25
-         LNvxz2IW3v13sjpfmZtUE/tGBm6T9rEHMmQl2r/bVokZtJrCJFE7k/m3tkkkHiZXr4Qu
-         MunQ==
-X-Gm-Message-State: AOJu0Yyi+47doTDOZotXEEo71upuc8lemPGDWxTsfq533H3I41LK/U2h
-	EIUTk6F906YlhY4p9PYT/vN1EFKd2fBkqEU2aeoP6F8wp3n7qz0o2Hm5PNmYuA==
-X-Google-Smtp-Source: AGHT+IFWer+CHPYFKz4aogRg2rh9FM/Qdoj3c5YAE1QWiQ2/ARGjmNAbYrJIVCmUtb1J4VGTkYl8bA==
-X-Received: by 2002:a05:6358:4b4c:b0:176:5381:7508 with SMTP id ks12-20020a0563584b4c00b0017653817508mr1802125rwc.29.1705970182669;
-        Mon, 22 Jan 2024 16:36:22 -0800 (PST)
-Received: from www.outflux.net ([198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id c2-20020a62e802000000b006da24e7c16dsm10181497pfi.186.2024.01.22.16.36.11
+        d=1e100.net; s=20230601; t=1705990234; x=1706595034;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5A/ClUoIrkIoreUe1TXm2hkzVatmI8TCvtYDlQ9V8pE=;
+        b=lcewCKJfvSYuSZaYGKKK1j8N1l4u4DBXvDXhgCZ3w17yfXZMUrRP5jZqeQRlj3NLkT
+         ODb3v5MQiH+09JkERogVmV3VR5e2Z5TfRqy1AcNI0EPKGyeyBvMtTphBR7oUmveGpELL
+         EpjeVMymzVgZkDwctd93F+fbkAMipYWreTyXl2XJ4KYLFvZ3tuhjddxOZz4jWBuS683q
+         kVSZwqpE89F6rP0dBzpua3Tg3/tzWhPzeA7Ho1dsu7UGzhiCgjRdfaZbaR4zZYcfDhq2
+         qsSA1Dim2fDTDXXgpgbLf/9UjAyzYt1cCom+4BdhzwAbDVCzHnPzB2nXc07tKoWWkl/B
+         d6dw==
+X-Gm-Message-State: AOJu0YxKE0QCSMTxfZ8Nhyy8RGwY/aDF7hYEcWta9ztSJbW3RehKToQm
+	rH6hKAIs9YEIT9Jm/dxZvtx3PVTYAQSnfu8Apgia1XZXtI73CTo2femH4O/MccZAyrmwW4deWBJ
+	kIFM=
+X-Google-Smtp-Source: AGHT+IE4OD6TOeSlxeub7wxFFX8Sv6dWWmPrA3e8kSMzmAMyNUFBJ2e3X/JubQQACaJDh2v9EM67/w==
+X-Received: by 2002:a05:620a:ce6:b0:783:3f25:c6f3 with SMTP id c6-20020a05620a0ce600b007833f25c6f3mr6039607qkj.47.1705990233567;
+        Mon, 22 Jan 2024 22:10:33 -0800 (PST)
+Received: from localhost ([102.140.209.237])
+        by smtp.gmail.com with ESMTPSA id o11-20020ae9f50b000000b007837e17f643sm2839113qkg.63.2024.01.22.22.10.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jan 2024 16:36:18 -0800 (PST)
-From: Kees Cook <keescook@chromium.org>
-To: linux-hardening@vger.kernel.org
-Cc: Kees Cook <keescook@chromium.org>,
-	Martyn Welch <martyn@welchs.me.uk>,
-	Manohar Vanga <manohar.vanga@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Soumya Negi <soumya.negi97@gmail.com>,
-	Alexon Oliveira <alexondunkan@gmail.com>,
-	linux-staging@lists.linux.dev,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
+        Mon, 22 Jan 2024 22:10:33 -0800 (PST)
+Date: Tue, 23 Jan 2024 09:10:28 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Hoorad Farrokh <hourrad.f@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 79/82] staging: vme_user: Refactor intentional wrap-around test
-Date: Mon, 22 Jan 2024 16:27:54 -0800
-Message-Id: <20240123002814.1396804-79-keescook@chromium.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240122235208.work.748-kees@kernel.org>
-References: <20240122235208.work.748-kees@kernel.org>
+Subject: Re: Re: [PATCH] staging: rtl8723bs: remove unnecessary braces in
+ while loop
+Message-ID: <cd2fd58b-1017-4019-8810-c2421ddf02e0@moroto.mountain>
+References: <4ii7ptqhz7ion46dczabnevuj7tjfv4iofvzedms6tvfgsfu2e@6rvcsdyodny2>
+ <39fbf9df-d6da-4275-be3b-191108f94ec2@moroto.mountain>
+ <delmvvkjuq2t76jrrxxb4a33tuef3m7bhkzpnopp5x7xzjdntb@ceybtr5piecl>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1910; i=keescook@chromium.org;
- h=from:subject; bh=GiWhP3MrtF/n6FOjCeTrtngKdYU/XXg3g36941RXt68=;
- b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBlrwgMOyPanh0a8qKmM4y2TAR3HGUyEXSwoxVEk
- MEgKnhG10iJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZa8IDAAKCRCJcvTf3G3A
- JlyEEACa0F1lV4dIXFWgeCdkJHhSC7mnxnguEgyncSJiop+k0Bd7fCoJ6xCBI/VsrDDiOV5JO7h
- YlfkKkorKeHSwQ4eF7kA5ad0WAs43pP9aHx+fgnexAdyAv8q6kB4EV+m12jZXMkqpa1a2arGVBX
- vU/kVtSPYhonhrHCjR8yD/RJzZQCOq0Mv9L/oNW0TClnra68UXFMsMrx8r02ANI98S3Kkm/fePG
- YWRN7tYvnoXzmS1Mv+bd4pACK3H9sNQQa4gC3fsjOQTevRfKf/goaHyRRd6b7JoulGhmmzXXtZr
- OFWkOtLXFLah6ZOtxrTfcxSwwBuPTZeJrkLQlwBkjxPZoZU7IR5rhIfBgONwxTkOAmv0aR/cRis
- kfuHPvu7SaQ6xuRNFXVsgmqxwWDG19eC/B0UrD0D1lhkRNPRS2OqC813G9hba/iMw+CpRd/0P81
- hMVIoIAdLBsZO0VwmPrpH/1YTRMjHholnWqUb5fHwnaWIpK2vWGNWf/CrSgsmdKWdxFqGMHHWPL
- 1ZqTf5JCBXXb+6xfg4LQdl07I2loTL6jVB6DMwFSRDXhu0ntLycT8xi4Q0NZlqBMJ9TBC+FJcPZ
- zHKyXn2zD48i8oZMzFdhMU19Crj+Kb4D8Ea+yCfWCOxvs/YIxPgxMOz0MPl54rpj/jcm60Kua5P WbhzXjTYboExRrw==
-X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <delmvvkjuq2t76jrrxxb4a33tuef3m7bhkzpnopp5x7xzjdntb@ceybtr5piecl>
 
-In an effort to separate intentional arithmetic wrap-around from
-unexpected wrap-around, we need to refactor places that depend on this
-kind of math. One of the most common code patterns of this is:
+On Tue, Jan 23, 2024 at 12:28:44PM +1300, Hoorad Farrokh wrote:
+> Hello,
+> Thanks for your comment.
+> 
+> > 
+> > This function doesn't do anything...  The name says "free_all" but it
+> > doesn't free anything.  I would prefer to fix this warning by adding
+> > a comment:
+> >
+> 
+> I didn't fully understand this part of your comment. Do you mean I should add a comment
+> to the while loop + my changes and submit it agian? or 
+> do you mean I should find a way to free things in the while loop? then submit again?
+> 
 
-	VAR + value < VAR
+Either one.
 
-Notably, this is considered "undefined behavior" for signed and pointer
-types, which the kernel works around by using the -fno-strict-overflow
-option in the build[1] (which used to just be -fwrapv). Regardless, we
-want to get the kernel source to the position where we can meaningfully
-instrument arithmetic wrap-around conditions and catch them when they
-are unexpected, regardless of whether they are signed[2], unsigned[3],
-or pointer[4] types.
+It's weird to note down the bugs in the source, but if we don't know how
+to fix it, then perhaps that's the best we can do...
 
-Refactor open-coded wrap-around addition test to use add_would_overflow().
-This paves the way to enabling the wrap-around sanitizers in the future.
-
-Link: https://git.kernel.org/linus/68df3755e383e6fecf2354a67b08f92f18536594 [1]
-Link: https://github.com/KSPP/linux/issues/26 [2]
-Link: https://github.com/KSPP/linux/issues/27 [3]
-Link: https://github.com/KSPP/linux/issues/344 [4]
-Cc: Martyn Welch <martyn@welchs.me.uk>
-Cc: Manohar Vanga <manohar.vanga@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Soumya Negi <soumya.negi97@gmail.com>
-Cc: Alexon Oliveira <alexondunkan@gmail.com>
-Cc: linux-staging@lists.linux.dev
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
- drivers/staging/vme_user/vme.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/staging/vme_user/vme.c b/drivers/staging/vme_user/vme.c
-index e9461a7a7ab8..a0acf2a295cd 100644
---- a/drivers/staging/vme_user/vme.c
-+++ b/drivers/staging/vme_user/vme.c
-@@ -165,7 +165,7 @@ int vme_check_window(struct vme_bridge *bridge, u32 aspace,
- {
- 	int retval = 0;
- 
--	if (vme_base + size < size)
-+	if (add_would_overflow(size, vme_base))
- 		return -EINVAL;
- 
- 	switch (aspace) {
--- 
-2.34.1
+regards,
+dan carpenter
 
