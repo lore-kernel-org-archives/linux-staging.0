@@ -1,93 +1,129 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CECF5C5F1;
-	Tue, 23 Jan 2024 09:49:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3870B7CF19
+	for <linux-staging@lists.linux.dev>; Wed, 24 Jan 2024 14:48:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706003373; cv=none; b=T2VnqpSN0zcud7QVGcdXH9vLejr4jFTzGPptJDTYp/Ll4hP/Lz29YbBHVMMFCV8ExLEo4o6iYyQDjaVS29YgtztmPaXQ8VV8Sf3bBLk5LKFDiQ5QJ1LghY9uPfG1MeUakS9Gfj0DShpG//vP8QK0z/BoHNzube3VaWqh1sWvStQ=
+	t=1706107741; cv=none; b=ZrKwRmcFNydRlsGFP1SNLMV8iWpKBCl70wReajfSD78xltJBvpkW8Lua004hyK6RI+wu67X/X7oGbmFPxcbjGB5WzxbCTbiW+6GnvVIkBtWbYjUPwRQo9SCbIy33aN1xwdQI36MFbUFaPd23Rd3jOiHVlKLeVZR5E7P9nHuu0WM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706003373; c=relaxed/simple;
-	bh=4tKkrMzOezkts98c7O1jAxgD/J6EMADqSj3KA2Osl04=;
+	s=arc-20240116; t=1706107741; c=relaxed/simple;
+	bh=eDTJ2mw+CpW7gkWAtFI6KtiT1a32SBUN715ePecnFk4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TJ8/cDGw3pdW7cDXwwTcO5vz8DPDjEiHkBsitY4K3IveHBUda8po/vbDWOrmXrsoEnKjpCzLX96WUbFP/yzze32Ch7tAdlwovMRJJlKpz77g6jr7rucDsVRgxkxrNOP98kj3i0xHAQvkbGGV/CBYIwZwR8r6FkqnzLPDG52QjBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fAGDujtn; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=O01Ds1YuI5jtwfy3L8aoTxyrPJJMEtmj0m3JkwrWHz1s21CPQsJLxWgMzAh//3cShtKfDY5MK3Dv6jxkhjaLue5+4tdUr1NEc1VtPcwYy3iCmpCcNVJy8J/Dgnw42zEtVp9d5Y7Cv1YItUrQylcNBLTx77e5+vm4q0rnsyGtp/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ns2mnr5u; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fAGDujtn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FC25C43390;
-	Tue, 23 Jan 2024 09:49:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706003373;
-	bh=4tKkrMzOezkts98c7O1jAxgD/J6EMADqSj3KA2Osl04=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fAGDujtnHEiZsJuqN1nVJFMN/np1+XR3MnwUaMxoJM4VRcbV/cPlACEFbeg0lnpZO
-	 rwb3d5C+M+74dH9efEvS6sdTOoW3scEqiMYY1kfwE79mYUk0qSfLSKP/sq9dQeokQ1
-	 43xxMA70rudaOpHlmNFcfeKa3AZbyR9SWVMX+0j9TfsDX01oxym4/R7QiZpPFeudbL
-	 qxJvp+9pF08evm7uejy34BEV7PLeLgtId4983JukFfUreTRPUueMdarXJAj8VPV0nR
-	 Quou1xZx2AhnChUkc4JxBzPPrLodCtAZry4gI3XcJA5gMUi5e7rEbk0t75dw5g8Y9X
-	 1RlpMhSYDmZHA==
-Date: Tue, 23 Jan 2024 10:49:29 +0100
-From: Wolfram Sang <wsa@kernel.org>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ns2mnr5u"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-33926ccbc80so3452491f8f.0
+        for <linux-staging@lists.linux.dev>; Wed, 24 Jan 2024 06:48:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1706107737; x=1706712537; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=QODSxkvFxPjK1+hRtzc6D4olCOqkz85HGYaIxMx2/lg=;
+        b=ns2mnr5ukebWXgeL0bkba5kT5lLmbixyYDkQUj9PVTBgNIjBJ1gjcRzzVLMnnDM7xl
+         qnmPYWmBkQdrMsIyjCsASdcge5uGDdwnac7pXnx/M101LFuAn6dRyHzY7dXK3ZnNv3Ws
+         LTgLin4u2oEph3Lw0aCKwOzLNv76LlM3xiCh75YaazSXcwtcdnSeRzEbN15uMr9iq8+H
+         Re/DdUVjfIif+yfrHhRPNYrbt8qvisdWl/UbGhkRVecNPcIPaQEhNvcgzxx2u5u5vf+J
+         VcAZ4sQ70PzKgmmipmloUtAPo2DG/l0CpKUbdHf/RwPJW9RR59i0czApVGNqkxNl8n7N
+         pqEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706107737; x=1706712537;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QODSxkvFxPjK1+hRtzc6D4olCOqkz85HGYaIxMx2/lg=;
+        b=NoVAaKOUOWm0wtmMETcDh2I4q96vFKsd/h/OgrycCzKZ/smP2pWdYFD+VhgP3eDVyz
+         nX5nXvoTPF0wp6bRYxp0BfyvVHoFpzqX0FR1wlLxmtRRQeOW1t1uoSJhDO5Dmlh9s6i8
+         TVOe92RUVWqAiEv+SJH8uh2VYAJFwRC9WEdCrir8YijFogbnDd2jybvDI4hlHwsOOPhC
+         0okiPQHQuBP4uPUwEUSoR/znQQekhUh1JkL5Y1GnDxlGzr4DfCI8kBUa4aqj/R4NzBH+
+         o1XtLmh5XkEVvt4V9EnuOtyhZ9pSdfnqhq43ogmCS4cMEm8OdybQ506MtJT5Zgf2xZyU
+         WXgA==
+X-Gm-Message-State: AOJu0Yw690ExOqGO9TLdRs5QoYEkZ3PqEsJc3M+1DMNXcLuNgfJPKGpy
+	tEbmdgmTtjnBxQjzQUStWTBJalrgpaaN1C1Y8N3a34m+q3k2Uik5IbwGtnzcrlo=
+X-Google-Smtp-Source: AGHT+IFlnXFany3DKmq0AiSNyBmdVgJ6QzzzZkSRSQk+Q3fvZ3Km2AgLj9J8hM5gTwv7eyESMIN6Yg==
+X-Received: by 2002:a5d:560d:0:b0:337:9b30:36f0 with SMTP id l13-20020a5d560d000000b003379b3036f0mr686579wrv.67.1706107737388;
+        Wed, 24 Jan 2024 06:48:57 -0800 (PST)
+Received: from localhost ([102.140.209.237])
+        by smtp.gmail.com with ESMTPSA id l6-20020a5d5606000000b0033922468707sm13522422wrv.83.2024.01.24.06.48.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Jan 2024 06:48:56 -0800 (PST)
+Date: Wed, 24 Jan 2024 17:48:52 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Erick Archer <erick.archer@gmx.com>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Magnus Damm <magnus.damm@gmail.com>, linux-staging@lists.linux.dev,
-	linux-usb@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 4/4] staging: Remove board staging code
-Message-ID: <Za-LqSDUbLGp2Mke@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Magnus Damm <magnus.damm@gmail.com>, linux-staging@lists.linux.dev,
-	linux-usb@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-References: <cover.1705932585.git.geert+renesas@glider.be>
- <eec1bfb2878237888a8c3bc866d18dc53900739f.1705932585.git.geert+renesas@glider.be>
+	Franziska Naepelt <franziska.naepelt@googlemail.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Johannes Berg <johannes.berg@intel.com>,
+	Jeff Johnson <quic_jjohnson@quicinc.com>,
+	Aloka Dixit <quic_alokad@quicinc.com>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: Use kcalloc() instead of kzalloc()
+Message-ID: <b40e12f6-176a-4bf6-8ab0-d1cf783033a0@moroto.mountain>
+References: <20240119173900.11035-1-erick.archer@gmx.com>
+ <a5d8a5f1-432d-46f0-84fe-7b5b22ff5f32@moroto.mountain>
+ <20240122181654.GA2834@titan>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="L2v1YfRFEceDTTTe"
-Content-Disposition: inline
-In-Reply-To: <eec1bfb2878237888a8c3bc866d18dc53900739f.1705932585.git.geert+renesas@glider.be>
-
-
---L2v1YfRFEceDTTTe
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240122181654.GA2834@titan>
 
-On Mon, Jan 22, 2024 at 03:24:33PM +0100, Geert Uytterhoeven wrote:
-> There are no more users of the board staging code.
->=20
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On Mon, Jan 22, 2024 at 07:16:54PM +0100, Erick Archer wrote:
+> Hi Dan,
+> 
+> On Mon, Jan 22, 2024 at 09:55:11AM +0300, Dan Carpenter wrote:
+> > On Fri, Jan 19, 2024 at 06:39:00PM +0100, Erick Archer wrote:
+> > > As noted in the "Deprecated Interfaces, Language Features, Attributes,
+> > > and Conventions" documentation [1], size calculations (especially
+> > > multiplication) should not be performed in memory allocator (or similar)
+> > > function arguments due to the risk of them overflowing. This could lead
+> > > to values wrapping around and a smaller allocation being made than the
+> > > caller was expecting. Using those allocations could lead to linear
+> > > overflows of heap memory and other misbehaviors.
+> > >
+> > > So, use the purpose specific kcalloc() function instead of the argument
+> > > count * size in the kzalloc() function.
+> > >
+> > > Also, it is preferred to use sizeof(*pointer) instead of sizeof(type)
+> > > due to the type of the variable can change and one needs not change the
+> > > former (unlike the latter).
+> > >
+> > > Link: https://www.kernel.org/doc/html/next/process/deprecated.html#open-coded-arithmetic-in-allocator-arguments [1]
+> > > Link: https://github.com/KSPP/linux/issues/162
+> > > Signed-off-by: Erick Archer <erick.archer@gmx.com>
+> >
+> > I quite often write responses to patches and then never send them.  I
+> > wrote this response and debated sending it but in the end I decided to
+> > send it because you have sent multiple patches.  If you had only sent
+> > one patch then I wouldn't have bothered.
+> 
+> My intention is not to bother anyone. I'm a linux kernel developer newbie
+> and I try to do my best.
+> 
 
-Hooray! \o/
+Yeah.  It's not a problem, we all started as newbies.  I guess what I
+was trying to say is that if you're going to be sending a lot of patches
+then it's worth explaining this but if you're only sending one then I
+wouldn't bother.
 
-Acked-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+I don't really expect people to figure out all the code, it's just that
+if you can see the effect of a patch right away then, please, include
+that in the patch.  Even when it's like in this case, "This patch should
+have no effect on runtime."  That sort of information is still useful.
 
+Or if you can't figure out the implications that's also useful
+information to me as a reviewer.  Just put those I don't know comments
+under the --- cut off.
 
---L2v1YfRFEceDTTTe
-Content-Type: application/pgp-signature; name="signature.asc"
+regards,
+dan carpenter
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmWvi6kACgkQFA3kzBSg
-KbZR0w//fsbm2nqehQ1TLygxIL6L/Om6G+6Ik3rcEu87/8kr7hPEj6bUAr0RB/Gl
-xzmQ0qwOKtEI8QjuFx6A8BXGqfOoETW6PBnUUCG+geRE/3H0ieQrMttmcA6vBsQj
-Al/QdmArxVKQbegw/6LLbNdlFavP/lkoWJkbfRhaZFm6VgUhJqWTPp5iVQC3cKQ3
-QdJn/0APfMpAMS8cvY+g0iabVvUOeUE+F5C5ynIv1eoW5gjpGbsFS2h2vly8KRTt
-mJRuieyz7HF6d/OcL+EGcCISGcQogrch2Q+jgZT1fKuKRK51VDVJgXoqWLgLHW5A
-ULTd/gf9gc2mCnFAwXyzs7BmHRzcCktAk+0LHKYaqLTZ6xtYDDvB0DhhVD9cHU5c
-+7Y6L7xhTwS50IEDRiZWunqL/WYUfNVzZvoITcI26pTnq4gq2h7Jl2woVeypE6YO
-By/QbuWx9O/BcxY3RwQPVYaj8kYHTshh5/l6XD9lSRrtKggmQkuzkD3DlphEuIAq
-ZOs/5ggAf0/Uz7HC4/LaVB18ArQ0FSgm62l79yR3aUE2wvh0vPRaFKPpMvMu47ut
-fK0HUDFBsX3xsHgvCPz4HsLglYo8WxZSMp4rfdczz3s6AEY2kdJg72xt9I6Bg7ky
-Z2GaJ5CkBYLbrBp9JCVVFVy1SGKM8bpFWZL0L04C0IGozj06ims=
-=b2C3
------END PGP SIGNATURE-----
-
---L2v1YfRFEceDTTTe--
