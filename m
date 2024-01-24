@@ -1,54 +1,52 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D060C13540C
-	for <linux-staging@lists.linux.dev>; Wed, 24 Jan 2024 22:44:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 260115F551
+	for <linux-staging@lists.linux.dev>; Wed, 24 Jan 2024 22:44:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706136299; cv=none; b=Ya/qsVZR8BdzfGxBoe6PRDga19M+wBsPndPJ4n9UHpfAlf1A0SgrBra3vGSm0/kTou0vEmtzJK97XL9lehkj60OHyMbXgeySUlK5lAI1od7uYpNzZS0KhVXpNUyAfLthcr7qUJ11JQol5db+ouDF+cdYCPJQQuRnWJwc6n/IbZE=
+	t=1706136299; cv=none; b=c4mkaOg2PL2kxjDzi5juhbzdXFxWsloO/aUJ6f4tDFeABOd/jP8ERlh8HCZGDW+dxrjSk7plchK2VFO9k9fpjPJhIYoYy04KeO5h21WBUQivj3eKSTvy+MkF4PgEcA6i7k+xzQoQc25cOh15BQtV65JOQIxqUZEZBg9/8UcPAOY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1706136299; c=relaxed/simple;
-	bh=mDWkLRaeD7jE4mY2ogV/dDnV0AcV9C9S5DYirGLToaM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=GW3yvtcDKdfqHGJ1jXmqA90X4aNNpKS1cqpaWmPnYyJLnVJXAkSrN04hdlMqvSwPbDC5sAZ1uO6bV++Y8oRumtjE4pERnDYZ6+9IpAvNCktW3oAaxftTmfsTHyWS6ISsytkpkQ1SLn4aDW8H9Y9nHdrLsvx8ACXNVtDo4oOpU+A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net; spf=pass smtp.mailfrom=darkphysics.net; dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b=GNhht8iK; arc=none smtp.client-ip=209.85.214.180
+	bh=2LI+n0NSZxIFwasn14oMhGM67wNVvtAwhMC/6gpzngg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=LaGKMYF1Dw9j4gsoyfVZaU06eP0mJxEZ3jG0vm4RlrWKH9szL33p0Ust+pdS9Q7lJIpmenMKUE7JCcX8g7LXusUSQw473+TXAsXZAZinKZML0FPlob3e+Y/cHscS8Yi6yYRIdaIk77013Z0zAG05eTsiebqMQB8owzh0DUFN/Pk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net; spf=pass smtp.mailfrom=darkphysics.net; dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b=BXu6OJwN; arc=none smtp.client-ip=209.85.214.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=darkphysics.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="GNhht8iK"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1d72f71f222so26201765ad.1
-        for <linux-staging@lists.linux.dev>; Wed, 24 Jan 2024 14:44:57 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="BXu6OJwN"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1d746856d85so24087975ad.0
+        for <linux-staging@lists.linux.dev>; Wed, 24 Jan 2024 14:44:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=darkphysics.net; s=google; t=1706136297; x=1706741097; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uzYk9eLH9WOTdFVZV/EkZvm0zsnXu4X7XxZS+490jJA=;
-        b=GNhht8iKeb839Z2TlkCCz+SqhvFD7oqJx8mFYohHWOi5+WNRqL8+gJhFWfC29Esf36
-         btanCXQAvgWQGDAyEMmBKENEq7AUIUX0otYnlY/rb8fiiU9bT214ZdbpN9aHPAH2jAsz
-         NwWnKf8ttanI7yomgG5wIzPqFd8i2l4MV8JgrWRtTDJGZt1g/iE8Z060Y1UUiWaBXktN
-         NWlXn/pTNN6DR/PO1+jQ51RTsX0enAhKe9kv9Da0vnXFx4BGm89KB7yP3b48c+9k9+8q
-         JkUocGHsqhQ4Yf3FfETvIlnK0AHlQ+QBYqpj76nsDq4iI36fQKkM1rP8pFFODT+aiRcN
-         1vwQ==
+        d=darkphysics.net; s=google; t=1706136296; x=1706741096; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nVA/7PiRf+yK+UXU506sZM4NUP/OQ32pk51Oj1lxJ5Q=;
+        b=BXu6OJwNVzRemRANHL8YbQMoxBprMSXrZJ2HaqFI8h+WbMtcQwyU4K+5Y7uxkzwIct
+         cHjHJzNJo3lt4g0U9OvyIHIn+omAuCCNG/ZZ1yS+OvKLheIjEiAV6LKsbyoyP4A1BThm
+         7U6Ym9SiYxN9MdHjHbe62CsBRNTXSi4brGznyvtVJImjVnu4qL+UXP+XOjSninlA/zOu
+         98U59XBoJrxqi1VfXoc6S81yw/SnA7/+iRY3hfjhv9WudlBCHbhuGXL8iETT/sDkUILC
+         I+qmeMOqSpE+/sFVmZh5If4GeRm4gx89QboXaJ4PI+xcFTgLG12Zor4eg1P9j4nGsSvf
+         n+UQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706136297; x=1706741097;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=uzYk9eLH9WOTdFVZV/EkZvm0zsnXu4X7XxZS+490jJA=;
-        b=A+Z1Hl18MC5aIEQheLybQ0NdWZxGJhHJpWTtmRAcwvA3TtNFfgU2/DaMV9oZhYyYX1
-         FSBzp+za3HGQMfDwHZCCY6I4fUpV7zMpjbWGRlJxDwRzjJ7urUgiUplPesouIDTfJnZ6
-         5jcyJOgzxjWL/AwKnFv2fAd8ABHDJ4NEFPJpBBmXDeAHm/rAQlVl8KkqQvj7pJJguEPb
-         jXktaMeSZC6Uli7UR3MgfgaIywSlwUuLlOC4s7FYP2jFfieOAxbZ+xDD+yVrsXF07nBn
-         w9Vvc0mv4VeFkLVSgA1xPzHAo0UN6bqeJwcAix14RbmlgzzcXkj4GKYQnT/O9e0Nf43q
-         HdCA==
-X-Gm-Message-State: AOJu0YwuoI0w30FH4sWSCbVlJztAg94z3m5XMGBRIA9ja8SkfuSaPkPu
-	kIA6rkasqZVoCf+4iJcISFhqT4RpZXz4wLQYpG9mTEZ3kzslLM/thf6VzH3V4iM=
-X-Google-Smtp-Source: AGHT+IF3fpKD8YiFHq/Vvj6F6RVfXoBS6HD8e9raHdWjggIBZtMS/6hivzeQzVsvGiuBFxOiEmoJIw==
-X-Received: by 2002:a17:902:6b8b:b0:1d7:60fc:99f0 with SMTP id p11-20020a1709026b8b00b001d760fc99f0mr87764plk.10.1706136297166;
-        Wed, 24 Jan 2024 14:44:57 -0800 (PST)
+        d=1e100.net; s=20230601; t=1706136296; x=1706741096;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nVA/7PiRf+yK+UXU506sZM4NUP/OQ32pk51Oj1lxJ5Q=;
+        b=A3R41uL+0dyc+57Fqwp89hgUADYhYs6Faby0WBimPesj8OCwDbwDYtTc4iOkV6x7Hr
+         WinnnUsk9AzvNTIRQnJmvmfoZiz1q38WtIQxwL20h/Ul0BMENIoBZxoDlr7Q+31XjV/w
+         POtxh54Zb2NjtbuAdlTfXWWlTA2ffbFWAxpZgSxfnmRq8+QEPI5QSd62xXlsBzGGA9H0
+         lz5xrj4HbFmYBK4QyX9xMLL6scCuJThmParPb2zCVL/2zSX4MiS5bG/3jbWHeSvjCJzI
+         rp1RDF3uhQcF+W2GuEwEWmY09dj0PVsTBEcg5KOBJmVIOpm6snwPb5DY9HWhx9+Zj5sw
+         9x1g==
+X-Gm-Message-State: AOJu0YxnlmwJhNcyyQq7K67zdZfkBjNVq+sWvw+NIsLn2iEUfAj6Zqq7
+	GXxuk8lzGXPKUsO+tjRxwM506R86P4bTqF8Cp5HV7OgwmO8e+E4+w2Gw3Vu0/h8=
+X-Google-Smtp-Source: AGHT+IE/utPrHKSYmmpRHBP60l+OqEUPiPMjyxbXstmF5/R5lyXgM4fY0AwbCmOxW+rUVwgAJD/XBA==
+X-Received: by 2002:a17:902:e5c4:b0:1d7:92c3:bbee with SMTP id u4-20020a170902e5c400b001d792c3bbeemr135448plf.38.1706136296343;
+        Wed, 24 Jan 2024 14:44:56 -0800 (PST)
 Received: from oatmeal.darkphysics (c-76-146-178-2.hsd1.wa.comcast.net. [76.146.178.2])
-        by smtp.gmail.com with ESMTPSA id i5-20020a170902c28500b001d73a2acc0csm6743987pld.283.2024.01.24.14.44.56
+        by smtp.gmail.com with ESMTPSA id i5-20020a170902c28500b001d73a2acc0csm6743987pld.283.2024.01.24.14.44.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Wed, 24 Jan 2024 14:44:56 -0800 (PST)
 From: Tree Davies <tdavies@darkphysics.net>
@@ -58,12 +56,10 @@ To: gregkh@linuxfoundation.org,
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Tree Davies <tdavies@darkphysics.net>
-Subject: [PATCH 01/18] Staging: rtl8192e: Rename variable FirstIe_InScan
-Date: Wed, 24 Jan 2024 14:44:35 -0800
-Message-Id: <20240124224452.968724-2-tdavies@darkphysics.net>
+Subject: [PATCH 00/18] Staging: rtl8192e: 18 Additional checkpatch fixes for rtllib_softmac.c  
+Date: Wed, 24 Jan 2024 14:44:34 -0800
+Message-Id: <20240124224452.968724-1-tdavies@darkphysics.net>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240124224452.968724-1-tdavies@darkphysics.net>
-References: <20240124224452.968724-1-tdavies@darkphysics.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -72,55 +68,52 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rename variable FirstIe_InScan to first_ie_in_scan to fix checkpatch
-warning Avoid CamelCase.
+Another checkpatch fix series to be applied after the series titled:
+'checkpatch fixes for rtllib_softmac.c' submitted by me, to the list, 
+on 1/5/2024
 
-Signed-off-by: Tree Davies <tdavies@darkphysics.net>
----
- drivers/staging/rtl8192e/rtl8192e/rtl_wx.c | 2 +-
- drivers/staging/rtl8192e/rtllib.h          | 2 +-
- drivers/staging/rtl8192e/rtllib_softmac.c  | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+Thank you in advance to all reviewers
+regards,
+Tree
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c b/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
-index 5fd44d0c4b1d..d131ef525f46 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
-@@ -269,7 +269,7 @@ static int _rtl92e_wx_set_scan(struct net_device *dev,
- 
- 	mutex_lock(&priv->wx_mutex);
- 
--	priv->rtllib->FirstIe_InScan = true;
-+	priv->rtllib->first_ie_in_scan = true;
- 
- 	if (priv->rtllib->link_state != MAC80211_LINKED) {
- 		if (rt_state == rf_off) {
-diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-index 0fdc767d43e0..13a901c0db1d 100644
---- a/drivers/staging/rtl8192e/rtllib.h
-+++ b/drivers/staging/rtl8192e/rtllib.h
-@@ -1201,7 +1201,7 @@ struct rtllib_device {
- 	bool cannot_notify;
- 	bool bSupportRemoteWakeUp;
- 	bool actscanning;
--	bool FirstIe_InScan;
-+	bool first_ie_in_scan;
- 	bool be_scan_inprogress;
- 	bool beinretry;
- 	enum rt_rf_power_state rf_power_state;
-diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
-index 9d1e9b780bc7..44b36cc867d9 100644
---- a/drivers/staging/rtl8192e/rtllib_softmac.c
-+++ b/drivers/staging/rtl8192e/rtllib_softmac.c
-@@ -2101,7 +2101,7 @@ int rtllib_softmac_init(struct rtllib_device *ieee)
- 	ieee->reg_dot11tx_ht_oper_rate_set[1] = 0xff;
- 	ieee->reg_dot11tx_ht_oper_rate_set[4] = 0x01;
- 
--	ieee->FirstIe_InScan = false;
-+	ieee->first_ie_in_scan = false;
- 	ieee->actscanning = false;
- 	ieee->beinretry = false;
- 	ieee->is_set_key = false;
+
+Tree Davies (18):
+  Staging: rtl8192e: Rename variable FirstIe_InScan
+  Staging: rtl8192e: Rename function rtllib_rx_ADDBARsp()
+  Staging: rtl8192e: Rename variable LPSAwakeIntvl_tmp
+  Staging: rtl8192e: Rename variable LPSDelayCnt
+  Staging: rtl8192e: Rename function pointer SetHwRegHandler()
+  Staging: rtl8192e: Rename function MgntQuery_TxRateExcludeCCKRates()
+  Staging: rtl8192e: Rename variable PeerHTCapBuf
+  Staging: rtl8192e: Rename variable PeerHTInfoBuf
+  Staging: rtl8192e: Rename variable LPSAwakeIntvl
+  Staging: rtl8192e: Rename variable SelfHTCap
+  Staging: rtl8192e: Fix paren alignment for
+    rtllib_disable_net_monitor_mode()
+  Staging: rtl8192e: Fixup if statement broken across multiple lines.
+  Staging: rtl8192e: Remove unecessary blank line
+  Staging: rtl8192e: Fix if statement alignment with open parenthesis
+  Staging: rtl8192e: Rename variable Octet
+  Staging: rtl8192e: Rename variable LpsIdleCount
+  Staging: rtl8192e: Rename variable NumRecvBcnInPeriod
+  Staging: rtl8192e: Rename variable bForcedBgMode
+
+ .../staging/rtl8192e/rtl8192e/r8192E_dev.c    |  4 +-
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c  | 18 ++--
+ drivers/staging/rtl8192e/rtl8192e/rtl_dm.c    |  6 +-
+ drivers/staging/rtl8192e/rtl8192e/rtl_ps.c    |  4 +-
+ drivers/staging/rtl8192e/rtl8192e/rtl_wx.c    |  2 +-
+ drivers/staging/rtl8192e/rtl819x_BAProc.c     |  2 +-
+ drivers/staging/rtl8192e/rtl819x_HT.h         |  6 +-
+ drivers/staging/rtl8192e/rtl819x_HTProc.c     | 32 +++----
+ drivers/staging/rtl8192e/rtl819x_Qos.h        |  2 +-
+ drivers/staging/rtl8192e/rtllib.h             | 18 ++--
+ drivers/staging/rtl8192e/rtllib_rx.c          |  2 +-
+ drivers/staging/rtl8192e/rtllib_softmac.c     | 96 +++++++++----------
+ drivers/staging/rtl8192e/rtllib_softmac_wx.c  |  4 +-
+ drivers/staging/rtl8192e/rtllib_tx.c          |  8 +-
+ 14 files changed, 100 insertions(+), 104 deletions(-)
+
 -- 
 2.39.2
 
