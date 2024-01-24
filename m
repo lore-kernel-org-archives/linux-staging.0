@@ -1,79 +1,126 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D3A012BE8F;
-	Wed, 24 Jan 2024 18:21:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 797C6133985;
+	Wed, 24 Jan 2024 20:02:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706120490; cv=none; b=DBfiiZ92dz3CPMsgiPZ5+8AOeV4c9g1K+2wEWZDRTGeqpOZyufDKXMxMYcuwzE1R9FeJNbGaz0fis7mO6zWCa2V/IOFmQ+ZtaPKx527Bih4Vn+ygmQdWY5xiuMG+TuQ2v114hPTnbTRTXhMkHl2rJk/IY7O70IcQAzmqL7ipeo0=
+	t=1706126562; cv=none; b=iF8NcSRmX5jYJfEKs2DSY3wb2nvf0BvuIrnHMxBn8K3c1G1gYmsKf6wwbrWx/SGKAxc1mLDlyaIDtOT8FgiUVOj6p4O59UwZdAarm+Za7iscpku3F2yhWWc3c6Ql7zwPzewIvCAKsR9cdyBiJo1NO8gxVHryMUW0IO0Qr42y1yI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706120490; c=relaxed/simple;
-	bh=bAOqor9jVDIe2ro9v+Dr8T0G8/kwV2eE4vt8giEW+18=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J8d1hCyBk8JcppwfBiXXBlFpEuTsj0OpxSEjtDNxtUmUnTpdriOgsnM4ysti0Ebd+09HFrNRfEDKJmO47ofInL+mDcW4cs0vSfn/RgGendRC9bbaLyxI1dOasit9j7u8XKb02wPwaoSy4CJlO/uJhW3KPmUZXijJa6lOmS1XRO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=WfqY8RNk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1706126562; c=relaxed/simple;
+	bh=jfXWrPM5ALhDnKgFnFkdz4CMio32hmCt3xWSsf12HKU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=C57I24B3iGHxq4RC1uR7Z4VOqayNXANOWtpZUKYn/jWdtALZMmthT64kMeDRf+r5j8VM4gqMsyADXVZqlj+XzBYowmN0G/oEOP7N4OPbfF32hOAuymA8mvoJUEPk/uZjeb5+EVmjchaXdsDD3LOKC9Sks3n+UKF5BI9SgTDN6uw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TIXWtyFH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="WfqY8RNk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B09CC433C7;
-	Wed, 24 Jan 2024 18:21:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1706120489;
-	bh=bAOqor9jVDIe2ro9v+Dr8T0G8/kwV2eE4vt8giEW+18=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WfqY8RNkir20TGHJefjyezhrPNuWOSUmRZVTXPG7Upa9L51rybqgd+LVIm5yvDeHg
-	 XkJB20mTbrsf3evvzwVd/0ZjkCPO1nKNUY4YcWltfBtTeiFgTgWCzm87I249kT8r1w
-	 mVwIqdZS007u9zlmFwH+TSuuML1uah6KHkNOAi3Y=
-Date: Wed, 24 Jan 2024 10:21:18 -0800
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Magnus Damm <magnus.damm@gmail.com>, linux-staging@lists.linux.dev,
-	linux-usb@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/4] staging: Remove EMMA Mobile USB Gadget and board
- staging support
-Message-ID: <2024012406-handgun-mutation-86d0@gregkh>
-References: <cover.1705932585.git.geert+renesas@glider.be>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TIXWtyFH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D9C4C433F1;
+	Wed, 24 Jan 2024 20:02:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706126562;
+	bh=jfXWrPM5ALhDnKgFnFkdz4CMio32hmCt3xWSsf12HKU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=TIXWtyFH5yxUa2sKS25qW3wOvsP8Ed2klnxIK0jQEvMXqnYVHZWCU0zqLjO7+ilCR
+	 JWdnVZmbglYShezSvqIcZWDN/Vh46HywERZIGBwdalc9QELX9rTL+upLtWfATkdWgT
+	 WOJSdLKuC7J9/6NYjh+DNGAalqkPr+gBHAK+jK1uAFFeeu8RJwLSBlu58kMYFUoEl1
+	 Yp7MPDfACwXPwjaV1u4/U968HoLm30T94Tl/mdr2QRYc4fOG1E9E30BuK8sKFpJ4U8
+	 n+9CHV5JSYN6y7zhCegxJ1IM+OVstyfug/6ZJ17Jvqz0l9lgm0LjUJl94LQR9K86D2
+	 ni5ld1wGOGq1w==
+Date: Wed, 24 Jan 2024 20:02:07 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Mark Brown <broonie@kernel.org>, linux-spi@vger.kernel.org
+Cc: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@pengutronix.de>,
+ kernel@pengutronix.de, Moritz Fischer <mdf@kernel.org>, Wu Hao
+ <hao.wu@intel.com>, Xu Yilun <yilun.xu@intel.com>, Tom Rix
+ <trix@redhat.com>, linux-fpga@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Alexander Aring <alex.aring@gmail.com>,
+ Stefan Schmidt <stefan@datenfreihafen.org>, Miquel Raynal
+ <miquel.raynal@bootlin.com>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>, linux-wpan@vger.kernel.org,
+ netdev@vger.kernel.org, Lars-Peter Clausen <lars@metafoo.de>, Michael
+ Hennerich <Michael.Hennerich@analog.com>, linux-iio@vger.kernel.org, Dmitry
+ Torokhov <dmitry.torokhov@gmail.com>, linux-input@vger.kernel.org, Ulf
+ Hansson <ulf.hansson@linaro.org>, Rayyan Ansari <rayyan@ansari.sh>, Andy
+ Shevchenko <andriy.shevchenko@linux.intel.com>, Jonathan Cameron
+ <Jonathan.Cameron@huawei.com>, Martin Tuma
+ <martin.tuma@digiteqautomotive.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, linux-media@vger.kernel.org, Sergey Kozlov
+ <serjk@netup.ru>, Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Yang Yingliang <yangyingliang@huawei.com>,
+ linux-mmc@vger.kernel.org, Richard Weinberger <richard@nod.at>, Vignesh
+ Raghavendra <vigneshr@ti.com>, Rob Herring <robh@kernel.org>, Heiko
+ Stuebner <heiko@sntech.de>, Michal Simek <michal.simek@amd.com>, Amit Kumar
+ Mahapatra via Alsa-devel <alsa-devel@alsa-project.org>,
+ linux-mtd@lists.infradead.org, Martin Blumenstingl
+ <martin.blumenstingl@googlemail.com>, Geert Uytterhoeven
+ <geert+renesas@glider.be>, Pali =?UTF-8?B?Um9ow6Fy?= <pali@kernel.org>,
+ Simon Horman <horms@kernel.org>, Ronald Wahl <ronald.wahl@raritan.com>,
+ Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
+ Guenter Roeck <groeck@chromium.org>, chrome-platform@lists.linux.dev, Max
+ Filippov <jcmvbkbc@gmail.com>, linux-arm-kernel@lists.infradead.org, Bjorn
+ Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ linux-arm-msm@vger.kernel.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ linux-mediatek@lists.infradead.org, Thomas Zimmermann
+ <tzimmermann@suse.de>, Javier Martinez Canillas <javierm@redhat.com>, Amit
+ Kumar Mahapatra <amit.kumar-mahapatra@amd.com>,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, Viresh Kumar <vireshk@kernel.org>, Rui
+ Miguel Silva <rmfrfs@gmail.com>, Johan Hovold <johan@kernel.org>, Alex
+ Elder <elder@kernel.org>, greybus-dev@lists.linaro.org, Peter Huewe
+ <peterhuewe@gmx.de>, Jarkko Sakkinen <jarkko@kernel.org>, Jason Gunthorpe
+ <jgg@ziepe.ca>, linux-integrity@vger.kernel.org, Herve Codina
+ <herve.codina@bootlin.com>, Alan Stern <stern@rowland.harvard.edu>, Aaro
+ Koskinen <aaro.koskinen@iki.fi>, Krzysztof Kozlowski
+ <krzysztof.kozlowski@linaro.org>, linux-usb@vger.kernel.org, Helge Deller
+ <deller@gmx.de>, Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+ Kalle Valo <kvalo@kernel.org>, Dmitry Antipov <dmantipov@yandex.ru>,
+ libertas-dev@lists.infradead.org, linux-wireless@vger.kernel.org, Jonathan
+ Corbet <corbet@lwn.net>, James Clark <james.clark@arm.com>, Bjorn Helgaas
+ <bhelgaas@google.com>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 00/33] spi: get rid of some legacy macros
+Message-ID: <20240124200207.7e02b501@jic23-huawei>
+In-Reply-To: <20240122192343.148a0b6d@jic23-huawei>
+References: <cover.1705944943.git.u.kleine-koenig@pengutronix.de>
+	<e62cdf7f-ce58-4f46-a0a0-25ce9fb271b1@sirena.org.uk>
+	<20240122192343.148a0b6d@jic23-huawei>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.40; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1705932585.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 22, 2024 at 03:24:29PM +0100, Geert Uytterhoeven wrote:
-> 	Hi Greg,
-> 
-> Board staging was introduced to host temporarily legacy board support
-> for platforms that are under active conversion to DT.  Currently it
-> hosts:
->   1. USB Gadget support for the Kyoto Microcomputer Co. KZM-A9-Dual
->      (KZM9D) development board,
->   2. Display support for the Atmark Techno Armadillo-800-EVA development
->      board.
-> 
-> During the last few years, the KZM9D development board didn't receive
-> much love.  Also, no one really cared about the EMMA Mobile USB Gadget
-> driver, which is also hosted under staging.  Recently, the SH-Mobile
-> LCDC DRM driver and Armadillo-800-EVA display support have been
-> converted to DT.
-> 
-> Hence this patch series removes all board staging support, together with
-> the now unused EMMA Mobile USB Gadget driver.
-> 
-> Changes compared to v1:
->   - Drop RFC, widen audience,
->   - Drop EMMA Mobile EV2 clkdev registration patch (merged),
->   - Add Acked-by,
->   - Remove Armadillo-800-EVA and core board staging code, too.
-> 
-> Thanks!
-> 
-> [1] "[PATCH/RFC 0/3] Remove KZM9D board staging support"
->     https://lore.kernel.org/all/cover.1686325857.git.geert+renesas@glider.be/
+On Mon, 22 Jan 2024 19:23:43 +0000
+Jonathan Cameron <jic23@kernel.org> wrote:
 
-Nice, thanks for this, all now queued up.
+> On Mon, 22 Jan 2024 18:18:22 +0000
+> Mark Brown <broonie@kernel.org> wrote:
+>=20
+> > On Mon, Jan 22, 2024 at 07:06:55PM +0100, Uwe Kleine-K=C3=B6nig wrote:
+> >  =20
+> > > Note that Jonathan Cameron has already applied patch 3 to his tree, it
+> > > didn't appear in a public tree though yet. I still included it here to
+> > > make the kernel build bots happy.   =20
+> >=20
+> > It's also going to be needed for buildability of the end of the series.=
+ =20
+>=20
+> Ah.  I thought intent was to split this across all the different trees
+> then do the final patch only after they were all gone?
+>=20
+> I'm fine with it going all in one go if people prefer that.
+>=20
+> My tree will be out in a few mins. Was just waiting to rebase on rc1
+> which I've just done.
+>=20
+> Jonathan
+>=20
 
-greg k-h
+Dropped from my tree.
+
+Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
