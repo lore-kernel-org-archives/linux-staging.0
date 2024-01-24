@@ -1,43 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED2F47E785;
-	Wed, 24 Jan 2024 17:31:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDCC5128371;
+	Wed, 24 Jan 2024 17:31:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706117478; cv=none; b=nbauYesA5li973we9HLrb+sqXspXL4CYregT+gXLKdVlmuxqgD5sqBKOLCuHYgEtQTVGw2aI2LHDwMcxuwh9cAJZqapb1SDbpBSPlCzlRQdVevMONWcPrUD9zbsUo+vfzpKGHGOA4Ay9OPFL9gxkyxflC1xtOCZ7n8BLAb8MGA4=
+	t=1706117498; cv=none; b=kZxYFIT9qVub/PmICxX3JGO2BUuonuxDxz5RkeYZ8pBlppQ6z/BctFGu/kc5x1v9STJHu6dmY0syEsovzCRjh6miQHlWhd2uu7If1mXMlEtuT171y/aTCalJOkJfmWLGmYXqaHOs781nvl05JMEikgPCJvbRdj1xxf3k62rRuMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706117478; c=relaxed/simple;
-	bh=4i3f+mC95pZzM4upXPVoDH9MJFaV+q6ouUyL8R15aIY=;
+	s=arc-20240116; t=1706117498; c=relaxed/simple;
+	bh=ZSjxwNZxgQqXe2BOuCzNUYDMffDoamSMVJAvz8N0Jp8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ELIEqgfrLDNmVB9xbjjlyj7/DNw7f5TFXoCiBaMp/OH/sv9dStApsAQDVkV6UWG/VlMd46MFsJgTa5JqrwQ3f0NqWEHzOHgxsQrT758NVBBRvqNxW4HJAhTAOaiC+uizysk8dCTdWgi1GzYzeBFh84cvCMEdD7g1AmWMGzunk9Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=r13+3IEn; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=boPhVNXRN/fGqsiLpykem3i7+WYJ8zvXPqdexgzdZHUuLUKgc3VNc0B32ndeDp+yJe9CD4luAetJjakqG2pPMF+2IbcpEo210nFeBaw2STM0NfKbz7IeitgSXmVmBwxSiOWmu0I5/GulwP11W+Ovx0HUMc5rdyC/r/V/87RB02E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=OhL4KZBx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="r13+3IEn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AA91C433F1;
-	Wed, 24 Jan 2024 17:31:17 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="OhL4KZBx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B501C433F1;
+	Wed, 24 Jan 2024 17:31:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1706117477;
-	bh=4i3f+mC95pZzM4upXPVoDH9MJFaV+q6ouUyL8R15aIY=;
+	s=korg; t=1706117497;
+	bh=ZSjxwNZxgQqXe2BOuCzNUYDMffDoamSMVJAvz8N0Jp8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=r13+3IEndpxOwPc2rb0rb+L/VBPWTLnF3d0AptzCfPFIHyqYhqingzZM23pxJ3sHH
-	 8W+Op5qL6FH57ZT1vlf0d7LDQa/KV1cPSTXiVWEMREbHyjyP3uaphj7JazWESD0E21
-	 WUCVh7cEreV5Yk+0cFFzQ+CpZmQVpX6KXJfAwsMA=
-Date: Wed, 24 Jan 2024 09:31:15 -0800
+	b=OhL4KZBxcp2t0yMZMoCBrGcfBBoXaQZupv4MvaMDjAzB1kwV6ho5n3yY4ANGiv7cj
+	 L3/Sz895iSgeKYbttN87BY05nBeydlLwSvKzLV8L9QoZfDeKXemE53FP3mijJ0tpxM
+	 eSGUnVjCug4tUzAQ1EZ9ZhQGA1GXWyAzrinFo+9k=
+Date: Wed, 24 Jan 2024 09:31:36 -0800
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
 Cc: Mark Brown <broonie@kernel.org>, kernel@pengutronix.de,
-	Viresh Kumar <vireshk@kernel.org>,
-	Rui Miguel Silva <rmfrfs@gmail.com>,
-	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
-	Viresh Kumar <viresh.kumar@linaro.org>
-Subject: Re: [PATCH v2 26/33] staging: greybus: spi: Follow renaming of SPI
- "master" to "controller"
-Message-ID: <2024012407-wasting-uncouth-0327@gregkh>
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	Michal Simek <michal.simek@amd.com>,
+	Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-spi@vger.kernel.org
+Subject: Re: [PATCH v2 25/33] staging: fbtft: Follow renaming of SPI "master"
+ to "controller"
+Message-ID: <2024012428-annex-destruct-1c92@gregkh>
 References: <cover.1705944943.git.u.kleine-koenig@pengutronix.de>
- <687fdfb1c7c050d00e5dca06af8ea1701893e163.1705944943.git.u.kleine-koenig@pengutronix.de>
+ <d486dbb16fafd93a00013a555658a44e975115fd.1705944943.git.u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -47,9 +48,9 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <687fdfb1c7c050d00e5dca06af8ea1701893e163.1705944943.git.u.kleine-koenig@pengutronix.de>
+In-Reply-To: <d486dbb16fafd93a00013a555658a44e975115fd.1705944943.git.u.kleine-koenig@pengutronix.de>
 
-On Mon, Jan 22, 2024 at 07:07:21PM +0100, Uwe Kleine-König wrote:
+On Mon, Jan 22, 2024 at 07:07:20PM +0100, Uwe Kleine-König wrote:
 > In commit 8caab75fd2c2 ("spi: Generalize SPI "master" to "controller"")
 > some functions and struct members were renamed. To not break all drivers
 > compatibility macros were provided.
@@ -57,7 +58,7 @@ On Mon, Jan 22, 2024 at 07:07:21PM +0100, Uwe Kleine-König wrote:
 > To be able to remove these compatibility macros push the renaming into
 > this driver.
 > 
-> Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
 > Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> ---
 
 Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
