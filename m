@@ -1,126 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 797C6133985;
-	Wed, 24 Jan 2024 20:02:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D060C13540C
+	for <linux-staging@lists.linux.dev>; Wed, 24 Jan 2024 22:44:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706126562; cv=none; b=iF8NcSRmX5jYJfEKs2DSY3wb2nvf0BvuIrnHMxBn8K3c1G1gYmsKf6wwbrWx/SGKAxc1mLDlyaIDtOT8FgiUVOj6p4O59UwZdAarm+Za7iscpku3F2yhWWc3c6Ql7zwPzewIvCAKsR9cdyBiJo1NO8gxVHryMUW0IO0Qr42y1yI=
+	t=1706136299; cv=none; b=Ya/qsVZR8BdzfGxBoe6PRDga19M+wBsPndPJ4n9UHpfAlf1A0SgrBra3vGSm0/kTou0vEmtzJK97XL9lehkj60OHyMbXgeySUlK5lAI1od7uYpNzZS0KhVXpNUyAfLthcr7qUJ11JQol5db+ouDF+cdYCPJQQuRnWJwc6n/IbZE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706126562; c=relaxed/simple;
-	bh=jfXWrPM5ALhDnKgFnFkdz4CMio32hmCt3xWSsf12HKU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=C57I24B3iGHxq4RC1uR7Z4VOqayNXANOWtpZUKYn/jWdtALZMmthT64kMeDRf+r5j8VM4gqMsyADXVZqlj+XzBYowmN0G/oEOP7N4OPbfF32hOAuymA8mvoJUEPk/uZjeb5+EVmjchaXdsDD3LOKC9Sks3n+UKF5BI9SgTDN6uw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TIXWtyFH; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1706136299; c=relaxed/simple;
+	bh=mDWkLRaeD7jE4mY2ogV/dDnV0AcV9C9S5DYirGLToaM=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=GW3yvtcDKdfqHGJ1jXmqA90X4aNNpKS1cqpaWmPnYyJLnVJXAkSrN04hdlMqvSwPbDC5sAZ1uO6bV++Y8oRumtjE4pERnDYZ6+9IpAvNCktW3oAaxftTmfsTHyWS6ISsytkpkQ1SLn4aDW8H9Y9nHdrLsvx8ACXNVtDo4oOpU+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net; spf=pass smtp.mailfrom=darkphysics.net; dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b=GNhht8iK; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=darkphysics.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TIXWtyFH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D9C4C433F1;
-	Wed, 24 Jan 2024 20:02:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706126562;
-	bh=jfXWrPM5ALhDnKgFnFkdz4CMio32hmCt3xWSsf12HKU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=TIXWtyFH5yxUa2sKS25qW3wOvsP8Ed2klnxIK0jQEvMXqnYVHZWCU0zqLjO7+ilCR
-	 JWdnVZmbglYShezSvqIcZWDN/Vh46HywERZIGBwdalc9QELX9rTL+upLtWfATkdWgT
-	 WOJSdLKuC7J9/6NYjh+DNGAalqkPr+gBHAK+jK1uAFFeeu8RJwLSBlu58kMYFUoEl1
-	 Yp7MPDfACwXPwjaV1u4/U968HoLm30T94Tl/mdr2QRYc4fOG1E9E30BuK8sKFpJ4U8
-	 n+9CHV5JSYN6y7zhCegxJ1IM+OVstyfug/6ZJ17Jvqz0l9lgm0LjUJl94LQR9K86D2
-	 ni5ld1wGOGq1w==
-Date: Wed, 24 Jan 2024 20:02:07 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Mark Brown <broonie@kernel.org>, linux-spi@vger.kernel.org
-Cc: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@pengutronix.de>,
- kernel@pengutronix.de, Moritz Fischer <mdf@kernel.org>, Wu Hao
- <hao.wu@intel.com>, Xu Yilun <yilun.xu@intel.com>, Tom Rix
- <trix@redhat.com>, linux-fpga@vger.kernel.org,
- linux-kernel@vger.kernel.org, Alexander Aring <alex.aring@gmail.com>,
- Stefan Schmidt <stefan@datenfreihafen.org>, Miquel Raynal
- <miquel.raynal@bootlin.com>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, linux-wpan@vger.kernel.org,
- netdev@vger.kernel.org, Lars-Peter Clausen <lars@metafoo.de>, Michael
- Hennerich <Michael.Hennerich@analog.com>, linux-iio@vger.kernel.org, Dmitry
- Torokhov <dmitry.torokhov@gmail.com>, linux-input@vger.kernel.org, Ulf
- Hansson <ulf.hansson@linaro.org>, Rayyan Ansari <rayyan@ansari.sh>, Andy
- Shevchenko <andriy.shevchenko@linux.intel.com>, Jonathan Cameron
- <Jonathan.Cameron@huawei.com>, Martin Tuma
- <martin.tuma@digiteqautomotive.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, linux-media@vger.kernel.org, Sergey Kozlov
- <serjk@netup.ru>, Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Yang Yingliang <yangyingliang@huawei.com>,
- linux-mmc@vger.kernel.org, Richard Weinberger <richard@nod.at>, Vignesh
- Raghavendra <vigneshr@ti.com>, Rob Herring <robh@kernel.org>, Heiko
- Stuebner <heiko@sntech.de>, Michal Simek <michal.simek@amd.com>, Amit Kumar
- Mahapatra via Alsa-devel <alsa-devel@alsa-project.org>,
- linux-mtd@lists.infradead.org, Martin Blumenstingl
- <martin.blumenstingl@googlemail.com>, Geert Uytterhoeven
- <geert+renesas@glider.be>, Pali =?UTF-8?B?Um9ow6Fy?= <pali@kernel.org>,
- Simon Horman <horms@kernel.org>, Ronald Wahl <ronald.wahl@raritan.com>,
- Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
- Guenter Roeck <groeck@chromium.org>, chrome-platform@lists.linux.dev, Max
- Filippov <jcmvbkbc@gmail.com>, linux-arm-kernel@lists.infradead.org, Bjorn
- Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>,
- linux-arm-msm@vger.kernel.org, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- linux-mediatek@lists.infradead.org, Thomas Zimmermann
- <tzimmermann@suse.de>, Javier Martinez Canillas <javierm@redhat.com>, Amit
- Kumar Mahapatra <amit.kumar-mahapatra@amd.com>,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev, Viresh Kumar <vireshk@kernel.org>, Rui
- Miguel Silva <rmfrfs@gmail.com>, Johan Hovold <johan@kernel.org>, Alex
- Elder <elder@kernel.org>, greybus-dev@lists.linaro.org, Peter Huewe
- <peterhuewe@gmx.de>, Jarkko Sakkinen <jarkko@kernel.org>, Jason Gunthorpe
- <jgg@ziepe.ca>, linux-integrity@vger.kernel.org, Herve Codina
- <herve.codina@bootlin.com>, Alan Stern <stern@rowland.harvard.edu>, Aaro
- Koskinen <aaro.koskinen@iki.fi>, Krzysztof Kozlowski
- <krzysztof.kozlowski@linaro.org>, linux-usb@vger.kernel.org, Helge Deller
- <deller@gmx.de>, Dario Binacchi <dario.binacchi@amarulasolutions.com>,
- Kalle Valo <kvalo@kernel.org>, Dmitry Antipov <dmantipov@yandex.ru>,
- libertas-dev@lists.infradead.org, linux-wireless@vger.kernel.org, Jonathan
- Corbet <corbet@lwn.net>, James Clark <james.clark@arm.com>, Bjorn Helgaas
- <bhelgaas@google.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 00/33] spi: get rid of some legacy macros
-Message-ID: <20240124200207.7e02b501@jic23-huawei>
-In-Reply-To: <20240122192343.148a0b6d@jic23-huawei>
-References: <cover.1705944943.git.u.kleine-koenig@pengutronix.de>
-	<e62cdf7f-ce58-4f46-a0a0-25ce9fb271b1@sirena.org.uk>
-	<20240122192343.148a0b6d@jic23-huawei>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.40; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="GNhht8iK"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1d72f71f222so26201765ad.1
+        for <linux-staging@lists.linux.dev>; Wed, 24 Jan 2024 14:44:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=darkphysics.net; s=google; t=1706136297; x=1706741097; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uzYk9eLH9WOTdFVZV/EkZvm0zsnXu4X7XxZS+490jJA=;
+        b=GNhht8iKeb839Z2TlkCCz+SqhvFD7oqJx8mFYohHWOi5+WNRqL8+gJhFWfC29Esf36
+         btanCXQAvgWQGDAyEMmBKENEq7AUIUX0otYnlY/rb8fiiU9bT214ZdbpN9aHPAH2jAsz
+         NwWnKf8ttanI7yomgG5wIzPqFd8i2l4MV8JgrWRtTDJGZt1g/iE8Z060Y1UUiWaBXktN
+         NWlXn/pTNN6DR/PO1+jQ51RTsX0enAhKe9kv9Da0vnXFx4BGm89KB7yP3b48c+9k9+8q
+         JkUocGHsqhQ4Yf3FfETvIlnK0AHlQ+QBYqpj76nsDq4iI36fQKkM1rP8pFFODT+aiRcN
+         1vwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706136297; x=1706741097;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=uzYk9eLH9WOTdFVZV/EkZvm0zsnXu4X7XxZS+490jJA=;
+        b=A+Z1Hl18MC5aIEQheLybQ0NdWZxGJhHJpWTtmRAcwvA3TtNFfgU2/DaMV9oZhYyYX1
+         FSBzp+za3HGQMfDwHZCCY6I4fUpV7zMpjbWGRlJxDwRzjJ7urUgiUplPesouIDTfJnZ6
+         5jcyJOgzxjWL/AwKnFv2fAd8ABHDJ4NEFPJpBBmXDeAHm/rAQlVl8KkqQvj7pJJguEPb
+         jXktaMeSZC6Uli7UR3MgfgaIywSlwUuLlOC4s7FYP2jFfieOAxbZ+xDD+yVrsXF07nBn
+         w9Vvc0mv4VeFkLVSgA1xPzHAo0UN6bqeJwcAix14RbmlgzzcXkj4GKYQnT/O9e0Nf43q
+         HdCA==
+X-Gm-Message-State: AOJu0YwuoI0w30FH4sWSCbVlJztAg94z3m5XMGBRIA9ja8SkfuSaPkPu
+	kIA6rkasqZVoCf+4iJcISFhqT4RpZXz4wLQYpG9mTEZ3kzslLM/thf6VzH3V4iM=
+X-Google-Smtp-Source: AGHT+IF3fpKD8YiFHq/Vvj6F6RVfXoBS6HD8e9raHdWjggIBZtMS/6hivzeQzVsvGiuBFxOiEmoJIw==
+X-Received: by 2002:a17:902:6b8b:b0:1d7:60fc:99f0 with SMTP id p11-20020a1709026b8b00b001d760fc99f0mr87764plk.10.1706136297166;
+        Wed, 24 Jan 2024 14:44:57 -0800 (PST)
+Received: from oatmeal.darkphysics (c-76-146-178-2.hsd1.wa.comcast.net. [76.146.178.2])
+        by smtp.gmail.com with ESMTPSA id i5-20020a170902c28500b001d73a2acc0csm6743987pld.283.2024.01.24.14.44.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Jan 2024 14:44:56 -0800 (PST)
+From: Tree Davies <tdavies@darkphysics.net>
+To: gregkh@linuxfoundation.org,
+	philipp.g.hortmann@gmail.com,
+	anjan@momi.ca
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Tree Davies <tdavies@darkphysics.net>
+Subject: [PATCH 01/18] Staging: rtl8192e: Rename variable FirstIe_InScan
+Date: Wed, 24 Jan 2024 14:44:35 -0800
+Message-Id: <20240124224452.968724-2-tdavies@darkphysics.net>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240124224452.968724-1-tdavies@darkphysics.net>
+References: <20240124224452.968724-1-tdavies@darkphysics.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, 22 Jan 2024 19:23:43 +0000
-Jonathan Cameron <jic23@kernel.org> wrote:
+Rename variable FirstIe_InScan to first_ie_in_scan to fix checkpatch
+warning Avoid CamelCase.
 
-> On Mon, 22 Jan 2024 18:18:22 +0000
-> Mark Brown <broonie@kernel.org> wrote:
->=20
-> > On Mon, Jan 22, 2024 at 07:06:55PM +0100, Uwe Kleine-K=C3=B6nig wrote:
-> >  =20
-> > > Note that Jonathan Cameron has already applied patch 3 to his tree, it
-> > > didn't appear in a public tree though yet. I still included it here to
-> > > make the kernel build bots happy.   =20
-> >=20
-> > It's also going to be needed for buildability of the end of the series.=
- =20
->=20
-> Ah.  I thought intent was to split this across all the different trees
-> then do the final patch only after they were all gone?
->=20
-> I'm fine with it going all in one go if people prefer that.
->=20
-> My tree will be out in a few mins. Was just waiting to rebase on rc1
-> which I've just done.
->=20
-> Jonathan
->=20
+Signed-off-by: Tree Davies <tdavies@darkphysics.net>
+---
+ drivers/staging/rtl8192e/rtl8192e/rtl_wx.c | 2 +-
+ drivers/staging/rtl8192e/rtllib.h          | 2 +-
+ drivers/staging/rtl8192e/rtllib_softmac.c  | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-Dropped from my tree.
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c b/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
+index 5fd44d0c4b1d..d131ef525f46 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
+@@ -269,7 +269,7 @@ static int _rtl92e_wx_set_scan(struct net_device *dev,
+ 
+ 	mutex_lock(&priv->wx_mutex);
+ 
+-	priv->rtllib->FirstIe_InScan = true;
++	priv->rtllib->first_ie_in_scan = true;
+ 
+ 	if (priv->rtllib->link_state != MAC80211_LINKED) {
+ 		if (rt_state == rf_off) {
+diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
+index 0fdc767d43e0..13a901c0db1d 100644
+--- a/drivers/staging/rtl8192e/rtllib.h
++++ b/drivers/staging/rtl8192e/rtllib.h
+@@ -1201,7 +1201,7 @@ struct rtllib_device {
+ 	bool cannot_notify;
+ 	bool bSupportRemoteWakeUp;
+ 	bool actscanning;
+-	bool FirstIe_InScan;
++	bool first_ie_in_scan;
+ 	bool be_scan_inprogress;
+ 	bool beinretry;
+ 	enum rt_rf_power_state rf_power_state;
+diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
+index 9d1e9b780bc7..44b36cc867d9 100644
+--- a/drivers/staging/rtl8192e/rtllib_softmac.c
++++ b/drivers/staging/rtl8192e/rtllib_softmac.c
+@@ -2101,7 +2101,7 @@ int rtllib_softmac_init(struct rtllib_device *ieee)
+ 	ieee->reg_dot11tx_ht_oper_rate_set[1] = 0xff;
+ 	ieee->reg_dot11tx_ht_oper_rate_set[4] = 0x01;
+ 
+-	ieee->FirstIe_InScan = false;
++	ieee->first_ie_in_scan = false;
+ 	ieee->actscanning = false;
+ 	ieee->beinretry = false;
+ 	ieee->is_set_key = false;
+-- 
+2.39.2
 
-Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
