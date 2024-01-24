@@ -1,64 +1,77 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDCC5128371;
-	Wed, 24 Jan 2024 17:31:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84F0B12A165;
+	Wed, 24 Jan 2024 18:18:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706117498; cv=none; b=kZxYFIT9qVub/PmICxX3JGO2BUuonuxDxz5RkeYZ8pBlppQ6z/BctFGu/kc5x1v9STJHu6dmY0syEsovzCRjh6miQHlWhd2uu7If1mXMlEtuT171y/aTCalJOkJfmWLGmYXqaHOs781nvl05JMEikgPCJvbRdj1xxf3k62rRuMg=
+	t=1706120334; cv=none; b=fA/CPS5DMLg42WJjQLFwbjW4vGs/21jwMC1JHR4h28aYdxs1mfBsWUy6dbsOwNSAaP7EeyQiAVa7yuWc8unlM//smskvhRK0wZwfEYihHRcOrgYipy+ZpzKKHB/YRd3+ENHKh+2PpSHNYc94YuznxSQCSGgpzHc2M2YUJTL8sn4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706117498; c=relaxed/simple;
-	bh=ZSjxwNZxgQqXe2BOuCzNUYDMffDoamSMVJAvz8N0Jp8=;
+	s=arc-20240116; t=1706120334; c=relaxed/simple;
+	bh=DL/EQqcJCQTk9UAclAYOtLINf9xZa1C9Zef6JseuhSA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=boPhVNXRN/fGqsiLpykem3i7+WYJ8zvXPqdexgzdZHUuLUKgc3VNc0B32ndeDp+yJe9CD4luAetJjakqG2pPMF+2IbcpEo210nFeBaw2STM0NfKbz7IeitgSXmVmBwxSiOWmu0I5/GulwP11W+Ovx0HUMc5rdyC/r/V/87RB02E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=OhL4KZBx; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=bqSR+GsaTzhttc1U+Q7ET0hbBTITXId7dXp4pAE0APPIx/WbVKCN6e34H1TLHX2uTHWh5DYOHTvPI4kTCAKRYMjPmIhEowaOSEYXr8Se+su568cm6vfoOENuabafm6UVvuw/yYkc5jnM1CXzEg/NuNXzhCLyjoh2pQCfEcYjcpw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=RZiH9wTh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="OhL4KZBx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B501C433F1;
-	Wed, 24 Jan 2024 17:31:37 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="RZiH9wTh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F2D5C433C7;
+	Wed, 24 Jan 2024 18:18:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1706117497;
-	bh=ZSjxwNZxgQqXe2BOuCzNUYDMffDoamSMVJAvz8N0Jp8=;
+	s=korg; t=1706120334;
+	bh=DL/EQqcJCQTk9UAclAYOtLINf9xZa1C9Zef6JseuhSA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OhL4KZBxcp2t0yMZMoCBrGcfBBoXaQZupv4MvaMDjAzB1kwV6ho5n3yY4ANGiv7cj
-	 L3/Sz895iSgeKYbttN87BY05nBeydlLwSvKzLV8L9QoZfDeKXemE53FP3mijJ0tpxM
-	 eSGUnVjCug4tUzAQ1EZ9ZhQGA1GXWyAzrinFo+9k=
-Date: Wed, 24 Jan 2024 09:31:36 -0800
+	b=RZiH9wThtrZRAy5vV1Ct2uyELIURtWXK8fmQT/2Pz+TJephG7gDlaFcKPIoidKbOh
+	 gbGFb3T3yNFSsTfnTLTOotgkxbd7uLnw9S9WuMD3YiZDqBRoEPgpUqZM1H2gx4QWWt
+	 0nF6bVM7nmeusnnZkvpUM46WZ1v+DMPR5CDVdVxU=
+Date: Wed, 24 Jan 2024 10:18:53 -0800
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Mark Brown <broonie@kernel.org>, kernel@pengutronix.de,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Michal Simek <michal.simek@amd.com>,
-	Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>,
-	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-spi@vger.kernel.org
-Subject: Re: [PATCH v2 25/33] staging: fbtft: Follow renaming of SPI "master"
- to "controller"
-Message-ID: <2024012428-annex-destruct-1c92@gregkh>
-References: <cover.1705944943.git.u.kleine-koenig@pengutronix.de>
- <d486dbb16fafd93a00013a555658a44e975115fd.1705944943.git.u.kleine-koenig@pengutronix.de>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+	Andrew Lunn <andrew@lunn.ch>, Arnd Bergmann <arnd@arndb.de>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Jean-Jacques Hiblot <jjhiblot@traphandler.com>,
+	linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Andreas Kemnade <andreas@kemnade.info>,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 2/2] leds: make flash and multicolor dependencies
+ unconditional
+Message-ID: <2024012442-retool-surgical-d828@gregkh>
+References: <20240109090715.982332-1-arnd@kernel.org>
+ <20240109090715.982332-2-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <d486dbb16fafd93a00013a555658a44e975115fd.1705944943.git.u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20240109090715.982332-2-arnd@kernel.org>
 
-On Mon, Jan 22, 2024 at 07:07:20PM +0100, Uwe Kleine-König wrote:
-> In commit 8caab75fd2c2 ("spi: Generalize SPI "master" to "controller"")
-> some functions and struct members were renamed. To not break all drivers
-> compatibility macros were provided.
+On Tue, Jan 09, 2024 at 10:06:40AM +0100, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> To be able to remove these compatibility macros push the renaming into
-> this driver.
+> Along the same lines as making devm_led_classdev_register() declared
+> extern unconditional, do the same thing for the two sub-classes
+> that have similar stubs.
 > 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> The users of these interfaces go to great lengths to allow building
+> with both the generic leds API and the extended version, but realistically
+> there is not much use in this, so just simplify it to always rely
+> on it and remove the confusing fallback logic.
+> 
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 > ---
+>  drivers/leds/Kconfig                 |  4 ++--
+>  drivers/leds/flash/Kconfig           |  4 ++--
+>  drivers/staging/greybus/Kconfig      |  2 +-
+>  drivers/staging/greybus/light.c      | 21 --------------------
+>  include/linux/led-class-flash.h      | 24 -----------------------
+>  include/linux/led-class-multicolor.h | 29 ----------------------------
+>  6 files changed, 5 insertions(+), 79 deletions(-)
 
 Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
