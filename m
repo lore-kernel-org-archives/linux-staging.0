@@ -1,260 +1,131 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 850C045022
-	for <linux-staging@lists.linux.dev>; Thu, 25 Jan 2024 12:14:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8047E633F7;
+	Thu, 25 Jan 2024 14:13:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706184881; cv=none; b=CzGo/8YclUrz02d0cF2PlXtDMnxXaGjgBtGpLSujfvQaC/P5Xp7SxkrgNs/unBCiEjCbtRl0IhBEfUGh2iOnE2gkbtNfkxcBS4NDrnUe6l7FcvnET873JfWAuq9Ix6oQ+/BTEFxeNFxPIB7WYLumCW1tPu1UcBEtwA90Y+XUIEk=
+	t=1706192041; cv=none; b=cm+YKZ9nzaOSbvq4sqL43zQbIMsCqzDGyFcnfVW+4CvQZECA9LFYCNvyuz9+RyQuX/ZPDiL9zwEL+WF3rwyo6DOBzb7OHOx35C5H9ZUHbmrAOk6V0krZ4XIYhlKlJYShAvsi6b1nEKYD/v3txn6pBExJICNSLYhGxVIadyV90bY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706184881; c=relaxed/simple;
-	bh=Y70kt1S+wDMGZ2Y6dT7JBGkOh38DPB/mz0c9lW1w+go=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sIJErtrI9lB895C6IVgyIRW7ehbczLwFJBHIWyAhwWGOezMAIFaPnXJ8lQZO8CPm/bSPTd6Def/2PTSQVM66qODZRqYQEoh64jZaTTAb1YhB4yv5pZ5SSu5spAWP1J9W2oGFUcxI9WW1DCUAmp8Yxhtu5KHleJ3kRSwDzxOEnLM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rSyZH-00049s-NK; Thu, 25 Jan 2024 13:10:51 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rSyZE-002HRD-5b; Thu, 25 Jan 2024 13:10:48 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rSyZD-007n0n-33;
-	Thu, 25 Jan 2024 13:10:47 +0100
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	James Clark <james.clark@arm.com>,
-	linux-pwm@vger.kernel.org,
-	Hector Martin <marcan@marcan.st>,
-	Sven Peter <sven@svenpeter.dev>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>,
-	Scott Branden <sbranden@broadcom.com>,
-	Alexander Shiyan <shc_work@mail.ru>,
-	Benson Leung <bleung@chromium.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	=?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Daire McNamara <daire.mcnamara@microchip.com>,
-	=?utf-8?q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Michael Walle <mwalle@kernel.org>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Hammer Hsieh <hammerh0314@gmail.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-	Sean Anderson <sean.anderson@seco.com>,
-	Michal Simek <michal.simek@amd.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Robert Foss <rfoss@kernel.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Pavel Machek <pavel@ucw.cz>,
-	Lee Jones <lee@kernel.org>,
-	Anjelique Melendez <quic_amelende@quicinc.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Lu Hongfei <luhongfei@vivo.com>,
-	Bjorn Andersson <quic_bjorande@quicinc.com>,
-	Luca Weiss <luca@z3ntu.xyz>,
-	Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>
-Cc: linux-doc@vger.kernel.org,
-	kernel@pengutronix.de,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	linux-rpi-kernel@lists.infradead.org,
-	Guenter Roeck <groeck@chromium.org>,
-	chrome-platform@lists.linux.dev,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	linux-mips@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	linux-amlogic@lists.infradead.org,
-	linux-riscv@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	linux-samsung-soc@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	Douglas Anderson <dianders@chromium.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	dri-devel@lists.freedesktop.org,
-	linux-leds@vger.kernel.org,
-	greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH v5 040/111] pwm: Provide devm_pwmchip_alloc() function
-Date: Thu, 25 Jan 2024 13:09:02 +0100
-Message-ID:  <f59b1a4a8d6fba65e4d3e8698310c9cb1d4c43ce.1706182805.git.u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1706182805.git.u.kleine-koenig@pengutronix.de>
-References: <cover.1706182805.git.u.kleine-koenig@pengutronix.de>
+	s=arc-20240116; t=1706192041; c=relaxed/simple;
+	bh=d4gPRqPHjfmhjeJ5lkxi1RqQCKJtueD+jrxScUh4RN8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dINQval1UOAWI94+RQcQh4edw9Q5gZCyCa5P4dvvAu4bWmjtLUO4T7KXTHAVQJsTefqr6JDZJfzAKBzGNl6NunISfgoCGpOUlKk5NnRQVxMVn9IHJQzrvIWxmw5nlN5hqjkQjccGUsHhCyQ9RgIQxBrPjbqFxicmIlStPQ4bkKY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=d8iPRvhK; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="d8iPRvhK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1706192037;
+	bh=d4gPRqPHjfmhjeJ5lkxi1RqQCKJtueD+jrxScUh4RN8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=d8iPRvhKJPa25vYvNn3p7VCNREGUSvpjp/LMg5lqfGUi0fM0w56/kd5EhWPvZrH10
+	 z5Xio98iangqywdMMYeb3D9MMpb8H/cOd//urNx3hoVuf0pN++fNMxXVhZQnoxcAJI
+	 6RT+HKgg4csflhdazllRZMqBwum/QPPU6v2bUobXAj7YiCkKyS4HKCMoZCU3x6ZOfe
+	 dvovRFm3EUp0Rzjkwnn//c5FQYu2HTGaaQ4XA5mgV/w1KeXpglcGqCoAA8qikUzbZ+
+	 OQe+iR+6Yy3GlSmDuWjoGMmkYCNAKTM5iGRNl0KPNh/l5iE4zI15a9jeDGR0iozFdn
+	 006geVieTmE5w==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id D60B937820BC;
+	Thu, 25 Jan 2024 14:13:51 +0000 (UTC)
+Message-ID: <74e203b0-aacd-4a87-aa7b-53bd689fd893@collabora.com>
+Date: Thu, 25 Jan 2024 15:13:51 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4472; i=u.kleine-koenig@pengutronix.de; h=from:subject:message-id; bh=Y70kt1S+wDMGZ2Y6dT7JBGkOh38DPB/mz0c9lW1w+go=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlsk9o1J7Qn6pSUgc2O5FQOVH47M2tNWcGfyzpg KqN39khZuCJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZbJPaAAKCRCPgPtYfRL+ Tl7sCACDg65PvULF2T57x8s2GOVh8qHAOM4G2fEdFZQeFhZiTply5wW+kG5bIM1JAdU3cAiM96g uzfqnkdy2Mt6/lWu6ZhjqOk/xYUO80eOZ5e8cyRhQLGb4VsogRhDSOKSAf4k0fkzTYCdCM3jfwP QGXt5GRUeYGJVhDmUC7m1wai9vWlfWG8IXkVbSYnX3LqEAl0A40uaffDMUtp2bFtgHNqtqbGhx6 bM/vJXjzuqiGa8jiFMTuJ50PRpeh9o/6cre0EhT+nv5GQHpRaGSKnNf/E7Q0CK0tiRGYs7M9t6g 2w/lsv8+vxgUQ7yjIC7YwrqDMXW1+x7YTS/xwh76REfV7L9/
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 039/111] pwm: Provide wrappers for storing and getting
+ driver private data
+Content-Language: en-US
+To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ linux-pwm@vger.kernel.org, Hector Martin <marcan@marcan.st>,
+ Sven Peter <sven@svenpeter.dev>, Nicolas Ferre
+ <nicolas.ferre@microchip.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Florian Fainelli <florian.fainelli@broadcom.com>, Ray Jui
+ <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+ Alexander Shiyan <shc_work@mail.ru>, Benson Leung <bleung@chromium.org>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Paul Cercueil <paul@crapouillou.net>, Vladimir Zapolskiy <vz@mleia.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kevin Hilman <khilman@baylibre.com>,
+ Conor Dooley <conor.dooley@microchip.com>,
+ Daire McNamara <daire.mcnamara@microchip.com>,
+ =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+ Heiko Stuebner <heiko@sntech.de>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley
+ <paul.walmsley@sifive.com>, Michael Walle <mwalle@kernel.org>,
+ Orson Zhai <orsonzhai@gmail.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>,
+ Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai
+ <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Hammer Hsieh <hammerh0314@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+ Sean Anderson <sean.anderson@seco.com>, Michal Simek <michal.simek@amd.com>,
+ Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
+ <brgl@bgdev.pl>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Robert Foss <rfoss@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+ Anjelique Melendez <quic_amelende@quicinc.com>,
+ Andi Shyti <andi.shyti@kernel.org>, Lu Hongfei <luhongfei@vivo.com>,
+ Bjorn Andersson <quic_bjorande@quicinc.com>, Luca Weiss <luca@z3ntu.xyz>,
+ Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: kernel@pengutronix.de, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>,
+ linux-rpi-kernel@lists.infradead.org, Guenter Roeck <groeck@chromium.org>,
+ chrome-platform@lists.linux.dev, Fabio Estevam <festevam@gmail.com>,
+ NXP Linux Team <linux-imx@nxp.com>, linux-mips@vger.kernel.org,
+ platform-driver-x86@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ linux-amlogic@lists.infradead.org, linux-riscv@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, Alim Akhtar <alim.akhtar@samsung.com>,
+ linux-samsung-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+ linux-gpio@vger.kernel.org, Douglas Anderson <dianders@chromium.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
+ linux-leds@vger.kernel.org, greybus-dev@lists.linaro.org,
+ linux-staging@lists.linux.dev
+References: <cover.1706182805.git.u.kleine-koenig@pengutronix.de>
+ <1c873808bfc93ab51f49be799334dee6e8ab398a.1706182805.git.u.kleine-koenig@pengutronix.de>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <1c873808bfc93ab51f49be799334dee6e8ab398a.1706182805.git.u.kleine-koenig@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-staging@lists.linux.dev
 
-This function allocates a struct pwm_chip and driver data. Compared to
-the status quo the split into pwm_chip and driver data is new, otherwise
-it doesn't change anything relevant (yet).
+Il 25/01/24 13:09, Uwe Kleine-König ha scritto:
+> These functions are useful to store and query driver private data a
+> After struct pwm_chip got its own struct device, this can make use of
+> dev_get_drvdata() and dev_set_drvdata() on that device.  These functions
+> are required already now to convert drivers to pwmchip_alloc() which
+> must happen before changing pwm_chip::dev.
+> 
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 
-The intention is that after all drivers are switched to use this
-allocation function, its possible to add a struct device to struct
-pwm_chip to properly track the latter's lifetime without touching all
-drivers again. Proper lifetime tracking is a necessary precondition to
-introduce character device support for PWMs (that implements atomic
-setting and doesn't suffer from the sysfs overhead of the /sys/class/pwm
-userspace support).
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-The new function pwmchip_priv() (obviously?) only works for chips
-allocated with devm_pwmchip_alloc().
-
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- .../driver-api/driver-model/devres.rst        |  1 +
- Documentation/driver-api/pwm.rst              | 10 ++++----
- drivers/pwm/core.c                            | 25 +++++++++++++++++++
- include/linux/pwm.h                           |  2 ++
- 4 files changed, 33 insertions(+), 5 deletions(-)
-
-diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
-index c5f99d834ec5..e4df72c408d2 100644
---- a/Documentation/driver-api/driver-model/devres.rst
-+++ b/Documentation/driver-api/driver-model/devres.rst
-@@ -420,6 +420,7 @@ POWER
-   devm_reboot_mode_unregister()
- 
- PWM
-+  devm_pwmchip_alloc()
-   devm_pwmchip_add()
-   devm_pwm_get()
-   devm_fwnode_pwm_get()
-diff --git a/Documentation/driver-api/pwm.rst b/Documentation/driver-api/pwm.rst
-index 3c28ccc4b611..cee66c7f0335 100644
---- a/Documentation/driver-api/pwm.rst
-+++ b/Documentation/driver-api/pwm.rst
-@@ -143,11 +143,11 @@ to implement the pwm_*() functions itself. This means that it's impossible
- to have multiple PWM drivers in the system. For this reason it's mandatory
- for new drivers to use the generic PWM framework.
- 
--A new PWM controller/chip can be added using pwmchip_add() and removed
--again with pwmchip_remove(). pwmchip_add() takes a filled in struct
--pwm_chip as argument which provides a description of the PWM chip, the
--number of PWM devices provided by the chip and the chip-specific
--implementation of the supported PWM operations to the framework.
-+A new PWM controller/chip can be allocated using devm_pwmchip_alloc, then added
-+using pwmchip_add() and removed again with pwmchip_remove(). pwmchip_add()
-+takes a filled in struct pwm_chip as argument which provides a description of
-+the PWM chip, the number of PWM devices provided by the chip and the
-+chip-specific implementation of the supported PWM operations to the framework.
- 
- When implementing polarity support in a PWM driver, make sure to respect the
- signal conventions in the PWM framework. By definition, normal polarity
-diff --git a/drivers/pwm/core.c b/drivers/pwm/core.c
-index 1b4c3d0caa82..b821a2b0b172 100644
---- a/drivers/pwm/core.c
-+++ b/drivers/pwm/core.c
-@@ -454,6 +454,31 @@ of_pwm_single_xlate(struct pwm_chip *chip, const struct of_phandle_args *args)
- }
- EXPORT_SYMBOL_GPL(of_pwm_single_xlate);
- 
-+static void *pwmchip_priv(struct pwm_chip *chip)
-+{
-+	return (void *)chip + sizeof(*chip);
-+}
-+
-+struct pwm_chip *devm_pwmchip_alloc(struct device *parent, unsigned int npwm, size_t sizeof_priv)
-+{
-+	struct pwm_chip *chip;
-+	size_t alloc_size;
-+
-+	alloc_size = size_add(sizeof(*chip), sizeof_priv);
-+
-+	chip = devm_kzalloc(parent, alloc_size, GFP_KERNEL);
-+	if (!chip)
-+		return ERR_PTR(-ENOMEM);
-+
-+	chip->dev = parent;
-+	chip->npwm = npwm;
-+
-+	pwmchip_set_drvdata(chip, pwmchip_priv(chip));
-+
-+	return chip;
-+}
-+EXPORT_SYMBOL_GPL(devm_pwmchip_alloc);
-+
- static void of_pwmchip_add(struct pwm_chip *chip)
- {
- 	if (!chip->dev || !chip->dev->of_node)
-diff --git a/include/linux/pwm.h b/include/linux/pwm.h
-index 2c49d2fe2fe7..8bc7504aa7d4 100644
---- a/include/linux/pwm.h
-+++ b/include/linux/pwm.h
-@@ -403,6 +403,8 @@ static inline bool pwm_might_sleep(struct pwm_device *pwm)
- int pwm_capture(struct pwm_device *pwm, struct pwm_capture *result,
- 		unsigned long timeout);
- 
-+struct pwm_chip *devm_pwmchip_alloc(struct device *parent, unsigned int npwm, size_t sizeof_priv);
-+
- int __pwmchip_add(struct pwm_chip *chip, struct module *owner);
- #define pwmchip_add(chip) __pwmchip_add(chip, THIS_MODULE)
- void pwmchip_remove(struct pwm_chip *chip);
--- 
-2.43.0
 
