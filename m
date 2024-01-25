@@ -1,112 +1,275 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE2F713D509
-	for <linux-staging@lists.linux.dev>; Wed, 24 Jan 2024 22:45:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCE16481A8
+	for <linux-staging@lists.linux.dev>; Thu, 25 Jan 2024 12:10:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706136315; cv=none; b=AIuN4PyW7Qodrz7WXGMZxhg6rQxGBYpMw6jglyZP9nF6nwp/b9LhabJZ9hHeuXRR3kqRfA6PU8NzX9IbgxK1ayI54CKyv4LYvnG8g5hYB2HGyFPrljxciB9SOR8gE1up4mTexBq1Xivy3P7dcIFEoIfmw9x0JoGedQQrKMZE63c=
+	t=1706184660; cv=none; b=WuNRElsYkvU1SVdu7qIMj1yad1Z0pSc0VMulNN6P//Z4xXF0hAL1AxFdKB2232DpyWsdV1knNOMTS9M5IYOTKKuPstu8QE2Ez0cm+K1HbcB1XbezsDCN3DN6kkf4qQB6LgGmsc03aT0jZxqpVQ8R30cdvyOX29SRTYCu83jU0Ho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706136315; c=relaxed/simple;
-	bh=AscnLBC/gI9vMHyhNJgjD3txTicaELoHziKudejDUBo=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=I6JtZ6l2oC2ZdPRbjIx0Ewfyhu4lJiXWkY5Sy5DT5hLeh7lTEghLJPPx7noxQa6FzRdTnNsROTiNtr9B6liLSDxIj5qJQu1sYsBXleca072LUZCaxZ3e/TsNV3C7mgqcS5cvHDSGvtQ9RCfQuqzkaDdIsE6VJp2xc7ciDO6JtLY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net; spf=pass smtp.mailfrom=darkphysics.net; dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b=VDUUKN1o; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=darkphysics.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="VDUUKN1o"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1d75c97ea6aso1138375ad.1
-        for <linux-staging@lists.linux.dev>; Wed, 24 Jan 2024 14:45:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=darkphysics.net; s=google; t=1706136313; x=1706741113; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QdqPBUNZraqL43uan7u+LFep+ywrWr8czcYGFA+EC7o=;
-        b=VDUUKN1oX+DoMfHz/iLrbkzIfI/0Bzucd3htMRU1+dpfGfzzDUMtP/LPlFM6gtn7S7
-         s8wVXV7sf3142pqsfmmHmYoP5A2/NmqvuOaXsFSdSrc/U+dG4jxf0zDrJaQn7KsH7+TE
-         R6Ch2/kPxpOGoLpBIIEKI4VofHQMUtgSjXcr/dINGhgt6x9ZOeLJtm8MeRkixRNjfkdF
-         3zMPoI4M40/yuAnZflwlcDsrIqFta3WeQB4eOkP9uOOImlh6hjf5jPPUOmAUig2tV7lg
-         QNZCUtzLU00qEaxYIT7VTSy/98PRSInMpyDHJGQDEnokmEPU2r/MC8iuLHQ45vXDR/dy
-         aJTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706136313; x=1706741113;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QdqPBUNZraqL43uan7u+LFep+ywrWr8czcYGFA+EC7o=;
-        b=kER1jUDvdw7r4NHv7Ty1pFIRg3l2dpomxMR3bp/S3lnIOHpI60QkcKlpUGx/frh27c
-         ai9YG58LTcEml7G5SKKpMwQAuefC4AiikJyOHgRgnyCO1aVLcP1X2ayGX05x7vp0DtCd
-         t0uFZt/BKY6vaSTVQopqziyLytL8ZkiU1Zmmovjy0SyPwYrO0xi0CvbC+UjoDdJGCqz/
-         osH+dIu7CRhYNrhyP9PjSUMGjdSB4m/Cv9NNeCB1JyXhYt4hL0nyPR7oS4nARkyKyCOC
-         I6cK2hpu4wnGaT1WphrxVLijUUsx7dMtKD5780Qwl417COJONb6lJTdTimeKH5AMHR33
-         ombw==
-X-Gm-Message-State: AOJu0YzkH2y9e8Ws+ssYp+j9MWv3YgNerEQ216ZAkYWwkJw6G6NQeXG7
-	OBFMep+ZUEF7sDRenODloV4B6xZ1LX9JTxidQXQEWbuGMajSs0epJEqm3flzZpQ=
-X-Google-Smtp-Source: AGHT+IEWAtVzCHwnAwLVcDAG+VKM2RHUDYDuxI/3BFfm0YN83ZD+clW9UYbGq0hNYqoOAoUwfpKI3w==
-X-Received: by 2002:a17:903:594:b0:1d4:ceab:58b9 with SMTP id jv20-20020a170903059400b001d4ceab58b9mr66432plb.40.1706136312992;
-        Wed, 24 Jan 2024 14:45:12 -0800 (PST)
-Received: from oatmeal.darkphysics (c-76-146-178-2.hsd1.wa.comcast.net. [76.146.178.2])
-        by smtp.gmail.com with ESMTPSA id i5-20020a170902c28500b001d73a2acc0csm6743987pld.283.2024.01.24.14.45.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Jan 2024 14:45:12 -0800 (PST)
-From: Tree Davies <tdavies@darkphysics.net>
-To: gregkh@linuxfoundation.org,
-	philipp.g.hortmann@gmail.com,
-	anjan@momi.ca
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Tree Davies <tdavies@darkphysics.net>
-Subject: [PATCH 18/18] Staging: rtl8192e: Rename variable bForcedBgMode
-Date: Wed, 24 Jan 2024 14:44:52 -0800
-Message-Id: <20240124224452.968724-19-tdavies@darkphysics.net>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240124224452.968724-1-tdavies@darkphysics.net>
-References: <20240124224452.968724-1-tdavies@darkphysics.net>
+	s=arc-20240116; t=1706184660; c=relaxed/simple;
+	bh=VYOzTE9RQokLSKwwOmfZ50NEGkq7twjHVBaHpWh+pfU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=V9MJ26zSJ2+5EyB2vVZuvLHhN9i+LXJhEqNWK369K2E9xfSCy6c6uGFW7C6xFq+gsoskwtze1HKxD1/bvrxOH4DJzRedymtipl9O2a+ymbnY+VlSSReZWi7z/iguygdMWDZ56qHisw2m6SfR/erUlHOab5tLdsusNvp7HypIl5E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rSyZE-00046G-C5; Thu, 25 Jan 2024 13:10:48 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rSyZD-002HR4-Im; Thu, 25 Jan 2024 13:10:47 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rSyZD-007n0g-1b;
+	Thu, 25 Jan 2024 13:10:47 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-pwm@vger.kernel.org
+Cc: greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	kernel@pengutronix.de
+Subject: [PATCH v5 038/111] staging: greybus: pwm: Make use of pwmchip_parent() macro
+Date: Thu, 25 Jan 2024 13:09:00 +0100
+Message-ID:  <57b2e034d878c39d472d9dfc86b2c39272e4eabf.1706182805.git.u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1706182805.git.u.kleine-koenig@pengutronix.de>
+References: <cover.1706182805.git.u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7319; i=u.kleine-koenig@pengutronix.de; h=from:subject:message-id; bh=VYOzTE9RQokLSKwwOmfZ50NEGkq7twjHVBaHpWh+pfU=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlsk9mE5GH0oD9UG6FNp3mT5z0CoaiSzsb8UgR0 xM2BaHYT0qJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZbJPZgAKCRCPgPtYfRL+ Tn6+CACd1nL2r/2Tw+8+irFLi0eJWPbwZMhVAg6JERsvkRsmET3f0dnzzv2CO5RrTzdG7fU8Guh 9I3YjN0+dVpPSYtIgdI0sbsWBn6bL86JXkKcAZVB0LtMgAibpnWcjY4XMKichjyv79g/quEmKXk A5MACG4Xdh8tC0jPbtepjd49t9aqNe4ZqviN8pOS2R2SAGY1Wa5zs2tV7GW00dXflejcqKN4vC2 KKRCBpQzEpTUPYf+rBwwWzZNEda/snCpzefzTpkHejNMjE81NgIPpVNQsK8ZVGHHcRwV9EBLb9D VkslsQ2/FaayG6oubMTJrIg+jmLqGNaR09Y7WvI2fB0D07DI
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-staging@lists.linux.dev
 
-Rename variable bForcedBgMode to forced_bg_mode to fix checkpatch
-warning Avoid CamelCase.
+struct pwm_chip::dev is about to change. To not have to touch this
+driver in the same commit as struct pwm_chip::dev, use the macro
+provided for exactly this purpose.
 
-Signed-off-by: Tree Davies <tdavies@darkphysics.net>
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/staging/rtl8192e/rtllib.h         | 2 +-
- drivers/staging/rtl8192e/rtllib_softmac.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/greybus/pwm.c | 55 +++++++++++++++++------------------
+ 1 file changed, 26 insertions(+), 29 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-index 07a89d1af86d..348644998744 100644
---- a/drivers/staging/rtl8192e/rtllib.h
-+++ b/drivers/staging/rtl8192e/rtllib.h
-@@ -1193,7 +1193,7 @@ struct rtllib_device {
- 	u8 *assocreq_ies, *assocresp_ies;
- 	size_t assocreq_ies_len, assocresp_ies_len;
+diff --git a/drivers/staging/greybus/pwm.c b/drivers/staging/greybus/pwm.c
+index a3cb68cfa0f9..75e0518791d8 100644
+--- a/drivers/staging/greybus/pwm.c
++++ b/drivers/staging/greybus/pwm.c
+@@ -17,7 +17,6 @@
+ struct gb_pwm_chip {
+ 	struct gb_connection	*connection;
+ 	u8			pwm_max;	/* max pwm number */
+-
+ 	struct pwm_chip		chip;
+ };
  
--	bool	bForcedBgMode;
-+	bool	forced_bg_mode;
+@@ -39,9 +38,9 @@ static int gb_pwm_count_operation(struct gb_pwm_chip *pwmc)
+ 	return 0;
+ }
  
- 	u8 hwsec_active;
- 	bool is_roaming;
-diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
-index ba35714f83af..2545ac8963c4 100644
---- a/drivers/staging/rtl8192e/rtllib_softmac.c
-+++ b/drivers/staging/rtl8192e/rtllib_softmac.c
-@@ -721,7 +721,7 @@ rtllib_association_req(struct rtllib_network *beacon,
+-static int gb_pwm_activate_operation(struct gb_pwm_chip *pwmc,
+-				     u8 which)
++static int gb_pwm_activate_operation(struct pwm_chip *chip, u8 which)
+ {
++	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
+ 	struct gb_pwm_activate_request request;
+ 	struct gbphy_device *gbphy_dev;
+ 	int ret;
+@@ -51,7 +50,7 @@ static int gb_pwm_activate_operation(struct gb_pwm_chip *pwmc,
  
- 	if ((ieee->rtllib_ap_sec_type &&
- 	    (ieee->rtllib_ap_sec_type(ieee) & SEC_ALG_TKIP)) ||
--	    ieee->bForcedBgMode) {
-+	    ieee->forced_bg_mode) {
- 		ieee->ht_info->enable_ht = 0;
- 		ieee->mode = WIRELESS_MODE_G;
+ 	request.which = which;
+ 
+-	gbphy_dev = to_gbphy_dev(pwmc->chip.dev);
++	gbphy_dev = to_gbphy_dev(pwmchip_parent(chip));
+ 	ret = gbphy_runtime_get_sync(gbphy_dev);
+ 	if (ret)
+ 		return ret;
+@@ -64,9 +63,10 @@ static int gb_pwm_activate_operation(struct gb_pwm_chip *pwmc,
+ 	return ret;
+ }
+ 
+-static int gb_pwm_deactivate_operation(struct gb_pwm_chip *pwmc,
++static int gb_pwm_deactivate_operation(struct pwm_chip *chip,
+ 				       u8 which)
+ {
++	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
+ 	struct gb_pwm_deactivate_request request;
+ 	struct gbphy_device *gbphy_dev;
+ 	int ret;
+@@ -76,7 +76,7 @@ static int gb_pwm_deactivate_operation(struct gb_pwm_chip *pwmc,
+ 
+ 	request.which = which;
+ 
+-	gbphy_dev = to_gbphy_dev(pwmc->chip.dev);
++	gbphy_dev = to_gbphy_dev(pwmchip_parent(chip));
+ 	ret = gbphy_runtime_get_sync(gbphy_dev);
+ 	if (ret)
+ 		return ret;
+@@ -89,9 +89,10 @@ static int gb_pwm_deactivate_operation(struct gb_pwm_chip *pwmc,
+ 	return ret;
+ }
+ 
+-static int gb_pwm_config_operation(struct gb_pwm_chip *pwmc,
++static int gb_pwm_config_operation(struct pwm_chip *chip,
+ 				   u8 which, u32 duty, u32 period)
+ {
++	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
+ 	struct gb_pwm_config_request request;
+ 	struct gbphy_device *gbphy_dev;
+ 	int ret;
+@@ -103,7 +104,7 @@ static int gb_pwm_config_operation(struct gb_pwm_chip *pwmc,
+ 	request.duty = cpu_to_le32(duty);
+ 	request.period = cpu_to_le32(period);
+ 
+-	gbphy_dev = to_gbphy_dev(pwmc->chip.dev);
++	gbphy_dev = to_gbphy_dev(pwmchip_parent(chip));
+ 	ret = gbphy_runtime_get_sync(gbphy_dev);
+ 	if (ret)
+ 		return ret;
+@@ -116,9 +117,10 @@ static int gb_pwm_config_operation(struct gb_pwm_chip *pwmc,
+ 	return ret;
+ }
+ 
+-static int gb_pwm_set_polarity_operation(struct gb_pwm_chip *pwmc,
++static int gb_pwm_set_polarity_operation(struct pwm_chip *chip,
+ 					 u8 which, u8 polarity)
+ {
++	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
+ 	struct gb_pwm_polarity_request request;
+ 	struct gbphy_device *gbphy_dev;
+ 	int ret;
+@@ -129,7 +131,7 @@ static int gb_pwm_set_polarity_operation(struct gb_pwm_chip *pwmc,
+ 	request.which = which;
+ 	request.polarity = polarity;
+ 
+-	gbphy_dev = to_gbphy_dev(pwmc->chip.dev);
++	gbphy_dev = to_gbphy_dev(pwmchip_parent(chip));
+ 	ret = gbphy_runtime_get_sync(gbphy_dev);
+ 	if (ret)
+ 		return ret;
+@@ -142,9 +144,9 @@ static int gb_pwm_set_polarity_operation(struct gb_pwm_chip *pwmc,
+ 	return ret;
+ }
+ 
+-static int gb_pwm_enable_operation(struct gb_pwm_chip *pwmc,
+-				   u8 which)
++static int gb_pwm_enable_operation(struct pwm_chip *chip, u8 which)
+ {
++	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
+ 	struct gb_pwm_enable_request request;
+ 	struct gbphy_device *gbphy_dev;
+ 	int ret;
+@@ -154,7 +156,7 @@ static int gb_pwm_enable_operation(struct gb_pwm_chip *pwmc,
+ 
+ 	request.which = which;
+ 
+-	gbphy_dev = to_gbphy_dev(pwmc->chip.dev);
++	gbphy_dev = to_gbphy_dev(pwmchip_parent(chip));
+ 	ret = gbphy_runtime_get_sync(gbphy_dev);
+ 	if (ret)
+ 		return ret;
+@@ -167,9 +169,9 @@ static int gb_pwm_enable_operation(struct gb_pwm_chip *pwmc,
+ 	return ret;
+ }
+ 
+-static int gb_pwm_disable_operation(struct gb_pwm_chip *pwmc,
+-				    u8 which)
++static int gb_pwm_disable_operation(struct pwm_chip *chip, u8 which)
+ {
++	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
+ 	struct gb_pwm_disable_request request;
+ 	struct gbphy_device *gbphy_dev;
+ 	int ret;
+@@ -182,7 +184,7 @@ static int gb_pwm_disable_operation(struct gb_pwm_chip *pwmc,
+ 	ret = gb_operation_sync(pwmc->connection, GB_PWM_TYPE_DISABLE,
+ 				&request, sizeof(request), NULL, 0);
+ 
+-	gbphy_dev = to_gbphy_dev(pwmc->chip.dev);
++	gbphy_dev = to_gbphy_dev(pwmchip_parent(chip));
+ 	gbphy_runtime_put_autosuspend(gbphy_dev);
+ 
+ 	return ret;
+@@ -190,19 +192,15 @@ static int gb_pwm_disable_operation(struct gb_pwm_chip *pwmc,
+ 
+ static int gb_pwm_request(struct pwm_chip *chip, struct pwm_device *pwm)
+ {
+-	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
+-
+-	return gb_pwm_activate_operation(pwmc, pwm->hwpwm);
++	return gb_pwm_activate_operation(chip, pwm->hwpwm);
+ };
+ 
+ static void gb_pwm_free(struct pwm_chip *chip, struct pwm_device *pwm)
+ {
+-	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
+-
+ 	if (pwm_is_enabled(pwm))
+-		dev_warn(chip->dev, "freeing PWM device without disabling\n");
++		dev_warn(pwmchip_parent(chip), "freeing PWM device without disabling\n");
+ 
+-	gb_pwm_deactivate_operation(pwmc, pwm->hwpwm);
++	gb_pwm_deactivate_operation(chip, pwm->hwpwm);
+ }
+ 
+ static int gb_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+@@ -212,22 +210,21 @@ static int gb_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+ 	bool enabled = pwm->state.enabled;
+ 	u64 period = state->period;
+ 	u64 duty_cycle = state->duty_cycle;
+-	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
+ 
+ 	/* Set polarity */
+ 	if (state->polarity != pwm->state.polarity) {
+ 		if (enabled) {
+-			gb_pwm_disable_operation(pwmc, pwm->hwpwm);
++			gb_pwm_disable_operation(chip, pwm->hwpwm);
+ 			enabled = false;
+ 		}
+-		err = gb_pwm_set_polarity_operation(pwmc, pwm->hwpwm, state->polarity);
++		err = gb_pwm_set_polarity_operation(chip, pwm->hwpwm, state->polarity);
+ 		if (err)
+ 			return err;
  	}
+ 
+ 	if (!state->enabled) {
+ 		if (enabled)
+-			gb_pwm_disable_operation(pwmc, pwm->hwpwm);
++			gb_pwm_disable_operation(chip, pwm->hwpwm);
+ 		return 0;
+ 	}
+ 
+@@ -243,13 +240,13 @@ static int gb_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+ 	if (duty_cycle > period)
+ 		duty_cycle = period;
+ 
+-	err = gb_pwm_config_operation(pwmc, pwm->hwpwm, duty_cycle, period);
++	err = gb_pwm_config_operation(chip, pwm->hwpwm, duty_cycle, period);
+ 	if (err)
+ 		return err;
+ 
+ 	/* enable/disable */
+ 	if (!enabled)
+-		return gb_pwm_enable_operation(pwmc, pwm->hwpwm);
++		return gb_pwm_enable_operation(chip, pwm->hwpwm);
+ 
+ 	return 0;
+ }
 -- 
-2.39.2
+2.43.0
 
