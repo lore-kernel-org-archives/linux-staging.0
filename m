@@ -1,56 +1,56 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 742C35A79F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39A945B214
 	for <linux-staging@lists.linux.dev>; Fri, 26 Jan 2024 22:31:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706308312; cv=none; b=DuoI7GICsix/YUl9+9hkN/X4WU8JThZpvNW41cc9aBdr2YQSITnz0s0l37jadPlztiHOKcltiXcbO2Myi63AU69O4SWy/8UFkkx0SFoZ2fJUN1gx4xzmDS9K7kpmxRFH2t4n7mtwW7X9ESRQTh4wwLTYwvyRFlndIMo7CZaFjHE=
+	t=1706308312; cv=none; b=alLSM0xqCpYWtanuUjgmOwMx9fEl6/e4yP3eFVMbJ0p6E6TSnC4GO52MubzOzucV/l5GiYVOtkt+SbhuAnesFF83XNcWKayawcRu75JEa8G+yxCAG85JV/wcz1uSeeznkuTkWbMlBximRtYh2kC1ZJAHR5pCFLBJmf3IvDfmPrE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1706308312; c=relaxed/simple;
-	bh=5DibKgE8ybBng9suKbGUN36Q9+2sX+fsaXEhIlRAuT0=;
+	bh=vhQTx59EhDp/8Omj8PRaAAdTFVRz9iVZtUgCQ5BU+uY=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=KosUgvOwIpcbhxMeRaALcLNhbwSDuG6jlSqANMUr8ECeDOC0pOZFe+oQ1TfoMCOkXpCPf/ugezN2StLtuZ6f2mXtGQg9E+v4bpF+4wPXxWvO1Z3C2RcfIquO09djoW8rVPOAa5YrPXU1IN2dxaztIi8vwsM7WpaNc5PQO0HxqgA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net; spf=pass smtp.mailfrom=darkphysics.net; dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b=VFGMjlcF; arc=none smtp.client-ip=209.85.214.177
+	 MIME-Version; b=BBBCsBZAHdSSpCxgy0JDnmnmNfmxZqAbbgEqxXT1sHdpKopD9fOjqyRSRUE+hDwyqIHrgjbSlLp7+lMfVaqWRXjFxytvQwsD/+4xsqys9iBBQjKTImbV5v8eh9h2ckfVAbTEpVdW5nWmAYR/EX9vpJhxbdSdRC6iFWha4GmcMgQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net; spf=pass smtp.mailfrom=darkphysics.net; dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b=HbC28TWz; arc=none smtp.client-ip=209.85.216.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=darkphysics.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="VFGMjlcF"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1d71e1d7c78so6820685ad.3
+	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="HbC28TWz"
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-29026523507so969664a91.0
         for <linux-staging@lists.linux.dev>; Fri, 26 Jan 2024 14:31:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=darkphysics.net; s=google; t=1706308310; x=1706913110; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WasKokmHV0ULTodbn6qktUa03Tamg95nLPR+rl0Wzos=;
-        b=VFGMjlcFcCUaE2DHb3Iw0KHZ3AY8RIDk4AUQThbXegj94xJNcjXCXy6sDA85ZsB09j
-         +0wC67D84BiiN/yw0UnwNJ6bjMpcK9idPCx+qDFE9RNRECyFfzAvNPbTiJ+gv29uHP2S
-         cjk/8T5dNFqRKxRBxsOtgF6/ZxvIBSZKv2EEz53flGoMeYwi1O9CE1XWwyn2Zh4o7v24
-         sKVYYe5K6Z1Ak0z8N0anoO4gOoW7WR9gs/3zz/nXkwICMWcLH38iTzXhHBASjTVFssUJ
-         1mNrQTawMbzCSZJRcjd/iu4giz9Bt5TmC4a76uB6+Sgw8XtxTpM6kb67TvQ7BoUcr8pJ
-         YMFQ==
+        bh=mlVBJtkw1l7si7jTprgt58L/QjOTckkPdtqQKgZ7qLA=;
+        b=HbC28TWzx5hjpsTEby4+3Bovy0VvxozPBN6WpinMICxBCZ0oA38iqn8HmyqOprZGbR
+         hUA7mNIhvAkapAMXN4ebsw5xtpm70lUGtHvAWZHez1VHSXW16F+hNO1q2c12tcDVY945
+         HfE2sApzBIYwBV/te/W4T+9u9Sr1pWDnpXt4x+TWnuNHFxPoXGKuMwf+3SNRS5kNCI/o
+         RkFYLqic69kP59tN9qAy5UJ+r8S4M1YJ/1kPui2n2Dj8AgIlRlyoDbbXIH8R4If8rxWI
+         aGI1NApmXX7srPQwVK3z1FRd3PYPcOmsT4XkiIt09l9dP3g3BELjuQOccWI3nYqj+NLT
+         x7/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1706308310; x=1706913110;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=WasKokmHV0ULTodbn6qktUa03Tamg95nLPR+rl0Wzos=;
-        b=fI5duBY7CUsdoP7UAJ7h/I27PERhRrryOj7JHzT0hWyv4lyEpHCuRW0tkwubKJaMDo
-         pXAsay+3Teo4xv6Cc+Cv/ORGAALZ52Jm/VrDdUtbjs51afYwNpVEZQsD/g0rDXS4BG/i
-         jcx16J/MNS6DIQmYqlImu0VTITLYkfAVmwxgzSwGeJZeTgvjvF3pANlZKgsgzjB8c8ZZ
-         1JCw4xxZzV/jkOx9V4lQCK+WDyssSsxDo6CJRJZaaNT657b3zeRQhjECYIzBHz0XGVzZ
-         /VoQRKVhynHwcG0G2Lr0idPTMI5vHuFYd56bF8QD1bm2SVB2iqdGWI6ir251FBUVb79q
-         a95Q==
-X-Gm-Message-State: AOJu0YwpT4Dxgvyw1vR/t66j5TxvAQSAObWus+P+9eL73jee8yEOlfRO
-	+asj65YO3ADemr1ZWDvti0wsqrDUNEaZPb3HMWsLQlhrkzTEtKce2906EJopTwE=
-X-Google-Smtp-Source: AGHT+IFLVF8aBWgITFkX88TnjFdYQ2TPyMUNFabtGOuvYDXx+xiMbQhI3OX3zMTB2z6U+N2C7F5BsA==
-X-Received: by 2002:a17:90a:fb58:b0:28f:423f:1cfe with SMTP id iq24-20020a17090afb5800b0028f423f1cfemr541724pjb.18.1706308309861;
-        Fri, 26 Jan 2024 14:31:49 -0800 (PST)
+        bh=mlVBJtkw1l7si7jTprgt58L/QjOTckkPdtqQKgZ7qLA=;
+        b=kjvLauIFlRX/C4ppMfxKNmDqFktmHzfnBeLT0z3kGF0vHb3fRNaxM7WowKFvsSQ8Ok
+         pnDZW2Vfq7k58hm7j9X39k5HyuMZOpL4l3Se4tjAkV9+EcY0SERQtQN7XzR4gsy8waX0
+         ho0tvW01CYiW5O+A3ORWaiQ1C7kktC/3mOMSFzrhJ0ulE2HzliilA+QbPdvARpsNvAgg
+         a23enrRNrwjg/doyAHdexFlF6VwdAsdgY/SGvX4cH2WboZXY5x5qGf+yYF/Pi9/keA3a
+         uauHPkCk39dg0J3C0RGaPFpbOspUCEf98hiA3Ol5Nb4L0Vtn5+6m9JNeC4Opa7bjp8RF
+         plZQ==
+X-Gm-Message-State: AOJu0YwIV+2NgcN0iPzqQPgvjiyb3fB88RdO44UgfDbHUuq9VMziyQq1
+	Pd+Rj235mB+L2HXKP+FdJt54+HmCBbhpV62SHbdg5snAcMKap3u5o60n1+KkJxY=
+X-Google-Smtp-Source: AGHT+IF4CuXSLwk3kOCA4efxj42oBrPzqCRnZnZzDG/Y1fAqMUlIt1QFsdFvcEJ63dU+tJ2KqP+XKQ==
+X-Received: by 2002:a17:90b:3112:b0:28d:2a72:546f with SMTP id gc18-20020a17090b311200b0028d2a72546fmr567830pjb.70.1706308310600;
+        Fri, 26 Jan 2024 14:31:50 -0800 (PST)
 Received: from oatmeal.darkphysics (c-76-146-178-2.hsd1.wa.comcast.net. [76.146.178.2])
-        by smtp.gmail.com with ESMTPSA id n1-20020a170902d0c100b001d8a8f431b7sm737909pln.300.2024.01.26.14.31.49
+        by smtp.gmail.com with ESMTPSA id n1-20020a170902d0c100b001d8a8f431b7sm737909pln.300.2024.01.26.14.31.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jan 2024 14:31:49 -0800 (PST)
+        Fri, 26 Jan 2024 14:31:50 -0800 (PST)
 From: Tree Davies <tdavies@darkphysics.net>
 To: gregkh@linuxfoundation.org,
 	philipp.g.hortmann@gmail.com,
@@ -58,9 +58,9 @@ To: gregkh@linuxfoundation.org,
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Tree Davies <tdavies@darkphysics.net>
-Subject: [PATCH v2 15/18] Staging: rtl8192e: Rename variable Octet
-Date: Fri, 26 Jan 2024 14:31:03 -0800
-Message-Id: <20240126223106.986093-16-tdavies@darkphysics.net>
+Subject: [PATCH v2 16/18] Staging: rtl8192e: Rename variable LpsIdleCount
+Date: Fri, 26 Jan 2024 14:31:04 -0800
+Message-Id: <20240126223106.986093-17-tdavies@darkphysics.net>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240126223106.986093-1-tdavies@darkphysics.net>
 References: <20240126223106.986093-1-tdavies@darkphysics.net>
@@ -72,85 +72,62 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rename variable Octet to octet to fix checkpatch
+Rename variable LpsIdleCount to lps_idle_count to fix checkpatch
 warning Avoid CamelCase.
 
 Signed-off-by: Tree Davies <tdavies@darkphysics.net>
 ---
 v2: No changes.
- drivers/staging/rtl8192e/rtl819x_Qos.h    |  2 +-
- drivers/staging/rtl8192e/rtllib_softmac.c | 16 ++++++++--------
- 2 files changed, 9 insertions(+), 9 deletions(-)
+ drivers/staging/rtl8192e/rtl8192e/rtl_ps.c | 4 ++--
+ drivers/staging/rtl8192e/rtllib.h          | 2 +-
+ drivers/staging/rtl8192e/rtllib_softmac.c  | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/rtl819x_Qos.h b/drivers/staging/rtl8192e/rtl819x_Qos.h
-index 50e01ca49a4c..dc991100742f 100644
---- a/drivers/staging/rtl8192e/rtl819x_Qos.h
-+++ b/drivers/staging/rtl8192e/rtl819x_Qos.h
-@@ -13,7 +13,7 @@ struct qos_tsinfo {
- };
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_ps.c b/drivers/staging/rtl8192e/rtl8192e/rtl_ps.c
+index 44a9fe831849..5aac9110bff6 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_ps.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_ps.c
+@@ -208,12 +208,12 @@ void rtl92e_leisure_ps_enter(struct net_device *dev)
+ 		return;
  
- struct octet_string {
--	u8 *Octet;
-+	u8 *octet;
- 	u16 Length;
- };
+ 	if (psc->bLeisurePs) {
+-		if (psc->LpsIdleCount >= RT_CHECK_FOR_HANG_PERIOD) {
++		if (psc->lps_idle_count >= RT_CHECK_FOR_HANG_PERIOD) {
  
+ 			if (priv->rtllib->ps == RTLLIB_PS_DISABLED)
+ 				_rtl92e_ps_set_mode(dev, RTLLIB_PS_MBCAST | RTLLIB_PS_UNICAST);
+ 		} else {
+-			psc->LpsIdleCount++;
++			psc->lps_idle_count++;
+ 		}
+ 	}
+ }
+diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
+index 8de46b61416b..0ca38ca4d3af 100644
+--- a/drivers/staging/rtl8192e/rtllib.h
++++ b/drivers/staging/rtl8192e/rtllib.h
+@@ -1071,7 +1071,7 @@ struct rt_pwr_save_ctrl {
+ 	enum ips_callback_function ReturnPoint;
+ 
+ 	bool				bLeisurePs;
+-	u8				LpsIdleCount;
++	u8				lps_idle_count;
+ 	u8				lps_awake_intvl;
+ 
+ 	u32				CurPsLevel;
 diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
-index 5281138ad468..e47292455585 100644
+index e47292455585..a7e7a0b0214f 100644
 --- a/drivers/staging/rtl8192e/rtllib_softmac.c
 +++ b/drivers/staging/rtl8192e/rtllib_softmac.c
-@@ -823,17 +823,17 @@ rtllib_association_req(struct rtllib_network *beacon,
- 		struct octet_string osCcxAironetIE;
- 
- 		memset(CcxAironetBuf, 0, 30);
--		osCcxAironetIE.Octet = CcxAironetBuf;
-+		osCcxAironetIE.octet = CcxAironetBuf;
- 		osCcxAironetIE.Length = sizeof(CcxAironetBuf);
--		memcpy(osCcxAironetIE.Octet, AironetIeOui,
-+		memcpy(osCcxAironetIE.octet, AironetIeOui,
- 		       sizeof(AironetIeOui));
- 
--		osCcxAironetIE.Octet[IE_CISCO_FLAG_POSITION] |=
-+		osCcxAironetIE.octet[IE_CISCO_FLAG_POSITION] |=
- 					 (SUPPORT_CKIP_PK | SUPPORT_CKIP_MIC);
- 		tag = skb_put(skb, ckip_ie_len);
- 		*tag++ = MFIE_TYPE_AIRONET;
- 		*tag++ = osCcxAironetIE.Length;
--		memcpy(tag, osCcxAironetIE.Octet, osCcxAironetIE.Length);
-+		memcpy(tag, osCcxAironetIE.octet, osCcxAironetIE.Length);
- 		tag += osCcxAironetIE.Length;
+@@ -1079,7 +1079,7 @@ static void rtllib_associate_complete_wq(void *data)
+ 		ieee->link_detect_info.NumRecvBcnInPeriod = 1;
+ 		ieee->link_detect_info.NumRecvDataInPeriod = 1;
  	}
+-	psc->LpsIdleCount = 0;
++	psc->lps_idle_count = 0;
+ 	ieee->link_change(ieee->dev);
+ }
  
-@@ -842,12 +842,12 @@ rtllib_association_req(struct rtllib_network *beacon,
- 			0x00};
- 		struct octet_string osCcxRmCap;
- 
--		osCcxRmCap.Octet = (u8 *)CcxRmCapBuf;
-+		osCcxRmCap.octet = (u8 *)CcxRmCapBuf;
- 		osCcxRmCap.Length = sizeof(CcxRmCapBuf);
- 		tag = skb_put(skb, ccxrm_ie_len);
- 		*tag++ = MFIE_TYPE_GENERIC;
- 		*tag++ = osCcxRmCap.Length;
--		memcpy(tag, osCcxRmCap.Octet, osCcxRmCap.Length);
-+		memcpy(tag, osCcxRmCap.octet, osCcxRmCap.Length);
- 		tag += osCcxRmCap.Length;
- 	}
- 
-@@ -856,12 +856,12 @@ rtllib_association_req(struct rtllib_network *beacon,
- 		struct octet_string osCcxVerNum;
- 
- 		CcxVerNumBuf[4] = beacon->BssCcxVerNumber;
--		osCcxVerNum.Octet = CcxVerNumBuf;
-+		osCcxVerNum.octet = CcxVerNumBuf;
- 		osCcxVerNum.Length = sizeof(CcxVerNumBuf);
- 		tag = skb_put(skb, cxvernum_ie_len);
- 		*tag++ = MFIE_TYPE_GENERIC;
- 		*tag++ = osCcxVerNum.Length;
--		memcpy(tag, osCcxVerNum.Octet, osCcxVerNum.Length);
-+		memcpy(tag, osCcxVerNum.octet, osCcxVerNum.Length);
- 		tag += osCcxVerNum.Length;
- 	}
- 	if (ieee->ht_info->current_ht_support && ieee->ht_info->enable_ht) {
 -- 
 2.39.2
 
