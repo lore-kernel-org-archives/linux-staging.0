@@ -1,56 +1,56 @@
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88F8760EFD
-	for <linux-staging@lists.linux.dev>; Fri, 26 Jan 2024 23:16:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B74E96167C
+	for <linux-staging@lists.linux.dev>; Fri, 26 Jan 2024 23:16:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706310982; cv=none; b=LhYbW9dHfY+p9b3Z9P5T+saQZhA6jaK2BrqqJE32avs20HZOabKJlCRd1UtgR7m1uhUE2adZo1WD3R9DYaP0oTvBhNiMLpL8dB7+Zsm1voLnhvpXG93GiNz5/rSg41igD6mHIENsN1F6SGIilSRHO19aY33SYZtyogPX3TuoiSU=
+	t=1706310983; cv=none; b=e1ViR8zkc5izdQ0M7waS82TLZXgcSluEM3Oi1cspnJBPY8obzmjiVgEAGtPAgn6vI7BmntLsMKUGS7vgP7t+701bpTdQnU5rGkSIiuIyWo/As7W+MqVhG43c6PR35ug+W9VwU3fVz/yuVoC2qkpju5yk4cUqSiI+NGulGUsm1qU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706310982; c=relaxed/simple;
-	bh=+48T6wmUjtEbzw2F4kReN9y5ew7crNm72mJy9gOUbCI=;
+	s=arc-20240116; t=1706310983; c=relaxed/simple;
+	bh=s7ygjNtkxqQxfIpVyrNczCyGDbA4gmJZOw/Jn1FAax0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=eh/ow1mgMRoWhAwrljaJzuK5mk+Ms4qjGjpmykG64dITwHRAEGKIGSy3eD2JRnI0oxgwLni2Q8fxovYwZKsNLTniRQZPa2rbacUOMrA8WGLoBInpQSCzr9dK6mQGnF4iTMON9bzN1l2zRSs033A72VONXYG3juFbNTs3ZdAiWTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=iWm8bEBn; arc=none smtp.client-ip=209.85.222.180
+	 In-Reply-To:To:Cc; b=rux1pIA0RVAURsbsvTYFjtO2pfrzoyHT1v2hCu6cyU/lbADJDi3m3FECexntWKxahAzVs+odtpsMMGvHxDCWgTaP7e17AoBAoLxxGio2s4gkKgQESdc4rFN5YjLvV23Q+pSjs5osVmiKe1ROjGQFRZsJ4Hmd8GnkqcbRILBoSy0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=NM2A+XA9; arc=none smtp.client-ip=209.85.222.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="iWm8bEBn"
-Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-783b5aeaa63so77650785a.0
-        for <linux-staging@lists.linux.dev>; Fri, 26 Jan 2024 15:16:20 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="NM2A+XA9"
+Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-783dc658b59so61106885a.2
+        for <linux-staging@lists.linux.dev>; Fri, 26 Jan 2024 15:16:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1706310979; x=1706915779; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1706310980; x=1706915780; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=stuI7gBMJumChDGNuDa5NAtrFPgVVPyF9dOhkVEQIZs=;
-        b=iWm8bEBn168IpPZrpE5HkjMroIvfiXSFUwVn2JWPmGGufCwB0SeaxLptcj3I6Ay6hG
-         d7AYlc3mPPJTk8viLpx+j0Y+7C26peEgW5Gf8jSq0IQ/UIb3pzACQniDMthBD6t01RC4
-         TZRM3FsiOGx5SpnFkd3YVj09Rb1yL0t0ErACs=
+        bh=z/RRjO2OK0qr00/hywXC/yqqnZfLNxXiiMwDlCkck/8=;
+        b=NM2A+XA9fvz6MjBgnZ5Gl5H1AyXLkza3465f5tx6TN9gkzjpwnp6BbIe/DZBUA3PgT
+         /CCECWCn0dqhsOQlFa3s6Bv96GkuKfpdsLWFSsWcfeQgiHwswECXplAF65tN391zSk0Y
+         BHAWReKN8Trn08oSiCUZi9lVGuIWvzCq/ZUvs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706310979; x=1706915779;
+        d=1e100.net; s=20230601; t=1706310980; x=1706915780;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=stuI7gBMJumChDGNuDa5NAtrFPgVVPyF9dOhkVEQIZs=;
-        b=Jmc3iSeaqo6O0G4hX43Hibl8Hbap8uJsdDgjxIN4mVc62UGxh0s3Oo7+30FK0LmFin
-         +C4ln8mnQdTtjJJppognfKUJqVSdi88Io3WbPzktS4/Rj6af3WYjDAUJYHOCLuyP3ZTP
-         QR1t310s2iD/KMrbhsWdg2wxoGO4CLEwCbBLRbOYZavv6lWgPGBPb7juLx0HPkl7bthZ
-         j6qYpOVUX6ilkNX/clW3ZZQkq3XBgZ9qfoD9n//lZxjWFJtDjUdhH4DB6ZhaLmqk96vD
-         p8pOEH5xUonAztB/OvSW5VMrePdnbW75iO2SO7ojP4yvVHsAoe05dR6M/W0Jw5MNumbu
-         Twsw==
-X-Gm-Message-State: AOJu0YwVxTa+XZpqfp9twkvI+Q3QNx/+/A+pufRyLYHFB8JXYlDlFxcJ
-	2uI0e+C/v0cJ2aqkGH4bggiV2sNoBWVU4E131yhlISIselRXrGHUA0tC0mbywg==
-X-Google-Smtp-Source: AGHT+IEd+7JsySye9GLJ+DZua0TH24OzjziTyfzLeDvrZrUGlvpFgq8zte88/+mhTsCB6LhfusGKZw==
-X-Received: by 2002:a05:620a:5593:b0:783:bd38:aca6 with SMTP id vq19-20020a05620a559300b00783bd38aca6mr655440qkn.82.1706310979526;
-        Fri, 26 Jan 2024 15:16:19 -0800 (PST)
+        bh=z/RRjO2OK0qr00/hywXC/yqqnZfLNxXiiMwDlCkck/8=;
+        b=fw28nkQhKwG0K2O2oRcsWkqWG5GANMmE/1fHCV4iQFF2jQK7BrL+rwqghB9ncimNiN
+         q5OrHcqWLER1O2GjQ9GcxP5Z3YaLF1IMLVXMC8TxiLXnqyktIbqatkFxuWrCdX4B7i9P
+         HBi0KGkxSK1xM9/X1wKQmCJ/X/WSsA4SaOCCkEZsN2k7v+DpP9T5KrGW5nJXvsJok/mJ
+         QhAUiy6im/pP66BbiSBTnfUBiWbBU4C8/yiK3OOtbku4oQ6hyNSMAMzo0NbkeqFi7Q+x
+         ieODwk1FMWtIiOTh2IeiqxlbenMtiRDLtCM1fytLklfacX5oQpLpyhWX4F5H2w0qbNkb
+         YsWQ==
+X-Gm-Message-State: AOJu0YzqisneO9Dkq7q5JZj2RsgUfyFdHyHU3/DwV7+67DmidJyCRZCY
+	ypy4dfVteLx+e9//qho4m+vyGxkLPrumRooztNl5BnCKrFKfvA1I0ND2+Vaywg==
+X-Google-Smtp-Source: AGHT+IHKRlOu9LCpALD6RY5rOpayWfV+md9Ii2K85hj6JHlytziq3n5aAFRxrPIkRTY/lkweMMhnsA==
+X-Received: by 2002:ae9:e716:0:b0:783:4e2:de7f with SMTP id m22-20020ae9e716000000b0078304e2de7fmr555937qka.113.1706310980532;
+        Fri, 26 Jan 2024 15:16:20 -0800 (PST)
 Received: from denia.c.googlers.com (240.157.150.34.bc.googleusercontent.com. [34.150.157.240])
-        by smtp.gmail.com with ESMTPSA id m4-20020a05620a290400b00783de3ddf5esm507358qkp.70.2024.01.26.15.16.18
+        by smtp.gmail.com with ESMTPSA id m4-20020a05620a290400b00783de3ddf5esm507358qkp.70.2024.01.26.15.16.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jan 2024 15:16:19 -0800 (PST)
+        Fri, 26 Jan 2024 15:16:20 -0800 (PST)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Fri, 26 Jan 2024 23:16:12 +0000
-Subject: [PATCH 13/17] media: samsung: s5p-mfc: Fix kerneldoc
+Date: Fri, 26 Jan 2024 23:16:13 +0000
+Subject: [PATCH 14/17] media: dvb-usb: Fix kerneldoc
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -59,7 +59,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240126-gix-mtk-warnings-v1-13-eed7865fce18@chromium.org>
+Message-Id: <20240126-gix-mtk-warnings-v1-14-eed7865fce18@chromium.org>
 References: <20240126-gix-mtk-warnings-v1-0-eed7865fce18@chromium.org>
 In-Reply-To: <20240126-gix-mtk-warnings-v1-0-eed7865fce18@chromium.org>
 To: Tiffany Lin <tiffany.lin@mediatek.com>, 
@@ -97,25 +97,26 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-amlogic@lists.infradead.org, Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.12.3
 
-Remove doc from missing fields.
+Remove kerneldoc from missing fields.
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/platform/samsung/s5p-mfc/s5p_mfc_common.h | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/media/usb/dvb-usb/dvb-usb.h | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_common.h b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_common.h
-index 59450b324f7d..7e7e7b695b53 100644
---- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_common.h
-+++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_common.h
-@@ -612,7 +612,6 @@ struct s5p_mfc_codec_ops {
-  * @chroma_dpb_size:	dpb buffer size for chroma
-  * @me_buffer_size:	size of the motion estimation buffer
-  * @tmv_buffer_size:	size of temporal predictor motion vector buffer
-- * @frame_type:		used to force the type of the next encoded frame
-  * @ref_queue:		list of the reference buffers for encoding
-  * @force_frame_type:	encoder's frame type forcing control
-  * @ref_queue_cnt:	number of the buffers in the reference list
+diff --git a/drivers/media/usb/dvb-usb/dvb-usb.h b/drivers/media/usb/dvb-usb/dvb-usb.h
+index 0990aa4a17bb..cbb0541d4dc1 100644
+--- a/drivers/media/usb/dvb-usb/dvb-usb.h
++++ b/drivers/media/usb/dvb-usb/dvb-usb.h
+@@ -126,8 +126,6 @@ struct usb_data_stream_properties {
+  * @caps: capabilities of the DVB USB device.
+  * @pid_filter_count: number of PID filter position in the optional hardware
+  *  PID-filter.
+- * @num_frontends: number of frontends of the DVB USB adapter.
+- * @frontend_ctrl: called to power on/off active frontend.
+  * @streaming_ctrl: called to start and stop the MPEG2-TS streaming of the
+  *  device (not URB submitting/killing).
+  *  This callback will be called without data URBs being active - data URBs
 
 -- 
 2.43.0.429.g432eaa2c6b-goog
