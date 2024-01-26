@@ -1,56 +1,56 @@
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B74E96167C
-	for <linux-staging@lists.linux.dev>; Fri, 26 Jan 2024 23:16:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68258627E6
+	for <linux-staging@lists.linux.dev>; Fri, 26 Jan 2024 23:16:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706310983; cv=none; b=e1ViR8zkc5izdQ0M7waS82TLZXgcSluEM3Oi1cspnJBPY8obzmjiVgEAGtPAgn6vI7BmntLsMKUGS7vgP7t+701bpTdQnU5rGkSIiuIyWo/As7W+MqVhG43c6PR35ug+W9VwU3fVz/yuVoC2qkpju5yk4cUqSiI+NGulGUsm1qU=
+	t=1706310984; cv=none; b=eNrKla7U6SYkDHmslLv78wIzTjVfaH8Ddgvkqj5s4Kq+cqLD1NdN15U+zMUbMjcsDmBFdiMuPAVxXNVzO+yOitaumFNVQdwndWSASyGliaqdaMpsoWkJC+Z9SFEQJt2HRtrtQKnq76E9jKt42JPAxQ+GYcx2Ah9gYLJMG7rDg1Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706310983; c=relaxed/simple;
-	bh=s7ygjNtkxqQxfIpVyrNczCyGDbA4gmJZOw/Jn1FAax0=;
+	s=arc-20240116; t=1706310984; c=relaxed/simple;
+	bh=GULyhm197w5UOJZcKZKq9bcfe1J5MHmZHKsYUDSi6mo=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=rux1pIA0RVAURsbsvTYFjtO2pfrzoyHT1v2hCu6cyU/lbADJDi3m3FECexntWKxahAzVs+odtpsMMGvHxDCWgTaP7e17AoBAoLxxGio2s4gkKgQESdc4rFN5YjLvV23Q+pSjs5osVmiKe1ROjGQFRZsJ4Hmd8GnkqcbRILBoSy0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=NM2A+XA9; arc=none smtp.client-ip=209.85.222.179
+	 In-Reply-To:To:Cc; b=I8mZQ3B47xqHflmZ2a6S33wec6zZtSNl0TcE7yXbFD85XjFz5c6AsbWuFfhirlMcjIkCyr8UT1reEChDmJXx/4SM9HxTXoXArwViAwVP8PPuiA84Oni6PF0Aa3aWzdzh/L7aa8865iIjKJRmUFUBfhpWUEzo/1CI9YDaHsYJMIE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=jhMkSRSp; arc=none smtp.client-ip=209.85.167.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="NM2A+XA9"
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-783dc658b59so61106885a.2
-        for <linux-staging@lists.linux.dev>; Fri, 26 Jan 2024 15:16:21 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="jhMkSRSp"
+Received: by mail-oi1-f169.google.com with SMTP id 5614622812f47-3be15269679so53437b6e.2
+        for <linux-staging@lists.linux.dev>; Fri, 26 Jan 2024 15:16:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1706310980; x=1706915780; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1706310981; x=1706915781; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=z/RRjO2OK0qr00/hywXC/yqqnZfLNxXiiMwDlCkck/8=;
-        b=NM2A+XA9fvz6MjBgnZ5Gl5H1AyXLkza3465f5tx6TN9gkzjpwnp6BbIe/DZBUA3PgT
-         /CCECWCn0dqhsOQlFa3s6Bv96GkuKfpdsLWFSsWcfeQgiHwswECXplAF65tN391zSk0Y
-         BHAWReKN8Trn08oSiCUZi9lVGuIWvzCq/ZUvs=
+        bh=yCxJ4tiFippaBrxy1sFWSD98oDdK4KvGR8VQl9S7yQ4=;
+        b=jhMkSRSpkNH65wPGbKo1s7kWtbMdAEVGAOJakxL79ybzepnX431gFkWhvcsnd76ZXL
+         8K0b3bqkBd3qF1dkaKUf1jay9ur2wHZr/DSBS39tU3Kbz/KokB0up+SvqjRJpHpEqW+e
+         ME2Qhl9HMKq2sUPNwx5lntq+YN9audZmIbLmI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706310980; x=1706915780;
+        d=1e100.net; s=20230601; t=1706310981; x=1706915781;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=z/RRjO2OK0qr00/hywXC/yqqnZfLNxXiiMwDlCkck/8=;
-        b=fw28nkQhKwG0K2O2oRcsWkqWG5GANMmE/1fHCV4iQFF2jQK7BrL+rwqghB9ncimNiN
-         q5OrHcqWLER1O2GjQ9GcxP5Z3YaLF1IMLVXMC8TxiLXnqyktIbqatkFxuWrCdX4B7i9P
-         HBi0KGkxSK1xM9/X1wKQmCJ/X/WSsA4SaOCCkEZsN2k7v+DpP9T5KrGW5nJXvsJok/mJ
-         QhAUiy6im/pP66BbiSBTnfUBiWbBU4C8/yiK3OOtbku4oQ6hyNSMAMzo0NbkeqFi7Q+x
-         ieODwk1FMWtIiOTh2IeiqxlbenMtiRDLtCM1fytLklfacX5oQpLpyhWX4F5H2w0qbNkb
-         YsWQ==
-X-Gm-Message-State: AOJu0YzqisneO9Dkq7q5JZj2RsgUfyFdHyHU3/DwV7+67DmidJyCRZCY
-	ypy4dfVteLx+e9//qho4m+vyGxkLPrumRooztNl5BnCKrFKfvA1I0ND2+Vaywg==
-X-Google-Smtp-Source: AGHT+IHKRlOu9LCpALD6RY5rOpayWfV+md9Ii2K85hj6JHlytziq3n5aAFRxrPIkRTY/lkweMMhnsA==
-X-Received: by 2002:ae9:e716:0:b0:783:4e2:de7f with SMTP id m22-20020ae9e716000000b0078304e2de7fmr555937qka.113.1706310980532;
-        Fri, 26 Jan 2024 15:16:20 -0800 (PST)
+        bh=yCxJ4tiFippaBrxy1sFWSD98oDdK4KvGR8VQl9S7yQ4=;
+        b=T7OCTiV9s0/aa+raALrjmfMhkO7csmZS2LwW8HFtarLkuLTCTGVk6lNLA9IRzTraoj
+         /gQTq4yDPFaHwjy/qDv5SVLtQBAATj4jswBabhRsKaOFiP5VwjOqIzacbuQ1GIRWSr82
+         Y+QhL6v7MC2iMZWPuGtFKW7WH7A0hIG6b5qiZbnumggxRDAK/18zKXVQyOVBE9afMi8p
+         ZpNO/WZhMxVExVMgO2DS2Np8jfY4T9IxILw+1AIi3C/e9Bb6wlIKDYt0Fd5wsz4wrrGV
+         1RavSZ3EF/n/7mUi68R7GNc/wrvth4DUjdBKSgVwjnvD6msc0uP3u3AmnSMT7KKwNff1
+         72Pg==
+X-Gm-Message-State: AOJu0YyGTvr9zacarTaufex5J78GepuLNMQwaEoHc/+h3wW4iAJfNpi2
+	ThTgY4FbujsZPgsd3F8JMSr9sEmVs7v84M02z25keavCV11gSfKxzq22yKwIGA==
+X-Google-Smtp-Source: AGHT+IG2D3NC+8qBPHrcajc/wj1UJVv6b2Ko0Gyqx05WQt6GLVPDwCaJl+4BVmpG1ygKipZTOYQ4Rw==
+X-Received: by 2002:a05:6808:124d:b0:3bd:c98e:bf88 with SMTP id o13-20020a056808124d00b003bdc98ebf88mr451359oiv.79.1706310981414;
+        Fri, 26 Jan 2024 15:16:21 -0800 (PST)
 Received: from denia.c.googlers.com (240.157.150.34.bc.googleusercontent.com. [34.150.157.240])
-        by smtp.gmail.com with ESMTPSA id m4-20020a05620a290400b00783de3ddf5esm507358qkp.70.2024.01.26.15.16.19
+        by smtp.gmail.com with ESMTPSA id m4-20020a05620a290400b00783de3ddf5esm507358qkp.70.2024.01.26.15.16.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jan 2024 15:16:20 -0800 (PST)
+        Fri, 26 Jan 2024 15:16:21 -0800 (PST)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Fri, 26 Jan 2024 23:16:13 +0000
-Subject: [PATCH 14/17] media: dvb-usb: Fix kerneldoc
+Date: Fri, 26 Jan 2024 23:16:14 +0000
+Subject: [PATCH 15/17] media: ipu3: Fix kerneldoc
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -59,7 +59,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240126-gix-mtk-warnings-v1-14-eed7865fce18@chromium.org>
+Message-Id: <20240126-gix-mtk-warnings-v1-15-eed7865fce18@chromium.org>
 References: <20240126-gix-mtk-warnings-v1-0-eed7865fce18@chromium.org>
 In-Reply-To: <20240126-gix-mtk-warnings-v1-0-eed7865fce18@chromium.org>
 To: Tiffany Lin <tiffany.lin@mediatek.com>, 
@@ -97,26 +97,37 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-amlogic@lists.infradead.org, Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.12.3
 
-Remove kerneldoc from missing fields.
+Remove documentation from missing fields.
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/usb/dvb-usb/dvb-usb.h | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/staging/media/ipu3/include/uapi/intel-ipu3.h | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/media/usb/dvb-usb/dvb-usb.h b/drivers/media/usb/dvb-usb/dvb-usb.h
-index 0990aa4a17bb..cbb0541d4dc1 100644
---- a/drivers/media/usb/dvb-usb/dvb-usb.h
-+++ b/drivers/media/usb/dvb-usb/dvb-usb.h
-@@ -126,8 +126,6 @@ struct usb_data_stream_properties {
-  * @caps: capabilities of the DVB USB device.
-  * @pid_filter_count: number of PID filter position in the optional hardware
-  *  PID-filter.
-- * @num_frontends: number of frontends of the DVB USB adapter.
-- * @frontend_ctrl: called to power on/off active frontend.
-  * @streaming_ctrl: called to start and stop the MPEG2-TS streaming of the
-  *  device (not URB submitting/killing).
-  *  This callback will be called without data URBs being active - data URBs
+diff --git a/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h b/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
+index caa358e0bae4..4aa2797f5e3c 100644
+--- a/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
++++ b/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
+@@ -2485,11 +2485,9 @@ struct ipu3_uapi_anr_config {
+  *		&ipu3_uapi_yuvp1_y_ee_nr_config
+  * @yds:	y down scaler config. See &ipu3_uapi_yuvp1_yds_config
+  * @chnr:	chroma noise reduction config. See &ipu3_uapi_yuvp1_chnr_config
+- * @reserved1: reserved
+  * @yds2:	y channel down scaler config. See &ipu3_uapi_yuvp1_yds_config
+  * @tcc:	total color correction config as defined in struct
+  *		&ipu3_uapi_yuvp2_tcc_static_config
+- * @reserved2: reserved
+  * @anr:	advanced noise reduction config.See &ipu3_uapi_anr_config
+  * @awb_fr:	AWB filter response config. See ipu3_uapi_awb_fr_config
+  * @ae:	auto exposure config  As specified by &ipu3_uapi_ae_config
+@@ -2724,7 +2722,6 @@ struct ipu3_uapi_obgrid_param {
+  * @acc_ae: 0 = no update, 1 = update.
+  * @acc_af: 0 = no update, 1 = update.
+  * @acc_awb: 0 = no update, 1 = update.
+- * @__acc_osys: 0 = no update, 1 = update.
+  * @reserved3: Not used.
+  * @lin_vmem_params: 0 = no update, 1 = update.
+  * @tnr3_vmem_params: 0 = no update, 1 = update.
 
 -- 
 2.43.0.429.g432eaa2c6b-goog
