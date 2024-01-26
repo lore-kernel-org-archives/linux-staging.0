@@ -1,56 +1,56 @@
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37A4160876
-	for <linux-staging@lists.linux.dev>; Fri, 26 Jan 2024 23:16:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D05F6089F
+	for <linux-staging@lists.linux.dev>; Fri, 26 Jan 2024 23:16:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706310978; cv=none; b=sh//GbrEEhpOx0MUQQ+4GiHj0P98Jc00J3DlXY7x9/DoppNOlKTPno4bUdpph3Qa6QS9c3oYy3drjVZT1AQ8QvoQNrYMon+wwLBPChXKCtEzoJaeM7Ki+TLBrH3w/ToAU2r3zt+ak0vkfqS2MyYXpRDRUNtVwNSM0A4E8UqcwQY=
+	t=1706310979; cv=none; b=NQKc9KjExMWlHBUybC9brqAYKyiYDmgRZL7BOmoT+2iYY4DZWncTO2aF00wpwe//vw0PinpxhNzsVmmv6DVdODGW4pi+3OtG4Y4qiMK3/7PgwdsRxgYKagyQXT6FtEoiUNe0TMTDyx+MZ5VQ/DDT8Lok3+JWcHwe3lT0sHuSTWs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706310978; c=relaxed/simple;
-	bh=B6zEqxG5rqQR51zJ3+OSzp49ESM0jCrcuqW7/EIH/N8=;
+	s=arc-20240116; t=1706310979; c=relaxed/simple;
+	bh=D9jb+fZPg4cu81svPtGcxnqe5Dh39wQmeEcuV3Gqubk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=VYHHnRhca46BWuHXkw5MS3D8YP8uLVmZFgHkcskh7uwl7k9cL1Dl0bNbMrtslv0WUvALPGxriGuwUZ73lWlqml8lktorS+Kc1i5QXG5YlRFtwCX35X/xGtpT5PmqHcUhOuRFblcK/ZPyuS7uDdgxi14Qljg670E7/JRFgGuMk/g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=EQFb2AMi; arc=none smtp.client-ip=209.85.222.179
+	 In-Reply-To:To:Cc; b=J750ySZZRxOtltLrhwY9Gov2UMeokgKsUDBMTFw3Jg8BQRw1AfY9ZsZTkYW9i7EDAMw6Auh3WuhMgxed6gJgWMpaNd9MDAPKANxQdDffTsOzYNGNJrEIcONYiHOfYaTC//UPbGojDJfCokP/SiQ/ABt+sRQISF98NGyvXZVzMlU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=A1w4ENuR; arc=none smtp.client-ip=209.85.222.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="EQFb2AMi"
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-7835aea8012so87058985a.0
-        for <linux-staging@lists.linux.dev>; Fri, 26 Jan 2024 15:16:15 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="A1w4ENuR"
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-783bc26b24aso66155585a.0
+        for <linux-staging@lists.linux.dev>; Fri, 26 Jan 2024 15:16:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1706310975; x=1706915775; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1706310976; x=1706915776; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=2rgIqJyES8gEo830PNonJo5H+atO47Cm+Ctp+2scN+Q=;
-        b=EQFb2AMiDs/42Rg8XgHXwfJJkd8yffQZ2pjWCDfu/OWY4rVkStUuovV5KtG0KpppEU
-         mVsLjXuJvlkBj8+maG1/n/x89VWYI2bCMTKuBhzEcxblQsEEY4D2yEcWKQ8sgi1ZkUc5
-         sQi9vVQE0zJTI3hrAwoDBrY4BqYn3VC0wWv6s=
+        bh=ppFxbOlS/v6G/Iyc2Jdz2aiKlAo+YrKUjtIhEQOSvas=;
+        b=A1w4ENuRsY7zVfG7xhw3W4/vxOs6o3ImTZcg7YIkUv2vBhx6PHxkXgMEtmHhdvTKRm
+         7o2N/VCW0WyWhdXYuFfMeS4k13AgeCeugagQoB6jJ6BQxA7r4CQwGStmWvjPSplInpkg
+         ugRaIzIC2JmZSkJ10CCHB6HQ5S6fvsw+qpBmg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706310975; x=1706915775;
+        d=1e100.net; s=20230601; t=1706310976; x=1706915776;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=2rgIqJyES8gEo830PNonJo5H+atO47Cm+Ctp+2scN+Q=;
-        b=MEnCvtPJ4w/Kor0D4zmUsMwABHljXN3zU3Ezp3qOmPgofVCnAkeu3ZVIxIPI5A5Y+h
-         JjHGJcXxMESvKF/8kxXlSvVmnngjbiAoMl73RY6nIzqtHUYuw93VrwdXdJ6dqT0Mq6zq
-         LVJzg+CEiIjJK4swExKwVlIV47fF0MIXjtXlCfs+/6LuIwwnj64eEz4gLRdt/pvpk/vK
-         m7CYrv+grrmukDOQoCEr4GP0L972nicw3Dug8PvrRDpHdzOZkxYCFJn9yIWdq/2wzYLn
-         K4+ajSqMBviuzTLpR/iQOuFgeUjQVMXbWzUYH51Hvx1EKKlwG7NulsRn17QLZcnXWnfs
-         bGww==
-X-Gm-Message-State: AOJu0Yy4HYmOShKieuJTPe00rq6drFoH2zboBUBvGVgyyvNd2fzsNuvi
-	6r+Oi1SXs7oSD5V0QvdR8FkD6ghotu5NQiIsFKEWK88ndPugnPqo28eF4XwNDQ==
-X-Google-Smtp-Source: AGHT+IFd4epluudoTRMCuHg+DI2SZnbO+Lp5toeNsVP6WGNIo3gmA/FS5q4GFf/JRmu/UhK6CO/sRA==
-X-Received: by 2002:a05:620a:137c:b0:783:9ab7:374 with SMTP id d28-20020a05620a137c00b007839ab70374mr557152qkl.8.1706310975053;
-        Fri, 26 Jan 2024 15:16:15 -0800 (PST)
+        bh=ppFxbOlS/v6G/Iyc2Jdz2aiKlAo+YrKUjtIhEQOSvas=;
+        b=BZSYEPQl2TN2kg6Y+OAJ2XdBAh6V9l4D5rSJOZfiZSNFkvBxeXaL7W4DEL21fnreKD
+         oystMcHBcXjgXs8W4ygLXT5NV9gICPkAMIvt30j6l1R54DQ52zcC+M1+LSp+zgMB7jLv
+         mjFNTgJu3EDIPTuJ0ASDGTnSdWcg/Yokdx6L2/fBfUOGy2WF59HKi6o3i4Q/h9Vxinj7
+         wkmg0u/F4mdIIfOnokAkfU3OMJAc88YQDUpy4CrA1KMBnE1Y9+SyJJXIRxhBuHTyOkXi
+         FJofMdMo9MXmfjH05/pBgC8vFDMU/cwuWIJrQ7ZhcQhyST9QRSfD9h/GPObr3VkjpaD7
+         /qCQ==
+X-Gm-Message-State: AOJu0YwKa5gRxTCZJ/ODPhG01wU51XqvdXmhYO9pVQPij6P//h7jwyVI
+	H4KVcrefMPMWnWGm7Ovkg6yOOHKnTJdntVJQ7dQozus6wRZF5UHKP/yiFXY+Pw==
+X-Google-Smtp-Source: AGHT+IGIpAsQSjaDQPGQ6LECGQr9cN1m4828+DZymi0+3bzM+4XluVJo4MprbQD7HbxK6yJ3CFbmNg==
+X-Received: by 2002:a05:620a:2182:b0:783:e064:aa09 with SMTP id g2-20020a05620a218200b00783e064aa09mr622459qka.115.1706310976118;
+        Fri, 26 Jan 2024 15:16:16 -0800 (PST)
 Received: from denia.c.googlers.com (240.157.150.34.bc.googleusercontent.com. [34.150.157.240])
-        by smtp.gmail.com with ESMTPSA id m4-20020a05620a290400b00783de3ddf5esm507358qkp.70.2024.01.26.15.16.14
+        by smtp.gmail.com with ESMTPSA id m4-20020a05620a290400b00783de3ddf5esm507358qkp.70.2024.01.26.15.16.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jan 2024 15:16:14 -0800 (PST)
+        Fri, 26 Jan 2024 15:16:15 -0800 (PST)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Fri, 26 Jan 2024 23:16:08 +0000
-Subject: [PATCH 09/17] media: mediatek: vcodec: Fix kerneldoc
+Date: Fri, 26 Jan 2024 23:16:09 +0000
+Subject: [PATCH 10/17] media: verisilicon: Fix kerneldoc
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -59,7 +59,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240126-gix-mtk-warnings-v1-9-eed7865fce18@chromium.org>
+Message-Id: <20240126-gix-mtk-warnings-v1-10-eed7865fce18@chromium.org>
 References: <20240126-gix-mtk-warnings-v1-0-eed7865fce18@chromium.org>
 In-Reply-To: <20240126-gix-mtk-warnings-v1-0-eed7865fce18@chromium.org>
 To: Tiffany Lin <tiffany.lin@mediatek.com>, 
@@ -97,51 +97,25 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-amlogic@lists.infradead.org, Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.12.3
 
-Those fields have been removed. They do not need to be documented.
+The field is not part of the structure. Remove the doc.
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.h | 1 -
- drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.h    | 1 -
- drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.h | 1 -
- 3 files changed, 3 deletions(-)
+ drivers/media/platform/verisilicon/hantro.h | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.h b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.h
-index ece27c880e50..1af075fc0194 100644
---- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.h
-+++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.h
-@@ -39,7 +39,6 @@ struct vdec_fb {
- /**
-  * struct mtk_video_dec_buf - Private data related to each VB2 buffer.
-  * @m2m_buf:	M2M buffer
-- * @list:	link list
-  * @used:	Capture buffer contain decoded frame data and keep in
-  *			codec data structure
-  * @queued_in_vb2:	Capture buffer is queue in vb2
-diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.h b/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.h
-index fbb3f34a73f0..aa7d08afc2f4 100644
---- a/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.h
-+++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.h
-@@ -22,7 +22,6 @@ struct mtk_vcodec_dec_ctx;
-  *                in place of inst_addr in messages.
-  * @signaled    : 1 - Host has received ack message from VPU, 0 - not received
-  * @ctx         : context for v4l2 layer integration
-- * @dev		: platform device of VPU
-  * @wq          : wait queue to wait VPU message ack
-  * @handler     : ipi handler for each decoder
-  * @codec_type     : use codec type to separate different codecs
-diff --git a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.h b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.h
-index 82246401ed4a..908d8179b2d2 100644
---- a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.h
-+++ b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.h
-@@ -26,7 +26,6 @@
- /**
-  * struct mtk_video_enc_buf - Private data related to each VB2 buffer.
-  * @m2m_buf:	M2M buffer
-- * @list:	list that buffer link to
-  * @param_change: Types of encode parameter change before encoding this
-  *				buffer
-  * @enc_params: Encode parameters changed before encode this buffer
+diff --git a/drivers/media/platform/verisilicon/hantro.h b/drivers/media/platform/verisilicon/hantro.h
+index 6f5eb975d0e3..811260dc3c77 100644
+--- a/drivers/media/platform/verisilicon/hantro.h
++++ b/drivers/media/platform/verisilicon/hantro.h
+@@ -237,7 +237,6 @@ struct hantro_dev {
+  * @codec_ops:		Set of operations related to codec mode.
+  * @postproc:		Post-processing context.
+  * @h264_dec:		H.264-decoding context.
+- * @jpeg_enc:		JPEG-encoding context.
+  * @mpeg2_dec:		MPEG-2-decoding context.
+  * @vp8_dec:		VP8-decoding context.
+  * @hevc_dec:		HEVC-decoding context.
 
 -- 
 2.43.0.429.g432eaa2c6b-goog
