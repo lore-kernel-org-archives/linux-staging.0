@@ -1,56 +1,56 @@
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75FA260DF9
-	for <linux-staging@lists.linux.dev>; Fri, 26 Jan 2024 23:16:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88F8760EFD
+	for <linux-staging@lists.linux.dev>; Fri, 26 Jan 2024 23:16:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706310981; cv=none; b=FPnYxBFJrD6SqADwklqEdbRN0X+RvVqwvpinb2nJe9+AXIoqUIyLIMgoIqiZle/Vml3fLCOp9O/CbTUQmyqcuV7MwudUPuRxTI8GNxPrm8HvAokJXNOo7JpA/JSi0L7r3qGdkqJHbIKXDBIbZGdOlvXm+M7ugsTH+IPpbb51GO0=
+	t=1706310982; cv=none; b=LhYbW9dHfY+p9b3Z9P5T+saQZhA6jaK2BrqqJE32avs20HZOabKJlCRd1UtgR7m1uhUE2adZo1WD3R9DYaP0oTvBhNiMLpL8dB7+Zsm1voLnhvpXG93GiNz5/rSg41igD6mHIENsN1F6SGIilSRHO19aY33SYZtyogPX3TuoiSU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706310981; c=relaxed/simple;
-	bh=vK6wWsO5Przh/ojH3JfCu7YYSoz/Cg2xAeL1Dht8Uos=;
+	s=arc-20240116; t=1706310982; c=relaxed/simple;
+	bh=+48T6wmUjtEbzw2F4kReN9y5ew7crNm72mJy9gOUbCI=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=kO/X6VmZcGyLBl/gc32DxNwdQhdjjafqkpDHHNXnKnWNGboP50rthxpOMPKTL8BKPPsvCrwXMKCJoYKFJQ16Plbl05UDpAnuBRbSASkok2MWQmf548ZLFI+PKkHnV9XjVclZKSotXHlj/8PK7jaq8oD+x36bAMJ3o+OHlpWk25E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=hc3+MBEk; arc=none smtp.client-ip=209.85.222.171
+	 In-Reply-To:To:Cc; b=eh/ow1mgMRoWhAwrljaJzuK5mk+Ms4qjGjpmykG64dITwHRAEGKIGSy3eD2JRnI0oxgwLni2Q8fxovYwZKsNLTniRQZPa2rbacUOMrA8WGLoBInpQSCzr9dK6mQGnF4iTMON9bzN1l2zRSs033A72VONXYG3juFbNTs3ZdAiWTo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=iWm8bEBn; arc=none smtp.client-ip=209.85.222.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="hc3+MBEk"
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-783195e57c7so67271285a.2
-        for <linux-staging@lists.linux.dev>; Fri, 26 Jan 2024 15:16:19 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="iWm8bEBn"
+Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-783b5aeaa63so77650785a.0
+        for <linux-staging@lists.linux.dev>; Fri, 26 Jan 2024 15:16:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1706310978; x=1706915778; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1706310979; x=1706915779; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=vJoiaHjGhItBXZj/CWSZG5W6mZ9RrzIgj+3pNfG2j8c=;
-        b=hc3+MBEkOVhbI1jfbjubX0LfwGfc2qlkq9MeY0qyUUoqY9T0+CIsAQNBPMhibV8rTg
-         AqyNbDz6+yE2PLawdtChKUTvyuoPIiifdlz91Sgrn062zbh1yXnh3vWB1nvAKaNAirHC
-         kJKDVZHdUavJwbJzGH2f8oBLi/JRRYPwZRyK0=
+        bh=stuI7gBMJumChDGNuDa5NAtrFPgVVPyF9dOhkVEQIZs=;
+        b=iWm8bEBn168IpPZrpE5HkjMroIvfiXSFUwVn2JWPmGGufCwB0SeaxLptcj3I6Ay6hG
+         d7AYlc3mPPJTk8viLpx+j0Y+7C26peEgW5Gf8jSq0IQ/UIb3pzACQniDMthBD6t01RC4
+         TZRM3FsiOGx5SpnFkd3YVj09Rb1yL0t0ErACs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706310978; x=1706915778;
+        d=1e100.net; s=20230601; t=1706310979; x=1706915779;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=vJoiaHjGhItBXZj/CWSZG5W6mZ9RrzIgj+3pNfG2j8c=;
-        b=CgnULj8zumbdL9sLJQ4w+qTvFPcGvdp6EuiUUqlYI26AaLjWJ61GF5R3mN6bA6ds6/
-         T2CtDpD+n8dOejRI1J24cZVtYKIJVnYe8NcErO6VzXBffPHOYGLsfkvkBbfdgvE7vgfv
-         tg1WoFirVD2e6F3EgR6rpAoktT3+VAGwy7yEl1estkGUqKFZAn6G9/TdpQinPBoFDCjE
-         b/jdrCbVF7YphlSOvnfTWOLIuV8UpZTAeu3ohMNQ4a1dlmQhx3vYcyJ5tvgHkRb7DnLL
-         pnvVUJ67++wHolHqLW3s2BLrCCKf7Zjpgf+5zoqBI2gT3mhjqz8DZ4g3Irnn0a6f2m8N
-         Gisw==
-X-Gm-Message-State: AOJu0YzKMHiqvfAx84ATFkWsNi0Ha86U3JqRYGg6BDP571CpfAcexd2I
-	UqidXxVHHjwFY+H8eh4Elav2RlYXB99ERqMMpnwtJrrNkzm/8CeA1YOTtF5Esw==
-X-Google-Smtp-Source: AGHT+IFhQN8B5FsPqeRzzxRDyy6PJ/YXcjzquYxGB3Ad9UBljkLUVzxY+WO/snoMGhjDTG+ZaJzFDw==
-X-Received: by 2002:a05:620a:108f:b0:783:df3d:ae88 with SMTP id g15-20020a05620a108f00b00783df3dae88mr485948qkk.49.1706310978262;
-        Fri, 26 Jan 2024 15:16:18 -0800 (PST)
+        bh=stuI7gBMJumChDGNuDa5NAtrFPgVVPyF9dOhkVEQIZs=;
+        b=Jmc3iSeaqo6O0G4hX43Hibl8Hbap8uJsdDgjxIN4mVc62UGxh0s3Oo7+30FK0LmFin
+         +C4ln8mnQdTtjJJppognfKUJqVSdi88Io3WbPzktS4/Rj6af3WYjDAUJYHOCLuyP3ZTP
+         QR1t310s2iD/KMrbhsWdg2wxoGO4CLEwCbBLRbOYZavv6lWgPGBPb7juLx0HPkl7bthZ
+         j6qYpOVUX6ilkNX/clW3ZZQkq3XBgZ9qfoD9n//lZxjWFJtDjUdhH4DB6ZhaLmqk96vD
+         p8pOEH5xUonAztB/OvSW5VMrePdnbW75iO2SO7ojP4yvVHsAoe05dR6M/W0Jw5MNumbu
+         Twsw==
+X-Gm-Message-State: AOJu0YwVxTa+XZpqfp9twkvI+Q3QNx/+/A+pufRyLYHFB8JXYlDlFxcJ
+	2uI0e+C/v0cJ2aqkGH4bggiV2sNoBWVU4E131yhlISIselRXrGHUA0tC0mbywg==
+X-Google-Smtp-Source: AGHT+IEd+7JsySye9GLJ+DZua0TH24OzjziTyfzLeDvrZrUGlvpFgq8zte88/+mhTsCB6LhfusGKZw==
+X-Received: by 2002:a05:620a:5593:b0:783:bd38:aca6 with SMTP id vq19-20020a05620a559300b00783bd38aca6mr655440qkn.82.1706310979526;
+        Fri, 26 Jan 2024 15:16:19 -0800 (PST)
 Received: from denia.c.googlers.com (240.157.150.34.bc.googleusercontent.com. [34.150.157.240])
-        by smtp.gmail.com with ESMTPSA id m4-20020a05620a290400b00783de3ddf5esm507358qkp.70.2024.01.26.15.16.17
+        by smtp.gmail.com with ESMTPSA id m4-20020a05620a290400b00783de3ddf5esm507358qkp.70.2024.01.26.15.16.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jan 2024 15:16:17 -0800 (PST)
+        Fri, 26 Jan 2024 15:16:19 -0800 (PST)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Fri, 26 Jan 2024 23:16:11 +0000
-Subject: [PATCH 12/17] media: samsung: exynos4-is: Fix kerneldoc
+Date: Fri, 26 Jan 2024 23:16:12 +0000
+Subject: [PATCH 13/17] media: samsung: s5p-mfc: Fix kerneldoc
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -59,7 +59,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240126-gix-mtk-warnings-v1-12-eed7865fce18@chromium.org>
+Message-Id: <20240126-gix-mtk-warnings-v1-13-eed7865fce18@chromium.org>
 References: <20240126-gix-mtk-warnings-v1-0-eed7865fce18@chromium.org>
 In-Reply-To: <20240126-gix-mtk-warnings-v1-0-eed7865fce18@chromium.org>
 To: Tiffany Lin <tiffany.lin@mediatek.com>, 
@@ -101,30 +101,21 @@ Remove doc from missing fields.
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/platform/samsung/exynos4-is/fimc-lite.h | 3 ---
- 1 file changed, 3 deletions(-)
+ drivers/media/platform/samsung/s5p-mfc/s5p_mfc_common.h | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/media/platform/samsung/exynos4-is/fimc-lite.h b/drivers/media/platform/samsung/exynos4-is/fimc-lite.h
-index ddf29e0b5b1c..2d96fb00a5c6 100644
---- a/drivers/media/platform/samsung/exynos4-is/fimc-lite.h
-+++ b/drivers/media/platform/samsung/exynos4-is/fimc-lite.h
-@@ -117,8 +117,6 @@ struct flite_buffer {
-  * @ctrl_handler: v4l2 control handler
-  * @test_pattern: test pattern controls
-  * @index: FIMC-LITE platform device index
-- * @pipeline: video capture pipeline data structure
-- * @pipeline_ops: media pipeline ops for the video node driver
-  * @slock: spinlock protecting this data structure and the hw registers
-  * @lock: mutex serializing video device and the subdev operations
-  * @clock: FIMC-LITE gate clock
-@@ -134,7 +132,6 @@ struct flite_buffer {
-  * @active_buf_q: the queue head of buffers scheduled in hardware
-  * @vb_queue: vb2 buffers queue
-  * @buf_index: helps to keep track of the DMA start address register index
-- * @active_buf_count: number of video buffers scheduled in hardware
-  * @frame_count: the captured frames counter
-  * @reqbufs_count: the number of buffers requested with REQBUFS ioctl
-  * @events: event info
+diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_common.h b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_common.h
+index 59450b324f7d..7e7e7b695b53 100644
+--- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_common.h
++++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_common.h
+@@ -612,7 +612,6 @@ struct s5p_mfc_codec_ops {
+  * @chroma_dpb_size:	dpb buffer size for chroma
+  * @me_buffer_size:	size of the motion estimation buffer
+  * @tmv_buffer_size:	size of temporal predictor motion vector buffer
+- * @frame_type:		used to force the type of the next encoded frame
+  * @ref_queue:		list of the reference buffers for encoding
+  * @force_frame_type:	encoder's frame type forcing control
+  * @ref_queue_cnt:	number of the buffers in the reference list
 
 -- 
 2.43.0.429.g432eaa2c6b-goog
