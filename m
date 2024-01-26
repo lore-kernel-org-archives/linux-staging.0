@@ -1,56 +1,56 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A58595677F
-	for <linux-staging@lists.linux.dev>; Fri, 26 Jan 2024 22:31:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A216359B4D
+	for <linux-staging@lists.linux.dev>; Fri, 26 Jan 2024 22:31:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706308310; cv=none; b=UCORNbzIKFcVSBZcLOZds9YrPKqLUxGpXlRScwVqojzc3MMyyvRCsQpsReyQFiwwtZmLAiV0he1AjmG1u/OHA4WPIMABNlqwOddotZ27HSQ20aXn+Smm7EG2144DwnLdSI8zo/AHzm46DuXka8L+/CYKdsdW2xzSshAxiDZLgs8=
+	t=1706308311; cv=none; b=Pq3kjpQE4/ABaXtka5PdNS0YbCt84PuJktYypunpaT7nozh8f+XKEJuVYgxYKQ8/7StFAEByFlS7rAvLz8IzUB1sfWbHqCCf6Jmd+XR7cgmYHsvHgTJdCfBzGtcQ+tmySJ4ynQiDuHyJEPgeTiRLHjasemvM7RLaZcAFAz63d4k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706308310; c=relaxed/simple;
-	bh=d221A9DTsel1sj0jdwOENIOIP1uW0+yzlQJlionfmy8=;
+	s=arc-20240116; t=1706308311; c=relaxed/simple;
+	bh=c/Sh9PRJ8GX+JkwZWgUrdLEBHDSPigEF73skZkz9+Wo=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=G2zaRuNMkY0YtpAZCpibZAUh9XpSigYflEymvL9FWqxSYjFsxHcvX8XhWo2Ynq/0D0Ov7/dk3aHJQrIIxGDvNBRa5r0GM30mdNyrS6Eo1eX6RD4R8JrQr80+ntyoL8QiIaw2EZmiQVj7p2HLQYnpLWzlR8M5TtKlNIBResk3yJ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net; spf=pass smtp.mailfrom=darkphysics.net; dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b=QUHZlYkp; arc=none smtp.client-ip=209.85.214.176
+	 MIME-Version; b=eyjOBnR3Q/PZkvUUYqIiWBeX4X4DPbgPX7OB80INjpkgsKLDsNI/j2RVJArF6YZQBBaAkTSLt75CcJvyH6DTvUtPPzVNCveLL+2WvaWT3jXinvdzsvU4sks5FAkHqMklJnpBnJjqO5Rw8hnLz1/4bkQmVQ1Xmorx/Aj7kI+2FQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net; spf=pass smtp.mailfrom=darkphysics.net; dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b=RutbVkxW; arc=none smtp.client-ip=209.85.216.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=darkphysics.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="QUHZlYkp"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1d74045c463so6871005ad.3
-        for <linux-staging@lists.linux.dev>; Fri, 26 Jan 2024 14:31:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="RutbVkxW"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-29080973530so928751a91.1
+        for <linux-staging@lists.linux.dev>; Fri, 26 Jan 2024 14:31:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=darkphysics.net; s=google; t=1706308307; x=1706913107; darn=lists.linux.dev;
+        d=darkphysics.net; s=google; t=1706308309; x=1706913109; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Awp+sOMd2zTDY3BhxjyMABNSYZC/s1kfFh3Ae2mRiGM=;
-        b=QUHZlYkpYsgJljsaAw0iqSX9YtVqfA+pumhQ0JQC8Cl+wOS69aESMlV8Ep9KqJjLZj
-         njnkXQoxWdBu50m535PrfKrlbmCd7TxycpRWZELRcxieGsQaq8UQ6abnYR/YWVIn0kzN
-         Gnw3VB0Tggsl5PC9I9vWOanZWnxudmFBsGVLzZPAFoCSYT455TP+n3xjWVCfhxdaXWwk
-         SMLqmWTBssAJzifLdxPXdkWU8T9tymoTqSI3vPt0MyarIUffLUDle92EXmdEHdgsTlFL
-         n3YQ/oE9eENyJ8nQ0kAf1bi4i0rQD1WCVx2YRn6S6cyt2K+JOAa7Fbi9EjYoOd7VOBiZ
-         xIUg==
+        bh=BJnSm+DEHNecy1tYaBiXclaJ5sFH22g6A+EL7JgZ6iI=;
+        b=RutbVkxWRaj9/kbUbS02XwQlVqlcu7040yTq0/LlCRdrEn7g4klQ1KF1UO4foPjI/c
+         rwD7ety9PlSfY+ZHBU0DpiMXmbDWIm4q+Ike1wloAZ7YEdUfLMWaNgaH2WvYCQRXtxND
+         Bcw+1ioXjIVTnp6xrEKJjyzTzW32lE+2huNUlCT1pKvlBlDxFoyqxwc+vPQ1HZctjbtT
+         HU/SDzg49KlISX/GP2ZhL/jvcv++tx5r4L6s3Cv9kCaPOXQdAtaylENcBtK8kbEffbmN
+         DwEDejxUGEJGsmLJ1hgIteT3hQcswPHEknAXCEb72ZfP3kNfAEKLXn9ZQ7vU+e2/ZDqI
+         geVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706308307; x=1706913107;
+        d=1e100.net; s=20230601; t=1706308309; x=1706913109;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Awp+sOMd2zTDY3BhxjyMABNSYZC/s1kfFh3Ae2mRiGM=;
-        b=DxG3KnXCMv2wnFfxBX6z/opJ92VUuTPxxl5P9CznODKxnItbT0eIiLvga0CqsZSobl
-         j1xXF3mHa7SbmKvbOGHXD4Y66zeFPKfgfPVt4s2mtAMdU+pdfnLqn+zYRGh13QwbKEYz
-         QW2KSnwyTOqxT0yiu/n3I6HTeV+W4IF+XsX2/F/XkyBcoawpsEH90zK7QL3lHmYcDnvU
-         +YK6V9AX3kAyql+OyNGUNCXfWzswUUdGXFYPiRw6FnXIfYa09AFKSoxORrH2TlswxO7h
-         TWUWteTlngknezRnyN/Rc3PpgkSsZkWimIx3+dqfo6QsaNvH5ZcfQuZosi7aaBIVysnh
-         X6cg==
-X-Gm-Message-State: AOJu0YzCOmTDxakUfx9fw+uRinEDUhUadsn34BDezT1wtvoHMtjAaHdY
-	Oi2/cmPfnkLHk8UFf0aeJ330ExXt0+xruZa1zjkaB1sDFdhVI39Oax1QzCeFSwg=
-X-Google-Smtp-Source: AGHT+IHza2+Xz+W74yxBCYOqYs7ax1jHiGRhJAxELgNshUZ1N7dFgyadhuxJiaLjFulhdHjLnPwImg==
-X-Received: by 2002:a17:902:c382:b0:1d7:126:5691 with SMTP id g2-20020a170902c38200b001d701265691mr436608plg.73.1706308307108;
-        Fri, 26 Jan 2024 14:31:47 -0800 (PST)
+        bh=BJnSm+DEHNecy1tYaBiXclaJ5sFH22g6A+EL7JgZ6iI=;
+        b=rSqVjZ55sSN4d1XQFOw2jXCwJ32D4DVe7z4WfLADPW5msglnAn5jt/c0fPvPYxMQvy
+         ucoJ/X69rYCMA3aPYX1Y4vF2Zt3Bnm9IQ/VwwcyJ8Huy1+R3ahTgBzlBpFHtb6tUAXJh
+         bnIU6vISRCrHefoFuvf8wMKXN/xxSzEHRJebg6GoraLrsy3N6sYyUsyMdLhtaTxuP9CA
+         aVMIYpkgfwKiRWEXzRbjsvCMQpGNc583Q6cCDyR8hOmBx+M5SjJ5jJCzySfd3p9yH/Ue
+         4RNStZTgDYWndHWzKBJswNw8hpO6CpfgMS6E45nTX7ca0p1MT5Bnk5EZLnhtgj6aFHqL
+         gmpg==
+X-Gm-Message-State: AOJu0YxBUSNCDdiyQF11Om2vaqEdsfA7vRRRyMiR27xOlBtGoCX2grtK
+	07OmBa9FmYN0LFIAmp87I6WIgshxXOb9asx+cLlR0m8NVIQgKCp0fud96bo4ZqM=
+X-Google-Smtp-Source: AGHT+IEYYS8Wepck+t6Q7uC2+EO7+QJsHE6KYqDSu6lWOjJuwRCpezjdFDWTL2euMnocAbGygCeBjw==
+X-Received: by 2002:a17:90a:6e45:b0:28d:dd91:fdf5 with SMTP id s5-20020a17090a6e4500b0028ddd91fdf5mr593246pjm.23.1706308309099;
+        Fri, 26 Jan 2024 14:31:49 -0800 (PST)
 Received: from oatmeal.darkphysics (c-76-146-178-2.hsd1.wa.comcast.net. [76.146.178.2])
-        by smtp.gmail.com with ESMTPSA id n1-20020a170902d0c100b001d8a8f431b7sm737909pln.300.2024.01.26.14.31.46
+        by smtp.gmail.com with ESMTPSA id n1-20020a170902d0c100b001d8a8f431b7sm737909pln.300.2024.01.26.14.31.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jan 2024 14:31:46 -0800 (PST)
+        Fri, 26 Jan 2024 14:31:48 -0800 (PST)
 From: Tree Davies <tdavies@darkphysics.net>
 To: gregkh@linuxfoundation.org,
 	philipp.g.hortmann@gmail.com,
@@ -58,9 +58,9 @@ To: gregkh@linuxfoundation.org,
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Tree Davies <tdavies@darkphysics.net>
-Subject: [PATCH v2 12/18] Staging: rtl8192e: Fixup if statement broken across multiple lines.
-Date: Fri, 26 Jan 2024 14:31:00 -0800
-Message-Id: <20240126223106.986093-13-tdavies@darkphysics.net>
+Subject: [PATCH v2 14/18] Staging: rtl8192e: Fix if statement alignment with open parenthesis
+Date: Fri, 26 Jan 2024 14:31:02 -0800
+Message-Id: <20240126223106.986093-15-tdavies@darkphysics.net>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240126223106.986093-1-tdavies@darkphysics.net>
 References: <20240126223106.986093-1-tdavies@darkphysics.net>
@@ -72,32 +72,28 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Join broken lines across if statement to fix checkpatch warning:
-Lines should not end with a '('
+Add a space in front of statement to fix checkpatch warning:
+Alignment should match open parenthesis
 
 Signed-off-by: Tree Davies <tdavies@darkphysics.net>
 ---
 v2: No changes.
- drivers/staging/rtl8192e/rtllib_softmac.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/staging/rtl8192e/rtllib_softmac.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
-index 538689fb5580..ab41632def7a 100644
+index dc91e59f1bc2..5281138ad468 100644
 --- a/drivers/staging/rtl8192e/rtllib_softmac.c
 +++ b/drivers/staging/rtl8192e/rtllib_softmac.c
-@@ -1736,10 +1736,8 @@ rtllib_rx_deauth(struct rtllib_device *ieee, struct sk_buff *skb)
- 		ieee->link_detect_info.busy_traffic = false;
- 		rtllib_disassociate(ieee);
- 		remove_peer_ts(ieee, header->addr2);
--		if (!(ieee->rtllib_ap_sec_type(ieee) &
--		    (SEC_ALG_CCMP | SEC_ALG_TKIP)))
--			schedule_delayed_work(
--				       &ieee->associate_procedure_wq, 5);
-+		if (!(ieee->rtllib_ap_sec_type(ieee) & (SEC_ALG_CCMP | SEC_ALG_TKIP)))
-+			schedule_delayed_work(&ieee->associate_procedure_wq, 5);
- 	}
- 	return 0;
- }
+@@ -1207,7 +1207,7 @@ inline void rtllib_softmac_new_net(struct rtllib_device *ieee,
+ 				    ieee->current_network.flags);
+ 
+ 			if ((rtllib_act_scanning(ieee, false)) &&
+-			   !(ieee->softmac_features & IEEE_SOFTMAC_SCAN))
++			    !(ieee->softmac_features & IEEE_SOFTMAC_SCAN))
+ 				rtllib_stop_scan_syncro(ieee);
+ 
+ 			ht_reset_iot_setting(ieee->ht_info);
 -- 
 2.39.2
 
