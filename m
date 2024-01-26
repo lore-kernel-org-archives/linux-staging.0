@@ -1,160 +1,330 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f43.google.com (mail-io1-f43.google.com [209.85.166.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 389B113A248
-	for <linux-staging@lists.linux.dev>; Thu, 25 Jan 2024 20:55:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 862CC1C693
+	for <linux-staging@lists.linux.dev>; Fri, 26 Jan 2024 14:46:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706216104; cv=none; b=MJhx55ceD8IxYzsO0qXAqjLZX3YnaOBm3mUCVDIl6v5HQr5DcoCbCFRRDQug3quw1lSIL/U9kplXZ5q7IQ7FRIEwrI9rVsVafAGDeyzijYtgh6vXHdHk004ygQ5qLNqn1bHfwMvqJmqEd7Q2AIHJTR89kGKO82LiIQjSdJd2CUE=
+	t=1706280381; cv=none; b=WJMoWrWs5tOoLN5nVQXCpeUPYCHeKLNr0zT+3BbiQagldsHdRFXFS4/PmkfSzPNP0NJQc6OjgrF0M7cS92HfzxQZuvQAbOR2LpRgqKqNWQArB6JVAuKMEZEWGzuA9NRA7shOw0zKLi8dV1gLpQtCVyojWQapFz+kVshffs4Q2UI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706216104; c=relaxed/simple;
-	bh=fO99f0ePHKbHwUdZm/bw6zGu6VRhR6QSAqZmTpdRvPA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UWd1HvP9o0X3dOPaCZvbD1FU1dPAU1aBDHIjzifTDt8xCfvxpIvYSbf4hNfuLRzskCp696+9XV/DAIYYZpB07qgm3ifFW0ylzhIWe8T19fcOTVPwOBo6MFKPq9W0RBDiFsk2L/f0L/AoqlHOpDzLqKAv7l90Yh0vKQ6OMVgx9JQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rT6kK-0000q6-2e; Thu, 25 Jan 2024 21:54:48 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rT6kE-002MbB-Qk; Thu, 25 Jan 2024 21:54:42 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rT6kE-0088NE-2C;
-	Thu, 25 Jan 2024 21:54:42 +0100
-Date: Thu, 25 Jan 2024 21:54:42 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Florian Fainelli <florian.fainelli@broadcom.com>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Douglas Anderson <dianders@chromium.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, dri-devel@lists.freedesktop.org, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, Paul Cercueil <paul@crapouillou.net>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
-	linux-amlogic@lists.infradead.org, Guenter Roeck <groeck@chromium.org>, 
-	linux-riscv@lists.infradead.org, David Airlie <airlied@gmail.com>, 
-	linux-stm32@st-md-mailman.stormreply.com, Jerome Brunet <jbrunet@baylibre.com>, 
-	chrome-platform@lists.linux.dev, linux-samsung-soc@vger.kernel.org, 
-	Robert Foss <rfoss@kernel.org>, Samuel Holland <samuel@sholland.org>, 
-	Kevin Hilman <khilman@baylibre.com>, linux-staging@lists.linux.dev, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, NXP Linux Team <linux-imx@nxp.com>, linux-mips@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, linux-pwm@vger.kernel.org, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Ray Jui <rjui@broadcom.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Johan Hovold <johan@kernel.org>, Maxime Ripard <mripard@kernel.org>, greybus-dev@lists.linaro.org, 
-	Fabrice Gasnier <fabrice.gasnier@foss.st.com>, linux-mediatek@lists.infradead.org, 
-	linux-rpi-kernel@lists.infradead.org, Fabio Estevam <festevam@gmail.com>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Benson Leung <bleung@chromium.org>, kernel@pengutronix.de, 
-	linux-arm-kernel@lists.infradead.org, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Alex Elder <elder@kernel.org>, Scott Branden <sbranden@broadcom.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Shawn Guo <shawnguo@kernel.org>
-Subject: Re: [PATCH v5 003/111] pwm: Provide a macro to get the parent device
- of a given chip
-Message-ID: <h4l5ki3mvayfmfb73jnrokmxu3p2ewutihx4rytefmpce7bcxq@nhsyy2fw6fds>
-References: <cover.1706182805.git.u.kleine-koenig@pengutronix.de>
- <1cae6f73264ab313205eaa9483251f7aaf259cb4.1706182805.git.u.kleine-koenig@pengutronix.de>
- <c89cbecf-253d-4a2c-8782-304b7b620175@broadcom.com>
- <e3xeos2rtfydqj3hz3ql7xkon3aa3aingww7q5lpb3xa4arqrs@6jgwfrgay4le>
+	s=arc-20240116; t=1706280381; c=relaxed/simple;
+	bh=0V8JBIlo3s3yy0bsJM3VckFK6/jXB/aOGdamcekgcPM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cRfwjHqi3sEVVKVdts0pBjPWuz2Jw8Nb8Zsu3My55WqjBPgJK6NA2uARPHHY0+HrfHDW6OKGGhm+AQLq/UiZE0dlBjOnI/JE+oXoCpKuoLo3tDcvhfwhGgXnX0+IaGwLsGLE64Ra6C9XJaR1JzQR35seoD/shTm8PpclU6ddKpY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ieee.org; spf=pass smtp.mailfrom=ieee.org; dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b=gXNqQpDt; arc=none smtp.client-ip=209.85.166.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ieee.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ieee.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b="gXNqQpDt"
+Received: by mail-io1-f43.google.com with SMTP id ca18e2360f4ac-7bc32b0fdadso18023139f.2
+        for <linux-staging@lists.linux.dev>; Fri, 26 Jan 2024 06:46:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ieee.org; s=google; t=1706280377; x=1706885177; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+fOeMhswGKKywc98Ol+L/tQdueW05KSRu1NRm5hdKMU=;
+        b=gXNqQpDtwtb1UbHdPR1pVpo72zE3AEUtzMozbDHrcKKu5AaTMWZ/oOXUt+tpSmkw70
+         xAlcgL4MIZviozbwl/eQvi2CGQJ9ca1zBQ9hTY8+ntfts1ey3pclttfZUGw5pUwRoEbl
+         Z/D2fWGiludaxthxWivErXcNOg4kxkQ7sqXaU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706280377; x=1706885177;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+fOeMhswGKKywc98Ol+L/tQdueW05KSRu1NRm5hdKMU=;
+        b=dQDaUExSTqF9J0OcIGZ0UMAaP4J9vYnszAJQfziWpDtgbxnUms7dPPTs0lBFCxKlNM
+         Nyr7GVMziMyuUoTlRHzHPvz447xNiW0onaEq1T+vjiJGzp9hBOAE0Yo3chvfVYBrrIhP
+         und00cNtL8mHlz/nxqqA4Glen/9EWS838S/BUgWEQ0H2mU44U/e594RZ3FswBEBsnA5t
+         1Xk9rrF7Ffw+mCDQ+WMkndufEgJJstVVdqaZBWed8RWI8h9rkwdjn+bDE7N1xLb3enp2
+         Aw4TT11nViGm/eNj5XsgEGtpjyb1wm6GEImi4OpmXBMnnxWUXzVtu0A3PkjamK3qTAHD
+         F/NQ==
+X-Gm-Message-State: AOJu0YxT/FlO4++GNhsGvLiKrKRo9SemBDpJHWO1G+02uD0tz25WiInG
+	CQwxhWoaC5901Hfqp0RpVtYYoGhx4G9O556z45xlMqj3+A5Z/rp6xmtWFoCPFcdlWXWfeP9jhXE
+	=
+X-Google-Smtp-Source: AGHT+IHPKNTTIuqxmxUXX+GYDw5eJqWPMSNjv7gvon8UkNl63wZGZwG0UoFW7ov83g+zHjLtZvF2MQ==
+X-Received: by 2002:a5e:870d:0:b0:7bf:1ddd:b900 with SMTP id y13-20020a5e870d000000b007bf1dddb900mr2060688ioj.8.1706280377416;
+        Fri, 26 Jan 2024 06:46:17 -0800 (PST)
+Received: from [172.22.22.28] (c-98-61-227-136.hsd1.mn.comcast.net. [98.61.227.136])
+        by smtp.googlemail.com with ESMTPSA id n13-20020a5ed90d000000b007befaf58e52sm396589iop.30.2024.01.26.06.46.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 26 Jan 2024 06:46:16 -0800 (PST)
+Message-ID: <c796d34c-0076-488b-9643-8ecfdaa2a32b@ieee.org>
+Date: Fri, 26 Jan 2024 08:46:15 -0600
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="2cxtxp6sbv6wwe5j"
-Content-Disposition: inline
-In-Reply-To: <e3xeos2rtfydqj3hz3ql7xkon3aa3aingww7q5lpb3xa4arqrs@6jgwfrgay4le>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-staging@lists.linux.dev
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 038/111] staging: greybus: pwm: Make use of
+ pwmchip_parent() macro
+Content-Language: en-US
+To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-pwm@vger.kernel.org
+Cc: greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+ kernel@pengutronix.de
+References: <cover.1706182805.git.u.kleine-koenig@pengutronix.de>
+ <57b2e034d878c39d472d9dfc86b2c39272e4eabf.1706182805.git.u.kleine-koenig@pengutronix.de>
+From: Alex Elder <elder@ieee.org>
+In-Reply-To: <57b2e034d878c39d472d9dfc86b2c39272e4eabf.1706182805.git.u.kleine-koenig@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
+On 1/25/24 6:09 AM, Uwe Kleine-König wrote:
+> struct pwm_chip::dev is about to change. To not have to touch this
+> driver in the same commit as struct pwm_chip::dev, use the macro
+> provided for exactly this purpose.
+> 
+> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 
---2cxtxp6sbv6wwe5j
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I think I'd rather see the footprint of your change be much
+smaller than it is.  Please see below.
 
-On Thu, Jan 25, 2024 at 09:29:37PM +0100, Uwe Kleine-K=F6nig wrote:
-> On Thu, Jan 25, 2024 at 11:32:47AM -0800, Florian Fainelli wrote:
-> > On 1/25/24 04:08, Uwe Kleine-K=F6nig wrote:
-> > > Currently a pwm_chip stores in its struct device *dev member a pointer
-> > > to the parent device. Preparing a change that embeds a full struct
-> > > device in struct pwm_chip, this accessor macro should be used in all
-> > > drivers directly accessing chip->dev now. This way struct pwm_chip and
-> > > this macro can be changed without having to touch all drivers in the
-> > > same change set.
-> > >=20
-> > > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-> >=20
-> > Nit: this is not a macro but an inline function.
->=20
-> Oh right, it used to be a macro, but I changed that. I made the commit
-> log read:
->=20
->     pwm: Provide an inline function to get the parent device of a given c=
-hip
->=20
->     Currently a pwm_chip stores in its struct device *dev member a pointer
->     to the parent device. Preparing a change that embeds a full struct
->     device in struct pwm_chip, this accessor function should be used in a=
-ll
->     drivers directly accessing chip->dev now. This way struct pwm_chip and
->     this new function can be changed without having to touch all drivers =
-in
->     the same change set.
+					-Alex
 
-While looking into further feedback, I noticed I did the same mistake in
-all the patches that convert the drivers to use this function. I did
+> ---
+>   drivers/staging/greybus/pwm.c | 55 +++++++++++++++++------------------
+>   1 file changed, 26 insertions(+), 29 deletions(-)
+> 
+> diff --git a/drivers/staging/greybus/pwm.c b/drivers/staging/greybus/pwm.c
+> index a3cb68cfa0f9..75e0518791d8 100644
+> --- a/drivers/staging/greybus/pwm.c
+> +++ b/drivers/staging/greybus/pwm.c
+> @@ -17,7 +17,6 @@
+>   struct gb_pwm_chip {
+>   	struct gb_connection	*connection;
+>   	u8			pwm_max;	/* max pwm number */
+> -
+>   	struct pwm_chip		chip;
+>   };
+>   
+> @@ -39,9 +38,9 @@ static int gb_pwm_count_operation(struct gb_pwm_chip *pwmc)
+>   	return 0;
+>   }
+>   
+> -static int gb_pwm_activate_operation(struct gb_pwm_chip *pwmc,
+> -				     u8 which)
+> +static int gb_pwm_activate_operation(struct pwm_chip *chip, u8 which)
 
-	git filter-branch --msg-filter 'sed "s/Make use of pwmchip_parent() macro/=
-Make use of pwmchip_parent() accessor/; s/commit as struct pwm_chip::dev, u=
-se the macro/commit as struct pwm_chip::dev, use the accessor/; s/provided =
-for exactly this purpose./function provided for exactly this purpose./"' li=
-nus/master..
+Why change the type of the argument here?
 
-on my branch to make the typical commit log read:
+>   {
+> +	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
+>   	struct gb_pwm_activate_request request;
+>   	struct gbphy_device *gbphy_dev;
+>   	int ret;
+> @@ -51,7 +50,7 @@ static int gb_pwm_activate_operation(struct gb_pwm_chip *pwmc,
+>   
+>   	request.which = which;
+>   
+> -	gbphy_dev = to_gbphy_dev(pwmc->chip.dev);
+> +	gbphy_dev = to_gbphy_dev(pwmchip_parent(chip));
 
-	pwm: atmel: Make use of pwmchip_parent() accessor
-=09
-	struct pwm_chip::dev is about to change. To not have to touch this
-	driver in the same commit as struct pwm_chip::dev, use the accessor
-	function provided for exactly this purpose.
+Just make this line look like this:
 
-I wont resend the whole series if this is the only change to it.
+	gbphy_dev = to_gbphy_dev(pwmchip_parent(&pwmc->chip));
 
-Best regards
-Uwe
+>   	ret = gbphy_runtime_get_sync(gbphy_dev);
+>   	if (ret)
+>   		return ret;
+> @@ -64,9 +63,10 @@ static int gb_pwm_activate_operation(struct gb_pwm_chip *pwmc,
+>   	return ret;
+>   }
+>   
+> -static int gb_pwm_deactivate_operation(struct gb_pwm_chip *pwmc,
+> +static int gb_pwm_deactivate_operation(struct pwm_chip *chip,
+>   				       u8 which)
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+Same question here.
 
---2cxtxp6sbv6wwe5j
-Content-Type: application/pgp-signature; name="signature.asc"
+>   {
+> +	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
+>   	struct gb_pwm_deactivate_request request;
+>   	struct gbphy_device *gbphy_dev;
+>   	int ret;
+> @@ -76,7 +76,7 @@ static int gb_pwm_deactivate_operation(struct gb_pwm_chip *pwmc,
+>   
+>   	request.which = which;
+>   
+> -	gbphy_dev = to_gbphy_dev(pwmc->chip.dev);
+> +	gbphy_dev = to_gbphy_dev(pwmchip_parent(chip));
 
------BEGIN PGP SIGNATURE-----
+	gbphy_dev = to_gbphy_dev(pwmchip_parent(&pwmc->chip));
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmWyypEACgkQj4D7WH0S
-/k5psggAul+UfI+G8dHEaH2KDgkBUUlYZUwuEaOFluY8XF2KWBYgzrV6GTSkw5wT
-Me32hGYPzkH5GThVge4EwflIY6st1Dpe7hApskZcERowT4iaqpLmRhMLJSfbNFFL
-TKdck+IYqa1cFxKcnCqPr5UHCx9DR2zJulclKHey+IaAQbbiSZ7PXqTliJidSqA4
-gcZdCllP/NksXCjwuu7f3ffFYfT4eD4biOf/g24aQx4AkSSB/1xPNtYnwHwe9U7Q
-NfCN0EtnmSN3qHIMZQ0v8PHGjfE/VvFR+cIRqaher18JI/FRZFfNPMhT1hniO7vh
-qGInsEnK5ClF+KhK7XpBNiDRRAyXtw==
-=6bo9
------END PGP SIGNATURE-----
+>   	ret = gbphy_runtime_get_sync(gbphy_dev);
+>   	if (ret)
+>   		return ret;
+> @@ -89,9 +89,10 @@ static int gb_pwm_deactivate_operation(struct gb_pwm_chip *pwmc,
+>   	return ret;
+>   }
+>   
+> -static int gb_pwm_config_operation(struct gb_pwm_chip *pwmc,
+> +static int gb_pwm_config_operation(struct pwm_chip *chip,
+>   				   u8 which, u32 duty, u32 period)
 
---2cxtxp6sbv6wwe5j--
+And here.
+
+>   {
+> +	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
+>   	struct gb_pwm_config_request request;
+>   	struct gbphy_device *gbphy_dev;
+>   	int ret;
+> @@ -103,7 +104,7 @@ static int gb_pwm_config_operation(struct gb_pwm_chip *pwmc,
+>   	request.duty = cpu_to_le32(duty);
+>   	request.period = cpu_to_le32(period);
+>   
+> -	gbphy_dev = to_gbphy_dev(pwmc->chip.dev);
+> +	gbphy_dev = to_gbphy_dev(pwmchip_parent(chip));
+
+	gbphy_dev = to_gbphy_dev(pwmchip_parent(&pwmc->chip));
+
+>   	ret = gbphy_runtime_get_sync(gbphy_dev);
+>   	if (ret)
+>   		return ret;
+> @@ -116,9 +117,10 @@ static int gb_pwm_config_operation(struct gb_pwm_chip *pwmc,
+>   	return ret;
+>   }
+>   
+> -static int gb_pwm_set_polarity_operation(struct gb_pwm_chip *pwmc,
+> +static int gb_pwm_set_polarity_operation(struct pwm_chip *chip,
+>   					 u8 which, u8 polarity)
+
+And here.
+
+>   {
+> +	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
+>   	struct gb_pwm_polarity_request request;
+>   	struct gbphy_device *gbphy_dev;
+>   	int ret;
+> @@ -129,7 +131,7 @@ static int gb_pwm_set_polarity_operation(struct gb_pwm_chip *pwmc,
+>   	request.which = which;
+>   	request.polarity = polarity;
+>   
+> -	gbphy_dev = to_gbphy_dev(pwmc->chip.dev);
+> +	gbphy_dev = to_gbphy_dev(pwmchip_parent(chip));
+
+	gbphy_dev = to_gbphy_dev(pwmchip_parent(&pwmc->chip));
+
+>   	ret = gbphy_runtime_get_sync(gbphy_dev);
+>   	if (ret)
+>   		return ret;
+> @@ -142,9 +144,9 @@ static int gb_pwm_set_polarity_operation(struct gb_pwm_chip *pwmc,
+>   	return ret;
+>   }
+>   
+> -static int gb_pwm_enable_operation(struct gb_pwm_chip *pwmc,
+> -				   u8 which)
+> +static int gb_pwm_enable_operation(struct pwm_chip *chip, u8 which)
+
+And on and on.
+
+>   {
+> +	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
+>   	struct gb_pwm_enable_request request;
+>   	struct gbphy_device *gbphy_dev;
+>   	int ret;
+> @@ -154,7 +156,7 @@ static int gb_pwm_enable_operation(struct gb_pwm_chip *pwmc,
+>   
+>   	request.which = which;
+>   
+> -	gbphy_dev = to_gbphy_dev(pwmc->chip.dev);
+> +	gbphy_dev = to_gbphy_dev(pwmchip_parent(chip));
+>   	ret = gbphy_runtime_get_sync(gbphy_dev);
+>   	if (ret)
+>   		return ret;
+> @@ -167,9 +169,9 @@ static int gb_pwm_enable_operation(struct gb_pwm_chip *pwmc,
+>   	return ret;
+>   }
+>   
+> -static int gb_pwm_disable_operation(struct gb_pwm_chip *pwmc,
+> -				    u8 which)
+> +static int gb_pwm_disable_operation(struct pwm_chip *chip, u8 which)
+>   {
+> +	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
+>   	struct gb_pwm_disable_request request;
+>   	struct gbphy_device *gbphy_dev;
+>   	int ret;
+> @@ -182,7 +184,7 @@ static int gb_pwm_disable_operation(struct gb_pwm_chip *pwmc,
+>   	ret = gb_operation_sync(pwmc->connection, GB_PWM_TYPE_DISABLE,
+>   				&request, sizeof(request), NULL, 0);
+>   
+> -	gbphy_dev = to_gbphy_dev(pwmc->chip.dev);
+> +	gbphy_dev = to_gbphy_dev(pwmchip_parent(chip));
+>   	gbphy_runtime_put_autosuspend(gbphy_dev);
+>   
+>   	return ret;
+> @@ -190,19 +192,15 @@ static int gb_pwm_disable_operation(struct gb_pwm_chip *pwmc,
+>   
+>   static int gb_pwm_request(struct pwm_chip *chip, struct pwm_device *pwm)
+>   {
+
+I guess my question now is, why don't this function and the
+next one take a gb_pwm_chip pointer as argument like the rest...
+(Not your problem--don't "fix" this in this series.)
+
+> -	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
+> -
+> -	return gb_pwm_activate_operation(pwmc, pwm->hwpwm);
+> +	return gb_pwm_activate_operation(chip, pwm->hwpwm);
+>   };
+>   
+>   static void gb_pwm_free(struct pwm_chip *chip, struct pwm_device *pwm)
+>   {
+> -	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
+> -
+>   	if (pwm_is_enabled(pwm))
+> -		dev_warn(chip->dev, "freeing PWM device without disabling\n");
+> +		dev_warn(pwmchip_parent(chip), "freeing PWM device without disabling\n");
+>   
+> -	gb_pwm_deactivate_operation(pwmc, pwm->hwpwm);
+> +	gb_pwm_deactivate_operation(chip, pwm->hwpwm);
+>   }
+>   
+>   static int gb_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+> @@ -212,22 +210,21 @@ static int gb_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+>   	bool enabled = pwm->state.enabled;
+>   	u64 period = state->period;
+>   	u64 duty_cycle = state->duty_cycle;
+> -	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
+>   
+>   	/* Set polarity */
+>   	if (state->polarity != pwm->state.polarity) {
+>   		if (enabled) {
+> -			gb_pwm_disable_operation(pwmc, pwm->hwpwm);
+> +			gb_pwm_disable_operation(chip, pwm->hwpwm);
+>   			enabled = false;
+>   		}
+> -		err = gb_pwm_set_polarity_operation(pwmc, pwm->hwpwm, state->polarity);
+> +		err = gb_pwm_set_polarity_operation(chip, pwm->hwpwm, state->polarity);
+>   		if (err)
+>   			return err;
+>   	}
+>   
+>   	if (!state->enabled) {
+>   		if (enabled)
+> -			gb_pwm_disable_operation(pwmc, pwm->hwpwm);
+> +			gb_pwm_disable_operation(chip, pwm->hwpwm);
+>   		return 0;
+>   	}
+>   
+> @@ -243,13 +240,13 @@ static int gb_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+>   	if (duty_cycle > period)
+>   		duty_cycle = period;
+>   
+> -	err = gb_pwm_config_operation(pwmc, pwm->hwpwm, duty_cycle, period);
+> +	err = gb_pwm_config_operation(chip, pwm->hwpwm, duty_cycle, period);
+>   	if (err)
+>   		return err;
+>   
+>   	/* enable/disable */
+>   	if (!enabled)
+> -		return gb_pwm_enable_operation(pwmc, pwm->hwpwm);
+> +		return gb_pwm_enable_operation(chip, pwm->hwpwm);
+>   
+>   	return 0;
+>   }
+
