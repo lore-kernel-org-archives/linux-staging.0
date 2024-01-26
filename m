@@ -1,90 +1,95 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3A3F20DC4
-	for <linux-staging@lists.linux.dev>; Fri, 26 Jan 2024 18:23:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFFF55820B
+	for <linux-staging@lists.linux.dev>; Fri, 26 Jan 2024 22:05:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706293420; cv=none; b=fzj/lhIMowgKZfGF2bEdh4GiNf2cghmzFj2+ENB4ryosKk+a36XqlK1qhVUo3PsIk13fVAT+DHF+tgJUu3O+CS9PCihGVBQ9h5vTz78XvxioX6p95gps08M3zARrTBsNf8InJFklWEvErJurwGlO+803MYDfpvOF/r36PtOAsE8=
+	t=1706306740; cv=none; b=JDb5aQxjmBB0HEudKEgKSeu2Oav10IQyqhxDvpNXl6Av9oEW49LtCedxfq3ar2OxT8O0hEdfh5xSabady/CvhHyBT6IMwBKvHGpWE7xzkpAt1fEfIe229ImTt1IMXSkgIgXMwZ+Oi+1iXX+P7c/JtXBTKNdzyo3W1w8aZjd04bo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706293420; c=relaxed/simple;
-	bh=FKCzDr97iAmkrHekBXaL9AjNcDpyQUn4O75gsCDkIp0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=N3zbEm7OkwzrxYAv4RKwJIFSpiKJTU62QaZOZ8QURqK169n/QHzQ9Lqa63rHHLDup525DBCPJqMSIP81YpZEKR8zGVr3gPvgZsaapYcg1N9uCyKlX6bwSwofjo5R7fgB0kR/vV0n+KgWkVFFZK9X5ZxY3k64jCt96SOSPpvFPQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l0Y/0PTG; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1706306740; c=relaxed/simple;
+	bh=NjzHxkwFiRux9mikDPOe6otV64eagfv0IasTUR7XscM=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YdNTbgv2jXmQF6Gomla0MukRraitAy2LcUI0+WCX3mZNMHNtwIH0EmbzgE3vdl0l/zfsg3KIlpMvEUWeGj/GGlDCYbVgOS+5SfnRoL4kDejnMHhRMQDR5SyCqLTPytaNNxskqv2kfVSGtqnScijQFMQBuZQ1hvcEmhTQj1dOEdQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net; spf=pass smtp.mailfrom=darkphysics.net; dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b=FpWt4NQ6; arc=none smtp.client-ip=209.85.210.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=darkphysics.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l0Y/0PTG"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a34addf84dbso18798766b.1
-        for <linux-staging@lists.linux.dev>; Fri, 26 Jan 2024 10:23:38 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="FpWt4NQ6"
+Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-6dde173384aso568893a34.1
+        for <linux-staging@lists.linux.dev>; Fri, 26 Jan 2024 14:05:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706293417; x=1706898217; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=bfoCcWxXC+R7fi3WcxdiBA3r0bGMrkof+3fOLFkaCYM=;
-        b=l0Y/0PTGxFAohH1ODFsfygoMrOA9iaa+AAYuMW4E0bgJZQ8IUXnlgBp6W4Tmd6qUec
-         V4q+ma2dB+e+B/ADg07kbZQSM8qsuso31QTeEz+cLVPVLR/cGgQtsaX2dawzaE/JjlAS
-         Qr/KGgw+yoiq+ZLAlAbn/NrfKRtT2cqKRyoaoeWcXlT1OFAIoRireg0oWUgSydkGJpui
-         +kOUhzAuOP4hsA0ySFWpd1J0JAR1CoClNOCD0XGt3afIEws7lO0VZUu+9+qM42ooYyOi
-         EzqWoQIfm4PTqTBLyfOI7Opy1gDLkD9P8StoaURnOUtUdCuvGOxROE57vy3DiO5Z7io+
-         Nflg==
+        d=darkphysics.net; s=google; t=1706306738; x=1706911538; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=G/VNi32mgg+yaX8sJi0wYiHkUmSSEvhk85dc77SV0vE=;
+        b=FpWt4NQ6vUq0WTLi1UDhCm/1rBqloK9LU7zcQDLDeA1rvLXppfI2UHtTnS83vJYGHm
+         cfZW8XBeJt1o0PPOaku14dPOH/eLFuJBy6B0u1f9+S35++J8hqVUCj4CROBGagXrXrRr
+         LDqbfVrDnDNkWUpKa6qMDS4kjEeUnV9kUBpw05P4l5PzTrbwnrEaeTW/8JkRitoqwHkX
+         YVDdqnwwPENbZ0lVZ9zuT/+yQqiTFgevs7qNWceb3X8Hg/rWLcBd+P9R1qgfFusxv4mO
+         ubUsPFGErTe2QshVmaFY91ndwfvImpxR4RI9IWgeG0gujl1d3QtkEf1Xnw4fTLi5XtcB
+         afwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706293417; x=1706898217;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bfoCcWxXC+R7fi3WcxdiBA3r0bGMrkof+3fOLFkaCYM=;
-        b=HS7EZ6d2tmv5mhVe7GX1Wjiim5OJj9bxMEKIFg8KAao8KDxtmgj6tfkseoZKW4T0nd
-         B0VfQITZDl1qyuYyaks4S/v70oL4yPVAEltDFExcYATjOG7yWm3/GdMzDnsOw2ySR29p
-         9iOmKiOBAomFPdGwo7aW7NO4kFvRBTgYN6u36ikvoaSS7JbnGexa/vfENKb8zVstMnyM
-         ERYlYik0vs3rIU2Ie31JDGJ1COJ1mjjeQ6KtVNshi4aKbmn9CIL2wyWClkXGgHBnHUKT
-         4vOe4bAdTj5dXyxdi4Ocd/XcHvAA2K9kx9r/hrjUldqG88YrUYnyH08F+pfhy2vVrwzv
-         EZjg==
-X-Gm-Message-State: AOJu0Yx5oramKYNE6nIqhUak4enCrl9ULcR9O5uGyVRLsSjXQXMZiTgO
-	JKDFqhxyDOer11p3ctEAEIGRWDlgnHhu65qKK38fZz2rGzkJEO/o
-X-Google-Smtp-Source: AGHT+IG+zQxEY2KWn4VUD5POw2+2aLCecdEJX5ES89tBZ6te8upAb6n8/132MiKvdYBeOQllPAl1GA==
-X-Received: by 2002:a17:907:9485:b0:a30:d454:58a0 with SMTP id dm5-20020a170907948500b00a30d45458a0mr60003ejc.5.1706293416634;
-        Fri, 26 Jan 2024 10:23:36 -0800 (PST)
-Received: from [192.168.0.103] (p54a07fa0.dip0.t-ipconnect.de. [84.160.127.160])
-        by smtp.gmail.com with ESMTPSA id g13-20020a1709063b0d00b00a34ace86850sm882090ejf.207.2024.01.26.10.23.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Jan 2024 10:23:36 -0800 (PST)
-Message-ID: <500c7df9-7347-4ec7-8952-5f221cc83ef8@gmail.com>
-Date: Fri, 26 Jan 2024 19:23:35 +0100
+        d=1e100.net; s=20230601; t=1706306738; x=1706911538;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=G/VNi32mgg+yaX8sJi0wYiHkUmSSEvhk85dc77SV0vE=;
+        b=mv44ccd/3Qevi3K9CWWZviItglXp0uLk/aJyPhRcev4yKqPQ6AVMVoj5wE/WMCHFWQ
+         ytYEwjxdkNPghQvOj+jy90bM0v02RzCAM7cOuS1XLJdQecbdQRPxCN8GNluy9aymTyoz
+         P8Pd8xajFEmDsCcfQBt4PERjMHP+ikSa90NC4KTwM+baKwf3O3gknEohbqq1k4eSOOCF
+         v2awjVXpTLV4/GC+vbD6JKGZUPCmyJJJ2BpLA1JmOPcNntxPoiNE9zC1qODIV2uGW0cE
+         s4M0pxg3qNzO5w9/qEurLOAZMUiBrUoz7XLceMcTBw5XrtqJ90pPR6Cx5A3IQgf7vN2m
+         tsFA==
+X-Gm-Message-State: AOJu0YzJ/T1bDG43Q9JxR1km04to4w7fEJRknc59LUqTKmXuh9BoLiiI
+	BDYVD4RCgJAXkz+8d6jeFkt/3XMw3XMjRfaAO8FYzqQ99GDNs0CoFJMi1refXH8=
+X-Google-Smtp-Source: AGHT+IEwJCrhx+MQIyoLzKnEzHD/N8+lNTGWSq5rKg0iFkAmLUSyqtlpDBnwIfkqhUOWwgdDnujh6A==
+X-Received: by 2002:a05:6808:b2e:b0:3bd:58c5:8ca2 with SMTP id t14-20020a0568080b2e00b003bd58c58ca2mr430747oij.41.1706306737870;
+        Fri, 26 Jan 2024 14:05:37 -0800 (PST)
+Received: from oatmeal.darkphysics (c-76-146-178-2.hsd1.wa.comcast.net. [76.146.178.2])
+        by smtp.gmail.com with ESMTPSA id r7-20020aa78447000000b006dd7b08b336sm1583869pfn.20.2024.01.26.14.05.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Jan 2024 14:05:37 -0800 (PST)
+From: "<Tree Davies" <tdavies@darkphysics.net>
+X-Google-Original-From: "<Tree Davies" <tdavies@gmail.com>
+Date: Fri, 26 Jan 2024 14:05:35 -0800
+To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Cc: Tree Davies <tdavies@darkphysics.net>, gregkh@linuxfoundation.org,
+	anjan@momi.ca, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/18] Staging: rtl8192e: 18 Additional checkpatch fixes
+ for rtllib_softmac.c
+Message-ID: <ZbQsr1OKNwlcTUSl@oatmeal.darkphysics>
+References: <20240124224452.968724-1-tdavies@darkphysics.net>
+ <500c7df9-7347-4ec7-8952-5f221cc83ef8@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/18] Staging: rtl8192e: 18 Additional checkpatch fixes
- for rtllib_softmac.c
-To: Tree Davies <tdavies@darkphysics.net>, gregkh@linuxfoundation.org,
- anjan@momi.ca
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20240124224452.968724-1-tdavies@darkphysics.net>
-Content-Language: en-US
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20240124224452.968724-1-tdavies@darkphysics.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <500c7df9-7347-4ec7-8952-5f221cc83ef8@gmail.com>
 
-On 1/24/24 23:44, Tree Davies wrote:
-> Another checkpatch fix series to be applied after the series titled:
-> 'checkpatch fixes for rtllib_softmac.c' submitted by me, to the list,
-> on 1/5/2024
+On Fri, Jan 26, 2024 at 07:23:35PM +0100, Philipp Hortmann wrote:
+> On 1/24/24 23:44, Tree Davies wrote:
+> > Another checkpatch fix series to be applied after the series titled:
+> > 'checkpatch fixes for rtllib_softmac.c' submitted by me, to the list,
+> > on 1/5/2024
+> > 
 > 
+> On Patch 2, 5, 6, 17
+> WARNING: Prefer a maximum 75 chars per line (possible unwrapped commit
+> description?)
+> 
+> On Patch 13
+> WARNING: 'unecessary' may be misspelled - perhaps 'unnecessary'?
+> 
+> Is working fine on hardware.
+> 
+> Bye Philipp
 
-On Patch 2, 5, 6, 17
-WARNING: Prefer a maximum 75 chars per line (possible unwrapped commit 
-description?)
+Ah, Thank you. Will send a v2.
+~Tree
 
-On Patch 13
-WARNING: 'unecessary' may be misspelled - perhaps 'unnecessary'?
-
-Is working fine on hardware.
-
-Bye Philipp
