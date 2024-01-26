@@ -1,56 +1,56 @@
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB0105BAFD
-	for <linux-staging@lists.linux.dev>; Fri, 26 Jan 2024 23:16:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B3EB5B5CA
+	for <linux-staging@lists.linux.dev>; Fri, 26 Jan 2024 23:16:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706310974; cv=none; b=l8sdUrKlwa+xykYLXiu0+JueyqD9v13b2UGk1bKtCQvhCH4y4s/Khb1xhhBFltWyWDUxnHsYAi+zE/e3RoUPujHn7fAulrQP8eT9j8cleoycxaGgYgB6zpeyqHYixC/w2Of+jelgXNxkfj8OKVmQxlxxRl0RpFy4jFfkJdWusmU=
+	t=1706310976; cv=none; b=NU3DCj2BNZIdXy+Pkg9qYVncLFlXA39GwE/qRzGCo5H4KaNF8elQtjQ5c3z2nOIr+g/eB6SOUcRLaZB3qWxzweQlGpQklM+Zw9vmQbRErw+f1zxHGa/5Qr2EoVtwMfvTp+vV/p5Ni2ZNDhRy0wfujlSrU6TYkRkEELv1/Im2YLs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706310974; c=relaxed/simple;
-	bh=uKwiWzeO0xFAMIWvpeHxHonS+sA78lVm8Pf7e/oU4ns=;
+	s=arc-20240116; t=1706310976; c=relaxed/simple;
+	bh=ewPqTDJUBftEDpihVt9+vlqkTpp6AexDsJM1tz2Udmc=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=NJQ0+NR3WPP1TiDMX6dx+a83EpGCidDv2E+otLhe2jBSC7ZDM2YrEb6a4oHiVW+ug71mtiAjsz52LRyX2n1PPtvGakND075iZjdFr70/9VCDBgf8bDGzpPxgalC1WiMB6U8Z3ioGMJU09YWdgQzPnpvm7IzhzSW2GGA32JPFvU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=eAqt4qFC; arc=none smtp.client-ip=209.85.222.175
+	 In-Reply-To:To:Cc; b=TbxRffVgplX4Y2d8LSp7Ve2EfxtuHGFgYs8cUZmEU4971U/GC5ceLQM7EhbVGRE9JMN+kPapwB1lkaCFDNptybB/AktmMIZmbund5tvzdrUHGZJ0b30Ub0ooGqa6vnM8JUdgGle49f9GBwoG89bMusHnUVY6IjDulvebq045O0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ULQt0/w4; arc=none smtp.client-ip=209.85.222.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="eAqt4qFC"
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-783cd245ec0so73626385a.3
-        for <linux-staging@lists.linux.dev>; Fri, 26 Jan 2024 15:16:12 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ULQt0/w4"
+Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-7831806c51bso75186385a.1
+        for <linux-staging@lists.linux.dev>; Fri, 26 Jan 2024 15:16:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1706310971; x=1706915771; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1706310972; x=1706915772; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=0dgr7uAnKOP7T5XfeX17z97swkwNkCZ42zeC6YgDi/s=;
-        b=eAqt4qFCFi7Gl1DvilDxws/WgkX+AiUwxXGUjKrHbYCwFX+QPJyEV7lnMzlQ6byz/w
-         h/ro2a/0bAZEfMDJbEMhRezzNJRbfHWQY3+7oTFcHBWfanS3HtWEG5VhQCcOHw8xFbwY
-         V1RjsKeIaevXSi3BELiUQ7yrXHwXJcpTDz7As=
+        bh=N1vQJsjbXwMoV42WRJ/mwpke5D4/XsDiuadCHfD7OFk=;
+        b=ULQt0/w4XBLPjOu7+r3X6nNI4ATYoBVAkm0zt3ZILk2fYimcUjGwrT6ueQDjc0JnBV
+         JVsWthbtICChgeBNjPRTWyqa7MF+NvRTAX9iWn0s4Hak/ZPP2giiJ6HALOIHvT6cceTH
+         nkT47Ugzb9sCuXEeCfjgLXLpNPIT3j1AwNCHA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706310971; x=1706915771;
+        d=1e100.net; s=20230601; t=1706310972; x=1706915772;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=0dgr7uAnKOP7T5XfeX17z97swkwNkCZ42zeC6YgDi/s=;
-        b=dV9EUsFht8XxupACD/Ty5goYaSiulUyq6xkvhfqBeLf1ADl24D6aMdmgYgZPqE3WNQ
-         K/oIMv8TarxrhnatKYQnzQELIWHBbo8g6rMIFy6hXVEMYHhRosXQHXjGCWyzpGatx1L3
-         mmFaAqiIdM02wehaRocxYKkv98lIbgHRn8PeJjqo18Lk+V8EMfG2z+pvoecr+BbeTlHI
-         ntoLfZLmk1l5aGm6odQBRnwe4BfFZN30XTXhGsGcYjV4aiIcDknFq1BEedtg8h6Nsue7
-         8b30YJKufnGwZ1gCLRLE0o8xSFaiIKwEwdDMcRBFvusHNrTSVNScoLx4SvIxNCtE6SWj
-         aMVQ==
-X-Gm-Message-State: AOJu0Yzsm0mGxVPW8QsQJXraJGJqwWPkE8If7cZaLb1sLmnXC7oYZhsu
-	0bktnDlD0jgGhvCNSy4QhdoE4ZzqQNkDYAPrs7oE7Ox2HsvKmDi5TVBJdSSQpQ==
-X-Google-Smtp-Source: AGHT+IHsMkOc7Y1zxu9ngxPBQ4/Ve5FRbTtg/VBTpnZVoIwUFy4DQtcLLUh2LbUFnAzoTvCw0KH84Q==
-X-Received: by 2002:ae9:e917:0:b0:783:4dfb:11ae with SMTP id x23-20020ae9e917000000b007834dfb11aemr522337qkf.63.1706310971522;
-        Fri, 26 Jan 2024 15:16:11 -0800 (PST)
+        bh=N1vQJsjbXwMoV42WRJ/mwpke5D4/XsDiuadCHfD7OFk=;
+        b=rC7YLG39vBSgUXDXdJEd4c4MBJp0tXBFbZ8YmO2p9BcMmyDmyhpdx21KdJkGMVotYA
+         br6SAV2iMRm7pwHuYbGyBL7/VXhDEG3DwL4rkRPKqMKbPjsOnJrQM929pHJmxu6Cn7Q9
+         QYddpBfqvoBVqQFSoxi5yKBdfU00Is/afbFvXPcSOhbFeVOMob9U/IoGxe/I7qi3VsZx
+         DiYVA4Kwa++ayI/1dblNo4JB+bq//K/BsURI6wPofF2/O7kTuiGHdlU0pT+Ddl724LcO
+         RW/x/Kv+bGLIpMzSKS2CqAnosDCGF1JPl94fWPrvZYS33URi07+rK/4RSAByJrNCb9Vg
+         LRng==
+X-Gm-Message-State: AOJu0YyQF8f53MMw08SGocY/4vBeebKwnS+8mzQfTQdRvozbg4BNB2A9
+	YcQHjogYlwoU3Pf9eansJig0qDRgwvDxpR3LlVHT5INYxLqj0M40qYNaet3h0A==
+X-Google-Smtp-Source: AGHT+IFXn0MsvuBZAXCBvS9dkUDMWpYZYCtB32osg432CHr09P1w9jeHvq+JeL7M7GqosemFCv0Elw==
+X-Received: by 2002:a05:620a:628e:b0:783:daec:2fb8 with SMTP id ov14-20020a05620a628e00b00783daec2fb8mr553057qkn.13.1706310972372;
+        Fri, 26 Jan 2024 15:16:12 -0800 (PST)
 Received: from denia.c.googlers.com (240.157.150.34.bc.googleusercontent.com. [34.150.157.240])
-        by smtp.gmail.com with ESMTPSA id m4-20020a05620a290400b00783de3ddf5esm507358qkp.70.2024.01.26.15.16.10
+        by smtp.gmail.com with ESMTPSA id m4-20020a05620a290400b00783de3ddf5esm507358qkp.70.2024.01.26.15.16.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jan 2024 15:16:11 -0800 (PST)
+        Fri, 26 Jan 2024 15:16:12 -0800 (PST)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Fri, 26 Jan 2024 23:16:05 +0000
-Subject: [PATCH 06/17] media: i2c: css-quirk.h: Fix kerneldoc
+Date: Fri, 26 Jan 2024 23:16:06 +0000
+Subject: [PATCH 07/17] media: i2c: adv748: Fix kerneldoc
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -59,7 +59,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240126-gix-mtk-warnings-v1-6-eed7865fce18@chromium.org>
+Message-Id: <20240126-gix-mtk-warnings-v1-7-eed7865fce18@chromium.org>
 References: <20240126-gix-mtk-warnings-v1-0-eed7865fce18@chromium.org>
 In-Reply-To: <20240126-gix-mtk-warnings-v1-0-eed7865fce18@chromium.org>
 To: Tiffany Lin <tiffany.lin@mediatek.com>, 
@@ -97,38 +97,25 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-amlogic@lists.infradead.org, Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.12.3
 
-Kerneldoc does not seem to understand that embed doc:
-drivers/media/i2c/ccs/ccs-quirk.h:50: warning: Excess struct member 'write' description in 'ccs_quirk'
-drivers/media/i2c/ccs/ccs-quirk.h:50: warning: Excess struct member 'reg' description in 'ccs_quirk'
-drivers/media/i2c/ccs/ccs-quirk.h:50: warning: Excess struct member 'val' description in 'ccs_quirk'
-
-Convert into a standard doc.
+The field is gone, remove the documentation.
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/i2c/ccs/ccs-quirk.h | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/media/i2c/adv748x/adv748x.h | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/media/i2c/ccs/ccs-quirk.h b/drivers/media/i2c/ccs/ccs-quirk.h
-index 0b1a64958d71..392c97109617 100644
---- a/drivers/media/i2c/ccs/ccs-quirk.h
-+++ b/drivers/media/i2c/ccs/ccs-quirk.h
-@@ -28,11 +28,11 @@ struct ccs_sensor;
-  * @reg_access: Register access quirk. The quirk may divert the access
-  *		to another register, or no register at all.
+diff --git a/drivers/media/i2c/adv748x/adv748x.h b/drivers/media/i2c/adv748x/adv748x.h
+index 6f90f78f58cf..d2b5e722e997 100644
+--- a/drivers/media/i2c/adv748x/adv748x.h
++++ b/drivers/media/i2c/adv748x/adv748x.h
+@@ -173,7 +173,6 @@ struct adv748x_afe {
   *
-- *		@write: Is this read (false) or write (true) access?
-- *		@reg: Pointer to the register to access
-- *		@value: Register value, set by the caller on write, or
-+ *		-write: Is this read (false) or write (true) access?
-+ *		-reg:   Pointer to the register to access
-+ *		-val:   Register value, set by the caller on write, or
-  *			by the quirk on read
-- *		@return: 0 on success, -ENOIOCTLCMD if no register
-+ *		-return: 0 on success, -ENOIOCTLCMD if no register
-  *			 access may be done by the caller (default read
-  *			 value is zero), else negative error code on error
-  * @flags: Quirk flags
+  * @endpoints:		parsed device node endpoints for each port
+  *
+- * @i2c_addresses:	I2C Page addresses
+  * @i2c_clients:	I2C clients for the page accesses
+  * @regmap:		regmap configuration pages.
+  *
 
 -- 
 2.43.0.429.g432eaa2c6b-goog
