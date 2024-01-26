@@ -1,56 +1,56 @@
-Received: from mail-il1-f182.google.com (mail-il1-f182.google.com [209.85.166.182])
+Received: from mail-il1-f177.google.com (mail-il1-f177.google.com [209.85.166.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49650CA73
-	for <linux-staging@lists.linux.dev>; Fri, 26 Jan 2024 15:08:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 358B91D6B6
+	for <linux-staging@lists.linux.dev>; Fri, 26 Jan 2024 15:25:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706281700; cv=none; b=LjvqBbc658qIsrsok+VjqfyfxF6BAJZXDG/ePr8SwyP1rmBCNK7P5TjvkbNu8oTQzL89fncBKys2d7EEkpMeO2sx4r/EGo3ga2dDFn6OT1GsB+uCl9heXGe2ztIOzxrz/1b9/gG9Iq9HGxesduLXIB4Y8IidGOmPUO0mfYk6ghk=
+	t=1706282707; cv=none; b=myGR32KkOqYummotxb159JYFDycB2glT9AT3vUqykq3YwwpcXFArN5zZg4UaKACC5Amy4cmvDbe+mn7FLWdorN9uMpKWhsqexgmV2hO/LGMua4Sqk16NRyg8+tRXvgoNi04DfiqifqoXPmswXRFGvzOjieI6fBIcF+ycT0ikFPo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706281700; c=relaxed/simple;
-	bh=yRINOnpUqG3VfKZRXhYter19REgTaOEOZfrrvjAYmpw=;
+	s=arc-20240116; t=1706282707; c=relaxed/simple;
+	bh=9SzX1dvBwQwI3hdnFCUjU/D5qubcTatpWJ9Qez7BiEU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KiqPKd6VW3twGg1FLeCbkD8ohCALiD/GC13Gc2+mfGWNIZf0Lx4GQE9jKGi/29WfVM+Fe8Ym32xiMk4tOhNnWjqRXfQchUmOHzUkawV21PRG+JbOwe18KOM2dPLH55Aneynd+tgJGktoNLHT+TPzdI2OxUgC10eKRaa3ZUebJPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ieee.org; spf=pass smtp.mailfrom=ieee.org; dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b=IBfbt09v; arc=none smtp.client-ip=209.85.166.182
+	 In-Reply-To:Content-Type; b=Yl5cO1pl/AVqN+i31cYzf1HaiT8Ew68DOnM1EagLSIFgXEoeT8obNI37iO68ijIfHiCbKsoylJeUizHYONhHVIvJ7cchxsGUVrLTxsc6kcngqOsEpymOHfErcnFUYrv9sauVLu7UfZ0Ksk5EKBXXVPKbRhzDTkNkFXH76L/qEog=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ieee.org; spf=pass smtp.mailfrom=ieee.org; dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b=DlbzReG3; arc=none smtp.client-ip=209.85.166.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ieee.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ieee.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b="IBfbt09v"
-Received: by mail-il1-f182.google.com with SMTP id e9e14a558f8ab-36287843b64so468335ab.0
-        for <linux-staging@lists.linux.dev>; Fri, 26 Jan 2024 07:08:18 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b="DlbzReG3"
+Received: by mail-il1-f177.google.com with SMTP id e9e14a558f8ab-362b2471610so1161925ab.1
+        for <linux-staging@lists.linux.dev>; Fri, 26 Jan 2024 07:25:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ieee.org; s=google; t=1706281697; x=1706886497; darn=lists.linux.dev;
+        d=ieee.org; s=google; t=1706282704; x=1706887504; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=TvgfzAhcnslUYcH0Du63qqL2ZhIEBQhQPLvfnd+sg0w=;
-        b=IBfbt09vxw95sj8bjb4gZs2gwLoSCvypecRU2/NrsJFcTl0flQTDmF+uSSebzNoHJT
-         qXUmznaX+iSclGhcEvJvX0Cn0hfTt+Twmpbknza/GQIBr2ynb8RvbJC19c2+C7E8CJHq
-         NFZ9Ox5FHQ0s/D46jcMtCLLMIW7W6IQsEL9Ws=
+        bh=kEkmUv2LBLWanivlisRsYqbMgDJKJ+6PtBj6LwVdhTM=;
+        b=DlbzReG36zgy+Ew+YLQvSr31LHQidpXNlVpXo6506R0MhJKNmKsf2Wgv2J2VeIR4H2
+         U2VgWmNh0+ILbCoZVhHaRrXVhyWwRbJ1bFhUFtTUljXGhZzy+rnRsDkVm5F+wHqy7m9v
+         gSlRf/us80Sy0ZXRtq1UvWl3j5n7G9b/vZfv8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706281697; x=1706886497;
+        d=1e100.net; s=20230601; t=1706282704; x=1706887504;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TvgfzAhcnslUYcH0Du63qqL2ZhIEBQhQPLvfnd+sg0w=;
-        b=Y/vmKlazhzLGstM0WhHLxU40L5lP+c4/b4nNVH3vnuSaijC6ZncQYQPY3FXNylBa3k
-         qaDr4YOz2ZWz3gPGFgcpSzwG5f6qj5B4YGEG/+N7/Cf9/wRxHW6pYRdDJsiafNE9bCWO
-         F8O2sl243JQZu3nX+C0jsVp2PqeFKrCxbTZhUVRLgQ2Y7hqAxzXxwrdVFawPzMa9/HoU
-         d6lnPMw8FdquWQTCK1X7bwNYlm0IJDeIqfxJlgeSnwr98S9DlPs5rpR4/lmp1LNcbGEh
-         Uidqe2jPCarz5qcYkbaItCDzt3CnEMVcWTN1hUNToN4JuLbgW23LuFi7wGYXKHYoKagu
-         oakw==
-X-Gm-Message-State: AOJu0YwsZ1P5KFri0vw4n4j+iZK4rYF7C4504T+MdXRycCP1a9o2puH+
-	eQziL3mlAydIGOrnylFvZkxTvkhgXovsr6aho7eauj9nKvWmVplfI1XmdTuRPVmCrJWqKYUs/rL
-	Sqw==
-X-Google-Smtp-Source: AGHT+IHqjnaE5uZNvG3CYpn0yPtuBxKHcEQPeWd9PU4XTsIEFxzzz7EbPvmzTf2BvKucpdLYXKKr0Q==
-X-Received: by 2002:a05:6e02:1a8e:b0:362:7f33:4988 with SMTP id k14-20020a056e021a8e00b003627f334988mr2150742ilv.26.1706281697226;
-        Fri, 26 Jan 2024 07:08:17 -0800 (PST)
+        bh=kEkmUv2LBLWanivlisRsYqbMgDJKJ+6PtBj6LwVdhTM=;
+        b=Msq71LEZi8jYlvC6Ha4bau6sapJ9MA1GoWztmgY+cIFHV9hpbCmXVJuQIJJ+4vQDWW
+         xFgp+XZgp0GyzRUJnS4uOtYD6vKyQ3oUdd81q1iVuqS1mnrR2f/NBOOIllISsozgHA1k
+         37owXCAx89Yg2R+iYvbVjTQvu6A3/xDBV5SfhP2qX0oHRwyxPwy/K317mZ6+RalJfZT/
+         iwW8ShkucnYjK7NDpjFShlN6vWWRESJeud9a3RiUBzq02rceQ+QtBQiDGkxjewyKkRqP
+         oQGuYqdWn6pmaiwBujyHzWM4nRZ9wHa0IBN56BsHnV1OoZ9saH2L/zYgZ8aMu5MiYouh
+         rpqA==
+X-Gm-Message-State: AOJu0YwaJnQ6jFsNNJFMq3o11Tim6vUW/lYW8zJ+bsIsjEjVC+CfkWlM
+	O8eTK1+/s185OMZUZAruQQ839QlAso+5caBoXib0w2nJGFXnrZ5+phXwyTqI66gG/xE/3l1gvQ0
+	fMQ==
+X-Google-Smtp-Source: AGHT+IFrVkgBsPjX1Dr5Cja5KOAsFZ70SEzEpDyfmgzi8CVC22VmpwKQ9J2ZR2shglyLPQ2FjICvJw==
+X-Received: by 2002:a05:6e02:5ce:b0:360:73de:be5e with SMTP id l14-20020a056e0205ce00b0036073debe5emr1026139ils.14.1706282704233;
+        Fri, 26 Jan 2024 07:25:04 -0800 (PST)
 Received: from [172.22.22.28] (c-98-61-227-136.hsd1.mn.comcast.net. [98.61.227.136])
-        by smtp.googlemail.com with ESMTPSA id a10-20020a056638018a00b0046f323505f8sm317507jaq.170.2024.01.26.07.08.16
+        by smtp.googlemail.com with ESMTPSA id p5-20020a02b385000000b0046ebddc03fbsm321799jan.33.2024.01.26.07.25.03
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Jan 2024 07:08:16 -0800 (PST)
-Message-ID: <4980ba8e-081f-47c3-aa63-a972a266577a@ieee.org>
-Date: Fri, 26 Jan 2024 09:08:15 -0600
+        Fri, 26 Jan 2024 07:25:03 -0800 (PST)
+Message-ID: <71634002-42b3-4341-b42b-a6356d358284@ieee.org>
+Date: Fri, 26 Jan 2024 09:25:02 -0600
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -58,232 +58,360 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 106/111] staging: greybus: pwm: Make use of
- devm_pwmchip_alloc() function
+Subject: Re: [PATCH] staging: greybus: Remove usage of the deprecated
+ ida_simple_xx() API
 Content-Language: en-US
-To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Vaibhav Agarwal <vaibhav.sr@gmail.com>, Mark Greer <mgreer@animalcreek.com>,
  Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
- kernel@pengutronix.de
-References: <cover.1706182805.git.u.kleine-koenig@pengutronix.de>
- <fb29256a7f2dcda5ae92119997ac717a6280911f.1706182805.git.u.kleine-koenig@pengutronix.de>
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Viresh Kumar <vireshk@kernel.org>,
+ Bryan O'Donoghue <pure.logic@nexus-software.ie>
+Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev
+References: <2e7bbdaf8a495bb1273396395b5c779363287581.1705350141.git.christophe.jaillet@wanadoo.fr>
 From: Alex Elder <elder@ieee.org>
-In-Reply-To: <fb29256a7f2dcda5ae92119997ac717a6280911f.1706182805.git.u.kleine-koenig@pengutronix.de>
+In-Reply-To: <2e7bbdaf8a495bb1273396395b5c779363287581.1705350141.git.christophe.jaillet@wanadoo.fr>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 1/25/24 6:10 AM, Uwe Kleine-König wrote:
-> This prepares the greybus pwm driver to further changes of the pwm core
-> outlined in the commit introducing devm_pwmchip_alloc(). There is no
-> intended semantical change and the driver should behave as before.
+On 1/15/24 2:22 PM, Christophe JAILLET wrote:
+> ida_alloc() and ida_free() should be preferred to the deprecated
+> ida_simple_get() and ida_simple_remove().
 > 
-> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> Note that the upper limit of ida_simple_get() is exclusive, buInputt the one of
 
-I think you are changing more than you need to in this code.
+Fix whatever it is you meant to say here.                     ^^^^^^^^
 
+> ida_alloc_range()/ida_alloc_max() is inclusive. So a -1 has been added when
+> needed.
+
+Otherwise this looks good.
+
+Reviewed-by: Alex Elder <elder@linaro.org>
+
+> 
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 > ---
->   drivers/staging/greybus/pwm.c | 75 ++++++++++-------------------------
->   1 file changed, 20 insertions(+), 55 deletions(-)
+>   drivers/staging/greybus/audio_manager.c  |  8 ++++----
+>   drivers/staging/greybus/authentication.c |  6 +++---
+>   drivers/staging/greybus/fw-download.c    |  7 +++----
+>   drivers/staging/greybus/fw-management.c  | 20 +++++++++-----------
+>   drivers/staging/greybus/gbphy.c          |  6 +++---
+>   drivers/staging/greybus/loopback.c       |  6 +++---
+>   drivers/staging/greybus/raw.c            |  6 +++---
+>   drivers/staging/greybus/vibrator.c       |  6 +++---
+>   8 files changed, 31 insertions(+), 34 deletions(-)
 > 
-> diff --git a/drivers/staging/greybus/pwm.c b/drivers/staging/greybus/pwm.c
-> index 75e0518791d8..a90f41c374dc 100644
-> --- a/drivers/staging/greybus/pwm.c
-> +++ b/drivers/staging/greybus/pwm.c
-> @@ -16,26 +16,11 @@
+> diff --git a/drivers/staging/greybus/audio_manager.c b/drivers/staging/greybus/audio_manager.c
+> index 9a3f7c034ab4..fa43d35bbcec 100644
+> --- a/drivers/staging/greybus/audio_manager.c
+> +++ b/drivers/staging/greybus/audio_manager.c
+> @@ -44,14 +44,14 @@ int gb_audio_manager_add(struct gb_audio_manager_module_descriptor *desc)
+>   	int id;
+>   	int err;
 >   
->   struct gb_pwm_chip {
->   	struct gb_connection	*connection;
-> -	u8			pwm_max;	/* max pwm number */
-> -	struct pwm_chip		chip;
->   };
+> -	id = ida_simple_get(&module_id, 0, 0, GFP_KERNEL);
+> +	id = ida_alloc(&module_id, GFP_KERNEL);
+>   	if (id < 0)
+>   		return id;
 >   
->   static inline struct gb_pwm_chip *pwm_chip_to_gb_pwm_chip(struct pwm_chip *chip)
->   {
-> -	return container_of(chip, struct gb_pwm_chip, chip);
-
-Now I understand why you were changing the type of the argument
-passed to all those functions.  I still don't think you need
-to do that though.
-
-> -}
-> -
-> -static int gb_pwm_count_operation(struct gb_pwm_chip *pwmc)
-
-This function logically isolates doing the operation from
-the rest of the code.  I'd rather you not get rid of it.
-
-> -{
-> -	struct gb_pwm_count_response response;
-> -	int ret;
-> -
-> -	ret = gb_operation_sync(pwmc->connection, GB_PWM_TYPE_PWM_COUNT,
-> -				NULL, 0, &response, sizeof(response));
-> -	if (ret)
-> -		return ret;
-> -	pwmc->pwm_max = response.count;
-> -	return 0;
-> +	return pwmchip_get_drvdata(chip);
->   }
->   
->   static int gb_pwm_activate_operation(struct pwm_chip *chip, u8 which)
-> @@ -45,9 +30,6 @@ static int gb_pwm_activate_operation(struct pwm_chip *chip, u8 which)
->   	struct gbphy_device *gbphy_dev;
->   	int ret;
->   
-> -	if (which > pwmc->pwm_max)
-> -		return -EINVAL;
-> -
->   	request.which = which;
->   
->   	gbphy_dev = to_gbphy_dev(pwmchip_parent(chip));
-> @@ -71,9 +53,6 @@ static int gb_pwm_deactivate_operation(struct pwm_chip *chip,
->   	struct gbphy_device *gbphy_dev;
->   	int ret;
->   
-> -	if (which > pwmc->pwm_max)
-> -		return -EINVAL;
-> -
->   	request.which = which;
->   
->   	gbphy_dev = to_gbphy_dev(pwmchip_parent(chip));
-> @@ -97,9 +76,6 @@ static int gb_pwm_config_operation(struct pwm_chip *chip,
->   	struct gbphy_device *gbphy_dev;
->   	int ret;
->   
-> -	if (which > pwmc->pwm_max)
-> -		return -EINVAL;
-> -
->   	request.which = which;
->   	request.duty = cpu_to_le32(duty);
->   	request.period = cpu_to_le32(period);
-> @@ -125,9 +101,6 @@ static int gb_pwm_set_polarity_operation(struct pwm_chip *chip,
->   	struct gbphy_device *gbphy_dev;
->   	int ret;
->   
-> -	if (which > pwmc->pwm_max)
-> -		return -EINVAL;
-> -
->   	request.which = which;
->   	request.polarity = polarity;
->   
-> @@ -151,9 +124,6 @@ static int gb_pwm_enable_operation(struct pwm_chip *chip, u8 which)
->   	struct gbphy_device *gbphy_dev;
->   	int ret;
->   
-> -	if (which > pwmc->pwm_max)
-> -		return -EINVAL;
-> -
->   	request.which = which;
->   
->   	gbphy_dev = to_gbphy_dev(pwmchip_parent(chip));
-> @@ -176,9 +146,6 @@ static int gb_pwm_disable_operation(struct pwm_chip *chip, u8 which)
->   	struct gbphy_device *gbphy_dev;
->   	int ret;
->   
-> -	if (which > pwmc->pwm_max)
-> -		return -EINVAL;
-> -
->   	request.which = which;
->   
->   	ret = gb_operation_sync(pwmc->connection, GB_PWM_TYPE_DISABLE,
-> @@ -263,38 +230,37 @@ static int gb_pwm_probe(struct gbphy_device *gbphy_dev,
->   	struct gb_connection *connection;
->   	struct gb_pwm_chip *pwmc;
->   	struct pwm_chip *chip;
-> +	struct gb_pwm_count_response response;
->   	int ret;
->   
-> -	pwmc = kzalloc(sizeof(*pwmc), GFP_KERNEL);
-> -	if (!pwmc)
-> -		return -ENOMEM;
-> -
->   	connection = gb_connection_create(gbphy_dev->bundle,
->   					  le16_to_cpu(gbphy_dev->cport_desc->id),
->   					  NULL);
-> -	if (IS_ERR(connection)) {
-> -		ret = PTR_ERR(connection);
-> -		goto exit_pwmc_free;
-> +	if (IS_ERR(connection))
-> +		return PTR_ERR(connection);
-
-This is actually a bug fix that should probably be done
-separately, prior to this series.
-
-> +
-> +	ret = gb_operation_sync(pwmc->connection, GB_PWM_TYPE_PWM_COUNT,
-> +				NULL, 0, &response, sizeof(response));
-> +	if (ret)
-> +		goto exit_connection_destroy;
-
-You didn't mention in your header that you were getting rid
-of gb_pwm_count_operation(), and as I said above, I don't
-think you should.  Just keep the existing code as it was
-and focus only on your conversion to attaching driver data
-to the PWM chip structure.
-
-> +
-> +	chip = devm_pwmchip_alloc(&gbphy_dev->dev, response.count, sizeof(*pwmc));
-> +	if (IS_ERR(chip)) {
-> +		ret = PTR_ERR(chip);
-> +		goto exit_connection_destroy;
+>   	err = gb_audio_manager_module_create(&module, manager_kset,
+>   					     id, desc);
+>   	if (err) {
+> -		ida_simple_remove(&module_id, id);
+> +		ida_free(&module_id, id);
+>   		return err;
 >   	}
 >   
-> +	pwmc = pwm_chip_to_gb_pwm_chip(chip);
->   	pwmc->connection = connection;
-> +
->   	gb_connection_set_data(connection, pwmc);
-> -	gb_gbphy_set_data(gbphy_dev, pwmc);
-> +	gb_gbphy_set_data(gbphy_dev, chip);
-
-I'm pretty sure driver data should still be the Greybus
-structure, otherwise you're really changing the way this
-works (most likely in a way that's different from other
-Greybus drivers.
-
+> @@ -78,7 +78,7 @@ int gb_audio_manager_remove(int id)
+>   	list_del(&module->list);
+>   	kobject_put(&module->kobj);
+>   	up_write(&modules_rwsem);
+> -	ida_simple_remove(&module_id, id);
+> +	ida_free(&module_id, id);
+>   	return 0;
+>   }
+>   EXPORT_SYMBOL_GPL(gb_audio_manager_remove);
+> @@ -92,7 +92,7 @@ void gb_audio_manager_remove_all(void)
 >   
->   	ret = gb_connection_enable(connection);
+>   	list_for_each_entry_safe(module, next, &modules_list, list) {
+>   		list_del(&module->list);
+> -		ida_simple_remove(&module_id, module->id);
+> +		ida_free(&module_id, module->id);
+>   		kobject_put(&module->kobj);
+>   	}
+>   
+> diff --git a/drivers/staging/greybus/authentication.c b/drivers/staging/greybus/authentication.c
+> index b67315641d18..d53e58f92e81 100644
+> --- a/drivers/staging/greybus/authentication.c
+> +++ b/drivers/staging/greybus/authentication.c
+> @@ -324,7 +324,7 @@ int gb_cap_connection_init(struct gb_connection *connection)
 >   	if (ret)
->   		goto exit_connection_destroy;
+>   		goto err_list_del;
 >   
-> -	/* Query number of pwms present */
-> -	ret = gb_pwm_count_operation(pwmc);
-> -	if (ret)
-> -		goto exit_connection_disable;
-> -
-> -	chip = &pwmc->chip;
-> -
-> -	chip->dev = &gbphy_dev->dev;
->   	chip->ops = &gb_pwm_ops;
-> -	chip->npwm = pwmc->pwm_max + 1;
->   
->   	ret = pwmchip_add(chip);
->   	if (ret) {
-> @@ -310,14 +276,13 @@ static int gb_pwm_probe(struct gbphy_device *gbphy_dev,
+> -	minor = ida_simple_get(&cap_minors_map, 0, NUM_MINORS, GFP_KERNEL);
+> +	minor = ida_alloc_max(&cap_minors_map, NUM_MINORS - 1, GFP_KERNEL);
+>   	if (minor < 0) {
+>   		ret = minor;
+>   		goto err_connection_disable;
+> @@ -351,7 +351,7 @@ int gb_cap_connection_init(struct gb_connection *connection)
+>   err_del_cdev:
+>   	cdev_del(&cap->cdev);
+>   err_remove_ida:
+> -	ida_simple_remove(&cap_minors_map, minor);
+> +	ida_free(&cap_minors_map, minor);
+>   err_connection_disable:
 >   	gb_connection_disable(connection);
->   exit_connection_destroy:
->   	gb_connection_destroy(connection);
-> -exit_pwmc_free:
-> -	kfree(pwmc);
->   	return ret;
+>   err_list_del:
+> @@ -375,7 +375,7 @@ void gb_cap_connection_exit(struct gb_connection *connection)
+>   
+>   	device_destroy(&cap_class, cap->dev_num);
+>   	cdev_del(&cap->cdev);
+> -	ida_simple_remove(&cap_minors_map, MINOR(cap->dev_num));
+> +	ida_free(&cap_minors_map, MINOR(cap->dev_num));
+>   
+>   	/*
+>   	 * Disallow any new ioctl operations on the char device and wait for
+> diff --git a/drivers/staging/greybus/fw-download.c b/drivers/staging/greybus/fw-download.c
+> index 543692c567f9..2a5c6d1b049c 100644
+> --- a/drivers/staging/greybus/fw-download.c
+> +++ b/drivers/staging/greybus/fw-download.c
+> @@ -63,8 +63,7 @@ static void fw_req_release(struct kref *kref)
+>   	 * just hope that it never happens.
+>   	 */
+>   	if (!fw_req->timedout)
+> -		ida_simple_remove(&fw_req->fw_download->id_map,
+> -				  fw_req->firmware_id);
+> +		ida_free(&fw_req->fw_download->id_map, fw_req->firmware_id);
+>   
+>   	kfree(fw_req);
+>   }
+> @@ -171,7 +170,7 @@ static struct fw_request *find_firmware(struct fw_download *fw_download,
+>   		return ERR_PTR(-ENOMEM);
+>   
+>   	/* Allocate ids from 1 to 255 (u8-max), 0 is an invalid id */
+> -	ret = ida_simple_get(&fw_download->id_map, 1, 256, GFP_KERNEL);
+> +	ret = ida_alloc_range(&fw_download->id_map, 1, 255, GFP_KERNEL);
+>   	if (ret < 0) {
+>   		dev_err(fw_download->parent,
+>   			"failed to allocate firmware id (%d)\n", ret);
+> @@ -212,7 +211,7 @@ static struct fw_request *find_firmware(struct fw_download *fw_download,
+>   	return fw_req;
+>   
+>   err_free_id:
+> -	ida_simple_remove(&fw_download->id_map, fw_req->firmware_id);
+> +	ida_free(&fw_download->id_map, fw_req->firmware_id);
+>   err_free_req:
+>   	kfree(fw_req);
+>   
+> diff --git a/drivers/staging/greybus/fw-management.c b/drivers/staging/greybus/fw-management.c
+> index 93137a3c4907..3054f084d777 100644
+> --- a/drivers/staging/greybus/fw-management.c
+> +++ b/drivers/staging/greybus/fw-management.c
+> @@ -165,7 +165,7 @@ static int fw_mgmt_load_and_validate_operation(struct fw_mgmt *fw_mgmt,
+>   	}
+>   
+>   	/* Allocate ids from 1 to 255 (u8-max), 0 is an invalid id */
+> -	ret = ida_simple_get(&fw_mgmt->id_map, 1, 256, GFP_KERNEL);
+> +	ret = ida_alloc_range(&fw_mgmt->id_map, 1, 255, GFP_KERNEL);
+>   	if (ret < 0) {
+>   		dev_err(fw_mgmt->parent, "failed to allocate request id (%d)\n",
+>   			ret);
+> @@ -180,8 +180,7 @@ static int fw_mgmt_load_and_validate_operation(struct fw_mgmt *fw_mgmt,
+>   				GB_FW_MGMT_TYPE_LOAD_AND_VALIDATE_FW, &request,
+>   				sizeof(request), NULL, 0);
+>   	if (ret) {
+> -		ida_simple_remove(&fw_mgmt->id_map,
+> -				  fw_mgmt->intf_fw_request_id);
+> +		ida_free(&fw_mgmt->id_map, fw_mgmt->intf_fw_request_id);
+>   		fw_mgmt->intf_fw_request_id = 0;
+>   		dev_err(fw_mgmt->parent,
+>   			"load and validate firmware request failed (%d)\n",
+> @@ -220,7 +219,7 @@ static int fw_mgmt_interface_fw_loaded_operation(struct gb_operation *op)
+>   		return -ENODEV;
+>   	}
+>   
+> -	ida_simple_remove(&fw_mgmt->id_map, fw_mgmt->intf_fw_request_id);
+> +	ida_free(&fw_mgmt->id_map, fw_mgmt->intf_fw_request_id);
+>   	fw_mgmt->intf_fw_request_id = 0;
+>   	fw_mgmt->intf_fw_status = request->status;
+>   	fw_mgmt->intf_fw_major = le16_to_cpu(request->major);
+> @@ -316,7 +315,7 @@ static int fw_mgmt_backend_fw_update_operation(struct fw_mgmt *fw_mgmt,
+>   	}
+>   
+>   	/* Allocate ids from 1 to 255 (u8-max), 0 is an invalid id */
+> -	ret = ida_simple_get(&fw_mgmt->id_map, 1, 256, GFP_KERNEL);
+> +	ret = ida_alloc_range(&fw_mgmt->id_map, 1, 255, GFP_KERNEL);
+>   	if (ret < 0) {
+>   		dev_err(fw_mgmt->parent, "failed to allocate request id (%d)\n",
+>   			ret);
+> @@ -330,8 +329,7 @@ static int fw_mgmt_backend_fw_update_operation(struct fw_mgmt *fw_mgmt,
+>   				GB_FW_MGMT_TYPE_BACKEND_FW_UPDATE, &request,
+>   				sizeof(request), NULL, 0);
+>   	if (ret) {
+> -		ida_simple_remove(&fw_mgmt->id_map,
+> -				  fw_mgmt->backend_fw_request_id);
+> +		ida_free(&fw_mgmt->id_map, fw_mgmt->backend_fw_request_id);
+>   		fw_mgmt->backend_fw_request_id = 0;
+>   		dev_err(fw_mgmt->parent,
+>   			"backend %s firmware update request failed (%d)\n", tag,
+> @@ -369,7 +367,7 @@ static int fw_mgmt_backend_fw_updated_operation(struct gb_operation *op)
+>   		return -ENODEV;
+>   	}
+>   
+> -	ida_simple_remove(&fw_mgmt->id_map, fw_mgmt->backend_fw_request_id);
+> +	ida_free(&fw_mgmt->id_map, fw_mgmt->backend_fw_request_id);
+>   	fw_mgmt->backend_fw_request_id = 0;
+>   	fw_mgmt->backend_fw_status = request->status;
+>   
+> @@ -617,7 +615,7 @@ int gb_fw_mgmt_connection_init(struct gb_connection *connection)
+>   	if (ret)
+>   		goto err_list_del;
+>   
+> -	minor = ida_simple_get(&fw_mgmt_minors_map, 0, NUM_MINORS, GFP_KERNEL);
+> +	minor = ida_alloc_max(&fw_mgmt_minors_map, NUM_MINORS - 1, GFP_KERNEL);
+>   	if (minor < 0) {
+>   		ret = minor;
+>   		goto err_connection_disable;
+> @@ -645,7 +643,7 @@ int gb_fw_mgmt_connection_init(struct gb_connection *connection)
+>   err_del_cdev:
+>   	cdev_del(&fw_mgmt->cdev);
+>   err_remove_ida:
+> -	ida_simple_remove(&fw_mgmt_minors_map, minor);
+> +	ida_free(&fw_mgmt_minors_map, minor);
+>   err_connection_disable:
+>   	gb_connection_disable(connection);
+>   err_list_del:
+> @@ -669,7 +667,7 @@ void gb_fw_mgmt_connection_exit(struct gb_connection *connection)
+>   
+>   	device_destroy(&fw_mgmt_class, fw_mgmt->dev_num);
+>   	cdev_del(&fw_mgmt->cdev);
+> -	ida_simple_remove(&fw_mgmt_minors_map, MINOR(fw_mgmt->dev_num));
+> +	ida_free(&fw_mgmt_minors_map, MINOR(fw_mgmt->dev_num));
+>   
+>   	/*
+>   	 * Disallow any new ioctl operations on the char device and wait for
+> diff --git a/drivers/staging/greybus/gbphy.c b/drivers/staging/greybus/gbphy.c
+> index 6a7d8cf2a1eb..93b74a236ab1 100644
+> --- a/drivers/staging/greybus/gbphy.c
+> +++ b/drivers/staging/greybus/gbphy.c
+> @@ -46,7 +46,7 @@ static void gbphy_dev_release(struct device *dev)
+>   {
+>   	struct gbphy_device *gbphy_dev = to_gbphy_dev(dev);
+>   
+> -	ida_simple_remove(&gbphy_id, gbphy_dev->id);
+> +	ida_free(&gbphy_id, gbphy_dev->id);
+>   	kfree(gbphy_dev);
 >   }
 >   
->   static void gb_pwm_remove(struct gbphy_device *gbphy_dev)
->   {
-> -	struct gb_pwm_chip *pwmc = gb_gbphy_get_data(gbphy_dev);
-> +	struct pwm_chip *chip = gb_gbphy_get_data(gbphy_dev);
-> +	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
->   	struct gb_connection *connection = pwmc->connection;
->   	int ret;
+> @@ -225,13 +225,13 @@ static struct gbphy_device *gb_gbphy_create_dev(struct gb_bundle *bundle,
+>   	int retval;
+>   	int id;
 >   
-> @@ -325,7 +290,7 @@ static void gb_pwm_remove(struct gbphy_device *gbphy_dev)
->   	if (ret)
->   		gbphy_runtime_get_noresume(gbphy_dev);
+> -	id = ida_simple_get(&gbphy_id, 1, 0, GFP_KERNEL);
+> +	id = ida_alloc_min(&gbphy_id, 1, GFP_KERNEL);
+>   	if (id < 0)
+>   		return ERR_PTR(id);
 >   
-> -	pwmchip_remove(&pwmc->chip);
-> +	pwmchip_remove(chip);
+>   	gbphy_dev = kzalloc(sizeof(*gbphy_dev), GFP_KERNEL);
+>   	if (!gbphy_dev) {
+> -		ida_simple_remove(&gbphy_id, id);
+> +		ida_free(&gbphy_id, id);
+>   		return ERR_PTR(-ENOMEM);
+>   	}
+>   
+> diff --git a/drivers/staging/greybus/loopback.c b/drivers/staging/greybus/loopback.c
+> index d7b39f3bb652..bb33379b5297 100644
+> --- a/drivers/staging/greybus/loopback.c
+> +++ b/drivers/staging/greybus/loopback.c
+> @@ -1028,7 +1028,7 @@ static int gb_loopback_probe(struct gb_bundle *bundle,
+>   	gb->file = debugfs_create_file(name, S_IFREG | 0444, gb_dev.root, gb,
+>   				       &gb_loopback_dbgfs_latency_fops);
+>   
+> -	gb->id = ida_simple_get(&loopback_ida, 0, 0, GFP_KERNEL);
+> +	gb->id = ida_alloc(&loopback_ida, GFP_KERNEL);
+>   	if (gb->id < 0) {
+>   		retval = gb->id;
+>   		goto out_debugfs_remove;
+> @@ -1079,7 +1079,7 @@ static int gb_loopback_probe(struct gb_bundle *bundle,
+>   out_connection_disable:
 >   	gb_connection_disable(connection);
+>   out_ida_remove:
+> -	ida_simple_remove(&loopback_ida, gb->id);
+> +	ida_free(&loopback_ida, gb->id);
+>   out_debugfs_remove:
+>   	debugfs_remove(gb->file);
+>   out_connection_destroy:
+> @@ -1121,7 +1121,7 @@ static void gb_loopback_disconnect(struct gb_bundle *bundle)
+>   	spin_unlock_irqrestore(&gb_dev.lock, flags);
+>   
+>   	device_unregister(gb->dev);
+> -	ida_simple_remove(&loopback_ida, gb->id);
+> +	ida_free(&loopback_ida, gb->id);
+>   
+>   	gb_connection_destroy(gb->connection);
+>   	kfree(gb);
+> diff --git a/drivers/staging/greybus/raw.c b/drivers/staging/greybus/raw.c
+> index b9c6eff7cdc1..836d35e5fa85 100644
+> --- a/drivers/staging/greybus/raw.c
+> +++ b/drivers/staging/greybus/raw.c
+> @@ -181,7 +181,7 @@ static int gb_raw_probe(struct gb_bundle *bundle,
+>   	raw->connection = connection;
+>   	greybus_set_drvdata(bundle, raw);
+>   
+> -	minor = ida_simple_get(&minors, 0, 0, GFP_KERNEL);
+> +	minor = ida_alloc(&minors, GFP_KERNEL);
+>   	if (minor < 0) {
+>   		retval = minor;
+>   		goto error_connection_destroy;
+> @@ -214,7 +214,7 @@ static int gb_raw_probe(struct gb_bundle *bundle,
+>   	gb_connection_disable(connection);
+>   
+>   error_remove_ida:
+> -	ida_simple_remove(&minors, minor);
+> +	ida_free(&minors, minor);
+>   
+>   error_connection_destroy:
 >   	gb_connection_destroy(connection);
->   	kfree(pwmc);
+> @@ -235,7 +235,7 @@ static void gb_raw_disconnect(struct gb_bundle *bundle)
+>   	device_destroy(&raw_class, raw->dev);
+>   	cdev_del(&raw->cdev);
+>   	gb_connection_disable(connection);
+> -	ida_simple_remove(&minors, MINOR(raw->dev));
+> +	ida_free(&minors, MINOR(raw->dev));
+>   	gb_connection_destroy(connection);
+>   
+>   	mutex_lock(&raw->list_lock);
+> diff --git a/drivers/staging/greybus/vibrator.c b/drivers/staging/greybus/vibrator.c
+> index 227e18d92a95..89bef8045549 100644
+> --- a/drivers/staging/greybus/vibrator.c
+> +++ b/drivers/staging/greybus/vibrator.c
+> @@ -153,7 +153,7 @@ static int gb_vibrator_probe(struct gb_bundle *bundle,
+>   	 * there is a "real" device somewhere in the kernel for this, but I
+>   	 * can't find it at the moment...
+>   	 */
+> -	vib->minor = ida_simple_get(&minors, 0, 0, GFP_KERNEL);
+> +	vib->minor = ida_alloc(&minors, GFP_KERNEL);
+>   	if (vib->minor < 0) {
+>   		retval = vib->minor;
+>   		goto err_connection_disable;
+> @@ -173,7 +173,7 @@ static int gb_vibrator_probe(struct gb_bundle *bundle,
+>   	return 0;
+>   
+>   err_ida_remove:
+> -	ida_simple_remove(&minors, vib->minor);
+> +	ida_free(&minors, vib->minor);
+>   err_connection_disable:
+>   	gb_connection_disable(connection);
+>   err_connection_destroy:
+> @@ -197,7 +197,7 @@ static void gb_vibrator_disconnect(struct gb_bundle *bundle)
+>   		turn_off(vib);
+>   
+>   	device_unregister(vib->dev);
+> -	ida_simple_remove(&minors, vib->minor);
+> +	ida_free(&minors, vib->minor);
+>   	gb_connection_disable(vib->connection);
+>   	gb_connection_destroy(vib->connection);
+>   	kfree(vib);
 
