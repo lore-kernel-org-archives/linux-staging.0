@@ -1,90 +1,118 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BFDC8C14;
-	Sat, 27 Jan 2024 01:51:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706320277; cv=none; b=J/2RrfqIRhXs5ybmCthzze6ZDqJ/cKAjennNnK0hrv2CWBX0X4a6v4uWA6R/14D7SoZBT/5mnbtqMgdwKARRhNhDRt0NE9+5pdqnZfTgRGu3+mD5Xxr5zzB6Lf4naCWzfnA8ZSoLjIkta6LuSp9SBXBRIK+AbrZegv6FQXwtOnU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706320277; c=relaxed/simple;
-	bh=KZpDU/PEAGyFwGtY9AhJRKxcH3CF40SmBvZ9Xq2HTvQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kmPxyjYstJb9ncLIY444V4NRq6yUeby3OZH2P1wjqxzRsAxoSxWmBMobEp3YHsI0gGF7QEQZyW1rmzgELMpf890QHdZIeOuUUJ9vz/R8Qh3E6xTzzaSv2wsiAuFBZVpE2Ode3Owh++eeK6oLv+WWpcvUgBVZ6z6hqaBI5IbJXz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=1bMYiW8P; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EED3D1BF44
+	for <linux-staging@lists.linux.dev>; Sat, 27 Jan 2024 09:48:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706348913; cv=pass; b=Qbe9U+Hcn0++uXT+8zruqWoXEZL7URLn2QUIWVthm7nSytR4N2I5wPEqsuPrUaj9igrTXdIWxIPWZFLLX74yWkC1dSrBgZwX2cs9cDp6NlGH+FYqf1Nroq1AX3ZFjMxS+T6qYStix0WnzOrvt6GaHB5KPUalogb0DKFQgnj2V+4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706348913; c=relaxed/simple;
+	bh=rjRtZZUKE6ZM+lpRpDG0+4ezXXpnQzD6t9nnlPgHn14=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FsaG7eMMMcYZ/3ac4Df6pkpt9rSt056Pkm0k6tl8DW2bpLN/08ll5eYH5hkwwTt/ANhV6lvv7LfkR32vjMlwERMjU4d5ahqHGUkUmXN7Xzfc/N+CL60TYWkZZHt1evillyc5KR9FpKcLa/+oKaDA03wPM6jW9JkoCtFPFiDYeDo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=bu8mtCyp; arc=pass smtp.client-ip=195.140.195.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="1bMYiW8P"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=lxYFxs/8WK1pTjOIC0n7A2x231owOnOSLs3pwAFP9f4=; b=1bMYiW8PDwIA/3MpD5Mm8+w+B0
-	4HPN+fwJNQjcSaprS2W8q9+6vfk42Gb3sTsDNQ+pIabWuHzsqkf+98E96uvPutlmyddM+L/2qoMbC
-	NRpDaTwop0LKEeGTwntNwgBk2rSDpH2wGpjGjYhAlFzIEgmQ21ZJa+5nkOMlGFvsiJq+zMPrV7tBY
-	04hs3cdz9Xv5yNANmbKaCgEp4k5ZFkhxSN9PADo9l2iMGgP69sPl5nOYSRfLn2zNzmqgD0vY9LY0k
-	wxpO4av5GvnO5h4PVFD7WUt6tHeMBewPRm8f1NBGaTXuxJl4jvsXNNRyI01rOxD8P0/SttTdwfp9j
-	bxAUHJfg==;
-Received: from [50.53.50.0] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rTXqe-00000006Alx-2cQm;
-	Sat, 27 Jan 2024 01:51:08 +0000
-Message-ID: <e6b72dff-911e-4923-9996-b3b7db36fb8e@infradead.org>
-Date: Fri, 26 Jan 2024 17:51:06 -0800
+	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="bu8mtCyp"
+Received: from hillosipuli.retiisi.eu (80-248-247-191.cust.suomicom.net [80.248.247.191])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by meesny.iki.fi (Postfix) with ESMTPSA id 4TMV9q1pKtzyVX;
+	Sat, 27 Jan 2024 11:48:15 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+	t=1706348900;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=h3j1f2nFT/FM+fCIzcmVTXPL1EIRhYTbwlMX2+s7BIA=;
+	b=bu8mtCypj3iKYSK8u3lAX+QQ250DLbOWZj32mwDctcU2VEdE8P9xjEsSnmFGusE95DZD+M
+	nZ09JcB1/E79Bse6Dw3zkgw9S+IWYqR4+46NLBBvPUUPQNSdOngS3k6SQfGZmXvBiVv430
+	gPhxxOaSpZvgBpeDOfqJL8Dh7lp8L1g=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=meesny; t=1706348900;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=h3j1f2nFT/FM+fCIzcmVTXPL1EIRhYTbwlMX2+s7BIA=;
+	b=h4ZTQ+TfYqtfZOmMzVQYGWDkCYo25ZZ22GwkWSAK1uv0CNwQuyLIoDMtVulEbeY0XRi1am
+	VilpHrGEQ5EO/WBpH0t56i57nuTXNInYwJ6AQbe1CPU/aRoRrIUy1B0MHRnA74IYX6HIdk
+	jEVxFlf9SUZNxajkpivFC6iSjR9X/Tk=
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1706348900; a=rsa-sha256; cv=none;
+	b=uWyNSJYVd7TmfFi961ft1zXeW02/wtihzLSqbhgIJCjkTgT2g3uMjhC5F9d9he4mYO7Avj
+	MzjcJNVmHEgiu2R7OCRlHlHMTW9qGuIXKq8WEkLy1y2zX53xsdRqpr5zp3KYFZZEFizv9L
+	zrug8y9uME9az3LvAvLOb8qMkl5VuJw=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 7C8FB634C93;
+	Sat, 27 Jan 2024 11:48:14 +0200 (EET)
+Date: Sat, 27 Jan 2024 09:48:14 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Tiffany Lin <tiffany.lin@mediatek.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Yunfei Dong <yunfei.dong@mediatek.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Bin Liu <bin.liu@mediatek.com>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+	Vikash Garodia <quic_vgarodia@quicinc.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-samsung-soc@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-amlogic@lists.infradead.org
+Subject: Re: [PATCH 03/17] media: media-entity.h: Fix kerneldoc
+Message-ID: <ZbTRXgnBnb-hHKK_@valkosipuli.retiisi.eu>
+References: <20240126-gix-mtk-warnings-v1-0-eed7865fce18@chromium.org>
+ <20240126-gix-mtk-warnings-v1-3-eed7865fce18@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 03/17] media: media-entity.h: Fix kerneldoc
-Content-Language: en-US
-To: Ricardo Ribalda <ribalda@chromium.org>,
- Tiffany Lin <tiffany.lin@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Yunfei Dong <yunfei.dong@mediatek.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, Hans Verkuil <hverkuil@xs4all.nl>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Bin Liu <bin.liu@mediatek.com>,
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Sylwester Nawrocki <s.nawrocki@samsung.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Alim Akhtar <alim.akhtar@samsung.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Bingbu Cao <bingbu.cao@intel.com>,
- Tianshu Qiu <tian.shu.qiu@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-amlogic@lists.infradead.org
-References: <20240126-gix-mtk-warnings-v1-0-eed7865fce18@chromium.org>
- <20240126-gix-mtk-warnings-v1-3-eed7865fce18@chromium.org>
-From: Randy Dunlap <rdunlap@infradead.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <20240126-gix-mtk-warnings-v1-3-eed7865fce18@chromium.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
+Hi Ricardo,
 
+Thanks for the patchset.
 
-On 1/26/24 15:16, Ricardo Ribalda wrote:
+On Fri, Jan 26, 2024 at 11:16:02PM +0000, Ricardo Ribalda wrote:
 > The fields seems to be documented twice.
 > 
 > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
@@ -104,61 +132,15 @@ On 1/26/24 15:16, Ricardo Ribalda wrote:
 > - *		for backward compatibility.
 > - * @minor:	Devnode minor number (zero if not applicable). Kept just
 > - *		for backward compatibility.
+
+A similar patch by Randy Dunlap was recently merged. You can drop this one.
+
 >   *
 >   * .. note::
 >   *
 > 
 
-I'd say that this is correct based on
-https://patchwork.kernel.org/project/linux-media/patch/20231223050707.14091-1-rdunlap@infradead.org/
-
-
-Hans, can you please explain this message from you, on 2024-Jan-22, that I cannot find in the media patchwork:
-
-
-Subject: [git:media_stage/master] media: media-entity.h: fix Excess kernel-doc description warnings
-
-
-
-This is an automatic generated email to let you know that the following patch were queued:
-
-Subject: media: media-entity.h: fix Excess kernel-doc description warnings
-Author:  Randy Dunlap <rdunlap@infradead.org>
-Date:    Fri Dec 22 21:07:07 2023 -0800
-
-Remove the @major: and @minor: lines to prevent the kernel-doc warnings:
-
-include/media/media-entity.h:376: warning: Excess struct member 'major' description in 'media_entity'
-include/media/media-entity.h:376: warning: Excess struct member 'minor' description in 'media_entity'
-
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-
- include/media/media-entity.h | 4 ----
- 1 file changed, 4 deletions(-)
-
----
-
-diff --git a/include/media/media-entity.h b/include/media/media-entity.h
-index 2b6cd343ee9e..c79176ed6299 100644
---- a/include/media/media-entity.h
-+++ b/include/media/media-entity.h
-@@ -337,10 +337,6 @@ enum media_entity_type {
-  * @info.dev:	Contains device major and minor info.
-  * @info.dev.major: device node major, if the device is a devnode.
-  * @info.dev.minor: device node minor, if the device is a devnode.
-- * @major:	Devnode major number (zero if not applicable). Kept just
-- *		for backward compatibility.
-- * @minor:	Devnode minor number (zero if not applicable). Kept just
-- *		for backward compatibility.
-  *
-  * .. note::
-  *
-
-
-
-Thanks.
 -- 
-#Randy
+Kind regards,
+
+Sakari Ailus
