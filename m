@@ -1,130 +1,89 @@
-Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 023B81D6A7
-	for <linux-staging@lists.linux.dev>; Sat, 27 Jan 2024 09:57:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706349429; cv=pass; b=nAqGLvPTmQzgtu6CCPxUL+qqGOf1TweFhrz5rzuy1m7dGKjPtV5rpfopY8k3vAqmh1UYcunw2orqsBS2o0uBdgthdZg0rM+DrWPaohEOLDTobTdaR0fvt1jb4e9+xXEjLHIOlJQe/GGvDEL2G40SkDQlpZWtxQcAmu+9iz4YB0Y=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706349429; c=relaxed/simple;
-	bh=BYB6jC3aI2xiPrDsSv3GPmsr+ClEbamMjWpzzNbk00E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Dd1aIsPdluETWCIM3zr37DDGPO+4wNbtjJj7T9GnqZ8I9PHthFQJFABYJqAWM/X0FLOCB8thjc7XPfrxz6I+c3sD1Wmb4xFG8NqOgM5oJyRBPr0AkuOWCNaeH9RpF6UvHgOTighpG1bMy0VN8wAsqhTS3G/1g+o60x28cjhuSgs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=NhI2acQ1; arc=pass smtp.client-ip=195.140.195.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD32D286AE
+	for <linux-staging@lists.linux.dev>; Sat, 27 Jan 2024 16:45:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706373903; cv=none; b=bfRwGLwPjOFsqyATuuIuV8GxglxvJG+bFFpdNoQV7clU1qBSd0OmFb8NNIEtn6sqEHDVyfiMNREAiNLfyXvo3m6qwwslEkn3Ow6xXKz1JI/tjAf2KSQUa7v6OZwZlZNq7zVB5n7hj4MO1aFsMzRKzKYgfHSkwu39qnmpysBj/QQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706373903; c=relaxed/simple;
+	bh=vlJSya6kj6cZK+MaTAsZGZUCQE+8ZFDxHmkcOPqrWSk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CHnngZJnXzaqw6jyeX/qM31PPRFnaEl/DlHAZ2BuU6TA9kfhkbv8ER2Ezlw7eiS5QaQ1d8pppnuWn132JmYv2YxX7dThtPGHpgJoE2MqA8Yh8RToeyCKj6mxgXF7Pk+QUAH10JWCFddOE5sJ7EhbLTf2MWK62E/13hzzCWyo0Rs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GT9nxXN5; arc=none smtp.client-ip=209.85.218.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="NhI2acQ1"
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by meesny.iki.fi (Postfix) with ESMTPSA id 4TMVN020rqzyPp;
-	Sat, 27 Jan 2024 11:57:04 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-	t=1706349424;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UAj93A+QldIc2BlOVJOBkygnNhIiKNVEocFWLbjrq44=;
-	b=NhI2acQ1O4J7xZMn0vxDy8AsXgy5iOSZLbslZXaEFG7Lm3WiP4d9HQgxKlv9pKIZXqfitW
-	JX54ndZ8TEsE+QpN/C6fy01whRVK9LqnhbRyzMZUQO5WFLzLYxisKWkTDJx/d8rmHa8Gvi
-	TaVyx/W7YDoo8w1ZFsPJSIGVTE0b6Bg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=meesny; t=1706349424;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UAj93A+QldIc2BlOVJOBkygnNhIiKNVEocFWLbjrq44=;
-	b=m5Afe8MEqZqYfQ7DsoCfsbTinjVAmnmLBU8rNzuv9udyXlHrhZXaS3mEOQHJOqcmiewyzF
-	fRgYXOHQjzUTOWlujiymp1Wte6IdetR83dQuN86Ib4/u8wHyoha75sp28/u+e7dkWZFHBk
-	fj/dpnp2t7MzQU1oXNFueKAnW3dOws4=
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1706349424; a=rsa-sha256; cv=none;
-	b=cuM4Wm24bJ+zli7jFhPml/vGiMkLf7Mx4y1JSql7NWzDMObPe8xmwGI1sk58uB95Yih6lJ
-	AFsCph2L2PqQDvxd3l2qDs9GVbhsaUZRTB28h1qM7+iUeEJhxm0LUcY0hRcw/XsV+j8DYu
-	NZ/tFKPGsRG853g4AKokaRvVeYY6DdI=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 9319C634C93;
-	Sat, 27 Jan 2024 11:57:03 +0200 (EET)
-Date: Sat, 27 Jan 2024 09:57:03 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Tiffany Lin <tiffany.lin@mediatek.com>,
-	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-	Yunfei Dong <yunfei.dong@mediatek.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Bin Liu <bin.liu@mediatek.com>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-	Vikash Garodia <quic_vgarodia@quicinc.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-samsung-soc@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-amlogic@lists.infradead.org
-Subject: Re: [PATCH 17/17] linux: v4l2-vp9.h: Fix kerneldoc
-Message-ID: <ZbTTb-SdK-EubGdc@valkosipuli.retiisi.eu>
-References: <20240126-gix-mtk-warnings-v1-0-eed7865fce18@chromium.org>
- <20240126-gix-mtk-warnings-v1-17-eed7865fce18@chromium.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GT9nxXN5"
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a28cfca3c45so43071666b.1
+        for <linux-staging@lists.linux.dev>; Sat, 27 Jan 2024 08:45:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706373900; x=1706978700; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Y+rNic9k0UXeI7BVMKejsL/vLfG93AW2nOVjIf/o5qc=;
+        b=GT9nxXN5+BtpzVuFJmFlpH8Pg++grRfpHDbp/eENr9scrC23h4jdOVhUSQEAEadluS
+         4j7o4qhYW9sIlOKRztsVpIaAt2am0XOAnSU4lixZFR0NBvahfJ3TDlRl21Pmsn7IJ01N
+         ClzPjmFoY94BSy6P4NeO0W4Yt3CQwB871Mj0Zg04Kyf+TvD5rNXlnZnC0EFoV2QifmhU
+         eBrx5ycJ43f2vYD5j3MBQs8KiKIqfFLG9YYZjSMiZ/FrCJJVP0OcoGByCPABTBl2Bzc+
+         8qAIbr5Z6fEC+y1P2j7EmW4qh8eczchSux4j+tAkcIInfXiNwPEF3LnYUZZAC0ozActD
+         MI9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706373900; x=1706978700;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y+rNic9k0UXeI7BVMKejsL/vLfG93AW2nOVjIf/o5qc=;
+        b=Pyc+iEkmcLIEhuxPoAbqm51JcA4DCmEPBeeD0bgsYWk4EhSMCwUoITteCXx8KyM/BG
+         qQiKnhWoI1kNuWcaZOtnERanvDMlc7vHQdbaVy8eK4+X3rR8XaaxloOnC6y8cxjCMWJd
+         fAt+Z1cfhwqY3qWvfc7o1WJPtPyHuoOE1B7pHSnJEpQmFpPOSwp32iSsUvixNaONGbiw
+         1lPpiqqUTHXjs0cf5jCTwvxDeHsPGV9IcPQ27bAuV+OqzxRRLWeYD8WI54PNYm1OmIvY
+         qkPSJEzxtZ4ZBYlQfpm+PSK95F573gF2pHqi5PnqA5bl2sv3PkswjZ4wGZRIc0s8o/f4
+         e49Q==
+X-Gm-Message-State: AOJu0YxB2U5bIvmh+MWzQfgpGmwCUqjvBuXGZxy03L1x4rckDG0mmt5v
+	SsXYxLSo1ZZv0fU6YsB+lCeUB0YnxAegrStl9TeT5f6Kp5E2ueMJ
+X-Google-Smtp-Source: AGHT+IGHf6eI5YrKJnU2uVmBzVLFMNBBY2NZxJ2qqKnNsAmfStOnKjPWLc4TEZeEa3+J5NIhBiWFIA==
+X-Received: by 2002:aa7:db56:0:b0:557:e527:f799 with SMTP id n22-20020aa7db56000000b00557e527f799mr1582572edt.4.1706373899626;
+        Sat, 27 Jan 2024 08:44:59 -0800 (PST)
+Received: from [192.168.0.103] (p54a07fa0.dip0.t-ipconnect.de. [84.160.127.160])
+        by smtp.gmail.com with ESMTPSA id fg14-20020a056402548e00b00558a1937dddsm1750567edb.63.2024.01.27.08.44.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 27 Jan 2024 08:44:59 -0800 (PST)
+Message-ID: <6f13d58a-f072-49dc-a9bc-f742550fc9f7@gmail.com>
+Date: Sat, 27 Jan 2024 17:44:58 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240126-gix-mtk-warnings-v1-17-eed7865fce18@chromium.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 00/18] Staging: rtl8192e: 18 Additional checkpatch
+ fixes for rtllib_softmac.c
+Content-Language: en-US
+To: Tree Davies <tdavies@darkphysics.net>, gregkh@linuxfoundation.org,
+ anjan@momi.ca
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20240126223106.986093-1-tdavies@darkphysics.net>
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <20240126223106.986093-1-tdavies@darkphysics.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Ricardo,
-
-On Fri, Jan 26, 2024 at 11:16:16PM +0000, Ricardo Ribalda wrote:
-> Kerneldoc cannot understand arrays defined like
-> v4l2_frame_symbol_counts.
+On 1/26/24 23:30, Tree Davies wrote:
+> Version 2
 > 
-> Adding an asterisk to the name does do the trick.
+> Another checkpatch fix series to be applied after the series titled:
+> 'checkpatch fixes for rtllib_softmac.c' submitted by me, to the list,
+> on 1/5/2024
 > 
-> Disable the kerneldoc notation for now, it is already ignored:
-> https://docs.kernel.org/search.html?q=v4l2_vp9_frame_symbol_counts
+> Thank you in advance to all reviewers
+> regards,
+> Tree
 
-Wouldn't it be nicer to fix kerneldoc instead? It might not be difficult at
-all.
 
-Feel free to, but I can also give it a try.
+Is working fine on hardware.
 
--- 
-Regards,
-
-Sakari Ailus
+Bye Philipp
