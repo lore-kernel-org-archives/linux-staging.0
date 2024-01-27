@@ -1,89 +1,193 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD32D286AE
-	for <linux-staging@lists.linux.dev>; Sat, 27 Jan 2024 16:45:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 628012C197
+	for <linux-staging@lists.linux.dev>; Sat, 27 Jan 2024 18:46:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.31
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706373903; cv=none; b=bfRwGLwPjOFsqyATuuIuV8GxglxvJG+bFFpdNoQV7clU1qBSd0OmFb8NNIEtn6sqEHDVyfiMNREAiNLfyXvo3m6qwwslEkn3Ow6xXKz1JI/tjAf2KSQUa7v6OZwZlZNq7zVB5n7hj4MO1aFsMzRKzKYgfHSkwu39qnmpysBj/QQ=
+	t=1706381189; cv=none; b=fYeoEyoCT24F3CNzdKL1OhdD4I5pe6bWovytrb6T6DspwA2iRuta6bq3QadvZAOi4VfOWEeMEcbao2vae07SxlLyOZ1kOjrmR827vVjzg+88NpFcgNJI1z1vc/fBiLmILPSt3+aIxOupvpn15yLO69BgsB40XGQJrXXaCM+VSQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706373903; c=relaxed/simple;
-	bh=vlJSya6kj6cZK+MaTAsZGZUCQE+8ZFDxHmkcOPqrWSk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CHnngZJnXzaqw6jyeX/qM31PPRFnaEl/DlHAZ2BuU6TA9kfhkbv8ER2Ezlw7eiS5QaQ1d8pppnuWn132JmYv2YxX7dThtPGHpgJoE2MqA8Yh8RToeyCKj6mxgXF7Pk+QUAH10JWCFddOE5sJ7EhbLTf2MWK62E/13hzzCWyo0Rs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GT9nxXN5; arc=none smtp.client-ip=209.85.218.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1706381189; c=relaxed/simple;
+	bh=EYPyaz87RkOJljahQF8funE2XdsGXXg6gukJ+v+90GA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=K6w2M1LxCpbjeYr4jWEAtQ/edM4MsQWR5++57xh8TOPIIXsahHkYx+Gw5ylgoCQRrwWE6/xIDVtI0N5CyO/0NFF8/fGDv3I/aOL9oDF1S7AUuPqjwDTtKHjRPLVfkVuLQk+MAp7w7fpV3db32xzl8L/5OjX9szsPNrmmL8sMhS4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G5ToPuYY; arc=none smtp.client-ip=134.134.136.31
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GT9nxXN5"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a28cfca3c45so43071666b.1
-        for <linux-staging@lists.linux.dev>; Sat, 27 Jan 2024 08:45:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706373900; x=1706978700; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Y+rNic9k0UXeI7BVMKejsL/vLfG93AW2nOVjIf/o5qc=;
-        b=GT9nxXN5+BtpzVuFJmFlpH8Pg++grRfpHDbp/eENr9scrC23h4jdOVhUSQEAEadluS
-         4j7o4qhYW9sIlOKRztsVpIaAt2am0XOAnSU4lixZFR0NBvahfJ3TDlRl21Pmsn7IJ01N
-         ClzPjmFoY94BSy6P4NeO0W4Yt3CQwB871Mj0Zg04Kyf+TvD5rNXlnZnC0EFoV2QifmhU
-         eBrx5ycJ43f2vYD5j3MBQs8KiKIqfFLG9YYZjSMiZ/FrCJJVP0OcoGByCPABTBl2Bzc+
-         8qAIbr5Z6fEC+y1P2j7EmW4qh8eczchSux4j+tAkcIInfXiNwPEF3LnYUZZAC0ozActD
-         MI9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706373900; x=1706978700;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Y+rNic9k0UXeI7BVMKejsL/vLfG93AW2nOVjIf/o5qc=;
-        b=Pyc+iEkmcLIEhuxPoAbqm51JcA4DCmEPBeeD0bgsYWk4EhSMCwUoITteCXx8KyM/BG
-         qQiKnhWoI1kNuWcaZOtnERanvDMlc7vHQdbaVy8eK4+X3rR8XaaxloOnC6y8cxjCMWJd
-         fAt+Z1cfhwqY3qWvfc7o1WJPtPyHuoOE1B7pHSnJEpQmFpPOSwp32iSsUvixNaONGbiw
-         1lPpiqqUTHXjs0cf5jCTwvxDeHsPGV9IcPQ27bAuV+OqzxRRLWeYD8WI54PNYm1OmIvY
-         qkPSJEzxtZ4ZBYlQfpm+PSK95F573gF2pHqi5PnqA5bl2sv3PkswjZ4wGZRIc0s8o/f4
-         e49Q==
-X-Gm-Message-State: AOJu0YxB2U5bIvmh+MWzQfgpGmwCUqjvBuXGZxy03L1x4rckDG0mmt5v
-	SsXYxLSo1ZZv0fU6YsB+lCeUB0YnxAegrStl9TeT5f6Kp5E2ueMJ
-X-Google-Smtp-Source: AGHT+IGHf6eI5YrKJnU2uVmBzVLFMNBBY2NZxJ2qqKnNsAmfStOnKjPWLc4TEZeEa3+J5NIhBiWFIA==
-X-Received: by 2002:aa7:db56:0:b0:557:e527:f799 with SMTP id n22-20020aa7db56000000b00557e527f799mr1582572edt.4.1706373899626;
-        Sat, 27 Jan 2024 08:44:59 -0800 (PST)
-Received: from [192.168.0.103] (p54a07fa0.dip0.t-ipconnect.de. [84.160.127.160])
-        by smtp.gmail.com with ESMTPSA id fg14-20020a056402548e00b00558a1937dddsm1750567edb.63.2024.01.27.08.44.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 27 Jan 2024 08:44:59 -0800 (PST)
-Message-ID: <6f13d58a-f072-49dc-a9bc-f742550fc9f7@gmail.com>
-Date: Sat, 27 Jan 2024 17:44:58 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G5ToPuYY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706381187; x=1737917187;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EYPyaz87RkOJljahQF8funE2XdsGXXg6gukJ+v+90GA=;
+  b=G5ToPuYYxcVxXz6dt/DHtNh8u+OppP0v6ZkV3L3wSubDGUyozIWTbadN
+   4tW8MXFsBGS+hY7vjk5BFSuVleIiy88nlOi0QuTCemdsU4y2Jrw3q2Kpd
+   4txMhKh+gP44vIu4ciUCoF/lGjFpIXfpwyfFUpbcrq0uj0+qXYwIfNzdE
+   QuTr7aRMQ2dIB6soWSuAzgUF/ohTyGPqQFalsXlxlj5z6M9+AFQLGYagk
+   4wwmLBisVqomIoaEqDjQFS9a4LgMuYy1aaYfpD2hLWpvn1FJ1zHq5LAei
+   L38h+eiyXbd0Zt724yKGyXtpbWTcmtX0reCy1orQ45sDJkM04WH3trMAf
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10966"; a="466977462"
+X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
+   d="scan'208";a="466977462"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2024 10:46:26 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10966"; a="910649621"
+X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
+   d="scan'208";a="910649621"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2024 10:46:16 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 4755F11FB1F;
+	Sat, 27 Jan 2024 20:40:25 +0200 (EET)
+Date: Sat, 27 Jan 2024 18:40:25 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Ricardo Ribalda <ribalda@chromium.org>,
+	Tiffany Lin <tiffany.lin@mediatek.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Yunfei Dong <yunfei.dong@mediatek.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Bin Liu <bin.liu@mediatek.com>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+	Vikash Garodia <quic_vgarodia@quicinc.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-samsung-soc@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-amlogic@lists.infradead.org
+Subject: Re: [PATCH 03/17] media: media-entity.h: Fix kerneldoc
+Message-ID: <ZbVOGaw-8qU2QNle@kekkonen.localdomain>
+References: <20240126-gix-mtk-warnings-v1-0-eed7865fce18@chromium.org>
+ <20240126-gix-mtk-warnings-v1-3-eed7865fce18@chromium.org>
+ <e6b72dff-911e-4923-9996-b3b7db36fb8e@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 00/18] Staging: rtl8192e: 18 Additional checkpatch
- fixes for rtllib_softmac.c
-Content-Language: en-US
-To: Tree Davies <tdavies@darkphysics.net>, gregkh@linuxfoundation.org,
- anjan@momi.ca
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20240126223106.986093-1-tdavies@darkphysics.net>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20240126223106.986093-1-tdavies@darkphysics.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e6b72dff-911e-4923-9996-b3b7db36fb8e@infradead.org>
 
-On 1/26/24 23:30, Tree Davies wrote:
-> Version 2
+Hi Randy,
+
+On Fri, Jan 26, 2024 at 05:51:06PM -0800, Randy Dunlap wrote:
 > 
-> Another checkpatch fix series to be applied after the series titled:
-> 'checkpatch fixes for rtllib_softmac.c' submitted by me, to the list,
-> on 1/5/2024
 > 
-> Thank you in advance to all reviewers
-> regards,
-> Tree
+> On 1/26/24 15:16, Ricardo Ribalda wrote:
+> > The fields seems to be documented twice.
+> > 
+> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > ---
+> >  include/media/media-entity.h | 4 ----
+> >  1 file changed, 4 deletions(-)
+> > 
+> > diff --git a/include/media/media-entity.h b/include/media/media-entity.h
+> > index 2b6cd343ee9e..c79176ed6299 100644
+> > --- a/include/media/media-entity.h
+> > +++ b/include/media/media-entity.h
+> > @@ -337,10 +337,6 @@ enum media_entity_type {
+> >   * @info.dev:	Contains device major and minor info.
+> >   * @info.dev.major: device node major, if the device is a devnode.
+> >   * @info.dev.minor: device node minor, if the device is a devnode.
+> > - * @major:	Devnode major number (zero if not applicable). Kept just
+> > - *		for backward compatibility.
+> > - * @minor:	Devnode minor number (zero if not applicable). Kept just
+> > - *		for backward compatibility.
+> >   *
+> >   * .. note::
+> >   *
+> > 
+> 
+> I'd say that this is correct based on
+> https://patchwork.kernel.org/project/linux-media/patch/20231223050707.14091-1-rdunlap@infradead.org/
+> 
+> 
+> Hans, can you please explain this message from you, on 2024-Jan-22, that
+> I cannot find in the media patchwork:
 
+It's in linuxtv.org Patchwork here
+<URL:https://patchwork.linuxtv.org/project/linux-media/patch/20231223050707.14091-1-rdunlap@infradead.org/>
+and also in the media stage tree (as indicated by the state) but not yet in
+master AFAIU.
 
-Is working fine on hardware.
+> 
+> 
+> Subject: [git:media_stage/master] media: media-entity.h: fix Excess kernel-doc description warnings
+> 
+> 
+> 
+> This is an automatic generated email to let you know that the following patch were queued:
+> 
+> Subject: media: media-entity.h: fix Excess kernel-doc description warnings
+> Author:  Randy Dunlap <rdunlap@infradead.org>
+> Date:    Fri Dec 22 21:07:07 2023 -0800
+> 
+> Remove the @major: and @minor: lines to prevent the kernel-doc warnings:
+> 
+> include/media/media-entity.h:376: warning: Excess struct member 'major' description in 'media_entity'
+> include/media/media-entity.h:376: warning: Excess struct member 'minor' description in 'media_entity'
+> 
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> 
+>  include/media/media-entity.h | 4 ----
+>  1 file changed, 4 deletions(-)
+> 
+> ---
+> 
+> diff --git a/include/media/media-entity.h b/include/media/media-entity.h
+> index 2b6cd343ee9e..c79176ed6299 100644
+> --- a/include/media/media-entity.h
+> +++ b/include/media/media-entity.h
+> @@ -337,10 +337,6 @@ enum media_entity_type {
+>   * @info.dev:	Contains device major and minor info.
+>   * @info.dev.major: device node major, if the device is a devnode.
+>   * @info.dev.minor: device node minor, if the device is a devnode.
+> - * @major:	Devnode major number (zero if not applicable). Kept just
+> - *		for backward compatibility.
+> - * @minor:	Devnode minor number (zero if not applicable). Kept just
+> - *		for backward compatibility.
+>   *
+>   * .. note::
+>   *
+> 
+> 
+> 
+> Thanks.
 
-Bye Philipp
+-- 
+Regards,
+
+Sakari Ailus
