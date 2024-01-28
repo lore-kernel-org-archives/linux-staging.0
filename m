@@ -1,80 +1,90 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E177A1EB2C
-	for <linux-staging@lists.linux.dev>; Sun, 28 Jan 2024 11:01:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2A6E4CDEB;
+	Sun, 28 Jan 2024 16:11:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706439686; cv=none; b=jyx0hoh1kpufanzzODTYmF13vIlsk+QHQmuErCUkCleWbHc+diB4MaBCRJjyJ2HSooZp+g3nsm+ajNutOSuZKu+A31qOSmB0/DtVkqhjhwiXg9p8HFlNYSSgyoBzd0bVJbZ5qM9TTjsU4qx+FvfJ6pnTPCZB/vqvCKZibelonfw=
+	t=1706458317; cv=none; b=sOZdh+2qrlRZOZN3HjlMQfzvd8Z5Z1GflIXL9kyKqaNeiZHjcTLp/R/aTsKssCAkhoOZZPW2UDQoVCaMJeBRlat8U09my1P/xtepwwTuaZJpA4yajz4VysSD0kvmbqvusNWAyRsqAK746LGdPIfQVuJBnH764p9sc1Sy8095a1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706439686; c=relaxed/simple;
-	bh=5srCU8mALld93XXZWkuO9wczxnN7Mp+AiQKKleufIJY=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=JGQUXHF/HC/8HpgxdaRjsD+Nu+1KZqt3ggdakjOBbPhSGOSelHyy0d8iQaGmvha0b+2EEa0mhSzRzWoioRPuY2yePDa0U2S0RdBuJDUSLSYrFzHRr8/wqr+f8UuNYLNbdqOl3jBONT6DcvhaLL6oZYTLMblOCOdS37tXZ1d4NDg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=fail (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=RkhbdvRH reason="signature verification failed"; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1706458317; c=relaxed/simple;
+	bh=qt+N8RsM6CZzZE+LkE+2WmMAo5sR09PdsTCBWicgfD4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=EPzkrHmDa670FWaQVHnymj4iMj5WOYl/p5KHsRrQYaurHxjDZ6db/VdLC2iaihjbLsAtnyE/Ri/ehftXX2QX3iv0GevUfuvxL67exSJeW5kKl5e+rdq70chYWPsAmuQUFpA1rHPdXpDpeCl7HpJkXQ5RWJzA9BfmfrzSu1WJJ3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nXhZSh6B; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="RkhbdvRH"
-Received: from pendragon.ideasonboard.com (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0639A3D9;
-	Sun, 28 Jan 2024 11:59:58 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1706439599;
-	bh=5srCU8mALld93XXZWkuO9wczxnN7Mp+AiQKKleufIJY=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=RkhbdvRHlz1v8jg4VujoVEvuFFQwER/Of6VU8hgYvGxSJ6sauMOpigUM9jwIZggbM
-	 ovsTDbzG216rVaHmdrHBTfja6Y/1kngp8TZl25L/sIL9hjrprl+/lEEC7ofAXjaoqi
-	 ogP2fskaRCqFSgwLOtdxTIoWzpGtryil4ewfj2mk=
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nXhZSh6B"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86B8EC433F1;
+	Sun, 28 Jan 2024 16:11:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706458317;
+	bh=qt+N8RsM6CZzZE+LkE+2WmMAo5sR09PdsTCBWicgfD4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=nXhZSh6BuGWQXLAwwCDSrpi4T8GvV35gXcHISEeeWKF/7UPA+yzwwnP6pS3kBfo0P
+	 1sjEn70g8ioK0b2uqhNJlTGvYzCTb+WPbb6wy+Mqa6jRyWxomD0q+z7a9iJTNmXnhq
+	 bHP7z5ZqiRPI1l4Gfn+wuRbuoVC1zjU+VqWBG/a8QIkQsth/3ECDIT1C16U4tjy3+y
+	 RlHaPdpd61DYmdDmjcQi3XP9eA3hzD6BiYh0rSGqPlsZACl8XqWfystLjHpU7wAggf
+	 Ku+b0mhQPgNWzNrnewK2AdKUZZnKWx66/Kw/jQZ1PymVsc7ce5nyw59P8BbKAK4w+E
+	 jLuWgwU0pUq+w==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Piro Yang <piroyangg@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sasha Levin <sashal@kernel.org>,
+	soumya.negi97@gmail.com,
+	alexondunkan@gmail.com,
+	andi.shyti@linux.intel.com,
+	ruanjinjie@huawei.com,
+	linux-staging@lists.linux.dev
+Subject: [PATCH AUTOSEL 6.7 14/39] staging: vme_user: Fix the issue of return the wrong error code
+Date: Sun, 28 Jan 2024 11:10:34 -0500
+Message-ID: <20240128161130.200783-14-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240128161130.200783-1-sashal@kernel.org>
+References: <20240128161130.200783-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20240126-gix-mtk-warnings-v1-7-eed7865fce18@chromium.org>
-References: <20240126-gix-mtk-warnings-v1-0-eed7865fce18@chromium.org> <20240126-gix-mtk-warnings-v1-7-eed7865fce18@chromium.org>
-Subject: Re: [PATCH 07/17] media: i2c: adv748: Fix kerneldoc
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org, linux-arm-msm@vger.kernel.org, linux-samsung-soc@vger.kernel.org, linux-staging@lists.linux.dev, linux-amlogic@lists.infradead.org, Ricardo Ribalda <ribalda@chromium.org>
-To: Alim Akhtar <alim.akhtar@samsung.com>, Andrew-CT Chen <andrew-ct.chen@mediatek.com>, Andrzej Hajda <andrzej.hajda@intel.com>, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Bin Liu <bin.liu@mediatek.com>, Bingbu Cao <bingbu.cao@intel.com>, Bjorn Andersson <andersson@kernel.org>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, Hans Verkuil <hverkuil@xs4all.nl>, Jerome Brunet <jbrunet@baylibre.com>, Kevin Hilman <khilman@baylibre.com>, Konrad Dybcio <konrad.dybcio@linaro.org>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Marek Szyprowski <m.szyprowski@samsung.com>, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Matthias Brugger <matthias.bgg@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, Philipp Zab
- el <p.zabel@pengutronix.de>, Ricardo Ribalda <ribalda@chromium.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, Sylwester Nawrocki <s.nawrocki@samsung.com>, Tianshu Qiu <tian.shu.qiu@intel.com>, Tiffany Lin <tiffany.lin@mediatek.com>, Vikash Garodia <quic_vgarodia@quicinc.com>, Yunfei Dong <yunfei.dong@mediatek.com>
-Date: Sun, 28 Jan 2024 11:01:13 +0000
-Message-ID: <170643967334.1879520.13311953581412781310@ping.linuxembedded.co.uk>
-User-Agent: alot/0.10
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.7.2
+Content-Transfer-Encoding: 8bit
 
-Quoting Ricardo Ribalda (2024-01-26 23:16:06)
-> The field is gone, remove the documentation.
+From: Piro Yang <piroyangg@gmail.com>
 
-Looking at 3e89586a64df ("media: i2c: adv748x: add adv748x driver")
-confims it was never added. Must have been an old leftover when I
-upstreamed.
+[ Upstream commit 5090a4bc2a2f04b7693b49500ad1287e8d0fb6c3 ]
 
-Thanks for the fix.
+Fix the issue of returning the -ENOSYS error code when an error occurs.
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+The error code of -ENOSYS indicates Invalid system call number, but
+there is not system call error. So replace -ENOSYS error code by the
+return -EINVAL error code.
 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  drivers/media/i2c/adv748x/adv748x.h | 1 -
->  1 file changed, 1 deletion(-)
->=20
-> diff --git a/drivers/media/i2c/adv748x/adv748x.h b/drivers/media/i2c/adv7=
-48x/adv748x.h
-> index 6f90f78f58cf..d2b5e722e997 100644
-> --- a/drivers/media/i2c/adv748x/adv748x.h
-> +++ b/drivers/media/i2c/adv748x/adv748x.h
-> @@ -173,7 +173,6 @@ struct adv748x_afe {
->   *
->   * @endpoints:         parsed device node endpoints for each port
->   *
-> - * @i2c_addresses:     I2C Page addresses
->   * @i2c_clients:       I2C clients for the page accesses
->   * @regmap:            regmap configuration pages.
->   *
->=20
-> --=20
-> 2.43.0.429.g432eaa2c6b-goog
->
+Signed-off-by: Piro Yang <piroyangg@gmail.com>
+Link: https://lore.kernel.org/r/20231219170447.51237-1-piroyangg@gmail.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/staging/vme_user/vme.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/staging/vme_user/vme.c b/drivers/staging/vme_user/vme.c
+index 5c416c31ec57..9bc2d35405af 100644
+--- a/drivers/staging/vme_user/vme.c
++++ b/drivers/staging/vme_user/vme.c
+@@ -341,7 +341,7 @@ int vme_slave_set(struct vme_resource *resource, int enabled,
+ 
+ 	if (!bridge->slave_set) {
+ 		dev_err(bridge->parent, "Function not supported\n");
+-		return -ENOSYS;
++		return -EINVAL;
+ 	}
+ 
+ 	if (!(((image->address_attr & aspace) == aspace) &&
+-- 
+2.43.0
+
