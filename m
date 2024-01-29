@@ -1,95 +1,141 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from CHN02-SH0-obe.outbound.protection.partner.outlook.cn (mail-sh0chn02on2046.outbound.protection.partner.outlook.cn [139.219.146.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63862446C5;
-	Sun, 28 Jan 2024 23:21:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706484073; cv=none; b=PPDMvw3HPp40i/riqEMq1qpBP/nid5rhV/bM2F1lqLsu/ZkaPyWoor3nRCtzFacY7KnGy38iGuh1XD9X4lHw3o26Claj4tIcxxdMwvIwa8Bwe3MgfS+QqUICGWh0JfpxHqt1N7bONlo2flOB9V/Y+h6ATHzTPu8fIroZuW38P7U=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706484073; c=relaxed/simple;
-	bh=FhSTrVH5zrmp01WnNuro1Rqyjl2zO1fLnyrlz07saWM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZbhUOw2e5ko5rOvRyC63DnNEMWBzzKWs9NiV/UdcVOCuibNYUszuxFNrlYHTjYI8//tkl0dZNmj3m5CdQZTACCKX23Sd+4ErgKP6jGshs/XNkZYRliEI1KKeewt8dn+oHyEovWBAF/8EnDy/7TkJ/jmaJApQ9Dl/1thKwLA491s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=4a4FcSrr; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="4a4FcSrr"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=3pgIaJ7MkTtY//7CcCezghloHGWFY713Or2R1yaWIm4=; b=4a4FcSrrklo1A7he8JHnJGqUki
-	9mKoWKFz4miOUi7DEygXN/OmgNQviNVJ5b0P64D9n+DH3Ui4EWb4/0SYuT8SPXk5EfFb01VDnLmVk
-	sJIZeM6rehxUUJ+LkCSR6E6MxCHX7PTF7gfhZ+ECEDHW3V8L/drpE/AZvCbuUKt1tUarRUIxBeOkh
-	cfHfG870F8WLjJSDB8RpOW6/s6rA4Hp79AjnVFt9pv8Xd9Fg7CGl/A5fLCvBYwQMdJrML/ZnVHW8r
-	r3Upz4YvDQwtTxszFqUGEkyyRsInvJraBb73kRbCfTPCjNjqV4v9NGnr4uEKokMI3O8abnPXItDxA
-	a4z84hxQ==;
-Received: from [50.53.50.0] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rUESU-0000000AjkV-3qtf;
-	Sun, 28 Jan 2024 23:21:03 +0000
-Message-ID: <621fe651-8538-43d5-a797-c1e66436b2dc@infradead.org>
-Date: Sun, 28 Jan 2024 15:21:01 -0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5AC3EADD
+	for <linux-staging@lists.linux.dev>; Mon, 29 Jan 2024 02:16:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.219.146.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706494619; cv=fail; b=LagVvZL/YCOceq2VHV4Qu2Ii1+A8mNrZD1IiNwQ9BCS3+XglCc+wMBjK1FHbSe8JdcdgEqY0QLu62KAcMHzTmZdwxmMgba/YFjhJurMKqSh6Zu9FURBqU8HQGEjr7aK8Bavs0liqEvNG2jPetnGg/18Q66fGyOjuzrctOICQdU4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706494619; c=relaxed/simple;
+	bh=TTRxjBNZ2ZoSz+jj8yd1bACt8KrvoOw10cq8GAqESl0=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=RdaUvHxayQnCWqyFGBDiEAIAWZxEorxRtQlw4LNqDCsw/kVV2ptYroZ56Sl8uDbZLanIf1MxA4/8PntLHZKGWwuKhJ9BJ/pmMhBjP1tIqcvUnBuVllo1awsLc6F6jFjR1sjRM1ocGjPmdfqNpv+dERvdmhaKf3irIKix9vJLTsw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com; spf=pass smtp.mailfrom=starfivetech.com; arc=fail smtp.client-ip=139.219.146.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ud5FYK2wUMPHBDhZJ1C77CrPdQbHYs8VLXX7PuE6NPl8dKsUyQHMcX6w0aNOXe4izkCSlvJhMleW5plvu8IcK9wxGu4C2SFaL46MSTsvy+InDq32g4+WzvZof7Vvk9Unbs+mNBs+8ajQEJH+b84QjYEIkrnG952Ni1J0jZGA4eHOEkASJC7SovL0JCVqZq/Hsv2ARgNNLWL/OYjHxOgBbULJI70iDNRCZXSZH4/DD7H6iWvVCvu+JnqEB1KwZ89VcI01arjOUSqtYC8Ct4Gu60t2pg/U/A2DTDmLUobrztJdV6oKZdNVXh58m+znmefiiHWXRfV+AxSjT0U/pfAAyQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TTRxjBNZ2ZoSz+jj8yd1bACt8KrvoOw10cq8GAqESl0=;
+ b=KiKZM5+yfILp8YaBGPKQ15EfWIE0kp5FF+NyojxYEPoUoThMY8b8WV4cVRq9YB9A9PGOcR2G67uMWNP2iuRMws68eUCX/hXuwyH4d67cBRJjNX8mX+KjMx53d8JMLA5MyQkJkQUE3MnWoqozeXpiwJqboiI0EYfRLz2MR5LV+chMGTp+xFlCGR4p+lJSNFWK/NB7SJN3TJn00+FM40/A6o7vmlrSGbCGc+USWnG5mgqC41JiZoVjpXyY9ffXJ1S83V1YnQ/lu2afT0DCBnPXXTrAX2jgN5myfZ/Mr97z0iXqWtygOdoJfN+8e3pk+DfGEwmgDWd+lPkD8Ls+fTpTFQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=starfivetech.com; dmarc=pass action=none
+ header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
+Received: from SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c311:25::10) by SHXPR01MB0880.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c311:1d::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.28; Mon, 29 Jan
+ 2024 02:16:51 +0000
+Received: from SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
+ ([fe80::148c:e1dd:302a:196b]) by
+ SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn ([fe80::148c:e1dd:302a:196b%6])
+ with mapi id 15.20.7228.022; Mon, 29 Jan 2024 02:16:51 +0000
+From: Changhuang Liang <changhuang.liang@starfivetech.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, Matthias Brugger <matthias.bgg@gmail.com>, Hans
+ Verkuil <hverkuil-cisco@xs4all.nl>, Ming Qian <ming.qian@nxp.com>, Laurent
+ Pinchart <laurent.pinchart@ideasonboard.com>, Nicolas Dufresne
+	<nicolas.dufresne@collabora.com>, Benjamin Gaignard
+	<benjamin.gaignard@collabora.com>, Tomi Valkeinen
+	<tomi.valkeinen+renesas@ideasonboard.com>, Mingjia Zhang
+	<mingjia.zhang@mediatek.com>
+CC: Jack Zhu <jack.zhu@starfivetech.com>, "linux-media@vger.kernel.org"
+	<linux-media@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-staging@lists.linux.dev"
+	<linux-staging@lists.linux.dev>
+Subject:
+ =?gb2312?B?u9i4tDogW1BBVENIIHYyIDAwLzEzXSBBZGQgSVNQIDNBIGZvciBTdGFyRml2?=
+ =?gb2312?Q?e?=
+Thread-Topic: [PATCH v2 00/13] Add ISP 3A for StarFive
+Thread-Index: AQHaRGn3nKUoa4JX0UecuS3FZFrWRrDwKOUw
+Date: Mon, 29 Jan 2024 02:16:51 +0000
+Message-ID:
+ <SHXPR01MB0671D25402B3C9E5CA07786DF27EA@SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn>
+References: <20240111084120.16685-1-changhuang.liang@starfivetech.com>
+In-Reply-To: <20240111084120.16685-1-changhuang.liang@starfivetech.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=starfivetech.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SHXPR01MB0671:EE_|SHXPR01MB0880:EE_
+x-ms-office365-filtering-correlation-id: 395ca5c0-908e-4211-8da9-08dc20705b26
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ 0ShELuQ6iRpW6/9rVrKSJbGZYOY32nfPtTpf9y9X4WGhONZpPWF3oo30FQo7HXqWLKpXqTKtwpV8f/OGnHJn5PHYDgULnG/KFOkVpH9ad5jhISOSp9Wf9Ck44NA5V+estU5QKtF1ozLHSLh8YXZa0inZTzZP8i/pEYHlk2etpDtpjmhwgLFxmRnjpfsvlp+IBJMJFOK78yXLxnCT1mG5BMJoMcX+Wrmp8pJaeCWSOrs4oa2ouzZa9NzzDA3mCnx0+qpphRbP2bfeFfNOKvOTihBk9VSzOsEE2vTjDYsh24ybAMrc12oKzbCbVtv/AtmnQ/oFPr4qu9g0EGaSnzZtP4sKH/gXQ5i53TqhjhtAUp5vi5G3repr9upR7qzoabmRtDhWE1DK42RA1uyEAPCaSjV0oFRXWKq1HBUsvYHcxgBdLWc3MJsdbKOiTh1F2Q5rhyUjIMzoTnPfGcaauCebhtfCk9FWwCu1SEXMh0jQRKjwQfCoPl6q5edgvuLjCa1ILetgDrO1rbhQijoM4MGfD41Ns43CcfDg0EEcK9AvB8zs6rbAzXvizV50jCFVjUIRWeJsoBSYWemPUREfWyQeqw==
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230031)(396003)(136003)(366004)(39830400003)(346002)(230922051799003)(1800799012)(64100799003)(186009)(451199024)(921011)(41300700001)(26005)(55016003)(41320700001)(40160700002)(224303003)(64756008)(40180700001)(38070700009)(54906003)(9686003)(508600001)(7696005)(71200400001)(38100700002)(122000001)(66476007)(66446008)(5660300002)(66556008)(4744005)(7416002)(66946007)(76116006)(110136005)(86362001)(2906002)(8936002)(33656002)(44832011)(4326008);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?gb2312?B?dnpuUnUwdXVkU1Z2VDVKOURZOEcwSzhFZmZMclJPNW1ncDNuMmthVE1iQyty?=
+ =?gb2312?B?NWNMK0JVQTFhR2h6bVNMRjUyaFhreXJHUGxRNWF6ODQxYmpsYkw3OGFCZXZ5?=
+ =?gb2312?B?cE1pd3ZFRU1Qc0t4U0lTUmJIQW8yUDNqajZUREpRYTVrTERzZktWTGxYb2xN?=
+ =?gb2312?B?djA0Q3dTc3RweHpsc2c2MlNsVkFBYW1TQkRRajNUV0JaTDlFdmZMNlBUYlF6?=
+ =?gb2312?B?T3ZTUlIwaUd6L2tXZ2NHVEtSTEs5VlFJNVpjSVp1VFhPMk9xc1FDR0ZlaE1E?=
+ =?gb2312?B?M215YmRVeXVaWDRFVEVNazh3TlF4alN6L2NEUStRN1BUaHJKNzNIN3piaXNl?=
+ =?gb2312?B?bkdZVVVGRWtyb0xrNFc0NXN2TEVnNEREVXNMM3I4YmdubEZqTFJjT2JCOWww?=
+ =?gb2312?B?WWRJOHN5YmJkR01QWlhuZFpUUFlmaWhvdlNnQ2JoZXo0Z29pbWFNVU5OdmEv?=
+ =?gb2312?B?YzBxTmxnRnpUOUtrTXdGOHdOSGlhNE9JbDdpZlFJYVBDaFE0TXdSL21LQzd5?=
+ =?gb2312?B?VnI1L05hOWNYUTQvNk5NMThobUZQZ3FOdXQyTW05OTloWTRtSW4xZ1I3dURG?=
+ =?gb2312?B?OUF5YngvdittUzRsSEhDOStabkI4Z1BSMG5lN1ZrL1J2cXk0UlNiRWpiS2Fz?=
+ =?gb2312?B?OTBTR2VwUW9xRG1QOFFBMWFRZUZkRXQ0UGhSU1BUMHUvOGw4V3VWTWVKb1N0?=
+ =?gb2312?B?YTNraGhKUTdDK0Fjb3IrVmxKMDI4bDdPRHZXRGpCbjlOM1pmcjdhdldNZVZl?=
+ =?gb2312?B?QllsSFBiOEhqNFlzZXBnZ3drdmgxR1NSN2N5TXVlR3p0amowdU9SQTcvbjVk?=
+ =?gb2312?B?cVNoelkxUUp0VWNyaUkrdUIremtoQk9lN3d5SEtBcXF4K3Bpcnd3QXd3TXZp?=
+ =?gb2312?B?dlFtWmx0SWxkUWozc1pVZEFvbWZEdEtOQUllZnY2OFAwV2RoVG5pNVpOWXBo?=
+ =?gb2312?B?aFplcVlEWUcxMk5oSHhxZ1JGV3NjVG1FVjh6TnRWTUIrL3c5eldid24yOCtq?=
+ =?gb2312?B?UjlWNEJka2RyQWZOZjFDaGwxUWhXNnlwT3gwN3ZlUXNDeWlNNlhWb2s4N1pi?=
+ =?gb2312?B?VGhacFAzTTB0Ykp5WVVxYStjSlAya1Q1Y0hjZk1Wd0xNMXdaeld2OGF5ZVpu?=
+ =?gb2312?B?OVJIQkx6MW5aZ2RHc05BcG5hbjY0aUU4VXhJN2craVQxWmtqdXdkSDNBbGFK?=
+ =?gb2312?B?eGdrVUdlVCs1SVM4cXhDZDlkSXVkQ090TjZ0dlp0VXNxdlhYNTBRVUQxcjlo?=
+ =?gb2312?B?K3BYOVRNV0VHeFAxNks2bW9yUVJwaEMzTEd6ZGEzNFJJK0lDWkNiRHlXdlk3?=
+ =?gb2312?B?SG5xWmFieXV6RjdLMTU0c2M5ZjcwQjJzeVIwTmgwWTc2ZU5PWDBOdEd6YnBU?=
+ =?gb2312?B?eGxhL09hbVhzRTQ2Rmd3QW9VM2RtcnJuMjA3dzgxczdWelVlalhUOE43Q3lr?=
+ =?gb2312?B?V3NuT1Yya1ZpYkxncjBQUlBGdFI2aHgyNTU2ZEFLb284eE5tQnl0bis4QmtY?=
+ =?gb2312?B?U2RaQW9wSkY1d29sVFhXY0pma1lRTEs4Y1JManZsZjRJeDIxaTFNL1MzcVFH?=
+ =?gb2312?B?ZE9lczRFUXdIdmNmSnh1V2FmaC9ySC9wbUprTElaSnpHTXdGdm43VXBlZWNG?=
+ =?gb2312?B?dDlWQ3VkZlNteGdjZnBhTHJvZVU4eXlQVE1QTDFYanVpTldDYTNoMC8yNjYz?=
+ =?gb2312?B?Z2ZwWDlTUEF0L2tTSHQ1RGZINzhvSjF6RWs3ZHcvbm5qZHIrOHNkbTBRdHdJ?=
+ =?gb2312?B?RlZhakRWVU5tbTN2S0cxYWhJTFBreWUvRWNkNng0Qzk0OFJzcVlwUEtkclZx?=
+ =?gb2312?B?NTdiRTZra2hrYXBwM2pqQlRGcUs2T2ZZUGxWUi83cVRnbGVHUzcvZ3hiOWhB?=
+ =?gb2312?B?VGliTnZGK0h2U2EvMS9yZElEajgzM3kySXpvcnFXRFYrNTV5bEM5cWI2eEhR?=
+ =?gb2312?B?NlFVeUd2bXNQWEd4eE05NzVnSi9OUUVMdXpKZkRVeGw5YmlHenVVb0h6dzVK?=
+ =?gb2312?B?SllvdmhZbFlWRlFvN053TlRzVUFTbzQ1YWVXbnFYajlwKzl6d3RibWY0cTB2?=
+ =?gb2312?B?ZDViMVBweTdRbWEzRk1rMDFNTE5nVFVsREo3MEZ5S09TbHpzdVRGdGVZWkZC?=
+ =?gb2312?B?dUJDejBCWXB4YkZiYlExWkxvbVhzYlJrRGRvbUtGTjVYcUp1R0xETSt6QnhP?=
+ =?gb2312?B?U2c9PQ==?=
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] doc: ipu3: Fix UAPI header doc warnings
-Content-Language: en-US
-To: Kohshi Yamaguchi <kohshi54.yam@gmail.com>, sakari.ailus@linux.intel.com,
- bingbu.cao@intel.com, tian.shu.qiu@intel.com
-Cc: mchehab@kernel.org, gregkh@linuxfoundation.org,
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, skhan@linuxfoundation.org
-References: <20240128225258.50375-1-kohshi54.yam@gmail.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240128225258.50375-1-kohshi54.yam@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: starfivetech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
+X-MS-Exchange-CrossTenant-Network-Message-Id: 395ca5c0-908e-4211-8da9-08dc20705b26
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jan 2024 02:16:51.6886
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: o2ICmgYWeZuocMDCgo+J2W4WzPkwaPS2MkSslT+9Inx8KAak0oNdA9Dm8L+zNkFn4HaHUaBLBRHy/7kwkTC/DiETjBn0Pzkhl4iJKT2ci/fNUN1aY+IQrOW2UIrOVOC5
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SHXPR01MB0880
 
-
-On 1/28/24 14:52, Kohshi Yamaguchi wrote:
-> The ipu3_uapi_acc_param struct in the IPU3 UAPI header mentioned
-> reserved1 and reserved2 fields, which are absent in the actual
-> structure definition. This mismatch led to Sphinx build warnings
-> due to inconsistencies between the documentation and the code.
-> 
-> This patch removes these non-existent reserved field references
-> from the documentation, resolving the Sphinx build warnings and
-> ensuring the UAPI header is accurately documented.
-> 
-> Signed-off-by: Kohshi Yamaguchi <kohshi54.yam@gmail.com>
-> ---
->  drivers/staging/media/ipu3/include/uapi/intel-ipu3.h | 2 --
->  1 file changed, 2 deletions(-)
-> 
-> diff --git a/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h b/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
-> index caa358e0bae4..926fcf84e33c 100644
-> --- a/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
-> +++ b/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
-> @@ -2485,11 +2485,9 @@ struct ipu3_uapi_anr_config {
->   *		&ipu3_uapi_yuvp1_y_ee_nr_config
->   * @yds:	y down scaler config. See &ipu3_uapi_yuvp1_yds_config
->   * @chnr:	chroma noise reduction config. See &ipu3_uapi_yuvp1_chnr_config
-> - * @reserved1: reserved
->   * @yds2:	y channel down scaler config. See &ipu3_uapi_yuvp1_yds_config
->   * @tcc:	total color correction config as defined in struct
->   *		&ipu3_uapi_yuvp2_tcc_static_config
-> - * @reserved2: reserved
->   * @anr:	advanced noise reduction config.See &ipu3_uapi_anr_config
->   * @awb_fr:	AWB filter response config. See ipu3_uapi_awb_fr_config
->   * @ae:	auto exposure config  As specified by &ipu3_uapi_ae_config
-
-posted 2 days ago:
-
-https://lore.kernel.org/linux-media/eed7560f-cd7d-4e07-9b38-038ca65445bf@infradead.org/T/#mda377078e30cb5d784f23de95d8d7cca13265562
-
-Thanks.
-
--- 
-#Randy
+DQo+IFRoaXMgc2VyaWVzIGltcGxlbWVudHMgdGhlIElTUCAzQSBmdW5jdGlvbiB0byB0aGUgQ2Ft
+ZXJhIFN1YnN5c3RlbSBvbg0KPiBTdGFyRml2ZQ0KPiBKSDcxMTAgU29DLiBUaGUgc2VyaWVzIGhh
+cyBiZWVuIHRlc3RlZCBvbiB0aGUgVmlzaW9uRml2ZSAyIGJvYXJkLg0KPiANCj4gVGhpcyBzZXJp
+ZXMgaXMgYmFzZWQgb24gdG9wIG9mIHRoZSBtYXN0ZXIgYnJhbmNoIG9mIG1lZGlhX3N0YWdlIHJl
+cG9zaXRvcnksDQo+IHdoaWNoIGlzIHRlc3RlZCB3aXRoIGEgdjRsMi1jb21wbGlhbmNlIGNvbXBp
+bGVkIGZyb20gdGhlIGdpdCByZXBvDQo+IChnaXQ6Ly9saW51eHR2Lm9yZy92NGwtdXRpbHMuZ2l0
+KS4NCj4gDQoNCkhpIExhdXJlbnQsDQoNCkNvdWxkIHlvdSBwbGVhc2UgaGVscCB0byByZXZpZXcg
+YW5kIGdpdmUgeW91ciBjb21tZW50cz8gDQpUaGFua3MgYSBsb3QhDQoNCkJlc3QgcmVnYXJkcywN
+CkNoYW5naHVuYWcNCg==
