@@ -1,86 +1,95 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A03F14E1C8
-	for <linux-staging@lists.linux.dev>; Mon, 29 Jan 2024 07:29:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA0CB55784
+	for <linux-staging@lists.linux.dev>; Mon, 29 Jan 2024 10:08:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706513383; cv=none; b=loxqHxXuezpalcUYhLpKyJF+1GBj+t6c1eYrVX5sekbUZJ88dKWSCsf6hN9xOtQD0Sq+mv0a66Ew+MFEXHzSkkkQCeyD4nFzMqLACaMvx9zEsU9hBukwKdpaMji2xkDV8Ll5nGuD5p7jds2Y0ONCmgx6buqfSu2lNoFY7k6aEnc=
+	t=1706522940; cv=none; b=f32baDeRG577s10ngpRhWHQovWSHtjWyPxhQnDqo7XnYOtM+WcPunXmIBB1JYQhCkEXDQnJ2kvFuzWLApmqVyZ2hzqD/ypxidsMAiQXaIdptq7Ew0AOOmkl7NMRWvf56KYhhvEBCmPbc6wOVLpAPCyfcWk1ut+obJ+6tOh+jVTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706513383; c=relaxed/simple;
-	bh=Jc9jn5Kx2NmcVs/vW6S/Hjf8twBJz4qR4JDcZ6C83/c=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=fwKVDhb20Lwm6avACeVz5Zng4JqFtth8eGjVzd37brpJyvSRPejZoKveGGkx3ejs5uk3TD/3izJvuU4jP+waJtX1Wjo2Vd2rFAxjU09+n14+UfL9Sl91xBOnWjaIO4Vmngmw+P3GRRAFqFJ6SuIC9x8vpd+N9KpKLyDU42s9OhY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A87e/7u/; arc=none smtp.client-ip=209.85.215.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1706522940; c=relaxed/simple;
+	bh=gjTm7ZmqucA7gg9UGgFYPMnYH2k2+PyRYYu5UyXv2Qw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=evNd1TgnfFIiavPAIylB58yxwdvgUyVzZ9S4jFJj4q/ZUa4ZS0Xm6cvWSCpatZqQDpBaYF5zC2cjW1D99FGtuoiNif1exPaFr6DAbSPoF/mqMeFIDH/UlDci2HrloY8R5DqfkQAef2cYwkPl4sXcSIoKLI0Loo430pmBSDwbzD8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=I8YO5r/r; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A87e/7u/"
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-5d7005ea1d0so1442206a12.1
-        for <linux-staging@lists.linux.dev>; Sun, 28 Jan 2024 23:29:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706513382; x=1707118182; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Jc9jn5Kx2NmcVs/vW6S/Hjf8twBJz4qR4JDcZ6C83/c=;
-        b=A87e/7u/cGGCbbJuA+mkmEg2Towni5YS6irXdfajTyey1hV0ZjreQ7vWQxaDSSmBSg
-         EPAwPWz4EsKWREY0BTYFmHjWAV37rQ2FDEuPke6MYNYQRuaJchGVvT/P68j273Y3l17W
-         rXR9rWajOIz5nVdffAmRcjX93YeUlOF+yKbZ9Y1M6YDPj8IYqexkhWtvMjKPNcZRpjym
-         EJRiUucmEmdmK7Kei98tdEpSEO34ffk27qak9nWzgFpxso/W1ikIYueYcNE487CV5EuD
-         m0TILrdgfChzL3OzTNqNKHGw59KadohbZK1JCox+sl8zv+AaVPUnx0Y+2AIISue2hwqS
-         9lvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706513382; x=1707118182;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Jc9jn5Kx2NmcVs/vW6S/Hjf8twBJz4qR4JDcZ6C83/c=;
-        b=F2/A3IESLnCw/NPEN9s/GOJEYPxw6/dcEef1xqlFenUb/MrzBdpf31e8BtemOnxcOJ
-         P4Qs41D93rnDV+LSsj+FgaDmcwQu5o3STp5isvJVNX9lWcC0p7oG+ZPEjvjcXH3uqcu/
-         lDpN72o4JrFybCeG+Y6JSw+ArZIPEGQfqKoPbqSvKCPw83uK8CJSvCirlo5+zWG/3bbn
-         D4Nu8yMBnw9dbZodejYOj7b6Ek5dXn24ktjoXKIgg1yseqHCsjVu/gRfC0jLh9N1lXvB
-         6PmEJO46MUgi00wCzkC07wYmiMTV20FpuC2Hd1WHvaFIPh8Sc8K87KxQSqb9Qm5SZ3ot
-         7Ltg==
-X-Gm-Message-State: AOJu0Yw+WPb0lunCGKRDYASPHUV/UYEnoIQeTDUsFGq5nQCP1IEwTmmb
-	FrU1+5LehOopO7LbUG2hmqiktk/W23jdkvq3Yui95uMFrCUKz/Bd
-X-Google-Smtp-Source: AGHT+IGGTBO+r3eRZTFlF3sN1pAYGUMy9Jx9OlnDSVJHQnlJLn/6GIgPdJD+ktAzomESSLxfbBW1/w==
-X-Received: by 2002:a05:6a20:9e4b:b0:19c:9c76:e9b2 with SMTP id mt11-20020a056a209e4b00b0019c9c76e9b2mr4376473pzb.13.1706513381660;
-        Sun, 28 Jan 2024 23:29:41 -0800 (PST)
-Received: from kohshi54-ThinkCentre-M715q.. ([2404:7a80:c880:6500:a374:2c9:8d38:9a2d])
-        by smtp.gmail.com with ESMTPSA id h8-20020aa79f48000000b006ddcadb1e2csm5166597pfr.29.2024.01.28.23.29.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Jan 2024 23:29:41 -0800 (PST)
-From: Kohshi Yamaguchi <kohshi54.yam@gmail.com>
-To: rdunlap@infradead.org
-Cc: sakari.ailus@linux.intel.com,
-	bingbu.cao@intel.com,
-	tian.shu.qiu@intel.com,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org
-Subject: Re: [PATCH] doc: ipu3: Fix UAPI header doc warnings
-Date: Mon, 29 Jan 2024 16:29:37 +0900
-Message-Id: <20240129072937.51850-1-kohshi54.yam@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <621fe651-8538-43d5-a797-c1e66436b2dc@infradead.org>
-References: <621fe651-8538-43d5-a797-c1e66436b2dc@infradead.org>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="I8YO5r/r"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1706522936;
+	bh=gjTm7ZmqucA7gg9UGgFYPMnYH2k2+PyRYYu5UyXv2Qw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=I8YO5r/r038C+J06g3ItoGr3pBXQhzN4TUSw5RrWcJqyfub52KAU89O3q+CHHDo4x
+	 nHYgcYUOpv4jGStICWrnh0nZQVepkftxG/unuJwzp65Q/KtR0/YrXZT7Po8uZdHabR
+	 ZTiMRqUk+CO0NlcsM0VsAqilkMJMZIzGeDgeKfOt595RLKf/hOe99dmDd38IT1rlO/
+	 kK/TQaCHc6pACyU5DPOAms1KCILfsNvRdC9rLZx66TLn5WugpLTBUtoflxx9wwoNi6
+	 INrAlSxTgT5UY9MCxnEIbbSxTGMQxj9aP9cxn+U1RB0zcl8eSlY9r+5rR6M/4ylH5J
+	 0Q0637TBWBPKA==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 95DF73781F92;
+	Mon, 29 Jan 2024 10:08:54 +0000 (UTC)
+Message-ID: <c27bc8c3-6ff7-4dd9-a4e4-4eef54b3feda@collabora.com>
+Date: Mon, 29 Jan 2024 11:08:53 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 02/17] media: videodev2.h: Fix kerneldoc
+Content-Language: en-US
+To: Ricardo Ribalda <ribalda@chromium.org>,
+ Tiffany Lin <tiffany.lin@mediatek.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Yunfei Dong <yunfei.dong@mediatek.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Hans Verkuil <hverkuil@xs4all.nl>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Bin Liu <bin.liu@mediatek.com>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Sylwester Nawrocki <s.nawrocki@samsung.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Bingbu Cao <bingbu.cao@intel.com>,
+ Tianshu Qiu <tian.shu.qiu@intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-samsung-soc@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-amlogic@lists.infradead.org
+References: <20240126-gix-mtk-warnings-v1-0-eed7865fce18@chromium.org>
+ <20240126-gix-mtk-warnings-v1-2-eed7865fce18@chromium.org>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20240126-gix-mtk-warnings-v1-2-eed7865fce18@chromium.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi,
+Il 27/01/24 00:16, Ricardo Ribalda ha scritto:
+> Named nested unions need their prefix:
+> https://www.kernel.org/doc/html/latest/doc-guide/kernel-doc.html#nested-structs-unions
+> 
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 
-Thank you for reviewing my patch and pointing out the overlap.
-I appreciate your feedback.
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-Best regards,
---
-Kohshi Yamaguchi
+
