@@ -1,150 +1,114 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 863EB67721
-	for <linux-staging@lists.linux.dev>; Mon, 29 Jan 2024 14:19:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63C43152E03
+	for <linux-staging@lists.linux.dev>; Mon, 29 Jan 2024 15:05:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706537959; cv=none; b=nxEBc766CToc56Uwm9VA/SCWCGbihP4dK7kGtp029mz4akFguSqTRTQQHMXQlG1T8c2bwafx40Us9g7KGUObDp2SXgyibz0Bw2on9pS8KESfCcnPzG4u8s/vasVXyOCJ9buLXQnH+jNhRQHspGsbq3RB0ddsW5u9CMAFWNKKuc8=
+	t=1706540712; cv=none; b=IFvjzWtwPinwDxcw0I9NTc3UAGBltMqnR4I9MNCaumoLa9iekFpR+9MFyByCRuAtxFelmlkNW2V5R7Ihp7VsA9hpRTU/+RWV0z9XY6+gmCj5aR3qPZIFqycd6+IF4Imt+tw2pMaEFpPjVMFRyuGy7K5MrduKm3VeVVXDoZg62pg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706537959; c=relaxed/simple;
-	bh=7O6rXoPUceZ5vSfUZs1f50iG4DBaw4PqXEIh8pA+98A=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=UK3CimCyPSKnqlQjAnBQstP2lbLdZAVowEnlbaAb5LYwpuV+oDo+OBk0TMEjfHsa2W7/WJDXkqJ07oDx54G1TfkZQlLXnvZNU7m8qGQDKZ5Fy+7LVgFKptNo/7ziBvSK5pCd9NSpJI2Gmpp7c1rm3xef+jF5380huPLkm63dVhI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Hj7ujIpq; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1706540712; c=relaxed/simple;
+	bh=w0SmiVf1VIVWURSBibSHsWqoAWrZC4py0itUpxFcYnM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D9OLXd1wtEUwQsPlbNSqWaJrvspOdSpLctaEcPtNyIinmXk+GiOYca1WVdyCk3GXomm93tQHSAa+2ffx7jCPR5sTvgaaUqmeOrTGZY25dMzCrcu496Y9M8zwEqyY9+YlcHaESdWZxAytqAqtHBlGiZmhw2MiBZGc3HW+7bAWSo4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Lye1IYN6; arc=none smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Hj7ujIpq"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-40ef3f351d2so6716615e9.1
-        for <linux-staging@lists.linux.dev>; Mon, 29 Jan 2024 06:19:17 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Lye1IYN6"
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5110c166d70so2040990e87.1
+        for <linux-staging@lists.linux.dev>; Mon, 29 Jan 2024 07:05:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706537956; x=1707142756; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=y9moHDVvU6z3kwiFZUQJD1fH1NG2dZetKlW8LuOaa3I=;
-        b=Hj7ujIpqPuklaf1nd2evhwzUzRdEzZ1R3p3fDuZXkMGfDsx5QxWyfsI7CelmDx2gf+
-         gC9/Fdul7Qg4FnUCnXAz8+exiuE6wO/ZbtHlKaFD40EySrtqJyiOuanH5Y2uwDpvF83h
-         Hct53Mu1cVqj6rJIEbZCpHA/Cb1caEuk4LWtyePqABjcbIAyMwsslSFiouQrm6q3XhWt
-         WOqRBhLMbE8t/VYOvvpZ3kNtPTUTmPgc1FQOG87aLp3HVy9/LnZGVVCxQ1hOpZ1EBlQg
-         ucGAJXNm4giYPaJMECL+EJ+gTZB4SkcY6OfaR5Z+JrZpxXtr61NmFE5JPUZYBHCDg5/w
-         TFdw==
+        d=linaro.org; s=google; t=1706540708; x=1707145508; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=is7ro7B8vSrt0TvYSJ+DPFn+IXQv7f7Zkz1f/rmDyPY=;
+        b=Lye1IYN6xW/qiQXUK3nbXdJ2+u9qOHpM/DfVDhwZPEeR1r9qhKLsTJ822eZTn2ws6Z
+         6aIuVul2EA6W6zWDPSvC3RzdW76D4+TOeDRrmPB0E6HSN4Q/kIGO9iEMMeWCic4hBJwZ
+         F8Sv5P1CjS35nMq+X306ndgR2VlT4nj3EOfjX2En8wkGVRunt7b9qA7DTKsgQttX4Bzm
+         vAoCAUXY6LerY74J+HJ7Se0MYGc0PcfBaxGF1wCTCeJq8+t1gLhUtFgBDJyjgY6BB0zc
+         ugB16fn0tApl4Q0CmGU0XedV7YeRfILPqo8WKQsLg+RBFYvP29Nj42JiKhIGCeqiIGmx
+         BMAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706537956; x=1707142756;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=y9moHDVvU6z3kwiFZUQJD1fH1NG2dZetKlW8LuOaa3I=;
-        b=ssU5TxHN3l5kX8YBksykazSQKT65l8hY1DkTTVjtWtZIvKPjfeZ8jQBu+NowGNAmtx
-         okcCtWyxagF43IQQ8/Js8bteHZ6+em3wYV/VQnU1tjMF0y+JGOqH3MDnQAktanqMmE5y
-         13cQpijyE8+d4hZc2uMWal5mjpVbITZka3rcvTcfvDs3N9omAPj5m2JGKAANjmId33I1
-         ed5k7UBzAB77UQRI+Lp32l4WgaFGGuKY6snM9ekbho5EhNlBAThkaManWrBUYcqhfdZ0
-         zHMS3fNUs79mQpLuJIXlIuM8fiE/xUsV4VKvxufez+MEmn/q5eBhnBEcb/i+kUe3xgvY
-         NrlA==
-X-Gm-Message-State: AOJu0YzirclgAoXkufyis2qvXMkqsHo/czgjq0shbAAxhCulExcfjUol
-	OINyS6Y1FU5XdUKmWsc1tGfPtsfHz8XCHjDqyHz8YyUimMQgynNDjKJ3A3kJaOZrcg==
-X-Google-Smtp-Source: AGHT+IHm6388xm/QTCaGEDK1ImPfBbY9GsIXBQvs2+ki3e6r2DjTGCcPGaDAPpKFu3QXHl8Kc/TsKg==
-X-Received: by 2002:a05:600c:3b9d:b0:40d:858c:53f6 with SMTP id n29-20020a05600c3b9d00b0040d858c53f6mr5412782wms.2.1706537955755;
-        Mon, 29 Jan 2024 06:19:15 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCXdm4wUtSp6rYEMPJ0lKaNsh61o/2lREf5Zq7rC+VWl+F4650XLgIVf07vKJ21/vvbM1453su4X/Q0Qqu3K9HBqHvEh+9g7fXt9yMQHTJFuy9I94ig3FgC47isLk+sRLWAmgRD0i7Yyg+sMzWvtuG1W0v5IbcvaIEnlNz+wqes2FLaQrF+qYdJ1i3SKq5GLjwSMsOE2VcS9PzR4yTGFhJhpv/rH7IkD
-Received: from Ubuntu22.myguest.virtualbox.org ([46.121.140.152])
-        by smtp.gmail.com with ESMTPSA id e21-20020a05600c4e5500b0040efb8118e9sm1200186wmq.38.2024.01.29.06.19.13
+        d=1e100.net; s=20230601; t=1706540708; x=1707145508;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=is7ro7B8vSrt0TvYSJ+DPFn+IXQv7f7Zkz1f/rmDyPY=;
+        b=P+I7mnxt5nGSO+goKV3ueq1hMFvxv0agY0j/k86lSgjebmZKUaUTCgNba4+Q6HzOiq
+         MgtzRkPUyET11ryhW0qQeYqixXS/joVYXM6/P4JvocJ8tfIZOGtZUOP/Jpb3OmL+0zvV
+         dAspb2FKrth+z0GBD67g1QiXFHsh/MLJhur8h3G/vNuBKm9GZ4BInph+3CzNISC9kj6a
+         BKYLU/NV77H4gtMdHMyujeR9GRQJbezQNAYrvTlAnAWU9YU7Tpi14NIFh5jxnDertzTF
+         597bDM18FWqlUnNdrJGQ2t594s9DrueOU3iFg7xpHoUawqju8IINDH2VvaZkNaJGqhjf
+         I3sw==
+X-Gm-Message-State: AOJu0YxzvGTBMt7wkHAHLgTGzigUpJuOWUrN7KjDrKTNjzanTBhPYeYH
+	DFtMCMB6nGAJlsLo/RbtM+HdZ2AkwTN+U+ITv2HvIOC4Jb3xDM4vR6RhRVVpbJ8=
+X-Google-Smtp-Source: AGHT+IEqmh/cI1PozuMSleeGae2wsgcL+hEQKSB8fVSpWf8NAz1wVQzEOkLik3p398u18vSo0zPTnA==
+X-Received: by 2002:a05:6512:20d2:b0:50e:7aaf:ec53 with SMTP id u18-20020a05651220d200b0050e7aafec53mr3597889lfr.12.1706540708419;
+        Mon, 29 Jan 2024 07:05:08 -0800 (PST)
+Received: from localhost ([102.140.209.237])
+        by smtp.gmail.com with ESMTPSA id f7-20020a05600c4e8700b0040e4914f28dsm14282173wmq.18.2024.01.29.07.05.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jan 2024 06:19:15 -0800 (PST)
-From: Meir Elisha <meir6264@gmail.com>
-X-Google-Original-From: Meir Elisha <meir6264@Gmail.com>
-Received: by Ubuntu22.myguest.virtualbox.org (sSMTP sendmail emulation); Mon, 29 Jan 2024 16:19:12 +0200
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mon, 29 Jan 2024 07:05:07 -0800 (PST)
+Date: Mon, 29 Jan 2024 18:05:04 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Meir Elisha <meir6264@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Hans de Goede <hdegoede@redhat.com>,
 	Ruan Jinjie <ruanjinjie@huawei.com>,
-	Yang Yingliang <yangyingliang@huawei.com>
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Meir Elisha <meir6264@Gmail.com>
-Subject: [PATCH 4/4] Staging: rtl8723bs: fix else after break warning
-Date: Mon, 29 Jan 2024 16:18:56 +0200
-Message-Id: <20240129141856.416532-5-meir6264@Gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240129141856.416532-1-meir6264@Gmail.com>
+	Yang Yingliang <yangyingliang@huawei.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/4] Staging: rtl8723bs: Remove extra spaces
+Message-ID: <080d2c0d-49b1-45e9-9b7b-fae2afaf0b4f@moroto.mountain>
 References: <20240129141856.416532-1-meir6264@Gmail.com>
+ <20240129141856.416532-3-meir6264@Gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240129141856.416532-3-meir6264@Gmail.com>
 
-Fix checkpatch warning: else is not generally useful after a break or return
+On Mon, Jan 29, 2024 at 04:18:54PM +0200, Meir Elisha wrote:
+> Fix checkpatch warning: please, no space before tabs
+> 
+> Signed-off-by: Meir Elisha <meir6264@Gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/core/rtw_mlme.c | 48 +++++++++++------------
+>  1 file changed, 23 insertions(+), 25 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+> index 5568215b35bd..a7c4350e0783 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+> @@ -169,7 +169,7 @@ void _rtw_free_network(struct	mlme_priv *pmlmepriv, struct wlan_network *pnetwor
+>  {
+>  	unsigned int delta_time;
+>  	u32 lifetime = SCANQUEUE_LIFETIME;
+> -/* 	_irqL irqL; */
+> +/*	_irqL irqL; */
 
-Signed-off-by: Meir Elisha <meir6264@Gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_mlme.c | 38 +++++++++--------------
- 1 file changed, 14 insertions(+), 24 deletions(-)
+Just delete dead code.
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index 044483f3d678..efaac84f22b4 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -1540,30 +1540,23 @@ void _rtw_join_timeout_handler(struct timer_list *t)
- 
- 	spin_lock_bh(&pmlmepriv->lock);
- 
--	if (rtw_to_roam(adapter) > 0) { /* join timeout caused by roaming */
-+	if (rtw_to_roam(adapter) == 0) { /* join timeout caused by roaming */
-+		rtw_indicate_disconnect(adapter);
-+		free_scanqueue(pmlmepriv);
-+		/* indicate disconnect for the case that join_timeout and check_fwstate != FW_LINKED */
-+		rtw_cfg80211_indicate_disconnect(adapter);
-+	} else {
- 		while (1) {
- 			rtw_dec_to_roam(adapter);
--			if (rtw_to_roam(adapter) != 0) { /* try another */
--				int do_join_r;
--
--				do_join_r = rtw_do_join(adapter);
--				if (do_join_r != _SUCCESS)
--					continue;
--
--				break;
--			} else {
-+			if (rtw_to_roam(adapter) == 0) {
- 				rtw_indicate_disconnect(adapter);
- 				break;
-+			} else if (rtw_do_join(adapter) != _SUCCESS) { /* try another */
-+				continue;
- 			}
--		}
--
--	} else {
--		rtw_indicate_disconnect(adapter);
--		free_scanqueue(pmlmepriv);/*  */
--
--		/* indicate disconnect for the case that join_timeout and check_fwstate != FW_LINKED */
--		rtw_cfg80211_indicate_disconnect(adapter);
- 
-+			break;
-+		}
- 	}
- 
- 	spin_unlock_bh(&pmlmepriv->lock);
-@@ -2102,12 +2095,9 @@ signed int rtw_restruct_sec_ie(struct adapter *adapter, u8 *in_ie, u8 *out_ie, u
- 	}
- 
- 	iEntry = SecIsInPMKIDList(adapter, pmlmepriv->assoc_bssid);
--	if (iEntry < 0) {
--		return ielength;
--	} else {
--		if (authmode == WLAN_EID_RSN)
--			ielength = rtw_append_pmkid(adapter, iEntry, out_ie, ielength);
--	}
-+	if (iEntry > 0 && authmode == WLAN_EID_RSN)
-+		ielength = rtw_append_pmkid(adapter, iEntry, out_ie, ielength);
-+
- 	return ielength;
- }
- 
--- 
-2.34.1
+>  	struct __queue *free_queue = &(pmlmepriv->free_bss_pool);
+>  
+>  	if (!pnetwork)
+> @@ -389,7 +389,7 @@ int is_same_network(struct wlan_bssid_ex *src, struct wlan_bssid_ex *dst, u8 fea
+>  	d_cap = le16_to_cpu(tmpd);
+>  
+>  	return (src->ssid.ssid_length == dst->ssid.ssid_length) &&
+> -		/* 	(src->configuration.ds_config == dst->configuration.ds_config) && */
+> +		/*	(src->configuration.ds_config == dst->configuration.ds_config) && */
+
+Here too.
+
+>  			((!memcmp(src->mac_address, dst->mac_address, ETH_ALEN))) &&
+>  			((!memcmp(src->ssid.ssid, dst->ssid.ssid, src->ssid.ssid_length))) &&
+>  			((s_cap & WLAN_CAPABILITY_IBSS) ==
+
+regards,
+dan carpenter
 
