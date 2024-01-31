@@ -1,105 +1,320 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2110.outbound.protection.outlook.com [40.107.113.110])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2A5E76044
-	for <linux-staging@lists.linux.dev>; Mon, 29 Jan 2024 20:04:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706558668; cv=none; b=JiHHa+/7ZlJ2HFAtbEQuSo+Jy3kjwYeOyQOOkz/rW25Zn+lbB6wpOK8x2ZbhfviPzqkxd89x6HfZOzrKWmjXG/uVHWhaS1uEMAnHnbbLOR/uaqgvMCpT1gz/tO1/2+0rsYHfTWqY+WIEskV3PLufM9RqfvZn/5m6jhzdDVONI8w=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706558668; c=relaxed/simple;
-	bh=CtI04kLJuk4+Mb+RGkKqdEQPLMzOvfYosi1DAHpmDKU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Hxbm1xnEMQ8SzZj6pggWVWnq2FHUkQeVKX7ny2/XYTazbuIsdE0usjvV1MmZj3qYqeulJgB54VPUtpSsAnUpVAnjuv471RXBvuyUj/torFoeTh6WVdjGp9okZKSA8X0Ul05mJuQ7/lgzdvGbEdYjj4C0M9eoP0V3yaPekwC1Ua8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SLCAKSkx; arc=none smtp.client-ip=209.85.208.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 864D33D0B3;
+	Wed, 31 Jan 2024 05:04:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.113.110
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706677483; cv=fail; b=WvWBEOTWg8rDV3FnSUM59rorAife9plovLHlI+7CrdziUOV2bXLronSNhh34LlFQ7Moz48d0sRn7C6qFwoCYjXZo1+I+iYwEK2ZHBQkoGXMdBpMUrSxfBL6nygz21NH25CWCw+W3b3dWIX93d+JLtw7U84O18uAnA4u4iFGSW7M=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706677483; c=relaxed/simple;
+	bh=QSBdtWMBTyScqhAqPcEwlQB0j2BYZfG1g9QPJoxojkU=;
+	h=Message-ID:From:To:Cc:Subject:Content-Type:Date:MIME-Version; b=q1BaXyeDqGm7YM3l+SYw/lPbZ/2hDLJOifqOjwLw/Wu3ZIdJNK0SM/d/cHoB98X9YMxX0lddhSKwTOXNSPl5IROYD95BalcKddIlZ9icmCUK6ag9xRzlxizvWwjI0SRQ5BDucCbX1WQ20e9g6yRFBiQzSiA1AMi9peDr8k9dYOM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=LLBQGMhA; arc=fail smtp.client-ip=40.107.113.110
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SLCAKSkx"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-55d095e6ab5so951321a12.0
-        for <linux-staging@lists.linux.dev>; Mon, 29 Jan 2024 12:04:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706558665; x=1707163465; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=745A/9K2hSfoUx6RdWw0k38aK7Py4rNMCIysWo7mEXk=;
-        b=SLCAKSkxeNDCQ9WBuv0/sIfUZhcbJCFKVP23SiwVRLJzesQp6+/nJmASeDorqgfTC/
-         bi06k1XVcmpFox0bSFqmUyneGV8ogMXys6IDrD8dwMFV46FQZV/hLOqU47Zb1LIIKGP0
-         oZCm/ZGxEYR1Gk/wQK2AzWDSCmypmDlZwXXqqsL36l5NAJCrENlFaTGxmXPnJ13TNRXC
-         6LK0SmkwtFHucYqUXxF5q3mEIbrIO3DtWSY2L6SlpC0HCYJwKFalgZIMPqkVy+5NV5Tl
-         K5BPi5vYyRf7l9yofyT9FgecvfFSN0Pus7nASc4liiksqYBeldE/nfb3BtAA4iCShsTQ
-         dAIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706558665; x=1707163465;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=745A/9K2hSfoUx6RdWw0k38aK7Py4rNMCIysWo7mEXk=;
-        b=J3XEhiQrLjiG/DICrsVrdzrsw/dnH9tIel2g/yOogdbHE1TyPp5FSdBMfUlERfQ02I
-         QmUOxp+x9Ia1ygy9DB6SZ+iIaxqPXyRJ+DMgc5sUESy6CYeyzvTwtHdO5vwqGGVUh22Z
-         ezu1a9Pzpcjfd245S4Dqc1IjpEhTN8t2LFkhPbQIJg0KrPO+8T26FvlaOFiZjjXpWww3
-         kHH1nldVtIYSOe5uCw21Mg6/pvwigjuyqKtZdToi0/2KVJmB1SvJ9s0mon3s06MA9fpu
-         bRQ4HdUQMM2Jg34zyrCfq1FpOAfR9seTO7jMg2sKgLFxN4fazbYOyFnuqSzfc1Z6bdmQ
-         shEQ==
-X-Gm-Message-State: AOJu0YzPHjIpl8rbSRf+gpILkW6BDuUrtrZkGvW04oSyQgsudqS6U5W9
-	JM7GS2V1reg8smW8w5i8fvLUyQGaS14IY748mBJOtDkeksjHkYIn
-X-Google-Smtp-Source: AGHT+IGruWOGvOeNgK1MI6oeKyd4AvOTOfNm3xyNHwJeVE1viMN8nttgbNoy7cZZz1Hf/kmgmLmyYg==
-X-Received: by 2002:aa7:c14a:0:b0:55f:487:201e with SMTP id r10-20020aa7c14a000000b0055f0487201emr2132229edp.4.1706558664994;
-        Mon, 29 Jan 2024 12:04:24 -0800 (PST)
-Received: from [192.168.0.101] (p54a07fa0.dip0.t-ipconnect.de. [84.160.127.160])
-        by smtp.gmail.com with ESMTPSA id er7-20020a056402448700b0055edfb81384sm2189935edb.60.2024.01.29.12.04.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 29 Jan 2024 12:04:24 -0800 (PST)
-Message-ID: <3e67441a-aafa-403e-b332-c58c5fa75e30@gmail.com>
-Date: Mon, 29 Jan 2024 21:04:23 +0100
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="LLBQGMhA"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OHZbDMErSOk2YcQrwXPTDThTAzntBG/cCogKqeniJzsaDKOpbExZNDraR1+K/JCacpNlTBiiHbonaCRHYYC9IjoN2O6Ay2x539oKY+ObTYKTnPT/m4zw5rxgKnh74+gEivuPWkrcJEuTlq2SVKz83kfqx7spcLG4czsqwxDhMYNYGopVmh38VJV9C8H/hHrrMb0SJNCbCs4zSbcvr+/PS326uE/fwvxDFzClPU0mHH1tAJ7N6TP0JA+CDcDFrO747bLvmnRJnasQKyCFK1JwfUilFU8n9eY0MVKmQhzQp+4Naq2KieM7Nn8vQzE4iAHUtq0uDRb5k2zD6vsxCPWOyg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5+5CiXTJgPad8zMhSD0w6xKwpy7MFhyDCsVDKxJ+C3o=;
+ b=chO2264CTIm6hhSaZOy7DTMgPXmcGHprW9P/KAOS+Sd78SqJlwYUqa+PSHKx4YMYbAn27gCEnjrOulZ8IimrPJMjdH2Zp7+QgYaq+37mrVsAehhKMY9uTgAQ4+jvAbe5dbcwmQVwvFRMnzie/aN8EeRCNPsQXZhGQLj6B3Qb0hNQXDv1zfdHflTmVzewIFlrx8lqrfqoekWBBNOvXTJlpWdZOnlzyRei4keG2MumNGGhNORVND67Nz1f69g/jOxEmglWDTBTVLCHfk1kaX8B/1gpiJYI3ZnDMNL6A3gm2aETf6dtsTzJMPuBy9Km5+zx9ioV7DpP/M/huSpbd0bvJg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5+5CiXTJgPad8zMhSD0w6xKwpy7MFhyDCsVDKxJ+C3o=;
+ b=LLBQGMhAV8IvPgm4Lc/NcRBtrQqZzBOsNB9M7RWWS9vNnXXfmQOq9NZnwGsZWlcoD2AbCcc+hmLWKQIktL6rHh37rPf4waakw+5EnlD2fUQ/j2ng+GDyFlHiGmYKW7dOyDVDvDHYrikAb02G5u/rCtDGbqyhUHBUImDT+/FmAwg=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by TYCPR01MB8341.jpnprd01.prod.outlook.com
+ (2603:1096:400:15c::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7249.23; Wed, 31 Jan
+ 2024 05:04:34 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::ce8:8f5e:99a0:aba4]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::ce8:8f5e:99a0:aba4%2]) with mapi id 15.20.7249.023; Wed, 31 Jan 2024
+ 05:04:34 +0000
+Message-ID: <87o7d26qla.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, "Lad,  Prabhakar"
+ <prabhakar.csengg@gmail.com>, =?ISO-8859-1?Q?=22Niklas_S=C3=B6derlund=22?=
+ <niklas.soderlund+renesas@ragnatech.se>, =?ISO-8859-1?Q?=22Uwe_Kleine-K?=
+ =?ISO-8859-1?Q?=C3=B6nig=22?= <u.kleine-koenig@pengutronix.de>, Abhinav
+ Kumar <quic_abhinavk@quicinc.com>, Alexander Shishkin
+ <alexander.shishkin@linux.intel.com>, Alexander Stein
+ <alexander.stein@ew.tq-group.com>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Alexey Brodkin <abrodkin@synopsys.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Andy Gross <agross@kernel.org>,
+ Biju Das <biju.das.jz@bp.renesas.com>, Bjorn Andersson
+ <andersson@kernel.org>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, Daniel
+ Vetter <daniel@ffwll.ch>, Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ David Airlie <airlied@gmail.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Emma Anholt <emma@anholt.net>, Eugen Hristev
+ <eugen.hristev@collabora.com>, Florian Fainelli
+ <florian.fainelli@broadcom.com>, Frank Rowand <frowand.list@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans Verkuil
+ <hverkuil-cisco@xs4all.nl>, Helge Deller <deller@gmx.de>, Hugues Fruchet
+ <hugues.fruchet@foss.st.com>, Jacopo Mondi <jacopo+renesas@jmondi.org>,
+ Jacopo Mondi <jacopo@jmondi.org>, James Clark <james.clark@arm.com>,
+ Jaroslav Kysela <perex@perex.cz>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Kevin Hilman <khilman@baylibre.com>, Kieran Bingham
+ <kieran.bingham+renesas@ideasonboard.com>, Kieran Bingham
+ <kieran.bingham@ideasonboard.com>, Konrad Dybcio
+ <konrad.dybcio@linaro.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski@linaro.org>, Laurent Pinchart
+ <laurent.pinchart+renesas@ideasonboard.com>, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Liu Ying <victor.liu@nxp.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Marek Vasut
+ <marex@denx.de>, Mark Brown <broonie@kernel.org>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Maxime
+ Ripard <mripard@kernel.org>, Michael Tretter <m.tretter@pengutronix.de>,
+ Michal Simek <michal.simek@amd.com>, Miguel Ojeda <ojeda@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Nick Desaulniers <ndesaulniers@google.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Philippe Cornu <philippe.cornu@foss.st.com>,
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, Rob Clark
+ <robdclark@gmail.com>, Rob Herring <robh+dt@kernel.org>, Robert Foss
+ <rfoss@kernel.org>, Russell King <linux@armlinux.org.uk>, Sakari Ailus
+ <sakari.ailus@linux.intel.com>, Saravana Kannan <saravanak@google.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>, Stefan Agner
+ <stefan@agner.ch>, Suzuki K Poulose <suzuki.poulose@arm.com>, Sylwester
+ Nawrocki <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>, Thierry
+ Reding <thierry.reding@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Tim Harvey <tharvey@gateworks.com>, Todor Tomov <todor.too@gmail.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Yannick Fertre
+ <yannick.fertre@foss.st.com>
+Cc: Alim Akhtar <alim.akhtar@samsung.com>, Fabio Estevam <festevam@gmail.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, Jerome Brunet <jbrunet@baylibre.com>, Jessica Zhang <quic_jesszhan@quicinc.com>, Jonas Karlman <jonas@kwiboo.se>, Kieran Bingham <kieran.bingham@ideasonboard.com>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Leo Yan <leo.yan@linaro.org>, Marijn Suijten <marijn.suijten@somainline.org>, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Mike Leach <mike.leach@linaro.org>, Sam Ravnborg <sam@ravnborg.org>, Sean Paul <sean@poorly.run>, Tom Rix <trix@redhat.com>, coresight@lists.linaro.org, devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, linux-fbdev@vger.kernel.org, linux-media@vger.kernel.org, linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org, linu
+ x-rpi-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, linux-sound@vger.kernel.org, linux-staging@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com, linux-tegra@vger.kernel.org, llvm@lists.linux.dev
+Subject: [PATCH v3 00/24] of: property: add port base loop
+User-Agent: Wanderlust/2.15.9 Emacs/27.1 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Wed, 31 Jan 2024 05:04:33 +0000
+X-ClientProxiedBy: TYBP286CA0038.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:404:10a::26) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/4] Staging: rtl8723bs: checkpatch fixes for rtw_mlme.c
-Content-Language: en-US
-To: Meir Elisha <meir6264@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Hans de Goede <hdegoede@redhat.com>, Ruan Jinjie <ruanjinjie@huawei.com>,
- Yang Yingliang <yangyingliang@huawei.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20240129141856.416532-1-meir6264@Gmail.com>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20240129141856.416532-1-meir6264@Gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYCPR01MB8341:EE_
+X-MS-Office365-Filtering-Correlation-Id: d7353850-aaa9-4a00-db7b-08dc221a1dc8
+X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	+o5SCnnzAqa/itkzF7hHRtQ8K4K0VupH/sDUcKJoz9H3hW7s6b6WOBZcletczhdoa8QYwy6dWvNjHxXsCpTktYwKAMhCDx8kdNDgeiyunpaTTqwx++WrRh0uul/v8/evCxgbLXd+EPPFmEEmyvxYcQ7h6aMc7/7lahvKXBoISTOaUpi1QM79u8j9K5SUaEpvvmxM3LmPTu4sUipSbDkC9DOWYEU4tKBCh45t9xAM1FZOr6GN2bQ4ldt4N2LXmJHyDQnWWrxazYMUz5pdA3hWDHUgpVJrLQ0Odel8jiWusCNy9rrSVSXRcob4ZfdkLVAc9SED+uuRGU3ONXxlWkMt+YqWLSlUjzYAhC+BwG99PdjaKxTvW1x9svE5Vd/qSBGi4/bceGPiZRqA8kClCXlVc4WXs74wRzhdeS0A5UJGs3MDD+aXPDF3a4YT5EFb17YvjdvZoNgElRoFKqlMlRjZDo+LYTbxsnWtpo+TPSyfwZjhoTJ8frbL0F3CMiJ1HCLPU1ZiyrjJVXKzO6vW+ikeOcLGY5jLVfkYH05h0Rjp5oODLG4Znhfu//xrcSkf6hq6Fag+s3ULtPR9MAsjSTAkyN6MbPOrJahOpK4s0zziITODB2C1drk5eC4IldY42FTfr8b/giGVMFZgQrEc5WaHlcaICeFmiKsjNtP86N/sUuA=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(346002)(136003)(366004)(376002)(39860400002)(230922051799003)(186009)(451199024)(64100799003)(1800799012)(1191002)(66476007)(8936002)(4326008)(8676002)(7366002)(5660300002)(2906002)(7416002)(7276002)(86362001)(7406005)(110136005)(66946007)(7336002)(316002)(38350700005)(36756003)(54906003)(966005)(38100700002)(66556008)(478600001)(52116002)(6506007)(6512007)(6486002)(83380400001)(26005)(41300700001)(921011)(2616005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?UkI0QvLhTrO3+QAFKz9ZqWXBw7JDRz/B9b0EyooERuIiBBsldfm0cuSSnAuJ?=
+ =?us-ascii?Q?CQBDvyrI8woF4RKs7KUHsPodoYyr0S3pVspLUzcUvDv/PcCglkDv33Fb4tmc?=
+ =?us-ascii?Q?FsXXJE6U1Vm7XUVfpgW045JJldJ/tNJGzoTGpMV9M6M+uNqSsjAHalYG8R9+?=
+ =?us-ascii?Q?779cmdNDuJ9TQkZWpfkJ5TrdQcGf08OolocuFY6MybCR6Hi/CudoM78wiNw1?=
+ =?us-ascii?Q?HnaO+2lBCn/VcDfF9z7S+Fx/C0qXeTAOwE+L2zg9GzoMZ6hU898M/qOCJWrU?=
+ =?us-ascii?Q?ZJdudNlGqdnPZYfwuP/byXyiOY0eS68MUtU8fxJkoHyMdKshYpH8vyFY8Iuk?=
+ =?us-ascii?Q?l857c+QJjnQJaxGUCBPM9kLWHk4CWSDS7tw9zZ/fiDwN1FOJIqKNqKxK0FGH?=
+ =?us-ascii?Q?gEVUAND67DP6fi6FoMAJxb7t4XLlBooSCY0R9VHrC34whFmddztjVMgpnZNB?=
+ =?us-ascii?Q?0cky42vrBq2aQXdG72+U8tLDeVddLfyRlAJH0IGQDBrai3RVQZEM/deWk4+l?=
+ =?us-ascii?Q?kfUPbQ5p7i6MhLSMKjSe0wTqhjuoZ00d49WGqYrZmGBrFgqULs1l8bI6DnZZ?=
+ =?us-ascii?Q?PjtvnzeVRw9nbaBuzzWc0Tdh2t73R6RvV9MUlsPoWmtk9sndJM8jm3iGeNSv?=
+ =?us-ascii?Q?JwYIRcfYe2QGNSiVfDpBJV+X7o2iTUJ28WCePWCPw1XnrCNBa+3zmlWRRy3o?=
+ =?us-ascii?Q?DjU2K66qJspu/U+mbfaokPCekPzsU1Q98oZjmH66/GKOL2bPd6Clyc0eNLlL?=
+ =?us-ascii?Q?WLZQWWK/5Dm3TC4pfnXrjVGPzYEZ/zPsnkEZqR3irAFfGAQnGX019y8mXtWx?=
+ =?us-ascii?Q?WDLFfcWjQNlhx/YsLgUmJtrGPmJTLUHB8s5bIm0fXycXprpOJrVU7EHF6zct?=
+ =?us-ascii?Q?o/RC4G2qjjGT7a8En9NMjwc5tGQz9hjaEUB3xIMOhx4AW0BvMODsGG6opNvK?=
+ =?us-ascii?Q?vGSY9OqW4pi810DdFda8gHT1abfHua21ioEeUCDJahedPSKfpvewXkBd7xDk?=
+ =?us-ascii?Q?CuKVnzwLbaiCOyCKsX97d+JkkIA9djRHmGw+xptmSrv9J7vVGbP6bhgdV8/u?=
+ =?us-ascii?Q?lJr13lGGUnvL4z6NISKi4Yhh6/ncE/qIxMwQreGe4ZqE5opatG4e+nXBicms?=
+ =?us-ascii?Q?/PWXfxJce1lF//vlUjX5EBr4uGucCUyxvCSI168BbynNxoA9ESQ9O+m7RUMl?=
+ =?us-ascii?Q?y3vPs5mBT7+DwThoj/vs9d4Q9GJzsTeKu4elVVpaGCwfMxMYxJzx69RFnyaM?=
+ =?us-ascii?Q?lI8VZ4c/HsuFhfvMieOgY9zIL7fPPEmiAgIp5koLl6gI1fwRK5ORuR9u5zx7?=
+ =?us-ascii?Q?u2s4FmZ0tTfnQ7W0bKTI+v/Ecu7y6yxkQjOGRooLRIuiBQjOlxMMvOzNm+Y9?=
+ =?us-ascii?Q?Ro+eFxfkkO79exWczk7htwUTWqmxEBdaV/4i8Ohxqnwa2lPahRT3vhDWsUnC?=
+ =?us-ascii?Q?7qEjqvm6lMlL9qAUIgBCRuoB5Yj1q63RtHfBBE1VM6d+gA+oSoTfxYE8KNJD?=
+ =?us-ascii?Q?uzqMUqr8nKG1U0/AGFD51QpU7fE8xfJaxSZVXAzGfMuI75zvvoPZMHrCQfBb?=
+ =?us-ascii?Q?wMD5BPZJivLnj06Al1Kx7yp2KlXFq1fVEDhg3P7IzeGwrNlkfIqvO8YnLL2p?=
+ =?us-ascii?Q?WlxdKTW7prWX8jf07BjuquU=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d7353850-aaa9-4a00-db7b-08dc221a1dc8
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jan 2024 05:04:34.5309
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: VrRAyWfOuFjf1U6EUwqr8R6qXebuvscdI2jMBjzl/7rMZeAfAPh/2jAdN0HijPwH68PBWDebnZtIKEEZNRf6lwLsjQporjR/kw4xGbU/1Y8xbVJMNoSWHVCTUZlxY/ml
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB8341
 
-On 1/29/24 15:18, Meir Elisha wrote:
-> Checkpatch fix series for rtw_mlme.c
-> 
-> Meir Elisha (4):
->    Staging: rtl8723bs: Remove unnecessary braces
->    Staging: rtl8723bs: Remove extra spaces
->    Staging: rtl8723bs: Fix block comments warning
->    Staging: rtl8723bs: fix else after break warning
-> 
->   drivers/staging/rtl8723bs/core/rtw_mlme.c | 241 ++++++++++------------
->   1 file changed, 114 insertions(+), 127 deletions(-)
-> 
 
-Hi,
+Hi Rob
 
-please also fix:
+This is v3 of port base loop patch-set
 
-CHECK: From:/Signed-off-by: email comments mismatch: 'From: Meir Elisha 
-<meir6264@gmail.com>' != 'Signed-off-by: Meir Elisha <meir6264@Gmail.com>'
+We have "endpoint" base functions
+	- of_graph_get_next_endpoint()
+	- of_graph_get_endpoint_count()
+	- for_each_endpoint_of_node()
+
+But to handling "port" base things, it is not useful. We want to have
+"port" base functions, too. This patch-set adds it.
+
+Because current existing drivers couldn't use "port" base functions,
+it were implemented in a different way. This patch-set doesn't try
+to full-replace to avoid unknown bug, try easy / quick replace only
+for now, but easy to know how "port" base functions are needed.
+
+Because I can't test the driver which I can't use, non-ASoC drivers
+needs Tested-by, Acked-by.
+
+This patch-set renames existing "endpoint" to *_device_*
+because it is rather than focusing to device's endpoint instead of
+port's endpoint.
+
+	- of_graph_get_next_endpoint()
+	+ of_graph_get_next_device_endpoint()
+
+	- of_graph_get_endpoint_count()
+	+ of_graph_get_device_endpoint_count()
+
+	- for_each_endpoint_of_node()
+	+ for_each_device_endpoint_of_node()
 
 
-In Patch 4/4
-WARNING: Prefer a maximum 75 chars per line (possible unwrapped commit 
-description?)
+[PATCH 01/24] - [PATCH 02/24] : tidyup existing endpoint function kerneldoc
+[PATCH 03/24] - [PATCH 11/24] : replace existing function to *_device_*
+[PATCH 12/24] - [PATCH 24/24] : add new function and use it
 
-Please issue a V2 with changelog.
+v2 -> v3
+	- tidyup existing endpoint function kerneldoc
+	- replace exising function to *_device_*
 
-Thanks
+v1 -> v2
+	- tidyup function explain
+	- add missing header on each files
 
-Bye Philipp
+https://lore.kernel.org/r/87jzo0uda2.wl-kuninori.morimoto.gx@renesas.com
+https://lore.kernel.org/r/87fryhklhb.wl-kuninori.morimoto.gx@renesas.com
+
+
+Kuninori Morimoto (24):
+   1) of: property: add missing kerneldoc for of_graph_get_endpoint_count()
+   2) of: property: use unsigned int return on of_graph_get_endpoint_count()
+   3) of: property: rename of_graph_get_next_endpoint() to of_graph_get_next_device_endpoint()
+   4) video: fbdev: switch to use of_graph_get_next_device_endpoint()
+   5) media: i2c: switch to use of_graph_get_next_device_endpoint()
+   6) media: platform: switch to use of_graph_get_next_device_endpoint()
+   7) gpu: drm: switch to use of_graph_get_next_device_endpoint()
+   8) hwtracing: switch to use of_graph_get_next_device_endpoint()
+   9) staging: switch to use of_graph_get_next_device_endpoint()
+  10) ASoC: switch to use of_graph_get_next_device_endpoint()
+  11) of: remove of_graph_get_next_endpoint() define
+  12) of: property: add port base loop
+  13) of: property: use of_graph_get_next_port() on of_graph_get_next_endpoint()
+  14) of: property: add of_graph_get_next_endpoint()
+  15) drm: omapdrm: use of_graph_get_next_endpoint()
+  16) media: xilinx-tpg: use of_graph_get_next_endpoint()
+  17) ASoC: audio-graph-card: use of_graph_get_next_endpoint()
+  18) ASoC: audio-graph-card2: use of_graph_get_next_port()
+  19) ASoC: audio-graph-card2: use of_graph_get_next_endpoint()
+  20) ASoC: test-component: use for_each_port_of_node()
+  21) fbdev: omapfb: use of_graph_get_remote_port()
+  22) fbdev: omapfb: use of_graph_get_next_port()
+  23) fbdev: omapfb: use of_graph_get_next_endpoint()
+  24) fbdev: omapfb: use of_graph_get_next_device_endpoint()
+
+ .clang-format                                 |   2 +-
+ drivers/gpu/drm/armada/armada_drv.c           |   2 +-
+ drivers/gpu/drm/bridge/tc358767.c             |   2 +-
+ drivers/gpu/drm/drm_of.c                      |   6 +-
+ drivers/gpu/drm/meson/meson_drv.c             |   4 +-
+ drivers/gpu/drm/msm/msm_drv.c                 |   2 +-
+ drivers/gpu/drm/mxsfb/lcdif_drv.c             |   2 +-
+ drivers/gpu/drm/omapdrm/dss/base.c            |   2 +-
+ drivers/gpu/drm/omapdrm/dss/dpi.c             |   2 +-
+ drivers/gpu/drm/omapdrm/dss/sdi.c             |   2 +-
+ .../drm/panel/panel-raspberrypi-touchscreen.c |   2 +-
+ drivers/gpu/drm/pl111/pl111_drv.c             |   2 +-
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c |   2 +-
+ drivers/gpu/drm/stm/ltdc.c                    |   4 +-
+ drivers/gpu/drm/tiny/arcpgu.c                 |   2 +-
+ .../hwtracing/coresight/coresight-platform.c  |   4 +-
+ drivers/media/i2c/adv7343.c                   |   2 +-
+ drivers/media/i2c/adv748x/adv748x-core.c      |   2 +-
+ drivers/media/i2c/adv7604.c                   |   2 +-
+ drivers/media/i2c/isl7998x.c                  |   2 +-
+ drivers/media/i2c/max9286.c                   |   2 +-
+ drivers/media/i2c/mt9p031.c                   |   2 +-
+ drivers/media/i2c/mt9v032.c                   |   2 +-
+ drivers/media/i2c/ov2659.c                    |   2 +-
+ drivers/media/i2c/ov5645.c                    |   2 +-
+ drivers/media/i2c/ov5647.c                    |   2 +-
+ drivers/media/i2c/s5c73m3/s5c73m3-core.c      |   2 +-
+ drivers/media/i2c/s5k5baf.c                   |   2 +-
+ drivers/media/i2c/tc358743.c                  |   2 +-
+ drivers/media/i2c/tda1997x.c                  |   2 +-
+ drivers/media/i2c/tvp514x.c                   |   2 +-
+ drivers/media/i2c/tvp5150.c                   |   4 +-
+ drivers/media/i2c/tvp7002.c                   |   2 +-
+ drivers/media/platform/atmel/atmel-isi.c      |   4 +-
+ drivers/media/platform/intel/pxa_camera.c     |   2 +-
+ .../microchip/microchip-sama5d2-isc.c         |   2 +-
+ .../microchip/microchip-sama7g5-isc.c         |   2 +-
+ drivers/media/platform/qcom/camss/camss.c     |   2 +-
+ drivers/media/platform/renesas/renesas-ceu.c  |   2 +-
+ .../platform/samsung/exynos4-is/fimc-is.c     |   2 +-
+ .../platform/samsung/exynos4-is/mipi-csis.c   |   2 +-
+ drivers/media/platform/st/stm32/stm32-dcmi.c  |   4 +-
+ .../media/platform/ti/am437x/am437x-vpfe.c    |   2 +-
+ drivers/media/platform/ti/davinci/vpif.c      |   3 +-
+ .../media/platform/ti/davinci/vpif_capture.c  |   3 +-
+ drivers/media/platform/video-mux.c            |   2 +-
+ drivers/media/platform/xilinx/xilinx-tpg.c    |   3 +-
+ drivers/media/platform/xilinx/xilinx-vipp.c   |   2 +-
+ drivers/of/property.c                         | 126 ++++++++++++++----
+ .../deprecated/atmel/atmel-sama5d2-isc.c      |   2 +-
+ .../deprecated/atmel/atmel-sama7g5-isc.c      |   2 +-
+ drivers/staging/media/tegra-video/csi.c       |   2 +-
+ drivers/staging/media/tegra-video/vi.c        |   2 +-
+ drivers/staging/media/tegra-video/vip.c       |   2 +-
+ drivers/video/fbdev/amba-clcd.c               |   2 +-
+ drivers/video/fbdev/omap2/omapfb/dss/dpi.c    |   3 +-
+ drivers/video/fbdev/omap2/omapfb/dss/dsi.c    |   3 +-
+ drivers/video/fbdev/omap2/omapfb/dss/dss-of.c | 101 +-------------
+ drivers/video/fbdev/omap2/omapfb/dss/dss.c    |   9 +-
+ drivers/video/fbdev/omap2/omapfb/dss/hdmi4.c  |   3 +-
+ drivers/video/fbdev/omap2/omapfb/dss/hdmi5.c  |   3 +-
+ .../omap2/omapfb/dss/omapdss-boot-init.c      |   2 +-
+ drivers/video/fbdev/omap2/omapfb/dss/sdi.c    |   3 +-
+ drivers/video/fbdev/omap2/omapfb/dss/venc.c   |   3 +-
+ drivers/video/fbdev/pxafb.c                   |   2 +-
+ include/linux/of_graph.h                      |  51 +++++--
+ include/video/omapfb_dss.h                    |  11 --
+ sound/soc/codecs/ak4613.c                     |   2 +-
+ sound/soc/generic/audio-graph-card.c          |   2 +-
+ sound/soc/generic/audio-graph-card2.c         |  33 ++---
+ sound/soc/generic/simple-card-utils.c         |   6 +-
+ sound/soc/generic/test-component.c            |   4 +-
+ sound/soc/sh/rcar/core.c                      |   4 +-
+ 73 files changed, 247 insertions(+), 251 deletions(-)
+
+-- 
+2.25.1
+
