@@ -1,65 +1,64 @@
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F251405E5
-	for <linux-staging@lists.linux.dev>; Wed, 31 Jan 2024 06:30:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D171E29D19
+	for <linux-staging@lists.linux.dev>; Wed, 31 Jan 2024 06:33:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706682625; cv=none; b=KO3KtwluoEtQLKEojI7hXfjQwPb15Jk2Eji+1DqJiKlCKvqtW+Y+oGV8Aij2hWtxLf/TKcNzhF9QmphRM49QnJZT0OBex0unsaK1Z69jO778bP32L+C6+XVWgMcE6jFrjTWCxlRPMBn8TiCFdwWXcuMxuzsl99K2TWOblrK1xDs=
+	t=1706682791; cv=none; b=Us+gQLZgmrI3deNJ3zvnk/dF8RamhiviDwpRTsluFGrIbMkiSYQL2GCRb+ay407aSRW7vW0T218RvmyakJBmf3mUJLkkqlFN6CY9joFxAzMP86Wz/LOeDBE4gJmxsMF9LlKp6L3f9Sr1WyEN3eVnNJvonZBlaIH/wjdPYLb7fSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706682625; c=relaxed/simple;
-	bh=nxlnhpTP2ZY02f0uY5iRFtCEWLbVgQJy/f7OhUQYcng=;
+	s=arc-20240116; t=1706682791; c=relaxed/simple;
+	bh=jbKkH1WtEeXYWeMRfLbDO0YH0JxpQQDvSBpAn5Ed0P4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VSZFyeGrNvLJ48K32uOZzC62xlvhiPzQsiFc+Eg2cOnlZuPtHjAtGP3nCaZBlNxc4bmKY2kOHZrC0EmX5rLj6CSmGSRaDTAqkVzpOocujW+t3IJOfvbOzWPAuh4YXGGjdc6yTlfNXwZo/Gyc2WJdcXlhOqcx5PKuQ8ZQE6mIWYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TBajV19a; arc=none smtp.client-ip=209.85.128.174
+	 To:Cc:Content-Type; b=NzVzSedjuXFplVSdc+9YYZGDUUu/fB0QcpxXBdOmJwCOCrmP6aH82TziMSQjtKI1wR8LE37058f17isnnBh2/viWptPnVZlN+i0+hadCpkEvIw3C0PlJCSuaVQaj2bRNnJp41KJCi2lHFYVLSDR2NNvUnqy4uj33U0ms5FFx6FM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SKUOMXW2; arc=none smtp.client-ip=209.85.219.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TBajV19a"
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-6029b5946f5so4017337b3.1
-        for <linux-staging@lists.linux.dev>; Tue, 30 Jan 2024 22:30:22 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SKUOMXW2"
+Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-dc223f3dd5eso4764769276.2
+        for <linux-staging@lists.linux.dev>; Tue, 30 Jan 2024 22:33:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1706682621; x=1707287421; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1706682787; x=1707287587; darn=lists.linux.dev;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=XuBpfFrt6LIRFxGJEZUBYvlJzyC2OSdPPTTcyZFlpqs=;
-        b=TBajV19amW54oVB/etT21slnhmxZ9UY1S9zIdWd4A2dmSPyfVIQ5hFlnMcvvwTX0D3
-         mUxzZ2rMsWR/+7tJlybhsFw7KI+KNbV+Tpm7g9Wq0qGIICEZxQm3u4N6FUM6Kd67vxkv
-         bAzyoonzYhKYnj+0kDw41luz6X4CwLQ4wnFUMYJ0pyam0Okh4Jc4EPJdI5h3izBs0LUe
-         pljkl3RZ4pdyxXUkCcU4i0gyZIHy+jJXcqlGMDKkmrIPzg6So/kHmgfvURA1iPTZzHy1
-         sCm8yhPhBsjpDQeWqz+aQPASX8JuS+PnOJ0XIWhdL8MmSPe6Pa/uvLDeB9lBimHkGmRn
-         +G8g==
+        bh=W+0UrfFLZxByUhAQTRyALxC5TYXU+3QlMDreZkniP6Y=;
+        b=SKUOMXW2uR3jzDoBVeRaPzW7CaXW5BoDGR3P0us6zltoCSWwus8PQAMkjJqNMxMcL1
+         JyOVR6aqQXMZKELDaWrGh/hHemZmaE5UQV87q6ErbdmdvZdL/3je6hNg5yCca/aX3RZg
+         GAfarbACPExt7V3LUyLe70yQLgRqjuyNRn3pSHnZYJvrugo/eAyTHX9Crzg0bp+F0cOQ
+         R+rHU6ne6k2Vc9EN+qUek33TC/plMNkup88Dlt3eqA90hldgFIdCYjltqTfdkHtckfMo
+         QdQ9N/GjClBsbBF0Wl4a7AvEEFrMe1xBg9eKE/quT/2x7p76NhfVD96jEF59WStWhGHN
+         vqNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706682621; x=1707287421;
+        d=1e100.net; s=20230601; t=1706682787; x=1707287587;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=XuBpfFrt6LIRFxGJEZUBYvlJzyC2OSdPPTTcyZFlpqs=;
-        b=nmbF5/5k+8UHVA5Vka7XIIYMPuVwxPfNSfoxt/cvqDugLFYa9/ZeVv5Efy86ya6afR
-         QcDK7dK446/g5rGoR4ondMd8if5hqduFK9L5NKXbgWtVUiPafGlTg8rAGdSIfY4PsRf0
-         tkvTHd/5lwtDXPlJu4pxrCYwiWnj+8qpOcZBMzbRgyrAMQPxo4+gGmz4mAicqRj0ks2G
-         P1ZYheKBEW0JsudBYdATZ1EFApiXfBzSJRPvlwkdo/6SbiOw1vNAxG/kQG5tKd2+wrax
-         9SUrXOy/4fI3P6avZN6hoXXmeM6SnqVTkt2UDIe+URSKqQEJRniNmzosvq9Sd/xscmKs
-         cJew==
-X-Gm-Message-State: AOJu0YyUtIX+l/aFkHtyxBDL8D+jrEPGoAn926DJVkuRIhbf5/uDQN/k
-	RGovUBkiTgRt1DHIMNcYvBPWqWgbS3YXywzY2Y5wOGohUE/6VLpQH8y/qECqIPn+tceV/+fAkgB
-	jAl8QKmZy9f7dc2IK6M8Q+umVH4emNkW5L7o91w==
-X-Google-Smtp-Source: AGHT+IFCSuHGBgOcgNRm+Jyx9Rk92WC70s7Qe1r45Ekea56q3x+YWZYnfOl+X2xsR2ea9MpX12ltkU9QLuvg4lUUs5g=
-X-Received: by 2002:a81:6d16:0:b0:5ff:8152:64b with SMTP id
- i22-20020a816d16000000b005ff8152064bmr311187ywc.15.1706682621572; Tue, 30 Jan
- 2024 22:30:21 -0800 (PST)
+        bh=W+0UrfFLZxByUhAQTRyALxC5TYXU+3QlMDreZkniP6Y=;
+        b=OCqvQ6HiNgGze0FoJuq+0Lujy041ZWMAEPByQ2kPRsXxuTUZ6jRPz7ex5atKuov0EE
+         K3grRjn0yIPKDQElLyaZiZWzjrhFGs17yz+ZrAsWjrNCvmwKjBH6eigR50kKPBMEg8yt
+         oHlrucwkut+iBWjB0i221j6W1miDA6IT8EldgSlmVVg0OuUi8oykdQmMxLeqUbBwurP4
+         05CJ8+sm/WhwD8U7wQ+yNMGDxxfP4bRYRv4MWW1olDkr6lAwzRbM+CWAY5me7XpFYkiQ
+         ejmNUGwtxchtAPuGPtlNHueWQfIZMjDrRmrsgDEntHLnSOPdk9ejW5/LD6F8Jl/xgGL4
+         abGw==
+X-Gm-Message-State: AOJu0YyEYMqNq/CICixPCznnQiaIe5dH5kzkwpGTSzjKkjUbAAbX3kbw
+	5DjJF7PRsgct/hlKtLYJHMLfWE40fINE6oycrnxkv+w0+ncKTTSd6AfaUqh/TBHFpqw+Ny8VJxa
+	UkXcUQrDz+Sb8JqqA0oml+v574kWOs3K2CN6VGw==
+X-Google-Smtp-Source: AGHT+IFxRXwNP5PRj+1YvzHjYbCYITU/P5nsMmG4/Z+5FnhpEGiUV21GZeIbWwZE5W49t+z2Do1jj0wx+tXggTPULI4=
+X-Received: by 2002:a5b:582:0:b0:dc2:1c77:ca7 with SMTP id l2-20020a5b0582000000b00dc21c770ca7mr757962ybp.36.1706682786826;
+ Tue, 30 Jan 2024 22:33:06 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <87o7d26qla.wl-kuninori.morimoto.gx@renesas.com> <87le866qke.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87le866qke.wl-kuninori.morimoto.gx@renesas.com>
+References: <87o7d26qla.wl-kuninori.morimoto.gx@renesas.com> <87eddy6qjf.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87eddy6qjf.wl-kuninori.morimoto.gx@renesas.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 31 Jan 2024 08:30:10 +0200
-Message-ID: <CAA8EJpoRhS_yvJJUuC3YkWRAKT7e03k+-K=6QKfL_6TkB1XoxA@mail.gmail.com>
-Subject: Re: [PATCH v3 02/24] of: property: use unsigned int return on of_graph_get_endpoint_count()
+Date: Wed, 31 Jan 2024 08:32:56 +0200
+Message-ID: <CAA8EJpq79tOCH3vK+Hh_XD4mtj1GVgVvwehQF4BfxTjwPi_fHQ@mail.gmail.com>
+Subject: Re: [PATCH v3 07/24] gpu: drm: switch to use of_graph_get_next_device_endpoint()
 To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Cc: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, 
 	"Lad, Prabhakar" <prabhakar.csengg@gmail.com>, 
@@ -127,61 +126,28 @@ Content-Type: text/plain; charset="UTF-8"
 On Wed, 31 Jan 2024 at 07:05, Kuninori Morimoto
 <kuninori.morimoto.gx@renesas.com> wrote:
 >
-> The return type and the variable of of_graph_get_endpoint_count()
-> should be unsigned. Tidyup it.
-
-'the variable'?
-
-I'd have added a few words telling that return type can be unsigned
-because there is no error reporting for this function.
-
+> of_graph_get_next_endpoint() is now renamed to
+> of_graph_get_next_device_endpoint(). Switch to it.
 >
 > Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 > ---
->  drivers/of/property.c    | 2 +-
->  include/linux/of_graph.h | 4 ++--
->  2 files changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/of/property.c b/drivers/of/property.c
-> index 4e879faa1710..25d73409aeee 100644
-> --- a/drivers/of/property.c
-> +++ b/drivers/of/property.c
-> @@ -817,7 +817,7 @@ EXPORT_SYMBOL(of_graph_get_remote_port);
->   *
->   * Return: count of endpoint of this device node
->   */
-> -int of_graph_get_endpoint_count(const struct device_node *np)
-> +unsigned int of_graph_get_endpoint_count(const struct device_node *np)
->  {
->         struct device_node *endpoint;
->         int num = 0;
-> diff --git a/include/linux/of_graph.h b/include/linux/of_graph.h
-> index 4d7756087b6b..a4bea62bfa29 100644
-> --- a/include/linux/of_graph.h
-> +++ b/include/linux/of_graph.h
-> @@ -41,7 +41,7 @@ struct of_endpoint {
->  bool of_graph_is_present(const struct device_node *node);
->  int of_graph_parse_endpoint(const struct device_node *node,
->                                 struct of_endpoint *endpoint);
-> -int of_graph_get_endpoint_count(const struct device_node *np);
-> +unsigned int of_graph_get_endpoint_count(const struct device_node *np);
->  struct device_node *of_graph_get_port_by_id(struct device_node *node, u32 id);
->  struct device_node *of_graph_get_next_endpoint(const struct device_node *parent,
->                                         struct device_node *previous);
-> @@ -68,7 +68,7 @@ static inline int of_graph_parse_endpoint(const struct device_node *node,
->         return -ENOSYS;
->  }
->
-> -static inline int of_graph_get_endpoint_count(const struct device_node *np)
-> +static inline unsigned int of_graph_get_endpoint_count(const struct device_node *np)
->  {
->         return 0;
->  }
-> --
-> 2.25.1
+>  drivers/gpu/drm/armada/armada_drv.c                   | 2 +-
+>  drivers/gpu/drm/bridge/tc358767.c                     | 2 +-
+>  drivers/gpu/drm/drm_of.c                              | 6 +++---
+>  drivers/gpu/drm/meson/meson_drv.c                     | 4 ++--
+>  drivers/gpu/drm/msm/msm_drv.c                         | 2 +-
+>  drivers/gpu/drm/mxsfb/lcdif_drv.c                     | 2 +-
+>  drivers/gpu/drm/omapdrm/dss/base.c                    | 2 +-
+>  drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c | 2 +-
+>  drivers/gpu/drm/pl111/pl111_drv.c                     | 2 +-
+>  drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c         | 2 +-
+>  drivers/gpu/drm/stm/ltdc.c                            | 4 ++--
+>  drivers/gpu/drm/tiny/arcpgu.c                         | 2 +-
+>  12 files changed, 16 insertions(+), 16 deletions(-)
 >
 
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
---
+-- 
 With best wishes
 Dmitry
