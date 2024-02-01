@@ -1,205 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 741317D40B;
-	Thu,  1 Feb 2024 06:10:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 474BB158D76
+	for <linux-staging@lists.linux.dev>; Thu,  1 Feb 2024 08:18:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706767823; cv=none; b=rHG5FSxTMhDuDLN2+CnoAP2XCTR+mqyIYF7rJ3s7XpzX8E2ZuAux/HhD6mEkGyzdV5iB3yIdrOfKji43nkRVAQYj/OZV+LUhVTGY/+4FVCfkt7oHsJJHaIm2JuCPWFq1MCTFSkzXhA/D3dfyoQy/WL91SgApdiFdBpJ0PKsN10U=
+	t=1706775524; cv=none; b=rdshYY+LTu6I7OH0aCScpoHq1Y+ynzxd1cnvd4oWXmlU8cQTykslgvQKR0iQgdRGzMkCfXFglvUERrUP/mT7DGujgvxgbf/5CDoAGQAL5aBh8wlFIJwutxRd82w2hag4q6bu8NDg92YR9UW+6Xf24e0g5ANNhLEoYz6qurlJZ2Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706767823; c=relaxed/simple;
-	bh=xHbSX4Rp2xy+7NO7+8ZHuQQBn57ojB5T4JsjzhfJlpA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=H2IpGoG6KTi2WZV1/h0tMZtF/NpJf2AlUw7XRQrvDKNbeIvyfwJ0gi1vHe5jqyBzCDQWsg8dZy8vm+O3Da1bnuO2Uy8IW+W1wWCgkEsob57sgo5CxyvYgG8zUkt9G/6Fs+a/t6hn1a9fvSL6SRtHVNTiHZGvcvu1BVV/3o9FlBk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H1Q7Zv/a; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1706775524; c=relaxed/simple;
+	bh=DIaKZBB4u7WsGLM+tjdwDqov0MpFb1q5HjpRcygEqeU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nCnx2qeTvK1Xwg1mhZvddG/e1Y2uE+6KT/wlo/8ihnqo5KpVamb8QWfE4bTZ3FmusfTEiRnHbjljokbk13evCAMxfWSiDRHhSuP4CigcVsMG/r62ZBPyjfIlnX1jO2f5FaoCNaFkH/HPFMvjwoVCvcmU8D8GHQ4SNejVcbUiNr4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MmrJfvZb; arc=none smtp.client-ip=209.85.208.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H1Q7Zv/a"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5133BC43330;
-	Thu,  1 Feb 2024 06:10:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706767821;
-	bh=xHbSX4Rp2xy+7NO7+8ZHuQQBn57ojB5T4JsjzhfJlpA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=H1Q7Zv/a7QPgAhBGfhczxwtjZ6zeHHgOCmzLcrMewnfMkEwKNivB/NHpPHEnzdEV6
-	 gDZC44uKwzqzwicxK6sIRLe1o1PuNaIaCETV7xrAM8Zs3sURSzJnQi9GQnk7AtbSbH
-	 bQKdvhCFqz7Ci95A9R9F1nVWdWC67LAHSaIFXj8o9Wc9kyUKJgSRvpu3XIuJJD/HKA
-	 HS1abJ4eNyOnOL5yNDf3PFYfSI4ENnd68ekR66Lb+MmlJmFso+0SeBbgUkjgXHpiA3
-	 5WnZbQE6CuvgJ0twpSalXL5SxRAD0X1FFWc9xWKK++PUhIOUcq7RVxh6cc8hfZZqsp
-	 ShEEQT4PgxnGQ==
-Date: Thu, 1 Feb 2024 07:10:17 +0100
-From: Mauro Carvalho Chehab <mchehab@kernel.org>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>, Sakari Ailus
- <sakari.ailus@linux.intel.com>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, linux-staging@lists.linux.dev, Kate
- Hsuan <hpa@redhat.com>
-Subject: Re: [GIT PULL] media: atomisp: Changes for 6.8-1
-Message-ID: <20240201071017.6032bba8@coco.lan>
-In-Reply-To: <d5059986-0329-4e6a-a7a5-30da8ebd58a9@redhat.com>
-References: <d5059986-0329-4e6a-a7a5-30da8ebd58a9@redhat.com>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MmrJfvZb"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-55f50cf2021so769938a12.1
+        for <linux-staging@lists.linux.dev>; Thu, 01 Feb 2024 00:18:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706775521; x=1707380321; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8ifEstaCFW5dRBoYTuvt1sun4+9dM+F8qEM4C8Rq1z4=;
+        b=MmrJfvZb/CsVRcIdhhQR4Eo7BLSvAH0umbVbLtNa8+EAGAytp5i5lfRuP2wP7A7R6Q
+         3DWQ/2WlQ1ruYWdQiqq19upVONxEFfZ7s5qlowE6rKDRNAOlD3n6VrFcg2FYKdvjPIvI
+         118z4v8XmIqHW1WP/gCSfY1pBkY0MqLgw3hdKaIA//7bxSzhlvZT8eSGhAHXAN6/uEoL
+         +QQdm7LZFvp+24jaWuFi7Q/m6n7k4C+yZwZq6iwyT7/97z8BWczPV7AWCsbQ3wm0/Yo+
+         6l2Qp6+t8NwKx14f4Wn6dkelMHVXmAcTiIVps0XxM856roiRv31oyu6TEU9s1N82SMdE
+         dkfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706775521; x=1707380321;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8ifEstaCFW5dRBoYTuvt1sun4+9dM+F8qEM4C8Rq1z4=;
+        b=aZnlPAkSr7tInd6G9/fuZmcokX1ujnrPZX0fjzWSw03I6iZ3oLDUHxHy5O7Cpuryfq
+         uZCDWatxgG+y3p7FC5fTNl7x8cfUbFij9ObzJQsZs6osWyBETxcbjP9L0LgOZBonCM2J
+         Uqygi3qQDNskCuq6W014/keABF3/9HoOnetOrwklfl0yBWAjyDSKc2/NtVLGR3c9MrIy
+         ACwYB+A2HgiOUdpmAIXHmtMwdIM25hKCgAMVXuO4+OlDI2+m+Vbne6YL/gRHeSHjsnul
+         o9iSD2Whcq/k/Hswi+oP7nYPTHltIGZEOBf6vDpV11MZzFd9rlwiuQzBuPbzbGyyJjmj
+         M+xA==
+X-Gm-Message-State: AOJu0Yz+3J3DMoI1MJqRTPS9DqkBdEJzTiR/POoCLP4M3B0UOTFlXeCc
+	OABSompn2SRU1oM1OJoVjL3CHqhsKagq/PdXlEeRps/r5zxl8n0Z
+X-Google-Smtp-Source: AGHT+IHMZ0jzWGFDtRQQgsn44+OiI+Av+ADi9gmhMPUppeualZSHIB60NRp8bcasFd+Qgk9dcPdbTg==
+X-Received: by 2002:a17:906:3b0d:b0:a36:9f72:2460 with SMTP id g13-20020a1709063b0d00b00a369f722460mr1746911ejf.0.1706775521201;
+        Thu, 01 Feb 2024 00:18:41 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCWVx0Nbo+uM+MZOJnTBy3ppnzAum+Do/fzLfRqjd6KsKPeT0iCnWgD+XZn5bd17BNAlxbXmwgkd5KEvNtqadLxGLxgebopsJnwoA7H0plCrnWPcdqdprxeK2w/am58jtstdAHVAo4ZxjYDlyc6FFma5tgJtSVxmRu7k/TVOk4Gx4FSdg5U=
+Received: from localhost.localdomain (ip-77-25-34-59.web.vodafone.de. [77.25.34.59])
+        by smtp.gmail.com with ESMTPSA id p7-20020a170906784700b00a310f2b4b91sm6954069ejm.48.2024.02.01.00.18.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Feb 2024 00:18:40 -0800 (PST)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: philipp.g.hortmann@gmail.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH 0/3] staging: rtl8192e: some coding style cleanups
+Date: Thu,  1 Feb 2024 09:18:21 +0100
+Message-ID: <20240201081824.6998-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Em Sun, 31 Dec 2023 11:39:18 +0100
-Hans de Goede <hdegoede@redhat.com> escreveu:
+This series contains some simple coding style cleanups to clear some
+checkpatch warnings. Compile-tested only.
 
-> Hi Mauro,
-> 
-> Here are the atomisp changes for 6.8.
-> 
-> My patches in this set been posted on the list, but only a couple of
-> minutes ago, leaving pretty much zero time for review. Sorry about that,
-> with the holidays the timing did not work out very well.
-> 
-> If you don't want to take this pull-request because of this it
-> would be good if you can at least take the patches up to
-> the "media: atomisp: Fix spelling mistake in ia_css_acc_types.h"
-> change. There are only 2 unreviewed patches from me in that
-> set, which fix the atomisp driver not working at all with
-> the latest media_stage/master code. And the rest of the patches
-> in that set are from others and have been reviewed by me.
+Michael Straube (3):
+  staging: rtl8192e: remove braces from single statement blocks
+  staging: rtl8192e: remove return from void function rtl92e_set_channel
+  staging: rtl8192e: initialize variables at declaration
 
-We typically close the media merge window at -rc6. As I was also
-in vacations during those weeks, this PR was merged today for 6.9.
+ drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c | 5 ++---
+ drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c | 1 -
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c   | 3 +--
+ drivers/staging/rtl8192e/rtl819x_HTProc.c      | 4 ++--
+ drivers/staging/rtl8192e/rtllib_rx.c           | 5 ++---
+ 5 files changed, 7 insertions(+), 11 deletions(-)
 
-Indeed the first two patches seem to be needed to fix an issue on 6.8. 
-Could you please send them to stable after their arrival at linux-next?
+-- 
+2.43.0
 
-Regards,
-Mauro
-
-> 
-> If review finds any significant issues I'll do a set of follow up
-> patches to fix those.
-> 
-> Highlights:
-> - The first commit in this pull-request fixes the driver no longer
->   working due to v4l2_subdev_state handling in media_stage/master
-> 
-> - Merged a bunch of spelling and other small fixes from various
->   contributors
-> 
-> - Gracefully handle missing firmware:
->   - Fix the driver crashing the system when the firmware is missing
->   - Make the driver bind in power-managent-only mode when the firmware
->     is missing so that the ISP is still properly turned off. This
->     requires custom handling, not just standard PCI power-management.
->     This allows the system to properly enter S0i3 with missing ISP
->     firmware, allowing the atomisp driver to be used as a replacement
->     for the pm-only drivers/platform/x86/atomisp/pm.c driver.
-> 
-> Regards,
-> 
-> Hans
-> 
-> 
-> The following changes since commit 02d4e62ae2452c83e4a3e279b8e4cb4dcbad4b31:
-> 
->   media: i2c: mt9m114: use fsleep() in place of udelay() (2023-12-14 12:40:13 +0100)
-> 
-> are available in the Git repository at:
-> 
->   git://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git tags/media-atomisp-6.8-1
-> 
-> for you to fetch changes up to 1e529948fa3ae6249f1f15dbd77730ea54d0e649:
-> 
->   media: atomisp: Update TODO (2023-12-31 11:07:38 +0100)
-> 
-> ----------------------------------------------------------------
-> atomisp staging driver changes for 6.8
-> 
-> Highlights:
-> - The first commit in this pull-request fixes the driver no longer
->   working due to v4l2_subdev_state handling in media_stage/master
-> - Merged a bunch of spelling and other small fixes from various
->   contributors
-> - Gracefully handle missing firmware:
->   - Fix the driver crashing the system when the firmware is missing
->   - Make the driver bind in power-managent-only mode when the firmware
->     is missing so that the ISP is still properly turned off. This
->     requires custom handling, not just standard PCI power-management.
->     This allows the system to properly enter S0i3 with missing ISP
->     firmware, allowing the atomisp driver to be used as a replacement
->     for the pm-only drivers/platform/x86/atomisp/pm.c driver.
-> 
-> ----------------------------------------------------------------
-> Colin Ian King (1):
->       media: atomisp: Remove redundant assignments to variables
-> 
-> Dipendra Khadka (13):
->       media: atomisp: Fix spelling mistakes in ia_css_irq.h
->       media: atomisp: Fix a spelling mistake in sh_css_defs.h
->       media: atomisp: Fix repeated "of" in isp2400_input_system_public.h
->       media: atomisp: Fix spelling mistake in isp2400_input_system_global.h
->       media: atomisp: Fix spelling mistakes in circbuf.c
->       media: atomisp: Fix spelling mistake in ia_css_circbuf.h
->       media: atomisp: Fix spelling mistakes in sh_css_mipi.c
->       media: atomisp: Fix spelling mistakes in queue.c
->       media: atomisp: Fix spelling mistakes in rmgr_vbuf.c
->       media: atomisp: Fix spelling mistakes in ia_css_macc_table.host.c
->       media: atomisp: Fix spelling mistakes in ia_css_hdr_types.h
->       media: atomisp: Fix spelling mistake in binary.c
->       media: atomisp: Fix spelling mistake in ia_css_acc_types.h
-> 
-> Hans de Goede (15):
->       media: atomisp: Adjust for v4l2_subdev_state handling changes in 6.8
->       media: atomisp: Refactor sensor crop + fmt setting
->       media: atomisp: Remove s_routing subdev call
->       media: atomisp: Remove remaining deferred firmware loading code
->       media: atomisp: Drop is_valid_device() function
->       media: atomisp: Call pcim_enable_device() and pcim_iomap_regions() later
->       media: atomisp: Fix probe error-exit path
->       media: atomisp: Fix atomisp_pci_remove()
->       media: atomisp: Group cpu_latency_qos_add_request() call together with other PM calls
->       media: atomisp: Fix probe()/remove() power-management
->       media: atomisp: Replace atomisp_drvfs attr with using driver.dev_groups attr
->       media: atomisp: Move power-management [un]init into atomisp_pm_[un]init()
->       media: atomisp: Bind and do power-management without firmware
->       media: atomisp: Remove unnecessary msleep(10) from atomisp_mrfld_power() error path
->       media: atomisp: Update TODO
-> 
-> Jonathan Bergh (1):
->       media: atomisp: Removed duplicate comment and fixed comment format
-> 
->  drivers/staging/media/atomisp/TODO                 |  10 -
->  drivers/staging/media/atomisp/i2c/gc2235.h         |   5 +-
->  drivers/staging/media/atomisp/pci/atomisp_cmd.c    | 133 ++++-----
->  .../media/atomisp/pci/atomisp_compat_css20.c       |   2 +-
->  drivers/staging/media/atomisp/pci/atomisp_drvfs.c  | 148 ++++------
->  drivers/staging/media/atomisp/pci/atomisp_drvfs.h  |   5 +-
->  .../staging/media/atomisp/pci/atomisp_internal.h   |   5 +-
->  drivers/staging/media/atomisp/pci/atomisp_ioctl.c  |  60 ++--
->  drivers/staging/media/atomisp/pci/atomisp_v4l2.c   | 319 +++++++++------------
->  .../pci/base/circbuf/interface/ia_css_circbuf.h    |   2 +-
->  .../media/atomisp/pci/base/circbuf/src/circbuf.c   |   6 +-
->  .../staging/media/atomisp/pci/ia_css_acc_types.h   |   4 +-
->  drivers/staging/media/atomisp/pci/ia_css_control.h |  29 +-
->  .../staging/media/atomisp/pci/ia_css_firmware.h    |   6 +-
->  drivers/staging/media/atomisp/pci/ia_css_irq.h     |   6 +-
->  .../atomisp/pci/isp/kernels/hdr/ia_css_hdr_types.h |   4 +-
->  .../kernels/macc/macc_1.0/ia_css_macc_table.host.c |   4 +-
->  .../atomisp/pci/isp2400_input_system_global.h      |   2 +-
->  .../atomisp/pci/isp2400_input_system_public.h      |   2 +-
->  .../media/atomisp/pci/runtime/binary/src/binary.c  |   2 +-
->  .../atomisp/pci/runtime/pipeline/src/pipeline.c    |   2 +-
->  .../media/atomisp/pci/runtime/queue/src/queue.c    |  22 +-
->  .../media/atomisp/pci/runtime/rmgr/src/rmgr_vbuf.c |   6 +-
->  drivers/staging/media/atomisp/pci/sh_css.c         |  33 +--
->  drivers/staging/media/atomisp/pci/sh_css_defs.h    |   2 +-
->  drivers/staging/media/atomisp/pci/sh_css_mipi.c    |   4 +-
->  26 files changed, 344 insertions(+), 479 deletions(-)
-> 
-> 
-> 
-
-
-
-Thanks,
-Mauro
