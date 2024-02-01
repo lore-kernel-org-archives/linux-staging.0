@@ -1,115 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3629753385;
-	Thu,  1 Feb 2024 13:20:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65F135F483
+	for <linux-staging@lists.linux.dev>; Thu,  1 Feb 2024 14:05:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706793637; cv=none; b=SrhYtvQBr6RnEE+hKjGxKolYc7JX8+B7rzdHakx3O+7iSvAHWmDD8KYmhIzfND9M//fZxsX6fvnjoULdVB0t4X8XzyxnDkXlFu+k9IDiKnuLTPof3sPQSZ/pGjp49hAr4KHFYK1bIwMzkvrqsGOQFKnjGHBg0zG39m67Paxdsuk=
+	t=1706796308; cv=none; b=FZbT79JPbmjv6PkG+2jO8m4j4GYjEx5dCWDOcpRTz0bCmkFPZx/1rv2xRTO/dfVDw1zPSIi7trsp9u44+6jF19n5Sm030s3kYpSrZl64e8ZmkJbKcWkBy6LZoHLHThXyBkRIG0uljAOTtDQJm3HiXDWSGo2TSG7Z/Pm7/Fr8hP8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706793637; c=relaxed/simple;
-	bh=91Gbfrxyx92uBpuq3YaFcew4t4G3yajBdrENfvWvljY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MCOVBcMbuiHQnn40RYvQQgyTkiyT4BcpfmIE5HrbqBS/LvzeRdjnl6/5bJQzcqrar+lIyD33TVxPxppOaXs5+uIWq+yh2Om5gR/y01CRD5DxFyweysomSsXwu/JEtnEO0bhHY+qbd7xP0bh1K109qDYThWOHvIpfFTN3RvI/cOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kMRl+nUj; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1706796308; c=relaxed/simple;
+	bh=v42P2k72Woz6J76qKMysoIc0sUzF3aS1VgyWO5VKJ0o=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=UoC5UC0YfhagrLggNDWk/AZ/LHZkLwGT/o41aMINFgsofTug/H6LGRho84WkDCh6xfQjS4LvF0LERjVWnztcvyaQ9pF+ibF5Dh4GnogcJ0ZyaSt/jvrBUNW6vs/fhVHH0JE9vo7eq8kquScn//ILDEHXGY3NxH3PPXAH7SQhTxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b4wr2LGB; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kMRl+nUj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54314C433F1;
-	Thu,  1 Feb 2024 13:20:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706793636;
-	bh=91Gbfrxyx92uBpuq3YaFcew4t4G3yajBdrENfvWvljY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=kMRl+nUj++gMOkY2eiVPeG+iFpOMzK1NWZKLRPO4byjsGjRzyLsPCZE4sLYKbhbe9
-	 a7FcyvH7smLtP40lWLUucwONfOXy6F3Mvw9dwL3QAm7dlvSBM6Uz6p6JXbuQwdUWrP
-	 A2hEG7M+04A9QM+Kxpdbotu6rZZEoLJsFO5Vy1HW8MPY4DAffvTii5KtD5IL+sRVhK
-	 jRK2haV/Okz4qJ9IMw7iVt8oQJJyMP3sc1IQtRIHdd4E/7qMRefZQKRLO4qQoFjj7i
-	 uZ2KIUzf+xb7DiC/YdvN5hc/Ig9p2rZWsmKZsvH4K3A+/5WT2atD8nO2MpVn/eld/o
-	 pxVpYyUEYu+RQ==
-Date: Thu, 1 Feb 2024 14:20:31 +0100
-From: Mauro Carvalho Chehab <mchehab@kernel.org>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>, Sakari Ailus
- <sakari.ailus@linux.intel.com>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, linux-staging@lists.linux.dev, Kate
- Hsuan <hpa@redhat.com>
-Subject: Re: [GIT PULL] media: atomisp: Changes for 6.8-1
-Message-ID: <20240201142031.34b89978@coco.lan>
-In-Reply-To: <3d0d2d3e-f991-4261-83f8-e4fd813e0804@redhat.com>
-References: <d5059986-0329-4e6a-a7a5-30da8ebd58a9@redhat.com>
-	<20240201071017.6032bba8@coco.lan>
-	<508f2b4d-5fbd-4389-b98f-31b9525dd7cd@redhat.com>
-	<20240201131826.7d8502ae@coco.lan>
-	<3d0d2d3e-f991-4261-83f8-e4fd813e0804@redhat.com>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b4wr2LGB"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-40ef64d8955so8972825e9.3
+        for <linux-staging@lists.linux.dev>; Thu, 01 Feb 2024 06:05:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706796304; x=1707401104; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=D/n/G7y1xsFEdDjXEUwUFzAE/EZFxG1nYhtSYneXxk4=;
+        b=b4wr2LGBiAVPk4lHRhDfPYSU0ynS91p246ACP1itLwGSh/y+Ny+CRwz3tsTCFB+e6j
+         DH0zgvyop3YmIt/Jt7elMSSsSddYBiBIHWt7KcBIgdWHbT2uB05Ue2wY2rIFpPTuprid
+         DDDkxcdl2/g2Rm7bNsg4HaliseoHXAvfDK8eOGOCAoeP0cJmLjloViugp+QUcS/4ItHA
+         uZBH4AYDzsW1VTKTAnKkV/qPZl3RND9PnSqel68iH0a8xsaDlcBAE5evr2M3dFJm1Z78
+         Fy4hDD46iH6lLJN6AGUi/Am8MKCUXt71PNZNmKgzFqVBDu3alxcOB90UB5mip7BRFpKE
+         rCMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706796304; x=1707401104;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=D/n/G7y1xsFEdDjXEUwUFzAE/EZFxG1nYhtSYneXxk4=;
+        b=gh0PwxIOyLT3gQeWR3hujBM+co+3XzCxXUbF2xYDeoKAMHuex3mj65BWm0cm9UBX4Z
+         7ur0lM2cGDTl38/41JJzDVyHOtAv2hCTKOu54CzTW90m90a0/nhhZ4kLyoyXz5VPPR0D
+         zmy/G1Vdnok1YVEWuyaZWx7JICw9r2OUEZ1AuN/Oqe4NtmeCXKS1ROb+JMDKbRh2PwfB
+         1SbTEo3Dj8MvcxNoIivu/5214DIS/32SfE9i7RSCREnRpZePhHZ5H5UVIPJDtHZim+K8
+         /7cgqxPik40o6OEIgdC89MxVuMmeLf6o7qy6Yad5N/nuStGmdj1A+nu9c+4GZC5qDoBD
+         2uDA==
+X-Gm-Message-State: AOJu0YxLR4YuJ1ZwPC67vwG0Hy5bAB6/iHE7Sn/zpSDTr/yDqOwkzSCA
+	gS56Xe16XXCy4A1HQ/TrHVif1oVUWFrYRwBTTOCwYqLimMTXvMor
+X-Google-Smtp-Source: AGHT+IHYNFWalKfTf5szVjprOobJA9ePlGwlDSQKiI3RYDX51/H+K1FrLeUMSS+koI/5TievCiSTzA==
+X-Received: by 2002:adf:fe12:0:b0:337:b6f7:e7ea with SMTP id n18-20020adffe12000000b00337b6f7e7eamr3615866wrr.66.1706796304407;
+        Thu, 01 Feb 2024 06:05:04 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCVptKwX+H7vJ98HXgd7uIUir0ZVDzaRJPs5pd7hqg0+UWEFVto4EtP9eTEV7AhfBbm07z4rwlW3nnx853w+yvC/7Lm5A57KzRxjGich5hVYn6HoXvG1ox+SUoB4Fq5qpZqZRTzyI8hEm/aobmb/xWgAnY3+MJT7THa9ycmfWSTWHb/TRs6fQnUWeCTNsw2KJW3SMt5ltbpIaevgXRVcxoyHlV2mivhw
+Received: from Ubuntu22.myguest.virtualbox.org ([46.121.140.152])
+        by smtp.gmail.com with ESMTPSA id x18-20020a5d54d2000000b0033b14e447d1sm1697345wrv.1.2024.02.01.06.05.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Feb 2024 06:05:04 -0800 (PST)
+From: Meir Elisha <meir6264@gmail.com>
+X-Google-Original-From: Meir Elisha <meir6264@Gmail.com>
+Received: by Ubuntu22.myguest.virtualbox.org (sSMTP sendmail emulation); Thu, 01 Feb 2024 16:05:01 +0200
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Ruan Jinjie <ruanjinjie@huawei.com>,
+	Yang Yingliang <yangyingliang@huawei.com>
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Meir Elisha <meir6264@Gmail.com>
+Subject: [PATCH v2 0/4] Staging: rtl8723bs: checkpatch fixes for rtw_mlme.c
+Date: Thu,  1 Feb 2024 16:04:55 +0200
+Message-Id: <20240201140459.438479-1-meir6264@Gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Em Thu, 1 Feb 2024 13:33:08 +0100
-Hans de Goede <hdegoede@redhat.com> escreveu:
+Checkpatch fix series for rtw_mlme.c
 
-> Hi,
-> 
-> On 2/1/24 13:18, Mauro Carvalho Chehab wrote:
-> > Em Thu, 1 Feb 2024 12:46:19 +0100
-> > Hans de Goede <hdegoede@redhat.com> escreveu:
-> >   
-> >> Hi,
-> >>
-> >> On 2/1/24 07:10, Mauro Carvalho Chehab wrote:  
-> >>> Em Sun, 31 Dec 2023 11:39:18 +0100
-> >>> Hans de Goede <hdegoede@redhat.com> escreveu:
-> >>>     
-> >>>> Hi Mauro,
-> >>>>
-> >>>> Here are the atomisp changes for 6.8.
-> >>>>
-> >>>> My patches in this set been posted on the list, but only a couple of
-> >>>> minutes ago, leaving pretty much zero time for review. Sorry about that,
-> >>>> with the holidays the timing did not work out very well.
-> >>>>
-> >>>> If you don't want to take this pull-request because of this it
-> >>>> would be good if you can at least take the patches up to
-> >>>> the "media: atomisp: Fix spelling mistake in ia_css_acc_types.h"
-> >>>> change. There are only 2 unreviewed patches from me in that
-> >>>> set, which fix the atomisp driver not working at all with
-> >>>> the latest media_stage/master code. And the rest of the patches
-> >>>> in that set are from others and have been reviewed by me.    
-> >>>
-> >>> We typically close the media merge window at -rc6. As I was also
-> >>> in vacations during those weeks, this PR was merged today for 6.9.    
-> >>
-> >> No problem, I know I was late with submitting this PR.
-> >>  
-> >>> Indeed the first two patches seem to be needed to fix an issue on 6.8. 
-> >>> Could you please send them to stable after their arrival at linux-next?    
-> >>
-> >> I'm not sure what you mean with send them to stable ?
-> >>
-> >> 6.8 is not released yet, so these need to be send to Linus this
-> >> cycle. What is the process for media bugfixes for the current
-> >> kernel cycle ?  
-> > 
-> > Heh, sorry, somehow I was thinking on 6.7 :-)
-> > 
-> > If the bug only happens on 6.8, I can just cherry-pick the two patches
-> > on my fixes branch.  
-> 
-> I believe you only need:
-> 
-> "media: atomisp: Adjust for v4l2_subdev_state handling changes in 6.8"
-> 
-> And as the subject says, that is a fix for 6.8, 6.7 is fine AFAIK.
+---
+Changes in v2:
+ - Remove dead code
+ - Fix comment in _rtw_join_timeout_handler()
 
-Ok, patch cherry-picked to the fixes branch. I'll send it together
-with the other pending patches after they arrive to linux-next
-(so likely next week).
+Meir Elisha (4):
+  Staging: rtl8723bs: Remove unnecessary braces
+  Staging: rtl8723bs: Remove extra spaces
+  Staging: rtl8723bs: Fix block comments warning
+  Staging: rtl8723bs: fix else after break warning
 
-Thanks,
-Mauro
+ drivers/staging/rtl8723bs/core/rtw_mlme.c | 227 ++++++++--------------
+ 1 file changed, 81 insertions(+), 146 deletions(-)
+
+-- 
+2.34.1
+
