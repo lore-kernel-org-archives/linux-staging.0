@@ -1,122 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4B0F39AE1;
-	Thu,  1 Feb 2024 21:47:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C29E417BC4
+	for <linux-staging@lists.linux.dev>; Fri,  2 Feb 2024 07:21:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706824053; cv=none; b=Uak3q6fovuTrGQ6irIPfGICYVR6/6afdPLjz5lGScydMdAvIKR/Ha7ZIPGsrj8heY0Ul5oFuu9USIkaIAmsbS2Wh/ipeb4gjhrXDLzP7rEYiWVRvrELSdlwX1XSIfR1w2P79RKfrvzAbn89EXGPA6OMhjEYh+YXMgar4h6gDgzs=
+	t=1706858479; cv=none; b=OL17VmLVzTWBgxgavx56BVnXFb/z9JQn0w9J3eLDzqqRUFHKNYHg3Qgtfuq3AADiQvjvBMP5O9Og9Jan3Sl5u9WJKv8hmpc6WsiCPndh8sCW19/AWYVXuXVzL5q5f8kIEGMpuLzSmXPlEC2QJHs9wodZQgAGWTPDnX3O0XQVNlQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706824053; c=relaxed/simple;
-	bh=ONdXqAS27cKeOgWX4XGTKCxg4rE0mzWElHVnnYMMb0Y=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
-	 References:In-Reply-To; b=khxhwSxLDnLzjIdYRf0JZGlz3N+SgDTU1UeUf+6SBoSQeUBK47wAcA3uuk18bvU3k9yTfrG83HMqz2/VEq/jaA28iuim+dgoqHSgNBcucMECnn/FwC7u904JZr5lKQUlIl0uxu6CALvToLATsy7OmaqQxjriTPztTHU9S2cVVvc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KYhAJw//; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1706858479; c=relaxed/simple;
+	bh=lpTM8i3qAGSiY4E67knpu4ci12EK/1WfR/fXKv773eM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MyyePNnFp8j1xvG3PyYp5kgueIjU8lGiSlew8XRL9HRtL5cmEg+FJDz1xaJJ7BJA/NlFl3wJMJ8BzO8dFI6HwLvA6Z6FDcjVGuLUJKN/9QU75TFtktxCjlovyLcR2pjDB76fVTw4sDuc4LeE4gS9aRSOg3oXF1lE7SDzNzCSfMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=eY6QBvaI; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KYhAJw//"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEEB5C433C7;
-	Thu,  1 Feb 2024 21:47:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706824052;
-	bh=ONdXqAS27cKeOgWX4XGTKCxg4rE0mzWElHVnnYMMb0Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KYhAJw//yARcM3TA6pVCkI4LUiBLE5XWbQdyIJ2IOE9XeeW9PXuRT0u1fpPxxrkwp
-	 Hurjt/dBf8xwi23T1FksMdv9e36XHyjvhrDNFhBSr1xRnTYLMYbJE3ILCL/Xokm/MD
-	 5zQO0eFXQidwjXeacacwmmo5pMdGivYcXVl5OsSlyzb4uDD6zF3QHkW/ipNCSyCrkX
-	 ruFySuh4tDJV4Rf4YFiYpBgTsdWdhvZKAcl5M+3wneiWVFJ2zo1QtBfWDecyRoxa73
-	 fETXEmGDyXWVSu/j1Xloaznpi7OcrAoyx70CgInqn+hTw2H52XDK3rA5SorsXzUwVT
-	 KByKrTZWMbAOA==
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="eY6QBvaI"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a370328e8b8so41401466b.3
+        for <linux-staging@lists.linux.dev>; Thu, 01 Feb 2024 23:21:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1706858476; x=1707463276; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=rynCR7DUuWYPX0uSmJQ3t5lmPk1yuAmXaxIJOHoQI7E=;
+        b=eY6QBvaImcpnwVLfayAPof5LuSpFktUk1s6rYdLJ7I1g6RU0UPs/LXDvGMDOUqUDyx
+         K66/dcOq4Wtp/i1xERVud0WddshibEbPDzPzuU6qKqsHVuac0WAiBdylgcROFK+i+Enn
+         rWicO3+sxi+Tig0tUjExJYuf5TLa894eB0KcvCJQpfkjlmHsd4WIwHTndwuCqYux5hzD
+         vSjw/IuQa2Io+JTSJ8t+F5/Bu7dPuZcfqav0ItqlNFTTKnex6wQgYw9ipFJq2iUUcsC5
+         mnUN5T4eEBr3XWRvlKU5x9kGp7bI+497/wTyyF9sYoxr1yEtrjSdDP+oPDVu+145XRqF
+         jywg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706858476; x=1707463276;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rynCR7DUuWYPX0uSmJQ3t5lmPk1yuAmXaxIJOHoQI7E=;
+        b=B89duN9FGf7B09aOBoXkTVNC1PSp/T66RKq6kS65rE9V+kIT/tXMorv5ZFz9wjCDZO
+         Wa76YDQ4zQ6yPVl6Fgo0Ruzax7ZyYxAutJUnxn3Rmym07Rkj1KnTa2yh/xRC/rK2X6ju
+         bijKfzSN6oGCJNwl8Fgcgby092aN35YkXxrTpSRDVTmVSjn9yhlKJjzuT1bLM/+jyBNj
+         oh7mM7CTxfhU0/bHpGwd3Q7lj21S/SJKjN8WDbxDDJjCZ0gUD1vPiMDsQljdct3AJ7DK
+         0k3EMNCNcYJ59dixA82fuHq0Ixibx6dHGebpvs++Hg157Nbm1CHGW0Z9SwCIJ0dlnQ48
+         qSwA==
+X-Gm-Message-State: AOJu0Yx03iw6cSKQgwDVE+inlaiDreD7MUAgRxGnH9UJrzSHhm/hlJyu
+	74gD4sy98PSjTnL4lSsbMODLdVrZ2aqiCVuCsGFnOTUg1/8uCeJeIGMh/Pc+UsI=
+X-Google-Smtp-Source: AGHT+IHyFuUb47frdawTnmd/JjYOHapvFHmXI/c0K9LOuiYQvjT6KjLwQDkDiJ5b/D3nZiVjarwlJA==
+X-Received: by 2002:a17:906:304e:b0:a30:4189:4e10 with SMTP id d14-20020a170906304e00b00a3041894e10mr786033ejd.53.1706858475842;
+        Thu, 01 Feb 2024 23:21:15 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCV7YI6mqnDVH0uFCEJYm+8NVVZE/Nt68934vPNYx8qXgR5csU5taYye9/7ohZBqK8bkwv/fwawi/urQuvGLGFSrs3JWDyUDCxAoK41JGw3j6qmFCPnzSVaINsHsGoGIjpX+VuSDMI2sFJRhrD5fo5FQLA66O6PdL5XQllsK6gPC86qxRc1zzTxuOXfM6J70RPVOmHPEEmDmVg8bPVQkowIZ5C54FYPsrQmCjrCoihKezjIXQwh1thzPtcOyGWMf6uopIEd0eEba+UTpBw==
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id un1-20020a170907cb8100b00a35de0619dbsm567619ejc.200.2024.02.01.23.21.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Feb 2024 23:21:15 -0800 (PST)
+Date: Fri, 2 Feb 2024 10:21:08 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Meir Elisha <meir6264@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Ruan Jinjie <ruanjinjie@huawei.com>,
+	Yang Yingliang <yangyingliang@huawei.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/4] Staging: rtl8723bs: Remove extra spaces
+Message-ID: <78dc8263-b866-4d44-9f02-194c8a79fccb@moroto.mountain>
+References: <20240201140459.438479-1-meir6264@Gmail.com>
+ <20240201140459.438479-3-meir6264@Gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 01 Feb 2024 23:47:13 +0200
-Message-Id: <CYU2MG4IOJ0Q.2UJOTK999FCCC@suppilovahvero>
-From: "Jarkko Sakkinen" <jarkko@kernel.org>
-To: "Mark Brown" <broonie@kernel.org>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>
-Cc: =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- <kernel@pengutronix.de>, "Moritz Fischer" <mdf@kernel.org>, "Wu Hao"
- <hao.wu@intel.com>, "Xu Yilun" <yilun.xu@intel.com>, "Tom Rix"
- <trix@redhat.com>, <linux-fpga@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, "Alexander Aring" <alex.aring@gmail.com>,
- "Stefan Schmidt" <stefan@datenfreihafen.org>, "Miquel Raynal"
- <miquel.raynal@bootlin.com>, "David S. Miller" <davem@davemloft.net>, "Eric
- Dumazet" <edumazet@google.com>, "Jakub Kicinski" <kuba@kernel.org>, "Paolo
- Abeni" <pabeni@redhat.com>, <linux-wpan@vger.kernel.org>,
- <netdev@vger.kernel.org>, "Lars-Peter Clausen" <lars@metafoo.de>, "Michael
- Hennerich" <Michael.Hennerich@analog.com>, "Jonathan Cameron"
- <jic23@kernel.org>, <linux-iio@vger.kernel.org>, "Dmitry Torokhov"
- <dmitry.torokhov@gmail.com>, <linux-input@vger.kernel.org>, "Ulf Hansson"
- <ulf.hansson@linaro.org>, "Rayyan Ansari" <rayyan@ansari.sh>, "Andy
- Shevchenko" <andriy.shevchenko@linux.intel.com>, "Jonathan Cameron"
- <Jonathan.Cameron@huawei.com>, "Martin Tuma"
- <martin.tuma@digiteqautomotive.com>, "Mauro Carvalho Chehab"
- <mchehab@kernel.org>, <linux-media@vger.kernel.org>, "Sergey Kozlov"
- <serjk@netup.ru>, "Arnd Bergmann" <arnd@arndb.de>, "Yang Yingliang"
- <yangyingliang@huawei.com>, <linux-mmc@vger.kernel.org>, "Richard
- Weinberger" <richard@nod.at>, "Vignesh Raghavendra" <vigneshr@ti.com>, "Rob
- Herring" <robh@kernel.org>, "Heiko Stuebner" <heiko@sntech.de>, "Michal
- Simek" <michal.simek@amd.com>, "Amit Kumar Mahapatra via Alsa-devel"
- <alsa-devel@alsa-project.org>, <linux-mtd@lists.infradead.org>, "Martin
- Blumenstingl" <martin.blumenstingl@googlemail.com>, "Geert Uytterhoeven"
- <geert+renesas@glider.be>, =?utf-8?q?Pali_Roh=C3=A1r?= <pali@kernel.org>,
- "Simon Horman" <horms@kernel.org>, "Ronald Wahl" <ronald.wahl@raritan.com>,
- "Benson Leung" <bleung@chromium.org>, "Tzung-Bi Shih" <tzungbi@kernel.org>,
- "Guenter Roeck" <groeck@chromium.org>, <chrome-platform@lists.linux.dev>,
- "Max Filippov" <jcmvbkbc@gmail.com>, <linux-spi@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, "Bjorn Andersson"
- <andersson@kernel.org>, "Konrad Dybcio" <konrad.dybcio@linaro.org>,
- <linux-arm-msm@vger.kernel.org>, "Matthias Brugger"
- <matthias.bgg@gmail.com>, "AngeloGioacchino Del Regno"
- <angelogioacchino.delregno@collabora.com>,
- <linux-mediatek@lists.infradead.org>, "Thomas Zimmermann"
- <tzimmermann@suse.de>, "Javier Martinez Canillas" <javierm@redhat.com>,
- "Amit Kumar Mahapatra" <amit.kumar-mahapatra@amd.com>,
- <dri-devel@lists.freedesktop.org>, <linux-fbdev@vger.kernel.org>,
- <linux-staging@lists.linux.dev>, "Viresh Kumar" <vireshk@kernel.org>, "Rui
- Miguel Silva" <rmfrfs@gmail.com>, "Johan Hovold" <johan@kernel.org>, "Alex
- Elder" <elder@kernel.org>, <greybus-dev@lists.linaro.org>, "Peter Huewe"
- <peterhuewe@gmx.de>, "Jason Gunthorpe" <jgg@ziepe.ca>,
- <linux-integrity@vger.kernel.org>, "Herve Codina"
- <herve.codina@bootlin.com>, "Alan Stern" <stern@rowland.harvard.edu>, "Aaro
- Koskinen" <aaro.koskinen@iki.fi>, "Krzysztof Kozlowski"
- <krzysztof.kozlowski@linaro.org>, <linux-usb@vger.kernel.org>, "Helge
- Deller" <deller@gmx.de>, "Dario Binacchi"
- <dario.binacchi@amarulasolutions.com>, "Kalle Valo" <kvalo@kernel.org>,
- "Dmitry Antipov" <dmantipov@yandex.ru>, <libertas-dev@lists.infradead.org>,
- <linux-wireless@vger.kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
- "James Clark" <james.clark@arm.com>, "Bjorn Helgaas" <bhelgaas@google.com>,
- <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v2 00/33] spi: get rid of some legacy macros
-X-Mailer: aerc 0.15.2
-References: <cover.1705944943.git.u.kleine-koenig@pengutronix.de>
- <2024012417-prissy-sworn-bc55@gregkh>
- <c1e38a30-5075-4d01-af24-ac684e77cf29@sirena.org.uk>
-In-Reply-To: <c1e38a30-5075-4d01-af24-ac684e77cf29@sirena.org.uk>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240201140459.438479-3-meir6264@Gmail.com>
 
-On Wed Jan 24, 2024 at 7:22 PM EET, Mark Brown wrote:
-> On Wed, Jan 24, 2024 at 09:13:49AM -0800, Greg Kroah-Hartman wrote:
-> > On Mon, Jan 22, 2024 at 07:06:55PM +0100, Uwe Kleine-K=C3=B6nig wrote:
->
-> > > Note that Jonathan Cameron has already applied patch 3 to his tree, i=
-t
-> > > didn't appear in a public tree though yet. I still included it here t=
-o
-> > > make the kernel build bots happy.
->
-> > Are we supposed to take the individual changes in our different
-> > subsystem trees, or do you want them all to go through the spi tree?
->
-> Given that the final patch removes the legacy interfaces I'm expecting
-> to take them via SPI.
+On Thu, Feb 01, 2024 at 04:04:57PM +0200, Meir Elisha wrote:
+> Fix checkpatch warning: please, no space before tabs
+> 
+> Signed-off-by: Meir Elisha <meir6264@Gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/core/rtw_mlme.c | 63 ++++++++++-------------
+>  1 file changed, 26 insertions(+), 37 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+> index 5568215b35bd..44b77c1ba992 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+> @@ -169,7 +169,6 @@ void _rtw_free_network(struct	mlme_priv *pmlmepriv, struct wlan_network *pnetwor
+>  {
+>  	unsigned int delta_time;
+>  	u32 lifetime = SCANQUEUE_LIFETIME;
+> -/* 	_irqL irqL; */
+>  	struct __queue *free_queue = &(pmlmepriv->free_bss_pool);
+>  
+>  	if (!pnetwork)
 
-+1
+Please the "delete dead code" stuff into a separate patch.  It's a
+little bit easier to review when patches are split up like that.
 
-least fuss approach
+regards,
+dan carpenter
 
-BR, Jarkko
