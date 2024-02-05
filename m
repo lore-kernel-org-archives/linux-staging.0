@@ -1,26 +1,26 @@
-Received: from CHN02-BJS-obe.outbound.protection.partner.outlook.cn (mail-bjschn02on2120.outbound.protection.partner.outlook.cn [139.219.17.120])
+Received: from CHN02-BJS-obe.outbound.protection.partner.outlook.cn (mail-bjschn02on2136.outbound.protection.partner.outlook.cn [139.219.17.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C8DC12B6C
-	for <linux-staging@lists.linux.dev>; Mon,  5 Feb 2024 09:19:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.219.17.120
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B09AB12B68
+	for <linux-staging@lists.linux.dev>; Mon,  5 Feb 2024 09:36:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.219.17.136
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707124800; cv=fail; b=M5JoONsWa1b1srVZ1rf3BkzNjzRJQ6+SOfu6+66YYqBxZtooNE8asbXaO5kc3mLiA40exrehW+CpL/yaCZQ5PgziccLSIm+TMcG93IQk2aYgcv3P94ptaSTN1PxfUng8x7ock2XHlQbEdwZ1GIYWCd3Wiw1X3JPFWRRAdL0TS2U=
+	t=1707125821; cv=fail; b=MiwlrK+xF6zajRj28gzhIovrB5QppvRJMLwWZnMkHgO+fkzyVuSwMtni+3+gBP41tuubuzKQc5YvuFZ6HsR/19cryhS/zVjeIV/L5ZltZw1oidWhd0yhC1y0Lal2QpWh0Ji2099z1X9XMBHU9Dsq/z85DJOr9qsuxKobSIIAr/g=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707124800; c=relaxed/simple;
-	bh=7iQ118uYM6gWeVZz8zekH3q9b1HL0jt0ToRo3b4Y5/U=;
+	s=arc-20240116; t=1707125821; c=relaxed/simple;
+	bh=+1D7IvLRJBTd04sDwZpOplB3rB5YLSzF/fM/IdO+03U=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=NC7ExSio3gXQFoxEuQmcd02g/53fegIShw34S6jpDlSyRGtfAl11+apihVW9FisEc2msNge0nODWTfcDb32Hp3DlBS+TWbQoIgagqu9wZlWZSXmEpJazb8K8ZW02jx+3tD0xBi5JxORGxhOhs2CmnEgJEoIFlV5ZBPelM66HE/E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com; spf=pass smtp.mailfrom=starfivetech.com; arc=fail smtp.client-ip=139.219.17.120
+	 Content-Type:MIME-Version; b=MpjG4xbBlYYAtrKHYP9epsLsPfHgGRYHt9u8GfcfDau9F8qNlFSf16KUifRFHmi1f/jqXOn90XEpdDzFAVdqJEEPVPgM1ODR4kvaYEN8vjyJJsUA88zw902+h5ZEr9QI0U6wD2/DCnyBO8mzVRk9LmN+bv3bTRFSJRFw8EldUYU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com; spf=pass smtp.mailfrom=starfivetech.com; arc=fail smtp.client-ip=139.219.17.136
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JSwsgni9C7PP280E9uVm2cCXTw5VjNV7a2di2mn66DBx1C2JdB6dVw+NcUD4O23e5tmZa3T/PfbBFpk43JO3l61TGfeatJfRdcxSX5m1OrWJ3MjCx37SJTHjCL1dGha6pdQc851bzzNDI9KUUJqdEHSU6XKK9e22ZXFcKHgNthaPd/CxL7ftCVp14Avoaz2l1IWhoJmZRDFc85+ZDe4NqrXuvzFN/r/awTxRcYFQNkNsOMViuTV4DciOteWAeSWlqMvsepg7Zu7m+iSg1yylv6bfX7O4vh729jCILZGb6R5XlgQJlcXNy1Idno/WI4OjQqn3sp4G5FP7dQNCFY4Zew==
+ b=m3QxqBnQ12dXc/YXHxU71K2uF8wJ4uFivT3NqvPs/rB/S6a55nNPs0zdpKi6DCwB5za+xgedpOqdwCD07QK+AbUgIxjTWeUZvdVjYtzpfIuw/fvsQ243wFhA8fm5FlaDtVxBIx2TAYuvY4EPaIeFIhRzxmMjew4wsFfTwIN7xvdLW9Jy1e+Oe8OlmboBu5MfDfOHxilnUV76KPB28ABskNCxn6D0GHhmtuFOcNnkfp9hxN1l3i3gMaBgVOW5f0nhNCDF0Fou0JCCKucQjdG0by1Hq1SKPS+CwEj/FHEV71qR5z4/+3emucgRXTGuEPw/CSojRzljCVBkBUE4frFd9A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=l/+SgaIHb8ve1EJBK8xmQXM0Ol+XWQdwKYyTAGN6oPk=;
- b=lBs9fIhwBmxnMvcDfOmWWnyTc0z9eN2eB2C2MsPuE/wBsuV7UOcKnYk9zOQqzAC1wyfgZuybXr/GbnTCA2JZqdxy5K+SNVm/k5rSfv2OCLVkeP13DoBDlLqo/EBHC0oinKGFwZnxkWlYKBGUG8mDwygQiUn0Xjpy5NgfPS3TzNvlyg/cK9WTvbGngIe3MOSIF9dHW/ORG55BAMNVXdv384Jem6GjNnGUH3WaHkY0mErzQdEgcSbGMDD5UkP9lWyVhae/8Q+lhNtaENXo5+ly4xH8gjRPC+whZTo6Xa24n5rb8bCKSCXKlOU39j5Bae9uQR8krHDX8KSrUAv5SWTQnA==
+ bh=QBKebo5g8nQNZpo/7QeoJbRcWRwazmkDu4kDf3PuBJQ=;
+ b=CLP64KgnxRjMqpSlBsGY2xGAGPrMe8TQnG12l8xXYt2rFaxyFqghHTmXcifD4RwROf38z1yuvRWo4+WsYsAmWmyVqhHyPEeReDPSkEsZT4KEpd1mwt/utWhJ/6z9wUt7N4lN73U+eClJzWp8hPjlzTtKSBVHcXCufOPkobovF4IkT1gmhHCMvJnJqZZPuAB3TING+343HKNI90cauQGceyzSvmsg4MS2TfVGgRHL77TB6LWvSE1arq0oNjhzp4c+4yiNyNzBSkRvE6jfMM/FDO+Dju2EivQ1g2K6NGvPJITs7ekS6LaugTpNsOjyQX3aQFIXDhgjQ9ez25K1uvELog==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=starfivetech.com; dmarc=pass action=none
  header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
@@ -30,11 +30,11 @@ Received: from SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
  (2406:e500:c311:25::10) by SHXPR01MB0815.CHNPR01.prod.partner.outlook.cn
  (2406:e500:c311:26::21) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7249.34; Mon, 5 Feb
- 2024 09:04:46 +0000
+ 2024 09:04:43 +0000
 Received: from SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
  ([fe80::b0af:4c9d:2058:a344]) by
  SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn ([fe80::b0af:4c9d:2058:a344%6])
- with mapi id 15.20.7249.025; Mon, 5 Feb 2024 09:04:46 +0000
+ with mapi id 15.20.7249.025; Mon, 5 Feb 2024 09:04:43 +0000
 From: Changhuang Liang <changhuang.liang@starfivetech.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -51,9 +51,9 @@ Cc: Jack Zhu <jack.zhu@starfivetech.com>,
 	linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH v3 08/13] staging: media: starfive: Add for StarFive ISP 3A SC
-Date: Mon,  5 Feb 2024 01:04:19 -0800
-Message-Id: <20240205090424.40302-9-changhuang.liang@starfivetech.com>
+Subject: [PATCH v3 06/13] staging: media: starfive: Separate buffer be a common file
+Date: Mon,  5 Feb 2024 01:04:17 -0800
+Message-Id: <20240205090424.40302-7-changhuang.liang@starfivetech.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240205090424.40302-1-changhuang.liang@starfivetech.com>
 References: <20240205090424.40302-1-changhuang.liang@starfivetech.com>
@@ -70,568 +70,574 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: SHXPR01MB0671:EE_|SHXPR01MB0815:EE_
-X-MS-Office365-Filtering-Correlation-Id: d741d319-d6b3-4f1b-c888-08dc26298032
+X-MS-Office365-Filtering-Correlation-Id: 7097c64d-ed3b-4b8a-4adc-08dc26297e45
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	2apvJBPQ1sPVyD2za9qpiN8LSwhDDCrF75g7+AtXXHoD8dqp1BUXgHi+U8OirZ3nSKFrf7a3CddtisM99yO00fWIBjiKtIwjA9GajKfc9eyXI8AgVG6BBj+EzpDaMQuvot1zz/WDt/IqYdZFIpAnWxz1krJC1H2I/yDPcg0RtWess5+S6cKO0aX4MmL8r63U1N/vUd9NIU5fvqOXucKIG42BzoHaJYhokGQNOfhV/IwaL29qhPbFcmyM/jmUfmMDQXxhbf+OlAUE1MjoDSowd8k27pz+IGXW56rc6HE0FCtj6FMsFVvptNfVXF4BkCVoi6K7P5D0Tk4VCq3hqNU+eqzRtuEthnEgFogbfhKF7WTYNneWA3NBZFY4G59m59wYkcmfyh4TD0XpwCjvuBTOcTO2z6WvczuNLS3w5DQ3eRF1d7MULFva5EuQc1F5woNBRhQhG8QTJEqVc//R4GpQcVNG5hmOkUXlRQaDg6umRh3evFKlTnwaCw5Xbn/pGuM8n6vI0jWmWtiaIaXFFCdNg+MsJURTC1rwtLv9piyqrjf0kjXyFALC5OUyiqVwLaS7KYGvx/kkR9+j9sm2t3mztw==
+	5A/NgJEFOrBl6hJUejIi/7trHEYgBof68a0VkR5gk2450ZstyBWzx7VQ9SfSBqJ1lwh6F0zApIJo2HFCVsYaqyUKaCBCcbdh9kEUhcgzzK4cmTTGEUMBlmLd2VAZON+gOuiGJUiG4ZpJ/26JFk7Bg4uE7KlOG/En+XVKTS+mkZSVpT0bRtz7DC0Ef+P28nnZ4u7n9zuYclLf3Bk/MjbpQoDxsXz5y+Cs2YG45U7zBu5Y/jhW7yZHBmGHIJLSh5nPb6ergSDmS4XPchfFKbWyBVHQ0Nts9tJy9lI7ssWCgOgWpHLoFTL9STsx79XoAIMTD9+eRKXKbzSbLI2kXl5qgiD7CrRky6mpH0kh2ZygYr8JALe0eMKZEwIf9s2PJnhD/B4m5420X8WpIpJPWOOzfqW29E3qrlFLVg97ZHZiNOwWPdBFF6xdkyGfhlWkHunMpzpTqX1hPEOtdZVYFZren5evlinhFD7r9i9otmEpEVlt4lGZkPXOKZg2TfQ9afZQIX3PlTc3GDWy6feBenphD8CYkBFCDWbfbHy60wesDCKOgZyI8U9auUZo8yLnwiNB1s8+kLHKEvP3DnlAhLb9LA==
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230031)(39830400003)(366004)(396003)(346002)(136003)(230922051799003)(1800799012)(451199024)(64100799003)(186009)(41320700001)(6666004)(52116002)(36756003)(40180700001)(508600001)(38350700005)(40160700002)(38100700002)(2616005)(1076003)(26005)(83380400001)(86362001)(5660300002)(2906002)(7416002)(30864003)(8936002)(8676002)(4326008)(110136005)(44832011)(54906003)(66946007)(66556008)(66476007)(41300700001)(921011);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?JXSc9HJAjt5xRRnrcWQQmFbqFHac8t7qba48X5RaZ+dJpjwO3xOjBvl9VCfK?=
- =?us-ascii?Q?A7EhWn1JFZNDQjgd5dXhg1sISM+r5fdI7azvw9odPKySsyvEO4aZ4TM4W3mL?=
- =?us-ascii?Q?+2CSicPM3uvuDK26bqKeW629seKlD9XT4Rqd6Zpl8uGG/AD3yLe5JUDzAb2Z?=
- =?us-ascii?Q?a1gW83k7RkZn15+PQyeBHP4ch77jWLF0z+3FmuGCNQBOtJ9aA4ScXWDKAAJ5?=
- =?us-ascii?Q?UQfsYzY8vfexp6VnPv+Cu4HHo2HrN5IXmqtnd8aKC6L6kaT5BcySXiyBq6Tx?=
- =?us-ascii?Q?SK5dUz+DkqSrh7vGP0qHNsMogJxgvZTnq6RPFkgDkxifeunZbQLU0XwtOsyt?=
- =?us-ascii?Q?mvMte1COD3uLF0Mk/m8NGzkCnHw/OWuzdNlhyG4PAP9sQNVr2VcKWaiGQi0U?=
- =?us-ascii?Q?f/Ha9JeFsbnUI/5uh8WvRTmFqM37VY05TIdKbES/z/c8TYPcj2SUnKLVcdOc?=
- =?us-ascii?Q?s6VnwBVldq/h3delv/fosouzphzsWPXydhokj0rRY7XD7ebibQDp8GrsY+n8?=
- =?us-ascii?Q?R8dRFNMAgUM/8boF1ABIfne8fKwME4f8WafjPFl8BheHpyylQJUyPICZvJBv?=
- =?us-ascii?Q?mZbMSAWT6DUF3gubXyTGNfyus65bZ6ICLmrdshbueS0oizCehdxBcQgwPYHP?=
- =?us-ascii?Q?dQz+R1G1UQzDkbcUIZ0asDCoyxviQ+LXc0flhSq/A020KlmHU8ostdUJznHb?=
- =?us-ascii?Q?s1dXn8oZDasR4WWNUYGqR6CWsd+xclk8XdNxvLoEAbAd5OC+sJ/lV4lzqAz8?=
- =?us-ascii?Q?8WBXOkOkCc5pKwl+sHtHbcc4vWhFRHhXBUU7d6zHLQz8Rt4SAfNCbgUQUJSW?=
- =?us-ascii?Q?5TYFxNyLOI25TrdJYAOTBK3YnTklKfJulJ27JFeHQ+7YOKsHSr7zY4pUi2NN?=
- =?us-ascii?Q?0QtIGO8/380D2u9rBiP0lUoHUMsBZuy9l73zei1gsCQH3+zLzo1x8+SYuOto?=
- =?us-ascii?Q?DncmobdXXHvMQA43x/dIwbkeSQ0JLBxj9wWo17+RpYiPIiJOZ4Raftw0YmjD?=
- =?us-ascii?Q?BnpqKyY5hqcb9l1JRp8ywI3FLQ+aUloNA35EwREbasS6GwnT6Rb6jgGbLolo?=
- =?us-ascii?Q?P6lb0mC0pVBRoD98ybDEcjNiIT/66Dmp25G7ZIkQxWkOYIPRfuxDIY55bMyV?=
- =?us-ascii?Q?MVDxpD9SgTPPoF1++InkEMe9RQ9QhajPVtLJNot+7KW93nR34J36MOCmOzNa?=
- =?us-ascii?Q?D3xGEyUZOAwW7X1Dx4NtBdWNMKcL77i2X+C4QsRxS09UGtV73Ve8pUatq+9K?=
- =?us-ascii?Q?oEuT1gD5rMRM2Afi4MhLDC+9dJKBLqUljWEMjhGTyoP3eO62j0/naxwa6cSc?=
- =?us-ascii?Q?SKva8ZUWQAlD3clqWM8FfyPfKbAwwqjxtJgFw/RfW+NJrSBvDkGu2oTEgvYM?=
- =?us-ascii?Q?y91cTGWz2DfMXIe5+/EuPjRCUkSXqA6lTmLShBxgCBQwX9zA5DQTeei+Gt31?=
- =?us-ascii?Q?rq2V+47VX+WWLmgD0T+kmg+jE+CuZdoNBvir+JqDmmy771TuB6z54yuYePqY?=
- =?us-ascii?Q?waKL23NRwdaHyW76XWzewuIVpfmcC2/1qEIH5XYzkV39dzOHIb+QJ1B45pOZ?=
- =?us-ascii?Q?k3zdg7nWE9fX6W9/EtGGWUGbBJOX/KyWfeh/eLzf+KjtIHobZD1IWrfVRIKG?=
- =?us-ascii?Q?mdIKtQ6j3wQQ0LpMaOiPaa8=3D?=
+	=?us-ascii?Q?h2xcPNG/aaWbor7zF0vwAJ9CDyJziQ5PVxFsbyF6gcog8ImkDfRcuT1LxgJK?=
+ =?us-ascii?Q?44nbsqNjlsei2gAvojlNP98U6DQ3CMXMaslYi9Ho6M5FUef43T87hp5+rPIC?=
+ =?us-ascii?Q?ecCcEPoHB9TCzhnb4DIKx8o8NhIuYtk7qd8QVWH7cXh79L2fTfVZyNaIQj9W?=
+ =?us-ascii?Q?LzJIvKBRBqUDvZPpAvjUyHFWrZL2HMyM1yn/AOiGCc2+GpJ5eUWOLMU7DD5e?=
+ =?us-ascii?Q?1+aQ2lWtnjzDIbMJoX5y7vV2Lz+CW/a4G9VCYE/mYrkvKCByCFFjFDa/eGBV?=
+ =?us-ascii?Q?qVEmdZ1g21qP6ha+W4RFd7NsZqLNvD2fz6Z8zbFftjDKC1QyHJTEhk8UHDtT?=
+ =?us-ascii?Q?rev9wjl8ElxqL+KrIiRT8Mfv+fQiy/u+hqN29K3Tf53XKtPWOkdY5rNo4LqP?=
+ =?us-ascii?Q?OOKMxB4S5e2+C6lxq3uirUai2Jr3ksyKmECin76f3APzHYrHuUj9wZjHV9VO?=
+ =?us-ascii?Q?j0R9XpNrwFOMjZyBeEHOWtRom163fCowVa0NpvkIYAjXMYOAxBGQgrEOAXuG?=
+ =?us-ascii?Q?7B12/rx0oFBovWhPgujtiDAByFTCKlE9fgaHZTwg2DDY9WBcOu4si+N/N7rd?=
+ =?us-ascii?Q?0WM67NpYyXNKu+x4CahZhWehwRnb67ioa7hBmbH1aWlzJ6fRt+poR1PjRCvv?=
+ =?us-ascii?Q?s0Ja+fSP0tndwDcV/9vtGlP65kk17NK5O2c6r4H8GoGIEvOUjhY0ojzrz6en?=
+ =?us-ascii?Q?9NuZT5euAwpYUSG8ko8mo0JLhmmU4SxHrIvWarIEoIkzoPX3+bJic7XfW4kg?=
+ =?us-ascii?Q?N9yPqC7peq+QNsW7cbIPIysVlLwFMwpVsTLjJ0vJ7MvPo60oeJVq/iVtn0U1?=
+ =?us-ascii?Q?5I+5CRPM6Hrgkdiy2BBZNO8Tin0mfDAj6lTgWIQB1AGReQXI4EAVtbEeFsQE?=
+ =?us-ascii?Q?MNJAS63+A5aImaW9NBUoSwKGNtFMUCNTi6LLlsGt1DxCVTt/xViXbiACNovw?=
+ =?us-ascii?Q?xQtqV2ItF2Npjudee5HxrQoAsP9kzZtjOT1po54FBkfA7WYGzjcrWCd4MEqt?=
+ =?us-ascii?Q?+89Y7qJEw1CGkhHJNazLNmnpdskBZqA6YzPUzxcWJn5ahfx1pJV3MeHHAXB7?=
+ =?us-ascii?Q?rSzI3/SEsViSNoVfdizvV3KISoOVOBjITCnK/48e4FNGVO9qXjCKFd/ki5pS?=
+ =?us-ascii?Q?t6FPNb98vHsy8/XfJ5jn4vME7OCvDJjBNkFOr7/EQEL/cudKNlsBWUpXRsNF?=
+ =?us-ascii?Q?HniRkwhkww6rKSZrpEkQw/aNYPGgN6DRwf4vla0WLUsEkFjYWYvX6fUSAKQB?=
+ =?us-ascii?Q?XkSWeL6GOGtC5zPJeXd0AKuhJHdYSgiLm7VDXUbPWbYqZ9WSRnxWPTpb0yzg?=
+ =?us-ascii?Q?amGCfKi80xM2voN3nlzxobuRy8Rov97lmZ18ULVIR6eB5WURhs3yN13Uh00o?=
+ =?us-ascii?Q?eN0qhvAghk829FS2bTlmFZ2zpS0vZC5G9KFaLzz/e8CD1hzkZUwyh/YCPh+I?=
+ =?us-ascii?Q?puResBEpRSIuXUzszaSlmwdzNWqiDhH3fjHAKwm8Cr0N0zY/zLYe27Yyoo74?=
+ =?us-ascii?Q?MT6rLKGhv8+DMKA9gZKgmZBICF1hcIbKMweDQ7BV3ziFObt3IzcqqqznsWpr?=
+ =?us-ascii?Q?rZCtd8HxspxOtU3BUm6MGO66RYocHQES27OTh2kF5Hnj/lVnc1YI0eFOob81?=
+ =?us-ascii?Q?fcoZwR5R03FVZALx8GbeLX8=3D?=
 X-OriginatorOrg: starfivetech.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d741d319-d6b3-4f1b-c888-08dc26298032
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7097c64d-ed3b-4b8a-4adc-08dc26297e45
 X-MS-Exchange-CrossTenant-AuthSource: SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Feb 2024 09:04:46.7312
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Feb 2024 09:04:43.4908
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dH6p4WALqCbjwr5l/tttiWvDj1OGsPy41XcxB4YqTsamqzU0cSVR6MZIpHkFUv6DLoIv4ui6f05y6AqzKGWpbnhTNpWss3VPQTKJYtw2LXXCOVBfY13o3CqU5xUP62Wa
+X-MS-Exchange-CrossTenant-UserPrincipalName: Mx9pV1aUOUj4jeKMYXYwxbRoSWMCV6bhzV7z1IEQRDbBprZa82pAGawhxLrWLjjWIXhInmF3U4Px2El8MIH6NfEwPrQFsjK/1juQxFiCHdkjlCJd/5AecnwdtMxAS//t
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SHXPR01MB0815
 
-Register ISP 3A "capture_scd" video device to receive statistics
-collection data.
+Buffer operations is not only applicable to capture device, also
+can use for output device. So separating it be a common file.
 
 Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
 ---
- .../staging/media/starfive/camss/stf-buffer.h |   1 +
- .../staging/media/starfive/camss/stf-camss.c  |  18 +++
- .../media/starfive/camss/stf-capture.c        |  21 ++-
- .../media/starfive/camss/stf-isp-hw-ops.c     |  66 ++++++++
- .../staging/media/starfive/camss/stf-isp.h    |  23 +++
- .../staging/media/starfive/camss/stf-video.c  | 143 +++++++++++++++++-
- .../staging/media/starfive/camss/stf-video.h  |   1 +
- 7 files changed, 264 insertions(+), 9 deletions(-)
+ drivers/staging/media/starfive/camss/Makefile |   1 +
+ .../staging/media/starfive/camss/stf-buffer.c | 166 ++++++++++++++++++
+ .../staging/media/starfive/camss/stf-buffer.h |  52 ++++++
+ .../staging/media/starfive/camss/stf-camss.h  |   1 +
+ .../media/starfive/camss/stf-capture.c        | 158 -----------------
+ .../media/starfive/camss/stf-capture.h        |  22 ---
+ .../staging/media/starfive/camss/stf-video.h  |  10 +-
+ 7 files changed, 222 insertions(+), 188 deletions(-)
+ create mode 100644 drivers/staging/media/starfive/camss/stf-buffer.c
+ create mode 100644 drivers/staging/media/starfive/camss/stf-buffer.h
 
-diff --git a/drivers/staging/media/starfive/camss/stf-buffer.h b/drivers/staging/media/starfive/camss/stf-buffer.h
-index 9d1670fb05ed..727d00617448 100644
---- a/drivers/staging/media/starfive/camss/stf-buffer.h
-+++ b/drivers/staging/media/starfive/camss/stf-buffer.h
-@@ -23,6 +23,7 @@ enum stf_v_state {
- struct stfcamss_buffer {
- 	struct vb2_v4l2_buffer vb;
- 	dma_addr_t addr[2];
-+	void *vaddr;
- 	struct list_head queue;
- };
+diff --git a/drivers/staging/media/starfive/camss/Makefile b/drivers/staging/media/starfive/camss/Makefile
+index 005790202e7b..411b45f3fb52 100644
+--- a/drivers/staging/media/starfive/camss/Makefile
++++ b/drivers/staging/media/starfive/camss/Makefile
+@@ -4,6 +4,7 @@
+ #
  
-diff --git a/drivers/staging/media/starfive/camss/stf-camss.c b/drivers/staging/media/starfive/camss/stf-camss.c
-index a587f860101a..04caa4dac2f7 100644
---- a/drivers/staging/media/starfive/camss/stf-camss.c
-+++ b/drivers/staging/media/starfive/camss/stf-camss.c
-@@ -126,6 +126,7 @@ static int stfcamss_of_parse_ports(struct stfcamss *stfcamss)
- static int stfcamss_register_devs(struct stfcamss *stfcamss)
- {
- 	struct stf_capture *cap_yuv = &stfcamss->captures[STF_CAPTURE_YUV];
-+	struct stf_capture *cap_scd = &stfcamss->captures[STF_CAPTURE_SCD];
- 	struct stf_isp_dev *isp_dev = &stfcamss->isp_dev;
- 	int ret;
- 
-@@ -150,8 +151,18 @@ static int stfcamss_register_devs(struct stfcamss *stfcamss)
- 
- 	cap_yuv->video.source_subdev = &isp_dev->subdev;
- 
-+	ret = media_create_pad_link(&isp_dev->subdev.entity, STF_ISP_PAD_SRC_SCD,
-+				    &cap_scd->video.vdev.entity, 0, 0);
-+	if (ret)
-+		goto err_rm_links0;
+ starfive-camss-objs += \
++		stf-buffer.o \
+ 		stf-camss.o \
+ 		stf-capture.o \
+ 		stf-isp.o \
+diff --git a/drivers/staging/media/starfive/camss/stf-buffer.c b/drivers/staging/media/starfive/camss/stf-buffer.c
+new file mode 100644
+index 000000000000..7272b5ab9eb5
+--- /dev/null
++++ b/drivers/staging/media/starfive/camss/stf-buffer.c
+@@ -0,0 +1,166 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * StarFive Camera Subsystem - buffer common
++ *
++ * Copyright (C) 2023 StarFive Technology Co., Ltd.
++ */
 +
-+	cap_scd->video.source_subdev = &isp_dev->subdev;
++#include "stf-camss.h"
 +
- 	return ret;
- 
-+err_rm_links0:
-+	media_entity_remove_links(&isp_dev->subdev.entity);
-+	media_entity_remove_links(&cap_yuv->video.vdev.entity);
- err_cap_unregister:
- 	stf_capture_unregister(stfcamss);
- err_isp_unregister:
-@@ -162,6 +173,13 @@ static int stfcamss_register_devs(struct stfcamss *stfcamss)
- 
- static void stfcamss_unregister_devs(struct stfcamss *stfcamss)
- {
-+	struct stf_capture *cap_yuv = &stfcamss->captures[STF_CAPTURE_YUV];
-+	struct stf_capture *cap_scd = &stfcamss->captures[STF_CAPTURE_SCD];
-+	struct stf_isp_dev *isp_dev = &stfcamss->isp_dev;
-+
-+	media_entity_remove_links(&isp_dev->subdev.entity);
-+	media_entity_remove_links(&cap_scd->video.vdev.entity);
-+	media_entity_remove_links(&cap_yuv->video.vdev.entity);
- 	stf_isp_unregister(&stfcamss->isp_dev);
- 	stf_capture_unregister(stfcamss);
- }
-diff --git a/drivers/staging/media/starfive/camss/stf-capture.c b/drivers/staging/media/starfive/camss/stf-capture.c
-index e91e726a1462..20c43e3f9b08 100644
---- a/drivers/staging/media/starfive/camss/stf-capture.c
-+++ b/drivers/staging/media/starfive/camss/stf-capture.c
-@@ -12,6 +12,7 @@
- static const char * const stf_cap_names[] = {
- 	"capture_raw",
- 	"capture_yuv",
-+	"capture_scd",
- };
- 
- static const struct stfcamss_format_info stf_wr_fmts[] = {
-@@ -55,6 +56,14 @@ static const struct stfcamss_format_info stf_isp_fmts[] = {
- 	},
- };
- 
-+/* 3A Statistics Collection Data */
-+static const struct stfcamss_format_info stf_isp_scd_fmts[] = {
-+	{
-+		.code = MEDIA_BUS_FMT_METADATA_FIXED,
-+		.pixelformat = V4L2_META_FMT_STF_ISP_STAT_3A,
-+	},
-+};
-+
- static inline struct stf_capture *to_stf_capture(struct stfcamss_video *video)
- {
- 	return container_of(video, struct stf_capture, video);
-@@ -84,6 +93,8 @@ static void stf_init_addrs(struct stfcamss_video *video)
- 		stf_set_raw_addr(video->stfcamss, addr0);
- 	else if (cap->type == STF_CAPTURE_YUV)
- 		stf_set_yuv_addr(video->stfcamss, addr0, addr1);
-+	else
-+		stf_set_scd_addr(video->stfcamss, addr0, addr1, TYPE_AWB);
- }
- 
- static void stf_cap_s_cfg(struct stfcamss_video *video)
-@@ -227,18 +238,24 @@ static void stf_capture_init(struct stfcamss *stfcamss, struct stf_capture *cap)
- 	INIT_LIST_HEAD(&cap->buffers.ready_bufs);
- 	spin_lock_init(&cap->buffers.lock);
- 
--	cap->video.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
- 	cap->video.stfcamss = stfcamss;
- 	cap->video.bpl_alignment = 16 * 8;
- 
- 	if (cap->type == STF_CAPTURE_RAW) {
-+		cap->video.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
- 		cap->video.formats = stf_wr_fmts;
- 		cap->video.nformats = ARRAY_SIZE(stf_wr_fmts);
- 		cap->video.bpl_alignment = 8;
- 	} else if (cap->type == STF_CAPTURE_YUV) {
-+		cap->video.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
- 		cap->video.formats = stf_isp_fmts;
- 		cap->video.nformats = ARRAY_SIZE(stf_isp_fmts);
- 		cap->video.bpl_alignment = 1;
-+	} else {
-+		cap->video.type = V4L2_BUF_TYPE_META_CAPTURE;
-+		cap->video.formats = stf_isp_scd_fmts;
-+		cap->video.nformats = ARRAY_SIZE(stf_isp_scd_fmts);
-+		cap->video.bpl_alignment = 16 * 8;
- 	}
- }
- 
-@@ -362,9 +379,11 @@ void stf_capture_unregister(struct stfcamss *stfcamss)
- {
- 	struct stf_capture *cap_raw = &stfcamss->captures[STF_CAPTURE_RAW];
- 	struct stf_capture *cap_yuv = &stfcamss->captures[STF_CAPTURE_YUV];
-+	struct stf_capture *cap_scd = &stfcamss->captures[STF_CAPTURE_SCD];
- 
- 	stf_capture_unregister_one(cap_raw);
- 	stf_capture_unregister_one(cap_yuv);
-+	stf_capture_unregister_one(cap_scd);
- }
- 
- int stf_capture_register(struct stfcamss *stfcamss,
-diff --git a/drivers/staging/media/starfive/camss/stf-isp-hw-ops.c b/drivers/staging/media/starfive/camss/stf-isp-hw-ops.c
-index 6b3966ca18bf..ae88668e5798 100644
---- a/drivers/staging/media/starfive/camss/stf-isp-hw-ops.c
-+++ b/drivers/staging/media/starfive/camss/stf-isp-hw-ops.c
-@@ -451,11 +451,57 @@ void stf_set_yuv_addr(struct stfcamss *stfcamss,
- 	stf_isp_reg_write(stfcamss, ISP_REG_UV_PLANE_START_ADDR, uv_addr);
- }
- 
-+static enum stf_isp_type_scd stf_get_isp_scd_type(struct stfcamss *stfcamss)
++void stf_buf_add_pending(struct stf_v_buf *output,
++			 struct stfcamss_buffer *buffer)
 +{
-+	int val;
-+
-+	val = stf_isp_reg_read(stfcamss, ISP_REG_SC_CFG_1);
-+	return (enum stf_isp_type_scd)(val & ISP_SC_SEL_MASK) >> 30;
++	INIT_LIST_HEAD(&buffer->queue);
++	list_add_tail(&buffer->queue, &output->pending_bufs);
 +}
 +
-+void stf_set_scd_addr(struct stfcamss *stfcamss,
-+		      dma_addr_t yhist_addr, dma_addr_t scd_addr,
-+		      enum stf_isp_type_scd type_scd)
++struct stfcamss_buffer *stf_buf_get_pending(struct stf_v_buf *output)
 +{
-+	stf_isp_reg_set_bit(stfcamss, ISP_REG_SC_CFG_1, ISP_SC_SEL_MASK,
-+			    SEL_TYPE(type_scd));
-+	stf_isp_reg_write(stfcamss, ISP_REG_SCD_CFG_0, scd_addr);
-+	stf_isp_reg_write(stfcamss, ISP_REG_YHIST_CFG_4, yhist_addr);
++	struct stfcamss_buffer *buffer = NULL;
++
++	if (!list_empty(&output->pending_bufs)) {
++		buffer = list_first_entry(&output->pending_bufs,
++					  struct stfcamss_buffer,
++					  queue);
++		list_del(&buffer->queue);
++	}
++
++	return buffer;
 +}
 +
-+static void stf_isp_fill_yhist(struct stfcamss *stfcamss, void *vaddr)
++void stf_buf_add_ready(struct stf_v_buf *output,
++		       struct stfcamss_buffer *buffer)
 +{
-+	struct jh7110_isp_sc_buffer *sc = (struct jh7110_isp_sc_buffer *)vaddr;
-+	u32 reg_addr = ISP_REG_YHIST_ACC_0;
-+	u32 i;
-+
-+	for (i = 0; i < 64; i++, reg_addr += 4)
-+		sc->y_histogram[i] = stf_isp_reg_read(stfcamss, reg_addr);
++	INIT_LIST_HEAD(&buffer->queue);
++	list_add_tail(&buffer->queue, &output->ready_bufs);
 +}
 +
-+static void stf_isp_fill_flag(struct stfcamss *stfcamss, void *vaddr,
-+			      enum stf_isp_type_scd *type_scd)
++struct stfcamss_buffer *stf_buf_get_ready(struct stf_v_buf *output)
 +{
-+	struct jh7110_isp_sc_buffer *sc = (struct jh7110_isp_sc_buffer *)vaddr;
++	struct stfcamss_buffer *buffer = NULL;
 +
-+	*type_scd = stf_get_isp_scd_type(stfcamss);
-+	if (*type_scd == TYPE_AWB) {
-+		sc->flag = JH7110_ISP_SC_FALG_AWB;
-+		*type_scd = TYPE_OECF;
-+	} else {
-+		sc->flag = JH7110_ISP_SC_FALG_AE_AF;
-+		*type_scd = TYPE_AWB;
++	if (!list_empty(&output->ready_bufs)) {
++		buffer = list_first_entry(&output->ready_bufs,
++					  struct stfcamss_buffer,
++					  queue);
++		list_del(&buffer->queue);
++	}
++
++	return buffer;
++}
++
++static void stf_buf_update_on_last(struct stf_v_buf *output)
++{
++	switch (output->state) {
++	case STF_OUTPUT_CONTINUOUS:
++		output->state = STF_OUTPUT_SINGLE;
++		output->active_buf = !output->active_buf;
++		break;
++	case STF_OUTPUT_SINGLE:
++		output->state = STF_OUTPUT_STOPPING;
++		break;
++	default:
++		break;
 +	}
 +}
 +
- irqreturn_t stf_line_irq_handler(int irq, void *priv)
- {
- 	struct stfcamss *stfcamss = priv;
- 	struct stf_capture *cap = &stfcamss->captures[STF_CAPTURE_YUV];
-+	struct stf_capture *cap_scd = &stfcamss->captures[STF_CAPTURE_SCD];
- 	struct stfcamss_buffer *change_buf;
-+	enum stf_isp_type_scd type_scd;
-+	u32 value;
- 	u32 status;
- 
- 	status = stf_isp_reg_read(stfcamss, ISP_REG_ISP_CTRL_0);
-@@ -467,6 +513,17 @@ irqreturn_t stf_line_irq_handler(int irq, void *priv)
- 					stf_set_yuv_addr(stfcamss, change_buf->addr[0],
- 							 change_buf->addr[1]);
- 			}
++static void stf_buf_update_on_next(struct stf_v_buf *output)
++{
++	switch (output->state) {
++	case STF_OUTPUT_CONTINUOUS:
++		output->active_buf = !output->active_buf;
++		break;
++	case STF_OUTPUT_SINGLE:
++	default:
++		break;
++	}
++}
 +
-+			value = stf_isp_reg_read(stfcamss, ISP_REG_CSI_MODULE_CFG);
-+			if (value & CSI_SC_EN) {
-+				change_buf = stf_change_buffer(&cap_scd->buffers);
-+				if (change_buf) {
-+					stf_isp_fill_flag(stfcamss, change_buf->vaddr,
-+							  &type_scd);
-+					stf_set_scd_addr(stfcamss, change_buf->addr[0],
-+							 change_buf->addr[1], type_scd);
-+				}
-+			}
- 		}
- 
- 		stf_isp_reg_set_bit(stfcamss, ISP_REG_CSIINTS,
-@@ -485,6 +542,7 @@ irqreturn_t stf_isp_irq_handler(int irq, void *priv)
- {
- 	struct stfcamss *stfcamss = priv;
- 	struct stf_capture *cap = &stfcamss->captures[STF_CAPTURE_YUV];
-+	struct stf_capture *cap_scd = &stfcamss->captures[STF_CAPTURE_SCD];
- 	struct stfcamss_buffer *ready_buf;
- 	u32 status;
- 
-@@ -496,6 +554,14 @@ irqreturn_t stf_isp_irq_handler(int irq, void *priv)
- 				vb2_buffer_done(&ready_buf->vb.vb2_buf, VB2_BUF_STATE_DONE);
- 		}
- 
-+		if (status & ISPC_SC) {
-+			ready_buf = stf_buf_done(&cap_scd->buffers);
-+			if (ready_buf) {
-+				stf_isp_fill_yhist(stfcamss, ready_buf->vaddr);
-+				vb2_buffer_done(&ready_buf->vb.vb2_buf, VB2_BUF_STATE_DONE);
-+			}
++void stf_buf_flush(struct stf_v_buf *output, enum vb2_buffer_state state)
++{
++	struct stfcamss_buffer *buf;
++	struct stfcamss_buffer *t;
++
++	list_for_each_entry_safe(buf, t, &output->pending_bufs, queue) {
++		vb2_buffer_done(&buf->vb.vb2_buf, state);
++		list_del(&buf->queue);
++	}
++	list_for_each_entry_safe(buf, t, &output->ready_bufs, queue) {
++		vb2_buffer_done(&buf->vb.vb2_buf, state);
++		list_del(&buf->queue);
++	}
++}
++
++struct stfcamss_buffer *stf_change_buffer(struct stf_v_buf *output)
++{
++	struct stf_capture *cap = container_of(output, struct stf_capture,
++					       buffers);
++	struct stfcamss *stfcamss = cap->video.stfcamss;
++	struct stfcamss_buffer *ready_buf;
++	unsigned long flags;
++	u32 active_index;
++
++	if (output->state == STF_OUTPUT_OFF ||
++	    output->state == STF_OUTPUT_STOPPING ||
++	    output->state == STF_OUTPUT_RESERVED ||
++	    output->state == STF_OUTPUT_IDLE)
++		return NULL;
++
++	spin_lock_irqsave(&output->lock, flags);
++
++	active_index = output->active_buf;
++
++	ready_buf = output->buf[active_index];
++	if (!ready_buf) {
++		dev_dbg(stfcamss->dev, "missing ready buf %d %d.\n",
++			active_index, output->state);
++		active_index = !active_index;
++		ready_buf = output->buf[active_index];
++		if (!ready_buf) {
++			dev_dbg(stfcamss->dev,
++				"missing ready buf2 %d %d.\n",
++				active_index, output->state);
++			goto out_unlock;
 +		}
++	}
 +
- 		stf_isp_reg_write(stfcamss, ISP_REG_ISP_CTRL_0,
- 				  (status & ~ISPC_INT_ALL_MASK) |
- 				  ISPC_ISP | ISPC_CSI | ISPC_SC);
-diff --git a/drivers/staging/media/starfive/camss/stf-isp.h b/drivers/staging/media/starfive/camss/stf-isp.h
-index fcda0502e3b0..0af7b367e57a 100644
---- a/drivers/staging/media/starfive/camss/stf-isp.h
-+++ b/drivers/staging/media/starfive/camss/stf-isp.h
-@@ -10,6 +10,7 @@
- #ifndef STF_ISP_H
- #define STF_ISP_H
- 
-+#include <linux/jh7110-isp.h>
- #include <media/v4l2-subdev.h>
- 
- #include "stf-video.h"
-@@ -107,6 +108,12 @@
- #define Y_COOR(y)				((y) << 16)
- #define X_COOR(x)				((x) << 0)
- 
-+#define ISP_REG_SCD_CFG_0			0x098
++	/* Get next buffer */
++	output->buf[active_index] = stf_buf_get_pending(output);
++	if (!output->buf[active_index])
++		stf_buf_update_on_last(output);
++	else
++		stf_buf_update_on_next(output);
 +
-+#define ISP_REG_SC_CFG_1			0x0bc
-+#define ISP_SC_SEL_MASK				GENMASK(31, 30)
-+#define SEL_TYPE(n)				((n) << 30)
++	if (output->state == STF_OUTPUT_STOPPING)
++		output->last_buffer = ready_buf;
++	else
++		stf_buf_add_ready(output, ready_buf);
 +
- #define ISP_REG_LCCF_CFG_2			0x0e0
- #define ISP_REG_LCCF_CFG_3			0x0e4
- #define ISP_REG_LCCF_CFG_4			0x0e8
-@@ -305,6 +312,10 @@
- #define DNRM_F(n)				((n) << 16)
- #define CCM_M_DAT(n)				((n) << 0)
- 
-+#define ISP_REG_YHIST_CFG_4			0xcd8
++out_unlock:
++	spin_unlock_irqrestore(&output->lock, flags);
 +
-+#define ISP_REG_YHIST_ACC_0			0xd00
++	return output->buf[active_index];
++}
 +
- #define ISP_REG_GAMMA_VAL0			0xe00
- #define ISP_REG_GAMMA_VAL1			0xe04
- #define ISP_REG_GAMMA_VAL2			0xe08
-@@ -389,6 +400,15 @@
- #define IMAGE_MAX_WIDTH				1920
- #define IMAGE_MAX_HEIGH				1080
- 
-+#define ISP_YHIST_BUFFER_SIZE			(64 * sizeof(__u32))
++struct stfcamss_buffer *stf_buf_done(struct stf_v_buf *output)
++{
++	struct stfcamss_buffer *ready_buf;
++	u64 ts = ktime_get_ns();
++	unsigned long flags;
 +
-+enum stf_isp_type_scd {
-+	TYPE_DEC = 0,
-+	TYPE_OBC,
-+	TYPE_OECF,
-+	TYPE_AWB,
++	if (output->state == STF_OUTPUT_OFF ||
++	    output->state == STF_OUTPUT_RESERVED)
++		return NULL;
++
++	spin_lock_irqsave(&output->lock, flags);
++
++	ready_buf = stf_buf_get_ready(output);
++	if (ready_buf) {
++		ready_buf->vb.vb2_buf.timestamp = ts;
++		ready_buf->vb.sequence = output->sequence++;
++	}
++
++	spin_unlock_irqrestore(&output->lock, flags);
++
++	return ready_buf;
++}
+diff --git a/drivers/staging/media/starfive/camss/stf-buffer.h b/drivers/staging/media/starfive/camss/stf-buffer.h
+new file mode 100644
+index 000000000000..9d1670fb05ed
+--- /dev/null
++++ b/drivers/staging/media/starfive/camss/stf-buffer.h
+@@ -0,0 +1,52 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * StarFive Camera Subsystem - buffer common
++ *
++ * Copyright (C) 2023 StarFive Technology Co., Ltd.
++ */
++
++#ifndef STF_BUFFER_H
++#define STF_BUFFER_H
++
++#include <linux/list.h>
++#include <media/videobuf2-v4l2.h>
++
++enum stf_v_state {
++	STF_OUTPUT_OFF,
++	STF_OUTPUT_RESERVED,
++	STF_OUTPUT_SINGLE,
++	STF_OUTPUT_CONTINUOUS,
++	STF_OUTPUT_IDLE,
++	STF_OUTPUT_STOPPING
 +};
 +
- /* pad id for media framework */
- enum stf_isp_pad_id {
- 	STF_ISP_PAD_SINK = 0,
-@@ -429,5 +449,8 @@ int stf_isp_unregister(struct stf_isp_dev *isp_dev);
++struct stfcamss_buffer {
++	struct vb2_v4l2_buffer vb;
++	dma_addr_t addr[2];
++	struct list_head queue;
++};
++
++struct stf_v_buf {
++	int active_buf;
++	struct stfcamss_buffer *buf[2];
++	struct stfcamss_buffer *last_buffer;
++	struct list_head pending_bufs;
++	struct list_head ready_bufs;
++	enum stf_v_state state;
++	unsigned int sequence;
++	/* protects the above member variables */
++	spinlock_t lock;
++	atomic_t frame_skip;
++};
++
++void stf_buf_add_pending(struct stf_v_buf *output,
++			 struct stfcamss_buffer *buffer);
++struct stfcamss_buffer *stf_buf_get_pending(struct stf_v_buf *output);
++void stf_buf_add_ready(struct stf_v_buf *output,
++		       struct stfcamss_buffer *buffer);
++struct stfcamss_buffer *stf_buf_get_ready(struct stf_v_buf *output);
++void stf_buf_flush(struct stf_v_buf *output, enum vb2_buffer_state state);
++struct stfcamss_buffer *stf_change_buffer(struct stf_v_buf *output);
++struct stfcamss_buffer *stf_buf_done(struct stf_v_buf *output);
++
++#endif /* STF_BUFFER_H */
+diff --git a/drivers/staging/media/starfive/camss/stf-camss.h b/drivers/staging/media/starfive/camss/stf-camss.h
+index e2b0cfb437bd..ae49c7031ab7 100644
+--- a/drivers/staging/media/starfive/camss/stf-camss.h
++++ b/drivers/staging/media/starfive/camss/stf-camss.h
+@@ -18,6 +18,7 @@
+ #include <media/v4l2-async.h>
+ #include <media/v4l2-device.h>
  
- void stf_set_yuv_addr(struct stfcamss *stfcamss,
- 		      dma_addr_t y_addr, dma_addr_t uv_addr);
-+void stf_set_scd_addr(struct stfcamss *stfcamss,
-+		      dma_addr_t yhist_addr, dma_addr_t scd_addr,
-+		      enum stf_isp_type_scd type_scd);
++#include "stf-buffer.h"
+ #include "stf-isp.h"
+ #include "stf-capture.h"
  
- #endif /* STF_ISP_H */
-diff --git a/drivers/staging/media/starfive/camss/stf-video.c b/drivers/staging/media/starfive/camss/stf-video.c
-index 989b5e82bae9..d9e51d4e2004 100644
---- a/drivers/staging/media/starfive/camss/stf-video.c
-+++ b/drivers/staging/media/starfive/camss/stf-video.c
-@@ -125,6 +125,14 @@ static int stf_video_init_format(struct stfcamss_video *video)
- 	return 0;
+diff --git a/drivers/staging/media/starfive/camss/stf-capture.c b/drivers/staging/media/starfive/camss/stf-capture.c
+index 367bdc924fb7..5cbafac46ee6 100644
+--- a/drivers/staging/media/starfive/camss/stf-capture.c
++++ b/drivers/staging/media/starfive/camss/stf-capture.c
+@@ -93,20 +93,6 @@ static void stf_init_addrs(struct stfcamss_video *video)
+ 		stf_set_yuv_addr(video->stfcamss, addr0, addr1);
  }
  
-+static int stf_video_scd_init_format(struct stfcamss_video *video)
-+{
-+	video->active_fmt.fmt.meta.dataformat = video->formats[0].pixelformat;
-+	video->active_fmt.fmt.meta.buffersize = sizeof(struct jh7110_isp_sc_buffer);
-+
-+	return 0;
-+}
-+
- /* -----------------------------------------------------------------------------
-  * Video queue operations
-  */
-@@ -330,6 +338,75 @@ static const struct vb2_ops stf_video_vb2_q_ops = {
- 	.stop_streaming  = video_stop_streaming,
- };
- 
-+static int video_scd_queue_setup(struct vb2_queue *q,
-+				 unsigned int *num_buffers,
-+				 unsigned int *num_planes,
-+				 unsigned int sizes[],
-+				 struct device *alloc_devs[])
-+{
-+	*num_planes = 1;
-+	sizes[0] = sizeof(struct jh7110_isp_sc_buffer);
-+
-+	return 0;
-+}
-+
-+static int video_scd_buf_init(struct vb2_buffer *vb)
-+{
-+	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
-+	struct stfcamss_buffer *buffer = to_stfcamss_buffer(vbuf);
-+	dma_addr_t *paddr;
-+
-+	paddr = vb2_plane_cookie(vb, 0);
-+	buffer->addr[0] = *paddr;
-+	buffer->addr[1] = buffer->addr[0] + ISP_YHIST_BUFFER_SIZE;
-+	buffer->vaddr = vb2_plane_vaddr(vb, 0);
-+
-+	return 0;
-+}
-+
-+static int video_scd_buf_prepare(struct vb2_buffer *vb)
-+{
-+	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
-+
-+	if (sizeof(struct jh7110_isp_sc_buffer) > vb2_plane_size(vb, 0))
-+		return -EINVAL;
-+
-+	vb2_set_plane_payload(vb, 0, sizeof(struct jh7110_isp_sc_buffer));
-+
-+	vbuf->field = V4L2_FIELD_NONE;
-+
-+	return 0;
-+}
-+
-+static int video_scd_start_streaming(struct vb2_queue *q, unsigned int count)
-+{
-+	struct stfcamss_video *video = vb2_get_drv_priv(q);
-+
-+	video->ops->start_streaming(video);
-+
-+	return 0;
-+}
-+
-+static void video_scd_stop_streaming(struct vb2_queue *q)
-+{
-+	struct stfcamss_video *video = vb2_get_drv_priv(q);
-+
-+	video->ops->stop_streaming(video);
-+
-+	video->ops->flush_buffers(video, VB2_BUF_STATE_ERROR);
-+}
-+
-+static const struct vb2_ops stf_video_scd_vb2_q_ops = {
-+	.queue_setup     = video_scd_queue_setup,
-+	.wait_prepare    = vb2_ops_wait_prepare,
-+	.wait_finish     = vb2_ops_wait_finish,
-+	.buf_init        = video_scd_buf_init,
-+	.buf_prepare     = video_scd_buf_prepare,
-+	.buf_queue       = video_buf_queue,
-+	.start_streaming = video_scd_start_streaming,
-+	.stop_streaming  = video_scd_stop_streaming,
-+};
-+
- /* -----------------------------------------------------------------------------
-  * V4L2 ioctls
-  */
-@@ -448,6 +525,37 @@ static const struct v4l2_ioctl_ops stf_vid_ioctl_ops = {
- 	.vidioc_streamoff               = vb2_ioctl_streamoff,
- };
- 
-+static int video_scd_g_fmt(struct file *file, void *fh, struct v4l2_format *f)
-+{
-+	struct stfcamss_video *video = video_drvdata(file);
-+	struct v4l2_meta_format *meta = &f->fmt.meta;
-+
-+	if (f->type != video->type)
-+		return -EINVAL;
-+
-+	meta->dataformat = video->active_fmt.fmt.meta.dataformat;
-+	meta->buffersize = video->active_fmt.fmt.meta.buffersize;
-+
-+	return 0;
-+}
-+
-+static const struct v4l2_ioctl_ops stf_vid_scd_ioctl_ops = {
-+	.vidioc_querycap                = video_querycap,
-+	.vidioc_enum_fmt_meta_cap       = video_enum_fmt,
-+	.vidioc_g_fmt_meta_cap          = video_scd_g_fmt,
-+	.vidioc_s_fmt_meta_cap          = video_scd_g_fmt,
-+	.vidioc_try_fmt_meta_cap        = video_scd_g_fmt,
-+	.vidioc_reqbufs                 = vb2_ioctl_reqbufs,
-+	.vidioc_querybuf                = vb2_ioctl_querybuf,
-+	.vidioc_qbuf                    = vb2_ioctl_qbuf,
-+	.vidioc_expbuf                  = vb2_ioctl_expbuf,
-+	.vidioc_dqbuf                   = vb2_ioctl_dqbuf,
-+	.vidioc_create_bufs             = vb2_ioctl_create_bufs,
-+	.vidioc_prepare_buf             = vb2_ioctl_prepare_buf,
-+	.vidioc_streamon                = vb2_ioctl_streamon,
-+	.vidioc_streamoff               = vb2_ioctl_streamoff,
-+};
-+
- /* -----------------------------------------------------------------------------
-  * V4L2 file operations
-  */
-@@ -473,6 +581,9 @@ static int stf_link_validate(struct media_link *link)
- 	struct stfcamss_video *video = video_get_drvdata(vdev);
- 	int ret;
- 
-+	if (video->type == V4L2_BUF_TYPE_META_CAPTURE)
-+		return 0;
-+
- 	ret = stf_video_check_format(video);
- 
- 	return ret;
-@@ -506,7 +617,11 @@ int stf_video_register(struct stfcamss_video *video,
- 	q = &video->vb2_q;
- 	q->drv_priv = video;
- 	q->mem_ops = &vb2_dma_contig_memops;
--	q->ops = &stf_video_vb2_q_ops;
-+
-+	if (video->type == V4L2_BUF_TYPE_VIDEO_CAPTURE)
-+		q->ops = &stf_video_vb2_q_ops;
-+	else
-+		q->ops = &stf_video_scd_vb2_q_ops;
- 	q->type = video->type;
- 	q->io_modes = VB2_DMABUF | VB2_MMAP;
- 	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
-@@ -529,16 +644,28 @@ int stf_video_register(struct stfcamss_video *video,
- 		goto err_mutex_destroy;
+-static struct stfcamss_buffer *stf_buf_get_pending(struct stf_v_buf *output)
+-{
+-	struct stfcamss_buffer *buffer = NULL;
+-
+-	if (!list_empty(&output->pending_bufs)) {
+-		buffer = list_first_entry(&output->pending_bufs,
+-					  struct stfcamss_buffer,
+-					  queue);
+-		list_del(&buffer->queue);
+-	}
+-
+-	return buffer;
+-}
+-
+ static void stf_cap_s_cfg(struct stfcamss_video *video)
+ {
+ 	struct stf_capture *cap = to_stf_capture(video);
+@@ -263,61 +249,6 @@ static void stf_capture_init(struct stfcamss *stfcamss, struct stf_capture *cap)
  	}
+ }
  
--	ret = stf_video_init_format(video);
--	if (ret < 0) {
--		dev_err(video->stfcamss->dev,
--			"Failed to init format: %d\n", ret);
--		goto err_media_cleanup;
-+	if (video->type == V4L2_BUF_TYPE_VIDEO_CAPTURE) {
-+		ret = stf_video_init_format(video);
-+		if (ret < 0) {
-+			dev_err(video->stfcamss->dev,
-+				"Failed to init format: %d\n", ret);
-+			goto err_media_cleanup;
-+		}
-+		vdev->ioctl_ops = &stf_vid_ioctl_ops;
-+		vdev->device_caps = V4L2_CAP_VIDEO_CAPTURE;
-+	} else {
-+		ret = stf_video_scd_init_format(video);
-+		if (ret < 0) {
-+			dev_err(video->stfcamss->dev,
-+				"Failed to init format: %d\n", ret);
-+			goto err_media_cleanup;
-+		}
-+		vdev->ioctl_ops = &stf_vid_scd_ioctl_ops;
-+		vdev->device_caps = V4L2_CAP_META_CAPTURE;
+-static void stf_buf_add_ready(struct stf_v_buf *output,
+-			      struct stfcamss_buffer *buffer)
+-{
+-	INIT_LIST_HEAD(&buffer->queue);
+-	list_add_tail(&buffer->queue, &output->ready_bufs);
+-}
+-
+-static struct stfcamss_buffer *stf_buf_get_ready(struct stf_v_buf *output)
+-{
+-	struct stfcamss_buffer *buffer = NULL;
+-
+-	if (!list_empty(&output->ready_bufs)) {
+-		buffer = list_first_entry(&output->ready_bufs,
+-					  struct stfcamss_buffer,
+-					  queue);
+-		list_del(&buffer->queue);
+-	}
+-
+-	return buffer;
+-}
+-
+-static void stf_buf_add_pending(struct stf_v_buf *output,
+-				struct stfcamss_buffer *buffer)
+-{
+-	INIT_LIST_HEAD(&buffer->queue);
+-	list_add_tail(&buffer->queue, &output->pending_bufs);
+-}
+-
+-static void stf_buf_update_on_last(struct stf_v_buf *output)
+-{
+-	switch (output->state) {
+-	case STF_OUTPUT_CONTINUOUS:
+-		output->state = STF_OUTPUT_SINGLE;
+-		output->active_buf = !output->active_buf;
+-		break;
+-	case STF_OUTPUT_SINGLE:
+-		output->state = STF_OUTPUT_STOPPING;
+-		break;
+-	default:
+-		break;
+-	}
+-}
+-
+-static void stf_buf_update_on_next(struct stf_v_buf *output)
+-{
+-	switch (output->state) {
+-	case STF_OUTPUT_CONTINUOUS:
+-		output->active_buf = !output->active_buf;
+-		break;
+-	case STF_OUTPUT_SINGLE:
+-	default:
+-		break;
+-	}
+-}
+-
+ static void stf_buf_update_on_new(struct stfcamss_video *video,
+ 				  struct stfcamss_buffer *new_buf)
+ {
+@@ -353,95 +284,6 @@ static void stf_buf_update_on_new(struct stfcamss_video *video,
  	}
+ }
  
- 	vdev->fops = &stf_vid_fops;
--	vdev->ioctl_ops = &stf_vid_ioctl_ops;
--	vdev->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING;
-+	vdev->device_caps |= V4L2_CAP_STREAMING;
- 	vdev->entity.ops = &stf_media_ops;
- 	vdev->vfl_dir = VFL_DIR_RX;
- 	vdev->release = stf_video_release;
+-static void stf_buf_flush(struct stf_v_buf *output, enum vb2_buffer_state state)
+-{
+-	struct stfcamss_buffer *buf;
+-	struct stfcamss_buffer *t;
+-
+-	list_for_each_entry_safe(buf, t, &output->pending_bufs, queue) {
+-		vb2_buffer_done(&buf->vb.vb2_buf, state);
+-		list_del(&buf->queue);
+-	}
+-	list_for_each_entry_safe(buf, t, &output->ready_bufs, queue) {
+-		vb2_buffer_done(&buf->vb.vb2_buf, state);
+-		list_del(&buf->queue);
+-	}
+-}
+-
+-static struct stfcamss_buffer *stf_buf_done(struct stf_v_buf *output)
+-{
+-	struct stfcamss_buffer *ready_buf;
+-	u64 ts = ktime_get_ns();
+-	unsigned long flags;
+-
+-	if (output->state == STF_OUTPUT_OFF ||
+-	    output->state == STF_OUTPUT_RESERVED)
+-		return NULL;
+-
+-	spin_lock_irqsave(&output->lock, flags);
+-
+-	ready_buf = stf_buf_get_ready(output);
+-	if (ready_buf) {
+-		ready_buf->vb.vb2_buf.timestamp = ts;
+-		ready_buf->vb.sequence = output->sequence++;
+-	}
+-
+-	spin_unlock_irqrestore(&output->lock, flags);
+-
+-	return ready_buf;
+-}
+-
+-static struct stfcamss_buffer *stf_change_buffer(struct stf_v_buf *output)
+-{
+-	struct stf_capture *cap = container_of(output, struct stf_capture,
+-					       buffers);
+-	struct stfcamss *stfcamss = cap->video.stfcamss;
+-	struct stfcamss_buffer *ready_buf;
+-	unsigned long flags;
+-	u32 active_index;
+-
+-	if (output->state == STF_OUTPUT_OFF ||
+-	    output->state == STF_OUTPUT_STOPPING ||
+-	    output->state == STF_OUTPUT_RESERVED ||
+-	    output->state == STF_OUTPUT_IDLE)
+-		return NULL;
+-
+-	spin_lock_irqsave(&output->lock, flags);
+-
+-	active_index = output->active_buf;
+-
+-	ready_buf = output->buf[active_index];
+-	if (!ready_buf) {
+-		dev_dbg(stfcamss->dev, "missing ready buf %d %d.\n",
+-			active_index, output->state);
+-		active_index = !active_index;
+-		ready_buf = output->buf[active_index];
+-		if (!ready_buf) {
+-			dev_dbg(stfcamss->dev,
+-				"missing ready buf2 %d %d.\n",
+-				active_index, output->state);
+-			goto out_unlock;
+-		}
+-	}
+-
+-	/* Get next buffer */
+-	output->buf[active_index] = stf_buf_get_pending(output);
+-	if (!output->buf[active_index])
+-		stf_buf_update_on_last(output);
+-	else
+-		stf_buf_update_on_next(output);
+-
+-	if (output->state == STF_OUTPUT_STOPPING)
+-		output->last_buffer = ready_buf;
+-	else
+-		stf_buf_add_ready(output, ready_buf);
+-
+-out_unlock:
+-	spin_unlock_irqrestore(&output->lock, flags);
+-
+-	return output->buf[active_index];
+-}
+-
+ irqreturn_t stf_wr_irq_handler(int irq, void *priv)
+ {
+ 	struct stfcamss *stfcamss = priv;
+diff --git a/drivers/staging/media/starfive/camss/stf-capture.h b/drivers/staging/media/starfive/camss/stf-capture.h
+index 2f9740b7e500..fe2489d55090 100644
+--- a/drivers/staging/media/starfive/camss/stf-capture.h
++++ b/drivers/staging/media/starfive/camss/stf-capture.h
+@@ -48,28 +48,6 @@
+ #define U0_VIN_P_I_MIPI_HAEDER_EN0_MASK		BIT(12)
+ #define U0_VIN_PIX_NUM_MASK			GENMASK(16, 13)
+ 
+-enum stf_v_state {
+-	STF_OUTPUT_OFF,
+-	STF_OUTPUT_RESERVED,
+-	STF_OUTPUT_SINGLE,
+-	STF_OUTPUT_CONTINUOUS,
+-	STF_OUTPUT_IDLE,
+-	STF_OUTPUT_STOPPING
+-};
+-
+-struct stf_v_buf {
+-	int active_buf;
+-	struct stfcamss_buffer *buf[2];
+-	struct stfcamss_buffer *last_buffer;
+-	struct list_head pending_bufs;
+-	struct list_head ready_bufs;
+-	enum stf_v_state state;
+-	unsigned int sequence;
+-	/* protects the above member variables */
+-	spinlock_t lock;
+-	atomic_t frame_skip;
+-};
+-
+ struct stf_capture {
+ 	struct stfcamss_video video;
+ 	struct stf_v_buf buffers;
 diff --git a/drivers/staging/media/starfive/camss/stf-video.h b/drivers/staging/media/starfive/camss/stf-video.h
-index 59799b65cbe5..53a1cf4e59b7 100644
+index 8052b77e3ad8..59799b65cbe5 100644
 --- a/drivers/staging/media/starfive/camss/stf-video.h
 +++ b/drivers/staging/media/starfive/camss/stf-video.h
-@@ -37,6 +37,7 @@ enum stf_v_line_id {
- enum stf_capture_type {
- 	STF_CAPTURE_RAW = 0,
- 	STF_CAPTURE_YUV,
-+	STF_CAPTURE_SCD,
+@@ -10,13 +10,13 @@
+ #ifndef STF_VIDEO_H
+ #define STF_VIDEO_H
+ 
+-#include <linux/list.h>
+ #include <linux/mutex.h>
+ #include <linux/videodev2.h>
+ #include <media/v4l2-dev.h>
+ #include <media/v4l2-fh.h>
+ #include <media/v4l2-ioctl.h>
+-#include <media/videobuf2-v4l2.h>
++
++#include "stf-buffer.h"
+ 
+ #define STFCAMSS_FRAME_MIN_WIDTH		64
+ #define STFCAMSS_FRAME_MAX_WIDTH		1920
+@@ -40,12 +40,6 @@ enum stf_capture_type {
  	STF_CAPTURE_NUM,
  };
  
+-struct stfcamss_buffer {
+-	struct vb2_v4l2_buffer vb;
+-	dma_addr_t addr[2];
+-	struct list_head queue;
+-};
+-
+ struct fract {
+ 	u8 numerator;
+ 	u8 denominator;
 -- 
 2.25.1
 
