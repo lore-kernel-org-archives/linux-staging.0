@@ -1,97 +1,136 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC04F2E636
-	for <linux-staging@lists.linux.dev>; Mon,  5 Feb 2024 15:39:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C865D3FE54;
+	Mon,  5 Feb 2024 16:55:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707147577; cv=none; b=GlsZ3RzGHimavFg5EzmyFpA+XoZc/c29Vu8P+ZeHj3cTN6AcPOEpNEBwvVnFJXDvWQxZoGrG3O8v0NpczRgCJAZcs5m2IVW1bppjacMXPqoJHnPIb19v0xY7xdZmjP1iR0BDMA4lA34lB3+hbszKQAV69TE1PRnaAH/GZdhP20I=
+	t=1707152122; cv=none; b=nIMEgsST0yfmnalMi2G0NQCrAdkqN1UyigsmawSr9F331/XItNXtgIvzNIfeK6CxPW4seSVRnb9EWKL0bvDw/+SxiT5vQrEMbN+B2oAl/V1kbXLlNPQ1K3hoLpaGxaD2WTf8tyYVRdCiLnaoPF3v/5Yv0WS+D3yjAf+NB00CaCg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707147577; c=relaxed/simple;
-	bh=Rv8CV7EZj9twbDgExrfO0rqgaNqI6EazAjEyAvqafJ0=;
+	s=arc-20240116; t=1707152122; c=relaxed/simple;
+	bh=sVWDGae8We/GTqGu3KZXsI4ao8GOXiioemxExEsLxqU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Xh4EnYX4vxwkOzHcOCSa/3NPxB52LR2vDjF4Wl5GmTKP1mscvN1OPvJYzWqnoMhfYpmMj37ldO31sXnI5JBKSQfgshLw0+QgWcu0vYeTeFTyXrZwfqzhPI0MdZdrYdmc6sEFQohLEVoeQfrcNitw7E3oxoz5/9ad9wgfGwiSvVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XSKqBAGJ; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=AhhDLcpWtO+goVeU9SsbuIwSaKsrpYvvA8BswlZSaf5Nqb/gGJh7O4ky9lutcZYsaeJsLhY7NtaiyDVnrY4jKFBs4YSNnTk+mN1h1z3G+StxvG43zgHmFb8ViC3yxSE9XhyxA0LMIX6u/p3Mrj6n2PpMi7sLsUCTjp170VDg9i0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V4NzN+xx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XSKqBAGJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707147576; x=1738683576;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Rv8CV7EZj9twbDgExrfO0rqgaNqI6EazAjEyAvqafJ0=;
-  b=XSKqBAGJZV6zCROXf4SDEQcqsTtwpA4TTPxY7wz0KD+8uzebasq4Aj4o
-   oXxj2RXl/09ECfITYIvn9S3ONr6ilAHGzo2DgZoiK5ITnR77fkI69oqH/
-   zMor1LsRfhMykBfZLosG0M9Che+6asbvLInZEIj/T85hhnNwCjMbnuBDR
-   EHNrNQBUAwQsk330orzkM3I6iE93gR/+bFrv6BGc0v7oRILYrENq7KVLz
-   ne2tr3sTbapsBQkpgFZNTkh87yKnoGb37Llp/lWVFGVyFAuupXg5dOQIe
-   9Nz0whGdTbGjAoeo4BCIk5ayPm/RWk8rLjR8GOMPEkMRNDwnK6bphM1m2
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10975"; a="17966648"
-X-IronPort-AV: E=Sophos;i="6.05,245,1701158400"; 
-   d="scan'208";a="17966648"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2024 07:39:35 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,245,1701158400"; 
-   d="scan'208";a="31830670"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2024 07:39:25 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id B935D11FADC;
-	Mon,  5 Feb 2024 12:53:10 +0200 (EET)
-Date: Mon, 5 Feb 2024 10:53:10 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Tiffany Lin <tiffany.lin@mediatek.com>,
-	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-	Yunfei Dong <yunfei.dong@mediatek.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Bin Liu <bin.liu@mediatek.com>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-	Vikash Garodia <quic_vgarodia@quicinc.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V4NzN+xx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FFCAC433B1;
+	Mon,  5 Feb 2024 16:55:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707152121;
+	bh=sVWDGae8We/GTqGu3KZXsI4ao8GOXiioemxExEsLxqU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=V4NzN+xxV2kwpgpmvzwCZPjJxe0p8svapOJGajeWjpEEriWr006tLpAtpBBcG14NI
+	 l7fHkZZTCCS2aZun+9xT18fkoZ/FMtKy9LlDCrv1uFwhHjeK2n19B4nBN7o649VSjD
+	 kYGKpO0o3BwY+Ahh0TeOWYCXz8+otRo3yXnErLJRN29uNdXJLWcsE4UEYU9xBrYL0Y
+	 5EBIyjafRZpDVbbOWCUrKL9UVViaDMskAXZEUX2zUclSY3mEzo3VIqcDhKNa3FKHrK
+	 rehOGq4a9IDtDYOiom3YhLrNbFEjmM7KUgyXugv+FwASEWfoMD6zmOeVRIwz7AMYR2
+	 3iJTbqU63Gc+A==
+Date: Mon, 5 Feb 2024 16:55:17 +0000
+From: Rob Herring <robh@kernel.org>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	"Lad,  Prabhakar" <prabhakar.csengg@gmail.com>,
+	=?iso-8859-1?Q?=22Niklas_S=C3=B6derlund=22?= <niklas.soderlund+renesas@ragnatech.se>,
+	=?iso-8859-1?Q?=22Uwe_Kleine-K=C3=B6nig=22?= <u.kleine-koenig@pengutronix.de>,
+	Abhinav Kumar <quic_abhinavk@quicinc.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Alexander Stein <alexander.stein@ew.tq-group.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Alexey Brodkin <abrodkin@synopsys.com>,
 	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Andy Gross <agross@kernel.org>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	David Airlie <airlied@gmail.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Emma Anholt <emma@anholt.net>,
+	Eugen Hristev <eugen.hristev@collabora.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Frank Rowand <frowand.list@gmail.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Helge Deller <deller@gmx.de>,
+	Hugues Fruchet <hugues.fruchet@foss.st.com>,
+	Jacopo Mondi <jacopo+renesas@jmondi.org>,
+	Jacopo Mondi <jacopo@jmondi.org>, James Clark <james.clark@arm.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
 	Kevin Hilman <khilman@baylibre.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Liam Girdwood <lgirdwood@gmail.com>, Liu Ying <victor.liu@nxp.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Marek Vasut <marex@denx.de>, Mark Brown <broonie@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Michael Tretter <m.tretter@pengutronix.de>,
+	Michal Simek <michal.simek@amd.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Philippe Cornu <philippe.cornu@foss.st.com>,
+	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+	Rob Clark <robdclark@gmail.com>, Robert Foss <rfoss@kernel.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Saravana Kannan <saravanak@google.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Stefan Agner <stefan@agner.ch>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Takashi Iwai <tiwai@suse.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Tim Harvey <tharvey@gateworks.com>,
+	Todor Tomov <todor.too@gmail.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Yannick Fertre <yannick.fertre@foss.st.com>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Jerome Brunet <jbrunet@baylibre.com>,
+	Jessica Zhang <quic_jesszhan@quicinc.com>,
+	Jonas Karlman <jonas@kwiboo.se>, Leo Yan <leo.yan@linaro.org>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
 	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-samsung-soc@vger.kernel.org, linux-staging@lists.linux.dev,
+	Mike Leach <mike.leach@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
+	Sean Paul <sean@poorly.run>, Tom Rix <trix@redhat.com>,
+	coresight@lists.linaro.org, devicetree@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
 	linux-amlogic@lists.infradead.org,
-	Sakari Ailus <sakari.ailus@iki.fi>
-Subject: Re: [PATCH 17/17] linux: v4l2-vp9.h: Fix kerneldoc
-Message-ID: <ZcC-FjF5pJUKz9Ir@kekkonen.localdomain>
-References: <20240126-gix-mtk-warnings-v1-0-eed7865fce18@chromium.org>
- <20240126-gix-mtk-warnings-v1-17-eed7865fce18@chromium.org>
- <ZbTTb-SdK-EubGdc@valkosipuli.retiisi.eu>
- <201ae1d1-1e03-40e2-9cc4-49df70abb8da@xs4all.nl>
- <8f3bab1f-8697-40c0-91f2-de934b4b9ddb@infradead.org>
- <e565f8bd-19d2-4574-8c6d-5573733a8185@xs4all.nl>
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-fbdev@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-tegra@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH v3 05/24] media: i2c: switch to use
+ of_graph_get_next_device_endpoint()
+Message-ID: <20240205165517.GA3486840-robh@kernel.org>
+References: <87o7d26qla.wl-kuninori.morimoto.gx@renesas.com>
+ <87h6iu6qjs.wl-kuninori.morimoto.gx@renesas.com>
+ <20240202174941.GA310089-robh@kernel.org>
+ <875xz3n6ag.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -100,59 +139,37 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e565f8bd-19d2-4574-8c6d-5573733a8185@xs4all.nl>
+In-Reply-To: <875xz3n6ag.wl-kuninori.morimoto.gx@renesas.com>
 
-Hi Hans,
-
-On Mon, Feb 05, 2024 at 11:44:13AM +0100, Hans Verkuil wrote:
-> On 05/02/2024 11:39, Randy Dunlap wrote:
-> > 
-> > 
-> > On 2/5/24 02:29, Hans Verkuil wrote:
-> >> On 27/01/2024 10:57, Sakari Ailus wrote:
-> >>> Hi Ricardo,
-> >>>
-> >>> On Fri, Jan 26, 2024 at 11:16:16PM +0000, Ricardo Ribalda wrote:
-> >>>> Kerneldoc cannot understand arrays defined like
-> >>>> v4l2_frame_symbol_counts.
-> >>>>
-> >>>> Adding an asterisk to the name does do the trick.
-> >>>>
-> >>>> Disable the kerneldoc notation for now, it is already ignored:
-> >>>> https://docs.kernel.org/search.html?q=v4l2_vp9_frame_symbol_counts
-> >>>
-> >>> Wouldn't it be nicer to fix kerneldoc instead? It might not be difficult at
-> >>> all.
-> >>>
-> >>> Feel free to, but I can also give it a try.
-> >>>
-> >>
-> >> It would be nice to have this fixed in kerneldoc itself. I'm holding this
-> >> patch back for two weeks to see if someone wants to work on kerneldoc.
-> >>
-> >> If not, then I'll take this anyway to fix the noise in our build.
-> >>
-> >> Note that while this header is indeed ignored in the documentation, that
-> >> is really more a bug and it would be nice to actually include this header
-> >> somewhere in our documentation. So fixing these kerneldoc warnings one way
-> >> or another is something that we should do.
-> >>
-> > 
-> > It's just waiting for Jon to apply it: (from Sakari)
-> > 
-> > https://lore.kernel.org/all/20240131084934.191226-1-sakari.ailus@linux.intel.com/
+On Sun, Feb 04, 2024 at 11:44:39PM +0000, Kuninori Morimoto wrote:
 > 
-> Ah, that patch was CCed to me but not to linux-media, and I only searched linux-media
-> for it so I missed it. Good news that this is fixed in the right place.
-
-My bad, somehow I missed linux-media from the distribution. :-(
-
+> Hi Rob
 > 
-> I marked this 17/17 patch as Obsoleted in patchwork.
+> > This is assuming there's just 1 port and 1 endpoint, but let's be 
+> > specific as the bindings are (first endpoint on port 0):
+> > 
+> > of_graph_get_endpoint_by_regs(client->dev.of_node, 0, -1);
+> > 
+> > Note we could ask for endpoint 0 here, but the bindings generally allow 
+> > for more than 1.
+> > 
+> > I imagine most of the other cases here are the same.
+> 
+> I will do it on new patch-set
+> 
+> > > -	for_each_endpoint_of_node(state->dev->of_node, ep_np) {
+> > > +	for_each_device_endpoint_of_node(state->dev->of_node, ep_np) {
+> > 
+> > I would skip the rename.
+> 
+> It is needed to avoid confuse, because new function will add
+> another endpoint loop.
+> 
+> see
+> https://lore.kernel.org/r/20240131100701.754a95ee@booty
 
-Thank you!
+I've read the threads already and think you should skip the rename. Just 
+put 'port' in the name of the new one. That and taking a port number 
+param should be enough distinction.
 
--- 
-Regards,
-
-Sakari Ailus
+Rob
