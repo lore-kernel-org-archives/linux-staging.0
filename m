@@ -1,191 +1,158 @@
-Received: from CHN02-BJS-obe.outbound.protection.partner.outlook.cn (mail-bjschn02on2097.outbound.protection.partner.outlook.cn [139.219.17.97])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DE7A249F7
-	for <linux-staging@lists.linux.dev>; Mon,  5 Feb 2024 13:39:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.219.17.97
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707140391; cv=fail; b=LuFGbzmXG+aBZ88lqY3A4tyZv+vBCvo1VFxSyhsBAikKsTZzxut23zRZrvKAtYFO6/i3QAaqL4NdaDXeK4bPHS958MBJ80G9kc3rZfRz4Hgz/WTt67LyFEeQ8i4VdMXkND2glWdqgfXCrUUCYcsJ7KYjrWPe0Wz4EKlkUHzK4g4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707140391; c=relaxed/simple;
-	bh=8vy9iC4xZobNonXX5You5QxmsSOWhQLEJArk/ruFFtk=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=dbRKJ5xCf8miU8MXm6+wq1wdASkFKjr9pj/mxUCq56uDvgEgsH2LUTaXf08pTDUp+wM3em0RllM+dIAlep3A28x2IvuaSaoh9dNUaqD/GiOiJpFnGkrjCCyopNj6fI4qzyDIMrj0OYg9Sg8fwbTpdDQ5GDyuItIX8cUZZv2lm4o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com; spf=pass smtp.mailfrom=starfivetech.com; arc=fail smtp.client-ip=139.219.17.97
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gSEhPaCmVG4LD5I/rfQduHt6dUfEQm8SPzfi2PNh6oDlPSDf5ysZXvvNgDspXtaDgHzftrVLPXX1ZBTDKqlzpxwXYsAuio5cDV3ydwGMA/bzdxND5lwihTEZAhI9Cx5uvgSOCPQLIIy5coE3EvFviUWIj2SSLYvQDCuGTHG9eS0TOlX4A0jUxjJkBN4c88Y7+Ozcb3Qa1ytoAaIeqVvW/uKWGMWJrPi5UKKLOkCzPfZl+e5lTUkH/qnHNgb06yOmFQG5siTYv+7LwPwHFvQVpvU5sDFmWf6I2fbn2znU1cfM/9TdzNbHmK6Hd+1viyE/bHgPRUpSyO9DvmTz4wQLZQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tpOFUQrZW8GSQTbW3FIMAhf3C7AGEcEZyiE+jejurPc=;
- b=RvFoR1Rovv9YZwi77ZYnN1zlbEC6AxmttTfUrYzNyh6aG9H0v+YcybKB6dDIxmSWS837aKHah6T78YlDdRMNUpFrk6QeEc7Ih4NZM3wP+bQIGtlTN3crX3PQo28dMIjNqqkkN/cYtyBi5+u7tjBP7BYx9cXthAiLR1z4ZBdLEghxh0br1NtqIv4TpZU30z5msQkKd/Tpd5XrdDEQcYbxRbutHJRjcWfgA6J25Mmuk9MeKC+wTwa2PG4zBNouMNa31XWpaiLVzGyDD87OoU4jI3oA+hTARbajDcKEHanPXs8ZuSHVw9pyz5S3g/vevBf+pYOKG7tHlJiR8ezAFboOnw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=starfivetech.com; dmarc=pass action=none
- header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=starfivetech.com;
-Received: from SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c311:25::10) by SHXPR01MB0815.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c311:26::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7249.34; Mon, 5 Feb
- 2024 09:04:55 +0000
-Received: from SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
- ([fe80::b0af:4c9d:2058:a344]) by
- SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn ([fe80::b0af:4c9d:2058:a344%6])
- with mapi id 15.20.7249.025; Mon, 5 Feb 2024 09:04:55 +0000
-From: Changhuang Liang <changhuang.liang@starfivetech.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC04F2E636
+	for <linux-staging@lists.linux.dev>; Mon,  5 Feb 2024 15:39:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1707147577; cv=none; b=GlsZ3RzGHimavFg5EzmyFpA+XoZc/c29Vu8P+ZeHj3cTN6AcPOEpNEBwvVnFJXDvWQxZoGrG3O8v0NpczRgCJAZcs5m2IVW1bppjacMXPqoJHnPIb19v0xY7xdZmjP1iR0BDMA4lA34lB3+hbszKQAV69TE1PRnaAH/GZdhP20I=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1707147577; c=relaxed/simple;
+	bh=Rv8CV7EZj9twbDgExrfO0rqgaNqI6EazAjEyAvqafJ0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Xh4EnYX4vxwkOzHcOCSa/3NPxB52LR2vDjF4Wl5GmTKP1mscvN1OPvJYzWqnoMhfYpmMj37ldO31sXnI5JBKSQfgshLw0+QgWcu0vYeTeFTyXrZwfqzhPI0MdZdrYdmc6sEFQohLEVoeQfrcNitw7E3oxoz5/9ad9wgfGwiSvVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XSKqBAGJ; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XSKqBAGJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1707147576; x=1738683576;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Rv8CV7EZj9twbDgExrfO0rqgaNqI6EazAjEyAvqafJ0=;
+  b=XSKqBAGJZV6zCROXf4SDEQcqsTtwpA4TTPxY7wz0KD+8uzebasq4Aj4o
+   oXxj2RXl/09ECfITYIvn9S3ONr6ilAHGzo2DgZoiK5ITnR77fkI69oqH/
+   zMor1LsRfhMykBfZLosG0M9Che+6asbvLInZEIj/T85hhnNwCjMbnuBDR
+   EHNrNQBUAwQsk330orzkM3I6iE93gR/+bFrv6BGc0v7oRILYrENq7KVLz
+   ne2tr3sTbapsBQkpgFZNTkh87yKnoGb37Llp/lWVFGVyFAuupXg5dOQIe
+   9Nz0whGdTbGjAoeo4BCIk5ayPm/RWk8rLjR8GOMPEkMRNDwnK6bphM1m2
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10975"; a="17966648"
+X-IronPort-AV: E=Sophos;i="6.05,245,1701158400"; 
+   d="scan'208";a="17966648"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2024 07:39:35 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,245,1701158400"; 
+   d="scan'208";a="31830670"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2024 07:39:25 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id B935D11FADC;
+	Mon,  5 Feb 2024 12:53:10 +0200 (EET)
+Date: Mon, 5 Feb 2024 10:53:10 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Ricardo Ribalda <ribalda@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Tiffany Lin <tiffany.lin@mediatek.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Yunfei Dong <yunfei.dong@mediatek.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Matthias Brugger <matthias.bgg@gmail.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Ming Qian <ming.qian@nxp.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	Mingjia Zhang <mingjia.zhang@mediatek.com>
-Cc: Jack Zhu <jack.zhu@starfivetech.com>,
-	Changhuang Liang <changhuang.liang@starfivetech.com>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH v3 13/13] admin-guide: media: Update documents for StarFive Camera Subsystem
-Date: Mon,  5 Feb 2024 01:04:24 -0800
-Message-Id: <20240205090424.40302-14-changhuang.liang@starfivetech.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240205090424.40302-1-changhuang.liang@starfivetech.com>
-References: <20240205090424.40302-1-changhuang.liang@starfivetech.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: ZQ0PR01CA0022.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c550:2::23) To SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c311:25::10)
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Bin Liu <bin.liu@mediatek.com>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+	Vikash Garodia <quic_vgarodia@quicinc.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-samsung-soc@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-amlogic@lists.infradead.org,
+	Sakari Ailus <sakari.ailus@iki.fi>
+Subject: Re: [PATCH 17/17] linux: v4l2-vp9.h: Fix kerneldoc
+Message-ID: <ZcC-FjF5pJUKz9Ir@kekkonen.localdomain>
+References: <20240126-gix-mtk-warnings-v1-0-eed7865fce18@chromium.org>
+ <20240126-gix-mtk-warnings-v1-17-eed7865fce18@chromium.org>
+ <ZbTTb-SdK-EubGdc@valkosipuli.retiisi.eu>
+ <201ae1d1-1e03-40e2-9cc4-49df70abb8da@xs4all.nl>
+ <8f3bab1f-8697-40c0-91f2-de934b4b9ddb@infradead.org>
+ <e565f8bd-19d2-4574-8c6d-5573733a8185@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SHXPR01MB0671:EE_|SHXPR01MB0815:EE_
-X-MS-Office365-Filtering-Correlation-Id: d72dcd5e-5c92-4d33-ed3a-08dc2629851f
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	OgXrNeTiKnnxiVtVzPddcntGGr3PFT9QsSf5UozD2yGMaNX/k1bInvY9lVYfqDPsXQYRuBYQ5AD7BNmrh+hUTkJNzOh4I58CJjEUbTZtpgaKqAhCULdq/X4zZ14c5pUyyl5P3wOwotkDmgGMFkApfoqMfX2WjpCCD8Q9o6B9lgVVQwoeMAJoijFrqNemPD7QjTp9G0btAqMiUqCaAwR+e4Eqevh0pvV8HVxUuLMLyO6mPsSRYQAADoRPAGAbQE+d+YTwLog2pe3wcuVKbjEFisOt5LHd7EDe1+W8qVXPeMYlOdaXGXJz6Nv7hQPYCUQe8Zbp3HtECJiqUPbaxNRhjLDNYxItuznMHJcGa/AbUe2lOB4gNLB6LYH4in/eZ9QJqw/253deFjFrgWqrUc6HXT+HiBvReMqZINhJDjJkv3GvXdY9ktQx/g3oY9tV4S7to0HUyMG54yC//4O0U8k2ARvTvprWosFmYDmE3cQG9uYM225NFvNX60x/0piajtiyOR214IDL6n8pN9Vdj5bkQIHmV3TXJpMFJVTUV08+WvIyJo2Gpgcf/nw3fowBzed0Vkb5VKaRi4D5j1ugmBQdiA==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230031)(39830400003)(366004)(396003)(346002)(136003)(230922051799003)(1800799012)(451199024)(64100799003)(186009)(41320700001)(6666004)(52116002)(36756003)(40180700001)(508600001)(38350700005)(40160700002)(38100700002)(2616005)(1076003)(26005)(83380400001)(86362001)(5660300002)(2906002)(7416002)(8936002)(8676002)(4326008)(110136005)(44832011)(54906003)(66946007)(66556008)(66476007)(41300700001)(921011);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?tPLmmRuIqlYsEWq8yOEa8ibeCSJwYBIqr5T9A19ra9DbyUpeXVHMouPLlrcl?=
- =?us-ascii?Q?ZEVO4jCYTxygBk9vJcN/9pX/mncepVAUVSEUtpdeopewLgZPRTn41fk0p7R6?=
- =?us-ascii?Q?UYoGpiTWtcZMEFM2xh05K/i+1MBkLIHPtHxqqXH9/tLNxQf6aUG1i7ZZB04y?=
- =?us-ascii?Q?LdgUUHATkqGM6SMl1nyU4QO2SZZ6XyO/GOYcvsbSPMlX9Ut8dJZa82IAjyee?=
- =?us-ascii?Q?bG4QOKgeh4g+nBMn+sWR55nQBtz3fOlt8Ux515OklTNxCKeCaYO/UfOqPOR4?=
- =?us-ascii?Q?V+v6l/KitXLGXCP0Y/04SAU6AlLFe0xvIsgZxMNrISr0XK4RxgPbuvxKbu1q?=
- =?us-ascii?Q?dZtoV0CQTG7BblI83RjMyh7A9dPZPDEP6VTFtFfKpRvltUuk5XIQKqHgiJGi?=
- =?us-ascii?Q?uwwspgMpSAw9aUuMimRXKxGJyRLdk2jrMMxK6Q44HJvvl3jO+g3XKZG6lQml?=
- =?us-ascii?Q?9FsTYOaU7Yi2DmFNcD0CwiQgTGsrh+6vkDkILmtwchAE3NfAUh6n0i0Kcv1M?=
- =?us-ascii?Q?HMBz+e1WwYXZTp14FtW5GC8mS5zNUBKuHl/tdbU5V/9rJydjnnAZQOwy/IER?=
- =?us-ascii?Q?aidlzJOOhSRdJB/IzzjsiactEOc8nF9ScUG4DQKUMcsTHFOi5oSAYj4dHWNj?=
- =?us-ascii?Q?vZXTNHYp64naSB7+Am1SBkczhiRZ4kd/7gHUL+o4W/6LcrxN4r411lLjILtg?=
- =?us-ascii?Q?+YG4MWjfriPlCowvx4uy8OS68fYixfbg0SEOSh+VMnagFJ5UKxho2tfF0Q3I?=
- =?us-ascii?Q?mjWoMHwcdVrJcZX11X++bgTmIHWexN8wWMz4JyD7fAZ8Cds5oCzZYVWcIjOE?=
- =?us-ascii?Q?JO82dUuhkyu/FWzEPPADu1MhN8E+OARnGfO3vo7Vfk6oa8eUv18UKP9tU68R?=
- =?us-ascii?Q?K8j1mnTWyocmPsVrhRri3q3fdglo6kcoa3pm6/B8q6Urq2gVZzZP+6mNxb2G?=
- =?us-ascii?Q?UnUv9PHqbbY4+uyhisJsarQw4RqSbfylQ4KKpkQceBfsajY6ZFufB4DFM913?=
- =?us-ascii?Q?Mig74qm1oYV6zqOJ+d43nK5EcVlH5KPpBRpssIEEEep6ZEVsVJ/vYhmovHrL?=
- =?us-ascii?Q?WX4BtKWlf7dJbRnNf9fd3PnqHlWF8Hmf3Z1WgF1C0baAeBKXCSWbDmMJkdwf?=
- =?us-ascii?Q?XCDRO6qOX5kPhyT0C0WPNSFji/Jy4Ysqq9SVN/qU8mkFjAGK9jnrF35NFO7m?=
- =?us-ascii?Q?mQaSNE2EjmJ3MxfFD6SwQha7x/ArSthvQsBBE7Q3aYliQOnVGELUBFpGei9t?=
- =?us-ascii?Q?g7lh19PxN4HdKb5kwtDK9a/o0fWpsHGQ/1VlF3lgVie2LqgXDtfrQ64WMxwc?=
- =?us-ascii?Q?EqlD1bvJWN2WaNyUZp5/195omosyWHNpvpekdD9Ac87/9PAzwijbSq2l4K5T?=
- =?us-ascii?Q?TxyXanDh9hFw04/vbdetwt7YyjbasfzmNZYtTHXlKVOhPlELcspiYngV0BGt?=
- =?us-ascii?Q?nK2tNq2m6IFV/5AGN5xlMXAA8SkqnMiQeRWqVLUkOv2dRc5YQabFkOU99W1B?=
- =?us-ascii?Q?EryrZu0YOtdCZwW/qrI6RvWAABIt5H4qRTq3/eqCWSlr+VVjwNWclW4Ww/x2?=
- =?us-ascii?Q?R8CynT12Pb8nfKapNO2NXlXCDeoI/RVh43AAHYYt/QdeYSCpcbrA3leX6bE9?=
- =?us-ascii?Q?5QkH7oQsiyDR4MAsk2RaxhM=3D?=
-X-OriginatorOrg: starfivetech.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d72dcd5e-5c92-4d33-ed3a-08dc2629851f
-X-MS-Exchange-CrossTenant-AuthSource: SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Feb 2024 09:04:54.9852
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Onm3fgqm8eZsquEby3MfQZ1wpPsJNNxpn31ygaXSMrSAc7tRzXEH1AHM4mYIyglMHVmlq9cDCR3ivJZbnk9cYvL1xjsar6Q5FubqjrV9i9QZe2lS/nESFRSqyuCnL9q9
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SHXPR01MB0815
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e565f8bd-19d2-4574-8c6d-5573733a8185@xs4all.nl>
 
-Add ISP output parameters and 3A statistisc collection data video
-device for documents.
+Hi Hans,
 
-Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
----
- .../admin-guide/media/starfive_camss.rst      | 11 +++++++---
- .../media/starfive_camss_graph.dot            | 22 +++++++++++--------
- 2 files changed, 21 insertions(+), 12 deletions(-)
+On Mon, Feb 05, 2024 at 11:44:13AM +0100, Hans Verkuil wrote:
+> On 05/02/2024 11:39, Randy Dunlap wrote:
+> > 
+> > 
+> > On 2/5/24 02:29, Hans Verkuil wrote:
+> >> On 27/01/2024 10:57, Sakari Ailus wrote:
+> >>> Hi Ricardo,
+> >>>
+> >>> On Fri, Jan 26, 2024 at 11:16:16PM +0000, Ricardo Ribalda wrote:
+> >>>> Kerneldoc cannot understand arrays defined like
+> >>>> v4l2_frame_symbol_counts.
+> >>>>
+> >>>> Adding an asterisk to the name does do the trick.
+> >>>>
+> >>>> Disable the kerneldoc notation for now, it is already ignored:
+> >>>> https://docs.kernel.org/search.html?q=v4l2_vp9_frame_symbol_counts
+> >>>
+> >>> Wouldn't it be nicer to fix kerneldoc instead? It might not be difficult at
+> >>> all.
+> >>>
+> >>> Feel free to, but I can also give it a try.
+> >>>
+> >>
+> >> It would be nice to have this fixed in kerneldoc itself. I'm holding this
+> >> patch back for two weeks to see if someone wants to work on kerneldoc.
+> >>
+> >> If not, then I'll take this anyway to fix the noise in our build.
+> >>
+> >> Note that while this header is indeed ignored in the documentation, that
+> >> is really more a bug and it would be nice to actually include this header
+> >> somewhere in our documentation. So fixing these kerneldoc warnings one way
+> >> or another is something that we should do.
+> >>
+> > 
+> > It's just waiting for Jon to apply it: (from Sakari)
+> > 
+> > https://lore.kernel.org/all/20240131084934.191226-1-sakari.ailus@linux.intel.com/
+> 
+> Ah, that patch was CCed to me but not to linux-media, and I only searched linux-media
+> for it so I missed it. Good news that this is fixed in the right place.
 
-diff --git a/Documentation/admin-guide/media/starfive_camss.rst b/Documentation/admin-guide/media/starfive_camss.rst
-index ca42e9447c47..020f1969e67f 100644
---- a/Documentation/admin-guide/media/starfive_camss.rst
-+++ b/Documentation/admin-guide/media/starfive_camss.rst
-@@ -58,15 +58,20 @@ The media controller pipeline graph is as follows:
-     :alt:   starfive_camss_graph.dot
-     :align: center
- 
--The driver has 2 video devices:
-+The driver has 4 video devices:
- 
-+- output_params: The meta output device, transmitting the parameters to ISP
-+  module.
- - capture_raw: The capture device, capturing image data directly from a sensor.
- - capture_yuv: The capture device, capturing YUV frame data processed by the
--  ISP module
-+  ISP module.
-+- capture_scd: The meta capture device, capturing 3A statistics collection data
-+  processed by the ISP module.
- 
- The driver has 3 subdevices:
- 
--- stf_isp: is responsible for all the isp operations, outputs YUV frames.
-+- stf_isp: is responsible for all the isp operations, outputs YUV frames
-+  and 3A statistics collection data.
- - cdns_csi2rx: a CSI-2 bridge supporting up to 4 CSI lanes in input, and 4
-   different pixel streams in output.
- - imx219: an image sensor, image data is sent through MIPI CSI-2.
-diff --git a/Documentation/admin-guide/media/starfive_camss_graph.dot b/Documentation/admin-guide/media/starfive_camss_graph.dot
-index 8eff1f161ac7..7961255d3ad6 100644
---- a/Documentation/admin-guide/media/starfive_camss_graph.dot
-+++ b/Documentation/admin-guide/media/starfive_camss_graph.dot
-@@ -1,12 +1,16 @@
- digraph board {
- 	rankdir=TB
--	n00000001 [label="{{<port0> 0} | stf_isp\n/dev/v4l-subdev0 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
--	n00000001:port1 -> n00000008 [style=dashed]
--	n00000004 [label="capture_raw\n/dev/video0", shape=box, style=filled, fillcolor=yellow]
--	n00000008 [label="capture_yuv\n/dev/video1", shape=box, style=filled, fillcolor=yellow]
--	n0000000e [label="{{<port0> 0} | cdns_csi2rx.19800000.csi-bridge\n | {<port1> 1 | <port2> 2 | <port3> 3 | <port4> 4}}", shape=Mrecord, style=filled, fillcolor=green]
--	n0000000e:port1 -> n00000001:port0 [style=dashed]
--	n0000000e:port1 -> n00000004 [style=dashed]
--	n00000018 [label="{{} | imx219 6-0010\n/dev/v4l-subdev1 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
--	n00000018:port0 -> n0000000e:port0 [style=bold]
-+	n00000001 [label="{{<port0> 0 | <port1> 1} | stf_isp\n/dev/v4l-subdev0 | {<port2> 2 | <port3> 3}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n00000001:port2 -> n0000000e
-+	n00000001:port3 -> n00000012 [style=dashed]
-+	n00000006 [label="output_params\n/dev/video0", shape=box, style=filled, fillcolor=yellow]
-+	n00000006 -> n00000001:port1 [style=dashed]
-+	n0000000a [label="capture_raw\n/dev/video1", shape=box, style=filled, fillcolor=yellow]
-+	n0000000e [label="capture_yuv\n/dev/video2", shape=box, style=filled, fillcolor=yellow]
-+	n00000012 [label="capture_scd\n/dev/video3", shape=box, style=filled, fillcolor=yellow]
-+	n0000001c [label="{{<port0> 0} | cdns_csi2rx.19800000.csi-bridge\n/dev/v4l-subdev1 | {<port1> 1 | <port2> 2 | <port3> 3 | <port4> 4}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n0000001c:port1 -> n00000001:port0 [style=dashed]
-+	n0000001c:port1 -> n0000000a [style=dashed]
-+	n00000026 [label="{{} | imx219 6-0010\n/dev/v4l-subdev2 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n00000026:port0 -> n0000001c:port0 [style=bold]
- }
+My bad, somehow I missed linux-media from the distribution. :-(
+
+> 
+> I marked this 17/17 patch as Obsoleted in patchwork.
+
+Thank you!
+
 -- 
-2.25.1
+Regards,
 
+Sakari Ailus
