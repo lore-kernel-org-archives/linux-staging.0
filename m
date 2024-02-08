@@ -1,239 +1,115 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED5FD84037
-	for <linux-staging@lists.linux.dev>; Wed,  7 Feb 2024 18:43:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2F2836B0D
+	for <linux-staging@lists.linux.dev>; Thu,  8 Feb 2024 19:17:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707331431; cv=none; b=A7YLgaAP0WVcUndmmbzzy1uMHIPiZPzfuwUIHF/D8BGrSrbA+iIQMkO1WD2BN+gA+KPNnD4AU0u2g/krBfAd7kMVpTJTBrGWjl+Qxuy5/Kak/FzE3UjEazQh5w4lJwQ8OY4ZHTUZbG9dpyq3AlZDFtv+Y5E2YntQsH4GfZM/er0=
+	t=1707419848; cv=none; b=RuT3g6EDFNJE4PxOJ8Le1VRtWYLFaHrc6mmYA3sFH0BK/plHTmd5ruf1QggO3qBf+THpydP+H/1C6AQ6ifxRB+YC/151EB9wzIG0f1FWMyd1dsdIet8kRjMKYq3o7CcV2HQm+FFYdOJWq9HsX4nklAidmNHh/+JKqrsMCODqVz0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707331431; c=relaxed/simple;
-	bh=s51zDtEtzddF+fOLbQ8v2gtuX5PVGr2PxCfCP0eStY0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=UJk/I4A/Ip87hEvror+kt7BlFaHHO3sKAFsMcJQed3Y54BRC6Pxxir+aoHOgQDHg1S5WAugSY/GjO5OEpZJA+u/4PUGbvuB2tI5KetC02V4ealswb2VPw+ngKk3+DWkqxF2Fw+LsLff6rPDpOyETJoI6rQ0SvokGZ4YRsSVVDiQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rXmtA-0007PF-WC; Wed, 07 Feb 2024 19:43:17 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rXmt1-0054Wo-Fo; Wed, 07 Feb 2024 19:43:07 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rXmt1-00HRrh-0y;
-	Wed, 07 Feb 2024 19:43:07 +0100
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Mark Brown <broonie@kernel.org>
-Cc: kernel@pengutronix.de,
-	Moritz Fischer <mdf@kernel.org>,
-	Wu Hao <hao.wu@intel.com>,
-	Xu Yilun <yilun.xu@intel.com>,
-	Tom Rix <trix@redhat.com>,
-	linux-fpga@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Alexander Aring <alex.aring@gmail.com>,
-	Stefan Schmidt <stefan@datenfreihafen.org>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	linux-wpan@vger.kernel.org,
-	netdev@vger.kernel.org,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	linux-iio@vger.kernel.org,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	linux-input@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Martin Tuma <martin.tuma@digiteqautomotive.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org,
-	Sergey Kozlov <serjk@netup.ru>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Yang Yingliang <yangyingliang@huawei.com>,
-	linux-mmc@vger.kernel.org,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Rob Herring <robh@kernel.org>,
-	Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>,
-	Amit Kumar Mahapatra via Alsa-devel <alsa-devel@alsa-project.org>,
-	linux-mtd@lists.infradead.org,
-	Simon Horman <horms@kernel.org>,
-	Ronald Wahl <ronald.wahl@raritan.com>,
-	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	chrome-platform@lists.linux.dev,
-	Michal Simek <michal.simek@amd.com>,
-	Max Filippov <jcmvbkbc@gmail.com>,
-	linux-spi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	linux-arm-msm@vger.kernel.org,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-mediatek@lists.infradead.org,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Sam Ravnborg <sam@ravnborg.org>,
-	dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Viresh Kumar <vireshk@kernel.org>,
-	Rui Miguel Silva <rmfrfs@gmail.com>,
-	Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>,
-	greybus-dev@lists.linaro.org,
-	Peter Huewe <peterhuewe@gmx.de>,
-	Jarkko Sakkinen <jarkko@kernel.org>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	linux-integrity@vger.kernel.org,
-	Herve Codina <herve.codina@bootlin.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	linux-usb@vger.kernel.org,
-	Helge Deller <deller@gmx.de>,
-	Dario Binacchi <dario.binacchi@amarulasolutions.com>,
-	Kalle Valo <kvalo@kernel.org>,
-	Dmitry Antipov <dmantipov@yandex.ru>,
-	libertas-dev@lists.infradead.org,
-	linux-wireless@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	James Clark <james.clark@arm.com>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v3 00/32] spi: get rid of some legacy macros
-Date: Wed,  7 Feb 2024 19:40:14 +0100
-Message-ID: <cover.1707324793.git.u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1707419848; c=relaxed/simple;
+	bh=9cNNhlkh8Qz2Cmmyb82krEPKz/SNHddqSojZKEbTrIA=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Uf2xLy+ACQBoWbFxXhe2iUFSewy0foEezxyEv2YjkEacKjzj60zn0bPqWSU14CoyzZBywR8y0/+iz5rts+o2R4HmwVZ/pV8Qvk9X4PRL7t4spWLWjEsoze2NQc/nGsqUWjWvsBTB+csHdiuhPMHv52k732DbYvfBHlEDQYgCQ9Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=marliere.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=marliere.net header.i=@marliere.net header.b=EVZrxks5; arc=none smtp.client-ip=209.85.215.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=marliere.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=marliere.net header.i=@marliere.net header.b="EVZrxks5"
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-5d42e7ab8a9so66886a12.3
+        for <linux-staging@lists.linux.dev>; Thu, 08 Feb 2024 11:17:26 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707419846; x=1708024646;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:dkim-signature:from:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Sreg/nLMHjq+iQy8A5DInSHIYJrri4bRObJLJzGOHm8=;
+        b=mYp744uPdzt+6vhb3ji+lfeyABNupaoKSAi+235/QO3625Z7VTmO9Ftg1E8UL5OuaC
+         B694YJwtpf+//PG6DDfTyr55Lis6xk7ST2EV08uXcmMgaojD3LXbrATSCWghumqwTjT4
+         XndCMivd7I46V86TGOFX1fkIlehiDINs23xuf4mgnSBABAceNQdvVWRFyvBeXfNDQtkc
+         xf1rBSNgqSl3KbMU3U5RU+NLwobJC4GE0OB1paF0bNlD8Ms/xioL2M0w+6Sk3lQ4TUi0
+         FqsVbRIPwW19R/kBNIF183s+PouDwguRuX01wz3ryFSVvt1Z9J1tTNI+TadAEGgOt/BV
+         6QmQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWelrKchssDUouKLSPH1GunI6ioxpadK+fdRpAgN9dFiepGSj1ilnr0l349/gomQfqXx9V3NzEjv+h35EAQhvdCF1CHc0tlULDFqumXWA==
+X-Gm-Message-State: AOJu0Yz/Msh5sbo+DdaC9rw4fopCxGr7KadOovkO727ebfWrQP6Cjk8m
+	0B3nPDHuOXW2rssE4BwSxKJUVvkKDn9tsIWXVSXt5UuDKh8WJp4i
+X-Google-Smtp-Source: AGHT+IFAZc4PZltUqL0FnqQ/LlmQm/h47cW7se6PRIqYHEYfRe0NMJ53amNgXdvAl2sxtU5H299UMw==
+X-Received: by 2002:a05:6a21:3409:b0:19e:986d:7a6a with SMTP id yn9-20020a056a21340900b0019e986d7a6amr473014pzb.7.1707419845971;
+        Thu, 08 Feb 2024 11:17:25 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWw1LvNt5maBy7bJyCukB1p0DCZEK5YiXYWUVQ4UIONJ36yLJG/slxxmXpRmWVSg2Q9jxDHi265QdALR+EC0wcThl6+2m+yPujF+BHJpw88ikaA19NOQ7PYguSJ9ydolzx11Pz4PnyneAy8g5wKD25QLS2B5QtIWw3FF+U+fz6nCR4BrFAT5FcOby4HtfFSgLoF85EiklqvJU9b0FshrUNUXnASVBURdfvJMjltP8s8WLE4Ew3qfNNIWrTmq1tpdCW6m3vaiHUwEDgLpw6mxBAPOSHfUw==
+Received: from mail.marliere.net ([24.199.118.162])
+        by smtp.gmail.com with ESMTPSA id n50-20020a056a000d7200b006e0503f467bsm98003pfv.39.2024.02.08.11.17.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Feb 2024 11:17:25 -0800 (PST)
+From: "Ricardo B. Marliere" <ricardo@marliere.net>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marliere.net;
+	s=2024; t=1707419843;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Sreg/nLMHjq+iQy8A5DInSHIYJrri4bRObJLJzGOHm8=;
+	b=EVZrxks5I47CVRDMg84D5SQASNnFBGLFAgxv8Mzb/luMjH9MC3wxcGG0LjZBNHqPP8u0oe
+	P4KfUqMXFvbou/VUX1DW4Uk4Mgo83fMtTfbc922wDJ9xptlaJPW/oTJBlLFBPSWWLdfYY/
+	6nFfaSoviHF8R8UGrOE1asQAowbdbThlceXdVuh5HajDR4gf5bnbc3WkkolrRjw/9pbKID
+	LBxyvFegZzp0ftqfh1QX9dbf6Daa/mHZ+YqS1HJV8qilqEECL7n4oDcE1F65Ognrc6vnOb
+	xo1asbEYx7TdXmr1ToG9tVY88n46pUVBVAAnIjEeZMFwVYScXKyaCLcfuK4Jzw==
+Authentication-Results: ORIGINATING;
+	auth=pass smtp.auth=ricardo@marliere.net smtp.mailfrom=ricardo@marliere.net
+Subject: [PATCH 0/2] staging: struct bus_type cleanup
+Date: Thu, 08 Feb 2024 16:17:50 -0300
+Message-Id: <20240208-bus_cleanup-staging2-v1-0-cfe906133a2c@marliere.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5860; i=u.kleine-koenig@pengutronix.de; h=from:subject:message-id; bh=s51zDtEtzddF+fOLbQ8v2gtuX5PVGr2PxCfCP0eStY0=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlw86QixivRCd8jxsnKPB8Ssu0rmVV57zjiJehV Ejr/jxfufWJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZcPOkAAKCRCPgPtYfRL+ TqoZB/9v16XZw2mKXG2KBm/qLQpqoIFtAvhj1rhNwGsvXv87uFIurzYxaSWRcHnoydLYAUjcWin wLRECa33v1gti0Be6oV9BMfvx+Pvhq4lk4RnaSn96oPtZRpq+OTzE2mMSgz0Rgm3Al2XVM+wtll cMJhm+DE3KYghNi+61ohTBgmqcQSwjofaml1oAIf8F12/QJkYPMbKHLFo3eYUENR8f8KW6xfzcA Auq9djKc8DcVzUnZlQ8jFBRc78e3H4Wwojwi6fhxTf6BorMOWK2zEE8p+1QpcaPMCBrTOJnRdaw ZunuM2tkWRUATbyKWfDc9YAdTKZGkKDoDmegK95iBOzv5EQf
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAN8oxWUC/x3MQQqAIBBA0avErBMmidCuEhGWkw2EhVMRRHdPW
+ r7F/w8IJSaBtngg0cXCW8yoygKmxcVAin02aNQ1ajRqPGWYVnLx3JUcLnAMWnljsRnRzpVHyOm
+ eaOb733b9+34idUN5ZgAAAA==
+To: Florian Fainelli <florian.fainelli@broadcom.com>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-rpi-kernel@lists.infradead.org, 
+ linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, "Ricardo B. Marliere" <ricardo@marliere.net>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=799; i=ricardo@marliere.net;
+ h=from:subject:message-id; bh=9cNNhlkh8Qz2Cmmyb82krEPKz/SNHddqSojZKEbTrIA=;
+ b=owEBbQKS/ZANAwAKAckLinxjhlimAcsmYgBlxSjk0lUI+Szg7cK31L67bGEkflVZVQjlODBBm
+ jxpGp4y/HiJAjMEAAEKAB0WIQQDCo6eQk7jwGVXh+HJC4p8Y4ZYpgUCZcUo5AAKCRDJC4p8Y4ZY
+ psCjD/40tiSMChC32uLtdr/zyTwVOGHSFCv1BqsR/L6+a5XucBwWL5yS80w1qFvytoiDAboatus
+ us2yXTgwo5QewkZgYXVuXewzuj9CkJL5I0KdN6Y5k12VVtlTodX44I00j3d+xxLGtQjrRtfemtC
+ RyYmU28Gz9lKgIe76JkeKFtPOIl+2hpujrNkqq9t3SqujwI3i2qZkqb13ESZ/h+7pYXhP/so2dG
+ wEpNHlydggdQK8rMpGjLh/n4isgfH/R/CS5B5dbF8gH8DBaBDr+8gvtXNFL/QIHUWVrVkpyKMTl
+ DapfHSdwdiIrb8CzSGeukW1JnyuB1vz87o+86hZlb2KXniNxTJ+cP0EyAIraK/noSKbJSqvDBHK
+ ncrWtHhcuajzQ/VzCCW2NyFlFO+UL5dXWKqYS+k46UUDYfiu3B+Oor3Wt0jXeu6Pj3jV9BvWSF9
+ dDKKw5feWN29tHTc2H1w2YQ1jvazOLAevsNJO8rn19esXCjhxFVukd6KzIKR+fLQZsqhvjEPt6Q
+ 3Lk7ElqxWbZCcU+OzyfmKINPa0vYDzasVCpux9iM4cHj3R2qnBex+Cs0V3zCh7wFn38DLUu0leM
+ X/cEn0ng7w1vobGuF8MN88iAdFN7Ek6N+chjHRPh4vYJPmCf8HbrvT9pYbhVyXdSZut8kQVti9B
+ 5OfJqD/pMPXIRUA==
+X-Developer-Key: i=ricardo@marliere.net; a=openpgp;
+ fpr=030A8E9E424EE3C0655787E1C90B8A7C638658A6
 
-Changes since v2
-(https://lore.kernel.org/linux-spi/cover.1705944943.git.u.kleine-koenig@pengutronix.de):
+This series is part of an effort to cleanup the users of the driver
+core.
 
- - Drop patch "mtd: rawnand: fsl_elbc: Let .probe retry if local bus is
-   missing" which doesn't belong into this series.
- - Fix a build failure noticed by the kernel build bot in
-   drivers/spi/spi-au1550.c. (I failed to catch this because this driver
-   is mips only, but not enabled in a mips allmodconfig. That's a bit
-   unfortunate, but not easily fixable.)
- - Add the Reviewed-by: and Acked-by: tags I received for v2.
+Signed-off-by: Ricardo B. Marliere <ricardo@marliere.net>
+---
+Ricardo B. Marliere (2):
+      staging: vc04_services: vchiq_arm: make vchiq_bus_type const
+      staging: vme: make vme_bus_type const
 
-Mark already announced for v2 that he is willing to apply the whole
-series to his spi tree. Assuming no other show stoper are found in this
-v3, I assume that's the plan still for this series now.
+ drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c | 2 +-
+ drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.h | 2 +-
+ drivers/staging/vme_user/vme.c                                | 2 +-
+ drivers/staging/vme_user/vme.h                                | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
+---
+base-commit: ce54e9342124ededf0a00ed4e8a8aee535bfbf00
+change-id: 20240208-bus_cleanup-staging2-d8906b09f1d0
 
-Thanks
-Uwe
-
-Uwe Kleine-König (32):
-  fpga: ice40-spi: Follow renaming of SPI "master" to "controller"
-  ieee802154: ca8210: Follow renaming of SPI "master" to "controller"
-  iio: adc: ad_sigma_delta: Follow renaming of SPI "master" to "controller"
-  Input: pxspad - follow renaming of SPI "master" to "controller"
-  Input: synaptics-rmi4 - follow renaming of SPI "master" to "controller"
-  media: mgb4: Follow renaming of SPI "master" to "controller"
-  media: netup_unidvb: Follow renaming of SPI "master" to "controller"
-  media: usb/msi2500: Follow renaming of SPI "master" to "controller"
-  media: v4l2-subdev: Follow renaming of SPI "master" to "controller"
-  misc: gehc-achc: Follow renaming of SPI "master" to "controller"
-  mmc: mmc_spi: Follow renaming of SPI "master" to "controller"
-  mtd: dataflash: Follow renaming of SPI "master" to "controller"
-  net: ks8851: Follow renaming of SPI "master" to "controller"
-  net: vertexcom: mse102x: Follow renaming of SPI "master" to "controller"
-  platform/chrome: cros_ec_spi: Follow renaming of SPI "master" to "controller"
-  spi: bitbang: Follow renaming of SPI "master" to "controller"
-  spi: cadence-quadspi: Don't emit error message on allocation error
-  spi: cadence-quadspi: Follow renaming of SPI "master" to "controller"
-  spi: cavium: Follow renaming of SPI "master" to "controller"
-  spi: geni-qcom: Follow renaming of SPI "master" to "controller"
-  spi: loopback-test: Follow renaming of SPI "master" to "controller"
-  spi: slave-mt27xx: Follow renaming of SPI "master" to "controller"
-  spi: spidev: Follow renaming of SPI "master" to "controller"
-  staging: fbtft: Follow renaming of SPI "master" to "controller"
-  staging: greybus: spi: Follow renaming of SPI "master" to "controller"
-  tpm_tis_spi: Follow renaming of SPI "master" to "controller"
-  usb: gadget: max3420_udc: Follow renaming of SPI "master" to "controller"
-  video: fbdev: mmp: Follow renaming of SPI "master" to "controller"
-  wifi: libertas: Follow renaming of SPI "master" to "controller"
-  spi: fsl-lib: Follow renaming of SPI "master" to "controller"
-  spi: Drop compat layer from renaming "master" to "controller"
-  Documentation: spi: Update documentation for renaming "master" to "controller"
-
- .../driver-api/driver-model/devres.rst        |  2 +-
- Documentation/spi/spi-summary.rst             | 74 +++++++++----------
- drivers/char/tpm/tpm_tis_spi_main.c           |  4 +-
- drivers/fpga/ice40-spi.c                      |  4 +-
- drivers/iio/adc/ad_sigma_delta.c              | 14 ++--
- drivers/input/joystick/psxpad-spi.c           |  4 +-
- drivers/input/rmi4/rmi_spi.c                  |  2 +-
- drivers/media/pci/mgb4/mgb4_core.c            | 14 ++--
- .../media/pci/netup_unidvb/netup_unidvb_spi.c | 48 ++++++------
- drivers/media/usb/msi2500/msi2500.c           | 38 +++++-----
- drivers/media/v4l2-core/v4l2-spi.c            |  4 +-
- drivers/misc/gehc-achc.c                      |  8 +-
- drivers/mmc/host/mmc_spi.c                    |  6 +-
- drivers/mtd/devices/mtd_dataflash.c           |  2 +-
- drivers/net/ethernet/micrel/ks8851_spi.c      |  4 +-
- drivers/net/ethernet/vertexcom/mse102x.c      |  2 +-
- drivers/net/ieee802154/ca8210.c               |  2 +-
- .../net/wireless/marvell/libertas/if_spi.c    |  2 +-
- drivers/platform/chrome/cros_ec_spi.c         |  8 +-
- drivers/spi/spi-ath79.c                       |  4 +-
- drivers/spi/spi-au1550.c                      |  2 +-
- drivers/spi/spi-bitbang.c                     | 64 ++++++++--------
- drivers/spi/spi-butterfly.c                   |  6 +-
- drivers/spi/spi-cadence-quadspi.c             |  7 +-
- drivers/spi/spi-cavium.c                      |  6 +-
- drivers/spi/spi-cavium.h                      |  2 +-
- drivers/spi/spi-davinci.c                     |  6 +-
- drivers/spi/spi-fsl-lib.c                     | 14 ++--
- drivers/spi/spi-geni-qcom.c                   |  2 +-
- drivers/spi/spi-gpio.c                        |  2 +-
- drivers/spi/spi-lm70llp.c                     |  6 +-
- drivers/spi/spi-loopback-test.c               |  4 +-
- drivers/spi/spi-oc-tiny.c                     |  6 +-
- drivers/spi/spi-omap-uwire.c                  |  4 +-
- drivers/spi/spi-sh-sci.c                      | 10 +--
- drivers/spi/spi-slave-mt27xx.c                |  2 +-
- drivers/spi/spi-xilinx.c                      |  4 +-
- drivers/spi/spi-xtensa-xtfpga.c               |  2 +-
- drivers/spi/spi.c                             |  2 +-
- drivers/spi/spidev.c                          |  2 +-
- drivers/staging/fbtft/fbtft-core.c            |  4 +-
- drivers/staging/greybus/spilib.c              | 66 ++++++++---------
- drivers/usb/gadget/udc/max3420_udc.c          |  2 +-
- drivers/video/fbdev/mmp/hw/mmp_spi.c          | 26 +++----
- include/linux/spi/spi.h                       | 20 +----
- include/linux/spi/spi_bitbang.h               |  2 +-
- include/media/v4l2-common.h                   |  6 +-
- 47 files changed, 253 insertions(+), 272 deletions(-)
-
-
-base-commit: b9b98f594b6f4c0b0fb2da4493453aef183bca4b
+Best regards,
 -- 
-2.43.0
+Ricardo B. Marliere <ricardo@marliere.net>
 
