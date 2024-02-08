@@ -1,62 +1,89 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 379F7376F3
-	for <linux-staging@lists.linux.dev>; Thu,  8 Feb 2024 19:17:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C06E14EB41;
+	Thu,  8 Feb 2024 21:21:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707419855; cv=none; b=h+MiJIcPqx9w4cfpnmeTZy87HsIpeeg5SRG4xvW0a4M8byPSfk6RvQympJtP8p6AYmsRBtZ2amxqfiDzLyL79dMgTpMckm/th6mey2jDviFhhzUZ2ZPDfp3qmxDKuzS86W5jEJuTqCzF4uVdPrRfkTCj92vYdTizJoaH87wBtHc=
+	t=1707427314; cv=none; b=fxdd+HHzJHTxaghotfTMXvAzN8CGf6b7cV6hX4h//TwZB0/vRJFu+RYLna5+Cz+ZIJJ2StsXI7SHOBpnmDDk0sU+HA4C4qMnWsWP7zZiylhnliXKiEXcAb3MjmTMZ1nEpnsZ4ncrMoCpQt2DlT0aoKGW4uBhR7Y8k1eFcr4F4w8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707419855; c=relaxed/simple;
-	bh=EgddXSy2U90pa48Ft8cLZ+tPcIMQzwitVjdCWLCIqqU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=kgJnasr/YbzpcDcm2ojV9rvly5YdkajGacO9fSgL+UJ0teu3ymof6ayWLtMQMm5j/+DMXdAEoRSM7+47xuR+m0Xn1CNpAxOyBPsHNgx5Op6U3XrCFNUZCGVpwf9V9qC2ezRzpEMiinoFvAv/WliFF+VeQKpMMyqcxbCptM268Uc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=marliere.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=marliere.net header.i=@marliere.net header.b=AVD+mekh; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=marliere.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1707427314; c=relaxed/simple;
+	bh=oqvxtofftemHVkqCtUvTHWJMUcVkNerevyhL33rOVTg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=kFm9B1Bt+I4Sv0mkNHoT2A1hykScHR2o9Fc0wJbIJe6SR7bihC/v7ye0rQ71a6D/sLT2mkiM79M3Q3HZbu9cuW0Tq1U5pp77e3nHLblaq7avENDbs7GltNiuxizVdmUjwvw/yb/5FP3TVX9w0xkSKZe81MeFQEAth3Q45exXITY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L5BmvqcR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=marliere.net header.i=@marliere.net header.b="AVD+mekh"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1d93ddd76adso1114465ad.2
-        for <linux-staging@lists.linux.dev>; Thu, 08 Feb 2024 11:17:33 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707419853; x=1708024653;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:dkim-signature:from:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=2AfkjHO+5UGjQnXgBOfvoxftlEt+F9BzDjDnKkgQKQs=;
-        b=ahXoDveEBd5R7bIsm/TMrSxm406rOOrOvbcnocMFxb0MTmBqlRnb1DYh4C8KRouor/
-         X1wZQ3cuDitSJl7tO4S2PjJ/8JpCD0+nqC51mW8jkKvL1vgpD5V6BLvuXsf++cesrCpk
-         RaOLh/cjdzbuVhEz5GVczx3KoaUDzpaXMtzWlZuiHWZ24R7WexrNFNIbeYnr7erXFCSK
-         qC2hOg7/YlI9GnZpQvY8J0lghhKMFjPwULtGdquFOSY1tdl3Hjbfw/Cui0Yfu4mc5/wx
-         oTOsyTes51UCIzvR1MahwC8cdIvDpo1IyNHxuOaz64WlM8Vz2lAOKF7RCgo/YvYtCwWu
-         bmcQ==
-X-Gm-Message-State: AOJu0Yzm9pXt4D5QQga5nT98VEZsMI6ajnDI7EHyCDanmC8/FCqj0Dvw
-	cRzApqCI0gGaJyDDq+5ltHmoBqfg/4hpuf6igw8ouvRydjwAEfxw
-X-Google-Smtp-Source: AGHT+IHVvY6BCddGWVlawr5nhIpQTlOsVZZluG65zUPT6QJUG4XxIYOUKv8Ykw6+X6TVNO0BVGGl8g==
-X-Received: by 2002:a17:903:22cd:b0:1d8:f071:5067 with SMTP id y13-20020a17090322cd00b001d8f0715067mr133712plg.35.1707419853467;
-        Thu, 08 Feb 2024 11:17:33 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXOZWiLIo6K269+RygjhRuSI2MGe55SK+rhuyJ4juph+nInGVJURVSJHgYqVZela8RATwykP3nlWeiZDWzItjGMibxBFkiI6in+mAwxUARskVrnCfBAhIN7AOxjftvFs7brQ3oEyKxp7Dca/ixjfZ/peaEVaKVdmBroLFp1czoDqbCEPaOf56PNN5AH0GBIy1Sxl31q8u4MDg8deWhxG3JHSw1VGzncMI4QouKQyx+qlJ8X25Ngvvc7OuUOUmh4mDBLtWWA9YDpY2RdYruKJe8ynPAoew==
-Received: from mail.marliere.net ([24.199.118.162])
-        by smtp.gmail.com with ESMTPSA id h3-20020a170902748300b001d9eef9892asm98949pll.174.2024.02.08.11.17.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Feb 2024 11:17:32 -0800 (PST)
-From: "Ricardo B. Marliere" <ricardo@marliere.net>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marliere.net;
-	s=2024; t=1707419851;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2AfkjHO+5UGjQnXgBOfvoxftlEt+F9BzDjDnKkgQKQs=;
-	b=AVD+mekhsUGcJz8N28x8m+etpCK5ptGysKjBNniHFjWQXpyyxrUGx0eewD666DQzgwkZmU
-	EzOOQApSEjOLvvoPJ3rN1KhdUZHslqPjIaizpRXs0Jy4MFxJkXu7PqY+ZdI26MNkXF/yO2
-	89Ydrot5tkdNbY06ALetelZLDCLPo7osjEqpnlhGamVt7qE5WxPJ/n7e0zffWqi4dB/QBr
-	yyAd1sItnXYzfUik4Ojc7epGmhCF9/JcDddDUCMEKuz5NKfCihyd37cOpAhl8MOL+lZvw/
-	LNLQr+Bu+iiUw86gJrFD2VSiq0ntieEVDS9ADAEXEo773afvPaBmVROu56qMNw==
-Authentication-Results: ORIGINATING;
-	auth=pass smtp.auth=ricardo@marliere.net smtp.mailfrom=ricardo@marliere.net
-Date: Thu, 08 Feb 2024 16:17:52 -0300
-Subject: [PATCH 2/2] staging: vme: make vme_bus_type const
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L5BmvqcR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 289CDC433F1;
+	Thu,  8 Feb 2024 21:21:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707427313;
+	bh=oqvxtofftemHVkqCtUvTHWJMUcVkNerevyhL33rOVTg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=L5BmvqcRkgnwQazmD6GNbT/V4WhBK5Jh6gNZcDqvZtq3vD3bjm4E5j4iLEoOGBSf2
+	 9F9jyrrWriCDl5Wu0BAXPhkb1g056buOTe2Ztq7rnNXkEo1LQlxR/MS5DrRDwOGECL
+	 PzXvkI3prpHFsJQ85rgk8WagJHAGPijl/nL+cwohJK5pgSdWN4EVlzkTj2GSjD78+U
+	 Do4/ScbKYtsrkZ/UX5X3+BMEO6gp6SsFMVnpleSnv3fJUOOdIaypIpDthmOW76tyzt
+	 Evsw5NI06O+Mh6/qIrxzDT3P++ocGhgYPwbeQwHydxaTl96OS/0UKdfbCWCgOU5q38
+	 wcv+IJzWFU9dQ==
+From: Mark Brown <broonie@kernel.org>
+To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: kernel@pengutronix.de, Moritz Fischer <mdf@kernel.org>, 
+ Wu Hao <hao.wu@intel.com>, Xu Yilun <yilun.xu@intel.com>, 
+ Tom Rix <trix@redhat.com>, linux-fpga@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Alexander Aring <alex.aring@gmail.com>, 
+ Stefan Schmidt <stefan@datenfreihafen.org>, 
+ Miquel Raynal <miquel.raynal@bootlin.com>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ linux-wpan@vger.kernel.org, netdev@vger.kernel.org, 
+ Lars-Peter Clausen <lars@metafoo.de>, 
+ Michael Hennerich <Michael.Hennerich@analog.com>, 
+ Jonathan Cameron <jic23@kernel.org>, linux-iio@vger.kernel.org, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>, linux-input@vger.kernel.org, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ Ulf Hansson <ulf.hansson@linaro.org>, 
+ Martin Tuma <martin.tuma@digiteqautomotive.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
+ Sergey Kozlov <serjk@netup.ru>, Arnd Bergmann <arnd@arndb.de>, 
+ Yang Yingliang <yangyingliang@huawei.com>, linux-mmc@vger.kernel.org, 
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
+ Rob Herring <robh@kernel.org>, 
+ Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>, 
+ Amit Kumar Mahapatra via Alsa-devel <alsa-devel@alsa-project.org>, 
+ linux-mtd@lists.infradead.org, Simon Horman <horms@kernel.org>, 
+ Ronald Wahl <ronald.wahl@raritan.com>, Benson Leung <bleung@chromium.org>, 
+ Tzung-Bi Shih <tzungbi@kernel.org>, Guenter Roeck <groeck@chromium.org>, 
+ chrome-platform@lists.linux.dev, Michal Simek <michal.simek@amd.com>, 
+ Max Filippov <jcmvbkbc@gmail.com>, linux-spi@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ linux-mediatek@lists.infradead.org, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Javier Martinez Canillas <javierm@redhat.com>, 
+ Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org, 
+ linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev, 
+ Viresh Kumar <vireshk@kernel.org>, Rui Miguel Silva <rmfrfs@gmail.com>, 
+ Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>, 
+ greybus-dev@lists.linaro.org, Peter Huewe <peterhuewe@gmx.de>, 
+ Jarkko Sakkinen <jarkko@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, 
+ linux-integrity@vger.kernel.org, Herve Codina <herve.codina@bootlin.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ linux-usb@vger.kernel.org, Helge Deller <deller@gmx.de>, 
+ Dario Binacchi <dario.binacchi@amarulasolutions.com>, 
+ Kalle Valo <kvalo@kernel.org>, Dmitry Antipov <dmantipov@yandex.ru>, 
+ libertas-dev@lists.infradead.org, linux-wireless@vger.kernel.org, 
+ Jonathan Corbet <corbet@lwn.net>, Bjorn Helgaas <bhelgaas@google.com>, 
+ James Clark <james.clark@arm.com>, linux-doc@vger.kernel.org
+In-Reply-To: <cover.1707324793.git.u.kleine-koenig@pengutronix.de>
+References: <cover.1707324793.git.u.kleine-koenig@pengutronix.de>
+Subject: Re: [PATCH v3 00/32] spi: get rid of some legacy macros
+Message-Id: <170742729486.2266792.11643460714402047207.b4-ty@kernel.org>
+Date: Thu, 08 Feb 2024 21:21:34 +0000
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -64,71 +91,110 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240208-bus_cleanup-staging2-v1-2-cfe906133a2c@marliere.net>
-References: <20240208-bus_cleanup-staging2-v1-0-cfe906133a2c@marliere.net>
-In-Reply-To: <20240208-bus_cleanup-staging2-v1-0-cfe906133a2c@marliere.net>
-To: Florian Fainelli <florian.fainelli@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-rpi-kernel@lists.infradead.org, 
- linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev, 
- linux-kernel@vger.kernel.org, "Ricardo B. Marliere" <ricardo@marliere.net>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1365; i=ricardo@marliere.net;
- h=from:subject:message-id; bh=EgddXSy2U90pa48Ft8cLZ+tPcIMQzwitVjdCWLCIqqU=;
- b=owEBbQKS/ZANAwAKAckLinxjhlimAcsmYgBlxSjld5E+tJ3o9Cy1rE0xxbu8u3IdcHmKSOgT6
- xhC4thhL12JAjMEAAEKAB0WIQQDCo6eQk7jwGVXh+HJC4p8Y4ZYpgUCZcUo5QAKCRDJC4p8Y4ZY
- puQND/9CiQocN7N4v3fmR+TwOqn5QFDgjb0M+WwHi3mur8hOqEzwBaVQOZmmT9hmv6HSr4wD235
- d9NICNZonmfvikeG1JBP5SMNns6WI7Pok7/jHgzZjQ8jKLdbckYJR0oYTgk20nyYYoDNegdyM2r
- TG2MOyQdywaYIFgfUd2drijRZxPYMN14fnjjvOu0aYsV2BxH0LFtJcYD72CmGZccA44P6E+cvLw
- bFMnO+fU+8UP5/hrNbH6OmJtGk1dsI9JxEQwO4sLvrQSZuNpK3ZcBzFKaiCCfdAFzC+F9v8lX0B
- wB373IEUD9mD3HviJcAQnaP9UrdoTwx/Gv091goaFsbnds9LN7E7AMmf0W+ZMHAUdAdpCBNSgOS
- +5FxmaxMoH9M0K8KDIzA9zsGo+DpFuCFmrqOMdl1HJoT2TcjophAZZaPEV/3GsHWJz5pciRfpcI
- DeRoM/DtzlAawy5QbJrUjKX1AP1cDo23kzfGvU6Zc1UT8iWKklHTK60jSwgrpyltobijmeeUR3l
- rSU/It6NhWRLapmFq2f3TPeCg/9xi4IJypPBzdRHi4duQe4hG24fQJsQOWfX6EypYkLNVr+Rgk7
- 9vwBnm5HwtG4XayhG+gtOblg2c4Q/8rQqwKzZK9z6CiehvW1lvReJvj5c3JIl1zr/HahWnW4Vxl
- k9oyM5hnc18L/YA==
-X-Developer-Key: i=ricardo@marliere.net; a=openpgp;
- fpr=030A8E9E424EE3C0655787E1C90B8A7C638658A6
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.13-dev-0438c
 
-Now that the driver core can properly handle constant struct bus_type,
-move the vme_bus_type variable to be a constant structure as well,
-placing it into read-only memory which can not be modified at runtime.
+On Wed, 07 Feb 2024 19:40:14 +0100, Uwe Kleine-König wrote:
+> Changes since v2
+> (https://lore.kernel.org/linux-spi/cover.1705944943.git.u.kleine-koenig@pengutronix.de):
+> 
+>  - Drop patch "mtd: rawnand: fsl_elbc: Let .probe retry if local bus is
+>    missing" which doesn't belong into this series.
+>  - Fix a build failure noticed by the kernel build bot in
+>    drivers/spi/spi-au1550.c. (I failed to catch this because this driver
+>    is mips only, but not enabled in a mips allmodconfig. That's a bit
+>    unfortunate, but not easily fixable.)
+>  - Add the Reviewed-by: and Acked-by: tags I received for v2.
+> 
+> [...]
 
-Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Ricardo B. Marliere <ricardo@marliere.net>
----
- drivers/staging/vme_user/vme.c | 2 +-
- drivers/staging/vme_user/vme.h | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Applied to
 
-diff --git a/drivers/staging/vme_user/vme.c b/drivers/staging/vme_user/vme.c
-index e9461a7a7ab8..0cd370ab1008 100644
---- a/drivers/staging/vme_user/vme.c
-+++ b/drivers/staging/vme_user/vme.c
-@@ -1970,7 +1970,7 @@ static void vme_bus_remove(struct device *dev)
- 		driver->remove(vdev);
- }
- 
--struct bus_type vme_bus_type = {
-+const struct bus_type vme_bus_type = {
- 	.name = "vme",
- 	.match = vme_bus_match,
- 	.probe = vme_bus_probe,
-diff --git a/drivers/staging/vme_user/vme.h b/drivers/staging/vme_user/vme.h
-index 06504dccd5ff..26aa40f78a74 100644
---- a/drivers/staging/vme_user/vme.h
-+++ b/drivers/staging/vme_user/vme.h
-@@ -81,7 +81,7 @@ struct vme_resource {
- 	struct list_head *entry;
- };
- 
--extern struct bus_type vme_bus_type;
-+extern const struct bus_type vme_bus_type;
- 
- /* Number of VME interrupt vectors */
- #define VME_NUM_STATUSID	256
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
 
--- 
-2.43.0
+Thanks!
+
+[01/32] fpga: ice40-spi: Follow renaming of SPI "master" to "controller"
+        commit: 227ab73b89d66e3064b3c2bcb5fe382b1815763d
+[02/32] ieee802154: ca8210: Follow renaming of SPI "master" to "controller"
+        commit: 167b78446706bb4d19f7dd93ca320aed25ae1bbd
+[03/32] iio: adc: ad_sigma_delta: Follow renaming of SPI "master" to "controller"
+        commit: 2780e7b716a605781dbee753ef4983d775a65427
+[04/32] Input: pxspad - follow renaming of SPI "master" to "controller"
+        commit: a78acec53b8524593afeed7258a442adc3450818
+[05/32] Input: synaptics-rmi4 - follow renaming of SPI "master" to "controller"
+        commit: 1245633c61baf159fcc1303d7f0855f49831b9c1
+[06/32] media: mgb4: Follow renaming of SPI "master" to "controller"
+        commit: 2c2f93fbfba7186cc081e23120f169eac3b5b62a
+[07/32] media: netup_unidvb: Follow renaming of SPI "master" to "controller"
+        commit: cfa13a64bd631d8f04a1c385923706fcef9a63ed
+[08/32] media: usb/msi2500: Follow renaming of SPI "master" to "controller"
+        commit: dd868ae646d5770f80f90dc056d06eb2e6d39c62
+[09/32] media: v4l2-subdev: Follow renaming of SPI "master" to "controller"
+        commit: d920b3a672b7f79cd13b341234aebd49233f836c
+[10/32] misc: gehc-achc: Follow renaming of SPI "master" to "controller"
+        commit: 26dcf09ee5d9ceba2c627ae3ba174a229f25638f
+[11/32] mmc: mmc_spi: Follow renaming of SPI "master" to "controller"
+        commit: b0a6776e53403aa380411f2a43cdefb9f00ff50a
+[12/32] mtd: dataflash: Follow renaming of SPI "master" to "controller"
+        commit: 44ee998db9eef84bf005c39486566a67cb018354
+[13/32] net: ks8851: Follow renaming of SPI "master" to "controller"
+        commit: 1cc711a72ae7fd44e90839f0c8d3226664de55a2
+[14/32] net: vertexcom: mse102x: Follow renaming of SPI "master" to "controller"
+        commit: 7969b98b80c0332f940c547f84650a20aab33841
+[15/32] platform/chrome: cros_ec_spi: Follow renaming of SPI "master" to "controller"
+        commit: 85ad0ec049a771c4910c8aebb2d0bd9ce9311fd9
+[16/32] spi: bitbang: Follow renaming of SPI "master" to "controller"
+        commit: 2259233110d90059187c5ba75537eb93eba8417b
+[17/32] spi: cadence-quadspi: Don't emit error message on allocation error
+        commit: e71011dacc3413bed4118d2c42f10736ffcd762c
+[18/32] spi: cadence-quadspi: Follow renaming of SPI "master" to "controller"
+        commit: 28e59d8bf1ace0ddf05f989a48d6824d75731267
+[19/32] spi: cavium: Follow renaming of SPI "master" to "controller"
+        commit: 1747fbdedba8b6b3fd459895ed5d57e534549884
+[20/32] spi: geni-qcom: Follow renaming of SPI "master" to "controller"
+        commit: 14cea92338a0776c1615994150e738ac0f5fbb2c
+[21/32] spi: loopback-test: Follow renaming of SPI "master" to "controller"
+        commit: 2c2310c17fac13aa7e78756d7f3780c7891f9397
+[22/32] spi: slave-mt27xx: Follow renaming of SPI "master" to "controller"
+        commit: 8197b136bbbe64a7cab1020a4b067020e5977d98
+[23/32] spi: spidev: Follow renaming of SPI "master" to "controller"
+        commit: d934cd6f0e5d0052772612db4b07df60cb9da387
+[24/32] staging: fbtft: Follow renaming of SPI "master" to "controller"
+        commit: bbd25d7260eeeaef89f7371cbadcd33dd7f7bff9
+[25/32] staging: greybus: spi: Follow renaming of SPI "master" to "controller"
+        commit: ee3c668dda3d2783b0fff4091461356fe000e4d8
+[26/32] tpm_tis_spi: Follow renaming of SPI "master" to "controller"
+        commit: b6af14eacc8814b0986e20507df423cebe9fd859
+[27/32] usb: gadget: max3420_udc: Follow renaming of SPI "master" to "controller"
+        commit: 8c716f4a3d4fcbec976247e3443d36cbc24c0512
+[28/32] video: fbdev: mmp: Follow renaming of SPI "master" to "controller"
+        commit: b23031e730e72ec9067b7c38c25e776c5e27e116
+[29/32] wifi: libertas: Follow renaming of SPI "master" to "controller"
+        commit: 30060d57cee194d6b70283f2faf787e2fdc61b6e
+[30/32] spi: fsl-lib: Follow renaming of SPI "master" to "controller"
+        commit: 801185efa2402dce57828930e9684884fc8d62da
+[31/32] spi: Drop compat layer from renaming "master" to "controller"
+        commit: 620d269f29a569ba37419cc03cf1da2d55f6252a
+[32/32] Documentation: spi: Update documentation for renaming "master" to "controller"
+        commit: 76b31eb4c2da3ddb3195cc14f6aad24908adf524
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
