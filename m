@@ -1,62 +1,64 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2F2836B0D
-	for <linux-staging@lists.linux.dev>; Thu,  8 Feb 2024 19:17:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5790E374F0
+	for <linux-staging@lists.linux.dev>; Thu,  8 Feb 2024 19:17:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707419848; cv=none; b=RuT3g6EDFNJE4PxOJ8Le1VRtWYLFaHrc6mmYA3sFH0BK/plHTmd5ruf1QggO3qBf+THpydP+H/1C6AQ6ifxRB+YC/151EB9wzIG0f1FWMyd1dsdIet8kRjMKYq3o7CcV2HQm+FFYdOJWq9HsX4nklAidmNHh/+JKqrsMCODqVz0=
+	t=1707419852; cv=none; b=rb43135PNAQ1/0LTRkKpHR3HzeNhkRFbQXsdCKolqyDqW9Sl/6WM4sTpZTanZOen0qyi0y04ZF9gfyQ7vfkDhtYQy56gsNnewOeCB+tbYTMwqD9SEMZkiqhdG8gvbFW4yiy6j4n/JZJD95uym8Q6VYZ9HWIl9n9O6J5NDgqjKCk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707419848; c=relaxed/simple;
-	bh=9cNNhlkh8Qz2Cmmyb82krEPKz/SNHddqSojZKEbTrIA=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Uf2xLy+ACQBoWbFxXhe2iUFSewy0foEezxyEv2YjkEacKjzj60zn0bPqWSU14CoyzZBywR8y0/+iz5rts+o2R4HmwVZ/pV8Qvk9X4PRL7t4spWLWjEsoze2NQc/nGsqUWjWvsBTB+csHdiuhPMHv52k732DbYvfBHlEDQYgCQ9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=marliere.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=marliere.net header.i=@marliere.net header.b=EVZrxks5; arc=none smtp.client-ip=209.85.215.179
+	s=arc-20240116; t=1707419852; c=relaxed/simple;
+	bh=9yBfu5Otql54/j4Z3vAON4o4DHtlNUxLDTy8kePGRek=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=CbuUc2YyNChiYQCuljTbotVIas/GHyLLhl4npUvFo5QtF5uZN+wT/azVU8X8gZOuTx6h59xD6zrzknzlL8EWP7tuSj75iMHJ7ImFzoPNpEkcADF2vQK4b+FbuxVEGE4evJHh8d4FyYrDEpdptYxFMkYN9gElZVYch6I9JHM/ORs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=marliere.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=marliere.net header.i=@marliere.net header.b=JLVSJwwq; arc=none smtp.client-ip=209.85.215.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=marliere.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=marliere.net header.i=@marliere.net header.b="EVZrxks5"
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-5d42e7ab8a9so66886a12.3
-        for <linux-staging@lists.linux.dev>; Thu, 08 Feb 2024 11:17:26 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=marliere.net header.i=@marliere.net header.b="JLVSJwwq"
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-5c66b093b86so918536a12.0
+        for <linux-staging@lists.linux.dev>; Thu, 08 Feb 2024 11:17:30 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707419846; x=1708024646;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:dkim-signature:from:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=Sreg/nLMHjq+iQy8A5DInSHIYJrri4bRObJLJzGOHm8=;
-        b=mYp744uPdzt+6vhb3ji+lfeyABNupaoKSAi+235/QO3625Z7VTmO9Ftg1E8UL5OuaC
-         B694YJwtpf+//PG6DDfTyr55Lis6xk7ST2EV08uXcmMgaojD3LXbrATSCWghumqwTjT4
-         XndCMivd7I46V86TGOFX1fkIlehiDINs23xuf4mgnSBABAceNQdvVWRFyvBeXfNDQtkc
-         xf1rBSNgqSl3KbMU3U5RU+NLwobJC4GE0OB1paF0bNlD8Ms/xioL2M0w+6Sk3lQ4TUi0
-         FqsVbRIPwW19R/kBNIF183s+PouDwguRuX01wz3ryFSVvt1Z9J1tTNI+TadAEGgOt/BV
-         6QmQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWelrKchssDUouKLSPH1GunI6ioxpadK+fdRpAgN9dFiepGSj1ilnr0l349/gomQfqXx9V3NzEjv+h35EAQhvdCF1CHc0tlULDFqumXWA==
-X-Gm-Message-State: AOJu0Yz/Msh5sbo+DdaC9rw4fopCxGr7KadOovkO727ebfWrQP6Cjk8m
-	0B3nPDHuOXW2rssE4BwSxKJUVvkKDn9tsIWXVSXt5UuDKh8WJp4i
-X-Google-Smtp-Source: AGHT+IFAZc4PZltUqL0FnqQ/LlmQm/h47cW7se6PRIqYHEYfRe0NMJ53amNgXdvAl2sxtU5H299UMw==
-X-Received: by 2002:a05:6a21:3409:b0:19e:986d:7a6a with SMTP id yn9-20020a056a21340900b0019e986d7a6amr473014pzb.7.1707419845971;
-        Thu, 08 Feb 2024 11:17:25 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWw1LvNt5maBy7bJyCukB1p0DCZEK5YiXYWUVQ4UIONJ36yLJG/slxxmXpRmWVSg2Q9jxDHi265QdALR+EC0wcThl6+2m+yPujF+BHJpw88ikaA19NOQ7PYguSJ9ydolzx11Pz4PnyneAy8g5wKD25QLS2B5QtIWw3FF+U+fz6nCR4BrFAT5FcOby4HtfFSgLoF85EiklqvJU9b0FshrUNUXnASVBURdfvJMjltP8s8WLE4Ew3qfNNIWrTmq1tpdCW6m3vaiHUwEDgLpw6mxBAPOSHfUw==
+        d=1e100.net; s=20230601; t=1707419850; x=1708024650;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:dkim-signature:from:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=dI9fDaEJQuGTRnVRo7wgbOa0EVSbvXtSt12dvCgGk9c=;
+        b=QJQJs8OLFjXprlxGGDk+zqpkpxVmDafvWqPAjzpSW5HgLDqtexExd9pKSuMKTv8FE8
+         RmBxPZKzcPRQj7Wy0B2xF7y9UWTGjcFtVVUzGepB5g3IW6Jl6w/dhFDS/1UwOopMepHC
+         Uvs4ZH6MLhgrOFz8+fYkfq/9nypwD+a6X0HXREtzTgp7jMbWThvQV48ob4oahJelBh5a
+         TORKXAy4fgrZkWlRCuufUAWmtJhNeVS94ApSvJ7uxZRlUHruMoRFRQra/e17dIyJr09M
+         2qJQ9Fc51kTJXTGzWSst0KevlHEDcWCXiPdkTYc32t6kj6f1sbxSyqtfJVA4qwZQ/1fC
+         opFA==
+X-Forwarded-Encrypted: i=1; AJvYcCWa77etmtEeutSPzU7/lSXgumFMpvYZHH2WEN/Ybl4p3H4Z1Aa9Nx6/oRNVFyHxv8Rf32Vlv86GJUqdj4X/Brx03+12sG/nEckvfPMSTA==
+X-Gm-Message-State: AOJu0YyJsUneFvdKHfDDs3v2x4yE2Dlg5X0JgKdUmiHlcvba69Kkh8Hl
+	GINo8KTqr16JcLEhB17VeNGhJvgHvNYSMW5HK/Y7INJxyyge8X5K
+X-Google-Smtp-Source: AGHT+IHzviAZhQ8X+oZQOkcGUBchFhr8UNsznZkA2wKNvyWlLgofQNlsU9S2dsX6aNdgwTqqFWsE3g==
+X-Received: by 2002:a17:90a:cc12:b0:296:6931:e70c with SMTP id b18-20020a17090acc1200b002966931e70cmr763041pju.19.1707419849742;
+        Thu, 08 Feb 2024 11:17:29 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWSlFdvGxf8XE04WQ3GvkbDY9VJSqihza1Cc4u4OTm1Mo8IPdGriirMewbMfdZQ3jXRtQ+c2LFF9hg5bk1MSzw18l+m0xWITsOUyEGauuPE2JrNEYbbPT59zwXz0hRT6MTjSC70Ia2NuoTANr+tAoX1TzRcTwM8Ru+Q3voemzMSHHqQIdempUMAohaAehrdnGd1o2KTDgwUH7m2Api15546A4NwM/H387+VfQFNaQnHmxZS29fIkD3u7dWOE03CuFB9FdrWPyLijxI1Y6N6PEAR1aWJ4w==
 Received: from mail.marliere.net ([24.199.118.162])
-        by smtp.gmail.com with ESMTPSA id n50-20020a056a000d7200b006e0503f467bsm98003pfv.39.2024.02.08.11.17.25
+        by smtp.gmail.com with ESMTPSA id c17-20020a17090a8d1100b00296cc94faf1sm134185pjo.2.2024.02.08.11.17.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Feb 2024 11:17:25 -0800 (PST)
+        Thu, 08 Feb 2024 11:17:29 -0800 (PST)
 From: "Ricardo B. Marliere" <ricardo@marliere.net>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marliere.net;
-	s=2024; t=1707419843;
+	s=2024; t=1707419847;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=Sreg/nLMHjq+iQy8A5DInSHIYJrri4bRObJLJzGOHm8=;
-	b=EVZrxks5I47CVRDMg84D5SQASNnFBGLFAgxv8Mzb/luMjH9MC3wxcGG0LjZBNHqPP8u0oe
-	P4KfUqMXFvbou/VUX1DW4Uk4Mgo83fMtTfbc922wDJ9xptlaJPW/oTJBlLFBPSWWLdfYY/
-	6nFfaSoviHF8R8UGrOE1asQAowbdbThlceXdVuh5HajDR4gf5bnbc3WkkolrRjw/9pbKID
-	LBxyvFegZzp0ftqfh1QX9dbf6Daa/mHZ+YqS1HJV8qilqEECL7n4oDcE1F65Ognrc6vnOb
-	xo1asbEYx7TdXmr1ToG9tVY88n46pUVBVAAnIjEeZMFwVYScXKyaCLcfuK4Jzw==
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dI9fDaEJQuGTRnVRo7wgbOa0EVSbvXtSt12dvCgGk9c=;
+	b=JLVSJwwqTkOn8Fk0L+BP50YFTZWs0tyrQAy8UGEHQTKGxZ+LoDhplGVxzLgwhYs/I1wZgJ
+	BTyN9U69MuOiGtaQmcPPQqjySmqLbyYm2l1a9s1tcNvRc+KnFELm2LU4UAB59JKsxx5XOh
+	u96903nJGYQsmTtwg16Y9TXI2NvEdV43FuVOJQy6rID46tmiYLeI+6p9D393+AE5SpGX3D
+	bUEvb4XEu1PyH9lGLI4Z9c9IcdiRBvoEN0uHG0Yoo9oedWglLEkfraiSvJUgUNr3l++T5a
+	CE9NEwYur5cvdkn2RPqFUlV9CpHGSQpdVmCv6vZMqSzKdOzEFiVkqlZLTA7XJQ==
 Authentication-Results: ORIGINATING;
 	auth=pass smtp.auth=ricardo@marliere.net smtp.mailfrom=ricardo@marliere.net
-Subject: [PATCH 0/2] staging: struct bus_type cleanup
-Date: Thu, 08 Feb 2024 16:17:50 -0300
-Message-Id: <20240208-bus_cleanup-staging2-v1-0-cfe906133a2c@marliere.net>
+Date: Thu, 08 Feb 2024 16:17:51 -0300
+Subject: [PATCH 1/2] staging: vc04_services: vchiq_arm: make vchiq_bus_type
+ const
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -65,51 +67,70 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAN8oxWUC/x3MQQqAIBBA0avErBMmidCuEhGWkw2EhVMRRHdPW
- r7F/w8IJSaBtngg0cXCW8yoygKmxcVAin02aNQ1ajRqPGWYVnLx3JUcLnAMWnljsRnRzpVHyOm
- eaOb733b9+34idUN5ZgAAAA==
+Message-Id: <20240208-bus_cleanup-staging2-v1-1-cfe906133a2c@marliere.net>
+References: <20240208-bus_cleanup-staging2-v1-0-cfe906133a2c@marliere.net>
+In-Reply-To: <20240208-bus_cleanup-staging2-v1-0-cfe906133a2c@marliere.net>
 To: Florian Fainelli <florian.fainelli@broadcom.com>, 
  Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-rpi-kernel@lists.infradead.org, 
  linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev, 
  linux-kernel@vger.kernel.org, "Ricardo B. Marliere" <ricardo@marliere.net>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=799; i=ricardo@marliere.net;
- h=from:subject:message-id; bh=9cNNhlkh8Qz2Cmmyb82krEPKz/SNHddqSojZKEbTrIA=;
- b=owEBbQKS/ZANAwAKAckLinxjhlimAcsmYgBlxSjk0lUI+Szg7cK31L67bGEkflVZVQjlODBBm
- jxpGp4y/HiJAjMEAAEKAB0WIQQDCo6eQk7jwGVXh+HJC4p8Y4ZYpgUCZcUo5AAKCRDJC4p8Y4ZY
- psCjD/40tiSMChC32uLtdr/zyTwVOGHSFCv1BqsR/L6+a5XucBwWL5yS80w1qFvytoiDAboatus
- us2yXTgwo5QewkZgYXVuXewzuj9CkJL5I0KdN6Y5k12VVtlTodX44I00j3d+xxLGtQjrRtfemtC
- RyYmU28Gz9lKgIe76JkeKFtPOIl+2hpujrNkqq9t3SqujwI3i2qZkqb13ESZ/h+7pYXhP/so2dG
- wEpNHlydggdQK8rMpGjLh/n4isgfH/R/CS5B5dbF8gH8DBaBDr+8gvtXNFL/QIHUWVrVkpyKMTl
- DapfHSdwdiIrb8CzSGeukW1JnyuB1vz87o+86hZlb2KXniNxTJ+cP0EyAIraK/noSKbJSqvDBHK
- ncrWtHhcuajzQ/VzCCW2NyFlFO+UL5dXWKqYS+k46UUDYfiu3B+Oor3Wt0jXeu6Pj3jV9BvWSF9
- dDKKw5feWN29tHTc2H1w2YQ1jvazOLAevsNJO8rn19esXCjhxFVukd6KzIKR+fLQZsqhvjEPt6Q
- 3Lk7ElqxWbZCcU+OzyfmKINPa0vYDzasVCpux9iM4cHj3R2qnBex+Cs0V3zCh7wFn38DLUu0leM
- X/cEn0ng7w1vobGuF8MN88iAdFN7Ek6N+chjHRPh4vYJPmCf8HbrvT9pYbhVyXdSZut8kQVti9B
- 5OfJqD/pMPXIRUA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1808; i=ricardo@marliere.net;
+ h=from:subject:message-id; bh=9yBfu5Otql54/j4Z3vAON4o4DHtlNUxLDTy8kePGRek=;
+ b=owEBbQKS/ZANAwAKAckLinxjhlimAcsmYgBlxSjkTa7KtR2tQ3MbgN5W9IC5VndQZkPXGWUbV
+ qes6xBk5aWJAjMEAAEKAB0WIQQDCo6eQk7jwGVXh+HJC4p8Y4ZYpgUCZcUo5AAKCRDJC4p8Y4ZY
+ prhUD/wIqzg9iNUTQIsmx124h4XXKBkjC5HrDUDR3CzxwOLmkVrePgaT6oe9JDn40F6wy3jEg5T
+ lw3kAMETmM2OWingznK7Ul5Y6zea2lFD4kmJKpWQwdiQul8x4AlAyFStWLQVipJyO3VUEQ+8W37
+ Rt30sb1Lp/KBqVQdE+JbgpmQS4sfWYceZSnrwUVBlLCso0JNLuk6Rkq/WaNrlW0gpapR38QpSGa
+ OkJ891QRN8bonZnBm3kfxoX4tcYZvim/svfRBc/sqaoThwLOaTv2170AkF7aINe8thZPEpfwmnr
+ CNxx1cnnk95WSqVLZZPS36c0igx4n7iwes1GI3snb+5uxZAFlWwgBJSXymy0o0gyqhxd6iSwPb4
+ usznoiYobmZvLwaDsg/PBhgbWNAxi7MqrXnOm+HixVwBikQhJ4fO5UfNgw67LfQJwCGa3IlL9mm
+ REFeV8wMhi4nl6zA6nuGdY6IJVnec83dnbiRRhLHWu1biEuk7u9mUqtIpzR+ZkRpSVwC2F1iSdc
+ 4kKFQV/D5zzJhCJ9DT/1JrzSdqrte/i7AdRjevtcaks74aBQwQQKzUDutbJ0IGKhCwfXHnRPlKn
+ YZ76c5iJRpfsIKx0m9OOlAVv6BskEjti+Zrl7gzeeIZPn0PNHqYwYHuWYh9XgX+6RNs0iZoBbAg
+ I5iyegEUNHU+Csg==
 X-Developer-Key: i=ricardo@marliere.net; a=openpgp;
  fpr=030A8E9E424EE3C0655787E1C90B8A7C638658A6
 
-This series is part of an effort to cleanup the users of the driver
-core.
+Now that the driver core can properly handle constant struct bus_type,
+move the vchiq_bus_type variable to be a constant structure as well,
+placing it into read-only memory which can not be modified at runtime.
 
+Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Ricardo B. Marliere <ricardo@marliere.net>
 ---
-Ricardo B. Marliere (2):
-      staging: vc04_services: vchiq_arm: make vchiq_bus_type const
-      staging: vme: make vme_bus_type const
-
  drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c | 2 +-
  drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.h | 2 +-
- drivers/staging/vme_user/vme.c                                | 2 +-
- drivers/staging/vme_user/vme.h                                | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
----
-base-commit: ce54e9342124ededf0a00ed4e8a8aee535bfbf00
-change-id: 20240208-bus_cleanup-staging2-d8906b09f1d0
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-Best regards,
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c
+index 933027e0011e..68f830d75531 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c
+@@ -37,7 +37,7 @@ static int vchiq_bus_probe(struct device *dev)
+ 	return driver->probe(device);
+ }
+ 
+-struct bus_type vchiq_bus_type = {
++const struct bus_type vchiq_bus_type = {
+ 	.name   = "vchiq-bus",
+ 	.match  = vchiq_bus_type_match,
+ 	.uevent = vchiq_bus_uevent,
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.h
+index caa6fdf25bb1..4db86e76edbd 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.h
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.h
+@@ -34,7 +34,7 @@ static inline struct vchiq_driver *to_vchiq_driver(struct device_driver *d)
+ 	return container_of(d, struct vchiq_driver, driver);
+ }
+ 
+-extern struct bus_type vchiq_bus_type;
++extern const struct bus_type vchiq_bus_type;
+ 
+ struct vchiq_device *
+ vchiq_device_register(struct device *parent, const char *name);
+
 -- 
-Ricardo B. Marliere <ricardo@marliere.net>
+2.43.0
 
