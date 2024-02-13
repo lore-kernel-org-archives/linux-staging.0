@@ -1,16 +1,16 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E8A7208CB
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A992B20B2C
 	for <linux-staging@lists.linux.dev>; Tue, 13 Feb 2024 08:44:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707813850; cv=none; b=enm9L4d/s63AstbmASer88/OmFiwaGJhEFG2wlmZ62F2PcQv1g+UnvTqfctStdYHc3hBbFblpxBMKKc5VFu4xw6aBm9poAl3lVDyxBSDD5NrDtcOCPV9aIlGr5bvI7roJDG5181kAfvjM2nkqzPSrLUGh5xbFuj2lSVAjem4U68=
+	t=1707813850; cv=none; b=QuvUucWdztptplOEtlBKP18H6I7p2IUMffjw0y9SavnKbSwc33nfA2VxXUqJZf6Ni83eBFYU1Hm8S800RrkDV8OI8y9Lb9TP7RVBXX8LtEY/X4/Qiyp4oUCTnvjkcQm/k6D06+z/JZ0/bSO0jwABF6kbYAverSWQn1T0klru/mk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1707813850; c=relaxed/simple;
-	bh=JrKSF3dD3R7m8yhsVwhBKdWo3V/GCptyD3Yc2KrJ2RU=;
+	bh=IqWeXk+2RV/3naHYSZb9KYF/9IpvCSmKn/S6dkNM5Q8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=e7Z28LymsKVAyb+8bLQH/DWNKFcDRyxRUDShc1rPBgAkyfhNanXLZtzgmPHMhCi7+eZF45TCZJvPJ/JBuHz18LDOjQKoZSUV3CGxg6D+crlEkgx3AEFO8Pcz2W7cs+QrGRGzYNEx4bPV3PYTdY6eRr/M2ZyIUtScngBMfHQPYz4=
+	 MIME-Version; b=O/6Moy7NRPHxq9YCSRwiBrEzUlmjFzoSwY4kyGPDFn/PJ7r8OD656FQ5kj97Ha5fIS9AeYt0YFazAOGLr5GFcLd23g4GKlMSt33LACtDW37mXz9UNuuHElcVkBkPEu2Z1iVWEQP9od20tkvisLDVrB5nSZSiTRgrB/7am1MuMvM=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
@@ -18,17 +18,17 @@ Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [IPv6:2a07:de40:
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id AE5B822021;
-	Tue, 13 Feb 2024 08:44:06 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 1D5B7220BF;
+	Tue, 13 Feb 2024 08:44:07 +0000 (UTC)
 Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 4B95D13A2C;
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id B49771329E;
 	Tue, 13 Feb 2024 08:44:06 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap2.dmz-prg2.suse.org with ESMTPSA
-	id IDsvEdYry2VOFwAAn2gu4w
+	id 0A7iKtYry2VOFwAAn2gu4w
 	(envelope-from <tzimmermann@suse.de>); Tue, 13 Feb 2024 08:44:06 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de,
@@ -43,11 +43,10 @@ Cc: linux-fbdev@vger.kernel.org,
 	dri-devel@lists.freedesktop.org,
 	nouveau@lists.freedesktop.org,
 	linux-staging@lists.linux.dev,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jani Nikula <jani.nikula@intel.com>
-Subject: [PATCH v2 1/8] drm/nouveau: Include <linux/backlight.h>
-Date: Tue, 13 Feb 2024 09:42:19 +0100
-Message-ID: <20240213084403.20995-2-tzimmermann@suse.de>
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v2 2/8] staging/fbtft: Include <linux/backlight.h>
+Date: Tue, 13 Feb 2024 09:42:20 +0100
+Message-ID: <20240213084403.20995-3-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240213084403.20995-1-tzimmermann@suse.de>
 References: <20240213084403.20995-1-tzimmermann@suse.de>
@@ -58,37 +57,35 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
 Authentication-Results: smtp-out1.suse.de;
 	none
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-Spamd-Result: default: False [-4.00 / 50.00];
 	 REPLY(-4.00)[]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: AE5B822021
-X-Spam-Level: 
 X-Spam-Score: -4.00
+X-Rspamd-Queue-Id: 1D5B7220BF
 X-Spam-Flag: NO
 
 Resolved the proxy include via <linux/fb.h>, which does not require the
 backlight header.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/nouveau/dispnv50/disp.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/staging/fbtft/fb_ssd1351.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-index 8d37a694b7724..0c3d88ad0b0ea 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-@@ -28,6 +28,7 @@
- #include "wndw.h"
- #include "handles.h"
- 
+diff --git a/drivers/staging/fbtft/fb_ssd1351.c b/drivers/staging/fbtft/fb_ssd1351.c
+index b8d55aa8c5c75..72172e870007e 100644
+--- a/drivers/staging/fbtft/fb_ssd1351.c
++++ b/drivers/staging/fbtft/fb_ssd1351.c
+@@ -1,4 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0
++
 +#include <linux/backlight.h>
- #include <linux/dma-mapping.h>
- #include <linux/hdmi.h>
- #include <linux/component.h>
+ #include <linux/module.h>
+ #include <linux/kernel.h>
+ #include <linux/init.h>
 -- 
 2.43.0
 
