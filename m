@@ -1,93 +1,96 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17F183D3A8
-	for <linux-staging@lists.linux.dev>; Mon, 12 Feb 2024 16:33:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13B1E1AAD0
+	for <linux-staging@lists.linux.dev>; Tue, 13 Feb 2024 07:46:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707755603; cv=none; b=T3ca8x9num26gHFGWBg5G5NhM4YQSMDs5gRaiWYF0Hd/aOtNKPL8smHvgJQ4YUOloJwXoZuz88zXb5UNWnVr32Iio6OmJXBbAuBY6i7FlBOGHmZAatZubu/vm/6fhsl+Uip0tn7Bh0gA/YS7z/oBgcIj6xcCCyNcn8GTLhAQnDw=
+	t=1707810415; cv=none; b=dMUanHAveVZobyEJKCtOOc2vNnJmrQs/wI1hRmiyARh2UKhNQmfqrVOO7z+E4Q/6Mxxtd7Q/YwWVdXTZmlCxJIkbyKLXDN+UXJMScxqkb5ilyKO48gzvTobCTKsUMxQIOZxP1MdMEOpSiTnd73tPuJV6TyHjcLQq9L81a8oJMow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707755603; c=relaxed/simple;
-	bh=B+YBuhuqUOSgESZcvnrhqDgq1djTLds5pMENfQ0P5JU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c5JB9Xl9rqvroIhv/Jnqmy8M9wfAHx6xdN6L/1KBbc98asdU+B9jtwb1D6jGO/xmafHq/bZC5L9Jxxt0cDuJpOqQXEoq4ZfrtolGvZxv2FVS9IDlJXhbmtRM/kuoMhW73zme7AM4wdim++L3BRTDHbN3pZIDu1b34RpppZ4TwyA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=u02bZ6Mz; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1707810415; c=relaxed/simple;
+	bh=CI7+IRxGYwRZ60wyiLw47yAVg1pJTOWlIhftN4mcqWg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nt8/oJF+iqlzvKl7PUXPf7pG1LVkCyHxyvGKWxwqQYB95qxE/1X/j7I+D6Y4WyyK5IowBh0pYvRfElIdz6tqvPOHVX1YaAIuznv91pzYRuWLWL3OCiGaI0Tmb7yxljWZt/f0Us75UdK06cQFwKtg+dLsHKuYqIO99bYwyJ02Cs0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RKd5yqxh; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="u02bZ6Mz"
-Received: from pendragon.ideasonboard.com (237.69-130-109.adsl-dyn.isp.belgacom.be [109.130.69.237])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 41E6263B;
-	Mon, 12 Feb 2024 17:33:18 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1707755598;
-	bh=B+YBuhuqUOSgESZcvnrhqDgq1djTLds5pMENfQ0P5JU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=u02bZ6Mzpx64exzZXhbiJpJ9VclEuCgnoht2HmYeMMN5/jFsrADpIOZLVG/dC7WaZ
-	 U/zFQsRUvZYnLwqIIELhzC5XNytWoA16g+tPnM15hL46yHCa0+DJ/BvCiz2shhQxA9
-	 Qu63Wn5nr6KFuUE+Mm+phjuPvJZVa9cNHvvuNy7A=
-Date: Mon, 12 Feb 2024 18:33:22 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Matthias Brugger <matthias.bgg@gmail.com>
-Cc: Changhuang Liang <changhuang.liang@starfivetech.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Ming Qian <ming.qian@nxp.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	Mingjia Zhang <mingjia.zhang@mediatek.com>,
-	Jack Zhu <jack.zhu@starfivetech.com>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v3 00/13] Add ISP 3A for StarFive
-Message-ID: <20240212163322.GF32016@pendragon.ideasonboard.com>
-References: <20240205090424.40302-1-changhuang.liang@starfivetech.com>
- <5940e2cd-64f9-45d6-9e1d-e9a1d14c8ad9@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RKd5yqxh"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3394b892691so2631919f8f.1
+        for <linux-staging@lists.linux.dev>; Mon, 12 Feb 2024 23:46:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1707810412; x=1708415212; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=lgAC8oAHr33uPCiZyuqvH6IjPqpu++NDN80X3PJhzBM=;
+        b=RKd5yqxhW5CKe1mUPmfvUIp5iFV+hj8/qqBfvZ2a+UmQGxwXcRK6V4PtIfRESXesbg
+         FgHsDeWAfoDib/L/qrLzUW8NtINa1TSZmT2oeFlGR6QnA/9TGIpEj8+WEu2RhbXbGFTS
+         YvUQHVdQLVPL3gIPdFgyGSUDOP0QnCbJJbX585Jd1tFmpq9/ALaAXpT1qZh4FH89W4wE
+         SHeVqxzBxlrv/e4GW4T/4RM7OGTBk0eINMDoKRbugH3lJNqsQ/qpGYwYIho8M4Nx1pHF
+         Pvrv/oM69xqXpm1SuTbPXINQbxLO8M7sPFmsfuiicIac/SgX9uDHLJZcsfgx4EPYTXto
+         1VEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707810412; x=1708415212;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lgAC8oAHr33uPCiZyuqvH6IjPqpu++NDN80X3PJhzBM=;
+        b=SU+vXOTeyjo0LUa8zOskeeUR0cX2bVfYzWyanFUtmp3sxZYeGmC939JL48qe52j9Ov
+         1YbG/AlqovQqxE0plOClIJvxvA67GcG0FgSScqLborSPo8c3sZuZMf/agPayG1ShhIfs
+         RgdfHTOIAS8ROZVmJGsXNIWK/JEcLMY7vf24eUkId8TR45iBF09nSF1YLKJlWWCSE3kC
+         pSOxZ/O5ZNWE5NRzNzWROF803Z6ezROLzTCbFLBY3i/Qr+5Z9cwILNBDrzWe6bSwKtLq
+         k1W3H8UftEfaqwZ+yzkPzOrcdIUQnxNJIf2j5R8HVOUY2B1Op5FFKQb6gAZWvES97syD
+         pzsw==
+X-Forwarded-Encrypted: i=1; AJvYcCWU+xcN/PbLh82vujRRdqlgoyIpg1UN97ZvUO5m+bcCR7tr+tPxkPg2nr0Rn9UnCCyNLUgGd6jEvlz2BXOH+e+uPKLE5RR00Vtz6C1V5Q==
+X-Gm-Message-State: AOJu0YzbzWBEFoCqxTl9SYxl4XPB9els5rx6XMUyhTMu6K9Jp6YFmxmc
+	m4lgJZVhbBs5P51HB6YSWPROO1Ng/XPatXq4qDSDbaixTQeQkCry
+X-Google-Smtp-Source: AGHT+IEftBHvPo3F+NL6i6w0+3IKs7hng2i277qIsEAtBShKVbdPi0r1QMTUYQFDVrKGQUL07fxJkQ==
+X-Received: by 2002:adf:f802:0:b0:33c:d8b2:5be2 with SMTP id s2-20020adff802000000b0033cd8b25be2mr608721wrp.25.1707810412094;
+        Mon, 12 Feb 2024 23:46:52 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXvZ5E+sueX5qBcCQb2ib9jxp0mJyfkLE39pgoEVgK9pJIhfE4ayJwaRsRBqmjC3K6/Y+G+4aQDQi1Psk1h5pB/en79KAU+nfsVgoR8kVDyKogpmngkjkPIoI96b1uNU0LedNQO5aGgqw==
+Received: from aaron-macbookpro.. (host-92-14-37-217.as13285.net. [92.14.37.217])
+        by smtp.gmail.com with ESMTPSA id bp9-20020a5d5a89000000b0033b4796641asm8894702wrb.22.2024.02.12.23.46.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Feb 2024 23:46:51 -0800 (PST)
+From: Aaron Parfitt <aaronparfitt123@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Aaron Parfitt <aaronparfitt123@gmail.com>
+Subject: [PATCH] Staging: rtl8192e: rtl819x_HTProc: Removed braces from single statement block
+Date: Tue, 13 Feb 2024 07:46:49 +0000
+Message-ID: <20240213074649.18158-1-aaronparfitt123@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <5940e2cd-64f9-45d6-9e1d-e9a1d14c8ad9@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Matthias,
+Fixed code style issue
 
-On Mon, Feb 12, 2024 at 01:40:57PM +0100, Matthias Brugger wrote:
-> Dear Changhuang,
-> 
-> On 05/02/2024 10:04, Changhuang Liang wrote:
-> > Changhuang Liang (13):
-> >    media: starfive: Add JH7110 ISP module definitions
-> >    media: Documentation: Add description for StarFive ISP metadata
-> >      formats
-> >    media: videodev2.h, v4l2-ioctl: Add StarFive ISP meta buffer format
-> >    staging: media: starfive: Add a params sink pad and a scd source pad
-> >      for ISP
-> >    staging: media: starfive: Separate buffer from ISP hardware operation
-> >    staging: media: starfive: Separate buffer be a common file
-> >    staging: media: starfive: Separate ISP hardware from capture device
-> >    staging: media: starfive: Add for StarFive ISP 3A SC
-> >    staging: media: starfive: Update ISP initialise config for 3A
-> >    staging: media: starfive: Add V4L2_CAP_IO_MC capability
-> >    staging: media: starfive: Add ISP params video device
-> >    staging: media: starfive: Add ISP parameters hardware configure
-> >    admin-guide: media: Update documents for StarFive Camera Subsystem
-> 
-> I think instead of adding more support on top of the staging driver, the first 
-> step would be to get the driver out of staging and make it a regular Linux 
-> driver. After that new HW support should be added.
+Signed-off-by: Aaron Parfitt <aaronparfitt123@gmail.com>
+---
+ drivers/staging/rtl8192e/rtl819x_HTProc.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-We asked for the driver to be upstreamed in staging first because it was
-mising important features, which this patch series implements (at least
-partly, I still need to review the series in more details). I would
-prefer merging the necessary features first, and destaging the driver
-next, right after.
-
+diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
+index 6d0912f90198..49b882c363bf 100644
+--- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
++++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
+@@ -480,9 +480,9 @@ void ht_on_assoc_rsp(struct rtllib_device *ieee)
+ 	}
+ 
+ 	ht_info->current_mpdu_density = pPeerHTCap->MPDUDensity;
+-	if (ht_info->iot_action & HT_IOT_ACT_TX_USE_AMSDU_8K) {
++	if (ht_info->iot_action & HT_IOT_ACT_TX_USE_AMSDU_8K)
+ 		ht_info->current_ampdu_enable = false;
+-	}
++
+ 	ht_info->cur_rx_reorder_enable = 1;
+ 
+ 	if (pPeerHTCap->MCS[0] == 0)
 -- 
-Regards,
+2.43.0
 
-Laurent Pinchart
