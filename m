@@ -1,118 +1,191 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F09718E10
-	for <linux-staging@lists.linux.dev>; Wed, 14 Feb 2024 11:05:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAEAF64CDC
+	for <linux-staging@lists.linux.dev>; Wed, 14 Feb 2024 16:29:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707908724; cv=none; b=HYv+jvHjueF9+7CzBkG9zNroX3Mlt/r1WPLgOQ8bPuIDHqqY4Vs5PBvom3NxmMM2D+KcjJqNY/ngaT5QJiWN6rgKFpcocalKO+49Ur9rxT57ybj2zsa3RdLfxEBzvJPnqGhILC2vb7Xd0amNDlngfocJVCeB85CF1eSqaaAUnC4=
+	t=1707928198; cv=none; b=FlO7QfQxjq1fAEkWj8dfGHMYjfOXk3UF34+0XTeaxrKSDdp6wUcWR2rigXWBRQMFyvmXtmuPTjG3cRYpZpkvbVincjHIT6zz7FaXCznhjV6XINQ6Tk+I2p7yb2M4l3eDUP3ar/5NCIrPNFoGHfahltPxKoeNK2E+Mm+JjNdbc9s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707908724; c=relaxed/simple;
-	bh=leNWJYh69CV7bQ1lqnd7BjWIi97NaiPuvMnUCm+KwVA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LPlN5BFsvfg+jRYsdZv47oXuIjFHiOPjE/pBiZbckzg+0AZUldiG3NnOJumbv8MQx/++tWm9ASrWy0JoqxH7mEXz1oB+wr9nC09mt7tjHTKb2/SWO6M5KpKFIKF1wGfBL087/akDTYC/i3CVLliEneYrlJpEPezaIym9fCLwCys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bu55+Q1N; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1707928198; c=relaxed/simple;
+	bh=bB2HNyXUd0n3ZuGVQZQcHi6j4fmv+bmJjKr5EkZ72FQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=E+y9TQIGJnGHK+zkCjr5yjgxUa5RcB9TPHQCpmpmHYq69dy+g10bJZTBeSGje+5a/2m6eVxety6U+jiMN45bL4Rh91GzcuBHViVCy1LYe8SpPfSueuChk1HTqqyT+4rbV28ZI2kW/rsaJAVxg5FFdUFx97ItXaTutFHeh5S9U68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=UefkOkDz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=P+QCd7ji; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=vYwgz8uS; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=11p/XmV+; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bu55+Q1N"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707908723; x=1739444723;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=leNWJYh69CV7bQ1lqnd7BjWIi97NaiPuvMnUCm+KwVA=;
-  b=Bu55+Q1NxFgFJ5W5IAcJVrZ9trvJowb9yIqCwri1xY3wHVAU/AfArXgf
-   pahKP8AKmz6yTSPY6FcQRwG3T9th+hD6KLvCrgtUU+8aNFUKk0XaFbIVu
-   yfT8mrP9KAb95cSpv8vLv+Tgfgxi+QP54qdvBQizVrf5FNIyMZt2Tr6uL
-   eYzOnEkd+jCOsNylOrKEeY6+KHSFBg7/oj4IRLAg4uKH3iZGqizVXgOb3
-   3cADWHw55biaFjlYNe2VoC5egNE+6th0Dkdc6bNER8LG3SROnlpqmiu6q
-   4tVDhV5Lns7TH+7jNZNfluYLPYZ5JE3habUnQ6UjBoWeFgCkXVel8s+vn
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10982"; a="2069858"
-X-IronPort-AV: E=Sophos;i="6.06,159,1705392000"; 
-   d="scan'208";a="2069858"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2024 03:05:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,159,1705392000"; 
-   d="scan'208";a="3511208"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2024 03:05:20 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id ECCE111F86A;
-	Wed, 14 Feb 2024 13:05:16 +0200 (EET)
-Date: Wed, 14 Feb 2024 11:05:16 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Youssef Quaisse <yquaisse@gmail.com>
-Cc: bingbu.cao@intel.com, tian.shu.qiu@intel.com, mchehab@kernel.org,
-	gregkh@linuxfoundation.org, skhan@linuxfoundation.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-media@vger.kernel.org
-Subject: Re: [PATCH] Fix three warnings when running `make htmldocs`
-Message-ID: <ZcyebKY86sAJDhr4@kekkonen.localdomain>
-References: <20240210221451.27769-1-yquaisse@gmail.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="UefkOkDz";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="P+QCd7ji";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vYwgz8uS";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="11p/XmV+"
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:98])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C50531F811;
+	Wed, 14 Feb 2024 16:29:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1707928195; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=7/ppbFXNXonNNZUwDojNhS3+Ukg7Qi/xh6UIL1idgJ8=;
+	b=UefkOkDz9eycCwJuQcNLYlkKLLsvVt/W+2JrRO5ODKpxm6QsAk0E92hQjRhzwl2+RkCWDV
+	y/irulCU3nBJVEcakSggMFRDRM8nBIyWSK/DrQ7z9e8Gi/ejyDrY71DIyi/quYrZRhQM3a
+	KM9Y3z1zcKecpPj1U1pMae3akslBZGQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1707928195;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=7/ppbFXNXonNNZUwDojNhS3+Ukg7Qi/xh6UIL1idgJ8=;
+	b=P+QCd7jiXep2ELM6yQ4ERDG9zCQgD1H0PXfAc/rYh5e7RNWl/gaMMnMOspYwDe54KNJU8h
+	629UfvuYHqQoEHDQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1707928194; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=7/ppbFXNXonNNZUwDojNhS3+Ukg7Qi/xh6UIL1idgJ8=;
+	b=vYwgz8uSs9RKjQxx0qQeysuiCk+eERXMuOwDajHHS/prCLVcEQqlL0FkkFoauf+uA1rhsj
+	4n14kwRMy9c01f2qGzyr8flHArtcv2yn1ndB3fu4zJ291M8Yyr2TPATUYOIYnG+9H7flkZ
+	RWZzDF8PeCYka3IUTE9B5Y1dK9JdfkE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1707928194;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=7/ppbFXNXonNNZUwDojNhS3+Ukg7Qi/xh6UIL1idgJ8=;
+	b=11p/XmV+PXcyTwBMflhlkf5HEsmc4sfk1HTYp7Uo9saeBxA3Lmcfq1HRosO42UyqTucorF
+	wnebDQxwZOnzpTBg==
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 783F413A0B;
+	Wed, 14 Feb 2024 16:29:54 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap2.dmz-prg2.suse.org with ESMTPSA
+	id +IIhHILqzGUILQAAn2gu4w
+	(envelope-from <tzimmermann@suse.de>); Wed, 14 Feb 2024 16:29:54 +0000
+Message-ID: <c3d4f26e-3c5b-4cb2-8e69-806c10d595ae@suse.de>
+Date: Wed, 14 Feb 2024 17:29:54 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240210221451.27769-1-yquaisse@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/8] staging/fbtft: Include <linux/backlight.h>
+Content-Language: en-US
+To: deller@gmx.de, kherbst@redhat.com, lyude@redhat.com, dakr@redhat.com,
+ jani.nikula@linux.intel.com, daniel@ffwll.ch, airlied@gmail.com,
+ gregkh@linuxfoundation.org
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, linux-staging@lists.linux.dev
+References: <20240213084403.20995-1-tzimmermann@suse.de>
+ <20240213084403.20995-3-tzimmermann@suse.de>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20240213084403.20995-3-tzimmermann@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=vYwgz8uS;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="11p/XmV+"
+X-Spamd-Result: default: False [-1.67 / 50.00];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 XM_UA_NO_VERSION(0.01)[];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:98:from];
+	 TO_DN_NONE(0.00)[];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
+	 FREEMAIL_TO(0.00)[gmx.de,redhat.com,linux.intel.com,ffwll.ch,gmail.com,linuxfoundation.org];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 MID_RHS_MATCH_FROM(0.00)[];
+	 BAYES_HAM(-1.37)[90.64%];
+	 ARC_NA(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 FROM_HAS_DN(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 RCPT_COUNT_TWELVE(0.00)[12];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,suse.de:dkim,suse.de:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 RCVD_TLS_ALL(0.00)[]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: C50531F811
+X-Spam-Level: 
+X-Spam-Score: -1.67
+X-Spam-Flag: NO
 
-Hi Youssef,
 
-On Sat, Feb 10, 2024 at 10:14:38PM +0000, Youssef Quaisse wrote:
-> Running `make htmldocs` generates warnings for file
-> drivers/staging/media/ipu3/include/uapi/intel-ipu3.h.
-> 
-> Fix was to remove the "excess" definitions.
-> 
-> Warnings in question:
-> 
-> ```
-> ./drivers/staging/media/ipu3/include/uapi/intel-ipu3.h:2522: warning: Excess struct member 'reserved1' description in 'ipu3_uapi_acc_param'
-> ./drivers/staging/media/ipu3/include/uapi/intel-ipu3.h:2522: warning: Excess struct member 'reserved2' description in 'ipu3_uapi_acc_param'
-> ./drivers/staging/media/ipu3/include/uapi/intel-ipu3.h:2778: warning: Excess struct member '__acc_osys' description in 'ipu3_uapi_flags'
-> ```
-> 
-> Signed-off-by: Youssef Quaisse <yquaisse@gmail.com>
 
-Thanks for the patch. These have been already addressed by commit
-dcef3ed5b0d79f89018e31d55cf09f2c2f81392b .
+Am 13.02.24 um 09:42 schrieb Thomas Zimmermann:
+> Resolved the proxy include via <linux/fb.h>, which does not require the
+> backlight header.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+Acked by Jani via IRC
+
+Acked-by: Jani Nikula<jani.nikula@intel.com>
+
+
 
 > ---
->  drivers/staging/media/ipu3/include/uapi/intel-ipu3.h | 3 ---
->  1 file changed, 3 deletions(-)
-> 
-> diff --git a/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h b/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
-> index caa358e0bae4..4aa2797f5e3c 100644
-> --- a/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
-> +++ b/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
-> @@ -2485,11 +2485,9 @@ struct ipu3_uapi_anr_config {
->   *		&ipu3_uapi_yuvp1_y_ee_nr_config
->   * @yds:	y down scaler config. See &ipu3_uapi_yuvp1_yds_config
->   * @chnr:	chroma noise reduction config. See &ipu3_uapi_yuvp1_chnr_config
-> - * @reserved1: reserved
->   * @yds2:	y channel down scaler config. See &ipu3_uapi_yuvp1_yds_config
->   * @tcc:	total color correction config as defined in struct
->   *		&ipu3_uapi_yuvp2_tcc_static_config
-> - * @reserved2: reserved
->   * @anr:	advanced noise reduction config.See &ipu3_uapi_anr_config
->   * @awb_fr:	AWB filter response config. See ipu3_uapi_awb_fr_config
->   * @ae:	auto exposure config  As specified by &ipu3_uapi_ae_config
-> @@ -2724,7 +2722,6 @@ struct ipu3_uapi_obgrid_param {
->   * @acc_ae: 0 = no update, 1 = update.
->   * @acc_af: 0 = no update, 1 = update.
->   * @acc_awb: 0 = no update, 1 = update.
-> - * @__acc_osys: 0 = no update, 1 = update.
->   * @reserved3: Not used.
->   * @lin_vmem_params: 0 = no update, 1 = update.
->   * @tnr3_vmem_params: 0 = no update, 1 = update.
+>   drivers/staging/fbtft/fb_ssd1351.c | 2 ++
+>   1 file changed, 2 insertions(+)
+>
+> diff --git a/drivers/staging/fbtft/fb_ssd1351.c b/drivers/staging/fbtft/fb_ssd1351.c
+> index b8d55aa8c5c75..72172e870007e 100644
+> --- a/drivers/staging/fbtft/fb_ssd1351.c
+> +++ b/drivers/staging/fbtft/fb_ssd1351.c
+> @@ -1,4 +1,6 @@
+>   // SPDX-License-Identifier: GPL-2.0
+> +
+> +#include <linux/backlight.h>
+>   #include <linux/module.h>
+>   #include <linux/kernel.h>
+>   #include <linux/init.h>
 
 -- 
-Kind regards,
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
-Sakari Ailus
