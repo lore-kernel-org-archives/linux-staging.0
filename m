@@ -1,167 +1,140 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B69E1210E4
-	for <linux-staging@lists.linux.dev>; Tue, 13 Feb 2024 08:44:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9509614000
+	for <linux-staging@lists.linux.dev>; Wed, 14 Feb 2024 09:52:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707813853; cv=none; b=Vvwa6rvQ9g6YUxM0Mr5Mkt3wjKMulZ6e4GNuJ+6JUYCAO2NhyXOd4Pg3mEcmZxrrC7mnZhEFWDXnymUKPoSPcTOuafVTVE3p9qYacTv7ZTl0oEMamxoRp9Ttt5FG+MYMxwVrb+EhXno+AXWsfhou/3HGOR5r1kwvUlBOYx9F9Xo=
+	t=1707904357; cv=none; b=gVIol7RsHLfTeOmDZPG47nfujGOL8131Ued9s5Se4vjB4AgGUjxY9my3jWJBOGawzpQ21nWLu9+zlfsh73kClDCGZjyw5Bn2scm8HWByiFVZkTF+8Z/JgNvUzpWJtKm2smohIHqL8IhiVJ0caYR+fdGyp+sHyZ513n773lvbEyU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707813853; c=relaxed/simple;
-	bh=Tjx89INZk4ph24H67Nn3nyzflf39Bl7CzNwfrO79E0U=;
+	s=arc-20240116; t=1707904357; c=relaxed/simple;
+	bh=FmfAEOza9/d2hNbh0tuCn4rmbZNKD9slzf5V5SZ7yKA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VJRSKPMWd0quM//WBCdSH67S5TpFdF/QV96IqzS5B+wCKF2LYHlX4Y8uW5XHxjWxfSCsh5olYeTxs1NzMh46lrb9q9JZTAsKvyjUGvCgmeIVSjVXq2ya1ZRG4La86bvx9ToFK+383Gv8+hpvSiKLYLQVJ+/O/PvuTXC3JQL5/fU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=gTibdIYV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=YicdfEIy; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=gTibdIYV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=YicdfEIy; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="gTibdIYV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YicdfEIy";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="gTibdIYV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YicdfEIy"
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1E1392219F;
-	Tue, 13 Feb 2024 08:44:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1707813849; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=x2GLT5Ur1C4c5LTkjDjPIftfGSpg/zb/1mTpFX8ItyU=;
-	b=gTibdIYV5ojo+v3gHHrYAfUeiMwz27Y1sJqJeuQxDvEc7tMcimenxl7/v3t9b39CyfTB9D
-	mOwDkIY4IwMKgyuIL7ll+9SWi60gcqTOm1px/k2XU0oa//8uzp0H1UPpumSwkmGQ+TBeZO
-	5NU61026Rf1TohH1RWNjVvbhsUtPNeQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1707813849;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=x2GLT5Ur1C4c5LTkjDjPIftfGSpg/zb/1mTpFX8ItyU=;
-	b=YicdfEIykKjp42IL4Ne9ka4MoRcH/pO9hQ1ERP58hqtnEsoCKKiOjvrHmgo7Y7ftmKc1cK
-	JuKQT+sR+1c16KDg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1707813849; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=x2GLT5Ur1C4c5LTkjDjPIftfGSpg/zb/1mTpFX8ItyU=;
-	b=gTibdIYV5ojo+v3gHHrYAfUeiMwz27Y1sJqJeuQxDvEc7tMcimenxl7/v3t9b39CyfTB9D
-	mOwDkIY4IwMKgyuIL7ll+9SWi60gcqTOm1px/k2XU0oa//8uzp0H1UPpumSwkmGQ+TBeZO
-	5NU61026Rf1TohH1RWNjVvbhsUtPNeQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1707813849;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=x2GLT5Ur1C4c5LTkjDjPIftfGSpg/zb/1mTpFX8ItyU=;
-	b=YicdfEIykKjp42IL4Ne9ka4MoRcH/pO9hQ1ERP58hqtnEsoCKKiOjvrHmgo7Y7ftmKc1cK
-	JuKQT+sR+1c16KDg==
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id B0F9C13A2C;
-	Tue, 13 Feb 2024 08:44:08 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap2.dmz-prg2.suse.org with ESMTPSA
-	id qLvvKdgry2VOFwAAn2gu4w
-	(envelope-from <tzimmermann@suse.de>); Tue, 13 Feb 2024 08:44:08 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: deller@gmx.de,
-	kherbst@redhat.com,
-	lyude@redhat.com,
-	dakr@redhat.com,
-	jani.nikula@linux.intel.com,
-	daniel@ffwll.ch,
-	airlied@gmail.com,
-	gregkh@linuxfoundation.org
-Cc: linux-fbdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	nouveau@lists.freedesktop.org,
+	 MIME-Version:Content-Type; b=QpTwXL5rf+UrmQqDFYQNUtoY3jpE2Bx/9e75P+4nxBpdA8x2kd9u3rLa/IprYm0Wdn7ijLwpxOXYeQbEE/i7xZljOM5HwTI9ErEi02/3cZj8L9asc/hP6FV7FK//uqo7toGGlxENtprTRp3dN9PRCSbXluXg0L5q+0UuCh+lphw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1raBfB-0006Id-O9; Wed, 14 Feb 2024 10:34:45 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1raBf8-000fIi-7n; Wed, 14 Feb 2024 10:34:42 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1raBf8-004YAZ-0V;
+	Wed, 14 Feb 2024 10:34:42 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: linux-pwm@vger.kernel.org,
+	Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: greybus-dev@lists.linaro.org,
 	linux-staging@lists.linux.dev,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jani Nikula <jani.nikula@intel.com>
-Subject: [PATCH v2 7/8] fbdev: Clean up forward declarations in header file
-Date: Tue, 13 Feb 2024 09:42:25 +0100
-Message-ID: <20240213084403.20995-8-tzimmermann@suse.de>
+	kernel@pengutronix.de
+Subject: [PATCH v6 159/164] staging: greybus: pwm: Rework how the number of PWM lines is determined
+Date: Wed, 14 Feb 2024 10:33:26 +0100
+Message-ID:  <3efd84ac03e7dc288f20b0de20b142b6404cb1fa.1707900770.git.u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240213084403.20995-1-tzimmermann@suse.de>
-References: <20240213084403.20995-1-tzimmermann@suse.de>
+In-Reply-To: <cover.1707900770.git.u.kleine-koenig@pengutronix.de>
+References: <cover.1707900770.git.u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2418; i=u.kleine-koenig@pengutronix.de; h=from:subject:message-id; bh=FmfAEOza9/d2hNbh0tuCn4rmbZNKD9slzf5V5SZ7yKA=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlzIkBYfxnpsZDGPR6CM6yYdFj2e0aARUj9TzsI U2MyZHUuwSJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZcyJAQAKCRCPgPtYfRL+ TpHECAC0Dh8Wq/Sy8uBw18G5fGsgw8ytujJBANc7y7TyUUoEmiGH1Jm4NxKDW/BmVwm7CJc9u86 1kh0MZ/Cu9rTQ21uAuK8NF0lg/8s4IDoAkPWyfV9E4mkJ5hWytnH6c7xhtAIM52ZL8nBiyn1IPv gkAQEvnB0PioQhTkTy4N1E6tHoVIpbts3670tq89g0qG8HqPqRJ83L4Hru5UbFJ5p+vOwlyXwVJ hYfUZk8/2xGdDZJYAct76h1CRqh7pF90DxmCVjWN9uj3frn816P0McfT69XKIbAmPVMQYynQW6F Hb3OeKuPq0okk9kDsbTuEhPQKu5EnMli+6uEnf4k53FUJXjw
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spamd-Result: default: False [0.90 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
-	 R_MISSING_CHARSET(2.50)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 REPLY(-4.00)[];
-	 BROKEN_CONTENT_TYPE(1.50)[];
-	 R_RATELIMIT(0.00)[to_ip_from(RL9pqk354j4esf7wsagg6iyf8a)];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 RCPT_COUNT_TWELVE(0.00)[14];
-	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,intel.com:email];
-	 FREEMAIL_TO(0.00)[gmx.de,redhat.com,linux.intel.com,ffwll.ch,gmail.com,linuxfoundation.org];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-0.00)[25.89%]
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spam-Score: 0.90
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-staging@lists.linux.dev
 
-Add forward declarations for struct i2c_adapter and struct module, and
-sort the list alphabetically.
+With a later patch it becomes necessary to already now the number of PWM
+lines when pwmc is allocated. So make the function not use pwmc but a
+plain connection and return the number of lines instead of storing it in
+pwmc. This allows to get rid of the pwm_max member.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- include/linux/fb.h | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ drivers/staging/greybus/pwm.c | 23 +++++++++++++----------
+ 1 file changed, 13 insertions(+), 10 deletions(-)
 
-diff --git a/include/linux/fb.h b/include/linux/fb.h
-index 42155898374b1..8f70ca727a30d 100644
---- a/include/linux/fb.h
-+++ b/include/linux/fb.h
-@@ -15,15 +15,17 @@
- #include <asm/fb.h>
+diff --git a/drivers/staging/greybus/pwm.c b/drivers/staging/greybus/pwm.c
+index c7a2e874a62b..35e98e7c00c1 100644
+--- a/drivers/staging/greybus/pwm.c
++++ b/drivers/staging/greybus/pwm.c
+@@ -16,8 +16,6 @@
  
- struct backlight_device;
--struct vm_area_struct;
--struct fb_info;
- struct device;
-+struct device_node;
-+struct fb_info;
- struct file;
-+struct i2c_adapter;
- struct inode;
-+struct module;
- struct notifier_block;
- struct page;
- struct videomode;
--struct device_node;
-+struct vm_area_struct;
+ struct gb_pwm_chip {
+ 	struct gb_connection	*connection;
+-	u8			pwm_max;	/* max pwm number */
+-
+ 	struct pwm_chip		chip;
+ };
  
- /* Definitions below are used in the parsed monitor specs */
- #define FB_DPMS_ACTIVE_OFF	1
+@@ -26,17 +24,21 @@ static inline struct gb_pwm_chip *pwm_chip_to_gb_pwm_chip(struct pwm_chip *chip)
+ 	return container_of(chip, struct gb_pwm_chip, chip);
+ }
+ 
+-static int gb_pwm_count_operation(struct gb_pwm_chip *pwmc)
++static int gb_pwm_get_npwm(struct gb_connection *connection)
+ {
+ 	struct gb_pwm_count_response response;
+ 	int ret;
+ 
+-	ret = gb_operation_sync(pwmc->connection, GB_PWM_TYPE_PWM_COUNT,
++	ret = gb_operation_sync(connection, GB_PWM_TYPE_PWM_COUNT,
+ 				NULL, 0, &response, sizeof(response));
+ 	if (ret)
+ 		return ret;
+-	pwmc->pwm_max = response.count;
+-	return 0;
++
++	/*
++	 * The request returns the highest allowed PWM id parameter. So add one
++	 * to get the number of PWMs.
++	 */
++	return response.count + 1;
+ }
+ 
+ static int gb_pwm_activate_operation(struct pwm_chip *chip, u8 which)
+@@ -245,7 +247,7 @@ static int gb_pwm_probe(struct gbphy_device *gbphy_dev,
+ 	struct gb_connection *connection;
+ 	struct gb_pwm_chip *pwmc;
+ 	struct pwm_chip *chip;
+-	int ret;
++	int ret, npwm;
+ 
+ 	pwmc = kzalloc(sizeof(*pwmc), GFP_KERNEL);
+ 	if (!pwmc)
+@@ -267,15 +269,16 @@ static int gb_pwm_probe(struct gbphy_device *gbphy_dev,
+ 		goto exit_connection_destroy;
+ 
+ 	/* Query number of pwms present */
+-	ret = gb_pwm_count_operation(pwmc);
+-	if (ret)
++	ret = gb_pwm_get_npwm(connection);
++	if (ret < 0)
+ 		goto exit_connection_disable;
++	npwm = ret;
+ 
+ 	chip = &pwmc->chip;
+ 
+ 	chip->dev = &gbphy_dev->dev;
+ 	chip->ops = &gb_pwm_ops;
+-	chip->npwm = pwmc->pwm_max + 1;
++	chip->npwm = npwm;
+ 
+ 	ret = pwmchip_add(chip);
+ 	if (ret) {
 -- 
 2.43.0
 
