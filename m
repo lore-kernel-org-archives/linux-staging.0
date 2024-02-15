@@ -1,115 +1,180 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0ED2182D4
-	for <linux-staging@lists.linux.dev>; Thu, 15 Feb 2024 09:32:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C2AB12A14D
+	for <linux-staging@lists.linux.dev>; Thu, 15 Feb 2024 11:48:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707989567; cv=none; b=XBScOeow53KeReMEtuMNglr7sQkXhtqK3m868UxPjVT2PvGQB4DpInlS94fPL6oO5e7PBx5/EQVR879dcBEVcJASb4/v+n7Ts8u87sCjTNuS9C663rWjLByhD3h/pt/Xcp+LCPu48PRgM2ak9ZE0wlj6ZkHZ5HMbN0Hpek9IjI8=
+	t=1707997715; cv=none; b=ffa0inkm2Rj8FLTlTxsk3S59+zY6/kNfvws3ceoemkdBwtLyfjoPhjcLwl7TxYgjQG79+gGqun6qBsYbfHiehHiEfyIzHkwdeiKcYm0UB1jsMDpRXeTb9TAepOrsc7NJsxHIo19u8biLV+/A/AtowCVXEBF4pE9TbP0uVzQ3dlY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707989567; c=relaxed/simple;
-	bh=Omg4acYujtdeRawCGb0RTHxJLjrGqaPKUU7KovSJhpc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=l/JYCjjzjpp+XRrxaDZ4CX4JCz9JZHctAe3wa48+dVuKdUSz++zZd0Ah8k0n//2hZkSluYgEOk+9/B1CwNZtJ6iDPUFg+1aQTIH3OZkbnc6gLQy7HL0WMDXuyGrfBQ3PY0fLawYMz+R0HxjhH4D5pIRLolZ+DLoZLMBOFr0wnWI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ls3JsdwF; arc=none smtp.client-ip=209.85.208.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ls3JsdwF"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-563a782fa78so57649a12.0
-        for <linux-staging@lists.linux.dev>; Thu, 15 Feb 2024 01:32:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707989564; x=1708594364; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Kg/5u3u8BHpzXrjgfyC49Sj4UVynox8lvULasQKi+Xs=;
-        b=Ls3JsdwFrsgh/mOxhrvCPBrg8p/vbDnvWu0LWzQAm6OeU86DP30lGNo1BABUagx7ki
-         wbxHklRcfDdMY0JGuFSjf8W59/fC7VU5Ve0047esbM8+NCa9nvHHoAqySYfP7NNxmvXc
-         Q1naVegTLpRKm+WFoU9kVBh3OHS5Exrq+QUznLGEFUbPjzJZ+O6GhyDiDXTKJjzI9Abj
-         0lBdMKeVKiXBWh9KcVQwtCMx4Orr7QrpHXWQcQg74v3GbaniPUBjRF2H/US9m/GZB29H
-         dP9skPgy8YjIjfsnHH6D5SS6yxkO2YHcgk4NTDwcdIJ7VZeC0a79WIdBBtorCo+rP1Vo
-         qSgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707989564; x=1708594364;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Kg/5u3u8BHpzXrjgfyC49Sj4UVynox8lvULasQKi+Xs=;
-        b=ag94A/fOn7rrQldpwq5dAV8hqz+pS6PXAdqDXeKYZWszoEVKMfgfKlLOz6taktK14z
-         AcwxzWOCtuzNchKY/CgkB4dM7w6gNNMBI5L2q+PkklUtoQFSuQiwN5w/GytHAZ5cvbte
-         xGYdaXzR9m4NjXcsIioof8SneE2ynMy1mTdYW+mzawU1ekF72RGifPUZMq4ZnwYPCn9g
-         82KCIIHaViClmpzSg23ra/uTcbqosc86AgGUGh92poaDNOBUoQv7SkLQp8mjeUUukzFw
-         tUDl33aZTaodLOrHdscOvyWNrHZTuqGur8CSJdfAkm65YfaujSHGo6LV3mHPYLiSClI5
-         dYUA==
-X-Forwarded-Encrypted: i=1; AJvYcCV9jsr7qpEfn89CECQgTKs4XTA33Y53n4C8/txAr1iiswMX/uLNHhocm9yrX6N9/YPvi6xAlsu16dasZT2eIRC0mnQnbANIqmZkg2Zn4w==
-X-Gm-Message-State: AOJu0Yy+WG9adHRbvlODU2nDYjXkkLHiVFSTWKeQfouDgt+wi+YgiCl/
-	4hp6mKZY+QQjh1MmhoDPP5pdaRqzu0VReKCNFtusWhe9ptTfVZV7
-X-Google-Smtp-Source: AGHT+IEcIgt2Iqxx2tsbVKbYneFYaBxEmNZ14WV6xTenuRe50DQjP6SUkT4XxX/DOObJtd/XCGhboA==
-X-Received: by 2002:a50:8d11:0:b0:560:1f51:80f6 with SMTP id s17-20020a508d11000000b005601f5180f6mr808912eds.4.1707989563363;
-        Thu, 15 Feb 2024 01:32:43 -0800 (PST)
-Received: from [192.168.8.103] (dynamic-176-005-144-062.176.5.pool.telefonica.de. [176.5.144.62])
-        by smtp.gmail.com with ESMTPSA id z10-20020aa7cf8a000000b0056399fa69absm364316edx.26.2024.02.15.01.32.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 15 Feb 2024 01:32:42 -0800 (PST)
-Message-ID: <817953da-12ee-4720-aef1-725d07c2704e@gmail.com>
-Date: Thu, 15 Feb 2024 10:32:41 +0100
+	s=arc-20240116; t=1707997715; c=relaxed/simple;
+	bh=8IGtjDC8lwX138mc9T3n6QxlYh/K434+nFH09sU4g/E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OJu6e8XTEk+X1Y+pRbUJz15y3JeRRSN2qPg3Mt/ta0VtVvBRSo6aKHxAmwA0PBXjXrU+cf6kBvkjbL5rc4NdxSDll0gMpHeJnNq+K+9dpsSUxzeGafxhFxb2pO0AlZbNhHwYwGbBD1kOTHKSfQOBWPbxfFv7KB/pVYVuEsLDfvo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1raaCf-0007ES-Uk; Thu, 15 Feb 2024 12:46:57 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1raaCW-000sHg-HB; Thu, 15 Feb 2024 12:46:48 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1raaCW-005KD7-12;
+	Thu, 15 Feb 2024 12:46:48 +0100
+Date: Thu, 15 Feb 2024 12:46:48 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: linux-pwm@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>, James Clark <james.clark@arm.com>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Mark Brown <broonie@kernel.org>, 
+	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
+	Alexander Shiyan <shc_work@mail.ru>, Benson Leung <bleung@chromium.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Paul Cercueil <paul@crapouillou.net>, 
+	Vladimir Zapolskiy <vz@mleia.com>, Mika Westerberg <mika.westerberg@linux.intel.com>, 
+	Andy Shevchenko <andy@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, 
+	Hans de Goede <hdegoede@redhat.com>, Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Kevin Hilman <khilman@baylibre.com>, Conor Dooley <conor.dooley@microchip.com>, 
+	Daire McNamara <daire.mcnamara@microchip.com>, Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
+	Heiko Stuebner <heiko@sntech.de>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Michael Walle <mwalle@kernel.org>, Orson Zhai <orsonzhai@gmail.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
+	Fabrice Gasnier <fabrice.gasnier@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Hammer Hsieh <hammerh0314@gmail.com>, Thierry Reding <thierry.reding@gmail.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>, 
+	Sean Anderson <sean.anderson@seco.com>, Michal Simek <michal.simek@amd.com>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Robert Foss <rfoss@kernel.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Pavel Machek <pavel@ucw.cz>, 
+	Lee Jones <lee@kernel.org>, Anjelique Melendez <quic_amelende@quicinc.com>, 
+	Bjorn Andersson <quic_bjorande@quicinc.com>, Kees Cook <keescook@chromium.org>, Rob Herring <robh@kernel.org>, 
+	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Douglas Anderson <dianders@chromium.org>, linux-doc@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Guenter Roeck <groeck@chromium.org>, linux-riscv@lists.infradead.org, 
+	Fabio Estevam <festevam@gmail.com>, linux-stm32@st-md-mailman.stormreply.com, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Jerome Brunet <jbrunet@baylibre.com>, 
+	chrome-platform@lists.linux.dev, linux-samsung-soc@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-rockchip@lists.infradead.org, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, NXP Linux Team <linux-imx@nxp.com>, linux-leds@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev, Jonas Karlman <jonas@kwiboo.se>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, linux-gpio@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+	linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org, linux-amlogic@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, greybus-dev@lists.linaro.org, 
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>, linux-mips@vger.kernel.org, asahi@lists.linux.dev, 
+	kernel@pengutronix.de, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v6 000/164] pwm: Improve lifetime tracking for pwm_chips
+Message-ID: <frrn4vofjuskb67rxrgnwqrsqioonglp7nidoueumgw2hemhxq@6hrsnivgobuw>
+References: <cover.1707900770.git.u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Staging: rtl8192e: rtl819x_HTProc: Removed braces from
- single statement block
-To: Aaron Parfitt <aaronparfitt123@gmail.com>, gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-References: <20240213074649.18158-1-aaronparfitt123@gmail.com>
-Content-Language: en-US
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20240213074649.18158-1-aaronparfitt123@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="t4o747itgdnx5oup"
+Content-Disposition: inline
+In-Reply-To: <cover.1707900770.git.u.kleine-koenig@pengutronix.de>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-staging@lists.linux.dev
 
-Hi Aaron,
 
-looks OK but can we make the subject more unique. Maybe like this:
+--t4o747itgdnx5oup
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[PATCH] Staging: rtl8192e: Removed braces from single statement block in 
-ht_on_assoc_rsp
+Hello,
 
-Or is this getting to long?
+On Wed, Feb 14, 2024 at 10:30:47AM +0100, Uwe Kleine-K=F6nig wrote:
+> this is v6 of the series introducing better lifetime tracking for
+> pwmchips that addresses (for now theoretic) lifetime issues of pwm
+> chips. Addressing these is a necessary precondition to introduce chardev
+> support for PWMs.
+>=20
+> Locking got more complicated due to non-sleeping chips, so I dropped
+> the character device patch because it got still more incomplete now.
+> Also I'm not yet entirely sure about patches #162 and #163 and I expect
+> them to change before they can go in. My plan for the next merge window
+> is to get the patches in up to #160. After that the addition of chardev
+> support (including correct locking) can continue without having to touch
+> the lowlevel driver. So the idea of this series is to get the driver
+> adaptions out of the way as this requires some cross-tree coordination.
+>=20
+> The patches that touch files outside of drivers/pwm include:
+>=20
+>  - gpio: mvebu: Make use of devm_pwmchip_alloc() function
+>    It already has an Ack by Linus Walleij.
+>=20
+>  - drm/bridge: ti-sn65dsi86: Make use of pwmchip_parent() accessor
+>  - drm/bridge: ti-sn65dsi86: Make use of devm_pwmchip_alloc() function
+>    The 2nd already has an Ack by Douglas Anderson which I tend to assume
+>    good enough to merge this via my pwm tree, too. An Ack for the first
+>    patch would be nice.
+>=20
+>  - leds: qcom-lpg: Make use of devm_pwmchip_alloc() function
+>    Already has an Ack by Lee Jones.
+>=20
+>  - staging: greybus: pwm: Change prototype of helpers to prepare further =
+changes
+>  - staging: greybus: pwm: Make use of pwmchip_parent() accessor
+>  - staging: greybus: pwm: Rely on pwm framework to pass a valid hwpwm
+>  - staging: greybus: pwm: Drop unused gb_connection_set_data()
+>  - staging: greybus: pwm: Rework how the number of PWM lines is determined
+>  - staging: greybus: pwm: Make use of devm_pwmchip_alloc() function
+>    The greybus patches already got an Ack by Greg Kroah-Hartman in an
+>    earlier series, but I dropped it as the patches changed considerably.
 
-I propose the description to be like:
+After getting the needed acks, I pushed out this series in
 
-Remove braces from single statement blocks to clear checkpatch warning.
+https://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git pwm/for-=
+next
 
-If you change this you need to make a v2 with changelog.
+up to patch #161.
 
-Bye Philipp
+(But don't let you stop looking at the changes, reviews are still
+welcome.)
 
-On 13.02.24 08:46, Aaron Parfitt wrote:
-> Fixed code style issue
->
-> Signed-off-by: Aaron Parfitt <aaronparfitt123@gmail.com>
-> ---
->   drivers/staging/rtl8192e/rtl819x_HTProc.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-> index 6d0912f90198..49b882c363bf 100644
-> --- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
-> +++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-> @@ -480,9 +480,9 @@ void ht_on_assoc_rsp(struct rtllib_device *ieee)
->   	}
->   
->   	ht_info->current_mpdu_density = pPeerHTCap->MPDUDensity;
-> -	if (ht_info->iot_action & HT_IOT_ACT_TX_USE_AMSDU_8K) {
-> +	if (ht_info->iot_action & HT_IOT_ACT_TX_USE_AMSDU_8K)
->   		ht_info->current_ampdu_enable = false;
-> -	}
-> +
->   	ht_info->cur_rx_reorder_enable = 1;
->   
->   	if (pPeerHTCap->MCS[0] == 0)
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--t4o747itgdnx5oup
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmXN+acACgkQj4D7WH0S
+/k6nrwf9Huw1P/RTRggrOHnHFRGpBXi+TWvCPbsOC65CPiHeI7iVxtq/vUtQ4A6L
+CNA0O2W96568TwCEnxxCI6Be+7t8/H/Xb+oTs0yb6hblYkDhxYrXz+wAtoCTWOM8
+MI6xhfufB/JvOhgeX0iVMIx/TOc7gDY0wnFCS7bE15PPxMTjb1yF9Uo3az97CIld
+AF8InyaA81p8dcTlhmHzMa59LEFqoPzmNoySKqTIII7UuHmQRXOqV1RuEmKxN9Ho
+yRvisZgaqoinb8K7tXdw6G8HErBcN1aHM4OQBkZWI0ufVRNzQ8gT1sfoaRlsilOv
+yc/xo9Wl8bLPEKrjcpb9Hv/C+LgzyQ==
+=hkRd
+-----END PGP SIGNATURE-----
+
+--t4o747itgdnx5oup--
