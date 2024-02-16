@@ -1,145 +1,158 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0733613DBA4
-	for <linux-staging@lists.linux.dev>; Thu, 15 Feb 2024 22:53:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D63477F12
+	for <linux-staging@lists.linux.dev>; Fri, 16 Feb 2024 11:53:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708037635; cv=none; b=S8foL3JYNYgDM+NvcsrJLRLsfcFJWj/+8i+Tu3NtOhWzVN2JrP8nL+WPZjsu9hYzmcUU8IbZZE3tOOpjucsqH9DmGZnztH6z10lw9/ezKfeoPZwhEFSj1Z+jVy6w1Y+aW0ON1SkQYI1CiS5Ngbu/ESDXg7/ynyOkwNuLPZ8xz64=
+	t=1708084403; cv=none; b=D44TfNnVYa86xPPSLj/wk5X1LcX0oSA17cnWyAZVarRBMBVDYdCnGm7rPAT+AjM4Vi2Yj6ajCw9RdwWSprAl2jKc6DjR6YeXzOxrriaiYpa5vqqNhty0qYLRnR1fxRBp/5zfJymNOmTAb60NLPuO1+O9ZdyVTIGLkWWQDjYFkpc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708037635; c=relaxed/simple;
-	bh=XnFYaR+j8cXDRfdSASbIWHQxzHD5XY3BItp+mlM97jE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=SBc3t4vxoHeCm1DK5k+p1gS+Gpcr+eyfTm9CxAQ/cdGT8hGHCbQRbFNMvU+Ap6IyELV4MzlVRsOk5XjesUAenGtFPqYBRay+gbqqod5G50pTuSsiedZLLpiifFsg8s/qo+dSx/wmMXiy68BGLQfJZtM+/KTJon6d1ZRHryg3gfM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fkA5PVXZ; arc=none smtp.client-ip=209.85.208.47
+	s=arc-20240116; t=1708084403; c=relaxed/simple;
+	bh=rprh8FmcfW3UGidBPWanTNOuKUyGfL0148rKwu9AYlI=;
+	h=Content-Type:Mime-Version:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=cBx0t46h05Aa8aab1kKZXWk7RWKFFRDb6bkeF8OphVhHb+1yc6aKjclFB+jyHj86vkY+OmvageWhVG77CyfGw6ObGMiJM705JZzmUXZyrlwsjNC+bLcZUAv7FlUkp+l7wtMnlqQOCCgaM/hj0rHWWwN9oLD8IvHzUTzLi26gc1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mTCFZkwm; arc=none smtp.client-ip=209.85.218.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fkA5PVXZ"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-563a6656c46so2142929a12.1
-        for <linux-staging@lists.linux.dev>; Thu, 15 Feb 2024 14:53:53 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mTCFZkwm"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a2f22bfb4e6so248641566b.0
+        for <linux-staging@lists.linux.dev>; Fri, 16 Feb 2024 03:53:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708037632; x=1708642432; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=B8uMPEt1VqqPCM4teLHLJiETOk2ZEgqVh3I3k6LiZj8=;
-        b=fkA5PVXZG1OvDXag8QxpAqNN4p3U3XWTssISjMNDjq8Q3nK/SDCiHxQhCmT0tPheiT
-         adKDICXy4PPwsHbv0N4zL/O6vl/Ii8sm0Yf+u+g8YuRmGu5NsHv0OaS00volxq6gtsQ8
-         OEqh3HW1UJbc0STFqc6dHMJNWJVgAjEvHNsv5P4EdrOjsxXvZbcV8LsmMEAnpRCaDvjK
-         KWr1JpLyKGwZmD2eYCgjjRTetm8rvOuFBcWyccXvP7axs10guN8GClARs9pjDUy6dB3S
-         +/uWEMSG791DFDztR916sXINMRrLfovp1pgMm88SuoUU0iJgUWUQ8r881Rd6oUXK8yF3
-         B3Sg==
+        d=gmail.com; s=20230601; t=1708084399; x=1708689199; darn=lists.linux.dev;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=FONUejouVKRdUMu9T/GH3sU6Bm1U62wIrGpiqv/zAl8=;
+        b=mTCFZkwmyLeltwJDJJfSGLo3FYgNtVXUnBnkSlxCgdQVrTekSc4KTaV0Rxbc8/FygK
+         rPA61eJyaDbtASjRBmYQ0y44Qf2kB70XwlPIKz076aDqFP2F/f6dfiNia1BL1U2rANxf
+         8lP9K9LzgGXASfb+0W/i9mMCOEDHwbjDMldoKsFH13KQkNsuqxDAJd6WZ/uxfDKN+RfQ
+         UzozdhKTzv73e3iAwMUQiUdYiUIp+qNQtnuL9+FTzeuvlvakPyeTVIJR4gmOuogx2gZO
+         gXVwfbtwVTBDlifZJPKcqzF0nqBnPXdn2t4Sm5rJiHwj60zox2kxy+IGAB8xXZBP4Zje
+         GIxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708037632; x=1708642432;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1708084399; x=1708689199;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=B8uMPEt1VqqPCM4teLHLJiETOk2ZEgqVh3I3k6LiZj8=;
-        b=QNVOfu59HcJekIaYJGbX0iSQdGlZcK9Xw0664IoYVVB2TGzpEtEWT1j1uK3m8ZS1te
-         8nGZcjptD8oMIM7618OR1ZokvUO4wzo7n4p4UDIhdxKswhw7lvhLV8nHRGA4VIeDhSfL
-         UrHeMB8nFNKhjBI4hYPRwGjsZZ/FNUtEYraS5WibPurDT0qvCEmWMrPhCi5v6MGjPXBQ
-         Yp0C3cdqYNNwnfk8tu5x5f36E2vttnb2RzP7rw0ZDbSfMcE6b3YrH7AxhLNwGFHU/jM5
-         A381cHTsYSNIvUtT3ekgK6hwlOvo+7XA8HSdJ6kIKPvNOWG77RTsSnjcpmOz3BOhJR6l
-         OpZg==
-X-Gm-Message-State: AOJu0YxYhqm7AkOY+zNqfI0ZqgiJLSiI8pTpbZrtcI60sggQrSTPjX1Q
-	XZfcj1QhKjwqx4rcCedmYFBeN0/pyAMZ+wvxEgTAAqhOEsr4kEmP
-X-Google-Smtp-Source: AGHT+IFlo2ZFjZKkscUV0bL+SgznBaVctw2W1+GyDMpwF9cTad8lPj/HYGbYR4mHHuMLUSHvASiJHw==
-X-Received: by 2002:aa7:c149:0:b0:563:d042:4bdf with SMTP id r9-20020aa7c149000000b00563d0424bdfmr1041581edp.0.1708037631968;
-        Thu, 15 Feb 2024 14:53:51 -0800 (PST)
-Received: from pinguine.lan (ip-176-198-146-182.um43.pools.vodafone-ip.de. [176.198.146.182])
-        by smtp.gmail.com with ESMTPSA id p3-20020a05640243c300b00563c22abac2sm650782edc.61.2024.02.15.14.53.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Feb 2024 14:53:51 -0800 (PST)
-From: "Moritz C. Weber" <mo.c.weber@gmail.com>
-To: florian.fainelli@broadcom.com
-Cc: linux-staging@lists.linux.dev,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	"Moritz C. Weber" <mo.c.weber@gmail.com>
-Subject: [PATCH 3/3] Staging: vc04_services: interface: vchiq_arm: fixed several brace coding style checks/warnings
-Date: Thu, 15 Feb 2024 23:53:28 +0100
-Message-Id: <20240215225328.11141-1-mo.c.weber@gmail.com>
-X-Mailer: git-send-email 2.30.2
+        bh=FONUejouVKRdUMu9T/GH3sU6Bm1U62wIrGpiqv/zAl8=;
+        b=OxAGDwGeSG3jpYUNg8uVN7GzGdwPtoK8mPEiJSrnh69LEfNw4AcXdbIAgtRw9dK16E
+         yD7B3Oq40OUnabdt7AYuP0nbbNIKfIpNGWahdCqgQ/p0vrTBF8ryRkHPUKEycVVtFmnz
+         hMYgwpi0ZQXad4KoTYW/GKh+4XF86wcozsoKqNRmgkOtltQzdyLHC1qDk6xCy6UN9Xac
+         t5LYDY8iYDTW3fs9Gqcs9ri8ngcxAq5LfSknZViVyrvjBagCK1LwpFTRwUi72xsruB5f
+         i7bWSRXLsfanNKZiXxG0p4AOs8wuK0l03Q28ahDiSSDIIY2p7dl6gWy810j/imBE6LhH
+         g5qA==
+X-Forwarded-Encrypted: i=1; AJvYcCWxjkVNfVTC8LNuIWfzj3KdJc0VQqisKteY3cQ3TkGCoXh9dPMO44+RM5LiPvvOYVhqZGViTcVEnKKwmRRn6r9PW42+tbI3i4boUiMH+A==
+X-Gm-Message-State: AOJu0YwsCNFPHPutP5B/p1ts8KK+nd+h9CiYd6XiM2lLa+00bvF1g8UE
+	1APOSe5ZYclJQaHs4LkVt+eimqA33PCLgHNiZIHD8rqHtoph1d2f
+X-Google-Smtp-Source: AGHT+IETKBqVDm9ABkmTptZnMQ26UxMCndCjuDTSarB5s9mLn3o//7N3rMAR3bUK8JqRgEzNJtXBDw==
+X-Received: by 2002:a17:906:4a17:b0:a38:107a:94f6 with SMTP id w23-20020a1709064a1700b00a38107a94f6mr3046427eju.71.1708084399406;
+        Fri, 16 Feb 2024 03:53:19 -0800 (PST)
+Received: from localhost (p200300e41f147f00f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f14:7f00:f22f:74ff:fe1f:3a53])
+        by smtp.gmail.com with ESMTPSA id sn24-20020a170906629800b00a3d296f46besm1471739ejc.120.2024.02.16.03.53.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 16 Feb 2024 03:53:19 -0800 (PST)
+Content-Type: multipart/signed;
+ boundary=9dee9a19cb63a77cc8f9975bef85216d69227f6fdf7a09b5460baac60383;
+ micalg=pgp-sha256; protocol="application/pgp-signature"
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Date: Fri, 16 Feb 2024 12:53:18 +0100
+Message-Id: <CZ6HDVZIGHOE.2SGOQNXEGENY3@gmail.com>
+Cc: <marvin24@gmx.de>, <ac100@lists.launchpad.net>,
+ <linux-tegra@vger.kernel.org>, <linux-staging@lists.linux.dev>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] Staging: nvec: nvec: fixed two usleep_range is
+ preferred over udelay warnings
+From: "Thierry Reding" <thierry.reding@gmail.com>
+To: "Nam Cao" <namcao@linutronix.de>, "Moritz C. Weber"
+ <mo.c.weber@gmail.com>
+X-Mailer: aerc 0.16.0-1-0-g560d6168f0ed-dirty
+References: <20240212133645.1836-1-mo.c.weber@gmail.com>
+ <20240212152110.4f8fe0e6@namcao>
+In-Reply-To: <20240212152110.4f8fe0e6@namcao>
 
-Fixed code style checks raised by checkpatch
+--9dee9a19cb63a77cc8f9975bef85216d69227f6fdf7a09b5460baac60383
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Moritz C. Weber <mo.c.weber@gmail.com>
----
- .../staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 6 +++---
- .../vc04_services/interface/vchiq_arm/vchiq_core.c        | 8 ++++----
- 2 files changed, 7 insertions(+), 7 deletions(-)
+On Mon Feb 12, 2024 at 3:21 PM CET, Nam Cao wrote:
+> On 12/Feb/2024 Moritz C. Weber wrote:
+> > Fixed a code style issue raised by checkpatch.
+> > ---
+> >  drivers/staging/nvec/nvec.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >=20
+> > diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
+> > index 2823cacde..18c5471d5 100644
+> > --- a/drivers/staging/nvec/nvec.c
+> > +++ b/drivers/staging/nvec/nvec.c
+> > @@ -627,7 +627,7 @@ static irqreturn_t nvec_interrupt(int irq, void *de=
+v)
+> >  		break;
+> >  	case 2:		/* first byte after command */
+> >  		if (status =3D=3D (I2C_SL_IRQ | RNW | RCVD)) {
+> > -			udelay(33);
+> > +			usleep_range(32, 33);
+> >  			if (nvec->rx->data[0] !=3D 0x01) {
+> >  				dev_err(nvec->dev,
+> >  					"Read without prior read command\n");
+> > @@ -714,7 +714,7 @@ static irqreturn_t nvec_interrupt(int irq, void *de=
+v)
+> >  	 * We experience less incomplete messages with this delay than withou=
+t
+> >  	 * it, but we don't know why. Help is appreciated.
+> >  	 */
+> > -	udelay(100);
+> > +	usleep_range(99, 100);
+> > =20
+> >  	return IRQ_HANDLED;
+> >  }
+>
+> I have zero knowledge about this driver, but nvec_interrupt() seems to be
+> a hard interrupt handler, and sleeping in an interrupt handler is a big n=
+o
+> no. So I think this change breaks the driver.
+>
+> Delaying like the driver is currently doing doesn't break things, but it =
+is
+> not very nice because this is interrupt handler and the processor cannot
+> switch to other tasks, so delaying is wasting processor's cycles here. Th=
+e
+> better fix would be to figure out how to remove the delay entirely, or
+> switch to threaded interrupt handler and then we can use usleep_range() i=
+n
+> there, but you need actual hardware to test such changes.
 
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-index 1579bd4e5..c59bea191 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-@@ -432,9 +432,9 @@ free_pagelist(struct vchiq_instance *instance, struct vchiq_pagelist_info *pagel
- 				head_bytes = actual;
- 
- 			memcpy_to_page(pages[0],
--				pagelist->offset,
--				fragments,
--				head_bytes);
-+				       pagelist->offset,
-+				       fragments,
-+				       head_bytes);
- 		}
- 		if ((actual >= 0) && (head_bytes < actual) &&
- 		    (tail_bytes != 0))
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-index 76c277781..5213f7c55 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-@@ -230,6 +230,7 @@ struct vchiq_service *handle_to_service(struct vchiq_instance *instance, unsigne
- 
- 	return rcu_dereference(instance->state->services[idx]);
- }
-+
- struct vchiq_service *
- find_service_by_handle(struct vchiq_instance *instance, unsigned int handle)
- {
-@@ -1192,7 +1193,6 @@ queue_message_sync(struct vchiq_state *state, struct vchiq_service *service,
- 	header->size = size;
- 	header->msgid = msgid;
- 
--
- 	svc_fourcc = service ? service->base.fourcc
- 			     : VCHIQ_MAKE_FOURCC('?', '?', '?', '?');
- 
-@@ -1618,7 +1618,6 @@ parse_message(struct vchiq_state *state, struct vchiq_header *header)
- 		break;
- 	}
- 
--
- 	svc_fourcc = service ? service->base.fourcc
- 			     : VCHIQ_MAKE_FOURCC('?', '?', '?', '?');
- 
-@@ -1842,8 +1841,8 @@ parse_rx_slots(struct vchiq_state *state)
- 			int rx_index;
- 
- 			WARN_ON(state->rx_pos & VCHIQ_SLOT_MASK);
--			rx_index = remote->slot_queue[
--				SLOT_QUEUE_INDEX_FROM_POS_MASKED(state->rx_pos)];
-+			rx_index =
-+				remote->slot_queue[SLOT_QUEUE_INDEX_FROM_POS_MASKED(state->rx_pos)];
- 			state->rx_data = (char *)SLOT_DATA_FROM_INDEX(state,
- 				rx_index);
- 			state->rx_info = SLOT_INFO_FROM_INDEX(state, rx_index);
-@@ -2177,6 +2176,7 @@ vchiq_init_state(struct vchiq_state *state, struct vchiq_slot_zero *slot_zero, s
- 
- 	for (i = 0; i < VCHIQ_MAX_SERVICES; i++) {
- 		struct vchiq_service_quota *quota = &state->service_quotas[i];
-+
- 		init_completion(&quota->quota_event);
- 	}
- 
--- 
-2.30.2
+Also, pay attention to what else is being said in the timers-howto.rst
+documentation. It specifically mentions that usleep_range() uses a range
+in order to give the scheduler some leeway in coalescing with other
+wakeups, so choosing a range of 32-33 us or 99-100 us isn't very useful.
 
+Thierry
+
+--9dee9a19cb63a77cc8f9975bef85216d69227f6fdf7a09b5460baac60383
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmXPTK4ACgkQ3SOs138+
+s6HDBg/+P8CNOrCzq0UAXAn0mSLmDzBCDoTF2tNRfscugg1X/aUy1k62/Wrl3o8w
+g/kk1Co+PKjv/pikrkRxGq6Hw1mB0uCNeLF9WOeJ8ijLlLmuAB/AUsC4JV9vjPyz
+Wq88rVERC2yTV+Fltl7rCPBAGRusyiQsvin/ifMLdLnAvi5Oo0XXARCMzwTAT9e6
+a511+LMNYQhKShvpBLxY+nK2QhkxqdO8RoPYUq28PxRUkgSp2ubV3WQmXRLoQzub
+eJjdhHcCdphcToYj5qwoXYjXL70HdqJv4Ofm7dewaIXiNmPgcmBuqSfYmQQasPw8
+0CbI2oe0BLNvpCv152JyHm132Vm4oT8w3Wdbbsgxh+TEufI95pNH0dJZ99/y+m7R
+CRETAQWZMJZJMq0if6EttBWO36JrRNg0HbuBJNbvnxWb9zdV0UhEpB1b4Sm/bseG
+xec05cKaqzbzc+D5+Wl34k0dOrhgMJKuvTsguorqaIH/kuamMWYLCCl+qhfxBwlZ
+dOMGB83vevWj3F6C5TKyVk1Cu7VNzK51ydR7hukp780RvXm+DG6aUCtTAkBAQupc
+e6HInnb8n/Dou8TNA+BLFQ2FRWeio9zeA7pVii0pZS0bFPIFRBoAbYdOv+2Bmcef
++MxAelYKEZlY6KLJR/6sX2QV4kqt6VzcBtuRlIu5QSyCuAS0aAY=
+=ZEj0
+-----END PGP SIGNATURE-----
+
+--9dee9a19cb63a77cc8f9975bef85216d69227f6fdf7a09b5460baac60383--
