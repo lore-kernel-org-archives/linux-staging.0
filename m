@@ -1,162 +1,120 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86C4165BBD
-	for <linux-staging@lists.linux.dev>; Sat, 17 Feb 2024 11:25:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7AF264A9B
+	for <linux-staging@lists.linux.dev>; Sat, 17 Feb 2024 11:45:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708169110; cv=none; b=TkPWbSuqXC/571qJl+JyQw04hwR89hqhqol0Qx8auoyKFu3ecWrggt3THevxt5P4HRgZAXm3u7zhSmL6oZQ+jZTsx9qeoTQ6hDvfdE1Awz6XiXcIC/VW8cgwPgtLfo/uOOy+YcBkk5s/NKRBZ7HWykhjuC1XBLQgmQf66BlZUIg=
+	t=1708170329; cv=none; b=dzzlpXuyTTtjnReAlXVdx//NqL8baYz//VIprYRu0p3DpTVaKgcmLIstG3sP0BcizpPQkD6/FybITBGyMUNtOnKsotPIhTRIfLBfAhqyBcRC58p7+nOzOzQ7TX1Cgd0x0jQt6wJHUXj/qY+sHZBF7ZV2neUDTOtkAZ31+q4jrJs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708169110; c=relaxed/simple;
-	bh=LBdizpIdfxKhNb6xt+BBwC5JRMC7DKJqrZW0ugICFg8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lQe9BXJYRcaNH1HABrZSynZ4Zx5aPaPPLkbL8YylYLs95ny+h9iHQP2RgNUuNavayZju/QuSS3cLeKhooTM1qsPIS1dqRlFN4Zrxy41Ne5FjIAr8crEFyGEwhtcsLWbtZAD4eB1zaL0mcHt37o5ZAJBE12adD9VZma/StUdXk1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=FYOpr0wt; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1708170329; c=relaxed/simple;
+	bh=v9icTgsg3xm4DV/7J3o8nPQ107m2PfBcWQvGK1OONZg=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=W/PF80st6a2Lvp8TK6WC67Sw7/cO/jm7OTANjExBMG3h9Aiu2gxtr4AHhDwe7oU/+eUjlV0vXDoDgTCivtb0Co9kfGbQbxTVpKTEd+IGI2JdXdZ8CWI914zJQyX03/wNxgRYTvGMG18YvdHNA+ppfNMwG7j1OThFsZ9V6O01jzY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=marliere.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=marliere.net header.i=@marliere.net header.b=GpxFqwiU; arc=none smtp.client-ip=209.85.167.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=marliere.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FYOpr0wt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1708169107;
+	dkim=pass (2048-bit key) header.d=marliere.net header.i=@marliere.net header.b="GpxFqwiU"
+Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-3bd72353d9fso2083796b6e.3
+        for <linux-staging@lists.linux.dev>; Sat, 17 Feb 2024 03:45:27 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708170327; x=1708775127;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:dkim-signature:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lag4XHeCZet1+vKhZAhtGBsbBX5d4Oil7LYE5l7I2AI=;
+        b=aMxBJj9eVa0BjZzeEwjo41SDbPmSO0fK+iPNSZbYFDeDyqtsHbi34YWcRDAF6quqph
+         nuVpXj4U11V67tJH8IPeJPSZU4ZpXQY6+Co9pnykOPTrP2z0MECfUIue8l1cxdJ9Qv9c
+         drXn2Suns8sCVNKmMlvFschJZsyAFWy39wkhYohAqfE3odxh9igrTsH/DMM22bE2Is+i
+         XKZIoC8l7HTOb+bVU0b9sYwB/xKgyUKHYO6uW3ZJR8ESO+Kqb3p1CfrE2AJmUDn4egTj
+         GMwQwL51hRg//ScUKa4r1dyILcQjyKC/AWhMXYIXbOzzzKuHlD8ExpclzsovGbvg4Wpi
+         Qmnw==
+X-Gm-Message-State: AOJu0YxTmWm379PV3F7K6hg6r7q5KIpP1wqXV0Si0owjjrY6yBI894pu
+	gKuBeudobYuUw0hN7cuBNPp9tEHa/w+H+I5VUB8AU2wZHfWyC+JY
+X-Google-Smtp-Source: AGHT+IFxg3uML7ydnKRltDjN+A/0mgFdrm7SKBEKuhS0wsyfYTKtmMQCzg66ccY6BjEQd8zkEi9y3Q==
+X-Received: by 2002:a05:6808:10d3:b0:3c0:b3f3:c30f with SMTP id s19-20020a05680810d300b003c0b3f3c30fmr8762322ois.9.1708170326735;
+        Sat, 17 Feb 2024 03:45:26 -0800 (PST)
+Received: from mail.marliere.net ([24.199.118.162])
+        by smtp.gmail.com with ESMTPSA id r30-20020aa79ede000000b006d638fd230bsm1530032pfq.93.2024.02.17.03.45.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 17 Feb 2024 03:45:25 -0800 (PST)
+From: "Ricardo B. Marliere" <ricardo@marliere.net>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marliere.net;
+	s=2024; t=1708170324;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YnD/bpJNWsWwe9bikQDt+Bd0F5krXrJasXs0pkYTi68=;
-	b=FYOpr0wtuovrORxO2U9FPRYVJWB24IJHFBPX2pdAyeYtu+PLPJWl4XKqyDh0LxwBHzOkRC
-	1heEqE1er6GTrlmOjR6rqXJCCzN9n71LFTGLsN4Q/MW7UugJ4xOVV3jpyMYIzmCYyhpP27
-	5VLMqXVw5gB0kPX0irXUUeCQLhD0bR4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-79-pLvs6qLuOu6GDtAvGoFALQ-1; Sat, 17 Feb 2024 06:25:01 -0500
-X-MC-Unique: pLvs6qLuOu6GDtAvGoFALQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CBC9C828CE2;
-	Sat, 17 Feb 2024 11:25:00 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.39.192.22])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 50CE31C1C7E7;
-	Sat, 17 Feb 2024 11:24:59 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Kate Hsuan <hpa@redhat.com>,
-	Tsuchiya Yuto <kitakar@gmail.com>,
-	Yury Luneff <yury.lunev@gmail.com>,
-	Nable <nable.maininbox@googlemail.com>,
-	andrey.i.trufanov@gmail.com,
-	Fabio Aiuto <fabioaiuto83@gmail.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH 9/9] media: atomisp: Implement link_setup op for ISP subdev MC entity
-Date: Sat, 17 Feb 2024 12:24:38 +0100
-Message-ID: <20240217112438.15240-10-hdegoede@redhat.com>
-In-Reply-To: <20240217112438.15240-1-hdegoede@redhat.com>
-References: <20240217112438.15240-1-hdegoede@redhat.com>
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=lag4XHeCZet1+vKhZAhtGBsbBX5d4Oil7LYE5l7I2AI=;
+	b=GpxFqwiUqaYKdzHW+NM2sHPb3FU8d+wpm7hIoX/2Fm9KY1ocbza2LcOs3Qt3cuECbH4Mkz
+	r5Pw+1FpUx7C0OLmlVzMHTlQfW9yl6/6fHuClTriJYDESmwQARqx/G9Or35EPoZM5IsAJR
+	gL28siywENHUq7x4zYLGIz5x/pkFUjp9A4hvxntQkNF8qagUhwhBW5G7O6WYZH0l1PuU0T
+	AOZY2aWP9zsIHO9JB7QBMIZmk+5xSEyDiiJoZdRjm2t3oo9HV6UNCkkQZ7naW14lf74/0Z
+	DrsOmuCpcntbT0ONjpss0AlzlR9bu10b7yWleUBVDChRam1SuEzReYAwmFpWhg==
+Authentication-Results: ORIGINATING;
+	auth=pass smtp.auth=ricardo@marliere.net smtp.mailfrom=ricardo@marliere.net
+Date: Sat, 17 Feb 2024 08:45:56 -0300
+Subject: [PATCH] staging: gdm724x: constantify the struct device_type usage
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.7
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240217-device_cleanup-staging-v1-1-286479d9a3f0@marliere.net>
+X-B4-Tracking: v=1; b=H4sIAHOc0GUC/x2MQQqAIBAAvxJ7Tigxor4SEbK72kJYaEUQ/j3pO
+ DAzLySOwgnG6oXItyTZQ4G2rgBXGzwrocKgG20a3faKioS84MY2XIdKp/USvHLUEyOS7QYDJT4
+ iO3n+8TTn/AE88dzUaAAAAA==
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ "Ricardo B. Marliere" <ricardo@marliere.net>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1012; i=ricardo@marliere.net;
+ h=from:subject:message-id; bh=v9icTgsg3xm4DV/7J3o8nPQ107m2PfBcWQvGK1OONZg=;
+ b=owEBbQKS/ZANAwAKAckLinxjhlimAcsmYgBl0Jx9OrJCr8/dOtOY4V0TamFGZqLauiaU31iNk
+ zl42IhR8qeJAjMEAAEKAB0WIQQDCo6eQk7jwGVXh+HJC4p8Y4ZYpgUCZdCcfQAKCRDJC4p8Y4ZY
+ pvVPEACWNV+xonBSaB6VMk16zpdP3pglb+12BZvoH24HcJEHWbZMidwwlA4Gg9YzKRB0ymg7mz6
+ MKW0vXWUjNJ872AVuUY0rs7uhZmNH5DpBBHtT2aPPPZFq4ihiSsFcBdcWyEm9nHi5zS9qVlbKcm
+ tvU4mF4WtMqYj9HEcoW0piKnOqzDqUPq4OUnjtdhNTypr5HKwnWoo2OC+BhceE0wy0JjlGjQEjY
+ qp6YZEthUxGYW0WmilTP5cjVFhh/QU55UCwqV1y4RBBXURBwJfwPN3Cnl761cYI+26DMARCY3b6
+ yg6m/73tOCNxJCU0D9bKGPAijeBDHE11drwSgd2jX6RT+/55T0fSWM/PkDltdP4PZaznaeWZtPT
+ izF9I/f49aPwb04vWuCRYK1a/flytLJ2PnBTIqd5XoibuNXenycIH0oQ06WDe3sQyPuHVXrmdpl
+ E+Ejr7HvTH3P2jBACEYS5nBqyQTT/l9sZd+myGTyKRsq2cJFl6XRjw7grUDBouEr+/CmR86bfOI
+ sJMeDl1X+Yy2W+MVcWdYz7spzSjIGO+hTsJOKW7eADBrjW8sEbkT9t+tIWhvLfh2XG4E9u1p4cC
+ Z0/ZdpbztZdh3Miq7FXB78Ts0nU7Tv1YQBe4IHg8aIlPtnsqQdp7VZQBK+rivZcRsn8nq4Py6Dj
+ 0k/rVJLEDpJUwwg==
+X-Developer-Key: i=ricardo@marliere.net; a=openpgp;
+ fpr=030A8E9E424EE3C0655787E1C90B8A7C638658A6
 
-The atomisp driver's Android heritage makes it weird in that
-even though it uses MC + subdev-s it is designed to primarily
-be controlled through its /dev/video# node.
+Since commit aed65af1cc2f ("drivers: make device_type const"), the
+driver core can properly handle constant struct device_type. Move the
+wwan_type variable to be a constant structure as well, placing it into
+read-only memory which can not be modified at runtime.
 
-It implements s_input on /dev/video# to select which sensor to use,
-while ignoring setup_link calls to enable a link to another sensor.
-
-Add support for selecting the active sensor the MC way by adding
-setup_link support.
-
-The implementation is a bit convoluted due to the atomisp driver's
-heritage.
-
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Ricardo B. Marliere <ricardo@marliere.net>
 ---
- .../media/atomisp/pci/atomisp_subdev.c        | 52 +++++++++++++++++++
- 1 file changed, 52 insertions(+)
+ drivers/staging/gdm724x/gdm_lte.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.c b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-index 822fe7d129e2..17819d7586dd 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-@@ -30,6 +30,7 @@
- #include "atomisp_common.h"
- #include "atomisp_compat.h"
- #include "atomisp_fops.h"
-+#include "atomisp_ioctl.h"
- #include "atomisp_internal.h"
+diff --git a/drivers/staging/gdm724x/gdm_lte.c b/drivers/staging/gdm724x/gdm_lte.c
+index 5703a9ddb6d0..eb754b231429 100644
+--- a/drivers/staging/gdm724x/gdm_lte.c
++++ b/drivers/staging/gdm724x/gdm_lte.c
+@@ -43,7 +43,7 @@ static struct {
+ 	struct sock *sock;
+ } lte_event;
  
- const struct atomisp_in_fmt_conv atomisp_in_fmt_conv[] = {
-@@ -634,8 +635,59 @@ static void isp_subdev_init_params(struct atomisp_sub_device *asd)
- }
- 
- /* media operations */
-+static int atomisp_link_setup(struct media_entity *entity,
-+			      const struct media_pad *local,
-+			      const struct media_pad *remote, u32 flags)
-+{
-+	struct v4l2_subdev *sd = container_of(entity, struct v4l2_subdev,
-+					      entity);
-+	struct atomisp_sub_device *asd = v4l2_get_subdevdata(sd);
-+	struct atomisp_device *isp = asd->isp;
-+	int i, csi_idx, ret;
-+
-+	/* ISP's source is immutable */
-+	if (local != &asd->pads[ATOMISP_SUBDEV_PAD_SINK]) {
-+		v4l2_err(sd, "Error pad %d does not support changing flags\n",
-+			 local->index);
-+		return -EINVAL;
-+	}
-+
-+	for (csi_idx = 0; csi_idx < ATOMISP_CAMERA_NR_PORTS; csi_idx++) {
-+		if (&isp->csi2_port[csi_idx].pads[CSI2_PAD_SOURCE] == remote)
-+			break;
-+	}
-+
-+	if (csi_idx == ATOMISP_CAMERA_NR_PORTS) {
-+		v4l2_err(sd, "Error cannot find CSI receiver for remote pad\n");
-+		return -EINVAL;
-+	}
-+
-+	/* Ignore disables, input_curr should only be updated on enables */
-+	if (!(flags & MEDIA_LNK_FL_ENABLED))
-+		return 0;
-+
-+	for (i = 0; i < isp->input_cnt; i++) {
-+		if (isp->inputs[i].camera == isp->sensor_subdevs[csi_idx])
-+			break;
-+	}
-+
-+	if (i == isp->input_cnt) {
-+		v4l2_err(sd, "Error no sensor for CSI receiver %d\n", csi_idx);
-+		return -EINVAL;
-+	}
-+
-+	mutex_lock(&isp->mutex);
-+	ret = atomisp_pipe_check(&asd->video_out, true);
-+	if (ret == 0)
-+		asd->input_curr = i;
-+	mutex_unlock(&isp->mutex);
-+
-+	return ret;
-+}
-+
- static const struct media_entity_operations isp_subdev_media_ops = {
- 	.link_validate = v4l2_subdev_link_validate,
-+	.link_setup = atomisp_link_setup,
- 	/*	 .set_power = v4l2_subdev_set_power,	*/
+-static struct device_type wwan_type = {
++static const struct device_type wwan_type = {
+ 	.name   = "wwan",
  };
  
+
+---
+base-commit: ce54e9342124ededf0a00ed4e8a8aee535bfbf00
+change-id: 20240217-device_cleanup-staging-fd7deccda594
+
+Best regards,
 -- 
-2.43.0
+Ricardo B. Marliere <ricardo@marliere.net>
 
