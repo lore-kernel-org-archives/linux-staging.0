@@ -1,106 +1,229 @@
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 012A28060D
-	for <linux-staging@lists.linux.dev>; Sat, 17 Feb 2024 21:13:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00E037E58F
+	for <linux-staging@lists.linux.dev>; Sat, 17 Feb 2024 21:19:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708204424; cv=none; b=PhSAi/WJ6HTIfAMrgtAMjK8JoHjHO5iz4zI4QovQsYEbpTlWSy4/Ctf1nT4b/8vJquAxoEEQ4KmVhKr0lKwhpIoL3/j0/3yHDGWKrWObtj9JctS7yzz6T2uI85Nn64wsTLj2bcnCKeWSjCNoLEvyxlxkhMPuq1P888LLlGVlXqo=
+	t=1708204746; cv=none; b=Bfnz/twB6cmFJ17fWlruDiWWrTOqLXyz0jobQs9GiwfzAdNky0WeC3DR4G90UUj4qqf/E6kBabao12GYoaj3nv6Sx5XnlYE7jPpd8+Ve3DXqVVqsoaLYlwtmyOwymGNC784LDmkPJsdZeHPE4LACjRc2Qu0QE3pWmcJB680dAP8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708204424; c=relaxed/simple;
-	bh=Egs5AAdslHfC4udI6Z6vOJIl9ypQt5Bm3xmTh5+bEAQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=LTg3X8pgMF6W+CairKAAxm+0z/K3elzd1WVe5yJhVbst41osYIhTtmIOTpPlnizjzeeykPu1A7CUS9zSKDaZlatnssjIER8r/F8C1bkyp47H8X6gBDcB/+sQYe/XO7IYWIWJt/FEX0sJnneRcIK0+kAojCkKl/KrMmnAJveO9XI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P4biNuO1; arc=none smtp.client-ip=209.85.208.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1708204746; c=relaxed/simple;
+	bh=jqmSZE/6hIL7tHTUq7XBmsqEMOHIxcazTD9D7B73dnA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GNyuUoF+iwMeH4QNbDejV4xFVijm2yo35Rba/HxdwFxOu1nq1a9kw8NEP/4DUh8i9Um7v0mO3p6EGXKFE61kxkyl4JcULHowPt+bf3Ml/hLqN2eQQcfceQQQbVtUJA32JHkhDKBFU71GcjJGiexyjsM44Gj/Y+A1NnPk4WWGxws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ieee.org; spf=pass smtp.mailfrom=ieee.org; dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b=cXaEpAQm; arc=none smtp.client-ip=209.85.222.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ieee.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ieee.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P4biNuO1"
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2d107900457so44499391fa.1
-        for <linux-staging@lists.linux.dev>; Sat, 17 Feb 2024 13:13:42 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b="cXaEpAQm"
+Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-7874a96a0a8so85306085a.1
+        for <linux-staging@lists.linux.dev>; Sat, 17 Feb 2024 13:19:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708204421; x=1708809221; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9eEAN/dOCoAmlP3G0zjBQsaiJN7xwf1Z8pHlWa8opt4=;
-        b=P4biNuO1HhIoRXDcU88kc3ih7oRanOvhmHZpKiLywaH6yiJD+I1o4BCndGshdT+e/j
-         MTZVTRs3CW47XvmfFGKqfxh5jbCwqKPjUkG7Cl5q4FOI+JXG+kRCMF0GatEUJ3Ey/8c/
-         6qh4sU/afy6NgK+BmHCqZVii8A0MT7ECXcdeBJcOA9IpKuCE4U6klu+uKfugX9vaLHRT
-         Y52fk5sNDyzh02pEu9dNj+NOgJXsZdm4VCAGn7BFbB99admv9AUIO4dr7Q3OMbS4T+o7
-         r8BBddVjftfH2B3rOmECEJ3UF7/DFcG8ooDi9QzlKF7+XWo2yrnSIDAbSnDrSG0QXZ3h
-         uZqw==
+        d=ieee.org; s=google; t=1708204742; x=1708809542; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=jsUAb6vb40+XemerMiSmb6ZuxYzXcwGlQ49c+yrXOkw=;
+        b=cXaEpAQmHpMjP5d/lVjdXOO/1ncNQ0gh19ZLoJGyCat0UfxXFPCx/jaCGIYvflOdUI
+         NNno7r8HJo0lWlYTKmpkjylDG/eDsBrlyx5GCKUWmPnuadMiACXKAfxsJJBACsnvl8bd
+         Z3UTjSBDI9LjvudampQxNAOPAFYgef8HWXxNE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708204421; x=1708809221;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9eEAN/dOCoAmlP3G0zjBQsaiJN7xwf1Z8pHlWa8opt4=;
-        b=UeSaBZEPTL5qnd8MZ7Zu0HjE7si48+7lGpIYhA2ZwFV3QPqSWS9IoOH2IrgDZFY7Ul
-         +9r3Rw8N39MZ+r8pPZHZJeAiNkwrV84YzB1GmDGPBRdhGx3IzIMQoIQ7TTiTuTfM1qjh
-         7VgQki9xUPpapyXEgS/4qUsxRPm+wrc/8CGjo5tcws/Lv6IR2b/O0I7LDEhE93v6r3OG
-         f5HcOlPAMBfQcUpVBe5kbs99N8lw2leI6rwf4Fu7RybM8oKQ24QNQdrnrWQPL6hK7+tY
-         DBKTWeiY/8cGUaU1CsVDAvpwK0Z4G4Al19FuNCAH1foLCH11HuAB8/QsZA/0qZBXAS9I
-         NYwQ==
-X-Gm-Message-State: AOJu0Yz3AujME4puYjN602YbKZX/j/VgzFedVpB2G8PZIzvG0JoD+OTf
-	baL+k7dcI1PzqirpD/TbMhy9nOPVBPxV1nxuqO9c4BaUqXgKackX8yznVG6A
-X-Google-Smtp-Source: AGHT+IHSe8QVXIsEhkK8QsiBuEezrULoPTmBu5wXHDINdwXtgs/KS2xhsazL+Kx6Wpw3kzLujnylNg==
-X-Received: by 2002:a2e:9083:0:b0:2d0:c101:7a71 with SMTP id l3-20020a2e9083000000b002d0c1017a71mr5017928ljg.35.1708204421127;
-        Sat, 17 Feb 2024 13:13:41 -0800 (PST)
-Received: from pinguine.lan (ip-176-198-146-182.um43.pools.vodafone-ip.de. [176.198.146.182])
-        by smtp.gmail.com with ESMTPSA id n3-20020a05640206c300b005644eca3befsm132087edy.85.2024.02.17.13.13.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Feb 2024 13:13:40 -0800 (PST)
-From: "Moritz C. Weber" <mo.c.weber@gmail.com>
-To: florian.fainelli@broadcom.com
-Cc: linux-staging@lists.linux.dev,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	"Moritz C. Weber" <mo.c.weber@gmail.com>
-Subject: [PATCH v2 8/8] Staging: vc04_services: bcm2835-camera: fix brace code style check
-Date: Sat, 17 Feb 2024 22:12:46 +0100
-Message-Id: <20240217211246.28882-9-mo.c.weber@gmail.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20240217211246.28882-1-mo.c.weber@gmail.com>
-References: <20240217211246.28882-1-mo.c.weber@gmail.com>
+        d=1e100.net; s=20230601; t=1708204742; x=1708809542;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=jsUAb6vb40+XemerMiSmb6ZuxYzXcwGlQ49c+yrXOkw=;
+        b=MAw//ysdyh3OVotggAmFtz9Jug0A/YsTZ94PHbIvzUAws0z4+DvaUcPGYgqWAG8W2I
+         xGXGtXMSa1go0ZB9UKViyULgZ0y26m3NPGG/ZEHXMzZsYRqz0eG22NKgYyCvHPTOfGgN
+         JcTvoHS+za1z1QuAHvGvv0JptvzPzwaEl9v9+hQ3zgYshf2ny9tMKAiSZTDT50SXiPsx
+         UxH3sxBf7bowt+bjFNeWqy9yY/i3zjD0RG/PpDfIu0if0TOxh3uOEiC2Ix/ZTFfYynrE
+         vW7QVlGL0mM5LBOGn9t5eEGFb48xqGTupjNBY5y9QpvPrURgFhF0+Aq0kMRkXo8cFGP2
+         wJhQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUE4DpFhs1Dz448ld3ZFj6v1MOUsLDgX3X4tfznm1ZfSefWYNBMhmY4p8kcq/o5dPdPPo9Pw/sGmwsejvZ/ZMo6u9UrDyUq9YIPZ10l2w==
+X-Gm-Message-State: AOJu0YzmXpIhqEriuk9PKiQDuhj086rXLvlNrqnzrRkDu0qH4qljic6S
+	ldEyFhUzb4VnaTmbvYHeuM2cfLEmIYUPardIEEHVYhyv8jEpffaybRgWvt2xdA==
+X-Google-Smtp-Source: AGHT+IGP14v6oCCtMP0+vugRbMd2i51vK0hqWp5NBXjAY0xKJajqQMGwjum2Jn2GI6G56nWQ9lc40Q==
+X-Received: by 2002:a05:620a:46ab:b0:787:538c:58cb with SMTP id bq43-20020a05620a46ab00b00787538c58cbmr4663545qkb.28.1708204741830;
+        Sat, 17 Feb 2024 13:19:01 -0800 (PST)
+Received: from [10.211.55.3] (c-98-61-227-136.hsd1.mn.comcast.net. [98.61.227.136])
+        by smtp.googlemail.com with ESMTPSA id c3-20020a05620a11a300b00785d7f634bcsm1116200qkk.8.2024.02.17.13.19.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 17 Feb 2024 13:19:01 -0800 (PST)
+Message-ID: <02cf87a3-4e92-4f6d-98f6-dfc0e198d462@ieee.org>
+Date: Sat, 17 Feb 2024 15:18:59 -0600
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] greybus: audio: apbridgea: Remove flexible array from
+ struct audio_apbridgea_hdr
+Content-Language: en-US
+To: Erick Archer <erick.archer@gmx.com>,
+ Vaibhav Agarwal <vaibhav.sr@gmail.com>, Mark Greer <mgreer@animalcreek.com>,
+ Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Kees Cook <keescook@chromium.org>
+Cc: greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+References: <20240217154758.7965-1-erick.archer@gmx.com>
+From: Alex Elder <elder@ieee.org>
+In-Reply-To: <20240217154758.7965-1-erick.archer@gmx.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Reformat function parameters to fix checkpatch check:
-Increase readability and consistency
+On 2/17/24 9:47 AM, Erick Archer wrote:
+> When a struct containing a flexible array is included in another struct,
+> and there is a member after the struct-with-flex-array, there is a
+> possibility of memory overlap. These cases must be audited [1]. See:
+> 
+> struct inner {
+> 	...
+> 	int flex[];
+> };
+> 
+> struct outer {
+> 	...
+> 	struct inner header;
+> 	int overlap;
+> 	...
+> };
+> 
+> This is the scenario for the "struct audio_apbridgea_hdr" structure
+> that is included in the following "struct audio_apbridgea_*_request"
+> structures:
 
-Signed-off-by: Moritz C. Weber <mo.c.weber@gmail.com>
----
- .../vc04_services/bcm2835-camera/bcm2835-camera.c      | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+Yeah this was not a very good way to define these header
+structures, but I'm glad to hear the flexible array at the
+end was never used.  I don't know why it was there; maybe
+it's an artifact from some other information that got removed.
 
-diff --git a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-index 9cd79850b..c3ba490e5 100644
---- a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-+++ b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-@@ -1715,11 +1715,11 @@ static int mmal_init(struct bcm2835_mmal_dev *dev)
- 	{
- 		unsigned int enable = 1;
- 
--		vchiq_mmal_port_parameter_set(
--			dev->instance,
--			&dev->component[COMP_VIDEO_ENCODE]->control,
--			MMAL_PARAMETER_VIDEO_IMMUTABLE_INPUT,
--			&enable, sizeof(enable));
-+		vchiq_mmal_port_parameter_set(dev->instance,
-+					      &dev->component[COMP_VIDEO_ENCODE]->control,
-+					      MMAL_PARAMETER_VIDEO_IMMUTABLE_INPUT,
-+					      &enable,
-+					      sizeof(enable));
- 
- 		vchiq_mmal_port_parameter_set(dev->instance,
- 					      &dev->component[COMP_VIDEO_ENCODE]->control,
--- 
-2.30.2
+If the code compiles with your change, it ought to be fine.
+(It compiles for me.)
+
+It would be good for Vaibhav or Mark to comment though, maybe
+they can provide some context.
+
+
+> 
+> struct audio_apbridgea_set_config_request
+> struct audio_apbridgea_register_cport_request
+> struct audio_apbridgea_unregister_cport_request
+> struct audio_apbridgea_set_tx_data_size_request
+> struct audio_apbridgea_prepare_tx_request
+> struct audio_apbridgea_start_tx_request
+> struct audio_apbridgea_stop_tx_request
+> struct audio_apbridgea_shutdown_tx_request
+> struct audio_apbridgea_set_rx_data_size_request
+> struct audio_apbridgea_prepare_rx_request
+> struct audio_apbridgea_start_rx_request
+> struct audio_apbridgea_stop_rx_request
+> struct audio_apbridgea_shutdown_rx_request
+> 
+> The pattern is like the one shown below:
+> 
+> struct audio_apbridgea_hdr {
+> 	...
+> 	__u8 data[];
+> } __packed;
+> 
+> struct audio_apbridgea_*_request {
+> 	struct audio_apbridgea_hdr hdr;
+> 	...
+> } __packed;
+> 
+> In this case, the trailing flexible array can be removed because it is
+> never used.
+> 
+> Link: https://github.com/KSPP/linux/issues/202 [1]
+> Signed-off-by: Erick Archer <erick.archer@gmx.com>
+> ---
+> Hi everyone,
+> 
+> I'm not sure this patch is correct. My concerns are:
+> 
+> The "struct audio_apbridgea_hdr" structure is used as a first member in
+> all the "struct audio_apbridgea_*_request" structures. And these last
+> structures are used in the "gb_audio_apbridgea_*(...)" functions. These
+> functions fill the "request" structure and always use:
+> 
+> 	gb_hd_output(connection->hd, &req, sizeof(req),
+> 		     GB_APB_REQUEST_AUDIO_CONTROL, true);
+> 
+> Then, the "gb_hd_output(struct gb_host_device *hd, ...)" function calls:
+> 
+> 	hd->driver->output(hd, req, size, cmd, async);
+> 
+> The first parameter to this function is of type:
+> 
+> 	struct gb_host_device {
+> 		...
+> 		const struct gb_hd_driver *driver;
+> 		...
+> 	};
+> 
+> And the "gb_hd_driver" structure is defined as:
+> 
+> 	struct gb_hd_driver {
+> 		...
+> 		int (*output)(struct gb_host_device *hd, void *req, u16 size, u8 cmd,
+> 			      bool async);
+> 	};
+> 
+> Therefore, my question is:
+> Where is the "output" function pointer set? I think I'm missing something.
+
+I think it will be drivers/greybus/es2.c:output().
+
+But in any case, the output function will know nothing about
+the structure of the request, so I think it's unrelated to
+the change you're proposing.
+
+Johan can confirm this.
+
+I'd like to hear from these others, but otherwise this change
+looks good to me.
+
+Reviewed-by: Alex Elder <elder@linaro.org>
+
+> 
+> I have search for another greybus drivers and I have found that, for
+> example, the "es2_ap_driver" (drivers/greybus/es2.c) sets the "output"
+> member in:
+> 
+> 	static struct gb_hd_driver es2_driver = {
+> 		...
+> 		.output	= output,
+> 	};
+> 
+> I think that the flexible array that I have removed should be used in
+> the function assigned to the "output" function pointer. But I am not
+> able to find this function.
+> 
+> A bit of light on this would be greatly appreciated.
+> 
+> Thanks,
+> Erick
+> ---
+>   drivers/staging/greybus/audio_apbridgea.h | 1 -
+>   1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/staging/greybus/audio_apbridgea.h b/drivers/staging/greybus/audio_apbridgea.h
+> index efec0f815efd..ab707d310129 100644
+> --- a/drivers/staging/greybus/audio_apbridgea.h
+> +++ b/drivers/staging/greybus/audio_apbridgea.h
+> @@ -65,7 +65,6 @@
+>   struct audio_apbridgea_hdr {
+>   	__u8	type;
+>   	__le16	i2s_port;
+> -	__u8	data[];
+>   } __packed;
+> 
+>   struct audio_apbridgea_set_config_request {
+> --
+> 2.25.1
+> 
 
