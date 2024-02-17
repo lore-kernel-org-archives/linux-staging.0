@@ -1,88 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 865BD1CABA;
-	Sat, 17 Feb 2024 07:59:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F22A95645C
+	for <linux-staging@lists.linux.dev>; Sat, 17 Feb 2024 11:24:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708156751; cv=none; b=RiCho7pOCooT7r2ckM8INgU3lHKlYizaL0uv03r5ZWvd6eraGa9tq8RmejeBkQPDTAZuXZu4rM5Xer8finIDWHKsW4k/SOJn7JL3z6wftdAShAYfSn2GWAeRlSacyVFxJaauB9boxbxqRxiujTASFObZTxDHpqAP997GhtGUm2I=
+	t=1708169092; cv=none; b=Gi7XF1cDNOc3pXpLTfM31/kaYs6kWGh+wiMbm2G+2tKTUmsmdOrFOj5K1WHZTfs1JrNt1HZRkV871cJTOgVIfkjwuuuJDvJgB26FiuC/jVopWWI236QBRbiGAipEZmNmra+N4FJwATiF8QW9ek4Bp65sXqWHkIyIXuN2e1kh3k0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708156751; c=relaxed/simple;
-	bh=Fj0dXMKY5VCd6XyOaiCGaCBR8SMIRKG0Efhdh2fkTK8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q8T9za5KGcXpPdksQnasXQ9patgnU8yPVI1HvmCuuQUxzITa0NGhTb+z6OxRkiyj+Y1U1HTIcH1rgbkUeqLeBNi68j/OmbCFnMlODipR/D4cOwYxvFq1BRdRuOcrJcEEBQSaQcFAiCQavQ/cfN0WXw4fSJiRuvvFxDL8RAqsyCQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=VNRUKafk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1708169092; c=relaxed/simple;
+	bh=jFRWFRr9vmRUoZpO4AJg4hyybKK6nM6HFcAwgko9j1c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=orzBJzcceSMrxC4cuWyQvvaJykpnzmYdfOn3Rb+tbfsj+UhMacXkSkZQzMeLts9rmDX/JDTRUn+jT0RlDKypA9e9nGdH9pdQP1yCKVKl7TT/BmG8acBhMv9Hr0z1r9YlaYS1yzl2MbkUhHxeIEzE78I/G/STCeyDdEd4vyWYasg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KmkRhvXM; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="VNRUKafk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98CF8C433C7;
-	Sat, 17 Feb 2024 07:59:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1708156751;
-	bh=Fj0dXMKY5VCd6XyOaiCGaCBR8SMIRKG0Efhdh2fkTK8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VNRUKafkMlqK1ALUoWMV41GexY+YTKn8UgxvIO7IcAfx06acn55JBiWLU7Qu3bP4H
-	 5dIoXV8k0IA4LnxY0KfS+1ZEjYV+Ff5eutejVehiq5QiiPVL25OUnyibLKsK5BoAB2
-	 Jb9SxXlM3HIGjiI48yzRhehIRidTS/2l2g7uYGBk=
-Date: Sat, 17 Feb 2024 08:59:07 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: "Moritz C. Weber" <mo.c.weber@gmail.com>
-Cc: florian.fainelli@broadcom.com, linux-staging@lists.linux.dev,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Staging: vc04_services: bcm2835-camera: fixed several
- brace coding style checks
-Message-ID: <2024021727-maritime-barterer-f536@gregkh>
-References: <20240215220647.4096-1-mo.c.weber@gmail.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KmkRhvXM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1708169089;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=I/jxE3Kmxb387DSZAUP2scoF5N+hsfp+AOT6BG9bkXI=;
+	b=KmkRhvXMbjtS3yCAtm3xcAQ4urkj/Y/XPeDha4KokaqaQsqLxIj0ovbgAiHxPxIZVXypDU
+	eanvdKUovnuBeViqcuu3Y8YjfWx3zcxkWFy/ebwDNk5+dzRXOkOOgkKuBZIlOt12DSdNFW
+	GP3LQORgz0n8cNs7Qm15H6lvCVPFQZ0=
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-610-9Q5kF8v9Mmqv2xWvomQneg-1; Sat,
+ 17 Feb 2024 06:24:46 -0500
+X-MC-Unique: 9Q5kF8v9Mmqv2xWvomQneg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7DDE13C0008A;
+	Sat, 17 Feb 2024 11:24:45 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.39.192.22])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id BA2901C1C7E2;
+	Sat, 17 Feb 2024 11:24:43 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Kate Hsuan <hpa@redhat.com>,
+	Tsuchiya Yuto <kitakar@gmail.com>,
+	Yury Luneff <yury.lunev@gmail.com>,
+	Nable <nable.maininbox@googlemail.com>,
+	andrey.i.trufanov@gmail.com,
+	Fabio Aiuto <fabioaiuto83@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH 0/9] media: atomisp: Changes for libcamera support
+Date: Sat, 17 Feb 2024 12:24:29 +0100
+Message-ID: <20240217112438.15240-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240215220647.4096-1-mo.c.weber@gmail.com>
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.7
 
-On Thu, Feb 15, 2024 at 11:06:47PM +0100, Moritz C. Weber wrote:
-> Fixed coding style checks raised by checkpatch
-> 
-> Signed-off-by: Moritz C. Weber <mo.c.weber@gmail.com>
-> ---
->  .../bcm2835-camera/bcm2835-camera.c           | 62 +++++++++----------
->  1 file changed, 29 insertions(+), 33 deletions(-)
+Hi All,
 
-Hi,
+Here is a series of cleanups (prep work) + some small(ish)
+changes to make the atomisp driver work with libcamera.
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+This has been tested with libcamera's simple pipelinehandler
+together with an ov2680 sensor.
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+Regards,
 
-- Your patch did many different things all at once, making it difficult
-  to review.  All Linux kernel patches need to only do one thing at a
-  time.  If you need to do multiple things (such as clean up all coding
-  style issues in a file/driver), do it in a sequence of patches, each
-  one doing only one thing.  This will make it easier to review the
-  patches to ensure that they are correct, and to help alleviate any
-  merge issues that larger patches can cause.
+Hans
 
-- You did not specify a description of why the patch is needed, or
-  possibly, any description at all, in the email body.  Please read the
-  section entitled "The canonical patch format" in the kernel file,
-  Documentation/process/submitting-patches.rst for what is needed in
-  order to properly describe the change.
+p.s.
 
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
+Andy, I known I still need to do some small cleanups from my last
+pull-requests. I have this on my TODO list :)
 
-thanks,
 
-greg k-h's patch email bot
+Hans de Goede (9):
+  media: atomisp: Remove isp_subdev_propagate()
+  media: atomisp: Rename atomisp_set_crop_and_fmt()
+  media: atomisp: Remove custom VCM handling
+  media: atomisp: Remove ISP controls which get passed through to the
+    camera
+  media: atomisp: Stop setting sd->devnode for the ATOMISP_SUBDEV
+    v4l2-subdev
+  media: atomisp: Add DMABUF support
+  media: atomisp: Change ISP subdev name to "ATOM ISP"
+  media: atomisp: Make MC link from ISP to /dev/video# output node
+    immutable
+  media: atomisp: Implement link_setup op for ISP subdev MC entity
+
+ .../media/atomisp/include/linux/atomisp.h     |  24 --
+ .../atomisp/include/linux/atomisp_platform.h  |   5 +-
+ .../staging/media/atomisp/pci/atomisp_cmd.c   |  12 +-
+ .../media/atomisp/pci/atomisp_internal.h      |   4 -
+ .../staging/media/atomisp/pci/atomisp_ioctl.c | 333 +-----------------
+ .../media/atomisp/pci/atomisp_subdev.c        |  95 +++--
+ .../staging/media/atomisp/pci/atomisp_v4l2.c  |  18 +-
+ 7 files changed, 72 insertions(+), 419 deletions(-)
+
+-- 
+2.43.0
+
