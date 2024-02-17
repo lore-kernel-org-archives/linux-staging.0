@@ -1,45 +1,45 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FBAB651B1
-	for <linux-staging@lists.linux.dev>; Sat, 17 Feb 2024 11:25:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86C4165BBD
+	for <linux-staging@lists.linux.dev>; Sat, 17 Feb 2024 11:25:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708169109; cv=none; b=ZzJtoKa0r/nV1beErzd58QiTisdA2RZptx7/L3fXa5Nm1liCWSh+51beUyPcki4UUJOvHUUIacnTqVEn1sHqz81XRBHKHQ0AYSpdQ1hW3W5GtHEmqvwH0eGWER/WSGSiXb2b1Jr1cwW0juJVey1ktu8OUEDo5t9M7YQK3uln5dM=
+	t=1708169110; cv=none; b=TkPWbSuqXC/571qJl+JyQw04hwR89hqhqol0Qx8auoyKFu3ecWrggt3THevxt5P4HRgZAXm3u7zhSmL6oZQ+jZTsx9qeoTQ6hDvfdE1Awz6XiXcIC/VW8cgwPgtLfo/uOOy+YcBkk5s/NKRBZ7HWykhjuC1XBLQgmQf66BlZUIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708169109; c=relaxed/simple;
-	bh=HmbcnKcq48Ewn+Xcm3fpubqQrcEZ0pdlF+AQkNIKtaY=;
+	s=arc-20240116; t=1708169110; c=relaxed/simple;
+	bh=LBdizpIdfxKhNb6xt+BBwC5JRMC7DKJqrZW0ugICFg8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Ymv+UgdAIFCDSvMrrZqTXfk16zRYGz63uICyPbCywNjO0TcFdtOIZBzoceyQz6u0BKSub/XtyCq3Q5T2L3jFh9Vx/X/TrXy3B7c7VGOqYHOyEN+Mod36q0dP0C5ck/wxXSAQQmCJxX+fMFi86fmXUc/+P4LIWoAI0eAJRw+WYW0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LTFMHVBI; arc=none smtp.client-ip=170.10.129.124
+	 MIME-Version; b=lQe9BXJYRcaNH1HABrZSynZ4Zx5aPaPPLkbL8YylYLs95ny+h9iHQP2RgNUuNavayZju/QuSS3cLeKhooTM1qsPIS1dqRlFN4Zrxy41Ne5FjIAr8crEFyGEwhtcsLWbtZAD4eB1zaL0mcHt37o5ZAJBE12adD9VZma/StUdXk1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=FYOpr0wt; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LTFMHVBI"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FYOpr0wt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1708169103;
+	s=mimecast20190719; t=1708169107;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=HWflT3B0GVFI1GShcjGRlxXP08PiFbjDEA1rai0ECtE=;
-	b=LTFMHVBIhf/SnXKpzWvlS92BXz2W/2797EhrX5M0Oxtbk70TprmoT8T0615USYzdSe2f8S
-	GfiLYVpuy7fKprTJSW1hJjuFyeYv703DTRHjkyzqIxwf7T/dcTovJzWIQKBh37aJJZ56kt
-	zlWsSQzLRtHbQHAmeyOm2b4FdcdBVaw=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-583-Snku9i4fMOqkeym8lWH-YA-1; Sat,
- 17 Feb 2024 06:24:59 -0500
-X-MC-Unique: Snku9i4fMOqkeym8lWH-YA-1
+	bh=YnD/bpJNWsWwe9bikQDt+Bd0F5krXrJasXs0pkYTi68=;
+	b=FYOpr0wtuovrORxO2U9FPRYVJWB24IJHFBPX2pdAyeYtu+PLPJWl4XKqyDh0LxwBHzOkRC
+	1heEqE1er6GTrlmOjR6rqXJCCzN9n71LFTGLsN4Q/MW7UugJ4xOVV3jpyMYIzmCYyhpP27
+	5VLMqXVw5gB0kPX0irXUUeCQLhD0bR4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-79-pLvs6qLuOu6GDtAvGoFALQ-1; Sat, 17 Feb 2024 06:25:01 -0500
+X-MC-Unique: pLvs6qLuOu6GDtAvGoFALQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1FFDC3C0008A;
-	Sat, 17 Feb 2024 11:24:59 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CBC9C828CE2;
+	Sat, 17 Feb 2024 11:25:00 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.192.22])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 9886F1C1C7E6;
-	Sat, 17 Feb 2024 11:24:57 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 50CE31C1C7E7;
+	Sat, 17 Feb 2024 11:24:59 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -53,9 +53,9 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Fabio Aiuto <fabioaiuto83@gmail.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 8/9] media: atomisp: Make MC link from ISP to /dev/video# output node immutable
-Date: Sat, 17 Feb 2024 12:24:37 +0100
-Message-ID: <20240217112438.15240-9-hdegoede@redhat.com>
+Subject: [PATCH 9/9] media: atomisp: Implement link_setup op for ISP subdev MC entity
+Date: Sat, 17 Feb 2024 12:24:38 +0100
+Message-ID: <20240217112438.15240-10-hdegoede@redhat.com>
 In-Reply-To: <20240217112438.15240-1-hdegoede@redhat.com>
 References: <20240217112438.15240-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -67,27 +67,95 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.7
 
-The link from the ISP's source pad to the /dev/video# output v4l2-dev
-is always enabled and immutable, mark it as such.
+The atomisp driver's Android heritage makes it weird in that
+even though it uses MC + subdev-s it is designed to primarily
+be controlled through its /dev/video# node.
+
+It implements s_input on /dev/video# to select which sensor to use,
+while ignoring setup_link calls to enable a link to another sensor.
+
+Add support for selecting the active sensor the MC way by adding
+setup_link support.
+
+The implementation is a bit convoluted due to the atomisp driver's
+heritage.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/staging/media/atomisp/pci/atomisp_v4l2.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ .../media/atomisp/pci/atomisp_subdev.c        | 52 +++++++++++++++++++
+ 1 file changed, 52 insertions(+)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-index 1a936dbe8eb4..86028721e7cb 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-@@ -1090,7 +1090,8 @@ int atomisp_register_device_nodes(struct atomisp_device *isp)
- 		return err;
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.c b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
+index 822fe7d129e2..17819d7586dd 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_subdev.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
+@@ -30,6 +30,7 @@
+ #include "atomisp_common.h"
+ #include "atomisp_compat.h"
+ #include "atomisp_fops.h"
++#include "atomisp_ioctl.h"
+ #include "atomisp_internal.h"
  
- 	err = media_create_pad_link(&isp->asd.subdev.entity, ATOMISP_SUBDEV_PAD_SOURCE,
--				    &isp->asd.video_out.vdev.entity, 0, 0);
-+				    &isp->asd.video_out.vdev.entity, 0,
-+				    MEDIA_LNK_FL_ENABLED | MEDIA_LNK_FL_IMMUTABLE);
- 	if (err)
- 		return err;
+ const struct atomisp_in_fmt_conv atomisp_in_fmt_conv[] = {
+@@ -634,8 +635,59 @@ static void isp_subdev_init_params(struct atomisp_sub_device *asd)
+ }
+ 
+ /* media operations */
++static int atomisp_link_setup(struct media_entity *entity,
++			      const struct media_pad *local,
++			      const struct media_pad *remote, u32 flags)
++{
++	struct v4l2_subdev *sd = container_of(entity, struct v4l2_subdev,
++					      entity);
++	struct atomisp_sub_device *asd = v4l2_get_subdevdata(sd);
++	struct atomisp_device *isp = asd->isp;
++	int i, csi_idx, ret;
++
++	/* ISP's source is immutable */
++	if (local != &asd->pads[ATOMISP_SUBDEV_PAD_SINK]) {
++		v4l2_err(sd, "Error pad %d does not support changing flags\n",
++			 local->index);
++		return -EINVAL;
++	}
++
++	for (csi_idx = 0; csi_idx < ATOMISP_CAMERA_NR_PORTS; csi_idx++) {
++		if (&isp->csi2_port[csi_idx].pads[CSI2_PAD_SOURCE] == remote)
++			break;
++	}
++
++	if (csi_idx == ATOMISP_CAMERA_NR_PORTS) {
++		v4l2_err(sd, "Error cannot find CSI receiver for remote pad\n");
++		return -EINVAL;
++	}
++
++	/* Ignore disables, input_curr should only be updated on enables */
++	if (!(flags & MEDIA_LNK_FL_ENABLED))
++		return 0;
++
++	for (i = 0; i < isp->input_cnt; i++) {
++		if (isp->inputs[i].camera == isp->sensor_subdevs[csi_idx])
++			break;
++	}
++
++	if (i == isp->input_cnt) {
++		v4l2_err(sd, "Error no sensor for CSI receiver %d\n", csi_idx);
++		return -EINVAL;
++	}
++
++	mutex_lock(&isp->mutex);
++	ret = atomisp_pipe_check(&asd->video_out, true);
++	if (ret == 0)
++		asd->input_curr = i;
++	mutex_unlock(&isp->mutex);
++
++	return ret;
++}
++
+ static const struct media_entity_operations isp_subdev_media_ops = {
+ 	.link_validate = v4l2_subdev_link_validate,
++	.link_setup = atomisp_link_setup,
+ 	/*	 .set_power = v4l2_subdev_set_power,	*/
+ };
  
 -- 
 2.43.0
