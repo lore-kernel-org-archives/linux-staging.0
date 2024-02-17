@@ -1,120 +1,130 @@
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7AF264A9B
-	for <linux-staging@lists.linux.dev>; Sat, 17 Feb 2024 11:45:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C5F822094
+	for <linux-staging@lists.linux.dev>; Sat, 17 Feb 2024 14:57:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708170329; cv=none; b=dzzlpXuyTTtjnReAlXVdx//NqL8baYz//VIprYRu0p3DpTVaKgcmLIstG3sP0BcizpPQkD6/FybITBGyMUNtOnKsotPIhTRIfLBfAhqyBcRC58p7+nOzOzQ7TX1Cgd0x0jQt6wJHUXj/qY+sHZBF7ZV2neUDTOtkAZ31+q4jrJs=
+	t=1708181845; cv=none; b=RBpR98khklmQmSnKEpjXtloTTzdit6dNUiRKxY4GnZzELiupuyyk63ID2TW2VYZ5BjPbJvF4yJpFHK76AkOZFKlrMnjUZaQO2h/sNxFqH5XjdYwrl256lAKsLRuFGXDH6gMtnX+W57k6g2bMiXdJoYFxjHgK7q0JczBybeCTyIY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708170329; c=relaxed/simple;
-	bh=v9icTgsg3xm4DV/7J3o8nPQ107m2PfBcWQvGK1OONZg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=W/PF80st6a2Lvp8TK6WC67Sw7/cO/jm7OTANjExBMG3h9Aiu2gxtr4AHhDwe7oU/+eUjlV0vXDoDgTCivtb0Co9kfGbQbxTVpKTEd+IGI2JdXdZ8CWI914zJQyX03/wNxgRYTvGMG18YvdHNA+ppfNMwG7j1OThFsZ9V6O01jzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=marliere.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=marliere.net header.i=@marliere.net header.b=GpxFqwiU; arc=none smtp.client-ip=209.85.167.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=marliere.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1708181845; c=relaxed/simple;
+	bh=sFEY2qx23OzeKRh0hg75fwr8fMicqyM1I3ZJ2yvJE78=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=PghINN+puosRGSBi5zio3+hYbtLxcF4oYi7CdOUZxBDX5khb4f20OXjy6jWm0Zk5asA5QMMy1k/2lyBIoLPskDoZDGphMCDV/rXmsF9vScHSxlAGwkr8M4temaflg3EP0xVnzqxCUtBIdGb3jcjGR7aLWoICe8O49+UBToJpb+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=YdUg89uJ; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=marliere.net header.i=@marliere.net header.b="GpxFqwiU"
-Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-3bd72353d9fso2083796b6e.3
-        for <linux-staging@lists.linux.dev>; Sat, 17 Feb 2024 03:45:27 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708170327; x=1708775127;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:dkim-signature:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lag4XHeCZet1+vKhZAhtGBsbBX5d4Oil7LYE5l7I2AI=;
-        b=aMxBJj9eVa0BjZzeEwjo41SDbPmSO0fK+iPNSZbYFDeDyqtsHbi34YWcRDAF6quqph
-         nuVpXj4U11V67tJH8IPeJPSZU4ZpXQY6+Co9pnykOPTrP2z0MECfUIue8l1cxdJ9Qv9c
-         drXn2Suns8sCVNKmMlvFschJZsyAFWy39wkhYohAqfE3odxh9igrTsH/DMM22bE2Is+i
-         XKZIoC8l7HTOb+bVU0b9sYwB/xKgyUKHYO6uW3ZJR8ESO+Kqb3p1CfrE2AJmUDn4egTj
-         GMwQwL51hRg//ScUKa4r1dyILcQjyKC/AWhMXYIXbOzzzKuHlD8ExpclzsovGbvg4Wpi
-         Qmnw==
-X-Gm-Message-State: AOJu0YxTmWm379PV3F7K6hg6r7q5KIpP1wqXV0Si0owjjrY6yBI894pu
-	gKuBeudobYuUw0hN7cuBNPp9tEHa/w+H+I5VUB8AU2wZHfWyC+JY
-X-Google-Smtp-Source: AGHT+IFxg3uML7ydnKRltDjN+A/0mgFdrm7SKBEKuhS0wsyfYTKtmMQCzg66ccY6BjEQd8zkEi9y3Q==
-X-Received: by 2002:a05:6808:10d3:b0:3c0:b3f3:c30f with SMTP id s19-20020a05680810d300b003c0b3f3c30fmr8762322ois.9.1708170326735;
-        Sat, 17 Feb 2024 03:45:26 -0800 (PST)
-Received: from mail.marliere.net ([24.199.118.162])
-        by smtp.gmail.com with ESMTPSA id r30-20020aa79ede000000b006d638fd230bsm1530032pfq.93.2024.02.17.03.45.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Feb 2024 03:45:25 -0800 (PST)
-From: "Ricardo B. Marliere" <ricardo@marliere.net>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marliere.net;
-	s=2024; t=1708170324;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=lag4XHeCZet1+vKhZAhtGBsbBX5d4Oil7LYE5l7I2AI=;
-	b=GpxFqwiUqaYKdzHW+NM2sHPb3FU8d+wpm7hIoX/2Fm9KY1ocbza2LcOs3Qt3cuECbH4Mkz
-	r5Pw+1FpUx7C0OLmlVzMHTlQfW9yl6/6fHuClTriJYDESmwQARqx/G9Or35EPoZM5IsAJR
-	gL28siywENHUq7x4zYLGIz5x/pkFUjp9A4hvxntQkNF8qagUhwhBW5G7O6WYZH0l1PuU0T
-	AOZY2aWP9zsIHO9JB7QBMIZmk+5xSEyDiiJoZdRjm2t3oo9HV6UNCkkQZ7naW14lf74/0Z
-	DrsOmuCpcntbT0ONjpss0AlzlR9bu10b7yWleUBVDChRam1SuEzReYAwmFpWhg==
-Authentication-Results: ORIGINATING;
-	auth=pass smtp.auth=ricardo@marliere.net smtp.mailfrom=ricardo@marliere.net
-Date: Sat, 17 Feb 2024 08:45:56 -0300
-Subject: [PATCH] staging: gdm724x: constantify the struct device_type usage
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="YdUg89uJ"
+Received: from pendragon.ideasonboard.com (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CC8606DE;
+	Sat, 17 Feb 2024 15:57:09 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1708181829;
+	bh=sFEY2qx23OzeKRh0hg75fwr8fMicqyM1I3ZJ2yvJE78=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=YdUg89uJwEVWklTcV+BVTQcH3UBIb74PqGqdIAaVUAPy1oOV2FBZNtpUBd8n14f8b
+	 nsJCJluLVdeDW2sQIwKIg87NB6p5NLX9qYe00JPN5HvbwwU4036Ou25j57w1LLil3Y
+	 wERtExUikP7/wEQjmFoSxz1DV2qYpR7JciKiOT+E=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240217-device_cleanup-staging-v1-1-286479d9a3f0@marliere.net>
-X-B4-Tracking: v=1; b=H4sIAHOc0GUC/x2MQQqAIBAAvxJ7Tigxor4SEbK72kJYaEUQ/j3pO
- DAzLySOwgnG6oXItyTZQ4G2rgBXGzwrocKgG20a3faKioS84MY2XIdKp/USvHLUEyOS7QYDJT4
- iO3n+8TTn/AE88dzUaAAAAA==
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
- "Ricardo B. Marliere" <ricardo@marliere.net>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1012; i=ricardo@marliere.net;
- h=from:subject:message-id; bh=v9icTgsg3xm4DV/7J3o8nPQ107m2PfBcWQvGK1OONZg=;
- b=owEBbQKS/ZANAwAKAckLinxjhlimAcsmYgBl0Jx9OrJCr8/dOtOY4V0TamFGZqLauiaU31iNk
- zl42IhR8qeJAjMEAAEKAB0WIQQDCo6eQk7jwGVXh+HJC4p8Y4ZYpgUCZdCcfQAKCRDJC4p8Y4ZY
- pvVPEACWNV+xonBSaB6VMk16zpdP3pglb+12BZvoH24HcJEHWbZMidwwlA4Gg9YzKRB0ymg7mz6
- MKW0vXWUjNJ872AVuUY0rs7uhZmNH5DpBBHtT2aPPPZFq4ihiSsFcBdcWyEm9nHi5zS9qVlbKcm
- tvU4mF4WtMqYj9HEcoW0piKnOqzDqUPq4OUnjtdhNTypr5HKwnWoo2OC+BhceE0wy0JjlGjQEjY
- qp6YZEthUxGYW0WmilTP5cjVFhh/QU55UCwqV1y4RBBXURBwJfwPN3Cnl761cYI+26DMARCY3b6
- yg6m/73tOCNxJCU0D9bKGPAijeBDHE11drwSgd2jX6RT+/55T0fSWM/PkDltdP4PZaznaeWZtPT
- izF9I/f49aPwb04vWuCRYK1a/flytLJ2PnBTIqd5XoibuNXenycIH0oQ06WDe3sQyPuHVXrmdpl
- E+Ejr7HvTH3P2jBACEYS5nBqyQTT/l9sZd+myGTyKRsq2cJFl6XRjw7grUDBouEr+/CmR86bfOI
- sJMeDl1X+Yy2W+MVcWdYz7spzSjIGO+hTsJOKW7eADBrjW8sEbkT9t+tIWhvLfh2XG4E9u1p4cC
- Z0/ZdpbztZdh3Miq7FXB78Ts0nU7Tv1YQBe4IHg8aIlPtnsqQdp7VZQBK+rivZcRsn8nq4Py6Dj
- 0k/rVJLEDpJUwwg==
-X-Developer-Key: i=ricardo@marliere.net; a=openpgp;
- fpr=030A8E9E424EE3C0655787E1C90B8A7C638658A6
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240217112438.15240-2-hdegoede@redhat.com>
+References: <20240217112438.15240-1-hdegoede@redhat.com> <20240217112438.15240-2-hdegoede@redhat.com>
+Subject: Re: [PATCH 1/9] media: atomisp: Remove isp_subdev_propagate()
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: Hans de Goede <hdegoede@redhat.com>, Kate Hsuan <hpa@redhat.com>, Tsuchiya Yuto <kitakar@gmail.com>, Yury Luneff <yury.lunev@gmail.com>, Nable <nable.maininbox@googlemail.com>, andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>, linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+To: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hdegoede@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>
+Date: Sat, 17 Feb 2024 14:57:12 +0000
+Message-ID: <170818183208.1206667.5879506548240105674@ping.linuxembedded.co.uk>
+User-Agent: alot/0.10
 
-Since commit aed65af1cc2f ("drivers: make device_type const"), the
-driver core can properly handle constant struct device_type. Move the
-wwan_type variable to be a constant structure as well, placing it into
-read-only memory which can not be modified at runtime.
+Quoting Hans de Goede (2024-02-17 11:24:30)
+> isp_subdev_propagate() is a wrapper around atomisp_subdev_set_selection()
+> which gets only used in a single place.
+>=20
+> Scall atomisp_subdev_set_selection() directly in that single place instea=
+d.
 
-Signed-off-by: Ricardo B. Marliere <ricardo@marliere.net>
----
- drivers/staging/gdm724x/gdm_lte.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+s/Scall/Call/
 
-diff --git a/drivers/staging/gdm724x/gdm_lte.c b/drivers/staging/gdm724x/gdm_lte.c
-index 5703a9ddb6d0..eb754b231429 100644
---- a/drivers/staging/gdm724x/gdm_lte.c
-+++ b/drivers/staging/gdm724x/gdm_lte.c
-@@ -43,7 +43,7 @@ static struct {
- 	struct sock *sock;
- } lte_event;
- 
--static struct device_type wwan_type = {
-+static const struct device_type wwan_type = {
- 	.name   = "wwan",
- };
- 
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
----
-base-commit: ce54e9342124ededf0a00ed4e8a8aee535bfbf00
-change-id: 20240217-device_cleanup-staging-fd7deccda594
-
-Best regards,
--- 
-Ricardo B. Marliere <ricardo@marliere.net>
-
+>=20
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+>  .../media/atomisp/pci/atomisp_subdev.c        | 38 ++++---------------
+>  1 file changed, 7 insertions(+), 31 deletions(-)
+>=20
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.c b/drivers=
+/staging/media/atomisp/pci/atomisp_subdev.c
+> index a87fc74159e2..8293bda0c681 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_subdev.c
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
+> @@ -287,35 +287,6 @@ static void isp_get_fmt_rect(struct v4l2_subdev *sd,
+>         }
+>  }
+> =20
+> -static void isp_subdev_propagate(struct v4l2_subdev *sd,
+> -                                struct v4l2_subdev_state *sd_state,
+> -                                u32 which, uint32_t pad, uint32_t target,
+> -                                uint32_t flags)
+> -{
+> -       struct v4l2_mbus_framefmt *ffmt[ATOMISP_SUBDEV_PADS_NUM];
+> -       struct v4l2_rect *crop[ATOMISP_SUBDEV_PADS_NUM],
+> -                      *comp[ATOMISP_SUBDEV_PADS_NUM];
+> -
+> -       if (flags & V4L2_SEL_FLAG_KEEP_CONFIG)
+> -               return;
+> -
+> -       isp_get_fmt_rect(sd, sd_state, which, ffmt, crop, comp);
+> -
+> -       switch (pad) {
+> -       case ATOMISP_SUBDEV_PAD_SINK: {
+> -               struct v4l2_rect r =3D {0};
+> -
+> -               /* Only crop target supported on sink pad. */
+> -               r.width =3D ffmt[pad]->width;
+> -               r.height =3D ffmt[pad]->height;
+> -
+> -               atomisp_subdev_set_selection(sd, sd_state, which, pad,
+> -                                            target, flags, &r);
+> -               break;
+> -       }
+> -       }
+> -}
+> -
+>  static int isp_subdev_get_selection(struct v4l2_subdev *sd,
+>                                     struct v4l2_subdev_state *sd_state,
+>                                     struct v4l2_subdev_selection *sel)
+> @@ -541,6 +512,7 @@ void atomisp_subdev_set_ffmt(struct v4l2_subdev *sd,
+>         case ATOMISP_SUBDEV_PAD_SINK: {
+>                 const struct atomisp_in_fmt_conv *fc =3D
+>                     atomisp_find_in_fmt_conv(ffmt->code);
+> +               struct v4l2_rect r =3D {};
+> =20
+>                 if (!fc) {
+>                         fc =3D atomisp_in_fmt_conv;
+> @@ -551,8 +523,12 @@ void atomisp_subdev_set_ffmt(struct v4l2_subdev *sd,
+> =20
+>                 *__ffmt =3D *ffmt;
+> =20
+> -               isp_subdev_propagate(sd, sd_state, which, pad,
+> -                                    V4L2_SEL_TGT_CROP, 0);
+> +               /* Propagate new ffmt to selection */
+> +               r.width =3D ffmt->width;
+> +               r.height =3D ffmt->height;
+> +               /* Only crop target supported on sink pad. */
+> +               atomisp_subdev_set_selection(sd, sd_state, which, pad,
+> +                                            V4L2_SEL_TGT_CROP, 0, &r);
+> =20
+>                 if (which =3D=3D V4L2_SUBDEV_FORMAT_ACTIVE) {
+>                         atomisp_css_input_set_resolution(isp_sd,
+> --=20
+> 2.43.0
+>
