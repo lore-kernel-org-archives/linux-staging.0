@@ -1,39 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F3E21D53D;
-	Sat, 17 Feb 2024 16:24:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75F247CF1C;
+	Sat, 17 Feb 2024 16:26:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708187086; cv=none; b=NnVvbcne5GWqL2eA2vR1I6ZHa6+Wap9Jf/ehm2Ys/2dMfTREN759cEilbnsskZo7REGl+aIxZl103WcGQeseUApuySwGVNRCKcRB4WCvXQey6UMaC8PjjzDBoVlXRP17gwA0W9bvRO11LO/UdP+vzfvdiKAm47TmmMLLMPunQuA=
+	t=1708187206; cv=none; b=ZdMl9U40gWkppKAnDkFr3QqxpsaS235D7hzUeA6OXmYrO/YxXZRS6bNwRQGDfk4nsl80xMnVMwFBhCjopCscTt3YakxcV48zWhKd3KxXZl9LoogbmgepzZEf7krOlUqlAtwD3EmVLOvZtp1TA5M5rID8zrzxhJBheqD+1UdqXbI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708187086; c=relaxed/simple;
-	bh=ugLCeL/mwE26YkA0WU8mZxmfRwV9jKgBifhbOfWy+H0=;
+	s=arc-20240116; t=1708187206; c=relaxed/simple;
+	bh=iS8H0yTvebWdhZ1BBZEakoVXIEZsAyQ1kkx5KnIl1ic=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JPPI2OK8BBuP/sg1QbtipkKfdWmFcB77U6XQSOwEgww+jpVBWFExGSibuJgfuNGxyCbd4HyVRSZmxAsrizhRcEKIkZQldhXr4ltFvKFLLk/Z/cH1sKoPk4zMy1ZGIDaf1XnTVjTIhcxv2T3Qsj3ekMY0yPfUNELsy4VXr0rcuec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=GMHsUtT7; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=CAVeht/ZnIDbjS8p8XpbrqcA6KgNtYUUwKRtA0r0XXbDK86SFZenmFX5OzveFCXMuaRwHwivFQuMbUyaBTNbVJzXiF8JpTPaqGYEgp4SbMFW/u6GuUwpKZUrgaA6GfZakLh557TYaZf8Rco68al5p5yZsXG4k/j7eZUYt5rb5yk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=TqgxPfcd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="GMHsUtT7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69424C433C7;
-	Sat, 17 Feb 2024 16:24:45 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="TqgxPfcd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40B0DC433F1;
+	Sat, 17 Feb 2024 16:26:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1708187085;
-	bh=ugLCeL/mwE26YkA0WU8mZxmfRwV9jKgBifhbOfWy+H0=;
+	s=korg; t=1708187205;
+	bh=iS8H0yTvebWdhZ1BBZEakoVXIEZsAyQ1kkx5KnIl1ic=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GMHsUtT7uwx4J71+s3VCzwTbwMxN1fCnPfDM+4CRRb03Finq8MAZKZOYQjMeosCxQ
-	 ABQMPlmAWVhPf28MYvEy9WIlCveqen1s3MinNTrVe1lo4mf5nVtk+VnL95Vh8SPS1l
-	 0RYrMdtnGGRXJK653t+cN+FZ5nFxRFjerrJMGsW8=
-Date: Sat, 17 Feb 2024 17:24:42 +0100
+	b=TqgxPfcdmRCzmxmcDBdE9L9SLxSgnJNZeH9FuC+LesnsaOYWyR2UJE0SbdjYtWsbB
+	 P10bwQESrXCNBbpldxQ+Ztta8l+WKE3+bmadD5Y1xQmbb1/lKe00CAgQchYDMQ3rZ6
+	 SSsom9jHgmhkJTG3DIMEsMjhWtQIzyQV9TOLIVDw=
+Date: Sat, 17 Feb 2024 17:26:42 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: deller@gmx.de, kherbst@redhat.com, lyude@redhat.com, dakr@redhat.com,
-	jani.nikula@linux.intel.com, daniel@ffwll.ch, airlied@gmail.com,
-	linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	nouveau@lists.freedesktop.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 2/8] staging/fbtft: Include <linux/backlight.h>
-Message-ID: <2024021735-impure-excitable-6266@gregkh>
-References: <20240213084403.20995-1-tzimmermann@suse.de>
- <20240213084403.20995-3-tzimmermann@suse.de>
+To: Ettore Forgiarini <ettorenigma@gmail.com>
+Cc: richardcochran@gmail.com, ozlinux@hotmail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Staging: octeon: octeon-stubs: fixed a type coding style
+ issue
+Message-ID: <2024021730-familiar-elongated-8bcc@gregkh>
+References: <20240203155702.835279-1-ettorenigma@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -42,12 +40,21 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240213084403.20995-3-tzimmermann@suse.de>
+In-Reply-To: <20240203155702.835279-1-ettorenigma@gmail.com>
 
-On Tue, Feb 13, 2024 at 09:42:20AM +0100, Thomas Zimmermann wrote:
-> Resolved the proxy include via <linux/fb.h>, which does not require the
-> backlight header.
+On Sat, Feb 03, 2024 at 04:57:02PM +0100, Ettore Forgiarini wrote:
+> Change all the uint*_t to the preferred u* types
 > 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Signed-off-by: Ettore Forgiarini <ettorenigma@gmail.com>
+> ---
+>  drivers/staging/octeon/octeon-stubs.h | 1746 ++++++++++++-------------
+>  1 file changed, 873 insertions(+), 873 deletions(-)
 
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+Why just for this one file?
+
+How was this tested?
+
+thanks,
+
+greg k-h
