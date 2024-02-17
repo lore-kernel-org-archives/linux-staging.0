@@ -1,82 +1,53 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A3B65427E
-	for <linux-staging@lists.linux.dev>; Sat, 17 Feb 2024 16:00:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F3E21D53D;
+	Sat, 17 Feb 2024 16:24:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708185613; cv=none; b=sr8opseyVOBmC66CgI+8vuuLrdXxhA2NvlcRMYwuWTt23QEUhQhkzUOVI0h3E70COHpvQkxUV/xU8Z5vEvr9JPAwEsxEjfcspEZQCBwfz8PL3RiwXDX5jC+vtm9TcLY6deOCi87gm8ZdhgQZwt49jtxv3I4iBSPJszmYYRpGF5k=
+	t=1708187086; cv=none; b=NnVvbcne5GWqL2eA2vR1I6ZHa6+Wap9Jf/ehm2Ys/2dMfTREN759cEilbnsskZo7REGl+aIxZl103WcGQeseUApuySwGVNRCKcRB4WCvXQey6UMaC8PjjzDBoVlXRP17gwA0W9bvRO11LO/UdP+vzfvdiKAm47TmmMLLMPunQuA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708185613; c=relaxed/simple;
-	bh=tcmVjcmYkBwgueRO+vmbHnHJZNEwAI7lNK5doJdSTeo=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=A9LNc6foEUuCGkUVMj897QhrViCCJheSLaBJxtRE3xRzxc9WYzNk8agGr12VYfmI49pek5BjRjqizvKs0kdJQCtaXE143vlyi7AJ7W1t2moU2I3rrA40/iy6WRhbLHV9RTpGU1OU/26gVZOzv4rdxl41JeNZd5UiXxS6bZVVgFc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Ub09LUBa; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1708187086; c=relaxed/simple;
+	bh=ugLCeL/mwE26YkA0WU8mZxmfRwV9jKgBifhbOfWy+H0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JPPI2OK8BBuP/sg1QbtipkKfdWmFcB77U6XQSOwEgww+jpVBWFExGSibuJgfuNGxyCbd4HyVRSZmxAsrizhRcEKIkZQldhXr4ltFvKFLLk/Z/cH1sKoPk4zMy1ZGIDaf1XnTVjTIhcxv2T3Qsj3ekMY0yPfUNELsy4VXr0rcuec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=GMHsUtT7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Ub09LUBa"
-Received: from pendragon.ideasonboard.com (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A080D13AC;
-	Sat, 17 Feb 2024 17:00:04 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1708185604;
-	bh=tcmVjcmYkBwgueRO+vmbHnHJZNEwAI7lNK5doJdSTeo=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=Ub09LUBaFWCssTZJ0dnL0J89lSZUN1TPPQxHNvrTB9jDsP7NKECKlVG2isBRH2cby
-	 eRUWJCrKsmsR51F1N6pzvfZIbjz09NT1gomF/R8sTWs6fx1m2e3pcrv+8emFJdsshc
-	 v2xbYMYycUD0JCmIx3DfWoztyWGRfmPD2w46iigs=
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="GMHsUtT7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69424C433C7;
+	Sat, 17 Feb 2024 16:24:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1708187085;
+	bh=ugLCeL/mwE26YkA0WU8mZxmfRwV9jKgBifhbOfWy+H0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GMHsUtT7uwx4J71+s3VCzwTbwMxN1fCnPfDM+4CRRb03Finq8MAZKZOYQjMeosCxQ
+	 ABQMPlmAWVhPf28MYvEy9WIlCveqen1s3MinNTrVe1lo4mf5nVtk+VnL95Vh8SPS1l
+	 0RYrMdtnGGRXJK653t+cN+FZ5nFxRFjerrJMGsW8=
+Date: Sat, 17 Feb 2024 17:24:42 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: deller@gmx.de, kherbst@redhat.com, lyude@redhat.com, dakr@redhat.com,
+	jani.nikula@linux.intel.com, daniel@ffwll.ch, airlied@gmail.com,
+	linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	nouveau@lists.freedesktop.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v2 2/8] staging/fbtft: Include <linux/backlight.h>
+Message-ID: <2024021735-impure-excitable-6266@gregkh>
+References: <20240213084403.20995-1-tzimmermann@suse.de>
+ <20240213084403.20995-3-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20240217112438.15240-8-hdegoede@redhat.com>
-References: <20240217112438.15240-1-hdegoede@redhat.com> <20240217112438.15240-8-hdegoede@redhat.com>
-Subject: Re: [PATCH 7/9] media: atomisp: Change ISP subdev name to "ATOM ISP"
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: Hans de Goede <hdegoede@redhat.com>, Kate Hsuan <hpa@redhat.com>, Tsuchiya Yuto <kitakar@gmail.com>, Yury Luneff <yury.lunev@gmail.com>, Nable <nable.maininbox@googlemail.com>, andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>, linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-To: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hdegoede@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>
-Date: Sat, 17 Feb 2024 16:00:07 +0000
-Message-ID: <170818560760.1206667.14199319396527835603@ping.linuxembedded.co.uk>
-User-Agent: alot/0.10
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240213084403.20995-3-tzimmermann@suse.de>
 
-Quoting Hans de Goede (2024-02-17 11:24:36)
-> Change the generic "ATOMISP_SUBDEV" name to "ATOM ISP" to make clear
-> that this is the subdev for the ISP itself.
->=20
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
->  drivers/staging/media/atomisp/pci/atomisp_subdev.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.c b/drivers=
-/staging/media/atomisp/pci/atomisp_subdev.c
-> index 8253b6faf8cd..822fe7d129e2 100644
-> --- a/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-> +++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-> @@ -799,7 +799,7 @@ static int isp_subdev_init_entities(struct atomisp_su=
-b_device *asd)
->         int ret;
-> =20
->         v4l2_subdev_init(sd, &isp_subdev_v4l2_ops);
-> -       sprintf(sd->name, "ATOMISP_SUBDEV");
-> +       sprintf(sd->name, "ATOM ISP");
+On Tue, Feb 13, 2024 at 09:42:20AM +0100, Thomas Zimmermann wrote:
+> Resolved the proxy include via <linux/fb.h>, which does not require the
+> backlight header.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Pure bikeshedding, but I'd probably lower the shouting to just=20
-	"Atom ISP"
-
-Either way saying it's a subdev on a subdev isn't much of a value add so=20
-
-Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-
->         v4l2_set_subdevdata(sd, asd);
->         sd->flags |=3D V4L2_SUBDEV_FL_HAS_EVENTS | V4L2_SUBDEV_FL_HAS_DEV=
-NODE;
-> =20
-> --=20
-> 2.43.0
->
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
