@@ -1,65 +1,57 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f170.google.com (mail-il1-f170.google.com [209.85.166.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D7AC53E38
-	for <linux-staging@lists.linux.dev>; Sun, 18 Feb 2024 11:15:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FFC86EB46
+	for <linux-staging@lists.linux.dev>; Sun, 18 Feb 2024 16:48:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708254917; cv=none; b=pyzrLmrFHKUQla/g1KnW5MAGy9JNL7f5SZqOzSzWN31sNZ5wT44CDs4CLsIiMCMGznPTBHp5WIOxzpGaoa+U1CGb1tDlvkn6S4fPP38ufAPqszXsmaU925k0CtkBtdYW2+koZG7Hhvzdxq3GznpkCMV5PqqOvaxN1aSnUDqcENA=
+	t=1708274918; cv=none; b=iw3R6x6N5yzgdHzfoFID6QvSwD74LNKTju1GHDW/LwMi87GY1NwZzVNwu3MpbIjsqpcJs5CzEnxmEtzaXXG6jsSfD0QQhzRmvtyiWeXJiU1P+il4GRlbZIfmenRQmCdxKd0wDkve0EwTnKAO8uGBI2m0xFYiX9aNqc1d5spGCes=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708254917; c=relaxed/simple;
-	bh=LezEEuf9Dqbqusp5kzLqGVinUXDiWpJ/TGvQJbWlJCE=;
+	s=arc-20240116; t=1708274918; c=relaxed/simple;
+	bh=KpFfggUZ5hMwU47Zuz91oYFFmXWnyTnZeq8DfngWL8E=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QYCjfDG0wKHrf84975OwcwE9IggMmhrivT72ZYF82QNai5/HOJjWIGp6VxGUDTmkOJgytHh9fLY/qIMXuntCVz2PkDGvLnMoBXOKDh+iXya4k3WiVFCO1EKfrhhVbf3zf4+rkDsgR8fxJxZPj5QxRwtRDYLBW8thNFwCbhaasSY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=TzL/3CN0; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 In-Reply-To:Content-Type; b=eDjTQXvrfslg/xQN+7+m/08zVHgghvOKPPjzgG58GOqLppb9tuPIRMqd8Q6WEdeUeulYIKkVRhPU7pwRnUMX5lBCAf/7GwRzfFvLiSxpYeNHVU7wbBk5ct4OmeHAQjexnjJhmDGjY7ZtqEjJ+6LEn4RSXE7/M/apODPkcfxvIjE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ieee.org; spf=pass smtp.mailfrom=ieee.org; dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b=SEqFsmwX; arc=none smtp.client-ip=209.85.166.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ieee.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ieee.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TzL/3CN0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1708254915;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0MlRkd94bblQtjuzRhqQduRcrNd91pWMW0e9zUhSziY=;
-	b=TzL/3CN0Mo1c22j9hzhIfveXsas8Wa2bUcY3QHZSwKfC9yiWQ/Lo808kzMrKqfX3AKkxSD
-	Bjwlyxut0fNGZ/snltjpmkZos2IuAi5HpaHU+yUs9sNQ7qTWZYw9G/0N0Y5Xj9Vj/aLyPX
-	FaPlVadnaYiM0+mNhUxT5iTuhE/gTwg=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-635-PAgK0CEBPuuKUSe5lAKHTg-1; Sun, 18 Feb 2024 06:15:13 -0500
-X-MC-Unique: PAgK0CEBPuuKUSe5lAKHTg-1
-Received: by mail-ed1-f69.google.com with SMTP id 4fb4d7f45d1cf-5644e83241fso333926a12.3
-        for <linux-staging@lists.linux.dev>; Sun, 18 Feb 2024 03:15:13 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b="SEqFsmwX"
+Received: by mail-il1-f170.google.com with SMTP id e9e14a558f8ab-364f794f237so14941875ab.1
+        for <linux-staging@lists.linux.dev>; Sun, 18 Feb 2024 08:48:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ieee.org; s=google; t=1708274915; x=1708879715; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=37nms9BmJJEsQJsbt0jcgUsWdlYRkTGGuwtAPDF2YJA=;
+        b=SEqFsmwXDt4L+1JZEfHVgDStqxXk/UGX2yTcvFCTJqVGNfC3AHBifCM7TJXZTILR4W
+         I29biWl5kOH0E69XYSZKLZJPq2TqP8g2gOce1Tkq8JCHzFowkHnbijdLfP7Tin9ZJ16H
+         nqQpbsXMJHBSCPHCpW9h3+2e19gXIKxcFsgJc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708254912; x=1708859712;
+        d=1e100.net; s=20230601; t=1708274915; x=1708879715;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0MlRkd94bblQtjuzRhqQduRcrNd91pWMW0e9zUhSziY=;
-        b=S0ermGZJXFV9/I+dTxalto+8upeoX1msVP+LN6TT96bdrnJzuzrP8lTZN4TykgzsGd
-         v99Tx6KREdh+EzfR+NY9/LjZ+5QdBaCNe7/ZP2Gm9W+3uQzTHmcupHTaqHym11eY5vpR
-         jHdnuND8+uMbb1G4xOnkZTiZM56pOZS6Cia+wC9dir1ByjgNaR4eOTXvRI5OJETyybwN
-         QGVT8GwNhxjiR6ZEH6hL6J9v80EKSS9j1xCzUeeKw8ikrp3ZooyIwfZPSaxZiYhrN7Jf
-         TMNvPuI2a2B9Reh1I9GmgMukSFblF3jDgW1EbGgpWvCW+Y/mqY11mE9Iw2bmHzblqH+Y
-         TR+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVufb9noYwap/9E3SxbDVQAJY/GkbROZNRJFk0NdwWEeJ0hlLUsgXg2v85/X8kn7Y9CvqithOWLQQpO6xySmLbJTOhuKL8kw2jNqp7BEw==
-X-Gm-Message-State: AOJu0Yz0I15lx55CJdtizYiiiAhb+mfMKrOIA/jLnAHBanIo+PYYPv47
-	H5Di+pziXs7YV78/h2UEQNlkLoZ3kKvzDJYrqQ7o06oSqYCgt37ZnfDB64J46BEpZp5X/0o5k+J
-	vpqpmA0/hgyq6NCuDaYktrDA4JgYaCmUq2JGsl1Syw4la3DV+0OJcl831LH/jWmw=
-X-Received: by 2002:a17:906:298c:b0:a3c:11a0:8d10 with SMTP id x12-20020a170906298c00b00a3c11a08d10mr7812593eje.3.1708254912632;
-        Sun, 18 Feb 2024 03:15:12 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGxa8G0JUtcjZ7ruZlVlf/Fk4NROCJWWXS8D8l+M5FiK9xwxYTGWqJRCX8P/7NZu7JJSd+EQA==
-X-Received: by 2002:a17:906:298c:b0:a3c:11a0:8d10 with SMTP id x12-20020a170906298c00b00a3c11a08d10mr7812576eje.3.1708254912371;
-        Sun, 18 Feb 2024 03:15:12 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id rg14-20020a1709076b8e00b00a3d004237ebsm1835149ejc.212.2024.02.18.03.15.11
+        bh=37nms9BmJJEsQJsbt0jcgUsWdlYRkTGGuwtAPDF2YJA=;
+        b=qVOPZOf09+4wsaQ+2bYaSS541m94eGkk2oiophh2JyzYZPyoCms98Sd3x7CJgdkpdp
+         Sze10DxLFs61cZ++vA9yyt8haIRXjKv+EOgbzwlM3+LfxMa1nbOyc9W8nyWtBaXhOss/
+         Dko1OjlAN4G7m/5m18oerkIW9RwniThpnuQu/k9dGGnGOns2gMZSxdbGyNSj04u13B1C
+         1Omqr2xfA2CK0U51FN6aZLE8SV2VYhOMllkO0ZA+lRAxZjo+rZ9tpmu6uY2omXpEUe/Z
+         IRkhWSBwOL7vvF78sQIkprB8pgIwPO8rH0ak0aetZ7uxWmLwcsWK3B7I/hcj58bIr8iZ
+         vGFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXlehGIcbQg+1/ScnsjK48jumV7fV0R7uSqxCDNCxsFT4cUuCBZsiqC3ui+xiUpfZVRD0ror6OJNlLGbq31j7pzN/JFni8xwc/0XnzWfg==
+X-Gm-Message-State: AOJu0Yz5NMDVWViQ90wzzZWOx4wblZkdHUIpTMxjqOzNZtwzu8EMqrr0
+	inI62M1ABoUr8METGcLFePeEfQfVqWlTA40gjEQVimdVNhXDCBCqUB9uFfCLPdCjCvjrZSeCwN8
+	=
+X-Google-Smtp-Source: AGHT+IFcE6tBwMe7ot5+O/3t4TbbhIKrINl4J+8hLvJT/caqX8sqYCCWCefFmQzI3F/jhqPVS3tGLw==
+X-Received: by 2002:a05:6e02:154c:b0:364:216e:d1dc with SMTP id j12-20020a056e02154c00b00364216ed1dcmr9851712ilu.22.1708274915594;
+        Sun, 18 Feb 2024 08:48:35 -0800 (PST)
+Received: from [172.22.22.28] (c-98-61-227-136.hsd1.mn.comcast.net. [98.61.227.136])
+        by smtp.googlemail.com with ESMTPSA id hm11-20020a0566020f4b00b007c46318b9ccsm1107820iob.14.2024.02.18.08.48.34
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 18 Feb 2024 03:15:11 -0800 (PST)
-Message-ID: <a31bb438-95b2-4874-8e57-07a72d61ce82@redhat.com>
-Date: Sun, 18 Feb 2024 12:15:11 +0100
+        Sun, 18 Feb 2024 08:48:35 -0800 (PST)
+Message-ID: <0123aec7-f7ae-454d-9b4a-361e97756242@ieee.org>
+Date: Sun, 18 Feb 2024 10:48:33 -0600
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -67,45 +59,65 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/9] media: atomisp: Changes for libcamera support
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
- Tsuchiya Yuto <kitakar@gmail.com>, Yury Luneff <yury.lunev@gmail.com>,
- Nable <nable.maininbox@googlemail.com>, andrey.i.trufanov@gmail.com,
- Fabio Aiuto <fabioaiuto83@gmail.com>, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev
-References: <20240217112438.15240-1-hdegoede@redhat.com>
- <CAHp75Vf0Jm4CXig9GOu=WvqyRFj5W4U6gQsNHy48dFJrD3zb2w@mail.gmail.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <CAHp75Vf0Jm4CXig9GOu=WvqyRFj5W4U6gQsNHy48dFJrD3zb2w@mail.gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, nl
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] greybus: Avoid fake flexible array for response data
+Content-Language: en-US
+To: Kees Cook <keescook@chromium.org>
+Cc: Viresh Kumar <vireshk@kernel.org>, Johan Hovold <johan@kernel.org>,
+ Alex Elder <elder@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Gustavo A . R . Silva" <gustavo@embeddedor.com>,
+ greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+References: <20240216232824.work.862-kees@kernel.org>
+ <672fafca-547e-443e-8dd8-80ccd2320767@ieee.org>
+ <202402171357.E671B5589@keescook>
+From: Alex Elder <elder@ieee.org>
+In-Reply-To: <202402171357.E671B5589@keescook>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Andy,
-
-On 2/17/24 19:53, Andy Shevchenko wrote:
-> On Sat, Feb 17, 2024 at 1:24 PM Hans de Goede <hdegoede@redhat.com> wrote:
+On 2/17/24 3:58 PM, Kees Cook wrote:
+> On Sat, Feb 17, 2024 at 02:17:33PM -0600, Alex Elder wrote:
+>> On 2/16/24 5:28 PM, Kees Cook wrote:
+>>> FORTIFY_SOURCE has been ignoring 0-sized destinations while the kernel
+>>> code base has been converted to flexible arrays. In order to enforce
+>>> the 0-sized destinations (e.g. with __counted_by), the remaining 0-sized
+>>> destinations need to be handled. Instead of converting an empty struct
+>>> into using a flexible array, just directly use a pointer without any
+>>> additional indirection. Remove struct gb_bootrom_get_firmware_response
+>>> and struct gb_fw_download_fetch_firmware_response.
 >>
->> Hi All,
+>> The only down side I see is that it sort of disrupts a pattern
+>> used on Greybus request handlers (and the response structure definitions).
 >>
->> Here is a series of cleanups (prep work) + some small(ish)
->> changes to make the atomisp driver work with libcamera.
->>
->> This has been tested with libcamera's simple pipelinehandler
->> together with an ov2680 sensor.
+>> I think a one-line comment in place of each of these two
+>> definitions would be helpful, something like:
+>> /* gb_fw_download_fetch_firmware_response contains no data */
 > 
-> With some minor comments,
-> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+> Er, maybe this should be "no other data" ? Do you want a v2 of this
+> patch?
 
-Thank you for all the reviews.
 
-Regards,
+Sending v2 is probably best, because I'd like to see these
+comments.  Greg could fix it up himself but he probably wants
+to pull it from the list
 
-Hans
+And yes, "no other data" is fine, or maybe "no payload"
+or "has an empty payload".  Any of those is better than
+nothing; you choose.
 
+Thank you.
+
+					-Alex
+
+> 
+>> And then add a similar comment above the calls to
+>> gb_operation_response_alloc().
+>>
+>> Otherwise this looks good.
+>>
+>> Reviewed-by: Alex Elder <elder@linaro.org>
+> 
+> Thanks!
+> 
 
