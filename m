@@ -1,106 +1,192 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26EEC23749
-	for <linux-staging@lists.linux.dev>; Mon, 19 Feb 2024 09:22:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2E2122F03
+	for <linux-staging@lists.linux.dev>; Mon, 19 Feb 2024 09:31:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708334573; cv=none; b=KJOoQ/wRgZ30f63CxAISbBFnyoAA8E3/rdcvnZN5gqD/E+0P8NBHDQFaFl/DVVNvMShmaoJvEGQ0XIO6grGNIMsO/55v/UahVZw9jvbwfJHZR0/Jg9RO8qQn867/bnr58agcPl6PCjd7TPpIGi23+S+osYG6iKk0av00iRJwbrU=
+	t=1708335067; cv=none; b=WYQef5miTQFJTqBXn97Ya93ZJfUKdu517LvvHkQsTpOHfwiCcpCXDI2FoIOq62305A5svchHOE4iNkCtzQe6Jl3h1bMagzFerZJwdhFbWoyH1/ekKXa/rlCDQo5WfjiWr2+gxLapFR+uGSy8Qij1bkhimGRXqr3RKbuTMlmny2E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708334573; c=relaxed/simple;
-	bh=pF0TR3qOdDZ2bsasfoojepgW2ZMQCvSykRkSSHZmDLY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Yz152NgeZXNxw5wm7CeDatHBgGfef9GYLZvaDgQwIzS+hpYwUOrLqjUb4TyupUl+8L3dL/AkG/1dqjcUeoX6ikBstA2YJx5z7T7WF7WTifpKQZ5S08QX1G4T/IwTBAGniEMFbZbsnlFRtDhioo1RB2zabfGAWbGBvtOKrNhByiA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fka81TAf; arc=none smtp.client-ip=209.85.160.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1708335067; c=relaxed/simple;
+	bh=9N8TmD3r/XO2d7eSLrCMuYRQLdR88FTfA84Blpq13Vg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UMEdB9b9ENiILHVNJgAa3zkWOFM7kO8tGXYeYKTu69B67z23J28QdcUKjpUeHjhfRchT8EwjUbPeqSyrbc5EnTOsrAlqYI0B78uv1A9FxFRoKY83sVyxmy4+9rOY4blQPdnRLoGN0f4IiUcRwQXkx36JCPBlIIDqmNexX+dLwWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=lfOkbKCi; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=g1FYU3iW; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=blwaylYH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vKF5NHZD; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fka81TAf"
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-42c7bbf638bso17195721cf.2
-        for <linux-staging@lists.linux.dev>; Mon, 19 Feb 2024 01:22:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708334571; x=1708939371; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hhTvSxJ/x2znzcmUqwk3cNw7/IqA0HFzE48+6BdqiDY=;
-        b=fka81TAfY6okUwqGrBsOaDLhmibd/Y4mNMHA7rXb6Lj0a4TGgL93t5Go/ImfTCWpvg
-         Tp1dsT+8tftP6cppIRiJEIde2E8pZgzWxxoN01fblRkghI5yHJBXjpsOp8qEWOzMaKu6
-         im+zrV6hvV6XEO+8bxrvyGx3rXIYj3KWC+wDMUbezGrAc9c9TWGVpq/62ceuuW46Oyd2
-         Ovk6O0kKGK4b7RPGQeWqp2j7ohqLTo7rrVo4NHGkKlWSytp4jUMIpsT1x5pKHvKqIF33
-         kVzvE4zVmyTZpEWFLvtgiEF/8lYx0iUFUEAOfH6wv3dDYb4ZFMN/YFk1hwfMlLYJmKNy
-         +VwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708334571; x=1708939371;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hhTvSxJ/x2znzcmUqwk3cNw7/IqA0HFzE48+6BdqiDY=;
-        b=m3oKFI20RDnqR4HogNXVs7MAoZriH1jOheEsZoV2pZ1m+W3zfsnzOI5XnjG+bm3qI1
-         eYSNseo/ixL5tQNohPHV8vxoET7NgLCumzy3uA3IrO4c9XHtfZJ9qxCoeOl5qCOUEQwI
-         DKuWD/H+s2+CBhyBL8G9GWAsA4oM1UvuWBICynl1Bnh79rEbT+oGGxPyx9SKOscdhOi7
-         uOsBfDOlQ9IzpJHSWgdbbf+QoT9X3sS0FHDtkBkeeD+DE3rRdmIDP/WXDEfmdHJ+jJzM
-         QMLxONuybFXxLcmjtUAjsBPWHEJd+Rk6xqyh3SXWiBuaJePnV4aX5ROAPnSYjRWgK751
-         jBqw==
-X-Forwarded-Encrypted: i=1; AJvYcCUoDohIh2UQ5aGfcFau2kPAXfxgNMPv4IEPWC0N108Q4B3En7BvwEWVMGCRaaGp6wZSBe+gFUwEpMLqmOOLJd0muJLpDQZXczCINDkbzQ==
-X-Gm-Message-State: AOJu0Yw1BMQmW1htE8wTMbwtq+orrhSz7eU0mGAo6+W5h79XYgqdWeoo
-	b1x7ZUtrFoNlgoPgdl4jA9tTqmcoLFo2RRuaVc4B3sZKNWO5N71w3oHNBfjwV9GxdLfZ+Q2VW4Y
-	tAXAFqk2KgTp7/WwoDca6oG4KoDI=
-X-Google-Smtp-Source: AGHT+IFuIiX9Klg05+nDcgu9WHG5wGy+trNSqxBYHJHIbn5D7zNfdvsCP6yfkUy9j83LXocbUhqEr10z9ldP/Mh3fmg=
-X-Received: by 2002:ac8:6ec6:0:b0:42d:d010:edb7 with SMTP id
- f6-20020ac86ec6000000b0042dd010edb7mr10996685qtv.28.1708334571040; Mon, 19
- Feb 2024 01:22:51 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lfOkbKCi";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="g1FYU3iW";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="blwaylYH";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vKF5NHZD"
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:98])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 393342206A;
+	Mon, 19 Feb 2024 09:31:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1708335064; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=y/D66OSEdyzmFopZiKMpHruDnoXXVOF3XH6nd8SJXkQ=;
+	b=lfOkbKCi4ahpqMn+NeVOrzi1OsiafPu9Xy36QJEQlYn3DM3Omk59Vgi+htm7PMrwIEyB42
+	1VJhr298RqVH06Ubyz6eSHrLM7YLMF332e6cALEP3/r8WGGWSokftgWSoMQJMOqhRNt7AQ
+	z7/0+8bqxK65KJlB8SGF7IW/lQy1nXE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1708335064;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=y/D66OSEdyzmFopZiKMpHruDnoXXVOF3XH6nd8SJXkQ=;
+	b=g1FYU3iWx/6/NotX9cm6OVa9xXjz8/MJqeGLBr7c24b/9F+8265u5CZ3GBYt8pyTEiPn9F
+	cQTyCq1sgY+pcHAw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1708335062; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=y/D66OSEdyzmFopZiKMpHruDnoXXVOF3XH6nd8SJXkQ=;
+	b=blwaylYHeCH2C5R4qFf0n2eJOKCodP93xLcP5FClM09wXP9ER00fpqDK1rw1V9l0rbhTVy
+	lBECg1qCnH0J50J9VoYYlxs6jQGa0879MCs99IB0C54IPLuPuhUdSt3O7IhgFh8YvvS/+X
+	Zd1Ge/vZHwnzCphIRVYVEblZHqtBZYg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1708335062;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=y/D66OSEdyzmFopZiKMpHruDnoXXVOF3XH6nd8SJXkQ=;
+	b=vKF5NHZD1dp07F/XhgD8zKRTBAD9GeDARvJz4hhD0cCWIp1ycOKx6HLszxOAvsLlYZgEQ2
+	4Sm8wGGJcMuMDlBA==
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id D4E9613585;
+	Mon, 19 Feb 2024 09:31:01 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap2.dmz-prg2.suse.org with ESMTPSA
+	id OnqEMtUf02XBTgAAn2gu4w
+	(envelope-from <tzimmermann@suse.de>); Mon, 19 Feb 2024 09:31:01 +0000
+Message-ID: <4c25b689-ab92-4e84-b54c-e80f511e10c7@suse.de>
+Date: Mon, 19 Feb 2024 10:31:01 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240217211246.28882-1-mo.c.weber@gmail.com> <510574c4-ad26-4fc2-93c4-7b67737f8eb1@moroto.mountain>
- <236d985c-1835-410f-b0b5-cacbd5fbf930@moroto.mountain>
-In-Reply-To: <236d985c-1835-410f-b0b5-cacbd5fbf930@moroto.mountain>
-From: Moritz Christian Weber <mo.c.weber@gmail.com>
-Date: Mon, 19 Feb 2024 10:22:40 +0100
-Message-ID: <CAMn1LHB2H6hqMZLOWrQEN-hRQf3LTRU_q-6ggu4=qRDiU5=inw@mail.gmail.com>
-Subject: Re: [PATCH v2 0/8] Staging: vc04_services: bcm2835-camera: Fix code
- style checks
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: florian.fainelli@broadcom.com, linux-staging@lists.linux.dev, 
-	linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/8] fbdev: Clean up include dependencies in header
+Content-Language: en-US
+To: deller@gmx.de, kherbst@redhat.com, lyude@redhat.com, dakr@redhat.com,
+ jani.nikula@linux.intel.com, daniel@ffwll.ch, airlied@gmail.com,
+ gregkh@linuxfoundation.org
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, linux-staging@lists.linux.dev
+References: <20240213084403.20995-1-tzimmermann@suse.de>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20240213084403.20995-1-tzimmermann@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Level: 
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=blwaylYH;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=vKF5NHZD
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.82 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 XM_UA_NO_VERSION(0.01)[];
+	 FROM_HAS_DN(0.00)[];
+	 DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 TO_DN_NONE(0.00)[];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 BAYES_HAM(-0.32)[75.68%];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:98:from];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
+	 RCPT_COUNT_TWELVE(0.00)[12];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 FREEMAIL_TO(0.00)[gmx.de,redhat.com,linux.intel.com,ffwll.ch,gmail.com,linuxfoundation.org];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[];
+	 MID_RHS_MATCH_FROM(0.00)[]
+X-Spam-Score: -3.82
+X-Rspamd-Queue-Id: 393342206A
+X-Spam-Flag: NO
 
-Ok.. thanks for the explanation. Did not want to ask back stupidly
-what the script was actually complaining about without providing a
-suggestion on what I understood what it was asking for. I will submit
-a version 3 patch for the braces and a separate blank line patch with
-both good cover letters.
+A-b'd by Helge via email
 
-Best regards,
-Moritz
+Acked-by: Helge Deller <deller@gmx.de>
 
-On Mon, Feb 19, 2024 at 9:17=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro=
-.org> wrote:
+Am 13.02.24 um 09:42 schrieb Thomas Zimmermann:
+> Remove unnecessary dependencies in the include statements of the
+> header file <linux/fb.h>. Several files throughout the kernel include
+> the fbdev header, so reducing dependencies positively affects other
+> subsystems as well. Also fix up nouveau and fbtft, which need backlight.h
+> in some their source files.
 >
-> On Mon, Feb 19, 2024 at 10:38:30AM +0300, Dan Carpenter wrote:
-> > On Sat, Feb 17, 2024 at 10:12:38PM +0100, Moritz C. Weber wrote:
-> > > Resubmit these patches to fix multiple code style checks for better r=
-eadability, consistency, and to address errors indicated by Gregs patch bot
-> > >
-> > > Moritz C. Weber (8):
-> > >   Staging: vc04_services: bcm2835-camera: fix brace code style check
-> > >   Staging: vc04_services: bcm2835-camera: fix brace code style check
-> > >   Staging: vc04_services: bcm2835-camera: fix brace code style check
-> > >   Staging: vc04_services: bcm2835-camera: fix brace code style check
-> > >   Staging: vc04_services: bcm2835-camera: fix brace code style check
-> > >   Staging: vc04_services: bcm2835-camera: fix blank line style check
+> v2:
+> 	* include backlight.h in fbtft (kernel test robot)
 >
-> This blank line patch would be still separate of course.
+> Thomas Zimmermann (8):
+>    drm/nouveau: Include <linux/backlight.h>
+>    staging/fbtft: Include <linux/backlight.h>
+>    fbdev: Do not include <linux/backlight.h> in header
+>    fbdev: Do not include <linux/fs.h> in header
+>    fbdev: Do not include <linux/notifier.h> in header
+>    fbdev: Do not include <linux/slab.h> in header
+>    fbdev: Clean up forward declarations in header file
+>    fbdev: Clean up include statements in header file
 >
-> > >   Staging: vc04_services: bcm2835-camera: fix brace code style check
-> > >   Staging: vc04_services: bcm2835-camera: fix brace code style check
+>   drivers/gpu/drm/nouveau/dispnv50/disp.c |  1 +
+>   drivers/staging/fbtft/fb_ssd1351.c      |  2 ++
+>   include/linux/fb.h                      | 24 +++++++++++++-----------
+>   3 files changed, 16 insertions(+), 11 deletions(-)
 >
-> regards,
-> dan carpenter
->
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
