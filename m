@@ -1,68 +1,65 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0EDC2C1A5
-	for <linux-staging@lists.linux.dev>; Mon, 19 Feb 2024 11:23:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B9062E62E
+	for <linux-staging@lists.linux.dev>; Mon, 19 Feb 2024 12:32:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708341796; cv=none; b=FDLIkHUeUPNc7ncCoJUEZoR4/URFT2Nbvlz371sN5XlrkzsxAUCRY+DZnKgWJW1zPozsBB2xtWri82zllRlv7HxL7vz4dpSrTARNDxLY3UTcOo48MetkPtsCPZ89KubwN8QJO+LZuxDCx9YigUUfIn6BNbXBtmgmv6ubECaLYLg=
+	t=1708345924; cv=none; b=gPwNRbBo06Qti2o6m1DQzS3jU6u1CC+0/JX52I8Mrpuwg9GmPPrqYa9adHX1W4rXrC/C2Txn7S5zk/khKFwyZfAj3e2t3zrGCyAckdNyVNTu2zqFrFTe39MHtF1yP4U/SR0aGtVPl0DGwrB0XYfdjFcXIgJaxbh2iMklPC66/nE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708341796; c=relaxed/simple;
-	bh=WJhan3UP9Z7GAaBjgIiNA/IqDSv3J6aKXJJ9PHj+wuI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=SvLnVLmTvMHGFQBFm06xtdsaEbAI9JEPHSEi7btHuQXlwLrZV5KeVhRW3l26HIVqSvXptmNmV93oAwmfoDROR4L1Piv9NPqWHCaNi9FGjbuIX5QCa0td9yPKKjVEpWlegUDOB1pSemFjFfbR1oQe9HE/zQxcihaPYZu6SmYEBmQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hslL0Kde; arc=none smtp.client-ip=209.85.218.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1708345924; c=relaxed/simple;
+	bh=j6578wxWKqcx8ONxEVdRiQYKPP0Syiq2K9w0PPf/ewo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TKPcshwJFo+5xKK/jLJ0T1XMgPOUpryGqR2/hQa7bEdn1GWfPzxAFmwmTGbIvtEfPKqsZjy9FhyIHv+cBFYOo54Cx3aiSwOdI+WsYAKN2BG+BUh1VWvong83SEzWDyB8E4VGUvhIAkZq5SpP09YNjjlrG9q4JfrD2YK3IYN/Lww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SrYCbiJ/; arc=none smtp.client-ip=209.85.208.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hslL0Kde"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a3566c0309fso484305266b.1
-        for <linux-staging@lists.linux.dev>; Mon, 19 Feb 2024 03:23:14 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SrYCbiJ/"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-55f50cf2021so5823015a12.1
+        for <linux-staging@lists.linux.dev>; Mon, 19 Feb 2024 04:32:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708341793; x=1708946593; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YuW0tA1+gOLBqnUIoohkzCyIMBvVnloNgoNFu8SX/5U=;
-        b=hslL0KdeX9OgaBVaOetESvpa52iHVT3wdrS2MZqeYV08iHMUQm4owxBCMYR5avkSf6
-         mnhvO3Ub1ZPJO59ffg2PR4ypvXQMyozJVwj5gZ3q8nTUobPb1iov5Ar1naaF8fzW6kzr
-         jj12PAczpOT5apibwIST1DUzAYgwkaGGxTkMtLQtsN4XLr8JqWHhpqmBAGu/Ks1Dy2EV
-         TwdEZoeikvCiil58vPsc/r4CskQaJv8h/Mr/NFtcWCBhXvo65vFX1/D9sGDY6zJlWAC9
-         pgqcmIRzXYTihYtdgtHGpnYxrPuKcjzHDbvKhtRIjbEW8EoFZjbMXTZvpGs+icS/aqX1
-         H/fw==
+        d=linaro.org; s=google; t=1708345921; x=1708950721; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=H5rTBOT512LHdHzuBKt2E2Za1VrV48YhxTWcmimOXXM=;
+        b=SrYCbiJ/sLAUQWT9k/aBlAAGt2juOfhALtkVeq7rPj7ikX572ynI1zGRIF4Ig1ZNsH
+         l0iCU1k/VeUkPZsy46wdh/hoz89WNJ+GHldIGzMyhnz9lMg3NA1ayinrNJEDISTE20hy
+         bC7VU/3zbn5R6NBXfEJD2BAUTGSV5Dji5icN2V1QcxOvBh9JdBNzpq+sIvL0FAA3saIG
+         SFRvtn6G4cLt41KnAEQeBXTnyQNASCAHJ5oYhY0Qqqzy0QF2v4muorB6+CfPz8OZNfJY
+         ZbZsaIJ4t1xtJiqLBeyfsy7FDoCO7BGedrbtA/224+HvR7tRB8OU8Tj36qSEabHRhjxn
+         8jrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708341793; x=1708946593;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YuW0tA1+gOLBqnUIoohkzCyIMBvVnloNgoNFu8SX/5U=;
-        b=uLhvLpaBXvb/QrDQ3gxkTaK7uWQHZASUHFFxkFo2JqhzMwqD3UGjfHNoNeTXFZz6Ci
-         24NMEcJDQMBvmWgq9kKNa3/nMuqn3XMkXyAXhI3JyeEu8dniuOUdeSAaqF6tM3uS9IvI
-         VZKrvEBcfCv3GAsDH+JqoHFe41NMmoS+w0oF1qPkI93fu3q0bIerejVIdJ/4I9xqSRfP
-         Fzxf6yPURq1sjl1bN05trGBo1/cttCWNQ1eLleOtliUczUonu396miqCWFWm7o+swQa9
-         6X1eEoXdFw/NEOZ8GlMhqKAfIcj9nY5pONfHRJP7xcbCd0d6SvWD23mOjVliK9b/anLO
-         rwvw==
-X-Gm-Message-State: AOJu0YwTb4TNya5TesqaPueMfTpFzZ+gTTE8pVDuaLdrpMrUOnsTAuQj
-	AVbK8yyEOufQahlJbzO7H405Bgb0Ad+dB6U65EWvAjSa+j8hUjeM
-X-Google-Smtp-Source: AGHT+IGSD3jTvmpSu9lWqJy92v3b8wbBP8Kn6inBcfLvx/7Fp4KrXtljJvlVnzhlgszKc5IkdfBLKg==
-X-Received: by 2002:a17:906:a1cd:b0:a3d:6eb4:9768 with SMTP id bx13-20020a170906a1cd00b00a3d6eb49768mr7088156ejb.46.1708341793096;
-        Mon, 19 Feb 2024 03:23:13 -0800 (PST)
-Received: from pinguine.lan (ip-176-198-146-182.um43.pools.vodafone-ip.de. [176.198.146.182])
-        by smtp.gmail.com with ESMTPSA id ti12-20020a170907c20c00b00a3d581658bfsm2826495ejc.24.2024.02.19.03.23.12
+        d=1e100.net; s=20230601; t=1708345921; x=1708950721;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=H5rTBOT512LHdHzuBKt2E2Za1VrV48YhxTWcmimOXXM=;
+        b=YPouXbx/0pbV+9rYfYXhNVOMCsCNS5dvArm1wVR+QfOBrUa29Q/dVG2VuF1BgZb0yo
+         fJfC0VDssGLanGDJTUOZPn0V777C8t37vnNJm7ws5Nenru0sS/ufUsCcZXDXYP8LuEmU
+         A8etCb4TxSjNtRaHfH4YWlnY/r9Iw0ufw0I2eDD3lreSTwjTpDQ5k3uLo6PUzx1suTIj
+         iewZ2AKdgw3OcSriDCEOLnWXSj3AyCpW0oBwoycWZewPQzg9MrHtDvZPhjlVZre0lblk
+         vOktU3Fd94irnGpbGEyZTun3yFA7ryqs/kBWiz5lsPg5bY8iLIRR5BzLge97YIGV4EUz
+         J27w==
+X-Forwarded-Encrypted: i=1; AJvYcCXowU+JaSt3t8pXvK1eUpYAoZD36+RlOCvGIyyTI+3Y5kCJx7lb3V/idCiwQEIHNGFZhU1My+6InsQu0asTFWJ78NZsTsyjvSGI7U8q9Q==
+X-Gm-Message-State: AOJu0YwPqFtjk4MgUaUi+qi0Lipvj4PPccb3lvC1QZTiafZamxjIG66K
+	BFre9WOn9CsMCeth3Bdhp5DVPJSDszimdZqNzttsA8VRGBJtgTnTQ9K4FOYEyQ0=
+X-Google-Smtp-Source: AGHT+IEqPkau5gA1xSLGNYFbfj0SBd1j9tWIVJtBLMtRG5TURWbjPOmxSGxc5PG7FWezTEwt4jfqrg==
+X-Received: by 2002:a05:6402:14d0:b0:564:66c1:d527 with SMTP id f16-20020a05640214d000b0056466c1d527mr2208068edx.36.1708345921462;
+        Mon, 19 Feb 2024 04:32:01 -0800 (PST)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id i7-20020aa7c9c7000000b005649f17558bsm348699edt.42.2024.02.19.04.31.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Feb 2024 03:23:12 -0800 (PST)
-From: "Moritz C. Weber" <mo.c.weber@gmail.com>
-To: florian.fainelli@broadcom.com
-Cc: linux-staging@lists.linux.dev,
+        Mon, 19 Feb 2024 04:32:00 -0800 (PST)
+Date: Mon, 19 Feb 2024 15:31:56 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: "Moritz C. Weber" <mo.c.weber@gmail.com>
+Cc: florian.fainelli@broadcom.com, linux-staging@lists.linux.dev,
 	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	"Moritz C. Weber" <mo.c.weber@gmail.com>
-Subject: [PATCH v3 2/2] Staging: vc04_services: bcm2835-camera: fix brace code style check
-Date: Mon, 19 Feb 2024 12:22:34 +0100
-Message-Id: <20240219112234.8673-3-mo.c.weber@gmail.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20240219112234.8673-1-mo.c.weber@gmail.com>
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/2] Staging: vc04_services: bcm2835-camera: Fix code
+ style checks
+Message-ID: <4295c4b8-bcee-4a7f-8960-80b6d3934530@moroto.mountain>
 References: <236d985c-1835-410f-b0b5-cacbd5fbf930@moroto.mountain>
  <20240219112234.8673-1-mo.c.weber@gmail.com>
 Precedence: bulk
@@ -71,129 +68,25 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240219112234.8673-1-mo.c.weber@gmail.com>
 
-Reformat function parameters to fix checkpatch check:
-Increase readability and consistency
+On Mon, Feb 19, 2024 at 12:22:32PM +0100, Moritz C. Weber wrote:
+> Resubmit these patches to address comments to rebase the 8 v2 changes into
+> 2 patches topicwise
+> Fix patches with same subject issue based on v2, which fixes multiple code
+> style checks for better readability, consistency, and fixes typos from v1
+> 
+> Moritz C. Weber (2):
+>   Staging: vc04_services: bcm2835-camera: fix blank line style check
+>   Staging: vc04_services: bcm2835-camera: fix brace code style check
+> 
 
-Signed-off-by: Moritz C. Weber <mo.c.weber@gmail.com>
----
- .../bcm2835-camera/bcm2835-camera.c           | 60 +++++++++----------
- 1 file changed, 28 insertions(+), 32 deletions(-)
+Looks okay now.
 
-diff --git a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-index e6ff5ea04..c3ba490e5 100644
---- a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-+++ b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-@@ -350,12 +350,11 @@ static void buffer_cb(struct vchiq_mmal_instance *instance,
- 			if (is_capturing(dev)) {
- 				v4l2_dbg(1, bcm2835_v4l2_debug, &dev->v4l2_dev,
- 					 "Grab another frame");
--				vchiq_mmal_port_parameter_set(
--					instance,
--					dev->capture.camera_port,
--					MMAL_PARAMETER_CAPTURE,
--					&dev->capture.frame_count,
--					sizeof(dev->capture.frame_count));
-+				vchiq_mmal_port_parameter_set(instance,
-+							      dev->capture.camera_port,
-+							      MMAL_PARAMETER_CAPTURE,
-+							      &dev->capture.frame_count,
-+							      sizeof(dev->capture.frame_count));
- 			}
- 			if (vchiq_mmal_submit_buffer(instance, port,
- 						     &buf->mmal))
-@@ -406,12 +405,11 @@ static void buffer_cb(struct vchiq_mmal_instance *instance,
- 	    is_capturing(dev)) {
- 		v4l2_dbg(1, bcm2835_v4l2_debug, &dev->v4l2_dev,
- 			 "Grab another frame as buffer has EOS");
--		vchiq_mmal_port_parameter_set(
--			instance,
--			dev->capture.camera_port,
--			MMAL_PARAMETER_CAPTURE,
--			&dev->capture.frame_count,
--			sizeof(dev->capture.frame_count));
-+		vchiq_mmal_port_parameter_set(instance,
-+					      dev->capture.camera_port,
-+					      MMAL_PARAMETER_CAPTURE,
-+					      &dev->capture.frame_count,
-+					      sizeof(dev->capture.frame_count));
- 	}
- }
- 
-@@ -420,11 +418,10 @@ static int enable_camera(struct bcm2835_mmal_dev *dev)
- 	int ret;
- 
- 	if (!dev->camera_use_count) {
--		ret = vchiq_mmal_port_parameter_set(
--			dev->instance,
--			&dev->component[COMP_CAMERA]->control,
--			MMAL_PARAMETER_CAMERA_NUM, &dev->camera_num,
--			sizeof(dev->camera_num));
-+		ret = vchiq_mmal_port_parameter_set(dev->instance,
-+						    &dev->component[COMP_CAMERA]->control,
-+						    MMAL_PARAMETER_CAMERA_NUM, &dev->camera_num,
-+						    sizeof(dev->camera_num));
- 		if (ret < 0) {
- 			v4l2_err(&dev->v4l2_dev,
- 				 "Failed setting camera num, ret %d\n", ret);
-@@ -468,11 +465,11 @@ static int disable_camera(struct bcm2835_mmal_dev *dev)
- 				 "Failed disabling camera, ret %d\n", ret);
- 			return -EINVAL;
- 		}
--		vchiq_mmal_port_parameter_set(
--			dev->instance,
--			&dev->component[COMP_CAMERA]->control,
--			MMAL_PARAMETER_CAMERA_NUM, &i,
--			sizeof(i));
-+		vchiq_mmal_port_parameter_set(dev->instance,
-+					      &dev->component[COMP_CAMERA]->control,
-+					      MMAL_PARAMETER_CAMERA_NUM,
-+					      &i,
-+					      sizeof(i));
- 	}
- 	v4l2_dbg(1, bcm2835_v4l2_debug, &dev->v4l2_dev,
- 		 "Camera refcount now %d\n", dev->camera_use_count);
-@@ -786,9 +783,8 @@ static int vidioc_overlay(struct file *file, void *f, unsigned int on)
- 			ret = vchiq_mmal_port_connect_tunnel(dev->instance, src,
- 							     NULL);
- 		if (ret >= 0)
--			ret = vchiq_mmal_component_disable(
--					dev->instance,
--					dev->component[COMP_PREVIEW]);
-+			ret = vchiq_mmal_component_disable(dev->instance,
-+							   dev->component[COMP_PREVIEW]);
- 
- 		disable_camera(dev);
- 		return ret;
-@@ -1041,8 +1037,8 @@ static int mmal_setup_video_component(struct bcm2835_mmal_dev *dev,
- 
- 	if (overlay_enabled) {
- 		ret = vchiq_mmal_port_connect_tunnel(dev->instance,
--				preview_port,
--				&dev->component[COMP_PREVIEW]->input[0]);
-+						     preview_port,
-+						     &dev->component[COMP_PREVIEW]->input[0]);
- 		if (ret)
- 			return ret;
- 
-@@ -1719,11 +1715,11 @@ static int mmal_init(struct bcm2835_mmal_dev *dev)
- 	{
- 		unsigned int enable = 1;
- 
--		vchiq_mmal_port_parameter_set(
--			dev->instance,
--			&dev->component[COMP_VIDEO_ENCODE]->control,
--			MMAL_PARAMETER_VIDEO_IMMUTABLE_INPUT,
--			&enable, sizeof(enable));
-+		vchiq_mmal_port_parameter_set(dev->instance,
-+					      &dev->component[COMP_VIDEO_ENCODE]->control,
-+					      MMAL_PARAMETER_VIDEO_IMMUTABLE_INPUT,
-+					      &enable,
-+					      sizeof(enable));
- 
- 		vchiq_mmal_port_parameter_set(dev->instance,
- 					      &dev->component[COMP_VIDEO_ENCODE]->control,
--- 
-2.30.2
+Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+
+regards,
+dan carpenter
 
