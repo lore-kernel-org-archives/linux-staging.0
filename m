@@ -1,147 +1,148 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17C793C49E
-	for <linux-staging@lists.linux.dev>; Mon, 19 Feb 2024 15:07:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A4533B786
+	for <linux-staging@lists.linux.dev>; Mon, 19 Feb 2024 16:25:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708355275; cv=none; b=XGN0ik0BdsClqWlxB+jNWeVTrjk+FPTCjOCMcwGFvMMRTlAnVeL7ByhKki7ZXut/bNoevrkHGkHn78o1Ahx+i+Tu6rGZgTU4uRxZlTEHV1Ke4dXQPDsi7cpSmB9yUAjenYx5/Yj1E0TxkWmYGFbukzzTDMYsjniW4K30ocWNM0o=
+	t=1708359935; cv=none; b=aRgNnw/3q8zaS0tZxtckru0IJ/t5v635UCqTgQP5iR4/fIUgMhfzDV/Jerb3j6J89AjV5GBdcL1dPau99JcAsYHbut6eFQmrYupSLbIzY7ZxhR2uqf583QwDT744IoRvWn514L78e+tO96pmTTAlp1ciVgJljk3V8sWLQMXSqXU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708355275; c=relaxed/simple;
-	bh=8beD0l3448gzEPb4ds9oiILOxkWv4XVE1+S1Mecfg4o=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=EzRZ/vIHm+Otu7h2N9VQ2K0uXKH0VX+hQd5M1xDhG6SD4r+cSti4I6Od93CFj+2tNSh4gnc8J4TyV5vVaW3XpzlpIgZfUOTtEk/5ZJJ2LQU4j9Ufx/2LvDDn+9hreusq9baKq8aDKB2wT62/vK4MUXldFiQ3os4OzGNseiva5Vs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=L6lUUN7K; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1708359935; c=relaxed/simple;
+	bh=XX0K5ow9Xwg80Jgi5HERRkwc4tMAHot+8R2xPIrKfh4=;
+	h=Content-Type:Mime-Version:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=RG6OAx84GJAGrYqMYfgDPeSaySS0q3XDr0f0ZlEWqw33V6+0vx6Uk9VexV7UEXPYp5VIYAuybyde3nDjtRu0MhYNmdRtZkbZBwA1CxtbpxTjYkeNU10TMmCSjKVrbQDbiJo+J11k4h6gjdhcjp8nxhF6sYWCheo+6yvSnzCsaPg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MMowBnLB; arc=none smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="L6lUUN7K"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1708355273;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=TGpYaIyw/fiQC5YRWnOH8kAucBMPzGChOJg45ZgKYu8=;
-	b=L6lUUN7KrsHnZkvTT5t0Cpzo3BevbzE+VTPSWmN3qpaBCU+btf9wGUuc7Qye73XkMdmJRX
-	yA8ns1TiJoVIKtdCWXmY5aeBv+L2/XsUeDjMd9toA2QvGEhJtGNVtAnkZTxrD/5kpz9Jeh
-	E+YCSRHiPZLSLBtoz5KVFt0a/mcv3Ak=
-Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
- [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-694-F-OaT4hfMvuAhGLkXuhvGA-1; Mon, 19 Feb 2024 10:07:49 -0500
-X-MC-Unique: F-OaT4hfMvuAhGLkXuhvGA-1
-Received: by mail-lf1-f72.google.com with SMTP id 2adb3069b0e04-50e91f9d422so4967519e87.2
-        for <linux-staging@lists.linux.dev>; Mon, 19 Feb 2024 07:07:49 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MMowBnLB"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a3e8be8a7ddso158405766b.2
+        for <linux-staging@lists.linux.dev>; Mon, 19 Feb 2024 08:25:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1708359931; x=1708964731; darn=lists.linux.dev;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=zfJ3w5lno94QDCIEXuft8o82+FFpvWxcBkCnxRsCsG4=;
+        b=MMowBnLBtaBBBNwmAQLeeCDT3WvyAY+1YnzMuW75Ya+9+3/Dyv3rEfQEEOOgaq/Pc1
+         c0YMDYnkGAu9bNBfzFBwGDrnMCDI/ImtRIS3KevgpZ3dTpI5XIhR5Lq4+TK+/x5VsxnN
+         1uIU2Vijl72vQuNKYfrIcSs/8pvk1QOdgxCdQP5v51mMGIkvS3dDib9Xcp9+sWZSYXWL
+         juYpjG2naHTdlRMLr6qFTN/SXrF/t8vchHhPKFG6fr+5OGUi3p+D0QLcdS/6w/otr7R2
+         hW4ETPcSIUC2R6fP81Df59SUBMkx9Hga2Ok9WyLSo70QauNV/CybawY2WvnXkE0+bvKM
+         SzSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708355268; x=1708960068;
-        h=content-transfer-encoding:content-language:cc:to:subject:from
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=TGpYaIyw/fiQC5YRWnOH8kAucBMPzGChOJg45ZgKYu8=;
-        b=EhR2/qLeaP97xHzT0mosaZS3CYMcfkYbgMtWgBoJz+JM6UxnDvuF7T797Ff+ScxTY9
-         z0hW+U/6y/Bv+SR0ryhGQtskXJ+MFrl+tkoJYg1Ioe65V6dsA8WctKt30g0qrzpTf6K9
-         MqA5gveKSD2FxCAgbm+OY8taeRTAR/wFzX8eU3aOT3V+vX9KUQzLrbt1aR+Zvl73gfTS
-         Z90do8ABR4F5AsYPegKDbqCBKsU+BjannONWYuMvkST21R8BN0kqDx+Rk8mur6FsDfvg
-         cyuInb6kOd0k9X2uXDSusSES6VHacEjXuDpzHM7Nwp2iA0ThdJliJAWSGYYjpJJAq6NR
-         HnPQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW8qNLQ/s0M5XttwkT+j6C4PPI7+X2j09B0LVxUiJl+H7JJRgYkWs+y+FanUCmnKGt7qzjgzsbIiKZOkBBktnPI4r7MeM63Ug1ET9ThBQ==
-X-Gm-Message-State: AOJu0YzRsQGcFX9jUjlvgt9n/r2sDKrA4gvorAFaChDfAC+jF3+5W2Gg
-	J/97Bjlz+4Hs6oNrFmOU+KpOmUljjqqsmz5INRb4oLbYa6Pw+MeqVdFyqkaigqw+6j6pOdc50Fo
-	20iQOdze01r/GAPPet2HenfMkIWCeNUxV/kMevOx5wHspiz05IGR8DsBSJ3OE7Lo=
-X-Received: by 2002:a19:7407:0:b0:512:9e9f:2f1d with SMTP id v7-20020a197407000000b005129e9f2f1dmr4537330lfe.58.1708355268250;
-        Mon, 19 Feb 2024 07:07:48 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IH7cwVF14U+CoAMztwi/ojg06LyCMEdCzIQVTdO0cqcnVoXLV+tSSIKtYOUxbIl2iUekqHK9w==
-X-Received: by 2002:a19:7407:0:b0:512:9e9f:2f1d with SMTP id v7-20020a197407000000b005129e9f2f1dmr4537319lfe.58.1708355267924;
-        Mon, 19 Feb 2024 07:07:47 -0800 (PST)
-Received: from [10.40.98.142] ([78.108.130.194])
-        by smtp.gmail.com with ESMTPSA id g13-20020aa7d1cd000000b00563ec73bbafsm2765650edp.46.2024.02.19.07.07.47
+        d=1e100.net; s=20230601; t=1708359931; x=1708964731;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zfJ3w5lno94QDCIEXuft8o82+FFpvWxcBkCnxRsCsG4=;
+        b=X+/YdKjv79SHzvipPkGvRvjLv8HADUjx5JObKxZ9zlpOvLxGs9bMQStlw/1zOgu/jI
+         gYrUg4Vw1gtn3HSzuGonpYQoASawVkp9KOSrrhSiKvVSLfjIZXQOWLxb8wnLdOpZ+wVa
+         FR/rw1t61Bl31j0WH6ykFD9XvuBihfThPm+ImdEsF9ETIC6oaGoSCiJvM0NytA529EJz
+         Icarm9WOQYj52hq6YhJldavneJFbtO9FAc+abrKSkaJPJ9nkgp3qJsos0OGyjyICXlLQ
+         GgwY3kdpwwxTRDOyUNX62K0TzUDeSRuZB83IPzs57decESibtxcbWMjP4uXduzh0SdnC
+         aL4A==
+X-Forwarded-Encrypted: i=1; AJvYcCVHpnsPfL/qWwXisDC263KlFcuoiPtdl/J8iXlE1kRZX8N8lV3JI2LHe5Zh3K1wvIUpPZqVlrapZ3Ng6tcXqpV/2L4+l62B0+Os7cISag==
+X-Gm-Message-State: AOJu0YxfjjugapuSUhqZJ5WO+q4GRVXO0QKi2K5nXozR+b2lLfTi8jS9
+	uY5MPzHpRKmpBYHSQGbkK9jxF85GkPAPs2z69UBR73whFwjICSYR
+X-Google-Smtp-Source: AGHT+IHUUeHCmXfHu/7QL+254eU6QTCfCHolBu+55PVNCdpW4h5PrtPSEEpewwoPbmy2ALKDCkh0Nw==
+X-Received: by 2002:a17:906:8807:b0:a3e:6aff:5e74 with SMTP id zh7-20020a170906880700b00a3e6aff5e74mr2335241ejb.22.1708359931409;
+        Mon, 19 Feb 2024 08:25:31 -0800 (PST)
+Received: from localhost (p200300e41f2d4600f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f2d:4600:f22f:74ff:fe1f:3a53])
+        by smtp.gmail.com with ESMTPSA id j2-20020a17090643c200b00a3da0717620sm3098433ejn.180.2024.02.19.08.25.30
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Feb 2024 07:07:47 -0800 (PST)
-Message-ID: <7f7ea4d9-1862-4532-b19f-46c1bba36af8@redhat.com>
-Date: Mon, 19 Feb 2024 16:07:46 +0100
+        Mon, 19 Feb 2024 08:25:31 -0800 (PST)
+Content-Type: multipart/signed;
+ boundary=bacebf7d168109f5417563fc7b385a5a1a0e0ddba919e7b2d0aa45178fce;
+ micalg=pgp-sha256; protocol="application/pgp-signature"
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Hans de Goede <hdegoede@redhat.com>
-Subject: [GIT PULL] media: atomisp: Changes for 6.9-1
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-staging@lists.linux.dev, Kate Hsuan <hpa@redhat.com>,
- "kieran.bingham@ideasonboard.com" <kieran.bingham@ideasonboard.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
+Mime-Version: 1.0
+Date: Mon, 19 Feb 2024 17:25:30 +0100
+Message-Id: <CZ971XOHA968.3OVG90NP5YYJP@gmail.com>
+Cc: <linux-tegra@vger.kernel.org>
+Subject: Re: [PATCH 1/2] staging/nvec: update comment regarding udelay in
+ the isr
+From: "Thierry Reding" <thierry.reding@gmail.com>
+To: "Marc Dietrich" <marvin24@gmx.de>, <linux-staging@lists.linux.dev>
+X-Mailer: aerc 0.16.0-1-0-g560d6168f0ed-dirty
+References: <20240218212557.22836-1-marvin24@gmx.de>
+In-Reply-To: <20240218212557.22836-1-marvin24@gmx.de>
+
+--bacebf7d168109f5417563fc7b385a5a1a0e0ddba919e7b2d0aa45178fce
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-Hi Mauro,
+On Sun Feb 18, 2024 at 10:25 PM CET, Marc Dietrich wrote:
+> Update the comment before the udelay on how to replace it.
+>
+> Signed-off-by: Marc Dietrich <marvin24@gmx.de>
+> ---
+>  drivers/staging/nvec/nvec.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
+> index b3f114cb00dc..ec081d81a308 100644
+> --- a/drivers/staging/nvec/nvec.c
+> +++ b/drivers/staging/nvec/nvec.c
+> @@ -709,10 +709,11 @@ static irqreturn_t nvec_interrupt(int irq, void *de=
+v)
+>  		status & RNW ? " RNW" : "");
+>
+>  	/*
+> -	 * TODO: A correct fix needs to be found for this.
+> +	 * TODO: replace the udelay with a read back after each writel above
+> +	 * in order to work around a hardware issue, see i2c-tegra.c
 
-Here are the atomisp changes for 6.9.
+i2c-tegra.c is almost 2000 lines, so it'd be good to be a little more
+specific. Are you referring to the work-around in i2c_writel()? If so,
+perhaps mention that function so that people can find it.
 
-One patch from another contributor and a set of patches from
-me which has been reviewed by Andy and Kieran.
+>  	 *
+> -	 * We experience less incomplete messages with this delay than without
+> -	 * it, but we don't know why. Help is appreciated.
+> +	 * Unfortunately, this change causes an intialisation issue with the
+> +	 * touchpad, which needs to be fixed first.
 
-Highlights:
-- Remove more dead / unwanted code
-- Changes to make the atomisp driver work with libcamera,
-  this has been tested with libcamera's simple pipelinehandler
-  together with an ov2680 sensor
+Perhaps something like: "... this change would cause an initialisation
+issue... " to make it a little more clear what you are referencing. Is
+there any information about the touchpad issue? Any idea what's going
+wrong during the initialization?
 
-Regards,
+Seems like this issue has been around a very long time already, and the
+further we kick this can down the road the less likely it will be that
+we'll ever fix it.
 
-Hans
+Thierry
+
+>  	 */
+>  	udelay(100);
+>
+> --
+> 2.40.1
 
 
+--bacebf7d168109f5417563fc7b385a5a1a0e0ddba919e7b2d0aa45178fce
+Content-Type: application/pgp-signature; name="signature.asc"
 
-The following changes since commit e0b8eb0f6d652981bfd9ba7c619c9d81ed087ad0:
+-----BEGIN PGP SIGNATURE-----
 
-  media: visl: Add codec specific variability on output frames (2024-02-16 11:46:33 +0100)
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmXTgPoACgkQ3SOs138+
+s6Eg4xAAq4xaS7v2eK78oOMD/yrIkpFXNY/jCAOvicE0HxDSEtL3lbQK5njbnmxa
+APAPLW3Aczh6DDtlaTYSH+4cU0639YF+HtvHFqeUMixojE2gfncVMArNBOBcM6BH
+ryDSlsdBDagvC8Qvn2n94Hm02aOqXGyiEUd7AbAGyQ/p8KiWLSvDPbXAJfxOsaIA
+YKyQYjyJK6ig3PE3wgtqbOC+HpBc+BxiqF5vTJiqROIrYU/4hEvOO57gHMqIS5Nz
+GQIXb4EGgFVAUAe8IaKtxYpzVO1B76iB4u06Ucv0Y35HW7s3VBq4sv2BTzqsztw4
+2v5tlp4QgR3ycEBFXWDAOH5ayHge0hp8o96r0ojDzTn2bllLGu9XYexLQ2xanh17
+7GPRxHXTfFDcDCF8hI5vOV+WEjL96KkjbAdNujC6ATZIXNgS2qv8GFpcYUrjWXlO
+MIfNKt5JWqEf9bd2lwr2eXT4WOzOODrWO++TAlkoGWOkpWTEIgjaSfZA4CXBA2ZX
+VI8QfXDUcj0isNjqHKTC62ucQW21W89xWiOyaY2JBOzX66ll2iY+FiHuTEID7URx
+wRpnpt9A26xJ314KDEVpZ+i/QYaK14Ite4B3At1pXdOLypUk7suy1KIgDZujJEc0
+NnsqWDjbvtUQHp6xj6v3lrcCTlZYpBHnK1RJHEOBagp+tzhQ+gc=
+=9Od0
+-----END PGP SIGNATURE-----
 
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git tags/media-atomisp-6.9-1
-
-for you to fetch changes up to 9849bf7008dea11626c6dfdc438658d8607fe47b:
-
-  media: atomisp: Implement link_setup() op for ISP subdev MC entity (2024-02-19 15:55:47 +0100)
-
-----------------------------------------------------------------
-atomisp staging driver changes for 6.8
-
-Highlights:
-- Remove more dead / unwanted code
-- Changes to make the atomisp driver work with libcamera,
-  this has been tested with libcamera's simple pipelinehandler
-  together with an ov2680 sensor
-
-----------------------------------------------------------------
-Hans de Goede (10):
-      media: atomisp: Fix double negation in unsupported revision error
-      media: atomisp: Remove isp_subdev_propagate()
-      media: atomisp: Rename atomisp_set_crop_and_fmt()
-      media: atomisp: Remove custom VCM handling
-      media: atomisp: Remove ISP controls which get passed through to the camera
-      media: atomisp: Stop setting sd->devnode for the ATOMISP_SUBDEV v4l2-subdev
-      media: atomisp: Add DMABUF support
-      media: atomisp: Change ISP subdev name to "ATOM ISP"
-      media: atomisp: Make MC link from ISP to /dev/video# output node immutable
-      media: atomisp: Implement link_setup() op for ISP subdev MC entity
-
-Zhipeng Lu (1):
-      media: atomisp: ssh_css: Fix a null-pointer dereference in load_video_binaries
-
- .../staging/media/atomisp/include/linux/atomisp.h  |  24 --
- .../media/atomisp/include/linux/atomisp_platform.h |   5 +-
- drivers/staging/media/atomisp/pci/atomisp_cmd.c    |  12 +-
- .../staging/media/atomisp/pci/atomisp_internal.h   |   4 -
- drivers/staging/media/atomisp/pci/atomisp_ioctl.c  | 333 +--------------------
- drivers/staging/media/atomisp/pci/atomisp_subdev.c |  95 +++---
- drivers/staging/media/atomisp/pci/atomisp_v4l2.c   |  20 +-
- drivers/staging/media/atomisp/pci/sh_css.c         |   1 +
- 8 files changed, 74 insertions(+), 420 deletions(-)
-
+--bacebf7d168109f5417563fc7b385a5a1a0e0ddba919e7b2d0aa45178fce--
