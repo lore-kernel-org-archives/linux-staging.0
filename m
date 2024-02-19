@@ -1,97 +1,69 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 382A4250ED
-	for <linux-staging@lists.linux.dev>; Mon, 19 Feb 2024 09:39:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C04F22C19F
+	for <linux-staging@lists.linux.dev>; Mon, 19 Feb 2024 11:23:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708335595; cv=none; b=tDXaYCb0MMX/E+L1p/l/q3ZVWIUMpBgAPphEUnZcHMh4wJJ6gDmqClZsoo9S7zx/uGhth0I6gxag+5IK6R3DiKymRbtAEOGBopB1f4+2Mystod6+E1o2PmiutrrC8+mabIy73t42ARQjL04DYdBb216v+BCy1Nth2l2Wy0m9Fnw=
+	t=1708341795; cv=none; b=KhLHSa9/Zvkr1uCAu0hhgCGCOKXeVLnqfjYEUNtKdao14bB9Y5jtr+wiMKBXjcIBxFLGJxNW86IT/n78EWUQm6prO9Z9Rc9Zr2H6cCUw1KUNmjUaXAi7kM5idxwLiJJjE848YKDxNfzGDonhrRHHyxvGFzDgcCK7WNwQ+gpQTXQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708335595; c=relaxed/simple;
-	bh=+N3U/ids2YXvFLlHVcSnU0JNdRJgzDnFDyTs+mIomsY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=i2fVLp8Jmw9ihyPq3qLM7bbx44fSDGf1m9RVtawJS+R6G8sNoY6a626SaGSEU6vAqlAv1pkROl0ivWti14bGCGjTzLh1tiZ/Z+5i9V+RfS4W/99vSW8kzl4KFTcC+4aNL7b94rvlVw86NZiMruuHHWNDwRYlaq7n2Ur3jKH7qEM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=o3K2+Kss; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=C8C6xRJG; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=o3K2+Kss; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=C8C6xRJG; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1708341795; c=relaxed/simple;
+	bh=OhSMZSbqG2+dG7tJMeWV0mIyqHyqbRp3b14eCVIHPp4=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=MBHG8sAXelyUEWDi5AjEQ7jpMccO9yFaJ4GBy6FBWRDtqWDrAkKmraN1qNAPdri+nXCoLh2AFXSlCyou2xW5lu/jTyr028yRg0JCSME8h3nJiB0gVkgnbyz0Ip5bxs3/8pyLSy98lpnbAT6KplOZ/k/03HBDoZQD+VeWLwDgQ7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EhKaFIYY; arc=none smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="o3K2+Kss";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="C8C6xRJG";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="o3K2+Kss";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="C8C6xRJG"
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:98])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 750F821F28;
-	Mon, 19 Feb 2024 09:39:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708335589; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jZHfy5UsH7wLj0rRm4agEHjkDkOahqTIcF90kJVC9vo=;
-	b=o3K2+Kss5xRjPCv5slKPzx3D69cAr4RQvS5VOUhEGDmJYtPqHZnMYR5gvzJFbLL2JF8fxv
-	SASoVSS3p5eNq/l/zVvLaeeF4UTJAToRB2QLpozrPa6nskT6bWA7VQFkffHWrtMoVPfF0o
-	pgnnt4dpsMbE0ycdzzfHoYlfd24ezDw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708335589;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jZHfy5UsH7wLj0rRm4agEHjkDkOahqTIcF90kJVC9vo=;
-	b=C8C6xRJG2faV+VAv73XqWwLWaR+NX9U/7CkNPavLgXrRHFrnettReyRudfvT9oQjpE2T4x
-	du+7pMjDSAP8qRCQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708335589; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jZHfy5UsH7wLj0rRm4agEHjkDkOahqTIcF90kJVC9vo=;
-	b=o3K2+Kss5xRjPCv5slKPzx3D69cAr4RQvS5VOUhEGDmJYtPqHZnMYR5gvzJFbLL2JF8fxv
-	SASoVSS3p5eNq/l/zVvLaeeF4UTJAToRB2QLpozrPa6nskT6bWA7VQFkffHWrtMoVPfF0o
-	pgnnt4dpsMbE0ycdzzfHoYlfd24ezDw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708335589;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jZHfy5UsH7wLj0rRm4agEHjkDkOahqTIcF90kJVC9vo=;
-	b=C8C6xRJG2faV+VAv73XqWwLWaR+NX9U/7CkNPavLgXrRHFrnettReyRudfvT9oQjpE2T4x
-	du+7pMjDSAP8qRCQ==
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 1CA5E139F7;
-	Mon, 19 Feb 2024 09:39:49 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap2.dmz-prg2.suse.org with ESMTPSA
-	id QKjaBeUh02XlUAAAn2gu4w
-	(envelope-from <tzimmermann@suse.de>); Mon, 19 Feb 2024 09:39:49 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: deller@gmx.de,
-	kherbst@redhat.com,
-	lyude@redhat.com,
-	dakr@redhat.com,
-	jani.nikula@linux.intel.com,
-	daniel@ffwll.ch,
-	airlied@gmail.com,
-	gregkh@linuxfoundation.org
-Cc: linux-fbdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	nouveau@lists.freedesktop.org,
-	linux-staging@lists.linux.dev,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jani Nikula <jani.nikula@intel.com>
-Subject: [PATCH v3 7/9] fbdev: Do not include <linux/slab.h> in header
-Date: Mon, 19 Feb 2024 10:37:32 +0100
-Message-ID: <20240219093941.3684-8-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240219093941.3684-1-tzimmermann@suse.de>
-References: <20240219093941.3684-1-tzimmermann@suse.de>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EhKaFIYY"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a3e91993d73so121305566b.3
+        for <linux-staging@lists.linux.dev>; Mon, 19 Feb 2024 03:23:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1708341792; x=1708946592; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yxy8D8aTsjXwHxlAaH9IbSuI4bH2UUXck9m7FNE/P/w=;
+        b=EhKaFIYYlR8lPzxzxCZN2H1IkJD1KB/0af2zTAgst7A+QiIdRKT2h6KffqkCJAQS0a
+         QvxMSzcjVI4ONbXLfvXUMiOfMqzQqSVJBIwuyjLvoH5Vv45fecsJhsuqmCPPxBMF+Zee
+         3AYaA7kCpxRj9hnoEF6+zzmceeuoY/UWhGL/bYD6vaHE5zmhQ0GiNZMjYruaCzGjlUqC
+         8lUhekLyKi0rc8db/6xGcN9aIubmZeTKKieAgAh7NK5UWx9cKvnCJh3uRa1Aq6mSs33r
+         74TnSu23e0FIEufpnMLRvYHs6NN40NceNXhYkY8wD0fLv8ZUrY6RBtnMUnjVCbdP4JT+
+         SZTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708341792; x=1708946592;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yxy8D8aTsjXwHxlAaH9IbSuI4bH2UUXck9m7FNE/P/w=;
+        b=xRj8Wh0eMaXLJzBqNMKfkkHLLiGQFCQya/L9I0Uwuqdep2eXP82zzVzQIb3ZKXEumU
+         sd/fIo9tCAGFX8W0Hgn0mjFV6RhFsObazZQCGL3AdoXj8HU0XrKIAmIt60mxdjLwfVd2
+         NqLXwRjNHfp2PhwodnYMFpe4rqoE7SC6g6Z0rmDOgPh29qJS3DIiX8kIJC71u7c+YXwB
+         7ECqT9uSqflBjxX8QsQifcQeZVVGx10R9jVpZkunqnmDSnOOckG252WCQqs0xURmWNUZ
+         GtGDtPLTkK+1C1+f9+z6oxAKpiCX9HBrJpylGTVEn8Uf++Z6rcAQFbQ1llC100bt1IgW
+         vuzg==
+X-Gm-Message-State: AOJu0Yy/xWK3Mu98066PSg6T+j1zoHfNYFM86zeKrK05XVPDKECalsDk
+	CNcAFGFLkTrmLz3gFbS1CzA36Mcb796+dCQikg/l1gRytYU3P0Ez7wfzGX9X
+X-Google-Smtp-Source: AGHT+IFrLVkQX4NonWzI1LnBhJ46XoGwDP0asxttWvhtZt3Sb+YSrDJSw9AE6SEm24esO76lWNkESg==
+X-Received: by 2002:a17:906:f206:b0:a3e:39f7:52b4 with SMTP id gt6-20020a170906f20600b00a3e39f752b4mr3464574ejb.49.1708341791821;
+        Mon, 19 Feb 2024 03:23:11 -0800 (PST)
+Received: from pinguine.lan (ip-176-198-146-182.um43.pools.vodafone-ip.de. [176.198.146.182])
+        by smtp.gmail.com with ESMTPSA id ti12-20020a170907c20c00b00a3d581658bfsm2826495ejc.24.2024.02.19.03.23.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Feb 2024 03:23:11 -0800 (PST)
+From: "Moritz C. Weber" <mo.c.weber@gmail.com>
+To: florian.fainelli@broadcom.com
+Cc: linux-staging@lists.linux.dev,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	"Moritz C. Weber" <mo.c.weber@gmail.com>
+Subject: [PATCH v3 0/2] Staging: vc04_services: bcm2835-camera: Fix code style checks
+Date: Mon, 19 Feb 2024 12:22:32 +0100
+Message-Id: <20240219112234.8673-1-mo.c.weber@gmail.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <236d985c-1835-410f-b0b5-cacbd5fbf930@moroto.mountain>
+References: <236d985c-1835-410f-b0b5-cacbd5fbf930@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -99,74 +71,19 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Level: *
-X-Spamd-Bar: +
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=o3K2+Kss;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=C8C6xRJG
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [1.48 / 50.00];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:98:from];
-	 TO_DN_SOME(0.00)[];
-	 R_MISSING_CHARSET(2.50)[];
-	 BROKEN_CONTENT_TYPE(1.50)[];
-	 R_RATELIMIT(0.00)[to_ip_from(RLw1715dab7ink4c1kuyfofm5y)];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_TRACE(0.00)[suse.de:+];
-	 MX_GOOD(-0.01)[];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 FREEMAIL_TO(0.00)[gmx.de,redhat.com,linux.intel.com,ffwll.ch,gmail.com,linuxfoundation.org];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 BAYES_HAM(-0.01)[45.85%];
-	 ARC_NA(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 FROM_HAS_DN(0.00)[];
-	 DWL_DNSWL_MED(-2.00)[suse.de:dkim];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 RCPT_COUNT_TWELVE(0.00)[14];
-	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,suse.de:dkim,suse.de:email,gmx.de:email];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 RCVD_TLS_ALL(0.00)[]
-X-Spam-Score: 1.48
-X-Rspamd-Queue-Id: 750F821F28
-X-Spam-Flag: NO
 
-Forward declare struct page and remove the include statement.
+Resubmit these patches to address comments to rebase the 8 v2 changes into
+2 patches topicwise
+Fix patches with same subject issue based on v2, which fixes multiple code
+style checks for better readability, consistency, and fixes typos from v1
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
-Acked-by: Helge Deller <deller@gmx.de>
----
- include/linux/fb.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Moritz C. Weber (2):
+  Staging: vc04_services: bcm2835-camera: fix blank line style check
+  Staging: vc04_services: bcm2835-camera: fix brace code style check
 
-diff --git a/include/linux/fb.h b/include/linux/fb.h
-index 90f348f14a490..42155898374b1 100644
---- a/include/linux/fb.h
-+++ b/include/linux/fb.h
-@@ -11,7 +11,6 @@
- #include <linux/init.h>
- #include <linux/workqueue.h>
- #include <linux/list.h>
--#include <linux/slab.h>
- 
- #include <asm/fb.h>
- 
-@@ -22,6 +21,7 @@ struct device;
- struct file;
- struct inode;
- struct notifier_block;
-+struct page;
- struct videomode;
- struct device_node;
- 
+ .../bcm2835-camera/bcm2835-camera.c           | 61 +++++++++----------
+ 1 file changed, 28 insertions(+), 33 deletions(-)
+
 -- 
-2.43.0
+2.30.2
 
