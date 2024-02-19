@@ -1,95 +1,117 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B747B41A8A;
-	Sun, 18 Feb 2024 21:26:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 893CC208B2
+	for <linux-staging@lists.linux.dev>; Mon, 19 Feb 2024 06:39:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708291570; cv=none; b=aGjE9DGI4GGvjDqfcb9CVoAmmS2hjrYictaX1e+UyBvUQ/G9+JbeV+Zv5d7uhpNdaz5jrSb0Z4DyqxEa9ckih4Cwe6BsUKK6ORliQN31OyoEE7H2ZSKAgKEcOro96COjj3e+ruWALu6skR8m3lwTWrPUQ9EgBkpQ0/pb62MqCXM=
+	t=1708324783; cv=none; b=tNkurmnYer5F1FFudRKcyuEL4rfkt9m7ZHL8UoYqtIRSx/aUtQRTva//S9C2YwtMINJWFOi5aan0tPHAwoBkVNfKZnGgSZKOgazEeTMA+OXg3wCmdBSU6YI/Jm6rtz/FzfXsK0BCPNdFc9mTewJX6GDEyLnJDwkRdtaPXvJg6Is=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708291570; c=relaxed/simple;
-	bh=oHabz+QaeS7ln1pydqTaksVkCKcvK8RQ6gDHqVzzjaw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=kuX/ofz5wo174OAEPLOp3n20vt5ps4s52T+8CKp1kCQ8ePqnAVP0yBpUNIUPmxYEEQFehkWDMJ8yW6ldoR3M7RGMqAumGsJ4uBkPvxFJNhzTYH0u74rdMBtoySpQwNjEF6++uCC6sd+/xOjf1rxU0JelumdDcSkRopyTZ0/jQJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=marvin24@gmx.de header.b=uJmKheTJ; arc=none smtp.client-ip=212.227.17.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+	s=arc-20240116; t=1708324783; c=relaxed/simple;
+	bh=sjRZqFJmGiF9TRp752LBLHHMjWNbBVWBekq9/44Ejzs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SeDfctyx27kdJk77JNmSUE4PxBU83PgDycqXAupG2iO9p3b8MfAgKVLUa7RnJPpXwoP3+OslAAmL3bIiMf5tIxWUSfuht0aR8UP8xmN4HS1owvSrdPSwo1YrSN1K5pnUJMcntycTQ8JMmI9xqqZp8lORjSm7rx4TG1cA6o44U8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jsiYgbVD; arc=none smtp.client-ip=209.85.208.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=marvin24@gmx.de header.b="uJmKheTJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
-	t=1708291564; x=1708896364; i=marvin24@gmx.de;
-	bh=oHabz+QaeS7ln1pydqTaksVkCKcvK8RQ6gDHqVzzjaw=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-	b=uJmKheTJLOiyfWNejWlhZ3SiftnOpHe3FcRyGkq5a+h239VTlVNe/7HNc/GQYPMv
-	 cb8RF9jpjNLxAtGrwNYIXDFXkr1LxoYQsAelGZLch44IVz3J8isvG1flNokRikiFS
-	 T4GHPkAB06P/KUpsNq07UEk5FaLYrXVnnFOCwDdw2RjX+SwmLmuGpL5CAKyP1l1Mp
-	 JymCe4f79iBD6BsgH6MDvX3icaWR5UqFYhVr0+Rc0Yh4RIemmMcqPlCeozqGaA0Xd
-	 LH+m9eQ3ecCAILP1K0QkbGE9BUzuBwB2fuG3DQhFInjPmVgxoo5zZ1xy9s/5vUrNv
-	 MRi+Yag5AusN2sWjLw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from n5219w05.fritz.box ([109.250.32.14]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MWigq-1rQhlc2CUK-00X2VK; Sun, 18
- Feb 2024 22:26:04 +0100
-From: Marc Dietrich <marvin24@gmx.de>
-To: linux-staging@lists.linux.dev
-Cc: linux-tegra@vger.kernel.org,
-	Marc Dietrich <marvin24@gmx.de>
-Subject: [PATCH 1/2] staging/nvec: update comment regarding udelay in the isr
-Date: Sun, 18 Feb 2024 22:25:56 +0100
-Message-Id: <20240218212557.22836-1-marvin24@gmx.de>
-X-Mailer: git-send-email 2.40.1
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jsiYgbVD"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-55a8fd60af0so5817787a12.1
+        for <linux-staging@lists.linux.dev>; Sun, 18 Feb 2024 22:39:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1708324780; x=1708929580; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=AmJlj9IwjLF3l7fXdAXhun2W1nnG7kbqGQDiD2NuR8k=;
+        b=jsiYgbVD5VJKJCL8oRiN3y20vz0KsYlJmMAp3tR8pCTIXEUyV3iFeZT9tx5fBlq/bp
+         yWV2XoQJGZEgRQrF396y8kcjLjYWF9VQb0X7xJYVGLqS4891JBm7L1Hq1yQA5qTy3gFQ
+         onWhg1zUOzLUVMPwEhBWjnUfl2oo96HAxUkkoc3ts+DUAAnM/7zlJMgXnL+Zg4c2Ek71
+         kfwEX3C6M54IKs+hhLoNgRfBcZymyJcuxYBD/cGdIuKl93nxrmm43BNphHoh/u3cmj/F
+         J4uFneAvO09z2jXNBEmGba9oq/5fWr3BNL2JsKRmfxWeYOcVq9psY++CRJBCUDDDYej5
+         BHqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708324780; x=1708929580;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AmJlj9IwjLF3l7fXdAXhun2W1nnG7kbqGQDiD2NuR8k=;
+        b=FqM5P0eGWBpiG9Alqg98OQc3+lRstqsDzQqy+cAtYyL14XIUaaBHtwKz9ix8LNbY+a
+         o5zBj/vYAAmtkdaN4Q2cNlafQfKnBmzIgA1SHcIpH88I7Vdo46Ca66iVRBQpz26e0mYi
+         pMB7kPo3qIp+HP+kIWghoCUpSll9WJ00srsziXvxegJUlqgA9cBcZ566mbZP7HgBL3xU
+         6Jw8ehVIdH/T1vV63lvccxEkgnXpkEc0Zc/kuvhZBuHJ5C5z7mkHONlHlg7VTsDpJe0T
+         YnvofLktqMVscJ2YyQLz3rhenS08oS1tZPfg92JgDmLLWaP7J5c8WX2pczOaXNLb8Ir2
+         z68g==
+X-Forwarded-Encrypted: i=1; AJvYcCVnGILOAnkuSE4YtXruND0ZAALawX7diwvEPWhT74z3qOk4QIlsuw+oi4yDOjpdtnsfcEpE/MCLxIi/IxZWwDGuXVNEF/CNdmXzIxNW5A==
+X-Gm-Message-State: AOJu0YxfHrmyoiqtb7ugVJc18y+lcQpT64eYSlraYshLrzezHrdTrfI8
+	EojkhpVsDWyH3vjIl+Fq8b5Mxqox1GJQc1/oDRfQIpRncbnl6Nm7zKbSAcnFecE=
+X-Google-Smtp-Source: AGHT+IE0lRySbhCpT61lK2s4dp+A3WXUcUSWKSoMrTpO4ff5uUV/6rODCAr8djn3WbbOkL261QrRJg==
+X-Received: by 2002:a05:6402:784:b0:564:7962:4553 with SMTP id d4-20020a056402078400b0056479624553mr865356edy.16.1708324779644;
+        Sun, 18 Feb 2024 22:39:39 -0800 (PST)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id eg43-20020a05640228ab00b0056454c668f9sm1279229edb.53.2024.02.18.22.39.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 18 Feb 2024 22:39:39 -0800 (PST)
+Date: Mon, 19 Feb 2024 09:39:35 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: "Moritz C. Weber" <mo.c.weber@gmail.com>
+Cc: florian.fainelli@broadcom.com, linux-staging@lists.linux.dev,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Staging: vc04_services: bcm2835-camera: fixed several
+ brace coding style checks
+Message-ID: <8fe8c4bf-5fa3-4bfc-9535-b48df12f80ff@moroto.mountain>
+References: <20240215220647.4096-1-mo.c.weber@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:WvzJHFd/gQdPcviZve2RYyvu61zmXzkJ8vv6cYBPy609+52auem
- Tk4xgBu2/Dr2H01hN+RZFInJQh2xfy7bcosINvWtjXMvQdeXD8Ey5jMtrQjKjRjKImyZCmb
- sLKDJDZDR1jUsj9NGnDvfIL/G1fBhov5wXBfIfIwPmaTsA4HUEjcpixjzN90E2O6i7TOja5
- Rgv9UzwWFyzE2iSEqhbyA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:olL7hLwXX5o=;JSgw1R/CzMvQJ8fiRJ7OwBERtji
- S/h7i1u5hbf+6PNeUQ0iX85oi2u/K0EaWo+PXMQoQSQs4beEwlssPiOPEXmwiuy1dcCFSheI1
- 8TK4eE6/oWAFmnQqb60SHoO5s6H+o38mJOAzkc6/5ATGkIT5j00Ks+6yqEe0Gz012THUi1cIS
- LAepLJXc0qnrwMJnah7yhUYK3hX93K7A3tDhn3qMq0wDLlXS02CfLnTf7lyPwpnehnEHZe5xL
- s49xFCe8q4kYgXMxcFCqfsHP7KI7rdt05Orrsdr52ciJp4Bo1GWo8ZsxuGAPmOiqmDAN6w+na
- gzfvjOfX+K1mckfx9WjUay8Vy/RqVy7GeTiDbrWgX/HZSFLlTQ4hd1QRnUmIFbu4sWEuNGtKw
- NDOI/FQ4uw8Yo6eTJQ6TiBL6VTtrmAcPYeLL9+FZU8WbC5MttJ7Hh5yn309UWa6GRchIE8TPT
- yDAfqFL93IcOO6j0PFtA2hYelUzPKntZg2/Y/SlBbgCUKzYa9FaVZrQ0CzkTMi2rzwbm0JDID
- LLsbIBkrWB9kE42BYzSq4hv855XS6Q8174XAm46EukOwtYLUf9UBGgE7Ub1LicGCJe45+Glt5
- KfMzIMyhk0pitAWABsVF6IcT2hnIKE4RjmUHxOY64r2xPHVYVwUzWbKI5VY2AYvRFxjLhf2sD
- eXQUHmGRnCEO9GMirQ8wL+pWnP300dwcutMGmEF6mxmNtw+QUpmJoC4+5QVlcoat4T9lzzAjw
- WUmwmE3H/jN8zb8n2EXbePLjfLxMK5C5w4eZK7N12MNKy1FAyGqwRkxmSwVkUlAl1L7b9q51C
- rpGGG5RgIpzmLJOvd75Zaa+A8YlxmkpSp/I4muQXOgqs8=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240215220647.4096-1-mo.c.weber@gmail.com>
 
-Update the comment before the udelay on how to replace it.
+On Thu, Feb 15, 2024 at 11:06:47PM +0100, Moritz C. Weber wrote:
+> @@ -406,12 +405,11 @@ static void buffer_cb(struct vchiq_mmal_instance *instance,
+>  	    is_capturing(dev)) {
+>  		v4l2_dbg(1, bcm2835_v4l2_debug, &dev->v4l2_dev,
+>  			 "Grab another frame as buffer has EOS");
+> -		vchiq_mmal_port_parameter_set(
+> -			instance,
+> -			dev->capture.camera_port,
+> -			MMAL_PARAMETER_CAPTURE,
+> -			&dev->capture.frame_count,
+> -			sizeof(dev->capture.frame_count));
+> +		vchiq_mmal_port_parameter_set(instance,
+> +					      dev->capture.camera_port,
+> +					      MMAL_PARAMETER_CAPTURE,
+> +					      #N(#O(#O(#O(#O(&dev->capture.frame_count,
+                                              ^^^^^^^^^^^^^^^^
 
-Signed-off-by: Marc Dietrich <marvin24@gmx.de>
-=2D--
- drivers/staging/nvec/nvec.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+Wut?
 
-diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
-index b3f114cb00dc..ec081d81a308 100644
-=2D-- a/drivers/staging/nvec/nvec.c
-+++ b/drivers/staging/nvec/nvec.c
-@@ -709,10 +709,11 @@ static irqreturn_t nvec_interrupt(int irq, void *dev=
-)
- 		status & RNW ? " RNW" : "");
+> +					      sizeof(dev->capture.frame_count));
+>  	}
+>  }
+>  
+> @@ -420,11 +418,11 @@ static int enable_camera(struct bcm2835_mmal_dev *dev)
+>  	int ret;
+>  
+>  	if (!dev->camera_use_count) {
+> -		ret = vchiq_mmal_port_parameter_set(
+> -			dev->instance,
+> -			&dev->component[COMP_CAMERA]->control,
+> -			MMAL_PARAMETER_CAMERA_NUM, &dev->camera_num,
+> -			sizeof(dev->camera_num));
+> +		ret = vchiq_mmal_port_parameter_set(dev->instance,
+> +						    &dev->component[COMP_CAMERA]->control,
+> +						    MMAL_PARAMETER_CAMERA_NUM,
+> +						    &dev->camera_num,
+> +						    **sizeof(dev->camera_num));
 
- 	/*
--	 * TODO: A correct fix needs to be found for this.
-+	 * TODO: replace the udelay with a read back after each writel above
-+	 * in order to work around a hardware issue, see i2c-tegra.c
- 	 *
--	 * We experience less incomplete messages with this delay than without
--	 * it, but we don't know why. Help is appreciated.
-+	 * Unfortunately, this change causes an intialisation issue with the
-+	 * touchpad, which needs to be fixed first.
- 	 */
- 	udelay(100);
+Also Wut???
 
-=2D-
-2.40.1
+
+regards,
+dan carpenter
 
