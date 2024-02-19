@@ -1,94 +1,106 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EAAA20DC1
-	for <linux-staging@lists.linux.dev>; Mon, 19 Feb 2024 08:17:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26EEC23749
+	for <linux-staging@lists.linux.dev>; Mon, 19 Feb 2024 09:22:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708330665; cv=none; b=i1ie56prJ3hndsZ2p9Gg+seAkxV9mPEFWVdu33wtxtGiugymPjNMXMW8sFAtbSH4gouVZyC3L/bq8o00ppVaEWPKkAgd7naPNsgtTNuUF7YDn3wvbOf5FJpMCqxxDhnnnSv3CwlQQouX+1zZ+dzBgXgPDUvLyyl1bIzzzbCMPa0=
+	t=1708334573; cv=none; b=KJOoQ/wRgZ30f63CxAISbBFnyoAA8E3/rdcvnZN5gqD/E+0P8NBHDQFaFl/DVVNvMShmaoJvEGQ0XIO6grGNIMsO/55v/UahVZw9jvbwfJHZR0/Jg9RO8qQn867/bnr58agcPl6PCjd7TPpIGi23+S+osYG6iKk0av00iRJwbrU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708330665; c=relaxed/simple;
-	bh=HFzMpJTY2CqiCLwGCiBJiA7tDpfaFJpV/KrsBdDmoig=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=vD9m7cvKyQzpgxCA1QqRuujZeNVTGOP5usFfGqnzMzMsgfKO/CWywPXx3JLYmGxCQjr4g9+7EeTb1JfcO2N7X6KZsAHv82eEbFdTwhiRHI5kurev3cjKl+519mxt/naf0E8iCxhdPOgu4uto5lttOuYgnH91r1X+gXu/YfDnV3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=W5YaDVcN; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1708334573; c=relaxed/simple;
+	bh=pF0TR3qOdDZ2bsasfoojepgW2ZMQCvSykRkSSHZmDLY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Yz152NgeZXNxw5wm7CeDatHBgGfef9GYLZvaDgQwIzS+hpYwUOrLqjUb4TyupUl+8L3dL/AkG/1dqjcUeoX6ikBstA2YJx5z7T7WF7WTifpKQZ5S08QX1G4T/IwTBAGniEMFbZbsnlFRtDhioo1RB2zabfGAWbGBvtOKrNhByiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fka81TAf; arc=none smtp.client-ip=209.85.160.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="W5YaDVcN"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a3e552eff09so63259466b.3
-        for <linux-staging@lists.linux.dev>; Mon, 19 Feb 2024 00:17:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fka81TAf"
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-42c7bbf638bso17195721cf.2
+        for <linux-staging@lists.linux.dev>; Mon, 19 Feb 2024 01:22:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1708330661; x=1708935461; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=+fWtteEBUr3xYhubLV+FegEWhNEJvOAyY8/0VSt5VzY=;
-        b=W5YaDVcNbV00s8UiuumPEH1IWkM/GdxFTWXS3qpb9NtZsrFYAHlZAHeWoHGXyoJDhG
-         qrgzrH+OQqmK2VKp/YommviZGiQcVDOxXdSUVLFxNUj6Sl9mkYFW3jo8cYT52JfRmkJo
-         EuHB959SrYsY5favKHIjSoAG12t0yvUWzDdGQw4/bj0pnbCGYyLxZk7171DApXNwvKy5
-         aSMI8yhrtzUk378IgAmbaM0p75Qcu7AYY4BYiekK0XOIn9hGEPXS8dXb7DXDqqpDSOUE
-         GsNS3U8y7/TEZstGesFRiOUZfXWEfW5eavhDYZRB2fwryDoNqmiVlrMutGER3IseRHYn
-         6oOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708330661; x=1708935461;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1708334571; x=1708939371; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+fWtteEBUr3xYhubLV+FegEWhNEJvOAyY8/0VSt5VzY=;
-        b=gnRnn3ttY76HJCboi/dXW8oM0k4jjUCihI2sNuUBQpiKF3AWfZ00YGhNkEoXQhFVkk
-         7IYSMN0c85kZExgxncGV81Rc0yoaGFLyvbd9MAlRTZQLA7fLdUzl/JD9XrNm5ayeQA0c
-         tWpcrueciqlPHWAOuLg0Z3Y6sZRZN1A5w/xw2TJFh3f8NlIphBDGKxX7fl948dlx3a/D
-         XwZcW6RhnsEsGE8XyPHb1pE3kajOJMWciRmjeahFveJy2KUleFS8tgtGgIjLx0N3aqrG
-         fv6VMq5o2GDhDAaBC5cLwIXDk46cVMsPvehZH8xpVi0mNNUCEwpPgYHc9RYARDtJyXHm
-         amCA==
-X-Forwarded-Encrypted: i=1; AJvYcCWl+nCUUTTVgSZmyATn4vtZkU0gAqIrqBb/HVywAISSn4QwS0neYuWepdyfZdjKuRnnIgfHYOhprUPv99PQ4i6ZNfw6BYiCVi8DQfiCFg==
-X-Gm-Message-State: AOJu0YwQHPeYo7ym7J87YwH/oJMW0My7noSO0n8JpD+xTaYg9iFfkDM2
-	s0TkJE843urzS2NMcDe9Q3n3t7BR1oUQp3NDS+a0Ui1FX+4rIKp2+ko8G3bw3Us=
-X-Google-Smtp-Source: AGHT+IHawomsSVE23ZtZzjbMpXN6JFZ8Y2Phn52Q9rtMSop3nAF0+LO/miE8tv7O7NNAz1YyW/CMRQ==
-X-Received: by 2002:a17:906:c417:b0:a3d:e2e9:a7f7 with SMTP id u23-20020a170906c41700b00a3de2e9a7f7mr5649855ejz.27.1708330661571;
-        Mon, 19 Feb 2024 00:17:41 -0800 (PST)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id h11-20020a17090634cb00b00a3d7bcfb9a1sm2688595ejb.128.2024.02.19.00.17.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Feb 2024 00:17:41 -0800 (PST)
-Date: Mon, 19 Feb 2024 11:17:38 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: "Moritz C. Weber" <mo.c.weber@gmail.com>
-Cc: florian.fainelli@broadcom.com, linux-staging@lists.linux.dev,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/8] Staging: vc04_services: bcm2835-camera: Fix code
- style checks
-Message-ID: <236d985c-1835-410f-b0b5-cacbd5fbf930@moroto.mountain>
-References: <20240217211246.28882-1-mo.c.weber@gmail.com>
- <510574c4-ad26-4fc2-93c4-7b67737f8eb1@moroto.mountain>
+        bh=hhTvSxJ/x2znzcmUqwk3cNw7/IqA0HFzE48+6BdqiDY=;
+        b=fka81TAfY6okUwqGrBsOaDLhmibd/Y4mNMHA7rXb6Lj0a4TGgL93t5Go/ImfTCWpvg
+         Tp1dsT+8tftP6cppIRiJEIde2E8pZgzWxxoN01fblRkghI5yHJBXjpsOp8qEWOzMaKu6
+         im+zrV6hvV6XEO+8bxrvyGx3rXIYj3KWC+wDMUbezGrAc9c9TWGVpq/62ceuuW46Oyd2
+         Ovk6O0kKGK4b7RPGQeWqp2j7ohqLTo7rrVo4NHGkKlWSytp4jUMIpsT1x5pKHvKqIF33
+         kVzvE4zVmyTZpEWFLvtgiEF/8lYx0iUFUEAOfH6wv3dDYb4ZFMN/YFk1hwfMlLYJmKNy
+         +VwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708334571; x=1708939371;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hhTvSxJ/x2znzcmUqwk3cNw7/IqA0HFzE48+6BdqiDY=;
+        b=m3oKFI20RDnqR4HogNXVs7MAoZriH1jOheEsZoV2pZ1m+W3zfsnzOI5XnjG+bm3qI1
+         eYSNseo/ixL5tQNohPHV8vxoET7NgLCumzy3uA3IrO4c9XHtfZJ9qxCoeOl5qCOUEQwI
+         DKuWD/H+s2+CBhyBL8G9GWAsA4oM1UvuWBICynl1Bnh79rEbT+oGGxPyx9SKOscdhOi7
+         uOsBfDOlQ9IzpJHSWgdbbf+QoT9X3sS0FHDtkBkeeD+DE3rRdmIDP/WXDEfmdHJ+jJzM
+         QMLxONuybFXxLcmjtUAjsBPWHEJd+Rk6xqyh3SXWiBuaJePnV4aX5ROAPnSYjRWgK751
+         jBqw==
+X-Forwarded-Encrypted: i=1; AJvYcCUoDohIh2UQ5aGfcFau2kPAXfxgNMPv4IEPWC0N108Q4B3En7BvwEWVMGCRaaGp6wZSBe+gFUwEpMLqmOOLJd0muJLpDQZXczCINDkbzQ==
+X-Gm-Message-State: AOJu0Yw1BMQmW1htE8wTMbwtq+orrhSz7eU0mGAo6+W5h79XYgqdWeoo
+	b1x7ZUtrFoNlgoPgdl4jA9tTqmcoLFo2RRuaVc4B3sZKNWO5N71w3oHNBfjwV9GxdLfZ+Q2VW4Y
+	tAXAFqk2KgTp7/WwoDca6oG4KoDI=
+X-Google-Smtp-Source: AGHT+IFuIiX9Klg05+nDcgu9WHG5wGy+trNSqxBYHJHIbn5D7zNfdvsCP6yfkUy9j83LXocbUhqEr10z9ldP/Mh3fmg=
+X-Received: by 2002:ac8:6ec6:0:b0:42d:d010:edb7 with SMTP id
+ f6-20020ac86ec6000000b0042dd010edb7mr10996685qtv.28.1708334571040; Mon, 19
+ Feb 2024 01:22:51 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <510574c4-ad26-4fc2-93c4-7b67737f8eb1@moroto.mountain>
+References: <20240217211246.28882-1-mo.c.weber@gmail.com> <510574c4-ad26-4fc2-93c4-7b67737f8eb1@moroto.mountain>
+ <236d985c-1835-410f-b0b5-cacbd5fbf930@moroto.mountain>
+In-Reply-To: <236d985c-1835-410f-b0b5-cacbd5fbf930@moroto.mountain>
+From: Moritz Christian Weber <mo.c.weber@gmail.com>
+Date: Mon, 19 Feb 2024 10:22:40 +0100
+Message-ID: <CAMn1LHB2H6hqMZLOWrQEN-hRQf3LTRU_q-6ggu4=qRDiU5=inw@mail.gmail.com>
+Subject: Re: [PATCH v2 0/8] Staging: vc04_services: bcm2835-camera: Fix code
+ style checks
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: florian.fainelli@broadcom.com, linux-staging@lists.linux.dev, 
+	linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 19, 2024 at 10:38:30AM +0300, Dan Carpenter wrote:
-> On Sat, Feb 17, 2024 at 10:12:38PM +0100, Moritz C. Weber wrote:
-> > Resubmit these patches to fix multiple code style checks for better readability, consistency, and to address errors indicated by Gregs patch bot
-> > 
-> > Moritz C. Weber (8):
-> >   Staging: vc04_services: bcm2835-camera: fix brace code style check
-> >   Staging: vc04_services: bcm2835-camera: fix brace code style check
-> >   Staging: vc04_services: bcm2835-camera: fix brace code style check
-> >   Staging: vc04_services: bcm2835-camera: fix brace code style check
-> >   Staging: vc04_services: bcm2835-camera: fix brace code style check
-> >   Staging: vc04_services: bcm2835-camera: fix blank line style check
+Ok.. thanks for the explanation. Did not want to ask back stupidly
+what the script was actually complaining about without providing a
+suggestion on what I understood what it was asking for. I will submit
+a version 3 patch for the braces and a separate blank line patch with
+both good cover letters.
 
-This blank line patch would be still separate of course.
+Best regards,
+Moritz
 
-> >   Staging: vc04_services: bcm2835-camera: fix brace code style check
-> >   Staging: vc04_services: bcm2835-camera: fix brace code style check
-
-regards,
-dan carpenter
-
+On Mon, Feb 19, 2024 at 9:17=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro=
+.org> wrote:
+>
+> On Mon, Feb 19, 2024 at 10:38:30AM +0300, Dan Carpenter wrote:
+> > On Sat, Feb 17, 2024 at 10:12:38PM +0100, Moritz C. Weber wrote:
+> > > Resubmit these patches to fix multiple code style checks for better r=
+eadability, consistency, and to address errors indicated by Gregs patch bot
+> > >
+> > > Moritz C. Weber (8):
+> > >   Staging: vc04_services: bcm2835-camera: fix brace code style check
+> > >   Staging: vc04_services: bcm2835-camera: fix brace code style check
+> > >   Staging: vc04_services: bcm2835-camera: fix brace code style check
+> > >   Staging: vc04_services: bcm2835-camera: fix brace code style check
+> > >   Staging: vc04_services: bcm2835-camera: fix brace code style check
+> > >   Staging: vc04_services: bcm2835-camera: fix blank line style check
+>
+> This blank line patch would be still separate of course.
+>
+> > >   Staging: vc04_services: bcm2835-camera: fix brace code style check
+> > >   Staging: vc04_services: bcm2835-camera: fix brace code style check
+>
+> regards,
+> dan carpenter
+>
