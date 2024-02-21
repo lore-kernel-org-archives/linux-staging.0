@@ -1,63 +1,62 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09A73126F00
-	for <linux-staging@lists.linux.dev>; Wed, 21 Feb 2024 21:45:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1D8F126F05
+	for <linux-staging@lists.linux.dev>; Wed, 21 Feb 2024 21:45:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708551907; cv=none; b=M2ferSALfZTCbn746lAc2wQk/mI/fTNy0s8mX6VqkvdawaV+STvnjuCoRQCGUyn3rRO5T+7/zQXXUnlwm362wafQUUsrOUa6UoKlRp3iikpNxqlz1Y5cbdCBFOuLVXT3RECH+M1cWoq/zdU3Npy5uJiDzVTGxjdy7h1jBukZ/vw=
+	t=1708551916; cv=none; b=aFiEbjV2VuQFLrttktnl4J89hkbhsXsP40E7Y98E6D4nCnbfJqxoYp9Ow4Hu124RWy7l9bidF2AX5pDT10zgwy7uB+rJb6dBCpzCcuXtuoR4cw4S+2PMqR+a3cn6MBA1I8b+2gBjhp5AJHiDMEHRYRPmh1tENFojIFgVl3/BekY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708551907; c=relaxed/simple;
-	bh=ZPuEGR02MJoL4k4cqYutB0mEV/A2o13a+K+wdiOYt6M=;
+	s=arc-20240116; t=1708551916; c=relaxed/simple;
+	bh=j2nhoqg50QyBMIaEdxLOEspW9uEChcSl5BxeXCTb40w=;
 	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QJcnDQSWXe3iSE9xJmsUVWVH1XW5Ko3TXJtGW62zvkesBG2UC6SK78ZbbubOReXu9UVH7uTrBXPqqArVTiZidSj7/XIolYhPgwaJpNnu7RY6UWRPJQ3WaA+HY5gSrM6ayBMEZxPPAD16bIVvPOAHzQk5hkRvlB+hc21Q1nRLDcE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NADcBFFp; arc=none smtp.client-ip=209.85.221.52
+	 Content-Type:Content-Disposition:In-Reply-To; b=EXiAoXVpC701k8E0TUk58PROer8e42JwVFCfSM/BQ0b2a54Vev1kdJG72VeLgMl+UzdLdxmwML0lFoWVv+jUgA30WFsWB+ZlaVc14BbJ43AXyx4CXZWdMd6EIpYq3gZJFJ5Xiwrg53kCe6puC+mIlvFT+3PsbAyA1ZLl6ikaLAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fdrPEAFj; arc=none smtp.client-ip=209.85.221.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NADcBFFp"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-33d4efb419bso527263f8f.1
-        for <linux-staging@lists.linux.dev>; Wed, 21 Feb 2024 13:45:05 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fdrPEAFj"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-33d8b14715bso20726f8f.0
+        for <linux-staging@lists.linux.dev>; Wed, 21 Feb 2024 13:45:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708551904; x=1709156704; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1708551913; x=1709156713; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=cYLsu8b5gS7pL7FVTOIGXi/uA3Al1fdlKI5v25Vpme8=;
-        b=NADcBFFpxvhyJCovLXXBGMnKNlEbVGptS8O2hdBu4DugjyBjbedKsNwjm9wvuLI/B9
-         3TCAfhrZU1RnrA9EiiPbvyVx583/p23V+t6t/MXIe1p3HLZc/CZurpnVwe0wue8aNcKM
-         dRuwkDJjm+ORdi7zi24P/lHOZ6HfgXdfh0zu+dTyk4qlgfyK3XxKL6wYFR2FY/AXmyl9
-         ga9vGMRsjRwikNrwchZz4FmmRavJNuIcaa3P6zqKp4wdhTi89RJyTocDUAxy+bb/X4o7
-         l957QVHfz6jONkPw7MQfnL7HJ7l+kild34B1zd41/CSRUO6bKKZjobO8+6yuz7Mz/iQY
-         1rxw==
+        bh=rvrRKz3L1KRShWYrmUsdmRB21fpKWIj6Qz4Gvr6VMUI=;
+        b=fdrPEAFj75e3C+pOetu/4fZrwYNOfVDyYXDbsLYqAeRBm0tPvFVKYQbUlVfEI24IP3
+         O+ey1waxUMvAX1bbi2u453/b/YLtihioP7MFVW/boECXbuDX1/p3BKkBnDHW5dFoscG+
+         S85gfcvf1pco3ed3MM0lOck+3COd5a8vEtSet22qqb0w8VQtBOwj6dSo1XNAtDRuhcA/
+         2zsdcbfm/QJq9x/2XJnHRw5Ca+16VDl8P2PfHXdYmaGmzmpTjgDJB8Q2MaCngeMk9sQ6
+         kXO9qhzNmXFk1O3o8dhcjmdG70QAmGaYYUmgF9emtpPy3yaVKMioAfEP/8PQuzvkHxZ/
+         VerQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708551904; x=1709156704;
+        d=1e100.net; s=20230601; t=1708551913; x=1709156713;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=cYLsu8b5gS7pL7FVTOIGXi/uA3Al1fdlKI5v25Vpme8=;
-        b=n5lADhZMasiENDKDdNxcX/1b0cHkxifBY3HJOBPC86H8Wn5MuFq6ffbBLfB3uqmdNo
-         mKInnSRaxyAdyNd5VJvoAWFlfHa3AKlSSBlhArofPAspPOVU2JGLCgJN3Wcf+LRaeCnx
-         t3FFjgGbyXWGI3FdRJt1659WzQM9p4zzDmzFgiYqzZ/Rm7WvHSHFaA7OpE3JZvV+KXTY
-         /8oCe1X2kNF4DJSb/poQb47+AEZ/Y5W7gS0S+10Bhv1mYUJuNz3kYq1O/kr3Tr0rcZFI
-         jHrVbHlKHyhSNqpGL0e4se2d4uROJSw+/+90V50UDDI6akFdl5TvUHMDfNE2MJReSuu9
-         3cJw==
-X-Forwarded-Encrypted: i=1; AJvYcCU0RfFmRXNwtPHcIBnVEiX0AuRGJTmQ8kO/y8ptekOK4vR/aWYWoFZMGitadyLJVeACgiYwk4khr9BmARLEBin7U2PCH/klTUDqvvXwcQ==
-X-Gm-Message-State: AOJu0Yzdl8wASj0QH4wBylMxnCMrInxIOcb5nfu3OkwhNOPW2KgwuA/x
-	F9Xk464NWGW76QGctxffyjLluZDs0v4oI9uRf5TVKNjtObk9ldfq/V/XwUcXspQ=
-X-Google-Smtp-Source: AGHT+IGAEP17ozOz4gedlovqxGmsaBEUXdqi9aioc7LXfG1ot6BAZj53rKmERrq3S2/GFedPMwjFJg==
-X-Received: by 2002:a05:600c:1c24:b0:412:5670:ef62 with SMTP id j36-20020a05600c1c2400b004125670ef62mr416716wms.1.1708551904136;
-        Wed, 21 Feb 2024 13:45:04 -0800 (PST)
+        bh=rvrRKz3L1KRShWYrmUsdmRB21fpKWIj6Qz4Gvr6VMUI=;
+        b=fiYT8raxu6WlEjksUVld2xVuyhQkPL+8Qxxxro8q+8hV19vCQJzfedlG2ZuV1pDxm0
+         j84N6M88zvseyuJFTxN7AOxfQT6iqBm1i2zHQYuiPKmSOyS0E9D63G7L1M+mGme+THKI
+         In2wyM8RUr2RDUPwIfPBavyrTQnGrDRIJ9Vmdex4YtPET6PlsWL9D+tGcwr06vrK+XVB
+         jE/hUt0oeiD0spH2Cjcp3DL0nU/Hx3I6cHL1F7eCuSNs5B62aiEckeDVFKaxoiPQ739m
+         1ri/o/zRPau7BjPAx++f5JiMdDLIUa7pGRGgrJbQ9bVi2oztgzyJsfFn9ZZ2zlOa/IBg
+         qbmA==
+X-Forwarded-Encrypted: i=1; AJvYcCXhtPySVw0/Sl2H1Kw8Bbd0yIDPI7X/YyWZgVzLqLiFIZVFu3NaU+lXHlJ+Fm+eAJ5UwVzBWl2oNqNarnfY8741IDLtJquJRJLYQKB6RQ==
+X-Gm-Message-State: AOJu0Yyj6sk3JX12IgAOT0Ag8ybLXwQTuhm5NDwYcTjq8MkK+vZ1+cGt
+	AQaFaCOqFAnH4kkU6grqKVxwpXSp/uejiqhNf5ZeeVreQYimJY/JSjdI1GZBMKw=
+X-Google-Smtp-Source: AGHT+IGM4OG1WMWSAdpQyceURSYXYW1tRC6lfrWUprHzleYBzKjZRhGguu9xdPZYyiB987XgSFV40w==
+X-Received: by 2002:a05:6000:71b:b0:33d:32f7:c85 with SMTP id bs27-20020a056000071b00b0033d32f70c85mr8683666wrb.0.1708551913172;
+        Wed, 21 Feb 2024 13:45:13 -0800 (PST)
 Received: from matrix-ESPRIMO-P710 (p54a07fa0.dip0.t-ipconnect.de. [84.160.127.160])
-        by smtp.gmail.com with ESMTPSA id b7-20020a05600c11c700b00411c3c2fc55sm18936261wmi.45.2024.02.21.13.44.59
+        by smtp.gmail.com with ESMTPSA id b7-20020adfe647000000b0033b406bc689sm18268940wrn.75.2024.02.21.13.45.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Feb 2024 13:45:00 -0800 (PST)
-Date: Wed, 21 Feb 2024 22:44:57 +0100
+        Wed, 21 Feb 2024 13:45:10 -0800 (PST)
+Date: Wed, 21 Feb 2024 22:45:07 +0100
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/8] staging: rtl8192e: Remove variables Wakeup, Reserved0
- and AGC
-Message-ID: <ed88686c1e9213dac1cc8f698f7dea8cb5fa01f9.1708461563.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 3/8] staging: rtl8192e: Remove unused variable bShift
+Message-ID: <ff505fd05683a59b02ac2e3da115718d8a22735b.1708461563.git.philipp.g.hortmann@gmail.com>
 References: <cover.1708461563.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -69,27 +68,48 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1708461563.git.philipp.g.hortmann@gmail.com>
 
-Remove unused variables Wakeup, Reserved0 and AGC.
+Remove unused variable bShift as it is set and never evaluated.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/rtllib.h | 3 ---
- 1 file changed, 3 deletions(-)
+ drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c | 4 ----
+ drivers/staging/rtl8192e/rtllib.h              | 1 -
+ 2 files changed, 5 deletions(-)
 
+diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+index 59110da6c4f3..aeff01e921e4 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
++++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+@@ -1649,7 +1649,6 @@ bool rtl92e_get_rx_stats(struct net_device *dev, struct rtllib_rx_stats *stats,
+ 		stats->bHwError |= 1;
+ 
+ 	if (stats->bHwError) {
+-		stats->bShift = false;
+ 		return false;
+ 	}
+ 
+@@ -1672,9 +1671,6 @@ bool rtl92e_get_rx_stats(struct net_device *dev, struct rtllib_rx_stats *stats,
+ 	stats->TimeStampLow = pDrvInfo->TSFL;
+ 	stats->TimeStampHigh = rtl92e_readl(dev, TSFR + 4);
+ 
+-	if ((stats->RxBufShift + stats->RxDrvInfoSize) > 0)
+-		stats->bShift = 1;
+-
+ 	stats->RxIs40MHzPacket = pDrvInfo->BW;
+ 
+ 	_rtl92e_translate_rx_signal_stats(dev, skb, stats, pdesc, pDrvInfo);
 diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-index 945874c1495d..bc4479f7d089 100644
+index bc4479f7d089..1949fad401d0 100644
 --- a/drivers/staging/rtl8192e/rtllib.h
 +++ b/drivers/staging/rtl8192e/rtllib.h
-@@ -485,9 +485,6 @@ struct rtllib_rx_stats {
- 	u16 bICV:1;
- 	u16 bShortPreamble:1;
+@@ -487,7 +487,6 @@ struct rtllib_rx_stats {
  	u16 Decrypted:1;
--	u16 Wakeup:1;
--	u16 Reserved0:1;
--	u8  AGC;
  	u32 TimeStampLow;
  	u32 TimeStampHigh;
- 	bool bShift;
+-	bool bShift;
+ 	bool bIsQosData;
+ 
+ 	u8    RxDrvInfoSize;
 -- 
 2.43.2
 
