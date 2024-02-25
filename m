@@ -1,56 +1,56 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CC1D1BF44
-	for <linux-staging@lists.linux.dev>; Sun, 25 Feb 2024 17:33:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF0761C69A
+	for <linux-staging@lists.linux.dev>; Sun, 25 Feb 2024 17:33:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708882432; cv=none; b=UKySmep1+Mc00azzFvDeTCYjCAvjnP5QcA7o8ktLeEgeQoBmDSwiAcZs/CY5PLvO1/USz+ZYWsLV1w1k/VHcFgLGHOKt+RIGQNcXqQs0Ven5cePsUagpD8RpE9HECGIpALeX12tXP7eG32BagkWBLRXnuXm7/Sb4PeuFW9lorIo=
+	t=1708882433; cv=none; b=DAiK7C9ih1Q66QCrq7Xgv5xJWHYTjo28G1TF7Mh/hCmit5X0QQNRnehulkBTzl9pPq3z4aMfyG5SvahYhl+AdkemgTvYM34EEprB7BVv4pR90wTazEp3eDQ8+JCXqXk3ClcDX9fA57wuB6EUMWW8Am2kFzI7ynvc1IgjFts7ln4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708882432; c=relaxed/simple;
-	bh=UWBYLq8HI7GnmwK3+bsQWF0LjzBeaokR18slcb6/RRA=;
+	s=arc-20240116; t=1708882433; c=relaxed/simple;
+	bh=TDp9wJFgJFP1/5qnvZLn+D5nq97yBt9qKvB9FbuNoGU=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=F7CElxc8OfO0w2P3IbH9JHsmrPLDA3s+Dee/7GU2wz2UKNrnBTiwoJxktIFYn9OMa8R1eqmfF6lENgqkE0n2jHD8vgyxqB8dHzf/DeCQLSlaQpB5DMqw/BuwZK/VgwdzBKwcwrO0zpwOZbKGw/wbHf2UM14cZkgMUpOrGnrddfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SFuGUojq; arc=none smtp.client-ip=209.85.128.47
+	 MIME-Version; b=ApFmZ7tfZRmSgqOORn/DPdeDxjS/HVNrRwuPckDAizat6XYd4PtCaEbVnLrbeqIKN43qrBfBuGtOGDK/HH1attxhQIWUPR/aq2n1LOVVZEKlIRctIRUYdkIvzuOC5m21equX+6os6bMCJiIWu8u+w26JiZQAktpj5+kJSompZto=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XiV2jn3v; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SFuGUojq"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-412a39057c1so2772035e9.2
-        for <linux-staging@lists.linux.dev>; Sun, 25 Feb 2024 09:33:50 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XiV2jn3v"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-412a57823b3so95255e9.1
+        for <linux-staging@lists.linux.dev>; Sun, 25 Feb 2024 09:33:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708882429; x=1709487229; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1708882430; x=1709487230; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=TGqIypLRNK413/5tqEUR0eP+aBPssWDBJFP9KRu1Qkw=;
-        b=SFuGUojqhElmslD9f06PG0ZFKDypugRwsHsxVn81vjIHMflojKFX3WQV5zf9ciVlBl
-         45anOW/Y6Li6vId+5LETQQKWIdjzS4BQqhhLiKpBALGDZSXhXobFZ+QFfXEkajOdex4N
-         NCV08MyDLct7A/XXqTq/1LYbE64dQW9IHfZmxnwMr8pkPpWWbHHj1Wb9/RMg2BO4/mj1
-         83xtvgpGUgGc+e+F3QZNEl4boVMY/fRpwY2gBEOV08eoYtiNoPXZRsfUWfPAIcIfzggD
-         W5zZLlWSKFYzq2WKFHTDBMahhZPweXOpvT+AawQvOuJVoJCNbgflviBFmZRVCDreadHG
-         o8Jw==
+        bh=zxPiVCr0B1dvFMvQofRHKAWb8GEUA/MUQ1QDdLDBjQY=;
+        b=XiV2jn3vwMk/kyd0JZjlWtm2MF/a+Kfxq/QbTK3alvTuuiMR5KaA116v+61xbNYJGZ
+         x7zxuNtdBroPYp5dvdxVLaVFNuUy+41QbqSZ0rm/+tMui22SEOlzZi2UfbL7dF+qlzTR
+         Rk7dxX6lKXoKLC7U3vebsH5/KuPAJ1DFkuvFihAhDNVqRkTFX8dufWh0NfjVFkmiusGt
+         NE1NHpdSSF8+ov05cj2J1ZkUwEgz3f15iQpW8dwgKT5GWtQiZtrKfWfBS2bJPluAViCb
+         a3wNjICCWX4YBgJlVBCXs8MfrO1Sa6/aCTfit6CwP+azG1w/IJOW17OuSjPfgpFfQAbe
+         C+9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708882429; x=1709487229;
+        d=1e100.net; s=20230601; t=1708882430; x=1709487230;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=TGqIypLRNK413/5tqEUR0eP+aBPssWDBJFP9KRu1Qkw=;
-        b=o56mW5+t6AY/o3RjrEXGJ7pBBz0I8W9AC02R+MZQc5AWNHVYtO5TYQy1yk6XNwmNim
-         z/KRWNRPn2+MoMHlSTVMR2SfRNNF6rKzn8CnX6/yGCqpl0se5NdWd6e8Lz4TnonjJFIF
-         4/UGqEEpPFeR8EHPJePuPB+JGfEdAyG9qEAZh/JN5IWMrctaYtN9/57/ANzAzyISHry/
-         TEf47nussgSIOUT1UQzUfPG8O3amrjD0kgdzdEKMousjCdMZ3k9myTHe9AtWFOW9kawG
-         zZNJWYximSOLmjgXhjp2RevZeXjaU9gaQjLu9g53ER7XNyl1fGUnMpsZQWZJAAavYzd0
-         t5rw==
-X-Gm-Message-State: AOJu0Yxg/U1s56bmqYicNLO5CvC9t7ctKZoUtnRxIqkIQqbE5xSQt1ay
-	YPQQ7fhq0ivw0WTQnIpbv+ek5z7ffX45QXI2gZyktbk6TLLJz/NR
-X-Google-Smtp-Source: AGHT+IGXJ+i6mALim1Xo3qYN2hIyJ/UwmZqx6KAU2UcuiLb4rlXYoaH4TkF85BRvWmBGb1mkY0FKxQ==
-X-Received: by 2002:a05:600c:5d3:b0:412:8e82:9a5c with SMTP id p19-20020a05600c05d300b004128e829a5cmr3818412wmd.38.1708882428907;
-        Sun, 25 Feb 2024 09:33:48 -0800 (PST)
+        bh=zxPiVCr0B1dvFMvQofRHKAWb8GEUA/MUQ1QDdLDBjQY=;
+        b=DVS6AJyL+g++VQK8scXf3L77j25Z7NjMmACvyeBHvPGsHI5/b+Yv596urcUDczENdh
+         0Vcf45G7K/RN35d9VY1LROoMpUJV0R/FDityn1NeVjZErsU3TwuTnuBILraYUtKxS4Z6
+         8HQXmYWjaDMzbX9uiIigHNr0cho62eGDmdt5gywdvU+56VSgFn2NUk9Y5F7S99BwPVum
+         kh5hEilFwZ8F9pKvOg1LyyI5xJ3VNVEaki3OPW2+G5AHYiIWdJphMAhieNMwedYDzISC
+         mtUGrFcIITSzT6OaAXFAT4L3L0AahXqaaXSbKqTZTqBpc2hkvBkhE3FLMuwLwaYsF1+J
+         tPOA==
+X-Gm-Message-State: AOJu0YzGuWzFfuemy8N9EEHn8sJYVkr+vjtc9vxb03RCi4rTaEAraS8r
+	qrHL/4TRiqmSJ4nGv03J/a6uyD67vnDQ0HkdDoP/gFB+EbEG8XtC
+X-Google-Smtp-Source: AGHT+IHanCuwRE7xw5G8B5NKLZXGJUPdG0ikeirrDEkNe42/zl1H3JHvTpS51Qh4TDMqfcM77dd7EQ==
+X-Received: by 2002:a05:600c:3595:b0:412:a22a:c12a with SMTP id p21-20020a05600c359500b00412a22ac12amr1431655wmq.0.1708882430192;
+        Sun, 25 Feb 2024 09:33:50 -0800 (PST)
 Received: from YOGA.local ([2a06:c701:736b:f200:79c9:6db8:8198:3c60])
-        by smtp.gmail.com with ESMTPSA id m6-20020a7bce06000000b00410bca333b7sm9400108wmc.27.2024.02.25.09.33.47
+        by smtp.gmail.com with ESMTPSA id m6-20020a7bce06000000b00410bca333b7sm9400108wmc.27.2024.02.25.09.33.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Feb 2024 09:33:48 -0800 (PST)
+        Sun, 25 Feb 2024 09:33:49 -0800 (PST)
 From: Shahar Avidar <ikobh7@gmail.com>
 To: gregkh@linuxfoundation.org,
 	luca.ceresoli@bootlin.com,
@@ -60,9 +60,9 @@ To: gregkh@linuxfoundation.org,
 	robh@kernel.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 3/4] staging: pi433: Remove a duplicated FIFO_SIZE define
-Date: Sun, 25 Feb 2024 19:33:40 +0200
-Message-Id: <20240225173341.1278918-4-ikobh7@gmail.com>
+Subject: [PATCH 4/4] staging: pi433: Move FIFO_THRESHOLD define to source file
+Date: Sun, 25 Feb 2024 19:33:41 +0200
+Message-Id: <20240225173341.1278918-5-ikobh7@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240225173341.1278918-1-ikobh7@gmail.com>
 References: <20240225173341.1278918-1-ikobh7@gmail.com>
@@ -74,26 +74,38 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-FIFO_SIZE is being used in both rf69.c & pi433_if.c source files
-It is also already defined in rf69.h header file
+FIFO_THRESHOLD is only being used by pi433_if.c source file
 
 Signed-off-by: Shahar Avidar <ikobh7@gmail.com>
 ---
- drivers/staging/pi433/rf69.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/staging/pi433/pi433_if.c | 1 +
+ drivers/staging/pi433/rf69.h     | 1 -
+ 2 files changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/pi433/rf69.c b/drivers/staging/pi433/rf69.c
-index d7e2dbe70d7c..4bfb1a98328f 100644
---- a/drivers/staging/pi433/rf69.c
-+++ b/drivers/staging/pi433/rf69.c
-@@ -13,7 +13,6 @@
+diff --git a/drivers/staging/pi433/pi433_if.c b/drivers/staging/pi433/pi433_if.c
+index 0ec3130225db..b6c4917d515e 100644
+--- a/drivers/staging/pi433/pi433_if.c
++++ b/drivers/staging/pi433/pi433_if.c
+@@ -49,6 +49,7 @@
+ #define N_PI433_MINORS		BIT(MINORBITS) /*32*/	/* ... up to 256 */
+ #define MAX_MSG_SIZE		900	/* min: FIFO_SIZE! */
+ #define MSG_FIFO_SIZE		65536   /* 65536 = 2^16  */
++#define FIFO_THRESHOLD	15		/* bytes */
+ #define NUM_DIO			2
+ 
+ static dev_t pi433_dev;
+diff --git a/drivers/staging/pi433/rf69.h b/drivers/staging/pi433/rf69.h
+index e63e87fd6cce..76f0f9896a52 100644
+--- a/drivers/staging/pi433/rf69.h
++++ b/drivers/staging/pi433/rf69.h
+@@ -12,7 +12,6 @@
  #include "rf69_registers.h"
  
- #define F_OSC	  32000000 /* Hz */
--#define FIFO_SIZE 66	   /* in byte */
+ #define FIFO_SIZE	66		/* bytes */
+-#define FIFO_THRESHOLD	15		/* bytes */
  
- /*-------------------------------------------------------------------------*/
- 
+ u8 rf69_read_reg(struct spi_device *spi, u8 addr);
+ int rf69_get_version(struct spi_device *spi);
 -- 
 2.34.1
 
