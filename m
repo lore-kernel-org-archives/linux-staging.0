@@ -1,118 +1,102 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBEEA1D54B
-	for <linux-staging@lists.linux.dev>; Mon, 26 Feb 2024 11:43:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5858A5FF08
+	for <linux-staging@lists.linux.dev>; Mon, 26 Feb 2024 12:05:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708947783; cv=none; b=OQVncvRamm1ernjVR7oREh+Q9M3+lt0aQo8vVRLlGIh9aztBiSsnX82TVFHbeAgcB2cwlIBFfUqVSml+WPV1AebvrobakL2lSi1hqMeDgKoL4BocnZxK0uYi/WEz7h7UYKt45+0XggPPgRB451aM9gz3PTGcqJ+q1K8sPZEhDgg=
+	t=1708949135; cv=none; b=bVhT3tCzmq89XYkaKXtk+/5LK6elHq5egPeV/l0WEkuP4Oy4yKCOyqQ3UOFqWVmpVFUlmBV7Bz8GFz5iRJg6av+cD1QLonlslz3sZNcnmfJNPas9M4KFwmSWZrp3kY4BlZtub+c6Yy0DM7uJrFYNhqJHULkt2CSSjMQGShoxVmg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708947783; c=relaxed/simple;
-	bh=bYleA598+RxQZiXIuqVL9WfaFgSNshGawA32we2GHiw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=R1x3Ad56wHqUm+n/o1bqJSWSwbK0RjCXSnOcBhBrh8vSU27qe6vCXgjZmWzrvun2ojrG9eFbu8hzdH9BdAVv8uhxKMQebjY4tngAeTLsS7RtUv6Yl5+l5Fvz9802D1i1sZ8zrv8IPiykQHPb08tyLOqQPDXJP1hH0sJcb02MwdE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hVk/KosC; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1708949135; c=relaxed/simple;
+	bh=HXalZqslNQYwXLbvprw7luRqbREUSPpfMkDGT29SA9w=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UGioCi7ShyazEvt1INN5hW5ijrdi8+WwMr3yM9LBPaOTFhdNOhcadf8kHT2OVCDcO4y+qmLAv9jPgxrWmXhnRV7AAN5KdPA/0eTdMjSL28Qmfq4lcmXor8h/1zYmHPG1ltGkuWsAZqEcTgtCmyCS/M4u9d0gq+rS7uMaMIhrnDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dI8GKlBg; arc=none smtp.client-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hVk/KosC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708947781; x=1740483781;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=bYleA598+RxQZiXIuqVL9WfaFgSNshGawA32we2GHiw=;
-  b=hVk/KosCPY9lUjYzzilXBpVVOXpJhh2QpkqKXZJLJfOBV8nXOBR3mZyD
-   xelUKVTdaiTtzJRrqHIAza3ZN3HHhZBQAYSC4TwWp/2/3UuvtN7pJBDbn
-   6gSJgfiwlrbh8luuwyVRYKLirP+bQ9Rfp61dP+UnH3GGGhSI96ICxbk73
-   KCMqt3FcuJZ9lS9nXrUMBpPwX6YjEecPr7ZYZrUAwY3Aq+PQtdCCvLZEE
-   FAgX3uZ985HeBV9ye1Vvkt/jdEzMfIIiUNK/IHoh77ycdkw++7nUdgRYS
-   yD+1HA+Kg7DIg07MpzcbiacrWp5KW78V7uIu2O9GrMmdmJtIiK4GaQ16f
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10995"; a="3096350"
-X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
-   d="scan'208";a="3096350"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2024 03:43:00 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
-   d="scan'208";a="7068976"
-Received: from hibeid-mobl.amr.corp.intel.com (HELO localhost) ([10.252.46.254])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2024 03:42:55 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Lee Jones <lee@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Cc: deller@gmx.de, kherbst@redhat.com, lyude@redhat.com, dakr@redhat.com,
- daniel@ffwll.ch, airlied@gmail.com, gregkh@linuxfoundation.org, Daniel
- Thompson <daniel.thompson@linaro.org>, Jingoo Han <jingoohan1@gmail.com>,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v3 1/9] backlight/corgi-lcd: Include <linux/backlight.h>
-In-Reply-To: <20240223105652.GT10170@google.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240219093941.3684-1-tzimmermann@suse.de>
- <20240219093941.3684-2-tzimmermann@suse.de>
- <1e577f18-c6f7-44e7-b50f-720915f257eb@suse.de>
- <20240223105652.GT10170@google.com>
-Date: Mon, 26 Feb 2024 13:42:53 +0200
-Message-ID: <874jdvo3ia.fsf@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dI8GKlBg"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-55a8fd60af0so3774402a12.1
+        for <linux-staging@lists.linux.dev>; Mon, 26 Feb 2024 04:05:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1708949131; x=1709553931; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cu6KL11qTKrcmMChj9XCg4X5h9VHj+gjehFCETsIZJQ=;
+        b=dI8GKlBg+3MAPSzBbtBz++KV4nnXTFLktkpvsiiBksDrwuQROkBpLJUWzO5WnZ36E/
+         VNOpTl9eopY3Mwv1NJhxwE3wKKRm8BXq9EqH+T4z6epIUh+DRRojllXuvqyjLvM3ZmO2
+         X2lJyXmtR8L9isBRlUE/KDqh7ghZzZ48rmopOyJDldg9AeE0Qo/qpBxk9TWaKLGiOG9+
+         oYgu/V5DVWwwy+fzGqAR/nHINRor43huNpkAmglQ7zCpSuc2EuSd4FXqhcS711MH6JE0
+         WG5jTA1MTKOZAlH/R6mwQ1K4VMC23KHaWsAYZ7nCK+FkgsasxjJlv5iJv6ZDXdb9ZekM
+         95OA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708949131; x=1709553931;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cu6KL11qTKrcmMChj9XCg4X5h9VHj+gjehFCETsIZJQ=;
+        b=BygyXGC8NPATjzbmPsp5vhRmUbQRn9gwqwgL85AOqJs1z2R+Sb/y9dSX2PH1r7FsK8
+         sI7iPAmUQruasimfHtn6KLxLAjsDDOuMCJmr38dK4a8Xv0hefoiRQar2oNfL4cVMr8at
+         eTonczC4YR3TadmxBNXDIrlGFGLhtl1KJgwPtzrLnGr1vj9ra/hTVNdIGgiTKwSPwsh2
+         T0mt7k3U4+YW/HWdUASypGUZ/UpfgY7/OETcSrWMDcl+PwH3YdnPmUgka0y4taHZZ8gL
+         kgv/uMGn1CCTexKIdDIHjoXeUjw1cRZ3FXaiyfuUpGlNbKwpU4WYulJJOYJW9GXPMNv3
+         VU7Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUc8pZsWaiWsHM2vqB+baQtVemQvIy0knjXDceCFPWWKzGoNmbRxg87KidTRCRbjQmWrgoBy7ZMDHPMEffyP7W+S0XdscSq7Pjg7KlEgg==
+X-Gm-Message-State: AOJu0YyD9BVVyQcqJYN1eMxLpqg9oPv2pIRJv24KJgzoYhcUee20fwL9
+	R7wNl234g8w8rkMUq1qNLwblSY3eVkFjnaTK8N47rLrA72286YZ+x3Pn/D6zIu5M9xQV3i/fncu
+	ppIV3+XWVX+HSJfA17ZvZETKZWCM=
+X-Google-Smtp-Source: AGHT+IHmfjaGpQl0WdulrJo6xIdeIlMXBi5NQiG4QYx3lDG+bwg4WfzJO0SpEobO9IMKBdAxql4xZmiVPncCQOQXODs=
+X-Received: by 2002:a17:906:1949:b0:a43:3b2:bcf9 with SMTP id
+ b9-20020a170906194900b00a4303b2bcf9mr3251769eje.5.1708949130946; Mon, 26 Feb
+ 2024 04:05:30 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20240226075225.44881-1-meir6264@gmail.com> <96ab1a91-7682-4aed-a522-ceaed0dbf56c@moroto.mountain>
+In-Reply-To: <96ab1a91-7682-4aed-a522-ceaed0dbf56c@moroto.mountain>
+From: meir elisha <meir6264@gmail.com>
+Date: Mon, 26 Feb 2024 14:05:19 +0200
+Message-ID: <CAHdEp89HhwiBuQEqTP8nTTy0VPrLr5PKWi8mKLx6wFzeTb9eXw@mail.gmail.com>
+Subject: Re: [PATCH v3] Staging: rtl8723bs: Remove spaces before tabs in rtw_set_auth
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans de Goede <hdegoede@redhat.com>, 
+	Ruan Jinjie <ruanjinjie@huawei.com>, Yang Yingliang <yangyingliang@huawei.com>, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 23 Feb 2024, Lee Jones <lee@kernel.org> wrote:
-> On Wed, 21 Feb 2024, Thomas Zimmermann wrote:
+Hi Dan
+
+Thanks for the response.
+Not sure I got the problem here.
+In V2 I removed spaces and deleted dead code. In V3 I just removed
+spaces after tabs (reverting the dead code changes).
+I'll want to create a seperate patch for the dead code deletion later on.
+What am I missing here?
+
+=E2=80=AB=D7=91=D7=AA=D7=90=D7=A8=D7=99=D7=9A =D7=99=D7=95=D7=9D =D7=91=D7=
+=B3, 26 =D7=91=D7=A4=D7=91=D7=A8=D7=B3 2024 =D7=91-12:23 =D7=9E=D7=90=D7=AA=
+ =E2=80=AADan Carpenter=E2=80=AC=E2=80=8F
+<=E2=80=AAdan.carpenter@linaro.org=E2=80=AC=E2=80=8F>:=E2=80=AC
 >
->> cc'ing backlight maintainers
+> On Mon, Feb 26, 2024 at 09:52:25AM +0200, Meir Elisha wrote:
+> > Remove spaces before tabs to improve coding style.
+> >
+> > Signed-off-by: Meir Elisha <meir6264@gmail.com>
+> > ---
+> > Changes in v3: subject and description changed, revert dead code change=
+s
+> > Changes in v2: remove dead code
+> >
 >
-> I cannot review/accept patches like this.
+> Sorry that I was not clear.  This needs to be split into two patches:
+> [patch 1] delete dead code
+> [patch 2] remove spaces before tabs
 >
-> Please submit a [RESEND].
-
-I bounced the original [1] to you. Please consider acking to merge the
-one-line #include addition via fbdev so we don't have to respin the
-series for no good reason.
-
-BR,
-Jani.
-
-
-[1] https://lore.kernel.org/r/20240219093941.3684-2-tzimmermann@suse.de
-
+> regards,
+> dan carpenter
 >
->> Am 19.02.24 um 10:37 schrieb Thomas Zimmermann:
->> > Resolves the proxy include via <linux/fb.h>, which does not require the
->> > backlight header.
->> > 
->> > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> > ---
->> >   drivers/video/backlight/corgi_lcd.c | 1 +
->> >   1 file changed, 1 insertion(+)
->> > 
->> > diff --git a/drivers/video/backlight/corgi_lcd.c b/drivers/video/backlight/corgi_lcd.c
->> > index 0a57033ae31d1..dd765098ad989 100644
->> > --- a/drivers/video/backlight/corgi_lcd.c
->> > +++ b/drivers/video/backlight/corgi_lcd.c
->> > @@ -11,6 +11,7 @@
->> >    *	by Eric Miao <eric.miao@marvell.com>
->> >    */
->> > +#include <linux/backlight.h>
->> >   #include <linux/module.h>
->> >   #include <linux/kernel.h>
->> >   #include <linux/init.h>
->> 
->> -- 
->> --
->> Thomas Zimmermann
->> Graphics Driver Developer
->> SUSE Software Solutions Germany GmbH
->> Frankenstrasse 146, 90461 Nuernberg, Germany
->> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
->> HRB 36809 (AG Nuernberg)
->> 
-
--- 
-Jani Nikula, Intel
