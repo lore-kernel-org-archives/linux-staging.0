@@ -1,138 +1,220 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C7C71B946;
-	Sun, 25 Feb 2024 19:53:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708890794; cv=none; b=jiQwN0jYlRhcca+GvvQvGKkCrwtBn/Oho9e1uOCZfMRlmG7e1moowf2S/JuEJCrkri0GgyfFrV/ZRBOKyw0lHIEdSHVClrwH9BOfIXdS63ihmlsklBO7B9Nar/eAXIT4iWL1yDD79fxxRlRPjU4xcbG1hN0RFPtTwhCgA4IQrCY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708890794; c=relaxed/simple;
-	bh=jD97tToUqKAgstVC7PqdchtOp4i3N+IGMoy1uLtAi5I=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=AwHD7h2K7t4FTCuwQS8IMIPU5Y3qVQIiyW2HD6RGgxWQbvdlpoIa28pZSrheW4fQad6rTuptSXuojioTjgkTKZx9iv9GGtzQvKRN112xQvLfIAceL5DC8xreOdaK5/PnQfvIjzlDnAKje4V5PoZxO93HXcOa5qRlGvAmOsV2BNY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=marvin24@gmx.de header.b=G8CEbXei; arc=none smtp.client-ip=212.227.17.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 135CCFC01;
+	Mon, 26 Feb 2024 02:51:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1708915882; cv=fail; b=AQyTEV0WIWWMuCMtaKkSvxHmg6GFv+t3n6mJE0x9mZj1VjO2hBo4qjn+a79t6JjsRnVI1UGvfaDOCDoMO4u97JZlUeuYLnXrR4JmCBNV9UnocJ2FErSBo1HqVm9KK+wZix3vr7xP32Q8P2qoQxHzy9ujVdBsYgQ3bVpbBb2zBEQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1708915882; c=relaxed/simple;
+	bh=Pgj01wMzoj/WBuC6kUjE5jPGW0oMlvlp9SVVJfxr7Ak=;
+	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
+	 Content-Disposition:MIME-Version; b=LHu45/1/uFl+BgwQjgQR1FN1T4Y2bjCpV80QRen0fJoqHblv6EnPT5E6ZJDZ4Eu3qdxVjWHnwfU8OH7sZtl5hMU2lAVy5slkF+RxD3a+Rde7G+rUdmONGvw6Tx4UKdrft0YpYaKaZ11qLaD7e5J/VHBRA80ulXQSae8Zrid19bw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TMFbwWdV; arc=fail smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=marvin24@gmx.de header.b="G8CEbXei"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
-	t=1708890788; x=1709495588; i=marvin24@gmx.de;
-	bh=jD97tToUqKAgstVC7PqdchtOp4i3N+IGMoy1uLtAi5I=;
-	h=X-UI-Sender-Class:Date:From:To:cc:Subject:In-Reply-To:
-	 References;
-	b=G8CEbXeiv89F1s1ABQ+PDxniBW9ra8PjUoZ34MAnxfSeTCsukTqoK2oq1R7xPfIc
-	 qcWjhuW8It6ojI1nym3CFSkO9FbcludHt02EP19PLiE77Z12iJiquP6Mcp8ooad0D
-	 DR72nEkB8t0aq1ixZip6oSdRnh0UWLpCG36VjMpXyTJoL/jzEs0HM4daQkf3qsmTT
-	 6AFvomTwnVFN1DWZEsAkDT+LCncHWg45JNj2bmv+7TSwA23AJ2RKhCpoyJxsCzxm7
-	 SNVYzMWVHTuGPkxuwLwbogt1gwJVeTjREZgIxJSXUnSxBy1p1bVbHr5TZZwVoowGI
-	 zpXQeDSzZ7wM2XocZg==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from n5219w05.fritz.box ([109.250.32.230]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1Mnpru-1r6eQo2uSY-00pK9u; Sun, 25
- Feb 2024 20:53:08 +0100
-Date: Sun, 25 Feb 2024 20:53:07 +0100 (CET)
-From: Marc Dietrich <marvin24@gmx.de>
-To: Thierry Reding <thierry.reding@gmail.com>
-cc: Marc Dietrich <marvin24@gmx.de>, linux-staging@lists.linux.dev, 
-    linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 1/2] staging/nvec: update comment regarding udelay in
- the isr
-In-Reply-To: <CZ971XOHA968.3OVG90NP5YYJP@gmail.com>
-Message-ID: <a397f4e9-03e1-2f26-97cc-e1141d143b5c@gmx.de>
-References: <20240218212557.22836-1-marvin24@gmx.de> <CZ971XOHA968.3OVG90NP5YYJP@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TMFbwWdV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1708915881; x=1740451881;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Pgj01wMzoj/WBuC6kUjE5jPGW0oMlvlp9SVVJfxr7Ak=;
+  b=TMFbwWdVufkLBzECVslqus/OrudqGgf6yOlR9iIEsiiTi9mr2MrYNzBH
+   PkoU5fawKIeJw8hm2+X2Xe4tPRxGQRMJ7HNfiZcvJ49bo+5po/SWn9Z/f
+   rzmtsU0YUXyWTnZUxEaa2G+9KQagiUUwyOhWZHbF4P6eg4ClHiI/vCL8R
+   yXlNkY7s/GBav/xg4hpfYdboxQn1zbOvv0itqNsahAs7ecN3/pUQU/te9
+   Or4HuD6kv0Qp8W0wpea4O3m8q5xYBHyaOtlHkwmIRF6ryB+xdAvO1YXn9
+   4hh2hEnuV7l262wVWECs2cYWZE8bb5P05bhJivFgqgzje5WhQBrXeHqj8
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10995"; a="14616141"
+X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
+   d="scan'208";a="14616141"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2024 18:51:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
+   d="scan'208";a="43994714"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by orviesa001.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 25 Feb 2024 18:51:21 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Sun, 25 Feb 2024 18:51:19 -0800
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Sun, 25 Feb 2024 18:51:19 -0800
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.169)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Sun, 25 Feb 2024 18:51:19 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IGXcKQhpV1niSSdYYHRNPzKaC/vjslQY8b8RIjcDlyD0BJiWWxlYxC4gPMsOIdIyyrIP87ECRJjDEfeZr8VLmm/R3zoOwDodMPFRwki8egOSuK8RImJKieOfmdiFuu3SURq3rsg278m2L7gKbVaG9CWXcNi9vsfmoIiri+zPjPgK39GJ7p9eMDL7nCOC+Hh/wTnUf64/qmni/kelzeCKUm74ZJW9L851UwyWDoKjF9wbTpXs7Dd8UBeCuWuYQr3mydySQEiLg7M66w7tdvo88VjnPI1tMsZ7KZ8+X20JJsDa12m4F+Jc3bVBZXtfGq7YX26rIscZTV/7i+/hEIewnQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9amZbVITHRl5wloetJ3plw6bmYLYM10MOz5QS9FbiEQ=;
+ b=jt8V5rr4r6TNSdtG+th5QusxuwAt+lG+SwdM0Zj451VaIAZUjjRBiWxr/v7wxmHFV+tjlKz+gyI6HBt6N41pHEsyzN+vYUAOFkgQRUPsm0i8JAobPbHjPhiaJ2j5bxAEWTAphRazyI1SP88Yv90Y7Q+ng1U+GuCECBUFX+l2L66kfcKqxlafZmD4gveg2RVZO1rn6DaC8WdqAQDzaaKwgtSDhrd6xzswjhUMKfTgnGaqHjmjB5iqsOve7xSLeHKV2GzpypiLChmmf+ulYwz8ylBzwSwRQmj7f0DSeF+TQ3Oqj+LTiWIEF6DjpV5j0XXZAK2Dj77xiT5tLF3c3YOHJA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from LV3PR11MB8603.namprd11.prod.outlook.com (2603:10b6:408:1b6::9)
+ by SA2PR11MB4777.namprd11.prod.outlook.com (2603:10b6:806:115::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7339.21; Mon, 26 Feb
+ 2024 02:51:17 +0000
+Received: from LV3PR11MB8603.namprd11.prod.outlook.com
+ ([fe80::58dd:99ca:74a6:2e3e]) by LV3PR11MB8603.namprd11.prod.outlook.com
+ ([fe80::58dd:99ca:74a6:2e3e%3]) with mapi id 15.20.7339.009; Mon, 26 Feb 2024
+ 02:51:17 +0000
+Date: Mon, 26 Feb 2024 10:51:07 +0800
+From: kernel test robot <oliver.sang@intel.com>
+To: Johannes Berg <johannes.berg@intel.com>
+CC: <oe-lkp@lists.linux.dev>, <lkp@intel.com>, Linux Memory Management List
+	<linux-mm@kvack.org>, <linux-wireless@vger.kernel.org>,
+	<wcn36xx@lists.infradead.org>, <linux-arm-kernel@lists.infradead.org>,
+	<b43-dev@lists.infradead.org>, <brcm80211@lists.linux.dev>,
+	<brcm80211-dev-list.pdl@broadcom.com>, <linux-staging@lists.linux.dev>,
+	<oliver.sang@intel.com>
+Subject: [linux-next:master] [wifi]  0a44dfc070: hwsim.ap_vht80_csa.fail
+Message-ID: <202402261039.708d78d3-oliver.sang@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+X-ClientProxiedBy: SG2P153CA0037.APCP153.PROD.OUTLOOK.COM (2603:1096:4:c6::6)
+ To LV3PR11MB8603.namprd11.prod.outlook.com (2603:10b6:408:1b6::9)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Provags-ID: V03:K1:325/EaBcvmQLY0s6hOGyRZVfCSb8t4h/XGuQtv1i7JCmQz73hqc
- M3skKtFGIpuz9oRBgYpwO9B1wv6aRJCux+1Cj5i1eu1R8NSRXFCuDdy7INDt3alNKTBQMYS
- 42UAW3SXVTguj+tmZ2QQHI4soAV4dBs+uMCnJtZrlqbIsS1wDP1xkzoNW8GrRPTFvyOrPk0
- aIoHwc1ny5zzL7qfpHYDQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:eavW0JuL9Zs=;v5JI+wb1HKqGki/MNTxJaTdwsV9
- Efh2uatVd9esVtJDJit0QtsYApFqX9psoKatxjaloSv5CACKpNQyyuk58YItqjJrfaxtQiCNK
- x4Vi/+pNQba7wWLTC5L41qfuw3rUOTG4sCJvzrEEiO5pPuSaaitxo2WJJm065WW0QvWP/oRWq
- BdNbpDRhBNgHYow1l6kKqbA4trjmnVXpXSnGDAldXajnXqctaSgR3A48xgbWeoJ89StB4/3TV
- LV9WP+SmOq6hzrm1BXnpYYuk6QORk5J7PVBNdDwpz0giMvnN3JXzYLtty6/CIQExT0E/VJ4/a
- NB7FkdTc1h5nueZ4zGV4iDiuA3jvpW/SH3oWrgzbs1WHSQ7Z/ERBGLL4XzouHIrIveeYdnB5E
- mNzU/3jhAEVeb0V+T8DrSil9eiWwExhIh/LIzSbpgN6+8qWvqsO8ExR2IwERReRsesa1FDdhk
- VRWQd39OZUJNBaO2d+Doo62y9X5gVWIwzEAWu/UiaKLje3r46x8K16IFgGjsfxRhFbDzfbHfC
- bBAS8NaosmJqFbLDLGBv9tHDraUUY7K9Lbo/msmIXycsopZU7vrXoIzp5ZQtuqJlKtc9u82Pu
- 6NbQ2FYVSR5M2VUO8HnjeMgY9krNbC/3+59dX6KDQSB+SMIh7Ogi1XhDfFVM5tYa/pCf9/ScH
- W5epNw78kc1taQLtB/R30aD7kRP9h30djUfZqTVNq3kItMJ6/SidUPLQOJ+WwZlQkuFhG+feS
- wonKpX2/amCrXmpHI80ybQliwkGhTEtbCsDhkMFxc88YLY+CKNUI/4z2x2uAvbLL8DcA89gR4
- 4k/L+093JW4cZVQsy6OQKoqSmwU8tVT2svnQc8R2hVJW0=
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV3PR11MB8603:EE_|SA2PR11MB4777:EE_
+X-MS-Office365-Filtering-Correlation-Id: b209446a-03ad-4f9f-27fc-08dc3675cdd2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: LOxnyw6EoYTC2BQYceKsBG6BLZMlKeplk+7DcMJq6plYnVlYt+JNs8CoPmFmAxImXaiB7B3+TlZvVyrkx4tYzobumPDrghgWzzMfiFJ446tKNqT+Gch8Mtj+IzdCxjcomfRwCaKNCwCG0bqTYPVL2yITJSjRvUlNMN+qYN2LeFvgtbtuFB9Tt3rGixLHMgWq18RwUnMFmjozfx4OjqNwKzO3p68ZZqAX6OM94YsDW6gwNoV5FTix8TBiUQOSmsVevTUnvD7ha1zOT0Nrl9KUvSDH05PVTKbr6pottUCK/ct8xLMB2eTPdo7A+bLa89u4DjLowfWQxf1aA5Lf8bEFTA5q+4R8MzCXiClFt6lU2pXk5Rcw71VtE3eDG2cnVDidWidsfADafh0keNDVDiyq9tXOvMiRYPN1BGDbkFmZ4wILrIgHfPQQLputVXfyb/O5glDpxU5ue2cegaOyQ767DwTst3nQfd3hNxr4Z49ebFa1VWoXb2RpwbjBvEUR9sPR46JgPcXeWoe7XmlwES3KyerNkn4plsRCurAc+blJhoJZjp3BWH3w5CvD0G9qSBFnCQOCooGOjvk+ZQDUAmpfrHSLV6IrBKyTzYL8rBwiuUyJzxr8TYnYcDR2zZIbzlq7
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR11MB8603.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?UvMa0XNZBNuQy1yB6pch++W3KAxJSOAk7ZhFot1THawt4ygoErNnqSdFgfcC?=
+ =?us-ascii?Q?FZTNUAQtHsowx14XeFIzCV5zRQzCvsbrpownqd+HuDKrVpDovjcdCSJNmBAh?=
+ =?us-ascii?Q?1pM20DrZq6CwEixPiETYNeptU0T5szm0+US0np59UOqloNdvux/xNyEUvmnV?=
+ =?us-ascii?Q?/MoH1frsQQ7owa8cEKJAjc1kRABp/b1piE93prGE4fQpFU6LV24MKp9S0yMo?=
+ =?us-ascii?Q?hzFxMcCousLW5PLPz1fEq71lOXoA8hoSgeRZYFDTdD6IPSR2bpTIftxY+5qm?=
+ =?us-ascii?Q?1bHNtaAazJ0W5ePbNoHQ/BMZ3eK5XjCDEDVhhdTZHajmbl6mZymINo2ZyfU8?=
+ =?us-ascii?Q?tbfHBMUPt2k6oZ+PLeq00OVirmciN45lH0rr/8BuuQcNnf+SI4frWSi8GY/2?=
+ =?us-ascii?Q?rNGKkv7oxAoaT6qXOGKUnsDgVQclIGA8VxCjiGMO7p34HexgYwcG3utjGYVb?=
+ =?us-ascii?Q?547jD834QErFX99knSUToygiKKyisApORN78/vRL5ZJZyz6e5hPLbaYOUIPG?=
+ =?us-ascii?Q?7aYv9wgOwYt5vxt8THxILVryDymjUX6HWYYWinLHXHsqfeG/PzjFGofuI1N+?=
+ =?us-ascii?Q?Um0/2PHnRT+OEv3zc6tzkvFdPJGrVFr4llDCYJoRnmCVHiq+jPHizs00uKbN?=
+ =?us-ascii?Q?l/00OS9CBzcJVW4Njc+eXKcvzpEA6RcrOBfqdS67Dxi0KpOqCC/nipJ2eO5M?=
+ =?us-ascii?Q?e7QcfVJuGk4f+CJ6+X+qNQW8XtlUeUuSTRpKeoR1Em2i0bErEXqdmhsxDmCK?=
+ =?us-ascii?Q?mQWnbU8p2UExpLsQ+WlB4IRLBSD9xNei5LF+xwT9ecRrVYwwIG8agVQtRWAe?=
+ =?us-ascii?Q?LcTGV3ShPzjXXt/Nj0OCo4LqUJjXkcN3h49cMmmP2mSFogW07pduMsFYXlry?=
+ =?us-ascii?Q?IO/Bvv9klGI1971eQDBZw6ydnVqB/raN9wiu8IkqKQIY/L6LDpNt9BXQAvEo?=
+ =?us-ascii?Q?kRGCDJuTdoPHQZe+OnrSHgMWzKoizG+IjQQmfqSyAqvgRKUpaQNd/ubpnoCW?=
+ =?us-ascii?Q?7ROisFy2xJ7BLukkaj5xxkhtzupYoe8z1WY9LBnHUELM0aHjVToPcsGgCnVd?=
+ =?us-ascii?Q?PNWYopjihgmJBNpS+pIaXFgOa7yVxKyGnY32UruYzg3lBajulm/A1dux5mqH?=
+ =?us-ascii?Q?7nzGDHG22QSckmIKXCRWsXZbr7P0FYynI0LKWd5FkD3vzHOwbZVf4UrEFW0b?=
+ =?us-ascii?Q?HIa0b0CGAsObjelWn9wviMzVAKOYFvlaLitHpaavFdTrJ4E13zUjwhG3AGaI?=
+ =?us-ascii?Q?9z/wRQV/o20MlXfawG4F8WlR7iaGsUBSr3YINoHbwCt+gBn0rRcqTYG8jyVV?=
+ =?us-ascii?Q?U0buOXL/2oTvree1fd35Q+dA+ynwsW1UBXT41e7EjdSHTZNzMOF9UzoeJH+p?=
+ =?us-ascii?Q?L+qz8MS5awWN5Vf8Z20byOWYZCXgU5EokKD6f+7dp28WDtXoYGa93LnDPWRH?=
+ =?us-ascii?Q?NZOjzgXAGlWkIlPjPY6NsqP+Cvc1lYAA2P03UpwTUpJPA/UPjcx6bKK0ceIR?=
+ =?us-ascii?Q?EVFaCseCBJzgBjkr5QcHjkLgTQTbbO1NXobC9geYJv+NxyBIEGBsHAqqzBoY?=
+ =?us-ascii?Q?PWQdPYv3GC7khAnbCqSLb88ACA6torMRMH3S3AJa?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: b209446a-03ad-4f9f-27fc-08dc3675cdd2
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR11MB8603.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Feb 2024 02:51:17.2722
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: pdzb594IbpXgwYfduuTCMxH65QnK5ek6+dcBZohNn/2WvB/247BgTP91Xe4ATPNZg94cAji1Bh72lmeeOFpA8g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB4777
+X-OriginatorOrg: intel.com
 
-Hi Thierry,
 
-sorry to reply late, but I somehow missed your mail.
 
-On Mon, 19 Feb 2024, Thierry Reding wrote:
+Hello,
 
-> On Sun Feb 18, 2024 at 10:25 PM CET, Marc Dietrich wrote:
->> Update the comment before the udelay on how to replace it.
->>
->> Signed-off-by: Marc Dietrich <marvin24@gmx.de>
->> ---
->>  drivers/staging/nvec/nvec.c | 7 ++++---
->>  1 file changed, 4 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
->> index b3f114cb00dc..ec081d81a308 100644
->> --- a/drivers/staging/nvec/nvec.c
->> +++ b/drivers/staging/nvec/nvec.c
->> @@ -709,10 +709,11 @@ static irqreturn_t nvec_interrupt(int irq, void *=
-dev)
->>  		status & RNW ? " RNW" : "");
->>
->>  	/*
->> -	 * TODO: A correct fix needs to be found for this.
->> +	 * TODO: replace the udelay with a read back after each writel above
->> +	 * in order to work around a hardware issue, see i2c-tegra.c
->
-> i2c-tegra.c is almost 2000 lines, so it'd be good to be a little more
-> specific. Are you referring to the work-around in i2c_writel()? If so,
-> perhaps mention that function so that people can find it.
+kernel test robot noticed "hwsim.ap_vht80_csa.fail" on:
 
-yes, I thought this should have been clear as there is (nearly) no write
-without a readback in that driver.
+commit: 0a44dfc070749514b804ccac0b1fd38718f7daa1 ("wifi: mac80211: simplify non-chanctx drivers")
+https://git.kernel.org/cgit/linux/kernel/git/next/linux-next.git master
 
->>  	 *
->> -	 * We experience less incomplete messages with this delay than withou=
-t
->> -	 * it, but we don't know why. Help is appreciated.
->> +	 * Unfortunately, this change causes an intialisation issue with the
->> +	 * touchpad, which needs to be fixed first.
->
-> Perhaps something like: "... this change would cause an initialisation
-> issue... " to make it a little more clear what you are referencing. Is
-> there any information about the touchpad issue? Any idea what's going
-> wrong during the initialization?
->
-> Seems like this issue has been around a very long time already, and the
-> further we kick this can down the road the less likely it will be that
-> we'll ever fix it.
+[test failed on linux-next/master d37e1e4c52bc60578969f391fb81f947c3e83118]
 
-I must confess that I wasn't motivated to fix it, because it works most
-of the time. The driver needs more love than just fixing this issue, e.g.
-implementing a reliable sync write which may be one of the underlying
-problems.
+in testcase: hwsim
+version: hwsim-x86_64-717e5d7-1_20231228
+with following parameters:
 
-On the other hand, there is a downstream i2c client implementation [1],
-which uses the kernel i2c infrastructure and may lay a better foundation
-for the current driver.
+	test: ap_vht80_csa
 
-I'm also not happy with the current situation, but the only alternative
-is to remove the driver completly. I'll try to find some time to improve
-the keyboard / touchpad initialisation in the next weeks.
 
-Marc
 
-[1]
-https://nv-tegra.nvidia.com/r/plugins/gitiles/linux-4.9/+/refs/heads/l4t/l=
-4t-r31.0.1/drivers/i2c/busses/i2c-tegra-slave.c
+compiler: gcc-12
+test machine: 8 threads 1 sockets Intel(R) Core(TM) i7-4790 v3 @ 3.60GHz (Haswell) with 6G memory
+
+(please refer to attached dmesg/kmsg for entire log/backtrace)
+
+
+
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <oliver.sang@intel.com>
+| Closes: https://lore.kernel.org/oe-lkp/202402261039.708d78d3-oliver.sang@intel.com
+
+group: group-33, test: ap_vht80_csa
+2024-02-18 10:47:21 export USER=root
+2024-02-18 10:47:21 ./build.sh
+Building TNC testing tools
+Building wlantest
+Building hs20-osu-client
+Building hostapd
+Building wpa_supplicant
+2024-02-18 10:48:15 ./start.sh
+2024-02-18 10:48:17 ./run-tests.py ap_vht80_csa
+DEV: wlan0: 02:00:00:00:00:00
+DEV: wlan1: 02:00:00:00:01:00
+DEV: wlan2: 02:00:00:00:02:00
+APDEV: wlan3
+APDEV: wlan4
+START ap_vht80_csa 1/1
+Test: VHT with 80 MHz channel width and CSA
+Starting AP wlan3
+Connect STA wlan0 to AP
+Country code at the end: 00
+sending data without carrier won't work
+Traceback (most recent call last):
+  File "/lkp/benchmarks/hwsim/tests/hwsim/./run-tests.py", line 537, in main
+    t(dev, apdev)
+  File "/lkp/benchmarks/hwsim/tests/hwsim/test_ap_vht.py", line 805, in test_ap_vht80_csa
+    hwsim_utils.test_connectivity(dev[0], hapd)
+  File "/lkp/benchmarks/hwsim/tests/hwsim/hwsim_utils.py", line 217, in test_connectivity
+    raise Exception(last_err)
+Exception: sending data without carrier won't work
+FAIL ap_vht80_csa 4.501333 2024-02-18 10:48:23.019458
+passed 0 test case(s)
+skipped 0 test case(s)
+failed tests: ap_vht80_csa
+2024-02-18 10:48:23 ./stop.sh
+
+
+
+The kernel config and materials to reproduce are available at:
+https://download.01.org/0day-ci/archive/20240226/202402261039.708d78d3-oliver.sang@intel.com
+
+
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
