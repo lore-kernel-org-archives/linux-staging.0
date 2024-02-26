@@ -1,91 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27C75EC7;
-	Mon, 26 Feb 2024 12:52:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43EE1127B77
+	for <linux-staging@lists.linux.dev>; Mon, 26 Feb 2024 13:28:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708951936; cv=none; b=Uxv4b0txT1EGdLGs1I8Bo7GQ1cI3ZbjLV5A68SW+mqP9qVmu484bL7GrgwxQthNu/fqHv3VWtP3CKqcqqgnP6xygjyV2Z4VLWmWIi0ntn4COORcLrjXhQTBXukq1TlaBpflscclJ+U34NvUba/R3mgHdgdb1P0A9BffocjsVBmo=
+	t=1708954119; cv=none; b=cuvZfoOVeeFK8LowixcvB14fxOJFCR6HfevmnzBIzWuPcwjQ8UfTLykbPonMUo2y31Dl6gcypFPWMCCkwEaGo/siWcoMWcf2yET/QusASKI/kvLKrDBIA1wRlpPmm6aUBU+RogHa/lmuEfGjYUie2JoNc3BQpHot0a4IYqegZ+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708951936; c=relaxed/simple;
-	bh=fZH+U9WKhQH4ZWiXzAST0yU7viLHXCnk1wkEi0y7miE=;
+	s=arc-20240116; t=1708954119; c=relaxed/simple;
+	bh=yXkM+FWFBFmBe4sFSk8wmFRMwaL9zCW2zeGfA+FuEAc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dJhHgCv4xtR65K/XTls50YSU8v41qagAWpx42OayLmkfJachj3vPADcWMH2GUZ8tXqGH4vvoQCzJTCjKV0rL/O1wLkolflqiZGISL9FxURsGdXvZwZNDdT/p3f3BpMST5JMKEmUO55xWUS/REktqzWI5s6Z8VxwMB4xMi4O/C8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rT5LQvi/; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=KWmbhXpEQbefzSBSJh3Gghgub52wZbXtai2RB79ZU1uWI4twlWYtVMs8hjcra1CN6ueYibAkS4Gb/kByUAvv70JBHKnV9WzdjxrH6wzILQbKC2HZ3MLy5RCj1CrHtweo1tKKEv2yPRNbwvGgXyGzk14OVSYOOlKntwGA/jvFTg0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zIqtNx7d; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rT5LQvi/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1491CC433C7;
-	Mon, 26 Feb 2024 12:52:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708951936;
-	bh=fZH+U9WKhQH4ZWiXzAST0yU7viLHXCnk1wkEi0y7miE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rT5LQvi/Ie8zpJvS9vTRBFbcNvWb2YZ6Litpoc2gmG/iVgPfsgrb5U2NHi/2A9xE4
-	 lfYNYvIJYx8n2BPx8hOQWCqp77EqUemTpWwi0bjalxN6PUyRAUd+uTt68QJEAH7bNi
-	 TrkonldQtBcKZFnjoMMril65adw08G/kq/EN1kX9J8/opb5lZmsdHa4i++3V4al16h
-	 1fAYo1HNPK+qqNolVsVHgVze3jPPPw1A5wCQHPKEIDqkfHzgLE6gTcpDEcJppTFHQV
-	 MtvsQqOMspRMmvXXC+M3vCh8aOKQtVvTaisxDc/sv0aWMs2vMcVcbL7ehh0Xq4pcB1
-	 Hk62H+O5pyklQ==
-Date: Mon, 26 Feb 2024 12:52:09 +0000
-From: Lee Jones <lee@kernel.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, deller@gmx.de,
-	kherbst@redhat.com, lyude@redhat.com, dakr@redhat.com,
-	daniel@ffwll.ch, airlied@gmail.com, gregkh@linuxfoundation.org,
-	Daniel Thompson <daniel.thompson@linaro.org>,
-	Jingoo Han <jingoohan1@gmail.com>, linux-fbdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v3 1/9] backlight/corgi-lcd: Include <linux/backlight.h>
-Message-ID: <20240226125209.GB23065@google.com>
-References: <20240219093941.3684-1-tzimmermann@suse.de>
- <20240219093941.3684-2-tzimmermann@suse.de>
- <1e577f18-c6f7-44e7-b50f-720915f257eb@suse.de>
- <20240223105652.GT10170@google.com>
- <874jdvo3ia.fsf@intel.com>
- <20240226123313.GA23065@google.com>
- <62ad32cb-3fd1-4c21-ab2c-a194e559d12a@suse.de>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zIqtNx7d"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-40fd72f7125so24617335e9.1
+        for <linux-staging@lists.linux.dev>; Mon, 26 Feb 2024 05:28:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1708954115; x=1709558915; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=9lhn3yuivfw5tP705I3AFcDT3Ytd9xli9IjfF23lLdM=;
+        b=zIqtNx7dsih0IcF9NQfXmvbRZhgFDq44G+fqdRn8Co2M/9ZD3gnD2rr9J6fc/2NUWX
+         5T0Z2cRFynbTzgZ06EriMchiYC5f5euSI1ZZrVLQEvLIQP3GrRJ6MBwCZ8pRTrvChDYU
+         JH6HzdIQBDQVP4cOD1U6pJpWC39uB+cE3DWAY7iD5BWP7a2VJLALL2zNMZviS78noPy6
+         45ae1CrCy9pZBlAUVV5WppGD4Ly5x77jfEO2Mg8iOfoFrm/jeVbh9hYcdyqNGuob08Yi
+         jWD73kYWr3ssV2VESxSAxapXcoi8ZuBp1QRVbitcZtJwupRTXbJePq+o53SbYAbje2/9
+         BQ+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708954115; x=1709558915;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9lhn3yuivfw5tP705I3AFcDT3Ytd9xli9IjfF23lLdM=;
+        b=jrJbBIcLRniex2gmXYZqJKgpZw3AdmubORZpQYakAb6cGsE4lBhD9Bsl4CpXHrNCg+
+         qnFuHCao2sfKJ819cwXRuGQKd1dw/E8zyqYYOVsFKF+9hjv/1ECCcr1hVwVfy7aYMGUx
+         0o1mT523eyu8cskOr4f41hBnXm71gZqCXqVN7XWuZQAeAVcQl6fcSDeAkNBENh7B80By
+         O6Y49V4Aw9nzW78YV5oSSwC5LGGcgakV8SIjwtPD7nkjP+bxWu1KkT3CLLhsh7QCfT9s
+         eg1uOBtA2KIEb+VZ1cL5yh4rcBQwAn17yXpGLEtlH5GS0A5B8YlYeyToK6/utpVnJlUf
+         bZtg==
+X-Forwarded-Encrypted: i=1; AJvYcCWqgmnQSg4H62+LpyABCipThF4r1vso9e5fWLxRKjofNetlki/xrzt3lvhhXeODA7HvqnU4Qb7bZK78lqTZgazMHmpJFFqacFPKeeX7WA==
+X-Gm-Message-State: AOJu0YxtP2WA6pt0l2xGdR4vJRIIfmocbF6zfEpz0sQpdSw+bjsWRXMH
+	8yPQ2yQXlpfc8GT/yFIAiXVg9Npj+I4HHxd6iDMtXdN5TR1zeha84uzmtvpnYBU=
+X-Google-Smtp-Source: AGHT+IEZTpJJFhvQsxYl7evaqNmykLzt9jxs/MJZvSgXDLjpLdVjHzoMEnG3Izus7nCEs8GcydaUqg==
+X-Received: by 2002:a05:600c:468f:b0:412:903b:12a5 with SMTP id p15-20020a05600c468f00b00412903b12a5mr4539718wmo.19.1708954115544;
+        Mon, 26 Feb 2024 05:28:35 -0800 (PST)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id bj29-20020a0560001e1d00b0033d81d9c44esm8399320wrb.70.2024.02.26.05.28.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Feb 2024 05:28:34 -0800 (PST)
+Date: Mon, 26 Feb 2024 16:28:31 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: meir elisha <meir6264@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Ruan Jinjie <ruanjinjie@huawei.com>,
+	Yang Yingliang <yangyingliang@huawei.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] Staging: rtl8723bs: Remove spaces before tabs in
+ rtw_set_auth
+Message-ID: <e3f9ad3e-1d60-456d-914c-c153d6b0a875@moroto.mountain>
+References: <20240226075225.44881-1-meir6264@gmail.com>
+ <96ab1a91-7682-4aed-a522-ceaed0dbf56c@moroto.mountain>
+ <CAHdEp89HhwiBuQEqTP8nTTy0VPrLr5PKWi8mKLx6wFzeTb9eXw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <62ad32cb-3fd1-4c21-ab2c-a194e559d12a@suse.de>
+In-Reply-To: <CAHdEp89HhwiBuQEqTP8nTTy0VPrLr5PKWi8mKLx6wFzeTb9eXw@mail.gmail.com>
 
-On Mon, 26 Feb 2024, Thomas Zimmermann wrote:
-
-> Hi
+On Mon, Feb 26, 2024 at 02:05:19PM +0200, meir elisha wrote:
+> Hi Dan
 > 
-> Am 26.02.24 um 13:33 schrieb Lee Jones:
-> > On Mon, 26 Feb 2024, Jani Nikula wrote:
-> > 
-> > > On Fri, 23 Feb 2024, Lee Jones <lee@kernel.org> wrote:
-> > > > On Wed, 21 Feb 2024, Thomas Zimmermann wrote:
-> > > > 
-> > > > > cc'ing backlight maintainers
-> > > > I cannot review/accept patches like this.
-> > > > 
-> > > > Please submit a [RESEND].
-> > > I bounced the original [1] to you. Please consider acking to merge the
-> > > one-line #include addition via fbdev so we don't have to respin the
-> > > series for no good reason.
-> > The "good reason" would be that it was not sent properly in the first
-> > place.  My kernel.org mail is filtered by the recipients headers.  If
-> > the original wasn't sent to me, bouncing won't work either.  I've since
-> > reviewed the patch and seen the set on LORE.  This is non-optimal.
-> > Please use get_maintainer.pl next time.
-> > 
-> > This time only, patch is:
-> > 
-> > Acked-by: Lee Jones <lee@kernel.org>
-> 
-> No problem, I'll send out another series. I just didn't get to do it.
+> Thanks for the response.
+> Not sure I got the problem here.
+> In V2 I removed spaces and deleted dead code. In V3 I just removed
+> spaces after tabs (reverting the dead code changes).
+> I'll want to create a seperate patch for the dead code deletion later on.
+> What am I missing here?
 
-No need to do that now on my behalf.  You have my Ack.
+When I'm reviewing patches, I try to be as machine like as possible.
+This makes the review process more predictable.  It helps me avoid
+decision fatigue.  https://www.google.com/search?q=decision+fatigue
+It sucks to constantly be refusing to apply patches because I know it
+makes people feel sad, but when it's part of an automatic process then
+it's easier.
 
--- 
-Lee Jones [李琼斯]
+This patch here is a very mechanical patch which requires very little
+thought, either from the person sending the patch or the person
+reviewing it.  You've run into one of the common errors where you
+cleaned up dead code instead of deleting it and you've recieved the
+automatic response back to just delete the dead code instead of cleaning
+it up.
+
+If I hadn't responded, Greg would have said the exact same thing.
+
+Even if you sent the patches in the wrong order:
+[patch 1] fix white space
+[patch 2] delete dead code
+I would respond to patch 1 before reading patch 2 so if you fixed the
+white space in the dead code it would still trigger an automatic
+response.
+
+I don't know why you wouldn't want to delete the dead code before
+fixing the white space issues.  If you had just fixed the white space
+issues in the alive code and left the dead code alone then I wouldn't
+have noticed or complained.  (Best to avoid this option in case someone
+*else* complains that there are still checkpatch warnings remaining).
+
+regards,
+dan carpenter
+
