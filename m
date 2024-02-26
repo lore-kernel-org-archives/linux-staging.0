@@ -1,69 +1,67 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1C1A4D10A
-	for <linux-staging@lists.linux.dev>; Mon, 26 Feb 2024 03:59:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECB381BF2A
+	for <linux-staging@lists.linux.dev>; Mon, 26 Feb 2024 07:52:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708919969; cv=none; b=lXNMGd7SOLzX6z/FhoI/gIwbYt7zqwNIAfPrGPuZ0Apbcqm1E9QvK9fB0rEOwfvcwu9O6+orwdr0faeB/Cc7jWyiie9O0OIaVo5Z+CTZdx/BwkJd9pDYBp5gPMOhJb3bfKQKNogRcXWyBdx3rPC6cp5RCLN/2QkiQhGmfitkVmY=
+	t=1708933958; cv=none; b=IqRqsJw/gB/Rc/VDbgduz9GzIINADN6X+xTqswTDZvRzxQrFzgcUo47SSISnUJlHnwjgkZsaJlOpzJqg0Xu8zP9W9vEapCmq1tC3t9Yhz9f/3R7u6SVkwBvG4Xmt9sN0ag9iy9HH795b/1lRXUDtv0xzr+05reMEptsjX2hoWz0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708919969; c=relaxed/simple;
-	bh=Hb2gzq4riFTqoohaJYo7tJV4g6poU6GnyQ7xdS4Myh8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Usd2pWu+uOl6s7DIGq41JCWvG6ylZiO6nOq4z8aGDGf+8M2IejHam1GSqG8z6HrH5p6ePFybTCr6X0z1w5RBd3dcX+pG3BaUwyyyfXrWA5J+lcsb8DwOgsDk/4EssqLtES292Plssr8GEKn7G3RWlwXiPJTQRcuYikgoj+ZIgp4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net; spf=pass smtp.mailfrom=darkphysics.net; dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b=FEw9ONDC; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=darkphysics.net
+	s=arc-20240116; t=1708933958; c=relaxed/simple;
+	bh=79IFNXtUb0pKOStZ3CnUgtwtP/UJl7nrruMLfiTiZ4I=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=BKTmtnSUXkNvGcQJUTEDrC3ogBBhJ1iJWvtZ8tgWKEqDuRGFqA+9rUZXelBsNoCZ1gvSaUieDgrnyzcirw1erun530KbTU85XP4GiklBwTa+LNzyKA04wnvyjoxhA9PXJQoL4SyaZXeU3Iy3i11GKk0BQnNKshn86ETM0zctGvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hdgx/gb5; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="FEw9ONDC"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1d94b222a3aso27431135ad.2
-        for <linux-staging@lists.linux.dev>; Sun, 25 Feb 2024 19:59:27 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hdgx/gb5"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-33ddd1624beso163042f8f.1
+        for <linux-staging@lists.linux.dev>; Sun, 25 Feb 2024 23:52:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=darkphysics.net; s=google; t=1708919967; x=1709524767; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=V637UI8jqLYaoLt6Jphn/pSof6w0WRdDGgG+CHcmXrE=;
-        b=FEw9ONDCfMbtx+bvx4BapPuoX+5OowKwjndbVlJFowgkySc8B6uDckhzLMKfnVVkdE
-         o80RZxcwcsuZUlKz4WtstMXOslIOIHSflEjGIF3KiVtshdLF/zZr/f+iIuGG9z4eykbP
-         0dIROO7rrb4tjOJqsCTOel1skACyAWTBu8M+JV3KWn9DU2jFpugo71i8POQrM6+evOnq
-         RlYmIV5YEylprFTUUn/hF+odX1p8D7qoC2tDQWSOueEUjGigVeW/OuzUnVbcaMavl7J2
-         fsN1VuoJeXhYloL9M7DlRU7S4wn/ZBOQBnya+OGCS7s2QtHgR5/cgk1nylqL0goU4LYO
-         kqrg==
+        d=gmail.com; s=20230601; t=1708933955; x=1709538755; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZPQ+HZG9ZH8pgTa6BFUHg2MQy0OsY1NDbVY61HuOvvM=;
+        b=hdgx/gb5LooHMPmbsfCz3I/u3UZIu8Z+3A1SFjlVFf+SfThHpSZgLJl+eqhbDN/EO1
+         LZzw0BRaLnY5uR5avVuY/A/+0dYHf4Jj/Y38M8q/b6jgOvtixdfhNxE+g6v4l8KYocVl
+         Um6th7tj0oW97AfHoNDXb1V0wnysAw2V88l0PMQtncBURRAy4KYCkfx3sqgXfKWalYrl
+         WM+o7BACThY1Tdk05XX8S22EQrHASY82dgfmhnTLkEbbE2cQ72jjLFUj3N3uIc6HXIXB
+         v3vJR86FDAHxHuTrjnxrjrcSxLMCNOVaEv51DkcEnZWg+2e5/OZ4xmTJiheaCsd4a1ID
+         LSlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708919967; x=1709524767;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=V637UI8jqLYaoLt6Jphn/pSof6w0WRdDGgG+CHcmXrE=;
-        b=PQF/arGYeZUHnZTC8T9jk1ZgEoodFRNBnQ+drzwZLjsQDGDam9XVGRzYYclkdnSRWC
-         s+KzG27/mD88N3CY9w7GJ/nP967eypnEIBx3jUDCtdQLYzhTJaf2BuyGiLfNNdVpgMNP
-         hvkQdxGMOABLUz7FQrxzFZv428YUV5Z/Sm9Mbe9uf+lZJlBpyYa7irHs929IJpdKj/NM
-         4KBmES39nG8ndRe6Uk9PFHwuoYLm4SczJSojqdBcy4A3qQ5t9rTpsndHpLed+DDsogxQ
-         Wph8uUGhL7F6xnhwbyLk73yxdr8FBHQmG/38omf6u0qHvDagHzSsiYfjN+HXhnmx00/j
-         S2hA==
-X-Gm-Message-State: AOJu0YyQZrR4jNqo052kWgHwDrzRbdILF8P6mcXSc6bctsEKwNBJrvPX
-	V3thLwWGWv0tdv3HlOH4E2EzgmGv/cS3xzm9H8ojCEZoYF/vHnKu4SQmyu7zE9Y=
-X-Google-Smtp-Source: AGHT+IENvooUMubg98bMfNVI0RvxJTLd2gooTD4DC84K+k6OwjgQott9+o1MVAglbzqDfP6OG4+szA==
-X-Received: by 2002:a17:902:b60d:b0:1db:c71a:5693 with SMTP id b13-20020a170902b60d00b001dbc71a5693mr6408992pls.26.1708919967275;
-        Sun, 25 Feb 2024 19:59:27 -0800 (PST)
-Received: from oatmeal.darkphysics (c-76-146-178-2.hsd1.wa.comcast.net. [76.146.178.2])
-        by smtp.gmail.com with ESMTPSA id iy13-20020a170903130d00b001da105d6a83sm2893426plb.224.2024.02.25.19.59.26
+        d=1e100.net; s=20230601; t=1708933955; x=1709538755;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZPQ+HZG9ZH8pgTa6BFUHg2MQy0OsY1NDbVY61HuOvvM=;
+        b=H/XP4oT58ZBB7m/HR+tvThtJd/dNIoqpmj7QhfL+1QRM/Q7w01jeyewHE6Rb/vozPO
+         rlyVDn0CDzUEsSE0tzKWhSuoiJ+qpJ/9RG3bJLU0/0DNrh79+d7Zkc3vxOz7hHlMwg3x
+         yF1QSYkELS5ByyGdS0ncyr29b3MUiaP3bJ4WAJX77Qs4lX3G+ymZuzT6OR3Jj3Q9H/Qy
+         7BerKCWZuYQMt4EqUGk0k7LpGfPF7wkAahJmf3yotOuuRlwUGGobqhbWITtubi3Oa5V3
+         173gYpXHdtr8V0p2R9wJpaeOoG3gXVwIUPp1y297R5Ns8JARMZxOK4j8/oTFjKwYwTog
+         NjxA==
+X-Gm-Message-State: AOJu0Yw///IuhdOf766yNx2+8p/aZ/5MRovG2MHT39+RPPXTvlUhDHHw
+	Jv6R0C4zc9utKLMnu+Fkuf1usPelOQjrG1ETw48zVt9dYDGCvLvr
+X-Google-Smtp-Source: AGHT+IFaQ6sNsZyzhrO0DhVowwdLlWEGJHqFGcrFAghi/l+k+EEJbC6GBWulh3qLj9alsBg0etlpBg==
+X-Received: by 2002:a5d:528f:0:b0:33d:dd41:674c with SMTP id c15-20020a5d528f000000b0033ddd41674cmr704870wrv.28.1708933954756;
+        Sun, 25 Feb 2024 23:52:34 -0800 (PST)
+Received: from Ubuntu22.myguest.virtualbox.org ([46.121.140.152])
+        by smtp.gmail.com with ESMTPSA id bj20-20020a0560001e1400b0033db0c866f7sm7436968wrb.11.2024.02.25.23.52.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Feb 2024 19:59:26 -0800 (PST)
-From: Tree Davies <tdavies@darkphysics.net>
-To: gregkh@linuxfoundation.org,
-	philipp.g.hortmann@gmail.com,
-	anjan@momi.ca
+        Sun, 25 Feb 2024 23:52:34 -0800 (PST)
+Received: by Ubuntu22.myguest.virtualbox.org (sSMTP sendmail emulation); Mon, 26 Feb 2024 09:52:31 +0200
+From: Meir Elisha <meir6264@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Ruan Jinjie <ruanjinjie@huawei.com>,
+	Yang Yingliang <yangyingliang@huawei.com>
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Tree Davies <tdavies@darkphysics.net>
-Subject: [PATCH 8/8] Staging: rtl8192e: Rename function GetHalfNmodeSupportByAPsHandler()
-Date: Sun, 25 Feb 2024 19:59:15 -0800
-Message-Id: <20240226035915.370478-9-tdavies@darkphysics.net>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240226035915.370478-1-tdavies@darkphysics.net>
-References: <20240226035915.370478-1-tdavies@darkphysics.net>
+	Meir Elisha <meir6264@gmail.com>
+Subject: [PATCH v3] Staging: rtl8723bs: Remove spaces before tabs in rtw_set_auth
+Date: Mon, 26 Feb 2024 09:52:25 +0200
+Message-Id: <20240226075225.44881-1-meir6264@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -72,110 +70,146 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rename function GetHalfNmodeSupportByAPsHandler to
-get_half_nmode_support_by_aps_handler to fix checkpatch warning Avoid CamelCase.
+Remove spaces before tabs to improve coding style.
 
-Signed-off-by: Tree Davies <tdavies@darkphysics.net>
+Signed-off-by: Meir Elisha <meir6264@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 2 +-
- drivers/staging/rtl8192e/rtl8192e/rtl_dm.c   | 2 +-
- drivers/staging/rtl8192e/rtl819x_BAProc.c    | 2 +-
- drivers/staging/rtl8192e/rtl819x_HTProc.c    | 8 ++++----
- drivers/staging/rtl8192e/rtllib.h            | 2 +-
- 5 files changed, 8 insertions(+), 8 deletions(-)
+Changes in v3: subject and description changed, revert dead code changes
+Changes in v2: remove dead code
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-index fc5014f719d7..50a4e1cb8c79 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-@@ -657,7 +657,7 @@ static void _rtl92e_init_priv_handler(struct net_device *dev)
- 	priv->rtllib->ps_is_queue_empty = _rtl92e_is_tx_queue_empty;
- 
- 	priv->rtllib->get_nmode_support_by_sec_cfg = rtl92e_get_nmode_support_by_sec;
--	priv->rtllib->GetHalfNmodeSupportByAPsHandler =
-+	priv->rtllib->get_half_nmode_support_by_aps_handler =
- 						rtl92e_is_halfn_supported_by_ap;
- 
- 	priv->rtllib->set_hw_reg_handler = rtl92e_set_reg;
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-index 57e1a361a7c9..047da39f730e 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-@@ -354,7 +354,7 @@ static void _rtl92e_dm_check_rate_adaptive(struct net_device *dev)
- 			}
- 		}
- 
--		if (priv->rtllib->GetHalfNmodeSupportByAPsHandler(dev))
-+		if (priv->rtllib->get_half_nmode_support_by_aps_handler(dev))
- 			target_ratr &=  0xf00fffff;
- 
- 		current_ratr = rtl92e_readl(dev, RATR0);
-diff --git a/drivers/staging/rtl8192e/rtl819x_BAProc.c b/drivers/staging/rtl8192e/rtl819x_BAProc.c
-index 04f3fb54d1b7..834329886ea2 100644
---- a/drivers/staging/rtl8192e/rtl819x_BAProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_BAProc.c
-@@ -276,7 +276,7 @@ int rtllib_rx_add_ba_req(struct rtllib_device *ieee, struct sk_buff *skb)
- 	ba->ba_timeout_value = *ba_timeout_value;
- 	ba->ba_start_seq_ctrl = *ba_start_seq_ctrl;
- 
--	if (ieee->GetHalfNmodeSupportByAPsHandler(ieee->dev) ||
-+	if (ieee->get_half_nmode_support_by_aps_handler(ieee->dev) ||
- 	    (ieee->ht_info->iot_action & HT_IOT_ACT_ALLOW_PEER_AGG_ONE_PKT))
- 		ba->ba_param_set.field.buffer_size = 1;
- 	else
-diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-index abc21ae49ff7..fa96a2c2c916 100644
---- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-@@ -252,7 +252,7 @@ void ht_construct_capability_element(struct rtllib_device *ieee, u8 *pos_ht_cap,
- 	}
- 
- 	cap_ele->AdvCoding		= 0;
--	if (ieee->GetHalfNmodeSupportByAPsHandler(ieee->dev))
-+	if (ieee->get_half_nmode_support_by_aps_handler(ieee->dev))
- 		cap_ele->ChlWidth = 0;
- 	else
- 		cap_ele->ChlWidth = 1;
-@@ -301,7 +301,7 @@ void ht_construct_capability_element(struct rtllib_device *ieee, u8 *pos_ht_cap,
- 		if (ht->iot_action & HT_IOT_ACT_DISABLE_RX_40MHZ_SHORT_GI)
- 			cap_ele->ShortGI40Mhz		= 0;
- 
--		if (ieee->GetHalfNmodeSupportByAPsHandler(ieee->dev)) {
-+		if (ieee->get_half_nmode_support_by_aps_handler(ieee->dev)) {
- 			cap_ele->ChlWidth = 0;
- 			cap_ele->MCS[1] = 0;
- 		}
-@@ -408,7 +408,7 @@ static u8 ht_filter_mcs_rate(struct rtllib_device *ieee, u8 *pSupportMCS,
- 
- 	ht_pick_mcs_rate(ieee, pOperateMCS);
- 
--	if (ieee->GetHalfNmodeSupportByAPsHandler(ieee->dev))
-+	if (ieee->get_half_nmode_support_by_aps_handler(ieee->dev))
- 		pOperateMCS[1] = 0;
- 
- 	for (i = 2; i <= 15; i++)
-@@ -666,7 +666,7 @@ void ht_set_connect_bw_mode(struct rtllib_device *ieee,
+ drivers/staging/rtl8723bs/core/rtw_mlme.c | 48 +++++++++++------------
+ 1 file changed, 24 insertions(+), 24 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+index 5568215b35bd..5379393349fe 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+@@ -169,7 +169,7 @@ void _rtw_free_network(struct	mlme_priv *pmlmepriv, struct wlan_network *pnetwor
  {
- 	struct rt_hi_throughput *ht_info = ieee->ht_info;
+ 	unsigned int delta_time;
+ 	u32 lifetime = SCANQUEUE_LIFETIME;
+-/* 	_irqL irqL; */
++/*	_irqL irqL; */
+ 	struct __queue *free_queue = &(pmlmepriv->free_bss_pool);
  
--	if (ieee->GetHalfNmodeSupportByAPsHandler(ieee->dev))
-+	if (ieee->get_half_nmode_support_by_aps_handler(ieee->dev))
- 		bandwidth = HT_CHANNEL_WIDTH_20;
+ 	if (!pnetwork)
+@@ -389,7 +389,7 @@ int is_same_network(struct wlan_bssid_ex *src, struct wlan_bssid_ex *dst, u8 fea
+ 	d_cap = le16_to_cpu(tmpd);
  
- 	if (ht_info->sw_bw_in_progress) {
-diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-index fe850dbeaa02..38ae9d1b24c1 100644
---- a/drivers/staging/rtl8192e/rtllib.h
-+++ b/drivers/staging/rtl8192e/rtllib.h
-@@ -1486,7 +1486,7 @@ struct rtllib_device {
- 				    enum ht_extchnl_offset Offset);
- 	bool (*get_nmode_support_by_sec_cfg)(struct net_device *dev);
- 	void (*set_wireless_mode)(struct net_device *dev, u8 wireless_mode);
--	bool (*GetHalfNmodeSupportByAPsHandler)(struct net_device *dev);
-+	bool (*get_half_nmode_support_by_aps_handler)(struct net_device *dev);
- 	u8   (*rtllib_ap_sec_type)(struct rtllib_device *ieee);
- 	void (*init_gain_handler)(struct net_device *dev, u8 Operation);
- 	void (*ScanOperationBackupHandler)(struct net_device *dev,
+ 	return (src->ssid.ssid_length == dst->ssid.ssid_length) &&
+-		/* 	(src->configuration.ds_config == dst->configuration.ds_config) && */
++		/* (src->configuration.ds_config == dst->configuration.ds_config) && */
+ 			((!memcmp(src->mac_address, dst->mac_address, ETH_ALEN))) &&
+ 			((!memcmp(src->ssid.ssid, dst->ssid.ssid, src->ssid.ssid_length))) &&
+ 			((s_cap & WLAN_CAPABILITY_IBSS) ==
+@@ -627,11 +627,11 @@ void rtw_add_network(struct adapter *adapter, struct wlan_bssid_ex *pnetwork)
+ }
+ 
+ /* select the desired network based on the capability of the (i)bss. */
+-/*  check items: (1) security */
+-/* 			   (2) network_type */
+-/* 			   (3) WMM */
+-/* 			   (4) HT */
+-/*                      (5) others */
++/* check items: (1) security */
++/* (2) network_type */
++/* (3) WMM */
++/* (4) HT */
++/* (5) others */
+ int rtw_is_desired_network(struct adapter *adapter, struct wlan_network *pnetwork);
+ int rtw_is_desired_network(struct adapter *adapter, struct wlan_network *pnetwork)
+ {
+@@ -1054,9 +1054,9 @@ static struct sta_info *rtw_joinbss_update_stainfo(struct adapter *padapter, str
+ 			memset((u8 *)&psta->dot11rxpn, 0, sizeof(union pn48));
+ 		}
+ 
+-		/* 	Commented by Albert 2012/07/21 */
+-		/* 	When doing the WPS, the wps_ie_len won't equal to 0 */
+-		/* 	And the Wi-Fi driver shouldn't allow the data packet to be transmitted. */
++		/* Commented by Albert 2012/07/21 */
++		/* When doing the WPS, the wps_ie_len won't equal to 0 */
++		/* And the Wi-Fi driver shouldn't allow the data packet to be transmitted. */
+ 		if (padapter->securitypriv.wps_ie_len != 0) {
+ 			psta->ieee8021x_blocked = true;
+ 			padapter->securitypriv.wps_ie_len = 0;
+@@ -1916,10 +1916,10 @@ signed int rtw_set_auth(struct adapter *adapter, struct security_priv *psecurity
+ signed int rtw_set_key(struct adapter *adapter, struct security_priv *psecuritypriv, signed int keyid, u8 set_tx, bool enqueue)
+ {
+ 	u8 keylen;
+-	struct cmd_obj		*pcmd;
+-	struct setkey_parm	*psetkeyparm;
+-	struct cmd_priv 	*pcmdpriv = &(adapter->cmdpriv);
+-	signed int	res = _SUCCESS;
++	struct cmd_obj *pcmd;
++	struct setkey_parm *psetkeyparm;
++	struct cmd_priv *pcmdpriv = &(adapter->cmdpriv);
++	signed int res = _SUCCESS;
+ 
+ 	psetkeyparm = rtw_zmalloc(sizeof(struct setkey_parm));
+ 	if (!psetkeyparm) {
+@@ -2023,8 +2023,8 @@ int rtw_restruct_wmm_ie(struct adapter *adapter, u8 *in_ie, u8 *out_ie, uint in_
+ /*  */
+ /*  Search by BSSID, */
+ /*  Return Value: */
+-/* 		-1		:if there is no pre-auth key in the  table */
+-/* 		>= 0		:if there is pre-auth key, and   return the entry id */
++/*  -1 :if there is no pre-auth key in the  table */
++/*  >= 0 :if there is pre-auth key, and   return the entry id */
+ /*  */
+ /*  */
+ 
+@@ -2187,7 +2187,7 @@ void rtw_joinbss_reset(struct adapter *padapter)
+ 	u8 threshold;
+ 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+ 
+-	struct ht_priv 	*phtpriv = &pmlmepriv->htpriv;
++	struct ht_priv *phtpriv = &pmlmepriv->htpriv;
+ 
+ 	/* todo: if you want to do something io/reg/hw setting before join_bss, please add code here */
+ 
+@@ -2213,11 +2213,11 @@ void rtw_joinbss_reset(struct adapter *padapter)
+ 
+ void rtw_ht_use_default_setting(struct adapter *padapter)
+ {
+-	struct mlme_priv 	*pmlmepriv = &padapter->mlmepriv;
+-	struct ht_priv 	*phtpriv = &pmlmepriv->htpriv;
++	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
++	struct ht_priv *phtpriv = &pmlmepriv->htpriv;
+ 	struct registry_priv *pregistrypriv = &padapter->registrypriv;
+-	bool		bHwLDPCSupport = false, bHwSTBCSupport = false;
+-	bool		bHwSupportBeamformer = false, bHwSupportBeamformee = false;
++	bool bHwLDPCSupport = false, bHwSTBCSupport = false;
++	bool bHwSupportBeamformer = false, bHwSupportBeamformee = false;
+ 
+ 	if (pregistrypriv->wifi_spec)
+ 		phtpriv->bss_coexist = 1;
+@@ -2288,7 +2288,7 @@ unsigned int rtw_restructure_ht_ie(struct adapter *padapter, u8 *in_ie, u8 *out_
+ 	u8 cbw40_enable = 0, stbc_rx_enable = 0, operation_bw = 0;
+ 	struct registry_priv *pregistrypriv = &padapter->registrypriv;
+ 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+-	struct ht_priv 	*phtpriv = &pmlmepriv->htpriv;
++	struct ht_priv *phtpriv = &pmlmepriv->htpriv;
+ 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+ 
+ 	phtpriv->ht_option = false;
+@@ -2417,7 +2417,7 @@ void rtw_update_ht_cap(struct adapter *padapter, u8 *pie, uint ie_len, u8 channe
+ 	struct ieee80211_ht_cap *pht_capie;
+ 	/* struct recv_reorder_ctrl *preorder_ctrl; */
+ 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+-	struct ht_priv 	*phtpriv = &pmlmepriv->htpriv;
++	struct ht_priv *phtpriv = &pmlmepriv->htpriv;
+ 	/* struct recv_priv *precvpriv = &padapter->recvpriv; */
+ 	struct registry_priv *pregistrypriv = &padapter->registrypriv;
+ 	/* struct wlan_network *pcur_network = &(pmlmepriv->cur_network);; */
+@@ -2546,7 +2546,7 @@ void rtw_issue_addbareq_cmd(struct adapter *padapter, struct xmit_frame *pxmitfr
+ void rtw_append_exented_cap(struct adapter *padapter, u8 *out_ie, uint *pout_len)
+ {
+ 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+-	struct ht_priv 	*phtpriv = &pmlmepriv->htpriv;
++	struct ht_priv *phtpriv = &pmlmepriv->htpriv;
+ 	u8 cap_content[8] = {0};
+ 
+ 	if (phtpriv->bss_coexist)
 -- 
-2.39.2
+2.34.1
 
