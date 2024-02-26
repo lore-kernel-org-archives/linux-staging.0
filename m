@@ -1,56 +1,56 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EF041A5AC
-	for <linux-staging@lists.linux.dev>; Mon, 26 Feb 2024 03:56:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B45541AACA
+	for <linux-staging@lists.linux.dev>; Mon, 26 Feb 2024 03:56:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708919792; cv=none; b=PyfBFYiZtr0X/kttSoP8J70nRiynmEjzb1sPkGQX2TN7S1BabKGxt2Zp3FM8hR/iS+Ntf648n74X96rmPX+iu7vl1uetWa/gnTjlcZcii4D9IbpuVwP82vgwyIL7nyUt0MQvK/ryzB5CYfZyKdH8kkchtRKFErDBX9CuMYsSgXU=
+	t=1708919793; cv=none; b=qb0A0KlZYy4rRgmKHSbFjEOedcDbOWmQHC2ji5pEdPuB4r5FdMqc3qYeHAYCRT7UK13OR9IlhWx2C49szgCgAR1Jyh1+5fJqUznJVwfbs5IlTHkojCsCzoEXgc+f892jS1ZEanQdPGvnpzzGgPXBvEDJK1dN13ibQ78hklulqDI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708919792; c=relaxed/simple;
-	bh=/GkI0AH4KAbueBIXyZZOUSkMKIyc+Cm1aO4KSCZ3H/Q=;
+	s=arc-20240116; t=1708919793; c=relaxed/simple;
+	bh=4QYfnCHT5IF0k+ZPFYR0XE5aULvE2R+dS6ZM00LhHhg=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=qpLU1gX0LHr2d9njyZllfChj/0RA8185v3G79Rs/fe9TRWXiBImh5r5OOP+yx4nGxTSMCfCXLFHpwt/8vwDhCaq59EYlBZNloFg6pERqWnIgxhwP3KbzA5CXytN8b3NSFtyREIqlfmLcdm20AXthSbYEAmny/73YGy46gpWBkh4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net; spf=pass smtp.mailfrom=darkphysics.net; dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b=Amc//hK3; arc=none smtp.client-ip=209.85.214.170
+	 MIME-Version; b=MdsaiG9Wd4sr/Vcln3x92E7JSqe5Kmz6DSNqxc3qoTCyyCmaS6h72ZdQgUDDgv6ccXhO7jRf53eTj4NWbV8M+Tu8Z71bhb6d0eLjMgj5+nguGc5KcjVZQb3UKhEnTwffzhdtrGrDQRekLqB7JPs4c4jQzBk58/xZ1nt+dOv08l8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net; spf=pass smtp.mailfrom=darkphysics.net; dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b=B6nlyHf7; arc=none smtp.client-ip=209.85.214.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=darkphysics.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="Amc//hK3"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1dc49afb495so20458545ad.2
-        for <linux-staging@lists.linux.dev>; Sun, 25 Feb 2024 19:56:30 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="B6nlyHf7"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1dc09556599so22963485ad.1
+        for <linux-staging@lists.linux.dev>; Sun, 25 Feb 2024 19:56:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=darkphysics.net; s=google; t=1708919790; x=1709524590; darn=lists.linux.dev;
+        d=darkphysics.net; s=google; t=1708919791; x=1709524591; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Y94qPBIiY1LTWFk09al9S+rVSJfj9Ljec3w+8fEwPIw=;
-        b=Amc//hK3jrKNZyVflw0TqwgXdO3IWniBkZw1iDNj9Di1d9GnC7zF91whqDEmF4ajFP
-         oPjW+kmhqYXCpPCjCcqRFPxaYJCy4EHuThiXANN+s+VhVp6eoLODlRaZQb0Pm3qnvkEG
-         QWXLA9Au1yhTWLsgmoU10O1jx4MfFwddz6jiLtR27s8ArDXZ1v6/KzH8Bxcbl6Qr7tQa
-         EvlltCUfw45OWwtlRwcoa+iELICt021m4uzfEcvwkedHZkxWFCjPaE4FDijohZuw65BL
-         A4iRsfdtkshGvHFNGB1Vh/MhXsW/camGmeIGYuHgLhJoz+DWN2hNsdnWZhNDs6rIv3F1
-         v9cg==
+        bh=sBKGzHk8InlkFKn1JmjT6uwa3TRy3S2Nn8Oc9mkuYiQ=;
+        b=B6nlyHf7kf+kdpvQ8gQiQTNOeflRZii15OfSoiyBTOSz7UgiyKCoQbMhda7NbkUYQZ
+         uO+YupoTZWlWSHP+DWsMM6wdjCKWwtghqJHCZb3ZmuX1QSZ5XAtEoQgt8QkxchscS+Tp
+         pGGygR724hjZFHDCE2epGFgVApFbnLLuoEmgjuglyrlCWn9zDfBu3CXnCFpb0Q6KLpdN
+         9DawO+S4fIO2u/+Ku9zoYfcQPirzViDOgmTxwhiKNBYVwD/tkHIj4S0+E+G3LgRCeOjI
+         48zW2AKbFqXYc28laiACC2HcuAtfNELzk1V57HbFzWJgOq5THaBEtlTus3Sk5Q5nOqWN
+         QJ3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708919790; x=1709524590;
+        d=1e100.net; s=20230601; t=1708919791; x=1709524591;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Y94qPBIiY1LTWFk09al9S+rVSJfj9Ljec3w+8fEwPIw=;
-        b=CP8EUWq8NRmrBt+w/EYWwP+Z3IMrSn9FGtgGMLUTzSoBlbOgCj3hNUR/rPOsBRVs9r
-         9NgT3IfFFt/fk/n4n2n78/7s8IgQzusnTxTJb6WbhgWcioLUBc9vDC+KFMIZqSsQzSWK
-         VrlwyuLP1KUFzRnxwsD/DQpMn1aGUc/eg21HhF9AXtOsWW7rRffOJhSNEpFK4lVEMpGW
-         ITqUP49/ZvE9iIl21vlEzaQROBMZDlT2+pJPt2QD4So5XVQZMlzR9K8Df/vSUBrw8F7M
-         Tx8Q6tpnu2DKSbyHs0NdMvkIioLTodB3nHpODmh1N/f1tAEAwHqBtuPf5xLI7FOR6MA4
-         rzag==
-X-Gm-Message-State: AOJu0YwiDhvkxY3nAWBk67SU1mzNXWCUEEN9RaEnSLsnyuO+v35dq0um
-	Ma6cGukA83auH8l6KEKrY2OVrtm4n64SCYnumTchScbLsDEK5rvuugrWTyPWj18=
-X-Google-Smtp-Source: AGHT+IFNmKD/LceEGvf88RsFhDZGd4B7FIRrWhlJYJ98No9LZm6cQnNjBQCHjtrItQ7s9yfwhBAlzg==
-X-Received: by 2002:a17:902:b68e:b0:1dc:a647:6979 with SMTP id c14-20020a170902b68e00b001dca6476979mr1033903pls.58.1708919790316;
-        Sun, 25 Feb 2024 19:56:30 -0800 (PST)
+        bh=sBKGzHk8InlkFKn1JmjT6uwa3TRy3S2Nn8Oc9mkuYiQ=;
+        b=u/Abf9SjDoY/Sjfe7j2M8bTTd10CxkFGEWNExQGxfdpY2WCqTunmKQSu0lfYb4XQsd
+         Hs1asxGQzuetOAusIOfmwjgK0ITZ6ESf4D8haSq1HLitTAzepIsojtFqeEhkQhzbkyDT
+         FUq7wC6XCpXGCOrtscslGYdyBy9iOWA3U1gzs5nXO9HOW/VrvyYlejIlD5D6P610dN7L
+         5CuMOVLs0tgoM0ENXnzqb7RPX9+qbBKNyEGBTwB+BhWnVezMpxqDtiJ0J4ibNRfkdtth
+         FPUayDWd/jkyuhJH+zToAzMosJYXAiIu6VKtG9fSDubTw4gzYg9MXIN59dAf2SOOvY24
+         9jnA==
+X-Gm-Message-State: AOJu0Yz/4Zf5tvGkI5tipS5IFc5BjI1ndjs15fR88csc3kZL5xrPbB42
+	nZmPCtpI0xaevQ0HAXfUx11qq/eag/6yXvg7wbfi7yDKhykh3Sn2A4wEejLeyck=
+X-Google-Smtp-Source: AGHT+IEuE+p8lr2qFRqJ7tnGYs20pVRaLD6XV1Rp+rB4gGWpR7TDkDqHq+FWmbUDJCoQdJAnb4XU1Q==
+X-Received: by 2002:a17:902:d488:b0:1dc:8042:3b76 with SMTP id c8-20020a170902d48800b001dc80423b76mr8622073plg.2.1708919791021;
+        Sun, 25 Feb 2024 19:56:31 -0800 (PST)
 Received: from oatmeal.darkphysics (c-76-146-178-2.hsd1.wa.comcast.net. [76.146.178.2])
-        by smtp.gmail.com with ESMTPSA id kh5-20020a170903064500b001d8a93fa5b1sm2897615plb.131.2024.02.25.19.56.29
+        by smtp.gmail.com with ESMTPSA id kh5-20020a170903064500b001d8a93fa5b1sm2897615plb.131.2024.02.25.19.56.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Feb 2024 19:56:29 -0800 (PST)
+        Sun, 25 Feb 2024 19:56:30 -0800 (PST)
 From: Tree Davies <tdavies@darkphysics.net>
 To: gregkh@linuxfoundation.org,
 	philipp.g.hortmann@gmail.com,
@@ -58,9 +58,9 @@ To: gregkh@linuxfoundation.org,
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Tree Davies <tdavies@darkphysics.net>
-Subject: [PATCH 03/20] Staging: rtl8192e: Rename function SecIsInPMKIDList()
-Date: Sun, 25 Feb 2024 19:56:07 -0800
-Message-Id: <20240226035624.370443-4-tdavies@darkphysics.net>
+Subject: [PATCH 04/20] Staging: rtl8192e: Rename variable PMKIDList
+Date: Sun, 25 Feb 2024 19:56:08 -0800
+Message-Id: <20240226035624.370443-5-tdavies@darkphysics.net>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240226035624.370443-1-tdavies@darkphysics.net>
 References: <20240226035624.370443-1-tdavies@darkphysics.net>
@@ -72,36 +72,52 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rename function SecIsInPMKIDList to sec_is_in_pmkid_list to fix checkpatch
+Rename variable PMKIDList to pmkid_list to fix checkpatch
 warning Avoid CamelCase.
 
 Signed-off-by: Tree Davies <tdavies@darkphysics.net>
 ---
- drivers/staging/rtl8192e/rtllib_softmac.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/rtl8192e/rtllib.h         | 2 +-
+ drivers/staging/rtl8192e/rtllib_softmac.c | 6 +++---
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
+index 30b9178071ae..a00db0d153da 100644
+--- a/drivers/staging/rtl8192e/rtllib.h
++++ b/drivers/staging/rtl8192e/rtllib.h
+@@ -1281,7 +1281,7 @@ struct rtllib_device {
+ 
+ 	struct sw_cam_table swcamtable[TOTAL_CAM_ENTRY];
+ 
+-	struct rt_pmkid_list PMKIDList[NUM_PMKID_CACHE];
++	struct rt_pmkid_list pmkid_list[NUM_PMKID_CACHE];
+ 
+ 	/* Fragmentation structures */
+ 	struct rtllib_frag_entry frag_cache[17][RTLLIB_FRAG_CACHE_LEN];
 diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
-index 83f337e27209..607122ab4b00 100644
+index 607122ab4b00..239ed95982ac 100644
 --- a/drivers/staging/rtl8192e/rtllib_softmac.c
 +++ b/drivers/staging/rtl8192e/rtllib_softmac.c
-@@ -664,7 +664,7 @@ static struct sk_buff *rtllib_pspoll_func(struct rtllib_device *ieee)
- 	return skb;
- }
- 
--static inline int SecIsInPMKIDList(struct rtllib_device *ieee, u8 *bssid)
-+static inline int sec_is_in_pmkid_list(struct rtllib_device *ieee, u8 *bssid)
- {
+@@ -669,8 +669,8 @@ static inline int sec_is_in_pmkid_list(struct rtllib_device *ieee, u8 *bssid)
  	int i = 0;
  
-@@ -747,7 +747,7 @@ rtllib_association_req(struct rtllib_network *beacon,
- 	if (beacon->BssCcxVerNumber >= 2)
- 		cxvernum_ie_len = 5 + 2;
- 
--	pmk_cache_idx = SecIsInPMKIDList(ieee, ieee->current_network.bssid);
-+	pmk_cache_idx = sec_is_in_pmkid_list(ieee, ieee->current_network.bssid);
- 	if (pmk_cache_idx >= 0) {
- 		wpa_ie_len += 18;
- 		netdev_info(ieee->dev, "[PMK cache]: WPA2 IE length: %x\n",
+ 	do {
+-		if ((ieee->PMKIDList[i].used) &&
+-		   (memcmp(ieee->PMKIDList[i].bssid, bssid, ETH_ALEN) == 0))
++		if ((ieee->pmkid_list[i].used) &&
++		   (memcmp(ieee->pmkid_list[i].bssid, bssid, ETH_ALEN) == 0))
+ 			break;
+ 		i++;
+ 	} while (i < NUM_PMKID_CACHE);
+@@ -881,7 +881,7 @@ rtllib_association_req(struct rtllib_network *beacon,
+ 			tag = skb_put(skb, 18);
+ 			*tag = 1;
+ 			*(tag + 1) = 0;
+-			memcpy((tag + 2), &ieee->PMKIDList[pmk_cache_idx].PMKID,
++			memcpy((tag + 2), &ieee->pmkid_list[pmk_cache_idx].PMKID,
+ 			       16);
+ 		}
+ 	}
 -- 
 2.39.2
 
