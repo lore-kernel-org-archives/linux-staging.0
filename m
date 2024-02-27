@@ -1,69 +1,65 @@
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9464057880
-	for <linux-staging@lists.linux.dev>; Tue, 27 Feb 2024 04:42:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F77355E7D
+	for <linux-staging@lists.linux.dev>; Tue, 27 Feb 2024 08:09:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709008946; cv=none; b=DnZ8rmnEBVDf8Wc/FoxPHNmanBQF8Tc/w+mNCqlAU8is1jYc/hNsHC5vVLAgoceLI3uwZ4EbhsCyq8UoE5+NRVNDjIEhbPPEl2Egk2oWR6yohJ9Q1WSIicaFnYBE3IuqBRlsvHKb/yE5ZF6z9YoW+w0RjTC71HIBzVvm6dIgL/k=
+	t=1709021396; cv=none; b=eQIZCrZzWzeX0kRMhAcaBEvyQU9VR3fyKaQkaR/hCNs8zT80AmFE8IKNeW9CMWaGtxI1FnMKUlnMAT+piaRPEvk3z2C7BB1EQHFL+hW2sHlXEuZkDedUjXGXNKXgxYW612/PvJ847aC/rs6L4vKhOjIhC+ZHQWNU332ZzzFsc+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709008946; c=relaxed/simple;
-	bh=2x3h9Zz+k71/dtUWPgZcEE0hufSyTRHoquJITrslrK8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=hnAFfuIzmPUiqGPllfnd9rAlVlDoNGbx43JYkhkQKY0YjDggrzpTxPAGRQ4neFsmphFqM3nNFiJnjheUNdDCl/0pJdidJuJiW1SHXZwpcW8vzjGpl6QPXzvDzWOLvn3vYdK63l6aiZbODqXXaNDa9Fzpyd5j7TiQuv+Qv+AgPFY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net; spf=pass smtp.mailfrom=darkphysics.net; dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b=IOf9hjym; arc=none smtp.client-ip=209.85.210.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=darkphysics.net
+	s=arc-20240116; t=1709021396; c=relaxed/simple;
+	bh=elFxfL9A2xGcR5fGcCNyQgri3vYJ3M/gHqGTu4V1Lgs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EqBgamI8CTXg9L63RWUOejYRzHLjTG98K+3Q2KOsLbQpvtO2hfZFPRDd88FtHRDC1LAzbUEkk/vIReClmYPIYjRPBXgutyMVhy+FEkdGYq4gl6X8A3LZ9xHqeiyEfvyXcVGn6As1vYErG7PleHkY7/fcj0/+K+lGEctQH2rwNXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Iai/wL1X; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="IOf9hjym"
-Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-6e445b4f80bso2173421a34.0
-        for <linux-staging@lists.linux.dev>; Mon, 26 Feb 2024 20:42:24 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Iai/wL1X"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1dc13fb0133so29412335ad.3
+        for <linux-staging@lists.linux.dev>; Tue, 27 Feb 2024 00:09:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=darkphysics.net; s=google; t=1709008943; x=1709613743; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EUsBKbDxqX+aAoY4bQ5ZPw9Nd6OhOWFvUHLj7z72e6s=;
-        b=IOf9hjymi1JCwUe8m2f0TrymW9z5Sm4yug5plRIswEunL5qlBnskbw89pJVA1v8wJ3
-         Bz2iMD2ZbqjOulQXCb0Z23b0519gtl5HN6aaVUkwn1kgMNppMaG9Kl60iemFth7Cs0CR
-         ytIzSqD6NGRHYfjSKgZViRzJamy4IdQRwFh1s2YuLJgqnsC0fChaLAx6hKyDL8M7TaJH
-         fHgzms7oom0++n8pzWIG/jnoDSpdYVX7Awh0vv0sws2k/lzycfllBuA9I7mYiNqmcAAQ
-         tu7S9Ws6gb3y6bjuKJes9LexxZKLp0h/QUcdN/SaJc9QIlBMqWRQKR86YMLXMKQ4my9G
-         X2Jg==
+        d=gmail.com; s=20230601; t=1709021394; x=1709626194; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=eI87wpSxrKx5Pd/KtlbryOuE4BijaR7p0KGrHkeaOYU=;
+        b=Iai/wL1XI698z4pAILs1g0yYvYlBVG69q/ulx2TFt3P/T0ugKDdxB0aJP0tw0vQiyG
+         BFM71jGRuZ0qF95W0lZEM59ZmZbw2lRgLCSh6ckBSQ77aYxQ0dpz8bV0bxdovAiljn0U
+         36hn50Q3pUlQ5PwdJdr/Xnqv3FD6gm6u/IdmwOvqug8PIF2zPxtQxo2QaC9+DxmJ7kyG
+         QjOX+WHZxdV72nWI51DFXJ55L4VeFLbiGqMracBUDtsB68xyS9bftt9wUSKSDPKkkfLq
+         hgl0c6uiw2TFhF9KPjE0DjzSG4SYSIA9dZ3uUG0920YpYLho/svKg1IVyLTZVd2J/XOK
+         27Yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709008943; x=1709613743;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=EUsBKbDxqX+aAoY4bQ5ZPw9Nd6OhOWFvUHLj7z72e6s=;
-        b=wttDxauZzbEFS8AqVTBx4LwLI//Fh/jlyCv4QZY+U5+R0YTJhIAlYl3IKHp7nMH/XJ
-         E/M9EelRyuCcAy075ig7G+dEA4zIFQOi8K3+dKLAxQo4Cgnll7nf2JcbvcTQ1l8E1L7w
-         odTNk4Kpe3ES/GluuvFp8pO63m8thROyxSe7DRlVspv4u8H3z8kfm7L1yJDzvULaKz34
-         UXMLzLeR9IA6qB8s4RuJ0nTgMnBo9HFiX9YXjF1smQxiiQ+hcnF93DJM43XgFqnOUduK
-         mbvIAZY7cUxJ796KDafk/Pd1eweHHZlmcrXW8LkOWs70hxVxsi6NF+VVDViLn7xWaZAJ
-         xSTw==
-X-Gm-Message-State: AOJu0YxE+qT7yDmKLFnpCrHPpNsj0vyK6KJXGX17eGkFTUKQ9Lbc6fyn
-	WKy0jour4GkRhR3HHxYeQMeqhrzCLoYlpPdEJl/6e+/ZKgO34oZucECFP9XGyLw=
-X-Google-Smtp-Source: AGHT+IHa3byya7dIvQDMqOR4n54Cfq1D2QEr97DUOwPKNmDLsK6jgR2+BFqesK8mx+OEknImw3w/4Q==
-X-Received: by 2002:a05:6870:e390:b0:21e:dd7a:2d3e with SMTP id x16-20020a056870e39000b0021edd7a2d3emr12450237oad.22.1709008943675;
-        Mon, 26 Feb 2024 20:42:23 -0800 (PST)
-Received: from oatmeal.darkphysics (c-76-146-178-2.hsd1.wa.comcast.net. [76.146.178.2])
-        by smtp.gmail.com with ESMTPSA id e30-20020aa798de000000b006e4ecc3e394sm4899782pfm.79.2024.02.26.20.42.22
+        d=1e100.net; s=20230601; t=1709021394; x=1709626194;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=eI87wpSxrKx5Pd/KtlbryOuE4BijaR7p0KGrHkeaOYU=;
+        b=twDeYA4EwnLq/qYMOwJvkhmaWpEGIUyrkJFdNtVWDCRPGRzdjPn5tt4QZMxQ5mSRr0
+         OR4z3FP7GPcOcFh9GXzqEFDdh0LGqz9+4bYfAScJeGF5uNID8f81WVbcyJ8ROlJABsMi
+         GaTIjUFNCPq5YRj7SWKg4SvCNQm53xUywH0OFupic5IVMQ5HLfKPbD4dxYq5tPQc27A+
+         w99CeWkFKChKlAM0xPD53XRCLwfMXeIV+6C1TOmYeTxcHT1a89EqXBjQqEl2y9GB7aj0
+         sKX3XIf4nhUgdfvhJ0mKRFw1mieVuqVywr8A7i5tjr1JhSQAImZlmT45MBJWyzuDwRL8
+         +XKw==
+X-Forwarded-Encrypted: i=1; AJvYcCWrk3+dZxdouq6j5MBxeGwTQm8jytbesWoJdjBcswjdouUu95WeLnKP8Copn566xu+94075wHgfOTo5q11gQRifId5iZnldI2F+FiNQgQ==
+X-Gm-Message-State: AOJu0Yyc1dN+XQ7lILKa/kvttWb4+0yDr4lt0IcyS4ec+D05+F3w+5zH
+	vyOiwsT9cybHElDNAfOdyjnAFxCN7PGNRyUxp0T4CR5+2Fb6KwagCUzpLuWK//Q=
+X-Google-Smtp-Source: AGHT+IGYXj5CZyrFuSJ8ejGWQyZqjq7OrKTVcYjcB+APd56hqLIPPH937YNrLrB0J4V3q4rHVXq1kA==
+X-Received: by 2002:a17:902:e809:b0:1dc:abe7:a1a6 with SMTP id u9-20020a170902e80900b001dcabe7a1a6mr4480596plg.17.1709021394116;
+        Tue, 27 Feb 2024 00:09:54 -0800 (PST)
+Received: from phoenix.. (076-050-196-152.res.spectrum.com. [76.50.196.152])
+        by smtp.gmail.com with ESMTPSA id d16-20020a170902aa9000b001dcb18cd22esm925059plr.141.2024.02.27.00.09.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Feb 2024 20:42:22 -0800 (PST)
-From: Tree Davies <tdavies@darkphysics.net>
-To: gregkh@linuxfoundation.org,
-	philipp.g.hortmann@gmail.com,
-	anjan@momi.ca
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Tree Davies <tdavies@darkphysics.net>
-Subject: [PATCH v2 20/20] Staging: rtl8192e: Rename function MgntQuery_MgntFrameTxRate
-Date: Mon, 26 Feb 2024 20:41:57 -0800
-Message-Id: <20240227044157.407379-21-tdavies@darkphysics.net>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240227044157.407379-1-tdavies@darkphysics.net>
-References: <20240227044157.407379-1-tdavies@darkphysics.net>
+        Tue, 27 Feb 2024 00:09:53 -0800 (PST)
+From: Michael Harris <michaelharriscode@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: hdegoede@redhat.com,
+	Larry.Finger@lwfinger.net,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] Staging: rtl8723bs: hal_btcoex: fixed styling issues
+Date: Tue, 27 Feb 2024 00:09:43 -0800
+Message-ID: <20240227080943.13032-1-michaelharriscode@gmail.com>
+X-Mailer: git-send-email 2.43.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -72,46 +68,286 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rename function MgntQuery_MgntFrameTxRate to mgnt_query_mgnt_frame_tx_rate
-to fix checkpatch warning Avoid CamelCase.
+Fixed various checkpatch.pl styling issues: spaces before tabs, constants being on left side of comparisons, unnecessary braces, etc.
 
-Signed-off-by: Tree Davies <tdavies@darkphysics.net>
+Signed-off-by: Michael Harris <michaelharriscode@gmail.com>
 ---
-v2: no changes
- drivers/staging/rtl8192e/rtllib_softmac.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/staging/rtl8723bs/hal/hal_btcoex.c | 78 +++++++++++-----------
+ 1 file changed, 40 insertions(+), 38 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
-index afa789fd1266..97fdca828da7 100644
---- a/drivers/staging/rtl8192e/rtllib_softmac.c
-+++ b/drivers/staging/rtl8192e/rtllib_softmac.c
-@@ -163,7 +163,7 @@ u8 mgnt_query_tx_rate_exclude_cck_rates(struct rtllib_device *ieee)
- 	return query_rate;
+diff --git a/drivers/staging/rtl8723bs/hal/hal_btcoex.c b/drivers/staging/rtl8723bs/hal/hal_btcoex.c
+index e26b789b9cdd..91922457e6e8 100644
+--- a/drivers/staging/rtl8723bs/hal/hal_btcoex.c
++++ b/drivers/staging/rtl8723bs/hal/hal_btcoex.c
+@@ -10,14 +10,14 @@
+ #include <hal_btcoex.h>
+ #include <Mp_Precomp.h>
+ 
+-/* 		Global variables */
++/*		Global variables */
+ 
+ struct btc_coexist GLBtCoexist;
+ static u8 GLBtcWiFiInScanState;
+ static u8 GLBtcWiFiInIQKState;
+ 
+ /*  */
+-/* 		Debug related function */
++/*		Debug related function */
+ /*  */
+ static u8 halbtcoutsrc_IsBtCoexistAvailable(struct btc_coexist *pBtCoexist)
+ {
+@@ -92,7 +92,7 @@ static void halbtcoutsrc_LeaveLowPower(struct btc_coexist *pBtCoexist)
+ 	stime = jiffies;
+ 	do {
+ 		ready = rtw_register_task_alive(padapter, BTCOEX_ALIVE);
+-		if (_SUCCESS == ready)
++		if (ready == _SUCCESS)
+ 			break;
+ 
+ 		utime = jiffies_to_msecs(jiffies - stime);
+@@ -304,8 +304,10 @@ static u8 halbtcoutsrc_Get(void *pBtcContext, u8 getType, void *pOutBuf)
+ 		break;
+ 
+ 	case BTC_GET_BL_WIFI_SCAN:
+-		/* Use the value of the new variable GLBtcWiFiInScanState to judge whether WiFi is in scan state or not, since the originally used flag
+-			WIFI_SITE_MONITOR in fwstate may not be cleared in time */
++		/*
++		 * Use the value of the new variable GLBtcWiFiInScanState to judge whether WiFi is in scan state or not, since the originally used flag
++		 * WIFI_SITE_MONITOR in fwstate may not be cleared in time
++		 */
+ 		*pu8 = GLBtcWiFiInScanState;
+ 		break;
+ 
+@@ -365,6 +367,7 @@ static u8 halbtcoutsrc_Get(void *pBtcContext, u8 getType, void *pOutBuf)
+ 	case BTC_GET_U4_WIFI_TRAFFIC_DIRECTION:
+ 		{
+ 			struct rt_link_detect_t *plinkinfo;
++
+ 			plinkinfo = &padapter->mlmepriv.LinkDetectInfo;
+ 
+ 			if (plinkinfo->NumTxOkInPeriod > plinkinfo->NumRxOkInPeriod)
+@@ -402,9 +405,9 @@ static u8 halbtcoutsrc_Get(void *pBtcContext, u8 getType, void *pOutBuf)
+ 
+ 	case BTC_GET_U1_MAC_PHY_MODE:
+ 		*pu8 = BTC_SMSP;
+-/* 			*pU1Tmp = BTC_DMSP; */
+-/* 			*pU1Tmp = BTC_DMDP; */
+-/* 			*pU1Tmp = BTC_MP_UNKNOWN; */
++/*			*pU1Tmp = BTC_DMSP; */
++/*			*pU1Tmp = BTC_DMDP; */
++/*			*pU1Tmp = BTC_MP_UNKNOWN; */
+ 		break;
+ 
+ 	case BTC_GET_U1_AP_NUM:
+@@ -562,7 +565,7 @@ static u8 halbtcoutsrc_Set(void *pBtcContext, u8 setType, void *pInBuf)
  }
  
--static u8 MgntQuery_MgntFrameTxRate(struct rtllib_device *ieee)
-+static u8 mgnt_query_mgnt_frame_tx_rate(struct rtllib_device *ieee)
+ /*  */
+-/* 		IO related function */
++/*		IO related function */
+ /*  */
+ static u8 halbtcoutsrc_Read1Byte(void *pBtcContext, u32 RegAddr)
  {
- 	struct rt_hi_throughput *ht_info = ieee->ht_info;
- 	u8 rate;
-@@ -201,7 +201,7 @@ inline void softmac_mgmt_xmit(struct sk_buff *skb, struct rtllib_device *ieee)
- 	if (ieee->disable_mgnt_queue)
- 		tcb_desc->queue_index = HIGH_QUEUE;
+@@ -669,7 +672,7 @@ static void halbtcoutsrc_WriteLocalReg1Byte(void *pBtcContext, u32 RegAddr, u8 D
+ 	struct btc_coexist *pBtCoexist = (struct btc_coexist *)pBtcContext;
+ 	struct adapter *Adapter = pBtCoexist->Adapter;
  
--	tcb_desc->data_rate = MgntQuery_MgntFrameTxRate(ieee);
-+	tcb_desc->data_rate = mgnt_query_mgnt_frame_tx_rate(ieee);
- 	tcb_desc->ratr_index = 7;
- 	tcb_desc->tx_dis_rate_fallback = 1;
- 	tcb_desc->tx_use_drv_assinged_rate = 1;
-@@ -277,7 +277,7 @@ softmac_ps_mgmt_xmit(struct sk_buff *skb,
- 	if (ieee->disable_mgnt_queue)
- 		tcb_desc->queue_index = HIGH_QUEUE;
+-	if (BTC_INTF_SDIO == pBtCoexist->chipInterface)
++	if (pBtCoexist->chipInterface == BTC_INTF_SDIO)
+ 		rtw_write8(Adapter, SDIO_LOCAL_BASE | RegAddr, Data);
+ 	else
+ 		rtw_write8(Adapter, RegAddr, Data);
+@@ -773,7 +776,7 @@ static void halbtcoutsrc_FillH2cCmd(void *pBtcContext, u8 elementId, u32 cmdLen,
+ }
  
--	tcb_desc->data_rate = MgntQuery_MgntFrameTxRate(ieee);
-+	tcb_desc->data_rate = mgnt_query_mgnt_frame_tx_rate(ieee);
- 	tcb_desc->ratr_index = 7;
- 	tcb_desc->tx_dis_rate_fallback = 1;
- 	tcb_desc->tx_use_drv_assinged_rate = 1;
+ /*  */
+-/* 		Extern functions called by other module */
++/*		Extern functions called by other module */
+ /*  */
+ static u8 EXhalbtcoutsrc_BindBtCoexWithAdapter(void *padapter)
+ {
+@@ -781,8 +784,8 @@ static u8 EXhalbtcoutsrc_BindBtCoexWithAdapter(void *padapter)
+ 
+ 	if (pBtCoexist->bBinded)
+ 		return false;
+-	else
+-		pBtCoexist->bBinded = true;
++
++	pBtCoexist->bBinded = true;
+ 
+ 	pBtCoexist->statistics.cntBind++;
+ 
+@@ -895,20 +898,20 @@ void EXhalbtcoutsrc_IpsNotify(struct btc_coexist *pBtCoexist, u8 type)
+ 	if (pBtCoexist->bManualControl)
+ 		return;
+ 
+-	if (IPS_NONE == type)
++	if (type == IPS_NONE)
+ 		ipsType = BTC_IPS_LEAVE;
+ 	else
+ 		ipsType = BTC_IPS_ENTER;
+ 
+ 	/*  All notify is called in cmd thread, don't need to leave low power again */
+-/* 	halbtcoutsrc_LeaveLowPower(pBtCoexist); */
++/*	halbtcoutsrc_LeaveLowPower(pBtCoexist); */
+ 
+ 	if (pBtCoexist->boardInfo.btdmAntNum == 2)
+ 		EXhalbtc8723b2ant_IpsNotify(pBtCoexist, ipsType);
+ 	else if (pBtCoexist->boardInfo.btdmAntNum == 1)
+ 		EXhalbtc8723b1ant_IpsNotify(pBtCoexist, ipsType);
+ 
+-/* 	halbtcoutsrc_NormalLowPower(pBtCoexist); */
++/*	halbtcoutsrc_NormalLowPower(pBtCoexist); */
+ }
+ 
+ void EXhalbtcoutsrc_LpsNotify(struct btc_coexist *pBtCoexist, u8 type)
+@@ -923,7 +926,7 @@ void EXhalbtcoutsrc_LpsNotify(struct btc_coexist *pBtCoexist, u8 type)
+ 	if (pBtCoexist->bManualControl)
+ 		return;
+ 
+-	if (PS_MODE_ACTIVE == type)
++	if (type == PS_MODE_ACTIVE)
+ 		lpsType = BTC_LPS_DISABLE;
+ 	else
+ 		lpsType = BTC_LPS_ENABLE;
+@@ -953,14 +956,14 @@ void EXhalbtcoutsrc_ScanNotify(struct btc_coexist *pBtCoexist, u8 type)
+ 	}
+ 
+ 	/*  All notify is called in cmd thread, don't need to leave low power again */
+-/* 	halbtcoutsrc_LeaveLowPower(pBtCoexist); */
++/*	halbtcoutsrc_LeaveLowPower(pBtCoexist); */
+ 
+ 	if (pBtCoexist->boardInfo.btdmAntNum == 2)
+ 		EXhalbtc8723b2ant_ScanNotify(pBtCoexist, scanType);
+ 	else if (pBtCoexist->boardInfo.btdmAntNum == 1)
+ 		EXhalbtc8723b1ant_ScanNotify(pBtCoexist, scanType);
+ 
+-/* 	halbtcoutsrc_NormalLowPower(pBtCoexist); */
++/*	halbtcoutsrc_NormalLowPower(pBtCoexist); */
+ }
+ 
+ void EXhalbtcoutsrc_ConnectNotify(struct btc_coexist *pBtCoexist, u8 action)
+@@ -979,14 +982,14 @@ void EXhalbtcoutsrc_ConnectNotify(struct btc_coexist *pBtCoexist, u8 action)
+ 		assoType = BTC_ASSOCIATE_FINISH;
+ 
+ 	/*  All notify is called in cmd thread, don't need to leave low power again */
+-/* 	halbtcoutsrc_LeaveLowPower(pBtCoexist); */
++/*	halbtcoutsrc_LeaveLowPower(pBtCoexist); */
+ 
+ 	if (pBtCoexist->boardInfo.btdmAntNum == 2)
+ 		EXhalbtc8723b2ant_ConnectNotify(pBtCoexist, assoType);
+ 	else if (pBtCoexist->boardInfo.btdmAntNum == 1)
+ 		EXhalbtc8723b1ant_ConnectNotify(pBtCoexist, assoType);
+ 
+-/* 	halbtcoutsrc_NormalLowPower(pBtCoexist); */
++/*	halbtcoutsrc_NormalLowPower(pBtCoexist); */
+ }
+ 
+ void EXhalbtcoutsrc_MediaStatusNotify(struct btc_coexist *pBtCoexist, enum
+@@ -1001,20 +1004,20 @@ void EXhalbtcoutsrc_MediaStatusNotify(struct btc_coexist *pBtCoexist, enum
+ 	if (pBtCoexist->bManualControl)
+ 		return;
+ 
+-	if (RT_MEDIA_CONNECT == mediaStatus)
++	if (mediaStatus == RT_MEDIA_CONNECT)
+ 		mStatus = BTC_MEDIA_CONNECT;
+ 	else
+ 		mStatus = BTC_MEDIA_DISCONNECT;
+ 
+ 	/*  All notify is called in cmd thread, don't need to leave low power again */
+-/* 	halbtcoutsrc_LeaveLowPower(pBtCoexist); */
++/*	halbtcoutsrc_LeaveLowPower(pBtCoexist); */
+ 
+ 	if (pBtCoexist->boardInfo.btdmAntNum == 2)
+ 		EXhalbtc8723b2ant_MediaStatusNotify(pBtCoexist, mStatus);
+ 	else if (pBtCoexist->boardInfo.btdmAntNum == 1)
+ 		EXhalbtc8723b1ant_MediaStatusNotify(pBtCoexist, mStatus);
+ 
+-/* 	halbtcoutsrc_NormalLowPower(pBtCoexist); */
++/*	halbtcoutsrc_NormalLowPower(pBtCoexist); */
+ }
+ 
+ void EXhalbtcoutsrc_SpecialPacketNotify(struct btc_coexist *pBtCoexist, u8 pktType)
+@@ -1027,25 +1030,24 @@ void EXhalbtcoutsrc_SpecialPacketNotify(struct btc_coexist *pBtCoexist, u8 pktTy
+ 	if (pBtCoexist->bManualControl)
+ 		return;
+ 
+-	if (PACKET_DHCP == pktType) {
++	if (pktType == PACKET_DHCP)
+ 		packetType = BTC_PACKET_DHCP;
+-	} else if (PACKET_EAPOL == pktType) {
++	else if (pktType == PACKET_EAPOL)
+ 		packetType = BTC_PACKET_EAPOL;
+-	} else if (PACKET_ARP == pktType) {
++	else if (pktType == PACKET_ARP)
+ 		packetType = BTC_PACKET_ARP;
+-	} else {
++	else
+ 		return;
+-	}
+ 
+ 	/*  All notify is called in cmd thread, don't need to leave low power again */
+-/* 	halbtcoutsrc_LeaveLowPower(pBtCoexist); */
++/*	halbtcoutsrc_LeaveLowPower(pBtCoexist); */
+ 
+ 	if (pBtCoexist->boardInfo.btdmAntNum == 2)
+ 		EXhalbtc8723b2ant_SpecialPacketNotify(pBtCoexist, packetType);
+ 	else if (pBtCoexist->boardInfo.btdmAntNum == 1)
+ 		EXhalbtc8723b1ant_SpecialPacketNotify(pBtCoexist, packetType);
+ 
+-/* 	halbtcoutsrc_NormalLowPower(pBtCoexist); */
++/*	halbtcoutsrc_NormalLowPower(pBtCoexist); */
+ }
+ 
+ void EXhalbtcoutsrc_BtInfoNotify(struct btc_coexist *pBtCoexist, u8 *tmpBuf, u8 length)
+@@ -1056,14 +1058,14 @@ void EXhalbtcoutsrc_BtInfoNotify(struct btc_coexist *pBtCoexist, u8 *tmpBuf, u8
+ 	pBtCoexist->statistics.cntBtInfoNotify++;
+ 
+ 	/*  All notify is called in cmd thread, don't need to leave low power again */
+-/* 	halbtcoutsrc_LeaveLowPower(pBtCoexist); */
++/*	halbtcoutsrc_LeaveLowPower(pBtCoexist); */
+ 
+ 	if (pBtCoexist->boardInfo.btdmAntNum == 2)
+ 		EXhalbtc8723b2ant_BtInfoNotify(pBtCoexist, tmpBuf, length);
+ 	else if (pBtCoexist->boardInfo.btdmAntNum == 1)
+ 		EXhalbtc8723b1ant_BtInfoNotify(pBtCoexist, tmpBuf, length);
+ 
+-/* 	halbtcoutsrc_NormalLowPower(pBtCoexist); */
++/*	halbtcoutsrc_NormalLowPower(pBtCoexist); */
+ }
+ 
+ void EXhalbtcoutsrc_HaltNotify(struct btc_coexist *pBtCoexist)
+@@ -1103,25 +1105,25 @@ void EXhalbtcoutsrc_Periodical(struct btc_coexist *pBtCoexist)
+ 
+ 	/*  Periodical should be called in cmd thread, */
+ 	/*  don't need to leave low power again */
+-/* 	halbtcoutsrc_LeaveLowPower(pBtCoexist); */
++/*	halbtcoutsrc_LeaveLowPower(pBtCoexist); */
+ 
+ 	if (pBtCoexist->boardInfo.btdmAntNum == 2)
+ 		EXhalbtc8723b2ant_Periodical(pBtCoexist);
+ 	else if (pBtCoexist->boardInfo.btdmAntNum == 1)
+ 		EXhalbtc8723b1ant_Periodical(pBtCoexist);
+ 
+-/* 	halbtcoutsrc_NormalLowPower(pBtCoexist); */
++/*	halbtcoutsrc_NormalLowPower(pBtCoexist); */
+ }
+ 
+ void EXhalbtcoutsrc_SetAntNum(u8 type, u8 antNum)
+ {
+-	if (BT_COEX_ANT_TYPE_PG == type) {
++	if (type == BT_COEX_ANT_TYPE_PG) {
+ 		GLBtCoexist.boardInfo.pgAntNum = antNum;
+ 		GLBtCoexist.boardInfo.btdmAntNum = antNum;
+-	} else if (BT_COEX_ANT_TYPE_ANTDIV == type) {
++	} else if (type == BT_COEX_ANT_TYPE_ANTDIV) {
+ 		GLBtCoexist.boardInfo.btdmAntNum = antNum;
+ 		/* GLBtCoexist.boardInfo.btdmAntPos = BTC_ANTENNA_AT_MAIN_PORT; */
+-	} else if (BT_COEX_ANT_TYPE_DETECTED == type) {
++	} else if (type == BT_COEX_ANT_TYPE_DETECTED) {
+ 		GLBtCoexist.boardInfo.btdmAntNum = antNum;
+ 		/* GLBtCoexist.boardInfo.btdmAntPos = BTC_ANTENNA_AT_MAIN_PORT; */
+ 	}
 -- 
-2.39.2
+2.43.2
 
