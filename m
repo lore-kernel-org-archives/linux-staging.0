@@ -1,161 +1,98 @@
-Received: from fhigh7-smtp.messagingengine.com (fhigh7-smtp.messagingengine.com [103.168.172.158])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com [209.85.222.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAF801468E4
-	for <linux-staging@lists.linux.dev>; Tue, 27 Feb 2024 15:25:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.158
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B6FA1487D3
+	for <linux-staging@lists.linux.dev>; Tue, 27 Feb 2024 16:25:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709047517; cv=none; b=STRBuvqc0Ty0ZA/llpyoRG+SPmFtrC6n8oQdJgR0jTgkozu04zKNPWeUFXvkD3gHJHUrKtxlIR/IafzWNvp9g8EobQIUPqKpbOFR3a594K+QuxRgw2c25pvVSoPgNCiLLufkNtigb2kOtk8Bs7jHBb18aMGyZ2k2ufe8ctE5M/w=
+	t=1709051141; cv=none; b=HTZMY7lSmjevfi8bOB3R5QKSMWw5Uerc20bDTSMmn2EOJiCBLNV3y2fNbv19ay8SjE7ROtG6z/u7dt0v0rK025tFuQjjz7ETswWAVgBdkcjj4DlSugDZkgU4g6zTYxqCaEBGO+/HLhhKWWlhJFkhJdDmLaVVEBGLrUNSWvugrZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709047517; c=relaxed/simple;
-	bh=/0CX/GTDlI99GNqGRU+WOoXiS5slLjuQQEO7NtWVgFs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GHlSekvzbmrcWPfFCYZ7+mI0skBMlOFc7Q6k35fXz/Gs48b9v/e9sXQClFdsIYjY2OamDfbRDw2fVVFBSDKTpYOJIihf8nil1OWYK/QH8vvmdJ8IhWKCbLqHI9FgJZoCoMrD4CtZxfjoiTgeSpCE5jM+ElUgP4TCL3lVNzx7lfY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=animalcreek.com; spf=pass smtp.mailfrom=animalcreek.com; dkim=pass (2048-bit key) header.d=animalcreek.com header.i=@animalcreek.com header.b=g/OAwn8N; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=auIvCa4B; arc=none smtp.client-ip=103.168.172.158
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=animalcreek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=animalcreek.com
+	s=arc-20240116; t=1709051141; c=relaxed/simple;
+	bh=pkZ/Ma+F35kpsJXp5Oo5SAPDn31tbUEPaH0ALeTfOao=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=diNEU3CywZUdsyn5ZsxyVPoiUlF3nF7xd3lOngB/Oa/SjWEFX+mJ60cS/YWvan5YC3x6DQHaYqxOy4nJd8NpDJQkJG/a9D3JkQh+uFGQZFbZxEuXdboPlGz4ZCXf49Cj4K1BXjkZ265JnFr8fE5XiMQx50j0KYzF1/k4rMGK3Xs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aqbfzfBP; arc=none smtp.client-ip=209.85.222.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=animalcreek.com header.i=@animalcreek.com header.b="g/OAwn8N";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="auIvCa4B"
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailfhigh.nyi.internal (Postfix) with ESMTP id EC67311400AB;
-	Tue, 27 Feb 2024 10:25:13 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Tue, 27 Feb 2024 10:25:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=animalcreek.com;
-	 h=cc:cc:content-type:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm2; t=1709047513; x=
-	1709133913; bh=vk7zMywue6u8Ewys2yjE1YQdG3Ysi/Bjgx+fg8Jugd8=; b=g
-	/OAwn8Nnd5m2DeHCOg5TZK3ISBP+1I13sk4tur6CbpG6Zfo4jrTWcFTD287kNrM9
-	/ImIlcYeneF5cktE0bVwndusGl0UKNDbQkHL8D3580oIe5JkQ5er/jJyODDWNU4E
-	TJVzhKtyfxvhik86j2RGgD/RpPr661K4FfyXnFPs/jxrgLiRAv0deAGBAOPyz/TS
-	5EwPR/Sji/TG8uaQ8qzS2GB0NXLKPgh6mhK22n73uRUFy6HS9L8n5tBxoYvd+SIz
-	UPbj2DQMMn2LkK0vqJMSd0M5lkjb+LRfQlClFOdLJhQRurMPEkugnLuizbXXRbv6
-	UcyA5htnWMvFRUxmUEGUg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1709047513; x=1709133913; bh=vk7zMywue6u8Ewys2yjE1YQdG3Ys
-	i/Bjgx+fg8Jugd8=; b=auIvCa4Bew62NXoHyKzQ9QD86zcWg4W/ntUvHxa3VrLP
-	swYPAQgJDNxhX57rC6LdlOFs2V/dfZDgruU526I144YNsOm3N/TlVNFKS/OYYuem
-	De+QROOwIaN+UdDeyQXdAUQwM+A0ddkCs3c0lXBV5xRglUyJcAWl0uryg+03EcTS
-	SofGAOpjCVpQiT/SP+V7TxKLJHJFo0GWxIgq6udPpsW8ezVOY/Tb+vZsB3enf/TY
-	DPZCJu3eTjP+7HX0N+27ZL0mrFoJDRPT7EY6P6D+bXXrB+TDGopfp89LDDQDyQnN
-	m+mj0bzwf3iwaUOUusFyqzw8BA+al/TSKQUi7bLPAQ==
-X-ME-Sender: <xms:2f7dZUJAXZnYXvIvAF2-0j4e77H-W92fq7tchj4kgDUkR6qJmJFfkw>
-    <xme:2f7dZULEPdV4H-hUqMxH8HXOwzwmxLOl_Uh7YQLP4JL8cgSUXCxPbcRP0jIoAyMhE
-    aR0xqCNRDdKofdxzg>
-X-ME-Received: <xmr:2f7dZUs02GkQ4DkmUxSU6tAkvA6nns-mWYm_v2FmV61osXXOTXaX0T4WzuNGQtWxJfQ8X8gZkLN6iQkgdhNLUNdQTvG0GdZzJ95q3O8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrgeehgdehudcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvvefukfhfgggtuggjohesthdtredttddtvdenucfhrhhomhepofgrrhhk
-    ucfirhgvvghruceomhhgrhgvvghrsegrnhhimhgrlhgtrhgvvghkrdgtohhmqeenucggtf
-    frrghtthgvrhhnpeeugfejtefgteegieffjeejtedtveefvefffeegkefhtdehtdfgfeev
-    keegvedvgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
-    hmpehmghhrvggvrhesrghnihhmrghltghrvggvkhdrtghomh
-X-ME-Proxy: <xmx:2f7dZRYSEdTKiw6R15rDIrPVYYebeNpstNURMPqaeJIp835TaHPDzA>
-    <xmx:2f7dZbY7EJ45ERcoMfNheIhetD0dCO0groHy2l0absyxjoqR0MAqAw>
-    <xmx:2f7dZdCMPUPcPY8MYFGAijD5ve1ergrRr_bjMufMdeqEoPOQ_2ZfYQ>
-    <xmx:2f7dZXrm061gXS4OrDsnJsGaqWnOESVkr1RdXkH9YjzHhh50JUKT-A>
-Feedback-ID: i9cc843c7:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 27 Feb 2024 10:25:12 -0500 (EST)
-Received: by blue.animalcreek.com (Postfix, from userid 1000)
-	id 9CF18521078; Tue, 27 Feb 2024 08:25:11 -0700 (MST)
-Date: Tue, 27 Feb 2024 08:25:11 -0700
-From: Mark Greer <mgreer@animalcreek.com>
-To: Alex Elder <elder@ieee.org>
-Cc: Erick Archer <erick.archer@gmx.com>,
-	Vaibhav Agarwal <vaibhav.sr@gmail.com>,
-	Mark Greer <mgreer@animalcreek.com>,
-	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Kees Cook <keescook@chromium.org>, greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH] greybus: audio: apbridgea: Remove flexible array from
- struct audio_apbridgea_hdr
-Message-ID: <Zd3+1xJnl7d22xIb@animalcreek.com>
-References: <20240217154758.7965-1-erick.archer@gmx.com>
- <02cf87a3-4e92-4f6d-98f6-dfc0e198d462@ieee.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aqbfzfBP"
+Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-7d130979108so2401976241.1
+        for <linux-staging@lists.linux.dev>; Tue, 27 Feb 2024 08:25:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709051137; x=1709655937; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pkZ/Ma+F35kpsJXp5Oo5SAPDn31tbUEPaH0ALeTfOao=;
+        b=aqbfzfBPqXWSeLTiQ2ualkrdcc6q4Cq48RXmz4L7rcR0ahLgDcAMIHryXm5TN3dUZ9
+         IcDkNuFhbyGZz1BBASEnl69m3xKV8ao3oLd/47jve8vnyfAuZy71DpufacIbUB1vRKIX
+         Ltp4uFEr2yvX7RMGn9fpJ23A8PgMUg6vwzGkdWRxfsHA+RcoX72g/hs2KCV0KU3gLjAz
+         qRnBLL5gQhQUxvzi14zYA0YyXjQSDlRAQTxPXJDy9vBuJjjsQY2jJlRRbdqYr2LUMG/1
+         PvTorzgL1Bkw6nvu324+SXd44ssrqpwENvRnGUqWkvs83CENM4m6C+frJZx0D1AZ0JHY
+         DLAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709051137; x=1709655937;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pkZ/Ma+F35kpsJXp5Oo5SAPDn31tbUEPaH0ALeTfOao=;
+        b=cjCTVLDfvyZ20+ALVjTiuEH5DcmR0/bK3m7SKROdiG4AGbUV7IxYZvqZKzm8JZcuD7
+         zvKbmp8gYAApnE2BGIGIsvihviU5iWF7LRQW3j4KyDgb8+XNZis6iuXw9aIA5YprZscs
+         qvIudGUJdkNJaDLIV4D3HOWwpC/TDUfw7JezpjeNB2nhnl+F00zuV29dx7pLLaiV+GQx
+         2aLOymk5M9Nc20VdEQlfN771fakp8gcXSsMuzr1O5pdiNJYAGzeDY1NwiIdudj6nm7h4
+         3XmwQ3n0lcl59FQDF+YYu5wXrAIY7H6tprNWDcixzQpZ8fPb//avBnH1oHjKwMCtFapP
+         5pCQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW/XnOf76H/lElaUMuUARSdYU/HsOptBDogmpRpB5xk/yOqbpzyYBuDPSL4Lb95QpD/VGLAN1jiMYv5EY0woy1SRubF0GyVijewQDKA+A==
+X-Gm-Message-State: AOJu0YzG1Q3HYwqobkFeWYZLtaih3hBci11yQpFMTdbcZSvBQWaTtySv
+	AEQTLPDU1zg30lQ4lH5nB99D+KGQm9JrDd9guD59DI7Bfrh/McyKs5rznpoPWEa8MeJKg3GrUrx
+	A3sC0bzU9mOubPGutiSUBtHgJMww=
+X-Google-Smtp-Source: AGHT+IHIiOUa0KuY6detsdQWZ3j3zaeaOiBoMcz4YliWAIChJzD7EWH2q+D4ztPSG1obNLA6ao+7kAFn0lpTjtkv/xE=
+X-Received: by 2002:a05:6102:1158:b0:470:7af5:7973 with SMTP id
+ j24-20020a056102115800b004707af57973mr6655661vsg.29.1709051137000; Tue, 27
+ Feb 2024 08:25:37 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <02cf87a3-4e92-4f6d-98f6-dfc0e198d462@ieee.org>
-Organization: Animal Creek Technologies, Inc.
+References: <20240227080943.13032-1-michaelharriscode@gmail.com> <da4ff70d-6c64-40b6-aae4-3aab87da2a1c@moroto.mountain>
+In-Reply-To: <da4ff70d-6c64-40b6-aae4-3aab87da2a1c@moroto.mountain>
+From: Michael Harris <michaelharriscode@gmail.com>
+Date: Tue, 27 Feb 2024 08:25:25 -0800
+Message-ID: <CAHXWO3Rm+Vn=Jzb6=mcCbUhE36KveaNfusBBGz6bWVcu3WturA@mail.gmail.com>
+Subject: Re: [PATCH] Staging: rtl8723bs: hal_btcoex: fixed styling issues
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: gregkh@linuxfoundation.org, hdegoede@redhat.com, Larry.Finger@lwfinger.net, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Feb 17, 2024 at 03:18:59PM -0600, Alex Elder wrote:
-> On 2/17/24 9:47 AM, Erick Archer wrote:
-> > When a struct containing a flexible array is included in another struct,
-> > and there is a member after the struct-with-flex-array, there is a
-> > possibility of memory overlap. These cases must be audited [1]. See:
-> > 
-> > struct inner {
-> > 	...
-> > 	int flex[];
-> > };
-> > 
-> > struct outer {
-> > 	...
-> > 	struct inner header;
-> > 	int overlap;
-> > 	...
-> > };
-> > 
-> > This is the scenario for the "struct audio_apbridgea_hdr" structure
-> > that is included in the following "struct audio_apbridgea_*_request"
-> > structures:
-> 
-> Yeah this was not a very good way to define these header
-> structures, but I'm glad to hear the flexible array at the
-> end was never used.  I don't know why it was there; maybe
-> it's an artifact from some other information that got removed.
-> 
-> If the code compiles with your change, it ought to be fine.
-> (It compiles for me.)
-> 
-> It would be good for Vaibhav or Mark to comment though, maybe
-> they can provide some context.
+On Tue, Feb 27, 2024 at 12:55=E2=80=AFAM Dan Carpenter <dan.carpenter@linar=
+o.org> wrote:
+>
+> On Tue, Feb 27, 2024 at 12:09:43AM -0800, Michael Harris wrote:
+> > Fixed various checkpatch.pl styling issues: spaces before tabs, constan=
+ts being on left side of comparisons, unnecessary braces, etc.
+> >
+> > Signed-off-by: Michael Harris <michaelharriscode@gmail.com>
+>
+> Please run checkpatch.pl on your patches.
+>
+> WARNING: Prefer a maximum 75 chars per line (possible unwrapped commit de=
+scription?)
+> #12:
+> Fixed various checkpatch.pl styling issues: spaces before tabs, constants=
+ being on left side of comparisons, unnecessary braces, etc.
+>
+> regards,
+> dan carpenter
+>
 
-Sorry for the delay guys.
+Thank you for letting me know.
 
-The way this was done comes from associated firmware that ran on the
-APBridge. This goes back a while but I think the packet headers may have
-been in flux at the time and this was a convenient way to change all of
-the packets if & when it changed.  Anyway, it doesn't seem so convenient
-now. :)
+I will break down my patch into a sequence of patches and run checkpatch.pl
+on it before resubmitting.
 
-So, yeah, getting rid of it sounds like a good thing to do to me.
-
-> I'd like to hear from these others, but otherwise this change
-> looks good to me.
-> 
-> Reviewed-by: Alex Elder <elder@linaro.org>
-
-
-> > diff --git a/drivers/staging/greybus/audio_apbridgea.h b/drivers/staging/greybus/audio_apbridgea.h
-> > index efec0f815efd..ab707d310129 100644
-> > --- a/drivers/staging/greybus/audio_apbridgea.h
-> > +++ b/drivers/staging/greybus/audio_apbridgea.h
-> > @@ -65,7 +65,6 @@
-> >   struct audio_apbridgea_hdr {
-> >   	__u8	type;
-> >   	__le16	i2s_port;
-> > -	__u8	data[];
-> >   } __packed;
-> > 
-> >   struct audio_apbridgea_set_config_request {
-> > --
-> > 2.25.1
-
-Acked-by: Mark Greer <mgreer@animalcreek.com>
+Thanks,
+Michael Harris
