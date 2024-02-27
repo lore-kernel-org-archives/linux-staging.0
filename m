@@ -1,65 +1,88 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh7-smtp.messagingengine.com (fhigh7-smtp.messagingengine.com [103.168.172.158])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEE7C55E78
-	for <linux-staging@lists.linux.dev>; Tue, 27 Feb 2024 08:55:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAF801468E4
+	for <linux-staging@lists.linux.dev>; Tue, 27 Feb 2024 15:25:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709024102; cv=none; b=AYURUdboTh6ADYyA7+KseCFw+B/A2zi37C0DLcY8m/100KwmTA9ZW2z+94S3J5qHn+hTdwyQ/vPvD19xGYqcLAUJyz/BX/g8YL1a5XLDtU6TVXXRQtSEpSdOM7uLzt3bRY/tb6gB8Y+9xDPKUEHl7zR36cl74lGDc7DJ2ceKI+E=
+	t=1709047517; cv=none; b=STRBuvqc0Ty0ZA/llpyoRG+SPmFtrC6n8oQdJgR0jTgkozu04zKNPWeUFXvkD3gHJHUrKtxlIR/IafzWNvp9g8EobQIUPqKpbOFR3a594K+QuxRgw2c25pvVSoPgNCiLLufkNtigb2kOtk8Bs7jHBb18aMGyZ2k2ufe8ctE5M/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709024102; c=relaxed/simple;
-	bh=e65miCkicj1NdvFVKAgHu/VbuyPfNh0KeRITNON5WD8=;
+	s=arc-20240116; t=1709047517; c=relaxed/simple;
+	bh=/0CX/GTDlI99GNqGRU+WOoXiS5slLjuQQEO7NtWVgFs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XKr+w6/94jM/oGUd09gx9odTz6GRsgpzJIU1zb6nQK6xCDzcwR/k+XpvvttBNRBNg9LnLQBfIBcz6oNdoElF0RGGZ7jtcU0PkKtBYSCWDGoNlcTxCPXdswxDCGPg2MtyniILCtDDGXry432ZUQOiVpYwMsbSllZwYNz9/28j7iM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=JL+NxPTb; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=GHlSekvzbmrcWPfFCYZ7+mI0skBMlOFc7Q6k35fXz/Gs48b9v/e9sXQClFdsIYjY2OamDfbRDw2fVVFBSDKTpYOJIihf8nil1OWYK/QH8vvmdJ8IhWKCbLqHI9FgJZoCoMrD4CtZxfjoiTgeSpCE5jM+ElUgP4TCL3lVNzx7lfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=animalcreek.com; spf=pass smtp.mailfrom=animalcreek.com; dkim=pass (2048-bit key) header.d=animalcreek.com header.i=@animalcreek.com header.b=g/OAwn8N; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=auIvCa4B; arc=none smtp.client-ip=103.168.172.158
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=animalcreek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=animalcreek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="JL+NxPTb"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-40fb3b5893eso31147915e9.0
-        for <linux-staging@lists.linux.dev>; Tue, 27 Feb 2024 00:55:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1709024099; x=1709628899; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=HoOFxtqK/5ZaKWmPUt4ourSkgleZpPjmZJgHHXaK8e8=;
-        b=JL+NxPTbOl3XpVMcs8U/UzHqdsRDrFxCtFrgo6TtE0RvcY4jMCTRkIm8o4OBflPUK/
-         O+pX5ratJUhWtEGfzJyA9f/tC2gLCI/uhAkhIMrgMA2Vhq4d02BYTIK9/sFJoQ+Goel/
-         9T3cgGKH0Vre8kyclVfFnI7kXu7vUS+l5wKcr6Gqe8wK99M1w6KqS2fLKSqGA4Z9BAol
-         4rPh7Wb8v5jj4xHjmVUAwMRXStgHrCS0/IhQkKBcLLW2Iz8tKHSUojx3ekIXXgGzt/CN
-         emm/xrBLpiG7rdFHCw9yrUN/QYIeaEHXQClwXX2Ez+t5AAwRZZ/0RnvgYQE1jAR9HgWS
-         VhxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709024099; x=1709628899;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HoOFxtqK/5ZaKWmPUt4ourSkgleZpPjmZJgHHXaK8e8=;
-        b=meEwZwtv7kOlVXaR5aUcxfo0sy0FqKkC5VfE4pj86ADScrNgtIvcZYIIIjO30mFetZ
-         qDvR1xNW7ZP2IJcjqKMBEDcvkQZAjrfAUKx8Y2ahxEsrSlNdq7UI5Y9hSf7HQQQdZwnS
-         M0+NRbQSIgPKhuKTf+/XkCVMYmvBIS/uv+7+8jvX29r1Gm5bESqoRH67GJy6lDB5BuiB
-         k8Xk38tuFqm9UopATNmb0eQHDuFSggDoP7j9Ce6UD5Ft/X6MvmIg4zFYU1z0ClQaLfSs
-         7ufgIJWWp6rzj34Kp2bnNXlCXM3DSe60ePWvmUKtekY0EzMiI9KksHKjdbVB8MOOJ6C4
-         2L+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVbbhDez0J+UjJq7a29sqCWFdtDpBjXjz95/XJo+7PRb5484KoT7O9ZtJDM9pitw003iN7vSj+ogHdU044eK2aEbBPFQne8s2KpGciVOQ==
-X-Gm-Message-State: AOJu0YyZOusQAW/7AIpRt2DvgO3ybUAfFIUiLGJBKyQX/YsQ2SxUFWG3
-	QONVFeTyrVLD1EDhNoz+teS5KKH4xWXU+kpxqgoT8xYFdiZThrILgIEoZid86Os=
-X-Google-Smtp-Source: AGHT+IEcssd0DZn1GwRIx6uxtu/6p9Ar/DTRb8JebvM7osNUBQzyWw5I8ki+RUWt518g6UqWWYW8cg==
-X-Received: by 2002:a5d:468d:0:b0:33d:14a7:c4b with SMTP id u13-20020a5d468d000000b0033d14a70c4bmr6212734wrq.40.1709024099075;
-        Tue, 27 Feb 2024 00:54:59 -0800 (PST)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id u14-20020a056000038e00b0033dca6f8b44sm8036668wrf.16.2024.02.27.00.54.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Feb 2024 00:54:58 -0800 (PST)
-Date: Tue, 27 Feb 2024 11:54:54 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Michael Harris <michaelharriscode@gmail.com>
-Cc: gregkh@linuxfoundation.org, hdegoede@redhat.com,
-	Larry.Finger@lwfinger.net, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Staging: rtl8723bs: hal_btcoex: fixed styling issues
-Message-ID: <da4ff70d-6c64-40b6-aae4-3aab87da2a1c@moroto.mountain>
-References: <20240227080943.13032-1-michaelharriscode@gmail.com>
+	dkim=pass (2048-bit key) header.d=animalcreek.com header.i=@animalcreek.com header.b="g/OAwn8N";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="auIvCa4B"
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+	by mailfhigh.nyi.internal (Postfix) with ESMTP id EC67311400AB;
+	Tue, 27 Feb 2024 10:25:13 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute6.internal (MEProxy); Tue, 27 Feb 2024 10:25:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=animalcreek.com;
+	 h=cc:cc:content-type:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm2; t=1709047513; x=
+	1709133913; bh=vk7zMywue6u8Ewys2yjE1YQdG3Ysi/Bjgx+fg8Jugd8=; b=g
+	/OAwn8Nnd5m2DeHCOg5TZK3ISBP+1I13sk4tur6CbpG6Zfo4jrTWcFTD287kNrM9
+	/ImIlcYeneF5cktE0bVwndusGl0UKNDbQkHL8D3580oIe5JkQ5er/jJyODDWNU4E
+	TJVzhKtyfxvhik86j2RGgD/RpPr661K4FfyXnFPs/jxrgLiRAv0deAGBAOPyz/TS
+	5EwPR/Sji/TG8uaQ8qzS2GB0NXLKPgh6mhK22n73uRUFy6HS9L8n5tBxoYvd+SIz
+	UPbj2DQMMn2LkK0vqJMSd0M5lkjb+LRfQlClFOdLJhQRurMPEkugnLuizbXXRbv6
+	UcyA5htnWMvFRUxmUEGUg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1709047513; x=1709133913; bh=vk7zMywue6u8Ewys2yjE1YQdG3Ys
+	i/Bjgx+fg8Jugd8=; b=auIvCa4Bew62NXoHyKzQ9QD86zcWg4W/ntUvHxa3VrLP
+	swYPAQgJDNxhX57rC6LdlOFs2V/dfZDgruU526I144YNsOm3N/TlVNFKS/OYYuem
+	De+QROOwIaN+UdDeyQXdAUQwM+A0ddkCs3c0lXBV5xRglUyJcAWl0uryg+03EcTS
+	SofGAOpjCVpQiT/SP+V7TxKLJHJFo0GWxIgq6udPpsW8ezVOY/Tb+vZsB3enf/TY
+	DPZCJu3eTjP+7HX0N+27ZL0mrFoJDRPT7EY6P6D+bXXrB+TDGopfp89LDDQDyQnN
+	m+mj0bzwf3iwaUOUusFyqzw8BA+al/TSKQUi7bLPAQ==
+X-ME-Sender: <xms:2f7dZUJAXZnYXvIvAF2-0j4e77H-W92fq7tchj4kgDUkR6qJmJFfkw>
+    <xme:2f7dZULEPdV4H-hUqMxH8HXOwzwmxLOl_Uh7YQLP4JL8cgSUXCxPbcRP0jIoAyMhE
+    aR0xqCNRDdKofdxzg>
+X-ME-Received: <xmr:2f7dZUs02GkQ4DkmUxSU6tAkvA6nns-mWYm_v2FmV61osXXOTXaX0T4WzuNGQtWxJfQ8X8gZkLN6iQkgdhNLUNdQTvG0GdZzJ95q3O8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrgeehgdehudcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvvefukfhfgggtuggjohesthdtredttddtvdenucfhrhhomhepofgrrhhk
+    ucfirhgvvghruceomhhgrhgvvghrsegrnhhimhgrlhgtrhgvvghkrdgtohhmqeenucggtf
+    frrghtthgvrhhnpeeugfejtefgteegieffjeejtedtveefvefffeegkefhtdehtdfgfeev
+    keegvedvgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+    hmpehmghhrvggvrhesrghnihhmrghltghrvggvkhdrtghomh
+X-ME-Proxy: <xmx:2f7dZRYSEdTKiw6R15rDIrPVYYebeNpstNURMPqaeJIp835TaHPDzA>
+    <xmx:2f7dZbY7EJ45ERcoMfNheIhetD0dCO0groHy2l0absyxjoqR0MAqAw>
+    <xmx:2f7dZdCMPUPcPY8MYFGAijD5ve1ergrRr_bjMufMdeqEoPOQ_2ZfYQ>
+    <xmx:2f7dZXrm061gXS4OrDsnJsGaqWnOESVkr1RdXkH9YjzHhh50JUKT-A>
+Feedback-ID: i9cc843c7:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 27 Feb 2024 10:25:12 -0500 (EST)
+Received: by blue.animalcreek.com (Postfix, from userid 1000)
+	id 9CF18521078; Tue, 27 Feb 2024 08:25:11 -0700 (MST)
+Date: Tue, 27 Feb 2024 08:25:11 -0700
+From: Mark Greer <mgreer@animalcreek.com>
+To: Alex Elder <elder@ieee.org>
+Cc: Erick Archer <erick.archer@gmx.com>,
+	Vaibhav Agarwal <vaibhav.sr@gmail.com>,
+	Mark Greer <mgreer@animalcreek.com>,
+	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Kees Cook <keescook@chromium.org>, greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH] greybus: audio: apbridgea: Remove flexible array from
+ struct audio_apbridgea_hdr
+Message-ID: <Zd3+1xJnl7d22xIb@animalcreek.com>
+References: <20240217154758.7965-1-erick.archer@gmx.com>
+ <02cf87a3-4e92-4f6d-98f6-dfc0e198d462@ieee.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -68,19 +91,71 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240227080943.13032-1-michaelharriscode@gmail.com>
+In-Reply-To: <02cf87a3-4e92-4f6d-98f6-dfc0e198d462@ieee.org>
+Organization: Animal Creek Technologies, Inc.
 
-On Tue, Feb 27, 2024 at 12:09:43AM -0800, Michael Harris wrote:
-> Fixed various checkpatch.pl styling issues: spaces before tabs, constants being on left side of comparisons, unnecessary braces, etc.
+On Sat, Feb 17, 2024 at 03:18:59PM -0600, Alex Elder wrote:
+> On 2/17/24 9:47 AM, Erick Archer wrote:
+> > When a struct containing a flexible array is included in another struct,
+> > and there is a member after the struct-with-flex-array, there is a
+> > possibility of memory overlap. These cases must be audited [1]. See:
+> > 
+> > struct inner {
+> > 	...
+> > 	int flex[];
+> > };
+> > 
+> > struct outer {
+> > 	...
+> > 	struct inner header;
+> > 	int overlap;
+> > 	...
+> > };
+> > 
+> > This is the scenario for the "struct audio_apbridgea_hdr" structure
+> > that is included in the following "struct audio_apbridgea_*_request"
+> > structures:
 > 
-> Signed-off-by: Michael Harris <michaelharriscode@gmail.com>
+> Yeah this was not a very good way to define these header
+> structures, but I'm glad to hear the flexible array at the
+> end was never used.  I don't know why it was there; maybe
+> it's an artifact from some other information that got removed.
+> 
+> If the code compiles with your change, it ought to be fine.
+> (It compiles for me.)
+> 
+> It would be good for Vaibhav or Mark to comment though, maybe
+> they can provide some context.
 
-Please run checkpatch.pl on your patches.
+Sorry for the delay guys.
 
-WARNING: Prefer a maximum 75 chars per line (possible unwrapped commit description?)
-#12: 
-Fixed various checkpatch.pl styling issues: spaces before tabs, constants being on left side of comparisons, unnecessary braces, etc.
+The way this was done comes from associated firmware that ran on the
+APBridge. This goes back a while but I think the packet headers may have
+been in flux at the time and this was a convenient way to change all of
+the packets if & when it changed.  Anyway, it doesn't seem so convenient
+now. :)
 
-regards,
-dan carpenter
+So, yeah, getting rid of it sounds like a good thing to do to me.
 
+> I'd like to hear from these others, but otherwise this change
+> looks good to me.
+> 
+> Reviewed-by: Alex Elder <elder@linaro.org>
+
+
+> > diff --git a/drivers/staging/greybus/audio_apbridgea.h b/drivers/staging/greybus/audio_apbridgea.h
+> > index efec0f815efd..ab707d310129 100644
+> > --- a/drivers/staging/greybus/audio_apbridgea.h
+> > +++ b/drivers/staging/greybus/audio_apbridgea.h
+> > @@ -65,7 +65,6 @@
+> >   struct audio_apbridgea_hdr {
+> >   	__u8	type;
+> >   	__le16	i2s_port;
+> > -	__u8	data[];
+> >   } __packed;
+> > 
+> >   struct audio_apbridgea_set_config_request {
+> > --
+> > 2.25.1
+
+Acked-by: Mark Greer <mgreer@animalcreek.com>
