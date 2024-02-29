@@ -1,105 +1,101 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-il1-f174.google.com (mail-il1-f174.google.com [209.85.166.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6073186243
-	for <linux-staging@lists.linux.dev>; Wed, 28 Feb 2024 20:54:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5257286A7
+	for <linux-staging@lists.linux.dev>; Thu, 29 Feb 2024 02:43:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709153688; cv=none; b=estb4pxgptNgFE2VD7qrEVWv13otX4UefHClaU5iJHHQAOVCB8Npm/dZj4LxTZDxEDewrYwWWbhqqtWRCW2oY9R8hm1MBNw/mzyvydLuRl/D5Zzz+Xqdyf9CNk/kDZKWTj+dcIBaGO9boI0vINXf9J9xd6N5XBHtToFvNgoFrQI=
+	t=1709174614; cv=none; b=SsWf13nksXJZAX7EJCrqG1B8kpFqEeFll/BpGF9BX0XIFXbKQSu7gzPMrCklvXfqz+y6uw05PkbpnJM5LfNjIzZ6zl0OMhgXGZx7v2kzAqfys+3rWT6NcD+OzuMD9PuhJiuVdpp+ygsjNz7/qe/N4NFcWZBM6uvRcHV9XEUKTe4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709153688; c=relaxed/simple;
-	bh=lzfXTZX9BZm0o6MiEqD1Uju9dODam46W/LA/7i7rJIo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ACVi794NXzaWOx7X4Ncn64/EVFLsCaifeoPpDVWJdL41dIeSe1HO/1ZxyQeluT12qpjhgtG0RWjCrLUjpb5QwhZstcUo2B4dFShNSXC6qbX4u26kBpmC05/NZ8Z0tIGXZDuI7Gi/yl66TEXJQ/pTNARkd5Zb50dHE4JNqn8CRsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JjwGe53p; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1709174614; c=relaxed/simple;
+	bh=7/cR9VrrZ75MJ0y1I9vqnz7EMFlDVEgY9zQSNI9n5xg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=VfGAO/2ZVEInNJ2vH42xXZe6diHarWtNYG9Jmr074GW+c4J0cSz3AoEmpNFb6lImHsj7rwJAvPUGaNCDYEE57vG4GuKufEI6L4003Zeg7ZceauA/doLMhqUAXOofTqUK3LhfbE7gZKB7RM1xiITlIOFnDHPS2ZauG9p1Ne3+1ww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net; spf=pass smtp.mailfrom=darkphysics.net; dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b=ad69xgKe; arc=none smtp.client-ip=209.85.166.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=darkphysics.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JjwGe53p"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-33d855caf7dso47036f8f.0
-        for <linux-staging@lists.linux.dev>; Wed, 28 Feb 2024 12:54:46 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="ad69xgKe"
+Received: by mail-il1-f174.google.com with SMTP id e9e14a558f8ab-3651b948db6so1898515ab.0
+        for <linux-staging@lists.linux.dev>; Wed, 28 Feb 2024 18:43:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709153685; x=1709758485; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=wrvSsn2Y3JHcwCC94OejcIaNxty8KECgxaLyHkTIkcY=;
-        b=JjwGe53p8WkbuHqx2tDkIFwky0EjH2qCvBdNeeqXW+vKgRf83lSDy4ThxscaN2qlO+
-         oFusj81cUhUZnbzVzPN1CwCO5r2Uhb54Lu4qRkqVhO+uc0DolX9TZk+Xqhi748myPbJP
-         7COo+GA9CfrMgkwrKOaQzJL31VWSsqrfJmZC1QV2x4gFsRPOjfqqOK8zFcs3yoEs6STb
-         bSP4/E3llMShHzoegOhVCf/nbiPAAAI96HSCeNp7yrInF7JKaU/veQ9PhY8klyO2yrQv
-         rc9jUMGLwyQCfEKVvwauTj9kp6rKHGEc1DZtK/iaxcNffXVrpv0BLiFGMqo/732HfMf+
-         bn/w==
+        d=darkphysics.net; s=google; t=1709174612; x=1709779412; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=aHu2J18/kfwLvYeLsu+wqPWa0ETUgopQTH+/Wz4pq6M=;
+        b=ad69xgKeN2gpWeDx5uTIMVNY1E+zD7TUrKfMdpQ8WLbsLnyViMRg5dxfoHHiQU5QJ1
+         MaHj4VgsRHR4l1IErMVzrPWxvJlbl7WrfHSCrHmYtG3HHDsHtn+9Netroa/KszJSxVdi
+         PXAsoP/jDaBgPGWEwK41s6828h2/dmqUAgIaAIX6cYONmXx1UiUilTy6rQ0NGa76T26k
+         oVMsyDem3UVGHFpaIRq45kUK2SJc5f19nsRiNFIr2cwycAEoSxP8txEc0n3iVTyjw5iB
+         kGMW40FIsZ611AIgY16mYZ1HGpGPO1Rvj5Rj2gpF6/613+W8wt69KO5MiU1B4pIV/zP9
+         7/YQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709153685; x=1709758485;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wrvSsn2Y3JHcwCC94OejcIaNxty8KECgxaLyHkTIkcY=;
-        b=FF/0eR2H2VtnbcdtnlTCtnvrrjJXrAVsrAzRec5fi/JS+0/Mj/lGb8myQfTJBwBEE6
-         hWPliTvU+TNkSVFhB1Evi1Vm5IZG2MVcCgqZK2VskDw+wjrKEsbUvYYPWCjDaflEu0t7
-         6jLwxBl1lcyoPZwDmGaeaSeM1TsTPgNpDa1lGHoMI/hTKtNxsfXdmZ4L9E0YjLmrU6XG
-         8C0boTub3ePyLoQsr/94z+CJ72CwZlgO8jb8mUcB+shtnUea12/czOmFyNlrmmb74bHS
-         uoaCfIg7IO5/CR1Bv5zTtiV+l2fjW7WHQpUiUK7l5dYB6DysyXYQgZm0CC3tJM3IDGHE
-         5H1Q==
-X-Gm-Message-State: AOJu0YwDajndO4G8UFbtMsJ7e5iY3Pn/dwRzWMMr0RKFXPv8NODv6/te
-	pE4CugWyd8KtzCa9TdeyOlORcrtR3448pEBY/APJ0k4Ozu37vAui
-X-Google-Smtp-Source: AGHT+IF2eAIUySWsP2UWaicEjzVUgQSBy609mW3QinTfuUseDGuRlZT/sba3etEew200ingFJFEPbg==
-X-Received: by 2002:a05:600c:3ba8:b0:412:b2af:2632 with SMTP id n40-20020a05600c3ba800b00412b2af2632mr296571wms.0.1709153684492;
-        Wed, 28 Feb 2024 12:54:44 -0800 (PST)
-Received: from [192.168.0.104] (p54a07fa0.dip0.t-ipconnect.de. [84.160.127.160])
-        by smtp.gmail.com with ESMTPSA id e9-20020a05600c4e4900b00412aff7874esm110765wmq.48.2024.02.28.12.54.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 Feb 2024 12:54:44 -0800 (PST)
-Message-ID: <ef46a014-279c-490e-bbe1-df4697415d59@gmail.com>
-Date: Wed, 28 Feb 2024 21:54:43 +0100
+        d=1e100.net; s=20230601; t=1709174612; x=1709779412;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=aHu2J18/kfwLvYeLsu+wqPWa0ETUgopQTH+/Wz4pq6M=;
+        b=tfbTVopBrAireVN7O2BzffFv5e6KxqfNVBX+Qpgxj9c77ClHxQMm4/k1UvmRrhJ0/l
+         m+IDOTquyJEDFW1WxPYVlhBclHxaCQqIY1AP7F1un8GsH5MD5DKe4fdTP1HqywV4sTck
+         hMgScQWlK9fikwcfBL5P8mXEuC14RfXSmAZV0fjpjyzsO1GyDw7z8wiF7y8jL9OxGQuK
+         bc70HcA5d1JOrHf2iULJJEtyT0KipHGAWSBXbOhcGU7JGq55nikt9Jrv/WGkr8MAGFmp
+         Kini+VO3ZM21Rj2KMAldPDiE94L0HJNDh867zU7TH1t4oxw3G5AxqWyrlGHkSZXZIy2p
+         lj0g==
+X-Gm-Message-State: AOJu0Yxwbp6yx6HuaWtmmmHxlzj/Ze28dSIt8t7d5OEqJRX3G8V06l2n
+	uVuOpOmXuXzDHLerkrOtf/F2y3YliAz+HLHvMOen899IQc5bykRRNJWTDNrL5UA=
+X-Google-Smtp-Source: AGHT+IHxml76LrK1ytaduUzOOE9pLYz+ECrfmVRkOs8zfvnVPPu5R2gcYriLGEe24YnSsVViTRt25Q==
+X-Received: by 2002:a05:6e02:2148:b0:365:25c0:c82d with SMTP id d8-20020a056e02214800b0036525c0c82dmr1272926ilv.28.1709174611731;
+        Wed, 28 Feb 2024 18:43:31 -0800 (PST)
+Received: from oatmeal.darkphysics (c-76-146-178-2.hsd1.wa.comcast.net. [76.146.178.2])
+        by smtp.gmail.com with ESMTPSA id u23-20020aa78497000000b006e5092fb3efsm141504pfn.159.2024.02.28.18.43.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Feb 2024 18:43:31 -0800 (PST)
+From: Tree Davies <tdavies@darkphysics.net>
+To: gregkh@linuxfoundation.org,
+	philipp.g.hortmann@gmail.com,
+	anjan@momi.ca
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Tree Davies <tdavies@darkphysics.net>
+Subject: [PATCH v2 0/8] Staging: rtl8192e: Fix Checkpatch warnings in rtl819x_BAProc.c
+Date: Wed, 28 Feb 2024 18:43:17 -0800
+Message-Id: <20240229024325.453374-1-tdavies@darkphysics.net>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Staging: rtl8192e: Sparse warning regarding variable
- declaration
-Content-Language: en-US
-To: Ariel Silver <arielsilver77@gmail.com>, gregkh@linuxfoundation.org,
- yogi.kernel@gmail.com, dan.carpenter@linaro.org, straube.linux@gmail.com,
- garyrookard@fastmail.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20240228072553.11740-1-arielsilver77@gmail.com>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20240228072553.11740-1-arielsilver77@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 2/28/24 08:25, Ariel Silver wrote:
-> Fixed sparse warning: "'dm_rx_path_sel_table' was not declared. Should it be static?"
-> As dm_rx_path_sel_table is used only in rtl_dm.c it should be static.
-> 
+This series fixes the remaining checkpatch issues in rtl819x_BAProc.c
+These patches are to be applied after patch-series: '[PATCH v2 00/20]
+Staging: rtl8192e: Fix checkpatch warning for rtllib_softmac.c ''
+Thank you to all reviewers                                                      
+~ Tree Davies  
 
-Hi Ariel,
+v2: Change commit message in patches 7 and 8
 
-please use checkpatch to check your patch:
+Tree Davies (8):
+  Staging: rtl8192e: Fix 5 chckpatch alignment warnings in
+    rtl819x_BAProc.c
+  Staging: rtl8192e: Rename variable TxRxSelect
+  Staging: rtl8192e: Rename function rtllib_send_ADDBAReq()
+  Staging: rtl8192e: Rename function rtllib_send_ADDBARsp()
+  Staging: rtl8192e: Rename goto OnADDBAReq_Fail
+  Staging: rtl8192e: Rename goto OnADDBARsp_Reject
+  Staging: rtl8192e: Rename function rtllib_FlushRxTsPendingPkts()
+  Staging: rtl8192e: Rename function GetHalfNmodeSupportByAPsHandler()
 
-File Nr: 0    Patch: ../../../Downloads/20240228-[PATCH] Staging_ 
-rtl8192e_ Sparse warning regarding variable declaration-14757.txt
-WARNING: A patch subject line should describe the change not the tool 
-that found it
-#1:
-Subject: [PATCH] Staging: rtl8192e: Sparse warning regarding variable 
-declaration
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c |  2 +-
+ drivers/staging/rtl8192e/rtl8192e/rtl_dm.c   |  2 +-
+ drivers/staging/rtl8192e/rtl819x_BAProc.c    | 66 ++++++++++----------
+ drivers/staging/rtl8192e/rtl819x_HTProc.c    |  8 +--
+ drivers/staging/rtl8192e/rtl819x_TSProc.c    | 24 +++----
+ drivers/staging/rtl8192e/rtllib.h            | 10 +--
+ drivers/staging/rtl8192e/rtllib_rx.c         |  4 +-
+ 7 files changed, 58 insertions(+), 58 deletions(-)
 
-WARNING: Prefer a maximum 75 chars per line (possible unwrapped commit 
-description?)
-#7:
-Fixed sparse warning: "'dm_rx_path_sel_table' was not declared. Should 
-it be static?"
+-- 
+2.39.2
 
-total: 0 errors, 2 warnings, 0 checks, 8 lines checked
-
-Please make a v2 with change description under the "---"
-
-Thanks for your support.
-
-Bye Philipp
