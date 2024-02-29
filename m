@@ -1,184 +1,105 @@
-Received: from mail-il1-f178.google.com (mail-il1-f178.google.com [209.85.166.178])
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD7B139FD4
-	for <linux-staging@lists.linux.dev>; Thu, 29 Feb 2024 02:43:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB40A39ACD
+	for <linux-staging@lists.linux.dev>; Thu, 29 Feb 2024 05:17:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709174622; cv=none; b=kgsic30YfcGpxXHe9t82x7xjd/jo7Ou6J1ZJFg+OOzWxaHR/XpcAUDts1P2d90gjh/YmkcogEMzu7aO+AH1Uwp1GKVwx1Ga+V6qCEF42bD1cqLChjgw9PiLvpcAY8xCkMrn/fWS+yNcjPq04TOjuO79PIlMV5ZsnvJ+RblhmB7U=
+	t=1709183861; cv=none; b=g74Sfe9xeUFmxYDHNG2QMTJnjrNxoTqLqS93y9JkwQdFSBk+A9pw1DKwSgnnXhZqgesb9TvQE+ah1I5C4wJGxTWnMlB4Um/21GW9yd9VHf9AquLW+aVm0SYWZIIBUoRJpoM2cS9JM2d7MTh8rUsdPeFez2CZSzXoKaEn31R7CpU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709174622; c=relaxed/simple;
-	bh=3Bml3fisOhf12xoHuFgq9dvsIWbtNV/lOg2k7b3U5H4=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=C0fOTml2dKHfOhNbdkHhgt7B1JFK51VSYJGBkIzZjxEMbxaYeRAQv3ojsvX8MjEPnRyjwE0MOfmUxFxA8sXYojJ14+VQ0/4yVgD5oPcOREsCWXgu1pTlL4ifAWu3B7ORNBJPUVtv+diF5pQFupbl7KeslyXXsAmfd1aOzK2TAMg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net; spf=pass smtp.mailfrom=darkphysics.net; dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b=MRD2Ov0V; arc=none smtp.client-ip=209.85.166.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=darkphysics.net
+	s=arc-20240116; t=1709183861; c=relaxed/simple;
+	bh=QLdvRcyiMne/VT/oSplWRmRIFKGFh7UjVB3Dd95hIss=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=l45FG3Yu7RHZzTLNwrTeAwz1bGNw5UGJ3EwTCMX43km3p3xJw8bYmqnxeatt94tQKr20vEx9fx8qpnxnZ5DNkeVe2pBui11s1zhoNh5aXbM2WVHg82lTKdbPoG7t0F7J0k3IOovw4Ztk8WQow7DMHrdN0MPchj84fpBXflAzgak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZOe9igsT; arc=none smtp.client-ip=209.85.167.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="MRD2Ov0V"
-Received: by mail-il1-f178.google.com with SMTP id e9e14a558f8ab-365b3bab179so1940645ab.0
-        for <linux-staging@lists.linux.dev>; Wed, 28 Feb 2024 18:43:40 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZOe9igsT"
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-51327cd65beso47366e87.1
+        for <linux-staging@lists.linux.dev>; Wed, 28 Feb 2024 21:17:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=darkphysics.net; s=google; t=1709174620; x=1709779420; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=p0/Uo8bpOofX8j1GcCdenVCAyHrsJbHLlgNs8scFou8=;
-        b=MRD2Ov0V4v9YDpJcuSycQZf5tA631ymJ6h8IL5l3WhYveLSDRUo/HK1DtGp3i63ZnB
-         PHbiTXNODc/diczj4LXf2ko6nZJPVMQDpPMdc+AzKd4xpfAAGhbRhuZLamz9an3k1393
-         rlh97X7Tg0JGHLifE+Og2WMgwCA8wpCinOWO97zevfuvhfLKX5Q7GeLYPo6A3j39g4Db
-         4udtP4BVb5TOOY/p3EHaMS2Pb2VDBYrsmRzVda2R8oOHDF7mmznK80NkgJd2s2Z9wxpc
-         IlyI4q8nSTVTxNK4JckDsgzam60bzyb7d7YnrBQpaoWxAsRun5AiYohxNKFv1vyZd39T
-         jT6w==
+        d=gmail.com; s=20230601; t=1709183858; x=1709788658; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=oEDigR9B35jgh3NUhIDi4WoeBZW/WlBf7UzIlNaTSiw=;
+        b=ZOe9igsTD6h6d6xIQoaWe281FsnswaNJU1AL6pUGVvAw6X90HHiWMiZGHsABGec1ir
+         9XNGmjZaX4MwQr0EJUkmY2VSZKSWbHTodTxXKG8IndgrTDKexR3mnpDcGn3oMiQQd22d
+         ZG6/orQAk62T8Uu34YL8M1buZewaipS+7ILDYymYVwSQPPm0YWLpJs3rpu5tM3+FNuQE
+         8Cna1Q+r/fD4QfjuD0GF42VTswMGwpmPii4n0i5iu5Ap4yr6zuasJTSXi9t0T7BslloH
+         u831UAYqFktCmf7DR0ZmopQLRJrO1h0vEqFHhqaf05sRYEu8yR+9pHvLtLsDw4C8VrTm
+         iDNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709174620; x=1709779420;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=p0/Uo8bpOofX8j1GcCdenVCAyHrsJbHLlgNs8scFou8=;
-        b=waIGjU7mb5DisEjs03ThXjett+IazCFJwRno1FhxMTKnEQqxwUQDj2oEYWA3pjeGLk
-         XbAvnEAoDtS9l+ud9pMdf9WvOH4RJAdUyUDGceRPmokj2Fy4uXxJ/kOWY/d/HYTWHHNB
-         yo1A4jvAxaSVjomx4afNk01Dl4tw/rUqWeC1BAEkZqlnwpe86dO2piQUro5F5H6u4Euu
-         MOroZoalqQ8zfbP1mMu78Gp+Z0kruqbL7H0q6G4fq2HEaiZV/H718G59w4CuO7dibNVs
-         rVEGn43RbyqGODUfywqhGJ6BdyETW6jH3SQbp22TH0rCJCgFq7fhtOZEe3Oke4uw0NoN
-         CWvw==
-X-Gm-Message-State: AOJu0YzjgN8tIGyt5Pqlja6IFx7ybcueDHtr/GZDuocEkXJAQbQWe8Qm
-	AeutG7PEl8mjyIZ5Br1nP8yJNsnWXfM5KpZkQFF4DweYt4a7wPMYfNUr94EWM4rzBYkfF/ixlB/
-	K
-X-Google-Smtp-Source: AGHT+IFHS+/I2I1geaDiHB0u47wojczAJlRr4O9aK0E5+a2fyLFbLDiHZLmrP7DZFQ/lEpHyiN1qfg==
-X-Received: by 2002:a92:c990:0:b0:365:1044:4dcd with SMTP id y16-20020a92c990000000b0036510444dcdmr1252439iln.16.1709174619962;
-        Wed, 28 Feb 2024 18:43:39 -0800 (PST)
-Received: from oatmeal.darkphysics (c-76-146-178-2.hsd1.wa.comcast.net. [76.146.178.2])
-        by smtp.gmail.com with ESMTPSA id u23-20020aa78497000000b006e5092fb3efsm141504pfn.159.2024.02.28.18.43.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Feb 2024 18:43:39 -0800 (PST)
-From: Tree Davies <tdavies@darkphysics.net>
-To: gregkh@linuxfoundation.org,
-	philipp.g.hortmann@gmail.com,
-	anjan@momi.ca
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Tree Davies <tdavies@darkphysics.net>
-Subject: [PATCH v2 8/8] Staging: rtl8192e: Rename function GetHalfNmodeSupportByAPsHandler()
-Date: Wed, 28 Feb 2024 18:43:25 -0800
-Message-Id: <20240229024325.453374-9-tdavies@darkphysics.net>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240229024325.453374-1-tdavies@darkphysics.net>
-References: <20240229024325.453374-1-tdavies@darkphysics.net>
+        d=1e100.net; s=20230601; t=1709183858; x=1709788658;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=oEDigR9B35jgh3NUhIDi4WoeBZW/WlBf7UzIlNaTSiw=;
+        b=Ob27k6tM3R9Ho92feHYp+qip5NIxs5HY56TImcjjcugEnvpqejN3/hKJfC0I5bDbk/
+         GovizL5CpXcXJUmH1T48g8xf7niuSaQUqC+OPYNEMv4eKe8luwWKOVSmWQ5Y7Pljqy7J
+         M6ZtnQhRgrkP0pTZSoNk3HewLSxuaLPqUwZVMBDLK58aDPj8TSc/3F/4QpwTSrqR1SXg
+         VKTaqw8Nm6yftDWNHonlpa4TG9VQuz0qHL1JhychGy3TahVYB8zMd6TG5bN1/VIfY8DH
+         q/1sc4EX1ltDGFzVJ6u7EmEccJFUZTIlWveTR+oJCEdwlq39tcIAAF9AFrRCIr3kMNZk
+         W5gg==
+X-Gm-Message-State: AOJu0Yw4iVfvdV1fHQ0qH0PIdL5U0q+dmBJRY/M10/4GrTnvUwcAz55P
+	wrM7L1MOrV1H5uomRx1sqadwGhWUWY5U3A3TcfDu42VMPCCOOCcV
+X-Google-Smtp-Source: AGHT+IHxbIGnVddxTEb8eZVws/jmRpTTm4E/db4m/qINhv+hBD1QscgPzEdEUCBi9/LxGQEwXYBn+Q==
+X-Received: by 2002:a05:6512:10cb:b0:513:1cc8:6d05 with SMTP id k11-20020a05651210cb00b005131cc86d05mr666989lfg.2.1709183857655;
+        Wed, 28 Feb 2024 21:17:37 -0800 (PST)
+Received: from [192.168.0.102] (p54a07fa0.dip0.t-ipconnect.de. [84.160.127.160])
+        by smtp.gmail.com with ESMTPSA id o3-20020a05600c4fc300b0041297d7e181sm858237wmq.6.2024.02.28.21.17.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 28 Feb 2024 21:17:37 -0800 (PST)
+Message-ID: <5b9b2619-eea8-4b8f-8e66-e343272ab51f@gmail.com>
+Date: Thu, 29 Feb 2024 06:17:35 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/8] Staging: rtl8192e: Fix Checkpatch warnings in
+ rtl819x_BAProc.c
+To: Tree Davies <tdavies@darkphysics.net>, gregkh@linuxfoundation.org,
+ anjan@momi.ca
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20240229024325.453374-1-tdavies@darkphysics.net>
+Content-Language: en-US
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <20240229024325.453374-1-tdavies@darkphysics.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Rename function GetHalfNmodeSupportByAPsHandler to
-get_half_nmode_support_by_aps_handler to fix checkpatch
-warning Avoid CamelCase.
+On 2/29/24 03:43, Tree Davies wrote:
+> This series fixes the remaining checkpatch issues in rtl819x_BAProc.c
+> These patches are to be applied after patch-series: '[PATCH v2 00/20]
+> Staging: rtl8192e: Fix checkpatch warning for rtllib_softmac.c ''
+> Thank you to all reviewers
+> ~ Tree Davies
+> 
+> v2: Change commit message in patches 7 and 8
+> 
+> Tree Davies (8):
+>    Staging: rtl8192e: Fix 5 chckpatch alignment warnings in
+>      rtl819x_BAProc.c
+>    Staging: rtl8192e: Rename variable TxRxSelect
+>    Staging: rtl8192e: Rename function rtllib_send_ADDBAReq()
+>    Staging: rtl8192e: Rename function rtllib_send_ADDBARsp()
+>    Staging: rtl8192e: Rename goto OnADDBAReq_Fail
+>    Staging: rtl8192e: Rename goto OnADDBARsp_Reject
+>    Staging: rtl8192e: Rename function rtllib_FlushRxTsPendingPkts()
+>    Staging: rtl8192e: Rename function GetHalfNmodeSupportByAPsHandler()
+> 
+>   drivers/staging/rtl8192e/rtl8192e/rtl_core.c |  2 +-
+>   drivers/staging/rtl8192e/rtl8192e/rtl_dm.c   |  2 +-
+>   drivers/staging/rtl8192e/rtl819x_BAProc.c    | 66 ++++++++++----------
+>   drivers/staging/rtl8192e/rtl819x_HTProc.c    |  8 +--
+>   drivers/staging/rtl8192e/rtl819x_TSProc.c    | 24 +++----
+>   drivers/staging/rtl8192e/rtllib.h            | 10 +--
+>   drivers/staging/rtl8192e/rtllib_rx.c         |  4 +-
+>   7 files changed, 58 insertions(+), 58 deletions(-)
+> 
 
-Signed-off-by: Tree Davies <tdavies@darkphysics.net>
----
-v2: Fix commit message 75 char limit
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 2 +-
- drivers/staging/rtl8192e/rtl8192e/rtl_dm.c   | 2 +-
- drivers/staging/rtl8192e/rtl819x_BAProc.c    | 2 +-
- drivers/staging/rtl8192e/rtl819x_HTProc.c    | 8 ++++----
- drivers/staging/rtl8192e/rtllib.h            | 2 +-
- 5 files changed, 8 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-index fc5014f719d7..50a4e1cb8c79 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-@@ -657,7 +657,7 @@ static void _rtl92e_init_priv_handler(struct net_device *dev)
- 	priv->rtllib->ps_is_queue_empty = _rtl92e_is_tx_queue_empty;
- 
- 	priv->rtllib->get_nmode_support_by_sec_cfg = rtl92e_get_nmode_support_by_sec;
--	priv->rtllib->GetHalfNmodeSupportByAPsHandler =
-+	priv->rtllib->get_half_nmode_support_by_aps_handler =
- 						rtl92e_is_halfn_supported_by_ap;
- 
- 	priv->rtllib->set_hw_reg_handler = rtl92e_set_reg;
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-index 57e1a361a7c9..047da39f730e 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-@@ -354,7 +354,7 @@ static void _rtl92e_dm_check_rate_adaptive(struct net_device *dev)
- 			}
- 		}
- 
--		if (priv->rtllib->GetHalfNmodeSupportByAPsHandler(dev))
-+		if (priv->rtllib->get_half_nmode_support_by_aps_handler(dev))
- 			target_ratr &=  0xf00fffff;
- 
- 		current_ratr = rtl92e_readl(dev, RATR0);
-diff --git a/drivers/staging/rtl8192e/rtl819x_BAProc.c b/drivers/staging/rtl8192e/rtl819x_BAProc.c
-index 04f3fb54d1b7..834329886ea2 100644
---- a/drivers/staging/rtl8192e/rtl819x_BAProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_BAProc.c
-@@ -276,7 +276,7 @@ int rtllib_rx_add_ba_req(struct rtllib_device *ieee, struct sk_buff *skb)
- 	ba->ba_timeout_value = *ba_timeout_value;
- 	ba->ba_start_seq_ctrl = *ba_start_seq_ctrl;
- 
--	if (ieee->GetHalfNmodeSupportByAPsHandler(ieee->dev) ||
-+	if (ieee->get_half_nmode_support_by_aps_handler(ieee->dev) ||
- 	    (ieee->ht_info->iot_action & HT_IOT_ACT_ALLOW_PEER_AGG_ONE_PKT))
- 		ba->ba_param_set.field.buffer_size = 1;
- 	else
-diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-index abc21ae49ff7..fa96a2c2c916 100644
---- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-@@ -252,7 +252,7 @@ void ht_construct_capability_element(struct rtllib_device *ieee, u8 *pos_ht_cap,
- 	}
- 
- 	cap_ele->AdvCoding		= 0;
--	if (ieee->GetHalfNmodeSupportByAPsHandler(ieee->dev))
-+	if (ieee->get_half_nmode_support_by_aps_handler(ieee->dev))
- 		cap_ele->ChlWidth = 0;
- 	else
- 		cap_ele->ChlWidth = 1;
-@@ -301,7 +301,7 @@ void ht_construct_capability_element(struct rtllib_device *ieee, u8 *pos_ht_cap,
- 		if (ht->iot_action & HT_IOT_ACT_DISABLE_RX_40MHZ_SHORT_GI)
- 			cap_ele->ShortGI40Mhz		= 0;
- 
--		if (ieee->GetHalfNmodeSupportByAPsHandler(ieee->dev)) {
-+		if (ieee->get_half_nmode_support_by_aps_handler(ieee->dev)) {
- 			cap_ele->ChlWidth = 0;
- 			cap_ele->MCS[1] = 0;
- 		}
-@@ -408,7 +408,7 @@ static u8 ht_filter_mcs_rate(struct rtllib_device *ieee, u8 *pSupportMCS,
- 
- 	ht_pick_mcs_rate(ieee, pOperateMCS);
- 
--	if (ieee->GetHalfNmodeSupportByAPsHandler(ieee->dev))
-+	if (ieee->get_half_nmode_support_by_aps_handler(ieee->dev))
- 		pOperateMCS[1] = 0;
- 
- 	for (i = 2; i <= 15; i++)
-@@ -666,7 +666,7 @@ void ht_set_connect_bw_mode(struct rtllib_device *ieee,
- {
- 	struct rt_hi_throughput *ht_info = ieee->ht_info;
- 
--	if (ieee->GetHalfNmodeSupportByAPsHandler(ieee->dev))
-+	if (ieee->get_half_nmode_support_by_aps_handler(ieee->dev))
- 		bandwidth = HT_CHANNEL_WIDTH_20;
- 
- 	if (ht_info->sw_bw_in_progress) {
-diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-index 9d9420f7a371..be2615bae6ca 100644
---- a/drivers/staging/rtl8192e/rtllib.h
-+++ b/drivers/staging/rtl8192e/rtllib.h
-@@ -1486,7 +1486,7 @@ struct rtllib_device {
- 				    enum ht_extchnl_offset Offset);
- 	bool (*get_nmode_support_by_sec_cfg)(struct net_device *dev);
- 	void (*set_wireless_mode)(struct net_device *dev, u8 wireless_mode);
--	bool (*GetHalfNmodeSupportByAPsHandler)(struct net_device *dev);
-+	bool (*get_half_nmode_support_by_aps_handler)(struct net_device *dev);
- 	u8   (*rtllib_ap_sec_type)(struct rtllib_device *ieee);
- 	void (*init_gain_handler)(struct net_device *dev, u8 Operation);
- 	void (*ScanOperationBackupHandler)(struct net_device *dev,
--- 
-2.39.2
-
+Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
