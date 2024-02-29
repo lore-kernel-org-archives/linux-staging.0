@@ -1,66 +1,68 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19B187C6F6
-	for <linux-staging@lists.linux.dev>; Thu, 29 Feb 2024 12:01:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C178E7CF17
+	for <linux-staging@lists.linux.dev>; Thu, 29 Feb 2024 12:05:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709208078; cv=none; b=lLWdQAYbTvaAxhbv80+roHWjH1Sck/sPtkTBeFovezxAwuyPPmJiuqY6YcUVFTGPYqYvUmRhbi5L/+XyJHB1lqvgsgwiVZOJCeK9HTDdGpLX3RD/Gl7gjbep8/BeJ85ApJ8RdE4l0yKGg98EVnSe1Qa7BZA6WL6L5X855tHHArk=
+	t=1709208346; cv=none; b=R2JQbkxDV8dgVHBmQhrYzo30pZNFp8E/B1+X1QwF0B3F1nfYTo/4leO9xP2CeQh/5Z2HMdGGVShaTY/dy6oYp2EjixZFzl6squpYIbJqUNOZ7YNWQXUgVR87oBEUmpAisiGV2M4iTJ7MdGEVbCjv3FGBKoX5y/c9iANiZW29uzM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709208078; c=relaxed/simple;
-	bh=tsUHJaDpIn+D7l8huEZQkJle1PO20bTndyJz5QMVCEo=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=jlMkJtvZErX8or9YZeYECgABFmxJiXxjNDhxAL9rTTjL8rHG1TVPjtEMEvMPQXxQX098ph9PPsEw6VgmhAu+UN4yPTjAOkzj4hZ5FDfHJ0AuaX9vippVzsPNGhASzoykteLcukzscmEejDxHSofDnK2fgir7feg2O7xXwg4wGa4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aPZJHj8/; arc=none smtp.client-ip=209.85.128.42
+	s=arc-20240116; t=1709208346; c=relaxed/simple;
+	bh=/bbb7l83hj76pskoFmjDlhlQeqTmupIOHZ/UQmFJtMg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=bM98s3dkl0ivauIxiG/N8l11aj/6xVDggKRSOfU6LjZcfDk5VrLqgUkdT17Kr1X7CSkzVf+oLjK8M15gXvpKp5Kk0v35Wm9P4GwdORMgN7VZ2neQjRj+QzJGCxPAv5bW5if5prCCMdAXrq0y/hcqNm4QUQ1wwDvcjXsRVmUy894=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i33jFVWs; arc=none smtp.client-ip=209.85.221.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aPZJHj8/"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-412b83cfb44so5310995e9.3
-        for <linux-staging@lists.linux.dev>; Thu, 29 Feb 2024 04:01:16 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i33jFVWs"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-33e122c8598so198173f8f.1
+        for <linux-staging@lists.linux.dev>; Thu, 29 Feb 2024 04:05:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709208075; x=1709812875; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1709208343; x=1709813143; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=eEAjs0RdcfPAuQlAjUQMeit5zsCbuLGbEFFZ96le7No=;
-        b=aPZJHj8/KPxi9HMonvjar1u4qFVOuS2l4se5WkqBcNlg65LKAj03R+ElJXKvDsUrGw
-         hcjpexsoxlOZ5gO06HuVeIHvRD8pGqKBOT8XqYVJtC9gB3iX50/P06c1XkMN+22NdoQ2
-         GuaVQ6zS0M15eaNf0Sd+eE63mj905aIyIFBKq04DG7zuC1IRr2MWH3KI5Mvr+RD3NDDK
-         /eh+FSMvWEUwo6uTsPoruklpyTktTANAR0jBTMzRACGth2oKEfUL68wFatZFAu1VttG0
-         RFaTqeOddzMKAmIQSA5oIFJo2FITLucXt6Qs0X6bkYOzZzTu4l8O8VScAo/2jdYUfLkf
-         aisA==
+        bh=AKTrC5BUEoERGt6YpPOVR4/EueT/sWktcgEEY9nn3IA=;
+        b=i33jFVWsalrGp2iXe0zBryokXaJ6eUAKpSHeKXVTwSOZrL/TW9j9Oyczmuq0T0UgDA
+         uwpaHFQv05Rf0O9v/dYdbvphNwZNVtFwxWRGsHeBpLn9EYyDtTOCZ6mkI47C3tTYYPh7
+         /uKYOeexurjJgh8cnD93Xg6u1of9Q8/maut1Uie+XSAvtFmdWLKwljakq10M/+PNHCeU
+         R1LDDGcYzCYQYld4axYsByVtf+98vdN894gbmqn6OSQDAEfa8A/yewENdQ8QBkUwqi/S
+         w2LBESIuD/B5GGwr2DtJXfCIb49iWsiloFi6zqRLE+WHtAyV8SmbZfjwcSnZYFCoh2IJ
+         FxTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709208075; x=1709812875;
+        d=1e100.net; s=20230601; t=1709208343; x=1709813143;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=eEAjs0RdcfPAuQlAjUQMeit5zsCbuLGbEFFZ96le7No=;
-        b=PqoiUUb/OAJcLTX37ADNbSWXIQhZslNjY1JC14qcLR0sfmUIja7/hRiZ2PayucBwDs
-         eUT+3/r5m+tYRsxx2LcawrB3Qu9dVpmMb13o623tf31C6mpMVNiNtI9dSAneQ0K8Hc8r
-         6WglwKkyR68CLXWMicLqsfr+PpEoPTv6Nrrn9O3LFOlhdOd97sXyfnQ9Xun9Kek5eB+q
-         u30gxtSRfrvGwU/bVC0itLdxvWJPp0LxXjviofPhiKg8yV5E5zaJQ3/ViWGQbgz9eHfK
-         0xVGDXc85u1GYpo3UHfNNB6T4bmC33D7UJyPkDOmQLHENn2xaYsn3blnreK1/Cl7XfYL
-         IxiA==
-X-Forwarded-Encrypted: i=1; AJvYcCXzaoC3SDnn090s5Kpo3nhB1cGJm6sT+EumNPMRngMT+CtxnzItr4YZZo36KRCneNI20uxTz6Qx90wjjJ9StBbqD/a7rblOZrmuJkGBmw==
-X-Gm-Message-State: AOJu0YybJlhHjDQ+kUB19HmimUHxkyFCd9s3Y1D4ZmAMB9TAsIb6Nyk0
-	qGCk3zqYiRQ2QaA6NSkJtTn63aEnN98BIs1Awv+vZzZY5fVSsPC0
-X-Google-Smtp-Source: AGHT+IHC3vwxsZB7sP4Fov8PtZ8j3jocrLNBn1PvwUm276KL0P9EU9+xvQoaqFjvMvY+vAlNTY8CIg==
-X-Received: by 2002:a05:600c:4ed4:b0:412:9842:c4f2 with SMTP id g20-20020a05600c4ed400b004129842c4f2mr1610641wmq.12.1709208075311;
-        Thu, 29 Feb 2024 04:01:15 -0800 (PST)
+        bh=AKTrC5BUEoERGt6YpPOVR4/EueT/sWktcgEEY9nn3IA=;
+        b=TTkzl1aL0CbDohOdj22G6tiD90owIMTKdtmfeeHMT87MHnaxPTg19lsnx6ARFBWWto
+         1OWcE0JbhuXhMb/BSf4+2ZrxzG6ZPkJPs4T4FEk5qlmjlKE0cJl5dDpkBB0FQDGWcR1j
+         SH7Jh2X3CBjjr0L43i0IOZgtQ+8zORwFuG6fqpciKKaPP5ViSQWUcwSJhSsWOR0zCxTg
+         kbS3oGTTYfoBzvzZc5wNOIslJF0f38v2fSVqBWsz0xPyKqABUOr6ZQ0Q8D+0taCrk+3O
+         I7uA6ooJpJ4aJQFQmWuhnnd8zfTKBrifpgWayKEgE2+BLCr1Ou+JCP9hjv28PKvmMsVa
+         sdmQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWnjzaQBR93/YKcU7OtXw1OxSXiliCfGIhJMGXUGLV2iDGIfT7b9VFoWXGb9vHXKBLDL5HtKN5ZKRCojHPN7Ew+ek4pdhhw2CsiZWE9Uw==
+X-Gm-Message-State: AOJu0YzpX/y90TXYXKGBZaFwWkHh+j2SF7ja3qa2ky+kaio2JfpcUyDY
+	UGXqO7UBXhy6U1C9hf8D+Xcd0E3XJMiTu1e16f28q4fCfcS8Mw9e
+X-Google-Smtp-Source: AGHT+IHflToI7cmVEoLUgAq6Qi4/DXWnunqwZQL/91orV5BJE1B14iuKUeIa2YpviLArwrKjin+VxQ==
+X-Received: by 2002:a5d:484a:0:b0:33d:297d:75a9 with SMTP id n10-20020a5d484a000000b0033d297d75a9mr1311981wrs.24.1709208343075;
+        Thu, 29 Feb 2024 04:05:43 -0800 (PST)
 Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
-        by smtp.gmail.com with ESMTPSA id u17-20020a05600c19d100b00412a31d2e2asm1908421wmq.32.2024.02.29.04.01.14
+        by smtp.gmail.com with ESMTPSA id dp14-20020a0560000c8e00b0033d8ce120f2sm1588446wrb.95.2024.02.29.04.05.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Feb 2024 04:01:14 -0800 (PST)
+        Thu, 29 Feb 2024 04:05:42 -0800 (PST)
 From: Colin Ian King <colin.i.king@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org,
+To: Vaibhav Agarwal <vaibhav.sr@gmail.com>,
+	Mark Greer <mgreer@animalcreek.com>,
+	Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	greybus-dev@lists.linaro.org,
 	linux-staging@lists.linux.dev
 Cc: kernel-janitors@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH][next] staging: fbtft: remove unused variable 'count'
-Date: Thu, 29 Feb 2024 12:01:14 +0000
-Message-Id: <20240229120114.219085-1-colin.i.king@gmail.com>
+Subject: [PATCH][next] staging: greybus: Remove redundant variable 'mask'
+Date: Thu, 29 Feb 2024 12:05:41 +0000
+Message-Id: <20240229120541.219429-1-colin.i.king@gmail.com>
 X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -71,39 +73,47 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-The variable count is being initialized and incremented but it is never
-actually referenced in any other way. The variable is redundant and can
+The variable mask is being assigned and bit-set but it is never
+being used apart from this. The variable is redundant and can
 be removed.
 
 Cleans up clang scan build warning:
-drivers/staging/fbtft/fbtft-core.c:330:6: warning: variable 'count' set
-but not used [-Wunused-but-set-variable]
+drivers/staging/greybus/audio_topology.c:764:15: warning: variable 'mask'
+set but not used [-Wunused-but-set-variable]
 
 Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
 ---
- drivers/staging/fbtft/fbtft-core.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/staging/greybus/audio_topology.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
-index 68add4d598ae..38845f23023f 100644
---- a/drivers/staging/fbtft/fbtft-core.c
-+++ b/drivers/staging/fbtft/fbtft-core.c
-@@ -327,7 +327,6 @@ static void fbtft_deferred_io(struct fb_info *info, struct list_head *pagereflis
- 	unsigned int dirty_lines_start, dirty_lines_end;
- 	struct fb_deferred_io_pageref *pageref;
- 	unsigned int y_low = 0, y_high = 0;
--	int count = 0;
+diff --git a/drivers/staging/greybus/audio_topology.c b/drivers/staging/greybus/audio_topology.c
+index 08e6a807c132..5dc4721105d4 100644
+--- a/drivers/staging/greybus/audio_topology.c
++++ b/drivers/staging/greybus/audio_topology.c
+@@ -761,7 +761,6 @@ static int gbcodec_enum_dapm_ctl_put(struct snd_kcontrol *kcontrol,
+ {
+ 	int ret, wi, ctl_id;
+ 	unsigned int val, mux, change;
+-	unsigned int mask;
+ 	struct snd_soc_dapm_widget_list *wlist = snd_kcontrol_chip(kcontrol);
+ 	struct snd_soc_dapm_widget *widget = wlist->widgets[0];
+ 	struct gb_audio_ctl_elem_value gbvalue;
+@@ -802,7 +801,6 @@ static int gbcodec_enum_dapm_ctl_put(struct snd_kcontrol *kcontrol,
  
- 	spin_lock(&par->dirty_lock);
- 	dirty_lines_start = par->dirty_lines_start;
-@@ -339,7 +338,6 @@ static void fbtft_deferred_io(struct fb_info *info, struct list_head *pagereflis
+ 	mux = ucontrol->value.enumerated.item[0];
+ 	val = mux << e->shift_l;
+-	mask = e->mask << e->shift_l;
  
- 	/* Mark display lines as dirty */
- 	list_for_each_entry(pageref, pagereflist, list) {
--		count++;
- 		y_low = pageref->offset / info->fix.line_length;
- 		y_high = (pageref->offset + PAGE_SIZE - 1) / info->fix.line_length;
- 		dev_dbg(info->device,
+ 	if (le32_to_cpu(gbvalue.value.enumerated_item[0]) !=
+ 	    ucontrol->value.enumerated.item[0]) {
+@@ -815,7 +813,6 @@ static int gbcodec_enum_dapm_ctl_put(struct snd_kcontrol *kcontrol,
+ 		if (ucontrol->value.enumerated.item[1] > e->items - 1)
+ 			return -EINVAL;
+ 		val |= ucontrol->value.enumerated.item[1] << e->shift_r;
+-		mask |= e->mask << e->shift_r;
+ 		if (le32_to_cpu(gbvalue.value.enumerated_item[1]) !=
+ 		    ucontrol->value.enumerated.item[1]) {
+ 			change = 1;
 -- 
 2.39.2
 
