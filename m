@@ -1,56 +1,57 @@
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+Received: from mail-il1-f178.google.com (mail-il1-f178.google.com [209.85.166.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13E3B38DE5
-	for <linux-staging@lists.linux.dev>; Thu, 29 Feb 2024 02:43:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD7B139FD4
+	for <linux-staging@lists.linux.dev>; Thu, 29 Feb 2024 02:43:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709174621; cv=none; b=aW9jF0Um50Me3oOrIJYJyAb90kdG6hd5VaYC9F8AkrEG/sVS1qxvu7zSaM0QdjEbrv/I+GKHNQuIo7tkPG+G8GVZAuNL2kZsrR8Xb1vpT7zwXq5xI9Ol0xFu+P5zYcJhpgE0sA+ZtbYqXYFujVSdyFahT57stilGy3wIzUDHJ+Q=
+	t=1709174622; cv=none; b=kgsic30YfcGpxXHe9t82x7xjd/jo7Ou6J1ZJFg+OOzWxaHR/XpcAUDts1P2d90gjh/YmkcogEMzu7aO+AH1Uwp1GKVwx1Ga+V6qCEF42bD1cqLChjgw9PiLvpcAY8xCkMrn/fWS+yNcjPq04TOjuO79PIlMV5ZsnvJ+RblhmB7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709174621; c=relaxed/simple;
-	bh=Aphcsg+jCGb/G6Iku1F7m8eyfHQ8NCqN6UuzzT5jlXQ=;
+	s=arc-20240116; t=1709174622; c=relaxed/simple;
+	bh=3Bml3fisOhf12xoHuFgq9dvsIWbtNV/lOg2k7b3U5H4=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=RwXpc4HyV6OY81krWgHqYAQsy6UicaE7lg+MtdE1lcq63uwKnf87pGynXJ9lqRSnQpCRvRVdm41No+doLXBJtg340y1RGk94nMAAJvGuhOuonO/7OoWwON/XjGD/xLk+gJDDSi9lQhgQnyUezM9trkSBMnwKP4CsyB4SHLXL4V4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net; spf=pass smtp.mailfrom=darkphysics.net; dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b=igEL4wbd; arc=none smtp.client-ip=209.85.128.180
+	 MIME-Version; b=C0fOTml2dKHfOhNbdkHhgt7B1JFK51VSYJGBkIzZjxEMbxaYeRAQv3ojsvX8MjEPnRyjwE0MOfmUxFxA8sXYojJ14+VQ0/4yVgD5oPcOREsCWXgu1pTlL4ifAWu3B7ORNBJPUVtv+diF5pQFupbl7KeslyXXsAmfd1aOzK2TAMg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net; spf=pass smtp.mailfrom=darkphysics.net; dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b=MRD2Ov0V; arc=none smtp.client-ip=209.85.166.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=darkphysics.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="igEL4wbd"
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-608841dfcafso4664587b3.2
-        for <linux-staging@lists.linux.dev>; Wed, 28 Feb 2024 18:43:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="MRD2Ov0V"
+Received: by mail-il1-f178.google.com with SMTP id e9e14a558f8ab-365b3bab179so1940645ab.0
+        for <linux-staging@lists.linux.dev>; Wed, 28 Feb 2024 18:43:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=darkphysics.net; s=google; t=1709174619; x=1709779419; darn=lists.linux.dev;
+        d=darkphysics.net; s=google; t=1709174620; x=1709779420; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=E6Dy5NYh5SGhramiBXVD6CBtpLYzXUVrIG3KwaM2w2o=;
-        b=igEL4wbd7ud4Ny52DJtgroMnbl4AXiTLGkXoBsqDuOKoC3dqzWMHSk9aSGjWHhlW+f
-         NTqhVpc/vkTNXT0fJcvEhknH5t5mHMitpWk35M7z5b0T/qPRQbnP068qJVkRVAXESpGP
-         lCRJtxMzsCRutycI2zaU7oGhMw9UkMbDq5VB44pk5Zw6kiAQy7ZmAjrllliRtQUc+wB9
-         NwnVMutcJbU7VrA25LSnRfER4NMUpgYqJdWPO1984fW0d1Lr2IaF0Xt6/tVsN86VrIat
-         dqJ0WMaI2N/bYjVmweJpbgQOgYXWZpXsx0hPmaNTsf54+CVOTD+nNUNRNN6WDBNvD6UO
-         0Fcw==
+        bh=p0/Uo8bpOofX8j1GcCdenVCAyHrsJbHLlgNs8scFou8=;
+        b=MRD2Ov0V4v9YDpJcuSycQZf5tA631ymJ6h8IL5l3WhYveLSDRUo/HK1DtGp3i63ZnB
+         PHbiTXNODc/diczj4LXf2ko6nZJPVMQDpPMdc+AzKd4xpfAAGhbRhuZLamz9an3k1393
+         rlh97X7Tg0JGHLifE+Og2WMgwCA8wpCinOWO97zevfuvhfLKX5Q7GeLYPo6A3j39g4Db
+         4udtP4BVb5TOOY/p3EHaMS2Pb2VDBYrsmRzVda2R8oOHDF7mmznK80NkgJd2s2Z9wxpc
+         IlyI4q8nSTVTxNK4JckDsgzam60bzyb7d7YnrBQpaoWxAsRun5AiYohxNKFv1vyZd39T
+         jT6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709174619; x=1709779419;
+        d=1e100.net; s=20230601; t=1709174620; x=1709779420;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=E6Dy5NYh5SGhramiBXVD6CBtpLYzXUVrIG3KwaM2w2o=;
-        b=LW3I5gt3hXWlPFiXmr6DKQ0PjlYRuXpYgMJYQs4v41/HTXsnKPmQeX9v8wMAlx24jw
-         qygdA/+z1N40zgMxd7ZpeS87GUfMzwht4y7RzyY1WS1+n18pdxrd5DZMKsQuC+b9uDzp
-         ECzmYQ4XzoGLwsjOVB37HZJ5nctN1wd/t8b3F/ZBrLVPaykjdBjZU4HwAoQG6YoqWEj5
-         JNCWI0gqbao5fMY2WALseKU+3J93y0L6cgBZKGLXyjPjborStRi/Tz79GaP6HQ2NDZwF
-         IfFSs+MKRgwwWNykYvzBOG8fr6JPtb5brEdqKtaE28QxuhYivKJ4VpurtbfHBm3681JE
-         mDOw==
-X-Gm-Message-State: AOJu0YwSqUhLNSUfrw1n7VqycocSpPM6GwNdvuPBX7D9n1ADSOSnD/Qe
-	IHa93XLcw7TvPs4DUM/hQVqFse/nMAmZR03kS3r7lmPbq+DGrW7PAOs7RYoXCKs=
-X-Google-Smtp-Source: AGHT+IFtGs97y0VMDfO2OhQB/ry3UAI4ptI/hO7uxjdRojwZWz8iiYnHMR7bQDffv5SgR7y3tY/Leg==
-X-Received: by 2002:a0d:dd16:0:b0:608:91d2:e927 with SMTP id g22-20020a0ddd16000000b0060891d2e927mr999220ywe.30.1709174619073;
+        bh=p0/Uo8bpOofX8j1GcCdenVCAyHrsJbHLlgNs8scFou8=;
+        b=waIGjU7mb5DisEjs03ThXjett+IazCFJwRno1FhxMTKnEQqxwUQDj2oEYWA3pjeGLk
+         XbAvnEAoDtS9l+ud9pMdf9WvOH4RJAdUyUDGceRPmokj2Fy4uXxJ/kOWY/d/HYTWHHNB
+         yo1A4jvAxaSVjomx4afNk01Dl4tw/rUqWeC1BAEkZqlnwpe86dO2piQUro5F5H6u4Euu
+         MOroZoalqQ8zfbP1mMu78Gp+Z0kruqbL7H0q6G4fq2HEaiZV/H718G59w4CuO7dibNVs
+         rVEGn43RbyqGODUfywqhGJ6BdyETW6jH3SQbp22TH0rCJCgFq7fhtOZEe3Oke4uw0NoN
+         CWvw==
+X-Gm-Message-State: AOJu0YzjgN8tIGyt5Pqlja6IFx7ybcueDHtr/GZDuocEkXJAQbQWe8Qm
+	AeutG7PEl8mjyIZ5Br1nP8yJNsnWXfM5KpZkQFF4DweYt4a7wPMYfNUr94EWM4rzBYkfF/ixlB/
+	K
+X-Google-Smtp-Source: AGHT+IFHS+/I2I1geaDiHB0u47wojczAJlRr4O9aK0E5+a2fyLFbLDiHZLmrP7DZFQ/lEpHyiN1qfg==
+X-Received: by 2002:a92:c990:0:b0:365:1044:4dcd with SMTP id y16-20020a92c990000000b0036510444dcdmr1252439iln.16.1709174619962;
         Wed, 28 Feb 2024 18:43:39 -0800 (PST)
 Received: from oatmeal.darkphysics (c-76-146-178-2.hsd1.wa.comcast.net. [76.146.178.2])
-        by smtp.gmail.com with ESMTPSA id u23-20020aa78497000000b006e5092fb3efsm141504pfn.159.2024.02.28.18.43.38
+        by smtp.gmail.com with ESMTPSA id u23-20020aa78497000000b006e5092fb3efsm141504pfn.159.2024.02.28.18.43.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Feb 2024 18:43:38 -0800 (PST)
+        Wed, 28 Feb 2024 18:43:39 -0800 (PST)
 From: Tree Davies <tdavies@darkphysics.net>
 To: gregkh@linuxfoundation.org,
 	philipp.g.hortmann@gmail.com,
@@ -58,9 +59,9 @@ To: gregkh@linuxfoundation.org,
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Tree Davies <tdavies@darkphysics.net>
-Subject: [PATCH v2 7/8] Staging: rtl8192e: Rename function rtllib_FlushRxTsPendingPkts()
-Date: Wed, 28 Feb 2024 18:43:24 -0800
-Message-Id: <20240229024325.453374-8-tdavies@darkphysics.net>
+Subject: [PATCH v2 8/8] Staging: rtl8192e: Rename function GetHalfNmodeSupportByAPsHandler()
+Date: Wed, 28 Feb 2024 18:43:25 -0800
+Message-Id: <20240229024325.453374-9-tdavies@darkphysics.net>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240229024325.453374-1-tdavies@darkphysics.net>
 References: <20240229024325.453374-1-tdavies@darkphysics.net>
@@ -72,61 +73,112 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rename function rtllib_FlushRxTsPendingPkts to
-rtllib_flush_rx_ts_pending_pkts to fix checkpatch warning Avoid
-CamelCase.
+Rename function GetHalfNmodeSupportByAPsHandler to
+get_half_nmode_support_by_aps_handler to fix checkpatch
+warning Avoid CamelCase.
 
 Signed-off-by: Tree Davies <tdavies@darkphysics.net>
 ---
-v2: Fix commit message 75 char limit, and alignment warning
- drivers/staging/rtl8192e/rtl819x_BAProc.c | 2 +-
- drivers/staging/rtl8192e/rtllib.h         | 4 ++--
- drivers/staging/rtl8192e/rtllib_rx.c      | 4 ++--
- 3 files changed, 5 insertions(+), 5 deletions(-)
+v2: Fix commit message 75 char limit
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 2 +-
+ drivers/staging/rtl8192e/rtl8192e/rtl_dm.c   | 2 +-
+ drivers/staging/rtl8192e/rtl819x_BAProc.c    | 2 +-
+ drivers/staging/rtl8192e/rtl819x_HTProc.c    | 8 ++++----
+ drivers/staging/rtl8192e/rtllib.h            | 2 +-
+ 5 files changed, 8 insertions(+), 8 deletions(-)
 
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+index fc5014f719d7..50a4e1cb8c79 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+@@ -657,7 +657,7 @@ static void _rtl92e_init_priv_handler(struct net_device *dev)
+ 	priv->rtllib->ps_is_queue_empty = _rtl92e_is_tx_queue_empty;
+ 
+ 	priv->rtllib->get_nmode_support_by_sec_cfg = rtl92e_get_nmode_support_by_sec;
+-	priv->rtllib->GetHalfNmodeSupportByAPsHandler =
++	priv->rtllib->get_half_nmode_support_by_aps_handler =
+ 						rtl92e_is_halfn_supported_by_ap;
+ 
+ 	priv->rtllib->set_hw_reg_handler = rtl92e_set_reg;
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
+index 57e1a361a7c9..047da39f730e 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
+@@ -354,7 +354,7 @@ static void _rtl92e_dm_check_rate_adaptive(struct net_device *dev)
+ 			}
+ 		}
+ 
+-		if (priv->rtllib->GetHalfNmodeSupportByAPsHandler(dev))
++		if (priv->rtllib->get_half_nmode_support_by_aps_handler(dev))
+ 			target_ratr &=  0xf00fffff;
+ 
+ 		current_ratr = rtl92e_readl(dev, RATR0);
 diff --git a/drivers/staging/rtl8192e/rtl819x_BAProc.c b/drivers/staging/rtl8192e/rtl819x_BAProc.c
-index 0581ed1e9ed1..04f3fb54d1b7 100644
+index 04f3fb54d1b7..834329886ea2 100644
 --- a/drivers/staging/rtl8192e/rtl819x_BAProc.c
 +++ b/drivers/staging/rtl8192e/rtl819x_BAProc.c
-@@ -268,7 +268,7 @@ int rtllib_rx_add_ba_req(struct rtllib_device *ieee, struct sk_buff *skb)
- 		goto on_add_ba_req_fail;
+@@ -276,7 +276,7 @@ int rtllib_rx_add_ba_req(struct rtllib_device *ieee, struct sk_buff *skb)
+ 	ba->ba_timeout_value = *ba_timeout_value;
+ 	ba->ba_start_seq_ctrl = *ba_start_seq_ctrl;
+ 
+-	if (ieee->GetHalfNmodeSupportByAPsHandler(ieee->dev) ||
++	if (ieee->get_half_nmode_support_by_aps_handler(ieee->dev) ||
+ 	    (ieee->ht_info->iot_action & HT_IOT_ACT_ALLOW_PEER_AGG_ONE_PKT))
+ 		ba->ba_param_set.field.buffer_size = 1;
+ 	else
+diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
+index abc21ae49ff7..fa96a2c2c916 100644
+--- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
++++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
+@@ -252,7 +252,7 @@ void ht_construct_capability_element(struct rtllib_device *ieee, u8 *pos_ht_cap,
  	}
  
--	rtllib_FlushRxTsPendingPkts(ieee, ts);
-+	rtllib_flush_rx_ts_pending_pkts(ieee, ts);
+ 	cap_ele->AdvCoding		= 0;
+-	if (ieee->GetHalfNmodeSupportByAPsHandler(ieee->dev))
++	if (ieee->get_half_nmode_support_by_aps_handler(ieee->dev))
+ 		cap_ele->ChlWidth = 0;
+ 	else
+ 		cap_ele->ChlWidth = 1;
+@@ -301,7 +301,7 @@ void ht_construct_capability_element(struct rtllib_device *ieee, u8 *pos_ht_cap,
+ 		if (ht->iot_action & HT_IOT_ACT_DISABLE_RX_40MHZ_SHORT_GI)
+ 			cap_ele->ShortGI40Mhz		= 0;
  
- 	deactivate_ba_entry(ieee, ba);
- 	ba->dialog_token = *dialog_token;
+-		if (ieee->GetHalfNmodeSupportByAPsHandler(ieee->dev)) {
++		if (ieee->get_half_nmode_support_by_aps_handler(ieee->dev)) {
+ 			cap_ele->ChlWidth = 0;
+ 			cap_ele->MCS[1] = 0;
+ 		}
+@@ -408,7 +408,7 @@ static u8 ht_filter_mcs_rate(struct rtllib_device *ieee, u8 *pSupportMCS,
+ 
+ 	ht_pick_mcs_rate(ieee, pOperateMCS);
+ 
+-	if (ieee->GetHalfNmodeSupportByAPsHandler(ieee->dev))
++	if (ieee->get_half_nmode_support_by_aps_handler(ieee->dev))
+ 		pOperateMCS[1] = 0;
+ 
+ 	for (i = 2; i <= 15; i++)
+@@ -666,7 +666,7 @@ void ht_set_connect_bw_mode(struct rtllib_device *ieee,
+ {
+ 	struct rt_hi_throughput *ht_info = ieee->ht_info;
+ 
+-	if (ieee->GetHalfNmodeSupportByAPsHandler(ieee->dev))
++	if (ieee->get_half_nmode_support_by_aps_handler(ieee->dev))
+ 		bandwidth = HT_CHANNEL_WIDTH_20;
+ 
+ 	if (ht_info->sw_bw_in_progress) {
 diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-index bbea287df535..9d9420f7a371 100644
+index 9d9420f7a371..be2615bae6ca 100644
 --- a/drivers/staging/rtl8192e/rtllib.h
 +++ b/drivers/staging/rtl8192e/rtllib.h
-@@ -1811,8 +1811,8 @@ bool rtllib_mgnt_disconnect(struct rtllib_device *rtllib, u8 rsn);
- /* For the function is more related to hardware setting, it's better to use the
-  * ieee handler to refer to it.
-  */
--void rtllib_FlushRxTsPendingPkts(struct rtllib_device *ieee,
--				 struct rx_ts_record *ts);
-+void rtllib_flush_rx_ts_pending_pkts(struct rtllib_device *ieee,
-+				     struct rx_ts_record *ts);
- int rtllib_parse_info_param(struct rtllib_device *ieee,
- 			    struct rtllib_info_element *info_element,
- 			    u16 length,
-diff --git a/drivers/staging/rtl8192e/rtllib_rx.c b/drivers/staging/rtl8192e/rtllib_rx.c
-index 051371e0138c..06992450ef42 100644
---- a/drivers/staging/rtl8192e/rtllib_rx.c
-+++ b/drivers/staging/rtl8192e/rtllib_rx.c
-@@ -487,8 +487,8 @@ void rtllib_indicate_packets(struct rtllib_device *ieee,
- 	}
- }
- 
--void rtllib_FlushRxTsPendingPkts(struct rtllib_device *ieee,
--				 struct rx_ts_record *ts)
-+void rtllib_flush_rx_ts_pending_pkts(struct rtllib_device *ieee,
-+				     struct rx_ts_record *ts)
- {
- 	struct rx_reorder_entry *pRxReorderEntry;
- 	u8 RfdCnt = 0;
+@@ -1486,7 +1486,7 @@ struct rtllib_device {
+ 				    enum ht_extchnl_offset Offset);
+ 	bool (*get_nmode_support_by_sec_cfg)(struct net_device *dev);
+ 	void (*set_wireless_mode)(struct net_device *dev, u8 wireless_mode);
+-	bool (*GetHalfNmodeSupportByAPsHandler)(struct net_device *dev);
++	bool (*get_half_nmode_support_by_aps_handler)(struct net_device *dev);
+ 	u8   (*rtllib_ap_sec_type)(struct rtllib_device *ieee);
+ 	void (*init_gain_handler)(struct net_device *dev, u8 Operation);
+ 	void (*ScanOperationBackupHandler)(struct net_device *dev,
 -- 
 2.39.2
 
