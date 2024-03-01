@@ -1,77 +1,105 @@
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+Received: from mail.rosalinux.ru (mail.rosalinux.ru [195.19.76.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBFB88C17
-	for <linux-staging@lists.linux.dev>; Fri,  1 Mar 2024 17:39:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59715286AE
+	for <linux-staging@lists.linux.dev>; Fri,  1 Mar 2024 19:06:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.19.76.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709314786; cv=none; b=d91UVd5syLU1lUC5Tcy9Imf3sGatNGnp/q6bKpzrHqvlisheEEqyasjC+Bz0INPAPdUqXujud6pjbW4HpvU99qYJve++7/+X7TDIJcuKKIRFjKY3eVORprKkMhWA0uR5YU16mW/nE0+fLytwXFqS1lmJUiTy0IfZ8P2qTLHb5N4=
+	t=1709319977; cv=none; b=kaBtdpV1J10tbIdkWoJ6UoUnGVNBnV6EIGB6IUqpb63w0ihFDSI/s0D4QFKlmrfLxPrry2wUtUSLOXmhq6gt7oZA7afzqzY8NDb58Hw7jWvA37fjtBEnB8ExeB08whjff5Dc5IzBk4nZ3zch85K4u8kg//Y3apwZZpmG/VDsNNw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709314786; c=relaxed/simple;
-	bh=VE2uSRmbnrUTIwI0MsFFp9dkOgavVaKfIAsVt33kwLE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QViCiqY10P9rHlKvTxmM1eecHO1+jVUYQ3LCxE2QW4KHDW2xaNYktllspb73CYazu9tk45kAUujq1mdKd7L99PbeCuOpECBAtMAM52D8ZfE4yNwS6+7CKA8zInn//CHXpK8ZzFf6GavqX3oh9Kj43gtamZdkV5FchD9Y0qu+XqA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=GWR6kZ6s; arc=none smtp.client-ip=217.70.183.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1709319977; c=relaxed/simple;
+	bh=fBKQb/U2gC/96fp2K2GWljmoZQn9BibE1AkFqiHeIUI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MQItHNYdk5ISEmgkQ+xlGJsR9uBPYwLuzwYyAZj+l44KNhYB2/VOtfiw2rELp/Sf2CUDyhvDtQlQXgJPthRZesjBsdcoc0e/O5QxLqMelVpmHNNJ78RwTM8xhw/Q6Gm2oRVGdRSNZYJGIVMtzT45NlIoYzc/xNNzTGuHeUIt3rw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosalinux.ru; spf=pass smtp.mailfrom=rosalinux.ru; dkim=pass (2048-bit key) header.d=rosalinux.ru header.i=@rosalinux.ru header.b=LpF0qO4U; arc=none smtp.client-ip=195.19.76.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosalinux.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosalinux.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="GWR6kZ6s"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 1B7F1240003;
-	Fri,  1 Mar 2024 17:39:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1709314782;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HPOP82Swf39Z+Oml/HNNIoo3JMbE10x1ALBHxRiVIp4=;
-	b=GWR6kZ6sqnLHbD99ZA24rS7vAWtep94ya9NrWpvjdjoRU666FY23absUBejh5k+F1ZnjqS
-	vmTZ6iMMzqD49O7v2Yh+QIbMT1KE1zy+Tdi98zGRiKtU26wJSIs9TWcWZA+VQsfiRxYzwE
-	BAFH32DSCmJkBOMpqeHx96/SKusM3TlsbbTs3zo5dlNrr2aMoCdNhllZoYe3+wc2zFuogv
-	4QpwqK264eg2jGDAYH5JEdEo+ONGAJVGkwb72LSQ13MtxNVWRAupfGJIZytBJ0s+FVm0a0
-	MJYwRN0pi6J13FmpW2SUSbbHvHTLw+BO6oOD9USIHJPS9bsMOgtBWHmj+ml05Q==
-Date: Fri, 1 Mar 2024 18:39:36 +0100
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Markus Elfring <Markus.Elfring@web.de>
-Cc: linux-staging@lists.linux.dev, linux-tegra@vger.kernel.org,
- linux-media@vger.kernel.org, kernel-janitors@vger.kernel.org, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Jonathan Hunter
- <jonathanh@nvidia.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sowjanya Komatineni <skomatineni@nvidia.com>, Thierry Reding
- <thierry.reding@gmail.com>, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] staging: media: tegra-video: Use common error handling
- code in tegra_vi_graph_parse_one()
-Message-ID: <20240301183936.505fcc72@booty>
-In-Reply-To: <dbebaea7-289c-47d9-ba06-cd58a10ea662@web.de>
-References: <dbebaea7-289c-47d9-ba06-cd58a10ea662@web.de>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=rosalinux.ru header.i=@rosalinux.ru header.b="LpF0qO4U"
+Received: from localhost (localhost [127.0.0.1])
+	by mail.rosalinux.ru (Postfix) with ESMTP id 18082DCE59BB9;
+	Fri,  1 Mar 2024 22:06:09 +0300 (MSK)
+Received: from mail.rosalinux.ru ([127.0.0.1])
+	by localhost (mail.rosalinux.ru [127.0.0.1]) (amavisd-new, port 10032)
+	with ESMTP id 67HJQtmzNR1y; Fri,  1 Mar 2024 22:06:08 +0300 (MSK)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.rosalinux.ru (Postfix) with ESMTP id D9520DCE59BBA;
+	Fri,  1 Mar 2024 22:06:08 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.rosalinux.ru D9520DCE59BBA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosalinux.ru;
+	s=1D4BB666-A0F1-11EB-A1A2-F53579C7F503; t=1709319968;
+	bh=kclR9O1Au8wRehRzcfqdqVCqhOZ+OqTDy0X/Usb2D9w=;
+	h=From:To:Date:Message-ID:MIME-Version;
+	b=LpF0qO4UY3zq8WFvfMYTDR419wAIeTTaU+28M4bjF48HF3Fk8cLVDiUVvukA6S3xf
+	 LQV5kmSoorpDoEVfmqbF3di3udKnRg4jYZ1IGQ3AXGiMtk6Rit5sfp6Z3LjbacGNRL
+	 w2v2AClGz6r4CWLWnTyazNB7IGiIU5ajLdpKUcgdyf1XoBA2+oBUOTSvr/Sqg0s2wj
+	 XVpUGrzUB8pYNuzUIt1s10sCFq1tXQnW0qkmRIX4eRQapHb215i5a+lXfW0AufIL5i
+	 RUXTL2+VtxS3tRvt0MJEf4ERbuAqjfuLyjsxHAsTGok1lJ86W88XUQ2OVijDjxIGSS
+	 2PazYN5T3KB3A==
+X-Virus-Scanned: amavisd-new at rosalinux.ru
+Received: from mail.rosalinux.ru ([127.0.0.1])
+	by localhost (mail.rosalinux.ru [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id VQ-MjpTfyj7b; Fri,  1 Mar 2024 22:06:08 +0300 (MSK)
+Received: from localhost.localdomain (unknown [62.217.186.174])
+	by mail.rosalinux.ru (Postfix) with ESMTPSA id A728DDCE59BB9;
+	Fri,  1 Mar 2024 22:06:08 +0300 (MSK)
+From: Mikhail Lobanov <m.lobanov@rosalinux.ru>
+To: Rui Miguel Silva <rmfrfs@gmail.com>
+Cc: Mikhail Lobanov <m.lobanov@rosalinux.ru>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] greybus: Fix deref of NULL in __gb_lights_flash_brightness_set
+Date: Fri,  1 Mar 2024 14:04:24 -0500
+Message-ID: <20240301190425.120605-1-m.lobanov@rosalinux.ru>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Transfer-Encoding: quoted-printable
 
-Hello Markus,
+Dereference of null pointer in the __gb_lights_flash_brightness_set funct=
+ion.
+Assigning the channel the result of executing the get_channel_from_mode f=
+unction
+without checking for NULL may result in an error.
 
-On Thu, 29 Feb 2024 19:55:46 +0100
-Markus Elfring <Markus.Elfring@web.de> wrote:
+Found by Linux Verification Center (linuxtesting.org) with SVACE.
 
-> From: Markus Elfring <elfring@users.sourceforge.net>
-> Date: Thu, 29 Feb 2024 19:44:36 +0100
-> 
-> Add a jump target so that a bit of exception handling can be better reused
-> at the end of this function implementation.
-> 
-> Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+Fixes: 2870b52bae4c ("greybus: lights: add lights implementation")
+Signed-off-by: Mikhail Lobanov <m.lobanov@rosalinux.ru>
+---
+ drivers/staging/greybus/light.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+diff --git a/drivers/staging/greybus/light.c b/drivers/staging/greybus/li=
+ght.c
+index 87d36948c610..929514350947 100644
+--- a/drivers/staging/greybus/light.c
++++ b/drivers/staging/greybus/light.c
+@@ -148,10 +148,15 @@ static int __gb_lights_flash_brightness_set(struct =
+gb_channel *channel)
+ 						GB_CHANNEL_MODE_TORCH);
+=20
+ 	/* For not flash we need to convert brightness to intensity */
+-	intensity =3D channel->intensity_uA.min +
++
++	if (channel) {
++		intensity =3D channel->intensity_uA.min +
+ 			(channel->intensity_uA.step * channel->led->brightness);
+=20
+-	return __gb_lights_flash_intensity_set(channel, intensity);
++		return __gb_lights_flash_intensity_set(channel, intensity);
++	}
++
++	return 0;
+ }
+ #else
+ static struct gb_channel *get_channel_from_cdev(struct led_classdev *cde=
+v)
+--=20
+2.43.0
 
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
