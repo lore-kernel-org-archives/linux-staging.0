@@ -1,105 +1,79 @@
-Received: from mail.rosalinux.ru (mail.rosalinux.ru [195.19.76.54])
+Received: from relay162.nicmail.ru (relay162.nicmail.ru [91.189.117.6])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59715286AE
-	for <linux-staging@lists.linux.dev>; Fri,  1 Mar 2024 19:06:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.19.76.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D16E57EC;
+	Fri,  1 Mar 2024 20:13:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.189.117.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709319977; cv=none; b=kaBtdpV1J10tbIdkWoJ6UoUnGVNBnV6EIGB6IUqpb63w0ihFDSI/s0D4QFKlmrfLxPrry2wUtUSLOXmhq6gt7oZA7afzqzY8NDb58Hw7jWvA37fjtBEnB8ExeB08whjff5Dc5IzBk4nZ3zch85K4u8kg//Y3apwZZpmG/VDsNNw=
+	t=1709324019; cv=none; b=Ir0V9Bo4msHa+o+lDzw4XUZifydg8uym72nR/dAKRGMJij2kb2TTqCydsQUKqgna7+CwvvC6wxmlBiy5HQPyGaVYb+Lbru7LAsZKFkhlAHqHHy2SPQNiVSWVgrAqXQaFBwn3qsARAQMUknSiaJYXyemHGh/dWnXzRO2aRYofkN8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709319977; c=relaxed/simple;
-	bh=fBKQb/U2gC/96fp2K2GWljmoZQn9BibE1AkFqiHeIUI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MQItHNYdk5ISEmgkQ+xlGJsR9uBPYwLuzwYyAZj+l44KNhYB2/VOtfiw2rELp/Sf2CUDyhvDtQlQXgJPthRZesjBsdcoc0e/O5QxLqMelVpmHNNJ78RwTM8xhw/Q6Gm2oRVGdRSNZYJGIVMtzT45NlIoYzc/xNNzTGuHeUIt3rw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosalinux.ru; spf=pass smtp.mailfrom=rosalinux.ru; dkim=pass (2048-bit key) header.d=rosalinux.ru header.i=@rosalinux.ru header.b=LpF0qO4U; arc=none smtp.client-ip=195.19.76.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosalinux.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosalinux.ru
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rosalinux.ru header.i=@rosalinux.ru header.b="LpF0qO4U"
-Received: from localhost (localhost [127.0.0.1])
-	by mail.rosalinux.ru (Postfix) with ESMTP id 18082DCE59BB9;
-	Fri,  1 Mar 2024 22:06:09 +0300 (MSK)
-Received: from mail.rosalinux.ru ([127.0.0.1])
-	by localhost (mail.rosalinux.ru [127.0.0.1]) (amavisd-new, port 10032)
-	with ESMTP id 67HJQtmzNR1y; Fri,  1 Mar 2024 22:06:08 +0300 (MSK)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.rosalinux.ru (Postfix) with ESMTP id D9520DCE59BBA;
-	Fri,  1 Mar 2024 22:06:08 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.rosalinux.ru D9520DCE59BBA
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosalinux.ru;
-	s=1D4BB666-A0F1-11EB-A1A2-F53579C7F503; t=1709319968;
-	bh=kclR9O1Au8wRehRzcfqdqVCqhOZ+OqTDy0X/Usb2D9w=;
-	h=From:To:Date:Message-ID:MIME-Version;
-	b=LpF0qO4UY3zq8WFvfMYTDR419wAIeTTaU+28M4bjF48HF3Fk8cLVDiUVvukA6S3xf
-	 LQV5kmSoorpDoEVfmqbF3di3udKnRg4jYZ1IGQ3AXGiMtk6Rit5sfp6Z3LjbacGNRL
-	 w2v2AClGz6r4CWLWnTyazNB7IGiIU5ajLdpKUcgdyf1XoBA2+oBUOTSvr/Sqg0s2wj
-	 XVpUGrzUB8pYNuzUIt1s10sCFq1tXQnW0qkmRIX4eRQapHb215i5a+lXfW0AufIL5i
-	 RUXTL2+VtxS3tRvt0MJEf4ERbuAqjfuLyjsxHAsTGok1lJ86W88XUQ2OVijDjxIGSS
-	 2PazYN5T3KB3A==
-X-Virus-Scanned: amavisd-new at rosalinux.ru
-Received: from mail.rosalinux.ru ([127.0.0.1])
-	by localhost (mail.rosalinux.ru [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id VQ-MjpTfyj7b; Fri,  1 Mar 2024 22:06:08 +0300 (MSK)
-Received: from localhost.localdomain (unknown [62.217.186.174])
-	by mail.rosalinux.ru (Postfix) with ESMTPSA id A728DDCE59BB9;
-	Fri,  1 Mar 2024 22:06:08 +0300 (MSK)
-From: Mikhail Lobanov <m.lobanov@rosalinux.ru>
-To: Rui Miguel Silva <rmfrfs@gmail.com>
-Cc: Mikhail Lobanov <m.lobanov@rosalinux.ru>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] greybus: Fix deref of NULL in __gb_lights_flash_brightness_set
-Date: Fri,  1 Mar 2024 14:04:24 -0500
-Message-ID: <20240301190425.120605-1-m.lobanov@rosalinux.ru>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1709324019; c=relaxed/simple;
+	bh=qsTCsmAF3I9S9oSBSGdZteZ9eWDoMSLbY3Z0xeS0S9Q=;
+	h=Message-ID:Date:MIME-Version:From:Subject:References:To:Cc:
+	 In-Reply-To:Content-Type; b=grd85gljeFW9Z0z2Wxc/jPSzjQuP/6dt3YK7Ab59+2WG25hOnKQ1pd0VzYXL3R0hwgk07hyuVDZMY4whDJ9W5Rfoq1H71jiD5/27qnVnN94uL3xOc50y6Z1crfUr7oGnexEHtdGPWbHNOkv41XtdqwuOcuOoQFpDZWSfKy0IHSI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ancud.ru; spf=pass smtp.mailfrom=ancud.ru; arc=none smtp.client-ip=91.189.117.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ancud.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ancud.ru
+Received: from [10.28.138.19] (port=5690 helo=[192.168.95.111])
+	by relay.hosting.mail.nic.ru with esmtp (Exim 5.55)
+	(envelope-from <kiryushin@ancud.ru>)
+	id 1rg8wl-00053b-8I;
+	Fri, 01 Mar 2024 22:53:32 +0300
+Received: from [87.245.155.195] (account kiryushin@ancud.ru HELO [192.168.95.111])
+	by incarp1106.mail.hosting.nic.ru (Exim 5.55)
+	with id 1rg8wl-000Kr6-1b;
+	Fri, 01 Mar 2024 22:53:31 +0300
+Message-ID: <1d6c298a-81d5-4ffd-becb-3a796690f4be@ancud.ru>
+Date: Fri, 1 Mar 2024 22:53:29 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+From: Nikita Kiryushin <kiryushin@ancud.ru>
+Subject: [PATCH] staging: sm750fb: Remove unneeded setting of
+ info->screen_size
+References: <>
+Content-Language: en-US
+To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+Cc: Teddy Wang <teddy.wang@siliconmotion.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org
+In-Reply-To: <>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MS-Exchange-Organization-SCL: -1
 
-Dereference of null pointer in the __gb_lights_flash_brightness_set funct=
-ion.
-Assigning the channel the result of executing the get_channel_from_mode f=
-unction
-without checking for NULL may result in an error.
+
+In lynxfb_set_fbinfo info->screen_size is set twice, the first value is
+never used and then overwritten.
+
+Remove the first time the value is set.
 
 Found by Linux Verification Center (linuxtesting.org) with SVACE.
 
-Fixes: 2870b52bae4c ("greybus: lights: add lights implementation")
-Signed-off-by: Mikhail Lobanov <m.lobanov@rosalinux.ru>
+Fixes: 81dee67e215b ("staging: sm750fb: add sm750 to staging")
+Signed-off-by: Nikita Kiryushin <kiryushin@ancud.ru>
 ---
- drivers/staging/greybus/light.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+  drivers/staging/sm750fb/sm750.c | 1 -
+  1 file changed, 1 deletion(-)
 
-diff --git a/drivers/staging/greybus/light.c b/drivers/staging/greybus/li=
-ght.c
-index 87d36948c610..929514350947 100644
---- a/drivers/staging/greybus/light.c
-+++ b/drivers/staging/greybus/light.c
-@@ -148,10 +148,15 @@ static int __gb_lights_flash_brightness_set(struct =
-gb_channel *channel)
- 						GB_CHANNEL_MODE_TORCH);
-=20
- 	/* For not flash we need to convert brightness to intensity */
--	intensity =3D channel->intensity_uA.min +
-+
-+	if (channel) {
-+		intensity =3D channel->intensity_uA.min +
- 			(channel->intensity_uA.step * channel->led->brightness);
-=20
--	return __gb_lights_flash_intensity_set(channel, intensity);
-+		return __gb_lights_flash_intensity_set(channel, intensity);
-+	}
-+
-+	return 0;
- }
- #else
- static struct gb_channel *get_channel_from_cdev(struct led_classdev *cde=
-v)
---=20
-2.43.0
+diff --git a/drivers/staging/sm750fb/sm750.c 
+b/drivers/staging/sm750fb/sm750.c
+index 04c1b32a22c5..70d1c8292df0 100644
+--- a/drivers/staging/sm750fb/sm750.c
++++ b/drivers/staging/sm750fb/sm750.c
+@@ -845,7 +845,6 @@ static int lynxfb_set_fbinfo(struct fb_info *info, 
+int index)
+  	info->pseudo_palette = &par->pseudo_palette[0];
+  	info->screen_base = crtc->v_screen;
+  	pr_debug("screen_base vaddr = %p\n", info->screen_base);
+-	info->screen_size = line_length * var->yres_virtual;
+   	/* set info->fix */
+  	fix->type = FB_TYPE_PACKED_PIXELS;
+-- 
+2.34.1
 
