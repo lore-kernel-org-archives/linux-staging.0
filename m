@@ -1,98 +1,77 @@
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9DFC67E77
-	for <linux-staging@lists.linux.dev>; Fri,  1 Mar 2024 15:31:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBFB88C17
+	for <linux-staging@lists.linux.dev>; Fri,  1 Mar 2024 17:39:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709307114; cv=none; b=u1RIHU3B3DrqyBFQHH6lU8FQPW4H8m/yOKJbZVmbACczhHMO9jjM3LcbG+umveIGysJIvdRRhFOOvybDA9NtVDOmInhBIcl/cHOs/g63LTfEMczEsGFqpVILr8ZQUrALENo7ikct0BHUoLsge6ItyUsYBgJ+OXRSpBHTSVoKEho=
+	t=1709314786; cv=none; b=d91UVd5syLU1lUC5Tcy9Imf3sGatNGnp/q6bKpzrHqvlisheEEqyasjC+Bz0INPAPdUqXujud6pjbW4HpvU99qYJve++7/+X7TDIJcuKKIRFjKY3eVORprKkMhWA0uR5YU16mW/nE0+fLytwXFqS1lmJUiTy0IfZ8P2qTLHb5N4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709307114; c=relaxed/simple;
-	bh=c6VADMQicUPiPOIu9kP0v1RFWmn/JeAemp3LKilZuoE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=bv+kqrCVaxND8aef7eF2jt0QYNd4jaWQBxGrnu+6vcPkEWE2NmxOl/MeEpOoDZq8ZgA0hvcXg9cRfHr6iBGJ9TcdaSKecC08AzuNBp/22/QGL76GlMjCs5aDA7+NkHu8q4hUrzQ0sV8MzTVi5tmQb0nLrDI8NvdDv3R0qidiyOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MYWtpjO7; arc=none smtp.client-ip=209.85.208.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1709314786; c=relaxed/simple;
+	bh=VE2uSRmbnrUTIwI0MsFFp9dkOgavVaKfIAsVt33kwLE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QViCiqY10P9rHlKvTxmM1eecHO1+jVUYQ3LCxE2QW4KHDW2xaNYktllspb73CYazu9tk45kAUujq1mdKd7L99PbeCuOpECBAtMAM52D8ZfE4yNwS6+7CKA8zInn//CHXpK8ZzFf6GavqX3oh9Kj43gtamZdkV5FchD9Y0qu+XqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=GWR6kZ6s; arc=none smtp.client-ip=217.70.183.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MYWtpjO7"
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2d269b2ff48so24351681fa.3
-        for <linux-staging@lists.linux.dev>; Fri, 01 Mar 2024 07:31:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709307111; x=1709911911; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=uQkIsiqJa3PbCfK5y5rQ5fldLZTBWAFO6axVFhfQfUk=;
-        b=MYWtpjO7dVz014xGh7IwzjjZpk+QBENvq+7AM/nkz4D6Gtgtd1eaIycl2OtbHo2XzM
-         maePynwV9isS5todbmcVzxVH5cZuk35CwYMJ3VzIuKVmj64n8QuwANoN0ps8lePyZNMn
-         APrlOnVJ+DHNmXRhLtqtxk9L/kK6svCwmHS8eprBwb3Zj3n+BJAAU+q4R0Th7RngVz4U
-         TtVrLlY6m/jsLM+6f+kPnEv/JPF1jfAq6BLkCGKl7sv+S2I2audAHwswgGxPRyVe0Kub
-         W3XGSq2yyVw29D99dZgodzo8JZTQPDjlrs2Wq/YtVR+oztM6i+J/N15fRRX+STFA8XWL
-         Sb2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709307111; x=1709911911;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=uQkIsiqJa3PbCfK5y5rQ5fldLZTBWAFO6axVFhfQfUk=;
-        b=aMNRsAOLvUe/gOTKvHedcYMJRkAl9d/85zPc8wVBoOqkHFwxzTz/m9c7EhMtw78GK8
-         +qt6YnoOYGvISjm2tEOoFw3JBXDKamUtC6lyNFz8Tlwe8x9HfC6wuFnMDIsT3RbQOF11
-         NBfFgX95NoZn8b6xJSQPLFx7VT+C8ADeIJCkoUJxE6zeo+j6xeR/DWMAgl09DsvENCw1
-         zpZSekWmjYChngwl74NabUfT8MbF4TEoFRmTXq2HE6OZtikxm0QrDwxCskC8GiXkJQ0j
-         Qvjogdg5sRnnvgq5sWKLqr5Wx+X0hSZT/IZGI62ZAlYRi5u2Rlc5gm8e+BLQXOwsR3Bh
-         UBeQ==
-X-Gm-Message-State: AOJu0Yx7Kg9pUhkHTRO7RpWmdtYhBw5zBPXCOIxObHghI6H+Q2SPEYMN
-	4cdnibOVI+42y5Rxq4tKjps7LT6cbZyFeUVF5+sd97h4RbB/278J
-X-Google-Smtp-Source: AGHT+IFowqv91ocPiEeEPwajlKa4L03f8UHTtqN7Eo4sKzpVD721ZPHRO+ng/AQ0QUYZzwtnFNGy+Q==
-X-Received: by 2002:ac2:5186:0:b0:512:d88a:3a8f with SMTP id u6-20020ac25186000000b00512d88a3a8fmr1450384lfi.25.1709307110610;
-        Fri, 01 Mar 2024 07:31:50 -0800 (PST)
-Received: from ubuntu2004.cynet.local (vpn1382.cynet.com. [84.110.53.106])
-        by smtp.gmail.com with ESMTPSA id u10-20020a05600c210a00b00410df4bf22esm8739925wml.38.2024.03.01.07.31.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Mar 2024 07:31:50 -0800 (PST)
-From: Ariel Silver <arielsilver77@gmail.com>
-To: gregkh@linuxfoundation.org,
-	philipp.g.hortmann@gmail.com,
-	yogi.kernel@gmail.com,
-	dan.carpenter@linaro.org,
-	straube.linux@gmail.com,
-	garyrookard@fastmail.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Ariel Silver <arielsilver77@gmail.com>
-Subject: [PATCH] Staging: rtl8192e: Declare variable with static
-Date: Fri,  1 Mar 2024 17:31:28 +0200
-Message-Id: <20240301153128.13974-1-arielsilver77@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="GWR6kZ6s"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 1B7F1240003;
+	Fri,  1 Mar 2024 17:39:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1709314782;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HPOP82Swf39Z+Oml/HNNIoo3JMbE10x1ALBHxRiVIp4=;
+	b=GWR6kZ6sqnLHbD99ZA24rS7vAWtep94ya9NrWpvjdjoRU666FY23absUBejh5k+F1ZnjqS
+	vmTZ6iMMzqD49O7v2Yh+QIbMT1KE1zy+Tdi98zGRiKtU26wJSIs9TWcWZA+VQsfiRxYzwE
+	BAFH32DSCmJkBOMpqeHx96/SKusM3TlsbbTs3zo5dlNrr2aMoCdNhllZoYe3+wc2zFuogv
+	4QpwqK264eg2jGDAYH5JEdEo+ONGAJVGkwb72LSQ13MtxNVWRAupfGJIZytBJ0s+FVm0a0
+	MJYwRN0pi6J13FmpW2SUSbbHvHTLw+BO6oOD9USIHJPS9bsMOgtBWHmj+ml05Q==
+Date: Fri, 1 Mar 2024 18:39:36 +0100
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Markus Elfring <Markus.Elfring@web.de>
+Cc: linux-staging@lists.linux.dev, linux-tegra@vger.kernel.org,
+ linux-media@vger.kernel.org, kernel-janitors@vger.kernel.org, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Jonathan Hunter
+ <jonathanh@nvidia.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>, Thierry Reding
+ <thierry.reding@gmail.com>, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] staging: media: tegra-video: Use common error handling
+ code in tegra_vi_graph_parse_one()
+Message-ID: <20240301183936.505fcc72@booty>
+In-Reply-To: <dbebaea7-289c-47d9-ba06-cd58a10ea662@web.de>
+References: <dbebaea7-289c-47d9-ba06-cd58a10ea662@web.de>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-Sasl: luca.ceresoli@bootlin.com
 
-Fixed sparse warning:
-"'dm_rx_path_sel_table' was not declared. Should it be static?"
-As dm_rx_path_sel_table is used only in rtl_dm.c it should be static.
+Hello Markus,
 
-Signed-off-by: Ariel Silver <arielsilver77@gmail.com>
----
- drivers/staging/rtl8192e/rtl8192e/rtl_dm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Thu, 29 Feb 2024 19:55:46 +0100
+Markus Elfring <Markus.Elfring@web.de> wrote:
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-index 92143c50c149..850ee6ae1f02 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-@@ -144,7 +144,7 @@ const u8 dm_cck_tx_bb_gain_ch14[CCK_TX_BB_GAIN_TABLE_LEN][8] = {
- /*------------------------Define global variable-----------------------------*/
- struct dig_t dm_digtable;
- 
--struct drx_path_sel dm_rx_path_sel_table;
-+static struct drx_path_sel dm_rx_path_sel_table;
- /*------------------------Define global variable-----------------------------*/
- 
- 
+> From: Markus Elfring <elfring@users.sourceforge.net>
+> Date: Thu, 29 Feb 2024 19:44:36 +0100
+> 
+> Add a jump target so that a bit of exception handling can be better reused
+> at the end of this function implementation.
+> 
+> Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+
+Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+
 -- 
-2.25.1
-
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
