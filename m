@@ -1,145 +1,138 @@
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87C02175A4
-	for <linux-staging@lists.linux.dev>; Sat,  2 Mar 2024 14:57:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37784182CA
+	for <linux-staging@lists.linux.dev>; Sat,  2 Mar 2024 15:18:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709391442; cv=none; b=YsGlz9W6TEWKXa006Va8I2tb+NP1xP3K5UikCwMmbHSETjepuXCWP0Anzy1Z3IErAbqw5Nsp8gDMPhIQcc7ZG/DhFprs/wfqQveAKmfRHu6MTLsrtFXKTaHBvEPx6dp06p2k4pV4F8YYBOdlHn+mZ2XAwO9T9U1Wyx81wjjEBGI=
+	t=1709392699; cv=none; b=fO1j0l2LAEprchVORQpwu4nyIDsdmveKAcN+5HEUgJ8deeTCC9vGC00hoEFBcvtlH86Keb9VvZ5Xd5MDFACX9Ggh/lKI0RQTxu9EjMdYj414sD1sOTElWmhBTvbvG7WJZ6oxDYhHR0+GjTxOyljd/U8tv8NVzfMN06t0mCtMJSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709391442; c=relaxed/simple;
-	bh=vsDO370P9L0eb7fcWgulrtTqYp1omUqwzrlkY+TsrEw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NNhUYGLx5uO4rM8Ssmh07Wn18Nf2T5Ly4uG4Vosd7mk/73B8uk77tklp16jWD2SYpPjBzFBrnWRFwRBaLF4ZMf48ozTer09A6oBq1Iyyjci9pW85kOm8Yo4SiFF6Fci83NxQPvVoNKZMFDJtoeyIzWvAuKTqkwugiLRg3b6d/Ow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ieee.org; spf=pass smtp.mailfrom=ieee.org; dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b=amD1vwvE; arc=none smtp.client-ip=209.85.219.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ieee.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ieee.org
+	s=arc-20240116; t=1709392699; c=relaxed/simple;
+	bh=iXFz7A/Is1Avr+n6fjouD8BGhLiy6XGPUswE1I3G+6A=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=PSSReyF3mil1NAeSNRRTW7xaoVkM4mhe7B8CdElCO+67W/tSkq/t5CpTJ+Q0D9CHeTiVpt2h03xFUlI6BpLACQG09veoqcvVgrcBM/Culjpunk+m8j1713PyYmtcCqrtrBEh74u5Zai5DkiBS7JWe7VmPa8pSg9EM2ISE0u39I0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VkUHg5n0; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b="amD1vwvE"
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-68f5cdca7a3so31122486d6.1
-        for <linux-staging@lists.linux.dev>; Sat, 02 Mar 2024 06:57:19 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VkUHg5n0"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-33e12916565so1550025f8f.1
+        for <linux-staging@lists.linux.dev>; Sat, 02 Mar 2024 07:18:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ieee.org; s=google; t=1709391438; x=1709996238; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=wfIgoTdA9N+MeIiEy0xWNsxv5l2fuvtP53bPZ++Mceg=;
-        b=amD1vwvEUutfV4Jpoh3lVk+yIUwL0rwokuHJ3XbTGPYu+iz/H6AOSgpP1LZtwB3IjF
-         0cay1V2TdJM7Ld4sZoWfE34WYaYQyEjRgfe8ZgTNQ4wQkynLiyj0wet0KsV5d3qblrEC
-         zMBWdR6yz3hm+Zywnbma4RqwTOeMwYHpy9hRI=
+        d=gmail.com; s=20230601; t=1709392695; x=1709997495; darn=lists.linux.dev;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=d3tsMku+8+1/N/PLDjGS+jqwA4yTKYJa9xvpuCgVhy4=;
+        b=VkUHg5n0EiU4na5x3T7QKNUoc4OOmX4+LJpGTFjx2uXDnaNQkprv8+mMw3qintMl3b
+         eHG9LxqoD1VHbiirJEY8OwcAbvX6+4uhhAlM4Dffl6itu+UAHdvlb94smcIp5ViHtKsQ
+         BmZ+XYbyeYureySOMbNJAuGUOhQUDXnxelW7pwMnqdwiBJRzWqfzL9OBYPUAYcesXTfb
+         /0DMgle/eLmMxQpdsp82mEvmXjvA3qokJ9q6hckChoZnovK9Uvk/vbm7WUOT1d5nJG2y
+         dEWhk9XRsKDUAdhHbWhqGVpAxlMP2ZtWDnSMHleCRARBstoLtdyFHgfGNIfygZxrRI+q
+         3I8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709391438; x=1709996238;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wfIgoTdA9N+MeIiEy0xWNsxv5l2fuvtP53bPZ++Mceg=;
-        b=aQqDVIt1BypTfzlAgMVj1xDQ4corp1H7Evq358iCJOyUleWWGuvicwILDPU48TCdRu
-         2n2SvBRlw9F/OBfBs//IUtPp0T/SPoi1YGijv39+4olSGimza7Eq4R53zckEhjDUA6wS
-         B1oAiIt1l8amoG4XoyS7nM1BQQdbsx6UbDdpdMQG8nW21Oj8x1VS9Gc169YYUBcrVJKI
-         S/LayfPVxmqD6975iYWi2t0+vncuPRLECOWdOiqr0oPpu2v9vL19Ioa3GxxGyo93Sshw
-         DlsEKNOF1S9kv2IvJBjTlHiOTl3MlZdf/gYXabAnSLxXM9RcCnYfE2nLXjH5c33MjrtA
-         wRWA==
-X-Forwarded-Encrypted: i=1; AJvYcCW/WqBSsFgTPXAhkSuaAEPnWCozA0P9/AEgBrRcICXA+Ke+BUe05yJ7UdnkDge0HjuVtRpXL8RdqsdcboQz82wmx7dBF7SFpJ0uksXD1Q==
-X-Gm-Message-State: AOJu0YzCMkwIK9KHjdrn3983woodEpvoyjqeA/euxxR7i55a8dsmQuwf
-	3DCV1UPdKzTi0znELHxwu3q8c0p+FKzETr/Cakt2ODnANR32B5i0Y8CCfYstcA==
-X-Google-Smtp-Source: AGHT+IG9qW7IYS8D4z4TN+vHi467Y/Zi72+/DehK/Phj0uWp6/CbVvutRoW9BsGBwd53MOe9t8x0Hw==
-X-Received: by 2002:a0c:da84:0:b0:690:5ff8:cc0 with SMTP id z4-20020a0cda84000000b006905ff80cc0mr2942320qvj.11.1709391438501;
-        Sat, 02 Mar 2024 06:57:18 -0800 (PST)
-Received: from [10.211.55.3] (c-73-228-159-35.hsd1.mn.comcast.net. [73.228.159.35])
-        by smtp.googlemail.com with ESMTPSA id or33-20020a05621446a100b0068f455083fbsm3018169qvb.63.2024.03.02.06.57.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 02 Mar 2024 06:57:18 -0800 (PST)
-Message-ID: <36a4d208-9945-4a65-bdf1-d8309d779e63@ieee.org>
-Date: Sat, 2 Mar 2024 08:57:17 -0600
+        d=1e100.net; s=20230601; t=1709392695; x=1709997495;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=d3tsMku+8+1/N/PLDjGS+jqwA4yTKYJa9xvpuCgVhy4=;
+        b=alKjjkbt7ZRk6LCk8rSF2R68toPanj1FupRUl1nbK+PtuemSkdOIKLwmInF2uUbLFD
+         FoF1/w5sK+34UgCXvUnBOujpbKyBZjTOsPz0p0Lesdz8sEO4xmJRPZWmS8qByVMdgr0M
+         40LRKbAacXKCZwv+rbYvqKyzxRPkkyPqUxhi963V3zTb9Jui9zX11/DpzUObtvLbdAam
+         0G+MX5WzDpoXv72XIdA8HHlj+OwmpKs2K0YOsioCtW0oKd5lkq3Di6VZ5jhuVLDUEVAb
+         rTyl09En27qR8yLc9h6d1CJsR/tAYeN+yF7mgplPOltZQYpj9UfH7xaCM7JKN7UiVr/L
+         oWIQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUuETZKA93tGNhAZQ+wNGlh1JiO1TtKMiUOIH35TUzuSEepedA79ChrTkd7thK9ujmvXUGlh7f0G+1MhrsjqctkPTGEILzRmHghJQns+A==
+X-Gm-Message-State: AOJu0YzYRBEBFHt5hcEUYiBYBMr2dmpmPJBUwJQ0ENo+S8nMbq7asGcz
+	de9tb3JP7/XWtSCFIU8JszIWWu/GPRFnyM0loUygffndXoFRrlKL
+X-Google-Smtp-Source: AGHT+IHMGqcaebuU5XjaJPHEn0KuC12L6kxnnC++HraoFBZmu+7GOQj+YVKjoRWrraAtMf/akjrVOw==
+X-Received: by 2002:adf:ca8a:0:b0:33e:1505:9463 with SMTP id r10-20020adfca8a000000b0033e15059463mr5508436wrh.13.1709392695236;
+        Sat, 02 Mar 2024 07:18:15 -0800 (PST)
+Received: from localhost (a109-49-32-45.cpe.netcabo.pt. [109.49.32.45])
+        by smtp.gmail.com with ESMTPSA id p18-20020adf9d92000000b0033e18f5714esm5454212wre.59.2024.03.02.07.18.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 02 Mar 2024 07:18:14 -0800 (PST)
+From: Rui Miguel Silva <rmfrfs@gmail.com>
+To: Mikhail Lobanov <m.lobanov@rosalinux.ru>
+Cc: Mikhail Lobanov <m.lobanov@rosalinux.ru>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, greybus-dev@lists.linaro.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] greybus: Fix deref of NULL in
+ __gb_lights_flash_brightness_set
+In-Reply-To: <20240301190425.120605-1-m.lobanov@rosalinux.ru>
+References: <20240301190425.120605-1-m.lobanov@rosalinux.ru>
+Date: Sat, 02 Mar 2024 15:18:13 +0000
+Message-ID: <m31q8smzm2.fsf@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [greybus-dev] Re: [PATCH] greybus: Fix deref of NULL in
- __gb_lights_flash_brightness_set
-Content-Language: en-US
-To: Dan Carpenter <dan.carpenter@linaro.org>,
- Mikhail Lobanov <m.lobanov@rosalinux.ru>, rmfrfs@gmail.com
-Cc: greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20240301190425.120605-1-m.lobanov@rosalinux.ru>
- <7ef732ad-a50f-4cf5-8322-376f42eb051b@moroto.mountain>
-From: Alex Elder <elder@ieee.org>
-In-Reply-To: <7ef732ad-a50f-4cf5-8322-376f42eb051b@moroto.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-On 3/2/24 3:59 AM, Dan Carpenter wrote:
-> On Fri, Mar 01, 2024 at 02:04:24PM -0500, Mikhail Lobanov wrote:
->> Dereference of null pointer in the __gb_lights_flash_brightness_set function.
->> Assigning the channel the result of executing the get_channel_from_mode function
->> without checking for NULL may result in an error.
-> 
-> get_channel_from_mode() can only return NULL when light->channels_count
-> is zero.
-> 
-> Although get_channel_from_mode() seems buggy to me.  If it can't
-> find the correct mode, it just returns the last channel.  So potentially
-> it should be made to return NULL.
+Hi Mikhail,
+Thanks for your patch.
 
-I agree with you.  This looks quite wrong to me, and I
-like your fix, *except* there is also no need to check
-whether the channel pointer is null inside the loop.
-It's the address of an object, and will always be non-null.
+Mikhail Lobanov <m.lobanov@rosalinux.ru> writes:
 
-     static struct gb_channel *
-     get_channel_from_mode(struct gb_light *light, u32 mode)
-     {
-         struct gb_channel *channel;
-         u32 i;
+> Dereference of null pointer in the __gb_lights_flash_brightness_set function.
+> Assigning the channel the result of executing the get_channel_from_mode function
+> without checking for NULL may result in an error.
+>
+> Found by Linux Verification Center (linuxtesting.org) with SVACE.
+>
+> Fixes: 2870b52bae4c ("greybus: lights: add lights implementation")
+> Signed-off-by: Mikhail Lobanov <m.lobanov@rosalinux.ru>
 
-         for (i = 0; i < light->channels_count; i++) {
-             channel = &light->channels[i];
-             if (channel->mode == mode)
-                 return channel;
-         }
-         return NULL;
-     }
+Yeah, at the time when this was implemented I recall that we could only
+set the brightness of the torch mode in a flash led, not in the flash
+only mode. So, if we were getting here was that for sure we had a torch
+channel and get_channel_from_mode will always find a channel, so never
+returning null here.
 
+but yeah, this is safer. but maybe just do something like the bellow
+would be simpler:
+modified   drivers/staging/greybus/light.c
+@@ -147,6 +147,9 @@ static int __gb_lights_flash_brightness_set(struct gb_channel *channel)
+ 		channel = get_channel_from_mode(channel->light,
+ 						GB_CHANNEL_MODE_TORCH);
+ 
++	if (!channel)
++		return -EINVAL;
++
+ 	/* For not flash we need to convert brightness to intensity */
+ 	intensity = channel->intensity_uA.min +
+ 			(channel->intensity_uA.step * channel->led->brightness);
 
-Rui, could you please confirm what Dan says (and his
-proposed change) was your intention?
+what do you think?
 
-If so (and assuming you also fix the check for a null
-channel pointer inside the loop):
+Cheers,
+    Rui
 
-Reviewed-by: Alex Elder <elder@linaro.org>
-
-					-Alex
-
-> 
+> ---
+>  drivers/staging/greybus/light.c | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
+>
 > diff --git a/drivers/staging/greybus/light.c b/drivers/staging/greybus/light.c
-> index d62f97249aca..acd435f5d25d 100644
+> index 87d36948c610..929514350947 100644
 > --- a/drivers/staging/greybus/light.c
 > +++ b/drivers/staging/greybus/light.c
-> @@ -95,15 +95,15 @@ static struct led_classdev *get_channel_cdev(struct gb_channel *channel)
->   static struct gb_channel *get_channel_from_mode(struct gb_light *light,
->   						u32 mode)
->   {
-> -	struct gb_channel *channel = NULL;
-> +	struct gb_channel *channel;
->   	int i;
->   
->   	for (i = 0; i < light->channels_count; i++) {
->   		channel = &light->channels[i];
->   		if (channel && channel->mode == mode)
-> -			break;
-> +			return channel;
->   	}
-> -	return channel;
-> +	return NULL;
->   }
->   
->   static int __gb_lights_flash_intensity_set(struct gb_channel *channel,
-> _______________________________________________
-> greybus-dev mailing list -- greybus-dev@lists.linaro.org
-> To unsubscribe send an email to greybus-dev-leave@lists.linaro.org
-
+> @@ -148,10 +148,15 @@ static int __gb_lights_flash_brightness_set(struct gb_channel *channel)
+>  						GB_CHANNEL_MODE_TORCH);
+>  
+>  	/* For not flash we need to convert brightness to intensity */
+> -	intensity = channel->intensity_uA.min +
+> +
+> +	if (channel) {
+> +		intensity = channel->intensity_uA.min +
+>  			(channel->intensity_uA.step * channel->led->brightness);
+>  
+> -	return __gb_lights_flash_intensity_set(channel, intensity);
+> +		return __gb_lights_flash_intensity_set(channel, intensity);
+> +	}
+> +
+> +	return 0;
+>  }
+>  #else
+>  static struct gb_channel *get_channel_from_cdev(struct led_classdev *cdev)
+> -- 
+> 2.43.0
