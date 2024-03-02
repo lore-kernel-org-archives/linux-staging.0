@@ -1,109 +1,108 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.web.de (mout.web.de [212.227.15.3])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95C8A79F0
-	for <linux-staging@lists.linux.dev>; Sat,  2 Mar 2024 09:59:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BA5F79F0;
+	Sat,  2 Mar 2024 10:40:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709373593; cv=none; b=cwXG+eMjcMCo6ldDiZjGT3dl9u86SSnJ5rTEq2KrV1JoCZM+LOws3ZA0V6KKb97IQ8uq6EDf0JBGk8tqXyeol74iK+z3z7APID4uqi31v6j4sMIzHfcVPrFDbdpoSvLnobaEdyncTshZodwRacLctARoTfX0Bgb1PJ5Llrc+hwk=
+	t=1709376052; cv=none; b=LX/W4fEKNzs7pMJLKBpQaI5QzlzrWuu0NwMfHdtw/N7qVWJknVefHNRVtTKZcuVZJ6SjrM2gFnecGnBtYkyP9g+UCT3H6phqkeU6RDV+sc/LaJ7QtIVMPDLPsjA7g/GTBAnbJYKo4+ay4RdJuhnOcF1cRZ94ucv0JAAc5UFEENQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709373593; c=relaxed/simple;
-	bh=/0GFsJ+1/uHwP0+rcrGwi4dtraL0RyOLUoywuy05330=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n8PnJQRIhniTwquIHH77k9PTknecyBbSbZVJgWo6wmcfgZmH+L62hBWCrljRgm8n0CD8XgKqCsT2K36/3oK7StoyoOriwsevo74W/FbqX2XE8p9WH2FD0I7HA8zSaWbe/skbXPijaaYsNVD2iD6dVu9gYf2K6DBpiO3/pg+3X34=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bBYkeCAl; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1709376052; c=relaxed/simple;
+	bh=5KEwfwfpBtHKd/mMoh+MO4I0djnrDy1f2e5WKqE/N+Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XXxFDl0+gNpS+uMw6iyKkfizHwKzXMdPRhF26+kaCJ4bdPe/izlCWEnrtap8Pxpckn0Djb8D6gXPOlEimhLAAyCgi40RJ5vX/T5toyN6aRUITyaOHDml5k181MmZR+AhdLW5XwmPMhIO+gXb/ogPbD4I6pqME9DGlGQEE6pmr0w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=w4QQ4ma1; arc=none smtp.client-ip=212.227.15.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bBYkeCAl"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-412d6906338so1123405e9.3
-        for <linux-staging@lists.linux.dev>; Sat, 02 Mar 2024 01:59:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1709373589; x=1709978389; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=WXevwhgIr2J2YRRZ5pTYABsmmlbW89cM1iNV1W0EhcQ=;
-        b=bBYkeCAligC5DOSejN0ZyvlC3rzDPqreRbqb1pV5hfTgLZrVeDwSjoE5UjKsdUWIcd
-         aqUxkfNGIHTmy3NYNjN0ygDpnyhFacwb3znstJ2o0I0hlAB/+fcIfu9cjDfCcV87rE++
-         541UTpTz0AingiwcQtGE10lmVYSrajQRqxjAVvDxtRtlCR2bzuQDgm4lRKTv4Waa9yqb
-         w/fSPCtvU+7mLonvd1JOOfgxGQc1JQRBmXKqHlRk5vNS8nxQ9zeWSl/vCM95wY+eGz2h
-         oYPHPoZ2l99YRpl93dfGBEGRobgX4tMWBD6s6YMdQ6OHfjXQzuzJ0QUfjvyUe/oTlWeu
-         ZcbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709373589; x=1709978389;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WXevwhgIr2J2YRRZ5pTYABsmmlbW89cM1iNV1W0EhcQ=;
-        b=OW5fJ4T31gNBwC0wEGeiNBdLgySdV/53YaQfemQMvpKJOdTPlmtQjeD3XeBVStuKx7
-         VTjMO584LrdOeLJRsQ7PrbvcAK3CgZ4VbPuzzJM69mK3wkB6kNkBbh+/zALXw/Xb3KGP
-         aVAn366j9HaxphHsU26mtU19p68ZDlxypAlGhxy39tQeg3nX1M9U5PYRLcogmmTkJm3a
-         ARHhhpyuLCrxdiZJzxbvXHrmNb5TvQM4ygCnJ1Cx7BRvVIckl6Ng7lz0TXPgzPTR9OZa
-         kfN6B8vOllzqmMx1NjXOKfvrjNACTBuq5rjWHkxJrUU7f7BQHglxIUAUC0gNXW0UeL/W
-         iCiw==
-X-Forwarded-Encrypted: i=1; AJvYcCVUoTUuv6wWvqkTUOFHW0cWXUWqYbZ/RsWb9aKauJeTmoyZDFXT9VXTIhzfqBjXmHMwEKvWmSESejathXYkZf/rGljuHZo8WWc/ikKwRg==
-X-Gm-Message-State: AOJu0YyN+0BWhJpcPzTuDrmi0dto4sj4kzyOWc4o9vumI9k3pHNshAH8
-	T/thz1k8AoS4FDfk4Qys3IOqm5h3TBRq79QhVQq6IyM4RverrvwgJSNM3gKo+gI=
-X-Google-Smtp-Source: AGHT+IGp8XtRUBc+woL08R4bjKNomQ6c36yPs4xmUB7xf/YAncZBACwwvcMHn7i4i9lCZGd9kOTtyw==
-X-Received: by 2002:a05:600c:5192:b0:412:afed:5cfb with SMTP id fa18-20020a05600c519200b00412afed5cfbmr3731099wmb.15.1709373589034;
-        Sat, 02 Mar 2024 01:59:49 -0800 (PST)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id z9-20020a05600c114900b00410bca333b7sm10876433wmz.27.2024.03.02.01.59.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 Mar 2024 01:59:48 -0800 (PST)
-Date: Sat, 2 Mar 2024 12:59:39 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Mikhail Lobanov <m.lobanov@rosalinux.ru>
-Cc: Rui Miguel Silva <rmfrfs@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] greybus: Fix deref of NULL in
- __gb_lights_flash_brightness_set
-Message-ID: <7ef732ad-a50f-4cf5-8322-376f42eb051b@moroto.mountain>
-References: <20240301190425.120605-1-m.lobanov@rosalinux.ru>
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="w4QQ4ma1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
+	t=1709376027; x=1709980827; i=markus.elfring@web.de;
+	bh=5KEwfwfpBtHKd/mMoh+MO4I0djnrDy1f2e5WKqE/N+Y=;
+	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+	 In-Reply-To;
+	b=w4QQ4ma1DcUJNf1607MwmUiWq1VEwhfUtnHjOxpuJ57dgm104lqxEk3tuLs+ASHV
+	 9yU5+PCLDPII4m3KlfLFhUy/NmlbbNat23dHJDPRsFBXm1KiXD64gugniF1qTqnXW
+	 p9bl0BVIVm1/xW7RvepilXKQ8GpEItCCbkUVhyvhEfUCbEKkjcHxrbNX7ugq6xtkK
+	 wEc+udSFuzhCUDa17vl1PU9EwT647Z9Aj2nMzL7sxo7vINMC7ExYm6lllP4UW3jUO
+	 i2GXQmCxBcNhcna/RIeF1GEl9G4H9wK5LJFrPVOqzKIKei0VrtS2PKD9ZVig8aCef
+	 oeJzFtzmJxhdT6OwGA==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.86.95]) by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MgibY-1rF2Ji44NQ-00h3sN; Sat, 02
+ Mar 2024 11:40:27 +0100
+Message-ID: <f451ffba-db26-4a3b-a4b3-186c31f2ad64@web.de>
+Date: Sat, 2 Mar 2024 11:40:26 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240301190425.120605-1-m.lobanov@rosalinux.ru>
+User-Agent: Mozilla Thunderbird
+Subject: Re: staging: media: tegra-video: Use common error handling code in
+ tegra_vi_graph_parse_one()
+Content-Language: en-GB
+To: Dan Carpenter <dan.carpenter@linaro.org>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, linux-staging@lists.linux.dev,
+ linux-tegra@vger.kernel.org, linux-media@vger.kernel.org,
+ kernel-janitors@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ LKML <linux-kernel@vger.kernel.org>
+References: <dbebaea7-289c-47d9-ba06-cd58a10ea662@web.de>
+ <20240301183936.505fcc72@booty>
+ <9f1b617f-06cb-4b22-a050-325424720c57@moroto.mountain>
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <9f1b617f-06cb-4b22-a050-325424720c57@moroto.mountain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:8EIFhDOXNVZRFR7rb6IKMJFkCMFDb06oUAxZG70fjR9PxT9vVDb
+ ygwmriYITR6G3+mDegwySoLWOaFOrKIdvdfLLtx7Npk3lEV/2yhpzaPrHsOg54hr9fLjXQk
+ AzjYhdKxoeGucPy0nUXqkKVuDA3LPFMYyENkuKlBs2M1tOv2hAqXwKOkUXsa7C1+5NUialp
+ +CSqHePTqHSMCthsLr/LA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:KfSN83dN8vM=;ZZe12Cqx8Lnelg3dRbEv//XtPa+
+ Ov5CSeXzzv6A+QTt5mCYp1fCKAAagNqF5ynAnwrPI4m1jOoE2ypRSpp4/NG2d2XDKQQBiuBv2
+ eEc09zFfUiqqUAVJQkQD7Ft+7us/UUJXYYGbArKJFJ3z7nry/qPmgmLmLWbhAYHQbYwAoLE9L
+ EKxS5/RONLgDwqzQNt1MFXDptC+PGHk8VMVGkSShxKAmKfuWupdMgKXR/Nk2EoJJ9Gwotc5EL
+ aPP+Pe/YU0Sn79UFH2OjecwDHmILfSwP+DUQj+StufPEwPOwI7CcV5HZ1J941hs8uW6MoLDYR
+ rZtwx/vPeWJLoQlLTv46aHJNZziFOCtx1EBP3zUNX59nHJ0MYh40KZFiiPqlHShjGoSM+JU7W
+ qyltlenXBPC17tldyORFY+2FdWH0M4uobbLeL1JlrScsD8A3b+ph63jnju8CMdu9qedNzQkbk
+ QmiKxOb7FJqTGwycqUC3EMnoMUBbiZXFlXLkfqDiUlKzSK2V9JFmsf+BFzXah6ADjVPdfJ7Ui
+ MFy/Y80NR/NZMnop2mleoGV06F67SDirHovQC+LUMNSnt19WomGwHZJjm2mb24gcNp8edIXEA
+ imvcusWfDabNucAvhU6MCv5cEo1SLoHzR0S9pGPt8rpsB6Bf4iEsAj5CBsGL/LQ8N0pZ4Hfj2
+ u/3kEbrMY6tZMQrL7ggvg8W0OO7QegEIt2fWcP77IcwIBXplzVBPrjxO8CFYzYygw0jWnWcKR
+ 7qCkT181QQ2ZCz/4Mz/bdK44hJYyJVcJsW+L3MrHJ4+pKpfAZWo6tNyq3KSHQ4pd+N6Nk5HR/
+ piduLI8jjzlFyEsJW6Tdnzf608wMZhps3Qnp2fMTqo9QM=
 
-On Fri, Mar 01, 2024 at 02:04:24PM -0500, Mikhail Lobanov wrote:
-> Dereference of null pointer in the __gb_lights_flash_brightness_set function.
-> Assigning the channel the result of executing the get_channel_from_mode function
-> without checking for NULL may result in an error.
+>>> Add a jump target so that a bit of exception handling can be better re=
+used
+>>> at the end of this function implementation.
+=E2=80=A6
+>> Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+>
+> These patches make the code worse.  If we're in the middle of a loop,
+> then we should clean up the partial loop before doing the goto.
+> Otherwise it creates a mess when we add a new allocation function after
+> the end of the loop.
 
-get_channel_from_mode() can only return NULL when light->channels_count
-is zero.
+How does such a feedback fit to another known information source?
 
-Although get_channel_from_mode() seems buggy to me.  If it can't
-find the correct mode, it just returns the last channel.  So potentially
-it should be made to return NULL.
+Section =E2=80=9C7) Centralized exiting of functions=E2=80=9D
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
+cumentation/process/coding-style.rst?h=3Dv6.8-rc6#n526
 
-diff --git a/drivers/staging/greybus/light.c b/drivers/staging/greybus/light.c
-index d62f97249aca..acd435f5d25d 100644
---- a/drivers/staging/greybus/light.c
-+++ b/drivers/staging/greybus/light.c
-@@ -95,15 +95,15 @@ static struct led_classdev *get_channel_cdev(struct gb_channel *channel)
- static struct gb_channel *get_channel_from_mode(struct gb_light *light,
- 						u32 mode)
- {
--	struct gb_channel *channel = NULL;
-+	struct gb_channel *channel;
- 	int i;
- 
- 	for (i = 0; i < light->channels_count; i++) {
- 		channel = &light->channels[i];
- 		if (channel && channel->mode == mode)
--			break;
-+			return channel;
- 	}
--	return channel;
-+	return NULL;
- }
- 
- static int __gb_lights_flash_intensity_set(struct gb_channel *channel,
+
+> Someone is going to add a _scoped() loop which uses cleanup.h magic to
+> call _put automatically.  This is a good option.
+
+I became also curious how scope-based resource management will influence
+Linux coding styles further.
+Will various collateral evolution become more interesting?
+
+Regards,
+Markus
