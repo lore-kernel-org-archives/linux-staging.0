@@ -1,38 +1,56 @@
-Received: from mout.web.de (mout.web.de [212.227.15.3])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BA5F79F0;
-	Sat,  2 Mar 2024 10:40:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87C02175A4
+	for <linux-staging@lists.linux.dev>; Sat,  2 Mar 2024 14:57:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709376052; cv=none; b=LX/W4fEKNzs7pMJLKBpQaI5QzlzrWuu0NwMfHdtw/N7qVWJknVefHNRVtTKZcuVZJ6SjrM2gFnecGnBtYkyP9g+UCT3H6phqkeU6RDV+sc/LaJ7QtIVMPDLPsjA7g/GTBAnbJYKo4+ay4RdJuhnOcF1cRZ94ucv0JAAc5UFEENQ=
+	t=1709391442; cv=none; b=YsGlz9W6TEWKXa006Va8I2tb+NP1xP3K5UikCwMmbHSETjepuXCWP0Anzy1Z3IErAbqw5Nsp8gDMPhIQcc7ZG/DhFprs/wfqQveAKmfRHu6MTLsrtFXKTaHBvEPx6dp06p2k4pV4F8YYBOdlHn+mZ2XAwO9T9U1Wyx81wjjEBGI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709376052; c=relaxed/simple;
-	bh=5KEwfwfpBtHKd/mMoh+MO4I0djnrDy1f2e5WKqE/N+Y=;
+	s=arc-20240116; t=1709391442; c=relaxed/simple;
+	bh=vsDO370P9L0eb7fcWgulrtTqYp1omUqwzrlkY+TsrEw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XXxFDl0+gNpS+uMw6iyKkfizHwKzXMdPRhF26+kaCJ4bdPe/izlCWEnrtap8Pxpckn0Djb8D6gXPOlEimhLAAyCgi40RJ5vX/T5toyN6aRUITyaOHDml5k181MmZR+AhdLW5XwmPMhIO+gXb/ogPbD4I6pqME9DGlGQEE6pmr0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=w4QQ4ma1; arc=none smtp.client-ip=212.227.15.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	 In-Reply-To:Content-Type; b=NNhUYGLx5uO4rM8Ssmh07Wn18Nf2T5Ly4uG4Vosd7mk/73B8uk77tklp16jWD2SYpPjBzFBrnWRFwRBaLF4ZMf48ozTer09A6oBq1Iyyjci9pW85kOm8Yo4SiFF6Fci83NxQPvVoNKZMFDJtoeyIzWvAuKTqkwugiLRg3b6d/Ow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ieee.org; spf=pass smtp.mailfrom=ieee.org; dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b=amD1vwvE; arc=none smtp.client-ip=209.85.219.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ieee.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ieee.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="w4QQ4ma1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
-	t=1709376027; x=1709980827; i=markus.elfring@web.de;
-	bh=5KEwfwfpBtHKd/mMoh+MO4I0djnrDy1f2e5WKqE/N+Y=;
-	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
-	 In-Reply-To;
-	b=w4QQ4ma1DcUJNf1607MwmUiWq1VEwhfUtnHjOxpuJ57dgm104lqxEk3tuLs+ASHV
-	 9yU5+PCLDPII4m3KlfLFhUy/NmlbbNat23dHJDPRsFBXm1KiXD64gugniF1qTqnXW
-	 p9bl0BVIVm1/xW7RvepilXKQ8GpEItCCbkUVhyvhEfUCbEKkjcHxrbNX7ugq6xtkK
-	 wEc+udSFuzhCUDa17vl1PU9EwT647Z9Aj2nMzL7sxo7vINMC7ExYm6lllP4UW3jUO
-	 i2GXQmCxBcNhcna/RIeF1GEl9G4H9wK5LJFrPVOqzKIKei0VrtS2PKD9ZVig8aCef
-	 oeJzFtzmJxhdT6OwGA==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.86.95]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MgibY-1rF2Ji44NQ-00h3sN; Sat, 02
- Mar 2024 11:40:27 +0100
-Message-ID: <f451ffba-db26-4a3b-a4b3-186c31f2ad64@web.de>
-Date: Sat, 2 Mar 2024 11:40:26 +0100
+	dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b="amD1vwvE"
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-68f5cdca7a3so31122486d6.1
+        for <linux-staging@lists.linux.dev>; Sat, 02 Mar 2024 06:57:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ieee.org; s=google; t=1709391438; x=1709996238; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=wfIgoTdA9N+MeIiEy0xWNsxv5l2fuvtP53bPZ++Mceg=;
+        b=amD1vwvEUutfV4Jpoh3lVk+yIUwL0rwokuHJ3XbTGPYu+iz/H6AOSgpP1LZtwB3IjF
+         0cay1V2TdJM7Ld4sZoWfE34WYaYQyEjRgfe8ZgTNQ4wQkynLiyj0wet0KsV5d3qblrEC
+         zMBWdR6yz3hm+Zywnbma4RqwTOeMwYHpy9hRI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709391438; x=1709996238;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wfIgoTdA9N+MeIiEy0xWNsxv5l2fuvtP53bPZ++Mceg=;
+        b=aQqDVIt1BypTfzlAgMVj1xDQ4corp1H7Evq358iCJOyUleWWGuvicwILDPU48TCdRu
+         2n2SvBRlw9F/OBfBs//IUtPp0T/SPoi1YGijv39+4olSGimza7Eq4R53zckEhjDUA6wS
+         B1oAiIt1l8amoG4XoyS7nM1BQQdbsx6UbDdpdMQG8nW21Oj8x1VS9Gc169YYUBcrVJKI
+         S/LayfPVxmqD6975iYWi2t0+vncuPRLECOWdOiqr0oPpu2v9vL19Ioa3GxxGyo93Sshw
+         DlsEKNOF1S9kv2IvJBjTlHiOTl3MlZdf/gYXabAnSLxXM9RcCnYfE2nLXjH5c33MjrtA
+         wRWA==
+X-Forwarded-Encrypted: i=1; AJvYcCW/WqBSsFgTPXAhkSuaAEPnWCozA0P9/AEgBrRcICXA+Ke+BUe05yJ7UdnkDge0HjuVtRpXL8RdqsdcboQz82wmx7dBF7SFpJ0uksXD1Q==
+X-Gm-Message-State: AOJu0YzCMkwIK9KHjdrn3983woodEpvoyjqeA/euxxR7i55a8dsmQuwf
+	3DCV1UPdKzTi0znELHxwu3q8c0p+FKzETr/Cakt2ODnANR32B5i0Y8CCfYstcA==
+X-Google-Smtp-Source: AGHT+IG9qW7IYS8D4z4TN+vHi467Y/Zi72+/DehK/Phj0uWp6/CbVvutRoW9BsGBwd53MOe9t8x0Hw==
+X-Received: by 2002:a0c:da84:0:b0:690:5ff8:cc0 with SMTP id z4-20020a0cda84000000b006905ff80cc0mr2942320qvj.11.1709391438501;
+        Sat, 02 Mar 2024 06:57:18 -0800 (PST)
+Received: from [10.211.55.3] (c-73-228-159-35.hsd1.mn.comcast.net. [73.228.159.35])
+        by smtp.googlemail.com with ESMTPSA id or33-20020a05621446a100b0068f455083fbsm3018169qvb.63.2024.03.02.06.57.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 02 Mar 2024 06:57:18 -0800 (PST)
+Message-ID: <36a4d208-9945-4a65-bdf1-d8309d779e63@ieee.org>
+Date: Sat, 2 Mar 2024 08:57:17 -0600
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,69 +58,88 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: staging: media: tegra-video: Use common error handling code in
- tegra_vi_graph_parse_one()
-Content-Language: en-GB
+Subject: Re: [greybus-dev] Re: [PATCH] greybus: Fix deref of NULL in
+ __gb_lights_flash_brightness_set
+Content-Language: en-US
 To: Dan Carpenter <dan.carpenter@linaro.org>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>, linux-staging@lists.linux.dev,
- linux-tegra@vger.kernel.org, linux-media@vger.kernel.org,
- kernel-janitors@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sowjanya Komatineni <skomatineni@nvidia.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- LKML <linux-kernel@vger.kernel.org>
-References: <dbebaea7-289c-47d9-ba06-cd58a10ea662@web.de>
- <20240301183936.505fcc72@booty>
- <9f1b617f-06cb-4b22-a050-325424720c57@moroto.mountain>
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <9f1b617f-06cb-4b22-a050-325424720c57@moroto.mountain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:8EIFhDOXNVZRFR7rb6IKMJFkCMFDb06oUAxZG70fjR9PxT9vVDb
- ygwmriYITR6G3+mDegwySoLWOaFOrKIdvdfLLtx7Npk3lEV/2yhpzaPrHsOg54hr9fLjXQk
- AzjYhdKxoeGucPy0nUXqkKVuDA3LPFMYyENkuKlBs2M1tOv2hAqXwKOkUXsa7C1+5NUialp
- +CSqHePTqHSMCthsLr/LA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:KfSN83dN8vM=;ZZe12Cqx8Lnelg3dRbEv//XtPa+
- Ov5CSeXzzv6A+QTt5mCYp1fCKAAagNqF5ynAnwrPI4m1jOoE2ypRSpp4/NG2d2XDKQQBiuBv2
- eEc09zFfUiqqUAVJQkQD7Ft+7us/UUJXYYGbArKJFJ3z7nry/qPmgmLmLWbhAYHQbYwAoLE9L
- EKxS5/RONLgDwqzQNt1MFXDptC+PGHk8VMVGkSShxKAmKfuWupdMgKXR/Nk2EoJJ9Gwotc5EL
- aPP+Pe/YU0Sn79UFH2OjecwDHmILfSwP+DUQj+StufPEwPOwI7CcV5HZ1J941hs8uW6MoLDYR
- rZtwx/vPeWJLoQlLTv46aHJNZziFOCtx1EBP3zUNX59nHJ0MYh40KZFiiPqlHShjGoSM+JU7W
- qyltlenXBPC17tldyORFY+2FdWH0M4uobbLeL1JlrScsD8A3b+ph63jnju8CMdu9qedNzQkbk
- QmiKxOb7FJqTGwycqUC3EMnoMUBbiZXFlXLkfqDiUlKzSK2V9JFmsf+BFzXah6ADjVPdfJ7Ui
- MFy/Y80NR/NZMnop2mleoGV06F67SDirHovQC+LUMNSnt19WomGwHZJjm2mb24gcNp8edIXEA
- imvcusWfDabNucAvhU6MCv5cEo1SLoHzR0S9pGPt8rpsB6Bf4iEsAj5CBsGL/LQ8N0pZ4Hfj2
- u/3kEbrMY6tZMQrL7ggvg8W0OO7QegEIt2fWcP77IcwIBXplzVBPrjxO8CFYzYygw0jWnWcKR
- 7qCkT181QQ2ZCz/4Mz/bdK44hJYyJVcJsW+L3MrHJ4+pKpfAZWo6tNyq3KSHQ4pd+N6Nk5HR/
- piduLI8jjzlFyEsJW6Tdnzf608wMZhps3Qnp2fMTqo9QM=
+ Mikhail Lobanov <m.lobanov@rosalinux.ru>, rmfrfs@gmail.com
+Cc: greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20240301190425.120605-1-m.lobanov@rosalinux.ru>
+ <7ef732ad-a50f-4cf5-8322-376f42eb051b@moroto.mountain>
+From: Alex Elder <elder@ieee.org>
+In-Reply-To: <7ef732ad-a50f-4cf5-8322-376f42eb051b@moroto.mountain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
->>> Add a jump target so that a bit of exception handling can be better re=
-used
->>> at the end of this function implementation.
-=E2=80=A6
->> Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
->
-> These patches make the code worse.  If we're in the middle of a loop,
-> then we should clean up the partial loop before doing the goto.
-> Otherwise it creates a mess when we add a new allocation function after
-> the end of the loop.
+On 3/2/24 3:59 AM, Dan Carpenter wrote:
+> On Fri, Mar 01, 2024 at 02:04:24PM -0500, Mikhail Lobanov wrote:
+>> Dereference of null pointer in the __gb_lights_flash_brightness_set function.
+>> Assigning the channel the result of executing the get_channel_from_mode function
+>> without checking for NULL may result in an error.
+> 
+> get_channel_from_mode() can only return NULL when light->channels_count
+> is zero.
+> 
+> Although get_channel_from_mode() seems buggy to me.  If it can't
+> find the correct mode, it just returns the last channel.  So potentially
+> it should be made to return NULL.
 
-How does such a feedback fit to another known information source?
+I agree with you.  This looks quite wrong to me, and I
+like your fix, *except* there is also no need to check
+whether the channel pointer is null inside the loop.
+It's the address of an object, and will always be non-null.
 
-Section =E2=80=9C7) Centralized exiting of functions=E2=80=9D
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
-cumentation/process/coding-style.rst?h=3Dv6.8-rc6#n526
+     static struct gb_channel *
+     get_channel_from_mode(struct gb_light *light, u32 mode)
+     {
+         struct gb_channel *channel;
+         u32 i;
+
+         for (i = 0; i < light->channels_count; i++) {
+             channel = &light->channels[i];
+             if (channel->mode == mode)
+                 return channel;
+         }
+         return NULL;
+     }
 
 
-> Someone is going to add a _scoped() loop which uses cleanup.h magic to
-> call _put automatically.  This is a good option.
+Rui, could you please confirm what Dan says (and his
+proposed change) was your intention?
 
-I became also curious how scope-based resource management will influence
-Linux coding styles further.
-Will various collateral evolution become more interesting?
+If so (and assuming you also fix the check for a null
+channel pointer inside the loop):
 
-Regards,
-Markus
+Reviewed-by: Alex Elder <elder@linaro.org>
+
+					-Alex
+
+> 
+> diff --git a/drivers/staging/greybus/light.c b/drivers/staging/greybus/light.c
+> index d62f97249aca..acd435f5d25d 100644
+> --- a/drivers/staging/greybus/light.c
+> +++ b/drivers/staging/greybus/light.c
+> @@ -95,15 +95,15 @@ static struct led_classdev *get_channel_cdev(struct gb_channel *channel)
+>   static struct gb_channel *get_channel_from_mode(struct gb_light *light,
+>   						u32 mode)
+>   {
+> -	struct gb_channel *channel = NULL;
+> +	struct gb_channel *channel;
+>   	int i;
+>   
+>   	for (i = 0; i < light->channels_count; i++) {
+>   		channel = &light->channels[i];
+>   		if (channel && channel->mode == mode)
+> -			break;
+> +			return channel;
+>   	}
+> -	return channel;
+> +	return NULL;
+>   }
+>   
+>   static int __gb_lights_flash_intensity_set(struct gb_channel *channel,
+> _______________________________________________
+> greybus-dev mailing list -- greybus-dev@lists.linaro.org
+> To unsubscribe send an email to greybus-dev-leave@lists.linaro.org
+
