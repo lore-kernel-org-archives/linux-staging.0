@@ -1,68 +1,68 @@
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20AB0B653
-	for <linux-staging@lists.linux.dev>; Sun,  3 Mar 2024 10:05:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4608DD26B
+	for <linux-staging@lists.linux.dev>; Sun,  3 Mar 2024 13:32:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709460357; cv=none; b=BELo3KCswZJPCruGOgd1aKBL1mRsMxTfY74yqg4rRwCOQ4MHo84cbzegChPi336ysAVYvTBArZlu7v+S4U+fx0UYFXw8ZXT+k4SRI+HPCHmG7lG7foEpt8RXED5n3ZljkhehEh3+HPSvUK5oM1YaFdkyqOJuCYagRJIInVtMI74=
+	t=1709472754; cv=none; b=PaYJEKdRbPaioT+dmXESAl8gGUfN+RP+LDGtQsO9BBOq771Th1jKbwrTZWllKamHbERr4gbQgyVcZOYxGkcHh/u42ocDMGBuXjm8Twbpl0b51oXMoYpwEei4yjKEeiTb421nIeWJgEfwAdEF8QEB/hDBf/SuM4BrkT0NXmNEhV0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709460357; c=relaxed/simple;
-	bh=OmYET0QB0zeLXSGxbulUqK1HnTbhzf6jYRRsCBroE6k=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=balS4jlHC0nd6dmQ0X55ssnVdNMgubv0v04LzQ4xuyQJtY72NpxUa6rF2okr3jSwCwne7SnfXv2qpa/sCW1i3HhRpQIJFggt8sweYNsf4QAObChW+RhQkCXE9WvdGwPJanRIUBWEkzk4qxxoFKUACOR3ZkE0h+iJq9ngbx8dg1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZlhMjQ5R; arc=none smtp.client-ip=209.85.208.171
+	s=arc-20240116; t=1709472754; c=relaxed/simple;
+	bh=3xboL4uDKO9puxjaC/KLuajulbpu8+6bh9CscgkXE6g=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=JcPjBvK+o8lDSiOt3e+vFIOz+WcPZhphAs+xQ3GYCq75a8DF0K4dV7RjjT4vr9xYTgsLRLPgEsMwN62OwRAp8BEt82ovd8vSMA06N7z5oc3dX905kbrPXNT/QbcrgZ2LuLQryMEMtNxR6ZhkNtDAY9f7LDXyo8ceYx8NdwKY8qw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kbA0SMne; arc=none smtp.client-ip=209.85.214.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZlhMjQ5R"
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2d094bc2244so49946251fa.1
-        for <linux-staging@lists.linux.dev>; Sun, 03 Mar 2024 02:05:55 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kbA0SMne"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1d95d67ff45so27659325ad.2
+        for <linux-staging@lists.linux.dev>; Sun, 03 Mar 2024 05:32:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709460354; x=1710065154; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cH1ky7tDsOuUrQSh4kqJYPWEuylUXg0nuBp9vVXdmio=;
-        b=ZlhMjQ5RLkKWPtulHwIrckY63ai7zcy9nftUwgzCI7hGARXr2FaSDkZwaKwIFmB89K
-         1pmWEuAek/Uf66a6/HWz5N8ZoPQ6Eo//UFsuLtNO837kKrBCpfPrWo8L/247BwlmwuzG
-         /kOdRZDpuIQrW7YpxCy9l69GaKx+JlOA6VXn2t8VeKml4JnvB2oWdX1yOUSFu4URDXcZ
-         z34XMy0+YLWJLK5L4QFWAFZBXMgwdl9de1e7G38adP0oc6HA80AoYdUOMPrsnipLSf/9
-         bizfZyV1SenUrGOQzrVyMl873m3BGT1JAcuFmzU5U85bj139HnsmhIGC2pkWSEOVBx9o
-         pgEg==
+        d=gmail.com; s=20230601; t=1709472752; x=1710077552; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kwlx5IgoHl5RII/i/nv9JimUnsVXypM6jybnxn6UlcA=;
+        b=kbA0SMnepABytGjHabREBoPlBmsA4Nj297/DSJ5biMZtOSwHUD8AwfvDVpTGGwmyFI
+         /rpM520van4sjuxfMldGRtnlBrN6af/rrYZA0f0gw5/3Nsm135Rx/vmSQu1E0dS5HFko
+         zsRJodKG/zl5LsqniFd1gUYFNVuTpIQ5smyWD1VNO1IihLI1rkioCUV+4D26IPVZEBqL
+         y7ljwQM2UHKahm7s2XfnXc0QX/0l7cybY4HhLjybeJRXAsPwjjLuK8MliJ8+ea/sXLxF
+         NYyt/q/kQCvmuO8fRy1c8lN083ZA5/qwtWhrqBDlTEuUkPJGMdRyYhguq3GqK7zOJuvz
+         3RqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709460354; x=1710065154;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cH1ky7tDsOuUrQSh4kqJYPWEuylUXg0nuBp9vVXdmio=;
-        b=RBqD9eg5hhH8/G4SRwXSwarvquKAFq8kRS6A3umygXOZo5wK/o86iMWBEPKV8HWLFX
-         TlyxuW5zhGN1pMZM1SSu/PZe98HsbhMm4bVDj8NNTV8QjG4NIu+W4ChqD/qFg+DSKzRN
-         GzL+eYh8C1TwcyxXBKK6FBbhBzXbRPFsYMp8KBvz1GpFokM1DLXI9S4lKAiqS8RVWB17
-         xTRhfo73z2/yj2mQUQlZWL07P+r7zy2cnRXClTkergvG0xpwUzmaoOWslwgybuNjg46y
-         SFNcPpupohze1GMm7c+qrf09C/sKjiLGKOoRw+uUrlQB10kKFbhbJ1JkgURzwRWgFrsw
-         3Xow==
-X-Forwarded-Encrypted: i=1; AJvYcCWPr7f/n3lgCLMXLjwVlucORVoACUT/W004mBExFT3UjmPNjTZ+Ao4MHuuiHHL8pHNIxLsAJeX2bGEaptBHsYKtiHsM7gNsa1Ps9vyh7A==
-X-Gm-Message-State: AOJu0Yyr+O1/r9DDfM+2YOgBtfKpx2J79fgmXLlZqcC3ffX3lYIaWtnn
-	/8qayj6HwB+mDKqDyKJd+bP/PDUUFuOwRdVGjj808d52KaH4dHO7jE0aQ1Jl2CY+8A==
-X-Google-Smtp-Source: AGHT+IEZVXinPCiO3KXm0qAAZIfUiLOJMk/yd4ylYi+UQWXvWeEPxY44iceYS8KUIeMWbG2wep2wOw==
-X-Received: by 2002:a2e:8e93:0:b0:2d3:7e8e:de23 with SMTP id z19-20020a2e8e93000000b002d37e8ede23mr554596ljk.23.1709460354168;
-        Sun, 03 Mar 2024 02:05:54 -0800 (PST)
-Received: from localhost.localdomain (c83-255-24-248.bredband.tele2.se. [83.255.24.248])
-        by smtp.googlemail.com with ESMTPSA id n5-20020a2e9045000000b002d24306ada3sm1264523ljg.120.2024.03.03.02.05.53
+        d=1e100.net; s=20230601; t=1709472752; x=1710077552;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kwlx5IgoHl5RII/i/nv9JimUnsVXypM6jybnxn6UlcA=;
+        b=wIbHpqBhaokRWizaGkRqUkrH3iDbyfAwFX+jfvyM4XJ3TLS2CjgK5zFFYNuta1S7nv
+         qDD9RmnL3EIrwHeezJjcUE6ZQ1GMbKg68WbahUKOYz2XEINz1qrJoZs8/o/BCQzKSiwZ
+         iL61SJOVB+ZG6nx7rd+FTdUJ1FOUTO7PZpZ48iQEHpG85/x32oIZz4xhP5YYhXhTiQGK
+         WJX2Tszb3aFayjiSj2kQUOR51JzvtNZ9aPPhop6DpwhazTfFu5rZPvNfG1CmQFIbv3/w
+         3Ifvutqf7lBeD65tYsuTXT2FkjCevbAFvgjnCANmmZfibxpilQjJ+YI0IDLUhcIO0aUa
+         fa6A==
+X-Forwarded-Encrypted: i=1; AJvYcCVIh+7VIid2Ok4cdAp8p/X6AFXfsgPOZJqfOjKC45pVGxluE+XuQlnyzRiEzREfP8J7mdLFgkB1tkjeji0vTvLsQkNHXFgbjPC/+wMWAg==
+X-Gm-Message-State: AOJu0YyPwLmolXN6O3BXyCpSWHzW7HLNQW8AoJUBqhu5+x3WPUp4fUcT
+	Nay+TXy9E2FcburbSCSWWw+ms56zQsKzNICzkwl0QpUUvrdKSlch29BmndMD
+X-Google-Smtp-Source: AGHT+IHySZPGneCeilbyiEHd2PBEFR0SDxJNhhWhViVxgeze4L1iRiaZQ0PmXq9Zn3zXXB12k080lQ==
+X-Received: by 2002:a17:903:2408:b0:1d8:e4b8:95e5 with SMTP id e8-20020a170903240800b001d8e4b895e5mr6717407plo.32.1709472752496;
+        Sun, 03 Mar 2024 05:32:32 -0800 (PST)
+Received: from kernel.. ([2402:e280:214c:86:98b4:6d91:d5f4:8f27])
+        by smtp.gmail.com with ESMTPSA id u9-20020a170902e80900b001d9a42f6183sm6634803plg.45.2024.03.03.05.32.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Mar 2024 02:05:53 -0800 (PST)
-From: Jonathan Bergh <bergh.jonathan@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org,
+        Sun, 03 Mar 2024 05:32:32 -0800 (PST)
+From: R SUNDAR <prosunofficial@gmail.com>
+To: bingbu.cao@intel.com,
+	tian.shu.qiu@intel.com,
+	sakari.ailus@linux.intel.com,
+	mchehab@kernel.org
+Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
-	Jonathan Bergh <bergh.jonathan@gmail.com>
-Subject: [PATCH 2/2] staging: vme_user: Add a newline after variable declarations
-Date: Sun,  3 Mar 2024 11:05:47 +0100
-Message-Id: <20240303100547.153636-2-bergh.jonathan@gmail.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20240303100547.153636-1-bergh.jonathan@gmail.com>
-References: <20240303100547.153636-1-bergh.jonathan@gmail.com>
+	linux-kernel@vger.kernel.org,
+	R SUNDAR <prosunofficial@gmail.com>
+Subject: [PATCH] Removed reserved1/2 fields to prevent kernel-doc warnings
+Date: Sun,  3 Mar 2024 19:02:23 +0530
+Message-Id: <20240303133223.5506-1-prosunofficial@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -71,27 +71,30 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch makes the following change:
- * Adds a newline after the variable declarations as per checkpatch's
-   warning
+./drivers/staging/media/ipu3/include/uapi/intel-ipu3.h:2522: warning: Excess struct member 'reserved1' description in 'ipu3_uapi_acc_param'
+./drivers/staging/media/ipu3/include/uapi/intel-ipu3.h:2522: warning: Excess struct member 'reserved2' description in 'ipu3_uapi_acc_param'
 
-Signed-off-by: Jonathan Bergh <bergh.jonathan@gmail.com>
+Signed-off-by: R SUNDAR <prosunofficial@gmail.com>
 ---
- drivers/staging/vme_user/vme_tsi148.h | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/staging/media/ipu3/include/uapi/intel-ipu3.h | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/staging/vme_user/vme_tsi148.h b/drivers/staging/vme_user/vme_tsi148.h
-index 2a92497c5570..a1b8288b101a 100644
---- a/drivers/staging/vme_user/vme_tsi148.h
-+++ b/drivers/staging/vme_user/vme_tsi148.h
-@@ -34,6 +34,7 @@ struct tsi148_driver {
- 	void __iomem *base;	/* Base Address of device registers */
- 	wait_queue_head_t dma_queue[2];
- 	wait_queue_head_t iack_queue;
-+
- 	void (*lm_callback[4])(void *);	/* Called in interrupt handler */
- 	void *lm_data[4];
- 	void *crcsr_kernel;
+diff --git a/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h b/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
+index caa358e0bae4..926fcf84e33c 100644
+--- a/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
++++ b/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
+@@ -2485,11 +2485,9 @@ struct ipu3_uapi_anr_config {
+  *		&ipu3_uapi_yuvp1_y_ee_nr_config
+  * @yds:	y down scaler config. See &ipu3_uapi_yuvp1_yds_config
+  * @chnr:	chroma noise reduction config. See &ipu3_uapi_yuvp1_chnr_config
+- * @reserved1: reserved
+  * @yds2:	y channel down scaler config. See &ipu3_uapi_yuvp1_yds_config
+  * @tcc:	total color correction config as defined in struct
+  *		&ipu3_uapi_yuvp2_tcc_static_config
+- * @reserved2: reserved
+  * @anr:	advanced noise reduction config.See &ipu3_uapi_anr_config
+  * @awb_fr:	AWB filter response config. See ipu3_uapi_awb_fr_config
+  * @ae:	auto exposure config  As specified by &ipu3_uapi_ae_config
 -- 
-2.40.1
+2.34.1
 
