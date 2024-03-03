@@ -1,118 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AF541854;
-	Sun,  3 Mar 2024 06:56:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A35F2A94B
+	for <linux-staging@lists.linux.dev>; Sun,  3 Mar 2024 10:05:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709449002; cv=none; b=BtcobFOebr/6adha8sv2eMZfAvDYLvCDoVx1dmDZoFV0sRKp2MTrJKDzKgU3UPgK3VTK64bYhoOCfytOmVJ0uWeyEAXPZNesinSKQxzbiThFnKB0TGPgwybdok4flVmj/a9uJ/TIuchywjXZHp/5D4sIotWJBy9H6QURrVu+eqQ=
+	t=1709460356; cv=none; b=qgfe9uVeYzlPBcoCL7KXc23GtJ40mZb9BGpKgjzW4WFAOU7oRVQYUeLsBWP68t92NZ2zYLsCOARLhvxYftFP3aEhNigk9QcC95SbxijAgUT0MiQvcCIZeOfq6CFTyXQN9tRwb+styrhJ6f0eCgN3+YTANeE0uHsJTrdiCvx2OKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709449002; c=relaxed/simple;
-	bh=ep+CljRezzK9SNJpeYVAXDWpgcC6ccI7M8VH/bVsE4k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C115T2LW6QbMWU4G5+/08mgq7TeFQTt46Oxo4olHPfZyDTfTl7mrfhs+9mI3scsmRcJCuOOv8DIEZpv77bv6AoQEwcjIl2Umtz7LfgC353CKskP2AmQH1og71u1pNwbbHJIvJdhvF2kmwJJ9CsYHr53jIhRANKdfqspKhxcSLJY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=zBxpKEiB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1709460356; c=relaxed/simple;
+	bh=tSobmWen73fv9nPU7r7xbyASdzEXsh6NI0D5+8vjLR4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Yqu8p9IOVgVNZPnN1cncp0dRaXFZz4bCdEKlWNYtcy++CxvfsSilkGDNeBuQsBF/B17bkNPgm4fRfe3Outs1wSIiL7hjd81AcRkmLJt0hWm2BfX8MQKHbREhdzgX9c8IHnEkCva6Vv/yKHBFrhVjw+nR9ry9juJGPsys+MY7m5I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QvBPNRmr; arc=none smtp.client-ip=209.85.208.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="zBxpKEiB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A251C433C7;
-	Sun,  3 Mar 2024 06:56:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1709449002;
-	bh=ep+CljRezzK9SNJpeYVAXDWpgcC6ccI7M8VH/bVsE4k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=zBxpKEiB+2n8z1s1A8tO8Q3uQuxBHbSLt9MZRg77wURmxhYibCyEa1hJl5oF1b94J
-	 aceIUHWdI3wLTAFhrpiG9ia/sXM5h0UK75unk83KNwdg0r9qb0ix9uf5ufhKyf/9xK
-	 2MrRlg6SPXfx6UzUQXZIjoeQQMrIGQCev/65KEtE=
-Date: Sun, 3 Mar 2024 07:56:38 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Jonathan Bergh <bergh.jonathan@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: vme_user: Ensure blank lines after variable
- declarations and fix misaligned */ comment formatting issues
-Message-ID: <2024030322-canine-clamp-bdbd@gregkh>
-References: <20240302221454.141649-1-bergh.jonathan@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QvBPNRmr"
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2d1094b5568so41961281fa.1
+        for <linux-staging@lists.linux.dev>; Sun, 03 Mar 2024 02:05:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709460353; x=1710065153; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=J8iW5FUb6Ai9/iyJ+EPFHL8GpePG+BU8Uo9Ut8WfDZE=;
+        b=QvBPNRmrwTjLVMaeUy/et5wPmkOn6Aw+vML0/7BTUW1aGBr2zXMgWq7LDSPnjgG+kK
+         Pox9G7b2V1o0xd5WLUP0BNRpWAu1CYtoLFuJsYJvnDRTa2t0zt54RskFYiiRqAqlpv08
+         w2U/CFRUkklMdqLr3yw/rO7Z1w5LTrGuwxiOr4yiNyf5gNEK4lQK7/2Rx4tcqMULr6Og
+         FMgHXcsWF7TTzSiTOy7Hegzaq9r+r2B3RL3Jxck3kiJryfuR7ZhqTeBe/QRyKPgVTzDK
+         zOB2nEsyo30AmtLExISbxZzbE13q2vi5xHCxqzUP8X8Eg1mgG6NU65Ni7Cn+0NnxaJzE
+         Fa6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709460353; x=1710065153;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=J8iW5FUb6Ai9/iyJ+EPFHL8GpePG+BU8Uo9Ut8WfDZE=;
+        b=whOCOpD96qeoNC02YMheFyS4cVB5dWFNykmvMRpXdYoZQzhCvNIScLN8BHctrXwaw8
+         YLfFB6qIAx4uQhQhEfJy/Iv0P/HAvD1ZjA/lL6laHef0nCmnPBQ4nV+O/FVQQGxkvGcc
+         HbNt9Ojk2+Kkeguqopm814ybffH8h8/1QXPI2WAAswK6VwwKB67I1u7P7muGqXORJCw9
+         98JV6fhR4YjpBJ3k8QrdZYKFu7LFKL0Z1bhPYaGE3q3wQEACiE06RcuwAP80ifBogkl2
+         1LNSzKESClJyDOic9TuNQJQPzeoITw6vh9gNbThn+nC4jcSAL24rKypmrPI0RSUcVOxh
+         Z2Gw==
+X-Forwarded-Encrypted: i=1; AJvYcCVkeyKKX9Se51FcRvGQXuzMFHpo12jfKWDIT6vUtyDvAoz5EDvZbaVLwdca76nstMgjQlCBkoh+sMUmxA/OjmORtPjV01iJJBtEGscPYQ==
+X-Gm-Message-State: AOJu0YxPQgGpe8bDDhPDIIgdWfnKYBhgE6JsnZFOTL/aa6r6Dl6g1iK0
+	R5ddfzuyOUEDvFktX3GCAFHB7buW6UBUCSesbrGcNZydh0V/beuZ
+X-Google-Smtp-Source: AGHT+IGdvgKm2MhCmmOaXXHkFFtt/k8NV+hwFxoNtCcO+7XEAbDrKUH+xlmE515EW/FbQOoYfPmRUw==
+X-Received: by 2002:a2e:a688:0:b0:2d2:a9d6:c435 with SMTP id q8-20020a2ea688000000b002d2a9d6c435mr3697205lje.34.1709460352548;
+        Sun, 03 Mar 2024 02:05:52 -0800 (PST)
+Received: from localhost.localdomain (c83-255-24-248.bredband.tele2.se. [83.255.24.248])
+        by smtp.googlemail.com with ESMTPSA id n5-20020a2e9045000000b002d24306ada3sm1264523ljg.120.2024.03.03.02.05.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 03 Mar 2024 02:05:52 -0800 (PST)
+From: Jonathan Bergh <bergh.jonathan@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Jonathan Bergh <bergh.jonathan@gmail.com>
+Subject: [PATCH 1/2] staging: vme_user: Fix misaligned closing comment */
+Date: Sun,  3 Mar 2024 11:05:46 +0100
+Message-Id: <20240303100547.153636-1-bergh.jonathan@gmail.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240302221454.141649-1-bergh.jonathan@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Mar 02, 2024 at 11:14:54PM +0100, Jonathan Bergh wrote:
-> This patch fixes the following issues:
->  * Ensures a blank line after declarations
->  * Ensures */ is aligned with its correct opening /*
-> 
-> Signed-off-by: Jonathan Bergh <bergh.jonathan@gmail.com>
-> ---
->  drivers/staging/vme_user/vme_tsi148.h | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/staging/vme_user/vme_tsi148.h b/drivers/staging/vme_user/vme_tsi148.h
-> index 4dd224d0b86e..674d83325e42 100644
-> --- a/drivers/staging/vme_user/vme_tsi148.h
-> +++ b/drivers/staging/vme_user/vme_tsi148.h
-> @@ -34,6 +34,7 @@ struct tsi148_driver {
->  	void __iomem *base;	/* Base Address of device registers */
->  	wait_queue_head_t dma_queue[2];
->  	wait_queue_head_t iack_queue;
-> +
->  	void (*lm_callback[4])(void *);	/* Called in interrupt handler */
->  	void *lm_data[4];
->  	void *crcsr_kernel;
-> @@ -691,8 +692,7 @@ static const int TSI148_GCSR_MBOX[4] = { TSI148_GCSR_MBOX0,
->  
->  #define TSI148_LCSR_VMCTRL_RMWEN       BIT(20)	/* RMW Enable */
->  
-> -#define TSI148_LCSR_VMCTRL_ATO_M       (7 << 16)	/* Master Access Time-out Mask
-> -						 */
-> +#define TSI148_LCSR_VMCTRL_ATO_M       (7 << 16)	/* Master Access Time-out Mask*/
->  #define TSI148_LCSR_VMCTRL_ATO_32      (0 << 16)	/* 32 us */
->  #define TSI148_LCSR_VMCTRL_ATO_128     BIT(16)	/* 128 us */
->  #define TSI148_LCSR_VMCTRL_ATO_512     (2 << 16)	/* 512 us */
-> @@ -753,8 +753,7 @@ static const int TSI148_GCSR_MBOX[4] = { TSI148_GCSR_MBOX0,
->  #define TSI148_LCSR_VCTRL_DLT_16384    (0xB << 24)	/* 16384 VCLKS */
->  #define TSI148_LCSR_VCTRL_DLT_32768    (0xC << 24)	/* 32768 VCLKS */
->  
-> -#define TSI148_LCSR_VCTRL_NERBB        BIT(20)	/* No Early Release of Bus Busy
-> -						 */
-> +#define TSI148_LCSR_VCTRL_NERBB        BIT(20)	/* No Early Release of Bus Busy*/
->  
->  #define TSI148_LCSR_VCTRL_SRESET       BIT(17)	/* System Reset */
->  #define TSI148_LCSR_VCTRL_LRESET       BIT(16)	/* Local Reset */
-> -- 
-> 2.40.1
-> 
+This patch makes the following change:
+ * Ensures the trailing */ for comments is on the same line as the opening
+   /*
 
-Hi,
+Signed-off-by: Jonathan Bergh <bergh.jonathan@gmail.com>
+---
+ drivers/staging/vme_user/vme_tsi148.h | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+diff --git a/drivers/staging/vme_user/vme_tsi148.h b/drivers/staging/vme_user/vme_tsi148.h
+index 4dd224d0b86e..2a92497c5570 100644
+--- a/drivers/staging/vme_user/vme_tsi148.h
++++ b/drivers/staging/vme_user/vme_tsi148.h
+@@ -691,8 +691,7 @@ static const int TSI148_GCSR_MBOX[4] = { TSI148_GCSR_MBOX0,
+ 
+ #define TSI148_LCSR_VMCTRL_RMWEN       BIT(20)	/* RMW Enable */
+ 
+-#define TSI148_LCSR_VMCTRL_ATO_M       (7 << 16)	/* Master Access Time-out Mask
+-						 */
++#define TSI148_LCSR_VMCTRL_ATO_M       (7 << 16)	/* Master Access Time-out Mask */
+ #define TSI148_LCSR_VMCTRL_ATO_32      (0 << 16)	/* 32 us */
+ #define TSI148_LCSR_VMCTRL_ATO_128     BIT(16)	/* 128 us */
+ #define TSI148_LCSR_VMCTRL_ATO_512     (2 << 16)	/* 512 us */
+@@ -753,8 +752,7 @@ static const int TSI148_GCSR_MBOX[4] = { TSI148_GCSR_MBOX0,
+ #define TSI148_LCSR_VCTRL_DLT_16384    (0xB << 24)	/* 16384 VCLKS */
+ #define TSI148_LCSR_VCTRL_DLT_32768    (0xC << 24)	/* 32768 VCLKS */
+ 
+-#define TSI148_LCSR_VCTRL_NERBB        BIT(20)	/* No Early Release of Bus Busy
+-						 */
++#define TSI148_LCSR_VCTRL_NERBB        BIT(20)	/* No Early Release of Bus Busy */
+ 
+ #define TSI148_LCSR_VCTRL_SRESET       BIT(17)	/* System Reset */
+ #define TSI148_LCSR_VCTRL_LRESET       BIT(16)	/* Local Reset */
+-- 
+2.40.1
 
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- Your patch did many different things all at once, making it difficult
-  to review.  All Linux kernel patches need to only do one thing at a
-  time.  If you need to do multiple things (such as clean up all coding
-  style issues in a file/driver), do it in a sequence of patches, each
-  one doing only one thing.  This will make it easier to review the
-  patches to ensure that they are correct, and to help alleviate any
-  merge issues that larger patches can cause.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
