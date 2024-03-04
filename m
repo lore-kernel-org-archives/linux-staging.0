@@ -1,103 +1,96 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-io1-f49.google.com (mail-io1-f49.google.com [209.85.166.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B28D21D53F
-	for <linux-staging@lists.linux.dev>; Mon,  4 Mar 2024 12:41:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BB273F8E2
+	for <linux-staging@lists.linux.dev>; Mon,  4 Mar 2024 13:30:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709556076; cv=none; b=a8AhUkTZozojbwhQFViboYcLIvKr6zqhJbXdcOLZRoixMZMgrKab/b90NtpDcrQitErnhDk+BDCQaudxHkfUzgdLP0BGffBLumM1+cCbmIOasFGBnn87QwSqVQKiZpVA00r7F8GiSZUvyB6g4nCd6AUgyfu4rMN9wZt6r51qErA=
+	t=1709559008; cv=none; b=qhTbbzxNJ8V+oAGD1sK3Wq8rRsN7Q4WrT5ulwPshV2JNySwXTMmCDCrArkiXbEMY6XuQiVd6d55iYlaA69l0Orceo9SIEcz50g1gGKdcT6HD6nDrnVfaK3FVtcKSSK08yFfTuGOgT3EOMp4232H2ZPZSwSaHQXv2hl9IEFkoN+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709556076; c=relaxed/simple;
-	bh=VrKuTysybcruVJb4EEyi6CWbxnJKaGCRmLX0DNFiZwE=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=rNwVp6IdA4iInlXUXi0oB21LhEOvqjMK+htdYrlTZ/4SUF6N4dIZYYFHCYjPqlcUNmS1F91N6vPZpw0bF9S9YmKAb0V1E2SwPvmnM+4f0G89Rq6GDvSi+my4rZqvMwjWXiCwGWW2x6P5MJegxNcb71wdVTyk9U5g9SUinmDkUN8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gDv+TefK; arc=none smtp.client-ip=209.85.208.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1709559008; c=relaxed/simple;
+	bh=gqtpqLNc5VNKPRt4nq7SmRkkJCCZ5/sRGBe9XuewtZk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TKpXNgQAy5rhiX+/1TQsR7iIh2OU9zDpq4dXh4j1y1b2dqgf3k1BjNV70jrsCVTsNvFRvVsBQ7Sf5HzeQbRGH7A6o/Xpp/SyDFJls4Bhe1QplyT1lqVhdpjt9DupsoeBHKacdeoAU1Z6oTZdPXcxTe/JwT/9jfjHfhavbgX9kZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ieee.org; spf=pass smtp.mailfrom=ieee.org; dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b=FgozaQfu; arc=none smtp.client-ip=209.85.166.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ieee.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ieee.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gDv+TefK"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-56454c695e6so7308516a12.0
-        for <linux-staging@lists.linux.dev>; Mon, 04 Mar 2024 04:41:14 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b="FgozaQfu"
+Received: by mail-io1-f49.google.com with SMTP id ca18e2360f4ac-7c843eb31f7so40482639f.1
+        for <linux-staging@lists.linux.dev>; Mon, 04 Mar 2024 05:30:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709556073; x=1710160873; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=C1x+uTXo4QMROthjOCJVMdHiLvB44PpdFmG04isAqrQ=;
-        b=gDv+TefK2CBvmVkHfQoasJ+GwKGhX8LUA1dEMjNrZdPfOWO9yTaOXuyoVixEBpOEGK
-         IyBD2UcH3QOa4S8ykih1FrfdxObRAW05qJmEwBp1sq9rSBntOYcRij458cEusURjiPHO
-         mysveRucV2xb24VS0b/LGLm+YgBFzBWTDrg2kHpSqA36YSzgdym2TsYkdjtt9o/Spe6I
-         w6wa3EC6MBGC0LORJuxDmeuxSYdRA3IjMtQ4rSY19XU8uDVKZ8wMx1l5SF+WMkqe1RoM
-         H9NtSLJNIpYxvaEJEbHJbTI+rh2OW6xiKxbdOZi3tS1tVq5QSxGVxooWqpRg8sgcvHg8
-         uzvg==
+        d=ieee.org; s=google; t=1709559005; x=1710163805; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=L7SwXBaphoRUbVIp4iZ+2oYSdcUsTrLJSfY5VS/Whck=;
+        b=FgozaQfuVCntVNH8jwLozfBlG2cyePbORN+RcmaWQr0LLeevZGpvo4yBZDNYOxnI2m
+         tosm6R83OMpu/pSl3iLWXxes2hNgaFOoSnqXzv55612O7mqT0m1kLaQ87v5YTNw27AMl
+         a3/6qHR4sVTx0N5NF86LIIBft5P3WK1deQsPE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709556073; x=1710160873;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=C1x+uTXo4QMROthjOCJVMdHiLvB44PpdFmG04isAqrQ=;
-        b=nLkCjgQHpFBq5kFWwq4qfvHvbpxVTKCs3KyrnRuZSZ2JxNdt1LzAB4j0Nw1M5ElPWS
-         QcqTFU94wgy5AiIhyXvR8oCnLzqimjwfnXhBxbkaDPlWw5TzRY2BOU++AHzcEq/mmwgX
-         Qftv3XJVKeou9wCcFYCaeFXCICPZ/RNo2Ts3cia2flvIf2242HubUvGRzFHaGA0AxXto
-         J2GzuWVrjQaiApculRAg9LQIS9fTnVTraMfLKQUerIA/dIY3lXTBye4usOI2PSFexk1/
-         r9jnIUIk+o8+xFJXjIIBduxyZQrFX5vNdLxNZtVi7EZyKqOGylfA2eOpc7rO+rW4pkgn
-         P0iA==
-X-Forwarded-Encrypted: i=1; AJvYcCVY9xU5Cs0fpa071IUUgl0QnWyOIA5VPuJYuJ+xqtY4I3r9s/4BEBA5EthNvsAGpVzHNfwEpigpBIjm1YfMDgtBGsyR6IaUa1IN6cF+AQ==
-X-Gm-Message-State: AOJu0YxCJiOsj6JEayHbUskVsGg2MHTWRb1v/+bdpfDPgFNVy8Ux5hXA
-	72GHEu4OM1W3mqedIOVXPPVLs5QwGtPxo2JGdFmf2h+lTaLBShQh
-X-Google-Smtp-Source: AGHT+IFF9pOTYgrMzrAzZOVign7+3cNPuTuRZSuF2jqe40F8E/SMI072cOwezGnSaCJAvU19cW+9xQ==
-X-Received: by 2002:a05:6402:2267:b0:565:4b37:4578 with SMTP id du7-20020a056402226700b005654b374578mr8079566edb.14.1709556072793;
-        Mon, 04 Mar 2024 04:41:12 -0800 (PST)
-Received: from ubuntu-focal.zuku.co.ke ([197.237.50.252])
-        by smtp.gmail.com with ESMTPSA id dh18-20020a0564021d3200b0056760e830f0sm651747edb.81.2024.03.04.04.41.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Mar 2024 04:41:12 -0800 (PST)
-From: Dorine Tipo <dorine.a.tipo@gmail.com>
-To: gregkh@linuxfoundation.org,
-	forest@alittletooquiet.net,
-	linux-staging@lists.linux.dev
-Cc: Dorine Tipo <dorine.a.tipo@gmail.com>,
-	philipp.g.hortmann@gmail.com
-Subject: [PATCH v2 5/5] staging: vt6655: Fix open parenthesis alignment
-Date: Mon,  4 Mar 2024 12:40:06 +0000
-Message-Id: <20240304124006.26819-6-dorine.a.tipo@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240304124006.26819-1-dorine.a.tipo@gmail.com>
-References: <2024030317-multitude-pelvis-bcb2@gregkh>
- <20240304124006.26819-1-dorine.a.tipo@gmail.com>
+        d=1e100.net; s=20230601; t=1709559005; x=1710163805;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=L7SwXBaphoRUbVIp4iZ+2oYSdcUsTrLJSfY5VS/Whck=;
+        b=dq66SJpfLnfGIekYKpKGLAWiiIwolotRyXa0azaRnexeB103Jll8I0+ERIy2GAW2/y
+         SJB/r0BYhbzT3nKPzJcvv9Q1Snelx7e0GwDUTEb6y1sAz3j349hWx2h/hIxGG5zAFVTD
+         2zlDVZEUA42ylxEy2kqIMY3JS8kDGtO8GZJLGIRF+yD928Llxr0KkphLa23qTxO6yco1
+         bZny+RDt33AK4MCqnLs8PWFixzQBAVEyHUaunhIxI8OOZc6EcBEruqrDiPAgpNDH+MVg
+         bBmRaKqKrjtzz7J+1185yYkLKlklaiPMiLhSUHfO/VkXQTakIczGUc4xhpiOcU8g5VK3
+         VNow==
+X-Forwarded-Encrypted: i=1; AJvYcCVH6EUaBaepMlFsWt8wP2GrpJCSSmdZfHXV1OO8Zb8bt5t8aCJuovftD/ZkJe21JK2X1KnIPdxdu30nHhlnZxrjcFEjX64sZv9kY2LkVw==
+X-Gm-Message-State: AOJu0YwTVvwbhxvVgLoiLiLUiSqM05GulkdXbFVY3hiMW8qSGoyVya64
+	9YFEmrzMAnqVcXMyvDSkN1ASh1qGTpdAx5kxZ88N6vaY8qfGbj8yilabPVp/ow==
+X-Google-Smtp-Source: AGHT+IHZPF+TKoIdFlXbZQRumkQ9OfKZzuKfCSc+Ixsdzf3z05qnw5Uj9WW5Md2UYTHTRGlwSbT0ZQ==
+X-Received: by 2002:a05:6602:1ca:b0:7c8:4adf:cdf3 with SMTP id w10-20020a05660201ca00b007c84adfcdf3mr3814286iot.18.1709559005688;
+        Mon, 04 Mar 2024 05:30:05 -0800 (PST)
+Received: from [172.22.22.28] (c-73-228-159-35.hsd1.mn.comcast.net. [73.228.159.35])
+        by smtp.googlemail.com with ESMTPSA id e21-20020a6b6915000000b007c7e0e8edc1sm1180657ioc.52.2024.03.04.05.30.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Mar 2024 05:30:04 -0800 (PST)
+Message-ID: <69825821-5b2c-44b1-b921-f077eedb3a71@ieee.org>
+Date: Mon, 4 Mar 2024 07:30:04 -0600
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [greybus-dev] [PATCH] greybus: Fix deref of NULL in
+ __gb_lights_flash_brightness_set
+Content-Language: en-US
+To: Rui Miguel Silva <rmfrfs@gmail.com>,
+ Mikhail Lobanov <m.lobanov@rosalinux.ru>
+Cc: greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20240301190425.120605-1-m.lobanov@rosalinux.ru>
+ <07df4b96-70c2-41de-9d76-1deb80447a79@ieee.org> <m3o7bwlhgf.fsf@gmail.com>
+From: Alex Elder <elder@ieee.org>
+In-Reply-To: <m3o7bwlhgf.fsf@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Correct parameter alignment in bool card_set_beacon_period().
+On 3/2/24 10:35 AM, Rui Miguel Silva wrote:
+>> So anyway, I think this (and Dan's suggestion) should be
+>> addressed, but your fix might not be correct.
+>>
+>> Rui, can you please shed some light on the situation?
+> As we talked,  this email was sent at the same time as my replies to
+> this thread and you think I addressed your concerns in that replies.
+> If not, just go ahead and ask again.
 
-This patch aligns the beacon_interval parameter with the opening
-parenthesis.
-This change improves code readability and adheres to coding style
-guidelines.
+Yes.
 
-Signed-off-by: Dorine Tipo <dorine.a.tipo@gmail.com>
----
- drivers/staging/vt6655/card.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+You said the intention was to return null if not found
+(rather than "the passed-in value as default").  So that
+bug should be fixed.  Dan says he'll re-send that.
 
-diff --git a/drivers/staging/vt6655/card.c b/drivers/staging/vt6655/card.c
-index 94784b5c0402..3f807d898607 100644
---- a/drivers/staging/vt6655/card.c
-+++ b/drivers/staging/vt6655/card.c
-@@ -321,7 +321,7 @@ bool card_update_tsf(struct vnt_private *priv, unsigned char rx_rate,
-  * Return Value: true if succeed; otherwise false
-  */
- bool card_set_beacon_period(struct vnt_private *priv,
--			  unsigned short beacon_interval)
-+			    unsigned short beacon_interval)
- {
- 	u64 next_tbtt;
+Either way, even if it's practically impossible, the
+get_channel_from_mode() *can* return NULL, therefore
+__gb_lights_flash_brightness_set() should be fixed to
+avoid dereferencing the return value in such a case.
 
---
-2.25.1
+					-Alex
 
