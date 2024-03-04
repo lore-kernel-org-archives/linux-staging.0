@@ -1,168 +1,94 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13E0E4AED8
-	for <linux-staging@lists.linux.dev>; Mon,  4 Mar 2024 16:10:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A4C74DA02
+	for <linux-staging@lists.linux.dev>; Mon,  4 Mar 2024 16:36:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709568655; cv=none; b=qMaFKZk1p4/7F7r5ctjfteFYz5JXYo/IplairXebZLk5WreqMi77XNQO3K6fV33FvfdvkNaR+59oWeQMlql5BAoKuxkEG8M4f7lOagb3n2QP3XSoCDZ4DxLGZkPNHTMPm8MnmXskLtEyF07ljcd+i3yIQ+uahLDeQ/HeZ//1/MU=
+	t=1709570209; cv=none; b=Y2C52RGNrFsBpXuuXZSzTIvBALyAQAZXFIa+psEw93wnrvcdV2POkUpOwqGhLIAjZoFir/RIzU6rYIX1ss3Kx6naPtzTPH5Hi/UE8TEgbhthpaBenya4aUWKGLilS3FqqIGe05jzdcAru2lfn+DXDcpijy1O9toq8pXIHt7weZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709568655; c=relaxed/simple;
-	bh=dHq0DKGqX9xEFsFLh6i7JCdWBtfyDQ931akUkFp0FUQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=YYplGFapk/5kFzjZlbDYfsoG+aReQ/9ozOuUQDHlIDfd6vsgs3eGkIAI99i9vh8TWMsdamSGbRRC5sAB+SB4Hw1s+HCqmC/fEBrYkkKgFXuJ0JPsR66JWBpOFpsCIqldTUGbtkjgNW8lHr7NLzITuIHQ03lsdlIQwyCD1CA7Ie8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NkXjeBYi; arc=none smtp.client-ip=209.85.128.51
+	s=arc-20240116; t=1709570209; c=relaxed/simple;
+	bh=ndP6W950nxVn4qHDJFwlwsY9mT4woYScq6QD7ill8HQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=QGHUt9OZJPjCj0tFC9m0iJ4r5buYKT6ZZVlvnEaLqEI6RRAhxpFauVxQJ7Nd+a4lerNSOWcC6WZSVOAcjgyiILnMdwZmQSA42JguLLPBnQinvTHdbilbGPjUayHkGeTydhYaaxLY1ilWHuzGFt67NV/6WU3lIW5LGlLlNJWhk1E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ktVzA8Q0; arc=none smtp.client-ip=209.85.167.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NkXjeBYi"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-412e4619e5eso7246695e9.2
-        for <linux-staging@lists.linux.dev>; Mon, 04 Mar 2024 08:10:53 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ktVzA8Q0"
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5132b1e66ddso3728018e87.3
+        for <linux-staging@lists.linux.dev>; Mon, 04 Mar 2024 08:36:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709568652; x=1710173452; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=wwRon3YDC+GD9jnJ5kPZT5CVostWJPWX7LavrbEpoio=;
-        b=NkXjeBYib7p9t53I1cKkere7kL7PPKzjTnJ9/aiC8yD8WYJQY4SiVDjM/4HUA64J57
-         sQ8DQ+sKJ2z0gIsjCJjs7v/9rcZTNfbiB/zzjVzy/3/taarxXZA3aYPQbNgraNvcl+Ie
-         sF0d5bJzunmUAVDemzJZQA/7MPqaH3F69CAMfXr35xhmytaTmYehAYWLmjSjbY0JGgQW
-         JN8JpHsKSFa4RBOqWXbVlQIM+UeDCA7fRzlDA9uxuScgtz21BSDsrWVh9TcJb+p0MLJJ
-         PsE38BXoCwqOu8+FBd4UKyFwdlZL8ciJfwuMRNmOx0Aq/5U8EctlkLoTO9KcwEc3hthW
-         kiyw==
+        d=gmail.com; s=20230601; t=1709570206; x=1710175006; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4iH3HOs1Afpe+dsvj9hMyh2QClhR0RzHFwjAwu6CzO0=;
+        b=ktVzA8Q0cexjski5f5JApFAxAPOxXCQo56rOSwvVJMZi2xDkF9E2D/mq5pYjcz0ofa
+         dqzNOMasq06JbZPXlZfcoSuj1PYYLmHeOrNLjCJLSbpp9YIRD5yT+oSpgZnqvSIgSCO1
+         2/hxNlqNSVvkWzZGE67JmNA5xq9FPbcxa4AEp+6mbs326r3vrdkxh+wfqG7+tkUjZtpp
+         bR3erCw/n2A8FIN7xU/MWlJHNDxFhJ2TcAbPkLwM58d8iXZlLv2hMDZP/ci6LeFqjqvF
+         uTVv17AoXI2pu/i9inlbMG2OIu/boqJeHsohci77r/dYoKWSZ2zHy+AiNpDX3Sw8Vdfr
+         dkVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709568652; x=1710173452;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wwRon3YDC+GD9jnJ5kPZT5CVostWJPWX7LavrbEpoio=;
-        b=LpPef3qwUVzST4w0Roi1BosLLvOXUddK1Q0z5On6lhsmUCmciHgUhcc2Ub8VMo5f+P
-         sc1tUAXurrlbvaB1oUSPzzk2K7yIJDGMEfklcC6Xz/EDn2jPxaWRyYu8L6EzbqkBP5Z8
-         GFbTTQXvMxjowoL+cE1/X7PtXndvsFA+MTonVQrSlDDF3nnsu+M+uiTDo3M5HtJBffqo
-         6ympe9Pa/fsYZ9gP4QvaINgoWuq0UN1JdrQ/y4xDt3r3Mf0D2z40Jxx/vyJXEixrESuW
-         DlycElJSV9+Mvc3QLypJKh1iimMEbFKQ3t3cjbm/8+GfdyVdqLK2tEdRRjLo82vEiNUw
-         +yLg==
-X-Forwarded-Encrypted: i=1; AJvYcCXkCvXomBMuTFWqqdKeCEH9VYYubh5WKhFFKvfCdJsoLldhKfBgXZIVSTiQBenzNhAQceI9RGdc3VFd6fNBXSINeab5lt6OXIqFDRdoiQ==
-X-Gm-Message-State: AOJu0YwIeJdUr8kJNciLomFZnEWvrGvPEjjYuvX/HCUkXAeZnt9HbKX6
-	0hPbXQRjXDlH4rKDrlX+pcfqqC1PTTk2VnUbnaU++bCSLAFgUEGt
-X-Google-Smtp-Source: AGHT+IEdMQwzgNiAneqscWzS9EICOuVeppTy/0OTasXHdy8KD6a7dFoAuwIugLDkT/sqDpRZDhZupA==
-X-Received: by 2002:a05:600c:470e:b0:412:c3cf:ee2b with SMTP id v14-20020a05600c470e00b00412c3cfee2bmr7689936wmo.12.1709568652173;
-        Mon, 04 Mar 2024 08:10:52 -0800 (PST)
-Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
-        by smtp.gmail.com with ESMTPSA id g8-20020a05600c310800b00412b0ef22basm15161814wmo.10.2024.03.04.08.10.45
+        d=1e100.net; s=20230601; t=1709570206; x=1710175006;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4iH3HOs1Afpe+dsvj9hMyh2QClhR0RzHFwjAwu6CzO0=;
+        b=mIl0jhQ+DYxxAnLGJTlDai1PC88Pf4oyWI4hTSgNB2kOjjYqFqVq986cOt31PSWSBK
+         5Vwf3Ue0NOLPzFfQsXRSq20HOL4hz3zMg2Phr//unuS8P/nkObntwsjsudv6wlEzrRI7
+         YfH7lKyi0g5PHCQuvozIh01H0dsB6SG0hr1EEwOmydKnCBICH3P0qTkMZSY5otJFWxUk
+         18LGJPn/GsusmT9jXJ57n3jDuhNhCtr+OsIklzlbdXw5tnZRVVOlH7/0J0BBbLlWrQuw
+         hsGTnuFXX5+vQAJfn/mxMdgkmiVWdItszpWMXsGPPRJHGneeTIP7cbXVIrRSCr5Ov8q1
+         KVig==
+X-Forwarded-Encrypted: i=1; AJvYcCWCBj9ecoHJeOMT9cpL0bTLSgiwKZ7XZSBl2b6ScGVASlA7dpp5sh/lrnqB9pTWFRYrvqDRCjCi6iGBgIwch+vLabry2ci2FUbrota5gg==
+X-Gm-Message-State: AOJu0Yym/FBwiyKHyKQJ5UKZ6vOH6s5EYQDaTDS3pCBx+7FtdFkhe6k4
+	I4jkjXS/HAAhCg4+kYTUn6oxaybnmLntenM11LpbF6q547l2F65J
+X-Google-Smtp-Source: AGHT+IGzY8HivskbHvcEOLKVIUU3h71aEQMFQLNjY/Kdma9YtktZ7st8Hs7cKc9SoHT2IUYQaT636Q==
+X-Received: by 2002:a05:6512:716:b0:513:2c86:3498 with SMTP id b22-20020a056512071600b005132c863498mr6047788lfs.48.1709570205455;
+        Mon, 04 Mar 2024 08:36:45 -0800 (PST)
+Received: from ubuntu-focal.zuku.co.ke ([197.237.50.252])
+        by smtp.gmail.com with ESMTPSA id qh22-20020a170906ecb600b00a4558314ec9sm1130924ejb.192.2024.03.04.08.36.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Mar 2024 08:10:46 -0800 (PST)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev,
-	Ruan Jinjie <ruanjinjie@huawei.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Atin Bainada <hi@atinb.me>
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH][next] staging: rtl8723bs: remove redundant variable hoffset
-Date: Mon,  4 Mar 2024 16:10:45 +0000
-Message-Id: <20240304161045.769912-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.39.2
+        Mon, 04 Mar 2024 08:36:45 -0800 (PST)
+From: Dorine Tipo <dorine.a.tipo@gmail.com>
+To: gregkh@linuxfoundation.org,
+	forest@alittletooquiet.net,
+	linux-staging@lists.linux.dev
+Cc: Dorine Tipo <dorine.a.tipo@gmail.com>
+Subject: [PATCH v3 0/1] Staging: vt6655: Parameter Alignment Improvements
+Date: Mon,  4 Mar 2024 14:26:02 +0000
+Message-Id: <20240304142603.32982-1-dorine.a.tipo@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <08387340-4611-4403-b38f-75d63eb06d2a@moroto.mountain>
+References: <08387340-4611-4403-b38f-75d63eb06d2a@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-Variable hoffset in functions hal_EfuseGetCurrentSize_WiFi and
-hal_EfuseGetCurrentSize_BT is being assigned a value but it not
-being read for any useful reason at all. The variable is redundant
-and can be removed.
+This V3 patch series addresses inconsistencies in parameter alignment with
+open parantheses, enhancing readability and maintainability of the code.
 
-Cleans up clang scan build warnings for lines 957 and 1050:
-drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c:957:5: warning:
-variable 'hoffset' set but not used [-Wunused-but-set-variable]
+Changelog:
+V2: Modified subjects to be unique for each patch, as requested by
+<gregkh@linuxfoundation.org>
+    Fixed the warnings in the patches as suggested by
+<philipp.g.hortmann@gmail.com>
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 14 ++------------
- 1 file changed, 2 insertions(+), 12 deletions(-)
+V3: Combined the vt6655 patches into one patch as suggested by
+<dan.carpenter@linaro.org>
 
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-index c5219a4a4919..7a5c3a98183b 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-@@ -954,7 +954,7 @@ static u16 hal_EfuseGetCurrentSize_WiFi(
- #endif
- 	u16 efuse_addr = 0;
- 	u16 start_addr = 0; /*  for debug */
--	u8 hoffset = 0, hworden = 0;
-+	u8 hworden = 0;
- 	u8 efuse_data, word_cnts = 0;
- 	u32 count = 0; /*  for debug */
- 
-@@ -1001,16 +1001,13 @@ static u16 hal_EfuseGetCurrentSize_WiFi(
- 		}
- 
- 		if (EXT_HEADER(efuse_data)) {
--			hoffset = GET_HDR_OFFSET_2_0(efuse_data);
- 			efuse_addr++;
- 			efuse_OneByteRead(padapter, efuse_addr, &efuse_data, bPseudoTest);
- 			if (ALL_WORDS_DISABLED(efuse_data))
- 				continue;
- 
--			hoffset |= ((efuse_data & 0xF0) >> 1);
- 			hworden = efuse_data & 0x0F;
- 		} else {
--			hoffset = (efuse_data>>4) & 0x0F;
- 			hworden = efuse_data & 0x0F;
- 		}
- 
-@@ -1047,7 +1044,7 @@ static u16 hal_EfuseGetCurrentSize_BT(struct adapter *padapter, u8 bPseudoTest)
- 	u16 btusedbytes;
- 	u16 efuse_addr;
- 	u8 bank, startBank;
--	u8 hoffset = 0, hworden = 0;
-+	u8 hworden = 0;
- 	u8 efuse_data, word_cnts = 0;
- 	u16 retU2 = 0;
- 
-@@ -1085,7 +1082,6 @@ static u16 hal_EfuseGetCurrentSize_BT(struct adapter *padapter, u8 bPseudoTest)
- 				break;
- 
- 			if (EXT_HEADER(efuse_data)) {
--				hoffset = GET_HDR_OFFSET_2_0(efuse_data);
- 				efuse_addr++;
- 				efuse_OneByteRead(padapter, efuse_addr, &efuse_data, bPseudoTest);
- 
-@@ -1094,11 +1090,8 @@ static u16 hal_EfuseGetCurrentSize_BT(struct adapter *padapter, u8 bPseudoTest)
- 					continue;
- 				}
- 
--/* 				hoffset = ((hoffset & 0xE0) >> 5) | ((efuse_data & 0xF0) >> 1); */
--				hoffset |= ((efuse_data & 0xF0) >> 1);
- 				hworden = efuse_data & 0x0F;
- 			} else {
--				hoffset = (efuse_data>>4) & 0x0F;
- 				hworden =  efuse_data & 0x0F;
- 			}
- 
-@@ -1114,18 +1107,15 @@ static u16 hal_EfuseGetCurrentSize_BT(struct adapter *padapter, u8 bPseudoTest)
- 	) {
- 			if (efuse_data != 0xFF) {
- 				if ((efuse_data&0x1F) == 0x0F) { /* extended header */
--					hoffset = efuse_data;
- 					efuse_addr++;
- 					efuse_OneByteRead(padapter, efuse_addr, &efuse_data, bPseudoTest);
- 					if ((efuse_data & 0x0F) == 0x0F) {
- 						efuse_addr++;
- 						continue;
- 					} else {
--						hoffset = ((hoffset & 0xE0) >> 5) | ((efuse_data & 0xF0) >> 1);
- 						hworden = efuse_data & 0x0F;
- 					}
- 				} else {
--					hoffset = (efuse_data>>4) & 0x0F;
- 					hworden =  efuse_data & 0x0F;
- 				}
- 				word_cnts = Efuse_CalculateWordCnts(hworden);
+Dorine Tipo (1):
+  staging: vt6655: Correct parameters alignment
+
+ drivers/staging/vt6655/card.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
 -- 
-2.39.2
+2.25.1
 
