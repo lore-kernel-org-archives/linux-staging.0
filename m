@@ -1,169 +1,109 @@
-Received: from mail-io1-f43.google.com (mail-io1-f43.google.com [209.85.166.43])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07C7C3F8C2
-	for <linux-staging@lists.linux.dev>; Mon,  4 Mar 2024 13:30:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1BFC33CF
+	for <linux-staging@lists.linux.dev>; Mon,  4 Mar 2024 13:55:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709559009; cv=none; b=nPaNw5Klckn24ROxvKwxP1Q6Feqbi/lQBuxV5RymVfkuzXAlbWY/BrlI/lSI95SWGc8mm/VnLAQAD7P52zsanHVYywjct0+pmh3oGq4RdjWsqdJpLRbT7d7JNUs9E8BhbDKAVb6uGZ7bKq+ZylkRs5AsDW0lLHyGoqo9phFBuBA=
+	t=1709560558; cv=none; b=o454MrYTij/UlS2NqXyRcEP47167OuXH/nWvXZdtsdWe1lR+ZUY/mv5MFt5xKNWqI49q/Qmsl5prONtOV5AkZB2/Av3x1cNwPE7jO5Icl+cKsM9iyXfDoGatIjV18DOEA+WKsBax1hgUg6LnRT4EsTowjGLO/b9AN408CBGZ0rU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709559009; c=relaxed/simple;
-	bh=1vEnJ3mMLFpedLVWqgpUF3Uwe7Sq/nt8yJh/SWaDQr4=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=p0sGaISbLUWeGB39Yv1CzOFN+iu3mOmPYAyJgnt0FUM3hWRZhI9ri8oriMcUW9NB/tgLoofV3J6sSEC+DQIWAFuzFnDjJw4I7KlE9Bq8pvmKnCsdUo/C/HhuG/qJ8ewy6AXaHcFVA7LrBQ+F5k/i8EPfNmYR3XJguJtaGEqF1DM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ieee.org; spf=pass smtp.mailfrom=ieee.org; dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b=UKLz5HQY; arc=none smtp.client-ip=209.85.166.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ieee.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ieee.org
+	s=arc-20240116; t=1709560558; c=relaxed/simple;
+	bh=T8gzbEfslMiLzx1Qi8ScQ7hrgdpd/A0ARX/sB5jFeTM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fecMUIGMTSD352DkLGVS/UZWJSvm6Uv1DNt8PK/RR1q/Jgj4U5inptw1u181x4YnDo8YyNSF6Q4YBbc0HqkyenUKh922Eqxeu82nxtQ5r3nRzXrzYxHxpBX6xRjyrp5oSpk9AahhCR/KxHXnLmxifn2Gs/XFTJWrIJsdj/ZQNxM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gFwMkDnR; arc=none smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b="UKLz5HQY"
-Received: by mail-io1-f43.google.com with SMTP id ca18e2360f4ac-7c48e13e0d7so228190439f.1
-        for <linux-staging@lists.linux.dev>; Mon, 04 Mar 2024 05:30:04 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gFwMkDnR"
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-566e869f631so3218885a12.0
+        for <linux-staging@lists.linux.dev>; Mon, 04 Mar 2024 05:55:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ieee.org; s=google; t=1709559004; x=1710163804; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=IZJ+jw9Y4deUW/fsj73N7A+2EVXwQ9W8Tou+nRgNMNY=;
-        b=UKLz5HQYm8IXvxKIWbTOekHWQj+H9+NYjB7p5O7+yGLUXSLPU2gB1lpjndApK6MH48
-         YWBNC23KqSbVEmprsOBXpDHxiAYynJtiyvtgnRN6UW+fXptE8gpuarQKTHgqj1mqpdoj
-         5h3PVDyDoMU05dYTBrneTfAd6v62berQJljwk=
+        d=linaro.org; s=google; t=1709560555; x=1710165355; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=d4H05t1CCSjg+RowIMLE2wT8S1vJe25ZBnWc088y5Uc=;
+        b=gFwMkDnR8M/ugoaOXKhBUHFcXp3lsmLRdeQcEHSdgPv5atqbkZGL2iXwCJN90kn7TY
+         ozdBGAJePYTA9yU1DFk0RYNUl8vp5dGI6SdocKyce19H31x9MNeyFrXaDwaVTbj/IQIL
+         HxiJ58DJtwXWE8aLgSpkO96E9D/ccz3n5l0BTnY1tUj1mJldd9IjGS65TfXETZrzFo3G
+         rVrQR8jftlp99g3vdmdKaVf7y4HTvFAwJbrKNb/YdRHiUrRly9csjrrq2Un2FkaYmlnX
+         6Ece8ELMmn73swF6O8qhTtzEIC7hxaB4Cc8HEVDw3G6xweeGkx2iplzUyl2Uzlg6BlmV
+         ULjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709559004; x=1710163804;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IZJ+jw9Y4deUW/fsj73N7A+2EVXwQ9W8Tou+nRgNMNY=;
-        b=jeib23A8pllMd69sV8DpmgBBe9bZtDNnyB2gC5ij37gbDYlH5ku8zCQUBz+tFwv+UC
-         65cP2dq7EGO8HaxPypkMksXCFBqyd6b+wV8X5mBLTheRSshik0tPBJD5VetHTmi/L9rG
-         ujSuELCyAcpX85LzfTV/Sl72ksiaehd+VuqHuuo/bMQz96Qt5PdDNLO5oIsO6DQbuJUL
-         dRYV5++hR8v4zjH3DeRMd4vaDZy0S7/eOHJWUzE2Ubr8Q1F7433vqOr217ksm3GXECN1
-         BJovEIxf+V5wcQ17H6YBi2rNZLYj2vis2NMgOjgzzQX4BDNgHc9xGn024B7hr1GaXaBm
-         2TRQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWni2d1SNvDWRGhp16gJeRzVRiQI5gylkmxzKghWPF3qoyBJ5mU40lbvGTBTAFV9bp2XB0WXfTFpvdR2zx/sh+IhBsyHw2rhnD9wNV3EQ==
-X-Gm-Message-State: AOJu0Yw1sm6Fllu/0I2jE7j2+KASeL7mdi7xHPk4MNlaHPxRsreq1M+3
-	Y3PQl2KGgf89+pIOe3Ap82Xz+vv13dxfj8wcoqs6hj14TG0lc+FSQp66V6Zowg==
-X-Google-Smtp-Source: AGHT+IHuslinA4m6pPWjYZ4+EYackuTruMDe5CoFzt76a27cqscJhBvDEE/JxdbZg/qfAMjeHbR1+Q==
-X-Received: by 2002:a05:6602:4892:b0:7c8:5235:3141 with SMTP id ee18-20020a056602489200b007c852353141mr3529308iob.21.1709559004011;
-        Mon, 04 Mar 2024 05:30:04 -0800 (PST)
-Received: from [172.22.22.28] (c-73-228-159-35.hsd1.mn.comcast.net. [73.228.159.35])
-        by smtp.googlemail.com with ESMTPSA id e21-20020a6b6915000000b007c7e0e8edc1sm1180657ioc.52.2024.03.04.05.30.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Mar 2024 05:30:03 -0800 (PST)
-Message-ID: <e435724c-33ac-446a-81ed-fc31b56d6206@ieee.org>
-Date: Mon, 4 Mar 2024 07:30:01 -0600
+        d=1e100.net; s=20230601; t=1709560555; x=1710165355;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=d4H05t1CCSjg+RowIMLE2wT8S1vJe25ZBnWc088y5Uc=;
+        b=u4Nv0Th1FGpUl+QhPgAb1YorTkCe/iX9BdOaiHbMPE5E3JyWS8xqX7PpshodXgGH4W
+         HoubQSH/toweXREUnfnjt8aUxefZx3ZUs0QVBXaNVmlCMihO7xMmHhfUf6I8vLxpjb4U
+         D7qlj+W/ALyq7mwTcSkveekoc0P9SbZH4OpJymrkmKqumRaSR6U+5DHkAa0Roec/RXmE
+         IxqdCPKqyNMHvXuaXimn1PDsrqv63NsPppwUSEnVMl3MxEgqzM144wLC2zWqIuOOtG0U
+         I2bvTgy6nyoBib2QzH7r2N3ftj19GM/TobiL1MqySDK1ZT/PIP4KUpKHICkek1D/ensB
+         KFvA==
+X-Forwarded-Encrypted: i=1; AJvYcCVX4CEmjZMfgYA6ZAq+cC+zAOkHY1gYpLJ99OQgr1nt3FgKmBOjfxa5uOcq0MzAtlCKDULoFTYMtjiZA+ZJuGFIUzidSSWHk8ODtd/u9A==
+X-Gm-Message-State: AOJu0Yz6eSKpCalM+Ibr5viOsYXTbF8jskdT+CRgPDt9k05Umw6Ot9pM
+	aar2ifBJ+WBPFoaDIm1NASxLOMvzsEhPXyC+zJMgOk7hMCfkuPHK7giaN6J64E0=
+X-Google-Smtp-Source: AGHT+IF85YJjopTqTCdjeejvTzNMLEGY0IvFqR2q6bQ2NaIPpBFEKXYQgW6P1SyI36EXJZpcezEayg==
+X-Received: by 2002:a17:906:3b17:b0:a45:47c6:84d8 with SMTP id g23-20020a1709063b1700b00a4547c684d8mr1748521ejf.13.1709560554991;
+        Mon, 04 Mar 2024 05:55:54 -0800 (PST)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id u22-20020a1709067d1600b00a3d2d81daafsm4928426ejo.172.2024.03.04.05.55.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Mar 2024 05:55:54 -0800 (PST)
+Date: Mon, 4 Mar 2024 16:55:50 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Dorine Tipo <dorine.a.tipo@gmail.com>
+Cc: gregkh@linuxfoundation.org, forest@alittletooquiet.net,
+	linux-staging@lists.linux.dev, philipp.g.hortmann@gmail.com
+Subject: Re: [PATCH v2 0/5] staging: Fix parameters alignment
+Message-ID: <08387340-4611-4403-b38f-75d63eb06d2a@moroto.mountain>
+References: <2024030317-multitude-pelvis-bcb2@gregkh>
+ <20240304124006.26819-1-dorine.a.tipo@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [greybus-dev] [PATCH] greybus: Fix deref of NULL in
- __gb_lights_flash_brightness_set
-Content-Language: en-US
-From: Alex Elder <elder@ieee.org>
-To: Mikhail Lobanov <m.lobanov@rosalinux.ru>,
- Rui Miguel Silva <rmfrfs@gmail.com>
-Cc: greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20240301190425.120605-1-m.lobanov@rosalinux.ru>
- <07df4b96-70c2-41de-9d76-1deb80447a79@ieee.org>
-In-Reply-To: <07df4b96-70c2-41de-9d76-1deb80447a79@ieee.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240304124006.26819-1-dorine.a.tipo@gmail.com>
 
-On 3/2/24 9:31 AM, Alex Elder wrote:
-> On 3/1/24 1:04 PM, Mikhail Lobanov wrote:
->> Dereference of null pointer in the __gb_lights_flash_brightness_set 
->> function.
->> Assigning the channel the result of executing the 
->> get_channel_from_mode function
->> without checking for NULL may result in an error.
->>
->> Found by Linux Verification Center (linuxtesting.org) with SVACE.
+On Mon, Mar 04, 2024 at 12:40:01PM +0000, Dorine Tipo wrote:
+> Hello!
 > 
-> I think this is an actual problem but this might not be the
-> right fix.
-
-The current API for get_channel_from_mode() allows a
-null pointer to be returned, but it seems that there
-is at least one case where that should never happen.
-
-gb_lights_light_v4l2_register() issues a WARN_ON() if
-get_channel_from_mode returns NULL (and then proceeds
-to dereference it).  I know BUG_ON() isn't cool, but
-maybe we should avoid the dereference there.
-
-And other than __gb_lights_flash_brightness_set(),
-all callers properly handle a null pointer return.
-
-Regardless of what I said before about commenting
-for an impossible situation, I think your fix is
-generally the right thing to do, but it should not
-return 0 if there is no torch mode channel, it
-should return -EINVAL or something.
-
-Please consider, and post a new version.  You
-could incorporate a similar change in the same
-patch for gb_lights_light_v4l2_register().
-
-					-Alex
-
-
-
-
-> The point of the call to get_channel_from_mode() is to get
-> the attached torch channel if the passed-in channel is a
-> flash channel.  It's *possible* that any flash channel will
-> *always* have an attached torch channel, but if so there
-> ought to be a comment to that effect near this call (to
-> explain why there's no need for the null pointer check).
+> This V2 patch series addresses inconsistencies in parameter alignment with
+> open parantheses, enhancing readability and maintainability of the code.
+> The patch series includes updates to multiple files in the staging
+> directory. Each patch focuses on specific functions or sections of code to
+> ensure comprehensive coverage of the alignment improvements.
 > 
-> I think Dan's suggestion should be implemented as well.
-> It's possible the intention really *was* to have
-> get_channel_from_mode() return the original channel pointer
-> if there is no attached channel with the requested mode.
-> But if so, that should be done differently.  I.e., Dan's
-> suggestion should be taken, and the callers should use the
-> passed-in channel if the call to get_channel_from_mode()
-> returns NULL.  (I hope that's clear.)
+> Patch 1 fixes the parameter alignment in cvmx_spi_restart_interface() in
+> octeon-stubs.h in the octeon driver
+> Patches 2-6 fix the alignment of parameters in various functions inside
+> card.c in the vt6655 driver
 > 
-> So anyway, I think this (and Dan's suggestion) should be
-> addressed, but your fix might not be correct.
+> Changelog:
+> - V2: Modified subjects to be unique for each patch, as requested by
+>   greg k-h
+> - Fixed the warnings in the patches as suggested by Philipp
 > 
-> Rui, can you please shed some light on the situation?
 > 
->                      -Alex
-> 
->>
->> Fixes: 2870b52bae4c ("greybus: lights: add lights implementation")
->> Signed-off-by: Mikhail Lobanov <m.lobanov@rosalinux.ru>
->> ---
->>   drivers/staging/greybus/light.c | 9 +++++++--
->>   1 file changed, 7 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/staging/greybus/light.c 
->> b/drivers/staging/greybus/light.c
->> index 87d36948c610..929514350947 100644
->> --- a/drivers/staging/greybus/light.c
->> +++ b/drivers/staging/greybus/light.c
->> @@ -148,10 +148,15 @@ static int 
->> __gb_lights_flash_brightness_set(struct gb_channel *channel)
->>                           GB_CHANNEL_MODE_TORCH);
->>       /* For not flash we need to convert brightness to intensity */
->> -    intensity = channel->intensity_uA.min +
->> +
->> +    if (channel) {
->> +        intensity = channel->intensity_uA.min +
->>               (channel->intensity_uA.step * channel->led->brightness);
->> -    return __gb_lights_flash_intensity_set(channel, intensity);
->> +        return __gb_lights_flash_intensity_set(channel, intensity);
->> +    }
->> +
->> +    return 0;
->>   }
->>   #else
->>   static struct gb_channel *get_channel_from_cdev(struct led_classdev 
->> *cdev)
-> 
+> Dorine Tipo (5):
+>   Staging: octeon: Match parenthesis alignment
+
+Do the octeon patch as a separate patchset.  It's a totally different
+driver.
+
+>   staging: vt6655: Correct parameters alignment
+>   staging: vt6655: Align parameters with parenthesis
+>   staging: vt6655: Match open parenthesis alignment
+>   staging: vt6655: Fix open parenthesis alignment
+
+Combine all these patches into one patch.  The rule is "one thing per
+patch"  not "one line per patch".
+
+regards,
+dan carpenter
 
