@@ -1,35 +1,69 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBAA9BA5E;
-	Mon,  4 Mar 2024 06:20:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47CFABE4C
+	for <linux-staging@lists.linux.dev>; Mon,  4 Mar 2024 06:29:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709533240; cv=none; b=cR9M+Z7PEkyW8VrqYKJv5+SdrWNlQExS4iIacKVJfmgKj2RaIsM3FVnQeCtnAxEwahxUVamTYmJGeaaZHlCMeA3XQerhDg8AlwDmVl4ds8Z1daj2sjaUUprtdFniho+MUFe6IyeRDW3X3jiuI6FdcQsrsYXUQ+M4RRYzdlDGMbM=
+	t=1709533794; cv=none; b=bqEQEdFQl6Uka7XSHqrdrO9+uH13YSy7A/ooTbklWLg83buUMH7pwRbQeu0jk+ngC7Nup4+SwKkaA7HSoXUls7ASp8yBdBDnEbd5pMlYpbpYRw53PS74lKr7tRnjS8mw+nBt0jdk9rFmKO6ymOn7qVKz71zlFc7U/XzsExRlh40=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709533240; c=relaxed/simple;
-	bh=EqzI/SlOmaNHexPGx9cer0W5P6sioOhdWsH/Lm5WZiQ=;
+	s=arc-20240116; t=1709533794; c=relaxed/simple;
+	bh=Pf7uv/gYGGXC6+7FVldt3LroRAuk574J76EPU23+wJA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YopnQ3Ig3l7oOgI4eLa2JIZrabf+9fczhjmkID7XluSWLu82NrrRTbaNb2SO0jXUE0j9WXHWrGKUi99PxCTgSs60l8Ke6MzBsMNNXYMcwBVOOXKXCVYFrt1NPYcWEQk1ZT+SO1+cY6vtuPQUkOITVteJNpd70NVBvpOchqcbo2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=hpHL7a7y; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=AuwRRIMEVep42WCHItVNVs8LAph1lNo6O0dnvuL5xOP/RmGYDzFZT5u2EeEIUScmURUMtg0bsI+20UdFvSddRQwalnVUMcsFYEp2iKFXEkWpbSwordO+9/JkFLGjAUOjLtBIGRQv2phmmOyRDX9C6mwifzd4vpwvPMCLK5Me9vY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Ktae43db; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="hpHL7a7y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0E76C433C7;
-	Mon,  4 Mar 2024 06:20:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1709533240;
-	bh=EqzI/SlOmaNHexPGx9cer0W5P6sioOhdWsH/Lm5WZiQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hpHL7a7yupKUm2mnWv+iDxm0CvCgSGC1IXjS1IyAZHXlxE2CoFiREzb+wXhsxMpuC
-	 vc9sq4J6/AhMjsI/yzIyrm0HxF3Rnhf/IhiAxtAt+lnuOmRid9uHYrrgGVy6Ziku6Y
-	 wWdo064Ox70XMED2gCWqmn6Wzxylr8/87O4JLSac=
-Date: Mon, 4 Mar 2024 07:20:30 +0100
-From: Gregkh <gregkh@linuxfoundation.org>
-To: Aman Sharma <210100011@iitb.ac.in>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] Staging: pi433: Updated bitrate range from datasheet
-Message-ID: <2024030418-sports-rebate-1d44@gregkh>
-References: <91454ef9b4a12f01e13d69b675d81aff@iitb.ac.in>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Ktae43db"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-412e784060cso262625e9.1
+        for <linux-staging@lists.linux.dev>; Sun, 03 Mar 2024 22:29:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1709533791; x=1710138591; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=1Sr+3/igGAuTwcw+O5i8ci7ivmixVyDSgfl+R16S+q0=;
+        b=Ktae43db2q5WKqv6u232I4yiYQEVS7nl8PyOvauvxQwsE+iWpuT7gDJ3vsn2nrwuua
+         xow6vNgyHe6Er6lkQbX44b1YEJMcdsWauMEQgygSQPoZumSt0nlXqUxq6V2qTIS+ckaK
+         aZRRcnuXdz1XTwmT2tnkx6bANN3o103ElwBVwvemMp6JhzANeVPDski2u/SGVTNjgE3N
+         x60dzhSpTXGIsT0XczOqYUHBgfSMtYbX53hQt0wiOr1HkP+nUSFF076yhroStU5qTmO8
+         kQH591jZun/wyebkZ9l/aP1uohWindetoQMQqFOSdjM4VPY1+yeyc6JE1yhZt47WGqQO
+         bDYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709533791; x=1710138591;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1Sr+3/igGAuTwcw+O5i8ci7ivmixVyDSgfl+R16S+q0=;
+        b=nwGtCjGG4+2tfe0IzS5yoE2EZ//30is0UpgdZDDKsfNt+S/myz7ZAtOJSU1fUNbqVg
+         UsUXSFgKCRVinTwPZrcPVX+bWRdZJPEPQP7SLTJc18R6f6BZzj9ABkBGQCRHK7N6XnT1
+         1xEJsn5760h82ZcynktSP8+ylFsSVwarnMVj+/Oaoenylh1ymVKczluiRYH5p0IVAkJN
+         dC+VW9SKU0yAA3RHijcoInFSQVGfTxpl14dC9DS8MH+NF1KweGtB9U1R6ctj4wB9N7mg
+         MS+AJsKLUqw57gDPsEfBRYgF3qmkoKPTdbyqp5o0JpHdaJQBiDfZkbaaXtxO8l8FVkOv
+         wr2g==
+X-Forwarded-Encrypted: i=1; AJvYcCWOyEjyiaPrmnf6AZbnCOS9cf/Q8B4GLpYyfPt+l1yAl8l5nNI1zcwyCKEVXdzWeHhSaKCYpDsDrQ+LBnHi/JnVjBSHuAV+cuqf12C5AQ==
+X-Gm-Message-State: AOJu0YxSl7CAGsBzL752GKwJYxQzSvenx3C5/oCBNNZRheKpU6cUhVAQ
+	ZdJERegtgr+LSjvFlEc0hlCAse4WO6c7PJo7mcT8AsCvIwaMOIIS7Ph2ERPZBR0=
+X-Google-Smtp-Source: AGHT+IHq9JCYT783Wtc+zj9tHovEmxaZxWX3kn+l7xtGlx5U/KJDz3VB67RRX9FFH9wGGkZte3BftA==
+X-Received: by 2002:a05:600c:4f82:b0:412:dab5:b20e with SMTP id n2-20020a05600c4f8200b00412dab5b20emr3940436wmq.8.1709533791619;
+        Sun, 03 Mar 2024 22:29:51 -0800 (PST)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id l21-20020a05600c4f1500b004101543e843sm16723413wmq.10.2024.03.03.22.29.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 03 Mar 2024 22:29:51 -0800 (PST)
+Date: Mon, 4 Mar 2024 09:29:47 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Rui Miguel Silva <rmfrfs@gmail.com>
+Cc: Mikhail Lobanov <m.lobanov@rosalinux.ru>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] greybus: Fix deref of NULL in
+ __gb_lights_flash_brightness_set
+Message-ID: <02f31119-e35a-4358-a0a0-079416ba4a9d@moroto.mountain>
+References: <20240301190425.120605-1-m.lobanov@rosalinux.ru>
+ <7ef732ad-a50f-4cf5-8322-376f42eb051b@moroto.mountain>
+ <m3ttlolktk.fsf@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -38,81 +72,29 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <91454ef9b4a12f01e13d69b675d81aff@iitb.ac.in>
+In-Reply-To: <m3ttlolktk.fsf@gmail.com>
 
-On Mon, Mar 04, 2024 at 11:23:40AM +0530, Aman Sharma wrote:
-> Updated bitrate range for FSK and OOK modulation from the RFM69 Datasheet.
-> The values are mentioned in Section 2.3.2 of the datasheet.
+On Sat, Mar 02, 2024 at 03:23:03PM +0000, Rui Miguel Silva wrote:
+> Dan Carpenter <dan.carpenter@linaro.org> writes:
+> Hi Dan,
 > 
-> Signed-off-by: Aman Sharma<amansharma6122002@gmail.com>
-> ---
->  drivers/staging/pi433/Documentation/pi433.txt | 6 ++++--
->  drivers/staging/pi433/TODO                    | 1 -
->  2 files changed, 4 insertions(+), 3 deletions(-)
+> > On Fri, Mar 01, 2024 at 02:04:24PM -0500, Mikhail Lobanov wrote:
+> >> Dereference of null pointer in the __gb_lights_flash_brightness_set function.
+> >> Assigning the channel the result of executing the get_channel_from_mode function
+> >> without checking for NULL may result in an error.
+> >
+> > get_channel_from_mode() can only return NULL when light->channels_count
+> > is zero.
+> >
+> > Although get_channel_from_mode() seems buggy to me.  If it can't
+> > find the correct mode, it just returns the last channel.  So potentially
+> > it should be made to return NULL.
 > 
-> diff --git a/drivers/staging/pi433/Documentation/pi433.txt
-> b/drivers/staging/pi433/Documentation/pi433.txt
-> index 4a0d34b4ad37..9ce7282ef6f8 100644
-> --- a/drivers/staging/pi433/Documentation/pi433.txt
-> +++ b/drivers/staging/pi433/Documentation/pi433.txt
-> @@ -78,7 +78,8 @@ rf params:
->  		Allowed values: 433050000...434790000
->  	bit_rate
->  		bit rate used for transmission.
-> -		Allowed values: #####
-> +		Allowed values (For FSK): 1200...320000
-> +		Allowed values (For OOK): 1200...32768
->  	dev_frequency
->  		frequency deviation in case of FSK.
->  		Allowed values: 600...500000
-> @@ -169,7 +170,8 @@ rf params:
->  		Allowed values: 433050000...434790000
->  	bit_rate
->  		bit rate used for transmission.
-> -		Allowed values: #####
-> +		Allowed values (For FSK): 1200...320000
-> +		Allowed values (For OOK): 1200...32768
->  	dev_frequency
->  		frequency deviation in case of FSK.
->  		Allowed values: 600...500000
-> diff --git a/drivers/staging/pi433/TODO b/drivers/staging/pi433/TODO
-> index 63a40bfcc67e..61ed3a1578bc 100644
-> --- a/drivers/staging/pi433/TODO
-> +++ b/drivers/staging/pi433/TODO
-> @@ -2,4 +2,3 @@
->  * still TODOs, annotated in the code
->  * currently the code introduces new IOCTLs. I'm afraid this is a bad idea.
->    -> Replace this with another interface, hints are welcome!
-> -* Some missing data (marked with ###) needs to be added in the
-> documentation
-> -- 
-> 2.34.1
-> 
+> Correct, thanks for the fix. Will you or me send a proper patch for
+> this? Taking also the suggestion from Alex.
 
-Hi,
+I'll send it.  Thanks!
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+regards,
+dan carpenter
 
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/process/submitting-patches.rst for what
-  needs to be done here to properly describe this.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
