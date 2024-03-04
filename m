@@ -1,121 +1,104 @@
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C33C1B967
-	for <linux-staging@lists.linux.dev>; Mon,  4 Mar 2024 09:17:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4A77249FE
+	for <linux-staging@lists.linux.dev>; Mon,  4 Mar 2024 10:18:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709543861; cv=none; b=lUHCTUodwapUHSMiMAN0c6sWnP5L3jBN/ZhbejgF1GJYI3yI8LgBA05nDqu1fHMo1W2ZEtAh6AgYeJchm/D+Z7YmVWNKFkh6QJqnB0oELpKetqiHE2bL7/zOKq9Pu46wnnzxAJbNlpLQnZ4c5tFNkoVccwVGA8SH64yKui4K0DY=
+	t=1709547541; cv=none; b=Y8qlM+ZOSal3YotkZCx11CvzFqqhhjdxQOTMcr99tj5XLStMv2atud3pvhoizPXwPecvIqOMAMWJqd7G+UdoujpieuAYTJfxIYX6p24ynLkqKju8xTcZwxoogznAYT+gVdRcqzZHlsmFp2vaDyUrkudxYvQY8pySw8okHKKeIlw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709543861; c=relaxed/simple;
-	bh=Qq1jg86NYicltpYfn1YXwPRMwEdiM2aWEnn4TNPiai8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=h2ESVor/MYOrk/gjN2tFQAoZBZ+JWZzQRM566CvgYH5cMFqGtkWesOZEHNbPiFVnEz770hLQg7+uIFYr10NwS/UYrVv36YRRjQC/HrN/QtP+OfdYJn4v/PksehEPv0elGvMulP4INWCLD4SwVxxgqFTB+xqBeKPokv0Ie4mmvnk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IzVOxgjf; arc=none smtp.client-ip=209.85.208.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1709547541; c=relaxed/simple;
+	bh=L8Yd9aivs1y5S31tf+SgGvY1CAv2qBofPRQcyrKZogA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DV+qRhvUJ3QXRUtgQsOrrFLzc3u80cMphSUtFOpLDnFZGPxWS5+dxTe+JSIcwVnabNf5gRTOh5OPSauive7+Y1lru3MKVLTicDFNsDTKQXlETkrui/t4qHwjnz7NaIQ4T2rPDk6xpKvUPF7AFxPT4YW/AaauVfOEyeXSUtO18oo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XIb1o5To; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IzVOxgjf"
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2d2ab9c5e83so41402761fa.2
-        for <linux-staging@lists.linux.dev>; Mon, 04 Mar 2024 01:17:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XIb1o5To"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-412cf3c5cdeso15832365e9.2
+        for <linux-staging@lists.linux.dev>; Mon, 04 Mar 2024 02:18:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709543858; x=1710148658; darn=lists.linux.dev;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=wxb84sArYHWCge17RqY2dnfS8pZorGfPXvmpeXBM+UE=;
-        b=IzVOxgjfqbDCGRAm1UvsobFIvZDuevow5+Q70ekZQUqJxXqSJKbtjiO60qM2ptRwV7
-         ha5/3XDCcT+2FzHHAa3dyyIiqlgqk4YzxjHNkAUFKkEjoxXhKY+c7Xnb4WJvJv5iZCuH
-         StvNtf3JXtvdCQQIpwp1k60/nLc17LZg4E+o95754Nvgmt+qeNUmDo3NjTxP+nijiixQ
-         VrDswrj/JCPcBLslzlJD4rDMYvUbPydqPoXgmrWUEXRhlkBHpTxfsqFTqGi4C1kPnZKI
-         EwQrUPinQwY/03Zy23WoUUgficvN/F/ZzXBaTm1xJ9bxDdspGBfaJeQehta5zSpYBKyE
-         errA==
+        d=linaro.org; s=google; t=1709547538; x=1710152338; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=fmW5zcFPe9YbXP0IPxGliLDGDmB0I6XEzcryOh8vMLU=;
+        b=XIb1o5ToQc/zVVgKxQYxMGiKmYhVT5MoXwjsywlofId/sAXpQz0p04McDZIxKJXOSi
+         KEHKuXZI3KW8WOBU37XICMSbjxpmp6C/V+GoNlKfTgnG04VmO69F3itRGBIbHE6yJbNJ
+         nmXcsIteBt1giJ6RDDgoSdMcarfe4JVyc9Mt6bzisS92QLftetaY/ymEve0pN6g0tEeW
+         VWciJR9G1W9j6xciGl/3S1dlr77iwMRan/1LJbazjzM/dT/jTFoyTx0zYOwRpRVJORLU
+         IQQnqbAnimMQdOqaGiVBnBLvpPELN93SJGcX1RmuRbqebhQorMmG/Lx+pZWRmquk6zv8
+         VRpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709543858; x=1710148658;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wxb84sArYHWCge17RqY2dnfS8pZorGfPXvmpeXBM+UE=;
-        b=tClCDmtyqCteScje7CksN4p08eglpOXW/hu61lMtkfhjkTDp1mA2ptQU5nkPhpLFcn
-         qFaJgOb8af+ScXIu6MK4YQYMsOWON+EnEUMb0tWXx4zWWQeEUrUZ0yyNaNx7c6r1iyrz
-         264uhoGuvqpTLdQh2p32qJStNfUuNMIqm967k01vYYCdObMegSSo2eN5GTFLKOuRr8S/
-         tCRC9raeyl3c3vV3sau9JBOA7m3RItFVPwhMvYu/Yk7A20lFOvmxo4NbEqZxYASfh0uW
-         tfBs+J46xJu3qBQZgLIMWtgo4E+8MwtDrF/KUSZc5YU032PeVo3Xgbyq5Y6IjbWhleg8
-         atow==
-X-Forwarded-Encrypted: i=1; AJvYcCUrEUh/CrIfJCty+Nvbv+SUG8KaWkmeRcZrqZFH+AV3pd6Cu3EGOkemkjkwy4amZtu8t56n1+jVFhZ8ulOFabG2//niTkjPNc703IOHjQ==
-X-Gm-Message-State: AOJu0Yx01Fn7luPoK5AGabNanXuDnQemOEerQW+FYYEtRTl8YlU4s68m
-	6fmmwv+fX/yMPRLY0PugjZQi2Gucp97pzcLwNiuWt06P+EiKdllz
-X-Google-Smtp-Source: AGHT+IHoWbhv0G7/RF1N1tx36guIvvx6OukW50GAMYLBOZmWqoYnRwfEqdFQ9lwVbVqHZlcw8HR+hQ==
-X-Received: by 2002:a2e:9cd3:0:b0:2d2:b068:6d2a with SMTP id g19-20020a2e9cd3000000b002d2b0686d2amr5802516ljj.16.1709543857438;
-        Mon, 04 Mar 2024 01:17:37 -0800 (PST)
-Received: from localhost (a109-49-32-45.cpe.netcabo.pt. [109.49.32.45])
-        by smtp.gmail.com with ESMTPSA id a10-20020a05600c348a00b00412e5060995sm1679557wmq.34.2024.03.04.01.17.36
+        d=1e100.net; s=20230601; t=1709547538; x=1710152338;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fmW5zcFPe9YbXP0IPxGliLDGDmB0I6XEzcryOh8vMLU=;
+        b=j6zzq2W8ZjCzU6PTSwS0w5KuJ5HLfGRi2nfpjkznbHOLfCJVg+D8hCn6YFsr+ztFCi
+         8cj/cvuEHLWtgCtsfppREzTmBxh6/ZyKn187zBECtfy/2Cup/ccqHQ7POAlrCgUw2ODC
+         UcauIG2Z933LMkjCa1+B+k3ykKL1q9HRnVw6ymt+Pt5V7MmBoDYhTYVQTCvu/nxYV8lA
+         e6KKMyX8zZbPuvdFBlpO2LiNt/Z1RgoAzC+j7rxhTtXWJH4pJeHAGXq08lM1IU1ycvTN
+         8xJxTCM2x3UVNWeajTixs90VLaVCqF78EbOxALtZuJ1sM4ea9D3YTqNNNa154Gvcch6w
+         qDAw==
+X-Forwarded-Encrypted: i=1; AJvYcCWnEpgq8isPC/Ca70/R4zRmcF6IevzugkhmbCr1D2zu84dnjCO6PhNXkX+cuh11XFkoHXIW7tHt3h/YNP4DGEWoFAKS1b6/P3Cwdmqa2g==
+X-Gm-Message-State: AOJu0YxeKSrc3ncpjrwlEe+dyrTXm+d+DtCscfa4Jc1oUnWxmhtNxm33
+	hXPfIWyVyBKzQ5VQXTjXE6SIGLYmsQNpdZ8ovJJDWqqs5X2+mzDFb70X/rXn7KI=
+X-Google-Smtp-Source: AGHT+IG7Ov7Kyt5GXCvjUp+CIJ4MuPiibAQif/bU5BPfLZ2jv6mBHOrOSrzTXlmjfbxDND2MEzFxPg==
+X-Received: by 2002:a05:600c:19cf:b0:412:c219:6206 with SMTP id u15-20020a05600c19cf00b00412c2196206mr6630691wmq.39.1709547538248;
+        Mon, 04 Mar 2024 02:18:58 -0800 (PST)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id p20-20020a05600c1d9400b00412e795f270sm763534wms.22.2024.03.04.02.18.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Mar 2024 01:17:36 -0800 (PST)
-From: Rui Miguel Silva <rmfrfs@gmail.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, greybus-dev@lists.linaro.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] staging: greybus: fix get_channel_from_mode() failure path
-In-Reply-To: <379c0cb4-39e0-4293-8a18-c7b1298e5420@moroto.mountain>
-References: <379c0cb4-39e0-4293-8a18-c7b1298e5420@moroto.mountain>
-Date: Mon, 04 Mar 2024 09:17:36 +0000
-Message-ID: <m3sf16tky7.fsf@gmail.com>
+        Mon, 04 Mar 2024 02:18:57 -0800 (PST)
+Date: Mon, 4 Mar 2024 13:18:53 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Aman Sharma <210100011@iitb.ac.in>
+Cc: Gregkh <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] Staging: pi433: Updated bitrate range from datasheet
+Message-ID: <835bba82-c144-4674-b8ec-a6bd6af89daa@moroto.mountain>
+References: <91454ef9b4a12f01e13d69b675d81aff@iitb.ac.in>
+ <1440d44b-c16d-4307-9457-5c3ae44716ff@moroto.mountain>
+ <74ec69941cb67e3a351ebd23d5ad4a5b@iitb.ac.in>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <74ec69941cb67e3a351ebd23d5ad4a5b@iitb.ac.in>
 
-Hi Dan,
-once again thanks for the patch.
+On Mon, Mar 04, 2024 at 02:04:08PM +0530, Aman Sharma wrote:
+> Tbh this is my first patch and I don't have the hardware to test this. I
+> thought updating the values from the datasheet directly might be a good idea
+> as it would be the correct range. Please correct me if there is something
+> that I missed / need to know.
+> 
 
-Dan Carpenter <dan.carpenter@linaro.org> writes:
+No, patch is fine.  There is no downside to updating the .txt
+documentation in this way.  I was just wondering.
 
-> The get_channel_from_mode() function is supposed to return the channel
-> which matches the mode.  But it has a bug where if it doesn't find a
-> matching channel then it returns the last channel.  It should return
-> NULL instead.
->
-> Also remove an unnecessary NULL check on "channel".
->
-> Fixes: 2870b52bae4c ("greybus: lights: add lights implementation")
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> On 2024-03-04 13:55, Dan Carpenter wrote:
+> > On Mon, Mar 04, 2024 at 11:23:40AM +0530, Aman Sharma wrote:
+> > > Updated bitrate range for FSK and OOK modulation from the RFM69
+> > > Datasheet.
+> > > The values are mentioned in Section 2.3.2 of the datasheet.
+> > 
+> > Have you tested these as well?  Sending untested patches is not
+> > necessarily against the rules, but it seems like maybe you have this
+> > hardware and can test it.  Could you please talk about what testing you
+> > did?
+> > 
+> > > 
+> > > Signed-off-by: Aman Sharma<amansharma6122002@gmail.com>
+> >                             ^
+> > Missing space.
+> > 
+> 
+> I'll fix this if I am allowed to submit a new patch.
 
-Reviewed-by: Rui Miguel Silva <rmfrfs@gmail.com>
-
-Cheers,
-  Rui
-
-> ---
->  drivers/staging/greybus/light.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/staging/greybus/light.c b/drivers/staging/greybus/light.c
-> index d62f97249aca..a5c2fe963866 100644
-> --- a/drivers/staging/greybus/light.c
-> +++ b/drivers/staging/greybus/light.c
-> @@ -95,15 +95,15 @@ static struct led_classdev *get_channel_cdev(struct gb_channel *channel)
->  static struct gb_channel *get_channel_from_mode(struct gb_light *light,
->  						u32 mode)
->  {
-> -	struct gb_channel *channel = NULL;
-> +	struct gb_channel *channel;
->  	int i;
->  
->  	for (i = 0; i < light->channels_count; i++) {
->  		channel = &light->channels[i];
-> -		if (channel && channel->mode == mode)
-> -			break;
-> +		if (channel->mode == mode)
-> +			return channel;
->  	}
-> -	return channel;
-> +	return NULL;
->  }
->  
->  static int __gb_lights_flash_intensity_set(struct gb_channel *channel,
-> -- 
-> 2.43.0
+regards,
+dan carpenter
