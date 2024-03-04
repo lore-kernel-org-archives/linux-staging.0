@@ -1,99 +1,133 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C043A20
-	for <linux-staging@lists.linux.dev>; Mon,  4 Mar 2024 17:00:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC74E6166A
+	for <linux-staging@lists.linux.dev>; Mon,  4 Mar 2024 17:49:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709571622; cv=none; b=ZFAA1HHUxxtncmJfGtlI90FwyjXKY5ArPd8LHZ/42KnWfKofVPVGNl+KKb4gS/OavNgsgdg9UWMvyxdQaHeFPOmqfmx6xx2Cm6GA3l8JF6AqgwnrE4xhz0u7osTnl36Ll+8J1JuWYAgzbvpWMokOUI71skXz+xhQwaYpHWnkW3I=
+	t=1709574598; cv=none; b=WZ7rcnGqsVjkcXUDpfdGkHvTcWEo7ykdWL5PSGBmaFTmz2kV3pcQ1If/Pe71qBuvJNd8Tir78vuuqbf7y4jaMyjmnPbSEOEUy23lTiC8gSX7FS/0/kEoj8RN4GBgBq4dx25VUeQovHNHa0tIqlrnQOMm4BK7dvOBR2exm73s8SY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709571622; c=relaxed/simple;
-	bh=uB8M5ZFqU823RPwkCme41wqgW8S1MAohoBHD2f/FRBE=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=G2VbiZeOi81HMU9CAa6Rt6wWatiTtufaISy0D4o4yO/x11ksIU/AybLsm9/jTfyY9ajb/2jxfe1lzB9aTyt4xN05Df8r165FyYHWUUi84WdLu1arvSc+0yHXKHV1SGPI6dvKzJr3oUNg53utG8ax/hlzWeULHgsTSNypRJvevH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PJHW2gX5; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1709574598; c=relaxed/simple;
+	bh=VtwakiId4faZUwyLZXPzBmmz2ssNcRrMaBHvrtoWAa4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XHP4C0lRbns/joz9OM1679RvjXtU1UnHpNBmQxNt+4U+gcDnvED+jofe7pHGv6Ac3njhBPm+CflLRWDz0IEcqwgetUxWvdfZlVBamYS4TqfSTgNUXT9njmQDJGVTqE3nIrHdIiYWlJwgz1XRG7B7k8UgUa8ptwKJPCTSx3iOtiI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ieee.org; spf=pass smtp.mailfrom=ieee.org; dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b=VAd69Nbw; arc=none smtp.client-ip=209.85.222.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ieee.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ieee.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PJHW2gX5"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a36126ee41eso718860566b.2
-        for <linux-staging@lists.linux.dev>; Mon, 04 Mar 2024 09:00:20 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b="VAd69Nbw"
+Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-7db1a2c1f96so1451704241.0
+        for <linux-staging@lists.linux.dev>; Mon, 04 Mar 2024 09:49:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709571619; x=1710176419; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5trdsWXQ1l+BmpkQ2xBDJEcjKE6ifeu1ZxitnKw1Sr0=;
-        b=PJHW2gX5hdz+riko7luUfFP4Cof9MfJJ1EmYwSEnYhWv4PENrXBCXq7vKabO8gHp/b
-         yDn5qPdCvLBH8TKe1oTJFqVBI3oaLzs3Oy7VyCPIhofwajHb/inwFEn8KUeammFk1rs6
-         dtEUdokIlbB/5sVaVatpYaXng+ZasejAHpZcsKgbvlbJonqHw5mr0/NHwr2jIa4vD/xf
-         odS3saGwwKMke/m53P+adCYHl8Z+icg5re5nRoeHpb6JPIEBebDmDPhlP1XLrTct0c4B
-         PQ5C8y/hkEV27pItp+oqzQ4gVdlRWMN8fNl/f9KSywfAyU9LYfMQZoH5pD/GI/VNmFH5
-         nQuw==
+        d=ieee.org; s=google; t=1709574595; x=1710179395; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9Pd2ZqD9+Nj0j4ec7ryunKzk1xgCPWEAoRbwQKMaYuE=;
+        b=VAd69NbwSSR/mesR0VvjFNbfJA8bl1tM39UbEvRlp6oR0WXUwDBLzYj/jCCSkVr9TH
+         m/cGB1SmDC+o1pzzMTwyBBVdgAqusPWo4WzVpp/UJ9KoZM7xSL1mOjdxHkkhc1WkG+l9
+         bxehlwE+U6QiJx8sHkolLdwhjwnIaMsKOi1uk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709571619; x=1710176419;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5trdsWXQ1l+BmpkQ2xBDJEcjKE6ifeu1ZxitnKw1Sr0=;
-        b=MqyZM9NaK0bUX82vF/Z+DT0mgXP52nN+WdoL3RSist0SGPOQF/ma8FRtu7sZ4L9FwB
-         kZLes0viaRNHk47LhLENbCu6zGis5vIYyrwjWpRd/rU0r7XcQv5woa5UU6VgGJXCVCzb
-         mYU9YuPRvi+PgAaa8IUpCy9vW5kQ0Ean7auTODB/LVRJynql0/BUl618GdaeFwqsNbxT
-         HhIxnACQ++PA7HGnz43JXDxpYkfjyyCvXBPC18noInThH7BMySmZLAtcvu8u1ed1wLnJ
-         aetEll1Ue6GekTtgGcl5/fGwsTe45ae9yjTECeIvbkvr3MtDfKoBi9/K1lEiT6JC4Ws0
-         Th1A==
-X-Forwarded-Encrypted: i=1; AJvYcCUrLcmD3W3r70qlPKSTfViv4QWYp9wA4e/pQAij56ujkXk5CIHITWUYH2rI5GBvjWz+cfgBGsua1NNvT+dA5l3XbZo8h7HN7++iYvCCkw==
-X-Gm-Message-State: AOJu0YxO0YZ5qjsMKVbmKOzHi05QmRwG5ePgfJpe0UOLaG2UQDVwG+Pg
-	tAtY6a+R87UDOorWjdhAFeUDxVf5p0CqN9cPIAIwz5yuTaye8QRS
-X-Google-Smtp-Source: AGHT+IFFhslZ7MbUdAQw1yM0erCq4TlxiOJjQ1YvO0Z5gpFpyYfvMvyiEfmDnK6w8x3Dgk6cAOvoXg==
-X-Received: by 2002:a17:906:6d14:b0:a45:27bd:e1ff with SMTP id m20-20020a1709066d1400b00a4527bde1ffmr2673618ejr.6.1709571618497;
-        Mon, 04 Mar 2024 09:00:18 -0800 (PST)
-Received: from ubuntu-focal.zuku.co.ke ([197.237.50.252])
-        by smtp.gmail.com with ESMTPSA id bx16-20020a170906a1d000b00a4588098c5esm372133ejb.132.2024.03.04.09.00.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Mar 2024 09:00:17 -0800 (PST)
-From: Dorine Tipo <dorine.a.tipo@gmail.com>
-To: gregkh@linuxfoundation.org,
-	forest@alittletooquiet.net,
-	linux-staging@lists.linux.dev
-Cc: Dorine Tipo <dorine.a.tipo@gmail.com>
-Subject: [PATCH V3] Staging: octeon: match parentheses alignment
-Date: Mon,  4 Mar 2024 14:49:37 +0000
-Message-Id: <20240304144937.34283-1-dorine.a.tipo@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <08387340-4611-4403-b38f-75d63eb06d2a@moroto.mountain>
-References: <08387340-4611-4403-b38f-75d63eb06d2a@moroto.mountain>
+        d=1e100.net; s=20230601; t=1709574595; x=1710179395;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9Pd2ZqD9+Nj0j4ec7ryunKzk1xgCPWEAoRbwQKMaYuE=;
+        b=Xt0T7JSCv6BdDuStUJ1Rba+FdmEAG4DX9CxTfTjPF7uPhLWewcr2pCMiErOtSlqcj2
+         Ni2fbbkyE3Gr8rXZgdQrrbbeXfJ43iG0jGl1Qt+TmKrndQbO7sedmPH22bjKuePn0V+e
+         6HifbGMEVtiEMSieaoBwRsMr+A1MxhhAlsGux4H9YVe6w7QFsoUAKU3oDRylBfJrHkxu
+         u/Y/adK5tOkS5YY7cMjRX3LABoS0MMya1rkA713lZaeG03z8aAcoPsnPybw9N3bfuDDu
+         si7V/6xfEIPNCDBWn83vW3leziYbxoNeFgsmOyOmO31mB2eRAalPrfd8YeaYoI082r5H
+         hmZg==
+X-Forwarded-Encrypted: i=1; AJvYcCVdpxRvXqJ4oB5QvvxpEjSWJpw7O7vlAOSMl5AVAzujBSN5JOHEm7yHNe68OkW331VA6qeIcdZV/im3dGlvWl+IE3fJOd17BHwMuO8AqA==
+X-Gm-Message-State: AOJu0YxN+q+4s9ISj4ThhiTcVq1uUjxHuz5LqA4xAgkL54tCBsPD5W3d
+	YDwwJsDyTBJv9GP3sicpkW5s80+sPedbv2joWQzVn/8zmZBHn0HOXdY+PJjzoA==
+X-Google-Smtp-Source: AGHT+IFKl0IbUfafOj5m9zaSe/S5V0PjhekyC8gN8/+VSm+peqpjggkhFvHZLy6t34sJp++enhU9+Q==
+X-Received: by 2002:a67:e34e:0:b0:472:6e92:dc9 with SMTP id s14-20020a67e34e000000b004726e920dc9mr6672607vsm.4.1709574595513;
+        Mon, 04 Mar 2024 09:49:55 -0800 (PST)
+Received: from [172.22.22.28] (c-73-228-159-35.hsd1.mn.comcast.net. [73.228.159.35])
+        by smtp.googlemail.com with ESMTPSA id kd3-20020a05622a268300b0042ef2740186sm1103686qtb.51.2024.03.04.09.49.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Mar 2024 09:49:55 -0800 (PST)
+Message-ID: <1c77c0ef-c098-4962-909d-6bf53cdbde60@ieee.org>
+Date: Mon, 4 Mar 2024 11:49:53 -0600
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: greybus: fix get_channel_from_mode() failure
+ path
+Content-Language: en-US
+To: Rui Miguel Silva <rmfrfs@gmail.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+References: <379c0cb4-39e0-4293-8a18-c7b1298e5420@moroto.mountain>
+ <m3sf16tky7.fsf@gmail.com>
+From: Alex Elder <elder@ieee.org>
+In-Reply-To: <m3sf16tky7.fsf@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Correct parameter alignment in cvmx_spi_restart_interface().
+On 3/4/24 3:17 AM, Rui Miguel Silva wrote:
+> Hi Dan,
+> once again thanks for the patch.
+> 
+> Dan Carpenter <dan.carpenter@linaro.org> writes:
+> 
+>> The get_channel_from_mode() function is supposed to return the channel
+>> which matches the mode.  But it has a bug where if it doesn't find a
+>> matching channel then it returns the last channel.  It should return
+>> NULL instead.
+>>
+>> Also remove an unnecessary NULL check on "channel".
+>>
+>> Fixes: 2870b52bae4c ("greybus: lights: add lights implementation")
+>> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> 
+> Reviewed-by: Rui Miguel Silva <rmfrfs@gmail.com>
 
-This patch aligns the parameters with the opening parenthesis for better
-readability and adherence to coding style guidelines.
+Looks good.
 
-Signed-off-by: Dorine Tipo <dorine.a.tipo@gmail.com>
----
- drivers/staging/octeon/octeon-stubs.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Reviewed-by: Alex Elder <elder@linaro.org>
 
-diff --git a/drivers/staging/octeon/octeon-stubs.h b/drivers/staging/octeon/octeon-stubs.h
-index 3e7b92cd2e35..44cced319c11 100644
---- a/drivers/staging/octeon/octeon-stubs.h
-+++ b/drivers/staging/octeon/octeon-stubs.h
-@@ -1362,7 +1362,7 @@ static inline struct cvmx_wqe *cvmx_pow_work_request_sync(cvmx_pow_wait_t wait)
- }
- 
- static inline int cvmx_spi_restart_interface(int interface,
--					cvmx_spi_mode_t mode, int timeout)
-+					     cvmx_spi_mode_t mode, int timeout)
- {
- 	return 0;
- }
--- 
-2.25.1
+> 
+> Cheers,
+>    Rui
+> 
+>> ---
+>>   drivers/staging/greybus/light.c | 8 ++++----
+>>   1 file changed, 4 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/staging/greybus/light.c b/drivers/staging/greybus/light.c
+>> index d62f97249aca..a5c2fe963866 100644
+>> --- a/drivers/staging/greybus/light.c
+>> +++ b/drivers/staging/greybus/light.c
+>> @@ -95,15 +95,15 @@ static struct led_classdev *get_channel_cdev(struct gb_channel *channel)
+>>   static struct gb_channel *get_channel_from_mode(struct gb_light *light,
+>>   						u32 mode)
+>>   {
+>> -	struct gb_channel *channel = NULL;
+>> +	struct gb_channel *channel;
+>>   	int i;
+>>   
+>>   	for (i = 0; i < light->channels_count; i++) {
+>>   		channel = &light->channels[i];
+>> -		if (channel && channel->mode == mode)
+>> -			break;
+>> +		if (channel->mode == mode)
+>> +			return channel;
+>>   	}
+>> -	return channel;
+>> +	return NULL;
+>>   }
+>>   
+>>   static int __gb_lights_flash_intensity_set(struct gb_channel *channel,
+>> -- 
+>> 2.43.0
 
