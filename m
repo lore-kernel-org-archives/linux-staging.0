@@ -1,99 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD3F94CE1F
-	for <linux-staging@lists.linux.dev>; Mon,  4 Mar 2024 17:50:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BBF262143
+	for <linux-staging@lists.linux.dev>; Mon,  4 Mar 2024 17:59:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709574648; cv=none; b=fHACFLzx3ZGxeZWYQe1Zc3MQLmxu4R174JXu+Ixjc0DOtNoCP+zGMVKSn7Jyh94Yu1avcGOSZ4qs0Tb50bUxkazpbTJ0IZB9ECk9V8RyLM0TYNKKybQtqKeFvJpWQq5GGV9bmWlP6Tieu/uKEpzdFVxjtCJY2vTQxQocI483XJQ=
+	t=1709575157; cv=none; b=a+EsPNoM91bSldOQ8mbf+zRieGg3+gxBzk5metRrQlcviTbvgU14jvh9FdNLKUspI3igL5LYUhEkXEEVzyRzPfDLZfK41Whq4uESWIYRQT7XeqJpDj1kHY8nd5blYsMEzHJ9dprFjNc7eeEsz1ADbbvEZpUrS5VU5TiE5fLsSx0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709574648; c=relaxed/simple;
-	bh=QuF3C2Ed/MyiUFsrC++f95lj8oD/Ue/7jwUSPDN3/0c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gIFYx1GGKcI33HUASRybYOvdP0RjFdXfD3kc36xtKNTKrPZBkIo96+WL0bwlCM/JjXG+5GMdkzIZn0eH1E/wkLb+vNupBHQ0aQ3shdJ5fYW0Y+f5Z/9LllAG2QJG18D6Ob/6bO2dDyE/qif5UvKuVL3+hKqC/aD/2YoPWHlvTSY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=F89MnUkZ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1709575157; c=relaxed/simple;
+	bh=QLV4otpC/iCigb560l//jVarJg6qMxWTbZBnLBsPxAk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=sHJxrKUirZ23EnX0FWFsBdk2Trjt8EgS8NHGpbjzfCVUI01TFWiSBR7Ypoyb9lNlhXsn2Y4wAzA4yxp9yealJgsHY5Q+Bza1mzIodRqAmp6Zx3fpEzRMgvGlq62uh4cFDrhKFzPNEmUbQRjd0v9XrtjwjaMB4I0kNm0HMSBvazI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ieee.org; spf=pass smtp.mailfrom=ieee.org; dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b=KmKLBGf9; arc=none smtp.client-ip=209.85.219.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ieee.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ieee.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="F89MnUkZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1E91C433C7;
-	Mon,  4 Mar 2024 17:50:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1709574648;
-	bh=QuF3C2Ed/MyiUFsrC++f95lj8oD/Ue/7jwUSPDN3/0c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=F89MnUkZEschcAHRbnVx9CPJxPmTynkTsz8uHaBa9IqvOT13ixjNm+/q0qr0eFz1x
-	 /NvsUckBcqm3UPO/tPOt5fDCanppymL66wpNTYmedKscFLGuxugEqHHo6PuAEoctVU
-	 fyRviS6vnwYQF44ruv1zZ2GoKissQ4H+WK/PJTVw=
-Date: Mon, 4 Mar 2024 18:50:35 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Dorine Tipo <dorine.a.tipo@gmail.com>
-Cc: forest@alittletooquiet.net, linux-staging@lists.linux.dev
-Subject: Re: [PATCH V3] Staging: octeon: match parentheses alignment
-Message-ID: <2024030422-backstage-derby-a1e4@gregkh>
-References: <08387340-4611-4403-b38f-75d63eb06d2a@moroto.mountain>
- <20240304144937.34283-1-dorine.a.tipo@gmail.com>
+	dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b="KmKLBGf9"
+Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-dcd7c526cc0so5052759276.1
+        for <linux-staging@lists.linux.dev>; Mon, 04 Mar 2024 09:59:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ieee.org; s=google; t=1709575155; x=1710179955; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=thA/I2PqPVLK4SnspFOCxqgcMVG1ux25WaxY6rArXhk=;
+        b=KmKLBGf9BZcac8o7aWw4UwdV1kxBox78qK2WoVooHutOdFXkwrPe9Ui9IkK0Ez8Ta5
+         MFgzG5Mudzgh3Rpj3ZcQ4WJmTQtGVRpn6zXT6pk81PgH4OSeITGuE83kCB391BkopWR6
+         Y+A43M2R443/ajkLtrEbenfBoEJiLlDZBQdHo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709575155; x=1710179955;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=thA/I2PqPVLK4SnspFOCxqgcMVG1ux25WaxY6rArXhk=;
+        b=pGb4HnHZCsyPtVfyO27S63cndGiP9r8y2YR7zVp8zYFAFynCl5+Z+MWUCdZhfl/wD8
+         EELNvOM9dxAN7tOu6TvIWznzWv+TqPvRPHVtgg8AqXAAy7A3oVSeC3HA7yrCP24oxQZE
+         Z3X8xbmEZLY458EJjR5ryQ9qloxuMtgVyNWwJKQQbMKpLMrLHD+I3NUJBM6JSVpdX0Lv
+         bTARv4l0zBVK2SqRlyI2fj3ItD2ydfZ4pfCxeZ0uD0njH4OsLT2kFICwVBm8ALNqoLNB
+         CBIydLWWVkgqlJeOy0CgronUhze+nVdHNmaXBjL/G4HlTU5crMWjEeEWJGn1aTv+oFl0
+         YOyQ==
+X-Forwarded-Encrypted: i=1; AJvYcCULQxWRsTxTkqsHhMGJJ5oWKUuxKDuVgZP3DASzbhJshn/rQpA15hR7pXg28nNLpZ2zQ6/588K52eZDAP0Yhk1gnwdLIVFEEo7PHqAcwQ==
+X-Gm-Message-State: AOJu0YzEWOsR91lMtFk39eZhNV3csGfZ+Upw222zX896NLDjp6VW1KqG
+	k9gXGqdDBuCi0OkRV+rifqY6G3lq5GhH9jvOgoG4MQknCGIEo8+SDJnp41MCxQ==
+X-Google-Smtp-Source: AGHT+IExfeM10ZB/js7EB+v7jDmQcldpolr3vewnoOnOzAtVxGnjlDaiuVf+mmkl78AiuvoB2YKsrA==
+X-Received: by 2002:a25:68d1:0:b0:dc6:3610:c344 with SMTP id d200-20020a2568d1000000b00dc63610c344mr6983088ybc.13.1709575155031;
+        Mon, 04 Mar 2024 09:59:15 -0800 (PST)
+Received: from [172.22.22.28] (c-73-228-159-35.hsd1.mn.comcast.net. [73.228.159.35])
+        by smtp.googlemail.com with ESMTPSA id t106-20020a25aaf3000000b00dcc7b9115fcsm2365520ybi.3.2024.03.04.09.59.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Mar 2024 09:59:14 -0800 (PST)
+Message-ID: <b6cee7a2-d702-4248-977e-25a91c210c93@ieee.org>
+Date: Mon, 4 Mar 2024 11:59:13 -0600
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240304144937.34283-1-dorine.a.tipo@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: greybus: put macro in a do - while loop
+Content-Language: en-US
+To: Dileep Sankhla <dileepsankhla.ds@gmail.com>,
+ Greg KH <gregkh@linuxfoundation.org>
+Cc: greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, pure.logic@nexus-software.ie,
+ johan@kernel.org, elder@kernel.org
+References: <20240225084017.418773-1-dileepsankhla.ds@gmail.com>
+ <2024022538-buffoon-praising-f748@gregkh>
+ <CAHxc4bsFj1=VFVDWbdwo3W3CmSyPG1585p2zBePpsD9qy6VKdA@mail.gmail.com>
+From: Alex Elder <elder@ieee.org>
+In-Reply-To: <CAHxc4bsFj1=VFVDWbdwo3W3CmSyPG1585p2zBePpsD9qy6VKdA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Mon, Mar 04, 2024 at 02:49:37PM +0000, Dorine Tipo wrote:
-> Correct parameter alignment in cvmx_spi_restart_interface().
+On 2/25/24 3:49 AM, Dileep Sankhla wrote:
+> On Sun, Feb 25, 2024 at 2:26 PM Greg KH <gregkh@linuxfoundation.org> wrote:
+>> Did you test build this?
 > 
-> This patch aligns the parameters with the opening parenthesis for better
-> readability and adherence to coding style guidelines.
+> Hello Greg,
 > 
-> Signed-off-by: Dorine Tipo <dorine.a.tipo@gmail.com>
-> ---
->  drivers/staging/octeon/octeon-stubs.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Yes. No new warning/error was encountered on building the kernel.
+
+Then your build must not have been compiling your changed
+code, because the result of your change produces code that
+will not compile successfully.
+
+If you look at where gb_loopback_stats_attrs() is called, it's
+used only at outer scope, in "drivers/staging/greybus/loopback.c".
+
+Adding do { ... } while() at outer scope is nonsensical.
+
 > 
-> diff --git a/drivers/staging/octeon/octeon-stubs.h b/drivers/staging/octeon/octeon-stubs.h
-> index 3e7b92cd2e35..44cced319c11 100644
-> --- a/drivers/staging/octeon/octeon-stubs.h
-> +++ b/drivers/staging/octeon/octeon-stubs.h
-> @@ -1362,7 +1362,7 @@ static inline struct cvmx_wqe *cvmx_pow_work_request_sync(cvmx_pow_wait_t wait)
->  }
->  
->  static inline int cvmx_spi_restart_interface(int interface,
-> -					cvmx_spi_mode_t mode, int timeout)
-> +					     cvmx_spi_mode_t mode, int timeout)
->  {
->  	return 0;
->  }
-> -- 
-> 2.25.1
+>>>   #define gb_loopback_attr(field, type)                                        \
+>>>   static ssize_t field##_show(struct device *dev,                              \
+>>
+>> Why did you only change one if you thought this was a valid change?
 > 
+> 1. As per my C background, I think no other macros in the above source
+> code file need to be enclosed in a do - while loop.
+
+gb_loopback_stats_attrs() must *not* be enclosed in a do..while loop.
+
+> 2. I am writing the patch because of the Eudyptula Challenge, and I
+> have to fix "one coding style problem" in any of the files in
+> drivers/staging/. The above one was one of them.
+
+I support the challenge.  But you need to be sure your fix actually
+works, and in particular (in this case) that it compiles correctly.
+
+					-Alex
+
 > 
+> Regards,
+> Dileep
 
-Hi,
-
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
-
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/process/submitting-patches.rst for what
-  needs to be done here to properly describe this.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
