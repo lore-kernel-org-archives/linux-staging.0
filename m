@@ -1,80 +1,115 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from smtp1.iitb.ac.in (smtpd9.iitb.ac.in [103.21.126.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7F4B134C5
-	for <linux-staging@lists.linux.dev>; Mon,  4 Mar 2024 07:28:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1150A15AE0
+	for <linux-staging@lists.linux.dev>; Mon,  4 Mar 2024 07:49:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.21.126.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709537321; cv=none; b=IZHJGOuBIKT19tbWPaGuqhGsVdus+WQkx2e58CCbW1M2Bw1KDMJODqa5mENDRJ/dW8jqz0VMnvGprb1Yjzi44831HMsElPB2k3MzvVZydIl5xNoGMurZZIesZJRTVXHb8lErkMyO+xO/CAUlJmahDOCPmLMmxmNmFCwmWzo4vkQ=
+	t=1709538588; cv=none; b=oHQQ1qrFb7BS6Xm0611CJgq311hsG1ax79Nccj4xWPCBKPq/IJnlJqCa0WvTUSDvw3oHX5P/RG4G0kQ3p45XrxSSg3slIRUxD2Ms7cC6l6G6GrWSW2b4m0IT6qFWLT8xZnNTQUhXuoK4za9XsMWayK97+J9yl5KsqmlrRPJE2Sk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709537321; c=relaxed/simple;
-	bh=d8cnAMNa1AJJ8FEjNDOypbxGsMMkLSfcBRz4QBDn+FQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KOx4XJ5dZMmJ/TvHhygEa+a/F3nwJ3V7I66tKgqbl2UJrbG/wAMSW1I8oI4Q48JL8D7RBNbPH8rS/hnC0mkJiT7g+4Q5O2LP7DANrtm0wvetU8PQ+Tnv8cFTRWOFNGU5BrBxJ5KZsvVwnUh+2OZ4TWxf43rMoR5eBKOgmNSrGw8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ibyHUWd5; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1709538588; c=relaxed/simple;
+	bh=9QaEAudaCAaeY1zxPULS8+iVrKHghlw+/PmiL+Ujdm4=;
+	h=MIME-Version:Date:From:To:Cc:Subject:Message-ID:Content-Type; b=RcxdL5pXBuBKJvTUJiRQxvLFFS8ckhhgRLTiMZfsmae1R6cnoKmN0leQIboOvJzliEGXNSzEtv8V+jKtgZ5mE5hqkffLRWnH41vLFnMy4csWIl9ahWpCjcEpgAGYOUQDEZoVjllSbbN/RDxyo3RduvXiXfxZa9UDtDFFyta12ZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iitb.ac.in; spf=pass smtp.mailfrom=iitb.ac.in; dkim=pass (1024-bit key) header.d=iitb.ac.in header.i=@iitb.ac.in header.b=gRGHhpMn; arc=none smtp.client-ip=103.21.126.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iitb.ac.in
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iitb.ac.in
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ibyHUWd5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709537320; x=1741073320;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=d8cnAMNa1AJJ8FEjNDOypbxGsMMkLSfcBRz4QBDn+FQ=;
-  b=ibyHUWd5S+qC+gzJr+WsIM7iJfsO2Q8iN3t1IZVdTD/yDtR8NJ9pBqjB
-   wKXlekidR2WeVpEMStQrzE6BpJwTTrWwt/y+ALnQLI1y/Qz39+wwz5UIn
-   14Te5TUbltcEbqOpj8N9aOnXzeyNEhSJKIAvMrx2YLAGK5UewZRB21P5s
-   S2vJI+x/Q2K7uRf+MPI3f87OMx3GzEM0pasnBGsmWaGWgYUaciwX9fnmK
-   h5/O9KDSWZJGjlLIxy9N/BZpguSaMJeDF3qS6181WLzFBXJdMIhEzBl9a
-   9zwh/FFcQWgIpbOAiPGa665sXjzL2WAtJARtc9eXRXTqt9j7RIVcL0VjF
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11002"; a="29436280"
-X-IronPort-AV: E=Sophos;i="6.06,203,1705392000"; 
-   d="scan'208";a="29436280"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2024 23:28:39 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,203,1705392000"; 
-   d="scan'208";a="39749624"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2024 23:28:37 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 830C411F8B1;
-	Mon,  4 Mar 2024 09:28:34 +0200 (EET)
-Date: Mon, 4 Mar 2024 07:28:34 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: R SUNDAR <prosunofficial@gmail.com>
-Cc: bingbu.cao@intel.com, tian.shu.qiu@intel.com, mchehab@kernel.org,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Removed reserved1/2 fields to prevent kernel-doc warnings
-Message-ID: <ZeV4Im9SHmWs0EZM@kekkonen.localdomain>
-References: <20240303133223.5506-1-prosunofficial@gmail.com>
+	dkim=pass (1024-bit key) header.d=iitb.ac.in header.i=@iitb.ac.in header.b="gRGHhpMn"
+Received: from ldns1.iitb.ac.in (ldns1.iitb.ac.in [10.200.12.1])
+	by smtp1.iitb.ac.in (Postfix) with SMTP id EE7DD101CA62
+	for <linux-staging@lists.linux.dev>; Mon,  4 Mar 2024 13:19:38 +0530 (IST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.iitb.ac.in EE7DD101CA62
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=iitb.ac.in; s=mail;
+	t=1709538578; bh=9QaEAudaCAaeY1zxPULS8+iVrKHghlw+/PmiL+Ujdm4=;
+	h=Date:From:To:Cc:Subject:From;
+	b=gRGHhpMnTGWD8radH2caNvLjdh7VNEYzeyXWgs5ImISZkJVO2neDx9yy1XI9Si2VA
+	 NhVwzD87oKkBYwKxC9YSowsII7rOCLpAq6tok6ai85KUltviYYyjNN2fjAHw+nCO44
+	 6J7G/7zdtOFEd4oW1hZY6BbYA73qXPlLjHJZd2rQ=
+Received: (qmail 9127 invoked by uid 510); 4 Mar 2024 13:19:38 +0530
+X-Qmail-Scanner-Diagnostics: from 10.200.1.25 by ldns1 (envelope-from <210100011@iitb.ac.in>, uid 501) with qmail-scanner-2.11
+ spamassassin: 3.4.1. mhr: 1.0. {clamdscan: 0.101.4/26439} 
+ Clear:RC:1(10.200.1.25):SA:0(0.0/7.0):. Processed in 2.273739 secs; 04 Mar 2024 13:19:38 +0530
+X-Spam-Level: 
+X-Spam-Pyzor: Reported 0 times.
+X-Envelope-From: 210100011@iitb.ac.in
+X-Qmail-Scanner-Mime-Attachments: |
+X-Qmail-Scanner-Zip-Files: |
+Received: from unknown (HELO ldns1.iitb.ac.in) (10.200.1.25)
+  by ldns1.iitb.ac.in with SMTP; 4 Mar 2024 13:19:36 +0530
+Received: from wm1.iitb.ac.in (wm1.iitb.ac.in [10.200.17.1])
+	by ldns1.iitb.ac.in (Postfix) with ESMTP id 730BC360035;
+	Mon,  4 Mar 2024 13:19:36 +0530 (IST)
+Received: from webmail-sso.iitb.ac.in (localhost [IPv6:::1])
+	by wm1.iitb.ac.in (Postfix) with ESMTP id 709C8608E11;
+	Mon,  4 Mar 2024 13:19:36 +0530 (IST)
+Received: from [10.9.9.42]
+ by webmail.iitb.ac.in
+ with HTTP (HTTP/1.1 POST); Mon, 04 Mar 2024 13:19:36 +0530
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240303133223.5506-1-prosunofficial@gmail.com>
+Date: Mon, 04 Mar 2024 13:19:36 +0530
+From: Aman Sharma <210100011@iitb.ac.in>
+To: Gregkh <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH v3] Staging: pi433: Updated bitrate range from datasheet
+Message-ID: <0eaf24f26b1f7e89350b54a65c7f47a6@iitb.ac.in>
+X-Sender: 210100011@iitb.ac.in
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi,
+Updated bitrate range for FSK and OOK modulation from the RFM69 
+Datasheet.
+The values are mentioned in Section 2.3.2 of the datasheet.
 
-On Sun, Mar 03, 2024 at 07:02:23PM +0530, R SUNDAR wrote:
-> ./drivers/staging/media/ipu3/include/uapi/intel-ipu3.h:2522: warning: Excess struct member 'reserved1' description in 'ipu3_uapi_acc_param'
-> ./drivers/staging/media/ipu3/include/uapi/intel-ipu3.h:2522: warning: Excess struct member 'reserved2' description in 'ipu3_uapi_acc_param'
-> 
-> Signed-off-by: R SUNDAR <prosunofficial@gmail.com>
+Signed-off-by: Aman Sharma<amansharma6122002@gmail.com>
+---
+  V1->V2: Added explanation about values in commit msg
+  V2->V3: Added version comments after changelog
 
-Thanks for the patch.
+  drivers/staging/pi433/Documentation/pi433.txt | 6 ++++--
+  drivers/staging/pi433/TODO                    | 1 -
+  2 files changed, 4 insertions(+), 3 deletions(-)
 
-These have been already addressed by commit
-dcef3ed5b0d79f89018e31d55cf09f2c2f81392b, same for the other patch.
-
+diff --git a/drivers/staging/pi433/Documentation/pi433.txt 
+b/drivers/staging/pi433/Documentation/pi433.txt
+index 4a0d34b4ad37..9ce7282ef6f8 100644
+--- a/drivers/staging/pi433/Documentation/pi433.txt
++++ b/drivers/staging/pi433/Documentation/pi433.txt
+@@ -78,7 +78,8 @@ rf params:
+  		Allowed values: 433050000...434790000
+  	bit_rate
+  		bit rate used for transmission.
+-		Allowed values: #####
++		Allowed values (For FSK): 1200...320000
++		Allowed values (For OOK): 1200...32768
+  	dev_frequency
+  		frequency deviation in case of FSK.
+  		Allowed values: 600...500000
+@@ -169,7 +170,8 @@ rf params:
+  		Allowed values: 433050000...434790000
+  	bit_rate
+  		bit rate used for transmission.
+-		Allowed values: #####
++		Allowed values (For FSK): 1200...320000
++		Allowed values (For OOK): 1200...32768
+  	dev_frequency
+  		frequency deviation in case of FSK.
+  		Allowed values: 600...500000
+diff --git a/drivers/staging/pi433/TODO b/drivers/staging/pi433/TODO
+index 63a40bfcc67e..61ed3a1578bc 100644
+--- a/drivers/staging/pi433/TODO
++++ b/drivers/staging/pi433/TODO
+@@ -2,4 +2,3 @@
+  * still TODOs, annotated in the code
+  * currently the code introduces new IOCTLs. I'm afraid this is a bad 
+idea.
+    -> Replace this with another interface, hints are welcome!
+-* Some missing data (marked with ###) needs to be added in the 
+documentation
 -- 
-Kind regards,
-
-Sakari Ailus
+2.34.1
