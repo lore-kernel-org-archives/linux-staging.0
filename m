@@ -1,140 +1,148 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB1437C6C6
-	for <linux-staging@lists.linux.dev>; Mon,  4 Mar 2024 23:10:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CB923EA96;
+	Tue,  5 Mar 2024 04:54:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709593842; cv=none; b=SH1z60cQ438vO4KynERyB9z+tpWySlQPn4vdnY+/TTtojcwYiM17qYjXZMdEMICF6+6Od3PsvpSBo7vA6Dfv4gB5AyeaOosGAOG8pdljqqZlnw5JA1CUO6OszAsfMvXnvQT2YNspBqWVyx/BXq6/TSXTUl9aBxRfN0c7l/1W5Dk=
+	t=1709614446; cv=none; b=FryAMBx9vVlgzethCXn6j+RC8Tx0W2Klg3K6YwmHrkCBkT4cjayiDAk2uY3kdOSBif2qFt79YWRsRMP4al7I3G3cmXtlfjQOTtpft5RqpsN0lHVzdrMJX55rrF5whxLUBWMqrXzFEY4lovCASq3+aRcUvNBUT0Y+QjGVLeogC9Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709593842; c=relaxed/simple;
-	bh=wMZzStv0WI94dHIupt/3qTiQCvxmwKcJlo5DxooTw+8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ULKVTei3ei1psuHUUqTJWTDcEej9yXue8foJMh2zsWKAiyr7jDqRqwhxqO8MWP6/js6T3w7FXdHePtjZYw0SRa3VAm5dBoZjdYUXh/D1mTHj6mxT1tYL6kYT0Tc4Yh7UFoqfmKkUU4JX7Ij/AaczckBsjOlm/gnSEbwtpQ5l1/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=M6LtdNGN; arc=none smtp.client-ip=209.85.215.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1709614446; c=relaxed/simple;
+	bh=/71kuDzJizLk1aETotuFiq6Yvfeba53Jahr3NLeTUVw=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=o1ZAkQLB9PLPLbuUQtoIW/GHGAtN35GXZFgFTQ/N8nsOzt+bf9aKUV4PN7PfSI6rkmT0nmPch9u86G2TPJKdZ/C9qGh96cDs/t/Jlv8lVYFvVBRTvNZ/TTL/jgYw4seYMFj9w9407mh3rqmWsNfWO2zN7A7w2NEJlZsX+mUt5OM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZVzjdqnm; arc=none smtp.client-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="M6LtdNGN"
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-5cf2d73a183so4437035a12.1
-        for <linux-staging@lists.linux.dev>; Mon, 04 Mar 2024 15:10:40 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZVzjdqnm"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5643ae47cd3so7001481a12.3;
+        Mon, 04 Mar 2024 20:54:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1709593840; x=1710198640; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=9msUTwBa3XNDAwjjPAvGjEpS0Gd3hVi8Z81nRq0fsvc=;
-        b=M6LtdNGNWsVYFIdhHSh+PnDUibj3M3A7UJS8G9y96XtujSRhDaHgh8rSS0EDQIS94C
-         7WRC9ZG6QB3bhY8tEw81JruQGGEybKpoQ+/uZC4I5eBug5FixVkz4/JlbQTXxoRxnQhq
-         c5Cy50tokdCErTr61X4iODt4Gdru6l6RFb+kY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709593840; x=1710198640;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1709614443; x=1710219243; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9msUTwBa3XNDAwjjPAvGjEpS0Gd3hVi8Z81nRq0fsvc=;
-        b=sdwkG6TZUTvuBIPrTnEr0ay6u9bXAZq4zX2nU6dwMoH6/ACvS7/pQCvPyeFtk1X18c
-         0Tnc/PU3LNmb3wh3QYUJ0QiJsP5U59QFibKs35wIyvgMT+cD9+nQKwk0FMipKzJdkfu9
-         r94U5458fU9R49N6sR91mUfe1zh0JXmLKKhAVf2LoTV7ArdrJsgLMz3oX50ibw5hLKKr
-         YAUMvDjvgcmkI0OSiJJXkvCWre12S53lfMwBms2Gxhxt+L8qizS8exBlv19wR8WvaYb7
-         xFzgiiPIaUJ8w26jps/th3lESwqYr8nxpaqWHZ9Ij4M2Mqtt93Tfx5e5o2rP+zcQNFg4
-         GlQw==
-X-Forwarded-Encrypted: i=1; AJvYcCXfOMC35eOqYo5SOBigJLPaypbb0QPRtxc1EjhDsgibL8JN0TQeM87ifEQ4wgVVv789WINpOHtO6OopDYx3S5xBBfshKm0EaY/taPuDJw==
-X-Gm-Message-State: AOJu0Yyqp0zaKdl2BnVPr4vWxp6VQWGxpLEQ8uKIJIzITngUdfcYZp6x
-	2f5271FIk5s+jYY9FNdZIoqZ+DvdFqLHBnWT0tPZlBuGuozl8Rqx4eYvGocnRw==
-X-Google-Smtp-Source: AGHT+IEbAr3Hucp75eD8JSPbmT5fSEjkHtUZ6q2D8D6DXvd41jaoEyXkI1zB44xifF8tsNHZEQjQpA==
-X-Received: by 2002:a17:90a:e548:b0:29b:1bc5:cfda with SMTP id ei8-20020a17090ae54800b0029b1bc5cfdamr1080411pjb.16.1709593840120;
-        Mon, 04 Mar 2024 15:10:40 -0800 (PST)
-Received: from www.outflux.net ([198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id fa13-20020a17090af0cd00b00298f2ad430csm8380840pjb.0.2024.03.04.15.10.39
+        bh=tYAwummU5v15mvPDS8bHkza9KKI7KBb6rIoQ8Kl4uQE=;
+        b=ZVzjdqnm9xO+nuXSWwplDcikXWjuxjp1BlhOVh4DbyxsXQADThp27z6lw5GqY5uPMY
+         8580zyv/lU1BOG6dP9d0WyZX9k4xbD2dWpwMREJOPqa0+ya21sPl6CilfzhPj4XqHg17
+         E03euP0JQdC9AsK3o2BQTVRsEck5ZTwc4BX2d/M8vZ6nQP4fA3m6ekonCWda+RsyCag9
+         8YHiF+/J4+u6rmAACVDF0K9ohEveCMGzdIrw7VWbIWJL9cHJ9fJad6l+l8CKHVz31wZ7
+         ZkvHe61VgYNQofZCN4FszQXJzqGIAkmVbtRsJeTJ6hba81qJjtAs4D1a6QXECCDeKWrn
+         ZQkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709614443; x=1710219243;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tYAwummU5v15mvPDS8bHkza9KKI7KBb6rIoQ8Kl4uQE=;
+        b=ozN8USoepe3r3bxR0rRhAKy9Qef5T9mTwKBRVgoRsihNzpBPRzpKLxxCXBVzdhhGL3
+         2Zi6YLquh5OODmFAgBnu0OUB91U8EEfMHwvDm9avjxaGneemv21S6DtvcCddKYLtsnsh
+         Ce8eUTXJ7I2jBBfrb06dE+Qht67KNxh+1x/G6QGDZ3tNNY2LQ9df0qxV6RcuYN9aOFat
+         65vbxjuAWIJ5tJ1n8wQA+WiJwTvgE1V8VLkOoM5Klg+FZSPTRbdtmwZDkrj1V8noSCZ9
+         /Y2PQlWZZuHx8uPRVh7/VDK04zLh6wEtFST+o4nQTPaqJhkN/FSvz6Z1YRNaHEpVGPzc
+         Ee7w==
+X-Forwarded-Encrypted: i=1; AJvYcCW00+ixceZUZ79HuUxRtpaJ38q3glzyWjtz/H2YWDbhVe18Rr0iknqqnxb5GatkN2oEtHs96aHqRpd+BqSm/bjwpJo22QrWDdir6x2LgpXtdLv5bRs9psFmM4Il3JNdvXRQ0tprF8/CoA==
+X-Gm-Message-State: AOJu0Yyybc7wWTLsl0Zg+oQoVrSjHXaq2DZmfm+vSiAz/JIXrE7Ga5IE
+	txUw2GRW8XBCU07r39bXsa6QuqShSLRwarV78cVKiaVvZjdfQvP7
+X-Google-Smtp-Source: AGHT+IH7d0LxzJV/QwA2UaFSK9I03OyhgrdOHcZ9BRKG9MhX/86AqdfgP89DeS90t/yRKe5T6NGSpQ==
+X-Received: by 2002:a05:6402:1e86:b0:566:c388:ceb4 with SMTP id f6-20020a0564021e8600b00566c388ceb4mr7735469edf.28.1709614443335;
+        Mon, 04 Mar 2024 20:54:03 -0800 (PST)
+Received: from ubuntu-focal.zuku.co.ke ([197.237.50.252])
+        by smtp.gmail.com with ESMTPSA id g13-20020a056402428d00b0056793ab2ad8sm86998edc.94.2024.03.04.20.54.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Mar 2024 15:10:39 -0800 (PST)
-Date: Mon, 4 Mar 2024 15:10:39 -0800
-From: Kees Cook <keescook@chromium.org>
-To: Alex Elder <elder@ieee.org>
-Cc: Alex Elder <elder@kernel.org>, Viresh Kumar <vireshk@kernel.org>,
-	Johan Hovold <johan@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Gustavo A . R . Silva" <gustavo@embeddedor.com>,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2] greybus: Avoid fake flexible array for response data
-Message-ID: <202403041507.BEF59739@keescook>
-References: <20240304211940.it.083-kees@kernel.org>
- <1c5ab1e7-ac66-438c-bc49-0785810e9355@ieee.org>
+        Mon, 04 Mar 2024 20:54:02 -0800 (PST)
+From: Dorine Tipo <dorine.a.tipo@gmail.com>
+To: gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	outreachy@lists.linux.dev
+Cc: Dorine Tipo <dorine.a.tipo@gmail.com>
+Subject: [PATCH v4] staging: vt6655: Match open parentheses
+Date: Tue,  5 Mar 2024 04:53:38 +0000
+Message-Id: <20240305045338.4654-1-dorine.a.tipo@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <2ac49025-0cd0-4ea2-b06f-f1bfb5f8ee8f@gmail.com>
+References: <2ac49025-0cd0-4ea2-b06f-f1bfb5f8ee8f@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1c5ab1e7-ac66-438c-bc49-0785810e9355@ieee.org>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Mar 04, 2024 at 04:45:11PM -0600, Alex Elder wrote:
-> On 3/4/24 3:19 PM, Kees Cook wrote:
-> > FORTIFY_SOURCE has been ignoring 0-sized destinations while the kernel
-> > code base has been converted to flexible arrays. In order to enforce
-> > the 0-sized destinations (e.g. with __counted_by), the remaining 0-sized
-> > destinations need to be handled. Instead of converting an empty struct
-> > into using a flexible array, just directly use a pointer without any
-> > additional indirection. Remove struct gb_bootrom_get_firmware_response
-> > and struct gb_fw_download_fetch_firmware_response.
-> > 
-> > Signed-off-by: Kees Cook <keescook@chromium.org>
-> 
-> Thanks for adding the comments!  This looks good to me.
-> 
-> Reviewed-by: Alex Elder <elder@linaro.org>
-> 
-> 
-> 
-> I want to call attention to a few other spots that should
-> get a little more attention--related directly to what you're
-> doing here.
-> 
-> I noticed that the GB_CONTROL_TYPE_GET_MANIFEST response
-> structure also contains only a flexible array.  It might
-> be good to add a similar comment in gb_interface_enable(),
-> above this line:
->         manifest = kmalloc(size, GFP_KERNEL);
-> The definition of the gb_control_get_manifest_response structure
-> could probably be replaced with a comment.
-> 
-> 
-> The response buffer for an I2C transfer consists only of incoming
-> data.  There is already a comment in gb_i2c_operation_create()
-> that says this:
->         /* Response consists only of incoming data */
-> The definition of the gb_i2c_transfer_response structure should
-> then go away, in favor of a comment saying this.
-> 
-> The response buffer for a SPI transfer consists only of incoming
-> data.  It is used three times in "driver/staging/greybus/spilib.c":
-> - calc_rx_xfer_size() subtracts the size of the response structure,
->   and that should be replaced by a comment (and the structure
->   definition should go away)
-> - gb_spi_decode_response() takes the response structure as an
->   argument.  That could be replaced with a void pointer instead,
->   with a comment.
-> - gb_spi_transfer_one_message() is what passes the response buffer
->   to gb_spi_decode_response(), and could be adjusted to reflect
->   that the response consists only of data--rather than a struct
->   containing only a flexible array.
-> 
-> 
-> Kees:  I'm *not* asking you to deal with these, I'm just mentioning
-> them to you.  My comments above (without someone else confirming)
-> are not sufficient to dictate how to address these.
+Align parameters in static void calculate_ofdmr_parameter(),
+bool card_update_tsf(), card_get_tsf_offset(), and
+bool card_set_beacon_period().
 
-Okay, thanks! Yeah, I took a look at struct gb_i2c_transfer_response and
-I think it might trip the memcpy checking too since it's zero sized, but
-it's on the source side, which isn't as strictly checked.
+This patch fixes the alignment of parameters within various functions
+with the opening parentheses.
+This change improves code readability and ensures adherence to coding
+style guidelines.
 
-I'll add a TODO item to track these, though.
+Signed-off-by: Dorine Tipo <dorine.a.tipo@gmail.com>
+---
+Changelog:
+V2: Modified subjects to be unique for each patch, as requested by
+<gregkh@linuxfoundation.org>
+    Fixed the warnings in the patches as suggested by
+<philipp.g.hortmann@gmail.com>
 
--Kees
+V3: Combined the vt6655 patches into one patch as suggested by
+<dan.carpenter@linaro.org>
+V4: Removed the multiple signed-off-by as suggested by
+    <philipp.g.hortmann@gmail.com>
+    Omitted the cover letter as the changes have been combined into one
+    patch
+    Reworked the patch subject to be concise
 
--- 
-Kees Cook
+ drivers/staging/vt6655/card.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/staging/vt6655/card.c b/drivers/staging/vt6655/card.c
+index 36183f2a64c1..3f807d898607 100644
+--- a/drivers/staging/vt6655/card.c
++++ b/drivers/staging/vt6655/card.c
+@@ -81,9 +81,9 @@ static void vt6655_mac_set_bb_type(void __iomem *iobase, u32 mask)
+  * Return Value: none
+  */
+ static void calculate_ofdmr_parameter(unsigned char rate,
+-				       u8 bb_type,
+-				       unsigned char *tx_rate,
+-				       unsigned char *rsv_time)
++				      u8 bb_type,
++				      unsigned char *tx_rate,
++				      unsigned char *rsv_time)
+ {
+ 	switch (rate) {
+ 	case RATE_6M:
+@@ -288,7 +288,7 @@ bool card_set_phy_parameter(struct vnt_private *priv, u8 bb_type)
+  * Return Value: none
+  */
+ bool card_update_tsf(struct vnt_private *priv, unsigned char rx_rate,
+-		    u64 bss_timestamp)
++		     u64 bss_timestamp)
+ {
+ 	u64 local_tsf;
+ 	u64 tsf_offset = 0;
+@@ -297,7 +297,7 @@ bool card_update_tsf(struct vnt_private *priv, unsigned char rx_rate,
+
+ 	if (bss_timestamp != local_tsf) {
+ 		tsf_offset = card_get_tsf_offset(rx_rate, bss_timestamp,
+-						local_tsf);
++						 local_tsf);
+ 		/* adjust TSF, HW's TSF add TSF Offset reg */
+ 		tsf_offset =  le64_to_cpu(tsf_offset);
+ 		iowrite32((u32)tsf_offset, priv->port_offset + MAC_REG_TSFOFST);
+@@ -321,7 +321,7 @@ bool card_update_tsf(struct vnt_private *priv, unsigned char rx_rate,
+  * Return Value: true if succeed; otherwise false
+  */
+ bool card_set_beacon_period(struct vnt_private *priv,
+-			  unsigned short beacon_interval)
++			    unsigned short beacon_interval)
+ {
+ 	u64 next_tbtt;
+
+--
+2.25.1
+
