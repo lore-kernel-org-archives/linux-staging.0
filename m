@@ -1,38 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A84A5676A;
-	Tue,  5 Mar 2024 14:01:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1340386644;
+	Tue,  5 Mar 2024 14:12:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709647294; cv=none; b=FgKrXV04Xz9QZz6HB+rTm/+zpP94HKrqgkgPVJDVu/RvMn4aNnuahptAgybvLPQNaWGjBPcji2uv1oJAC5bgWY2i4XQ3OjxdwXsZ00u25pSNeXR0fz0g/LgW+cIHTt/6O4SdqcY8V1bOmmFw72zoqENucfSwFhy767L50t5QBCM=
+	t=1709647948; cv=none; b=sDmRyFrzvYndyelvvlGiWhqfYa8xEhpoNuLoydKS9ui7nnKjxBSyIwkI6FXpvRAYfl5yztIWZotpCyuv1OJKvGR2KoVrBO3lBJ3jW9mUyBpGizCRZ+KGOKhSx7ksnr/F5kQW9s1aP+3Orw3oeGR6e4J1O160fuCBcL/okAg8cM4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709647294; c=relaxed/simple;
-	bh=G0s0y1SdsCAYDnqWsyUbsq+7oziJf8TlqbEiXNgXEcw=;
+	s=arc-20240116; t=1709647948; c=relaxed/simple;
+	bh=+jda2PQeIqR0FrCF7MkTx9P+41fy0010X+zrU2T3W8Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Zhb04QafDtSLYSS8Kt6g+Jx+WmpoR7UhLafp5uhybN68fcGaL0K+Gmf/F1SAjkUFMgyj+jzUyZiHAGEEUNjmqGne4fHDhIaiOTVTpR5TQmKpz1sQPBxvxxIJX/+bHf3cd9HcqGg/xbvkaVHD29LvIOq3fY4bRDiy8mEb9QQf//E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=KXtXq0yf; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=RJJa7+sxT/YPii9e8cEQz7oUVM6Gj3FuLOAM50eCCt6OqJOcwuYWnhBHHqafcg+UQ6wJDteGUGFToQ8dLFKRPmdb933/aW3UjOeEj+08c2Lt7Go8qsYP8J4yQGrPOU6YVcmd2nco6ZbD/gGRPMu7Zsaro6uj6iqP2X4F5sJ6dyY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=hhZTzsnW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="KXtXq0yf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78DEEC433F1;
-	Tue,  5 Mar 2024 14:01:33 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="hhZTzsnW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 471C9C433C7;
+	Tue,  5 Mar 2024 14:12:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1709647293;
-	bh=G0s0y1SdsCAYDnqWsyUbsq+7oziJf8TlqbEiXNgXEcw=;
+	s=korg; t=1709647946;
+	bh=+jda2PQeIqR0FrCF7MkTx9P+41fy0010X+zrU2T3W8Q=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KXtXq0yfaadh3yFy5kaqdejawJS3GojDztfP7Se1+pxs6wewALVkIV+T915MpPnTi
-	 LO6U7dO2HpldWhDK6XORciKbqO/8yB40LRETyI3iBJpikCmFgfaS3Q8LacWBfDPrGQ
-	 CZO6xxQf/NMvRE5soZyOJVvxmxpb3THEijQWdJgM=
-Date: Tue, 5 Mar 2024 14:01:31 +0000
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Samuel Kayode <samkay014@gmail.com>
-Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-	Teddy Wang <teddy.wang@siliconmotion.com>,
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: sm750fb: rename function deGetTransparency()
-Message-ID: <2024030505-luxurious-stung-4905@gregkh>
-References: <ZdiyhAwNTPmbS3E0@Wayne>
+	b=hhZTzsnWOPRwQYH8zsD85wy+/atYOC1RSNoB+WbMH5jmapEBHeY1AXxgIxjyrclWb
+	 QKwXgdzRSwDpMQTh2rWEj5uNKtB9u7fyBuySbAQ7jPajaWAKEx8E8gAryPBfNqtcay
+	 0FrtaQ8JH4CLlxlKBnf+jmEEmtrXTWd1bmcMWD3M=
+Date: Tue, 5 Mar 2024 14:12:24 +0000
+From: Gregkh <gregkh@linuxfoundation.org>
+To: Aman Sharma <210100011@iitb.ac.in>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4] Staging: pi433: Updated bitrate range from datasheet
+Message-ID: <2024030515-diploma-husked-d76a@gregkh>
+References: <34c89fc61663a5ecf3d83edebefc6b00@iitb.ac.in>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -41,30 +38,20 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZdiyhAwNTPmbS3E0@Wayne>
+In-Reply-To: <34c89fc61663a5ecf3d83edebefc6b00@iitb.ac.in>
 
-On Fri, Feb 23, 2024 at 10:58:12AM -0400, Samuel Kayode wrote:
-> Rename function deGetTransparency to de_get_transparency to fix
-> checkpatch warning Avoid CamelCase.
+On Mon, Mar 04, 2024 at 03:56:09PM +0530, Aman Sharma wrote:
+> Updated bitrate range for FSK and OOK modulation from the RFM69 Datasheet.
+> The values are mentioned in Section 2.3.2 of the datasheet.
 > 
-> Signed-off-by: Samuel Kayode <samkay014@gmail.com>
+> Signed-off-by: Aman Sharma <amansharma6122002@gmail.com>
 > ---
->  drivers/staging/sm750fb/sm750_accel.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  V1->V2: Added explanation about values in commit msg
+>  V2->V3: Added version comments after changelog
+>  V3->V4: Corrected the Signed-off-by line
 > 
-> diff --git a/drivers/staging/sm750fb/sm750_accel.c b/drivers/staging/sm750fb/sm750_accel.c
-> index 44b9e3fe3a41..ad9d8bd34e5a 100644
-> --- a/drivers/staging/sm750fb/sm750_accel.c
-> +++ b/drivers/staging/sm750fb/sm750_accel.c
-> @@ -284,7 +284,7 @@ int sm750_hw_copyarea(struct lynx_accel *accel,
->  	return 0;
->  }
->  
-> -static unsigned int deGetTransparency(struct lynx_accel *accel)
-> +static unsigned int de_get_transparency(struct lynx_accel *accel)
+>  drivers/staging/pi433/Documentation/pi433.txt | 6 ++++--
+>  drivers/staging/pi433/TODO                    | 1 -
+>  2 files changed, 4 insertions(+), 3 deletions(-)
 
-What does "de_" here mean?  Why did you keep it?
-
-thanks,
-
-greg k-h
+This patch is corrupted and can not be applied :(
