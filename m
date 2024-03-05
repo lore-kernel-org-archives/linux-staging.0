@@ -1,165 +1,107 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A82AB128392
-	for <linux-staging@lists.linux.dev>; Tue,  5 Mar 2024 16:21:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F06F813FE7
+	for <linux-staging@lists.linux.dev>; Tue,  5 Mar 2024 17:06:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709655712; cv=none; b=qc5CAD0+oEmfoxOV1+mPTtiko+58YRMwDiZ8V3TqF3ujtqJyshcjMXA7StukEBdTI6FT37lsAAxITNe1qnGuPV89fdGUVTdv2DUKJKvlQR71KAt/HQwsDr46GC4C5EtYLEdPZ49rWps1ed1keRMaOk68cH1yBlpfOHycXRdVvsI=
+	t=1709658364; cv=none; b=FFcCJAGYhLPQDfqt7+Jg+X1DAJxKgIpEOPhqz1soOKY3UqquM7kDde51yn0JHBau8qSHmhQvDj5KlseS8IKygBpKgpTtlVVffCI8PvlLyBVZrRDIMHnh/j5iPsEJ0XliWkXthHMlPiBstnCbFoI3zsj5bkcmVZoVdG/JGFg6Uwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709655712; c=relaxed/simple;
-	bh=ePf0scKJsigQuOAKkRlhcPZMVuNR9qj2n46++S/7wAA=;
+	s=arc-20240116; t=1709658364; c=relaxed/simple;
+	bh=9hB7kebOY+ApV7hOhqdHnmKf9HqXW88QoEAtE22lPyY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nvDXqnnYt1RsL99b7LyJRreQzl/aDQ+DtzF+n4TZsaWBcu+pkqLOwKPz69fLSbutBLN/zKvx3tAAlh6ABdBCaWcw9GOROhrAB2RWNjKhsNrZIlCmofMBBxL5sNPIZX33lF1jvPYgvj40kccLoV6bmXANKbrQJZMmGnl/X6gCh6Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QYLbnnrK; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=eExEV4uthUWe/MfH0pEhN0wxynlFvQntiDehO9bVXzAcV7xpcVSmYCdyOrPDX39NntUkP1b16xsjFWs47f/uYeFqWsP9fHwvTD72XA0St57SZ36bXViUdx4FCOmadyPCxCbJpBm4k8CfguzufMoYlhskdopsO6QipH+iMUAi5Vw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i7yTCBym; arc=none smtp.client-ip=209.85.167.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QYLbnnrK"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-412f0655d81so2362945e9.2
-        for <linux-staging@lists.linux.dev>; Tue, 05 Mar 2024 08:21:50 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i7yTCBym"
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5131bec457eso5117667e87.0
+        for <linux-staging@lists.linux.dev>; Tue, 05 Mar 2024 09:06:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1709655709; x=1710260509; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=xbTnyXoHjbAH+HuOp1p4uK1MGCpktFM+Ft7hQZ4kc8Y=;
-        b=QYLbnnrKTSjImFb1xnMBSCIqOQHYISbI3ypUfJbrlLYjzry3nnzPNtvklgUsA5W4+V
-         81Edfd3wo/EnLubrjrrttl58YRoRCQozMUHa8FdZTWI79zLBEMcGlBFQ8FqKGdW6No+2
-         7fYBu6M06+CTisUSOdnBKKfW8hXWNQvnQVypmFfl2QHxnh07POXb6hayXBDCG+q29S+l
-         Y2VKeEcrz2UDvdbh7gZTwm2FUM9nUjvE7cDsRrSFPCuNj/PAy5ki4XdysvYrDi0IlctN
-         OC9J29fTl030W4vgao5dU4ywE0lusW0/VV3uR5Fciy3uR4sutRcSGvaEo7ZW/7hgCCbI
-         ZtEg==
+        d=gmail.com; s=20230601; t=1709658361; x=1710263161; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=2Vv0jpxd/xF2263SdlkZJNOdtU51Ivq7MydTX7x7qB4=;
+        b=i7yTCBymt6X24/TBe6kQB01VqDUmGAcCULZRVAagNen7XuLxbEibzEdWi4TgOOon4Z
+         Jyu/xIe7XjnebMTqO6MHMGhclQsKN63KHtyVLIqdxZsbqTwkaIqKtx/HBm5bqfM6Irq9
+         xehJs6PLXlQBbuD8pXN8+QLZak9Zt/pHnzEDfbnLgR6ba87LIBd/peGjgKV2yMBP+kxk
+         9sUR2q/2/xWRsrcGDeYAYj8i6VeTJZgFzUTWoSsoiQPCWU3Iw/BGxOua4qQG2HhMv0MN
+         B3uPx0m5pnzqVT7X4U4g//Opq6SQAuYf2OfQbndrR/vXwqKh4H/mxRxm2bcDSeC3nGB7
+         /BWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709655709; x=1710260509;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xbTnyXoHjbAH+HuOp1p4uK1MGCpktFM+Ft7hQZ4kc8Y=;
-        b=gTgv081SWGNYLC+JIjWgWHnk8O8YwZKMh38jVyRVotVqkQTPKIbfwaJLN++KGfC7AE
-         KmlFAOSTzYMPC/0fKs5Q90RpOP+usGhD1cCGfvPPLp4T42NwAGVcGA6mqxxLJMd2y6HK
-         fG+j79P2CL6Kmsn+PtybQaH/pQkJcRDLIxnHiMup7pHDz4NbDnX2XY1kQUy9SAImvq7n
-         tEmsVKDBtrIT1ArHR8GwDMSMx60jtchq9k9xw2YRY3pz4E4rz2aWD0gnLxb7kpMFchpg
-         VrLgS9XWXMQQlDQGslu9wd4RRvgUZmrtGP8HNZuDgPoosGMqY+yDLh5iW2hH08nkTvyf
-         J3eQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUbCkwtd279/KEjSBop8jZjz1USUt053PVB5ctIayJMrNOUZUvlWwfjZzX3nkoPxJhcQONhalvyk68gRQOe+cgvFj/QyEE08VxhAl1s2Q==
-X-Gm-Message-State: AOJu0YzPZg1ZTwFRbh77qkT6hSumY/aijge0va6FL4R4JHfpiD2Pi6VL
-	CksTcS04QI7cUI6lZ6Q5DwBioxjsjw52S+wO4aIySlEL5MiIbxLJG7hfi+A6Np8=
-X-Google-Smtp-Source: AGHT+IFzmlN7MlHIvgYTDNDnpOiEWNiD6ttwixhjRaArwIgoqAErAdm9nFln7aLUd8aHdUcKy+wmzg==
-X-Received: by 2002:a05:600c:46ce:b0:412:ad6e:88cb with SMTP id q14-20020a05600c46ce00b00412ad6e88cbmr10431968wmo.36.1709655708736;
-        Tue, 05 Mar 2024 08:21:48 -0800 (PST)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id v10-20020a05600c470a00b00412704a0e4asm21342739wmo.2.2024.03.05.08.21.47
+        d=1e100.net; s=20230601; t=1709658361; x=1710263161;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2Vv0jpxd/xF2263SdlkZJNOdtU51Ivq7MydTX7x7qB4=;
+        b=S0cCu/SvT+CwLvT1awsEibFrYCkKkZ9QXDRqgAyC6V6Di9FIJ9G3iDQTEpi0Sxxcnz
+         blmsteQPA6M7StL0jrzlQR0vcknwswV2jTvAw8g12Evrc3MGuVI+/XqprN7AXSuCqMJ+
+         Vzmb2tBsMgsf++1dwLSyzSkvU+ZYeyMyD7Oj7HCgeMeSkwshoCZACI2WeK2y5WDuSeek
+         V4gXdKApkdieD4BHGVsYbru25sg14EPnXJF1ohQtjKyqBKGTV+PW+c1E4SJUEZX9Muxt
+         j+2v7DFkIbibyK75rQCK1ooUmWN3bqoWsNJoaBUOh85IidPDp5sJnHIppB16PihfME3V
+         QjWw==
+X-Forwarded-Encrypted: i=1; AJvYcCWxFx4y3CS7EdcPEN1jF2wOZlKH8WwWfKkREtT24Mjj91T28nDG0jY2OueUpfcwEUH1p367iSidMn5wK3vemHeVPIi60kmX6hECTf3C6A==
+X-Gm-Message-State: AOJu0YyOKiJrqwViXBIO2Xhy6MmHhrTXO1VujxSXCJDE+w47fGRAY/8v
+	l9dDBgzJBPEl0jeVvfyTaTBFlh/bY45HOrUzVqqx22bloAwyASqZ
+X-Google-Smtp-Source: AGHT+IHBMwrDwxHyDONoPE8x+wLL5t36iq8HBi84FUfUY3f0bljsiU3xqW/J7kEHl4UnH8xUkv5Y4A==
+X-Received: by 2002:a19:ad08:0:b0:513:486a:579b with SMTP id t8-20020a19ad08000000b00513486a579bmr910603lfc.0.1709658360569;
+        Tue, 05 Mar 2024 09:06:00 -0800 (PST)
+Received: from HP-ENVY-Notebook (c83-255-0-123.bredband.tele2.se. [83.255.0.123])
+        by smtp.gmail.com with ESMTPSA id y17-20020a197511000000b005131cefefd8sm2238050lfe.240.2024.03.05.09.05.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Mar 2024 08:21:48 -0800 (PST)
-Date: Tue, 5 Mar 2024 19:21:44 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Markus Elfring <Markus.Elfring@web.de>, linux-staging@lists.linux.dev,
-	linux-tegra@vger.kernel.org, linux-media@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sowjanya Komatineni <skomatineni@nvidia.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	LKML <linux-kernel@vger.kernel.org>
-Subject: Re: staging: media: tegra-video: Use common error handling code in
- tegra_vi_graph_parse_one()
-Message-ID: <e38cc9fb-9453-47ed-b460-335016581049@moroto.mountain>
-References: <dbebaea7-289c-47d9-ba06-cd58a10ea662@web.de>
- <20240301183936.505fcc72@booty>
- <9f1b617f-06cb-4b22-a050-325424720c57@moroto.mountain>
- <f451ffba-db26-4a3b-a4b3-186c31f2ad64@web.de>
- <20240305162427.49a9f013@booty>
+        Tue, 05 Mar 2024 09:06:00 -0800 (PST)
+Date: Tue, 5 Mar 2024 18:05:58 +0100
+From: Jonathan Bergh <bergh.jonathan@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 2/2] staging: vme_user: Add a newline after variable
+ declarations
+Message-ID: <ZedQ9kyNwY+j7Umr@HP-ENVY-Notebook>
+References: <20240303100547.153636-1-bergh.jonathan@gmail.com>
+ <20240303100547.153636-2-bergh.jonathan@gmail.com>
+ <2024030549-sanding-finisher-dc6a@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240305162427.49a9f013@booty>
+In-Reply-To: <2024030549-sanding-finisher-dc6a@gregkh>
 
-On Tue, Mar 05, 2024 at 04:24:27PM +0100, Luca Ceresoli wrote:
-> Hello Dan, Markus,
+On Tue, Mar 05, 2024 at 02:13:23PM +0000, Greg KH wrote:
+> On Sun, Mar 03, 2024 at 11:05:47AM +0100, Jonathan Bergh wrote:
+> > This patch makes the following change:
+> >  * Adds a newline after the variable declarations as per checkpatch's
+> >    warning
+> > 
+> > Signed-off-by: Jonathan Bergh <bergh.jonathan@gmail.com>
+> > ---
+> >  drivers/staging/vme_user/vme_tsi148.h | 1 +
+> >  1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/drivers/staging/vme_user/vme_tsi148.h b/drivers/staging/vme_user/vme_tsi148.h
+> > index 2a92497c5570..a1b8288b101a 100644
+> > --- a/drivers/staging/vme_user/vme_tsi148.h
+> > +++ b/drivers/staging/vme_user/vme_tsi148.h
+> > @@ -34,6 +34,7 @@ struct tsi148_driver {
+> >  	void __iomem *base;	/* Base Address of device registers */
+> >  	wait_queue_head_t dma_queue[2];
+> >  	wait_queue_head_t iack_queue;
+> > +
+> >  	void (*lm_callback[4])(void *);	/* Called in interrupt handler */
+> >  	void *lm_data[4];
+> >  	void *crcsr_kernel;
 > 
-> On Sat, 2 Mar 2024 11:40:26 +0100
-> Markus Elfring <Markus.Elfring@web.de> wrote:
+> Please always look at the change to see if checkpatch is correct or not
+> (hint, for this one, it is not.)  Also see the archives for many people
+> who have done the same thing in the past :)
+
+Got it, thanks for that. 
+
 > 
-> > >>> Add a jump target so that a bit of exception handling can be better reused
-> > >>> at the end of this function implementation.  
-> > …
-> > >> Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>  
-> > >
-> > > These patches make the code worse.  
+> thanks,
 > 
-> This is of course a legitimate opinion. However Markus' patch
-> implements what is recommended by the documentation and is in common
-> use in the kernel code. A quick search found 73 occurrences in v6.8-rc7:
-> 
-> $ expr $(pcregrep -r -M ':\n\tfwnode_handle_put'  drivers | wc -l) / 2
-> 73
-> $
-> 
-> 300+ are found for of_node_put().
-> 
-
-Using an unwind ladder is the best way to write error handling, yes.
-I've written a long blog about it.
-
-https://staticthinking.wordpress.com/2022/04/28/free-the-last-thing-style/
-
-In my blog, I talk about that "Unwinding from loops is slightly
-complicated."  Because what you want to do is clean up partial
-iterations before the goto.
-
-Now imagine we apply Markus's patch and someone comes along an adds a
-new allocation after the loop is over.  Then we have to do some kind of
-bunny hop:
-
-free_new_thing:
-	free(thing);
-	goto cleanup;  <-- ugly little goto
-put_fwnode:
-	fwnode_handle_put(remote);
-cleanup:
-	dev_err(vi->dev, "failed parsing the graph: %d\n", ret);
-	v4l2_async_nf_cleanup(&chan->notifier);
-	return ret;
-
-Adding the little goto seems like a small thing when you're seeing it
-in an email like this.  But when you add the new goto years later,
-people are used to unwind ladders working in a specific way and they
-forget that, "Oh this ladder has a weird rung that we have to skip over."
-We see these bugs more with locking.
-
-	one = alloc();
-	if (!one)
-		return;
-
-	lock();
-	two = alloc();
-	if (!two)
-		goto free_one;  <-- should have unlocked before the goto
-	unlock;
-
-	three = alloc();
-	if (!three)
-		goto free_two;
-
-	return 0;
-
-free_two:
-	free(two);
-free_one:
-	unlock();
-	free(one);
-
-	return -ENOMEM;
-
-regards,
-dan carpenter
-
+> greg k-h
