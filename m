@@ -1,68 +1,68 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CB923EA96;
-	Tue,  5 Mar 2024 04:54:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB798405FF;
+	Tue,  5 Mar 2024 05:14:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709614446; cv=none; b=FryAMBx9vVlgzethCXn6j+RC8Tx0W2Klg3K6YwmHrkCBkT4cjayiDAk2uY3kdOSBif2qFt79YWRsRMP4al7I3G3cmXtlfjQOTtpft5RqpsN0lHVzdrMJX55rrF5whxLUBWMqrXzFEY4lovCASq3+aRcUvNBUT0Y+QjGVLeogC9Y=
+	t=1709615677; cv=none; b=uxYERwgXebo9wPSaEbEyr5+GVkeSQufSo3sY2SLE+flvG6mLKD/MWtjpyZvIidSHTODQ9o8Iprm/tqqq+imC1coM5t4enFqqLIxm/WnFwJu2I+gH30bfdMJP1OD15kleS5VWgiVsNPEEE6FGktQX7WD2C5/xDDdIQ5WYUUUC1mU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709614446; c=relaxed/simple;
-	bh=/71kuDzJizLk1aETotuFiq6Yvfeba53Jahr3NLeTUVw=;
+	s=arc-20240116; t=1709615677; c=relaxed/simple;
+	bh=8e8mh1+lTo9qSTd30CKj3HZW2HAO/HGPtMfajC34boA=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=o1ZAkQLB9PLPLbuUQtoIW/GHGAtN35GXZFgFTQ/N8nsOzt+bf9aKUV4PN7PfSI6rkmT0nmPch9u86G2TPJKdZ/C9qGh96cDs/t/Jlv8lVYFvVBRTvNZ/TTL/jgYw4seYMFj9w9407mh3rqmWsNfWO2zN7A7w2NEJlZsX+mUt5OM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZVzjdqnm; arc=none smtp.client-ip=209.85.208.47
+	 MIME-Version; b=BO4oPPpivsaVyM5CIzg8FgEKaQA9KCGnO9uw/WFqbM9IaFAfR9sXAE8Vmo05OT9uwcaxPo0OmpsW3W7TZ5mSMJgXKPd6wdR851+3ONgkc7fbdqjPtgmd9ig6rzb8ygmIVVOem8BqBFuzHUyiVIziQ4xDZFiDxZPbrW5hKEZcipo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eTVreLzx; arc=none smtp.client-ip=209.85.218.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZVzjdqnm"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5643ae47cd3so7001481a12.3;
-        Mon, 04 Mar 2024 20:54:04 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eTVreLzx"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a44f2d894b7so300673166b.1;
+        Mon, 04 Mar 2024 21:14:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709614443; x=1710219243; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1709615674; x=1710220474; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=tYAwummU5v15mvPDS8bHkza9KKI7KBb6rIoQ8Kl4uQE=;
-        b=ZVzjdqnm9xO+nuXSWwplDcikXWjuxjp1BlhOVh4DbyxsXQADThp27z6lw5GqY5uPMY
-         8580zyv/lU1BOG6dP9d0WyZX9k4xbD2dWpwMREJOPqa0+ya21sPl6CilfzhPj4XqHg17
-         E03euP0JQdC9AsK3o2BQTVRsEck5ZTwc4BX2d/M8vZ6nQP4fA3m6ekonCWda+RsyCag9
-         8YHiF+/J4+u6rmAACVDF0K9ohEveCMGzdIrw7VWbIWJL9cHJ9fJad6l+l8CKHVz31wZ7
-         ZkvHe61VgYNQofZCN4FszQXJzqGIAkmVbtRsJeTJ6hba81qJjtAs4D1a6QXECCDeKWrn
-         ZQkQ==
+        bh=N9EsxA7xIcMoc6bWidjqihc+y/5nGf4cIfIWxqPpPa8=;
+        b=eTVreLzx5yQX4q91SN6RQrmA7/kaX70+EgXgEWvFI2uLGBOtB2SdPvalVU/zxwnBSA
+         +IasIUyp8M+riKKRPsed4GSerGGsi7GZfes/KB2X3HFq9ebkVdYMs6Eud9B1u9nTxExQ
+         Uu9lHEaz/LKsNcVfo66UBRPCids+jpNhYP96ov6ZNPQxbPUVjB4TcK7DsFfYV+VTAFjs
+         esCTfkYrRkWXwlNmSEikjnJxCyiWr1W3w7bbY/RQ5wjlUs+nu8yEmUNwuCSDeO2VnOfx
+         Lrfu2EKAPokcHTISy893KzVGtH1bNhjRKzZMEWj/kiATCpI+9DgDYnIxpP0wle4/hciZ
+         hLBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709614443; x=1710219243;
+        d=1e100.net; s=20230601; t=1709615674; x=1710220474;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=tYAwummU5v15mvPDS8bHkza9KKI7KBb6rIoQ8Kl4uQE=;
-        b=ozN8USoepe3r3bxR0rRhAKy9Qef5T9mTwKBRVgoRsihNzpBPRzpKLxxCXBVzdhhGL3
-         2Zi6YLquh5OODmFAgBnu0OUB91U8EEfMHwvDm9avjxaGneemv21S6DtvcCddKYLtsnsh
-         Ce8eUTXJ7I2jBBfrb06dE+Qht67KNxh+1x/G6QGDZ3tNNY2LQ9df0qxV6RcuYN9aOFat
-         65vbxjuAWIJ5tJ1n8wQA+WiJwTvgE1V8VLkOoM5Klg+FZSPTRbdtmwZDkrj1V8noSCZ9
-         /Y2PQlWZZuHx8uPRVh7/VDK04zLh6wEtFST+o4nQTPaqJhkN/FSvz6Z1YRNaHEpVGPzc
-         Ee7w==
-X-Forwarded-Encrypted: i=1; AJvYcCW00+ixceZUZ79HuUxRtpaJ38q3glzyWjtz/H2YWDbhVe18Rr0iknqqnxb5GatkN2oEtHs96aHqRpd+BqSm/bjwpJo22QrWDdir6x2LgpXtdLv5bRs9psFmM4Il3JNdvXRQ0tprF8/CoA==
-X-Gm-Message-State: AOJu0Yyybc7wWTLsl0Zg+oQoVrSjHXaq2DZmfm+vSiAz/JIXrE7Ga5IE
-	txUw2GRW8XBCU07r39bXsa6QuqShSLRwarV78cVKiaVvZjdfQvP7
-X-Google-Smtp-Source: AGHT+IH7d0LxzJV/QwA2UaFSK9I03OyhgrdOHcZ9BRKG9MhX/86AqdfgP89DeS90t/yRKe5T6NGSpQ==
-X-Received: by 2002:a05:6402:1e86:b0:566:c388:ceb4 with SMTP id f6-20020a0564021e8600b00566c388ceb4mr7735469edf.28.1709614443335;
-        Mon, 04 Mar 2024 20:54:03 -0800 (PST)
+        bh=N9EsxA7xIcMoc6bWidjqihc+y/5nGf4cIfIWxqPpPa8=;
+        b=kALZg/Zg1UnFt2mHbUZSdk7iJiRD9TtivUtsbuaSZsCSFYNHej2Ud9ThjMFbUsSnpQ
+         pxV9CCs51yM5slgRHmsCP9GRRYdEtXEQjtTWHilYNBH71FXJLakTDaqLLmsXte+z2C3h
+         hHsc+xrAYUNFhMMkLdUIduYJk7zM35mbHbi69ZiFppzmiipweVr/iPq7CP7l4dtg9dTj
+         4n16glWxKQB1hnyhEombebJNorzHH3Kf7KuCIytWo2qJXvOgi0M0iu4n1+fc5PXyqG1a
+         AYR4Evinrdu1tHGvJot5TvTH4g/XzU+pVq/idhs4Rs99LkWzH/wmnvgXBQ3TaylN966S
+         tPlw==
+X-Forwarded-Encrypted: i=1; AJvYcCX6/PeWCNRWfmTpCgA9pHB/ENHKpFRrkYMvH2avzo4PpTK+ii+5duIbs3YX8UeSAyqqxmhliYrPE3JDeIAfIs8UsbOiWpBcraFBFtwW4rw1E5swME2/nv6ofoHVzHK/10VNCPctFqX6fw==
+X-Gm-Message-State: AOJu0Yyh2UeJQuBIQNOu1Ry7ztJqK+Ej+e3GT+j6d6vBGWaXen38K/37
+	hjotbF1ohaxx8XK4KMF3HSlGRI25CFqa39HP+gNNT1iU9y9mAOtfHTkuxbef
+X-Google-Smtp-Source: AGHT+IGt+gQmgCi0RPyCGvwWImcldNMG0ajogqhATTuXkwY3DF9pfNC9SHGyJ4g/cYKlSEdlf70IQQ==
+X-Received: by 2002:a17:906:f0d0:b0:a44:6b6b:bae3 with SMTP id dk16-20020a170906f0d000b00a446b6bbae3mr8962758ejb.59.1709615673869;
+        Mon, 04 Mar 2024 21:14:33 -0800 (PST)
 Received: from ubuntu-focal.zuku.co.ke ([197.237.50.252])
-        by smtp.gmail.com with ESMTPSA id g13-20020a056402428d00b0056793ab2ad8sm86998edc.94.2024.03.04.20.54.01
+        by smtp.gmail.com with ESMTPSA id ld1-20020a170906f94100b00a451e507cfcsm2449270ejb.52.2024.03.04.21.14.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Mar 2024 20:54:02 -0800 (PST)
+        Mon, 04 Mar 2024 21:14:33 -0800 (PST)
 From: Dorine Tipo <dorine.a.tipo@gmail.com>
 To: gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev,
 	outreachy@lists.linux.dev
 Cc: Dorine Tipo <dorine.a.tipo@gmail.com>
-Subject: [PATCH v4] staging: vt6655: Match open parentheses
-Date: Tue,  5 Mar 2024 04:53:38 +0000
-Message-Id: <20240305045338.4654-1-dorine.a.tipo@gmail.com>
+Subject: [PATCH v4] Staging: octeon: Match parenthesis alignment
+Date: Tue,  5 Mar 2024 05:14:11 +0000
+Message-Id: <20240305051411.6431-1-dorine.a.tipo@gmail.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <2ac49025-0cd0-4ea2-b06f-f1bfb5f8ee8f@gmail.com>
-References: <2ac49025-0cd0-4ea2-b06f-f1bfb5f8ee8f@gmail.com>
+In-Reply-To: <2024030422-backstage-derby-a1e4@gregkh>
+References: <2024030422-backstage-derby-a1e4@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -71,78 +71,40 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Align parameters in static void calculate_ofdmr_parameter(),
-bool card_update_tsf(), card_get_tsf_offset(), and
-bool card_set_beacon_period().
+Correct parameter alignment in cvmx_spi_restart_interface().
 
-This patch fixes the alignment of parameters within various functions
-with the opening parentheses.
-This change improves code readability and ensures adherence to coding
-style guidelines.
+This patch aligns the parameters with the opening parenthesis for better
+readability and adherence to coding style guidelines.
 
 Signed-off-by: Dorine Tipo <dorine.a.tipo@gmail.com>
 ---
 Changelog:
-V2: Modified subjects to be unique for each patch, as requested by
-<gregkh@linuxfoundation.org>
-    Fixed the warnings in the patches as suggested by
-<philipp.g.hortmann@gmail.com>
 
-V3: Combined the vt6655 patches into one patch as suggested by
-<dan.carpenter@linaro.org>
-V4: Removed the multiple signed-off-by as suggested by
+V2: Fixed the warnings in the patch as suggested by
     <philipp.g.hortmann@gmail.com>
-    Omitted the cover letter as the changes have been combined into one
-    patch
-    Reworked the patch subject to be concise
 
- drivers/staging/vt6655/card.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+V3: Reworked this patch as a separate patchset as suggested by
+    <dan.carpenter@linaro.org>
 
-diff --git a/drivers/staging/vt6655/card.c b/drivers/staging/vt6655/card.c
-index 36183f2a64c1..3f807d898607 100644
---- a/drivers/staging/vt6655/card.c
-+++ b/drivers/staging/vt6655/card.c
-@@ -81,9 +81,9 @@ static void vt6655_mac_set_bb_type(void __iomem *iobase, u32 mask)
-  * Return Value: none
-  */
- static void calculate_ofdmr_parameter(unsigned char rate,
--				       u8 bb_type,
--				       unsigned char *tx_rate,
--				       unsigned char *rsv_time)
-+				      u8 bb_type,
-+				      unsigned char *tx_rate,
-+				      unsigned char *rsv_time)
+V4: Added a changelog at the bottom as suggested by
+    <gregkh@linuxfoundation.org>
+
+ drivers/staging/octeon/octeon-stubs.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/staging/octeon/octeon-stubs.h b/drivers/staging/octeon/octeon-stubs.h
+index 3e7b92cd2e35..44cced319c11 100644
+--- a/drivers/staging/octeon/octeon-stubs.h
++++ b/drivers/staging/octeon/octeon-stubs.h
+@@ -1362,7 +1362,7 @@ static inline struct cvmx_wqe *cvmx_pow_work_request_sync(cvmx_pow_wait_t wait)
+ }
+
+ static inline int cvmx_spi_restart_interface(int interface,
+-					cvmx_spi_mode_t mode, int timeout)
++					     cvmx_spi_mode_t mode, int timeout)
  {
- 	switch (rate) {
- 	case RATE_6M:
-@@ -288,7 +288,7 @@ bool card_set_phy_parameter(struct vnt_private *priv, u8 bb_type)
-  * Return Value: none
-  */
- bool card_update_tsf(struct vnt_private *priv, unsigned char rx_rate,
--		    u64 bss_timestamp)
-+		     u64 bss_timestamp)
- {
- 	u64 local_tsf;
- 	u64 tsf_offset = 0;
-@@ -297,7 +297,7 @@ bool card_update_tsf(struct vnt_private *priv, unsigned char rx_rate,
-
- 	if (bss_timestamp != local_tsf) {
- 		tsf_offset = card_get_tsf_offset(rx_rate, bss_timestamp,
--						local_tsf);
-+						 local_tsf);
- 		/* adjust TSF, HW's TSF add TSF Offset reg */
- 		tsf_offset =  le64_to_cpu(tsf_offset);
- 		iowrite32((u32)tsf_offset, priv->port_offset + MAC_REG_TSFOFST);
-@@ -321,7 +321,7 @@ bool card_update_tsf(struct vnt_private *priv, unsigned char rx_rate,
-  * Return Value: true if succeed; otherwise false
-  */
- bool card_set_beacon_period(struct vnt_private *priv,
--			  unsigned short beacon_interval)
-+			    unsigned short beacon_interval)
- {
- 	u64 next_tbtt;
-
+ 	return 0;
+ }
 --
 2.25.1
 
