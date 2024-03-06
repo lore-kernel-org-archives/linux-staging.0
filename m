@@ -1,93 +1,111 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.rosalinux.ru (mail.rosalinux.ru [195.19.76.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B3E9131759
-	for <linux-staging@lists.linux.dev>; Wed,  6 Mar 2024 14:26:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8380A1350C6
+	for <linux-staging@lists.linux.dev>; Wed,  6 Mar 2024 15:29:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.19.76.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709735191; cv=none; b=pz81p2Out27svr2N1Ij9F0Z9i2sGpn6BoSRbOdro71dhOYf4nl+Q0XXvtGw4fCmR0VpZ7XkFxTe5dNLw58PTejm4r98lWWlN4YfVqxljx7RdWCU/0XPb1UTeu2D9aemV8qB8Pa/8ICpF8ceGHVOxYmqyBGu2zi7eQ0c/V7mVFMs=
+	t=1709738975; cv=none; b=av1QG4OJemXcedtWx5IaZ1tofTmWd+l3EZ9eKPsas3nvVeGz2iIhcPSRzI1NYaPGLkykDLsSXVQvVkfTTOzFmIaL7Npk6nyndJfF1GZ2IlSWETmCTuTZ9naD0qzHvdD4RnHHOkJQ917UGKIWhQwbu6TnWdTOVzLRqMsNCQcO67Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709735191; c=relaxed/simple;
-	bh=NFU1mATLRRBJqrorShDtM8d86bmqV3E0R8MdZOK7Xig=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YARLcFW2v1m3H756kuPr6OPsHkuOLVeDKu8aJFHwNDuUdhZ3KJk/DWM/DiR53pKf0Fx4G3Ae1SEBvRIfcfhKDx5+XXOy9AxvY96NccCFJio1Mu4cCW4DBB7SAo7NcNrWNv5epTCnhaChuTJt0SlKwnGnd7SdxY3CER63Hub82Is=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=slzmpLQ2; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1709738975; c=relaxed/simple;
+	bh=C3Sx1OdAp4WBlmh0QlBwjLKQijGxkG87lxhH+y5+Gwg=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=SLAKpJOEq9BphzxA0hUodmXyiGUHVP/h6hji8H262bASgqRLq3aqKqbMxlQhwRJh25z9oB7YbnJ+QrKEUEXnIWYWEllXUED3ait7hV8Ewn9pSfWkITfK48T9IPaXb9G3OUHaAYdLMFTC/l0CTlLMvPq8211UY9Hn69X68fPgpdo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosalinux.ru; spf=pass smtp.mailfrom=rosalinux.ru; dkim=pass (2048-bit key) header.d=rosalinux.ru header.i=@rosalinux.ru header.b=UrWWlrbW; arc=none smtp.client-ip=195.19.76.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosalinux.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosalinux.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="slzmpLQ2"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-412f5e905e2so5330915e9.3
-        for <linux-staging@lists.linux.dev>; Wed, 06 Mar 2024 06:26:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1709735188; x=1710339988; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=sz597cPsAWEUKOTFznKZhGZK0K5yCCqY1F6ggOkfftM=;
-        b=slzmpLQ2Din/XR+7HsQJuo6HIZKsjO6vZl1heHHc9RVAHjzXJ2YhnWkewf8+tvL1Zb
-         INEGScAsmrzJvz9lNhyVU5WQcl7Soi/3PRNrDrBFNsJ8ifLVTIh4GKjTlrM4L53aZxH3
-         2fOEtp3LXXdw9LXisJKVVLIkjKslg8prFIdIHOezBsadUFpyoIPKrVtQw3dkkCAcauW2
-         /70C7HYdiJ/XMhGFq8ewtqH2cyuNrEAPuIa6+fXALIfPsouqzuAFNZGDsTcIzBHCtMBf
-         tryn9c60wY7ruxQK90k8v6evRa5kuM9bN10IINzCg/4l24NLOfyfY6a5k2eC4F+9+U48
-         zHFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709735188; x=1710339988;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sz597cPsAWEUKOTFznKZhGZK0K5yCCqY1F6ggOkfftM=;
-        b=fdnPy/16U9pNxxh3HGvBVkquq7vBdijbwdd0PJn2NPiS37lDp1xRaKhXCqlnXCco6D
-         6JfDrZ/lJi0opO/vypoGocvPP4L/CLV8qwsTrBl1PH/q+3bnhEnnTKvJ3FQHoZ4zC+pE
-         jcI7G9kW0dMhPxWrr6PcXwxeVwEYlSYw6e2jHkVWnzXG5xR0xewveTdpfCFWrpvHHkGf
-         WXRFt7p9thkxgb0P04ImTCSlIkVAKpBpDDac3MkaD5V0hOv41d5nHWzsmT1slnNUYzx3
-         ACVLkD5i8pYPlu0i1mhm/akGMo1vjrODmCrsaGSOIn0zu0m9blhgmgtVmbyxa9DmcYIz
-         4icg==
-X-Forwarded-Encrypted: i=1; AJvYcCUHE0dmvDFEZRVbfo+bI+hOVaLvYmpL4X/7rXqDV9eQy/CBm3udlTvsnxvvBn/o7+cYkCseRixosrqpYOVCYgyKuDhmYKd5wOZ75OqrMA==
-X-Gm-Message-State: AOJu0Yy3+U0J0RizXltFrJgUKXtjf0tb/g0Facb6VXKmTrXoPk9fT0r3
-	+J9D7x4C5/skD6zCAoI4rO1bp1Ggut+97COoEyNMM+xeC+77K2sRdkWXx8nZ9V4=
-X-Google-Smtp-Source: AGHT+IF0YddF+g3tLcQDMU53CKKJm1hZPkdzoF7aB0gEjJiiRFsHLJHMcGngoj6lxG/F3l6jAhGIYw==
-X-Received: by 2002:adf:fc8e:0:b0:33d:284a:401 with SMTP id g14-20020adffc8e000000b0033d284a0401mr11678384wrr.68.1709735187795;
-        Wed, 06 Mar 2024 06:26:27 -0800 (PST)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id n6-20020a056000170600b0033e45930f35sm6077958wrc.6.2024.03.06.06.26.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Mar 2024 06:26:27 -0800 (PST)
-Date: Wed, 6 Mar 2024 17:26:23 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Changhuang Liang <changhuang.liang@starfivetech.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Jack Zhu <jack.zhu@starfivetech.com>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v1 6/7] staging: media: starfive: Add raw output stride
- configure
-Message-ID: <9f346733-320d-4a7c-95d8-1eb2e5cec22e@moroto.mountain>
-References: <20240306093334.9321-1-changhuang.liang@starfivetech.com>
- <20240306093334.9321-7-changhuang.liang@starfivetech.com>
+	dkim=pass (2048-bit key) header.d=rosalinux.ru header.i=@rosalinux.ru header.b="UrWWlrbW"
+Received: from localhost (localhost [127.0.0.1])
+	by mail.rosalinux.ru (Postfix) with ESMTP id C0B0DD9A062B0;
+	Wed,  6 Mar 2024 18:29:18 +0300 (MSK)
+Received: from mail.rosalinux.ru ([127.0.0.1])
+	by localhost (mail.rosalinux.ru [127.0.0.1]) (amavisd-new, port 10032)
+	with ESMTP id h34VE-gmfcRS; Wed,  6 Mar 2024 18:29:18 +0300 (MSK)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.rosalinux.ru (Postfix) with ESMTP id 8D6B2D9A062AE;
+	Wed,  6 Mar 2024 18:29:18 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.rosalinux.ru 8D6B2D9A062AE
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosalinux.ru;
+	s=1D4BB666-A0F1-11EB-A1A2-F53579C7F503; t=1709738958;
+	bh=s2MDr7WOywlnh3ZAqvGnB0f57zkYihv9+BGZBbec/V0=;
+	h=Date:From:To:Message-ID:MIME-Version;
+	b=UrWWlrbWKlytDmLbBBNNhl+k6fSFAIvdRV2gP7OZCgpLaPjwXRM448CNRUpgvF+MG
+	 MEv+wD6NtY9q1zqEyFTKMiKATrPBH5mGxqSOLs3nZFLijUY119OGY0L4QG5sOWuBEg
+	 4qZpcoVVZAB7GkRh85KXFSYGY1nTb0hIEGTNjfqyDLujq6meOa8G8oMvSTDGYyuKv1
+	 OV32qZ/xX3UN9QICY/mASUt5m1PQXZHS6O9p9Tsyt3PDRG+lPZo017rm58UpOsWqU0
+	 9G3g788SDktPgsPLrY7cG+18Jkeq3YQxHJdO1NLbGu7yUQXyyuITTd5NPA1PV2KMMl
+	 tYkpJh4imxopQ==
+X-Virus-Scanned: amavisd-new at rosalinux.ru
+Received: from mail.rosalinux.ru ([127.0.0.1])
+	by localhost (mail.rosalinux.ru [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id SV61K1I6DtiF; Wed,  6 Mar 2024 18:29:18 +0300 (MSK)
+Received: from mail.rosalinux.ru (mail.rosalinux.ru [195.19.76.54])
+	by mail.rosalinux.ru (Postfix) with ESMTP id 577D8D9A062B0;
+	Wed,  6 Mar 2024 18:29:18 +0300 (MSK)
+Date: Wed, 6 Mar 2024 18:29:18 +0300 (MSK)
+From: =?utf-8?B?0JzQuNGF0LDQuNC7INCb0L7QsdCw0L3QvtCy?= <m.lobanov@rosalinux.ru>
+To: Rui Miguel Silva <rmfrfs@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
+	greybus-dev@lists.linaro.org
+Message-ID: <263695481.5978842.1709738958259.JavaMail.zimbra@rosalinux.ru>
+In-Reply-To: <m38r2v67h8.fsf@gmail.com>
+References: <20240301190425.120605-1-m.lobanov@rosalinux.ru> <m38r2v67h8.fsf@gmail.com>
+Subject: Re: [PATCH] greybus: Fix deref of NULL in
+ __gb_lights_flash_brightness_set
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240306093334.9321-7-changhuang.liang@starfivetech.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Mailer: Zimbra 8.8.12_GA_3803 (ZimbraWebClient - GC120 (Win)/8.8.12_GA_3794)
+Thread-Topic: greybus: Fix deref of NULL in __gb_lights_flash_brightness_set
+Thread-Index: aWEJxOWeV+AJ+gus/QAqbWALvD0cYw==
 
-On Wed, Mar 06, 2024 at 01:33:33AM -0800, Changhuang Liang wrote:
-> Add raw output stride to enable sent the aligned raw data to memory.
-> 
 
-Subject: staging: media: starfive: Fix raw output stride configuration
+Hi Rui, if you can, please prepare a patch with my reported-by tag.
+Thanks!
 
-I think this is bugfix?  What is the impact of this change to the user?
+Yours sincerely, Mikhail!
 
-But I can't really understand the commit message and it's hard to review
-the code without being able to apply it.  I'm also new to this subsystem
-so maybe someone else would have been able to understand it better...
-Sorry...
+>Hi Mikhail,
+>Mikhail Lobanov <m.lobanov@rosalinux.ru> writes:
+>
+>
+>Are you sending a new version with the changes suggested in this thread?
+>or do you want me to prepare something with your reported-by tag?
+>
+>Cheers,
+>    Rui
 
-regards,
-dan carpenter
-
+> ---
+>  drivers/staging/greybus/light.c | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/staging/greybus/light.c b/drivers/staging/greybus/light.c
+> index 87d36948c610..929514350947 100644
+> --- a/drivers/staging/greybus/light.c
+> +++ b/drivers/staging/greybus/light.c
+> @@ -148,10 +148,15 @@ static int __gb_lights_flash_brightness_set(struct gb_channel *channel)
+>  						GB_CHANNEL_MODE_TORCH);
+>  
+>  	/* For not flash we need to convert brightness to intensity */
+> -	intensity = channel->intensity_uA.min +
+> +
+> +	if (channel) {
+> +		intensity = channel->intensity_uA.min +
+>  			(channel->intensity_uA.step * channel->led->brightness);
+>  
+> -	return __gb_lights_flash_intensity_set(channel, intensity);
+> +		return __gb_lights_flash_intensity_set(channel, intensity);
+> +	}
+> +
+> +	return 0;
+>  }
+>  #else
+>  static struct gb_channel *get_channel_from_cdev(struct led_classdev *cdev)
+> -- 
+> 2.43.0
