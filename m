@@ -1,67 +1,64 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2344C83CA9
-	for <linux-staging@lists.linux.dev>; Thu,  7 Mar 2024 09:49:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64E9682D9C;
+	Thu,  7 Mar 2024 12:20:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709804949; cv=none; b=q3rnIDsjPSlv9Km2mdKf89w29zMCCK/3Dy8gYTmOaJlD7BJ12gepmPPurZ1mdo5qnGtTU4A+K/gzV5Lx+8apKEMk466P5GT0scL5B+7mmd+ZLP8W6dm3pSSlQ0jm7pr3g9z2AdAPBozHwWGYYceUIR4N33/wjjtYO3q7PPaYZL0=
+	t=1709814031; cv=none; b=TUIqxmL6u4Z9l9r8vZyaXaMZzho6WRiGk3ADWIk1JJHPD1gAnYiQURiao1YY+dPREuzZX1TXHI8lwf88B+Ron01jKxsWDuZJnFSaIltitJ7995yWppkBSZJvA9ELC8kSozR/67NEgzGZgIzVO9FFRsfFTEKlRXlHdHcAyqBAA2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709804949; c=relaxed/simple;
-	bh=SyIKGM+zUIq7nerMQHVnFWFlfZ+9n7AIdySMeqsy7GA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=k7sX1rFJIaaACEgiuBYjj6psbynw4tUMCn0987I1Q6+WDRMOz7tHp9a0ydJraeR8j0thtObfCbnRE+95emGhnuA4aVzaTRASubAODuxLZYwnJISJTG44BqMkKd1zgJLQsw/zgYWoBXCgaIe+h0yehlbkm6LyiseTlWPb+8qNzlg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=INtyUO5h; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1709814031; c=relaxed/simple;
+	bh=4w5zl6TUS3QXloyAcO1HPmXcKwy/Z1wjKEeqefd4KdU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=S2SHNuHdkhhIRLmI5dgru8XS8cYIhdFVFkMiZvJz5/WgYp2Dam0WYDr8iTyttM/7Hx7TW6Pu7oPzJasc0j0TH0UipsqRurfl94zv4o5X1NTpcQdmq4lRL3OEr5T/ix+N+yeKmUUnJjH2rkfgp7N1800v8+jk0o4ltr1iWY8ibaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L/a61Sxm; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="INtyUO5h"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4130ff11782so3416995e9.2
-        for <linux-staging@lists.linux.dev>; Thu, 07 Mar 2024 01:49:05 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L/a61Sxm"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a44cdb2d3a6so124507266b.2;
+        Thu, 07 Mar 2024 04:20:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1709804944; x=1710409744; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1709814027; x=1710418827; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=E9yoQN2LCSmxbmuEOLxqt9Q4MdSkQpGeWBb6PU8m5tU=;
-        b=INtyUO5hZs+nlWOO4wl7v+MzHXUmseX2Eh3gy1R7yaAOlDkj1PqEJBfnUeAyvwZiFz
-         zdUXdcxv9P/p1fszX6te65HkjYh2F5KMz3N6IR4Mt5ouv/JUYhgmV+ENjfIraYehBeaY
-         jmX6KmWBqFg5TvOQCAdJ9uK6K07lkxLCg6TCzSpjiMZZozgex/nBCWTug9+a3x4eOndZ
-         7/riuNJt6ogqRGjt+GkO+zwq+y/7d5BOaBIiPDzKgE2P131ciZ7UYOS9DabeqsIrv1lp
-         j6KR8iUFbw22Sm56moxajNnY0XIkBboz8mn3mrfMY2H5Tl35oW+EUhsZFUsZ3mOc1Gjw
-         Mbyw==
+        bh=2phTydufIsoa/Gh4YVm9MflyXi8vZV930MNRewLcHwc=;
+        b=L/a61SxmsPeWxv6SOA9EXF5/jZN/AEeET8mbgqPRpLlTutckjrys3u5aDCzwA57A4/
+         1yIBXuKZhxweFU+GIpX1QnrQwghKb5TlNKUsGcOHW1jR1eikBSs4vqHVH0vt8qWX9v1f
+         y/NNKP2eYLiUJ4L0C5fiZYqcb0DApgdxfgs6uUVRf7lovPzYoX5bfQWNYCoNdkGEZlGr
+         YSLuDehH8MEheQ4o2RVtecUDhoXoe7fuPq9p8KPI2d3e8o2KSIHfFW56k5G96Dl/RzwP
+         4RQJJj6HDhMK2XbGaI0KAyYKtNKP+N0N8VtJwBcbVYZsH/vibSP0m4WmsBJy1l4Ztr2H
+         A4dA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709804944; x=1710409744;
+        d=1e100.net; s=20230601; t=1709814027; x=1710418827;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=E9yoQN2LCSmxbmuEOLxqt9Q4MdSkQpGeWBb6PU8m5tU=;
-        b=xQTxVY4AvjWRkfiMHdjvWhCUSWxQl2MVNuS5wNvUii5iLOAjsD1cUbkr3w2eJ6Q8MC
-         iwhVRFENmf/EjRY2ZqtRgJyw37BtafKinNo1s8R+Zgir4uFYfHkMyjXfinmg+i/qJnFl
-         R1pXdkrvKug1skyk4zZpx+OnNjYtHbcaZ/61kZpuXwa6O6XEvts0p0P4jFo9i7hROQDe
-         ZwLlXHGIPudEhwWC4rYH4BBHsbdVeMcDe1xqyzYiPVNvEIRsws8XpeRubotQ9fEsyq4h
-         VsW3eUd/qgZM3FboMKNupZ5QhuDPhoRMWi+zsyMb+fN47azrkTOGNxKDHb38C62XmFP0
-         Zxdg==
-X-Forwarded-Encrypted: i=1; AJvYcCU8ndf4CwaMW85QT0GrQt/uUIGu2oTh73X64pVARW7Y/gdkU6vSz6qFeBSN4sJFIeEFJmmIi2wslvBL65fbXiIRI6h8py4GaWSmYp61Ug==
-X-Gm-Message-State: AOJu0YymXlacLS3vDrNsj+r3+SnRR5MDG3wXTU8zERM8RvlKjnhJIWoq
-	gX9vLQjx1FZ6vUJz/qX3rL5+GeG4pZwwi8txmoXetNkxNo8K8DnmNCDraRs4K2E=
-X-Google-Smtp-Source: AGHT+IFnrmvAtB1ezZQvIcRm6PjS8kaHV8XeFh+b2E1byy8yJYxsb94o7ecvzoWhs+Be2fccPiNCiA==
-X-Received: by 2002:a05:600c:3550:b0:412:a141:c01e with SMTP id i16-20020a05600c355000b00412a141c01emr13027365wmq.0.1709804944163;
-        Thu, 07 Mar 2024 01:49:04 -0800 (PST)
-Received: from arch-thunder.local (a109-49-32-45.cpe.netcabo.pt. [109.49.32.45])
-        by smtp.gmail.com with ESMTPSA id hn37-20020a05600ca3a500b00412f478a90bsm2017137wmb.48.2024.03.07.01.49.03
+        bh=2phTydufIsoa/Gh4YVm9MflyXi8vZV930MNRewLcHwc=;
+        b=atbN3O5WFyJ0dtOi40pvzh5Vq8i6J0UXrcaQx4ilhknW2+5+XaCn7f9nNxGo7dbcbD
+         56Xq4gZQRIEZ/YYYvl0TFHXJNkYYnSfYk8T4l21R33RhKE3nvrJ/TVB5wFo/GdJ/TDhP
+         8Vm4SkAAuSEuNLjeV/pspK22Bsbnz8S6XWWJobIJegDhXCXi0rVnjYfL/XGCJItDbni/
+         0EyWyCH3xEhrRABu59Ogt63fC5v2zW+Ufr6A09y8jV99aR1gVnl65ip4obxcGltVySOB
+         B3Sn9mTNFwXQbddKZz0YmIziBdWLdjDy2gwvgVVehnhIPAr2iO29GUX8R/aJHsFgtDKx
+         d8Gg==
+X-Forwarded-Encrypted: i=1; AJvYcCWOv/C9RB9q7ulotSJLkFg1N+AFNxh61RbtQyl2eYynZ+nBa/Kgug5IhVevYdmIEG6MEyi/62icnjkcmGKLv8y6mgxBlDG6xYI4y+1N7UbVAGy9s8GDa4YCmwFD6kARjf+lMoqzkPcm8w==
+X-Gm-Message-State: AOJu0Yx/Ocqa2wLXUhPbc4paqzqsV7+tPpFKrHwbkH1tCn+8A+BeCIx0
+	xvZnCqQDV3uOFw2GbvXuEVISC0qX5hqHgeikpgWQn3qUuFhRTWF06lgvQHkKBMM=
+X-Google-Smtp-Source: AGHT+IFhzoej6AWe0dNE52wAhOEs2pf2fNNjIbcmjDhN/bE3eOoKTgVSQ7LCO1S4rRZiu93DCGC82g==
+X-Received: by 2002:a17:906:b347:b0:a45:acf3:a103 with SMTP id cd7-20020a170906b34700b00a45acf3a103mr5141748ejb.42.1709814027407;
+        Thu, 07 Mar 2024 04:20:27 -0800 (PST)
+Received: from ubuntu-focal.zuku.co.ke ([197.237.50.252])
+        by smtp.gmail.com with ESMTPSA id l25-20020a1709065a9900b00a45bb9b81d6sm1643073ejq.195.2024.03.07.04.20.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Mar 2024 01:49:03 -0800 (PST)
-From: Rui Miguel Silva <rui.silva@linaro.org>
-X-Google-Original-From: Rui Miguel Silva <rmfrfs@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	greybus-dev@lists.linaro.org
-Cc: Mikhail Lobanov <m.lobanov@rosalinux.ru>,
+        Thu, 07 Mar 2024 04:20:26 -0800 (PST)
+From: Dorine Tipo <dorine.a.tipo@gmail.com>
+To: gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev,
-	Alex Elder <elder@ieee.org>,
-	Rui Miguel Silva <rmfrfs@gmail.com>
-Subject: [PATCH] greybus: lights: check return of get_channel_from_mode
-Date: Thu,  7 Mar 2024 09:48:13 +0000
-Message-ID: <20240307094838.688281-1-rmfrfs@gmail.com>
-X-Mailer: git-send-email 2.44.0
+	outreachy@lists.linux.dev
+Cc: Dorine Tipo <dorine.a.tipo@gmail.com>
+Subject: [PATCH v2 0/8] Rename Variables in sm750fb driver
+Date: Wed,  6 Mar 2024 04:36:03 +0000
+Message-Id: <20240306043611.98074-1-dorine.a.tipo@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -70,48 +67,48 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-If channel for the given node is not found we return null from
-get_channel_from_mode. Make sure we validate the return pointer
-before using it in two of the missing places.
+Hello,
 
-This was originally reported in [0]:
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
+This V2 series addresses the Avoid CamelCase checkpatch warning by renaming
+the variables in sm750fb driver to use snake_case.
 
-[0] https://lore.kernel.org/all/20240301190425.120605-1-m.lobanov@rosalinux.ru
+Patch 1 renames variable sii164GetDeviceID to sii164_get_device_id.
 
-Fixes: 2870b52bae4c ("greybus: lights: add lights implementation")
-Reported-by: Mikhail Lobanov <m.lobanov@rosalinux.ru>
-Suggested-by: Mikhail Lobanov <m.lobanov@rosalinux.ru>
-Suggested-by: Alex Elder <elder@ieee.org>
-Signed-off-by: Rui Miguel Silva <rmfrfs@gmail.com>
----
- drivers/staging/greybus/light.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+Patch 2 renames variable sii164ResetChip to sii164_reset_chip.
 
-diff --git a/drivers/staging/greybus/light.c b/drivers/staging/greybus/light.c
-index c6bd86a5335a..6f10b9e2c053 100644
---- a/drivers/staging/greybus/light.c
-+++ b/drivers/staging/greybus/light.c
-@@ -147,6 +147,9 @@ static int __gb_lights_flash_brightness_set(struct gb_channel *channel)
- 		channel = get_channel_from_mode(channel->light,
- 						GB_CHANNEL_MODE_TORCH);
- 
-+	if (!channel)
-+		return -EINVAL;
-+
- 	/* For not flash we need to convert brightness to intensity */
- 	intensity = channel->intensity_uA.min +
- 			(channel->intensity_uA.step * channel->led->brightness);
-@@ -549,7 +552,8 @@ static int gb_lights_light_v4l2_register(struct gb_light *light)
- 	}
- 
- 	channel_flash = get_channel_from_mode(light, GB_CHANNEL_MODE_FLASH);
--	WARN_ON(!channel_flash);
-+	if (WARN_ON(!channel_flash))
-+		return -EINVAL;
- 
- 	fled = &channel_flash->fled;
- 
--- 
-2.44.0
+Patch 3 renames variable sii164GetChipString to sii164_get_chip_string.
+
+Patch 4 renames variable sii164SetPower to sii164_set_power.
+
+Patch 5 renames variable sii164EnableHotPlugDetection to
+sii164_enable_hot_plug_detection.
+
+Patch 6 renames variable sii164IsConnected to sii164_is_connected.
+
+Patch 7 renames variable sii164CheckInterrupt to sii164_check_interrupt.
+
+Patch 8 renames variable sii164ClearInterrupt to sii164_clear_interrupt.
+
+Updates since V1:
+Incorporated feedback from <gregkh@linuxfoundation.org> to fix the
+warnings in the patches and create a patch series for the same.
+I have also compiled the entire kernel and it compiled successfully.
+(I understand this is not sufficient and would be happy to run further
+tests. Should I run kselftests on the module?)
+
+Dorine Tipo (8):
+  Staging: sm750fb: Rename variable sii164GetDeviceID
+  Staging: sm750fb: Rename sii164ResetChip
+  Staging: sm750fb: Rename variable sii164GetChipString
+  Staging: sm750fb: Rename variable sii164SetPower
+  Staging: sm750fb: Rename variable sii164EnableHotPlugDetection
+  Staging: sm750fb: Rename variable sii164IsConnected
+  Staging: sm750fb: Rename variable sii164CheckInterrupt
+  Staging: sm750fb: Rename Variable sii164ClearInterrupt
+
+ drivers/staging/sm750fb/ddk750_dvi.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
+
+--
+2.25.1
 
