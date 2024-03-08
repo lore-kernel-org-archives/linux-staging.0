@@ -1,110 +1,92 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5FB12C85C
-	for <linux-staging@lists.linux.dev>; Fri,  8 Mar 2024 08:52:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE1AD52F89;
+	Fri,  8 Mar 2024 09:10:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709887922; cv=none; b=DCEJYwH+R800OI6E7cffjxoXu7wi0ARE8RW7Jn0t52Pxsj0b8SIkD/4zOdJQuHB4odWNrSj2dfQN59J5MJsY3QxpoqwjwHsiAtaTIGI2KGMh+e3qQWDXG+Wzo4pVkci1KW808BUb2o6M5LHXxJ03d60OclPPIE8/JW1qYYxX5Lw=
+	t=1709889024; cv=none; b=JZ0zUPtl8i2fR426ZG3RTwrO8xYVIO5/+nvBguP1Y9sVRMje23yQMnpDjnZKiFQ8gfNTzSklHp/Z+I+6NkH6v4C/iu8m3dEC/RmnN/bZnD7xdms3BdUAsKPBzXqOUPa/qU1ju1nlXl0okNwD+4gT9D/E83k89jKyeb8sNuJI5qc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709887922; c=relaxed/simple;
-	bh=qPPkBq7ua8mSMZSS/KmPPnuf2pqEFurnkpJOCJvYz78=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=J6Cv3FoFfzNN3jjIGk6GTbC33wyJV8pJUwaAyNpuKra1zBz2akFUvFvo+RJDCcXKi//7LcB0xkk4W2htw/jrjgthUvv2O5U1JWcB1BruzYEa78GiUOgyEOOdbYaq6NZNZLlpUgX/NFY4rryKc3J4CykZ1FzalJAKPk/fbOIZ8e8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1riVxI-0006xI-8X; Fri, 08 Mar 2024 09:51:52 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1riVxG-0056Nc-EQ; Fri, 08 Mar 2024 09:51:50 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1riVxG-002465-1B;
-	Fri, 08 Mar 2024 09:51:50 +0100
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Jack Zhu <jack.zhu@starfivetech.com>,
-	Changhuang Liang <changhuang.liang@starfivetech.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-media@vger.kernel.org,
+	s=arc-20240116; t=1709889024; c=relaxed/simple;
+	bh=UNDCeg4Dpm8uipaUYfGgtRdthszBUXhI3wu3rtrL9JU=;
+	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=A/rGH7HosUF9TvcBgNTpk9BtnVVLTYpy1qjMVm9x/rdz+IFt7ayba4Og3pdU0sYbMDex0952zDu7CB3G8Kk3kdmvWULlzk7ElKv4a9e52hp4s6hkR7cAZ3CMg9zqwtfWE/lJ+hieETlY4DcDkYY//nkgozihRzq5P2dJsgvzFIU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bwf7fmrL; arc=none smtp.client-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bwf7fmrL"
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a456ab934eeso275739466b.0;
+        Fri, 08 Mar 2024 01:10:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709889021; x=1710493821; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UNDCeg4Dpm8uipaUYfGgtRdthszBUXhI3wu3rtrL9JU=;
+        b=Bwf7fmrLp2mFbKjofi9z3WG0f2/wZge/0LP1BYpNJbiSeOM5/6bBa+GI8wZGGnoXK/
+         N8LWZc+qnUc35ODx9dIFfmyEheP2qMZIfVGFO6pOG0q8X7j7FAHlBykuhk5Sp3ifsEzz
+         NSUzlhyFIz9fsk88J6xoAnrbuINeJaZVFKS906xyg+I5GDQ6y1Wugq0B0IS/P6Um9Isw
+         kS4aaPE0mJecwR4teRYAOKSdiIzeCIwc7bz7uQ8FMTAoUCa9iPbfzSi62WTHIryZIP+q
+         MigpTJ0whTM4mQJAIzVrCHusrvNN85AGQ6MzUMm8xKwzXrvS/w2YOU0zTMgXlMH635U6
+         j/wQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709889021; x=1710493821;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UNDCeg4Dpm8uipaUYfGgtRdthszBUXhI3wu3rtrL9JU=;
+        b=vx4p3SJGsuevuTVSTzdMrYQ6XdZclr6B0zg4fpmbVSspmhWIEDi8XzUOGH01XEJrrM
+         dbB3oAe8AZTN6xYzSPnX9PUt+MjkymwQOGYaplMtUTCCGoXLajmLtQ7h86aXOLcMcUto
+         AYfK2stzGSszlQbLMwKejOgGa3TP0rAh3smJbZ7aG2A9W2NvqXZMnX2q7w7SG0z4B0qf
+         F1mrJGIKPJlKgkbRrv1O04vN5/DhjkPuSHA9Oqd5PBjo2oP2ty2zzaGO4JxG8KskGmjG
+         4wGEUmRHoN+C7mVAjxQwEdQfP2okvNdGqAivjL/x4ZQ0fDeoTdHpGpK5ujJ1pFakRdQc
+         PXkw==
+X-Forwarded-Encrypted: i=1; AJvYcCWoqNZrpYkpz1K8SXGkuZbQ+9nnfhDyRXW02m0HGh4GIB+MQ6GssszE8y2ou0WCnPNi4vVLrAEOQhyepZwEAc31HUJSZ2QGEt+YVsDejd4JDr3OW1hlq3PP1E8T3k4mzDUApJ8Q2nLeYQ==
+X-Gm-Message-State: AOJu0YzIY7PuPFT6+qXK8CfqBwxmeTRmrlm3xekihl3IiXhZtZCvyv4a
+	b1kQ46HQknYb65aeOhowXbkopA+hsy14TYGZbhL85Od8zmgAh9ZKpC3iQGvzI0A=
+X-Google-Smtp-Source: AGHT+IEhMTXhPTCEQzHL2SwliBO4O+AxgTRXfRq6WvdJ/tj/uSKVlyG8EeBWJhNNplhGA8Zt1pkzcw==
+X-Received: by 2002:a17:906:7809:b0:a3f:6513:1489 with SMTP id u9-20020a170906780900b00a3f65131489mr13518551ejm.55.1709889020647;
+        Fri, 08 Mar 2024 01:10:20 -0800 (PST)
+Received: from ubuntu-focal.zuku.co.ke ([197.237.50.252])
+        by smtp.gmail.com with ESMTPSA id n18-20020a170906119200b00a45e04e3ebdsm1038222eja.83.2024.03.08.01.10.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Mar 2024 01:10:20 -0800 (PST)
+From: Dorine Tipo <dorine.a.tipo@gmail.com>
+To: gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev,
-	kernel@pengutronix.de
-Subject: [PATCH] media: staging: media: starfive: camss: Convert to platform remove callback returning void
-Date: Fri,  8 Mar 2024 09:51:16 +0100
-Message-ID:  <c43a9c68e64e3e8360174ae0c6706e46d3d40a11.1709886922.git.u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.43.0
+	outreachy@lists.linux.dev
+Subject: Apology and Request for Resubmitting Patch
+Date: Fri,  8 Mar 2024 09:10:00 +0000
+Message-Id: <20240308091000.36978-1-dorine.a.tipo@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20240306054458.102288-2-dorine.a.tipo@gmail.com>
+References: <20240306054458.102288-2-dorine.a.tipo@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2079; i=u.kleine-koenig@pengutronix.de; h=from:subject:message-id; bh=qPPkBq7ua8mSMZSS/KmPPnuf2pqEFurnkpJOCJvYz78=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBl6tGI8ed74woPhDkITrNoLd7X3ZAWuWr7rGI59 96RuK91tJKJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZerRiAAKCRCPgPtYfRL+ TuKOCACC5iYeNxqo7608sm/NbuAFRozufDF8jA4QXQ7fCf0sXqbmOS9gKZEJCc/7WicgZ47GSRx WYPbtPA2OgSRoUFunsbEnL8WfIty0QY59OTNherTa3N/WGz/lkfOc7IhdQcK4KS6Fz+RG76Um0e Lt2zXjd/ZU2/j1FPjid18o3eHnmu+uB3rO+kIb2vMdqitHyFfuJIAkxAAd6dTTNCnPm6blJ/mHU 0WtkwdkIOpdgZUydL5UGa2GuA8gXRuKhJFmVia4Fv1Ml9YQUrAdBMiUZA0RrJgvRadEoKR4Dib4 IDc/R9WhRQTQYRMF3Mch8k+yt+AgNa14FTCwtvqdpdNKNPo/
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-staging@lists.linux.dev
 
-The .remove() callback for a platform driver returns an int which makes
-many driver authors wrongly assume it's possible to do error handling by
-returning an error code. However the value returned is ignored (apart
-from emitting a warning) and this typically results in resource leaks.
+Dear maintainers,
 
-To improve here there is a quest to make the remove callback return
-void. In the first step of this quest all drivers are converted to
-.remove_new(), which already returns void. Eventually after all drivers
-are converted, .remove_new() will be renamed to .remove().
+I hope this message finds you well. I am writing to offer my sincere apologies
+for the frustration and disappointment caused by my recent submissions of
+patches with unresolved issues.
 
-Trivially convert this driver from always returning zero in the remove
-callback to the void returning variant.
+Upon careful investigation into the issue to debug the problem, I realize
+that my approach to addressing checkpatch warnings in the code was incomplete.
+While I corrected the assignments of variables to resolve the warnings, I neglected
+to rectify the corresponding declarations of these variables.
+I understand that this oversight not only failed to meet the standards expected of
+contributions but also created unnecessary work for you as maintainers.
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/staging/media/starfive/camss/stf-camss.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+I take full responsibility for my actions and the impact they have had on the project and
+your workload. Please accept my heartfelt apologies for any inconvenience and frustration caused.
 
-diff --git a/drivers/staging/media/starfive/camss/stf-camss.c b/drivers/staging/media/starfive/camss/stf-camss.c
-index a587f860101a..f9613c2c9dfe 100644
---- a/drivers/staging/media/starfive/camss/stf-camss.c
-+++ b/drivers/staging/media/starfive/camss/stf-camss.c
-@@ -355,7 +355,7 @@ static int stfcamss_probe(struct platform_device *pdev)
-  *
-  * Always returns 0.
-  */
--static int stfcamss_remove(struct platform_device *pdev)
-+static void stfcamss_remove(struct platform_device *pdev)
- {
- 	struct stfcamss *stfcamss = platform_get_drvdata(pdev);
- 
-@@ -364,8 +364,6 @@ static int stfcamss_remove(struct platform_device *pdev)
- 	media_device_cleanup(&stfcamss->media_dev);
- 	v4l2_async_nf_cleanup(&stfcamss->notifier);
- 	pm_runtime_disable(&pdev->dev);
--
--	return 0;
- }
- 
- static const struct of_device_id stfcamss_of_match[] = {
-@@ -420,7 +418,7 @@ static const struct dev_pm_ops stfcamss_pm_ops = {
- 
- static struct platform_driver stfcamss_driver = {
- 	.probe = stfcamss_probe,
--	.remove = stfcamss_remove,
-+	.remove_new = stfcamss_remove,
- 	.driver = {
- 		.name = "starfive-camss",
- 		.pm = &stfcamss_pm_ops,
-
-base-commit: 8ffc8b1bbd505e27e2c8439d326b6059c906c9dd
--- 
-2.43.0
-
+In light of this, I would like to request the opportunity to resubmit a new patch that addresses
+both the assignment and declaration of the variables to resolve the issue effectively.
+To ensure that such oversights are not repeated in the future, I am committed to implementing
+stricter review processes and improving my attention to detail.
