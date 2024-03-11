@@ -1,84 +1,259 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37EED58119;
-	Mon, 11 Mar 2024 22:46:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 166FB58AB0;
+	Mon, 11 Mar 2024 22:52:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710197200; cv=none; b=ca0Y27K3mBT8IzUdeqYFO8XsIc8j9ZIyV2ntDScNTpcbrtZl+qOhNIqIIoVqOe5p/IVWSdB8h2AQIg8ac80RaWtph7nZNHRqIkRAHkRj7iOo+QnQdw5+KJe8t5T2qMALubp0/q1MYznBH93yHyyZDnyp9mf1tTCtR5woZA8Lo58=
+	t=1710197560; cv=none; b=JOIVxzt5LNJCenSuOOEi+/I1lmanBsWN0nRb7LvpHCBb9t5uzNITuyPQqU8D14I+M9w5NbtPLPBgj9hKObj/Ye2WdU8Ch06IMNjvvI6k++HrAuip6MiORYBicZq9aFqX+SyZdzrTyNF/90Y5TTjZ5fPPRdd7/cNemmHsX1EUiD4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710197200; c=relaxed/simple;
-	bh=ZJAAeL3fVss9iGjRrFB3dUfBTrjy5/IGazLgsApqp4Q=;
+	s=arc-20240116; t=1710197560; c=relaxed/simple;
+	bh=rgIDmib4C1pcvItR/XIbt9mkxni+eJsX9EEpTmbMCyM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lgQ3JTZdryU9wSg2hlPmMDxH8Yce9Mx5HjyD28sF4rzip1wFPN0RYhIkH7d4bzOKkaKidvHHNq9DpgLCqLLFt6VBxhbrep0EwqiG2t0Yt/aR5Ko6uoBlrhQSydVwiT3nC+Fvpha2giCuSylSC7b9zhhgx08yTMkHWAjUdvDrwck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FQbd+xEN; arc=none smtp.client-ip=192.198.163.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=h6A4+PLWTIFX47e7o2mjkDOx/ekNXGiK0p0Q7pyQvfnUHoZOdl/XCsm53gPAJFdoFVuOdp/KSRzsKqVNM3TJl2XuF41uu4oZWiJvJk1NUOZiY2coUUIjpt1z3B7u3V9KqqapXj1Hhr8qcqSv9mxtGyZZHgHHTYLhTtPypCoZNwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=km9pNuoL; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FQbd+xEN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="km9pNuoL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710197199; x=1741733199;
+  t=1710197558; x=1741733558;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZJAAeL3fVss9iGjRrFB3dUfBTrjy5/IGazLgsApqp4Q=;
-  b=FQbd+xENy+oxZbeIYdwrnN/sUNl+x577ZUtEZnv+Ln5Xd1yHsIPdtKVx
-   woOe+J4ZiomnEiyEIC8Z+rwEVq4/MMxtTdZqaMnvUJyAxobjXSlv/FVwx
-   5xibQEZKywY2hP0u29YfVO05LpmgBwcDSCW/msTgNHxEt0MzUoELaaLHv
-   ngXJxdu9esdJcCniR8ubM8Q+18VyDBa1vXOAqeqsRgg6hVwCCSNH4OxlH
-   +Mj1CEa7QDBdCVRCeqiOHLguyJsxqKk+wMdHHg7OEqx/6uEdAOa5fK/Fz
-   JB5apdjfRcSEgRtoBWH9qf4cO09ZPbtfLt/RZcMYqtvfa76biLxaNrqq9
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11010"; a="5069991"
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=rgIDmib4C1pcvItR/XIbt9mkxni+eJsX9EEpTmbMCyM=;
+  b=km9pNuoLiHz/G6nLpvOVWoki5zJx/SFrK0az82LPEY6V2twett8xb464
+   KzI36izMTur5OSQNI7ByFfdeF/ZgaTXQ+w+WblujtLwPv3GtLDGttcaGi
+   9O2j/ZSGybWS36NYxgnDBH3odyYFSsTPyhm+7tsSzCQnuMY7GfOyJ5ROT
+   gE8WZ6380H6gowyTdgdYmjxevgRJF68WiU76QU1tOiTeikUuO3ezgCQTS
+   RJD9N2++t5J66fyt4xPOVL6LWgtMHv30uvl2cs6zB7ANvgZ+a9ePJB5JA
+   XUAhuBwzuXaFSaNwfFIbJ9j1Gs9xKBgCnJjIwxMV3symnx5JqdjQwl35c
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11010"; a="4743658"
 X-IronPort-AV: E=Sophos;i="6.07,117,1708416000"; 
-   d="scan'208";a="5069991"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2024 15:46:32 -0700
+   d="scan'208";a="4743658"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2024 15:52:37 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,117,1708416000"; 
-   d="scan'208";a="15811648"
+   d="scan'208";a="11908088"
 Received: from aschofie-mobl2.amr.corp.intel.com (HELO aschofie-mobl2) ([10.212.137.71])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2024 15:46:31 -0700
-Date: Mon, 11 Mar 2024 15:46:29 -0700
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2024 15:52:36 -0700
+Date: Mon, 11 Mar 2024 15:52:34 -0700
 From: Alison Schofield <alison.schofield@intel.com>
 To: "Felix N. Kimbu" <felixkimbu1@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+Cc: Philipp Hortmann <philipp.g.hortmann@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
 	outreachy@lists.linux.dev
-Subject: Re: [PATCH] staging: p80211conv: Rename local foo to decrypt_check
-Message-ID: <Ze+JxSpqc/eHfCKn@aschofie-mobl2>
+Subject: Re: [PATCH v2] staging: wlan-ng: p80211conv: fix indentation
+ problems, introduced by previous commit
+Message-ID: <Ze+LMgwYYK6LN79O@aschofie-mobl2>
 References: <Ze9Ie67PCSvBU+og@MOLeToid>
+ <6d643351-8924-4c86-9fb5-9951e016f5db@gmail.com>
+ <b9cc75d2-3e06-43d6-8b70-38d1c97124d2@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <Ze9Ie67PCSvBU+og@MOLeToid>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <b9cc75d2-3e06-43d6-8b70-38d1c97124d2@gmail.com>
 
-On Mon, Mar 11, 2024 at 07:07:55PM +0100, Felix N. Kimbu wrote:
-> This change renames the local variable foo to decrypt_check in functions
-> skb_ether_to_p80211(...) and skb_p80211_to_ether(...), giving intuitive
-> meaning to the identifier.
+On Mon, Mar 11, 2024 at 10:34:20PM +0100, Felix N. Kimbu wrote:
+> Thank for you the feedback Philipp, I have checked
+> 
+> and corrected the checkpatch warnings.
+> 
 
-'rc' is typically used for cases like this. If the name of the function
-being called is reasonably intuitive, then 'rc' suffices for the return
-value.
+Please follow process for revisioning patches here:
+First Patch Tutorial Section: Revising your patches
+when you send a v3.
 
 > 
-> It also indents the parameters to match the the opening parentheses.
-
-'Also' signals that this patch is trying to do more than one thing.
-One type of 'thing' per patch please.
-
-The commit message prefixes are off. Please see First Patch Tutorial
-Section: "Following the Driver commit style"
-
-Patch fails checkpatch. Please see First Patch Tutorial Sections:
-"Git post-commit hooks" and "Understand patch best practices"
-
-
-
---snip
+> Signed-off-by: Felix N. Kimbu <felixkimbu1@gmail.com>
+> ---
+>  drivers/staging/wlan-ng/p80211conv.c | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/staging/wlan-ng/p80211conv.c
+> b/drivers/staging/wlan-ng/p80211conv.c
+> index a0413928a843..e48a80df87a6 100644
+> --- a/drivers/staging/wlan-ng/p80211conv.c
+> +++ b/drivers/staging/wlan-ng/p80211conv.c
+> @@ -186,9 +186,9 @@ int skb_ether_to_p80211(struct wlandevice *wlandev, u32
+> ethconv,
+>          if (!p80211_wep->data)
+>              return -ENOMEM;
+>          decrypt_check = wep_encrypt(wlandev, skb->data, p80211_wep->data,
+> -                                      skb->len,
+> -                                    wlandev->hostwep &
+> HOSTWEP_DEFAULTKEY_MASK,
+> -                                    p80211_wep->iv, p80211_wep->icv);
+> +                        skb->len,
+> +                        wlandev->hostwep & HOSTWEP_DEFAULTKEY_MASK,
+> +                        p80211_wep->iv, p80211_wep->icv);
+>          if (decrypt_check) {
+>              netdev_warn(wlandev->netdev,
+>                      "Host en-WEP failed, dropping frame (%d).\n",
+> @@ -306,10 +306,10 @@ int skb_p80211_to_ether(struct wlandevice *wlandev,
+> u32 ethconv,
+>              return 1;
+>          }
+>          decrypt_check = wep_decrypt(wlandev, skb->data + payload_offset +
+> 4,
+> -                                    payload_length - 8, -1,
+> -                                    skb->data + payload_offset,
+> -                                    skb->data + payload_offset +
+> -                                    payload_length - 4);
+> +                        payload_length - 8, -1,
+> +                        skb->data + payload_offset,
+> +                        skb->data + payload_offset +
+> +                        payload_length - 4);
+>          if (decrypt_check) {
+>              /* de-wep failed, drop skb. */
+>              netdev_dbg(netdev, "Host de-WEP failed, dropping frame
+> (%d).\n",
+> -- 
+> 2.34.1
+> 
+> On 3/11/24 20:31, Philipp Hortmann wrote:
+> > On 3/11/24 19:07, Felix N. Kimbu wrote:
+> > > This change renames the local variable foo to decrypt_check in functions
+> > > skb_ether_to_p80211(...) and skb_p80211_to_ether(...), giving intuitive
+> > > meaning to the identifier.
+> > > 
+> > > It also indents the parameters to match the the opening parentheses.
+> > > 
+> > > Signed-off-by: Felix N. Kimbu <felixkimbu1@gmail.com>
+> > 
+> > Hi Felix,
+> > 
+> > I think the subject names the subsystem "staging" and then the driver
+> > which is "wlan-ng" the file can follow but you cannot omit the driver
+> > name.
+> > 
+> > 
+> > Please check the following checkpatch warnings:
+> > File Nr: 0    Patch: ../../../Downloads/20240311-[PATCH] staging_
+> > p80211conv_ Rename local foo to decrypt_check-15036.txt
+> > WARNING: Possible repeated word: 'the'
+> > #11:
+> > It also indents the parameters to match the the opening parentheses.
+> > 
+> > ERROR: code indent should use tabs where possible
+> > #41: FILE: drivers/staging/wlan-ng/p80211conv.c:189:
+> > +^I^I^I^I  ^I^I^I^I^Iskb->len,$
+> > 
+> > WARNING: please, no space before tabs
+> > #41: FILE: drivers/staging/wlan-ng/p80211conv.c:189:
+> > +^I^I^I^I  ^I^I^I^I^Iskb->len,$
+> > 
+> > CHECK: Alignment should match open parenthesis
+> > #41: FILE: drivers/staging/wlan-ng/p80211conv.c:189:
+> > +        decrypt_check = wep_encrypt(wlandev, skb->data,
+> > p80211_wep->data,
+> > +                                      skb->len,
+> > 
+> > WARNING: line length of 115 exceeds 100 columns
+> > #42: FILE: drivers/staging/wlan-ng/p80211conv.c:190:
+> > +                                    wlandev->hostwep &
+> > HOSTWEP_DEFAULTKEY_MASK,
+> > 
+> > WARNING: line length of 105 exceeds 100 columns
+> > #43: FILE: drivers/staging/wlan-ng/p80211conv.c:191:
+> > +                                    p80211_wep->iv, p80211_wep->icv);
+> > 
+> > CHECK: Alignment should match open parenthesis
+> > #72: FILE: drivers/staging/wlan-ng/p80211conv.c:309:
+> > +        decrypt_check = wep_decrypt(wlandev, skb->data + payload_offset
+> > + 4,
+> > +                                    payload_length - 8, -1,
+> > 
+> > total: 1 errors, 4 warnings, 2 checks, 58 lines checked
+> > 
+> > Thanks for your support.
+> > 
+> > Bye Philipp
+> > 
+> > 
+> > > ---
+> > >   drivers/staging/wlan-ng/p80211conv.c | 30 ++++++++++++++--------------
+> > >   1 file changed, 15 insertions(+), 15 deletions(-)
+> > > 
+> > > diff --git a/drivers/staging/wlan-ng/p80211conv.c
+> > > b/drivers/staging/wlan-ng/p80211conv.c
+> > > index 8336435eccc2..a0413928a843 100644
+> > > --- a/drivers/staging/wlan-ng/p80211conv.c
+> > > +++ b/drivers/staging/wlan-ng/p80211conv.c
+> > > @@ -93,7 +93,7 @@ int skb_ether_to_p80211(struct wlandevice
+> > > *wlandev, u32 ethconv,
+> > >       struct wlan_ethhdr e_hdr;
+> > >       struct wlan_llc *e_llc;
+> > >       struct wlan_snap *e_snap;
+> > > -    int foo;
+> > > +    int decrypt_check;
+> > >         memcpy(&e_hdr, skb->data, sizeof(e_hdr));
+> > >   @@ -185,14 +185,14 @@ int skb_ether_to_p80211(struct wlandevice
+> > > *wlandev, u32 ethconv,
+> > >           p80211_wep->data = kmalloc(skb->len, GFP_ATOMIC);
+> > >           if (!p80211_wep->data)
+> > >               return -ENOMEM;
+> > > -        foo = wep_encrypt(wlandev, skb->data, p80211_wep->data,
+> > > -                  skb->len,
+> > > -                  wlandev->hostwep & HOSTWEP_DEFAULTKEY_MASK,
+> > > -                  p80211_wep->iv, p80211_wep->icv);
+> > > -        if (foo) {
+> > > +        decrypt_check = wep_encrypt(wlandev, skb->data,
+> > > p80211_wep->data,
+> > > +                                      skb->len,
+> > > +                                    wlandev->hostwep &
+> > > HOSTWEP_DEFAULTKEY_MASK,
+> > > +                                    p80211_wep->iv, p80211_wep->icv);
+> > > +        if (decrypt_check) {
+> > >               netdev_warn(wlandev->netdev,
+> > >                       "Host en-WEP failed, dropping frame (%d).\n",
+> > > -                    foo);
+> > > +                    decrypt_check);
+> > >               kfree(p80211_wep->data);
+> > >               return 2;
+> > >           }
+> > > @@ -265,7 +265,7 @@ int skb_p80211_to_ether(struct wlandevice
+> > > *wlandev, u32 ethconv,
+> > >       struct wlan_llc *e_llc;
+> > >       struct wlan_snap *e_snap;
+> > >   -    int foo;
+> > > +    int decrypt_check;
+> > >         payload_length = skb->len - WLAN_HDR_A3_LEN - WLAN_CRC_LEN;
+> > >       payload_offset = WLAN_HDR_A3_LEN;
+> > > @@ -305,15 +305,15 @@ int skb_p80211_to_ether(struct wlandevice
+> > > *wlandev, u32 ethconv,
+> > >                      "WEP frame too short (%u).\n", skb->len);
+> > >               return 1;
+> > >           }
+> > > -        foo = wep_decrypt(wlandev, skb->data + payload_offset + 4,
+> > > -                  payload_length - 8, -1,
+> > > -                  skb->data + payload_offset,
+> > > -                  skb->data + payload_offset +
+> > > -                  payload_length - 4);
+> > > -        if (foo) {
+> > > +        decrypt_check = wep_decrypt(wlandev, skb->data +
+> > > payload_offset + 4,
+> > > +                                    payload_length - 8, -1,
+> > > +                                    skb->data + payload_offset,
+> > > +                                    skb->data + payload_offset +
+> > > +                                    payload_length - 4);
+> > > +        if (decrypt_check) {
+> > >               /* de-wep failed, drop skb. */
+> > >               netdev_dbg(netdev, "Host de-WEP failed, dropping frame
+> > > (%d).\n",
+> > > -                   foo);
+> > > +                   decrypt_check);
+> > >               wlandev->rx.decrypt_err++;
+> > >               return 2;
+> > >           }
+> > 
+> 
