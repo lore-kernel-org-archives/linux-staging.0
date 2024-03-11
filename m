@@ -1,67 +1,67 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE630101C2
-	for <linux-staging@lists.linux.dev>; Mon, 11 Mar 2024 07:04:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51D0F11720
+	for <linux-staging@lists.linux.dev>; Mon, 11 Mar 2024 07:32:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710140698; cv=none; b=ejxXYItjhZM8+l8phew/Eh32y0g554wVRaw0Dkxm4yeTDCESTRDT+UHhX3GZGvi1MTu8tyjLt3KZskl7QRoxdnTXhxq4DH9CIGcDuWsh43vY0qtenBfKHvFdJbhTfdFmEQQDyZt4W/qsHC/ummLrzFwraDMyYwo95zrQJmrzovs=
+	t=1710142322; cv=none; b=DtkYQJMkx+tNloZn07DpgCWZob2+OXbPd0n4iqlFZxzubLFSrRZecB+vS9tQN7MKPB2OQ/V+x429j19aN21yADRYbo9wPuaCfXwk9egp8q7RZuIPi2S4DFBxXTxnqZX1YhADieKyE/7iIHz5xZ2xBWh63qv6wz/iLgqBYwbeAwk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710140698; c=relaxed/simple;
-	bh=LDF1jMVuiZYW3+Qdxhj7V/tg1OZHnC5qcrFnW/RQ6ck=;
+	s=arc-20240116; t=1710142322; c=relaxed/simple;
+	bh=tIzYwYt3HYRW6tvsRn1lu3C0bRfEo4lMnrCrWvcYJm4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n72CmrML4dwU/UpFifWQRlWwRxgXMfoJPtAd4J+2X77/AmjEGObIdlEK2c1So44yztMwA+IkXxPm1imT7OQNv/jPTaX0IpGrvWkmfVthxPGMZTJQLD/5T/Su8Wjtsvt+ZPOX3jTlUC6ZHtCuxMw/zQVp+BuUXIqxiBWVl2Y9ZOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=n14w5Vd8; arc=none smtp.client-ip=209.85.167.44
+	 Content-Type:Content-Disposition:In-Reply-To; b=TqSdA/Yforu93nQIpJkGwW01s6ku6EzCMsCNpu0tmoFWlgSgWzzCQNangIPwvPbppfAFo6FC4fUbYZtTRMv+WyExFIjyXTpLLw1UZ7SuZ+/SKNMiS53lTIeFwOFICiGbOdFCf/vfU9W4vBf+YdblaeZa+Z1mCwLlbHMxJncm1Yk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Piglvt24; arc=none smtp.client-ip=209.85.221.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="n14w5Vd8"
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-513b1c69cb8so27451e87.1
-        for <linux-staging@lists.linux.dev>; Mon, 11 Mar 2024 00:04:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Piglvt24"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-33e570ef661so2181369f8f.1
+        for <linux-staging@lists.linux.dev>; Mon, 11 Mar 2024 00:32:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1710140695; x=1710745495; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1710142319; x=1710747119; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1fKA6+EcIyG1VGF8wUUOjJ4Vzk29UqXeKfPp1lEfdws=;
-        b=n14w5Vd8cAGa0oiBIJlZaegUwflxUjU7YmQj/6eVlU2rlHCmf74jwAkREdgz6aKyMy
-         Z4+GJsGLdAygnX58bjA9T6+lO8sshr5w7aLzuT3XmXQlySetnhQBSSfilRP8RMh5UmDy
-         //++IcGjQt4T7QGYzBB9SFi+buzztcwrwv+0vMCVZitav4viHmHfXOuSnWiOkm10DJtA
-         VP/3bCdGJkjzoAlbYQv/kTNMiKs3eY3r+Gpha2EcroG4Gl+74kdz4b0IXNAFrLE2jK8e
-         pCZH3Ti2pYL73+pRzXJyCeXoD3PUyntXaL/3LAE5m272BCACB3bOVWMeL0gxXqNbu7g1
-         75WQ==
+        bh=Q3pXmhk4G6nHGiIL9usDm0td7IScHKEjFe8Cx/b3F0c=;
+        b=Piglvt24lP3P9e/2BiCpf27hP0uheSZSG+GeC6VAfzu9Q2gA8E/xCWp7eCHhzg5IZe
+         BRoMnDwkEsQylDtO2SeWsi5txRjCja7xzB9kOlkMKdGzrjpo6IfBkaV0Bzlgs+TkO7+v
+         eWjowzBmTh71Dv7l6IJ/G+utEq8IH3vkSOeW7eiP8DGzApPw6DxPWoTixdmz6rMJvpQQ
+         IwDAb/MHW3+EOfQyb8xDtgfupKyTJz1d7+a3DeEOLh5qM8+Y1xEIVNCfJ3xqKQcFEIOK
+         41XLfC1J9hLDFjTDwLZ04vUJhbjdbyaJ/cCialeRF/ZS7VWFywPGV+CoLjZttK3cIbcp
+         iiQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710140695; x=1710745495;
+        d=1e100.net; s=20230601; t=1710142319; x=1710747119;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1fKA6+EcIyG1VGF8wUUOjJ4Vzk29UqXeKfPp1lEfdws=;
-        b=V2tfF0r3qqKL9dRIR8bVEuXYXyeDg6nvbprTFeylJeKnMLhCVfXO/FOPuuv5Fl7Z39
-         /oVsqO/qbhUy0UUXGrbUCpwC//PsHKTPwF+NSDfjSmWZU6AYe5pondW9hrobG06GrY3x
-         N+vpthgz+hbtI18Jkvm8qQQeyR1372fIu7bjIAT5SVG2z3BwwCIBjtbTZ+2i3Nv+xC9c
-         1S/ea5vN7Qs7j2gOsi84XNfJBzTgRSByeoEHWCsqEo8UcurcFoHsQGT0ZshO4MUHm/vm
-         omUlG/TRF9Q6Q9ZL0KgMAUQCE/Mdo4GYIOm4IvUgrrVQcMoOblhvcXJz9eJlUcII4i30
-         TMxg==
-X-Forwarded-Encrypted: i=1; AJvYcCUxu4i7L8Lx2lpvZAkhhIlnVQGFV0pjO/HyBKCJf4uYH1eHIdjyiFEzSMaY4nFtKoPvgpVvgH30inxR6apaWEYckvYOWIoWk9iQCr8YAQ==
-X-Gm-Message-State: AOJu0Ywjhm70CBY+GI5Z4e1yG2weaZsXQrrRWdeF+U1t4yszJxS0mFYT
-	fqxrOrccVy4sPf8HwOfwDpZO4RvexEKKJxHm59zydTr8fQFleaPqYArvzvK4d2E=
-X-Google-Smtp-Source: AGHT+IEcIiLHEOOICmbB0uULxC6RFfg6iqj9sUyoOsFQQ3tWtascKJ3bpzX5fnNEoUiAoOFpalJ96A==
-X-Received: by 2002:ac2:4428:0:b0:513:aa3a:4204 with SMTP id w8-20020ac24428000000b00513aa3a4204mr886796lfl.69.1710140694651;
-        Mon, 11 Mar 2024 00:04:54 -0700 (PDT)
+        bh=Q3pXmhk4G6nHGiIL9usDm0td7IScHKEjFe8Cx/b3F0c=;
+        b=Hu0OVWFphnObfnsDkdRsHt/ODILJ+cLEnbJ6ubsyYCg2bfU6MowUYkQJghfgCQu1PZ
+         0+HNYeCkliJOfzILpyCGBRQMiAOkOiOcIeymvecHEH2iOgyRgkxc/50G3Ho7whiFh0Ck
+         gHTrBqR3lzmYLn1blJrTeOegVcuiMd0GPJZTGg2d37ox0+YL20oJCAqs8yLbRUQ/K43l
+         rjCy8+pWPUDQUPujJJYCjY0qUgD+w+EzCyUww2MytXSfIoWK7EYqMtRDZhllgaM9EH28
+         YxGw3XKBDGzzftazuI4D2MM2QoM+HtXJ5zF3LAEURP0wAEBJH4GoVO/YMfVlao87msrh
+         gVXw==
+X-Forwarded-Encrypted: i=1; AJvYcCWKiJmea2VwaOzLPVQSLMiMmoDAb2WTXXyRxa2t46AhSCsn/vgrGnnTyWY/Yq9BcdBQDDaRxYarSnSpJvHv2U/OMwI39S21BI4PnL+r/A==
+X-Gm-Message-State: AOJu0Yy6+vFYeIY83NJUj0cn74fkVVCFg9ZCcS+mePbhWyf4OWEFwJZj
+	UBwHmQzn3UibF93h56XMTy7c1OxWnH7kFHUkbf2zBGnNNhyYWYL11+wBqe0Y0sg=
+X-Google-Smtp-Source: AGHT+IF0cyB9q8cGAVzFt4meFCQZYK7OfTs4AcjO7I7FC74Eta4lEvbivT+0UH6KgrwAwpBrpVMUjQ==
+X-Received: by 2002:adf:ed47:0:b0:33d:3098:c1c with SMTP id u7-20020adfed47000000b0033d30980c1cmr4656488wro.5.1710142318543;
+        Mon, 11 Mar 2024 00:31:58 -0700 (PDT)
 Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id m38-20020a05600c3b2600b00412b6fbb9b5sm14677443wms.8.2024.03.11.00.04.53
+        by smtp.gmail.com with ESMTPSA id bx27-20020a5d5b1b000000b0033e7eba040dsm2746288wrb.97.2024.03.11.00.31.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Mar 2024 00:04:54 -0700 (PDT)
-Date: Mon, 11 Mar 2024 10:04:50 +0300
+        Mon, 11 Mar 2024 00:31:57 -0700 (PDT)
+Date: Mon, 11 Mar 2024 10:31:53 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>,
-	Lee Jones <lee@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Larry.Finger@lwfinger.net, johannes@sipsolutions.net,
-	kvalo@kernel.org, arnd@arndb.de
-Subject: Re: [RFC] staging: wlan-ng: Driver broken since kernel 5.15
-Message-ID: <fba3951f-00b7-41af-8ef4-1e7c86e0cb48@moroto.mountain>
-References: <6dc14151-e71e-4118-826d-3ca5c8ee907f@gmail.com>
+To: Dorine Tipo <dorine.a.tipo@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	outreachy@lists.linux.dev,
+	Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Subject: Re: [PATCH v3] staging: vt6655: Remove unused function
+ RFbAL7230SelectChannelPostProcess
+Message-ID: <36c92e00-213e-4f25-9720-66912b4da56f@moroto.mountain>
+References: <20240311035649.25043-1-dorine.a.tipo@gmail.com>
+ <20240311060747.32876-1-dorine.a.tipo@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -70,69 +70,50 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6dc14151-e71e-4118-826d-3ca5c8ee907f@gmail.com>
+In-Reply-To: <20240311060747.32876-1-dorine.a.tipo@gmail.com>
 
-On Sat, Mar 09, 2024 at 11:09:24PM +0100, Philipp Hortmann wrote:
-> Hi,
+The main issue with this patch is that it doesn't apply, but I have a
+few other comments as well.
+
+Why is Forest Bond not on the CC list?  Please use get_maintainer.pl.
+
+On Mon, Mar 11, 2024 at 06:07:47AM +0000, Dorine Tipo wrote:
+> Remove RFbAL7230SelectChannelPostProcess as it is dead code.
 > 
-> I would remove the driver from the mainline kernel. What are your thoughts?
+
+This isn't enough information.  At first I thought the function
+declaration was commented out, but then i noticed that it was just the
+weird curly braces stuff that was commented.  So I thought maybe it
+wasn't dead code.  Then I have to do a grep and search through git log
+to find why there isn't a RFbAL7230SelectChannelPostProcess() function.
+
+I want that sort of information in the commit message.
+"Commit dd2837bdea0e ("staging: vt6655: Remove unused byRFType in rf.c")
+removed the RFbAL7230SelectChannelPostProcess() but accidentally forgot
+to delete the declaration in the header file.  Delete it."  Since
+Philipp wrote commit dd2837bdea0e, you should add him to the CC list.
+
+> This commit removes the dead code to improve code cleanliness and reduce
+> unnecessary complexity in the driver.
+
+This paragraph is unnecessary, we all know why dead code is bad.
+
 > 
-> I bought two WLAN devices (DUT: D-Link DWL-122 and T-Sinus 111 data) that
-> are supported by wlan-ng driver. Issue is that the driver is not working
-> anymore.
+> staging: vt6655: Remove multiple blank lines
 > 
-> The error picture is that the device does not receive any packets.
-> The dmesg says:
-> [  123.695917] prism2_usb 2-1.6:1.0 wlan0: Unknown mgmt request message
-> 0x0e4f9800
-> [  127.508211] prism2_usb 2-1.6:1.0 wlan0: Unknown mgmt request message
-> 0x04f0d000
-> ...
+> Fix unintended blank line introduced after removing dead code
 > 
-> A working commit 8fc4fb1728855a22f9149079ba51877f5ee61fc9 (HEAD) Date: Mon
-> Jul 5 11:16:28 2021 -0700
-> A failing commit  d980cc0620ae77ab2572235a1300bf22519f2e86 (HEAD) Date:  Fri
-> Jul 16 19:08:09 2021 -0700
+> The previous commit inadvertently introduced a blank line after removing
+> dead code from the rf.h file in the staging/vt6655 directory. This commit
+> removes the unintended blank line to maintain code consistency.
+> 
 
-Those dates are 11 days apart during the v5.14 merge window.  You're
-saying 5.15 is broken but the broken commit is in 5.14-rc2 so it really
-was broken earlier.
+We aren't going to apply the previous commit...  So the patch is not
+going to apply and the commit message kind of doesn't make sense.  I
+have written a very short blog about how to send v2 patches.
 
-There were only 3 patches to wlan-ng between v5.13 and v5.14.
-
-$ git log --oneline v5.13..v5.14 drivers/staging/wlan-ng/
-b1e9109aeff3 staging: wlan-ng: silence incorrect type in argument 1 (different address spaces)
-ad843f392035 staging: wlan-ng: remove redundant initialization of variable txresult
-ea82ff749587 staging: wlan-ng: cfg80211: Move large struct onto the heap
-
-Obviously I'm going to suspect the largest patch.  Reviewing that patch
-now, I see we removed a memset() from the loop.  That seems like a bug.
-
--               memset(&msg2, 0, sizeof(msg2));
--               msg2.msgcode = DIDMSG_DOT11REQ_SCAN_RESULTS;
--               msg2.bssindex.data = i;
-+               msg2->msgcode = DIDMSG_DOT11REQ_SCAN_RESULTS;
-+               msg2->bssindex.data = i;
-
-That's the only interesting change so I suspect it's the issue...
-Could you test this patch?  I feel like if you're the first person to
-complain since Aug 29 2021 then probably we should just remove the
-driver.  Greg is on vacation so lets hold off on removing it until he
-comes back.
+https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
 
 regards,
 dan carpenter
 
-
-diff --git a/drivers/staging/wlan-ng/cfg80211.c b/drivers/staging/wlan-ng/cfg80211.c
-index 471bb310176f..0c270ed8ce67 100644
---- a/drivers/staging/wlan-ng/cfg80211.c
-+++ b/drivers/staging/wlan-ng/cfg80211.c
-@@ -347,6 +347,7 @@ static int prism2_scan(struct wiphy *wiphy,
- 	for (i = 0; i < numbss; i++) {
- 		int freq;
- 
-+		memset(msg2, 0, sizeof(*msg2));
- 		msg2->msgcode = DIDMSG_DOT11REQ_SCAN_RESULTS;
- 		msg2->bssindex.data = i;
- 
