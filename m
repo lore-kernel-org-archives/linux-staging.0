@@ -1,148 +1,134 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCB6E55E4A;
-	Mon, 11 Mar 2024 18:08:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B737654F83;
+	Mon, 11 Mar 2024 19:12:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710180483; cv=none; b=UDJ2UJNbzxE4DLRtgsLVuuh/PqA/g53RRBGOtqVH8rCuvm6/8xMuJD7ZvuSx2axNliDWXGoDYRn9Ndf43dqvuMfDygrXFaofvxr+l8V17YgOIYMwchhLfZyuWv2le/LEy0RMjWv96K64ico++AKAXZbITycq+xjyqeRqJ0YFSck=
+	t=1710184376; cv=none; b=qYO8n74aVZz2nGviqID1+bNHnrAkwZzBcXkxxcEGRonx0qXD/4ZnEsumJ3WfrzbuRHDfgQrVTtH1eP/6N+HjaJgnuKfmh8VvRwCYUxH71wwT5LoOXYPPS5kNV1EB/JfapsRbXPmZBZy38FLxhbZ8SpOsrw9mVFJeT/CYeEjfFMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710180483; c=relaxed/simple;
-	bh=TtjcSFJzD1ZaiKH3GMBWqMzWiUymwQvzGYA6LQYJsms=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=vGhaiQQowQDwRVScobZ8KaIf3A+PyxuFGStWCCdsz2R/f5wp4mO5ItKC2bKRFVaXnAELloHZ4X63R+nFTcenCZKwBtq6vqkbASpHsUZZishuMBk3FRiWEcOaFzu/SayIQruIlzDF5mGNCtzqoovorE1FJi6Rkv+pY/fBbM7ptg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kJ5WLZtj; arc=none smtp.client-ip=209.85.221.50
+	s=arc-20240116; t=1710184376; c=relaxed/simple;
+	bh=vSPmOlLmSST5FDedii1lKp1ln0Krsn7NXYHxlkUi5kc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Hnkd3NAZScGhv7IHMdNrGoo5+ld6bueetksOpmm+yAkpDsxalyGt08KNi2JtHKgiZr60HDAFGY5IFs8p2dips5uPgogNIdDCtE6qU9xQudUpHDEHxmIO7BDi8ilExvc62+HLtu8zP0RmrdkDRTU/ihCIqMIqQGmtM6DLpbnJey8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T+4J719z; arc=none smtp.client-ip=209.85.208.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kJ5WLZtj"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-33e7946bddfso2506658f8f.0;
-        Mon, 11 Mar 2024 11:08:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T+4J719z"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-565c4d0fa48so2471081a12.1;
+        Mon, 11 Mar 2024 12:12:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710180480; x=1710785280; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+        d=gmail.com; s=20230601; t=1710184373; x=1710789173; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=KiTdgp2i9o6Qc3jLXuNAJ1XZ4ZXjWbgbhcsi2rEm3y0=;
-        b=kJ5WLZtjNSEnCC4txB69w0FzYYRNhKGB4nRywtXryEROGviFobTapEZbN7JcM0gh90
-         6vfUQtuYyxuE6S4r6Pbc+7D4AIO1xuzizYVWmuCAVczRmC00wUTv6J8C/NiIjptA+ld5
-         blERycl9iZXBU20G76iDu1Bqa5TgEPMYBydBLvBITfIb/cl2u3Veol+NmLXGZxlRl3a1
-         vwXISpRk8W6U0mzkf1xs8j1BZhYsJk0gETuaZhM7IqakgpkbuHyvqfqnudkiro44fFqO
-         xj5rO0KGhC5UEr2CL3r8PbTCcFZinTt7V9FnZatR6Jvyw+2vfHfK2qLt0Khfk0hs/osb
-         xKfw==
+        bh=Yvc3n57sG/EgKjIvn90GbNi1fbIRTY1+trZI6eVmRkA=;
+        b=T+4J719zCZa0O9XBJaJJVhVjSd5Klepb2fvJ0danV10cSAUWZiDOet2OGQU63dMLM6
+         KvmXMpESMLdS8vKPDMk+CK2NGvw81QXb8yft06DCV3a2z5L2D3K/WzqEzPJnXScqscnU
+         ujWwTB871PAwn/ZGRfBVYslZM9uacvbCw4Pg9OK74FhRJ+K3TH3pl9x9Nnh9c6rCEQuI
+         kZ3doFfJFPQsvj0fGqSVTHuZop6gjIpjI5l0/FknvvooUGXWfmvdNIxmOSatnX1YTQo5
+         m7c0PZQHZlKdgXHNXaJ8P2KSYVYr1acwben+wo8HBblW+hspAtAzpjgJzaxFZfZx2Uor
+         9cjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710180480; x=1710785280;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+        d=1e100.net; s=20230601; t=1710184373; x=1710789173;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KiTdgp2i9o6Qc3jLXuNAJ1XZ4ZXjWbgbhcsi2rEm3y0=;
-        b=iyvh6XI6MAsFUlOaq9VDevgn3aHbPrCWa6pf+b1XV0lSwXQX6ClpTck9FwsHdc3oTZ
-         YmjPbQH13TBYmOQgQR43XwdNwgzFUvQZscCxLJ5uRbMG81LBnEG0wV+syLmHZdTbzBBf
-         uU8Yb++XC+HmBLqtXDhpHTWpfK63f63lqptTzUoQvRXTULIBVQdK4jjyTskKazgjbwkv
-         pGAphN6xz/uBoDKo2x6vJ30eHqE8YrU7bxQYNOBHHOrR0ja3g6v2ADf/pU6OTL+RNU9F
-         F1biYNu7vLi+9zRosGa3477ivzUMQQvcyHOzb4w6eyeTnk+V0R6GX3Z+E/cVR+ut5i/S
-         WDvw==
-X-Forwarded-Encrypted: i=1; AJvYcCVXy/w3lBOk9xPbEMf0ZnOKPB0Lk9umnXTvOKb5RFoVNKbmCQIDGo19TrSJ1/QyPq/x7fuZT0yAe4cORQiKcJoCkXg3XD5n78ju8jxYag==
-X-Gm-Message-State: AOJu0YzS17iat2WDWVe2FdoMeiYg6OFidOOTixDCQm5NddVoDuLlhzo0
-	VeQYiujdFRP8EoeSQ+u/oo3+bmBVZEyVh8ibz/jbav+HmKKCAxLfW35Y4UjEZUfKZg==
-X-Google-Smtp-Source: AGHT+IEnSAYRCmjpdDdukAm/E4JgNytzywkoKx5MGmmJG1cRliuHLBwk00Weun696vg1kCPJvzepTg==
-X-Received: by 2002:a5d:4e90:0:b0:33e:9311:5fda with SMTP id e16-20020a5d4e90000000b0033e93115fdamr3637250wru.29.1710180479454;
-        Mon, 11 Mar 2024 11:07:59 -0700 (PDT)
-Received: from MOLeToid ([129.0.78.235])
-        by smtp.gmail.com with ESMTPSA id cc4-20020a5d5c04000000b0033e91fed625sm4343811wrb.23.2024.03.11.11.07.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Mar 2024 11:07:58 -0700 (PDT)
-Date: Mon, 11 Mar 2024 19:07:55 +0100
-From: "Felix N. Kimbu" <felixkimbu1@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: outreachy@lists.linux.dev
-Subject: [PATCH] staging: p80211conv: Rename local foo to decrypt_check
-Message-ID: <Ze9Ie67PCSvBU+og@MOLeToid>
+        bh=Yvc3n57sG/EgKjIvn90GbNi1fbIRTY1+trZI6eVmRkA=;
+        b=bMi941lSuTHVhemvR3b8Kln5i5XX6M7CiT9EtHvNHWiCSmGFwh82EdPk6qZoJqfOE3
+         5goyYMLvut/FlWEUm8HFWhd2CjacFrSfdq/E518yuuFEIjHFBLHJxgUwuVD2uG78zIR3
+         x/5dl8SpQa1E6U75jGlgK9R8NrLSZ8R/V+QputIVs9/3gK1ec0UeyiNhrWUUx1Rhfe45
+         0WoPf7QRlrlia40A7MPakQ1PkjCPu+mZ9BLIpAvk0Jbu1wn+S7pDPCv5TerDCRagbHwD
+         VsT6vKuhu9Iwaq7jyEs4ueKaSKifGOVnU4WUSQv2C/F0FGtbWlrkmQNo+5tXnVHKXWXR
+         SieA==
+X-Forwarded-Encrypted: i=1; AJvYcCVeSiRYxqsstEhvZh2VtrYezag28yBG+abBTa6qcRc1s+8cb9PwJhEeI7FgQ/MGD5OlVqiV4qnEgIMUtpZOy/DKv4WBvinZJLv02Ey/N3LftCxpbaWMAK9cPMGd3JzdiNfe9hFcRxuXJg==
+X-Gm-Message-State: AOJu0Ywyi5xi+gcEsjYHNQugx6/kGRukczSzAOqCDUcgpppe2L4cbDcc
+	maOzMhfCi+/pw6zfXj5oJCAPlylqr/mIy6YbpOndM9sq9FwQxfSd
+X-Google-Smtp-Source: AGHT+IEhK78V53bzJOOKLDCLv12a2XM+2jYUL5BNalyQIVaBMmHGdaZyIZAal9qxrLM3OD4p1tx86w==
+X-Received: by 2002:a17:906:32c3:b0:a45:ced8:e131 with SMTP id k3-20020a17090632c300b00a45ced8e131mr5381811ejk.2.1710184372652;
+        Mon, 11 Mar 2024 12:12:52 -0700 (PDT)
+Received: from [192.168.0.104] (p54a07fa0.dip0.t-ipconnect.de. [84.160.127.160])
+        by smtp.gmail.com with ESMTPSA id r24-20020a170906549800b00a45a62e0ed0sm3129450ejo.98.2024.03.11.12.12.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 Mar 2024 12:12:52 -0700 (PDT)
+Message-ID: <5f6b7fad-5ad3-44a0-9e10-3e1c13109abd@gmail.com>
+Date: Mon, 11 Mar 2024 20:12:51 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: cfg80211: Remove parentheses prism2_get_station
+To: Julia Lawall <julia.lawall@inria.fr>,
+ "Felix N. Kimbu" <felixkimbu1@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ outreachy@lists.linux.dev
+References: <Ze8LBf6xSjCRt4rd@MOLeToid>
+ <4936c555-2c53-d421-126c-48804a26887d@inria.fr>
+Content-Language: en-US
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <4936c555-2c53-d421-126c-48804a26887d@inria.fr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This change renames the local variable foo to decrypt_check in functions
-skb_ether_to_p80211(...) and skb_p80211_to_ether(...), giving intuitive
-meaning to the identifier.
+On 3/11/24 18:05, Julia Lawall wrote:
+> 
+> 
+> On Mon, 11 Mar 2024, Felix N. Kimbu wrote:
+> 
+>> Remove unnecessary parentheses around 'wlandev->msdstate != WLAN_MSD_RUNNING'
+>> in static int prism2_get_station(...)
+> 
+> You don't need the name of the function in the subject line.  That
+> information doesn't help understand the patch.
+> 
+> julia
 
-It also indents the parameters to match the the opening parentheses.
+Hi Julia,
 
-Signed-off-by: Felix N. Kimbu <felixkimbu1@gmail.com>
----
- drivers/staging/wlan-ng/p80211conv.c | 30 ++++++++++++++--------------
- 1 file changed, 15 insertions(+), 15 deletions(-)
+I think we do not need the function name in the subject but we need 
+something to distinguish between the patches. The subject line needs to 
+be a little unique. Otherwise we will have 100 patches like "[PATCH] 
+staging: cfg80211: Remove parentheses" when we are unlucky. Any better 
+proposal for a Subject uniqueness is welcome.
 
-diff --git a/drivers/staging/wlan-ng/p80211conv.c b/drivers/staging/wlan-ng/p80211conv.c
-index 8336435eccc2..a0413928a843 100644
---- a/drivers/staging/wlan-ng/p80211conv.c
-+++ b/drivers/staging/wlan-ng/p80211conv.c
-@@ -93,7 +93,7 @@ int skb_ether_to_p80211(struct wlandevice *wlandev, u32 ethconv,
- 	struct wlan_ethhdr e_hdr;
- 	struct wlan_llc *e_llc;
- 	struct wlan_snap *e_snap;
--	int foo;
-+	int decrypt_check;
- 
- 	memcpy(&e_hdr, skb->data, sizeof(e_hdr));
- 
-@@ -185,14 +185,14 @@ int skb_ether_to_p80211(struct wlandevice *wlandev, u32 ethconv,
- 		p80211_wep->data = kmalloc(skb->len, GFP_ATOMIC);
- 		if (!p80211_wep->data)
- 			return -ENOMEM;
--		foo = wep_encrypt(wlandev, skb->data, p80211_wep->data,
--				  skb->len,
--				  wlandev->hostwep & HOSTWEP_DEFAULTKEY_MASK,
--				  p80211_wep->iv, p80211_wep->icv);
--		if (foo) {
-+		decrypt_check = wep_encrypt(wlandev, skb->data, p80211_wep->data,
-+				  					skb->len,
-+									wlandev->hostwep & HOSTWEP_DEFAULTKEY_MASK,
-+									p80211_wep->iv, p80211_wep->icv);
-+		if (decrypt_check) {
- 			netdev_warn(wlandev->netdev,
- 				    "Host en-WEP failed, dropping frame (%d).\n",
--				    foo);
-+				    decrypt_check);
- 			kfree(p80211_wep->data);
- 			return 2;
- 		}
-@@ -265,7 +265,7 @@ int skb_p80211_to_ether(struct wlandevice *wlandev, u32 ethconv,
- 	struct wlan_llc *e_llc;
- 	struct wlan_snap *e_snap;
- 
--	int foo;
-+	int decrypt_check;
- 
- 	payload_length = skb->len - WLAN_HDR_A3_LEN - WLAN_CRC_LEN;
- 	payload_offset = WLAN_HDR_A3_LEN;
-@@ -305,15 +305,15 @@ int skb_p80211_to_ether(struct wlandevice *wlandev, u32 ethconv,
- 				   "WEP frame too short (%u).\n", skb->len);
- 			return 1;
- 		}
--		foo = wep_decrypt(wlandev, skb->data + payload_offset + 4,
--				  payload_length - 8, -1,
--				  skb->data + payload_offset,
--				  skb->data + payload_offset +
--				  payload_length - 4);
--		if (foo) {
-+		decrypt_check = wep_decrypt(wlandev, skb->data + payload_offset + 4,
-+									payload_length - 8, -1,
-+									skb->data + payload_offset,
-+									skb->data + payload_offset +
-+									payload_length - 4);
-+		if (decrypt_check) {
- 			/* de-wep failed, drop skb. */
- 			netdev_dbg(netdev, "Host de-WEP failed, dropping frame (%d).\n",
--				   foo);
-+				   decrypt_check);
- 			wlandev->rx.decrypt_err++;
- 			return 2;
- 		}
--- 
-2.34.1
+Function name for this purpose is OK for me.
+
+Thanks for your support.
+
+Bye Philipp
+
+
+> 
+>>
+>> This change ensures adherence to coding style guidelines.
+>>
+>> Signed-off-by: Felix N. Kimbu <felixkimbu1@gmail.com>
+>> ---
+>>   drivers/staging/wlan-ng/cfg80211.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/staging/wlan-ng/cfg80211.c b/drivers/staging/wlan-ng/cfg80211.c
+>> index 471bb310176f..7451fd2bb580 100644
+>> --- a/drivers/staging/wlan-ng/cfg80211.c
+>> +++ b/drivers/staging/wlan-ng/cfg80211.c
+>> @@ -247,7 +247,7 @@ static int prism2_get_station(struct wiphy *wiphy, struct net_device *dev,
+>>
+>>   	memset(sinfo, 0, sizeof(*sinfo));
+>>
+>> -	if (!wlandev || (wlandev->msdstate != WLAN_MSD_RUNNING))
+>> +	if (!wlandev || wlandev->msdstate != WLAN_MSD_RUNNING)
+>>   		return -EOPNOTSUPP;
+>>
+>>   	/* build request message */
+>> --
+>> 2.34.1
+>>
+>>
+>>
+> 
 
