@@ -1,64 +1,66 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68D4C8F4A
-	for <linux-staging@lists.linux.dev>; Mon, 11 Mar 2024 05:45:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FF13B65E
+	for <linux-staging@lists.linux.dev>; Mon, 11 Mar 2024 05:46:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710135925; cv=none; b=a/zuJG9sYx2Pc9uiKlcTj8qI0fJZH18COVw9t1ZdBYT3l+24R+GeAICuDVJ27UNHr0MGSS6lVFIZDld/iW2EiJx5jVUmUClLciRHZzGnjwM2anMHKRyatDPSA7K++EvI9RfsU/DBlFflZ8NHJb7+GOFkGY4WMpvSjzp6m9r1Bv4=
+	t=1710135997; cv=none; b=rDsA5s6GwmYBoJ3EMf/Mi60dVs8nw9xC0zxCfgXif1pcvAKMSLSLI7SP+Ov5oHAnu9zZ+1z7Bw9ytAKFtqAtXbYAMMCl2GmhjQhKlUG/c/cRvgpgc7PS4E9OJ5UYTrM99QVKey7q4SfagkVgnwehqZYz7hiXcyibhDNInkrnqrg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710135925; c=relaxed/simple;
-	bh=1U926oL0MDod9834V/+y8z2gIy7U+dCjf8CDW1Dhy+k=;
+	s=arc-20240116; t=1710135997; c=relaxed/simple;
+	bh=HVp+EabxrxXpNkPn3sVxMg9o3qy7Uyi/s4JAK6msidQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GH3CRWwc3mLeEvw6OtVVXmzay0Qw1LxXxr7anA5L44O1ekINb9HhKzOIR4mBR4aUAr94cStJyb6wcHcY3EZkDYfyj+/IX35iTCd4vaa8wyZZRaoatCcjpBK8PG53eVLLg/6kwHatqPhuhGg20wds6RKxZhIapXA+I/GYX+TmKSQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=kLXfbufp; arc=none smtp.client-ip=209.85.167.50
+	 Content-Type:Content-Disposition:In-Reply-To; b=evd6+afPTsm7LizpUMBEe4QNO+sZn2zGzWa7IWKdlE1gB468sh0WToKWd7C8Mx7e8jajMEhhcHW0g68JPsN2PI+3MSuyDaM3cHTOaVJjjFGHt1/fwNq+zdgZJSQsRVx6ZjrgmcqjITJ8SIkl8UvsBAtkQGCruHG2kN8gdDzSQOA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HIJttopD; arc=none smtp.client-ip=209.85.221.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kLXfbufp"
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-512b3b04995so2953847e87.3
-        for <linux-staging@lists.linux.dev>; Sun, 10 Mar 2024 22:45:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HIJttopD"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-33e94c12cfaso667912f8f.3
+        for <linux-staging@lists.linux.dev>; Sun, 10 Mar 2024 22:46:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1710135921; x=1710740721; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1710135994; x=1710740794; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1U926oL0MDod9834V/+y8z2gIy7U+dCjf8CDW1Dhy+k=;
-        b=kLXfbufp2vOKfulgiMA1TiG5Jl1aaQSiZRdylnow2nDYQHpfC4jpyhxoeccRcgjHSK
-         8jXRaCRTEGNmGXbCi7CkDj7zq9jzNNrupm7Yz3aLZk1Dq6V/LoWeLcvApq1Y08Df9IBi
-         ZhQNKK1ZfCRgHbOkQisiao57N+SslK819f6z5KUWoI0k7/H5zP+ksRu0j5qXCHeQB/A5
-         uyqQwjAEgSGDbjWf2kKWw+Bm/UXuvw+HPxr6hsp6roj6yfussuuSz35GC9MJ5MS+TKvf
-         8RVV35sWIrcQ/B+VtaQAtY4PDhKbn0qH0snfY6cBkwn9ZWSkHR0464zHA67HVpX5iJc6
-         ZxLQ==
+        bh=327rl8h+DjHuml/taqaEmFnNyrej1zLzW4U0qKa0DiM=;
+        b=HIJttopDTm5x/75y7cK1byJp8iVtq8/YWtlhudxZun/Ypq7vMoYQUf3ZJqHDZnKFpF
+         bmgfF5PS+dVUQewhDzhnnRUFecqzXi/HsJOmhjFBeZcfhdx+l1hfuADg0VEqA0b3/zrP
+         TSmDYNNR0NPjia6OALkqcUZ8JSc5Ar6YeOZXKYEIw6K4WdQRguyFT9B3EBXRNyTL9Nl1
+         rdu52tUmso1L/VCWoDJtEa7BOTbHrazPt+IUe/8ZaGGbRo1al7swd/ZRv7A0Fpl+yegn
+         SjkgxcelRNhu7PVRzMLy90RrPHE8JMFiVWEQ0L6hCzLCmWLMMVujovpjSECNyabYnygT
+         8AXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710135921; x=1710740721;
+        d=1e100.net; s=20230601; t=1710135994; x=1710740794;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1U926oL0MDod9834V/+y8z2gIy7U+dCjf8CDW1Dhy+k=;
-        b=dzuyZDLPqwEKO7zZbqSRy25wK/Nf8doAkc1CkFJ8LgazNzyzD3s7+BlPqgpf9JYLzD
-         eNJ5Rp9SlsMgUeaJC287rwcu4VGy44n4qBj+OcAJSpFHFISx+tP6qLEenLBZ+cENosy5
-         is9k8+wc8R69leA1OzWgR+FSfakrxzH3JQjBwNcTOxjMoz/+OVHsit3bQ15wWYrRBbeC
-         5CDkkeFEtyyvFKFD2hxubcXZQwCtGimR1YorJSCOT9kYFZ/hUJ3x0mF4GYNkfhn7PEqu
-         C+nf7iHovr9U3CsShr1o2K4JhOiSdGXHxWi3yiATOA0RetRZ2R/QfOsxkyZArbFnfuD3
-         a0jQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVD1cYq/ZpoTpi9bFohbuEFapWyktjQ1wkIWqEK2F0XXmC5cVQfbWUd7A9Qh9UTKqadeRHHEuLjU3foCFHDQGMqJNTCtoVKQLybivpArg==
-X-Gm-Message-State: AOJu0YwUqtwZbGnCij6jjfLDfG1UqnnasZ3mPiZG6Y+X7D5BSJNfiSnz
-	cUorb9W3cWrp3R+icEkbePH5ygfp6SrzRnfEg/cc2XQmqb3qbSv4WhbKybqiG1g=
-X-Google-Smtp-Source: AGHT+IHJ2gbnZ9MnnVvT5DXlGW3ZTzM+KRjQJdC9cAu2KH49RjtR0glNyuPgGWfqlYRnvMKuLREuzg==
-X-Received: by 2002:a05:6512:2c9b:b0:512:fb30:aade with SMTP id dw27-20020a0565122c9b00b00512fb30aademr3725265lfb.3.1710135921306;
-        Sun, 10 Mar 2024 22:45:21 -0700 (PDT)
+        bh=327rl8h+DjHuml/taqaEmFnNyrej1zLzW4U0qKa0DiM=;
+        b=Ws3Gk0/rhGwimQgppZoF1Ps45Zxqp7IzFAR0Lcsbp4ns/vrcCjJYuGT52hAwGFmBiF
+         GFrchIeP4ohE1HcUQ1dtffGPx+0czRk07H1MUfG3pUusLV1Fga7VRBJxR7A4ULIFMeNr
+         v7QaXPs0IAFVPwdlCfufQzQJ+4dAIUC+UWUAeZgI9kZ1gKNlhDOzKF/EUIQr8BuGmWOp
+         6aDoES9W8NpdCTP07W3fE37pL/UhjH9TBnrcYTRDplbd0IV1fcQ46AWrUk30y+MCqZNs
+         +PciP+TEJRjn/ApfWmyZOPOf4qRVA0RkleAG3BHG1pgTLG5tUWkX5i0BaBIOq+Z5bDZH
+         joFA==
+X-Forwarded-Encrypted: i=1; AJvYcCVxONGEBwYNIddyGFxUDFUIZDfv7QLIqhwGbbslAtDZJMBQD6EPzkxljSwq1vJilQCDG2BD1+Jdd96/jDxjmZZpXBY9ekQ/MX8hxbbKxw==
+X-Gm-Message-State: AOJu0YwPnM7+0GFjb5BDzlVOWNN+QXgm2gg7P+A827YdPWUouFeqogdM
+	krd3HVeyVf8YiXG3izqS5w9k1/EYoY1BKJppGi8Rq3LdWzWEjP+VA6GB9erL7PE=
+X-Google-Smtp-Source: AGHT+IHnjC0E1HyIX42cMzjALbNKWwqO+fEGxthhFEtaXWOcVHCvfqlABI2TddcoxQ4uXEjWkXgY4g==
+X-Received: by 2002:a5d:6345:0:b0:33e:1f94:7aa5 with SMTP id b5-20020a5d6345000000b0033e1f947aa5mr3569534wrw.54.1710135993746;
+        Sun, 10 Mar 2024 22:46:33 -0700 (PDT)
 Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id hg6-20020a05600c538600b00412c8117a34sm7713946wmb.47.2024.03.10.22.45.20
+        by smtp.gmail.com with ESMTPSA id j10-20020adff00a000000b0033d9f0dcb35sm5400569wro.87.2024.03.10.22.46.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Mar 2024 22:45:21 -0700 (PDT)
-Date: Mon, 11 Mar 2024 08:45:17 +0300
+        Sun, 10 Mar 2024 22:46:33 -0700 (PDT)
+Date: Mon, 11 Mar 2024 08:46:29 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Tree Davies <tdavies@darkphysics.net>
-Cc: gregkh@linuxfoundation.org, philipp.g.hortmann@gmail.com, anjan@momi.ca,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/11] Staging: rtl8192e: Style guide Renames and Macros
-Message-ID: <4d4a3566-4591-434e-9226-f3d41a364531@moroto.mountain>
-References: <20240310235552.4217-1-tdavies@darkphysics.net>
+To: Dorine Tipo <dorine.a.tipo@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	outreachy@lists.linux.dev
+Subject: Re: [PATCH v2] staging: vt6655: Remove unused function
+ RFbAL7230SelectChannelPostProcess
+Message-ID: <7adf469b-0d68-4fb5-b923-6031c9e91afa@moroto.mountain>
+References: <20240311015601.17428-1-dorine.a.tipo@gmail.com>
+ <20240311035649.25043-1-dorine.a.tipo@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -67,11 +69,20 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240310235552.4217-1-tdavies@darkphysics.net>
+In-Reply-To: <20240311035649.25043-1-dorine.a.tipo@gmail.com>
 
-Thanks!
+On Mon, Mar 11, 2024 at 03:56:49AM +0000, Dorine Tipo wrote:
+> Remove RFbAL7230SelectChannelPostProcess as it is dead code.
+> 
+> This commit removes the dead code to improve code cleanliness and reduce
+> unnecessary complexity in the driver.
+> 
+> Signed-off-by: Dorine Tipo <dorine.a.tipo@gmail.com>
+> ---
+> Changes since V1:
+>   - Removed unintended blank line introduced after removing dead code
 
-Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+Nope.  It's still there.  ;)  I think you sent the wrong version.
 
 regards,
 dan carpenter
