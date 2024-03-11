@@ -1,69 +1,65 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EC3D42055
-	for <linux-staging@lists.linux.dev>; Sun, 10 Mar 2024 23:56:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 975606FAE;
+	Mon, 11 Mar 2024 01:56:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710114966; cv=none; b=t5XoKHht8u8SuVz7zX0ZmVuHK0YgX1co9CdzT+QbCKJcGbEGZjQl2eXzVvMuY8P/1aTWE3NnXevdVbylJ2C6iXWh5BOagp9hpm5MVpGzCwU2mLjMewluFHpTDsQUfpvjEg+IdJTzXbAjzTE2bROV/xvyGrC1EXewoevhZBD59Ic=
+	t=1710122189; cv=none; b=gZVxkppRu47yF82fMAqlVTxa/8P+2b/r8wVbfdsmFqAEtkM3jtP9zcRTj1PI29sLFjThKeJaSokOFuCc48CbJlLj71Q7VYKcUSB98XS3vOPScabR/kBVvVkntmZ4gVA1o12lWgTxerv6MgQy1WydgxRbIhmJlaRYrFNUTHlOJb4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710114966; c=relaxed/simple;
-	bh=Yoz7vyXQjE5UxlSJlr9TyMpfr1WYINLnMFLNfcfdSBA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=YsjqBQKCE/QQRt+md4wi1/snkLUT6pnxXczScyiEdAU+n4z2NbrYeuYgX5X6y65Uz8fgG6Jk7oTRNLGKF826VqL2eMogdxxb4ctv6WzMePHzMH2DNQW6YZr3g9hH9vHyctyTxCVKiRdDdX56GCIPip00oCa8f7VeYwaBIjAa8xo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net; spf=pass smtp.mailfrom=darkphysics.net; dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b=bHBxjoqx; arc=none smtp.client-ip=209.85.216.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=darkphysics.net
+	s=arc-20240116; t=1710122189; c=relaxed/simple;
+	bh=AKbql7NWHu5Bs+y6Mdd89AOegrRa1LqYkWl8NzZ4eM8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=CXXihPrwDeB8rK4IfQtE/xbtWaSy5Flaqugxm0hMaQALYwkss/OLEKrBH6s1WsQkmqCePpts/kmt6pAcHapOW2fwbCh1NR+xNXz7kbtNeSyHWzLEDRFJJqI9t+kJPchKJTPidUSj/k9pAVna0LYeopG4D0uoIZLhCBoWrYONaYA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jsuxd+0d; arc=none smtp.client-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="bHBxjoqx"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-29c07fac7a4so148228a91.1
-        for <linux-staging@lists.linux.dev>; Sun, 10 Mar 2024 16:56:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jsuxd+0d"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5684073ab38so1902905a12.0;
+        Sun, 10 Mar 2024 18:56:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=darkphysics.net; s=google; t=1710114964; x=1710719764; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mBEMlnbFodhUGo6oxESS68T4iON/CdBhosdLVyFF1rE=;
-        b=bHBxjoqxqO0xvrNS0QbLYJOTAaq4Ol3/1SlsfW0rfJs15XwB8JVpeVTpFm7mUC7t4+
-         9/JpoJ/IhBHYOL/HiCgW/h5IwbY1LBGBcsD0hwuQowFe4Szth2DSjq8unaDCuPE2efJM
-         NoNqjmtRfAD9yB2NeaslZtlbHQf7TGAulgWz+40Q6y6uc0eAayWxEikOS8i60XpZP8QO
-         Rbq3MpQsn5qcB2HyN6iQD5Vp9Q1cG2iOAGkIPgw551AdfXhytVhKF3TXYMl29Ndp1Czj
-         oY0YDdlFQ0kUz8qJFnjJH2EyYvytpgx7xRmj7Ifr2zrd+EcKiefbHmtTM5dqKDuSSAqo
-         TkMQ==
+        d=gmail.com; s=20230601; t=1710122186; x=1710726986; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+bTuT4GcJV2bUJtvfsu8qE4hyL4wZKq/zdnYwHzw0BY=;
+        b=Jsuxd+0d4EMuL2b4nQ32iCbj4YJzfbwbTdYJdvSN0JYLrD0VmK27bLAfwXKmZbFEYp
+         V+sGjCLH46ib1rtXS8U8U897ynyKT21xbqIYNDqEH6TxShcgg/nDuWirdxrLGelm+UZh
+         5PptL0aO0wqPCN1z4JXlyCxtm0wySQSld7+3Nz6xGl8HyoFrBocfQ+lPaiG6SOA8g+Ng
+         dFurXeoX/Gcl5xP8kXVpry1PgNQMuvFygsG8WuZVatFwcmguOnK3MTWcADuKmV7r2cwF
+         M4XkIzo+OE685CUvtzkEwFclJAQovi32aVFYJnNoyrVgeM1bf/NN0eVaRrQIuCrwWye3
+         RnTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710114964; x=1710719764;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mBEMlnbFodhUGo6oxESS68T4iON/CdBhosdLVyFF1rE=;
-        b=ST4a6vqNvmj1dAX1mYFa3vKnkUUa35pFA+u2YWaulTamnKS1BHACAQvBn5cz827YXe
-         y/zZJ43lLcx3d3JdaXw9YdYIYs4TWo8BpIRAzvKe89SwCwJsVpeuaR6YfY8EqbSEqxjo
-         DUrLzktHjYtcmD8dIWFhVX9QEp3IOp5fFGTKOM1Pny6TN1QRCQ2SlcLm+1ADtsRAYrMR
-         TDe4/cbMIuONaqnonU7LXZEoR0GR1WqBJLvINmYgTr8tTs1QGBZwwrKEbdJnrTRmeqxq
-         s4hAp+vvpBcG8wYcML8CZwLLjdHBW1qAZ/FwiYyCUL9lwXmLgknMSFK9CLv0LAkEVAC9
-         h2qw==
-X-Gm-Message-State: AOJu0Yz8k7sJ5FZCm1LwmLWJ+qt8BZ4qhnru468OEBTOgY2RMsAZenq8
-	0a8Z7uQDt+x3Rh1iXNbr4iF+ZX95qFcR4X4CEWnLiSkBOMcl0pZrxwfapxsIPGg=
-X-Google-Smtp-Source: AGHT+IHuUX/u1Kb6N1OPq8+HSb3c5l+qN8ReWr/b4PeYFNuVg2G8eJDP/4OnjDW/EuboilYEgI/jfQ==
-X-Received: by 2002:a17:90a:69a5:b0:29a:f199:1647 with SMTP id s34-20020a17090a69a500b0029af1991647mr7821537pjj.1.1710114964303;
-        Sun, 10 Mar 2024 16:56:04 -0700 (PDT)
-Received: from lunchbox.darkphysics (c-76-146-178-2.hsd1.wa.comcast.net. [76.146.178.2])
-        by smtp.gmail.com with ESMTPSA id o7-20020a17090ac08700b0029bb29ef41bsm2903439pjs.50.2024.03.10.16.56.03
+        d=1e100.net; s=20230601; t=1710122186; x=1710726986;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+bTuT4GcJV2bUJtvfsu8qE4hyL4wZKq/zdnYwHzw0BY=;
+        b=uj7NiacMKpOM8QoUt86BjfTUjkslstUNkeu95dWwUVfTqHNLXRSEAwAYcL5YWSeAin
+         iTiMU8mfYz2q2WVqBFr7uUbvPQEhHWkwYrHU57YrtFXbjek4XvPd+afaUi6usQETiECD
+         tekgD61key+LpETIGUjub7AJRRaLqaFDwRFQf14z7wbIgoKqOsPoUCpUAsiMgfAYHFG9
+         RCEw7NCLpdMjMBTJR6M9uY6RQzBKHLFEk/D0qeDffiaMDybP3yE7nmGVo9Y4GS4Uz3b1
+         VWi0CsodoxVb88VGo1IAmce+KTW9oi33lFC2hYnU8nBK/b2jYRA7YgtPicmZzekom3jy
+         rxAA==
+X-Forwarded-Encrypted: i=1; AJvYcCURICVFD1bkXHIkEsMVLRizbnx2qaeA809/36FVPbLCN2GpYi6/k3DdSXTTdXc5pWmd9ZYOCEcjaC0+fV096L8ubEIpXf1biBUSTAtnvXNDI/UZbYzyBtHnPNvEZ6S0mhTY0F4zf+atWQ==
+X-Gm-Message-State: AOJu0Yw2leXX/Jzqvs9Tk5pEvLRsnM4yArCC7QO6Xm90LGnCXr4pACXc
+	6TUme8+19L0fVp6dO5Tfd1Z+g88MapaTFaW5mmA2ZWNL5JFoL7i6
+X-Google-Smtp-Source: AGHT+IEcer20D/cDxl+Wy7ns2CNOoy8r4t3FpiSBER13iS5fSTJVsmzyBsM0hzi6cl80uxpUJI6RZw==
+X-Received: by 2002:a50:999d:0:b0:566:abbd:c390 with SMTP id m29-20020a50999d000000b00566abbdc390mr5263075edb.6.1710122185799;
+        Sun, 10 Mar 2024 18:56:25 -0700 (PDT)
+Received: from ubuntu-focal.zuku.co.ke ([197.237.50.252])
+        by smtp.gmail.com with ESMTPSA id cf12-20020a0564020b8c00b005664afd1185sm2406279edb.17.2024.03.10.18.56.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Mar 2024 16:56:03 -0700 (PDT)
-From: Tree Davies <tdavies@darkphysics.net>
+        Sun, 10 Mar 2024 18:56:25 -0700 (PDT)
+From: Dorine Tipo <dorine.a.tipo@gmail.com>
 To: gregkh@linuxfoundation.org,
-	philipp.g.hortmann@gmail.com,
-	anjan@momi.ca
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Tree Davies <tdavies@darkphysics.net>
-Subject: [PATCH 11/11] Staging: rtl8192e: Implement BIT macro for bit shift ops
-Date: Sun, 10 Mar 2024 16:55:52 -0700
-Message-Id: <20240310235552.4217-12-tdavies@darkphysics.net>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20240310235552.4217-1-tdavies@darkphysics.net>
-References: <20240310235552.4217-1-tdavies@darkphysics.net>
+	linux-staging@lists.linux.dev,
+	outreachy@lists.linux.dev,
+	philipp.g.hortmann@gmail.com
+Cc: Dorine Tipo <dorine.a.tipo@gmail.com>
+Subject: [PATCH] staging: vt6655: Remove unused function from rf.h RFbAL7230SelectChannelPostProcess
+Date: Mon, 11 Mar 2024 01:56:01 +0000
+Message-Id: <20240311015601.17428-1-dorine.a.tipo@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -72,141 +68,30 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace bit shift operations with BIT macro, to fix warning
-CHECK: Prefer using the BIT macro
+Remove RFbAL7230SelectChannelPostProcess as it is dead code.
 
-Signed-off-by: Tree Davies <tdavies@darkphysics.net>
+This patch removes the dead code to improve code cleanliness and reduce
+unnecessary complexity in the driver.
+
+Signed-off-by: Dorine Tipo <dorine.a.tipo@gmail.com>
 ---
- drivers/staging/rtl8192e/rtllib.h | 62 +++++++++++++++----------------
- 1 file changed, 31 insertions(+), 31 deletions(-)
+ drivers/staging/vt6655/rf.h | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-index 0809af3fd041..5c00d663193f 100644
---- a/drivers/staging/rtl8192e/rtllib.h
-+++ b/drivers/staging/rtl8192e/rtllib.h
-@@ -419,19 +419,19 @@ enum _REG_PREAMBLE_MODE {
- #define WLAN_AUTH_SHARED_KEY 1
- #define WLAN_AUTH_LEAP 128
- 
--#define WLAN_CAPABILITY_ESS (1<<0)
--#define WLAN_CAPABILITY_IBSS (1<<1)
--#define WLAN_CAPABILITY_PRIVACY (1<<4)
--#define WLAN_CAPABILITY_SHORT_PREAMBLE (1<<5)
--#define WLAN_CAPABILITY_SHORT_SLOT_TIME (1<<10)
--
--#define RTLLIB_STATMASK_SIGNAL (1<<0)
--#define RTLLIB_STATMASK_RSSI (1<<1)
--#define RTLLIB_STATMASK_NOISE (1<<2)
-+#define WLAN_CAPABILITY_ESS BIT(0)
-+#define WLAN_CAPABILITY_IBSS BIT(1)
-+#define WLAN_CAPABILITY_PRIVACY BIT(4)
-+#define WLAN_CAPABILITY_SHORT_PREAMBLE BIT(5)
-+#define WLAN_CAPABILITY_SHORT_SLOT_TIME BIT(10)
-+
-+#define RTLLIB_STATMASK_SIGNAL BIT(0)
-+#define RTLLIB_STATMASK_RSSI BIT(1)
-+#define RTLLIB_STATMASK_NOISE BIT(2)
- #define RTLLIB_STATMASK_WEMASK 0x7
- 
--#define RTLLIB_CCK_MODULATION    (1<<0)
--#define RTLLIB_OFDM_MODULATION   (1<<1)
-+#define RTLLIB_CCK_MODULATION    BIT(0)
-+#define RTLLIB_OFDM_MODULATION   BIT(1)
- 
- #define RTLLIB_CCK_RATE_LEN		4
- #define RTLLIB_CCK_RATE_1MB			0x02
-@@ -518,11 +518,11 @@ struct rtllib_frag_entry {
- 
- struct rtllib_device;
- 
--#define SEC_ACTIVE_KEY    (1<<4)
--#define SEC_AUTH_MODE     (1<<5)
--#define SEC_UNICAST_GROUP (1<<6)
--#define SEC_LEVEL	 (1<<7)
--#define SEC_ENABLED       (1<<8)
-+#define SEC_ACTIVE_KEY    BIT(4)
-+#define SEC_AUTH_MODE     BIT(5)
-+#define SEC_UNICAST_GROUP BIT(6)
-+#define SEC_LEVEL	 BIT(7)
-+#define SEC_ENABLED       BIT(8)
- 
- #define SEC_LEVEL_0      0 /* None */
- #define SEC_LEVEL_1      1 /* WEP 40 and 104 bit */
-@@ -707,17 +707,17 @@ union frameqos {
- #define MAX_WPA_IE_LEN 64
- #define MAX_WZC_IE_LEN 256
- 
--#define NETWORK_EMPTY_ESSID (1<<0)
--#define NETWORK_HAS_OFDM    (1<<1)
--#define NETWORK_HAS_CCK     (1<<2)
-+#define NETWORK_EMPTY_ESSID BIT(0)
-+#define NETWORK_HAS_OFDM    BIT(1)
-+#define NETWORK_HAS_CCK     BIT(2)
- 
- /* QoS structure */
--#define NETWORK_HAS_QOS_PARAMETERS      (1<<3)
--#define NETWORK_HAS_QOS_INFORMATION     (1<<4)
-+#define NETWORK_HAS_QOS_PARAMETERS      BIT(3)
-+#define NETWORK_HAS_QOS_INFORMATION     BIT(4)
- #define NETWORK_HAS_QOS_MASK	    (NETWORK_HAS_QOS_PARAMETERS | \
- 					 NETWORK_HAS_QOS_INFORMATION)
- /* 802.11h */
--#define NETWORK_HAS_ERP_VALUE	   (1<<10)
-+#define NETWORK_HAS_ERP_VALUE	   BIT(10)
- 
- #define QOS_QUEUE_NUM		   4
- #define QOS_OUI_LEN		     3
-@@ -1007,8 +1007,8 @@ enum rtl_link_state {
- #define DEFAULT_MAX_SCAN_AGE (15 * HZ)
- #define DEFAULT_FTS 2346
- 
--#define CFG_RTLLIB_RESERVE_FCS (1<<0)
--#define CFG_RTLLIB_COMPUTE_FCS (1<<1)
-+#define CFG_RTLLIB_RESERVE_FCS BIT(0)
-+#define CFG_RTLLIB_COMPUTE_FCS BIT(1)
- 
- struct tx_pending {
- 	int frag;
-@@ -1497,32 +1497,32 @@ struct rtllib_device {
- /* Uses the channel change callback directly
-  * instead of [start/stop] scan callbacks
-  */
--#define IEEE_SOFTMAC_SCAN (1<<2)
-+#define IEEE_SOFTMAC_SCAN BIT(2)
- 
- /* Perform authentication and association handshake */
--#define IEEE_SOFTMAC_ASSOCIATE (1<<3)
-+#define IEEE_SOFTMAC_ASSOCIATE BIT(3)
- 
- /* Generate probe requests */
--#define IEEE_SOFTMAC_PROBERQ (1<<4)
-+#define IEEE_SOFTMAC_PROBERQ BIT(4)
- 
- /* Generate response to probe requests */
--#define IEEE_SOFTMAC_PROBERS (1<<5)
-+#define IEEE_SOFTMAC_PROBERS BIT(5)
- 
- /* The ieee802.11 stack will manage the netif queue
-  * wake/stop for the driver, taking care of 802.11
-  * fragmentation. See softmac.c for details.
-  */
--#define IEEE_SOFTMAC_TX_QUEUE (1<<7)
-+#define IEEE_SOFTMAC_TX_QUEUE BIT(7)
- 
- /* Uses only the softmac_data_hard_start_xmit
-  * even for TX management frames.
-  */
--#define IEEE_SOFTMAC_SINGLE_QUEUE (1<<8)
-+#define IEEE_SOFTMAC_SINGLE_QUEUE BIT(8)
- 
- /* Generate beacons.  The stack will enqueue beacons
-  * to the card
-  */
--#define IEEE_SOFTMAC_BEACONS (1<<6)
-+#define IEEE_SOFTMAC_BEACONS BIT(6)
- 
- static inline void *rtllib_priv(struct net_device *dev)
- {
--- 
-2.30.2
+diff --git a/drivers/staging/vt6655/rf.h b/drivers/staging/vt6655/rf.h
+index 057860a5e100..3427341e581f 100644
+--- a/drivers/staging/vt6655/rf.h
++++ b/drivers/staging/vt6655/rf.h
+@@ -68,9 +68,5 @@ bool RFbRawSetPower(struct vnt_private *priv, unsigned char byPwr,
+ void RFvRSSITodBm(struct vnt_private *priv, unsigned char byCurrRSSI,
+ 		  long *pldBm);
+
+-/* {{ RobertYu: 20050104 */
+-bool RFbAL7230SelectChannelPostProcess(struct vnt_private *priv, u16 byOldChannel,
+-				       u16 byNewChannel);
+-/* }} RobertYu */
+
+ #endif /* __RF_H__ */
+--
+2.25.1
 
