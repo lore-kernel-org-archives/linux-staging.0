@@ -1,350 +1,141 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from CHN02-BJS-obe.outbound.protection.partner.outlook.cn (mail-bjschn02on2105.outbound.protection.partner.outlook.cn [139.219.17.105])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C043E1799B;
-	Mon, 11 Mar 2024 09:24:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710149089; cv=none; b=rn8ZJYeH/0qd9J7kFksQTTaAF6318xXv/jSc7t3M0XWV5veq3eMSBkOEkyt0IwGcRjy0n6c32RbJ87S3gw+mELTtsuX7FgjcHWT4qqW0YIH9rtbLpBDC+Y6o/7huGRM2L5cNHB6NLXy4UuYrJLfswqnOosoie65X+/LUppvv9bk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710149089; c=relaxed/simple;
-	bh=ofc6i9ah0Q1DjQTrTrHI3Y7ly2Bw7Phd6oCEjWF20Ic=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ti84pIUlooI52UsYYjjeOKXVUSLwQHI+JJl+y6PhJL8wguA64kDXDomuoST5H093eWzvTB9NUOmDGdXmoOf71I3lFGEvC2r0S/DnTtYh66IgfcB5mSmyEWQqyvj+IMtwNWjfXqahxobJR/xWYh3acDRwEZHEQvXvxqLd0O+yGQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gRPEXaxH; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gRPEXaxH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710149086; x=1741685086;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ofc6i9ah0Q1DjQTrTrHI3Y7ly2Bw7Phd6oCEjWF20Ic=;
-  b=gRPEXaxHNo/xRVKEdkv2UfVxpKttSop8z3z6H/XjPm1GOrfi2SZCUCNE
-   OITBpDGiaMoQY2b3TGOdY1BdNrAImrRVjqqRfrelB/YVO+0aEMLCxdnst
-   5XSDAMABavwjoYlSev2/Ik6why7wnf8lJRJVFsoAuE0gE1D+PKDzW414M
-   O/BlyKOYjNRXYM/OtRi1xsIoiXw5D/cJ7f6JxGxCdOqYNK4K3vmd/jDLJ
-   rx7XkxiRcVVSOFEMvhAJjavMUGFwY0+IMoeNjo+Q9ejUmbIbx/3lhf8QC
-   FdWajSRPH/+a7cjHBjRoYysBiAi4c59GWv49jKLSV9coI1HG6rz9uG6Z8
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11009"; a="8555619"
-X-IronPort-AV: E=Sophos;i="6.07,116,1708416000"; 
-   d="scan'208";a="8555619"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2024 02:24:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,116,1708416000"; 
-   d="scan'208";a="15672984"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 11 Mar 2024 02:24:40 -0700
-Received: from kbuild by b21307750695 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rjbtd-00092N-2i;
-	Mon, 11 Mar 2024 09:24:37 +0000
-Date: Mon, 11 Mar 2024 17:24:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: Tree Davies <tdavies@darkphysics.net>, gregkh@linuxfoundation.org,
-	philipp.g.hortmann@gmail.com, anjan@momi.ca
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Tree Davies <tdavies@darkphysics.net>
-Subject: Re: [PATCH 11/11] Staging: rtl8192e: Implement BIT macro for bit
- shift ops
-Message-ID: <202403111745.3SiSUhkl-lkp@intel.com>
-References: <20240310235552.4217-12-tdavies@darkphysics.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A4FF3FB8E
+	for <linux-staging@lists.linux.dev>; Mon, 11 Mar 2024 12:03:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.219.17.105
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1710158610; cv=fail; b=rzFBMe12M/IShxnzg52K9M5npy3Tc0D8f6pyorxFhHr02wD3kvKDPYgUkQQ4momZ1kXAu1wmaNzPerBTOjpzHOTPUhechU84I1+P1XMeriNP5MDkDSxYwL3YwaAWVOdMxX1Z6uKJZX6ewEOvmVo3uInCLjgOQm3icyCMxE+Kw+U=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1710158610; c=relaxed/simple;
+	bh=cYfthZ/jaT38HqORkj+Brecr+mSEj2m8c1hHhjI194M=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=f6WfuTR08yhUYmxoWeX3bADUACcqv2NpNdg1M25mzjF1lL7rjVdH4WTCr0uTxToHrujBso2HLxzc8dVofVoxOglI8zFknw3C8zfqnNMZTrQ8dXh6MpbvLMrK/+RsOeFcpvvYJRBYqvO492EdQyuLxu2f36YpXOQEEHMoEWGAnw8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com; spf=pass smtp.mailfrom=starfivetech.com; arc=fail smtp.client-ip=139.219.17.105
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UB8y2XR7u0qUW+fAcaqpcYm/lS3oMjIzzy4t8kN8D59DMmDQgNObA/KQYFCuwP5bQJb0P6Lx7NGxxb6RA5Kgvd2TAsO5F53cYTnF02c7qQDeCvEOoCvjojGCeJX/8FRWmU/OP6mw6PKo2W6FustMRwTkdan8KZU8IbIB9/Leh9P/jIklsva1cT4PP6R469vcZgtnkWGEZAY73h4GuK2WI3DUq8T7c/PbMcBeJ/7RR/S/jXPV33DeHM7ENIzkriYEibPez+Ojf0HY9yi/nxnUPw91KsVzyY5MWIzzjbBLIJsLLNIP3qkHQaPhRcQAiL4F7jL0TW0GParQVGGCOwDUCQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JhrZVVJAK9s6T2AjPrrnc5ZXfVhkVFtfA2/ycaCWrKE=;
+ b=Xys/Y6RNKJxMJhKg6XwuQIPaDKG8gjriW4AFm1QdjG5N6/lXJKlLt9+1rmjE1nskDTdYNIrEcL1Yyg7K2FtgwNnlVSz6ljphxDD5GOpic+HbSUBiOeXVaUmY22F5goYrK/fm2WqiRwQMSHgoY0qtPWeyfGPGzajiCMS9PnoLBSRzbefc7jrq7XCxyfHweDVEC+2nGxu7nmvqG6hDIwXdJeXXzan/t909MHL23OZA4XuyPD4UyZa8DtTaGZMzC1H2bRhHPxo06TvLYcoPFCP3Kd+ByV9utO2aYjfAtZKtiSPfRhRjKLzTTxgbXwhRJgfe2uT12ZJcVRMGhdirpKqu+g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=starfivetech.com; dmarc=pass action=none
+ header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=starfivetech.com;
+Received: from SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c311:25::10) by SHXPR01MB0557.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c311:1e::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7339.45; Mon, 11 Mar
+ 2024 12:03:15 +0000
+Received: from SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
+ ([fe80::b0af:4c9d:2058:a344]) by
+ SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn ([fe80::b0af:4c9d:2058:a344%6])
+ with mapi id 15.20.7249.041; Mon, 11 Mar 2024 12:03:15 +0000
+From: Changhuang Liang <changhuang.liang@starfivetech.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Jack Zhu <jack.zhu@starfivetech.com>,
+	Changhuang Liang <changhuang.liang@starfivetech.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [v1] staging: media: starfive: Remove links when unregistering devices
+Date: Mon, 11 Mar 2024 05:03:09 -0700
+Message-Id: <20240311120309.5389-1-changhuang.liang@starfivetech.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SHXPR01CA0015.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c311:1b::24) To SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c311:25::10)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240310235552.4217-12-tdavies@darkphysics.net>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SHXPR01MB0671:EE_|SHXPR01MB0557:EE_
+X-MS-Office365-Filtering-Correlation-Id: aa5f5e79-b7a7-45c1-fec9-08dc41c33bac
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	gq+HqZDMiIlnbpg2H8oVq9pUX5hOZy2Nu70F+0yMnAAp7LnaHfnV0IV4mzzo4o4m827UYWhobfYCD7Bl7Kmp54hjgda4WLV6BcVYOh9Wnb+/iEoGFr3In9YOWO7YYLGv2q63GY7Pj/Z3c1Oq5VdVypNPi2henmu9um36r/LWkvQcZJPscIH+m3yQIU+WE2MzSrSab8yh6pBJJjILINCXoIELDPp+HKUqFpf9WnD0HTpfB8//XbzhcmZabbxdz29ojRbiGQ3AKjbNbq6tkF+T8ecPH9OqWHCgKB5waj4oHmqATYeD4Bruj043s87f2CFMYpALuF0K+pQj0AuTITOSQeRoCOn0tQ0DvBhbrTYK6Lzkmn/K0+q6wu5YzgwBJT5hg+hLcRJb7+KIViqFSzkSqb+92kgXXPkWZ4lS8Bx33jZmRiuweRtRZum8sq68JVQJjhLGa6odBcHCtDxFGfIGDC1p/rtrfbtBJ1H1IWOdagC8wTzFgo3Om6CDfV/SEi7TQe0JVJLotri8iLPP4+XcVCHpnFn33v5RUc4Ftab9Yd/QoEhjAl8CXISNSYQL+jH8JpmD8xeBFmMkLCyWyF006QQup58ZnUas360rT2hXmyQhjZOgssZYA9HIKC+PMaMQ
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(41320700004)(52116005)(38350700005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?1pV3sxa6kwI2kadRBhCptBZH0OF30+MPTv3j/Nodmq6YgTgT7edejXqC33on?=
+ =?us-ascii?Q?2ctbcHGk7U+GbPB3qmDjfe2hdxZSQ1nh7RQ7V1zL8pvKLhzfFGL3TFgVOPVQ?=
+ =?us-ascii?Q?ElAkyReltGnpP6RiG5Lz1eLhphSQfpr8EYie4UVTM0inFMg9iqGG66T3gvCu?=
+ =?us-ascii?Q?ZEUjl0dOpw11n7KE54v3fa2H13gyikaLR/468+fJS7lVfs1ydDrxMTD2E9Ow?=
+ =?us-ascii?Q?L/7smWKjuxlSqCQayXacQDE3DWa9H+Q55eXUFHKCFDhF7PtO96pyqF8okkL5?=
+ =?us-ascii?Q?qQqAYoqGt54n9sQSmEb6BSSDhcSaZ48J+5LXJg0oDM7y3vptJ2WYVi63etca?=
+ =?us-ascii?Q?Gg1R1prB2JdFPOUQGG4Fd/nyFwvlyV8a+A3mPmXTQX5ZiPq9IAH+nfNmzqEn?=
+ =?us-ascii?Q?iNIJXkXbKlg4dU/7ui9gvfBWrHiL2OWSlFOwHkVk0aN2D24WMfE+YD7BCqSn?=
+ =?us-ascii?Q?1jz4mPINTCPDH5ECQYdwAD3DHB3VMtFJX1rppRQPVTo9eIT7mX0GTpM8lsPR?=
+ =?us-ascii?Q?QwoM0y+PO3QdwpBBVzv0t/dzEqqNDTFGsxaoXd3xOrspJnifH4WTAwr+rkOu?=
+ =?us-ascii?Q?zXnJBGnZ633lxdavxUi+YygAUIDVz0J+++22EM8kN/RVruFfeRJiCqutcalG?=
+ =?us-ascii?Q?peHvJmLcHfkATVK4sdhhD+qiM8aIzcnB8HcsSFAQ0/HWxltfnoT8MyRZCGEg?=
+ =?us-ascii?Q?qvV5wgl9Q//Kq6iXSMVirl/3AHmo6YchIJ1MsRSblt+6UxpxxDAcbfrX21Ml?=
+ =?us-ascii?Q?iWTM7i011JVZYlX7GNHJyB62seuHjDUt3lf4kJXQfNP4Do42eRxSg35TkgWY?=
+ =?us-ascii?Q?4LHXGxXqBs1sQGeYpXr5P7rg2IzpH0UieHGrUyDa9N+qcSr67x8d48Kikyj0?=
+ =?us-ascii?Q?BO/wS7ZvSQozuTFFu00Hi22908hAYd18NDvJkZ5pM7iSgav6fjMC9idwpsRg?=
+ =?us-ascii?Q?oqUZ+NF7/pKFbHpwCuzpC/So0+0fuR4W2tbTfhhf5SZuO2BfFAq+dBA2rHue?=
+ =?us-ascii?Q?I8/K7SJSC7XaT/425IwyhY29TJrNrXIMxN+l7OcuMx/g0cOpMPZHQ4zShnOF?=
+ =?us-ascii?Q?xW+dWmpddYrS4gapbOdqf6L8hds6t8i8feg95+9eeHuHB1H7Km25o15E/M+j?=
+ =?us-ascii?Q?wVIF02LevHsODNqq56lRY9BnBj45ivPRmGNc70673Arsjh2pXwpk4Hf6BrvQ?=
+ =?us-ascii?Q?+pOqU9uyBOQSs0aa4HF+232QLvsOyRewjWl9olLLt8qKEPq6zCVobv23NlGj?=
+ =?us-ascii?Q?hM1O4LgxQ7tVUnC6cvGLUnH1aZ15W5b0R4DAdKSiXq6WOmfgmSo4QBuyKeHC?=
+ =?us-ascii?Q?je+NH/TFoTE5zZGXxb7wxKWkxro0y627y+iA7Dq1fSjqU8GnSlNt+sG/nOsz?=
+ =?us-ascii?Q?xBQkXi9ZK3GktBICcODLOSYZiBWiUZYViliREZUWrhrWFNWXg1z4Iw9fDDu3?=
+ =?us-ascii?Q?RMu/Qzc+NdGjRE3QsGIJ5/hpZ/4zRS2H3xUj3Ou3q5NPwzP8C+/aDs7f+OSh?=
+ =?us-ascii?Q?LiSvYymnA8cRufAHETkMJMKcWli//2xzaR9kakrzsFCDd4oTFU+HngtdiWj7?=
+ =?us-ascii?Q?V9FWufOJ8bm9G8mnfLqF7U4TTjVDGVpL7V8gencdVi+lxBsAsXrDkN7oiP78?=
+ =?us-ascii?Q?4dNqmk59sUrSUHe2UQNM3PU=3D?=
+X-OriginatorOrg: starfivetech.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: aa5f5e79-b7a7-45c1-fec9-08dc41c33bac
+X-MS-Exchange-CrossTenant-AuthSource: SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Mar 2024 12:03:15.6424
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zzHgvoxqqQDw+q7tgJIHwAxTkS69v0+vaZ68sQLHfdUR2BOGwuVmYgtlg7USwSC03kcA1prPwfAwAUxiFlGHSJfKLbhdKj6bl+PSP78ShWU72Dap5yyDRqHHySDkSCh3
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SHXPR01MB0557
 
-Hi Tree,
+Need to remove links when unregistering devices.
 
-kernel test robot noticed the following build warnings:
+Fixes: ac7da4a73b10 ("media: staging: media: starfive: camss: Register devices")
 
-[auto build test WARNING on staging/staging-testing]
+Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
+---
+ drivers/staging/media/starfive/camss/stf-camss.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Tree-Davies/Staging-rtl8192e-Rename-variable-ReturnPoint/20240311-075949
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20240310235552.4217-12-tdavies%40darkphysics.net
-patch subject: [PATCH 11/11] Staging: rtl8192e: Implement BIT macro for bit shift ops
-config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20240311/202403111745.3SiSUhkl-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 503c55e17037436dcd45ac69dea8967e67e3f5e8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240311/202403111745.3SiSUhkl-lkp@intel.com/reproduce)
+diff --git a/drivers/staging/media/starfive/camss/stf-camss.c b/drivers/staging/media/starfive/camss/stf-camss.c
+index a587f860101a..323aa70fdeaf 100644
+--- a/drivers/staging/media/starfive/camss/stf-camss.c
++++ b/drivers/staging/media/starfive/camss/stf-camss.c
+@@ -162,6 +162,12 @@ static int stfcamss_register_devs(struct stfcamss *stfcamss)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403111745.3SiSUhkl-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/staging/rtl8192e/rtllib_module.c:18:
-   In file included from include/linux/if_arp.h:22:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/powerpc/include/asm/cacheflush.h:7:
-   In file included from include/linux/mm.h:2188:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/staging/rtl8192e/rtllib_module.c:35:
->> drivers/staging/rtl8192e/rtllib.h:422:9: warning: 'WLAN_CAPABILITY_ESS' macro redefined [-Wmacro-redefined]
-     422 | #define WLAN_CAPABILITY_ESS BIT(0)
-         |         ^
-   include/linux/ieee80211.h:3218:9: note: previous definition is here
-    3218 | #define WLAN_CAPABILITY_ESS             (1<<0)
-         |         ^
-   In file included from drivers/staging/rtl8192e/rtllib_module.c:35:
->> drivers/staging/rtl8192e/rtllib.h:423:9: warning: 'WLAN_CAPABILITY_IBSS' macro redefined [-Wmacro-redefined]
-     423 | #define WLAN_CAPABILITY_IBSS BIT(1)
-         |         ^
-   include/linux/ieee80211.h:3219:9: note: previous definition is here
-    3219 | #define WLAN_CAPABILITY_IBSS            (1<<1)
-         |         ^
-   In file included from drivers/staging/rtl8192e/rtllib_module.c:35:
->> drivers/staging/rtl8192e/rtllib.h:424:9: warning: 'WLAN_CAPABILITY_PRIVACY' macro redefined [-Wmacro-redefined]
-     424 | #define WLAN_CAPABILITY_PRIVACY BIT(4)
-         |         ^
-   include/linux/ieee80211.h:3231:9: note: previous definition is here
-    3231 | #define WLAN_CAPABILITY_PRIVACY         (1<<4)
-         |         ^
-   In file included from drivers/staging/rtl8192e/rtllib_module.c:35:
->> drivers/staging/rtl8192e/rtllib.h:425:9: warning: 'WLAN_CAPABILITY_SHORT_PREAMBLE' macro redefined [-Wmacro-redefined]
-     425 | #define WLAN_CAPABILITY_SHORT_PREAMBLE BIT(5)
-         |         ^
-   include/linux/ieee80211.h:3232:9: note: previous definition is here
-    3232 | #define WLAN_CAPABILITY_SHORT_PREAMBLE  (1<<5)
-         |         ^
-   In file included from drivers/staging/rtl8192e/rtllib_module.c:35:
->> drivers/staging/rtl8192e/rtllib.h:426:9: warning: 'WLAN_CAPABILITY_SHORT_SLOT_TIME' macro redefined [-Wmacro-redefined]
-     426 | #define WLAN_CAPABILITY_SHORT_SLOT_TIME BIT(10)
-         |         ^
-   include/linux/ieee80211.h:3239:9: note: previous definition is here
-    3239 | #define WLAN_CAPABILITY_SHORT_SLOT_TIME (1<<10)
-         |         ^
-   10 warnings generated.
+ static void stfcamss_unregister_devs(struct stfcamss *stfcamss)
+ {
++	struct stf_capture *cap_yuv = &stfcamss->captures[STF_CAPTURE_YUV];
++	struct stf_isp_dev *isp_dev = &stfcamss->isp_dev;
++
++	media_entity_remove_links(&isp_dev->subdev.entity);
++	media_entity_remove_links(&cap_yuv->video.vdev.entity);
++
+ 	stf_isp_unregister(&stfcamss->isp_dev);
+ 	stf_capture_unregister(stfcamss);
+ }
 --
-   In file included from drivers/staging/rtl8192e/rtllib_crypt_tkip.c:15:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/powerpc/include/asm/cacheflush.h:7:
-   In file included from include/linux/mm.h:2188:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/staging/rtl8192e/rtllib_crypt_tkip.c:23:
->> drivers/staging/rtl8192e/rtllib.h:422:9: warning: 'WLAN_CAPABILITY_ESS' macro redefined [-Wmacro-redefined]
-     422 | #define WLAN_CAPABILITY_ESS BIT(0)
-         |         ^
-   include/linux/ieee80211.h:3218:9: note: previous definition is here
-    3218 | #define WLAN_CAPABILITY_ESS             (1<<0)
-         |         ^
-   In file included from drivers/staging/rtl8192e/rtllib_crypt_tkip.c:23:
->> drivers/staging/rtl8192e/rtllib.h:423:9: warning: 'WLAN_CAPABILITY_IBSS' macro redefined [-Wmacro-redefined]
-     423 | #define WLAN_CAPABILITY_IBSS BIT(1)
-         |         ^
-   include/linux/ieee80211.h:3219:9: note: previous definition is here
-    3219 | #define WLAN_CAPABILITY_IBSS            (1<<1)
-         |         ^
-   In file included from drivers/staging/rtl8192e/rtllib_crypt_tkip.c:23:
->> drivers/staging/rtl8192e/rtllib.h:424:9: warning: 'WLAN_CAPABILITY_PRIVACY' macro redefined [-Wmacro-redefined]
-     424 | #define WLAN_CAPABILITY_PRIVACY BIT(4)
-         |         ^
-   include/linux/ieee80211.h:3231:9: note: previous definition is here
-    3231 | #define WLAN_CAPABILITY_PRIVACY         (1<<4)
-         |         ^
-   In file included from drivers/staging/rtl8192e/rtllib_crypt_tkip.c:23:
->> drivers/staging/rtl8192e/rtllib.h:425:9: warning: 'WLAN_CAPABILITY_SHORT_PREAMBLE' macro redefined [-Wmacro-redefined]
-     425 | #define WLAN_CAPABILITY_SHORT_PREAMBLE BIT(5)
-         |         ^
-   include/linux/ieee80211.h:3232:9: note: previous definition is here
-    3232 | #define WLAN_CAPABILITY_SHORT_PREAMBLE  (1<<5)
-         |         ^
-   In file included from drivers/staging/rtl8192e/rtllib_crypt_tkip.c:23:
->> drivers/staging/rtl8192e/rtllib.h:426:9: warning: 'WLAN_CAPABILITY_SHORT_SLOT_TIME' macro redefined [-Wmacro-redefined]
-     426 | #define WLAN_CAPABILITY_SHORT_SLOT_TIME BIT(10)
-         |         ^
-   include/linux/ieee80211.h:3239:9: note: previous definition is here
-    3239 | #define WLAN_CAPABILITY_SHORT_SLOT_TIME (1<<10)
-         |         ^
-   drivers/staging/rtl8192e/rtllib_crypt_tkip.c:641:7: warning: variable 'iv32' set but not used [-Wunused-but-set-variable]
-     641 |                 u32 iv32 = tkey->tx_iv32;
-         |                     ^
-   11 warnings generated.
---
-   In file included from drivers/staging/rtl8192e/rtllib_softmac_wx.c:16:
->> drivers/staging/rtl8192e/rtllib.h:422:9: warning: 'WLAN_CAPABILITY_ESS' macro redefined [-Wmacro-redefined]
-     422 | #define WLAN_CAPABILITY_ESS BIT(0)
-         |         ^
-   include/linux/ieee80211.h:3218:9: note: previous definition is here
-    3218 | #define WLAN_CAPABILITY_ESS             (1<<0)
-         |         ^
-   In file included from drivers/staging/rtl8192e/rtllib_softmac_wx.c:16:
->> drivers/staging/rtl8192e/rtllib.h:423:9: warning: 'WLAN_CAPABILITY_IBSS' macro redefined [-Wmacro-redefined]
-     423 | #define WLAN_CAPABILITY_IBSS BIT(1)
-         |         ^
-   include/linux/ieee80211.h:3219:9: note: previous definition is here
-    3219 | #define WLAN_CAPABILITY_IBSS            (1<<1)
-         |         ^
-   In file included from drivers/staging/rtl8192e/rtllib_softmac_wx.c:16:
->> drivers/staging/rtl8192e/rtllib.h:424:9: warning: 'WLAN_CAPABILITY_PRIVACY' macro redefined [-Wmacro-redefined]
-     424 | #define WLAN_CAPABILITY_PRIVACY BIT(4)
-         |         ^
-   include/linux/ieee80211.h:3231:9: note: previous definition is here
-    3231 | #define WLAN_CAPABILITY_PRIVACY         (1<<4)
-         |         ^
-   In file included from drivers/staging/rtl8192e/rtllib_softmac_wx.c:16:
->> drivers/staging/rtl8192e/rtllib.h:425:9: warning: 'WLAN_CAPABILITY_SHORT_PREAMBLE' macro redefined [-Wmacro-redefined]
-     425 | #define WLAN_CAPABILITY_SHORT_PREAMBLE BIT(5)
-         |         ^
-   include/linux/ieee80211.h:3232:9: note: previous definition is here
-    3232 | #define WLAN_CAPABILITY_SHORT_PREAMBLE  (1<<5)
-         |         ^
-   In file included from drivers/staging/rtl8192e/rtllib_softmac_wx.c:16:
->> drivers/staging/rtl8192e/rtllib.h:426:9: warning: 'WLAN_CAPABILITY_SHORT_SLOT_TIME' macro redefined [-Wmacro-redefined]
-     426 | #define WLAN_CAPABILITY_SHORT_SLOT_TIME BIT(10)
-         |         ^
-   include/linux/ieee80211.h:3239:9: note: previous definition is here
-    3239 | #define WLAN_CAPABILITY_SHORT_SLOT_TIME (1<<10)
-         |         ^
-   5 warnings generated.
---
-   In file included from drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c:10:
-   In file included from drivers/staging/rtl8192e/rtl8192e/rtl_core.h:18:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/powerpc/include/asm/hardirq.h:6:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/powerpc/include/asm/io.h:24:
-   In file included from include/linux/mm.h:2188:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c:10:
-   In file included from drivers/staging/rtl8192e/rtl8192e/rtl_core.h:35:
->> drivers/staging/rtl8192e/rtl8192e/../rtllib.h:422:9: warning: 'WLAN_CAPABILITY_ESS' macro redefined [-Wmacro-redefined]
-     422 | #define WLAN_CAPABILITY_ESS BIT(0)
-         |         ^
-   include/linux/ieee80211.h:3218:9: note: previous definition is here
-    3218 | #define WLAN_CAPABILITY_ESS             (1<<0)
-         |         ^
-   In file included from drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c:10:
-   In file included from drivers/staging/rtl8192e/rtl8192e/rtl_core.h:35:
->> drivers/staging/rtl8192e/rtl8192e/../rtllib.h:423:9: warning: 'WLAN_CAPABILITY_IBSS' macro redefined [-Wmacro-redefined]
-     423 | #define WLAN_CAPABILITY_IBSS BIT(1)
-         |         ^
-   include/linux/ieee80211.h:3219:9: note: previous definition is here
-    3219 | #define WLAN_CAPABILITY_IBSS            (1<<1)
-         |         ^
-   In file included from drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c:10:
-   In file included from drivers/staging/rtl8192e/rtl8192e/rtl_core.h:35:
->> drivers/staging/rtl8192e/rtl8192e/../rtllib.h:424:9: warning: 'WLAN_CAPABILITY_PRIVACY' macro redefined [-Wmacro-redefined]
-     424 | #define WLAN_CAPABILITY_PRIVACY BIT(4)
-         |         ^
-   include/linux/ieee80211.h:3231:9: note: previous definition is here
-    3231 | #define WLAN_CAPABILITY_PRIVACY         (1<<4)
-         |         ^
-   In file included from drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c:10:
-   In file included from drivers/staging/rtl8192e/rtl8192e/rtl_core.h:35:
->> drivers/staging/rtl8192e/rtl8192e/../rtllib.h:425:9: warning: 'WLAN_CAPABILITY_SHORT_PREAMBLE' macro redefined [-Wmacro-redefined]
-     425 | #define WLAN_CAPABILITY_SHORT_PREAMBLE BIT(5)
-         |         ^
-   include/linux/ieee80211.h:3232:9: note: previous definition is here
-    3232 | #define WLAN_CAPABILITY_SHORT_PREAMBLE  (1<<5)
-         |         ^
-   In file included from drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c:10:
-   In file included from drivers/staging/rtl8192e/rtl8192e/rtl_core.h:35:
->> drivers/staging/rtl8192e/rtl8192e/../rtllib.h:426:9: warning: 'WLAN_CAPABILITY_SHORT_SLOT_TIME' macro redefined [-Wmacro-redefined]
-     426 | #define WLAN_CAPABILITY_SHORT_SLOT_TIME BIT(10)
-         |         ^
-   include/linux/ieee80211.h:3239:9: note: previous definition is here
-    3239 | #define WLAN_CAPABILITY_SHORT_SLOT_TIME (1<<10)
-         |         ^
-   10 warnings generated.
-
-
-vim +/WLAN_CAPABILITY_ESS +422 drivers/staging/rtl8192e/rtllib.h
-
-   421	
- > 422	#define WLAN_CAPABILITY_ESS BIT(0)
- > 423	#define WLAN_CAPABILITY_IBSS BIT(1)
- > 424	#define WLAN_CAPABILITY_PRIVACY BIT(4)
- > 425	#define WLAN_CAPABILITY_SHORT_PREAMBLE BIT(5)
- > 426	#define WLAN_CAPABILITY_SHORT_SLOT_TIME BIT(10)
-   427	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.25.1
