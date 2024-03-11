@@ -1,112 +1,83 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E07BA56B70;
-	Mon, 11 Mar 2024 23:04:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71EDB4AECF
+	for <linux-staging@lists.linux.dev>; Mon, 11 Mar 2024 23:16:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710198302; cv=none; b=DTsiZW5PIABhw1rLehx73WLiUNQvRqsZAETjRaYq0kExlvIj9sj2MZBoihljalR07Oo1i2yy4olNnZlCdqYp9833/UpwImDA6GZf72NV4qSBAM0SoeG46DRYNHfZ0DE1/CcWFbQTDaTQ8DCu9fpwTYi8gKO2k5KgsLLaJADu1g8=
+	t=1710198979; cv=none; b=Kdm1y+JI+q1jobuyh5UnUB9l7yorV+nTy0WBevbhdS4OoMjYb93so90e1rEYmXqw6rAURs4G+bjl5BHW9bd/SFy+enB1nepCv8+QJ2i3/KZzKjRses+kyyZ8Vi34EFTqLPilx6YjFq4nFB1t/SKZwIHcudKFLqOdapRiQJDSThA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710198302; c=relaxed/simple;
-	bh=1vGwppsSXiylo9flONhUS6XTqnkONv7hQPfkSQv9Flc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cg1WWqL55Yi0U8ntJTUDZPKpaIoRQg9/tzrXVLn9jksBL/H4PXH0iGGvxDcak0RZqX3Z6BySOXNJb1J81MMqp1V33Hefhy494uARjr3J/IsWvikl3scIsVsw1jXYMJo/ierJNK4xKLgqi1LtW/A/4ET/2atYeUk3Aq2RApuGuFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wefgn3vW; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1710198979; c=relaxed/simple;
+	bh=UU5UBZwdm4tFe9XUC5mwtmwB97K9qQcYZOBEykmnbmw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VMAEwOCksfd2QVHBSLioRGSljUTNPi3r6ivcs4+qCoj5My8Xm52z4NmXZMPwbbhjOIKh8fmEaC2a+Jmq+6S4g2W/pW7eMKQKZ+KI0YTZU2Ar9qitK/gro5+6+5picy7KEgnXChzranJMVXCYq3L1z1tpMgNzjBhW6TmCRp1gbck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=rfu99oiP; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wefgn3vW"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710198299; x=1741734299;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1vGwppsSXiylo9flONhUS6XTqnkONv7hQPfkSQv9Flc=;
-  b=Wefgn3vWQ+AsLaG1aEhxNGCglc526xqsUneH+zc6oORM7TeLv7Qjj4kQ
-   eMwUe7dFbVqWqp9y0g2NER2kxq2oxL9FdntwwyNJUuzgVtpXD/+O3AGoT
-   4FVw4YrjYnl876Tnz8arQiRtdTBgmlF27CsEFFw6ZWDnFmsva2YOkG5Vp
-   s3CRvlbyX7BDBRAcjidZKarmhyPZM97KwLZ9+EsmYybR4CaxHK3faiihr
-   3HX3E/S6ozHLYpR64yXvw9YOLDmSlBK5Mw+QnEAbtIeZf6ETZcw/GlFAA
-   6qT+SvmvU3Vqi9ngEscNaqVcCJJivYcx21IgyJ03aG2SG6EfvzVtYr22X
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11010"; a="16289841"
-X-IronPort-AV: E=Sophos;i="6.07,117,1708416000"; 
-   d="scan'208";a="16289841"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2024 16:04:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,117,1708416000"; 
-   d="scan'208";a="11753104"
-Received: from aschofie-mobl2.amr.corp.intel.com (HELO aschofie-mobl2) ([10.212.137.71])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2024 16:04:57 -0700
-Date: Mon, 11 Mar 2024 16:04:56 -0700
-From: Alison Schofield <alison.schofield@intel.com>
-To: Dorine Tipo <dorine.a.tipo@gmail.com>
-Cc: gregkh@linuxfoundation.org, pure.logic@nexus-software.ie,
-	johan@kernel.org, linux-staging@lists.linux.dev,
-	outreachy@lists.linux.dev
-Subject: Re: [PATCH] staging: greybus: Add blank line after struct declaration
-Message-ID: <Ze+OGOEcpbrl7HJL@aschofie-mobl2>
-References: <20240310053718.6435-1-dorine.a.tipo@gmail.com>
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="rfu99oiP"
+Received: from umang.jain (unknown [103.251.226.70])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A607A842;
+	Tue, 12 Mar 2024 00:15:51 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1710198953;
+	bh=UU5UBZwdm4tFe9XUC5mwtmwB97K9qQcYZOBEykmnbmw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=rfu99oiPzO4hhO0Y4BERe7qay22RTmbMr/KODI17Vvt2W4rdXSz3mTpYtDhurhGMO
+	 hwqSJ2TzvwdujiOLU494XDPSmHwrwDDpNILGlBegXQHfYdj2C4e9toe1Ft50u8OOCw
+	 tov40ah5egiJb8sCBPw6XG20aaaSfMGqz55Liycs=
+From: Umang Jain <umang.jain@ideasonboard.com>
+To: linux-staging@lists.linux.dev
+Cc: Stefan Wahren <stefan.wahren@i2se.com>,
+	Dan Carpenter <error27@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Phil Elwell <phil@raspberrypi.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Umang Jain <umang.jain@ideasonboard.com>
+Subject: [PATCH 0/3] staging: vc04_services: Drop remaining global members
+Date: Tue, 12 Mar 2024 04:46:04 +0530
+Message-ID: <20240311231607.124491-1-umang.jain@ideasonboard.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240310053718.6435-1-dorine.a.tipo@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Sun, Mar 10, 2024 at 05:37:18AM +0000, Dorine Tipo wrote:
-> Add a blank line after the loopback_class struct declaration to silence
-> checkpatch warning Please use a blank line after
+This series works to drop the remaining (non-essential) global members
+in vchiq_connected.[ch] and address the following TODO:
 
-Hi Dorine,
+```
+* Get rid of all non essential global structures and create a proper per
+device structure
+```
 
-I think you have a few patches posted where using a similar
-phrase '...to silence checkpatch warning'. 
+The global members tracks the connections to the vchiq platform driver.
+The logic has been moved to wrap all this within the platform driver
+data instead so it can be get()ed whenever necessary.
 
-The phrase is awkward because we never have a goal of silencing
-any warnings.  We 'address' them. This checkpatch warning is
-reporting something that does not adhere to the kernel coding
-style. So, more fitting to say - "...to adhere to the kernel
-coding style."  Adding 'Issue found using checkpatch' or 
-the actual checkpatch warnging is commonly added.
+The user of vchiq_connected.[ch] is not present currently, but the user
+will be present when we will upstream bcm2835-isp via the vc-sm-cma
+driver. Posting a branch for reference [1] to provide and test the idea
+behind this series.
 
-When you are addressing checkpatch warnings, you can bet you 
-are not the first one to address it. So, you can search on
-previous commit messages and see what was well received, and
-if you search on Lore history, you can also see what was not
-well received. The Outreachy mailing list is a treasure trove
-of checkpatch commits. 
-
-This, linked in the First Patch Tutorial, is helpful -
-https://kernelnewbies.org/PatchPhilosophy
-
-- Alison
+[1]: https://git.uk.ideasonboard.com/uajain/linux/commits/branch/uajain/remove-global
 
 
-> function/struct/union/enum declarations.
-> 
-> Signed-off-by: Dorine Tipo <dorine.a.tipo@gmail.com>
-> ---
->  drivers/staging/greybus/loopback.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/staging/greybus/loopback.c b/drivers/staging/greybus/loopback.c
-> index bb33379b5297..4313d3bbc23a 100644
-> --- a/drivers/staging/greybus/loopback.c
-> +++ b/drivers/staging/greybus/loopback.c
-> @@ -101,6 +101,7 @@ struct gb_loopback {
->  static struct class loopback_class = {
->  	.name		= "gb_loopback",
->  };
-> +
->  static DEFINE_IDA(loopback_ida);
-> 
->  /* Min/max values in jiffies */
-> --
-> 2.25.1
-> 
-> 
+Umang Jain (3):
+  staging: vc04_services: Move struct vchiq_drvdata to vchiq_core header
+  staging: v04_services: Add connection structure to driver data
+  staging: vc04_services: Drop global members for tracking connections
+
+ drivers/staging/vc04_services/interface/TODO  |  8 ----
+ .../interface/vchiq_arm/vchiq_arm.c           | 18 +++++---
+ .../interface/vchiq_arm/vchiq_connected.c     | 44 +++++++++----------
+ .../interface/vchiq_arm/vchiq_connected.h     | 16 ++++++-
+ .../interface/vchiq_arm/vchiq_core.h          |  9 ++++
+ 5 files changed, 55 insertions(+), 40 deletions(-)
+
+-- 
+2.43.0
+
