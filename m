@@ -1,361 +1,114 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEBCCCA7A;
-	Mon, 11 Mar 2024 06:39:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 010B411C8B;
+	Mon, 11 Mar 2024 06:49:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710139181; cv=none; b=KhUnjGQPdHoCU8gTfa79i6f9AK4Qk4ebllrFpMzrYPJnexy7nyiClRJN6hQqR9V3bmwwRCwx8T+XkjEb9nn1KxuoOg7YcE9fQTR+j5fr6ppuo786RD9jYsprRDmWwlShijlkoSieeQtaI7H967jQFw7nAtfBRVF9UoicYINhtUs=
+	t=1710139749; cv=none; b=S/X4KI7Z4w4jW3zmv1/I2aakm4AUdevFWOPdAaex/XpBF1EYw0Vl1j7rAPvhqTOBkHZkSDlGRyBaUQrWAKl69kDrKPTtvuZ1+igcRA4tMPaXrXIJrYVeIrfecsFJDKa58uWSCAvpC1iv8m3fRLqGkHef9RnnSYBDquTze76y60g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710139181; c=relaxed/simple;
-	bh=WV29oSS7njjlFofmlCWy4/o2MpaODabHjhMD14BzaiA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o+/AP3CYDBBC67R6BRW7iDZXqT8omWsyc+xNVy0PPrBsUuwTO6TdOdYTgkNZyxOioUlug3vjpkMnWUnxnbWpkrAcQ+CqUh53VezhziLHmIXaY5cuITyqrPnzLc8cALy27OI+8OO5SAmz2BQpuBhphTKSVpFMZIpoOmrWKcSZmJw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lv+3/1jt; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1710139749; c=relaxed/simple;
+	bh=DnrfZzUJftu0b6EZEqqpAmXgZZf3kIZ4uDyrmTYog0k=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=W49x/VXiilC4SVENzxYNr5XonAojIr9A3o3OXB0ZDjBO08/edLxRy4tX7eLKqlQDniP/0MeOjjzRdhz1X877+XqDWCMDR+ScEmXGcFpJDrVpYKDMJB2c/nfmB+zy6pXcZ2TE7k0IHhbNdQonK7m/f+LZkuUJoqpyuZgueEK4inM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gr7PqOmh; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lv+3/1jt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710139178; x=1741675178;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=WV29oSS7njjlFofmlCWy4/o2MpaODabHjhMD14BzaiA=;
-  b=lv+3/1jtDwndH80I3j5FmKwUjQuFbosZ2zbalN7xPalz52EbGcEkvXso
-   0QwO4u5fjDvYb65TLuLFhsHDYdH0wLRX/svno2x5DAGnS+vdS5xzOl28U
-   Gx7AzNiMA0Hbw5WJWPAM99hADpHLug1myVyMFkaEOIB0phrgyfJHHm9qk
-   cG10y5OfleBaD4zdGHd7hFNCbSv3hAdPTV1Ozw0MkkDAHiXKmismdrHt5
-   NVS29e7Nav6/BY5BQPQLzbCfRUkwbvvw56UsUm/dnzhLCNwDe753Ohlkw
-   jpND+8u7zoozIz7lLWBw6ZJTGSee+Qg0f1PaCZZtC1Uvao5+zS1kuGFhf
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11009"; a="15345921"
-X-IronPort-AV: E=Sophos;i="6.07,115,1708416000"; 
-   d="scan'208";a="15345921"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2024 23:39:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,115,1708416000"; 
-   d="scan'208";a="10948469"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 10 Mar 2024 23:39:35 -0700
-Received: from kbuild by b21307750695 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rjZJs-0008xf-2b;
-	Mon, 11 Mar 2024 06:39:32 +0000
-Date: Mon, 11 Mar 2024 14:39:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: Tree Davies <tdavies@darkphysics.net>, gregkh@linuxfoundation.org,
-	philipp.g.hortmann@gmail.com, anjan@momi.ca
-Cc: oe-kbuild-all@lists.linux.dev, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Tree Davies <tdavies@darkphysics.net>
-Subject: Re: [PATCH 11/11] Staging: rtl8192e: Implement BIT macro for bit
- shift ops
-Message-ID: <202403111451.mwNy2vqG-lkp@intel.com>
-References: <20240310235552.4217-12-tdavies@darkphysics.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gr7PqOmh"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a45c006ab82so458261666b.3;
+        Sun, 10 Mar 2024 23:49:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1710139746; x=1710744546; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ctQfKrAcksRfuXqIJV+JdBJBY81zeUKJWfVLUaA6s0U=;
+        b=Gr7PqOmhFq8m25jIyRVG6MAn1kyCYTzVUmFff4f9sDKc3skru+fASNFS0EMwNBDOcU
+         PrGBbQwAyRaSETstLF9+5ITlqI/lXAAK8HpOMd30OOKRCA7aYeVeE7XP909LyaFl0WN1
+         4MqqqmQigV+szzt1cXnU3/LbKEXso0buMsUOyQ4w1ZKO2l+orkSjuagO1xaJN3v2NRzf
+         3kH/TVSdq41uD4c8CYCxSogQbup/rNQMCU2t1HALrLZSWxRziGoEEBNWwa8O05LJJOt2
+         iaZAtVLWra+vUvgXf5OgrrkTK2MC6ZcgRk+b7kW8phFutNgZmWJC2YOpR/PRgV6uXQ8/
+         xvIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710139746; x=1710744546;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ctQfKrAcksRfuXqIJV+JdBJBY81zeUKJWfVLUaA6s0U=;
+        b=ElufyYUME51jI0orB4ddRE5G3cxXFTFi05IxzhgYX/dB9FDpUrp72oUoTcIVu6bwq5
+         m734K90f6nGOBfTm1mZtS1eJucpXaBdv+UnJOXcQ2Wd/6EjdWAlqir2LVl0iwf8r2BHC
+         rozU8cIEGFpsn8xDXCBveJ/oq3MrF+iMN7MjxVbYDrYBwWptbFHas0qk0lzTZlaDeyv6
+         6NJm8NprQ9U2mpKuUS0cxziXdERNfTo22IaIW2fyTZNiQezYECXE08pKLD0BWsXCa+/G
+         17joHMulvLGGWbQxLc6ZsTwxnyIimSDlVdJGv163iCMQFWl/YYLxRERwSFKH8+tKwP0F
+         1U5A==
+X-Forwarded-Encrypted: i=1; AJvYcCUEbspbCwaAedy8ZntAQI4rAjF7CCofiV4hti5w7dG/OHVe6/tyPhmrSChWkYfZMimPlmG/j4JHSp2c0IH1+fcoJoFcwX7ShJd5E9FwYlTKjKvjodkaUHQuOUIQ56AEbKfEN77VBhQRdA==
+X-Gm-Message-State: AOJu0YxCH1JtGTOgI+IMAZI3Kh2CffwhxPW+Mp/IbGcorvA1gOxKnGyS
+	dGkgfB/XRvqo/a/ldt/nZlQDpZpTIHv//NRet3OhkzU/6QaM0Uq86x/2JKYaZPM=
+X-Google-Smtp-Source: AGHT+IFaPuAdlo7MaQHOZsuo6KRQGk3wKl3V3fBbqdIK5JBSfAbvsF1qfP2L246MAp2wMWnYAPPxLg==
+X-Received: by 2002:a17:906:22d5:b0:a44:dc35:df19 with SMTP id q21-20020a17090622d500b00a44dc35df19mr3024324eja.67.1710139745945;
+        Sun, 10 Mar 2024 23:49:05 -0700 (PDT)
+Received: from ubuntu-focal.zuku.co.ke ([197.237.50.252])
+        by smtp.gmail.com with ESMTPSA id gc5-20020a170906c8c500b00a45a09e7e23sm2581864ejb.136.2024.03.10.23.49.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 10 Mar 2024 23:49:05 -0700 (PDT)
+From: Dorine Tipo <dorine.a.tipo@gmail.com>
+To: gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	outreachy@lists.linux.dev
+Cc: Dorine Tipo <dorine.a.tipo@gmail.com>
+Subject: [PATCH v3] staging: vt6655: Remove unused function RFbAL7230SelectChannelPostProcess
+Date: Mon, 11 Mar 2024 06:07:47 +0000
+Message-Id: <20240311060747.32876-1-dorine.a.tipo@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20240311035649.25043-1-dorine.a.tipo@gmail.com>
+References: <20240311035649.25043-1-dorine.a.tipo@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240310235552.4217-12-tdavies@darkphysics.net>
+Content-Transfer-Encoding: 8bit
 
-Hi Tree,
+Remove RFbAL7230SelectChannelPostProcess as it is dead code.
 
-kernel test robot noticed the following build warnings:
+This commit removes the dead code to improve code cleanliness and reduce
+unnecessary complexity in the driver.
 
-[auto build test WARNING on staging/staging-testing]
+staging: vt6655: Remove multiple blank lines
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Tree-Davies/Staging-rtl8192e-Rename-variable-ReturnPoint/20240311-075949
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20240310235552.4217-12-tdavies%40darkphysics.net
-patch subject: [PATCH 11/11] Staging: rtl8192e: Implement BIT macro for bit shift ops
-config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20240311/202403111451.mwNy2vqG-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240311/202403111451.mwNy2vqG-lkp@intel.com/reproduce)
+Fix unintended blank line introduced after removing dead code
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403111451.mwNy2vqG-lkp@intel.com/
+The previous commit inadvertently introduced a blank line after removing
+dead code from the rf.h file in the staging/vt6655 directory. This commit
+removes the unintended blank line to maintain code consistency.
 
-All warnings (new ones prefixed by >>):
+Signed-off-by: Dorine Tipo <dorine.a.tipo@gmail.com>
+---
+Changes since V1:
 
-   In file included from drivers/staging/rtl8192e/rtllib_module.c:35:
->> drivers/staging/rtl8192e/rtllib.h:422: warning: "WLAN_CAPABILITY_ESS" redefined
-     422 | #define WLAN_CAPABILITY_ESS BIT(0)
-         | 
-   In file included from include/net/cfg80211.h:23,
-                    from drivers/staging/rtl8192e/rtllib.h:40:
-   include/linux/ieee80211.h:3218: note: this is the location of the previous definition
-    3218 | #define WLAN_CAPABILITY_ESS             (1<<0)
-         | 
->> drivers/staging/rtl8192e/rtllib.h:423: warning: "WLAN_CAPABILITY_IBSS" redefined
-     423 | #define WLAN_CAPABILITY_IBSS BIT(1)
-         | 
-   include/linux/ieee80211.h:3219: note: this is the location of the previous definition
-    3219 | #define WLAN_CAPABILITY_IBSS            (1<<1)
-         | 
->> drivers/staging/rtl8192e/rtllib.h:424: warning: "WLAN_CAPABILITY_PRIVACY" redefined
-     424 | #define WLAN_CAPABILITY_PRIVACY BIT(4)
-         | 
-   include/linux/ieee80211.h:3231: note: this is the location of the previous definition
-    3231 | #define WLAN_CAPABILITY_PRIVACY         (1<<4)
-         | 
->> drivers/staging/rtl8192e/rtllib.h:425: warning: "WLAN_CAPABILITY_SHORT_PREAMBLE" redefined
-     425 | #define WLAN_CAPABILITY_SHORT_PREAMBLE BIT(5)
-         | 
-   include/linux/ieee80211.h:3232: note: this is the location of the previous definition
-    3232 | #define WLAN_CAPABILITY_SHORT_PREAMBLE  (1<<5)
-         | 
->> drivers/staging/rtl8192e/rtllib.h:426: warning: "WLAN_CAPABILITY_SHORT_SLOT_TIME" redefined
-     426 | #define WLAN_CAPABILITY_SHORT_SLOT_TIME BIT(10)
-         | 
-   include/linux/ieee80211.h:3239: note: this is the location of the previous definition
-    3239 | #define WLAN_CAPABILITY_SHORT_SLOT_TIME (1<<10)
-         | 
+V2: - Removed unintended blank line introduced after removing dead code
+V3: - Squashed the commits for V1 and V2 for clarity and to streamline
+      the patch history
+
+ drivers/staging/vt6655/rf.h | 5 -----
+ 1 file changed, 5 deletions(-)
+
+diff --git a/drivers/staging/vt6655/rf.h b/drivers/staging/vt6655/rf.h
+index 057860a5e100..8eef100c7ef2 100644
+--- a/drivers/staging/vt6655/rf.h
++++ b/drivers/staging/vt6655/rf.h
+@@ -68,9 +68,4 @@ bool RFbRawSetPower(struct vnt_private *priv, unsigned char byPwr,
+ void RFvRSSITodBm(struct vnt_private *priv, unsigned char byCurrRSSI,
+ 		  long *pldBm);
+
+-/* {{ RobertYu: 20050104 */
+-bool RFbAL7230SelectChannelPostProcess(struct vnt_private *priv, u16 byOldChannel,
+-				       u16 byNewChannel);
+-/* }} RobertYu */
+-
+ #endif /* __RF_H__ */
 --
-   In file included from drivers/staging/rtl8192e/rtllib_rx.c:36:
->> drivers/staging/rtl8192e/rtllib.h:422: warning: "WLAN_CAPABILITY_ESS" redefined
-     422 | #define WLAN_CAPABILITY_ESS BIT(0)
-         | 
-   In file included from include/net/cfg80211.h:23,
-                    from drivers/staging/rtl8192e/rtllib.h:40:
-   include/linux/ieee80211.h:3218: note: this is the location of the previous definition
-    3218 | #define WLAN_CAPABILITY_ESS             (1<<0)
-         | 
->> drivers/staging/rtl8192e/rtllib.h:423: warning: "WLAN_CAPABILITY_IBSS" redefined
-     423 | #define WLAN_CAPABILITY_IBSS BIT(1)
-         | 
-   include/linux/ieee80211.h:3219: note: this is the location of the previous definition
-    3219 | #define WLAN_CAPABILITY_IBSS            (1<<1)
-         | 
->> drivers/staging/rtl8192e/rtllib.h:424: warning: "WLAN_CAPABILITY_PRIVACY" redefined
-     424 | #define WLAN_CAPABILITY_PRIVACY BIT(4)
-         | 
-   include/linux/ieee80211.h:3231: note: this is the location of the previous definition
-    3231 | #define WLAN_CAPABILITY_PRIVACY         (1<<4)
-         | 
->> drivers/staging/rtl8192e/rtllib.h:425: warning: "WLAN_CAPABILITY_SHORT_PREAMBLE" redefined
-     425 | #define WLAN_CAPABILITY_SHORT_PREAMBLE BIT(5)
-         | 
-   include/linux/ieee80211.h:3232: note: this is the location of the previous definition
-    3232 | #define WLAN_CAPABILITY_SHORT_PREAMBLE  (1<<5)
-         | 
->> drivers/staging/rtl8192e/rtllib.h:426: warning: "WLAN_CAPABILITY_SHORT_SLOT_TIME" redefined
-     426 | #define WLAN_CAPABILITY_SHORT_SLOT_TIME BIT(10)
-         | 
-   include/linux/ieee80211.h:3239: note: this is the location of the previous definition
-    3239 | #define WLAN_CAPABILITY_SHORT_SLOT_TIME (1<<10)
-         | 
-   during RTL pass: mach
-   drivers/staging/rtl8192e/rtllib_rx.c: In function 'rtllib_rx_decrypt':
-   drivers/staging/rtl8192e/rtllib_rx.c:1141:1: internal compiler error: in arc_ifcvt, at config/arc/arc.cc:9703
-    1141 | }
-         | ^
-   0x5b78c1 arc_ifcvt
-   	/tmp/build-crosstools-gcc-13.2.0-binutils-2.41/gcc/gcc-13.2.0/gcc/config/arc/arc.cc:9703
-   0xe431b4 arc_reorg
-   	/tmp/build-crosstools-gcc-13.2.0-binutils-2.41/gcc/gcc-13.2.0/gcc/config/arc/arc.cc:8552
-   0xaed299 execute
-   	/tmp/build-crosstools-gcc-13.2.0-binutils-2.41/gcc/gcc-13.2.0/gcc/reorg.cc:3927
-   Please submit a full bug report, with preprocessed source (by using -freport-bug).
-   Please include the complete backtrace with any bug report.
-   See <https://gcc.gnu.org/bugs/> for instructions.
---
-   In file included from drivers/staging/rtl8192e/rtl819x_BAProc.c:10:
->> drivers/staging/rtl8192e/rtllib.h:422: warning: "WLAN_CAPABILITY_ESS" redefined
-     422 | #define WLAN_CAPABILITY_ESS BIT(0)
-         | 
-   In file included from include/net/cfg80211.h:23,
-                    from drivers/staging/rtl8192e/rtllib.h:40:
-   include/linux/ieee80211.h:3218: note: this is the location of the previous definition
-    3218 | #define WLAN_CAPABILITY_ESS             (1<<0)
-         | 
->> drivers/staging/rtl8192e/rtllib.h:423: warning: "WLAN_CAPABILITY_IBSS" redefined
-     423 | #define WLAN_CAPABILITY_IBSS BIT(1)
-         | 
-   include/linux/ieee80211.h:3219: note: this is the location of the previous definition
-    3219 | #define WLAN_CAPABILITY_IBSS            (1<<1)
-         | 
->> drivers/staging/rtl8192e/rtllib.h:424: warning: "WLAN_CAPABILITY_PRIVACY" redefined
-     424 | #define WLAN_CAPABILITY_PRIVACY BIT(4)
-         | 
-   include/linux/ieee80211.h:3231: note: this is the location of the previous definition
-    3231 | #define WLAN_CAPABILITY_PRIVACY         (1<<4)
-         | 
->> drivers/staging/rtl8192e/rtllib.h:425: warning: "WLAN_CAPABILITY_SHORT_PREAMBLE" redefined
-     425 | #define WLAN_CAPABILITY_SHORT_PREAMBLE BIT(5)
-         | 
-   include/linux/ieee80211.h:3232: note: this is the location of the previous definition
-    3232 | #define WLAN_CAPABILITY_SHORT_PREAMBLE  (1<<5)
-         | 
->> drivers/staging/rtl8192e/rtllib.h:426: warning: "WLAN_CAPABILITY_SHORT_SLOT_TIME" redefined
-     426 | #define WLAN_CAPABILITY_SHORT_SLOT_TIME BIT(10)
-         | 
-   include/linux/ieee80211.h:3239: note: this is the location of the previous definition
-    3239 | #define WLAN_CAPABILITY_SHORT_SLOT_TIME (1<<10)
-         | 
-   during RTL pass: mach
-   drivers/staging/rtl8192e/rtl819x_BAProc.c: In function 'rtllib_send_DELBA':
-   drivers/staging/rtl8192e/rtl819x_BAProc.c:212:1: internal compiler error: in arc_ifcvt, at config/arc/arc.cc:9703
-     212 | }
-         | ^
-   0x5b78c1 arc_ifcvt
-   	/tmp/build-crosstools-gcc-13.2.0-binutils-2.41/gcc/gcc-13.2.0/gcc/config/arc/arc.cc:9703
-   0xe431b4 arc_reorg
-   	/tmp/build-crosstools-gcc-13.2.0-binutils-2.41/gcc/gcc-13.2.0/gcc/config/arc/arc.cc:8552
-   0xaed299 execute
-   	/tmp/build-crosstools-gcc-13.2.0-binutils-2.41/gcc/gcc-13.2.0/gcc/reorg.cc:3927
-   Please submit a full bug report, with preprocessed source (by using -freport-bug).
-   Please include the complete backtrace with any bug report.
-   See <https://gcc.gnu.org/bugs/> for instructions.
---
-   In file included from drivers/staging/rtl8192e/rtllib_crypt_ccmp.c:17:
->> drivers/staging/rtl8192e/rtllib.h:422: warning: "WLAN_CAPABILITY_ESS" redefined
-     422 | #define WLAN_CAPABILITY_ESS BIT(0)
-         | 
-   In file included from include/net/cfg80211.h:23,
-                    from drivers/staging/rtl8192e/rtllib.h:40:
-   include/linux/ieee80211.h:3218: note: this is the location of the previous definition
-    3218 | #define WLAN_CAPABILITY_ESS             (1<<0)
-         | 
->> drivers/staging/rtl8192e/rtllib.h:423: warning: "WLAN_CAPABILITY_IBSS" redefined
-     423 | #define WLAN_CAPABILITY_IBSS BIT(1)
-         | 
-   include/linux/ieee80211.h:3219: note: this is the location of the previous definition
-    3219 | #define WLAN_CAPABILITY_IBSS            (1<<1)
-         | 
->> drivers/staging/rtl8192e/rtllib.h:424: warning: "WLAN_CAPABILITY_PRIVACY" redefined
-     424 | #define WLAN_CAPABILITY_PRIVACY BIT(4)
-         | 
-   include/linux/ieee80211.h:3231: note: this is the location of the previous definition
-    3231 | #define WLAN_CAPABILITY_PRIVACY         (1<<4)
-         | 
->> drivers/staging/rtl8192e/rtllib.h:425: warning: "WLAN_CAPABILITY_SHORT_PREAMBLE" redefined
-     425 | #define WLAN_CAPABILITY_SHORT_PREAMBLE BIT(5)
-         | 
-   include/linux/ieee80211.h:3232: note: this is the location of the previous definition
-    3232 | #define WLAN_CAPABILITY_SHORT_PREAMBLE  (1<<5)
-         | 
->> drivers/staging/rtl8192e/rtllib.h:426: warning: "WLAN_CAPABILITY_SHORT_SLOT_TIME" redefined
-     426 | #define WLAN_CAPABILITY_SHORT_SLOT_TIME BIT(10)
-         | 
-   include/linux/ieee80211.h:3239: note: this is the location of the previous definition
-    3239 | #define WLAN_CAPABILITY_SHORT_SLOT_TIME (1<<10)
-         | 
-   during RTL pass: mach
-   drivers/staging/rtl8192e/rtllib_crypt_ccmp.c: In function 'rtllib_ccmp_decrypt':
-   drivers/staging/rtl8192e/rtllib_crypt_ccmp.c:310:1: internal compiler error: in arc_ifcvt, at config/arc/arc.cc:9703
-     310 | }
-         | ^
-   0x5b78c1 arc_ifcvt
-   	/tmp/build-crosstools-gcc-13.2.0-binutils-2.41/gcc/gcc-13.2.0/gcc/config/arc/arc.cc:9703
-   0xe431b4 arc_reorg
-   	/tmp/build-crosstools-gcc-13.2.0-binutils-2.41/gcc/gcc-13.2.0/gcc/config/arc/arc.cc:8552
-   0xaed299 execute
-   	/tmp/build-crosstools-gcc-13.2.0-binutils-2.41/gcc/gcc-13.2.0/gcc/reorg.cc:3927
-   Please submit a full bug report, with preprocessed source (by using -freport-bug).
-   Please include the complete backtrace with any bug report.
-   See <https://gcc.gnu.org/bugs/> for instructions.
---
-   In file included from drivers/staging/rtl8192e/rtllib_crypt_tkip.c:23:
->> drivers/staging/rtl8192e/rtllib.h:422: warning: "WLAN_CAPABILITY_ESS" redefined
-     422 | #define WLAN_CAPABILITY_ESS BIT(0)
-         | 
-   In file included from include/net/cfg80211.h:23,
-                    from drivers/staging/rtl8192e/rtllib.h:40:
-   include/linux/ieee80211.h:3218: note: this is the location of the previous definition
-    3218 | #define WLAN_CAPABILITY_ESS             (1<<0)
-         | 
->> drivers/staging/rtl8192e/rtllib.h:423: warning: "WLAN_CAPABILITY_IBSS" redefined
-     423 | #define WLAN_CAPABILITY_IBSS BIT(1)
-         | 
-   include/linux/ieee80211.h:3219: note: this is the location of the previous definition
-    3219 | #define WLAN_CAPABILITY_IBSS            (1<<1)
-         | 
->> drivers/staging/rtl8192e/rtllib.h:424: warning: "WLAN_CAPABILITY_PRIVACY" redefined
-     424 | #define WLAN_CAPABILITY_PRIVACY BIT(4)
-         | 
-   include/linux/ieee80211.h:3231: note: this is the location of the previous definition
-    3231 | #define WLAN_CAPABILITY_PRIVACY         (1<<4)
-         | 
->> drivers/staging/rtl8192e/rtllib.h:425: warning: "WLAN_CAPABILITY_SHORT_PREAMBLE" redefined
-     425 | #define WLAN_CAPABILITY_SHORT_PREAMBLE BIT(5)
-         | 
-   include/linux/ieee80211.h:3232: note: this is the location of the previous definition
-    3232 | #define WLAN_CAPABILITY_SHORT_PREAMBLE  (1<<5)
-         | 
->> drivers/staging/rtl8192e/rtllib.h:426: warning: "WLAN_CAPABILITY_SHORT_SLOT_TIME" redefined
-     426 | #define WLAN_CAPABILITY_SHORT_SLOT_TIME BIT(10)
-         | 
-   include/linux/ieee80211.h:3239: note: this is the location of the previous definition
-    3239 | #define WLAN_CAPABILITY_SHORT_SLOT_TIME (1<<10)
-         | 
-   during RTL pass: mach
-   drivers/staging/rtl8192e/rtllib_crypt_tkip.c: In function 'rtllib_tkip_decrypt':
-   drivers/staging/rtl8192e/rtllib_crypt_tkip.c:437:1: internal compiler error: in arc_ifcvt, at config/arc/arc.cc:9703
-     437 | }
-         | ^
-   0x5b78c1 arc_ifcvt
-   	/tmp/build-crosstools-gcc-13.2.0-binutils-2.41/gcc/gcc-13.2.0/gcc/config/arc/arc.cc:9703
-   0xe431b4 arc_reorg
-   	/tmp/build-crosstools-gcc-13.2.0-binutils-2.41/gcc/gcc-13.2.0/gcc/config/arc/arc.cc:8552
-   0xaed299 execute
-   	/tmp/build-crosstools-gcc-13.2.0-binutils-2.41/gcc/gcc-13.2.0/gcc/reorg.cc:3927
-   Please submit a full bug report, with preprocessed source (by using -freport-bug).
-   Please include the complete backtrace with any bug report.
-   See <https://gcc.gnu.org/bugs/> for instructions.
---
-   In file included from drivers/staging/rtl8192e/rtl8192e/rtl_core.h:35,
-                    from drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c:10:
->> drivers/staging/rtl8192e/rtl8192e/../rtllib.h:422: warning: "WLAN_CAPABILITY_ESS" redefined
-     422 | #define WLAN_CAPABILITY_ESS BIT(0)
-         | 
-   In file included from include/net/cfg80211.h:23,
-                    from drivers/staging/rtl8192e/rtl8192e/../rtllib.h:40:
-   include/linux/ieee80211.h:3218: note: this is the location of the previous definition
-    3218 | #define WLAN_CAPABILITY_ESS             (1<<0)
-         | 
->> drivers/staging/rtl8192e/rtl8192e/../rtllib.h:423: warning: "WLAN_CAPABILITY_IBSS" redefined
-     423 | #define WLAN_CAPABILITY_IBSS BIT(1)
-         | 
-   include/linux/ieee80211.h:3219: note: this is the location of the previous definition
-    3219 | #define WLAN_CAPABILITY_IBSS            (1<<1)
-         | 
->> drivers/staging/rtl8192e/rtl8192e/../rtllib.h:424: warning: "WLAN_CAPABILITY_PRIVACY" redefined
-     424 | #define WLAN_CAPABILITY_PRIVACY BIT(4)
-         | 
-   include/linux/ieee80211.h:3231: note: this is the location of the previous definition
-    3231 | #define WLAN_CAPABILITY_PRIVACY         (1<<4)
-         | 
->> drivers/staging/rtl8192e/rtl8192e/../rtllib.h:425: warning: "WLAN_CAPABILITY_SHORT_PREAMBLE" redefined
-     425 | #define WLAN_CAPABILITY_SHORT_PREAMBLE BIT(5)
-         | 
-   include/linux/ieee80211.h:3232: note: this is the location of the previous definition
-    3232 | #define WLAN_CAPABILITY_SHORT_PREAMBLE  (1<<5)
-         | 
->> drivers/staging/rtl8192e/rtl8192e/../rtllib.h:426: warning: "WLAN_CAPABILITY_SHORT_SLOT_TIME" redefined
-     426 | #define WLAN_CAPABILITY_SHORT_SLOT_TIME BIT(10)
-         | 
-   include/linux/ieee80211.h:3239: note: this is the location of the previous definition
-    3239 | #define WLAN_CAPABILITY_SHORT_SLOT_TIME (1<<10)
-         | 
+2.25.1
 
-
-vim +/WLAN_CAPABILITY_ESS +422 drivers/staging/rtl8192e/rtllib.h
-
-   421	
- > 422	#define WLAN_CAPABILITY_ESS BIT(0)
- > 423	#define WLAN_CAPABILITY_IBSS BIT(1)
- > 424	#define WLAN_CAPABILITY_PRIVACY BIT(4)
- > 425	#define WLAN_CAPABILITY_SHORT_PREAMBLE BIT(5)
- > 426	#define WLAN_CAPABILITY_SHORT_SLOT_TIME BIT(10)
-   427	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
