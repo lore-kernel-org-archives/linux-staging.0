@@ -1,160 +1,115 @@
-Received: from CHN02-SH0-obe.outbound.protection.partner.outlook.cn (mail-sh0chn02on2115.outbound.protection.partner.outlook.cn [139.219.146.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B85079C0
-	for <linux-staging@lists.linux.dev>; Tue, 12 Mar 2024 02:45:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.219.146.115
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710211542; cv=fail; b=ppJj8PAerXc4FN0gRzuVboQkMHWi8Hv7DcUzx/ym0wFLtPKKxZJl7J8yBHTItKeFtWmN4C0x8pJ39yePybKWB3FUIuJ/LBZVtWv81FWY5965LUbVXeK2bFvJBT1ABkPtEXngrvEOBDg/4RsfcNbDdaSR4wbLPNZwokPRce0emGE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710211542; c=relaxed/simple;
-	bh=cvE1iY6j1g7PYcGYBktFyGnkuJ+N7v4wDIyPQJhKStk=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=PhjhcPYICZQI18sT/1qhd87cFh4RyfyNmQrrN+gGYCPw3nVmn805QxoA+KLiJizNn3TO9aWAf2n4fqjcDtJUgTjxWiNIywALivebslwtKI8wTDTzTyMXfiOaolCu3LxtCfZISIfdlfwswwQUcwNTjG7iwqEHNDCW2KFfyge9cKM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com; spf=pass smtp.mailfrom=starfivetech.com; arc=fail smtp.client-ip=139.219.146.115
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PKERtY7cEtHrlCDu3rT4GsrfaipkpbppcHFwL/cYcZEatFYG0BbUckOVcahhJc2c3qLlcTBNB/qmlXFF9UhblQWzIC4L/pDT829gjjWQX+TpkW3ba3mrBPRaLqwDen1lxRsww3a3g+CCrMyBpweCJU3fL9oApp5YCQ0SPM/P7CrUWQbQROx7562yVb+d/+Gmm9YBkWmu88Phs5Ez78iJgXjWdXzmhT8+gBP8iPMlgfXhuyuFYNPQai0Dg/dhAZORnNYhL0+kdoZQ7fnJxCJy2VnBicfs4oIKyDGDigiFXRo8QKopWLVStI/9J9Hgdv2ldCNpmJtBY9NfZnOpldqSXg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iqcsnIrJ8sPmElkzWKcIofUPyC/sXNuZQb/yrEyc3wU=;
- b=g+fxLAFd20BGxjKHyecFuBISQxLhjTbGEU8hmGzUJVO1CkQrczEnqwt8WaRvG8CbGoril/yhf3u6EYmBTzfaOLntKPCIMTMxLLXp+3m5F4tP7saHuDtienBQ/RHcQeZi5ldfqH9QxaqrIcjDPtb3NOj9rfrocy+XXdQim6aLlGwHjS4IlR4qO7Y9sgz6nXaBSErKExshJDgi//xwUYKVlWTAWcmxZULbjze2nw1T83Hg9jWEO6beNYXx0+iOWCgYY80Ea4/kva45rI+EVH9pj+m1dQMNzBkixKU6o/BIHJ09/GpCpvZULr41vPYwQfx+ntXU6UpjuwJqP9Oq9/8cnA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=starfivetech.com; dmarc=pass action=none
- header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=starfivetech.com;
-Received: from SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c311:25::10) by SHXPR01MB0575.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c311:1e::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7339.45; Tue, 12 Mar
- 2024 02:45:28 +0000
-Received: from SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
- ([fe80::b0af:4c9d:2058:a344]) by
- SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn ([fe80::b0af:4c9d:2058:a344%6])
- with mapi id 15.20.7249.041; Tue, 12 Mar 2024 02:45:28 +0000
-From: Changhuang Liang <changhuang.liang@starfivetech.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Jack Zhu <jack.zhu@starfivetech.com>,
-	Changhuang Liang <changhuang.liang@starfivetech.com>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	linux-media@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AED2B66F
+	for <linux-staging@lists.linux.dev>; Tue, 12 Mar 2024 05:18:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1710220735; cv=none; b=CeVTYjpFy43vF84KDkEQo7ONEZLv4jnhTxoaT+pFlFt3fyOoMGeI1Y7qKFDeZ4q85O3dzmjR8tePhPwWaoow0B/EQmHKlfwfiRcvJwcB+TMnCGLkm5+ZY85NHlr3L33AFRwOEdW47c7YkpusxhYlGGg/dnew/BJzwWO+KHOLGWk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1710220735; c=relaxed/simple;
+	bh=RP1j5F3ilhjJOWGmbsI2diL9/wVsYVFld/rkiRg2fKE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=j+nj7UKktKUCYDEWjMWDCP3eyTjkPsFUfu98AkVXxylAIRmWpW8uB24DpgDipF9g3p5313TZmy/iheWJkcl0TI8Q3l+giCdXfYIZ/4yu04Wy6pM8/dob6l/KQzo2wzHaMifEN7jW8AQN9GCOgNAOMLNrdJ43TNXvF7EqVP15eN8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=habW3a6R; arc=none smtp.client-ip=209.85.208.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="habW3a6R"
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-563bb51c36eso5591652a12.2
+        for <linux-staging@lists.linux.dev>; Mon, 11 Mar 2024 22:18:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1710220732; x=1710825532; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+/CMcUQ+LYVcURKBiUi24bqTd6PybV2hkFC8M0WQ7cs=;
+        b=habW3a6RgnQUDukKW+fV/HniC2X9fSyKp1X7D+/EMrYJDh9y2P13DaIqOGvZ6B/cqP
+         cI1w6Wl1awsCxZhwMqY3mBpZkbkhNCg5Y/gAS2v7ZoHs7SdF3LxUAqUHde2Rq0R6jmFC
+         ilY2uxAAyLQEaoxvJm6KTjup6156QCh42Lx+rGTanyJapQUTC08RH53rpk9vb9g3/ljQ
+         DA3LFkGwEyfWtOJ+vVgOroD+/6p5CojJzpzv4+e3jEek0BTR4Oeq7JEz+IgC+R0f7X35
+         JS1esH23QySckjYQVCUYro3SNAzqEwIQGFk0iPJkdNVlgta8Y8lRtBLRIae7TWlHnjk1
+         Rkyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710220732; x=1710825532;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+/CMcUQ+LYVcURKBiUi24bqTd6PybV2hkFC8M0WQ7cs=;
+        b=EK0rIdAxfNX2CE8+uLOXSqDJzABU3wqEwXeqS3xKcbLM2bVq/ofiwsNCGjOmHm/umf
+         OeZrG9Z8app7GPjOpPdbEfB3SxTKTOe/GZEbwU4egw/Unbp3OVpj3Aajmht+uNRh9ecY
+         XbydMvxuj0B5xrk81bGgVVHWmpDchnUQF1sGIW60QHLwQuiW9adNdKNTa5bcIRllhPoh
+         pwI3Mkxfgyl3P64Yz30azYRuwWaQODi9N62rN7hkHZvnAYkDNKFwfEakEPV7yTaEfnbx
+         6M0VSn29UpWQN7YFeuvP4YamvucPPGET9dcBuFyZYOfwTqPwMPydcxrmwyqPiZ6HHPdm
+         0sDA==
+X-Forwarded-Encrypted: i=1; AJvYcCV4WIzUb9ZV99H10kYn2TFIptql1u4WaBS/loyInOT3J69hXij47WyoCCagekmbOKR8zbVgWs+rCuboktNDpX6aqfBaBP1o4aNQN0ZtQw==
+X-Gm-Message-State: AOJu0Yze1rTrlrWQjQXJrSuN6ag86wvB7Q2vdyj+H77tBVUIpF9Nbk+1
+	nX9zfWvtAmKB8ZmnLdnd9PApHH3qyu8yr7+cBj6KeQutpUpzNAFO
+X-Google-Smtp-Source: AGHT+IEZ12MTVUKMwELi5EBVmBR7dR1eUI8jrfC3zV1xIOnKsEifTaxOj60tmS1lErnhdEFg/FSL+w==
+X-Received: by 2002:a50:8d5d:0:b0:566:117c:cfca with SMTP id t29-20020a508d5d000000b00566117ccfcamr5567856edt.4.1710220731643;
+        Mon, 11 Mar 2024 22:18:51 -0700 (PDT)
+Received: from localhost.localdomain (ip-77-25-34-17.web.vodafone.de. [77.25.34.17])
+        by smtp.gmail.com with ESMTPSA id s27-20020a50d49b000000b0056729e902f7sm3791578edi.56.2024.03.11.22.18.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Mar 2024 22:18:51 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: philipp.g.hortmann@gmail.com,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [v1] staging: media: starfive: Clean pad selection in isp_try_format()
-Date: Mon, 11 Mar 2024 19:45:20 -0700
-Message-Id: <20240312024520.11022-1-changhuang.liang@starfivetech.com>
-X-Mailer: git-send-email 2.25.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BJSPR01CA0024.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c211:c::36) To SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c311:25::10)
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH] staging: rtl8192e: replace variable with direct return
+Date: Tue, 12 Mar 2024 06:18:16 +0100
+Message-ID: <20240312051816.18717-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SHXPR01MB0671:EE_|SHXPR01MB0575:EE_
-X-MS-Office365-Filtering-Correlation-Id: ae8b754c-f47e-4c34-2d42-08dc423e79ce
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	bOOaeHKFVUtIBDLw66TX1DqcaseZqYVxQAXuEq9o5xFCPjhnJgcmLrTUhU6tKWKavyXiC/mzq0G54AHcxEKmuwpcingwkKFVAogC3NApqIatQmeu8dVAw6x9rMHMSLKyOEIhIaucOHTIWjDPkXOWyKmWcRBtaiW+3VNq/9NHn6p4C2rc8n5NlQdzZoTorzm3dCIsksN8WOwKW+Ma7SF8rD3elTRYmvyV9T0kJ4ApZlJq55F0gV6vCPF75n5rG76H6fee2us8SjQu34cbtTAJ+1Vrug/rYwaFr7g/d8hIPJFy1UmNagR1bzYfKamG+J6M6BW2DkCxuXSOJJWMrF30fSTAlwLikZBLGJzmLuodOgtltkSdg8FbZV3Gwyf7t9NukR5+sMm1rK6xVL8crbPIxUly9m4w99SrEZgGpeZrNsXT4mz9jaFWtF8K9ya/Vs+YHoajCmc+UDKp+Um9USaCELv6r2HVgR8T4ZZghzyLDE7p3blYkBxq/epPlD7jibKDmNxkhNaGxac7p0wShRIg+FlNwGcQSJuz27WgTQKkQKiPZcEco0d8TUiFonEYQ4nK4qV1wAHR7pHQqdsVu+exudZTvTA36kKtp43c5WV3gwis5jLZWQNuUsHnLW/qklo/
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230031)(52116005)(1800799015)(41320700004)(38350700005);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?dTXd6btUGXHBFcJkKsHmQ1T9o3w96MXKJHkDrNtdyIVkdTDeBbIhZq1zEpeb?=
- =?us-ascii?Q?h4ZGf5nzOx9h2aOQqmN+E04I64nUiGaP+TBpywr3kgW+5xSF8/xj6HVpnVNY?=
- =?us-ascii?Q?YfuKkE5sVdqXB61iTe7HNk7maJ6qho95HmGEURWrzUxSyung43tIGmdcmk6p?=
- =?us-ascii?Q?bnoYTVuoxq6KOWrlxuBKjShgdjVqE1y2JMS579oJZqZayxqLakEgIdGyV5mn?=
- =?us-ascii?Q?q47uYM4CAHJ1Sih2kSRT1KbRPLLPXZu1EbmqKHEiA/KyD5tLRNMan+zH3piA?=
- =?us-ascii?Q?NtNL1TkcDS7iS674i7WSoIWh/QbX29uCGrGBjg0kYbs4JqsY+cq8FsN6ZdHW?=
- =?us-ascii?Q?neoG3TzHa8TxrpY9pHTN1Xpz3cfwnZfHfOH1devo5OqwlMPjL9rf+w29jW5y?=
- =?us-ascii?Q?4bGFlYZFukmpZYinfXcSiMwhsG2foMpTtBEiEpeQE0nr51X779Q8yaXtkG7G?=
- =?us-ascii?Q?mHKJ8Kh9puVJdFH2CLJfgdOBtc9BnAFBcpbmPZuiDN1upfvB5YagGD/scdr6?=
- =?us-ascii?Q?PBBxwqADveohtC2b5RlwH/jqZ0SYHoUaj8mtefU9oJYyYlJ5BpY0/A8df4UU?=
- =?us-ascii?Q?R97ANBqKp8cI4O6k/i5tS3IAksDaGwWxq9aDK1YPTMPk8NIZln+BgQFHWoub?=
- =?us-ascii?Q?rniUk0T3mt3lAfSzG9Oqttgln6lf7ZnIxL00Q1exGekzivfZ3doSJl50ED1j?=
- =?us-ascii?Q?YPVY6c2hgqTd525LhU55UBsHiSzgNIt1Jpb8doevbnISFKgftKuxzIdlqtWw?=
- =?us-ascii?Q?HOo8PoMp50MXCa9M+i03MteGu70YyIoCdOP8MWyUDN70I0khAeBLVuaMvDFy?=
- =?us-ascii?Q?gyaeMlZLjlvz9aYHGMePJd1e2nVqc7Zo6pRzDeUJwZR4hWjfrTqKe8XFQ0Jn?=
- =?us-ascii?Q?oQ5fO7AVXKmx4SxSELGpETDZwju5sZl6RIaF4h3CNbdyszjhHgQ73WB5+A2A?=
- =?us-ascii?Q?INPwjhGS6Bn/qL547a/LUarpfT/uwDTH8JVNsbar0syov4su6wHOZbs55bYF?=
- =?us-ascii?Q?JFsypWI4xVjHqA3BuSDTaqNH9Mq+bR5dcG7IrjZuakrzFd5ZHH9+6kUaja6V?=
- =?us-ascii?Q?iv20TvnGcSh1JpEuiWQh+XlP3knhhxE1zP65vw/ZCHq5QoPkeu1l3WptwBI8?=
- =?us-ascii?Q?SrvVFVsPhKViCXCXpf/Htk/07aFTnVM9clAh+2I/0p/jHUhROlhA9q01wJsd?=
- =?us-ascii?Q?a0iGx9BAsCZIR4yC2xoZLRwQLE1wGwJeyi90w3arWfGPmG3HuUY3lZLj3NeA?=
- =?us-ascii?Q?5Rfv0JhrNzz4c5jMEeHfTEwrKB/ffVCiaxUEHPq51ffzajCOx17NBLXje6oI?=
- =?us-ascii?Q?61OfVMFexAuY8WcqaGNJwtTK3CLKHo0Q94SbwfXbR0LTEqmnEucVLcDYJGV0?=
- =?us-ascii?Q?xji8gIMv/w5QLpmAyEkXkM9eUJZTOf+DcthI8FdHH5qC/EilfsivSYNsy35s?=
- =?us-ascii?Q?hkjkJ+BSaVglF/i34Ys7IBzRTF85SXgXFbo/zvKZd13r0jNum0+C1YBA+h93?=
- =?us-ascii?Q?sJjwFHB7MBtXlbUXMVH/OyCQ7N6xOBzohlWFXkO9t3+AQWsi2DIy5FrlSL66?=
- =?us-ascii?Q?DHtJM8iP30KoQbeDoe1+Trr0CUdD5ddwa5DQgkkauag2RkwYDpK3aYYaM5da?=
- =?us-ascii?Q?7qehTMviLmNDG7VHhF6di+w=3D?=
-X-OriginatorOrg: starfivetech.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ae8b754c-f47e-4c34-2d42-08dc423e79ce
-X-MS-Exchange-CrossTenant-AuthSource: SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Mar 2024 02:45:28.0241
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7sI19hZ/dqRU7okSDiJy3cQfb/ZrPjwpshoejwkwDqmelK7ZGCpco0BcIImbZ7ZvvPJBUzoiU6nYqgpM/pjozC7EWlg5d1anRuz5kWjYrNS9LYAiz4YyKre9vk16/5D0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SHXPR01MB0575
+Content-Transfer-Encoding: 8bit
 
-The code to select isp_dev->formats[] is overly complicated.  We can
-just use the "pad" as the index.  This will making adding new pads
-easier in future patches.  No functional change.
+Remove the variable rt_status from rtl92e_send_cmd_pkt() and return
+true/false directly to improve readability.
 
-Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/media/starfive/camss/stf-isp.c | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
+ drivers/staging/rtl8192e/rtl8192e/r8192E_cmdpkt.c | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/staging/media/starfive/camss/stf-isp.c b/drivers/staging/media/starfive/camss/stf-isp.c
-index d50616ef351e..4e6e26736852 100644
---- a/drivers/staging/media/starfive/camss/stf-isp.c
-+++ b/drivers/staging/media/starfive/camss/stf-isp.c
-@@ -10,9 +10,6 @@
+diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_cmdpkt.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_cmdpkt.c
+index 7f0c160bc741..e470b49b0ff7 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/r8192E_cmdpkt.c
++++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_cmdpkt.c
+@@ -11,7 +11,6 @@
+ bool rtl92e_send_cmd_pkt(struct net_device *dev, u32 type, const void *data,
+ 			 u32 len)
+ {
+-	bool				rt_status = true;
+ 	struct r8192_priv *priv = rtllib_priv(dev);
+ 	u16				frag_length = 0, frag_offset = 0;
+ 	struct sk_buff		*skb;
+@@ -37,10 +36,8 @@ bool rtl92e_send_cmd_pkt(struct net_device *dev, u32 type, const void *data,
+ 		else
+ 			skb = dev_alloc_skb(frag_length + 4);
  
- #include "stf-camss.h"
+-		if (!skb) {
+-			rt_status = false;
+-			goto Failed;
+-		}
++		if (!skb)
++			return false;
  
--#define SINK_FORMATS_INDEX	0
--#define SOURCE_FORMATS_INDEX	1
--
- static int isp_set_selection(struct v4l2_subdev *sd,
- 			     struct v4l2_subdev_state *state,
- 			     struct v4l2_subdev_selection *sel);
-@@ -94,10 +91,7 @@ static void isp_try_format(struct stf_isp_dev *isp_dev,
- 		return;
- 	}
+ 		memcpy((unsigned char *)(skb->cb), &dev, sizeof(dev));
+ 		tcb_desc = (struct cb_desc *)(skb->cb + MAX_DEV_ADDR_SIZE);
+@@ -77,6 +74,6 @@ bool rtl92e_send_cmd_pkt(struct net_device *dev, u32 type, const void *data,
+ 	} while (frag_offset < len);
  
--	if (pad == STF_ISP_PAD_SINK)
--		formats = &isp_dev->formats[SINK_FORMATS_INDEX];
--	else if (pad == STF_ISP_PAD_SRC)
--		formats = &isp_dev->formats[SOURCE_FORMATS_INDEX];
-+	formats = &isp_dev->formats[pad];
- 
- 	fmt->width = clamp_t(u32, fmt->width, STFCAMSS_FRAME_MIN_WIDTH,
- 			     STFCAMSS_FRAME_MAX_WIDTH);
-@@ -123,7 +117,7 @@ static int isp_enum_mbus_code(struct v4l2_subdev *sd,
- 		if (code->index >= ARRAY_SIZE(isp_formats_sink))
- 			return -EINVAL;
- 
--		formats = &isp_dev->formats[SINK_FORMATS_INDEX];
-+		formats = &isp_dev->formats[code->pad];
- 		code->code = formats->fmts[code->index].code;
- 	} else {
- 		struct v4l2_mbus_framefmt *sink_fmt;
+ 	rtl92e_writeb(dev, TP_POLL, TP_POLL_CQ);
+-Failed:
+-	return rt_status;
++
++	return true;
+ }
 -- 
-2.25.1
+2.44.0
 
