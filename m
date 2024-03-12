@@ -1,53 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9F601428F9;
-	Tue, 12 Mar 2024 20:25:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BB8E143733;
+	Tue, 12 Mar 2024 21:24:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710275117; cv=none; b=I6l8hw3ghVSqjBSD2GHaLvAw53jkk1PNxEEwd62sid17oOyspthYE56GHzHQyRNk36EWkS4JV7Y/PrAI5jS4zzuczEa9m5OxZmS5dNm/o8oBBoWv/RkqwwCdRWx6PV/sw0eHpM1gDl9RUbpzt+6Kj8bCE4M4DyeMyH3/xtS+V3s=
+	t=1710278686; cv=none; b=oMtK1JFqYkcBC3sA8w19Luu70byLLwI2d9epswM9fsvWNpUkIBmkqUUpcW9JbcjgNx7wdsrPqAPGaQmTg+XJzC6i3XPbm1lnV4TS5MUQIgOr63+SIE7v2QWOzIQDH5vBtc651soOFVtNGy52kNhVzJvswvp1LOBXFqUUsENhzq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710275117; c=relaxed/simple;
-	bh=rSNSvxiZSQWXgjIt9kA8y08rpxtYHSeBq2jVU2yann0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RpWWToyu3d8LAImMgpNdDUuOPUFYUznOKUxDViUf5akYyhrWyCtr9LW3c7fMdCUIQSHndiSYivd3TEkrIElYEIb78QhVdOPEQS//mkPopO5y2svKbTnpJOsAvv8VZa8sRX67ItgCcZ9vflej3ZuQmlvGhpBm4rnPjgflj3O5eQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TY7D3wei; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1710278686; c=relaxed/simple;
+	bh=zn+NCXHkplgUV+dXIwohdLE+F3/a8X6VbE67wHJakVs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=uzokEjKzF/hrT3ti5GPScPxMSAnsIdqh/W1BbXTu66cnqFFFfhgLnQfhpamvt5ObxejZloTta9xGHjZht3WBX+iQq7H+N3SUB7IivVoCFinjvH+4NtLYI1egFIBad7R4hPewUkYZR1uNium6gTgJm3oiArQLUXORQTuwka5FvvM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F9uXgz90; arc=none smtp.client-ip=209.85.210.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TY7D3wei"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710275115; x=1741811115;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rSNSvxiZSQWXgjIt9kA8y08rpxtYHSeBq2jVU2yann0=;
-  b=TY7D3wei7hhV8cjOx0USArHffatmiylTsyg2O2QrcXUebZvRfmpt50t7
-   GtepJEcvR+l1A6m8tT41al0uACB7B0fWV78aiXbapa/OILH42NIj9GcA8
-   OqPT4/ZrPuSmPUaCFfanD3z+3apTZdkyZx/31mrZIMYjt3Oj+OinOfmGu
-   Y0URrlBkXLI2CRZ2/jXo2QbjHQOtthRZjjCXSK2eLaVtHyOH1dRkMBI3m
-   dfky1uywOGKQFe9LOSdxzKPE2Vl/kfMLVgh8S0AS319eTbIoo1BfKFQ+h
-   krE5CaS/ZkH2NF6CjkG9J0h/sczCqWqtDP3sQvoBG8FCfJP3/kcS+PVc1
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11011"; a="5618041"
-X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; 
-   d="scan'208";a="5618041"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2024 13:25:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,119,1708416000"; 
-   d="scan'208";a="11588394"
-Received: from aschofie-mobl2.amr.corp.intel.com (HELO aschofie-mobl2) ([10.251.10.107])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2024 13:25:11 -0700
-Date: Tue, 12 Mar 2024 13:25:09 -0700
-From: Alison Schofield <alison.schofield@intel.com>
-To: "Felix N. Kimbu" <felixkimbu1@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev
-Subject: Re: [PATCH v3] staging: wlan-ng: Rename 'foo' to 'rc' in p80211conv.c
-Message-ID: <ZfC6JeVBa9weWBSU@aschofie-mobl2>
-References: <ZfCM2RyeEpxooKz+@MOLeToid>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F9uXgz90"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-6e6adc557f3so807736b3a.1;
+        Tue, 12 Mar 2024 14:24:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1710278684; x=1710883484; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=yyVVkBcjoN3+kr62FySlopYdKOwyFmOO0p91aujbCWk=;
+        b=F9uXgz90fzRsOPIkESzPPxtnF0DoL+TQCyHbMxSvRaXpWueAq/yDIJ1QC4S3maAl6l
+         N3k+wO6q8ewQPRStOzf6QH90jJ6DeNTvC1kSmoEKBANqArVZDLnHYE28tH3B56xTK1/C
+         s3p2LCCAMPi4pVkT4cJfVHATEsDGIuBlZ0kpkcdc0Hemn4wkwDpwvHeKKNmwV/godO1i
+         hXwnlo/FaOcHeCfbiX2uvjTzuoPnK/jVoNfCUEXleysJDgaZ4KXw3lE9BU0MqVKvAEZZ
+         PWtXLd7odr5Gv/c7Agl9cUa+tKXWqB9qiUrkd7fp/r8ICkaR+STw6/yFt2e2XNTGo4Pr
+         pI9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710278684; x=1710883484;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yyVVkBcjoN3+kr62FySlopYdKOwyFmOO0p91aujbCWk=;
+        b=sXgWNoSUgI9IQdE/wFoOmkF1o4NSNLYmva75KKT85+AJLE5jyKv25xjZTqVVlmdIBK
+         wuxQ6PJbW7/kqLy7Qy6ucunWuq2d8y/9CGYY9pVZh8Is4vkhz51gFaZ9qriC2iLzsTwq
+         Ln8EcZTufyFg0N61y5FGdVpYF1yIuBany0WIsnN5lHG8DZLbdztJZirVj/L7gdPOx4Rl
+         pOrKLfL0a72IPmhJWKsfrF/GjN5uwV5kFBb84DmK8p6IjrnWD8dOCux+vi2ufKwfQSV3
+         qo2D1ykfe8y82UT1LL2wYuMpLKU07ehO3cAbRBaPUmFJtHYmS23GfwvKxBbfLPPKLNaP
+         ORXg==
+X-Forwarded-Encrypted: i=1; AJvYcCUf9MiZ8xeVdc3wg1Q6MOQ8+8WlH0IX2x5v7Qu+E2N6naK7qN1G48BlETw7NkHWADLPuSODWuVvkMUkDIETNQFZfcwtTBpsceDhPSfCGQ==
+X-Gm-Message-State: AOJu0Yyq4kD/L1bbHQX9G6ckfgiq5D3wUfTMrXrmBfh6fdpWT1RoP4xB
+	2NnJH2jfb223y7HJ2E3UZWKWF9mbfo1wviJUmmLfvl0n8HT5lGWHeo0gqNz+eW8=
+X-Google-Smtp-Source: AGHT+IEcPiVY1OjLAeekn6g0s+Gbrp+3mGgtAJv9ETaGR3blWskKI0IHXdhBc+Qx2zE+ySIm38grIw==
+X-Received: by 2002:aa7:8885:0:b0:6e5:adb9:b955 with SMTP id z5-20020aa78885000000b006e5adb9b955mr777749pfe.23.1710278683901;
+        Tue, 12 Mar 2024 14:24:43 -0700 (PDT)
+Received: from ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx ([103.6.158.67])
+        by smtp.gmail.com with ESMTPSA id x19-20020a056a00189300b006e6b0c7c453sm775010pfh.216.2024.03.12.14.24.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Mar 2024 14:24:43 -0700 (PDT)
+Date: Wed, 13 Mar 2024 02:54:39 +0530
+From: Ayush Tiwari <ayushtiw0110@gmail.com>
+To: outreachy@lists.linux.dev, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org,
+	florian.c.schilhabel@googlemail.com, Larry.Finger@lwfinger.net
+Cc: outreachy@lists.linux.dev
+Subject: [PATCH] staging: rtl8712: removing redundant paranthesis chk_fwhdr
+Message-ID: <ZfDIF+6MrdrX79nd@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -56,144 +66,73 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZfCM2RyeEpxooKz+@MOLeToid>
 
-On Tue, Mar 12, 2024 at 06:11:53PM +0100, Felix N. Kimbu wrote:
+Removing redundant parentheses in 'if ((pfwhdr->signature != 0x8712) && (pfwhdr->signature != 0x8192))' in static u8 chk_fwhdr(struct fw_hdr *pfwhdr, u32 ulfilelength). This will ensure adherence to coding style guidelines
 
-Hi Felix,
-Thanks for sending this v3 as a new patch. Now, I'm going to ask
-you to create a v4 to straighten out a bit more of the patch
-format.
+Signed-off-by: Ayush Tiwari <ayushtiw0110@gmail.com>
+---
+ drivers/staging/rtl8712/hal_init.c |  2 +-
+ key.pem                            | 28 ++++++++++++++++++++++++++++
+ staging                            |  1 +
+ 3 files changed, 30 insertions(+), 1 deletion(-)
+ create mode 100644 key.pem
+ create mode 120000 staging
 
-The commit message below includes some revision history that only
-belongs below the '---',  Your commit message will be with this
-patch when it is committed, and the changelog will fall away.
-The changelog benefits reviewers today, and it also is always
-retrievable in Lore for folks curious about the patches journey.
+diff --git a/drivers/staging/rtl8712/hal_init.c b/drivers/staging/rtl8712/hal_init.c
+index 1148075f0cd6..9f41b2c086ca 100644
+--- a/drivers/staging/rtl8712/hal_init.c
++++ b/drivers/staging/rtl8712/hal_init.c
+@@ -138,7 +138,7 @@ static u8 chk_fwhdr(struct fw_hdr *pfwhdr, u32 ulfilelength)
+ 	u32	fwhdrsz, fw_sz;
+ 
+ 	/* check signature */
+-	if ((pfwhdr->signature != 0x8712) && (pfwhdr->signature != 0x8192))
++	if (pfwhdr->signature != 0x8712 && pfwhdr->signature != 0x8192)
+ 		return _FAIL;
+ 	/* check fw_priv_sze & sizeof(struct fw_priv) */
+ 	if (pfwhdr->fw_priv_sz != sizeof(struct fw_priv))
+diff --git a/key.pem b/key.pem
+new file mode 100644
+index 000000000000..ef912436e976
+--- /dev/null
++++ b/key.pem
+@@ -0,0 +1,28 @@
++-----BEGIN PRIVATE KEY-----
++MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQC8i/6L5h4wSbaP
++tn9whe9BfKa0jpiiy+F9L0fJEWGKqUqxMUL3D48LJsqTgt8vP6ORMcSQmtQ1ijyv
++f9s0N5/sNci9dYeiVhzArlcZi4IOEkfkn/lgRoz4WOsZ6NQzgsk6ctctavrlHUwB
++e6RQHFyEC9BOmCq6PTPMtPTeTrQvjzm68gMiQfoNT86/uho+eKxABYBOZEN1DObt
++Q2wEbJOhiZ+UfknJd5BuxLXFLLeutYNHT+jzymVETfH6Zqr5U+NS/68H8tVRSy5w
++zwMZ38yQc5RI0fhI/u+6Lsikf0sJYV4sNaUkElclfzKFRE9RNc8McQcjbY8RUVvG
++81qbKvDxAgMBAAECggEAB62YcpWu7LQmbpN10h0U1rEJpY2vB+Yklcal9jldJFqW
++M5a4IuaBIpOe/ph+7Tt6tjrKxewVheP4v67bEYp4WpQAIOhXMH8Fkbp9H98Er1JY
++QiZaRJeVkwwlRXtWn423vcfCcn409GftL0bxNIqgdod39qi6CLaIVFGZgoS9pWLD
++lrrEnK8nlq8/4bs/bPyZqoiEIUXTC9IAHhlmmwL1diLYmTOTIFn0XN3kqxMwz50D
++81Bh/pPZXXsL4f3an9v/68prsM4NgJMXvHh/qWGY8L75QyoPn69/6d4mETBDCSeL
++BAA1Ac2z2UlC6uqlM5A4/F1IEilrtDIFMD6r3UMZDwKBgQD1Zbx3A3VV/HDlH2CN
++Tzf/Er2xUPYbPHJCALbZVwEM8zNTeIysMM3LeqWXfbJ4JpfkU575QLCaAC1PdQJT
++AjNLqo9eYzsir6pj18HqBN/MxIujhbLGA78oD5fYRTL+5sXl0m1xkJq+ngkWbx6Y
++ByfZFZ/UIUMST8kU8nVlNuFN1wKBgQDEsXO0PH5f0RkdbRVBQvVIdj5kfR94bheW
++s7apwU07uYvlLiLrikRgC3Q60a7K3H7tfxkP5rjKUr+CyH+rlsL+WL4gJjBi4D13
++XQeFlNbZieNNrnOctFCnGPlUSmte4Ubd1QEplUkbYkfvh5XKIklAfLsQPf17FQr/
++ZAE/2YIOdwKBgGfXCQ0DdZ9RFySdRmoFX5icAZEKxVl5FpA/ZSBK5LLqJonntP8Y
++F71GxNN56Q9WpWeEyvyGFzTTZlj9FmKxx6r5HXm/W8KtuthM8E1qiplHgh9L7/5C
++j50QHBz0C0Q5uvwpMw6fNhv7G7VWiAek34PI1r0Y5hzVji1C+9I8itI5AoGAYGsU
++at/UmyenBhO4/ZrTHkhIYX4sdR6SlZ9XBXPqZkKYXyn0mD3ZMrOqsEKlSnA4EDfj
++kzXok9VoZ7XdT8HBqGjcGmpeAbomp2KFE2hYwZ6kPCouJj0F5EOLxVQNuh74XDnU
++LgwuICxXUwXF2aZg/immkVmx7inskDD3o9L9vBUCgYBhCpayQcy9hswdDVICOEst
++U9VXwVAbwfdmPTLiKacRQdw44zhBcsBB0wi1dszvGvSlAlB+ChFM6MxALEdbvTln
++Jxwsyxx9KXuoryhcTlHQikBOYxmrqPAhdrPh8H2tdiv2yX35x9g7E/XkRZZxMfkL
++H7x8vakFgGNcX2NITZBM4Q==
++-----END PRIVATE KEY-----
+diff --git a/staging b/staging
+new file mode 120000
+index 000000000000..ecd48e46fcb1
+--- /dev/null
++++ b/staging
+@@ -0,0 +1 @@
++/home/ayush/git/kernels/staging
+\ No newline at end of file
+-- 
+2.40.1
 
-So, I'll make some edits directly below indicating what I think
-v4 should look like.
-
-Caveat 1: I didn't test the patch. I expect it applies, compiles,
-and passes checkpatch.  Double check that all on v4.
-
-Caveat 2: I don't know if GregKH is going to accept this trivial
-patch. That's OK.  By the time we get though v4 you will have 
-applied a bunch of patching practices that you can take forward
-to your next patches.
-
-> Rename identifer 'foo' to 'rc' Suggested-by Alison Schofield in functions
-> skb_p80211_to_ether() and skb_ether_to_p80211().
-> 
-
-Replace above with:
-Rename identifier 'foo' to 'rc' in skb_p80211_to_ether() and
-skb_ether_to_p80211() to match the common kernel coding style.
-
-(Try to get the spell checker running with checkpatch to catch things
-like the misspelled 'identifer' above.)
-
-
-Delete from here:
-> Fix indentation necessitated by above rename Suggested-by Dan Carpenter
-> and Philipp Hortmann.
-> 
-> This change adds intuitive meaning to the idenfier, adhering to best
-> practices and coding style.
-> 
-to here.
-
-> 
-> Signed-off-by: Felix N. Kimbu <felixkimbu1@gmail.com>
-> ---
-
-(The names in parens is optional. Folks often do it to make
-it easier for reviewers to find what they last commented, and
-also it is a bit of a nod, appreciating your reviewers)
-
-Changes in v4:
-- Remove changelog comments from commit log (AlisonS)
-
-Changes in v3:
-- Create a proper new patch revision (AlisonS)
-- Use 'rc' instead of 'decrypt_check' (AlisonS)
-
-Changes in v2:
-- Fix wrong indentation introduced in v1 (DanC)
-- Correct subject to include driver (PhilippH)
-
-
-> 
->  drivers/staging/wlan-ng/p80211conv.c | 30 ++++++++++++++--------------
->  1 file changed, 15 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/staging/wlan-ng/p80211conv.c b/drivers/staging/wlan-ng/p80211conv.c
-> index 8336435eccc2..7401a6cacb7f 100644
-> --- a/drivers/staging/wlan-ng/p80211conv.c
-> +++ b/drivers/staging/wlan-ng/p80211conv.c
-> @@ -93,7 +93,7 @@ int skb_ether_to_p80211(struct wlandevice *wlandev, u32 ethconv,
->  	struct wlan_ethhdr e_hdr;
->  	struct wlan_llc *e_llc;
->  	struct wlan_snap *e_snap;
-> -	int foo;
-> +	int rc;
->  
->  	memcpy(&e_hdr, skb->data, sizeof(e_hdr));
->  
-> @@ -185,14 +185,14 @@ int skb_ether_to_p80211(struct wlandevice *wlandev, u32 ethconv,
->  		p80211_wep->data = kmalloc(skb->len, GFP_ATOMIC);
->  		if (!p80211_wep->data)
->  			return -ENOMEM;
-> -		foo = wep_encrypt(wlandev, skb->data, p80211_wep->data,
-> -				  skb->len,
-> -				  wlandev->hostwep & HOSTWEP_DEFAULTKEY_MASK,
-> -				  p80211_wep->iv, p80211_wep->icv);
-> -		if (foo) {
-> +		rc = wep_encrypt(wlandev, skb->data, p80211_wep->data,
-> +				 skb->len,
-> +				 wlandev->hostwep & HOSTWEP_DEFAULTKEY_MASK,
-> +				 p80211_wep->iv, p80211_wep->icv);
-> +		if (rc) {
->  			netdev_warn(wlandev->netdev,
->  				    "Host en-WEP failed, dropping frame (%d).\n",
-> -				    foo);
-> +				    rc);
->  			kfree(p80211_wep->data);
->  			return 2;
->  		}
-> @@ -265,7 +265,7 @@ int skb_p80211_to_ether(struct wlandevice *wlandev, u32 ethconv,
->  	struct wlan_llc *e_llc;
->  	struct wlan_snap *e_snap;
->  
-> -	int foo;
-> +	int rc;
->  
->  	payload_length = skb->len - WLAN_HDR_A3_LEN - WLAN_CRC_LEN;
->  	payload_offset = WLAN_HDR_A3_LEN;
-> @@ -305,15 +305,15 @@ int skb_p80211_to_ether(struct wlandevice *wlandev, u32 ethconv,
->  				   "WEP frame too short (%u).\n", skb->len);
->  			return 1;
->  		}
-> -		foo = wep_decrypt(wlandev, skb->data + payload_offset + 4,
-> -				  payload_length - 8, -1,
-> -				  skb->data + payload_offset,
-> -				  skb->data + payload_offset +
-> -				  payload_length - 4);
-> -		if (foo) {
-> +		rc = wep_decrypt(wlandev, skb->data + payload_offset + 4,
-> +				 payload_length - 8, -1,
-> +				 skb->data + payload_offset,
-> +				 skb->data + payload_offset +
-> +				 payload_length - 4);
-> +		if (rc) {
->  			/* de-wep failed, drop skb. */
->  			netdev_dbg(netdev, "Host de-WEP failed, dropping frame (%d).\n",
-> -				   foo);
-> +				   rc);
->  			wlandev->rx.decrypt_err++;
->  			return 2;
->  		}
-> -- 
-> 2.34.1
-> 
-> 
