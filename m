@@ -1,210 +1,160 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from CHN02-SH0-obe.outbound.protection.partner.outlook.cn (mail-sh0chn02on2115.outbound.protection.partner.outlook.cn [139.219.146.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6BA158AAC
-	for <linux-staging@lists.linux.dev>; Mon, 11 Mar 2024 23:16:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710198985; cv=none; b=V0+8JfW24MPaYoakM9pjURnch004n/ePBP7ZNdz7erFNRGBDjERy8csVprwpycvPm/XYzmKmb41zkbQAwLTd/dXSJ1HFzIoZtkL+huemC/5vgkkZIe7PAmpurqLEkIgxs2kuAm/b9ADkZGcNRmt0sTwTHnSZplz5w8nk7BMmSgg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710198985; c=relaxed/simple;
-	bh=3KAkkR8LzwGvvJOZhpT3GZas6J6uA+ZV9bNZIssJlPo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bpwwqPLGB1jQJ9+JW3qzDFemik+HvQg/jc07N2yvJYlAYMahxwkPO/knryOmPMKQA+HrDXVFe9ri8zovj9IeZlSs3TyDG3hTz7/pL42n0to8rIBWFarE7pIyIRVSgGLrL02sb02ZmL4r58pYqunFD9T6l1tY9Zvqcb4vG2ko0Gg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=LE0tOv7k; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="LE0tOv7k"
-Received: from umang.jain (unknown [103.251.226.70])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D923E842;
-	Tue, 12 Mar 2024 00:15:58 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1710198960;
-	bh=3KAkkR8LzwGvvJOZhpT3GZas6J6uA+ZV9bNZIssJlPo=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=LE0tOv7kJX6aJ0vbQ1LaG/wO75Gk0M5F7jE7P4Q+SrtjBptCqjtohwzYjP48ChYaW
-	 1bsuIb77E8LkdBQFapJKNtHWbYo1Uij+74BsQltaa4gUzj49Ktmq7+rxlN38mQIIaM
-	 IL4oOHJQqpnWJzuLHxroSKRJRWwg5T5DU9TE9UiQ=
-From: Umang Jain <umang.jain@ideasonboard.com>
-To: linux-staging@lists.linux.dev
-Cc: Stefan Wahren <stefan.wahren@i2se.com>,
-	Dan Carpenter <error27@gmail.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B85079C0
+	for <linux-staging@lists.linux.dev>; Tue, 12 Mar 2024 02:45:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.219.146.115
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1710211542; cv=fail; b=ppJj8PAerXc4FN0gRzuVboQkMHWi8Hv7DcUzx/ym0wFLtPKKxZJl7J8yBHTItKeFtWmN4C0x8pJ39yePybKWB3FUIuJ/LBZVtWv81FWY5965LUbVXeK2bFvJBT1ABkPtEXngrvEOBDg/4RsfcNbDdaSR4wbLPNZwokPRce0emGE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1710211542; c=relaxed/simple;
+	bh=cvE1iY6j1g7PYcGYBktFyGnkuJ+N7v4wDIyPQJhKStk=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=PhjhcPYICZQI18sT/1qhd87cFh4RyfyNmQrrN+gGYCPw3nVmn805QxoA+KLiJizNn3TO9aWAf2n4fqjcDtJUgTjxWiNIywALivebslwtKI8wTDTzTyMXfiOaolCu3LxtCfZISIfdlfwswwQUcwNTjG7iwqEHNDCW2KFfyge9cKM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com; spf=pass smtp.mailfrom=starfivetech.com; arc=fail smtp.client-ip=139.219.146.115
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PKERtY7cEtHrlCDu3rT4GsrfaipkpbppcHFwL/cYcZEatFYG0BbUckOVcahhJc2c3qLlcTBNB/qmlXFF9UhblQWzIC4L/pDT829gjjWQX+TpkW3ba3mrBPRaLqwDen1lxRsww3a3g+CCrMyBpweCJU3fL9oApp5YCQ0SPM/P7CrUWQbQROx7562yVb+d/+Gmm9YBkWmu88Phs5Ez78iJgXjWdXzmhT8+gBP8iPMlgfXhuyuFYNPQai0Dg/dhAZORnNYhL0+kdoZQ7fnJxCJy2VnBicfs4oIKyDGDigiFXRo8QKopWLVStI/9J9Hgdv2ldCNpmJtBY9NfZnOpldqSXg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=iqcsnIrJ8sPmElkzWKcIofUPyC/sXNuZQb/yrEyc3wU=;
+ b=g+fxLAFd20BGxjKHyecFuBISQxLhjTbGEU8hmGzUJVO1CkQrczEnqwt8WaRvG8CbGoril/yhf3u6EYmBTzfaOLntKPCIMTMxLLXp+3m5F4tP7saHuDtienBQ/RHcQeZi5ldfqH9QxaqrIcjDPtb3NOj9rfrocy+XXdQim6aLlGwHjS4IlR4qO7Y9sgz6nXaBSErKExshJDgi//xwUYKVlWTAWcmxZULbjze2nw1T83Hg9jWEO6beNYXx0+iOWCgYY80Ea4/kva45rI+EVH9pj+m1dQMNzBkixKU6o/BIHJ09/GpCpvZULr41vPYwQfx+ntXU6UpjuwJqP9Oq9/8cnA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=starfivetech.com; dmarc=pass action=none
+ header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=starfivetech.com;
+Received: from SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c311:25::10) by SHXPR01MB0575.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c311:1e::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7339.45; Tue, 12 Mar
+ 2024 02:45:28 +0000
+Received: from SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
+ ([fe80::b0af:4c9d:2058:a344]) by
+ SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn ([fe80::b0af:4c9d:2058:a344%6])
+ with mapi id 15.20.7249.041; Tue, 12 Mar 2024 02:45:28 +0000
+From: Changhuang Liang <changhuang.liang@starfivetech.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Phil Elwell <phil@raspberrypi.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Umang Jain <umang.jain@ideasonboard.com>
-Subject: [PATCH 3/3] staging: vc04_services: Drop global members for tracking connections
-Date: Tue, 12 Mar 2024 04:46:07 +0530
-Message-ID: <20240311231607.124491-4-umang.jain@ideasonboard.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240311231607.124491-1-umang.jain@ideasonboard.com>
-References: <20240311231607.124491-1-umang.jain@ideasonboard.com>
+	Jack Zhu <jack.zhu@starfivetech.com>,
+	Changhuang Liang <changhuang.liang@starfivetech.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [v1] staging: media: starfive: Clean pad selection in isp_try_format()
+Date: Mon, 11 Mar 2024 19:45:20 -0700
+Message-Id: <20240312024520.11022-1-changhuang.liang@starfivetech.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BJSPR01CA0024.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c211:c::36) To SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c311:25::10)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SHXPR01MB0671:EE_|SHXPR01MB0575:EE_
+X-MS-Office365-Filtering-Correlation-Id: ae8b754c-f47e-4c34-2d42-08dc423e79ce
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	bOOaeHKFVUtIBDLw66TX1DqcaseZqYVxQAXuEq9o5xFCPjhnJgcmLrTUhU6tKWKavyXiC/mzq0G54AHcxEKmuwpcingwkKFVAogC3NApqIatQmeu8dVAw6x9rMHMSLKyOEIhIaucOHTIWjDPkXOWyKmWcRBtaiW+3VNq/9NHn6p4C2rc8n5NlQdzZoTorzm3dCIsksN8WOwKW+Ma7SF8rD3elTRYmvyV9T0kJ4ApZlJq55F0gV6vCPF75n5rG76H6fee2us8SjQu34cbtTAJ+1Vrug/rYwaFr7g/d8hIPJFy1UmNagR1bzYfKamG+J6M6BW2DkCxuXSOJJWMrF30fSTAlwLikZBLGJzmLuodOgtltkSdg8FbZV3Gwyf7t9NukR5+sMm1rK6xVL8crbPIxUly9m4w99SrEZgGpeZrNsXT4mz9jaFWtF8K9ya/Vs+YHoajCmc+UDKp+Um9USaCELv6r2HVgR8T4ZZghzyLDE7p3blYkBxq/epPlD7jibKDmNxkhNaGxac7p0wShRIg+FlNwGcQSJuz27WgTQKkQKiPZcEco0d8TUiFonEYQ4nK4qV1wAHR7pHQqdsVu+exudZTvTA36kKtp43c5WV3gwis5jLZWQNuUsHnLW/qklo/
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230031)(52116005)(1800799015)(41320700004)(38350700005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?dTXd6btUGXHBFcJkKsHmQ1T9o3w96MXKJHkDrNtdyIVkdTDeBbIhZq1zEpeb?=
+ =?us-ascii?Q?h4ZGf5nzOx9h2aOQqmN+E04I64nUiGaP+TBpywr3kgW+5xSF8/xj6HVpnVNY?=
+ =?us-ascii?Q?YfuKkE5sVdqXB61iTe7HNk7maJ6qho95HmGEURWrzUxSyung43tIGmdcmk6p?=
+ =?us-ascii?Q?bnoYTVuoxq6KOWrlxuBKjShgdjVqE1y2JMS579oJZqZayxqLakEgIdGyV5mn?=
+ =?us-ascii?Q?q47uYM4CAHJ1Sih2kSRT1KbRPLLPXZu1EbmqKHEiA/KyD5tLRNMan+zH3piA?=
+ =?us-ascii?Q?NtNL1TkcDS7iS674i7WSoIWh/QbX29uCGrGBjg0kYbs4JqsY+cq8FsN6ZdHW?=
+ =?us-ascii?Q?neoG3TzHa8TxrpY9pHTN1Xpz3cfwnZfHfOH1devo5OqwlMPjL9rf+w29jW5y?=
+ =?us-ascii?Q?4bGFlYZFukmpZYinfXcSiMwhsG2foMpTtBEiEpeQE0nr51X779Q8yaXtkG7G?=
+ =?us-ascii?Q?mHKJ8Kh9puVJdFH2CLJfgdOBtc9BnAFBcpbmPZuiDN1upfvB5YagGD/scdr6?=
+ =?us-ascii?Q?PBBxwqADveohtC2b5RlwH/jqZ0SYHoUaj8mtefU9oJYyYlJ5BpY0/A8df4UU?=
+ =?us-ascii?Q?R97ANBqKp8cI4O6k/i5tS3IAksDaGwWxq9aDK1YPTMPk8NIZln+BgQFHWoub?=
+ =?us-ascii?Q?rniUk0T3mt3lAfSzG9Oqttgln6lf7ZnIxL00Q1exGekzivfZ3doSJl50ED1j?=
+ =?us-ascii?Q?YPVY6c2hgqTd525LhU55UBsHiSzgNIt1Jpb8doevbnISFKgftKuxzIdlqtWw?=
+ =?us-ascii?Q?HOo8PoMp50MXCa9M+i03MteGu70YyIoCdOP8MWyUDN70I0khAeBLVuaMvDFy?=
+ =?us-ascii?Q?gyaeMlZLjlvz9aYHGMePJd1e2nVqc7Zo6pRzDeUJwZR4hWjfrTqKe8XFQ0Jn?=
+ =?us-ascii?Q?oQ5fO7AVXKmx4SxSELGpETDZwju5sZl6RIaF4h3CNbdyszjhHgQ73WB5+A2A?=
+ =?us-ascii?Q?INPwjhGS6Bn/qL547a/LUarpfT/uwDTH8JVNsbar0syov4su6wHOZbs55bYF?=
+ =?us-ascii?Q?JFsypWI4xVjHqA3BuSDTaqNH9Mq+bR5dcG7IrjZuakrzFd5ZHH9+6kUaja6V?=
+ =?us-ascii?Q?iv20TvnGcSh1JpEuiWQh+XlP3knhhxE1zP65vw/ZCHq5QoPkeu1l3WptwBI8?=
+ =?us-ascii?Q?SrvVFVsPhKViCXCXpf/Htk/07aFTnVM9clAh+2I/0p/jHUhROlhA9q01wJsd?=
+ =?us-ascii?Q?a0iGx9BAsCZIR4yC2xoZLRwQLE1wGwJeyi90w3arWfGPmG3HuUY3lZLj3NeA?=
+ =?us-ascii?Q?5Rfv0JhrNzz4c5jMEeHfTEwrKB/ffVCiaxUEHPq51ffzajCOx17NBLXje6oI?=
+ =?us-ascii?Q?61OfVMFexAuY8WcqaGNJwtTK3CLKHo0Q94SbwfXbR0LTEqmnEucVLcDYJGV0?=
+ =?us-ascii?Q?xji8gIMv/w5QLpmAyEkXkM9eUJZTOf+DcthI8FdHH5qC/EilfsivSYNsy35s?=
+ =?us-ascii?Q?hkjkJ+BSaVglF/i34Ys7IBzRTF85SXgXFbo/zvKZd13r0jNum0+C1YBA+h93?=
+ =?us-ascii?Q?sJjwFHB7MBtXlbUXMVH/OyCQ7N6xOBzohlWFXkO9t3+AQWsi2DIy5FrlSL66?=
+ =?us-ascii?Q?DHtJM8iP30KoQbeDoe1+Trr0CUdD5ddwa5DQgkkauag2RkwYDpK3aYYaM5da?=
+ =?us-ascii?Q?7qehTMviLmNDG7VHhF6di+w=3D?=
+X-OriginatorOrg: starfivetech.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ae8b754c-f47e-4c34-2d42-08dc423e79ce
+X-MS-Exchange-CrossTenant-AuthSource: SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Mar 2024 02:45:28.0241
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7sI19hZ/dqRU7okSDiJy3cQfb/ZrPjwpshoejwkwDqmelK7ZGCpco0BcIImbZ7ZvvPJBUzoiU6nYqgpM/pjozC7EWlg5d1anRuz5kWjYrNS9LYAiz4YyKre9vk16/5D0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SHXPR01MB0575
 
-Drop global members for tracking vchiq driver connections in
-vchiq_connected.[ch] and use the struct vchiq_connected present
-as a part of vchiq platform driver data.
+The code to select isp_dev->formats[] is overly complicated.  We can
+just use the "pad" as the index.  This will making adding new pads
+easier in future patches.  No functional change.
 
-All calls have been adjusted to use the struct vchiq_connected.
-
-Since the non-essential global members have been eliminated,
-drop the respective TODO item.
-
-Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
 ---
- drivers/staging/vc04_services/interface/TODO  |  8 ----
- .../interface/vchiq_arm/vchiq_arm.c           |  2 +-
- .../interface/vchiq_arm/vchiq_connected.c     | 44 +++++++++----------
- .../interface/vchiq_arm/vchiq_connected.h     |  6 ++-
- 4 files changed, 26 insertions(+), 34 deletions(-)
+ drivers/staging/media/starfive/camss/stf-isp.c | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/staging/vc04_services/interface/TODO b/drivers/staging/vc04_services/interface/TODO
-index 05eb5140d096..15f12b8f213e 100644
---- a/drivers/staging/vc04_services/interface/TODO
-+++ b/drivers/staging/vc04_services/interface/TODO
-@@ -41,14 +41,6 @@ The code follows the 80 characters limitation yet tends to go 3 or 4 levels of
- indentation deep making it very unpleasant to read. This is specially relevant
- in the character driver ioctl code and in the core thread functions.
+diff --git a/drivers/staging/media/starfive/camss/stf-isp.c b/drivers/staging/media/starfive/camss/stf-isp.c
+index d50616ef351e..4e6e26736852 100644
+--- a/drivers/staging/media/starfive/camss/stf-isp.c
++++ b/drivers/staging/media/starfive/camss/stf-isp.c
+@@ -10,9 +10,6 @@
  
--* Get rid of all non essential global structures and create a proper per
--device structure
+ #include "stf-camss.h"
+ 
+-#define SINK_FORMATS_INDEX	0
+-#define SOURCE_FORMATS_INDEX	1
 -
--The first thing one generally sees in a probe function is a memory allocation
--for all the device specific data. This structure is then passed all over the
--driver. This is good practice since it makes the driver work regardless of the
--number of devices probed.
--
- * Clean up Sparse warnings from __user annotations. See
- vchiq_irq_queue_bulk_tx_rx(). Ensure that the address of "&waiter->bulk_waiter"
- is never disclosed to userspace.
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-index b8b51267bcde..7daad927207a 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-@@ -560,7 +560,7 @@ static int vchiq_platform_init(struct platform_device *pdev, struct vchiq_state
- 	dev_dbg(&pdev->dev, "arm: vchiq_init - done (slots %pK, phys %pad)\n",
- 		vchiq_slot_zero, &slot_phys);
- 
--	vchiq_call_connected_callbacks();
-+	vchiq_call_connected_callbacks(&drvdata->drv_connected);
- 
- 	return 0;
- }
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.c
-index 3cad13f09e37..4b79fccaa95e 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.c
-@@ -6,19 +6,13 @@
- #include <linux/module.h>
- #include <linux/mutex.h>
- 
--#define  MAX_CALLBACKS  10
--
--static   int                        g_connected;
--static   int                        g_num_deferred_callbacks;
--static   void (*g_deferred_callback[MAX_CALLBACKS])(void);
--static   int                        g_once_init;
- static   DEFINE_MUTEX(g_connected_mutex);
- 
- /* Function to initialize our lock */
--static void connected_init(void)
-+static void connected_init(struct vchiq_connected *drv_connected)
- {
--	if (!g_once_init)
--		g_once_init = 1;
-+	if (!drv_connected->once_init)
-+		drv_connected->once_init = 1;
- }
- 
- /*
-@@ -27,25 +21,29 @@ static void connected_init(void)
-  * be made immediately, otherwise it will be deferred until
-  * vchiq_call_connected_callbacks is called.
-  */
--void vchiq_add_connected_callback(struct vchiq_device *device, void (*callback)(void))
-+void vchiq_add_connected_callback(struct vchiq_device *device,
-+				  void (*callback)(void),
-+				  struct vchiq_connected *drv_connected)
- {
--	connected_init();
-+	unsigned int index;
-+
-+	connected_init(drv_connected);
- 
- 	if (mutex_lock_killable(&g_connected_mutex))
+ static int isp_set_selection(struct v4l2_subdev *sd,
+ 			     struct v4l2_subdev_state *state,
+ 			     struct v4l2_subdev_selection *sel);
+@@ -94,10 +91,7 @@ static void isp_try_format(struct stf_isp_dev *isp_dev,
  		return;
- 
--	if (g_connected) {
-+	if (drv_connected->connected) {
- 		/* We're already connected. Call the callback immediately. */
- 		callback();
- 	} else {
--		if (g_num_deferred_callbacks >= MAX_CALLBACKS) {
-+		if (drv_connected->num_deferred_callbacks >= VCHIQ_DRV_MAX_CALLBACKS) {
- 			dev_err(&device->dev,
- 				"core: There already %d callback registered - please increase MAX_CALLBACKS\n",
--				g_num_deferred_callbacks);
-+				drv_connected->num_deferred_callbacks);
- 		} else {
--			g_deferred_callback[g_num_deferred_callbacks] =
--				callback;
--			g_num_deferred_callbacks++;
-+			index = drv_connected->num_deferred_callbacks;
-+			drv_connected->deferred_callback[index] = callback;
-+			drv_connected->num_deferred_callbacks++;
- 		}
  	}
- 	mutex_unlock(&g_connected_mutex);
-@@ -56,19 +54,19 @@ EXPORT_SYMBOL(vchiq_add_connected_callback);
-  * This function is called by the vchiq stack once it has been connected to
-  * the videocore and clients can start to use the stack.
-  */
--void vchiq_call_connected_callbacks(void)
-+void vchiq_call_connected_callbacks(struct vchiq_connected *drv_connected)
- {
- 	int i;
  
--	connected_init();
-+	connected_init(drv_connected);
+-	if (pad == STF_ISP_PAD_SINK)
+-		formats = &isp_dev->formats[SINK_FORMATS_INDEX];
+-	else if (pad == STF_ISP_PAD_SRC)
+-		formats = &isp_dev->formats[SOURCE_FORMATS_INDEX];
++	formats = &isp_dev->formats[pad];
  
- 	if (mutex_lock_killable(&g_connected_mutex))
- 		return;
+ 	fmt->width = clamp_t(u32, fmt->width, STFCAMSS_FRAME_MIN_WIDTH,
+ 			     STFCAMSS_FRAME_MAX_WIDTH);
+@@ -123,7 +117,7 @@ static int isp_enum_mbus_code(struct v4l2_subdev *sd,
+ 		if (code->index >= ARRAY_SIZE(isp_formats_sink))
+ 			return -EINVAL;
  
--	for (i = 0; i <  g_num_deferred_callbacks; i++)
--		g_deferred_callback[i]();
-+	for (i = 0; i < drv_connected->num_deferred_callbacks; i++)
-+		drv_connected->deferred_callback[i]();
- 
--	g_num_deferred_callbacks = 0;
--	g_connected = 1;
-+	drv_connected->num_deferred_callbacks = 0;
-+	drv_connected->connected = 1;
- 	mutex_unlock(&g_connected_mutex);
- }
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.h
-index cb5cba94dd54..f40d68fc44df 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.h
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.h
-@@ -16,7 +16,9 @@ struct vchiq_connected {
- 	void (*deferred_callback[VCHIQ_DRV_MAX_CALLBACKS])(void);
- };
- 
--void vchiq_add_connected_callback(struct vchiq_device *device, void (*callback)(void));
--void vchiq_call_connected_callbacks(void);
-+void vchiq_add_connected_callback(struct vchiq_device *device, void (*callback)(void),
-+				  struct vchiq_connected *drv_connected);
-+void vchiq_call_connected_callbacks(struct vchiq_connected *drv_connected);
-+
- 
- #endif /* VCHIQ_CONNECTED_H */
+-		formats = &isp_dev->formats[SINK_FORMATS_INDEX];
++		formats = &isp_dev->formats[code->pad];
+ 		code->code = formats->fmts[code->index].code;
+ 	} else {
+ 		struct v4l2_mbus_framefmt *sink_fmt;
 -- 
-2.43.0
+2.25.1
 
