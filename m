@@ -1,138 +1,140 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BB8E143733;
-	Tue, 12 Mar 2024 21:24:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B9EE143C6F;
+	Tue, 12 Mar 2024 21:52:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710278686; cv=none; b=oMtK1JFqYkcBC3sA8w19Luu70byLLwI2d9epswM9fsvWNpUkIBmkqUUpcW9JbcjgNx7wdsrPqAPGaQmTg+XJzC6i3XPbm1lnV4TS5MUQIgOr63+SIE7v2QWOzIQDH5vBtc651soOFVtNGy52kNhVzJvswvp1LOBXFqUUsENhzq8=
+	t=1710280326; cv=none; b=maxAWDe9p84S5CempTgg94gmliuG6QORDxveOf52x8OAA1TVPs0E58U5d3P5RQJrP0i/5eu262HhUwl1RT+DkXdKtpqKn8qMBim4c0QYRDCv1vZBMdzRVc6qfWNB0tnSmGNejQi2cBSx7X5mB/cyelCObOlJmi/nVXn7GZ9hEjY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710278686; c=relaxed/simple;
-	bh=zn+NCXHkplgUV+dXIwohdLE+F3/a8X6VbE67wHJakVs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uzokEjKzF/hrT3ti5GPScPxMSAnsIdqh/W1BbXTu66cnqFFFfhgLnQfhpamvt5ObxejZloTta9xGHjZht3WBX+iQq7H+N3SUB7IivVoCFinjvH+4NtLYI1egFIBad7R4hPewUkYZR1uNium6gTgJm3oiArQLUXORQTuwka5FvvM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F9uXgz90; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1710280326; c=relaxed/simple;
+	bh=c25YjC2JUauATlLLXLNhbWOGSqRPC7E+MI4ezwvcdy0=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=ZztSQN9QrNi4M9mqH3omwPZoDEOGKLmkW8WrKaC67hkO7rgYYLQua+33fzYZFdNCO1loGE1lKHA3X4k8OnWu5ZVZCwVOAYMnMiGweqLi4/N3gdT+bb+nMBmyvyC682NxLkpzmdehGR5vggoNzWciZZLZrze8KYeGaaslYyQeBmw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=qdWLlB6b; arc=none smtp.client-ip=192.134.164.83
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F9uXgz90"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-6e6adc557f3so807736b3a.1;
-        Tue, 12 Mar 2024 14:24:45 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="qdWLlB6b"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710278684; x=1710883484; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=yyVVkBcjoN3+kr62FySlopYdKOwyFmOO0p91aujbCWk=;
-        b=F9uXgz90fzRsOPIkESzPPxtnF0DoL+TQCyHbMxSvRaXpWueAq/yDIJ1QC4S3maAl6l
-         N3k+wO6q8ewQPRStOzf6QH90jJ6DeNTvC1kSmoEKBANqArVZDLnHYE28tH3B56xTK1/C
-         s3p2LCCAMPi4pVkT4cJfVHATEsDGIuBlZ0kpkcdc0Hemn4wkwDpwvHeKKNmwV/godO1i
-         hXwnlo/FaOcHeCfbiX2uvjTzuoPnK/jVoNfCUEXleysJDgaZ4KXw3lE9BU0MqVKvAEZZ
-         PWtXLd7odr5Gv/c7Agl9cUa+tKXWqB9qiUrkd7fp/r8ICkaR+STw6/yFt2e2XNTGo4Pr
-         pI9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710278684; x=1710883484;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yyVVkBcjoN3+kr62FySlopYdKOwyFmOO0p91aujbCWk=;
-        b=sXgWNoSUgI9IQdE/wFoOmkF1o4NSNLYmva75KKT85+AJLE5jyKv25xjZTqVVlmdIBK
-         wuxQ6PJbW7/kqLy7Qy6ucunWuq2d8y/9CGYY9pVZh8Is4vkhz51gFaZ9qriC2iLzsTwq
-         Ln8EcZTufyFg0N61y5FGdVpYF1yIuBany0WIsnN5lHG8DZLbdztJZirVj/L7gdPOx4Rl
-         pOrKLfL0a72IPmhJWKsfrF/GjN5uwV5kFBb84DmK8p6IjrnWD8dOCux+vi2ufKwfQSV3
-         qo2D1ykfe8y82UT1LL2wYuMpLKU07ehO3cAbRBaPUmFJtHYmS23GfwvKxBbfLPPKLNaP
-         ORXg==
-X-Forwarded-Encrypted: i=1; AJvYcCUf9MiZ8xeVdc3wg1Q6MOQ8+8WlH0IX2x5v7Qu+E2N6naK7qN1G48BlETw7NkHWADLPuSODWuVvkMUkDIETNQFZfcwtTBpsceDhPSfCGQ==
-X-Gm-Message-State: AOJu0Yyq4kD/L1bbHQX9G6ckfgiq5D3wUfTMrXrmBfh6fdpWT1RoP4xB
-	2NnJH2jfb223y7HJ2E3UZWKWF9mbfo1wviJUmmLfvl0n8HT5lGWHeo0gqNz+eW8=
-X-Google-Smtp-Source: AGHT+IEcPiVY1OjLAeekn6g0s+Gbrp+3mGgtAJv9ETaGR3blWskKI0IHXdhBc+Qx2zE+ySIm38grIw==
-X-Received: by 2002:aa7:8885:0:b0:6e5:adb9:b955 with SMTP id z5-20020aa78885000000b006e5adb9b955mr777749pfe.23.1710278683901;
-        Tue, 12 Mar 2024 14:24:43 -0700 (PDT)
-Received: from ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx ([103.6.158.67])
-        by smtp.gmail.com with ESMTPSA id x19-20020a056a00189300b006e6b0c7c453sm775010pfh.216.2024.03.12.14.24.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Mar 2024 14:24:43 -0700 (PDT)
-Date: Wed, 13 Mar 2024 02:54:39 +0530
-From: Ayush Tiwari <ayushtiw0110@gmail.com>
-To: outreachy@lists.linux.dev, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org,
-	florian.c.schilhabel@googlemail.com, Larry.Finger@lwfinger.net
-Cc: outreachy@lists.linux.dev
-Subject: [PATCH] staging: rtl8712: removing redundant paranthesis chk_fwhdr
-Message-ID: <ZfDIF+6MrdrX79nd@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=zjkimfvEnH+8h+KzI9S405xYFJIlma0xDcckDJKGofU=;
+  b=qdWLlB6bJ3c/HeeTsjS1dBAwUtRQT+HCqUvyqO9P0xO9HxQifStQxjkg
+   IVw2qqjIpcw9xRAQrgAauflAB8Ttud2sTLZOb7E3T/QC8xAYQRlx1Dqba
+   PE6tE5ZO4WpAFoKgJMevYpT+nkVNnpgLJZG9xcavK+ImpWf8nyJDJdejh
+   A=;
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.07,119,1708383600"; 
+   d="scan'208";a="156339789"
+Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2024 22:52:00 +0100
+Date: Tue, 12 Mar 2024 22:52:00 +0100 (CET)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To: Ayush Tiwari <ayushtiw0110@gmail.com>
+cc: outreachy@lists.linux.dev, linux-staging@lists.linux.dev, 
+    linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org, 
+    florian.c.schilhabel@googlemail.com, Larry.Finger@lwfinger.net
+Subject: Re: [PATCH] staging: rtl8712: removing redundant paranthesis
+ chk_fwhdr
+In-Reply-To: <ZfDIF+6MrdrX79nd@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
+Message-ID: <alpine.DEB.2.22.394.2403122250390.3229@hadrien>
+References: <ZfDIF+6MrdrX79nd@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
 
-Removing redundant parentheses in 'if ((pfwhdr->signature != 0x8712) && (pfwhdr->signature != 0x8192))' in static u8 chk_fwhdr(struct fw_hdr *pfwhdr, u32 ulfilelength). This will ensure adherence to coding style guidelines
 
-Signed-off-by: Ayush Tiwari <ayushtiw0110@gmail.com>
----
- drivers/staging/rtl8712/hal_init.c |  2 +-
- key.pem                            | 28 ++++++++++++++++++++++++++++
- staging                            |  1 +
- 3 files changed, 30 insertions(+), 1 deletion(-)
- create mode 100644 key.pem
- create mode 120000 staging
 
-diff --git a/drivers/staging/rtl8712/hal_init.c b/drivers/staging/rtl8712/hal_init.c
-index 1148075f0cd6..9f41b2c086ca 100644
---- a/drivers/staging/rtl8712/hal_init.c
-+++ b/drivers/staging/rtl8712/hal_init.c
-@@ -138,7 +138,7 @@ static u8 chk_fwhdr(struct fw_hdr *pfwhdr, u32 ulfilelength)
- 	u32	fwhdrsz, fw_sz;
- 
- 	/* check signature */
--	if ((pfwhdr->signature != 0x8712) && (pfwhdr->signature != 0x8192))
-+	if (pfwhdr->signature != 0x8712 && pfwhdr->signature != 0x8192)
- 		return _FAIL;
- 	/* check fw_priv_sze & sizeof(struct fw_priv) */
- 	if (pfwhdr->fw_priv_sz != sizeof(struct fw_priv))
-diff --git a/key.pem b/key.pem
-new file mode 100644
-index 000000000000..ef912436e976
---- /dev/null
-+++ b/key.pem
-@@ -0,0 +1,28 @@
-+-----BEGIN PRIVATE KEY-----
-+MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQC8i/6L5h4wSbaP
-+tn9whe9BfKa0jpiiy+F9L0fJEWGKqUqxMUL3D48LJsqTgt8vP6ORMcSQmtQ1ijyv
-+f9s0N5/sNci9dYeiVhzArlcZi4IOEkfkn/lgRoz4WOsZ6NQzgsk6ctctavrlHUwB
-+e6RQHFyEC9BOmCq6PTPMtPTeTrQvjzm68gMiQfoNT86/uho+eKxABYBOZEN1DObt
-+Q2wEbJOhiZ+UfknJd5BuxLXFLLeutYNHT+jzymVETfH6Zqr5U+NS/68H8tVRSy5w
-+zwMZ38yQc5RI0fhI/u+6Lsikf0sJYV4sNaUkElclfzKFRE9RNc8McQcjbY8RUVvG
-+81qbKvDxAgMBAAECggEAB62YcpWu7LQmbpN10h0U1rEJpY2vB+Yklcal9jldJFqW
-+M5a4IuaBIpOe/ph+7Tt6tjrKxewVheP4v67bEYp4WpQAIOhXMH8Fkbp9H98Er1JY
-+QiZaRJeVkwwlRXtWn423vcfCcn409GftL0bxNIqgdod39qi6CLaIVFGZgoS9pWLD
-+lrrEnK8nlq8/4bs/bPyZqoiEIUXTC9IAHhlmmwL1diLYmTOTIFn0XN3kqxMwz50D
-+81Bh/pPZXXsL4f3an9v/68prsM4NgJMXvHh/qWGY8L75QyoPn69/6d4mETBDCSeL
-+BAA1Ac2z2UlC6uqlM5A4/F1IEilrtDIFMD6r3UMZDwKBgQD1Zbx3A3VV/HDlH2CN
-+Tzf/Er2xUPYbPHJCALbZVwEM8zNTeIysMM3LeqWXfbJ4JpfkU575QLCaAC1PdQJT
-+AjNLqo9eYzsir6pj18HqBN/MxIujhbLGA78oD5fYRTL+5sXl0m1xkJq+ngkWbx6Y
-+ByfZFZ/UIUMST8kU8nVlNuFN1wKBgQDEsXO0PH5f0RkdbRVBQvVIdj5kfR94bheW
-+s7apwU07uYvlLiLrikRgC3Q60a7K3H7tfxkP5rjKUr+CyH+rlsL+WL4gJjBi4D13
-+XQeFlNbZieNNrnOctFCnGPlUSmte4Ubd1QEplUkbYkfvh5XKIklAfLsQPf17FQr/
-+ZAE/2YIOdwKBgGfXCQ0DdZ9RFySdRmoFX5icAZEKxVl5FpA/ZSBK5LLqJonntP8Y
-+F71GxNN56Q9WpWeEyvyGFzTTZlj9FmKxx6r5HXm/W8KtuthM8E1qiplHgh9L7/5C
-+j50QHBz0C0Q5uvwpMw6fNhv7G7VWiAek34PI1r0Y5hzVji1C+9I8itI5AoGAYGsU
-+at/UmyenBhO4/ZrTHkhIYX4sdR6SlZ9XBXPqZkKYXyn0mD3ZMrOqsEKlSnA4EDfj
-+kzXok9VoZ7XdT8HBqGjcGmpeAbomp2KFE2hYwZ6kPCouJj0F5EOLxVQNuh74XDnU
-+LgwuICxXUwXF2aZg/immkVmx7inskDD3o9L9vBUCgYBhCpayQcy9hswdDVICOEst
-+U9VXwVAbwfdmPTLiKacRQdw44zhBcsBB0wi1dszvGvSlAlB+ChFM6MxALEdbvTln
-+Jxwsyxx9KXuoryhcTlHQikBOYxmrqPAhdrPh8H2tdiv2yX35x9g7E/XkRZZxMfkL
-+H7x8vakFgGNcX2NITZBM4Q==
-+-----END PRIVATE KEY-----
-diff --git a/staging b/staging
-new file mode 120000
-index 000000000000..ecd48e46fcb1
---- /dev/null
-+++ b/staging
-@@ -0,0 +1 @@
-+/home/ayush/git/kernels/staging
-\ No newline at end of file
--- 
-2.40.1
+On Wed, 13 Mar 2024, Ayush Tiwari wrote:
 
+> Removing redundant parentheses in 'if ((pfwhdr->signature != 0x8712) && (pfwhdr->signature != 0x8192))' in static u8 chk_fwhdr(struct fw_hdr *pfwhdr, u32 ulfilelength). This will ensure adherence to coding style guidelines
+
+The log message should be limited to 70 characters per line.
+
+>
+> Signed-off-by: Ayush Tiwari <ayushtiw0110@gmail.com>
+> ---
+>  drivers/staging/rtl8712/hal_init.c |  2 +-
+>  key.pem                            | 28 ++++++++++++++++++++++++++++
+>  staging                            |  1 +
+>  3 files changed, 30 insertions(+), 1 deletion(-)
+>  create mode 100644 key.pem
+>  create mode 120000 staging
+>
+> diff --git a/drivers/staging/rtl8712/hal_init.c b/drivers/staging/rtl8712/hal_init.c
+> index 1148075f0cd6..9f41b2c086ca 100644
+> --- a/drivers/staging/rtl8712/hal_init.c
+> +++ b/drivers/staging/rtl8712/hal_init.c
+> @@ -138,7 +138,7 @@ static u8 chk_fwhdr(struct fw_hdr *pfwhdr, u32 ulfilelength)
+>  	u32	fwhdrsz, fw_sz;
+>
+>  	/* check signature */
+> -	if ((pfwhdr->signature != 0x8712) && (pfwhdr->signature != 0x8192))
+> +	if (pfwhdr->signature != 0x8712 && pfwhdr->signature != 0x8192)
+
+Actually, the response to another proposed patch was that it was preferred
+to keep such parentheses, regardless of the ceckpatch warning.
+
+>  		return _FAIL;
+>  	/* check fw_priv_sze & sizeof(struct fw_priv) */
+>  	if (pfwhdr->fw_priv_sz != sizeof(struct fw_priv))
+> diff --git a/key.pem b/key.pem
+> new file mode 100644
+> index 000000000000..ef912436e976
+> --- /dev/null
+> +++ b/key.pem
+
+I don't think that this is supposed to be part of the patch?
+
+julia
+
+> @@ -0,0 +1,28 @@
+> +-----BEGIN PRIVATE KEY-----
+> +MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQC8i/6L5h4wSbaP
+> +tn9whe9BfKa0jpiiy+F9L0fJEWGKqUqxMUL3D48LJsqTgt8vP6ORMcSQmtQ1ijyv
+> +f9s0N5/sNci9dYeiVhzArlcZi4IOEkfkn/lgRoz4WOsZ6NQzgsk6ctctavrlHUwB
+> +e6RQHFyEC9BOmCq6PTPMtPTeTrQvjzm68gMiQfoNT86/uho+eKxABYBOZEN1DObt
+> +Q2wEbJOhiZ+UfknJd5BuxLXFLLeutYNHT+jzymVETfH6Zqr5U+NS/68H8tVRSy5w
+> +zwMZ38yQc5RI0fhI/u+6Lsikf0sJYV4sNaUkElclfzKFRE9RNc8McQcjbY8RUVvG
+> +81qbKvDxAgMBAAECggEAB62YcpWu7LQmbpN10h0U1rEJpY2vB+Yklcal9jldJFqW
+> +M5a4IuaBIpOe/ph+7Tt6tjrKxewVheP4v67bEYp4WpQAIOhXMH8Fkbp9H98Er1JY
+> +QiZaRJeVkwwlRXtWn423vcfCcn409GftL0bxNIqgdod39qi6CLaIVFGZgoS9pWLD
+> +lrrEnK8nlq8/4bs/bPyZqoiEIUXTC9IAHhlmmwL1diLYmTOTIFn0XN3kqxMwz50D
+> +81Bh/pPZXXsL4f3an9v/68prsM4NgJMXvHh/qWGY8L75QyoPn69/6d4mETBDCSeL
+> +BAA1Ac2z2UlC6uqlM5A4/F1IEilrtDIFMD6r3UMZDwKBgQD1Zbx3A3VV/HDlH2CN
+> +Tzf/Er2xUPYbPHJCALbZVwEM8zNTeIysMM3LeqWXfbJ4JpfkU575QLCaAC1PdQJT
+> +AjNLqo9eYzsir6pj18HqBN/MxIujhbLGA78oD5fYRTL+5sXl0m1xkJq+ngkWbx6Y
+> +ByfZFZ/UIUMST8kU8nVlNuFN1wKBgQDEsXO0PH5f0RkdbRVBQvVIdj5kfR94bheW
+> +s7apwU07uYvlLiLrikRgC3Q60a7K3H7tfxkP5rjKUr+CyH+rlsL+WL4gJjBi4D13
+> +XQeFlNbZieNNrnOctFCnGPlUSmte4Ubd1QEplUkbYkfvh5XKIklAfLsQPf17FQr/
+> +ZAE/2YIOdwKBgGfXCQ0DdZ9RFySdRmoFX5icAZEKxVl5FpA/ZSBK5LLqJonntP8Y
+> +F71GxNN56Q9WpWeEyvyGFzTTZlj9FmKxx6r5HXm/W8KtuthM8E1qiplHgh9L7/5C
+> +j50QHBz0C0Q5uvwpMw6fNhv7G7VWiAek34PI1r0Y5hzVji1C+9I8itI5AoGAYGsU
+> +at/UmyenBhO4/ZrTHkhIYX4sdR6SlZ9XBXPqZkKYXyn0mD3ZMrOqsEKlSnA4EDfj
+> +kzXok9VoZ7XdT8HBqGjcGmpeAbomp2KFE2hYwZ6kPCouJj0F5EOLxVQNuh74XDnU
+> +LgwuICxXUwXF2aZg/immkVmx7inskDD3o9L9vBUCgYBhCpayQcy9hswdDVICOEst
+> +U9VXwVAbwfdmPTLiKacRQdw44zhBcsBB0wi1dszvGvSlAlB+ChFM6MxALEdbvTln
+> +Jxwsyxx9KXuoryhcTlHQikBOYxmrqPAhdrPh8H2tdiv2yX35x9g7E/XkRZZxMfkL
+> +H7x8vakFgGNcX2NITZBM4Q==
+> +-----END PRIVATE KEY-----
+> diff --git a/staging b/staging
+> new file mode 120000
+> index 000000000000..ecd48e46fcb1
+> --- /dev/null
+> +++ b/staging
+> @@ -0,0 +1 @@
+> +/home/ayush/git/kernels/staging
+> \ No newline at end of file
+> --
+> 2.40.1
+>
+>
+>
