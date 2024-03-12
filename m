@@ -1,81 +1,108 @@
-Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wfhigh4-smtp.messagingengine.com (wfhigh4-smtp.messagingengine.com [64.147.123.155])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A001C7A71F;
-	Tue, 12 Mar 2024 14:20:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEC4B58AD4
+	for <linux-staging@lists.linux.dev>; Tue, 12 Mar 2024 15:58:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710253208; cv=none; b=vEnsNT9+T7zM0Tqw0tuG7tt2C9xyjFHsG/s5bA/3F7FfqR+ocOzAi/mUXbTadfVyY1Jt8/OAznCMLAbKjwOniYblh6HjSU+/9biyPVgrRuNIpFDL6bJ5ivieb4LoaN0yXR8PoOuempl98goS3mnCVtWdthXkSlFIlb3TT6h13dA=
+	t=1710259082; cv=none; b=E5mXZMf1W79NlGjlVnDYmRtz/aKFAYXn15Kbg+NFaFbD0pmcM1TC4Qom2f+WvtvXg62/1FZuAr87R5BUUTV8Kle+r5UpruipQ188eaHbR9RfSVBCtHvNGQIhOG7DSfK8f3gcsKRKV5LAU3lBUP+ja+O91Xv3L3G/EuWPpT7LfRs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710253208; c=relaxed/simple;
-	bh=yLWkWNcxZrMOhG71dZBgbvL7aoLlVdcf7JRuDyoJaV0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dS6Ls+6NjElE2vfcDII9UUSoi0xHm4m8teb8OC66eRYQsOPI5G2TfhBe1Z2bFkyaj6QglfPozzWhv2DPKrJkvhpETpkSatJ+9FJtYRVOzO2b2DSKD3ZybVRtcKFxnbWMmzBOaIANNUGXN6LrwxayysAMVKhhZz3xB5W1QTS6TO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DyUa9Q+O; arc=none smtp.client-ip=209.85.160.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1710259082; c=relaxed/simple;
+	bh=OHpe7uyThgZlN6Pl7adIfVnWrEppX1cFzmO61w5qHNE=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=EH1rZWDgTZLlEEjdtN6hvwAesYwJzoUzQWANXPFSuFtkiRBcyT37Y2lv54ThXMQg9Yz+oCqnjDHGz5g2SUfqrwvLgGtcwjz39RlRzCb2BvIhEnmLMsLtMU63lOYsKlKPNDf8l5XGw0zhaSyzrK7XePoFJEDM9Llo18eXWgmLjaU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=qys1UsJy; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=fmejt48P; arc=none smtp.client-ip=64.147.123.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DyUa9Q+O"
-Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-2220a389390so11472fac.0;
-        Tue, 12 Mar 2024 07:20:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710253206; x=1710858006; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yLWkWNcxZrMOhG71dZBgbvL7aoLlVdcf7JRuDyoJaV0=;
-        b=DyUa9Q+Oq4Py/IK3TDFSNhbxZIjeC5Kh8l1y1bZKr629T62BD6W2hX5E5FWRyBaimF
-         Mx5MqcFA4AvcH34wmZwVEG9BfariU2Zsw+/3HrkkmIL/kje1UN5CGbrmgaTE+HSRRRVm
-         DXWRrzrjJpXUdjkqJBetpWrajMOwwV7J4Fesf7oCMhIoOux2SZ7BtroVgXODZ9oKD59b
-         UXwU8K3EoDJfKDXfhNDRmpqQ+VIN5N60MIDFJDGst31RkrLIXKc90MEBTO3VMbeh1t/r
-         sNByaNv6m37xLBQlj4+sgu8Q/T3kGKTVnwa4sjm9AJJSen9ENREQy9d/z0rREkUJc9ug
-         SwTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710253206; x=1710858006;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yLWkWNcxZrMOhG71dZBgbvL7aoLlVdcf7JRuDyoJaV0=;
-        b=Ufq2zMbyDm7FDfUK97iJnS2D81Vy/d5dVIfddkXo0RhHa5+AanOmz32LZ+mAcNADog
-         Y8Kelqe+EGw9Gyjso9reXqV8/HlbAnSOzz4y1FSsgNt2hcIrGoF68NDVDz2cR0xnMPon
-         cdwrncSo3yiaq2Vpl6vrKUWeFoO/i7OzQ5xm4hOcMXkZW1Pqvs0RR9SBsSW0RjmrLLwh
-         CnGE1bMX1Maov4CaO6OmgyL5m+x9lclA9KwP++bTJ/VOA3nKTyXcxWDQOFqUpsePx4oN
-         ZrPSx2xgsh9VP31UZywJnXvGs6NPrIUsVxs4GZE5uu0JDU2DTLIPpQAojbonTMrRjVoN
-         ESVg==
-X-Forwarded-Encrypted: i=1; AJvYcCWJiu8+R7cf+0rDwHXM3QYxUzxiQNXyCemzEpw/4zn0FUkWd+Fvmw9Gx85yPyWCCFFQlVzaQErYrZ1QfPnHKOd0U5iyPBe2S4tGUnXSF5nY7J7CWwo3qMQogZB08uXivm7Sf786WzEQtQ==
-X-Gm-Message-State: AOJu0YzbTSWqgCE3Dp/yyS8+mu5mF5/ps7ybN9hyrJVIz6lJrnw+HkNF
-	WrDthuPoDkye6dRs4OTJUigounfqtvhJySCxmSB6owz/2DiSMYskIsX9jsWVrL0+zkClSofHN6J
-	2snMJoEeW/hcr8Z4WCK1nlYDE5i4=
-X-Google-Smtp-Source: AGHT+IFUvA38hFpGRTEzMMcAC6G2tUkiK1zHM9xDi/u2h1IFr1nD2XuRavJOZMBSAUcKJZVn1eE6s7Aa5WzfRPjpDes=
-X-Received: by 2002:a05:6870:b68f:b0:221:8858:b3af with SMTP id
- cy15-20020a056870b68f00b002218858b3afmr3909933oab.15.1710253205718; Tue, 12
- Mar 2024 07:20:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="qys1UsJy";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="fmejt48P"
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailfhigh.west.internal (Postfix) with ESMTP id 74B6B1800091;
+	Tue, 12 Mar 2024 11:57:59 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Tue, 12 Mar 2024 11:58:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm1; t=1710259078; x=1710345478; bh=YsSZl05VvN
+	YlGGdKIaMVn8wUwHQ4u1oI58NKNni6V1I=; b=qys1UsJyeX3yLUg4PihUdb26AH
+	qq20AEaNCirPfdNWR8Bd6BfTfAqpJP2iG1HHNMFz2Gbsk6OYsxGi4wlTGix2F5Ba
+	E5n5JtVFsJevWBwSj7+DZ4ooixj7UACpCVmedJdo9g6aIZJWJkL3747Q2zSr/OzS
+	sLD6rXYz1Q96YUZXl8LcijHWrXyJiE5dAoSNjfqnFJcYojgy+DMIYThDRQ38fftw
+	fvxOF8yGaIXfIt59C5VMHTa0ygU/7UJqIIUpyTStL36Mpm9d8fy2/lGHTHOYfGw/
+	Q35Ntgmo8yHuhubCbh7L7CdokCu7FC0hvDXUJ4uQziW0dA8NacpzcLXE5XnQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1710259078; x=1710345478; bh=YsSZl05VvNYlGGdKIaMVn8wUwHQ4
+	u1oI58NKNni6V1I=; b=fmejt48PIO2b38tcaMKE720ij2JonoIKc09Q0DfZsDf9
+	t/tbOml5mQsKIdwbaJkUDjXsDA3WxjM8NDnraK6WnIbKQDS4OFvjqJMFfbI3JXr1
+	PwodZ5HwNnxe8I7KLDUma0amKIJqGjv+xF5QHix68o/cJwQyJmQg1GnlhSe8zzsr
+	YsViJpG3/KaXhnssPYMO+12lX4GlNwMFpmKaWNdh7aK6C3leCskH3+wTuPcAK90o
+	VYOnm/g+LVU0tKKO8760fSMaFUJT9/cL7dyWzHtEBx/X0LizaqnofJj5+HWBCgcz
+	10d6/IuK2pNOpeqozz0NJ+u3RGbtGykXxGxxmZKhrQ==
+X-ME-Sender: <xms:hnvwZSmpJtwrKMV_P2Q0JqIS_W17l0cJNmhfPTJrcB6DiuSQwsjQ5g>
+    <xme:hnvwZZ34MkAVF28b6k-0vtn7xmKVAzv5ZKeCB5x0hvufeLJ5yQt8jSpXgSExaPjKx
+    6p3t4O-QEIXsFB2_ZI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrjeefgdekvdcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
+    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
+    gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
+    ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
+    hnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:hnvwZQpBLW86WJqTkkaiu5a2VlI7daSPZWz1kpRO8ABprBvG8P_ppQ>
+    <xmx:hnvwZWkZz-RI6McBdcqq9ykHKWnZt5nlY7LX6Y-NUNNpLqND4GzShQ>
+    <xmx:hnvwZQ3sETR6zyyXHXbomrprMHMQv8W5P7UXr8BFF4ivSqu2GL69PQ>
+    <xmx:hnvwZdvLl6gcbYBOicPasQXmz14j_aquccEOolRR4hajkUGzU-c7Rw>
+    <xmx:hnvwZRnkbywgzHyNAjT_3ddwhy-hCx1OvXpO1-UIL-Ufl_vEERaLQEl7S3g>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id A9CB9B6008D; Tue, 12 Mar 2024 11:57:58 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-251-g8332da0bf6-fm-20240305.001-g8332da0b
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <Ze9Ie67PCSvBU+og@MOLeToid> <6d643351-8924-4c86-9fb5-9951e016f5db@gmail.com>
- <b9cc75d2-3e06-43d6-8b70-38d1c97124d2@gmail.com> <Ze+LMgwYYK6LN79O@aschofie-mobl2>
-In-Reply-To: <Ze+LMgwYYK6LN79O@aschofie-mobl2>
-From: Felix Kimbu <felixkimbu1@gmail.com>
-Date: Tue, 12 Mar 2024 15:19:54 +0100
-Message-ID: <CAK=vLxLensipg0BMCW-r83+-tQn03XQ5naKOsPOrJa6gf8i7SQ@mail.gmail.com>
-Subject: Re: [PATCH v2] staging: wlan-ng: p80211conv: fix indentation
- problems, introduced by previous commit
-To: Alison Schofield <alison.schofield@intel.com>
-Cc: Philipp Hortmann <philipp.g.hortmann@gmail.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Message-Id: <35b27047-4e5f-4e22-ab7e-cd5ee983a232@app.fastmail.com>
+In-Reply-To: <6dc14151-e71e-4118-826d-3ca5c8ee907f@gmail.com>
+References: <6dc14151-e71e-4118-826d-3ca5c8ee907f@gmail.com>
+Date: Tue, 12 Mar 2024 16:57:38 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Philipp Hortmann" <philipp.g.hortmann@gmail.com>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: "Larry Finger" <Larry.Finger@lwfinger.net>,
+ "Johannes Berg" <johannes@sipsolutions.net>, "Kalle Valo" <kvalo@kernel.org>
+Subject: Re: [RFC] staging: wlan-ng: Driver broken since kernel 5.15
+Content-Type: text/plain
 
-On Mon, Mar 11, 2024 at 11:52=E2=80=AFPM Alison Schofield
-<alison.schofield@intel.com> wrote:
-> Please follow process for revisioning patches here:
-> First Patch Tutorial Section: Revising your patches
-> when you send a v3.
+On Sat, Mar 9, 2024, at 23:09, Philipp Hortmann wrote:
+> Hi,
+>
+> I would remove the driver from the mainline kernel. What are your thoughts?
+>
+> I bought two WLAN devices (DUT: D-Link DWL-122 and T-Sinus 111 data) 
+> that are supported by wlan-ng driver. Issue is that the driver is not 
+> working anymore.
 
-I appreciate the feedback.
-Thank you and best regards
+I don't think it matters much either way. I did send the patches
+to remove wlan drivers that were either using the old pcmcia
+interfaces or the old wireless extensions that I think we should
+try to eventually kill off entirely, but this driver uses neither
+of them and as a result has a lower maintenance cost.
+
+On the other hand, there is also little benefit in keeping the
+driver if it's known to be broken, given how better USB wireless
+adapters are dirt cheap and widely available. Even if we find and
+fix all the bugs in this driver, any supported 802.11n device
+would be better in practice.
+
+       Arnd
