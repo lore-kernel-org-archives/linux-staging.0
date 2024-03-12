@@ -1,94 +1,93 @@
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
+Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 185DF7A725;
-	Tue, 12 Mar 2024 14:09:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F45C7A726;
+	Tue, 12 Mar 2024 14:16:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710252589; cv=none; b=dvNSpNQD6QKrPdeV/RyFtIwAEyiD3Tv3fv7OclqqI3ZRo5y981a7eP1ErsFUoicZZCTc5j1yF0yUqwdxvgd8Azw983wz3/UpXyptwSMj7z0FlPqfJUKcFxDOYxGo0WH5BDNJzC2fg4fYy2uTuxKhInCwNIgkjM3oyL3GxeDYFRA=
+	t=1710252981; cv=none; b=Nf2VbUopUPxLc58MIdBXWK/OHXFFXXNICsOSStmq75EUuPBe7AK2RfWb5eK7YHbKiuZSlQNBXzYXERgN88u2G3ywH6H2rv3F2lyY102An4LmrktveP8ZtQt7WdpIRFCiIJIdJJR5oeBSxg8esWNBbUDlOVK3O2F3SuF0bwb7mAU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710252589; c=relaxed/simple;
-	bh=zu+uZ/8084vv+m/AogKImKAueKFkXxPoXHpto1b+ruQ=;
+	s=arc-20240116; t=1710252981; c=relaxed/simple;
+	bh=Xe2jflIWmBOCrDgKu8vTJunMCy3V4P/f2yAusY6t6o8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AuMRxpH0WJEap0CKWmwxeZaELnYWT/kngRViCcIoPghI79j2laCihBcSK0bHcQpQe/51FD3KRuEKZn9UP+wJDVOa0bn3+D34DuIXEeWKI0vVtKRIKyfRCijJawezAoCNLac0v4CIf1pTImLUyEfid9EwcQgWppYtE34pfgyLpfw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Oc/z2G9s; arc=none smtp.client-ip=209.85.210.51
+	 To:Cc:Content-Type; b=TCZ5N67lMaovS/h8wOornSdn32gfSdwJ4CENqEMXZqII/xd+7oD1Soe1+FDvCcRnVFwP8gfzMVQGmRPKx0fBS2+4qaPzxkA6/D+VvsrZeH5osJW39R/w+CLAz7DN5Fm43ikAuW2a8w4gNUyP3NknNbbMfp97VuWutfQV7t5PTCA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MTf2vCpr; arc=none smtp.client-ip=209.85.161.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Oc/z2G9s"
-Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-6e515dc7bd7so1635082a34.3;
-        Tue, 12 Mar 2024 07:09:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MTf2vCpr"
+Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-5a0932aa9ecso2121289eaf.3;
+        Tue, 12 Mar 2024 07:16:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710252587; x=1710857387; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1710252979; x=1710857779; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zu+uZ/8084vv+m/AogKImKAueKFkXxPoXHpto1b+ruQ=;
-        b=Oc/z2G9sxoT+VHSPLS86F28Xw6BfQGQXtAOnfssqoqgV35fneGuiMpwhLDr6dGmb8f
-         8HciqVORuGmW1o0zjqnmlz6AxKAkoYqM9CfgJ8o9A1jolG95OootVQed1XBAX3Rjyncl
-         y1tr+FKmUzNqArrMYeOYapaBMk+4ZiSrSQbQqGHei1pM0oM2ZNjjTWFSmDAnpVriplUE
-         NIDbI5/lZ4uyK54O99KBA3gPjsIOL/TZdUnu68vgMJogYsYuIkEORL5rhMC8AaM3EnRY
-         IBBauw9sGnD+NWzF0/U2gkRFy4HDgbB2tWKfQszsrt9VLWKa9HENdXrgz+UaxVNN7YWt
-         uD8g==
+        bh=+PryMCW430H3sBQTt6N5uSE32FN3q7uZNf3BrOahNno=;
+        b=MTf2vCprvHIMyo5ZmnCyEc1dh0Holz5Gu3jJ/wGYXJtkppX7gXIxE/NdSzRMO/pVfp
+         BiQpTl9hj4LHnduEl9VP/JyijSu+MLbwku6uCFxelwjwJ1dCB7DPkO9LrTxues5lo1Pv
+         y59UmZ90FjbfmSglDyZoEN1TleiZ7HoPKPa3VMogx2T10tEv8UkD0f4qf6XHstV82+iQ
+         Y07PmXXMkVahKgDBaN62n1JVmlL4wIcz/Kil6hgJLTJGc3IsRtAgcdR88jFWAKehtEF6
+         n6XFdgIDLJd4XSZftk0bwq5nhZOnlarXa/Kg2639R4pIYJj9UaxR2hj8c+j4fCCb+lCl
+         p3tA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710252587; x=1710857387;
+        d=1e100.net; s=20230601; t=1710252979; x=1710857779;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=zu+uZ/8084vv+m/AogKImKAueKFkXxPoXHpto1b+ruQ=;
-        b=phs1bRSj9FrUpCQkURLbOTHAQGP7Vc8LUezoiw229sPHYHBVOUNgcdVrAIocpv9BRy
-         6/lg3J98qj1TikeSaA7XE/xblnVwJN6EhcjJGY7VUCEk86FbdcVcscKJOKHbXMdzdwab
-         iJl8qqXIcZ94i4qRwSgetdejL0KbjDOANqKKfezWZq7UGqyB66vjvRTFCCTiNs42zmGb
-         mX61ayx1OOAolMOLVTKi/lWJXfYkeiiT7OJAb7KnsF1XibePogbSqKE073UtX6DaXWes
-         ihRjDgbGcSn1N12/DyfQiQMIEZ7n7fooRBZib354RcV1uNBsyUdU9fRMC9Dhy6Pjsdbr
-         XS6A==
-X-Forwarded-Encrypted: i=1; AJvYcCXrpMreDmoT9j44SRnx8edM16KBHxPgkBKjH6LyY+Aj0E6sINNAemkyK4gAolCxUYdxXhZSq2jg6W6nXtaNhx402hCJrZlYPJwkzUOVpSI76TNLfpoU1Sjy+s5z91UB2ZBpxGa8pLSJbQ==
-X-Gm-Message-State: AOJu0YyLWl6p5iWSUUHAd/6k2Bxas0jt49Vf3lZ1tv1CAWljmbQH62M/
-	tQHOnV2rUY0epz2KoSqsMtz89qFZLUra1lU2QQ7uysE0vgtg81k372UPIEHGZQ3QnzAVxzc+XXo
-	WvA60n3boTbnewpvuURcSOw9r0pA=
-X-Google-Smtp-Source: AGHT+IE+c+ZdOXmBGc3GWGBArNuHaUYW7pUu2NOq0nVv7TTeFNzcJ/MRGEdssQkYOkouITD9YMFOcPhJlm4xc+GpLn8=
-X-Received: by 2002:a05:6870:7e14:b0:221:c8a9:563d with SMTP id
- wx20-20020a0568707e1400b00221c8a9563dmr7791776oab.3.1710252587056; Tue, 12
- Mar 2024 07:09:47 -0700 (PDT)
+        bh=+PryMCW430H3sBQTt6N5uSE32FN3q7uZNf3BrOahNno=;
+        b=d2RHcjh7523w/DAh75gnCq9OMtXWREHyyN9Y3Tyc2AtBsQJBW3TWhVI0Lec8+0saD0
+         8hswao/7WTDoVIZ5ZVZSjfIqrLq3sE/pEg7VX+9FiTAmhxsyCB2izQMS391GCYz7NFYc
+         kqm/BBFd+YMiS0+1u2heoY/KVO0fChMAIFARU6PK6G26cOcRvwp9nYN2wTHoWX7lIpk6
+         nuadJ4MLXdWR+R7NZm7ogsmyd0sjK7EtWyjF3rR+hTYD851Pt/snRRuBuVkHlZ01m488
+         okz0KsPy66gwUpypvZq5jYWG/hXabkhR4GYJUWMIV9UGVuFw7p/coNNG8jsrYLNY12wh
+         03QA==
+X-Forwarded-Encrypted: i=1; AJvYcCXiyXRGF9QPWizH7WuEs82udL0f9bYZ6tJfy4eSTCZE1Qpwg+cCusXeDn+KGKbQTyZA5T2vwgULlwCgxJ7pyF5lzF7MTCFrJjvyW/bIG5JIzyfBJ0C+IzGsKuI4pEfcLqn4pQviKSkqEg==
+X-Gm-Message-State: AOJu0YwI6Nz56KqbMg/7yMSyoO+QQgfJRAlu0ps8GagMUDvVDA0iuuQp
+	NdeIlVTDFRedYX98B6LFTwR4OxWTFaxBTmlim1XPxVVReN89Np0p7V9n9ZT7RTFmCXjH5P7DuOk
+	X8nED9neaNrTNo5zPDX6h9fpPEU4=
+X-Google-Smtp-Source: AGHT+IF8Wor4/RSzrG4762PBaDFxHtLXlGGWfOsP3m2qd2261gWNpqZ12XUJCqDKQXTWZZrsxTwAhWYeM6fi6QbhPNQ=
+X-Received: by 2002:a05:6870:b24d:b0:221:7a96:9ca2 with SMTP id
+ b13-20020a056870b24d00b002217a969ca2mr10818593oam.32.1710252979327; Tue, 12
+ Mar 2024 07:16:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <Ze9Ie67PCSvBU+og@MOLeToid> <Ze+JxSpqc/eHfCKn@aschofie-mobl2>
-In-Reply-To: <Ze+JxSpqc/eHfCKn@aschofie-mobl2>
+References: <Ze9Ie67PCSvBU+og@MOLeToid> <9bffd12a-afae-45cd-a4f3-451872146bf3@moroto.mountain>
+In-Reply-To: <9bffd12a-afae-45cd-a4f3-451872146bf3@moroto.mountain>
 From: Felix Kimbu <felixkimbu1@gmail.com>
-Date: Tue, 12 Mar 2024 15:09:35 +0100
-Message-ID: <CAK=vLxKtR_rgU3A=w7AEddM4fbtTtmAQ85aCVHYbqyEXcjP=SA@mail.gmail.com>
+Date: Tue, 12 Mar 2024 15:16:08 +0100
+Message-ID: <CAK=vLxJLOsqECJn+c=Mo0kY2878u1bhRzYEWo+yZZEUbqEee7g@mail.gmail.com>
 Subject: Re: [PATCH] staging: p80211conv: Rename local foo to decrypt_check
-To: Alison Schofield <alison.schofield@intel.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, 
 	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 11, 2024 at 11:46=E2=80=AFPM Alison Schofield
-<alison.schofield@intel.com> wrote:
-> 'rc' is typically used for cases like this. If the name of the function
-> being called is reasonably intuitive, then 'rc' suffices for the return
-> value.
-
-Greetings Alison,
-Thank you for the feedback, well noted.
-
-> 'Also' signals that this patch is trying to do more than one thing.
-> One type of 'thing' per patch please.
-
-Dan has already address this, perhaps, I did not write the message correctl=
-y,
-suggesting that the patch does more than one thing.
-
-> The commit message prefixes are off. Please see First Patch Tutorial
-> Section: "Following the Driver commit style"
+On Tue, Mar 12, 2024 at 10:03=E2=80=AFAM Dan Carpenter <dan.carpenter@linar=
+o.org> wrote:
 >
-> Patch fails checkpatch. Please see First Patch Tutorial Sections:
-> "Git post-commit hooks" and "Understand patch best practices"
+> With the rename the indenting did need to be updated, yes.  However it
+> should have been:
+>
+>                 decrypt_check =3D wep_encrypt(wlandev, skb->data, p80211_=
+wep->data,
+>                                             skb->len,
+>                                             wlandev->hostwep & HOSTWEP_DE=
+FAULTKEY_MASK,
+>                                             p80211_wep->iv, p80211_wep->i=
+cv);
+>
+> [tab][tab][tab][tab][tab][space][space][space][space]skb->len,
+>
+> See my blog for how to resend a patch:
+> https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
+>
+> regards,
+> dan carpenter
 
-I will definitely fix these, thanks again immensely.
---
+Thank you for the feedback, Dan, let me correct that.
