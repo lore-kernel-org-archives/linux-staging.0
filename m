@@ -1,67 +1,65 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 766DD77F1D
-	for <linux-staging@lists.linux.dev>; Tue, 12 Mar 2024 09:01:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1340377F11
+	for <linux-staging@lists.linux.dev>; Tue, 12 Mar 2024 09:03:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710234083; cv=none; b=Kf6X6jo3flmQtDLvDB+B0xXWpwezOTB4AEaMz4cUn+YcNHxwJ6nL6qDvH5SUaW6vUfYNlhNHU/DQSQALrf+V0DWVJhCRqXUv+WP5W34BWUeCac5VzV1tNXp7GreWFHxHHKYCxPCCTebexA5GvR5RHPo/IzMX/RHgerh0r0dKkuo=
+	t=1710234198; cv=none; b=Xad15lwTqPxRbaMtt0o1mRNlfhQVKinZgT/Jn3uGR5jur+CUH3ygsG0N3sXS0ECJPi6tfC6H9aZLVkoDBPvy9/kxlW6zkkDTp7SgvT2tpPjbsRpcbPmTGxHP4RuS6eC5zzxJhHdgSxCk4PNHTbA4YLGlSv2ZKwRXPYsv3uoyDE4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710234083; c=relaxed/simple;
-	bh=8y2DQPNhzOaxdj9KvjXtszQ/bn5b2LagZPzqGN36x4M=;
+	s=arc-20240116; t=1710234198; c=relaxed/simple;
+	bh=s1TPGDD3FQrj7OxiV2Kb3nYfjuUTXMyg7DkuslLMXRc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fFJ9L7xCnBEhJbCX1Y7D2JeupvvrpkseLJTIi+ame8drYGh0+n2BYflKWXDXpi6lQPjbZ8Ss3RdoIWfPiArpLvFeSWjG70AuJ4cHLuZPYOU94gAjLvguiTv2UnYghqsCW0rxIIWI29kbGrxom6SMmqCPn4V4yayq8JT5+dIo39Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=x7O9aFIk; arc=none smtp.client-ip=209.85.208.54
+	 Content-Type:Content-Disposition:In-Reply-To; b=t4O4dgHhDL68EXv6D9bGuj1hDogmfIT3vsZO5wz9UMPs90Q7AJKZiYtgukgx5nqXK2JyeVe4+KHfDAPc1FtZ3iM8e2hvuiQBeivjJb231U236N3+TcBCEnASam7G5/tkcb6ede9X/ioMw54TdvumuNCXsbVIhF/6zQY79JAWH8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=n9Lm1Vev; arc=none smtp.client-ip=209.85.218.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="x7O9aFIk"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-56759dc7ea6so6898379a12.1
-        for <linux-staging@lists.linux.dev>; Tue, 12 Mar 2024 02:01:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="n9Lm1Vev"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a45bb2a9c20so618836766b.0
+        for <linux-staging@lists.linux.dev>; Tue, 12 Mar 2024 02:03:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1710234080; x=1710838880; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1710234194; x=1710838994; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=JP3cfM7mrXURBm82U67JdNSwwTeGi+Ghi4y8x6qCXGo=;
-        b=x7O9aFIkXi4gn+ti0ZUtSj5ryKYAM8/JyzLmTCtF2bcqO7PZuFoQ3Tg6/fqNaSuH7b
-         UarLfI6yueKqq7/+kzrO8bArgL0JktcxmGjl7UwFefzmFOA6YUqUv1rf5oTwKNDSsiLm
-         UUo23mkRC3KizhPhiOADSK6IGjren5yeIHjePU67n624ZyjEoR2NWiWUflywm8LcWxc4
-         Ou4MOp6OLZv5if9NgrCgjXkLQBdfQ5OAaqxNQsZmx9LxdcsTwpzmOh92JvD78l8JZFxq
-         NdT4Zqd4nd+6MMjFGAWG6VfwQHNAYVPfC8DCI5E3ihygeupKNQV/lKfX4Ox70Yq/FMc3
-         ExDA==
+        bh=J6i3TaLouGAS+GfFlJ9J9LI/0HUB7fKxpK6hNinsoOw=;
+        b=n9Lm1VevkV1erevRbUnF09oyI6JNtEKsO1JpdwOpuErRaKZBuQykVSkxC1ytQIILhV
+         1Y76hj3RZiFG7JdR+rQM7Bdphmm0TOW8Y6wgV+njjz5EHMzbJ5ZIZ/a7YqC70KjKz/9/
+         XW74Z0IEZD4BDAggq/BmZMkPiKNmOMDKjc/ZKTAoONdq00B8UwR2eFyOCEy8ixyP3CUr
+         4nPXPTVxLzcx+Pyb2hpG6w1nsa38Zpm21uKJAnm+EuHZ12Ch1EeRGPx8b/CL5eHLttEm
+         bCPIZCxp/g8RRrppscO7nWmVzlxfge1eQnj7ns2EVa8aAwjurJW7ZUp0FGRk1wHVSPP5
+         zfSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710234080; x=1710838880;
+        d=1e100.net; s=20230601; t=1710234194; x=1710838994;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=JP3cfM7mrXURBm82U67JdNSwwTeGi+Ghi4y8x6qCXGo=;
-        b=LBZnYAKwlNU7qYug+KYjNmHVtmU97XgC9/jmlLTuPl2538rQFx2FYNsrs9Kc/iEAMb
-         CR3xvyxOPU5ZKTHjOhKu0EGT6GEvtDoo57jq7iQzAMZ2Gi9vCtxo86vWR5blTk7GPBY5
-         taWQuE/2FXdcViBYrtKpAU1rwKZqVOx9qIJewvVo7v7P95/I57hfJ3zWAuGIrHD1YxU4
-         kEZFdBRLlANizpp6/eJo99mqmLn0C6VSeTfVns4kz4MdWjLWb0HrRdT5IYKjlNAbC4pS
-         43kDHi5oKBumIk96r4/ZINSBpE1UtxwQgBh04UcW+WBixci/a3vH/cAMYSXwlOX5pDSL
-         4GwA==
-X-Forwarded-Encrypted: i=1; AJvYcCW/y/Ae1FYtpLGqphuxtZY4pweiI3/g3d6B4rQZQEvNtd+PnTXQA20VDhdan7d1R9ohn8jW6rm1ezAnV75rT8185GW6cR2KFvTqUak6JA==
-X-Gm-Message-State: AOJu0YxwTnMU3gFSUiOpbtNjV3pVCtP+wOwavr5lf8qBrn5cfDglWIYw
-	7Gn/FSl2luUmOzutKTFFte6K8Co+M9fkaRYBAIWrwoBPxoNNFlQ4MEqCvv6KL3s=
-X-Google-Smtp-Source: AGHT+IHwZrGE81YKbF2wM23szbAhUXytldSEaYxhYVB3Q19LP8guhW/J6+kuxH/HMd/98tZmJuGXbw==
-X-Received: by 2002:a17:907:c001:b0:a46:20c6:b595 with SMTP id ss1-20020a170907c00100b00a4620c6b595mr4009913ejc.5.1710234079560;
-        Tue, 12 Mar 2024 02:01:19 -0700 (PDT)
+        bh=J6i3TaLouGAS+GfFlJ9J9LI/0HUB7fKxpK6hNinsoOw=;
+        b=PvfRffvJHC8coQA7nrqYjNHG5nTwvx1P08T5mJDQgXm4qRvP1+3CplD5b7UXtzxr63
+         A61Vp0DckFTok/KV49wmQQTSGv6GPK532X3Ll9sDoon8BOkwbczfyAQyL3tCaLkfw6Uf
+         VRec0XzD8sfSniEoNNtkw0nSAQYZy4MBraRlq3jjeSB1ztgnVgAR1yfX9Q1N5/6U8nbF
+         /a+jCTX1Lcljh3FaVW5mJfEoBB7P6WqPwQOuNbHkFaOszQ2uJy395Vk/nyxNa68/prFe
+         UpAFI5TmzXL2BoRPsdFTCSXi9bxziQ/uICmuakKVzGJFxUVWup10GaFsTy3Ruo9Xc7r5
+         62Iw==
+X-Forwarded-Encrypted: i=1; AJvYcCUX44Cbw4PwYG70mXrMpfC7qSdIXehTVLNQnf4AB92tG5wpLB2UjN3vqi01oFtkklwnABF2FpXAkVnMf/BMfamHmoRTL8rKcbvgmHofJw==
+X-Gm-Message-State: AOJu0YzGC58T/jk8I1DvOVaEWCGIYMqaw7fAftv2upFD1kSjbtsVEMku
+	9oaTMCxH9pZnGc0lx/IxUrJwfImaEuJhlEJQPargdhaab2ReDlPV+5ZJxBSQmlY=
+X-Google-Smtp-Source: AGHT+IGdtm50SLGxk2hDpFRAfup4txP1asLzv4Joh/YOzp2qyBoqbm6d1pprOfLQaSq5NS65zoeS+w==
+X-Received: by 2002:a17:906:11da:b0:a44:dc35:df19 with SMTP id o26-20020a17090611da00b00a44dc35df19mr2047419eja.67.1710234194076;
+        Tue, 12 Mar 2024 02:03:14 -0700 (PDT)
 Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id qa10-20020a170907868a00b00a43815bf5edsm3643280ejc.133.2024.03.12.02.01.18
+        by smtp.gmail.com with ESMTPSA id hg13-20020a1709072ccd00b00a45fefe4fc5sm3576879ejc.135.2024.03.12.02.03.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Mar 2024 02:01:19 -0700 (PDT)
-Date: Tue, 12 Mar 2024 12:01:14 +0300
+        Tue, 12 Mar 2024 02:03:13 -0700 (PDT)
+Date: Tue, 12 Mar 2024 12:03:09 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Alison Schofield <alison.schofield@intel.com>
-Cc: "Felix N. Kimbu" <felixkimbu1@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+To: "Felix N. Kimbu" <felixkimbu1@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
 	outreachy@lists.linux.dev
 Subject: Re: [PATCH] staging: p80211conv: Rename local foo to decrypt_check
-Message-ID: <0ae5c6f0-dfb3-4c98-9798-8379f6206256@moroto.mountain>
+Message-ID: <9bffd12a-afae-45cd-a4f3-451872146bf3@moroto.mountain>
 References: <Ze9Ie67PCSvBU+og@MOLeToid>
- <Ze+JxSpqc/eHfCKn@aschofie-mobl2>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -70,27 +68,35 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Ze+JxSpqc/eHfCKn@aschofie-mobl2>
+In-Reply-To: <Ze9Ie67PCSvBU+og@MOLeToid>
 
-On Mon, Mar 11, 2024 at 03:46:29PM -0700, Alison Schofield wrote:
-> On Mon, Mar 11, 2024 at 07:07:55PM +0100, Felix N. Kimbu wrote:
-> > This change renames the local variable foo to decrypt_check in functions
-> > skb_ether_to_p80211(...) and skb_p80211_to_ether(...), giving intuitive
-> > meaning to the identifier.
-> 
-> 'rc' is typically used for cases like this. If the name of the function
-> being called is reasonably intuitive, then 'rc' suffices for the return
-> value.
-> 
-> > 
-> > It also indents the parameters to match the the opening parentheses.
-> 
-> 'Also' signals that this patch is trying to do more than one thing.
-> One type of 'thing' per patch please.
-> 
+On Mon, Mar 11, 2024 at 07:07:55PM +0100, Felix N. Kimbu wrote:
+> @@ -185,14 +185,14 @@ int skb_ether_to_p80211(struct wlandevice *wlandev, u32 ethconv,
+>  		p80211_wep->data = kmalloc(skb->len, GFP_ATOMIC);
+>  		if (!p80211_wep->data)
+>  			return -ENOMEM;
+> -		foo = wep_encrypt(wlandev, skb->data, p80211_wep->data,
+> -				  skb->len,
+> -				  wlandev->hostwep & HOSTWEP_DEFAULTKEY_MASK,
+> -				  p80211_wep->iv, p80211_wep->icv);
+> -		if (foo) {
+> +		decrypt_check = wep_encrypt(wlandev, skb->data, p80211_wep->data,
+> +				  					skb->len,
+> +									wlandev->hostwep & HOSTWEP_DEFAULTKEY_MASK,
+> +									p80211_wep->iv, p80211_wep->icv);
 
-The name change did force a re-indent.  The v2 re-indent was wrong too
-though.
+With the rename the indenting did need to be updated, yes.  However it
+should have been:
+
+		decrypt_check = wep_encrypt(wlandev, skb->data, p80211_wep->data,
+				  	    skb->len,
+					    wlandev->hostwep & HOSTWEP_DEFAULTKEY_MASK,
+					    p80211_wep->iv, p80211_wep->icv);
+
+[tab][tab][tab][tab][tab][space][space][space][space]skb->len,
+
+See my blog for how to resend a patch:
+https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
 
 regards,
 dan carpenter
