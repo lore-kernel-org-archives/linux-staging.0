@@ -1,56 +1,57 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2E71C122
-	for <linux-staging@lists.linux.dev>; Wed, 13 Mar 2024 05:28:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A21514A8C
+	for <linux-staging@lists.linux.dev>; Wed, 13 Mar 2024 05:31:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710307707; cv=none; b=PjC1+nBJv/eT8mIvrhYK6MQht4ddQW9J3Fp2pNwnxBYonflMDYEwTVP1MEcU4S0oLLe/y7Z4ixvK/jNr92AxKkZidyWUaS7fbQDB75bpkd6mMIj9/ZRGT/JnzJGEB7Kxrcem4bqBVQGJ5ZXbFVYbLs6dgHPqHXEIQqkzyAhfXKE=
+	t=1710307904; cv=none; b=shr2tXfUFlUcyLJk7o9gXOUmbcKu4fgTZCergKH40xTfhMc07JS8apfxqMmBDg55WZXXAYH/GKlxmsdoq572Cy9Qlh5XiwlsHUoP5PNuSrLLMEkQQDFj8mFFANwCQSPgomKGpuZmLl+bAGLsmMsH6uhFH4npHV6wwe8wB0A+dXw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710307707; c=relaxed/simple;
-	bh=iu8MZFNXjpyfTpdGoSxoKHjAe7jJbUr1WqmHPzd/CPc=;
+	s=arc-20240116; t=1710307904; c=relaxed/simple;
+	bh=98pr1Hpf44592metRLxndNXD3E1DuVLYst9ZrBxFXrM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CMvn8Svht1WrQVcPU7ZtRwnQEmeLPkjtWSJkd/2Klv6n7m5pUaZRay6coMWGIGi0S0cacc4e2yyCCFpoldestlKgC2seSGJARuMx8hX08W1AgbEG4/ZqveCDcIECCW0DFqIEpO/HJ3FbdfK9E+uFLio6vvSsY4INW5zaQdPg+7A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BY6z5mzg; arc=none smtp.client-ip=209.85.208.43
+	 Content-Type:Content-Disposition:In-Reply-To; b=AKh2csvJgB5s/qbdcbVtir2BjqJV3j4T4wBxB5M5+wEziQthjvLDjyBBzoUAIgwu1bgE4H9wUwQo4o7oB9D1LklJeRQqGWHgRT6/kAHJlouWpSprzRdpHBLPxjcEkd0dM/kWGNZWGuHByb3d+LuqGlfaSOjaRBRlesMMbywFAyo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VNOMdTK+; arc=none smtp.client-ip=209.85.208.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BY6z5mzg"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-55a5e7fa471so6015853a12.1
-        for <linux-staging@lists.linux.dev>; Tue, 12 Mar 2024 22:28:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VNOMdTK+"
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-563d56ee65cso6243453a12.2
+        for <linux-staging@lists.linux.dev>; Tue, 12 Mar 2024 22:31:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1710307704; x=1710912504; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1710307901; x=1710912701; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=WK2hLpaKA4dIBaZcF1LV8ZinLSkxIAD4k/3MzBtpkYQ=;
-        b=BY6z5mzg+rNbE6XOoZ2LMAYBbdm8KR9kuNmPpIji8g/hlNNVM1pGS/N97y8DZuM8q6
-         2n02ef96xhghTzW0/n25CWFOul3R2f0RqvMVMufIzbenL8TNp11mIJeDI8XiaPGAT5C+
-         Iaq/9JFg8CbTBUO7NzCdLBT3oCyPcFO5wBqymrZdr5yX1CGge1+ACz5xk2MxawJBuPSe
-         z+OS/lnO78e71Juk7TS+wSVyrnrVTG8RQE5ao3gm0Rsn6OrAdFxg8ibWEWi+LFZ0f4XN
-         1prGYOxb2VmjNycTcZEjRQDKv1TMRH2Am2b7mZQYqWDswibLcSTyHutkbJh+vjcJJilZ
-         +R+Q==
+        bh=OIj0/u5E+oGfSCmtDq3eH4DxwMciq6Lgs6F+SLCaAOg=;
+        b=VNOMdTK+rTxhUEEbfAesdAEPHkFHX+oLbsNXG97IZw/rVsNCXKMxX5fsVRf6NUxP8w
+         o2/9Sx5ZavROlc8aCj9G15DsBe/jxhiAZx2qrsaelcFzpiVzVWZrl65zQ1ZM05xCORxu
+         3a6r0b8wL4qsJrWvbwA2YKvI/1TR9KY2lMUNNfAOAzbR8MyfbsMI8DvkJAObQNaW0uFt
+         wmj+zmdiGWmrx8QmV46VludXBgPtXpvrnWGwLj00L7/G8HXFe8IlYwj6P4A8pyoIjSiG
+         2mHgjNaMdW3gDUNitc0gMgpMt7pbo6bjULWVTX6Ln8OuRY9yHA8EeEbzW2sAaB7eBTD+
+         T+1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710307704; x=1710912504;
+        d=1e100.net; s=20230601; t=1710307901; x=1710912701;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WK2hLpaKA4dIBaZcF1LV8ZinLSkxIAD4k/3MzBtpkYQ=;
-        b=sTamnwzBpnTH2OtSrZ1IeW2WaAE8zQH0PT9XgYopsRCEpu0uMVrvR1cQjsIqYj/C6V
-         VY/kcQaLTTyHUNByeAtQPrHQJlj7a4lnHC3etSSIfqgldAIv8O92neRUAhYn3cpz44S3
-         Xa004qdRKy+62qqgOX/jfOF6BiiS5n4R/eSxOk5lS0nH10OMI2zIR3w348dq6MaOIWkL
-         LNN1+6azp0cLdRZPelmzkXIloMbfBcKkzRocYLsitbxlhTkA92eRO+5ehoBKYVeYymYM
-         +Y6i2mSF9DvXEWxjIt+ngzJNlKmtYaZf0cZzMSyFPUuiREY6AzkilgOVZNhoEfssigWO
-         5zCA==
-X-Gm-Message-State: AOJu0YwLppcXkQkaRLh3hjZZk3bPN7wYm7pgxd6JaJASsWTEYYgW/LG3
-	ZgMC4VfcboBgGpWp1/apdRG9D19N6/7MSe5wtny6TaMyUvER/uynpXC6DKJXJos=
-X-Google-Smtp-Source: AGHT+IHdo/pRzTGpMU3NhdGCBeySjxGItS83ehTI+LVXX2XWvdWoC/Qy9rucnosX9IKGYQW4la2Upg==
-X-Received: by 2002:a50:ab1c:0:b0:567:5f01:99dc with SMTP id s28-20020a50ab1c000000b005675f0199dcmr7353956edc.42.1710307703869;
-        Tue, 12 Mar 2024 22:28:23 -0700 (PDT)
+        bh=OIj0/u5E+oGfSCmtDq3eH4DxwMciq6Lgs6F+SLCaAOg=;
+        b=ua497gHP4ibdRR2tW7dVe44WaE4EgBBG0KZ+zW1NMmr/DJVtP2gSz5OU0CzN3tef4o
+         k3E45/tUjRQuChplgs9k9fIdAldr8aQeqBkhg2wZEDawzE0yehC9vw5ZdY080KkyKM0X
+         73sIg/C+IunVrqwB0PZiuO2VTozYiYmUKdeHfU3F4ln8VHnaJqN3bRO5f2ppCQJQYlff
+         2vhAf+UwbqhSosEwPyUWbJjL2LLtBlsHKyHZpI/yw2ChpYAs7w6gRkMyg0vJEmWpm8jT
+         mGtdsAWsfFjFn00hpnppSVavifDZEpScGTnauQZ0q77Fwk3dsXkbO1IJTrK71WXZpwG5
+         dXpA==
+X-Gm-Message-State: AOJu0Yywdgz2TnSX1gIEvnZZ5lGshCcve4DsryhdlrECFtsJ/2NDpyJ+
+	ppY5w+3XineSgw5uGo4FxSxI6VR2MdKnwUh99JWcZZJBo47VDbEfjfYPYe/6yK9leb1g7hQ3hD/
+	Q
+X-Google-Smtp-Source: AGHT+IHtLhZXb4OjCdQdy/kEyC9G/vMQH43oO8tc5F0mhsMUXShzqWiqsAAO5FXtqGwlIHfeH+bZRg==
+X-Received: by 2002:a50:d593:0:b0:565:ebf2:a257 with SMTP id v19-20020a50d593000000b00565ebf2a257mr7373006edi.19.1710307900657;
+        Tue, 12 Mar 2024 22:31:40 -0700 (PDT)
 Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id fj10-20020a0564022b8a00b00565af2ea649sm4547786edb.14.2024.03.12.22.28.22
+        by smtp.gmail.com with ESMTPSA id y18-20020a056402359200b005648d0eebdbsm4580549edc.96.2024.03.12.22.31.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Mar 2024 22:28:23 -0700 (PDT)
-Date: Wed, 13 Mar 2024 08:28:19 +0300
+        Tue, 12 Mar 2024 22:31:40 -0700 (PDT)
+Date: Wed, 13 Mar 2024 08:31:37 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Umang Jain <umang.jain@ideasonboard.com>
 Cc: linux-staging@lists.linux.dev, Stefan Wahren <stefan.wahren@i2se.com>,
@@ -59,11 +60,11 @@ Cc: linux-staging@lists.linux.dev, Stefan Wahren <stefan.wahren@i2se.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Phil Elwell <phil@raspberrypi.com>,
 	Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH 2/3] staging: v04_services: Add connection structure to
- driver data
-Message-ID: <590966d6-dd65-4341-b1cd-10353fd1aa52@moroto.mountain>
+Subject: Re: [PATCH 3/3] staging: vc04_services: Drop global members for
+ tracking connections
+Message-ID: <9e4ef491-e5aa-4e3a-a9cf-bb688b24c2b7@moroto.mountain>
 References: <20240311231607.124491-1-umang.jain@ideasonboard.com>
- <20240311231607.124491-3-umang.jain@ideasonboard.com>
+ <20240311231607.124491-4-umang.jain@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -72,61 +73,42 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240311231607.124491-3-umang.jain@ideasonboard.com>
+In-Reply-To: <20240311231607.124491-4-umang.jain@ideasonboard.com>
 
-On Tue, Mar 12, 2024 at 04:46:06AM +0530, Umang Jain wrote:
-> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> index 52569517ba4e..b8b51267bcde 100644
-> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> @@ -72,10 +72,20 @@ static struct vchiq_device *bcm2835_camera;
+On Tue, Mar 12, 2024 at 04:46:07AM +0530, Umang Jain wrote:
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.c
+> index 3cad13f09e37..4b79fccaa95e 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.c
+> @@ -6,19 +6,13 @@
+>  #include <linux/module.h>
+>  #include <linux/mutex.h>
 >  
->  static struct vchiq_drvdata bcm2835_drvdata = {
->  	.cache_line_size = 32,
-> +	.drv_connected = {
-> +		.connected = 0,
-> +		.num_deferred_callbacks = 0,
-> +		.once_init = 0,
-> +	},
->  };
+> -#define  MAX_CALLBACKS  10
+> -
+> -static   int                        g_connected;
+> -static   int                        g_num_deferred_callbacks;
+> -static   void (*g_deferred_callback[MAX_CALLBACKS])(void);
+> -static   int                        g_once_init;
+>  static   DEFINE_MUTEX(g_connected_mutex);
 >  
->  static struct vchiq_drvdata bcm2836_drvdata = {
->  	.cache_line_size = 64,
-> +	.drv_connected = {
-> +		.connected = 0,
-> +		.num_deferred_callbacks = 0,
-> +		.once_init = 0,
-> +	},
->  };
+>  /* Function to initialize our lock */
+> -static void connected_init(void)
+> +static void connected_init(struct vchiq_connected *drv_connected)
+>  {
+> -	if (!g_once_init)
+> -		g_once_init = 1;
+> +	if (!drv_connected->once_init)
+> +		drv_connected->once_init = 1;
+
+
+This is a nonsense function...  once_init is never used.  Could you
+delete this function in a separate patch at the start?
+
+>  }
 >  
 
-Modifying vchiq_arm.c is unnecessary, because these are initialized to
-zero by default.  Once you remove that then this is quite small and
-easier to review when it's merged together with patch 3.
-
-
-
->  struct vchiq_arm_state {
-> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.h
-> index e4ed56446f8a..cb5cba94dd54 100644
-> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.h
-> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.h
-> @@ -6,6 +6,16 @@
->  #ifndef VCHIQ_CONNECTED_H
->  #define VCHIQ_CONNECTED_H
->  
-> +#define  VCHIQ_DRV_MAX_CALLBACKS  10
-> +
-> +struct vchiq_connected {
-> +	int connected;
-
-connected should be type bool.
-
-> +	int num_deferred_callbacks;
-> +	int once_init;
-> +
-> +	void (*deferred_callback[VCHIQ_DRV_MAX_CALLBACKS])(void);
-> +};
+Otherwise, I think it looks okay.  How are you testing this, btw?
 
 regards,
 dan carpenter
