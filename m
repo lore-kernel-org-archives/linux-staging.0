@@ -1,96 +1,179 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09DAD29AB
-	for <linux-staging@lists.linux.dev>; Wed, 13 Mar 2024 11:55:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D4D23E48C;
+	Wed, 13 Mar 2024 13:02:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710330917; cv=none; b=IIDa+7+iCU9/IOmRuAipTzfYxpmQJf8a4cfEeRF6rb4IDY9Gme8kOBCoGoCML8YCteYTZW54yyR5U/8QGFyfNColAmkFgLbBKlQgZ3b6uC16beEb1B6kP4KSVGdfomRTqFXcOhibnDzrVMkRvgsBMJOvMrJHJkufPY6/D/hH/aY=
+	t=1710334969; cv=none; b=LIEWbZRiBYeGzwI6XwtSYH12mMDd4Rtl0zJ3ZXAR5nszgCvnFGrt4BToM8RSA/Hck8NoMnmypyjUNJegMsJHaILsD17I206MTQvqUyktw32JAm5AQcoRH4I5vgSoZuRbr3/Arj4K7fa/3hvdobYfCXhwXIsCpgw4b4gI2KtZT7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710330917; c=relaxed/simple;
-	bh=xYQb+BQulrZxxo772iQeUy5dIlvaSIgJg4G59zCwYxw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G6QipWB36I4nt0Qw2FtXDFr4ABFUTamQvmMhOktzptVL4spmHfzBjhQxE8K3CE1fFAA19nEP5Xn7+bTbEiJoMAJgC+iCCGbe4QPqPNbm0mgric6qVELZfaUoxiiqE1eemfiTodIRKakbkYG06Gm4KjON0wfnaWSA6X0Q9XLsA/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mKJoNMyH; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1710334969; c=relaxed/simple;
+	bh=5+6a6BE6Dzik/1mcPGXs78Go5F8m8w8Zi3fZK+98t1s=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YQKa/hbgQS78deoXw5tM11h+UuwwfkuO9G1/NuhmDVJh2GLpA/j+ZmoCOKxBSHR74vfYEJLqX/AzqBeH1M0bYoNshwkCL5MYSeMWpMetcaUZGxq4qkIPD2YhqNH5dc6n5hXxY831uzffIG8mAqhQhTx1po0vMJDCPxlGU2YOzrU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y1InmK+8; arc=none smtp.client-ip=209.85.210.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mKJoNMyH"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a2f22bfb4e6so970604466b.0
-        for <linux-staging@lists.linux.dev>; Wed, 13 Mar 2024 04:55:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y1InmK+8"
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-6e6ac00616cso1605091b3a.0;
+        Wed, 13 Mar 2024 06:02:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1710330914; x=1710935714; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1710334967; x=1710939767; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=XY8Gauun/KCCuJd3rvfN1BqCAqZcqM1FwxPVTr0A7jA=;
-        b=mKJoNMyH/dopLQ1fo8H77tjmKQpJMvJ6JtmlMyyqGscxKhGz2tYkSN0euiOli2VSFy
-         Quih0xUidx809scX4lSdDzz9601nwsJiekezAheDVywVZ2MxvRUL/y/I1mWygDAJWYp+
-         0BOD5oAFVz4cv9JoFT1axWSvD4gsC6pwkntjp0Q1H47/xMU88g/ErAbxw0vGcb1BQuAY
-         lvlRN4qDGRg7xtmckgORoI9vQ8teVqg5EoCaH+Oj3zjNdb6BpcCoT9QvAHiUw4/vbfWc
-         pii8bngouINYrE+RPmbUjAlvAhxgWW6fda3rrYEmDnlgPnGhfoOsX7zjmzwoIYj9cqyG
-         wj1Q==
+         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=9uHnZXjrHdOB/gJ/MSqj+aJ97zQ05u9C0OKdlbMO9ak=;
+        b=Y1InmK+8pfuX9m8rNGCpJvat2fpq6QdI7EevZDHD+669vCewwzxQKZ/vTvjggvmJi+
+         AMGSDrspiXb0RJhDOnxfFuR2zL6PjDmjeYCNzXot953pb29oB7BHdPYSzqa5G4BH45qu
+         TbwSbWfpZuHktqZYXdc7/p4WQtY+dDyKsIn2bhpR/Q/EO9kKbZB/xDAIPY4/1ojpo4Ez
+         al63W37v0+kZ26cjFGnUQjDuhUS2Xhq1b11C6li/mzPvUAZfh7MscXDkCzPTCdUyXd+j
+         qvGFnuBfEVr90JHq/Rk70w9bJqiNW9qzAgbhD3le90FHPcPHLNj7KFORjzWdN5f5+bGp
+         92kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710330914; x=1710935714;
+        d=1e100.net; s=20230601; t=1710334967; x=1710939767;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=XY8Gauun/KCCuJd3rvfN1BqCAqZcqM1FwxPVTr0A7jA=;
-        b=b34Od83XA8g+n+4eRpIdwLsxpvln469CQL/Uhc5WrU90Pp68aJXFqrGt22wwskzV8A
-         308yzVlyLV07r4V4bqXIl5gUhjLQN6NYxyKnBhOByuiahKoBJf9ia8mzhjY67of4NEYR
-         1awq2oj9oLedTjFiHWi7pr52rszbkNkFDjdgvRtJ8kUhz69FuaCPR4sipJy6R1+5uddq
-         GB6ehTXVMVSb7/tuByyRWCYhd8bC8dy2UjxHDVkRcsCwMyfHTc9gy6NwsAKtPsWWEfAx
-         D687Xzw6v4UQSs6DrNPfOzHH4INtx0KE/nngNtMIpt1B02WCJ09Frrn4Qb1kpCklP7tp
-         L/8A==
-X-Forwarded-Encrypted: i=1; AJvYcCUPBaw7/niUsajVuhkuBNwz1FxtfJSAxwrIou0O2b4F+0zroeHL2+6jJqT4i7aLzYL15g4z1Yo87+3xscIx0kGW3upIEQq4GX6kZuPvsQ==
-X-Gm-Message-State: AOJu0YxYCfEF40+ity18nciYfZ0ECrOjcaT6THVBzAE/O53sg+L/Q5cd
-	wBVHV63MrysbqOtiCHuHloZ+wUEAXnGVCV2m+74/iMtI/k67pJU6TAsYGUym/fY=
-X-Google-Smtp-Source: AGHT+IHzBdFBrOL1CjRXO7Wb5LRYPoTHhkJHvpPJm4Lz3kGYGnrSb0QF0pr6U7kKl6sQkdlibLujiw==
-X-Received: by 2002:a17:906:c784:b0:a46:61ef:2846 with SMTP id cw4-20020a170906c78400b00a4661ef2846mr622937ejb.66.1710330914218;
-        Wed, 13 Mar 2024 04:55:14 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id be10-20020a1709070a4a00b00a461d2a3374sm3442380ejc.47.2024.03.13.04.55.13
+        bh=9uHnZXjrHdOB/gJ/MSqj+aJ97zQ05u9C0OKdlbMO9ak=;
+        b=car1hPkvQAhOCdgUSh4V7kv5Uj+ylQs9jDRS7aUJkzEpRqkjYEud8Gp10I9sIbI/tm
+         efJD41RDhe4gi0ZvVeWlzj+GsvVoEM6fjP7bCCrvvg7NUrn1pfCfQeSI40clR40Lv9Tb
+         m62KKY/Ph4/C1GRXOOwVj+vhPuHskYqtJM/mUE8bmlA4FFOvP9GHZyeC80kIC/nrw8Pa
+         riHBNS8E4nbhbOGyZe7mpPocXRslVFI8VqiY8iRoammNDTP5chZ8nnMZo1HkTAbU4V8S
+         +SSEXZcVjZMnIMJFOF2uqXsxun+H/SJEp1hI7kh9UMuuy5MctHQRJ9lACdJj+V6pjTXC
+         G2gw==
+X-Forwarded-Encrypted: i=1; AJvYcCWYFhFEGxRevlrfNHcZN3DG9vzqqzl9LuQVxU0zFXw2qlHTEXPDT6aDCq9vLwClUm1tqt0sOSrFX9IvoXpDqCR4Ctub5xICt9X2esB9/r4aFypl5+1fqjHtjF8TGyGeLJ+5XgUHYqnE7A==
+X-Gm-Message-State: AOJu0Yz9DZ5R9gOlg0/3O/qszWEGecTCm89Xo+GDhjLJDLFnRYr6s1e5
+	J7yx5GgKWZSUGTH7ubqXTWYXTvfFphbLiUpGqz1l0ktOSeVmbHjd
+X-Google-Smtp-Source: AGHT+IHcBZua+aVXdiEVkkrp9XGdTKxGzC5hjJd7XpDgbvBpTetMe5hr5GcXeGM+KgU1t9gQ2W3I6g==
+X-Received: by 2002:a17:90b:30c2:b0:29b:a957:f664 with SMTP id hi2-20020a17090b30c200b0029ba957f664mr9195362pjb.41.1710334958324;
+        Wed, 13 Mar 2024 06:02:38 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id g15-20020a17090a7d0f00b0029aac9c523fsm1307071pjl.47.2024.03.13.06.02.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Mar 2024 04:55:13 -0700 (PDT)
-Date: Wed, 13 Mar 2024 14:55:10 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Prasad Pandit <ppandit@redhat.com>
-Cc: florian.fainelli@broadcom.com, bcm-kernel-feedback-list@broadcom.com,
-	linux-arm-kernel@lists.infradead.org, gregkh@linuxfoundation.org,
-	rjui@broadcom.com, sbranden@broadcom.com,
-	linux-staging@lists.linux.dev, linux-rpi-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, Prasad Pandit <pjp@fedoraproject.org>
-Subject: Re: [PATCH v3] staging: bcm2835-audio: add terminating new line to
- Kconfig
-Message-ID: <15b3644f-f83e-4c7a-8b58-9d4b87f5af1e@moroto.mountain>
-References: <20240313114126.1418453-1-ppandit@redhat.com>
+        Wed, 13 Mar 2024 06:02:37 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 29C791848F178; Wed, 13 Mar 2024 20:02:34 +0700 (WIB)
+Date: Wed, 13 Mar 2024 20:02:34 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Ayush Tiwari <ayushtiw0110@gmail.com>,
+	Linux Outreachy <outreachy@lists.linux.dev>,
+	Linux Staging Drivers <linux-staging@lists.linux.dev>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	gregkh@linuxfoundation.org, florian.c.schilhabel@googlemail.com,
+	Larry.Finger@lwfinger.net
+Subject: Re: [PATCH] staging: rtl8712: removing redundant paranthesis
+ chk_fwhdr
+Message-ID: <ZfGj6v2yk8Ie8cit@archie.me>
+References: <ZfDIF+6MrdrX79nd@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="olrniryj63XltpFO"
 Content-Disposition: inline
-In-Reply-To: <20240313114126.1418453-1-ppandit@redhat.com>
+In-Reply-To: <ZfDIF+6MrdrX79nd@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
 
-On Wed, Mar 13, 2024 at 05:11:26PM +0530, Prasad Pandit wrote:
-> From: Prasad Pandit <pjp@fedoraproject.org>
-> 
-> Add terminating new line to the Kconfig file. It helps
-> Kconfig parsers to read file without error.
-> 
-> Signed-off-by: Prasad Pandit <pjp@fedoraproject.org>
-> ---
->  drivers/staging/vc04_services/bcm2835-audio/Kconfig | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> v3: fix typo and note about parsing errors.
->   -> https://lore.kernel.org/lkml/CAE8KmOzcD+__7xdC7tegbHO9HEP48s7=reA4j-tvqVDwzHr+8Q@mail.gmail.com/T/#t
 
-Normally this would go about the diffstat but no stress...
+--olrniryj63XltpFO
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+On Wed, Mar 13, 2024 at 02:54:39AM +0530, Ayush Tiwari wrote:
+> diff --git a/drivers/staging/rtl8712/hal_init.c b/drivers/staging/rtl8712=
+/hal_init.c
+> index 1148075f0cd6..9f41b2c086ca 100644
+> --- a/drivers/staging/rtl8712/hal_init.c
+> +++ b/drivers/staging/rtl8712/hal_init.c
+> @@ -138,7 +138,7 @@ static u8 chk_fwhdr(struct fw_hdr *pfwhdr, u32 ulfile=
+length)
+>  	u32	fwhdrsz, fw_sz;
+> =20
+>  	/* check signature */
+> -	if ((pfwhdr->signature !=3D 0x8712) && (pfwhdr->signature !=3D 0x8192))
+> +	if (pfwhdr->signature !=3D 0x8712 && pfwhdr->signature !=3D 0x8192)
+>  		return _FAIL;
+>  	/* check fw_priv_sze & sizeof(struct fw_priv) */
+>  	if (pfwhdr->fw_priv_sz !=3D sizeof(struct fw_priv))
 
-regards,
-dan carpenter
+Hi Ayush,
 
+As Julia has said earlier, keep the parentheses as is (hint: search
+lore.kernel.org for why Greg doesn't like fixing unnecessary parentheses).
+
+> diff --git a/key.pem b/key.pem
+> new file mode 100644
+> index 000000000000..ef912436e976
+> --- /dev/null
+> +++ b/key.pem
+> @@ -0,0 +1,28 @@
+> +-----BEGIN PRIVATE KEY-----
+> +MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQC8i/6L5h4wSbaP
+> +tn9whe9BfKa0jpiiy+F9L0fJEWGKqUqxMUL3D48LJsqTgt8vP6ORMcSQmtQ1ijyv
+> +f9s0N5/sNci9dYeiVhzArlcZi4IOEkfkn/lgRoz4WOsZ6NQzgsk6ctctavrlHUwB
+> +e6RQHFyEC9BOmCq6PTPMtPTeTrQvjzm68gMiQfoNT86/uho+eKxABYBOZEN1DObt
+> +Q2wEbJOhiZ+UfknJd5BuxLXFLLeutYNHT+jzymVETfH6Zqr5U+NS/68H8tVRSy5w
+> +zwMZ38yQc5RI0fhI/u+6Lsikf0sJYV4sNaUkElclfzKFRE9RNc8McQcjbY8RUVvG
+> +81qbKvDxAgMBAAECggEAB62YcpWu7LQmbpN10h0U1rEJpY2vB+Yklcal9jldJFqW
+> +M5a4IuaBIpOe/ph+7Tt6tjrKxewVheP4v67bEYp4WpQAIOhXMH8Fkbp9H98Er1JY
+> +QiZaRJeVkwwlRXtWn423vcfCcn409GftL0bxNIqgdod39qi6CLaIVFGZgoS9pWLD
+> +lrrEnK8nlq8/4bs/bPyZqoiEIUXTC9IAHhlmmwL1diLYmTOTIFn0XN3kqxMwz50D
+> +81Bh/pPZXXsL4f3an9v/68prsM4NgJMXvHh/qWGY8L75QyoPn69/6d4mETBDCSeL
+> +BAA1Ac2z2UlC6uqlM5A4/F1IEilrtDIFMD6r3UMZDwKBgQD1Zbx3A3VV/HDlH2CN
+> +Tzf/Er2xUPYbPHJCALbZVwEM8zNTeIysMM3LeqWXfbJ4JpfkU575QLCaAC1PdQJT
+> +AjNLqo9eYzsir6pj18HqBN/MxIujhbLGA78oD5fYRTL+5sXl0m1xkJq+ngkWbx6Y
+> +ByfZFZ/UIUMST8kU8nVlNuFN1wKBgQDEsXO0PH5f0RkdbRVBQvVIdj5kfR94bheW
+> +s7apwU07uYvlLiLrikRgC3Q60a7K3H7tfxkP5rjKUr+CyH+rlsL+WL4gJjBi4D13
+> +XQeFlNbZieNNrnOctFCnGPlUSmte4Ubd1QEplUkbYkfvh5XKIklAfLsQPf17FQr/
+> +ZAE/2YIOdwKBgGfXCQ0DdZ9RFySdRmoFX5icAZEKxVl5FpA/ZSBK5LLqJonntP8Y
+> +F71GxNN56Q9WpWeEyvyGFzTTZlj9FmKxx6r5HXm/W8KtuthM8E1qiplHgh9L7/5C
+> +j50QHBz0C0Q5uvwpMw6fNhv7G7VWiAek34PI1r0Y5hzVji1C+9I8itI5AoGAYGsU
+> +at/UmyenBhO4/ZrTHkhIYX4sdR6SlZ9XBXPqZkKYXyn0mD3ZMrOqsEKlSnA4EDfj
+> +kzXok9VoZ7XdT8HBqGjcGmpeAbomp2KFE2hYwZ6kPCouJj0F5EOLxVQNuh74XDnU
+> +LgwuICxXUwXF2aZg/immkVmx7inskDD3o9L9vBUCgYBhCpayQcy9hswdDVICOEst
+> +U9VXwVAbwfdmPTLiKacRQdw44zhBcsBB0wi1dszvGvSlAlB+ChFM6MxALEdbvTln
+> +Jxwsyxx9KXuoryhcTlHQikBOYxmrqPAhdrPh8H2tdiv2yX35x9g7E/XkRZZxMfkL
+> +H7x8vakFgGNcX2NITZBM4Q=3D=3D
+> +-----END PRIVATE KEY-----
+
+Please don't leak (x509) private key. If so, generate new one instead.
+If you intend to sign your patch, you can use patatt (see [1] for usage),
+although you have to use a GPG keypair for that.
+
+> diff --git a/staging b/staging
+> new file mode 120000
+> index 000000000000..ecd48e46fcb1
+> --- /dev/null
+> +++ b/staging
+> @@ -0,0 +1 @@
+> +/home/ayush/git/kernels/staging
+> \ No newline at end of file
+> --=20
+> 2.40.1
+>=20
+
+What's the purpose of above file? I'm confused.
+
+Thanks.
+
+[1]: https://people.kernel.org/monsieuricon/end-to-end-patch-attestation-wi=
+th-patatt-and-b4
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--olrniryj63XltpFO
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZfGj5wAKCRD2uYlJVVFO
+o+cdAQDkmcNoU5/jUFGizeKREePa60FyiCloMKaWAtknbSvpOAEAz1Qf8s9FIdGQ
+pKy57HtDlfJ/ONGlBVjhn8A4bE/L4wY=
+=WaF9
+-----END PGP SIGNATURE-----
+
+--olrniryj63XltpFO--
