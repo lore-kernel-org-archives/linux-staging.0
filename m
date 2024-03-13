@@ -1,46 +1,46 @@
 Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFE7F14A8C;
-	Wed, 13 Mar 2024 06:43:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AFC61863B;
+	Wed, 13 Mar 2024 06:44:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.104
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710312214; cv=none; b=tLbqWiKndFFiHEfQXzXpC6eDKWcc7O3QWKMeNd5PRODzQPYR3M9fi8AW6xbpsKQ2q0+Ij+Y9piYKUh2KTH2SN8wy191zpop32MvS66DTQdOS3Y7yuaiUs8EatNOHnjtF541jpE6GSHFHKE7jGn1ungFmdm6rWWloOPs7JZfhW1o=
+	t=1710312290; cv=none; b=Yzob2oiguPKd4lbQFmUDzR2Bj2PuaOY+DUHL1YdUTZvORrO9mH82qhIFOrGnnn3LeecoloZSNY7IsQjbXf4mKvhsbn2fWWacT8AElveBvQIPtlcUMXm3jrqLvF2eb2KQH3FZICVIvvQZ/ZNgbwJ+dlJtLkjX6RpfoMl0/UZWVOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710312214; c=relaxed/simple;
-	bh=G9fU0sfQ+BUgFXDIEZhacWzKK0pVZkFYf2cAEq0MyZ0=;
+	s=arc-20240116; t=1710312290; c=relaxed/simple;
+	bh=TM1rmGPrdfiR9PzrANbtrHezb6aRvvbEUO4pTe07UuY=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=Md7BZQMkFvwqHgZhTer4i+9M8rJ7LJ8kapST63+zGZg8EqoVHgg62yESjxhP6YCFldG1dHNU4QaC0AEJfhQtDyXPytOP5c3hnZFhDPp1XK9ibhq5cf9FXzBnpVm/TEFUtT5rxwMCq88av2o4Ytmget/6hZvNIbJExijjhBdb4vA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=oJ/5/+3A; arc=none smtp.client-ip=192.134.164.104
+	 MIME-Version:Content-Type; b=exYH2JRtB+T/kJ2GYsERYzY78a1T9ud52rG5sUT8CdFScUNZuJ521WP2DKQgq2Vzsp8SUCezYlkWw8YcmK+XhHX9HPmCocSwCmpod9EQT79WuozAMgG8qq075woL/HLEcslIkQ3tX77HiLZnXZ5qFCXpKp6le5X9k/sQT5wfpcQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=BWs5pePU; arc=none smtp.client-ip=192.134.164.104
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="oJ/5/+3A"
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="BWs5pePU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=inria.fr; s=dc;
   h=date:from:to:cc:subject:in-reply-to:message-id:
    references:mime-version;
-  bh=o1iHmk4rKSpVyuwNMvqDmU6e1lRNlltfHxYanYPd4Ys=;
-  b=oJ/5/+3ALIuWVRISi4JRRPv+86kP96Qv8NJgCTa1Yo0sVTDlbZdManZT
-   ePruJKh4oYF2m2nm19it88PjbHlXfuEcqJm4HLle8QbB5HIPTaisypxO/
-   Vff71UXW8zkS48luCXc4eNlaQQHT6Pg/RdOr7WPBnfdFLvruX0Lnz0loG
-   k=;
+  bh=NVhchdFlSqvatkPMxpndknNhXgMLZz8ISGeYtFhJ08M=;
+  b=BWs5pePUQTzKZefkGheXNpTzxeP2bN+cgUohLzdLR0KhAoDGkz4SEXUv
+   GqCB4oZpR23Rs1OilSThHVSvFVcTay0AyHZVEwn2POpQL31yInrjIh155
+   gC8TUfW/H5TbbUfgQegp2KbyM4JL/ZAtdRQWgCyNKl9z4hK6RR9RT6Vnc
+   E=;
 Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
 X-IronPort-AV: E=Sophos;i="6.07,119,1708383600"; 
-   d="scan'208";a="82007463"
+   d="scan'208";a="82007499"
 Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 07:43:22 +0100
-Date: Wed, 13 Mar 2024 07:43:22 +0100 (CET)
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 07:44:46 +0100
+Date: Wed, 13 Mar 2024 07:44:45 +0100 (CET)
 From: Julia Lawall <julia.lawall@inria.fr>
 X-X-Sender: jll@hadrien
 To: Ayush Tiwari <ayushtiw0110@gmail.com>
 cc: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com, 
     gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
     linux-staging@lists.linux.dev, outreachy@lists.linux.dev
-Subject: Re: [PATCH v2] staging: rtl8712: rename tempVal to temp_val
-In-Reply-To: <ZfFJoZWURDM+Uin4@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
-Message-ID: <alpine.DEB.2.22.394.2403130740450.3473@hadrien>
-References: <ZfFJoZWURDM+Uin4@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
+Subject: Re: [PATCH] staging: rtl8712: renaming tempVal to temp_val
+In-Reply-To: <ZfE4iDfGUyq/C9s4@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
+Message-ID: <alpine.DEB.2.22.394.2403130744040.3473@hadrien>
+References: <ZfE4iDfGUyq/C9s4@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
 User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -54,25 +54,17 @@ Content-Type: text/plain; charset=US-ASCII
 
 On Wed, 13 Mar 2024, Ayush Tiwari wrote:
 
-> Rename variable tempVal to temp_val
-> to address checkpatch warning 'Avoid
-> Camelcase' and to ensure adherence
-> to coding style guidelines.
+> Renaming variable tempVal to temp_val to address
+> checkpath warning 'Avoid Camelcase' and to
 
-The log message can be around 70 characters per line.  The above is a bit
-too short.
-
-Your subject line says temp_val, but the code says tmp_val.
-
-Maybe a more meaningful name could be chosen?  From the calculation, it
-looks like it represents an average?
+Also, it's checkpatch, not checkpath.  And it should be "to address the
+checkpatch warning".
 
 julia
 
+> ensure adherence to coding style guidelines
 >
 > Signed-off-by: Ayush Tiwari <ayushtiw0110@gmail.com>
->
-> Changes in v2: added a period
 > ---
 >  drivers/staging/rtl8712/rtl8712_recv.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
