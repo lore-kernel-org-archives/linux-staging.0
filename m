@@ -1,140 +1,144 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B9EE143C6F;
-	Tue, 12 Mar 2024 21:52:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88AD4DF62;
+	Wed, 13 Mar 2024 03:36:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710280326; cv=none; b=maxAWDe9p84S5CempTgg94gmliuG6QORDxveOf52x8OAA1TVPs0E58U5d3P5RQJrP0i/5eu262HhUwl1RT+DkXdKtpqKn8qMBim4c0QYRDCv1vZBMdzRVc6qfWNB0tnSmGNejQi2cBSx7X5mB/cyelCObOlJmi/nVXn7GZ9hEjY=
+	t=1710300985; cv=none; b=e+bjBTwci4yMK6tUUjjJqOe5SrLH2LsuJMoNmm0LfJjRYCqhgQdjnz4GG3FYMm8CTt2fEa08N72LaafN6HZI15gWQJ3dwL56srqTLqYUBXNWIA6TnaDOiNgXgfW6lbKGfONu8l/Xb+uDb195DvRJ8VDCwsdElhOjdOMdmu8K2F8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710280326; c=relaxed/simple;
-	bh=c25YjC2JUauATlLLXLNhbWOGSqRPC7E+MI4ezwvcdy0=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=ZztSQN9QrNi4M9mqH3omwPZoDEOGKLmkW8WrKaC67hkO7rgYYLQua+33fzYZFdNCO1loGE1lKHA3X4k8OnWu5ZVZCwVOAYMnMiGweqLi4/N3gdT+bb+nMBmyvyC682NxLkpzmdehGR5vggoNzWciZZLZrze8KYeGaaslYyQeBmw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=qdWLlB6b; arc=none smtp.client-ip=192.134.164.83
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	s=arc-20240116; t=1710300985; c=relaxed/simple;
+	bh=q75T6CjXdZiLfdbqwBfbdpNeDTcQxDLhgC+M7u0WSvQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=u7/JvmhN/Ng2psnq5HsDPjgL3sbCoNovO1MHgNfNJygbyQc84Mh4eQLKJnsTwWw463HjNLziIpfiTrI/VDQu25+JSdkK9qMx1R/OnQpVAJFYJHeQnlVIdQM9nSkP0b2MkZKXCKh8+C0D09CRCJP8yi7w+bKt/nhU7PLYUFLdoQk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VfrM8yeM; arc=none smtp.client-ip=209.85.160.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="qdWLlB6b"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VfrM8yeM"
+Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-22002fbbd6bso3171210fac.3;
+        Tue, 12 Mar 2024 20:36:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=zjkimfvEnH+8h+KzI9S405xYFJIlma0xDcckDJKGofU=;
-  b=qdWLlB6bJ3c/HeeTsjS1dBAwUtRQT+HCqUvyqO9P0xO9HxQifStQxjkg
-   IVw2qqjIpcw9xRAQrgAauflAB8Ttud2sTLZOb7E3T/QC8xAYQRlx1Dqba
-   PE6tE5ZO4WpAFoKgJMevYpT+nkVNnpgLJZG9xcavK+ImpWf8nyJDJdejh
-   A=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.07,119,1708383600"; 
-   d="scan'208";a="156339789"
-Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2024 22:52:00 +0100
-Date: Tue, 12 Mar 2024 22:52:00 +0100 (CET)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: Ayush Tiwari <ayushtiw0110@gmail.com>
-cc: outreachy@lists.linux.dev, linux-staging@lists.linux.dev, 
-    linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org, 
-    florian.c.schilhabel@googlemail.com, Larry.Finger@lwfinger.net
-Subject: Re: [PATCH] staging: rtl8712: removing redundant paranthesis
- chk_fwhdr
-In-Reply-To: <ZfDIF+6MrdrX79nd@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
-Message-ID: <alpine.DEB.2.22.394.2403122250390.3229@hadrien>
-References: <ZfDIF+6MrdrX79nd@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        d=gmail.com; s=20230601; t=1710300982; x=1710905782; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cswU/qzK+hSgY5yYtg2wRRadWrJVp3EWT5DhBoH1TBI=;
+        b=VfrM8yeMgXFF8/KJWLA5ZgUHDaUHXw9UKk5nZNiR+i2O6jxYHvoV1OXSnAnGuWS5A1
+         zp0WcL4OXm14ZpNScTTMi813TbSQcNRRYTL3aNKnRXNo6+Iypd7ZMuXsgZRHL7PeSVKm
+         W3t+Im0OetTrdP3zlbOtSRFNDMMarYEpS6SO1NdrdHbuUafX23AAm3L3n2z+4/SPM7x8
+         q93Sk8gRCvUWM8uzf8l9Ue/y51CCd68awXLnRlG2kA1/3F2sMiKJDWRLIs07XcNdr5X2
+         YV/nBb66hv5St8ddsblA5pvyvFznbDwaEYo/+wsmeqL1rXXPcSGLCtcVBkcRXK/ZsVtt
+         2UYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710300982; x=1710905782;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cswU/qzK+hSgY5yYtg2wRRadWrJVp3EWT5DhBoH1TBI=;
+        b=KAn3i0EkVGROMPuZ03nr6CUYVCQiig3jt+I/XKKWVztwbay+0EGFZqjBkVAFa9Vzon
+         QhwGXQ0sKxWpwQDaWPESLBpq76FzC5NmwgZCyW8yDvY0EjTdAw1A4jqyjMgUU7/qZg80
+         pknLwfjqKoBC5ACMNG1DC67GwRCQLfs0s4J7cNcrMjKpc6TKcrGqpa/0CrEzPio5dYPp
+         YiQfzs9p2iJ0JtwBC79oQHQ32BrxT2iS1mXM7UNQIghlk1ZJNirOS/mVab2TzzL3w7AD
+         qyJ3ZAW55TPvw4O3mhN9Vdlb1/DItEnb7XqqFvsx9xvA4rQUXL1gn4ynA/1z/yZX2JmR
+         bMvg==
+X-Forwarded-Encrypted: i=1; AJvYcCUIUwpfVQqj5dDnv5buwKlOFB3ZOC289wumZsh3eBiWtlJ1ThW0BR7Y7JUu61rvl0nXZkiEhlHuxNp7KJ7yxsHq9hZW4Tm/0K3+xeEKzaufskG0U4sLBdo2k13NUWqR44A7QBro1yVIFg==
+X-Gm-Message-State: AOJu0YzdssKmN/Dvcr2aN7IIoBgaQYJrM1yz59cec7FT95qzrRfUSGMe
+	RNfI4Bm2Loo7aeOND6r/3nimq01VpHURwW/sKNz7bbtTsqNuvK64kKgdAuV7Lq1PR3WqKWNEplQ
+	9Ct4W2klrF33mDWkiNAF167WJngY=
+X-Google-Smtp-Source: AGHT+IEiz8JrhcT1awRkr6hThHjTbPBBmqpl9NAEk5CydQz8kt+uB7vCUg8DozjejPzWs9wcvS8Ezq756933QIMWDeU=
+X-Received: by 2002:a05:6870:fb88:b0:220:87b2:c13a with SMTP id
+ kv8-20020a056870fb8800b0022087b2c13amr12423713oab.26.1710300982471; Tue, 12
+ Mar 2024 20:36:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+References: <ZfCM2RyeEpxooKz+@MOLeToid> <ZfC6JeVBa9weWBSU@aschofie-mobl2>
+In-Reply-To: <ZfC6JeVBa9weWBSU@aschofie-mobl2>
+From: Felix Kimbu <felixkimbu1@gmail.com>
+Date: Wed, 13 Mar 2024 04:36:10 +0100
+Message-ID: <CAK=vLxJmefBNh9tseipYhQiYY6ZYZzoij3oCBKHy3qaH3+bGiw@mail.gmail.com>
+Subject: Re: [PATCH v3] staging: wlan-ng: Rename 'foo' to 'rc' in p80211conv.c
+To: Alison Schofield <alison.schofield@intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, Mar 12, 2024 at 9:25=E2=80=AFPM Alison Schofield
+<alison.schofield@intel.com> wrote:
 
-
-On Wed, 13 Mar 2024, Ayush Tiwari wrote:
-
-> Removing redundant parentheses in 'if ((pfwhdr->signature != 0x8712) && (pfwhdr->signature != 0x8192))' in static u8 chk_fwhdr(struct fw_hdr *pfwhdr, u32 ulfilelength). This will ensure adherence to coding style guidelines
-
-The log message should be limited to 70 characters per line.
+Greetings Alison,
+Thanks for the review. I will work and resubmit the v4 as guided.
+Regards
 
 >
-> Signed-off-by: Ayush Tiwari <ayushtiw0110@gmail.com>
-> ---
->  drivers/staging/rtl8712/hal_init.c |  2 +-
->  key.pem                            | 28 ++++++++++++++++++++++++++++
->  staging                            |  1 +
->  3 files changed, 30 insertions(+), 1 deletion(-)
->  create mode 100644 key.pem
->  create mode 120000 staging
+> On Tue, Mar 12, 2024 at 06:11:53PM +0100, Felix N. Kimbu wrote:
 >
-> diff --git a/drivers/staging/rtl8712/hal_init.c b/drivers/staging/rtl8712/hal_init.c
-> index 1148075f0cd6..9f41b2c086ca 100644
-> --- a/drivers/staging/rtl8712/hal_init.c
-> +++ b/drivers/staging/rtl8712/hal_init.c
-> @@ -138,7 +138,7 @@ static u8 chk_fwhdr(struct fw_hdr *pfwhdr, u32 ulfilelength)
->  	u32	fwhdrsz, fw_sz;
+> Hi Felix,
+> Thanks for sending this v3 as a new patch. Now, I'm going to ask
+> you to create a v4 to straighten out a bit more of the patch
+> format.
 >
->  	/* check signature */
-> -	if ((pfwhdr->signature != 0x8712) && (pfwhdr->signature != 0x8192))
-> +	if (pfwhdr->signature != 0x8712 && pfwhdr->signature != 0x8192)
-
-Actually, the response to another proposed patch was that it was preferred
-to keep such parentheses, regardless of the ceckpatch warning.
-
->  		return _FAIL;
->  	/* check fw_priv_sze & sizeof(struct fw_priv) */
->  	if (pfwhdr->fw_priv_sz != sizeof(struct fw_priv))
-> diff --git a/key.pem b/key.pem
-> new file mode 100644
-> index 000000000000..ef912436e976
-> --- /dev/null
-> +++ b/key.pem
-
-I don't think that this is supposed to be part of the patch?
-
-julia
-
-> @@ -0,0 +1,28 @@
-> +-----BEGIN PRIVATE KEY-----
-> +MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQC8i/6L5h4wSbaP
-> +tn9whe9BfKa0jpiiy+F9L0fJEWGKqUqxMUL3D48LJsqTgt8vP6ORMcSQmtQ1ijyv
-> +f9s0N5/sNci9dYeiVhzArlcZi4IOEkfkn/lgRoz4WOsZ6NQzgsk6ctctavrlHUwB
-> +e6RQHFyEC9BOmCq6PTPMtPTeTrQvjzm68gMiQfoNT86/uho+eKxABYBOZEN1DObt
-> +Q2wEbJOhiZ+UfknJd5BuxLXFLLeutYNHT+jzymVETfH6Zqr5U+NS/68H8tVRSy5w
-> +zwMZ38yQc5RI0fhI/u+6Lsikf0sJYV4sNaUkElclfzKFRE9RNc8McQcjbY8RUVvG
-> +81qbKvDxAgMBAAECggEAB62YcpWu7LQmbpN10h0U1rEJpY2vB+Yklcal9jldJFqW
-> +M5a4IuaBIpOe/ph+7Tt6tjrKxewVheP4v67bEYp4WpQAIOhXMH8Fkbp9H98Er1JY
-> +QiZaRJeVkwwlRXtWn423vcfCcn409GftL0bxNIqgdod39qi6CLaIVFGZgoS9pWLD
-> +lrrEnK8nlq8/4bs/bPyZqoiEIUXTC9IAHhlmmwL1diLYmTOTIFn0XN3kqxMwz50D
-> +81Bh/pPZXXsL4f3an9v/68prsM4NgJMXvHh/qWGY8L75QyoPn69/6d4mETBDCSeL
-> +BAA1Ac2z2UlC6uqlM5A4/F1IEilrtDIFMD6r3UMZDwKBgQD1Zbx3A3VV/HDlH2CN
-> +Tzf/Er2xUPYbPHJCALbZVwEM8zNTeIysMM3LeqWXfbJ4JpfkU575QLCaAC1PdQJT
-> +AjNLqo9eYzsir6pj18HqBN/MxIujhbLGA78oD5fYRTL+5sXl0m1xkJq+ngkWbx6Y
-> +ByfZFZ/UIUMST8kU8nVlNuFN1wKBgQDEsXO0PH5f0RkdbRVBQvVIdj5kfR94bheW
-> +s7apwU07uYvlLiLrikRgC3Q60a7K3H7tfxkP5rjKUr+CyH+rlsL+WL4gJjBi4D13
-> +XQeFlNbZieNNrnOctFCnGPlUSmte4Ubd1QEplUkbYkfvh5XKIklAfLsQPf17FQr/
-> +ZAE/2YIOdwKBgGfXCQ0DdZ9RFySdRmoFX5icAZEKxVl5FpA/ZSBK5LLqJonntP8Y
-> +F71GxNN56Q9WpWeEyvyGFzTTZlj9FmKxx6r5HXm/W8KtuthM8E1qiplHgh9L7/5C
-> +j50QHBz0C0Q5uvwpMw6fNhv7G7VWiAek34PI1r0Y5hzVji1C+9I8itI5AoGAYGsU
-> +at/UmyenBhO4/ZrTHkhIYX4sdR6SlZ9XBXPqZkKYXyn0mD3ZMrOqsEKlSnA4EDfj
-> +kzXok9VoZ7XdT8HBqGjcGmpeAbomp2KFE2hYwZ6kPCouJj0F5EOLxVQNuh74XDnU
-> +LgwuICxXUwXF2aZg/immkVmx7inskDD3o9L9vBUCgYBhCpayQcy9hswdDVICOEst
-> +U9VXwVAbwfdmPTLiKacRQdw44zhBcsBB0wi1dszvGvSlAlB+ChFM6MxALEdbvTln
-> +Jxwsyxx9KXuoryhcTlHQikBOYxmrqPAhdrPh8H2tdiv2yX35x9g7E/XkRZZxMfkL
-> +H7x8vakFgGNcX2NITZBM4Q==
-> +-----END PRIVATE KEY-----
-> diff --git a/staging b/staging
-> new file mode 120000
-> index 000000000000..ecd48e46fcb1
-> --- /dev/null
-> +++ b/staging
-> @@ -0,0 +1 @@
-> +/home/ayush/git/kernels/staging
-> \ No newline at end of file
-> --
-> 2.40.1
+> The commit message below includes some revision history that only
+> belongs below the '---',  Your commit message will be with this
+> patch when it is committed, and the changelog will fall away.
+> The changelog benefits reviewers today, and it also is always
+> retrievable in Lore for folks curious about the patches journey.
 >
+> So, I'll make some edits directly below indicating what I think
+> v4 should look like.
+>
+> Caveat 1: I didn't test the patch. I expect it applies, compiles,
+> and passes checkpatch.  Double check that all on v4.
+>
+> Caveat 2: I don't know if GregKH is going to accept this trivial
+> patch. That's OK.  By the time we get though v4 you will have
+> applied a bunch of patching practices that you can take forward
+> to your next patches.
+>
+> > Rename identifer 'foo' to 'rc' Suggested-by Alison Schofield in functio=
+ns
+> > skb_p80211_to_ether() and skb_ether_to_p80211().
+> >
+>
+> Replace above with:
+> Rename identifier 'foo' to 'rc' in skb_p80211_to_ether() and
+> skb_ether_to_p80211() to match the common kernel coding style.
+>
+> (Try to get the spell checker running with checkpatch to catch things
+> like the misspelled 'identifer' above.)
+>
+>
+> Delete from here:
+> > Fix indentation necessitated by above rename Suggested-by Dan Carpenter
+> > and Philipp Hortmann.
+> >
+> > This change adds intuitive meaning to the idenfier, adhering to best
+> > practices and coding style.
+> >
+> to here.
+>
+> >
+> > Signed-off-by: Felix N. Kimbu <felixkimbu1@gmail.com>
+> > ---
+>
+> (The names in parens is optional. Folks often do it to make
+> it easier for reviewers to find what they last commented, and
+> also it is a bit of a nod, appreciating your reviewers)
+>
+> Changes in v4:
+> - Remove changelog comments from commit log (AlisonS)
+>
+> Changes in v3:
+> - Create a proper new patch revision (AlisonS)
+> - Use 'rc' instead of 'decrypt_check' (AlisonS)
+>
+> Changes in v2:
+> - Fix wrong indentation introduced in v1 (DanC)
+> - Correct subject to include driver (PhilippH)
 >
 >
