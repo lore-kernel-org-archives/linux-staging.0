@@ -1,68 +1,63 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B41ED175BF
-	for <linux-staging@lists.linux.dev>; Wed, 13 Mar 2024 08:36:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD100225AF;
+	Wed, 13 Mar 2024 08:52:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710318974; cv=none; b=EMUuLoAhd/b9NiiZ4+4Utr029SvFcfexX1+PXn42WZbgJ0Lv15giM6sKZZkYUjtHI+b9KwZi8Ka3uSl/wAzhvMfKR0ol8X2zKb63Jc/eHiody237SflxRS7QVJR8KLmyGfqwygozqirt/51WYKD5JRaZCKQcoXeLOUvWxPjE0wM=
+	t=1710319970; cv=none; b=sJqi00BHt5rq9aBCqVyKoSoo3mhjZ8zB1r/z3PVgMOpCSLteCK0rAll+vzb4UJeGIVa9bNpOZStUKwn+mCrzvFMdAkWLJ/GlBWbsO1KmSWFHAg3g3Ic/HM9J4tUYaS0cV2eV+XJt+rlzgTV5mndNH1zF3pe8D0Wf5RH92LlUzUo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710318974; c=relaxed/simple;
-	bh=ZKFTwo1Q9pWn1usBlfixETaA1dMjEZjsNIV8Y37bvfc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E6vVR4KMLhbrWkmeeQoSk+gVf5nRUu8ulnsPcQ7I8nmKPboP0F3ahnUtPL7QUI7MiriPc3qgm0LolDdvB7ZbDedSaoC3FJsJJb42pKTbmRZ/P2Fm1CcMHiE+Ks8mWRvjU9hwzXuV+WUYxCI2e22VmkR0AWsPQsoEU6iyrm6xXlE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ec8aS/jZ; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1710319970; c=relaxed/simple;
+	bh=oAAfuMysAgf/2POpxw/i0V2U97beoIz8zYh2XeHhPBY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Bdgc5kHQ7EAAsiwZf20mR0OaRT6aZiq+ItgqC1w8BvE7/BUZx8PEmpRzlBJqxscbewGrMs+RQoEQjrAiKGMKMV54BcyBjEuyWGyOmXw1g/5amkWnU2Nc1XQ7y63fSPMTaW+VDosrK3AfgVWC4f+v0WOhvzKJMegNLwZEhVwApdM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FAzevBod; arc=none smtp.client-ip=209.85.215.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ec8aS/jZ"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5649c25369aso6731528a12.2
-        for <linux-staging@lists.linux.dev>; Wed, 13 Mar 2024 01:36:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FAzevBod"
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-5d42e7ab8a9so4313199a12.3;
+        Wed, 13 Mar 2024 01:52:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1710318971; x=1710923771; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=q56Iw2eMUPFwWk7xMQEduN6A9eWGEu2bI8Z2BeWf0vw=;
-        b=ec8aS/jZAI/urk/Rr10WDcTKRueVu8VCRtpkPMBfLlBOfIIfX+EOUz+EtRP/ZxcVDC
-         Ntm2GXIeMTk7cc0i4fQNn+Z8E7KaquQoMnrQwHpDsw9V/pkDTYqLVe/A5Z8vnvfY9Ffc
-         GzI/y79lkfyqhs8EXUiN2lnv79bKWgwUt/QR/MT0XiMui0xe4EjU6S3fOG0gbF+XZD6Z
-         lDK7yL4TkerhaQy0pjGHyWUYgHyIkZKC28itbDZzIQRA4JlA36FjduAXjjYJ3lVR7gsV
-         wwWs1gvDVHMLs/9zyH3n/ZC8NmerCx0L/oO1nmQHaBbDVapyui285bbWqu1UG5BvyFWl
-         IUoQ==
+        d=gmail.com; s=20230601; t=1710319968; x=1710924768; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=jx0AltY2QNKpaAAdAZ/gjTEC4Fp9z47uP1Pk84TlNLw=;
+        b=FAzevBodd5GgewMyPpAnu7BfzGOVETe1ZhkHkv+D3oqVHkP/xJW/pJm5zVlXLXUx47
+         1oXhmHrUiTHtDQpI5MBCxG8xqraAsDWl8MCERyHTf2OO2DGOqGCPDOMuS1cDUJefaZxM
+         Tq4msrSnPDv/EVg8jNnWxzgXHDHnHlqN44bsciUdKqc5BptGLBAK+6mwMf3qGGj4JnwS
+         9FrfZ6vxEAYAeCCTL0w84RoJkOQ62lx0kD+3ViMrtUHRgPQurzmFU1Ix2Pp48UuhORwJ
+         AaDByoW3/II70A4CkVzTt8r4SWcTzYMdbygRxq+MpA5RWbK3PIq0oYQYhErFTk+SvcPA
+         FT3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710318971; x=1710923771;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=q56Iw2eMUPFwWk7xMQEduN6A9eWGEu2bI8Z2BeWf0vw=;
-        b=sphHHfNx+DGFAJrDTUY0HepDPTg/YEbTBJOF++YX8Sbp4Ej2lzQMmbWnDEpG3G3Dou
-         41QLdzALuKcbb2wLIApdRk7Vi2saisuFf5wrEPXWsDHlRolIIe2SrqbaWPsklj4ufp3E
-         5EV3H6fJTluKuwEHBgWQxJ/q44Lm8j8Ml+Ru/cIVvPsZOIDPQhni4Ko3nu1K8fc0Z/cv
-         +gyXsOPO393MF3ac2wEHZJJLmDEDgKVs0UVrvFM6xPAVb0q+UpBG2MxlkGBeBlJsDSvE
-         xZhiHNfxh/5nzQnKxoRTe4miaIcBk4LbTO489Imqbmh5la551e+uS0DYwb+E3ipFiW44
-         GWsg==
-X-Forwarded-Encrypted: i=1; AJvYcCUUvawLLrLkm9lQb6Tc1+QrLnULdxX1mJOxYJfujhvOYlWE5066+iGxIsU1cG96+27Vz+zXHC/eFrVBRJYkfUTrSGH8dGkFrRlS/XzWFQ==
-X-Gm-Message-State: AOJu0YzQK008l8ohwZKIjRELi29fsr1D9Zz16fMPA/OP/vMIMbE06vBD
-	12iRVyAk+03+1M5WvAJX5xXnxWGSFa8ALhMyoAyI++ETiD2YHo46hIGdb0MZj+yXYAvhIU8kA2L
-	X
-X-Google-Smtp-Source: AGHT+IEWn6PnNJ4T6kFZ+BtXapbyNPTHkaA6jOJ7GecTTFtWOnLDtr8Pz7YoarT+gwdewJTDsNurCw==
-X-Received: by 2002:a50:d498:0:b0:568:797a:f2d with SMTP id s24-20020a50d498000000b00568797a0f2dmr1701644edi.27.1710318970930;
-        Wed, 13 Mar 2024 01:36:10 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id cq15-20020a056402220f00b0056761c83bdesm4774222edb.93.2024.03.13.01.36.10
+        d=1e100.net; s=20230601; t=1710319968; x=1710924768;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=jx0AltY2QNKpaAAdAZ/gjTEC4Fp9z47uP1Pk84TlNLw=;
+        b=kKAABDbZOmMzfrXvmiQ0FqJjYHXxbQUPV0tEn8TV1d1tcnREko4IbDWj4g6nGdDjDQ
+         Bvk04kH8oiYHjm2TKDslwjB52Hfx4qfanb0YjdBZlNglNi6Bswo0/fNkmSRwMEaAQIGQ
+         Zafo9mNFrduXbTiKdf7HvvsL5gOp2KH2oDrbjKALESGj2cmM0Bs+HZ8yhoInGTgPhVde
+         25cjSAPLjLocRqwpRp/xET7NfQ7W2g6FvZz5eg5sxv1tfp3iopfyQi8U0+mltUMSUWSH
+         HNnwjgHvNzCxH1W7HZZ80yIcJuBsL2EBkeGecpGdmqmyJzXtMZYvOU7lQ+0ODWnVdNik
+         rnnw==
+X-Forwarded-Encrypted: i=1; AJvYcCUEDyrxgGmBLOHNYaDgAf7ddTuj3uqxeqJgkUvGfzA3mrUpoT66w7Ef7UVB3wanyTWAx+jxD0byC7UU+5PE+aNzAjKx6HTCZD857ipfWA==
+X-Gm-Message-State: AOJu0Yy7HjeAXnWl7+7S7oGJb5kkW7j6+skpBV/XjrU6cnY+KIpXTWBh
+	XO7JoziPxdFzm3NG2yE1597MPlo+js0hpWQAe1i0YtwEEBZ+++KL2ZrMLGr7hhg=
+X-Google-Smtp-Source: AGHT+IEwYs75iaQ7RhsHEIN/sybdvTkOf+Jn6DErYGQZv1YHreUyygA89jUbcVXZdegh3h1IxBxR5A==
+X-Received: by 2002:a05:6a20:9591:b0:1a0:cd54:6d9f with SMTP id iu17-20020a056a20959100b001a0cd546d9fmr11557984pzb.23.1710319967775;
+        Wed, 13 Mar 2024 01:52:47 -0700 (PDT)
+Received: from ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx ([103.6.158.67])
+        by smtp.gmail.com with ESMTPSA id im22-20020a170902bb1600b001ddd0eb63f4sm715917plb.105.2024.03.13.01.52.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Mar 2024 01:36:10 -0700 (PDT)
-Date: Wed, 13 Mar 2024 11:36:07 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Julia Lawall <julia.lawall@inria.fr>
-Cc: Ayush Tiwari <ayushtiw0110@gmail.com>, Larry.Finger@lwfinger.net,
-	florian.c.schilhabel@googlemail.com, gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-	outreachy@lists.linux.dev
-Subject: Re: [PATCH v4] staging: rtl8712: rename tmpVal to pct_val
-Message-ID: <f4b889c8-9816-47e9-88e1-2acc9c169b8a@moroto.mountain>
-References: <ZfFfW/Flrlzb0+UI@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
- <2c63a094-6966-7679-2b23-58c057b451d8@inria.fr>
+        Wed, 13 Mar 2024 01:52:47 -0700 (PDT)
+Date: Wed, 13 Mar 2024 14:22:43 +0530
+From: Ayush Tiwari <ayushtiw0110@gmail.com>
+To: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
+	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Cc: outreachy@lists.linux.dev
+Subject: [PATCH v5] staging: rtl8712: rename tmpVal to avg_val
+Message-ID: <ZfFpW9XvHhUkcspq@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -71,37 +66,48 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2c63a094-6966-7679-2b23-58c057b451d8@inria.fr>
 
-On Wed, Mar 13, 2024 at 09:18:08AM +0100, Julia Lawall wrote:
-> 
-> 
-> On Wed, 13 Mar 2024, Ayush Tiwari wrote:
-> 
-> > Rename local variable tmpVal to pct_val in function process_link_qual
-> > to give intuitive meaning to variable and match the common kernel
-> > coding style.
-> 
-> I don't think that the patch with the name avg_val was accepted, so this
-> patch has to replace tmpVal by pct_val, as you say in the subject line.
-> 
-> Also, the comment says:
-> 
-> /* <1> Showed on UI for user, in percentage. */
-> 
-> I still have the impression that the value calculated here is an average.
-> Total num is just incremented:
-> 
-> if (sqd->total_num++ >= PHY_LINKQUALITY_SLID_WIN_MAX)
-> 
-> while total_val is updated with a new value.
+Rename local variable tmpVal back to avg_val in function process_link_qual
+to give intuitive meaning to variable and match the common kernel
+coding style.
 
-Oh, yeah.  My bad.  I misunderstood the comment.  The original value is
-in percent.  prframe->u.hdr.attrib.signal_qual.  It's set in
-query_rx_phy_status().
+Signed-off-by: Ayush Tiwari <ayushtiw0110@gmail.com>
+---
 
-Sorry about that.
+Changes in v5: changed variable name pct_val back to avg_val, as agreed by
+Julia and Dan
+Changes in v4: changed variable name avg_val to pct_val, as suggested by
+Dan
+Changes in v3: changed variable name tmpVal to avg_val
+Changes in v2: added a period in message
 
-regards,
-dan carpenter
+ drivers/staging/rtl8712/rtl8712_recv.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/staging/rtl8712/rtl8712_recv.c b/drivers/staging/rtl8712/rtl8712_recv.c
+index 0b13d0a04304..1fabc5137a4c 100644
+--- a/drivers/staging/rtl8712/rtl8712_recv.c
++++ b/drivers/staging/rtl8712/rtl8712_recv.c
+@@ -861,7 +861,7 @@ static void query_rx_phy_status(struct _adapter *padapter,
+ static void process_link_qual(struct _adapter *padapter,
+ 			      union recv_frame *prframe)
+ {
+-	u32	last_evm = 0, pct_val;
++	u32	last_evm = 0, avg_val;
+ 	struct rx_pkt_attrib *pattrib;
+ 	struct smooth_rssi_data *sqd = &padapter->recvpriv.signal_qual_data;
+ 
+@@ -883,8 +883,8 @@ static void process_link_qual(struct _adapter *padapter,
+ 			sqd->index = 0;
+ 
+ 		/* <1> Showed on UI for user, in percentage. */
+-		pct_val = sqd->total_val / sqd->total_num;
+-		padapter->recvpriv.signal = (u8)pct_val;
++		avg_val = sqd->total_val / sqd->total_num;
++		padapter->recvpriv.signal = (u8)avg_val;
+ 	}
+ }
+ 
+-- 
+2.40.1
 
