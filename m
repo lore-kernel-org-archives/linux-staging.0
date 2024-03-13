@@ -1,127 +1,100 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 789FF383BD;
-	Wed, 13 Mar 2024 10:08:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 612FD39852
+	for <linux-staging@lists.linux.dev>; Wed, 13 Mar 2024 10:17:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710324533; cv=none; b=NT7iaGONSTGCCGsIpc9CJXCjiSc0T9Y9B5o14UvMJzS+gVv5fSOcE3Ul1itHG/DfngGizfdaj+qDAJvfIPHZqX4tG9N/aoanT4uDJAGkG2Q6D2Fc1vN7joA2nK7D66wJBFXhk6NySQxztPIUYuXV8PjFK0/+sYyL9JRZpNSJpio=
+	t=1710325067; cv=none; b=pw7sbg0xdmM2d/V7zwd2WpiGkyQBpt3lLWlcnd2GtBgYNMbS/DyvaNBj9ezDa4uxpZDMReJTItM2h2PxuFk+ZPuDoSCCwHeaLb02Yfc6CGLokdCMA3tCwRDta1NzJt0hWDe1pFTYq3d6ZcagWRdgfKDOw6wcCtjQ+NgdKaslpnw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710324533; c=relaxed/simple;
-	bh=aSw6o7ezc8c9/Vjkfi+RE9UYn23okpahByuvCrBXroI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=akUI2Y6MDq+CBM80eSd9KONi7iyV/J8OBQJ1YO3KeivCKoFmD+Pp8T6LVuArSeJR92qEByK7nyG1VESSK3swJF7RoWldPQM8NDOWfxHuxPMGQqYVd59TyrAKeDGSQmRuwKVk+xJ1ftLsykKJuVHOlApaVsyXkJih8mKx0BqDMMs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VRyLy1Fl; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1710325067; c=relaxed/simple;
+	bh=LoZmgljt+ac9BD9RLPwH0JEFx6pL0A4Uz+wUw5jJROg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UzSCRUFxsw07+3O1F9NSw3oNfUGjms3xGSEeEQdq712WHJyE1oYzR7nJw/KtFSvbwpTBKkOzByrto6GMX98t7TPwXNNE+ambk8NV9iEvWnrG+hkvzJ8qKzyO50SdfKkRZG8MHeq79zkOFKZkFowAJrnICV3rgaTMduwq2ZWFvmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HzU+ueEe; arc=none smtp.client-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VRyLy1Fl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710324532; x=1741860532;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=aSw6o7ezc8c9/Vjkfi+RE9UYn23okpahByuvCrBXroI=;
-  b=VRyLy1FlcOaOB+M4wVCpEZa+/wgIxT6sFsRB3lfPDYkXJzm0dZiLxcMq
-   0x6KsvuvMI6pjb3ddMwBzWfbtIHnFDsxn/S3yILBScKPlQ4K6b3158fuD
-   VUry7gJm9sDYbJBgbpvHxBW31HMT2T0dDNfXv6AjXY7HP0N33qIXdvZCo
-   cT4oCPgFFL1qZfL7uUQMUlYrwIkIG6ZZrG+x6RUSWDkJNy/haI9lSLiEO
-   rVkxdUIqIr3k0W+7WduhcgQixNa1gbhxNbR4HeUIFHaFHizoA7JpSvaXV
-   y/DLmW3QqurS2pHiJCHAiWr+Ig4UTIU9drHwCahVd06oGBrad25xwOcnd
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11011"; a="8848408"
-X-IronPort-AV: E=Sophos;i="6.07,122,1708416000"; 
-   d="scan'208";a="8848408"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 03:08:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,122,1708416000"; 
-   d="scan'208";a="16442321"
-Received: from fdefranc-mobl3.ger.corp.intel.com (HELO fdefranc-mobl3.localnet) ([10.213.6.143])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 03:08:48 -0700
-From: "Fabio M. De Francesco" <fabio.maria.de.francesco@linux.intel.com>
-To: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
- gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev, Ayush Tiwari <ayushtiw0110@gmail.com>
-Cc: outreachy@lists.linux.dev
-Subject: Re: [PATCH v5] staging: rtl8712: rename tmpVal to avg_val
-Date: Wed, 13 Mar 2024 11:08:45 +0100
-Message-ID: <2263049.iZASKD2KPV@fdefranc-mobl3>
-Organization: intel
-In-Reply-To: <ZfFpW9XvHhUkcspq@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
-References: <ZfFpW9XvHhUkcspq@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HzU+ueEe"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5684073ab38so1310838a12.0
+        for <linux-staging@lists.linux.dev>; Wed, 13 Mar 2024 03:17:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1710325064; x=1710929864; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=5M/ORIq4sCwrmX5HQhBLxTr5aGDowKuZzCR4YxxCzO0=;
+        b=HzU+ueEerfLbjOvPfKVxYzsDlznS4bmA0Y5ANFpwTNBbo7tOdt7Wr2/XuHKCD4/dTd
+         +Q/HBGZLxD6EdEasnUkHLjxG9x05/Au1IJoA2rHs/JN5Y1+QCGViXJNuoflln8KwM9rR
+         +Dtv3Y3JLw7DkvvihGCs6bQGDvUI8RUpjq7mBIOVRBNPeaMfeoaOVjSOtsl+8T/uXozH
+         CG+MPV2A63QZx2bsnR1HstkjSQLExawVSAYcV2i9XKOKLohOUpTKhCF+HmC4faHV3yGR
+         fa/WSKtuOXo91/L+tbDudxAX9/9kZxJjQkH9pH/fVoEtuaRUVFc8YuQc01mBy2NupYah
+         44PA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710325064; x=1710929864;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5M/ORIq4sCwrmX5HQhBLxTr5aGDowKuZzCR4YxxCzO0=;
+        b=F5l73lbk1M0RV59kzVSeTz1iHNaNh/NXR+KA6acsGNuxl2dnQJ1d8CsJDm32THIChW
+         UZGecx0iTCCp0E9vL9oMF5bzx/xF6L7mxFsVLNcyWEryQjkdmnQX9MKsM//WpSO1U9+u
+         jGHuD8v/ZRj+SYwNX7H3UJQ+0iL5SvDE/VZnryo9tNS3toAFFFnhQqhOA9Q1iMx26NZ0
+         kReRuzSqd0mXfy0APBJiobgTzQAhRszKCot2px/LWaLcXPOI5s8+juISzXbQp+2kzyMw
+         ujyv55+E/0OPbcl3UH6HpnJN5UKxg86KXIWzYWMmjqRr7+5i0A2FQJFmn+fDgr17gwlo
+         MWbw==
+X-Forwarded-Encrypted: i=1; AJvYcCUkag1GTMKDorpHQnOlJlV7wSPp5ykCJRe8hK5v6l31NTbcOc/Io1gCzLm5yWV2Y29xLUJpq18XKNV0N31QWtnP7zSCUC4wXKIvTut4GA==
+X-Gm-Message-State: AOJu0YzNk8bNljV3++2PLqdNzqWZlwOshBimMEFKnxaJ+C8wdTU68CNt
+	/zNB+iI0mfOIp7yW6UNC4U731SwKOGSu6m7UY/GJNWIu3OSWQyWxNjaZyWxU+Sw=
+X-Google-Smtp-Source: AGHT+IELGqN8dTVBTo97+SZdGl19AlZq/47XPA/TYt/B825Pkr/QYywCASzMf86GH0N80ToFdcXSGQ==
+X-Received: by 2002:a50:f619:0:b0:566:6b3e:c965 with SMTP id c25-20020a50f619000000b005666b3ec965mr2314303edn.4.1710325063594;
+        Wed, 13 Mar 2024 03:17:43 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id fg3-20020a056402548300b0056889f3cedfsm316920edb.55.2024.03.13.03.17.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Mar 2024 03:17:43 -0700 (PDT)
+Date: Wed, 13 Mar 2024 13:17:39 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Prasad Pandit <ppandit@redhat.com>
+Cc: florian.fainelli@broadcom.com, bcm-kernel-feedback-list@broadcom.com,
+	linux-arm-kernel@lists.infradead.org, gregkh@linuxfoundation.org,
+	rjui@broadcom.com, sbranden@broadcom.com,
+	linux-staging@lists.linux.dev, linux-rpi-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, Prasad Pandit <pjp@fedoraproject.org>
+Subject: Re: [PATCH v2] staging: bcm2835-audio: add terminating new line to
+ Kconifg
+Message-ID: <0a1aa580-50b2-4657-8308-94bffb194aea@moroto.mountain>
+References: <20240313091259.1413854-1-ppandit@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240313091259.1413854-1-ppandit@redhat.com>
 
-On Wednesday, 13 March 2024 09:52:43 CET Ayush Tiwari wrote:
-> Rename local variable tmpVal back to avg_val in function process_link_qual
+Normally, I would let Greg decide to notice or ignore the typo in the
+subject but he's on vacation...  s/Kconifg/Kconfig/
 
-You are making a new patch versions (v5) against your previous one. This is 
-not how the development process works...
-
-Make v6 against a clean staging tree, and change your commit message 
-accordingly:
-
-Rename tmpVal to avg_val in process_link_qual() to reflect the intended use of 
-the variable and conform to the kernel coding style. 
-
-Not directly related but, there is no need to say that process_link_qual() is 
-a function (parentheses already say that). Furthermore, by renaming you make 
-it clear what is the intended use of symbols, you don't "give meaning" to them 
-(they already have meaning by the mere fact that they serve their intended 
-purpose - https://ludwig.guru/s/to+give+meaning+to+something).
-
-Remember that only the final versions of patches, the accepted version, will be 
-applied against the kernel. Therefore, if this version was good, it couldn't 
-be applied because in process_link_qual() there is no variable called pct_val.
-
-git-am on your patch gives expected errors:
-
-Applying: staging: rtl8712: rename tmpVal to avg_val
-error: patch failed: drivers/staging/rtl8712/rtl8712_recv.c:861
-error: drivers/staging/rtl8712/rtl8712_recv.c: patch does not apply
-
-> to give intuitive meaning to variable and match the common kernel
-> coding style.
+On Wed, Mar 13, 2024 at 02:42:59PM +0530, Prasad Pandit wrote:
+> From: Prasad Pandit <pjp@fedoraproject.org>
 > 
-> Signed-off-by: Ayush Tiwari <ayushtiw0110@gmail.com>
-> ---
-> 
-> [skip]
->
-> --- a/drivers/staging/rtl8712/rtl8712_recv.c
-> +++ b/drivers/staging/rtl8712/rtl8712_recv.c
-> @@ -861,7 +861,7 @@ static void query_rx_phy_status(struct _adapter
-> *padapter, static void process_link_qual(struct _adapter *padapter,
->  			      union recv_frame *prframe)
->  {
-> -	u32	last_evm = 0, pct_val;
+> Add terminating new line to the Kconfig file.
 
-As said, a clean process_link_qual() has no pct_val variable.
+Why does this make a difference?  Is it just because it's annoying to
+cat a file that doesn't have a newline at the end?  I checked, and it's
+not a checkpatch warning.  Perhaps it should be though.
 
-Fabio
+KTODO: make checkpatch.pl warn about files that don't end in a newline
 
-> +	u32	last_evm = 0, avg_val;
->  	struct rx_pkt_attrib *pattrib;
->  	struct smooth_rssi_data *sqd = &padapter->recvpriv.signal_qual_data;
-> 
-> @@ -883,8 +883,8 @@ static void process_link_qual(struct _adapter *padapter,
-> sqd->index = 0;
-> 
->  		/* <1> Showed on UI for user, in percentage. */
-> -		pct_val = sqd->total_val / sqd->total_num;
-> -		padapter->recvpriv.signal = (u8)pct_val;
-> +		avg_val = sqd->total_val / sqd->total_num;
-> +		padapter->recvpriv.signal = (u8)avg_val;
->  	}
->  }
+Since you're resending anyway could you add that information to the
+commit message?  Something like:  "Add terminating new line to the
+Kconfig file.  Otherwise it's annoying to cat files that don't have a
+newline.  #PetPeeve".
 
+Just fix the subject and add a line to the commit message and I'll ack
+the patch.
 
-
+regards,
+dan carpenter
 
