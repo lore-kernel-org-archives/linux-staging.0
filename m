@@ -1,116 +1,104 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC94C387;
-	Wed, 13 Mar 2024 11:13:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7DFC3DBBE
+	for <linux-staging@lists.linux.dev>; Wed, 13 Mar 2024 11:14:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710328417; cv=none; b=mt1fsbaQ9B4uiuFBpPG0Eb/orGO2KqmrCsRAFLEsDiAA0fwKKezR7eQIIYXztEc5SD5dplti6c3InS/fTaM++VO3jzx4WQykwWuxppLb0dxJo89q/nyAupzbl6caq3I6gaKXv/BDL6aXay1BkL3lUxTfEfbRQ4RLyJN8wONg1i4=
+	t=1710328471; cv=none; b=Aib1CFHzcaGbxeJxEGJFo9fsvhfk3gFbP2XI8vfAlIZ+bohi0gqAULlmCs8dGSyEnWxk1PgnBTh1NYmTnbMgq2ivFJMWdVSBTKWy5HjMPcQXNg3NG8sU195A1ornhkxA3yqAUeVi8I5mtN4tZpSNgOScXZ5wlLf4NnwaQvWVs5M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710328417; c=relaxed/simple;
-	bh=zvVPD2rEjMvKEqzOWqTbTlroAk1Gq55sIdwBumC37O0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=McKxKuPkeEcCceTP+UcJLG5qwXlygcOM1YyBpExJ92ZYpFqKeK+5OBcMH+G3AHNnqtf92kO8BLYDtWNlSrVJUU2UAnoCyrznbvVEjcuQJngQEeXJjBX4P6bTlqB0smZ3XOF1MbkkfZqR7wHmcEQK1FnBzsnZWh2RJ78dh7Ud+XI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FPF6mMXW; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1710328471; c=relaxed/simple;
+	bh=HbsPiSZiLZuvC7Bw0pUzyKyQkcDR5oghfKlA8aZSUH0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FN9f4FiQEEQmorFyNTV//5tafuE5atU5fxfq2nURNYSNbtPYEFZFcXgSq8ZqGPcTW9UbXBbEz2Ty/UHKO7plRzSW+4V69XZmA2Ye2XnwE7QWSUG0JlsFHjPXRHm/8yRx04d5AJ9WZ4Z5VrBfKV+Mq0H7xzFgJYSIbSqkKA+CTkg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=EEI6DrJx; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FPF6mMXW"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710328415; x=1741864415;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=zvVPD2rEjMvKEqzOWqTbTlroAk1Gq55sIdwBumC37O0=;
-  b=FPF6mMXW795Fhu3NlyXyx8TKISdODho0d2U2Uuoxn25rVKNrJhuYZC/h
-   Ju9WlVg0UTrndWVy1oH7nC2c6QBbdmwAP/h3Jf7InPF+Wf/f4CoJkOeI6
-   MHIFRj5WvT+9+KFBVEeE6w46O0kyz8ViaWSXH0IOmxi9qLa7tz1kW5EkY
-   R0UOi7Ks1sxbntziwLfEbqNliSjvxClkWe8R2xHQSxl0qbZ9ssR7P5kxk
-   wkn26ZVanwyQqfkSHWNRzCGrnxduXSFAWtxio/j/KEd7oeQ397tFbfgsA
-   6Fl4566fABxppL3aDFmoT3NMhpb82kCY/+99pdVQTAVPiqGROKQm4e7ni
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11011"; a="16229054"
-X-IronPort-AV: E=Sophos;i="6.07,122,1708416000"; 
-   d="scan'208";a="16229054"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 04:13:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,122,1708416000"; 
-   d="scan'208";a="11968542"
-Received: from fdefranc-mobl3.ger.corp.intel.com (HELO fdefranc-mobl3.localnet) ([10.213.6.143])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 04:13:31 -0700
-From: "Fabio M. De Francesco" <fabio.maria.de.francesco@linux.intel.com>
-To: Ayush Tiwari <ayushtiw0110@gmail.com>
-Cc: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
- gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev, outreachy@lists.linux.dev
-Subject: Re: [PATCH v6] staging: rtl8712: rename tmpVal to avg_val
-Date: Wed, 13 Mar 2024 12:13:28 +0100
-Message-ID: <3798987.kQq0lBPeGt@fdefranc-mobl3>
-Organization: intel
-In-Reply-To: <ZfF+qu+CGHlpHrtY@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
-References: <ZfF+qu+CGHlpHrtY@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="EEI6DrJx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1710328468;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=I0GqW7xBDUz604Sa3jXvzrWYTHr9T0/hZBEYMVEZaQI=;
+	b=EEI6DrJxr8Tw6bHYc/7ZS2h85J4565cpAm9FDwQ8sgm6ZQOK5P3oZNSisccIfaZU+/SfNY
+	wIfR7CmtPMuc+eftixkGJA5OEkP+BaEhLOWXYOOCEgOaUOA0+lvQs4HWt7z+udxL0ApNRa
+	IuOFpqIIbmqeAIjbR7EL7chBe23Ew6M=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-443-rKU1TJEqNRW-Kx0D8sobUQ-1; Wed, 13 Mar 2024 07:14:27 -0400
+X-MC-Unique: rKU1TJEqNRW-Kx0D8sobUQ-1
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-33e9203e775so2018922f8f.3
+        for <linux-staging@lists.linux.dev>; Wed, 13 Mar 2024 04:14:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710328466; x=1710933266;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=I0GqW7xBDUz604Sa3jXvzrWYTHr9T0/hZBEYMVEZaQI=;
+        b=RAl8WSYq4sgW6jA8VtjaSqAwaxucLXuU1Q1qM9fIcJHk+B8s52ZS26Z5l3NoTnvOIj
+         pxzNEV8jYAWIkzZpGck5edB1nfr2jHUCuh3ycpruxcGb1nNUYd0o0jwTuq4SBFAOV2HL
+         /QE8YeZ2/e/UaA7UIVncXyrxOvDqrdu5G/DGtGPkQfIezqucJjpo+Wdk+2P7j2Mu15PR
+         gGAdtjetQvlbgvSDVsxsVtuxZzOLDE1kOhkVWMaJTObVXgKlnkAwHHRukw8GpOXzyZ1L
+         ScPEVvFJCJSYeFxxFk+fFjOSDUOxArDqMsAOoX1JZ6Spkff5O1PP9VJg0dbnCi/DEq7x
+         Rqdg==
+X-Forwarded-Encrypted: i=1; AJvYcCWJRNQQ2eKB6DAgi/x30FOY2M2l6O3rZ420sQbg3TukGOpYnZ/G8MGVqqiW9X/qTNoEblUJGq40q8dDM5DMshoEnW+h4M3NZEGm2TLB/Q==
+X-Gm-Message-State: AOJu0Yyb3UeWWJS7DOynUmJ3UGPIX2bQ2KLBRqOvQqH4k0If/Rj3XsSr
+	tLapIRJR3II8zNOH84oSK5eZzZ/QpazQyVs4nbYyX6lfFgSW/YLVjM1GHWpC5NlqN1PRn9pNk3A
+	QYtyW4DZQH0mWhcF6XGC8DNXJiS+2rQHjAT6Bwuv/dwpm1tRG1QkmVV9k7+3gjAaYb7XQVUHj4K
+	Yu80EoCCM93oRxwFrN+0FXoYpM3/FH11BYj/qP/A==
+X-Received: by 2002:a05:6000:1845:b0:33e:34b7:895f with SMTP id c5-20020a056000184500b0033e34b7895fmr2037364wri.24.1710328466387;
+        Wed, 13 Mar 2024 04:14:26 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFQCIGIRkhQHVb3DstYf3kXLe8waQUx3BrqHnYehfHc9OhoVVDC6vfotsn8lZEYQgMrPHv39WvnmJScfSrgowk=
+X-Received: by 2002:a05:6000:1845:b0:33e:34b7:895f with SMTP id
+ c5-20020a056000184500b0033e34b7895fmr2037342wri.24.1710328466114; Wed, 13 Mar
+ 2024 04:14:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+References: <20240313091259.1413854-1-ppandit@redhat.com> <0a1aa580-50b2-4657-8308-94bffb194aea@moroto.mountain>
+In-Reply-To: <0a1aa580-50b2-4657-8308-94bffb194aea@moroto.mountain>
+From: Prasad Pandit <ppandit@redhat.com>
+Date: Wed, 13 Mar 2024 16:44:09 +0530
+Message-ID: <CAE8KmOzcD+__7xdC7tegbHO9HEP48s7=reA4j-tvqVDwzHr+8Q@mail.gmail.com>
+Subject: Re: [PATCH v2] staging: bcm2835-audio: add terminating new line to Kconifg
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: florian.fainelli@broadcom.com, bcm-kernel-feedback-list@broadcom.com, 
+	linux-arm-kernel@lists.infradead.org, gregkh@linuxfoundation.org, 
+	rjui@broadcom.com, sbranden@broadcom.com, linux-staging@lists.linux.dev, 
+	linux-rpi-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	Prasad Pandit <pjp@fedoraproject.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Wednesday, 13 March 2024 11:23:38 CET Ayush Tiwari wrote:
-> Rename tmpVal to avg_val in process_link_qual() to reflect the intended use
-> of the variable and conform to the kernel coding style.
-> 
-> Signed-off-by: Ayush Tiwari <ayushtiw0110@gmail.com>
-> ---
->
+Hi,
 
-Reviewed-by: Fabio M. De Francesco <fabio.maria.de.francesco@linux.intel.com>
+On Wed, 13 Mar 2024 at 15:47, Dan Carpenter <dan.carpenter@linaro.org> wrote:
+> Why does this make a difference?  Is it just because it's annoying to
+> cat a file that doesn't have a newline at the end?
 
-Thanks,
+* It's not just #PetPeeve. I'm trying to fix parsing errors reported
+by the config-kernel tool[1], so that users can view all CONFIG
+attributes without errors.
 
-Fabio
+> I checked, and it's not a checkpatch warning.  Perhaps it should be though.
+> KTODO: make checkpatch.pl warn about files that don't end in a newline
 
-> 
-> Changes in v6: changed variable name tmpVal to avg_val against a clean
-> staging tree
-> Changes in v5: changed variable name pct_val back to avg_val, as agreed by
-> Julia and Dan
-> Changes in v4: changed variable name avg_val to pct_val, as suggested by
-> Dan
-> Changes in v3: changed variable name tmpVal to avg_val
-> Changes in v2: added a period in message
-> 
->  drivers/staging/rtl8712/rtl8712_recv.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8712/rtl8712_recv.c
-> b/drivers/staging/rtl8712/rtl8712_recv.c index a3c4713c59b3..1fabc5137a4c
-> 100644
-> --- a/drivers/staging/rtl8712/rtl8712_recv.c
-> +++ b/drivers/staging/rtl8712/rtl8712_recv.c
-> @@ -861,7 +861,7 @@ static void query_rx_phy_status(struct _adapter
-> *padapter, static void process_link_qual(struct _adapter *padapter,
->  			      union recv_frame *prframe)
->  {
-> -	u32	last_evm = 0, tmpVal;
-> +	u32	last_evm = 0, avg_val;
->  	struct rx_pkt_attrib *pattrib;
->  	struct smooth_rssi_data *sqd = &padapter->recvpriv.signal_qual_data;
-> 
-> @@ -883,8 +883,8 @@ static void process_link_qual(struct _adapter *padapter,
-> sqd->index = 0;
-> 
->  		/* <1> Showed on UI for user, in percentage. */
-> -		tmpVal = sqd->total_val / sqd->total_num;
-> -		padapter->recvpriv.signal = (u8)tmpVal;
-> +		avg_val = sqd->total_val / sqd->total_num;
-> +		padapter->recvpriv.signal = (u8)avg_val;
->  	}
->  }
+* I'll take a look at checkpatch.pl.
 
+> subject but he's on vacation...  s/Kconifg/Kconfig/
+> Just fix the subject and add a line to the commit message and I'll ack the patch.
 
+* Okay, will send a revised patch.
 
+Thank you.
+---
+  - Prasad
+[1] https://github.com/pjps/config-kernel
 
