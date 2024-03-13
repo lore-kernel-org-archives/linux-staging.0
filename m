@@ -1,57 +1,57 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0D2C3FE5B
-	for <linux-staging@lists.linux.dev>; Wed, 13 Mar 2024 11:53:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09DAD29AB
+	for <linux-staging@lists.linux.dev>; Wed, 13 Mar 2024 11:55:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710330838; cv=none; b=QFvg9FN202atc2rkRrLuZ/6zWqLXJta3Qci9bxooUeX0ngQBZZUXlbKrzNnKc7sX+ciFAZhPd7jilcPTa4AxYWwpPzmUPo9EBrHevnz3dhD3Ht1p3j6CV7kUGuXePtcFFivXy8U86QB+dbGxzOnwAYbi2qqezCa21s3xCQKx4ms=
+	t=1710330917; cv=none; b=IIDa+7+iCU9/IOmRuAipTzfYxpmQJf8a4cfEeRF6rb4IDY9Gme8kOBCoGoCML8YCteYTZW54yyR5U/8QGFyfNColAmkFgLbBKlQgZ3b6uC16beEb1B6kP4KSVGdfomRTqFXcOhibnDzrVMkRvgsBMJOvMrJHJkufPY6/D/hH/aY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710330838; c=relaxed/simple;
-	bh=xIq1Cxt6Ky1vqIZb7f65O3yalptD2xDs8qqjYFp1+30=;
+	s=arc-20240116; t=1710330917; c=relaxed/simple;
+	bh=xYQb+BQulrZxxo772iQeUy5dIlvaSIgJg4G59zCwYxw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cCGJZeXUXaJzbJgvJ5v53Ha4+vf+KEeAuwKiSgTf3pLzNeY9X3cSGE0HznxId0GUV0hWxUtSaOZEwwV1kCNWemgPTQNQIfGz1yGDDxAhoVo/Ju33w7rr46tZt0DyX1rN8F+Bf+yIsJXLAbmyevhu+kbytMEb2DLhzUU1KYMoCFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AvLwzKrP; arc=none smtp.client-ip=209.85.208.51
+	 Content-Type:Content-Disposition:In-Reply-To; b=G6QipWB36I4nt0Qw2FtXDFr4ABFUTamQvmMhOktzptVL4spmHfzBjhQxE8K3CE1fFAA19nEP5Xn7+bTbEiJoMAJgC+iCCGbe4QPqPNbm0mgric6qVELZfaUoxiiqE1eemfiTodIRKakbkYG06Gm4KjON0wfnaWSA6X0Q9XLsA/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mKJoNMyH; arc=none smtp.client-ip=209.85.218.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AvLwzKrP"
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-56878bb1abdso1986874a12.1
-        for <linux-staging@lists.linux.dev>; Wed, 13 Mar 2024 04:53:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mKJoNMyH"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a2f22bfb4e6so970604466b.0
+        for <linux-staging@lists.linux.dev>; Wed, 13 Mar 2024 04:55:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1710330835; x=1710935635; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1710330914; x=1710935714; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ewxFmA1gMurqYMDR124wjxE1wehEAqBleVZNQFFIZcc=;
-        b=AvLwzKrPT5JQzuJDDT69QG4i21iy2g9KQxn/IvYOK3xkCxzqjsSWgMI54+LOJ14h3I
-         ugl2lwV6RMDP/dT0vHNCxHE1LAMF4C8gwolRus26x1i2AW7jt5/Wge3AKE48VLDfrtTt
-         pxYj1qjiop+/d040GvJGCTYOckcQC2I6IPlBFlmkOu1Ay8Qd7na7v1QaABbD/D6IpBtO
-         0fOoXCyMTum8ZA764P1o641gZBWuM8gNl83sj3dcbfL4gIcDdNFhocY+1t60NmBZcHbn
-         Rm5aOmb0FT+mIA4VOzat4xAo96aPhvtooB5r26HB3BvvraocJQuJtWoEaRcid5X93OgN
-         WtkA==
+        bh=XY8Gauun/KCCuJd3rvfN1BqCAqZcqM1FwxPVTr0A7jA=;
+        b=mKJoNMyH/dopLQ1fo8H77tjmKQpJMvJ6JtmlMyyqGscxKhGz2tYkSN0euiOli2VSFy
+         Quih0xUidx809scX4lSdDzz9601nwsJiekezAheDVywVZ2MxvRUL/y/I1mWygDAJWYp+
+         0BOD5oAFVz4cv9JoFT1axWSvD4gsC6pwkntjp0Q1H47/xMU88g/ErAbxw0vGcb1BQuAY
+         lvlRN4qDGRg7xtmckgORoI9vQ8teVqg5EoCaH+Oj3zjNdb6BpcCoT9QvAHiUw4/vbfWc
+         pii8bngouINYrE+RPmbUjAlvAhxgWW6fda3rrYEmDnlgPnGhfoOsX7zjmzwoIYj9cqyG
+         wj1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710330835; x=1710935635;
+        d=1e100.net; s=20230601; t=1710330914; x=1710935714;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ewxFmA1gMurqYMDR124wjxE1wehEAqBleVZNQFFIZcc=;
-        b=IorQDq8sbOydXYNDm+qhtFk4AzeIARNRtC2/Wvgexj2v4EXfIN0ybZMoJGpqi/kmof
-         8Rn62VLGvHvpL9GLAv3WMYkQu4Z38njN2h/iIUZOBh9dPSjI65xpY8ZFsGazSNpagsil
-         YM4rD2L0L194Ko9LdFxCaiZ43uxvK8dEWy0yLB6MyA8Tl28V5vRI5dUvnlIcrZUhUCLB
-         7NKxJmygdksqUiR3yL2OEZ3fFCMIWXKtg7dXdAY9JlgCfwou4nBQSZr5GPgGe2eViv5s
-         egZh/N+OOIXDHV2U26alw5Is7jA0tRYyo/00YA4xVHlSGhGQaiEc67YwX9+3z6D5aIgn
-         V9hg==
-X-Forwarded-Encrypted: i=1; AJvYcCWYCVaDUPYkauxHzEj0knfTuI0PbymRkGhFcMQGL4OS0y01PEjmOtH+Ux84VH0HoSmU2pl1ANnNN9hzleTr+VbgPhNmMDpC1YIWE1nBkg==
-X-Gm-Message-State: AOJu0Yw5GE+H8oUVbRGNR7kdwhxFvzV2atR7vgUXFf8Zh7nzZviNutul
-	AokJx3zqwN7bdtqPIdlQ7Tdh3uU/eRUJL46PzKOldk6wuoiPBKn/DpgcWC3uYfU=
-X-Google-Smtp-Source: AGHT+IEdOvbULeMh/tQVIie//HKNMWTJgx+FlUNx1CBPgE6UX1FJSdyGoL/SrVaj+FRhjtvqrCJm6g==
-X-Received: by 2002:a50:9e48:0:b0:566:ab45:e6c5 with SMTP id z66-20020a509e48000000b00566ab45e6c5mr3240410ede.28.1710330831292;
-        Wed, 13 Mar 2024 04:53:51 -0700 (PDT)
+        bh=XY8Gauun/KCCuJd3rvfN1BqCAqZcqM1FwxPVTr0A7jA=;
+        b=b34Od83XA8g+n+4eRpIdwLsxpvln469CQL/Uhc5WrU90Pp68aJXFqrGt22wwskzV8A
+         308yzVlyLV07r4V4bqXIl5gUhjLQN6NYxyKnBhOByuiahKoBJf9ia8mzhjY67of4NEYR
+         1awq2oj9oLedTjFiHWi7pr52rszbkNkFDjdgvRtJ8kUhz69FuaCPR4sipJy6R1+5uddq
+         GB6ehTXVMVSb7/tuByyRWCYhd8bC8dy2UjxHDVkRcsCwMyfHTc9gy6NwsAKtPsWWEfAx
+         D687Xzw6v4UQSs6DrNPfOzHH4INtx0KE/nngNtMIpt1B02WCJ09Frrn4Qb1kpCklP7tp
+         L/8A==
+X-Forwarded-Encrypted: i=1; AJvYcCUPBaw7/niUsajVuhkuBNwz1FxtfJSAxwrIou0O2b4F+0zroeHL2+6jJqT4i7aLzYL15g4z1Yo87+3xscIx0kGW3upIEQq4GX6kZuPvsQ==
+X-Gm-Message-State: AOJu0YxYCfEF40+ity18nciYfZ0ECrOjcaT6THVBzAE/O53sg+L/Q5cd
+	wBVHV63MrysbqOtiCHuHloZ+wUEAXnGVCV2m+74/iMtI/k67pJU6TAsYGUym/fY=
+X-Google-Smtp-Source: AGHT+IHzBdFBrOL1CjRXO7Wb5LRYPoTHhkJHvpPJm4Lz3kGYGnrSb0QF0pr6U7kKl6sQkdlibLujiw==
+X-Received: by 2002:a17:906:c784:b0:a46:61ef:2846 with SMTP id cw4-20020a170906c78400b00a4661ef2846mr622937ejb.66.1710330914218;
+        Wed, 13 Mar 2024 04:55:14 -0700 (PDT)
 Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id fg3-20020a056402548300b0056889f3cedfsm393582edb.55.2024.03.13.04.53.50
+        by smtp.gmail.com with ESMTPSA id be10-20020a1709070a4a00b00a461d2a3374sm3442380ejc.47.2024.03.13.04.55.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Mar 2024 04:53:51 -0700 (PDT)
-Date: Wed, 13 Mar 2024 14:53:47 +0300
+        Wed, 13 Mar 2024 04:55:13 -0700 (PDT)
+Date: Wed, 13 Mar 2024 14:55:10 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Prasad Pandit <ppandit@redhat.com>
 Cc: florian.fainelli@broadcom.com, bcm-kernel-feedback-list@broadcom.com,
@@ -59,12 +59,10 @@ Cc: florian.fainelli@broadcom.com, bcm-kernel-feedback-list@broadcom.com,
 	rjui@broadcom.com, sbranden@broadcom.com,
 	linux-staging@lists.linux.dev, linux-rpi-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org, Prasad Pandit <pjp@fedoraproject.org>
-Subject: Re: [PATCH v2] staging: bcm2835-audio: add terminating new line to
- Kconifg
-Message-ID: <3fcb3702-5af2-4b9f-a362-4f08ee626b14@moroto.mountain>
-References: <20240313091259.1413854-1-ppandit@redhat.com>
- <0a1aa580-50b2-4657-8308-94bffb194aea@moroto.mountain>
- <CAE8KmOzcD+__7xdC7tegbHO9HEP48s7=reA4j-tvqVDwzHr+8Q@mail.gmail.com>
+Subject: Re: [PATCH v3] staging: bcm2835-audio: add terminating new line to
+ Kconfig
+Message-ID: <15b3644f-f83e-4c7a-8b58-9d4b87f5af1e@moroto.mountain>
+References: <20240313114126.1418453-1-ppandit@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -73,36 +71,25 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAE8KmOzcD+__7xdC7tegbHO9HEP48s7=reA4j-tvqVDwzHr+8Q@mail.gmail.com>
+In-Reply-To: <20240313114126.1418453-1-ppandit@redhat.com>
 
-On Wed, Mar 13, 2024 at 04:44:09PM +0530, Prasad Pandit wrote:
-> Hi,
+On Wed, Mar 13, 2024 at 05:11:26PM +0530, Prasad Pandit wrote:
+> From: Prasad Pandit <pjp@fedoraproject.org>
 > 
-> On Wed, 13 Mar 2024 at 15:47, Dan Carpenter <dan.carpenter@linaro.org> wrote:
-> > Why does this make a difference?  Is it just because it's annoying to
-> > cat a file that doesn't have a newline at the end?
+> Add terminating new line to the Kconfig file. It helps
+> Kconfig parsers to read file without error.
 > 
-> * It's not just #PetPeeve. I'm trying to fix parsing errors reported
-> by the config-kernel tool[1], so that users can view all CONFIG
-> attributes without errors.
-
-Huh.  The seems like a very nice program.  I've wanted a way to enable
-config items from command line for a long time.  I wasn't able to get it
-enable the CONFIG_NO_HZ_FULL.
-
-~/config-kernel/configk -e NO_HZ_FULL  -c .config  .
-
-I'm going Ack your patch because adding a newline is the correct thing
-but you should probably also change configk to handle that.
-
+> Signed-off-by: Prasad Pandit <pjp@fedoraproject.org>
+> ---
+>  drivers/staging/vc04_services/bcm2835-audio/Kconfig | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> > I checked, and it's not a checkpatch warning.  Perhaps it should be though.
-> > KTODO: make checkpatch.pl warn about files that don't end in a newline
-> 
-> * I'll take a look at checkpatch.pl.
+> v3: fix typo and note about parsing errors.
+>   -> https://lore.kernel.org/lkml/CAE8KmOzcD+__7xdC7tegbHO9HEP48s7=reA4j-tvqVDwzHr+8Q@mail.gmail.com/T/#t
 
-It's not required.  The KTODO is just a shared todo list and anyone can
-add stuff to todo list or do it, but it's not mandatory at all.
+Normally this would go about the diffstat but no stress...
+
+Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
 
 regards,
 dan carpenter
