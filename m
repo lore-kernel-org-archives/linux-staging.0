@@ -1,139 +1,116 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC4213DB9A;
-	Wed, 13 Mar 2024 10:58:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC94C387;
+	Wed, 13 Mar 2024 11:13:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710327515; cv=none; b=KzkXSBJE0UoxWerRMAOvYEBthjyCgljq4fykUwuyp2Am+Q+Rs+xcRnP1GDQ8roqpaAju4Cp5PRx0W3VI/Lq+otlbrfqv69QRq4Dka+Cw+htecvN22BI5Oi7lHD7hhtVVnOn+neP/J9WQNSIUndTO/EL1d9k8YxuukzLKTGjVFv8=
+	t=1710328417; cv=none; b=mt1fsbaQ9B4uiuFBpPG0Eb/orGO2KqmrCsRAFLEsDiAA0fwKKezR7eQIIYXztEc5SD5dplti6c3InS/fTaM++VO3jzx4WQykwWuxppLb0dxJo89q/nyAupzbl6caq3I6gaKXv/BDL6aXay1BkL3lUxTfEfbRQ4RLyJN8wONg1i4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710327515; c=relaxed/simple;
-	bh=GQzWZxCfHS0uKq1KU0iHmiPNc54xlpTgQpONYUeXORo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=n2xW9UazYjDiMunPmDpDuoS2pleuJ3gPvIoY3eyzVdOvgyH1qcTb4PVBjf1dzzkyKJM56qGBOghaAhGbsOvBRjZ6g9bOFNyx/n8fVIkslAAAsXyeKlexhFl1wBPT2mOdC7EdPL0ZDLtJ83JK4Dh0YzCFWPnxIMHprEQQFUEE0d8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nCBGQ7ga; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1710328417; c=relaxed/simple;
+	bh=zvVPD2rEjMvKEqzOWqTbTlroAk1Gq55sIdwBumC37O0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=McKxKuPkeEcCceTP+UcJLG5qwXlygcOM1YyBpExJ92ZYpFqKeK+5OBcMH+G3AHNnqtf92kO8BLYDtWNlSrVJUU2UAnoCyrznbvVEjcuQJngQEeXJjBX4P6bTlqB0smZ3XOF1MbkkfZqR7wHmcEQK1FnBzsnZWh2RJ78dh7Ud+XI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FPF6mMXW; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nCBGQ7ga"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-33e82c720f8so6026712f8f.3;
-        Wed, 13 Mar 2024 03:58:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710327511; x=1710932311; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=IdUl28bu6wuHS6E18fGArN7xnZx8OvKOOgXrVCy3z4g=;
-        b=nCBGQ7gaod/NOIsNYVAlTt7uPyKVCZ4nUG0yuIub1djEijVrsvfwovt7vf+HySYS4F
-         ymiFLyJwbQdt5Lmsp9wLjs+gDihO987tNEXCmc0y6lEJmd3ZcjUpae4iqPcsgvDbhgWg
-         LGHGQeArQqZY54aQs5Rn6hPXw9SVA+k0TXzwfK3YIY5/Dd0anFkgEz6wGxnFklZmv+tB
-         vsipKi5vUnDeWBPSMvbaXzf7Az8Ygiusb/BSTbOFe7htmT+B3Ap3vcldDynglYLPIhzt
-         VXHP+pbs4OtvDVgQrPMFye72SUSuNzYJnKop+wuqJZFkk8db4cMS0fgMJVMWXI0afv2j
-         AaaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710327511; x=1710932311;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IdUl28bu6wuHS6E18fGArN7xnZx8OvKOOgXrVCy3z4g=;
-        b=BVY+xjVZ8dwAaPxXpDedS+amah5Lub+EarOS28lSKKNOJFgLy56v4lpM0ELCu50qN1
-         fyGPcfUqtXlUqIjy7tfNnaCYsW18WzB9QSr80TF8DLlnH+ylV+YdT1E5Z+cewxL5dfrL
-         3GEOu1qJFeHr5CmwdKcT03sWil1Uk61QUyHgqAMsnQMdZOGKiMeKHyNJc/ESBYlOO65G
-         QLDJ2xww66orXs6ur15olpo0fMY2kq3r4QeiDMZ5FfED6xwPjxqzJe6ATSBodxYmkp+S
-         xqkwyt893illfp6Do6ZESsPhG5LO1M4346SAkeJEgcGwGcgGwLDYLqN6fbguJcwkPfm8
-         g1yw==
-X-Forwarded-Encrypted: i=1; AJvYcCVAVwNgJLvefJPsBdV0WbIguEMrVy3HYKCjKI+I/LFYsZonuPcIHarY7ojpN5diAN+f8kSEuCQDmmKKSTUY/gzQwnFW/EQuXx314kR/wg==
-X-Gm-Message-State: AOJu0YyEYGMRV64ByK6citiMbEOltr4mgzwLF3o1uzTMsvxXTXITyKbX
-	RUHOdFufaOoDexwLwDWjPBQ7L162KP3T6y/06h6gaosk4xwlzuxzNcZKyiRQ9hFtrg==
-X-Google-Smtp-Source: AGHT+IEB9UHcDIQ78guLQDf4AJj6xGqrC/YEpz8y0KYTa/Omd/1dnJn0o6WN5Cnnql4aLdNJ2NhtwQ==
-X-Received: by 2002:a5d:6845:0:b0:33d:c3e6:109d with SMTP id o5-20020a5d6845000000b0033dc3e6109dmr1589334wrw.61.1710327510417;
-        Wed, 13 Mar 2024 03:58:30 -0700 (PDT)
-Received: from MOLeToid ([129.0.78.232])
-        by smtp.gmail.com with ESMTPSA id d9-20020adf9c89000000b0033df46f70dbsm11597015wre.9.2024.03.13.03.58.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Mar 2024 03:58:30 -0700 (PDT)
-Date: Wed, 13 Mar 2024 11:58:27 +0100
-From: "Felix N. Kimbu" <felixkimbu1@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: outreachy@lists.linux.dev
-Subject: [PATCH] staging: wlan-ng: Rename 'wlan_unsetup' to 'wlan_teardown'
-Message-ID: <ZfGG093fyjI4G/ci@MOLeToid>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FPF6mMXW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1710328415; x=1741864415;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=zvVPD2rEjMvKEqzOWqTbTlroAk1Gq55sIdwBumC37O0=;
+  b=FPF6mMXW795Fhu3NlyXyx8TKISdODho0d2U2Uuoxn25rVKNrJhuYZC/h
+   Ju9WlVg0UTrndWVy1oH7nC2c6QBbdmwAP/h3Jf7InPF+Wf/f4CoJkOeI6
+   MHIFRj5WvT+9+KFBVEeE6w46O0kyz8ViaWSXH0IOmxi9qLa7tz1kW5EkY
+   R0UOi7Ks1sxbntziwLfEbqNliSjvxClkWe8R2xHQSxl0qbZ9ssR7P5kxk
+   wkn26ZVanwyQqfkSHWNRzCGrnxduXSFAWtxio/j/KEd7oeQ397tFbfgsA
+   6Fl4566fABxppL3aDFmoT3NMhpb82kCY/+99pdVQTAVPiqGROKQm4e7ni
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11011"; a="16229054"
+X-IronPort-AV: E=Sophos;i="6.07,122,1708416000"; 
+   d="scan'208";a="16229054"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 04:13:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,122,1708416000"; 
+   d="scan'208";a="11968542"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO fdefranc-mobl3.localnet) ([10.213.6.143])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 04:13:31 -0700
+From: "Fabio M. De Francesco" <fabio.maria.de.francesco@linux.intel.com>
+To: Ayush Tiwari <ayushtiw0110@gmail.com>
+Cc: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
+ gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev, outreachy@lists.linux.dev
+Subject: Re: [PATCH v6] staging: rtl8712: rename tmpVal to avg_val
+Date: Wed, 13 Mar 2024 12:13:28 +0100
+Message-ID: <3798987.kQq0lBPeGt@fdefranc-mobl3>
+Organization: intel
+In-Reply-To: <ZfF+qu+CGHlpHrtY@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
+References: <ZfF+qu+CGHlpHrtY@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Rename function identifier 'wlan_unsetup' to 'wlan_teardown' in files
-p80211netdev.c, p80211netdev.h and prism2usb.c, a pairing function for
-'wlan_setup' to match common kernel coding style.
+On Wednesday, 13 March 2024 11:23:38 CET Ayush Tiwari wrote:
+> Rename tmpVal to avg_val in process_link_qual() to reflect the intended use
+> of the variable and conform to the kernel coding style.
+> 
+> Signed-off-by: Ayush Tiwari <ayushtiw0110@gmail.com>
+> ---
+>
 
-Signed-off-by: Felix N. Kimbu <felixkimbu1@gmail.com>
----
- drivers/staging/wlan-ng/p80211netdev.c | 4 ++--
- drivers/staging/wlan-ng/p80211netdev.h | 2 +-
- drivers/staging/wlan-ng/prism2usb.c    | 4 ++--
- 3 files changed, 5 insertions(+), 5 deletions(-)
+Reviewed-by: Fabio M. De Francesco <fabio.maria.de.francesco@linux.intel.com>
 
-diff --git a/drivers/staging/wlan-ng/p80211netdev.c b/drivers/staging/wlan-ng/p80211netdev.c
-index 8634fc89a6c2..284c1c12e1d1 100644
---- a/drivers/staging/wlan-ng/p80211netdev.c
-+++ b/drivers/staging/wlan-ng/p80211netdev.c
-@@ -689,7 +689,7 @@ int wlan_setup(struct wlandevice *wlandev, struct device *physdev)
- }
- 
- /*----------------------------------------------------------------
-- * wlan_unsetup
-+ * wlan_teardown
-  *
-  * This function is paired with the wlan_setup routine.  It should
-  * be called after unregister_wlandev.  Basically, all it does is
-@@ -708,7 +708,7 @@ int wlan_setup(struct wlandevice *wlandev, struct device *physdev)
-  *	context of the kernel startup code.
-  *----------------------------------------------------------------
-  */
--void wlan_unsetup(struct wlandevice *wlandev)
-+void wlan_teardown(struct wlandevice *wlandev)
- {
- 	struct wireless_dev *wdev;
- 
-diff --git a/drivers/staging/wlan-ng/p80211netdev.h b/drivers/staging/wlan-ng/p80211netdev.h
-index 485f2c697f5f..e3eefb67aae1 100644
---- a/drivers/staging/wlan-ng/p80211netdev.h
-+++ b/drivers/staging/wlan-ng/p80211netdev.h
-@@ -204,7 +204,7 @@ int wep_encrypt(struct wlandevice *wlandev, u8 *buf, u8 *dst, u32 len,
- 		int keynum, u8 *iv, u8 *icv);
- 
- int wlan_setup(struct wlandevice *wlandev, struct device *physdev);
--void wlan_unsetup(struct wlandevice *wlandev);
-+void wlan_teardown(struct wlandevice *wlandev);
- int register_wlandev(struct wlandevice *wlandev);
- int unregister_wlandev(struct wlandevice *wlandev);
- void p80211netdev_rx(struct wlandevice *wlandev, struct sk_buff *skb);
-diff --git a/drivers/staging/wlan-ng/prism2usb.c b/drivers/staging/wlan-ng/prism2usb.c
-index 0e0ccef4871e..416127e5d713 100644
---- a/drivers/staging/wlan-ng/prism2usb.c
-+++ b/drivers/staging/wlan-ng/prism2usb.c
-@@ -128,7 +128,7 @@ static int prism2sta_probe_usb(struct usb_interface *interface,
- failed_register:
- 	usb_put_dev(dev);
- failed_reset:
--	wlan_unsetup(wlandev);
-+	wlan_teardown(wlandev);
- failed:
- 	kfree(wlandev);
- 	kfree(hw);
-@@ -208,7 +208,7 @@ static void prism2sta_disconnect_usb(struct usb_interface *interface)
- 
- 		/* Unhook the wlandev */
- 		unregister_wlandev(wlandev);
--		wlan_unsetup(wlandev);
-+		wlan_teardown(wlandev);
- 
- 		usb_put_dev(hw->usb);
- 
--- 
-2.34.1
+Thanks,
+
+Fabio
+
+> 
+> Changes in v6: changed variable name tmpVal to avg_val against a clean
+> staging tree
+> Changes in v5: changed variable name pct_val back to avg_val, as agreed by
+> Julia and Dan
+> Changes in v4: changed variable name avg_val to pct_val, as suggested by
+> Dan
+> Changes in v3: changed variable name tmpVal to avg_val
+> Changes in v2: added a period in message
+> 
+>  drivers/staging/rtl8712/rtl8712_recv.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8712/rtl8712_recv.c
+> b/drivers/staging/rtl8712/rtl8712_recv.c index a3c4713c59b3..1fabc5137a4c
+> 100644
+> --- a/drivers/staging/rtl8712/rtl8712_recv.c
+> +++ b/drivers/staging/rtl8712/rtl8712_recv.c
+> @@ -861,7 +861,7 @@ static void query_rx_phy_status(struct _adapter
+> *padapter, static void process_link_qual(struct _adapter *padapter,
+>  			      union recv_frame *prframe)
+>  {
+> -	u32	last_evm = 0, tmpVal;
+> +	u32	last_evm = 0, avg_val;
+>  	struct rx_pkt_attrib *pattrib;
+>  	struct smooth_rssi_data *sqd = &padapter->recvpriv.signal_qual_data;
+> 
+> @@ -883,8 +883,8 @@ static void process_link_qual(struct _adapter *padapter,
+> sqd->index = 0;
+> 
+>  		/* <1> Showed on UI for user, in percentage. */
+> -		tmpVal = sqd->total_val / sqd->total_num;
+> -		padapter->recvpriv.signal = (u8)tmpVal;
+> +		avg_val = sqd->total_val / sqd->total_num;
+> +		padapter->recvpriv.signal = (u8)avg_val;
+>  	}
+>  }
+
+
+
 
