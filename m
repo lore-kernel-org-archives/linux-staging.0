@@ -1,69 +1,63 @@
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF43912E73
-	for <linux-staging@lists.linux.dev>; Wed, 13 Mar 2024 06:01:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 649D912E76;
+	Wed, 13 Mar 2024 06:37:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710309692; cv=none; b=fkG06XCdmhh2iPZcBWJo6E/qyq4j6ZQv7RBcSSbJvjhs+u2H4AehxPBsfaI8ZfXamWnBRcOijv/Fkp17QIFG4Ixqjhnl/AIvQtf3+0PwdgLgkLIbKt41KoxsUj24rQF4U1uBo0GIDmN6QwUKPGe1RRQdPGOPqle6vOkBD/4oTKE=
+	t=1710311846; cv=none; b=ngRTivm9bBaWRiMnGZ6gh/V6/0Gu5/z0gZH+bzv6jh+Q4IXqCtUSXN7kOBcIo76ct0KIWcx2wSi/NHDeCkxXQsaVEXevUxMYMYbL214ukavT34dH0zifIRmKK0lTuBljTALgO4N1FTaltfZYf719ujQr9kgf6ccE3u2CWzlAtM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710309692; c=relaxed/simple;
-	bh=O7Ld1LYQuGJ8RYWCmpDuJpHzxK88sA4/+eP0rB/C6NA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dvRgMJQA820PzeT2bmSpMHLbCVRoL1Tr0weLZVMT2BESrorRYqB3qITqSYy8R8NQ2554MbwQrbNdlA2w5lVivbSDLlylF9iaq4ttfiNQjS25i/gYBPmX24V3szz4itBDzwuxHioWTJRA2slBTckS4QQzKot3jaXCtfDripHxPqo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Z63HKsWT; arc=none smtp.client-ip=209.85.208.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1710311846; c=relaxed/simple;
+	bh=Or2WBw6YX+IV5xSEQOQCL8yhX3fsths6Q0NUzC55HSk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Bu49rBCd1wygWzPNZMTmxURy7llhmUh2s7Bfvr1/sOlzJ70I7fanan5fEN/Q5KbQkU1J6mGI/ipdKFusxetkDK6GlVxEopx8Qloljz28IJ/c3Ys60srHA9uKq2CDeIGgvbniP/DX3KXG+Zm1+aSAkL6peZviCbKHUZt33BQz4LQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U3I3T63m; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Z63HKsWT"
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2d46c99eb07so2157931fa.0
-        for <linux-staging@lists.linux.dev>; Tue, 12 Mar 2024 23:01:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U3I3T63m"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1dda8e5fa8dso20895625ad.2;
+        Tue, 12 Mar 2024 23:37:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1710309689; x=1710914489; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=w4s+BaYXL4bYNZRyKaIQNGvRcYz7+hEua7FGBCwivZE=;
-        b=Z63HKsWTvepfOiCArl5zPHsrgFPY2Dc539ld/lSVTw34Yc2xeEYHU23pAA/p75J/P+
-         9o1c63HlxgRHJdqIEO4glqH52OvDW7HB7AgGHcMij8kMQbEtOkFtnRyo/PXNH9orllE/
-         o8iGRP0IE54eacixxOnG+jcY2Lg1w49VC1iaGALHEk2vKapnQlO8rRmseQjyLo+89D+J
-         z8xNvg+cKSD/bEQzkR2VaYLVivtGYBysQI70h6x0Uc39zdRHy23BPcSgrREWw8tyvyj4
-         PgfEZgdY6QDVi5HjMcbagAtxmbUx3nuxJFor2OeUH/xQWVqS9XTM9rTZV/j3GjH41Vm/
-         aXeA==
+        d=gmail.com; s=20230601; t=1710311844; x=1710916644; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=XMaXmk4HmWbUzjVR3qh9Tt2QkYGm0OxfkEbHr+IeT1o=;
+        b=U3I3T63myjLHFJy2RMoGuYJTuigbLXFRS6noyHLXwZrYK/Y9W7DdqVFDg4mdnsTLNT
+         iqcuBVGY+6tkjMhfu0AZXkGq2YLYzQU4NLZaYrplRGuhCq8qaqZK+RGKPFzl89MH+MqO
+         q9WBWCUVZAr02PLH/iySYsQHBRlKYhkqShlecOqb6kTnserNQpJJMFlkHRtYA5btoJ8o
+         CIVSTOA7vcK1WQsNYdbgsdtT0fivX4YMM/3ts3eYOQVMqjgy5dSZiLnnroLPtdXFNtF6
+         nBdUcL3xrpasZbmCvNQYScp8wJFMms0NI4/OdoIQhyM0aYxP/baZdlP5yz7ABbosvs+C
+         DWDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710309689; x=1710914489;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=w4s+BaYXL4bYNZRyKaIQNGvRcYz7+hEua7FGBCwivZE=;
-        b=c7WWinu5gRUaQJXDrt4ZaFaPfFkW9gXE28m2s+s5lVbP6hcWhvbBZfHuO7xXvJMPIP
-         9e7m4S4mtPx0ElZsBxjtVgQFHmqLUf9UfLUeOypf7KDD9TvFYci/6QaimDGaUdPJvVXJ
-         PcBasB/OQhuGcQpnO68dU2JaLrrObTIGUqhS21aO3ujXrDIKy5qlldleugWQhKC0o0bA
-         uz/7hUQJNZDCwX8751l0Q9RsmBLzJER5L2X2J9EaPq/IOc1V76Gbx1xdSwRsp8aky6Bk
-         QGl6bOI4dJwN7n4FfE4K30XDfcW3HBJynqZUnxJJDmjpnMVTScbOiHoZaXIW1QrmucLl
-         V/KQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXH5PfNBhDB5FFPQKcahN7ffWx5esc8JNlqOpQ1MMDxprBz7ZPT6nZnJNEG9ctV3OH3F6ouqQrNIZerzZgzREPJfKz9a5rDrNxtK0bMPA==
-X-Gm-Message-State: AOJu0YwQP7v0LvUb49vUvAI8Azf85tr9CRpScZ81MwT78/FlIjdSv/Xf
-	EBQH7d+1x8WcKsxTz3RunmDIMODgs1Hom75ZUAXTKhQdNkhdLfiuD0m/b7CyeCU=
-X-Google-Smtp-Source: AGHT+IEsF2Bab0mR13jcWlh7GpMxPMJz8ZE7X/8KzaIBQoi1e1xTiA0OACTSdu6jXnwx+9HSN3+V4A==
-X-Received: by 2002:a05:651c:1255:b0:2d4:6df2:12c0 with SMTP id h21-20020a05651c125500b002d46df212c0mr138246ljh.34.1710309688367;
-        Tue, 12 Mar 2024 23:01:28 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id dn22-20020a05640222f600b005687e17cfc3sm731893edb.11.2024.03.12.23.01.27
+        d=1e100.net; s=20230601; t=1710311844; x=1710916644;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=XMaXmk4HmWbUzjVR3qh9Tt2QkYGm0OxfkEbHr+IeT1o=;
+        b=Saoy8cIpYYOorEsWbDXIZds+RIYKLHSQlZG7Y4HjqA22uiQdN9wBFtFfSVErSvnTxt
+         OqNvb6drlmfV5CFKg1V1voxRlGj1BUYGGHx6VwnCenLYV7z8Pj/2Iznd+Xpf2vrm5oQr
+         rUi9uKBh5E3u4WM4/oatmv8jHvgFLj0X91esK/TTtGRbMtnUZ2OiwoWJ1blUPRToVyUt
+         RM2vtfHRgg79jMLzixgP0MrpKklSKf9o4NOn8U5w7qOQVvNvsWamgfS4n+nw2Qy5y5XM
+         fZwdVI40zugD7zzmSfpBd9UuqM0lqVj5B1W5C3c0T7UMVD6/3oea98FyR1c1JdufXJy3
+         wj2w==
+X-Forwarded-Encrypted: i=1; AJvYcCUlRSgivMtqG4/GjStXMKr3vIwWeWS15/pnZPX0syyLK73fdmlQ93au6bi+zVPKpieFDOzmmd19CUNXYCu6u5nk+N4ufFsrmXfp9d4Ygw==
+X-Gm-Message-State: AOJu0Yxp0XSa0PeAVMEwFGyyihIhxmhEQVDTj1EPGfuh9hPgpO7juvml
+	9/0Cp5s68GO1Jmzd1A/p3A1xppKVDeEx3ZyO9/9SSQulHwWzUrSGt0PYPIY7SfM=
+X-Google-Smtp-Source: AGHT+IHSBF/+uzvX9U2ZYfAO+2838arE+6lGwa1EqQmBoQnYcSrzbS1DAOthlhWvDqnPpZ8pPal/0w==
+X-Received: by 2002:a17:902:f689:b0:1dd:9250:2d26 with SMTP id l9-20020a170902f68900b001dd92502d26mr11241330plg.47.1710311844309;
+        Tue, 12 Mar 2024 23:37:24 -0700 (PDT)
+Received: from ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx ([103.6.158.67])
+        by smtp.gmail.com with ESMTPSA id b8-20020a170902d50800b001dcb18cd22esm5828256plg.141.2024.03.12.23.37.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Mar 2024 23:01:28 -0700 (PDT)
-Date: Wed, 13 Mar 2024 09:01:24 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Changhuang Liang <changhuang.liang@starfivetech.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Jack Zhu <jack.zhu@starfivetech.com>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [v1] staging: media: starfive: Clean pad selection in
- isp_try_format()
-Message-ID: <2bd3995b-2625-4874-ab53-fa3bcffb5f28@moroto.mountain>
-References: <20240312024520.11022-1-changhuang.liang@starfivetech.com>
+        Tue, 12 Mar 2024 23:37:24 -0700 (PDT)
+Date: Wed, 13 Mar 2024 12:07:21 +0530
+From: Ayush Tiwari <ayushtiw0110@gmail.com>
+To: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
+	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Cc: outreachy@lists.linux.dev
+Subject: [PATCH v2] staging: rtl8712: rename tempVal to temp_val
+Message-ID: <ZfFJoZWURDM+Uin4@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -72,21 +66,32 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240312024520.11022-1-changhuang.liang@starfivetech.com>
 
-On Mon, Mar 11, 2024 at 07:45:20PM -0700, Changhuang Liang wrote:
-> The code to select isp_dev->formats[] is overly complicated.  We can
-> just use the "pad" as the index.  This will making adding new pads
-> easier in future patches.  No functional change.
-> 
-> Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
-> ---
+Rename variable tempVal to temp_val
+to address checkpatch warning 'Avoid
+Camelcase' and to ensure adherence
+to coding style guidelines.
 
-I'm not sure that patchwork will find this patch if it doesn't have
-[PATCH] in the subject...  But otherwise the patch looks good.  Thanks!
+Signed-off-by: Ayush Tiwari <ayushtiw0110@gmail.com>
 
-Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+Changes in v2: added a period
+---
+ drivers/staging/rtl8712/rtl8712_recv.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-regards,
-dan carpenter
+diff --git a/drivers/staging/rtl8712/rtl8712_recv.c b/drivers/staging/rtl8712/rtl8712_recv.c
+index a3c4713c59b3..7fb9dfaa7448 100644
+--- a/drivers/staging/rtl8712/rtl8712_recv.c
++++ b/drivers/staging/rtl8712/rtl8712_recv.c
+@@ -861,7 +861,7 @@ static void query_rx_phy_status(struct _adapter *padapter,
+ static void process_link_qual(struct _adapter *padapter,
+ 			      union recv_frame *prframe)
+ {
+-	u32	last_evm = 0, tmpVal;
++	u32	last_evm = 0, tmp_val;
+ 	struct rx_pkt_attrib *pattrib;
+ 	struct smooth_rssi_data *sqd = &padapter->recvpriv.signal_qual_data;
+ 
+-- 
+2.40.1
 
