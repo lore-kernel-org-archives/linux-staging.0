@@ -1,64 +1,67 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 019284C6B;
-	Thu, 14 Mar 2024 06:52:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A95DA5C614
+	for <linux-staging@lists.linux.dev>; Thu, 14 Mar 2024 07:37:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710399169; cv=none; b=EQJNsFrxL+Ccb8SQLsOrGV5TR5nE66PcUTcOWfwanAzFOSdOxTpgyQRJ89MmDkQtNSw0kL9v5+Ut817Kbc5dvRlPJxCvcqyFY7y07/zNML4QdlMHj9gNvJeAATEmNqIhcoMRmuAYZUc3eNh85js63fKGM2bjp3QgdOGTODB1n24=
+	t=1710401858; cv=none; b=JPrAWgcACsieNNphxW/5MK8m0E+/Sx/5yWmIm9uhkW6wMsZxcm2D7+k7h04ErSdFqpiLwal7YDBVnayzyzkoGP5qUaxJrqsOCLRv1D+Xmpf0cZnSQkzx2Vc8wWlE4HAKKaN3ZBRAhltP2FP8iWyfL8MkqeeKYenc4G+Aez2Aeno=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710399169; c=relaxed/simple;
-	bh=T0GxMwBwmySlOVbSj7gx2Xa77TGbUn8GftiSzlBmKtQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sslN19qd5d2nWr0upHIIZKEjMzFe7rCfc3sSqMxCjbdnC25nQEaqf8kudKiF4jY3utTnRKE4pm3j9DtAQmgQZzwC++3kg0b+DBuDY9qXwtn7mkUlVGWrbW0gEqqSnyqVCbBTo814tgcXQ00zSFjH9J7EO2/zeqGUgVt9mvrSfZs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YkWGOg3a; arc=none smtp.client-ip=209.85.216.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1710401858; c=relaxed/simple;
+	bh=h/noaULKqc6hSe5tg/b8NBkZtRpoPLoFI5/seEtHSUg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IstheTfaSlqQVRxl0stiyqREL0fa7HEjaQ7xt+LpzD/SgYp0+1Sqrc91zEXP9lS4G9YGf025/uoAo/dYvcVUfrBG2G3kVkX8fxIWWQWNo2LMBRranJ8evoYoyu+ynz3fSaxDrZX0xJrAE20YcfTKCstRVYWPA6uCeQ9Xifjng64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vGXGEWQ0; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YkWGOg3a"
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-29be9c136a2so557997a91.0;
-        Wed, 13 Mar 2024 23:52:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vGXGEWQ0"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-41324a16c9eso3725025e9.0
+        for <linux-staging@lists.linux.dev>; Thu, 14 Mar 2024 00:37:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710399167; x=1711003967; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=3LwgfnVSRb6bo5n7xp3n3DJcNJBHsfZFGHFZZEWHyXg=;
-        b=YkWGOg3a2olIXIAGHdfdBFYqs446FU6OiRy4hGHwK0ooMXOcD22V8iq40xZGKZEDv3
-         wGhx2pQ4CGlMfJNQWkGaNMv9JWP4DOg2+AbYHhNYOK9y2Pjs/GggZp/J9GUwmfsMHqAQ
-         n1s2ObCC1zwk5dUbFpa8kBCK0mocqzAtURqxGXyDp89Cuq+TTZ/7fF6phg5zeJ7ionJX
-         C1L0MxfJQYUKXOvvxMCp+MR6An0X5XDsl5VdPOIF1SxDYffnte82J8kOCQl9QYzl7MGi
-         jQqxkl/H1BTSwOQACYn1SvkB2vAd/d6E8NrcQgbqLNqkaUo4veBmi7AB9NxFGQdLAx9Z
-         FUOQ==
+        d=linaro.org; s=google; t=1710401855; x=1711006655; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=g2xMEgErE0oZaNn60SyZkOBivkFZHVII//dNP0p/AvA=;
+        b=vGXGEWQ0Bt6oKh0XUiNTklp/4sAAVLn/7Shd+Wu/bGJLG6zbu0QjtkVeSwNZSyOxrv
+         xNoB8VbikZEoln6RCVEjiNnBeVd2sYfn1O1gjKgV458MU9Xg8+0/cOZFFpayjvrIhwSi
+         f70I/ip6s6wymgSJOfdm9T8WgXjmHK3F+ln6CknHOrxB/1oCEim+MUvbby5IGsyVuw+3
+         CoPEd6vOQNi22C1ezo9PoYy78j8zAs3szgsSW/dPoWtx1mpHQH0ri8HyDFj9sPxdS1PV
+         eQ7iIefUq3WQaNUdx91CyISP8zjhIF+TFyCdy5p+NqFdX4fEX+4iXsm2/mdk/6bbslEh
+         d+nA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710399167; x=1711003967;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3LwgfnVSRb6bo5n7xp3n3DJcNJBHsfZFGHFZZEWHyXg=;
-        b=H3K6CEuSfrCm4qw/ij1NPRaQ68u3uJeSOmS9xksO7+SbxDIMlqdwN2o62REHTTIUzt
-         zvPCqvVIAe/hC6qk6iFMwo+h4aE3E60/F+Vk/KKH3GM6DdFpjzQ+Q/B4KKfWlzsVQxH5
-         IaJC3SbIoE7ZuBXEzjVuFqcZEvqjafa3P/vRnd2bHFZcY0/1nGVzhCmMfcNrYkzO8UbX
-         lLchSerAKxLaSzlLgXkgRsaudb0UwXRk7sd4NxSuI3o4yRW1vV929ADvFVaLUc9xNKEh
-         RkiQ0BsgAW6tv6vE6M/jMwLpfJ8m0AndllYFXWenI2tlIsqJblVFjX6HMB30rbmRZzRE
-         kvzA==
-X-Forwarded-Encrypted: i=1; AJvYcCWH/x6G1rTlIii7HFAJvIEFu/ImlAQBcoHGqUedAsEgjZRhQU2+eYinS9sKqGCyE+FOnOHT4OTP7Ae3HOQFmpFSAmETL1xWYwsRkdPs6Q==
-X-Gm-Message-State: AOJu0YzIJiFblSlbhqhjKVik45s30O8MGpM8OsVwHBmeKBV75nEB1+HM
-	ugaZiFjWToIyUbAR4IJC7AJnupt8OTLM0mI+K0twoX5ZrXk1DbmJBdEgey57MNE=
-X-Google-Smtp-Source: AGHT+IF1yL1y9JAi64OSd93uOJ530JOSBG3XsJb9SJ1Lq9etWeAeWmllsYTSaHKMWopChno69w23/w==
-X-Received: by 2002:a17:90a:ab12:b0:29b:95a:baaa with SMTP id m18-20020a17090aab1200b0029b095abaaamr750755pjq.47.1710399166989;
-        Wed, 13 Mar 2024 23:52:46 -0700 (PDT)
-Received: from ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx ([103.6.158.66])
-        by smtp.gmail.com with ESMTPSA id ns5-20020a17090b250500b0029dd92da150sm85107pjb.19.2024.03.13.23.52.46
+        d=1e100.net; s=20230601; t=1710401855; x=1711006655;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=g2xMEgErE0oZaNn60SyZkOBivkFZHVII//dNP0p/AvA=;
+        b=xGOIqgj49ZmAJgpmYai5OAspZN9oUltMP1b0PClW2GVzVMQubKNykOskd8+TpZElfZ
+         ky+zSS44qhMy+tzjZnm2GfSx8vqABr3mAM/IF2p7g33KqKkMqaWjUR5VrToyIX3JcELh
+         0nCjT7aujTgBZYm7rHKzReYtYi5MgqgvO8fLk4wL8vn3KG/rnrLfWEHiHgFgZeF408kf
+         OFHK744REzg7AtyH1q9aSCr53zWF1vO/wRrtC3mjrCjtZSu77wgt/1zi//ehTEmTCVVS
+         FUrgb7braR7zki2o2oGspFf2y0zz6qFf1Vagfw0k7wLHP/7gJpSS9dN1rgwMAtj6IsgH
+         rCjQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVC3agDdFpC7pVhrKb4F/ccIHA4huHxFUrwZISEdSUWSa3Iw+bIGF23ditJZKRZveL8ijbbLJnk0OPt6e3+YQoApPR9mxeJJBC/pCKojw==
+X-Gm-Message-State: AOJu0YyeL0UaclzqDXfvtEIH3Jfe8gxJ43rPMxceK2GQlPqoavoXioD/
+	7m1XEBJHd9q+KDhW1cxs2QRTFW+FSoUdQtvlWBTTQiUsP1itS3928s2CL5PnLDw=
+X-Google-Smtp-Source: AGHT+IGqoG0yaFgrjuSXEyheErkxym5o4y1BxFNQO/f8KnR/q5sTXHRvaQm1Gon5B4sF618nxOd7UQ==
+X-Received: by 2002:a05:600c:1994:b0:413:f2a1:c47b with SMTP id t20-20020a05600c199400b00413f2a1c47bmr489038wmq.16.1710401854633;
+        Thu, 14 Mar 2024 00:37:34 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id je2-20020a05600c1f8200b004133072017csm4779037wmb.42.2024.03.14.00.37.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Mar 2024 23:52:46 -0700 (PDT)
-Date: Thu, 14 Mar 2024 12:22:44 +0530
-From: Ayush Tiwari <ayushtiw0110@gmail.com>
-To: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
-	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Cc: outreachy@lists.linux.dev
-Subject: [PATCH v2] staging: greybus: Constify static struct kobj_type
- gb_audio_module_type
-Message-ID: <ZfKevNRRNteRXZHT@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
+        Thu, 14 Mar 2024 00:37:34 -0700 (PDT)
+Date: Thu, 14 Mar 2024 10:37:29 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Alison Schofield <alison.schofield@intel.com>
+Cc: Ayush Tiwari <ayushtiw0110@gmail.com>, Larry.Finger@lwfinger.net,
+	florian.c.schilhabel@googlemail.com, gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	outreachy@lists.linux.dev
+Subject: Re: [PATCH] staging: greybus: add comment for mutex
+Message-ID: <41239f06-596e-4c17-95ed-4bf06ba9f9ec@moroto.mountain>
+References: <ZfHuokO3pQXMOxcC@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
+ <ZfJhtBrsL3elRve8@aschofie-mobl2>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -67,34 +70,32 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <ZfJhtBrsL3elRve8@aschofie-mobl2>
 
-Constify static struct kobj_type gb_audio_module_type to prevent
-modification of data shared across many instances, ensuring that the
-structure's usage is consistent and predictable throughout the driver
-and allows the compiler to place it in read-only memory.
+On Wed, Mar 13, 2024 at 07:32:20PM -0700, Alison Schofield wrote:
+> On Wed, Mar 13, 2024 at 11:51:22PM +0530, Ayush Tiwari wrote:
+> > This patch adds descriptive comment to mutex within the struct
+> > gbaudio_codec_info to clarify its intended use and to address
+> > checkpatch checks.
+> 
+> Hi Ayush-
+> 
+> You may be right, but you need to convince your patch reviewers
+> why your comment accurately describes this mutex.
+> 
+> That's always the ask with this kind of patch.
 
-Signed-off-by: Ayush Tiwari <ayushtiw0110@gmail.com>
----
+Heh.  Yeah.  The comment wasn't right in this case.  The lock has
+nothing to do with registers or register access.
 
-Changes in v2: incorporated changes in commit message as suggested by
-Alison
+> 
+> BTW - Don't start your commit log with 'This patch...'.
+> 
 
- drivers/staging/greybus/audio_manager_module.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Outreachy folk are a more particular about some of this stuff than I am.
+Which is fine.  Could you do me a favor though?  Could you ack patches
+once you're happy with them?
 
-diff --git a/drivers/staging/greybus/audio_manager_module.c b/drivers/staging/greybus/audio_manager_module.c
-index 5f9dcbdbc191..4a4dfb42f50f 100644
---- a/drivers/staging/greybus/audio_manager_module.c
-+++ b/drivers/staging/greybus/audio_manager_module.c
-@@ -144,7 +144,7 @@ static struct attribute *gb_audio_module_default_attrs[] = {
- };
- ATTRIBUTE_GROUPS(gb_audio_module_default);
- 
--static struct kobj_type gb_audio_module_type = {
-+static const struct kobj_type gb_audio_module_type = {
- 	.sysfs_ops = &gb_audio_module_sysfs_ops,
- 	.release = gb_audio_module_release,
- 	.default_groups = gb_audio_module_default_groups,
--- 
-2.40.1
+regards,
+dan carpenter
 
