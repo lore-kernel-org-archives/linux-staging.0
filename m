@@ -1,112 +1,106 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3EF96CDC0
-	for <linux-staging@lists.linux.dev>; Thu, 14 Mar 2024 09:53:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3B556D1BA
+	for <linux-staging@lists.linux.dev>; Thu, 14 Mar 2024 10:06:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710410039; cv=none; b=VxF9HscKrXU2pXUIGzrSpJQQ5TvryenlUjywpbwKhonZzjeou2NY8EL0jwL/2NXThlWoYZMvM0tz5oSZkmd1SdsCg6xoJnd7dBEBcnKJRlcDcWVrsg4yCSiFok8g5gfN2lKKj6hdADI4XYoZsC2twEbak5iHjAqaty4p/3ix33c=
+	t=1710410781; cv=none; b=Hum8IaZuIcVJBDAYmH5FMDaLOX07PsodFH/G8CT/4VZ7ludgAuRAtDtbGOdHRC6gTFifKgIakgDwIeSIML0sFnZYXAKnKQOi8CeCwMLUuVFl4wjba0FyzgAUFg4BrFzSxbT6i8FgK42dvPmJGinT8qQh0oCN+y0+IeDa3lQvG08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710410039; c=relaxed/simple;
-	bh=ZXzoLZZIrj8mYhJx84IE0GbYw8tng/PqR1C9MWyBRbM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=noHZmoJ2P+2i1Ckzgz9KfGINTHL86ir/UVHmGBaRZzYffFdfws9CEdTMtmkB9Kcu7dE2fvB+z3Px0iWcgPUzDP83Ol1PmzAipjM4GSsZmdP4xZopaghxVPQ8j4SsWGyUVUB4YUpGxhuyTIoHLVtmPjg3zPChLjZcqcgrCMcj+zM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZS5Cz69k; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1710410781; c=relaxed/simple;
+	bh=0E+Ng4fhokA1iaX8AX0fqCHRQbVcban90tQHKnJ6EoY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jIexikf79awdp5rJ/ZlXsTn6IwbCU8K/EMM+WyH4Y8+Zfo4LsfWdTEh44mpcjUCsk13/r/xKrErtbmOEfhIQRr6hNhhnwwTVQCKVD4xDmtK1brsj7sUK78qZYnhT253yAxoPV8SBW8HhUuWxURuWzgd21VyQo0bBnmw+aBdDSCA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=OloZJOwm; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZS5Cz69k"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-33ec8f13c62so225929f8f.0
-        for <linux-staging@lists.linux.dev>; Thu, 14 Mar 2024 02:53:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1710410036; x=1711014836; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ro4Imx7CWEZLX3AK8r2FNrfVWmfUpKd6vZ6AbyKyoK8=;
-        b=ZS5Cz69kN1Ao1QpB8c5/fUgQvpko0DW7FRaKyAzC7usdDjmRU38qMKUnKWDLX7A1ub
-         rggnu8uTEaJblNZVQLwGFGNL1CwKgd7ohn2BJz3YFXARBvrQ7Kd7Ks+IbrtomdvlWMCQ
-         H0vBSiFP12n2AgMbQVqC/49+wK1RpiFwJ3nL2z4hKLK0a/kwfCMQ5Fdxn/7ZF+7p+8Im
-         2BzgZJ68NrAIk8GQJEePWo4HXsd67EGD2lM3wyRqsg3/5FbQeufjo+nuWBIS022yJbw6
-         INZGTEvlevzUELa5ez2U5O5zNCMGibJ+ycBNHfHV9UreQhECtmqCIviaPA9L4S09hP7d
-         g7xQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710410036; x=1711014836;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ro4Imx7CWEZLX3AK8r2FNrfVWmfUpKd6vZ6AbyKyoK8=;
-        b=pucAASyBmATzLwiBqlrSGdBWin7zEMlcpF5ehx6HT6cVqtITtXPEcOHfFnhlZo+qYa
-         nJS9HVla+7K66z4Y4LWocfRThMinpiUn2muUv8YZxbhAmeKYsuVhmTgNSFbtyhos4BLs
-         4WIaHTUCsXl55u33qbwJ1SkKFozqUNqIRiW42rq+H/83yJfgi4Z16Ii1eGf7uh2jJUKx
-         +/GHLaH1WDOxAEZuj/eGSazMXHyWKVmTrp847n3Ntzn54xrq1tw8A7hcCyIK26wGBV6L
-         TuikbwrlKNzfx1h4+FM4HUmK8NlVIeeS43Z9MuGlK8zL4g1AWZM2OsO3UQhOUYbair+G
-         Pfyw==
-X-Forwarded-Encrypted: i=1; AJvYcCXOTyMyIx8BYMyaGQbLDYxg2Pt7n9ISe7nmsJ39v1/Sa5xgQfN3dPbKFwH64bUVfEY1ZEId+91rcMSngeTYKmTvF273sxlHFDmHzFjqJA==
-X-Gm-Message-State: AOJu0YzE0UYsPKqT8FkxiY/d/c8Dz0GMIG9NxAhYaabKhoe4sqHtgkn1
-	epOfcBVAY1wKlXR/n76T9jm0Iym8JLdHLJ8I1GwOQRXLzNGzNPFPT7epgeX4i7A=
-X-Google-Smtp-Source: AGHT+IFfVOj3Qr+ozdglLc5ukbVAJ7wK9H9tgRhtsfi5cNpUPOjNIC73zdH1T1xqVqvsxyWWZ8WGAA==
-X-Received: by 2002:a5d:46c3:0:b0:33e:c070:686c with SMTP id g3-20020a5d46c3000000b0033ec070686cmr839550wrs.45.1710410036059;
-        Thu, 14 Mar 2024 02:53:56 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id x11-20020a5d60cb000000b0033eca2cee1asm349346wrt.92.2024.03.14.02.53.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Mar 2024 02:53:55 -0700 (PDT)
-Date: Thu, 14 Mar 2024 12:53:52 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Sam Ravnborg <sam@ravnborg.org>, lee@kernel.org,
-	daniel.thompson@linaro.org, jingoohan1@gmail.com, deller@gmx.de,
-	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH 3/6] backlight/omap1-bl: Replace FB_BLANK_ states with
- simple on/off
-Message-ID: <f3e2f6ed-d915-4b32-aba8-9e9cfe9c0b3f@moroto.mountain>
-References: <20240313154857.12949-1-tzimmermann@suse.de>
- <20240313154857.12949-4-tzimmermann@suse.de>
- <20240313180027.GB96726@ravnborg.org>
- <bf7b7e88-a7b4-427d-b38c-d3c9cc568aaf@suse.de>
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="OloZJOwm"
+Received: from umang.jain (unknown [103.251.226.70])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A47906BE;
+	Thu, 14 Mar 2024 11:05:51 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1710410754;
+	bh=0E+Ng4fhokA1iaX8AX0fqCHRQbVcban90tQHKnJ6EoY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=OloZJOwmBcI0569sR+4GP3NEopaNsgzHudF5dA1oQhvmfwU+t500A+95+f50eoYP7
+	 Gj5zYDjf5K0Bzs50DKEa0liNn6xcbZF/d3kBdsdjNin7R8bmFWd+y0Z/3gpHlRwRUi
+	 gZkwCYQpyNxqhmayW2GyhrftlABUufYjLViCmQgI=
+From: Umang Jain <umang.jain@ideasonboard.com>
+To: linux-staging@lists.linux.dev
+Cc: Stefan Wahren <stefan.wahren@i2se.com>,
+	Dan Carpenter <error27@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Phil Elwell <phil@raspberrypi.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Umang Jain <umang.jain@ideasonboard.com>
+Subject: [PATCH v2 0/6] staging: vc04_services: Drop non-essential global members
+Date: Thu, 14 Mar 2024 15:36:01 +0530
+Message-ID: <20240314100607.336009-1-umang.jain@ideasonboard.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <bf7b7e88-a7b4-427d-b38c-d3c9cc568aaf@suse.de>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Mar 14, 2024 at 09:16:15AM +0100, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 13.03.24 um 19:00 schrieb Sam Ravnborg:
-> > Hi Thomas,
-> > 
-> > On Wed, Mar 13, 2024 at 04:45:02PM +0100, Thomas Zimmermann wrote:
-> > > The backlight is on for fb_blank eq FB_BLANK_UNBLANK, or off for
-> > > any other value in fb_blank. But the field fb_blank in struct
-> > > backlight_properties is deprecated and should not be used any
-> > > longer.
-> > > 
-> > > Replace the test for fb_blank in omap's backlight code with a
-> > > simple boolean parameter and push the test into the update_status
-> > > helper. Instead of reading fb_blank directly, decode the backlight
-> > > device's status with backlight_is_blank().
-> > > 
-> > > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> > My biased opinion is that the approach in this patch is a little bit
-> > better:
-> > https://lore.kernel.org/lkml/20230107-sam-video-backlight-drop-fb_blank-v1-13-1bd9bafb351f@ravnborg.org/
-> > 
-> > I never came around resending this series it seems.
-> 
-> Oh, that series has been around for over a year. I don't care about which
-> patches go in as long as they remove the dependency on <linux/fb.h>. I saw
-> that Dan has already r-b'ed the current patchset, but if you prefer I'll
-> adopt yours.
+This series aims to drop the remaining (non-essential) global members
+to address the following TODO item:
+```
+* Get rid of all non essential global structures and create a proper per
+device structure
+```
 
-I hadn't seen Sam's patch.  It's a little bit more daring, but it's
-really nice code and I trust him.
+Mainly the global members are moved to be contained inside platform
+driver data. They can be access via platform_get_drvdata().
 
-regards,
-dan carpenter
+Patch 1/6 drops the g_once_init variable as it is not used meaningfully.
+
+Patch 2/6 is a prep-up patch for subsequent patches.
+
+Patch 3/6 drops global variables tracking connections to vchiq driver
+through vchiq_connected[.ch]. New struct vchiq_connected is introduced
+and added to vchiq_drvdata.
+
+Patch 4/6 drops g_cache_line_size and use direct value from
+vchiq_drvdata
+
+Patch 5/6 drops global variables pertaining to track memory pages
+
+Patch 6/6 is already a completed item - so just a TODO cleanup
+
+The user of vchiq_connected.[ch] is not present currently, but the user
+will be present when we will upstream bcm2835-isp via the vc-sm-cma
+driver. Posting a branch for reference [1] to provide and test the idea
+behind this series.
+
+[1]: https://git.uk.ideasonboard.com/uajain/linux/commits/branch/uajain/remove-global
+
+Changes in v2:
+- Found even more g_* global variables than v1, so new patches to drop
+  them
+- Introduce 1/6 as suggested during v1 review
+- Introuce 6/6 to cleanup the TODO list
+
+Umang Jain (6):
+  staging: vc04_services: Drop g_once_init global variable
+  staging: vc04_services: vchiq_arm: Move struct vchiq_drvdata to header
+  staging: vc04_services: Drop global members for tracking connections
+  staging: vc04_services: vchiq_arm: Drop g_cache_line_size
+  staging: vc04_services: Drop global variables tracking allocated pages
+  staging: vc04_services: Drop completed TODO item
+
+ drivers/staging/vc04_services/interface/TODO  |  15 ---
+ .../interface/vchiq_arm/vchiq_arm.c           | 109 +++++++++---------
+ .../interface/vchiq_arm/vchiq_arm.h           |  17 +++
+ .../interface/vchiq_arm/vchiq_connected.c     |  43 +++----
+ .../interface/vchiq_arm/vchiq_connected.h     |  15 ++-
+ 5 files changed, 99 insertions(+), 100 deletions(-)
+
+
+base-commit: 68bb540b1aefded1d58a9f956568d5316643d291
+-- 
+2.43.0
 
