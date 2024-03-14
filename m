@@ -1,53 +1,66 @@
-Received: from mailrelay4-1.pub.mailoutpod2-cph3.one.com (mailrelay4-1.pub.mailoutpod2-cph3.one.com [46.30.211.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D6E36BB4E
-	for <linux-staging@lists.linux.dev>; Thu, 14 Mar 2024 08:57:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.30.211.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3EF96CDC0
+	for <linux-staging@lists.linux.dev>; Thu, 14 Mar 2024 09:53:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710406646; cv=none; b=INRneTN85FGoCKGM2TritOibtrQ1UwnyyAr/et0cUnvSPq9i7Avu10ZDNB9YFJWd9r4ku1tMMY/kFx4P7LoUTcO6xg3kA5mhK+Lc0wW/hCVKwINLwEYnuRk94TUUhuYY42OFEDtnFKSkq3IY9d8NiXl4zwMG6H2H1+vXQW1XVrs=
+	t=1710410039; cv=none; b=VxF9HscKrXU2pXUIGzrSpJQQ5TvryenlUjywpbwKhonZzjeou2NY8EL0jwL/2NXThlWoYZMvM0tz5oSZkmd1SdsCg6xoJnd7dBEBcnKJRlcDcWVrsg4yCSiFok8g5gfN2lKKj6hdADI4XYoZsC2twEbak5iHjAqaty4p/3ix33c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710406646; c=relaxed/simple;
-	bh=6kaBC/L6/i/c9FtxT1pwrVSyAW4gc0ChoE8pXr3thDo=;
+	s=arc-20240116; t=1710410039; c=relaxed/simple;
+	bh=ZXzoLZZIrj8mYhJx84IE0GbYw8tng/PqR1C9MWyBRbM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jGGORj5AgEZvd4xHGD3F4OHV0ORrTykw1xAR/W7NQG6lCk1JVLfsmjC9fiHXXUGwa4ReGsWM6fg5U2eqTIz62wwpwiivEh91radQpOe8btG1NNTUsOXGwm/k7L5OoOFux2shak8lW8BFThGzA3xWhPvvDSuTDbPMtSe1eXdnXQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ravnborg.org; spf=none smtp.mailfrom=ravnborg.org; dkim=pass (2048-bit key) header.d=ravnborg.org header.i=@ravnborg.org header.b=tMISvzzp; dkim=permerror (0-bit key) header.d=ravnborg.org header.i=@ravnborg.org header.b=F4dgznld; arc=none smtp.client-ip=46.30.211.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ravnborg.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ravnborg.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=noHZmoJ2P+2i1Ckzgz9KfGINTHL86ir/UVHmGBaRZzYffFdfws9CEdTMtmkB9Kcu7dE2fvB+z3Px0iWcgPUzDP83Ol1PmzAipjM4GSsZmdP4xZopaghxVPQ8j4SsWGyUVUB4YUpGxhuyTIoHLVtmPjg3zPChLjZcqcgrCMcj+zM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZS5Cz69k; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ravnborg.org header.i=@ravnborg.org header.b="tMISvzzp";
-	dkim=permerror (0-bit key) header.d=ravnborg.org header.i=@ravnborg.org header.b="F4dgznld"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZS5Cz69k"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-33ec8f13c62so225929f8f.0
+        for <linux-staging@lists.linux.dev>; Thu, 14 Mar 2024 02:53:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ravnborg.org; s=rsa2;
-	h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
-	 from:date:from;
-	bh=gxeb8AAu1YVsY/Xu6cmaPpMTJxALfCwDGY4BFKWNTso=;
-	b=tMISvzzpQfd7Nl6C/TYf8qmDPtMdAYFHHyAvDU6DPfHN4J2rE1m11N1WkILSyP2QGa6k4beUmhJcY
-	 L6gN0v0NT10Lf3vRkFeDIAdTpfs8w2qxL41IDc8kU4hGXHFLEvHfszfcPzoDG7JMxUKx3RngjNItGA
-	 dXyzrGTRrn+xspYYLj5LTZ/IyaaWEGFH+asZ9t+ADP/WIxLZuqDnXOhwz1s4aSZ7wI5dpu6JZInWjs
-	 zq8ferYlKEuLCaU6NtUHH5shnWmu9YZm94Y6QJsUvLLz52LYNVVGcd2+ggov4NNm3+Hi1EFfJqlAJF
-	 1jIBb56EYEme84yADTgPTZexfUukbMw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
-	d=ravnborg.org; s=ed2;
-	h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
-	 from:date:from;
-	bh=gxeb8AAu1YVsY/Xu6cmaPpMTJxALfCwDGY4BFKWNTso=;
-	b=F4dgznldQA9WofOy8/5yBC+gXByvmy8MIjbkHVPROzUkOPFffQ0cDMmDL7Zv5zYxQznOD8h3CFZrJ
-	 8KNTlCvAw==
-X-HalOne-ID: d7a52303-e1e0-11ee-a435-31e85a7fa845
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
-	by mailrelay4.pub.mailoutpod2-cph3.one.com (Halon) with ESMTPSA
-	id d7a52303-e1e0-11ee-a435-31e85a7fa845;
-	Thu, 14 Mar 2024 08:57:13 +0000 (UTC)
-Date: Thu, 14 Mar 2024 09:57:11 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
+        d=linaro.org; s=google; t=1710410036; x=1711014836; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ro4Imx7CWEZLX3AK8r2FNrfVWmfUpKd6vZ6AbyKyoK8=;
+        b=ZS5Cz69kN1Ao1QpB8c5/fUgQvpko0DW7FRaKyAzC7usdDjmRU38qMKUnKWDLX7A1ub
+         rggnu8uTEaJblNZVQLwGFGNL1CwKgd7ohn2BJz3YFXARBvrQ7Kd7Ks+IbrtomdvlWMCQ
+         H0vBSiFP12n2AgMbQVqC/49+wK1RpiFwJ3nL2z4hKLK0a/kwfCMQ5Fdxn/7ZF+7p+8Im
+         2BzgZJ68NrAIk8GQJEePWo4HXsd67EGD2lM3wyRqsg3/5FbQeufjo+nuWBIS022yJbw6
+         INZGTEvlevzUELa5ez2U5O5zNCMGibJ+ycBNHfHV9UreQhECtmqCIviaPA9L4S09hP7d
+         g7xQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710410036; x=1711014836;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ro4Imx7CWEZLX3AK8r2FNrfVWmfUpKd6vZ6AbyKyoK8=;
+        b=pucAASyBmATzLwiBqlrSGdBWin7zEMlcpF5ehx6HT6cVqtITtXPEcOHfFnhlZo+qYa
+         nJS9HVla+7K66z4Y4LWocfRThMinpiUn2muUv8YZxbhAmeKYsuVhmTgNSFbtyhos4BLs
+         4WIaHTUCsXl55u33qbwJ1SkKFozqUNqIRiW42rq+H/83yJfgi4Z16Ii1eGf7uh2jJUKx
+         +/GHLaH1WDOxAEZuj/eGSazMXHyWKVmTrp847n3Ntzn54xrq1tw8A7hcCyIK26wGBV6L
+         TuikbwrlKNzfx1h4+FM4HUmK8NlVIeeS43Z9MuGlK8zL4g1AWZM2OsO3UQhOUYbair+G
+         Pfyw==
+X-Forwarded-Encrypted: i=1; AJvYcCXOTyMyIx8BYMyaGQbLDYxg2Pt7n9ISe7nmsJ39v1/Sa5xgQfN3dPbKFwH64bUVfEY1ZEId+91rcMSngeTYKmTvF273sxlHFDmHzFjqJA==
+X-Gm-Message-State: AOJu0YzE0UYsPKqT8FkxiY/d/c8Dz0GMIG9NxAhYaabKhoe4sqHtgkn1
+	epOfcBVAY1wKlXR/n76T9jm0Iym8JLdHLJ8I1GwOQRXLzNGzNPFPT7epgeX4i7A=
+X-Google-Smtp-Source: AGHT+IFfVOj3Qr+ozdglLc5ukbVAJ7wK9H9tgRhtsfi5cNpUPOjNIC73zdH1T1xqVqvsxyWWZ8WGAA==
+X-Received: by 2002:a5d:46c3:0:b0:33e:c070:686c with SMTP id g3-20020a5d46c3000000b0033ec070686cmr839550wrs.45.1710410036059;
+        Thu, 14 Mar 2024 02:53:56 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id x11-20020a5d60cb000000b0033eca2cee1asm349346wrt.92.2024.03.14.02.53.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Mar 2024 02:53:55 -0700 (PDT)
+Date: Thu, 14 Mar 2024 12:53:52 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: lee@kernel.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
-	deller@gmx.de, dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev
+Cc: Sam Ravnborg <sam@ravnborg.org>, lee@kernel.org,
+	daniel.thompson@linaro.org, jingoohan1@gmail.com, deller@gmx.de,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev
 Subject: Re: [PATCH 3/6] backlight/omap1-bl: Replace FB_BLANK_ states with
  simple on/off
-Message-ID: <20240314085711.GA126747@ravnborg.org>
+Message-ID: <f3e2f6ed-d915-4b32-aba8-9e9cfe9c0b3f@moroto.mountain>
 References: <20240313154857.12949-1-tzimmermann@suse.de>
  <20240313154857.12949-4-tzimmermann@suse.de>
  <20240313180027.GB96726@ravnborg.org>
@@ -90,8 +103,10 @@ On Thu, Mar 14, 2024 at 09:16:15AM +0100, Thomas Zimmermann wrote:
 > patches go in as long as they remove the dependency on <linux/fb.h>. I saw
 > that Dan has already r-b'ed the current patchset, but if you prefer I'll
 > adopt yours.
-Whatever works for you. It is trivial stuff and as long as we get it
-cleaned up that is fine. You are pushing for this now - so whatever is
-easiest for you.
 
-	Sam
+I hadn't seen Sam's patch.  It's a little bit more daring, but it's
+really nice code and I trust him.
+
+regards,
+dan carpenter
+
