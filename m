@@ -1,54 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA82C1FB4;
-	Thu, 14 Mar 2024 02:26:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 468917E1;
+	Thu, 14 Mar 2024 02:32:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710383210; cv=none; b=tXc/KpRj/JZkI44J2Lpfcw5YNPS8kQaqhFA6dMPNFwUtvclZSsG07rPJGsjOuZfarP4XxJlST1UvVoWKMnNCG0dWvM8ia0HkszCtP0ZM3j0zkvuYwfi3zFY/DFQdmcoDBe/zmEXsFUjz0OPrI9ZBteO4Eo1gUhKStlBo0avipF8=
+	t=1710383546; cv=none; b=I+clkCtwweOy4D/BSO8LA65yFLbQn969S40TIwX/bguPZ4hWq4sNaD9/LI9LgVGVIC2vBIN6Ps6NBmBRNwilUQ8R0/4shl0gIN5VBGoiPg7IieKeO+0m0JqS0cYr7HU9REc4Zhacc6aaZMirRBDb+/QVJO3sq1HYKGQoPx7PDBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710383210; c=relaxed/simple;
-	bh=isznYQj6c1rnwEUqLiHaDxS2i6jtXknSZw3ne+WB6UA=;
+	s=arc-20240116; t=1710383546; c=relaxed/simple;
+	bh=pe3erww6iGV5Z2CHt+wZW7sosEJYvm2NBU6QR6tsMb0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YvLt3krmt2xi8IOA0+SXoXsLdPdZThY7CgSXP7N+fcqkV3PJkfjJ5NWj80+R9+3BZqbQLPOiJFHjj3RpIT/zrUOuF/rncNRFGgqtduD/SQsSKUDqIlMR3hMaSUt+qVxAhOPsZG3cobOwoB5O23WndEEz7t72QrU999gb9XVWm5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ez3ozUTc; arc=none smtp.client-ip=198.175.65.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=XCpkf4mzPQzkR54rug9PAKj2IYJ2DKRE3W1adBEAx+5pWOMHlqeyAtJtmVlgBboKdaVT01DjqFQQ/VVONj0nk+MeOujAv95aEVfUit33CkEzz9mlU2cmeMObE37ew3IIKP4J0iB0VC8vttrvNLpiaHGGBEAsycAYfc2PE3afu6E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HbljAmu3; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ez3ozUTc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HbljAmu3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710383210; x=1741919210;
+  t=1710383543; x=1741919543;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=isznYQj6c1rnwEUqLiHaDxS2i6jtXknSZw3ne+WB6UA=;
-  b=Ez3ozUTco27ddqdrQHZOset7S6uAlU6yzlEhePuRFd8terJHM2IhNzq2
-   7hiltiqqdCZ77mkc8LwnNSe4gNc+E/bhSXcSwH4axSPMAVp407tOw0sSu
-   U4LtIQvpaWKTCsg1SB3g/vV15gRWIEAK8zG0oFlBl4XdU5YGkAIBt9L37
-   o4m50Rt1IM1aQkEy+NhTXSfpM86O/LTzLvmol5Pz4b8yorr8mAQ9Gj0eu
-   hnokvcaKdm15MulOBQqkufLlvBVL4Ilwb/AmHtM/8Sl8xnIamWADPLH85
-   0b6C8EdMQ6tWoccCgglEnGbnNjrhEHyEaR1Q3TQ7WLQfwiO0D5+UD3rcV
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="16341236"
+  bh=pe3erww6iGV5Z2CHt+wZW7sosEJYvm2NBU6QR6tsMb0=;
+  b=HbljAmu3wQ2HM+MI9ad453a6LkPoIKj42nMdOR2rhm/LsrY3vLHhUGhB
+   4WQFoD1HeuEXdUsF2o0kbHjn7K81aZucLqhBGVdTQTSugjXartrvhABxU
+   efS9cyn0rYRIY+h1MUOu0VTK/DA750u0p6qF2+MK7QY8xTEZRKXsLpUBP
+   PmJpIxTEwPBzD5VhSDFXGz4t+QQed/RpCK7CZgwfMP5G1HPX1QR+RudJj
+   QWZE3Mq5egIIXkuKCqBwYwnaRTSbk5kf2QURPJKh2PMlZ7EPKT6EWtWLM
+   f4Rs360FT5Q1FqwlEFqmzJxSutD+CKwFfjqMrzzz/4DSrYMYoirUHEjjw
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="15826130"
 X-IronPort-AV: E=Sophos;i="6.07,124,1708416000"; 
-   d="scan'208";a="16341236"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 19:25:51 -0700
+   d="scan'208";a="15826130"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 19:32:22 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,124,1708416000"; 
-   d="scan'208";a="12152202"
+   d="scan'208";a="12545220"
 Received: from aschofie-mobl2.amr.corp.intel.com (HELO aschofie-mobl2) ([10.209.86.131])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 19:25:49 -0700
-Date: Wed, 13 Mar 2024 19:25:47 -0700
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 19:32:22 -0700
+Date: Wed, 13 Mar 2024 19:32:20 -0700
 From: Alison Schofield <alison.schofield@intel.com>
 To: Ayush Tiwari <ayushtiw0110@gmail.com>
 Cc: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
 	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev, outreachy@lists.linux.dev
-Subject: Re: [PATCH] staging: greybus: add const type to struct kobj_type
- gb_audio_module_type
-Message-ID: <ZfJgK51wzy06WYdn@aschofie-mobl2>
-References: <ZfH4YZ9qyK231T5l@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
+Subject: Re: [PATCH] staging: greybus: add comment for mutex
+Message-ID: <ZfJhtBrsL3elRve8@aschofie-mobl2>
+References: <ZfHuokO3pQXMOxcC@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -57,52 +56,42 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZfH4YZ9qyK231T5l@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
+In-Reply-To: <ZfHuokO3pQXMOxcC@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
 
-On Thu, Mar 14, 2024 at 12:32:57AM +0530, Ayush Tiwari wrote:
-> Add type qualifier const in struct kobj_type gb_audio_module_type to
-> address checkpatch warning and conform to the kernel coding style.
+On Wed, Mar 13, 2024 at 11:51:22PM +0530, Ayush Tiwari wrote:
+> This patch adds descriptive comment to mutex within the struct
+> gbaudio_codec_info to clarify its intended use and to address
+> checkpatch checks.
 
-Thanks for the patch. A couple of things you could address in a v2:
+Hi Ayush-
 
-1) 'Constify' is not a real English word, or maybe it's made its way
-into an urban dictionary by now. Anyway, it's a common patch action
-and you can read more about and improve the 'why' in your description.
+You may be right, but you need to convince your patch reviewers
+why your comment accurately describes this mutex.
 
-Try: $ git log --pretty=oneline --abbrev-commit | grep Constify
-and you'll find many patch examples. I think you'll find a crisper
-'why' for your patch description.
+That's always the ask with this kind of patch.
 
-Also, here's a former Outreachy Interns blog about the topic:
-https://medium.com/@bhumikagoyal/linux-kernel-const-annotation-8db591148e58
-
-2) Now that you know about the work 'Constify' please use it in your
-commit message so that it doesn't cause line wrap (80 lines) when doing 
-$ git log --pretty=oneline --abbrev-commit audio_manager_module.c
-
-See the First Patch Tutorial Section: Following the Driver commit style
+BTW - Don't start your commit log with 'This patch...'.
 
 Alison
 
 > 
 > Signed-off-by: Ayush Tiwari <ayushtiw0110@gmail.com>
 > ---
->  drivers/staging/greybus/audio_manager_module.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/staging/greybus/audio_codec.h | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/drivers/staging/greybus/audio_manager_module.c b/drivers/staging/greybus/audio_manager_module.c
-> index 5f9dcbdbc191..4a4dfb42f50f 100644
-> --- a/drivers/staging/greybus/audio_manager_module.c
-> +++ b/drivers/staging/greybus/audio_manager_module.c
-> @@ -144,7 +144,7 @@ static struct attribute *gb_audio_module_default_attrs[] = {
+> diff --git a/drivers/staging/greybus/audio_codec.h b/drivers/staging/greybus/audio_codec.h
+> index f3f7a7ec6be4..1f97d4fb16cd 100644
+> --- a/drivers/staging/greybus/audio_codec.h
+> +++ b/drivers/staging/greybus/audio_codec.h
+> @@ -71,6 +71,7 @@ struct gbaudio_codec_info {
+>  	/* to maintain runtime stream params for each DAI */
+>  	struct list_head dai_list;
+>  	struct mutex lock;
+> +	/* Lock to protect register access */
+>  	struct mutex register_mutex;
 >  };
->  ATTRIBUTE_GROUPS(gb_audio_module_default);
 >  
-> -static struct kobj_type gb_audio_module_type = {
-> +static const struct kobj_type gb_audio_module_type = {
->  	.sysfs_ops = &gb_audio_module_sysfs_ops,
->  	.release = gb_audio_module_release,
->  	.default_groups = gb_audio_module_default_groups,
 > -- 
 > 2.40.1
 > 
