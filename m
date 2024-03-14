@@ -1,197 +1,104 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 214EB5D72E
-	for <linux-staging@lists.linux.dev>; Thu, 14 Mar 2024 08:09:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 358BB5D480;
+	Thu, 14 Mar 2024 08:13:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710403774; cv=none; b=kNgN2aeX8IqbhCjxn1jZldr87TDblTr4UzuR7M6xvdO3gTFokpu1Vwqtoj54t/AnHZN6r7P0fQ9uEskj0SQQSMRy4I43kqHKx6u4t05mhDj+DAoSGVFDP9+LWB1aJ3EGyZG6JJc6JqYqCmY5OUE8LU7k2fuVTlkPpNS6vkuZKUo=
+	t=1710404007; cv=none; b=joBDEk0dxiHcxIVvfa2aPvXAWqaSe8AnxC3G6sJdD8P2BvUOUVz9aVw6aGfWSV29q8h9kvGV8KL+Qc/qsBaNNASyL5PhW4tKbKoh5FxbOWXuBElL0M3ZmWEc7fxXWNKANhutR2l7OJiTxZutIb2J5GY5e28YgSeJF/S344W03I8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710403774; c=relaxed/simple;
-	bh=jvA7Tf0gVyPqn9q/4raVbwh9AuaNLMla77yD1XR32JY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=n12saVj7Cz1yDefmt5OIO1QR+dXjif8LzjTtUznS+bWSkcfMCPIAmXD2jJBn88j2oGsENDQ238HnbVKm9nxJaofqv86/WyPMrranDouL7i96Ug+02PG4Qyref3RB47iPQqjnJT7GDMAHPod8ESwFBWePBCtV5yrNdY0YJNd8PrE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=w/frsO9v; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=YQJLL+pe; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=w/frsO9v; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=YQJLL+pe; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1710404007; c=relaxed/simple;
+	bh=mWC2hgkMgCMjiK8Q156Dzzx9hdHJuOl5Qi5+yUsPPzo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=WgG/M+K9kp2f/2DktF7TxE6dx4pTZWAvoycQ8wxJPSRFEH60kkHnjdj3nR4+wSYeDuPVH7zq9cAqMvjcXerUW3+A0oCIxK1BBZugBdlyrTduU3k0Xo5wv25+NyyInHSWLoPjuy6qDx5PdhTqC99U23vC5C5QGYLeR7HKSZoeyS4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fbqUUO8c; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="w/frsO9v";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YQJLL+pe";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="w/frsO9v";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YQJLL+pe"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 2F97E1F813;
-	Thu, 14 Mar 2024 08:09:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1710403771; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=OXsoJdwthfxseiuRkEHlo9tV1JLIcCtYreIwZngMfH0=;
-	b=w/frsO9viiD2WCPbq2chXoemepyvOfA/u9jsxljHGv1YLjLTFkzOwZicneRdpExJsza743
-	hoxmb240/950sOMEeEjPS1GV9mjjMlatzjLRzLgx6qL8qyEqEHNNG963baREhC+SpjYWmD
-	OTP5e8cARHnBNkbLno0HPuv1jxpcmVQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1710403771;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=OXsoJdwthfxseiuRkEHlo9tV1JLIcCtYreIwZngMfH0=;
-	b=YQJLL+peahm2cmmQXdnHI4l2sbrkr0ml6SNAulegqUoD7swFNQDj/TDB3glNLmmZ2hiiOv
-	t0tygG1h3bqCSJDg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1710403771; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=OXsoJdwthfxseiuRkEHlo9tV1JLIcCtYreIwZngMfH0=;
-	b=w/frsO9viiD2WCPbq2chXoemepyvOfA/u9jsxljHGv1YLjLTFkzOwZicneRdpExJsza743
-	hoxmb240/950sOMEeEjPS1GV9mjjMlatzjLRzLgx6qL8qyEqEHNNG963baREhC+SpjYWmD
-	OTP5e8cARHnBNkbLno0HPuv1jxpcmVQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1710403771;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=OXsoJdwthfxseiuRkEHlo9tV1JLIcCtYreIwZngMfH0=;
-	b=YQJLL+peahm2cmmQXdnHI4l2sbrkr0ml6SNAulegqUoD7swFNQDj/TDB3glNLmmZ2hiiOv
-	t0tygG1h3bqCSJDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 879AB139D0;
-	Thu, 14 Mar 2024 08:09:30 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id D/nEH7qw8mULHgAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Thu, 14 Mar 2024 08:09:30 +0000
-Message-ID: <f17e7660-ea10-4d5b-8234-79251c4c3483@suse.de>
-Date: Thu, 14 Mar 2024 09:09:30 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fbqUUO8c"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1dd9066b7c3so4927315ad.2;
+        Thu, 14 Mar 2024 01:13:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1710404005; x=1711008805; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qf2aeIWPzVWWa3DPEsJ5xpz9OQKvw7835GGNh+gdPhg=;
+        b=fbqUUO8c+yf+tZ2PeLcq7+/rcgEApCoOKWEQsF2/sX+wxDcmrgvUMLmGcNyqs+JDM/
+         3uR6BX6Vu0Wx3XgFU3K1TTe3ndaO451Vdyr1r/ZMjYC36TISV82G8ECcBq6N2u5Mad1j
+         NGl0BI8FtR3pYBm9yJDUouhBn+rxS/tbJ4EnCrwUminu6w5MPjeeJI/s0WHiTjGaXUXx
+         nWBrcfiRXHjAA/egO0NdgYrVo2fWK5zdciH7GM+CUPfyiQADbC2lh1Ue6j6QldnPQmJg
+         UDnoMlsUYotWmptRpproRJm8dbMekB3vxU7wc3u0dLAd4SHCCa13TiWudYie+42O/aVD
+         a3vA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710404005; x=1711008805;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qf2aeIWPzVWWa3DPEsJ5xpz9OQKvw7835GGNh+gdPhg=;
+        b=Fia8oTYBiBieRdkD8wmzqW+vL2NhJJZjZuPkJ3QCSnYOkLW1HovpTmOklEj/4LH7w5
+         tRdDzBhegwihquqpSqM2GM3LTf9OULLWQdb6XkNd2ZfSa7em6RIairRQw0l0zzTD9U3A
+         xoHkrtBlIomPLgytxhPZu1kmVbqtT6O53fUujXSwJXkjGo0c44sJKpDSJ0TC27Ae8KTw
+         lsC5ucJWCQkXIwdssoIfyCZ/ucg7vNB8AMOOF19kmuCkNXNGnCB+zpa7IOhow7IhyGOk
+         XIgpTfwDFonpvIjDfog4GdEH4Bvir+qqWk9d4UUuwfpNGTQrT3bLzW/CfAvVdaG2QB0c
+         uPvg==
+X-Forwarded-Encrypted: i=1; AJvYcCX1ALJEyTeM1WxTToc3GWPXG7jrJIQmxTfBNeuvyQfqczQ2MqG7kKiN88NY8dRUfhXF65zj4qTMxBgaWJl9Sand08xKU3KB8XrO5kTIVQ==
+X-Gm-Message-State: AOJu0YzKhfv/2kEhehw1336wxdQAMV2ulJlH2Z35YAjRJdjSRjh8CN+X
+	7GLevAA94I59dlPeMCF8hcseodi253U1bjAmyV0W2XUK8tBmshnkdI05OC0SSf0=
+X-Google-Smtp-Source: AGHT+IHCCStWnVtJ1wfplEcsTHexRRD3jpD6RyHZM76NJzaGiMXVfW4xTIg4p8HibsP6/RukAdfcwg==
+X-Received: by 2002:a17:902:ea12:b0:1dd:a3f5:edce with SMTP id s18-20020a170902ea1200b001dda3f5edcemr1342937plg.11.1710404005220;
+        Thu, 14 Mar 2024 01:13:25 -0700 (PDT)
+Received: from ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx ([103.6.158.66])
+        by smtp.gmail.com with ESMTPSA id w15-20020a1709026f0f00b001d8f81ecebesm1019296plk.192.2024.03.14.01.13.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Mar 2024 01:13:24 -0700 (PDT)
+Date: Thu, 14 Mar 2024 13:43:22 +0530
+From: Ayush Tiwari <ayushtiw0110@gmail.com>
+To: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
+	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Cc: outreachy@lists.linux.dev
+Subject: [PATCH v3] staging: greybus: Constify static struct kobj_type
+ gb_audio_module_type
+Message-ID: <ZfKxooDH2ef6/1y3@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/6] auxdisplay/ht16k33: Replace use of fb_blank with
- backlight helper
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
- Andy Shevchenko <andy@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: lee@kernel.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
- deller@gmx.de, dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev, Robin van der Gracht <robin@protonic.nl>,
- Miguel Ojeda <ojeda@kernel.org>
-References: <20240313154857.12949-1-tzimmermann@suse.de>
- <20240313154857.12949-2-tzimmermann@suse.de>
- <CANiq72=5V_XChzDhaaWNC+B4LP7gqivPZj5Y10qqS4SkQTGB_A@mail.gmail.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <CANiq72=5V_XChzDhaaWNC+B4LP7gqivPZj5Y10qqS4SkQTGB_A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -0.44
-X-Spamd-Result: default: False [-0.44 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 XM_UA_NO_VERSION(0.01)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 TAGGED_RCPT(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 MID_RHS_MATCH_FROM(0.00)[];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 BAYES_HAM(-0.65)[82.60%];
-	 RCPT_COUNT_TWELVE(0.00)[12];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
-	 FREEMAIL_TO(0.00)[gmail.com,kernel.org,linux-m68k.org];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 FREEMAIL_CC(0.00)[kernel.org,linaro.org,gmail.com,gmx.de,lists.freedesktop.org,vger.kernel.org,lists.linux.dev,protonic.nl];
-	 RCVD_TLS_ALL(0.00)[];
-	 SUSPICIOUS_RECIPS(1.50)[]
-X-Spam-Flag: NO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi
+Constify static struct kobj_type gb_audio_module_type to prevent
+modification of data shared across many instances, ensuring that the
+structure's usage is consistent and predictable throughout the driver
+and allows the compiler to place it in read-only memory.
+The kernel builds successfully without errors or new warnings,
+verifying the change.
 
-Am 13.03.24 um 17:08 schrieb Miguel Ojeda:
-> Hi Thomas,
->
-> Thanks for this!
->
-> Cc'ing Andy and Geert -- the new maintainer and reviewer.
+Signed-off-by: Ayush Tiwari <ayushtiw0110@gmail.com>
+---
+Changes in v3: added the message that verifies the change,
+as suggested by Julia
 
-Ah, sorry. They are not yet in my MAINTAINERS file.
+Changes in v2: incorporated changes in commit message
+as suggested by Alison
+---
+ drivers/staging/greybus/audio_manager_module.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->
-> Also, a couple quick notes below since I am here...
->
-> On Wed, Mar 13, 2024 at 4:49 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
->> Replace the use of struct backlight_properties.fb_blank with a
->> call to backlight_get_brightness(). The helper implement the same
->> logic as the driver's function.
-> It is not exactly the same logic since `backlight_is_blank` accounts
-> for `BL_CORE_SUSPENDED`.
-
-As Sam already said, it doesn't seem to make different in practice. I'd 
-mention it in the commit message and that's it. Ok?
-
-Best regards
-Thomas
-
->
->> -       int brightness = bl->props.brightness;
->> +       int brightness = backlight_get_brightness(bl);
-> This can be `const` now (or even removed and have the call embedded below).
->
-> Cheers,
-> Miguel
-
+diff --git a/drivers/staging/greybus/audio_manager_module.c b/drivers/staging/greybus/audio_manager_module.c
+index 5f9dcbdbc191..4a4dfb42f50f 100644
+--- a/drivers/staging/greybus/audio_manager_module.c
++++ b/drivers/staging/greybus/audio_manager_module.c
+@@ -144,7 +144,7 @@ static struct attribute *gb_audio_module_default_attrs[] = {
+ };
+ ATTRIBUTE_GROUPS(gb_audio_module_default);
+ 
+-static struct kobj_type gb_audio_module_type = {
++static const struct kobj_type gb_audio_module_type = {
+ 	.sysfs_ops = &gb_audio_module_sysfs_ops,
+ 	.release = gb_audio_module_release,
+ 	.default_groups = gb_audio_module_default_groups,
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+2.40.1
 
