@@ -1,31 +1,31 @@
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 584395810D
-	for <linux-staging@lists.linux.dev>; Thu, 14 Mar 2024 13:00:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0E665A0F3
+	for <linux-staging@lists.linux.dev>; Thu, 14 Mar 2024 13:05:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710421248; cv=none; b=p+QPcLCu8/o0zxrHsr8AWT/RlAYXXBVTAl97E10Bq595ESAlsFVy0LbcBZL5JAdz3bkMGKtzuAMglzcbZlBJXWA91Wxk5J9xlqniGpPmzp1XoJBIhNA8c4bKR/ZfBrCZkjhC6yRk8sUd8yMhSx5f8rSb0G8+UhOjXWuwqNBorYM=
+	t=1710421542; cv=none; b=FrGclqrUX4O209Ps6JcrbzRk3LKfCSEUx8XHXHnb3qGVB5hHmJq1NzHkrjJ7b1bDqyl6TgcUGuJUM4sKKz3zgv5Ug3r2bb6fwTc3d4QmUDfr7tVH3J39WixXuvmc6gB8S4L7JEveeqk9SajQo8tgDTRZEnAd49PXUw/n19w8PVQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710421248; c=relaxed/simple;
-	bh=GLucv/D2p8j1cBJW/P6/LwlSCHf+YTlixVy3kr6any8=;
+	s=arc-20240116; t=1710421542; c=relaxed/simple;
+	bh=qMd34hzly7n/2xjSd/fQoAY6RqekctjlUI0wg4CK54s=;
 	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=OzH2Ff1A9zGk0otKCU59/dBxBTWFeu5DUvijV/WhaWLQ9YrCfKXEzj39kHvk+gx8sHuclWzUX34Us++zACuUpjh5kYJgmxulOQnQKF793xZXieeTUle0OkHeIGOeq5PoQ6e5mh6izgg7H6/vWaLwmBiF+EzzJ4PsREDW9h7rYSA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=mhnUtj8j; arc=none smtp.client-ip=213.167.242.64
+	 To:Date:Message-ID; b=DXfnNEZuZzGNKfayoNgU9kguttUowwuF5fqC7QN7eb7LcMLcoH2cu8s6CwaLT0ahYGQLo4MxOwUbveCVtrhSVYHqB+pi6uc5gvTUiIJEW6szrUkALfxa8cCAaCgy/J7CbPFby+P2+LIwdYlZCFMW/RMiNnljczrXSeQ9sb9HUrE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=EgdWkP4f; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="mhnUtj8j"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="EgdWkP4f"
 Received: from pendragon.ideasonboard.com (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D29896BE;
-	Thu, 14 Mar 2024 14:00:14 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0D51F55;
+	Thu, 14 Mar 2024 14:05:15 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1710421214;
-	bh=GLucv/D2p8j1cBJW/P6/LwlSCHf+YTlixVy3kr6any8=;
+	s=mail; t=1710421515;
+	bh=qMd34hzly7n/2xjSd/fQoAY6RqekctjlUI0wg4CK54s=;
 	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=mhnUtj8jPjwuBP4bTpvfPWhqI7Ty8hX8VRFqMJDjxKxdOLKMTHKeaRhgjVaciAcc9
-	 8qO1PMQKRErAIVJVCy9V1AEedTAqvVJ4lTQabwKkOWHrNMDC52DhgmKhdarfe4kn+q
-	 XdhAamxRQ2B+VDapd4+JVEiLl0B2VWFym7uk32IM=
+	b=EgdWkP4fXMXU22m9xlN5mbIjoMvVhoKG3PYRC48IHmYUMvDGbjcv0rVWLja9NXfU2
+	 qgKXJ6CiF8C8ij+qDHmCUY2GvQo0bCZEW6tJ/ZctKbw0/UKXB9785Pe06pXK/HNxJ5
+	 rTTitr3594fr8ulslZ6xvXWJ1j3ohpJe5BCIdwSA=
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -34,73 +34,86 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20240314100607.336009-2-umang.jain@ideasonboard.com>
-References: <20240314100607.336009-1-umang.jain@ideasonboard.com> <20240314100607.336009-2-umang.jain@ideasonboard.com>
-Subject: Re: [PATCH v2 1/6] staging: vc04_services: Drop g_once_init global variable
+In-Reply-To: <20240314100607.336009-3-umang.jain@ideasonboard.com>
+References: <20240314100607.336009-1-umang.jain@ideasonboard.com> <20240314100607.336009-3-umang.jain@ideasonboard.com>
+Subject: Re: [PATCH v2 2/6] staging: vc04_services: vchiq_arm: Move struct vchiq_drvdata to header
 From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: Stefan Wahren <stefan.wahren@i2se.com>, Dan Carpenter <error27@gmail.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Phil Elwell <phil@raspberrypi.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>, Umang Jain <umang.jain@ideasonboard.com>, Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Stefan Wahren <stefan.wahren@i2se.com>, Dan Carpenter <error27@gmail.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Phil Elwell <phil@raspberrypi.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>, Umang Jain <umang.jain@ideasonboard.com>
 To: Umang Jain <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev
-Date: Thu, 14 Mar 2024 13:00:35 +0000
-Message-ID: <171042123500.252503.16866991871655321528@ping.linuxembedded.co.uk>
+Date: Thu, 14 Mar 2024 13:05:35 +0000
+Message-ID: <171042153535.252503.8952055283636870827@ping.linuxembedded.co.uk>
 User-Agent: alot/0.10
 
-Quoting Umang Jain (2024-03-14 10:06:02)
-> g_once_init is not used in a meaningful way anywhere. Drop it
-> along with connected_init() which sets it.
+Quoting Umang Jain (2024-03-14 10:06:03)
+> The vchiq_drvdata structure will be extended in subsequent patches,
+> to track the vchiq connections (currently tracked by global members).
+> to the vchiq platform driver. Hence, prepare the struct vchiq_drvdata
+> by moving it to vchiq_arm.h, so it can be shared across.
+>=20
+> No functional changes intended in this patch.
 
-It certainly looks lonely and useless.
 
 Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
 
-> Suggested-by: Dan Carpenter <dan.carpenter@linaro.org>
+>=20
 > Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
 > ---
->  .../interface/vchiq_arm/vchiq_connected.c            | 12 ------------
->  1 file changed, 12 deletions(-)
+>  .../staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 6 ------
+>  .../staging/vc04_services/interface/vchiq_arm/vchiq_arm.h | 8 ++++++++
+>  2 files changed, 8 insertions(+), 6 deletions(-)
 >=20
-> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_conn=
-ected.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected=
-.c
-> index 3cad13f09e37..4604a2f4d2de 100644
-> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.c
-> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.c
-> @@ -11,16 +11,8 @@
->  static   int                        g_connected;
->  static   int                        g_num_deferred_callbacks;
->  static   void (*g_deferred_callback[MAX_CALLBACKS])(void);
-> -static   int                        g_once_init;
->  static   DEFINE_MUTEX(g_connected_mutex);
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.=
+c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> index 1579bd4e5263..52569517ba4e 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> @@ -29,7 +29,6 @@
+>  #include <linux/interrupt.h>
+>  #include <linux/io.h>
+>  #include <linux/uaccess.h>
+> -#include <soc/bcm2835/raspberrypi-firmware.h>
 > =20
-> -/* Function to initialize our lock */
-> -static void connected_init(void)
-> -{
-> -       if (!g_once_init)
-> -               g_once_init =3D 1;
-> -}
+>  #include "vchiq_core.h"
+>  #include "vchiq_ioctl.h"
+> @@ -71,11 +70,6 @@ struct vchiq_state g_state;
+>  static struct vchiq_device *bcm2835_audio;
+>  static struct vchiq_device *bcm2835_camera;
+> =20
+> -struct vchiq_drvdata {
+> -       const unsigned int cache_line_size;
+> -       struct rpi_firmware *fw;
+> -};
 > -
->  /*
->   * This function is used to defer initialization until the vchiq stack is
->   * initialized. If the stack is already initialized, then the callback w=
-ill
-> @@ -29,8 +21,6 @@ static void connected_init(void)
->   */
->  void vchiq_add_connected_callback(struct vchiq_device *device, void (*ca=
-llback)(void))
->  {
-> -       connected_init();
-> -
->         if (mutex_lock_killable(&g_connected_mutex))
->                 return;
+>  static struct vchiq_drvdata bcm2835_drvdata =3D {
+>         .cache_line_size =3D 32,
+>  };
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.=
+h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
+> index 7844ef765a00..7fef05e7389c 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
+> @@ -11,6 +11,9 @@
+>  #include <linux/platform_device.h>
+>  #include <linux/semaphore.h>
+>  #include <linux/atomic.h>
+> +
+> +#include <soc/bcm2835/raspberrypi-firmware.h>
+> +
+>  #include "vchiq_core.h"
+>  #include "vchiq_debugfs.h"
 > =20
-> @@ -60,8 +50,6 @@ void vchiq_call_connected_callbacks(void)
->  {
->         int i;
+> @@ -25,6 +28,11 @@ enum USE_TYPE_E {
+>         USE_TYPE_VCHIQ
+>  };
 > =20
-> -       connected_init();
-> -
->         if (mutex_lock_killable(&g_connected_mutex))
->                 return;
-> =20
+> +struct vchiq_drvdata {
+> +       const unsigned int cache_line_size;
+> +       struct rpi_firmware *fw;
+> +};
+> +
+>  struct user_service {
+>         struct vchiq_service *service;
+>         void __user *userdata;
 > --=20
 > 2.43.0
 >
