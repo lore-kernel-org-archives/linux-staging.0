@@ -1,64 +1,54 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D083E5A0F2;
-	Wed, 13 Mar 2024 19:03:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA82C1FB4;
+	Thu, 14 Mar 2024 02:26:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710356583; cv=none; b=qZYGBSfOWU+6sK0Cb/excP9ScFgEwCPcAuMYrnqzbUb8tCX4zRU316pxTUnI4N4UOXRTly8SoX/uUU8Cm0XvmGGdxeqWKPpIVWEbhfuXcKoedrWo4u/dtLMJA12l5MI6yZZ69slX/q+FYtgm7lHDIZRmOpVuKmQgV+b6t5VFYFQ=
+	t=1710383210; cv=none; b=tXc/KpRj/JZkI44J2Lpfcw5YNPS8kQaqhFA6dMPNFwUtvclZSsG07rPJGsjOuZfarP4XxJlST1UvVoWKMnNCG0dWvM8ia0HkszCtP0ZM3j0zkvuYwfi3zFY/DFQdmcoDBe/zmEXsFUjz0OPrI9ZBteO4Eo1gUhKStlBo0avipF8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710356583; c=relaxed/simple;
-	bh=jyHu3DD33SQw40vH0ZcmNDRW4P3d+298/8SBjo+jPWE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=l6xeugOThX+vbDKx++pAZ++3mZrsn93wjFfJ69EeXJp9dAKaOav4a1jQaag9jrF99Dg6vKcEcQO0nbpTwq3aBSaDxbXF1mu7AxTFK6lwi0QZXtSTSbrvdi/Q0NhEL1mkawX9QO7PzRUBO9NcqzDVGvNbxANk439i0DvB3sGdCSI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PxGQK12l; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1710383210; c=relaxed/simple;
+	bh=isznYQj6c1rnwEUqLiHaDxS2i6jtXknSZw3ne+WB6UA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YvLt3krmt2xi8IOA0+SXoXsLdPdZThY7CgSXP7N+fcqkV3PJkfjJ5NWj80+R9+3BZqbQLPOiJFHjj3RpIT/zrUOuF/rncNRFGgqtduD/SQsSKUDqIlMR3hMaSUt+qVxAhOPsZG3cobOwoB5O23WndEEz7t72QrU999gb9XVWm5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ez3ozUTc; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PxGQK12l"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1dc29f1956cso1343505ad.0;
-        Wed, 13 Mar 2024 12:03:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710356581; x=1710961381; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=19x1Ac15rLwOqUkCkkNDCNMXVAzg+BltQMzrd17CHPE=;
-        b=PxGQK12la0nVlPke8WHerNwcxKFsX4qM4NOX3WGCXjEkH8/zpJLFc4Sm12YpQ/sCfP
-         gOOswgRWJoxI5ZNSxWXbJoodq5T4NmBHlVf1O00+zkCkoKCvk4m+ZCl25Arq2D4o0R8A
-         AOUgH4w60YRSzuAW48x4gA/QzXojqO6OBVkNyu5m+Sq8l+6JGu4n94SlasW0cCSjtkg3
-         zj43MjewHDo7suc8Llh1vGyuwve+KS+YHO0x++SejjYylSaU2Jsd8N9AMkR5zg9tjyzc
-         05lKUJ98Dm+su7zCmk3+1TlOxLAhf5BSmHT/EIxiigTA4rLXdwR+aQl3UPOpSsIYdtxO
-         UrKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710356581; x=1710961381;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=19x1Ac15rLwOqUkCkkNDCNMXVAzg+BltQMzrd17CHPE=;
-        b=QkLkqzRsLKdiznIfJZL4aZ7jxAAzieO7vRIX94cc0+bvem3gP8nWJceVA50PISOm6z
-         2Z+ES7O7cP+jtjthTdHDYcgUWd5dU1DLQmpKRzVr1AXkAHb7JUZqBQhMXZZ8BqeQXq6R
-         Yv+tDQEUkEUvDCDdeRBnyWq84ntnPP6aebiUvFM3ULqUC3PRmc/LqjanIc8O1ZJ6Lp1s
-         6TRCuXhfed+/E/MAytvx6H0uY2HVacr0IM8QnfQNXp60G3Dahl94BgARR6nhoUcpC4j/
-         CH4FqWgewjK8ySn6V33C4WdE7orzTXV1yfIjGu7RfOCbNzwPo6Uk75mvlxcfuMpQG88w
-         p9jA==
-X-Forwarded-Encrypted: i=1; AJvYcCWXnH1n8SQ8UfguTpvOT5oMf7WpI7KK6P0XHn0Gw+yD7MOCG594qVwHzqqZtp7+ZkV/SgiJSoxc/jtwfkBgmwXn6+jEK3DhyH2H45QDvg==
-X-Gm-Message-State: AOJu0YwBQ5afIFpHVPPGmjXXdUX40ZDEWQcTjswXX3hyxwmaG4Gk/vHU
-	OhjYysk65TzJLel9S6cZUCZJWF71DlIkqkSuw5OuJpQA0jO8bkmXqCbLywofBPk=
-X-Google-Smtp-Source: AGHT+IE18sgOLbaW5DDx7QTLZxLjcsulic3sUQHOlLW/Qrfss+6U0Y8XhvyH1Tqv5XUVfxAjP3rZrw==
-X-Received: by 2002:a17:902:eb88:b0:1dc:1c81:1b19 with SMTP id q8-20020a170902eb8800b001dc1c811b19mr17280391plg.3.1710356580702;
-        Wed, 13 Mar 2024 12:03:00 -0700 (PDT)
-Received: from ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx ([103.6.158.67])
-        by smtp.gmail.com with ESMTPSA id d8-20020a170902cec800b001dd91af1f03sm7142853plg.200.2024.03.13.12.02.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Mar 2024 12:03:00 -0700 (PDT)
-Date: Thu, 14 Mar 2024 00:32:57 +0530
-From: Ayush Tiwari <ayushtiw0110@gmail.com>
-To: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ez3ozUTc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1710383210; x=1741919210;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=isznYQj6c1rnwEUqLiHaDxS2i6jtXknSZw3ne+WB6UA=;
+  b=Ez3ozUTco27ddqdrQHZOset7S6uAlU6yzlEhePuRFd8terJHM2IhNzq2
+   7hiltiqqdCZ77mkc8LwnNSe4gNc+E/bhSXcSwH4axSPMAVp407tOw0sSu
+   U4LtIQvpaWKTCsg1SB3g/vV15gRWIEAK8zG0oFlBl4XdU5YGkAIBt9L37
+   o4m50Rt1IM1aQkEy+NhTXSfpM86O/LTzLvmol5Pz4b8yorr8mAQ9Gj0eu
+   hnokvcaKdm15MulOBQqkufLlvBVL4Ilwb/AmHtM/8Sl8xnIamWADPLH85
+   0b6C8EdMQ6tWoccCgglEnGbnNjrhEHyEaR1Q3TQ7WLQfwiO0D5+UD3rcV
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="16341236"
+X-IronPort-AV: E=Sophos;i="6.07,124,1708416000"; 
+   d="scan'208";a="16341236"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 19:25:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,124,1708416000"; 
+   d="scan'208";a="12152202"
+Received: from aschofie-mobl2.amr.corp.intel.com (HELO aschofie-mobl2) ([10.209.86.131])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 19:25:49 -0700
+Date: Wed, 13 Mar 2024 19:25:47 -0700
+From: Alison Schofield <alison.schofield@intel.com>
+To: Ayush Tiwari <ayushtiw0110@gmail.com>
+Cc: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
 	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Cc: outreachy@lists.linux.dev
-Subject: [PATCH] staging: greybus: add const type to struct kobj_type
+	linux-staging@lists.linux.dev, outreachy@lists.linux.dev
+Subject: Re: [PATCH] staging: greybus: add const type to struct kobj_type
  gb_audio_module_type
-Message-ID: <ZfH4YZ9qyK231T5l@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
+Message-ID: <ZfJgK51wzy06WYdn@aschofie-mobl2>
+References: <ZfH4YZ9qyK231T5l@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -67,28 +57,53 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <ZfH4YZ9qyK231T5l@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
 
-Add type qualifier const in struct kobj_type gb_audio_module_type to
-address checkpatch warning and conform to the kernel coding style.
+On Thu, Mar 14, 2024 at 12:32:57AM +0530, Ayush Tiwari wrote:
+> Add type qualifier const in struct kobj_type gb_audio_module_type to
+> address checkpatch warning and conform to the kernel coding style.
 
-Signed-off-by: Ayush Tiwari <ayushtiw0110@gmail.com>
----
- drivers/staging/greybus/audio_manager_module.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks for the patch. A couple of things you could address in a v2:
 
-diff --git a/drivers/staging/greybus/audio_manager_module.c b/drivers/staging/greybus/audio_manager_module.c
-index 5f9dcbdbc191..4a4dfb42f50f 100644
---- a/drivers/staging/greybus/audio_manager_module.c
-+++ b/drivers/staging/greybus/audio_manager_module.c
-@@ -144,7 +144,7 @@ static struct attribute *gb_audio_module_default_attrs[] = {
- };
- ATTRIBUTE_GROUPS(gb_audio_module_default);
- 
--static struct kobj_type gb_audio_module_type = {
-+static const struct kobj_type gb_audio_module_type = {
- 	.sysfs_ops = &gb_audio_module_sysfs_ops,
- 	.release = gb_audio_module_release,
- 	.default_groups = gb_audio_module_default_groups,
--- 
-2.40.1
+1) 'Constify' is not a real English word, or maybe it's made its way
+into an urban dictionary by now. Anyway, it's a common patch action
+and you can read more about and improve the 'why' in your description.
 
+Try: $ git log --pretty=oneline --abbrev-commit | grep Constify
+and you'll find many patch examples. I think you'll find a crisper
+'why' for your patch description.
+
+Also, here's a former Outreachy Interns blog about the topic:
+https://medium.com/@bhumikagoyal/linux-kernel-const-annotation-8db591148e58
+
+2) Now that you know about the work 'Constify' please use it in your
+commit message so that it doesn't cause line wrap (80 lines) when doing 
+$ git log --pretty=oneline --abbrev-commit audio_manager_module.c
+
+See the First Patch Tutorial Section: Following the Driver commit style
+
+Alison
+
+> 
+> Signed-off-by: Ayush Tiwari <ayushtiw0110@gmail.com>
+> ---
+>  drivers/staging/greybus/audio_manager_module.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/greybus/audio_manager_module.c b/drivers/staging/greybus/audio_manager_module.c
+> index 5f9dcbdbc191..4a4dfb42f50f 100644
+> --- a/drivers/staging/greybus/audio_manager_module.c
+> +++ b/drivers/staging/greybus/audio_manager_module.c
+> @@ -144,7 +144,7 @@ static struct attribute *gb_audio_module_default_attrs[] = {
+>  };
+>  ATTRIBUTE_GROUPS(gb_audio_module_default);
+>  
+> -static struct kobj_type gb_audio_module_type = {
+> +static const struct kobj_type gb_audio_module_type = {
+>  	.sysfs_ops = &gb_audio_module_sysfs_ops,
+>  	.release = gb_audio_module_release,
+>  	.default_groups = gb_audio_module_default_groups,
+> -- 
+> 2.40.1
+> 
+> 
