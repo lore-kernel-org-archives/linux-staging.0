@@ -1,56 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B008F3B182;
-	Thu, 14 Mar 2024 14:57:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D69A71B3D
+	for <linux-staging@lists.linux.dev>; Thu, 14 Mar 2024 15:39:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710428272; cv=none; b=NF8ajsWXmS4/5UU8c9Au18Y40m3q5r81/jrKKJek0Dl2M1zzd+cZyMIZNa9GqD1unKm5HoBbsEPKfuD+/vGTuLanzZU/0U9eCLfQ9OLZUZ6j/UOlFtEywF1JHH4G8yKLmehMyHafY6V10SWs+SZtPlCFXe9jUBYRcH3ciGDS3Ig=
+	t=1710430797; cv=none; b=KJq1vC9PCYPFewEv2tB+DOmu/uKcAOYbGxQeEZPmj4w68ViCIE13ECXPB3Sm6fgGKP8WiueORmrFWeKGLGkJiC9gtCiOFvDmkn/Hi3Od6FDQbBE1WCs62Q83Q1d5ZabhAcAJLLJVYMiMGUyXHsI3lpp420TxYUdNd+AsnB3VGR4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710428272; c=relaxed/simple;
-	bh=GiGl93VrTTcHdoR89IlFEwgp3me63640M18VdjKtCDQ=;
+	s=arc-20240116; t=1710430797; c=relaxed/simple;
+	bh=r4AiZ7P+Qex8YnyEMjzDMz0uOOP8XSxFz9qoHNp1kQE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z3/Fn1TNQx5FmKSvRJGOc8xxRv3Y1DG4A7HOZ+s3/4a3QzpC/FyfhW3oe4jdwX20Ft3s4XZp0hPHhfq3n03gJiWm76g54eJ6bZm0EGy73bHS6+z1kAQO6y9PXAS7YAHCVyUPLmc7yIaSsQf7wovP11Y0Z6LuaBgEHfGy7hA6O4c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MpEymUlu; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=OwVdZmnesBjyFSxM5YWoWK7N8B9uEYvFeN0x3KaPDZaktbDudHwuFH5hZdn72E2VYt2GOLsWUwrXrqP5cr208v1JynVzTEdbWOuhlNF0hwkiu2ZkDb4EkRmz/LxZNmNUAAJvDkhLY6NnW3/38IW0p3nKPahS9gScGi6TQYcbIvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fqo8vx03; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MpEymUlu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710428271; x=1741964271;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=GiGl93VrTTcHdoR89IlFEwgp3me63640M18VdjKtCDQ=;
-  b=MpEymUluFVKTnaixJZ1yolGFgELCysuFNSDx0sFkdz2MPunMQV1LtaUV
-   teobgz+oJdOM4KpHwr46K0Q0iKbLWBiD9uGbM+yLE92VFY6OgvbQnbkiE
-   T51r2Ga40hjLnvz82fyj/OH1fBoHkGKo7jswmWbMEdr0nK8XclbL5hXxp
-   t2FG7zRtadS5qOcsasgc0T6YCnePuXFA3cbsYS4u9y1wIVeGicyaMTaXM
-   TD4aDlIICB51/3n9b8fWgpw4tZ/rKw7DHoXZwrgBVPoZ3nJFDCiJnnfOh
-   dpckzoyUYya9AJe+2XxBAdpEUFtzaEdAJWVOI5UllSrQjMJouF8DtSu/0
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="27721430"
-X-IronPort-AV: E=Sophos;i="6.07,125,1708416000"; 
-   d="scan'208";a="27721430"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2024 07:57:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,125,1708416000"; 
-   d="scan'208";a="49738178"
-Received: from jandre-mobl.amr.corp.intel.com (HELO aschofie-mobl2) ([10.209.72.214])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2024 07:57:49 -0700
-Date: Thu, 14 Mar 2024 07:57:48 -0700
-From: Alison Schofield <alison.schofield@intel.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Ayush Tiwari <ayushtiw0110@gmail.com>, Larry.Finger@lwfinger.net,
-	florian.c.schilhabel@googlemail.com, gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-	outreachy@lists.linux.dev
-Subject: Re: [PATCH] staging: greybus: add comment for mutex
-Message-ID: <ZfMQbIzZ6lKhxhkM@aschofie-mobl2>
-References: <ZfHuokO3pQXMOxcC@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
- <ZfJhtBrsL3elRve8@aschofie-mobl2>
- <41239f06-596e-4c17-95ed-4bf06ba9f9ec@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fqo8vx03"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-33e94c12f33so964964f8f.3
+        for <linux-staging@lists.linux.dev>; Thu, 14 Mar 2024 08:39:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1710430793; x=1711035593; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=otPRkRAGBW1WEeu7Af6F6p2tDMsDbUa/mOnkm6aEgUk=;
+        b=fqo8vx03kfJq4TtcnDJUskv2Iq5ztwg6mIpazx8c8xOjId5tMGJyn2+L7o14JqhHdf
+         fL8q7MranUMetTlCLweqAVMeJNPQPCyiqQg0jj1HqJgCQhXmZYmp8dvwP+DVVv2g9bCq
+         chKAEaoctxJQTd8b2uhvVgVLMqWrDcr0Wpv05lAj1FFuTmfimWSKSHSrl0x1MF72tXYe
+         MvZOlFdg4DmqqXy5OqznsZDaAz0y0HAg1+tAZHkIWo0luCuZIG7v1Uz/D9nOdR6A2iGD
+         IiP1qgPF4TD9wU8gXdG16trPybLGGmNhxabIliPLc1G7uFUdJIHimjLYLQfRz6SoUeqR
+         yOmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710430793; x=1711035593;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=otPRkRAGBW1WEeu7Af6F6p2tDMsDbUa/mOnkm6aEgUk=;
+        b=iOlxyFpK9Y8CDoC7a957oyKw3peic4MaYXosg4Bhz+Wpjal6hdvQa73xB5ICjgAdb6
+         gMuZB8yBD3MhuoCWhyuh3uHgZ8Sl0eksepE03e8lDCizvulnIHTgqy/qA1JvwnkPeeps
+         yknL+1H0631b9/IZr0Xn7eUzeOPpRx2Rnt2O4PNgr6npcP8WrkiVOLk5I06laNcx4xdX
+         njMtH7Dl9gTmEBodrVEn1aIbkloudaVvz07Pj/M2g1mFwu/qOYxf5kv0zBA9+a85/m8e
+         v+zbVdP8HTK5GMCjgOp/Pr4/Xzvy6FHUEsb7GI0KYc/BJ05WYfP5wbMkLCpikSkaHfuW
+         K+sw==
+X-Forwarded-Encrypted: i=1; AJvYcCUUSgm+Fx6e2+fbYdxNfupo/Qjw3NrCYYbaVCpVwQf8gnJFgRfzM0qPH6mHwz/U5M2FBCdiqEWuXqKd/zXT2JVIx7wecjO6fPlMa/6t+Q==
+X-Gm-Message-State: AOJu0YxasFZE9sQ/56on8fY2O7YcOU5MKGDN/QbhshJoHoaGNbsviz6x
+	DMOE/m8MvMRsoyMUpdI2qtx0eWUNbejE65wZnxJ1sd38JVn4ZUz/bOf/02v6aOg=
+X-Google-Smtp-Source: AGHT+IGRMeOns2GujgOvWomcjAqCxAmGSPCwHvxzdMl5UTa4KOZ7aAAH1V4uEdiphvel5XZsyRjTBQ==
+X-Received: by 2002:a05:6000:1104:b0:33e:cc27:a9b9 with SMTP id z4-20020a056000110400b0033ecc27a9b9mr578358wrw.11.1710430793258;
+        Thu, 14 Mar 2024 08:39:53 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id bo16-20020a056000069000b0033ecb111a5csm794552wrb.83.2024.03.14.08.39.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Mar 2024 08:39:53 -0700 (PDT)
+Date: Thu, 14 Mar 2024 18:39:49 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: Umang Jain <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev,
+	Stefan Wahren <stefan.wahren@i2se.com>,
+	Dan Carpenter <error27@gmail.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Phil Elwell <phil@raspberrypi.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH v2 4/6] staging: vc04_services: vchiq_arm: Drop
+ g_cache_line_size
+Message-ID: <a96f23eb-d845-4a5a-b113-116475b90959@moroto.mountain>
+References: <20240314100607.336009-1-umang.jain@ideasonboard.com>
+ <20240314100607.336009-5-umang.jain@ideasonboard.com>
+ <171042787993.252503.4484493303920768949@ping.linuxembedded.co.uk>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -59,42 +74,48 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <41239f06-596e-4c17-95ed-4bf06ba9f9ec@moroto.mountain>
+In-Reply-To: <171042787993.252503.4484493303920768949@ping.linuxembedded.co.uk>
 
-On Thu, Mar 14, 2024 at 10:37:29AM +0300, Dan Carpenter wrote:
-> On Wed, Mar 13, 2024 at 07:32:20PM -0700, Alison Schofield wrote:
-> > On Wed, Mar 13, 2024 at 11:51:22PM +0530, Ayush Tiwari wrote:
-> > > This patch adds descriptive comment to mutex within the struct
-> > > gbaudio_codec_info to clarify its intended use and to address
-> > > checkpatch checks.
+On Thu, Mar 14, 2024 at 02:51:19PM +0000, Kieran Bingham wrote:
+> Quoting Umang Jain (2024-03-14 10:06:05)
+> > The cache-line-size is cached in struct vchiq_drvdata.
+> > There is no need to cache this again via g_cache_line_size
+> > and use it. Instead use the value from vchiq_drvdata directly.
 > > 
-> > Hi Ayush-
+> > Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> > ---
+> >  .../interface/vchiq_arm/vchiq_arm.c           | 50 +++++++++++--------
+> >  1 file changed, 30 insertions(+), 20 deletions(-)
 > > 
-> > You may be right, but you need to convince your patch reviewers
-> > why your comment accurately describes this mutex.
-> > 
-> > That's always the ask with this kind of patch.
+> > diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> > index 8c7520dee5f4..282f83b335d4 100644
+> > --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> > +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> > @@ -71,6 +71,16 @@ static struct vchiq_device *bcm2835_audio;
+> >  static struct vchiq_device *bcm2835_camera;
+> >  
+> >  static struct vchiq_drvdata bcm2835_drvdata = {
+> > +       /* This value is the size of the L2 cache lines as understood by the
 > 
-> Heh.  Yeah.  The comment wasn't right in this case.  The lock has
-> nothing to do with registers or register access.
+> This file has a mix of A)
+>  /* bulk multiline
+>   * comments like this
+>   */
 > 
-> > 
-> > BTW - Don't start your commit log with 'This patch...'.
-> > 
 > 
-> Outreachy folk are a more particular about some of this stuff than I am.
-> Which is fine.  Could you do me a favor though?  Could you ack patches
-> once you're happy with them?
+> and B)
+>  /*
+>   * Bulk multiline
+>   * comments like this
+>   */
+> 
+> I'd probably use B) when moving this, but again, no point for a respin
+> just for that. Only if there's another revision. Or a patch on top to
+> normalise throughout if you felt like it, as this is only a move anyway.
 
-Dan -
-Sure. In practice, the patches are often 'Reviewed-by' someone else
-by the time I get back around to it (thanks to the different time
-zones and plentiful reviewers) But I understand, I'll make it a 
-habit of at Ack'ing after I've asked for something to change.
-Alison
+Yeah.  It should be B.   A is only for in networking.  But we can change
+it later.
 
+regards,
+dan carpenter
 
-> 
-> regards,
-> dan carpenter
-> 
