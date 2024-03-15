@@ -1,248 +1,91 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83CA314280
-	for <linux-staging@lists.linux.dev>; Fri, 15 Mar 2024 11:50:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9143A54903;
+	Fri, 15 Mar 2024 21:32:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710503416; cv=none; b=XKWM5Igzmgjq2g8/1IWY/P7ZJfAyP8jZrkA18LBqka76NdTt2kBmHHB+q4ZN5Ki9GVXJovwk4TMvtsfGYyXo/UJXbbSi7RFfWlp5yqjkZCnHrCcJdbqqpdjzzvXB1d7G9afGVwJg0Cib9ivsJnriCD650HfiWqn/9DiBwJdhHDI=
+	t=1710538325; cv=none; b=PjiQ8xYCFheAnFkCpex+Z6uSc5DzxQttZs5gG4TBqXAm5IU+QwBToWxnhVGv3dtQbZXoEqhN07Du34SS85LTKIWZs0ZDiyir1fjsZN8fxZ3WMy4DmjIeoOAR8d95GptwXPIcGOhy2cBnVJ0W8x+9+6dTLaTG0zC9GBAtTSgFuUc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710503416; c=relaxed/simple;
-	bh=dfkEZ8+wIJSbOcfgrt+qxAKHgEnV4CD3R7Louad01lo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SYFp6O82vH51fAL3pMeDFDTXbDfvN2cSGV/ZVKkZ8sjDOjYF25NM0mQSNA3Qk+0DEqQlfmzJCUe+xGd1HhBpMxrTxRSNVyIH5o8yJ5C3cJnawfkDnu8VdlpX3RyODFmu3FryQ06xFtetd3m48JTY/ehkoMSspUQ7mBKBtvUuC0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=qFG7Uadb; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1710538325; c=relaxed/simple;
+	bh=kI3FpuAUIzIJ5YpNjrE1DZ6tCTgLd+HtXmRoONaXbJQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=tPHRP3yeoA6GvN2utaUIA3tTG9XlKaVxe9BOkpgXwTbFWs0hdekc8sJqixCaWKfbhJ2oPNZcNONovC98ckXmMmMvS/4bwvBpNjQB50HXelVvwSMthwa84hO7ON8dy7mZYvFkFseBjS1u6DM3z82PBX+ht/Zr9c3ddN3JKFqUoT0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=awWsICo2; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qFG7Uadb"
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C0DDE667;
-	Fri, 15 Mar 2024 12:49:47 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1710503388;
-	bh=dfkEZ8+wIJSbOcfgrt+qxAKHgEnV4CD3R7Louad01lo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qFG7UadblqRlu6Yu2vPcVQxqUYq+j0fO3WKIIwaxV0qJ2fP+WOTpkyv+/Ycxxf+ut
-	 ltjoJx1WrXgJZ7XzVnNfi5Dge5+Ev50ZqeNZpo1tgIN+yfbac8YxU2XHQV9wTwJBwl
-	 yOJF6v9hLv7aEtbXAP8WY1wuaUA98+n68j4iWiaM=
-Date: Fri, 15 Mar 2024 13:50:09 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: Umang Jain <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev,
-	Stefan Wahren <stefan.wahren@i2se.com>,
-	Dan Carpenter <error27@gmail.com>,
-	Phil Elwell <phil@raspberrypi.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH v2 3/6] staging: vc04_services: Drop global members for
- tracking connections
-Message-ID: <20240315115009.GB3498@pendragon.ideasonboard.com>
-References: <20240314100607.336009-1-umang.jain@ideasonboard.com>
- <20240314100607.336009-4-umang.jain@ideasonboard.com>
- <171042216625.252503.4862753149878092236@ping.linuxembedded.co.uk>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="awWsICo2"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1dde26f7e1dso19770235ad.1;
+        Fri, 15 Mar 2024 14:32:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1710538324; x=1711143124; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ql5/CZn2RtGTQlI61ALXwrW8731eNL3M0vcE3ykcjDQ=;
+        b=awWsICo2PDZJbf4qaPY26bZftVhOzqS5JsOWOgdDPTB1raDP/dPEKIuwtnIl/UPEdK
+         n2XOs7DU/EHSkifyn5w5wnFQ0U7hJkV0vIxXTO+Gtz7SavQYv4m491ycdq03E+XSQgdx
+         UJAURFPBnKqwV6poGQomZ/D7Q21STZDyyYtoxFEiC1VpW8p6eJ8/i1TGkGAT3qMhFM6N
+         S9ZdN0F/3oIMACNU+GoqUcOh8Wy6DfmzJqqVZnr8B5lbE0RPYERoDC7/Q0+81zm1gKrE
+         baE8nUpxjUd4714CT5OqJ3Sb783IrpUI27ori7Ebq6DVqem1TB/RNorC8ioDEY+gB4z3
+         F8kw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710538324; x=1711143124;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ql5/CZn2RtGTQlI61ALXwrW8731eNL3M0vcE3ykcjDQ=;
+        b=iDSCok37SKRB52aIn0l+d9GpwZi3AOQXrQ13WGYNZGa/JVEdhSJXp9UJQw0MExY+tv
+         1+P9HmC+hozNFy3J/3xfGOifoBYEr8DtsHH7zoqHhSrS7f6XM8fjgt+51C0ouNgbmn4h
+         8wMM9bwMR0Y2mTG0nWVfVOSnohVhGDqSFR1Afsv4Xzgm2PhsJNATHuADZZuXCVtUhaA4
+         G316qKuWb0RjweP3gRdQJMGYvc5qUJlOtui6IPPC17gxjPumwxvKqxkdWcd25/BJ+WY/
+         s5Aa8DxIlKtGrl73dnabtgiRS8pXAeAExMVomZOHY47gdu19I5MM8+YFs5PtD2vUNtJ6
+         bDyQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU/H3h+XiRFJGTn71ZfIL4X6781BJAwVaIGyZbOK3E8DIbG/A2gM/qAmE8veknXkNqTJVZ7zJ2qUvLrlXLZ4/NbJBErB6AHFKUT1ixRIA==
+X-Gm-Message-State: AOJu0Yx+ifpa2W0iYKH7kz2+mf8QLfdQ/mhxw786pA2y0yZq+ghCOO47
+	HnbvvTNE3Gce0sjtIUhKhaxsCbeMBXZkWOfbNS86Y5i6xmqrQAi2KQhAr2HYByI=
+X-Google-Smtp-Source: AGHT+IGq2m6m0XKukC+zMZPHwWnmwOFptJAIRQ/jUEi1zvutS2LuS4RGpVQGVxHy/NR/2poQBzBUQg==
+X-Received: by 2002:a17:903:22cb:b0:1dd:66d1:a62b with SMTP id y11-20020a17090322cb00b001dd66d1a62bmr5176084plg.5.1710538323770;
+        Fri, 15 Mar 2024 14:32:03 -0700 (PDT)
+Received: from tahera-OptiPlex-5000 ([136.159.49.124])
+        by smtp.gmail.com with ESMTPSA id a2-20020a170902ecc200b001dddc21866csm4364301plh.103.2024.03.15.14.32.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Mar 2024 14:32:03 -0700 (PDT)
+Date: Fri, 15 Mar 2024 15:32:01 -0600
+From: TaheraFahimi <fahimitahera@gmail.com>
+To: Marc Dietrich <marvin24@gmx.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	ac100@lists.launchpad.net, linux-tegra@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: outreachy@lists.linux.dev
+Subject: [PATCH] staging: nvec: edit udelay comment
+Message-ID: <ZfS+UaVyob+lFmmS@tahera-OptiPlex-5000>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <171042216625.252503.4862753149878092236@ping.linuxembedded.co.uk>
 
-On Thu, Mar 14, 2024 at 01:16:06PM +0000, Kieran Bingham wrote:
-> Quoting Umang Jain (2024-03-14 10:06:04)
-> > Introduce a new struct vchiq_connected, responsible to track
-> > the connections to the vchiq platform driver. The struct is added
-> > as part of vchiq platform driver data (struct vchiq_drvdata).
-> > 
-> > Drop global members for tracking vchiq driver connections in
-> > vchiq_connected.[ch] and use the struct vchiq_connected present
-> > in struct vchiq_drvdata.
-> > 
-> > Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> > ---
-> >  .../interface/vchiq_arm/vchiq_arm.c           |  2 +-
-> >  .../interface/vchiq_arm/vchiq_arm.h           |  3 ++
-> >  .../interface/vchiq_arm/vchiq_connected.c     | 33 +++++++++----------
-> >  .../interface/vchiq_arm/vchiq_connected.h     | 15 +++++++--
-> >  4 files changed, 33 insertions(+), 20 deletions(-)
-> > 
-> > diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> > index 52569517ba4e..8c7520dee5f4 100644
-> > --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> > +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> > @@ -550,7 +550,7 @@ static int vchiq_platform_init(struct platform_device *pdev, struct vchiq_state
-> >         dev_dbg(&pdev->dev, "arm: vchiq_init - done (slots %pK, phys %pad)\n",
-> >                 vchiq_slot_zero, &slot_phys);
-> >  
-> > -       vchiq_call_connected_callbacks();
-> > +       vchiq_call_connected_callbacks(&drvdata->drv_connected);
-> >  
-> >         return 0;
-> >  }
-> > diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
-> > index 7fef05e7389c..f2fd572df2b3 100644
-> > --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
-> > +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
-> > @@ -16,6 +16,7 @@
-> >  
-> >  #include "vchiq_core.h"
-> >  #include "vchiq_debugfs.h"
-> > +#include "vchiq_connected.h"
-> >  
-> >  /* Some per-instance constants */
-> >  #define MAX_COMPLETIONS 128
-> > @@ -31,6 +32,8 @@ enum USE_TYPE_E {
-> >  struct vchiq_drvdata {
-> >         const unsigned int cache_line_size;
-> >         struct rpi_firmware *fw;
-> > +
-> > +       struct vchiq_connected drv_connected;
-> >  };
-> >  
-> >  struct user_service {
-> > diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.c
-> > index 4604a2f4d2de..bc21910fe823 100644
-> > --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.c
-> > +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.c
-> > @@ -6,11 +6,6 @@
-> >  #include <linux/module.h>
-> >  #include <linux/mutex.h>
-> >  
-> > -#define  MAX_CALLBACKS  10
-> > -
-> > -static   int                        g_connected;
-> > -static   int                        g_num_deferred_callbacks;
-> > -static   void (*g_deferred_callback[MAX_CALLBACKS])(void);
-> >  static   DEFINE_MUTEX(g_connected_mutex);
-> >  
-> >  /*
-> > @@ -19,23 +14,27 @@ static   DEFINE_MUTEX(g_connected_mutex);
-> >   * be made immediately, otherwise it will be deferred until
-> >   * vchiq_call_connected_callbacks is called.
-> >   */
-> > -void vchiq_add_connected_callback(struct vchiq_device *device, void (*callback)(void))
-> > +void vchiq_add_connected_callback(struct vchiq_device *device,
-> > +                                 void (*callback)(void),
-> > +                                 struct vchiq_connected *drv_connected)
-> 
-> I think I would have called this 'struct vchiq_connection *connection'
-> but it doesn't really matter, so don't rework unless there's a 'need'
-> for another iteration.
+Signed-off-by: TaheraFahimi <fahimitahera@gmail.com>
+---
+ drivers/staging/nvec/nvec.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Yes, "connected" sounds weird.
-
-This being said, I don't think we should add a new structure, and I also
-don't think we should move this to vchiq_drvdata as-is.
-
-vchiq_drvdata combines two things (in just two fields, quite an
-achievement :-)):
-
-- The cache_line_size field is static information about the platform. It
-  should be moved to a vchiq_platform_info or similar structure, as
-  that's what the .data field of the of_device_it entries should point
-  to.
-
-- The fw field is runtime data belonging to the vchiq "controller" or
-  "bus" device (not sure how to name it). It's the equivalent, in a
-  camera sensor driver for instance, of the private structure allocated
-  per sensor instance at probe time. The vchiq_drvdata structure should
-  be renamed accordingly (e.g. vchiq_controller, ...), and allocated
-  dynamically in vchiq_probe().
-
-The global variables related to connections can then move to that
-controller structure, there's no need to create a sub-structure. It
-should also not be passed explicitly to vchiq_add_connected_callback(),
-but should be retrieved from vchiq_device. The vchiq_device structure
-should store a pointer to vchiq_controller, which should be initialized
-in vchiq_device_register(), using platform_get_drvdata(parent).
-
-Does this make sense ?
-
-> Aha though I see vchiq_connected matches the name of this c module, so
-> maybe that's just as/more suitable.
-> 
-> 
-> Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-> 
-> >  {
-> > +       unsigned int index;
-> > +
-> >         if (mutex_lock_killable(&g_connected_mutex))
-> >                 return;
-> >  
-> > -       if (g_connected) {
-> > +       if (drv_connected->connected) {
-> >                 /* We're already connected. Call the callback immediately. */
-> >                 callback();
-> >         } else {
-> > -               if (g_num_deferred_callbacks >= MAX_CALLBACKS) {
-> > +               if (drv_connected->num_deferred_callbacks >= VCHIQ_DRV_MAX_CALLBACKS) {
-> >                         dev_err(&device->dev,
-> >                                 "core: There already %d callback registered - please increase MAX_CALLBACKS\n",
-> > -                               g_num_deferred_callbacks);
-> > +                               drv_connected->num_deferred_callbacks);
-> >                 } else {
-> > -                       g_deferred_callback[g_num_deferred_callbacks] =
-> > -                               callback;
-> > -                       g_num_deferred_callbacks++;
-> > +                       index = drv_connected->num_deferred_callbacks;
-> > +                       drv_connected->deferred_callback[index] = callback;
-> > +                       drv_connected->num_deferred_callbacks++;
-> >                 }
-> >         }
-> >         mutex_unlock(&g_connected_mutex);
-> > @@ -46,17 +45,17 @@ EXPORT_SYMBOL(vchiq_add_connected_callback);
-> >   * This function is called by the vchiq stack once it has been connected to
-> >   * the videocore and clients can start to use the stack.
-> >   */
-> > -void vchiq_call_connected_callbacks(void)
-> > +void vchiq_call_connected_callbacks(struct vchiq_connected *drv_connected)
-> >  {
-> >         int i;
-> >  
-> >         if (mutex_lock_killable(&g_connected_mutex))
-> >                 return;
-> >  
-> > -       for (i = 0; i <  g_num_deferred_callbacks; i++)
-> > -               g_deferred_callback[i]();
-> > +       for (i = 0; i < drv_connected->num_deferred_callbacks; i++)
-> > +               drv_connected->deferred_callback[i]();
-> >  
-> > -       g_num_deferred_callbacks = 0;
-> > -       g_connected = 1;
-> > +       drv_connected->num_deferred_callbacks = 0;
-> > +       drv_connected->connected = true;
-> >         mutex_unlock(&g_connected_mutex);
-> >  }
-> > diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.h
-> > index e4ed56446f8a..66e56b5af46e 100644
-> > --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.h
-> > +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.h
-> > @@ -6,7 +6,18 @@
-> >  #ifndef VCHIQ_CONNECTED_H
-> >  #define VCHIQ_CONNECTED_H
-> >  
-> > -void vchiq_add_connected_callback(struct vchiq_device *device, void (*callback)(void));
-> > -void vchiq_call_connected_callbacks(void);
-> > +#define  VCHIQ_DRV_MAX_CALLBACKS  10
-> > +
-> > +struct vchiq_connected {
-> > +       bool connected;
-> > +       int num_deferred_callbacks;
-> > +
-> > +       void (*deferred_callback[VCHIQ_DRV_MAX_CALLBACKS])(void);
-> > +};
-> > +
-> > +void vchiq_add_connected_callback(struct vchiq_device *device, void (*callback)(void),
-> > +                                 struct vchiq_connected *drv_connected);
-> > +void vchiq_call_connected_callbacks(struct vchiq_connected *drv_connected);
-> > +
-> >  
-> >  #endif /* VCHIQ_CONNECTED_H */
-
+diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
+index 282a664c9176..b4485b10beb8 100644
+--- a/drivers/staging/nvec/nvec.c
++++ b/drivers/staging/nvec/nvec.c
+@@ -712,7 +712,7 @@ static irqreturn_t nvec_interrupt(int irq, void *dev)
+ 	 * TODO: replace the udelay with a read back after each writel above
+ 	 * in order to work around a hardware issue, see i2c-tegra.c
+ 	 *
+-	 * Unfortunately, this change causes an intialisation issue with the
++	 * Unfortunately, this change causes an initialisation issue with the
+ 	 * touchpad, which needs to be fixed first.
+ 	 */
+ 	udelay(100);
 -- 
-Regards,
+2.34.1
 
-Laurent Pinchart
