@@ -1,133 +1,111 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C951918AF4;
-	Sat, 16 Mar 2024 13:33:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C0DD1A702;
+	Sat, 16 Mar 2024 16:09:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710595992; cv=none; b=f41kZXB8rIArzew9kkS6Qfs8znFuycm9WmrmpSUwlmac0XzRnSYMMHa0BrpwuUTj3dvXWMfS40fUogwDxK+OmGBaZAm2PGQONr2GI0M2p/m9vvW8f/6mVsMUyeZGJxs+SfcfWHps8EYKtIaKF8QSCf8Uk1zUFuZKQPLpepU0gOA=
+	t=1710605342; cv=none; b=m6Um59rDGK5iaQ0W8y1P5S0nXVnXvj0ReZ2H4UteZN8hhMhzdE5P0NyYTjZHe58vGbFqzODl7d5Env5uskzizpHgsqfAyh4Gj+EjJDvmBcTcENBVaewBgev9J0eH9VZAnAVH4nj/pV2/mOw4IAlVkgE7QcqOhDkJZe9zTR2+VC0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710595992; c=relaxed/simple;
-	bh=WEiSlYwDRXH4IPCklBUzgqCSlEfIx6IDRCsQ3Paj36s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JpBQfbu9xd/IsGD8LHqJqoyfTr5X/6JrRgeauRg+U5qXwHBZh6ZO8KxOJtRmqKD9b/B0Ph/PyQ+2hnOt0rU4xbaOtFb6P3PmgSVaLFZMDBxf6lcBEEkUHg1Ay1bO26VVwYBDP1ttDeLN3HHcXbPFPj0RjrOugTSXKmPoVvHPovs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I4uyJbke; arc=none smtp.client-ip=209.85.218.49
+	s=arc-20240116; t=1710605342; c=relaxed/simple;
+	bh=/7f0NTuTDbycol0TqEAm80d4B3YCzFevcl1q8Qi2xks=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=R6F3GnTGIWbNEZ4JWCO3UPFwiVVecvahGUwfSfgv/mBlt/alxryeTYdilXWlfLbo8X3zVmt8wP8DZzU5Ch7NZYrPwaOb85xVneOXYFJM0i76bkagjE8+vuRAczHZt7GhZZc2iR9gbKQOETqDRPYwDImpumOGMBHGy5IZ+9JRnCo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DkqXJPZN; arc=none smtp.client-ip=209.85.218.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I4uyJbke"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a469ba7e230so25776066b.0;
-        Sat, 16 Mar 2024 06:33:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DkqXJPZN"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a467d8efe78so263839266b.3;
+        Sat, 16 Mar 2024 09:09:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710595989; x=1711200789; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=mHC9EB8QIa0MMKESDC3f0/7my1UpCaENtscEfQXCYcU=;
-        b=I4uyJbkegaSJycZx8tovyaCZuE3GhkaM/cK4Bku0mcJV3viGYvSC+2JZIvxzoi5GGR
-         KYDaDL3askNyaM9EbQ1h/8Yx3dlr2qJ8oA5vVVnTuim+lms0fU5wfp5SERHD+zLWf0oK
-         TRZWhUYdt4aI83dHheZOhV9Bst/tWu7AsSZ/zNU37sY1aU3ZzfNEVegq4QM2I0YSIP94
-         SoJz3kVoDF0nWlIE8mdmceD3SPSZVJ0Wn5BWMnx2u6rJOPJc32ru1/ohDHdhtO4f1UsH
-         VaNj+gl7iYMd4YO1Ep4k83dOPXf6IhISE6y12siYeDb5S1nYi9GsrnYZSCTWuqYGInLP
-         9wYQ==
+        d=gmail.com; s=20230601; t=1710605339; x=1711210139; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qrXE8EvbAVJt8qFbeWRLuCvMZVHZKs11IeHtQCBARR0=;
+        b=DkqXJPZNGodXezO5KbtDauMSzRPofgSRXw52ZXuwzsEuyU8m1271MPuk/VCCnPPjxT
+         Kp4hz+E0k3sicslP/BBg79xDDr1JvMkLx9uJW8TjRga1ggAm8YPGWZOCGuNAYkpvGe6x
+         yNLBRxied0FAEtsc+bpUjH4+YFPgGq5cVAjNJ0T/o2W1eY0My31zveRSy36+qGJfph7t
+         Lrd0y5Pu9OMwYGdvDoqRlCdlxIvwmJADtSzKlRjcmL/fmwhllquUZo5O1BuI1euuZyv4
+         pRCD1HbhyxIcp/ZEGLgFjLomZqmYlVqBRt1m7ZgGbOoHS7mOZ3iuobpe3DmY+NosedCq
+         2RKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710595989; x=1711200789;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mHC9EB8QIa0MMKESDC3f0/7my1UpCaENtscEfQXCYcU=;
-        b=B+TXxS6HpeGtdzg9P16cexsOY1A3DIsI9ICFk+8wrIpqErIHX6OrMUQOcBi0O04vXd
-         MbP3o7K6dfgTuEYnpG/XZjKhY063VDO4sa/std1YDn1W07e6Yx5w2vkaNe1NiY/LWXPD
-         wp+0qfu03SZuY94MozuLifOSuYykLnfnJBmGQ1/2tioOeSwuz111mhNflZjPXIkpMxKY
-         de+vtYVyAEl3+CUQhwiQhiZ9uu+PmUqnM5R7VCxSI6i+0bQ1Vnx1S7EtqAQuEKM3tGGj
-         1fikwwbKLn16X4818DdoxfojrngNdwhxQevjhwFLByhsHOqw4ZwxZmnKi5WsAMJ8jJyX
-         aRfg==
-X-Forwarded-Encrypted: i=1; AJvYcCUcH59EMvmU6JmMJee6PZ2wwA9hJTaC9trFG/vQd4UltFGYastMp3FX6GCmCKwFnv145MOp7FGf5zyF/0iDNjqn0TQ2yMjW0VcavWoAz40/RNxUZOJ9aj4WXyljB3r7uNSlWffXsPHUQw==
-X-Gm-Message-State: AOJu0YwT+BFZEc/ZEKC3yc4XRsuHmATPi0VlR7f5nbAzGm35YaJWU2F2
-	/Si8zE8IWkujJ9q2sG0q042Ou+BG2S/pEZwqQB5zh7A7/f1P7gY7
-X-Google-Smtp-Source: AGHT+IHVrh6pEILasMtVcrz+IZPkELuUnYGvWMB9pXDIdtuRjNwAM4opEGO5VcYGv2Tw2gW6+kKL1g==
-X-Received: by 2002:a05:6402:388a:b0:568:bf5e:db25 with SMTP id fd10-20020a056402388a00b00568bf5edb25mr991485edb.0.1710595988775;
-        Sat, 16 Mar 2024 06:33:08 -0700 (PDT)
-Received: from [192.168.0.104] (p54a07fa0.dip0.t-ipconnect.de. [84.160.127.160])
-        by smtp.gmail.com with ESMTPSA id fj12-20020a0564022b8c00b005685eaa19d2sm2664736edb.5.2024.03.16.06.33.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 16 Mar 2024 06:33:08 -0700 (PDT)
-Message-ID: <02462be1-477b-422a-9f4c-9c8222d8d279@gmail.com>
-Date: Sat, 16 Mar 2024 14:33:07 +0100
+        d=1e100.net; s=20230601; t=1710605339; x=1711210139;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qrXE8EvbAVJt8qFbeWRLuCvMZVHZKs11IeHtQCBARR0=;
+        b=KbNihfgzBXOGoaD2gRIcpmT81F96iSylyxzp7OVVqqPVMjQsIkOqRtlTgnFKO9EdAD
+         rmjYcic1VKH3/8QJ1COnm6043xSEni6hIF4u4buf00RxXM9xZ6jzinhJKA64fZWJXtZK
+         Q5U1eV5nvgGXPvgKXmaUgtx8/4TDgZyOod688MQbGZXY8Ggzxqcw7Hx3Zk2npILjRD4Y
+         4+dOT+UCupMovfY6uqkaFsed+POC7QwqVqxMSEMhg9a6UL+amn7mehiqdmigQQk5vJtw
+         ljfpu7PY9PG0QJ68WltQVJIKQsjKkXLcPjrsBuCovNkkw+qMNCW5dUyU6tsvoMKiu1fs
+         F2Iw==
+X-Forwarded-Encrypted: i=1; AJvYcCVFARq6lCsL5zNTIINy+XlWFY0dSw8kPCSz11SpIHA6o4Sj1URznbRQkSDLLdxpLYG6LLA/znX8NORwTud1qIDdR40WKUbebbMkMOX5J2+TbuM25Z010mq7NG6ulJJ1iqDNyprncJuzJA==
+X-Gm-Message-State: AOJu0Yzjf/Hsz1/s5uw60qedmBhgqVxPeltYo5AVkBnZ8a1wH3n9yvF7
+	FSQecbiFCoIH8bXsxPrVQ23TKG1vif+03Tz7rupQSEPwPVRx/HDo
+X-Google-Smtp-Source: AGHT+IHUry5SJoQWOqB4tYyBf/agGWsTd39z3sw7UXo+lN00FEisoqi17sEwkfJyR0eoPE9Grd9d7Q==
+X-Received: by 2002:a17:906:99d6:b0:a3f:6513:1489 with SMTP id s22-20020a17090699d600b00a3f65131489mr7586559ejn.55.1710605338880;
+        Sat, 16 Mar 2024 09:08:58 -0700 (PDT)
+Received: from ubuntu-focal.zuku.co.ke ([197.237.50.252])
+        by smtp.gmail.com with ESMTPSA id n14-20020a170906378e00b00a46abf2ea60sm436949ejc.131.2024.03.16.09.08.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 16 Mar 2024 09:08:58 -0700 (PDT)
+From: Dorine Tipo <dorine.a.tipo@gmail.com>
+To: forest@forestbond.com,
+	gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	outreachy@lists.linux.dev
+Cc: Dorine Tipo <dorine.a.tipo@gmail.com>,
+	dan.carpenter@linaro.org,
+	philipp.g.hortmann@gmail.com,
+	julia.lawall@inria.fr
+Subject: [PATCH v4] staging: vt6655: Remove unused function
+Date: Sat, 16 Mar 2024 16:08:35 +0000
+Message-Id: <20240316160835.2312-1-dorine.a.tipo@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] staging: vt6655: Remove unused function
- RFbAL7230SelectChannelPostProcess
-To: Dan Carpenter <dan.carpenter@linaro.org>, forest@forestbond.com
-Cc: Dorine Tipo <dorine.a.tipo@gmail.com>, gregkh@linuxfoundation.org,
- Linux Staging Drivers <linux-staging@lists.linux.dev>,
- Linux Outreachy <outreachy@lists.linux.dev>,
- Bagas Sanjaya <bagasdotme@gmail.com>
-References: <20240311035649.25043-1-dorine.a.tipo@gmail.com>
- <20240311060747.32876-1-dorine.a.tipo@gmail.com>
- <36c92e00-213e-4f25-9720-66912b4da56f@moroto.mountain>
- <d0f975e8-3ce4-4a2b-b52e-51b748a8601d@gmail.com>
- <4e162fac-078e-4a37-9a6a-fad186b0d27a@moroto.mountain>
- <66b9d80f-94f2-44f5-8ad9-b73caa14bb44@gmail.com> <ZfPV7rd0YHc9pChi@archie.me>
-Content-Language: en-US
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <ZfPV7rd0YHc9pChi@archie.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 3/15/24 06:00, Bagas Sanjaya wrote:
-> On Thu, Mar 14, 2024 at 07:45:28PM +0100, Philipp Hortmann wrote:
->> On 3/14/24 07:36, Dan Carpenter wrote:
->>> On Thu, Mar 14, 2024 at 06:33:58AM +0100, Philipp Hortmann wrote:
->>>> On 3/11/24 08:31, Dan Carpenter wrote:
->>>>> The main issue with this patch is that it doesn't apply, but I have a
->>>>> few other comments as well.
->>>>>
->>>>> Why is Forest Bond not on the CC list?  Please use get_maintainer.pl.
->>>>
->>>> Hi Dan,
->>>>
->>>> reason why some omit Forest Bond is that the emailaddress seems to not exist
->>>> anymore - find below. Can I issue a patch to change this?
->>>>
->>>> Who is then entered to the M: in MAINTAINERS?
->>>> STAGING - VIA VT665X DRIVERS
->>>> M:	Forest Bond <forest@alittletooquiet.net>
->>>> S:	Odd Fixes
->>>> F:	drivers/staging/vt665?/
->>>>
->>>
->>> Yeah.  His current email is forest@forestbond.com, but let's mark it as
->>> orphan.  You actually have this hardware, don't you?  Do you want to
->>> take over?
->>>
->>> regards,
->>> dan carpenter
->>>
->>
->> Hi Dan,
->>
->> I do have vt6655 and vt6656 hardware.
->> But I have no idea what commitment I am entering into.
->> Please send me a link to a description of what my obligations are?
-> 
-> Hi Philipp,
-> 
-> You can refer to Documentation/maintainer/feature-and-driver-maintainers.rst.
-> 
-> Thanks.
-> 
+Remove unused function RFbAL7230SelectChannelPostProcess declared in
+rf.h but has no associated implementation.
 
-Hi Dan,
+Commit dd2837bdea0e removed the RFbAL7230SelectChannelPostProcess() but
+accidentally forgot to delete the declaration in the header file.
 
-yes I want to take over driver maintainership for drivers/staging/vt665?/.
+Fixes: dd2837bdea0e ("staging: vt6655: Remove unused byRFType in rf.c"
+Signed-off-by: Dorine Tipo <dorine.a.tipo@gmail.com>
+---
+Changes since V1:
 
-Thanks for your proposal.
+V2: - Removed the unintended blank line after removing the dead code
+    - Removed "in rf.h" from the subject
 
-Bye Philipp
+V3: - Added in the Description Comment about unintended blank line
+
+V4: - Adjusted complete description according to hint from feedback
+    - Rebased patch
+
+ drivers/staging/vt6655/rf.h | 4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/drivers/staging/vt6655/rf.h b/drivers/staging/vt6655/rf.h
+index 6f842ac00526..8eef100c7ef2 100644
+--- a/drivers/staging/vt6655/rf.h
++++ b/drivers/staging/vt6655/rf.h
+@@ -68,8 +68,4 @@ bool RFbRawSetPower(struct vnt_private *priv, unsigned char byPwr,
+ void RFvRSSITodBm(struct vnt_private *priv, unsigned char byCurrRSSI,
+ 		  long *pldBm);
+
+-/* {{ RobertYu: 20050104 */
+-bool RFbAL7230SelectChannelPostProcess(struct vnt_private *priv, u16 byOldChannel, u16 byNewChannel);
+-/* }} RobertYu */
+-
+ #endif /* __RF_H__ */
+--
+2.25.1
 
