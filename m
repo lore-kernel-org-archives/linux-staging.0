@@ -1,128 +1,84 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3DDE1CFA8;
-	Sun, 17 Mar 2024 19:17:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10E111E527;
+	Sun, 17 Mar 2024 19:24:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710703079; cv=none; b=J2B1msxovgVn9Z6/9LpAp4ELH+qaGIyfFXWeM9td5icaOOUGUKJIRS4VqHqPIKin9VTitntX2jDN7TCCu6wPlXy/O1IVuYASyAcgvnLEahdHtuYotysxzyskcyoBNPwoq1jGfUWvvof+3+EOxI0p5sqNhaIu7Gz4pZO3SYDiRTo=
+	t=1710703481; cv=none; b=NvHed3Q+ANOOaTPC/Iweq78T9s1ABAEBbUdm8rZ2NV9KctGOP7uuaWz8T6XtoFF2838TVxYvz36F+lQN+JgAhlNa1j8Jii8aikeWPujDTpx/a8C7tYWU+AD4uqv276aift6WGUMVd5YKqBwVurOyPmpDvpFZgxi7PeMf4pL8fjY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710703079; c=relaxed/simple;
-	bh=++ul1d0Unl91N6s65/SG05m2vbJJag66Wm1LKGvdbKE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=l/8wSLHJ4/HULb8rMQlKLK6Y+MobRRxDfrXfmfvah6QiXibh3qCWcz3OIDPwrEy0BbhluFy/ITKjpGMtErkuw5O481xkuSM9eopnbVGaR436aiTSghN2BFsEa9jH9e99YR8zbJTc0MYDGgotmQJuMQ3uNQ+URq81DEp1RodmJmQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QQDEbxl/; arc=none smtp.client-ip=209.85.218.50
+	s=arc-20240116; t=1710703481; c=relaxed/simple;
+	bh=0S8Kcefi0OdWNyioGk8KbiiNHd0Dho2QB0qXQHrsxOY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=svIB0qxMJd253+lianY/kr+jIhBkS5WBxdev5L3xJqAKbQXB1a5UXNCZeRV8cm+40WljxGx5IluMGc7bb/hiGvTiBIhtMfgJMat+gzzwyFwUOy3smHSpSRACKT73oV1mwof2G0G4HZvNxueEF1FqNqoYVGLAZjFn4juJxfey96A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=axf1d56A; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QQDEbxl/"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a467bd57898so94088066b.1;
-        Sun, 17 Mar 2024 12:17:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="axf1d56A"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1e0025ef1efso5874505ad.1;
+        Sun, 17 Mar 2024 12:24:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710703076; x=1711307876; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=gmail.com; s=20230601; t=1710703479; x=1711308279; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=ntvLquw50K5KTQ/DhQSvB5fgjVopONkINXyXgWhChvU=;
-        b=QQDEbxl/VPIbsGZHaAI0ZC1jjwYzCGS5GLdiEiRvkmxtngalkKsRTC/6M0ok/lCyVI
-         y/36DrL4s3HnGc9SDFFUylF08HtfxnHBkce856MBEr1w+Wh8/JiArL9gMI013lsRgcpZ
-         sUlOlIzHH8w0bPaPYb4+bgftIfziXs5LfnRyBiO3zyKgFmMWpuv6EzbT0nZudHZce6W+
-         FZjwFTuklbde35SoKuB9zYC0DrLNzwtCYGH5uj8lA2uBEg7KjDh6EhauUYB8ZojhKCnp
-         nu2Ab0UkxsyOO30WBKL/xsurE5HDUJS2fCWBhTasUm86WmHLve9yWru+lF9PlRQJKC6V
-         L2EA==
+        bh=vqFDKNyxulpVNjfcv+wJMiiAQLx8qUgtgobnsfC1+N4=;
+        b=axf1d56A0Axt1bNfTxHTZf7wAMpEOiuBWm4WOXVgfAuv4V8iURAZdOrL8c1Vvew9+n
+         bXyC3rYKHdCCMT177a7sAMU+a5RGkUg8V6TOsgKNIxw00MnPNPvGxewfjmhY4sBIgl1t
+         3JWtgCQ/EcqP6heM6i4mY4wk5XBGIXuBnbMWaB8vTJT6DvE//MbX4FE76RUk+AOQIe3I
+         0mSIgmIyvqT+vjU389eRdaHBEmE+rDx49fCyJN6AspygYtf9IBRFJcvJPPT004lecMZC
+         bE+cVuQs82W0vbe4mT22l2EhPndPTlpHr+IaGaHZDNWO6zeV2P8xafbWH0jtFeaFy3+F
+         PljA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710703076; x=1711307876;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1710703479; x=1711308279;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ntvLquw50K5KTQ/DhQSvB5fgjVopONkINXyXgWhChvU=;
-        b=oXgXI9BPkEasJCFttfhXAINnKZLE2OPikhYAEjxe1MGOwNg/STZ7WM/JcxHph64aW6
-         zPCcTUTOqLbEe/txq1ECPYLKYrcSgOs4ZPVccfIuwsGnBtvM5fRSrSiP0CZlzSxgDyhj
-         Ik+GydBfGGqtk0LaUSqfZNlsLeIBAEDvJrjmkxbdnM0V9nQFTNkitIf+YLGGVqcy9t+j
-         52UVURkUSQHGv1+tXT49CgBeY2V89MWBGoSJP2sbujXjo2Vnk4QWbfVYxYY/ZfMEJpNW
-         92MovHY8Kb+q+kmqLLgAhYCZ9kCeCA0SvWOSHef87g8bm5Bq2o6jrgPwo+JhrHNh7FKL
-         SiZg==
-X-Forwarded-Encrypted: i=1; AJvYcCUyX0zHKvMwXKPbz/+QlsymCaJQ/QuOCyw/3cqz0HNJOXq7YVfCtjKeFQkMu4eGUDWkbj6VvdpE4h4i5JJqDCFT84HIbN9s/mDscKZWubgRckMOSmC2ozUkNGuRdSGxiG2djtIr+9o3SA==
-X-Gm-Message-State: AOJu0YytavIjnY0AuImhUa3UPreAiPP2WH4tpYgtzvTOzJ1jaIBU27+2
-	fMwxpfuVZN4bAkczhG6IGQlB0rAkxsYKbg7SpTE9yN0TjUGcGjlf
-X-Google-Smtp-Source: AGHT+IFUtyB+ZQNKTnDIhzFAjZHqmnepIQe/IumYz/FkBtUG3CqodLT91QaoFCJQbvAYNLprHh05LA==
-X-Received: by 2002:a17:906:f911:b0:a46:8be0:4f64 with SMTP id lc17-20020a170906f91100b00a468be04f64mr3747778ejb.5.1710703075740;
-        Sun, 17 Mar 2024 12:17:55 -0700 (PDT)
-Received: from [192.168.0.104] (p54a07fa0.dip0.t-ipconnect.de. [84.160.127.160])
-        by smtp.gmail.com with ESMTPSA id jw11-20020a170906e94b00b00a46be5169f1sm308565ejb.181.2024.03.17.12.17.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 17 Mar 2024 12:17:55 -0700 (PDT)
-Message-ID: <1ce07f88-eef0-4d26-b129-f949c8ce3b53@gmail.com>
-Date: Sun, 17 Mar 2024 20:17:54 +0100
+        bh=vqFDKNyxulpVNjfcv+wJMiiAQLx8qUgtgobnsfC1+N4=;
+        b=H6lclTILQ3ChKEsQP8E6jFjFs66BaLijqf7isjYF8k3sPBQPv0ErzblCxLE4Eb2Ebo
+         kmkq8zFrYAwY2Fs1AhX5nrX9X0oSvGM9P86O1g24XWFm4i2jmrI0YQUMIjZQ0UQrm5Tq
+         UgAN6MAFqC5Xy9htyQSZx6H8sHmcg9RLr0yvdMedvoVaUpIXO49FNlItltSd+8xo87cH
+         ktdqRngf3itYQpkPrECJGMkvLs+5YH8pTukhE2uBdr+6NVooiYEreZ1459d3mJp1p56S
+         c5g/gMsf6F0LSdzdAD0vmjALMaiRytupwgjaW75jSco9illkXza7DVBH/dM0nbe4GJtx
+         ptMA==
+X-Forwarded-Encrypted: i=1; AJvYcCWXn+YKUOyppIRRpSk9fTgEVvNxkmNgfnkBGI4zWF2DgM6TJLtwrvf9ei00e3Pc4pg5ANCl42//I3GamuZljSBi4i4TXdgntxVyvKcXng==
+X-Gm-Message-State: AOJu0YxlajeX2YCtsGOakjhcVNIrHm41ftJYTlqUXcJ727RDAxopD7nj
+	S6Diu4ONAsPjl4gN6G38uqSE0cK65EHdwrOrUmxhCeYZbqlS43lfTRIpB2w12emcBA==
+X-Google-Smtp-Source: AGHT+IFCNkW3wFNNzbROIQVGU7hZ5kOn6+RCDn/alz0lJ/YoQ4vr4ATF76Bca4Gf1X6ehftoDcZa1w==
+X-Received: by 2002:a17:902:cf08:b0:1e0:115c:e03e with SMTP id i8-20020a170902cf0800b001e0115ce03emr2865698plg.12.1710703479082;
+        Sun, 17 Mar 2024 12:24:39 -0700 (PDT)
+Received: from ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx ([103.6.158.65])
+        by smtp.gmail.com with ESMTPSA id i8-20020a170902c94800b001db6da30331sm7619149pla.86.2024.03.17.12.24.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 Mar 2024 12:24:38 -0700 (PDT)
+Date: Mon, 18 Mar 2024 00:54:36 +0530
+From: Ayush Tiwari <ayushtiw0110@gmail.com>
+To: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
+	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Cc: outreachy@lists.linux.dev
+Subject: [PATCH 0/3] Trivial code cleanup patches
+Message-ID: <cover.1710703217.git.ayushtiw0110@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8] staging: vt6655: Remove unused declaration of
- RFbAL7230SelectChannelPostProcess()
-To: Dorine Tipo <dorine.a.tipo@gmail.com>, gregkh@linuxfoundation.org,
- forest@forestbond.com, linux-staging@lists.linux.dev,
- outreachy@lists.linux.dev
-Cc: julia.lawall@inria.fr, dan.carpenter@linaro.org
-References: <20240316204207.1779-1-dorine.a.tipo@gmail.com>
-Content-Language: en-US
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20240316204207.1779-1-dorine.a.tipo@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 3/16/24 21:42, Dorine Tipo wrote:
-> Remove unused function RFbAL7230SelectChannelPostProcess declared in
-> rf.h but has no associated implementation.
-> 
-> Commit dd2837bdea0e removed the RFbAL7230SelectChannelPostProcess() but
-> accidentally forgot to delete the declaration in the header file.
-> 
-> Fixes: dd2837bdea0e ("staging: vt6655: Remove unused byRFType in rf.c")
-> Signed-off-by: Dorine Tipo <dorine.a.tipo@gmail.com>
-> ---
-> Changes since V1:
-> 
-> V2: - Removed the unintended blank line after removing the dead code
->      - Removed "in rf.h" from the subject
-> 
-> V3: - Added in the Description Comment about unintended blank line
-> 
-> V4: - Adjusted complete description according to hint from feedback
->      - Rebased patch
-> V5: - Added a missing closing parenthesis in the fixes tag
-> 
-> V6: - Sent the wrong patch for v5. This version includes the fix in v5
-> 
-> V7: - Made the subjectline more uniques as suggested by
->        fabio.maria.de.francesco@linux.intel.com
-> 
-> V8: - Put the entire subject on one line to ensure the function name
->        appears on the subject
-> 
->   drivers/staging/vt6655/rf.h | 4 ----
->   1 file changed, 4 deletions(-)
-> 
-> diff --git a/drivers/staging/vt6655/rf.h b/drivers/staging/vt6655/rf.h
-> index 6f842ac00526..8eef100c7ef2 100644
-> --- a/drivers/staging/vt6655/rf.h
-> +++ b/drivers/staging/vt6655/rf.h
-> @@ -68,8 +68,4 @@ bool RFbRawSetPower(struct vnt_private *priv, unsigned char byPwr,
->   void RFvRSSITodBm(struct vnt_private *priv, unsigned char byCurrRSSI,
->   		  long *pldBm);
-> 
-> -/* {{ RobertYu: 20050104 */
-> -bool RFbAL7230SelectChannelPostProcess(struct vnt_private *priv, u16 byOldChannel, u16 byNewChannel);
-> -/* }} RobertYu */
-> -
->   #endif /* __RF_H__ */
-> --
-> 2.25.1
-> 
-> 
+Address different kinds of checkpatch complains for the rtl8712 module
+to ensure adherence to coding style guidelines.
 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Ayush Tiwari (3):
+  staging: rtl8712: rename backupPMKIDList to backup_PMKID_list
+  staging: rtl8712: rename backupPMKIDIndex to backup_PMKID_index
+  staging: rtl8712: rename backupTKIPCountermeasure to
+    backup_TKIP_countermeasure
+
+ drivers/staging/rtl8712/mlme_linux.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
+
+-- 
+2.40.1
 
