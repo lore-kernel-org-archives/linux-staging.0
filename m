@@ -1,133 +1,94 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76DF1175BE
-	for <linux-staging@lists.linux.dev>; Sun, 17 Mar 2024 12:08:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A84301AAA5;
+	Sun, 17 Mar 2024 12:10:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710677302; cv=none; b=V8ipWiSAF/DopSl5m54c4y1AAxv6sHdGG65z3x9sbXEVyituIVCnLiquTR+bvHDbgkVjumPg3h+XYGjOymTYhoXjIFbJjIcTtzIPefzrQpM5fTWXxlgsVGOGTZoNPBlYO+vjqvmBSfRn5dexOJsz8SLNKGgAmnDloO2Z+npKLfw=
+	t=1710677417; cv=none; b=ccaOBaoxI+CaOn2+QONuVk5wMykdNK6AvToxUKFua4o8IR8AdWxLOOEow9WjFkGwIFZWWGRWmJeJPKjw/OTlb76L5nEgQFuqtVkV0ITUP6alaIHP2mXyjV5VWQ6nh+2Yt3B+rwZFjFkhFxf4TJ7EgXB8vQsSbB66vKx16PLdmAk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710677302; c=relaxed/simple;
-	bh=zH9edj1akvXemqQylv/QNJGaBt+lIfHgL9aORJBkO8s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MJ1y9HVrFagvjFc4XxYu59mtBA2q+rpbKcIuqkPeBkl9qhnu0nXSaHZfGwuth0gi+QfclAsMcNeZcD0Vyy4p6UpKGAV3YZ+kR4mjVxJH70kTFqClJKYJ+lwSlm5vOCMI30H+Og4b+d7QJyhgS0LltyrFVx+3u0/aN+QlpXrdTxY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=KMGHSLJn; arc=none smtp.client-ip=212.227.17.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
+	s=arc-20240116; t=1710677417; c=relaxed/simple;
+	bh=9VFShwVBNzTspoBKCpd6U+c3LjtRAVtq9eVSmw5I3wk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=mhujSgAIzwH+FM1MxZyatqBq0AQwQr3xEg1hd/GvpZCmSqYrCxLbp0Ryyn6LkyX6tQ9Ym1Pn5Y/++i1gyduIX8Z+KQAeyDg6r0enOAYt6sJ6OytRf+W6CgcFVlfusuoggFlDDlI3TAu/e/eflS3iJ59IOrMdCu/FKv0bHl4/Ea4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QAXXsviB; arc=none smtp.client-ip=209.85.208.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="KMGHSLJn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
-	s=s31663417; t=1710677292; x=1711282092; i=wahrenst@gmx.net;
-	bh=ydh318if9iyE1+DoFarROpfEj18AMDDcYOSldugHhhk=;
-	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
-	 In-Reply-To;
-	b=KMGHSLJnHfqycP/+TCtvYiiikobaa7kackpfqwLWqbFd7W2LQu77adjBjkbuO+l0
-	 9ddCLT1sf/f9CfvhjSJkqQCNeYBAue5iSTsdJ4DVPpjIbUwjhWazRtqovNHxvr1Uu
-	 UAERmNeyXlgNTOyP/QM/yGlpNrfOZCxbylW0PSpgEIgIWdMXU+lDaDKllgSlsTWMB
-	 0KSBQnuYP/m9M6Zj+baBb0syk/D7qlvl81PgcUemS5xFj9cCfxGEdILnOGpNtGxJ8
-	 H57VdaycpeS+715kTu377EIb+txYda3/JI5RHxIU0H9BrpigvIkeg9JT/8gMmsZs2
-	 E7bt9T6D3RKAwPJX6w==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.167] ([37.4.248.43]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MI5UN-1rXGZv2fNH-00FCcm; Sun, 17
- Mar 2024 13:08:12 +0100
-Message-ID: <22dd25ed-1dae-4276-b734-b6f531fe43a3@gmx.net>
-Date: Sun, 17 Mar 2024 13:08:11 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QAXXsviB"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5691a35826fso165559a12.3;
+        Sun, 17 Mar 2024 05:10:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1710677414; x=1711282214; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ui0t13Vy7TPwnpeJlaf01c/OHY8VOmxd5VDc0UiW9P0=;
+        b=QAXXsviB3+v7Bk84k1EeMwFmMOmYrqbAoZrbDRelZIW1od9Dfp5oGtUlyYpvveAsk0
+         xXPb/sGwE7l2wsoh817EYsMzoxt2PL/zSx1DGPUr9nHDk7TM4EOgLePvOUSH2QwnwnMg
+         ny5YpjYBE4yCaLR091GpgvqAZb2Eo4XZBrt70XcvGJBgkbYKTf0aLt1Evd+8vw5vnzIc
+         p96NIniyL/q9pUM+/FcAcgZmKHlhvlztlToxSqDORta7iHoDbTjB4jWirfLDyo4Wb2ps
+         QbApG5dD2Lh5b67JJZf8DzGCTyiZxiEaW5YMHXPAZKpF8X0ibUW6xHqgPYTB5yWXKI6e
+         rupg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710677414; x=1711282214;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Ui0t13Vy7TPwnpeJlaf01c/OHY8VOmxd5VDc0UiW9P0=;
+        b=A0SgXMmrCL1/+TDxR97tc5SqpnW3WcobbonMLJCRoncvFcJYbPeEHxS1iOJItV1Iun
+         DADceeuqqJbeqSHgmFp9FnbhGULu5JsiayfAg4JM9gdhspHarV7cEWCEWDcFtawXAleZ
+         g3Wi6Bbgy922qI32ZdhnQcHukINFF3PznchPDtY/QAhm+zlp2CuoKIvyw1xulvtrLViR
+         lNQrEO8zT9ih0ibGSoaL40vV+VJoYq1Y+JJmzspgBia/lrP2+FmbPgnoctPmHtCiTD06
+         EoZGNV9hWLnkuHzqJGL9anfPWX/JbZQaMQ8C2TZ50y7pmeoZVfcgemlbLC93nihw+HtH
+         EwSA==
+X-Forwarded-Encrypted: i=1; AJvYcCXJhjS0meKumY+FSewteuLoIrbOTgjvR7CKRyHbpLAXzb4EPG5ecDDubCdI8xXp1pk/9gy6AxLn2dCDmFvUPG56/gB3WwHtD1wjRiGoKhtyRsMkrtRhdi/8saI8CxMYRoVoMW3Q5UwgmQ==
+X-Gm-Message-State: AOJu0YwcbubrTc9E9svzXooAc9I+qb7DqFzuLj5dNwkxirN47mxqpQ5X
+	o+Eg0SDVDnMuE2mOP3aviCgMozwur2oo7OnVWyQW+jUjfVHJU+Uf
+X-Google-Smtp-Source: AGHT+IHhu+mQljK4JSTFNc4urw4uSisoJXVdQwZsPboYHjalFqGE6UTI3NcNo/OFFxoPczaJnPAgRQ==
+X-Received: by 2002:a05:6402:5385:b0:568:ac09:4a5c with SMTP id ew5-20020a056402538500b00568ac094a5cmr4770806edb.11.1710677413747;
+        Sun, 17 Mar 2024 05:10:13 -0700 (PDT)
+Received: from ubuntu-focal.zuku.co.ke ([197.237.50.252])
+        by smtp.gmail.com with ESMTPSA id en10-20020a056402528a00b005693985c35dsm203252edb.36.2024.03.17.05.10.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 Mar 2024 05:10:13 -0700 (PDT)
+From: Dorine Tipo <dorine.a.tipo@gmail.com>
+To: marvin24@gmx.de,
+	gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	outreachy@lists.linux.dev
+Cc: Dorine Tipo <dorine.a.tipo@gmail.com>
+Subject: [PATCH] staging: nvec: Fix documentation typo in static irqreturn_t nvec_interrupt()
+Date: Sun, 17 Mar 2024 12:09:47 +0000
+Message-Id: <20240317120947.2923-1-dorine.a.tipo@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/5] staging: vc04_services: Address module cleanup
-To: Umang Jain <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev
-Cc: Dan Carpenter <error27@gmail.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Phil Elwell <phil@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, Greg KH <greg@kroah.com>
-References: <20240315105659.111544-1-umang.jain@ideasonboard.com>
-Content-Language: en-US
-From: Stefan Wahren <wahrenst@gmx.net>
-In-Reply-To: <20240315105659.111544-1-umang.jain@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:lfwlprobhpVC8JomaXl8V0ApPzFmJru7GCuktU0/s97t5eEUMmH
- D5QXcoOCc3lIhOqkoxdvyVr2nNsFRuyGqUAQ0KmrzREmQTZM7iSa1dUYrtusKfMNGNYANIh
- AL9Qx4mOqpVzNTl8N5+yodhUBeFPOKdFOqJECGD3R7kS7byQRDXHqpNRJgDxe0f1fyrUV+v
- ZE6APTPg0ANGPVUE9povw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:OiVgNR4GXTA=;jEIN3jQ1eXM9OSIOoadi9DMPynM
- kusQHlAU6Sn2kwNzKQVK8iN3uT522K/1kUjwHqT14dttQrXh+Lkhh6J2E+mse+t0Wiq6FDASX
- 3eAFEavlmCQXyixkn6+px6p8gKGDkJsutCvQf6Ya36G+hLL/UIB1z4j0bc4k7vL4ZjVmgjrEP
- 59o9uUL8I9fYpGLoBUr15/iLTNhKqom64LLvZ7p5ydbSX3W1XckG6WMGP1gjN6hSf01MSxOc9
- kQ1tZaz23yvMLM9qvklp9jO6vncDN9W0xuB+gJGqaAcpAr+03wEJsZAfQqgcPEnEGI0TOIWvN
- co9CLUiHGAdO91g10ZkMaPtNUQpLa5kiSgT4SDGn6I8/kt5BJ8ZVtXdJLwWkm2IAue6NkHE4T
- GNLrxWCpJUm89CruW/OEoTmrgb9NNDhJdLhJI+Emv8OE1O47mArwiFNQrd6LZqw2sL+Lil1ua
- Xgcb1vp/TH7/4wdIe9W/zPLfGmleaxSl2TALL5RQyb8Z2hdOSL9wVngAgLWqQ3/naFvtPpXB2
- MdMOKYpJRAjZSC/x/ptf9hX6FLp1mH8SYIkVhBl0d76FdQPMB+3y7CQ47jLw2c7dg5jVgGo0K
- cpqGjOmb6xFhsjQSiK40/CT18paOioYfCtECUb8o0UhzNQJs2LflHnr3xOrVPySkddbI5E4Yj
- 3csQ2o5mAP4NqpLN+0Cq3vNieBkWPI+CEflCg0p9gMfR6YR0a51iwciT4+K5RU9IpWgsNL+4m
- Mhy+wHtcp8WJmQWkcaKjAwNmZO/tZE7FiJWSa5/ravIfUgk4Pccye3/w4ajjyiTi0QGzuZ8ha
- XGQaJl6DGck9c90bHJVrZjDowv9dqxMz+VEeXM6SooQXc=
+Content-Transfer-Encoding: 8bit
 
-Hi Umang,
+Correct the spelling of initialisation with was misspelled in the
+documentation
 
-Am 15.03.24 um 11:56 schrieb Umang Jain:
-> The series addresses the following TODO item:
->
-> ```
-> * Fix kernel module support
->
-> Even the VPU firmware doesn't support a VCHI re-connect, the driver
-> should properly handle a module unload. This also includes that all
-> resources must be freed (kthreads, debugfs entries, ...) and global
-> variables avoided.
-> ```
->
-> Patch 1/5 to 3/5 are log cleanups spotted during the reading of the
-> driver.
->
-> Patch 4/5 implements .remove() function vptr so that individual
-> devices(bcm2835-audio, bcm2835-camera, bcm2835-isp etc.)
-> can run their cleanup when removed from the vchiq_bus, during their
-> own module unload.
->
-> Patch 5/5 stops the kthreads started by vchiq - on shutdown path.
->
-> Rest of the module cleanup (debugfs entries, deregister char device
-> etc.) is already done as part of vchiq_remove().
+Signed-off-by: Dorine Tipo <dorine.a.tipo@gmail.com>
+---
+ drivers/staging/nvec/nvec.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-great work!
+diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
+index 282a664c9176..b4485b10beb8 100644
+--- a/drivers/staging/nvec/nvec.c
++++ b/drivers/staging/nvec/nvec.c
+@@ -712,7 +712,7 @@ static irqreturn_t nvec_interrupt(int irq, void *dev)
+ 	 * TODO: replace the udelay with a read back after each writel above
+ 	 * in order to work around a hardware issue, see i2c-tegra.c
+ 	 *
+-	 * Unfortunately, this change causes an intialisation issue with the
++	 * Unfortunately, this change causes an initialisation issue with the
+ 	 * touchpad, which needs to be fixed first.
+ 	 */
+ 	udelay(100);
+--
+2.25.1
 
->
-> Testing on RPi4 for vchiq module unload:
->
-> ```
-> uajain@ATX:~$ uname -r
-> 6.8.0-rc1-00128-gab2b09f632fa-dirty
-> uajain@ATX:~$ dmesg | grep vchiq
-> [   21.401426] vchiq: module is from the staging directory, the quality =
-is unknown, you have been warned.
-> uajain@ATX:~$ sudo modprobe bcm2835_mmal_vchiq
-> sudo: unable to resolve host ATX: Temporary failure in name resolution
-> uajain@ATX:~$ dmesg | grep vchiq
-> [   21.401426] vchiq: module is from the staging directory, the quality =
-is unknown, you have been warned.
-> [   96.388148] bcm2835_mmal_vchiq: module is from the staging directory,=
- the quality is unknown, you have been warned.
-> uajain@ATX:~$ lsmod | grep vchiq
-> bcm2835_mmal_vchiq     40960  0
-> vchiq                 581632  1 bcm2835_mmal_vchiq
-> uajain@ATX:~$ sudo rmmod bcm2835_mmal_vchiq vchiq
-> sudo: unable to resolve host ATX: Temporary failure in name resolution
-> uajain@ATX:~$ lsmod | grep vchiq
-> uajain@ATX:~$ dmesg | grep vchiq
-> [   21.401426] vchiq: module is from the staging directory, the quality =
-is unknown, you have been warned.
-> [   96.388148] bcm2835_mmal_vchiq: module is from the staging directory,=
- the quality is unknown, you have been warned.
-> uajain@ATX:~$
-
-What happens if you run "sudo modprobe bcm2835_mmal_vchiq" again?
