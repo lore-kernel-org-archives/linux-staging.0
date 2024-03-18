@@ -1,67 +1,70 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02E641E495
-	for <linux-staging@lists.linux.dev>; Mon, 18 Mar 2024 12:06:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B313737700
+	for <linux-staging@lists.linux.dev>; Mon, 18 Mar 2024 12:09:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710763598; cv=none; b=THQUA4uMVumgA516n6hUxShHTihXK8zlYqBOWlRtOM/K2sCdvibhypYIVd/pnKDLdYuak3+SlCnsPNdiCE8tuhHeo83Mg0vpQ4NQhAsStYpTwsjlGU056gpuF3s70WgWqGay+38kHgWvs2feizxsT4i+Uw7l5n9RHi/SVnWxMFY=
+	t=1710763744; cv=none; b=WIxNMfnKw38frm2q+TvZ/W7up4PUzccwxNoH5+xUcKcAHSTvG+v+vhISBqCaUJWdG/nNOAXV9hjsz3XFXql5xO9frj9fcaezcIV/+MNVG1dxrNwPlPckLPzehZ7cJ6ehuboNXaBWpNBB4UkW7t3Wi/WS8JrfeXhONl5e9XI10CU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710763598; c=relaxed/simple;
-	bh=5FQe1aiH0qWj6oZI7Tk9LlLy4zlqbVeJd6fRNtSR/AA=;
+	s=arc-20240116; t=1710763744; c=relaxed/simple;
+	bh=xAybBLkWgFxKDG7sYQQx+lNSx140fHQbpq7UeP5HG4I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JDBzen0aTeHVqXnchoYLgTjjpkEctsUzSxJKhzMsVp/ADiLtcxfrAvGGGk7wirvpLSiMdoYrNwAYVmBmVoI69SgRcQbRl6J5bILfHTd09gfTl5FOvts115t3E+U99lUvqCAheGD7/vEw442vhLXNZZGP6jOg6ujgz5ngAAr/imo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Nth4DClS; arc=none smtp.client-ip=209.85.221.43
+	 Content-Type:Content-Disposition:In-Reply-To; b=B6mUMofgH9Giz4+A/AHOkRe2hlJK1HL9nOfuH0UFqGrdT51S8aHe5fH0pV1hmL5IfpZHNHEvHIk9TKWnRkDs+vH/fevRaQzxIOulUTR3wP/aIX1n8Rp4eE774LOAIXggUVC2+XhBXoNL8PmJHloDLJRAfFmjbV+tjDH0L9uf/Is=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=eU801n2i; arc=none smtp.client-ip=209.85.208.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Nth4DClS"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3416df43cabso638950f8f.3
-        for <linux-staging@lists.linux.dev>; Mon, 18 Mar 2024 05:06:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="eU801n2i"
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2d47a92cfefso56813411fa.1
+        for <linux-staging@lists.linux.dev>; Mon, 18 Mar 2024 05:09:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1710763595; x=1711368395; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1710763741; x=1711368541; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=eHGPA8dgPTqYeKubjV9R4JW3cUfS+CCAqVnDiKpMYxc=;
-        b=Nth4DClSTSf3WNjq7mSv2VjOZvT8yvcrxbFxt+Cdnkbva5CrsSCjxxEgiG5ypbkqQT
-         QAEq9iTBIFL0WZOfY4SG1EAQztuoaOOxt7zUgCzUjgOKN9vQmnGgVK4ej/wSps8dY8jh
-         VVV86U9b+wqzN8ChE+s2ufoPH4uJVzAzET0rRWV7nXhBTbYj5NtoT5pmCBWKT+uAONcM
-         s1wRNkqHEutV9wtnVIq4cQKbDQJc8ydCc5WxkI/WL5dsmy8qsX9qaz2wKJXT4sQdbP16
-         NBzpqykQB8kzUvwZA6kQnoyLuUUS1Eip44+6kGLsgL0kE3+OvPAVerHje6+PhLtHGGil
-         a7jw==
+        bh=xAybBLkWgFxKDG7sYQQx+lNSx140fHQbpq7UeP5HG4I=;
+        b=eU801n2iue4EWfWiv3dlrJIJBU70/kvnw9oH0DvWyXkThTmqZ5njJY3To/ioOn/ltM
+         nuBdK+PBbv0+wuMBzIb3oGDDCos0fEEzOYDfd7mwWNjJRMviAynLNC4AryT31adOH2cP
+         yZzc/j2I1qYVnMN7gT1pJ05xXAVQOR/lFp8IeoTEQguP7vRYBqOOl1rxHfMNl6g7uIru
+         5/S3fgnd2MUoqu7uLNBtC3mDJKqn7KowL9mYMyGnsOwh8jDEHkbTEu+lOZy2IiKZkgVz
+         bfU/zIaRpz6hRBwPSEcY3XKPs6Zo2/TIembx2EsEP/H7IAthpRfXMtgLcKy7X16xhTum
+         bkYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710763595; x=1711368395;
+        d=1e100.net; s=20230601; t=1710763741; x=1711368541;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=eHGPA8dgPTqYeKubjV9R4JW3cUfS+CCAqVnDiKpMYxc=;
-        b=cOg3LlpF74IMrR9krRyDSOPzrzgvd7mYJlkc3217s4x/1GRtrWiNw6iq/IZVfG2QQi
-         R0RSB6yUMvmQqf3srCxVSj07I9jr1ga020br58yk5V8pnZc0kDTV7Qc3R7X0eTNwVXLv
-         fwEjKfUJeWZJpYPYRQ4Ktm432WVgDpmsUi6/J7AvElE9I74s6GU7DSXsOOY4MDdOekAG
-         yHmIweyz617gBebIh1wqirMZ4PjC+Ld0gQjg5eh/TqxJzDGzPSAxJyznHlxz1n98xczF
-         faDATZFCqWnTzvF4SuqZo/EM+FToTNWOXVD9cHYP3+Ozqy1Q7oaECG26bbVRRbnZk+fh
-         fLjg==
-X-Forwarded-Encrypted: i=1; AJvYcCWei1nEkcA23Gz7R0A1MNO2N5VDKhv7JvsGNDQAU6vSjOtXUZvDwXKr0ZAxZt0r2c59z/gmmdYrZM1ctM3e8oY5ci0gIEaTpuedp+OwDA==
-X-Gm-Message-State: AOJu0YwPd71Llh0FN86DXu8WPAs9QuS75/Mmz0QC6XZ7Um0hKU1ePtu4
-	XW7Fv5lA/m2SWJAgzquHlFjP+6JtWuEiiXconzV6UfHaIuobG7tU3OwkzAJgBnE=
-X-Google-Smtp-Source: AGHT+IEMesT0g6EwJo8XKWWsj5lGZcP15znRyUjF4kLCBSkASIwGULeoWki8V8Svi3DzX0aQUU2RlQ==
-X-Received: by 2002:adf:fd4d:0:b0:33e:9b42:b9f with SMTP id h13-20020adffd4d000000b0033e9b420b9fmr9549400wrs.4.1710763595268;
-        Mon, 18 Mar 2024 05:06:35 -0700 (PDT)
+        bh=xAybBLkWgFxKDG7sYQQx+lNSx140fHQbpq7UeP5HG4I=;
+        b=C8T9MtCN6FwwDMlK7YGLr9/Wi1obWm4U5JdtGVGi0bQxQ9qGO1eEJL7RiF1Fha/uah
+         tgjbI0NtAqQ9WvmP3MNmWSd6yYN8vAGk+cuIJMG3a7yyAv84QMFy58EcQqAWNO200czO
+         5bJH+fGGsNlbwTSlibq39QffBHqzsHk3lS2GqJb12t6EwaWh3brvkDUuWTtiPeW8505t
+         RGQnwGjYQ5KYu2M9+nKYwmdVivqFxov5yznRBurivY4MKWKEtA+i2gdr4NUBuI8sXxk+
+         jIpO1xl8vRHhaopgTjSwk0Xk1EX9dnwqNPd7lySvXtP265w4d3ZrDMIs94teDQpNF3MU
+         WHHQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXbZjJO3bw37l/sMum/Q5Ubzi8bl5GMnIvg5Q1l2p8FRihLfuT0qI3bSaebvG4RS1OdeQHWbzr6jgS4Fm66AlFrRTlOkTGVjk5OBHJznQ==
+X-Gm-Message-State: AOJu0YwUfVgUF1bVb9X2zpCMSqeR/k/lhCdDJ4KxL4V2I8Ifu/JzdLz3
+	kFUZ/0NE1XCs6pYfEVTc5TCt1ykd9iHbpuums8AuiqVlpeWeEBWFMjZ4c+WdAfM=
+X-Google-Smtp-Source: AGHT+IH0Qo1V/USqCdqcNMm459DG/tRzeARTYW0jeYurKwM5uusC9A3CrTByB/OVG1fAn26K2fG9eA==
+X-Received: by 2002:a2e:9cc2:0:b0:2d4:8d75:7a69 with SMTP id g2-20020a2e9cc2000000b002d48d757a69mr4921690ljj.45.1710763740965;
+        Mon, 18 Mar 2024 05:09:00 -0700 (PDT)
 Received: from aspen.lan (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
-        by smtp.gmail.com with ESMTPSA id v18-20020adfe4d2000000b0033ec9936909sm9636114wrm.39.2024.03.18.05.06.34
+        by smtp.gmail.com with ESMTPSA id k3-20020adff5c3000000b0033e7eba040dsm9779310wrp.97.2024.03.18.05.08.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Mar 2024 05:06:34 -0700 (PDT)
-Date: Mon, 18 Mar 2024 12:06:32 +0000
+        Mon, 18 Mar 2024 05:09:00 -0700 (PDT)
+Date: Mon, 18 Mar 2024 12:08:58 +0000
 From: Daniel Thompson <daniel.thompson@linaro.org>
 To: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: lee@kernel.org, jingoohan1@gmail.com, deller@gmx.de,
 	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH 3/6] backlight/omap1-bl: Replace FB_BLANK_ states with
- simple on/off
-Message-ID: <20240318120632.GD16260@aspen.lan>
+	linux-staging@lists.linux.dev, Flavio Suligoi <f.suligoi@asem.it>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>
+Subject: Re: [PATCH 6/6] backlight: Remove fb_blank from struct
+ backlight_properties
+Message-ID: <20240318120858.GE16260@aspen.lan>
 References: <20240313154857.12949-1-tzimmermann@suse.de>
- <20240313154857.12949-4-tzimmermann@suse.de>
+ <20240313154857.12949-7-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -70,142 +73,26 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240313154857.12949-4-tzimmermann@suse.de>
+In-Reply-To: <20240313154857.12949-7-tzimmermann@suse.de>
 
-On Wed, Mar 13, 2024 at 04:45:02PM +0100, Thomas Zimmermann wrote:
-> The backlight is on for fb_blank eq FB_BLANK_UNBLANK, or off for
-> any other value in fb_blank. But the field fb_blank in struct
-> backlight_properties is deprecated and should not be used any
-> longer.
+On Wed, Mar 13, 2024 at 04:45:05PM +0100, Thomas Zimmermann wrote:
+> Remove the field fb_blank from struct backlight_properties and remove
+> all code that still sets or reads it. Backlight blank status is now
+> tracked exclusively in struct backlight_properties.state.
 >
-> Replace the test for fb_blank in omap's backlight code with a
-> simple boolean parameter and push the test into the update_status
-> helper. Instead of reading fb_blank directly, decode the backlight
-> device's status with backlight_is_blank().
+> The core backlight code keeps the fb_blank and state fields in sync,
+> but doesn't do anything else with fb_blank. Several drivers initialize
+> fb_blank to FB_BLANK_UNBLANK to enable the backlight. This is already
+> the default for the state field. So we can delete the fb_blank code
+> from core and drivers and rely on the state field.
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/video/backlight/omap1_bl.c | 46 ++++++++++++++----------------
->  1 file changed, 21 insertions(+), 25 deletions(-)
->
-> diff --git a/drivers/video/backlight/omap1_bl.c b/drivers/video/backlight/omap1_bl.c
-> index 84d148f385951..3fd8bbb7f5877 100644
-> --- a/drivers/video/backlight/omap1_bl.c
-> +++ b/drivers/video/backlight/omap1_bl.c
-> @@ -9,7 +9,6 @@
->  #include <linux/kernel.h>
->  #include <linux/init.h>
->  #include <linux/platform_device.h>
-> -#include <linux/fb.h>
->  #include <linux/backlight.h>
->  #include <linux/slab.h>
->  #include <linux/platform_data/omap1_bl.h>
-> @@ -20,7 +19,7 @@
->  #define OMAPBL_MAX_INTENSITY		0xff
->
->  struct omap_backlight {
-> -	int powermode;
-> +	bool power;
+> Cc: Flavio Suligoi <f.suligoi@asem.it>
+> Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
+> Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> Cc: Claudiu Beznea <claudiu.beznea@tuxon.dev>
 
-The new name is hard to read in several of the conditionals below (which
-were previously "documented" by the comparisons to constants.
-
-This boolean effectively controls what we send to omapbl_send_enable().
-On that basis I'd rather it was called something like "enabled".
-
-
->  	int current_intensity;
->
->  	struct device *dev;
-> @@ -37,21 +36,14 @@ static inline void omapbl_send_enable(int enable)
->  	omap_writeb(enable, OMAP_PWL_CLK_ENABLE);
->  }
->
-> -static void omapbl_blank(struct omap_backlight *bl, int mode)
-> +static void omapbl_power(struct omap_backlight *bl, bool on)
-
-As above omapbl_enable would be better.
-
-
->  {
-> -	switch (mode) {
-> -	case FB_BLANK_NORMAL:
-> -	case FB_BLANK_VSYNC_SUSPEND:
-> -	case FB_BLANK_HSYNC_SUSPEND:
-> -	case FB_BLANK_POWERDOWN:
-> -		omapbl_send_intensity(0);
-> -		omapbl_send_enable(0);
-> -		break;
-> -
-> -	case FB_BLANK_UNBLANK:
-> +	if (on) {
->  		omapbl_send_intensity(bl->current_intensity);
->  		omapbl_send_enable(1);
-> -		break;
-> +	} else {
-> +		omapbl_send_intensity(0);
-> +		omapbl_send_enable(0);
->  	}
->  }
->
-> @@ -61,7 +53,7 @@ static int omapbl_suspend(struct device *dev)
->  	struct backlight_device *bl_dev = dev_get_drvdata(dev);
->  	struct omap_backlight *bl = bl_get_data(bl_dev);
->
-> -	omapbl_blank(bl, FB_BLANK_POWERDOWN);
-> +	omapbl_power(bl, false);
->  	return 0;
->  }
->
-> @@ -70,33 +62,37 @@ static int omapbl_resume(struct device *dev)
->  	struct backlight_device *bl_dev = dev_get_drvdata(dev);
->  	struct omap_backlight *bl = bl_get_data(bl_dev);
->
-> -	omapbl_blank(bl, bl->powermode);
-> +	omapbl_power(bl, bl->power);
->  	return 0;
->  }
->  #endif
->
-> -static int omapbl_set_power(struct backlight_device *dev, int state)
-> +static void omapbl_set_power(struct backlight_device *dev, bool on)
-
-May also like a new name...
-
-
->  {
->  	struct omap_backlight *bl = bl_get_data(dev);
->
-> -	omapbl_blank(bl, state);
-> -	bl->powermode = state;
-> -
-> -	return 0;
-> +	omapbl_power(bl, on);
-> +	bl->power = on;
->  }
->
->  static int omapbl_update_status(struct backlight_device *dev)
->  {
->  	struct omap_backlight *bl = bl_get_data(dev);
-> +	bool power;
->
->  	if (bl->current_intensity != dev->props.brightness) {
-> -		if (bl->powermode == FB_BLANK_UNBLANK)
-> +		if (bl->power)
->  			omapbl_send_intensity(dev->props.brightness);
->  		bl->current_intensity = dev->props.brightness;
->  	}
->
-> -	if (dev->props.fb_blank != bl->powermode)
-> -		omapbl_set_power(dev, dev->props.fb_blank);
-> +	if (backlight_is_blank(dev))
-> +		power = false;
-> +	else
-> +		power = true;
-
-I'd be happy with:
-
-    enable = !backlight_is_blank()
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 
 
 Daniel.
