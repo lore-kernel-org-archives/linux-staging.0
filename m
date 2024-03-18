@@ -1,131 +1,93 @@
-Received: from fout1-smtp.messagingengine.com (fout1-smtp.messagingengine.com [103.168.172.144])
+Received: from smtp16.bhosted.nl (smtp16.bhosted.nl [94.124.121.27])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DF2225624
-	for <linux-staging@lists.linux.dev>; Mon, 18 Mar 2024 08:30:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.144
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ED0328DD2
+	for <linux-staging@lists.linux.dev>; Mon, 18 Mar 2024 09:07:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=94.124.121.27
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710750644; cv=none; b=l+Lqh2ue3YYhj75RzimsQgvtUZ3gALoYzsSuYHU51Cs+yI+nVTKADdfAWqpEXqAJytY2hma73ZCtNarJDBotXu0jO/6OAqjDbyAG06PUz6KDccSFiWHNenblS8yMC3jpWpVkkKBvBm9Zojsd/9CY0nqgzLQ4W4VaBIlPjndpzVw=
+	t=1710752866; cv=none; b=TKai7748WrueDvr3vujyzpZC+TgFNb2jNZ2QcFPpcMYRSp0nerms8f7yrpRqWh9bqYoJekYjeKxTiISY+B2v6/8hDhRiOzivOHx6q5RVg5yVvLhNBPHmdqdXomlMPGp3ocr0N1u6BDmGFhYZct1Dq/y6lXSX1X0v86w9waMUGsw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710750644; c=relaxed/simple;
-	bh=6e8qgncYW+RnLPrtDD7i0E/LZBdUAlFp72Fl17NKnb8=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=UiYIAKyBLRlQqQbU0pdBjRQ7PxRbnj22EiIcBSwWh/7EFR8w3DrBBJpN2YKlmpgO+SyImf0e5SnkdMmXL7sAIQx4UKwX2J21EDaxSxjthFoA29Re1x0UtG6Pst8bYT5N085qdZatt3w6oLbhqzCSpoMQSctoEAeydcHLpLI+mB4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=WbTzVS7Z; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=xDPIXjyO; arc=none smtp.client-ip=103.168.172.144
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1710752866; c=relaxed/simple;
+	bh=oDrMrlYSuxrgaoSfTWeaii5crOeguX/3uHvQtjSWjFo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=L3NA92FZLygg5uXyxdq2AvyVT0Yk5yCbWvIvYDr2h5gu6L9DMUmNst3fs9lEmKWe5YcjZqdjEJ3rTpXGsFDq83VMG+JNcO50Zi04J5AQmsmSsZCV+ElyYmDSl0TODPny8/rhW3IP8z7mUh9zwU74B5OYRxqX/hwdbZyirxFji8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=protonic.nl; spf=pass smtp.mailfrom=protonic.nl; dkim=pass (2048-bit key) header.d=protonic.nl header.i=@protonic.nl header.b=ewu7LAl9; arc=none smtp.client-ip=94.124.121.27
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=protonic.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonic.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="WbTzVS7Z";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="xDPIXjyO"
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailfout.nyi.internal (Postfix) with ESMTP id 6021513800F9;
-	Mon, 18 Mar 2024 04:30:41 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Mon, 18 Mar 2024 04:30:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1710750641;
-	 x=1710837041; bh=K8UFES4KEJzR+9ryXQi7IwVdeZdxrgH5kWPmcyDwpu0=; b=
-	WbTzVS7ZwQp1jY+my92szG6vbXb8dH+9q5TPJYfKeg2MTxp5tjc1S/f64ghYbS5Q
-	ICXIAXX5Ie3uan2w3IFPCkHpM78sNzln+mZKeOQ4J+5PKMQyvbKLj5Y66Ddv9nf3
-	bny8045MIkJgBOo8OR4vBLJCyN2rqWbrE9zanVJEeRpuRHsstnfGszYL7CSiFk1u
-	x2D835eMoBiHauahAyRsjxj6YcnXcT46WJdZJP3IGcXB72sVvF0dMSzqg43UHDNN
-	IrQl0YScMPg6rPhOChSlPjpIV679GJ7MKuRWmaZeFID6eaDFw8Zy9U+j60LCyIYW
-	ROtOYRV7owtiLDvGUGweeQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1710750641; x=
-	1710837041; bh=K8UFES4KEJzR+9ryXQi7IwVdeZdxrgH5kWPmcyDwpu0=; b=x
-	DPIXjyONcVYsfWYKpGCoCdy7rJA5BHwmil73mZ8aEZCxtDqUeMDE+lfwEoS3SoeE
-	24rYswJlX/AiAcrUrowQtw1oXmnmF690lIECmFDjWaxF01ZQzgdW14/AoZkOYTMk
-	vQIaLGZGFxn9bjw31qisvavmNB+Eq1ZB/sd8c+54PjA4dqUvkcqrpCfaAKRkmwVI
-	qAjf29iS212QAXK22VgPT8g4Tu7XpubjStn6+Fa6/Btj2kNni47+SREyFvZmfmEO
-	/HKSrC41zUYsC6nromblCjMFRQQeaT15ovikx5nDpmTkG7weS8hgx4xF+zIICgfI
-	lfjQch7d/sDaFMQFotzfg==
-X-ME-Sender: <xms:sPv3ZYnpsIBg2F4f3WNsTfuo3TlBAvsCYQp-xenHetgC_XSL63-0Jg>
-    <xme:sPv3ZX2hZh2aACd643evdWG-okTxQdai_jkmIiLGfWMuq1jtwcdOW7u_-LjYtf17a
-    qFe-XHl-s04z0CkgvY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrkeeigdduvdduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtgfesthhqredtreerjeenucfhrhhomhepfdet
-    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
-    htthgvrhhnpeegfeejhedvledvffeijeeijeeivddvhfeliedvleevheejleetgedukedt
-    gfejveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    grrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:sPv3ZWpoZfYpPO1QPl002rBHqFgC6UN26vBUFTWKnd798IpUGGo0YQ>
-    <xmx:sPv3ZUkdmHeheJIq_rtmXYqr96xynBuR6_cQSRXzaCZ8hFi3kUS89g>
-    <xmx:sPv3ZW3Sox8Fk-DIkIPa40InJDQKTSy_HZ6T3fp0gY46o1YjDgUbYg>
-    <xmx:sPv3ZbsiMauJ_XFogtKA5XNt3pUjpIslbQPQWrbrCtDmTpHWY4s5gQ>
-    <xmx:sfv3ZfvZBxpY_mQfQFkMmMPkT47CWR5Xi9Aq5QkQKclbKz0DHqp9cw>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id A809EB6008D; Mon, 18 Mar 2024 04:30:40 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-300-gdee1775a43-fm-20240315.001-gdee1775a
+	dkim=pass (2048-bit key) header.d=protonic.nl header.i=@protonic.nl header.b="ewu7LAl9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=protonic.nl; s=202111;
+	h=content-transfer-encoding:content-type:mime-version:references:in-reply-to:
+	 message-id:subject:cc:to:from:date:from;
+	bh=FoIRlkqO1ctp4s2PeetRomEn5bkVsq7p5O2sYKCStY8=;
+	b=ewu7LAl9hGfWHdB4/VRMy3TXUslfNg2HFaTeTI2PpqE4C6Vo6H1vDt6RgKLSk4gFkU50Aj2pHYtSy
+	 hakOwv5p2GKUeqGCNHQbPc7vXUflHZcdfZPFxoqwMUlXuHZc3kwQAW2gk+7DrEI2C9wz945QAuB8eF
+	 mPTCZdHoghSPfCPM6KQ0OpjaQJGiUVzhFJQxM/5MIA4XE8h60OTQAfsAzsDlDjRqRL5Yms7+xTOBgp
+	 NJJWXq0D03AESW53VuSlkTSZgfe3442wnffO1Rm9d9RdBPAuIvDxKwC9l7axcI1i3bKgtnwXpgGGfz
+	 td9ho0wYr2rrtHhv521NtOvbzXbiSpA==
+X-MSG-ID: d02c6a3a-e506-11ee-844c-005056817704
+Date: Mon, 18 Mar 2024 10:06:31 +0100
+From: Robin van der Gracht <robin@protonic.nl>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: lee@kernel.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
+ deller@gmx.de, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev, Miguel Ojeda
+ <ojeda@kernel.org>
+Subject: Re: [PATCH 1/6] auxdisplay/ht16k33: Replace use of fb_blank with
+ backlight helper
+Message-ID: <20240318100631.253b2d8e@erd007.prtnl>
+In-Reply-To: <20240313154857.12949-2-tzimmermann@suse.de>
+References: <20240313154857.12949-1-tzimmermann@suse.de>
+	<20240313154857.12949-2-tzimmermann@suse.de>
+Organization: Protonic Holland
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-Id: <940451c9-cf0b-4be0-9116-80cf7c89a611@app.fastmail.com>
-In-Reply-To: <cbdb25ca-f419-4afe-9b58-7d274445aefd@moroto.mountain>
-References: <6dc14151-e71e-4118-826d-3ca5c8ee907f@gmail.com>
- <fba3951f-00b7-41af-8ef4-1e7c86e0cb48@moroto.mountain>
- <6c772d15-d249-4175-93f4-ca523006129b@gmail.com>
- <5716d138-ace0-4621-ab34-118610255207@app.fastmail.com>
- <cbdb25ca-f419-4afe-9b58-7d274445aefd@moroto.mountain>
-Date: Mon, 18 Mar 2024 09:30:19 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Dan Carpenter" <dan.carpenter@linaro.org>
-Cc: "Philipp Hortmann" <philipp.g.hortmann@gmail.com>,
- "Lee Jones" <lee@kernel.org>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- "Larry Finger" <Larry.Finger@lwfinger.net>,
- "Johannes Berg" <johannes@sipsolutions.net>, "Kalle Valo" <kvalo@kernel.org>,
- "Julia Lawall" <julia.lawall@inria.fr>
-Subject: Re: [RFC] staging: wlan-ng: Driver broken since kernel 5.15
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Mar 18, 2024, at 09:01, Dan Carpenter wrote:
-> On Sun, Mar 17, 2024 at 09:20:34PM +0100, Arnd Bergmann wrote:
->> On Sun, Mar 17, 2024, at 21:07, Philipp Hortmann wrote:
->> > On 3/11/24 08:04, Dan Carpenter wrote:
->> >> On Sat, Mar 09, 2024 at 11:09:24PM +0100, Philipp Hortmann wrote:
->> > You are right with the statement that it is this commit.
->> > commit ea82ff749587807fa48e3277c977ff3cec266f25 (HEAD)
->> > Author: Lee Jones <lee.jones@linaro.org>
->> > Date:   Wed Apr 14 19:10:39 2021 +0100
->> >
->> >      staging: wlan-ng: cfg80211: Move large struct onto the heap
->> >
->> >      Fixes the following W=3D1 kernel build warning(s):
->> >
->> >       drivers/staging/wlan-ng/cfg80211.c: In function =E2=80=98pris=
-m2_scan=E2=80=99:
->> >       drivers/staging/wlan-ng/cfg80211.c:388:1: warning: the frame =
-size=20
->> > of 1296 bytes is larger than 1024 bytes [-Wframe-larger-than=3D]
->> >
->> > But It is not depending on the line you pointed to.
->>=20
->> Right, the kzalloc() already clears the data, so the memset
->> is not needed.
->>=20
->
-> No, it's inside a loop so it needs to be cleared on each iteration.
+Hi Thomas,
 
-Right, at least the conversion could not remove the memset()
-without a deeper analysis. It's still likely that each
-field of the structure still gets initialized properly
-inside the loop and the repeated memset() wasn't necessary
-in the first place, but that is a completely separate question.
+Thank you for submitting your patch, it looks fine to me.
 
-    Arnd
+Reviewed-by: Robin van der Gracht <robin@protonic.nl>
+
+On Wed, 13 Mar 2024 16:45:00 +0100
+Thomas Zimmermann <tzimmermann@suse.de> wrote:
+
+> Replace the use of struct backlight_properties.fb_blank with a
+> call to backlight_get_brightness(). The helper implement the same
+> logic as the driver's function.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Robin van der Gracht <robin@protonic.nl>
+> Cc: Miguel Ojeda <ojeda@kernel.org>
+> ---
+>  drivers/auxdisplay/ht16k33.c | 7 +------
+>  1 file changed, 1 insertion(+), 6 deletions(-)
+> 
+> diff --git a/drivers/auxdisplay/ht16k33.c
+> b/drivers/auxdisplay/ht16k33.c index a90430b7d07ba..83db829b97a5e
+> 100644 --- a/drivers/auxdisplay/ht16k33.c
+> +++ b/drivers/auxdisplay/ht16k33.c
+> @@ -314,14 +314,9 @@ static int ht16k33_initialize(struct
+> ht16k33_priv *priv) 
+>  static int ht16k33_bl_update_status(struct backlight_device *bl)
+>  {
+> -	int brightness = bl->props.brightness;
+> +	int brightness = backlight_get_brightness(bl);
+>  	struct ht16k33_priv *priv = bl_get_data(bl);
+>  
+> -	if (bl->props.power != FB_BLANK_UNBLANK ||
+> -	    bl->props.fb_blank != FB_BLANK_UNBLANK ||
+> -	    bl->props.state & BL_CORE_FBBLANK)
+> -		brightness = 0;
+> -
+>  	return ht16k33_brightness_set(priv, brightness);
+>  }
+>  
