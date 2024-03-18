@@ -1,171 +1,97 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D205F55794
-	for <linux-staging@lists.linux.dev>; Mon, 18 Mar 2024 17:07:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A23738DD3;
+	Mon, 18 Mar 2024 18:51:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710781662; cv=none; b=bVU0FHhLYx4dmG4ceOAaGrJ3kbuszgoair0kAEn6qjQ0YvzQedqMxQwm24taBzKElH2/s7hWHwqTpcI+DEZXu30zmbVY0kxrt+dhyz49CbWYkuCBqElQXYeHvxju5VvdlDOmqmhg4f0LTbr19Ijg8RkOYtN1mSlKFI+CiaUkqEs=
+	t=1710787900; cv=none; b=q2zpX6OWaf4ahuYk3kEEJc0liu/zSCTV7mYOETRg2jrtovvHi/InmlqpeALkSdlH6DXd61eGp3D0d+pQDGhWOgwwg50PBzSDKl9ak/pu/8qJNLq5g+9IS+GAlMXh8evk/6RzTR4gJyAZkDmFFzw0ss3VP7eu4NPEduqrlZcxCqA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710781662; c=relaxed/simple;
-	bh=iw44JYMdpRhnvUSLK2BkH4jibuZa/JCBTRlLI+djmyk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=th/k6tc11/Zg66XLwSYVn3lLUs7m0E+zl8sKamKEjQz83tT5R/zkUhNHBCa4WC/XaAmryQ6UMOaTKoAl/KevApsF0w1G9rHuSFwKjXvoO2VVJ0YB0XUmnqerKvAnCku5/U4c6ebyrWAcKt3MohhWFtJMykzIRg8ntsgbFcFb4ns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lBtPzrWt; arc=none smtp.client-ip=209.85.208.53
+	s=arc-20240116; t=1710787900; c=relaxed/simple;
+	bh=ahQLJbLApCM8ufyy92oRhxd+4qzy4sps8/Rvg6hzEmo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=FyZJPQYIRV+I2rcVWpHR7jK2R3JxbgAI/BTTsAJaCQXTBONwHOGJrYjD2jTXFulgiUM7MEhcPreTc6BIWl8QS3+9Nu1fPMgphWrzDcjpTRadeGffOFJTZA7JaMvnrZK/FthhTgD80om6/EBhSA977/MWRWwpI0Dh3Osd/Lz/km4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k8nOqFfD; arc=none smtp.client-ip=209.85.210.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lBtPzrWt"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-56aa63bd94cso278264a12.0
-        for <linux-staging@lists.linux.dev>; Mon, 18 Mar 2024 10:07:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k8nOqFfD"
+Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-6e69a77f41dso360261a34.3;
+        Mon, 18 Mar 2024 11:51:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710781659; x=1711386459; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=gmail.com; s=20230601; t=1710787898; x=1711392698; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=RQXiBvps7/vhp9jm0e7FEbfRyxZWtxROwZJ9DzCuQWw=;
-        b=lBtPzrWthi/66uNh1ZHi+BQgpHzLPCQwbb2CpgLn8p3u19i30PB0nqCJybZRqU3NnV
-         9PIKH0WCzxaeZorFUDYftBQ2woDJGQTqXdxEJWPFJHGsUr1PmQ9j1Bs/PnD7CZKQBVD8
-         pMWT+/QKx1nFfBC4/Cc2k/xq3vA+OiD0hYIxPfBDzP+8I9xGASZuntz49w08wwhBJsFo
-         WxwiIguw5r+t1zsG+dmoFsQBqUUVY3YEeqcQj1miJzX6jhlr0fVRVwBBcp19SHC6JrnC
-         owKRlgVtuhzLkG/xhqLmCdzFM8Xy42J5tzi4QFtsJmo5W6XpfXzu4MKkn9JkAHdpKg79
-         /RZA==
+        bh=W4S6X4A8DTBN48FZBm9DivzJsFjgIU/rIF1zK+bYOx4=;
+        b=k8nOqFfD/dXgnhq0VGVPNJltXdOJfuto9ebrxPUyJl49JmrTqirBICL8I1C2VKpPa0
+         wdztvVK5n+X7oPGfYAC52e3QSVYjdHyLVY45SUUjjCXOjDhFM/7RfN16msONmtDj7EMO
+         g0Jn9RmMydc7lVx+pJNk7s+SR56OJK5W87sIKbwk2Lf7Gzzbv5T1dTp3Ov6vWLmRD4bS
+         7q7Is22UbNviXZ1Pm1crJGRorP49QJqzOrdF8PG3WA5c4fgTqaKzX4egWpd0PWFNtVnx
+         bAyciyuo7N0lc2tN+VPaT2Taeru4CNS/V9Y/iD0rG8XsLI62AgHmv4LscV8cjN3D6F2S
+         gIow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710781659; x=1711386459;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1710787898; x=1711392698;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RQXiBvps7/vhp9jm0e7FEbfRyxZWtxROwZJ9DzCuQWw=;
-        b=RKcQPU97kTTmWPBiKrH/jTlqJ0kMMwOgmY/JBEJq++a21LPk9RdwlF0trrsM67tG73
-         z3xvSvD+ppTrNsBvH1BL3EMPBi/okzReX/AhwTT9p/W8zE2cx/RvL5aenbh3E8NiYSVP
-         b+coNo2v78dCkX2sZApXw6Nk00AxmMsPLSO6b6Cf/RvCcoQO53AirJ7q20ilw9aZFM2Z
-         TQ98F3kBBLEFvvO2lNPwDVrSLO7rYFM5CbpaxQw4+kxx3DaaRU9CLxNF1tmTD3lbfxOF
-         meFuJ/BqEPpQ6JWibiTV7GBLB1sMEA2wXv4Y/AGsmQuu1bEBDbyIFQWz6wXlhc/+3q8b
-         N99Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWxjDqXAu7lO+Z3t5wJgpymt/dd9gBty7t9ESIX9iwFGLG325U5Msv32pvi/KnUcxIB/lg4SHJphi1kQttVTtlj18MzBd4FRTI+UCLQpA==
-X-Gm-Message-State: AOJu0YwJrAwqFOAnX4EDuqmoFT1rya6AU5peX/nZU9lj0J+SE03ZMyjt
-	CSolQYYel7s34YC73b9fZ1qmw+RmocV3xHo49e8Lj8x2DMgzJu1U
-X-Google-Smtp-Source: AGHT+IGuaU6uzyYeX6jSGyfcME0djstfNqJmUWGI6VUkVW/mutim/j1ZGboBusSrwRLn6uTqmrHtLw==
-X-Received: by 2002:a05:6402:3212:b0:568:8b4d:ad91 with SMTP id g18-20020a056402321200b005688b4dad91mr34361eda.0.1710781658985;
-        Mon, 18 Mar 2024 10:07:38 -0700 (PDT)
-Received: from [192.168.1.101] (p54a07fa0.dip0.t-ipconnect.de. [84.160.127.160])
-        by smtp.gmail.com with ESMTPSA id c1-20020a056402100100b0056b8345e10csm516764edu.6.2024.03.18.10.07.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Mar 2024 10:07:38 -0700 (PDT)
-Message-ID: <5fa18cb8-3c51-4ac6-811e-63ae74f82f17@gmail.com>
-Date: Mon, 18 Mar 2024 18:07:34 +0100
+        bh=W4S6X4A8DTBN48FZBm9DivzJsFjgIU/rIF1zK+bYOx4=;
+        b=nZKr9v6poQ4BnGlrAWw0A0sOO4WIULLW173Ge6iRy9pYYiBuYdVbXEfKBoun37OAoz
+         nx96Bx7pRKJ/Al7lmjO55DN7XgTMmSkC73nRE65MgUnfpdrXajIGK2cD8asAvSQh+YF1
+         F9k6frZPgDpfpDpjGjEHjckKq0vbhODqa6l5nJwTD8DKHqqWKfS5xDXEvAZB3WLAQOJc
+         4kzlscua0sJi9lNg36oYeHrmZHUdD/9YIpzdDP4iMXRzIg13iEnaCHacYy5fgoBubRJ5
+         ejwqTdD8N0wgoii03dbPDqLuWMeKjIrUUwQ+op2lLQrY2aSizR7LHYG3aEM7gaZe8Fbj
+         3KDw==
+X-Forwarded-Encrypted: i=1; AJvYcCV3wnDGsKlHcBJj34b6crm6HUEBzIvNPfHuJ+uePQaQmFEcBvrgxllAK8DYYTeC2vJfH4ObXHTRd1j3/bZc2qoeXi2hd60MskBqIicLQw==
+X-Gm-Message-State: AOJu0Yyc05afv4ggwj3xzVi76Hd1Ep6TG91XeYUSIW7/tVB+esrYrWUh
+	oXc102l4GiId3lghxpBUrYNFGs5tvxIb3NLZn1lYdaGOD8hOZAhdbRB918iAKAE=
+X-Google-Smtp-Source: AGHT+IG5BmiYocILJJdGnJUPa1f9DZp9BfwZ3Xo/xOjn4ptsOpFPYVi2UNsPewbbhuLYOwUscKDOAQ==
+X-Received: by 2002:a05:6870:4629:b0:221:a97c:eb64 with SMTP id z41-20020a056870462900b00221a97ceb64mr644274oao.13.1710787897919;
+        Mon, 18 Mar 2024 11:51:37 -0700 (PDT)
+Received: from ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx ([103.6.158.68])
+        by smtp.gmail.com with ESMTPSA id v22-20020a634816000000b005dc26144d96sm7525201pga.75.2024.03.18.11.51.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Mar 2024 11:51:37 -0700 (PDT)
+Date: Tue, 19 Mar 2024 00:21:34 +0530
+From: Ayush Tiwari <ayushtiw0110@gmail.com>
+To: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
+	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Cc: outreachy@lists.linux.dev
+Subject: [PATCH v2] staging: rtl8712: Fix line length exceeding 100 columns
+Message-ID: <ZfiNNvks6v0JGhRA@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC] staging: wlan-ng: Driver broken since kernel 5.15
-Content-Language: en-US
-To: Dan Carpenter <dan.carpenter@linaro.org>, Arnd Bergmann <arnd@arndb.de>
-Cc: Lee Jones <lee@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- Larry Finger <Larry.Finger@lwfinger.net>,
- Johannes Berg <johannes@sipsolutions.net>, Kalle Valo <kvalo@kernel.org>,
- Julia Lawall <julia.lawall@inria.fr>
-References: <6dc14151-e71e-4118-826d-3ca5c8ee907f@gmail.com>
- <fba3951f-00b7-41af-8ef4-1e7c86e0cb48@moroto.mountain>
- <6c772d15-d249-4175-93f4-ca523006129b@gmail.com>
- <5716d138-ace0-4621-ab34-118610255207@app.fastmail.com>
- <cbdb25ca-f419-4afe-9b58-7d274445aefd@moroto.mountain>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <cbdb25ca-f419-4afe-9b58-7d274445aefd@moroto.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 3/18/24 09:01, Dan Carpenter wrote:
-> On Sun, Mar 17, 2024 at 09:20:34PM +0100, Arnd Bergmann wrote:
->> On Sun, Mar 17, 2024, at 21:07, Philipp Hortmann wrote:
->>> On 3/11/24 08:04, Dan Carpenter wrote:
->>>> On Sat, Mar 09, 2024 at 11:09:24PM +0100, Philipp Hortmann wrote:
->>> You are right with the statement that it is this commit.
->>> commit ea82ff749587807fa48e3277c977ff3cec266f25 (HEAD)
->>> Author: Lee Jones <lee.jones@linaro.org>
->>> Date:   Wed Apr 14 19:10:39 2021 +0100
->>>
->>>       staging: wlan-ng: cfg80211: Move large struct onto the heap
->>>
->>>       Fixes the following W=1 kernel build warning(s):
->>>
->>>        drivers/staging/wlan-ng/cfg80211.c: In function ‘prism2_scan’:
->>>        drivers/staging/wlan-ng/cfg80211.c:388:1: warning: the frame size
->>> of 1296 bytes is larger than 1024 bytes [-Wframe-larger-than=]
->>>
->>> But It is not depending on the line you pointed to.
->>
->> Right, the kzalloc() already clears the data, so the memset
->> is not needed.
->>
-> 
-> No, it's inside a loop so it needs to be cleared on each iteration.
-> 
->>> I need another week to look into this.
->>
->> I'm fairly sure this fixes the bug, the problem here was that
->> the cast to (u8 *) hides the incorrect conversion:
->>
->> diff --git a/drivers/staging/wlan-ng/cfg80211.c b/drivers/staging/wlan-ng/cfg80211.c
->> index 471bb310176f..9d6a2dd35ba9 100644
->> --- a/drivers/staging/wlan-ng/cfg80211.c
->> +++ b/drivers/staging/wlan-ng/cfg80211.c
->> @@ -350,7 +350,7 @@ static int prism2_scan(struct wiphy *wiphy,
->>   		msg2->msgcode = DIDMSG_DOT11REQ_SCAN_RESULTS;
->>   		msg2->bssindex.data = i;
->>   
->> -		result = p80211req_dorequest(wlandev, (u8 *)&msg2);
->> +		result = p80211req_dorequest(wlandev, (u8 *)msg2);
-> 
-> Ah, well done.
-> 
-> It feels like this is the kind of bug which should be caught with
-> static analysis.  One of the things that people want from static
-> analysis is looking at what a patch does.  So if we pass &msg2 and the
-> patch moved msg from the stack to be kmalloc()ed, then print a warning.
-> It's not something that Smatch does.
-> 
-> I have my rename_rev.pl script (https://github.com/error27/rename_rev)
-> which I use to filter out variable renames or see if (1 << foo) is
-> converted to BIT(foo) correctly.  Maybe I could extend that to check
-> "move stack to heap" patches...
-> 
-> regards,
-> dan carpenter
-> 
+Split the argument list of the kthread_run function call across two
+lines to address the checkpatch warning "line length exceeds 100
+columns".
 
-Hi,
+Signed-off-by: Ayush Tiwari <ayushtiw0110@gmail.com>
 
-This change alone.
+---
+change in v2: Fixed the alignment to address checkpatch.pl warning
+---
+ drivers/staging/rtl8712/os_intfs.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-+++ b/drivers/staging/wlan-ng/cfg80211.c
-@@ -350,7 +350,7 @@ static int prism2_scan(struct wiphy *wiphy,
-                 msg2->msgcode = DIDMSG_DOT11REQ_SCAN_RESULTS;
-                 msg2->bssindex.data = i;
-
--               result = p80211req_dorequest(wlandev, (u8 *)&msg2);
-+               result = p80211req_dorequest(wlandev, (u8 *)msg2);
-                 if ((result != 0) ||
-                     (msg2->resultcode.data != 
-P80211ENUM_resultcode_success)) {
-                         break;
-makes the driver work again under latest kernel.
-
-I can only use unencrypted transmission. Throughput is 200 to 800kByte/s
-WEP would need further investigation.
-
-Thanks for your support.
-
-Bye Philipp
-
-
-
-
-
-
+diff --git a/drivers/staging/rtl8712/os_intfs.c b/drivers/staging/rtl8712/os_intfs.c
+index e77fcfc465ba..1b11f8b04e13 100644
+--- a/drivers/staging/rtl8712/os_intfs.c
++++ b/drivers/staging/rtl8712/os_intfs.c
+@@ -222,7 +222,7 @@ struct net_device *r8712_init_netdev(void)
+ static u32 start_drv_threads(struct _adapter *padapter)
+ {
+ 	padapter->cmd_thread = kthread_run(r8712_cmd_thread, padapter, "%s",
+-			padapter->pnetdev->name);
++					   padapter->pnetdev->name);
+ 	if (IS_ERR(padapter->cmd_thread))
+ 		return _FAIL;
+ 	return _SUCCESS;
+-- 
+2.40.1
 
