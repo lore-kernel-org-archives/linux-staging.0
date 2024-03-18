@@ -1,136 +1,88 @@
-Received: from wfout8-smtp.messagingengine.com (wfout8-smtp.messagingengine.com [64.147.123.151])
+Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 310301B7F7
-	for <linux-staging@lists.linux.dev>; Sun, 17 Mar 2024 20:20:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3570C22EF0;
+	Mon, 18 Mar 2024 07:39:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.104
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710706860; cv=none; b=E+IA4TR477/7BAD7wpt2tmnyk4rhIP7aInJPVl4YOlk6peiLt5cVVXZiUFmCeDnHrayiuu7HB6Nblf6c0DVBe8pkEKW7fFpXbtHcz+6We3I+wsG4lfznCdWGkX3Z2hnhg5HrhoYDUNvgn+a4KM1K/G1rFq5Fy/BUxn4le3+ZrJU=
+	t=1710747564; cv=none; b=puRT2UncY8zKfjk368zpJW9jI07gJAixoos9jn58zXaTrtgNjUg00yntKqqYJFIFUz97Jjn2EY4TDuvbfr5IuBi1G+OujBchHho52BoA2+KcnTTth/FOhWDNSsPcxdK+Zr7uuj2NhH0rapDsbSDN2fv1C3J3niooCFJpbk9xvro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710706860; c=relaxed/simple;
-	bh=/1v7Vj6mpZndRJ2eX6+FUyOOJ7RtQ+j9vPkLALQZgAM=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=j49fovNFbcBSX9QC7OoxENQ2EXr//mXcWfhEpFtWkFPQpDMkmrr/COvOrbTCnn/WkZEqOJGc2rZKb4Oqpk7bdgdFgDuPHzBetsdrF3gQmbNLdU68Daygupnp2xYhL4GtxwYvI5Q08WYJyx6P3A2VnLbQf2FVeDpdn6RbPp5MWVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=C/uVcQgP; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=hV0P8wI+; arc=none smtp.client-ip=64.147.123.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1710747564; c=relaxed/simple;
+	bh=EPLKDH3VljXFWrIbZBKT4SRpU0X8LxisU7rbFzf2ES4=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=agJQUvI0s++59Mx29KHo2/V88bb8b7/x1FhXEZ89KIrcnLRyGkcF098UtOZxaFyuZKjdAwNNxcxEgny52Cp1LZG0rXTpN9GWlsyvvGdJbhC29dmSkPW2JQa7ffQUV0MzgznNRTnLDuF73aZhyx+aElksFRrTQat3qT0Ohx3XtFI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=fdIxhYz0; arc=none smtp.client-ip=192.134.164.104
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="C/uVcQgP";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="hV0P8wI+"
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailfout.west.internal (Postfix) with ESMTP id 9B93F1C000BF;
-	Sun, 17 Mar 2024 16:20:56 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Sun, 17 Mar 2024 16:20:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1710706856;
-	 x=1710793256; bh=6HrRUHpYXtmNtwn+NXIkI2LhSUVC7t5pMaTnPTvJqzA=; b=
-	C/uVcQgPeNZzFNajaT9i48G1eVpZV83W8eXFp4qaMkEN0pU+66bys2zs3JAtoPDa
-	ulKWcUxR4UD2LkXXeeSgoCqeJng2Mf1hqh3uKDDh0uwDjJHsP7WO3FFpF4hNOGaj
-	/cpcjVahuc63MWtMeqdJCzNLvb9STt7tzly29kE2H8ePu0VWyhZlg3Ef5ziv37aS
-	EbVNiPfxjl3Xk7cKCRkaE8Fhxs2x0OQ9yfhsL97D1NzN47nzhsphok5vA62mTDk3
-	KSh+JjYUN+BTlCjNjXLx0b7UmmvfUINbSg2uAGq2Rgt2Q4IhSL67elkrUlPnBT6F
-	BXSezF6ymmuxtAsMJuCHOg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1710706856; x=
-	1710793256; bh=6HrRUHpYXtmNtwn+NXIkI2LhSUVC7t5pMaTnPTvJqzA=; b=h
-	V0P8wI+qYNmmHPjirwWAC/ncxDmy1f6OGNfjSfg/8K/JPM2qOI2ru/t/pPcglaGc
-	lOiWamZTrKoOsliVFgoTMmvx5jRpIf3NclgRy/P5K7ODamjaUqkP2ikv6NCUMuVl
-	SAw31wIY1ojr9XTkcdJAgDiyhWKojeAIupdTZmz0ekSORKBZddHn2vrrFswlumfB
-	i3cxcod71/VW+oJrGdE8MigzdyiBG+rEKFKsuBpkHS4/AsEoqGKJ6vpIa3Rb4Clt
-	TrYaKx35+BdZH9TXs9/McfT2IufFWlZe0U/7uU8wEKowVLMjrF5ZkZaq6jcFF0hw
-	sVkVtS7oh6fKVNfLEENjw==
-X-ME-Sender: <xms:p1D3ZUmGH881RIK0Ub0P1mq0znlj8UQCIInElo1rReMFVwxMcj-uxQ>
-    <xme:p1D3ZT3fU-TPUvpWVMRa99PAZpo0GcRHy9YL8CltdMSYebAvy1Z1wJ9zilwFKLyFs
-    YbKS_onqiprHegiZgg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrkeehgdduudefucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtgfesthhqredtreerjeenucfhrhhomhepfdet
-    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
-    htthgvrhhnpeegfeejhedvledvffeijeeijeeivddvhfeliedvleevheejleetgedukedt
-    gfejveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    grrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:p1D3ZSoz4zum-TXcoZnOs1rVdgFC7H7aIQwrCDXaID4q-PXFHcCaGA>
-    <xmx:p1D3ZQnxT3ujtJu_25NPrt7q5HPD8x2lGuijhoNQRnjTVQAGkXucmA>
-    <xmx:p1D3ZS17J5I1r7Z-vOLTWiG06ErZolGZMbiGSxCezXU92pg8HCdSrQ>
-    <xmx:p1D3ZXt83MdvDQCwwf0pcTFjupfpgBsA2zNwgk_J6AqwOnSJVWBR2w>
-    <xmx:qFD3ZQxmV6TGwpvtkusWi-ZbGV7mJ0Ehha0p1AQHolqBACnnR3u41UX-myw>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id C1B81B6008D; Sun, 17 Mar 2024 16:20:55 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-300-gdee1775a43-fm-20240315.001-gdee1775a
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="fdIxhYz0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=MbnpG8HNWfn6gCZ9HY/lgZBQCyKazod2hyic2wq2c0E=;
+  b=fdIxhYz0rTABKuRyQSTg26nnVDVMP0hgoNRMoiEOa3YOnUAa1L/9sWPl
+   vHge/fk4WW//hyx4PJWi0jeeQQXwKUfP/6suV3FncjElHOvgQvyH90Sie
+   HxbfgSjoTLRc/yauUrJ/pJrFZ2W1QRrLcao2V4ccDAY/fEQN6qgsphmPM
+   g=;
+Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.07,134,1708383600"; 
+   d="scan'208";a="82398387"
+Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2024 08:39:11 +0100
+Date: Mon, 18 Mar 2024 08:39:11 +0100 (CET)
+From: Julia Lawall <julia.lawall@inria.fr>
+To: Ayush Tiwari <ayushtiw0110@gmail.com>
+cc: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com, 
+    gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
+    linux-staging@lists.linux.dev, outreachy@lists.linux.dev
+Subject: Re: [PATCH 1/3] staging: rtl8712: rename backupPMKIDList to
+ backup_PMKID_list
+In-Reply-To: <10336a70a7d1b87857664e9733a419791e0e2ada.1710703217.git.ayushtiw0110@gmail.com>
+Message-ID: <c06e1e30-aeba-c8c-19d7-cdf83ff2099@inria.fr>
+References: <cover.1710703217.git.ayushtiw0110@gmail.com> <10336a70a7d1b87857664e9733a419791e0e2ada.1710703217.git.ayushtiw0110@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-Id: <5716d138-ace0-4621-ab34-118610255207@app.fastmail.com>
-In-Reply-To: <6c772d15-d249-4175-93f4-ca523006129b@gmail.com>
-References: <6dc14151-e71e-4118-826d-3ca5c8ee907f@gmail.com>
- <fba3951f-00b7-41af-8ef4-1e7c86e0cb48@moroto.mountain>
- <6c772d15-d249-4175-93f4-ca523006129b@gmail.com>
-Date: Sun, 17 Mar 2024 21:20:34 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Philipp Hortmann" <philipp.g.hortmann@gmail.com>,
- "Dan Carpenter" <dan.carpenter@linaro.org>, "Lee Jones" <lee@kernel.org>
-Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- "Larry Finger" <Larry.Finger@lwfinger.net>,
- "Johannes Berg" <johannes@sipsolutions.net>, "Kalle Valo" <kvalo@kernel.org>
-Subject: Re: [RFC] staging: wlan-ng: Driver broken since kernel 5.15
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
 
-On Sun, Mar 17, 2024, at 21:07, Philipp Hortmann wrote:
-> On 3/11/24 08:04, Dan Carpenter wrote:
->> On Sat, Mar 09, 2024 at 11:09:24PM +0100, Philipp Hortmann wrote:
-> You are right with the statement that it is this commit.
-> commit ea82ff749587807fa48e3277c977ff3cec266f25 (HEAD)
-> Author: Lee Jones <lee.jones@linaro.org>
-> Date:   Wed Apr 14 19:10:39 2021 +0100
+
+
+On Mon, 18 Mar 2024, Ayush Tiwari wrote:
+
+> Rename backupPMKIDList to backup_PMKID_list and remove extra spaces
+> between RT_PMKID_LIST and backupPMKIDList to address checkpatch
+> warnings and match the common kernel coding style.
 >
->      staging: wlan-ng: cfg80211: Move large struct onto the heap
+> Signed-off-by: Ayush Tiwari <ayushtiw0110@gmail.com>
+> ---
+>  drivers/staging/rtl8712/mlme_linux.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
->      Fixes the following W=3D1 kernel build warning(s):
+> diff --git a/drivers/staging/rtl8712/mlme_linux.c b/drivers/staging/rtl8712/mlme_linux.c
+> index b9f5104f3bf7..a8cda81f4240 100644
+> --- a/drivers/staging/rtl8712/mlme_linux.c
+> +++ b/drivers/staging/rtl8712/mlme_linux.c
+> @@ -84,7 +84,7 @@ void r8712_os_indicate_connect(struct _adapter *adapter)
+>  	netif_carrier_on(adapter->pnetdev);
+>  }
 >
->       drivers/staging/wlan-ng/cfg80211.c: In function =E2=80=98prism2_=
-scan=E2=80=99:
->       drivers/staging/wlan-ng/cfg80211.c:388:1: warning: the frame siz=
-e=20
-> of 1296 bytes is larger than 1024 bytes [-Wframe-larger-than=3D]
+> -static struct RT_PMKID_LIST   backupPMKIDList[NUM_PMKID_CACHE];
+> +static struct RT_PMKID_LIST backup_PMKID_list[NUM_PMKID_CACHE];
+
+This one looks suspicious, because you have changed the definition but no
+uses.  Is it not used?
+
+julia
+
+>  void r8712_os_indicate_disconnect(struct _adapter *adapter)
+>  {
+>  	u8 backupPMKIDIndex = 0;
+> --
+> 2.40.1
 >
-> But It is not depending on the line you pointed to.
-
-Right, the kzalloc() already clears the data, so the memset
-is not needed.
-
-> I need another week to look into this.
-
-I'm fairly sure this fixes the bug, the problem here was that
-the cast to (u8 *) hides the incorrect conversion:
-
-diff --git a/drivers/staging/wlan-ng/cfg80211.c b/drivers/staging/wlan-n=
-g/cfg80211.c
-index 471bb310176f..9d6a2dd35ba9 100644
---- a/drivers/staging/wlan-ng/cfg80211.c
-+++ b/drivers/staging/wlan-ng/cfg80211.c
-@@ -350,7 +350,7 @@ static int prism2_scan(struct wiphy *wiphy,
- 		msg2->msgcode =3D DIDMSG_DOT11REQ_SCAN_RESULTS;
- 		msg2->bssindex.data =3D i;
-=20
--		result =3D p80211req_dorequest(wlandev, (u8 *)&msg2);
-+		result =3D p80211req_dorequest(wlandev, (u8 *)msg2);
- 		if ((result !=3D 0) ||
- 		    (msg2->resultcode.data !=3D P80211ENUM_resultcode_success)) {
- 			break;
-
-     Arnd
+>
+>
