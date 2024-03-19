@@ -1,174 +1,93 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1E007D080
-	for <linux-staging@lists.linux.dev>; Tue, 19 Mar 2024 09:39:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15A6A657CB
+	for <linux-staging@lists.linux.dev>; Tue, 19 Mar 2024 15:25:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710841168; cv=none; b=Hk0u45nkRNyu31M/QBHrehGCsxpWriAo5y4ddjCH6qU+XC1lDqVaHRF4mkRKkFptTxIkj0gmDCxL16pJs8R3hSEcsjmjRpjvk2cumqrkUulClIuyr6twNwjfT/sIPm5OihuFyhbGzN855pvOVPC9yUtbyXLESe5t7WAtHd3Qzws=
+	t=1710861919; cv=none; b=ECgBjMuh3XKkbGm9AZ3wShwiGPZHXvX0vzwAUilO3YKA+c2QNCDrrlodCijl90PB+tBjkqyjOLcYyRxMjvJFe85tP/nVh+a9/XndAl/Pp9RRfz6ZmDNRnB64+hW6wFNoIyv62F6DTEZredZ1He8SJJoFQPwI69k38hzLIuISZSA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710841168; c=relaxed/simple;
-	bh=HKnw7C4eWtSdq4lPuUfuRKifzgi2CLT9yTnkdhpsrIk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZU6QntGoDmTg1C7OUO/X59BPbv0IVtA+zC3R3lL8lsgjeU4ND9krHzB1K3ZAc0aA+4G8WbPk2GmeFGdknfBLVGwQnlZ2pLNyj5s9EwKhw4qiksm79Q35HlE2xj2TuwvgqxDdm8Za620dUocQC4qL3JzHmGwqngEh/hhX82fIZVI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=q0Cgf4cV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=DCbnmhkI; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=q0Cgf4cV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=DCbnmhkI; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1710861919; c=relaxed/simple;
+	bh=j/tOewZO+xITdwu8fyyevSlxd4rQDWIvMngL14Mt4g4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NJO7nkD2cKX4r4QjQq8OzWZqW1aFN+VRoo5IeHw++uOzGbUF88ezQ/ft19Vqkipg3WRDDo7+3WMrraJR0v8XBI0IzT+DtFtJMb9L26JBkRn4vlbIt1XFHlkaIvyngm87qWlXW8lJ/FTd4mXcXK+yygCcaXREbbE6HLFaCuF+Tio=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=P3reLW6j; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="q0Cgf4cV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DCbnmhkI";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="q0Cgf4cV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DCbnmhkI"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 822825D40D;
-	Tue, 19 Mar 2024 09:39:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1710841159; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EsLgC6a7SLMWzCnsR8L8i4IJJpXfcwCqgqO3xARUgMw=;
-	b=q0Cgf4cVKLh9CoqX7WY+E+NNbuXOFB4q5vx8GltZJugFNEKJXOEQXUl4aUJGPSMYTlEMa9
-	pE7iVI9mJAxM9Aw3nkutJMLO63MbyhqdoOlPJfJWuA84VPEGL4vbPB/NAzPc+1hIynGw6l
-	1RcDtd2BakdWSFmHIOWZHY/XuXStBV0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1710841159;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EsLgC6a7SLMWzCnsR8L8i4IJJpXfcwCqgqO3xARUgMw=;
-	b=DCbnmhkI+FTn+to9rEBVMAB0xkQgu1TOjIpPBO13yTdgWJoLMYmPPqAqFEQBzOaH+JRbGh
-	jhjrAE8Ibtm2A6Bg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1710841159; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EsLgC6a7SLMWzCnsR8L8i4IJJpXfcwCqgqO3xARUgMw=;
-	b=q0Cgf4cVKLh9CoqX7WY+E+NNbuXOFB4q5vx8GltZJugFNEKJXOEQXUl4aUJGPSMYTlEMa9
-	pE7iVI9mJAxM9Aw3nkutJMLO63MbyhqdoOlPJfJWuA84VPEGL4vbPB/NAzPc+1hIynGw6l
-	1RcDtd2BakdWSFmHIOWZHY/XuXStBV0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1710841159;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EsLgC6a7SLMWzCnsR8L8i4IJJpXfcwCqgqO3xARUgMw=;
-	b=DCbnmhkI+FTn+to9rEBVMAB0xkQgu1TOjIpPBO13yTdgWJoLMYmPPqAqFEQBzOaH+JRbGh
-	jhjrAE8Ibtm2A6Bg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3902213700;
-	Tue, 19 Mar 2024 09:39:19 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 2Ii/DEdd+WU6GAAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Tue, 19 Mar 2024 09:39:19 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: lee@kernel.org,
-	daniel.thompson@linaro.org,
-	jingoohan1@gmail.com,
-	deller@gmx.de,
-	andy@kernel.org,
-	geert@linux-m68k.org,
-	dan.carpenter@linaro.org,
-	sam@ravnborg.org
-Cc: dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 5/6] staging: fbtft: Remove reference to fb_blank
-Date: Tue, 19 Mar 2024 10:37:24 +0100
-Message-ID: <20240319093915.31778-6-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240319093915.31778-1-tzimmermann@suse.de>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="P3reLW6j"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-414617882b3so10362275e9.3
+        for <linux-staging@lists.linux.dev>; Tue, 19 Mar 2024 08:25:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1710861916; x=1711466716; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=j/tOewZO+xITdwu8fyyevSlxd4rQDWIvMngL14Mt4g4=;
+        b=P3reLW6jONHuGCvHBSREscA9C6K4WnQZ3zCxBzr4Zp+RNjZMRoh8ZQ5lIJnrRnoePE
+         DXo3PSNyj/5jKDz5LjErPNsMeDcAwLYK9cGwQeW/ZO8nyQA5UMlS7HuZim+QRQBUmhfL
+         MVjCdxPALfdebjG80h3fWTOcor274uBPvj9lzX3mdYyjw0Ek7kFk5PP7hyxsCqvo7S0Q
+         xCXsUkDE+6ysBE8udn8q7ejPKrmWK5THBXLayYki9Z0PH5kCXl/KrQQK3l/WJdlEpAKQ
+         IESjEZR6rAmcrr9DAf+uGv2qCM/m4Llh1EcH0icIZYdl6bAUPN+H+6p1Bsu1sGT5Xai6
+         RQWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710861916; x=1711466716;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=j/tOewZO+xITdwu8fyyevSlxd4rQDWIvMngL14Mt4g4=;
+        b=Jz0I+uMozHx14kdmtVpLR/3JK2j39xYNG9ttVq0PdJ8vQOQfcihw92LqsWF0pq9no5
+         o1Hdcd18YqCKFPVJ6yp1uyMN5KggRShywwQ6i7TO6lbYfEIj7PtB2hSqhBv/3GWcJFff
+         p0kvmy0BJddIcy2jkl9Gju/vz8eyv2HV6yN7lZSEIZ+7TnDT1mTzKe9PWE3cHd75+X6Z
+         w9F6nTyGA+vD0KRrBHA9P4wbX9mhorjp5PsEl0loqTLyYQGwqhY4cmyy5xhVHEtzSMD3
+         Dfpj0GPLr0V+TdU6NQdZ4+J1gx3l/YyVya0qClOCHdwbjezEIb84nzLIiYJ7eqJ2iynT
+         6d1w==
+X-Forwarded-Encrypted: i=1; AJvYcCVdblkiwWK3zUF+oKyP0i2xyWSI2fWgBkYh+sU0siEU1/RPg3wQnmuXh9ROkCBGvKqb4jvZG5XQuU4RIN8hPOta7E1oeHqUSP1colDixQ==
+X-Gm-Message-State: AOJu0YxYRanGU2X+tXGwR9KdQBTBZljeC8scxMbh4n/JPCGgXeW/phyN
+	GCfOXa7/gZGHIl9HU0uQRi00vkKeGv1ue1fBy/NRYMRg210Ka6FjejqZtKF+U/4=
+X-Google-Smtp-Source: AGHT+IGuxUp4tJ3tduUZ1jDdJJOXB/6Dyq+c61cZG82qzzk9ozWfJDBWCF1r7b5Ii/MqZJEtyixx8Q==
+X-Received: by 2002:a05:600c:4689:b0:413:f4b5:dcec with SMTP id p9-20020a05600c468900b00413f4b5dcecmr10850776wmo.40.1710861916490;
+        Tue, 19 Mar 2024 08:25:16 -0700 (PDT)
+Received: from aspen.lan (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+        by smtp.gmail.com with ESMTPSA id k4-20020adfe3c4000000b0033e48db23bdsm12595322wrm.100.2024.03.19.08.25.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Mar 2024 08:25:15 -0700 (PDT)
+Date: Tue, 19 Mar 2024 15:25:13 +0000
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: lee@kernel.org, jingoohan1@gmail.com, deller@gmx.de, andy@kernel.org,
+	geert@linux-m68k.org, dan.carpenter@linaro.org, sam@ravnborg.org,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH v2 3/6] backlight: omap1: Replace FB_BLANK_ states with
+ simple on/off
+Message-ID: <20240319152513.GA9963@aspen.lan>
 References: <20240319093915.31778-1-tzimmermann@suse.de>
+ <20240319093915.31778-4-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -0.30
-X-Spamd-Result: default: False [-0.30 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 R_MISSING_CHARSET(2.50)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
-	 MIME_GOOD(-0.10)[text/plain];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 REPLY(-4.00)[];
-	 BROKEN_CONTENT_TYPE(1.50)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 R_RATELIMIT(0.00)[to_ip_from(RLe6e1dyhqp7xrfznmmjiny17d)];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 RCPT_COUNT_TWELVE(0.00)[12];
-	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,suse.de:email];
-	 FREEMAIL_TO(0.00)[kernel.org,linaro.org,gmail.com,gmx.de,linux-m68k.org,ravnborg.org];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-0.00)[28.52%]
-X-Spam-Flag: NO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240319093915.31778-4-tzimmermann@suse.de>
 
-The field fb_blank in struct backlight_properties is deprecated and
-should not be used. Don't output its value in the driver's debug print.
+On Tue, Mar 19, 2024 at 10:37:22AM +0100, Thomas Zimmermann wrote:
+> The backlight is on for fb_blank eq FB_BLANK_UNBLANK, or off for
+> any other value in fb_blank. But the field fb_blank in struct
+> backlight_properties is deprecated and should not be used any
+> longer.
+>
+> Replace the test for fb_blank in omap's backlight code with a
+> simple boolean parameter and push the test into the update_status
+> helper. Instead of reading fb_blank directly, decode the backlight
+> device's status with backlight_is_blank().
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
----
- drivers/staging/fbtft/fb_ssd1351.c | 4 +---
- drivers/staging/fbtft/fbtft-core.c | 5 ++---
- 2 files changed, 3 insertions(+), 6 deletions(-)
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 
-diff --git a/drivers/staging/fbtft/fb_ssd1351.c b/drivers/staging/fbtft/fb_ssd1351.c
-index 72172e870007e..ca2cba2185ae3 100644
---- a/drivers/staging/fbtft/fb_ssd1351.c
-+++ b/drivers/staging/fbtft/fb_ssd1351.c
-@@ -194,9 +194,7 @@ static int update_onboard_backlight(struct backlight_device *bd)
- 	struct fbtft_par *par = bl_get_data(bd);
- 	bool on;
- 
--	fbtft_par_dbg(DEBUG_BACKLIGHT, par,
--		      "%s: power=%d, fb_blank=%d\n",
--		      __func__, bd->props.power, bd->props.fb_blank);
-+	fbtft_par_dbg(DEBUG_BACKLIGHT, par, "%s: power=%d\n", __func__, bd->props.power);
- 
- 	on = !backlight_is_blank(bd);
- 	/* Onboard backlight connected to GPIO0 on SSD1351, GPIO1 unused */
-diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
-index 3626f429b002c..5ca150c409c3c 100644
---- a/drivers/staging/fbtft/fbtft-core.c
-+++ b/drivers/staging/fbtft/fbtft-core.c
-@@ -133,9 +133,8 @@ static int fbtft_backlight_update_status(struct backlight_device *bd)
- 	struct fbtft_par *par = bl_get_data(bd);
- 	bool polarity = par->polarity;
- 
--	fbtft_par_dbg(DEBUG_BACKLIGHT, par,
--		      "%s: polarity=%d, power=%d, fb_blank=%d\n",
--		      __func__, polarity, bd->props.power, bd->props.fb_blank);
-+	fbtft_par_dbg(DEBUG_BACKLIGHT, par, "%s: polarity=%d, power=%d\n", __func__,
-+		      polarity, bd->props.power);
- 
- 	if (!backlight_is_blank(bd))
- 		gpiod_set_value(par->gpio.led[0], polarity);
--- 
-2.44.0
 
+Daniel.
