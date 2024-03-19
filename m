@@ -1,65 +1,65 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D87EC4CB45
-	for <linux-staging@lists.linux.dev>; Tue, 19 Mar 2024 06:17:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0302080BF5
+	for <linux-staging@lists.linux.dev>; Tue, 19 Mar 2024 06:33:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710829051; cv=none; b=kMooleEIv7tWnOG8Eobg73aykPQ39bPB2FHNNvPLxdmOdz4yd+z9xmLk6nYWmKqF9ozxC7zFQ8ChmWQagolrDH7By6IfWbIgOeAF80SC6dzrLkdxw0Pp4+jglpTNI0gRpcDsb4tiMxCbohBJC/YZrXO5KMB0SULfQJwsrpSMZF4=
+	t=1710829997; cv=none; b=uU9Vk8qhGhm2ftfU5W3wpnOMKiMEWjAexK6RRKidRuQLVmGvMZwPJ0Isrz152VJde0gl1I3fV/IYmEV3L4HJRZgS+qb3Bpp01Mwf7l13dJdL9YTsroNau61SVzojOL9qc0stwwUQSln0WDmV7qGpvSQtiOiK1ZKckZXYp0RBPMs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710829051; c=relaxed/simple;
-	bh=QQLxq5dEZDeApbmB/Lkx6MXuL7gadJz/3NlJEViXU8o=;
+	s=arc-20240116; t=1710829997; c=relaxed/simple;
+	bh=emvB+UPk4wGVsjn2XtVyzPHEDiFnOm03YX66S20HkhI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H5ok/HDyf4KtPUffn+tUbd4U3MVVrHWa5sYzn4baeMLNce/WOPGI5z8xTIEyVhtP1N3mlQ1m5sYcx8iRk1HU4uscl+n6RRJOtg1RHs3Cyr++rU23KJHkZ74VqOaoLcVkBfTukEf83zySTCZlqm8QSFpWscWyMTn+V5p754cq2EE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=UubZbHp7; arc=none smtp.client-ip=209.85.128.46
+	 Content-Type:Content-Disposition:In-Reply-To; b=ojE8qP444gS5IiWrq5+/2IZocHNSeuyoiepZfpN91mAGmnC5pMEZ07zYag6eVRzOQwEVVNSNc/Pk5qUc3oQ00cyPhSUOBCwxowhG6eX4HhYGu3VUWx0Z3DteOBT47AojQTVldFvlA/vaa2P7Tfy2j43NH0QSL1R+MdLrZCM6PmM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jkDjG/dI; arc=none smtp.client-ip=209.85.167.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UubZbHp7"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-41465082887so1719825e9.2
-        for <linux-staging@lists.linux.dev>; Mon, 18 Mar 2024 23:17:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jkDjG/dI"
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-513d717269fso5392639e87.0
+        for <linux-staging@lists.linux.dev>; Mon, 18 Mar 2024 23:33:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1710829048; x=1711433848; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1710829993; x=1711434793; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=7NxyLAPBD0uYaEFsJsCLCqoFa7u1wfvFPNUDw78rj08=;
-        b=UubZbHp7kGW47u87N/xE4zMZR/hg2iyzgLOlj04i9UWgoW4kJmA5PM05hLnGttLcx8
-         SLFL1JCe0CF44yvFCEydfj4nsS7FJUv8gR1gYIciWgWoWFxDjjc3MAVAe5sWKhwEkHBL
-         /I6rCRXy4aO+xkARWmRYdbpBGSKkqj4Stt75efcOrZh24jbqJHKokoccV29bWM7QPBJn
-         VKgvtNbRpLJYtS67jfAQ8Dx2ioK9RCv96vcEIz6t/RY1J5Wc4B9KOKOoFkYKO1CmzvJf
-         Rgn+QXCS5xZb6sqJOI109asr4wFi7a4mYvTU8lV8Ak/XPh6O9U/oADr+GCgOrEL/ZXBx
-         sRrw==
+        bh=DQLjuETvXpykXhqUOpejSGf3kPj5baBzqZF6hMzvPVE=;
+        b=jkDjG/dIo0IC9te+hb1gtyG+wOugCHuUP/wZJ8cuESLhe1ikDHOaWvQepJVR+//390
+         c6iaJHFDujm0GY/KId3hurW82GIlqndpMVB6h+qHEAeVOTlwbzMQHGsvlH8hnwGbtJ06
+         ZfHopUYH0/BArKz87U3NJeIfJceioMCCcwIF9r1fzOfcUVounRRe2jNrHNtbwtw6i07B
+         696vq5C8P7y/h7truP0eP6uszGcZIDqxYSM9iVhVrKlv3023DsTBpH8EaHeM4wHGn2R0
+         Obgj5LwplURN/PpPWt+6iCL5UvAF5GabvUgM8zCH37QxF8S1QtWXRQK4nqUwVdNlnqSk
+         XrAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710829048; x=1711433848;
+        d=1e100.net; s=20230601; t=1710829993; x=1711434793;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7NxyLAPBD0uYaEFsJsCLCqoFa7u1wfvFPNUDw78rj08=;
-        b=MfA0zd07WOmbRUzrnliqD/gfg55Gl/+PelEg9rYtcbTmKfADD1pgBtG1DY6jBGHNtI
-         3SykiPEcM7nf5Fdy5eo56yOAwypW1Tu/61x668FfzhObF7878srO6/GVFL/UhauhKSRU
-         N+N58p9ytAskfRJ0Gl3c5EBtHXxchTyRfV34U444Wooq+tJQFozBL5tDCKY19whmi97X
-         SaQSRld5a0BwfJskWJlow50aKGNt9i9dRjSEOUjMRznO8LnWUPKjTCwH2bbhAsmntx3Y
-         ml6Tf2SWuQHE2c1R1eHIiq+PjY0g+i5UbKUSuqt1GIlKCBiAS1effedY+jjoiwbiUG5P
-         3LaQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWlpOU54JhGtKWwoKGTL8ueXhZLwpLg1qJIchoORncj7whgT01aIGsSSarHjwbNZsW+6+PIqrxm5uL94qRb2l8HlBVUcTi238UbhZcC4A==
-X-Gm-Message-State: AOJu0YxJOngEPC1LHZtgIpjnBw34H85x4GzpA6cPK7N8eX47kFaCP00x
-	icnt//3o77yjw6CZiTD+TuTCccV3ajzx77Mh8i4Li8PuQnNRfqDzC+bcpBBlEew=
-X-Google-Smtp-Source: AGHT+IHxChfQOs9Mp8LF/ggHgGIqPNQKjvXFOMYn+smQajFfFmtbcaa0DsoWP2SsJGfEiulLyAko/w==
-X-Received: by 2002:adf:f606:0:b0:33e:cfff:a05d with SMTP id t6-20020adff606000000b0033ecfffa05dmr1111932wrp.59.1710829047915;
-        Mon, 18 Mar 2024 23:17:27 -0700 (PDT)
+        bh=DQLjuETvXpykXhqUOpejSGf3kPj5baBzqZF6hMzvPVE=;
+        b=sKwIb/+5fHuJjwJkOzw6vTcMMCekEL39XpPlcNmJpLyYkOtNIGeUV6L2XJ7caAVbkW
+         Wfw8qcrZZvGnouyHPUhUze7JD83dDlKg1HNhsoSEh0nVx9ItRAFBaBN0LYT5gC01SNWJ
+         qQGZH/bS38pQIK73t8sz1Tubxi8VSG1WZtzAh/lWc3gWaQst1B3FRsA5Kk/0wby09/Y9
+         G1DzqLPNyou+Rh33olsTMZAMRNCwkXiy5nn0xPF79n1n+Bo6s5CjzqphILsLqoTs18Jz
+         e1HAv5Z3Zp6uU87qszY6ApAMSV0T2mOlqgK/95vnMZ9r7IGIg7Ow4ZIoWT18qKzJ24kR
+         dtJQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUWZUdr941k2sbIBhFJz9USxibziaHkfwnXWoqUeDC9qb6Hr+WNFaTARFRPAtwjh/5qSQUEZBHlZTlB1s2nnW+D/ov6oAFUSVksUyLd2A==
+X-Gm-Message-State: AOJu0Yy90qw5SK+vNmN3MKCN9KxS+WrOdKHzUV+K8sbv3tSlh0ByCPPF
+	WO/UCiEMLQCY/WVjmoyFgGg165oKS4JFUBTZx7TxZVtsT+IlhChvXUNDRVyi4A8=
+X-Google-Smtp-Source: AGHT+IEkLz+CrD7kd9e1OQIXrqk34kVS2kjJ6pk4f2Nu6yVG5PdTdGqBmLTHCPeZZsJythZHkYBwPA==
+X-Received: by 2002:ac2:4da6:0:b0:511:674d:88c5 with SMTP id h6-20020ac24da6000000b00511674d88c5mr9820073lfe.13.1710829993013;
+        Mon, 18 Mar 2024 23:33:13 -0700 (PDT)
 Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id n8-20020a5d6608000000b0033e45930f35sm11520855wru.6.2024.03.18.23.17.26
+        by smtp.gmail.com with ESMTPSA id o23-20020a05600c511700b00413fea18735sm14220565wms.13.2024.03.18.23.33.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Mar 2024 23:17:27 -0700 (PDT)
-Date: Tue, 19 Mar 2024 09:17:20 +0300
+        Mon, 18 Mar 2024 23:33:12 -0700 (PDT)
+Date: Tue, 19 Mar 2024 09:33:08 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Ayush Tiwari <ayushtiw0110@gmail.com>
 Cc: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
 	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev, outreachy@lists.linux.dev
-Subject: Re: [PATCH v6] staging: greybus: Constify gb_audio_module_type
-Message-ID: <9ef61ce3-6f14-4292-9364-903bc52c250d@moroto.mountain>
-References: <ZfiQsZBrHfImIJfc@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
+Subject: Re: [PATCH] staging: rtl8712: Rename blnPending to bln_pending
+Message-ID: <865b37f4-8139-4072-a320-855bfc3121f4@moroto.mountain>
+References: <Zfiz7YFKAqAOGsu5@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -68,21 +68,19 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZfiQsZBrHfImIJfc@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
+In-Reply-To: <Zfiz7YFKAqAOGsu5@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
 
-On Tue, Mar 19, 2024 at 12:36:25AM +0530, Ayush Tiwari wrote:
-> Constify static struct kobj_type gb_audio_module_type to prevent
-> modification of data shared across many instances and to address the
-> checkpatch warning that "gb_audio_module_type" should be const. The
-> "gb_audio_module_type" struct is only used in one place:
-> err = kobject_init_and_add(&m->kobj, &gb_audio_module_type, NULL, ...
-> so checkpatch is correct that it can be made const.
+On Tue, Mar 19, 2024 at 03:06:45AM +0530, Ayush Tiwari wrote:
+> Rename blnPending to bln_pending in r8712_cmd_thread() to address
+> checkpatch warning "Avoid Camelcase" and conform to the kernel coding
+> style.
 > 
 > Signed-off-by: Ayush Tiwari <ayushtiw0110@gmail.com>
+> ---
 
-Thanks!
-
-Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+What does bln_ mean?  I suspect that b means byte and we don't allow
+that sort of naming scheme.  But I don't know what ln means.  Also the
+type should be bool and we change 1/0 to true/false.
 
 regards,
 dan carpenter
