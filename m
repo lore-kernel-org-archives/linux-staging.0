@@ -1,65 +1,62 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0302080BF5
-	for <linux-staging@lists.linux.dev>; Tue, 19 Mar 2024 06:33:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CDB2446CF;
+	Tue, 19 Mar 2024 06:44:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710829997; cv=none; b=uU9Vk8qhGhm2ftfU5W3wpnOMKiMEWjAexK6RRKidRuQLVmGvMZwPJ0Isrz152VJde0gl1I3fV/IYmEV3L4HJRZgS+qb3Bpp01Mwf7l13dJdL9YTsroNau61SVzojOL9qc0stwwUQSln0WDmV7qGpvSQtiOiK1ZKckZXYp0RBPMs=
+	t=1710830681; cv=none; b=Xb2KOT22B/FR0zUdOo+1gk9bLSK3PQkLOU51CPWU8csATZxg/OuaNoTEHjKwIo8YpUo7yeaT1QzvDIaG4UIBqk6C6Sg67ky2X1NN3twY5OyC2QGPanVgmNxLnjpmMpD8ZsMEXMomOyp/C62iK60CQE+0ji8WLtr3tj23T876y2Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710829997; c=relaxed/simple;
-	bh=emvB+UPk4wGVsjn2XtVyzPHEDiFnOm03YX66S20HkhI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ojE8qP444gS5IiWrq5+/2IZocHNSeuyoiepZfpN91mAGmnC5pMEZ07zYag6eVRzOQwEVVNSNc/Pk5qUc3oQ00cyPhSUOBCwxowhG6eX4HhYGu3VUWx0Z3DteOBT47AojQTVldFvlA/vaa2P7Tfy2j43NH0QSL1R+MdLrZCM6PmM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jkDjG/dI; arc=none smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1710830681; c=relaxed/simple;
+	bh=G5NXt+isqIKV5SadklumM8eTj8Eic3FZJmFPj3vaZlI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=AS8CA3vx+VZVPYu61K/XQjcETiwql6JSXjBaRhQkaafkUReqcNOBHBrUEi3w3ornFY89uFNw0nOEW3NDc1yKuDwRCUrkn7QPPPBNvF3grJpmngRIwItnWZy93/RII4f3IBFdQIAurTzdl1j02+VJYbvz0GVWD2hj86L3JAaKfjM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Iwp/olvU; arc=none smtp.client-ip=209.85.219.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jkDjG/dI"
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-513d717269fso5392639e87.0
-        for <linux-staging@lists.linux.dev>; Mon, 18 Mar 2024 23:33:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Iwp/olvU"
+Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-dcbc6a6808fso4862217276.2;
+        Mon, 18 Mar 2024 23:44:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1710829993; x=1711434793; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=DQLjuETvXpykXhqUOpejSGf3kPj5baBzqZF6hMzvPVE=;
-        b=jkDjG/dIo0IC9te+hb1gtyG+wOugCHuUP/wZJ8cuESLhe1ikDHOaWvQepJVR+//390
-         c6iaJHFDujm0GY/KId3hurW82GIlqndpMVB6h+qHEAeVOTlwbzMQHGsvlH8hnwGbtJ06
-         ZfHopUYH0/BArKz87U3NJeIfJceioMCCcwIF9r1fzOfcUVounRRe2jNrHNtbwtw6i07B
-         696vq5C8P7y/h7truP0eP6uszGcZIDqxYSM9iVhVrKlv3023DsTBpH8EaHeM4wHGn2R0
-         Obgj5LwplURN/PpPWt+6iCL5UvAF5GabvUgM8zCH37QxF8S1QtWXRQK4nqUwVdNlnqSk
-         XrAg==
+        d=gmail.com; s=20230601; t=1710830679; x=1711435479; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tD48G5pyPRHERbwtZMvRnORykfrZperd6+wvK2jM03E=;
+        b=Iwp/olvUewp19etc55a7kR0+t69K3CrLuktR0EnYiGW2SYtIxqZig/KIg4JMalGzXJ
+         69gsdTWissaTq8U3vSQmRICWQ9HpWj2Vy1ZymOVvTLthgcavEqo8lLnMEejt8dzv0GQB
+         YyetZqQfUd9ReQumC03dU7yvRdTICEbxTNT4ZnL7kjSMALq/4GYiGrwvosHFcLMs64WQ
+         80PHD9vhhHZU1e8k+knCvIOhjO0pzF3xPI2f+9X2YMWXl4TCF7inb1xya44s7BxPeoC3
+         yGU1/7+H6txTAvkP1z24h3+fyuDPXKlrQMf3HagV5v/0gOB6yBjHCz/AcVyZY8jEHVjy
+         IImQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710829993; x=1711434793;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DQLjuETvXpykXhqUOpejSGf3kPj5baBzqZF6hMzvPVE=;
-        b=sKwIb/+5fHuJjwJkOzw6vTcMMCekEL39XpPlcNmJpLyYkOtNIGeUV6L2XJ7caAVbkW
-         Wfw8qcrZZvGnouyHPUhUze7JD83dDlKg1HNhsoSEh0nVx9ItRAFBaBN0LYT5gC01SNWJ
-         qQGZH/bS38pQIK73t8sz1Tubxi8VSG1WZtzAh/lWc3gWaQst1B3FRsA5Kk/0wby09/Y9
-         G1DzqLPNyou+Rh33olsTMZAMRNCwkXiy5nn0xPF79n1n+Bo6s5CjzqphILsLqoTs18Jz
-         e1HAv5Z3Zp6uU87qszY6ApAMSV0T2mOlqgK/95vnMZ9r7IGIg7Ow4ZIoWT18qKzJ24kR
-         dtJQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUWZUdr941k2sbIBhFJz9USxibziaHkfwnXWoqUeDC9qb6Hr+WNFaTARFRPAtwjh/5qSQUEZBHlZTlB1s2nnW+D/ov6oAFUSVksUyLd2A==
-X-Gm-Message-State: AOJu0Yy90qw5SK+vNmN3MKCN9KxS+WrOdKHzUV+K8sbv3tSlh0ByCPPF
-	WO/UCiEMLQCY/WVjmoyFgGg165oKS4JFUBTZx7TxZVtsT+IlhChvXUNDRVyi4A8=
-X-Google-Smtp-Source: AGHT+IEkLz+CrD7kd9e1OQIXrqk34kVS2kjJ6pk4f2Nu6yVG5PdTdGqBmLTHCPeZZsJythZHkYBwPA==
-X-Received: by 2002:ac2:4da6:0:b0:511:674d:88c5 with SMTP id h6-20020ac24da6000000b00511674d88c5mr9820073lfe.13.1710829993013;
-        Mon, 18 Mar 2024 23:33:13 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id o23-20020a05600c511700b00413fea18735sm14220565wms.13.2024.03.18.23.33.12
+        d=1e100.net; s=20230601; t=1710830679; x=1711435479;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tD48G5pyPRHERbwtZMvRnORykfrZperd6+wvK2jM03E=;
+        b=S0/SWzdDQuonD4ejeapKKJXxVdkMrsV6+RuA8JhsaA9l/SRUNjDKh7KzL67C2nk9sp
+         Nroxt9PfBhlV2PUuFVbShmkV97YZcrB7uh2IX31vyYw1ozD/MmKzPoVFj5kG/kcFdtDo
+         JBpLqmO4UcCTnQhfzV8RPjeVGgZHvuguQqFAN9vcl97ELy09CE6luiFKkJgvpSRAXkBN
+         2cHUKYNBundvEn30n2Sd5y/mWkNuHsvgjUl+0+OZCEsyD52xKjXtaI3Gv6q/r0yvGvp1
+         N6rTfw7X733mXSZ409DhnQjD5JVUCkegTRIfyv72X0QwkzEB4kUeETnSXwCtvOr7DewB
+         DtaA==
+X-Forwarded-Encrypted: i=1; AJvYcCWyuBmVggJcN/iukjcAEiAoT07sthN5E2HsJr5bWmBcHMrBOMLNK+NLlE93lxJn7pw+EVBBqSnOvNyKCrN1noW2mWWQkjUJhNdYugpY5g==
+X-Gm-Message-State: AOJu0Yxfn5UuDfZLzFzF5IMWWxQrohhMDEJ++HzreUtk+jgaQu7aMTzE
+	HkZBikeQQwv4CkSif1eCDPQat2zglq0QzPZYe4kWZKjTXQM6my3oVxa8UC1w4hU=
+X-Google-Smtp-Source: AGHT+IEjtFw6MADKGJ5daCrR6LVa+5tNozEx2auo/2thb69w8E4TPzHkXW0YnW8lv4NVwDwW7HfTVg==
+X-Received: by 2002:a25:868a:0:b0:dc2:1f53:3a4f with SMTP id z10-20020a25868a000000b00dc21f533a4fmr1169119ybk.5.1710830678851;
+        Mon, 18 Mar 2024 23:44:38 -0700 (PDT)
+Received: from MOLeToid ([102.244.37.246])
+        by smtp.gmail.com with ESMTPSA id hf21-20020a05622a609500b00430b74c1661sm3994884qtb.97.2024.03.18.23.44.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Mar 2024 23:33:12 -0700 (PDT)
-Date: Tue, 19 Mar 2024 09:33:08 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Ayush Tiwari <ayushtiw0110@gmail.com>
-Cc: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
-	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev, outreachy@lists.linux.dev
-Subject: Re: [PATCH] staging: rtl8712: Rename blnPending to bln_pending
-Message-ID: <865b37f4-8139-4072-a320-855bfc3121f4@moroto.mountain>
-References: <Zfiz7YFKAqAOGsu5@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
+        Mon, 18 Mar 2024 23:44:38 -0700 (PDT)
+Date: Tue, 19 Mar 2024 07:44:33 +0100
+From: "Felix N. Kimbu" <felixkimbu1@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: outreachy@lists.linux.dev
+Subject: [PATCH] staging: pi433: Correct comment typos in pi433_if.c
+Message-ID: <Zfk0UfLh3rRf6qDv@MOLeToid>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -68,20 +65,74 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Zfiz7YFKAqAOGsu5@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
 
-On Tue, Mar 19, 2024 at 03:06:45AM +0530, Ayush Tiwari wrote:
-> Rename blnPending to bln_pending in r8712_cmd_thread() to address
-> checkpatch warning "Avoid Camelcase" and conform to the kernel coding
-> style.
-> 
-> Signed-off-by: Ayush Tiwari <ayushtiw0110@gmail.com>
-> ---
+Correct typos in pi433_if.c comments to address the following checkpatch checks;
 
-What does bln_ mean?  I suspect that b means byte and we don't allow
-that sort of naming scheme.  But I don't know what ln means.  Also the
-type should be bool and we change 1/0 to true/false.
+CHECK: 'interace' may be misspelled - perhaps 'interface'?
+#13: FILE: drivers/staging/pi433/pi433_if.c:13:
++ * HopeRf with a similar interace - e. g. RFM69HCW, RFM12, RFM95, ...
+                          ^^^^^^^^
 
-regards,
-dan carpenter
+CHECK: 'ebedded' may be misspelled - perhaps 'embedded'?
+#71: FILE: drivers/staging/pi433/pi433_if.c:71:
++ * so we have just one rx config, ebedded in device struct
+                                   ^^^^^^^
+
+CHECK: 'reenabled' may be misspelled - perhaps 're-enabled'?
+#650: FILE: drivers/staging/pi433/pi433_if.c:650:
++                * irq will be reenabled after tx config is set
+                               ^^^^^^^^^
+
+CHECK: 'pendig' may be misspelled - perhaps 'pending'?
+#926: FILE: drivers/staging/pi433/pi433_if.c:926:
++               /* during pendig read request, change of config not allowed */
+                          ^^^^^^
+
+Signed-off-by: Felix N. Kimbu <felixkimbu1@gmail.com>
+---
+ drivers/staging/pi433/pi433_if.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/staging/pi433/pi433_if.c b/drivers/staging/pi433/pi433_if.c
+index b6c4917d515e..81de98c0245a 100644
+--- a/drivers/staging/pi433/pi433_if.c
++++ b/drivers/staging/pi433/pi433_if.c
+@@ -10,7 +10,7 @@
+  * devices, basing on HopeRfs rf69.
+  *
+  * The driver can also be extended, to support other modules of
+- * HopeRf with a similar interace - e. g. RFM69HCW, RFM12, RFM95, ...
++ * HopeRf with a similar interface - e. g. RFM69HCW, RFM12, RFM95, ...
+  *
+  * Copyright (C) 2016 Wolf-Entwicklungen
+  *	Marcus Wolf <linux@wolf-entwicklungen.de>
+@@ -68,7 +68,7 @@ static const struct class pi433_class = {
+  */
+ /*
+  * rx config is device specific
+- * so we have just one rx config, ebedded in device struct
++ * so we have just one rx config, embedded in device struct
+  */
+ struct pi433_device {
+ 	/* device handling related values */
+@@ -647,7 +647,7 @@ static int pi433_tx_thread(void *data)
+ 
+ 		/*
+ 		 * prevent race conditions
+-		 * irq will be reenabled after tx config is set
++		 * irq will be re-enabled after tx config is set
+ 		 */
+ 		disable_irq(device->irq_num[DIO0]);
+ 		device->tx_active = true;
+@@ -923,7 +923,7 @@ static long pi433_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
+ 	case PI433_IOC_WR_RX_CFG:
+ 		mutex_lock(&device->rx_lock);
+ 
+-		/* during pendig read request, change of config not allowed */
++		/* during pending read request, change of config not allowed */
+ 		if (device->rx_active) {
+ 			mutex_unlock(&device->rx_lock);
+ 			return -EAGAIN;
+-- 
+2.34.1
 
