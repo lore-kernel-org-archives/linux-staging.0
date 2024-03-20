@@ -1,63 +1,63 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A94F8562D;
-	Wed, 20 Mar 2024 19:19:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5CF685644;
+	Wed, 20 Mar 2024 19:50:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710962369; cv=none; b=fnqWL6yBAo9rsDV14XaA55U+3i1fvEBb76XiiWTvm5XInPgIYUkOeR2H9ELxML67aMTZa+ky97gKnJpm6aiX5Bs9nwElKZL0PVkPlQ6zFoOHR7p4YgrUOpIAfXwR//5OEb3BTQ42CqvEoLms3TK0RwtL3B3wnrqpOT6k9V+MLII=
+	t=1710964254; cv=none; b=WD47ZpgER06SUnhdlNkJh6LEH0Q+9HJQeFDrT+P6TgGcpmDE7lZAmx3KgUyYM+BR61MUEFkd3RQrWixXAwB4khYDCj1QUNilyVWNA2jSpMgdfzzcYwtNJdT2ltzxQTbT5laYowfdLnZUSXToi8TRXSBS55cd6ewtW93AvNkBzls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710962369; c=relaxed/simple;
-	bh=QoHfLb2g+qiJ0TmFaeUofXdDKDug3TX0m3qwW2VjAaQ=;
+	s=arc-20240116; t=1710964254; c=relaxed/simple;
+	bh=0/W7ESYmtis8SWzlUSewRHzPrYkRdMN/q4nnWZaZDFI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=G+OgsyKekhgcdTFQwccXzm6oVs56TbLJHfmBl5onlurMBIJnqlZ/ENPp+qQy9Sq95bw5fxmWTXnRpeoEX4K928AlWJH0yoBngRQU0vYhqdore0/e3vSNmxKeeaShKlQFZIXkkY9bKqGT3wtit8i/MwYC2cStIpEhR471iLFUWPc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Em/h8FxE; arc=none smtp.client-ip=209.85.210.181
+	 Content-Disposition; b=TJLNzUACYq4nJh45evNWVcQ+cFgpGTewIOLpm2ELT1dSdmmw3jbaJMZVvpflnT+eXQ/0yJJa4aiC5ebi6nm8oHsZaN96SPZ2uk/zYLahQk+hBWUwn5RTiMYBKoAWwllSBHj0/Ei9p/Dp7aYxewmkjN9VfFfn915nEz+KwfvaS3U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TlmIqDBA; arc=none smtp.client-ip=209.85.214.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Em/h8FxE"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-6e88e4c8500so227385b3a.2;
-        Wed, 20 Mar 2024 12:19:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TlmIqDBA"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1e0411c0a52so1771105ad.0;
+        Wed, 20 Mar 2024 12:50:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710962367; x=1711567167; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1710964252; x=1711569052; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=wtBgrCuQv/Ty6F3/cQmfzGOsSNGCIllNxgP/B6BFoUc=;
-        b=Em/h8FxERaMe+PNSLOmvBXuY1JHFCPs3ORAnn+OkLQwBvOV+gxgowIbz3+ELWe+9Kn
-         dyNfThlPf+xl/ELPBJCBy19GV6bVTxKvvA6kiOSgVwdGVQvEmaviCwIKntw79qayWRIQ
-         Bf+zAu5G42XnFmtDTILvKNLPimHXIv4LYLf/Y/NV1FOdgED3po4bq5tnuB3qlaAeOEB5
-         +wQxM3ehD8eZg7ctEzX2P4ZM45qcf4rjMxZLBE9ClQSx0WZdPIuFPG/8vhR5WO8A+kfv
-         bj6K+zx3x6ZtmZnolEWUKZbkjgLdOmGzzzEr75un6gcsVeju8KUr+iEGbGz+ZcfQZ+EE
-         R/Vw==
+        bh=vRikpztEX2fwVvw9gSRXNm3qTKd29WgjYs5PneXIbLc=;
+        b=TlmIqDBAZXO+p6Ce/pqr13mQDNtjD5MtV1j2J+wzpt8GUCDSo1I94h5CMZGTDpEtRD
+         eqbqU+SZMJ4xvc7dfmb7x6TOInm8/Co7Nq/3uPWVqteNxnSziLwU+8aPu35PdbLvhiqd
+         7XRB8XymWth0J4uTuS2YSFztIDy+njcH/RKZGp+dJty3tN9BNUH4eHXBVKNMe/DJqx1P
+         RXXJNcHlYBWdNr9rNtxx3oUZxmgfu4aOurEMA27r5pXoZgmH79KdSTf4a1mu3FiA5vhR
+         9Ityr9K8r2bRI5kLxllU3Mun5+L7V1q6h5ykww0LhyXFqkOfuW2VgWJgYYUby/HOMvqu
+         70dQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710962367; x=1711567167;
+        d=1e100.net; s=20230601; t=1710964252; x=1711569052;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wtBgrCuQv/Ty6F3/cQmfzGOsSNGCIllNxgP/B6BFoUc=;
-        b=CrKGvl5UYqR3qMKMCUnpPvQnoPTcfOFWGVfmIYw/RDILem/OAJfDIG2EgN2e60L2Sl
-         v5+mjWyZD59khSavnu4n/DTXoPBZgKkt2M2kC0EBWE0+XUExuoto87qo8cazXxneDdWp
-         En+1O+gm+S7DUZNdAhuC3IzT/W06DS4N+g1e9GcW9MeXhhFnYiSfrf3yFeRkqHP+8Om3
-         KLqrerTqB85cUkx84l2ksX+HVx9Z9mejwf/SiwQ2nIkXT8oJ4qtET041NZaRxlo/Cn8M
-         WmUlUJTZsPzmNrdisUkELCu3F1TyTuwPo+qwpQL3U19fDHvpc72pskcfwYeGcGfz30l5
-         SjNQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUx2l9tk+NXkVQ7kfg47l/oxaD+eURn+SkKki4a1N7lBX0a+XDC0cMR5NsjAN5pX1UwxY70PNE15f3NiV71hnbfgP+LXZ9yCM6PdRnqwA==
-X-Gm-Message-State: AOJu0YwwDZ9hVbrvD5GM0esKErol2XIYylxTKEbSGVYmm3SrehePF7ui
-	4rGqWoaqh2LvSO6WbBxpbQ++cszeKoYl95rUjUy19xAKnz6H1vyI1P+F6BUlLRc=
-X-Google-Smtp-Source: AGHT+IE565uzCAYJTWR4ZSLFMmQDfp9qI6zF41cgTJrfxadF+tqY8xfSl6p/rjzV0MaQIdOxx5gK4A==
-X-Received: by 2002:a05:6a20:c220:b0:1a3:6c63:8f9e with SMTP id bt32-20020a056a20c22000b001a36c638f9emr6084699pzb.27.1710962367018;
-        Wed, 20 Mar 2024 12:19:27 -0700 (PDT)
+        bh=vRikpztEX2fwVvw9gSRXNm3qTKd29WgjYs5PneXIbLc=;
+        b=lGWqrXRUR/kd4V5MpxNGHt5SQ+3UBYhEPzK9ABeAzorRf8TeOcO4UoocqP+sPGSqGR
+         baIZhnmrsAkYSl1M9Py7ZSblERDoChGBtJVI/UPRcZLXuorlmlrmd9srzYwcqAIFcKw8
+         8P1HCBN4rX3dyLggHGWG/5WxohSFL4wGfooDNtQB3ImQ4cgGTv+vbdfhjAwtMMOSCr2E
+         FUqzAKpDv9k/f5wBBvxTclH2iYG1pfagVK14fJp16nYij9mbnHIojYpVkItiVSVTRe5d
+         +ZTzjfTOV87IU8fbqJQiL5hDAC2kJeXr55zC8iSdGiC70SusuI0it26FXGKEjSCSrIck
+         XTOA==
+X-Forwarded-Encrypted: i=1; AJvYcCUHD/LZBaw4SEjgcFhnPhraShDbmr7W/STqXPJtrfCDRuG3CJZQ+6ApB1KMN1fJuXGlGlaDnxRv/zsiJCLdM/+6eH9fYRWVWfMn8SNKgQ==
+X-Gm-Message-State: AOJu0YzH4U0rCfGIV78W4wt1ivcCv5J5MzRjGugZ9TP/pYWwLQz3Iyua
+	xwgaie45yhe5VC0zAhPWCOUPyBGvJWACSKCqQcFXHn4jBJ3r3ktaxC7kWZeldpY=
+X-Google-Smtp-Source: AGHT+IHbRlTKqWtyyLF5oB3Uxpp1IauadFkrgFc+SRYJM579cvOlLYoldDBT893fqNGSxD1AdZGITA==
+X-Received: by 2002:a17:902:d212:b0:1de:e473:55f6 with SMTP id t18-20020a170902d21200b001dee47355f6mr6219658ply.66.1710964251778;
+        Wed, 20 Mar 2024 12:50:51 -0700 (PDT)
 Received: from ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx ([103.6.158.67])
-        by smtp.gmail.com with ESMTPSA id ka6-20020a056a00938600b006e7324d32bbsm4325036pfb.122.2024.03.20.12.19.26
+        by smtp.gmail.com with ESMTPSA id m9-20020a170902db0900b001defd1c0ca7sm7726001plx.229.2024.03.20.12.50.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Mar 2024 12:19:26 -0700 (PDT)
-Date: Thu, 21 Mar 2024 00:49:23 +0530
+        Wed, 20 Mar 2024 12:50:51 -0700 (PDT)
+Date: Thu, 21 Mar 2024 01:20:48 +0530
 From: Ayush Tiwari <ayushtiw0110@gmail.com>
 To: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
 	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
 Cc: outreachy@lists.linux.dev
-Subject: [PATCH] staging: rtl8712: Fix line length exceeding 100 columns
-Message-ID: <Zfs2u95QOKHAiR1B@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
+Subject: [PATCH v2] staging: rtl8712: Change type and name of local variable
+Message-ID: <Zfs+GKmt9hDZdWt/@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -67,29 +67,57 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Split the argument list of the kthread_run function call across two
-lines to address the checkpatch warning "line length exceeds 100
-columns".
+Change data type of local variable blnPending from u8 to bool and
+renamed it to len_padding since it only assumes 0 or 1 values and
+seems to add a padding based on wr_sz. This change also address the
+checkpatch warning "Avoid Camelcase".
 
 Signed-off-by: Ayush Tiwari <ayushtiw0110@gmail.com>
 ---
- drivers/staging/rtl8712/os_intfs.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Changes in v2: Changed values of blnPending from 0/1 to false/true
+and renamed blnPending to len_padding
 
-diff --git a/drivers/staging/rtl8712/os_intfs.c b/drivers/staging/rtl8712/os_intfs.c
-index 7554613fe7e1..1b11f8b04e13 100644
---- a/drivers/staging/rtl8712/os_intfs.c
-+++ b/drivers/staging/rtl8712/os_intfs.c
-@@ -221,7 +221,8 @@ struct net_device *r8712_init_netdev(void)
+ drivers/staging/rtl8712/rtl8712_cmd.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/staging/rtl8712/rtl8712_cmd.c b/drivers/staging/rtl8712/rtl8712_cmd.c
+index bb7db96ed821..f499bbbf5bf5 100644
+--- a/drivers/staging/rtl8712/rtl8712_cmd.c
++++ b/drivers/staging/rtl8712/rtl8712_cmd.c
+@@ -284,7 +284,7 @@ int r8712_cmd_thread(void *context)
+ 		pcmd = cmd_hdl_filter(padapter, pcmd);
+ 		if (pcmd) { /* if pcmd != NULL, cmd will be handled by f/w */
+ 			struct dvobj_priv *pdvobj = &padapter->dvobjpriv;
+-			u8 blnPending = 0;
++			bool len_padding = false;
+ 			u16 cmdcode = pcmd->cmdcode;
  
- static u32 start_drv_threads(struct _adapter *padapter)
- {
--	padapter->cmd_thread = kthread_run(r8712_cmd_thread, padapter, "%s", padapter->pnetdev->name);
-+	padapter->cmd_thread = kthread_run(r8712_cmd_thread, padapter, "%s",
-+					   padapter->pnetdev->name);
- 	if (IS_ERR(padapter->cmd_thread))
- 		return _FAIL;
- 	return _SUCCESS;
+ 			pcmdpriv->cmd_issued_cnt++;
+@@ -294,12 +294,12 @@ int r8712_cmd_thread(void *context)
+ 						     0x0000ffff);
+ 			if (pdvobj->ishighspeed) {
+ 				if ((wr_sz % 512) == 0)
+-					blnPending = 1;
++					len_padding = true;
+ 			} else {
+ 				if ((wr_sz % 64) == 0)
+-					blnPending = 1;
++					len_padding = true;
+ 			}
+-			if (blnPending) { /* 32 bytes for TX Desc - 8 offset */
++			if (len_padding) { /* 32 bytes for TX Desc - 8 offset */
+ 				pdesc->txdw0 |= cpu_to_le32(((TXDESC_SIZE +
+ 						OFFSET_SZ + 8) << OFFSET_SHT) &
+ 						0x00ff0000);
+@@ -318,7 +318,7 @@ int r8712_cmd_thread(void *context)
+ 					       (pcmdpriv->cmd_seq << 24));
+ 			pcmdbuf += 2; /* 8 bytes alignment */
+ 			memcpy((u8 *)pcmdbuf, pcmd->parmbuf, pcmd->cmdsz);
+-			if (blnPending)
++			if (len_padding)
+ 				wr_sz += 8;   /* Append 8 bytes */
+ 			r8712_write_mem(padapter, RTL8712_DMA_H2CCMD, wr_sz,
+ 					(u8 *)pdesc);
 -- 
 2.40.1
 
