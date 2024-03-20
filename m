@@ -1,63 +1,53 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A59B785282;
-	Wed, 20 Mar 2024 18:53:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B96D085297;
+	Wed, 20 Mar 2024 19:11:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710960837; cv=none; b=ARRi2gupr67G42MOHUhZEtK9yVtwe2HbgZbPjIyJYA6l1u6a+kuL/nPCOqrEx/kIwYw4SHq+oqVJHDVEaUw2jVVluU0RHaggxSS+Uy6mmENL3jipuiQ7iYUCp7+Mn1QJcmiw/D1Ef+WLTVETd3FGVEky0qYNtAl0//ZI5VIUGyk=
+	t=1710961923; cv=none; b=Qc4XSkhFUXmm83ETuD9OBTtAde4npSO97mUfw7mzU1n9x98ptkM9n3xAd1k6s9ogcF60lUA+SEq0XyipR9SV/ab0FBimWB8PM4dJsIBfyI74du9jrZyctnrewOczUfMfAnEetg8Ac9lSmedKs4naIV5HaihcvZntO4GDQSwo3BE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710960837; c=relaxed/simple;
-	bh=kw71mCENFfkusz3NYvP2M2wcfPXvnkvuAeHbdxEATAo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PlYWO9cYeWs6YqMtelaCkfDimVdXhrDq6OFbwp0R92vqrdtXe//qRk+AYJK+pyUURkBPDZT+oBbfCRG8h947ZpzKaLvGyBcwgE+uchQdTWaP3UNXK2Ur1UH4Hn3MeTCQ/tCQ2RVoNNGYLu/ZlK+ipx4dDu4l1/RmWBxnNyEFqcQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LLd2sxOL; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1710961923; c=relaxed/simple;
+	bh=wSvcPIoWz7sDAd12lh4qNgUxEOepxCpDUmRv5msijDw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FFtpfIUo7aMPN73d+9qsZIMGsK1IXNSLk+QzMA61G2aAHW3DtUvIC7F6CeEC1WrXoevhazW5oFedJCO0qatmzKl5C1c6ZEUShahoUUnI4HMytBNwcgetZhpcRm3kGOWmk0gQsUM1KDVgMkjch1S9Q9dNVGegrG29WEce+U17NE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ezm4psoI; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LLd2sxOL"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1dedb92e540so1748885ad.0;
-        Wed, 20 Mar 2024 11:53:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710960834; x=1711565634; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=hHo/UtzvItXgAnni/T063+9rKoFbdcxo9Fv9o/bsTdo=;
-        b=LLd2sxOLewmXOgLNaE4e8cE3IeKQNYwwsEVPqGWVDNTEqV8znm16qds1qj6vO8nQX8
-         keYEEvjWq1XuepM6q76TFtv+Sf1EwAMvbtxv+httBoH45aW0VGsQvHQ2ev3GpHWpMicw
-         3KWB2vHUhc1uXnX80WIT2avOf1xGg9pV7/UhX2Lu4/XX3OdId9o/VmbU5gbYgGopevJ9
-         V69G9Jx4Z+3wJGeruneCMLmpczGzTxC0FWCa4Pn1stP2gTz4q9oplapy6cURIZsYZ85r
-         4ZeLJIqs2rG10aTgced8OPUFqkovKMBwp4otBwPuIeNiREziIv43VU78p9ITZczbI1xH
-         KJmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710960834; x=1711565634;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hHo/UtzvItXgAnni/T063+9rKoFbdcxo9Fv9o/bsTdo=;
-        b=O2g7UTnRAkVm6IlWD7OA5b+EVDOdEgyIkeTovZa3fpLMEg4AzzAwGimLBgqnN1JtlZ
-         QFxNmX60bbRnKTBuInvxILK+iAyX3tucXuSwaW6kPyjcbH10Os/uF3rAuTgKkc57pm47
-         i8aY7WZwyQ0EmiBcHkazd28/SSv2q6YYDVI7YY6p5NLQTHeEoB1YvXUGsgzFsn0FcEM0
-         fv8c8bxVGDzv0gCtwUmPPWkxIiNPdxoUEBk9MSWgta8X5RloeRPgIxln/0vOzA0OfV5v
-         xcT2bq08y3mrCksI8HiREhMlzvdCCx96DJ2Fp7CY/dMzPUZ1SBib/hAZWRGhNEVkU+3J
-         arZw==
-X-Forwarded-Encrypted: i=1; AJvYcCUpn/7086JTmReCu4TpaWTGyZIQkURxOUg0udqDD28MOS3rk/3k3j/qSoYgQ3gRR1+DJ7fQ8G+AWYB9KkbdoKZq1eWM5QL/tN6T4C+xgQ==
-X-Gm-Message-State: AOJu0Yx5GbarguuP3MOWtBJ4ecztcju5aioDd5Ihm4YlXpqJqplv95mp
-	CHidjcnOp3XqzLzqg44H4U1OOMRLSXXbmyWcRVAPJpu0jf7FpY5aT/PY55KMX2g=
-X-Google-Smtp-Source: AGHT+IE58EF9+Se+w6BvmnOU4rIe52sGQR9jSmwBLL+Nawk6f/WI8phqZOSc0KVO39scQH2DD9odxA==
-X-Received: by 2002:a17:902:a3c4:b0:1df:f859:91b6 with SMTP id q4-20020a170902a3c400b001dff85991b6mr511149plb.34.1710960834450;
-        Wed, 20 Mar 2024 11:53:54 -0700 (PDT)
-Received: from ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx ([103.6.158.67])
-        by smtp.gmail.com with ESMTPSA id y17-20020a170903011100b001db5b39635dsm13901559plc.277.2024.03.20.11.53.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Mar 2024 11:53:54 -0700 (PDT)
-Date: Thu, 21 Mar 2024 00:23:50 +0530
-From: Ayush Tiwari <ayushtiw0110@gmail.com>
-To: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
-	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Cc: outreachy@lists.linux.dev
-Subject: [PATCH] staging: rtl8712: Change type of local variable
-Message-ID: <Zfnt4pIljgM21/BA@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ezm4psoI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1710961919; x=1742497919;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=wSvcPIoWz7sDAd12lh4qNgUxEOepxCpDUmRv5msijDw=;
+  b=Ezm4psoI6Ohn5qA1brFgWVPFnrx5mbuP4f0eOEaY96eDG5ZGNMWdzikv
+   xR9hmxrwBINYbEPAc6I60OJ/DUfcHlpFs/i6nQFPGUUg7AcXLTXY2RTi1
+   XihjAr3sMA5bY9FZmknPdeaWtR14lckJl9lpx1VwwZJM1THzCD55xLirY
+   isjmBbijFevp49RgoOX06XqVy5NQ6JJdbhQL2s4lOOvdwugPYbcgfJbA3
+   C2WaKbFVdOI/vzeOEzjgFn0jNjcs1SYnpo5wkGNRTGkk1ePoAAhrWRpn+
+   brjPvvVJDgEaB4s6r1BZFxq0tRGHKW+UbdXEKW4nPKZnxu80EiTrtqyw9
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11019"; a="6120386"
+X-IronPort-AV: E=Sophos;i="6.07,140,1708416000"; 
+   d="scan'208";a="6120386"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2024 12:11:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,140,1708416000"; 
+   d="scan'208";a="18889911"
+Received: from aschofie-mobl2.amr.corp.intel.com (HELO aschofie-mobl2) ([10.209.72.188])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2024 12:11:57 -0700
+Date: Wed, 20 Mar 2024 12:11:55 -0700
+From: Alison Schofield <alison.schofield@intel.com>
+To: "Felix N. Kimbu" <felixkimbu1@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev
+Subject: Re: [PATCH] staging: pi433: Correct comment typos in pi433_if.c
+Message-ID: <Zfs0+0C7nzKiBjGy@aschofie-mobl2>
+References: <Zfk0UfLh3rRf6qDv@MOLeToid>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -66,28 +56,139 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <Zfk0UfLh3rRf6qDv@MOLeToid>
 
-Change data type of local variable blnPending from u8 to bool since it
-only assumes 0 or 1 values.
+On Tue, Mar 19, 2024 at 07:44:33AM +0100, Felix N. Kimbu wrote:
+> Correct typos in pi433_if.c comments to address the following checkpatch checks;
+> 
+> CHECK: 'interace' may be misspelled - perhaps 'interface'?
+> #13: FILE: drivers/staging/pi433/pi433_if.c:13:
+> + * HopeRf with a similar interace - e. g. RFM69HCW, RFM12, RFM95, ...
+>                           ^^^^^^^^
+> 
+> CHECK: 'ebedded' may be misspelled - perhaps 'embedded'?
+> #71: FILE: drivers/staging/pi433/pi433_if.c:71:
+> + * so we have just one rx config, ebedded in device struct
+>                                    ^^^^^^^
+> 
+> CHECK: 'reenabled' may be misspelled - perhaps 're-enabled'?
+> #650: FILE: drivers/staging/pi433/pi433_if.c:650:
+> +                * irq will be reenabled after tx config is set
+>                                ^^^^^^^^^
+> 
+> CHECK: 'pendig' may be misspelled - perhaps 'pending'?
+> #926: FILE: drivers/staging/pi433/pi433_if.c:926:
+> +               /* during pendig read request, change of config not allowed */
+>                           ^^^^^^
+> 
+> Signed-off-by: Felix N. Kimbu <felixkimbu1@gmail.com>
 
-Signed-off-by: Ayush Tiwari <ayushtiw0110@gmail.com>
----
- drivers/staging/rtl8712/rtl8712_cmd.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hi Felix,
 
-diff --git a/drivers/staging/rtl8712/rtl8712_cmd.c b/drivers/staging/rtl8712/rtl8712_cmd.c
-index bb7db96ed821..32d9927981aa 100644
---- a/drivers/staging/rtl8712/rtl8712_cmd.c
-+++ b/drivers/staging/rtl8712/rtl8712_cmd.c
-@@ -284,7 +284,7 @@ int r8712_cmd_thread(void *context)
- 		pcmd = cmd_hdl_filter(padapter, pcmd);
- 		if (pcmd) { /* if pcmd != NULL, cmd will be handled by f/w */
- 			struct dvobj_priv *pdvobj = &padapter->dvobjpriv;
--			u8 blnPending = 0;
-+			bool blnPending = 0;
- 			u16 cmdcode = pcmd->cmdcode;
- 
- 			pcmdpriv->cmd_issued_cnt++;
--- 
-2.40.1
+This commit msg and log can be trimmed. Please take a look at samples in
+staging or here on the Outreachy list like this:
+https://lore.kernel.org/outreachy/00be5f2a97b0c899279bd8f9cd27634186b77b9d.1666299151.git.drv@mailo.com/
 
+Checkpatch complained:
+
+WARNING: Prefer a maximum 75 chars per line (possible unwrapped commit description?)
+#311: 
+Correct typos in pi433_if.c comments to address the following checkpatch checks;
+
+WARNING: Commit log lines starting with '#' are dropped by git as comments
+#314: 
+#13: FILE: drivers/staging/pi433/pi433_if.c:13:
+
+WARNING: 'interace' may be misspelled - perhaps 'interface'?
+#315: 
++ * HopeRf with a similar interace - e. g. RFM69HCW, RFM12, RFM95, ...
+                          ^^^^^^^^
+
+WARNING: Commit log lines starting with '#' are dropped by git as comments
+#319: 
+#71: FILE: drivers/staging/pi433/pi433_if.c:71:
+
+WARNING: 'ebedded' may be misspelled - perhaps 'embedded'?
+#320: 
++ * so we have just one rx config, ebedded in device struct
+                                   ^^^^^^^
+
+WARNING: Commit log lines starting with '#' are dropped by git as comments
+#324: 
+#650: FILE: drivers/staging/pi433/pi433_if.c:650:
+
+WARNING: 'reenabled' may be misspelled - perhaps 're-enabled'?
+#325: 
++                * irq will be reenabled after tx config is set
+                               ^^^^^^^^^
+
+WARNING: Commit log lines starting with '#' are dropped by git as comments
+#329: 
+#926: FILE: drivers/staging/pi433/pi433_if.c:926:
+
+WARNING: 'pendig' may be misspelled - perhaps 'pending'?
+#330: 
++               /* during pendig read request, change of config not allowed */
+                          ^^^^^^
+
+total: 0 errors, 9 warnings, 0 checks, 32 lines checked
+
+NOTE: For some of the reported defects, checkpatch may be able to
+      mechanically convert to the typical style using --fix or --fix-inplace.
+
+/home/cxluser/patches/outreachy/felix-spell.patch has style problems, please review.
+
+NOTE: If any of the errors are false positives, please report
+      them to the maintainer, see CHECKPATCH in MAINTAINERS.
+
+
+
+
+> ---
+>  drivers/staging/pi433/pi433_if.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/staging/pi433/pi433_if.c b/drivers/staging/pi433/pi433_if.c
+> index b6c4917d515e..81de98c0245a 100644
+> --- a/drivers/staging/pi433/pi433_if.c
+> +++ b/drivers/staging/pi433/pi433_if.c
+> @@ -10,7 +10,7 @@
+>   * devices, basing on HopeRfs rf69.
+>   *
+>   * The driver can also be extended, to support other modules of
+> - * HopeRf with a similar interace - e. g. RFM69HCW, RFM12, RFM95, ...
+> + * HopeRf with a similar interface - e. g. RFM69HCW, RFM12, RFM95, ...
+>   *
+>   * Copyright (C) 2016 Wolf-Entwicklungen
+>   *	Marcus Wolf <linux@wolf-entwicklungen.de>
+> @@ -68,7 +68,7 @@ static const struct class pi433_class = {
+>   */
+>  /*
+>   * rx config is device specific
+> - * so we have just one rx config, ebedded in device struct
+> + * so we have just one rx config, embedded in device struct
+>   */
+>  struct pi433_device {
+>  	/* device handling related values */
+> @@ -647,7 +647,7 @@ static int pi433_tx_thread(void *data)
+>  
+>  		/*
+>  		 * prevent race conditions
+> -		 * irq will be reenabled after tx config is set
+> +		 * irq will be re-enabled after tx config is set
+>  		 */
+>  		disable_irq(device->irq_num[DIO0]);
+>  		device->tx_active = true;
+> @@ -923,7 +923,7 @@ static long pi433_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
+>  	case PI433_IOC_WR_RX_CFG:
+>  		mutex_lock(&device->rx_lock);
+>  
+> -		/* during pendig read request, change of config not allowed */
+> +		/* during pending read request, change of config not allowed */
+>  		if (device->rx_active) {
+>  			mutex_unlock(&device->rx_lock);
+>  			return -EAGAIN;
+> -- 
+> 2.34.1
+> 
+> 
