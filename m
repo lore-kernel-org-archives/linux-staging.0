@@ -1,53 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B96D085297;
-	Wed, 20 Mar 2024 19:11:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0BA860266;
+	Wed, 20 Mar 2024 19:17:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710961923; cv=none; b=Qc4XSkhFUXmm83ETuD9OBTtAde4npSO97mUfw7mzU1n9x98ptkM9n3xAd1k6s9ogcF60lUA+SEq0XyipR9SV/ab0FBimWB8PM4dJsIBfyI74du9jrZyctnrewOczUfMfAnEetg8Ac9lSmedKs4naIV5HaihcvZntO4GDQSwo3BE=
+	t=1710962264; cv=none; b=LHeHo6FCT682pPqB7fkKMWW98JhfsASbgCBZiMjU26F6lJ5aLscskH2Gg1i+697gVrlfVdBlhVpgjlPKwDLk5AdMuKa+Y6s0C9A8jViHlc6nk9tC/lFehHoTFE2Rld7ouG4RYn/NrqLN4xwavc7imRZRzyvC5CXr39N1MKgrh48=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710961923; c=relaxed/simple;
-	bh=wSvcPIoWz7sDAd12lh4qNgUxEOepxCpDUmRv5msijDw=;
+	s=arc-20240116; t=1710962264; c=relaxed/simple;
+	bh=Azjd7wwCn4XA8bLGPMLhdiQkH8JfOmigzXwu2vsa6kc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FFtpfIUo7aMPN73d+9qsZIMGsK1IXNSLk+QzMA61G2aAHW3DtUvIC7F6CeEC1WrXoevhazW5oFedJCO0qatmzKl5C1c6ZEUShahoUUnI4HMytBNwcgetZhpcRm3kGOWmk0gQsUM1KDVgMkjch1S9Q9dNVGegrG29WEce+U17NE0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ezm4psoI; arc=none smtp.client-ip=192.198.163.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q8WlTHeLfIoSva6p0zps9iVFYeYkpa5aY5O0Hxzxlt05YvjzDsyt6sVoI4pCoQpId9xkv+BM5dRouWLjyl0nSgPbnZKmCMoK2iw5wRRShLpHkPr13kiYCayh0Bt+XtU+JFp20vG23EKXGpq8zQF1Jv5RTFZbSt9F4peYdvYYnGs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c5aN2eja; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ezm4psoI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c5aN2eja"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710961919; x=1742497919;
+  t=1710962263; x=1742498263;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=wSvcPIoWz7sDAd12lh4qNgUxEOepxCpDUmRv5msijDw=;
-  b=Ezm4psoI6Ohn5qA1brFgWVPFnrx5mbuP4f0eOEaY96eDG5ZGNMWdzikv
-   xR9hmxrwBINYbEPAc6I60OJ/DUfcHlpFs/i6nQFPGUUg7AcXLTXY2RTi1
-   XihjAr3sMA5bY9FZmknPdeaWtR14lckJl9lpx1VwwZJM1THzCD55xLirY
-   isjmBbijFevp49RgoOX06XqVy5NQ6JJdbhQL2s4lOOvdwugPYbcgfJbA3
-   C2WaKbFVdOI/vzeOEzjgFn0jNjcs1SYnpo5wkGNRTGkk1ePoAAhrWRpn+
-   brjPvvVJDgEaB4s6r1BZFxq0tRGHKW+UbdXEKW4nPKZnxu80EiTrtqyw9
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11019"; a="6120386"
+  bh=Azjd7wwCn4XA8bLGPMLhdiQkH8JfOmigzXwu2vsa6kc=;
+  b=c5aN2ejaIwMNiPweUONQVa7LDG2lTeKTB/aalqD/4s+2CR52Km7EMKOG
+   TzLINBCtsOUM0DLBpdez05eMSd2+wR1xI05MkhB22GHGmI81jx+P8cmct
+   yXXUZqn3JD5RMvMRrCGvcv9jD5aJvRepiVBu891dG6WDahZKWGKnTggjP
+   XmP3CHvmE5Dg/qaCO6rh8nP/MDeXsv3lkGGFlykEGuToTY1fJQ8pvOC6F
+   VNrcWIGXVvh0MX9gwbVh0Ku9o3/CJEEf5fQYmPxS08/k86a/jL7whIAhr
+   6S262tFlKVvikSI7LwoUNeAQDMObJg6+F6yXmP/YNK3+MKYr60RRP4/Sq
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11019"; a="5760608"
 X-IronPort-AV: E=Sophos;i="6.07,140,1708416000"; 
-   d="scan'208";a="6120386"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2024 12:11:58 -0700
+   d="scan'208";a="5760608"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2024 12:17:42 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,140,1708416000"; 
-   d="scan'208";a="18889911"
+   d="scan'208";a="18840236"
 Received: from aschofie-mobl2.amr.corp.intel.com (HELO aschofie-mobl2) ([10.209.72.188])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2024 12:11:57 -0700
-Date: Wed, 20 Mar 2024 12:11:55 -0700
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2024 12:17:40 -0700
+Date: Wed, 20 Mar 2024 12:17:38 -0700
 From: Alison Schofield <alison.schofield@intel.com>
-To: "Felix N. Kimbu" <felixkimbu1@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+To: TaheraFahimi <fahimitahera@gmail.com>
+Cc: Marc Dietrich <marvin24@gmx.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	ac100@lists.launchpad.net, linux-tegra@vger.kernel.org,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
 	outreachy@lists.linux.dev
-Subject: Re: [PATCH] staging: pi433: Correct comment typos in pi433_if.c
-Message-ID: <Zfs0+0C7nzKiBjGy@aschofie-mobl2>
-References: <Zfk0UfLh3rRf6qDv@MOLeToid>
+Subject: Re: [PATCH] staging: nvec: edit udelay comment
+Message-ID: <Zfs2Ug5INYKKyiDH@aschofie-mobl2>
+References: <ZfS+UaVyob+lFmmS@tahera-OptiPlex-5000>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -56,138 +58,42 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Zfk0UfLh3rRf6qDv@MOLeToid>
+In-Reply-To: <ZfS+UaVyob+lFmmS@tahera-OptiPlex-5000>
 
-On Tue, Mar 19, 2024 at 07:44:33AM +0100, Felix N. Kimbu wrote:
-> Correct typos in pi433_if.c comments to address the following checkpatch checks;
-> 
-> CHECK: 'interace' may be misspelled - perhaps 'interface'?
-> #13: FILE: drivers/staging/pi433/pi433_if.c:13:
-> + * HopeRf with a similar interace - e. g. RFM69HCW, RFM12, RFM95, ...
->                           ^^^^^^^^
-> 
-> CHECK: 'ebedded' may be misspelled - perhaps 'embedded'?
-> #71: FILE: drivers/staging/pi433/pi433_if.c:71:
-> + * so we have just one rx config, ebedded in device struct
->                                    ^^^^^^^
-> 
-> CHECK: 'reenabled' may be misspelled - perhaps 're-enabled'?
-> #650: FILE: drivers/staging/pi433/pi433_if.c:650:
-> +                * irq will be reenabled after tx config is set
->                                ^^^^^^^^^
-> 
-> CHECK: 'pendig' may be misspelled - perhaps 'pending'?
-> #926: FILE: drivers/staging/pi433/pi433_if.c:926:
-> +               /* during pendig read request, change of config not allowed */
->                           ^^^^^^
-> 
-> Signed-off-by: Felix N. Kimbu <felixkimbu1@gmail.com>
+On Fri, Mar 15, 2024 at 03:32:01PM -0600, TaheraFahimi wrote:
+> Signed-off-by: TaheraFahimi <fahimitahera@gmail.com>
 
-Hi Felix,
+Missing commit log.
 
-This commit msg and log can be trimmed. Please take a look at samples in
-staging or here on the Outreachy list like this:
-https://lore.kernel.org/outreachy/00be5f2a97b0c899279bd8f9cd27634186b77b9d.1666299151.git.drv@mailo.com/
+Commit message would be clearer like: "correct a misspelled comment"
+because when you say you are editing a udelay comment, it made me
+think you were clarifying something about usage of udelay.
 
-Checkpatch complained:
+There are plenty of patches on this list with examples of how
+patches of spelling corrections are worded in both the commit
+message and log. Please take a look.
 
-WARNING: Prefer a maximum 75 chars per line (possible unwrapped commit description?)
-#311: 
-Correct typos in pi433_if.c comments to address the following checkpatch checks;
-
-WARNING: Commit log lines starting with '#' are dropped by git as comments
-#314: 
-#13: FILE: drivers/staging/pi433/pi433_if.c:13:
-
-WARNING: 'interace' may be misspelled - perhaps 'interface'?
-#315: 
-+ * HopeRf with a similar interace - e. g. RFM69HCW, RFM12, RFM95, ...
-                          ^^^^^^^^
-
-WARNING: Commit log lines starting with '#' are dropped by git as comments
-#319: 
-#71: FILE: drivers/staging/pi433/pi433_if.c:71:
-
-WARNING: 'ebedded' may be misspelled - perhaps 'embedded'?
-#320: 
-+ * so we have just one rx config, ebedded in device struct
-                                   ^^^^^^^
-
-WARNING: Commit log lines starting with '#' are dropped by git as comments
-#324: 
-#650: FILE: drivers/staging/pi433/pi433_if.c:650:
-
-WARNING: 'reenabled' may be misspelled - perhaps 're-enabled'?
-#325: 
-+                * irq will be reenabled after tx config is set
-                               ^^^^^^^^^
-
-WARNING: Commit log lines starting with '#' are dropped by git as comments
-#329: 
-#926: FILE: drivers/staging/pi433/pi433_if.c:926:
-
-WARNING: 'pendig' may be misspelled - perhaps 'pending'?
-#330: 
-+               /* during pendig read request, change of config not allowed */
-                          ^^^^^^
-
-total: 0 errors, 9 warnings, 0 checks, 32 lines checked
-
-NOTE: For some of the reported defects, checkpatch may be able to
-      mechanically convert to the typical style using --fix or --fix-inplace.
-
-/home/cxluser/patches/outreachy/felix-spell.patch has style problems, please review.
-
-NOTE: If any of the errors are false positives, please report
-      them to the maintainer, see CHECKPATCH in MAINTAINERS.
-
-
+Thanks,
+Alison
 
 
 > ---
->  drivers/staging/pi433/pi433_if.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+>  drivers/staging/nvec/nvec.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/staging/pi433/pi433_if.c b/drivers/staging/pi433/pi433_if.c
-> index b6c4917d515e..81de98c0245a 100644
-> --- a/drivers/staging/pi433/pi433_if.c
-> +++ b/drivers/staging/pi433/pi433_if.c
-> @@ -10,7 +10,7 @@
->   * devices, basing on HopeRfs rf69.
->   *
->   * The driver can also be extended, to support other modules of
-> - * HopeRf with a similar interace - e. g. RFM69HCW, RFM12, RFM95, ...
-> + * HopeRf with a similar interface - e. g. RFM69HCW, RFM12, RFM95, ...
->   *
->   * Copyright (C) 2016 Wolf-Entwicklungen
->   *	Marcus Wolf <linux@wolf-entwicklungen.de>
-> @@ -68,7 +68,7 @@ static const struct class pi433_class = {
->   */
->  /*
->   * rx config is device specific
-> - * so we have just one rx config, ebedded in device struct
-> + * so we have just one rx config, embedded in device struct
->   */
->  struct pi433_device {
->  	/* device handling related values */
-> @@ -647,7 +647,7 @@ static int pi433_tx_thread(void *data)
->  
->  		/*
->  		 * prevent race conditions
-> -		 * irq will be reenabled after tx config is set
-> +		 * irq will be re-enabled after tx config is set
->  		 */
->  		disable_irq(device->irq_num[DIO0]);
->  		device->tx_active = true;
-> @@ -923,7 +923,7 @@ static long pi433_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
->  	case PI433_IOC_WR_RX_CFG:
->  		mutex_lock(&device->rx_lock);
->  
-> -		/* during pendig read request, change of config not allowed */
-> +		/* during pending read request, change of config not allowed */
->  		if (device->rx_active) {
->  			mutex_unlock(&device->rx_lock);
->  			return -EAGAIN;
+> diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
+> index 282a664c9176..b4485b10beb8 100644
+> --- a/drivers/staging/nvec/nvec.c
+> +++ b/drivers/staging/nvec/nvec.c
+> @@ -712,7 +712,7 @@ static irqreturn_t nvec_interrupt(int irq, void *dev)
+>  	 * TODO: replace the udelay with a read back after each writel above
+>  	 * in order to work around a hardware issue, see i2c-tegra.c
+>  	 *
+> -	 * Unfortunately, this change causes an intialisation issue with the
+> +	 * Unfortunately, this change causes an initialisation issue with the
+>  	 * touchpad, which needs to be fixed first.
+>  	 */
+>  	udelay(100);
 > -- 
 > 2.34.1
 > 
