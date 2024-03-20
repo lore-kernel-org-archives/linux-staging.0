@@ -1,118 +1,121 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B64CD85644;
-	Wed, 20 Mar 2024 19:51:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E89A224F2;
+	Wed, 20 Mar 2024 21:05:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.104
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710964273; cv=none; b=tICVju9c85YhbNc6UhPoidRcg82YuFkfSJ2JxoiSkjbLwdNDVTQz2OthvZMiunU3AQR+1ZU1KtkBAWp+wxxnVVe68TbXWo831YKnWD23D4T13j15YNNczAVJ0EpkNkBigN4VdbxLCTnZjlbQGubXuDVp0DyfPWR9hV8iVUlh5c0=
+	t=1710968712; cv=none; b=MEzk6X//lx9L1jHrM++2SsaBzq20PmSn34MdK6DyT5/SYWK1UP/IHHF4lCUuch9DGMqy40SoFbN82oln8//d3VSWfXw2fz64FLetzXikHiqZQK7iHQUZlyg/f7y4vyIlNpc5pmtC+rEgvueWRDZStqBJnyxgbvLL8RAFcKAvCQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710964273; c=relaxed/simple;
-	bh=EpwmDWMEvj+bTYnIg0y28dqQH8LEVqmqsBX939rabos=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sm8jDnpbQD3o5LUGGkd3VP7SAG18gHjv56m96mKqASi8f3k6RU1SticXf/Tn+L9sb03qkIaEBvYJDW7kC2MwCGOT0XY2J/djJ6OD2rrUGkekWG+65sQHVBIPmQ6elMarEPPLJiOVkbODswcKJPaRK1kz2yaZvoZQ2bhgpvaWlf4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R8Qi/WVv; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1710968712; c=relaxed/simple;
+	bh=Wyhez9FL5Ho+UmwZKIK3g6PGWtYemMdQMXRG7Iosh+s=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=J7Vluay2mmbHs9lI9i24If2cpIxm+EJNZewtNRUU/jEz2FscOesIO+XQlFnpCOoobEgPDxz2B2YtOjOKk+TKt0qzIFdEYO3rdkTBvpYsa8S1bZBW31WtA43IMfTuFzOQzOzzn2Qk3OB4ascRTM7GUxhYmlYtXmY5stXZt5TT3YA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=kukgWbT+; arc=none smtp.client-ip=192.134.164.104
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R8Qi/WVv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710964271; x=1742500271;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=EpwmDWMEvj+bTYnIg0y28dqQH8LEVqmqsBX939rabos=;
-  b=R8Qi/WVv0w+1YwWlw8fRTLySPAi3rWY3VjlhSo/ONAZwsKYzlnhIf7ar
-   IbDXSqDD3jbdnAKQ/XlujCH9SA/DNRXi4AiZJtlfKzEkbWVINQm3c/7W9
-   128eJjYEX22g3EFkgR4Ji8Iu3VSdfip+VsvWm+T3xwgMQ099kar+NxRe3
-   lnyVjliPrNYRhx/9J0ns5BdramrTdq0mBtU+1RT/8FA2J2zPWwFQoUzKq
-   Q5riVRV23IrX8fLqdXbNaZwmhQd+wNSmXuGpVz2ZpSJggeXHS6RX0qlZ1
-   az+0VBtM1qD++ZeF6G/UTO9VV1cxb0ByO1vODwC0ZtPt68LExAVVIXksa
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11019"; a="16652614"
-X-IronPort-AV: E=Sophos;i="6.07,141,1708416000"; 
-   d="scan'208";a="16652614"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2024 12:50:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,141,1708416000"; 
-   d="scan'208";a="14655562"
-Received: from fdefranc-mobl3.ger.corp.intel.com (HELO fdefranc-mobl3.localnet) ([10.213.7.127])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2024 12:50:44 -0700
-From: "Fabio M. De Francesco" <fabio.maria.de.francesco@linux.intel.com>
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="kukgWbT+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=DaEIabmCpPYeVfCnqcTR0G+EdrgHTPTuHfPVasDyRdg=;
+  b=kukgWbT+xGfq5/9uvX9N7ywdGDBTrWS+9Sf1iK73Xupv/1agITqwFMfd
+   6SxNUjC/9fCGjB+giKjfnqI5wuWvmBC9Pi6ZHXt50NZekstUyr6ifNu5S
+   zgSLlzbQozMYFA4ocBzOD85Yk+8sT48SRaqbS2Wcj1yQLNfWNWuXIfvzT
+   M=;
+Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.07,141,1708383600"; 
+   d="scan'208";a="82705121"
+Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2024 22:05:04 +0100
+Date: Wed, 20 Mar 2024 22:05:03 +0100 (CET)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
 To: Ayush Tiwari <ayushtiw0110@gmail.com>
-Cc: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
- gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev, outreachy@lists.linux.dev
-Subject: Re: [PATCH v2 0/3] Trivial code cleanup patches
-Date: Wed, 20 Mar 2024 20:50:40 +0100
-Message-ID: <4105521.oiGErgHkdL@fdefranc-mobl3>
-Organization: intel
-In-Reply-To: <6485785.DvuYhMxLoT@fdefranc-mobl3>
-References:
- <cover.1710703217.git.ayushtiw0110@gmail.com>
- <6485785.DvuYhMxLoT@fdefranc-mobl3>
+cc: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com, 
+    gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
+    linux-staging@lists.linux.dev, outreachy@lists.linux.dev
+Subject: Re: [PATCH v2] staging: rtl8712: Change type and name of local
+ variable
+In-Reply-To: <Zfs+GKmt9hDZdWt/@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
+Message-ID: <alpine.DEB.2.22.394.2403202203470.3361@hadrien>
+References: <Zfs+GKmt9hDZdWt/@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-
-On Tuesday, 19 March 2024 07:04:34 CET Fabio M. De Francesco wrote:
-> On Monday, 18 March 2024 20:54:09 CET Ayush Tiwari wrote:
-> > Address different kinds of checkpatch complains for the rtl8712 module
-> > to ensure adherence to coding style guidelines.
-> > 
-> > Changes in v2: Checked any possible reuse of backup_PMKID_list
-> > manually and rebuilt, 
-
-No you didn't do what you are saying.
-
-> rebooted the kernel and loaded the driver
-> > with modprobe.
-> 
-> You have not made any changes to any of the three patches in this series.
-> No changes in commit messages and no changes in code. Am I missing
-> something?
-> 
-> So why did you submit a v2 of this series?
-> 
-> Fabio
-
-Julia commented on patch 1/3. You should either reply that everything is 
-correct (if it is) or fix your patch. Please don't send new versions that 
-don't change anything and don't ignore comments (mine included).
-
-> > Ayush Tiwari (3):
-> >   staging: rtl8712: rename backupPMKIDList to backup_PMKID_list
-
-This patch introduces errors. You haven't compiled this module, otherwise 
-you would have noticed that. Always compile your changes (preferably with 
-CONFIG_WERROR set). 
-
-Please read the output of git-grep:
-
-[fabio@linux]$ git grep backupPMKIDList drivers/staging/rtl8712
-drivers/staging/rtl8712/mlme_linux.c:  static struct RT_PMKID_LIST 
-backupPMKIDList[NUM_PMKID_CACHE];
-drivers/staging/rtl8712/mlme_linux.c:           memcpy(&backupPMKIDList[0],
-drivers/staging/rtl8712/mlme_linux.c:                  &backupPMKIDList[0],
-
-Can you see how patch 1/3 introduces errors?
-
-Fabio
-
-> >   staging: rtl8712: rename backupPMKIDIndex to backup_PMKID_index
-> >   staging: rtl8712: rename backupTKIPCountermeasure to
-> >   
-> >     backup_TKIP_countermeasure
-> >  
-> >  drivers/staging/rtl8712/mlme_linux.c | 18 +++++++++---------
-> >  1 file changed, 9 insertions(+), 9 deletions(-)
+Content-Type: text/plain; charset=US-ASCII
 
 
 
+On Thu, 21 Mar 2024, Ayush Tiwari wrote:
 
+> Change data type of local variable blnPending from u8 to bool and
+> renamed it to len_padding since it only assumes 0 or 1 values and
+> seems to add a padding based on wr_sz. This change also address the
+> checkpatch warning "Avoid Camelcase".
+>
+> Signed-off-by: Ayush Tiwari <ayushtiw0110@gmail.com>
+> ---
+> Changes in v2: Changed values of blnPending from 0/1 to false/true
+> and renamed blnPending to len_padding
+
+I don't think "len" is a good choice.  That suggests length, which would
+be an integer.  I suspect that bln is an abbreviation of boolean, and the
+while thing should go.  But when you remove that, you get pending, not
+padding.
+
+julia
+
+>
+>  drivers/staging/rtl8712/rtl8712_cmd.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/staging/rtl8712/rtl8712_cmd.c b/drivers/staging/rtl8712/rtl8712_cmd.c
+> index bb7db96ed821..f499bbbf5bf5 100644
+> --- a/drivers/staging/rtl8712/rtl8712_cmd.c
+> +++ b/drivers/staging/rtl8712/rtl8712_cmd.c
+> @@ -284,7 +284,7 @@ int r8712_cmd_thread(void *context)
+>  		pcmd = cmd_hdl_filter(padapter, pcmd);
+>  		if (pcmd) { /* if pcmd != NULL, cmd will be handled by f/w */
+>  			struct dvobj_priv *pdvobj = &padapter->dvobjpriv;
+> -			u8 blnPending = 0;
+> +			bool len_padding = false;
+>  			u16 cmdcode = pcmd->cmdcode;
+>
+>  			pcmdpriv->cmd_issued_cnt++;
+> @@ -294,12 +294,12 @@ int r8712_cmd_thread(void *context)
+>  						     0x0000ffff);
+>  			if (pdvobj->ishighspeed) {
+>  				if ((wr_sz % 512) == 0)
+> -					blnPending = 1;
+> +					len_padding = true;
+>  			} else {
+>  				if ((wr_sz % 64) == 0)
+> -					blnPending = 1;
+> +					len_padding = true;
+>  			}
+> -			if (blnPending) { /* 32 bytes for TX Desc - 8 offset */
+> +			if (len_padding) { /* 32 bytes for TX Desc - 8 offset */
+>  				pdesc->txdw0 |= cpu_to_le32(((TXDESC_SIZE +
+>  						OFFSET_SZ + 8) << OFFSET_SHT) &
+>  						0x00ff0000);
+> @@ -318,7 +318,7 @@ int r8712_cmd_thread(void *context)
+>  					       (pcmdpriv->cmd_seq << 24));
+>  			pcmdbuf += 2; /* 8 bytes alignment */
+>  			memcpy((u8 *)pcmdbuf, pcmd->parmbuf, pcmd->cmdsz);
+> -			if (blnPending)
+> +			if (len_padding)
+>  				wr_sz += 8;   /* Append 8 bytes */
+>  			r8712_write_mem(padapter, RTL8712_DMA_H2CCMD, wr_sz,
+>  					(u8 *)pdesc);
+> --
+> 2.40.1
+>
+>
+>
