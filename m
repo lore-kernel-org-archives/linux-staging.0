@@ -1,100 +1,100 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0BA860266;
-	Wed, 20 Mar 2024 19:17:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 492A48527E;
+	Wed, 20 Mar 2024 19:19:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710962264; cv=none; b=LHeHo6FCT682pPqB7fkKMWW98JhfsASbgCBZiMjU26F6lJ5aLscskH2Gg1i+697gVrlfVdBlhVpgjlPKwDLk5AdMuKa+Y6s0C9A8jViHlc6nk9tC/lFehHoTFE2Rld7ouG4RYn/NrqLN4xwavc7imRZRzyvC5CXr39N1MKgrh48=
+	t=1710962355; cv=none; b=vBBKizBYAOLzTLKP6rtI3t51t3azUFTg0AGVrOIlqRLHrUxoPyTM1tiXoWoBgZJ/2nWmqtZtOZqbdPP6mfcYPPtvELrRq/uuXuoKdCLXmBLhSRk21DruS//E3FOaaALL75iy8R6/+Q1dSSLpVFdt7w7LaqbYtEKUUMtBDb1U21w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710962264; c=relaxed/simple;
-	bh=Azjd7wwCn4XA8bLGPMLhdiQkH8JfOmigzXwu2vsa6kc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q8WlTHeLfIoSva6p0zps9iVFYeYkpa5aY5O0Hxzxlt05YvjzDsyt6sVoI4pCoQpId9xkv+BM5dRouWLjyl0nSgPbnZKmCMoK2iw5wRRShLpHkPr13kiYCayh0Bt+XtU+JFp20vG23EKXGpq8zQF1Jv5RTFZbSt9F4peYdvYYnGs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c5aN2eja; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1710962355; c=relaxed/simple;
+	bh=iPJRmEumxajKjnt+YaiVZbpw05yONRfFEwzdYYywKw0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=qFiYWPajZRV3p2LpKQ++E+hDMdh83a2e1gNm52TC9K+Tr3HGdvHl4haFPGn+9HbwBeWphPUM101buV6khQKYLmVC3Q7q++EtGoatFzHpZnCk4DLlNnBHFBt+h7VJT8IyvtXUHvPW+Goef3cT9BM/S/ZyuNMj07PqsI89H5ccwt8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZX98izj6; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c5aN2eja"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZX98izj6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710962263; x=1742498263;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Azjd7wwCn4XA8bLGPMLhdiQkH8JfOmigzXwu2vsa6kc=;
-  b=c5aN2ejaIwMNiPweUONQVa7LDG2lTeKTB/aalqD/4s+2CR52Km7EMKOG
-   TzLINBCtsOUM0DLBpdez05eMSd2+wR1xI05MkhB22GHGmI81jx+P8cmct
-   yXXUZqn3JD5RMvMRrCGvcv9jD5aJvRepiVBu891dG6WDahZKWGKnTggjP
-   XmP3CHvmE5Dg/qaCO6rh8nP/MDeXsv3lkGGFlykEGuToTY1fJQ8pvOC6F
-   VNrcWIGXVvh0MX9gwbVh0Ku9o3/CJEEf5fQYmPxS08/k86a/jL7whIAhr
-   6S262tFlKVvikSI7LwoUNeAQDMObJg6+F6yXmP/YNK3+MKYr60RRP4/Sq
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11019"; a="5760608"
+  t=1710962354; x=1742498354;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=iPJRmEumxajKjnt+YaiVZbpw05yONRfFEwzdYYywKw0=;
+  b=ZX98izj6k+AQXa8WhtnWZHprXx88it2YHw9hv3Xn+u+MTUeuySzIJplS
+   ++PsaaKX1k9RDsbWktRhjJltodw2c0RNF4pK34K3OABJ2LJwwCc/LyxxG
+   8tnP/LR18aki6g2H7yG+R8k5a/hfqgsBLagIgLfHiTbGc5L17Dq8bCtPE
+   0k7FCrfnB+prHBGE1ufpI0fuJT+sR7Tt+NHbLYwQisrfjVyCUeIDlHFhA
+   tQXG8KBHnsnHrEDThkCd6aDfHfV8wKYWb04AjuNChMOWYfzmyMUHJLSzI
+   3Hbk/dDa2H6qH0TvaqQBUjht3TkEUHi4gjvcdN4Wh4NazVkccc5x2Fm3J
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11019"; a="17051001"
 X-IronPort-AV: E=Sophos;i="6.07,140,1708416000"; 
-   d="scan'208";a="5760608"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2024 12:17:42 -0700
+   d="scan'208";a="17051001"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2024 12:19:13 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,140,1708416000"; 
-   d="scan'208";a="18840236"
-Received: from aschofie-mobl2.amr.corp.intel.com (HELO aschofie-mobl2) ([10.209.72.188])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2024 12:17:40 -0700
-Date: Wed, 20 Mar 2024 12:17:38 -0700
-From: Alison Schofield <alison.schofield@intel.com>
-To: TaheraFahimi <fahimitahera@gmail.com>
-Cc: Marc Dietrich <marvin24@gmx.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	ac100@lists.launchpad.net, linux-tegra@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev
-Subject: Re: [PATCH] staging: nvec: edit udelay comment
-Message-ID: <Zfs2Ug5INYKKyiDH@aschofie-mobl2>
-References: <ZfS+UaVyob+lFmmS@tahera-OptiPlex-5000>
+   d="scan'208";a="14322938"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO fdefranc-mobl3.localnet) ([10.213.7.127])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2024 12:19:10 -0700
+From: "Fabio M. De Francesco" <fabio.maria.de.francesco@linux.intel.com>
+To: Ayush Tiwari <ayushtiw0110@gmail.com>
+Cc: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
+ gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev, outreachy@lists.linux.dev
+Subject: Re: [PATCH] staging: rtl8712: Change type of local variable
+Date: Wed, 20 Mar 2024 20:19:06 +0100
+Message-ID: <3629769.BEx9A2HvPv@fdefranc-mobl3>
+Organization: intel
+In-Reply-To: <Zfnt4pIljgM21/BA@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
+References: <Zfnt4pIljgM21/BA@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZfS+UaVyob+lFmmS@tahera-OptiPlex-5000>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Fri, Mar 15, 2024 at 03:32:01PM -0600, TaheraFahimi wrote:
-> Signed-off-by: TaheraFahimi <fahimitahera@gmail.com>
-
-Missing commit log.
-
-Commit message would be clearer like: "correct a misspelled comment"
-because when you say you are editing a udelay comment, it made me
-think you were clarifying something about usage of udelay.
-
-There are plenty of patches on this list with examples of how
-patches of spelling corrections are worded in both the commit
-message and log. Please take a look.
-
-Thanks,
-Alison
-
-
+On Wednesday, 20 March 2024 19:53:50 CET Ayush Tiwari wrote:
+> Change data type of local variable blnPending from u8 to bool since it
+> only assumes 0 or 1 values.
+> 
+> Signed-off-by: Ayush Tiwari <ayushtiw0110@gmail.com>
 > ---
->  drivers/staging/nvec/nvec.c | 2 +-
+>  drivers/staging/rtl8712/rtl8712_cmd.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
-> index 282a664c9176..b4485b10beb8 100644
-> --- a/drivers/staging/nvec/nvec.c
-> +++ b/drivers/staging/nvec/nvec.c
-> @@ -712,7 +712,7 @@ static irqreturn_t nvec_interrupt(int irq, void *dev)
->  	 * TODO: replace the udelay with a read back after each writel above
->  	 * in order to work around a hardware issue, see i2c-tegra.c
->  	 *
-> -	 * Unfortunately, this change causes an intialisation issue with the
-> +	 * Unfortunately, this change causes an initialisation issue with the
->  	 * touchpad, which needs to be fixed first.
->  	 */
->  	udelay(100);
-> -- 
-> 2.34.1
+> diff --git a/drivers/staging/rtl8712/rtl8712_cmd.c
+> b/drivers/staging/rtl8712/rtl8712_cmd.c index bb7db96ed821..32d9927981aa
+> 100644
+> --- a/drivers/staging/rtl8712/rtl8712_cmd.c
+> +++ b/drivers/staging/rtl8712/rtl8712_cmd.c
+> @@ -284,7 +284,7 @@ int r8712_cmd_thread(void *context)
+>  		pcmd = cmd_hdl_filter(padapter, pcmd);
+>  		if (pcmd) { /* if pcmd != NULL, cmd will be handled by 
+f/w */
+>  			struct dvobj_priv *pdvobj = &padapter-
+>dvobjpriv;
+> -			u8 blnPending = 0;
+> +			bool blnPending = 0;
+
+bool types should take only 'true' and 'false' values. Therefore, if you 
+change a type to 'bool' you should also convert the values it is assigned 
+throughout its lifetime.
+
+Fabio
+
+P.S.: I just recalled that Dan has asked you to drop that 'b' prefix and do 
+exactly what I wrote above. Are you going to ignore his comments?
+
+>  			u16 cmdcode = pcmd->cmdcode;
 > 
-> 
+>  			pcmdpriv->cmd_issued_cnt++;
+
+
+
+
