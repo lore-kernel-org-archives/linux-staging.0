@@ -1,31 +1,31 @@
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 567DA84039
-	for <linux-staging@lists.linux.dev>; Thu, 21 Mar 2024 13:08:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E4118405F
+	for <linux-staging@lists.linux.dev>; Thu, 21 Mar 2024 13:08:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711026485; cv=none; b=JoGGzATidCa3j2vSVZuysOANgLzS1LvmKlRlMe8GeTLFjnZzHfHNn5cV2Ju/xPqDgUEbyJ7kNLdfFLZRM2bGTHyx9BxMPjUix/AL6fjG2STR6piHO/SGBre07yAyFatq6954uBUtr9p/Jh5gd9fTwIJTpLO20vuIed0CwY/0l7Y=
+	t=1711026491; cv=none; b=A9cp9p88Vc9ypriLszXhtpdIYdY3Byj7ywEDGWlmVYtc6lz/FzDhl2v8IzPv7tkl4ofjf8wvJjULA6WoB/s0aI9MS1560vZHgSCpt04G1TZH0XNT8Ue15LGaALZatpinrUQujJcwcUK1YDEptNjIrRso26Fh6IiYFFX8J3z9uIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711026485; c=relaxed/simple;
-	bh=KmGApSib0sFa02kkFEqNNA517Gpw8tm6KKbqVCkvUt4=;
+	s=arc-20240116; t=1711026491; c=relaxed/simple;
+	bh=3RQqx8TTbZn4ocJGXmWzX3AEckBOQqV6iuezwlDgHyY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iSiwYIYNuQ3wjSqLLAxeIi0vCOqQDfUyadvP2RO9fmTgVU/v445aESQQCJhTQ3qBtKcicO5g+i4SZck6Yu8g921Evsx6nCxCAFfM8HrNB2Ca7t5z/wZ1vJtF2ViJs8djIfJN1OD/Pjqo1UI7R6f0XNQ5IBxQ98Mob0U4E4blT1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=W+RZog87; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=d5CYSFFKnmUh86REND5gNYkQ7dcYXxz2N6LsHqHdQdWg6Flssvs1mCjy03n+xvDfD9sl+XXOF8AcCrLCSTWopiXZN8KT6dE04xVtd7p772RWSIBWqFhhWKsxerzzyjjgs8rTBkWJPiN4Ffz5+ucpS/QTQEOa9j06RqBxckn7+iM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ZMotlHDq; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="W+RZog87"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ZMotlHDq"
 Received: from umang.jain (unknown [103.86.18.138])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3139C7E9;
-	Thu, 21 Mar 2024 14:07:30 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E12532B3;
+	Thu, 21 Mar 2024 14:07:35 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1711026455;
-	bh=KmGApSib0sFa02kkFEqNNA517Gpw8tm6KKbqVCkvUt4=;
+	s=mail; t=1711026460;
+	bh=3RQqx8TTbZn4ocJGXmWzX3AEckBOQqV6iuezwlDgHyY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=W+RZog87hmwa5BltUqI0Jc8ce/arbm1fh7OfFMq4Jgd8aq1FS/aogVHtX9yZMdXKW
-	 UWQIIKd1eo/CPXjx0YMxp2twlZ0qvYuR116qZQnYyV+wy/lMX1yIsf/TQl/w0F+at2
-	 PJr+jkps/hOaVyx4zxi0s2cSCRuQUt2KNQK2SUcI=
+	b=ZMotlHDq+0/bMx67aHwnX6U/2F7Xt1BYHpruYvf77AUM8DUaCDWl+vKbep/MnH1kJ
+	 EmjOPbWrzbpw4hAxOVFOeI/cZADyFrcC2C/HoCwvMww812T27GhCs9zTRrJqJNBZIk
+	 mRHox0fXXJkMeGKsFjyQ014qd8oQRALDaBeuAWms=
 From: Umang Jain <umang.jain@ideasonboard.com>
 To: linux-staging@lists.linux.dev
 Cc: Stefan Wahren <stefan.wahren@i2se.com>,
@@ -36,9 +36,9 @@ Cc: Stefan Wahren <stefan.wahren@i2se.com>,
 	Phil Elwell <phil@raspberrypi.com>,
 	Greg KH <greg@kroah.com>,
 	Umang Jain <umang.jain@ideasonboard.com>
-Subject: [PATCH v2 3/5] staging: vc04_services: Do not log error on kzalloc()
-Date: Thu, 21 Mar 2024 18:37:35 +0530
-Message-ID: <20240321130737.898154-4-umang.jain@ideasonboard.com>
+Subject: [PATCH v2 4/5] staging: vc04_services: Implement vchiq_bus .remove
+Date: Thu, 21 Mar 2024 18:37:36 +0530
+Message-ID: <20240321130737.898154-5-umang.jain@ideasonboard.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240321130737.898154-1-umang.jain@ideasonboard.com>
 References: <20240321130737.898154-1-umang.jain@ideasonboard.com>
@@ -50,38 +50,41 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Do not log any error for kzalloc() error path. kzalloc() already reports
-such errors.
+Implement the struct vchiq_bus .remove() so that cleanup
+paths can be executed by the devices registered to this
+bus, when being removed.
 
 Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
 ---
- .../staging/vc04_services/interface/vchiq_arm/vchiq_arm.c    | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ .../vc04_services/interface/vchiq_arm/vchiq_bus.c      | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-index b3021739b170..ad506016fc93 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-@@ -690,7 +690,6 @@ int vchiq_initialise(struct vchiq_instance **instance_out)
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c
+index 68f830d75531..93609716df84 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c
+@@ -37,11 +37,21 @@ static int vchiq_bus_probe(struct device *dev)
+ 	return driver->probe(device);
+ }
  
- 	instance = kzalloc(sizeof(*instance), GFP_KERNEL);
- 	if (!instance) {
--		dev_err(state->dev, "core: %s: Cannot allocate vchiq instance\n", __func__);
- 		ret = -ENOMEM;
- 		goto failed;
- 	}
-@@ -956,10 +955,8 @@ vchiq_blocking_bulk_transfer(struct vchiq_instance *instance, unsigned int handl
- 		}
- 	} else {
- 		waiter = kzalloc(sizeof(*waiter), GFP_KERNEL);
--		if (!waiter) {
--			dev_err(service->state->dev, "core: %s: - Out of memory\n", __func__);
-+		if (!waiter)
- 			return -ENOMEM;
--		}
- 	}
++static void vchiq_bus_remove(struct device *dev)
++{
++	struct vchiq_device *device = to_vchiq_device(dev);
++	struct vchiq_driver *driver = to_vchiq_driver(dev->driver);
++
++	if (driver->remove)
++		driver->remove(device);
++}
++
+ const struct bus_type vchiq_bus_type = {
+ 	.name   = "vchiq-bus",
+ 	.match  = vchiq_bus_type_match,
+ 	.uevent = vchiq_bus_uevent,
+ 	.probe  = vchiq_bus_probe,
++	.remove = vchiq_bus_remove,
+ };
  
- 	status = vchiq_bulk_transfer(instance, handle, data, NULL, size,
+ static void vchiq_device_release(struct device *dev)
 -- 
 2.43.0
 
