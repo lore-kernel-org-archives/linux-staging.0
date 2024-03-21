@@ -1,63 +1,66 @@
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A7E33AC2B;
-	Thu, 21 Mar 2024 06:57:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDD714F8BC
+	for <linux-staging@lists.linux.dev>; Thu, 21 Mar 2024 07:20:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711004269; cv=none; b=kz8lK0XwBSobntN21y0FLKICek/M4fk4qEKV8yZSh5wB1EctFi9zEkRAGOrCdx4g5vQkhRbpoqj/usEJWdpXusRD/oy1h9BcZnhWj8YW7bOyyM0bZjkC4hmGShBJYpHHiwFEYz8lyVQOIbYzV/W3cxXctrFNJumhXjPY2/n8W24=
+	t=1711005624; cv=none; b=X/rb/SSmM/GjXbLZfJ1ATaDG+YE6vHO7seCblqRnEH4PuepLXxCFafuBV4UU7Qt4FUoG/7ydj6LMD0RMr/LdstWwZjhDr0Kyh4hRddAiw0vKS8GDH1feVaCSgA+9lYeW369DG7QMyW1Do2u1j0mYGcZlxgXgblTNGH18/Heo/A8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711004269; c=relaxed/simple;
-	bh=StxNl/KI8IGwn9Tcx+LijsYzpaVocZlUNBEJwMkixMw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kWZxGJYN/VXxbtSI5LLHbtukRwm3y+y+a2LGMWxYYawexEY2XBwLSkZtEXaC0F440it8xg3yQA64rv8s6r+DVjuTLpYcY2qpx6iY2/Uxq59ZXW8iSlQc10Yom2kjUfyCAqYzHg5XdV5lp+M+LQlZOUlrlo9U6mr2o2S+poDNF18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Nyt+oWaC; arc=none smtp.client-ip=209.85.219.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1711005624; c=relaxed/simple;
+	bh=M/pE1qtuba0xAb4ithnVVZnIuFnsFrNwP1v7PJ5rEqc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nLj3Tj77d+IuCdHsCgAU+ABHiW8L89t8BwlAFr5eS/5xLeyqexbt5lxQvPWeMJfcbPt2KkN9i+T1cVAUDVgKugO2fmWcHLD7snR3gd/bVDXiTfBREMJLu/lvrqf8L54zVNLPNGgy4jY/PHabf1XTRS//PQQIY8M/ImcOIFoZBzE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AqVGDI6J; arc=none smtp.client-ip=209.85.208.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Nyt+oWaC"
-Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-dc6dcd9124bso597739276.1;
-        Wed, 20 Mar 2024 23:57:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AqVGDI6J"
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2d4541bf57eso8969341fa.2
+        for <linux-staging@lists.linux.dev>; Thu, 21 Mar 2024 00:20:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711004266; x=1711609066; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=k2Ihr1sSb1dhBBAxziapzajvXw1Qmx1MeL7IyGGNNK0=;
-        b=Nyt+oWaCxh7/jVsQpg3QyNrVEy0SGDxogqlrlzQEbK/KPu7fpi9bFEn+a/IUWDi7Uh
-         6JCvFgkZ5neU8i8jB/ZxdYBfCZeCp31y2dYs/aD6CUcLFwWs2RtVmQXaZ6jYkP/x1aOE
-         DJvl2Jz4OX3o3d4YGKu5zagBozc6hoQ0E5ybqKEvQqlpCON/QJD67YhQJdWl7+TVJyUu
-         GMN0/Qq9F+avKZ+nc+qno5Xbc4vYDpQdSu6T4o0gETbDKLRyyY+LZLg43TG5gC3PMES+
-         P0Y2rHVrQz9qLRFuv6Ch5F42X9/ho7HnnLLyC7CK34xBJkbBNrPf0aiBz5Qm3QLO/2R5
-         OO7A==
+        d=linaro.org; s=google; t=1711005621; x=1711610421; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=yhN50euko1HcLlbzreWy4UyMhBRrqu5b6P2NFYTbhuE=;
+        b=AqVGDI6J+zuiIandIvlAHwHQ04sRVvjpT3bTR8ovHkLe3EvNoJqrE8WLpemiAHmmg/
+         xpSl3+4AXHJsejIsB+/fmfTUkuPGUGnggCHjPpBI4eVjoM9gE8jj3LCvg1Hv/vmjC2gD
+         G00WIomj8IL0xImiqHjMFLMlcFUJfLSkqXX831wJDrhynywL0pM3uh445Xni4CffNGv8
+         IkcZ50eqfl2f22m65hjKcFTRbS7fll/QyMLzClzlhKosCiK0VIWTsAC8R5PZb2Yu5R8F
+         ot0lyL2d2zH+BHCbNL6ax/PUcRdY0ERoPI7BMystfHf3xL+530YIwhWo01s0Ijfa0K9Q
+         QwyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711004266; x=1711609066;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=k2Ihr1sSb1dhBBAxziapzajvXw1Qmx1MeL7IyGGNNK0=;
-        b=lgF6r7FOoYXc2O/1z0SL4d/wfBUnnrIzJH/0LZtcI+QBUmh847QqRm8iGsN+jHc/+z
-         PnY9/WJlBLaT+M2goJemXRAFpcVxzM4UeY1v9PmIM+2YqEoKes4qMK3Jf0GteNOmMKFn
-         AYQTm6DY1Ivs/IgJVRz+BHmbx9EYCt72/j/S/NigAa9VEnIduP4m/H2N8kMpT3t2T7T8
-         HMmhdxysupN/23N6TVZp1w/H1UWyS32KJ+F7uK9uePllmJmX1zYrRGD6n9b5Ntzb3Ss3
-         ucedUNO7fD8c55wmBXIPJgsFOvRyZYaCBSIA5oDRIV1bWvBsvTdcXXM1vcKTaUOpuw2v
-         nb0w==
-X-Forwarded-Encrypted: i=1; AJvYcCX7Fqsmc5umy4vxWQckTCWUDR0nqM+ZyyByXYf26mLR8vNPZitj6bz/WqDs8thLTVB6V0m8HfsEJM+iKeEQtJrqdcAxtWzAVpfMpDZEoQ==
-X-Gm-Message-State: AOJu0Yy1kI3IRWNx35SBDMKVUukmbO+Ra/hzMIjwDrqGoyLKs1XbRv9C
-	/PYFRYp0y7dx+nL0ijaNMZN9b/YRzJOxw0JfvZ4I6mHsKaOCB3Pp
-X-Google-Smtp-Source: AGHT+IHMkKzlctySclD7YkUIPliBND2uiteo3ehaPZV+3Cjf4OSbcgCvJ32U88WkzHdk2XoHiIhr8Q==
-X-Received: by 2002:a25:13c7:0:b0:dcc:943a:b99f with SMTP id 190-20020a2513c7000000b00dcc943ab99fmr919184ybt.46.1711004266279;
-        Wed, 20 Mar 2024 23:57:46 -0700 (PDT)
-Received: from ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx ([103.6.158.67])
-        by smtp.gmail.com with ESMTPSA id o21-20020a63e355000000b005d6b5934deesm12194200pgj.48.2024.03.20.23.57.44
+        d=1e100.net; s=20230601; t=1711005621; x=1711610421;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yhN50euko1HcLlbzreWy4UyMhBRrqu5b6P2NFYTbhuE=;
+        b=b54RA6h0+SmxxSryf6Bhs0jeiqZ6jFt8XgSC8RC563IOK/VYSgpXxVNcBnBvHMF+Tc
+         jndLuBAfglgq85eR+Br9Eah3jJJDggIp/Jwph8jHyd5oJP4kLe/5H7V7lwi2SVydp0sO
+         WzDg0iDGMusnvp0nUYps71VAr7WYax2mBPdtUCE828h2d2xc1yhXvnOWAme691U1s7d7
+         alTWVAQx4gUVjp30WGFmW827XOexwmhZzKfTp420O0e7wM+47qnuLdB7w7FEssmC8GkV
+         0SOXElP8ztkvcBrvqK3etKCbq/f8aa3D+3njjUrl6o2nl84RrXeZl9zm5iJmfNYYgLaW
+         5t4Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWotZUGAI4OPZ99EvnUhSwI6kRUTIPBAGmriPZ0Bi0SVzMNKq3JPEkZdvbaL1c6Bk/sGylgJMr9DjJXou/ntQH3qg5xR3m/V5ER26/8Lw==
+X-Gm-Message-State: AOJu0YwQE3KKthZEbFe/L4BC1/GDg/s8Q9gOIVhpeyTr99g5OSeiq3YB
+	OoE0ClM0fOA99buKBkmLucCBqQEFokprx0bkYLpe2lqtRldGLmtmXD0L6Tlo9oM=
+X-Google-Smtp-Source: AGHT+IHTGPQhf3H6O7uDwt2LrjWYhTXQdcE9UvrgcJNxEE8My4b+onTtxcBz4scNfQjOEmaFcuPkPg==
+X-Received: by 2002:a19:ee14:0:b0:513:39a0:1fec with SMTP id g20-20020a19ee14000000b0051339a01fecmr12178552lfb.66.1711005620894;
+        Thu, 21 Mar 2024 00:20:20 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id bg38-20020a05600c3ca600b004146e631a81sm3616918wmb.5.2024.03.21.00.20.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Mar 2024 23:57:45 -0700 (PDT)
-Date: Thu, 21 Mar 2024 12:27:41 +0530
-From: Ayush Tiwari <ayushtiw0110@gmail.com>
-To: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
+        Thu, 21 Mar 2024 00:20:20 -0700 (PDT)
+Date: Thu, 21 Mar 2024 10:20:15 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Ayush Tiwari <ayushtiw0110@gmail.com>
+Cc: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
 	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Cc: outreachy@lists.linux.dev
-Subject: [PATCH v3] staging: rtl8712: Fix line length exceeding 100 columns
-Message-ID: <ZfvaZd92bnoZ9M1m@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
+	linux-staging@lists.linux.dev, outreachy@lists.linux.dev
+Subject: Re: [PATCH v3] staging: rtl8712: Fix line length exceeding 100
+ columns
+Message-ID: <1f355628-87d0-4d54-a1ed-64da9da784c9@moroto.mountain>
+References: <ZfvaZd92bnoZ9M1m@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -66,38 +69,27 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <ZfvaZd92bnoZ9M1m@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
 
-Split the argument list of the kthread_run function call across two
-lines to address the checkpatch warning "line length exceeds 100
-columns".
+On Thu, Mar 21, 2024 at 12:27:41PM +0530, Ayush Tiwari wrote:
+> Split the argument list of the kthread_run function call across two
+> lines to address the checkpatch warning "line length exceeds 100
+> columns".
+> 
+> Signed-off-by: Ayush Tiwari <ayushtiw0110@gmail.com>
+> 
+> ---
+> 
+> Changes in v3: fixed the issue in v2, created the patch against
+> a clean staging tree.
+> 
+> Changes in v2: Fixed the alignment to address checkpatch.pl
+> warning.
 
-Signed-off-by: Ayush Tiwari <ayushtiw0110@gmail.com>
+Thanks!
 
----
+Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
 
-Changes in v3: fixed the issue in v2, created the patch against
-a clean staging tree.
-
-Changes in v2: Fixed the alignment to address checkpatch.pl
-warning.
-
-drivers/staging/rtl8712/os_intfs.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/staging/rtl8712/os_intfs.c b/drivers/staging/rtl8712/os_intfs.c
-index 7554613fe7e1..1b11f8b04e13 100644
---- a/drivers/staging/rtl8712/os_intfs.c
-+++ b/drivers/staging/rtl8712/os_intfs.c
-@@ -221,7 +221,8 @@ struct net_device *r8712_init_netdev(void)
- 
- static u32 start_drv_threads(struct _adapter *padapter)
- {
--	padapter->cmd_thread = kthread_run(r8712_cmd_thread, padapter, "%s", padapter->pnetdev->name);
-+	padapter->cmd_thread = kthread_run(r8712_cmd_thread, padapter, "%s",
-+					   padapter->pnetdev->name);
- 	if (IS_ERR(padapter->cmd_thread))
- 		return _FAIL;
- 	return _SUCCESS;
--- 
-2.40.1
+regards,
+dan carpenter
 
