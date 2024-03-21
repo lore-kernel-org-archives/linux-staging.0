@@ -1,42 +1,45 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53AD0E57B;
-	Thu, 21 Mar 2024 18:21:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9B42374C2
+	for <linux-staging@lists.linux.dev>; Thu, 21 Mar 2024 18:47:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711045266; cv=none; b=LBE+3M/EMvu7HcUi++c1jxAXuVvINK6d0PcZJ3xor3nYAmtCc91vHzhEJFUTLIsgTH7K1r0kFBCTMwpSq76+nQK6tWz6sEAOBKxkTq3ycetikGRXYvpSQIachtlzKjduqfp8RhWYlDzxBcxryHE2ZTEGmyQA0DnHsj2qirHDg7M=
+	t=1711046825; cv=none; b=Np6u4Oeka6233xuUBMecUSuzij0emHQllOrNAweruSXVhpeF3zzgYYexiJ1Wb97uuxSabTMeyAEOQpuOHzi7NHdk5jnmkSXn0qfbHaAhawgQ/TWq4g9qaiV4eA/Y4X3HJ3q6B3yypJKhRQpHz/nRw2r1rR4BScLBgka/RVi/MEs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711045266; c=relaxed/simple;
-	bh=ws772LLUo2NYBpe+TOV5Ew1eplmKjtjeSFBhExfwHl0=;
+	s=arc-20240116; t=1711046825; c=relaxed/simple;
+	bh=K7z9URcsKHsFuY3iGF91T7ohgSbjx3XXozKvrOR2bVg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=twMAtfbE7yDKg124hGIUUcD5e71uLxHBaVK11lfJjIZUZhjFncpUBqWY+URllnKcfoH/JjN5aevdP4gdchLVk/II2qdVHrldipwgi7gvup7Y5iJTzsc4dW4MFgTXq7UsNyXZUkawrvvycrcAPhO9dXSTZ9tqKJs7XPRHG9vEQu0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LWBVo4RR; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=QTRSdAD/h6WTeqqFCs0K0GMA+fG42OodNH9h5tEVSKDPp+CyEPQPkVXJtJtymHgFPyBiHXbBQ0xsQaBpAOqbpSvdbf4EbABJTqSIoysBTo3sF3x8pxWA98NAYPZkW7Ooz2tMfbK2byVgr707h/NGWfcPJ+GunMYmZNlr1j6CQKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=uAHxagE9; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LWBVo4RR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 971D4C433C7;
-	Thu, 21 Mar 2024 18:21:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711045265;
-	bh=ws772LLUo2NYBpe+TOV5Ew1eplmKjtjeSFBhExfwHl0=;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="uAHxagE9"
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 05B4A672;
+	Thu, 21 Mar 2024 19:46:32 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1711046793;
+	bh=K7z9URcsKHsFuY3iGF91T7ohgSbjx3XXozKvrOR2bVg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LWBVo4RRJzUlUL7ViIUBdyWP8q1KZhV1RZopZzohV+GcH56jbISx+T5hsSsp8Z5u3
-	 LakHKg2b3EqDyhuSioLa6eF7f/bnp6tLGITEM9zwyX87ms79fUcaQULjr+lZK+hDzD
-	 cIz0MreCHhwPuDg96Z7KYpgoCC4pK2P69r2I1wWfZecC+6dhXNODJNrebHANafLg0G
-	 NsLARGQZiQP/yVfAtRLpSg2ZiAnlKwn1P3HvwhIb/46Me+rGcZGreD0UTs17m5WB/A
-	 XxbCMg9WkEPfv9uIRC+g8VOFe0ZHBiDFs2jFSD62G63B52tW9oJD6U92AASo+GWaM7
-	 rZoSza4ofnEkQ==
-Date: Thu, 21 Mar 2024 18:21:00 +0000
-From: Lee Jones <lee@kernel.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: daniel.thompson@linaro.org, jingoohan1@gmail.com, deller@gmx.de,
-	andy@kernel.org, geert@linux-m68k.org, dan.carpenter@linaro.org,
-	sam@ravnborg.org, dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 0/6] backlight: Remove struct
- backlight_properties.fb_blank
-Message-ID: <20240321182100.GJ13211@google.com>
-References: <20240319093915.31778-1-tzimmermann@suse.de>
+	b=uAHxagE9+AbX6z/RaVNm7stSAycJ6K44hWUdceP+IH3AsHJL19ZkXiAUc04q91dko
+	 8mC3e8k2/gMGXnyTl2K7VBl98IzXVJkAygH7gmw3kce15CIlsFGBHfpkM9Ll3PAT46
+	 3jTWrcZ6xElFiRieGYxdkBkjOyxy4SIPbneMOXL0=
+Date: Thu, 21 Mar 2024 20:46:58 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Umang Jain <umang.jain@ideasonboard.com>
+Cc: linux-staging@lists.linux.dev, Stefan Wahren <stefan.wahren@i2se.com>,
+	Dan Carpenter <error27@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Phil Elwell <phil@raspberrypi.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Greg KH <greg@kroah.com>
+Subject: Re: [PATCH v3 2/6] staging: vc04_services: vchiq_arm: Split driver
+ static and runtime data
+Message-ID: <20240321184658.GV9582@pendragon.ideasonboard.com>
+References: <20240321103740.808561-1-umang.jain@ideasonboard.com>
+ <20240321103740.808561-3-umang.jain@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -45,48 +48,199 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240319093915.31778-1-tzimmermann@suse.de>
+In-Reply-To: <20240321103740.808561-3-umang.jain@ideasonboard.com>
 
-On Tue, 19 Mar 2024, Thomas Zimmermann wrote:
+Hi Umang,
 
-> The field fb_blank in struct backlight_properties has been marked for
-> removal. Remove it in favor of the power and state fields.
-> 
-> Patches 1 to 5 prepare several backlight drivers. They remove fb_blank
-> or replace driver code with existing helpers.
-> 
-> Patch 6 removes fb_blank from backlight core and drivers. This resolves
-> another dependency between backlight nad fbdev.
-> 
-> v2:
-> - omap1: replace 'power' with 'enable'
-> - clarify commit messages
-> 
-> Thomas Zimmermann (6):
->   auxdisplay: ht16k33: Replace use of fb_blank with backlight helper
->   backlight: omap1: Remove unused struct omap_backlight_config.set_power
->   backlight: omap1: Replace FB_BLANK_ states with simple on/off
->   fbdev: omap2/omapfb: Replace use of fb_blank with backlight helpers
->   staging: fbtft: Remove reference to fb_blank
->   backlight: Remove fb_blank from struct backlight_properties
-> 
->  drivers/auxdisplay/ht16k33.c                  |  7 +--
->  drivers/staging/fbtft/fb_ssd1351.c            |  4 +-
->  drivers/staging/fbtft/fbtft-core.c            |  5 +-
->  drivers/video/backlight/backlight.c           |  2 -
->  drivers/video/backlight/mp3309c.c             |  1 -
->  drivers/video/backlight/omap1_bl.c            | 47 +++++++------------
->  drivers/video/fbdev/atmel_lcdfb.c             |  1 -
->  .../omap2/omapfb/displays/panel-dsi-cm.c      |  7 +--
->  .../omapfb/displays/panel-sony-acx565akm.c    | 10 +---
->  include/linux/backlight.h                     | 25 +---------
->  include/linux/platform_data/omap1_bl.h        |  1 -
->  11 files changed, 26 insertions(+), 84 deletions(-)
+Thank you for the patch.
 
-Is everyone okay with this being pushed through Backlight?
+On Thu, Mar 21, 2024 at 04:07:36PM +0530, Umang Jain wrote:
+> vchiq_drvdata combines two types of book-keeping data. There is
+> platform-specific static data (for e.g. cache lines size) and then
+> data needed for book-keeping at runtime.
+> 
+> Split the data into two structures: struct vchiq_platform_info and
+> struct vchiq_drv_mgmt. The vchiq_drv_mgmt is allocated at runtime
+> during probe and will be extended in subsequent patches to remove
+> all global variables responsible for book-keeping.
+> 
+> No functional changes intended in this patch.
+> 
+> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> ---
+>  .../interface/vchiq_arm/vchiq_arm.c           | 38 +++++++++----------
+>  .../interface/vchiq_arm/vchiq_arm.h           | 12 ++++++
+>  2 files changed, 31 insertions(+), 19 deletions(-)
+> 
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> index 1579bd4e5263..73405a1f50ee 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> @@ -29,7 +29,6 @@
+>  #include <linux/interrupt.h>
+>  #include <linux/io.h>
+>  #include <linux/uaccess.h>
+> -#include <soc/bcm2835/raspberrypi-firmware.h>
+>  
+>  #include "vchiq_core.h"
+>  #include "vchiq_ioctl.h"
+> @@ -71,16 +70,11 @@ struct vchiq_state g_state;
+>  static struct vchiq_device *bcm2835_audio;
+>  static struct vchiq_device *bcm2835_camera;
+>  
+> -struct vchiq_drvdata {
+> -	const unsigned int cache_line_size;
+> -	struct rpi_firmware *fw;
+> -};
+> -
+> -static struct vchiq_drvdata bcm2835_drvdata = {
+> +static struct vchiq_platform_info bcm2835_info = {
 
-I can send out a PR to an immutable branch for others to pull from.
+static const
+
+>  	.cache_line_size = 32,
+>  };
+>  
+> -static struct vchiq_drvdata bcm2836_drvdata = {
+> +static struct vchiq_platform_info bcm2836_info = {
+
+Ditto.
+
+>  	.cache_line_size = 64,
+>  };
+>  
+> @@ -466,8 +460,8 @@ free_pagelist(struct vchiq_instance *instance, struct vchiq_pagelist_info *pagel
+>  static int vchiq_platform_init(struct platform_device *pdev, struct vchiq_state *state)
+>  {
+>  	struct device *dev = &pdev->dev;
+> -	struct vchiq_drvdata *drvdata = platform_get_drvdata(pdev);
+> -	struct rpi_firmware *fw = drvdata->fw;
+> +	struct vchiq_drv_mgmt *drv_mgmt = platform_get_drvdata(pdev);
+> +	struct rpi_firmware *fw = drv_mgmt->fw;
+>  	struct vchiq_slot_zero *vchiq_slot_zero;
+>  	void *slot_mem;
+>  	dma_addr_t slot_phys;
+> @@ -484,7 +478,7 @@ static int vchiq_platform_init(struct platform_device *pdev, struct vchiq_state
+>  	if (err < 0)
+>  		return err;
+>  
+> -	g_cache_line_size = drvdata->cache_line_size;
+> +	g_cache_line_size = drv_mgmt->pinfo->cache_line_size;
+>  	g_fragments_size = 2 * g_cache_line_size;
+>  
+>  	/* Allocate space for the channels in coherent memory */
+> @@ -1706,8 +1700,8 @@ void vchiq_platform_conn_state_changed(struct vchiq_state *state,
+>  }
+>  
+>  static const struct of_device_id vchiq_of_match[] = {
+> -	{ .compatible = "brcm,bcm2835-vchiq", .data = &bcm2835_drvdata },
+> -	{ .compatible = "brcm,bcm2836-vchiq", .data = &bcm2836_drvdata },
+> +	{ .compatible = "brcm,bcm2835-vchiq", .data = &bcm2835_info },
+> +	{ .compatible = "brcm,bcm2836-vchiq", .data = &bcm2836_info },
+>  	{},
+>  };
+>  MODULE_DEVICE_TABLE(of, vchiq_of_match);
+> @@ -1716,12 +1710,13 @@ static int vchiq_probe(struct platform_device *pdev)
+>  {
+>  	struct device_node *fw_node;
+>  	const struct of_device_id *of_id;
+> -	struct vchiq_drvdata *drvdata;
+> +	const struct vchiq_platform_info *platform_info;
+
+Or just info.
+
+> +	struct vchiq_drv_mgmt *mgmt;
+>  	int err;
+>  
+>  	of_id = of_match_node(vchiq_of_match, pdev->dev.of_node);
+> -	drvdata = (struct vchiq_drvdata *)of_id->data;
+> -	if (!drvdata)
+> +	platform_info = (struct vchiq_platform_info *)of_id->data;
+
+	platform_info = of_device_get_match_data(&pdev->dev);
+
+and drop the of_id variable.
+
+> +	if (!platform_info)
+>  		return -EINVAL;
+>  
+>  	fw_node = of_find_compatible_node(NULL, NULL,
+> @@ -1731,12 +1726,17 @@ static int vchiq_probe(struct platform_device *pdev)
+>  		return -ENOENT;
+>  	}
+>  
+> -	drvdata->fw = devm_rpi_firmware_get(&pdev->dev, fw_node);
+> +	mgmt = kzalloc(sizeof(struct vchiq_drv_mgmt), GFP_KERNEL);
+
+	mgmt = kzalloc(sizeof(*mgmt), GFP_KERNEL);
+
+Where is this freed ?
+
+> +	if (!mgmt)
+> +		return -ENOMEM;
+> +
+> +	mgmt->fw = devm_rpi_firmware_get(&pdev->dev, fw_node);
+>  	of_node_put(fw_node);
+> -	if (!drvdata->fw)
+> +	if (!mgmt->fw)
+>  		return -EPROBE_DEFER;
+>  
+> -	platform_set_drvdata(pdev, drvdata);
+> +	mgmt->pinfo = platform_info;
+> +	platform_set_drvdata(pdev, mgmt);
+>  
+>  	err = vchiq_platform_init(pdev, &g_state);
+>  	if (err)
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
+> index 7844ef765a00..fc4122c27e94 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
+> @@ -11,6 +11,9 @@
+>  #include <linux/platform_device.h>
+>  #include <linux/semaphore.h>
+>  #include <linux/atomic.h>
+> +
+> +#include <soc/bcm2835/raspberrypi-firmware.h>
+
+You can also simply add a forward-declaration:
+
+struct rpi_firmware;
+
+This reduces compilation time by lowering the number of headers that are
+included.
+
+> +
+>  #include "vchiq_core.h"
+>  #include "vchiq_debugfs.h"
+>  
+> @@ -25,6 +28,15 @@ enum USE_TYPE_E {
+>  	USE_TYPE_VCHIQ
+>  };
+>  
+> +struct vchiq_platform_info {
+> +	const unsigned int cache_line_size;
+
+const doesn't help muc here.
+
+> +};
+> +
+> +struct vchiq_drv_mgmt {
+
+The name sounds a bit weird but I can live with it :-)
+
+> +	struct rpi_firmware *fw;
+> +	const struct vchiq_platform_info *pinfo;
+
+Unless you expect another kind of info later in this structure, I'd name
+the field just 'info'.
+
+> +};
+> +
+>  struct user_service {
+>  	struct vchiq_service *service;
+>  	void __user *userdata;
 
 -- 
-Lee Jones [李琼斯]
+Regards,
+
+Laurent Pinchart
