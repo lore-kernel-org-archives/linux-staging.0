@@ -1,90 +1,124 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02E38481B3
-	for <linux-staging@lists.linux.dev>; Fri, 22 Mar 2024 15:11:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 498DE53E2B;
+	Fri, 22 Mar 2024 15:17:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711120319; cv=none; b=CS2lRAPthbO8f4Fbl63AEh9W6JZbWf6MXs5qj6OVR55uif6NBC1085dgi63hFSV7woYCQYxmjxnTKVhwIiry7BY2Pu8Id3o0lXoF92HopAZiVWI7JXXIkVnR9J9NxKmlH2wLBSAJYJV+1sP+HyRIoRXnKxY4lsh9VMYP+TdcSiA=
+	t=1711120621; cv=none; b=FyeHpBtzGTO+lX+HQ4gEcJtFalQLtyHbqw7bEcK32oLCyl9BCVUJYH4lrQEta8nil4zXhXD2UQkGemUyWsc8VNv+e0+drshizIkiEbTgZie7j5RvoDHk8ZIDMvqzcxzslboiMCIO8ggeEngJuzSz5GaZ2zmqb988m3ndYMj0tUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711120319; c=relaxed/simple;
-	bh=e26f5oBYl1V7sQG3UDIthvm988qnELAgzd5n3j9cLew=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Oidb60PktwkSGh2YqFKIVWtUuJHYfdrS9gE4BnwuRxABKC7ScaxVxbERlTX4+Qs1Sry9eDEyQIYL+rct8sHdlKphEETdF5nKyiq2fRnT1oKnnSA333GcYZLnPGlHRUJ3my6Q6EiQZaN7UK0HGU741zZ729sZguLbNlMnr8qNWa4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mCV4YdUH; arc=none smtp.client-ip=209.85.160.180
+	s=arc-20240116; t=1711120621; c=relaxed/simple;
+	bh=hzlDQWpaAy8XRudP0fe8Wk/SvOdLzdb9nk6RY9sJYQk=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=nzSteaD8CusvP1Y7bilUE4gNoXQczvgIsZ+EyEldFZRZmYvtw7m67DdQiEapVcwaBo5i6ycqx9tWBQ6hL3AUVLpcUKVfB0I5nIj65VihtZk5ytV6i/5/0fj9/eNRI/ztuWYiKjOXhDTVYayFibN6lblagAlQ47sxcAGKF5aWf4g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KaIHLCYl; arc=none smtp.client-ip=209.85.214.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mCV4YdUH"
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-42a0ba5098bso15585341cf.0
-        for <linux-staging@lists.linux.dev>; Fri, 22 Mar 2024 08:11:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KaIHLCYl"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1e0025ef1efso13421235ad.1;
+        Fri, 22 Mar 2024 08:17:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711120316; x=1711725116; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=swSy6KPdMtuES3cNHj9q9SkIUTExBeYlvBJDd89Ngu8=;
-        b=mCV4YdUHJeGCeNIGYsdBAY8UBVNjQtQljHfvxvkyC3vqgO4N3IyR0wAHCRse5293hY
-         u2v3ddKYGrbbyezSNkDCgMHCeS6TG5eQY0XYqFEmx+qMjTM5P59oFXvDZGEus84526dI
-         sJ9aGKgywQSJP6872XAq38Q1atVVoQ+9AngKoqZdvO2zZV/fAcg5QsNKrVNQ1QuppQ0k
-         gse53k0JGtoGf6XBo4729BNP5RU5eD2tA8bSiIhVPNdc5l2nkLfxZet6SSsKZZSajOb6
-         JqnJqdIF7SDDR1YsNS2l11WXlGLQnJUdSRUCoXntPeHU1gSxExR8E97EOQRHjWN2qBA2
-         hrAQ==
+        d=gmail.com; s=20230601; t=1711120620; x=1711725420; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZvNCq/vUyxBpwJ9D5tVxN8w0d8YTtddgB0nD7H1fQsk=;
+        b=KaIHLCYloqN0fkIcQApQbTgEOAM0mrfeb2K8Bvkpx4dCSkBUlOgYDrNkeLlDw/C8O3
+         LW5aiC9WTK4p/7KnJ9cylNbCWyZPkV0NrJdj65aSBWs2XaY6O7oDIg8cN4Asanqfqods
+         /r58CFsg66PKd2qXsE2/2ATBh1jLJrG3enXy3hEu34+LQ7J29y9GlVuLW4aiFXCU4fQV
+         hk8oofsIy5+/OfYqq0QXl87JTeCNvZV8T8Gd2OXDHvNJO2RWqAqyTv9d5JySJ0kbePE7
+         WXAxG440z/zLJonhiDYeD9w83x+4b1hfMcTEJ7IXrkmHb/lXM0x44ea2+D5n4dJYnciB
+         Dw1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711120316; x=1711725116;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=swSy6KPdMtuES3cNHj9q9SkIUTExBeYlvBJDd89Ngu8=;
-        b=qBKMDaOcRgf9xOTSt/RRd/NTUbauRgjzP3F4zBWXUOa4QOo2eODtH9zyeXRO0FmmSq
-         bnXDoL7u6nAT8upNbLl+wTlI5DsdFK6A4qxwNOWQT9P5NbvXG5sW2XvuFU28HR9yOQoY
-         GFHns0doUPBEvPuVkwF6EUizDEXE8B3iMSNNTryKEumH4iMKKN1jR5ZrVJiYCVTKS0gO
-         1iPexHBSWByiZ604tR2o/bL6O7o1TwfmA3K/rbf8ROVz67Rb+HIhxR2eCpvC4BqTVTHI
-         k5R08svth6EyaiWEcQD5r6g2xMz+VDLQcub9F8Vqj2sx9GSC3dAnrPldBRS3r4Skki6F
-         oOFQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXxpzhOxlPVjfG0x3uCE4sgmxookNv9Z3bxgnB/bfskwyiYjWaotXK2VSmtQcOKcOI5qishtYv4JmQUWgcMmWhH3D98GUimEOXCWoTRkw==
-X-Gm-Message-State: AOJu0YzvAxO+21zUIGMsTtrYG9t+MoWUOV3fCbgANO2PC8QJIShgJTR6
-	zl5XB3QPRpev4QO0Zz/bJKwskSqcbRz2nsjFVkgaw4AoLHwbp2wg
-X-Google-Smtp-Source: AGHT+IGwmx8XOENCOWZn3tWl6dEYzPhYxPqy7UkM8ujgB0AZfux8SEqhs3WZtfkf6KTWcr49GGZr5A==
-X-Received: by 2002:a05:622a:148d:b0:431:24a8:ab83 with SMTP id t13-20020a05622a148d00b0043124a8ab83mr2837032qtx.18.1711120315845;
-        Fri, 22 Mar 2024 08:11:55 -0700 (PDT)
-Received: from dev ([50.202.39.176])
-        by smtp.gmail.com with ESMTPSA id y10-20020ac8128a000000b00430ef755b74sm938341qti.27.2024.03.22.08.11.54
+        d=1e100.net; s=20230601; t=1711120620; x=1711725420;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZvNCq/vUyxBpwJ9D5tVxN8w0d8YTtddgB0nD7H1fQsk=;
+        b=UaGYtskBXjVIn/w/Eb0lUazT8HRlEnkRFJTQbmy/PPt9cSQ8wjVClrsodijbKW5a3G
+         4pqT5WtATXv+Pvel8k9+AsZaYq9DGp7vssdHiH/H/OPqXAztQtkCWeT0UX/9W4mHyB3n
+         sYQSH6MQfCbEeczrut6q/K1I6NvhEhYeDyGmaLE5GpcLyP9D5fE4gVo/Xd0V6nd/HHCe
+         gXy7s8tZ7tTsSOXCdmARhf3KoUnpEPpiCWQWSjG7bLiXhn/5dGgBIUsazwgqEESIEM66
+         K6iI1lx3X2E+gqusNU+02AYwyKa25rj9r5xFuIqMbGiIp4VQ//1YGd0Od5DAapTHztPR
+         J3LA==
+X-Forwarded-Encrypted: i=1; AJvYcCUCtw+nffED0eVaauXtgSc5MUWzgRWUlovxwO4OFxdQuzhCWH1lxl8y8b1tZQl5MuJI4MosSocwXQ8Qj6uHX5lZRk03osM5BwOFLUNsp3nyw5hGmKoockqX9oDz6Tb2JaJNQ81lvg91bA==
+X-Gm-Message-State: AOJu0Ywr2OVBbPF438y7naY93bpwe81zCquwmUm9E+JIDicbjKjX5Jre
+	E0sMO9k9i6fpigyJ4a0vjsFDOtnU0qGktSUM7WQcCbvajpE5pS3m
+X-Google-Smtp-Source: AGHT+IHCgCDL1PxwCnR3s/HSd6meeWjhLlcVL81UDri0NQht+8M2mFw3XMHbUNeMHzSDAayeOBa9Eg==
+X-Received: by 2002:a17:902:ce0d:b0:1dd:ae5b:86f1 with SMTP id k13-20020a170902ce0d00b001ddae5b86f1mr59698plg.29.1711120619504;
+        Fri, 22 Mar 2024 08:16:59 -0700 (PDT)
+Received: from Ubuntu2.. ([14.139.121.51])
+        by smtp.googlemail.com with ESMTPSA id p5-20020a170902e34500b001e0287592c4sm2024809plc.267.2024.03.22.08.16.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Mar 2024 08:11:55 -0700 (PDT)
-Date: Fri, 22 Mar 2024 09:11:52 -0600
-From: Brandon Crain <bcrain1606@gmail.com>
-To: larry.finger@lwfinger.net, gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH] Staging: rtl8712: Removed unnecessary parentheses
-Message-ID: <Zf2fuHV2gmSOSEnx@dev>
+        Fri, 22 Mar 2024 08:16:58 -0700 (PDT)
+From: Chandra Pratap <chandrapratap3519@gmail.com>
+To: 
+Cc: sudipm.mukherjee@gmail.com,
+	dan.carpenter@linaro.org,
+	teddy.wang@siliconmotion.com,
+	gregkh@linuxfoundation.org,
+	linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev,
+	Chandra Pratap <chandrapratap3519@gmail.com>
+Subject: [PATCH v3] staging: sm750fb: Replace comparisons with NULL and 0
+Date: Fri, 22 Mar 2024 20:46:33 +0530
+Message-Id: <20240322151633.16485-1-chandrapratap3519@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <2024032208-blunt-ferocity-22f4@gregkh>
+References: <2024032208-blunt-ferocity-22f4@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Removed uneccessary parentheses from source file
+Replace '(opt != NULL)' with '(opt)' and '(*opt != 0)'
+with '(*opt != '\0')' to adhere to the coding standards.
 
-Signed-off-by: Brandon Crain <bcrain1606@gmail.com>
+Signed-off-by: Chandra Pratap <chandrapratap3519@gmail.com>
 ---
- drivers/staging/rtl8712/recv_linux.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8712/recv_linux.c b/drivers/staging/rtl8712/recv_linux.c
-index 215fca4abb3a..2bf4661432a9 100644
---- a/drivers/staging/rtl8712/recv_linux.c
-+++ b/drivers/staging/rtl8712/recv_linux.c
-@@ -105,7 +105,7 @@ void r8712_recv_indicatepkt(struct _adapter *adapter,
- 	skb->data = recvframe->u.hdr.rx_data;
- 	skb->len = recvframe->u.hdr.len;
- 	skb_set_tail_pointer(skb, skb->len);
--	if ((attrib->tcpchk_valid == 1) && (attrib->tcp_chkrpt == 1))
-+	if (attrib->tcpchk_valid == 1 && attrib->tcp_chkrpt == 1)
- 		skb->ip_summed = CHECKSUM_UNNECESSARY;
- 	else
- 		skb->ip_summed = CHECKSUM_NONE;
+Please ignore the other v3 patch I sent, I forgot to write
+the change log in that patch. Apologies for any incovenienece
+caused.
+
+Changes in v2:
+  - Update the commit message to reflect the changes better
+  - Replace (*opt) with (*opt != '\0')
+
+Changes in v3:
+  - Remove unncessary spacing
+
+ drivers/staging/sm750fb/sm750.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+index 04c1b32a22c5..c4b944f82fb9 100644
+--- a/drivers/staging/sm750fb/sm750.c
++++ b/drivers/staging/sm750fb/sm750.c
+@@ -926,7 +926,7 @@ static void sm750fb_setup(struct sm750_dev *sm750_dev, char *src)
+ 		goto NO_PARAM;
+ 	}
+ 
+-	while ((opt = strsep(&src, ":")) != NULL && *opt != 0) {
++	while ((opt = strsep(&src, ":")) && *opt != '\0') {
+ 		dev_info(&sm750_dev->pdev->dev, "opt=%s\n", opt);
+ 		dev_info(&sm750_dev->pdev->dev, "src=%s\n", src);
+ 
+@@ -1147,7 +1147,7 @@ static int __init lynxfb_setup(char *options)
+ 	 * strsep() updates @options to pointer after the first found token
+ 	 * it also returns the pointer ahead the token.
+ 	 */
+-	while ((opt = strsep(&options, ":")) != NULL) {
++	while ((opt = strsep(&options, ":"))) {
+ 		/* options that mean for any lynx chips are configured here */
+ 		if (!strncmp(opt, "noaccel", strlen("noaccel"))) {
+ 			g_noaccel = 1;
 -- 
 2.34.1
 
