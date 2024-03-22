@@ -1,39 +1,61 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E5D047A60;
-	Fri, 22 Mar 2024 14:25:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02E38481B3
+	for <linux-staging@lists.linux.dev>; Fri, 22 Mar 2024 15:11:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711117540; cv=none; b=jS8ohh5+CjVdB1SVBMqFAsL7Lws3bQAUPiTI7KNP5uHhcWs4ekpTKZkgiPyURfO9LD2jRah5OPj05qgcelNo+bF/LETDM0kWwQPyqqbH5G78hfYkNUTn91vWrS/N488d9SHlZP+/k2HCwUYp5N5lZJpEey9mJ9p7XD8soyzj49I=
+	t=1711120319; cv=none; b=CS2lRAPthbO8f4Fbl63AEh9W6JZbWf6MXs5qj6OVR55uif6NBC1085dgi63hFSV7woYCQYxmjxnTKVhwIiry7BY2Pu8Id3o0lXoF92HopAZiVWI7JXXIkVnR9J9NxKmlH2wLBSAJYJV+1sP+HyRIoRXnKxY4lsh9VMYP+TdcSiA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711117540; c=relaxed/simple;
-	bh=p34/324xP2XXUiHY7h/GE3DoOsaLPBDkUoaF7CbR5ro=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I3A1bPnMoVMXblK8ykf5tauTBISEPMG5yefEy+EnOBhXms4sDwomAJY/c0B5MuaIz80+oYwONVTsamtRFfb74RYuTNVDYZpt/RlAFLrd1LNNGNnaAs0pQuFm58c0qESun/6ofckTIbR7UGarFV40+rWJnpJaTP9jN63D/gZZTww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Yz1Nyi7V; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711120319; c=relaxed/simple;
+	bh=e26f5oBYl1V7sQG3UDIthvm988qnELAgzd5n3j9cLew=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Oidb60PktwkSGh2YqFKIVWtUuJHYfdrS9gE4BnwuRxABKC7ScaxVxbERlTX4+Qs1Sry9eDEyQIYL+rct8sHdlKphEETdF5nKyiq2fRnT1oKnnSA333GcYZLnPGlHRUJ3my6Q6EiQZaN7UK0HGU741zZ729sZguLbNlMnr8qNWa4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mCV4YdUH; arc=none smtp.client-ip=209.85.160.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Yz1Nyi7V"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6E8EC43399;
-	Fri, 22 Mar 2024 14:25:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1711117540;
-	bh=p34/324xP2XXUiHY7h/GE3DoOsaLPBDkUoaF7CbR5ro=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Yz1Nyi7VaAjRIUJ2aXFHrvz2lf7erBm5c0SU0+6squjXOGPIZvxVYw7d79Zyvofez
-	 2bcuX0dqsmIhU6kqfF0f4AKk3/GBAs4I3RxiRmzXdW/cdWnza79lNjiccNYHqQQvd9
-	 B8uUanqtD52mlr2k9Vr710DR2Gg2OYf4tQ6auJ5A=
-Date: Fri, 22 Mar 2024 15:25:37 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Chandra Pratap <chandrapratap3519@gmail.com>
-Cc: sudipm.mukherjee@gmail.com, dan.carpenter@linaro.org,
-	teddy.wang@siliconmotion.com, linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev
-Subject: Re: [PATCH v3] staging: sm750fb: Replace comparisons with NULL and 0
-Message-ID: <2024032226-gorgeous-snowbird-25b1@gregkh>
-References: <2024032208-blunt-ferocity-22f4@gregkh>
- <20240322141031.2776-1-chandrapratap3519@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mCV4YdUH"
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-42a0ba5098bso15585341cf.0
+        for <linux-staging@lists.linux.dev>; Fri, 22 Mar 2024 08:11:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1711120316; x=1711725116; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=swSy6KPdMtuES3cNHj9q9SkIUTExBeYlvBJDd89Ngu8=;
+        b=mCV4YdUHJeGCeNIGYsdBAY8UBVNjQtQljHfvxvkyC3vqgO4N3IyR0wAHCRse5293hY
+         u2v3ddKYGrbbyezSNkDCgMHCeS6TG5eQY0XYqFEmx+qMjTM5P59oFXvDZGEus84526dI
+         sJ9aGKgywQSJP6872XAq38Q1atVVoQ+9AngKoqZdvO2zZV/fAcg5QsNKrVNQ1QuppQ0k
+         gse53k0JGtoGf6XBo4729BNP5RU5eD2tA8bSiIhVPNdc5l2nkLfxZet6SSsKZZSajOb6
+         JqnJqdIF7SDDR1YsNS2l11WXlGLQnJUdSRUCoXntPeHU1gSxExR8E97EOQRHjWN2qBA2
+         hrAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711120316; x=1711725116;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=swSy6KPdMtuES3cNHj9q9SkIUTExBeYlvBJDd89Ngu8=;
+        b=qBKMDaOcRgf9xOTSt/RRd/NTUbauRgjzP3F4zBWXUOa4QOo2eODtH9zyeXRO0FmmSq
+         bnXDoL7u6nAT8upNbLl+wTlI5DsdFK6A4qxwNOWQT9P5NbvXG5sW2XvuFU28HR9yOQoY
+         GFHns0doUPBEvPuVkwF6EUizDEXE8B3iMSNNTryKEumH4iMKKN1jR5ZrVJiYCVTKS0gO
+         1iPexHBSWByiZ604tR2o/bL6O7o1TwfmA3K/rbf8ROVz67Rb+HIhxR2eCpvC4BqTVTHI
+         k5R08svth6EyaiWEcQD5r6g2xMz+VDLQcub9F8Vqj2sx9GSC3dAnrPldBRS3r4Skki6F
+         oOFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXxpzhOxlPVjfG0x3uCE4sgmxookNv9Z3bxgnB/bfskwyiYjWaotXK2VSmtQcOKcOI5qishtYv4JmQUWgcMmWhH3D98GUimEOXCWoTRkw==
+X-Gm-Message-State: AOJu0YzvAxO+21zUIGMsTtrYG9t+MoWUOV3fCbgANO2PC8QJIShgJTR6
+	zl5XB3QPRpev4QO0Zz/bJKwskSqcbRz2nsjFVkgaw4AoLHwbp2wg
+X-Google-Smtp-Source: AGHT+IGwmx8XOENCOWZn3tWl6dEYzPhYxPqy7UkM8ujgB0AZfux8SEqhs3WZtfkf6KTWcr49GGZr5A==
+X-Received: by 2002:a05:622a:148d:b0:431:24a8:ab83 with SMTP id t13-20020a05622a148d00b0043124a8ab83mr2837032qtx.18.1711120315845;
+        Fri, 22 Mar 2024 08:11:55 -0700 (PDT)
+Received: from dev ([50.202.39.176])
+        by smtp.gmail.com with ESMTPSA id y10-20020ac8128a000000b00430ef755b74sm938341qti.27.2024.03.22.08.11.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Mar 2024 08:11:55 -0700 (PDT)
+Date: Fri, 22 Mar 2024 09:11:52 -0600
+From: Brandon Crain <bcrain1606@gmail.com>
+To: larry.finger@lwfinger.net, gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] Staging: rtl8712: Removed unnecessary parentheses
+Message-ID: <Zf2fuHV2gmSOSEnx@dev>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -42,67 +64,27 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240322141031.2776-1-chandrapratap3519@gmail.com>
 
-On Fri, Mar 22, 2024 at 07:40:31PM +0530, Chandra Pratap wrote:
-> Replace '(opt != NULL)' with '(opt)' and '(*opt != 0)'
-> with '(*opt != '\0')' to adhere to the coding standards.
-> 
-> Signed-off-by: Chandra Pratap <chandrapratap3519@gmail.com>
-> ---
->  drivers/staging/sm750fb/sm750.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-> index 04c1b32a22c5..c4b944f82fb9 100644
-> --- a/drivers/staging/sm750fb/sm750.c
-> +++ b/drivers/staging/sm750fb/sm750.c
-> @@ -926,7 +926,7 @@ static void sm750fb_setup(struct sm750_dev *sm750_dev, char *src)
->  		goto NO_PARAM;
->  	}
->  
-> -	while ((opt = strsep(&src, ":")) != NULL && *opt != 0) {
-> +	while ((opt = strsep(&src, ":")) && *opt != '\0') {
->  		dev_info(&sm750_dev->pdev->dev, "opt=%s\n", opt);
->  		dev_info(&sm750_dev->pdev->dev, "src=%s\n", src);
->  
-> @@ -1147,7 +1147,7 @@ static int __init lynxfb_setup(char *options)
->  	 * strsep() updates @options to pointer after the first found token
->  	 * it also returns the pointer ahead the token.
->  	 */
-> -	while ((opt = strsep(&options, ":")) != NULL) {
-> +	while ((opt = strsep(&options, ":"))) {
->  		/* options that mean for any lynx chips are configured here */
->  		if (!strncmp(opt, "noaccel", strlen("noaccel"))) {
->  			g_noaccel = 1;
-> -- 
-> 2.34.1
-> 
+Removed uneccessary parentheses from source file
 
-Hi,
+Signed-off-by: Brandon Crain <bcrain1606@gmail.com>
+---
+ drivers/staging/rtl8712/recv_linux.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+diff --git a/drivers/staging/rtl8712/recv_linux.c b/drivers/staging/rtl8712/recv_linux.c
+index 215fca4abb3a..2bf4661432a9 100644
+--- a/drivers/staging/rtl8712/recv_linux.c
++++ b/drivers/staging/rtl8712/recv_linux.c
+@@ -105,7 +105,7 @@ void r8712_recv_indicatepkt(struct _adapter *adapter,
+ 	skb->data = recvframe->u.hdr.rx_data;
+ 	skb->len = recvframe->u.hdr.len;
+ 	skb_set_tail_pointer(skb, skb->len);
+-	if ((attrib->tcpchk_valid == 1) && (attrib->tcp_chkrpt == 1))
++	if (attrib->tcpchk_valid == 1 && attrib->tcp_chkrpt == 1)
+ 		skb->ip_summed = CHECKSUM_UNNECESSARY;
+ 	else
+ 		skb->ip_summed = CHECKSUM_NONE;
+-- 
+2.34.1
 
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/process/submitting-patches.rst for what
-  needs to be done here to properly describe this.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
