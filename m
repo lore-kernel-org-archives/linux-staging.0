@@ -1,63 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76742137C37;
-	Thu, 21 Mar 2024 21:10:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFFC1BA27
+	for <linux-staging@lists.linux.dev>; Fri, 22 Mar 2024 04:21:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711055412; cv=none; b=n34l9UxYwaa2QysVCaSxGCgICKmUgX/xEEgUV2fWcSRfTNxND+NHSagMQ2LnGi1FnkQvUcymWp6jsaBc8HbR4F9/qUkPzgFkBNoFWWurjv/hJOBsO0pExuZ/t6AU8e2MbM6XLTvS0NioY3e5n/vQPDT+iwUvQPfHd1MvvrjGHhY=
+	t=1711081301; cv=none; b=cJQVfpgzrs0ySFXof6wVfUgCaDfVrMtkSnROkTtTxVfV3tCdpzrlm4Q+e570qaM32A55PrFVmgZww/i6ynr9zJFdki0YBpjGR52mV0DaH7OnzbtVbJUz94un3p3Sm55OBNaJkpKNyVEdNAJ4Xiocb4DdrWLYyO6dZjiwKN2mo9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711055412; c=relaxed/simple;
-	bh=3KWPMM+v9fCJ1chM/6eAtHrqup7wEaHGv4x4+SL4xD0=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=AaPueMD9PifVCnXU9MBXZF2Ol8WzupQpo4KEhgMCenZlG+UG+srrPihmlbuYgtumuT/kvdvNOao4Wt1xPxHsx0mGNYPt2W3M9YEWE1+BBQ4iNeeofOc82OrDeGYsbrzMdPoR/4tr6WuYjRFXm0HrhWksRM08LnJiVLIK7im67AM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o6eDmpPG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711081301; c=relaxed/simple;
+	bh=Jwh8nlkjnz9gJSiIgNaom3SWbQx1YFv1WEWcZP5pfvU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ls3WGWMbp0KtErkpaXu6IIHINpG/cxoa2g7CVZR6aWzJ7iUwPAPNjjSyu1fSunEMhLZhmIpF1rBMCNd3bhXO+5Lt8sCdXuD7AAfLI/2oO6XB/JYCN+CzlKVcV+0lqon0ZbRFL/oql3WAFXX4IYLtaIeu0gxiqoJjFxmA/asvWOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=QyxkaZp+; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o6eDmpPG"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 01C0AC433C7;
-	Thu, 21 Mar 2024 21:10:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711055412;
-	bh=3KWPMM+v9fCJ1chM/6eAtHrqup7wEaHGv4x4+SL4xD0=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=o6eDmpPG/f0QEARzEdcBUPtOgj/BFJ6X5ErRXYrgzfRRtFf/uq+nBLEpTHwf+xiEZ
-	 GLI2AOYqzbSIJUihI/yqv/DRKbuBMeDUBMBqLuGkXw7o2VQaauFw6CYDmdChax81Eq
-	 vuE0aQzmWQVupQZtA5P8ATyJ0JJGNC5/8aTjakbUCrQNjG7f43Wbds+zdFOeHoui/Y
-	 lHo3uww1RNTxwQW7OSOINoyZhLda4tPpF8Q5S75jSXSbhHt+UBYTeoqSOd1zjtkQOM
-	 zWQp64HTcIFAl8K+EO+v4y3z7Ghb8RVLD2xGI8NKZbXCCAhA148/nK8+WEUgGDEs2o
-	 2CVVf+otz27Xw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id EE69BD8C720;
-	Thu, 21 Mar 2024 21:10:11 +0000 (UTC)
-Subject: Re: [GIT PULL] Staging driver updates for 6.9-rc1
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <ZfwvsKB20azzCoYR@kroah.com>
-References: <ZfwvsKB20azzCoYR@kroah.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <ZfwvsKB20azzCoYR@kroah.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.9-rc1
-X-PR-Tracked-Commit-Id: 68bb540b1aefded1d58a9f956568d5316643d291
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 0a59b3f42e5703a89dd6ddf5bc818a4cff975302
-Message-Id: <171105541197.8284.4646372532130064686.pr-tracker-bot@kernel.org>
-Date: Thu, 21 Mar 2024 21:10:11 +0000
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andrew Morton <akpm@linux-foundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="QyxkaZp+"
+Received: from [192.168.1.105] (unknown [103.86.18.144])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 015DF82A;
+	Fri, 22 Mar 2024 05:21:03 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1711081269;
+	bh=Jwh8nlkjnz9gJSiIgNaom3SWbQx1YFv1WEWcZP5pfvU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=QyxkaZp+09bwP3KdRI+uvxZn18Hyfuf+vQGPI/0Jr4i0X7s2lCrXR0cDcbPGiL4ud
+	 Ua/hLbpw/MqjoPEAWxMxO5Q/7qKRfRp1R41IJAAIMATsu973FPqoGfpy/js4evUhta
+	 CJc5KkG4USs2As/ltW/7MPUrXVaSM6oidbp7Af5M=
+Message-ID: <b1087699-2992-4abe-be35-ad07409126d1@ideasonboard.com>
+Date: Fri, 22 Mar 2024 09:51:27 +0530
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 4/5] staging: vc04_services: Implement vchiq_bus
+ .remove
+To: Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ linux-staging@lists.linux.dev
+Cc: Stefan Wahren <stefan.wahren@i2se.com>, Dan Carpenter
+ <error27@gmail.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Phil Elwell <phil@raspberrypi.com>, Greg KH <greg@kroah.com>
+References: <20240321130737.898154-1-umang.jain@ideasonboard.com>
+ <20240321130737.898154-5-umang.jain@ideasonboard.com>
+ <171104150601.3566204.5965127233700490228@ping.linuxembedded.co.uk>
+Content-Language: en-US
+From: Umang Jain <umang.jain@ideasonboard.com>
+In-Reply-To: <171104150601.3566204.5965127233700490228@ping.linuxembedded.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The pull request you sent on Thu, 21 Mar 2024 14:01:36 +0100:
+Hi Kieran,
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.9-rc1
+On 21/03/24 10:48 pm, Kieran Bingham wrote:
+> Quoting Umang Jain (2024-03-21 13:07:36)
+>> Implement the struct vchiq_bus .remove() so that cleanup
+>> paths can be executed by the devices registered to this
+>> bus, when being removed.
+>>
+>> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+>> ---
+> Don't forget a changelog when possible.
+>
+> v2:
+>   - Check driver->remove before calling
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/0a59b3f42e5703a89dd6ddf5bc818a4cff975302
+Already mentioned in cover-letter v2 changelog
+>
+> Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+>
+>>   .../vc04_services/interface/vchiq_arm/vchiq_bus.c      | 10 ++++++++++
+>>   1 file changed, 10 insertions(+)
+>>
+>> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c
+>> index 68f830d75531..93609716df84 100644
+>> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c
+>> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c
+>> @@ -37,11 +37,21 @@ static int vchiq_bus_probe(struct device *dev)
+>>          return driver->probe(device);
+>>   }
+>>   
+>> +static void vchiq_bus_remove(struct device *dev)
+>> +{
+>> +       struct vchiq_device *device = to_vchiq_device(dev);
+>> +       struct vchiq_driver *driver = to_vchiq_driver(dev->driver);
+>> +
+>> +       if (driver->remove)
+>> +               driver->remove(device);
+>> +}
+>> +
+>>   const struct bus_type vchiq_bus_type = {
+>>          .name   = "vchiq-bus",
+>>          .match  = vchiq_bus_type_match,
+>>          .uevent = vchiq_bus_uevent,
+>>          .probe  = vchiq_bus_probe,
+>> +       .remove = vchiq_bus_remove,
+>>   };
+>>   
+>>   static void vchiq_device_release(struct device *dev)
+>> -- 
+>> 2.43.0
+>>
 
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
