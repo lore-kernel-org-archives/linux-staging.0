@@ -1,99 +1,87 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 421DD610B;
-	Sat, 23 Mar 2024 04:10:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BFB5522D;
+	Sat, 23 Mar 2024 05:47:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711167015; cv=none; b=NXoTIx19ONpoiGBaeUsF7KlL3D2BsBod9OmFnOKLaQ/W+tyuPlhVyJGmW/SzyvwE6I7r1X/OX2lnfXN91tD7AF0adqt+xgDPhWmD7rn/sUy3n920wboEv9C9oxejxE17uc0MmrosXkoctiUMdJvJ8CWtysxvwOQEPkyvTtkA+gA=
+	t=1711172879; cv=none; b=o86Xgzc196mwrYg/R6GJ4iS9c4Fc4xDIFx7QemEYAO5/30/Sd2/XiIBM1RNSlf2flr5qFbMkKnxIZsuvAafJabrUqY2pM6eZpNOJrvlza3B5Y4ytTFDeey7idKo8u/6A20ZS5Gk4ytOrxE1tyTul2u/3a01UjBZEAUOfGnjgPdw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711167015; c=relaxed/simple;
-	bh=npx0xi/SL5eNh92oHzNrAfnEp/6E8qDeQ134lzqBjCI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mg6um2f4G5DE95a9Q1+15nkBBF3DS+1+SVyIj6/lKngcCXhrQ/08cwz8HYmc/zmRka0VLT2+Mt/xsaxWn20bqE+gQE6w9ozhC3tDSsiWGUs3PkTrSNUhxp7clWa6STEYrvBz+inq7Ws7UvH2nkG8sfg0yKUJ3XAxBurWYEjbi8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZzNrKUWv; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1711172879; c=relaxed/simple;
+	bh=QAuGX3tf8P2TdpQEsv1SIpFMKW5zutY6rkbdp1V6ZtY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Xo1Q3hyw/ctRj3u4Zraugec3ZGif2K6yAClp3TYicFFbsFXW1sxXQd2fExSIDpqBvOBbbRGgzTtvGIfIGGmuZMBCJP8vtiGzD0CYhlnGI4CV91P4ibEzqkOpYTlZNJ8uMGNh1Pm0oPq3lJ0mPZfgdVgjlhP1DosOB/GmeCOj2e8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XiwZZg2Q; arc=none smtp.client-ip=209.85.160.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZzNrKUWv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711167013; x=1742703013;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=npx0xi/SL5eNh92oHzNrAfnEp/6E8qDeQ134lzqBjCI=;
-  b=ZzNrKUWvm6NwixJdJ4rgugr8KqdpIGn1EPUvpnxT22aDwDi4BMoQNKPN
-   2GJ0vJF6OgvmaPH6P1Ee+Rp/AghS2/6DGLzfhUQSvy8FJJc93ocNdDABk
-   ltoSKHhwwbLyPF0V+FmmmBUGXimdfMTP7pkB6goyvRaSotn0kX4sHeMQx
-   8XDkKSC4VCfdAHvEjYGXqFcTXQYFSTyp2obDjyMkG2NRCrkq4k9isg5FV
-   QgizzFMsRQh6TXsdqAIQCg+zakJdDnCe43agD3UmuAyGxf5uk108qHQms
-   3JIvy8nB/bbPqvVtiSLNpY3rlItMcQQ96KBKPP7LfyhYnA2Ijf5LO0rCG
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11021"; a="6167897"
-X-IronPort-AV: E=Sophos;i="6.07,148,1708416000"; 
-   d="scan'208";a="6167897"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2024 21:10:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,148,1708416000"; 
-   d="scan'208";a="52543987"
-Received: from aschofie-mobl2.amr.corp.intel.com (HELO aschofie-mobl2) ([10.209.88.188])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2024 21:10:12 -0700
-Date: Fri, 22 Mar 2024 21:10:10 -0700
-From: Alison Schofield <alison.schofield@intel.com>
-To: Dorine Tipo <dorine.a.tipo@gmail.com>
-Cc: marvin24@gmx.de, gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev, outreachy@lists.linux.dev
-Subject: Re: [PATCH] staging: nvec: Fix documentation typo in static
- irqreturn_t nvec_interrupt()
-Message-ID: <Zf5WIiSAXKAIlBC1@aschofie-mobl2>
-References: <20240317120947.2923-1-dorine.a.tipo@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XiwZZg2Q"
+Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-2228c4c5ac3so1736287fac.0;
+        Fri, 22 Mar 2024 22:47:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1711172877; x=1711777677; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QAuGX3tf8P2TdpQEsv1SIpFMKW5zutY6rkbdp1V6ZtY=;
+        b=XiwZZg2Q3Wkeh0Wb95OgX8kAHnLH5dvFxE/AoPt4rjrmQJU82is/1p3P1AO6avbiCg
+         kdog1XB6o5EMrXBoJmG/A1+bQ/naBMpvQs2WsFUlcS6Q0Ur+smbjgGTH3N3wc3XEpxYj
+         FuHXKYKrf2bYGMicpMozvcgQjGu51KEWw1VBreQ1fNt2K5LHPgSmN5vnLTamoQ5ixFUo
+         19ToUwJ+RC0fRewVN0ml15hnwWRPiiIZ5DjCkS8i7zZqO0vViyZ3/W6dw+BYOslurXHx
+         UArQbhL9InMVGWFAnIIbOu26PzNM+tyLk9iM3WuKjWd6MnjuZyCmdP7omlDP3J/jQKxl
+         OKAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711172877; x=1711777677;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QAuGX3tf8P2TdpQEsv1SIpFMKW5zutY6rkbdp1V6ZtY=;
+        b=Bkn1rkc1Qu1quuAoq+sd/hRt7V/wFUQHsYK3TcDdghEK5zykioyiG8vFvrmmyqQMZf
+         pAYD3ZzrKiDuGe39bKO8j7o9ASeUYYRPa6MinCT2Q1setkepFMS1WA+/AeZBdLxgWNMD
+         Z8C6M7Ka3xlFB/D+liGs7MAh6QDDUC1VV3Wi7RDHfluYQ9yVUTg/GDCwlb7ycgYMk2F0
+         Evf2kzCCRwyiRP0gc/f6Zds3jqwEutu5BvzThMd94ULMqGApNZVTjIDy7ybL1AJjMbX1
+         6xHm2LzXqlW9rMLPvJuv4H4OCf4WQDUDSNrrF4FQdAte96P6HRCieDJbfMYkqUlmIkfv
+         XmGg==
+X-Forwarded-Encrypted: i=1; AJvYcCVuqVpaHwNHdDl4ovvQUu4APp9cMmy0UWwX3XG17l2xY6JwJZnbZNlMMKVvXnRRl/cA16VOrBTaanlnMlMFoYReG5IfzT/FRMZIJyF9qLONUtccC2J4axHwzDdVP43wM8HFMRmWbi5pXQ==
+X-Gm-Message-State: AOJu0Ywq4hK9MJ6iTYAklLNGogdInbywvzz0IP5kwhZaDRNH5/5HPR0R
+	rO45tXrawrsVn9E3lex7rGGUSi8t/vye5pDrw5jt9iRz2iNGV+CZ+Mo8JrRy/uPAi1M8Ae/ETlQ
+	IN5HzG8bUf0NqGpZ0ZrOcPVPd3sY=
+X-Google-Smtp-Source: AGHT+IGJuQX2iGfuUjborXV2RXTg4cvlqOj6eigknOA9Nw1r0mqmWiyMuva8xs8W9i1yeBUydj/AAnpRWkrzLkF23Vw=
+X-Received: by 2002:a05:6870:818f:b0:21f:236:a316 with SMTP id
+ k15-20020a056870818f00b0021f0236a316mr1914018oae.50.1711172877419; Fri, 22
+ Mar 2024 22:47:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240317120947.2923-1-dorine.a.tipo@gmail.com>
+References: <Zfk0UfLh3rRf6qDv@MOLeToid> <Zfs0+0C7nzKiBjGy@aschofie-mobl2>
+In-Reply-To: <Zfs0+0C7nzKiBjGy@aschofie-mobl2>
+From: Felix Kimbu <felixkimbu1@gmail.com>
+Date: Sat, 23 Mar 2024 06:47:46 +0100
+Message-ID: <CAK=vLx+bLg90jgWouqGQ8itsEsp5VNeV8tJuEzZHMm-D_0+bPA@mail.gmail.com>
+Subject: Re: [PATCH] staging: pi433: Correct comment typos in pi433_if.c
+To: Alison Schofield <alison.schofield@intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Mar 17, 2024 at 12:09:47PM +0000, Dorine Tipo wrote:
-> Correct the spelling of initialisation with was misspelled in the
-> documentation
+On Wed, Mar 20, 2024 at 8:11=E2=80=AFPM Alison Schofield
+<alison.schofield@intel.com> wrote
+>
+>
+> Hi Felix,
+>
+> This commit msg and log can be trimmed. Please take a look at samples in
+> staging or here on the Outreachy list like this:
+> https://lore.kernel.org/outreachy/00be5f2a97b0c899279bd8f9cd27634186b77b9=
+d.1666299151.git.drv@mailo.com/
+>
 
-Thanks for the patch Dorine,
+Greetings Alison,
 
-Please tidy up both commit msg (so it doesn't line wrap) and the
-commit log. (s/with/which and add a 'hard stop' ie. a period at
-the end of your sentence.) If the issue was found using a tool,
-say that. "Issue found using checkpatch."
-
-There's a section in the First Patch Tutorial about following the
-style of the subsystem or file. Please check it out.
-
---Alison
-
-> 
-> Signed-off-by: Dorine Tipo <dorine.a.tipo@gmail.com>
-> ---
->  drivers/staging/nvec/nvec.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
-> index 282a664c9176..b4485b10beb8 100644
-> --- a/drivers/staging/nvec/nvec.c
-> +++ b/drivers/staging/nvec/nvec.c
-> @@ -712,7 +712,7 @@ static irqreturn_t nvec_interrupt(int irq, void *dev)
->  	 * TODO: replace the udelay with a read back after each writel above
->  	 * in order to work around a hardware issue, see i2c-tegra.c
->  	 *
-> -	 * Unfortunately, this change causes an intialisation issue with the
-> +	 * Unfortunately, this change causes an initialisation issue with the
->  	 * touchpad, which needs to be fixed first.
->  	 */
->  	udelay(100);
-> --
-> 2.25.1
-> 
-> 
+Thanks for the correction, let me fix that.
+Regards,
+Felix.
