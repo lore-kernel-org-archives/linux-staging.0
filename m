@@ -1,59 +1,59 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 870015B1EB
-	for <linux-staging@lists.linux.dev>; Sat, 23 Mar 2024 22:19:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B16611C94;
+	Sat, 23 Mar 2024 22:30:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711232386; cv=none; b=h1d0BDL2Zqz8xiN3NIxNXUIZrmIF3FBlnPvulW8ffQWqZmpe3K+gw3m/gyd3l+tGPnfqDCKVjHnUqMD0tm7B19yTza7cvzVOsGfNYVN6S85ykH8tSH6Ve56tmAI2yH26n80gMogYyr2frRUguAN560YuYrBhbikbC+gqm5zUbDo=
+	t=1711233061; cv=none; b=S6rOWBzybSHxP/zIhPlB1wxiZg6/QOJU4xKoVB0iVGxCfG347XgYAuyOVh77O4KwhVqc2UDmdBvuTZGIFStbccEpQ6X+2KPNPzlXY5AM15CpofcrNyvVT8b7s45dvl5VJfle1zDVEjFzc/zggFhfMsXkb1cPsIw4Vu6S4QPia/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711232386; c=relaxed/simple;
-	bh=ZcPsWjlj9lt0IC+KED5LgpuFONybE2L/MdQVVekZhBI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=XWwVY4MkHkRvpOW752YZvc6UvGUtk8rcz25GPenZ6SACuRR7iyWm6YQOvcf1v0hUhpwBHDbXhhyE8I5fZPXy1DDCPNtSHAIXfOAwikTCvcLGaQQdLK5HNUQ+eo7r0U976Gr83jEpaZBK6iBn1PnDGQnTdeI9Tpph1lbQj/4VjEQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hAvRSGq7; arc=none smtp.client-ip=209.85.218.46
+	s=arc-20240116; t=1711233061; c=relaxed/simple;
+	bh=PojwwhLQ0f7eE47P++0q9jpP2oeL01I849PctSEwux4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GeySB0QvKDqAjxHK6pk4T3UmVuK8nP+M/1jSEtKc+MMMsrXOmO9yu12d5kTpFen+5nDmSyUSMeV0Atz7NkcarwOLMaPyW+obBzGlDkuuk3nqWJuhilTct65DfLvsAlZtVH5dLpjhMaFGAIvcko8riXPUCZQOyKnchESrJ5O2SQk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g5x+EiX1; arc=none smtp.client-ip=209.85.218.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hAvRSGq7"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a46f056c29eso106135766b.1
-        for <linux-staging@lists.linux.dev>; Sat, 23 Mar 2024 15:19:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g5x+EiX1"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a46daa53584so99602866b.0;
+        Sat, 23 Mar 2024 15:30:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711232383; x=1711837183; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:references:to
+        d=gmail.com; s=20230601; t=1711233058; x=1711837858; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=B6IQFi8uGp/8YXnM8wES9GmP5xUToFAwq6+EGNAWXMg=;
-        b=hAvRSGq76fFyK0xJutzdaqXRzlEoaJMIe90nC23M7nO06s7/XbLPcxHC5eydUytO/X
-         8UdRSZZsP4+m1dzBRi0pdxClybkEwD8xzHBTT+9n0sO0v8FTgSeJ9RVC1xO/CW4cPCP7
-         ermiXoCfYuFEAdvvfTcOhxJWmeaPf4m95up2JrwkTZ/zihSVW10bZsaBhP4EVnVxg/Cq
-         BskcEDnHoKXAmCiu6MLqBaw5UEqn59W1vjjD/C85i1lBwo9j0OtadeM05Nyh1C8cfdPb
-         9B3xB2dIDrZ+26ka2Jb4u1H4xDd2sEvy61CLtImHVemO0Wwos4g8wwP+46Lq1JnKXTqA
-         WSOw==
+        bh=6pIl9ecoJqRC4Nq8p1VbyTskDTfwqQJ3s481KX+SUP8=;
+        b=g5x+EiX18sF2n7sLEOP/4Ib9XZgsNbSsbXvvTUCYda7IK47M6EG3BIuS30lrzc0q3q
+         qs94oB7Lyd+buAMRgoW54rXAR/ixumD6MAWYPxesEPW8xil7nXNC9CG89YjiAqIe8e0W
+         HmFTIstCGU5hF9JewlJAOkE/DVgkeQQMJWJ2Qa5ZCaYicpm17DEpmKIt7YkgZjM9bPKg
+         /4aRiFgLR8KBzLOUCM/DsTvHfTrUU8IS3KExxzhw5BHY1+Lx6g2pi+9LQ3PyesedK0EH
+         Yk/f7vg+Zh0VjWQ8cBoBupdsfTqTFzKEBw+xkXw1MFYPE2RZTVzLRORqZ3PpuR216TtX
+         0JZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711232383; x=1711837183;
-        h=content-transfer-encoding:in-reply-to:from:references:to
+        d=1e100.net; s=20230601; t=1711233058; x=1711837858;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=B6IQFi8uGp/8YXnM8wES9GmP5xUToFAwq6+EGNAWXMg=;
-        b=VQYchN+sHr9hPOK3mUaJbW2+DFQLMck59QAtF6/bTJ3HIxFEEkIVZFoXIyjKByPyS0
-         DnoTrSlgD+Cdnx75iZnenAAfGhm7TntVv+dP6GLW5aEw1oy2/lexM70FzhbwtREOgpsH
-         TjjXZJ8r6d2yUlsZxJZAd+NYYWWjp0r9iHwUgEvgA7aVxM9K4ZqiiGxs8RQyJZnwdI9t
-         SGQmaZR5DLMi9pZ5nVBXKYnRsVHNdsYJV0MnY2ifZhsqCgTyW6IAHTm9UzbNhRLt1bP1
-         2JAaQMQh858qSDHDig6tbirdjLmV3C5sXtoWFrO9T302Wdj2vGnQ9+kLp9QDwpPlsnJt
-         vqBA==
-X-Forwarded-Encrypted: i=1; AJvYcCUPWz+Y+SNHOyp0GSOjZqqc3Tv6lJfhIx3qZPifyOkwfGjJVuLcF47LXgL7oC0zMVXqCNtzZxUDlE+0Bh+nVtUWp4QypnsXCr5cpN1vKg==
-X-Gm-Message-State: AOJu0YzX6vapz6372og2BLZxVLUUNko9X++vDZUub/cC9xHMpEEkaTgC
-	dp2xKeuOw68cunteAD8cAEXR0Wcj4W4ALDY/+NGmH4JIRvtO055LwMvBECoN
-X-Google-Smtp-Source: AGHT+IFBL/IwWGm2h0tjoCYxU+8vfobSfgDoD55AqZ+ab1pEgtMHSeWx08IsCWQHA0DO8ErZZJZXmw==
-X-Received: by 2002:a17:906:99d0:b0:a47:4293:944a with SMTP id s16-20020a17090699d000b00a474293944amr2039761ejn.3.1711232382531;
-        Sat, 23 Mar 2024 15:19:42 -0700 (PDT)
+        bh=6pIl9ecoJqRC4Nq8p1VbyTskDTfwqQJ3s481KX+SUP8=;
+        b=ZtdEnk1/L1teJBdEcHBBWaQKqfl5Wy5qIlN4/GU88DPPQmW0blSgFb4bvIwVWYFP2r
+         V3dgPx9rikxU743TcD+lxMIDRj9Eqgu38nAOYtIGa0n8Dq0I9UBApkYlnsjZ2hgorn43
+         70eTdW34/PziyANwGjBEV3pN6jTGWuXC3bccPJNaAFck7zqxq8aNcAkJEsxp2lbJshwm
+         9eTJ5cMNns+oD6bGRYPiLaLESkNvsaFTJ73iYX08raeGP7ezn3eU37kulpZbIHYXFXN8
+         WwYB9TxK6WStlbk5ZadC+XuEbJdW2gTHxxF12MULMuWkxWmogdi4yDxEVFbqX1NbY75/
+         IDEQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXWhj5tJrKv1heCODtwpZHBCexQa1GLHTqi0O8mRr/ySBQDAPdbNOio7Vp1D4UMA0BpCdpy73U0vzSjtyPDOXE9dLgzWL+CokF7
+X-Gm-Message-State: AOJu0YwOIe98+00Y/O1RrfiTe5ggoHPsPPo19nFqPJCseAZdQPCfTLtb
+	SKcTiMA5JwHnBDsg63Ff3BCMN5zObVZg0JosyOQ0c3h0vNoMO1l0
+X-Google-Smtp-Source: AGHT+IHP7VQ0+i5S/9MzwJNbjpPesGT6wzx5M370QsxZ7f+lCQaRj3tAMz8UvBv8W2bdYNZhyT9jbA==
+X-Received: by 2002:a17:906:646:b0:a47:366b:21da with SMTP id t6-20020a170906064600b00a47366b21damr1842602ejb.4.1711233058191;
+        Sat, 23 Mar 2024 15:30:58 -0700 (PDT)
 Received: from [192.168.0.104] (p54a07fa0.dip0.t-ipconnect.de. [84.160.127.160])
-        by smtp.gmail.com with ESMTPSA id jp10-20020a170906f74a00b00a461e206c00sm1331799ejb.20.2024.03.23.15.19.42
+        by smtp.gmail.com with ESMTPSA id k18-20020a1709065fd200b00a46cf8aea7bsm1348645ejv.30.2024.03.23.15.30.57
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 23 Mar 2024 15:19:42 -0700 (PDT)
-Message-ID: <c20f03dd-fa66-46ca-ab28-faaa97ae6b60@gmail.com>
-Date: Sat, 23 Mar 2024 23:19:41 +0100
+        Sat, 23 Mar 2024 15:30:57 -0700 (PDT)
+Message-ID: <9d8f35f6-2d23-43bf-9ac5-c88e4f65609e@gmail.com>
+Date: Sat, 23 Mar 2024 23:30:57 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -61,59 +61,87 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Staging: rtl8712: Removed unnecessary parentheses
+Subject: Re: [PATCH] staging: rtl8712: Rename variable bw_40MHz_en
 Content-Language: en-US
-To: Brandon Crain <bcrain1606@gmail.com>, larry.finger@lwfinger.net,
- gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <Zf2fuHV2gmSOSEnx@dev>
+To: Lautaro Javier Fernandez Pricco <ljfp@ljfp.xyz>,
+ Larry Finger <Larry.Finger@lwfinger.net>,
+ Florian Schilhabel <florian.c.schilhabel@googlemail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ outreachy <outreachy@lists.linux.dev>
+Cc: linux-staging <linux-staging@lists.linux.dev>,
+ linux-kernel <linux-kernel@vger.kernel.org>
+References: <Zf4fhSomoYzCE4gW@ljfp.xyz>
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <Zf2fuHV2gmSOSEnx@dev>
+In-Reply-To: <Zf4fhSomoYzCE4gW@ljfp.xyz>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 3/22/24 16:11, Brandon Crain wrote:
-Please make your "Subject" line more unique. Consider that we may end up
-with having dozen of commits like yours, all of them referring to
-different removals and all without the necessary information to tell 
-what they differ in (except the driver/subsystem). So it would help if 
-you add the changed file or function to make it more unique.
-> Removed uneccessary parentheses from source file
+On 3/23/24 01:17, Lautaro Javier Fernandez Pricco wrote:
+> The bw_40MHz_en variable triggered an 'Avoid
+> CamelCase' warning from checkpatch.pl. This patch addresses said warning by
+> renaming the variable to bw_40mhz_en.
+Hi Lautaro Javier,
+Checkpatch is wrong with this proposal. The offical abreviations for 
+MHz, kHz, GHz, dB and so on can remain as they are.
+This is easier to read.
 
-Please use a full sentences with final dot. Always consider that the why 
-is most important to answer. In your case the answer would be "because 
-it is unnecessary" My preferred proposal would be:
-
-Remove unnecessary parentheses to increase readability.
-
-> 
-> Signed-off-by: Brandon Crain <bcrain1606@gmail.com>
-> ---
->   drivers/staging/rtl8712/recv_linux.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/rtl8712/recv_linux.c b/drivers/staging/rtl8712/recv_linux.c
-> index 215fca4abb3a..2bf4661432a9 100644
-> --- a/drivers/staging/rtl8712/recv_linux.c
-> +++ b/drivers/staging/rtl8712/recv_linux.c
-> @@ -105,7 +105,7 @@ void r8712_recv_indicatepkt(struct _adapter *adapter,
->   	skb->data = recvframe->u.hdr.rx_data;
->   	skb->len = recvframe->u.hdr.len;
->   	skb_set_tail_pointer(skb, skb->len);
-> -	if ((attrib->tcpchk_valid == 1) && (attrib->tcp_chkrpt == 1))
-> +	if (attrib->tcpchk_valid == 1 && attrib->tcp_chkrpt == 1)
-
-I am not so happy with this proposal I need to know the exact rules that 
-the == has priority over &&. So I like to read it with brackets.
-
->   		skb->ip_summed = CHECKSUM_UNNECESSARY;
->   	else
->   		skb->ip_summed = CHECKSUM_NONE;
-
-If you send in a second version of this patch please use a change 
-history. Description from Dan under:
-https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
+> Reported by checkpatch:
+> CHECK: Avoid CamelCase: <bw_40MHz_en>
+It is not required to add the name of the tool who found this. Much more 
+important is a good description why this change makes sense...
+For example:
+... to shorten code.
+... to improve readability.
 
 Thanks for your support.
 
 Bye Philipp
+
+
+> Signed-off-by: Lautaro Javier Fernandez Pricco <ljfp@ljfp.xyz>
+> ---
+>   drivers/staging/rtl8712/hal_init.c        | 2 +-
+>   drivers/staging/rtl8712/rtl8712_hal.h     | 2 +-
+>   drivers/staging/rtl8723bs/core/rtw_mlme.c | 2 +-
+>   3 files changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8712/hal_init.c b/drivers/staging/rtl8712/hal_init.c
+> index 1148075f0cd6..efea4f97488c 100644
+> --- a/drivers/staging/rtl8712/hal_init.c
+> +++ b/drivers/staging/rtl8712/hal_init.c
+> @@ -98,7 +98,7 @@ static void fill_fwpriv(struct _adapter *adapter, struct fw_priv *fwpriv)
+>   	/* todo: check if needs endian conversion */
+>   	fwpriv->hci_sel =  RTL8712_HCI_TYPE_72USB;
+>   	fwpriv->usb_ep_num = (u8)dvobj->nr_endpoint;
+> -	fwpriv->bw_40MHz_en = regpriv->cbw40_enable;
+> +	fwpriv->bw_40mhz_en = regpriv->cbw40_enable;
+>   	switch (regpriv->rf_config) {
+>   	case RTL8712_RF_1T1R:
+>   		fwpriv->rf_config = RTL8712_RFC_1T1R;
+> diff --git a/drivers/staging/rtl8712/rtl8712_hal.h b/drivers/staging/rtl8712/rtl8712_hal.h
+> index 66cc4645e2d1..3df687fce79d 100644
+> --- a/drivers/staging/rtl8712/rtl8712_hal.h
+> +++ b/drivers/staging/rtl8712/rtl8712_hal.h
+> @@ -85,7 +85,7 @@ struct fw_priv {   /*8-bytes alignment required*/
+>   	unsigned char rsvd025;
+>   	/*--- long word 3 ----*/
+>   	unsigned char qos_en;    /*1: QoS enable*/
+> -	unsigned char bw_40MHz_en;   /*1: 40MHz BW enable*/
+> +	unsigned char bw_40mhz_en;   /*1: 40MHz BW enable*/
+>   	unsigned char AMSDU2AMPDU_en;   /*1: 4181 convert AMSDU to AMPDU,
+>   					 * 0: disable
+>   					 */
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+> index bfb27f902753..0e5b07ad5a8f 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+> @@ -2331,7 +2331,7 @@ unsigned int rtw_restructure_ht_ie(struct adapter *padapter, u8 *in_ie, u8 *out_
+>   		}
+>   	}
+>   
+> -	/* to disable 40M Hz support while gd_bw_40MHz_en = 0 */
+> +	/* to disable 40 MHz support while gd_bw_40mhz_en = 0 */
+>   	if (channel > 14) {
+>   		if ((pregistrypriv->bw_mode & 0xf0) > 0)
+>   			cbw40_enable = 1;
+
