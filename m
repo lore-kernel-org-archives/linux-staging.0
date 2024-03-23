@@ -1,33 +1,59 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 871511A38F4
-	for <linux-staging@lists.linux.dev>; Sat, 23 Mar 2024 13:58:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 870015B1EB
+	for <linux-staging@lists.linux.dev>; Sat, 23 Mar 2024 22:19:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711202294; cv=none; b=Pjps70knnIpqWbXqvaW8+TSz4E0cZ/vHdoISfbZLrSj6zXXaJgNXrWaMH3Xw4Cno8Ys3P+xCCW0p0TVkRYVPTqcdUkL6xuSh1Zk7naE+qM4I6g0jKnmEML1S0t5RXU+It/mJ7HcNGsPWg6Dt1PVbrYKPZkPt/GMW4C236fIzm0A=
+	t=1711232386; cv=none; b=h1d0BDL2Zqz8xiN3NIxNXUIZrmIF3FBlnPvulW8ffQWqZmpe3K+gw3m/gyd3l+tGPnfqDCKVjHnUqMD0tm7B19yTza7cvzVOsGfNYVN6S85ykH8tSH6Ve56tmAI2yH26n80gMogYyr2frRUguAN560YuYrBhbikbC+gqm5zUbDo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711202294; c=relaxed/simple;
-	bh=86UGEEVWD7W3AmKvhXoWV3zST5jygEeWHGZZgQq0eWU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Z24BhbPyd4hx8Snw//ZYPDar8Tt2egnpx6Dac5euRRRg/EY7TvBnfLGqVe0NMaAM6soWdnLv7tHiAAmCbFPXzMnnrhVKivZ6oDrg3f7f+3UIbwZt9SOl6fKMbepPg4IANdEU9hqvuVb48oAe6GtNEq5DQMR6CNzqBaB+xO2JaR4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=YrR3GoQ0; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1711232386; c=relaxed/simple;
+	bh=ZcPsWjlj9lt0IC+KED5LgpuFONybE2L/MdQVVekZhBI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=XWwVY4MkHkRvpOW752YZvc6UvGUtk8rcz25GPenZ6SACuRR7iyWm6YQOvcf1v0hUhpwBHDbXhhyE8I5fZPXy1DDCPNtSHAIXfOAwikTCvcLGaQQdLK5HNUQ+eo7r0U976Gr83jEpaZBK6iBn1PnDGQnTdeI9Tpph1lbQj/4VjEQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hAvRSGq7; arc=none smtp.client-ip=209.85.218.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="YrR3GoQ0"
-Received: from [192.168.1.105] (unknown [103.86.18.144])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2968FD8B;
-	Sat, 23 Mar 2024 14:57:37 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1711202260;
-	bh=86UGEEVWD7W3AmKvhXoWV3zST5jygEeWHGZZgQq0eWU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=YrR3GoQ0pYJqipj35KRWxKwAjKloTUdgYuokiL6cSxhPpS8PQ0+O+sY/839DMTVeX
-	 eHwDKKLYfa0DJwkm3RTlX6aBH7NV2Wn/X7f6DFct3nFPhmwAe4SojF5zXw+ArTTzl/
-	 7+HlsH/hGZnBxX/mPGdgsAB7QcR2VMC+JcbP5Sjs=
-Message-ID: <b8dd9579-cd1f-483d-be7e-5c6772343df5@ideasonboard.com>
-Date: Sat, 23 Mar 2024 19:28:02 +0530
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hAvRSGq7"
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a46f056c29eso106135766b.1
+        for <linux-staging@lists.linux.dev>; Sat, 23 Mar 2024 15:19:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1711232383; x=1711837183; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=B6IQFi8uGp/8YXnM8wES9GmP5xUToFAwq6+EGNAWXMg=;
+        b=hAvRSGq76fFyK0xJutzdaqXRzlEoaJMIe90nC23M7nO06s7/XbLPcxHC5eydUytO/X
+         8UdRSZZsP4+m1dzBRi0pdxClybkEwD8xzHBTT+9n0sO0v8FTgSeJ9RVC1xO/CW4cPCP7
+         ermiXoCfYuFEAdvvfTcOhxJWmeaPf4m95up2JrwkTZ/zihSVW10bZsaBhP4EVnVxg/Cq
+         BskcEDnHoKXAmCiu6MLqBaw5UEqn59W1vjjD/C85i1lBwo9j0OtadeM05Nyh1C8cfdPb
+         9B3xB2dIDrZ+26ka2Jb4u1H4xDd2sEvy61CLtImHVemO0Wwos4g8wwP+46Lq1JnKXTqA
+         WSOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711232383; x=1711837183;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=B6IQFi8uGp/8YXnM8wES9GmP5xUToFAwq6+EGNAWXMg=;
+        b=VQYchN+sHr9hPOK3mUaJbW2+DFQLMck59QAtF6/bTJ3HIxFEEkIVZFoXIyjKByPyS0
+         DnoTrSlgD+Cdnx75iZnenAAfGhm7TntVv+dP6GLW5aEw1oy2/lexM70FzhbwtREOgpsH
+         TjjXZJ8r6d2yUlsZxJZAd+NYYWWjp0r9iHwUgEvgA7aVxM9K4ZqiiGxs8RQyJZnwdI9t
+         SGQmaZR5DLMi9pZ5nVBXKYnRsVHNdsYJV0MnY2ifZhsqCgTyW6IAHTm9UzbNhRLt1bP1
+         2JAaQMQh858qSDHDig6tbirdjLmV3C5sXtoWFrO9T302Wdj2vGnQ9+kLp9QDwpPlsnJt
+         vqBA==
+X-Forwarded-Encrypted: i=1; AJvYcCUPWz+Y+SNHOyp0GSOjZqqc3Tv6lJfhIx3qZPifyOkwfGjJVuLcF47LXgL7oC0zMVXqCNtzZxUDlE+0Bh+nVtUWp4QypnsXCr5cpN1vKg==
+X-Gm-Message-State: AOJu0YzX6vapz6372og2BLZxVLUUNko9X++vDZUub/cC9xHMpEEkaTgC
+	dp2xKeuOw68cunteAD8cAEXR0Wcj4W4ALDY/+NGmH4JIRvtO055LwMvBECoN
+X-Google-Smtp-Source: AGHT+IFBL/IwWGm2h0tjoCYxU+8vfobSfgDoD55AqZ+ab1pEgtMHSeWx08IsCWQHA0DO8ErZZJZXmw==
+X-Received: by 2002:a17:906:99d0:b0:a47:4293:944a with SMTP id s16-20020a17090699d000b00a474293944amr2039761ejn.3.1711232382531;
+        Sat, 23 Mar 2024 15:19:42 -0700 (PDT)
+Received: from [192.168.0.104] (p54a07fa0.dip0.t-ipconnect.de. [84.160.127.160])
+        by smtp.gmail.com with ESMTPSA id jp10-20020a170906f74a00b00a461e206c00sm1331799ejb.20.2024.03.23.15.19.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 23 Mar 2024 15:19:42 -0700 (PDT)
+Message-ID: <c20f03dd-fa66-46ca-ab28-faaa97ae6b60@gmail.com>
+Date: Sat, 23 Mar 2024 23:19:41 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -35,232 +61,59 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 5/6] staging: vc04_services: Drop global variables
- tracking allocated pages
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-staging@lists.linux.dev, Stefan Wahren <stefan.wahren@i2se.com>,
- Dan Carpenter <error27@gmail.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Phil Elwell <phil@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, Greg KH <greg@kroah.com>
-References: <20240321103740.808561-1-umang.jain@ideasonboard.com>
- <20240321103740.808561-6-umang.jain@ideasonboard.com>
- <20240321195041.GY9582@pendragon.ideasonboard.com>
+Subject: Re: [PATCH] Staging: rtl8712: Removed unnecessary parentheses
 Content-Language: en-US
-From: Umang Jain <umang.jain@ideasonboard.com>
-In-Reply-To: <20240321195041.GY9582@pendragon.ideasonboard.com>
+To: Brandon Crain <bcrain1606@gmail.com>, larry.finger@lwfinger.net,
+ gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <Zf2fuHV2gmSOSEnx@dev>
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <Zf2fuHV2gmSOSEnx@dev>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Hi Laurent,
+On 3/22/24 16:11, Brandon Crain wrote:
+Please make your "Subject" line more unique. Consider that we may end up
+with having dozen of commits like yours, all of them referring to
+different removals and all without the necessary information to tell 
+what they differ in (except the driver/subsystem). So it would help if 
+you add the changed file or function to make it more unique.
+> Removed uneccessary parentheses from source file
 
-On 22/03/24 1:20 am, Laurent Pinchart wrote:
-> Hi Uamng,
->
-> Thank you for the patch.
->
-> On Thu, Mar 21, 2024 at 04:07:39PM +0530, Umang Jain wrote:
->> The variables tracking allocated pages fragments in vchiq_arm.c
->> can be easily moved to struct vchiq_drv_mgmt instead of being global.
->> This helps us to drop the non-essential global variables in the vchiq
->> interface.
->>
->> However, g_regs is intentionally kept global since it is read/write
->> in fast paths (for e.g. doorbell IRQs). Introducing it in struct
->> vchiq_drv_mgmt and getting it in remote_event_signal handler, turns
->> out to be quite tedious. Add a comment for the same.
-> The fast path argument doesn't really hold in my opinion, I think you
-> can retrieve the variable through vchiq_state in vchiq_doorbell_irq().
->
-> All callers for remote_event_signal have a vchiq_state pointer, so it
-> shouldn't be that difficult to get rid of that global variable. It
-> doesn't have to be done in this patch, it can be done on top.
->
->> Drop the TODO item as well, as it is now totally addressed:
->>> Get rid of all non essential global structures and create a proper per
->>    device structure
-> Don't you need to also drop the g_state variable ?
->
->> No functional changes intended in this patch.
->>
->> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
->> ---
->>   drivers/staging/vc04_services/interface/TODO  |  8 ---
->>   .../interface/vchiq_arm/vchiq_arm.c           | 57 +++++++++----------
->>   .../interface/vchiq_arm/vchiq_arm.h           |  6 ++
->>   3 files changed, 34 insertions(+), 37 deletions(-)
->>
->> diff --git a/drivers/staging/vc04_services/interface/TODO b/drivers/staging/vc04_services/interface/TODO
->> index 05eb5140d096..15f12b8f213e 100644
->> --- a/drivers/staging/vc04_services/interface/TODO
->> +++ b/drivers/staging/vc04_services/interface/TODO
->> @@ -41,14 +41,6 @@ The code follows the 80 characters limitation yet tends to go 3 or 4 levels of
->>   indentation deep making it very unpleasant to read. This is specially relevant
->>   in the character driver ioctl code and in the core thread functions.
->>   
->> -* Get rid of all non essential global structures and create a proper per
->> -device structure
->> -
->> -The first thing one generally sees in a probe function is a memory allocation
->> -for all the device specific data. This structure is then passed all over the
->> -driver. This is good practice since it makes the driver work regardless of the
->> -number of devices probed.
->> -
->>   * Clean up Sparse warnings from __user annotations. See
->>   vchiq_irq_queue_bulk_tx_rx(). Ensure that the address of "&waiter->bulk_waiter"
->>   is never disclosed to userspace.
->> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
->> index ba096bcb32c8..c4807b302718 100644
->> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
->> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
->> @@ -140,13 +140,11 @@ struct vchiq_pagelist_info {
->>   	unsigned int scatterlist_mapped;
->>   };
->>   
->> +/*
->> + * Essential global pointer since read/written on fast paths
->> + * (doorbell IRQs).
->> + */
->>   static void __iomem *g_regs;
->> -static unsigned int g_fragments_size;
->> -static char *g_fragments_base;
->> -static char *g_free_fragments;
->> -static struct semaphore g_free_fragments_sema;
->> -
->> -static DEFINE_SEMAPHORE(g_free_fragments_mutex, 1);
-> Why is this code using a semaphore as a mutex ?? It should be replaced
-> with a real mutex. This can be done on top of this patch.
+Please use a full sentences with final dot. Always consider that the why 
+is most important to answer. In your case the answer would be "because 
+it is unnecessary" My preferred proposal would be:
 
-Probably the RPi people can answer this (they're cc'ed to the series) 
-but what I found  in `Documentation/locking/mutex-design.rst`
+Remove unnecessary parentheses to increase readability.
 
-```
-Disadvantages
--------------
+> 
+> Signed-off-by: Brandon Crain <bcrain1606@gmail.com>
+> ---
+>   drivers/staging/rtl8712/recv_linux.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/rtl8712/recv_linux.c b/drivers/staging/rtl8712/recv_linux.c
+> index 215fca4abb3a..2bf4661432a9 100644
+> --- a/drivers/staging/rtl8712/recv_linux.c
+> +++ b/drivers/staging/rtl8712/recv_linux.c
+> @@ -105,7 +105,7 @@ void r8712_recv_indicatepkt(struct _adapter *adapter,
+>   	skb->data = recvframe->u.hdr.rx_data;
+>   	skb->len = recvframe->u.hdr.len;
+>   	skb_set_tail_pointer(skb, skb->len);
+> -	if ((attrib->tcpchk_valid == 1) && (attrib->tcp_chkrpt == 1))
+> +	if (attrib->tcpchk_valid == 1 && attrib->tcp_chkrpt == 1)
 
-Unlike its original design and purpose, 'struct mutex' is among the largest
-locks in the kernel. E.g: on x86-64 it is 32 bytes, where 'struct semaphore'
-is 24 bytes and rw_semaphore is 40 bytes. Larger structure sizes mean 
-more CPU
-cache and memory footprint.
-```
+I am not so happy with this proposal I need to know the exact rules that 
+the == has priority over &&. So I like to read it with brackets.
 
-So probably a resource constraint / resource-saving step?
->
->>   
->>   static int
->>   vchiq_blocking_bulk_transfer(struct vchiq_instance *instance, unsigned int handle, void *data,
->> @@ -377,20 +375,20 @@ create_pagelist(struct vchiq_instance *instance, char *buf, char __user *ubuf,
->>   	    (drv_mgmt->pinfo->cache_line_size - 1)))) {
->>   		char *fragments;
->>   
->> -		if (down_interruptible(&g_free_fragments_sema)) {
->> +		if (down_interruptible(&drv_mgmt->free_fragments_sema)) {
->>   			cleanup_pagelistinfo(instance, pagelistinfo);
->>   			return NULL;
->>   		}
->>   
->> -		WARN_ON(!g_free_fragments);
->> +		WARN_ON(!drv_mgmt->free_fragments);
->>   
->> -		down(&g_free_fragments_mutex);
->> -		fragments = g_free_fragments;
->> +		down(&drv_mgmt->free_fragments_mutex);
->> +		fragments = drv_mgmt->free_fragments;
->>   		WARN_ON(!fragments);
->> -		g_free_fragments = *(char **)g_free_fragments;
->> -		up(&g_free_fragments_mutex);
->> +		drv_mgmt->free_fragments = *(char **)drv_mgmt->free_fragments;
->> +		up(&drv_mgmt->free_fragments_mutex);
->>   		pagelist->type = PAGELIST_READ_WITH_FRAGMENTS +
->> -			(fragments - g_fragments_base) / g_fragments_size;
->> +			(fragments - drv_mgmt->fragments_base) / drv_mgmt->fragments_size;
->>   	}
->>   
->>   	return pagelistinfo;
->> @@ -420,10 +418,10 @@ free_pagelist(struct vchiq_instance *instance, struct vchiq_pagelist_info *pagel
->>   	pagelistinfo->scatterlist_mapped = 0;
->>   
->>   	/* Deal with any partial cache lines (fragments) */
->> -	if (pagelist->type >= PAGELIST_READ_WITH_FRAGMENTS && g_fragments_base) {
->> -		char *fragments = g_fragments_base +
->> +	if (pagelist->type >= PAGELIST_READ_WITH_FRAGMENTS && drv_mgmt->fragments_base) {
->> +		char *fragments = drv_mgmt->fragments_base +
->>   			(pagelist->type - PAGELIST_READ_WITH_FRAGMENTS) *
->> -			g_fragments_size;
->> +			drv_mgmt->fragments_size;
->>   		int head_bytes, tail_bytes;
->>   
->>   		head_bytes = (drv_mgmt->pinfo->cache_line_size - pagelist->offset) &
->> @@ -448,11 +446,11 @@ free_pagelist(struct vchiq_instance *instance, struct vchiq_pagelist_info *pagel
->>   				fragments + drv_mgmt->pinfo->cache_line_size,
->>   				tail_bytes);
->>   
->> -		down(&g_free_fragments_mutex);
->> -		*(char **)fragments = g_free_fragments;
->> -		g_free_fragments = fragments;
->> -		up(&g_free_fragments_mutex);
->> -		up(&g_free_fragments_sema);
->> +		down(&drv_mgmt->free_fragments_mutex);
->> +		*(char **)fragments = drv_mgmt->free_fragments;
->> +		drv_mgmt->free_fragments = fragments;
->> +		up(&drv_mgmt->free_fragments_mutex);
->> +		up(&drv_mgmt->free_fragments_sema);
->>   	}
->>   
->>   	/* Need to mark all the pages dirty. */
->> @@ -488,11 +486,11 @@ static int vchiq_platform_init(struct platform_device *pdev, struct vchiq_state
->>   	if (err < 0)
->>   		return err;
->>   
->> -	g_fragments_size = 2 * drv_mgmt->pinfo->cache_line_size;
->> +	drv_mgmt->fragments_size = 2 * drv_mgmt->pinfo->cache_line_size;
->>   
->>   	/* Allocate space for the channels in coherent memory */
->>   	slot_mem_size = PAGE_ALIGN(TOTAL_SLOTS * VCHIQ_SLOT_SIZE);
->> -	frag_mem_size = PAGE_ALIGN(g_fragments_size * MAX_FRAGMENTS);
->> +	frag_mem_size = PAGE_ALIGN(drv_mgmt->fragments_size * MAX_FRAGMENTS);
->>   
->>   	slot_mem = dmam_alloc_coherent(dev, slot_mem_size + frag_mem_size,
->>   				       &slot_phys, GFP_KERNEL);
->> @@ -512,15 +510,16 @@ static int vchiq_platform_init(struct platform_device *pdev, struct vchiq_state
->>   	vchiq_slot_zero->platform_data[VCHIQ_PLATFORM_FRAGMENTS_COUNT_IDX] =
->>   		MAX_FRAGMENTS;
->>   
->> -	g_fragments_base = (char *)slot_mem + slot_mem_size;
->> +	drv_mgmt->fragments_base = (char *)slot_mem + slot_mem_size;
->>   
->> -	g_free_fragments = g_fragments_base;
->> +	drv_mgmt->free_fragments = drv_mgmt->fragments_base;
->>   	for (i = 0; i < (MAX_FRAGMENTS - 1); i++) {
->> -		*(char **)&g_fragments_base[i * g_fragments_size] =
->> -			&g_fragments_base[(i + 1) * g_fragments_size];
->> +		*(char **)&drv_mgmt->fragments_base[i * drv_mgmt->fragments_size] =
->> +			&drv_mgmt->fragments_base[(i + 1) * drv_mgmt->fragments_size];
->>   	}
->> -	*(char **)&g_fragments_base[i * g_fragments_size] = NULL;
->> -	sema_init(&g_free_fragments_sema, MAX_FRAGMENTS);
->> +	*(char **)&drv_mgmt->fragments_base[i * drv_mgmt->fragments_size] = NULL;
->> +	sema_init(&drv_mgmt->free_fragments_sema, MAX_FRAGMENTS);
->> +	sema_init(&drv_mgmt->free_fragments_mutex, 1);
->>   
->>   	err = vchiq_init_state(state, vchiq_slot_zero, dev);
->>   	if (err)
->> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
->> index 1190fab2efc4..1134187da6ab 100644
->> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
->> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
->> @@ -41,6 +41,12 @@ struct vchiq_drv_mgmt {
->>   	bool connected;
->>   	int num_deferred_callbacks;
->>   	void (*deferred_callback[VCHIQ_DRV_MAX_CALLBACKS])(void);
->> +
->> +	struct semaphore free_fragments_sema;
->> +	struct semaphore free_fragments_mutex;
->> +	char *fragments_base;
->> +	char *free_fragments;
->> +	unsigned int fragments_size;
->>   };
->>   
->>   struct user_service {
+>   		skb->ip_summed = CHECKSUM_UNNECESSARY;
+>   	else
+>   		skb->ip_summed = CHECKSUM_NONE;
 
+If you send in a second version of this patch please use a change 
+history. Description from Dan under:
+https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
+
+Thanks for your support.
+
+Bye Philipp
