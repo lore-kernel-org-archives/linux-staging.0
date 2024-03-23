@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BFE0137E;
-	Sat, 23 Mar 2024 03:31:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 421DD610B;
+	Sat, 23 Mar 2024 04:10:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711164686; cv=none; b=NutjnPwIRoRRGLDtialS37eV9hxppaoHPUM93bolJd8eETzVf9UnCH5uibbsk4JPy0+Rqr3crI56CcYQxCC+8wuJaCOa7WyXpI8I0tAQVAh+V79T1r22QxGf0IrHrAdX4W/Gyfr+Qq1UpU8Y5yA5XZNjczEbOLZ86Wn5hJ2okSU=
+	t=1711167015; cv=none; b=NXoTIx19ONpoiGBaeUsF7KlL3D2BsBod9OmFnOKLaQ/W+tyuPlhVyJGmW/SzyvwE6I7r1X/OX2lnfXN91tD7AF0adqt+xgDPhWmD7rn/sUy3n920wboEv9C9oxejxE17uc0MmrosXkoctiUMdJvJ8CWtysxvwOQEPkyvTtkA+gA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711164686; c=relaxed/simple;
-	bh=jMeXv8ZVDsi4WIx6QyXGDt0WkTDb5+Iv9t7Upa/07GA=;
+	s=arc-20240116; t=1711167015; c=relaxed/simple;
+	bh=npx0xi/SL5eNh92oHzNrAfnEp/6E8qDeQ134lzqBjCI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Wm2CXXRGETmqFWAkx+pq/+O6JDzljcdZ05Xnq7CLUyH7qopnXvKBckgLgChxYh0Xc5VQ/MkUur6xySJUUYjcSHJP7RWO8+vP3gFtUAecuErmBzSJy7Vb6aOkoUfXhye8fNGEXIRaCbpVX8fIbjq1JkK06ptHL/fPQUgkctM1BuI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j7dsq+GN; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=mg6um2f4G5DE95a9Q1+15nkBBF3DS+1+SVyIj6/lKngcCXhrQ/08cwz8HYmc/zmRka0VLT2+Mt/xsaxWn20bqE+gQE6w9ozhC3tDSsiWGUs3PkTrSNUhxp7clWa6STEYrvBz+inq7Ws7UvH2nkG8sfg0yKUJ3XAxBurWYEjbi8Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZzNrKUWv; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j7dsq+GN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZzNrKUWv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711164684; x=1742700684;
+  t=1711167013; x=1742703013;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=jMeXv8ZVDsi4WIx6QyXGDt0WkTDb5+Iv9t7Upa/07GA=;
-  b=j7dsq+GNoHYCDyOaNJMHp1w7RHd8fiBX/4QjJFfCwmUfxikrdMnwTo86
-   cQATjM0AO9q6KES2Lq1BmRJodhVCRqgmpy1qrM8jdUdCusnKZ7O9wvWQz
-   BwDW3YmDV54CbntiwDTy3X8cM73xm03DQIVy0sITTm0G2U3/pp/b2x6nz
-   4vYsFkEgvvDu3BVbDd7EVPAiGGyjmsiRIjaV+6lno6mqxRrn2ikFy+gtL
-   A9bCOD8OQIyNVw+GgzbE/0aZ3mRfoHjXVbv+dKaq4Y3O6WARNd+pD4iI0
-   bTKYGTeQDnDxsNNM2c3WQkDG9Alop8WC5XY/h7Nxnhy4o7TluYyyogebc
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11021"; a="28706740"
+  bh=npx0xi/SL5eNh92oHzNrAfnEp/6E8qDeQ134lzqBjCI=;
+  b=ZzNrKUWvm6NwixJdJ4rgugr8KqdpIGn1EPUvpnxT22aDwDi4BMoQNKPN
+   2GJ0vJF6OgvmaPH6P1Ee+Rp/AghS2/6DGLzfhUQSvy8FJJc93ocNdDABk
+   ltoSKHhwwbLyPF0V+FmmmBUGXimdfMTP7pkB6goyvRaSotn0kX4sHeMQx
+   8XDkKSC4VCfdAHvEjYGXqFcTXQYFSTyp2obDjyMkG2NRCrkq4k9isg5FV
+   QgizzFMsRQh6TXsdqAIQCg+zakJdDnCe43agD3UmuAyGxf5uk108qHQms
+   3JIvy8nB/bbPqvVtiSLNpY3rlItMcQQ96KBKPP7LfyhYnA2Ijf5LO0rCG
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11021"; a="6167897"
 X-IronPort-AV: E=Sophos;i="6.07,148,1708416000"; 
-   d="scan'208";a="28706740"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2024 20:31:24 -0700
+   d="scan'208";a="6167897"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2024 21:10:12 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,148,1708416000"; 
-   d="scan'208";a="19834963"
+   d="scan'208";a="52543987"
 Received: from aschofie-mobl2.amr.corp.intel.com (HELO aschofie-mobl2) ([10.209.88.188])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2024 20:31:24 -0700
-Date: Fri, 22 Mar 2024 20:31:22 -0700
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2024 21:10:12 -0700
+Date: Fri, 22 Mar 2024 21:10:10 -0700
 From: Alison Schofield <alison.schofield@intel.com>
-To: Ayush Tiwari <ayushtiw0110@gmail.com>
-Cc: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
-	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+To: Dorine Tipo <dorine.a.tipo@gmail.com>
+Cc: marvin24@gmx.de, gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev, outreachy@lists.linux.dev
-Subject: Re: [PATCH v3 0/3] Trivial code cleanup patches
-Message-ID: <Zf5NCuZ/JNbcSpky@aschofie-mobl2>
-References: <cover.1710965653.git.ayushtiw0110@gmail.com>
+Subject: Re: [PATCH] staging: nvec: Fix documentation typo in static
+ irqreturn_t nvec_interrupt()
+Message-ID: <Zf5WIiSAXKAIlBC1@aschofie-mobl2>
+References: <20240317120947.2923-1-dorine.a.tipo@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -56,54 +56,44 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1710965653.git.ayushtiw0110@gmail.com>
+In-Reply-To: <20240317120947.2923-1-dorine.a.tipo@gmail.com>
 
-On Thu, Mar 21, 2024 at 02:55:07AM +0530, Ayush Tiwari wrote:
-> Address different kinds of checkpatch complains for the rtl8712 module
-> to ensure adherence to coding style guidelines.
+On Sun, Mar 17, 2024 at 12:09:47PM +0000, Dorine Tipo wrote:
+> Correct the spelling of initialisation with was misspelled in the
+> documentation
 
-Thanks for sending v3 as a new email, rather than threaded with
-prior revisions.
+Thanks for the patch Dorine,
 
-I think you repeat the changelog in the patches, but I'll go
-ahead and comment right here. It applies in the patch too.
+Please tidy up both commit msg (so it doesn't line wrap) and the
+commit log. (s/with/which and add a 'hard stop' ie. a period at
+the end of your sentence.) If the issue was found using a tool,
+say that. "Issue found using checkpatch."
 
-> 
-> Changes in v3: Fixed issues about backupPMKIDList and verified with
-> CONFIG_WERROR set and built the kernel.
-> 
-> Changes in v2: Checked any possible reuse of backup_PMKID_list
-> manually and rebuilt, rebooted the kernel and loaded the driver
-> with modprobe.
-
-The change log is to inform reviewers of what actually changed
-in the patch since previous version. So let's be specific
-in these v2, v3, and next a v4 changelog. I think this is
-right:
-
-v4: Update the changelog to match revision history
-v3: Update memcpy() param to match new name backup_PMKID_list
-v2: No changes. Just a patch sending error.
-
-There's a section in the first patch tutorial about replying to
-patch feedback and you can read any of the lore lists to see
-examples. Folks will expect you to reply to their feedback.
-Even if it's just a simple "Thanks, got it!" Then, they will
-look to see if their feedback affected the next revision.
+There's a section in the First Patch Tutorial about following the
+style of the subsystem or file. Please check it out.
 
 --Alison
 
 > 
-> Ayush Tiwari (3):
->   staging: rtl8712: rename backupPMKIDList to backup_PMKID_list
->   staging: rtl8712: rename backupPMKIDIndex to backup_PMKID_index
->   staging: rtl8712: rename backupTKIPCountermeasure to
->     backup_TKIP_countermeasure
+> Signed-off-by: Dorine Tipo <dorine.a.tipo@gmail.com>
+> ---
+>  drivers/staging/nvec/nvec.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
->  drivers/staging/rtl8712/mlme_linux.c | 18 +++++++++---------
->  1 file changed, 9 insertions(+), 9 deletions(-)
-> 
-> -- 
-> 2.40.1
+> diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
+> index 282a664c9176..b4485b10beb8 100644
+> --- a/drivers/staging/nvec/nvec.c
+> +++ b/drivers/staging/nvec/nvec.c
+> @@ -712,7 +712,7 @@ static irqreturn_t nvec_interrupt(int irq, void *dev)
+>  	 * TODO: replace the udelay with a read back after each writel above
+>  	 * in order to work around a hardware issue, see i2c-tegra.c
+>  	 *
+> -	 * Unfortunately, this change causes an intialisation issue with the
+> +	 * Unfortunately, this change causes an initialisation issue with the
+>  	 * touchpad, which needs to be fixed first.
+>  	 */
+>  	udelay(100);
+> --
+> 2.25.1
 > 
 > 
