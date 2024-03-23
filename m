@@ -1,55 +1,53 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C64F1362;
-	Sat, 23 Mar 2024 02:59:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BFE0137E;
+	Sat, 23 Mar 2024 03:31:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711162746; cv=none; b=Ksz+7w8WIROSSOPS311wLs++caraoe5Cii1ndzVH++w6RsjqZxXKOvLJZV0FVjP3XaPh6oKxD2i4mUrHSpbF9eUIc6K+NjsDyeLuUMmBlKR46XgCCEePe/6T+hh71HMITr+A4fM5cKaqfL++stZMTu18GfS79v6GadfFlwOAuDE=
+	t=1711164686; cv=none; b=NutjnPwIRoRRGLDtialS37eV9hxppaoHPUM93bolJd8eETzVf9UnCH5uibbsk4JPy0+Rqr3crI56CcYQxCC+8wuJaCOa7WyXpI8I0tAQVAh+V79T1r22QxGf0IrHrAdX4W/Gyfr+Qq1UpU8Y5yA5XZNjczEbOLZ86Wn5hJ2okSU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711162746; c=relaxed/simple;
-	bh=PM5nJFRDqlMt0stkr83Pd4pF6Hmt+v56xfP6Bj06vZY=;
+	s=arc-20240116; t=1711164686; c=relaxed/simple;
+	bh=jMeXv8ZVDsi4WIx6QyXGDt0WkTDb5+Iv9t7Upa/07GA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o1q3rO1cZ06C8gRS7aB4SVHLDkIAKFhy1NB+bpKRc4P/6740UGbCxJm7s+3Bn/FQ2GkQecoWtKd3t5afkO96WnOBPer3lQ+WISpa9nCRpDb8DQr+hSfps6nQJCbxdF4sgpqbgilQ4ixacaQ1onxnAqPf1P3SOfj0SVqRhINvutU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D51Kwxbx; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wm2CXXRGETmqFWAkx+pq/+O6JDzljcdZ05Xnq7CLUyH7qopnXvKBckgLgChxYh0Xc5VQ/MkUur6xySJUUYjcSHJP7RWO8+vP3gFtUAecuErmBzSJy7Vb6aOkoUfXhye8fNGEXIRaCbpVX8fIbjq1JkK06ptHL/fPQUgkctM1BuI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j7dsq+GN; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D51Kwxbx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j7dsq+GN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711162745; x=1742698745;
+  t=1711164684; x=1742700684;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=PM5nJFRDqlMt0stkr83Pd4pF6Hmt+v56xfP6Bj06vZY=;
-  b=D51KwxbxzXvoxun+QEF0uJwP/6XcTGZaS0HAK83fz2VpH3qGVBwZNnNC
-   UtjS8sebqM6VQj1NFckQnnS4+/ymTb27PiPkzFxEqfwbDPLUunERgxfUI
-   Kf+Sq1cJcm0IjSHC4A13MnrCEAmWUEAPzAXetBwl8f40RXVWizZiL0jTq
-   cwrey1nYNYvly0oJjj5ErUFL3CvraHknHG/TOT/olghPdmYIO+a6eAuc7
-   M8UU9yySZjcfGzaJB/YoGor+NyJKSJprVrZv8xH2QAN44EjwmuCTTQ6BI
-   CPbL1HIPsl5kCASS2XgYNal+hVYLwVwBbnCIdzrZqTzJfYIU1vDd9zQve
+  bh=jMeXv8ZVDsi4WIx6QyXGDt0WkTDb5+Iv9t7Upa/07GA=;
+  b=j7dsq+GNoHYCDyOaNJMHp1w7RHd8fiBX/4QjJFfCwmUfxikrdMnwTo86
+   cQATjM0AO9q6KES2Lq1BmRJodhVCRqgmpy1qrM8jdUdCusnKZ7O9wvWQz
+   BwDW3YmDV54CbntiwDTy3X8cM73xm03DQIVy0sITTm0G2U3/pp/b2x6nz
+   4vYsFkEgvvDu3BVbDd7EVPAiGGyjmsiRIjaV+6lno6mqxRrn2ikFy+gtL
+   A9bCOD8OQIyNVw+GgzbE/0aZ3mRfoHjXVbv+dKaq4Y3O6WARNd+pD4iI0
+   bTKYGTeQDnDxsNNM2c3WQkDG9Alop8WC5XY/h7Nxnhy4o7TluYyyogebc
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11021"; a="28705477"
+X-IronPort-AV: E=McAfee;i="6600,9927,11021"; a="28706740"
 X-IronPort-AV: E=Sophos;i="6.07,148,1708416000"; 
-   d="scan'208";a="28705477"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2024 19:59:04 -0700
+   d="scan'208";a="28706740"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2024 20:31:24 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,148,1708416000"; 
-   d="scan'208";a="19783746"
+   d="scan'208";a="19834963"
 Received: from aschofie-mobl2.amr.corp.intel.com (HELO aschofie-mobl2) ([10.209.88.188])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2024 19:59:03 -0700
-Date: Fri, 22 Mar 2024 19:59:02 -0700
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2024 20:31:24 -0700
+Date: Fri, 22 Mar 2024 20:31:22 -0700
 From: Alison Schofield <alison.schofield@intel.com>
-To: Chandra Pratap <chandrapratap3519@gmail.com>
-Cc: sudipm.mukherjee@gmail.com, dan.carpenter@linaro.org,
-	teddy.wang@siliconmotion.com, gregkh@linuxfoundation.org,
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
-Subject: Re: [PATCH v3] staging: sm750fb: Replace comparisons with NULL and 0
-Message-ID: <Zf5FdsiaVPQ6iz2r@aschofie-mobl2>
-References: <2024032208-blunt-ferocity-22f4@gregkh>
- <20240322151633.16485-1-chandrapratap3519@gmail.com>
+To: Ayush Tiwari <ayushtiw0110@gmail.com>
+Cc: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
+	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev, outreachy@lists.linux.dev
+Subject: Re: [PATCH v3 0/3] Trivial code cleanup patches
+Message-ID: <Zf5NCuZ/JNbcSpky@aschofie-mobl2>
+References: <cover.1710965653.git.ayushtiw0110@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -58,76 +56,54 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240322151633.16485-1-chandrapratap3519@gmail.com>
+In-Reply-To: <cover.1710965653.git.ayushtiw0110@gmail.com>
 
-On Fri, Mar 22, 2024 at 08:46:33PM +0530, Chandra Pratap wrote:
-> Replace '(opt != NULL)' with '(opt)' and '(*opt != 0)'
-> with '(*opt != '\0')' to adhere to the coding standards.
-> 
-> Signed-off-by: Chandra Pratap <chandrapratap3519@gmail.com>
-> ---
-> 
-> Please ignore the other v3 patch I sent, I forgot to write
-> the change log in that patch. Apologies for any incovenienece
-> caused.
+On Thu, Mar 21, 2024 at 02:55:07AM +0530, Ayush Tiwari wrote:
+> Address different kinds of checkpatch complains for the rtl8712 module
+> to ensure adherence to coding style guidelines.
 
-Hi Chandra,
+Thanks for sending v3 as a new email, rather than threaded with
+prior revisions.
 
-No need to apologize, but you do need to send a v4. Any change
-in the patch is a new rev - even if that change is to the
-changelog. Maintainers are using automated tooling to grab
-the latest revisions and two patches with the same version 
-number will be disregarded. 
-
-Please send a v4 with:
-
-Changes in v4:
-  - Include the changelog.
-
-While you're at it, reverse the order of this changelog.
-Put most recent revisions first - ie 4,3,2 order.
-
-Also, post the patch as a new message, not a reply to prior
-patches.
-
-Thanks,
-Alison
-
+I think you repeat the changelog in the patches, but I'll go
+ahead and comment right here. It applies in the patch too.
 
 > 
-> Changes in v2:
->   - Update the commit message to reflect the changes better
->   - Replace (*opt) with (*opt != '\0')
+> Changes in v3: Fixed issues about backupPMKIDList and verified with
+> CONFIG_WERROR set and built the kernel.
 > 
-> Changes in v3:
->   - Remove unncessary spacing
+> Changes in v2: Checked any possible reuse of backup_PMKID_list
+> manually and rebuilt, rebooted the kernel and loaded the driver
+> with modprobe.
+
+The change log is to inform reviewers of what actually changed
+in the patch since previous version. So let's be specific
+in these v2, v3, and next a v4 changelog. I think this is
+right:
+
+v4: Update the changelog to match revision history
+v3: Update memcpy() param to match new name backup_PMKID_list
+v2: No changes. Just a patch sending error.
+
+There's a section in the first patch tutorial about replying to
+patch feedback and you can read any of the lore lists to see
+examples. Folks will expect you to reply to their feedback.
+Even if it's just a simple "Thanks, got it!" Then, they will
+look to see if their feedback affected the next revision.
+
+--Alison
+
 > 
->  drivers/staging/sm750fb/sm750.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> Ayush Tiwari (3):
+>   staging: rtl8712: rename backupPMKIDList to backup_PMKID_list
+>   staging: rtl8712: rename backupPMKIDIndex to backup_PMKID_index
+>   staging: rtl8712: rename backupTKIPCountermeasure to
+>     backup_TKIP_countermeasure
 > 
-> diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-> index 04c1b32a22c5..c4b944f82fb9 100644
-> --- a/drivers/staging/sm750fb/sm750.c
-> +++ b/drivers/staging/sm750fb/sm750.c
-> @@ -926,7 +926,7 @@ static void sm750fb_setup(struct sm750_dev *sm750_dev, char *src)
->  		goto NO_PARAM;
->  	}
->  
-> -	while ((opt = strsep(&src, ":")) != NULL && *opt != 0) {
-> +	while ((opt = strsep(&src, ":")) && *opt != '\0') {
->  		dev_info(&sm750_dev->pdev->dev, "opt=%s\n", opt);
->  		dev_info(&sm750_dev->pdev->dev, "src=%s\n", src);
->  
-> @@ -1147,7 +1147,7 @@ static int __init lynxfb_setup(char *options)
->  	 * strsep() updates @options to pointer after the first found token
->  	 * it also returns the pointer ahead the token.
->  	 */
-> -	while ((opt = strsep(&options, ":")) != NULL) {
-> +	while ((opt = strsep(&options, ":"))) {
->  		/* options that mean for any lynx chips are configured here */
->  		if (!strncmp(opt, "noaccel", strlen("noaccel"))) {
->  			g_noaccel = 1;
+>  drivers/staging/rtl8712/mlme_linux.c | 18 +++++++++---------
+>  1 file changed, 9 insertions(+), 9 deletions(-)
+> 
 > -- 
-> 2.34.1
+> 2.40.1
 > 
 > 
