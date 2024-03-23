@@ -1,64 +1,55 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CC98372
-	for <linux-staging@lists.linux.dev>; Sat, 23 Mar 2024 00:17:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C64F1362;
+	Sat, 23 Mar 2024 02:59:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711153034; cv=none; b=Igdy6icBu+p6Xk8TJZkSQit4h96WQS8XS0WsnBG1w8YCCwZkWSklRmMb5UA+QDRMvBQNpe93gKtXhagXEINU2paISV6Nbbmiw1QIBzMKAY4bRlxMg4UrwnYhKCujF7bHezI44EIAaubJmhLo8zZydyz+eE7Phlb0csh0WzYJUDA=
+	t=1711162746; cv=none; b=Ksz+7w8WIROSSOPS311wLs++caraoe5Cii1ndzVH++w6RsjqZxXKOvLJZV0FVjP3XaPh6oKxD2i4mUrHSpbF9eUIc6K+NjsDyeLuUMmBlKR46XgCCEePe/6T+hh71HMITr+A4fM5cKaqfL++stZMTu18GfS79v6GadfFlwOAuDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711153034; c=relaxed/simple;
-	bh=0OMZcwDFr1Fjm7wwtKdnzOE9QDqpNrV2qZeBlfAl5KM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Is+/aGyTHEtAceZFsSu5jzMBoB9ovfvrooshEjHsB5ovSDSPQ9I1D6o3r8TTCvf3DA16b/0f1dU9dmwJpEZ4KEo6ysAMB+8YUrOYzI8NhVGnkI609gx6v0sfNXKHKWRNjIR3oMH8OIQYHzx7fOyO37nJGJQab8RLo70yZ7cIkg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljfp.xyz; spf=pass smtp.mailfrom=ljfp.xyz; dkim=pass (2048-bit key) header.d=ljfp-xyz.20230601.gappssmtp.com header.i=@ljfp-xyz.20230601.gappssmtp.com header.b=hSusPex9; arc=none smtp.client-ip=209.85.210.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljfp.xyz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ljfp.xyz
+	s=arc-20240116; t=1711162746; c=relaxed/simple;
+	bh=PM5nJFRDqlMt0stkr83Pd4pF6Hmt+v56xfP6Bj06vZY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=o1q3rO1cZ06C8gRS7aB4SVHLDkIAKFhy1NB+bpKRc4P/6740UGbCxJm7s+3Bn/FQ2GkQecoWtKd3t5afkO96WnOBPer3lQ+WISpa9nCRpDb8DQr+hSfps6nQJCbxdF4sgpqbgilQ4ixacaQ1onxnAqPf1P3SOfj0SVqRhINvutU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D51Kwxbx; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ljfp-xyz.20230601.gappssmtp.com header.i=@ljfp-xyz.20230601.gappssmtp.com header.b="hSusPex9"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-6ea838bf357so783480b3a.0
-        for <linux-staging@lists.linux.dev>; Fri, 22 Mar 2024 17:17:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ljfp-xyz.20230601.gappssmtp.com; s=20230601; t=1711153032; x=1711757832; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=jtUcaHyseUXweyRYaiTqqu2kRbS7Ms0ptzh1c3Y3PjM=;
-        b=hSusPex9rXLEgpNQzGgVHQiGtmwsbvnUxAw2ta8PETB13+YpgfVlDqmtxfknScmYjg
-         i4eZGtoJI/MFLEEIEwO0iy4hn24pDs/XZJHdhld8aG2NEbneituZl5b35QbAYwwDv6ZX
-         FcYuMtM7OV1beFjdMGg5G0ptHJ/CKzICh6d+HzI/Wkxi4qx6XFJKSHYv3iZs9lFJL89I
-         CbRHYqDKP5e45GEMfydFljuq8KjAyWRZ1X6PjzCCxXDXOxgIy7QMaXl1e7cD/Mh0pDV1
-         ilTwZRScD2UDiZSfuFancdnMS5Tg5JL3MXI/stavbEopmkyZQv3etztJjcJrjZlMgE3m
-         8NQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711153032; x=1711757832;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jtUcaHyseUXweyRYaiTqqu2kRbS7Ms0ptzh1c3Y3PjM=;
-        b=R/UkJdXlFBpCgW92Gn7GjhwAlEv3wlv5G03bYuhSLmdOkYFbqWxXLkkxJdWgdQcuhK
-         W7DlMn/nQ8c73R6HaHwRqgEeW+Tn7ZF+iQzIUt4CiC3DB342mJ9xvtWOlnFup8IIMaLA
-         aI7nleZ19xvAh/nlhGG7TzFLjGMM9l5govvPPdKGHhn0H+1uh4b/JzAEVYeV0BULHAu6
-         PvMMjsheqNmdkBWyHvq3nyD+Ba6re6gOlFnH9eLyI2JZiWYiSt2XxFJz6iCh26b0EZ9O
-         vyKHcG8JvjWcJm+DPeywTdyO170jBl8mnuiGJ/vY7zf4ZKz1qHzOrg3m+LgbSpSuaJk8
-         G4Sw==
-X-Gm-Message-State: AOJu0YwRU9kAtUihlIQREzi4EFCuyd30r4U4lByEF0h3qlaHGno2/7zd
-	V/qfR0ljGXn3U59iW8E1w96lYjtH9ueRH3BA2AkX8MUOmgW5n5c1wsIamZaJPLk=
-X-Google-Smtp-Source: AGHT+IEulyMqJNDwt9n7rnNCCuupAErROONRLeyTl37B4SE9RBJwh5qXKcW3cENlPSAMXwEAA0oedA==
-X-Received: by 2002:a05:6a00:2305:b0:6e8:acde:85c8 with SMTP id h5-20020a056a00230500b006e8acde85c8mr1436134pfh.8.1711153031810;
-        Fri, 22 Mar 2024 17:17:11 -0700 (PDT)
-Received: from pop-os ([181.165.36.123])
-        by smtp.gmail.com with ESMTPSA id gr6-20020a056a004d0600b006ea7d877191sm345584pfb.2.2024.03.22.17.17.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Mar 2024 17:17:11 -0700 (PDT)
-Date: Fri, 22 Mar 2024 21:17:09 -0300
-From: Lautaro Javier Fernandez Pricco <ljfp@ljfp.xyz>
-To: Larry Finger <Larry.Finger@lwfinger.net>,
-	Florian Schilhabel <florian.c.schilhabel@googlemail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	outreachy <outreachy@lists.linux.dev>
-Cc: linux-staging <linux-staging@lists.linux.dev>,
-	linux-kernel <linux-kernel@vger.kernel.org>
-Subject: [PATCH] staging: rtl8712: Rename variable bw_40MHz_en
-Message-ID: <Zf4fhSomoYzCE4gW@ljfp.xyz>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D51Kwxbx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1711162745; x=1742698745;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PM5nJFRDqlMt0stkr83Pd4pF6Hmt+v56xfP6Bj06vZY=;
+  b=D51KwxbxzXvoxun+QEF0uJwP/6XcTGZaS0HAK83fz2VpH3qGVBwZNnNC
+   UtjS8sebqM6VQj1NFckQnnS4+/ymTb27PiPkzFxEqfwbDPLUunERgxfUI
+   Kf+Sq1cJcm0IjSHC4A13MnrCEAmWUEAPzAXetBwl8f40RXVWizZiL0jTq
+   cwrey1nYNYvly0oJjj5ErUFL3CvraHknHG/TOT/olghPdmYIO+a6eAuc7
+   M8UU9yySZjcfGzaJB/YoGor+NyJKSJprVrZv8xH2QAN44EjwmuCTTQ6BI
+   CPbL1HIPsl5kCASS2XgYNal+hVYLwVwBbnCIdzrZqTzJfYIU1vDd9zQve
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11021"; a="28705477"
+X-IronPort-AV: E=Sophos;i="6.07,148,1708416000"; 
+   d="scan'208";a="28705477"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2024 19:59:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,148,1708416000"; 
+   d="scan'208";a="19783746"
+Received: from aschofie-mobl2.amr.corp.intel.com (HELO aschofie-mobl2) ([10.209.88.188])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2024 19:59:03 -0700
+Date: Fri, 22 Mar 2024 19:59:02 -0700
+From: Alison Schofield <alison.schofield@intel.com>
+To: Chandra Pratap <chandrapratap3519@gmail.com>
+Cc: sudipm.mukherjee@gmail.com, dan.carpenter@linaro.org,
+	teddy.wang@siliconmotion.com, gregkh@linuxfoundation.org,
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
+Subject: Re: [PATCH v3] staging: sm750fb: Replace comparisons with NULL and 0
+Message-ID: <Zf5FdsiaVPQ6iz2r@aschofie-mobl2>
+References: <2024032208-blunt-ferocity-22f4@gregkh>
+ <20240322151633.16485-1-chandrapratap3519@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -67,60 +58,76 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240322151633.16485-1-chandrapratap3519@gmail.com>
 
-The bw_40MHz_en variable triggered an 'Avoid
-CamelCase' warning from checkpatch.pl. This patch addresses said warning by
-renaming the variable to bw_40mhz_en.
+On Fri, Mar 22, 2024 at 08:46:33PM +0530, Chandra Pratap wrote:
+> Replace '(opt != NULL)' with '(opt)' and '(*opt != 0)'
+> with '(*opt != '\0')' to adhere to the coding standards.
+> 
+> Signed-off-by: Chandra Pratap <chandrapratap3519@gmail.com>
+> ---
+> 
+> Please ignore the other v3 patch I sent, I forgot to write
+> the change log in that patch. Apologies for any incovenienece
+> caused.
 
-Reported by checkpatch:
-CHECK: Avoid CamelCase: <bw_40MHz_en>
+Hi Chandra,
 
-Signed-off-by: Lautaro Javier Fernandez Pricco <ljfp@ljfp.xyz>
----
- drivers/staging/rtl8712/hal_init.c        | 2 +-
- drivers/staging/rtl8712/rtl8712_hal.h     | 2 +-
- drivers/staging/rtl8723bs/core/rtw_mlme.c | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+No need to apologize, but you do need to send a v4. Any change
+in the patch is a new rev - even if that change is to the
+changelog. Maintainers are using automated tooling to grab
+the latest revisions and two patches with the same version 
+number will be disregarded. 
 
-diff --git a/drivers/staging/rtl8712/hal_init.c b/drivers/staging/rtl8712/hal_init.c
-index 1148075f0cd6..efea4f97488c 100644
---- a/drivers/staging/rtl8712/hal_init.c
-+++ b/drivers/staging/rtl8712/hal_init.c
-@@ -98,7 +98,7 @@ static void fill_fwpriv(struct _adapter *adapter, struct fw_priv *fwpriv)
- 	/* todo: check if needs endian conversion */
- 	fwpriv->hci_sel =  RTL8712_HCI_TYPE_72USB;
- 	fwpriv->usb_ep_num = (u8)dvobj->nr_endpoint;
--	fwpriv->bw_40MHz_en = regpriv->cbw40_enable;
-+	fwpriv->bw_40mhz_en = regpriv->cbw40_enable;
- 	switch (regpriv->rf_config) {
- 	case RTL8712_RF_1T1R:
- 		fwpriv->rf_config = RTL8712_RFC_1T1R;
-diff --git a/drivers/staging/rtl8712/rtl8712_hal.h b/drivers/staging/rtl8712/rtl8712_hal.h
-index 66cc4645e2d1..3df687fce79d 100644
---- a/drivers/staging/rtl8712/rtl8712_hal.h
-+++ b/drivers/staging/rtl8712/rtl8712_hal.h
-@@ -85,7 +85,7 @@ struct fw_priv {   /*8-bytes alignment required*/
- 	unsigned char rsvd025;
- 	/*--- long word 3 ----*/
- 	unsigned char qos_en;    /*1: QoS enable*/
--	unsigned char bw_40MHz_en;   /*1: 40MHz BW enable*/
-+	unsigned char bw_40mhz_en;   /*1: 40MHz BW enable*/
- 	unsigned char AMSDU2AMPDU_en;   /*1: 4181 convert AMSDU to AMPDU,
- 					 * 0: disable
- 					 */
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index bfb27f902753..0e5b07ad5a8f 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -2331,7 +2331,7 @@ unsigned int rtw_restructure_ht_ie(struct adapter *padapter, u8 *in_ie, u8 *out_
- 		}
- 	}
- 
--	/* to disable 40M Hz support while gd_bw_40MHz_en = 0 */
-+	/* to disable 40 MHz support while gd_bw_40mhz_en = 0 */
- 	if (channel > 14) {
- 		if ((pregistrypriv->bw_mode & 0xf0) > 0)
- 			cbw40_enable = 1;
--- 
-2.34.1
+Please send a v4 with:
 
+Changes in v4:
+  - Include the changelog.
+
+While you're at it, reverse the order of this changelog.
+Put most recent revisions first - ie 4,3,2 order.
+
+Also, post the patch as a new message, not a reply to prior
+patches.
+
+Thanks,
+Alison
+
+
+> 
+> Changes in v2:
+>   - Update the commit message to reflect the changes better
+>   - Replace (*opt) with (*opt != '\0')
+> 
+> Changes in v3:
+>   - Remove unncessary spacing
+> 
+>  drivers/staging/sm750fb/sm750.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+> index 04c1b32a22c5..c4b944f82fb9 100644
+> --- a/drivers/staging/sm750fb/sm750.c
+> +++ b/drivers/staging/sm750fb/sm750.c
+> @@ -926,7 +926,7 @@ static void sm750fb_setup(struct sm750_dev *sm750_dev, char *src)
+>  		goto NO_PARAM;
+>  	}
+>  
+> -	while ((opt = strsep(&src, ":")) != NULL && *opt != 0) {
+> +	while ((opt = strsep(&src, ":")) && *opt != '\0') {
+>  		dev_info(&sm750_dev->pdev->dev, "opt=%s\n", opt);
+>  		dev_info(&sm750_dev->pdev->dev, "src=%s\n", src);
+>  
+> @@ -1147,7 +1147,7 @@ static int __init lynxfb_setup(char *options)
+>  	 * strsep() updates @options to pointer after the first found token
+>  	 * it also returns the pointer ahead the token.
+>  	 */
+> -	while ((opt = strsep(&options, ":")) != NULL) {
+> +	while ((opt = strsep(&options, ":"))) {
+>  		/* options that mean for any lynx chips are configured here */
+>  		if (!strncmp(opt, "noaccel", strlen("noaccel"))) {
+>  			g_noaccel = 1;
+> -- 
+> 2.34.1
+> 
+> 
