@@ -1,98 +1,124 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C6F5175AD
-	for <linux-staging@lists.linux.dev>; Sun, 24 Mar 2024 09:32:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F698179AA
+	for <linux-staging@lists.linux.dev>; Sun, 24 Mar 2024 12:06:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711272736; cv=none; b=el5/KShhYjKxQP/FlJmjJaLGZgZnttBht7XNngZ6Ny7ft3Ok6aC6LVYCalyy94yOQ84GlKeFrzTsFAyIm0PGwWytAPvixBSsg8YFjFahBCwwoPCStYfpBiUsrlsBcEliVJVmU+Ide7IB4q3ImayGJ+m7mQ0Lo1gWKLuju6ezAPI=
+	t=1711281971; cv=none; b=Zz9fYuL6Ij+bJIKlICI1nofyWsFMyDpyAUmkKqDZnNhxuAgejUvJGiXtMf6RoDoYqzFrUaJWUV8cpUcfAD+Y9YCxEtAubcnTY9Y7op0aeckz3/nWeBGKA9khflrr/baB4dVRasRKX6BFeadpJlDxxFjbWRlKRvF2bXSK0UICGC8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711272736; c=relaxed/simple;
-	bh=u5pB1sDbN4TWFvIqouYPN1Z7rf5l2iCYMwm/u0Zd89Y=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=HizZMB8eP9VNBnxNL+TEqBYU5VU0yDS5s9lge50JKQ1AdFQDSEhJ9Vev10vfWJe0EcNnpuXXty0cjvkusW4+mAiYAppy3rQMR+kKTXN6fs8VmNvPPkFaNZyxG04VNZ0SDNg3vlBbaBzGAD0DfPu1stl2bYDUiA1sijGh3wqPOvk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fIjLNxPe; arc=none smtp.client-ip=209.85.221.42
+	s=arc-20240116; t=1711281971; c=relaxed/simple;
+	bh=mtf1RDgfBz1CQuj0fSdA/b+qA44E+AI5WneOq3D0Xb4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gRiz0iOKc8Milp1q3lo/xIshJfJXqfJ10AWVwaIO2r2wzrWScM21QKLefmURtw5yGtue0t3cFtKJ/ioFtt/7NQMDoi6kRLU7rLcG2ohzbKQYK+PVrpWC1Y4W15+0vAU2ptWc5KXxnFVSx2mibvux421spoGscknLsD+fV3zrLf0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eLK5K+TL; arc=none smtp.client-ip=209.85.221.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fIjLNxPe"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-34175878e3cso2353143f8f.0
-        for <linux-staging@lists.linux.dev>; Sun, 24 Mar 2024 02:32:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eLK5K+TL"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-33ed6097ca0so613304f8f.1
+        for <linux-staging@lists.linux.dev>; Sun, 24 Mar 2024 05:06:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711272733; x=1711877533; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LopSDTAPBYKt0PL+7kumsFXpTtF7FOQgTtXMVa1BlOc=;
-        b=fIjLNxPet+uy+BegEGTuyJxuV+faDnC3Yl2LgiDhfglA2Xxy6wUT/74khummBz62XW
-         DSx3IFfJb6ZDx4KwIVlkdSRiU6dmQsE5/PGxG5Sue3gCunmEipGh9p1Jng1xh18CUapu
-         UduVyYaRrQmaKxjkqMiZqORC85SwRLf6shLgu/ncFD+Zfmw6OfaEFUXzXJH+Xg5Vx1qQ
-         mM1M70O94u9lJn7L9bEc222UrF3NNQyQF31akqif15ntpT9krKrsWf2ncV0DeVfaY+EY
-         TcsDL94vBzVeBTk9gcR2lTsuAQJNE3ola1nOSsxJWbAj1zuQ5LCkA32F3v6VgCnQV8AD
-         Rmmg==
+        d=gmail.com; s=20230601; t=1711281968; x=1711886768; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=CtYyUSACFde+IBYskgVCX0Wr+Na6g8D8ZvFebNcAS00=;
+        b=eLK5K+TLIF/474xMJDMKiFohkJ0TE0dti9xy2LLcRu8sUr5x4fDDdqe0dlu+SW01SI
+         2J7VR7wl4D4aH4LUdxCAhU2Bs0EF/L5UaIDs9gRNP3+lPVInkN2RjAQzUTS0h9U5gGuR
+         qgXN20H+8uP8opjOv39jRJ0W64Z+HQFZbiQYZGmogOvm8zHdgeb5Mh8heDS2g11tF0wq
+         0z5OHtrBrLdO6u257FNLPtC4ZmyVy+mLYWe1UKRCiInRXAeg93mfUv4UuCkXKHz9UZNF
+         2Egbrd4DNen/ZFZ9QGsRbVac5MBAlmoNhvJ7KZW5GDP0QlabD9hvpxQyam83CLOPhMkk
+         bX3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711272733; x=1711877533;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=LopSDTAPBYKt0PL+7kumsFXpTtF7FOQgTtXMVa1BlOc=;
-        b=o+6fo2A4dCFjaUN3TYUZcAslQ952ENbtqazkdYrblxlzdUfHwuO03x81Ol85qm+3l/
-         JuYkFJUycLOZ7rLbaSshd/v2S/52xUArmOMF0btNp1hX4KntSGnfswVxA0ZB7UsEWRk/
-         ech36f23ufoCGoLZdczD+FHEPbq05FtU+wK+Bmj3yBhZDsBR7m3gGx7itt0k3e/QGZI3
-         XR7V/6Piwv+T/aIYzJ2lwNSLf+KAO5EwekEh3RJJ9/T88HEm5fQEqtHTFtiDnPSgVRnb
-         pf9fwHxHiL8dqSGgoykSm+5Nur3blRee+nTV717JTVmcjQNDDtmujZAesV9mUx590d0w
-         T6eg==
-X-Gm-Message-State: AOJu0YwQ6Ly647tPnVvq6o140+GYaZmVjtR/KemEYPZT/ko3ioRHzGJT
-	+oWvm5qzeWa749txcfOTgiS4Nwuq3clZR/vtcXH/IwdVk8liOM5d
-X-Google-Smtp-Source: AGHT+IF91Uh6i88LrUzD+gi+FwyOQaAtfAZXHw4cg56yiqD7KbRaau00hOa/ZC4pWwll5Q63J9ScPg==
-X-Received: by 2002:adf:e885:0:b0:33e:781e:da57 with SMTP id d5-20020adfe885000000b0033e781eda57mr2494177wrm.53.1711272733665;
-        Sun, 24 Mar 2024 02:32:13 -0700 (PDT)
-Received: from YOGA.local ([2a06:c701:736b:f200:42b5:8c78:fc9d:7600])
-        by smtp.gmail.com with ESMTPSA id ay9-20020a5d6f09000000b0033b87c2725csm6490711wrb.104.2024.03.24.02.32.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Mar 2024 02:32:13 -0700 (PDT)
-From: Shahar Avidar <ikobh7@gmail.com>
-To: gregkh@linuxfoundation.org,
-	elder@linaro.org,
-	andriy.shevchenko@linux.intel.com,
-	robh@kernel.org,
-	parthiban.veerasooran@microchip.com
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] staging: pi433: Make use of spi mode macro instead of magic number.
-Date: Sun, 24 Mar 2024 11:32:01 +0200
-Message-Id: <20240324093201.793485-4-ikobh7@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240324093201.793485-1-ikobh7@gmail.com>
-References: <20240324093201.793485-1-ikobh7@gmail.com>
+        d=1e100.net; s=20230601; t=1711281968; x=1711886768;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=CtYyUSACFde+IBYskgVCX0Wr+Na6g8D8ZvFebNcAS00=;
+        b=sSLYddBNHIl+u+qxX6hlrgiuLjUZcWcWCHC+3exGkd7Ux0L9QMKw3xPhoi/aaCgNma
+         lHs2GPUv8c8frdTGeUjH2H3lOtUdUPsdDdhTFbkp+6qUt16kHhHR8b2FtDhZq2HaxPTS
+         /CrQejEEHI0qO6KSLRpF1WzqgvVZzB+yx9o3sHPX6EeH3yNt7503hyHP8pGmmxsgh93U
+         2dOeqCkS0C5n7XpBzcPqoZlH/7BI2H0aE8h2mTslvcgwEQN80vwk2ZJoTINafhzx4MBp
+         E+ElBorDfjRCfmZyIV4e4brgWimMQUfA5ux8occqlx8KW/P+6ivwrTXwoNZxy6QOLb6k
+         KT8g==
+X-Forwarded-Encrypted: i=1; AJvYcCV8v7YK/KsIrC7vKrJ45Pz4f75c84dKV+qtPxia0rRGK0wSNXzcgaj11IyBcHyFSA5reKMicQOBAIy6atFBsqqaYtDIZhrmat1qtxRXng==
+X-Gm-Message-State: AOJu0Yzf9af8T/aE5b8XS2kuaBhAQ4vfKYjtoxr+VtPnQDMhLGFamRvH
+	uyWItzNfDM3UfmHyzOAVqxy1FSanJLQv/HLFdGuYmJC49L2Gb3JK
+X-Google-Smtp-Source: AGHT+IHlXOirsRDZKiAzC3seE+GNVUGaePkht437g4QV4Vul6/RMlMk9xDwrGSXhYmPu2WGx30Ns+w==
+X-Received: by 2002:a5d:6708:0:b0:33b:48ed:be63 with SMTP id o8-20020a5d6708000000b0033b48edbe63mr2536678wru.7.1711281967667;
+        Sun, 24 Mar 2024 05:06:07 -0700 (PDT)
+Received: from [192.168.0.104] (p54a07fa0.dip0.t-ipconnect.de. [84.160.127.160])
+        by smtp.gmail.com with ESMTPSA id a1-20020a5d5081000000b0033e91509224sm6666868wrt.22.2024.03.24.05.06.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 24 Mar 2024 05:06:07 -0700 (PDT)
+Message-ID: <11e6d108-e5d9-4c50-8404-766403eb5a5a@gmail.com>
+Date: Sun, 24 Mar 2024 13:06:05 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] staging: media: remove duplicates
+Content-Language: en-US
+To: coolrrsh@gmail.com, slongerbeam@gmail.com, p.zabel@pengutronix.de,
+ mchehab@kernel.org, gregkh@linuxfoundation.org, shawnguo@kernel.org,
+ s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+ linux-imx@nxp.com, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
+References: <20240324092917.19177-1-coolrrsh@gmail.com>
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <20240324092917.19177-1-coolrrsh@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Use SPI_MODE_0 to setup spi mode.
+On 3/24/24 10:29, coolrrsh@gmail.com wrote:
+Hi Rajeshwar,
 
-Signed-off-by: Shahar Avidar <ikobh7@gmail.com>
----
- drivers/staging/pi433/pi433_if.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Please make your "Subject" line more unique. Consider that we may end up
+with having dozen of commits like yours, all of them referring to
+different removals and all without the necessary information to tell 
+what they differ in (except the driver/subsystem). So it would help if 
+you add the changed file to make it more unique.
 
-diff --git a/drivers/staging/pi433/pi433_if.c b/drivers/staging/pi433/pi433_if.c
-index 9fc93fa454b1..2a22342eda69 100644
---- a/drivers/staging/pi433/pi433_if.c
-+++ b/drivers/staging/pi433/pi433_if.c
-@@ -1164,7 +1164,7 @@ static int pi433_probe(struct spi_device *spi)
- 	struct dentry		*entry;
- 
- 	/* setup spi parameters */
--	spi->mode = 0x00;
-+	spi->mode = SPI_MODE_0;
- 	spi->bits_per_word = 8;
- 	/*
- 	 * spi->max_speed_hz = 10000000;
--- 
-2.34.1
+Typically we omit the v1 on the first patch in the subject
+
+> From: Rajeshwar R Shinde <coolrrsh@gmail.com>
+This line does not belong here. Please remove it.
+
+> 
+> In Kconfig, the kernel configuration VIDEO_DEV is defined twice.
+> To prevent doing repeated checks, the redundant code was replaced.
+replaced?
+
+If you send in a second version of this patch please use a change 
+history. Description from Dan under:
+https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
+
+Thanks for your support.
+
+Bye Philipp
+
+> Signed-off-by: Rajeshwar R Shinde <coolrrsh@gmail.com>
+> 
+> ---
+>   drivers/staging/media/imx/Kconfig | 1 -
+>   1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/staging/media/imx/Kconfig b/drivers/staging/media/imx/Kconfig
+> index 21fd79515042..772f49b1fe52 100644
+> --- a/drivers/staging/media/imx/Kconfig
+> +++ b/drivers/staging/media/imx/Kconfig
+> @@ -4,7 +4,6 @@ config VIDEO_IMX_MEDIA
+>   	depends on ARCH_MXC || COMPILE_TEST
+>   	depends on HAS_DMA
+>   	depends on VIDEO_DEV
+> -	depends on VIDEO_DEV
+>   	select MEDIA_CONTROLLER
+>   	select V4L2_FWNODE
+>   	select V4L2_MEM2MEM_DEV
 
