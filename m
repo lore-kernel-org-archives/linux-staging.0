@@ -1,63 +1,63 @@
-Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
+Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D9831C292;
-	Sun, 24 Mar 2024 21:09:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A4DD1CD02;
+	Sun, 24 Mar 2024 21:16:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711314558; cv=none; b=I3tiXfHRPsduUi46g2g2OZnVFWxpZ2ZCibCIyr2pzJZHb6rDReNSBDaSPmHYl2RXTAJXQ0CjuAss0siXd0IBYqOVhSkdDZsFdHf5vwA/R970GZhX+Kp9/ST5VDmkixaJFsXMscyHp1HdJcvL8M0gC5D72toud60wfPLb/Lhxysw=
+	t=1711314984; cv=none; b=ACMwIUuMMpPxCCZnUn2sC+O8UdaCLRFVMVMyPcpgtI66uMMS6Ct9gwL9J3wBOnfqkFQkj0cXb34EJ0ExccUp+Q9jFMiySOkCjt2RyHA96c6IVUpdNzB6ZS7e7bmgRvJJx0Lz8XNGkl0GdxabIZpHL7qmlv2qfC/Y1rc5DxYwl/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711314558; c=relaxed/simple;
-	bh=1UPPzA7qGfS9iEju5WF86tQ8AT5tLBO31f1je34qPZQ=;
+	s=arc-20240116; t=1711314984; c=relaxed/simple;
+	bh=iyxLUF8voIIK/fK/5eHIb+b18lryX+ZiEkTFUpt2cJA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YG9YaIlT96TR/v/KE3Flw0wbrz9dg+VGxtNdO3xR/v3prn91apANIPIyriPEriUbDnGJhGPt3YNTC0hRA+yUKPBXEZnRm8ODliWVfneIN3IBDVfUr/HvS7LNzL+VF58Rvc4z0V1dR+C6P2J0d6dl32nvcI7WQu3UwbssjIFHnuA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aApkBmZs; arc=none smtp.client-ip=209.85.210.42
+	 Content-Disposition; b=dA5uceBvKb5pJm6lWzDtA6RxoMc4BQUfUV1MY2pJ6XjjnhR4JVSewIIwmexrzrg2H7rk6s+LiEIBzqeh7Y23S3YALrMPo/9TAsMGR6gnekgk+4+PQNGUiYxkBV9V/xrG4BpCUWoJuuR2VUePca+l8ONaweYdk/uOZk9ApiRLUeI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZuryRnrr; arc=none smtp.client-ip=209.85.160.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aApkBmZs"
-Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-6e677008501so2357393a34.1;
-        Sun, 24 Mar 2024 14:09:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZuryRnrr"
+Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-229d01e81f1so1800031fac.2;
+        Sun, 24 Mar 2024 14:16:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711314556; x=1711919356; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1711314982; x=1711919782; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=64D+JvyK+W4r1ZaU3GbM1lOh3S/v0YMhaiXiSCQigtk=;
-        b=aApkBmZsa/JaxwxDQs+GqlScX5AAvdaOxgTu68IODKcJWOKMXIrUnyJaUz6VrWeYlY
-         e8hUizlqCwCEosdm4eHV9jHJsw+2cUf6zGKZZDuwxkyjA6S2I7qeZoDrNo0QKQ2Fr259
-         BTj7aL77HWKHKzB90tPDut+MVs65PiTm7jXGglw+9+nIZuhOT6LBZy0tvxVt96Ey2Iyd
-         6CTYQK2s2eH4Qc+TMnScIwO0FPe+iI4wxFRk8itxUjwKJaOct8c9Nuih7MmYFJgZmgam
-         /JxSa/J9MZ0Z0nvCbfA6d2WOxXwSVIbjBNJwEbVR7+To1izI6U57xfpbSYAVwQreI8mR
-         8pgw==
+        bh=pln1HFj7xRGcjDqNNAdcybo1cDlWpEN/yYmJg/vxZWY=;
+        b=ZuryRnrrMwJjk5sBYA2qk4gZo+rX6kMViMM4GlFeY/41MyyI2uYHRowkJqmOwC0i0b
+         1G7Wtm9gn66vLqv1gqUndEH3yyPAUHAfaCunmddnzAlLa13VHER3GYpCxDDfElaZ2p8Y
+         VNqEMcOHyARnPtaa0bGp/11ZFO8U38u2ipp0FkIsiW98ZLTE+ywEoN+r6E0+3Ch1joMj
+         4c/+eqGnpXOPiasU6jqvyOhMa/RX0SAABa4vLvlKJA4JDoaACvYXD0tFbFDfkkNeexIh
+         0cMpwAIikftvOy6RqxKTzJj19uzAADRFksYBV752s/IuYlNKfsMGiYWV7DGaxArO/fJQ
+         u9LA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711314556; x=1711919356;
+        d=1e100.net; s=20230601; t=1711314982; x=1711919782;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=64D+JvyK+W4r1ZaU3GbM1lOh3S/v0YMhaiXiSCQigtk=;
-        b=Xx/v7JnOR+M4T4kDjbx5k6kEqTwfiIok49YB5VpofU+awuXf+HZPdnkQ2f2PNLd8v9
-         B7mgaE1LQjqxmu5O90Uy8reedPpho8fWZaK0kWVJUWeHJ1I5DbnFsW4BmP4JcWsrpTIN
-         04uP/go4JHlmIZELR/w2kATTevf/P5A3rUyjbXV8Zvi52ZN9Cm0/iN6SmbiH5hHtmeq0
-         3hF80AWVV9iPTgy7qw8AVcYlX9sSj4ZjFqeyl6DSJa1yI2VJeT9GRMgtMVpdYWhNDJtJ
-         qAXuR0oq1PoUbsytPnP+QI7KLM9bCo9kGXcWXiFD9A/PE4L/m0CaluuduTRPrHLOvWmb
-         eNrA==
-X-Forwarded-Encrypted: i=1; AJvYcCWF7pwV4CoRYlJgKZ7xDEMCGDMbU8zU5Hop+piAaLaOaLYF7anzl3mY1pOvPhPPNE8N76kAR7o1IEfuwCdEweQrN/YkZxS5fwRzJQbTyA==
-X-Gm-Message-State: AOJu0Ywb2jfRSGmCDdpBGZ8t8Y7WccpWusd3hP2IP0Nx21sz0QSWZMbp
-	HuAEl8w+tw8mjarRs2a2pHZJLhtI4rzIyvdRa+QCFU/nkEjhx5AE
-X-Google-Smtp-Source: AGHT+IHGThjrcLejKq999F3WY5CGo0Bi4DUx9T31LjW6OBIze8tvnJbF+C93iH6kJ6mCQzXj7PuYCg==
-X-Received: by 2002:a05:6870:b490:b0:222:63e2:aba3 with SMTP id y16-20020a056870b49000b0022263e2aba3mr6599405oap.8.1711314556446;
-        Sun, 24 Mar 2024 14:09:16 -0700 (PDT)
+        bh=pln1HFj7xRGcjDqNNAdcybo1cDlWpEN/yYmJg/vxZWY=;
+        b=fETtiCGVxsDeLo3/dtiIg0fMUnFICQEPYAc0F1j3XzmVFVnXcceua7GlUhz9NCAOuS
+         xJk0uVMVlyS/kFTDWGL/DuoGKMoKvIkgJFDKOWze617767mjIXuliZcfyBOrEKvDoO8s
+         1Is9lI27Pj9/oMoEMS6P0j2e+l6pGf8z4Tn5kcVSogZTKBioc8OVaOxSN/yoEZdAhddc
+         NRjd+gWHnxrfWf9wF1lN1yh1PrKMllDUId4RhlcEN8LPBF8nKTwo7pzox/FPnO6Vy7LV
+         7lHAT28F/t6wlJIkC/UnrTDoRg513pZir8VjKloP+NhHfMGy8RVLmfUAEwpC0JrwFhJ4
+         hWIQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWb/UEVBmlcp3lgntjdn0SFCirZMgbJKG94WAu2fvbug8ygvAqtgJ2VaDG4FJFhnoZFzgWpvqiZ4nUZTUrmn49cpmZPdYXDT43dun7Ocw==
+X-Gm-Message-State: AOJu0Yxuf+Q2k3vaK/+IXktDFfFtPg7WjhmMi5nH6c/EbbK9Hwiw2if6
+	sewd+ctqOGObPGhrjbnluM9KfVXu9/w7W1cqXfn5ds/CqH7KGnai
+X-Google-Smtp-Source: AGHT+IGDb8h4GXS8FBNAQV+Y9fiLoMqubuSJuORQE1s3/Wcvji4vy/2U9keX2dUqcFA0d2WDa4JVSw==
+X-Received: by 2002:a05:6870:944d:b0:21e:a839:d807 with SMTP id e13-20020a056870944d00b0021ea839d807mr6520463oal.54.1711314982451;
+        Sun, 24 Mar 2024 14:16:22 -0700 (PDT)
 Received: from ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx ([103.6.158.65])
-        by smtp.gmail.com with ESMTPSA id u8-20020a056a00124800b006ea8b233550sm3103462pfi.146.2024.03.24.14.09.13
+        by smtp.gmail.com with ESMTPSA id j16-20020aa783d0000000b006e6b959b636sm3003077pfn.53.2024.03.24.14.16.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Mar 2024 14:09:16 -0700 (PDT)
-Date: Mon, 25 Mar 2024 02:39:09 +0530
+        Sun, 24 Mar 2024 14:16:22 -0700 (PDT)
+Date: Mon, 25 Mar 2024 02:46:15 +0530
 From: Ayush Tiwari <ayushtiw0110@gmail.com>
 To: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
 	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
 Cc: outreachy@lists.linux.dev
-Subject: [PATCH] staging: rtl8712: Remove additional space
-Message-ID: <ZgCWdfJit4Ly14NB@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
+Subject: [PATCH] staging: rtl8712: Add space between operands and operator
+Message-ID: <ZgCYHwYOmqfwMeU0@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -67,27 +67,27 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Remove additional whitespaces in SwLedOn() between u8 and LedCfg to
-conform to common kernel coding style.
+Add whitespace in union recvstat between operator '>>' and operands
+'RXDESC_SIZE' and '2' to conform to common kernel coding style.
 
 Signed-off-by: Ayush Tiwari <ayushtiw0110@gmail.com>
 ---
- drivers/staging/rtl8712/rtl8712_led.c | 2 +-
+ drivers/staging/rtl8712/rtl8712_recv.h | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8712/rtl8712_led.c b/drivers/staging/rtl8712/rtl8712_led.c
-index d5fc9026b036..6d9be5dec4e7 100644
---- a/drivers/staging/rtl8712/rtl8712_led.c
-+++ b/drivers/staging/rtl8712/rtl8712_led.c
-@@ -107,7 +107,7 @@ static void DeInitLed871x(struct LED_871x *pLed)
-  */
- static void SwLedOn(struct _adapter *padapter, struct LED_871x *pLed)
- {
--	u8	LedCfg;
-+	u8 LedCfg;
+diff --git a/drivers/staging/rtl8712/rtl8712_recv.h b/drivers/staging/rtl8712/rtl8712_recv.h
+index f4d20b0efd4e..a1360dcf91ce 100644
+--- a/drivers/staging/rtl8712/rtl8712_recv.h
++++ b/drivers/staging/rtl8712/rtl8712_recv.h
+@@ -82,7 +82,7 @@ struct phy_stat {
  
- 	if (padapter->surprise_removed || padapter->driver_stopped)
- 		return;
+ union recvstat {
+ 	struct recv_stat recv_stat;
+-	unsigned int value[RXDESC_SIZE>>2];
++	unsigned int value[RXDESC_SIZE >> 2];
+ };
+ 
+ struct recv_buf {
 -- 
 2.40.1
 
