@@ -1,65 +1,65 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1138526288;
-	Mon, 25 Mar 2024 17:49:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C98FC182A0;
+	Mon, 25 Mar 2024 17:50:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711388956; cv=none; b=BrX/FP+lcHmpGdCruq1glzXkRTeEweL5OQKhkocd2Ux7MIC0XSOWqSambP6nZnuvUSCFnENvMqPwX1s1HtkL4hP+l13s7A1s33jq8U3cMIaRFcFwcg9oc6Zj12esWpSFNmiDyT2U2gP6nunMilMDC+Z7qYSYVgcEqEYLKgvR0TU=
+	t=1711389030; cv=none; b=LWFZq6ZxxAqblvp4tpHrP7JEtbZbPGaGF6YqPZ70hScasR0l9VpwJiC88jjIsbQrL0UDBFC4UJl6HVbCJs0ui/ZZQ+VL9XIBuqwP5zFLxhIaVoEcJOmvKMGazVUupao9IISKWtjz2Urcm0Uwyn66UNpwTnd/NWVr6LJ5PjSPJxI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711388956; c=relaxed/simple;
-	bh=1O2i+z9ec5worg89eWFtLCmRb7aXmuCsagcLEDtkmCc=;
+	s=arc-20240116; t=1711389030; c=relaxed/simple;
+	bh=mLOchj0+iWZlApmwpPHKFKADSoGovJwves4ASWPI97E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mPT0Nz0dsqk6JQ4TlOy3mic5XBWkDkfxbO377jLdYgHJDYqsqAwhByhCs6fcfton5vhHfqHn0pepoGMgTW/6cBVZbNcdmoWdI/ZwYnpIzkxCaLraLc6TsI76LmPQdsFc+n9Rhl7acU9Jucdie7iOEPhiB/SRvPDJFjrD0ugrkj0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a8QRzheS; arc=none smtp.client-ip=209.85.214.174
+	 Content-Type:Content-Disposition:In-Reply-To; b=BTiWx9YToweVOJ5Q2Sz/u/N6ebhDNikCkiD8IL0ZJk9K57IITkgjcxfCIN3cLJhm9+k1SPC05HH3s8xGNxBYRDwg5FnyVMnBh8nLkyMenXEbh/NW4fLp4+zjaw2QRyW30OP8e5ciJK6V4xMF+nUaBaWbrRa/LEWP5z7u0CIjWe8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X+3DqSIJ; arc=none smtp.client-ip=209.85.216.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a8QRzheS"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1dee27acf7aso32236675ad.2;
-        Mon, 25 Mar 2024 10:49:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X+3DqSIJ"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-29fb7e52731so3382783a91.2;
+        Mon, 25 Mar 2024 10:50:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711388954; x=1711993754; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1711389028; x=1711993828; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=3lnLG30Vz/3lGDQ/KrylGmjWUx6Db7eT1RcS7bbD5KE=;
-        b=a8QRzheSKcXheE9hLe3TGJbyNi29nOcmjc0ixOhXSH49nuBpjgramzFtRaW6Q46yr9
-         EMoU8e+/oOevXKxqBXtf+J/lVMAQnS7Whr70ZSCaAOwGM5XE5x71pzAzWL9+pQivyhVf
-         giW9z1MGANC21ORkXIbzbXlxN124rbDk+Y8iGAjFuaiQga2NVm8WZA/Edai7oONBrR7A
-         WENmSYPn/dKbv7HRlimNANFDMMEV3bkvjmwfx5PcxXZ2ocvzwCI6uXtNtFyMi9quVgPf
-         IB6VBMh37W3TRwwdRANRR7GBL3N5gCYh11GOgfl6mjjYJu2kLaodIzBQL5fjD3bgd5Ff
-         S2jQ==
+        bh=zxB1ME9DNA2QAznLegn7G7zlIdrVB+x8IZEYE8rx6AU=;
+        b=X+3DqSIJPijvdD39ONcjRgcGs1vuKdKmwB5MGknVDlgtMA//mCMxJ/760ELB+SWNQX
+         QYPkmimKpC1mNAqYeeiLOqQH6bJw7IFqx6qZ69fQKHLG66YQ6wfmWhCTAlrgn5UOo1Rd
+         PCOl4Oq7XQCPIdAhoFyH2D0OjSYw7xdxvitA1JDhkJxT4XwcUXeBSm6ZsB2mv/7DcXn6
+         JwWm1hXL3DpMhOnJMg6wW5ApeoKzaI6glIfSpirtJMfDjM1D9Ii7zNi0MXwXwqhe/7sX
+         bakrG1WdoJYrP66kOz45i/vUkJZrhmQl46NSsTVQslDO/VpWDAjwHtEiTM8srrU29V6M
+         iwWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711388954; x=1711993754;
+        d=1e100.net; s=20230601; t=1711389028; x=1711993828;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3lnLG30Vz/3lGDQ/KrylGmjWUx6Db7eT1RcS7bbD5KE=;
-        b=Aowr4+kSJAU5En0QxAPgcDj49qFE8I1g+CzCB/MWQHeZZetN5Dcwkv3+Sh4JC3azZ7
-         nj/wsh99iKm4BM4/SwPQJBXR4qCD6lu2X9/q1CveZkBPD7yuF2bPtFng8E10q4qJzIxf
-         lStGAblLvtUyE87HltlTK2VD5nlGSKyz+M4sTLDpqrQg+aYfH9qrj6FDyyiBRog48/PH
-         8yCdKnWwJGpy+T8wxwctHTGAewqRjXcj7W0OXo4z49wlUeUIZA5uBOqHBIKsJrCW/qe/
-         pngKjtUkmgEcBFChprgAL2LAVmLNooA9RjhBUl6+MOl7ru+4TmHkNC4dTs60JwMRL9BR
-         lewQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUTQxLw8j1FPFNopTbzsACKanQ1yxjBvkqHjNb5uNMKswyIgY3rs+dczCx4h2k3DEMf2NylRd9HbQGiqb/QA/Hv9aEeWsstBPlrAJyzJQ==
-X-Gm-Message-State: AOJu0YwgTpKcTKKaoM+YmMkSkiJ9FMu0u9SZzKsnq/M1i8MjCuDTctzA
-	h8n8XJZXjVNEvMx/OInvaeuP3yoyS6HWzuLodbROOMSAFaSHk0WC
-X-Google-Smtp-Source: AGHT+IGbL0wknT1iGzMMPJyvG9LJToHnRvRU96heKUlxYnKSn6NiyZtkDnGi7d8f/HExWMsAw4aLJQ==
-X-Received: by 2002:a17:903:22cb:b0:1dd:bf6c:8973 with SMTP id y11-20020a17090322cb00b001ddbf6c8973mr9548449plg.68.1711388954182;
-        Mon, 25 Mar 2024 10:49:14 -0700 (PDT)
+        bh=zxB1ME9DNA2QAznLegn7G7zlIdrVB+x8IZEYE8rx6AU=;
+        b=Y/NB3gTevkYzpUJ8obZlkig5OUU9nHhP1lW9rLpGny+FkyR7sSN78qH1O8vXiXXZM2
+         tuZfgVHprmUh8iofbwdi90LUCJ3TVZMnLYJIRMpe0nArpOfC3FBs5vn+4Me4WBQDeCTp
+         /1GYj6oQ2q6J7S7gQtDd07IxL3mKReCC834vXW9Pqs6UVixekXihzV707UMZ70z7CgyK
+         a4QqtxBOE7OJ/HWo0ao3zt0Jkm1Jxx3ztEPN0TI2CHT54LpeCKhDsyAwtB6RmSNyKWpc
+         PGNd/3Dw/eCc6iP+SJCaH7b/rvO0TfFiIJzTF9OQHF3IEEoNO0MjxkdzYilbVdAR9dZc
+         RLCw==
+X-Forwarded-Encrypted: i=1; AJvYcCWIwukZ2DGkqGq9NMtvo1xa1QbWhFJmqrl6UsZ03IcEdBrL13Nh9HigC+NC8b3W9gsAAdRO37sMWKtW/hU7ABOpSLmYnb3VtHZXN9cZWQ==
+X-Gm-Message-State: AOJu0YzipUD1A8POd7HF8AFGO2nGR4XikYVfjvi+2Pvfru/V/73WkIoI
+	ppxqN+OhmMbkCmjGhirxEPLlEgW91Qsj0b/0Cd/AJ5CRgZFaQWAI
+X-Google-Smtp-Source: AGHT+IEW8ixadyy7GPbDHnFI2/TLp+VcVncvNJpKaVXwmQo/2MNoRtcYPIgFJ6Ezm5p0Ijo0axf6lw==
+X-Received: by 2002:a17:90b:3110:b0:2a0:5880:bf01 with SMTP id gc16-20020a17090b311000b002a05880bf01mr4871890pjb.28.1711389028062;
+        Mon, 25 Mar 2024 10:50:28 -0700 (PDT)
 Received: from ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx ([103.6.158.65])
-        by smtp.gmail.com with ESMTPSA id s8-20020a170902ea0800b001db5ca97817sm4920410plg.68.2024.03.25.10.49.11
+        by smtp.gmail.com with ESMTPSA id f3-20020a17090a8e8300b0029baf768de6sm5915126pjo.1.2024.03.25.10.50.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Mar 2024 10:49:13 -0700 (PDT)
-Date: Mon, 25 Mar 2024 23:19:08 +0530
+        Mon, 25 Mar 2024 10:50:27 -0700 (PDT)
+Date: Mon, 25 Mar 2024 23:20:22 +0530
 From: Ayush Tiwari <ayushtiw0110@gmail.com>
 To: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
 	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
 Cc: outreachy@lists.linux.dev
-Subject: [PATCH v4 1/3] staging: rtl8712: rename backupPMKIDList to
- backup_PMKID_list
-Message-ID: <5d3930cb847fd311afdd16c8fb947133ec49b55e.1711388443.git.ayushtiw0110@gmail.com>
+Subject: [PATCH v4 2/3] staging: rtl8712: rename backupPMKIDIndex to
+ backup_PMKID_index
+Message-ID: <2902ed6252d6773fecd32254383eefe8b0c465aa.1711388443.git.ayushtiw0110@gmail.com>
 References: <cover.1711388443.git.ayushtiw0110@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -71,51 +71,51 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1711388443.git.ayushtiw0110@gmail.com>
 
-Rename backupPMKIDList to backup_PMKID_list and remove extra spaces
-between RT_PMKID_LIST and backupPMKIDList to address checkpatch
-warnings and match the common kernel coding style.
+Rename variable backupPMKIDIndex to backup_PMKID_index to address
+checkpatch warning 'Avoid Camelcase' and to ensure adherence to
+coding style guidelines.
 
 Signed-off-by: Ayush Tiwari <ayushtiw0110@gmail.com>
 ---
 
-v4: Update the changelog to match revision history
-v3: Update memcpy() param to match new name backup_PMKID_list
-v2: No changes. Just a patch sending error.
+Changes in v4: No change
+Changes in v3: No change
+Changes in v2: No change
 
  drivers/staging/rtl8712/mlme_linux.c | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/staging/rtl8712/mlme_linux.c b/drivers/staging/rtl8712/mlme_linux.c
-index b9f5104f3bf7..a009ec1a5c11 100644
+index a009ec1a5c11..ac8196d24ce0 100644
 --- a/drivers/staging/rtl8712/mlme_linux.c
 +++ b/drivers/staging/rtl8712/mlme_linux.c
-@@ -84,7 +84,7 @@ void r8712_os_indicate_connect(struct _adapter *adapter)
- 	netif_carrier_on(adapter->pnetdev);
- }
- 
--static struct RT_PMKID_LIST   backupPMKIDList[NUM_PMKID_CACHE];
-+static struct RT_PMKID_LIST backup_PMKID_list[NUM_PMKID_CACHE];
+@@ -87,7 +87,7 @@ void r8712_os_indicate_connect(struct _adapter *adapter)
+ static struct RT_PMKID_LIST backup_PMKID_list[NUM_PMKID_CACHE];
  void r8712_os_indicate_disconnect(struct _adapter *adapter)
  {
- 	u8 backupPMKIDIndex = 0;
-@@ -99,7 +99,7 @@ void r8712_os_indicate_disconnect(struct _adapter *adapter)
- 		 * disconnect with AP for 60 seconds.
- 		 */
+-	u8 backupPMKIDIndex = 0;
++	u8 backup_PMKID_index = 0;
+ 	u8 backupTKIPCountermeasure = 0x00;
  
--		memcpy(&backupPMKIDList[0],
-+		memcpy(&backup_PMKID_list[0],
+ 	r8712_indicate_wx_disassoc_event(adapter);
+@@ -102,7 +102,7 @@ void r8712_os_indicate_disconnect(struct _adapter *adapter)
+ 		memcpy(&backup_PMKID_list[0],
  		       &adapter->securitypriv.PMKIDList[0],
  		       sizeof(struct RT_PMKID_LIST) * NUM_PMKID_CACHE);
- 		backupPMKIDIndex = adapter->securitypriv.PMKIDIndex;
-@@ -113,7 +113,7 @@ void r8712_os_indicate_disconnect(struct _adapter *adapter)
- 		 * for the following connection.
- 		 */
+-		backupPMKIDIndex = adapter->securitypriv.PMKIDIndex;
++		backup_PMKID_index = adapter->securitypriv.PMKIDIndex;
+ 		backupTKIPCountermeasure =
+ 			adapter->securitypriv.btkip_countermeasure;
+ 		memset((unsigned char *)&adapter->securitypriv, 0,
+@@ -115,7 +115,7 @@ void r8712_os_indicate_disconnect(struct _adapter *adapter)
  		memcpy(&adapter->securitypriv.PMKIDList[0],
--		       &backupPMKIDList[0],
-+		       &backup_PMKID_list[0],
+ 		       &backup_PMKID_list[0],
  		       sizeof(struct RT_PMKID_LIST) * NUM_PMKID_CACHE);
- 		adapter->securitypriv.PMKIDIndex = backupPMKIDIndex;
+-		adapter->securitypriv.PMKIDIndex = backupPMKIDIndex;
++		adapter->securitypriv.PMKIDIndex = backup_PMKID_index;
  		adapter->securitypriv.btkip_countermeasure =
+ 					 backupTKIPCountermeasure;
+ 	} else { /*reset values in securitypriv*/
 -- 
 2.40.1
 
