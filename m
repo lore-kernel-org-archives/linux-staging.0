@@ -1,150 +1,106 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76AEE819
-	for <linux-staging@lists.linux.dev>; Mon, 25 Mar 2024 19:08:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EA0911737
+	for <linux-staging@lists.linux.dev>; Mon, 25 Mar 2024 19:12:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711393738; cv=none; b=k6qLjB2ap08veCIg1KCpm/Trti8rhlSvYd8slSPNvrSYRWu32oI87Ufy73LC0Q2ofx2tn3u/lY80vR4dhMZZK27fhn0Rsl+2+FN7wL3vUqggEqHmn1BSHp3i2XRB9W1EwLCAxH0O/TR0LVpOvBdjy6oznyi5/NpYB3XssFb4gKk=
+	t=1711393944; cv=none; b=Q6+zt52nVge05+d4+0E1Tcr2lZCBRFcZfdMhdBYAdqJ+ixaeYlE+RUIXCDhUPuPYXeKG349Zhq1BLrezmF77qdF6k4Q76qhP5tSuQaWNvoTbDLBce6GeOYZ814w0IdcE6hI06RJI4rRXfxldnQZhPezvwnkWaJAbEpatJMP8hyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711393738; c=relaxed/simple;
-	bh=HHJvcz+9Drm07w87IJvGy60FQW2l2rVZi6DcUs57owE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=auj3qoEFto3vG6yNwf86HQkuCiDAqZ9Uo79rsdyJNClLW7i6qkRmufHTAyrFTHMYLzJ0bFjVO0VTPGoDOxcATra7UwQovkH309VbfrzByXWLE5k/5Cbybm/y95XDDlfzriFdTDHDAf2fsbdr7iAmftRntrriPBQgBVEjtLl6zZ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=nbI73vBK; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1711393944; c=relaxed/simple;
+	bh=ck2KXyWg6lNnOKmae4H2aoNDFjqiV++vBs4EhFGkZuA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=njat1zWd+gZZj0MFGiDLMw+9oS9i41JijUyfEQ243ewUrB8U5wMIy0rYz04leZgPMZQho23BGawRC45OEQQnRYwWbjlI/mUZSEZcUUMMklCQvt4HAB2tH9/7+5JZMhX4Cl4Bga6Za6qOC2DAn3thnW00sZ8/pVJQHe6GHE8dIOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j0EudwUK; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nbI73vBK"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-33ec7e38b84so3372633f8f.1
-        for <linux-staging@lists.linux.dev>; Mon, 25 Mar 2024 12:08:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711393734; x=1711998534; darn=lists.linux.dev;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ivdettvGpltNPeISxFbK8+ZclvtCBGXuV4SmOUszKcE=;
-        b=nbI73vBKAVpB6HkoWkrX2i7PwvH45RsFoaFzUwgFP1LSyrz9T0c/w4qdvZv/ItG67T
-         74k9WzsAsyRqJ9OQSnZqqZd0XdC/rtr2ihoc3GnLOTTKyyWAPukclRy32rgPeOk6/unh
-         KM04pzAAJtMG49hwqxvmzT+XMW65wU74gmdq8KAD0Rp0BFVaOIsJ7V2xHksZWiYd1AwB
-         90GNr/3UpH8/8W4miYFV+fZ4pcp3GQobjcnou9y6TCVieub7Wjl/EfXSM8f3NA2OIH62
-         DdMvaCvdpwMTcleMB3BC2lukqD87ky9gYNv0x0lg7PrxdKcoFpjbqXcsD8u2cy9x55v6
-         rAPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711393734; x=1711998534;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ivdettvGpltNPeISxFbK8+ZclvtCBGXuV4SmOUszKcE=;
-        b=BMmlZVZ7LMM1N1EzvqTuqAKj76w7XE35AOX10M1luraz2JyLTEFxnjALkVu0q9Nl/Y
-         2JQ1LXxhz9fr0xPh3ZoXsylvijwXIRZ4iyexIFWOw9Zujtt327hiRbTPLKE08Dc6Kpgy
-         4wx4zjgDkESQajhspoxjKPK0icF/6I42LJNnbgCALACgmNrfawwIzQC6qaR3Iab0D5nY
-         zFfPlNKStfTg6l+51Q4kT4woIqdsPo5HKR1k7QY5HrCgE9GyoEJbJ7ASSCF1ofmjo+GQ
-         GAGlg156Re8pUxD7xhb2YBNdrsrQCy5g4IewsYsCCzAEEyVmz7iDxpxARTOwCVs77JTe
-         ThDQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXru2TuUyOZNvRzCWoAi1m2ClhysgBIMTopJGbpL1yPzgBMZ1CIcj1g1BxhrEpn0J4aZc7jxUMH+ZfP38u72/P1mC4zRizyKN56NG+iTA==
-X-Gm-Message-State: AOJu0YwTRnzMVHzj9dUa6DUBSKPAWY5PKE3HS4MuEWYizx3W/uqUYRLB
-	nmT7By3U27s3oL9kUa23znT2gAkbg1ajC9sxXXtK4GfFL2RpF0MfSUULtWhBsCM=
-X-Google-Smtp-Source: AGHT+IF5YpsNwEMr5DhVdk+y0oO8sPxx6leaiIIRqFMnBG4DybO/Yhkm/g4bGoUhp1EAdgyvtjTaJg==
-X-Received: by 2002:a05:6000:1152:b0:33d:2775:1e63 with SMTP id d18-20020a056000115200b0033d27751e63mr5398930wrx.41.1711393733537;
-        Mon, 25 Mar 2024 12:08:53 -0700 (PDT)
-Received: from localhost (a109-49-32-45.cpe.netcabo.pt. [109.49.32.45])
-        by smtp.gmail.com with ESMTPSA id h8-20020a05600004c800b0033b66c2d61esm10139182wri.48.2024.03.25.12.08.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Mar 2024 12:08:53 -0700 (PDT)
-From: Rui Miguel Silva <rui.silva@linaro.org>
-To: Alex Elder <elder@ieee.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>
-Cc: greybus-dev@lists.linaro.org, Mikhail Lobanov <m.lobanov@rosalinux.ru>,
- linux-staging@lists.linux.dev
-Subject: Re: [PATCH] greybus: lights: check return of get_channel_from_mode
-In-Reply-To: <14e1f476-7c3c-40ac-a48e-9af3e43a834d@ieee.org>
-References: <20240307094838.688281-1-rmfrfs@gmail.com>
- <2024032543-village-reference-960d@gregkh>
- <9fa87c55-42e2-4449-936f-4835b267d22f@ieee.org>
- <2024032510-planner-caterer-3693@gregkh>
- <14e1f476-7c3c-40ac-a48e-9af3e43a834d@ieee.org>
-Date: Mon, 25 Mar 2024 19:08:52 +0000
-Message-ID: <m334sedt8b.fsf@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j0EudwUK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1711393942; x=1742929942;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ck2KXyWg6lNnOKmae4H2aoNDFjqiV++vBs4EhFGkZuA=;
+  b=j0EudwUKWpQIKZRvwLk0q71gkA5qPJwEGpA6Fml7qcOISO6qbalYxy3E
+   kEIzgTsugcRBP0MCmAnXOmludgJPf294OJARa8Sm4+bctXWER53u9NyYk
+   TKwxOO1IphTTM9XiVEUVcvtXj0tRYx3iYxqyHuNYg9n9yUrNJg9Vri0Pp
+   h5YZoHcRDV8lcxNy+vi6wvv9ipStmW6SBZADLp4guL6JWEzwFlWTMK2yU
+   ojbyVArckN7YOyfAD9wunCTTy/93U1iFc36xDegBu0IyPV0O40aGM8yPL
+   ajPfn3y6qAUZxLZXK4FerTWsqrWe9yRPzMTZk2ZpoPtEL5pVmtG1R2v2a
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11024"; a="6310972"
+X-IronPort-AV: E=Sophos;i="6.07,154,1708416000"; 
+   d="scan'208";a="6310972"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2024 12:12:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,11024"; a="914852273"
+X-IronPort-AV: E=Sophos;i="6.07,154,1708416000"; 
+   d="scan'208";a="914852273"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2024 12:12:19 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1ropk0-0000000G6cs-41Jn;
+	Mon, 25 Mar 2024 21:12:16 +0200
+Date: Mon, 25 Mar 2024 21:12:16 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Shahar Avidar <ikobh7@gmail.com>, elder@linaro.org, robh@kernel.org,
+	parthiban.veerasooran@microchip.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/3] staging: pi433: Fix includes & macros.
+Message-ID: <ZgHMkIX6RvP5dqyp@smile.fi.intel.com>
+References: <20240324093201.793485-1-ikobh7@gmail.com>
+ <ZgFBch_ccGnZBCmz@smile.fi.intel.com>
+ <2024032520-implosion-living-d148@gregkh>
+ <ZgHFbosacLDyhgaY@smile.fi.intel.com>
+ <2024032504-unruly-starship-3967@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2024032504-unruly-starship-3967@gregkh>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Hey Alex,
+On Mon, Mar 25, 2024 at 07:51:16PM +0100, Greg KH wrote:
+> On Mon, Mar 25, 2024 at 08:41:50PM +0200, Andy Shevchenko wrote:
+> > On Mon, Mar 25, 2024 at 07:05:46PM +0100, Greg KH wrote:
+> > > On Mon, Mar 25, 2024 at 11:18:42AM +0200, Andy Shevchenko wrote:
+> > > > On Sun, Mar 24, 2024 at 11:31:58AM +0200, Shahar Avidar wrote:
+> > > > > 1. Untangle include hierarchy. 
+> > > > > 2. Update #minors the driver can accept.
+> > > > > 3. Make use of general macro instead of magic number.
+> > > > 
+> > > > > Shahar Avidar (3):
+> > > > >   staging: pi433: Use headers in appropriate files.
+> > > > >   staging: pi433: Reduce N_PI433_MINORS to conform with N_SPI_MINORS.
+> > > > >   staging: pi433: Make use of spi mode macro instead of magic number.
+> > > > 
+> > > > For patches 1 and 3
+> > > > Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> > > 
+> > > That's impossible for b4 to parse, it would have applied this to all of
+> > > the commits if I had taken them :(
+> > 
+> > You can apply only patches 1 and 3 as long as they are independent to patch 2.
+> > 
+> > 	b4 am -st -P 1,3 ...
+> 
+> I don't do that, it would not scale at all :)
 
-Alex Elder <elder@ieee.org> writes:
+Yeah, this requires too much maintainer's involvement.
 
-> On 3/25/24 1:50 PM, Greg Kroah-Hartman wrote:
->> On Mon, Mar 25, 2024 at 01:31:34PM -0500, Alex Elder wrote:
->>> On 3/25/24 12:25 PM, Greg Kroah-Hartman wrote:
->>>> On Thu, Mar 07, 2024 at 09:48:13AM +0000, Rui Miguel Silva wrote:
->>>>> If channel for the given node is not found we return null from
->>>>> get_channel_from_mode. Make sure we validate the return pointer
->>>>> before using it in two of the missing places.
->>>>>
->>>>> This was originally reported in [0]:
->>>>> Found by Linux Verification Center (linuxtesting.org) with SVACE.
->>>>>
->>>>> [0] https://lore.kernel.org/all/20240301190425.120605-1-m.lobanov@rosalinux.ru
->>>>>
->>>>> Fixes: 2870b52bae4c ("greybus: lights: add lights implementation")
->>>>> Reported-by: Mikhail Lobanov <m.lobanov@rosalinux.ru>
->>>>> Suggested-by: Mikhail Lobanov <m.lobanov@rosalinux.ru>
->>>>> Suggested-by: Alex Elder <elder@ieee.org>
->>>>> Signed-off-by: Rui Miguel Silva <rmfrfs@gmail.com>
->>>>> ---
->>>>>    drivers/staging/greybus/light.c | 6 +++++-
->>>>>    1 file changed, 5 insertions(+), 1 deletion(-)
->>>>>
->>>>> diff --git a/drivers/staging/greybus/light.c b/drivers/staging/greybus/light.c
->>>>> index c6bd86a5335a..6f10b9e2c053 100644
->>>>> --- a/drivers/staging/greybus/light.c
->>>>> +++ b/drivers/staging/greybus/light.c
->>>>> @@ -147,6 +147,9 @@ static int __gb_lights_flash_brightness_set(struct gb_channel *channel)
->>>>>    		channel = get_channel_from_mode(channel->light,
->>>>>    						GB_CHANNEL_MODE_TORCH);
->>>>> +	if (!channel)
->>>>> +		return -EINVAL;
->>>>> +
->>>>>    	/* For not flash we need to convert brightness to intensity */
->>>>>    	intensity = channel->intensity_uA.min +
->>>>>    			(channel->intensity_uA.step * channel->led->brightness);
->>>>> @@ -549,7 +552,8 @@ static int gb_lights_light_v4l2_register(struct gb_light *light)
->>>>>    	}
->>>>>    	channel_flash = get_channel_from_mode(light, GB_CHANNEL_MODE_FLASH);
->>>>> -	WARN_ON(!channel_flash);
->>>>> +	if (WARN_ON(!channel_flash))
->>>>> +		return -EINVAL;
->>>>
->>>> We should NOT crash machines just because of this, the WARN_ON() should
->>>> be removed and just properly handle the error please.
->>>
->>> Greg, WARN_ON() doesn't normally crash the machine.  That said,
->>> it's reasonable to remove the WARN_ON().
->> 
->> The huge majority of running Linux systems in the world run with
->> panic-on-warn enabled, including the one in your pocket :(
->
-> I did not know that.  Then WARN_ON() is no better than BUG_ON().
-> I'm still learning.  Thank you.
+Alternative option, in case you are fine with patch 2, is to drop my tags and
+apply.
 
-I also lost track of all this failure cascade options that normally
-take the all system down.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Thanks anyway for the comments,
-Cheers,
-    Rui
-    
->
-> 					-Alex
->
->>> I think the purpose of the warning is that this is a case that
->>> should "never happen," so if it does, it's making some noise.
->> 
->> Making noise by rebooting the box is not good.
->> 
->> thanks,
->> 
->> greg k-h
+
