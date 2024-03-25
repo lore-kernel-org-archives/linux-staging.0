@@ -1,106 +1,77 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A07841509AE
-	for <linux-staging@lists.linux.dev>; Mon, 25 Mar 2024 14:50:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35F9E128836
+	for <linux-staging@lists.linux.dev>; Mon, 25 Mar 2024 16:42:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711378230; cv=none; b=U73xzFiG+QcL5Idm4JYVjDr/t9nLv/N3ZiWXKjw+6cWEMobxeswjRWjd+osa8yEgo8jy4IKDJvCyc6whBDHqSt1WvJsy1LqeivySMNjPL9DnA1nPJOT8z4s5aVUt6iNlLXBJtKDVwE7LVoCs1ZaLOF5c6Jof2ih2S0q9jdH7gpc=
+	t=1711384950; cv=none; b=trrGxGqvuapAxOeN7ytFqGXp4gx0LhLjkww9x5uqSH8+BCQArwrroX+4dcs41HnfHjQGbHuxBRvCF2HOCi4dyjAD18eHFa+GpVWfg14iW/jJRYkiqTNKqTswfg34g/aTmnwOQHvKS+6MN4clgVFrpRkFSabJmJfKeHJ4PpH7VOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711378230; c=relaxed/simple;
-	bh=GEI/ooPR1uxzhyNgwywp7m8zeQWCBAmFv9ShGuGC3WM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=cx9w/3YkZb9OQWeMMM9UaDh7fGJABRK0f/QbmNV49BLwpIQiI9ZAo/IGIDyx+H1YxtInnZngjQDEZQ8g1LDI9Whdq/ntU/vVgbTA6/6qRkHV7RqUaqgh7aGBpRl3DxEywLms5kQILRTI/S17uI0S2Fp7dA7B8gPQXRytWdkqq1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=J9jd0G0Q; arc=none smtp.client-ip=209.85.160.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1711384950; c=relaxed/simple;
+	bh=pyynAfuSU0pbJ2BuuKMAJJLX8fingppnNPWi/H/GmI8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=kAgxn6htzV9LZivD+xgzN+4/vA0gHmOlGhFx7Zdpjfh9R+u/8UuxW5zmXz00JUGr4Onf2MT9hTX8dMnlM3R9igW95DGpTASwlTSOxrN4GJyELb5jPg85KiYPqr0bD+LlmEA009E/7Vlfeyp1BKGebZqk+f+71ZQW6O/CDbwTdXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=VXjFVbgc; arc=none smtp.client-ip=217.70.183.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="J9jd0G0Q"
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-42f52226f9bso18081951cf.3
-        for <linux-staging@lists.linux.dev>; Mon, 25 Mar 2024 07:50:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1711378227; x=1711983027; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MqD8wzexo6xit6zjT25NUCdriPsphWfFfa0tlNyYYks=;
-        b=J9jd0G0Qf4cGW1v5cRxf9xQATVwuzdN+s7wcO09WkpwPiOoJWKANpJzWwcKR1FaRLa
-         grUCHpvy7n400JQ2ozMQi0Qehs9VGedfqITaEihQQy7zfIOCDkymjj48VAtI4rFlI07T
-         pRauzrVjjGyQvsrY4bKdVKfCIPXN/6LeaGAks=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711378227; x=1711983027;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MqD8wzexo6xit6zjT25NUCdriPsphWfFfa0tlNyYYks=;
-        b=PAcf18aHLbTDysvDcblodnOJgU48mh+hMZFnninF0VJO4NGHh386zyLGc3fuw3A7ve
-         yv4MIEvvK4mdUBwPec3mPxvG+6SRNBVQzcnKIeU8gfl08ZLkcZ8hh8qPqA0wXTTOuD1u
-         RlCzTd8gBaggF1zapUr2VGQnJkgzXBTdMluQx0h723EwVJZABaHac3Lr3XQJOqEy8NWT
-         Lhm6On9ZIunbZozxpYB1lTKG8r997iCb9mk8nlEeb31v+ZHLjQtMSisK0kCtM2+D/Efz
-         epYWG0OrhF7gcKvtdvCEd+EF+TEJ7Q1sYd/degD/4nYO32lKFrycAqRJMrxS8M7LimhI
-         r3pQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWlasygtmTiEsOtQ5wzn09/aSecCNZb9HRLuMHXQGyegaFThhxFWmVvgalxKtVw4jcYkVeHY6jNSsORFLN6frSU7hTzzNBWxWfkt4LicA==
-X-Gm-Message-State: AOJu0Ywh1pvO6Uzn5JtSRvfBFdAobKA5iN3mSfUOdbsynLzjN9d+NAtQ
-	QWJQN63cAkKUiKDteBv0DTt2L42piHi6WWliPma7bgjEdfUwRRG8mO53+Bu0bg==
-X-Google-Smtp-Source: AGHT+IE6yzbqY9Tnz0mf6K9GR4TUk/vQYebvk9s+XGtSDcB03p3513ghSfX16LycTxIPRRyfSLKj6Q==
-X-Received: by 2002:a05:622a:15cb:b0:431:47f2:df8e with SMTP id d11-20020a05622a15cb00b0043147f2df8emr7329210qty.2.1711378227626;
-        Mon, 25 Mar 2024 07:50:27 -0700 (PDT)
-Received: from denia.c.googlers.com (188.173.86.34.bc.googleusercontent.com. [34.86.173.188])
-        by smtp.gmail.com with ESMTPSA id eq17-20020a05622a5e1100b004313f54aaa9sm2491449qtb.5.2024.03.25.07.50.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Mar 2024 07:50:26 -0700 (PDT)
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 25 Mar 2024 14:50:25 +0000
-Subject: [PATCH v3 3/3] media: dvbdev: Initialize sbuf
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="VXjFVbgc"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 5CAEBE0006;
+	Mon, 25 Mar 2024 16:42:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1711384944;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pyynAfuSU0pbJ2BuuKMAJJLX8fingppnNPWi/H/GmI8=;
+	b=VXjFVbgcQmKO6hoK9y000CeGRATkQ5zkUux1/WB2KOXe3zb5PW6P6MdK3U/ZahxN8Neo9k
+	qX78zltWuTeI0YR46mJJVmwjEDwfUtq8Qr/fUNi9BmvLnfvd2NT05/JkTa1s4x7pCuhqah
+	zn8a4pWPlahTXYSB3MBFy1nWmZLCmjZ2zMjU1D4Mm1K0Gm2M+v+LxcxdRBsXoZooqIw19j
+	sr8vi+XdCrsyZbcY0iTIZCuIM2GUCxjJnuHRs3uxVWYHYAlpyAIfj5GZa/cSkRGI//xUPW
+	6AZcK1qZ4Vc5L1OKoYdcatqVieTDxVbu4M8GZPHR4gm434yk88b/xozsyP/pPw==
+Date: Mon, 25 Mar 2024 17:42:22 +0100
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter
+ <jonathanh@nvidia.com>, Sowjanya Komatineni <skomatineni@nvidia.com>, Mauro
+ Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil@xs4all.nl>,
+ linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/3] staging: media: tegra-video: Fix
+ -Wmaybe-unitialized warn in gcc
+Message-ID: <20240325174222.2d692879@booty>
+In-Reply-To: <20240325-gcc-arm-warnings-v3-1-81b8c10dc18a@chromium.org>
+References: <20240325-gcc-arm-warnings-v3-0-81b8c10dc18a@chromium.org>
+	<20240325-gcc-arm-warnings-v3-1-81b8c10dc18a@chromium.org>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20240325-gcc-arm-warnings-v3-3-81b8c10dc18a@chromium.org>
-References: <20240325-gcc-arm-warnings-v3-0-81b8c10dc18a@chromium.org>
-In-Reply-To: <20240325-gcc-arm-warnings-v3-0-81b8c10dc18a@chromium.org>
-To: Thierry Reding <thierry.reding@gmail.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>, 
- Sowjanya Komatineni <skomatineni@nvidia.com>, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Hans Verkuil <hverkuil@xs4all.nl>
-Cc: linux-media@vger.kernel.org, linux-tegra@vger.kernel.org, 
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
- Ricardo Ribalda <ribalda@chromium.org>
-X-Mailer: b4 0.12.4
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: luca.ceresoli@bootlin.com
 
-Because the size passed to copy_from_user() cannot be known beforehand,
-it needs to be checked during runtime with check_object_size. That makes
-gcc believe that the content of sbuf can be used before init.
+On Mon, 25 Mar 2024 14:50:23 +0000
+Ricardo Ribalda <ribalda@chromium.org> wrote:
 
-Fix:
-./include/linux/thread_info.h:215:17: warning: ‘sbuf’ may be used uninitialized [-Wmaybe-uninitialized]
+> Make sure that tegra20_vi_get_input_formats always assign a value for
+> yuv_input_format.
+>=20
+> Fix:
+> drivers/staging/media/tegra-video/tegra20.c:624:72: warning: =E2=80=98yuv=
+_input_format=E2=80=99 may be used uninitialized [-Wmaybe-uninitialized]
+>=20
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- drivers/media/dvb-core/dvbdev.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
-diff --git a/drivers/media/dvb-core/dvbdev.c b/drivers/media/dvb-core/dvbdev.c
-index 733d0bc4b4cc3..b43695bc51e75 100644
---- a/drivers/media/dvb-core/dvbdev.c
-+++ b/drivers/media/dvb-core/dvbdev.c
-@@ -956,7 +956,7 @@ int dvb_usercopy(struct file *file,
- 		 int (*func)(struct file *file,
- 			     unsigned int cmd, void *arg))
- {
--	char    sbuf[128];
-+	char    sbuf[128] = {};
- 	void    *mbuf = NULL;
- 	void    *parg = NULL;
- 	int     err  = -EINVAL;
-
--- 
-2.44.0.396.g6e790dbe36-goog
-
+--=20
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
