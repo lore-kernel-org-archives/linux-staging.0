@@ -1,124 +1,178 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11021010.outbound.protection.outlook.com [52.101.229.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E37071742
-	for <linux-staging@lists.linux.dev>; Mon, 25 Mar 2024 22:16:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711404968; cv=none; b=EEuiyi+cB0d4FWEYbOKP+iwl+z9XaTh/UoQrmBdXVJyPRg8g6bMXIHvjJMV+1E7/Vob2tApLMzRqb8Jyzv5xAOctLGJEeloQ1tN1dTPGvM9RmQpEGStde1vnO21NSlD/mDNnVecxPsZUGlXtePklF8xMXCMYpmnKyZplWoELSxY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711404968; c=relaxed/simple;
-	bh=/IYhu1O9vp5YJVIx7L9AA3mBL+DjrLYjas3+GXPAbMY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HSWrtdvRKlBYl+NC3aHf3tO+JLTPZ9q64alwaUKpMtKxUM/6QViAM2UebAOEyMmsGg4KrY7HAsIYuIZn34FoAK6ZEV3XobxbkXkxNClGIWwjB02VecGjaIZ+eu/rdJEfeI8+L2GOjnGpTwQV+kiGmQMNOI8pHJhmicbNhzzVo8A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GDidabaX; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B44E82D8D
+	for <linux-staging@lists.linux.dev>; Mon, 25 Mar 2024 23:25:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.10
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1711409151; cv=fail; b=fVCEwx97WNZAU9vnINeOsnMfraBtrJ3cFBX/k3wjIVr4c14/c64ENs+hsZKx8ZAGaGqpnQCxWHwlTody30n+XKUM5+4i0bD45DD174rNt2/rzm1ZIa3XhcG32vl9+lScCCc3fGoXt1Emo31or5USg0NnvGI7v09sOybbgcUY9tY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1711409151; c=relaxed/simple;
+	bh=AGm2er46V38KSgvE6SRsSPHU4aSIZa0SXoz8JA9Qjaw=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=eX6hxfX2iIEEj6emZsbStt8EHTzjOwx7/dwkDlRk81rRKT0Rgf0NnTdvP++nqpjLQYEja6MB5VFqIPJEUUzumHkIXKwRkE1PkCTvNsHImAlYRPJlUurt7XHC9kYkmyjpSlyL6pJL7a4414IVFhHPGAz3Zs79tYtPEvA3sr5gyQs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=Vzqd2iT5; arc=fail smtp.client-ip=52.101.229.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GDidabaX"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-33ed7ba1a42so3285804f8f.2
-        for <linux-staging@lists.linux.dev>; Mon, 25 Mar 2024 15:16:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711404965; x=1712009765; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2JL31owuATMRfQL/MmwYmGoho7jdRbWpt53ZxEjx8hk=;
-        b=GDidabaXlfQsUMMBuZD+OIO4kzybJfsxo21AZ6+7MBWc1ZdZ/sz2/91KFaXpC1VNgq
-         YR7fsEDeE2WU4BTaBWOK6TmUcPUEbhetVuI5BXJVIWK4Oz5fUiaTooTPOIL8s4AlJEAQ
-         EPabD2EzWgPn0mnyXlsSygB0tXB2boxNsC5WF/L7CjBGx2som095VRjv26XTLkFJRNqp
-         inwKEg7FR6nSWGiVSWwRrNl940/zggfAhE9jZikOflZJbcfZa66WuxmTScy7voHSr0J1
-         MSa0XK2IAwq2v292tc2NKi6qFcmHVJg8CoJyKS8Rsij7k/0UjSeMT2+LpN+8NKfl3tsv
-         ElgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711404965; x=1712009765;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2JL31owuATMRfQL/MmwYmGoho7jdRbWpt53ZxEjx8hk=;
-        b=dcXZHNOABYnYvJEzGJLXpd0apTxwotw7tIvUUaJJDXtyFx/9OcgCZuPNjwt1Z3JldQ
-         7YIAqzjPYI6x7IwBRsjgpeCnPw4xtpMIF5km/j80VQD3CiYNEbcaGX53VVZXDf/5FxeP
-         vfOT7ZNMFLqXxjsPxNVnYKt6cH8Pg1SDBFSIojoYTPPqaYRDPgdgnrh5DKASExFButEw
-         mEVCQyEVuTXRbT1vh4J0V1AMFKbJL6AgkAU4b6PtopxlcyTnv0Jk8FvWGEPGcj8hPnHe
-         PsnkKJLDnFmFfSQbmnblFKj660FpHPdOMGE/9n6YqR3OVzgRkpsYOdfFS18IXcoPL652
-         wNjg==
-X-Forwarded-Encrypted: i=1; AJvYcCV1MBxoDbRLY0K+D9UpqbEmHxXKVek6MIEGFoEwdHbJyW66XhtwRp9jpZKbjC/kmOImpidGy2HaVV6xm61oIEEadyDvvRzHoeNXDp2tDQ==
-X-Gm-Message-State: AOJu0Yz4b/R+xjx2wrgfIdLrLM4SNvdr/j9PgzpG0ZI7LPse/flWahGW
-	Zb4RySFcG/CziX/3956bNg8cKC9NwElZYPgBhA3lVQuYY4FHHz2e
-X-Google-Smtp-Source: AGHT+IHl4+DIZuskRlIkJYs/YJYY0Wmyi4bl7/wsiQ6fKQh4yPx4UW3w5Y41v4PgFtYQ7SadRYsfDw==
-X-Received: by 2002:a05:6000:e52:b0:33e:d229:35a1 with SMTP id dy18-20020a0560000e5200b0033ed22935a1mr5570072wrb.65.1711404964314;
-        Mon, 25 Mar 2024 15:16:04 -0700 (PDT)
-Received: from arch-thunder.local (a109-49-32-45.cpe.netcabo.pt. [109.49.32.45])
-        by smtp.gmail.com with ESMTPSA id i5-20020a5d5585000000b0033ed7181fd1sm10507076wrv.62.2024.03.25.15.16.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Mar 2024 15:16:03 -0700 (PDT)
-From: Rui Miguel Silva <rmfrfs@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	greybus-dev@lists.linaro.org
-Cc: Mikhail Lobanov <m.lobanov@rosalinux.ru>,
-	linux-staging@lists.linux.dev,
-	Alex Elder <elder@ieee.org>,
-	Rui Miguel Silva <rmfrfs@gmail.com>
-Subject: [PATCH v2] greybus: lights: check return of get_channel_from_mode
-Date: Mon, 25 Mar 2024 22:09:55 +0000
-Message-ID: <20240325221549.2185265-1-rmfrfs@gmail.com>
-X-Mailer: git-send-email 2.44.0
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="Vzqd2iT5"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=i2pYoS+RREiWgZXodXH2ueV7SMwnJ7sj6LmQ0pEX30IKPoqUpoM65uaNZ/uz8omzwWcJ0e7jn6Hi+w2zNye6sWUqTum+4QZKvQc3/K4jk8L+hoS2fwezG0ZCPpt+1ILFUEW1aWAF39NIIVnPr9/vL424Ea8ZkB3whCoC8FBFq0NzE95oUwiUB9OUkjBlfMrKy6Jc+hJEzaYIYYFik9S9RhVxPM/0dmwyWpV2gYWS/N7eD7Ih/+EuNcCCVdtPKxoMdxjmGhHsWvci6ngigNSpDOwAzlhTweYja3su0VOkpcXvuK0NQTBb+k7mmSABCP372FbvWVw/raVQgIlmWGl0/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JsjYRh1e2PvT3Ikd6gKoLvaqQjO3bDx4chU8GUoSNao=;
+ b=h7eNe1EAx9V0ahntrPmqWbRRTR9HaQ+sBbRrvIiwA0NhU3tCGZgyTODFFAgWY14r5T/XfwZXuq6xagoWPlh+8At9npWjRSg4ylinGOkkbgo1IlVouBlULntJFGmS0F9qpfHQXg47Ut5TaY1CajUbx8/xz9rfkC8cj14nqZxZyhdvTDIXT7e3rOY6TzWuovO1ztFgRrbx2mKKs9tEdKtF8kxufxVS8r8JSqo5djOqbUUqq2MAMycL1o1quQU0rclWoj1p4u3WY777cK/eQhBwdyANp1B/FvtVojNS5WzD61NquiJjI4kRYIfi5vyE8WTf8jZCokEOWX0BgCToHB5Owg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JsjYRh1e2PvT3Ikd6gKoLvaqQjO3bDx4chU8GUoSNao=;
+ b=Vzqd2iT5XXe4Qtm88p883wRy0Yak5oY+1hfD3UwsvBeTr4jkGaL93vtEirjoxDNgkSBFhd4G3kTK160gEL+2xwjBU6bRy79iNIT38JaHeTbWzs6aBiXOJNB47d8CapLzStPKRq+x9VuZaWSGEEezQKGv2wmuKqTmTNPHKQ2zSyA=
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by TYWPR01MB11363.jpnprd01.prod.outlook.com
+ (2603:1096:400:3f0::5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.30; Mon, 25 Mar
+ 2024 23:25:45 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::131e:55c0:a4a0:713b]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::131e:55c0:a4a0:713b%7]) with mapi id 15.20.7386.025; Mon, 25 Mar 2024
+ 23:25:44 +0000
+Message-ID: <87v8593nd3.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: "Lad,  Prabhakar" <prabhakar.csengg@gmail.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	David Airlie <airlied@gmail.com>,
+	Eugen Hristev <eugen.hristev@collabora.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Helge Deller <deller@gmx.de>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Michal Simek <michal.simek@amd.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	coresight@lists.linaro.org,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-fbdev@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-omap@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH 4/8] media: platform: ti: use for_each_endpoint_of_node()
+In-Reply-To: <02d6efba-6d1c-465f-a06d-cf7c02656e21@moroto.mountain>
+References: <8734sf6mgn.wl-kuninori.morimoto.gx@renesas.com>
+	<87wmpr57uw.wl-kuninori.morimoto.gx@renesas.com>
+	<02d6efba-6d1c-465f-a06d-cf7c02656e21@moroto.mountain>
+User-Agent: Wanderlust/2.15.9 Emacs/27.1 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Mon, 25 Mar 2024 23:25:44 +0000
+X-ClientProxiedBy: TYCP286CA0105.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:2b4::15) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYWPR01MB11363:EE_
+X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	f0VsXBepvzga8PJVN2SkLP6piSc8n6uXcTRKB7UXR4wl2cGH6+m4DIRsnt53M4EmRLU+u0PUxotAaHt7hw1a9uHFoprUN+Yr3NDXz6sZ2/hK08DJdBMCKIVo7dgi+RI2XnO5yzKKsKUNxlPGkyZ735ZIs2Zo+lH+uGoTTx2JdCD33TWiTBTswewWFyh9I1RrCyWCzDPAD6jQ3ZEssEt+Jj1odmqz3Un04xXt1aArgQ/HTiLa+c9ZsRJGFOr0mdj50s2+QtWo6sU0c03q+TvTZvYG3xgMVEOeTg0vq4+5u/QHKXhBcCjDFtzd5210vajYJff3NtTt3UH6emhYOYaFptpUDyv8DT8dYO5JlhoIewzgyJBg1of3NU/btd3gAbGYTGfkSi++9yLMR+5rp2+RUTdqFVE4BwQA0MmUpFlCaZmNdJq0hbELzeUNxzNQFIDfKTRgnNJBI/Lzfz8Ez5po7Rn43Pz3Ow7Ron5WHRw8yLmAYitmaFLnynOvesCW6reMMOlmLFpCwArJo4DE/6IZZK3LZc33aIsDf5Y8HRX6tMTI+Vt8J7lywXSljURB/v7xL7XSC5wrPeBMla62oR8zuWeyt3q45Hp/TiU6FyqoBGg/TBzbR9vPVnzVY/oRaW6NTKIpuW190UMA1w6//07PYPTnRaWX678aTJ2C7RC7tqD6KNjsbDwyLR3nM37LFIlYqJ7lyeAdrPJ5EADxd+Edg/L5NNfPc0FCPA032U+SLWw=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(366007)(52116005)(7416005)(1800799015)(38350700005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?Otdj7hCBrakarc3Qlkg+INuMJBDm/reNCaJweXMrwxXNAxGELKZWGFQ6s8U/?=
+ =?us-ascii?Q?12AZEwHLrlChDvgkHyIfgrJ1C+gnzxYYMaUDnVndfyeIbNk0HpRWXiwOK2Gv?=
+ =?us-ascii?Q?vzjqA1kUmndyQCHGFWgHlqTaGBAtm1bM+s4bm6uD7JLS3TGmQkjtDMRFsjBl?=
+ =?us-ascii?Q?kWmY/oEHnSP+QUNoUycuqODqLaKX04xqlAsnwr8GItjQ319Qe0TIUs51000Z?=
+ =?us-ascii?Q?3QIR7D4OEhMZ3fmzkgF+7wnE8lL1YhCIwZt2hs1sxndLKQngnyUH1xYO8H56?=
+ =?us-ascii?Q?VbdDh8YPskDn04lScTqNmRWyQrVc/YbRXaPhRrX3YwV668wiQDrCf2o86cEN?=
+ =?us-ascii?Q?lY3k9NpoF7GAKTlmVlDfqsXhZL8GzpRGlQpvu/04ByomeFfsG2777OAt5RW6?=
+ =?us-ascii?Q?8uVTHMPR/kJQrdaRq3oT4eXEn6BvA+YV353zAhpf8m6XPraDYz553uEcawrM?=
+ =?us-ascii?Q?JwsNPzP10phWoRQfFlqVaIrFgkNZBaD1ojBG/lo5sN3UIFPBnBTfhwF9J0fG?=
+ =?us-ascii?Q?sNfC6k8+7U01kElBf+qcDgTyaPhncUn8jkYuFIXPXUdRWJe1ptXpqZE5C9hJ?=
+ =?us-ascii?Q?RTACb9G2BE8pYrhb0SnB+x4C73pfQTB2vERy4qqp0b1/6ElRh5eWbXJXGyS1?=
+ =?us-ascii?Q?Im8DLHGbHotInhD4sXwRp2weyIjpqu0z8k2mtLHDW4g8nOjwcekE5qOQE/Ab?=
+ =?us-ascii?Q?La2wRZfAB9RRz7LQiBlfXOlK9OGwbpgI0bsSpvWG8Wv2lcLcCrzEXHa0BtSo?=
+ =?us-ascii?Q?TtspvCLzd+SBW3cpDyKq4SE6Hj8oYshMjVNtzJpzLvYp3QBrepNHb0i//tIL?=
+ =?us-ascii?Q?j6Vq74V3P2P36p8bCqFMF/it5caO2Dh/w9xvEVHA/iVkGym36weP7l/4Zys7?=
+ =?us-ascii?Q?JJPBXDm961TDoD+XEGLy4PMCoDPiHimYxBH6TvlnfNJx7J6U02PYFtAg1NkH?=
+ =?us-ascii?Q?XV9uRhzaqad1RYu/d7EDXU2CYrRjQFJSqZc18mOXaplGyhi7dpZXpKrUwcY+?=
+ =?us-ascii?Q?hYHMgAx1oGjFxeqvxRElYHvCMCSfqFwDKrz80tAJzWnnjFaWfKmtDoVGijXm?=
+ =?us-ascii?Q?o9XXxwt7apHE0vJ881DFPZg8axCoKG4aNHfAhZoeVpg5pZ9QJtX0uHQuvsGW?=
+ =?us-ascii?Q?16YCJSrqS5f4LefCYviZslBw6nf55I9pib60j2tdMlveHuP/BCnVosp+rBa7?=
+ =?us-ascii?Q?P4xQjAlOdSQ7GNTICWDIFhnA7AH5pyTfzDnZGjQ0EaSnscYa1eTNHcQpsDn3?=
+ =?us-ascii?Q?dMGgOsoCWJ9qamnccIL67tlvnN8pV2xZslAcL8ggxu7j3aostjhhHLOibm0J?=
+ =?us-ascii?Q?nxyPit/rH9xqHhwoiwdWWorEtPBRZqhpfgTpEXiGNIfezsmQFB1d1dPBmksF?=
+ =?us-ascii?Q?ye8osyk53BfRxX7HT+HBZUKapEcBnA/XRVjMh0ZfJffuUMCR69jyU/PtFKKF?=
+ =?us-ascii?Q?XxK3Bph/s7fgieC8Y1syxLehMcQUOUPyjLmCDENMftdsbHVgeRF9bxBuSJqU?=
+ =?us-ascii?Q?gfzoA881AKFJNVSVrpyBb0rAhb+I1xoetPJuyMPuGVaxEiOClERDnpWWPRFf?=
+ =?us-ascii?Q?nmoMe4gvPXACoWC6YdSRFDlmme9GybkuhFRNrlmePhbCyksAwihrxPRyrhi0?=
+ =?us-ascii?Q?rPqiCvI3zwDTHla1JUZilXM=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3c7b97c3-4530-42af-079b-08dc4d22e51d
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Mar 2024 23:25:44.8872
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9aHQzJyttKIj86TtmFM7NaeiTJsD8LjERlZD2p3ni5GaPw0mQnrEl4EoXjSU9IWdT7bqcanwwFaiKaVpenlNKqO7yF68ozqc0gl7AK9AHoETx9r3lTTnEgC5ubBRfN8d
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB11363
 
-If channel for the given node is not found we return null from
-get_channel_from_mode. Make sure we validate the return pointer
-before using it in two of the missing places.
 
-This was originally reported in [0]:
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
+Hi Dan
 
-[0] https://lore.kernel.org/all/20240301190425.120605-1-m.lobanov@rosalinux.ru
+> > We already have for_each_endpoint_of_node(), don't use
+> > of_graph_get_next_endpoint() directly. Replace it.
+> > 
+> > Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> > ---
+(snip)
+> > -	for (i = 0; ; i++) {
+> > +	for_each_endpoint_of_node(dev->of_node, endpoint) {
+> >  		struct v4l2_fwnode_endpoint bus_cfg = { .bus_type = 0 };
+> >  		struct device_node *rem;
+> >  
+> > -		endpoint = of_graph_get_next_endpoint(dev->of_node, endpoint);
+> > -		if (!endpoint)
+> > -			break;
+> > -
+> >  		sdinfo = &pdata->sub_devs[i];
+>                                           ^
+> "i" is uninitialized now.
+> 
+> Also in the initializer it has "struct device_node *endpoint = NULL;"
+> which is unnecessary now.  And at the end it has:
+> 
+> 	of_node_put(endpoint);
+> 	return pdata;
+> 
+> Since endpoint is NULL this was always a pointless no-op but now it's
+> more obvious, so lets delete that.
 
-Fixes: 2870b52bae4c ("greybus: lights: add lights implementation")
-Reported-by: Mikhail Lobanov <m.lobanov@rosalinux.ru>
-Suggested-by: Mikhail Lobanov <m.lobanov@rosalinux.ru>
-Suggested-by: Alex Elder <elder@ieee.org>
-Signed-off-by: Rui Miguel Silva <rmfrfs@gmail.com>
+Thank you for pointing it.
+I will wait other feedback, and post v2 patch in next week.
+
+Best regards
 ---
-v1[1] -> v2:
-GregKh:
-    - remove overkill WARN_ON and replace it for a dev_err
-
-[1]: https://lore.kernel.org/all/20240307094838.688281-1-rmfrfs@gmail.com/
-
- drivers/staging/greybus/light.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/staging/greybus/light.c b/drivers/staging/greybus/light.c
-index c6bd86a5335a..9999f8401699 100644
---- a/drivers/staging/greybus/light.c
-+++ b/drivers/staging/greybus/light.c
-@@ -147,6 +147,9 @@ static int __gb_lights_flash_brightness_set(struct gb_channel *channel)
- 		channel = get_channel_from_mode(channel->light,
- 						GB_CHANNEL_MODE_TORCH);
- 
-+	if (!channel)
-+		return -EINVAL;
-+
- 	/* For not flash we need to convert brightness to intensity */
- 	intensity = channel->intensity_uA.min +
- 			(channel->intensity_uA.step * channel->led->brightness);
-@@ -549,7 +552,10 @@ static int gb_lights_light_v4l2_register(struct gb_light *light)
- 	}
- 
- 	channel_flash = get_channel_from_mode(light, GB_CHANNEL_MODE_FLASH);
--	WARN_ON(!channel_flash);
-+	if (!channel_flash) {
-+		dev_err(dev, "failed to get flash channel from mode\n");
-+		return -EINVAL;
-+	}
- 
- 	fled = &channel_flash->fled;
- 
--- 
-2.44.0
-
+Renesas Electronics
+Ph.D. Kuninori Morimoto
