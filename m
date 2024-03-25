@@ -1,37 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61B4E2F2A;
-	Mon, 25 Mar 2024 18:02:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 327E03DABFF;
+	Mon, 25 Mar 2024 18:04:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711389780; cv=none; b=tQKKZWlwlAGnx6TEtWt3zdqO936Y7c9wU4mR7xB4CRwajiQVxuf73Ltce8BZ7MAmZZWTMM/yhXqPrNxUIi4aWyc8h9z2c/Cl0UHSiQ15KA9hCcxlA7EHXPNjh2ekUj1H8iH8KPXDTIQZTWHCpLcYtaIY/KFKuHHO6DyPqTu0D94=
+	t=1711389859; cv=none; b=sBrBmOWS0HVxU15Hqi8HsEwiKJ3x//yobwcQyBZxBh5R29YvJsPY7p6JHeldEkaf8ElMU1zmkOjhCq2Tf8noJKnpHXBi5Lvn6bUVfhb7oLNWxRIdKgcdSWkD5gvxmtrfbVdCZZQEWEaS2w2qrjD5O3YqdGcD932MVyCAp4vlJ1s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711389780; c=relaxed/simple;
-	bh=f9kshTE64yVK5tZkqd7Yhr4ZPjWrAoRTLalLjqHr/8M=;
+	s=arc-20240116; t=1711389859; c=relaxed/simple;
+	bh=xdi8INWQbLRIMRfRERnqBafSoZFazf5xxGPOYIhFgYs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S/KtZok8zjDUeKgNTcnlvWQ+aGUbKuA/uCH8TCB+NX3KONyVT9PNU3m78rNhi/A5bt2YAA8JKhL1IPPlYyM/euxON1yQqK8Cy+KvFxsqAUvGCsXXD6au9uJiB3W6IZy0tRUZtkfFG9oRw1hTq4RBjFySQ1fHY4f/Hx8Wb4JMfTE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=b6FwJfrn; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=QZxGcVwElhXh2wmRWx2OdTZ4Yc2YJUbmu8zUjLwPzM8xg2RtAR6nkUqx7lk/aojROiTnmNjarS3OewzhbZJu0yE01rFHtKwY21R8M0OwGFcVqK/EP6SbSrw7onZi0bvW6Mn60YmruppDgUS7R579yvpMM+Egamksd+3HysltBj4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=C1LLldyz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="b6FwJfrn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D53DC433C7;
-	Mon, 25 Mar 2024 18:02:59 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="C1LLldyz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A6DDC433F1;
+	Mon, 25 Mar 2024 18:04:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1711389779;
-	bh=f9kshTE64yVK5tZkqd7Yhr4ZPjWrAoRTLalLjqHr/8M=;
+	s=korg; t=1711389858;
+	bh=xdi8INWQbLRIMRfRERnqBafSoZFazf5xxGPOYIhFgYs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=b6FwJfrng3JgswX8mZDHkzwoK5+yW0JgG40OpqaoFCuUkF/5IFmlQqQVk4h1w4yrs
-	 iGRSFh3UgArScuww2kExaRB4mhCd8SoPDTiP8vh8qlapj80Wv+/XKElTiRe0yHSYUY
-	 Hd7vUd29cKOes9SSDTsAMj2lncJte3UNkUai+Suk=
-Date: Mon, 25 Mar 2024 19:02:27 +0100
+	b=C1LLldyzDGxhPgV/c9dk31PiSbTYacby4szZGS9m7qvUsmKyPc60htLGhF/aAysvq
+	 nkG6cm9cNs2QspkxqNLNFfZmqwsF/V/3etB479NWcYk+v5XfvCf+9NK38gO+gVRGyg
+	 pQCAQmOEutzEH2fO54HiNkAAz+PWvwTMbWg9eyt0=
+Date: Mon, 25 Mar 2024 19:04:15 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Tree Davies <tdavies@darkphysics.net>
-Cc: philipp.g.hortmann@gmail.com, anjan@momi.ca,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/11] Staging: rtl8192e: Style guide Renames and Macros
-Message-ID: <2024032515-prolonged-cornhusk-40e6@gregkh>
-References: <20240310235552.4217-1-tdavies@darkphysics.net>
- <2024032534-return-edging-a2a2@gregkh>
+To: Prasad Pandit <ppandit@redhat.com>
+Cc: dan.carpenter@linaro.org, florian.fainelli@broadcom.com,
+	bcm-kernel-feedback-list@broadcom.com,
+	linux-arm-kernel@lists.infradead.org, rjui@broadcom.com,
+	sbranden@broadcom.com, linux-staging@lists.linux.dev,
+	linux-rpi-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Prasad Pandit <pjp@fedoraproject.org>
+Subject: Re: [PATCH v3] staging: bcm2835-audio: add terminating new line to
+ Kconfig
+Message-ID: <2024032540-scrubbed-reluctant-8860@gregkh>
+References: <20240313114126.1418453-1-ppandit@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,23 +44,18 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2024032534-return-edging-a2a2@gregkh>
+In-Reply-To: <20240313114126.1418453-1-ppandit@redhat.com>
 
-On Mon, Mar 25, 2024 at 07:01:50PM +0100, Greg KH wrote:
-> On Sun, Mar 10, 2024 at 04:55:41PM -0700, Tree Davies wrote:
-> > 10/11 patches in this series rename variables to fix camelCase style
-> > guide violations. The 11th patch implements the use of the BIT macro
-> > instead of regular bit shift operations.
-> > 
-> > MOTE: Because patch #11 changes DEFINEs the compiler issues 
-> > redefinition warnings. I don't know how to address these as part
-> > of this submission. 
-> > 
-> > All changes Tested on Hardware
+On Wed, Mar 13, 2024 at 05:11:26PM +0530, Prasad Pandit wrote:
+> From: Prasad Pandit <pjp@fedoraproject.org>
 > 
-> This patch series blows up the build, as the kernel test bot says, so I
-> can't apply it, sorry.
+> Add terminating new line to the Kconfig file. It helps
+> Kconfig parsers to read file without error.
 
-Ah, it's just the last patch, I applied the first 10 now, thanks.
+What in-tree parser has a problem with this file as-is?  If it's an
+out-of-tree parser, that's different, and the tool should be fixed, no
+need to touch the kernel files for no good reason.
+
+thanks,
 
 greg k-h
