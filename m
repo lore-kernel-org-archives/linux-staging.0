@@ -1,60 +1,39 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BEFD6FE2D
-	for <linux-staging@lists.linux.dev>; Mon, 25 Mar 2024 18:41:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39D9F5C89
+	for <linux-staging@lists.linux.dev>; Mon, 25 Mar 2024 18:50:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711392118; cv=none; b=TS2SeUUgpK0iMF2AuvaTcEdaHmCDX8sAjR0IsqzUYP8voFYBqLlWsFK/g55anp98BPEfVhA71uTb0QYEQhHt8bhy91e4XQgckdMqr7XUz+4H+M0c6I7Inq+m5wpV4LRJRYsfm2EabH7aLjHy/OcV7qQz8rJ1pDzh9XV7GDlyeXw=
+	t=1711392659; cv=none; b=VMpy6gUK/en8gBs3vIvJCpuq9VqQ/sayJOVY0BZC5JtyYt53FRu9Ws8ang9tQ09kJwh86YalQmqm+Z0T+btwIKI80mAftaJXZYh597Nd517fLSsK941TLafjPL1RB1jc5mgNn9dcPDDQkoWHv/sQaYkSCuZpWs7J81O2Jhu/KlM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711392118; c=relaxed/simple;
-	bh=DN6fY0CPCVtdDqMxIfm/YCxvO3elYB2ZwS4nFyQi4f8=;
+	s=arc-20240116; t=1711392659; c=relaxed/simple;
+	bh=BF4UHxrA7PcCQf24IMBehx8zXAO2lhS3FFGTZokYJAI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K+vUY2g+UPL4hgkE3yD2Zg9uXuAP/USTeGmXHB5Kxu/WGmsFeme5nmjcI4OH+1VRbfeXX8OZc8iXCSlqYWy4VWyaKgE6xc0ivC9kir0P5n52PUv1k34P7neTWcdDrEroMHT59zWqJ/tOFGBrYHEwIxMkTKjLYxorL5GBtSqYb3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NhvVE48T; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=sHlrH12bSAdmgF3g56YAj+W6j2SmMimNPs6xfbh5dvDDB7mwhwrjOtsuEOAn0s9u+JEjEylAYOO68IXu6RUQyJAljBjEi1HIJlFlwxyJRu7xj20Hx/4OvW872g9u9+yRZwUwMqdySD6SBX+Scq+jlwLgK7g81d4pGbE7Mbtuhqg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=mukT9J7o; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NhvVE48T"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711392116; x=1742928116;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=DN6fY0CPCVtdDqMxIfm/YCxvO3elYB2ZwS4nFyQi4f8=;
-  b=NhvVE48TAQ44NNp2PqKf7Xk03RV7cB14ARqak4XnrxYk/UPOB9tVF5S7
-   21fLUXNZgKVa88A9u9Vso6RghmYWYTUjE/RylYeiQwRxQ+k5IDZJMuPh+
-   JvlOeZzdgGUihphAcDWYv1rmySvKId2JY1AYc8XzI8LBVVeTGDWZ/kQZl
-   aOnE9+r5a7XeNnhB88QlYWc3CB+H2CvWyIsftHnskhRkeDn4WxMKxDDDm
-   uVUhiVSFpO2IuSFWB8l7E7Qq5OvfsEFZw0Thx4SyQPyBv9/1ax8yE+zVI
-   ss/4XTN6ylqmFQa0ZxUTRZbr8FJ8vk7hqfw4OUUkBA5mJFdnaweBFV9Gm
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11024"; a="17046150"
-X-IronPort-AV: E=Sophos;i="6.07,153,1708416000"; 
-   d="scan'208";a="17046150"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2024 11:41:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,11024"; a="914851669"
-X-IronPort-AV: E=Sophos;i="6.07,153,1708416000"; 
-   d="scan'208";a="914851669"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2024 11:41:53 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1ropGZ-0000000G5qQ-0GKC;
-	Mon, 25 Mar 2024 20:41:51 +0200
-Date: Mon, 25 Mar 2024 20:41:50 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Shahar Avidar <ikobh7@gmail.com>, elder@linaro.org, robh@kernel.org,
-	parthiban.veerasooran@microchip.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/3] staging: pi433: Fix includes & macros.
-Message-ID: <ZgHFbosacLDyhgaY@smile.fi.intel.com>
-References: <20240324093201.793485-1-ikobh7@gmail.com>
- <ZgFBch_ccGnZBCmz@smile.fi.intel.com>
- <2024032520-implosion-living-d148@gregkh>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="mukT9J7o"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46112C433F1;
+	Mon, 25 Mar 2024 18:50:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1711392658;
+	bh=BF4UHxrA7PcCQf24IMBehx8zXAO2lhS3FFGTZokYJAI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mukT9J7oMc9MKKa0ufROyUOdHrvL4bfExuw7RufQ+vAikPFHiU7Wv+Ag9hvUDIdyU
+	 M7CAk/kt4O0B1T6VV53gG+cH4t2tkdqeywDIy7iVgiV1qUHrbgaOTaILvI0sboW7Y+
+	 C6hwPICsGwhbt8slWX/uhGN5dt8eOzkUemJ5DlRg=
+Date: Mon, 25 Mar 2024 19:50:55 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Alex Elder <elder@ieee.org>
+Cc: Rui Miguel Silva <rui.silva@linaro.org>, greybus-dev@lists.linaro.org,
+	Mikhail Lobanov <m.lobanov@rosalinux.ru>,
+	linux-staging@lists.linux.dev, Rui Miguel Silva <rmfrfs@gmail.com>
+Subject: Re: [PATCH] greybus: lights: check return of get_channel_from_mode
+Message-ID: <2024032510-planner-caterer-3693@gregkh>
+References: <20240307094838.688281-1-rmfrfs@gmail.com>
+ <2024032543-village-reference-960d@gregkh>
+ <9fa87c55-42e2-4449-936f-4835b267d22f@ieee.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -63,35 +42,63 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2024032520-implosion-living-d148@gregkh>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <9fa87c55-42e2-4449-936f-4835b267d22f@ieee.org>
 
-On Mon, Mar 25, 2024 at 07:05:46PM +0100, Greg KH wrote:
-> On Mon, Mar 25, 2024 at 11:18:42AM +0200, Andy Shevchenko wrote:
-> > On Sun, Mar 24, 2024 at 11:31:58AM +0200, Shahar Avidar wrote:
-> > > 1. Untangle include hierarchy. 
-> > > 2. Update #minors the driver can accept.
-> > > 3. Make use of general macro instead of magic number.
+On Mon, Mar 25, 2024 at 01:31:34PM -0500, Alex Elder wrote:
+> On 3/25/24 12:25 PM, Greg Kroah-Hartman wrote:
+> > On Thu, Mar 07, 2024 at 09:48:13AM +0000, Rui Miguel Silva wrote:
+> > > If channel for the given node is not found we return null from
+> > > get_channel_from_mode. Make sure we validate the return pointer
+> > > before using it in two of the missing places.
+> > > 
+> > > This was originally reported in [0]:
+> > > Found by Linux Verification Center (linuxtesting.org) with SVACE.
+> > > 
+> > > [0] https://lore.kernel.org/all/20240301190425.120605-1-m.lobanov@rosalinux.ru
+> > > 
+> > > Fixes: 2870b52bae4c ("greybus: lights: add lights implementation")
+> > > Reported-by: Mikhail Lobanov <m.lobanov@rosalinux.ru>
+> > > Suggested-by: Mikhail Lobanov <m.lobanov@rosalinux.ru>
+> > > Suggested-by: Alex Elder <elder@ieee.org>
+> > > Signed-off-by: Rui Miguel Silva <rmfrfs@gmail.com>
+> > > ---
+> > >   drivers/staging/greybus/light.c | 6 +++++-
+> > >   1 file changed, 5 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/staging/greybus/light.c b/drivers/staging/greybus/light.c
+> > > index c6bd86a5335a..6f10b9e2c053 100644
+> > > --- a/drivers/staging/greybus/light.c
+> > > +++ b/drivers/staging/greybus/light.c
+> > > @@ -147,6 +147,9 @@ static int __gb_lights_flash_brightness_set(struct gb_channel *channel)
+> > >   		channel = get_channel_from_mode(channel->light,
+> > >   						GB_CHANNEL_MODE_TORCH);
+> > > +	if (!channel)
+> > > +		return -EINVAL;
+> > > +
+> > >   	/* For not flash we need to convert brightness to intensity */
+> > >   	intensity = channel->intensity_uA.min +
+> > >   			(channel->intensity_uA.step * channel->led->brightness);
+> > > @@ -549,7 +552,8 @@ static int gb_lights_light_v4l2_register(struct gb_light *light)
+> > >   	}
+> > >   	channel_flash = get_channel_from_mode(light, GB_CHANNEL_MODE_FLASH);
+> > > -	WARN_ON(!channel_flash);
+> > > +	if (WARN_ON(!channel_flash))
+> > > +		return -EINVAL;
 > > 
-> > > Shahar Avidar (3):
-> > >   staging: pi433: Use headers in appropriate files.
-> > >   staging: pi433: Reduce N_PI433_MINORS to conform with N_SPI_MINORS.
-> > >   staging: pi433: Make use of spi mode macro instead of magic number.
-> > 
-> > For patches 1 and 3
-> > Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> > We should NOT crash machines just because of this, the WARN_ON() should
+> > be removed and just properly handle the error please.
 > 
-> That's impossible for b4 to parse, it would have applied this to all of
-> the commits if I had taken them :(
+> Greg, WARN_ON() doesn't normally crash the machine.  That said,
+> it's reasonable to remove the WARN_ON().
 
-You can apply only patches 1 and 3 as long as they are independent to patch 2.
+The huge majority of running Linux systems in the world run with
+panic-on-warn enabled, including the one in your pocket :(
 
-	b4 am -st -P 1,3 ...
+> I think the purpose of the warning is that this is a case that
+> should "never happen," so if it does, it's making some noise.
 
-or we can wait for the author to react on the comments and issue a new version.
+Making noise by rebooting the box is not good.
 
--- 
-With Best Regards,
-Andy Shevchenko
+thanks,
 
-
+greg k-h
