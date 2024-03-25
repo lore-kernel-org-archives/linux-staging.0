@@ -1,62 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EA0911737
-	for <linux-staging@lists.linux.dev>; Mon, 25 Mar 2024 19:12:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06C1F4085A
+	for <linux-staging@lists.linux.dev>; Mon, 25 Mar 2024 19:42:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711393944; cv=none; b=Q6+zt52nVge05+d4+0E1Tcr2lZCBRFcZfdMhdBYAdqJ+ixaeYlE+RUIXCDhUPuPYXeKG349Zhq1BLrezmF77qdF6k4Q76qhP5tSuQaWNvoTbDLBce6GeOYZ814w0IdcE6hI06RJI4rRXfxldnQZhPezvwnkWaJAbEpatJMP8hyQ=
+	t=1711395762; cv=none; b=J2taSpB+x/Clr2UyOPNtOEuVyfIsTrqVZT2FED6gGIkHmmBfJ06xnU/G1rLQ+RaRTuarQg9KZieeTT6PxM7M+TKaY4PbkLRhB0YSADu55x7OhQ2uLElmqBmC7MMSt27l1Gyb3JxRmS4SioSkb5FwiaML7tDcdMKI2msvenn6lQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711393944; c=relaxed/simple;
-	bh=ck2KXyWg6lNnOKmae4H2aoNDFjqiV++vBs4EhFGkZuA=;
+	s=arc-20240116; t=1711395762; c=relaxed/simple;
+	bh=iR4RWM9SW15Ytpe+zLkScY//gHwgLlOIGaQIIcnl9hw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=njat1zWd+gZZj0MFGiDLMw+9oS9i41JijUyfEQ243ewUrB8U5wMIy0rYz04leZgPMZQho23BGawRC45OEQQnRYwWbjlI/mUZSEZcUUMMklCQvt4HAB2tH9/7+5JZMhX4Cl4Bga6Za6qOC2DAn3thnW00sZ8/pVJQHe6GHE8dIOU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j0EudwUK; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=a904aYKQnvEiBbbLQ9ym16pDD/V3eIrvdEZrahe5iJ05z9sA0zXDtx1acu+7IA0LWQIQ5dqpSzqDtjRAoFc1WpA8docoFJUPazO1+0BmB71I8EC9GJtypt8RTB1CZGu22qrcNVJdPlcCa2Ttk1CWD+DOWPq9JMoj7eIWorWkhys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=USwK21/M; arc=none smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j0EudwUK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711393942; x=1742929942;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ck2KXyWg6lNnOKmae4H2aoNDFjqiV++vBs4EhFGkZuA=;
-  b=j0EudwUKWpQIKZRvwLk0q71gkA5qPJwEGpA6Fml7qcOISO6qbalYxy3E
-   kEIzgTsugcRBP0MCmAnXOmludgJPf294OJARa8Sm4+bctXWER53u9NyYk
-   TKwxOO1IphTTM9XiVEUVcvtXj0tRYx3iYxqyHuNYg9n9yUrNJg9Vri0Pp
-   h5YZoHcRDV8lcxNy+vi6wvv9ipStmW6SBZADLp4guL6JWEzwFlWTMK2yU
-   ojbyVArckN7YOyfAD9wunCTTy/93U1iFc36xDegBu0IyPV0O40aGM8yPL
-   ajPfn3y6qAUZxLZXK4FerTWsqrWe9yRPzMTZk2ZpoPtEL5pVmtG1R2v2a
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11024"; a="6310972"
-X-IronPort-AV: E=Sophos;i="6.07,154,1708416000"; 
-   d="scan'208";a="6310972"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2024 12:12:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,11024"; a="914852273"
-X-IronPort-AV: E=Sophos;i="6.07,154,1708416000"; 
-   d="scan'208";a="914852273"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2024 12:12:19 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1ropk0-0000000G6cs-41Jn;
-	Mon, 25 Mar 2024 21:12:16 +0200
-Date: Mon, 25 Mar 2024 21:12:16 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="USwK21/M"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-566e869f631so5090836a12.0
+        for <linux-staging@lists.linux.dev>; Mon, 25 Mar 2024 12:42:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1711395759; x=1712000559; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=KuzOZKWfexqxW20YM2/HIeua9/M06pZ/a0UxyioS85Q=;
+        b=USwK21/MWb1QFbbQrxgmUEmn8q7rznca1HEzK9QLmgQX/UhFt1PR9t27X7K1NwyEsD
+         Q33TVumzzWcX92KNhusOSnf7FyKg65RNZKB6JYrM9JHLzyhJGYqzp8R81VY3LZNROSVB
+         m3cSSLGaul7TYtWV2s2XWDKV9JEpQUt9UQGWsntee/NRHmprDG00ToLirMNTSYgpepVc
+         GF+ps2KbiNAj+mTeXVZE2wjmye9khTDQPrJ8BDbvN1YvzTaD2kavCQ0F2qxkps8loVE1
+         GiyBET7pDs6vowY1lQ2kwysHr4VZEkTSf25WWaiLNvxzuueHwBjh8OyHtiI5Wfkr/dBy
+         hPcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711395759; x=1712000559;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KuzOZKWfexqxW20YM2/HIeua9/M06pZ/a0UxyioS85Q=;
+        b=sNGQMz6PjmDaoHG+htk2yUopOVMLv7G5oly+pzoTDLwXGcl+GMphtHKqA3mkt7Z+Gs
+         KUdsoty021gvPtKL0cl706zfgLlsr1KW2dg8tPEUYZGzhnapvwWVR4tTTc+W+7oZXzBC
+         0xvYMIu0tlEYfojyjYoZ02TnSEyV+hJ5xIWKOvAPEYcXY6PNymc2w1nu69uCAaw6wDvk
+         t9qzMDXwCIxeUABkgDD261eiTs500qQvRWivinhBIGV08xVgp9+GhOH4bgdFtPMvt9Bl
+         6jaN7IFPBu+xlpz7SbN1CIfSUeFySO7BRFYG8KyAbHDWFoBHxLyR+LDAicqHKbcVKkT/
+         VcPw==
+X-Forwarded-Encrypted: i=1; AJvYcCXXbDm3O1taiT4508GLZCijpA0rVc5fhwH9q/Um4Ghr/fvI35j7MjOjzFUnKM4PgXL0EhXdgJ09tTufvyHe8Wm4poie0AtqVGH99qSXKg==
+X-Gm-Message-State: AOJu0YxOp6mCw1Hwrp37Ov63y7IuvQT1SSP2CuxzpccmXqEBf16nGqWw
+	gPG1cQEkvf7uSwRQby9vkDdvZj/TgJb8LPe9XHv39a6oAyyqgFs5xCQBu4Cg8Lo=
+X-Google-Smtp-Source: AGHT+IHJIy9p7akZElmhV942HZMfhlm4dCbkmPK86uIB7i5F9c7KRMFn/SQ4Eba22ZuVgffwIIA3og==
+X-Received: by 2002:a50:c357:0:b0:56c:1884:90cb with SMTP id q23-20020a50c357000000b0056c188490cbmr1784534edb.5.1711395759202;
+        Mon, 25 Mar 2024 12:42:39 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id cn28-20020a0564020cbc00b0056bf2e2c898sm3307359edb.1.2024.03.25.12.42.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Mar 2024 12:42:38 -0700 (PDT)
+Date: Mon, 25 Mar 2024 22:42:35 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Shahar Avidar <ikobh7@gmail.com>, elder@linaro.org, robh@kernel.org,
-	parthiban.veerasooran@microchip.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/3] staging: pi433: Fix includes & macros.
-Message-ID: <ZgHMkIX6RvP5dqyp@smile.fi.intel.com>
-References: <20240324093201.793485-1-ikobh7@gmail.com>
- <ZgFBch_ccGnZBCmz@smile.fi.intel.com>
- <2024032520-implosion-living-d148@gregkh>
- <ZgHFbosacLDyhgaY@smile.fi.intel.com>
- <2024032504-unruly-starship-3967@gregkh>
+Cc: Prasad Pandit <ppandit@redhat.com>, florian.fainelli@broadcom.com,
+	bcm-kernel-feedback-list@broadcom.com,
+	linux-arm-kernel@lists.infradead.org, rjui@broadcom.com,
+	sbranden@broadcom.com, linux-staging@lists.linux.dev,
+	linux-rpi-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Prasad Pandit <pjp@fedoraproject.org>
+Subject: Re: [PATCH v3] staging: bcm2835-audio: add terminating new line to
+ Kconfig
+Message-ID: <201b6c82-1ebf-4dc2-9221-4fc87d1dd565@moroto.mountain>
+References: <20240313114126.1418453-1-ppandit@redhat.com>
+ <2024032540-scrubbed-reluctant-8860@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -65,42 +73,38 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2024032504-unruly-starship-3967@gregkh>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <2024032540-scrubbed-reluctant-8860@gregkh>
 
-On Mon, Mar 25, 2024 at 07:51:16PM +0100, Greg KH wrote:
-> On Mon, Mar 25, 2024 at 08:41:50PM +0200, Andy Shevchenko wrote:
-> > On Mon, Mar 25, 2024 at 07:05:46PM +0100, Greg KH wrote:
-> > > On Mon, Mar 25, 2024 at 11:18:42AM +0200, Andy Shevchenko wrote:
-> > > > On Sun, Mar 24, 2024 at 11:31:58AM +0200, Shahar Avidar wrote:
-> > > > > 1. Untangle include hierarchy. 
-> > > > > 2. Update #minors the driver can accept.
-> > > > > 3. Make use of general macro instead of magic number.
-> > > > 
-> > > > > Shahar Avidar (3):
-> > > > >   staging: pi433: Use headers in appropriate files.
-> > > > >   staging: pi433: Reduce N_PI433_MINORS to conform with N_SPI_MINORS.
-> > > > >   staging: pi433: Make use of spi mode macro instead of magic number.
-> > > > 
-> > > > For patches 1 and 3
-> > > > Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > > 
-> > > That's impossible for b4 to parse, it would have applied this to all of
-> > > the commits if I had taken them :(
+On Mon, Mar 25, 2024 at 07:04:15PM +0100, Greg KH wrote:
+> On Wed, Mar 13, 2024 at 05:11:26PM +0530, Prasad Pandit wrote:
+> > From: Prasad Pandit <pjp@fedoraproject.org>
 > > 
-> > You can apply only patches 1 and 3 as long as they are independent to patch 2.
-> > 
-> > 	b4 am -st -P 1,3 ...
+> > Add terminating new line to the Kconfig file. It helps
+> > Kconfig parsers to read file without error.
 > 
-> I don't do that, it would not scale at all :)
+> What in-tree parser has a problem with this file as-is?  If it's an
+> out-of-tree parser, that's different, and the tool should be fixed, no
+> need to touch the kernel files for no good reason.
 
-Yeah, this requires too much maintainer's involvement.
+It's annoying to cat a file when it doesn't have a newline on the end...
 
-Alternative option, in case you are fine with patch 2, is to drop my tags and
-apply.
+dcarpenter@moroto:~/progs/kernel/trees$ cat -n drivers/staging/vc04_services/bcm2835-audio/Kconfig
+     1  # SPDX-License-Identifier: GPL-2.0
+     2  config SND_BCM2835
+     3          tristate "BCM2835 Audio"
+     4          depends on (ARCH_BCM2835 || COMPILE_TEST) && SND
+     5          select SND_PCM
+     6          select BCM2835_VCHIQ if HAS_DMA
+     7          help
+     8            Say Y or M if you want to support BCM2835 built in audio.
+     9            This driver handles both 3.5mm and HDMI audio, by leveraging
+    10            the VCHIQ messaging interface between the kernel and the firmware
+    11            running on VideoCore.dcarpenter@moroto:~/progs/kernel/trees$
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
--- 
-With Best Regards,
-Andy Shevchenko
+So you could resend with that as a justification.  But, yeah, it's a
+good idea to fix the tool as well.
 
+regards,
+dan carpenter
 
