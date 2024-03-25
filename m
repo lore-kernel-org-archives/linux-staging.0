@@ -1,36 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B28F711733;
-	Mon, 25 Mar 2024 18:01:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61B4E2F2A;
+	Mon, 25 Mar 2024 18:02:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711389713; cv=none; b=M2Kxb9J8t+FZ+ifHqpnmMOc54CSog/Rhi8Ga6FFPobQkM8BlQUHMvTXO0xhlT8nLlPeL0Fqom46iBPAMgtCJDrTo8uqGyfMz3WBKzPsjS6TZ6qFhz48F08A4Cr0ARVEn3/kxKvrPq5a6hp8ZD7WAjRNr0pahaLfG6Pt0dTJlNYI=
+	t=1711389780; cv=none; b=tQKKZWlwlAGnx6TEtWt3zdqO936Y7c9wU4mR7xB4CRwajiQVxuf73Ltce8BZ7MAmZZWTMM/yhXqPrNxUIi4aWyc8h9z2c/Cl0UHSiQ15KA9hCcxlA7EHXPNjh2ekUj1H8iH8KPXDTIQZTWHCpLcYtaIY/KFKuHHO6DyPqTu0D94=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711389713; c=relaxed/simple;
-	bh=S58idODoxnkE5LOOfSMX8H3rVspzTw9HYaosgXqnjqo=;
+	s=arc-20240116; t=1711389780; c=relaxed/simple;
+	bh=f9kshTE64yVK5tZkqd7Yhr4ZPjWrAoRTLalLjqHr/8M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fOlF8Ye24Lu+Sq0sJg8A7LrvJ2bLedYGbIM/d7bSs6wTWZym1RXrl+SbxrZPOUoxniGGOuw9MLjFMeyg9YXhHrCBCAg33+bf2JOzlMv1BqIK2UdH/WvkdRHVdhUAoU3e1IMXzjO3bab+EoxtswL2FVx8+cux+aSCfBi14Wx5Fp8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Fuub38Z7; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=S/KtZok8zjDUeKgNTcnlvWQ+aGUbKuA/uCH8TCB+NX3KONyVT9PNU3m78rNhi/A5bt2YAA8JKhL1IPPlYyM/euxON1yQqK8Cy+KvFxsqAUvGCsXXD6au9uJiB3W6IZy0tRUZtkfFG9oRw1hTq4RBjFySQ1fHY4f/Hx8Wb4JMfTE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=b6FwJfrn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Fuub38Z7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E444BC433F1;
-	Mon, 25 Mar 2024 18:01:52 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="b6FwJfrn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D53DC433C7;
+	Mon, 25 Mar 2024 18:02:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1711389713;
-	bh=S58idODoxnkE5LOOfSMX8H3rVspzTw9HYaosgXqnjqo=;
+	s=korg; t=1711389779;
+	bh=f9kshTE64yVK5tZkqd7Yhr4ZPjWrAoRTLalLjqHr/8M=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Fuub38Z7iC5n0KTnoQEzggDjSLwyKbXYZB5PIYuTeVw3W+3L+4fHpe1gUptEvcIbR
-	 xH1YquTPz3mSgJl0wjgLHj3Um3cdwOdXd1U8fUfnOIk7gFcBRWbU6SaW+kAaNJIULI
-	 4WPXH6QRixXhFn69+u+64WmOmnqouqwnI8Y3/f0Y=
-Date: Mon, 25 Mar 2024 19:01:50 +0100
+	b=b6FwJfrng3JgswX8mZDHkzwoK5+yW0JgG40OpqaoFCuUkF/5IFmlQqQVk4h1w4yrs
+	 iGRSFh3UgArScuww2kExaRB4mhCd8SoPDTiP8vh8qlapj80Wv+/XKElTiRe0yHSYUY
+	 Hd7vUd29cKOes9SSDTsAMj2lncJte3UNkUai+Suk=
+Date: Mon, 25 Mar 2024 19:02:27 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
 To: Tree Davies <tdavies@darkphysics.net>
 Cc: philipp.g.hortmann@gmail.com, anjan@momi.ca,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH 00/11] Staging: rtl8192e: Style guide Renames and Macros
-Message-ID: <2024032534-return-edging-a2a2@gregkh>
+Message-ID: <2024032515-prolonged-cornhusk-40e6@gregkh>
 References: <20240310235552.4217-1-tdavies@darkphysics.net>
+ <2024032534-return-edging-a2a2@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,20 +40,23 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240310235552.4217-1-tdavies@darkphysics.net>
+In-Reply-To: <2024032534-return-edging-a2a2@gregkh>
 
-On Sun, Mar 10, 2024 at 04:55:41PM -0700, Tree Davies wrote:
-> 10/11 patches in this series rename variables to fix camelCase style
-> guide violations. The 11th patch implements the use of the BIT macro
-> instead of regular bit shift operations.
+On Mon, Mar 25, 2024 at 07:01:50PM +0100, Greg KH wrote:
+> On Sun, Mar 10, 2024 at 04:55:41PM -0700, Tree Davies wrote:
+> > 10/11 patches in this series rename variables to fix camelCase style
+> > guide violations. The 11th patch implements the use of the BIT macro
+> > instead of regular bit shift operations.
+> > 
+> > MOTE: Because patch #11 changes DEFINEs the compiler issues 
+> > redefinition warnings. I don't know how to address these as part
+> > of this submission. 
+> > 
+> > All changes Tested on Hardware
 > 
-> MOTE: Because patch #11 changes DEFINEs the compiler issues 
-> redefinition warnings. I don't know how to address these as part
-> of this submission. 
-> 
-> All changes Tested on Hardware
+> This patch series blows up the build, as the kernel test bot says, so I
+> can't apply it, sorry.
 
-This patch series blows up the build, as the kernel test bot says, so I
-can't apply it, sorry.
+Ah, it's just the last patch, I applied the first 10 now, thanks.
 
 greg k-h
