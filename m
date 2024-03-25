@@ -1,93 +1,109 @@
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A4DD1CD02;
-	Sun, 24 Mar 2024 21:16:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11CD414A60C;
+	Mon, 25 Mar 2024 01:54:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711314984; cv=none; b=ACMwIUuMMpPxCCZnUn2sC+O8UdaCLRFVMVMyPcpgtI66uMMS6Ct9gwL9J3wBOnfqkFQkj0cXb34EJ0ExccUp+Q9jFMiySOkCjt2RyHA96c6IVUpdNzB6ZS7e7bmgRvJJx0Lz8XNGkl0GdxabIZpHL7qmlv2qfC/Y1rc5DxYwl/Q=
+	t=1711331664; cv=none; b=sSuaLpwRfNybwqx9rJC1y3PEoMeMB6zwNkyidL6r8PV9r4JekYmRqhqQX2IMfp+ae2NQ6xXeCnNbknxo7or44MiJ3GMv4b/uIZEVmskBpx+SXTiZL3ZIlafuQxxwF8SiQntapoC7pXvBxtZZI7rdZFwd1RDFGP1Fk9Ef3PsndJ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711314984; c=relaxed/simple;
-	bh=iyxLUF8voIIK/fK/5eHIb+b18lryX+ZiEkTFUpt2cJA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dA5uceBvKb5pJm6lWzDtA6RxoMc4BQUfUV1MY2pJ6XjjnhR4JVSewIIwmexrzrg2H7rk6s+LiEIBzqeh7Y23S3YALrMPo/9TAsMGR6gnekgk+4+PQNGUiYxkBV9V/xrG4BpCUWoJuuR2VUePca+l8ONaweYdk/uOZk9ApiRLUeI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZuryRnrr; arc=none smtp.client-ip=209.85.160.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1711331664; c=relaxed/simple;
+	bh=rcdcVMOwAqKdq7n5jkVq5QjE+E4mBd0LmLt5lwYal+k=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=Yj+QdkRr4y9q5QpB65Dp07l27AOF503LHG04+ujNLmAQ3O6GaKctmL5H3lC8y30l3l7j4Tmo6FTGn+yZLajytTRLkUqGGy5xUsyg9WQ1uCKow2xsuZ+RzP1I6dUwKzTboXn1D4SiNerLzx/9jpQt13y65UFGvU4h5g2vrmT9JGs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UgoRuOdI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZuryRnrr"
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-229d01e81f1so1800031fac.2;
-        Sun, 24 Mar 2024 14:16:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711314982; x=1711919782; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=pln1HFj7xRGcjDqNNAdcybo1cDlWpEN/yYmJg/vxZWY=;
-        b=ZuryRnrrMwJjk5sBYA2qk4gZo+rX6kMViMM4GlFeY/41MyyI2uYHRowkJqmOwC0i0b
-         1G7Wtm9gn66vLqv1gqUndEH3yyPAUHAfaCunmddnzAlLa13VHER3GYpCxDDfElaZ2p8Y
-         VNqEMcOHyARnPtaa0bGp/11ZFO8U38u2ipp0FkIsiW98ZLTE+ywEoN+r6E0+3Ch1joMj
-         4c/+eqGnpXOPiasU6jqvyOhMa/RX0SAABa4vLvlKJA4JDoaACvYXD0tFbFDfkkNeexIh
-         0cMpwAIikftvOy6RqxKTzJj19uzAADRFksYBV752s/IuYlNKfsMGiYWV7DGaxArO/fJQ
-         u9LA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711314982; x=1711919782;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pln1HFj7xRGcjDqNNAdcybo1cDlWpEN/yYmJg/vxZWY=;
-        b=fETtiCGVxsDeLo3/dtiIg0fMUnFICQEPYAc0F1j3XzmVFVnXcceua7GlUhz9NCAOuS
-         xJk0uVMVlyS/kFTDWGL/DuoGKMoKvIkgJFDKOWze617767mjIXuliZcfyBOrEKvDoO8s
-         1Is9lI27Pj9/oMoEMS6P0j2e+l6pGf8z4Tn5kcVSogZTKBioc8OVaOxSN/yoEZdAhddc
-         NRjd+gWHnxrfWf9wF1lN1yh1PrKMllDUId4RhlcEN8LPBF8nKTwo7pzox/FPnO6Vy7LV
-         7lHAT28F/t6wlJIkC/UnrTDoRg513pZir8VjKloP+NhHfMGy8RVLmfUAEwpC0JrwFhJ4
-         hWIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWb/UEVBmlcp3lgntjdn0SFCirZMgbJKG94WAu2fvbug8ygvAqtgJ2VaDG4FJFhnoZFzgWpvqiZ4nUZTUrmn49cpmZPdYXDT43dun7Ocw==
-X-Gm-Message-State: AOJu0Yxuf+Q2k3vaK/+IXktDFfFtPg7WjhmMi5nH6c/EbbK9Hwiw2if6
-	sewd+ctqOGObPGhrjbnluM9KfVXu9/w7W1cqXfn5ds/CqH7KGnai
-X-Google-Smtp-Source: AGHT+IGDb8h4GXS8FBNAQV+Y9fiLoMqubuSJuORQE1s3/Wcvji4vy/2U9keX2dUqcFA0d2WDa4JVSw==
-X-Received: by 2002:a05:6870:944d:b0:21e:a839:d807 with SMTP id e13-20020a056870944d00b0021ea839d807mr6520463oal.54.1711314982451;
-        Sun, 24 Mar 2024 14:16:22 -0700 (PDT)
-Received: from ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx ([103.6.158.65])
-        by smtp.gmail.com with ESMTPSA id j16-20020aa783d0000000b006e6b959b636sm3003077pfn.53.2024.03.24.14.16.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Mar 2024 14:16:22 -0700 (PDT)
-Date: Mon, 25 Mar 2024 02:46:15 +0530
-From: Ayush Tiwari <ayushtiw0110@gmail.com>
-To: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
-	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Cc: outreachy@lists.linux.dev
-Subject: [PATCH] staging: rtl8712: Add space between operands and operator
-Message-ID: <ZgCYHwYOmqfwMeU0@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UgoRuOdI"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A08FAC4166A;
+	Mon, 25 Mar 2024 01:54:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711331662;
+	bh=rcdcVMOwAqKdq7n5jkVq5QjE+E4mBd0LmLt5lwYal+k=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=UgoRuOdIKc1atcNCSy+fGMyIxd2EIL85aFzdiUP5IhrVwfyLuX4y1UYA/UQBPsAMD
+	 3sCV/0MeXlbM7sefeRf+lmdvdlgZ0TKvCfmEeGYkPwifpZb/yub4hlREVfgCNhRtZz
+	 ZiY0yetiX2oMC1bHns3loNE8fmm9pIIDXR7KvrkZSK4WdOtTGUmUud3p6vcyL60zKX
+	 9BjSBTkapaueuWOl6AMlmsqrYlvbxlrUS29IKX7go0Y/Tq8wfA4UxOJ9FCpuAE+CY5
+	 CxMUxLEonlCV+T0zvdc8MGEzb5H247rE1FolcBQONxia7RxxTo1NzWXjR86IfgfIYv
+	 gVtR4ZEqxDVIw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 886E5D2D0E3;
+	Mon, 25 Mar 2024 01:54:22 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v3 00/32] spi: get rid of some legacy macros
+From: patchwork-bot+chrome-platform@kernel.org
+Message-Id: 
+ <171133166255.9916.6727664409114778134.git-patchwork-notify@kernel.org>
+Date: Mon, 25 Mar 2024 01:54:22 +0000
+References: <cover.1707324793.git.u.kleine-koenig@pengutronix.de>
+In-Reply-To: <cover.1707324793.git.u.kleine-koenig@pengutronix.de>
+To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig_=3Cu=2Ekleine-koenig=40pengutronix=2Ede=3E?=@ci.codeaurora.org
+Cc: broonie@kernel.org, kernel@pengutronix.de, mdf@kernel.org,
+ hao.wu@intel.com, yilun.xu@intel.com, trix@redhat.com,
+ linux-fpga@vger.kernel.org, linux-kernel@vger.kernel.org,
+ alex.aring@gmail.com, stefan@datenfreihafen.org, miquel.raynal@bootlin.com,
+ davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+ linux-wpan@vger.kernel.org, netdev@vger.kernel.org, lars@metafoo.de,
+ Michael.Hennerich@analog.com, jic23@kernel.org, linux-iio@vger.kernel.org,
+ dmitry.torokhov@gmail.com, Jonathan.Cameron@huawei.com,
+ linux-input@vger.kernel.org, gregkh@linuxfoundation.org,
+ andriy.shevchenko@linux.intel.com, ulf.hansson@linaro.org,
+ martin.tuma@digiteqautomotive.com, mchehab@kernel.org,
+ linux-media@vger.kernel.org, serjk@netup.ru, arnd@arndb.de,
+ yangyingliang@huawei.com, linux-mmc@vger.kernel.org, richard@nod.at,
+ vigneshr@ti.com, robh@kernel.org, amit.kumar-mahapatra@amd.com,
+ alsa-devel@alsa-project.org, linux-mtd@lists.infradead.org, horms@kernel.org,
+ ronald.wahl@raritan.com, bleung@chromium.org, tzungbi@kernel.org,
+ groeck@chromium.org, chrome-platform@lists.linux.dev, michal.simek@amd.com,
+ jcmvbkbc@gmail.com, linux-spi@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, andersson@kernel.org,
+ konrad.dybcio@linaro.org, linux-arm-msm@vger.kernel.org,
+ matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
+ linux-mediatek@lists.infradead.org, tzimmermann@suse.de, javierm@redhat.com,
+ sam@ravnborg.org, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+ vireshk@kernel.org, rmfrfs@gmail.com, johan@kernel.org, elder@kernel.org,
+ greybus-dev@lists.linaro.org, peterhuewe@gmx.de, jarkko@kernel.org,
+ jgg@ziepe.ca, linux-integrity@vger.kernel.org, herve.codina@bootlin.com,
+ krzysztof.kozlowski@linaro.org, linux-usb@vger.kernel.org, deller@gmx.de,
+ dario.binacchi@amarulasolutions.com, kvalo@kernel.org, dmantipov@yandex.ru,
+ libertas-dev@lists.infradead.org, linux-wireless@vger.kernel.org,
+ corbet@lwn.net, bhelgaas@google.com, james.clark@arm.com,
+ linux-doc@vger.kernel.org
 
-Add whitespace in union recvstat between operator '>>' and operands
-'RXDESC_SIZE' and '2' to conform to common kernel coding style.
+Hello:
 
-Signed-off-by: Ayush Tiwari <ayushtiw0110@gmail.com>
----
- drivers/staging/rtl8712/rtl8712_recv.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This patch was applied to chrome-platform/linux.git (for-kernelci)
+by Mark Brown <broonie@kernel.org>:
 
-diff --git a/drivers/staging/rtl8712/rtl8712_recv.h b/drivers/staging/rtl8712/rtl8712_recv.h
-index f4d20b0efd4e..a1360dcf91ce 100644
---- a/drivers/staging/rtl8712/rtl8712_recv.h
-+++ b/drivers/staging/rtl8712/rtl8712_recv.h
-@@ -82,7 +82,7 @@ struct phy_stat {
- 
- union recvstat {
- 	struct recv_stat recv_stat;
--	unsigned int value[RXDESC_SIZE>>2];
-+	unsigned int value[RXDESC_SIZE >> 2];
- };
- 
- struct recv_buf {
+On Wed,  7 Feb 2024 19:40:14 +0100 you wrote:
+> Changes since v2
+> (https://lore.kernel.org/linux-spi/cover.1705944943.git.u.kleine-koenig@pengutronix.de):
+> 
+>  - Drop patch "mtd: rawnand: fsl_elbc: Let .probe retry if local bus is
+>    missing" which doesn't belong into this series.
+>  - Fix a build failure noticed by the kernel build bot in
+>    drivers/spi/spi-au1550.c. (I failed to catch this because this driver
+>    is mips only, but not enabled in a mips allmodconfig. That's a bit
+>    unfortunate, but not easily fixable.)
+>  - Add the Reviewed-by: and Acked-by: tags I received for v2.
+> 
+> [...]
+
+Here is the summary with links:
+  - [v3,15/32] platform/chrome: cros_ec_spi: Follow renaming of SPI "master" to "controller"
+    https://git.kernel.org/chrome-platform/c/85ad0ec049a7
+
+You are awesome, thank you!
 -- 
-2.40.1
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
