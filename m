@@ -1,41 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 327E03DABFF;
-	Mon, 25 Mar 2024 18:04:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B48B1CD1B;
+	Mon, 25 Mar 2024 18:05:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711389859; cv=none; b=sBrBmOWS0HVxU15Hqi8HsEwiKJ3x//yobwcQyBZxBh5R29YvJsPY7p6JHeldEkaf8ElMU1zmkOjhCq2Tf8noJKnpHXBi5Lvn6bUVfhb7oLNWxRIdKgcdSWkD5gvxmtrfbVdCZZQEWEaS2w2qrjD5O3YqdGcD932MVyCAp4vlJ1s=
+	t=1711389954; cv=none; b=RYYPVl32kZLIHYNvXcEyLKjTXf15pA0F1fWSXRo9tZV580OwEKuqW93fEHGAR07xUai/OYd5/YN8HL4QJ6Et9e2Fa3bs2ad/8a4eIHj9Ljrp/YUn6OPtQord1xFk8afydNo6b9T/vHWnYdGHAWM/vK+BY+jY3ma70DqtDY0mo88=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711389859; c=relaxed/simple;
-	bh=xdi8INWQbLRIMRfRERnqBafSoZFazf5xxGPOYIhFgYs=;
+	s=arc-20240116; t=1711389954; c=relaxed/simple;
+	bh=2FhEEJT8hfmgltcOodweYD6ENZY3OnLC5d5B+MxhWik=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QZxGcVwElhXh2wmRWx2OdTZ4Yc2YJUbmu8zUjLwPzM8xg2RtAR6nkUqx7lk/aojROiTnmNjarS3OewzhbZJu0yE01rFHtKwY21R8M0OwGFcVqK/EP6SbSrw7onZi0bvW6Mn60YmruppDgUS7R579yvpMM+Egamksd+3HysltBj4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=C1LLldyz; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=EiiOAtyy0tCwpjoYS34VA6imFtaFfsqNPVfuhnxCeaR+TcwKpImLdELbdtMHi8TD6dvXvf6TQm4Kj050kXk2IySSSIgRI4gYLzt2M6BB9Tc1rUoDx2qmdIFz5vEVgfEkJccyF+JOKvfIxO1Rmd/F003nZ4eM0mcys0WBKI+kHHQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=SEJz0t3H; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="C1LLldyz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A6DDC433F1;
-	Mon, 25 Mar 2024 18:04:18 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="SEJz0t3H"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A889C433C7;
+	Mon, 25 Mar 2024 18:05:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1711389858;
-	bh=xdi8INWQbLRIMRfRERnqBafSoZFazf5xxGPOYIhFgYs=;
+	s=korg; t=1711389953;
+	bh=2FhEEJT8hfmgltcOodweYD6ENZY3OnLC5d5B+MxhWik=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=C1LLldyzDGxhPgV/c9dk31PiSbTYacby4szZGS9m7qvUsmKyPc60htLGhF/aAysvq
-	 nkG6cm9cNs2QspkxqNLNFfZmqwsF/V/3etB479NWcYk+v5XfvCf+9NK38gO+gVRGyg
-	 pQCAQmOEutzEH2fO54HiNkAAz+PWvwTMbWg9eyt0=
-Date: Mon, 25 Mar 2024 19:04:15 +0100
+	b=SEJz0t3HLnleNzaVk0FvfdAesICgIzU4yaDpBGmLSZOvdIQM2mKGfCvkPSk7RvuW9
+	 ymetZRYUB1fvWD1pshf7eHZ70WoRpvia/Lf+wvZ922Jw5+mkNjZW+hcykzZbj0NvcC
+	 MZA8hca7wAhRYLErXwhvnCieIk/bigqERB59EQks=
+Date: Mon, 25 Mar 2024 19:05:46 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Prasad Pandit <ppandit@redhat.com>
-Cc: dan.carpenter@linaro.org, florian.fainelli@broadcom.com,
-	bcm-kernel-feedback-list@broadcom.com,
-	linux-arm-kernel@lists.infradead.org, rjui@broadcom.com,
-	sbranden@broadcom.com, linux-staging@lists.linux.dev,
-	linux-rpi-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Prasad Pandit <pjp@fedoraproject.org>
-Subject: Re: [PATCH v3] staging: bcm2835-audio: add terminating new line to
- Kconfig
-Message-ID: <2024032540-scrubbed-reluctant-8860@gregkh>
-References: <20240313114126.1418453-1-ppandit@redhat.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Shahar Avidar <ikobh7@gmail.com>, elder@linaro.org, robh@kernel.org,
+	parthiban.veerasooran@microchip.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/3] staging: pi433: Fix includes & macros.
+Message-ID: <2024032520-implosion-living-d148@gregkh>
+References: <20240324093201.793485-1-ikobh7@gmail.com>
+ <ZgFBch_ccGnZBCmz@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -44,17 +41,24 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240313114126.1418453-1-ppandit@redhat.com>
+In-Reply-To: <ZgFBch_ccGnZBCmz@smile.fi.intel.com>
 
-On Wed, Mar 13, 2024 at 05:11:26PM +0530, Prasad Pandit wrote:
-> From: Prasad Pandit <pjp@fedoraproject.org>
+On Mon, Mar 25, 2024 at 11:18:42AM +0200, Andy Shevchenko wrote:
+> On Sun, Mar 24, 2024 at 11:31:58AM +0200, Shahar Avidar wrote:
+> > 1. Untangle include hierarchy. 
+> > 2. Update #minors the driver can accept.
+> > 3. Make use of general macro instead of magic number.
 > 
-> Add terminating new line to the Kconfig file. It helps
-> Kconfig parsers to read file without error.
+> > Shahar Avidar (3):
+> >   staging: pi433: Use headers in appropriate files.
+> >   staging: pi433: Reduce N_PI433_MINORS to conform with N_SPI_MINORS.
+> >   staging: pi433: Make use of spi mode macro instead of magic number.
+> 
+> For patches 1 and 3
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-What in-tree parser has a problem with this file as-is?  If it's an
-out-of-tree parser, that's different, and the tool should be fixed, no
-need to touch the kernel files for no good reason.
+That's impossible for b4 to parse, it would have applied this to all of
+the commits if I had taken them :(
 
 thanks,
 
