@@ -1,42 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E29612A17C;
-	Tue, 26 Mar 2024 06:01:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFD351292FD
+	for <linux-staging@lists.linux.dev>; Tue, 26 Mar 2024 08:27:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711432881; cv=none; b=VZ2pUrfK0MqMShHoXtUIBYnAJz39GU6cgSoW969dnjkLKY3aWNRPmTKxALv6YQrba0jyHttKWRx/DnjRjcd4/5BaP5UH/UAR2/oZtLFVjFNMgeS8wFkmWaGYbMPwl0sFkUVTr0DHP1QDTAgBm5vmhIqKYcn1c+QBRj5NQIwatcQ=
+	t=1711441657; cv=none; b=Q9BCelY6PvCiJvMgodXRQt07bJyBvwoRzmxsO6afTJzc5Z7PGk3+UNTGNzyZlSB7oubmLL/VCMMBIs0nzIExdmZf798zynFbSgrFXLq0LXrOhrlzfUmOvwX+TwG0uYjgc72LwILf4gG/Le+o1y+AKNeOBBeK/KspfQKSg7HhmiU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711432881; c=relaxed/simple;
-	bh=qgGNM7YDx4QuvVzn2GLYxRd8W1OXbS051VV6j3gye+Y=;
+	s=arc-20240116; t=1711441657; c=relaxed/simple;
+	bh=w3Ty/YsSsNO3tEjCDtWhwWTUWzygmh5DpLVUk+4giVo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VCfnuJXBRA/iWKO2cgh0NR0VDhbQGV0A0NcOr9mzR1UbnIrKs17OdFkdy9EVDNM4H4dCO3U47UH2/Vb9IyuoPKuspe0eHQaANJdlIw/Qy0fIDvJ6NRVZfup9CyMs+AaiNxWMWF8aG9n7YMtHK5n3BisjzpqQWpxnX6Wyib4zmIE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Ng1+AK/A; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=uNVMm2xS7sAH9w1hYUFvpzsbGD1BlXzCr+h8odvl6Gbn5fyC6EHTySfz7tZvxPub9644eFD5fgJbcT0F5gr4jwCzHmy/UkgiYdE+SNx7vfyhHEqKZV96XWman9S2T60gbPaBU5Iy83N91+LQRFHXujsgO0n0aNS2WAD4WcebHpM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=hpDkKnWy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Ng1+AK/A"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42842C433C7;
-	Tue, 26 Mar 2024 06:01:20 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="hpDkKnWy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 016F6C433F1;
+	Tue, 26 Mar 2024 08:27:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1711432880;
-	bh=qgGNM7YDx4QuvVzn2GLYxRd8W1OXbS051VV6j3gye+Y=;
+	s=korg; t=1711441656;
+	bh=w3Ty/YsSsNO3tEjCDtWhwWTUWzygmh5DpLVUk+4giVo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ng1+AK/AhaIZtK5RfYY79+Bb7IxC2A4RTCcElGzNrWmfLa2RqhhpTCWk8LXdeAF6i
-	 R1PQ324trKJ0tdjQ8RZ5q5MW1GO+qrZnbTVAggb5FOlW85BmiEJCqWVY+hlXTplQHf
-	 byNumE/KKNJQ/3Dnsf5CsL6I70IQT/KGSJRhAg6w=
-Date: Tue, 26 Mar 2024 07:01:16 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Shahar Avidar <ikobh7@gmail.com>, elder@linaro.org, robh@kernel.org,
-	parthiban.veerasooran@microchip.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/3] staging: pi433: Fix includes & macros.
-Message-ID: <2024032651-ankle-wireless-bec5@gregkh>
-References: <20240324093201.793485-1-ikobh7@gmail.com>
- <ZgFBch_ccGnZBCmz@smile.fi.intel.com>
- <2024032520-implosion-living-d148@gregkh>
- <ZgHFbosacLDyhgaY@smile.fi.intel.com>
- <2024032504-unruly-starship-3967@gregkh>
- <ZgHMkIX6RvP5dqyp@smile.fi.intel.com>
+	b=hpDkKnWy8TKoFcQbbYbw88m3t/rILt1NmR+mX6Lw+Q9ok4Ik83Dxd38RE8D89E4RB
+	 kMuxPatXYjrW9J6tSPJ4swR+ISqZAvKUBc0rDQ2Ob7ilmceqKxdAlbbBDrWv+yJ6QO
+	 7tEHRcnzPk4DLYpQpRPqb3SkP/swvHEk3mb2E6YQ=
+Date: Tue, 26 Mar 2024 09:27:20 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Rui Miguel Silva <rmfrfs@gmail.com>
+Cc: greybus-dev@lists.linaro.org, Mikhail Lobanov <m.lobanov@rosalinux.ru>,
+	linux-staging@lists.linux.dev, Alex Elder <elder@ieee.org>
+Subject: Re: [PATCH v2] greybus: lights: check return of get_channel_from_mode
+Message-ID: <2024032611-gallery-semicolon-2951@gregkh>
+References: <20240325221549.2185265-1-rmfrfs@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -45,43 +39,28 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZgHMkIX6RvP5dqyp@smile.fi.intel.com>
+In-Reply-To: <20240325221549.2185265-1-rmfrfs@gmail.com>
 
-On Mon, Mar 25, 2024 at 09:12:16PM +0200, Andy Shevchenko wrote:
-> On Mon, Mar 25, 2024 at 07:51:16PM +0100, Greg KH wrote:
-> > On Mon, Mar 25, 2024 at 08:41:50PM +0200, Andy Shevchenko wrote:
-> > > On Mon, Mar 25, 2024 at 07:05:46PM +0100, Greg KH wrote:
-> > > > On Mon, Mar 25, 2024 at 11:18:42AM +0200, Andy Shevchenko wrote:
-> > > > > On Sun, Mar 24, 2024 at 11:31:58AM +0200, Shahar Avidar wrote:
-> > > > > > 1. Untangle include hierarchy. 
-> > > > > > 2. Update #minors the driver can accept.
-> > > > > > 3. Make use of general macro instead of magic number.
-> > > > > 
-> > > > > > Shahar Avidar (3):
-> > > > > >   staging: pi433: Use headers in appropriate files.
-> > > > > >   staging: pi433: Reduce N_PI433_MINORS to conform with N_SPI_MINORS.
-> > > > > >   staging: pi433: Make use of spi mode macro instead of magic number.
-> > > > > 
-> > > > > For patches 1 and 3
-> > > > > Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > > > 
-> > > > That's impossible for b4 to parse, it would have applied this to all of
-> > > > the commits if I had taken them :(
-> > > 
-> > > You can apply only patches 1 and 3 as long as they are independent to patch 2.
-> > > 
-> > > 	b4 am -st -P 1,3 ...
-> > 
-> > I don't do that, it would not scale at all :)
+On Mon, Mar 25, 2024 at 10:09:55PM +0000, Rui Miguel Silva wrote:
+> If channel for the given node is not found we return null from
+> get_channel_from_mode. Make sure we validate the return pointer
+> before using it in two of the missing places.
 > 
-> Yeah, this requires too much maintainer's involvement.
+> This was originally reported in [0]:
+> Found by Linux Verification Center (linuxtesting.org) with SVACE.
 > 
-> Alternative option, in case you are fine with patch 2, is to drop my tags and
-> apply.
+> [0] https://lore.kernel.org/all/20240301190425.120605-1-m.lobanov@rosalinux.ru
+> 
+> Fixes: 2870b52bae4c ("greybus: lights: add lights implementation")
+> Reported-by: Mikhail Lobanov <m.lobanov@rosalinux.ru>
+> Suggested-by: Mikhail Lobanov <m.lobanov@rosalinux.ru>
+> Suggested-by: Alex Elder <elder@ieee.org>
+> Signed-off-by: Rui Miguel Silva <rmfrfs@gmail.com>
+> ---
+> v1[1] -> v2:
+> GregKh:
+>     - remove overkill WARN_ON and replace it for a dev_err
 
-I wasn't fine with them, I'll wait for a new version of this series to
-be posted before looking at them again.
-
-thanks,
+Thanks for the quick change, now queued up.
 
 greg k-h
