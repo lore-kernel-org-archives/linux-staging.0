@@ -1,36 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E77CF84D0D;
-	Tue, 26 Mar 2024 05:58:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E29612A17C;
+	Tue, 26 Mar 2024 06:01:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711432739; cv=none; b=i/tn7DsmmNfLWC8hkmgKu6CtLvm6eIq3XSK1zV2cggmTndErK3JYs3iz1zzgqSgtUe6FSiAEm/uHO3rI0Utk8OVmu2d1G4KkW1knsovVxrvuB+UxWMUgODyhEknnmUtLtIbhbIGYVpWg9wgydGdrgT3dVQbxtlMI+sNSBjDiQBk=
+	t=1711432881; cv=none; b=VZ2pUrfK0MqMShHoXtUIBYnAJz39GU6cgSoW969dnjkLKY3aWNRPmTKxALv6YQrba0jyHttKWRx/DnjRjcd4/5BaP5UH/UAR2/oZtLFVjFNMgeS8wFkmWaGYbMPwl0sFkUVTr0DHP1QDTAgBm5vmhIqKYcn1c+QBRj5NQIwatcQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711432739; c=relaxed/simple;
-	bh=h1uusV+cyBXJPcXhdymwjfHgzRSwOLITOdDET8ssoHw=;
+	s=arc-20240116; t=1711432881; c=relaxed/simple;
+	bh=qgGNM7YDx4QuvVzn2GLYxRd8W1OXbS051VV6j3gye+Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WbSjPWy5MeC18rSM/ffh5V8UbqILs0DAOiSirimh9OfRpc2Dz4q2s5gXECGFDwXrwtJXeF4LqKUH0UePM341ZoIEd36UkrsjgIUTTW2Bks89QVTIRxAoqmRmcWdUyVTIy/DMmaobbzuOZALegRqUr2Vfc3HevpN+eBoAI0TraUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=lykr++in; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=VCfnuJXBRA/iWKO2cgh0NR0VDhbQGV0A0NcOr9mzR1UbnIrKs17OdFkdy9EVDNM4H4dCO3U47UH2/Vb9IyuoPKuspe0eHQaANJdlIw/Qy0fIDvJ6NRVZfup9CyMs+AaiNxWMWF8aG9n7YMtHK5n3BisjzpqQWpxnX6Wyib4zmIE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Ng1+AK/A; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="lykr++in"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0916BC433C7;
-	Tue, 26 Mar 2024 05:58:57 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Ng1+AK/A"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42842C433C7;
+	Tue, 26 Mar 2024 06:01:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1711432738;
-	bh=h1uusV+cyBXJPcXhdymwjfHgzRSwOLITOdDET8ssoHw=;
+	s=korg; t=1711432880;
+	bh=qgGNM7YDx4QuvVzn2GLYxRd8W1OXbS051VV6j3gye+Y=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lykr++inGuPg7GwoQWhXIRN0Yw/WdceU+kJWHiQ7vdZi4h0/aSIxsKfABKphpZxjX
-	 T5kWuQihnl/fJdzoNTSpyyhe3oPXsvlGBX+TfkFIto+StCYz8bJK73e9EdWseLMDTs
-	 o122t5ccIpYuV+OGBh52W8hongbGE/8kzyeenW4M=
-Date: Tue, 26 Mar 2024 06:58:55 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Dan Carpenter <dan.carpenter@linaro.org>
-Subject: Re: [PATCH] staging: wlan-ng: Remove broken driver prism2_usb
-Message-ID: <2024032605-celibacy-wistful-ad08@gregkh>
-References: <20240325195112.GA17878@matrix-ESPRIMO-P710>
+	b=Ng1+AK/AhaIZtK5RfYY79+Bb7IxC2A4RTCcElGzNrWmfLa2RqhhpTCWk8LXdeAF6i
+	 R1PQ324trKJ0tdjQ8RZ5q5MW1GO+qrZnbTVAggb5FOlW85BmiEJCqWVY+hlXTplQHf
+	 byNumE/KKNJQ/3Dnsf5CsL6I70IQT/KGSJRhAg6w=
+Date: Tue, 26 Mar 2024 07:01:16 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Shahar Avidar <ikobh7@gmail.com>, elder@linaro.org, robh@kernel.org,
+	parthiban.veerasooran@microchip.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/3] staging: pi433: Fix includes & macros.
+Message-ID: <2024032651-ankle-wireless-bec5@gregkh>
+References: <20240324093201.793485-1-ikobh7@gmail.com>
+ <ZgFBch_ccGnZBCmz@smile.fi.intel.com>
+ <2024032520-implosion-living-d148@gregkh>
+ <ZgHFbosacLDyhgaY@smile.fi.intel.com>
+ <2024032504-unruly-starship-3967@gregkh>
+ <ZgHMkIX6RvP5dqyp@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,17 +45,42 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240325195112.GA17878@matrix-ESPRIMO-P710>
+In-Reply-To: <ZgHMkIX6RvP5dqyp@smile.fi.intel.com>
 
-On Mon, Mar 25, 2024 at 08:51:12PM +0100, Philipp Hortmann wrote:
-> Tests on wlan-ng hardware have shown that this driver is broken since
-> April 2021. Remove broken driver. Find fix for bug in link.
+On Mon, Mar 25, 2024 at 09:12:16PM +0200, Andy Shevchenko wrote:
+> On Mon, Mar 25, 2024 at 07:51:16PM +0100, Greg KH wrote:
+> > On Mon, Mar 25, 2024 at 08:41:50PM +0200, Andy Shevchenko wrote:
+> > > On Mon, Mar 25, 2024 at 07:05:46PM +0100, Greg KH wrote:
+> > > > On Mon, Mar 25, 2024 at 11:18:42AM +0200, Andy Shevchenko wrote:
+> > > > > On Sun, Mar 24, 2024 at 11:31:58AM +0200, Shahar Avidar wrote:
+> > > > > > 1. Untangle include hierarchy. 
+> > > > > > 2. Update #minors the driver can accept.
+> > > > > > 3. Make use of general macro instead of magic number.
+> > > > > 
+> > > > > > Shahar Avidar (3):
+> > > > > >   staging: pi433: Use headers in appropriate files.
+> > > > > >   staging: pi433: Reduce N_PI433_MINORS to conform with N_SPI_MINORS.
+> > > > > >   staging: pi433: Make use of spi mode macro instead of magic number.
+> > > > > 
+> > > > > For patches 1 and 3
+> > > > > Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> > > > 
+> > > > That's impossible for b4 to parse, it would have applied this to all of
+> > > > the commits if I had taken them :(
+> > > 
+> > > You can apply only patches 1 and 3 as long as they are independent to patch 2.
+> > > 
+> > > 	b4 am -st -P 1,3 ...
+> > 
+> > I don't do that, it would not scale at all :)
+> 
+> Yeah, this requires too much maintainer's involvement.
+> 
+> Alternative option, in case you are fine with patch 2, is to drop my tags and
+> apply.
 
-Odd changelog, if you have a fix, why not just submit that instead to
-keep it working?
-
-I'm all for deleting drivers that are broken, and obviously not used,
-but a better changelog might be needed here.
+I wasn't fine with them, I'll wait for a new version of this series to
+be posted before looking at them again.
 
 thanks,
 
