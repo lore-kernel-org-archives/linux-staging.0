@@ -1,141 +1,56 @@
-Received: from CHN02-SH0-obe.outbound.protection.partner.outlook.cn (mail-sh0chn02on2094.outbound.protection.partner.outlook.cn [139.219.146.94])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBA1729B0
-	for <linux-staging@lists.linux.dev>; Tue, 26 Mar 2024 04:47:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.219.146.94
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711428436; cv=fail; b=P/d9hah7qkMKyIyV1GIElIJf7PrQ4d20gTOV2SlQh76iGW0rlyfCpb93/ckLggB1U4fglt7Gi0WsXqTtYyQPUc2e51+t0v3LldiDD8aIwD8g0DnIpQiAGlFW3SDajj13UxFwXTZewE7MdVM1nPORuMXLrPUBXp+RHcK3J/JYA84=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711428436; c=relaxed/simple;
-	bh=ZzzORs4N4TpCL/GzR7EeRCVzRTVCpTvMUqWC1YCSFUY=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=bt8Df3b4D3Pqn4N73lDTXp7LXvkkh9PBWksQSi7MQKkaR9YXes65BEV98MQ3AudeGj+b2qLvKqYoYTbKU3rjo2/i4hcRCA+CJm5XOzgk6TY3/bVBif36+52KZG2S1hm5QOVIIOzQuC60Nickn+EOce516zuoVvDK2gPS7YxC/pE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com; spf=pass smtp.mailfrom=starfivetech.com; arc=fail smtp.client-ip=139.219.146.94
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ChTprVMLY2HcEkbXuip78PCM8q6Yl/0579SW6J0tXYOSjCftfowhg+Qq6E8axmvl3Trmto56qYII8z15D5vDl+p5nqrPsfvjV52RhR4osfE7v3VxNLN93vn3n000R7JyGmVMcS19YjEhXzaDpLBu2fiNsfVHk3Wu4jM3gVlNT/thYNIxdnDmr7C0aCwMNWTzbfy2zD98LSlLZr/vBKtHpgQVQLSl5vLY7oPzI4e5+inPj3ILaIjEm3SKX5mja00yc9iLyiNl8CpwId9Xb5rCDOAodpgpIhdStyisBm37jR2apE68tgtlzKlluCPQnpw1eaiALM9u6Pnv+Fqkb8+EnQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ucD0oXFf1SvC7cqQnsM+UhxRRmuGkb3qGoOijnPu3/E=;
- b=ZCT9WWCbh4e5l4/V0894OEWyO0BvHCrPx3ghRCzXCk2WItd2IKcSnA9R9rHx0dgHIlYtpYTe7q1tA4GZnvK17ufv4R1E9m11NJahzhCl4Zpj/wS5ZniR+m/zjjjR1TheTonfNl6bAnyuVX4wY4rMDPgyFdskHLNXxNi/3XccjiwF8KlUoPuZf/ZsmCYThT6xTXNZKqzYeAsmdNVde8d+cm32UfcKJrviQ+6JLhT0zlfOpTgiHgBif0xwzNmQesosp2WKFeaEuqMia5MrD83Ksosg65ikbopIaeU2SEAqMdgK6XHmAe0p6J16i4Im82UHDV8BiHfzeTMHot7klPDtag==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=starfivetech.com; dmarc=pass action=none
- header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=starfivetech.com;
-Received: from SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c311:25::10) by SHXPR01MB0622.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c311:1f::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.30; Tue, 26 Mar
- 2024 03:12:48 +0000
-Received: from SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
- ([fe80::b0af:4c9d:2058:a344]) by
- SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn ([fe80::b0af:4c9d:2058:a344%6])
- with mapi id 15.20.7249.041; Tue, 26 Mar 2024 03:12:48 +0000
-From: Changhuang Liang <changhuang.liang@starfivetech.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Jack Zhu <jack.zhu@starfivetech.com>,
-	Changhuang Liang <changhuang.liang@starfivetech.com>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	Jayshri Pawar <jpawar@cadence.com>,
-	Jai Luthra <j-luthra@ti.com>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH v1 2/4] media: cadence: csi2rx: Add suspend and resume support
-Date: Mon, 25 Mar 2024 20:12:35 -0700
-Message-Id: <20240326031237.25331-3-changhuang.liang@starfivetech.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240326031237.25331-1-changhuang.liang@starfivetech.com>
-References: <20240326031237.25331-1-changhuang.liang@starfivetech.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: ZQ0PR01CA0018.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c550:5::15) To SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c311:25::10)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E77CF84D0D;
+	Tue, 26 Mar 2024 05:58:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1711432739; cv=none; b=i/tn7DsmmNfLWC8hkmgKu6CtLvm6eIq3XSK1zV2cggmTndErK3JYs3iz1zzgqSgtUe6FSiAEm/uHO3rI0Utk8OVmu2d1G4KkW1knsovVxrvuB+UxWMUgODyhEknnmUtLtIbhbIGYVpWg9wgydGdrgT3dVQbxtlMI+sNSBjDiQBk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1711432739; c=relaxed/simple;
+	bh=h1uusV+cyBXJPcXhdymwjfHgzRSwOLITOdDET8ssoHw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WbSjPWy5MeC18rSM/ffh5V8UbqILs0DAOiSirimh9OfRpc2Dz4q2s5gXECGFDwXrwtJXeF4LqKUH0UePM341ZoIEd36UkrsjgIUTTW2Bks89QVTIRxAoqmRmcWdUyVTIy/DMmaobbzuOZALegRqUr2Vfc3HevpN+eBoAI0TraUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=lykr++in; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="lykr++in"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0916BC433C7;
+	Tue, 26 Mar 2024 05:58:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1711432738;
+	bh=h1uusV+cyBXJPcXhdymwjfHgzRSwOLITOdDET8ssoHw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lykr++inGuPg7GwoQWhXIRN0Yw/WdceU+kJWHiQ7vdZi4h0/aSIxsKfABKphpZxjX
+	 T5kWuQihnl/fJdzoNTSpyyhe3oPXsvlGBX+TfkFIto+StCYz8bJK73e9EdWseLMDTs
+	 o122t5ccIpYuV+OGBh52W8hongbGE/8kzyeenW4M=
+Date: Tue, 26 Mar 2024 06:58:55 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Dan Carpenter <dan.carpenter@linaro.org>
+Subject: Re: [PATCH] staging: wlan-ng: Remove broken driver prism2_usb
+Message-ID: <2024032605-celibacy-wistful-ad08@gregkh>
+References: <20240325195112.GA17878@matrix-ESPRIMO-P710>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SHXPR01MB0671:EE_|SHXPR01MB0622:EE_
-X-MS-Office365-Filtering-Correlation-Id: 49b94b62-5d0f-4486-5675-08dc4d429d51
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	GW9wITTQexcUAjE7sbz86LZF+StuOuAtrH7EZhDT2/g795GKPzG5Fa0mo+o6imSKavlroFHI/MDiU8hE4RCsSInfMNX09EDEhEAznnVzfYwtjLFAp8crIuA5GnyofTM7+kL1zq2mpK1dLefI06ccwXuDENG7o/Q17+2YpppU55tWXCIyuw9zUivx3MQsbM5O3WZzjzD7ahpUWbsEVYJsY/e8S6D8DZhxiDhgQ+yBXRhK0JS88xsq8elgc4LosnmdDFvLMyOWYBXz+N1Ondg3QeZVGLS3sym63C+2ucalCebHnK0nx8xn4TpWGcsrWiTQDPCtXIs6xhyZ8+i9M50C0/S9OsQzNqnCsn16LB+CQuXtpjvUYhT9Mj7NTxSNkqMRWc28vhAydHI0MyXBPjAJ3RozQhoIi9gZ90gorMbOTy87GKonMYyci15fvYZ+CPbzOrbi80fVSxxiHUJ4zNgW7S+1gX3bdYGF0LPujVs5TbRWV6DGP8lQjMmmVFOJapuUH5zSwz+rie5F0eHnD2wdNOGWPsizPM9p0Xc8svS932ZDCZQqnD8NaRwM3TCSNBuW+rXr747lFwSJHkUtUd8Kdu6sFdLV6n43vNE+nR0I/ka4OBWwuzEsPAjG9xp/VwWB
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230031)(366007)(52116005)(1800799015)(41320700004)(7416005)(38350700005);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?sop5JPLTm4Zc1T9v8f5CMczxuowyU3s+aOexZb1vEeFy6U20SfEnKVUdGf8E?=
- =?us-ascii?Q?SOBTPFVM9jF8CVzwBOdUMI/dzBbARCyBC8QcJnYNyX4YIpl18RLumi2fOv7w?=
- =?us-ascii?Q?P6QIDzAdYB7lK/zB9qg/9E716myD2xVvRfUcHdhCfKvso7cRLEDmV3HUXN+i?=
- =?us-ascii?Q?TApJCdfaiUK4D0YhSPr+o2fEC0K/ucEUVhTASLRn7Ing5IdWKG5D0b5HRO31?=
- =?us-ascii?Q?QD1V1V5KtUOSj3v89DK/jWYe+RDAiYMHDTSg/F1J5eCWjKpfNIW5QNV1rdS5?=
- =?us-ascii?Q?XgEfBEnoE8ENPgCJuptcUxAOGdHjx79NGFxDJf13GKKzli0inqa5ARp4DGdD?=
- =?us-ascii?Q?aoO4R9Evm42Ua4repRE5PU8oqvFA48dPm7eM1uwBf/VYtzhBadCr67Ep9sO5?=
- =?us-ascii?Q?cnf21Vu5ASHyQd0q2KE+QXR0HO2si3V2458GQbVNppL+ys9xh4UiRBIhacLb?=
- =?us-ascii?Q?y1TAVPovJJ/zQt7gM90vLRmk84u8SKmKxFFlCDrNOYQliDPpZaM06KHLBA9Y?=
- =?us-ascii?Q?sGLHJ5AWDmk1JSUwDko4fjU0SMlvN++aEpoKsnBUljcs67kS7usCaIs1DLGJ?=
- =?us-ascii?Q?C4b2UeDiJ6LdDz4JUXALUDvrnlsAgHeNa6ccMpw4mKRsCcn7B2652uJRs5TR?=
- =?us-ascii?Q?Q9hdPzMJDDo/I061dLVrP5AjV1NeJHy05a67meiIMXtoNQ7wocRozuAqRUvQ?=
- =?us-ascii?Q?2zPJr4byeh2JUqyzJzAJoLV5zeSsqZmK2Iw+JyU6QYQyASOb1qVCXsPofDP4?=
- =?us-ascii?Q?39Zc8jBsTOl/GiH2TENFCtNQ+nX/AhzOWLWhbQaHNNiBHqtWSBPsfVHPpqg6?=
- =?us-ascii?Q?VywxGSN1N2xYD5nOHo9N3kZqcTN7tx69Idlhb415P0utAUVH+S2gi214212M?=
- =?us-ascii?Q?M3aITL+c5/2Uoz7gPDNyD/91FM//j8ZRQcO0CC4KzSiZiHrxbmlABPyCxTo7?=
- =?us-ascii?Q?GY22Ewpa1d7IIxOxeBRScx0rCV8EmYgXBXmD9lczT1y2vAj4Z9PM2MUpwW/Y?=
- =?us-ascii?Q?70u2x9985TxZntu96TKSghiTqozVHZHJgslY8N1zPQ5fDxfzjfjAeOOfBHV/?=
- =?us-ascii?Q?xGbkBcos79uYK3sdAY10+Arfweh6GYz5TZ3ryrBWCnPEDSF9RWIAGhwuEgCm?=
- =?us-ascii?Q?idSv6ETlu+GO8jk5t7ZSvAHlO0Ot4YT/JNpsQSU0F+VOAiCnObsS5hUlbHlB?=
- =?us-ascii?Q?4J5FfntOOuCcapW/fGBCnB5NlPIu8mKZudDqXoXIW5jLJMQ9x5ZMmzHBxAgR?=
- =?us-ascii?Q?wVPpHyFyDimZobP28Q4XKxJbrnb0Knae6JzloKTy/81jaDYn4H8WOn2vBcw2?=
- =?us-ascii?Q?fuVj+OCPFti9F7IWKzn4dkTo1DgUZlOZb9qjU07sNmPiVzF2qooGed0nfDkf?=
- =?us-ascii?Q?iHtsTpmpXe0XUgLg2AFqQZmcODWW1KUo39IoyuP4cBt0id5xFKS/fYWUZQ7U?=
- =?us-ascii?Q?tip3oo56uvVM5ruY4F3Ukg+huQ2Y/wX54Yfl8DgsGMiDqLFbZvosTGgCVIi+?=
- =?us-ascii?Q?V5394VdpeEm0zY2rSN0Q2QbAEdXhEk/gI/AcDEmB9ywWr9XLcDc8uQlET512?=
- =?us-ascii?Q?6cGCI6yCp+mcXl/fFIJ/dSuFvwrCBJFCi7JNWyzZrrPZD4EuCz06u/gfg3Ye?=
- =?us-ascii?Q?rYKCxiiljT54dz8TeUefoUs=3D?=
-X-OriginatorOrg: starfivetech.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 49b94b62-5d0f-4486-5675-08dc4d429d51
-X-MS-Exchange-CrossTenant-AuthSource: SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2024 03:12:48.3860
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MtXlffkcSi+7rHzpI0CShw3b78XMv+CK4187FuaVwb4SnibnHCNMyipBEFAkCwVlKv5jSVHdPC52NaNu1e0Av3Cry2czff7yIJnfStVLoeaCP3jLLYe1FEMDvkC52uRa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SHXPR01MB0622
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240325195112.GA17878@matrix-ESPRIMO-P710>
 
-This patch implements suspend and resume operation for Cadence MIPI-CSI2
-RX Controller.
+On Mon, Mar 25, 2024 at 08:51:12PM +0100, Philipp Hortmann wrote:
+> Tests on wlan-ng hardware have shown that this driver is broken since
+> April 2021. Remove broken driver. Find fix for bug in link.
 
-Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
----
- drivers/media/platform/cadence/cdns-csi2rx.c | 1 +
- 1 file changed, 1 insertion(+)
+Odd changelog, if you have a fix, why not just submit that instead to
+keep it working?
 
-diff --git a/drivers/media/platform/cadence/cdns-csi2rx.c b/drivers/media/platform/cadence/cdns-csi2rx.c
-index a8b86369e34f..1f629be91bf5 100644
---- a/drivers/media/platform/cadence/cdns-csi2rx.c
-+++ b/drivers/media/platform/cadence/cdns-csi2rx.c
-@@ -778,6 +778,7 @@ static void csi2rx_remove(struct platform_device *pdev)
- 
- static const struct dev_pm_ops csi2rx_pm_ops = {
- 	SET_RUNTIME_PM_OPS(csi2rx_suspend, csi2rx_resume, NULL)
-+	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
- };
- 
- static const struct of_device_id csi2rx_of_table[] = {
--- 
-2.25.1
+I'm all for deleting drivers that are broken, and obviously not used,
+but a better changelog might be needed here.
 
+thanks,
+
+greg k-h
