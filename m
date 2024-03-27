@@ -1,128 +1,86 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92167262BE
-	for <linux-staging@lists.linux.dev>; Wed, 27 Mar 2024 10:34:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1BD213A3E2
+	for <linux-staging@lists.linux.dev>; Wed, 27 Mar 2024 13:10:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711535691; cv=none; b=MVE+h8n67dxBT5YPeyV5zmm9RTTEB5aPji2igsTRU2ayJ8JBg3ZEyAkIgCxf5yHsHoL7nT0/oJdqrivM6WT0dCLjeg2wANuen5ElAseghryKsyXhXlwdDILUYibjh5FC96t7NxlVW1zhKaCYnJhiiko7trDW5N7EpwjpUV3g9F0=
+	t=1711545028; cv=none; b=TKGigzhqOhIvjugPmSe66gbwQoDhb1loPOITkJlOUS8wjBLX4w0WYzxjMGSM3NhzAkTRrCQP1xmhHmxMcFPlC7dDSLi4G7fmSEBi72if+djIz9Z/2xhTY2JqKx5YIaZd0vkWwFj+puQ1mH4xJgOb8Vmj4xmzZ1OKu3c79iZs7sc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711535691; c=relaxed/simple;
-	bh=4jje5NEtLbfC42GRy88kRZdlH+ujdSL7a1ZYybJ+xVk=;
+	s=arc-20240116; t=1711545028; c=relaxed/simple;
+	bh=H3xadqQfDw/NU4PTfDU+D7Sbt/ALnmmUzI9ke2A9X7E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N0EZmSy9x2gHaTsKZv5e3bWQA/V1B/eQzkfuNYeqD/tj49+bZ3fgQbdh4I8LfPVk44NIDmiQC4VhYABVbqChw+wfMVaSCAik4uYfB8Ng+TEOmJ88XmwzMNT6fHxL5h3i7hVTqklRHoZOa9qEx7f6xQ471hAM9puaPKSPOhSLcsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=MljacT9E; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wmn800Atln27lTIn/gFYrIBDZex++FK8auu6ZhsjShwzr/jb5WI1xesOOWys7+4wvBFHvBy6BWvSm6puzfyaDzEl+vqlox7U2z3qJouBSbWLwWJz8YXaQzO70euQ7SK9Pd6vdObYq6NA8OGHhJrv65bVcOrMf1UxIF0E6EH8qto=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eGsYtM/w; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="MljacT9E"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1711535688;
-	bh=4jje5NEtLbfC42GRy88kRZdlH+ujdSL7a1ZYybJ+xVk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MljacT9E0tWaqvup30MvFhY8+rt5/zDUTgxDEpHJjq2yArIDDq42p01ILR09Jt3PG
-	 LIwQ1/DsOMRwUA30cOGJ9zlcUoYp9OTZPNLHkwwtQe4LCPOX0iiCubQUoKngX9zCXt
-	 Zcsnw2yQU2ZnpsR7Ln99G5lqVzVwRZMG1Iu796lxRsxzoZ4FXQwQ9CekIRsu5jaQ+G
-	 H1vpyQm0w+H2Mr29YFKNczMJR8HJRQ2S+TTw4NucovOGQrs4LCC/RHPj/w+cDBFi4v
-	 JtgFVCJUWXXd+ApZZ7jhbpQEobz1+BFFs5ygHgW0/LnGxD1IftQe/JYkECu36APBc4
-	 vQhV1KuLal3tA==
-Received: from localhost (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sebastianfricke)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id B72BC37820A3;
-	Wed, 27 Mar 2024 10:34:47 +0000 (UTC)
-Date: Wed, 27 Mar 2024 11:34:46 +0100
-From: Sebastian Fricke <sebastian.fricke@collabora.com>
-To: coolrrsh@gmail.com
-Cc: slongerbeam@gmail.com, p.zabel@pengutronix.de, mchehab@kernel.org,
-	gregkh@linuxfoundation.org, shawnguo@kernel.org,
-	s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
-	linux-imx@nxp.com, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH v3] staging: media: remove duplicate line
-Message-ID: <20240327103446.45lw5zjghwwcu27h@basti-XPS-13-9310>
-References: <20240327023340.3710-1-coolrrsh@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eGsYtM/w"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1711545027; x=1743081027;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=H3xadqQfDw/NU4PTfDU+D7Sbt/ALnmmUzI9ke2A9X7E=;
+  b=eGsYtM/w9ALUKledNdg4DTWMbWfLOJ24I7JKsHHL388DY6Xg/x36TmaU
+   gfk99o4VgWhHcW/4AMZxRFbcNSAO5Mr6WU1cgY0+tKiFjp/R6ztsVSpZX
+   A+Eq3hlUQqg80m3VNPcNryPoXuKtzAei1OaCHHZaxDyEm45mlohDgCZL2
+   wHxAlsggHavsImawKFyEbQf7qRJcY0Sm0ek4QCElRQCg1c9ZJHTADyi8K
+   f8uU2eV5SkmYbrd/vXlb6R43szCrOiecULOaW+1DL2ZrbHr8fXLBYN5Qn
+   nT2LVuIGUehO3A4nd07DlDzjnHf4HmCji9PamgOpSo88B/ki1eYWzQBvr
+   g==;
+X-CSE-ConnectionGUID: YusqotP3SFSBuudueb+HXA==
+X-CSE-MsgGUID: l6x0HeWGQV6/1T12+/6gFg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="6581054"
+X-IronPort-AV: E=Sophos;i="6.07,158,1708416000"; 
+   d="scan'208";a="6581054"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2024 06:10:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="914912955"
+X-IronPort-AV: E=Sophos;i="6.07,158,1708416000"; 
+   d="scan'208";a="914912955"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2024 06:10:23 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1rpT2q-0000000GdiM-49gT;
+	Wed, 27 Mar 2024 15:10:20 +0200
+Date: Wed, 27 Mar 2024 15:10:20 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Shahar Avidar <ikobh7@gmail.com>
+Cc: gregkh@linuxfoundation.org, elder@linaro.org, robh@kernel.org,
+	parthiban.veerasooran@microchip.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/3] staging: pi433: Fix includes, comments & macros.
+Message-ID: <ZgQavKRkO0gt6Qdt@smile.fi.intel.com>
+References: <20240327063156.96307-1-ikobh7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240327023340.3710-1-coolrrsh@gmail.com>
+In-Reply-To: <20240327063156.96307-1-ikobh7@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Hey Rajeshwar,
+On Wed, Mar 27, 2024 at 08:31:53AM +0200, Shahar Avidar wrote:
+> This patchset continues with some cleanups:
+> 
+> 1. Untangle include hierarchy.
+> 2. Delete a misleading comment.
+> 3. Make use of general macro instead of magic number.
 
-On 27.03.2024 08:03, coolrrsh@gmail.com wrote:
->From: Rajeshwar R Shinde <coolrrsh@gmail.com>
->
->The kernel configuration VIDEO_DEV is defined twice in Kconfig.
->Thus, the redundant code is removed.
->
->Signed-off-by: Rajeshwar R Shinde <coolrrsh@gmail.com>
->
->---
->v1->v2
->changed the commit message
->v2->v3
->changed the subject
+> v2->v1:
+> Undo macro update. Remove its inaccurate comment instead.
 
-The subject line isn't any better than before. Lets look at some
-accepted examples together:
+It's your responsibility to carry on the given tags for unchanged patches.
+I believe I gave a tag to two out of three patches.
 
-24d9cb143013 media: staging: imx: controls are from another device, mark this
-67673ed55084 media: staging/imx: rearrange group id to take in account IPU
-483fe862488f9 staging: media: imx: Merge VIDEO_IMX_CSI into VIDEO_IMX_MEDIA
-9958d30f38b96 media: Kconfig: cleanup VIDEO_DEV dependencies
+-- 
+With Best Regards,
+Andy Shevchenko
 
-How did I find these? Simply by running git blame on one or more of the
-files in the driver at drivers/staging/media/imx
 
-As you can see there are slight variations on the first three but the
-general theme is the same, the subject line describes to you that the
-driver is found in staging/media and it tells you that the folder of the
-driver is 'imx'. Generally, `staging: media: imx` would be preferred
-however.
-The 4th case shows you an example with a more general subject line and
-it is justified in this case as the patch does changes on multiple files
-on the whole subsystem (the media subsystem consists of all files found
-in drivers/media, drivers/staging/media, Documentation/admin-guide/media
-and a few header files).
-
-Now if we take this into account for your subject line. You only change
-a single driver, thus you need staging: media: imx:, and you to make
-your subject a bit less ambigious you could call the whole thing:
-
-staging: media: imx: Remove duplicate Kconfig dependency
-
-I hope this helps.
-
-Greetings,
-Sebastian
-
->
->---
-> drivers/staging/media/imx/Kconfig | 1 -
-> 1 file changed, 1 deletion(-)
->
->diff --git a/drivers/staging/media/imx/Kconfig b/drivers/staging/media/imx/Kconfig
->index 21fd79515042..772f49b1fe52 100644
->--- a/drivers/staging/media/imx/Kconfig
->+++ b/drivers/staging/media/imx/Kconfig
->@@ -4,7 +4,6 @@ config VIDEO_IMX_MEDIA
-> 	depends on ARCH_MXC || COMPILE_TEST
-> 	depends on HAS_DMA
-> 	depends on VIDEO_DEV
->-	depends on VIDEO_DEV
-> 	select MEDIA_CONTROLLER
-> 	select V4L2_FWNODE
-> 	select V4L2_MEM2MEM_DEV
->-- 
->2.25.1
->
->
