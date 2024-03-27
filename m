@@ -1,57 +1,57 @@
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
+Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF28F155317
-	for <linux-staging@lists.linux.dev>; Wed, 27 Mar 2024 23:19:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3D4115538A
+	for <linux-staging@lists.linux.dev>; Wed, 27 Mar 2024 23:19:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711581550; cv=none; b=QOTd6IDDyZNSFSe3q8y+VmlAZ5iXSpADY4JIgbiwqsy/rhyYalZJ6TJn0dq+plG2lS41NmbI6uOLwTHEnJwRbLN/jUrcNo2RMr9m4XM330xEcrW5nHGtvshtpMaijIJflUqsiLv+P7EeqA0ufkAJRBxifqztT10rEUjw+R6RhMY=
+	t=1711581552; cv=none; b=u9GySz5wsnl9Har5n4qlzsUrRi/uLI0Fiw3e9e03XHOOf0cpO7ZBG7RVB3JfxE8JjGLpaoUqx211Hn2s/WMfkUKVnQne2Q4rJl4TNz0qd12VaaKmcKH49r0s1EUVRzmfE85wxOG6tuK+MIkDC9Rn7McaS97AMtd60IFkXCT3Zs8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711581550; c=relaxed/simple;
-	bh=A4uSmS5u3AK9wMfER4kmGXxo9e/XTrxNUtjD7xNvI4U=;
+	s=arc-20240116; t=1711581552; c=relaxed/simple;
+	bh=sBLswoaOXaPOvtO52rKuqYQNWurR1XJ6O1U4h0zvPkM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=suu0n4N1bZ45yM0y0bUqtb0Wg7bR1b15rp2pMVfk+TJTXQI4GYEplbU3g8Fn3cfoF5mZ70CHnolClOM0u3hGWjYUM+/u7dikI7F2dVirkrJdJHC2qQt5/cnvhqTuBiTYzavyu8BdhWk2Jw1mfC+2ORE1FCLe+R4zMFdbVBRulZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=LvTsTaoL; arc=none smtp.client-ip=209.85.167.182
+	 MIME-Version:Content-Type; b=T1TIw5PXi4WszMd95WA//qISRZ1bK7PJudQBmBu56QnZQfut3C53jN9UwMWkNGWGbhSWyuo6VW1x/K+2fSFeRMdW2+Iko0UkIA/3SDPsO8qYQIrptR+/HcsSfafqjyGj1GZ0dU2/NqXRR08psSF1OW4iytKRD1zhQkmcGOi+8/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=rsn52VXr; arc=none smtp.client-ip=209.85.160.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="LvTsTaoL"
-Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-3c3e67fd552so24698b6e.3
-        for <linux-staging@lists.linux.dev>; Wed, 27 Mar 2024 16:19:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="rsn52VXr"
+Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-22222357d76so254663fac.2
+        for <linux-staging@lists.linux.dev>; Wed, 27 Mar 2024 16:19:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1711581546; x=1712186346; darn=lists.linux.dev;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1711581548; x=1712186348; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=TOfZtVlJMTFXxAc7ahXTmKHh36zHepITVD/rnFowmPs=;
-        b=LvTsTaoLvD79b4t7LboavWuZd4DcExWNPBqpJP92X/J8P7kuounJV/UlbEZb4VyJT7
-         FNZjCFY5Ngv9rTD5LqpGWSo1EhCD67vs7oG3WyoSVsFjDe6igX6GWfjRfURww0Il6II1
-         0qLadGSsrZn5MmihS8hY27NS52Fy3GnsqjoAIiXxx5yIpLIGVYYxwUIOT+meJIZwvnnS
-         PpatxFwv2kb+nr4wWdeeZ5T0aTAwLwEqSuA6cew5NLJ4orIKU63sCQKVab8mZHXNayg5
-         kK3yV8nJJAAigHa/sFc7HKGL5oRwQArEvXwn/1+MsPc65l4aiRg7BV96LDYe7TPwV/DL
-         LLvQ==
+        bh=KaNlrVh6YX+OdjnoPnmjQwMmZEJRJLFsRjLteQznSUU=;
+        b=rsn52VXrEcVyXES6FTyBB+DEUnggwz5HRkq910/dLzy1O4Jwq9I+ff573bk2CDtha3
+         eHV2UKlpQJcY3v1WxtjC4X0LSOr8O57e30AunPdQ0wsJjs/Vt3+scQwYkKRQOf/hWSb7
+         VfvZJPKfzRRcpuGkpKbaGMjao3cZIpOgOoew7iZs8cUd1QRElyKrD51HbCEUdgC3OgmZ
+         2WzqG2hmNNCGhkHMeQJjwfXZ6vwmP3RTB1br7TIpWOvvN/6O7+Bu8eQtEtQBl8gh4uG8
+         MldNZghqIMCRBnIfDQBUKrB7ACrcWst3fDCyW6Kr4tF6625khCIymEo1LbDGcTW6wPRf
+         cjrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711581546; x=1712186346;
+        d=1e100.net; s=20230601; t=1711581548; x=1712186348;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=TOfZtVlJMTFXxAc7ahXTmKHh36zHepITVD/rnFowmPs=;
-        b=if2gEu0KTwe4Uo/B3ziVyfuXQL751Wnnx4fAYWY+SkfiD/MAyNFr2jo2NaGeBNtHi4
-         zoeNWoghzBcWs6Oebe6P31+ZNycCi1i/61WCpQCjDHuGUM+BDhkKlsyOKMHbLfELwdgq
-         PaQDC+fcda7+yqwnnEnbT45LfckA7LeMRp4bIC6trYVqDeBELuBCnFucvBcrwirIUMRN
-         RW99xRoVtrsu6uT2acfAuPZl0dRTiowOmHAu7KQ4K8pBuIckmLGCOo/RnFyNhJrfO0lz
-         OqaINV+8mBK+LW3RnqBsUfG0C95oVvL9XGVKl7ghne2/NoBJ4dZM7/QCJPH3vvOHHSRF
-         p1pQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUHNlGPMYS7hQeYfbpiT66I/GvydYJGLbnxG+v5pxsm+k9Pu3mlaTTvbHW12zHfWWjkPchNQ0l4BMgadpq0ABivsQNhDBvR5c0zd57/iA==
-X-Gm-Message-State: AOJu0YwUrPFkDAqhqbO9MQSBQpk8m2ro4OGj7BZReg2uR7X0Oov+wikm
-	agly4xxySza3OZIR/ZcMeByje8mtR9jK1IMTiiS0tLgjb0w8ece3RTlG7xDTPN8=
-X-Google-Smtp-Source: AGHT+IHDalMeGbYz9hAS9r44V5EAC6s0DOMiI1r9BYhrkzsEOWfvPSTNn7XD4XpPvS+TyN3y5eBfbA==
-X-Received: by 2002:a05:6870:d14a:b0:22a:4e4e:4d9d with SMTP id f10-20020a056870d14a00b0022a4e4e4d9dmr1284999oac.11.1711581545937;
-        Wed, 27 Mar 2024 16:19:05 -0700 (PDT)
+        bh=KaNlrVh6YX+OdjnoPnmjQwMmZEJRJLFsRjLteQznSUU=;
+        b=b0IY/Ayo4MqCAbquArbRz90OFNn92SI+UfIxKWvUUGk5vU8tNHN9kufXh2YJ781H7z
+         VltspAZ4iUwGboMjsYgbOejnEDYrmCI4q4MU2RRN16dD84q10TmRZ6tbSy2xRQUjuH1g
+         6HowWtibqznZJrUzaFYtDc1bjOlTW4jDlvCN/ymkmcQAEAeorDaowf8P0k/CYrR9Oihv
+         WU7Jq/e4bs/+5HGv2ItrysAl/qDpRBk6K3Yo0O5xQNTw1vx37SksaRZpCoYmildAcKEX
+         WgQBIf4Z1mJeT5eyoALAbNdhEDHuUbGYQJL/OHBqVKj0S2212EJK5WIhaBR5vgiWL7s4
+         T4TQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW6jJZcdpiz4FFghTXRWe25L91P5JYg2CNzAywDmMushOGdh4dX8wihjwCi+xCSk0vDuGUJRljpKqSmKXd2IV0uActI2rqDsjL5JTlc6w==
+X-Gm-Message-State: AOJu0YwxkCFwfqjY1vg0SYCR6/q13K2cEVHR9CvW96/laA7I4NG1uJGm
+	WkFYe5dLIC+kPcTie2LKc2uHnmhSDqORlyeesc4/4/YxWz9jSY1OmX1oQ8PH/Lg=
+X-Google-Smtp-Source: AGHT+IFWJbt2/BUKuKdpJqTrO3Ps0Zm4Bbiulso5ad2yHWD7/eCmYh93EbMlYQB/kOSN+Tatt1jIOQ==
+X-Received: by 2002:a05:6871:a913:b0:22a:1399:a781 with SMTP id wn19-20020a056871a91300b0022a1399a781mr1281622oab.23.1711581548121;
+        Wed, 27 Mar 2024 16:19:08 -0700 (PDT)
 Received: from freyr.lechnology.com (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
-        by smtp.gmail.com with ESMTPSA id js3-20020a056870bac300b0022a0519183csm81381oab.2.2024.03.27.16.19.04
+        by smtp.gmail.com with ESMTPSA id js3-20020a056870bac300b0022a0519183csm81381oab.2.2024.03.27.16.19.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Mar 2024 16:19:05 -0700 (PDT)
+        Wed, 27 Mar 2024 16:19:07 -0700 (PDT)
 From: David Lechner <dlechner@baylibre.com>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Liam Girdwood <lgirdwood@gmail.com>,
@@ -73,9 +73,9 @@ Cc: David Lechner <dlechner@baylibre.com>,
 	linux-iio@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-input@vger.kernel.org
-Subject: [PATCH RFC 3/7] hwmon: (da9052) Use devm_regulator_get_enable_get_voltage()
-Date: Wed, 27 Mar 2024 18:18:52 -0500
-Message-ID: <20240327-regulator-get-enable-get-votlage-v1-3-5f4517faa059@baylibre.com>
+Subject: [PATCH RFC 5/7] iio: frequency: admv1013: Use devm_regulator_get_enable_get_voltage()
+Date: Wed, 27 Mar 2024 18:18:54 -0500
+Message-ID: <20240327-regulator-get-enable-get-votlage-v1-5-5f4517faa059@baylibre.com>
 X-Mailer: git-send-email 2.43.2
 In-Reply-To: <20240327-regulator-get-enable-get-votlage-v1-0-5f4517faa059@baylibre.com>
 References: <20240327-regulator-get-enable-get-votlage-v1-0-5f4517faa059@baylibre.com>
@@ -92,92 +92,123 @@ Content-Transfer-Encoding: 8bit
 We can reduce boilerplate code by using
 devm_regulator_get_enable_get_voltage().
 
+The common mode voltage is now passed as a parameter in the init
+functions so we can avoid adding a state member that is only used
+during init.
+
 Signed-off-by: David Lechner <dlechner@baylibre.com>
 ---
- drivers/hwmon/da9052-hwmon.c | 33 +++++++--------------------------
- 1 file changed, 7 insertions(+), 26 deletions(-)
+ drivers/iio/frequency/admv1013.c | 37 ++++++++-----------------------------
+ 1 file changed, 8 insertions(+), 29 deletions(-)
 
-diff --git a/drivers/hwmon/da9052-hwmon.c b/drivers/hwmon/da9052-hwmon.c
-index 2bd7ae8100d7..70e7bc72e980 100644
---- a/drivers/hwmon/da9052-hwmon.c
-+++ b/drivers/hwmon/da9052-hwmon.c
-@@ -26,7 +26,6 @@ struct da9052_hwmon {
- 	struct mutex		hwmon_lock;
- 	bool			tsi_as_adc;
- 	int			tsiref_mv;
--	struct regulator	*tsiref;
- 	struct completion	tsidone;
+diff --git a/drivers/iio/frequency/admv1013.c b/drivers/iio/frequency/admv1013.c
+index 92923074f930..b0aa3cc27ea9 100644
+--- a/drivers/iio/frequency/admv1013.c
++++ b/drivers/iio/frequency/admv1013.c
+@@ -95,7 +95,6 @@ struct admv1013_state {
+ 	struct clk		*clkin;
+ 	/* Protect against concurrent accesses to the device and to data */
+ 	struct mutex		lock;
+-	struct regulator	*reg;
+ 	struct notifier_block	nb;
+ 	unsigned int		input_mode;
+ 	unsigned int		quad_se_mode;
+@@ -342,14 +341,9 @@ static int admv1013_update_quad_filters(struct admv1013_state *st)
+ 					FIELD_PREP(ADMV1013_QUAD_FILTERS_MSK, filt_raw));
+ }
+ 
+-static int admv1013_update_mixer_vgate(struct admv1013_state *st)
++static int admv1013_update_mixer_vgate(struct admv1013_state *st, int vcm)
+ {
+ 	unsigned int mixer_vgate;
+-	int vcm;
+-
+-	vcm = regulator_get_voltage(st->reg);
+-	if (vcm < 0)
+-		return vcm;
+ 
+ 	if (vcm <= 1800000)
+ 		mixer_vgate = (2389 * vcm / 1000000 + 8100) / 100;
+@@ -443,7 +437,7 @@ static const struct iio_chan_spec admv1013_channels[] = {
+ 	ADMV1013_CHAN_CALIB(1, Q),
  };
  
-@@ -414,32 +413,19 @@ static int da9052_hwmon_probe(struct platform_device *pdev)
- 		device_property_read_bool(pdev->dev.parent, "dlg,tsi-as-adc");
- 
- 	if (hwmon->tsi_as_adc) {
--		hwmon->tsiref = devm_regulator_get(pdev->dev.parent, "tsiref");
--		if (IS_ERR(hwmon->tsiref)) {
--			err = PTR_ERR(hwmon->tsiref);
--			dev_err(&pdev->dev, "failed to get tsiref: %d", err);
-+		err = devm_regulator_get_enable_get_voltage(pdev->dev.parent,
-+							    "tsiref");
-+		if (err < 0)
- 			return err;
--		}
--
--		err = regulator_enable(hwmon->tsiref);
--		if (err)
--			return err;
--
--		hwmon->tsiref_mv = regulator_get_voltage(hwmon->tsiref);
--		if (hwmon->tsiref_mv < 0) {
--			err = hwmon->tsiref_mv;
--			goto exit_regulator;
--		}
- 
- 		/* convert from microvolt (DT) to millivolt (hwmon) */
--		hwmon->tsiref_mv /= 1000;
-+		hwmon->tsiref_mv = err / 1000;
- 
- 		/* TSIREF limits from datasheet */
- 		if (hwmon->tsiref_mv < 1800 || hwmon->tsiref_mv > 2600) {
- 			dev_err(hwmon->da9052->dev, "invalid TSIREF voltage: %d",
- 				hwmon->tsiref_mv);
--			err = -ENXIO;
--			goto exit_regulator;
-+			return -ENXIO;
- 		}
- 
- 		/* disable touchscreen features */
-@@ -456,7 +442,7 @@ static int da9052_hwmon_probe(struct platform_device *pdev)
- 		if (err) {
- 			dev_err(&pdev->dev, "Failed to register TSIRDY IRQ: %d",
- 				err);
--			goto exit_regulator;
-+			return err;
- 		}
- 	}
- 
-@@ -472,9 +458,6 @@ static int da9052_hwmon_probe(struct platform_device *pdev)
- exit_irq:
- 	if (hwmon->tsi_as_adc)
- 		da9052_free_irq(hwmon->da9052, DA9052_IRQ_TSIREADY, hwmon);
--exit_regulator:
--	if (hwmon->tsiref)
--		regulator_disable(hwmon->tsiref);
- 
- 	return err;
- }
-@@ -483,10 +466,8 @@ static void da9052_hwmon_remove(struct platform_device *pdev)
+-static int admv1013_init(struct admv1013_state *st)
++static int admv1013_init(struct admv1013_state *st, int vcm_uv)
  {
- 	struct da9052_hwmon *hwmon = platform_get_drvdata(pdev);
+ 	int ret;
+ 	unsigned int data;
+@@ -483,7 +477,7 @@ static int admv1013_init(struct admv1013_state *st)
+ 	if (ret)
+ 		return ret;
  
--	if (hwmon->tsi_as_adc) {
-+	if (hwmon->tsi_as_adc)
- 		da9052_free_irq(hwmon->da9052, DA9052_IRQ_TSIREADY, hwmon);
--		regulator_disable(hwmon->tsiref);
--	}
+-	ret = admv1013_update_mixer_vgate(st);
++	ret = admv1013_update_mixer_vgate(st, vcm_uv);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -498,11 +492,6 @@ static int admv1013_init(struct admv1013_state *st)
+ 					  st->input_mode);
  }
  
- static struct platform_driver da9052_hwmon_driver = {
+-static void admv1013_reg_disable(void *data)
+-{
+-	regulator_disable(data);
+-}
+-
+ static void admv1013_powerdown(void *data)
+ {
+ 	unsigned int enable_reg, enable_reg_msk;
+@@ -557,11 +546,6 @@ static int admv1013_properties_parse(struct admv1013_state *st)
+ 	else
+ 		return -EINVAL;
+ 
+-	st->reg = devm_regulator_get(&spi->dev, "vcm");
+-	if (IS_ERR(st->reg))
+-		return dev_err_probe(&spi->dev, PTR_ERR(st->reg),
+-				     "failed to get the common-mode voltage\n");
+-
+ 	ret = devm_regulator_bulk_get_enable(&st->spi->dev,
+ 					     ARRAY_SIZE(admv1013_vcc_regs),
+ 					     admv1013_vcc_regs);
+@@ -578,7 +562,7 @@ static int admv1013_probe(struct spi_device *spi)
+ {
+ 	struct iio_dev *indio_dev;
+ 	struct admv1013_state *st;
+-	int ret;
++	int ret, vcm_uv;
+ 
+ 	indio_dev = devm_iio_device_alloc(&spi->dev, sizeof(*st));
+ 	if (!indio_dev)
+@@ -597,16 +581,11 @@ static int admv1013_probe(struct spi_device *spi)
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = regulator_enable(st->reg);
+-	if (ret) {
+-		dev_err(&spi->dev, "Failed to enable specified Common-Mode Voltage!\n");
++	ret = devm_regulator_get_enable_get_voltage(&spi->dev, "vcm");
++	if (ret < 0)
+ 		return ret;
+-	}
+ 
+-	ret = devm_add_action_or_reset(&spi->dev, admv1013_reg_disable,
+-				       st->reg);
+-	if (ret)
+-		return ret;
++	vcm_uv = ret;
+ 
+ 	st->clkin = devm_clk_get_enabled(&spi->dev, "lo_in");
+ 	if (IS_ERR(st->clkin))
+@@ -620,7 +599,7 @@ static int admv1013_probe(struct spi_device *spi)
+ 
+ 	mutex_init(&st->lock);
+ 
+-	ret = admv1013_init(st);
++	ret = admv1013_init(st, vcm_uv);
+ 	if (ret) {
+ 		dev_err(&spi->dev, "admv1013 init failed\n");
+ 		return ret;
 
 -- 
 2.43.2
