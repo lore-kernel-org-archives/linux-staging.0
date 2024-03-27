@@ -1,55 +1,57 @@
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
+Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45B0B154C02
-	for <linux-staging@lists.linux.dev>; Wed, 27 Mar 2024 23:19:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90959154C09
+	for <linux-staging@lists.linux.dev>; Wed, 27 Mar 2024 23:19:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711581545; cv=none; b=VtotkCTn6jyo0s2hN2OIsqVbnPTwrG5Tsuy9JTViTErzXiVR4NYSgTDWQs7I6KIfDhRxoPrOHRwwDNFicaO4gMxN7B+2pA/jXPLsipepVL6t/wP+RhHBJFCdbSFQJzWhGGgNIny9EEQyXBPEUH8rq77FvynZ/pSMx0WDHKQVOD4=
+	t=1711581547; cv=none; b=p5hKRhJfjUNNjUuOW4EHEodzjporVmOiTSgQN3kXINsOSgV5pnohYy2ICIsjIfVentbOW7nO9h+AfJf3YZ6Ob8DKRgqS/Cf9AjQGKmMCOXdjH4Dwm12l4rPCrqM+bU57ICUjD7furHAQSHnuksDVSeP/AJimCkGHp/97QwOXhWg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711581545; c=relaxed/simple;
-	bh=Oin5ojSwy2humzjzfHVDPNnW4ZK/nwUgFx0t+HKuAB4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=nuSi+qm3Aft1Sj72yyfwmAi54i4evucS31QGS9G7yw6ZiAg9UbpMltmxr8fAFBNtKOmtFwR4LCzYSjT+ZKDsXbDa47xL401txgPHqhTq36BfDw0CR/KoiXANpwyzFC1WxTAVnGJLDoMyDFkhW4aXJ9SxdZy3eThGVBC5ibT/DUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=wTs8ttbL; arc=none smtp.client-ip=209.85.160.44
+	s=arc-20240116; t=1711581547; c=relaxed/simple;
+	bh=ly8n7SxGz9Lf2EUP25mArGs3mqGcGcPAZGBiTMozfFk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=n1eILeSpmkjrgwcfvrnGUsL9f/8dvCGuCIJMscDrNpsMLNn0l7oBWuTkKkXiJhdXVNZMo2jtqqXILq2kRoT+Vt3AY0YquaUWbtylNZDU8GunkCXS3sNDCVNi5N267m5Q6dvhVSiqaNfq0W5X8V+JtVKO5C6Sre9lDVc3nHHyIt8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=ZSobPD/Q; arc=none smtp.client-ip=209.85.160.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="wTs8ttbL"
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-22a8df1df8fso232119fac.2
-        for <linux-staging@lists.linux.dev>; Wed, 27 Mar 2024 16:19:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="ZSobPD/Q"
+Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-2228c4c5ac3so260866fac.0
+        for <linux-staging@lists.linux.dev>; Wed, 27 Mar 2024 16:19:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1711581542; x=1712186342; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=pNmxlM+zWytQQYi7ZtjQVmkQiumnd7DNMgYQxgBRWM8=;
-        b=wTs8ttbLXpb7VypdlMA6zDXLozWFx3jMT/pwSQGPEUQI+ppWWy6NMTuk3xwQg7MRst
-         NeolT3bqXNT0bWZoOPETqEijbcpYat01ulcfgddJ9phQIAX7M0m4fN6bwMsmGfNUMemL
-         BYvt2tH/EjKEdiZXx28vSXms5doThPsfox1BeavlMuXbvYv0v8ve+J/PTpYtNl2CT4hh
-         kCYQ/MOEROv0hWahASLIjFrbPXwlTZZt34QSW90vUYSGLXVBsAj1EFsfHX9Dt9UX/PEo
-         fJbQ/JS+zS6zC6PE8YudUqggOzZq3jWZJRosVMIRkeiDZL16WEydX0h6hLfGmg1/Kd09
-         Qm7w==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1711581544; x=1712186344; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PE6UqUKX3G/FV5HVYmxMOtqukpZG7UeidX96eu+NYsg=;
+        b=ZSobPD/QIVHV4jmFgPVAo4KFkBF9HPBQM0TB6QMEx4GNVteHGghT3SdtNBt6WtYnp4
+         V/yde6C36lXBe5PJaKEmiaj0Wh+tZckhN/1LXgq5lVjRuNgSHEHzsEGQGGISnGzVYX2N
+         PIK3NVUEixY7qNi6FUfHgQEuiJw3t15qlOQkA6BiRyFTQnlNZb6pvAUejwt8ysBKJKUK
+         mk8NTbHwNwsE9RtZxuIS93n/st7mNR585kEOfGq/3Inl8bf1EcjPqVsiihIFrmYWksKE
+         mmlYZWF6ojyCpkQbGYUlG3Bpy80f0VK8CposOB2FL9Xa6EVUn6Vivmxp06nLkrXeb/6l
+         XmEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711581542; x=1712186342;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pNmxlM+zWytQQYi7ZtjQVmkQiumnd7DNMgYQxgBRWM8=;
-        b=Yw525RkwLOUtNZKpfON8iGIRd05uiZBBu3bNrfPulEBDRNIMOzcXXzpL/fVsL5jk1I
-         8HpQ6XAkueNoBVa1pOPIjrNYvoI4ha+f/tvTPU5pNEkQKOnw2/9L0vCKWXm1PASFewEf
-         B1XV8Gr9luxT6q10h1URzapfEF7sWINa6pUwPNufdYd3VVXT2UkXMfbkYCV6bfL/hnmD
-         84zE/rayK5tJqAU5zv+zM5CgYhJUDGSraRfATtk03Tsq5/0UVEquf3xrBz95+kgMJzrr
-         /V1I0nCmuFdyztEBAFYJTbSWG1gSnb5jRI6eqrffu2QmXj+9i9Xr9HXvMCddFNCXnWXh
-         aobg==
-X-Forwarded-Encrypted: i=1; AJvYcCUyDjwKxWRL2Tab4QQ+CDHJzwE3bntjWE9JhmecvtE2Bqbbhj7mpzM9un1qO2T57cTAcTFi8GrgTGKiVBEGB9SQaxvDJAWF1NeZsm8r+Q==
-X-Gm-Message-State: AOJu0Yyg9QYR9YnDlESLghDtnZ5IYrsKkIDxrcH0aq2CtT1J754A4NPX
-	UKt2vlqx93xBxLd9v3LiKfEPlqGFhbDOQZlDcjGmh9B/wNjkOQXVxyQI5vPLfDg=
-X-Google-Smtp-Source: AGHT+IH0jcJOIn91SYG/gvmxB532Ey13hS1+uAizEDZdhgZnM4KKp+HBnfwPVKzM9sb2VsY2xY892g==
-X-Received: by 2002:a05:6871:2b2a:b0:22a:55bd:a048 with SMTP id dr42-20020a0568712b2a00b0022a55bda048mr1167094oac.5.1711581542433;
-        Wed, 27 Mar 2024 16:19:02 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1711581544; x=1712186344;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=PE6UqUKX3G/FV5HVYmxMOtqukpZG7UeidX96eu+NYsg=;
+        b=wIdoJJvusMkypcMD7Jg/vPQJbCea70DusWXeh00v/VPVbUQVh/Inxp2phY6xjdz2JO
+         znupyBkJY43r6YkjgIZs83eYhp4g7GFWz7anl+wS/LapCaxgLNY5jgRo93gJoVw/VE4g
+         tiVp7Wor1Bu6B3LmqOgSh3GYBfILlJ9w+55U1+uwP64QWFc5QLEjs0pkV3b/MYf56QmI
+         3F0lrUIUIdRI686aJ7d/9ANfqNE5LVahrw0c51ixcB4nqZlcETCfluqI1y2EdnjUGdgD
+         TNsSsdJ4mT3tLwcyFOM8TakQyBYn0KjD2akdJHFH3e+b/W5KvISld6tn/BekgBh7FTD5
+         L7Kg==
+X-Forwarded-Encrypted: i=1; AJvYcCXdk/o/9WJFPoh4k6w+t3sYCAr5cAnwjWJnXQNz1IbvpDgHKoqfFu/GeEcgC6Rv5UGLAkG4aBrEAEjofYVYJzYMbOAF5ltZ8pN0o/ITFw==
+X-Gm-Message-State: AOJu0Yz/UrT6Oz6Q8iXFsqxjP5OZiMDkqSumlKG2RJpt91iqETRxCWWI
+	gKVTBhi70Hvq2s54fZiAHdnJxGx2XRIdiaX5RZflOPG4dKmTPZi4ZW6EzI8Ben0=
+X-Google-Smtp-Source: AGHT+IEoTHHATEQkuJa2BbeiTLbiTgSE1yaSMq5ULG3gGF3llvbq0XtMCg26/o3L5+Q/P6Gnym6iXw==
+X-Received: by 2002:a05:6870:7d19:b0:22a:5690:f056 with SMTP id os25-20020a0568707d1900b0022a5690f056mr1316238oab.44.1711581543700;
+        Wed, 27 Mar 2024 16:19:03 -0700 (PDT)
 Received: from freyr.lechnology.com (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
-        by smtp.gmail.com with ESMTPSA id js3-20020a056870bac300b0022a0519183csm81381oab.2.2024.03.27.16.19.01
+        by smtp.gmail.com with ESMTPSA id js3-20020a056870bac300b0022a0519183csm81381oab.2.2024.03.27.16.19.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Mar 2024 16:19:01 -0700 (PDT)
+        Wed, 27 Mar 2024 16:19:03 -0700 (PDT)
 From: David Lechner <dlechner@baylibre.com>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Liam Girdwood <lgirdwood@gmail.com>,
@@ -71,10 +73,12 @@ Cc: David Lechner <dlechner@baylibre.com>,
 	linux-iio@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-input@vger.kernel.org
-Subject: [PATCH RFC 0/7] regulator: new APIs for voltage reference supplies
-Date: Wed, 27 Mar 2024 18:18:49 -0500
-Message-ID: <20240327-regulator-get-enable-get-votlage-v1-0-5f4517faa059@baylibre.com>
+Subject: [PATCH RFC 1/7] regulator: devres: add APIs for reference supplies
+Date: Wed, 27 Mar 2024 18:18:50 -0500
+Message-ID: <20240327-regulator-get-enable-get-votlage-v1-1-5f4517faa059@baylibre.com>
 X-Mailer: git-send-email 2.43.2
+In-Reply-To: <20240327-regulator-get-enable-get-votlage-v1-0-5f4517faa059@baylibre.com>
+References: <20240327-regulator-get-enable-get-votlage-v1-0-5f4517faa059@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -85,45 +89,168 @@ Content-Type: text/plain; charset="utf-8"
 X-Mailer: b4 0.12.4
 Content-Transfer-Encoding: 8bit
 
-In the IIO subsystem, we noticed a pattern in many drivers where we need
-to get, enable and get the voltage of a supply that provides a reference
-voltage. In these cases, we only need the voltage and not a handle to
-the regulator. Another common pattern is for chips to have an internal
-reference voltage that is used when an external reference is not
-available. There are also a few drivers outside of IIO that do the same.
+A common use case for regulators is to supply a reference voltage to an
+analog input or output device. This adds two new devres APIs to get,
+enable, and get the voltage in a single call. This allows eliminating
+boilerplate code in drivers that use reference supplies in this way.
 
-So we would like to propose a couple of new regulator consumer APIs to
-handle these specific cases to avoid repeating the same boilerplate code
-in multiple drivers.
+devm_regulator_get_enable_get_voltage() is intended for cases where the
+supply is required to provide an external reference voltage.
 
-As an example of how these functions are used, I have included a few
-patches to consumer drivers. But to avoid a giant patch bomb, I have
-omitted the iio/adc and iio/dac patches I have prepared from this
-series. I will send those separately but these will add 12 more users
-of devm_regulator_get_enable_get_voltage() and 24 more users of
-devm_regulator_get_optional_enable_get_voltage(). In total, this will
-eliminate nearly 1000 lines of similar code.
+devm_regulator_get_optional_enable_get_voltage() is intended for cases
+where the supply is optional and device typically uses an internal
+reference voltage if the supply is not available.
 
+Signed-off-by: David Lechner <dlechner@baylibre.com>
 ---
-David Lechner (7):
-      regulator: devres: add APIs for reference supplies
-      hwmon: (adc128d818) Use devm_regulator_get_optional_enable_get_voltage()
-      hwmon: (da9052) Use devm_regulator_get_enable_get_voltage()
-      iio: addac: ad74115: Use devm_regulator_get_enable_get_voltage()
-      iio: frequency: admv1013: Use devm_regulator_get_enable_get_voltage()
-      staging: iio: impedance-analyzer: admv1013: Use devm_regulator_get_enable_get_voltage()
-      Input: mpr121: Use devm_regulator_get_enable_get_voltage()
-
  Documentation/driver-api/driver-model/devres.rst |  2 +
- drivers/hwmon/adc128d818.c                       | 55 +++++-----------
- drivers/hwmon/da9052-hwmon.c                     | 33 ++--------
- drivers/iio/addac/ad74115.c                      | 28 +-------
- drivers/iio/frequency/admv1013.c                 | 37 +++--------
- drivers/input/keyboard/mpr121_touchkey.c         | 45 +------------
  drivers/regulator/devres.c                       | 83 ++++++++++++++++++++++++
- drivers/staging/iio/impedance-analyzer/ad5933.c  | 24 +------
  include/linux/regulator/consumer.h               | 14 ++++
- 9 files changed, 138 insertions(+), 183 deletions(-)
----
-base-commit: c5b2db5859957150ac6ed305ab41a4a92ca40cfb
-change-id: 20240326-regulator-get-enable-get-votlage-5dedf40ff338
+ 3 files changed, 99 insertions(+)
+
+diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
+index 7be8b8dd5f00..fd954d09e13c 100644
+--- a/Documentation/driver-api/driver-model/devres.rst
++++ b/Documentation/driver-api/driver-model/devres.rst
+@@ -433,9 +433,11 @@ REGULATOR
+   devm_regulator_bulk_put()
+   devm_regulator_get()
+   devm_regulator_get_enable()
++  devm_regulator_get_enable_get_voltage()
+   devm_regulator_get_enable_optional()
+   devm_regulator_get_exclusive()
+   devm_regulator_get_optional()
++  devm_regulator_get_optional_enable_get_voltage()
+   devm_regulator_irq_helper()
+   devm_regulator_put()
+   devm_regulator_register()
+diff --git a/drivers/regulator/devres.c b/drivers/regulator/devres.c
+index 90bb0d178885..e240926defc5 100644
+--- a/drivers/regulator/devres.c
++++ b/drivers/regulator/devres.c
+@@ -145,6 +145,89 @@ struct regulator *devm_regulator_get_optional(struct device *dev,
+ }
+ EXPORT_SYMBOL_GPL(devm_regulator_get_optional);
+ 
++static int _devm_regulator_get_enable_get_voltage(struct device *dev,
++						  const char *id,
++						  bool silent_enodev)
++{
++	struct regulator *r;
++	int ret;
++
++	/*
++	 * Since we need a real voltage, we use devm_regulator_get_optional()
++	 * here to avoid getting a dummy regulator if the supply is not present.
++	 */
++	r = devm_regulator_get_optional(dev, id);
++	if (silent_enodev && PTR_ERR(r) == -ENODEV)
++		return -ENODEV;
++	if (IS_ERR(r))
++		return dev_err_probe(dev, PTR_ERR(r),
++				     "failed to get regulator '%s'\n", id);
++
++	ret = regulator_enable(r);
++	if (ret)
++		return dev_err_probe(dev, ret,
++				     "failed to enable regulator '%s'\n", id);
++
++	ret = devm_add_action_or_reset(dev, regulator_action_disable, r);
++	if (ret)
++		return dev_err_probe(dev, ret,
++				     "failed to add disable action for regulator '%s'\n",
++				     id);
++
++	ret = regulator_get_voltage(r);
++	if (ret < 0)
++		return dev_err_probe(dev, ret,
++				     "failed to get voltage for regulator '%s'\n",
++				     id);
++
++	return ret;
++}
++
++/**
++ * devm_regulator_get_enable_get_voltage - Resource managed regulator get and
++ *                                         enable that returns the voltage
++ * @dev: device to supply
++ * @id:  supply name or regulator ID.
++ *
++ * Get and enable regulator for duration of the device life-time.
++ * regulator_disable() and regulator_put() are automatically called on driver
++ * detach. See regulator_get_optional(), regulator_enable(), and
++ * regulator_get_voltage() for more information.
++ *
++ * This is a convenience function for supplies that provide a reference voltage
++ * where the consumer driver just needs to know the voltage and keep the
++ * regulator enabled. Also, as a convenience, this prints error messages on
++ * failure.
++ *
++ * Returns: voltage in microvolts on success, or an error code on failure.
++ */
++int devm_regulator_get_enable_get_voltage(struct device *dev, const char *id)
++{
++	return _devm_regulator_get_enable_get_voltage(dev, id, false);
++}
++EXPORT_SYMBOL_GPL(devm_regulator_get_enable_get_voltage);
++
++/**
++ * devm_regulator_get_optional_enable_get_voltage - Resource managed regulator
++ *                                                  get and enable that returns
++ *                                                  the voltage
++ * @dev: device to supply
++ * @id:  supply name or regulator ID.
++ *
++ * This function is identical to devm_regulator_get_enable_get_voltage() except
++ * that it does not print an error message in the case of -ENODEV. Callers are
++ * expected to handle -ENODEV as a special case instead of passing it on as an
++ * error.
++ *
++ * Returns: voltage in microvolts on success, or an error code on failure.
++ */
++int devm_regulator_get_optional_enable_get_voltage(struct device *dev,
++						   const char *id)
++{
++	return _devm_regulator_get_enable_get_voltage(dev, id, true);
++}
++EXPORT_SYMBOL_GPL(devm_regulator_get_optional_enable_get_voltage);
++
+ static int devm_regulator_match(struct device *dev, void *res, void *data)
+ {
+ 	struct regulator **r = res;
+diff --git a/include/linux/regulator/consumer.h b/include/linux/regulator/consumer.h
+index 4660582a3302..35596db521a0 100644
+--- a/include/linux/regulator/consumer.h
++++ b/include/linux/regulator/consumer.h
+@@ -164,6 +164,8 @@ struct regulator *__must_check devm_regulator_get_optional(struct device *dev,
+ 							   const char *id);
+ int devm_regulator_get_enable(struct device *dev, const char *id);
+ int devm_regulator_get_enable_optional(struct device *dev, const char *id);
++int devm_regulator_get_enable_get_voltage(struct device *dev, const char *id);
++int devm_regulator_get_optional_enable_get_voltage(struct device *dev, const char *id);
+ void regulator_put(struct regulator *regulator);
+ void devm_regulator_put(struct regulator *regulator);
+ 
+@@ -329,6 +331,18 @@ static inline int devm_regulator_get_enable_optional(struct device *dev,
+ 	return -ENODEV;
+ }
+ 
++static inline int devm_regulator_get_enable_get_voltage(struct device *dev,
++							const char *id)
++{
++	return -ENODEV;
++}
++
++static inline int devm_regulator_get_optional_enable_get_voltage(struct device *dev,
++								 const char *id)
++{
++	return -ENODEV;
++}
++
+ static inline struct regulator *__must_check
+ regulator_get_optional(struct device *dev, const char *id)
+ {
+
+-- 
+2.43.2
+
