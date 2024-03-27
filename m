@@ -1,57 +1,57 @@
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
+Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C974155730
-	for <linux-staging@lists.linux.dev>; Wed, 27 Mar 2024 23:19:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13C62155317
+	for <linux-staging@lists.linux.dev>; Wed, 27 Mar 2024 23:19:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711581553; cv=none; b=Ex3fu9Y465WLqonyQTWVx+iFT3iV7PcXARmzTFMa7QiA2vcP/Ms0KCxTC8cWfAEolPzYyGUTgJE4fq7omcc/g/YoUlGT2TdnlZRAeSEgasmm7X3jadwIOA7ojkK094cs9EaergMMUX3b/sH3W3mYLYuICBulmUtgMSZDFr3xiNg=
+	t=1711581554; cv=none; b=VPHCO3GNMTbp7QUiJdGaUwWlMfduHtbZJKXpjbRsxsHdsy+K/CjdBsNp/DAkFJGCf73qax3iZUvVoK2ZRRo22t7o+54kJdx4bIUl0he1iMWx33W3U+QI8Km89TNDsPzM5b4zKDt5M3pOsWAC7EoSnYScj1FqI+cN87Hbd9XJbjM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711581553; c=relaxed/simple;
-	bh=xlOFHnY+VUAHimj0/6CI3uzJ6CONg5CROD3tFFJ2TF4=;
+	s=arc-20240116; t=1711581554; c=relaxed/simple;
+	bh=h9SozZx07F/ieSA3Tkw6/3vSYWM+YqSBRP3PPQIUB78=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rP6Tv3YMTA/9tXdFC781T3mjnk/Wclm32jgm7inJZ3wY9qLnAj+aW5TydohA4rKmqLpMpfII/+n2Udt5p0buSFkllOD3xXCx2KIDTP/XAmYUQLI+BeKl6ldpIjnlsyL1RDGVCh5ivyD/08DQ3Z3ZP7orQHYoiRhkiRax0RlZ4SI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=c49qtaSO; arc=none smtp.client-ip=209.85.210.44
+	 MIME-Version:Content-Type; b=hHN1+cir6c4J+HK7F+4KAhsBta4arsF4ldmVRJ36BM3bJYt0EQy4pJeGHCM6tG3iagFMaKxWuSxodfpkdODVTvfdI7hBUEEi3gaSR0wZexQdwDtJFVzTnVFTFcu0t7vpELGSSGlarFhZBMzErWg5ze+/+wVIpTJH0ks5OM36Q9Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=Zy6Or95M; arc=none smtp.client-ip=209.85.160.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="c49qtaSO"
-Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-6e6d089f603so257761a34.1
-        for <linux-staging@lists.linux.dev>; Wed, 27 Mar 2024 16:19:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="Zy6Or95M"
+Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-22963f0e12cso216369fac.1
+        for <linux-staging@lists.linux.dev>; Wed, 27 Mar 2024 16:19:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1711581549; x=1712186349; darn=lists.linux.dev;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1711581550; x=1712186350; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=CBx5yqCcIG/deXybWASqoKrfUt47GVVbdT7E/yXEMkE=;
-        b=c49qtaSOb9PCg/Q/SXIOOfmqi7Xvoz/itcpA5ktoZ5caPXnTnql6CBNnDIVEM9dySJ
-         f0qina9QRQTexh0F1PY7FeIAqSH6399v0BqBR8ohvSxzwUURDokJSTi0YVrL15pABioC
-         asYpZHvkvkxlsi5MxpUmgs05gtQgkRYiGqYJf/1JRKbEQb7mk14mbqy+HodPsApcySb8
-         K6BiGcQckSXKUzzaHArtnlgr4/EcVPDpJDonMAKnm6UA0ql96Zfo0cjVN+1BOWw/G/Qx
-         SAcAGcXUJDhSc11f8QhX2BEhp0C+E9teP5Sw87qJ2Z+s+TU9UzbtuEsSqVCh1MZR1F4X
-         tnbA==
+        bh=CJZsj0mH5Na8/6xZVfDNraoADX8hsL14D7DbLT7TMPI=;
+        b=Zy6Or95MO503AJrT2QILkM/iuL5C3MxS/6n0OSs2rwZft9CuWcL5uwLFQ00mENzvIP
+         cUS5Ft8h+KWELYhrGrGrzY4khJfnpE13js37mybvvbRnVoGKPc/7OmMFq7YNQq1NHvce
+         zPuyELfoz+pb8cXA7MBz1a1rTDsnpA3pYsfSuFGB4D0zi6ZceM218hW+i6pU46h2720p
+         T6GUfvKte4MxutT3kp2nHslRcSjvsPVarw/FGUfRBuYOYhwHsJktgp2mW96GDP3Z6EB/
+         RLZmFdRuQmICgfmqu6D46qBDTH/+cyJB8N2YXqvP1lE8I99G3DzR3bzEisS0q1mIarpL
+         6Fig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711581549; x=1712186349;
+        d=1e100.net; s=20230601; t=1711581550; x=1712186350;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=CBx5yqCcIG/deXybWASqoKrfUt47GVVbdT7E/yXEMkE=;
-        b=TOpx515ITRcViG5ZHF5E33+9/TlHvPLlOVVhEY85C+Us2itkCkEyWATuqT2On1Xjz9
-         vJuqtL3B281NsiMuoMNBXR3EfkR5Piht4el+LOAyygumVjj5sHD0WdBM1lZQS3x/XhSZ
-         RIJq449JKbXsWg9vYY/iCxW1+i7wkH+mN4QrNnqzbmBFVYZiIJe9ujDXs0dYN4q/4MEz
-         l1hBP8uOYRjsmPOS/l2E9r/LAexfTT+Dj5Lf1+JxBzmNjFn6SzIafINlq1ki1xczupoF
-         QMInQHly4oSKLGbI1kZSlqip+wLIlqz812meMokNop2KIkf2vtH7X1ynfIhkVoQArwrI
-         htSA==
-X-Forwarded-Encrypted: i=1; AJvYcCUaRtXMU36lCElVnD5Y3Bqcg3Hwj0Smai01SSqusu8kDT11074dIUJFQSS6DVZ6IptW/dJrAGrZMbJw+Y3/zUw3d9qCKlaq2OdPhjVgZg==
-X-Gm-Message-State: AOJu0YzPMwiXptYirNiUPOaXMx03lQfc82+3lvwxQFmegmvCC/aWEPXo
-	HwsNkhvv6lGpbYr7YmHV0EAs/Q2zhifjs+qN2iPqMFkQJi42AK060qhHQ2OTvw0=
-X-Google-Smtp-Source: AGHT+IFXU8zmzWmrbkxOxvW7wtT9Hq/b5rbtfGnHI6ZuQs2D4otmJCIrbq7hVTyLaL9P54g4uvOwbQ==
-X-Received: by 2002:a05:6870:b14b:b0:229:fa5a:2fec with SMTP id a11-20020a056870b14b00b00229fa5a2fecmr1265617oal.54.1711581549199;
-        Wed, 27 Mar 2024 16:19:09 -0700 (PDT)
+        bh=CJZsj0mH5Na8/6xZVfDNraoADX8hsL14D7DbLT7TMPI=;
+        b=t+L/RPDB1tFGmDiLJWsF5u7Y9GbxhP4/r53K0rbEiXGuR5gyYZT15liQz6eM0oxF66
+         4hNXl9vZwAkZvV8nYo5EkrSfYQqInp/FCbg6fcI2w9jRbtn5JgWA9L9Cz20DlOaoMWUl
+         uab5p+cw7gj2sin+KkZzjkuX0skppOyE2Mm4DwVYrPigmMVXCmGHDXNyX4M1SvG2UZ/O
+         fs7OZmjNEPSDH8OnkVjRm2nW0muY6JRJLh++SSG6OxTvl1WK6T/qklGgmgUPXOX7OKYR
+         wru2C4qhbp6jn7SxNBulZNIj6570+uZJaY32oXD41Ytl0tXk93BAh3J/T3RsPNDG2PBm
+         OX7w==
+X-Forwarded-Encrypted: i=1; AJvYcCUKq8G/Z4XUZOQAS+PTuL8+y+m7O8EbH5wpu/LqAq2V9hvEIysrPbp8x39aFTeJ2B2/HVUjd1A7eZkjS12zg6kB18myJsj5XDQAmj0S1g==
+X-Gm-Message-State: AOJu0YxVS35qzuC7soaKRj9GmWBMrJ/C6Ok9fFVqL5WqamgA7AhDOxIH
+	ZMfsUfZEL5KZhy0efZPrHkdiRQwK8ZJaxrUvdAdmSCYv1auXqJkahsCRqvrylCE=
+X-Google-Smtp-Source: AGHT+IFF6sA3ju+9mCH35rHh1zhgVOle14esmb64OwmiwIjcccCZ+Gff/k0HvFE6jlRCad9wpwZTGw==
+X-Received: by 2002:a05:6871:3a14:b0:221:9013:d783 with SMTP id pu20-20020a0568713a1400b002219013d783mr1213589oac.34.1711581550253;
+        Wed, 27 Mar 2024 16:19:10 -0700 (PDT)
 Received: from freyr.lechnology.com (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
-        by smtp.gmail.com with ESMTPSA id js3-20020a056870bac300b0022a0519183csm81381oab.2.2024.03.27.16.19.08
+        by smtp.gmail.com with ESMTPSA id js3-20020a056870bac300b0022a0519183csm81381oab.2.2024.03.27.16.19.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Mar 2024 16:19:08 -0700 (PDT)
+        Wed, 27 Mar 2024 16:19:09 -0700 (PDT)
 From: David Lechner <dlechner@baylibre.com>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Liam Girdwood <lgirdwood@gmail.com>,
@@ -73,9 +73,9 @@ Cc: David Lechner <dlechner@baylibre.com>,
 	linux-iio@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-input@vger.kernel.org
-Subject: [PATCH RFC 6/7] staging: iio: impedance-analyzer: admv1013: Use devm_regulator_get_enable_get_voltage()
-Date: Wed, 27 Mar 2024 18:18:55 -0500
-Message-ID: <20240327-regulator-get-enable-get-votlage-v1-6-5f4517faa059@baylibre.com>
+Subject: [PATCH RFC 7/7] Input: mpr121: Use devm_regulator_get_enable_get_voltage()
+Date: Wed, 27 Mar 2024 18:18:56 -0500
+Message-ID: <20240327-regulator-get-enable-get-votlage-v1-7-5f4517faa059@baylibre.com>
 X-Mailer: git-send-email 2.43.2
 In-Reply-To: <20240327-regulator-get-enable-get-votlage-v1-0-5f4517faa059@baylibre.com>
 References: <20240327-regulator-get-enable-get-votlage-v1-0-5f4517faa059@baylibre.com>
@@ -94,58 +94,79 @@ devm_regulator_get_enable_get_voltage().
 
 Signed-off-by: David Lechner <dlechner@baylibre.com>
 ---
- drivers/staging/iio/impedance-analyzer/ad5933.c | 24 +-----------------------
- 1 file changed, 1 insertion(+), 23 deletions(-)
+ drivers/input/keyboard/mpr121_touchkey.c | 45 +++-----------------------------
+ 1 file changed, 3 insertions(+), 42 deletions(-)
 
-diff --git a/drivers/staging/iio/impedance-analyzer/ad5933.c b/drivers/staging/iio/impedance-analyzer/ad5933.c
-index 9149d41fe65b..e4942833b793 100644
---- a/drivers/staging/iio/impedance-analyzer/ad5933.c
-+++ b/drivers/staging/iio/impedance-analyzer/ad5933.c
-@@ -84,7 +84,6 @@
+diff --git a/drivers/input/keyboard/mpr121_touchkey.c b/drivers/input/keyboard/mpr121_touchkey.c
+index d434753afab1..c59e7451f3cd 100644
+--- a/drivers/input/keyboard/mpr121_touchkey.c
++++ b/drivers/input/keyboard/mpr121_touchkey.c
+@@ -82,42 +82,6 @@ static const struct mpr121_init_register init_reg_table[] = {
+ 	{ AUTO_CONFIG_CTRL_ADDR, 0x0b },
+ };
  
- struct ad5933_state {
- 	struct i2c_client		*client;
--	struct regulator		*reg;
- 	struct clk			*mclk;
- 	struct delayed_work		work;
- 	struct mutex			lock; /* Protect sensor state */
-@@ -660,13 +659,6 @@ static void ad5933_work(struct work_struct *work)
- 	}
- }
- 
--static void ad5933_reg_disable(void *data)
+-static void mpr121_vdd_supply_disable(void *data)
 -{
--	struct ad5933_state *st = data;
+-	struct regulator *vdd_supply = data;
 -
--	regulator_disable(st->reg);
+-	regulator_disable(vdd_supply);
 -}
 -
- static int ad5933_probe(struct i2c_client *client)
- {
- 	const struct i2c_device_id *id = i2c_client_get_device_id(client);
-@@ -685,21 +677,7 @@ static int ad5933_probe(struct i2c_client *client)
- 
- 	mutex_init(&st->lock);
- 
--	st->reg = devm_regulator_get(&client->dev, "vdd");
--	if (IS_ERR(st->reg))
--		return PTR_ERR(st->reg);
+-static struct regulator *mpr121_vdd_supply_init(struct device *dev)
+-{
+-	struct regulator *vdd_supply;
+-	int err;
 -
--	ret = regulator_enable(st->reg);
--	if (ret) {
--		dev_err(&client->dev, "Failed to enable specified VDD supply\n");
--		return ret;
+-	vdd_supply = devm_regulator_get(dev, "vdd");
+-	if (IS_ERR(vdd_supply)) {
+-		dev_err(dev, "failed to get vdd regulator: %ld\n",
+-			PTR_ERR(vdd_supply));
+-		return vdd_supply;
 -	}
 -
--	ret = devm_add_action_or_reset(&client->dev, ad5933_reg_disable, st);
--	if (ret)
--		return ret;
+-	err = regulator_enable(vdd_supply);
+-	if (err) {
+-		dev_err(dev, "failed to enable vdd regulator: %d\n", err);
+-		return ERR_PTR(err);
+-	}
 -
--	ret = regulator_get_voltage(st->reg);
-+	ret = devm_regulator_get_enable_get_voltage(&client->dev, "vdd");
- 	if (ret < 0)
- 		return ret;
+-	err = devm_add_action_or_reset(dev, mpr121_vdd_supply_disable,
+-				       vdd_supply);
+-	if (err) {
+-		dev_err(dev, "failed to add disable regulator action: %d\n",
+-			err);
+-		return ERR_PTR(err);
+-	}
+-
+-	return vdd_supply;
+-}
+-
+ static void mpr_touchkey_report(struct input_dev *dev)
+ {
+ 	struct mpr121_touchkey *mpr121 = input_get_drvdata(dev);
+@@ -233,7 +197,6 @@ static int mpr121_phys_init(struct mpr121_touchkey *mpr121,
+ static int mpr_touchkey_probe(struct i2c_client *client)
+ {
+ 	struct device *dev = &client->dev;
+-	struct regulator *vdd_supply;
+ 	int vdd_uv;
+ 	struct mpr121_touchkey *mpr121;
+ 	struct input_dev *input_dev;
+@@ -241,11 +204,9 @@ static int mpr_touchkey_probe(struct i2c_client *client)
+ 	int error;
+ 	int i;
  
+-	vdd_supply = mpr121_vdd_supply_init(dev);
+-	if (IS_ERR(vdd_supply))
+-		return PTR_ERR(vdd_supply);
+-
+-	vdd_uv = regulator_get_voltage(vdd_supply);
++	vdd_uv = devm_regulator_get_enable_get_voltage(dev, "vdd");
++	if (vdd_uv < 0)
++		return vdd_uv;
+ 
+ 	mpr121 = devm_kzalloc(dev, sizeof(*mpr121), GFP_KERNEL);
+ 	if (!mpr121)
 
 -- 
 2.43.2
