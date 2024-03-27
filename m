@@ -1,104 +1,129 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94DDB15357C
-	for <linux-staging@lists.linux.dev>; Wed, 27 Mar 2024 21:55:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45B0B154C02
+	for <linux-staging@lists.linux.dev>; Wed, 27 Mar 2024 23:19:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711576518; cv=none; b=owyzJoMvhPW7Qe/kH5kanxRviXzkd7fgkpaoOUxnJFqfQ+p7jUbsS1LkPcf2vpTJjsOvx6g/DuRjBFlT8uOVy2vyn8wkXBgVVs0xeBIFbfx0ySzrrJ+A3WIm0hoVt7LZViDlalN7fcshkN8zix5lgIO38nMOlgQ3npPDoIgrbmI=
+	t=1711581545; cv=none; b=VtotkCTn6jyo0s2hN2OIsqVbnPTwrG5Tsuy9JTViTErzXiVR4NYSgTDWQs7I6KIfDhRxoPrOHRwwDNFicaO4gMxN7B+2pA/jXPLsipepVL6t/wP+RhHBJFCdbSFQJzWhGGgNIny9EEQyXBPEUH8rq77FvynZ/pSMx0WDHKQVOD4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711576518; c=relaxed/simple;
-	bh=PQVZZIRaKQhkJhUnG72lePTcQWJXDx/rUBRzSVF2ep0=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=X+GdIvUbv+4nmIvBUnLgJaSd4phcuKlYTQCdf+6UoKQjPBl+KRK1KpCwyFX/dGoV7QrRkUwq0GvL5HXdHsAoqbMN4whfmDjAF5fYNmJPw8UzGJQuMgwWCtT9hV/ikL8O6XgQqMsefQe/r4md2Pb8hIObxgvR9k1PbOCPDmx86PU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U74QAo5b; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1711581545; c=relaxed/simple;
+	bh=Oin5ojSwy2humzjzfHVDPNnW4ZK/nwUgFx0t+HKuAB4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=nuSi+qm3Aft1Sj72yyfwmAi54i4evucS31QGS9G7yw6ZiAg9UbpMltmxr8fAFBNtKOmtFwR4LCzYSjT+ZKDsXbDa47xL401txgPHqhTq36BfDw0CR/KoiXANpwyzFC1WxTAVnGJLDoMyDFkhW4aXJ9SxdZy3eThGVBC5ibT/DUY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=wTs8ttbL; arc=none smtp.client-ip=209.85.160.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U74QAo5b"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-33ecdffd9e7so56941f8f.0
-        for <linux-staging@lists.linux.dev>; Wed, 27 Mar 2024 14:55:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="wTs8ttbL"
+Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-22a8df1df8fso232119fac.2
+        for <linux-staging@lists.linux.dev>; Wed, 27 Mar 2024 16:19:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711576515; x=1712181315; darn=lists.linux.dev;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dwdGycr3xucKOW798pZ9AEyP81jNbTl3Rfs7NX+nxEI=;
-        b=U74QAo5bG2wJt8iWMCKB49mPwB4VRNQb7J1xEvXNXv2y8AcQ0QCBZOgpRpcgqFg2ke
-         NyDOhghFsrKSLIxzBd3lkG7rZqN7NwaIfSFOdlKFTqFY739PQcB7Qv2/t0rTuzhKCdNG
-         WiSd6WX9RJBIy1na02ynwBkIxKl4u3uyH5reLibu+E1a80sIE831zCT8iXmlmEHIZEzN
-         7gpaYRtNPibxqBeCBSjyUQVO75XP8HxsTgXVHlS5p01qMFuQSr4ltindoGmuIL3OzTrC
-         gyjBXduYDNQ1inA9h0pK6OGp6wsDaks/QBP2YVZmwu377ZgfXDu8kYz6FrgKYYO6cLA7
-         LcgA==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1711581542; x=1712186342; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pNmxlM+zWytQQYi7ZtjQVmkQiumnd7DNMgYQxgBRWM8=;
+        b=wTs8ttbLXpb7VypdlMA6zDXLozWFx3jMT/pwSQGPEUQI+ppWWy6NMTuk3xwQg7MRst
+         NeolT3bqXNT0bWZoOPETqEijbcpYat01ulcfgddJ9phQIAX7M0m4fN6bwMsmGfNUMemL
+         BYvt2tH/EjKEdiZXx28vSXms5doThPsfox1BeavlMuXbvYv0v8ve+J/PTpYtNl2CT4hh
+         kCYQ/MOEROv0hWahASLIjFrbPXwlTZZt34QSW90vUYSGLXVBsAj1EFsfHX9Dt9UX/PEo
+         fJbQ/JS+zS6zC6PE8YudUqggOzZq3jWZJRosVMIRkeiDZL16WEydX0h6hLfGmg1/Kd09
+         Qm7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711576515; x=1712181315;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=dwdGycr3xucKOW798pZ9AEyP81jNbTl3Rfs7NX+nxEI=;
-        b=l5aHXkXpCGsYn7+Pv6kdyN8ozBcFrH5fCJrckcWljXouSQRnqz7tfbxs+ue2jf3wAc
-         +yfEAj2BEa6XDTx/a1yVJfCvUQ6wkDoGHvomNWnOYDE6AXqjHF3UzeBWgVDJ/w85eJRO
-         r6dH/qq9gEIBwKVa3YSm7nkC/Hfczq5uaopJo5Sr0ZxpxPhNTf8b8SaG4Fl5OcTmcn2g
-         fxWYqDCGtm4UqNhS+XgyKZcr/rvYd536/db6KtLNp+4/KEW+vFpDQQjn3kmIUftD9g0z
-         voVTvcdsk8tVO7Hw6WXdOxQan4Yscyalk0o+/Ol6RyjqWBqNkgDD5d5e12hEdHabfd5w
-         SFHQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUunVhVuQ2dUc7OL14Wzyz5QdM57d//zIc06rbopAP5a1+sgiP1a9Cco+Dm1BB9C+JB5wYQ853MFsE6oKyrX2DaKzSJ8koxbSwYVaTr0g==
-X-Gm-Message-State: AOJu0Yy1jt9n9PgKen942+pwZ+OTc2fXXe4h2oYQsLQRyMRWA+XUP1gi
-	bS2tVGxeZM+X8MO98BowB5TR+weJkmZ0kwvASU/jOEgTGpD0b9mH
-X-Google-Smtp-Source: AGHT+IGccx9eaqBykQEYnZT3gkwcYJOSo1MsJiwoqilAQjnT5wLYFwDyTWEjzvUpPLXhEszbj19qmQ==
-X-Received: by 2002:a05:600c:1c21:b0:414:8554:73e with SMTP id j33-20020a05600c1c2100b004148554073emr992027wms.1.1711576514811;
-        Wed, 27 Mar 2024 14:55:14 -0700 (PDT)
-Received: from [192.168.0.104] (p54a07fa0.dip0.t-ipconnect.de. [84.160.127.160])
-        by smtp.gmail.com with ESMTPSA id h9-20020a05600c314900b004147b824b08sm192228wmo.7.2024.03.27.14.55.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Mar 2024 14:55:14 -0700 (PDT)
-Message-ID: <c4c5ab38-8c67-4c21-86bc-f4f3c06be358@gmail.com>
-Date: Wed, 27 Mar 2024 22:55:13 +0100
+        d=1e100.net; s=20230601; t=1711581542; x=1712186342;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pNmxlM+zWytQQYi7ZtjQVmkQiumnd7DNMgYQxgBRWM8=;
+        b=Yw525RkwLOUtNZKpfON8iGIRd05uiZBBu3bNrfPulEBDRNIMOzcXXzpL/fVsL5jk1I
+         8HpQ6XAkueNoBVa1pOPIjrNYvoI4ha+f/tvTPU5pNEkQKOnw2/9L0vCKWXm1PASFewEf
+         B1XV8Gr9luxT6q10h1URzapfEF7sWINa6pUwPNufdYd3VVXT2UkXMfbkYCV6bfL/hnmD
+         84zE/rayK5tJqAU5zv+zM5CgYhJUDGSraRfATtk03Tsq5/0UVEquf3xrBz95+kgMJzrr
+         /V1I0nCmuFdyztEBAFYJTbSWG1gSnb5jRI6eqrffu2QmXj+9i9Xr9HXvMCddFNCXnWXh
+         aobg==
+X-Forwarded-Encrypted: i=1; AJvYcCUyDjwKxWRL2Tab4QQ+CDHJzwE3bntjWE9JhmecvtE2Bqbbhj7mpzM9un1qO2T57cTAcTFi8GrgTGKiVBEGB9SQaxvDJAWF1NeZsm8r+Q==
+X-Gm-Message-State: AOJu0Yyg9QYR9YnDlESLghDtnZ5IYrsKkIDxrcH0aq2CtT1J754A4NPX
+	UKt2vlqx93xBxLd9v3LiKfEPlqGFhbDOQZlDcjGmh9B/wNjkOQXVxyQI5vPLfDg=
+X-Google-Smtp-Source: AGHT+IH0jcJOIn91SYG/gvmxB532Ey13hS1+uAizEDZdhgZnM4KKp+HBnfwPVKzM9sb2VsY2xY892g==
+X-Received: by 2002:a05:6871:2b2a:b0:22a:55bd:a048 with SMTP id dr42-20020a0568712b2a00b0022a55bda048mr1167094oac.5.1711581542433;
+        Wed, 27 Mar 2024 16:19:02 -0700 (PDT)
+Received: from freyr.lechnology.com (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
+        by smtp.gmail.com with ESMTPSA id js3-20020a056870bac300b0022a0519183csm81381oab.2.2024.03.27.16.19.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Mar 2024 16:19:01 -0700 (PDT)
+From: David Lechner <dlechner@baylibre.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Support Opensource <support.opensource@diasemi.com>,
+	Cosmin Tanislav <cosmin.tanislav@analog.com>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Antoniu Miclaus <antoniu.miclaus@analog.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: David Lechner <dlechner@baylibre.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-input@vger.kernel.org
+Subject: [PATCH RFC 0/7] regulator: new APIs for voltage reference supplies
+Date: Wed, 27 Mar 2024 18:18:49 -0500
+Message-ID: <20240327-regulator-get-enable-get-votlage-v1-0-5f4517faa059@baylibre.com>
+X-Mailer: git-send-email 2.43.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: Marcus Wolf <linux@wolf-entwicklungen.de>,
- Marcus Wolf <marcus.wolf@wolf-entwicklungen.de>,
- "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Subject: [RFC] staging: pi433: Proposal to remove unused driver
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+X-Mailer: b4 0.12.4
+Content-Transfer-Encoding: 8bit
 
-Hi Marcus,
+In the IIO subsystem, we noticed a pattern in many drivers where we need
+to get, enable and get the voltage of a supply that provides a reference
+voltage. In these cases, we only need the voltage and not a handle to
+the regulator. Another common pattern is for chips to have an internal
+reference voltage that is used when an external reference is not
+available. There are also a few drivers outside of IIO that do the same.
 
-according to this homepage:
-https://www.kickstarter.com/projects/1292669042/pi433-a-radio-module-funkmodul-for-raspberry-pi
-you had a group of people to test and use the Pi433. But last 
-update/comments on this website are from November 21, 2017. What 
-happened afterwards? Did you organize the community differently?
+So we would like to propose a couple of new regulator consumer APIs to
+handle these specific cases to avoid repeating the same boilerplate code
+in multiple drivers.
 
-On this homepage:
-https://www.pi433.de/en.html
-you wrote:
-"Purchase Pi433
-Due to the rules for recycling (WEEE guideline of EU) Smarthome-Wolf 
-decided to stop the direct distribution of Pi433.
+As an example of how these functions are used, I have included a few
+patches to consumer drivers. But to avoid a giant patch bomb, I have
+omitted the iio/adc and iio/dac patches I have prepared from this
+series. I will send those separately but these will add 12 more users
+of devm_regulator_get_enable_get_voltage() and 24 more users of
+devm_regulator_get_optional_enable_get_voltage(). In total, this will
+eliminate nearly 1000 lines of similar code.
 
-Business partner (e. g. online stores for selling Raspberry-Pi 
-accessories), interested in distribution of Pi433 are very welcome!"
+---
+David Lechner (7):
+      regulator: devres: add APIs for reference supplies
+      hwmon: (adc128d818) Use devm_regulator_get_optional_enable_get_voltage()
+      hwmon: (da9052) Use devm_regulator_get_enable_get_voltage()
+      iio: addac: ad74115: Use devm_regulator_get_enable_get_voltage()
+      iio: frequency: admv1013: Use devm_regulator_get_enable_get_voltage()
+      staging: iio: impedance-analyzer: admv1013: Use devm_regulator_get_enable_get_voltage()
+      Input: mpr121: Use devm_regulator_get_enable_get_voltage()
 
-It seems that this was also in 2017
-
-Did you manage to find a business partner?
-How many devices have been sold after 2017? Are there people who got 
-more than 1 device?
-
-Please respond to avoid that unused code stays in the mainline kernel 
-forever.
-
-Thanks for your support.
-
-Bye Philipp
+ Documentation/driver-api/driver-model/devres.rst |  2 +
+ drivers/hwmon/adc128d818.c                       | 55 +++++-----------
+ drivers/hwmon/da9052-hwmon.c                     | 33 ++--------
+ drivers/iio/addac/ad74115.c                      | 28 +-------
+ drivers/iio/frequency/admv1013.c                 | 37 +++--------
+ drivers/input/keyboard/mpr121_touchkey.c         | 45 +------------
+ drivers/regulator/devres.c                       | 83 ++++++++++++++++++++++++
+ drivers/staging/iio/impedance-analyzer/ad5933.c  | 24 +------
+ include/linux/regulator/consumer.h               | 14 ++++
+ 9 files changed, 138 insertions(+), 183 deletions(-)
+---
+base-commit: c5b2db5859957150ac6ed305ab41a4a92ca40cfb
+change-id: 20240326-regulator-get-enable-get-votlage-5dedf40ff338
