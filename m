@@ -1,91 +1,89 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0960682880;
-	Thu, 28 Mar 2024 14:05:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD5C364CF2;
+	Thu, 28 Mar 2024 14:06:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711634742; cv=none; b=V9n7CXzWm6GU6mUJ/ApU0nhfAcNlYWLu9AG2J0ipr+p+cN8jbyJxuZh4YxilNAISWYAIboCIuIJ5KT9E6ouLqYDBhcvOFiUY/ialivb+C3MeLRR2XUrbXnqcqnQA4ucBxPtyyhBYa35+4bkblUKl2ON/nMmQEVi/CEXmrXNprrQ=
+	t=1711634777; cv=none; b=N6LDImQxgNaMV0+lwvlDJwc452zGUvT/bMu5Uxglid2AgKjLOxvKJ/hegRMG+hEpslCCPQ3pYomMaSTwn8zKChDRmyEQ+0xjdxrNWUnqmC5oLwj+8Im16vbWREGRW6o67FrwRwHPi6iyJS/DFlofMvUboLvSrJ5ysmg/vwjLBAE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711634742; c=relaxed/simple;
-	bh=EinO3RtbM3TdIgTBE67vxWObbXsICsHEkufTBzcRYss=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FTAjV1xw3s6g+gNU05kC5caPmCXwts2cOzRvJvqprW3+2PvyjtdoDtABe0o9a+3BxOgP1zWXgMwgROfK+FrKJYuXe08nIvhZSX6VNDhJkxFuw7B30SS6R1hBTT8d7hcXRN45uQswBCphsaG9TIN+uhDhHUDScaSJsD/RfVdCkNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EynValxe; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711634777; c=relaxed/simple;
+	bh=gMylBYrmATWxZ5d+8c6bGwHQWzKICTyrQtHLw9Ti9DA=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=mY01wL1joDaulSCGlZUM0WzKJdp+1LUfvS5sNeMBR5vadawt92wxcpdTi4cuOQ47z5HyueAk6PWNQRFX3a7j89TwzpNvEmpYAUMUg2WDyW98rv976D33ijTCF9WGrAwBcm1fOE9X1kaRfQkAitUm6dBt5Yoh1mgVbge5Kwwe/d4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FvgGl0TD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EynValxe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D80DC433C7;
-	Thu, 28 Mar 2024 14:05:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FvgGl0TD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03422C433F1;
+	Thu, 28 Mar 2024 14:06:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711634741;
-	bh=EinO3RtbM3TdIgTBE67vxWObbXsICsHEkufTBzcRYss=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=EynValxen7HB5uREd61Y/MCiL3SKrBpIwIK+Odpq57OsuEHRPhKesevco8VnJuQUA
-	 ZnNRKgLy+fWHQaODETgdJXJ8q7vjEGZ/s0AH2Jw/NLurT1jnFSqpXEdBZOzTjkZajz
-	 ZZB+zXjdn61nbtrXvJwkGEMSaTUIV/RHQiOVeebhZPyS6B275LVVHfpLgzZN6ioyNk
-	 4rgk43euFuglZCzHla+KzLQFI4zjgVTO33ICUepAihQY5yzrofLiF2S1ElC26sL5mn
-	 7g2KMrhPBYDjVv3iBg2xcxWs7fCLE1K1VIf1NhRI1Jqy2O9iHkCIftuHveOC3kt4qA
-	 SNEgvjJ05Vuog==
-Date: Thu, 28 Mar 2024 14:05:25 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: David Lechner <dlechner@baylibre.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jean Delvare <jdelvare@suse.com>, Guenter
- Roeck <linux@roeck-us.net>, Support Opensource
- <support.opensource@diasemi.com>, Cosmin Tanislav
- <cosmin.tanislav@analog.com>, Lars-Peter Clausen <lars@metafoo.de>, Michael
- Hennerich <Michael.Hennerich@analog.com>, Antoniu Miclaus
- <antoniu.miclaus@analog.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-input@vger.kernel.org
-Subject: Re: [PATCH RFC 2/7] hwmon: (adc128d818) Use
- devm_regulator_get_optional_enable_get_voltage()
-Message-ID: <20240328140525.6364512e@jic23-huawei>
-In-Reply-To: <20240327-regulator-get-enable-get-votlage-v1-2-5f4517faa059@baylibre.com>
-References: <20240327-regulator-get-enable-get-votlage-v1-0-5f4517faa059@baylibre.com>
-	<20240327-regulator-get-enable-get-votlage-v1-2-5f4517faa059@baylibre.com>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
+	s=k20201202; t=1711634776;
+	bh=gMylBYrmATWxZ5d+8c6bGwHQWzKICTyrQtHLw9Ti9DA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=FvgGl0TDBH4Ei13F0xA5j1Dfi29LBEHXzAToRTsK1pdtLFjbATzWe3pQeWq+zBVor
+	 UngHRavlLa7Kx+dH+Url/3wWbJBbf+ONDpKI6iD4QryPFLU/QRK0CIL+GskjFmnmAj
+	 NDobSqFxZdaTwUiu2SPQs0Uv0cBon2FlTQHVpdyrYy/A+xkKcZRSXQFM8hFRTrZP/B
+	 aSUEvlkgaI6UFqLUO4qJY8U3YaA/+mAFTEyrbookmYAnyvXBQ6NK8QHF6ScRnRKfFY
+	 xaCnYXF4xKEEEGuLweImK3fUKVGSnFVu/QnifeXWS8U2U21eNv4cOLmP9p3qYTMlMV
+	 HDe91isEP5b3Q==
+From: Arnd Bergmann <arnd@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Kees Cook <keescook@chromium.org>,
+	Daniel Micay <danielmicay@gmail.com>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	linux-staging@lists.linux.dev
+Subject: [PATCH 03/11] staging: replace weird strncpy() with memcpy()
+Date: Thu, 28 Mar 2024 15:04:47 +0100
+Message-Id: <20240328140512.4148825-4-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240328140512.4148825-1-arnd@kernel.org>
+References: <20240328140512.4148825-1-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Wed, 27 Mar 2024 18:18:51 -0500
-David Lechner <dlechner@baylibre.com> wrote:
+From: Arnd Bergmann <arnd@arndb.de>
 
-> We can reduce boilerplate code and eliminate the driver remove()
-> function by using devm_regulator_get_optional_enable_get_voltage().
-> 
-> A new external_vref flag is added since we no longer have the handle
-> to the regulator to check if it is present.
-> 
-> Signed-off-by: David Lechner <dlechner@baylibre.com>
-One trivial thing.
-With that tidied up...
+When -Wstringop-truncation is enabled, gcc finds a function that
+always does a short copy:
 
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+In function 'inquiry',
+    inlined from 'rtsx_scsi_handler' at drivers/staging/rts5208/rtsx_scsi.c:3210:12:
+drivers/staging/rts5208/rtsx_scsi.c:526:17: error: 'strncpy' output truncated copying between 1 and 28 bytes from a string of length 28 [-Werror=stringop-truncation]
+  526 |                 strncpy(buf + 8, inquiry_string, sendbytes - 8);
+      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
->  	hwmon_dev = devm_hwmon_device_register_with_groups(dev, client->name,
->  							   data, adc128_groups);
->  	if (IS_ERR(hwmon_dev)) {
->  		err = PTR_ERR(hwmon_dev);
-> -		goto error;
-> +		return err;
+Since the actual size of the copy is already known at this point, just
+copy the bytes directly and skip the length check and zero-padding.
 
-return PTR_ERR()
+This partially reverts an earlier bugfix that replaced the original
+incorrect memcpy() with a less bad strncpy(), but it now also avoids
+the original overflow.
 
->  	}
->  
->  	return 0;
-> -
-> -error:
-> -	if (data->regulator)
-> -		regulator_disable(data->regulator);
-> -	return err;
-> -}
+Fixes: 88a5b39b69ab ("staging/rts5208: Fix read overflow in memcpy")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/staging/rts5208/rtsx_scsi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/staging/rts5208/rtsx_scsi.c b/drivers/staging/rts5208/rtsx_scsi.c
+index 08bd768ad34d..a73b0959f5a9 100644
+--- a/drivers/staging/rts5208/rtsx_scsi.c
++++ b/drivers/staging/rts5208/rtsx_scsi.c
+@@ -523,7 +523,7 @@ static int inquiry(struct scsi_cmnd *srb, struct rtsx_chip *chip)
+ 
+ 	if (sendbytes > 8) {
+ 		memcpy(buf, inquiry_buf, 8);
+-		strncpy(buf + 8, inquiry_string, sendbytes - 8);
++		memcpy(buf + 8, inquiry_string, min(sendbytes, 36) - 8);
+ 		if (pro_formatter_flag) {
+ 			/* Additional Length */
+ 			buf[4] = 0x33;
+-- 
+2.39.2
+
