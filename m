@@ -1,115 +1,200 @@
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp-8fac.mail.infomaniak.ch (smtp-8fac.mail.infomaniak.ch [83.166.143.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 965D812DDAB
-	for <linux-staging@lists.linux.dev>; Thu, 28 Mar 2024 15:00:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D03B1E48C
+	for <linux-staging@lists.linux.dev>; Thu, 28 Mar 2024 15:03:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.166.143.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711638037; cv=none; b=sCFypsl5R5bDn7AZLP6r7IpZBUz8Q+cCoUdzQI/L8swj2RVkTur6GKOE1YpMveoAJJf91S7Dq3DBSHGAtvHUfF8ALyr3YXeSyzriGPGwc18DjdD0u1Q9LMv9hJII+JJXHnfk8OqucMJsS+McbXbrKdqDZmih9GPJjezi+89EVOU=
+	t=1711638194; cv=none; b=Zca/GUzTWZELnoIR8Vc117v6sMPUgnRmiuBhospilgqKG50n0eWEwfcczzNIooYDLbXCNyyh6edXkM/VsfeS+bIZO7GrbKzFswhsoE/czqOA7WRs2YJLrkrsz9A1e7WPZtuxMH4ZOXGygm29oW6djty3sO6z0SPikxKZxoMRqXs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711638037; c=relaxed/simple;
-	bh=cy9u3VtVrRuyTCsjJgnGYGt2u+Rm+jFJiYwOK88je84=;
+	s=arc-20240116; t=1711638194; c=relaxed/simple;
+	bh=m6ExSO75re8+h+0kqgmc3taw/nhfvJpWp0RzVChKUD8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kDKB+5xtez5xmV+IK0nbl3kjGUgHNxjlxhWFnhdh4bvVrwHjSB2mILy7DFG+0APsjLiIFYnlwL6Of+sRsxyxFkn8gx0xLgOpiRfa4ArWK61gScEoULSjLjHlk9xzmnVKm7C59BH4Ed5jVAB73EHIpzI/AgLFFKT/mF1LqWTSsP4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mX4AT6cL; arc=none smtp.client-ip=209.85.208.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=SRKuCb7QlqzBDEmbfRvDp+SEIz5A4raV3kWVZphexltZFIeqoYheNRixnCGzUdVzZhDNDHmbr4udoXldwLtrrxF+HWoKbGGpGSJ7ENuYdiT6icbDOF2AOmrCXOVZTDOFqr4jONRSthivDJt1bFUymhQ9SKcUHIqitVJoZNKrHCA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=0RoR5jKm; arc=none smtp.client-ip=83.166.143.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mX4AT6cL"
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2d47a92cfefso11909171fa.1
-        for <linux-staging@lists.linux.dev>; Thu, 28 Mar 2024 08:00:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711638034; x=1712242834; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1wJgbtA/vjDhwvz63u9VWEaiKAUmcJOl/pw5kAYmOlA=;
-        b=mX4AT6cLpY0yqKHxnVXtn165qOpHEHgvc1Pbq+kHwbarX0WMgtd//ureprqaiYIfaO
-         xR7V/TfDMQdmEC0ObLqJ9S4/q6A1ljw8jMjkgZcs15vvPLe+vrkp+GsRsutChvimhhI6
-         0IYiodp8B+7laVsYKX7TQBW4B0Cf0sE2V/GeGW7bxhSdxvyWLbPbD+QPzET/+jAxc7st
-         7z/ulquV5YmttTsRRtfcklTNf+1CAj/J6/vTI+qOOVvtktvdeGaVMcv71rG1IwrJi1B9
-         3c1zi46oxvFFbHz4uCQ8I0bw/1V1xjjHcx5a1z9NPXCS3SAnenWFqEViwoHL5CVkeWOa
-         6VIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711638034; x=1712242834;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1wJgbtA/vjDhwvz63u9VWEaiKAUmcJOl/pw5kAYmOlA=;
-        b=IBwwo9SNcifWHCm8pszMR3WX/5rdH8KUzEjmKISFvMkv3rB1VGVcos5O3AcPfPSiYT
-         Dezm3ouk6wETFeVbkc8365SByZ0QqTsZoqOS/n4jomH6Nedtg5Zn+i5B4GpnZ1IuyUZ3
-         NPPdb8qizIwRqbxUxvlMkbEmIN1cIR0bkBUdda60FNnc98Y7q7zPXPfUisd+LXXr7qA6
-         0I+KJdGZdGsN9dyrHEqDGOCmfssuMbabvveiKvL8gcOlakqkCkVZ/KFb7Fq0X3ClzeZV
-         0/xnoD/oPWNQXqNfR/csRaUH/dsktriGIXuUJXrsK+hDiHCiCj9bXvmajqiYFo7K6MSC
-         +SgA==
-X-Forwarded-Encrypted: i=1; AJvYcCV1Ki2nk0arxYac6sh16dTjE/6h20UMbCYm/868ahePQKc926p+abhTg6r+9hZLkh0pzCH+T1pisZgOy6cOH9EjSOoXDtNMEheIZFZ/pA==
-X-Gm-Message-State: AOJu0YxVw5SUk+Bcu++HD+aGGiYisd8QBSNQ30AyE6Tw45CYWMQcck/0
-	eAcgNlasP+i5VPjOD1LOEQdQQC3ubVE8dJRuntHV0rZjMaTjLvJ5/HzP+V/ovwA=
-X-Google-Smtp-Source: AGHT+IGQ5CWKUqLKQ/deCqDvSGjzq/7ohPtTESkm+XyAfECW03YuhSnOZLJc5W2tTuXIQeRPB5tQuw==
-X-Received: by 2002:a2e:9591:0:b0:2d4:2b05:a671 with SMTP id w17-20020a2e9591000000b002d42b05a671mr2299444ljh.32.1711638033575;
-        Thu, 28 Mar 2024 08:00:33 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id d15-20020a056402400f00b0056c5395e581sm703497eda.70.2024.03.28.08.00.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Mar 2024 08:00:33 -0700 (PDT)
-Date: Thu, 28 Mar 2024 18:00:29 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Viresh Kumar <vireshk@kernel.org>,
-	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 10/11] staging: greybus: change strncpy() to strscpy()
-Message-ID: <76214105-94ae-4540-8511-e9e2ff6d257e@moroto.mountain>
-References: <20240328140512.4148825-1-arnd@kernel.org>
- <20240328140512.4148825-11-arnd@kernel.org>
+	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="0RoR5jKm"
+Received: from smtp-4-0001.mail.infomaniak.ch (smtp-4-0001.mail.infomaniak.ch [10.7.10.108])
+	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4V55tK0jHzzh88;
+	Thu, 28 Mar 2024 15:45:13 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
+	s=20191114; t=1711637112;
+	bh=m6ExSO75re8+h+0kqgmc3taw/nhfvJpWp0RzVChKUD8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=0RoR5jKmSZESMEyzyyfqQCBdDMidK2YEM0S6giPp/MumsJXKnukq6p0yh+n8lBUDh
+	 +Ly2A2jkpU9UJdKMMJ6cjtSIPEwpe4ycoBks2M1+RnFT/H4YsiMgWes0h2Ema/J11K
+	 C0XwLrdz1/Cpkjimu+R6Lc8YtVwHzWf4nOEcEtsg=
+Received: from unknown by smtp-4-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4V55tJ47G7zsZc;
+	Thu, 28 Mar 2024 15:45:12 +0100 (CET)
+Date: Thu, 28 Mar 2024 15:45:12 +0100
+From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
+To: Ayush Tiwari <ayushtiw0110@gmail.com>
+Cc: Paul Moore <paul@paul-moore.com>, alison.schofield@intel.com, 
+	fabio.maria.de.francesco@linux.intel.com, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	gregkh@linuxfoundation.org, outreachy@lists.linux.dev, linux-security-module@vger.kernel.org
+Subject: Re: [PATCH] LANDLOCK: use kmem_cache for landlock_object
+Message-ID: <20240328.aiPh0phaJ6ai@digikod.net>
+References: <ZgSrBVidW1U6yP+h@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
+ <CAHC9VhRYDNoqkbkgdUSg-kYSHVbheD5NtezmVxyRakZ0-DzuSg@mail.gmail.com>
+ <ZgUh7cIQIsOgvWpw@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240328140512.4148825-11-arnd@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZgUh7cIQIsOgvWpw@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
+X-Infomaniak-Routing: alpha
 
-On Thu, Mar 28, 2024 at 03:04:54PM +0100, Arnd Bergmann wrote:
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
-> This is from randconfig testing with random gcc versions, a .config to
-> reproduce is at https://pastebin.com/r13yezkU
-> ---
->  drivers/staging/greybus/fw-management.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+The subject should start with "landlock: Use" instead of "LANDLOCK: use"
+
+On Thu, Mar 28, 2024 at 01:23:17PM +0530, Ayush Tiwari wrote:
+> Hello Paul
+> Thanks a lot for the feedback. Apologies for the mistakes. Could you
+> help me in some places so that I can correct the errors, like:
+> On Wed, Mar 27, 2024 at 07:43:36PM -0400, Paul Moore wrote:
+> > On Wed, Mar 27, 2024 at 7:26 PM Ayush Tiwari <ayushtiw0110@gmail.com> wrote:
+> > >
+> > > Use kmem_cache replace kzalloc() calls with kmem_cache_zalloc() for
+> > > struct landlock_object and update the related dependencies.
+> > >
+> > > Signed-off-by: Ayush Tiwari <ayushtiw0110@gmail.com>
+> > > ---
+> > >  security/landlock/fs.c     |  2 +-
+> > >  security/landlock/object.c | 14 ++++++++++++--
+> > >  security/landlock/object.h |  4 ++++
+> > >  security/landlock/setup.c  |  2 ++
+> > >  4 files changed, 19 insertions(+), 3 deletions(-)
+> > 
+> > Hi Ayush,
+> > 
+> > Mickaël has the final say on Landlock patches, but I had a few
+> > comments that I've included below ...
+> > 
+> > > diff --git a/security/landlock/fs.c b/security/landlock/fs.c
+> > > index fc520a06f9af..227dd67dd902 100644
+> > > --- a/security/landlock/fs.c
+> > > +++ b/security/landlock/fs.c
+> > > @@ -124,7 +124,7 @@ static struct landlock_object *get_inode_object(struct inode *const inode)
+> > >         if (unlikely(rcu_access_pointer(inode_sec->object))) {
+> > >                 /* Someone else just created the object, bail out and retry. */
+> > >                 spin_unlock(&inode->i_lock);
+> > > -               kfree(new_object);
+> > > +               kmem_cache_free(landlock_object_cache, new_object);
+> > 
+> > See my comment below, but you may want to wrap this in a Landlock
+> > object API function.
+> Sure. I will definitely implement this.
+> > 
+> > >                 rcu_read_lock();
+> > >                 goto retry;
+> > > diff --git a/security/landlock/object.c b/security/landlock/object.c
+> > > index 1f50612f0185..df1354215617 100644
+> > > --- a/security/landlock/object.c
+> > > +++ b/security/landlock/object.c
+> > > @@ -17,6 +17,15 @@
+> > >
+> > >  #include "object.h"
+> > >
+> > > +struct kmem_cache *landlock_object_cache;
+> > > +
+> > > +void __init landlock_object_init(void)
+> > > +{
+> > > +       landlock_object_cache = kmem_cache_create(
+> > > +               "landlock_object_cache", sizeof(struct landlock_object), 0,
+
+No need for the "_cache" name suffix.
+
+> > > +               SLAB_PANIC, NULL);
+> > 
+> > The comments in include/linux/slab.h suggest using the KMEM_CACHE()
+> > macro, instead of kmem_cache_create(), as a best practice for creating
+> > slab caches.
+> > 
+> Sure. Apologies I didn't see that, I tried to implement it from scratch
+> using the reference from linux memory management APIs.
+> > > +}
+> > > +
+> > >  struct landlock_object *
+> > >  landlock_create_object(const struct landlock_object_underops *const underops,
+> > >                        void *const underobj)
+> > > @@ -25,7 +34,8 @@ landlock_create_object(const struct landlock_object_underops *const underops,
+> > >
+> > >         if (WARN_ON_ONCE(!underops || !underobj))
+> > >                 return ERR_PTR(-ENOENT);
+> > > -       new_object = kzalloc(sizeof(*new_object), GFP_KERNEL_ACCOUNT);
+> > > +       new_object =
+> > > +               kmem_cache_zalloc(landlock_object_cache, GFP_KERNEL_ACCOUNT);
+> > 
+> > If the line is too long, you might want to consider splitting the
+> > function parameters like this:
+> > 
+> >   new_object = kmem_cache_zalloc(landlock_object_cache,
+> >                                  GFP_KERNEL_ACCOUNT);
+> > 
 > 
-> diff --git a/drivers/staging/greybus/fw-management.c b/drivers/staging/greybus/fw-management.c
-> index 3054f084d777..35bfdd5f32d2 100644
-> --- a/drivers/staging/greybus/fw-management.c
-> +++ b/drivers/staging/greybus/fw-management.c
-> @@ -303,13 +303,13 @@ static int fw_mgmt_backend_fw_update_operation(struct fw_mgmt *fw_mgmt,
->  	struct gb_fw_mgmt_backend_fw_update_request request;
->  	int ret;
->  
-> -	strncpy(request.firmware_tag, tag, GB_FIRMWARE_TAG_MAX_SIZE);
-> +	ret = strscpy(request.firmware_tag, tag, GB_FIRMWARE_TAG_MAX_SIZE);
+> Sure. I didn't do as it was below the 100 columns limit, but will
+> definitely implement it.
 
-This needs to be strscpy_pad() or it risks an information leak.
+Please just use clang-format.
 
->  
->  	/*
->  	 * The firmware-tag should be NULL terminated, otherwise throw error and
-                                      ^^^^^^^^^^^^^^^^
-These comments are out of date.
+> > >         if (!new_object)
+> > >                 return ERR_PTR(-ENOMEM);
+> > >         refcount_set(&new_object->usage, 1);
+> > > @@ -62,6 +72,6 @@ void landlock_put_object(struct landlock_object *const object)
+> > >                  * @object->underobj to @object (if it still exists).
+> > >                  */
+> > >                 object->underops->release(object);
+> > > -               kfree_rcu(object, rcu_free);
 
->  	 * fail.
->  	 */
-> -	if (request.firmware_tag[GB_FIRMWARE_TAG_MAX_SIZE - 1] != '\0') {
-> +	if (ret == -E2BIG) {
->  		dev_err(fw_mgmt->parent, "backend-update: firmware-tag is not NULL terminated\n");
-                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-More out of date prints.
+Is it safe?
 
-regards,
-dan carpenter
+According to commit ae65a5211d90 ("mm/slab: document kfree() as allowed
+for kmem_cache_alloc() objects"), no change should be needed (and it
+must not be backported to kernels older than 6.4 with CONFIG_SLOB). This
+way we can avoid exporting landlock_object_cache.  Please add a note
+about this commit and the related warning in the commit message.
 
+> > > +               kmem_cache_free(landlock_object_cache, object);
+> > >         }
+> > >  }
+> > > diff --git a/security/landlock/object.h b/security/landlock/object.h
+> > > index 5f28c35e8aa8..8ba1af3ddc2e 100644
+> > > --- a/security/landlock/object.h
+> > > +++ b/security/landlock/object.h
+> > > @@ -13,6 +13,10 @@
+> > >  #include <linux/refcount.h>
+> > >  #include <linux/spinlock.h>
+> > >
+> > > +extern struct kmem_cache *landlock_object_cache;
+> > 
+> > This really is a decision for Mickaël, but you may want to make
+> > @landlock_object_cache private to object.c and create functions to
+> > manage it as needed, e.g. put/free operations.
+> > 
+> Okay. I didn't make it private as I was using it in fs.c to use
+> kmem_cache_free, but if this is supposed to be private, I can modify the
+> approach and expose it via some function, not directly exposing
+> landlock_object_cache.
+
+Yes, that would be better.
+
+> > > +void __init landlock_object_init(void);
+> > > +
+> > >  struct landlock_object;
+> > >
+> > >  /**
+> > > diff --git a/security/landlock/setup.c b/security/landlock/setup.c
+> > > index f6dd33143b7f..a5fca4582ee1 100644
+> > 
+> > -- 
+> > paul-moore.com
+> I will make all the changes you mentioned, and as you said, I will
+> wait for Mickael's say.
+
+Agree with Paul and Greg unless commented otherwise. Thanks
