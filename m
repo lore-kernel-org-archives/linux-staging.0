@@ -1,207 +1,162 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A86D28F6B
-	for <linux-staging@lists.linux.dev>; Thu, 28 Mar 2024 23:00:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E11973D966
+	for <linux-staging@lists.linux.dev>; Thu, 28 Mar 2024 23:01:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711666812; cv=none; b=jhn9BEY99Ak8Gih696h2p5HIcwBSf1NpBV0buR3BsSo4OnutiQrAJ8/p8zkmZBqdngeWqJ6hfKJowYqMRRL+5lpZbyM/lokUuo0gZFon6PdI2DOm6zuehrET/WQRILe3qXdev3MBrN6jCxDowozI3tCfwxerK4srdsPqtQZIFq0=
+	t=1711666898; cv=none; b=eV4KnxlVqdmU6DC4WRtqeHl+ZE/BdOjbKxuojhVYkuTyXU4R+vicHSFOoaBF1rQHhFBh1C8E9IpSa3EHaShJr574cUA09QjXyNyeLp9phFRFJv/Vm3gl+zvYjL1roJkSQwcQYGyqTwKUQLFBczE9OegxGob83frSYv7bPrmLQG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711666812; c=relaxed/simple;
-	bh=uuzkKPt3TAVFwJab+uX62qnt+b+ofhYvlIkAmqHgUAk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m3BxNWR/K8l/TOCS2t3d6uJ2SkE/sthjEghcg+n9nacUr1lDgeaEDW1rn43lgIpxwzlQuCR4xQr9vRd9I8XU3VIqbaL6Fy65/JDW405NNXDq3xbcbLKTHWLH181O2cMPE/gYSj6F7Tmg6Gkv3tcad6lWgJU7vjLeBH0LrQLJqsQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=SHpH+UvR; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1711666898; c=relaxed/simple;
+	bh=TKsivGU+pbBggUpaqWi4+K2eNDTC87QeNNtNFbqc9rM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=EfJKO6FEuM7X4KaID+E+Uxttoqq0Gq1bhLj+RhSRsWfowyxJLZLfwCqe814HdyHrRzJE7SHyT/t1qM9aP4NZeTDSTqOWLZ/URG/HH6HJ6wMgIOBXk+N9vI5fdko3gkvzQFp38mlx1K+y82BMoO057l2BY5ZX1xrw1ODFzrgyTsI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=IOGGxR3K; arc=none smtp.client-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SHpH+UvR"
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3CAC3505;
-	Thu, 28 Mar 2024 23:59:35 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1711666775;
-	bh=uuzkKPt3TAVFwJab+uX62qnt+b+ofhYvlIkAmqHgUAk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SHpH+UvRTcCl16ACIkJGWHTY+sUb9Y0hTAWJJGQKjjrzVYJeBRL9e1WLBpnYkbkqw
-	 yT6Unja7RPW0sJV74BJ8InwFo2mRm7EfOH8fzj9Ux9nhbxaNEEHC7I2ceHyjMUGKaB
-	 tW65l0GirrLHpLFfHrKUKm78fvpSYXSCcOFb6LTg=
-Date: Fri, 29 Mar 2024 00:59:58 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Umang Jain <umang.jain@ideasonboard.com>
-Cc: linux-staging@lists.linux.dev, Dan Carpenter <error27@gmail.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Phil Elwell <phil@raspberrypi.com>, Greg KH <greg@kroah.com>,
-	Stefan Wahren <wahrenst@gmx.net>
-Subject: Re: [PATCH v4 06/11] staging: vc04_services: Move global variables
- tracking allocated pages
-Message-ID: <20240328225958.GK11463@pendragon.ideasonboard.com>
-References: <20240328181134.1548799-1-umang.jain@ideasonboard.com>
- <20240328181134.1548799-7-umang.jain@ideasonboard.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="IOGGxR3K"
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-56bf6591865so2250049a12.0
+        for <linux-staging@lists.linux.dev>; Thu, 28 Mar 2024 16:01:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1711666895; x=1712271695; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oA17YR4InWjyg8TEVheIC338xk5MwmSEpPeuNx4GZW0=;
+        b=IOGGxR3KURkaVLhZkOZNqD9PzVwsWRyGvDWBWBcxFCPgFq/3ySFRGENMsaffmb6ULH
+         CXD9VZOp+2npubRyM4GRZLnrrXsxppXkR+pVmRP8ewgMdqX52Eab6klNsWH5R+DcxecR
+         AwdEzbP2pAvxjLMVOzjwpCABwqhhdz4m42hGmOkPRp2e3Qlmc/Zes4KwtTV7JAjNkz+l
+         oM5O1G2J/1VEN+M3A2g9BRG9EfXQH/cvmd8CXajF+x4/TjfI+IMvQEN81JxKfJtuTUZ5
+         8ENNRC3dHv3oqVmBiNP4vj+L9ktxe+ZjqCjOOxa8bQCc4xwM01qG1mZyFxBBHc3RFgY2
+         goZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711666895; x=1712271695;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=oA17YR4InWjyg8TEVheIC338xk5MwmSEpPeuNx4GZW0=;
+        b=BFkkxMp1lSpACf9YVO+aouLn5bPU2lOTqpRJpHFTYqV09IFMhCJEjiYsupZnMfNRe7
+         UsgHpNIBNUO3c/kJ16hRH+2SnhIN87br954Vrf1qbuY6YDLsITElArtCBa2QkKjbZ6oe
+         up+nJhgr1UGoQgbFMkZD7NG5cZ0Cb/Rah0A/l6SkWng6fUs4l8+2ylgo4cdRWVaFlATq
+         b4jZsSEwm0kAAwRYAeXTDNtOVumMjeKz3Y1fRB8gHVb6jee5BwPNukRe8vAl2/EUDKH+
+         gxxgCuH/lCu292dn8XesiTie8NNg30iAQ6AmwchkSSBgeUSKlsGrUCitA0lAJPmXVyfl
+         KnCg==
+X-Forwarded-Encrypted: i=1; AJvYcCUm8uOANuyRd52X5GKT2/6yMuROT48vgd/ZPpuCjoSNaHNPCeKBbipp6E2QEimR7c/LTfDDGV/SjJfniXXkDwoQ2N8QnYFByXZDpw+ONA==
+X-Gm-Message-State: AOJu0YyCQ6rpvbL5MAQHsNsd/Xsg8QWO6McQraoI2hT+XGTmvff9AeH6
+	ewWRi873H9z3BhQjlbrKENonjwxJs86q5d/hEHYgOWq79N0P8M9O2UEv8YnV5P4ThCDmWEIlPGE
+	GdiCbYiBqvQNvZ9vA/1e7waoSzB39g+N9mhYe
+X-Google-Smtp-Source: AGHT+IHSDimwfZi+Mu8w7ftuh2TFjJ1pdwWklM9rbYXTjg5wTtqltWADADutdRuEB4qRyX7gMEY0XftN4jstinrasFQ=
+X-Received: by 2002:a05:6402:51cd:b0:56a:2b6b:42cd with SMTP id
+ r13-20020a05640251cd00b0056a2b6b42cdmr433486edd.3.1711666895187; Thu, 28 Mar
+ 2024 16:01:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240328181134.1548799-7-umang.jain@ideasonboard.com>
+References: <20240328140512.4148825-1-arnd@kernel.org> <20240328140512.4148825-10-arnd@kernel.org>
+In-Reply-To: <20240328140512.4148825-10-arnd@kernel.org>
+From: Justin Stitt <justinstitt@google.com>
+Date: Thu, 28 Mar 2024 16:01:23 -0700
+Message-ID: <CAFhGd8oHht+uMBouT7_AXZt4DMRJi=A7_=fyhZ2Hf_ne+8xE8w@mail.gmail.com>
+Subject: Re: [PATCH 09/11] staging: rtl8723bs: convert strncpy to strscpy
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: linux-kernel@vger.kernel.org, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Arnd Bergmann <arnd@arndb.de>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Bill Wendling <morbo@google.com>, Franziska Naepelt <franziska.naepelt@googlemail.com>, 
+	Johannes Berg <johannes.berg@intel.com>, Yang Yingliang <yangyingliang@huawei.com>, 
+	Erick Archer <erick.archer@gmx.com>, linux-staging@lists.linux.dev, llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Umang,
+Hi,
 
-Thank you for the patch.
+On Thu, Mar 28, 2024 at 7:07=E2=80=AFAM Arnd Bergmann <arnd@kernel.org> wro=
+te:
+>
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> gcc-9 complains about a possibly unterminated string in the strncpy() des=
+tination:
+>
+> In function 'rtw_cfg80211_add_monitor_if',
+>     inlined from 'cfg80211_rtw_add_virtual_intf' at drivers/staging/rtl87=
+23bs/os_dep/ioctl_cfg80211.c:2209:9:
+> drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:2146:2: error: 'strncpy=
+' specified bound 16 equals destination size [-Werror=3Dstringop-truncation=
+]
+>  2146 |  strncpy(mon_ndev->name, name, IFNAMSIZ);
+>       |  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>
+> This one is a false-positive because of the explicit termination in the f=
+ollowing
+> line, and recent versions of clang and gcc no longer warn about this.
+>
+> Interestingly, the other strncpy() in this file is missing a termination =
+but
+> does not produce a warning, possibly because of the type confusion and th=
+e
+> cast between u8 and char.
+>
+> Change both strncpy() instances to strscpy(), which avoids the warning as=
+ well
+> as the possibly missing termination. No additional padding is needed here=
+.
 
-On Thu, Mar 28, 2024 at 11:41:28PM +0530, Umang Jain wrote:
-> The variables tracking allocated pages fragments in vchiq_arm.c
-> can be easily moved to struct vchiq_drv_mgmt instead of being global.
-> This helps us to drop the non-essential global variables in the vchiq
-> interface.
-> 
-> No functional changes intended in this patch.
-> 
-> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+Could you also clean up the strncpy present in
+drivers/staging/rtl8723bs/os_dep/os_intfs.c so all these are cleaned
+up at once?
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Maybe we could use the new 2-argument version of strscpy() introduced
+in Commit e6584c3964f2f ("string: Allow 2-argument strscpy()") for all
+3 of these too.
 
+It looks like:
+    strscpy(dest, src);
+
+
+
+
+
+>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 > ---
->  .../interface/vchiq_arm/vchiq_arm.c           | 53 +++++++++----------
->  .../interface/vchiq_arm/vchiq_arm.h           |  6 +++
->  2 files changed, 30 insertions(+), 29 deletions(-)
-> 
-> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> index 2005d392d0b7..b335948f4b0c 100644
-> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> @@ -130,12 +130,6 @@ struct vchiq_pagelist_info {
->  };
->  
->  static void __iomem *g_regs;
-> -static unsigned int g_fragments_size;
-> -static char *g_fragments_base;
-> -static char *g_free_fragments;
-> -static struct semaphore g_free_fragments_sema;
-> -
-> -static DEFINE_SEMAPHORE(g_free_fragments_mutex, 1);
->  
->  static int
->  vchiq_blocking_bulk_transfer(struct vchiq_instance *instance, unsigned int handle, void *data,
-> @@ -414,20 +408,20 @@ create_pagelist(struct vchiq_instance *instance, char *buf, char __user *ubuf,
->  	    (drv_mgmt->info->cache_line_size - 1)))) {
->  		char *fragments;
->  
-> -		if (down_interruptible(&g_free_fragments_sema)) {
-> +		if (down_interruptible(&drv_mgmt->free_fragments_sema)) {
->  			cleanup_pagelistinfo(instance, pagelistinfo);
->  			return NULL;
->  		}
->  
-> -		WARN_ON(!g_free_fragments);
-> +		WARN_ON(!drv_mgmt->free_fragments);
->  
-> -		down(&g_free_fragments_mutex);
-> -		fragments = g_free_fragments;
-> +		down(&drv_mgmt->free_fragments_mutex);
-> +		fragments = drv_mgmt->free_fragments;
->  		WARN_ON(!fragments);
-> -		g_free_fragments = *(char **)g_free_fragments;
-> -		up(&g_free_fragments_mutex);
-> +		drv_mgmt->free_fragments = *(char **)drv_mgmt->free_fragments;
-> +		up(&drv_mgmt->free_fragments_mutex);
->  		pagelist->type = PAGELIST_READ_WITH_FRAGMENTS +
-> -			(fragments - g_fragments_base) / g_fragments_size;
-> +			(fragments - drv_mgmt->fragments_base) / drv_mgmt->fragments_size;
->  	}
->  
->  	return pagelistinfo;
-> @@ -455,10 +449,10 @@ free_pagelist(struct vchiq_instance *instance, struct vchiq_pagelist_info *pagel
->  	pagelistinfo->scatterlist_mapped = 0;
->  
->  	/* Deal with any partial cache lines (fragments) */
-> -	if (pagelist->type >= PAGELIST_READ_WITH_FRAGMENTS && g_fragments_base) {
-> -		char *fragments = g_fragments_base +
-> +	if (pagelist->type >= PAGELIST_READ_WITH_FRAGMENTS && drv_mgmt->fragments_base) {
-> +		char *fragments = drv_mgmt->fragments_base +
->  			(pagelist->type - PAGELIST_READ_WITH_FRAGMENTS) *
-> -			g_fragments_size;
-> +			drv_mgmt->fragments_size;
->  		int head_bytes, tail_bytes;
->  
->  		head_bytes = (drv_mgmt->info->cache_line_size - pagelist->offset) &
-> @@ -483,11 +477,11 @@ free_pagelist(struct vchiq_instance *instance, struct vchiq_pagelist_info *pagel
->  				fragments + drv_mgmt->info->cache_line_size,
->  				tail_bytes);
->  
-> -		down(&g_free_fragments_mutex);
-> -		*(char **)fragments = g_free_fragments;
-> -		g_free_fragments = fragments;
-> -		up(&g_free_fragments_mutex);
-> -		up(&g_free_fragments_sema);
-> +		down(&drv_mgmt->free_fragments_mutex);
-> +		*(char **)fragments = drv_mgmt->free_fragments;
-> +		drv_mgmt->free_fragments = fragments;
-> +		up(&drv_mgmt->free_fragments_mutex);
-> +		up(&drv_mgmt->free_fragments_sema);
->  	}
->  
->  	/* Need to mark all the pages dirty. */
-> @@ -523,11 +517,11 @@ static int vchiq_platform_init(struct platform_device *pdev, struct vchiq_state
->  	if (err < 0)
->  		return err;
->  
-> -	g_fragments_size = 2 * drv_mgmt->info->cache_line_size;
-> +	drv_mgmt->fragments_size = 2 * drv_mgmt->info->cache_line_size;
->  
->  	/* Allocate space for the channels in coherent memory */
->  	slot_mem_size = PAGE_ALIGN(TOTAL_SLOTS * VCHIQ_SLOT_SIZE);
-> -	frag_mem_size = PAGE_ALIGN(g_fragments_size * MAX_FRAGMENTS);
-> +	frag_mem_size = PAGE_ALIGN(drv_mgmt->fragments_size * MAX_FRAGMENTS);
->  
->  	slot_mem = dmam_alloc_coherent(dev, slot_mem_size + frag_mem_size,
->  				       &slot_phys, GFP_KERNEL);
-> @@ -547,15 +541,16 @@ static int vchiq_platform_init(struct platform_device *pdev, struct vchiq_state
->  	vchiq_slot_zero->platform_data[VCHIQ_PLATFORM_FRAGMENTS_COUNT_IDX] =
->  		MAX_FRAGMENTS;
->  
-> -	g_fragments_base = (char *)slot_mem + slot_mem_size;
-> +	drv_mgmt->fragments_base = (char *)slot_mem + slot_mem_size;
->  
-> -	g_free_fragments = g_fragments_base;
-> +	drv_mgmt->free_fragments = drv_mgmt->fragments_base;
->  	for (i = 0; i < (MAX_FRAGMENTS - 1); i++) {
-> -		*(char **)&g_fragments_base[i * g_fragments_size] =
-> -			&g_fragments_base[(i + 1) * g_fragments_size];
-> +		*(char **)&drv_mgmt->fragments_base[i * drv_mgmt->fragments_size] =
-> +			&drv_mgmt->fragments_base[(i + 1) * drv_mgmt->fragments_size];
->  	}
-> -	*(char **)&g_fragments_base[i * g_fragments_size] = NULL;
-> -	sema_init(&g_free_fragments_sema, MAX_FRAGMENTS);
-> +	*(char **)&drv_mgmt->fragments_base[i * drv_mgmt->fragments_size] = NULL;
-> +	sema_init(&drv_mgmt->free_fragments_sema, MAX_FRAGMENTS);
-> +	sema_init(&drv_mgmt->free_fragments_mutex, 1);
->  
->  	err = vchiq_init_state(state, vchiq_slot_zero, dev);
->  	if (err)
-> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
-> index 4a5b5ae9625a..a3bba245bfe2 100644
-> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
-> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
-> @@ -59,6 +59,12 @@ struct vchiq_drv_mgmt {
->  	struct mutex connected_mutex;
->  
->  	void (*deferred_callback[VCHIQ_DRV_MAX_CALLBACKS])(void);
-> +
-> +	struct semaphore free_fragments_sema;
-> +	struct semaphore free_fragments_mutex;
-> +	char *fragments_base;
-> +	char *free_fragments;
-> +	unsigned int fragments_size;
->  };
->  
->  struct user_service {
+>  drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/=
+staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+> index 65a450fcdce7..98bc5520e77d 100644
+> --- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+> +++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+> @@ -884,7 +884,7 @@ static int cfg80211_rtw_add_key(struct wiphy *wiphy, =
+struct net_device *ndev,
+>                 goto addkey_end;
+>         }
+>
+> -       strncpy((char *)param->u.crypt.alg, alg_name, IEEE_CRYPT_ALG_NAME=
+_LEN);
+> +       strscpy(param->u.crypt.alg, alg_name, IEEE_CRYPT_ALG_NAME_LEN);
+>
+>         if (!mac_addr || is_broadcast_ether_addr(mac_addr))
+>                 param->u.crypt.set_tx =3D 0; /* for wpa/wpa2 group key */
+> @@ -2143,8 +2143,7 @@ static int rtw_cfg80211_add_monitor_if(struct adapt=
+er *padapter, char *name, str
+>         }
+>
+>         mon_ndev->type =3D ARPHRD_IEEE80211_RADIOTAP;
+> -       strncpy(mon_ndev->name, name, IFNAMSIZ);
+> -       mon_ndev->name[IFNAMSIZ - 1] =3D 0;
+> +       strscpy(mon_ndev->name, name, IFNAMSIZ);
+>         mon_ndev->needs_free_netdev =3D true;
+>         mon_ndev->priv_destructor =3D rtw_ndev_destructor;
+>
+> --
+> 2.39.2
+>
 
--- 
-Regards,
-
-Laurent Pinchart
+Thanks
+Justin
