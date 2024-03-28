@@ -1,103 +1,159 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7534212DDAB
-	for <linux-staging@lists.linux.dev>; Thu, 28 Mar 2024 15:30:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A225E7E0E8;
+	Thu, 28 Mar 2024 15:53:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711639815; cv=none; b=LLcaPNECCSIRfEmQMW/sAdS62ZQqDMdF1i0b35DhjHmLzAQo9FjgIxOK/vaVK7wU/Tufkay0WgKllUgoIYvRvFQM2/GKNjTNePZWiRzquUMeiQdNSGQ4JlQ/48Tep2LDVr3soUS04carDNWD6fEJ74yFINbZUGra/w4d6u8/p8M=
+	t=1711641224; cv=none; b=lf3r8+sR7Q08IeN9EUA2JjWxL+NToVeo8PFel4fxaFtiaZe7bTydXdzP4hlAqTAV32I9BT3yS4SJqf+b0BKLl5r5bLFxgxjPzyw5Bg5XOsGmDTkt/TXs9SIrGALq6VyE/VM3q0ehOdt52W89Hcej4uAirWRnBl2LrWAdBYLbiBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711639815; c=relaxed/simple;
-	bh=eTkYEIO6xGKCBPSNNcA+qSM50wnYa53a1ulCV3EXFdo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Rf5KfuBRpAT/z7S63U3/3V/sqZAhY7Q0efHayfK0vJzINyZiu8gqzfepFT5Ia2KnGnfoJ8Nez9TP4Ox6SikXhQ9tmUnKRekJedPxvX2nTTb6Drev/buG1rd7famtY3Yfq0b9a2fNhc+ZQkAsH4BYiHt0snM7N2bE5Sug0wE5mHw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=Og5tji0G; arc=none smtp.client-ip=212.227.17.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
+	s=arc-20240116; t=1711641224; c=relaxed/simple;
+	bh=UQ4ftE4d2wyJQXBRF16WggqiN2pIoTo1vBnMgKGTa20=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=W/xnIOEKTx4hB3wnuKT84H2uJ9lJBM+GK61yfmQ0yssfhSJNz8bX8kVNFjQOW5z1udy6f9lXCyzHUMPmecInbZ0Fxw6y7uJyhrWb0KvtJ0XH7+xoCIRmVQXhJRxuUNd+/PmReg7+Iha88DvmfGSUOfsKeInApD6XbeC+Mn1iank=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PMo3tpdJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="Og5tji0G"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
-	s=s31663417; t=1711639800; x=1712244600; i=wahrenst@gmx.net;
-	bh=NUVf/ApBhxkfLH93WC9AA8Zvhmz3hoGRwYPW68JP8ew=;
-	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
-	 In-Reply-To;
-	b=Og5tji0GcVg/F2ovnnKhLxd/YAWvROYS99iNABnkSqFxp+6OCVNhA0ibSzswpeh4
-	 cg7yXVr7TqSE2CRCATH54og/4dF8s9WWITKLXLPDyOGAc0WCzoVbyvZTs5296ixQW
-	 YwqXre4cB3UtwybPExI7Eyf2QI0OzTy+eNCAqumEJx9b/wkOTRIldTMxF3N0EzueT
-	 riR1oumDF/OBAwiIwJZgIMHFRUpcWKNvk7i3UvGuNrF+eZTCwudld0BGSZAybBJuf
-	 nRGaHHY3zdCWE/VwXrzqDLuHdxVZOpYftb/bSroArkv/MI1yzWixhI9AeLGHQRNIG
-	 nuDa3ff8fxDhFgy+jg==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.167] ([37.4.248.43]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MYvY8-1sKmbo2aGG-00Uoge; Thu, 28
- Mar 2024 16:30:00 +0100
-Message-ID: <5d0708c6-a6fc-486b-b43a-09db23d6ba3b@gmx.net>
-Date: Thu, 28 Mar 2024 16:29:59 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PMo3tpdJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DC31C433C7;
+	Thu, 28 Mar 2024 15:53:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711641224;
+	bh=UQ4ftE4d2wyJQXBRF16WggqiN2pIoTo1vBnMgKGTa20=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=PMo3tpdJon9JSWvzLbi3LYD+vJR6aWdM1xxxv4uYiX9pi50ulIvqx9GdLVFmgf/eG
+	 y54+FB3f2fVUN7lN24VF9ScRwGE5+nai38XVEFsEY5aGcu/OxmPMo0CRo66VMu641k
+	 mdC0z045ZAiJJEfpRO0b9Dj95MNNkN2YcpCv9zrH81OgL69pfoKSG72rxoNnF+ixZE
+	 EZKJHXNr8zOTso7/8FjpGQqDLUmz+ExjAsxs8zD+SWgEWTwVed6LVqHLEBYqoP4S62
+	 SoOZq6bJ6d5B7Qr/JjEcmvh3KqQOjAPpY9weBmLgeiFegivskWRvQnn9afckV9PtMn
+	 Pd9/b0WisbQDw==
+Date: Thu, 28 Mar 2024 15:53:28 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: David Lechner <dlechner@baylibre.com>, Jonathan Corbet <corbet@lwn.net>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Jean
+ Delvare <jdelvare@suse.com>, Support Opensource
+ <support.opensource@diasemi.com>, Cosmin Tanislav
+ <cosmin.tanislav@analog.com>, Lars-Peter Clausen <lars@metafoo.de>, Michael
+ Hennerich <Michael.Hennerich@analog.com>, Antoniu Miclaus
+ <antoniu.miclaus@analog.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-input@vger.kernel.org
+Subject: Re: [PATCH RFC 3/7] hwmon: (da9052) Use
+ devm_regulator_get_enable_get_voltage()
+Message-ID: <20240328155328.755708bf@jic23-huawei>
+In-Reply-To: <13405bc9-3c97-4063-87b3-45a7e686fa50@roeck-us.net>
+References: <20240327-regulator-get-enable-get-votlage-v1-0-5f4517faa059@baylibre.com>
+	<20240327-regulator-get-enable-get-votlage-v1-3-5f4517faa059@baylibre.com>
+	<20240328142038.33ad68bc@jic23-huawei>
+	<13405bc9-3c97-4063-87b3-45a7e686fa50@roeck-us.net>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/5] staging: vc04_services: vchiq_core: Stop kthreads
- on shutdown
-To: Mark Brown <broonie@kernel.org>, Umang Jain <umang.jain@ideasonboard.com>
-Cc: linux-staging@lists.linux.dev, Dan Carpenter <error27@gmail.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Phil Elwell <phil@raspberrypi.com>, Greg KH <greg@kroah.com>
-References: <20240321130737.898154-1-umang.jain@ideasonboard.com>
- <20240321130737.898154-6-umang.jain@ideasonboard.com>
- <80c720d9-8a9b-42c9-b5fa-fe8a33da7945@sirena.org.uk>
-Content-Language: en-US
-From: Stefan Wahren <wahrenst@gmx.net>
-In-Reply-To: <80c720d9-8a9b-42c9-b5fa-fe8a33da7945@sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:QDujG0/+hRzq/XMxXCUZgkitIwTiWZ0LSdDhZ2SHhrx6Zd63yCi
- WdMWiUg25qy6OnUZ0V/3NplyM9a3GlJWHoOsBmcNMsyHvmsZing1AGCAekbyItJFNoMrAX9
- xDqpOS7PNtBONdjyRWE/V2WsT7nJPtlcUWKprsWmZZnZ6PLkOxWKs7x69ZwV+Lti+fgndvV
- +PW12va7sn9W9Z5eSR04A==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:ak2A6gnbJM4=;c7pjNMRFeDOG6UhnEBF7d2WcOkD
- LSDrzj8/sw9vQw4mPFkdaf+yi/nZyLzWqvazL12rZ3UEUrnZvYtHMF4BQLArrhF1rtl/Zsd0C
- iY/2ikvKc8IQFeM57dh6O4tlU0o03UboRFc43Y9w/Spw/BY0Ikv6EPBWPJhw8kMSl5njEp41g
- ATlWIFUVtfkqu1117HsK9sGZ3dFahOfUAMfwKbnyi1JgISJAEgoCfLmv5+yZAOYFrd12kZSH4
- BCmWEA/8CTRlJcxR+GUbDeyyqMy3Vi9cpFk5oBh7SVoRxqm4xpLeCTFRQS2Op7mhgwtyYIOdB
- qFU/yPPW/AcxLwBerggTe+StXFXNizjwDJbM0Sqzu/C+UNLk8Z2wk4O4bQ/JvESIvTvKiQQfo
- 17+zzru5TR1yECDEJddYp0WL/CAOUw0ApcyL7vRTcpSpQb2ulpynMeeaaY4uuyHpi1xwIN3Bv
- BamC0h55AEKmHlhIgEQUfR8sLe5yo5p84fXb5K7LA79okUop+arRs2EcDYhp1KY3P+Ai/G5zx
- ojjlec2FVEC+fDk2jXDcb3WfZrtuTv+MLGoAt2dDnD6KIAQ55gIIHeS9jX7kJgnXZoeSdDKWg
- IAtSJ/QkqFaZkBamks6eCnuMOxc7dHK8TafmlxmLKTzqpVKOiD7DCo+0ocoYZYOL974Q++Enz
- o9VcHVnRb+XLfF10UfrBbCIJbaQ2iHZd7hySBu5IcZs/7za0DW01Wi/guczuef/ESSBFQ1M6v
- jBOiAuGK+okCmY0mrFbmR3Zu/1X10WgTzPyibGKa6u0+KKmiWJeR3WbfL40Mj+g82wBqexvGV
- RzG6nuy5hDkFIfZvo0IFbNwzrgv4mZr94n5/BGFERiYkc=
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Mark,
+On Thu, 28 Mar 2024 08:20:00 -0700
+Guenter Roeck <linux@roeck-us.net> wrote:
 
-Am 28.03.24 um 15:53 schrieb Mark Brown:
-> On Thu, Mar 21, 2024 at 06:37:37PM +0530, Umang Jain wrote:
->> The various kthreads thread functions (slot_handler_func, sync_func,
->> recycle_func) in vchiq_core and vchiq_keepalive_thread_func in
->> vchiq_arm should be stopped on vchiq_shutdown().
->>
->> This also address the following TODO item:
->>   * Fix kernel module support
->>
->> hence drop it from the TODO item list.
->
-> This has landed in -next as d9c60badccc183eb971e0941bb86f9475d4b9551
-> and appears to be causing substantial issues on the original Raspberry
-> Pi.  I'm seeing a lot of failed boots and one that worked is showing a
-> bunch of faults the first of which is:
->
+> On 3/28/24 07:20, Jonathan Cameron wrote:
+> > On Wed, 27 Mar 2024 18:18:52 -0500
+> > David Lechner <dlechner@baylibre.com> wrote:
+> >   
+> >> We can reduce boilerplate code by using
+> >> devm_regulator_get_enable_get_voltage().
+> >>
+> >> Signed-off-by: David Lechner <dlechner@baylibre.com>  
+> > 
+> > A few comments inline, but nothing substantial.
+> > 
+> > Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>  
+> >> ---
+> >>   drivers/hwmon/da9052-hwmon.c | 33 +++++++--------------------------
+> >>   1 file changed, 7 insertions(+), 26 deletions(-)
+> >>
+> >> diff --git a/drivers/hwmon/da9052-hwmon.c b/drivers/hwmon/da9052-hwmon.c
+> >> index 2bd7ae8100d7..70e7bc72e980 100644
+> >> --- a/drivers/hwmon/da9052-hwmon.c
+> >> +++ b/drivers/hwmon/da9052-hwmon.c
+> >> @@ -26,7 +26,6 @@ struct da9052_hwmon {
+> >>   	struct mutex		hwmon_lock;
+> >>   	bool			tsi_as_adc;
+> >>   	int			tsiref_mv;
+> >> -	struct regulator	*tsiref;
+> >>   	struct completion	tsidone;
+> >>   };
+> >>   
+> >> @@ -414,32 +413,19 @@ static int da9052_hwmon_probe(struct platform_device *pdev)
+> >>   		device_property_read_bool(pdev->dev.parent, "dlg,tsi-as-adc");
+> >>   
+> >>   	if (hwmon->tsi_as_adc) {
+> >> -		hwmon->tsiref = devm_regulator_get(pdev->dev.parent, "tsiref");
+> >> -		if (IS_ERR(hwmon->tsiref)) {
+> >> -			err = PTR_ERR(hwmon->tsiref);
+> >> -			dev_err(&pdev->dev, "failed to get tsiref: %d", err);
+> >> +		err = devm_regulator_get_enable_get_voltage(pdev->dev.parent,
+> >> +							    "tsiref");
+> >> +		if (err < 0)
+> >>   			return err;
+> >> -		}
+> >> -
+> >> -		err = regulator_enable(hwmon->tsiref);
+> >> -		if (err)
+> >> -			return err;
+> >> -
+> >> -		hwmon->tsiref_mv = regulator_get_voltage(hwmon->tsiref);
+> >> -		if (hwmon->tsiref_mv < 0) {
+> >> -			err = hwmon->tsiref_mv;
+> >> -			goto exit_regulator;
+> >> -		}
+> >>   
+> >>   		/* convert from microvolt (DT) to millivolt (hwmon) */
+> >> -		hwmon->tsiref_mv /= 1000;
+> >> +		hwmon->tsiref_mv = err / 1000;
+> >>  
+> > 
+> > Using a variable called err for a good value is a bit ugly but fair enough if that
+> > is precedence in this driver.
+> >   
+> 
+> It isn't. The existing code assigns the return value from regulator_get_voltage()
+> to hwmon->tsiref_mv and then evaluates it. I would not oppose introducing a variable
+> such as tsiref_uv, but not the misuse of 'err'. I am not going to accept the code
+> as suggested. It is bad style, and it would invite others to use it as precedent
+> when trying to introduce similar code.
 
-yes this broken patch was applied before i to tested it with Linux
-6.9rc1. The bugfix is currently under review [1]
+I was too lazy to look and see if there were existing cases :) Local variable indeed
+the right way to go.
 
-[1] -
-https://lore.kernel.org/linux-staging/171161507013.3072637.121257825075239=
-19379@ping.linuxembedded.co.uk/T/#m1d3de7d2fa73b2447274858353bbd4a0c3a8ba1=
-4
+> 
+> >>   }
+> >> @@ -483,10 +466,8 @@ static void da9052_hwmon_remove(struct platform_device *pdev)
+> >>   {
+> >>   	struct da9052_hwmon *hwmon = platform_get_drvdata(pdev);
+> >>   
+> >> -	if (hwmon->tsi_as_adc) {
+> >> +	if (hwmon->tsi_as_adc)
+> >>   		da9052_free_irq(hwmon->da9052, DA9052_IRQ_TSIREADY, hwmon);  
+> > Superficially looks like devm_da9052_request_irq could be added that
+> > uses devm_request_threaded_irq() to allow dropping this remaining handling.
+> >   
+> 
+> That should be a separate series of patches. A local solution might be
+> to use devm_add_action_or_reset(), but that should also be a separate patch.
+
+
+Agreed.  Just a passing comment whilst the code was in front of me.
+
+Jonathan
+
+> 
+> Thanks,
+> Guenter
+> 
+
