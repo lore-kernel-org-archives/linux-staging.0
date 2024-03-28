@@ -1,54 +1,56 @@
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53A1D7E798
-	for <linux-staging@lists.linux.dev>; Thu, 28 Mar 2024 12:12:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6C4E7EEF3
+	for <linux-staging@lists.linux.dev>; Thu, 28 Mar 2024 12:12:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711627973; cv=none; b=ORdFgHxScHpHr+SHZmkWpregq9w0gin/A5xH/vp5oOQPHthcwjhgQz/sPs9XoQxxEd8Z1bAJ0/DyLGCHrfYye9+cxKGM+dzNW04hNstK0e79eyynJA9q73pRjWiyReaD4FsiDE4dgCj3oVkysYr9P7zYWxy93SeS9/5T8h2jngs=
+	t=1711627974; cv=none; b=IUiX+Uw/5Ekn6gMYAyt2HnyBaktUMZ0zBnDofzfYCvYeA1AYcpotf/Ckgd3NoHd0oCxo/EB+TMxsniQqKjBnytNM9FfP7/HM8zLOh7lcXtwzAP86xqpS+qkKKpFYNSsj3q0UNidzzMyjsQjqok5wEzGlSnd82RSsnGFPW6+ObCY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711627973; c=relaxed/simple;
-	bh=eQPwDOS/et2gGh2U5lbLbgdW+2Fr6vfgAdlGcEfpeUU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=A5w/hQAbJ0iHJlRmNWb1ac2LdTq4uSQSUdPPxWq64K/nxZxJhdD+vzYJf7NOkk2Y3ehYQ+RdIK7zHOJtkmO8DqyxGwrCHJXBV4cC5jGEyH+fhdFvw5WGiNtyiOS/TDuMlCyLzrFIgQ+r7PdS/NP0wilazaknh8ugWZbhafxIybY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HaMdgo8a; arc=none smtp.client-ip=209.85.208.182
+	s=arc-20240116; t=1711627974; c=relaxed/simple;
+	bh=URk7fibNLFgzKg25jKRBtY4kibQ99F3/DTCHeKbgi78=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=H3WsqBH95R/pB30qv8g3qzZ7U81be1urLp5ggzHLP9QQQz1Otu9FAUGg08BsuudAFzQB+d1WXlwBTz3+B7BlJRUWFej/sxg461wnPpYq7hd3ewgvwHaeFJNMhj4FaAxXjpTaR6eOefPwvUSG3Sb4Y7QmRdVZC1QWYaOtDRT0WxU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GJDngFlO; arc=none smtp.client-ip=209.85.208.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HaMdgo8a"
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2d4886a1cb4so10399731fa.0
-        for <linux-staging@lists.linux.dev>; Thu, 28 Mar 2024 05:12:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GJDngFlO"
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2d68651e253so12378291fa.0
+        for <linux-staging@lists.linux.dev>; Thu, 28 Mar 2024 05:12:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711627969; x=1712232769; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=IHDJ6rlEEebln0ELZLhFxdjJ4IMCGnn3th1c8YTYOtw=;
-        b=HaMdgo8aKY0iQ2GfBgvU5NKvta97zixBrt3aGKeb5qCLhxx9NeuoSGcDzkGUC98Ym6
-         QFxBcyNRpLrNfQm+PpgW914cdTs4oWEtEVikvPAWfkBVp8XjWl/nyzYN34u3wJsT4X2z
-         7ozm6dk0zZuhjuIAuAczkOnoGMDQ6TI4rn/fsPkSvzz17mRj6UBdPmEed6djAqQYWqfn
-         RsO638SG9YO699YAo6NMF3H3uW9YIBGIhxc25mcIeubDgJXCjbB4XCZdOH9ZcD0JcDfj
-         qAjBJXIUSGSCUcl0hIqQnNfLUMm+nobjlriIpD5szT8RTqEEv133sW/45qZXgK1hSzxZ
-         BIQA==
+        d=gmail.com; s=20230601; t=1711627971; x=1712232771; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/pHbsx3RtRZlv3pDf9iCJ8YxxZWB5X7vBVRsbvu4oC4=;
+        b=GJDngFlOSX7QGA/dG/g7i8tDpBrbYeY7uxt8iBItomRdmHTStlxapxSRErwPSHLciC
+         nZcUWCUZxnxY7MAoPS8oys0fX2qjoOd2I7rkimYxHOosUqdEMCgy00lgOEjas+cleY7m
+         utx8syj9zBkpVOdyyupHwav/ywUyyBSPrOczhZmlyuODcQTTZ5bd97wCYwdmZjEX8i+N
+         kN55ugkDgRkGjp2G2w9jKyPuoTHeR2nSH1YN1SnJbbb5FINqxt3S2ys1i/kUDdbuSiK9
+         oEfXrEMjn94MoRy3oVH4tDi3oBQqy0E37sj9VhPsHKgRyPLLgofjc0qHV9wWFbH28Ezm
+         m94w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711627969; x=1712232769;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IHDJ6rlEEebln0ELZLhFxdjJ4IMCGnn3th1c8YTYOtw=;
-        b=Xrsk3aXTT3w303nbmXn/XWXGF8Ni7x/3VlsPFazaXZa5NN07c0R5rntV8Y/lGkQ4m7
-         JnXAsFP12831V0pSw64BtTZYI532mELLnHa4qml9TTNJvs7N+UcguMjZ4KSogqNwDKE0
-         JlqEdfnEfTKNtPTW1zJEc1lZGxoTdD9G6zRKTZMVZswhdyKh7Vc9kIVy0eRxbj7XRqfa
-         kklFblnZO7BptF5rcYmM9bATagJqBrNXl8YlPg5/BTwY6pgYqyQYW1aeHwVTPVQdibc4
-         uXjK9miryhWDAM5K7bE7K5E4k5B0gll/AUyMuG17aTfY6tvFaxiqwH+tcs/LCQOpIje1
-         fAgw==
-X-Gm-Message-State: AOJu0Yz2vmJ4B6c27syU988IgcwlK9O2G7g3NWZaHiCW3vOPJ1QKxgDj
-	XUQV5qYXXV9UW/tvWF50AsG+CYF4ZrSdB/V7vLcPReI/Uc2bA6Zx
-X-Google-Smtp-Source: AGHT+IHwlz6BzdFgPSHNY37ZWQvhFtbbZArhAgaM/MNTbOlDBkFm7N0qsXklr2nX7WXuUysQCuB+Dg==
-X-Received: by 2002:a2e:6a18:0:b0:2d4:99f8:8b9f with SMTP id f24-20020a2e6a18000000b002d499f88b9fmr2235018ljc.50.1711627969345;
-        Thu, 28 Mar 2024 05:12:49 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1711627971; x=1712232771;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/pHbsx3RtRZlv3pDf9iCJ8YxxZWB5X7vBVRsbvu4oC4=;
+        b=aYOhNhXqpEt9bdv6ahVOQ5ca8yPVRHgM6KABWXRmVosL16plPUexf/A4oU5zyrv/j7
+         s2+xWyjDV1YDyOCTnNkDTMOXuBddwkgR/ZlznhDJC9DXGcZvX0yU4v4TB8WFbU3EE2DO
+         5k3sMSuz1Ge/wxfgKcum474yp3ER8br+53m3I7uXPH0esryial67979oOSFgWk+t3fig
+         XuDONJSqpADlbOHnJPqMp6lZZin51NU45uXRLBgHP67pEtYjHC9a5em7kvC4JPbD5/GR
+         wGDQzJliD+81akwuvW8NjdHejySgy4BJ7EchPOCyyXmiZiaGV6xPQFwojaY0J+d/igr+
+         +HKA==
+X-Gm-Message-State: AOJu0YypFuRAdiCR7TNUHTeTvpIvUeYVW6Ww0pcLyyyZBcdI5Qy6E466
+	mFMzbY0NyssBqB1ynUfLoWWBunrXrB92gT5uvQUMMV79/s7tQ1vU
+X-Google-Smtp-Source: AGHT+IGdaMYhdpddVfAxwiAOprPo8P0Hi3KDjALTqxK6436N8wfrHsCU3tjwnVQqr/iQ10Asu3PZmg==
+X-Received: by 2002:a2e:99cb:0:b0:2d4:9ac6:6d00 with SMTP id l11-20020a2e99cb000000b002d49ac66d00mr2061402ljj.36.1711627970818;
+        Thu, 28 Mar 2024 05:12:50 -0700 (PDT)
 Received: from YOGA.local ([2a06:c701:736b:f200:125e:963c:4e4b:b7c5])
-        by smtp.gmail.com with ESMTPSA id bd11-20020a05600c1f0b00b00415460a63ebsm1416456wmb.29.2024.03.28.05.12.48
+        by smtp.gmail.com with ESMTPSA id bd11-20020a05600c1f0b00b00415460a63ebsm1416456wmb.29.2024.03.28.05.12.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Mar 2024 05:12:48 -0700 (PDT)
+        Thu, 28 Mar 2024 05:12:50 -0700 (PDT)
 From: Shahar Avidar <ikobh7@gmail.com>
 To: gregkh@linuxfoundation.org,
 	hverkuil-cisco@xs4all.nl,
@@ -57,10 +59,12 @@ To: gregkh@linuxfoundation.org,
 	felixkimbu1@gmail.com
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 0/5] staging: pi433: Rename vars, update param type & remove duplicated code.
-Date: Thu, 28 Mar 2024 14:12:38 +0200
-Message-Id: <20240328121244.1244719-1-ikobh7@gmail.com>
+Subject: [PATCH 1/5] staging: pi433: Rename struct pi433_device buffer field to tx_buffer.
+Date: Thu, 28 Mar 2024 14:12:39 +0200
+Message-Id: <20240328121244.1244719-2-ikobh7@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240328121244.1244719-1-ikobh7@gmail.com>
+References: <20240328121244.1244719-1-ikobh7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -69,23 +73,76 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patchset improves readability & maintainability:
-        - Rename device related vars.
-        - Update pi433_receive param type.
-        - Remove duplicated code in pi433_init.
+Driver holds buffers in different structs, as does the HW.
+Using explicit names for buffers increases readability.
 
-Shahar Avidar (5):
-  staging: pi433: Rename struct pi433_device buffer field to tx_buffer.
-  staging: pi433: Rename struct pi433_device instances to pi433.
-  staging: pi433: Replace pi433_receive param void type to struct
-    pi433_device.
-  staging: pi433: Rename "pi433_dev" of type "dev_t" to "pi433_devt"
-  staging: pi433: Remove duplicated code using the "goto" error recovery
-    scheme.
+Signed-off-by: Shahar Avidar <ikobh7@gmail.com>
+---
+ drivers/staging/pi433/pi433_if.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
- drivers/staging/pi433/pi433_if.c | 690 +++++++++++++++----------------
- 1 file changed, 345 insertions(+), 345 deletions(-)
-
+diff --git a/drivers/staging/pi433/pi433_if.c b/drivers/staging/pi433/pi433_if.c
+index 8c513ac62156..13b464ab7db8 100644
+--- a/drivers/staging/pi433/pi433_if.c
++++ b/drivers/staging/pi433/pi433_if.c
+@@ -90,7 +90,7 @@ struct pi433_device {
+ 	struct task_struct	*tx_task_struct;
+ 	wait_queue_head_t	tx_wait_queue;
+ 	u8			free_in_fifo;
+-	char			buffer[MAX_MSG_SIZE];
++	char			tx_buffer[MAX_MSG_SIZE];
+ 
+ 	/* rx related values */
+ 	struct pi433_rx_cfg	rx_cfg;
+@@ -613,8 +613,8 @@ static int pi433_tx_thread(void *data)
+ 		if (tx_cfg.enable_address_byte == OPTION_ON)
+ 			size++;
+ 
+-		/* prime buffer */
+-		memset(device->buffer, 0, size);
++		/* prime tx_buffer */
++		memset(device->tx_buffer, 0, size);
+ 		position = 0;
+ 
+ 		/* add length byte, if requested */
+@@ -623,15 +623,15 @@ static int pi433_tx_thread(void *data)
+ 			 * according to spec, length byte itself must be
+ 			 * excluded from the length calculation
+ 			 */
+-			device->buffer[position++] = size - 1;
++			device->tx_buffer[position++] = size - 1;
+ 
+ 		/* add adr byte, if requested */
+ 		if (tx_cfg.enable_address_byte == OPTION_ON)
+-			device->buffer[position++] = tx_cfg.address_byte;
++			device->tx_buffer[position++] = tx_cfg.address_byte;
+ 
+ 		/* finally get message data from fifo */
+-		retval = kfifo_out(&device->tx_fifo, &device->buffer[position],
+-				   sizeof(device->buffer) - position);
++		retval = kfifo_out(&device->tx_fifo, &device->tx_buffer[position],
++				   sizeof(device->tx_buffer) - position);
+ 		dev_dbg(device->dev,
+ 			"read %d message byte(s) from fifo queue.\n", retval);
+ 
+@@ -715,7 +715,7 @@ static int pi433_tx_thread(void *data)
+ 
+ 				device->free_in_fifo = 0;
+ 				rf69_write_fifo(spi,
+-						&device->buffer[position],
++						&device->tx_buffer[position],
+ 						write_size);
+ 				position += write_size;
+ 			} else {
+@@ -723,7 +723,7 @@ static int pi433_tx_thread(void *data)
+ 				device->free_in_fifo -= size;
+ 				repetitions--;
+ 				rf69_write_fifo(spi,
+-						&device->buffer[position],
++						&device->tx_buffer[position],
+ 						(size - position));
+ 				position = 0; /* reset for next repetition */
+ 			}
 
 base-commit: 20952655235dd9b1447829591774f1d8561f7c6a
 prerequisite-patch-id: 91943193af2fea74182be67fb583235a3fbeb77b
