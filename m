@@ -1,162 +1,216 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E11973D966
-	for <linux-staging@lists.linux.dev>; Thu, 28 Mar 2024 23:01:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CFE88F6B
+	for <linux-staging@lists.linux.dev>; Thu, 28 Mar 2024 23:01:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711666898; cv=none; b=eV4KnxlVqdmU6DC4WRtqeHl+ZE/BdOjbKxuojhVYkuTyXU4R+vicHSFOoaBF1rQHhFBh1C8E9IpSa3EHaShJr574cUA09QjXyNyeLp9phFRFJv/Vm3gl+zvYjL1roJkSQwcQYGyqTwKUQLFBczE9OegxGob83frSYv7bPrmLQG0=
+	t=1711666906; cv=none; b=nHkT7KU4uhR/CaXpNTFZf7GXzt5P+g5ikTHOaYOKPXrxcX8tJm804xbeCrwzZjwUZD+2DdpSx1oo4F9drH1/qN+btRweK43S6q82poRouIeOyLollHLNSqDm7N9GqMzsnlUM1XN0UUH+AYCBxJph00cZr2Doa1snATtJhSNncbg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711666898; c=relaxed/simple;
-	bh=TKsivGU+pbBggUpaqWi4+K2eNDTC87QeNNtNFbqc9rM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EfJKO6FEuM7X4KaID+E+Uxttoqq0Gq1bhLj+RhSRsWfowyxJLZLfwCqe814HdyHrRzJE7SHyT/t1qM9aP4NZeTDSTqOWLZ/URG/HH6HJ6wMgIOBXk+N9vI5fdko3gkvzQFp38mlx1K+y82BMoO057l2BY5ZX1xrw1ODFzrgyTsI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=IOGGxR3K; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1711666906; c=relaxed/simple;
+	bh=jIHKEaz/kIP7GmQqwrdppw0M0FsPPnt0q+fVc8vd7J8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WUtCbeV5hmwnBMyppCHuvOHBDfCgJGl09YO6hAV1Xo1PfAVHe8v+EDy92N/9U0b5o7RrK47ko59pDuD7DSsFLOlcOAjyy3h3R1DRtz/hZEUOsLMrgIETdPcyzejxKmgNmPqxOjdwrv7qgP2ty99g4JziBWgNZjI9f3QJLhZZ+7M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=HN2gA6JU; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="IOGGxR3K"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-56bf6591865so2250049a12.0
-        for <linux-staging@lists.linux.dev>; Thu, 28 Mar 2024 16:01:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1711666895; x=1712271695; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oA17YR4InWjyg8TEVheIC338xk5MwmSEpPeuNx4GZW0=;
-        b=IOGGxR3KURkaVLhZkOZNqD9PzVwsWRyGvDWBWBcxFCPgFq/3ySFRGENMsaffmb6ULH
-         CXD9VZOp+2npubRyM4GRZLnrrXsxppXkR+pVmRP8ewgMdqX52Eab6klNsWH5R+DcxecR
-         AwdEzbP2pAvxjLMVOzjwpCABwqhhdz4m42hGmOkPRp2e3Qlmc/Zes4KwtTV7JAjNkz+l
-         oM5O1G2J/1VEN+M3A2g9BRG9EfXQH/cvmd8CXajF+x4/TjfI+IMvQEN81JxKfJtuTUZ5
-         8ENNRC3dHv3oqVmBiNP4vj+L9ktxe+ZjqCjOOxa8bQCc4xwM01qG1mZyFxBBHc3RFgY2
-         goZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711666895; x=1712271695;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oA17YR4InWjyg8TEVheIC338xk5MwmSEpPeuNx4GZW0=;
-        b=BFkkxMp1lSpACf9YVO+aouLn5bPU2lOTqpRJpHFTYqV09IFMhCJEjiYsupZnMfNRe7
-         UsgHpNIBNUO3c/kJ16hRH+2SnhIN87br954Vrf1qbuY6YDLsITElArtCBa2QkKjbZ6oe
-         up+nJhgr1UGoQgbFMkZD7NG5cZ0Cb/Rah0A/l6SkWng6fUs4l8+2ylgo4cdRWVaFlATq
-         b4jZsSEwm0kAAwRYAeXTDNtOVumMjeKz3Y1fRB8gHVb6jee5BwPNukRe8vAl2/EUDKH+
-         gxxgCuH/lCu292dn8XesiTie8NNg30iAQ6AmwchkSSBgeUSKlsGrUCitA0lAJPmXVyfl
-         KnCg==
-X-Forwarded-Encrypted: i=1; AJvYcCUm8uOANuyRd52X5GKT2/6yMuROT48vgd/ZPpuCjoSNaHNPCeKBbipp6E2QEimR7c/LTfDDGV/SjJfniXXkDwoQ2N8QnYFByXZDpw+ONA==
-X-Gm-Message-State: AOJu0YyCQ6rpvbL5MAQHsNsd/Xsg8QWO6McQraoI2hT+XGTmvff9AeH6
-	ewWRi873H9z3BhQjlbrKENonjwxJs86q5d/hEHYgOWq79N0P8M9O2UEv8YnV5P4ThCDmWEIlPGE
-	GdiCbYiBqvQNvZ9vA/1e7waoSzB39g+N9mhYe
-X-Google-Smtp-Source: AGHT+IHSDimwfZi+Mu8w7ftuh2TFjJ1pdwWklM9rbYXTjg5wTtqltWADADutdRuEB4qRyX7gMEY0XftN4jstinrasFQ=
-X-Received: by 2002:a05:6402:51cd:b0:56a:2b6b:42cd with SMTP id
- r13-20020a05640251cd00b0056a2b6b42cdmr433486edd.3.1711666895187; Thu, 28 Mar
- 2024 16:01:35 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="HN2gA6JU"
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id EC6DB669;
+	Fri, 29 Mar 2024 00:01:09 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1711666870;
+	bh=jIHKEaz/kIP7GmQqwrdppw0M0FsPPnt0q+fVc8vd7J8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HN2gA6JUATGgFfjJnWLdaMZQuoX43TtkGpFxzg8uPuX0mVj9iI7ESIEMfEyLZY9/m
+	 UNSDKNpp0LZc2sTRjTOGPO8XLBaWwkBjauyNOLbTXKD8TA0GR2tQBp7VA4SjJnGJrN
+	 qI+OUAQ86VcXdYoOW3+d3FJJL1T63doRgmskigxI=
+Date: Fri, 29 Mar 2024 01:01:32 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Umang Jain <umang.jain@ideasonboard.com>
+Cc: linux-staging@lists.linux.dev, Dan Carpenter <error27@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Phil Elwell <phil@raspberrypi.com>, Greg KH <greg@kroah.com>,
+	Stefan Wahren <wahrenst@gmx.net>
+Subject: Re: [PATCH v4 07/11] staging: vc04_services: Move global memory
+ mapped pointer
+Message-ID: <20240328230132.GL11463@pendragon.ideasonboard.com>
+References: <20240328181134.1548799-1-umang.jain@ideasonboard.com>
+ <20240328181134.1548799-8-umang.jain@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240328140512.4148825-1-arnd@kernel.org> <20240328140512.4148825-10-arnd@kernel.org>
-In-Reply-To: <20240328140512.4148825-10-arnd@kernel.org>
-From: Justin Stitt <justinstitt@google.com>
-Date: Thu, 28 Mar 2024 16:01:23 -0700
-Message-ID: <CAFhGd8oHht+uMBouT7_AXZt4DMRJi=A7_=fyhZ2Hf_ne+8xE8w@mail.gmail.com>
-Subject: Re: [PATCH 09/11] staging: rtl8723bs: convert strncpy to strscpy
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: linux-kernel@vger.kernel.org, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Arnd Bergmann <arnd@arndb.de>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Bill Wendling <morbo@google.com>, Franziska Naepelt <franziska.naepelt@googlemail.com>, 
-	Johannes Berg <johannes.berg@intel.com>, Yang Yingliang <yangyingliang@huawei.com>, 
-	Erick Archer <erick.archer@gmx.com>, linux-staging@lists.linux.dev, llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240328181134.1548799-8-umang.jain@ideasonboard.com>
 
-Hi,
+Hi Umang,
 
-On Thu, Mar 28, 2024 at 7:07=E2=80=AFAM Arnd Bergmann <arnd@kernel.org> wro=
-te:
->
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> gcc-9 complains about a possibly unterminated string in the strncpy() des=
-tination:
->
-> In function 'rtw_cfg80211_add_monitor_if',
->     inlined from 'cfg80211_rtw_add_virtual_intf' at drivers/staging/rtl87=
-23bs/os_dep/ioctl_cfg80211.c:2209:9:
-> drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:2146:2: error: 'strncpy=
-' specified bound 16 equals destination size [-Werror=3Dstringop-truncation=
-]
->  2146 |  strncpy(mon_ndev->name, name, IFNAMSIZ);
->       |  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->
-> This one is a false-positive because of the explicit termination in the f=
-ollowing
-> line, and recent versions of clang and gcc no longer warn about this.
->
-> Interestingly, the other strncpy() in this file is missing a termination =
-but
-> does not produce a warning, possibly because of the type confusion and th=
-e
-> cast between u8 and char.
->
-> Change both strncpy() instances to strscpy(), which avoids the warning as=
- well
-> as the possibly missing termination. No additional padding is needed here=
-.
+Thank you for the patch.
 
-Could you also clean up the strncpy present in
-drivers/staging/rtl8723bs/os_dep/os_intfs.c so all these are cleaned
-up at once?
+On Thu, Mar 28, 2024 at 11:41:29PM +0530, Umang Jain wrote:
+> g_regs stores the remapped memory pointer for the vchiq platform.
+> It can be moved to struct vchiq_drv_mgmt instead of being global.
+> 
+> Adjust the affected functions accordingly. Pass vchiq_state pointer
+> wherever necessary to access struct vchiq_drv_mgmt.
+> 
+> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
 
-Maybe we could use the new 2-argument version of strscpy() introduced
-in Commit e6584c3964f2f ("string: Allow 2-argument strscpy()") for all
-3 of these too.
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-It looks like:
-    strscpy(dest, src);
-
-
-
-
-
->
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 > ---
->  drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/=
-staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> index 65a450fcdce7..98bc5520e77d 100644
-> --- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> +++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> @@ -884,7 +884,7 @@ static int cfg80211_rtw_add_key(struct wiphy *wiphy, =
-struct net_device *ndev,
->                 goto addkey_end;
->         }
->
-> -       strncpy((char *)param->u.crypt.alg, alg_name, IEEE_CRYPT_ALG_NAME=
-_LEN);
-> +       strscpy(param->u.crypt.alg, alg_name, IEEE_CRYPT_ALG_NAME_LEN);
->
->         if (!mac_addr || is_broadcast_ether_addr(mac_addr))
->                 param->u.crypt.set_tx =3D 0; /* for wpa/wpa2 group key */
-> @@ -2143,8 +2143,7 @@ static int rtw_cfg80211_add_monitor_if(struct adapt=
-er *padapter, char *name, str
->         }
->
->         mon_ndev->type =3D ARPHRD_IEEE80211_RADIOTAP;
-> -       strncpy(mon_ndev->name, name, IFNAMSIZ);
-> -       mon_ndev->name[IFNAMSIZ - 1] =3D 0;
-> +       strscpy(mon_ndev->name, name, IFNAMSIZ);
->         mon_ndev->needs_free_netdev =3D true;
->         mon_ndev->priv_destructor =3D rtw_ndev_destructor;
->
-> --
-> 2.39.2
->
+>  .../interface/vchiq_arm/vchiq_arm.c           | 19 +++++++++++--------
+>  .../interface/vchiq_arm/vchiq_arm.h           |  2 ++
+>  .../interface/vchiq_arm/vchiq_core.c          | 10 +++++-----
+>  .../interface/vchiq_arm/vchiq_core.h          |  2 +-
+>  4 files changed, 19 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> index b335948f4b0c..0c7dd45969ae 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> @@ -129,8 +129,6 @@ struct vchiq_pagelist_info {
+>  	unsigned int scatterlist_mapped;
+>  };
+>  
+> -static void __iomem *g_regs;
+> -
+>  static int
+>  vchiq_blocking_bulk_transfer(struct vchiq_instance *instance, unsigned int handle, void *data,
+>  			     unsigned int size, enum vchiq_bulk_dir dir);
+> @@ -139,11 +137,14 @@ static irqreturn_t
+>  vchiq_doorbell_irq(int irq, void *dev_id)
+>  {
+>  	struct vchiq_state *state = dev_id;
+> +	struct vchiq_drv_mgmt *mgmt;
+>  	irqreturn_t ret = IRQ_NONE;
+>  	unsigned int status;
+>  
+> +	mgmt = dev_get_drvdata(state->dev);
+> +
+>  	/* Read (and clear) the doorbell */
+> -	status = readl(g_regs + BELL0);
+> +	status = readl(mgmt->regs + BELL0);
+>  
+>  	if (status & ARM_DS_ACTIVE) {  /* Was the doorbell rung? */
+>  		remote_event_pollall(state);
+> @@ -556,9 +557,9 @@ static int vchiq_platform_init(struct platform_device *pdev, struct vchiq_state
+>  	if (err)
+>  		return err;
+>  
+> -	g_regs = devm_platform_ioremap_resource(pdev, 0);
+> -	if (IS_ERR(g_regs))
+> -		return PTR_ERR(g_regs);
+> +	drv_mgmt->regs = devm_platform_ioremap_resource(pdev, 0);
+> +	if (IS_ERR(drv_mgmt->regs))
+> +		return PTR_ERR(drv_mgmt->regs);
+>  
+>  	irq = platform_get_irq(pdev, 0);
+>  	if (irq <= 0)
+> @@ -641,8 +642,10 @@ static struct vchiq_arm_state *vchiq_platform_get_arm_state(struct vchiq_state *
+>  }
+>  
+>  void
+> -remote_event_signal(struct remote_event *event)
+> +remote_event_signal(struct vchiq_state *state, struct remote_event *event)
+>  {
+> +	struct vchiq_drv_mgmt *mgmt = dev_get_drvdata(state->dev);
+> +
+>  	/*
+>  	 * Ensure that all writes to shared data structures have completed
+>  	 * before signalling the peer.
+> @@ -654,7 +657,7 @@ remote_event_signal(struct remote_event *event)
+>  	dsb(sy);         /* data barrier operation */
+>  
+>  	if (event->armed)
+> -		writel(0, g_regs + BELL2); /* trigger vc interrupt */
+> +		writel(0, mgmt->regs + BELL2); /* trigger vc interrupt */
+>  }
+>  
+>  int
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
+> index a3bba245bfe2..f17c22635ce5 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
+> @@ -65,6 +65,8 @@ struct vchiq_drv_mgmt {
+>  	char *fragments_base;
+>  	char *free_fragments;
+>  	unsigned int fragments_size;
+> +
+> +	void __iomem *regs;
+>  };
+>  
+>  struct user_service {
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> index 658d19f1e7e8..af633ff984f6 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> @@ -691,7 +691,7 @@ reserve_space(struct vchiq_state *state, size_t space, int is_blocking)
+>  			/* But first, flush through the last slot. */
+>  			state->local_tx_pos = tx_pos;
+>  			local->tx_pos = tx_pos;
+> -			remote_event_signal(&state->remote->trigger);
+> +			remote_event_signal(state, &state->remote->trigger);
+>  
+>  			if (!is_blocking ||
+>  			    (wait_for_completion_interruptible(&state->slot_available_event)))
+> @@ -1124,7 +1124,7 @@ queue_message(struct vchiq_state *state, struct vchiq_service *service,
+>  	if (!(flags & QMFLAGS_NO_MUTEX_UNLOCK))
+>  		mutex_unlock(&state->slot_mutex);
+>  
+> -	remote_event_signal(&state->remote->trigger);
+> +	remote_event_signal(state, &state->remote->trigger);
+>  
+>  	return 0;
+>  }
+> @@ -1202,7 +1202,7 @@ queue_message_sync(struct vchiq_state *state, struct vchiq_service *service,
+>  		&svc_fourcc, VCHIQ_MSG_SRCPORT(msgid),
+>  		VCHIQ_MSG_DSTPORT(msgid), size);
+>  
+> -	remote_event_signal(&state->remote->sync_trigger);
+> +	remote_event_signal(state, &state->remote->sync_trigger);
+>  
+>  	if (VCHIQ_MSG_TYPE(msgid) != VCHIQ_MSG_PAUSE)
+>  		mutex_unlock(&state->sync_mutex);
+> @@ -1260,7 +1260,7 @@ release_slot(struct vchiq_state *state, struct vchiq_slot_info *slot_info,
+>  		 * A write barrier is necessary, but remote_event_signal
+>  		 * contains one.
+>  		 */
+> -		remote_event_signal(&state->remote->recycle);
+> +		remote_event_signal(state, &state->remote->recycle);
+>  	}
+>  
+>  	mutex_unlock(&state->recycle_mutex);
+> @@ -3240,7 +3240,7 @@ static void
+>  release_message_sync(struct vchiq_state *state, struct vchiq_header *header)
+>  {
+>  	header->msgid = VCHIQ_MSGID_PADDING;
+> -	remote_event_signal(&state->remote->sync_release);
+> +	remote_event_signal(state, &state->remote->sync_release);
+>  }
+>  
+>  int
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
+> index 5fbf173d9c56..8ca74b12427b 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
+> @@ -516,7 +516,7 @@ int vchiq_prepare_bulk_data(struct vchiq_instance *instance, struct vchiq_bulk *
+>  
+>  void vchiq_complete_bulk(struct vchiq_instance *instance, struct vchiq_bulk *bulk);
+>  
+> -void remote_event_signal(struct remote_event *event);
+> +void remote_event_signal(struct vchiq_state *state, struct remote_event *event);
+>  
+>  void vchiq_dump_platform_state(struct seq_file *f);
+>  
 
-Thanks
-Justin
+-- 
+Regards,
+
+Laurent Pinchart
