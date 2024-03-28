@@ -1,106 +1,95 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 730B240852
-	for <linux-staging@lists.linux.dev>; Thu, 28 Mar 2024 21:44:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0454B12DDAC;
+	Thu, 28 Mar 2024 22:26:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711662285; cv=none; b=DfOicghDXO6nZcHxzMU93cUSucg0siCLNeku7Ylr5AVtHrba/HTbetN/c3/JvdbixaVYi3wGuTOqM33pt/3opw2suE8oVFM8hnTJTR5Lc/5wUoSoszOwOTYoAZpR0t9PdMDrn9g1R4MEQVIhTLpsUfNkjOSi7GJ3HOgA7ZclBc0=
+	t=1711664812; cv=none; b=MIp9Up0nErF+ZIhueYxrKIO4xvPPtBBE4KvCWotDy8Ox3scbO7Q1wkLG7M5FFLf60/c05pBoQpUUV1U+xqeHQ1dlWCAZuDw3LlqWfkxCxkBEpYaqfE+ahFNmy0pPfwbRVEZ/8MmFCOzGiJHtr+URW5mPe2QOfDUiGDmA9hSUFqM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711662285; c=relaxed/simple;
-	bh=vgncJ12bPOEKNn+P6UNocQm/1RyRBEr539fqesou12g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AHfmM9vJuK8ix6bJUFLLYTbNhUKvbLTgScf718ZyisRfwkmzm9xF7fbL6q7eaf/XIO9pe3NIlnsJRDe83MORvHQQn3kUU+XeJ8+hMFnFqOvnu3LtCcfXbYwVEJPRCJ3AHzbFgYUiS7KnlcdTYkh4I+Uklqp9W2aCdaB1pSnyg/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aAZWxHLk; arc=none smtp.client-ip=209.85.167.41
+	s=arc-20240116; t=1711664812; c=relaxed/simple;
+	bh=f2KZPL3xcVNpG7J9pfI78XLVn960iQlBYAAkqRBmdFs=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=RqSe21D0h6WUf2m8ODoFbGxE2PD+q1JG/Fk73oovlSzpeFARGL1scr4HPWJw0cxYn1DoRFA8ScKM70zl+I7JDn5TSY+rW2saD39HJOb7x+dzzbMQtQVKtnOl5BzbeTLAMmi0G0e1kvcYdhgMxpp/6eMOnzVg39KHuSDkhKzsj5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DoOT5vWx; arc=none smtp.client-ip=209.85.166.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aAZWxHLk"
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-50e4e36c09cso471257e87.1
-        for <linux-staging@lists.linux.dev>; Thu, 28 Mar 2024 14:44:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DoOT5vWx"
+Received: by mail-il1-f172.google.com with SMTP id e9e14a558f8ab-368b9400e51so6683055ab.2;
+        Thu, 28 Mar 2024 15:26:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711662282; x=1712267082; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=gmail.com; s=20230601; t=1711664810; x=1712269610; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=00zSfVR5n/E7ASw56UXmOmJHpf1s4deJDOOGHOzNx/A=;
-        b=aAZWxHLksUq48E7RuKTIcrrbzisBju0atH/K+rm0wRzn27Una+YgOb5lMVYpU9ebSJ
-         hi3+zdYdqB75QagWHCZX8atCUSQ5J/QgniJxN7idOD8ogOI/C3qg7wG3aXHsOARdH3a7
-         k3X90qZdlv+uxed3OpigDlfy36VphiWAJfEWyYyF6t9HLIVr8AbZRXB+7OAaaaitLSK1
-         dv3sl0n4Iv1+44X+4gdDWIAqKeanmbGNemx+pAjaZRqhHep8XX2zAj6C0FSEeSEVjD07
-         gsVbwlqRVUq/4vBu4eBuOv85p6Ge2IZ699nX1gLnbfFMktQ60ltb6bFdlUym4CqoSv2u
-         rcWQ==
+        bh=jCGlANBlhtFgOS9gNA9KtfZG7bA9JbQQdS+5iDoE6gA=;
+        b=DoOT5vWxUGznGTSYU2yKpKh+zdABjyjnjtMY5Ag+1ilgLbEliPEfqZ3JVWRERhRJ1n
+         V4GTnXWPEedGjA/VhqLB6ldrpZRfOEqaJdvI+I2E5u7Fa6ai0oGCsaEVnJs2pqmFSyRc
+         QZickaKt+jMnSrh+dUSG3S8sYgWlWraUNzsLMTXft68o+1nFP5PoQfz1FmRTDH9/Jlng
+         lgP0/ZVkJaSDj/ZfxoJhtIxrAPA6PKkc0jReEg8/K8tTMgqtaQ8fiLwGFpGKooImV1ee
+         qm6T3SAq+s6iOE1sgN4/GTaaCWkZCV1ZGCf1KJjrrZlB3RTKJ0K+c8ED1z49IAVFl0H4
+         HxUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711662282; x=1712267082;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1711664810; x=1712269610;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=00zSfVR5n/E7ASw56UXmOmJHpf1s4deJDOOGHOzNx/A=;
-        b=d9b8/lLYv+7hnCaFgdsEyAU5LIvKCidV37eNdAllCMVivbWnB4M77uMwZGmaG/x9TD
-         vAkjjvyz6Mg8Dy+PTCEZEsTqJAYRIyGNlFEWcNfrza5ZhGheZ/bElX3xoYD0BxfO4Yik
-         MVm1Dkm6pJVUuNuZwJqdzuGJ8wwwnXgBN/w1nLeonDBO1cSS24ohYqb9BXWOIkIbvx7G
-         imCtW2UMS+YixyRxPulJ26+Mi+AcBFSu+mKxufd5aKPR8EV9YftpMdmP0zg65mAFmECI
-         CQWnVXoQ1vLiPfHl3UOPUbz7jBcRCPh6R+vA2LhOt1K8LeeGzYECHmDluqPBfVRkYmvS
-         o6PQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXwn58aeXYfixU0PE9vZ1McNxiR26HDaHjnj6B0/2qwjD5fE64O+IleEpIzfGIKkvIC5BYXrU+xcZtPV1BVlXKC9aUU8GsJ1gz+2Rw6uQ==
-X-Gm-Message-State: AOJu0YwrZIMFdadHGtwIhc5+KXVXdcehubFvmCxWRcaCadru8/ZmVj2a
-	vUUL2K3MnsAhpNkjChDf/sZX/iVaHX/bayHRHCKTk4fvaQONG2wc
-X-Google-Smtp-Source: AGHT+IGsA3Mym1ynkHCg1Jmo+MF6x3uqCVPaWZwhuEPdX18nfgIQrGLpfb4vb/+0JjdZUIssKVIlDg==
-X-Received: by 2002:a2e:9bc2:0:b0:2d6:b698:968 with SMTP id w2-20020a2e9bc2000000b002d6b6980968mr241372ljj.1.1711662281405;
-        Thu, 28 Mar 2024 14:44:41 -0700 (PDT)
-Received: from [192.168.0.104] (p54a07fa0.dip0.t-ipconnect.de. [84.160.127.160])
-        by smtp.gmail.com with ESMTPSA id q14-20020a056402248e00b0056c5515c183sm959340eda.13.2024.03.28.14.44.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 Mar 2024 14:44:41 -0700 (PDT)
-Message-ID: <b3b033ac-0fe7-4a89-a7f5-ee96d5c806d7@gmail.com>
-Date: Thu, 28 Mar 2024 22:44:40 +0100
+        bh=jCGlANBlhtFgOS9gNA9KtfZG7bA9JbQQdS+5iDoE6gA=;
+        b=j35snRrgjIIUPhRwWOtGC7AkgVO8hVq//7+/05xA+/FcIbddIpFuIQ0o4OQ1/e4oJ2
+         rfvNsEWawxya3f2kN1WmbMXGWdBoy6geoKaU+/Z9alVQ4wbMNy+MvOT5rKKrdyXboOyO
+         0LyRWe+lyLzDgsjWfqanXypY/53zckB4fwzaaACOXEVgZAMW6PPG1ZWGHiEtFLzGNagC
+         Adr255KTtQOiX98wTd7pzcDYFNGKHeDtrFuF3nrWmZklsh5mI+kLiTpHQJV0IIeRHkSP
+         1TfqNVWwbQKwCQOpYcwunyFz8QHol2CfkYQY8reDgQ7w6tfMpmeGOwh//Y5+FV1F5xYu
+         3ORA==
+X-Forwarded-Encrypted: i=1; AJvYcCUBeieYBm1Rafj+fBNIM0GC5JzZkz/1bBHTrdOWZeiBF8w+kHhh2NlxfRXLExq03pWCfFuHAVORmaJkNT285pq8lbaWXI70db1ePEzcSutv2w7IAhUw+NJpwucBeWvT64gWhm1DhJde7w==
+X-Gm-Message-State: AOJu0YyX8lqVi5RQ5PMYMieRZ96WmV6R7bCyIixt8IB9IlwYUwwLcECo
+	VdarOgVDZ7t5Vci5YpZrWz0X7+T4pgKI3X8bsXsdJlzVrLHYoeru
+X-Google-Smtp-Source: AGHT+IH2qqVQmRhKzSoKucyp6jbEq9qiSNnOHg2T2rWIs14uYn6qdOtF+yKO6Y7q4oywqwXTHdjpEQ==
+X-Received: by 2002:a05:6e02:20ec:b0:366:468b:3e26 with SMTP id q12-20020a056e0220ec00b00366468b3e26mr466153ilv.28.1711664810046;
+        Thu, 28 Mar 2024 15:26:50 -0700 (PDT)
+Received: from tahera-OptiPlex-5000 ([136.159.49.124])
+        by smtp.gmail.com with ESMTPSA id t62-20020a632d41000000b005dc85821c80sm1767676pgt.12.2024.03.28.15.26.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Mar 2024 15:26:49 -0700 (PDT)
+Date: Thu, 28 Mar 2024 16:26:47 -0600
+From: TaheraFahimi <fahimitahera@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev
+Subject: [PATCH] staging: gdm724x: Align descendant argument to the open
+ parenthesis
+Message-ID: <ZgXupx0nXwIOjy7F@tahera-OptiPlex-5000>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH][next] staging: vt6655: remove redundant assignment to
- variable byData
-To: Colin Ian King <colin.i.king@gmail.com>,
- Forest Bond <forest@alittletooquiet.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240328111557.761380-1-colin.i.king@gmail.com>
-Content-Language: en-US
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20240328111557.761380-1-colin.i.king@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 3/28/24 12:15, Colin Ian King wrote:
-> Variable byData is being assigned a value that is never read, it is
-> being re-assigned later on. The assignment is redundant and can be
-> removed.
-> 
-> Cleans up clang scan build warning:
-> drivers/staging/vt6655/srom.c:67:2: warning: Value stored to 'byData'
-> is never read [deadcode.DeadStores]
-> 
-> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
-> ---
->   drivers/staging/vt6655/srom.c | 1 -
->   1 file changed, 1 deletion(-)
-> 
-> diff --git a/drivers/staging/vt6655/srom.c b/drivers/staging/vt6655/srom.c
-> index 1b89d401a7eb..e80556509c58 100644
-> --- a/drivers/staging/vt6655/srom.c
-> +++ b/drivers/staging/vt6655/srom.c
-> @@ -64,7 +64,6 @@ unsigned char SROMbyReadEmbedded(void __iomem *iobase,
->   	unsigned char byData;
->   	unsigned char byOrg;
->   
-> -	byData = 0xFF;
->   	byOrg = ioread8(iobase + MAC_REG_I2MCFG);
->   	/* turn off hardware retry for getting NACK */
->   	iowrite8(byOrg & (~I2MCFG_NORETRY), iobase + MAC_REG_I2MCFG);
+Mute the following checkpatch error:
+	CHECK: Alignment should match open parenthesis
 
+Signed-off-by: Tahera Fahimi <fahimitahera@gmail.com>
+---
+ drivers/staging/gdm724x/gdm_tty.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+diff --git a/drivers/staging/gdm724x/gdm_tty.c b/drivers/staging/gdm724x/gdm_tty.c
+index 15c246d3b1a3..bd80cd48fb44 100644
+--- a/drivers/staging/gdm724x/gdm_tty.c
++++ b/drivers/staging/gdm724x/gdm_tty.c
+@@ -272,8 +272,8 @@ int register_lte_tty_driver(void)
+ 	int ret;
+ 
+ 	for (i = 0; i < TTY_MAX_COUNT; i++) {
+-		tty_driver = tty_alloc_driver(GDM_TTY_MINOR,
+-				TTY_DRIVER_REAL_RAW | TTY_DRIVER_DYNAMIC_DEV);
++		tty_driver = tty_alloc_driver(GDM_TTY_MINOR, TTY_DRIVER_REAL_RAW |
++						TTY_DRIVER_DYNAMIC_DEV);
+ 		if (IS_ERR(tty_driver))
+ 			return PTR_ERR(tty_driver);
+ 
+-- 
+2.34.1
+
