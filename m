@@ -1,139 +1,160 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2145A39FD4
-	for <linux-staging@lists.linux.dev>; Thu, 28 Mar 2024 14:03:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81B553D387;
+	Thu, 28 Mar 2024 14:05:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711634604; cv=none; b=AiJoOSxdhefeaRv+eAtUYCvnK8GqmqmO+Nj7dHo/7I4L2Noak/wPptCSo6JEXfVkjRz1/EoTGqwe9ggS51z+XPJ/2QHXUFAv/2InTqQNRm7kcKz3CHuUWZyGBkKvPjtTd2rnFSAVya1enPvna0PiEiX74EXRzLT/AEJjsmtom1k=
+	t=1711634730; cv=none; b=E+zMxlSPbsuLL5OX4zUG0+FOsWMO86pY6EujB3kXagcw414q2UQIfnV31G4nEc5yAbkl1JmEZ4imlljV4mknjnWMZfYOcSuqnfM7F+myMfUNTOEm5iuvgAFTpwtuTf31gGqpfm1HHyotu9gzH3XVhNbmoBKRNNUS213hb43wEwA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711634604; c=relaxed/simple;
-	bh=1CRhwGIJSKhMbpQ/RBExx1bECy0jy3gMQ+/TAbtgpUg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iSwLA0tx9QChQD/rv4bjVzUZ80Rk1yuNQILQF3LiFrVQF9jbg1+W6MG27atfdNS53isBmM7Yl3dnbtJgb0lad9WA5rKsKS5epsg2wLU4Lq35A43kmGTyi1NcSiz6sDwtPWKmZx+7/qqvsfHFC8knd87vSk6auoBXsunrU4XeEIU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=iUtlWcvX; arc=none smtp.client-ip=209.85.208.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1711634730; c=relaxed/simple;
+	bh=DyPPajVzJsQEhnad3V3XmULXNURr7x/hE7W3jpIhYHU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=g1a6ueWB4BUtbTRLzwtIjeug+VyHDG5UvL6xj82XS3hDxWFktUwbUaDjZl9Et6JwybgAUsRJsAjk0v9MvoWyGQDGLy7CEWC9Ici3a8Ky4RoLSqETaGrAV1orI3/WIM8p1zEUNU4SRHIAsa3ird99hlqbDdDbM0KOw+LJvSxKRw8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YSIBj/z8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="iUtlWcvX"
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-56899d9bf52so1328615a12.2
-        for <linux-staging@lists.linux.dev>; Thu, 28 Mar 2024 07:03:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711634601; x=1712239401; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=7sKGYLNVMGXVEBGiVnvjU98J22psaopjpEMp6FYlRJU=;
-        b=iUtlWcvXHEnmnvechscuU4K8Fcqmer/2Zg9ErCMWwsgwsE8FJJWkNMCujASFDyGI5I
-         gCrxkzDP4El4CdYJsd7leD/YdzzvVn/Fhn2a/whvivyYVjNno3gQt8HC6Mz0b8LwFOpx
-         RqOdxcVtrqgyzqvdQ2H41NT+KoPm4tIH2nHsBpbb2oZm2KWIWuCmgFEgTlJaArkrUVDS
-         9IjSbQOIm2n8z+dncT2lJgLAooUrBjUekuNHN9a0+xLqAGdEMp+81jBT2nNO/0Gf3uOd
-         RDGurNkvQDOm4ecJJ1H6QWf+MjttL3st0khjQ2AhyNrUTYEb/zp+1pcCGPXANhtxI2zj
-         NdvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711634601; x=1712239401;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7sKGYLNVMGXVEBGiVnvjU98J22psaopjpEMp6FYlRJU=;
-        b=M39Ky7FgieF3YPFf4RacflCTrZddV6VbEfeNrlPKvlS/tHnFeOroL5Jyd3kRCEEQkm
-         hso/+OQhdU85vO1MfLusUynRwJ+pK2Rk553h+MbFEMBhgqviZCNzXrznIfnFR+T+XFOI
-         77sDh3Gu+xRm743UdZNVdQtHKbikcCboko7pYZh8mKWfLNIqfE3TiIYUanFw66bbFM0S
-         If0jm+H4I5V6aXHuUtN8V8EtqlJWqxkWD7l++nsPddfPP5oIZkPiE8McUbvx9KTNSN0O
-         ekgPcQjKIUJv0pW6HZfJs2e7aYpwEelP5z5mp3HFZkThLIR7Ji8rCM0P2KnqtyLnPSaV
-         psng==
-X-Forwarded-Encrypted: i=1; AJvYcCVxkK/CmohgRs+sBmc/6s8SmsY7yRQ7vCUjOfgSHA2/kJtzlXCQau55GWCMUhhk0kNYKkVtgBXU343dhvEIIKdFDyC/N5mc/T/p0dnHmQ==
-X-Gm-Message-State: AOJu0YwV0IVLvHKZYbsutz6/fbTKht8a4KURUV54dRQU9NjX7BHjTFY7
-	IqOiX1xKFusGKps+qUDGHuBhcV3H+S6gvrwDiVydd9QEnlONgOPscoiO6X+VPLs=
-X-Google-Smtp-Source: AGHT+IFCInzZpL9neFPC+ou6pgAku6KUY9RgTMC2MkaJLzHuJMtbTOz1CQwMNI0J3x0j2Qa4AC/izQ==
-X-Received: by 2002:a17:907:6d1a:b0:a4e:1ff7:5c79 with SMTP id sa26-20020a1709076d1a00b00a4e1ff75c79mr1982741ejc.14.1711634601273;
-        Thu, 28 Mar 2024 07:03:21 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id f5-20020a1709062c4500b00a455519bcb3sm788519ejh.55.2024.03.28.07.03.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Mar 2024 07:03:20 -0700 (PDT)
-Date: Thu, 28 Mar 2024 17:03:17 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Shahar Avidar <ikobh7@gmail.com>
-Cc: gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
-	andriy.shevchenko@linux.intel.com, robh@kernel.org,
-	felixkimbu1@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/5] staging: pi433: Remove duplicated code using the
- "goto" error recovery scheme.
-Message-ID: <9c5b4159-da26-49d8-9682-445c01b19a51@moroto.mountain>
-References: <20240328121244.1244719-1-ikobh7@gmail.com>
- <20240328121244.1244719-7-ikobh7@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YSIBj/z8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2767DC433F1;
+	Thu, 28 Mar 2024 14:05:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711634730;
+	bh=DyPPajVzJsQEhnad3V3XmULXNURr7x/hE7W3jpIhYHU=;
+	h=From:To:Cc:Subject:Date:From;
+	b=YSIBj/z8FiuLEgDqBHCsbNl9cmMUDFKkjhDyPYeuiZwdnRhaWzQB1qy5bUc+cEoyn
+	 TgUgizmrgNHaRrJXrUOrR+GdgNy6Jcz8XE1oOPfSpaFhiEmf4RgxaXmRRkMfBs3XvJ
+	 Wdamgkwsoalajey9FhYVrBXHHnDc3hfmz1/sXLzA38s+j7m8rRsVIbogv2merkfHvl
+	 7NGUhSAkFPNi5a9tOFYSVMmfUJIhgs6J2mztKYfkmZfdJyHIxoNs7A5AsNpAjEutO0
+	 MTG5hno3yJ9IL2S3wchli/Txbu6/jMN5FjWKlXiRfuxNfq/iu1yN/a5CzMTTL577iG
+	 hodYTkkA1QuNg==
+From: Arnd Bergmann <arnd@kernel.org>
+To: linux-kernel@vger.kernel.org
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Jens Axboe <axboe@kernel.dk>,
+	Robert Moore <robert.moore@intel.com>,
+	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+	Len Brown <lenb@kernel.org>,
+	"James E.J. Bottomley" <jejb@linux.ibm.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Viresh Kumar <vireshk@kernel.org>,
+	Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Mike Marshall <hubcap@omnibond.com>,
+	Martin Brandenburg <martin@omnibond.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Kees Cook <keescook@chromium.org>,
+	Alexey Starikovskiy <astarikovskiy@suse.de>,
+	linux-ntfs-dev@lists.sourceforge.net,
+	linux-block@vger.kernel.org,
+	linux-acpi@vger.kernel.org,
+	acpica-devel@lists.linux.dev,
+	linux-scsi@vger.kernel.org,
+	greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	devel@lists.orangefs.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org
+Subject: [PATCH 00/11] address remaining stringop-truncation warnings
+Date: Thu, 28 Mar 2024 15:04:44 +0100
+Message-Id: <20240328140512.4148825-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240328121244.1244719-7-ikobh7@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Mar 28, 2024 at 02:12:44PM +0200, Shahar Avidar wrote:
-> pi433_init had "unregister_chrdev" called twice.
-> Remove it using goto statements.
-> 
-> Signed-off-by: Shahar Avidar <ikobh7@gmail.com>
-> ---
->  drivers/staging/pi433/pi433_if.c | 23 ++++++++++++-----------
->  1 file changed, 12 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/staging/pi433/pi433_if.c b/drivers/staging/pi433/pi433_if.c
-> index 62ce75b07bf0..e538f1d4e787 100644
-> --- a/drivers/staging/pi433/pi433_if.c
-> +++ b/drivers/staging/pi433/pi433_if.c
-> @@ -1400,24 +1400,25 @@ static int __init pi433_init(void)
->  	 */
->  	status = alloc_chrdev_region(&pi433_devt, 0, N_PI433_MINORS, "pi433");
->  	if (status < 0)
-> -		return status;
-> +		goto fail;
+From: Arnd Bergmann <arnd@arndb.de>
 
-Just return directly.  Do nothing gotos are bad for readability and they
-create Forgot to Set the Error Code bugs.  Also there was a direct
-return earlier in the function so it's better to do things consistently.
+We are close to being able to turn on -Wstringop-truncation
+unconditionally instead of only at the 'make W=1' level, these ten
+warnings are all that I saw in randconfig testing across compiler versions
+on arm, arm64 and x86.
 
->  
->  	status = class_register(&pi433_class);
-> -	if (status) {
-> -		unregister_chrdev(MAJOR(pi433_devt),
-> -				  pi433_spi_driver.driver.name);
-> -		return status;
-> -	}
-> +	if (status)
-> +		goto unreg_chrdev;
->  
->  	root_dir = debugfs_create_dir(KBUILD_MODNAME, NULL);
->  
->  	status = spi_register_driver(&pi433_spi_driver);
-> -	if (status < 0) {
-> -		class_unregister(&pi433_class);
-> -		unregister_chrdev(MAJOR(pi433_devt),
-> -				  pi433_spi_driver.driver.name);
-> -	}
-> +	if (status < 0)
-> +		goto unreg_class;
->  
-> +	return 0;
-> +
-> +unreg_class:
-> +	class_unregister(&pi433_class);
+The final patch is only there for reference at the moment, I hope
+we can merge the other ones through the subsystem trees first,
+as there are no dependencies between them.
 
-There is a debugfs_remove() missing.  I have written a blog that might
-be helpful:
+     Arnd
 
-https://staticthinking.wordpress.com/2022/04/28/free-the-last-thing-style/
+Arnd Bergmann (11):
+  staging: vc04_services: changen strncpy() to strscpy_pad()
+  scsi: devinfo: rework scsi_strcpy_devinfo()
+  staging: replace weird strncpy() with memcpy()
+  orangefs: convert strncpy() to strscpy()
+  test_hexdump: avoid string truncation warning
+  acpi: avoid warning for truncated string copy
+  block/partitions/ldm: convert strncpy() to strscpy()
+  blktrace: convert strncpy() to strscpy_pad()
+  staging: rtl8723bs: convert strncpy to strscpy
+  staging: greybus: change strncpy() to strscpy()
+  kbuild: enable -Wstringop-truncation globally
 
-regards,
-dan carpenter
+ block/partitions/ldm.c                        |  6 ++--
+ drivers/acpi/acpica/tbfind.c                  | 19 +++++------
+ drivers/scsi/scsi_devinfo.c                   | 30 +++++++++++------
+ drivers/staging/greybus/fw-management.c       |  4 +--
+ .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c |  5 ++-
+ drivers/staging/rts5208/rtsx_scsi.c           |  2 +-
+ .../vc04_services/vchiq-mmal/mmal-vchiq.c     |  4 +--
+ fs/orangefs/dcache.c                          |  4 +--
+ fs/orangefs/namei.c                           | 33 +++++++++----------
+ fs/orangefs/super.c                           | 16 ++++-----
+ kernel/trace/blktrace.c                       |  3 +-
+ lib/test_hexdump.c                            |  2 +-
+ scripts/Makefile.extrawarn                    |  1 -
+ 13 files changed, 64 insertions(+), 65 deletions(-)
 
-> +unreg_chrdev:
-> +	unregister_chrdev(MAJOR(pi433_devt), pi433_spi_driver.driver.name);
-> +fail:
->  	return status;
->  }
+-- 
+2.39.2
+
+Cc: "Richard Russon
+Cc: Jens Axboe <axboe@kernel.dk>
+Cc: Robert Moore <robert.moore@intel.com>
+Cc: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
+Cc: Len Brown <lenb@kernel.org>
+Cc: "James E.J. Bottomley" <jejb@linux.ibm.com>
+Cc: "Martin K. Petersen" <martin.petersen@oracle.com>
+Cc: Viresh Kumar <vireshk@kernel.org>
+Cc: Johan Hovold <johan@kernel.org>
+Cc: Alex Elder <elder@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Florian Fainelli <florian.fainelli@broadcom.com>
+Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+Cc: Mike Marshall <hubcap@omnibond.com>
+Cc: Martin Brandenburg <martin@omnibond.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>
+Cc: Masami Hiramatsu <mhiramat@kernel.org>
+Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>
+Cc: Nicolas Schier <nicolas@fjasle.eu>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Kees Cook <keescook@chromium.org>
+Cc: Alexey Starikovskiy <astarikovskiy@suse.de>
+Cc: linux-ntfs-dev@lists.sourceforge.net
+Cc: linux-block@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-acpi@vger.kernel.org
+Cc: acpica-devel@lists.linux.dev
+Cc: linux-scsi@vger.kernel.org
+Cc: greybus-dev@lists.linaro.org
+Cc: linux-staging@lists.linux.dev
+Cc: linux-rpi-kernel@lists.infradead.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: devel@lists.orangefs.org
+Cc: linux-trace-kernel@vger.kernel.org
+Cc: linux-kbuild@vger.kernel.org
 
