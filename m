@@ -1,61 +1,38 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1F9D139F
-	for <linux-staging@lists.linux.dev>; Thu, 28 Mar 2024 15:20:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7534212DDAB
+	for <linux-staging@lists.linux.dev>; Thu, 28 Mar 2024 15:30:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711639206; cv=none; b=bS91Gk4CbZ39XV2QGwA2Jpb9WDKd+S/5TboEpc5x9g/f6WC6e+jLuAOsdaUuEjJtIBZ0GAKhU8F9Fktt1rJ3wHznabIAD1Avqw/QLlcVIPHiXR1SZZQaTzGQxP0TktD5WnNaI8O7RdKNy2qzEmJx4/C2SzVMrEROJ1GmAp32kQE=
+	t=1711639815; cv=none; b=LLcaPNECCSIRfEmQMW/sAdS62ZQqDMdF1i0b35DhjHmLzAQo9FjgIxOK/vaVK7wU/Tufkay0WgKllUgoIYvRvFQM2/GKNjTNePZWiRzquUMeiQdNSGQ4JlQ/48Tep2LDVr3soUS04carDNWD6fEJ74yFINbZUGra/w4d6u8/p8M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711639206; c=relaxed/simple;
-	bh=HwbPY3jeUMYWWEnpfO1UCtVg49OhuXLDecjbGHww9a4=;
+	s=arc-20240116; t=1711639815; c=relaxed/simple;
+	bh=eTkYEIO6xGKCBPSNNcA+qSM50wnYa53a1ulCV3EXFdo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lBkTeouSqfRbAth85Eu7YwKbwIrA2TSSDK6ZCms1BD4mDOQwD2Jmxws5WWC+HLIu1VkHMVtdTNlCy38obhYrS0be3l2+AYAkVcvPLFQ98A5DhWgfZHKq7hILhTyTI0WKdb9o8h7Iftoq1LoNPdjZzqiX8geVbQM2BQlQQFF3T9M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aGwyqhl7; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=Rf5KfuBRpAT/z7S63U3/3V/sqZAhY7Q0efHayfK0vJzINyZiu8gqzfepFT5Ia2KnGnfoJ8Nez9TP4Ox6SikXhQ9tmUnKRekJedPxvX2nTTb6Drev/buG1rd7famtY3Yfq0b9a2fNhc+ZQkAsH4BYiHt0snM7N2bE5Sug0wE5mHw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=Og5tji0G; arc=none smtp.client-ip=212.227.17.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aGwyqhl7"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1e0f3052145so10656435ad.2
-        for <linux-staging@lists.linux.dev>; Thu, 28 Mar 2024 08:20:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711639204; x=1712244004; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=wP9XDSz3beDmB4MkZT4uxEi0warODrL0TB+LR7vpVbc=;
-        b=aGwyqhl72se5aPcfQk07QQ6DoUjrPh7yA4MyllL35qU+UV9PNCusdUrcy1TIqj7nL8
-         VV+AxAXNI+IDb8ChJQgBZG0hjGGDSPX7pq7sd6QTXqoPzLbICmwmAuLfW3PWhHA0cYXr
-         sjDhBZ/MIKczsRnhrHgWWSulvAZX7xNtbxS4YCaUawv9ze5TPf/Cz2BLv/utPbmZngug
-         4W5v+xDh8jfrGT+BzHHOJOgqntmBQcpKZpb0ORDswTkw8AtzBAvy1MzHgjiXkyjt1S9X
-         I5opcHSM0CYrrMFJ5DYkpa8LiCp2jf/jEgKNPhzBx88fA9vVjCC2+GFrOU89cvbtQHLM
-         prdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711639204; x=1712244004;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wP9XDSz3beDmB4MkZT4uxEi0warODrL0TB+LR7vpVbc=;
-        b=TOMwTAwOo2yGYGBkChWWH+SYCVwCEdcyM9kqUURESCIiY3ZZDsqlE0FT5PTGGItGDb
-         lPmQrZzJ6ktHKDpPD6ZEgQkbOVdgQwVdoSinxxmlnOZiEPBI5akdbP9ZqCwXzvA8NnPT
-         ss0XhzXX624ECbX1PwbH8Z7/lYzPrMyetch5JmZv/0KklZiCqnY5UzUzGUBK8HSnUuuG
-         fpyY3E7/kmtBpj80EsIzXTy0cayeMscWOMgYwuGfa62mZXdhG//Lor2juPD02lOr/stA
-         lmwIWr2FftVDmNjlBx/9MUPF2tJBatzlgj57Vh4g6tkG3iGxyxrfTXwrfQHeTb7uDWBw
-         w4jQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWFpgPk02z7QoclEBuon3/bFGNseqfAs37jc1AIpi7Wtglf7jBtZ8K27xuM8UnTH4ZfeJRvg3vZZUBdvYTVk9dAJyhc56K2fRM6vaqQSA==
-X-Gm-Message-State: AOJu0YwIiJNyTDxt5w+Z8eSToa0Enodkt/iyYlZD59FAzT3WRRn8RhoO
-	lJIlf0it1Posh+3njj49MAqwmK+leXlPax4aIr4VvQOMUjWMQdHN
-X-Google-Smtp-Source: AGHT+IGgDAM/XeuzcR5C58plhHHexD9nQyQw8PC9y8yVmsnzndoLRzxUoEm98+KkeLAs66oZE77ZRA==
-X-Received: by 2002:a17:902:c204:b0:1e0:1bb2:b38f with SMTP id 4-20020a170902c20400b001e01bb2b38fmr2482444pll.59.1711639204181;
-        Thu, 28 Mar 2024 08:20:04 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id x7-20020a170902ec8700b001ddddc8c41fsm1701345plg.157.2024.03.28.08.20.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 Mar 2024 08:20:03 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <13405bc9-3c97-4063-87b3-45a7e686fa50@roeck-us.net>
-Date: Thu, 28 Mar 2024 08:20:00 -0700
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="Og5tji0G"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
+	s=s31663417; t=1711639800; x=1712244600; i=wahrenst@gmx.net;
+	bh=NUVf/ApBhxkfLH93WC9AA8Zvhmz3hoGRwYPW68JP8ew=;
+	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+	 In-Reply-To;
+	b=Og5tji0GcVg/F2ovnnKhLxd/YAWvROYS99iNABnkSqFxp+6OCVNhA0ibSzswpeh4
+	 cg7yXVr7TqSE2CRCATH54og/4dF8s9WWITKLXLPDyOGAc0WCzoVbyvZTs5296ixQW
+	 YwqXre4cB3UtwybPExI7Eyf2QI0OzTy+eNCAqumEJx9b/wkOTRIldTMxF3N0EzueT
+	 riR1oumDF/OBAwiIwJZgIMHFRUpcWKNvk7i3UvGuNrF+eZTCwudld0BGSZAybBJuf
+	 nRGaHHY3zdCWE/VwXrzqDLuHdxVZOpYftb/bSroArkv/MI1yzWixhI9AeLGHQRNIG
+	 nuDa3ff8fxDhFgy+jg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.167] ([37.4.248.43]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MYvY8-1sKmbo2aGG-00Uoge; Thu, 28
+ Mar 2024 16:30:00 +0100
+Message-ID: <5d0708c6-a6fc-486b-b43a-09db23d6ba3b@gmx.net>
+Date: Thu, 28 Mar 2024 16:29:59 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -63,155 +40,64 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 3/7] hwmon: (da9052) Use
- devm_regulator_get_enable_get_voltage()
+Subject: Re: [PATCH v2 5/5] staging: vc04_services: vchiq_core: Stop kthreads
+ on shutdown
+To: Mark Brown <broonie@kernel.org>, Umang Jain <umang.jain@ideasonboard.com>
+Cc: linux-staging@lists.linux.dev, Dan Carpenter <error27@gmail.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Phil Elwell <phil@raspberrypi.com>, Greg KH <greg@kroah.com>
+References: <20240321130737.898154-1-umang.jain@ideasonboard.com>
+ <20240321130737.898154-6-umang.jain@ideasonboard.com>
+ <80c720d9-8a9b-42c9-b5fa-fe8a33da7945@sirena.org.uk>
 Content-Language: en-US
-To: Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jean Delvare <jdelvare@suse.com>,
- Support Opensource <support.opensource@diasemi.com>,
- Cosmin Tanislav <cosmin.tanislav@analog.com>,
- Lars-Peter Clausen <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Antoniu Miclaus <antoniu.miclaus@analog.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
- linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-input@vger.kernel.org
-References: <20240327-regulator-get-enable-get-votlage-v1-0-5f4517faa059@baylibre.com>
- <20240327-regulator-get-enable-get-votlage-v1-3-5f4517faa059@baylibre.com>
- <20240328142038.33ad68bc@jic23-huawei>
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <20240328142038.33ad68bc@jic23-huawei>
+From: Stefan Wahren <wahrenst@gmx.net>
+In-Reply-To: <80c720d9-8a9b-42c9-b5fa-fe8a33da7945@sirena.org.uk>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:QDujG0/+hRzq/XMxXCUZgkitIwTiWZ0LSdDhZ2SHhrx6Zd63yCi
+ WdMWiUg25qy6OnUZ0V/3NplyM9a3GlJWHoOsBmcNMsyHvmsZing1AGCAekbyItJFNoMrAX9
+ xDqpOS7PNtBONdjyRWE/V2WsT7nJPtlcUWKprsWmZZnZ6PLkOxWKs7x69ZwV+Lti+fgndvV
+ +PW12va7sn9W9Z5eSR04A==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:ak2A6gnbJM4=;c7pjNMRFeDOG6UhnEBF7d2WcOkD
+ LSDrzj8/sw9vQw4mPFkdaf+yi/nZyLzWqvazL12rZ3UEUrnZvYtHMF4BQLArrhF1rtl/Zsd0C
+ iY/2ikvKc8IQFeM57dh6O4tlU0o03UboRFc43Y9w/Spw/BY0Ikv6EPBWPJhw8kMSl5njEp41g
+ ATlWIFUVtfkqu1117HsK9sGZ3dFahOfUAMfwKbnyi1JgISJAEgoCfLmv5+yZAOYFrd12kZSH4
+ BCmWEA/8CTRlJcxR+GUbDeyyqMy3Vi9cpFk5oBh7SVoRxqm4xpLeCTFRQS2Op7mhgwtyYIOdB
+ qFU/yPPW/AcxLwBerggTe+StXFXNizjwDJbM0Sqzu/C+UNLk8Z2wk4O4bQ/JvESIvTvKiQQfo
+ 17+zzru5TR1yECDEJddYp0WL/CAOUw0ApcyL7vRTcpSpQb2ulpynMeeaaY4uuyHpi1xwIN3Bv
+ BamC0h55AEKmHlhIgEQUfR8sLe5yo5p84fXb5K7LA79okUop+arRs2EcDYhp1KY3P+Ai/G5zx
+ ojjlec2FVEC+fDk2jXDcb3WfZrtuTv+MLGoAt2dDnD6KIAQ55gIIHeS9jX7kJgnXZoeSdDKWg
+ IAtSJ/QkqFaZkBamks6eCnuMOxc7dHK8TafmlxmLKTzqpVKOiD7DCo+0ocoYZYOL974Q++Enz
+ o9VcHVnRb+XLfF10UfrBbCIJbaQ2iHZd7hySBu5IcZs/7za0DW01Wi/guczuef/ESSBFQ1M6v
+ jBOiAuGK+okCmY0mrFbmR3Zu/1X10WgTzPyibGKa6u0+KKmiWJeR3WbfL40Mj+g82wBqexvGV
+ RzG6nuy5hDkFIfZvo0IFbNwzrgv4mZr94n5/BGFERiYkc=
 
-On 3/28/24 07:20, Jonathan Cameron wrote:
-> On Wed, 27 Mar 2024 18:18:52 -0500
-> David Lechner <dlechner@baylibre.com> wrote:
-> 
->> We can reduce boilerplate code by using
->> devm_regulator_get_enable_get_voltage().
+Hi Mark,
+
+Am 28.03.24 um 15:53 schrieb Mark Brown:
+> On Thu, Mar 21, 2024 at 06:37:37PM +0530, Umang Jain wrote:
+>> The various kthreads thread functions (slot_handler_func, sync_func,
+>> recycle_func) in vchiq_core and vchiq_keepalive_thread_func in
+>> vchiq_arm should be stopped on vchiq_shutdown().
 >>
->> Signed-off-by: David Lechner <dlechner@baylibre.com>
-> 
-> A few comments inline, but nothing substantial.
-> 
-> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
->> ---
->>   drivers/hwmon/da9052-hwmon.c | 33 +++++++--------------------------
->>   1 file changed, 7 insertions(+), 26 deletions(-)
+>> This also address the following TODO item:
+>>   * Fix kernel module support
 >>
->> diff --git a/drivers/hwmon/da9052-hwmon.c b/drivers/hwmon/da9052-hwmon.c
->> index 2bd7ae8100d7..70e7bc72e980 100644
->> --- a/drivers/hwmon/da9052-hwmon.c
->> +++ b/drivers/hwmon/da9052-hwmon.c
->> @@ -26,7 +26,6 @@ struct da9052_hwmon {
->>   	struct mutex		hwmon_lock;
->>   	bool			tsi_as_adc;
->>   	int			tsiref_mv;
->> -	struct regulator	*tsiref;
->>   	struct completion	tsidone;
->>   };
->>   
->> @@ -414,32 +413,19 @@ static int da9052_hwmon_probe(struct platform_device *pdev)
->>   		device_property_read_bool(pdev->dev.parent, "dlg,tsi-as-adc");
->>   
->>   	if (hwmon->tsi_as_adc) {
->> -		hwmon->tsiref = devm_regulator_get(pdev->dev.parent, "tsiref");
->> -		if (IS_ERR(hwmon->tsiref)) {
->> -			err = PTR_ERR(hwmon->tsiref);
->> -			dev_err(&pdev->dev, "failed to get tsiref: %d", err);
->> +		err = devm_regulator_get_enable_get_voltage(pdev->dev.parent,
->> +							    "tsiref");
->> +		if (err < 0)
->>   			return err;
->> -		}
->> -
->> -		err = regulator_enable(hwmon->tsiref);
->> -		if (err)
->> -			return err;
->> -
->> -		hwmon->tsiref_mv = regulator_get_voltage(hwmon->tsiref);
->> -		if (hwmon->tsiref_mv < 0) {
->> -			err = hwmon->tsiref_mv;
->> -			goto exit_regulator;
->> -		}
->>   
->>   		/* convert from microvolt (DT) to millivolt (hwmon) */
->> -		hwmon->tsiref_mv /= 1000;
->> +		hwmon->tsiref_mv = err / 1000;
->>
-> 
-> Using a variable called err for a good value is a bit ugly but fair enough if that
-> is precedence in this driver.
-> 
+>> hence drop it from the TODO item list.
+>
+> This has landed in -next as d9c60badccc183eb971e0941bb86f9475d4b9551
+> and appears to be causing substantial issues on the original Raspberry
+> Pi.  I'm seeing a lot of failed boots and one that worked is showing a
+> bunch of faults the first of which is:
+>
 
-It isn't. The existing code assigns the return value from regulator_get_voltage()
-to hwmon->tsiref_mv and then evaluates it. I would not oppose introducing a variable
-such as tsiref_uv, but not the misuse of 'err'. I am not going to accept the code
-as suggested. It is bad style, and it would invite others to use it as precedent
-when trying to introduce similar code.
+yes this broken patch was applied before i to tested it with Linux
+6.9rc1. The bugfix is currently under review [1]
 
->>   }
->> @@ -483,10 +466,8 @@ static void da9052_hwmon_remove(struct platform_device *pdev)
->>   {
->>   	struct da9052_hwmon *hwmon = platform_get_drvdata(pdev);
->>   
->> -	if (hwmon->tsi_as_adc) {
->> +	if (hwmon->tsi_as_adc)
->>   		da9052_free_irq(hwmon->da9052, DA9052_IRQ_TSIREADY, hwmon);
-> Superficially looks like devm_da9052_request_irq could be added that
-> uses devm_request_threaded_irq() to allow dropping this remaining handling.
-> 
-
-That should be a separate series of patches. A local solution might be
-to use devm_add_action_or_reset(), but that should also be a separate patch.
-
-Thanks,
-Guenter
-
+[1] -
+https://lore.kernel.org/linux-staging/171161507013.3072637.121257825075239=
+19379@ping.linuxembedded.co.uk/T/#m1d3de7d2fa73b2447274858353bbd4a0c3a8ba1=
+4
