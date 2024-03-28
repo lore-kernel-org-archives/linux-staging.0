@@ -1,85 +1,104 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8484D12E1FF
-	for <linux-staging@lists.linux.dev>; Thu, 28 Mar 2024 18:12:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FCB980616;
+	Thu, 28 Mar 2024 18:18:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711649550; cv=none; b=qHRMgXOHFKDBZ/RWgg1wkbhkmiHJ4IMPCl6pFcDpwYR5SWbML/0yMAmYcgaFkB+FqaC6LdUfIhthN2Qyg8eK/SjYc7xq2LjXOrHcO6wTIXMMo5hQ4MXxS3GwV7CR5rXSzlCWWBYUZ3lUWmht36rZfNH9pN/ihj2G3oVIAtoOdOk=
+	t=1711649919; cv=none; b=UnubdDozoIBrkcmN0RFWilO7WjES0rWuI0/Ihz4yruMQPtgMLHiyZmyFAZNOiaG8CEGRsHDanhPe+93EEwnK0orGL8bgHVJOWbsTM3KEAFoQBTUuZBWz2DHC3L3E8sGfidtFZoIvwjinWbyenfMY7Lke9+59kxkhFnGf3/SRd9o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711649550; c=relaxed/simple;
-	bh=vNYgd3ynhZIIIPg2T/ZknSWquElbXTBGCadgjCGh1KE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZQGgvc484BPKhvoukoo7th6Vor5HUwIyiJOapranVIyuQuZZFmwMAF9kroOsbOWSP97Byt2EkKZa50p/XkKt3vvmIYyowHS8N/I5PU8UCKPDYOuB3q/bTIJW+OH9mK6s8TdPSqkJuqbrw+WEl6PPycjvV2Bx822mHE7bTX+3/vU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=EBRNvKpu; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1711649919; c=relaxed/simple;
+	bh=dugE1eN9SjKMTZCoMkJW/qGHVXdybbUNuNFGgoJU4bQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CUHxrB/0EkbP5WrE4JTNs7iYj9Ynia0o6FeZYh0JUgcFSlbFR2AKgvMeF1Pd7Ikcv6NhRhh7kWBYOn2MYYm7nJ9XYhgRp5XCAUwwzpYnaLjf674Y2qFH1lCBL8scLkEgL3hBbp/IOUyrVobPkJ2SA87evBYqJabQm9xrOaaKicM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IGxdZp5h; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="EBRNvKpu"
-Received: from umang.jain (unknown [103.251.226.73])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 114CE475;
-	Thu, 28 Mar 2024 19:11:50 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1711649514;
-	bh=vNYgd3ynhZIIIPg2T/ZknSWquElbXTBGCadgjCGh1KE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=EBRNvKpusWNE1+s2IC7MZ+YYkMhKH66CmuC77T+uwPrsjWODjuVNo5jbj95KFbNng
-	 7F0DYPCw0PnRMLOA9ZOBb5GOecYbCl/zlGsaSyCVi/l/mz+F+yCEUpjEkBcx2uEJ7/
-	 CtwX1LDn9U5HabXe/NyXCMNQc8/HrZs6dPAu/Pv4=
-From: Umang Jain <umang.jain@ideasonboard.com>
-To: linux-staging@lists.linux.dev
-Cc: Dan Carpenter <error27@gmail.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Phil Elwell <phil@raspberrypi.com>,
-	Greg KH <greg@kroah.com>,
-	Stefan Wahren <wahrenst@gmx.net>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	Dan Carpenter <dan.carpenter@linaro.org>
-Subject: [PATCH v4 11/11] staging: vc04_services: Drop completed TODO item
-Date: Thu, 28 Mar 2024 23:41:33 +0530
-Message-ID: <20240328181134.1548799-12-umang.jain@ideasonboard.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240328181134.1548799-1-umang.jain@ideasonboard.com>
-References: <20240328181134.1548799-1-umang.jain@ideasonboard.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IGxdZp5h"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 049E5C433C7;
+	Thu, 28 Mar 2024 18:18:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711649918;
+	bh=dugE1eN9SjKMTZCoMkJW/qGHVXdybbUNuNFGgoJU4bQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=IGxdZp5hQd8bVeR0C8gY2+N9lAaxmWJmB92LbW2FMeJBOQyDRV9rMHjIkg1DQ9/q2
+	 wnBZCeuO+zJh5pKAdf1xxwNAX8EO86qJTzCfwGZ4r/hUq9YCI10gPilJC7dvaRtt4W
+	 SlHkzpGIYNgtrxkV4IxR2RAVHUciHqM/dDCEG8nfur8P9zBXpHOKTvM8OO6f8G0Bcr
+	 jxwf7MWr9iCKEdh8K7yLc05jfYF7f2bPFBSu4l4OWb/caZlXPvGI1JG11ymC7snLfg
+	 NTw3zLzxtzrPzWiF3HorH1LWd1Zeun7z7WD80H6S5nlKvTXu4kwXX2N8Z5Ncyj31Il
+	 W+mFoZ9tmdDtw==
+Date: Thu, 28 Mar 2024 18:18:32 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: David Lechner <dlechner@baylibre.com>, Jonathan Corbet <corbet@lwn.net>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Support Opensource <support.opensource@diasemi.com>,
+	Cosmin Tanislav <cosmin.tanislav@analog.com>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Antoniu Miclaus <antoniu.miclaus@analog.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-input@vger.kernel.org
+Subject: Re: [PATCH RFC 1/7] regulator: devres: add APIs for reference
+ supplies
+Message-ID: <043b347b-2652-4ffb-a8e0-954a89899ade@sirena.org.uk>
+References: <20240327-regulator-get-enable-get-votlage-v1-0-5f4517faa059@baylibre.com>
+ <20240327-regulator-get-enable-get-votlage-v1-1-5f4517faa059@baylibre.com>
+ <ZgWw66OpLnLPdCn-@google.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="cUF0P50pg6+6H6Lf"
+Content-Disposition: inline
+In-Reply-To: <ZgWw66OpLnLPdCn-@google.com>
+X-Cookie: Yes, but which self do you want to be?
 
-The memory barrier comments are added in
-commit f6c99d86246a ("staging: vchiq_arm: Add missing memory barrier comments")
 
-Drop the respective item from the TODO list.
+--cUF0P50pg6+6H6Lf
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
----
- drivers/staging/vc04_services/interface/TODO | 7 -------
- 1 file changed, 7 deletions(-)
+On Thu, Mar 28, 2024 at 11:03:23AM -0700, Dmitry Torokhov wrote:
 
-diff --git a/drivers/staging/vc04_services/interface/TODO b/drivers/staging/vc04_services/interface/TODO
-index e8acbc21ee10..dfb1ee49633f 100644
---- a/drivers/staging/vc04_services/interface/TODO
-+++ b/drivers/staging/vc04_services/interface/TODO
-@@ -21,13 +21,6 @@ some of the ones we want:
- A short top-down description of this driver's architecture (function of
- kthreads, userspace, limitations) could be very helpful for reviewers.
- 
--* Review and comment memory barriers
--
--There is a heavy use of memory barriers in this driver, it would be very
--beneficial to go over all of them and, if correct, comment on their merits.
--Extra points to whomever confidently reviews the remote_event_*() family of
--functions.
--
- * Reformat core code with more sane indentations
- 
- The code follows the 80 characters limitation yet tends to go 3 or 4 levels of
--- 
-2.43.0
+> So because we decided that we could not have devm_regulator_enable()
+> because of (IMO) contrived example of someone totally mixing up the devm
+> and non-devm APIs we now have to make more and more devm- variants
+> simply because we do not have access to the regulator structure with
+> devm_regulator_get_enable() and so all normal APIs are not available.
 
+I don't follow what you're saying here?  What normal APIs are not
+available?  AFAICT this has nothing to do with a devm enable, it's a
+combined operation which reports the voltage for the regulator if one is
+available which would still be being added even if it used a devm
+enable.
+
+> This is quite bad honestly. Mark, could we please reverse this
+> shortsighted decision and have normal devm_regulator_enable() operating
+> on a regulator?
+
+Nothing has changed here.
+
+--cUF0P50pg6+6H6Lf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmYFtHcACgkQJNaLcl1U
+h9B0aQf9GhSPMJsemBBQsnirWqzi3QaGUE29Rt78hmG7hRYC5m9vngooWRxd8hO5
+n0JQPednZleR4Sv9xLb6kXcNskt+l4KyvRc7wL1xJ2M1CjTshtxSEscQs22KTbag
+wvoakMhfgWdqb+Rz9KI2XnTEUJHB5ZrKh1iygy656jIu2+RiRN94upSZWv09gtKT
+zW0jUaUPKe6gO/wod5bKYVhbmPYEyOZ7Ya8ZvuZNQoYUqbii4oYBpb1EAT27p8u2
+3k2eKUYu64XwASkizaqo6Vn0xu2LTBtaUg9tYYyCyhD0V9Suju3H41F42PgLfrWo
+Q55X+JAPty/mqfVn+05geMu2OBjk9g==
+=9vNv
+-----END PGP SIGNATURE-----
+
+--cUF0P50pg6+6H6Lf--
