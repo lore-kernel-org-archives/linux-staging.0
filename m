@@ -1,31 +1,31 @@
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59BA812F391
-	for <linux-staging@lists.linux.dev>; Thu, 28 Mar 2024 18:12:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E2DD130AF3
+	for <linux-staging@lists.linux.dev>; Thu, 28 Mar 2024 18:12:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711649529; cv=none; b=b9rQ4BucElF5sbypOHP5DQUC6Tvkth6HE9vyoukIPBoXrwRxjaZ0TM4s3GVy3JAofVwigLCYopqMPJgb0ulr4Fl+FfVd55V8it4Ad4V/gfckFnoDG1cVkb9cTtvbog5nawKbvnQ3qkn3cMtfezrBhntnJfFf/M05qdJcsYYO2gs=
+	t=1711649534; cv=none; b=iSQi2162ZC2Xz3XUBoS45INeUMYIhm0aWN2YbCyjfOHUPuMr0/H3BCY1Qovlq3ILfAAhTBQ4W4Mq1KwzhqF4vyYmjNe5ze1FeDfl5NpPXUmbqj4PW6pwX13TeX8boi8Mxh7fATLYn9rkLW1kw/M/lkI85VwurKuVJxihhLpKZnc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711649529; c=relaxed/simple;
-	bh=mt2L2yL/LQTIIRHAOE5DbvQY2a8INrmNPvCS3sE4nNU=;
+	s=arc-20240116; t=1711649534; c=relaxed/simple;
+	bh=T0lNRLO+X/VXoEAQnxKFAimQFZSg5CZwyfVidQ69u8A=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AkHXwDjiQOEBx4/pnIb0XaUBvEu5774ZF7fbLoaV0UcDc0s/ji/3MjxWcGyn/0C6kP9llx6eAZg1Lcy6yjkiCjI0uv5IMC+fY0uCuCne07Av9YHjUUwFEhFhJs+2/sV6QLfGqwR0LbuKnwp24ZUtkPOHertoYHzET5cwKszbnxE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=UgKuOvk7; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=KZCkTyDEHz6ZQzgcRKSxA+Otz4StsaiE90trKuq05dgDEb+G3s3puWf0HKycocuG7G8CzYytNuFg1wTGtUQVb45Ixq4WYq5skVqPREVBI0jZBger7X5frkrVLQkL0THLkrYEwgmuXGh2YZf8n/DFousheOppeq+tlrs7cHXIqsI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=sEKQyuRa; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="UgKuOvk7"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="sEKQyuRa"
 Received: from umang.jain (unknown [103.251.226.73])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9B7CFD20;
-	Thu, 28 Mar 2024 19:11:30 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B1B26475;
+	Thu, 28 Mar 2024 19:11:34 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1711649494;
-	bh=mt2L2yL/LQTIIRHAOE5DbvQY2a8INrmNPvCS3sE4nNU=;
+	s=mail; t=1711649498;
+	bh=T0lNRLO+X/VXoEAQnxKFAimQFZSg5CZwyfVidQ69u8A=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=UgKuOvk7UFZzP+4mXS9W6rkgZIGReCClsJih1pwNmAvirJ6D9wXIP9V5gq0wqxz1j
-	 UlLcWPJ1f0RLtCrVBRSqMMqGplePuqlDTAsRBScvG3/CBOxr/KU3WIto2U17wpNVtV
-	 3p8GXOfpW1AYQWpvlmNjrzrHtOLZXM4EM6qAT7Ds=
+	b=sEKQyuRaIrBKVF8Q8B2SfFE3sXYKW6Rm49wa08b+wGowgvevRgXg83bFkpOXKSP1g
+	 Kmy4cYBD0P+DORWr6YEOMDZaCk9juNsLnp5UwaaKHgg2VipAoptki8qUaWywU+aXWX
+	 XbpEvsQ/uUxtUTgnFDwXmA5Ws1SonS4QRxo1idgs=
 From: Umang Jain <umang.jain@ideasonboard.com>
 To: linux-staging@lists.linux.dev
 Cc: Dan Carpenter <error27@gmail.com>,
@@ -36,9 +36,9 @@ Cc: Dan Carpenter <error27@gmail.com>,
 	Greg KH <greg@kroah.com>,
 	Stefan Wahren <wahrenst@gmx.net>,
 	Umang Jain <umang.jain@ideasonboard.com>
-Subject: [PATCH v4 06/11] staging: vc04_services: Move global variables tracking allocated pages
-Date: Thu, 28 Mar 2024 23:41:28 +0530
-Message-ID: <20240328181134.1548799-7-umang.jain@ideasonboard.com>
+Subject: [PATCH v4 07/11] staging: vc04_services: Move global memory mapped pointer
+Date: Thu, 28 Mar 2024 23:41:29 +0530
+Message-ID: <20240328181134.1548799-8-umang.jain@ideasonboard.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240328181134.1548799-1-umang.jain@ideasonboard.com>
 References: <20240328181134.1548799-1-umang.jain@ideasonboard.com>
@@ -50,149 +50,158 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The variables tracking allocated pages fragments in vchiq_arm.c
-can be easily moved to struct vchiq_drv_mgmt instead of being global.
-This helps us to drop the non-essential global variables in the vchiq
-interface.
+g_regs stores the remapped memory pointer for the vchiq platform.
+It can be moved to struct vchiq_drv_mgmt instead of being global.
 
-No functional changes intended in this patch.
+Adjust the affected functions accordingly. Pass vchiq_state pointer
+wherever necessary to access struct vchiq_drv_mgmt.
 
 Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
 ---
- .../interface/vchiq_arm/vchiq_arm.c           | 53 +++++++++----------
- .../interface/vchiq_arm/vchiq_arm.h           |  6 +++
- 2 files changed, 30 insertions(+), 29 deletions(-)
+ .../interface/vchiq_arm/vchiq_arm.c           | 19 +++++++++++--------
+ .../interface/vchiq_arm/vchiq_arm.h           |  2 ++
+ .../interface/vchiq_arm/vchiq_core.c          | 10 +++++-----
+ .../interface/vchiq_arm/vchiq_core.h          |  2 +-
+ 4 files changed, 19 insertions(+), 14 deletions(-)
 
 diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-index 2005d392d0b7..b335948f4b0c 100644
+index b335948f4b0c..0c7dd45969ae 100644
 --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
 +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-@@ -130,12 +130,6 @@ struct vchiq_pagelist_info {
+@@ -129,8 +129,6 @@ struct vchiq_pagelist_info {
+ 	unsigned int scatterlist_mapped;
  };
  
- static void __iomem *g_regs;
--static unsigned int g_fragments_size;
--static char *g_fragments_base;
--static char *g_free_fragments;
--static struct semaphore g_free_fragments_sema;
+-static void __iomem *g_regs;
 -
--static DEFINE_SEMAPHORE(g_free_fragments_mutex, 1);
- 
  static int
  vchiq_blocking_bulk_transfer(struct vchiq_instance *instance, unsigned int handle, void *data,
-@@ -414,20 +408,20 @@ create_pagelist(struct vchiq_instance *instance, char *buf, char __user *ubuf,
- 	    (drv_mgmt->info->cache_line_size - 1)))) {
- 		char *fragments;
+ 			     unsigned int size, enum vchiq_bulk_dir dir);
+@@ -139,11 +137,14 @@ static irqreturn_t
+ vchiq_doorbell_irq(int irq, void *dev_id)
+ {
+ 	struct vchiq_state *state = dev_id;
++	struct vchiq_drv_mgmt *mgmt;
+ 	irqreturn_t ret = IRQ_NONE;
+ 	unsigned int status;
  
--		if (down_interruptible(&g_free_fragments_sema)) {
-+		if (down_interruptible(&drv_mgmt->free_fragments_sema)) {
- 			cleanup_pagelistinfo(instance, pagelistinfo);
- 			return NULL;
- 		}
++	mgmt = dev_get_drvdata(state->dev);
++
+ 	/* Read (and clear) the doorbell */
+-	status = readl(g_regs + BELL0);
++	status = readl(mgmt->regs + BELL0);
  
--		WARN_ON(!g_free_fragments);
-+		WARN_ON(!drv_mgmt->free_fragments);
- 
--		down(&g_free_fragments_mutex);
--		fragments = g_free_fragments;
-+		down(&drv_mgmt->free_fragments_mutex);
-+		fragments = drv_mgmt->free_fragments;
- 		WARN_ON(!fragments);
--		g_free_fragments = *(char **)g_free_fragments;
--		up(&g_free_fragments_mutex);
-+		drv_mgmt->free_fragments = *(char **)drv_mgmt->free_fragments;
-+		up(&drv_mgmt->free_fragments_mutex);
- 		pagelist->type = PAGELIST_READ_WITH_FRAGMENTS +
--			(fragments - g_fragments_base) / g_fragments_size;
-+			(fragments - drv_mgmt->fragments_base) / drv_mgmt->fragments_size;
- 	}
- 
- 	return pagelistinfo;
-@@ -455,10 +449,10 @@ free_pagelist(struct vchiq_instance *instance, struct vchiq_pagelist_info *pagel
- 	pagelistinfo->scatterlist_mapped = 0;
- 
- 	/* Deal with any partial cache lines (fragments) */
--	if (pagelist->type >= PAGELIST_READ_WITH_FRAGMENTS && g_fragments_base) {
--		char *fragments = g_fragments_base +
-+	if (pagelist->type >= PAGELIST_READ_WITH_FRAGMENTS && drv_mgmt->fragments_base) {
-+		char *fragments = drv_mgmt->fragments_base +
- 			(pagelist->type - PAGELIST_READ_WITH_FRAGMENTS) *
--			g_fragments_size;
-+			drv_mgmt->fragments_size;
- 		int head_bytes, tail_bytes;
- 
- 		head_bytes = (drv_mgmt->info->cache_line_size - pagelist->offset) &
-@@ -483,11 +477,11 @@ free_pagelist(struct vchiq_instance *instance, struct vchiq_pagelist_info *pagel
- 				fragments + drv_mgmt->info->cache_line_size,
- 				tail_bytes);
- 
--		down(&g_free_fragments_mutex);
--		*(char **)fragments = g_free_fragments;
--		g_free_fragments = fragments;
--		up(&g_free_fragments_mutex);
--		up(&g_free_fragments_sema);
-+		down(&drv_mgmt->free_fragments_mutex);
-+		*(char **)fragments = drv_mgmt->free_fragments;
-+		drv_mgmt->free_fragments = fragments;
-+		up(&drv_mgmt->free_fragments_mutex);
-+		up(&drv_mgmt->free_fragments_sema);
- 	}
- 
- 	/* Need to mark all the pages dirty. */
-@@ -523,11 +517,11 @@ static int vchiq_platform_init(struct platform_device *pdev, struct vchiq_state
- 	if (err < 0)
+ 	if (status & ARM_DS_ACTIVE) {  /* Was the doorbell rung? */
+ 		remote_event_pollall(state);
+@@ -556,9 +557,9 @@ static int vchiq_platform_init(struct platform_device *pdev, struct vchiq_state
+ 	if (err)
  		return err;
  
--	g_fragments_size = 2 * drv_mgmt->info->cache_line_size;
-+	drv_mgmt->fragments_size = 2 * drv_mgmt->info->cache_line_size;
+-	g_regs = devm_platform_ioremap_resource(pdev, 0);
+-	if (IS_ERR(g_regs))
+-		return PTR_ERR(g_regs);
++	drv_mgmt->regs = devm_platform_ioremap_resource(pdev, 0);
++	if (IS_ERR(drv_mgmt->regs))
++		return PTR_ERR(drv_mgmt->regs);
  
- 	/* Allocate space for the channels in coherent memory */
- 	slot_mem_size = PAGE_ALIGN(TOTAL_SLOTS * VCHIQ_SLOT_SIZE);
--	frag_mem_size = PAGE_ALIGN(g_fragments_size * MAX_FRAGMENTS);
-+	frag_mem_size = PAGE_ALIGN(drv_mgmt->fragments_size * MAX_FRAGMENTS);
+ 	irq = platform_get_irq(pdev, 0);
+ 	if (irq <= 0)
+@@ -641,8 +642,10 @@ static struct vchiq_arm_state *vchiq_platform_get_arm_state(struct vchiq_state *
+ }
  
- 	slot_mem = dmam_alloc_coherent(dev, slot_mem_size + frag_mem_size,
- 				       &slot_phys, GFP_KERNEL);
-@@ -547,15 +541,16 @@ static int vchiq_platform_init(struct platform_device *pdev, struct vchiq_state
- 	vchiq_slot_zero->platform_data[VCHIQ_PLATFORM_FRAGMENTS_COUNT_IDX] =
- 		MAX_FRAGMENTS;
+ void
+-remote_event_signal(struct remote_event *event)
++remote_event_signal(struct vchiq_state *state, struct remote_event *event)
+ {
++	struct vchiq_drv_mgmt *mgmt = dev_get_drvdata(state->dev);
++
+ 	/*
+ 	 * Ensure that all writes to shared data structures have completed
+ 	 * before signalling the peer.
+@@ -654,7 +657,7 @@ remote_event_signal(struct remote_event *event)
+ 	dsb(sy);         /* data barrier operation */
  
--	g_fragments_base = (char *)slot_mem + slot_mem_size;
-+	drv_mgmt->fragments_base = (char *)slot_mem + slot_mem_size;
+ 	if (event->armed)
+-		writel(0, g_regs + BELL2); /* trigger vc interrupt */
++		writel(0, mgmt->regs + BELL2); /* trigger vc interrupt */
+ }
  
--	g_free_fragments = g_fragments_base;
-+	drv_mgmt->free_fragments = drv_mgmt->fragments_base;
- 	for (i = 0; i < (MAX_FRAGMENTS - 1); i++) {
--		*(char **)&g_fragments_base[i * g_fragments_size] =
--			&g_fragments_base[(i + 1) * g_fragments_size];
-+		*(char **)&drv_mgmt->fragments_base[i * drv_mgmt->fragments_size] =
-+			&drv_mgmt->fragments_base[(i + 1) * drv_mgmt->fragments_size];
- 	}
--	*(char **)&g_fragments_base[i * g_fragments_size] = NULL;
--	sema_init(&g_free_fragments_sema, MAX_FRAGMENTS);
-+	*(char **)&drv_mgmt->fragments_base[i * drv_mgmt->fragments_size] = NULL;
-+	sema_init(&drv_mgmt->free_fragments_sema, MAX_FRAGMENTS);
-+	sema_init(&drv_mgmt->free_fragments_mutex, 1);
- 
- 	err = vchiq_init_state(state, vchiq_slot_zero, dev);
- 	if (err)
+ int
 diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
-index 4a5b5ae9625a..a3bba245bfe2 100644
+index a3bba245bfe2..f17c22635ce5 100644
 --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
 +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
-@@ -59,6 +59,12 @@ struct vchiq_drv_mgmt {
- 	struct mutex connected_mutex;
- 
- 	void (*deferred_callback[VCHIQ_DRV_MAX_CALLBACKS])(void);
+@@ -65,6 +65,8 @@ struct vchiq_drv_mgmt {
+ 	char *fragments_base;
+ 	char *free_fragments;
+ 	unsigned int fragments_size;
 +
-+	struct semaphore free_fragments_sema;
-+	struct semaphore free_fragments_mutex;
-+	char *fragments_base;
-+	char *free_fragments;
-+	unsigned int fragments_size;
++	void __iomem *regs;
  };
  
  struct user_service {
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+index 658d19f1e7e8..af633ff984f6 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+@@ -691,7 +691,7 @@ reserve_space(struct vchiq_state *state, size_t space, int is_blocking)
+ 			/* But first, flush through the last slot. */
+ 			state->local_tx_pos = tx_pos;
+ 			local->tx_pos = tx_pos;
+-			remote_event_signal(&state->remote->trigger);
++			remote_event_signal(state, &state->remote->trigger);
+ 
+ 			if (!is_blocking ||
+ 			    (wait_for_completion_interruptible(&state->slot_available_event)))
+@@ -1124,7 +1124,7 @@ queue_message(struct vchiq_state *state, struct vchiq_service *service,
+ 	if (!(flags & QMFLAGS_NO_MUTEX_UNLOCK))
+ 		mutex_unlock(&state->slot_mutex);
+ 
+-	remote_event_signal(&state->remote->trigger);
++	remote_event_signal(state, &state->remote->trigger);
+ 
+ 	return 0;
+ }
+@@ -1202,7 +1202,7 @@ queue_message_sync(struct vchiq_state *state, struct vchiq_service *service,
+ 		&svc_fourcc, VCHIQ_MSG_SRCPORT(msgid),
+ 		VCHIQ_MSG_DSTPORT(msgid), size);
+ 
+-	remote_event_signal(&state->remote->sync_trigger);
++	remote_event_signal(state, &state->remote->sync_trigger);
+ 
+ 	if (VCHIQ_MSG_TYPE(msgid) != VCHIQ_MSG_PAUSE)
+ 		mutex_unlock(&state->sync_mutex);
+@@ -1260,7 +1260,7 @@ release_slot(struct vchiq_state *state, struct vchiq_slot_info *slot_info,
+ 		 * A write barrier is necessary, but remote_event_signal
+ 		 * contains one.
+ 		 */
+-		remote_event_signal(&state->remote->recycle);
++		remote_event_signal(state, &state->remote->recycle);
+ 	}
+ 
+ 	mutex_unlock(&state->recycle_mutex);
+@@ -3240,7 +3240,7 @@ static void
+ release_message_sync(struct vchiq_state *state, struct vchiq_header *header)
+ {
+ 	header->msgid = VCHIQ_MSGID_PADDING;
+-	remote_event_signal(&state->remote->sync_release);
++	remote_event_signal(state, &state->remote->sync_release);
+ }
+ 
+ int
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
+index 5fbf173d9c56..8ca74b12427b 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
+@@ -516,7 +516,7 @@ int vchiq_prepare_bulk_data(struct vchiq_instance *instance, struct vchiq_bulk *
+ 
+ void vchiq_complete_bulk(struct vchiq_instance *instance, struct vchiq_bulk *bulk);
+ 
+-void remote_event_signal(struct remote_event *event);
++void remote_event_signal(struct vchiq_state *state, struct remote_event *event);
+ 
+ void vchiq_dump_platform_state(struct seq_file *f);
+ 
 -- 
 2.43.0
 
