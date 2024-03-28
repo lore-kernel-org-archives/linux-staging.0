@@ -1,41 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD5C364CF2;
-	Thu, 28 Mar 2024 14:06:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9FA483CC7;
+	Thu, 28 Mar 2024 14:07:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711634777; cv=none; b=N6LDImQxgNaMV0+lwvlDJwc452zGUvT/bMu5Uxglid2AgKjLOxvKJ/hegRMG+hEpslCCPQ3pYomMaSTwn8zKChDRmyEQ+0xjdxrNWUnqmC5oLwj+8Im16vbWREGRW6o67FrwRwHPi6iyJS/DFlofMvUboLvSrJ5ysmg/vwjLBAE=
+	t=1711634825; cv=none; b=vAPG5QLEg6MGZs5l8wxVTUyu+cgAKZNoMwHWkadTwk55dSehLxMREtY5JtsYZvwTT8nKyUYnJt42nl2Ef53kAM3B4FRuwwk1p5BxzvH0V8obSe3qBtW0LPaQjRT6N/9b4VoK0f0NQHC0EI6rWrSTMcHCJ+HyM8oxbi+PgLr3Ro8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711634777; c=relaxed/simple;
-	bh=gMylBYrmATWxZ5d+8c6bGwHQWzKICTyrQtHLw9Ti9DA=;
+	s=arc-20240116; t=1711634825; c=relaxed/simple;
+	bh=HUhSot9xyrF+JN4xyg5gUpvdtcrLnfShBlIudVAw+0o=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=mY01wL1joDaulSCGlZUM0WzKJdp+1LUfvS5sNeMBR5vadawt92wxcpdTi4cuOQ47z5HyueAk6PWNQRFX3a7j89TwzpNvEmpYAUMUg2WDyW98rv976D33ijTCF9WGrAwBcm1fOE9X1kaRfQkAitUm6dBt5Yoh1mgVbge5Kwwe/d4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FvgGl0TD; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=CuIGV2NHWIQu2LUneFJy2B9oD/OlokeM3e2Xi6iUm2vOKYxvFr57ZCxP7nhlu+kwQ4MoHdc8dQa0WpW1NCaCj3syejL5dNYaweGdnw7RO1uCahn9BILxlJidIjoKQ9VjNisfJWJ4SSlUiUoVWbyr/E45Avt4FRxg5Cd3GvDEfTk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A7bAq59Z; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FvgGl0TD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03422C433F1;
-	Thu, 28 Mar 2024 14:06:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A7bAq59Z"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C684BC433F1;
+	Thu, 28 Mar 2024 14:07:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711634776;
-	bh=gMylBYrmATWxZ5d+8c6bGwHQWzKICTyrQtHLw9Ti9DA=;
+	s=k20201202; t=1711634824;
+	bh=HUhSot9xyrF+JN4xyg5gUpvdtcrLnfShBlIudVAw+0o=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=FvgGl0TDBH4Ei13F0xA5j1Dfi29LBEHXzAToRTsK1pdtLFjbATzWe3pQeWq+zBVor
-	 UngHRavlLa7Kx+dH+Url/3wWbJBbf+ONDpKI6iD4QryPFLU/QRK0CIL+GskjFmnmAj
-	 NDobSqFxZdaTwUiu2SPQs0Uv0cBon2FlTQHVpdyrYy/A+xkKcZRSXQFM8hFRTrZP/B
-	 aSUEvlkgaI6UFqLUO4qJY8U3YaA/+mAFTEyrbookmYAnyvXBQ6NK8QHF6ScRnRKfFY
-	 xaCnYXF4xKEEEGuLweImK3fUKVGSnFVu/QnifeXWS8U2U21eNv4cOLmP9p3qYTMlMV
-	 HDe91isEP5b3Q==
+	b=A7bAq59ZDijbhGoewi2fyU5yAVKEd6Ep8RA8WtnD2HrGJ/8zDtz2VujzucjrXWi43
+	 DieD6Vj1woddVF3DyIj9WZEB7WSEkWbkfgvwNkhFIcEry9hUBLmUIFVCy2KF2pdTEs
+	 VihwIQtCAQ7X4TJ8+F8dtl7DVdVsIA3qL/8Yk44yUZrScpEPby3ubQQz6PsH6iH+KP
+	 g/UZoVijAAB0Uk1jqELSCyzK0MEaBNs9yfGDP+3bv+PRPNxAgldy8b6IrGe764SVaY
+	 i+CwDFJkuWexuwlXfx7KpKsPz5+0e1VOFWpVTtkbaQkLeQvlRCeR2YN0EvQe6jukrY
+	 368+rWxdAZ3Pg==
 From: Arnd Bergmann <arnd@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Kees Cook <keescook@chromium.org>,
-	Daniel Micay <danielmicay@gmail.com>
+	Nathan Chancellor <nathan@kernel.org>
 Cc: Arnd Bergmann <arnd@arndb.de>,
-	linux-staging@lists.linux.dev
-Subject: [PATCH 03/11] staging: replace weird strncpy() with memcpy()
-Date: Thu, 28 Mar 2024 15:04:47 +0100
-Message-Id: <20240328140512.4148825-4-arnd@kernel.org>
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Franziska Naepelt <franziska.naepelt@googlemail.com>,
+	Johannes Berg <johannes.berg@intel.com>,
+	Yang Yingliang <yangyingliang@huawei.com>,
+	Erick Archer <erick.archer@gmx.com>,
+	linux-staging@lists.linux.dev,
+	llvm@lists.linux.dev
+Subject: [PATCH 09/11] staging: rtl8723bs: convert strncpy to strscpy
+Date: Thu, 28 Mar 2024 15:04:53 +0100
+Message-Id: <20240328140512.4148825-10-arnd@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240328140512.4148825-1-arnd@kernel.org>
 References: <20240328140512.4148825-1-arnd@kernel.org>
@@ -49,41 +56,52 @@ Content-Transfer-Encoding: 8bit
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-When -Wstringop-truncation is enabled, gcc finds a function that
-always does a short copy:
+gcc-9 complains about a possibly unterminated string in the strncpy() destination:
 
-In function 'inquiry',
-    inlined from 'rtsx_scsi_handler' at drivers/staging/rts5208/rtsx_scsi.c:3210:12:
-drivers/staging/rts5208/rtsx_scsi.c:526:17: error: 'strncpy' output truncated copying between 1 and 28 bytes from a string of length 28 [-Werror=stringop-truncation]
-  526 |                 strncpy(buf + 8, inquiry_string, sendbytes - 8);
-      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function 'rtw_cfg80211_add_monitor_if',
+    inlined from 'cfg80211_rtw_add_virtual_intf' at drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:2209:9:
+drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:2146:2: error: 'strncpy' specified bound 16 equals destination size [-Werror=stringop-truncation]
+ 2146 |  strncpy(mon_ndev->name, name, IFNAMSIZ);
+      |  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Since the actual size of the copy is already known at this point, just
-copy the bytes directly and skip the length check and zero-padding.
+This one is a false-positive because of the explicit termination in the following
+line, and recent versions of clang and gcc no longer warn about this.
 
-This partially reverts an earlier bugfix that replaced the original
-incorrect memcpy() with a less bad strncpy(), but it now also avoids
-the original overflow.
+Interestingly, the other strncpy() in this file is missing a termination but
+does not produce a warning, possibly because of the type confusion and the
+cast between u8 and char.
 
-Fixes: 88a5b39b69ab ("staging/rts5208: Fix read overflow in memcpy")
+Change both strncpy() instances to strscpy(), which avoids the warning as well
+as the possibly missing termination. No additional padding is needed here.
+
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/staging/rts5208/rtsx_scsi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/rts5208/rtsx_scsi.c b/drivers/staging/rts5208/rtsx_scsi.c
-index 08bd768ad34d..a73b0959f5a9 100644
---- a/drivers/staging/rts5208/rtsx_scsi.c
-+++ b/drivers/staging/rts5208/rtsx_scsi.c
-@@ -523,7 +523,7 @@ static int inquiry(struct scsi_cmnd *srb, struct rtsx_chip *chip)
+diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+index 65a450fcdce7..98bc5520e77d 100644
+--- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
++++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+@@ -884,7 +884,7 @@ static int cfg80211_rtw_add_key(struct wiphy *wiphy, struct net_device *ndev,
+ 		goto addkey_end;
+ 	}
  
- 	if (sendbytes > 8) {
- 		memcpy(buf, inquiry_buf, 8);
--		strncpy(buf + 8, inquiry_string, sendbytes - 8);
-+		memcpy(buf + 8, inquiry_string, min(sendbytes, 36) - 8);
- 		if (pro_formatter_flag) {
- 			/* Additional Length */
- 			buf[4] = 0x33;
+-	strncpy((char *)param->u.crypt.alg, alg_name, IEEE_CRYPT_ALG_NAME_LEN);
++	strscpy(param->u.crypt.alg, alg_name, IEEE_CRYPT_ALG_NAME_LEN);
+ 
+ 	if (!mac_addr || is_broadcast_ether_addr(mac_addr))
+ 		param->u.crypt.set_tx = 0; /* for wpa/wpa2 group key */
+@@ -2143,8 +2143,7 @@ static int rtw_cfg80211_add_monitor_if(struct adapter *padapter, char *name, str
+ 	}
+ 
+ 	mon_ndev->type = ARPHRD_IEEE80211_RADIOTAP;
+-	strncpy(mon_ndev->name, name, IFNAMSIZ);
+-	mon_ndev->name[IFNAMSIZ - 1] = 0;
++	strscpy(mon_ndev->name, name, IFNAMSIZ);
+ 	mon_ndev->needs_free_netdev = true;
+ 	mon_ndev->priv_destructor = rtw_ndev_destructor;
+ 
 -- 
 2.39.2
 
