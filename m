@@ -1,32 +1,32 @@
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AE5A1D524
-	for <linux-staging@lists.linux.dev>; Thu, 28 Mar 2024 22:33:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AED15225CF
+	for <linux-staging@lists.linux.dev>; Thu, 28 Mar 2024 22:38:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711665195; cv=none; b=TSyv9IJDq/8fk+cksuxaJaCUdqUlnPIx/VMsGnb/DaZ5RUyOvhHVeKBFwk2Bw3qBDGkhTaFTdcgXClb03QpmKYBDD/69PHfZX+oz2umIY5PuaKyg6lTTFfgo/gSWJkLjvYPDYnxgTeOGKddjRzGbs9SodHgA5zm828M5tZXAddM=
+	t=1711665519; cv=none; b=azHcfCg11z0wnUQ7d6Ofo5MdhZURp9R0WDYk+L4ajilSwXdC8nh8+2EdIkYJhu7BeL7cxwXK9hZW2sBIUakkJ9s/9IBmujpsqdBxKUM+SprNwh6IsLg1XFiBHw1jg5wddJbggSAhv9zUWYZV26XdcO60+LKNSBz+HOOL3BEXbEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711665195; c=relaxed/simple;
-	bh=T+C5PuncLGa+ynENI+iMnEYthhWM8CD+hfcmipHfNUk=;
+	s=arc-20240116; t=1711665519; c=relaxed/simple;
+	bh=J52vDdZM8anHVVUnHuUNVOZqysAY0Nhnx0KJdGfhU2g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tVH4iRVZrrHcid9Zf0kZKoM8Jjgp4t5rp8PuVUxIYZKlzFMwDdtonB6APJZ2Tn8wnU9t9nVXLjxodAa1igKQJbEQu1Ecop4sIiQ9bujYsUXKHq2IgF9EAg/YqqFLumrECMoQ9RiIJNUWA1EfC/ts7tt5n0LkHhp/ID38Y82m3Ow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=tBCf0uxN; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=lo0JHcZNh5zZ7UO2TwZ7ZfOBWiF4jGb/Fa0CWZ5otvg67/ZApG9MjYEbfjzBGXGH2vj2wXIhdRF170gFXNdzpvvh+aroM2zGlL1404go/gLhQkBCTZFvQRIEMXBnmwwz5CD/7uxArX0RQ6g0x9LH95GbxZJnxzfhSUQmHGgJu/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=oxGChJwA; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="tBCf0uxN"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="oxGChJwA"
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id EF854505;
-	Thu, 28 Mar 2024 23:32:37 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5E8A6E0C;
+	Thu, 28 Mar 2024 23:38:02 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1711665158;
-	bh=T+C5PuncLGa+ynENI+iMnEYthhWM8CD+hfcmipHfNUk=;
+	s=mail; t=1711665482;
+	bh=J52vDdZM8anHVVUnHuUNVOZqysAY0Nhnx0KJdGfhU2g=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tBCf0uxNKet7OmfEPievZMKZg1WglaHM6Z/xOET/wqlZcEY3OPILNcaNlAdrU3wTc
-	 8LSzlFQjhqU7L1vt4oYJo5UYYzqLIaSU1hbZ+01q2qzONovQGRD301JzUHnYd0Dmz/
-	 yHuq7BpkVtHTxOVRiLtanCFmI4WIJfqsvGBweYR0=
-Date: Fri, 29 Mar 2024 00:33:00 +0200
+	b=oxGChJwALlIkYJiO7NIyXu3MRu/lVp7hK4RIqr5aP07a+qBNMceWmDSH/Dr6j6EjR
+	 OT6stln+5PxcV7E2F8SurBb9Vbp5ZnSAXewjQiehXUmgsSpwaNzfRyjVIlcLkHuY/Z
+	 vU8buXjaC8qcXw/Z0kPzMGpkUeoiOPibWZnQvWoI=
+Date: Fri, 29 Mar 2024 00:38:25 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Umang Jain <umang.jain@ideasonboard.com>
 Cc: linux-staging@lists.linux.dev, Dan Carpenter <error27@gmail.com>,
@@ -34,11 +34,11 @@ Cc: linux-staging@lists.linux.dev, Dan Carpenter <error27@gmail.com>,
 	Dave Stevenson <dave.stevenson@raspberrypi.com>,
 	Phil Elwell <phil@raspberrypi.com>, Greg KH <greg@kroah.com>,
 	Stefan Wahren <wahrenst@gmx.net>
-Subject: Re: [PATCH v4 02/11] staging: vc04_services: vchiq_arm: Split driver
- static and runtime data
-Message-ID: <20240328223300.GH11463@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v4 04/11] staging: vc04_services: Move variables for
+ tracking connections
+Message-ID: <20240328223825.GI11463@pendragon.ideasonboard.com>
 References: <20240328181134.1548799-1-umang.jain@ideasonboard.com>
- <20240328181134.1548799-3-umang.jain@ideasonboard.com>
+ <20240328181134.1548799-5-umang.jain@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -47,170 +47,209 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240328181134.1548799-3-umang.jain@ideasonboard.com>
+In-Reply-To: <20240328181134.1548799-5-umang.jain@ideasonboard.com>
 
 Hi Umang,
 
 Thank you for the patch.
 
-On Thu, Mar 28, 2024 at 11:41:24PM +0530, Umang Jain wrote:
-> vchiq_drvdata combines two types of book-keeping data. There is
-> platform-specific static data (for e.g. cache lines size) and then
-> data needed for book-keeping at runtime.
+On Thu, Mar 28, 2024 at 11:41:26PM +0530, Umang Jain wrote:
+> Connections to the vchiq driver are tracked using global variables.
+> Drop those and introduce them as members of struct vchiq_drv_mgmt.
+> Hence, struct vchiq_drv_mgmt will be used to track the connections.
 > 
-> Split the data into two structures: struct vchiq_platform_info and
-> struct vchiq_drv_mgmt. The vchiq_drv_mgmt is allocated at runtime
-> during probe and will be extended in subsequent patches to remove
-> all global variables allocated.
-> 
-> No functional changes intended in this patch.
+> Also, store a vchiq_drv_mgmt pointer to struct vchiq_device to
+> have easy access to struct vchiq_drv_mgmt across vchiq devices.
 > 
 > Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 > ---
->  .../interface/vchiq_arm/vchiq_arm.c           | 42 ++++++++++---------
->  .../interface/vchiq_arm/vchiq_arm.h           | 11 +++++
->  2 files changed, 33 insertions(+), 20 deletions(-)
+>  .../interface/vchiq_arm/vchiq_arm.c           |  3 +-
+>  .../interface/vchiq_arm/vchiq_arm.h           |  9 +++++
+>  .../interface/vchiq_arm/vchiq_bus.c           |  3 ++
+>  .../interface/vchiq_arm/vchiq_bus.h           |  3 ++
+>  .../interface/vchiq_arm/vchiq_connected.c     | 36 +++++++++----------
+>  .../interface/vchiq_arm/vchiq_connected.h     |  4 ++-
+>  6 files changed, 37 insertions(+), 21 deletions(-)
 > 
 > diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> index 9af77d17a1e8..9273767f25df 100644
+> index 0dffc36dccd7..4d14ea1becaa 100644
 > --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
 > +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> @@ -71,16 +71,11 @@ struct vchiq_state g_state;
->  static struct vchiq_device *bcm2835_audio;
->  static struct vchiq_device *bcm2835_camera;
+> @@ -545,7 +545,8 @@ static int vchiq_platform_init(struct platform_device *pdev, struct vchiq_state
+>  	dev_dbg(&pdev->dev, "arm: vchiq_init - done (slots %pK, phys %pad)\n",
+>  		vchiq_slot_zero, &slot_phys);
 >  
-> -struct vchiq_drvdata {
-> -	const unsigned int cache_line_size;
-> -	struct rpi_firmware *fw;
-> -};
-> -
-> -static struct vchiq_drvdata bcm2835_drvdata = {
-> +static const struct vchiq_platform_info bcm2835_info = {
->  	.cache_line_size = 32,
->  };
+> -	vchiq_call_connected_callbacks();
+> +	mutex_init(&drv_mgmt->connected_mutex);
+> +	vchiq_call_connected_callbacks(drv_mgmt);
 >  
-> -static struct vchiq_drvdata bcm2836_drvdata = {
-> +static const struct vchiq_platform_info bcm2836_info = {
->  	.cache_line_size = 64,
->  };
->  
-> @@ -466,8 +461,8 @@ free_pagelist(struct vchiq_instance *instance, struct vchiq_pagelist_info *pagel
->  static int vchiq_platform_init(struct platform_device *pdev, struct vchiq_state *state)
->  {
->  	struct device *dev = &pdev->dev;
-> -	struct vchiq_drvdata *drvdata = platform_get_drvdata(pdev);
-> -	struct rpi_firmware *fw = drvdata->fw;
-> +	struct vchiq_drv_mgmt *drv_mgmt = platform_get_drvdata(pdev);
-> +	struct rpi_firmware *fw = drv_mgmt->fw;
->  	struct vchiq_slot_zero *vchiq_slot_zero;
->  	void *slot_mem;
->  	dma_addr_t slot_phys;
-> @@ -484,7 +479,7 @@ static int vchiq_platform_init(struct platform_device *pdev, struct vchiq_state
->  	if (err < 0)
->  		return err;
->  
-> -	g_cache_line_size = drvdata->cache_line_size;
-> +	g_cache_line_size = drv_mgmt->info->cache_line_size;
->  	g_fragments_size = 2 * g_cache_line_size;
->  
->  	/* Allocate space for the channels in coherent memory */
-> @@ -1707,8 +1702,8 @@ void vchiq_platform_conn_state_changed(struct vchiq_state *state,
+>  	return 0;
 >  }
->  
->  static const struct of_device_id vchiq_of_match[] = {
-> -	{ .compatible = "brcm,bcm2835-vchiq", .data = &bcm2835_drvdata },
-> -	{ .compatible = "brcm,bcm2836-vchiq", .data = &bcm2836_drvdata },
-> +	{ .compatible = "brcm,bcm2835-vchiq", .data = &bcm2835_info },
-> +	{ .compatible = "brcm,bcm2836-vchiq", .data = &bcm2836_info },
->  	{},
->  };
->  MODULE_DEVICE_TABLE(of, vchiq_of_match);
-> @@ -1716,13 +1711,12 @@ MODULE_DEVICE_TABLE(of, vchiq_of_match);
->  static int vchiq_probe(struct platform_device *pdev)
->  {
->  	struct device_node *fw_node;
-> -	const struct of_device_id *of_id;
-> -	struct vchiq_drvdata *drvdata;
-> +	const struct vchiq_platform_info *info;
-> +	struct vchiq_drv_mgmt *mgmt;
->  	int err;
->  
-> -	of_id = of_match_node(vchiq_of_match, pdev->dev.of_node);
-> -	drvdata = (struct vchiq_drvdata *)of_id->data;
-> -	if (!drvdata)
-> +	info = of_device_get_match_data(&pdev->dev);
-> +	if (!info)
->  		return -EINVAL;
->  
->  	fw_node = of_find_compatible_node(NULL, NULL,
-> @@ -1732,12 +1726,17 @@ static int vchiq_probe(struct platform_device *pdev)
->  		return -ENOENT;
->  	}
->  
-> -	drvdata->fw = devm_rpi_firmware_get(&pdev->dev, fw_node);
-> +	mgmt = kzalloc(sizeof(*mgmt), GFP_KERNEL);
-> +	if (!mgmt)
-> +		return -ENOMEM;
-> +
-> +	mgmt->fw = devm_rpi_firmware_get(&pdev->dev, fw_node);
->  	of_node_put(fw_node);
-> -	if (!drvdata->fw)
-> +	if (!mgmt->fw)
->  		return -EPROBE_DEFER;
->  
-> -	platform_set_drvdata(pdev, drvdata);
-> +	mgmt->info = info;
-> +	platform_set_drvdata(pdev, mgmt);
->  
->  	err = vchiq_platform_init(pdev, &g_state);
->  	if (err)
-> @@ -1772,6 +1771,7 @@ static int vchiq_probe(struct platform_device *pdev)
->  static void vchiq_remove(struct platform_device *pdev)
->  {
->  	struct vchiq_state *state = vchiq_get_state();
-> +	struct vchiq_drv_mgmt *mgmt = dev_get_drvdata(&pdev->dev);
->  
->  	vchiq_device_unregister(bcm2835_audio);
->  	vchiq_device_unregister(bcm2835_camera);
-> @@ -1781,6 +1781,8 @@ static void vchiq_remove(struct platform_device *pdev)
->  	kthread_stop(state->sync_thread);
->  	kthread_stop(state->recycle_thread);
->  	kthread_stop(state->slot_handler_thread);
-> +
-> +	kfree(mgmt);
->  }
->  
->  static struct platform_driver vchiq_driver = {
 > diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
-> index 7844ef765a00..04683d98cd00 100644
+> index 378415b205ef..a774485935a2 100644
 > --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
 > +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
-> @@ -20,11 +20,22 @@
+> @@ -20,6 +20,8 @@
 >  #define MAX_ELEMENTS 8
 >  #define MSG_QUEUE_SIZE 128
 >  
-> +struct rpi_firmware;
+> +#define VCHIQ_DRV_MAX_CALLBACKS 10
 > +
+>  struct rpi_firmware;
+>  
 >  enum USE_TYPE_E {
->  	USE_TYPE_SERVICE,
->  	USE_TYPE_VCHIQ
+> @@ -49,6 +51,13 @@ struct vchiq_platform_info {
+>  struct vchiq_drv_mgmt {
+>  	struct rpi_firmware *fw;
+>  	const struct vchiq_platform_info *info;
+> +
+> +	bool connected;
+> +	int num_deferred_callbacks;
+> +	/* Protects connected and num_deferred_callbacks */
+> +	struct mutex connected_mutex;
+> +
+> +	void (*deferred_callback[VCHIQ_DRV_MAX_CALLBACKS])(void);
 >  };
 >  
-> +struct vchiq_platform_info {
-> +	unsigned int cache_line_size;
-> +};
-> +
-> +struct vchiq_drv_mgmt {
-> +	struct rpi_firmware *fw;
-> +	const struct vchiq_platform_info *info;
-> +};
-> +
 >  struct user_service {
->  	struct vchiq_service *service;
->  	void __user *userdata;
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c
+> index 93609716df84..3f87b93c6537 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c
+> @@ -11,6 +11,7 @@
+>  #include <linux/slab.h>
+>  #include <linux/string.h>
+>  
+> +#include "vchiq_arm.h"
+>  #include "vchiq_bus.h"
+>  
+>  static int vchiq_bus_type_match(struct device *dev, struct device_driver *drv)
+> @@ -77,6 +78,8 @@ vchiq_device_register(struct device *parent, const char *name)
+>  	device->dev.dma_mask = &device->dev.coherent_dma_mask;
+>  	device->dev.release = vchiq_device_release;
+>  
+> +	device->drv_mgmt = dev_get_drvdata(parent);
+> +
+>  	of_dma_configure(&device->dev, parent->of_node, true);
+>  
+>  	ret = device_register(&device->dev);
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.h
+> index 4db86e76edbd..9de179b39f85 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.h
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.h
+> @@ -9,8 +9,11 @@
+>  #include <linux/device.h>
+>  #include <linux/mod_devicetable.h>
+>  
+> +struct vchiq_drv_mgmt;
+> +
+>  struct vchiq_device {
+>  	struct device dev;
+> +	struct vchiq_drv_mgmt *drv_mgmt;
+>  };
+>  
+>  struct vchiq_driver {
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.c
+> index 4604a2f4d2de..049b3f2d1bd4 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.c
+> @@ -1,6 +1,7 @@
+>  // SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause
+>  /* Copyright (c) 2010-2012 Broadcom. All rights reserved. */
+>  
+> +#include "vchiq_arm.h"
+>  #include "vchiq_connected.h"
+>  #include "vchiq_core.h"
+>  #include <linux/module.h>
+> @@ -8,11 +9,6 @@
+>  
+>  #define  MAX_CALLBACKS  10
+>  
+> -static   int                        g_connected;
+> -static   int                        g_num_deferred_callbacks;
+> -static   void (*g_deferred_callback[MAX_CALLBACKS])(void);
+> -static   DEFINE_MUTEX(g_connected_mutex);
+> -
+>  /*
+>   * This function is used to defer initialization until the vchiq stack is
+>   * initialized. If the stack is already initialized, then the callback will
+> @@ -21,24 +17,26 @@ static   DEFINE_MUTEX(g_connected_mutex);
+>   */
+>  void vchiq_add_connected_callback(struct vchiq_device *device, void (*callback)(void))
+>  {
+> -	if (mutex_lock_killable(&g_connected_mutex))
+> +	struct vchiq_drv_mgmt *drv_mgmt = device->drv_mgmt;
+> +
+> +	if (mutex_lock_killable(&drv_mgmt->connected_mutex))
+>  		return;
+>  
+> -	if (g_connected) {
+> +	if (drv_mgmt->connected) {
+>  		/* We're already connected. Call the callback immediately. */
+>  		callback();
+>  	} else {
+> -		if (g_num_deferred_callbacks >= MAX_CALLBACKS) {
+> +		if (drv_mgmt->num_deferred_callbacks >= MAX_CALLBACKS) {
+>  			dev_err(&device->dev,
+>  				"core: There already %d callback registered - please increase MAX_CALLBACKS\n",
+> -				g_num_deferred_callbacks);
+> +				drv_mgmt->num_deferred_callbacks);
+>  		} else {
+> -			g_deferred_callback[g_num_deferred_callbacks] =
+> +			drv_mgmt->deferred_callback[drv_mgmt->num_deferred_callbacks] =
+>  				callback;
+> -			g_num_deferred_callbacks++;
+> +			drv_mgmt->num_deferred_callbacks++;
+>  		}
+>  	}
+> -	mutex_unlock(&g_connected_mutex);
+> +	mutex_unlock(&drv_mgmt->connected_mutex);
+>  }
+>  EXPORT_SYMBOL(vchiq_add_connected_callback);
+>  
+> @@ -46,17 +44,17 @@ EXPORT_SYMBOL(vchiq_add_connected_callback);
+>   * This function is called by the vchiq stack once it has been connected to
+>   * the videocore and clients can start to use the stack.
+>   */
+> -void vchiq_call_connected_callbacks(void)
+> +void vchiq_call_connected_callbacks(struct vchiq_drv_mgmt *drv_mgmt)
+>  {
+>  	int i;
+>  
+> -	if (mutex_lock_killable(&g_connected_mutex))
+> +	if (mutex_lock_killable(&drv_mgmt->connected_mutex))
+>  		return;
+>  
+> -	for (i = 0; i <  g_num_deferred_callbacks; i++)
+> -		g_deferred_callback[i]();
+> +	for (i = 0; i <  drv_mgmt->num_deferred_callbacks; i++)
+> +		drv_mgmt->deferred_callback[i]();
+>  
+> -	g_num_deferred_callbacks = 0;
+> -	g_connected = 1;
+> -	mutex_unlock(&g_connected_mutex);
+> +	drv_mgmt->num_deferred_callbacks = 0;
+> +	drv_mgmt->connected = true;
+> +	mutex_unlock(&drv_mgmt->connected_mutex);
+>  }
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.h
+> index e4ed56446f8a..f57a878652b1 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.h
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.h
+> @@ -6,7 +6,9 @@
+>  #ifndef VCHIQ_CONNECTED_H
+>  #define VCHIQ_CONNECTED_H
+>  
+> +struct vchiq_drv_mgmt;
+> +
+>  void vchiq_add_connected_callback(struct vchiq_device *device, void (*callback)(void));
+> -void vchiq_call_connected_callbacks(void);
+> +void vchiq_call_connected_callbacks(struct vchiq_drv_mgmt *mgmt);
+>  
+>  #endif /* VCHIQ_CONNECTED_H */
 
 -- 
 Regards,
