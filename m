@@ -1,111 +1,132 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BF02130E46
-	for <linux-staging@lists.linux.dev>; Thu, 28 Mar 2024 18:03:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05C24374EF
+	for <linux-staging@lists.linux.dev>; Thu, 28 Mar 2024 18:11:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711649008; cv=none; b=Rb2kfLSzNfsuE89FTXdOIpaiTfAHQV7vHdpPsXV7hXG7APUndgQB2wERSTnqCUUmtQ0B8pJ9Prdj+1S0U4wwaW7gBOwzFddDFke2mCP8Ra0884yNK0KOp6OCjuDos95rCRRIOL0I0P1G7wYg2+n357e34XFw4swjQ8SkqaD76Fg=
+	t=1711649506; cv=none; b=Z0fvqF1jINHLZUuZIIucfKaNnTLuId8De3fLMv1u0z3yxANjAe+xnkfk+QUniN9yfFSCMJq+Q6aARNjrFBGwtl7VSyQpBPEB+bGs6AQuMZkvqXn/JP4UQ4txEy2hY8dmv7tRl2IvanpYCZfy543eOzD5Kcf395EOtNDHkNXmWvc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711649008; c=relaxed/simple;
-	bh=vB1K3UeOU2FvgT3cwFX6bIQzHZMdAnkhCLXgIqkAx/8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FbOw8XRr/uUoq1XyqT92TUGozdvUVjvrI5qDf8CSs/PkJstqeMw8gbiLTUn17hUIN02+6QKPlxBInFaumPLuEGpynWD4XGzWn2eedcUdjhsjoh3/NcQQ+mkiQWONBiTQaqkN4yBOHP6PFJORKq5BHeSIOp6OMFuxxF/qLu3Uki8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YvWJmQBT; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1711649506; c=relaxed/simple;
+	bh=ISJIFn7wqHNxPwphJDtRw7aHMiIeFq5so/1OtmYaHYo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WZa0ludC+JOKm5iJapPgsZheRmJKAXFvqkomOu7sHVKv04lqGKHBn84Xq0B3cNFgEK03aRAx3lTQO+7l/mbb6b9BCHNiOVrcjb9P2eporKAJJEoK2O/q802BgK2Mt74X8cZ+SfKD3KmFjQsho7jZuVkqhjNjDI9QLbrp83CEYcU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=PDlhanyF; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YvWJmQBT"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1e2178b2cf2so8202295ad.0
-        for <linux-staging@lists.linux.dev>; Thu, 28 Mar 2024 11:03:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711649007; x=1712253807; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=olSW0jWLIrC4vxY5yG21bb3i0NkpMQDJhW3rhvvrLzQ=;
-        b=YvWJmQBT2ialLArZAzEXLV1BsZXQVNLsS33MFmUvVFhJvwO4CxjAuqZUl7IDEorJDH
-         zpSxGWbFsMmmCacIUI8UeCPisxl213UpbFf1jsK8ApjS5WLTaQC1yOrtdsOB6Co2qeMn
-         SORCB/Is1pUnBptL95PqcK3s7jU+Gx/bIa6G0BN3Xwx7wtosQXB6N2P3+f3wxBqU3PLv
-         97pQThN6QzSmPZOmZGMbJEqTzSgLPeB7dshjcI4fiJ0G/K/aAIXvuVXahyZoDbJGKpbj
-         Szg0wS0ce66vU9l1eUbsuDQ5wUU1Nr2GqJT/W0to/IrVbzZNKjPdTlL4X5LKyqtcZ9mc
-         pC0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711649007; x=1712253807;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=olSW0jWLIrC4vxY5yG21bb3i0NkpMQDJhW3rhvvrLzQ=;
-        b=xJi6JbLGo6QkUy7AO+47bx99Axl4RKS3zkVsuYjQv6+H+OYdjy1xjL1h6SE7YA24wE
-         6cfDrS9ZJYFvRVlRUVWc9Tb/DdqgpsQ4Qy2dMc5v7SE2v0Htqhz8SjuusPlGYmgkbBHq
-         s96UD2fnib6jWW+TH0tF3Iap/te7gYrTM5I0n0oN4NJkor5jkQhtFRLFP8nv3Ubutgw3
-         8MQuE88idb82i6OVNDHPPrsna5t7i6utEAz9I6alI0XEA380FrjQRbasRyMsvUxtBAHZ
-         OAov7YCo8WmpbzzxEfbT+VaLClFtv2gS6JRfi80Be/x4OYZORGm17jiM9dEEHucIhQMs
-         UrPQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV0qCAcnvStz1073hxNPTfeuXKppdhNgjqFg/zDl/GnG53F9BuFUDgaTIzyy22zqqc/1xcSXbhtayoTCiQxY/JRzaYBP5pqV0v8eLMOCg==
-X-Gm-Message-State: AOJu0YwSXVtPFH48k5/pRK1DF08CjIbnEHG9TDpWsmzvmfy1jmXwKQl3
-	VoZnq4HCMZnxEBV7Hcqpa1r1cWMA0B/9ja9w6eCm27EliUtpfH1v
-X-Google-Smtp-Source: AGHT+IEkQsFT2CQ41glFYLpP1d3wFQ1n1mHU48V+X330fVWYW26kggF6SGZ6JUFwxozMX9FKu+ROTw==
-X-Received: by 2002:a17:902:ef48:b0:1e0:e2b1:7395 with SMTP id e8-20020a170902ef4800b001e0e2b17395mr283743plx.14.1711649006562;
-        Thu, 28 Mar 2024 11:03:26 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:493e:82a3:49f9:d88])
-        by smtp.gmail.com with ESMTPSA id mm8-20020a1709030a0800b001e12013ae07sm1901205plb.231.2024.03.28.11.03.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Mar 2024 11:03:26 -0700 (PDT)
-Date: Thu, 28 Mar 2024 11:03:23 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: David Lechner <dlechner@baylibre.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Support Opensource <support.opensource@diasemi.com>,
-	Cosmin Tanislav <cosmin.tanislav@analog.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Antoniu Miclaus <antoniu.miclaus@analog.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-input@vger.kernel.org
-Subject: Re: [PATCH RFC 1/7] regulator: devres: add APIs for reference
- supplies
-Message-ID: <ZgWw66OpLnLPdCn-@google.com>
-References: <20240327-regulator-get-enable-get-votlage-v1-0-5f4517faa059@baylibre.com>
- <20240327-regulator-get-enable-get-votlage-v1-1-5f4517faa059@baylibre.com>
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="PDlhanyF"
+Received: from umang.jain (unknown [103.251.226.73])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D7BB2D20;
+	Thu, 28 Mar 2024 19:11:06 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1711649469;
+	bh=ISJIFn7wqHNxPwphJDtRw7aHMiIeFq5so/1OtmYaHYo=;
+	h=From:To:Cc:Subject:Date:From;
+	b=PDlhanyFEfnVGXGQAjrs/yFIAbRx9LrQMmY+dCVaw+Icyo1STX/om1Xqlgs56S01q
+	 aBKePg6C5hux1nIDfT42DHCiwr4WD/FNENBpF3hbmv2AkPEaJRw07GTTOmdBIFrc3a
+	 dCQRukKWtNVOFEynWEW5rcL91wCJOZkIe5YPqDj0=
+From: Umang Jain <umang.jain@ideasonboard.com>
+To: linux-staging@lists.linux.dev
+Cc: Dan Carpenter <error27@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Phil Elwell <phil@raspberrypi.com>,
+	Greg KH <greg@kroah.com>,
+	Stefan Wahren <wahrenst@gmx.net>,
+	Umang Jain <umang.jain@ideasonboard.com>
+Subject: [PATCH v4 00/11] staging: vc04_services: Drop non-essential global members
+Date: Thu, 28 Mar 2024 23:41:22 +0530
+Message-ID: <20240328181134.1548799-1-umang.jain@ideasonboard.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240327-regulator-get-enable-get-votlage-v1-1-5f4517faa059@baylibre.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Mar 27, 2024 at 06:18:50PM -0500, David Lechner wrote:
-> A common use case for regulators is to supply a reference voltage to an
-> analog input or output device. This adds two new devres APIs to get,
-> enable, and get the voltage in a single call. This allows eliminating
-> boilerplate code in drivers that use reference supplies in this way.
-> 
-> devm_regulator_get_enable_get_voltage() is intended for cases where the
-> supply is required to provide an external reference voltage.
-> 
-> devm_regulator_get_optional_enable_get_voltage() is intended for cases
-> where the supply is optional and device typically uses an internal
-> reference voltage if the supply is not available.
+This series aims to drop the remaining (non-essential) global members
+to address the following TODO item:
+```
+* Get rid of all non essential global structures and create a proper per
+device structure
+```
 
-So because we decided that we could not have devm_regulator_enable()
-because of (IMO) contrived example of someone totally mixing up the devm
-and non-devm APIs we now have to make more and more devm- variants
-simply because we do not have access to the regulator structure with
-devm_regulator_get_enable() and so all normal APIs are not available.
+Mainly the global members are moved to be contained inside platform
+driver data. They can be access via platform_get_drvdata().
 
-This is quite bad honestly. Mark, could we please reverse this
-shortsighted decision and have normal devm_regulator_enable() operating
-on a regulator?
+More re-fractoring has gone into this version now. Please look
+for individual commit for details.
 
-Thanks.
+---
+NOTE: Series has been developed on top of [1]
+"[PATCH] staging: vc04_services: Stop kthreads on .remove"
+
+The fate of that patch is still undecided, so we need to take into
+account on the direction the discussions take. That will only affect
+Patch 10/11 of this series, rest is fairly independent in that regard.
+---
+
+Changes in v4:
+- New patch to drop vchiq_connected.[ch] files and move the functions
+  to vchiq_arm.c (5/11)
+- De-globalise remapped memory region pointer (7/11)
+- De-globalise global spinlocks too (8/11)
+- De-globalise global vchiq_pointer g_state (10/11)
+- commit message updates and trivial variable renaming
+
+Changes in v3:
+- Rework 2/6 to 5/6 as per Laurent's review in v2 [2].
+- Add a comment for g_regs global __iomem ptr.
+
+[1]: https://lore.kernel.org/linux-staging/4ba0d745-fc8d-4886-b71a-1f19962e9103@moroto.mountain/T/#m440ee992442cc82ea43092b7c895823c918d105f
+
+Changes in v2:
+- Found even more g_* global variables than v1, so new patches to drop
+  them
+- Introduce 1/6 as suggested during v1 review
+- Introuce 6/6 to cleanup the TODO list
+
+[1]: https://lore.kernel.org/linux-staging/171161507013.3072637.12125782507523919379@ping.linuxembedded.co.uk/T/#m1d3de7d2fa73b2447274858353bbd4a0c3a8ba14
+
+
+
+Umang Jain (11):
+  staging: vc04_services: Drop g_once_init global variable
+  staging: vc04_services: vchiq_arm: Split driver static and runtime
+    data
+  staging: vc04_services: vchiq_arm: Drop g_cache_line_size
+  staging: vc04_services: Move variables for tracking connections
+  staging: vc04_services: Drop vchiq_connected.[ch] files
+  staging: vc04_services: Move global variables tracking allocated pages
+  staging: vc04_services: Move global memory mapped pointer
+  staging: vc04_services: Move spinlocks to vchiq_state
+  staging: vc04_services: vchiq_mmal: Rename service_callback()
+  staging: vc04_services: Move global g_state vchiq_state pointer
+  staging: vc04_services: Drop completed TODO item
+
+ drivers/staging/vc04_services/Makefile        |   1 -
+ .../bcm2835-camera/bcm2835-camera.c           |   4 +-
+ .../include/linux/raspberrypi/vchiq.h         |   4 +-
+ drivers/staging/vc04_services/interface/TODO  |  15 --
+ .../interface/vchiq_arm/vchiq_arm.c           | 253 ++++++++++--------
+ .../interface/vchiq_arm/vchiq_arm.h           |  56 +++-
+ .../interface/vchiq_arm/vchiq_bus.c           |   3 +
+ .../interface/vchiq_arm/vchiq_bus.h           |   3 +
+ .../interface/vchiq_arm/vchiq_connected.c     |  74 -----
+ .../interface/vchiq_arm/vchiq_connected.h     |  12 -
+ .../interface/vchiq_arm/vchiq_core.c          |  51 ++--
+ .../interface/vchiq_arm/vchiq_core.h          |  10 +-
+ .../interface/vchiq_arm/vchiq_debugfs.c       |   5 +-
+ .../interface/vchiq_arm/vchiq_dev.c           |  34 +--
+ .../vc04_services/vchiq-mmal/mmal-vchiq.c     |  14 +-
+ .../vc04_services/vchiq-mmal/mmal-vchiq.h     |   3 +-
+ 16 files changed, 265 insertions(+), 277 deletions(-)
+ delete mode 100644 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.c
+ delete mode 100644 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.h
 
 -- 
-Dmitry
+2.43.0
+
