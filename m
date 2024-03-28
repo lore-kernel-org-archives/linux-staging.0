@@ -1,31 +1,31 @@
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95865535CA
-	for <linux-staging@lists.linux.dev>; Thu, 28 Mar 2024 18:11:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72E34446B7
+	for <linux-staging@lists.linux.dev>; Thu, 28 Mar 2024 18:12:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711649518; cv=none; b=OqNHP8ruleUURYclG2CD/NgdwvowkDzPafYpXGAgwJaxDArhy6CCa42dCBd73EK40xH6fywEUe5JwPkiHufCdkeMNupjLt0P33r6xUdOsDQ+8UmPO9Uh4bMLFpnHHiEZfNvOn1qdDKL400vWjnAPyvUA6wu28aJTiguha6cav1k=
+	t=1711649522; cv=none; b=Pup8IFK5FgqrE9Epiy9MqawnY9vaIJgaXP8M+GrCNjjmoiKUVthcMJrpjbMVCl4GpLk71AtUjNRefkFEmT8sgva8UQWBR2qHlHHbZjJYrAgWEsH8SZSWb98A4Y+D6p+wyKNJJF9YlY/hQVUw15QS+D3Wl7rsTkAtd6BVrKSMD58=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711649518; c=relaxed/simple;
-	bh=HcepYLF8BpHcMeB5V+lHzT+rlKHt1ewDB9gODL70kYs=;
+	s=arc-20240116; t=1711649522; c=relaxed/simple;
+	bh=Iua71mHu2msF3G5oCcEDN8H58pZN2apDkEHp0IqbLaY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jWTXPLEsjknY6KQT/kbKjQcB9zE81eTZRr0AChYG5FfgPK9G8RAAbMJjgHNVJeIWn6R+yE7GlXv1Huy3V16eEXuQrpTa9rMGoDrDlSXPaxePDqU9C5gNuRTHtLE6f8AsvKqZeRihdUiHzj6kyzbFlhixzVhmtJt8V3AynNz/vrc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=wSi0YqiW; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=NGC+RM/O7oiTuerbIGsRni/hM+nh1wregPw0eSncexT2yrgF58k9e1sJlU7rMSqoKP/AMArO7+ydjYi9yrylOGpTyPOdDdeikk44FjbvsybpWYC316gVnHUW6l2s25blro5fBOOB7VsEXj7vhaCxMSYJI5lJDL5lfuqTRHAqsJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=qbA3kjbJ; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="wSi0YqiW"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qbA3kjbJ"
 Received: from umang.jain (unknown [103.251.226.73])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B6DF5475;
-	Thu, 28 Mar 2024 19:11:18 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A05FCD20;
+	Thu, 28 Mar 2024 19:11:22 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1711649481;
-	bh=HcepYLF8BpHcMeB5V+lHzT+rlKHt1ewDB9gODL70kYs=;
+	s=mail; t=1711649486;
+	bh=Iua71mHu2msF3G5oCcEDN8H58pZN2apDkEHp0IqbLaY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=wSi0YqiWqShNrw5+6LbqvvJtZhlckXmg7XeYA21RKREQinxyhmL2bfde9xdEkpPxF
-	 xaY3Rzuf7oPF8lAuvf9KCsSrBrY+E8XUA5H8mfh1EX6r4w0iwPoU1ARMr+YWVPPshf
-	 GDE5BKVW50dGLSzl+hxo6pwcNV2JbGsCN5xQrIsI=
+	b=qbA3kjbJQqqCCRzW5k5JQGHOtDneJ9rYJcFJs02zutvQkU6t4KgkjUcYoZi6WjUP8
+	 6E7fg0nLmyJHShDTAHWqo5i1ZnnxRM/eEKx29UJjE6M+RZ8iRGs0CKgJLvMYZFS3iT
+	 YRInPLAHy93T6sWaRvwg36XVCuu1V9kb6XpMPiMc=
 From: Umang Jain <umang.jain@ideasonboard.com>
 To: linux-staging@lists.linux.dev
 Cc: Dan Carpenter <error27@gmail.com>,
@@ -36,9 +36,9 @@ Cc: Dan Carpenter <error27@gmail.com>,
 	Greg KH <greg@kroah.com>,
 	Stefan Wahren <wahrenst@gmx.net>,
 	Umang Jain <umang.jain@ideasonboard.com>
-Subject: [PATCH v4 03/11] staging: vc04_services: vchiq_arm: Drop g_cache_line_size
-Date: Thu, 28 Mar 2024 23:41:25 +0530
-Message-ID: <20240328181134.1548799-4-umang.jain@ideasonboard.com>
+Subject: [PATCH v4 04/11] staging: vc04_services: Move variables for tracking connections
+Date: Thu, 28 Mar 2024 23:41:26 +0530
+Message-ID: <20240328181134.1548799-5-umang.jain@ideasonboard.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240328181134.1548799-1-umang.jain@ideasonboard.com>
 References: <20240328181134.1548799-1-umang.jain@ideasonboard.com>
@@ -50,148 +50,199 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The cache-line-size is cached in struct vchiq_platform_info.
-There is no need to cache this again via g_cache_line_size
-and use it. Instead use the value from vchiq_platform_info directly.
+Connections to the vchiq driver are tracked using global variables.
+Drop those and introduce them as members of struct vchiq_drv_mgmt.
+Hence, struct vchiq_drv_mgmt will be used to track the connections.
 
-While at it, move the comment about L2 cache line size in the kerneldoc
-block of struct vchiq_platform_info.
+Also, store a vchiq_drv_mgmt pointer to struct vchiq_device to
+have easy access to struct vchiq_drv_mgmt across vchiq devices.
 
 Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- .../interface/vchiq_arm/vchiq_arm.c           | 34 ++++++++-----------
- .../interface/vchiq_arm/vchiq_arm.h           | 15 ++++++++
- 2 files changed, 29 insertions(+), 20 deletions(-)
+ .../interface/vchiq_arm/vchiq_arm.c           |  3 +-
+ .../interface/vchiq_arm/vchiq_arm.h           |  9 +++++
+ .../interface/vchiq_arm/vchiq_bus.c           |  3 ++
+ .../interface/vchiq_arm/vchiq_bus.h           |  3 ++
+ .../interface/vchiq_arm/vchiq_connected.c     | 36 +++++++++----------
+ .../interface/vchiq_arm/vchiq_connected.h     |  4 ++-
+ 6 files changed, 37 insertions(+), 21 deletions(-)
 
 diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-index 9273767f25df..0dffc36dccd7 100644
+index 0dffc36dccd7..4d14ea1becaa 100644
 --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
 +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-@@ -131,17 +131,6 @@ struct vchiq_pagelist_info {
- };
+@@ -545,7 +545,8 @@ static int vchiq_platform_init(struct platform_device *pdev, struct vchiq_state
+ 	dev_dbg(&pdev->dev, "arm: vchiq_init - done (slots %pK, phys %pad)\n",
+ 		vchiq_slot_zero, &slot_phys);
  
- static void __iomem *g_regs;
--/* This value is the size of the L2 cache lines as understood by the
-- * VPU firmware, which determines the required alignment of the
-- * offsets/sizes in pagelists.
-- *
-- * Modern VPU firmware looks for a DT "cache-line-size" property in
-- * the VCHIQ node and will overwrite it with the actual L2 cache size,
-- * which the kernel must then respect.  That property was rejected
-- * upstream, so we have to use the VPU firmware's compatibility value
-- * of 32.
-- */
--static unsigned int g_cache_line_size = 32;
- static unsigned int g_fragments_size;
- static char *g_fragments_base;
- static char *g_free_fragments;
-@@ -212,6 +201,7 @@ static struct vchiq_pagelist_info *
- create_pagelist(struct vchiq_instance *instance, char *buf, char __user *ubuf,
- 		size_t count, unsigned short type)
- {
-+	struct vchiq_drv_mgmt *drv_mgmt;
- 	struct pagelist *pagelist;
- 	struct vchiq_pagelist_info *pagelistinfo;
- 	struct page **pages;
-@@ -226,6 +216,8 @@ create_pagelist(struct vchiq_instance *instance, char *buf, char __user *ubuf,
- 	if (count >= INT_MAX - PAGE_SIZE)
- 		return NULL;
+-	vchiq_call_connected_callbacks();
++	mutex_init(&drv_mgmt->connected_mutex);
++	vchiq_call_connected_callbacks(drv_mgmt);
  
-+	drv_mgmt = dev_get_drvdata(instance->state->dev->parent);
-+
- 	if (buf)
- 		offset = (uintptr_t)buf & (PAGE_SIZE - 1);
- 	else
-@@ -368,9 +360,9 @@ create_pagelist(struct vchiq_instance *instance, char *buf, char __user *ubuf,
- 
- 	/* Partial cache lines (fragments) require special measures */
- 	if ((type == PAGELIST_READ) &&
--	    ((pagelist->offset & (g_cache_line_size - 1)) ||
-+	    ((pagelist->offset & (drv_mgmt->info->cache_line_size - 1)) ||
- 	    ((pagelist->offset + pagelist->length) &
--	    (g_cache_line_size - 1)))) {
-+	    (drv_mgmt->info->cache_line_size - 1)))) {
- 		char *fragments;
- 
- 		if (down_interruptible(&g_free_fragments_sema)) {
-@@ -396,12 +388,15 @@ static void
- free_pagelist(struct vchiq_instance *instance, struct vchiq_pagelist_info *pagelistinfo,
- 	      int actual)
- {
-+	struct vchiq_drv_mgmt *drv_mgmt;
- 	struct pagelist *pagelist = pagelistinfo->pagelist;
- 	struct page **pages = pagelistinfo->pages;
- 	unsigned int num_pages = pagelistinfo->num_pages;
- 
- 	dev_dbg(instance->state->dev, "arm: %pK, %d\n", pagelistinfo->pagelist, actual);
- 
-+	drv_mgmt = dev_get_drvdata(instance->state->dev->parent);
-+
- 	/*
- 	 * NOTE: dma_unmap_sg must be called before the
- 	 * cpu can touch any of the data/pages.
-@@ -417,10 +412,10 @@ free_pagelist(struct vchiq_instance *instance, struct vchiq_pagelist_info *pagel
- 			g_fragments_size;
- 		int head_bytes, tail_bytes;
- 
--		head_bytes = (g_cache_line_size - pagelist->offset) &
--			(g_cache_line_size - 1);
-+		head_bytes = (drv_mgmt->info->cache_line_size - pagelist->offset) &
-+			(drv_mgmt->info->cache_line_size - 1);
- 		tail_bytes = (pagelist->offset + actual) &
--			(g_cache_line_size - 1);
-+			(drv_mgmt->info->cache_line_size - 1);
- 
- 		if ((actual >= 0) && (head_bytes != 0)) {
- 			if (head_bytes > actual)
-@@ -435,8 +430,8 @@ free_pagelist(struct vchiq_instance *instance, struct vchiq_pagelist_info *pagel
- 		    (tail_bytes != 0))
- 			memcpy_to_page(pages[num_pages - 1],
- 				(pagelist->offset + actual) &
--				(PAGE_SIZE - 1) & ~(g_cache_line_size - 1),
--				fragments + g_cache_line_size,
-+				(PAGE_SIZE - 1) & ~(drv_mgmt->info->cache_line_size - 1),
-+				fragments + drv_mgmt->info->cache_line_size,
- 				tail_bytes);
- 
- 		down(&g_free_fragments_mutex);
-@@ -479,8 +474,7 @@ static int vchiq_platform_init(struct platform_device *pdev, struct vchiq_state
- 	if (err < 0)
- 		return err;
- 
--	g_cache_line_size = drv_mgmt->info->cache_line_size;
--	g_fragments_size = 2 * g_cache_line_size;
-+	g_fragments_size = 2 * drv_mgmt->info->cache_line_size;
- 
- 	/* Allocate space for the channels in coherent memory */
- 	slot_mem_size = PAGE_ALIGN(TOTAL_SLOTS * VCHIQ_SLOT_SIZE);
+ 	return 0;
+ }
 diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
-index 04683d98cd00..378415b205ef 100644
+index 378415b205ef..a774485935a2 100644
 --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
 +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
-@@ -27,6 +27,21 @@ enum USE_TYPE_E {
- 	USE_TYPE_VCHIQ
+@@ -20,6 +20,8 @@
+ #define MAX_ELEMENTS 8
+ #define MSG_QUEUE_SIZE 128
+ 
++#define VCHIQ_DRV_MAX_CALLBACKS 10
++
+ struct rpi_firmware;
+ 
+ enum USE_TYPE_E {
+@@ -49,6 +51,13 @@ struct vchiq_platform_info {
+ struct vchiq_drv_mgmt {
+ 	struct rpi_firmware *fw;
+ 	const struct vchiq_platform_info *info;
++
++	bool connected;
++	int num_deferred_callbacks;
++	/* Protects connected and num_deferred_callbacks */
++	struct mutex connected_mutex;
++
++	void (*deferred_callback[VCHIQ_DRV_MAX_CALLBACKS])(void);
  };
  
-+/**
-+ * struct vchiq_platform_info - Platform information related to
-+ * underlying hardware.
-+ *
-+ * @cache_line_size: value of L2 cache line
-+ *
-+ * cache_line_size is the size of the L2 cache lines as understood by the
-+ * VPU firmware, which determines the required alignment of the offsets/sizes
-+ * in pagelists.
-+ *
-+ * Modern VPU firmware looks for a DT "cache-line-size" property in the
-+ * VCHIQ node and will overwrite it with the actual L2 cache size, which
-+ * the kernel must then respect. That property was rejected upstream, so
-+ * we use a value derived from the compatible string.
-+ */
- struct vchiq_platform_info {
- 	unsigned int cache_line_size;
+ struct user_service {
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c
+index 93609716df84..3f87b93c6537 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c
+@@ -11,6 +11,7 @@
+ #include <linux/slab.h>
+ #include <linux/string.h>
+ 
++#include "vchiq_arm.h"
+ #include "vchiq_bus.h"
+ 
+ static int vchiq_bus_type_match(struct device *dev, struct device_driver *drv)
+@@ -77,6 +78,8 @@ vchiq_device_register(struct device *parent, const char *name)
+ 	device->dev.dma_mask = &device->dev.coherent_dma_mask;
+ 	device->dev.release = vchiq_device_release;
+ 
++	device->drv_mgmt = dev_get_drvdata(parent);
++
+ 	of_dma_configure(&device->dev, parent->of_node, true);
+ 
+ 	ret = device_register(&device->dev);
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.h
+index 4db86e76edbd..9de179b39f85 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.h
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.h
+@@ -9,8 +9,11 @@
+ #include <linux/device.h>
+ #include <linux/mod_devicetable.h>
+ 
++struct vchiq_drv_mgmt;
++
+ struct vchiq_device {
+ 	struct device dev;
++	struct vchiq_drv_mgmt *drv_mgmt;
  };
+ 
+ struct vchiq_driver {
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.c
+index 4604a2f4d2de..049b3f2d1bd4 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.c
+@@ -1,6 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause
+ /* Copyright (c) 2010-2012 Broadcom. All rights reserved. */
+ 
++#include "vchiq_arm.h"
+ #include "vchiq_connected.h"
+ #include "vchiq_core.h"
+ #include <linux/module.h>
+@@ -8,11 +9,6 @@
+ 
+ #define  MAX_CALLBACKS  10
+ 
+-static   int                        g_connected;
+-static   int                        g_num_deferred_callbacks;
+-static   void (*g_deferred_callback[MAX_CALLBACKS])(void);
+-static   DEFINE_MUTEX(g_connected_mutex);
+-
+ /*
+  * This function is used to defer initialization until the vchiq stack is
+  * initialized. If the stack is already initialized, then the callback will
+@@ -21,24 +17,26 @@ static   DEFINE_MUTEX(g_connected_mutex);
+  */
+ void vchiq_add_connected_callback(struct vchiq_device *device, void (*callback)(void))
+ {
+-	if (mutex_lock_killable(&g_connected_mutex))
++	struct vchiq_drv_mgmt *drv_mgmt = device->drv_mgmt;
++
++	if (mutex_lock_killable(&drv_mgmt->connected_mutex))
+ 		return;
+ 
+-	if (g_connected) {
++	if (drv_mgmt->connected) {
+ 		/* We're already connected. Call the callback immediately. */
+ 		callback();
+ 	} else {
+-		if (g_num_deferred_callbacks >= MAX_CALLBACKS) {
++		if (drv_mgmt->num_deferred_callbacks >= MAX_CALLBACKS) {
+ 			dev_err(&device->dev,
+ 				"core: There already %d callback registered - please increase MAX_CALLBACKS\n",
+-				g_num_deferred_callbacks);
++				drv_mgmt->num_deferred_callbacks);
+ 		} else {
+-			g_deferred_callback[g_num_deferred_callbacks] =
++			drv_mgmt->deferred_callback[drv_mgmt->num_deferred_callbacks] =
+ 				callback;
+-			g_num_deferred_callbacks++;
++			drv_mgmt->num_deferred_callbacks++;
+ 		}
+ 	}
+-	mutex_unlock(&g_connected_mutex);
++	mutex_unlock(&drv_mgmt->connected_mutex);
+ }
+ EXPORT_SYMBOL(vchiq_add_connected_callback);
+ 
+@@ -46,17 +44,17 @@ EXPORT_SYMBOL(vchiq_add_connected_callback);
+  * This function is called by the vchiq stack once it has been connected to
+  * the videocore and clients can start to use the stack.
+  */
+-void vchiq_call_connected_callbacks(void)
++void vchiq_call_connected_callbacks(struct vchiq_drv_mgmt *drv_mgmt)
+ {
+ 	int i;
+ 
+-	if (mutex_lock_killable(&g_connected_mutex))
++	if (mutex_lock_killable(&drv_mgmt->connected_mutex))
+ 		return;
+ 
+-	for (i = 0; i <  g_num_deferred_callbacks; i++)
+-		g_deferred_callback[i]();
++	for (i = 0; i <  drv_mgmt->num_deferred_callbacks; i++)
++		drv_mgmt->deferred_callback[i]();
+ 
+-	g_num_deferred_callbacks = 0;
+-	g_connected = 1;
+-	mutex_unlock(&g_connected_mutex);
++	drv_mgmt->num_deferred_callbacks = 0;
++	drv_mgmt->connected = true;
++	mutex_unlock(&drv_mgmt->connected_mutex);
+ }
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.h
+index e4ed56446f8a..f57a878652b1 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.h
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.h
+@@ -6,7 +6,9 @@
+ #ifndef VCHIQ_CONNECTED_H
+ #define VCHIQ_CONNECTED_H
+ 
++struct vchiq_drv_mgmt;
++
+ void vchiq_add_connected_callback(struct vchiq_device *device, void (*callback)(void));
+-void vchiq_call_connected_callbacks(void);
++void vchiq_call_connected_callbacks(struct vchiq_drv_mgmt *mgmt);
+ 
+ #endif /* VCHIQ_CONNECTED_H */
 -- 
 2.43.0
 
