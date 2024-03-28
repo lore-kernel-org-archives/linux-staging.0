@@ -1,200 +1,217 @@
-Received: from smtp-8fac.mail.infomaniak.ch (smtp-8fac.mail.infomaniak.ch [83.166.143.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D03B1E48C
-	for <linux-staging@lists.linux.dev>; Thu, 28 Mar 2024 15:03:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.166.143.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1F9D139F
+	for <linux-staging@lists.linux.dev>; Thu, 28 Mar 2024 15:20:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711638194; cv=none; b=Zca/GUzTWZELnoIR8Vc117v6sMPUgnRmiuBhospilgqKG50n0eWEwfcczzNIooYDLbXCNyyh6edXkM/VsfeS+bIZO7GrbKzFswhsoE/czqOA7WRs2YJLrkrsz9A1e7WPZtuxMH4ZOXGygm29oW6djty3sO6z0SPikxKZxoMRqXs=
+	t=1711639206; cv=none; b=bS91Gk4CbZ39XV2QGwA2Jpb9WDKd+S/5TboEpc5x9g/f6WC6e+jLuAOsdaUuEjJtIBZ0GAKhU8F9Fktt1rJ3wHznabIAD1Avqw/QLlcVIPHiXR1SZZQaTzGQxP0TktD5WnNaI8O7RdKNy2qzEmJx4/C2SzVMrEROJ1GmAp32kQE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711638194; c=relaxed/simple;
-	bh=m6ExSO75re8+h+0kqgmc3taw/nhfvJpWp0RzVChKUD8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SRKuCb7QlqzBDEmbfRvDp+SEIz5A4raV3kWVZphexltZFIeqoYheNRixnCGzUdVzZhDNDHmbr4udoXldwLtrrxF+HWoKbGGpGSJ7ENuYdiT6icbDOF2AOmrCXOVZTDOFqr4jONRSthivDJt1bFUymhQ9SKcUHIqitVJoZNKrHCA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=0RoR5jKm; arc=none smtp.client-ip=83.166.143.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
+	s=arc-20240116; t=1711639206; c=relaxed/simple;
+	bh=HwbPY3jeUMYWWEnpfO1UCtVg49OhuXLDecjbGHww9a4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lBkTeouSqfRbAth85Eu7YwKbwIrA2TSSDK6ZCms1BD4mDOQwD2Jmxws5WWC+HLIu1VkHMVtdTNlCy38obhYrS0be3l2+AYAkVcvPLFQ98A5DhWgfZHKq7hILhTyTI0WKdb9o8h7Iftoq1LoNPdjZzqiX8geVbQM2BQlQQFF3T9M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aGwyqhl7; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="0RoR5jKm"
-Received: from smtp-4-0001.mail.infomaniak.ch (smtp-4-0001.mail.infomaniak.ch [10.7.10.108])
-	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4V55tK0jHzzh88;
-	Thu, 28 Mar 2024 15:45:13 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
-	s=20191114; t=1711637112;
-	bh=m6ExSO75re8+h+0kqgmc3taw/nhfvJpWp0RzVChKUD8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=0RoR5jKmSZESMEyzyyfqQCBdDMidK2YEM0S6giPp/MumsJXKnukq6p0yh+n8lBUDh
-	 +Ly2A2jkpU9UJdKMMJ6cjtSIPEwpe4ycoBks2M1+RnFT/H4YsiMgWes0h2Ema/J11K
-	 C0XwLrdz1/Cpkjimu+R6Lc8YtVwHzWf4nOEcEtsg=
-Received: from unknown by smtp-4-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4V55tJ47G7zsZc;
-	Thu, 28 Mar 2024 15:45:12 +0100 (CET)
-Date: Thu, 28 Mar 2024 15:45:12 +0100
-From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
-To: Ayush Tiwari <ayushtiw0110@gmail.com>
-Cc: Paul Moore <paul@paul-moore.com>, alison.schofield@intel.com, 
-	fabio.maria.de.francesco@linux.intel.com, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	gregkh@linuxfoundation.org, outreachy@lists.linux.dev, linux-security-module@vger.kernel.org
-Subject: Re: [PATCH] LANDLOCK: use kmem_cache for landlock_object
-Message-ID: <20240328.aiPh0phaJ6ai@digikod.net>
-References: <ZgSrBVidW1U6yP+h@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
- <CAHC9VhRYDNoqkbkgdUSg-kYSHVbheD5NtezmVxyRakZ0-DzuSg@mail.gmail.com>
- <ZgUh7cIQIsOgvWpw@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aGwyqhl7"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1e0f3052145so10656435ad.2
+        for <linux-staging@lists.linux.dev>; Thu, 28 Mar 2024 08:20:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1711639204; x=1712244004; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=wP9XDSz3beDmB4MkZT4uxEi0warODrL0TB+LR7vpVbc=;
+        b=aGwyqhl72se5aPcfQk07QQ6DoUjrPh7yA4MyllL35qU+UV9PNCusdUrcy1TIqj7nL8
+         VV+AxAXNI+IDb8ChJQgBZG0hjGGDSPX7pq7sd6QTXqoPzLbICmwmAuLfW3PWhHA0cYXr
+         sjDhBZ/MIKczsRnhrHgWWSulvAZX7xNtbxS4YCaUawv9ze5TPf/Cz2BLv/utPbmZngug
+         4W5v+xDh8jfrGT+BzHHOJOgqntmBQcpKZpb0ORDswTkw8AtzBAvy1MzHgjiXkyjt1S9X
+         I5opcHSM0CYrrMFJ5DYkpa8LiCp2jf/jEgKNPhzBx88fA9vVjCC2+GFrOU89cvbtQHLM
+         prdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711639204; x=1712244004;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wP9XDSz3beDmB4MkZT4uxEi0warODrL0TB+LR7vpVbc=;
+        b=TOMwTAwOo2yGYGBkChWWH+SYCVwCEdcyM9kqUURESCIiY3ZZDsqlE0FT5PTGGItGDb
+         lPmQrZzJ6ktHKDpPD6ZEgQkbOVdgQwVdoSinxxmlnOZiEPBI5akdbP9ZqCwXzvA8NnPT
+         ss0XhzXX624ECbX1PwbH8Z7/lYzPrMyetch5JmZv/0KklZiCqnY5UzUzGUBK8HSnUuuG
+         fpyY3E7/kmtBpj80EsIzXTy0cayeMscWOMgYwuGfa62mZXdhG//Lor2juPD02lOr/stA
+         lmwIWr2FftVDmNjlBx/9MUPF2tJBatzlgj57Vh4g6tkG3iGxyxrfTXwrfQHeTb7uDWBw
+         w4jQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWFpgPk02z7QoclEBuon3/bFGNseqfAs37jc1AIpi7Wtglf7jBtZ8K27xuM8UnTH4ZfeJRvg3vZZUBdvYTVk9dAJyhc56K2fRM6vaqQSA==
+X-Gm-Message-State: AOJu0YwIiJNyTDxt5w+Z8eSToa0Enodkt/iyYlZD59FAzT3WRRn8RhoO
+	lJIlf0it1Posh+3njj49MAqwmK+leXlPax4aIr4VvQOMUjWMQdHN
+X-Google-Smtp-Source: AGHT+IGgDAM/XeuzcR5C58plhHHexD9nQyQw8PC9y8yVmsnzndoLRzxUoEm98+KkeLAs66oZE77ZRA==
+X-Received: by 2002:a17:902:c204:b0:1e0:1bb2:b38f with SMTP id 4-20020a170902c20400b001e01bb2b38fmr2482444pll.59.1711639204181;
+        Thu, 28 Mar 2024 08:20:04 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id x7-20020a170902ec8700b001ddddc8c41fsm1701345plg.157.2024.03.28.08.20.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 28 Mar 2024 08:20:03 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <13405bc9-3c97-4063-87b3-45a7e686fa50@roeck-us.net>
+Date: Thu, 28 Mar 2024 08:20:00 -0700
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZgUh7cIQIsOgvWpw@ayush-HP-Pavilion-Gaming-Laptop-15-ec0xxx>
-X-Infomaniak-Routing: alpha
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 3/7] hwmon: (da9052) Use
+ devm_regulator_get_enable_get_voltage()
+Content-Language: en-US
+To: Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Jean Delvare <jdelvare@suse.com>,
+ Support Opensource <support.opensource@diasemi.com>,
+ Cosmin Tanislav <cosmin.tanislav@analog.com>,
+ Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Antoniu Miclaus <antoniu.miclaus@analog.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+ linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-input@vger.kernel.org
+References: <20240327-regulator-get-enable-get-votlage-v1-0-5f4517faa059@baylibre.com>
+ <20240327-regulator-get-enable-get-votlage-v1-3-5f4517faa059@baylibre.com>
+ <20240328142038.33ad68bc@jic23-huawei>
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <20240328142038.33ad68bc@jic23-huawei>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The subject should start with "landlock: Use" instead of "LANDLOCK: use"
-
-On Thu, Mar 28, 2024 at 01:23:17PM +0530, Ayush Tiwari wrote:
-> Hello Paul
-> Thanks a lot for the feedback. Apologies for the mistakes. Could you
-> help me in some places so that I can correct the errors, like:
-> On Wed, Mar 27, 2024 at 07:43:36PM -0400, Paul Moore wrote:
-> > On Wed, Mar 27, 2024 at 7:26 PM Ayush Tiwari <ayushtiw0110@gmail.com> wrote:
-> > >
-> > > Use kmem_cache replace kzalloc() calls with kmem_cache_zalloc() for
-> > > struct landlock_object and update the related dependencies.
-> > >
-> > > Signed-off-by: Ayush Tiwari <ayushtiw0110@gmail.com>
-> > > ---
-> > >  security/landlock/fs.c     |  2 +-
-> > >  security/landlock/object.c | 14 ++++++++++++--
-> > >  security/landlock/object.h |  4 ++++
-> > >  security/landlock/setup.c  |  2 ++
-> > >  4 files changed, 19 insertions(+), 3 deletions(-)
-> > 
-> > Hi Ayush,
-> > 
-> > Mickaël has the final say on Landlock patches, but I had a few
-> > comments that I've included below ...
-> > 
-> > > diff --git a/security/landlock/fs.c b/security/landlock/fs.c
-> > > index fc520a06f9af..227dd67dd902 100644
-> > > --- a/security/landlock/fs.c
-> > > +++ b/security/landlock/fs.c
-> > > @@ -124,7 +124,7 @@ static struct landlock_object *get_inode_object(struct inode *const inode)
-> > >         if (unlikely(rcu_access_pointer(inode_sec->object))) {
-> > >                 /* Someone else just created the object, bail out and retry. */
-> > >                 spin_unlock(&inode->i_lock);
-> > > -               kfree(new_object);
-> > > +               kmem_cache_free(landlock_object_cache, new_object);
-> > 
-> > See my comment below, but you may want to wrap this in a Landlock
-> > object API function.
-> Sure. I will definitely implement this.
-> > 
-> > >                 rcu_read_lock();
-> > >                 goto retry;
-> > > diff --git a/security/landlock/object.c b/security/landlock/object.c
-> > > index 1f50612f0185..df1354215617 100644
-> > > --- a/security/landlock/object.c
-> > > +++ b/security/landlock/object.c
-> > > @@ -17,6 +17,15 @@
-> > >
-> > >  #include "object.h"
-> > >
-> > > +struct kmem_cache *landlock_object_cache;
-> > > +
-> > > +void __init landlock_object_init(void)
-> > > +{
-> > > +       landlock_object_cache = kmem_cache_create(
-> > > +               "landlock_object_cache", sizeof(struct landlock_object), 0,
-
-No need for the "_cache" name suffix.
-
-> > > +               SLAB_PANIC, NULL);
-> > 
-> > The comments in include/linux/slab.h suggest using the KMEM_CACHE()
-> > macro, instead of kmem_cache_create(), as a best practice for creating
-> > slab caches.
-> > 
-> Sure. Apologies I didn't see that, I tried to implement it from scratch
-> using the reference from linux memory management APIs.
-> > > +}
-> > > +
-> > >  struct landlock_object *
-> > >  landlock_create_object(const struct landlock_object_underops *const underops,
-> > >                        void *const underobj)
-> > > @@ -25,7 +34,8 @@ landlock_create_object(const struct landlock_object_underops *const underops,
-> > >
-> > >         if (WARN_ON_ONCE(!underops || !underobj))
-> > >                 return ERR_PTR(-ENOENT);
-> > > -       new_object = kzalloc(sizeof(*new_object), GFP_KERNEL_ACCOUNT);
-> > > +       new_object =
-> > > +               kmem_cache_zalloc(landlock_object_cache, GFP_KERNEL_ACCOUNT);
-> > 
-> > If the line is too long, you might want to consider splitting the
-> > function parameters like this:
-> > 
-> >   new_object = kmem_cache_zalloc(landlock_object_cache,
-> >                                  GFP_KERNEL_ACCOUNT);
-> > 
+On 3/28/24 07:20, Jonathan Cameron wrote:
+> On Wed, 27 Mar 2024 18:18:52 -0500
+> David Lechner <dlechner@baylibre.com> wrote:
 > 
-> Sure. I didn't do as it was below the 100 columns limit, but will
-> definitely implement it.
+>> We can reduce boilerplate code by using
+>> devm_regulator_get_enable_get_voltage().
+>>
+>> Signed-off-by: David Lechner <dlechner@baylibre.com>
+> 
+> A few comments inline, but nothing substantial.
+> 
+> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+>> ---
+>>   drivers/hwmon/da9052-hwmon.c | 33 +++++++--------------------------
+>>   1 file changed, 7 insertions(+), 26 deletions(-)
+>>
+>> diff --git a/drivers/hwmon/da9052-hwmon.c b/drivers/hwmon/da9052-hwmon.c
+>> index 2bd7ae8100d7..70e7bc72e980 100644
+>> --- a/drivers/hwmon/da9052-hwmon.c
+>> +++ b/drivers/hwmon/da9052-hwmon.c
+>> @@ -26,7 +26,6 @@ struct da9052_hwmon {
+>>   	struct mutex		hwmon_lock;
+>>   	bool			tsi_as_adc;
+>>   	int			tsiref_mv;
+>> -	struct regulator	*tsiref;
+>>   	struct completion	tsidone;
+>>   };
+>>   
+>> @@ -414,32 +413,19 @@ static int da9052_hwmon_probe(struct platform_device *pdev)
+>>   		device_property_read_bool(pdev->dev.parent, "dlg,tsi-as-adc");
+>>   
+>>   	if (hwmon->tsi_as_adc) {
+>> -		hwmon->tsiref = devm_regulator_get(pdev->dev.parent, "tsiref");
+>> -		if (IS_ERR(hwmon->tsiref)) {
+>> -			err = PTR_ERR(hwmon->tsiref);
+>> -			dev_err(&pdev->dev, "failed to get tsiref: %d", err);
+>> +		err = devm_regulator_get_enable_get_voltage(pdev->dev.parent,
+>> +							    "tsiref");
+>> +		if (err < 0)
+>>   			return err;
+>> -		}
+>> -
+>> -		err = regulator_enable(hwmon->tsiref);
+>> -		if (err)
+>> -			return err;
+>> -
+>> -		hwmon->tsiref_mv = regulator_get_voltage(hwmon->tsiref);
+>> -		if (hwmon->tsiref_mv < 0) {
+>> -			err = hwmon->tsiref_mv;
+>> -			goto exit_regulator;
+>> -		}
+>>   
+>>   		/* convert from microvolt (DT) to millivolt (hwmon) */
+>> -		hwmon->tsiref_mv /= 1000;
+>> +		hwmon->tsiref_mv = err / 1000;
+>>
+> 
+> Using a variable called err for a good value is a bit ugly but fair enough if that
+> is precedence in this driver.
+> 
 
-Please just use clang-format.
+It isn't. The existing code assigns the return value from regulator_get_voltage()
+to hwmon->tsiref_mv and then evaluates it. I would not oppose introducing a variable
+such as tsiref_uv, but not the misuse of 'err'. I am not going to accept the code
+as suggested. It is bad style, and it would invite others to use it as precedent
+when trying to introduce similar code.
 
-> > >         if (!new_object)
-> > >                 return ERR_PTR(-ENOMEM);
-> > >         refcount_set(&new_object->usage, 1);
-> > > @@ -62,6 +72,6 @@ void landlock_put_object(struct landlock_object *const object)
-> > >                  * @object->underobj to @object (if it still exists).
-> > >                  */
-> > >                 object->underops->release(object);
-> > > -               kfree_rcu(object, rcu_free);
+>>   }
+>> @@ -483,10 +466,8 @@ static void da9052_hwmon_remove(struct platform_device *pdev)
+>>   {
+>>   	struct da9052_hwmon *hwmon = platform_get_drvdata(pdev);
+>>   
+>> -	if (hwmon->tsi_as_adc) {
+>> +	if (hwmon->tsi_as_adc)
+>>   		da9052_free_irq(hwmon->da9052, DA9052_IRQ_TSIREADY, hwmon);
+> Superficially looks like devm_da9052_request_irq could be added that
+> uses devm_request_threaded_irq() to allow dropping this remaining handling.
+> 
 
-Is it safe?
+That should be a separate series of patches. A local solution might be
+to use devm_add_action_or_reset(), but that should also be a separate patch.
 
-According to commit ae65a5211d90 ("mm/slab: document kfree() as allowed
-for kmem_cache_alloc() objects"), no change should be needed (and it
-must not be backported to kernels older than 6.4 with CONFIG_SLOB). This
-way we can avoid exporting landlock_object_cache.  Please add a note
-about this commit and the related warning in the commit message.
+Thanks,
+Guenter
 
-> > > +               kmem_cache_free(landlock_object_cache, object);
-> > >         }
-> > >  }
-> > > diff --git a/security/landlock/object.h b/security/landlock/object.h
-> > > index 5f28c35e8aa8..8ba1af3ddc2e 100644
-> > > --- a/security/landlock/object.h
-> > > +++ b/security/landlock/object.h
-> > > @@ -13,6 +13,10 @@
-> > >  #include <linux/refcount.h>
-> > >  #include <linux/spinlock.h>
-> > >
-> > > +extern struct kmem_cache *landlock_object_cache;
-> > 
-> > This really is a decision for Mickaël, but you may want to make
-> > @landlock_object_cache private to object.c and create functions to
-> > manage it as needed, e.g. put/free operations.
-> > 
-> Okay. I didn't make it private as I was using it in fs.c to use
-> kmem_cache_free, but if this is supposed to be private, I can modify the
-> approach and expose it via some function, not directly exposing
-> landlock_object_cache.
-
-Yes, that would be better.
-
-> > > +void __init landlock_object_init(void);
-> > > +
-> > >  struct landlock_object;
-> > >
-> > >  /**
-> > > diff --git a/security/landlock/setup.c b/security/landlock/setup.c
-> > > index f6dd33143b7f..a5fca4582ee1 100644
-> > 
-> > -- 
-> > paul-moore.com
-> I will make all the changes you mentioned, and as you said, I will
-> wait for Mickael's say.
-
-Agree with Paul and Greg unless commented otherwise. Thanks
