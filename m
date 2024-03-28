@@ -1,104 +1,139 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FCB980616;
-	Thu, 28 Mar 2024 18:18:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A5CD135A4D
+	for <linux-staging@lists.linux.dev>; Thu, 28 Mar 2024 19:07:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711649919; cv=none; b=UnubdDozoIBrkcmN0RFWilO7WjES0rWuI0/Ihz4yruMQPtgMLHiyZmyFAZNOiaG8CEGRsHDanhPe+93EEwnK0orGL8bgHVJOWbsTM3KEAFoQBTUuZBWz2DHC3L3E8sGfidtFZoIvwjinWbyenfMY7Lke9+59kxkhFnGf3/SRd9o=
+	t=1711652827; cv=none; b=SaY2E0xrg9CZqtBQC3KsDtsLNDeH+cMxcpxKDOdCBaOIYmLAqU8XV3kPmU2AM5+KMnoT/vj2ajvlAFOfxwhy/moq50bk2/pXo5Z4c0xwq86iMR8pq7F3mhG7Y9Nn4feR1Wf+lxCjm58TPEuJ0n/j/dTCXZH2peVxDBL+FZixETQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711649919; c=relaxed/simple;
-	bh=dugE1eN9SjKMTZCoMkJW/qGHVXdybbUNuNFGgoJU4bQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CUHxrB/0EkbP5WrE4JTNs7iYj9Ynia0o6FeZYh0JUgcFSlbFR2AKgvMeF1Pd7Ikcv6NhRhh7kWBYOn2MYYm7nJ9XYhgRp5XCAUwwzpYnaLjf674Y2qFH1lCBL8scLkEgL3hBbp/IOUyrVobPkJ2SA87evBYqJabQm9xrOaaKicM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IGxdZp5h; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711652827; c=relaxed/simple;
+	bh=jCqD2WNUN/NTokNNp/LF03x52kjXnpqSWLmHiah6aD0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=WpABouDtgzCvlYICQRpOOdX1jKDEUXu57YrK6r0yJqlDW4oeS37fyaBQeqwWyIPCNImm3Irh5nIjG3TaLWqMaCygtEXUt3jJ4euL+u1pBNlm+3l+34sKbqqMdiQVEW6B1siYs+Tc8sQ0n5lARNb4INMcmc6aQaZH84IidtCZ4CA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=gH9KvgQ5; arc=none smtp.client-ip=209.85.128.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=raspberrypi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IGxdZp5h"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 049E5C433C7;
-	Thu, 28 Mar 2024 18:18:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711649918;
-	bh=dugE1eN9SjKMTZCoMkJW/qGHVXdybbUNuNFGgoJU4bQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IGxdZp5hQd8bVeR0C8gY2+N9lAaxmWJmB92LbW2FMeJBOQyDRV9rMHjIkg1DQ9/q2
-	 wnBZCeuO+zJh5pKAdf1xxwNAX8EO86qJTzCfwGZ4r/hUq9YCI10gPilJC7dvaRtt4W
-	 SlHkzpGIYNgtrxkV4IxR2RAVHUciHqM/dDCEG8nfur8P9zBXpHOKTvM8OO6f8G0Bcr
-	 jxwf7MWr9iCKEdh8K7yLc05jfYF7f2bPFBSu4l4OWb/caZlXPvGI1JG11ymC7snLfg
-	 NTw3zLzxtzrPzWiF3HorH1LWd1Zeun7z7WD80H6S5nlKvTXu4kwXX2N8Z5Ncyj31Il
-	 W+mFoZ9tmdDtw==
-Date: Thu, 28 Mar 2024 18:18:32 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: David Lechner <dlechner@baylibre.com>, Jonathan Corbet <corbet@lwn.net>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Support Opensource <support.opensource@diasemi.com>,
-	Cosmin Tanislav <cosmin.tanislav@analog.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Antoniu Miclaus <antoniu.miclaus@analog.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-input@vger.kernel.org
-Subject: Re: [PATCH RFC 1/7] regulator: devres: add APIs for reference
- supplies
-Message-ID: <043b347b-2652-4ffb-a8e0-954a89899ade@sirena.org.uk>
-References: <20240327-regulator-get-enable-get-votlage-v1-0-5f4517faa059@baylibre.com>
- <20240327-regulator-get-enable-get-votlage-v1-1-5f4517faa059@baylibre.com>
- <ZgWw66OpLnLPdCn-@google.com>
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="gH9KvgQ5"
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-61130dd21c1so14124887b3.2
+        for <linux-staging@lists.linux.dev>; Thu, 28 Mar 2024 12:07:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1711652824; x=1712257624; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Fx5bQFtirnLDnDsEYsOa/PGFr1BhtXF1rNS0sTz2WVo=;
+        b=gH9KvgQ528JFJrP0GTjyUlgzzvnf+6N0U4vTOj6KYZ4r1beOzhOQb3kFwsWBTHsCWR
+         Pj9hYth0Wwn+yHvlTPaWLFOBcYdxhgorpje9ee6DzNF/AxlV2fm/kY6XaJ4sDGZKgc8I
+         rdHoSlzJ30dtMNa467I6iKEWX8BFgV6Rpisvou+rXQjgv0m2cHWJyRQQFYYaS15MBbDW
+         b/wsSKCT9tOUhXC2V4ZV32qTuPlF9xDm+B8z51rug8dzrSYeHlaJiwpcf265bK+zCjpK
+         5UbvL2wTu8oB+CmL02u7zPpY0eLxpYcHcRPE0t2ZxaVV5Ng9ktuWN2Lxri0lWFUJ1zUm
+         R8hw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711652824; x=1712257624;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Fx5bQFtirnLDnDsEYsOa/PGFr1BhtXF1rNS0sTz2WVo=;
+        b=WqmOd9m67oCMuD4FG4zMX3uYvau+Wk8V2E0DnKKZnpjXoNH+H664uCWUxPn1RUT5pX
+         CJkzZiY6IVRJjHt9beh71L/jZNJ9JzcisYYt+mWU5R3zHDF7OdHNsFza8qby8tAs+n5a
+         x2jNdRmi7sQ8lUcbwus8iG8/CB3l+DwKF8EB2bDzVEGtpxLFeOsqo2akKjD39ese3V/y
+         qiAoIGs3rXxZOUID/+0Ko7ApWyqnc0lKMCie0L5HP5Z9nuyqoNDwSuW6G4qr11+aCY7a
+         j63bQs9YMHNSZeyZf4piFFQPHyJHwxu7ei9XVCf1/ejkSzU6F/NXIxZSkAu7R/4ZZwjK
+         5NsQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUyrchubSI63m+sfb2koKoLA7HAbg5VchbKFm1+fDVKOmsJagz6oSTcApjDGgVeOS1UDUmARhyEzl2ER1gvNmy/a5VfEAKjTWYto7vjqQ==
+X-Gm-Message-State: AOJu0YwLbfx042w5xpe4t2ESR5VusA4euo4eMKO1yLnQPUuPfbmxsPYc
+	VNjAjKWUx+KGzVFTD+u7IXmrJ8AYy1RrI0Yu23+zVQoxBKR9doYfoyoaI8odjS2+uBXor2bvL9K
+	hcNrFJjuQw1I0XeIHilO1gnXe+AwHSecFyvumMg==
+X-Google-Smtp-Source: AGHT+IH2Z+fUeO7oMhU8oz1cvYd/j8GYpqXqkPBpCHmCQiwm/BsMZiZLGjkjjVgwl7V15bnXS7RdHayF52jN0urPucg=
+X-Received: by 2002:a25:2005:0:b0:dc7:4cff:9165 with SMTP id
+ g5-20020a252005000000b00dc74cff9165mr220948ybg.59.1711652824045; Thu, 28 Mar
+ 2024 12:07:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="cUF0P50pg6+6H6Lf"
-Content-Disposition: inline
-In-Reply-To: <ZgWw66OpLnLPdCn-@google.com>
-X-Cookie: Yes, but which self do you want to be?
+References: <20240328051615.618908-1-umang.jain@ideasonboard.com>
+ <21465844-c2dd-4c6f-bc9b-fbe102fbdcc1@gmx.net> <2f02e574-dc47-429a-9e2f-fd439684866f@ideasonboard.com>
+In-Reply-To: <2f02e574-dc47-429a-9e2f-fd439684866f@ideasonboard.com>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Thu, 28 Mar 2024 19:06:47 +0000
+Message-ID: <CAPY8ntAEpnhiyrc-vk9L4Abyy=DaZqLLzOhPQTvLctjx4pBrEA@mail.gmail.com>
+Subject: Re: [PATCH] staging: vc04_services: Stop kthreads on .remove
+To: Umang Jain <umang.jain@ideasonboard.com>
+Cc: Stefan Wahren <wahrenst@gmx.net>, linux-staging@lists.linux.dev, 
+	Stefan Wahren <stefan.wahren@i2se.com>, Dan Carpenter <error27@gmail.com>, 
+	Kieran Bingham <kieran.bingham@ideasonboard.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Phil Elwell <phil@raspberrypi.com>, 
+	Greg KH <greg@kroah.com>, Mark Brown <broonie@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
+Hi Umang
 
---cUF0P50pg6+6H6Lf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Thu, 28 Mar 2024 at 16:54, Umang Jain <umang.jain@ideasonboard.com> wrote:
+>
+>
+>
+> On 28/03/24 10:19 pm, Stefan Wahren wrote:
+> > Hi Umang,
+> >
+> > Am 28.03.24 um 06:16 schrieb Umang Jain:
+> >> It turns out that stopping kthreads on vchiq_shutdown_internal()
+> >> corrupts the vchiq firmware during probe.
+> >>
+> >> [   11.005324] bcm2835_vchiq 3f00b840.mailbox: sync: error: 0: sf
+> >> unexpected msgid 0@b18db30a,0
+> >>
+> >> Since the kthreads are created during vchiq_probe(), symmetrically
+> >> they should be stopped on vchiq_remove().
+> >>
+> >> Also, vchiq_shutdown_internal() is called by vchiq_shutdown() which
+> >> is a exported function. Hence, modules can take indirectly shut the
+> >> vchiq interface by stopping the kthreads.
+> >>
+> >> Fix it by stopping the kthreads in .remove instead.
+> >>
+> >> Fixes: d9c60badccc1 ("staging: vc04_services: vchiq_core: Stop
+> >> kthreads on shutdown")
+> >> Reported-by: Stefan Wahren <wahrenst@gmx.net>
+> >> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> >> ---
+> >>
+> >> Reproduced on rpi-3-b 32-bit kernel with multi_v7_defconfig and all
+> >> vchiq configs options. Patch seems to fix the error mentioned in the
+> >> commit message.
+> > i tested the patch on my Raspberry Pi 3B+ with multi_v7_defconfig and
+> >
+> > CONFIG_BCM_VIDEOCORE=y
+> > CONFIG_BCM2835_VCHIQ=m
+> > CONFIG_VCHIQ_CDEV=y
+> >
+> > Now X came up, but if i run
+> >
+> > modprobe -r vchiq
+> >
+> > but i'm still getting
+> >
+> > [  146.730014] bcm2835_vchiq 3f00b840.mailbox: sync: error: 0: sf
+> > unexpected msgid 0@10b01b8d,0
+> >
+> > so it seems to me stopping those kthreads isn't that trivial (which i
+> > never expected). Maybe we need to care about the order or an even more
+> > complex synchronization mechanism between VideoCore firmware and the
+> > kthreads.
+>
+> Dave, Phil - would you happen to have any opinions on this behavior ?
 
-On Thu, Mar 28, 2024 at 11:03:23AM -0700, Dmitry Torokhov wrote:
+Sorry, that's not code I know at all.
 
-> So because we decided that we could not have devm_regulator_enable()
-> because of (IMO) contrived example of someone totally mixing up the devm
-> and non-devm APIs we now have to make more and more devm- variants
-> simply because we do not have access to the regulator structure with
-> devm_regulator_get_enable() and so all normal APIs are not available.
+  Dave
 
-I don't follow what you're saying here?  What normal APIs are not
-available?  AFAICT this has nothing to do with a devm enable, it's a
-combined operation which reports the voltage for the regulator if one is
-available which would still be being added even if it used a devm
-enable.
-
-> This is quite bad honestly. Mark, could we please reverse this
-> shortsighted decision and have normal devm_regulator_enable() operating
-> on a regulator?
-
-Nothing has changed here.
-
---cUF0P50pg6+6H6Lf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmYFtHcACgkQJNaLcl1U
-h9B0aQf9GhSPMJsemBBQsnirWqzi3QaGUE29Rt78hmG7hRYC5m9vngooWRxd8hO5
-n0JQPednZleR4Sv9xLb6kXcNskt+l4KyvRc7wL1xJ2M1CjTshtxSEscQs22KTbag
-wvoakMhfgWdqb+Rz9KI2XnTEUJHB5ZrKh1iygy656jIu2+RiRN94upSZWv09gtKT
-zW0jUaUPKe6gO/wod5bKYVhbmPYEyOZ7Ya8ZvuZNQoYUqbii4oYBpb1EAT27p8u2
-3k2eKUYu64XwASkizaqo6Vn0xu2LTBtaUg9tYYyCyhD0V9Suju3H41F42PgLfrWo
-Q55X+JAPty/mqfVn+05geMu2OBjk9g==
-=9vNv
------END PGP SIGNATURE-----
-
---cUF0P50pg6+6H6Lf--
+> >
+> > I won't have the time for further investigations during the eastern
+> > holidays. Maybe we should revert d9c60badccc1 and take the necessary
+> > time for proper testing.
+> >
+> > Best regards
+>
