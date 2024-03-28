@@ -1,102 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2FD7131753;
-	Thu, 28 Mar 2024 20:25:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 730B240852
+	for <linux-staging@lists.linux.dev>; Thu, 28 Mar 2024 21:44:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711657538; cv=none; b=saKR8OaYPInnj1sJ9UPLDcBlK8O0z0gGtNV3wFc1QhDR95u5K/Ev76XHeBjhIRDWseFWsT/3pj11aHuwHEmLf/qDcgsQL6TbgIkLNkyjmC+5DE6avzaLPCTdWSHbh8N+ZvWUTmNwPI9ehUwGRjQY3TtT0+N+jKScya5BR9wacQ8=
+	t=1711662285; cv=none; b=DfOicghDXO6nZcHxzMU93cUSucg0siCLNeku7Ylr5AVtHrba/HTbetN/c3/JvdbixaVYi3wGuTOqM33pt/3opw2suE8oVFM8hnTJTR5Lc/5wUoSoszOwOTYoAZpR0t9PdMDrn9g1R4MEQVIhTLpsUfNkjOSi7GJ3HOgA7ZclBc0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711657538; c=relaxed/simple;
-	bh=uLKGKHPYrINSKa7Ua6spfB0BXJ6X0qB7dFs0VLn6mow=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U4iS6f6Kjldz3b+i1lu8OAa5SlOX5rW5lmyxGV3yCIH0D+v93AtY6HnRNONgozS0beXM3QK4Nooy+1Ih7LXMUS273CTdRFodAfgvdOi/HVsnR6B13t4y6gWM2r7Eu0a5ZASX7nrXPCsXS47HxPkONpoZ5eC6kVhKXhnEOvHVNM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t4o2OmxM; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711662285; c=relaxed/simple;
+	bh=vgncJ12bPOEKNn+P6UNocQm/1RyRBEr539fqesou12g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AHfmM9vJuK8ix6bJUFLLYTbNhUKvbLTgScf718ZyisRfwkmzm9xF7fbL6q7eaf/XIO9pe3NIlnsJRDe83MORvHQQn3kUU+XeJ8+hMFnFqOvnu3LtCcfXbYwVEJPRCJ3AHzbFgYUiS7KnlcdTYkh4I+Uklqp9W2aCdaB1pSnyg/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aAZWxHLk; arc=none smtp.client-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t4o2OmxM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9170DC433C7;
-	Thu, 28 Mar 2024 20:25:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711657538;
-	bh=uLKGKHPYrINSKa7Ua6spfB0BXJ6X0qB7dFs0VLn6mow=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=t4o2OmxM8QuDeLAfom5BUyuBUVPZQG+XUENdNqCrWf07mov+v/xlV3wpyjbONMYDd
-	 sGoVZ38a/ieAYoupou2K+k5BRDOnBTQ+SPIpR/ppuYHARZZ6Audan+8E4Lf4FZyBf0
-	 PgWKq7ZjWxvvyF+capA8hj21Hr98wmYkppg+SnWoNOZAtpli/EcTWznfsfGLimjwqJ
-	 m7xsdVlS8Tb/Hfu2/3row7LEvRsal45iPQt0+WATTwhQmRJcLwSkh2hYLAcIcjKDhc
-	 tYv1DOIpwVq1E6uwFjmWifRtZeHDyw44mCmSDDehBV/XienNpptDe2MeKJfBOfFR3O
-	 P2FVvkRBPDE9A==
-Date: Thu, 28 Mar 2024 20:25:31 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: David Lechner <dlechner@baylibre.com>, Jonathan Corbet <corbet@lwn.net>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Support Opensource <support.opensource@diasemi.com>,
-	Cosmin Tanislav <cosmin.tanislav@analog.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Antoniu Miclaus <antoniu.miclaus@analog.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-input@vger.kernel.org
-Subject: Re: [PATCH RFC 1/7] regulator: devres: add APIs for reference
- supplies
-Message-ID: <8d98fab7-d73b-45c5-a46a-ace57907d25b@sirena.org.uk>
-References: <20240327-regulator-get-enable-get-votlage-v1-0-5f4517faa059@baylibre.com>
- <20240327-regulator-get-enable-get-votlage-v1-1-5f4517faa059@baylibre.com>
- <ZgWw66OpLnLPdCn-@google.com>
- <043b347b-2652-4ffb-a8e0-954a89899ade@sirena.org.uk>
- <ZgXQcGlMiewRzki5@google.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aAZWxHLk"
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-50e4e36c09cso471257e87.1
+        for <linux-staging@lists.linux.dev>; Thu, 28 Mar 2024 14:44:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1711662282; x=1712267082; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=00zSfVR5n/E7ASw56UXmOmJHpf1s4deJDOOGHOzNx/A=;
+        b=aAZWxHLksUq48E7RuKTIcrrbzisBju0atH/K+rm0wRzn27Una+YgOb5lMVYpU9ebSJ
+         hi3+zdYdqB75QagWHCZX8atCUSQ5J/QgniJxN7idOD8ogOI/C3qg7wG3aXHsOARdH3a7
+         k3X90qZdlv+uxed3OpigDlfy36VphiWAJfEWyYyF6t9HLIVr8AbZRXB+7OAaaaitLSK1
+         dv3sl0n4Iv1+44X+4gdDWIAqKeanmbGNemx+pAjaZRqhHep8XX2zAj6C0FSEeSEVjD07
+         gsVbwlqRVUq/4vBu4eBuOv85p6Ge2IZ699nX1gLnbfFMktQ60ltb6bFdlUym4CqoSv2u
+         rcWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711662282; x=1712267082;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=00zSfVR5n/E7ASw56UXmOmJHpf1s4deJDOOGHOzNx/A=;
+        b=d9b8/lLYv+7hnCaFgdsEyAU5LIvKCidV37eNdAllCMVivbWnB4M77uMwZGmaG/x9TD
+         vAkjjvyz6Mg8Dy+PTCEZEsTqJAYRIyGNlFEWcNfrza5ZhGheZ/bElX3xoYD0BxfO4Yik
+         MVm1Dkm6pJVUuNuZwJqdzuGJ8wwwnXgBN/w1nLeonDBO1cSS24ohYqb9BXWOIkIbvx7G
+         imCtW2UMS+YixyRxPulJ26+Mi+AcBFSu+mKxufd5aKPR8EV9YftpMdmP0zg65mAFmECI
+         CQWnVXoQ1vLiPfHl3UOPUbz7jBcRCPh6R+vA2LhOt1K8LeeGzYECHmDluqPBfVRkYmvS
+         o6PQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXwn58aeXYfixU0PE9vZ1McNxiR26HDaHjnj6B0/2qwjD5fE64O+IleEpIzfGIKkvIC5BYXrU+xcZtPV1BVlXKC9aUU8GsJ1gz+2Rw6uQ==
+X-Gm-Message-State: AOJu0YwrZIMFdadHGtwIhc5+KXVXdcehubFvmCxWRcaCadru8/ZmVj2a
+	vUUL2K3MnsAhpNkjChDf/sZX/iVaHX/bayHRHCKTk4fvaQONG2wc
+X-Google-Smtp-Source: AGHT+IGsA3Mym1ynkHCg1Jmo+MF6x3uqCVPaWZwhuEPdX18nfgIQrGLpfb4vb/+0JjdZUIssKVIlDg==
+X-Received: by 2002:a2e:9bc2:0:b0:2d6:b698:968 with SMTP id w2-20020a2e9bc2000000b002d6b6980968mr241372ljj.1.1711662281405;
+        Thu, 28 Mar 2024 14:44:41 -0700 (PDT)
+Received: from [192.168.0.104] (p54a07fa0.dip0.t-ipconnect.de. [84.160.127.160])
+        by smtp.gmail.com with ESMTPSA id q14-20020a056402248e00b0056c5515c183sm959340eda.13.2024.03.28.14.44.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 28 Mar 2024 14:44:41 -0700 (PDT)
+Message-ID: <b3b033ac-0fe7-4a89-a7f5-ee96d5c806d7@gmail.com>
+Date: Thu, 28 Mar 2024 22:44:40 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="5fDUEvDFvOkj++3z"
-Content-Disposition: inline
-In-Reply-To: <ZgXQcGlMiewRzki5@google.com>
-X-Cookie: Yes, but which self do you want to be?
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH][next] staging: vt6655: remove redundant assignment to
+ variable byData
+To: Colin Ian King <colin.i.king@gmail.com>,
+ Forest Bond <forest@alittletooquiet.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-staging@lists.linux.dev
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240328111557.761380-1-colin.i.king@gmail.com>
+Content-Language: en-US
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <20240328111557.761380-1-colin.i.king@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+
+On 3/28/24 12:15, Colin Ian King wrote:
+> Variable byData is being assigned a value that is never read, it is
+> being re-assigned later on. The assignment is redundant and can be
+> removed.
+> 
+> Cleans up clang scan build warning:
+> drivers/staging/vt6655/srom.c:67:2: warning: Value stored to 'byData'
+> is never read [deadcode.DeadStores]
+> 
+> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+> ---
+>   drivers/staging/vt6655/srom.c | 1 -
+>   1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/staging/vt6655/srom.c b/drivers/staging/vt6655/srom.c
+> index 1b89d401a7eb..e80556509c58 100644
+> --- a/drivers/staging/vt6655/srom.c
+> +++ b/drivers/staging/vt6655/srom.c
+> @@ -64,7 +64,6 @@ unsigned char SROMbyReadEmbedded(void __iomem *iobase,
+>   	unsigned char byData;
+>   	unsigned char byOrg;
+>   
+> -	byData = 0xFF;
+>   	byOrg = ioread8(iobase + MAC_REG_I2MCFG);
+>   	/* turn off hardware retry for getting NACK */
+>   	iowrite8(byOrg & (~I2MCFG_NORETRY), iobase + MAC_REG_I2MCFG);
 
 
---5fDUEvDFvOkj++3z
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Thu, Mar 28, 2024 at 01:17:52PM -0700, Dmitry Torokhov wrote:
-> On Thu, Mar 28, 2024 at 06:18:32PM +0000, Mark Brown wrote:
-
-> > I don't follow what you're saying here?  What normal APIs are not
-> > available?  AFAICT this has nothing to do with a devm enable, it's a
-> > combined operation which reports the voltage for the regulator if one is
-> > available which would still be being added even if it used a devm
-> > enable.
-
-> You can not do devm_regulator_get_enable() and then call
-> regulator_get_voltage(), you need a new combined API.
-
-I think the theory here is that there are so many instances of this
-reference voltage pattern that it's useful to have a helper for that
-reason alone.
-
---5fDUEvDFvOkj++3z
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmYF0jsACgkQJNaLcl1U
-h9CUrgf/XPKWYWqhNVXtXDECIbF2IgErrGFkL54cu8EWxC/OrJPMdGnZV8lQmK0D
-+pOV7o7CYYYtYG5K4brvdgqgAyK0COk55E0N4Y8PCtLIhnLmCNr+WsWP2RXlmwB+
-m/K9zfyav3r6ZyKE0xZOeBderEAOixJCFQkJN/ssppyjeC2RAbOVmIcA3kpni8Vp
-ONJFpdvniqYsk7lhetuSbn3NcfQefcWn0KKq2B0ZsgS1fWN70/ccR3cKhlZVfN1u
-oG3zp4KlquAT/eTI+FGiqc3N2zVTON/tjEZEZMEldMsuZ3Oegyr75QIulXVqPtQq
-G1AjkHGXsSDsNt5PERnu3xYz6F/XHQ==
-=GRYZ
------END PGP SIGNATURE-----
-
---5fDUEvDFvOkj++3z--
+Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
