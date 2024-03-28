@@ -1,146 +1,139 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD95D847C;
-	Thu, 28 Mar 2024 13:58:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2145A39FD4
+	for <linux-staging@lists.linux.dev>; Thu, 28 Mar 2024 14:03:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711634308; cv=none; b=f92cR0R/7LZCJcpp3EeTVIzjSlAfuCWBiMPNWPkrOi9OGuNI1uwoeNEs0+7gzf74HG19QQ/J5Hb4pzuXjTW157KJImFqYAbPSvGtVquvKTU4JO4YzMbExC2kMxgTk6QRWlYwPAPfGD0UeYNeMXWvqws0NT9Nmy3KgBMGVHWNlYw=
+	t=1711634604; cv=none; b=AiJoOSxdhefeaRv+eAtUYCvnK8GqmqmO+Nj7dHo/7I4L2Noak/wPptCSo6JEXfVkjRz1/EoTGqwe9ggS51z+XPJ/2QHXUFAv/2InTqQNRm7kcKz3CHuUWZyGBkKvPjtTd2rnFSAVya1enPvna0PiEiX74EXRzLT/AEJjsmtom1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711634308; c=relaxed/simple;
-	bh=bI2xEoV9PU+GOHtJWeJ4LDOmjUoV6Fg9c+kVebNAsUo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Pyqw8PJrNwD5n+wFoKn2j8KyNP0IYuXcWl9HoI7fBrMibYJvhul3TiLiN+q8ddHEswV3uoxd9DZ/z9vEgf6MUOidQb192tgxJlWbNK2cIX+ZpU4pxH3bPRIjKGyVFgUfVWxiW28jlaF3hstwb9DLRKVYpMLMjyIIh9VBb4BCP30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ijk/u6/e; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711634604; c=relaxed/simple;
+	bh=1CRhwGIJSKhMbpQ/RBExx1bECy0jy3gMQ+/TAbtgpUg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iSwLA0tx9QChQD/rv4bjVzUZ80Rk1yuNQILQF3LiFrVQF9jbg1+W6MG27atfdNS53isBmM7Yl3dnbtJgb0lad9WA5rKsKS5epsg2wLU4Lq35A43kmGTyi1NcSiz6sDwtPWKmZx+7/qqvsfHFC8knd87vSk6auoBXsunrU4XeEIU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=iUtlWcvX; arc=none smtp.client-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ijk/u6/e"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF513C433C7;
-	Thu, 28 Mar 2024 13:58:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711634307;
-	bh=bI2xEoV9PU+GOHtJWeJ4LDOmjUoV6Fg9c+kVebNAsUo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Ijk/u6/eIMs0lJPAUjxbsR8WiYAYiZVl1UkN1qf+SvK29HyDnofHeu6+55lPtof+t
-	 sUFuhEnV8CCDhb5a4PAh7lrPKW7HKjsUMo1lGUrKAel7cu3vKppeHMf84JQx6cI1KG
-	 l3NIX4jVBSWljSlAzrdcskx2mC4ZlrtXRq7pZGvfbU9IeFjoHf6e7vEknJH3zCOVqW
-	 YlFjMye65+sZbqjb161UUfvWQZtFZqy4dQpJD6Z5qcz5Wty5wqkaNcqcVEQG6wgLY0
-	 QH4btS1yAf/GCJr44H857zWNTPOcpX6IyS/dxm1TQok+PchHzVM9dNTXLW828yPNlU
-	 nORfpvBzYSquw==
-Date: Thu, 28 Mar 2024 13:58:08 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: David Lechner <dlechner@baylibre.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jean Delvare <jdelvare@suse.com>, Guenter
- Roeck <linux@roeck-us.net>, Support Opensource
- <support.opensource@diasemi.com>, Cosmin Tanislav
- <cosmin.tanislav@analog.com>, Lars-Peter Clausen <lars@metafoo.de>, Michael
- Hennerich <Michael.Hennerich@analog.com>, Antoniu Miclaus
- <antoniu.miclaus@analog.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-input@vger.kernel.org
-Subject: Re: [PATCH RFC 4/7] iio: addac: ad74115: Use
- devm_regulator_get_enable_get_voltage()
-Message-ID: <20240328135808.7aff4fb5@jic23-huawei>
-In-Reply-To: <20240327-regulator-get-enable-get-votlage-v1-4-5f4517faa059@baylibre.com>
-References: <20240327-regulator-get-enable-get-votlage-v1-0-5f4517faa059@baylibre.com>
-	<20240327-regulator-get-enable-get-votlage-v1-4-5f4517faa059@baylibre.com>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="iUtlWcvX"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-56899d9bf52so1328615a12.2
+        for <linux-staging@lists.linux.dev>; Thu, 28 Mar 2024 07:03:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1711634601; x=1712239401; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=7sKGYLNVMGXVEBGiVnvjU98J22psaopjpEMp6FYlRJU=;
+        b=iUtlWcvXHEnmnvechscuU4K8Fcqmer/2Zg9ErCMWwsgwsE8FJJWkNMCujASFDyGI5I
+         gCrxkzDP4El4CdYJsd7leD/YdzzvVn/Fhn2a/whvivyYVjNno3gQt8HC6Mz0b8LwFOpx
+         RqOdxcVtrqgyzqvdQ2H41NT+KoPm4tIH2nHsBpbb2oZm2KWIWuCmgFEgTlJaArkrUVDS
+         9IjSbQOIm2n8z+dncT2lJgLAooUrBjUekuNHN9a0+xLqAGdEMp+81jBT2nNO/0Gf3uOd
+         RDGurNkvQDOm4ecJJ1H6QWf+MjttL3st0khjQ2AhyNrUTYEb/zp+1pcCGPXANhtxI2zj
+         NdvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711634601; x=1712239401;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7sKGYLNVMGXVEBGiVnvjU98J22psaopjpEMp6FYlRJU=;
+        b=M39Ky7FgieF3YPFf4RacflCTrZddV6VbEfeNrlPKvlS/tHnFeOroL5Jyd3kRCEEQkm
+         hso/+OQhdU85vO1MfLusUynRwJ+pK2Rk553h+MbFEMBhgqviZCNzXrznIfnFR+T+XFOI
+         77sDh3Gu+xRm743UdZNVdQtHKbikcCboko7pYZh8mKWfLNIqfE3TiIYUanFw66bbFM0S
+         If0jm+H4I5V6aXHuUtN8V8EtqlJWqxkWD7l++nsPddfPP5oIZkPiE8McUbvx9KTNSN0O
+         ekgPcQjKIUJv0pW6HZfJs2e7aYpwEelP5z5mp3HFZkThLIR7Ji8rCM0P2KnqtyLnPSaV
+         psng==
+X-Forwarded-Encrypted: i=1; AJvYcCVxkK/CmohgRs+sBmc/6s8SmsY7yRQ7vCUjOfgSHA2/kJtzlXCQau55GWCMUhhk0kNYKkVtgBXU343dhvEIIKdFDyC/N5mc/T/p0dnHmQ==
+X-Gm-Message-State: AOJu0YwV0IVLvHKZYbsutz6/fbTKht8a4KURUV54dRQU9NjX7BHjTFY7
+	IqOiX1xKFusGKps+qUDGHuBhcV3H+S6gvrwDiVydd9QEnlONgOPscoiO6X+VPLs=
+X-Google-Smtp-Source: AGHT+IFCInzZpL9neFPC+ou6pgAku6KUY9RgTMC2MkaJLzHuJMtbTOz1CQwMNI0J3x0j2Qa4AC/izQ==
+X-Received: by 2002:a17:907:6d1a:b0:a4e:1ff7:5c79 with SMTP id sa26-20020a1709076d1a00b00a4e1ff75c79mr1982741ejc.14.1711634601273;
+        Thu, 28 Mar 2024 07:03:21 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id f5-20020a1709062c4500b00a455519bcb3sm788519ejh.55.2024.03.28.07.03.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Mar 2024 07:03:20 -0700 (PDT)
+Date: Thu, 28 Mar 2024 17:03:17 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Shahar Avidar <ikobh7@gmail.com>
+Cc: gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
+	andriy.shevchenko@linux.intel.com, robh@kernel.org,
+	felixkimbu1@gmail.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 5/5] staging: pi433: Remove duplicated code using the
+ "goto" error recovery scheme.
+Message-ID: <9c5b4159-da26-49d8-9682-445c01b19a51@moroto.mountain>
+References: <20240328121244.1244719-1-ikobh7@gmail.com>
+ <20240328121244.1244719-7-ikobh7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240328121244.1244719-7-ikobh7@gmail.com>
 
-On Wed, 27 Mar 2024 18:18:53 -0500
-David Lechner <dlechner@baylibre.com> wrote:
-
-> We can reduce boilerplate code by using
-> devm_regulator_get_enable_get_voltage().
-There is a change in behaviour in this one. I'd like some
-explanation in the patch title for why it is always safe to get
-the voltage of avdd_mv when previously it wasn't.
-
-There seems to me to be a corner case where a DTS is not providing
-the entry because it's always powered on so we get a stub regulator
-but that doesn't matter because we aren't in DIN_THRESHOLD_MOD_AVDD.
-After this change that dts is broken as now we read the voltage
-whatever.
-
-You could use the optional form and then fail the probe if
-in a mode where the value will be used?
-
+On Thu, Mar 28, 2024 at 02:12:44PM +0200, Shahar Avidar wrote:
+> pi433_init had "unregister_chrdev" called twice.
+> Remove it using goto statements.
 > 
-> Signed-off-by: David Lechner <dlechner@baylibre.com>
+> Signed-off-by: Shahar Avidar <ikobh7@gmail.com>
 > ---
->  drivers/iio/addac/ad74115.c | 28 +++-------------------------
->  1 file changed, 3 insertions(+), 25 deletions(-)
+>  drivers/staging/pi433/pi433_if.c | 23 ++++++++++++-----------
+>  1 file changed, 12 insertions(+), 11 deletions(-)
 > 
-> diff --git a/drivers/iio/addac/ad74115.c b/drivers/iio/addac/ad74115.c
-> index e6bc5eb3788d..01073d7de6aa 100644
-> --- a/drivers/iio/addac/ad74115.c
-> +++ b/drivers/iio/addac/ad74115.c
-> @@ -199,7 +199,6 @@ struct ad74115_state {
->  	struct spi_device		*spi;
->  	struct regmap			*regmap;
->  	struct iio_trigger		*trig;
-> -	struct regulator		*avdd;
+> diff --git a/drivers/staging/pi433/pi433_if.c b/drivers/staging/pi433/pi433_if.c
+> index 62ce75b07bf0..e538f1d4e787 100644
+> --- a/drivers/staging/pi433/pi433_if.c
+> +++ b/drivers/staging/pi433/pi433_if.c
+> @@ -1400,24 +1400,25 @@ static int __init pi433_init(void)
+>  	 */
+>  	status = alloc_chrdev_region(&pi433_devt, 0, N_PI433_MINORS, "pi433");
+>  	if (status < 0)
+> -		return status;
+> +		goto fail;
+
+Just return directly.  Do nothing gotos are bad for readability and they
+create Forgot to Set the Error Code bugs.  Also there was a direct
+return earlier in the function so it's better to do things consistently.
+
 >  
->  	/*
->  	 * Synchronize consecutive operations when doing a one-shot
-> @@ -1672,14 +1671,6 @@ static int ad74115_setup(struct iio_dev *indio_dev)
->  	if (ret)
->  		return ret;
->  
-> -	if (val == AD74115_DIN_THRESHOLD_MODE_AVDD) {
-> -		ret = regulator_get_voltage(st->avdd);
-> -		if (ret < 0)
-> -			return ret;
-> -
-> -		st->avdd_mv = ret / 1000;
+>  	status = class_register(&pi433_class);
+> -	if (status) {
+> -		unregister_chrdev(MAJOR(pi433_devt),
+> -				  pi433_spi_driver.driver.name);
+> -		return status;
 > -	}
-> -
->  	st->din_threshold_mode = val;
+> +	if (status)
+> +		goto unreg_chrdev;
 >  
->  	ret = ad74115_apply_fw_prop(st, &ad74115_dac_bipolar_fw_prop, &val);
-> @@ -1788,11 +1779,6 @@ static int ad74115_reset(struct ad74115_state *st)
->  	return 0;
+>  	root_dir = debugfs_create_dir(KBUILD_MODNAME, NULL);
+>  
+>  	status = spi_register_driver(&pi433_spi_driver);
+> -	if (status < 0) {
+> -		class_unregister(&pi433_class);
+> -		unregister_chrdev(MAJOR(pi433_devt),
+> -				  pi433_spi_driver.driver.name);
+> -	}
+> +	if (status < 0)
+> +		goto unreg_class;
+>  
+> +	return 0;
+> +
+> +unreg_class:
+> +	class_unregister(&pi433_class);
+
+There is a debugfs_remove() missing.  I have written a blog that might
+be helpful:
+
+https://staticthinking.wordpress.com/2022/04/28/free-the-last-thing-style/
+
+regards,
+dan carpenter
+
+> +unreg_chrdev:
+> +	unregister_chrdev(MAJOR(pi433_devt), pi433_spi_driver.driver.name);
+> +fail:
+>  	return status;
 >  }
->  
-> -static void ad74115_regulator_disable(void *data)
-> -{
-> -	regulator_disable(data);
-> -}
-> -
->  static int ad74115_setup_trigger(struct iio_dev *indio_dev)
->  {
->  	struct ad74115_state *st = iio_priv(indio_dev);
-> @@ -1855,19 +1841,11 @@ static int ad74115_probe(struct spi_device *spi)
->  	indio_dev->modes = INDIO_DIRECT_MODE;
->  	indio_dev->info = &ad74115_info;
->  
-> -	st->avdd = devm_regulator_get(dev, "avdd");
-> -	if (IS_ERR(st->avdd))
-> -		return PTR_ERR(st->avdd);
-> -
-> -	ret = regulator_enable(st->avdd);
-> -	if (ret) {
-> -		dev_err(dev, "Failed to enable avdd regulator\n");
-> +	ret = devm_regulator_get_enable_get_voltage(dev, "avdd");
-> +	if (ret < 0)
->  		return ret;
-> -	}
->  
-> -	ret = devm_add_action_or_reset(dev, ad74115_regulator_disable, st->avdd);
-> -	if (ret)
-> -		return ret;
-> +	st->avdd_mv = ret / 1000;
->  
->  	ret = devm_regulator_bulk_get_enable(dev, ARRAY_SIZE(regulator_names),
->  					     regulator_names);
-> 
 
