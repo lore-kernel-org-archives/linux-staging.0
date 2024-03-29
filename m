@@ -1,64 +1,72 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B264213249F
-	for <linux-staging@lists.linux.dev>; Fri, 29 Mar 2024 17:11:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3E2D2134B
+	for <linux-staging@lists.linux.dev>; Fri, 29 Mar 2024 20:33:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711732265; cv=none; b=gbRQDdzP2wvsqEIgzC1py6Lio7cMOleBJegt1k0yQG+qirCG3YdGJ/wyglMfOxEKdUwk0fYqa4rX+XWaLmkWjZQG48otFea8xTTf0x0csLVPR2yOQ6damdSsBSpkahqzqgtCgIFy8hiJBliowpJPGcbXQEBIhP+fnE0lhHm/hhc=
+	t=1711744401; cv=none; b=u1ksuPSiTPQGEq2OvdwcFZfvcu31CTGKd+JoFf1moF6wrhdNZeiCNkVwEwk/vVnGeyNZ0S1AWNbTyo/u/C/dddPwvnWPhG2RhFPBe7ITvxQx6h+BOn7n/zgwysRb6QdccXuYlIci/ES54aALbNXqFYvR+WsUtE9UvTqw38vIcmQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711732265; c=relaxed/simple;
-	bh=iVuldd3zGuXruFJTlBanSQRHUsm+LTMasUSVVj1m7E8=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=QPzhwn9LE0/q0SznkRKlDeOv2BtX5hg4/lMmSwxCWvfshKcZFEDqGCLxD1NuN+JCzQpqV3v4WpNl29rk04B4pi7QWvOHBU8L9q/hSUTROMJ0BmSzh2apPritChpxlcluoIRhZbDsgzm3EY1WuWMfhMZzFQhuXUzSP8xmNUfAsJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=uW9t0KvF; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1711744401; c=relaxed/simple;
+	bh=MmKPUNxZ+susb4kr/ZOyBooFet2Ni9V6EkAgfthmPGg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eM7AR9T7dpbyRK6baVBAbGwCRx5D2EY395moEytKOwQ3qdDU1InM+3PyEOamXUzrf/6Pl+xycJVTi/JlLi4GdQisKwAkDB7Lt1f0ueQZus3CMYc4p8c0UZZSKRt/Q65TGEuVAlK7+5oyb5e/5cG9KbdyCqGElCCa7PbarJk39/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VYtvL5Cy; arc=none smtp.client-ip=209.85.215.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="uW9t0KvF"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-33eee0258abso1234013f8f.3
-        for <linux-staging@lists.linux.dev>; Fri, 29 Mar 2024 10:11:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VYtvL5Cy"
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-53fbf2c42bfso1648235a12.3
+        for <linux-staging@lists.linux.dev>; Fri, 29 Mar 2024 13:33:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711732262; x=1712337062; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1711744399; x=1712349199; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=JxYuhYq68BUhDKF2jZeLoM0cvM8ATn+yZuvCJEa55cQ=;
-        b=uW9t0KvF7lK9GUyOTA2W4UGK1nP+VuJ5M3RJiAtTygvOrXAA7MTV/hIXN8Zf+KG1jw
-         bczTaEnQmsitMzI6vDi+vdRtT2UbG12aKk3c4+F7cjGE0Ne7F+UDQ7JQdRgcwMntdovW
-         SRb3Ds+c5/74sbebo//hP7up8uNxKQOdmHErO66Otg3CIhBxZUOuSmThzom3VqJBNt1i
-         DrDZNmzMHF32lOlL1dHn8KYTBjLVO7yJBC4wShC6bNBUv3YakSawc4ElHODwydaT6iw7
-         ebN5glcV/PlgP2q8MduwVXzMF73vzphncMLxZvo5Ijmy4psOXxEoKNrooXqSvb8riJjX
-         henA==
+        bh=9y/dxoUHYnuLJXM/FbNFKWazEIf0YDN2gZikUVSS61Y=;
+        b=VYtvL5CywtoxiSPZHpWEd3/5XJKa0olqtgLaTOWRMM5EXLA6r7k+v+/mjNlAavluYI
+         5Qw5mAoCjRwO7S/2ypg4tiMXyiiC9dfJqkTaYWi/FrKWPA725StZRRcAL/6WcPlliCrm
+         clhUM+MfiE05FbEKrr7ZFKFMPkKhTWxn4qOdLlGBts9xfEdJ0eQBNpWBt7/dwaoPf7Sv
+         3x2LD7EFlZ4h4nCSAOr4kRojdAbhiu/MTkVKmkNget/+gFmPzW4QkRe1748nxJ+ufl++
+         fjjmIBDiErEEgRQrBqZlmxQbYORFshM9MjRSFjN/knqao4CmVoq/67vylmQgZui9ZuPS
+         Bqhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711732262; x=1712337062;
+        d=1e100.net; s=20230601; t=1711744399; x=1712349199;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=JxYuhYq68BUhDKF2jZeLoM0cvM8ATn+yZuvCJEa55cQ=;
-        b=J6NpN1W9iIapodR5Gm8a+95E9eHTBZ3Y/OevGVVNoHpYC1N6G42LWB0WPiUxcyhyyu
-         vmBXMsoaC8DYlwnTQo7Ig8sMYoVI8G66CcJE55GhkahexeagSb7sVRp94yM0fR5vKjUF
-         JPFpzyjisBeHpsKW95PPezHMf/hmNMZlyj9ffFfDm2w2fqkFpbVtfsw9Mgt66PhwSq/7
-         YOX5/IF4IsfETKBY4gf+HecU+CL4ot8FRMyVOP6Vj9gWsLf4CqI9wt+ISSy159/hhGyv
-         /eHrE+skL/yERWUzIKy09nrqg6fJLlcL9LtyR6AQUujh9qcQLedwR0+0odA46USju1SZ
-         1pKA==
-X-Forwarded-Encrypted: i=1; AJvYcCVn6tvJ0tpI1mUns4MzPOY3zb6jyEJcusWRGsQqeacQnU90blGGzwIam0PVKu4dmTWh/fik6xMCrDg9lSzvDsuKJWMF53n8AJn7zBrmAw==
-X-Gm-Message-State: AOJu0YwPt4Wbmw/SZfKcn9PNZ3lFA/UniDos3xR6ZZMqK83U7II0nWgb
-	d8MCHdAGCLPHdilK9soWXVzYjgC45ti5HTxmQRS3tT5w0cWM8HP/3+8wdPZOnXE=
-X-Google-Smtp-Source: AGHT+IEql1KWL7gbjAJiEVRC+a0bTlmY+nDECzR4kdrCYHwhtXISgDRBSpeCfAYP3beUvld2/mnGzg==
-X-Received: by 2002:adf:f142:0:b0:341:7656:d358 with SMTP id y2-20020adff142000000b003417656d358mr1907415wro.38.1711732262206;
-        Fri, 29 Mar 2024 10:11:02 -0700 (PDT)
-Received: from krzk-bin.. ([178.197.223.16])
-        by smtp.gmail.com with ESMTPSA id l2-20020a5d4bc2000000b0033e7e9c8657sm4592161wrt.45.2024.03.29.10.11.01
+        bh=9y/dxoUHYnuLJXM/FbNFKWazEIf0YDN2gZikUVSS61Y=;
+        b=s9+rRJn1kpByPpYCT3xnHw/jony9TZTHEqVCJJkGeLekKnXbz4PktigDOXrJkO+fxQ
+         rMO5NMrkN/J5DU6+sFiqAVzHDAAnfIwz29uxYWEf8nIWguwTnwNrT4AwT6RICmnE5UgT
+         9uNMigr0PKHMyn+MTaz0DJpy5iBXBvbTAwk/1Ad0QWwXiKIBMNmM9fOuwaDiAv5E+zfe
+         Gjfm/Lxag+ypt5zvSIfI/+3BZFn0Y43hL4nV1aqRt9M+bbgvQS3Nfq2srq0JYAdqFOLB
+         OC8f9CrZiIKWS6T+fpFlrHLY2emPiryPFPJwAKyFd61ifwm2YtkZolvL6pgFzn9343nZ
+         ii5A==
+X-Gm-Message-State: AOJu0YzOql49+YSxJls4RwBKUeY2P6TzgvysWk5jIMKMPFOFVza5L9Or
+	UJeLPd+rq/njOK+F7Nxps5xU2qvhweeTKDmEbtSWXxqRlSvlzrgD
+X-Google-Smtp-Source: AGHT+IENv1wF/FlhJUBdDw7gbHcuc9C7OqOL6VgCxshez/VMiYYzHneKoAE1DtcwhSriDloEUjcrhg==
+X-Received: by 2002:a05:6a20:3d07:b0:1a7:1c5:4746 with SMTP id y7-20020a056a203d0700b001a701c54746mr1717945pzi.1.1711744398901;
+        Fri, 29 Mar 2024 13:33:18 -0700 (PDT)
+Received: from localhost.localdomain ([122.161.51.128])
+        by smtp.gmail.com with ESMTPSA id w26-20020a62c71a000000b006e635740126sm3524177pfg.112.2024.03.29.13.33.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Mar 2024 10:11:01 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH] staging: ks7010: replace open-coded module_sdio_driver()
-Date: Fri, 29 Mar 2024 18:10:57 +0100
-Message-Id: <20240329171057.63941-1-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
+        Fri, 29 Mar 2024 13:33:18 -0700 (PDT)
+From: Shresth Prasad <shresthprasad7@gmail.com>
+To: gregkh@linuxfoundation.org,
+	hverkuil-cisco@xs4all.nl,
+	christophe.jaillet@wanadoo.fr,
+	prathubaronia2011@gmail.com,
+	luca.ceresoli@bootlin.com,
+	robh@kernel.org,
+	u.kleine-koenig@pengutronix.de,
+	frank.li@vivo.com
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	skhan@linuxfoundation.org,
+	Shresth Prasad <shresthprasad7@gmail.com>
+Subject: [PATCH] staging: axis-fifo: align arguments to open parenthesis in axis-fifo.c
+Date: Sat, 30 Mar 2024 02:02:24 +0530
+Message-ID: <20240329203222.12889-3-shresthprasad7@gmail.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -67,27 +75,44 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use module_sdio_driver() instead of open-coding it.  No functional
-difference.
+Align some function arguments to the opening parenthesis of the
+function as reported by checkpatch:
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+CHECK: Alignment should match open parenthesis
+
+Signed-off-by: Shresth Prasad <shresthprasad7@gmail.com>
 ---
- drivers/staging/ks7010/ks7010_sdio.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/axis-fifo/axis-fifo.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/staging/ks7010/ks7010_sdio.c b/drivers/staging/ks7010/ks7010_sdio.c
-index f1d44e4955fc..8df0e77b57f6 100644
---- a/drivers/staging/ks7010/ks7010_sdio.c
-+++ b/drivers/staging/ks7010/ks7010_sdio.c
-@@ -1136,7 +1136,7 @@ static struct sdio_driver ks7010_sdio_driver = {
- 	.remove = ks7010_sdio_remove,
- };
+diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
+index c51818c56dd2..a70af76be7fb 100644
+--- a/drivers/staging/axis-fifo/axis-fifo.c
++++ b/drivers/staging/axis-fifo/axis-fifo.c
+@@ -376,8 +376,8 @@ static ssize_t axis_fifo_read(struct file *f, char __user *buf,
+ 		 */
+ 		mutex_lock(&fifo->read_lock);
+ 		ret = wait_event_interruptible_timeout(fifo->read_queue,
+-			ioread32(fifo->base_addr + XLLF_RDFO_OFFSET),
+-			read_timeout);
++						       ioread32(fifo->base_addr + XLLF_RDFO_OFFSET),
++						       read_timeout);
  
--module_driver(ks7010_sdio_driver, sdio_register_driver, sdio_unregister_driver);
-+module_sdio_driver(ks7010_sdio_driver);
- MODULE_AUTHOR("Sang Engineering, Qi-Hardware, KeyStream");
- MODULE_DESCRIPTION("Driver for KeyStream KS7010 based SDIO cards");
- MODULE_LICENSE("GPL v2");
+ 		if (ret <= 0) {
+ 			if (ret == 0) {
+@@ -517,9 +517,9 @@ static ssize_t axis_fifo_write(struct file *f, const char __user *buf,
+ 		 */
+ 		mutex_lock(&fifo->write_lock);
+ 		ret = wait_event_interruptible_timeout(fifo->write_queue,
+-			ioread32(fifo->base_addr + XLLF_TDFV_OFFSET)
+-				 >= words_to_write,
+-			write_timeout);
++						       ioread32(fifo->base_addr + XLLF_TDFV_OFFSET)
++						       >= words_to_write,
++						       write_timeout);
+ 
+ 		if (ret <= 0) {
+ 			if (ret == 0) {
 -- 
-2.34.1
+2.44.0
 
