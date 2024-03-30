@@ -1,63 +1,59 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.wantyapps.xyz (mail.wantyapps.xyz [66.135.5.160])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F1C941C89;
-	Sat, 30 Mar 2024 20:22:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3E7A8F40
+	for <linux-staging@lists.linux.dev>; Sat, 30 Mar 2024 21:34:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.135.5.160
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711830120; cv=none; b=iqUOMqgbyQSuJEdcW+CcCPmuls4uT1F3OPpSw6Iyn4LWLHJnGyP2S4oPebSHnwb35hdldJ6gnn3sqDRFYLAB8FG3Fp9QM6YmqHm1liUrY10xLrm9ecszt9DF0KAqTLsNXiW6OSXBPlPL+GZSiV0uCnz3DajCURLbK0x6jbLGF24=
+	t=1711834478; cv=none; b=N6+ATeH8Eu3xShFzS652ryrVbTYfQ4DzKPs4UY8SNsK2iM18ldam3LwN0cIm3IRd0ngNdJq7HkDtsNhOr7hyO1dYqHWdOX+WWdshJhqi23LgdG82WUpjVKdbnTwmOwQw5WhxFYqc/Rn5HtwU9ZnMTpaz9uKZBt/4j2fuCjWkvQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711830120; c=relaxed/simple;
-	bh=3CjfT30DAA1fHzaH5vBPCe9TcCMwmUifTrJCP1M0LdQ=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=JzCIAy2llT6KJrejK+QXVktapy0Hz2w8MrZecnRukvFG52E3VMT4mpkAWXX9e0ZoitOi6JX52pZvZk86ygHQWnXi1HDo3iFqk9+YAmir5whXrs/lWjbcFez9XDUR3ZTGC1iQeM8jB9QBmXxTBvbNJAiI5yQVqYzVwUc/6d5qi0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rZg3lKrq; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711834478; c=relaxed/simple;
+	bh=aZ7bDXZO6xGX3RPD7CY+H2g5U8yGjRKJaTPqoMlcrRU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ilOegItz6H0IjW9uIA84+RUrSJ9g0dIEycA8Jzr8jC7DEPk28QF6Tsmigg/9CnIpNgqKRBETODYIIs11zOsb2TBYEuAZceMeUHxNM0bjRlThSXUt4wijzlGXI2zbTvHQNMIAXlY3EoeufqKpvEggS2w4XT2hTXQB2Ri+6CTNETE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=wantyapps.xyz; spf=pass smtp.mailfrom=wantyapps.xyz; dkim=pass (2048-bit key) header.d=wantyapps.xyz header.i=@wantyapps.xyz header.b=rIE/a59n; arc=none smtp.client-ip=66.135.5.160
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=wantyapps.xyz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wantyapps.xyz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rZg3lKrq"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 29138C433C7;
-	Sat, 30 Mar 2024 20:22:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711830120;
-	bh=3CjfT30DAA1fHzaH5vBPCe9TcCMwmUifTrJCP1M0LdQ=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=rZg3lKrqmf7knlKegl7PsapbaxPXiQxAgYTat5VNDp1cL5Ubmz8vM1Ff5NaGsjySG
-	 XszLBOQ3JgYK0aShyg5xJTVPCIhPeo+oklJMHwu4C5QTDkwDBBsrkEN+F2Xe2rpoPx
-	 Q2N09JYfpqd5bq5YdhfLZ9ycXoBK7zwTPCn9Qh4qXFW4ciTXmEi9TlGqEJdcDNiuCh
-	 dihp6mv/3O0JyVkWEK4bZz9Slne/hoJGVRLBl8e0fINZbWL65rCAkLRvCr/8Nb5gwJ
-	 FsGStwhFhCxMWiadFrkTV85zQ+eHCE+ubRDvMbo4VY+/o8O9MXheUS22LJFrRVjQow
-	 Vn06IHOXHCHsA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 202BFD2D0EC;
-	Sat, 30 Mar 2024 20:22:00 +0000 (UTC)
-Subject: Re: [GIT PULL] Staging driver fixes for 6.9-rc2
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <ZggEu9MdSTNi-9FU@kroah.com>
-References: <ZggEu9MdSTNi-9FU@kroah.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <ZggEu9MdSTNi-9FU@kroah.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.9-rc2
-X-PR-Tracked-Commit-Id: f37e76abd614b68987abc8e5c22d986013349771
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 4e6e422985514f7469a3597dd3f76629cddc3d00
-Message-Id: <171183012011.3897.18173114013707806932.pr-tracker-bot@kernel.org>
-Date: Sat, 30 Mar 2024 20:22:00 +0000
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andrew Morton <akpm@linux-foundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+	dkim=pass (2048-bit key) header.d=wantyapps.xyz header.i=@wantyapps.xyz header.b="rIE/a59n"
+Received: from multivac (unknown [147.235.194.23])
+	by mail.wantyapps.xyz (Postfix) with ESMTPSA id 7323F8B63E;
+	Sat, 30 Mar 2024 21:28:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=wantyapps.xyz;
+	s=mail; t=1711834111;
+	bh=aZ7bDXZO6xGX3RPD7CY+H2g5U8yGjRKJaTPqoMlcrRU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rIE/a59nPaPLfO5i5huP/7WU8RXox1JJFxGYtV3hW7nC79BMMa3tsrRJv0lW4k5JJ
+	 3bDhy9AfS+znfVGvuZa5DFgx2OjxIcNKcYE9C2I+jAVkH2FuZwhH2h4Nq6CzECxEE2
+	 W/5GMIHq0nLO4JaD1oHkSr38adWUZZPbR/Wd0EiK75k4nkZW9U+caU+WJsmTkxWVBM
+	 uOkRYWODCgV1JA3J2W0tUYDxHSmz0Ww5VJoH4XwUk50K6JXRGVgbTBTyqsCHjLKG/J
+	 S6sqPf8jR87zWzU8jOPgAVmhcIEg+mG3+c3duRdGqSeZ5UZMqStFy8+6IIGYDmkyQe
+	 cwzlmtkSsDNvQ==
+Date: Sun, 31 Mar 2024 00:28:26 +0300
+From: Uri Arev <me@wantyapps.xyz>
+To: Shresth Prasad <shresthprasad7@gmail.com>
+Cc: gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl, 
+	christophe.jaillet@wanadoo.fr, prathubaronia2011@gmail.com, luca.ceresoli@bootlin.com, 
+	robh@kernel.org, u.kleine-koenig@pengutronix.de, frank.li@vivo.com, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org
+Subject: Re: [PATCH] staging: axis-fifo: align arguments to open parenthesis
+ in axis-fifo.c
+Message-ID: <z2ewk44rjutv24i6lqau3adrmlprj524ulqtqbncvfaj44dwcg@2dnnbm75abbp>
+References: <20240329203222.12889-3-shresthprasad7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240329203222.12889-3-shresthprasad7@gmail.com>
 
-The pull request you sent on Sat, 30 Mar 2024 13:25:31 +0100:
+> Align some function arguments to the opening parenthesis of the
+> function as reported by checkpatch:
+Hey, I sent a similar patch around a month ago and got no reply.
+Good luck with that :)
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.9-rc2
-
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/4e6e422985514f7469a3597dd3f76629cddc3d00
-
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+                 Uri Arev
