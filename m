@@ -1,76 +1,88 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C00E1EBB;
-	Sat, 30 Mar 2024 12:25:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65C471C0DEF;
+	Sat, 30 Mar 2024 16:03:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711801535; cv=none; b=tQfsCb94B507ILNFxl4CUY/X2PUALVEM9YUYTbA2yFpHhuIOYDEQThhjlU9gTiDG3GgHEWP52pfeFjQRjH6NaVbOD2krlKbQGPaa0nHoaprhUemNNMB9/cjdB4s56dNUwYv/+SeXqMbas6vO2mw+vXQz2gqY90ut1eo4ICCFErE=
+	t=1711814583; cv=none; b=rMZoabn8Pvy3/WtUdRbXOs+8zhGhQA/RSXa5wUkSA3iw1DvTYO9EY+NNqa1Wx0J3HqWF5YckGDm4wgss6j+NFPSS+h2w7/3MwxRaHtPm46fwYWoA2M9vcjv7RiYywjOJeA2PPwtFU3Jjo6+UcMWmpI2/vKlM6JAhG42vlE2l1E8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711801535; c=relaxed/simple;
-	bh=X/1Wu8J05+GPKy/nST3sHKEZ7hVbqcR1skz2cHazK/Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ak9mt4OqGC5sODuGg9gpzOKI8g/Nk6wvTdHawTE0BaMZ7xyNiqo5S0ZVVdpCvOQpjGhww7zbTU7HGfgKHF0/oycJDxYXgYcesUd+wQApzaKYy213wPNtVbIBFeR/dmdJVC+XaBmfzsLlim34ziV1Kv3XxTu1ddKPPNAJwkYBCu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=eWkJ4n3U; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711814583; c=relaxed/simple;
+	bh=UluV6B2CNyYDGwjho9wujbbGinHQfPzIlXhBRj5/jwM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=oSjZgNoXUwlQZ3YIF8tDweDnZY/Z/rNXWQJ5FcFyikeipYs3JsisERVBm3/F9Va4IIvMVanmNwvhVfWch71gxoE4t+7TK0zWmfxIjYOGzg3UiQd/71sx7Rrl7ayJ5u9VNjIzwYzVLzPa3BaF3TlyatDDkSUvddPYtRwYewVszGs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tJSGLSLA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="eWkJ4n3U"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3DF4C433C7;
-	Sat, 30 Mar 2024 12:25:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1711801535;
-	bh=X/1Wu8J05+GPKy/nST3sHKEZ7hVbqcR1skz2cHazK/Y=;
-	h=Date:From:To:Cc:Subject:From;
-	b=eWkJ4n3U9CElT0uPy+naKIAdmwqbbMd9Eyi/4sGULSWTmZMLc3zLZ+XtJm8g8VVcY
-	 FgkXQIjjMZURv6cfelZ3pTpCJhBnct5tWZ3046bKQ3rBMCWBnX1c1Pfidd2jqwspu9
-	 skfO0LzKHqmsK/BmAX8HfhE6dcpKKFfC7LrFSpds=
-Date: Sat, 30 Mar 2024 13:25:31 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Stephen Rothwell <sfr@canb.auug.org.au>
-Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [GIT PULL] Staging driver fixes for 6.9-rc2
-Message-ID: <ZggEu9MdSTNi-9FU@kroah.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tJSGLSLA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8FA4C43390;
+	Sat, 30 Mar 2024 16:02:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711814583;
+	bh=UluV6B2CNyYDGwjho9wujbbGinHQfPzIlXhBRj5/jwM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=tJSGLSLAib4ZkmpSDD8pBKfDUosNtVmyEkJK8+xeWQ2RVi+l2/uiyFl+ZHsK26w2U
+	 sg/JDS8+wJ4obfWX5+RA0jLYrKoWy/69TMOHt8NNbHMZtVMkHNn1Z2pUxdRFSzdJkK
+	 vVA8ONMxBpcbAY/3IuiPJx1zA6f8BCOpWj8nrAz3O+sVZhjJ1CMT8KqZOmnp24ZXko
+	 Ujh4f2a5wNvRBBuguv9c7t/Xs5Fiut1pLT5B13kgANH6zi0BgtXTQNJ97kcxjmQnJ2
+	 QkbJ2xinb1NCih5rlauTuDtUaTWelA9jhVrKB8k9/dY3YxvINFjmR3JcJTHfGgX5Kh
+	 MtPcc26yM2Pmw==
+Date: Sat, 30 Mar 2024 16:02:46 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, David Lechner
+ <dlechner@baylibre.com>, Jonathan Corbet <corbet@lwn.net>, Liam Girdwood
+ <lgirdwood@gmail.com>, Jean Delvare <jdelvare@suse.com>, Guenter Roeck
+ <linux@roeck-us.net>, Support Opensource <support.opensource@diasemi.com>,
+ Cosmin Tanislav <cosmin.tanislav@analog.com>, Lars-Peter Clausen
+ <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>,
+ Antoniu Miclaus <antoniu.miclaus@analog.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+ linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-input@vger.kernel.org
+Subject: Re: [PATCH RFC 1/7] regulator: devres: add APIs for reference
+ supplies
+Message-ID: <20240330160246.6b74bd3b@jic23-huawei>
+In-Reply-To: <8d98fab7-d73b-45c5-a46a-ace57907d25b@sirena.org.uk>
+References: <20240327-regulator-get-enable-get-votlage-v1-0-5f4517faa059@baylibre.com>
+	<20240327-regulator-get-enable-get-votlage-v1-1-5f4517faa059@baylibre.com>
+	<ZgWw66OpLnLPdCn-@google.com>
+	<043b347b-2652-4ffb-a8e0-954a89899ade@sirena.org.uk>
+	<ZgXQcGlMiewRzki5@google.com>
+	<8d98fab7-d73b-45c5-a46a-ace57907d25b@sirena.org.uk>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-The following changes since commit 4cece764965020c22cff7665b18a012006359095:
+On Thu, 28 Mar 2024 20:25:31 +0000
+Mark Brown <broonie@kernel.org> wrote:
 
-  Linux 6.9-rc1 (2024-03-24 14:10:05 -0700)
+> On Thu, Mar 28, 2024 at 01:17:52PM -0700, Dmitry Torokhov wrote:
+> > On Thu, Mar 28, 2024 at 06:18:32PM +0000, Mark Brown wrote:  
+> 
+> > > I don't follow what you're saying here?  What normal APIs are not
+> > > available?  AFAICT this has nothing to do with a devm enable, it's a
+> > > combined operation which reports the voltage for the regulator if one is
+> > > available which would still be being added even if it used a devm
+> > > enable.  
+> 
+> > You can not do devm_regulator_get_enable() and then call
+> > regulator_get_voltage(), you need a new combined API.  
+> 
+> I think the theory here is that there are so many instances of this
+> reference voltage pattern that it's useful to have a helper for that
+> reason alone.
 
-are available in the Git repository at:
+Exactly that - this is just adding a convenience function to
+remove boilerplate.  -20ish lines of cut and paste code per
+driver. 
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.9-rc2
+Jonathan
 
-for you to fetch changes up to f37e76abd614b68987abc8e5c22d986013349771:
 
-  staging: vc04_services: fix information leak in create_component() (2024-03-25 19:10:01 +0100)
-
-----------------------------------------------------------------
-Staging driver fixes for 6.9-rc2
-
-Here are two small staging driver fixes for the vc04_services driver
-that resolve reported problems:
-  - strncpy fix for information leak
-  - another information leak discovered by the previous strncpy fix
-
-Both of these have been in linux-next all this past week with no
-reported issues.
-
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-
-----------------------------------------------------------------
-Arnd Bergmann (1):
-      staging: vc04_services: changen strncpy() to strscpy_pad()
-
-Dan Carpenter (1):
-      staging: vc04_services: fix information leak in create_component()
-
- drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
