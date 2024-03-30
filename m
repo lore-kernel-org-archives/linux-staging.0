@@ -1,72 +1,58 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3E2D2134B
-	for <linux-staging@lists.linux.dev>; Fri, 29 Mar 2024 20:33:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99D3A79EA
+	for <linux-staging@lists.linux.dev>; Sat, 30 Mar 2024 04:04:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711744401; cv=none; b=u1ksuPSiTPQGEq2OvdwcFZfvcu31CTGKd+JoFf1moF6wrhdNZeiCNkVwEwk/vVnGeyNZ0S1AWNbTyo/u/C/dddPwvnWPhG2RhFPBe7ITvxQx6h+BOn7n/zgwysRb6QdccXuYlIci/ES54aALbNXqFYvR+WsUtE9UvTqw38vIcmQ=
+	t=1711771468; cv=none; b=Y0bm7f/fto2YZ3YSqx9m+QkCBr1WEoysSs6Ro7svzKXAG3/6032qSV9gcoJ/ml8ShUIqdL5d3h0brH6uPyQ3FfbZf+ntwjFT6ZMi8FhsMUB7bO1vee+VPCONXCSmmGF7QyMpi6tvrd+7Lj/oUdJnEOuYR12cHKtF5PclcnSxgeI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711744401; c=relaxed/simple;
-	bh=MmKPUNxZ+susb4kr/ZOyBooFet2Ni9V6EkAgfthmPGg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eM7AR9T7dpbyRK6baVBAbGwCRx5D2EY395moEytKOwQ3qdDU1InM+3PyEOamXUzrf/6Pl+xycJVTi/JlLi4GdQisKwAkDB7Lt1f0ueQZus3CMYc4p8c0UZZSKRt/Q65TGEuVAlK7+5oyb5e/5cG9KbdyCqGElCCa7PbarJk39/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VYtvL5Cy; arc=none smtp.client-ip=209.85.215.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1711771468; c=relaxed/simple;
+	bh=5cOW6r9FoMB9QhzzO1fDqmEwJjI8wkjP7OBdnj0H/QE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=R63Yal54afKMpbFU9gv8+WAdVO/4V4VPQJOi0mDRvE5Bep9oayz3fEQuUujfIIgYb/DTmZo+0NRFOWkEKxyJDRRaWNvuJr3JgtzJ3l3z8EtU8NZwiwrs1fsU3Fv1lrxE3fxDWcH2RujL4FE2BY7sRBFSOGxgYGYT9FPY0Xx/Csg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QTBQ++0c; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VYtvL5Cy"
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-53fbf2c42bfso1648235a12.3
-        for <linux-staging@lists.linux.dev>; Fri, 29 Mar 2024 13:33:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711744399; x=1712349199; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9y/dxoUHYnuLJXM/FbNFKWazEIf0YDN2gZikUVSS61Y=;
-        b=VYtvL5CywtoxiSPZHpWEd3/5XJKa0olqtgLaTOWRMM5EXLA6r7k+v+/mjNlAavluYI
-         5Qw5mAoCjRwO7S/2ypg4tiMXyiiC9dfJqkTaYWi/FrKWPA725StZRRcAL/6WcPlliCrm
-         clhUM+MfiE05FbEKrr7ZFKFMPkKhTWxn4qOdLlGBts9xfEdJ0eQBNpWBt7/dwaoPf7Sv
-         3x2LD7EFlZ4h4nCSAOr4kRojdAbhiu/MTkVKmkNget/+gFmPzW4QkRe1748nxJ+ufl++
-         fjjmIBDiErEEgRQrBqZlmxQbYORFshM9MjRSFjN/knqao4CmVoq/67vylmQgZui9ZuPS
-         Bqhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711744399; x=1712349199;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9y/dxoUHYnuLJXM/FbNFKWazEIf0YDN2gZikUVSS61Y=;
-        b=s9+rRJn1kpByPpYCT3xnHw/jony9TZTHEqVCJJkGeLekKnXbz4PktigDOXrJkO+fxQ
-         rMO5NMrkN/J5DU6+sFiqAVzHDAAnfIwz29uxYWEf8nIWguwTnwNrT4AwT6RICmnE5UgT
-         9uNMigr0PKHMyn+MTaz0DJpy5iBXBvbTAwk/1Ad0QWwXiKIBMNmM9fOuwaDiAv5E+zfe
-         Gjfm/Lxag+ypt5zvSIfI/+3BZFn0Y43hL4nV1aqRt9M+bbgvQS3Nfq2srq0JYAdqFOLB
-         OC8f9CrZiIKWS6T+fpFlrHLY2emPiryPFPJwAKyFd61ifwm2YtkZolvL6pgFzn9343nZ
-         ii5A==
-X-Gm-Message-State: AOJu0YzOql49+YSxJls4RwBKUeY2P6TzgvysWk5jIMKMPFOFVza5L9Or
-	UJeLPd+rq/njOK+F7Nxps5xU2qvhweeTKDmEbtSWXxqRlSvlzrgD
-X-Google-Smtp-Source: AGHT+IENv1wF/FlhJUBdDw7gbHcuc9C7OqOL6VgCxshez/VMiYYzHneKoAE1DtcwhSriDloEUjcrhg==
-X-Received: by 2002:a05:6a20:3d07:b0:1a7:1c5:4746 with SMTP id y7-20020a056a203d0700b001a701c54746mr1717945pzi.1.1711744398901;
-        Fri, 29 Mar 2024 13:33:18 -0700 (PDT)
-Received: from localhost.localdomain ([122.161.51.128])
-        by smtp.gmail.com with ESMTPSA id w26-20020a62c71a000000b006e635740126sm3524177pfg.112.2024.03.29.13.33.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Mar 2024 13:33:18 -0700 (PDT)
-From: Shresth Prasad <shresthprasad7@gmail.com>
-To: gregkh@linuxfoundation.org,
-	hverkuil-cisco@xs4all.nl,
-	christophe.jaillet@wanadoo.fr,
-	prathubaronia2011@gmail.com,
-	luca.ceresoli@bootlin.com,
-	robh@kernel.org,
-	u.kleine-koenig@pengutronix.de,
-	frank.li@vivo.com
-Cc: linux-staging@lists.linux.dev,
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QTBQ++0c"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1711771464;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=gHqHBmlZCFlWpIV0o442DO/wsxDS7T9buxAA+MkmTJI=;
+	b=QTBQ++0cKrpL0LOZL46okVDdAn2rQxZrPQuUNWwHqB3OgDwxm0bpU6atdClWkVmTKVj45k
+	/ZBFFH22lGu0xPr1sKHa2KIAI0U8e38HDEQjUNWeTam5prlyCROQhHm9ECoe+n9CkVtgHv
+	ZvgSZ7WziP3VtH7Ycrr5LiTRMyGQtxM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-591-A7GX45R-N4W0xWuSmwRMFg-1; Sat, 30 Mar 2024 00:04:20 -0400
+X-MC-Unique: A7GX45R-N4W0xWuSmwRMFg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CBDD7185A781;
+	Sat, 30 Mar 2024 04:04:19 +0000 (UTC)
+Received: from kaapi.redhat.com (unknown [10.74.16.51])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id CB63CC01851;
+	Sat, 30 Mar 2024 04:04:15 +0000 (UTC)
+From: Prasad Pandit <ppandit@redhat.com>
+To: Greg KH <gregkh@linuxfoundation.org>,
+	Dan Carpenter <dan.carpenter@linaro.org>
+Cc: florian.fainelli@broadcom.com,
+	bcm-kernel-feedback-list@broadcom.com,
+	linux-arm-kernel@lists.infradead.org,
+	rjui@broadcom.com,
+	sbranden@broadcom.com,
+	linux-staging@lists.linux.dev,
+	linux-rpi-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	skhan@linuxfoundation.org,
-	Shresth Prasad <shresthprasad7@gmail.com>
-Subject: [PATCH] staging: axis-fifo: align arguments to open parenthesis in axis-fifo.c
-Date: Sat, 30 Mar 2024 02:02:24 +0530
-Message-ID: <20240329203222.12889-3-shresthprasad7@gmail.com>
-X-Mailer: git-send-email 2.44.0
+	Prasad Pandit <pjp@fedoraproject.org>
+Subject: [PATCH v4] staging: bcm2835-audio: add terminating new line to Kconfig
+Date: Sat, 30 Mar 2024 09:34:11 +0530
+Message-ID: <20240330040411.3273337-1-ppandit@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -74,45 +60,39 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.8
 
-Align some function arguments to the opening parenthesis of the
-function as reported by checkpatch:
+From: Prasad Pandit <pjp@fedoraproject.org>
 
-CHECK: Alignment should match open parenthesis
+Add terminating new line to the Kconfig file. It helps while
+displaying file with cat(1) command.
 
-Signed-off-by: Shresth Prasad <shresthprasad7@gmail.com>
+Signed-off-by: Prasad Pandit <pjp@fedoraproject.org>
 ---
- drivers/staging/axis-fifo/axis-fifo.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/staging/vc04_services/bcm2835-audio/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
-index c51818c56dd2..a70af76be7fb 100644
---- a/drivers/staging/axis-fifo/axis-fifo.c
-+++ b/drivers/staging/axis-fifo/axis-fifo.c
-@@ -376,8 +376,8 @@ static ssize_t axis_fifo_read(struct file *f, char __user *buf,
- 		 */
- 		mutex_lock(&fifo->read_lock);
- 		ret = wait_event_interruptible_timeout(fifo->read_queue,
--			ioread32(fifo->base_addr + XLLF_RDFO_OFFSET),
--			read_timeout);
-+						       ioread32(fifo->base_addr + XLLF_RDFO_OFFSET),
-+						       read_timeout);
- 
- 		if (ret <= 0) {
- 			if (ret == 0) {
-@@ -517,9 +517,9 @@ static ssize_t axis_fifo_write(struct file *f, const char __user *buf,
- 		 */
- 		mutex_lock(&fifo->write_lock);
- 		ret = wait_event_interruptible_timeout(fifo->write_queue,
--			ioread32(fifo->base_addr + XLLF_TDFV_OFFSET)
--				 >= words_to_write,
--			write_timeout);
-+						       ioread32(fifo->base_addr + XLLF_TDFV_OFFSET)
-+						       >= words_to_write,
-+						       write_timeout);
- 
- 		if (ret <= 0) {
- 			if (ret == 0) {
+v4:
+ - cat(1) command usage in commit message.
+ - https://lore.kernel.org/all/CAE8KmOxG=3sWKpeB5fdWTK-SCipS=JyDE-_DNgY--DtoSQZ0Qw@mail.gmail.com/T/#t
+v3:
+ - fix typo and note about parsing errors.
+ - https://lore.kernel.org/lkml/CAE8KmOzcD+__7xdC7tegbHO9HEP48s7=reA4j-tvqVDwzHr+8Q@mail.gmail.com/T/#t
+v2:
+ - remove Fixes tag and cc all maintainers.
+ - https://lore.kernel.org/linux-arm-kernel/20240311100920.1271545-1-ppandit@redhat.com/T/#u
+
+diff --git a/drivers/staging/vc04_services/bcm2835-audio/Kconfig b/drivers/staging/vc04_services/bcm2835-audio/Kconfig
+index 7f22f6c85067..7fbb29d3c34d 100644
+--- a/drivers/staging/vc04_services/bcm2835-audio/Kconfig
++++ b/drivers/staging/vc04_services/bcm2835-audio/Kconfig
+@@ -8,4 +8,4 @@ config SND_BCM2835
+ 	  Say Y or M if you want to support BCM2835 built in audio.
+ 	  This driver handles both 3.5mm and HDMI audio, by leveraging
+ 	  the VCHIQ messaging interface between the kernel and the firmware
+-	  running on VideoCore.
+\ No newline at end of file
++	  running on VideoCore.
 -- 
 2.44.0
 
