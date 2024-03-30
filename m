@@ -1,98 +1,76 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99D3A79EA
-	for <linux-staging@lists.linux.dev>; Sat, 30 Mar 2024 04:04:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C00E1EBB;
+	Sat, 30 Mar 2024 12:25:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711771468; cv=none; b=Y0bm7f/fto2YZ3YSqx9m+QkCBr1WEoysSs6Ro7svzKXAG3/6032qSV9gcoJ/ml8ShUIqdL5d3h0brH6uPyQ3FfbZf+ntwjFT6ZMi8FhsMUB7bO1vee+VPCONXCSmmGF7QyMpi6tvrd+7Lj/oUdJnEOuYR12cHKtF5PclcnSxgeI=
+	t=1711801535; cv=none; b=tQfsCb94B507ILNFxl4CUY/X2PUALVEM9YUYTbA2yFpHhuIOYDEQThhjlU9gTiDG3GgHEWP52pfeFjQRjH6NaVbOD2krlKbQGPaa0nHoaprhUemNNMB9/cjdB4s56dNUwYv/+SeXqMbas6vO2mw+vXQz2gqY90ut1eo4ICCFErE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711771468; c=relaxed/simple;
-	bh=5cOW6r9FoMB9QhzzO1fDqmEwJjI8wkjP7OBdnj0H/QE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=R63Yal54afKMpbFU9gv8+WAdVO/4V4VPQJOi0mDRvE5Bep9oayz3fEQuUujfIIgYb/DTmZo+0NRFOWkEKxyJDRRaWNvuJr3JgtzJ3l3z8EtU8NZwiwrs1fsU3Fv1lrxE3fxDWcH2RujL4FE2BY7sRBFSOGxgYGYT9FPY0Xx/Csg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QTBQ++0c; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1711801535; c=relaxed/simple;
+	bh=X/1Wu8J05+GPKy/nST3sHKEZ7hVbqcR1skz2cHazK/Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Ak9mt4OqGC5sODuGg9gpzOKI8g/Nk6wvTdHawTE0BaMZ7xyNiqo5S0ZVVdpCvOQpjGhww7zbTU7HGfgKHF0/oycJDxYXgYcesUd+wQApzaKYy213wPNtVbIBFeR/dmdJVC+XaBmfzsLlim34ziV1Kv3XxTu1ddKPPNAJwkYBCu4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=eWkJ4n3U; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QTBQ++0c"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1711771464;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=gHqHBmlZCFlWpIV0o442DO/wsxDS7T9buxAA+MkmTJI=;
-	b=QTBQ++0cKrpL0LOZL46okVDdAn2rQxZrPQuUNWwHqB3OgDwxm0bpU6atdClWkVmTKVj45k
-	/ZBFFH22lGu0xPr1sKHa2KIAI0U8e38HDEQjUNWeTam5prlyCROQhHm9ECoe+n9CkVtgHv
-	ZvgSZ7WziP3VtH7Ycrr5LiTRMyGQtxM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-591-A7GX45R-N4W0xWuSmwRMFg-1; Sat, 30 Mar 2024 00:04:20 -0400
-X-MC-Unique: A7GX45R-N4W0xWuSmwRMFg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CBDD7185A781;
-	Sat, 30 Mar 2024 04:04:19 +0000 (UTC)
-Received: from kaapi.redhat.com (unknown [10.74.16.51])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id CB63CC01851;
-	Sat, 30 Mar 2024 04:04:15 +0000 (UTC)
-From: Prasad Pandit <ppandit@redhat.com>
-To: Greg KH <gregkh@linuxfoundation.org>,
-	Dan Carpenter <dan.carpenter@linaro.org>
-Cc: florian.fainelli@broadcom.com,
-	bcm-kernel-feedback-list@broadcom.com,
-	linux-arm-kernel@lists.infradead.org,
-	rjui@broadcom.com,
-	sbranden@broadcom.com,
-	linux-staging@lists.linux.dev,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Prasad Pandit <pjp@fedoraproject.org>
-Subject: [PATCH v4] staging: bcm2835-audio: add terminating new line to Kconfig
-Date: Sat, 30 Mar 2024 09:34:11 +0530
-Message-ID: <20240330040411.3273337-1-ppandit@redhat.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="eWkJ4n3U"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3DF4C433C7;
+	Sat, 30 Mar 2024 12:25:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1711801535;
+	bh=X/1Wu8J05+GPKy/nST3sHKEZ7hVbqcR1skz2cHazK/Y=;
+	h=Date:From:To:Cc:Subject:From;
+	b=eWkJ4n3U9CElT0uPy+naKIAdmwqbbMd9Eyi/4sGULSWTmZMLc3zLZ+XtJm8g8VVcY
+	 FgkXQIjjMZURv6cfelZ3pTpCJhBnct5tWZ3046bKQ3rBMCWBnX1c1Pfidd2jqwspu9
+	 skfO0LzKHqmsK/BmAX8HfhE6dcpKKFfC7LrFSpds=
+Date: Sat, 30 Mar 2024 13:25:31 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Stephen Rothwell <sfr@canb.auug.org.au>
+Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: [GIT PULL] Staging driver fixes for 6.9-rc2
+Message-ID: <ZggEu9MdSTNi-9FU@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Prasad Pandit <pjp@fedoraproject.org>
+The following changes since commit 4cece764965020c22cff7665b18a012006359095:
 
-Add terminating new line to the Kconfig file. It helps while
-displaying file with cat(1) command.
+  Linux 6.9-rc1 (2024-03-24 14:10:05 -0700)
 
-Signed-off-by: Prasad Pandit <pjp@fedoraproject.org>
----
- drivers/staging/vc04_services/bcm2835-audio/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+are available in the Git repository at:
 
-v4:
- - cat(1) command usage in commit message.
- - https://lore.kernel.org/all/CAE8KmOxG=3sWKpeB5fdWTK-SCipS=JyDE-_DNgY--DtoSQZ0Qw@mail.gmail.com/T/#t
-v3:
- - fix typo and note about parsing errors.
- - https://lore.kernel.org/lkml/CAE8KmOzcD+__7xdC7tegbHO9HEP48s7=reA4j-tvqVDwzHr+8Q@mail.gmail.com/T/#t
-v2:
- - remove Fixes tag and cc all maintainers.
- - https://lore.kernel.org/linux-arm-kernel/20240311100920.1271545-1-ppandit@redhat.com/T/#u
+  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.9-rc2
 
-diff --git a/drivers/staging/vc04_services/bcm2835-audio/Kconfig b/drivers/staging/vc04_services/bcm2835-audio/Kconfig
-index 7f22f6c85067..7fbb29d3c34d 100644
---- a/drivers/staging/vc04_services/bcm2835-audio/Kconfig
-+++ b/drivers/staging/vc04_services/bcm2835-audio/Kconfig
-@@ -8,4 +8,4 @@ config SND_BCM2835
- 	  Say Y or M if you want to support BCM2835 built in audio.
- 	  This driver handles both 3.5mm and HDMI audio, by leveraging
- 	  the VCHIQ messaging interface between the kernel and the firmware
--	  running on VideoCore.
-\ No newline at end of file
-+	  running on VideoCore.
--- 
-2.44.0
+for you to fetch changes up to f37e76abd614b68987abc8e5c22d986013349771:
 
+  staging: vc04_services: fix information leak in create_component() (2024-03-25 19:10:01 +0100)
+
+----------------------------------------------------------------
+Staging driver fixes for 6.9-rc2
+
+Here are two small staging driver fixes for the vc04_services driver
+that resolve reported problems:
+  - strncpy fix for information leak
+  - another information leak discovered by the previous strncpy fix
+
+Both of these have been in linux-next all this past week with no
+reported issues.
+
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+----------------------------------------------------------------
+Arnd Bergmann (1):
+      staging: vc04_services: changen strncpy() to strscpy_pad()
+
+Dan Carpenter (1):
+      staging: vc04_services: fix information leak in create_component()
+
+ drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
