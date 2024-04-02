@@ -1,68 +1,73 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D781A364BE
-	for <linux-staging@lists.linux.dev>; Tue,  2 Apr 2024 07:05:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAA9639AD5
+	for <linux-staging@lists.linux.dev>; Tue,  2 Apr 2024 07:15:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712041515; cv=none; b=evCqu+3UrOlX0cgTkNPKEnWHWho4SDSX4YVL+0xCk2xyddnqLRKAqnmc7smnQ+TfFPsKDFDdPBIZa7cegCiyU7F5xsbMmnOAAXbW8ecBz50TROQ7iUyKzTwEmiTxoTjShJsiTCWEpHCnHENtUWTO66KmA1dGRs6jrvQWL9g7oSo=
+	t=1712042120; cv=none; b=oI59nqXN1UAyMq2zq+x3mgLi5ZgXnQN5+rBWw8FAjxCzvDnbSNxE2A1Ka1YoaTwaotGqsissP21TeoQX1+qvPpSRmbtEXz435U+RXL/2137clo7yOqW2ztQ6MINN8gHudD8nxFgWsnL1/9GY5h4+HwLH/6xlTyDgUVqo2VwFQxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712041515; c=relaxed/simple;
-	bh=LLCKE4A8nyzm0Hlt56n70RBLrr3fo5016WuImie0DPY=;
+	s=arc-20240116; t=1712042120; c=relaxed/simple;
+	bh=YV6DYQDC3IEebm+Pxkl6Atlk7TWUF7BcjSHmxpdG2BY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mdvTz8aqGBceY6BWbzUFLybxWBb8eFEepqcN6N4TL2HiVRTFF2DR+p6uxF7Kx9Vw7JcrmMXMUKY0iiGfZ5dSEjvox5f5GroV1q6hVliPbMBKPzKqCHeCXi2QIwGjM/ENe3aVTYY+h4rDYHeV+kcbZIH1dq/Z55h0jtozaDdsV9I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=h+ZfqeeP; arc=none smtp.client-ip=209.85.218.52
+	 Content-Type:Content-Disposition:In-Reply-To; b=uPZpKXKq93nIj6biHSkwINarJV2FcoBd9GhrR5528vcXXQnj4BIUwUlsO/bkPVePNTova8nVlOPg//X9UXbYyITH9dsg7kPKkC8j7FSp8xOatqBvQsLRhaP9qmRdjssEz7rRjrqxFEPAWViD6lV1jJ5yyofg8d19z/bxnQZB4aw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zFMHJ7Lo; arc=none smtp.client-ip=209.85.218.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="h+ZfqeeP"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a466e53f8c0so622812766b.1
-        for <linux-staging@lists.linux.dev>; Tue, 02 Apr 2024 00:05:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zFMHJ7Lo"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a44f2d894b7so544985766b.1
+        for <linux-staging@lists.linux.dev>; Tue, 02 Apr 2024 00:15:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1712041512; x=1712646312; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1712042117; x=1712646917; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=JYwBryX2K8ODu6f2N4BEpdau6lQG6ZayVMvLvmJsgP4=;
-        b=h+ZfqeePYlLvwOXy+m0qSqhViMyw/zd3NxtxHQF3yj8/IbEdoxNHVfQEv4Qp1lIGBb
-         5vPCtsAFmi7nY9J2plfTJC7JIe1OvQgAyrmDD8fQ4+Jq+aDKcowt86JsA+NuI3TyoXCO
-         EmFSgdL9XVLQwlg7LBpBX4o8GSOggS5CDuZNlpyrRUOkvbKlTeK4A9ZEbG+HUISU9OoA
-         UkAUcNsl5I0CFZK4fFWRxTs0bMD6MvthlDZxlv0R7OC+WhNMEpUJ15bbIFV4lf1VK6Be
-         l8MUM3DWPpmozLxrUNXpN3a2WYymxZxNHqxrLRGkyY89zAUPfL0H74WUdbiJY92Sq32k
-         NixA==
+        bh=QcLmIctw5YZRqLa0BDTmesSSp3mrMTcdHK0j2v9fFws=;
+        b=zFMHJ7Loc4gi0+6ESQpH8GSZekxiVGG7ojP/AGuSMSk6YdMq7jOOni2Dkh17lhaymM
+         mptxmsL/e77P94xpMfCOCjsI9J2BgXa2tGsd+CPnZl19Ba4j8i9wWjtlvYe6RT9GQRhg
+         /EXfqhV+K4KoVH+r4/02/Xhas74ZwAzJS79hGUlk9S3xBlhHCX2OSLdx14DEmWuy1eoe
+         scKKVzfVGtouGlmSm3ScaFVPQTx2kfPrYFkPd3Ot51tNqeSeyVYKDgpfpZaEEGNodreh
+         74FZCIx21AWFXqJoP/IlhLGZJBTrZhvDN4djBnTdSC1GgtBApgMP5m4dtFM2+9MDIzXc
+         HZVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712041512; x=1712646312;
+        d=1e100.net; s=20230601; t=1712042117; x=1712646917;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=JYwBryX2K8ODu6f2N4BEpdau6lQG6ZayVMvLvmJsgP4=;
-        b=PVCKr1ODWPa2GdWDd7h/aaSwInoO6cUzgt78f2jLRS+uRIu1TaFiXl+g5f0/a1y0X+
-         nqWsPm3EwN8QFnkiFaX28izdx5Cp/3cB1c8UWn/Ker4aWDo72Ae8yMPlTt5akCgdfUyF
-         ukmELPYrseF7hPD/qEkA9nNJ007OMf8ykPCrSbFyBvyuLnlqj+nwbGebu4fn9emgxu0x
-         940DfWn9/euadGeAxG/7jAaJnsytOsZbaLYYK+sDTnuPt59Uq86inF+ILWYoxHeMYVJT
-         3NyFDNIVOZtBbzUHQu+gGYlpO/CcbrWx2/4s0R3RUm/Z7ZXy/6L3kv5IcHbjA7n8dwjV
-         Aj7w==
-X-Forwarded-Encrypted: i=1; AJvYcCXPH8b2FoVw4aIV++0XENimqJ8vtyRbJo0hITQWQ4/r5bEAHvuoiTKrnH4bGkmk/m3itAOjqWlNtSv64T5nVL1b91x0yqa0n11Zfv+ePQ==
-X-Gm-Message-State: AOJu0Yz6xlm7d9q8vuLwRwvRexxTObw3rXNigs3LJjXYbOfCKmDqSjMM
-	gn82g7YtAZZH/9jSPWovdVERZNMHO6tMA32iy+R2YqR1lOkPh3p2j8WM5xqZO0Ji3cMbtP6tD6R
-	2
-X-Google-Smtp-Source: AGHT+IE4i0uE4zNMajZPn9EDb6fr5Exl+ezBg3jCQtWEO1B/zUdsRoEB2jy2LtigWsB2ZUsWxOxE8g==
-X-Received: by 2002:a17:906:b047:b0:a4e:d27:30ab with SMTP id bj7-20020a170906b04700b00a4e0d2730abmr8456776ejb.59.1712041511989;
-        Tue, 02 Apr 2024 00:05:11 -0700 (PDT)
+        bh=QcLmIctw5YZRqLa0BDTmesSSp3mrMTcdHK0j2v9fFws=;
+        b=hxLiZvbta8r4Kchqo43kl7+ZPpzXnNBSziGT6B4K7cFUj0enBBG09JTRb7a3p9nOSN
+         Sr3fkQTst3BWCIuA4RC73VKyppdEOkpjb8PGBHTN7UYcJSpewpfXVgW4aV6M9wR4yMbn
+         0T8SGFB3HDhjRqM5tFBZhAw54Rc/nWuIA+2tDK8Lk8ZEoDpxX9vFcV/vt1e24kWukv5t
+         IJqNWWo8XvXrWfAvuDIKrlyVaksNad/JGhIZCgUiyfSCUWdUbS1dBCpIydkOaA3e5L2E
+         /TpySRt7mP7BSyGx5o0SCgmTvnU3BydvQYpyqXkF7S7VgeLeVgIpRRfQkop1gDSNEG8N
+         i+GQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV+FwvX6eX7xPoKU7REBxR/W9uOoPTcCkuYYBHlVb/e8AToymD4g1bk55xkcbNsuyhzBCm0Cm2ET9cEIU7fpJCsDN/at4izBvVWGsJneg==
+X-Gm-Message-State: AOJu0YzsrGl3udffnoWSXUM9WBze4T6PcwE/w5wBhqUIAbs00xkIOmGW
+	nN5nm+BjP8Nh+eCxrx4RiU6B1a/RCrVofVqhW2T0O8hzXnQFTlfgkFTn7skAVRA=
+X-Google-Smtp-Source: AGHT+IE/t+XdD6wZQ394SX3ykpFvfynHcDHGuPT0TNGqT3wlNCQpXzyhP3G0Pj+iSe8R3hFkGfbHEg==
+X-Received: by 2002:a17:906:4083:b0:a4d:f0c3:a9e9 with SMTP id u3-20020a170906408300b00a4df0c3a9e9mr6839023ejj.28.1712042117061;
+        Tue, 02 Apr 2024 00:15:17 -0700 (PDT)
 Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id wv11-20020a170907080b00b00a4503a78dd5sm6189435ejb.17.2024.04.02.00.05.11
+        by smtp.gmail.com with ESMTPSA id u17-20020a17090626d100b00a4e1aa345f6sm6147253ejc.115.2024.04.02.00.15.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Apr 2024 00:05:11 -0700 (PDT)
-Date: Tue, 2 Apr 2024 10:05:07 +0300
+        Tue, 02 Apr 2024 00:15:16 -0700 (PDT)
+Date: Tue, 2 Apr 2024 10:15:12 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Meir Elisha <meir6264@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Yang Yingliang <yangyingliang@huawei.com>,
-	Ruan Jinjie <ruanjinjie@huawei.com>, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Staging: rtl8723bs: remove spaces before tabs in
- rtw_set_key()
-Message-ID: <e26e8d4b-ce02-497f-a015-c2d2eab9bda2@moroto.mountain>
-References: <20240329150953.17350-1-meir6264@gmail.com>
+To: Uri Arev <me@wantyapps.xyz>
+Cc: Shresth Prasad <shresthprasad7@gmail.com>,
+	christophe.jaillet@wanadoo.fr, frank.li@vivo.com,
+	gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	luca.ceresoli@bootlin.com, prathubaronia2011@gmail.com,
+	robh@kernel.org, skhan@linuxfoundation.org,
+	u.kleine-koenig@pengutronix.de
+Subject: Re: [PATCH] staging: axis-fifo: align arguments to open parenthesis
+ in axis-fifo.c
+Message-ID: <fdc25599-f8a7-4d66-9535-494de8439da0@moroto.mountain>
+References: <z2ewk44rjutv24i6lqau3adrmlprj524ulqtqbncvfaj44dwcg@2dnnbm75abbp>
+ <72dc90fb-79ef-4dd4-b30e-97b1e7058156@gmail.com>
+ <qnljnwccqvqzilxuoat2s6md2zwcuhfruzbpepxebk65k34t3g@cyl67lk5lsoe>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -71,81 +76,23 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240329150953.17350-1-meir6264@gmail.com>
+In-Reply-To: <qnljnwccqvqzilxuoat2s6md2zwcuhfruzbpepxebk65k34t3g@cyl67lk5lsoe>
 
-On Fri, Mar 29, 2024 at 06:09:53PM +0300, Meir Elisha wrote:
-> Remove spaces before tabs in order to improve coding style.
-> 
-> Signed-off-by: Meir Elisha <meir6264@gmail.com>
-> ---
->  drivers/staging/rtl8723bs/core/rtw_mlme.c | 36 +++++++++++------------
->  1 file changed, 18 insertions(+), 18 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> index bfb27f902753..5a506fe4698b 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> @@ -626,10 +626,10 @@ void rtw_add_network(struct adapter *adapter, struct wlan_bssid_ex *pnetwork)
->  
->  /* select the desired network based on the capability of the (i)bss. */
->  /*  check items: (1) security */
-> -/* 			   (2) network_type */
-> -/* 			   (3) WMM */
-> -/* 			   (4) HT */
-> -/*                      (5) others */
-> +/* (2) network_type */
-> +/* (3) WMM */
-> +/* (4) HT */
-> +/* (5) others */
+On Sun, Mar 31, 2024 at 09:33:55PM +0300, Uri Arev wrote:
+> > Oh, that's too bad. Thanks for the heads up!
+> No worries, I wouldn't mind it if your patch got accepted and not mine
+> :p
+> I just don't think they accept patches to axis-fifo anymore, especially
+> not basic syntax and checkpatch patches which are not as important as
+> actual bug-fixes.
 
-This comment looks weird.
+No, we're always taking patches.  You just had bad luck/timing where you
+sent the patch 2 days before Greg went on vacation.
 
->  int rtw_is_desired_network(struct adapter *adapter, struct wlan_network *pnetwork);
->  int rtw_is_desired_network(struct adapter *adapter, struct wlan_network *pnetwork)
->  {
-> @@ -1052,9 +1052,9 @@ static struct sta_info *rtw_joinbss_update_stainfo(struct adapter *padapter, str
->  			memset((u8 *)&psta->dot11rxpn, 0, sizeof(union pn48));
->  		}
->  
-> -		/* 	Commented by Albert 2012/07/21 */
-> -		/* 	When doing the WPS, the wps_ie_len won't equal to 0 */
-> -		/* 	And the Wi-Fi driver shouldn't allow the data packet to be transmitted. */
-> +		/* Commented by Albert 2012/07/21 */
-
-Nobody knows who Albert is.
-
-> +		/* When doing the WPS, the wps_ie_len won't equal to 0 */
-> +		/* And the Wi-Fi driver shouldn't allow the data packet to be transmitted. */
->  		if (padapter->securitypriv.wps_ie_len != 0) {
->  			psta->ieee8021x_blocked = true;
->  			padapter->securitypriv.wps_ie_len = 0;
-> @@ -1916,7 +1916,7 @@ signed int rtw_set_key(struct adapter *adapter, struct security_priv *psecurityp
->  	u8 keylen;
->  	struct cmd_obj		*pcmd;
->  	struct setkey_parm	*psetkeyparm;
-> -	struct cmd_priv 	*pcmdpriv = &(adapter->cmdpriv);
-> +	struct cmd_priv *pcmdpriv = &(adapter->cmdpriv);
->  	signed int	res = _SUCCESS;
-
-These declarations look bad.
-
->  
->  	psetkeyparm = rtw_zmalloc(sizeof(struct setkey_parm));
-> @@ -2021,8 +2021,8 @@ int rtw_restruct_wmm_ie(struct adapter *adapter, u8 *in_ie, u8 *out_ie, uint in_
->  /*  */
->  /*  Search by BSSID, */
->  /*  Return Value: */
-> -/* 		-1		:if there is no pre-auth key in the  table */
-> -/* 		>= 0		:if there is pre-auth key, and   return the entry id */
-> +/* -1: if there is no pre-auth key in the  table */
-> +/* >= 0: if there is pre-auth key, and   return the entry id */
->  /*  */
->  /*  */
-
-Bad.
-
-Nobody really cares about spaces before tabs.  The more important thing
-is that it looks ugly.  Focus on what matters more.
+Greg is back now, but I imagine he has a long list of stuff to catch up
+with.  It's possible that he also accidentally dropped your patch
+because of the vacation...  I could imagine a situation where that
+happened.
 
 regards,
 dan carpenter
