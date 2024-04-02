@@ -1,86 +1,111 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B270515A482
-	for <linux-staging@lists.linux.dev>; Tue,  2 Apr 2024 16:50:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CC3915CD54
+	for <linux-staging@lists.linux.dev>; Tue,  2 Apr 2024 20:08:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712076608; cv=none; b=pjbf3/Qmkh/s7J28EHSi4+PjdGhWVTEfbZPA/7l0RQDBGcCaDGfAI1OwHmag/Ws6VqDEBsuulz384vWSo4rrv1xoZpipTV6WZz+glQPYb7ngO6/oByCaeL7WPO9X6w1FzvBfPzSU28YLrFTvONt3SaH+zkFJCUeIMgiPkc3/IfY=
+	t=1712088534; cv=none; b=Hfs+3Wo2894zOeeUwM+853FaPUdNArHA+uOF2k3Tyhhe2moLOk4Cp9kyGqXdSM4PZi/J7limy9N5/KKUXAEKbWhVACwIltKF5ygJ94baUGDiA3ip5IeUaaTa2EBCFor9cClRBmy+VSP1UhlrVx7L4xrbbtC+bg/Aqbgt9nDwI74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712076608; c=relaxed/simple;
-	bh=a5VC7rpVvraZunv6Dwst6lVP7+CUM4jij1XoG9GZ/Z0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QBnVY2IQAU2N8H02e/Miq4mEATm79G287/rB0re0bwN5xejoBmblOmPzTaxmjaUKccBPB3p8/cd89y6bvu2yUrztXkCJ1HHke6Cz0cYsUr5Mo2Z/0Ov7e1M55mcFmvDWco534P+ZJkaU1yj0IyA0CAUzfsXJL+27t9jnp+e9RVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZUQbax4p; arc=none smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1712088534; c=relaxed/simple;
+	bh=qxWFvC5irnWDEYpezEKoBVsYTtZUzSruxvk1s5wKyB8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bOZSt9yNJ7Kl6aQlu8VseMkCWIhoQ1d6FI862Zj3PcOA6nW4h8aP+Yb/RKJ7Om5kgfc4AxI7m8f8qax7mbGNjBXsNr+ZbsKnO4GJD6jBGMhZoRLKbvnH2WtbAfrLXT62JJDe232B/+9mos5QiIoQNRJBDNQpMiMo7wII10Xxu3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=s7WMmvQK; arc=none smtp.client-ip=212.227.17.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZUQbax4p"
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a4a387ff7acso655645666b.2
-        for <linux-staging@lists.linux.dev>; Tue, 02 Apr 2024 09:50:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1712076605; x=1712681405; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=odERAu60Ug6RsmH7NPCr90WTw8RZSM0Nag43RhUfhM8=;
-        b=ZUQbax4plaajqhOuHESZ3xyIzdXZUbffu5ZB5uG97oS+7a1Avmc+7eUFu78wPHm1It
-         ZqD89ZQvecvfYPD/2ZPc7+EvSQCTBYD2cM2DX7E2jOvL7bfG7VlnlB/uh7L7m7rI+mPV
-         QH5oIHZZHMGEWtbpUlnGcbZq954J2HYyLQUN5k/Yshqqo6PnyfXb1h8YMPKXkKOAQHCc
-         1DvzeXjvgUH3DkzmMKQskXzni/LSPx3iI08Lyi9rOI9LwGV4C7wYuHCLAmHbcJxQIOMp
-         KOMSPDEJVTxKgAE3wPAbNWjf0zp/s3UpD7QW7Gq0xm+XHTrG/8n9mm2KBviXsnUqKMn3
-         kSug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712076605; x=1712681405;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=odERAu60Ug6RsmH7NPCr90WTw8RZSM0Nag43RhUfhM8=;
-        b=aMCjBr19iDV9CGALGRqlKETLQ3TPKnn/lDNFglIDig02vw1IVvWMZTZAHvTLIdNVrW
-         bER4h3Dl8eGLEPs5L2NZwmHhXS3ODZbk1OJmG3YAK8m9SHyhdS4nRAi1uVJ899VPxlIR
-         liiBonD4DaozJfo4bqC4eCtmx+F+hcCgQRkiMxVCAQLIO92YB3cRvMwaTcMH4Dv89v3i
-         Ev9pYQCsZd+GvPq00XMtAKKa7PtAm0o20RkTJecOvGzftWJxAHWB0ZZZzNa+MzXnlEN4
-         j61XFtd9jHLLRORlubUDq5dM05yG0wshNt42npUNwO5rweND52ph7tRFPvPpPE5nTPKC
-         dRLw==
-X-Forwarded-Encrypted: i=1; AJvYcCVkd73qMgNJYNOJAuNV5Ocz3XHiFNvH37HyRPdWGNIhz+a90kp3bEAnJrir5JylBYq4ph7vComVpfrSVAPhimFCRtW8TARhPzz8j6WJBA==
-X-Gm-Message-State: AOJu0YxI0hMVJiw2YNaF4xNNq7T3Z5MF7B/f9JVMMJjb9YIN/GfvD+gz
-	V6Nkl8aL1pqm3N237H0/FVywneLPyvLUJTSjo5AqDW8htK8vhrIMJ5/+aJ79pR5tXP28xqOWHkG
-	G
-X-Google-Smtp-Source: AGHT+IH8OA9pcpehly5awaPgXOENbA8rXra2anS24UXloU1zSe9/5QM+mSIWTveOmI1kpt9iwyCeJg==
-X-Received: by 2002:a17:906:39c2:b0:a4e:7f22:cfc2 with SMTP id i2-20020a17090639c200b00a4e7f22cfc2mr233199eje.28.1712076604896;
-        Tue, 02 Apr 2024 09:50:04 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id bn1-20020a170907268100b00a4e6750a358sm2897610ejc.187.2024.04.02.09.50.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Apr 2024 09:50:04 -0700 (PDT)
-Date: Tue, 2 Apr 2024 19:50:00 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Shahar Avidar <ikobh7@gmail.com>
-Cc: gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
-	andriy.shevchenko@linux.intel.com, robh@kernel.org,
-	felixkimbu1@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 6/6] staging: pi433: Rename return value from "status"
- to "ret".
-Message-ID: <1f1572b9-9b0f-45b4-94ec-7f79467a7205@moroto.mountain>
-References: <20240402111414.871089-1-ikobh7@gmail.com>
- <20240402111414.871089-7-ikobh7@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="s7WMmvQK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
+	s=s31663417; t=1712088521; x=1712693321; i=wahrenst@gmx.net;
+	bh=qxWFvC5irnWDEYpezEKoBVsYTtZUzSruxvk1s5wKyB8=;
+	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+	 In-Reply-To;
+	b=s7WMmvQK0VBvgh/bocAmwsKvt5+0wyFzulRsYEOLh1U4SmRYjxR3f8eQyEzWnMyf
+	 J/e7ZKAyRh/VS9RG0tMUeUol9DmzuqzZpZx5tmiEKe3hpyRcwEXQs/SdxMxqYoiIc
+	 79z46lq5cS9tBseyTXi2Gxqs15oPXFFRGDGRDXHpbhkDKH1yWNbPuQorDG6IK5361
+	 aaWYNmpjid6QQ1YrXQnRoM/eyxTf96BkRxQDHFqskQKlCzVNxt/KIBVFj0ppgcCDa
+	 UUU3aJSH0pqouyD8AYDxPXg8XST2hcRTHKf6dRDSe/wI8bMN33ltz/13IEeyQ3ktQ
+	 YKtghFPIdIOSyO7Ykg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.167] ([37.4.248.43]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MVNB1-1sHlTq0rln-00SNo0; Tue, 02
+ Apr 2024 22:08:41 +0200
+Message-ID: <818b0a19-a861-4b99-a418-919d67379293@gmx.net>
+Date: Tue, 2 Apr 2024 22:08:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240402111414.871089-7-ikobh7@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Revert "staging: vc04_services: vchiq_core: Stop kthreads
+ on shutdown"
+To: Umang Jain <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev
+Cc: Dan Carpenter <error27@gmail.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Phil Elwell <phil@raspberrypi.com>, Greg KH <greg@kroah.com>,
+ Mark Brown <broonie@kernel.org>
+References: <20240330160440.49179-1-umang.jain@ideasonboard.com>
+Content-Language: en-US
+From: Stefan Wahren <wahrenst@gmx.net>
+In-Reply-To: <20240330160440.49179-1-umang.jain@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:fNP8r4a1qWjgDpl5iitVTzkU3X6mK/EYwKnRsaTvaTZjgIaoAmz
+ SwtMkcF01UtLJMRHyWLqNhue8WgtOddjxCZb0RsJbMSbGGZp9MV81wxm969t/1XRNyN3LvT
+ zjsKbFX2CXGajJJFtAUKQQx+qgAtTkMyGMMZqiQHSHHQa8U+rY6XP3dKdr0pGQrq73qOtKc
+ NeujvnmrPOO5LKiim/dqA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:fYazDpe0/Qs=;rEhDoVaUq0t0fyYR9MpCbzy/hMf
+ MW27b22bq/ucpF/kraN41HUUdy+5MSiKQHWjGRchyRvlIDFc+knfvrpY/gIThM00MjoCcVx3M
+ 2dgAzjCTmKFoj+0A+ZJ0x12E3QgHlGBv64Rizq0YpCv8RMElzDtSTTXan3Km4HrVqisF98q3w
+ vGAWdwsi7UgRV6PFok7qeACsMSeRBk4wdX5t08vJO8JmP9SJ0rJOy6kWFiP0bApMBVKJLyaAX
+ ugBFzWfuLN6gz0AHCuu5Wi8r6NmdPxS+JvdbNpwboB13HEmpjiGl4piy3eTfy0xqvGOepmqAx
+ HBXUUm5OeevGSjtQrbxkZkd8b5c6IwX2VRfvrr9iK/XeacDWObb48salf5ZPxA20fX+AVvDzM
+ eyZNkpYPqu61H+0mnxIqNYFxXsfxdX0uBRzvoY3c4pQUfoHboYxuOdYFK0xOmyiFvCA4lzAsr
+ GnmnpP7W0LXQ8gjVcfDkGYgrGyGW1jSPdEgjwsDA5NZxDZ1ZtBBshUJOdroZZnTw2N4tacAn5
+ d9xl8KzxXoohh//eeRB3I/DLbk0cT+38ziaJIH0qj8qRxTfiP81Kd1tHaRb+tupbduO6+F4kX
+ H6qXqneDi8m/1nWWdMFWtprW2t+wMnjCLrMv8dMCV6rieEtpwo0w4NMwT9EFddLZJJxn+VJbM
+ DpqG7x1Ww4NS9QmC32gNYHlDVGcr63tcjcWXGQQ0+rVvAbk/p4TNmlbAl+hhMx2P4nJA/Z96J
+ TcEKN16kd0Uv1LXJoSYD0NuecwrDB2Z6+QNtF4m7odn7UUVJFlMfe77NorBGO/ThTqzHhw68f
+ O7Ajx26IRJpuSzPLgSbBMQvlJuvqogZ+/2/+WzOuzwf8E=
 
-On Tue, Apr 02, 2024 at 02:14:14PM +0300, Shahar Avidar wrote:
-> Drivers init functions usually use either "ret" or "rc" naming their
-> return variable.
-> 
+Hi Umang,
 
-status is also fine.  Just leave this as-is probably.
+Am 30.03.24 um 17:04 schrieb Umang Jain:
+> This reverts commit d9c60badccc183eb971e0941bb86f9475d4b9551.
+>
+> It has been reported that stopping kthreads corrupts the VC04 firmware
+> and creates issues at boot time.
+>
+> A fix-up version of this patch [2] was also attempted but it also doesn'=
+t
+the usual approach (hash + subject) to reference a commit would be
+better, even the commit hasn't be applied yet to mainline.
 
-regards,
-dan carpenter
+> properly fix the TODO (i.e. clean module unload) and similar errors
+> were observed when stopping these khthreads on RaspberryPi 3.
+>
+> Hence, revert the entire patch for now since it is not very clear why
+> stopping the kthreads breaks the firmware.
+>
+> [1]: https://lore.kernel.org/linux-staging/CAPY8ntBaz_RGr2sboQqbuUv+xZNf=
+Rct6-sckDLYPTig_HWyXEw@mail.gmail.com/t/#me90b9a9bc91599f18cd65ceb7eedd40e=
+5fee0cdd
+There is no reference to [1]. I assume this should be in the second
+sentence.
 
+Except of these nits, the patch looks good to me.
+
+Best regards
+>
+> [2]: https://lore.kernel.org/linux-staging/171161507013.3072637.12125782=
+507523919379@ping.linuxembedded.co.uk/T/#m1d3de7d2fa73b2447274858353bbd4a0=
+c3a8ba14
+>
+> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> ---
