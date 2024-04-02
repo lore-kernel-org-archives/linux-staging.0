@@ -1,88 +1,116 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68DD89463
-	for <linux-staging@lists.linux.dev>; Tue,  2 Apr 2024 13:59:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFB2F15AAB4
+	for <linux-staging@lists.linux.dev>; Tue,  2 Apr 2024 16:47:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712066388; cv=none; b=CRYmr/289t9PkyIFty9E57oNy9FqTrNhethQNCJ/oCYcbklYss+cvK6btZG8omylb6VvvCy7NixYnclHOGxgDODleXuj+WKkakA++5Hs+MOYXACJBiLqEkrKVo9KlIN8dNien5Eq8UHaowIHiwjm0VmrDpbSozIhBnsacvqHFYA=
+	t=1712076424; cv=none; b=Ba0bbRhWmwE0cwgIvht8/zF1KoVuCnV+tJCtZGc59ZWA4HvkyzmPjDhYW0Xr5G8Fe0SG/qCUuBXgL5LcxN5JHanGkQGdL/CvHkYhw+OSFcIBuV/cKzYIGybGusQJepHeDzo8kYeQh/L6gBGEuTGRQYrRIDY9SJzpLMmuRVMojHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712066388; c=relaxed/simple;
-	bh=42K8nROeT6dOc/vahsjMTQ2TJejhqqvIR62/11kWiD0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=t3SdADPnM1TvlQ0I8BmegXkAZqjj90+SxFmLYeu4MsILIhnOtMa484V77+VNCvlVxt1ZRxmJXaEtu8EzjV/ZrRQ8RQDXUNdZJ4SmSwv6ZICSMUEuOK4Asas7RVPwuY9o2edSG2INqzCZudrs0NMdjtxii8RWDS+AlDqZ9eIKNHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QPhVHnxd; arc=none smtp.client-ip=209.85.216.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1712076424; c=relaxed/simple;
+	bh=wueQqgHgNfobgMl7ngnx77rJxYOAca9buPv+PhcY45A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NUqWsoa/4sIZy0QskeWKPmWTCV53mW3l5kNioO4JdTQw2Dge9X/tgpCeAUDnAIYbELSzYKXjrogNSdh8pw/SJOQ5fakAC1bhkXmPCVDhzHbOEOeBkZu1oDxgCPo9nIgTIy5RUA1TlPBhgGDxEFEL2FyedQYERMnifCbSjwvt5fY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BP/iqluM; arc=none smtp.client-ip=209.85.208.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QPhVHnxd"
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-2a27ba3b1f3so143343a91.3
-        for <linux-staging@lists.linux.dev>; Tue, 02 Apr 2024 06:59:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BP/iqluM"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-56df1dbb15dso1037319a12.3
+        for <linux-staging@lists.linux.dev>; Tue, 02 Apr 2024 09:47:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712066387; x=1712671187; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=uuuVrZPyzr64KS5dQg/A1NNJWj7HElaPDjPANjVr5sU=;
-        b=QPhVHnxdhZgz9v2QKvKqInVXaO8AJJuNQWNXBypLj3Z+R4Yj8+RaWbKHFtfSAPpR2E
-         Bc0WGyeeri5loU4esjIeXXFYiG0Ni0ZdTAAQLyconrIcfmCtWBT70SsN2ZJTgc5WxVOV
-         OjgUoVUWbXW/Y7S4NqsWo28lzMVKECcgrMzC3gbc9LLvmBw253TFZi6OQCtJaCNJ/gL2
-         e97EdZX15Bjbn3+wc17CeUK7gVeSXEpt+1pSutmW29HIxVLpHcjJsEM1mcLmOCXcitHv
-         8EtMA52uCfPsQps1Ci9ziobpRnjscPucMW1eIqBgQTK1rFoqb6/R2xpMaeQXJVa23W/g
-         GUWw==
+        d=linaro.org; s=google; t=1712076421; x=1712681221; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=CgRCLxVPL6foOssar2VbNFyHEq1eN153oN+Bgv5BRW0=;
+        b=BP/iqluMKAk57W/PdeSwIVT99diKLtm2jOfZkvBCGduTRg6/xgHUmF+IksRahx0CXC
+         JcwLfqPC4qmW7sei26Y5hy8fqFUy6xz+1/OcO91XRgH2PPRu8pXN7pimtIzYSvTuSFnB
+         yULRB04Cfzc607WCmNgd8C6VjM75qhR4qCetp3GNVCThaxKkmwwgtdIYwOM9yq8+EQMX
+         1NwEFi4x131bHEx0SIcBkdtND8KZk1VOt+EPN/ySHfcbpirBhEbqBAMsC6ZzX4AVnJDQ
+         gSwpRzsACeSSax3Ogn4UR1Mf9okGJ8PLBUDuCBzEOrhTcSE7/lKMRnx/k+lk0yjjOrgS
+         v9PQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712066387; x=1712671187;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=uuuVrZPyzr64KS5dQg/A1NNJWj7HElaPDjPANjVr5sU=;
-        b=hSCeIYS/RZNRgioIxjgKORZQ3xJhXvsFPvcoide41uELkzUstDGllFcP1k82iSoEwR
-         6tW81N9EvoQTr2oT6E6gAKEjAm2XbCRHkCxECQNg2MNPQoTJx3qsaDe4GPAzJFsWiddk
-         X1qZyIJbbb+QQ+d8LHopCZsJBipSaTBLV1SL2ju4t+69yh7fute8P9mGij+iJVwV0Tgb
-         7NJg4rgj9owv1MruPdToWgnJa0ujq1VL1lfS+mBtKHxrXMO/Vc6DJ9k9vmyfdHRuLzco
-         LmnuViHCz31TRQgH7R2vQGmlymuWjKYP8vUSj6StsV2ctKQ15C380QLwZ19loKSqb8r2
-         ygqg==
-X-Forwarded-Encrypted: i=1; AJvYcCVRJGMRVks9w+Dh1cprs6TMCi7K99QToLWW5vgsjyBjZ07bdFgUAmDVkG3qcCcGXWnU4ma9M0FPSzcKPOWUVZzHazsBhM3UgTWQYONRoA==
-X-Gm-Message-State: AOJu0YzD9enOB9dmL6Ou5e+r3y9n57sPrUaboxPlmJ66qwFz7FxJYnnJ
-	WRQV4bbG2DuOKVtMQiGuJSxrFxQqtWjUXj3UOp2Vy2AcnQHSmBXlTY0C9T5D6crGHVrbW+rTzf+
-	XoTPux3eovnvg97jYXjknMM0YJxU=
-X-Google-Smtp-Source: AGHT+IE6qUICTNOSpzFpnEgWw1aZpDkMOxwpZZfJ7CwYPASbAghPZ0S5E/rKol7m6M75I5a3WTJVLsqMMIJoZuFdjsI=
-X-Received: by 2002:a17:90a:4294:b0:2a2:3223:1903 with SMTP id
- p20-20020a17090a429400b002a232231903mr5147022pjg.47.1712066386686; Tue, 02
- Apr 2024 06:59:46 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1712076421; x=1712681221;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CgRCLxVPL6foOssar2VbNFyHEq1eN153oN+Bgv5BRW0=;
+        b=csNOZo8XR6FLfigy04A/8B0H3tXo0BE9qZaY0vc/zPK7/fWpoWIP4j5h36H6TKEpQV
+         GsaNUZRmgRMy1vddd79s5YBko6tFYJQ6mzshqYYGMQfZbHqRwxoPMsfaBFVj62XaBizl
+         +WK4LyVIp3+D/+HIwT+dQZgpoKAV4cV1P0XfEqqK0A8dxde5t1bF2XFx//vZqJx98U2a
+         QmTC4iYgtWLD3z/kJy/YDlIk07tgygZy841sebGrDvy8Fjcy1FY1M0Imlkk0zIy8Crii
+         uYbBTaIrfKamAZfvqX9gIQAqpVIytPTZFJm8IK5SizUu+MrHR1RbY+D2xQn7JlprTzty
+         98MQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXmq2Orc0/+n5uqPfdHmANXlPDygrDQ1Bh4aKgGr82MzqOaIGLA9azrZj1TPBnxLK9g2gQODlI0fWAEMrKexdwjAxxcljn3xia/IzCNCw==
+X-Gm-Message-State: AOJu0YxE7BxQixLgAKBuD2PTD0Qxk3OIeAEc/MICt89eZXLXVWwmlJND
+	rP9dATBnQRnlf5gV9m4SqE0MitgAhCnc6PkMikeLZJc+/M/Nhlqf6tPGF6XXN4k=
+X-Google-Smtp-Source: AGHT+IGekWANLpkZC1FyGzuPjK1/7OE3EWko5UnsSDR83c1+sNGh3cSBNrv0Gf8ykz8Q1y1BRVVhOg==
+X-Received: by 2002:a17:906:d9cc:b0:a4e:109f:7b4b with SMTP id qk12-20020a170906d9cc00b00a4e109f7b4bmr8891710ejb.41.1712076421210;
+        Tue, 02 Apr 2024 09:47:01 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id qf31-20020a1709077f1f00b00a4df4243473sm6683790ejc.4.2024.04.02.09.47.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Apr 2024 09:47:00 -0700 (PDT)
+Date: Tue, 2 Apr 2024 19:46:57 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Shahar Avidar <ikobh7@gmail.com>
+Cc: gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
+	andriy.shevchenko@linux.intel.com, robh@kernel.org,
+	felixkimbu1@gmail.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 5/6] staging: pi433: Remove duplicated code using the
+ "goto" error recovery scheme.
+Message-ID: <068f3705-9f9b-4d61-be50-a131b9598703@moroto.mountain>
+References: <20240402111414.871089-1-ikobh7@gmail.com>
+ <20240402111414.871089-6-ikobh7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <z2ewk44rjutv24i6lqau3adrmlprj524ulqtqbncvfaj44dwcg@2dnnbm75abbp>
- <72dc90fb-79ef-4dd4-b30e-97b1e7058156@gmail.com> <qnljnwccqvqzilxuoat2s6md2zwcuhfruzbpepxebk65k34t3g@cyl67lk5lsoe>
- <fdc25599-f8a7-4d66-9535-494de8439da0@moroto.mountain>
-In-Reply-To: <fdc25599-f8a7-4d66-9535-494de8439da0@moroto.mountain>
-From: eretmochelys imbricata <shresthprasad7@gmail.com>
-Date: Tue, 2 Apr 2024 19:29:35 +0530
-Message-ID: <CAE8VWiJbjQ-LmeNRsVkXtTEbytqux-7Xv0c5JT86=FSxemgGSw@mail.gmail.com>
-Subject: Re: [PATCH] staging: axis-fifo: align arguments to open parenthesis
- in axis-fifo.c
-To: dan.carpenter@linaro.org
-Cc: christophe.jaillet@wanadoo.fr, frank.li@vivo.com, 
-	gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl, 
-	linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org, 
-	linux-staging@lists.linux.dev, luca.ceresoli@bootlin.com, me@wantyapps.xyz, 
-	prathubaronia2011@gmail.com, robh@kernel.org, shresthprasad7@gmail.com, 
-	skhan@linuxfoundation.org, u.kleine-koenig@pengutronix.de
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240402111414.871089-6-ikobh7@gmail.com>
 
->No, we're always taking patches.  You just had bad luck/timing where you
->sent the patch 2 days before Greg went on vacation.
+On Tue, Apr 02, 2024 at 02:14:13PM +0300, Shahar Avidar wrote:
+> pi433_init had "unregister_chrdev" called twice.
+> Remove it using goto statements.
+> 
+> Signed-off-by: Shahar Avidar <ikobh7@gmail.com>
 
->Greg is back now, but I imagine he has a long list of stuff to catch up
->with.  It's possible that he also accidentally dropped your patch
->because of the vacation...  I could imagine a situation where that
->happened.
+Your commit message needs to mention all the other changes you made,
+especially the bug fix.  I feel like you're doing too many changes
+really.  Just use the gotos to clean up but don't re-order the calls.
 
-That's quite unfortunate. It's good to know that you guys are still
-taking patches tho!
+You need to add a Fixes tag.
 
-Regards,
-Shresth Prasad
+> ---
+> v2->v1:
+> Followed by Dan Carpenter's <dan.carpenter@linaro.org> comments:
+>         - Remove empty "fail" goto tag.
+>         - Reorder pi433 init & exit calls so they have reverse order.
+
+Keep the init calls the same.  Re-order the exit calls.  It's a bit of
+a gray area if you can re-order the exit calls in this same patch.  Do
+it in a separate patch just to be safe.
+
+>         - Add "unreg_spi_drv" goto tag.
+>         - Check "debugfs_create_dir" return value.
+
+No.  This is wrong.  Debugfs function are not supposed to be checked.
+https://staticthinking.wordpress.com/2023/07/24/debugfs-functions-are-not-supposed-to-be-checked/
+
+>         - Update "if" statments for consistency.
+
+I like this cleanup, but it's not worth the effort.  Just leave it
+as-is unless you really really need to change it.  Do it in a separate
+patch.
+
+What qualifies as One Thing Per Patch is a bit of gray area.  Greg tends
+to want things split up into tiny patches.  You have to know your
+maintainer.
+
+regards,
+dan carpenter
+
