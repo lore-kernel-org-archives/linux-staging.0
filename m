@@ -1,40 +1,40 @@
-Received: from CHN02-BJS-obe.outbound.protection.partner.outlook.cn (mail-bjschn02on2126.outbound.protection.partner.outlook.cn [139.219.17.126])
+Received: from CHN02-BJS-obe.outbound.protection.partner.outlook.cn (mail-bjschn02on2123.outbound.protection.partner.outlook.cn [139.219.17.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96A775A104
-	for <linux-staging@lists.linux.dev>; Tue,  2 Apr 2024 10:00:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.219.17.126
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 941FB5811B
+	for <linux-staging@lists.linux.dev>; Tue,  2 Apr 2024 10:15:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.219.17.123
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712052057; cv=fail; b=Xu2spabg83YLi4mn3and4gK0i+YWExxytUUFZdon85j9D6kSUVXAKNHkk84RA1n3tci87YBbPLpUwpdJVPdT1dTtnLeCyRWQwf+MHvx3DukM6jqGlM0lHBFzMPG/faZJ3UUtyE4mSVtD+MXU22Cf1FYIAk2IwThe9+qCSZwFCak=
+	t=1712052916; cv=fail; b=BBKsq57BWoljO5JM0KyCrQBwaMK7dN42bFbLNck5S5Ylm7ohSL/jRnYauRV0OtS7HnYkcraRu25j7H1D3VDCNHxg94zB9eJAWG/DFFoEGYbQ64o1Arah/TbgaO/MG9vGgdSZZ1CULMK3SnrISPXWASoyBaxE8OljL6FA+mfKVBo=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712052057; c=relaxed/simple;
-	bh=8vy9iC4xZobNonXX5You5QxmsSOWhQLEJArk/ruFFtk=;
+	s=arc-20240116; t=1712052916; c=relaxed/simple;
+	bh=BPOTdn9PqZIjRRaxsBjsW0oQegeY1gBtb92b60WIuSk=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=AFR6A7OPTqwho+Vn7Rok7ec7IsDqgrIGmu90iuxvk6WAP47+csHAh3HDrv+Ycjdm8Q1Z41aX2Ec3BCJlQXNbXPBbBwmkCSiCQvA8gOE2YJW/uCuwYlMICHAEcsV1AhvhMh+tULVeFqxz+yXJS+txGTESUHjrlS/GRhOpgOU+NkA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com; spf=pass smtp.mailfrom=starfivetech.com; arc=fail smtp.client-ip=139.219.17.126
+	 Content-Type:MIME-Version; b=cBYCLuC3C/hOVqjSpPZKyHHvU9xd8l4J6ANPn+/CAmAEnQWZ6nT7P6QpmtyNUqXodIEu3XSnB3PTy83wLXBt0G93G6/LupzCJFv+fqG9i6n0Cd338IsDKvjAoI3jO6ocfFR/BVGICwdZvGH2Lk4htIk0X9lqe0zBLt3CbQYaM/I=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com; spf=pass smtp.mailfrom=starfivetech.com; arc=fail smtp.client-ip=139.219.17.123
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ub5vR5cVFA9FDUklV+/Dsp3HSwCRQ0a90qhKilbQdEhCl4Enxc+axVVbCTgfPrhBOhtsjgTHyykGSXEotiioaW2e3AXI+y7mv1mO9qZNJmVbgnGk0n4CMX/I0yf4I47ZvwfGNbe+SchDwOScIkllz4dkd04Z/TDMPVQ0hlkNsh+nq3tA/ND8bKj7SVrwReo8PzthFM+KWqzVgB2EKRZLAX+qzvAZo+VWXSfEBxEtqQFBS3EAcxfPwoKaycPwxUPypfOrmoaWBFwQX1vRxwo2qQzFU8xbLbHOi7Q2Q9nQMQon5+0rVgjJ5BTrcWkiqJAgm5UnbjGLd0FnFJT3+dHeCw==
+ b=XeK3rzgt+VzdggXrkZvk1KbSu3bYshYVIUjCm+XicYGvGg9fQCl477FI+irIAuwkr58ePmy/fmvrOX5aTh8Ktq6Qy6uY5xZqniOX4mqMnNVNz7A1SxHt7FAQHAEUvanhKo7rKyQ9439Iw3aV5PE8luRzg9CHv8L6Q9VjdaBX1SpQ9ITtZRsC5PyRdzCu+ZL9yVQzRuGmRy97HEue3jVClRCZL4eOECyPGeymmbAnXxloC4osUxPJjz2dgApeZw4yF9+mJbnqzuYgblG7bM/uvpRJvXFVcIFY0jx+UVFRJiuk7plsByesaPcfKDFqe9I7p2AYLI6aXStCyNPVthmdOw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tpOFUQrZW8GSQTbW3FIMAhf3C7AGEcEZyiE+jejurPc=;
- b=CnD6LJUw1998zvLYzQy2qvjt8gRAGaju+NBVagkSITTFY36n2KlTCmJBxgpdO/1fmCodnQiAZFJcHOMZqX5EzbVMvCdwzqfvNkDAg+5cNBHnUjpFKfe1kAlf4/u33GHgKmomoB2qJBSXtl3eDHapJoYgbhkoEEHIcLa7D9kfm77dv1l0mLkFXVFNlYo5Zh9scm5mZAu19rRyxXz0oIui3POPeTvUxuXEMnkE3xkduI4e5c2PylGhoQT5JlVErP02ht82GzLUC5baRzIzg7s9iYELyvTMGO0k79PGdQLKJV1q5P0/piVns479qSA+h3K9CyYsOeCETHZDG1MT0ZWtNA==
+ bh=2+3pg0h1rxF1CLiHTkvZO7Y0N4g9pCr1wHeur26bsDQ=;
+ b=czbWBaoCsz6ibTIT/fz815GHKja8HRmM9kNBquoM08iX72uHlHdjVGSgtz8sJFls7gez0L5pI4NUc0wJ+uik/EQo7wyyOo8wQCsYYgcxKHEZVhHyqBRAORDQmVrt7IEiwMolef6jmjdKRmK6x+oGUrlZTZywSeC2lbayspQ1gA6Jf6vx13XweHjeggiXZy/AjCnqhAfqGyk+rCQmcUbknya4lo4GT12MJCNpICKVu7j25BB+84Ai2Gw3LBTJOlhRJQTEqxH+XE5k7rebJZk4h9XRHpXoRdww6HZ8xEHirAkNWI/NKUSvxSYQuGy05ge8sq2uVi7daoydYVnzd5LzVw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=starfivetech.com; dmarc=pass action=none
  header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=starfivetech.com;
 Received: from SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c311:25::10) by SHXPR01MB0462.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c311:1e::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Tue, 2 Apr
- 2024 10:00:43 +0000
+ (2406:e500:c311:25::10) by SHXPR01MB0669.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c311:27::21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.40; Tue, 2 Apr
+ 2024 10:00:25 +0000
 Received: from SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
  ([fe80::b0af:4c9d:2058:a344]) by
  SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn ([fe80::b0af:4c9d:2058:a344%7])
- with mapi id 15.20.7409.038; Tue, 2 Apr 2024 10:00:43 +0000
+ with mapi id 15.20.7409.038; Tue, 2 Apr 2024 10:00:25 +0000
 From: Changhuang Liang <changhuang.liang@starfivetech.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -52,9 +52,9 @@ Cc: Jack Zhu <jack.zhu@starfivetech.com>,
 	linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH v4 13/13] admin-guide: media: Update documents for StarFive Camera Subsystem
-Date: Tue,  2 Apr 2024 03:00:11 -0700
-Message-Id: <20240402100011.13480-14-changhuang.liang@starfivetech.com>
+Subject: [PATCH v4 03/13] media: videodev2.h, v4l2-ioctl: Add StarFive ISP meta buffer format
+Date: Tue,  2 Apr 2024 03:00:01 -0700
+Message-Id: <20240402100011.13480-4-changhuang.liang@starfivetech.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240402100011.13480-1-changhuang.liang@starfivetech.com>
 References: <20240402100011.13480-1-changhuang.liang@starfivetech.com>
@@ -70,123 +70,93 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SHXPR01MB0671:EE_|SHXPR01MB0462:EE_
-X-MS-Office365-Filtering-Correlation-Id: 369657c0-cf06-4450-7317-08dc52fbc263
+X-MS-TrafficTypeDiagnostic: SHXPR01MB0671:EE_|SHXPR01MB0669:EE_
+X-MS-Office365-Filtering-Correlation-Id: 659f9687-1706-4c94-b2cd-08dc52fbb7e8
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	qF9niEURcctatKjlD3lhalEvypwVvxLLjdZF13+XQnOp/Uopuh1+b+G7vpSYIdZm90P+F79coDzxQch41b1ydp291ZKcxwGPPjNqHeaeXD1Q/fchgKVhsfIJ4JWHWKQ1WtQoRKvPv0SeoBGQxdcNoXsGtgTLl/zEnGWV2LFp0DYIv5g0x36Bb/gY93ESLbgX+uRKuGxcmyJ7mQj3ycBy4AzoV8pxeu836mJFemF6mHuT+LlSAUalLDjqvzEAF05/JBecKs7zpvrmW+0P9xCms0Paf/XkLEvMe76mnCk0WrFQzgWhTbY+nOx1KaGOMrvBUmxlJjk/92tQ9Lk2dSSy5hT7gn5YJVnHGUcFH4Zn8JLIDfPCM+A1INYVoTcT+QJ+EOwSawVodvBR0jYSAYZtqlQ0tUCbfwYg7tC6eEdwut5FrW2Y/B4Ji8+tlG4YuG5jesmuUHUOfmOwm9uEWZVqss14wx6Bz7qodoAr+AV6kt8IiiJWSq5+5crZPXIjOcqj4aM7sl8OHFpcWfpuoRSmkXOot1ORbaDRrFlzWjBTk4WNfH+A8owi5QhtRPFV84Bho/0r2PXzcq1CHpKLN9ubyNvNQLjUv4h18XgCl5ZsvOPm7w8ygQnBXy6DtSj2kOLp9X7m2E0qFsx9k47S2ic6Bg==
+	QiWF6RtaDeKUhn6jGssstwLXPgDOmE5aRWE58zRTEa498zUuphAGAe9PBqCqefvpAEh5ob8EgwT4F0Gkx12DGVTRO4ysotUkrJDdMTvXGESNMC2fGZJiRlq+x3BjL0HKBsfP+H/Gv+hmix4QPBVgUjvQvaaCshyfdgeVZxxdBkym28thwSxcg8QJg2t0W6Kcw7PJcTlk6L/LMPGu8Y6ZZAz6tlDZ5MPPT3pzNxdxL0xNAEJmQBUTcMqS/XDwAFpxYzJet54dLFYDIGXv6RdxSxD9XkUeAOetTSQBGhjQilX8BfF45pIgZk8XsXed97Sze0JVPYH3gOhEtzdT6Xq12UT14Vi8JIKsQul75bBZeQkl4quyctlkHEduuJMXvKK2BPhBl8bGncmyEpXFtFEmjX6XuozlKiAFU3Bu0VInvVKzZXhjI47Ef9bBf8Asj8TAYI9WAT2wlvkEHmZx6vtf7HLSGGToNzQtLToPRjQzBbw9TvPwKPDMswAvKmFNQLkIHa+MEzMxqaT26HJ+l4KbS8GuzPqglRc0GZa3zCt/qlND4pb5HopCzl8MgYc0rkCCy8r6Fpx0is9NN7xm8DyXDGEFOi0aAbmmHg1+nEOWDEuuAPUKm03w+qzuEfL/1SNXtpAn2dQAhGaI9NcxhgyjgA==
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(52116005)(7416005)(41320700004)(366007)(38350700005)(921011);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230031)(41320700004)(366007)(1800799015)(52116005)(7416005)(921011)(38350700005);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?W+AhEdW/0gzVZgaxNxUI4clDiZDXsAmrWX5NvFkRcixewka7tLzoBkt60lUk?=
- =?us-ascii?Q?SvrtWdWonNvfeXpHj3c+eoWTtzzICcm1FG2Jmd6C8/vnfpmW7ogdiPUlN7rT?=
- =?us-ascii?Q?rHnUSS3h20z0jlUJn4KaiZWLBYNZWRSmRtxIa3OJbilj5ZWgTCUXAMqfFWQw?=
- =?us-ascii?Q?CoB7wibtauMEDu3lH0J+qxgSGkxwRN5Jc7ow64V+k25CLSaXTstH0vw3rzEg?=
- =?us-ascii?Q?/zzTJcsxyhOcEEBAHay7F14vO/1w1AGLBxCV+LoLspqLkRtBgJ/Ey37ptW7F?=
- =?us-ascii?Q?kGQu2H0Y3xqahkqgemLk2Jb9qXfvNCyiI3JGsmCh+SUwYzXM1mm1EiINhnWN?=
- =?us-ascii?Q?CuFn+F+5wnc/BfwQ3cUzxx9Lrfqd5tcSzW1dbbU6rCqcA2ziMxhPKoOpsxUm?=
- =?us-ascii?Q?zoqmBX7FNtnf0kvApF8jW18QXWK/OHdi2jaZAtKibP+dzgi97Kk0oU8hbQKA?=
- =?us-ascii?Q?cV9D0/CBD81vdbGqDvDCC46UbltOtmCwzX3A9RfIN0GOgVIiZdVQr2d6At5N?=
- =?us-ascii?Q?ChzyOm1fEOzqPOvA93a7+olF2xdfY1lZDus9lCPekCYjwr/p9mrrDS9lOsKq?=
- =?us-ascii?Q?x2fAt6hm9sVgqwTc/67jvf3T++WuKoNZ9fQAr2rHCjWYQkSV/WmC6OaZqTx8?=
- =?us-ascii?Q?y1jHyqr1oPKqvqJfbDAHQrYIuNNtkhxLFJ++2rMO3otw47cNHI+jcOnpqDXt?=
- =?us-ascii?Q?kJXfBiCk3mGkVkt5OI3KEm9pvaju+nkyrRS2DKXR91caBNUj3KbnMCNhwsFM?=
- =?us-ascii?Q?1rILWs7Qbq2Tm14cDLaSLESxOG4YubodZGtbjMDtbj23wOW/L7U3osz8VBAv?=
- =?us-ascii?Q?2yQuUDFDGPR8/W3Kx6cAln76zIKV1wXyF6zO3Oo9cSVKhr6+KTY4P2Zb/DxC?=
- =?us-ascii?Q?RxRh4UpAMu+NL5Zo3D881sji8J1yeUUXHVXwXJ92LV53qo9fLbZTjZGY6u7N?=
- =?us-ascii?Q?lfnbw+PQPtiqQcGAItrRPqIklYONPRaxUmOAK4Z0YRQcRN+9iuHXXslYvnnR?=
- =?us-ascii?Q?gkW95y6FlrifLpKJ6rm5UdIOHIIYjXgoNPmx1stISSsiF3wqfdb6LpgrBSoZ?=
- =?us-ascii?Q?qKzjg5bH7pmjn7bgEzF0fNDaErq84hDVOkaMaU5WQAbJzllJFFWVaFSqF0Bp?=
- =?us-ascii?Q?2SJw0nPEdG0kFaIeCvKcAP48osAJjBE9fEcUFhwGttMEgcqIfuhKyt+1FY5Y?=
- =?us-ascii?Q?7P1XzCqOXXcwyyUvTtrV2sFB1SaYbybWtxTbo/wCmvLojY6qpJIZVoNEBlt5?=
- =?us-ascii?Q?rlLO3nCi8LTNmPrMhgb5HXFVCxgZVFDucCyy0dN9slLQYwlXayTA07PVXQuW?=
- =?us-ascii?Q?YccM84zOzu1ohhgrCcoIN+6xVAiPwDbXjUUOQjq2smGplcAbPX5vOJzxTVzl?=
- =?us-ascii?Q?3NFQ/OsblayhU7monz+ZiNIFE4p5DmVMfSgtgzGvp2IQ2yc9MHuZU1dm0mus?=
- =?us-ascii?Q?AU6bqEE9odWDDIekte3k9DhWLzQiJFuJLq2kGR1of1ClfaPsvVfWGPBZeL1+?=
- =?us-ascii?Q?lv8yuNSs9MIhiixrz7nLn6/Xji6KxAjLlvJCcn40tqNYf5ansrEJgBiUqujg?=
- =?us-ascii?Q?XRwaTPwEwu+W6hu3+rviEK7Ps3YfVW/yobTnh3lL2q5qUz9wDdvQ/IqBdKBv?=
- =?us-ascii?Q?QI6pE4X7BFZT9Z1zqbUGiEE=3D?=
+	=?us-ascii?Q?IufWn+1Fm0xmqg5rnAcSChSm4S72AokLQ5xL0gqV0h7xNN6wMiOLCXiEtxY+?=
+ =?us-ascii?Q?Bf2FhNjZfMEXl35iiROtq7l8+gTpEHecV20O8UeJXEPrMeZ7MRzOXMiM2ot5?=
+ =?us-ascii?Q?d/VlYlyVQ2r+IiAmbIrYSqQGmlG0Xsjpl+qBgZUnGTESMRDVNH2P1E1+I5it?=
+ =?us-ascii?Q?648eu0EkOI1yWjqH6/pAFm3Tlz7NPDafaAxShAkUOSqBaizGHK8uEJMcMaeE?=
+ =?us-ascii?Q?xTITts7e73VW1OUUGsuGx83DyV93RdmwGYAxSMsxWD2ACIX5Jz2t5ttQ9Dze?=
+ =?us-ascii?Q?KxfXS5az2j4hHDn08i47Uoez4Ol7MJ78MWSJTvuBb1vKE6BDiXy8rnbzHBiv?=
+ =?us-ascii?Q?4RgXuhEQx+CD7fhjtBScKGaGrGzG+M9VnLam9UIaY2TrW/GDhI/Wyp6dqvwG?=
+ =?us-ascii?Q?viogW/GUzv49d7GDqEPZWpEGn+b9hXJTHijsGtGY4QvqAELHuY1j63FWIdWp?=
+ =?us-ascii?Q?pV5teLDkKyYWrYuAT2dR0kYHlbwhcTduUln0DccmxXlUP2nrIGeDDYocnI+n?=
+ =?us-ascii?Q?XWLjptQWIMaoGgUoV1iqx+HG3PdzGII692XyrDSeVPFUONkjousP9FdC/lhM?=
+ =?us-ascii?Q?5khvGOdH+WxDA4V8cIBPDuk6iCaI2lhtEs9GfjKwFS/ekey/mYBEQTjX4X82?=
+ =?us-ascii?Q?DOE7+dgOepujFEuNjzQYaf5wf9gsLZ1WPUV2CD2afgpM4Su4KB2p4+dFbpsD?=
+ =?us-ascii?Q?BeqZHc9h2gD+ErKpUi+8Apcu+q6VTVAAzTcuR4eD+cLrFLmB7vzmilL3Ma2q?=
+ =?us-ascii?Q?yWaauMtU/p/bpYt9eKesRxIO0lZxpQYz+GSq9ZZ3g2d7MFaxlrZCWrmxz031?=
+ =?us-ascii?Q?s/34z+N9Udglifb7eqvsmrQ/EW3DYFQnVHPi9lj3zuTCTDJVlmVuE17lkgVm?=
+ =?us-ascii?Q?L7y73qlDwL1/4dADpFfoCJq2HgfIwhHrJR9QCLzxwIYrwc9pE2D2CGEQhwnr?=
+ =?us-ascii?Q?3rLv9/7NH61mgzqLIJPb6L+muxIcjJjezv8vm7Nb/FZfy4LpgX/VXM9A6iKK?=
+ =?us-ascii?Q?1D7II/z7Zi184EjRDNv9U3mmMQYTtq1RIkajOhdqNwSpL9obHMkidAw7qJAF?=
+ =?us-ascii?Q?QHEhcgPnd6VUqQ9ATE+kE3vo7qmvyU4CWdhiLIh+4kA2ET+RUGFAtvI/qWWM?=
+ =?us-ascii?Q?bdQIpylrp/XbrS5ID71j/wgeSx0CcrPimi48T54iZel1+gyPQZ+uHVKCkvDh?=
+ =?us-ascii?Q?C0zGTWondO5f3vKOkx2omZn7bEokzZQf0x2nToxxcU2qiFZBAQBG3EE8YRo3?=
+ =?us-ascii?Q?UuD/cDSoqgg/6Lf+/M9Ubpk2fdV6q8di8Tj5Y2B4Vl8GPtSQZZ24XGliALUN?=
+ =?us-ascii?Q?01FXu4sMClf4tH3K2G5eMTIKumTJoA4UDK+QUJYzntqY/iWkf5o6NFBb+I3G?=
+ =?us-ascii?Q?B9mYbAoUXlEDJOfHo8O45y/O5ig4FcxK8f0vOfDhscuvszHNybPO4FH9gMo2?=
+ =?us-ascii?Q?OukQmvI0jV3/gyV3bBTHN2IXRi7kxiqST37CwaWRn99wom1TxICnqrluJxNo?=
+ =?us-ascii?Q?mxbQNcd72o1gu+tq4eYJGsG96dJfTLy955OcKW724gLOVIUtx0j5cFEWkXIE?=
+ =?us-ascii?Q?3Aq1pJBA2glC0Tg53fmK6e9ZZVEPXS1lpgNOaj4Cz1Mlg0To+XRcB1epHp9H?=
+ =?us-ascii?Q?afYJo6gqGB5/A3k8Vwn7lYo=3D?=
 X-OriginatorOrg: starfivetech.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 369657c0-cf06-4450-7317-08dc52fbc263
+X-MS-Exchange-CrossTenant-Network-Message-Id: 659f9687-1706-4c94-b2cd-08dc52fbb7e8
 X-MS-Exchange-CrossTenant-AuthSource: SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Apr 2024 10:00:43.2395
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Apr 2024 10:00:25.6831
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Ssf3/xkxlETVX7GX8jpaLoteFOGve+r8i9pAgyY4M7AdT2carv90tAjB05r+SUepyIxgnKbDVU2nZDbppPVlUmmtQ9A7pPJowYM+RmIx6JGn1gf/DcJbhPsDmNjwUgiP
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SHXPR01MB0462
+X-MS-Exchange-CrossTenant-UserPrincipalName: ojEgmDFL+M7xr2DmqvtQ05nWASj+IJBc+hBZSuTnWv95T0CB8zynMjxBeoGDkmYAhrufzQtePnDRTj6sT0la2O+DAxLztaF4gOppJGz4pnuzn/+4aRrNHdWZjEPawsi9
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SHXPR01MB0669
 
-Add ISP output parameters and 3A statistisc collection data video
-device for documents.
+Add the StarFive ISP specific metadata format
+V4L2_META_FMT_STF_ISP_PARAMS & V4L2_META_FMT_STF_ISP_STAT_3A for 3A.
 
 Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
 ---
- .../admin-guide/media/starfive_camss.rst      | 11 +++++++---
- .../media/starfive_camss_graph.dot            | 22 +++++++++++--------
- 2 files changed, 21 insertions(+), 12 deletions(-)
+ drivers/media/v4l2-core/v4l2-ioctl.c | 2 ++
+ include/uapi/linux/videodev2.h       | 4 ++++
+ 2 files changed, 6 insertions(+)
 
-diff --git a/Documentation/admin-guide/media/starfive_camss.rst b/Documentation/admin-guide/media/starfive_camss.rst
-index ca42e9447c47..020f1969e67f 100644
---- a/Documentation/admin-guide/media/starfive_camss.rst
-+++ b/Documentation/admin-guide/media/starfive_camss.rst
-@@ -58,15 +58,20 @@ The media controller pipeline graph is as follows:
-     :alt:   starfive_camss_graph.dot
-     :align: center
+diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+index 5aeff5519407..9fb8f9c510a9 100644
+--- a/drivers/media/v4l2-core/v4l2-ioctl.c
++++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+@@ -1453,6 +1453,8 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+ 	case V4L2_META_FMT_VIVID:       descr = "Vivid Metadata"; break;
+ 	case V4L2_META_FMT_RK_ISP1_PARAMS:	descr = "Rockchip ISP1 3A Parameters"; break;
+ 	case V4L2_META_FMT_RK_ISP1_STAT_3A:	descr = "Rockchip ISP1 3A Statistics"; break;
++	case V4L2_META_FMT_STF_ISP_PARAMS:	descr = "StarFive ISP 3A Parameters"; break;
++	case V4L2_META_FMT_STF_ISP_STAT_3A:	descr = "StarFive ISP 3A Statistics"; break;
+ 	case V4L2_PIX_FMT_NV12_8L128:	descr = "NV12 (8x128 Linear)"; break;
+ 	case V4L2_PIX_FMT_NV12M_8L128:	descr = "NV12M (8x128 Linear)"; break;
+ 	case V4L2_PIX_FMT_NV12_10BE_8L128:	descr = "10-bit NV12 (8x128 Linear, BE)"; break;
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index 2663213b76a4..8fb9f2f20832 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -839,6 +839,10 @@ struct v4l2_pix_format {
+ #define V4L2_META_FMT_RK_ISP1_PARAMS	v4l2_fourcc('R', 'K', '1', 'P') /* Rockchip ISP1 3A Parameters */
+ #define V4L2_META_FMT_RK_ISP1_STAT_3A	v4l2_fourcc('R', 'K', '1', 'S') /* Rockchip ISP1 3A Statistics */
  
--The driver has 2 video devices:
-+The driver has 4 video devices:
++/* Vendor specific - used for StarFive JH7110 ISP camera sub-system */
++#define V4L2_META_FMT_STF_ISP_PARAMS	v4l2_fourcc('S', 'T', 'F', 'P') /* StarFive ISP 3A Parameters */
++#define V4L2_META_FMT_STF_ISP_STAT_3A	v4l2_fourcc('S', 'T', 'F', 'S') /* StarFive ISP 3A Statistics */
++
+ /* priv field value to indicates that subsequent fields are valid. */
+ #define V4L2_PIX_FMT_PRIV_MAGIC		0xfeedcafe
  
-+- output_params: The meta output device, transmitting the parameters to ISP
-+  module.
- - capture_raw: The capture device, capturing image data directly from a sensor.
- - capture_yuv: The capture device, capturing YUV frame data processed by the
--  ISP module
-+  ISP module.
-+- capture_scd: The meta capture device, capturing 3A statistics collection data
-+  processed by the ISP module.
- 
- The driver has 3 subdevices:
- 
--- stf_isp: is responsible for all the isp operations, outputs YUV frames.
-+- stf_isp: is responsible for all the isp operations, outputs YUV frames
-+  and 3A statistics collection data.
- - cdns_csi2rx: a CSI-2 bridge supporting up to 4 CSI lanes in input, and 4
-   different pixel streams in output.
- - imx219: an image sensor, image data is sent through MIPI CSI-2.
-diff --git a/Documentation/admin-guide/media/starfive_camss_graph.dot b/Documentation/admin-guide/media/starfive_camss_graph.dot
-index 8eff1f161ac7..7961255d3ad6 100644
---- a/Documentation/admin-guide/media/starfive_camss_graph.dot
-+++ b/Documentation/admin-guide/media/starfive_camss_graph.dot
-@@ -1,12 +1,16 @@
- digraph board {
- 	rankdir=TB
--	n00000001 [label="{{<port0> 0} | stf_isp\n/dev/v4l-subdev0 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
--	n00000001:port1 -> n00000008 [style=dashed]
--	n00000004 [label="capture_raw\n/dev/video0", shape=box, style=filled, fillcolor=yellow]
--	n00000008 [label="capture_yuv\n/dev/video1", shape=box, style=filled, fillcolor=yellow]
--	n0000000e [label="{{<port0> 0} | cdns_csi2rx.19800000.csi-bridge\n | {<port1> 1 | <port2> 2 | <port3> 3 | <port4> 4}}", shape=Mrecord, style=filled, fillcolor=green]
--	n0000000e:port1 -> n00000001:port0 [style=dashed]
--	n0000000e:port1 -> n00000004 [style=dashed]
--	n00000018 [label="{{} | imx219 6-0010\n/dev/v4l-subdev1 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
--	n00000018:port0 -> n0000000e:port0 [style=bold]
-+	n00000001 [label="{{<port0> 0 | <port1> 1} | stf_isp\n/dev/v4l-subdev0 | {<port2> 2 | <port3> 3}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n00000001:port2 -> n0000000e
-+	n00000001:port3 -> n00000012 [style=dashed]
-+	n00000006 [label="output_params\n/dev/video0", shape=box, style=filled, fillcolor=yellow]
-+	n00000006 -> n00000001:port1 [style=dashed]
-+	n0000000a [label="capture_raw\n/dev/video1", shape=box, style=filled, fillcolor=yellow]
-+	n0000000e [label="capture_yuv\n/dev/video2", shape=box, style=filled, fillcolor=yellow]
-+	n00000012 [label="capture_scd\n/dev/video3", shape=box, style=filled, fillcolor=yellow]
-+	n0000001c [label="{{<port0> 0} | cdns_csi2rx.19800000.csi-bridge\n/dev/v4l-subdev1 | {<port1> 1 | <port2> 2 | <port3> 3 | <port4> 4}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n0000001c:port1 -> n00000001:port0 [style=dashed]
-+	n0000001c:port1 -> n0000000a [style=dashed]
-+	n00000026 [label="{{} | imx219 6-0010\n/dev/v4l-subdev2 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n00000026:port0 -> n0000001c:port0 [style=bold]
- }
 -- 
 2.25.1
 
