@@ -1,111 +1,167 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CC3915CD54
-	for <linux-staging@lists.linux.dev>; Tue,  2 Apr 2024 20:08:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A04B915B556
+	for <linux-staging@lists.linux.dev>; Tue,  2 Apr 2024 20:44:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712088534; cv=none; b=Hfs+3Wo2894zOeeUwM+853FaPUdNArHA+uOF2k3Tyhhe2moLOk4Cp9kyGqXdSM4PZi/J7limy9N5/KKUXAEKbWhVACwIltKF5ygJ94baUGDiA3ip5IeUaaTa2EBCFor9cClRBmy+VSP1UhlrVx7L4xrbbtC+bg/Aqbgt9nDwI74=
+	t=1712090694; cv=none; b=UwsGRl+0RcLPsP70XMSa1vu66gllRCz9e+U4Zmjtc4dxOWpP5iR5RgoNUg5t9WLpOOKk5iJbxmNlwpB9sayTqTZXZc0ta0bVXFsot2T+/EKTr9++WCzbdEo5cmRcSLyp63uNFnRchqRY9Mz4kzxiLj9Z+qyUJFX3gm2LmLpxJJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712088534; c=relaxed/simple;
-	bh=qxWFvC5irnWDEYpezEKoBVsYTtZUzSruxvk1s5wKyB8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bOZSt9yNJ7Kl6aQlu8VseMkCWIhoQ1d6FI862Zj3PcOA6nW4h8aP+Yb/RKJ7Om5kgfc4AxI7m8f8qax7mbGNjBXsNr+ZbsKnO4GJD6jBGMhZoRLKbvnH2WtbAfrLXT62JJDe232B/+9mos5QiIoQNRJBDNQpMiMo7wII10Xxu3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=s7WMmvQK; arc=none smtp.client-ip=212.227.17.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
+	s=arc-20240116; t=1712090694; c=relaxed/simple;
+	bh=vcrKVU++LGt1iRwlSiCMBR0ER4wiRkTCi/zpxSgyE6g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=E5VSBbEakHXgHRKtHQYDD96/QA8p6fCd2nH6OdWgOsMKjk4MyWBR0MQTeuYOUzohtlwn6lD46JZg7DWNND0r+elrXXQl3uS96aJuahf4Ye2VL/CRUoJFf+MGuF9Ca7a5m2giy5CrtyrfX/+v9YgPQ7wZ9FYyZRc1zDuTgn9ncVg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gU/YeZI8; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="s7WMmvQK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
-	s=s31663417; t=1712088521; x=1712693321; i=wahrenst@gmx.net;
-	bh=qxWFvC5irnWDEYpezEKoBVsYTtZUzSruxvk1s5wKyB8=;
-	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
-	 In-Reply-To;
-	b=s7WMmvQK0VBvgh/bocAmwsKvt5+0wyFzulRsYEOLh1U4SmRYjxR3f8eQyEzWnMyf
-	 J/e7ZKAyRh/VS9RG0tMUeUol9DmzuqzZpZx5tmiEKe3hpyRcwEXQs/SdxMxqYoiIc
-	 79z46lq5cS9tBseyTXi2Gxqs15oPXFFRGDGRDXHpbhkDKH1yWNbPuQorDG6IK5361
-	 aaWYNmpjid6QQ1YrXQnRoM/eyxTf96BkRxQDHFqskQKlCzVNxt/KIBVFj0ppgcCDa
-	 UUU3aJSH0pqouyD8AYDxPXg8XST2hcRTHKf6dRDSe/wI8bMN33ltz/13IEeyQ3ktQ
-	 YKtghFPIdIOSyO7Ykg==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.167] ([37.4.248.43]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MVNB1-1sHlTq0rln-00SNo0; Tue, 02
- Apr 2024 22:08:41 +0200
-Message-ID: <818b0a19-a861-4b99-a418-919d67379293@gmx.net>
-Date: Tue, 2 Apr 2024 22:08:40 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gU/YeZI8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1712090693; x=1743626693;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=vcrKVU++LGt1iRwlSiCMBR0ER4wiRkTCi/zpxSgyE6g=;
+  b=gU/YeZI8Y8D63sYcWTbCM3//6IRGn4Fv+RIuJUOprb4RCE2PiBbFjw1M
+   hMatmF4hR+xLP/+S5a2kmMYkYsQAXM+rd52tt/hDbuSnbbIs4r5CFGLsH
+   CXF/qJINHq/C0LRkxMW3w5CzIIx71ig2pRLndLmHWp2PKNGpLIS1VrjlP
+   SJSftWVlAtWTvnYvwL6OvHpod+gE6r0IQk4zeI0BJRRHeWtu535X6PDFw
+   6CUlQt2ZMjGWKeF68LSu6sHRAyaxc+X1pWJcVdwWY33H6h/lOimn86e22
+   ZdwRlCNLl2wcnlDwPDemkwp1ExtEUYmzp93EAbmhXSPTy3uNYfPiKDCGv
+   A==;
+X-CSE-ConnectionGUID: 3mHZ5OxpSlqx+C8HlWwkEw==
+X-CSE-MsgGUID: fSWjwSmDT+y4UNcL6dcVcA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11032"; a="7188485"
+X-IronPort-AV: E=Sophos;i="6.07,176,1708416000"; 
+   d="scan'208";a="7188485"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2024 13:44:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,11032"; a="937083805"
+X-IronPort-AV: E=Sophos;i="6.07,176,1708416000"; 
+   d="scan'208";a="937083805"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga001.fm.intel.com with ESMTP; 02 Apr 2024 13:44:49 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+	id EEEC21C5; Tue,  2 Apr 2024 23:44:48 +0300 (EEST)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH v1 1/1] media: atomisp: Get rid of PCI device ID hack check
+Date: Tue,  2 Apr 2024 23:44:47 +0300
+Message-ID: <20240402204447.294280-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.43.0.rc1.1.gbec44491f096
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Revert "staging: vc04_services: vchiq_core: Stop kthreads
- on shutdown"
-To: Umang Jain <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev
-Cc: Dan Carpenter <error27@gmail.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Phil Elwell <phil@raspberrypi.com>, Greg KH <greg@kroah.com>,
- Mark Brown <broonie@kernel.org>
-References: <20240330160440.49179-1-umang.jain@ideasonboard.com>
-Content-Language: en-US
-From: Stefan Wahren <wahrenst@gmx.net>
-In-Reply-To: <20240330160440.49179-1-umang.jain@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:fNP8r4a1qWjgDpl5iitVTzkU3X6mK/EYwKnRsaTvaTZjgIaoAmz
- SwtMkcF01UtLJMRHyWLqNhue8WgtOddjxCZb0RsJbMSbGGZp9MV81wxm969t/1XRNyN3LvT
- zjsKbFX2CXGajJJFtAUKQQx+qgAtTkMyGMMZqiQHSHHQa8U+rY6XP3dKdr0pGQrq73qOtKc
- NeujvnmrPOO5LKiim/dqA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:fYazDpe0/Qs=;rEhDoVaUq0t0fyYR9MpCbzy/hMf
- MW27b22bq/ucpF/kraN41HUUdy+5MSiKQHWjGRchyRvlIDFc+knfvrpY/gIThM00MjoCcVx3M
- 2dgAzjCTmKFoj+0A+ZJ0x12E3QgHlGBv64Rizq0YpCv8RMElzDtSTTXan3Km4HrVqisF98q3w
- vGAWdwsi7UgRV6PFok7qeACsMSeRBk4wdX5t08vJO8JmP9SJ0rJOy6kWFiP0bApMBVKJLyaAX
- ugBFzWfuLN6gz0AHCuu5Wi8r6NmdPxS+JvdbNpwboB13HEmpjiGl4piy3eTfy0xqvGOepmqAx
- HBXUUm5OeevGSjtQrbxkZkd8b5c6IwX2VRfvrr9iK/XeacDWObb48salf5ZPxA20fX+AVvDzM
- eyZNkpYPqu61H+0mnxIqNYFxXsfxdX0uBRzvoY3c4pQUfoHboYxuOdYFK0xOmyiFvCA4lzAsr
- GnmnpP7W0LXQ8gjVcfDkGYgrGyGW1jSPdEgjwsDA5NZxDZ1ZtBBshUJOdroZZnTw2N4tacAn5
- d9xl8KzxXoohh//eeRB3I/DLbk0cT+38ziaJIH0qj8qRxTfiP81Kd1tHaRb+tupbduO6+F4kX
- H6qXqneDi8m/1nWWdMFWtprW2t+wMnjCLrMv8dMCV6rieEtpwo0w4NMwT9EFddLZJJxn+VJbM
- DpqG7x1Ww4NS9QmC32gNYHlDVGcr63tcjcWXGQQ0+rVvAbk/p4TNmlbAl+hhMx2P4nJA/Z96J
- TcEKN16kd0Uv1LXJoSYD0NuecwrDB2Z6+QNtF4m7odn7UUVJFlMfe77NorBGO/ThTqzHhw68f
- O7Ajx26IRJpuSzPLgSbBMQvlJuvqogZ+/2/+WzOuzwf8E=
+Content-Transfer-Encoding: 8bit
 
-Hi Umang,
+Always check exact PCI ID match and drop hack checks.
 
-Am 30.03.24 um 17:04 schrieb Umang Jain:
-> This reverts commit d9c60badccc183eb971e0941bb86f9475d4b9551.
->
-> It has been reported that stopping kthreads corrupts the VC04 firmware
-> and creates issues at boot time.
->
-> A fix-up version of this patch [2] was also attempted but it also doesn'=
-t
-the usual approach (hash + subject) to reference a commit would be
-better, even the commit hasn't be applied yet to mainline.
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ .../media/atomisp/pci/atomisp_internal.h      |  3 +-
+ .../staging/media/atomisp/pci/atomisp_v4l2.c  | 40 +++++++++----------
+ 2 files changed, 21 insertions(+), 22 deletions(-)
 
-> properly fix the TODO (i.e. clean module unload) and similar errors
-> were observed when stopping these khthreads on RaspberryPi 3.
->
-> Hence, revert the entire patch for now since it is not very clear why
-> stopping the kthreads breaks the firmware.
->
-> [1]: https://lore.kernel.org/linux-staging/CAPY8ntBaz_RGr2sboQqbuUv+xZNf=
-Rct6-sckDLYPTig_HWyXEw@mail.gmail.com/t/#me90b9a9bc91599f18cd65ceb7eedd40e=
-5fee0cdd
-There is no reference to [1]. I assume this should be in the second
-sentence.
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_internal.h b/drivers/staging/media/atomisp/pci/atomisp_internal.h
+index bba9bc64d447..e6a090d9f310 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_internal.h
++++ b/drivers/staging/media/atomisp/pci/atomisp_internal.h
+@@ -49,14 +49,13 @@
+ 	(((isp)->media_dev.hw_revision & ATOMISP_HW_REVISION_MASK) == \
+ 	 ((rev) << ATOMISP_HW_REVISION_SHIFT))
+ 
+-#define ATOMISP_PCI_DEVICE_SOC_MASK	0xfff8
++#define ATOMISP_PCI_DEVICE_SOC_BYT	0x0f38
+ /* MRFLD with 0x1178: ISP freq can burst to 457MHz */
+ #define ATOMISP_PCI_DEVICE_SOC_MRFLD	0x1178
+ /* MRFLD with 0x1179: max ISP freq limited to 400MHz */
+ #define ATOMISP_PCI_DEVICE_SOC_MRFLD_1179	0x1179
+ /* MRFLD with 0x117a: max ISP freq is 400MHz and max freq at Vmin is 200MHz */
+ #define ATOMISP_PCI_DEVICE_SOC_MRFLD_117A	0x117a
+-#define ATOMISP_PCI_DEVICE_SOC_BYT	0x0f38
+ #define ATOMISP_PCI_DEVICE_SOC_ANN	0x1478
+ #define ATOMISP_PCI_DEVICE_SOC_CHT	0x22b8
+ 
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+index f736e54c7df3..4f414b812408 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+@@ -1238,7 +1238,8 @@ static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
+ 	const struct atomisp_platform_data *pdata;
+ 	struct atomisp_device *isp;
+ 	unsigned int start;
+-	int err, val;
++	u32 val;
++	int err;
+ 
+ 	/* Pointer to struct device. */
+ 	atomisp_dev = &pdev->dev;
+@@ -1266,8 +1267,10 @@ static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
+ 
+ 	pci_set_drvdata(pdev, isp);
+ 
+-	switch (id->device & ATOMISP_PCI_DEVICE_SOC_MASK) {
++	switch (id->device) {
+ 	case ATOMISP_PCI_DEVICE_SOC_MRFLD:
++	case ATOMISP_PCI_DEVICE_SOC_MRFLD_1179:
++	case ATOMISP_PCI_DEVICE_SOC_MRFLD_117A:
+ 		isp->media_dev.hw_revision =
+ 		    (ATOMISP_HW_REVISION_ISP2400
+ 		     << ATOMISP_HW_REVISION_SHIFT) |
+@@ -1420,28 +1423,25 @@ static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
+ 	 */
+ 	atomisp_css2_hw_store_32(MRFLD_CSI_RECEIVER_SELECTION_REG, 1);
+ 
+-	if ((id->device & ATOMISP_PCI_DEVICE_SOC_MASK) ==
+-	    ATOMISP_PCI_DEVICE_SOC_MRFLD) {
+-		u32 csi_afe_trim;
+-
++	switch (id->device) {
++	case ATOMISP_PCI_DEVICE_SOC_MRFLD:
++	case ATOMISP_PCI_DEVICE_SOC_MRFLD_1179:
++	case ATOMISP_PCI_DEVICE_SOC_MRFLD_117A:
+ 		/*
+ 		 * Workaround for imbalance data eye issue which is observed
+ 		 * on TNG B0.
+ 		 */
+-		pci_read_config_dword(pdev, MRFLD_PCI_CSI_AFE_TRIM_CONTROL, &csi_afe_trim);
+-		csi_afe_trim &= ~((MRFLD_PCI_CSI_HSRXCLKTRIM_MASK <<
+-				   MRFLD_PCI_CSI1_HSRXCLKTRIM_SHIFT) |
+-				  (MRFLD_PCI_CSI_HSRXCLKTRIM_MASK <<
+-				   MRFLD_PCI_CSI2_HSRXCLKTRIM_SHIFT) |
+-				  (MRFLD_PCI_CSI_HSRXCLKTRIM_MASK <<
+-				   MRFLD_PCI_CSI3_HSRXCLKTRIM_SHIFT));
+-		csi_afe_trim |= (MRFLD_PCI_CSI1_HSRXCLKTRIM <<
+-				 MRFLD_PCI_CSI1_HSRXCLKTRIM_SHIFT) |
+-				(MRFLD_PCI_CSI2_HSRXCLKTRIM <<
+-				 MRFLD_PCI_CSI2_HSRXCLKTRIM_SHIFT) |
+-				(MRFLD_PCI_CSI3_HSRXCLKTRIM <<
+-				 MRFLD_PCI_CSI3_HSRXCLKTRIM_SHIFT);
+-		pci_write_config_dword(pdev, MRFLD_PCI_CSI_AFE_TRIM_CONTROL, csi_afe_trim);
++		pci_read_config_dword(pdev, MRFLD_PCI_CSI_AFE_TRIM_CONTROL, &val);
++		val &= ~((MRFLD_PCI_CSI_HSRXCLKTRIM_MASK << MRFLD_PCI_CSI1_HSRXCLKTRIM_SHIFT) |
++			 (MRFLD_PCI_CSI_HSRXCLKTRIM_MASK << MRFLD_PCI_CSI2_HSRXCLKTRIM_SHIFT) |
++			 (MRFLD_PCI_CSI_HSRXCLKTRIM_MASK << MRFLD_PCI_CSI3_HSRXCLKTRIM_SHIFT));
++		val |= (MRFLD_PCI_CSI1_HSRXCLKTRIM << MRFLD_PCI_CSI1_HSRXCLKTRIM_SHIFT) |
++		       (MRFLD_PCI_CSI2_HSRXCLKTRIM << MRFLD_PCI_CSI2_HSRXCLKTRIM_SHIFT) |
++		       (MRFLD_PCI_CSI3_HSRXCLKTRIM << MRFLD_PCI_CSI3_HSRXCLKTRIM_SHIFT);
++		pci_write_config_dword(pdev, MRFLD_PCI_CSI_AFE_TRIM_CONTROL, val);
++		break;
++	default:
++		break;
+ 	}
+ 
+ 	err = atomisp_initialize_modules(isp);
+-- 
+2.43.0.rc1.1.gbec44491f096
 
-Except of these nits, the patch looks good to me.
-
-Best regards
->
-> [2]: https://lore.kernel.org/linux-staging/171161507013.3072637.12125782=
-507523919379@ping.linuxembedded.co.uk/T/#m1d3de7d2fa73b2447274858353bbd4a0=
-c3a8ba14
->
-> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> ---
