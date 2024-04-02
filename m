@@ -1,40 +1,40 @@
-Received: from CHN02-SH0-obe.outbound.protection.partner.outlook.cn (mail-sh0chn02on2091.outbound.protection.partner.outlook.cn [139.219.146.91])
+Received: from CHN02-BJS-obe.outbound.protection.partner.outlook.cn (mail-bjschn02on2126.outbound.protection.partner.outlook.cn [139.219.17.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B8CA5FB8A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4C6E59172
 	for <linux-staging@lists.linux.dev>; Tue,  2 Apr 2024 10:00:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.219.146.91
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.219.17.126
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712052047; cv=fail; b=NKH4bbGK1FhaniHc3fnFv0S9qC07yw27AVcF3CrCyHBigViV7iKQ2SY/zghoSNdtRH3MuDdw19y1bnJJXpPN33HC1pHmE6P1XjkKyizWaa2wKwakzYJ9IuDVY/nrOdqfmSHXn3FrxRP8U3eZPDpILH3qYeWSlAD4+YAO72PfsDQ=
+	t=1712052048; cv=fail; b=DYnspxnBs794zu27I8EajlCiGZs8LZC3ywrt8AR8SFFLGFzswo2stt5qCCg01ctDeKzfRN2xhalGg0fvC+/FHUDjWEls1mITUeA4uE23zmUdPXDbRMAUoLz851XmSif4PW+GjNIFRebWIX5hOD0BnN82CuKHrz59/zN8GHNRY+s=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712052047; c=relaxed/simple;
-	bh=thuUBZn6WEQ7V9/XqRBOxoUV9tG2qm++7+sBUJNoNc8=;
+	s=arc-20240116; t=1712052048; c=relaxed/simple;
+	bh=1jsNSzcZJQxwnztZGcLKpgcyMoi6HgGenOf9AFmjySE=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=RgUG3lGHEiDn9Tj+3ixTwIKHE8yjxnjGc0MNJle1VB/ZUSIM/icciDVH4M+7PW2FzSSayiC0j7qfBpGub/SCG3qGKckjFgG0woPbRFwDPDihDObhXbE1eT3BziEDfYY4s8C79lm7j5tulZqMVt7jRn9Ci1pdjq2mBGnMcbiQIq4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com; spf=pass smtp.mailfrom=starfivetech.com; arc=fail smtp.client-ip=139.219.146.91
+	 Content-Type:MIME-Version; b=upG5Te9ZFwiEKwCkH5cY9q6zYjGi34zBTzpKvq9KeQhQLXRXGkFVx+K86gtm7SuB3hnf6V7g+H+siOmMhnx66D7L8UNOlRnq5daRvk0xEotNHpJz7pbuDySLRaUAavn9lIu8eV/nZOggN3SJ19MJxYg7JG6Ou8A3kbo9UlHNfLQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com; spf=pass smtp.mailfrom=starfivetech.com; arc=fail smtp.client-ip=139.219.17.126
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=beG92suycSO4ZupaFZFqWoFcuFJ/O+pq747aBzqXK4aXBFaLpVN/PEUseuhDIP7IEwxAQZVIGFNaYVvUTbF5v6paO7hijH9+WDQEQt5rG+Z4FKm/ns7XX0vAlOi9IxeQ51Z+cNslJ1pIwojSMTmRbQ6KUjglB3FBjaOcQApCAeQz6nQBZokBGeqD0p5EAmWvTdd8FC3yvQH5FYMM6W2rwvmJiRj+VXTzHT0bWsCsZQHVEI2AK4g1wmhcNhvsgdFHttD+onrEqR0Nwvx2GuEg+NxdcEwCYeWMv8X0QRcoEHdzJixC6/vhKyRDABPwsbbYHXY/Q1ht7xHRO70qyZ8RmA==
+ b=hijIz2dPSs/rrsptoLXV0rZ3kczby4U02Gadb/InielvfdZzzC4+cFIqgpymJeam4klYYRmiMCm2nJCT3BRkShDZrc3AVK+x0seqACIp1qPfFRxoWaqyhvI5KCl6IzsAmVNAx/DdsH+UEipXLN7jdBin6npXQR+GMlvBxwKuJUKCRaSczl1UpXM5HiEZGB7f+2P5QcnF+pVaDoA4EDxli2vII88plsl26CShNp4oynZQgRTlcrFuuPh7+QPeykj381kNqn9zLLOy5+99BybwEa0wV/A87JqKlVbISw59wub6zcRw4j6foa+dOdI27JDYOnET2EctqFPB7wNYSwfkGA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hqgLyFITePX6RyQniAWmO+v05oRBpAbNPKhuvXfdp/8=;
- b=XQ2cltQc09rosjFxu7yOZ4sko7jYMvdLSOs/ylRbbWMFLxf70pmgyKBkaI3M3FB6j9Cd+B2IWfmXwl0sxzI+2Peoh67qW9viOSqvyURMjFQmifu89SyL3cwWVqArtoMB621mkwh91J/WtXZuc7fQ7rw0CXajQNB6F1iW4hl23EeTpsYk8isVnD/Gt5O5RMNtPc/1a5VZ00JcBIVDTAfQW/R5D9ydlEygzv11mxTv51HG2EPYDjaBVkdiSRBlHlJKOeafYpL5ODUDZYRYExp5zuBS8ZUpKZJ0SSbGGQ0fgojZ82PANC6gJePOTz34Eo4yegUbOBazDH5mw3M3tJcbXQ==
+ bh=aTyRtTjTprt5edZgI0pRawIc56nV6QnENHlmP/oD6YY=;
+ b=iZD01BkkGjSv927L2VwvOPllBB2xnnhL5ENpo3BLUwqKj4NY3xjYAcpOSrG5N1pB+NHvwei2kDwHG/pVBpXk/qLewYmUGE4TkhlZ4fXLvAiLPWzfGBYgPGuflQT5aDUhMJwjWIa82oHRh1aFG5GHVFUKMtt+r9AC3qg5nJXgZWLx7iQ6PO+E0sgoiTz8XCrEu+nDoPJvE+NCyfHg2iu5ezjbHveWUBHbFNn9ycp5T3IL0Do88phxzBc5GzwdbP/nraKEhuGpYAYmlpzGah+Xz8mWrCo3tVpkq3QU2j7xvBCCkfkkfe+njleg+p13iNUQQeXBcQc2HA7w9xiWeHOQxg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=starfivetech.com; dmarc=pass action=none
  header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=starfivetech.com;
 Received: from SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c311:25::10) by SHXPR01MB0862.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c311:27::19) with Microsoft SMTP Server (version=TLS1_2,
+ (2406:e500:c311:25::10) by SHXPR01MB0462.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c311:1e::21) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Tue, 2 Apr
- 2024 10:00:34 +0000
+ 2024 10:00:36 +0000
 Received: from SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
  ([fe80::b0af:4c9d:2058:a344]) by
  SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn ([fe80::b0af:4c9d:2058:a344%7])
- with mapi id 15.20.7409.038; Tue, 2 Apr 2024 10:00:34 +0000
+ with mapi id 15.20.7409.038; Tue, 2 Apr 2024 10:00:36 +0000
 From: Changhuang Liang <changhuang.liang@starfivetech.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -52,9 +52,9 @@ Cc: Jack Zhu <jack.zhu@starfivetech.com>,
 	linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH v4 08/13] staging: media: starfive: Add for StarFive ISP 3A SC
-Date: Tue,  2 Apr 2024 03:00:06 -0700
-Message-Id: <20240402100011.13480-9-changhuang.liang@starfivetech.com>
+Subject: [PATCH v4 09/13] staging: media: starfive: Update ISP initialise config for 3A
+Date: Tue,  2 Apr 2024 03:00:07 -0700
+Message-Id: <20240402100011.13480-10-changhuang.liang@starfivetech.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240402100011.13480-1-changhuang.liang@starfivetech.com>
 References: <20240402100011.13480-1-changhuang.liang@starfivetech.com>
@@ -70,568 +70,148 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SHXPR01MB0671:EE_|SHXPR01MB0862:EE_
-X-MS-Office365-Filtering-Correlation-Id: f9f68321-6e10-4481-9970-08dc52fbbd24
+X-MS-TrafficTypeDiagnostic: SHXPR01MB0671:EE_|SHXPR01MB0462:EE_
+X-MS-Office365-Filtering-Correlation-Id: 228ab50b-6775-4adf-a629-08dc52fbbe29
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	pTirFKNmTD/+vWZkDrdYaJWgez2Ly57J9YkWiq0CZCFGH5tuRKD5hDnbykVgBDBn7aDeGPq0nGPr5BgjHnBRH1sI6c9XQ3EqJOaFgLTJyXKQUT0UrauF88oJkQIG927ZBtwMcUltSmhJ6t+gORpEWe5XZ2edJzNIwBep6mIcdZmPgVSkyBmid39IadVv4p87/6aQbjbz3rQB38b85b46fFFpSqIYe3mawvIHwtZ02DV8KV1aQQKu9gaxEkj/PmYfJLy7E9PTLnQFT1N2kVwzSSrH9wmc30xnvSDVxC403VMZCKToBn8TP7w7rqkpFBpL2eaNSYHV97eWXC/k9do+78u+Huvleaa4grzysYAmYW4N7Plw2hGUC2Luw9i5dOOFYARuU/oyWVBBFSH+UdCEZ2/rW6ZKzgu9ZfIdnfiyA4Mllw4zlFxgn/E4sBSgV5vCa+waUZvQZA9vdhPLeodOHEBq/eIPjGbNmtSXF2XDqxFjJq8oQfv2b+cQW/WLSzdxQxIQLI50JzJGDOo5FG2vU/3eomKs0BI3p0J3IiPSf5iem6Upe/7rsvmOHYnPwXKnf/yd+tVOaVl8mTSnllgnbZkiG2VLR+2wQ4Zp1dB6tlsh+LNx5YYYe6T+M5omQymVL5BLt9Y96KmoW8q+Ywx0TA==
+	lSBdTQvul5hpVeubjjuG2xS/yUP/OukHClyKQZ8ZcWnHMTl2kKPh9JL7ym5Lt3Ro30i1Xe2mkEMYkFHew553hJc2+hI1YQim2zU1bDyyJP3EBiseOc/6/Ch0kCy2wGU6Ls9L2caZAm0gnPWN9DZm20pfRYV6aYmh8xHJx8NWvCO1oewCvLBeHDx4deDK5be5PYoA58L67Rrbf+tIUdSBbAm1xtHhUYgmGJi58slPvLlhcQEle1fMaTQc9TY4i6Ozkx8cQeBiRruUXRYAcL5kZVyqOqF0ldnI4q9mtp4E7Ri54xz/y4blTKVf6i5cTe1hwKjlG14PTTGMCrPFy/p6qrD1bI/gnmjptlma+cCVZFjsbGoOpS70pTMh93FtHtG+jmdd3ctmNHOohX0/ZeHUvqarDSylXMxyhQINIAKNLxPg5oj+7zaigtcyKbgMvzYZE1PwEZPuhUtUZq/nRVAhw8JtlmgBdcVh3yBllq5Ewkcuyu42/WfSW8KF5JSCYJeV9DRzR2wsNP1KRZPkE9KsbWMd8bXlrCsjNau3EowO5bYULGthvE6725G2gDMnm2MQ0mprzfXl0oLeaDwkuRyHOzZ1OSWIZsiNBaWtEj4OZa/VScvRgEt9WsYTS8KK4952p7mJSwJhaxDKpVUdNRT37Q==
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230031)(41320700004)(366007)(1800799015)(7416005)(52116005)(38350700005)(921011);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(52116005)(7416005)(41320700004)(366007)(38350700005)(921011);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?eHhi1M6VP9lHcu+1bdwebuB+TdSyNASoNF+jVDXQAEpEskF6D7Z6Sx2tvELX?=
- =?us-ascii?Q?stmfFXXfGzOYuxibs/xYy3AP+2ulTbXA7rNgKWItPqq/+LinEJuWc+CmY8wn?=
- =?us-ascii?Q?vQoXAKnMxQYOyyuBmWLZacDi/LvDkDlIE1UBIPd9wQDdRpPMIL561WU8nrrR?=
- =?us-ascii?Q?l+d5LgIg3wYScoiWkG5rSIfXJ3EvRQviI0gt0udZFSS46xMNAGU4Hi90rv8K?=
- =?us-ascii?Q?lPjHo+t+AyoqZJrlrEGMoYXJG5BYrg13T565grFMEpBSql+wpIits2cl9CrI?=
- =?us-ascii?Q?dMRqPhTYlk6qlpdBIyFxDVFclHCMCaBcrjh8s4RKTcFhC1OniGY1iw2SYvx5?=
- =?us-ascii?Q?kjLp+R5xB2k1S6ZtIyQHwQkeoMzxHwW1ml2AE5S3OZUpjmdKvrCWnJw68Rdz?=
- =?us-ascii?Q?eHQRI4CGFxigBBsBiaeoq5wHR5FVtLVk6IuL9KNhBz1KSBwgtsIXD/Jx9LXw?=
- =?us-ascii?Q?jQLM65EIOxOLkiHGCkLEco7b2oomVTY7Mg0ievqPT29WltSfGwCOID+hVlCc?=
- =?us-ascii?Q?kfhOnf589+nVdYyThf0E5MCNFbFsJ7zfeKqe0qVHmVVeTEcpyMVeW3QLdCkV?=
- =?us-ascii?Q?ztS8BIKulz/fWX33+Mali4dqqEu6+CpYJBhEY91XpO2z1qdT6EsCPmG+8AEz?=
- =?us-ascii?Q?le7JvSSCfjxYC8jQEaP33mWhQ5KytbJPYrZH1UnmLflZ0tkjh2EDARVcV4Rc?=
- =?us-ascii?Q?vj/Zy71ROouy5Tb24RYnbBTYSYoVzFb1rRhF7nWREF0c1ZuqwLf1W8XSCP8V?=
- =?us-ascii?Q?bUYK2OmVQdzur4fkcYZuGmv3ESdzcoELAeS1B5KNqpwFDhx8XhbPa7l9kXCt?=
- =?us-ascii?Q?pJGffTmfD1N6XYbz7M4MihHaW1hHiyTWKnPc27+s9jO8kdmZD4AHO6jNh4ir?=
- =?us-ascii?Q?mc7QqQtBZ/s74rOkjsxcOfaFCdpZm+6+9F3J2orlj+4/ce/l15x6JuszD6Fx?=
- =?us-ascii?Q?jdISWJwEbIRUm0shD1f4c4wp4EnzRadD6Asu5S9CTscPn0L7SMZSGeNmj1wd?=
- =?us-ascii?Q?QQuOk3C7HmIod9F3FMkOY5VYk/d9yvEMcTi4BA8XFwjHSuXIo/pWzanVc0bq?=
- =?us-ascii?Q?Y9w74B/i33XS4RXl3X+nrCXmeWOghfV3UbTZlbjib0d6RVny4mzDv6EvW6DR?=
- =?us-ascii?Q?Y629usvlsXL9MW9L5+kjqsX72QvNDpcFtCyTfxAIkvjJifz/DnuBbWjVZ0No?=
- =?us-ascii?Q?xbBQBRDDLCfbHUKCuO6pf/nteqNMxkNr26Z/UNkct1TWonxbM6wzM5WR7nFk?=
- =?us-ascii?Q?CM245NmaPbZSvLsu801s6wLXhaoRN+HrzBOt/LhIoH5k8dTJbVpNvRFl2Mj6?=
- =?us-ascii?Q?FgxFCD9OhZXmI2vbYx3poT5TbbMLMysBQG1SMN+5oHmo9xJ2AR2v1JnyG/lZ?=
- =?us-ascii?Q?8dlJxhoeu2zIXYy3iz66TQ16h+HLDdkZ+nbNKxMbbKYbDeZqFOG5DtXcNwaL?=
- =?us-ascii?Q?D0rM4X120rwpSdE09exBiJuwLoImDXMDJ7h7pWsd0WJCewDA1bLNLZ/ONjY5?=
- =?us-ascii?Q?Jo5jGuwVQQyr1DdSRRYV4nBF/hd63Ptu3kULpSWjhMFcErNi7ySCFUj3sZog?=
- =?us-ascii?Q?iDeuBSS4qSSVnqTMJSWpnG09mkLbSo7l6fqQRPsFV4FsOst17V5hqaHsZfVq?=
- =?us-ascii?Q?aj7m+hNRVundaHMSn16XoY8=3D?=
+	=?us-ascii?Q?N1TZoTMwLsaK8EIt/1OQvq3fy1DynULwr4hPLCzlez4EzOHto5aRLIY2QwG3?=
+ =?us-ascii?Q?kcidopEAwv11YHG0FkCid5WCw0De1ZnXRrAFqDgSbggFeT1q93T8RDFIkWlq?=
+ =?us-ascii?Q?bC5i2MCaAABvqJHmsGYudFaTEh47GT5typhsGh0DjdZNUZ4Uh8/odX0U7v77?=
+ =?us-ascii?Q?ezckesuyF8SaVfX6toS6MsXiWhv61rkK7kP/SL6QfH1XIJd1Tc1IZWIxV/M7?=
+ =?us-ascii?Q?G8956MDfywJtUMq8Yfh6Le3gLxD/s1ToPHonOyV5n3JP4VsFBxn1ARCXvae0?=
+ =?us-ascii?Q?qxNDm7OCAfCbCf45FPPkWT0FXA3fPDGP+bCDoMj/0HE9STsFFJ9Kj0Fx4hmF?=
+ =?us-ascii?Q?+M3JoJvjTKhdtAyIQ4Udc8OiTmtIeHQhy4FxnqLVN5tEnK7Xru8dswRI3Li4?=
+ =?us-ascii?Q?NDSuAKGeOPeduOaGGK0Y3gKmnlyb79RI6eV5GgE8fIjf+0kZ+ZjAvaK5+XMZ?=
+ =?us-ascii?Q?km+S//9E9a5is01CCow1cDx4YHmlFOTPVEbHwz6orhxCvPuPFtcJO71TH6xO?=
+ =?us-ascii?Q?XTQ7Vn0VhrY+kA2OaEVv9cUaCiYEUvEWk96/5aiXpbFs94mADy7a5vlZR1Yh?=
+ =?us-ascii?Q?V29gpULstNa4Aav4n6d6T9+lE88KNCvM0ZaH+ppzzps20zpiCiY3UlsID4iB?=
+ =?us-ascii?Q?WF6gFbdFFpFp/prKjYbjGfNsNcakpFMUkeJpHFAhItVGc5gs7TObFyuOwVmi?=
+ =?us-ascii?Q?CxgDAgGKDLCT/hHK89UB7AUocKKh4zsTzyzTdSJrCpjZQdkWKBdTz2Mxtm++?=
+ =?us-ascii?Q?atoVNOFTxdGvs7K7ujh8f7j6mk+EcsLLL7bVtziSGC/E9FWn0Phb17gEQ/qb?=
+ =?us-ascii?Q?mQauX1FxZITGczwGtx/jW0iChE1xSphCAL0p45GOn6r1hy4dWP/vkHJwbxc/?=
+ =?us-ascii?Q?LnjW4DlN8IYf/RLlfSyFY8exTKd+u7Kc0S7zvQR2Zdpbha80xEXRQgtxN2uk?=
+ =?us-ascii?Q?nWGUsbaJTpqj7VfbqEHQRgn6ZzAg0B9sbpabmqMct8y7WPhVeU5SfQ2cweqH?=
+ =?us-ascii?Q?cPS6oKasyOOE02Na/Ydkl2iVv9jnLoBqzlQIdLwgPVmxPRDHCK6/QO50QDac?=
+ =?us-ascii?Q?QtQIkiN+dX50D7oj50DQLImU5nTnmyWcqJbScPpYdSLfvNeTL1TKrLEHY/hr?=
+ =?us-ascii?Q?AuKIW3MiHXd+oUGAQOQkarWq3FXYzPvBjBBkDhZGfeMswJW/a+OP8QD8j+v7?=
+ =?us-ascii?Q?a4txb6PqDW9ufY2F9ohTo0nqXGKmU4rZ7KtbdlqPagROeBOSot9uRiSw0CHP?=
+ =?us-ascii?Q?O8r8gKbipXZ7rGzPpiWlYyZMdtv1VObFJzlhMkaZczqP83SmIK9tdennnGn5?=
+ =?us-ascii?Q?xzn3737AAT8XtMxD106MHgGQ1yjdGYghKsg/o35TwNZZzw9MrGPDmXBPDAyx?=
+ =?us-ascii?Q?PHMqY3OKguUVWblY1OZQzMnP902TAzLJG/RxXtdMn4/TrdvJtyB9JwQxZ7pu?=
+ =?us-ascii?Q?B35LcP7YtvMHGFIM6Uj16HJNx4wY2o3+Wy/Oqaf3a4S3DVBF1tqEdL3pCZme?=
+ =?us-ascii?Q?m4eEy6w30sB7n+yFRFMirPjPIfxSb8eiqtVKk3+P9A57mTUhSDEOBHCNdZOt?=
+ =?us-ascii?Q?kFw/ODQ69uUWN+6yTT0EIM9nSnQRhhjlVS9RsZCmND6OJPDDP9drSPvtA06g?=
+ =?us-ascii?Q?9TNSSJC0ChlE2qIvRAA+bvI=3D?=
 X-OriginatorOrg: starfivetech.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f9f68321-6e10-4481-9970-08dc52fbbd24
+X-MS-Exchange-CrossTenant-Network-Message-Id: 228ab50b-6775-4adf-a629-08dc52fbbe29
 X-MS-Exchange-CrossTenant-AuthSource: SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Apr 2024 10:00:34.4393
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Apr 2024 10:00:36.1542
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ES/5aO8rtR2va8FFbcSeVbsnzNeXVUxAqf3uUdzrIG0orJE89C+1HyTwS2M4JoSKVLt6QiHEXE3j+YvraUUkUo6kmS4iyNTYRt6b3/OPJVcGyH7TMzY3KptZ1VgCRhsG
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SHXPR01MB0862
+X-MS-Exchange-CrossTenant-UserPrincipalName: tqK2DaHGv6rJFyrgnbJG4G771U4FQIEGkNLkF+mK2WyeM67gEOrzy+bz/J7nGpp/sq6psckjhq0vSzW5DLHIBpps9yziHJj4cCQscylpF5fTm0JlK7+NILxhXZ76yAE+
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SHXPR01MB0462
 
-Register ISP 3A "capture_scd" video device to receive statistics
-collection data.
+Upadte ISP initialise for 3A statistics collection data.
 
 Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
 ---
- .../staging/media/starfive/camss/stf-buffer.h |   1 +
- .../staging/media/starfive/camss/stf-camss.c  |  13 ++
- .../media/starfive/camss/stf-capture.c        |  21 ++-
- .../media/starfive/camss/stf-isp-hw-ops.c     |  66 ++++++++
- .../staging/media/starfive/camss/stf-isp.h    |  23 +++
- .../staging/media/starfive/camss/stf-video.c  | 143 +++++++++++++++++-
- .../staging/media/starfive/camss/stf-video.h  |   1 +
- 7 files changed, 259 insertions(+), 9 deletions(-)
+ .../media/starfive/camss/stf-isp-hw-ops.c     | 23 +++++++++++++++++++
+ .../staging/media/starfive/camss/stf-isp.h    | 21 +++++++++++++++++
+ 2 files changed, 44 insertions(+)
 
-diff --git a/drivers/staging/media/starfive/camss/stf-buffer.h b/drivers/staging/media/starfive/camss/stf-buffer.h
-index 9d1670fb05ed..727d00617448 100644
---- a/drivers/staging/media/starfive/camss/stf-buffer.h
-+++ b/drivers/staging/media/starfive/camss/stf-buffer.h
-@@ -23,6 +23,7 @@ enum stf_v_state {
- struct stfcamss_buffer {
- 	struct vb2_v4l2_buffer vb;
- 	dma_addr_t addr[2];
-+	void *vaddr;
- 	struct list_head queue;
- };
- 
-diff --git a/drivers/staging/media/starfive/camss/stf-camss.c b/drivers/staging/media/starfive/camss/stf-camss.c
-index 323aa70fdeaf..3fe4e3332719 100644
---- a/drivers/staging/media/starfive/camss/stf-camss.c
-+++ b/drivers/staging/media/starfive/camss/stf-camss.c
-@@ -126,6 +126,7 @@ static int stfcamss_of_parse_ports(struct stfcamss *stfcamss)
- static int stfcamss_register_devs(struct stfcamss *stfcamss)
- {
- 	struct stf_capture *cap_yuv = &stfcamss->captures[STF_CAPTURE_YUV];
-+	struct stf_capture *cap_scd = &stfcamss->captures[STF_CAPTURE_SCD];
- 	struct stf_isp_dev *isp_dev = &stfcamss->isp_dev;
- 	int ret;
- 
-@@ -150,8 +151,18 @@ static int stfcamss_register_devs(struct stfcamss *stfcamss)
- 
- 	cap_yuv->video.source_subdev = &isp_dev->subdev;
- 
-+	ret = media_create_pad_link(&isp_dev->subdev.entity, STF_ISP_PAD_SRC_SCD,
-+				    &cap_scd->video.vdev.entity, 0, 0);
-+	if (ret)
-+		goto err_rm_links0;
-+
-+	cap_scd->video.source_subdev = &isp_dev->subdev;
-+
- 	return ret;
- 
-+err_rm_links0:
-+	media_entity_remove_links(&isp_dev->subdev.entity);
-+	media_entity_remove_links(&cap_yuv->video.vdev.entity);
- err_cap_unregister:
- 	stf_capture_unregister(stfcamss);
- err_isp_unregister:
-@@ -163,10 +174,12 @@ static int stfcamss_register_devs(struct stfcamss *stfcamss)
- static void stfcamss_unregister_devs(struct stfcamss *stfcamss)
- {
- 	struct stf_capture *cap_yuv = &stfcamss->captures[STF_CAPTURE_YUV];
-+	struct stf_capture *cap_scd = &stfcamss->captures[STF_CAPTURE_SCD];
- 	struct stf_isp_dev *isp_dev = &stfcamss->isp_dev;
- 
- 	media_entity_remove_links(&isp_dev->subdev.entity);
- 	media_entity_remove_links(&cap_yuv->video.vdev.entity);
-+	media_entity_remove_links(&cap_scd->video.vdev.entity);
- 
- 	stf_isp_unregister(&stfcamss->isp_dev);
- 	stf_capture_unregister(stfcamss);
-diff --git a/drivers/staging/media/starfive/camss/stf-capture.c b/drivers/staging/media/starfive/camss/stf-capture.c
-index 75f6ef405e61..328b8c6e351d 100644
---- a/drivers/staging/media/starfive/camss/stf-capture.c
-+++ b/drivers/staging/media/starfive/camss/stf-capture.c
-@@ -12,6 +12,7 @@
- static const char * const stf_cap_names[] = {
- 	"capture_raw",
- 	"capture_yuv",
-+	"capture_scd",
- };
- 
- static const struct stfcamss_format_info stf_wr_fmts[] = {
-@@ -55,6 +56,14 @@ static const struct stfcamss_format_info stf_isp_fmts[] = {
- 	},
- };
- 
-+/* 3A Statistics Collection Data */
-+static const struct stfcamss_format_info stf_isp_scd_fmts[] = {
-+	{
-+		.code = MEDIA_BUS_FMT_METADATA_FIXED,
-+		.pixelformat = V4L2_META_FMT_STF_ISP_STAT_3A,
-+	},
-+};
-+
- static inline struct stf_capture *to_stf_capture(struct stfcamss_video *video)
- {
- 	return container_of(video, struct stf_capture, video);
-@@ -84,6 +93,8 @@ static void stf_init_addrs(struct stfcamss_video *video)
- 		stf_set_raw_addr(video->stfcamss, addr0);
- 	else if (cap->type == STF_CAPTURE_YUV)
- 		stf_set_yuv_addr(video->stfcamss, addr0, addr1);
-+	else
-+		stf_set_scd_addr(video->stfcamss, addr0, addr1, TYPE_AWB);
- }
- 
- static void stf_cap_s_cfg(struct stfcamss_video *video)
-@@ -227,18 +238,24 @@ static void stf_capture_init(struct stfcamss *stfcamss, struct stf_capture *cap)
- 	INIT_LIST_HEAD(&cap->buffers.ready_bufs);
- 	spin_lock_init(&cap->buffers.lock);
- 
--	cap->video.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
- 	cap->video.stfcamss = stfcamss;
- 	cap->video.bpl_alignment = 16 * 8;
- 
- 	if (cap->type == STF_CAPTURE_RAW) {
-+		cap->video.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
- 		cap->video.formats = stf_wr_fmts;
- 		cap->video.nformats = ARRAY_SIZE(stf_wr_fmts);
- 		cap->video.bpl_alignment = 8;
- 	} else if (cap->type == STF_CAPTURE_YUV) {
-+		cap->video.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
- 		cap->video.formats = stf_isp_fmts;
- 		cap->video.nformats = ARRAY_SIZE(stf_isp_fmts);
- 		cap->video.bpl_alignment = 1;
-+	} else {
-+		cap->video.type = V4L2_BUF_TYPE_META_CAPTURE;
-+		cap->video.formats = stf_isp_scd_fmts;
-+		cap->video.nformats = ARRAY_SIZE(stf_isp_scd_fmts);
-+		cap->video.bpl_alignment = 16 * 8;
- 	}
- }
- 
-@@ -362,9 +379,11 @@ void stf_capture_unregister(struct stfcamss *stfcamss)
- {
- 	struct stf_capture *cap_raw = &stfcamss->captures[STF_CAPTURE_RAW];
- 	struct stf_capture *cap_yuv = &stfcamss->captures[STF_CAPTURE_YUV];
-+	struct stf_capture *cap_scd = &stfcamss->captures[STF_CAPTURE_SCD];
- 
- 	stf_capture_unregister_one(cap_raw);
- 	stf_capture_unregister_one(cap_yuv);
-+	stf_capture_unregister_one(cap_scd);
- }
- 
- int stf_capture_register(struct stfcamss *stfcamss,
 diff --git a/drivers/staging/media/starfive/camss/stf-isp-hw-ops.c b/drivers/staging/media/starfive/camss/stf-isp-hw-ops.c
-index 6b3966ca18bf..abdfa4417145 100644
+index abdfa4417145..7b2cc596e967 100644
 --- a/drivers/staging/media/starfive/camss/stf-isp-hw-ops.c
 +++ b/drivers/staging/media/starfive/camss/stf-isp-hw-ops.c
-@@ -451,11 +451,57 @@ void stf_set_yuv_addr(struct stfcamss *stfcamss,
- 	stf_isp_reg_write(stfcamss, ISP_REG_UV_PLANE_START_ADDR, uv_addr);
+@@ -300,6 +300,25 @@ static void stf_isp_config_sat(struct stfcamss *stfcamss)
+ 	stf_isp_reg_write(stfcamss, ISP_REG_YADJ1, YOMAX(0x3ff) | YOMIN(0x1));
  }
  
-+static enum stf_isp_type_scd stf_isp_get_scd_type(struct stfcamss *stfcamss)
++static void stf_isp_config_sc(struct stfcamss *stfcamss)
 +{
-+	int val;
-+
-+	val = stf_isp_reg_read(stfcamss, ISP_REG_SC_CFG_1);
-+	return (enum stf_isp_type_scd)(val & ISP_SC_SEL_MASK) >> 30;
++	stf_isp_reg_write(stfcamss, ISP_REG_SCD_CFG_1, AXI_ID(0));
++	stf_isp_reg_write(stfcamss, ISP_REG_SC_CFG_0, HSTART(0) | VSTART(0xc));
++	stf_isp_reg_write(stfcamss, ISP_REG_SC_CFG_1,
++			  SC_WIDTH(0x1d) | SC_HEIGHT(0x15) |
++			  AWB_PS_GRB_BA(0x10) | SEL_TYPE(0x3));
 +}
 +
-+void stf_set_scd_addr(struct stfcamss *stfcamss,
-+		      dma_addr_t yhist_addr, dma_addr_t scd_addr,
-+		      enum stf_isp_type_scd type_scd)
++static void stf_isp_config_yhist(struct stfcamss *stfcamss)
 +{
-+	stf_isp_reg_set_bit(stfcamss, ISP_REG_SC_CFG_1, ISP_SC_SEL_MASK,
-+			    SEL_TYPE(type_scd));
-+	stf_isp_reg_write(stfcamss, ISP_REG_SCD_CFG_0, scd_addr);
-+	stf_isp_reg_write(stfcamss, ISP_REG_YHIST_CFG_4, yhist_addr);
++	stf_isp_reg_write(stfcamss, ISP_REG_YHIST_CFG_0, 0);
++	stf_isp_reg_write(stfcamss, ISP_REG_YHIST_CFG_1,
++			  YH_WIDTH(0x77f) | YH_HEIGHT(0x437));
++	stf_isp_reg_write(stfcamss, ISP_REG_YHIST_CFG_2,
++			  YH_DEC_ETW(2) | YH_DEC_ETH(1));
++	stf_isp_reg_write(stfcamss, ISP_REG_YHIST_CFG_3, 0);
 +}
 +
-+static void stf_isp_fill_yhist(struct stfcamss *stfcamss, void *vaddr)
-+{
-+	struct jh7110_isp_sc_buffer *sc = (struct jh7110_isp_sc_buffer *)vaddr;
-+	u32 reg_addr = ISP_REG_YHIST_ACC_0;
-+	u32 i;
-+
-+	for (i = 0; i < 64; i++, reg_addr += 4)
-+		sc->y_histogram[i] = stf_isp_reg_read(stfcamss, reg_addr);
-+}
-+
-+static void stf_isp_fill_flag(struct stfcamss *stfcamss, void *vaddr,
-+			      enum stf_isp_type_scd *type_scd)
-+{
-+	struct jh7110_isp_sc_buffer *sc = (struct jh7110_isp_sc_buffer *)vaddr;
-+
-+	*type_scd = stf_isp_get_scd_type(stfcamss);
-+	if (*type_scd == TYPE_AWB) {
-+		sc->flag = JH7110_ISP_SC_FALG_AWB;
-+		*type_scd = TYPE_OECF;
-+	} else {
-+		sc->flag = JH7110_ISP_SC_FALG_AE_AF;
-+		*type_scd = TYPE_AWB;
-+	}
-+}
-+
- irqreturn_t stf_line_irq_handler(int irq, void *priv)
+ int stf_isp_reset(struct stf_isp_dev *isp_dev)
  {
- 	struct stfcamss *stfcamss = priv;
- 	struct stf_capture *cap = &stfcamss->captures[STF_CAPTURE_YUV];
-+	struct stf_capture *cap_scd = &stfcamss->captures[STF_CAPTURE_SCD];
- 	struct stfcamss_buffer *change_buf;
-+	enum stf_isp_type_scd type_scd;
-+	u32 value;
- 	u32 status;
+ 	stf_isp_reg_set_bit(isp_dev->stfcamss, ISP_REG_ISP_CTRL_0,
+@@ -332,7 +351,11 @@ void stf_isp_init_cfg(struct stf_isp_dev *isp_dev)
+ 	stf_isp_config_sharpen(isp_dev->stfcamss);
+ 	stf_isp_config_dnyuv(isp_dev->stfcamss);
+ 	stf_isp_config_sat(isp_dev->stfcamss);
++	stf_isp_config_sc(isp_dev->stfcamss);
++	stf_isp_config_yhist(isp_dev->stfcamss);
  
- 	status = stf_isp_reg_read(stfcamss, ISP_REG_ISP_CTRL_0);
-@@ -467,6 +513,17 @@ irqreturn_t stf_line_irq_handler(int irq, void *priv)
- 					stf_set_yuv_addr(stfcamss, change_buf->addr[0],
- 							 change_buf->addr[1]);
- 			}
-+
-+			value = stf_isp_reg_read(stfcamss, ISP_REG_CSI_MODULE_CFG);
-+			if (value & CSI_SC_EN) {
-+				change_buf = stf_change_buffer(&cap_scd->buffers);
-+				if (change_buf) {
-+					stf_isp_fill_flag(stfcamss, change_buf->vaddr,
-+							  &type_scd);
-+					stf_set_scd_addr(stfcamss, change_buf->addr[0],
-+							 change_buf->addr[1], type_scd);
-+				}
-+			}
- 		}
- 
- 		stf_isp_reg_set_bit(stfcamss, ISP_REG_CSIINTS,
-@@ -485,6 +542,7 @@ irqreturn_t stf_isp_irq_handler(int irq, void *priv)
- {
- 	struct stfcamss *stfcamss = priv;
- 	struct stf_capture *cap = &stfcamss->captures[STF_CAPTURE_YUV];
-+	struct stf_capture *cap_scd = &stfcamss->captures[STF_CAPTURE_SCD];
- 	struct stfcamss_buffer *ready_buf;
- 	u32 status;
- 
-@@ -496,6 +554,14 @@ irqreturn_t stf_isp_irq_handler(int irq, void *priv)
- 				vb2_buffer_done(&ready_buf->vb.vb2_buf, VB2_BUF_STATE_DONE);
- 		}
- 
-+		if (status & ISPC_SC) {
-+			ready_buf = stf_buf_done(&cap_scd->buffers);
-+			if (ready_buf) {
-+				stf_isp_fill_yhist(stfcamss, ready_buf->vaddr);
-+				vb2_buffer_done(&ready_buf->vb.vb2_buf, VB2_BUF_STATE_DONE);
-+			}
-+		}
-+
- 		stf_isp_reg_write(stfcamss, ISP_REG_ISP_CTRL_0,
- 				  (status & ~ISPC_INT_ALL_MASK) |
- 				  ISPC_ISP | ISPC_CSI | ISPC_SC);
++	stf_isp_reg_write(isp_dev->stfcamss, ISP_REG_DUMP_CFG_1,
++			  DUMP_BURST_LEN(3) | DUMP_SD(0xb80));
+ 	stf_isp_reg_write(isp_dev->stfcamss, ISP_REG_CSI_MODULE_CFG,
+ 			  CSI_DUMP_EN | CSI_SC_EN | CSI_AWB_EN |
+ 			  CSI_LCCF_EN | CSI_OECF_EN | CSI_OBC_EN | CSI_DEC_EN);
 diff --git a/drivers/staging/media/starfive/camss/stf-isp.h b/drivers/staging/media/starfive/camss/stf-isp.h
-index fcda0502e3b0..0af7b367e57a 100644
+index 0af7b367e57a..eca3ba1ade75 100644
 --- a/drivers/staging/media/starfive/camss/stf-isp.h
 +++ b/drivers/staging/media/starfive/camss/stf-isp.h
-@@ -10,6 +10,7 @@
- #ifndef STF_ISP_H
- #define STF_ISP_H
+@@ -110,9 +110,19 @@
  
-+#include <linux/jh7110-isp.h>
- #include <media/v4l2-subdev.h>
+ #define ISP_REG_SCD_CFG_0			0x098
  
- #include "stf-video.h"
-@@ -107,6 +108,12 @@
- #define Y_COOR(y)				((y) << 16)
- #define X_COOR(x)				((x) << 0)
- 
-+#define ISP_REG_SCD_CFG_0			0x098
++#define ISP_REG_SCD_CFG_1			0x09c
++#define AXI_ID(n)				((n) << 24)
 +
-+#define ISP_REG_SC_CFG_1			0x0bc
-+#define ISP_SC_SEL_MASK				GENMASK(31, 30)
-+#define SEL_TYPE(n)				((n) << 30)
++#define ISP_REG_SC_CFG_0			0x0b8
++#define VSTART(n)				((n) << 16)
++#define HSTART(n)				((n) << 0)
 +
+ #define ISP_REG_SC_CFG_1			0x0bc
+ #define ISP_SC_SEL_MASK				GENMASK(31, 30)
+ #define SEL_TYPE(n)				((n) << 30)
++#define AWB_PS_GRB_BA(n)			((n) << 16)
++#define SC_HEIGHT(n)				((n) << 8)
++#define SC_WIDTH(n)				((n) << 0)
+ 
  #define ISP_REG_LCCF_CFG_2			0x0e0
  #define ISP_REG_LCCF_CFG_3			0x0e4
- #define ISP_REG_LCCF_CFG_4			0x0e8
-@@ -305,6 +312,10 @@
+@@ -312,6 +322,17 @@
  #define DNRM_F(n)				((n) << 16)
  #define CCM_M_DAT(n)				((n) << 0)
  
-+#define ISP_REG_YHIST_CFG_4			0xcd8
++#define ISP_REG_YHIST_CFG_0			0xcc8
 +
-+#define ISP_REG_YHIST_ACC_0			0xd00
++#define ISP_REG_YHIST_CFG_1			0xccc
++#define YH_HEIGHT(n)				((n) << 16)
++#define YH_WIDTH(n)				((n) << 0)
 +
- #define ISP_REG_GAMMA_VAL0			0xe00
- #define ISP_REG_GAMMA_VAL1			0xe04
- #define ISP_REG_GAMMA_VAL2			0xe08
-@@ -389,6 +400,15 @@
- #define IMAGE_MAX_WIDTH				1920
- #define IMAGE_MAX_HEIGH				1080
++#define ISP_REG_YHIST_CFG_2			0xcd0
++#define YH_DEC_ETH(n)				((n) << 16)
++#define YH_DEC_ETW(n)				((n) << 0)
++
++#define ISP_REG_YHIST_CFG_3			0xcd4
+ #define ISP_REG_YHIST_CFG_4			0xcd8
  
-+#define ISP_YHIST_BUFFER_SIZE			(64 * sizeof(__u32))
-+
-+enum stf_isp_type_scd {
-+	TYPE_DEC = 0,
-+	TYPE_OBC,
-+	TYPE_OECF,
-+	TYPE_AWB,
-+};
-+
- /* pad id for media framework */
- enum stf_isp_pad_id {
- 	STF_ISP_PAD_SINK = 0,
-@@ -429,5 +449,8 @@ int stf_isp_unregister(struct stf_isp_dev *isp_dev);
- 
- void stf_set_yuv_addr(struct stfcamss *stfcamss,
- 		      dma_addr_t y_addr, dma_addr_t uv_addr);
-+void stf_set_scd_addr(struct stfcamss *stfcamss,
-+		      dma_addr_t yhist_addr, dma_addr_t scd_addr,
-+		      enum stf_isp_type_scd type_scd);
- 
- #endif /* STF_ISP_H */
-diff --git a/drivers/staging/media/starfive/camss/stf-video.c b/drivers/staging/media/starfive/camss/stf-video.c
-index 989b5e82bae9..d9e51d4e2004 100644
---- a/drivers/staging/media/starfive/camss/stf-video.c
-+++ b/drivers/staging/media/starfive/camss/stf-video.c
-@@ -125,6 +125,14 @@ static int stf_video_init_format(struct stfcamss_video *video)
- 	return 0;
- }
- 
-+static int stf_video_scd_init_format(struct stfcamss_video *video)
-+{
-+	video->active_fmt.fmt.meta.dataformat = video->formats[0].pixelformat;
-+	video->active_fmt.fmt.meta.buffersize = sizeof(struct jh7110_isp_sc_buffer);
-+
-+	return 0;
-+}
-+
- /* -----------------------------------------------------------------------------
-  * Video queue operations
-  */
-@@ -330,6 +338,75 @@ static const struct vb2_ops stf_video_vb2_q_ops = {
- 	.stop_streaming  = video_stop_streaming,
- };
- 
-+static int video_scd_queue_setup(struct vb2_queue *q,
-+				 unsigned int *num_buffers,
-+				 unsigned int *num_planes,
-+				 unsigned int sizes[],
-+				 struct device *alloc_devs[])
-+{
-+	*num_planes = 1;
-+	sizes[0] = sizeof(struct jh7110_isp_sc_buffer);
-+
-+	return 0;
-+}
-+
-+static int video_scd_buf_init(struct vb2_buffer *vb)
-+{
-+	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
-+	struct stfcamss_buffer *buffer = to_stfcamss_buffer(vbuf);
-+	dma_addr_t *paddr;
-+
-+	paddr = vb2_plane_cookie(vb, 0);
-+	buffer->addr[0] = *paddr;
-+	buffer->addr[1] = buffer->addr[0] + ISP_YHIST_BUFFER_SIZE;
-+	buffer->vaddr = vb2_plane_vaddr(vb, 0);
-+
-+	return 0;
-+}
-+
-+static int video_scd_buf_prepare(struct vb2_buffer *vb)
-+{
-+	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
-+
-+	if (sizeof(struct jh7110_isp_sc_buffer) > vb2_plane_size(vb, 0))
-+		return -EINVAL;
-+
-+	vb2_set_plane_payload(vb, 0, sizeof(struct jh7110_isp_sc_buffer));
-+
-+	vbuf->field = V4L2_FIELD_NONE;
-+
-+	return 0;
-+}
-+
-+static int video_scd_start_streaming(struct vb2_queue *q, unsigned int count)
-+{
-+	struct stfcamss_video *video = vb2_get_drv_priv(q);
-+
-+	video->ops->start_streaming(video);
-+
-+	return 0;
-+}
-+
-+static void video_scd_stop_streaming(struct vb2_queue *q)
-+{
-+	struct stfcamss_video *video = vb2_get_drv_priv(q);
-+
-+	video->ops->stop_streaming(video);
-+
-+	video->ops->flush_buffers(video, VB2_BUF_STATE_ERROR);
-+}
-+
-+static const struct vb2_ops stf_video_scd_vb2_q_ops = {
-+	.queue_setup     = video_scd_queue_setup,
-+	.wait_prepare    = vb2_ops_wait_prepare,
-+	.wait_finish     = vb2_ops_wait_finish,
-+	.buf_init        = video_scd_buf_init,
-+	.buf_prepare     = video_scd_buf_prepare,
-+	.buf_queue       = video_buf_queue,
-+	.start_streaming = video_scd_start_streaming,
-+	.stop_streaming  = video_scd_stop_streaming,
-+};
-+
- /* -----------------------------------------------------------------------------
-  * V4L2 ioctls
-  */
-@@ -448,6 +525,37 @@ static const struct v4l2_ioctl_ops stf_vid_ioctl_ops = {
- 	.vidioc_streamoff               = vb2_ioctl_streamoff,
- };
- 
-+static int video_scd_g_fmt(struct file *file, void *fh, struct v4l2_format *f)
-+{
-+	struct stfcamss_video *video = video_drvdata(file);
-+	struct v4l2_meta_format *meta = &f->fmt.meta;
-+
-+	if (f->type != video->type)
-+		return -EINVAL;
-+
-+	meta->dataformat = video->active_fmt.fmt.meta.dataformat;
-+	meta->buffersize = video->active_fmt.fmt.meta.buffersize;
-+
-+	return 0;
-+}
-+
-+static const struct v4l2_ioctl_ops stf_vid_scd_ioctl_ops = {
-+	.vidioc_querycap                = video_querycap,
-+	.vidioc_enum_fmt_meta_cap       = video_enum_fmt,
-+	.vidioc_g_fmt_meta_cap          = video_scd_g_fmt,
-+	.vidioc_s_fmt_meta_cap          = video_scd_g_fmt,
-+	.vidioc_try_fmt_meta_cap        = video_scd_g_fmt,
-+	.vidioc_reqbufs                 = vb2_ioctl_reqbufs,
-+	.vidioc_querybuf                = vb2_ioctl_querybuf,
-+	.vidioc_qbuf                    = vb2_ioctl_qbuf,
-+	.vidioc_expbuf                  = vb2_ioctl_expbuf,
-+	.vidioc_dqbuf                   = vb2_ioctl_dqbuf,
-+	.vidioc_create_bufs             = vb2_ioctl_create_bufs,
-+	.vidioc_prepare_buf             = vb2_ioctl_prepare_buf,
-+	.vidioc_streamon                = vb2_ioctl_streamon,
-+	.vidioc_streamoff               = vb2_ioctl_streamoff,
-+};
-+
- /* -----------------------------------------------------------------------------
-  * V4L2 file operations
-  */
-@@ -473,6 +581,9 @@ static int stf_link_validate(struct media_link *link)
- 	struct stfcamss_video *video = video_get_drvdata(vdev);
- 	int ret;
- 
-+	if (video->type == V4L2_BUF_TYPE_META_CAPTURE)
-+		return 0;
-+
- 	ret = stf_video_check_format(video);
- 
- 	return ret;
-@@ -506,7 +617,11 @@ int stf_video_register(struct stfcamss_video *video,
- 	q = &video->vb2_q;
- 	q->drv_priv = video;
- 	q->mem_ops = &vb2_dma_contig_memops;
--	q->ops = &stf_video_vb2_q_ops;
-+
-+	if (video->type == V4L2_BUF_TYPE_VIDEO_CAPTURE)
-+		q->ops = &stf_video_vb2_q_ops;
-+	else
-+		q->ops = &stf_video_scd_vb2_q_ops;
- 	q->type = video->type;
- 	q->io_modes = VB2_DMABUF | VB2_MMAP;
- 	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
-@@ -529,16 +644,28 @@ int stf_video_register(struct stfcamss_video *video,
- 		goto err_mutex_destroy;
- 	}
- 
--	ret = stf_video_init_format(video);
--	if (ret < 0) {
--		dev_err(video->stfcamss->dev,
--			"Failed to init format: %d\n", ret);
--		goto err_media_cleanup;
-+	if (video->type == V4L2_BUF_TYPE_VIDEO_CAPTURE) {
-+		ret = stf_video_init_format(video);
-+		if (ret < 0) {
-+			dev_err(video->stfcamss->dev,
-+				"Failed to init format: %d\n", ret);
-+			goto err_media_cleanup;
-+		}
-+		vdev->ioctl_ops = &stf_vid_ioctl_ops;
-+		vdev->device_caps = V4L2_CAP_VIDEO_CAPTURE;
-+	} else {
-+		ret = stf_video_scd_init_format(video);
-+		if (ret < 0) {
-+			dev_err(video->stfcamss->dev,
-+				"Failed to init format: %d\n", ret);
-+			goto err_media_cleanup;
-+		}
-+		vdev->ioctl_ops = &stf_vid_scd_ioctl_ops;
-+		vdev->device_caps = V4L2_CAP_META_CAPTURE;
- 	}
- 
- 	vdev->fops = &stf_vid_fops;
--	vdev->ioctl_ops = &stf_vid_ioctl_ops;
--	vdev->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING;
-+	vdev->device_caps |= V4L2_CAP_STREAMING;
- 	vdev->entity.ops = &stf_media_ops;
- 	vdev->vfl_dir = VFL_DIR_RX;
- 	vdev->release = stf_video_release;
-diff --git a/drivers/staging/media/starfive/camss/stf-video.h b/drivers/staging/media/starfive/camss/stf-video.h
-index 59799b65cbe5..53a1cf4e59b7 100644
---- a/drivers/staging/media/starfive/camss/stf-video.h
-+++ b/drivers/staging/media/starfive/camss/stf-video.h
-@@ -37,6 +37,7 @@ enum stf_v_line_id {
- enum stf_capture_type {
- 	STF_CAPTURE_RAW = 0,
- 	STF_CAPTURE_YUV,
-+	STF_CAPTURE_SCD,
- 	STF_CAPTURE_NUM,
- };
- 
+ #define ISP_REG_YHIST_ACC_0			0xd00
 -- 
 2.25.1
 
