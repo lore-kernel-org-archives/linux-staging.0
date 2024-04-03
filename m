@@ -1,302 +1,208 @@
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B88C370CA7
-	for <linux-staging@lists.linux.dev>; Wed,  3 Apr 2024 12:47:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02E2C146D54
+	for <linux-staging@lists.linux.dev>; Wed,  3 Apr 2024 13:00:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712148474; cv=none; b=KUUEW8He3uiakJGcqGsqA/PgJ/95nex5LDtL1+PT+TD0lkuPUV6Khs2qqLolCUgEX9fPO7DgD6qfVmgcgxXp07Ti1jPHebuqq1PjEf8pxzv26yW5l/179bpMUXfYbikU3AuyFjFdDmBQsSl3TS/g7t0MLLsdw7cHiNXmjNPd9WY=
+	t=1712149207; cv=none; b=C++oX4inAz4Jrw1Sy5Ll+7HVda+V+8xZEQlM0WMIgLL9TBfHNj/deC8NX3bFxkyT8mRmXq5LTpk9vrJHdzHPAxlpd8ekQwuHuut3yC2CL8EfytWDtZgnX0/x1uT7xAO/mE17JUNMTIQKt1I7h16dEqCm8vIFA9QGUxloaWA/L/4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712148474; c=relaxed/simple;
-	bh=Yaqa4hvoBG8RPxnP1QDyCJ05NplxTgr5jhi1BxYxxCU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M/gF/lUd1MPW4doglks9DMu8KVMN9nk00Z52XilMYJlMYItnqE8bV9Zr2VoySIr1qFSdnnzaJETgVTxoWCuErkE+Q9pIxxVPEP0G00RqyGs0nU6FBZpBy98ooFbNF2HIGiTHxRNBFOHd2X1zKZg4WCpitceVruwJDNpQnc6jPLM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=acm.org; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RA8AFRWZ; arc=none smtp.client-ip=209.85.160.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=acm.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1712149207; c=relaxed/simple;
+	bh=mPpVe7hGSL6t00jHmFNeJbEqHcRZsvFEsrCHSrzanEA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dId5vcyOQ/QwcNWOfoiT4rP+F9Q88/8CLkPgarmEjrUVi+kS52oUzz2ub4oH2muhPqArGHIFL174qzUZgWBAaufy8ip16+oQ+oHFdHlITP/mfP7k0DPhtlRnNY2WkWBzQCdgorRy/q/2tYjjSFrDX5hpcpNCpD2jGqlnbsl6tcI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=Rf6Tl9bK; arc=none smtp.client-ip=209.85.160.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RA8AFRWZ"
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-22e8635899cso684574fac.2
-        for <linux-staging@lists.linux.dev>; Wed, 03 Apr 2024 05:47:52 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="Rf6Tl9bK"
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-432b72c706cso8178701cf.1
+        for <linux-staging@lists.linux.dev>; Wed, 03 Apr 2024 06:00:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712148472; x=1712753272; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:reply-to
-         :message-id:subject:cc:to:from:date:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rtecu7pbCOzcU6lg6jomsrlGzCnl9MEDMOfvGJlD74o=;
-        b=RA8AFRWZJgb+Jkpz0FOFbUQhyzYCFVWd96TpXfwr4tAB/yw49xsSONHg6TlTkGM3UB
-         v+mD5MrNdZLCu9+KMd1p1EuPYf3+QsCgCWjL6EqVk88G1vMMzqE5DLmQvvrz1AK+RBHU
-         GqXz6QvZtLGeVbs92JsPGo6I3l1k4fHU8un7Hfk00v4DfemdI4YQwQnJEYYZ8BfoasXz
-         mNUIbEjoZ1P8JmTiWxMJCFIQRODFG+G0mpbIRFhQgX26W632kdWOjA4Zi/he1qVa35jD
-         3WphVDtQOflC+LGSYMdLBx4nxjzo2WkjrQIE59Uu48h1rlmY2NKxvv0dDWcSgcddaOaJ
-         UvkA==
+        d=broadcom.com; s=google; t=1712149205; x=1712754005; darn=lists.linux.dev;
+        h=in-reply-to:autocrypt:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wqR86eVwZadrT9FfiXllL1qrLDMCLFxQFuYW1exFw+0=;
+        b=Rf6Tl9bKzCOajJWL29nEKVFmSj2WQtrR6PesO8rsSnqZkT2dEVc0s+wrHENPDqCaTF
+         reuTmIESvOMHkNDzc+A5v0LSB2iPwY1CdVEcxR4Xlp+bs8mg84yYtK+Kwtm1RdS9fQEQ
+         IwXh3OqC2X4z4XzDZorBdlw/qQ9m1bUzbvkzo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712148472; x=1712753272;
-        h=in-reply-to:content-disposition:mime-version:references:reply-to
-         :message-id:subject:cc:to:from:date:sender:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=rtecu7pbCOzcU6lg6jomsrlGzCnl9MEDMOfvGJlD74o=;
-        b=aHVnYIlaunqz7P+7998iYGb+etaO5fwIZYQjlRaeHC8FufENXdzEI6Bk3wxLFzfc2j
-         K0Jw7pcIBm/4wcXE8O3YKu6BUOLfJSSC+/MGNpxyZgV9cwDoIRxgdblOLsOIdWyHBnB4
-         HhH+haHLo2X6/YD5U5wT+/SEivXBMjpvnoQAglYtOTQ4PPMA4EOLXuuxX5NZXYBQvvMj
-         QBLIIZvrXKAXiUkT6rxqEOH3C66sgjwnT6S/wmL79xA6WX0w/LOOpfTDPy4sLCVAQJz2
-         8IkX4Lq2/q2d4z1U5+2/xcyijK5aehOGA1T1fmfd2L52JauSThVwRH6q0ADYEahUXTZU
-         KtHA==
-X-Forwarded-Encrypted: i=1; AJvYcCXOSwnmar3CpRYcd0coSumOiOuECKrJLDA2yI6uYaJ93unuEayuvz0ZHACOxSibTS5KfNLzfphOFtg6A5Nadfo2hGCapiIfwE3AB6KcXw==
-X-Gm-Message-State: AOJu0YwIpM0MaZiEI5EbLrkhAL0QPe4jRWpOBx7b8s1FzmwWjvhzoI1L
-	G+ygToWkDZQ+DtoVlgx9GxOZxnmTZTkN8liD7bIDPGH2HVDhKB8=
-X-Google-Smtp-Source: AGHT+IG0d5T8JXCtfqlx6JtVyEaCsqFpPnvwq2pH9XmJas2+vfFJn39FYAUdlGYyjJjWq/sJ1YaRJQ==
-X-Received: by 2002:a05:6871:29c:b0:22e:7c19:5c71 with SMTP id i28-20020a056871029c00b0022e7c195c71mr2548199oae.59.1712148471696;
-        Wed, 03 Apr 2024 05:47:51 -0700 (PDT)
-Received: from serve.minyard.net ([47.184.176.113])
-        by smtp.gmail.com with ESMTPSA id ny21-20020a056871751500b00221df0eb6f9sm3931309oac.28.2024.04.03.05.47.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Apr 2024 05:47:51 -0700 (PDT)
-Sender: Corey Minyard <tcminyard@gmail.com>
-Received: from mail.minyard.net (unknown [IPv6:2001:470:b8f6:1b::37a])
-	by serve.minyard.net (Postfix) with ESMTPSA id F404A1800B7;
-	Wed,  3 Apr 2024 12:47:50 +0000 (UTC)
-Date: Wed, 3 Apr 2024 07:47:49 -0500
-From: Corey Minyard <minyard@acm.org>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Arnd Bergmann <arnd@kernel.org>, linux-kernel@vger.kernel.org,
-	Peter Huewe <peterhuewe@gmx.de>,
-	Jarkko Sakkinen <jarkko@kernel.org>, Vinod Koul <vkoul@kernel.org>,
-	Moritz Fischer <mdf@kernel.org>, Wu Hao <hao.wu@intel.com>,
-	Xu Yilun <yilun.xu@intel.com>, Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-	Michael Hennerich <michael.hennerich@analog.com>,
-	Peter Rosin <peda@axentia.se>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Iyappan Subramanian <iyappan@os.amperecomputing.com>,
-	Keyur Chudgar <keyur@os.amperecomputing.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Yisen Zhuang <yisen.zhuang@huawei.com>,
-	Salil Mehta <salil.mehta@huawei.com>,
-	Tony Lindgren <tony@atomide.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Xiang Chen <chenxiang66@hisilicon.com>,
-	"James E.J. Bottomley" <jejb@linux.ibm.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Russell King <linux@armlinux.org.uk>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Jacky Huang <ychuang3@nuvoton.com>,
-	Shan-Chun Hung <schung@nuvoton.com>, Arnd Bergmann <arnd@arndb.de>,
-	Jason Gunthorpe <jgg@ziepe.ca>, Tom Rix <trix@redhat.com>,
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Randy Dunlap <rdunlap@infradead.org>, Rob Herring <robh@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	openipmi-developer@lists.sourceforge.net,
-	linux-integrity@vger.kernel.org, dmaengine@vger.kernel.org,
-	linux-fpga@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-i2c@vger.kernel.org, netdev@vger.kernel.org,
-	linux-omap@vger.kernel.org, linux-rtc@vger.kernel.org,
-	linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-serial@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 33/34] drivers: remove incorrect of_match_ptr/ACPI_PTR
- annotations
-Message-ID: <Zg1P9fpdwPot3Dxj@mail.minyard.net>
-Reply-To: minyard@acm.org
-References: <20240403080702.3509288-1-arnd@kernel.org>
- <20240403080702.3509288-34-arnd@kernel.org>
- <Zg0hxMZGlwfXV2RA@smile.fi.intel.com>
+        d=1e100.net; s=20230601; t=1712149205; x=1712754005;
+        h=in-reply-to:autocrypt:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=wqR86eVwZadrT9FfiXllL1qrLDMCLFxQFuYW1exFw+0=;
+        b=X+e8f5dANwD7MAnVV089EMVOTOkzwUmi//aUTgkuSMXn01dlrenfLbBBPXkyHYdywI
+         TmkxRjt80LoDr31M8qXmCZlYofBlg+5RhZYC066JKxvf1lBhKb0/Khpyt1QgONL7BJ6c
+         udPn43iB4x56iqQit+zRdpbKytm/6Cj7ah1mOpTinIlrULNKMRd42SiBt238k2Vk7/q+
+         jgtGxu2ZJgSeBjy89NNwz85ELMZDJ0A+2CN3Rys6HstEJfnVJE8VTPySTa07xabZYN27
+         oAAu9TWZMn/mVdKn05hwu/rL8IBgUTpnwLgewnkRs0RVg9K9Q18qKnCD12AaPduMYfJ8
+         64Xw==
+X-Forwarded-Encrypted: i=1; AJvYcCUip/qOXiNNlhUkIOQE0p2sQbgrcSrGc3xTcb6nU7jXpH2xqid44Cogm//3pTnf1zM4LKIylQIzsSZh8aczB7YEGRJRZsQ80+I0ZnXb9w==
+X-Gm-Message-State: AOJu0Ywz/CyrWdKwRrJx3oWN+emLtEfhp2oNhyKSyFanvk2xKl+CPN+1
+	MvOwNE2fM/jddReS49lRhhTM7ECt5sbzVpCHhIy/rIhjX6bv9igezw6EyHjX5w==
+X-Google-Smtp-Source: AGHT+IE/UPDhBfilUmsJuvrJPyeHx8zRWsUud7e0gifC2RvbGRkjbwKiNyqLkOvGcvsE3OOsQkmLTg==
+X-Received: by 2002:a05:622a:15d6:b0:431:5152:b41c with SMTP id d22-20020a05622a15d600b004315152b41cmr3966486qty.21.1712149204833;
+        Wed, 03 Apr 2024 06:00:04 -0700 (PDT)
+Received: from [192.168.1.3] (ip68-4-215-93.oc.oc.cox.net. [68.4.215.93])
+        by smtp.gmail.com with ESMTPSA id bt3-20020ac86903000000b00432bbc3f544sm5992493qtb.57.2024.04.03.06.00.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 03 Apr 2024 06:00:04 -0700 (PDT)
+Message-ID: <dfae30a2-f123-4360-9544-404f329e6e88@broadcom.com>
+Date: Wed, 3 Apr 2024 05:59:59 -0700
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Zg0hxMZGlwfXV2RA@smile.fi.intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4] staging: bcm2835-audio: add terminating new line to
+ Kconfig
+To: Prasad Pandit <ppandit@redhat.com>, Greg KH <gregkh@linuxfoundation.org>,
+ Dan Carpenter <dan.carpenter@linaro.org>
+Cc: bcm-kernel-feedback-list@broadcom.com,
+ linux-arm-kernel@lists.infradead.org, rjui@broadcom.com,
+ sbranden@broadcom.com, linux-staging@lists.linux.dev,
+ linux-rpi-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Prasad Pandit <pjp@fedoraproject.org>
+References: <20240330040411.3273337-1-ppandit@redhat.com>
+From: Florian Fainelli <florian.fainelli@broadcom.com>
+Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
+ xsBNBFPAG8ABCAC3EO02urEwipgbUNJ1r6oI2Vr/+uE389lSEShN2PmL3MVnzhViSAtrYxeT
+ M0Txqn1tOWoIc4QUl6Ggqf5KP6FoRkCrgMMTnUAINsINYXK+3OLe7HjP10h2jDRX4Ajs4Ghs
+ JrZOBru6rH0YrgAhr6O5gG7NE1jhly+EsOa2MpwOiXO4DE/YKZGuVe6Bh87WqmILs9KvnNrQ
+ PcycQnYKTVpqE95d4M824M5cuRB6D1GrYovCsjA9uxo22kPdOoQRAu5gBBn3AdtALFyQj9DQ
+ KQuc39/i/Kt6XLZ/RsBc6qLs+p+JnEuPJngTSfWvzGjpx0nkwCMi4yBb+xk7Hki4kEslABEB
+ AAHNMEZsb3JpYW4gRmFpbmVsbGkgPGZsb3JpYW4uZmFpbmVsbGlAYnJvYWRjb20uY29tPsLB
+ IQQQAQgAywUCZWl41AUJI+Jo+hcKAAG/SMv+fS3xUQWa0NryPuoRGjsA3SAUAAAAAAAWAAFr
+ ZXktdXNhZ2UtbWFza0BwZ3AuY29tjDAUgAAAAAAgAAdwcmVmZXJyZWQtZW1haWwtZW5jb2Rp
+ bmdAcGdwLmNvbXBncG1pbWUICwkIBwMCAQoFF4AAAAAZGGxkYXA6Ly9rZXlzLmJyb2FkY29t
+ Lm5ldAUbAwAAAAMWAgEFHgEAAAAEFQgJChYhBNXZKpfnkVze1+R8aIExtcQpvGagAAoJEIEx
+ tcQpvGagWPEH/2l0DNr9QkTwJUxOoP9wgHfmVhqc0ZlDsBFv91I3BbhGKI5UATbipKNqG13Z
+ TsBrJHcrnCqnTRS+8n9/myOF0ng2A4YT0EJnayzHugXm+hrkO5O9UEPJ8a+0553VqyoFhHqA
+ zjxj8fUu1px5cbb4R9G4UAySqyeLLeqnYLCKb4+GklGSBGsLMYvLmIDNYlkhMdnnzsSUAS61
+ WJYW6jjnzMwuKJ0ZHv7xZvSHyhIsFRiYiEs44kiYjbUUMcXor/uLEuTIazGrE3MahuGdjpT2
+ IOjoMiTsbMc0yfhHp6G/2E769oDXMVxCCbMVpA+LUtVIQEA+8Zr6mX0Yk4nDS7OiBlvOwE0E
+ U8AbwQEIAKxr71oqe+0+MYCc7WafWEcpQHFUwvYLcdBoOnmJPxDwDRpvU5LhqSPvk/yJdh9k
+ 4xUDQu3rm1qIW2I9Puk5n/Jz/lZsqGw8T13DKyu8eMcvaA/irm9lX9El27DPHy/0qsxmxVmU
+ pu9y9S+BmaMb2CM9IuyxMWEl9ruWFS2jAWh/R8CrdnL6+zLk60R7XGzmSJqF09vYNlJ6Bdbs
+ MWDXkYWWP5Ub1ZJGNJQ4qT7g8IN0qXxzLQsmz6tbgLMEHYBGx80bBF8AkdThd6SLhreCN7Uh
+ IR/5NXGqotAZao2xlDpJLuOMQtoH9WVNuuxQQZHVd8if+yp6yRJ5DAmIUt5CCPcAEQEAAcLB
+ gQQYAQIBKwUCU8AbwgUbDAAAAMBdIAQZAQgABgUCU8AbwQAKCRCTYAaomC8PVQ0VCACWk3n+
+ obFABEp5Rg6Qvspi9kWXcwCcfZV41OIYWhXMoc57ssjCand5noZi8bKg0bxw4qsg+9cNgZ3P
+ N/DFWcNKcAT3Z2/4fTnJqdJS//YcEhlr8uGs+ZWFcqAPbteFCM4dGDRruo69IrHfyyQGx16s
+ CcFlrN8vD066RKevFepb/ml7eYEdN5SRALyEdQMKeCSf3mectdoECEqdF/MWpfWIYQ1hEfdm
+ C2Kztm+h3Nkt9ZQLqc3wsPJZmbD9T0c9Rphfypgw/SfTf2/CHoYVkKqwUIzI59itl5Lze+R5
+ wDByhWHx2Ud2R7SudmT9XK1e0x7W7a5z11Q6vrzuED5nQvkhAAoJEIExtcQpvGagugcIAJd5
+ EYe6KM6Y6RvI6TvHp+QgbU5dxvjqSiSvam0Ms3QrLidCtantcGT2Wz/2PlbZqkoJxMQc40rb
+ fXa4xQSvJYj0GWpadrDJUvUu3LEsunDCxdWrmbmwGRKqZraV2oG7YEddmDqOe0Xm/NxeSobc
+ MIlnaE6V0U8f5zNHB7Y46yJjjYT/Ds1TJo3pvwevDWPvv6rdBeV07D9s43frUS6xYd1uFxHC
+ 7dZYWJjZmyUf5evr1W1gCgwLXG0PEi9n3qmz1lelQ8lSocmvxBKtMbX/OKhAfuP/iIwnTsww
+ 95A2SaPiQZA51NywV8OFgsN0ITl2PlZ4Tp9hHERDe6nQCsNI/Us=
+In-Reply-To: <20240330040411.3273337-1-ppandit@redhat.com>
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+	boundary="0000000000002e9a3d061530cd38"
 
-On Wed, Apr 03, 2024 at 12:30:44PM +0300, Andy Shevchenko wrote:
-> On Wed, Apr 03, 2024 at 10:06:51AM +0200, Arnd Bergmann wrote:
-> > From: Arnd Bergmann <arnd@arndb.de>
-> > 
-> > When building with CONFIG_OF and/or CONFIG_ACPI disabled but W=1 extra
-> > warnings enabled, a lot of driver cause a warning about an unused
-> > ID table:
-> > 
-> > drivers/char/tpm/tpm_ftpm_tee.c:356:34: error: unused variable 'of_ftpm_tee_ids' [-Werror,-Wunused-const-variable]
-> > drivers/dma/img-mdc-dma.c:863:34: error: unused variable 'mdc_dma_of_match' [-Werror,-Wunused-const-variable]
-> > drivers/fpga/versal-fpga.c:62:34: error: unused variable 'versal_fpga_of_match' [-Werror,-Wunused-const-variable]
-> > drivers/i2c/muxes/i2c-mux-ltc4306.c:200:34: error: unused variable 'ltc4306_of_match' [-Werror,-Wunused-const-variable]
-> > drivers/i2c/muxes/i2c-mux-reg.c:242:34: error: unused variable 'i2c_mux_reg_of_match' [-Werror,-Wunused-const-variable]
-> > drivers/memory/pl353-smc.c:62:34: error: unused variable 'pl353_smc_supported_children' [-Werror,-Wunused-const-variable]
-> > drivers/regulator/pbias-regulator.c:136:34: error: unused variable 'pbias_of_match' [-Werror,-Wunused-const-variable]
-> > drivers/regulator/twl-regulator.c:552:34: error: unused variable 'twl_of_match' [-Werror,-Wunused-const-variable]
-> > drivers/regulator/twl6030-regulator.c:645:34: error: unused variable 'twl_of_match' [-Werror,-Wunused-const-variable]
-> > drivers/scsi/hisi_sas/hisi_sas_v2_hw.c:3635:36: error: unused variable 'sas_v2_acpi_match' [-Werror,-Wunused-const-variable]
-> > drivers/staging/pi433/pi433_if.c:1359:34: error: unused variable 'pi433_dt_ids' [-Werror,-Wunused-const-variable]
-> > drivers/tty/serial/amba-pl011.c:2945:34: error: unused variable 'sbsa_uart_of_match' [-Werror,-Wunused-const-variable]
-> > 
-> > The fix is always to just remove the of_match_ptr() and ACPI_PTR() wrappers
-> > that remove the reference, rather than adding another #ifdef just for build
-> > testing for a configuration that doesn't matter in practice.
-> 
-> > I considered splitting up the large patch into per subsystem patches, but since
-> > it's really just the same thing everywhere it feels better to do it all at once.
-> 
-> Can we split to three groups:
-> - Dropping ACPI_PTR()
-> - Dropping of_match_ptr() (which I won't review in depth, for example)
-> - Dropping both
-> ?
+--0000000000002e9a3d061530cd38
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Why?
 
--corey
 
+On 3/29/2024 9:04 PM, Prasad Pandit wrote:
+> From: Prasad Pandit <pjp@fedoraproject.org>
 > 
-> ...
+> Add terminating new line to the Kconfig file. It helps while
+> displaying file with cat(1) command.
 > 
-> > --- a/drivers/char/ipmi/ipmb_dev_int.c
-> > +++ b/drivers/char/ipmi/ipmb_dev_int.c
-> > @@ -364,7 +364,7 @@ MODULE_DEVICE_TABLE(acpi, acpi_ipmb_id);
-> >  static struct i2c_driver ipmb_driver = {
-> >  	.driver = {
-> >  		.name = "ipmb-dev",
-> > -		.acpi_match_table = ACPI_PTR(acpi_ipmb_id),
-> > +		.acpi_match_table = acpi_ipmb_id,
-> >  	},
-> >  	.probe = ipmb_probe,
-> >  	.remove = ipmb_remove,
-> 
-> acpi.h --> mod_devicetable.h.
-> 
-> ...
-> 
-> > --- a/drivers/hid/hid-google-hammer.c
-> > +++ b/drivers/hid/hid-google-hammer.c
-> > @@ -275,21 +275,19 @@ static const struct acpi_device_id cbas_ec_acpi_ids[] = {
-> >  };
-> >  MODULE_DEVICE_TABLE(acpi, cbas_ec_acpi_ids);
-> >  
-> > -#ifdef CONFIG_OF
-> >  static const struct of_device_id cbas_ec_of_match[] = {
-> >  	{ .compatible = "google,cros-cbas" },
-> >  	{ },
-> >  };
-> >  MODULE_DEVICE_TABLE(of, cbas_ec_of_match);
-> > -#endif
-> >  
-> >  static struct platform_driver cbas_ec_driver = {
-> >  	.probe = cbas_ec_probe,
-> >  	.remove = cbas_ec_remove,
-> >  	.driver = {
-> >  		.name = "cbas_ec",
-> > -		.acpi_match_table = ACPI_PTR(cbas_ec_acpi_ids),
-> > -		.of_match_table = of_match_ptr(cbas_ec_of_match),
-> > +		.acpi_match_table = cbas_ec_acpi_ids,
-> > +		.of_match_table = cbas_ec_of_match,
-> >  		.pm = &cbas_ec_pm_ops,
-> >  	},
-> >  };
-> 
-> Ditto, and likely of.h can be also dropped.
-> 
-> ...
-> 
-> > --- a/drivers/input/touchscreen/wdt87xx_i2c.c
-> > +++ b/drivers/input/touchscreen/wdt87xx_i2c.c
-> > @@ -1166,7 +1166,7 @@ static struct i2c_driver wdt87xx_driver = {
-> >  		.name = WDT87XX_NAME,
-> >  		.dev_groups = wdt87xx_groups,
-> >  		.pm = pm_sleep_ptr(&wdt87xx_pm_ops),
-> > -		.acpi_match_table = ACPI_PTR(wdt87xx_acpi_id),
-> > +		.acpi_match_table = wdt87xx_acpi_id,
-> >  	},
-> >  };
-> >  module_i2c_driver(wdt87xx_driver);
-> 
-> Ditto.
-> 
-> ...
-> 
-> > --- a/drivers/net/ethernet/apm/xgene-v2/main.c
-> > +++ b/drivers/net/ethernet/apm/xgene-v2/main.c
-> > @@ -731,7 +731,7 @@ MODULE_DEVICE_TABLE(acpi, xge_acpi_match);
-> >  static struct platform_driver xge_driver = {
-> >  	.driver = {
-> >  		   .name = "xgene-enet-v2",
-> > -		   .acpi_match_table = ACPI_PTR(xge_acpi_match),
-> > +		   .acpi_match_table = xge_acpi_match,
-> >  	},
-> >  	.probe = xge_probe,
-> >  	.remove_new = xge_remove,
-> 
-> Ditto. And remove forward declaration of the variable as well.
-> 
-> ...
-> 
-> > --- a/drivers/rtc/rtc-fsl-ftm-alarm.c
-> > +++ b/drivers/rtc/rtc-fsl-ftm-alarm.c
-> > @@ -320,7 +320,7 @@ static struct platform_driver ftm_rtc_driver = {
-> >  	.driver		= {
-> >  		.name	= "ftm-alarm",
-> >  		.of_match_table = ftm_rtc_match,
-> > -		.acpi_match_table = ACPI_PTR(ftm_imx_acpi_ids),
-> > +		.acpi_match_table = ftm_imx_acpi_ids,
-> >  	},
-> >  };
-> 
-> Ditto.
-> 
-> ...
-> 
-> >  	.driver = {
-> >  		.name =		"pi433",
-> >  		.owner =	THIS_MODULE,
-> 
-> Oh-oh.
-> 
-> > -		.of_match_table = of_match_ptr(pi433_dt_ids),
-> > +		.of_match_table = pi433_dt_ids,
-> >  	},
-> 
-> ...
-> 
-> > --- a/drivers/tty/serial/amba-pl011.c
-> > +++ b/drivers/tty/serial/amba-pl011.c
-> > @@ -2948,7 +2948,7 @@ static const struct of_device_id sbsa_uart_of_match[] = {
-> >  };
-> >  MODULE_DEVICE_TABLE(of, sbsa_uart_of_match);
-> >  
-> > -static const struct acpi_device_id __maybe_unused sbsa_uart_acpi_match[] = {
-> > +static const struct acpi_device_id sbsa_uart_acpi_match[] = {
-> >  	{ "ARMH0011", 0 },
-> >  	{ "ARMHB000", 0 },
-> >  	{},
-> > @@ -2961,8 +2961,8 @@ static struct platform_driver arm_sbsa_uart_platform_driver = {
-> >  	.driver	= {
-> >  		.name	= "sbsa-uart",
-> >  		.pm	= &pl011_dev_pm_ops,
-> > -		.of_match_table = of_match_ptr(sbsa_uart_of_match),
-> > -		.acpi_match_table = ACPI_PTR(sbsa_uart_acpi_match),
-> > +		.of_match_table = sbsa_uart_of_match,
-> > +		.acpi_match_table = sbsa_uart_acpi_match,
-> >  		.suppress_bind_attrs = IS_BUILTIN(CONFIG_SERIAL_AMBA_PL011),
-> >  	},
-> >  };
-> 
-> Ditto.
-> 
-> ...
-> 
-> As mentioned above, I haven't and won't look into of_match_ptr() cases, but you
-> got the idea.
-> 
-> For the above, if addressed as suggested,
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> 
-> -- 
-> With Best Regards,
-> Andy Shevchenko
-> 
-> 
+> Signed-off-by: Prasad Pandit <pjp@fedoraproject.org>
+
+Reviewed-by: Florian Fainelli <florian.fainelli@broadcom.com>
+-- 
+Florian
+
+--0000000000002e9a3d061530cd38
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+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
+riBJ/K1AFUjRAjFhGV64l++td7dkmnq/X8ET75ti+w1s4FRpFqkD2m7pg5NxdsZphYIXAgMBAAGj
+QjBAMA4GA1UdDwEB/wQEAwIBBjAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBSP8Et/qC5FJK5N
+UPpjmove4t0bvDANBgkqhkiG9w0BAQsFAAOCAQEAS0DbwFCq/sgM7/eWVEVJu5YACUGssxOGhigH
+M8pr5nS5ugAtrqQK0/Xx8Q+Kv3NnSoPHRHt44K9ubG8DKY4zOUXDjuS5V2yq/BKW7FPGLeQkbLmU
+Y/vcU2hnVj6DuM81IcPJaP7O2sJTqsyQiunwXUaMld16WCgaLx3ezQA3QY/tRG3XUyiXfvNnBB4V
+14qWtNPeTCekTBtzc3b0F5nCH3oO4y0IrQocLP88q1UOD5F+NuvDV0m+4S4tfGCLw0FREyOdzvcy
+a5QBqJnnLDMfOjsl0oZAzjsshnjJYS8Uuu7bVW/fhO4FCU29KNhyztNiUGUe65KXgzHZs7XKR1g/
+XzCCBVgwggRAoAMCAQICDBP8P9hKRVySg3Qv5DANBgkqhkiG9w0BAQsFADBbMQswCQYDVQQGEwJC
+RTEZMBcGA1UEChMQR2xvYmFsU2lnbiBudi1zYTExMC8GA1UEAxMoR2xvYmFsU2lnbiBHQ0MgUjMg
+UGVyc29uYWxTaWduIDIgQ0EgMjAyMDAeFw0yMjA5MTAxMjE4MTFaFw0yNTA5MTAxMjE4MTFaMIGW
+MQswCQYDVQQGEwJJTjESMBAGA1UECBMJS2FybmF0YWthMRIwEAYDVQQHEwlCYW5nYWxvcmUxFjAU
+BgNVBAoTDUJyb2FkY29tIEluYy4xGTAXBgNVBAMTEEZsb3JpYW4gRmFpbmVsbGkxLDAqBgkqhkiG
+9w0BCQEWHWZsb3JpYW4uZmFpbmVsbGlAYnJvYWRjb20uY29tMIIBIjANBgkqhkiG9w0BAQEFAAOC
+AQ8AMIIBCgKCAQEA+oi3jMmHltY4LMUy8Up5+1zjd1iSgUBXhwCJLj1GJQF+GwP8InemBbk5rjlC
+UwbQDeIlOfb8xGqHoQFGSW8p9V1XUw+cthISLkycex0AJ09ufePshLZygRLREU0H4ecNPMejxCte
+KdtB4COST4uhBkUCo9BSy1gkl8DJ8j/BQ1KNUx6oYe0CntRag+EnHv9TM9BeXBBLfmMRnWNhvOSk
+nSmRX0J3d9/G2A3FIC6WY2XnLW7eAZCQPa1Tz3n2B5BGOxwqhwKLGLNu2SRCPHwOdD6e0drURF7/
+Vax85/EqkVnFNlfxtZhS0ugx5gn2pta7bTdBm1IG4TX+A3B1G57rVwIDAQABo4IB3jCCAdowDgYD
+VR0PAQH/BAQDAgWgMIGjBggrBgEFBQcBAQSBljCBkzBOBggrBgEFBQcwAoZCaHR0cDovL3NlY3Vy
+ZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAuY3J0MEEG
+CCsGAQUFBzABhjVodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9nc2djY3IzcGVyc29uYWxzaWdu
+MmNhMjAyMDBNBgNVHSAERjBEMEIGCisGAQQBoDIBKAowNDAyBggrBgEFBQcCARYmaHR0cHM6Ly93
+d3cuZ2xvYmFsc2lnbi5jb20vcmVwb3NpdG9yeS8wCQYDVR0TBAIwADBJBgNVHR8EQjBAMD6gPKA6
+hjhodHRwOi8vY3JsLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjNwZXJzb25hbHNpZ24yY2EyMDIwLmNy
+bDAoBgNVHREEITAfgR1mbG9yaWFuLmZhaW5lbGxpQGJyb2FkY29tLmNvbTATBgNVHSUEDDAKBggr
+BgEFBQcDBDAfBgNVHSMEGDAWgBSWM9HmWBdbNHWKgVZk1b5I3qGPzzAdBgNVHQ4EFgQUUwwfJ6/F
+KL0fRdVROal/Lp4lAF0wDQYJKoZIhvcNAQELBQADggEBAKBgfteDc1mChZjKBY4xAplC6uXGyBrZ
+kNGap1mHJ+JngGzZCz+dDiHRQKGpXLxkHX0BvEDZLW6LGOJ83ImrW38YMOo3ZYnCYNHA9qDOakiw
+2s1RH00JOkO5SkYdwCHj4DB9B7KEnLatJtD8MBorvt+QxTuSh4ze96Jz3kEIoHMvwGFkgObWblsc
+3/YcLBmCgaWpZ3Ksev1vJPr5n8riG3/N4on8gO5qinmmr9Y7vGeuf5dmZrYMbnb+yCBalkUmZQwY
+NxADYvcRBA0ySL6sZpj8BIIhWiXiuusuBmt2Mak2eEv0xDbovE6Z6hYyl/ZnRadbgK/ClgbY3w+O
+AfUXEZ0xggJtMIICaQIBATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52
+LXNhMTEwLwYDVQQDEyhHbG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgwT
+/D/YSkVckoN0L+QwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIIMhED8bq5OrqmjO
+qTE6eC+W8zPfmTOo7xiS0aY5PWqnMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcN
+AQkFMQ8XDTI0MDQwMzEzMDAwNVowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZI
+AWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEH
+MAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQCIMB72aQUgHJzDoJRMRv+7aD10vp2KKzed
+obMlYcjRodMuDBo8+gWBhs7Px1axLwmLko+N5lok30XDOFPCOK3UZEvTV/dp1NFUgJqvHudocQIH
+tRn/5jbdOYtyBm5ymuFAG57BJK8xEpdRmKlko+t9dbVDO+UMAgt2Y4dWK0Q/YbgwqJyBmC8b1bVC
+9ITgACt2sdy76INpkU07McNMuZ90TK2H1P9INJ+S0Kl3QxnLLGkLSjG8/qIrps4j/MhJe777ul+n
+VgKx06kjcN5YWMawRCcwY0XOXvpfCp1H1W1bHHAQKo0ESSomdYXYiveCsjwr6BNT9wPiT4ovNU0Z
+1tom
+--0000000000002e9a3d061530cd38--
