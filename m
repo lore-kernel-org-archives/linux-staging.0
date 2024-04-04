@@ -1,100 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B588C14E2DC;
-	Wed,  3 Apr 2024 16:09:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29D461CA8D
+	for <linux-staging@lists.linux.dev>; Thu,  4 Apr 2024 00:17:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712160590; cv=none; b=tMzNNRwvuL4xKu3ObIZreVIYllJX0VEwnt/9/8A9m83Y6EXAavLbiAO26dJm+dct40OW8b0IrFb4AK5wimx0arKEaeuS2QMi5484j3+J2fe0i2Kw8/+449DDCg2tvvusRqoDxEbwKaO0/n/RWy6vyas726DFXQ1J9mNIuI4cS+w=
+	t=1712189871; cv=none; b=YABJoxNWiBmtTJpzYOwejN7s0oP+allc7Du2nKwEa0YcJHlwfLWD25Lk0y+GX46Fy5lezMHflBT7gLNMqOx1WvzoYOuvPDNf87IuJouZErTKjTghDy5zY3ItGFZ6MkrHhrwlijlpQ+W8BODK9r2a7vR8iMO+eRDC0miThC2M6nA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712160590; c=relaxed/simple;
-	bh=8hzZGuG3Djlgf0qMwrfrn4bWy2pLWmCCjfypaPd6iaU=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
-	 References:In-Reply-To; b=tJaGtwjEjTezCb56WYqyDf0bl03EZxpj8BiJulTlSG/m95BaVKr7XaVQwgkSAHlT7aHjzTF8byu4fD6Lh10WsoKifcpnI1QoMsY5+pBvmZXSO+SCbj7Syb09/5iJK5uSjlrA9cgtNy0UxZxDgh73e+aHoeiV/tx/09miV/2PXc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jcKjSobB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1712189871; c=relaxed/simple;
+	bh=B7R3hnTJRgCRWl5nF3InAG07B70C9XWTY07YjD3CY9Q=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=s/0jqccmCOi447MA9XupYqeiymDERYA6TM98zQDI9jQo1CD6A2x6aMm2M++VI+AZpIkrLBBhS4vYJ19zPRKktK8OAQFeS3XwLF1MR+1NLIky+HDMcO6RUg/pI6TQuW5luEu0MaPwmZoiWtPeCZtwrqCJfSJj0fWpkt/+NS5xuqY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lCqLntaP; arc=none smtp.client-ip=209.85.216.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jcKjSobB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93D70C433B1;
-	Wed,  3 Apr 2024 16:09:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712160590;
-	bh=8hzZGuG3Djlgf0qMwrfrn4bWy2pLWmCCjfypaPd6iaU=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=jcKjSobBys2AwDWtHUg+nZNz255hX8YJ8clocbZnVtIj0h52DY808t+gVnLSzkMLC
-	 X2jjQFAvUGmd4lb2M/HiK8OYAD4oRg6oM2wRSk/RtDyPOErdicM/kRH7ZmaFffstdd
-	 A5uhuABW7lcrvZbj6juYMAQtimJyqGFQZcIGMI0EOpEDTaFtJn8kgeNnGah9Hgz94S
-	 IOzUjSSG8Dy1PPZNqM66yJrWCw2X5fzAFrh0GVmZ1l/EQYOliuMJ261ne92VmHIt0M
-	 aZaraEfx5h6OpkWv3gkSRGiGucYprWgAnxL9Gst4Y9JBTDvukYB1H1HajHS8VYD79T
-	 fVNVTde8ha+Ew==
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lCqLntaP"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-29fa10274e5so251332a91.3
+        for <linux-staging@lists.linux.dev>; Wed, 03 Apr 2024 17:17:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1712189869; x=1712794669; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NEhL3R0CV+V3IuuciSTia1iTNDXKvNOyBjkJ1bb1xuA=;
+        b=lCqLntaPAUWdpubHr545Xoci+X6SsrzK9etjbbosLiAUrEqyvhGsTRo/Svu5/MQqXk
+         xdU8w14AlZNfWdYnjEwHupSDvmPp7rL+xZCZBTqvFU2TkhAxnLBKOZKNvzElSxE3F+uq
+         THiooWJpUZY/2D+X8Bw4c4W2Y7Ub2SMtoTHfRcsEJROQlNwMaJ28eVbhyv5RvE2HMIfC
+         XV/kVqYwUAkVlQ7q3qKqXQdfouIzkWpaYK0VgzXUZKEETgRVuBqdBkMUn4oDDEIvWs2O
+         1Ek9Mk0aO77+TaOzWOe4UmFsCbwTeFBwGyQr5fmzKrdKEWiTMWppCz45e62tHHoVD9NA
+         kimw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712189869; x=1712794669;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NEhL3R0CV+V3IuuciSTia1iTNDXKvNOyBjkJ1bb1xuA=;
+        b=YEAZSWBP/xhVWpLLGQ6qG8b5BMZpTJWfZtS9UlOfRKPAxfyTHJU19IYQrdGmJtvWFR
+         5j7UaZY+Ni4V+a4UmhaKIp7CIKJ8FZWLd0LpV8EuY2LfqX76kbjFo/LM+1KDYW8ERFXN
+         X98U6qczic0+Gdmmr0v0lheGrcC4B+zjaeuEz6gbB8/9kGBN4ZU1g944Xt0zJExlNw6Q
+         ajQSyD9+OGbzOtJsX5ChO93DzBgubxrmBv7axSQv6M2YG3j/U1luKXYw67IChpBfJqU/
+         idOpj8EAqoJCKXSnyKKPisP2/zLwCpNUZb34VwaKbXKstvx8QzpGM5b5YDLX//VQH2En
+         9jzg==
+X-Forwarded-Encrypted: i=1; AJvYcCUnAqw+CfnXxIAlGOJHqARYeZpQc5RSUT+ytgESEX65uOTUXxxiEeKZeima/bm1fxfxDSxIcIjn7+/b4rBS+jguFfyGfoSs2IAzM6TbeQ==
+X-Gm-Message-State: AOJu0Yy6WVg8yHR600tMVtNf1EyTzJCgUd1HSfcXLXJqx/MtwMZkaMZg
+	Bn/cCCpZZE+9UNHKOpX75las8ctPJvwWqLOV94MbEdblp2ADYXxE
+X-Google-Smtp-Source: AGHT+IFvRGBLmr18Nxk1BlgrtjmU4Hpm+bSbf901S7+dDxgwigEa/yJT6NNfNLt7go4I4DJzMOm6Rw==
+X-Received: by 2002:a17:90a:c587:b0:2a2:775:9830 with SMTP id l7-20020a17090ac58700b002a207759830mr1144439pjt.11.1712189869444;
+        Wed, 03 Apr 2024 17:17:49 -0700 (PDT)
+Received: from jc-ubuntu-dev-korn-1 (c-98-210-1-68.hsd1.ca.comcast.net. [98.210.1.68])
+        by smtp.gmail.com with ESMTPSA id q94-20020a17090a17e700b0029facfb3f25sm338726pja.45.2024.04.03.17.17.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Apr 2024 17:17:49 -0700 (PDT)
+From: Jackson Chui <jacksonchui.qwerty@gmail.com>
+To: Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Jackson Chui <jacksonchui.qwerty@gmail.com>
+Subject: [PATCH] staging: greybus: Clear up precedence for gcam logging macros
+Date: Wed,  3 Apr 2024 17:16:28 -0700
+Message-Id: <20240404001627.94858-1-jacksonchui.qwerty@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 03 Apr 2024 19:09:38 +0300
-Message-Id: <D0AM9RGC7D65.2V9TFGBOSF3LN@kernel.org>
-Subject: Re: [PATCH 33/34] drivers: remove incorrect of_match_ptr/ACPI_PTR
- annotations
-From: "Jarkko Sakkinen" <jarkko@kernel.org>
-To: "Arnd Bergmann" <arnd@kernel.org>, <linux-kernel@vger.kernel.org>,
- "Corey Minyard" <minyard@acm.org>, "Peter Huewe" <peterhuewe@gmx.de>,
- "Vinod Koul" <vkoul@kernel.org>, "Moritz Fischer" <mdf@kernel.org>, "Wu
- Hao" <hao.wu@intel.com>, "Xu Yilun" <yilun.xu@intel.com>, "Jiri Kosina"
- <jikos@kernel.org>, "Benjamin Tissoires" <benjamin.tissoires@redhat.com>,
- "Michael Hennerich" <michael.hennerich@analog.com>, "Peter Rosin"
- <peda@axentia.se>, "Dmitry Torokhov" <dmitry.torokhov@gmail.com>, "Iyappan
- Subramanian" <iyappan@os.amperecomputing.com>, "Keyur Chudgar"
- <keyur@os.amperecomputing.com>, "David S. Miller" <davem@davemloft.net>,
- "Eric Dumazet" <edumazet@google.com>, "Jakub Kicinski" <kuba@kernel.org>,
- "Paolo Abeni" <pabeni@redhat.com>, "Yisen Zhuang"
- <yisen.zhuang@huawei.com>, "Salil Mehta" <salil.mehta@huawei.com>, "Tony
- Lindgren" <tony@atomide.com>, "Liam Girdwood" <lgirdwood@gmail.com>, "Mark
- Brown" <broonie@kernel.org>, "Alexandre Belloni"
- <alexandre.belloni@bootlin.com>, "Xiang Chen" <chenxiang66@hisilicon.com>,
- "James E.J. Bottomley" <jejb@linux.ibm.com>, "Martin K. Petersen"
- <martin.petersen@oracle.com>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>, "Russell King" <linux@armlinux.org.uk>, "Jiri
- Slaby" <jirislaby@kernel.org>, "Jacky Huang" <ychuang3@nuvoton.com>,
- "Shan-Chun Hung" <schung@nuvoton.com>
-Cc: "Arnd Bergmann" <arnd@arndb.de>, "Jason Gunthorpe" <jgg@ziepe.ca>, "Tom
- Rix" <trix@redhat.com>, =?utf-8?q?Uwe_Kleine-K=C3=B6nig?=
- <u.kleine-koenig@pengutronix.de>, "Randy Dunlap" <rdunlap@infradead.org>,
- "Rob Herring" <robh@kernel.org>, "Linus Walleij"
- <linus.walleij@linaro.org>, <openipmi-developer@lists.sourceforge.net>,
- <linux-integrity@vger.kernel.org>, <dmaengine@vger.kernel.org>,
- <linux-fpga@vger.kernel.org>, <linux-input@vger.kernel.org>,
- <linux-i2c@vger.kernel.org>, <netdev@vger.kernel.org>,
- <linux-omap@vger.kernel.org>, <linux-rtc@vger.kernel.org>,
- <linux-scsi@vger.kernel.org>, <linux-staging@lists.linux.dev>,
- <linux-serial@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
-X-Mailer: aerc 0.17.0
-References: <20240403080702.3509288-1-arnd@kernel.org>
- <20240403080702.3509288-34-arnd@kernel.org>
-In-Reply-To: <20240403080702.3509288-34-arnd@kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Wed Apr 3, 2024 at 11:06 AM EEST, Arnd Bergmann wrote:
-> diff --git a/drivers/char/tpm/tpm_ftpm_tee.c b/drivers/char/tpm/tpm_ftpm_=
-tee.c
-> index 2ea4882251cf..0c453f3f928d 100644
-> --- a/drivers/char/tpm/tpm_ftpm_tee.c
-> +++ b/drivers/char/tpm/tpm_ftpm_tee.c
-> @@ -362,7 +362,7 @@ MODULE_DEVICE_TABLE(of, of_ftpm_tee_ids);
->  static struct platform_driver ftpm_tee_plat_driver =3D {
->  	.driver =3D {
->  		.name =3D "ftpm-tee",
-> -		.of_match_table =3D of_match_ptr(of_ftpm_tee_ids),
-> +		.of_match_table =3D of_ftpm_tee_ids,
->  	},
->  	.shutdown =3D ftpm_plat_tee_shutdown,
->  	.probe =3D ftpm_plat_tee_probe,
+Reported by checkpatch:
 
-For this portion:
+CHECK: Macro argument 'gcam' may be better as '(gcam)' to avoid
+precedence issues
 
-Reviewed-by: Jarkko Sakkinen <jarkko@kernel.org>
+Disambiguates '&' (address-of) operator and '->' operator precedence,
+accounting for how '(gcam)->bundle->dev' is a 'struct device' and not a
+'struct device*', which is required by the dev_{dbg,info,err} driver
+model diagnostic macros. Issue found by checkpatch.
 
-[can be included to possible new revisions if it stays same]
+Signed-off-by: Jackson Chui <jacksonchui.qwerty@gmail.com>
+---
+ drivers/staging/greybus/camera.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-BR, Jarkko
+diff --git a/drivers/staging/greybus/camera.c b/drivers/staging/greybus/camera.c
+index a8173aa3a995..d82a2d2abdca 100644
+--- a/drivers/staging/greybus/camera.c
++++ b/drivers/staging/greybus/camera.c
+@@ -180,9 +180,9 @@ static const struct gb_camera_fmt_info *gb_camera_get_format_info(u16 gb_fmt)
+ 
+ #define GB_CAMERA_MAX_SETTINGS_SIZE	8192
+ 
+-#define gcam_dbg(gcam, format...)	dev_dbg(&gcam->bundle->dev, format)
+-#define gcam_info(gcam, format...)	dev_info(&gcam->bundle->dev, format)
+-#define gcam_err(gcam, format...)	dev_err(&gcam->bundle->dev, format)
++#define gcam_dbg(gcam, format...)	dev_dbg(&((gcam)->bundle->dev), format)
++#define gcam_info(gcam, format...)	dev_info(&((gcam)->bundle->dev), format)
++#define gcam_err(gcam, format...)	dev_err(&((gcam)->bundle->dev), format)
+ 
+ static int gb_camera_operation_sync_flags(struct gb_connection *connection,
+ 					  int type, unsigned int flags,
+-- 
+2.34.1
+
