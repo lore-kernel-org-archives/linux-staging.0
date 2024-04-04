@@ -1,107 +1,99 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29D461CA8D
-	for <linux-staging@lists.linux.dev>; Thu,  4 Apr 2024 00:17:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CE3C14290
+	for <linux-staging@lists.linux.dev>; Thu,  4 Apr 2024 16:35:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712189871; cv=none; b=YABJoxNWiBmtTJpzYOwejN7s0oP+allc7Du2nKwEa0YcJHlwfLWD25Lk0y+GX46Fy5lezMHflBT7gLNMqOx1WvzoYOuvPDNf87IuJouZErTKjTghDy5zY3ItGFZ6MkrHhrwlijlpQ+W8BODK9r2a7vR8iMO+eRDC0miThC2M6nA=
+	t=1712248524; cv=none; b=aq1itb7kcPxejmU+U4U9qYLvCc942szYPZYKDmFNzZ8el72geSZRwjZQ/3E3TcOUnNgXClgTxa6FDjC+bPXLT4JwcSH1KmLEnVWLuUdQEq2RZnCex7N5nT6XTNwAle3wAu4iY4BSHHLBDj1kOt99UYOr4EqiyVJrlY9Ah1gcacE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712189871; c=relaxed/simple;
-	bh=B7R3hnTJRgCRWl5nF3InAG07B70C9XWTY07YjD3CY9Q=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=s/0jqccmCOi447MA9XupYqeiymDERYA6TM98zQDI9jQo1CD6A2x6aMm2M++VI+AZpIkrLBBhS4vYJ19zPRKktK8OAQFeS3XwLF1MR+1NLIky+HDMcO6RUg/pI6TQuW5luEu0MaPwmZoiWtPeCZtwrqCJfSJj0fWpkt/+NS5xuqY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lCqLntaP; arc=none smtp.client-ip=209.85.216.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1712248524; c=relaxed/simple;
+	bh=MmhrXXb3uIRaUAMK673aSGEDDVFyLxQk/WLn0pC3LAY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bbZJ3/FmvI3EKRpARjeBidw9m3zOnVBpPoxdRml+slHKF+stlQD7h2+a/ZWHdZAy/p2G60WcWhPT/K9ml6uSMtyvWTvvl9VZMiHV7gYVit5ATWt7P5eJ1tyqKj42FrZYGVckUZwkyaPkahW3f8RtKAUxXIrtWLr7wQ5oDHeGGGY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=URlUTCr3; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lCqLntaP"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-29fa10274e5so251332a91.3
-        for <linux-staging@lists.linux.dev>; Wed, 03 Apr 2024 17:17:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712189869; x=1712794669; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=NEhL3R0CV+V3IuuciSTia1iTNDXKvNOyBjkJ1bb1xuA=;
-        b=lCqLntaPAUWdpubHr545Xoci+X6SsrzK9etjbbosLiAUrEqyvhGsTRo/Svu5/MQqXk
-         xdU8w14AlZNfWdYnjEwHupSDvmPp7rL+xZCZBTqvFU2TkhAxnLBKOZKNvzElSxE3F+uq
-         THiooWJpUZY/2D+X8Bw4c4W2Y7Ub2SMtoTHfRcsEJROQlNwMaJ28eVbhyv5RvE2HMIfC
-         XV/kVqYwUAkVlQ7q3qKqXQdfouIzkWpaYK0VgzXUZKEETgRVuBqdBkMUn4oDDEIvWs2O
-         1Ek9Mk0aO77+TaOzWOe4UmFsCbwTeFBwGyQr5fmzKrdKEWiTMWppCz45e62tHHoVD9NA
-         kimw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712189869; x=1712794669;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NEhL3R0CV+V3IuuciSTia1iTNDXKvNOyBjkJ1bb1xuA=;
-        b=YEAZSWBP/xhVWpLLGQ6qG8b5BMZpTJWfZtS9UlOfRKPAxfyTHJU19IYQrdGmJtvWFR
-         5j7UaZY+Ni4V+a4UmhaKIp7CIKJ8FZWLd0LpV8EuY2LfqX76kbjFo/LM+1KDYW8ERFXN
-         X98U6qczic0+Gdmmr0v0lheGrcC4B+zjaeuEz6gbB8/9kGBN4ZU1g944Xt0zJExlNw6Q
-         ajQSyD9+OGbzOtJsX5ChO93DzBgubxrmBv7axSQv6M2YG3j/U1luKXYw67IChpBfJqU/
-         idOpj8EAqoJCKXSnyKKPisP2/zLwCpNUZb34VwaKbXKstvx8QzpGM5b5YDLX//VQH2En
-         9jzg==
-X-Forwarded-Encrypted: i=1; AJvYcCUnAqw+CfnXxIAlGOJHqARYeZpQc5RSUT+ytgESEX65uOTUXxxiEeKZeima/bm1fxfxDSxIcIjn7+/b4rBS+jguFfyGfoSs2IAzM6TbeQ==
-X-Gm-Message-State: AOJu0Yy6WVg8yHR600tMVtNf1EyTzJCgUd1HSfcXLXJqx/MtwMZkaMZg
-	Bn/cCCpZZE+9UNHKOpX75las8ctPJvwWqLOV94MbEdblp2ADYXxE
-X-Google-Smtp-Source: AGHT+IFvRGBLmr18Nxk1BlgrtjmU4Hpm+bSbf901S7+dDxgwigEa/yJT6NNfNLt7go4I4DJzMOm6Rw==
-X-Received: by 2002:a17:90a:c587:b0:2a2:775:9830 with SMTP id l7-20020a17090ac58700b002a207759830mr1144439pjt.11.1712189869444;
-        Wed, 03 Apr 2024 17:17:49 -0700 (PDT)
-Received: from jc-ubuntu-dev-korn-1 (c-98-210-1-68.hsd1.ca.comcast.net. [98.210.1.68])
-        by smtp.gmail.com with ESMTPSA id q94-20020a17090a17e700b0029facfb3f25sm338726pja.45.2024.04.03.17.17.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Apr 2024 17:17:49 -0700 (PDT)
-From: Jackson Chui <jacksonchui.qwerty@gmail.com>
-To: Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="URlUTCr3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1712248523; x=1743784523;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=MmhrXXb3uIRaUAMK673aSGEDDVFyLxQk/WLn0pC3LAY=;
+  b=URlUTCr3d0Z1gabu9MAcIyo+sggGcySAsL8I3PXDNm10IR3lMhXK7sO4
+   xV4ExfwZhtmXn06BR9xrcm7VSPvJugElMiktOOVjou3P1WTAws48yndp9
+   5gouXI36l6vcVGgA4JxMvlwmpoD9VGqW0NOl3R4mwpJTSZD7XDnNca0v8
+   LBdvmTWssbn/Nsv9wEKY7tOMKeZPXb9aFQEJJ/G0joydDK6P+wl8zW75I
+   5hyrx8ocX+bb9/J6i98GBsZSsr7RBQ1DpyN75zXPrYHE7KcnaPUUkpEC7
+   1hQ0YkS/6fQwjQg3vXwW0sobZBZumH784PZdmhOVTgz6PUG0YNGK6LRR8
+   w==;
+X-CSE-ConnectionGUID: c0D66P3HTd6/ZSWYw2ELUw==
+X-CSE-MsgGUID: POX2eO1zRBK6dF9Ak7EOWQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11034"; a="7783649"
+X-IronPort-AV: E=Sophos;i="6.07,179,1708416000"; 
+   d="scan'208";a="7783649"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2024 09:35:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,11034"; a="915223151"
+X-IronPort-AV: E=Sophos;i="6.07,179,1708416000"; 
+   d="scan'208";a="915223151"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.72.54])
+  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2024 09:35:16 -0700
+Received: from andy by smile with local (Exim 4.97)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1rsQ3U-00000001W57-3W2D;
+	Thu, 04 Apr 2024 19:35:12 +0300
+Date: Thu, 4 Apr 2024 19:35:12 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Jianglei Nie <niejianglei2021@163.com>
+Cc: gregkh@linuxfoundation.org, tzimmermann@suse.de, javierm@redhat.com,
+	sam@ravnborg.org, steve@sk2.org, noralf@tronnes.org,
+	u.kleine-koenig@pengutronix.de, dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Cc: Jackson Chui <jacksonchui.qwerty@gmail.com>
-Subject: [PATCH] staging: greybus: Clear up precedence for gcam logging macros
-Date: Wed,  3 Apr 2024 17:16:28 -0700
-Message-Id: <20240404001627.94858-1-jacksonchui.qwerty@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Subject: Re: [PATCH] staging: fbtft: core: fix potential memory leak in
+ fbtft_probe_common()
+Message-ID: <Zg7WwNEpZlYsvNwJ@smile.fi.intel.com>
+References: <20220928062301.6399-1-niejianglei2021@163.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220928062301.6399-1-niejianglei2021@163.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Reported by checkpatch:
+On Wed, Sep 28, 2022 at 02:23:01PM +0800, Jianglei Nie wrote:
+> fbtft_probe_common() allocates a memory chunk for "info" with
+> fbtft_framebuffer_alloc(). When "display->buswidth == 0" is true, the
+> function returns without releasing the "info", which will lead to a
+> memory leak.
+> 
+> Fix it by calling fbtft_framebuffer_release() when "display->buswidth
+> == 0" is true.
 
-CHECK: Macro argument 'gcam' may be better as '(gcam)' to avoid
-precedence issues
+Fixes tag?
 
-Disambiguates '&' (address-of) operator and '->' operator precedence,
-accounting for how '(gcam)->bundle->dev' is a 'struct device' and not a
-'struct device*', which is required by the dev_{dbg,info,err} driver
-model diagnostic macros. Issue found by checkpatch.
+...
 
-Signed-off-by: Jackson Chui <jacksonchui.qwerty@gmail.com>
----
- drivers/staging/greybus/camera.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+>  	if (display->buswidth == 0) {
+>  		dev_err(dev, "buswidth is not set\n");
+> +		fbtft_framebuffer_release(info);
+>  		return -EINVAL;
 
-diff --git a/drivers/staging/greybus/camera.c b/drivers/staging/greybus/camera.c
-index a8173aa3a995..d82a2d2abdca 100644
---- a/drivers/staging/greybus/camera.c
-+++ b/drivers/staging/greybus/camera.c
-@@ -180,9 +180,9 @@ static const struct gb_camera_fmt_info *gb_camera_get_format_info(u16 gb_fmt)
- 
- #define GB_CAMERA_MAX_SETTINGS_SIZE	8192
- 
--#define gcam_dbg(gcam, format...)	dev_dbg(&gcam->bundle->dev, format)
--#define gcam_info(gcam, format...)	dev_info(&gcam->bundle->dev, format)
--#define gcam_err(gcam, format...)	dev_err(&gcam->bundle->dev, format)
-+#define gcam_dbg(gcam, format...)	dev_dbg(&((gcam)->bundle->dev), format)
-+#define gcam_info(gcam, format...)	dev_info(&((gcam)->bundle->dev), format)
-+#define gcam_err(gcam, format...)	dev_err(&((gcam)->bundle->dev), format)
- 
- static int gb_camera_operation_sync_flags(struct gb_connection *connection,
- 					  int type, unsigned int flags,
+		ret = dev_err_probe(dev, -EINVAL, "buswidth is not set\n");
+		goto out_release;
+
+>  	}
+
 -- 
-2.34.1
+With Best Regards,
+Andy Shevchenko
+
 
