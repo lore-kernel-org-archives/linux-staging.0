@@ -1,120 +1,83 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E5CA43170
-	for <linux-staging@lists.linux.dev>; Fri,  5 Apr 2024 14:41:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3424316F848
+	for <linux-staging@lists.linux.dev>; Fri,  5 Apr 2024 15:15:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712328104; cv=none; b=uR0OC/kHbrwjErSv0gasaVSxydBH4ulDHd24fUcij8kjcuV5howwuLzVwO5JEpj7dPqKl8woz4UZgGCTNwDHa843pQFSVxI0+Rc1zo3O72sX+xZZxzPGioTFsiPv4BnOXDcfjFxX9caqCip7MvuZk+N1e4OAcvBMbrf9H1GyRyA=
+	t=1712330161; cv=none; b=S1q+wHeaPhYZ/jVAJZu+2Ozz9yOcOrtNP2ZkOf6RH7gdBvMnHLP/jYz9nSNZqqoedLp6rMVBMcp8Mpem3F6vGLce/Lx1WwPJB2w2iDiHcTaUI7sgLGMjxFclG8HFl0UDJtkeztKxMJ6OOIyEVXa1Gf5Y8x0RAkKpeF9HQ7GedBE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712328104; c=relaxed/simple;
-	bh=axyKrBLYJU8bk0ChYvyMfzSBuhTwUECQ2nUOdMbrFLQ=;
-	h=Content-Type:Mime-Version:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=FvbiIiJ2+GnzXXrcwZm++UbBjDR3/7o4fIYI/stHumfsGZkkX99MZ8JB7oAArnxRhDUsOzfxekKvq9rdqZmpUg1EdF6D2UFbcIF9K26F5S2Y7NJ1ZWcQHgKp9BFYOUKKHJ+jxlC1JRGdgw4u29k0/gD+e17gJd7HOoBQPJX/Tuo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iemPdNbO; arc=none smtp.client-ip=209.85.218.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1712330161; c=relaxed/simple;
+	bh=7P+HGP8/T4lYIz0l2ULz3CKPSC7Jmb8DzjNdoDnLGqQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tE6/soajXtVdKRs/+JD+5yh+44++znvKnZiwIH/cDfmk1ggDvSQPjI3BxtaJY4VDVFpY6ANoUQzI6iG/1AycaddmeA+Al1+ochi8E2EyhEeHp2L+uwMSQ1BueXH0RU7UcsGOKZIjXnDwMnUIHC5cWsXd9qX9mTNrDF7WIO+OjxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ubKmYUDw; arc=none smtp.client-ip=209.85.167.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iemPdNbO"
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a5193f56986so194873266b.0
-        for <linux-staging@lists.linux.dev>; Fri, 05 Apr 2024 07:41:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ubKmYUDw"
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-516cbf3fe68so2480947e87.0
+        for <linux-staging@lists.linux.dev>; Fri, 05 Apr 2024 08:15:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712328101; x=1712932901; darn=lists.linux.dev;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=lux9770p2g4yYGoDpk/hDoVbiDQ5CWxnulzXkmZqTfo=;
-        b=iemPdNbOWYc/WjYsKUFYsqJ+C1vb62NYE77As06t3jwot3Iwjn6Ye1/lT9A4nwCm6W
-         itw2LkSkAEuDofSYEDrv0wMHxkfPchh+14HhuSmZEDCdTmJYSvU0TFUc5s7/EtcsILsG
-         rKY45S26gHJMTDuMkI92CaUdqg19uWFEO7iSLrtOOs/CCwDy+B0AycK09ZmKsgG6q9c3
-         4D5/08uVHVa3vLaWrg1BoO2usrjNUsId2ca0pXJpFBelYxaJT4LG2fWl9x+KUdBlGdjH
-         rucxo9OevHY1edkNXwRbT0l9cuBmQu/IM8KNV7zVkbzbjBHhJGMSG8anoipcl7mzTrUz
-         FwAw==
+        d=linaro.org; s=google; t=1712330158; x=1712934958; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=1eUbXBoLQzVP7ZJce9Ub2mzhwMzjl4oWganMnS1Dz34=;
+        b=ubKmYUDw4mSMXn73Ztjoi2kWtFr+XiqlTKWAPwrg/AUYirbbuys52SAQdETQwCJ3iW
+         hj9sZqwxrmlEkNqvbgl7Bkw+3I4Z1IPeG0dvEWGxujOk8WRVVswSMZircB4DmjSyiWqR
+         spha3l5Xpx4qld/4rf3hs9qEEJUOWfa0ZmN2bz69t5yAY5/NWQc16Bo+6ZJstrSlu+Cb
+         n72quIJ0jcaXvP5IBbSMiKsM6iz6rQDPsmSlN+uMzrq7V9Crg9QuyW6YJHrWhvIZwURN
+         a4dwlPQLUb7zlb60oV4UXQibz/zKUvV2Jp+UAu8qZP/8eb1d8tNpxF7pSCeb71WgFRW4
+         UYEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712328101; x=1712932901;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lux9770p2g4yYGoDpk/hDoVbiDQ5CWxnulzXkmZqTfo=;
-        b=Z5/GVxbbJg578G9Uxw4EKMy5/iuYeO0vYaaFLnqzTxhMJg65Frsf7BubtQIauLSoG+
-         EDOuKdljnYQh8BiCzN0JyMxiSljCdOwBfUZBDvdO1ocoF+JroGE+ke0WpEo9HAsYjKpV
-         JhFf9IJuqiv4Ebs/ZUfE1QuTSLuyZ9y1wjOa1jXPHTNtiZ4Xl4qY2qhqSRycJjSTH0NQ
-         57siHqyDHw1NO10PlXhuO1juyJDatbjUInvSG3kIDu2D0OmS04/kAGVx19cQGaote5n3
-         x/mET/k66R9JhVQT1KnHYuWHXhcvjOxSZmTc4j96BSC7mEKKbNorSnwq+MEL38IqeH9t
-         B2KQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUlVuUmV1iAii8bf5YNeOqV/TRyDFsbFNJEV8sESpPacjXpttxr5EiPBXsA8ESf/L6BtvUOj7z7jkZv6KQv09GyEM38esubPGolI4RH1A==
-X-Gm-Message-State: AOJu0Yyh612KJDfaBNUHZbxuYDz11HUmwT96Lohcu6gbtbK1SWXiSVbu
-	Wgd951WY+p6uHvkhwSRzvs6siZirmFULmNcq0B+NpzZasOQjMV4m5LuWkeok
-X-Google-Smtp-Source: AGHT+IFL88rv5Z6iA7KwxxXkNqA2z+OsN3A8mITTssz/aUkcldrWeMAtS0XUPo3Kg9+yZi+D+ugT6g==
-X-Received: by 2002:a17:907:78d7:b0:a51:9911:eba8 with SMTP id kv23-20020a17090778d700b00a519911eba8mr1131483ejc.4.1712328101402;
-        Fri, 05 Apr 2024 07:41:41 -0700 (PDT)
-Received: from localhost (p200300e41f162000f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f16:2000:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id d9-20020a1709061f4900b00a519054d7ddsm905357ejk.61.2024.04.05.07.41.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 Apr 2024 07:41:41 -0700 (PDT)
-Content-Type: multipart/signed;
- boundary=27974007a207ffd0e3d4f9bc7be25653a3c1f0d54297bed1813bc73cff9a;
- micalg=pgp-sha256; protocol="application/pgp-signature"
+        d=1e100.net; s=20230601; t=1712330158; x=1712934958;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1eUbXBoLQzVP7ZJce9Ub2mzhwMzjl4oWganMnS1Dz34=;
+        b=Vq/jsdWWNF9C1BE7FsUhSaMfXZKjJ3oBFsGk++zCXe9m0gF16D+faAJf9dxMiRlw3k
+         I44z4lZo9V2eN/sl5SprHkCjikZsB5POVZxEJ1vJ7L0QJjMYKO5ghwrHy7X6JJWbbjH4
+         WidXdqv2l/r/vuOfx5K6oyCXJrq1nIhxDUGDKbhuh5SuE2fBsXa2uOF4F8IBLutrWw7L
+         sG4P1hPiWTEifmWjXXKBCGhKrssdI1ouUa4Qez7ywm2AeL6A0MGhdpf1pDkRlia3Of+n
+         HQVIlyjd+3rBX0X7ovKNZFm1DTbh6d8sHV+VEA593290FgZ52dqFMRAOY7yud+oNiEOB
+         bOzA==
+X-Gm-Message-State: AOJu0Yw8smIWi5Nr/lBWQIolaA9EN5jIieppYxijOfUkOMLhp/v/9f0R
+	4a0KSKuNlVxQxRK4We4AUxR/FSkRttzKJbVD4BfbS9ym72OVDMjIILFCt0N3Xz0=
+X-Google-Smtp-Source: AGHT+IFBDTZxRfGRuqujSpDCX4R1pG3Kkz30S6y2lSQqUuiB6mMayQUvXWRL5b+MrApdH9qVYzovUg==
+X-Received: by 2002:a19:914f:0:b0:516:9e97:d3ee with SMTP id y15-20020a19914f000000b005169e97d3eemr1180153lfj.53.1712330158047;
+        Fri, 05 Apr 2024 08:15:58 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id j23-20020a170906411700b00a51a676c596sm799771ejk.121.2024.04.05.08.15.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Apr 2024 08:15:57 -0700 (PDT)
+Date: Fri, 5 Apr 2024 18:15:54 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Marc Dietrich <marvin24@gmx.de>
+Cc: linux-staging@lists.linux.dev, linux-tegra@vger.kernel.org,
+	gregkh@linuxfoundation.org
+Subject: Re: [PATCH 1/4] staging: nvec: make keyboard init synchronous
+Message-ID: <144d1723-12d5-405e-b37b-498e261dbd90@moroto.mountain>
+References: <20240405140906.77831-1-marvin24@gmx.de>
+ <20240405140906.77831-2-marvin24@gmx.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Date: Fri, 05 Apr 2024 16:41:40 +0200
-Message-Id: <D0C9NHR6M7S7.2VBPKXMPBMHG0@gmail.com>
-Cc: <linux-tegra@vger.kernel.org>, <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH 0/4] Improve robustnes during initialization
-From: "Thierry Reding" <thierry.reding@gmail.com>
-To: "Marc Dietrich" <marvin24@gmx.de>, <linux-staging@lists.linux.dev>
-X-Mailer: aerc 0.16.0-1-0-g560d6168f0ed-dirty
-References: <20240405140906.77831-1-marvin24@gmx.de>
-In-Reply-To: <20240405140906.77831-1-marvin24@gmx.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240405140906.77831-2-marvin24@gmx.de>
 
---27974007a207ffd0e3d4f9bc7be25653a3c1f0d54297bed1813bc73cff9a
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+On Fri, Apr 05, 2024 at 04:09:03PM +0200, Marc Dietrich wrote:
+> Improve initialization stability by waiting for command completion before
+> sending the next one.
+> 
 
-On Fri Apr 5, 2024 at 4:09 PM CEST, Marc Dietrich wrote:
-> This series against 6.9-rc2 improves robustnes of the keyboard and
-> touchpad initialization with the goal to eliminate the ugly delay
-> it the i2c client controller ISR.
->
-> Marc Dietrich (4):
->   staging: nvec: make keyboard init synchronous
->   staging: nvec: make touchpad init synchronous
->   staging: nvec: make i2c controller register writes robust
->   staging: nvec: update TODO
->
->  drivers/staging/nvec/TODO       |  1 -
->  drivers/staging/nvec/nvec.c     | 39 +++++++++++++++++++--------------
->  drivers/staging/nvec/nvec_kbd.c | 14 ++++++++----
->  drivers/staging/nvec/nvec_ps2.c | 31 +++++++++++++++++---------
->  4 files changed, 53 insertions(+), 32 deletions(-)
+Presumably you experienced an issue with this in real life.  Can you
+describe what that looked like in your commit message?  Should this
+commit be sent to stable?
 
-Overall very nice cleanup, thanks for tackling this. I've left a few
-minor comments on the individual patches.
+regards,
+dan carpenter
 
-Thierry
-
---27974007a207ffd0e3d4f9bc7be25653a3c1f0d54297bed1813bc73cff9a
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmYQDaQACgkQ3SOs138+
-s6FQJg/+OMsJvyNJc9zGXH/fo1NeO4S3H13VXexf4fLF+RMRvLcIQRkaVx618nX6
-g4Pd3M+j5XI+UAo/14Wph2Zoh6U6PSuS4UAXvlt2tDCRct7XFznTz3leU2sLffxh
-aVAW9IOJLtApNb5kAO5ZCu/gbgXDy4Vw4QYdzuJyAPl542HsWYXbyu0WfNuSup/W
-OOaa6+wBCTwPOpSMbyIBCAmeSIj/Ge6AC2VOpkPviR9oo46fX1g16fBvLIKIZ7ja
-N+aj86idy7hz9c/27nSbtJBdLYfuc/zUC1Gv/Embe0/tpJ0JexX+OfPTM9z4niYA
-ROA+dj+oyFTlVoV4I1fUDnaZ/4RiuVQd5/57Z4FXNAD5LpuBQFZZvab9VznZBKL/
-xrGkNEmYcvRLjxDJwohvnfi+9+lvDQA3VRBRlS+n/qsLdG1Q9lyTEoAYB1YrsFvz
-SZJ1Vse0Oa30CUTH+q1Yre2WI9VPzHYvph0YR2E4MbA6HG9PIOVhn1Z/tnq6wbdP
-B2Ahyn45O0Izkr2tjOxDvr3dpfr5cWFWCo9OFosxwJJvukIMGm9NgnZgYzibV6jD
-8p/mzcU9hgX/oKN1iyvKLIt+X41H0HizPYCipKZYm9bTkqzShdkYDH99uBz5/9WX
-t6moxrfG2XJtYr7Xodw9MkrDrDNRRKwLt9nc1GlYVGKWJyXVrmA=
-=aRuy
------END PGP SIGNATURE-----
-
---27974007a207ffd0e3d4f9bc7be25653a3c1f0d54297bed1813bc73cff9a--
