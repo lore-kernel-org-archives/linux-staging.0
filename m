@@ -1,102 +1,98 @@
-Received: from mout.web.de (mout.web.de [212.227.15.4])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9CA327447;
-	Fri,  5 Apr 2024 10:06:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8555F15FCE0;
+	Fri,  5 Apr 2024 10:10:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712311591; cv=none; b=VrOV1DfPDUWCa7OJsj3xaoDLgxlpRioErPlpbbB2LipqExT1P0PXnCGbQaakXShkNR/sxKmXq+WF591O9V0UjljSggNXzeZhx+nYRhQpPKJ0wh8IHXgJHqOWao4/ed1Z0xVJDkQ5qoTWE/TAxR8VViNCxoWKK5YVDtRaC3vq9wQ=
+	t=1712311801; cv=none; b=scppUemjeOEAlXKcm68SAH1TU5F80knb48Kej/DBVDXhbw2sJ+ALkEFEG8C7I1HcK1UYao0IcrC9qlfAG8XAtTcyxL8GOlSGVdKLaOAnPX3Nttyg3GlnS4+ViKbfQPRXgqi/cIPUgbGX/ud0WXogUoBtvu0PlXbytpaM5unMDq4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712311591; c=relaxed/simple;
-	bh=46/M8frtVI1xwHwJDfzOWBILidy1qF/nbknjFjniG0Y=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=I65StV5mdgcdNDrhriClKl9q4OrC2wlJNDsTnwiqTed+GXtEC+5YNHXCeTSYm3rt9yj375ai/0dYwy9zEwOIPqQdTOFBn+fgeIuenQb04lYAQiBFWOs3YucYd1vQLoC8yGifj7Cyp2z2FJJrzBhBkrYY0W+GvV5TIR7R5ZZvl3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=IxP8PvBs; arc=none smtp.client-ip=212.227.15.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1712311801; c=relaxed/simple;
+	bh=ix0s/bluTe6gLu0m77aaguOcqppxByEHmYUIwuPl+Wo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jewPfMlP/bRGzGCH0m09gZ749TCq5nplCiThdMGbuCc1S8GRb3LP+9vSuiooU3nFq/zHUlIwWNVeUVHbtnoCDc6eT0eA9yPBWkdYz7Q8EliHWWz8tL//fW4VeQUvOTNL1lg9MceLIZzuiMYHUQ08MyKXe9+eCvNVMXRhyvuOZV8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=GiHp6HYk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="IxP8PvBs"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1712311570; x=1712916370; i=markus.elfring@web.de;
-	bh=h1rD7cl36D2n8I8nOEC0tJ1ZmmxTzOTFUREe8MP1MAI=;
-	h=X-UI-Sender-Class:Date:To:Cc:References:Subject:From:
-	 In-Reply-To;
-	b=IxP8PvBsbBgI06W49RzUSQBvZz6BCq3PFnpRVr/ZpiFKbUMPG2UB3AtDHpkN84U+
-	 lT2K2HCZIswoF7yj0G0WE/4+yM03xYmvhfvywElv5UJEsgo2Ma08KexaUyPV5Vopq
-	 596Br/ZBhBLA8drDiizBzHtnFT6JxVd3NzW1Igh8OwUFw5TGkG6+ZN28EdXTLFilk
-	 rpuGxpOjfkT+IpMbnLy3Pkk5OuuLB9eBZdgfeEJ5RB+ZC/D11D/Ou9A5BUnTLgtH0
-	 s8ssHbY3ADf6l6wcr6Ad5Jc80L8ue+aqO4pJ4TAekuXq1JPhFbWAJBikPEvE1nZG9
-	 3CcfR/cYv4/prJWrhQ==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.90.95]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MKdHE-1s6txd3UOS-00Ubi9; Fri, 05
- Apr 2024 12:06:09 +0200
-Message-ID: <12a5180c-fbac-41dc-b1bf-9eded9d8c5ed@web.de>
-Date: Fri, 5 Apr 2024 12:05:56 +0200
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="GiHp6HYk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F0D4C433F1;
+	Fri,  5 Apr 2024 10:10:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1712311801;
+	bh=ix0s/bluTe6gLu0m77aaguOcqppxByEHmYUIwuPl+Wo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GiHp6HYku6CxT/MWuytSUrypoWCMit0na8GMfPqJKZeD4O+/wZBIFOhL3vXQxVjeW
+	 xLdeYF2RGmTWOZKj7OaJSsGDcNsL1CPU0wNq/95hmjkB3kMFZmfzms/tNA2wZw1GDI
+	 L1F+MvH7GZM9j4brRjKbNWtl5+fUssEcfakizY54=
+Date: Fri, 5 Apr 2024 12:09:57 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Markus Elfring <Markus.Elfring@web.de>
+Cc: Shahar Avidar <ikobh7@gmail.com>, linux-staging@lists.linux.dev,
+	kernel-janitors@vger.kernel.org,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	"Felix N. Kimbu" <felixkimbu1@gmail.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Rob Herring <robh@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+	Dan Carpenter <dan.carpenter@linaro.org>
+Subject: Re: [PATCH v3 5/7] staging: pi433: Remove duplicated code using the
+ "goto" error recovery scheme.
+Message-ID: <2024040546-crudely-demanding-c13a@gregkh>
+References: <20240405074000.3481217-6-ikobh7@gmail.com>
+ <12a5180c-fbac-41dc-b1bf-9eded9d8c5ed@web.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Shahar Avidar <ikobh7@gmail.com>, linux-staging@lists.linux.dev,
- kernel-janitors@vger.kernel.org,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- "Felix N. Kimbu" <felixkimbu1@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, Rob Herring <robh@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- Dan Carpenter <dan.carpenter@linaro.org>
-References: <20240405074000.3481217-6-ikobh7@gmail.com>
-Subject: Re: [PATCH v3 5/7] staging: pi433: Remove duplicated code using the
- "goto" error recovery scheme.
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20240405074000.3481217-6-ikobh7@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:mhQpAhLFo7ec/e+NSRI//PqcCKVx4mChnrxS6HgTJKN0F9eJODN
- G18UTr3jFVbFS535x0kRrC5Awju3Fb7FQ92s/mBaG0mf5PQqG4RqxsUiadSxY9v/37CJQlW
- X/hJhWIZc44ruv9F+DgP29MYONiq7YK11IdqjEn2PMe5nqZ1gE2QtkCdgAIwPrT9mZ7PkYG
- usLzoDhNnMUOr835xL+bA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:4QjQawHPQ3k=;1+SIoM3nxoQyGRfDtsKMlr3BPbY
- sdbnZGu6YO8wbYi7c8JOY+023ecEHxj6USL226LwddImTF4Y3ZRIDL21VzzUNJzTkXoj9Jola
- KJuvXL9NU3RAt9khWJBLEz4zbFlBZRFEctFR48ihhFvb1A/SeHNJDXMHqTZZ0zOla2AB58IeF
- cnNoUkmRk/tuRv+r9u89DNXhL/wX8HSmLvj3x8IFDlT2aZOUWJn51FnK3tja/Lb9KId0QIU4U
- ug13HJdwEMqv3IfHLf/QNFjdsTDxti0foXDAwFdOO3PYKMyuO52Vbc2ded8ZKGXRs6fyVAUud
- Dk6c+eFzTX0wYE28V+spJDjy+XPWnsCuROE1NZj5oxvQ6OG25zxDDXL+VuHxdRaGRMnX4G+VI
- RmFasWpvZ1zISIdmbmwTsNCILH4fVPvJf7a9ysDk2PljsWPMVdh1r82QsIz7GAoBRQM6ksoFm
- BR3cd+CkDUnXN5pslGn9BXiWQkIt8mwHU2vKtgshzIjJVkhsEsGSGb83e6tbPuRTfAjW+gxdk
- 6DLA8D6SFvnTIa/UpaWRMalvbvvPoo0iXqScdvHx+9tVZXMK6B6CeLx0CkYs8/mxT/tL6s3B3
- e03KDak7pRwe1BsOmh0RnewcUWdfiVwcqmK3bSdJkAzBJoPyL5tMauBMezomezVIbnr/66oJe
- tk/E12ppxp94FdEBLmvGeBUyhDq+x98VD+jWjgwW+FniFMuu1sIIPBVaf0ptavuFMafGTDe1q
- OROECt+eoy3ivkVtxind6TOYLH3yx+kf8dlzo50XkTOAXkeZByOei8Y9N+W6qSDrOVwjSzA1q
- xs8WAb+Axc/tetLGUkn7TqGY4wJpKFf3Js0F1JxBsaZvs=
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <12a5180c-fbac-41dc-b1bf-9eded9d8c5ed@web.de>
 
-I suggest to use the summary phrase =E2=80=9CUse common error handling cod=
-e
-in pi433_init()=E2=80=9D instead.
+On Fri, Apr 05, 2024 at 12:05:56PM +0200, Markus Elfring wrote:
+> I suggest to use the summary phrase “Use common error handling code
+> in pi433_init()” instead.
+> 
+> 
+> > pi433_init had "unregister_chrdev" called twice.
+> > Remove it using goto statements.
+> 
+> How do you think about to use the following change description?
+> 
+>    unregister_chrdev() was called in two if branches.
+>    Thus add jump targets so that a bit of exception handling can be better
+>    reused at the end of this function implementation.
+> 
+> 
+> …
+> v2->v3:
+> …
+>           a seperate patch.
+> …
+> 
+> Would you like to avoid a typo here?
+> 
+> Regards,
+> Markus
+> 
 
+Hi,
 
-> pi433_init had "unregister_chrdev" called twice.
-> Remove it using goto statements.
+This is the semi-friendly patch-bot of Greg Kroah-Hartman.
 
-How do you think about to use the following change description?
+Markus, you seem to have sent a nonsensical or otherwise pointless
+review comment to a patch submission on a Linux kernel developer mailing
+list.  I strongly suggest that you not do this anymore.  Please do not
+bother developers who are actively working to produce patches and
+features with comments that, in the end, are a waste of time.
 
-   unregister_chrdev() was called in two if branches.
-   Thus add jump targets so that a bit of exception handling can be better
-   reused at the end of this function implementation.
+Patch submitter, please ignore Markus's suggestion; you do not need to
+follow it at all.  The person/bot/AI that sent it is being ignored by
+almost all Linux kernel maintainers for having a persistent pattern of
+behavior of producing distracting and pointless commentary, and
+inability to adapt to feedback.  Please feel free to also ignore emails
+from them.
 
+thanks,
 
-=E2=80=A6
-v2->v3:
-=E2=80=A6
-          a seperate patch.
-=E2=80=A6
-
-Would you like to avoid a typo here?
-
-Regards,
-Markus
+greg k-h's patch email bot
