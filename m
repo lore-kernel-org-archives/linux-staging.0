@@ -1,112 +1,128 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 966B816F27A
-	for <linux-staging@lists.linux.dev>; Fri,  5 Apr 2024 15:21:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECDE41D530
+	for <linux-staging@lists.linux.dev>; Fri,  5 Apr 2024 16:58:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712330519; cv=none; b=lFNzH21AtfMTHRerBIvijgLcBda9wPjkrltVDjAQInl+H4sUAybNKpu0w35h1m6/UkUlvXL7To5wOSwKv2EgQMl/lBtzvZQTut3++O4DcmExEPgUsXz83wN1ndSAMux8/sJwM+pXOaT0Hyep+x5iRks87o8G2/LDRv0ncA9aHhE=
+	t=1712336286; cv=none; b=HQpqIMPrlmWF5sdaGgZHhAX+n3TTOOAXZnwZQAiGrw2TfRNFHV6vAyufb4mSdJLKlLUrOkGj85yr/6C/GU2yo6Q0m5uRV4I4K/nr/Lbzx3+P4GoWWNNz61Rt0++rzF7LzhQGgNLUnMdYx4k8W4LBIq+R2NuBYtKj2vwfhwvB63A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712330519; c=relaxed/simple;
-	bh=M+C6kB8COCugWtBVJQ9w3j4a/ALFlSRuRh2dv+HgEXo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rJAZmmBM4e68JcrbJiWGqbAUVfHWiHt1lRM6K9fhwcc3ToRJ3kiCzfLrRzqRF2MGlyawCU20Dy/c9p0b7SwZZ3MZDQw5aqAFS6dglOArqFf1mHcEQwg85iUjL0NYhAbrq8/yaw+5/MIXDOVqKUObvM/wzTa0rZ6trCxPJdOAn38=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=P4hzOLlF; arc=none smtp.client-ip=209.85.208.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1712336286; c=relaxed/simple;
+	bh=5AW1eKgNf7MUu4dM7zRPWY+xw2bFTvlrZtGPjFMFryk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Wq/QIOCKU5fr/+KMW3UTFCzZwjEcUfTdRIRsRUY32Sa8fzWvmGNpqGqrT9hbRCxcPESpWUXiTaET91LRLHKl3eQC6ySybEJ3a5TUNQ7HGrxaUuIVNR8eiQGkcjawHyBNkklDW5lbsuylie2ZpSeeUuNl3geMXoi7JgPGl1b9nSM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ajkQld27; arc=none smtp.client-ip=209.85.210.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="P4hzOLlF"
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-56c404da0ebso3496033a12.0
-        for <linux-staging@lists.linux.dev>; Fri, 05 Apr 2024 08:21:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ajkQld27"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-6ecc9f0bdaaso1867589b3a.1
+        for <linux-staging@lists.linux.dev>; Fri, 05 Apr 2024 09:58:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1712330516; x=1712935316; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=wk3aJOuT9jJjnBQJ7S21VBi6MvBUeayUBXb/L6EPJ1g=;
-        b=P4hzOLlFtNXYhqjisKlO1lZO9wwCHHIrVOYrrOYpzxyFbrNHCzJMe7WhCOmpCEI/8I
-         e8VmRpRff3LjWScGp3ZIUhWLsoCcbvQC1emNG607V0edyJBN29TY1JTP7IZdwsYi2/2y
-         GYQ0osLqdo5bSb/5qZC7R4QDmVSBPCxLps3gbUyqXlyfIjCKFyz01c0zo40Jx6UalawJ
-         14oMofFQRDLUOcUZ84LdWsb8lVLJElCGFUcWtStUXSPU84GG+0psebl/vqFGkpZSFdgh
-         G23+Q7y3bu2B3GThiy7dBfwAsvWUr+ZJpnsSz6FqQir5TuUcxdtuRWcFC/mUWUt77RYA
-         78Hg==
+        d=gmail.com; s=20230601; t=1712336284; x=1712941084; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=VxOrpUcgWV1BIbN70ZBNYzAG96ZmcBy16Bx9JpTxO+Y=;
+        b=ajkQld279Pzh8Zl3zyWla5CwCRT0J2vtp+fjKdZXDdPPz+jJSr8xEILnBS4GZOoym7
+         uijAfrnhzkJTsUPKo4S2d5IYMEN1IN8n3BeNwgSWWrRR3WR1s7IVq7QYDHIGDyHN4fgO
+         yzYPjhCArUFXswh4hImaWW8fUcxfcrXsxtW5xmotRTVKi0RAmoChFkQ85fTXGcimR0lh
+         W4MfCQh5XCjLF7h72i4HKaJnKeWO3Yekebno92v+dumFuySN+gnrs1XlEewPAiwB5MBX
+         CeFKzqyoc244hTxAwOgvkpKWrSCC8J/dCPUxcoE2nd/tqKXrpti+yJEjlrR+W1vnp+TT
+         tDMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712330516; x=1712935316;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wk3aJOuT9jJjnBQJ7S21VBi6MvBUeayUBXb/L6EPJ1g=;
-        b=USdaMmzUD4KxEevMJOY1Sn4JZZAwVJ+mlpfUGRvTl/r+PDkPW5/WdHSW8jk3OBiQmr
-         GH94XkLis2uJce079ADWZxWZrlPLEsThqXOw4gp7f0B+PbxLaXleBxgJcFFunHreRIl9
-         7m/oPqNWA/X0lOfOuSSJ45nkNQSLxctd2120wa1JL2hfJrNw0PPhiHk24IpYwRiEQetL
-         CrU6NGaGvRv19ZZ5NLOSvB2mnwPQp0r0E//ktA37+Ke7xpszflrrs7z0o7eiMF1vr/p8
-         MY1gXC92poh91+oIm/J6t85CHedw6UaLRG+/iVsWBhH5BQifMCFR8rUdhg2A4+OcNtpG
-         8hKQ==
-X-Gm-Message-State: AOJu0Yy/Oy7QANWWJWOhFgDXX/M6reuLsgxqO3fY8fG5d0oQNB3UmxY3
-	1kKd+udZc3Jnq77F21JWBK+etjqjOpRDq9KOuf/Ny/xU5q0kAYpaHsku1DABqls=
-X-Google-Smtp-Source: AGHT+IFeW8SGAccDZXSiMG8bevZ2189mZMzmoSGN1nz4sPYc1a2++KWM7JhjHkLHCa1sSWe+qrbKmQ==
-X-Received: by 2002:a17:907:7ea2:b0:a47:16d1:113f with SMTP id qb34-20020a1709077ea200b00a4716d1113fmr1785649ejc.47.1712330515736;
-        Fri, 05 Apr 2024 08:21:55 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id j23-20020a170906411700b00a51a676c596sm804886ejk.121.2024.04.05.08.21.54
+        d=1e100.net; s=20230601; t=1712336284; x=1712941084;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VxOrpUcgWV1BIbN70ZBNYzAG96ZmcBy16Bx9JpTxO+Y=;
+        b=ECqEjjTFyivPox9jkkuTCUnRMkU7Eb6wdHPlV0A5GrTR9gzdYYkBtxNW8Hs+D3nAXh
+         56cMiG4/oDHvpNghKzQ5jGx92vA2x/e9DPv1YJ+S8D92TdIoKswhjgA044nigWDZK/ef
+         m3QBt1bQtyScjgMqtQ4tqNuf8oz5X7QDmZ1snxgfbbTBBjHLI3hF7vcNTPS4t75Qzyig
+         NEUtEYmGoJ52AsH4ANM1XgTQ7oxBlbCC40r133hZ08n9NfwJ/P5MZ1q+HvgKhGplArSw
+         pGn7jAQGVI2zAVimkxL+m4O/95p4oPoemTp7tWCOlv0vPhKeGQs2Z0pV96e4M9Eq441d
+         pNmw==
+X-Forwarded-Encrypted: i=1; AJvYcCXuFJ0IfTkBr86p86SIHHG9x5hKEG570UJgz1+lLHXEKgp4eoKw7JXdWWT0YEkWSokQxvU+SraUM+F2PAoWfXKvTtCg4DCcxYGIYPvNLQ==
+X-Gm-Message-State: AOJu0YzWAPtFTuWdDAX+/FKHwkgOXaAYlkGemNcPooA6TSp0pGZbHZf4
+	/fPnjAJXSWcm/9+jpYb9zecF6xPInYysxjiVufX7ph1kr+dX7eY3
+X-Google-Smtp-Source: AGHT+IF8+QcgSzXuJgKfFeVtRFmbVoLvx0pIjuAHQZQ5xpIO1ad1rxcl4fMvBNa0DNG870OGXhAphg==
+X-Received: by 2002:a05:6a00:6508:b0:6ec:d950:fd59 with SMTP id hc8-20020a056a00650800b006ecd950fd59mr1796570pfb.29.1712336283914;
+        Fri, 05 Apr 2024 09:58:03 -0700 (PDT)
+Received: from localhost.localdomain ([168.138.41.106])
+        by smtp.gmail.com with ESMTPSA id c17-20020aa78c11000000b006ed0199bd57sm1447393pfd.177.2024.04.05.09.58.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Apr 2024 08:21:55 -0700 (PDT)
-Date: Fri, 5 Apr 2024 18:21:51 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Marc Dietrich <marvin24@gmx.de>
-Cc: linux-staging@lists.linux.dev, linux-tegra@vger.kernel.org,
-	gregkh@linuxfoundation.org
-Subject: Re: [PATCH 3/4] staging: nvec: make i2c controller register writes
- robust
-Message-ID: <f213c5a3-6a6a-461b-a4e6-a8e768e8ea4d@moroto.mountain>
-References: <20240405140906.77831-1-marvin24@gmx.de>
- <20240405140906.77831-4-marvin24@gmx.de>
+        Fri, 05 Apr 2024 09:58:03 -0700 (PDT)
+From: purofle <purofle@gmail.com>
+To: linux-fbdev@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org,
+	linux-staging@lists.linux.dev,
+	gregkh@linuxfoundation.org,
+	purofle <purofle@gmail.com>
+Subject: [PATCH] staging: fbtft: fb_st7789v: support setting offset
+Date: Sat,  6 Apr 2024 00:57:47 +0800
+Message-ID: <20240405165747.93377-1-purofle@gmail.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240405140906.77831-4-marvin24@gmx.de>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Apr 05, 2024 at 04:09:05PM +0200, Marc Dietrich wrote:
-> The i2c controller needs to read back the data written to its registers.
-> This way we can avoid the long delay in the interrupt handler.
-> 
-> Signed-off-by: Marc Dietrich <marvin24@gmx.de>
-> ---
->  drivers/staging/nvec/nvec.c | 39 +++++++++++++++++++++----------------
->  1 file changed, 22 insertions(+), 17 deletions(-)
-> 
-> diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
-> index 282a664c9176..9914c30b6933 100644
-> --- a/drivers/staging/nvec/nvec.c
-> +++ b/drivers/staging/nvec/nvec.c
-> @@ -565,6 +565,20 @@ static void nvec_tx_set(struct nvec_chip *nvec)
->  		(uint)nvec->tx->size, nvec->tx->data[1]);
->  }
-> 
-> +/**
-> + * i2c_writel - savely write to an i2c client controller register
-> + @ val: value to be written
-> + @ reg: register to write to
-> + */
-> +
-> +static void i2c_writel(u32 val, void *reg)
+Some screen sizes using st7789v chips are different from 240x320,
+and offsets need to be set to display all images properly.
 
-I'm not a expert at kernel doc or whatever, but this comment isn't in
-the right format.  And delete the blank line between the comment and the
-function.
+Signed-off-by: purofle <purofle@gmail.com>
+---
+ drivers/staging/fbtft/fb_st7789v.c | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
-/**
- * i2c_writel - savely write to an i2c client controller register
- * @ val: value to be written
- * @ reg: register to write to
- */
-static void i2c_writel(u32 val, void *reg)
-
-regards,
-dan carpenter
-
+diff --git a/drivers/staging/fbtft/fb_st7789v.c b/drivers/staging/fbtft/fb_st7789v.c
+index 861a15414..d47ab4262 100644
+--- a/drivers/staging/fbtft/fb_st7789v.c
++++ b/drivers/staging/fbtft/fb_st7789v.c
+@@ -30,6 +30,12 @@
+ 
+ #define HSD20_IPS 1
+ 
++#define WIDTH 240
++#define HEIGHT 320
++
++#define LEFT_OFFSET 0
++#define TOP_OFFSET 0
++
+ /**
+  * enum st7789v_command - ST7789V display controller commands
+  *
+@@ -349,6 +355,21 @@ static int set_gamma(struct fbtft_par *par, u32 *curves)
+ 	return 0;
+ }
+ 
++static void set_addr_win(struct fbtft_par *par, int xs, int ys, int xe, int ye)
++{
++	unsigned int x = xs + TOP_OFFSET, y = xe + TOP_OFFSET;
++
++	write_reg(par, MIPI_DCS_SET_COLUMN_ADDRESS, (x >> 8) & 0xFF, xs & 0xFF,
++		  (y >> 8) & 0xFF, xe & 0xFF);
++
++	x = ys + LEFT_OFFSET, y = ye + LEFT_OFFSET;
++
++	write_reg(par, MIPI_DCS_SET_PAGE_ADDRESS, (x >> 8) & 0xFF, ys & 0xFF,
++		  (y >> 8) & 0xFF, ye & 0xFF);
++
++	write_reg(par, MIPI_DCS_WRITE_MEMORY_START);
++}
++
+ /**
+  * blank() - blank the display
+  *
+@@ -379,6 +400,7 @@ static struct fbtft_display display = {
+ 		.set_var = set_var,
+ 		.set_gamma = set_gamma,
+ 		.blank = blank,
++		.set_addr_win = set_addr_win,
+ 	},
+ };
+ 
+-- 
+2.44.0
 
