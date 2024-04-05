@@ -1,58 +1,58 @@
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCE0F16EC00
-	for <linux-staging@lists.linux.dev>; Fri,  5 Apr 2024 14:33:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AB0516F0F3
+	for <linux-staging@lists.linux.dev>; Fri,  5 Apr 2024 14:38:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712327608; cv=none; b=VZe3v0eK8fVtd/RnX+fhTLRa4c76z6U98lIfI5oHvHws3hi5DJWwIBqMGD/KeuhjpRLyH8aqIGTiLia0XL4B342Wrhp8VCxCX75Coa3gXF3jOrYjVL/s5ahVwmIGzZ6dWp+oyInMhIuAe0VCQQWoi31Gi7IahqKOBIpOsMoChWM=
+	t=1712327907; cv=none; b=dVqcc8eYIpzIYE3enYh4cRPKJEJ3OU7OXFAsIUXdPrR/vJmooHKkLjz+JhhfqiMmXNkcGUlJ3RZZJkzdGR3iwpfHfTNhvq0N8YMeyI+mCoFfCQWkTEEgL1SLgtS53u1Y5YS02Ny77qxXO+QHzgM2tLpYes5bnv/JGFUgKtuh08Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712327608; c=relaxed/simple;
-	bh=6r1Be5BUZgS+dg4Z4fV7QG9azS11Gan0eBKQdMdHo5M=;
-	h=Content-Type:Mime-Version:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=sm8xkQp9OWxRJy7Z8GZqBx3dl5mPCKjRFRvAo4qumSFPZPOstP8ewlkvlqc7hX97lscgjefRPYvs+InuyPyoHeNdoiSTthSO+aAtTdTT1ihA+YGKQWJFFLwMAnXokuFtppUFzeDctcMOed/9283r7+EtjYkE4BvCGrKnibdDdZo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kDjSU+qU; arc=none smtp.client-ip=209.85.208.180
+	s=arc-20240116; t=1712327907; c=relaxed/simple;
+	bh=DFO4tiAp1khmuhcDadqhJEEcLeXpBAZ5P2o1GFIzHjU=;
+	h=Content-Type:Mime-Version:Date:Message-Id:From:To:Cc:Subject:
+	 References:In-Reply-To; b=PA5FHBALBvla/VGLZuC6d+3oeTudc6dgb3SESAtySw7wIEaw2TWJgUqKkf1myI8FLvKDdDVdUEen3jmm3gFfMwXxAv+DAodgwaTqJatkQwD1QuUlqGG0fI/zq8ZU3D4wVGks5Tp38mVLT7tM72BLDhY+EUjiL408QGquxbgZYzE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Co6m9Iqx; arc=none smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kDjSU+qU"
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2d80baf621eso23979611fa.1
-        for <linux-staging@lists.linux.dev>; Fri, 05 Apr 2024 07:33:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Co6m9Iqx"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4148c6132b4so19947955e9.1
+        for <linux-staging@lists.linux.dev>; Fri, 05 Apr 2024 07:38:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712327605; x=1712932405; darn=lists.linux.dev;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
+        d=gmail.com; s=20230601; t=1712327905; x=1712932705; darn=lists.linux.dev;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=qCSF64T6NL0+D/1LnyCR1PpXEFyY/2YwWHEhRTUyLkg=;
-        b=kDjSU+qUtxzGxiCYr1aTaXZIo7G39emMXkQrQ9stlQQvIq7EDA+LX1UyT9VeP7xFh2
-         j/LUkEGRvCw9cruoahHkQvrJIM35iLJ+j5Glp/E8m2j7wUzG3fVPgk9gQwBi9Vtp77JC
-         +Ccq/0CiAFb+QH6G9vQHZVOPjjdGSW88jbmLV4+xSHHfvYvUBOhRyPmaW31upmFgXlRG
-         mwUfc+b7th0RW1FQiQB+iqOCAVS09/jMgG1bUaj7MnBmHxPiYzy0Nxzvoab8dznq7g4c
-         gM21g5bQuyWwCfbAU18GBQC1RjHgGWuzo0zJUr1sT/O9PGgTBnmo3++PgP7m+UMWnOdG
-         Ajyw==
+        bh=Rp2Cg3P2yxxzQAU0cIN56qJUA2RFjh+cbaHLS6fcmgE=;
+        b=Co6m9IqxegCNl70WjL9Gz22f7wcVd1KOqj73ZVIUEsk2wIF5GTYJsEsz4xrnhtJmsT
+         O4ztDkQQ7A6na1yNLN/L5CrGMrR4qFCxXC32RUHVbEfmCijGD/nOLM/LKJ+ExJsIg41O
+         CB0NC2KrxpbCAih5gQK+wHLgosAWt70lALJAx4DHKUF/pXsLvGFwA08Lxhj3yQSksohj
+         55+iQJw4theOSl1wAvWEHBK1pvHqnv8Ua/ONWTAojjBRXZDi3ZBPlU2BzVnD/j6SxLJo
+         FEm9eWUWUgpAkcrtLidfhjemRFz1h3OfldpL61Q1gFRUQ3DDm9JdyWZ1ZB7h/8v3O56N
+         K4ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712327605; x=1712932405;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
+        d=1e100.net; s=20230601; t=1712327905; x=1712932705;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=qCSF64T6NL0+D/1LnyCR1PpXEFyY/2YwWHEhRTUyLkg=;
-        b=HODGlAk2S8npUl7ZP7IDx/A3cIRRqkVr1HTS2gqJGp1WcmCsGDQ7wErVeMYGm+cXcr
-         /yX/79HboWy8AiCtcjrMNS5CcXP9cK4T+0692flWT5asxnSkSauMGsC8phqtB8o+DUTr
-         NUnlofsHd+o4xF3FNN5ie6/oqxs48Gt7GTHwRfWZrLZhfCdd7OlqfZh3TTq8VhJf3wTP
-         PjuOPTSHBBVJZaPw/rnR1Utqq7CMnKMVeyOF71MAdQMUkPp7OuhJ4xnmv4akSviP6kAV
-         EtazqFVhY/vDcYFv6hIVB9vfu1jnLx/Imza2NmBqnAlJIDJtsLZkWqKyGneUTmIrQ35S
-         sweQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWT0KNINfrWF6tSpmDlqVAtrx3LmA9dw5f2XqfzQANcaXmL0UJX/iExo68kjCd4YUUm227dAabjQWnSRqhF5GA9vz5hcvz4OYK8OW6euA==
-X-Gm-Message-State: AOJu0Yw1gBvkqbdDmKRceEur18Z8dfbv91llvLWesO+XHnhEehfBGDaN
-	YxR9u9w14Lx8eJx/XWwNOEl8O6hpor7FnLDFiSg1STr2aacJYxfv
-X-Google-Smtp-Source: AGHT+IEfqhqdAdmQ2WtVi3K6/jC8Wkc+xZa3ytc/CrC+nAsZCbPcQyDaTqYfX62ctVcc30kgFBoU3Q==
-X-Received: by 2002:a2e:9593:0:b0:2d8:60e6:f482 with SMTP id w19-20020a2e9593000000b002d860e6f482mr1328825ljh.30.1712327604720;
-        Fri, 05 Apr 2024 07:33:24 -0700 (PDT)
+        bh=Rp2Cg3P2yxxzQAU0cIN56qJUA2RFjh+cbaHLS6fcmgE=;
+        b=FXV35mJMDc+j8YZ5NLv+d2u8BvubPll7dgw49ZXhuouMKliDG9eGgR87MYl385msU/
+         M1s6hLTSVOlFaVPe3/X8ZQVobVven627pxZOXrQPdUDrlJw5X+FBlva9dfrSIU47P4FF
+         PCE6yRDs/DMWDzWUgvXhAUXyjIZqECXpOafGbm9rL+XC0CEFfQ2HSMzb/ops40PnNQy6
+         1uaEckkUkjFUOtKRIs6KWbyQ/zE2gR19Tm8JgKvHkM93DxldZHap+8v339E/+2YOL9d/
+         3nbKhVZgEofXWErbVlfEdfQwFPxlYqaX/Pe3imoojJBSrTebpB17sb5iZWQe5og1Apet
+         y9+w==
+X-Forwarded-Encrypted: i=1; AJvYcCXE5h4h/4JUaAjPsS3JVgdqA25uaHZjE/v8z2cBETjkBk5e3IhfhyrZgNhLP+d7E9F7JMpfV5MWfln9Qio7go10EhA6+75gd8iSnjQXMQ==
+X-Gm-Message-State: AOJu0YzjcQUcKyTr+1IiCyYISr4I/GI3DWAblbY+FHSlWZVUv5MJ3wHM
+	SbOHHSNjLufbBBIzWcJguzrvGamY5U4qNPeIB0bGk9VP/iAk26sr
+X-Google-Smtp-Source: AGHT+IHesAXAlGx9pvVlPpIj36mgOlsTVD1UdKNsjRiNewwpyJDHaRd4WaJ0Mmc7s6WlmIidaUxFeQ==
+X-Received: by 2002:adf:ed11:0:b0:341:c739:5ec1 with SMTP id a17-20020adfed11000000b00341c7395ec1mr2111015wro.4.1712327904529;
+        Fri, 05 Apr 2024 07:38:24 -0700 (PDT)
 Received: from localhost (p200300e41f162000f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f16:2000:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id g14-20020a05600c310e00b0041569a819dbsm6681498wmo.1.2024.04.05.07.33.24
+        by smtp.gmail.com with ESMTPSA id n1-20020adff081000000b00341dc343e21sm2183455wro.65.2024.04.05.07.38.23
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 Apr 2024 07:33:24 -0700 (PDT)
+        Fri, 05 Apr 2024 07:38:24 -0700 (PDT)
 Content-Type: multipart/signed;
- boundary=11391da1f3d40c8ecc9959a95af4b26ae7a0edbb0e00290ac4bfd81d5f7c;
+ boundary=92bd78ce31f66e05499164207569f014b092cd1f7acc241b3854392322b0;
  micalg=pgp-sha256; protocol="application/pgp-signature"
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -60,163 +60,97 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
-Date: Fri, 05 Apr 2024 16:33:23 +0200
-Message-Id: <D0C9H5M9NHBE.2AB0FZ1PDYZO4@gmail.com>
-Cc: <linux-tegra@vger.kernel.org>, <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH 3/4] staging: nvec: make i2c controller register writes
- robust
+Date: Fri, 05 Apr 2024 16:38:23 +0200
+Message-Id: <D0C9KZB6GHD9.252SEU8KRCIMT@gmail.com>
 From: "Thierry Reding" <thierry.reding@gmail.com>
 To: "Marc Dietrich" <marvin24@gmx.de>, <linux-staging@lists.linux.dev>
+Cc: <linux-tegra@vger.kernel.org>, <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH 1/4] staging: nvec: make keyboard init synchronous
 X-Mailer: aerc 0.16.0-1-0-g560d6168f0ed-dirty
 References: <20240405140906.77831-1-marvin24@gmx.de>
- <20240405140906.77831-4-marvin24@gmx.de>
-In-Reply-To: <20240405140906.77831-4-marvin24@gmx.de>
+ <20240405140906.77831-2-marvin24@gmx.de>
+In-Reply-To: <20240405140906.77831-2-marvin24@gmx.de>
 
---11391da1f3d40c8ecc9959a95af4b26ae7a0edbb0e00290ac4bfd81d5f7c
+--92bd78ce31f66e05499164207569f014b092cd1f7acc241b3854392322b0
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
 
 On Fri Apr 5, 2024 at 4:09 PM CEST, Marc Dietrich wrote:
-> The i2c controller needs to read back the data written to its registers.
-> This way we can avoid the long delay in the interrupt handler.
-
-s/i2c/I2C/ perhaps? Also, looking at the preceding patches it looks to
-me like the reason why we can drop the udelay() call is not just because
-we read back, but also because we actually wait for completion. If so,
-maybe that should also be mentioned.
-
+> Improve initialization stability by waiting for command completion before
+> sending the next one.
 >
 > Signed-off-by: Marc Dietrich <marvin24@gmx.de>
 > ---
->  drivers/staging/nvec/nvec.c | 39 +++++++++++++++++++++----------------
->  1 file changed, 22 insertions(+), 17 deletions(-)
+>  drivers/staging/nvec/nvec_kbd.c | 14 ++++++++++----
+>  1 file changed, 10 insertions(+), 4 deletions(-)
 >
-> diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
-> index 282a664c9176..9914c30b6933 100644
-> --- a/drivers/staging/nvec/nvec.c
-> +++ b/drivers/staging/nvec/nvec.c
-> @@ -565,6 +565,20 @@ static void nvec_tx_set(struct nvec_chip *nvec)
->  		(uint)nvec->tx->size, nvec->tx->data[1]);
->  }
+> diff --git a/drivers/staging/nvec/nvec_kbd.c b/drivers/staging/nvec/nvec_=
+kbd.c
+> index f9a1da952c0a..6b203d28b8a9 100644
+> --- a/drivers/staging/nvec/nvec_kbd.c
+> +++ b/drivers/staging/nvec/nvec_kbd.c
+> @@ -113,6 +113,7 @@ static int nvec_kbd_probe(struct platform_device *pde=
+v)
+>  		cnfg_wake[] =3D { NVEC_KBD, CNFG_WAKE, true, true },
+>  		cnfg_wake_key_reporting[] =3D { NVEC_KBD, CNFG_WAKE_KEY_REPORTING,
+>  						true };
+> +	struct nvec_msg *msg;
 >
-> +/**
-> + * i2c_writel - savely write to an i2c client controller register
+>  	j =3D 0;
+>
+> @@ -148,15 +149,20 @@ static int nvec_kbd_probe(struct platform_device *p=
+dev)
+>  	nvec_register_notifier(nvec, &keys_dev.notifier, 0);
+>
+>  	/* Enable keyboard */
+> -	nvec_write_async(nvec, enable_kbd, 2);
+> +	nvec_write_sync(nvec, enable_kbd, 2, &msg);
+> +	nvec_msg_free(nvec, msg);
+>
+>  	/* configures wake on special keys */
+> -	nvec_write_async(nvec, cnfg_wake, 4);
+> +	nvec_write_sync(nvec, cnfg_wake, 4, &msg);
+> +	nvec_msg_free(nvec, msg);
+> +
+>  	/* enable wake key reporting */
+> -	nvec_write_async(nvec, cnfg_wake_key_reporting, 3);
+> +	nvec_write_sync(nvec, cnfg_wake_key_reporting, 3, &msg);
+> +	nvec_msg_free(nvec, msg);
+>
+>  	/* Disable caps lock LED */
+> -	nvec_write_async(nvec, clear_leds, sizeof(clear_leds));
+> +	nvec_write_sync(nvec, clear_leds, sizeof(clear_leds), &msg);
+> +	nvec_msg_free(nvec, msg);
 
-"safely", also "I2C"
+I wonder if perhaps some of this duplication can be folded into
+nvec_write_sync(). It seems a bit unnecessary to have to first get hold
+of the last message only to immediately free it.
 
-> + @ val: value to be written
-> + @ reg: register to write to
-
-The formatting here looks odd. I think this is supposed to be:
-
- * @val:
- * @reg:
+If nvec_write_sync() were allowed to take a NULL as msg parameter, then
+we could check if this special case and simply do the nvec_msg_free()
+from there directly. Not sure if it's really worth it, though.
 
 Thierry
 
-> + */
-> +
-> +static void i2c_writel(u32 val, void *reg)
-> +{
-> +	writel_relaxed(val, reg);
-> +
-> +	/* read back register to make sure that register writes completed */
-> +	readl_relaxed(reg);
-> +}
-> +
->  /**
->   * nvec_interrupt - Interrupt handler
->   * @irq: The IRQ
-> @@ -599,7 +613,7 @@ static irqreturn_t nvec_interrupt(int irq, void *dev)
->  	if ((status & RNW) =3D=3D 0) {
->  		received =3D readl(nvec->base + I2C_SL_RCVD);
->  		if (status & RCVD)
-> -			writel(0, nvec->base + I2C_SL_RCVD);
-> +			i2c_writel(0, nvec->base + I2C_SL_RCVD);
->  	}
->
->  	if (status =3D=3D (I2C_SL_IRQ | RCVD))
-> @@ -691,7 +705,7 @@ static irqreturn_t nvec_interrupt(int irq, void *dev)
->
->  	/* Send data if requested, but not on end of transmission */
->  	if ((status & (RNW | END_TRANS)) =3D=3D RNW)
-> -		writel(to_send, nvec->base + I2C_SL_RCVD);
-> +		i2c_writel(to_send, nvec->base + I2C_SL_RCVD);
->
->  	/* If we have send the first byte */
->  	if (status =3D=3D (I2C_SL_IRQ | RNW | RCVD))
-> @@ -708,15 +722,6 @@ static irqreturn_t nvec_interrupt(int irq, void *dev=
-)
->  		status & RCVD ? " RCVD" : "",
->  		status & RNW ? " RNW" : "");
->
-> -	/*
-> -	 * TODO: replace the udelay with a read back after each writel above
-> -	 * in order to work around a hardware issue, see i2c-tegra.c
-> -	 *
-> -	 * Unfortunately, this change causes an intialisation issue with the
-> -	 * touchpad, which needs to be fixed first.
-> -	 */
-> -	udelay(100);
-> -
->  	return IRQ_HANDLED;
->  }
->
-> @@ -732,15 +737,15 @@ static void tegra_init_i2c_slave(struct nvec_chip *=
-nvec)
->
->  	val =3D I2C_CNFG_NEW_MASTER_SFM | I2C_CNFG_PACKET_MODE_EN |
->  	    (0x2 << I2C_CNFG_DEBOUNCE_CNT_SHIFT);
-> -	writel(val, nvec->base + I2C_CNFG);
-> +	i2c_writel(val, nvec->base + I2C_CNFG);
->
->  	clk_set_rate(nvec->i2c_clk, 8 * 80000);
->
-> -	writel(I2C_SL_NEWSL, nvec->base + I2C_SL_CNFG);
-> -	writel(0x1E, nvec->base + I2C_SL_DELAY_COUNT);
-> +	i2c_writel(I2C_SL_NEWSL, nvec->base + I2C_SL_CNFG);
-> +	i2c_writel(0x1E, nvec->base + I2C_SL_DELAY_COUNT);
->
-> -	writel(nvec->i2c_addr >> 1, nvec->base + I2C_SL_ADDR1);
-> -	writel(0, nvec->base + I2C_SL_ADDR2);
-> +	i2c_writel(nvec->i2c_addr >> 1, nvec->base + I2C_SL_ADDR1);
-> +	i2c_writel(0, nvec->base + I2C_SL_ADDR2);
->
->  	enable_irq(nvec->irq);
->  }
-> @@ -749,7 +754,7 @@ static void tegra_init_i2c_slave(struct nvec_chip *nv=
-ec)
->  static void nvec_disable_i2c_slave(struct nvec_chip *nvec)
->  {
->  	disable_irq(nvec->irq);
-> -	writel(I2C_SL_NEWSL | I2C_SL_NACK, nvec->base + I2C_SL_CNFG);
-> +	i2c_writel(I2C_SL_NEWSL | I2C_SL_NACK, nvec->base + I2C_SL_CNFG);
->  	clk_disable_unprepare(nvec->i2c_clk);
->  }
->  #endif
-> --
-> 2.43.0
-
-
---11391da1f3d40c8ecc9959a95af4b26ae7a0edbb0e00290ac4bfd81d5f7c
+--92bd78ce31f66e05499164207569f014b092cd1f7acc241b3854392322b0
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmYQC7QACgkQ3SOs138+
-s6Gd7hAAp8UnXmtdrl27362rD0kBjrqQ190pVx4iJLowkpwPolfkfAKm2SjxtIxi
-FqzbZSpdD5OW8fp/fRxI8erTdYlEOZ0LKNcdBobva35YyiDNwDQ29jZpYJKITDC+
-5aq9PA35vkXfqPNgn3EswRwesksqdClKDPaXuimZJjR783MG4t9f3OIcfFe9Gs1H
-EOT2ZTl85GbttFWl3lNab8mvVrTH2NhJIyWPEdgv6kxkzaTvK9pmhfyjzYQrDTQZ
-LTUzAW9qRfjW7YhwHVWOxFztQJGq57OrUIT4JRjG9fb3/x42SzryqhztUhg2XE5V
-Aef5DGGdcllnrEPe+4hthbwzZovTx2LjrPZ8EXyMDYUzguIoTDigg1bGULKJi2xf
-z4f+xpF2SMkv2SE0nI+UaFtAeG/W7HfZ/12SZg+X34HD+4IwQZUliZNsCfqyCRpR
-G0aRlChrY+x8F3EhPzY3tx+ieCcpgXxhF9SWZSDEoi/VFtU0rQ4peXI+ntPD4AjD
-kzA+hp6JEz48cnJri5Omt8G6wFjTd8UTmbqojWo4lQlKvpFpaTuLtn8ty3FgafZb
-kKgHtz9YUc5cyR7cHEivEGv6ovncgwKD7xpvHxIyjYFAtqHujX1YOVQaNs0j7Tfe
-72IEuWYrhqquc0/c3KZFziH3ucvkeuNibTYVeVWq+tq2NSh65r4=
-=oEgp
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmYQDOAACgkQ3SOs138+
+s6GICBAAwSpvCBu+xNrtngeqlgPq1FyCFK7nvZHsI/PPIFsMy/lSsWUr+cW9TAgo
+mslhCLlaDKztyRBcz/Vfxhm48I+agHIzq3TI+1MjBsNbCLpEhSUrT+GzUsvn51QM
+fv0i3VAsjW+s1Dy/ZIlEPR+Lfb8SK8OpenMwRbenYcF3FiWiu0Pt1zLycXStA18i
+RT/AJ0LGm8mliii23ty3V06Q39mjC00ZD4L+WHGH9b7l0l8XTmBZG8fluFhBhcne
+gebh9tPrQz6FzOxsyf3aYd1CTBiVsMsrdwnSVSoibJo6TgtA4qzZRnBzOhNEzJRv
++/VGyG2PlJtm8W87f4FSbZICnU/A20r0omUJeMl8zXzsehqI+Ye1Eprb3J/Y6AEu
+ljNMHDeD2DCzsIZ3EDrhFphTuQoXDyT8mMSxJOVegP4zCFc9WlKha+4fp1gStVnF
+QdAUuYKy3X+sr/c6szZhcPMozWgsOP8mysVzfmdkZPh2ewdCj73ClSkN3+70EwE9
+xQHAT+vOm5c2oDV77DCp1PFS0eccydR6GyyVFs97o9fP4/gT2cFiChX3tirlAu73
+UpXs1eUDYHR7ct0hqGom73hB11gpF5mM6XJ+dzssNW/YlCgxJIl4wk+IqXKJhona
+H93RSg83dr7qq6ix75Hcw9UuqJ0n2c8/AwX/Kco0cXpO0W1Yaic=
+=ajBB
 -----END PGP SIGNATURE-----
 
---11391da1f3d40c8ecc9959a95af4b26ae7a0edbb0e00290ac4bfd81d5f7c--
+--92bd78ce31f66e05499164207569f014b092cd1f7acc241b3854392322b0--
