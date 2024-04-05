@@ -1,98 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8555F15FCE0;
-	Fri,  5 Apr 2024 10:10:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E75FB161902
+	for <linux-staging@lists.linux.dev>; Fri,  5 Apr 2024 10:24:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712311801; cv=none; b=scppUemjeOEAlXKcm68SAH1TU5F80knb48Kej/DBVDXhbw2sJ+ALkEFEG8C7I1HcK1UYao0IcrC9qlfAG8XAtTcyxL8GOlSGVdKLaOAnPX3Nttyg3GlnS4+ViKbfQPRXgqi/cIPUgbGX/ud0WXogUoBtvu0PlXbytpaM5unMDq4=
+	t=1712312662; cv=none; b=VxMiL7bsUG3BrQUaRELfxnWELqhRIMK5gpV44WUeV1sjclKsffdcl0ljGwQ5F8tUpHBGZ6BIk6PK6j3GwViny4ZaBdDZPqHv23UojDPZtqQoCQr2Dlplehi1RD0OUtyiZPWrhBXAbXq/Y5fpLexW1KDMk6SFIQFgih0Kd4kotMU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712311801; c=relaxed/simple;
-	bh=ix0s/bluTe6gLu0m77aaguOcqppxByEHmYUIwuPl+Wo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jewPfMlP/bRGzGCH0m09gZ749TCq5nplCiThdMGbuCc1S8GRb3LP+9vSuiooU3nFq/zHUlIwWNVeUVHbtnoCDc6eT0eA9yPBWkdYz7Q8EliHWWz8tL//fW4VeQUvOTNL1lg9MceLIZzuiMYHUQ08MyKXe9+eCvNVMXRhyvuOZV8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=GiHp6HYk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1712312662; c=relaxed/simple;
+	bh=IXNUq7oefZ/HatBUyTvFVP7ACYQovRlKUiJApLekvxA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uvY5jfpopaDG+Y/Bzuhoex03I1yTQFSxYyf3FYNkpolK5I5Kos0NdbeDro8eryhPzm5FHpUVCWqT5v+C7TaR2X2oEWj8/kCQjS+KCqDnvvRR2TFb2fGhpfqBlDFgItskhLTv3BHX90okqYqB6pTin8hNTyXq8LjeztJCirdJyTA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=YZMavdOM; arc=none smtp.client-ip=212.227.15.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="GiHp6HYk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F0D4C433F1;
-	Fri,  5 Apr 2024 10:10:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1712311801;
-	bh=ix0s/bluTe6gLu0m77aaguOcqppxByEHmYUIwuPl+Wo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GiHp6HYku6CxT/MWuytSUrypoWCMit0na8GMfPqJKZeD4O+/wZBIFOhL3vXQxVjeW
-	 xLdeYF2RGmTWOZKj7OaJSsGDcNsL1CPU0wNq/95hmjkB3kMFZmfzms/tNA2wZw1GDI
-	 L1F+MvH7GZM9j4brRjKbNWtl5+fUssEcfakizY54=
-Date: Fri, 5 Apr 2024 12:09:57 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Markus Elfring <Markus.Elfring@web.de>
-Cc: Shahar Avidar <ikobh7@gmail.com>, linux-staging@lists.linux.dev,
-	kernel-janitors@vger.kernel.org,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	"Felix N. Kimbu" <felixkimbu1@gmail.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Rob Herring <robh@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-	Dan Carpenter <dan.carpenter@linaro.org>
-Subject: Re: [PATCH v3 5/7] staging: pi433: Remove duplicated code using the
- "goto" error recovery scheme.
-Message-ID: <2024040546-crudely-demanding-c13a@gregkh>
-References: <20240405074000.3481217-6-ikobh7@gmail.com>
- <12a5180c-fbac-41dc-b1bf-9eded9d8c5ed@web.de>
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="YZMavdOM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
+	s=s31663417; t=1712312648; x=1712917448; i=wahrenst@gmx.net;
+	bh=IXNUq7oefZ/HatBUyTvFVP7ACYQovRlKUiJApLekvxA=;
+	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+	 In-Reply-To;
+	b=YZMavdOM+JAN6cqvlbzjrP4Hn4/cuM/C/+rLDaW8VaOGR/Vq0oTNgXOLS/NTSNFg
+	 hBZ+9yoqhvPcxXe5zVA5JJlRzFN1MVfPJS/JG+t7hvT/zzUruWI0nfeC+UE7LbJcz
+	 TEm09aUDeE3PKUK8sVrCB6Bs/d+yucfYOcJMtibqW3WxpgOaVoSPHizsF787886tH
+	 W6InosSo0UDhJMsQlzbfUKJ7Nzrhjj8jgETcd6jVcFJ1rlDVNtkOtb7MjzhYN2jn7
+	 GYJ+eAKVgqMRaH3Gkn/NBPkj8G5zx64bbfkGZPrj6RgX8o+xRYBxJSK4xiau24/KO
+	 7A2DfqyHXiEr2L6gDQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.167] ([37.4.248.43]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1N8GQs-1swUmm1yvw-014DnA; Fri, 05
+ Apr 2024 12:24:08 +0200
+Message-ID: <34b14772-1386-44f4-bb7e-e3f6cf137971@gmx.net>
+Date: Fri, 5 Apr 2024 12:24:07 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <12a5180c-fbac-41dc-b1bf-9eded9d8c5ed@web.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] Revert "staging: vc04_services: vchiq_core: Stop
+ kthreads on shutdown"
+To: Umang Jain <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev
+Cc: Dan Carpenter <error27@gmail.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Phil Elwell <phil@raspberrypi.com>, Greg KH <greg@kroah.com>,
+ Mark Brown <broonie@kernel.org>
+References: <20240403052100.2794-1-umang.jain@ideasonboard.com>
+Content-Language: en-US
+From: Stefan Wahren <wahrenst@gmx.net>
+In-Reply-To: <20240403052100.2794-1-umang.jain@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:t3Hsa6Hh4bkT2JAzSjU29R2xjt+Ps0wd0N6nasrnk6Oa7/Gu65s
+ 0EyvWxTwoocaLM+1rOZlB0f0T9+Zm0phIgjJWMOBCb6sbdwNeYlmI0fsOrfC6Rpl1WZiWzZ
+ fr1GqQIol0GCo2UrZ5Lwy3NgROFVuKmtHjUqUf9xXMpvXQleJQGZZniSGDx2c+IZRgUCbDp
+ MDP2FrC0+/JURZhbz0Caw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:k2FUjgwmxOc=;Dp5teanA92e/JIIb3JRzZ3/zAiz
+ 27JBEtwWEUIsn6aJqnhCvRhQ2SUkwROm4sphE88DEsWAglGEX7hdXU8ugIsixShMefUaUOks0
+ ph15b+2PP6pf/eL2ZVc3iSd/maQL+SZImVCIFr5E7aGgM/7TXDsmxdi767Hue64HB+HY9Kf1Y
+ cr68NvPoHoQERzIlocRq1XtHtM2wezoBC6ssP5IQuJ03leqIEWYxaIhnK9ugIuBUr2LFk6KzZ
+ YAetMXiZihD78W/vSfbuFzY1hGIa2gvBhoDAvWl8Z4F5dNBT0ZzDJuOTKUgM/PHqGjl+QIig+
+ /8ooUEHC6g5Uh5FsOpv4pSwaHZnaRbisRZ9NNQrxA+3HFE5RC9EOHUK4rPIPeSnhmINExtH3r
+ hBFQeN1XY3EJD8cRwDxBYhPbf+9DK3liiBH1vHguwGHxTks8RvpEylYN3CYwzeoWEJZuUfgH9
+ RRpLo9bbolMchRzyOcgHYkhLqg354xAWzdo+cEgcFx9bDmFkLhGB+d5Zt7tHTw2cfetTt25Ms
+ 9jK2eqoYGlCARIUEbVUH1hmfdV/WhzQ1/XbRqSZgNm9ALkivsTyPKaG5irvG8cQRCaDAFN+Jq
+ jdpF+gc7XACO+HpGrxPMO8Trf/Ui/oQp6hLbOz9+YSt89XnOzRiNybIQd5eDKrI4Ju1qkQ8ms
+ bgkDWKSS/0jzCBgZVjrL0JCpwmbH6Gt2BMql2wF1gD+0ysFeSUKdZEd/375voTBtYc6aMLGk9
+ H4mbo9wMWGfCh0c4k7Tgk9rrANAlkpVOfx29odcL+kCyD+yueMVGYveDt2BMzc2biMtuDBoIv
+ aSNOt94HlhyIhMAOThvRcn2CynEDGP8aNVI9wGfMkn9ao=
 
-On Fri, Apr 05, 2024 at 12:05:56PM +0200, Markus Elfring wrote:
-> I suggest to use the summary phrase “Use common error handling code
-> in pi433_init()” instead.
-> 
-> 
-> > pi433_init had "unregister_chrdev" called twice.
-> > Remove it using goto statements.
-> 
-> How do you think about to use the following change description?
-> 
->    unregister_chrdev() was called in two if branches.
->    Thus add jump targets so that a bit of exception handling can be better
->    reused at the end of this function implementation.
-> 
-> 
-> …
-> v2->v3:
-> …
->           a seperate patch.
-> …
-> 
-> Would you like to avoid a typo here?
-> 
-> Regards,
-> Markus
-> 
-
-Hi,
-
-This is the semi-friendly patch-bot of Greg Kroah-Hartman.
-
-Markus, you seem to have sent a nonsensical or otherwise pointless
-review comment to a patch submission on a Linux kernel developer mailing
-list.  I strongly suggest that you not do this anymore.  Please do not
-bother developers who are actively working to produce patches and
-features with comments that, in the end, are a waste of time.
-
-Patch submitter, please ignore Markus's suggestion; you do not need to
-follow it at all.  The person/bot/AI that sent it is being ignored by
-almost all Linux kernel maintainers for having a persistent pattern of
-behavior of producing distracting and pointless commentary, and
-inability to adapt to feedback.  Please feel free to also ignore emails
-from them.
-
-thanks,
-
-greg k-h's patch email bot
+Am 03.04.24 um 07:21 schrieb Umang Jain:
+> This reverts commit d9c60badccc183eb971e0941bb86f9475d4b9551.
+>
+> It has been reported that stopping kthreads corrupts the VC04 firmware
+> and creates issues at boot time [1].
+>
+> A fix-up version of this patch
+> bac670144384 ("staging: vc04_services: Stop kthreads on .remove") [2]
+> was also attempted but it also doesn't properly fix the TODO
+> (i.e. clean module unload) and similar errors were observed when
+> stopping these khthreads on RaspberryPi 3.
+>
+> Hence, revert the entire patch for now since it is not very clear why
+> stopping the kthreads breaks the firmware.
+>
+> [1]: https://lore.kernel.org/linux-staging/CAPY8ntBaz_RGr2sboQqbuUv+xZNfRct6-sckDLYPTig_HWyXEw@mail.gmail.com/t/#me90b9a9bc91599f18cd65ceb7eedd40e5fee0cdd
+>
+> [2]: https://lore.kernel.org/linux-staging/171161507013.3072637.12125782507523919379@ping.linuxembedded.co.uk/T/#m1d3de7d2fa73b2447274858353bbd4a0c3a8ba14
+>
+> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> ---
+>
+Reviewed-by: Stefan Wahren <wahrenst@gmx.net>
