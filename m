@@ -1,128 +1,128 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECDE41D530
-	for <linux-staging@lists.linux.dev>; Fri,  5 Apr 2024 16:58:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C3581C687
+	for <linux-staging@lists.linux.dev>; Fri,  5 Apr 2024 21:22:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712336286; cv=none; b=HQpqIMPrlmWF5sdaGgZHhAX+n3TTOOAXZnwZQAiGrw2TfRNFHV6vAyufb4mSdJLKlLUrOkGj85yr/6C/GU2yo6Q0m5uRV4I4K/nr/Lbzx3+P4GoWWNNz61Rt0++rzF7LzhQGgNLUnMdYx4k8W4LBIq+R2NuBYtKj2vwfhwvB63A=
+	t=1712352128; cv=none; b=jQNvMgYCJh05QRvrs2s+HDzyrl7pj5qAZupuAhZrmwHs+RlbJtgAGjAIlIc0CDXPj++iDQ10ODh4hDcSA7Bfs6G//K4+lbkBjEgP+dkUJ4VUlKWgm2jzM5FnCUarC5M+TOrveDAiSpnSOE7uVJfbPPIu6imwssZd3pNjkslaquQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712336286; c=relaxed/simple;
-	bh=5AW1eKgNf7MUu4dM7zRPWY+xw2bFTvlrZtGPjFMFryk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Wq/QIOCKU5fr/+KMW3UTFCzZwjEcUfTdRIRsRUY32Sa8fzWvmGNpqGqrT9hbRCxcPESpWUXiTaET91LRLHKl3eQC6ySybEJ3a5TUNQ7HGrxaUuIVNR8eiQGkcjawHyBNkklDW5lbsuylie2ZpSeeUuNl3geMXoi7JgPGl1b9nSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ajkQld27; arc=none smtp.client-ip=209.85.210.179
+	s=arc-20240116; t=1712352128; c=relaxed/simple;
+	bh=Q04UiuMyRXbGVxJakumDS8nr1AiT4+472waBBZEdOo8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IfA4aOHg7QxuFbgSouRJTT0J6DQuhJtez6I/NhOzIS+7uu5aW2BkVwNl6m6TtHWMOVC3PA7oBg3G15x+KdnKYLRv1W5+wa86Y/guK0M0qkOOqRJFfOWxPnb/IJEWGH+hnYxibKfk+naS3LHHTmuoTlz+3BcZAmHeMMl5rJRR61w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aelaU2x5; arc=none smtp.client-ip=209.85.214.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ajkQld27"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-6ecc9f0bdaaso1867589b3a.1
-        for <linux-staging@lists.linux.dev>; Fri, 05 Apr 2024 09:58:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aelaU2x5"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1e0d8403257so23800395ad.1
+        for <linux-staging@lists.linux.dev>; Fri, 05 Apr 2024 14:22:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712336284; x=1712941084; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=VxOrpUcgWV1BIbN70ZBNYzAG96ZmcBy16Bx9JpTxO+Y=;
-        b=ajkQld279Pzh8Zl3zyWla5CwCRT0J2vtp+fjKdZXDdPPz+jJSr8xEILnBS4GZOoym7
-         uijAfrnhzkJTsUPKo4S2d5IYMEN1IN8n3BeNwgSWWrRR3WR1s7IVq7QYDHIGDyHN4fgO
-         yzYPjhCArUFXswh4hImaWW8fUcxfcrXsxtW5xmotRTVKi0RAmoChFkQ85fTXGcimR0lh
-         W4MfCQh5XCjLF7h72i4HKaJnKeWO3Yekebno92v+dumFuySN+gnrs1XlEewPAiwB5MBX
-         CeFKzqyoc244hTxAwOgvkpKWrSCC8J/dCPUxcoE2nd/tqKXrpti+yJEjlrR+W1vnp+TT
-         tDMQ==
+        d=gmail.com; s=20230601; t=1712352126; x=1712956926; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=usb2eToxZqr2+tKAK3YBZ5ATHfFIYXjx4gZa/I7hs4w=;
+        b=aelaU2x53rnCNJN1OXrlodcNkl3TckrIEhomU3nqitiXR4djY6j3F5DMmW5NpIOHcX
+         gDFng/RaGuUF+SXtnf2f2NnJ22CsMCJYsSv9uAm/5S/V6pyL+sdeA/waltkzj4Bd6fM0
+         aeim7NtNlABJxaaxxeXC9Fb8bGHlOIY8K91DkjHncgNR/LZAvXhhzwIk2rQTdjs/+T1D
+         wZm9rxaadBRWi8mTDDTcFIMIPftjari6jmlsqfTQNrOZGt3+qgrbdTmfTfD0l8/eJmIv
+         Xtrrth5yTiQuQNXBGZ5JRieVenRGVPl9snVzfwLNSI3sKwLlJYNnKeRYU6iJCeOm71or
+         rIRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712336284; x=1712941084;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VxOrpUcgWV1BIbN70ZBNYzAG96ZmcBy16Bx9JpTxO+Y=;
-        b=ECqEjjTFyivPox9jkkuTCUnRMkU7Eb6wdHPlV0A5GrTR9gzdYYkBtxNW8Hs+D3nAXh
-         56cMiG4/oDHvpNghKzQ5jGx92vA2x/e9DPv1YJ+S8D92TdIoKswhjgA044nigWDZK/ef
-         m3QBt1bQtyScjgMqtQ4tqNuf8oz5X7QDmZ1snxgfbbTBBjHLI3hF7vcNTPS4t75Qzyig
-         NEUtEYmGoJ52AsH4ANM1XgTQ7oxBlbCC40r133hZ08n9NfwJ/P5MZ1q+HvgKhGplArSw
-         pGn7jAQGVI2zAVimkxL+m4O/95p4oPoemTp7tWCOlv0vPhKeGQs2Z0pV96e4M9Eq441d
-         pNmw==
-X-Forwarded-Encrypted: i=1; AJvYcCXuFJ0IfTkBr86p86SIHHG9x5hKEG570UJgz1+lLHXEKgp4eoKw7JXdWWT0YEkWSokQxvU+SraUM+F2PAoWfXKvTtCg4DCcxYGIYPvNLQ==
-X-Gm-Message-State: AOJu0YzWAPtFTuWdDAX+/FKHwkgOXaAYlkGemNcPooA6TSp0pGZbHZf4
-	/fPnjAJXSWcm/9+jpYb9zecF6xPInYysxjiVufX7ph1kr+dX7eY3
-X-Google-Smtp-Source: AGHT+IF8+QcgSzXuJgKfFeVtRFmbVoLvx0pIjuAHQZQ5xpIO1ad1rxcl4fMvBNa0DNG870OGXhAphg==
-X-Received: by 2002:a05:6a00:6508:b0:6ec:d950:fd59 with SMTP id hc8-20020a056a00650800b006ecd950fd59mr1796570pfb.29.1712336283914;
-        Fri, 05 Apr 2024 09:58:03 -0700 (PDT)
-Received: from localhost.localdomain ([168.138.41.106])
-        by smtp.gmail.com with ESMTPSA id c17-20020aa78c11000000b006ed0199bd57sm1447393pfd.177.2024.04.05.09.58.01
+        d=1e100.net; s=20230601; t=1712352126; x=1712956926;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=usb2eToxZqr2+tKAK3YBZ5ATHfFIYXjx4gZa/I7hs4w=;
+        b=Z3W9gByOqZ5y8Kswiq4jIjoEBKrNTMWT1K6udb2d9igglQcn9GHtPTE8VTQfcBr5ht
+         o6cnp55AF6GjfsJD7dni2zUmjudW3KJS+mfFh/l4+JyeqES6nmpzSsyUx4PNs5oS0cNk
+         u7ca9PdEJotINd4i5UHDOk34eoqKFZT+st3Vy5bYC78taezpc6q7Nno6NYN+PXMcNZh4
+         kuRB6bIkxg+MtdYGbD0zaK8PqFiXRe8jxBg14ENy1uXwXOxYAd1T8hxuGwy/UwkhCrej
+         6aQdP6H62j7CCoWmLg7noRLYqjS3vAZh3uAwS9TVb42FML3f6QieWGTxD4LIryn0SGYy
+         AbmA==
+X-Forwarded-Encrypted: i=1; AJvYcCV88SvZuAZTkbj+XwM3C2hyJNdI98kEwe+jfStnb/pDFJ5AsDzAb8C2ZLn10WU4dAj2Rv3O0laXKxWoIKlYkWP9IL4pbXZGxeUA4rHR3w==
+X-Gm-Message-State: AOJu0YwbY5j4tXMnAhqBq2cfh9UvxdfCcbAwKulC+c1vrM5JJM5wBqGF
+	+dePas/8tQdUHTv/Meao9GtfGxD99mK/7g4KbbXJhm0wH8FVK127
+X-Google-Smtp-Source: AGHT+IG8uZKBY56GrIfR0tYPyGgVCIFZ6EmnJZmso58ECHQNdnyePLWbLj7ian9poAK/ZbsgkisM0g==
+X-Received: by 2002:a17:902:82c7:b0:1e0:2995:c330 with SMTP id u7-20020a17090282c700b001e02995c330mr2413480plz.63.1712352126269;
+        Fri, 05 Apr 2024 14:22:06 -0700 (PDT)
+Received: from jc-ubuntu-dev-korn-1 (c-98-210-1-68.hsd1.ca.comcast.net. [98.210.1.68])
+        by smtp.gmail.com with ESMTPSA id s11-20020a170902ea0b00b001e0ea5c910dsm2075113plg.18.2024.04.05.14.22.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Apr 2024 09:58:03 -0700 (PDT)
-From: purofle <purofle@gmail.com>
-To: linux-fbdev@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org,
-	linux-staging@lists.linux.dev,
-	gregkh@linuxfoundation.org,
-	purofle <purofle@gmail.com>
-Subject: [PATCH] staging: fbtft: fb_st7789v: support setting offset
-Date: Sat,  6 Apr 2024 00:57:47 +0800
-Message-ID: <20240405165747.93377-1-purofle@gmail.com>
-X-Mailer: git-send-email 2.44.0
+        Fri, 05 Apr 2024 14:22:05 -0700 (PDT)
+Date: Fri, 5 Apr 2024 14:22:05 -0700
+From: Jackson Chui <jacksonchui.qwerty@gmail.com>
+To: Alex Elder <elder@ieee.org>
+Cc: Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: greybus: Clear up precedence for gcam logging
+ macros
+Message-ID: <ZhBrff8qkkmum4wc@jc-ubuntu-dev-korn-1>
+References: <20240404001627.94858-1-jacksonchui.qwerty@gmail.com>
+ <658e1f40-d1eb-4ba7-9ba3-0aa05a1ed06e@ieee.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <658e1f40-d1eb-4ba7-9ba3-0aa05a1ed06e@ieee.org>
 
-Some screen sizes using st7789v chips are different from 240x320,
-and offsets need to be set to display all images properly.
+On Thu, Apr 04, 2024 at 05:05:09PM -0500, Alex Elder wrote:
+> On 4/3/24 7:16 PM, Jackson Chui wrote:
+> > Reported by checkpatch:
+> > 
+> > CHECK: Macro argument 'gcam' may be better as '(gcam)' to avoid
+> > precedence issues
+> 
+> I agree with your argument about the way the macro should be
+> defined.  But perhaps these gcam_*() functions could just
+> be eliminated?
+> 
+> I see 15 calls to gcam_err(), 1 call to gcam_dbg(), and none
+> to gcam_info().  It would be a different patch, but maybe
+> you could do that instead?
+> 
+> 					-Alex
+> 
+> 
+> > 
+> > Disambiguates '&' (address-of) operator and '->' operator precedence,
+> > accounting for how '(gcam)->bundle->dev' is a 'struct device' and not a
+> > 'struct device*', which is required by the dev_{dbg,info,err} driver
+> > model diagnostic macros. Issue found by checkpatch.
+> > 
+> > Signed-off-by: Jackson Chui <jacksonchui.qwerty@gmail.com>
+> > ---
+> >   drivers/staging/greybus/camera.c | 6 +++---
+> >   1 file changed, 3 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/staging/greybus/camera.c b/drivers/staging/greybus/camera.c
+> > index a8173aa3a995..d82a2d2abdca 100644
+> > --- a/drivers/staging/greybus/camera.c
+> > +++ b/drivers/staging/greybus/camera.c
+> > @@ -180,9 +180,9 @@ static const struct gb_camera_fmt_info *gb_camera_get_format_info(u16 gb_fmt)
+> >   #define GB_CAMERA_MAX_SETTINGS_SIZE	8192
+> > -#define gcam_dbg(gcam, format...)	dev_dbg(&gcam->bundle->dev, format)
+> > -#define gcam_info(gcam, format...)	dev_info(&gcam->bundle->dev, format)
+> > -#define gcam_err(gcam, format...)	dev_err(&gcam->bundle->dev, format)
+> > +#define gcam_dbg(gcam, format...)	dev_dbg(&((gcam)->bundle->dev), format)
+> > +#define gcam_info(gcam, format...)	dev_info(&((gcam)->bundle->dev), format)
+> > +#define gcam_err(gcam, format...)	dev_err(&((gcam)->bundle->dev), format)
+> >   static int gb_camera_operation_sync_flags(struct gb_connection *connection,
+> >   					  int type, unsigned int flags,
+>
 
-Signed-off-by: purofle <purofle@gmail.com>
----
- drivers/staging/fbtft/fb_st7789v.c | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+Thanks for the feedback, Alex!
 
-diff --git a/drivers/staging/fbtft/fb_st7789v.c b/drivers/staging/fbtft/fb_st7789v.c
-index 861a15414..d47ab4262 100644
---- a/drivers/staging/fbtft/fb_st7789v.c
-+++ b/drivers/staging/fbtft/fb_st7789v.c
-@@ -30,6 +30,12 @@
- 
- #define HSD20_IPS 1
- 
-+#define WIDTH 240
-+#define HEIGHT 320
-+
-+#define LEFT_OFFSET 0
-+#define TOP_OFFSET 0
-+
- /**
-  * enum st7789v_command - ST7789V display controller commands
-  *
-@@ -349,6 +355,21 @@ static int set_gamma(struct fbtft_par *par, u32 *curves)
- 	return 0;
- }
- 
-+static void set_addr_win(struct fbtft_par *par, int xs, int ys, int xe, int ye)
-+{
-+	unsigned int x = xs + TOP_OFFSET, y = xe + TOP_OFFSET;
-+
-+	write_reg(par, MIPI_DCS_SET_COLUMN_ADDRESS, (x >> 8) & 0xFF, xs & 0xFF,
-+		  (y >> 8) & 0xFF, xe & 0xFF);
-+
-+	x = ys + LEFT_OFFSET, y = ye + LEFT_OFFSET;
-+
-+	write_reg(par, MIPI_DCS_SET_PAGE_ADDRESS, (x >> 8) & 0xFF, ys & 0xFF,
-+		  (y >> 8) & 0xFF, ye & 0xFF);
-+
-+	write_reg(par, MIPI_DCS_WRITE_MEMORY_START);
-+}
-+
- /**
-  * blank() - blank the display
-  *
-@@ -379,6 +400,7 @@ static struct fbtft_display display = {
- 		.set_var = set_var,
- 		.set_gamma = set_gamma,
- 		.blank = blank,
-+		.set_addr_win = set_addr_win,
- 	},
- };
- 
--- 
-2.44.0
+I thought about refactoring it, but I feel it is worth keeping
+the macro around. It acts as an apdater between callers, who 
+have 'gcam' and want to log and what the dynamic debug macros 
+expect. Without it, the code gets pretty ugly.
 
+Jackson
