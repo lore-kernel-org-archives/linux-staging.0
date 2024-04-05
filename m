@@ -1,56 +1,56 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFF1113C834
-	for <linux-staging@lists.linux.dev>; Fri,  5 Apr 2024 07:40:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35C5013C8ED
+	for <linux-staging@lists.linux.dev>; Fri,  5 Apr 2024 07:40:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712302819; cv=none; b=AFvuueq+U18qu6AFVjrSwDWNZH6e8/hnt8jWz47No1fmKks4W60KcXquSGmorBwyA4LruuSpsW5ZoLgkHEvnY9VvbQj9eGz0wRXuRPp/4JdbgLQXNqX3MXemi/4tetVcMJwf5lxxbi+/KyKW8UQl3hy/QeOWFpQBvRWvAdCpeJg=
+	t=1712302820; cv=none; b=HTrdfgFbugl0Sk03VvSe4m0V3/HaoZ4UakhisL6DTdgIOi15AEMDKjLVWfs6giGL7QKu0/Bpl5YIsH1ZUr4NpQ/MI+q3FCs7AGddP6Dqk8KX1O+pwI1nbEepdcMvdwfTAIkXu9+2tDdRkAl3QciY05Xx7I8vV7TUv91FMLvl8B4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712302819; c=relaxed/simple;
-	bh=t9HJqxPdA5XNwvqxEEAAekCfSRdNt7vbuUaJ67rE5xE=;
+	s=arc-20240116; t=1712302820; c=relaxed/simple;
+	bh=YoCK0eHi9vC1QpW8oygU2C2KyLLNC61wcBUkYFvHKuQ=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Hnrf5EzcK9haDOGs4DWFv/gH0VhTu7DrSZQ4yE1oEXdovLD/tABtzuSQ1oQRLs4h21XX/B43bmimGmkno3M/f5LM+Sr55/pitZK7QwQ/mKxyj6rVeZ8amwWtlINihCmUX7zbQZ3A9n2rmVfp68O13Ri1R+LEggjrqhfcTdq/MeM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fnxSSph2; arc=none smtp.client-ip=209.85.128.45
+	 MIME-Version; b=fh3o0QZxVhdzzHaed7gnVzOb3nqagoXLRm+JMLryD/HCXByKcwV0dSHfKPjqo/Da/Q7VGuaEH0oRonBlJ9Xel9oagXYDV+EaOwQEF9qc0qz5eAdWNvfAIqTUEe5nrzT0bA7eejA3qhdPAuQ35l4lcPFS0e7qxvM/LmG4BNcr4C8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ux8TpPO2; arc=none smtp.client-ip=209.85.221.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fnxSSph2"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4162c2109a5so7955005e9.1
-        for <linux-staging@lists.linux.dev>; Fri, 05 Apr 2024 00:40:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ux8TpPO2"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3434c6e1941so870703f8f.0
+        for <linux-staging@lists.linux.dev>; Fri, 05 Apr 2024 00:40:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712302816; x=1712907616; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1712302817; x=1712907617; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=sfMYrnadCJ5fGBi6dgXMCcmaOaqurwY7DOo3APmaJ9E=;
-        b=fnxSSph2wwpyArJTGKKn/xnzN9bTPtIIhQjQ9RDpLEEQGikCwBhh6/fQ/u57bAFa7Y
-         z6A3m4C/2gwhUGL72TlA4BV44N4jI/33yR42gVYsh8sLsDyqBR1KB2PZ0PNOWRkwqs0P
-         NSWxOg6OlQAd4r80NfMuron9oHKYriLCR5uM5lGYcYvxMZBlGzc53Vjw/cLH39i6u3if
-         WvaFcH0IT5BYBZqUCg0B8NLVf9xgxr+ujWdxyXrNxR7rrJ1+ktHV8m+Ku1zQzvMcLDBr
-         70oajI8sn009kHnSLIyJUaQB49M/iLD2gD2Lu/xL/z+UYn79bqRbGsq/MG/EUGJu7uV2
-         KKyw==
+        bh=RNwZe5BOe/LQIqDd4/80RXtPtgdVPrSCbY1S4wwVTwY=;
+        b=Ux8TpPO2lgluVNu4K2L1krNaayj2HUUHcezLjTXqAp12riJxf+ZgaK7nwsQ2zdCcxB
+         0lShA1XCSsedIme+tpycJ+LIbkSTAZZc7hIRzopc4hTdxqrN4CUlLek+BZuey41Ac51T
+         72icuPzR2kLSvpLAovXIM5+/aabFqkLFz9uECycp8/W6dQz9fzoKnkYYEDwmmOFEa25s
+         OtybuXmiLgi60u9cr8AdF3Mx83hbZhROLwO0/qCuWEUu87lyMDTfZbxdskeA/czFltB2
+         rduWEI0nfjbpDwAta2PPLo0iLgyP8meCekLGj/NMJVKF+Mp2RtEocatiKX+RFpuJpZu5
+         zVBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712302816; x=1712907616;
+        d=1e100.net; s=20230601; t=1712302817; x=1712907617;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=sfMYrnadCJ5fGBi6dgXMCcmaOaqurwY7DOo3APmaJ9E=;
-        b=jlfx68UjOi5XI7yIT8HLlG7bMkcvOeEh0ZXcrAgZ1/QxxZOb0Cd7LnTDmv+Ow7hW4U
-         XHO7RpP2taU+Xm7hQFgSZT0nd+6mdrxNm1KZXTpvU61hwUt6PwCHwA7uEC7310R5W4KG
-         gjfUmBqN/xmUIBppxx4Z0Lbc62fLsUj6FHQgMhAVbTWDwScniF2hABJRL+Q56VmeEcQT
-         XtVxvXEhHzhpoRPficK1+n381awd9IolYNm27t1rD20YW76MpIqM4iSKR+F6PaWB5oG+
-         B+4Op0jAoeAtF6uNWDuG8DXJNRqNTTE4TZjO+bIry5Do9IEaQypU4Y5XB54uxkmjoNQf
-         jcAA==
-X-Gm-Message-State: AOJu0YxzcYNqo/VEUA1ognvbeGhF+FjfsLC/StCxPM0JNRpeoBsZ5h3e
-	lprp4cu8BAXVZgiy368aTFzRWDb2HZrLxJxI8Iu7GMSZqd7xdodV
-X-Google-Smtp-Source: AGHT+IF1lzcGczrfopACd2bNaeA2KFZKHgaZLXDgXTnFS30ViuvSTtE/WdMepCeKM5nHgE7NKp1zzg==
-X-Received: by 2002:a05:600c:19d1:b0:412:dcab:7c79 with SMTP id u17-20020a05600c19d100b00412dcab7c79mr519544wmq.10.1712302815994;
-        Fri, 05 Apr 2024 00:40:15 -0700 (PDT)
+        bh=RNwZe5BOe/LQIqDd4/80RXtPtgdVPrSCbY1S4wwVTwY=;
+        b=uDKRM8EMVEKbE4VlON5Oy9AgV9JY74NPzwCs7huVqdeLMVROgI13PtvbRq4iHrd8rQ
+         gBU/UIWJSgZPCZcsmkCDtufTbZHiXMyTrPly4rjWt1umKUMRIzZuLrxLD4pGDLF0d1ZF
+         mxOwN7dL7D54kR2SpapUMCkZOrJMEVAqX1IKhOnaOG6MTXkv/za058E/tkjWD/ESB+RM
+         e3k0MdxtCRZCPJIeULArbb0gYSqvx7QzNJyNYWOJ4KwACfQBq6duDrh7fV06k7VEA7/D
+         7uvo3n1czgrJKl60jb9gSPCfygmGk8HTGVoSchxEcFr9D8ZGBy5EFSelrzHpz7VsXbj+
+         E/Vw==
+X-Gm-Message-State: AOJu0YyiHmjCL+51b6fOS/VJeMS6q3S9vdutOxmsE00vDGyqphjceImM
+	mPgqbzPxrmuxQmNt/BkD07W6RVHkpuVpeY3g2bK8UTCtGCQlUsyz
+X-Google-Smtp-Source: AGHT+IEpHqb45+dVx4WtccQ09P9O9tIKvqgQnzhLdc3gA3jyZ2lskMNvWXD6mN3uquhggb1SLoWfig==
+X-Received: by 2002:adf:b1da:0:b0:342:61ee:bee1 with SMTP id r26-20020adfb1da000000b0034261eebee1mr485769wra.23.1712302817549;
+        Fri, 05 Apr 2024 00:40:17 -0700 (PDT)
 Received: from localhost.localdomain ([2a06:c701:737b:ef00:2bdf:f41a:ebd1:fb2c])
-        by smtp.gmail.com with ESMTPSA id l10-20020adfe58a000000b003434f526cb5sm1311643wrm.95.2024.04.05.00.40.14
+        by smtp.gmail.com with ESMTPSA id l10-20020adfe58a000000b003434f526cb5sm1311643wrm.95.2024.04.05.00.40.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Apr 2024 00:40:15 -0700 (PDT)
+        Fri, 05 Apr 2024 00:40:17 -0700 (PDT)
 From: Shahar Avidar <ikobh7@gmail.com>
 To: gregkh@linuxfoundation.org,
 	hverkuil-cisco@xs4all.nl,
@@ -59,9 +59,9 @@ To: gregkh@linuxfoundation.org,
 	felixkimbu1@gmail.com
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 5/7] staging: pi433: Remove duplicated code using the "goto" error recovery scheme.
-Date: Fri,  5 Apr 2024 10:39:58 +0300
-Message-Id: <20240405074000.3481217-6-ikobh7@gmail.com>
+Subject: [PATCH v3 6/7] staging: pi433: Add debugfs_remove in case of driver register fails.
+Date: Fri,  5 Apr 2024 10:39:59 +0300
+Message-Id: <20240405074000.3481217-7-ikobh7@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240405074000.3481217-1-ikobh7@gmail.com>
 References: <20240405074000.3481217-1-ikobh7@gmail.com>
@@ -73,64 +73,27 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-pi433_init had "unregister_chrdev" called twice.
-Remove it using goto statements.
+debugfs resources were never cleaned in case of failure to register driver.
 
+Fixes: 4ef027d5a367 ("staging: pi433: add debugfs interface")
+Reported-by Dan Carpenter <dan.carpenter@linaro.org>
 Signed-off-by: Shahar Avidar <ikobh7@gmail.com>
 ---
-v2->v1:
-Followed by Dan Carpenter's <dan.carpenter@linaro.org> comments:
-        - Remove empty "fail" goto tag.
-        - Reorder pi433 init & exit calls so they have reverse order.
-        - Add "unreg_spi_drv" goto tag.
-        - Check "debugfs_create_dir" return value.
-        - Update "if" statments for consistency.
-v2->v3:
-        - Undo pi433 init & exit calls reordering. Reorder exit calls in
-          a seperate patch.
-        - Remove "unreg_spi_drv" tag.
-        - Undo return value checking for "debugfs_create_dir".
-        - Undo "if" statements update.
-
- drivers/staging/pi433/pi433_if.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ drivers/staging/pi433/pi433_if.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/drivers/staging/pi433/pi433_if.c b/drivers/staging/pi433/pi433_if.c
-index 62ce75b07bf0..b01ee145ff3c 100644
+index b01ee145ff3c..77e37a5bd1a2 100644
 --- a/drivers/staging/pi433/pi433_if.c
 +++ b/drivers/staging/pi433/pi433_if.c
-@@ -1403,21 +1403,21 @@ static int __init pi433_init(void)
- 		return status;
+@@ -1415,6 +1415,7 @@ static int __init pi433_init(void)
+ 	return 0;
  
- 	status = class_register(&pi433_class);
--	if (status) {
--		unregister_chrdev(MAJOR(pi433_devt),
--				  pi433_spi_driver.driver.name);
--		return status;
--	}
-+	if (status)
-+		goto unreg_chrdev;
- 
- 	root_dir = debugfs_create_dir(KBUILD_MODNAME, NULL);
- 
- 	status = spi_register_driver(&pi433_spi_driver);
--	if (status < 0) {
--		class_unregister(&pi433_class);
--		unregister_chrdev(MAJOR(pi433_devt),
--				  pi433_spi_driver.driver.name);
--	}
-+	if (status < 0)
-+		goto unreg_class_and_remove_dbfs;
- 
-+	return 0;
-+
-+unreg_class_and_remove_dbfs:
-+	class_unregister(&pi433_class);
-+unreg_chrdev:
-+	unregister_chrdev(MAJOR(pi433_devt), pi433_spi_driver.driver.name);
- 	return status;
- }
- 
+ unreg_class_and_remove_dbfs:
++	debugfs_remove(root_dir);
+ 	class_unregister(&pi433_class);
+ unreg_chrdev:
+ 	unregister_chrdev(MAJOR(pi433_devt), pi433_spi_driver.driver.name);
 -- 
 2.34.1
 
