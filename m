@@ -1,89 +1,85 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F1171474DC;
-	Fri,  5 Apr 2024 10:50:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79B1916DEB9;
+	Fri,  5 Apr 2024 14:09:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712314248; cv=none; b=PhfO6SIC0yYAGm3D9LFihDs4pzkRYN+M6rNxpL08H++nbAIQcqocyaDWe6+nH0vXS8TQ3lpZ6srqT3vGt9nYxiFtg+LBHKeUimux2fzIgeQ7a12A9OgaQ9Oqj33V14LzeqZZCn5BQvnpOYJvT14TLNkR8UTRGpO45QuTffTjuqY=
+	t=1712326186; cv=none; b=VAEstJPZEKN1R34MkklffNcAl8E5IFy5Yee9lGpmp2vYVay/pQ9RNTgBCuYVOWipO5zdsOj3hizCf7oDBWQaRmk124KZEInlTiAv1dMkyt2KVwOQNO3XilrY5vnX6GQLshhjsxyD8quRxhUS7zXDipHYht80KeoYXS3i+kDq2DE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712314248; c=relaxed/simple;
-	bh=Ap18guPgOAvc5ueUjlDoye1qzx2QpqgdZEJZoL9P7E4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IC5ClAdyquQKw1ej4AadBMR5ilNzaGml6w2woJzNZl4mdGYChLdsSIW/qlanExJ4ULDEZhJLa/aWSCKY4ZZonxxtd+TPu9HSFMYzqWOi0tDQXTHs5g23tkx0f6U1RtnRdA3d7Pomk9jO/yCA2TWq36mhr372slXAU7tcIhJzjrc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=obCleuUv; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1712326186; c=relaxed/simple;
+	bh=YOdKqFDrsi1Fjssp3xYa5FBcFqqzqUTLyDnqBlSVIB8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=quYYMKs9Oitucu2nz7GHDdQiQefRudr/6X8qlABeMw4/VpFOyYd6vxbtGJUedSgv7l55erKnckypviM61lMeM0pHHjm/cq6yFdvBjLp/qldtLLihymBDBDO+kyQzpCm6l0pwhRX4ICdxKggL4dePJS0bPVeIu4Y29WuwS7eJnRg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=marvin24@gmx.de header.b=DJE2QcvR; arc=none smtp.client-ip=212.227.15.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="obCleuUv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB8E1C433C7;
-	Fri,  5 Apr 2024 10:50:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1712314248;
-	bh=Ap18guPgOAvc5ueUjlDoye1qzx2QpqgdZEJZoL9P7E4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=obCleuUvwATqsz/GdE3saleN1ncVq+YXQ14jFY2uAaEQBMyhZ/Cy0LihHgVk9mjOL
-	 p4gRM6XjW02kKre/moiWwiacAC7P3RXxARpBb1uDUniKD1bD1s14YB8qGQdKgznv8X
-	 HQZGqpOWKLogivjioecktBrCLKDtExqE7d86d1Oo=
-Date: Fri, 5 Apr 2024 12:50:45 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Markus Elfring <Markus.Elfring@web.de>
-Cc: Shahar Avidar <ikobh7@gmail.com>, linux-staging@lists.linux.dev,
-	kernel-janitors@vger.kernel.org,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	"Felix N. Kimbu" <felixkimbu1@gmail.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Rob Herring <robh@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-	Dan Carpenter <dan.carpenter@linaro.org>
-Subject: Re: [PATCH v3 6/7] staging: pi433: Add debugfs_remove in case of
- driver register fails.
-Message-ID: <2024040538-voice-debit-b8be@gregkh>
-References: <20240405074000.3481217-7-ikobh7@gmail.com>
- <f0cb08d3-00a5-4ed1-adf1-05f40875c510@web.de>
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=marvin24@gmx.de header.b="DJE2QcvR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1712326181; x=1712930981; i=marvin24@gmx.de;
+	bh=cu9QTW0NzTbLWv+TYfpuDtyw7xM6QSSSxcfmJHx/VWw=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+	b=DJE2QcvRjbe+lwmdkIss+tg/FM7NOTECuO+oWiABGJYoq1IABV3I9f+yS80/CMRd
+	 vIjcMH+m9qNzEtn8u7DYYFTRYdh8/C8Dp0/nkmmLk/a5+ojcWpjMSVq1w8WXmrp+E
+	 4gUtX906gdsdu2mE/UbJNIEmqZyk+Ta+05l1OGtBfl8gTx5RxK4h6RQZlAXvTdWZU
+	 r3ikS1iV9JROvqkd+Bg4IqvNmiydqmYPy9Pg96ZpR1y1KrygTNtKHNLfwNl/xY2yt
+	 2/QtzGd9FBPOGxJtS5u3+6x8TCZ8U4TW+glO+FZIEKgXka0QQWA6TN2eq8tlKiuDC
+	 RmFQQuSOwgsYYqp9Pw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from n5219w05.fritz.box ([109.250.53.83]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MuDc7-1snKSO2hTh-00uWZD; Fri, 05
+ Apr 2024 16:09:41 +0200
+From: Marc Dietrich <marvin24@gmx.de>
+To: linux-staging@lists.linux.dev
+Cc: linux-tegra@vger.kernel.org,
+	gregkh@linuxfoundation.org,
+	Marc Dietrich <marvin24@gmx.de>
+Subject: [PATCH 0/4] Improve robustnes during initialization
+Date: Fri,  5 Apr 2024 16:09:02 +0200
+Message-ID: <20240405140906.77831-1-marvin24@gmx.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f0cb08d3-00a5-4ed1-adf1-05f40875c510@web.de>
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:v2M304d1rqh4Fri2ypPmG1ioswYo3lFyifmrfvN2H/yv6vB1s29
+ Z5bJmAabM4sOe94ifybNwqXxwSIr+PvN+EW28YWPKU84xp44wg8KU/UZCZk9LCnGefHpU06
+ E6K+rZq4f53Ap1CYWs6Src2JB3syXJOzmVkPvNN1PQYmqQ7dzaSQsiyXdqN/UIcFIfgVVSD
+ G6ZopTgKE8ApDFD9qrmDA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:uoWwnj3grQo=;TDW4QMmSFkKedsw3bW+JefLKcvh
+ F2/vo6fGsbt/Ywf5LThxYB2KFEAISek9na8obwt5i3CcFYNq3NJMzaBDqBRpufrey3/1xevIw
+ m+tIkEQ61rD/I0V6CdPL1LVNjkEqI7Sk/wgBLzlLSMIJQOQsoougFgwVnls8zXj/ulgPedzXH
+ ohvZzBjwPR0bw4v7V74l9GPvxV+KZZtSWZBcocHPM5ERyKiVLoT2LS3qWIBnJv/8KPDjHm1Hf
+ BgDksq1DpIqz9oIjXYTSZA9PQ6V0z7UgCeZJ7jjGIGOEYMJJa42JcdAbmVwJodRBdLZe5n9ba
+ 4vMjya2vwndWaSPWI4NlwmknSKpWybWBtmWIwLc3NTS9Wpzy7vlzRGf6A8t12csz9FbsKD5Ep
+ s9MdEuB7+8L/59mk6vTRYS/y4zbJy1x2y9cBoLGZLWreGgSSStNQvayWa6oWRq+hCLfw8wWqB
+ ulzCeWZZLV1rI6SAwKe33BoFn/cAeCwywANvt8sSdrk0Bikp2hqyY4PQvYpQtyzi2bB5CdBLF
+ i/kpK3lDeEsZh40itFmrZdyEiQzTJBmK5dgdYXUIMEDvccMarmUxJJWTaSdtnSbPQ7ZQ97EpX
+ MfJECigr3t3eq1yiWjd34y+uJS3hPpEY2niGKHQmu+FTEZc3XR+7IBzS8YFKVNdWygdtoroNo
+ bhBctiRr3d52z8f3VwygsaKrFJWu6BWXW+X9d1nSqLVXTFeyv+aALUVEXSm1k/FWupNkRbwxJ
+ KpGwEatmPHVdfgmnTTgchWPWDsgAaREvo8EPEcUNcoNlnt6oL2vBgt21zLPK/lm4kpL0YBFxk
+ 9luJmRAmUiareDbI//51QQjuMZc6wI5I98HMLiiEysL5M=
 
-On Fri, Apr 05, 2024 at 12:42:38PM +0200, Markus Elfring wrote:
-> I suggest to use the summary phrase “Call debugfs_remove() in case of
-> driver registration failure in pi433_init()” instead.
-> 
-> 
-> > debugfs resources were never cleaned in case of failure to register driver.
-> 
-> How do you think about to use a change description like the following?
-> 
->    Debugfs resources were not released after a call of
->    the function “spi_register_driver” failed.
->    Thus fix the exception handling accordingly.
-> 
-> 
-> Regards,
-> Markus
-> 
+This series against 6.9-rc2 improves robustnes of the keyboard and
+touchpad initialization with the goal to eliminate the ugly delay
+it the i2c client controller ISR.
 
-Hi,
+Marc Dietrich (4):
+  staging: nvec: make keyboard init synchronous
+  staging: nvec: make touchpad init synchronous
+  staging: nvec: make i2c controller register writes robust
+  staging: nvec: update TODO
 
-This is the semi-friendly patch-bot of Greg Kroah-Hartman.
+ drivers/staging/nvec/TODO       |  1 -
+ drivers/staging/nvec/nvec.c     | 39 +++++++++++++++++++--------------
+ drivers/staging/nvec/nvec_kbd.c | 14 ++++++++----
+ drivers/staging/nvec/nvec_ps2.c | 31 +++++++++++++++++---------
+ 4 files changed, 53 insertions(+), 32 deletions(-)
 
-Markus, you seem to have sent a nonsensical or otherwise pointless
-review comment to a patch submission on a Linux kernel developer mailing
-list.  I strongly suggest that you not do this anymore.  Please do not
-bother developers who are actively working to produce patches and
-features with comments that, in the end, are a waste of time.
+=2D-
+2.43.0
 
-Patch submitter, please ignore Markus's suggestion; you do not need to
-follow it at all.  The person/bot/AI that sent it is being ignored by
-almost all Linux kernel maintainers for having a persistent pattern of
-behavior of producing distracting and pointless commentary, and
-inability to adapt to feedback.  Please feel free to also ignore emails
-from them.
-
-thanks,
-
-greg k-h's patch email bot
