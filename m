@@ -1,59 +1,38 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.web.de (mout.web.de [212.227.15.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7697F225D6
-	for <linux-staging@lists.linux.dev>; Fri,  5 Apr 2024 07:48:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9CA327447;
+	Fri,  5 Apr 2024 10:06:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712303284; cv=none; b=XiyXaiMiX85IEwl+gThipfwHLuEY9GGPxC9doYWgz1y4INFmXWSHUu4B1O/RGjyRPBgxnlPbwP29RkobBqvFZ8dZmaiMpoetVssuri8Ww4L4vuieNN87ZbGFlSneF4m6S452wAAk4439GxjObgDQHdZPdXiqwqtsx0M045tQuGQ=
+	t=1712311591; cv=none; b=VrOV1DfPDUWCa7OJsj3xaoDLgxlpRioErPlpbbB2LipqExT1P0PXnCGbQaakXShkNR/sxKmXq+WF591O9V0UjljSggNXzeZhx+nYRhQpPKJ0wh8IHXgJHqOWao4/ed1Z0xVJDkQ5qoTWE/TAxR8VViNCxoWKK5YVDtRaC3vq9wQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712303284; c=relaxed/simple;
-	bh=gOG1yICSBmPjhUbFo9boDY9KzUjbnwLfl9fXH6ZAGzs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=O+pQKqOpUIGqIJn0zhOxGX8CqndFxQfJhmiSRbyksLM9JJM8YWUecSyYGNj1/DnEtaw6r/ZB2pui0v603xxmTD1Ycp/4HcNOZ9p0HslSC3gu/BjhAu2jbR66vFCfspKH2BR+brJV3y6/egx7iaBKcs+CisX1sWnr6DOo3YrXAKQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ElBO6tSx; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1712311591; c=relaxed/simple;
+	bh=46/M8frtVI1xwHwJDfzOWBILidy1qF/nbknjFjniG0Y=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=I65StV5mdgcdNDrhriClKl9q4OrC2wlJNDsTnwiqTed+GXtEC+5YNHXCeTSYm3rt9yj375ai/0dYwy9zEwOIPqQdTOFBn+fgeIuenQb04lYAQiBFWOs3YucYd1vQLoC8yGifj7Cyp2z2FJJrzBhBkrYY0W+GvV5TIR7R5ZZvl3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=IxP8PvBs; arc=none smtp.client-ip=212.227.15.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ElBO6tSx"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-33ddd1624beso1026914f8f.1
-        for <linux-staging@lists.linux.dev>; Fri, 05 Apr 2024 00:48:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712303281; x=1712908081; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=mjYtOFS/YUqjywKLI686Ne/5YotV1Em6o9D2DdIDwZQ=;
-        b=ElBO6tSxDmn63uveipP3kuXLYB/9VLqpUcC2QX3s149iqrQdr5siv+XmIcXi/jJkW1
-         S3ngXMMHV58PUep327jIAvmSJN9jwrmV4V1MniV9AEFh1Vj/ivE9tRskK3OjRNN1zdrZ
-         +mwxBCp34/9Go171wFaDD1TlE8nYnHm1MnLhlMnd19o9dPlfgnY1EO6kWEX1A4hLUykM
-         6ujf1O31BuOsuv2ZpjqkYb83jmKOyeMmECAC/mEShYDHij8h1QdjPxWrL2cgksDLTtlx
-         YW9jx7PDn1HTyAzGNPxfBKZsgZCLpMF7sL+4ZwcpSEP+2bpfvsJeAq8znAWE6e9736KU
-         dLQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712303281; x=1712908081;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mjYtOFS/YUqjywKLI686Ne/5YotV1Em6o9D2DdIDwZQ=;
-        b=KOQQrsdYIjXJpbTiKwc+g2iyDAwq0m7thjgohbN/DdiTrSN3D9gNGRhYrFIrzHUP7r
-         c+TQ0M7P8ayjMMywY1aAb8LiXh1XsVf07NgsWvtmMcVMmxV1qfR9tQYfas6gszqAGkT5
-         NZDUcehMr5CZbIiLjiQed2TxOexBDYsHB4st+rEVluBkMOoDvINKOTLlBm9A0Zgj54bp
-         Ch+jAfdQIaZhyy9rDvzsU4tnIxvdk7/seA4uMVrqoyW8F18suQ8ePgEIXG+IdWFZJyyY
-         qS+ri18UnrKPh3hlLh89Uk7LbeS8vlleqaD0qLDw+ibXDCaz0r9DgubCBaHxZwRpyXkf
-         Wflg==
-X-Forwarded-Encrypted: i=1; AJvYcCVt+CEN/O1RqZjGzM/M1ex0dUitEJSm069AAkAbIskB49FWhCzO8SDmcGXM2BOlN5vi1B/uQlqZrpWaLFZqZ05C/k179uKXrB7fwLJ/ZQ==
-X-Gm-Message-State: AOJu0Yz0Ifp/g5e6pn32Ji1HZ2R+RVKshah5LwwSH9lPA6N4WH4kG4d/
-	a4tca/uf69auTqo0rEtpAvNJhWY4ltpcSg1FWvXnWbkdtfk0Shd8
-X-Google-Smtp-Source: AGHT+IH6cPLZwgitk6VaqGQan35d4fZJ0GiH/3NOfsbxR5dOYAmgRvrukm3gTBuMwCEhG962fGyqjA==
-X-Received: by 2002:adf:f04a:0:b0:343:eb7d:bfb with SMTP id t10-20020adff04a000000b00343eb7d0bfbmr695346wro.27.1712303280839;
-        Fri, 05 Apr 2024 00:48:00 -0700 (PDT)
-Received: from ?IPV6:2a06:c701:737b:ef00:2bdf:f41a:ebd1:fb2c? ([2a06:c701:737b:ef00:2bdf:f41a:ebd1:fb2c])
-        by smtp.gmail.com with ESMTPSA id p5-20020adfce05000000b00343e760c637sm878397wrn.84.2024.04.05.00.47.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 Apr 2024 00:48:00 -0700 (PDT)
-Message-ID: <b03d3689-9519-4b2a-a9bf-3fe278356e67@gmail.com>
-Date: Fri, 5 Apr 2024 10:47:58 +0300
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="IxP8PvBs"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1712311570; x=1712916370; i=markus.elfring@web.de;
+	bh=h1rD7cl36D2n8I8nOEC0tJ1ZmmxTzOTFUREe8MP1MAI=;
+	h=X-UI-Sender-Class:Date:To:Cc:References:Subject:From:
+	 In-Reply-To;
+	b=IxP8PvBsbBgI06W49RzUSQBvZz6BCq3PFnpRVr/ZpiFKbUMPG2UB3AtDHpkN84U+
+	 lT2K2HCZIswoF7yj0G0WE/4+yM03xYmvhfvywElv5UJEsgo2Ma08KexaUyPV5Vopq
+	 596Br/ZBhBLA8drDiizBzHtnFT6JxVd3NzW1Igh8OwUFw5TGkG6+ZN28EdXTLFilk
+	 rpuGxpOjfkT+IpMbnLy3Pkk5OuuLB9eBZdgfeEJ5RB+ZC/D11D/Ou9A5BUnTLgtH0
+	 s8ssHbY3ADf6l6wcr6Ad5Jc80L8ue+aqO4pJ4TAekuXq1JPhFbWAJBikPEvE1nZG9
+	 3CcfR/cYv4/prJWrhQ==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.90.95]) by smtp.web.de (mrweb005
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MKdHE-1s6txd3UOS-00Ubi9; Fri, 05
+ Apr 2024 12:06:09 +0200
+Message-ID: <12a5180c-fbac-41dc-b1bf-9eded9d8c5ed@web.de>
+Date: Fri, 5 Apr 2024 12:05:56 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -61,36 +40,63 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 6/6] staging: pi433: Rename return value from "status"
- to "ret".
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
- andriy.shevchenko@linux.intel.com, robh@kernel.org, felixkimbu1@gmail.com,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20240402111414.871089-1-ikobh7@gmail.com>
- <20240402111414.871089-7-ikobh7@gmail.com>
- <1f1572b9-9b0f-45b4-94ec-7f79467a7205@moroto.mountain>
-Content-Language: en-US
-From: Shahar Avidar <ikobh7@gmail.com>
-In-Reply-To: <1f1572b9-9b0f-45b4-94ec-7f79467a7205@moroto.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: Shahar Avidar <ikobh7@gmail.com>, linux-staging@lists.linux.dev,
+ kernel-janitors@vger.kernel.org,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ "Felix N. Kimbu" <felixkimbu1@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Rob Herring <robh@kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ Dan Carpenter <dan.carpenter@linaro.org>
+References: <20240405074000.3481217-6-ikobh7@gmail.com>
+Subject: Re: [PATCH v3 5/7] staging: pi433: Remove duplicated code using the
+ "goto" error recovery scheme.
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20240405074000.3481217-6-ikobh7@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:mhQpAhLFo7ec/e+NSRI//PqcCKVx4mChnrxS6HgTJKN0F9eJODN
+ G18UTr3jFVbFS535x0kRrC5Awju3Fb7FQ92s/mBaG0mf5PQqG4RqxsUiadSxY9v/37CJQlW
+ X/hJhWIZc44ruv9F+DgP29MYONiq7YK11IdqjEn2PMe5nqZ1gE2QtkCdgAIwPrT9mZ7PkYG
+ usLzoDhNnMUOr835xL+bA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:4QjQawHPQ3k=;1+SIoM3nxoQyGRfDtsKMlr3BPbY
+ sdbnZGu6YO8wbYi7c8JOY+023ecEHxj6USL226LwddImTF4Y3ZRIDL21VzzUNJzTkXoj9Jola
+ KJuvXL9NU3RAt9khWJBLEz4zbFlBZRFEctFR48ihhFvb1A/SeHNJDXMHqTZZ0zOla2AB58IeF
+ cnNoUkmRk/tuRv+r9u89DNXhL/wX8HSmLvj3x8IFDlT2aZOUWJn51FnK3tja/Lb9KId0QIU4U
+ ug13HJdwEMqv3IfHLf/QNFjdsTDxti0foXDAwFdOO3PYKMyuO52Vbc2ded8ZKGXRs6fyVAUud
+ Dk6c+eFzTX0wYE28V+spJDjy+XPWnsCuROE1NZj5oxvQ6OG25zxDDXL+VuHxdRaGRMnX4G+VI
+ RmFasWpvZ1zISIdmbmwTsNCILH4fVPvJf7a9ysDk2PljsWPMVdh1r82QsIz7GAoBRQM6ksoFm
+ BR3cd+CkDUnXN5pslGn9BXiWQkIt8mwHU2vKtgshzIjJVkhsEsGSGb83e6tbPuRTfAjW+gxdk
+ 6DLA8D6SFvnTIa/UpaWRMalvbvvPoo0iXqScdvHx+9tVZXMK6B6CeLx0CkYs8/mxT/tL6s3B3
+ e03KDak7pRwe1BsOmh0RnewcUWdfiVwcqmK3bSdJkAzBJoPyL5tMauBMezomezVIbnr/66oJe
+ tk/E12ppxp94FdEBLmvGeBUyhDq+x98VD+jWjgwW+FniFMuu1sIIPBVaf0ptavuFMafGTDe1q
+ OROECt+eoy3ivkVtxind6TOYLH3yx+kf8dlzo50XkTOAXkeZByOei8Y9N+W6qSDrOVwjSzA1q
+ xs8WAb+Axc/tetLGUkn7TqGY4wJpKFf3Js0F1JxBsaZvs=
 
-On 02/04/2024 19:50, Dan Carpenter wrote:
-> On Tue, Apr 02, 2024 at 02:14:14PM +0300, Shahar Avidar wrote:
->> Drivers init functions usually use either "ret" or "rc" naming their
->> return variable.
->>
-> 
-> status is also fine.  Just leave this as-is probably.
-> 
-Patch dropped.
+I suggest to use the summary phrase =E2=80=9CUse common error handling cod=
+e
+in pi433_init()=E2=80=9D instead.
 
-> regards,
-> dan carpenter
-> 
--- 
+
+> pi433_init had "unregister_chrdev" called twice.
+> Remove it using goto statements.
+
+How do you think about to use the following change description?
+
+   unregister_chrdev() was called in two if branches.
+   Thus add jump targets so that a bit of exception handling can be better
+   reused at the end of this function implementation.
+
+
+=E2=80=A6
+v2->v3:
+=E2=80=A6
+          a seperate patch.
+=E2=80=A6
+
+Would you like to avoid a typo here?
+
 Regards,
-
-Shahar
-
+Markus
