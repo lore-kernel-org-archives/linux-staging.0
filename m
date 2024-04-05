@@ -1,82 +1,94 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.web.de (mout.web.de [212.227.15.3])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3378028E34
-	for <linux-staging@lists.linux.dev>; Fri,  5 Apr 2024 10:34:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 086936CDB7;
+	Fri,  5 Apr 2024 10:42:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712313278; cv=none; b=M7RKp5OUFQU0csHGZz/ynBwgvLBY1xHclkBBctPX3zObqG0tmHEYQl1UoeFh6QAYUDQfFZCadgqFM7rYU5mvWRF97vMiRu81nAhQ3byCVRXrEjWpsQDDCmkm0KQnSbLO37R0io88jpvpz4ut8VYng5RAr0WxEApLR872LFIvxw8=
+	t=1712313781; cv=none; b=Kphkzt1ONV3viX7mE+nc779l3TSteQlJ/Czh0O2V+92dCujYKDSoR5DgympWETbuFUrIohlAjZYf5Gqr+BlJCDudD+jTa8u8oAoG/35lvz16GcMMFrexMEKU72s/KIKA+ah+U0S1IRTwWMLYWxq6xzCacLoYFE1NBG0rBwfj4H8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712313278; c=relaxed/simple;
-	bh=1U926oL0MDod9834V/+y8z2gIy7U+dCjf8CDW1Dhy+k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pFw33kj43fam3lCe1+Cf/Eas8D2qmLjAXwjQFB3448qZwvp1uE1iUDkwpICQaALDzgnOOnNxKe1TEE19YIpn9YuB+BNbo4s9TO4mQ5bK8WV8AD7OW0rFy3seS3+HP+mECuHLxN0I9hzxagGuxoDfW0NYpnhH2ajJUPpbniaOwpw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vED5nZEA; arc=none smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1712313781; c=relaxed/simple;
+	bh=lKVWj+/AvXPW1519XJYd+uB6uFezQ3USO+uYicvUnac=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=GbOkGbzb4VDTGCIXUcZApweAIlJX9SDti9KwARLWl5AvvRiVse+9sz6KCgYmveANYhm2+rGaAcPUWxzSCLBmcENgMsJSUo1X3mAJuEWFggrL8yj92zoyxvAGzlD3Al4dsogG645+8aWKj2o6FRTHybVlg0bUlGe99xN60BaZfrg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=bLFZiVd1; arc=none smtp.client-ip=212.227.15.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vED5nZEA"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-56e2ac1c16aso1186676a12.0
-        for <linux-staging@lists.linux.dev>; Fri, 05 Apr 2024 03:34:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1712313275; x=1712918075; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1U926oL0MDod9834V/+y8z2gIy7U+dCjf8CDW1Dhy+k=;
-        b=vED5nZEACQ86e16b41/4sVPVndK6p6UBwTPulYlDwbVtoyJ9q/mIbadMHaNfy4mf+d
-         054Idft7xvKRlAbFtkBQsBLyeLY7ia0xrLck8vZQmbIfcZZcXYrdrkzrCz3MoKfPozJI
-         jvnFZMC0Gp+nX1bXmp9TKoyk4wdWzRRdytlBQaws5beaS3FR9qKrc+C41Vwz9o/4Xg7h
-         j6iILefH8vhXD+Ub+HADqCkZHHYtVS1pBDP5lEB7a2qPUJ15Bvrvbk/bPzqIWiKSiKhV
-         mvb/0KBr+aXjQ+v0J3qGEzzFyV63qs67lrdCHjLNFE/mK115T/0LEeFI+E8TvLpalprv
-         RtgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712313275; x=1712918075;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1U926oL0MDod9834V/+y8z2gIy7U+dCjf8CDW1Dhy+k=;
-        b=ddelK1EmRyq3cv+0ZKDFjyw6dULMia6EyCcF/djSwgBr7LW4jhz3asKEXWH8BT5Nxo
-         606b0nAXSCZjRlR/mUXo5SzymWF41mNyQofBQOuxfYTlS0wUZhuMnNCQB+naQUCvUs0o
-         TZoQQM+OfIDHLoW2Kpx7rXDfJc7OhrNpO+VL49VvLy/TrEwfsGJ7wBKFlXHPtZnO42vL
-         q5YOfeO7bxV1ssZnw9Y7QsATBbAEAWhNEjVLEaQf1fOEuPL67OvPeTT0cC1/IaPv14Mh
-         q5yJTMFz9ehgyV92bEHybXmupzdF26wN3ZaKMYq3RezkLGE6+PhbyJjkgLLRMLIKy7p1
-         Q6mg==
-X-Forwarded-Encrypted: i=1; AJvYcCUpVIhAzoPmXUxXyN71vZnKWkadJxcIpwPHJXEVVZu4nzZD86wHF1Wq7URRw3R10S05VisDAXrGo2Fmb6NmWr46ak5NP82QVMtNGgE1zA==
-X-Gm-Message-State: AOJu0Yw1BNRSbYkV4orKPxAIGtnzgk3aWAmpjLTj+jcZ4d/c44fqPhTK
-	FeMaXfZcOoRZwOMUuI9qqqRmBzl/qxd+d0JsgYZImbk5RPsOjI3FDLKJGHUGDpg7+PsxziCWhph
-	+
-X-Google-Smtp-Source: AGHT+IGRtQuOF6VxMAza2Cyl1XCPnfmisCkY/idqQHtJmUn1wqBML60U9vGFXtOnfI/sNbHots1E5A==
-X-Received: by 2002:a17:906:b849:b0:a51:9f3f:3042 with SMTP id ga9-20020a170906b84900b00a519f3f3042mr630592ejb.1.1712313275194;
-        Fri, 05 Apr 2024 03:34:35 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id p25-20020a170906b21900b00a46c39e6a47sm677153ejz.148.2024.04.05.03.34.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Apr 2024 03:34:34 -0700 (PDT)
-Date: Fri, 5 Apr 2024 13:34:31 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Shahar Avidar <ikobh7@gmail.com>
-Cc: gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
-	andriy.shevchenko@linux.intel.com, robh@kernel.org,
-	felixkimbu1@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/7] staging: pi433: Cleanup & fix potential resource
- leak.
-Message-ID: <a8dda2a2-0dc7-4f44-862c-f282c1856af4@moroto.mountain>
-References: <20240405074000.3481217-1-ikobh7@gmail.com>
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="bLFZiVd1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1712313760; x=1712918560; i=markus.elfring@web.de;
+	bh=zNWYX40W1sR7cyro409DdtaBN6sNKplV4C4Ty1gAp/k=;
+	h=X-UI-Sender-Class:Date:To:Cc:References:Subject:From:
+	 In-Reply-To;
+	b=bLFZiVd1AOHzG/gWAc8J6Aq8NfgSXVkf7g+tLHQskkS9GHJkP/eoN+JTJusBpHhq
+	 Zl/aihewYdoxum5wtyGINUTjtmkOoW1lVrIBd2qFfOXUfnhwQkR/+KOB2e8VSyiXo
+	 Sp16pVZOn8/JzrU9SSmVUZkrtylNhOBCamasFy4MQLi4SxqHEH49faR/4g+XMyEfK
+	 D+s4bcQxLzHuXdrdgsYdEqd5N0ZH6WMWDsnvO1X/95k54saRr/6hHjHnOY69M1gKp
+	 YMjRtA3mEQTjXAVdxks6bw7wV8uZkXQ8FxNaWY3EV8xXEnVSgqszklfsUv2a7KDX3
+	 vfh/xQTOlDYztnFtAg==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.90.95]) by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1M9Zdw-1rvyI03cIu-005Z9d; Fri, 05
+ Apr 2024 12:42:40 +0200
+Message-ID: <f0cb08d3-00a5-4ed1-adf1-05f40875c510@web.de>
+Date: Fri, 5 Apr 2024 12:42:38 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240405074000.3481217-1-ikobh7@gmail.com>
+User-Agent: Mozilla Thunderbird
+To: Shahar Avidar <ikobh7@gmail.com>, linux-staging@lists.linux.dev,
+ kernel-janitors@vger.kernel.org,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ "Felix N. Kimbu" <felixkimbu1@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Rob Herring <robh@kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ Dan Carpenter <dan.carpenter@linaro.org>
+References: <20240405074000.3481217-7-ikobh7@gmail.com>
+Subject: Re: [PATCH v3 6/7] staging: pi433: Add debugfs_remove in case of
+ driver register fails.
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20240405074000.3481217-7-ikobh7@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:KQ/UTNT/usHK+HdybQjkUZDB2pvRZtNWt4AL66Ao63VqK2WxhE5
+ RfxiFoIkS5tcsTfLKQQ3IQfDO6MovFbQtaU1YJJtBz1Bv09twP+Kaq4fmUdICSD2adkSd6I
+ zHH50Z2xKyzpa40h1Jj+nbA5y4f5J270rLXy9jVeFAs9K2bTiSMYQTJ/9rhC7cqu/m1lBAa
+ JzFNwSufVJ1FQkWKM+pEw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:sHoSA0adK7U=;BmEev2IrjKj4JG7kD3JEGVdUydM
+ v7PvTR4wFJlwfSIwjIVZLAGnTd5SXewMjTxXRTFvpwMQJDIHygFahK8quWhIc7l8LImIBKxq3
+ J2VyPDOXsStOGLcPfIRJN5tZjlVEbxBzUKBHGDpy06Is5fUrkvrheoWXET5U8XR8VY1oZj4Jh
+ 55TfsGXcuJGq5NzxmkHQ8E2495Z1/CuMPASm9Ff078ZqO2rKyKQIL6CvJdjNwzH8U9OSxOo+A
+ xYCGHu5U/morsY1gqVsaCjCaoftyddEfr2M3/LX5fvS6ooDgXjIZisnqBuEQ02aZDmhdHti4X
+ 2PfjkuohfRK9ch4D8DtkthAPhXnO4MDeU88f4oPMsAkX+EID0w8XaJEyYk4aOboku8dRnjltI
+ wFQXYEyLqH4ZXpOeME29aSJbbrZHvzSvDfp0VBOleXqoJLB+3EqFlpVbLuT6MtugTF6YSZD+W
+ IxCxRf402jWu6fbuAETipbbKXugrtxgx5Re3jAQL4OccLXLg0QRrGUpI2BpbOVd8fUjuyVPkb
+ p43VkE5f31ThKxgDQM1bQJV74c184SHCsAVnxGMABvt+gs6+zItM9Jh4dgUo2pMFPDV02L80P
+ S8AyboP7uxCbeiwyKqyACTIOVDv35T9QY066xjEWBIp/PWGcNjmi3E71nF/xmxOE2vPfAaDy1
+ 9k6xGnMWc8vLZg5JuElv7sle5jz4DrXQaX6IbNMSmdj23X6qhsQYWdLx89qT+fGiFOVAG9WnO
+ RRywZ7yRpRlsijuedh3zzIE5L9pc7rQDrKaV5szNV0ZnaHFMaDTp4EPkyFsmMrgTDzXkXVq0m
+ i6KygoM1yRuFsS7sWKbL+LMAqtjNlu3Ll8fXvqDk/tgM8=
 
-Thanks!
+I suggest to use the summary phrase =E2=80=9CCall debugfs_remove() in case=
+ of
+driver registration failure in pi433_init()=E2=80=9D instead.
 
-Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
 
-regards,
-dan carpenter
+> debugfs resources were never cleaned in case of failure to register driv=
+er.
 
+How do you think about to use a change description like the following?
+
+   Debugfs resources were not released after a call of
+   the function =E2=80=9Cspi_register_driver=E2=80=9D failed.
+   Thus fix the exception handling accordingly.
+
+
+Regards,
+Markus
