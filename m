@@ -1,143 +1,142 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 696B220314
-	for <linux-staging@lists.linux.dev>; Sat,  6 Apr 2024 09:09:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 192651EB48;
+	Sat,  6 Apr 2024 12:24:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712394553; cv=none; b=Im7faGFgKsO8GdoXRyjK1f4cXqsuSUaEPoV+vhEv7CFumLF+2vNiTbwTv0XIPTxPbO4RETRvQfSWr/iRC9ZAcPluwYClSNBA5lyL1bRwJe+WCxIyJMujkWxqjrzJ+y6xO5dVJpct1L8B25GWZKNGRg3jyjEIMBUZ8Op9TN/afRw=
+	t=1712406284; cv=none; b=Ye8xHcs3ucUzQkLmple3zgbGl3+fjETZ9pRDFCDTitjjR/srrvQBAUaAVzAouLMwePTI0p1Hlv949jPbDBstTQ8HA89r/+KE4wnaSIt38C6OHQAqoYQfWjbxovWZv9n0oDZQH636c1o1eZxqAmbCCag+IVl+dkNLKJX2AgRxMkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712394553; c=relaxed/simple;
-	bh=MGHIGmfwFNSNcn0c/t4VWCQduJ8fZ/WlM/mf+rzhQII=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JFQSVrg6VNSVGC+j5OerYeSOiSUiW3Q8bzD7Vq3BflbeOS4NWbmK2c6CllDjjH5r9jYPUZwdIwQKmiRPzRJdMlM4behjyvK5MDqlvwZwpFvzd2PunHH9r02dcOd07cTtvg1AEEWJq3nOJp0ryugYYCCerrqKPntmpPidA8aVofQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KNh6TbYK; arc=none smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1712406284; c=relaxed/simple;
+	bh=pkOs4L/x4lh8NcATG1NWQz3iOjxKSWMjcjHORdDqG+c=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=elf/R3FFN4zK2iATO/zjThTl5Aef0wHHn4OezzWXiU3JHd74JqNvOvWmf+lTMHUgWAa3V80elrwy9F9NcZUrXGOEAlsCfFBkErPbUIMw3np8srl86m5413x29b68uSK5GUquhtY79Hlc3zwbTvoLYUq69y8djF3HI+CxxxidZYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=marvin24@gmx.de header.b=UkDuCJ9Y; arc=none smtp.client-ip=212.227.15.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KNh6TbYK"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a51b008b3aeso97047966b.3
-        for <linux-staging@lists.linux.dev>; Sat, 06 Apr 2024 02:09:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1712394550; x=1712999350; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Jsux2xNdM5INUuabTGtcNgAbopGLxo1c/2XpNOGaEWM=;
-        b=KNh6TbYKwfK0BGHrE+u/sOrpS86rsBzvNvq0X7LIaE24ALPQ3HWYO+cdEuL+vOF6hq
-         HBwnSlp9qc42RFgMVofHFonkaes9TfPLvBA/hakGMAqWVxGmsZJ8ujqWY2mBck4wCQ27
-         h+l5/+P5HkODpHvBqso7lBVVkIqehJuh0LX+jP7Rkurk3gObz09Os4wVnp6LMPwu3nPg
-         IicqUUDC/kJ4hgFffrGeqlWMMIFt7gZsfHWhf/zpBJFWpui0e6URB3C/5tB6BtXyU3tb
-         1HbOMSZxT7KWgLDwl/mnJKLKkIxiHWjnIQ/0QQz0iQxplvg9dlNvXS09JziRGWB/lDcG
-         Tipg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712394550; x=1712999350;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Jsux2xNdM5INUuabTGtcNgAbopGLxo1c/2XpNOGaEWM=;
-        b=bA8Bq5pz0ah580NXbC4A/ohcNIxoepmknHYXIAG0AsTpuNOkdChj5F6ze0WGhGmXbf
-         o2+pQ5ze3Ks9iJWGmDpTjEnwhpQcsD5cmft1mHQ+IK8YE5Jr8RQuM4CP8e1qvZCSTF4t
-         64KnH+sSFbCTms/k0+NjTmpAr+SJ/E5nhG3ml0xYDxj6D+PYDy7zGLaWG7E4pok+EfU6
-         zF2IG+/lxIeb3LI9rMh6DxAlcVacJe4fr5X1fOsBGfEel1img2jsH+Yc8jza8ZONALLD
-         IGCvfFQ5ybYH/0GKgmnR8anNza1PhdGeSqCL+P7/362+b9u4sVKUWuN0Dq+Dldx8Chl0
-         8NKA==
-X-Forwarded-Encrypted: i=1; AJvYcCU3jH2SDHzIlGUMx3OrrPO50LeDLwmTkMNjouu3NHOe6kBV1AEjzrAIKBrx7eXcz/L1rAGewObKO21wWz0kbyDA2tKFCtRRPTQczzmY5w==
-X-Gm-Message-State: AOJu0YzkrluIWqzxI78/C3pECj08EAGF8foS4+wHnFNs2yFFk7r19moe
-	KeAy3lCawrzib6p1ZQC/oYJhdrjtAJrduORPTrMUMgJX58qUJPeb78h0T+2tnPM=
-X-Google-Smtp-Source: AGHT+IEePUKy6Exi4dt9+UbvFkTbfuWJlF40HE36cWG7zX6sCHC690fGxSptBYpyD+e0u3AVoM6UgA==
-X-Received: by 2002:a17:906:2e98:b0:a4e:390f:c6ce with SMTP id o24-20020a1709062e9800b00a4e390fc6cemr2533620eji.65.1712394549323;
-        Sat, 06 Apr 2024 02:09:09 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id he8-20020a1709073d8800b00a4e57805d79sm1785409ejc.181.2024.04.06.02.09.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 06 Apr 2024 02:09:08 -0700 (PDT)
-Date: Sat, 6 Apr 2024 12:09:03 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Jackson Chui <jacksonchui.qwerty@gmail.com>
-Cc: Alex Elder <elder@ieee.org>, Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: greybus: Clear up precedence for gcam logging
- macros
-Message-ID: <5eb3afe2-da7b-4f98-aac2-bff529a02cea@moroto.mountain>
-References: <20240404001627.94858-1-jacksonchui.qwerty@gmail.com>
- <658e1f40-d1eb-4ba7-9ba3-0aa05a1ed06e@ieee.org>
- <ZhBrff8qkkmum4wc@jc-ubuntu-dev-korn-1>
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=marvin24@gmx.de header.b="UkDuCJ9Y"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1712406278; x=1713011078; i=marvin24@gmx.de;
+	bh=Kpn7Aw8iYmla6/WD3wCnzSFU0d0PnWN4scgVPeCgN5U=;
+	h=X-UI-Sender-Class:Date:From:To:cc:Subject:In-Reply-To:
+	 References;
+	b=UkDuCJ9YOYDFZFq34ykwkNHh1vZFeUBtuaVScTmZWeoqTjsZjzO06oZpZH+8qGhq
+	 6N2uXfC5fzqe8eqx7qNGrDno/BvzpnZ7Iwi/Ce+SWUdSzydgpn20o3zHElvZ5vYag
+	 oe710H8JhPqT99sZYff+xJA/iinsw0lTgnMm+3Cn7+TeGiitIYgE9TC+US16h+uS+
+	 wRQU63Rpq8KPTfTP8FdSG0NG3c1CDCRdCYfHiYGTsUaAVNonMPMjP4w+Bu/sKwzXa
+	 ZyZp/VqAVZgaym4koAYGPLs3vXWuwbyyx7Pii5y9NzKUK8wYU/Y0JqrbzfToLYNr0
+	 MM9tPYQQ3BzrUvaMrg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from n5219w05.fritz.box ([109.250.53.83]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MVN6j-1sKsj32hFf-00SOl1; Sat, 06
+ Apr 2024 14:24:38 +0200
+Date: Sat, 6 Apr 2024 14:24:38 +0200 (CEST)
+From: Marc Dietrich <marvin24@gmx.de>
+To: Thierry Reding <thierry.reding@gmail.com>
+cc: Marc Dietrich <marvin24@gmx.de>, linux-staging@lists.linux.dev, 
+    linux-tegra@vger.kernel.org, gregkh@linuxfoundation.org
+Subject: Re: [PATCH 2/4] staging: nvec: make touchpad init synchronous
+In-Reply-To: <D0C9MKZ155E9.GRG2F9N6JHBU@gmail.com>
+Message-ID: <15303df3-2be6-283e-c5ae-9ba8c1c222f3@gmx.de>
+References: <20240405140906.77831-1-marvin24@gmx.de> <20240405140906.77831-3-marvin24@gmx.de> <D0C9MKZ155E9.GRG2F9N6JHBU@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZhBrff8qkkmum4wc@jc-ubuntu-dev-korn-1>
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Provags-ID: V03:K1:h4ZTicB/16Wjp8Rk8T+Grm6pY/E5OtVbPXCEmHQlbiVnz760Ld+
+ w9/j0bJw8n0wFu92niLxod+Ei0dUaUWtEAGeaPwxczqz+cQMjUPFxA62OyzyMguTgwOSNGS
+ 7pEwDVZQE2NQwDJBy+YxloIlumDPBWZ5VD/k4J8UycyKzvQHzO2l4w39MibFQ/VDBLnPlCY
+ g5NH9A2fKK36CN5YmGaHw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:JrqMMaOs0j4=;gzR7kLO0rVZcg7QIaE5ySQG0TT9
+ fxwXnJPeQ2WMbWlPF2m8mgrxjP9i5el1lt3sUuvrLDUQkQ26GZAaNHR79RB0uF47DDNZo1nAl
+ 2Ashp3pVenFKr7YXUQzju1J9pjX5GMCTtyXOgWfSJjfbknm1Z7rqbvnigj8pCD0W6+4q+D1tk
+ bQRXMOyx4XgXrBI5wwnLEJeYZaI4CZ3HcWHgvdujE7oOOOxTyLwI0BBGW3o8TphKTTwKfx4tN
+ zuV6fLVeGDrI1CrW6u7YnyNkeQNpY+SyrdSh9wnJtglH34bCD+t9KYVFcz6UInNYsToIaGtOs
+ ZeHaXxZgfwnkcjxJUgFOgbJyILgg2MxIEQfp31Lw0OuLjnwZ6qo+BFSJBBTQi9MlFdik20Cfc
+ FQUrfmdbAHw9TN7qKH0I325AaSFWFHJCWsh4hJ4nJp28LozyEJ3Bboqe3bYs3uN1j90BOQrSj
+ 6H06lyGAtuZCkErknongMSJJ94wMYUrrAviyJQP1h6uszW2rMr0fzswoW56gGP+yi60T6qfZF
+ HjYJ/jQQLpJrRVePd7vE9vInXgl/7LdFUPzyV6R7HGNlgwDa2RETnh5kXImB+sM9w74KX+2xE
+ oO8OPsLHib0SPehkJKMo2HvaXmp739JqFqX9liAKtGckGYXqFW0q/xA87B/wzpt9lAX2qoxA/
+ BBAqtKqi6L/8oqHQ7CMn4O0V5h2jlciepwTMPwNwO8ms/UD9uVldG+ChxLl9kdo/rxFzL1eJS
+ 8VMdoZaq4LwlsVquJFY1c792/RaVSPKHS76JwrqH6PC3JsGLn+nn4Npmb9KISoW/6OoIfMope
+ Q+8vRNCRr7250N+X1CeJoC4VBsuzNdL/ZQqKTPaodR800=
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 05, 2024 at 02:22:05PM -0700, Jackson Chui wrote:
-> On Thu, Apr 04, 2024 at 05:05:09PM -0500, Alex Elder wrote:
-> > On 4/3/24 7:16 PM, Jackson Chui wrote:
-> > > Reported by checkpatch:
-> > > 
-> > > CHECK: Macro argument 'gcam' may be better as '(gcam)' to avoid
-> > > precedence issues
-> > 
-> > I agree with your argument about the way the macro should be
-> > defined.  But perhaps these gcam_*() functions could just
-> > be eliminated?
-> > 
-> > I see 15 calls to gcam_err(), 1 call to gcam_dbg(), and none
-> > to gcam_info().  It would be a different patch, but maybe
-> > you could do that instead?
-> > 
-> > 					-Alex
-> > 
-> > 
-> > > 
-> > > Disambiguates '&' (address-of) operator and '->' operator precedence,
-> > > accounting for how '(gcam)->bundle->dev' is a 'struct device' and not a
-> > > 'struct device*', which is required by the dev_{dbg,info,err} driver
-> > > model diagnostic macros. Issue found by checkpatch.
-> > > 
-> > > Signed-off-by: Jackson Chui <jacksonchui.qwerty@gmail.com>
-> > > ---
-> > >   drivers/staging/greybus/camera.c | 6 +++---
-> > >   1 file changed, 3 insertions(+), 3 deletions(-)
-> > > 
-> > > diff --git a/drivers/staging/greybus/camera.c b/drivers/staging/greybus/camera.c
-> > > index a8173aa3a995..d82a2d2abdca 100644
-> > > --- a/drivers/staging/greybus/camera.c
-> > > +++ b/drivers/staging/greybus/camera.c
-> > > @@ -180,9 +180,9 @@ static const struct gb_camera_fmt_info *gb_camera_get_format_info(u16 gb_fmt)
-> > >   #define GB_CAMERA_MAX_SETTINGS_SIZE	8192
-> > > -#define gcam_dbg(gcam, format...)	dev_dbg(&gcam->bundle->dev, format)
-> > > -#define gcam_info(gcam, format...)	dev_info(&gcam->bundle->dev, format)
-> > > -#define gcam_err(gcam, format...)	dev_err(&gcam->bundle->dev, format)
-> > > +#define gcam_dbg(gcam, format...)	dev_dbg(&((gcam)->bundle->dev), format)
-> > > +#define gcam_info(gcam, format...)	dev_info(&((gcam)->bundle->dev), format)
-> > > +#define gcam_err(gcam, format...)	dev_err(&((gcam)->bundle->dev), format)
-> > >   static int gb_camera_operation_sync_flags(struct gb_connection *connection,
-> > >   					  int type, unsigned int flags,
-> >
-> 
-> Thanks for the feedback, Alex!
-> 
-> I thought about refactoring it, but I feel it is worth keeping
-> the macro around. It acts as an apdater between callers, who 
-> have 'gcam' and want to log and what the dynamic debug macros 
-> expect. Without it, the code gets pretty ugly.
+Hello Thierry,
 
-Another idea would be to create a function:
+On Fri, 5 Apr 2024, Thierry Reding wrote:
 
-struct device *gcam_dev(struct gb_camera *gcam)
-{
-	return &gcam->bundle->dev;
-}
+> On Fri Apr 5, 2024 at 4:09 PM CEST, Marc Dietrich wrote:
+>> Improve initialization stability by waiting for command completion befo=
+re
+>> sending the next one.
+>>
+>> Signed-off-by: Marc Dietrich <marvin24@gmx.de>
+>> ---
+>>  drivers/staging/nvec/nvec_ps2.c | 31 +++++++++++++++++++++----------
+>>  1 file changed, 21 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/drivers/staging/nvec/nvec_ps2.c b/drivers/staging/nvec/nve=
+c_ps2.c
+>> index cb6d71b8dc83..f34016c4a26b 100644
+>> --- a/drivers/staging/nvec/nvec_ps2.c
+>> +++ b/drivers/staging/nvec/nvec_ps2.c
+>> @@ -60,16 +60,6 @@ static void ps2_stopstreaming(struct serio *ser_dev)
+>>  	nvec_write_async(ps2_dev.nvec, buf, sizeof(buf));
+>>  }
+>>
+>> -static int ps2_sendcommand(struct serio *ser_dev, unsigned char cmd)
+>> -{
+>> -	unsigned char buf[] =3D { NVEC_PS2, SEND_COMMAND, ENABLE_MOUSE, 1 };
+>> -
+>> -	buf[2] =3D cmd & 0xff;
+>> -
+>> -	dev_dbg(&ser_dev->dev, "Sending ps2 cmd %02x\n", cmd);
+>> -	return nvec_write_async(ps2_dev.nvec, buf, sizeof(buf));
+>> -}
+>> -
+>>  static int nvec_ps2_notifier(struct notifier_block *nb,
+>>  			     unsigned long event_type, void *data)
+>>  {
+>> @@ -98,6 +88,27 @@ static int nvec_ps2_notifier(struct notifier_block *=
+nb,
+>>  	return NOTIFY_DONE;
+>>  }
+>>
+>> +static int ps2_sendcommand(struct serio *ser_dev, unsigned char cmd)
+>> +{
+>> +	unsigned char buf[] =3D { NVEC_PS2, SEND_COMMAND, ENABLE_MOUSE, 1 };
+>> +	struct nvec_msg *msg;
+>> +	int ret;
+>> +
+>> +	buf[2] =3D cmd & 0xff;
+>> +
+>> +	dev_dbg(&ser_dev->dev, "Sending ps2 cmd %02x\n", cmd);
+>> +
+>> +	ret =3D nvec_write_sync(ps2_dev.nvec, buf, sizeof(buf), &msg);
+>> +	if (ret < 0)
+>> +		return ret;
+>> +
+>> +	nvec_ps2_notifier(NULL, NVEC_PS2, msg->data);
+>> +
+>> +	nvec_msg_free(ps2_dev.nvec, msg);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>
+> Is there a particular reason why you've moved the function around? It'd
+> probably make the patch a tiny bit smaller if you kept it in the right
+> spot.
 
-	dev_dbg(gcam_dev(gcam), "received metadata ...
+because I'm calling nvec_ps2_notifier, I either need to to move the
+function down or add a forward declaration. I prefered moving down because
+that keeps the code a bit cleaner (with the cost of a slighly bigger
+patch).
 
-(I don't know how to actually compile this code so I haven't tried it).
-
-regards,
-dan carpenter
+Marc
