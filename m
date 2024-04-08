@@ -1,69 +1,65 @@
-Received: from mail-io1-f41.google.com (mail-io1-f41.google.com [209.85.166.41])
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E95137482
-	for <linux-staging@lists.linux.dev>; Mon,  8 Apr 2024 20:38:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28A0A171B0
+	for <linux-staging@lists.linux.dev>; Mon,  8 Apr 2024 22:44:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712608735; cv=none; b=B7aIiRPz9IAvORwwy+sFPfgaPIL9s3gn/GjYWR/AGTPGi6Y93DSJwNw2XOdFXB3qyB2XTIJVJBYwZ12NFlhadBikQzY8rkKZdLBrTLcxXOi16oAMgEddqnC7uuFEoJ3nbJurXRO+id40DZAoQcisuNxUvwioWbFpfsNLmo8ypI0=
+	t=1712616283; cv=none; b=j4r+hVEeKqUdhaYbn7p2N7sv7T7i62q5H2QU2HAHL29DNV0krZCJ05pKNCTEXgFH/8POgOAuuyAQoCfoSITPNpa87PtPo9aBbN0cvMHigCxfYD1X8o5/K3lbApG2nA8dTt+If8xg6mKtKhOcv9CvRp6IZFxmQGfK+wwXA15RfOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712608735; c=relaxed/simple;
-	bh=lEHoPN6gYhfk4UDi8utcR6Ihx3SZ138a1bYEvCHbXMQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NrD/PLMhbuyA4Sn2+hURdNSpyo1jL7bK++FxJk2hgt9/n4lo27lgR8N0lyEqI9MK1866pqqQVc8drH26+LZizZ6C8Z7j62llLdmDvuyogImeDnkANU7Dt9r1XKlnysGeI1UEfXYv2ur6QREubKw2hh5B9Uu0CdvAWPJjjOIYcNM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=uCrDcHi1; arc=none smtp.client-ip=209.85.166.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1712616283; c=relaxed/simple;
+	bh=+/3t9ECBsy9ODFlP5YpFi+yWmEkcPNa80UvzDk2CLnE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=EByVUuqcDV/c7gfJRPxZUXQA724BoIu43UJou+7vrohMF3P6dj6jdXRGcfG96nH3VzmYvFIKsxs5xtWXcbWwSuCrncg6ttEYLgAsSivYhpAJGyg3/ZYKqdqkIAhDuqgA5vtgKNRBaOrMn3sGW+jA3u9ah1lS98Kcj8hQ5WwHsNI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lHzdg5Xc; arc=none smtp.client-ip=209.85.210.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="uCrDcHi1"
-Received: by mail-io1-f41.google.com with SMTP id ca18e2360f4ac-7d0377850aaso188361839f.3
-        for <linux-staging@lists.linux.dev>; Mon, 08 Apr 2024 13:38:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lHzdg5Xc"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-6ecd957f949so4865191b3a.0
+        for <linux-staging@lists.linux.dev>; Mon, 08 Apr 2024 15:44:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1712608733; x=1713213533; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=66EhmBXE+6opbYU7Qf+U0TLJ3Vt1siSvg3UxG+2mUhg=;
-        b=uCrDcHi1xEFPMaxOSdomzbpeRnJAl+l5mDT6IS5cfZYfWfiZTZpFY6+rZEYUL5VREY
-         u5DStpH0ohp1eSIc+jK5YqcJeSIB3UNi9Gb++y0k3hKKZxixUcjehB6vmfqbWMmc5ju9
-         jg5bjPnQvHop7LyMbtEfOuTnOiwZusrTEfQPmrs56sS0dhzWuq22araaMdEOCmWKm0h5
-         Hmdxv+XOV/RjdAZI7KEzrT9hyD14h2kp7zi9VpP2AzhtFOYKOuASeuXrlUImHaOCkcqm
-         Z6Qsdi8Q0vGp0YZG2oIOTsgCtk22mtNEU9wrTKGQLiE51Z0puk9Dw9KhoqmmEnam1zxr
-         +ciw==
+        d=gmail.com; s=20230601; t=1712616281; x=1713221081; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=CKZc4c8lA2wcnIkG9X93w8id7DRu1ED4YOIT0xR9IFU=;
+        b=lHzdg5Xczigh4UpjdwC6/GQbblRwL5DsUar/PryWvQ43Y22pztKDZCQAo1Cue6B2tU
+         TD3KI1RXZ/bhnGv5j9Z/S88oUtZPGGEAOwmG/1+StcXIftAyt3SCoAqHsbyUJ4s6K3hE
+         gqp00Z0YZ+yW5L67IOJbrKILT/JvCYVykwtJdFDuk8MvfVJxB6i5UznqOphudNl2nxdw
+         IKoJxAzniL7W8ZIPYEn8neMKTBb9sqnlWHyLPNSw6DXrs1mYn28b1gk31JLrP/MlLT3n
+         CgY4SFf4HzBofBSzpAo7mdwztfdi4BMHw4KOh6XOPx7xrQYaaCVPwB4ZCsPoY+C+60ye
+         VF5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712608733; x=1713213533;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=66EhmBXE+6opbYU7Qf+U0TLJ3Vt1siSvg3UxG+2mUhg=;
-        b=FslhZJunTB8PIP1N9sNksLQHuTUpY/3OJO33IfBlEjwaZHFVGtdc79Iv9gBqSES+3Q
-         JqNmvzdNjoiJ3UB+s0LbTQH5uwRwVMpKBJnit0u1GOjwYn7OX7TcLdgGAdcOWzoDPYDN
-         VPZQFlQmROSYe+EYuuwfgE72/L/I7015dWFS/NGNgh/Rw5HlPxWjJdb4GvqPZlE63li0
-         Y1Jv+jBfOIZTTT5+35OZi6yEu1iH3sPp5ATLgqQ6Y6wXNwkrW6jozQpEuTFQDqKW4mXg
-         cKGiyOVnPxuVmssHLWOTp/0BsfgUyuuFjWLbYkum9h58gtJZ52B3I4eksM3XtpdoELum
-         +tyQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW4yOX6gQh2vvs4wlG0EIpEwrOO6pXO5y+wv7rE2/5U6yKM7LihzpB7jnGeL+vV+RAN7veZXeIWRzr78qdqPAhtHedw0HVtgNBNDGFgWw==
-X-Gm-Message-State: AOJu0Ywt734BLQRemn6aUKwTfIc71sik/XHOGZFfplrc9f/T6N4AW8TF
-	2S6mpdguRvuw/Q1gYAtouMJajJ/l0gZaDO53S5GbQD5hEksWfxgjnDGXmnowSQ==
-X-Google-Smtp-Source: AGHT+IE345TzGH9Fq0etBCi6wkGO3vYGKyR4fYGiq6aa+SdZJ1rKU5+HgSIED7L9Bjx9H4TLIj8esA==
-X-Received: by 2002:a05:6602:4898:b0:7d5:f78f:ab1c with SMTP id ee24-20020a056602489800b007d5f78fab1cmr3626178iob.2.1712608733081;
-        Mon, 08 Apr 2024 13:38:53 -0700 (PDT)
-Received: from google.com (30.64.135.34.bc.googleusercontent.com. [34.135.64.30])
-        by smtp.gmail.com with ESMTPSA id bv24-20020a056638449800b0047be26df380sm2795121jab.2.2024.04.08.13.38.52
+        d=1e100.net; s=20230601; t=1712616281; x=1713221081;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=CKZc4c8lA2wcnIkG9X93w8id7DRu1ED4YOIT0xR9IFU=;
+        b=NLsLB0Nf1eFSl3/xpp3osLliGzgHmE5ef8M1moILUfpl/wKqrNHWECUVYWsRwBUH/u
+         l9lFR8//LZy1cyVbQE0B4HJ8jrCCezJ1TSFRI9pBdrLULI2SfYoYfUUjkOKk7G6/o4t4
+         h9BOZ5a58hDCKs8c737aowzfKam1PSwtJ+7EUHif0vQ5oIh02Imau+DoWt5k2t62w5NS
+         D1rsPpYq/ilpDt4ejmNr/+n1yvynKBVd9Dxa9XKq6Iqa1W2K8JEFsxphDbsyFu2C6Gee
+         p6ybEY1grR9pqwjE9w1ZG813Zh5+0lDr3OvA+8BS3WuHz86+voLPEqJnAjvHm5ZIJDwt
+         eB5g==
+X-Forwarded-Encrypted: i=1; AJvYcCWWFsmCWF4aXf3EJskoVGu2JCL9RTSdszg69KQuNyCr8PO7OdvrKLwEpXTElTZ/m6qYHRbuMmknbso52sE7ZhAhEudBY9DdiPSCBYKUkw==
+X-Gm-Message-State: AOJu0Yyi9fiCN2znfJzzJLgVJeMQmDhNnNlmYkf9nUT8yBSA5vEeHLA2
+	EHStxzL0XiZMVxYUhqC8+iNK7m/oDgnY+ZCtpMLxxxO9f7Jxq3GZ
+X-Google-Smtp-Source: AGHT+IEQ6x5BfJgpVcqBxhQ0jHQpLc5V1u824p3HKlh4QMBlx8Di6OTQ0/e9hWxZu5kSqTeI1bVx+w==
+X-Received: by 2002:a05:6a20:c901:b0:1a7:6ca9:2925 with SMTP id gx1-20020a056a20c90100b001a76ca92925mr5739021pzb.59.1712616281303;
+        Mon, 08 Apr 2024 15:44:41 -0700 (PDT)
+Received: from jc-ubuntu-dev-korn-1 (c-98-210-1-68.hsd1.ca.comcast.net. [98.210.1.68])
+        by smtp.gmail.com with ESMTPSA id m6-20020a17090a34c600b0029be7922b32sm9623026pjf.26.2024.04.08.15.44.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Apr 2024 13:38:52 -0700 (PDT)
-Date: Mon, 8 Apr 2024 20:38:49 +0000
-From: Justin Stitt <justinstitt@google.com>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Viresh Kumar <vireshk@kernel.org>, Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>, 
-	Dan Carpenter <dan.carpenter@linaro.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>, greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev, 
+        Mon, 08 Apr 2024 15:44:40 -0700 (PDT)
+Date: Mon, 8 Apr 2024 15:44:40 -0700
+From: Jackson Chui <jacksonchui.qwerty@gmail.com>
+To: Jackson Chui <jacksonchui.qwerty@gmail.com>
+Cc: Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] [v2] staging: greybus: change strncpy() to
- strscpy_pad()
-Message-ID: <xuqmx35li5pwktklh2rds7zqmsieletfzhkerdvw2agv5zjpnb@2qr5oh7ktdv3>
-References: <20240408194821.3183462-1-arnd@kernel.org>
- <20240408194821.3183462-3-arnd@kernel.org>
+Subject: [Patch v2] staging: greybus: Replace gcam macros with direct dev log
+ calls
+Message-ID: <ZhRzWNiak1qOdJLL@jc-ubuntu-dev-korn-1>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -72,103 +68,198 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240408194821.3183462-3-arnd@kernel.org>
 
-Hi,
+Reported by checkpatch:
 
-On Mon, Apr 08, 2024 at 09:48:11PM +0200, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> gcc-10 warns about a strncpy() that does not enforce zero-termination:
-> 
-> In file included from include/linux/string.h:369,
->                  from drivers/staging/greybus/fw-management.c:9:
-> In function 'strncpy',
->     inlined from 'fw_mgmt_backend_fw_update_operation' at drivers/staging/greybus/fw-management.c:306:2:
-> include/linux/fortify-string.h:108:30: error: '__builtin_strncpy' specified bound 10 equals destination size [-Werror=stringop-truncation]
->   108 | #define __underlying_strncpy __builtin_strncpy
->       |                              ^
-> include/linux/fortify-string.h:187:9: note: in expansion of macro '__underlying_strncpy'
->   187 |  return __underlying_strncpy(p, q, size);
->       |         ^~~~~~~~~~~~~~~~~~~~
-> 
-> For some reason, I cannot reproduce this with gcc-9 or gcc-11, and I only
-> get a warning for one of the four related strncpy()s, so I'm not
-> sure what's going on.
-> 
-> Change all four to strscpy_pad(), which is the safest replacement here,
-> as it avoids ending up with uninitialized stack data in the tag name.
-> 
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+CHECK: Macro argument 'gcam' may be better as '(gcam)' to avoid
+precedence issues
 
-This patch helps out with [1].
+Inline standard calls to 'dev_*' kernel logging functions, in favor
+of 'gcam_*' macros, to clear up gcam-related logging.
 
-Reviewed-by: Justin Stitt <justinstitt@google.com>
+Signed-off-by: Jackson Chui <jacksonchui.qwerty@gmail.com>
 
-> ---
-> v2
->  - use strscpy_pad()
->  - use two-argument form
->  - change all four instances, not just the one that produced the warning
-> ---
->  drivers/staging/greybus/fw-management.c | 12 +++++-------
->  1 file changed, 5 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/staging/greybus/fw-management.c b/drivers/staging/greybus/fw-management.c
-> index 3054f084d777..a47385175582 100644
-> --- a/drivers/staging/greybus/fw-management.c
-> +++ b/drivers/staging/greybus/fw-management.c
-> @@ -123,8 +123,7 @@ static int fw_mgmt_interface_fw_version_operation(struct fw_mgmt *fw_mgmt,
->  	fw_info->major = le16_to_cpu(response.major);
->  	fw_info->minor = le16_to_cpu(response.minor);
->  
-> -	strncpy(fw_info->firmware_tag, response.firmware_tag,
-> -		GB_FIRMWARE_TAG_MAX_SIZE);
-> +	strscpy_pad(fw_info->firmware_tag, response.firmware_tag);
->  
->  	/*
->  	 * The firmware-tag should be NULL terminated, otherwise throw error but
-> @@ -153,7 +152,7 @@ static int fw_mgmt_load_and_validate_operation(struct fw_mgmt *fw_mgmt,
->  	}
->  
->  	request.load_method = load_method;
-> -	strncpy(request.firmware_tag, tag, GB_FIRMWARE_TAG_MAX_SIZE);
-> +	strscpy_pad(request.firmware_tag, tag);
->  
->  	/*
->  	 * The firmware-tag should be NULL terminated, otherwise throw error and
-> @@ -249,8 +248,7 @@ static int fw_mgmt_backend_fw_version_operation(struct fw_mgmt *fw_mgmt,
->  	struct gb_fw_mgmt_backend_fw_version_response response;
->  	int ret;
->  
-> -	strncpy(request.firmware_tag, fw_info->firmware_tag,
-> -		GB_FIRMWARE_TAG_MAX_SIZE);
-> +	strscpy_pad(request.firmware_tag, fw_info->firmware_tag);
->  
->  	/*
->  	 * The firmware-tag should be NULL terminated, otherwise throw error and
-> @@ -303,13 +301,13 @@ static int fw_mgmt_backend_fw_update_operation(struct fw_mgmt *fw_mgmt,
->  	struct gb_fw_mgmt_backend_fw_update_request request;
->  	int ret;
->  
-> -	strncpy(request.firmware_tag, tag, GB_FIRMWARE_TAG_MAX_SIZE);
-> +	ret = strscpy_pad(request.firmware_tag, tag);
->  
->  	/*
->  	 * The firmware-tag should be NULL terminated, otherwise throw error and
->  	 * fail.
->  	 */
-> -	if (request.firmware_tag[GB_FIRMWARE_TAG_MAX_SIZE - 1] != '\0') {
-> +	if (ret == -E2BIG) {
->  		dev_err(fw_mgmt->parent, "backend-update: firmware-tag is not NULL terminated\n");
->  		return -EINVAL;
->  	}
-> -- 
-> 2.39.2
-> 
->
+---
+Changes in v2:
+  - Inline 'dev_*' logging functions, over wrappers and macros
+    to just use the standard call.
+  - Remove 'gcam_*' macros, since they are no longer used.
+---
+ drivers/staging/greybus/camera.c | 58 +++++++++++++++-----------------
+ 1 file changed, 27 insertions(+), 31 deletions(-)
 
-Link: https://github.com/KSPP/linux/issues/90 [1]
+diff --git a/drivers/staging/greybus/camera.c b/drivers/staging/greybus/camera.c
+index a8173aa3a995..b8b2bdfa59e5 100644
+--- a/drivers/staging/greybus/camera.c
++++ b/drivers/staging/greybus/camera.c
+@@ -180,10 +180,6 @@ static const struct gb_camera_fmt_info *gb_camera_get_format_info(u16 gb_fmt)
+ 
+ #define GB_CAMERA_MAX_SETTINGS_SIZE	8192
+ 
+-#define gcam_dbg(gcam, format...)	dev_dbg(&gcam->bundle->dev, format)
+-#define gcam_info(gcam, format...)	dev_info(&gcam->bundle->dev, format)
+-#define gcam_err(gcam, format...)	dev_err(&gcam->bundle->dev, format)
+-
+ static int gb_camera_operation_sync_flags(struct gb_connection *connection,
+ 					  int type, unsigned int flags,
+ 					  void *request, size_t request_size,
+@@ -232,8 +228,8 @@ static int gb_camera_get_max_pkt_size(struct gb_camera *gcam,
+ 
+ 		fmt_info = gb_camera_get_format_info(cfg->format);
+ 		if (!fmt_info) {
+-			gcam_err(gcam, "unsupported greybus image format: %d\n",
+-				 cfg->format);
++			dev_err(&gcam->bundle->dev, "unsupported greybus image format: %d\n",
++				cfg->format);
+ 			return -EIO;
+ 		}
+ 
+@@ -241,18 +237,18 @@ static int gb_camera_get_max_pkt_size(struct gb_camera *gcam,
+ 			pkt_size = le32_to_cpu(cfg->max_pkt_size);
+ 
+ 			if (pkt_size == 0) {
+-				gcam_err(gcam,
+-					 "Stream %u: invalid zero maximum packet size\n",
+-					 i);
++				dev_err(&gcam->bundle->dev,
++					"Stream %u: invalid zero maximum packet size\n",
++					i);
+ 				return -EIO;
+ 			}
+ 		} else {
+ 			pkt_size = le16_to_cpu(cfg->width) * fmt_info->bpp / 8;
+ 
+ 			if (pkt_size != le32_to_cpu(cfg->max_pkt_size)) {
+-				gcam_err(gcam,
+-					 "Stream %u: maximum packet size mismatch (%u/%u)\n",
+-					 i, pkt_size, cfg->max_pkt_size);
++				dev_err(&gcam->bundle->dev,
++					"Stream %u: maximum packet size mismatch (%u/%u)\n",
++					i, pkt_size, cfg->max_pkt_size);
+ 				return -EIO;
+ 			}
+ 		}
+@@ -275,13 +271,13 @@ static const int gb_camera_configure_streams_validate_response(struct gb_camera
+ 
+ 	/* Validate the returned response structure */
+ 	if (resp->padding[0] || resp->padding[1]) {
+-		gcam_err(gcam, "response padding != 0\n");
++		dev_err(&gcam->bundle->dev, "response padding != 0\n");
+ 		return -EIO;
+ 	}
+ 
+ 	if (resp->num_streams > nstreams) {
+-		gcam_err(gcam, "got #streams %u > request %u\n",
+-			 resp->num_streams, nstreams);
++		dev_err(&gcam->bundle->dev, "got #streams %u > request %u\n",
++			resp->num_streams, nstreams);
+ 		return -EIO;
+ 	}
+ 
+@@ -289,7 +285,7 @@ static const int gb_camera_configure_streams_validate_response(struct gb_camera
+ 		struct gb_camera_stream_config_response *cfg = &resp->config[i];
+ 
+ 		if (cfg->padding) {
+-			gcam_err(gcam, "stream #%u padding != 0\n", i);
++			dev_err(&gcam->bundle->dev, "stream #%u padding != 0\n", i);
+ 			return -EIO;
+ 		}
+ 	}
+@@ -340,16 +336,16 @@ static int gb_camera_set_power_mode(struct gb_camera *gcam, bool hs)
+ 
+ 	ret = gb_camera_set_intf_power_mode(gcam, intf->interface_id, hs);
+ 	if (ret < 0) {
+-		gcam_err(gcam, "failed to set module interface to %s (%d)\n",
+-			 hs ? "HS" : "PWM", ret);
++		dev_err(&gcam->bundle->dev, "failed to set module interface to %s (%d)\n",
++			hs ? "HS" : "PWM", ret);
+ 		return ret;
+ 	}
+ 
+ 	ret = gb_camera_set_intf_power_mode(gcam, svc->ap_intf_id, hs);
+ 	if (ret < 0) {
+ 		gb_camera_set_intf_power_mode(gcam, intf->interface_id, !hs);
+-		gcam_err(gcam, "failed to set AP interface to %s (%d)\n",
+-			 hs ? "HS" : "PWM", ret);
++		dev_err(&gcam->bundle->dev, "failed to set AP interface to %s (%d)\n",
++			hs ? "HS" : "PWM", ret);
+ 		return ret;
+ 	}
+ 
+@@ -435,7 +431,7 @@ static int gb_camera_setup_data_connection(struct gb_camera *gcam,
+ 			   sizeof(csi_cfg),
+ 			   GB_APB_REQUEST_CSI_TX_CONTROL, false);
+ 	if (ret < 0) {
+-		gcam_err(gcam, "failed to start the CSI transmitter\n");
++		dev_err(&gcam->bundle->dev, "failed to start the CSI transmitter\n");
+ 		goto error_power;
+ 	}
+ 
+@@ -470,7 +466,7 @@ static void gb_camera_teardown_data_connection(struct gb_camera *gcam)
+ 			   GB_APB_REQUEST_CSI_TX_CONTROL, false);
+ 
+ 	if (ret < 0)
+-		gcam_err(gcam, "failed to stop the CSI transmitter\n");
++		dev_err(&gcam->bundle->dev, "failed to stop the CSI transmitter\n");
+ 
+ 	/* Set the UniPro link to low speed mode. */
+ 	gb_camera_set_power_mode(gcam, false);
+@@ -507,7 +503,7 @@ static int gb_camera_capabilities(struct gb_camera *gcam,
+ 					     NULL, 0,
+ 					     (void *)capabilities, size);
+ 	if (ret)
+-		gcam_err(gcam, "failed to retrieve capabilities: %d\n", ret);
++		dev_err(&gcam->bundle->dev, "failed to retrieve capabilities: %d\n", ret);
+ 
+ done:
+ 	mutex_unlock(&gcam->mutex);
+@@ -723,22 +719,22 @@ static int gb_camera_request_handler(struct gb_operation *op)
+ 	struct gb_message *request;
+ 
+ 	if (op->type != GB_CAMERA_TYPE_METADATA) {
+-		gcam_err(gcam, "Unsupported unsolicited event: %u\n", op->type);
++		dev_err(&gcam->bundle->dev, "Unsupported unsolicited event: %u\n", op->type);
+ 		return -EINVAL;
+ 	}
+ 
+ 	request = op->request;
+ 
+ 	if (request->payload_size < sizeof(*payload)) {
+-		gcam_err(gcam, "Wrong event size received (%zu < %zu)\n",
+-			 request->payload_size, sizeof(*payload));
++		dev_err(&gcam->bundle->dev, "Wrong event size received (%zu < %zu)\n",
++			request->payload_size, sizeof(*payload));
+ 		return -EINVAL;
+ 	}
+ 
+ 	payload = request->payload;
+ 
+-	gcam_dbg(gcam, "received metadata for request %u, frame %u, stream %u\n",
+-		 payload->request_id, payload->frame_number, payload->stream);
++	dev_dbg(&gcam->bundle->dev, "received metadata for request %u, frame %u, stream %u\n",
++		payload->request_id, payload->frame_number, payload->stream);
+ 
+ 	return 0;
+ }
+@@ -1347,15 +1343,15 @@ static int gb_camera_resume(struct device *dev)
+ 
+ 	ret = gb_connection_enable(gcam->connection);
+ 	if (ret) {
+-		gcam_err(gcam, "failed to enable connection: %d\n", ret);
++		dev_err(&gcam->bundle->dev, "failed to enable connection: %d\n", ret);
+ 		return ret;
+ 	}
+ 
+ 	if (gcam->data_connection) {
+ 		ret = gb_connection_enable(gcam->data_connection);
+ 		if (ret) {
+-			gcam_err(gcam,
+-				 "failed to enable data connection: %d\n", ret);
++			dev_err(&gcam->bundle->dev,
++				"failed to enable data connection: %d\n", ret);
+ 			return ret;
+ 		}
+ 	}
+-- 
+2.34.1
 
-Thanks
-Justin
