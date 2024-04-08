@@ -1,48 +1,65 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D209814600D;
-	Mon,  8 Apr 2024 19:48:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6903E146595
+	for <linux-staging@lists.linux.dev>; Mon,  8 Apr 2024 20:28:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712605725; cv=none; b=gcCp7Vm0OWQa3etvD4cCeHRHzYLP5ntsuPI6BpaWzs8h1CTaIYWrArYPFq6k2VUVklR6CRPIZZ2eQxmmtmXdjQS5PS7w9TDMDrvfTiCqfVezpBj/RDYlIfrwMFgUv6d+Or3aq9pu2qo3J7HTYTe3ZTnmeRjtA8SpF163M79uyhw=
+	t=1712608109; cv=none; b=D5eYt+UFRJaYLumesUdZ/ZbXNwXMp1sB+rr0qABMVXGwRIUox7WeLU+0YtKl5wTK4h1aeG/LrSme60nI0IMVh3SCzinaU9sTVcX8Z25W3gA4+6X4tr4l74rX4Jh+guIyLXgXPZu0d4FLHcBzLLqonVD24lWnswerBTqwkWNxn7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712605725; c=relaxed/simple;
-	bh=e7FNZkCRwzJc9ynpMaKnxLTKxonZ60uDaRzM13K/KA0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=e6upDAZGp0Xz4UjylFcn/92qyz3r0LJaYyYokreWTRZX7mwoN/gP+LHfyIyG12jTY+aAmK8WJUZg9TIWap5p6fL2BkoTKJrnBVrr648nR0RYSQbt05JexP+LHWrQ7m6gM+qFbcW+GmonVadwARegnER2QRAcGcvy8WxvbXCnYZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cuqouAGK; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1712608109; c=relaxed/simple;
+	bh=pGwspNNQBRAnBw9TeuWds6iJ0wMzGbfaAQXYhsJEudo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=l02ZYWoabsH/vQZlmFmIdqyXf8a5HB4wQjoZ0kr2bx6JhHRft+qd1cPwT1peJO7jB17pm0OnUIGc3BS/EzdHCNSW1LnI7Vg7zf3VeI9q8LMznKcQcbhrrpTHQ0QoSkpKkECsRoqj1HAsT0ra1Q1EaqKyVjHNBR2Y8cvZjmn4y4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=gIPhvGDQ; arc=none smtp.client-ip=209.85.166.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cuqouAGK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B385C433F1;
-	Mon,  8 Apr 2024 19:48:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712605725;
-	bh=e7FNZkCRwzJc9ynpMaKnxLTKxonZ60uDaRzM13K/KA0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=cuqouAGKUeGkDyrdxrdsGxBnYNDVPKyNbwFOycplmtj6O/rv1anr9TxPGFxEcMcMC
-	 ArIkGnAgahQITvMSgImOBgzugMIx839snRTqMxVoNXijpVxAMagKHwpQ1GFs8Mh8pV
-	 NH8ut2aEMSjdU5X5kKNX5Hi5hQZoJmaimt0AL+YUJfKeYSU+jQ1RFc9RNjh5zuzloH
-	 VZenf+GTwlURY1qORe0cvX7TLaL+rIPY0q/608jQd2TNesQhmKg3Dob8K7dVsPOB5c
-	 PR0WeKhKpGe1NQsSveZuPsoDqGRajNfHdpRo9hbL1iYt8LgrHMTheDcLveF9/cDjqO
-	 JUo3UMOu2Ae7g==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Viresh Kumar <vireshk@kernel.org>,
-	Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>
-Cc: Justin Stitt <justinstitt@google.com>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gIPhvGDQ"
+Received: by mail-io1-f48.google.com with SMTP id ca18e2360f4ac-7d5f90dfdaaso37692239f.0
+        for <linux-staging@lists.linux.dev>; Mon, 08 Apr 2024 13:28:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1712608106; x=1713212906; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=moQrw458UIrB0C/FS7KDVMJwIciBd7TguCfGXuFSIMQ=;
+        b=gIPhvGDQwpL2/5eff85hhnao4HhKS7CkpEgfNigcL1kTzVjA8ozI/+freNG6cchiyp
+         BgduChYd+6H6ygZTZPdU4IVWsK3ivAEejXLx5j4tR6sR5igOrvkJfw6Zdz238r1zy2zp
+         khaTjv+rB/JjxsR3i0jehD6KHhE5f6GtFDMkf6gM859SN8YIGMmVVemA04bdX8vkMvXm
+         RpKHd5uWwP/+rbGmZzP5ZFcN8zCviIPuSjlYy5ZthyTo2RJmsPypbMnG8kWc1n6C+jgi
+         IiU6NBW3H7iGcME05+yUzphMy124g+9bVreQnsPpplxC94ygNTrzHODfyt5smjh7lhZf
+         JWsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712608106; x=1713212906;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=moQrw458UIrB0C/FS7KDVMJwIciBd7TguCfGXuFSIMQ=;
+        b=K/R2uMjyfi96r8Glr35Hb+jcXv7T6D3ukodVIjfas/LEXVUWheENlPY1+uq7U3UVzu
+         WxUW2CBA5LsYC+LsOAK9QETRz/CJaoFJl9oiRDMPsJXGgHE1N2OTyK94QmOXFQkh+aEm
+         OC13QspoFPwsArTXlsXlCuDS+HNAMl4nIVmw6KSYwZ0u8xXP23X9j35fobVm2beC+5mu
+         M75iJhFV1zgQt+xhRjJFwoOXoB2zROJl9B3+Tong3h1YoYIIhYZDp1VNwm5uaNcwhggf
+         aSoSGqc0mfLr2M15kaPjre+HY4kK4eZtDAbZihFGUsX6dS8n0C0lqR4vc+4UvR34JpLL
+         66FQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUV5I1ZLIfHZllmklyO59TXfUDLfy5uUXkEQIGNMuHmF/WQ8vMGvPA+erJqCYcKfjv8tEkLu8P5TwfBcxdIXyZpgVf26aWOgSC0r2fsUQ==
+X-Gm-Message-State: AOJu0YyN2NQM/kEpzpZ69Yk5Ioo7fMA9xKRZpgR2qUWOkSYRLvTYDS7/
+	Zl8ONunj2aiKJ+BI+0eI+pO3DP47zSyuybKESDp0sFeu49/yu2C8Alm3kxTEzA==
+X-Google-Smtp-Source: AGHT+IEi+zQk9NHUGC5d8RML8yoINv3x6x1TBoWUm8X+CGwzfnVnH1lv+x3XDo71lciSEBs5bqtDKQ==
+X-Received: by 2002:a05:6602:488d:b0:7d6:aa:8a64 with SMTP id ee13-20020a056602488d00b007d600aa8a64mr2450544iob.18.1712608106586;
+        Mon, 08 Apr 2024 13:28:26 -0700 (PDT)
+Received: from google.com (30.64.135.34.bc.googleusercontent.com. [34.135.64.30])
+        by smtp.gmail.com with ESMTPSA id kz9-20020a056638948900b004828b1e39absm1344628jab.89.2024.04.08.13.28.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Apr 2024 13:28:25 -0700 (PDT)
+Date: Mon, 8 Apr 2024 20:28:19 +0000
+From: Justin Stitt <justinstitt@google.com>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Dan Carpenter <dan.carpenter@linaro.org>, Arnd Bergmann <arnd@arndb.de>, linux-staging@lists.linux.dev, 
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] [v2] staging: greybus: change strncpy() to strscpy_pad()
-Date: Mon,  8 Apr 2024 21:48:11 +0200
-Message-Id: <20240408194821.3183462-3-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240408194821.3183462-1-arnd@kernel.org>
+Subject: Re: [PATCH 1/3] [v2] staging: rts5208: replace weird strncpy() with
+ memcpy()
+Message-ID: <wb5h2syqmxpoxmajwiiyqvlkyojjsjql5xpfmris6djegtqzya@6xfio4dmqjdp>
 References: <20240408194821.3183462-1-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -50,89 +67,95 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240408194821.3183462-1-arnd@kernel.org>
 
-From: Arnd Bergmann <arnd@arndb.de>
+Hi,
 
-gcc-10 warns about a strncpy() that does not enforce zero-termination:
+On Mon, Apr 08, 2024 at 09:48:09PM +0200, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> When -Wstringop-truncation is enabled, gcc finds a function that
+> always does a short copy:
+> 
+> In function 'inquiry',
+>     inlined from 'rtsx_scsi_handler' at drivers/staging/rts5208/rtsx_scsi.c:3210:12:
+> drivers/staging/rts5208/rtsx_scsi.c:526:17: error: 'strncpy' output truncated copying between 1 and 28 bytes from a string of length 28 [-Werror=stringop-truncation]
+>   526 |                 strncpy(buf + 8, inquiry_string, sendbytes - 8);
+>       |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> 
+> The code originally had a memcpy() that would overread the source string,
+> and commit 88a5b39b69ab ("staging/rts5208: Fix read overflow in memcpy")
+> fixed this but introduced the warning about truncation in the process.
+> 
+> As Dan points out, the final space in the inquiry_string always gets
+> cut off, so remove it here for clarity, leaving exactly the 28 non-NUL
+> characters that can get copied into the output. In the 'pro_formatter_flag'
+> this is followed by another 20 bytes from the 'formatter_inquiry_str'
+> array, but there the output never contains a NUL-termination, and the
+> length is known, so memcpy() is the more logical choice.
+> 
+> Cc: Dan Carpenter <dan.carpenter@linaro.org>
+> Link: https://lore.kernel.org/lkml/695be581-548f-4e5e-a211-5f3b95568e77@moroto.mountain/
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+> v2: remove unneeded space byte from input string for clarity,
+>     rework changelog text
+> ---
+>  drivers/staging/rts5208/rtsx_scsi.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/staging/rts5208/rtsx_scsi.c b/drivers/staging/rts5208/rtsx_scsi.c
+> index 08bd768ad34d..c27cffb9ad8f 100644
+> --- a/drivers/staging/rts5208/rtsx_scsi.c
+> +++ b/drivers/staging/rts5208/rtsx_scsi.c
+> @@ -463,10 +463,10 @@ static unsigned char formatter_inquiry_str[20] = {
+>  static int inquiry(struct scsi_cmnd *srb, struct rtsx_chip *chip)
+>  {
+>  	unsigned int lun = SCSI_LUN(srb);
+> -	char *inquiry_default = (char *)"Generic-xD/SD/M.S.      1.00 ";
+> -	char *inquiry_sdms =    (char *)"Generic-SD/MemoryStick  1.00 ";
+> -	char *inquiry_sd =      (char *)"Generic-SD/MMC          1.00 ";
+> -	char *inquiry_ms =      (char *)"Generic-MemoryStick     1.00 ";
+> +	char *inquiry_default = (char *)"Generic-xD/SD/M.S.      1.00";
+> +	char *inquiry_sdms =    (char *)"Generic-SD/MemoryStick  1.00";
+> +	char *inquiry_sd =      (char *)"Generic-SD/MMC          1.00";
+> +	char *inquiry_ms =      (char *)"Generic-MemoryStick     1.00";
+>  	char *inquiry_string;
+>  	unsigned char sendbytes;
+>  	unsigned char *buf;
+> @@ -523,7 +523,7 @@ static int inquiry(struct scsi_cmnd *srb, struct rtsx_chip *chip)
+>  
+>  	if (sendbytes > 8) {
+>  		memcpy(buf, inquiry_buf, 8);
+> -		strncpy(buf + 8, inquiry_string, sendbytes - 8);
+> +		memcpy(buf + 8, inquiry_string, min(sendbytes, 36) - 8);
 
-In file included from include/linux/string.h:369,
-                 from drivers/staging/greybus/fw-management.c:9:
-In function 'strncpy',
-    inlined from 'fw_mgmt_backend_fw_update_operation' at drivers/staging/greybus/fw-management.c:306:2:
-include/linux/fortify-string.h:108:30: error: '__builtin_strncpy' specified bound 10 equals destination size [-Werror=stringop-truncation]
-  108 | #define __underlying_strncpy __builtin_strncpy
-      |                              ^
-include/linux/fortify-string.h:187:9: note: in expansion of macro '__underlying_strncpy'
-  187 |  return __underlying_strncpy(p, q, size);
-      |         ^~~~~~~~~~~~~~~~~~~~
+I must say I am not the biggest fan of manual string management with raw
+pointer offsets. I wonder if scnprintf() could achieve your goal here of
+combining inquiry_buf with inquiry_string into buf (perhaps utilizing
+%.*s format specifier).
 
-For some reason, I cannot reproduce this with gcc-9 or gcc-11, and I only
-get a warning for one of the four related strncpy()s, so I'm not
-sure what's going on.
+With that being said, I am just a casual reader of this code and I
+really don't know much about the expected behavior of `buf`
+(NUL-terminated, NUL-padded, etc) or even what the next line buf[4]=0x33
+does.
 
-Change all four to strscpy_pad(), which is the safest replacement here,
-as it avoids ending up with uninitialized stack data in the tag name.
+Your patch looks good and removes an instance of strncpy which helps
+towards [1].
 
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
-v2
- - use strscpy_pad()
- - use two-argument form
- - change all four instances, not just the one that produced the warning
----
- drivers/staging/greybus/fw-management.c | 12 +++++-------
- 1 file changed, 5 insertions(+), 7 deletions(-)
+Reviewed-by: Justin Stitt <justinstitt@google.com>
 
-diff --git a/drivers/staging/greybus/fw-management.c b/drivers/staging/greybus/fw-management.c
-index 3054f084d777..a47385175582 100644
---- a/drivers/staging/greybus/fw-management.c
-+++ b/drivers/staging/greybus/fw-management.c
-@@ -123,8 +123,7 @@ static int fw_mgmt_interface_fw_version_operation(struct fw_mgmt *fw_mgmt,
- 	fw_info->major = le16_to_cpu(response.major);
- 	fw_info->minor = le16_to_cpu(response.minor);
- 
--	strncpy(fw_info->firmware_tag, response.firmware_tag,
--		GB_FIRMWARE_TAG_MAX_SIZE);
-+	strscpy_pad(fw_info->firmware_tag, response.firmware_tag);
- 
- 	/*
- 	 * The firmware-tag should be NULL terminated, otherwise throw error but
-@@ -153,7 +152,7 @@ static int fw_mgmt_load_and_validate_operation(struct fw_mgmt *fw_mgmt,
- 	}
- 
- 	request.load_method = load_method;
--	strncpy(request.firmware_tag, tag, GB_FIRMWARE_TAG_MAX_SIZE);
-+	strscpy_pad(request.firmware_tag, tag);
- 
- 	/*
- 	 * The firmware-tag should be NULL terminated, otherwise throw error and
-@@ -249,8 +248,7 @@ static int fw_mgmt_backend_fw_version_operation(struct fw_mgmt *fw_mgmt,
- 	struct gb_fw_mgmt_backend_fw_version_response response;
- 	int ret;
- 
--	strncpy(request.firmware_tag, fw_info->firmware_tag,
--		GB_FIRMWARE_TAG_MAX_SIZE);
-+	strscpy_pad(request.firmware_tag, fw_info->firmware_tag);
- 
- 	/*
- 	 * The firmware-tag should be NULL terminated, otherwise throw error and
-@@ -303,13 +301,13 @@ static int fw_mgmt_backend_fw_update_operation(struct fw_mgmt *fw_mgmt,
- 	struct gb_fw_mgmt_backend_fw_update_request request;
- 	int ret;
- 
--	strncpy(request.firmware_tag, tag, GB_FIRMWARE_TAG_MAX_SIZE);
-+	ret = strscpy_pad(request.firmware_tag, tag);
- 
- 	/*
- 	 * The firmware-tag should be NULL terminated, otherwise throw error and
- 	 * fail.
- 	 */
--	if (request.firmware_tag[GB_FIRMWARE_TAG_MAX_SIZE - 1] != '\0') {
-+	if (ret == -E2BIG) {
- 		dev_err(fw_mgmt->parent, "backend-update: firmware-tag is not NULL terminated\n");
- 		return -EINVAL;
- 	}
--- 
-2.39.2
+>  		if (pro_formatter_flag) {
+>  			/* Additional Length */
+>  			buf[4] = 0x33;
+> -- 
+> 2.39.2
+> 
+>
 
+[1]: https://github.com/KSPP/linux/issues/90
+
+Thanks
+Justin
