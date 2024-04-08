@@ -1,66 +1,71 @@
-Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
+Received: from mail-io1-f43.google.com (mail-io1-f43.google.com [209.85.166.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6903E146595
-	for <linux-staging@lists.linux.dev>; Mon,  8 Apr 2024 20:28:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 290C85C5F4
+	for <linux-staging@lists.linux.dev>; Mon,  8 Apr 2024 20:35:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712608109; cv=none; b=D5eYt+UFRJaYLumesUdZ/ZbXNwXMp1sB+rr0qABMVXGwRIUox7WeLU+0YtKl5wTK4h1aeG/LrSme60nI0IMVh3SCzinaU9sTVcX8Z25W3gA4+6X4tr4l74rX4Jh+guIyLXgXPZu0d4FLHcBzLLqonVD24lWnswerBTqwkWNxn7A=
+	t=1712608514; cv=none; b=jg8Jsb3gDb/kaJh5QFt5qjaJu/aQUPnP7DDVq4itebnU1a/MpIQCPoW1uoWFCDybz/dD1QDoL/QqAWMBSPUuwx3nN8sGYI3UH7UpEWBIQS4EIx4qU+Y3s2Gfbfl9+nDundS7Izrr39dVDfX9qBISgpMFMldLDnfHjBcebBRZ5Os=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712608109; c=relaxed/simple;
-	bh=pGwspNNQBRAnBw9TeuWds6iJ0wMzGbfaAQXYhsJEudo=;
+	s=arc-20240116; t=1712608514; c=relaxed/simple;
+	bh=OcEhbhHITIrHOZAIdPPlDfaPIGAgz7UAoS2jk9MSk8c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l02ZYWoabsH/vQZlmFmIdqyXf8a5HB4wQjoZ0kr2bx6JhHRft+qd1cPwT1peJO7jB17pm0OnUIGc3BS/EzdHCNSW1LnI7Vg7zf3VeI9q8LMznKcQcbhrrpTHQ0QoSkpKkECsRoqj1HAsT0ra1Q1EaqKyVjHNBR2Y8cvZjmn4y4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=gIPhvGDQ; arc=none smtp.client-ip=209.85.166.48
+	 Content-Type:Content-Disposition:In-Reply-To; b=GnFzS5D5WTXSdRN9yasi7vkkWjos0JANjSIDD4z9jH6yWXoifPM3zLJR9H339DHxO8u83EfEgsOlpb4L7oO0hQAQI7KbzOb2amhVX53CRiKddLKem4/2RIcttcDFg20HRXU/MC8J4kmRy6EdR5P680SdNUkZXGhKVuW2Rs82Tvk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=1H73/lmh; arc=none smtp.client-ip=209.85.166.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gIPhvGDQ"
-Received: by mail-io1-f48.google.com with SMTP id ca18e2360f4ac-7d5f90dfdaaso37692239f.0
-        for <linux-staging@lists.linux.dev>; Mon, 08 Apr 2024 13:28:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="1H73/lmh"
+Received: by mail-io1-f43.google.com with SMTP id ca18e2360f4ac-7d5e93b40feso59918439f.2
+        for <linux-staging@lists.linux.dev>; Mon, 08 Apr 2024 13:35:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1712608106; x=1713212906; darn=lists.linux.dev;
+        d=google.com; s=20230601; t=1712608512; x=1713213312; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=moQrw458UIrB0C/FS7KDVMJwIciBd7TguCfGXuFSIMQ=;
-        b=gIPhvGDQwpL2/5eff85hhnao4HhKS7CkpEgfNigcL1kTzVjA8ozI/+freNG6cchiyp
-         BgduChYd+6H6ygZTZPdU4IVWsK3ivAEejXLx5j4tR6sR5igOrvkJfw6Zdz238r1zy2zp
-         khaTjv+rB/JjxsR3i0jehD6KHhE5f6GtFDMkf6gM859SN8YIGMmVVemA04bdX8vkMvXm
-         RpKHd5uWwP/+rbGmZzP5ZFcN8zCviIPuSjlYy5ZthyTo2RJmsPypbMnG8kWc1n6C+jgi
-         IiU6NBW3H7iGcME05+yUzphMy124g+9bVreQnsPpplxC94ygNTrzHODfyt5smjh7lhZf
-         JWsw==
+        bh=5ZHkRhGYH9MwQZSzDBZ5+pjbW/9T1NNKYEiPQeECsdM=;
+        b=1H73/lmhHYtvqf1+ZHUiASMxiesX3lAISY60vNAz8XhS2Ysu8kYubYyBWvESDHons3
+         tc3JF4wyPMUgEBCYAAo8upsq65P9f8tKl0Ockvu6rfx6cgfPGbh5KWh7pi0rETKcOGlh
+         gqbM9jcc3d4Ga0z2EC5Vf9/JsEX546+KnqtcuYVsFEkXFfjVJAsMDGHFM2wCqIneiMYx
+         Ad2+EFTLxSiWYvhUGatX19r7xfXl++gVZEPse5mANyZvwqA3pdG26zF8V0a0aKFwqk3r
+         8bdc3zjiIZJFSJPP9957zezO3CHZh62JQt8ApBL9Vekg3hCzHcP8sa9CDhYASeLqrxzp
+         f0tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712608106; x=1713212906;
+        d=1e100.net; s=20230601; t=1712608512; x=1713213312;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=moQrw458UIrB0C/FS7KDVMJwIciBd7TguCfGXuFSIMQ=;
-        b=K/R2uMjyfi96r8Glr35Hb+jcXv7T6D3ukodVIjfas/LEXVUWheENlPY1+uq7U3UVzu
-         WxUW2CBA5LsYC+LsOAK9QETRz/CJaoFJl9oiRDMPsJXGgHE1N2OTyK94QmOXFQkh+aEm
-         OC13QspoFPwsArTXlsXlCuDS+HNAMl4nIVmw6KSYwZ0u8xXP23X9j35fobVm2beC+5mu
-         M75iJhFV1zgQt+xhRjJFwoOXoB2zROJl9B3+Tong3h1YoYIIhYZDp1VNwm5uaNcwhggf
-         aSoSGqc0mfLr2M15kaPjre+HY4kK4eZtDAbZihFGUsX6dS8n0C0lqR4vc+4UvR34JpLL
-         66FQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUV5I1ZLIfHZllmklyO59TXfUDLfy5uUXkEQIGNMuHmF/WQ8vMGvPA+erJqCYcKfjv8tEkLu8P5TwfBcxdIXyZpgVf26aWOgSC0r2fsUQ==
-X-Gm-Message-State: AOJu0YyN2NQM/kEpzpZ69Yk5Ioo7fMA9xKRZpgR2qUWOkSYRLvTYDS7/
-	Zl8ONunj2aiKJ+BI+0eI+pO3DP47zSyuybKESDp0sFeu49/yu2C8Alm3kxTEzA==
-X-Google-Smtp-Source: AGHT+IEi+zQk9NHUGC5d8RML8yoINv3x6x1TBoWUm8X+CGwzfnVnH1lv+x3XDo71lciSEBs5bqtDKQ==
-X-Received: by 2002:a05:6602:488d:b0:7d6:aa:8a64 with SMTP id ee13-20020a056602488d00b007d600aa8a64mr2450544iob.18.1712608106586;
-        Mon, 08 Apr 2024 13:28:26 -0700 (PDT)
+        bh=5ZHkRhGYH9MwQZSzDBZ5+pjbW/9T1NNKYEiPQeECsdM=;
+        b=iotvPlSln1hwP6cV3Xjs8qQk121MyFNRl6Xr/nyAqZjkBek9lIOAdTTQ47HivCVd7t
+         u5RkXNO2sNWPuP8WFT+e8vrYZx9DU3ugcFGklGdoPCnPeut7bQGAQ9qwMN2j8C0iLrdM
+         XpLd0Cfu0hMRcjM0puZUTDNTEeyqIjhNVnFhypfSZecEZsd6RA4W4dE1IH6ffctwUjjr
+         GZa3sL31LVP98zt2LXoR0DYqLZuHsdi9wTdsvcK8ePO/yKiu8EN7qWL+rle0TwiW0nvp
+         fnurLqCMhtCLJ3Kqh9NSAYp/vmB7eg9e4+exAQjT2+2UxPpnKXXe+lZwdH0XhwPbUdC4
+         NeXw==
+X-Forwarded-Encrypted: i=1; AJvYcCXL7cdPdMuC1Y3j/zOfAuQstDUnFICVIMA059SHnSAH9SMnc2tz8MGVTgs2KAu89gGqwwd2JMjJV2+S1EAQR/Kp8MVNjt9g7fwgdIBkaA==
+X-Gm-Message-State: AOJu0YyCIjxswkEf/HOoiLBf4+ADy0MPz7r7H6qT8IR+hZO1+1yeCb+c
+	P30Kl1Cm8CGMHlOcdwQp2Y6qrYJfv8eqgRb4zl/xaoaxxo1u8bILWu8njyTLtg==
+X-Google-Smtp-Source: AGHT+IGOzQ90wEzQVaj79jiCZtAwqyU686xC2bmO8snxJyhVXZL9zo3Xh37CLodsWqK2+hCyUPT+9A==
+X-Received: by 2002:a05:6e02:18cf:b0:36a:1725:e123 with SMTP id s15-20020a056e0218cf00b0036a1725e123mr9252317ilu.14.1712608512197;
+        Mon, 08 Apr 2024 13:35:12 -0700 (PDT)
 Received: from google.com (30.64.135.34.bc.googleusercontent.com. [34.135.64.30])
-        by smtp.gmail.com with ESMTPSA id kz9-20020a056638948900b004828b1e39absm1344628jab.89.2024.04.08.13.28.25
+        by smtp.gmail.com with ESMTPSA id r10-20020a92d44a000000b0036a2855e238sm525616ilm.78.2024.04.08.13.35.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Apr 2024 13:28:25 -0700 (PDT)
-Date: Mon, 8 Apr 2024 20:28:19 +0000
+        Mon, 08 Apr 2024 13:35:11 -0700 (PDT)
+Date: Mon, 8 Apr 2024 20:35:09 +0000
 From: Justin Stitt <justinstitt@google.com>
 To: Arnd Bergmann <arnd@kernel.org>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Dan Carpenter <dan.carpenter@linaro.org>, Arnd Bergmann <arnd@arndb.de>, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] [v2] staging: rts5208: replace weird strncpy() with
- memcpy()
-Message-ID: <wb5h2syqmxpoxmajwiiyqvlkyojjsjql5xpfmris6djegtqzya@6xfio4dmqjdp>
+	Nathan Chancellor <nathan@kernel.org>, Dan Carpenter <dan.carpenter@linaro.org>, 
+	Arnd Bergmann <arnd@arndb.de>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Bill Wendling <morbo@google.com>, Franziska Naepelt <franziska.naepelt@googlemail.com>, 
+	Johannes Berg <johannes.berg@intel.com>, Jeff Johnson <quic_jjohnson@quicinc.com>, 
+	Aloka Dixit <quic_alokad@quicinc.com>, Erick Archer <erick.archer@gmx.com>, 
+	Yang Yingliang <yangyingliang@huawei.com>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	llvm@lists.linux.dev
+Subject: Re: [PATCH 2/3] [v2] staging: rtl8723bs: convert strncpy to strscpy
+Message-ID: <5tivf4xqef52ivneq6ucs2au2ld62ruwmjddhrhrgnltr3q3vj@iykmv323noqq>
 References: <20240408194821.3183462-1-arnd@kernel.org>
+ <20240408194821.3183462-2-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -69,93 +74,89 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240408194821.3183462-1-arnd@kernel.org>
+In-Reply-To: <20240408194821.3183462-2-arnd@kernel.org>
 
 Hi,
 
-On Mon, Apr 08, 2024 at 09:48:09PM +0200, Arnd Bergmann wrote:
+On Mon, Apr 08, 2024 at 09:48:10PM +0200, Arnd Bergmann wrote:
 > From: Arnd Bergmann <arnd@arndb.de>
 > 
-> When -Wstringop-truncation is enabled, gcc finds a function that
-> always does a short copy:
+> gcc-9 complains about a possibly unterminated string in the strncpy() destination:
 > 
-> In function 'inquiry',
->     inlined from 'rtsx_scsi_handler' at drivers/staging/rts5208/rtsx_scsi.c:3210:12:
-> drivers/staging/rts5208/rtsx_scsi.c:526:17: error: 'strncpy' output truncated copying between 1 and 28 bytes from a string of length 28 [-Werror=stringop-truncation]
->   526 |                 strncpy(buf + 8, inquiry_string, sendbytes - 8);
->       |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> In function 'rtw_cfg80211_add_monitor_if',
+>     inlined from 'cfg80211_rtw_add_virtual_intf' at drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:2209:9:
+> drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:2146:2: error: 'strncpy' specified bound 16 equals destination size [-Werror=stringop-truncation]
+>  2146 |  strncpy(mon_ndev->name, name, IFNAMSIZ);
+>       |  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 > 
-> The code originally had a memcpy() that would overread the source string,
-> and commit 88a5b39b69ab ("staging/rts5208: Fix read overflow in memcpy")
-> fixed this but introduced the warning about truncation in the process.
+> This one is a false-positive because of the explicit termination in the following
+> line, and recent versions of clang and gcc no longer warn about this.
 > 
-> As Dan points out, the final space in the inquiry_string always gets
-> cut off, so remove it here for clarity, leaving exactly the 28 non-NUL
-> characters that can get copied into the output. In the 'pro_formatter_flag'
-> this is followed by another 20 bytes from the 'formatter_inquiry_str'
-> array, but there the output never contains a NUL-termination, and the
-> length is known, so memcpy() is the more logical choice.
+> Interestingly, the other strncpy() in this file is missing a termination but
+> does not produce a warning, possibly because of the type confusion and the
+> cast between u8 and char.
 > 
-> Cc: Dan Carpenter <dan.carpenter@linaro.org>
-> Link: https://lore.kernel.org/lkml/695be581-548f-4e5e-a211-5f3b95568e77@moroto.mountain/
+> Change both strncpy() instances to strscpy(), which avoids the warning as well
+> as the possibly missing termination. No additional padding is needed here.
+> 
 > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
-> v2: remove unneeded space byte from input string for clarity,
->     rework changelog text
-> ---
->  drivers/staging/rts5208/rtsx_scsi.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/staging/rts5208/rtsx_scsi.c b/drivers/staging/rts5208/rtsx_scsi.c
-> index 08bd768ad34d..c27cffb9ad8f 100644
-> --- a/drivers/staging/rts5208/rtsx_scsi.c
-> +++ b/drivers/staging/rts5208/rtsx_scsi.c
-> @@ -463,10 +463,10 @@ static unsigned char formatter_inquiry_str[20] = {
->  static int inquiry(struct scsi_cmnd *srb, struct rtsx_chip *chip)
->  {
->  	unsigned int lun = SCSI_LUN(srb);
-> -	char *inquiry_default = (char *)"Generic-xD/SD/M.S.      1.00 ";
-> -	char *inquiry_sdms =    (char *)"Generic-SD/MemoryStick  1.00 ";
-> -	char *inquiry_sd =      (char *)"Generic-SD/MMC          1.00 ";
-> -	char *inquiry_ms =      (char *)"Generic-MemoryStick     1.00 ";
-> +	char *inquiry_default = (char *)"Generic-xD/SD/M.S.      1.00";
-> +	char *inquiry_sdms =    (char *)"Generic-SD/MemoryStick  1.00";
-> +	char *inquiry_sd =      (char *)"Generic-SD/MMC          1.00";
-> +	char *inquiry_ms =      (char *)"Generic-MemoryStick     1.00";
->  	char *inquiry_string;
->  	unsigned char sendbytes;
->  	unsigned char *buf;
-> @@ -523,7 +523,7 @@ static int inquiry(struct scsi_cmnd *srb, struct rtsx_chip *chip)
->  
->  	if (sendbytes > 8) {
->  		memcpy(buf, inquiry_buf, 8);
-> -		strncpy(buf + 8, inquiry_string, sendbytes - 8);
-> +		memcpy(buf + 8, inquiry_string, min(sendbytes, 36) - 8);
 
-I must say I am not the biggest fan of manual string management with raw
-pointer offsets. I wonder if scnprintf() could achieve your goal here of
-combining inquiry_buf with inquiry_string into buf (perhaps utilizing
-%.*s format specifier).
+Helps with: https://github.com/KSPP/linux/issues/90
 
-With that being said, I am just a casual reader of this code and I
-really don't know much about the expected behavior of `buf`
-(NUL-terminated, NUL-padded, etc) or even what the next line buf[4]=0x33
-does.
-
-Your patch looks good and removes an instance of strncpy which helps
-towards [1].
+and for the bots...
+Link: https://github.com/KSPP/linux/issues/90
 
 Reviewed-by: Justin Stitt <justinstitt@google.com>
 
->  		if (pro_formatter_flag) {
->  			/* Additional Length */
->  			buf[4] = 0x33;
+> ---
+> v2:
+>   use the two-argument version of strscpy(), which is simpler for the constant
+>   size destination. Add the third instance in this driver as well.
+> ---
+>  drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 5 ++---
+>  drivers/staging/rtl8723bs/os_dep/os_intfs.c       | 2 +-
+>  2 files changed, 3 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+> index 65a450fcdce7..3fe27ee75b47 100644
+> --- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+> +++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+> @@ -884,7 +884,7 @@ static int cfg80211_rtw_add_key(struct wiphy *wiphy, struct net_device *ndev,
+>  		goto addkey_end;
+>  	}
+>  
+> -	strncpy((char *)param->u.crypt.alg, alg_name, IEEE_CRYPT_ALG_NAME_LEN);
+> +	strscpy(param->u.crypt.alg, alg_name);
+>  
+>  	if (!mac_addr || is_broadcast_ether_addr(mac_addr))
+>  		param->u.crypt.set_tx = 0; /* for wpa/wpa2 group key */
+> @@ -2143,8 +2143,7 @@ static int rtw_cfg80211_add_monitor_if(struct adapter *padapter, char *name, str
+>  	}
+>  
+>  	mon_ndev->type = ARPHRD_IEEE80211_RADIOTAP;
+> -	strncpy(mon_ndev->name, name, IFNAMSIZ);
+> -	mon_ndev->name[IFNAMSIZ - 1] = 0;
+> +	strscpy(mon_ndev->name, name);
+>  	mon_ndev->needs_free_netdev = true;
+>  	mon_ndev->priv_destructor = rtw_ndev_destructor;
+>  
+> diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+> index 68bba3c0e757..55d0140cd543 100644
+> --- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+> +++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+> @@ -415,7 +415,7 @@ static int rtw_ndev_init(struct net_device *dev)
+>  	struct adapter *adapter = rtw_netdev_priv(dev);
+>  
+>  	netdev_dbg(dev, FUNC_ADPT_FMT "\n", FUNC_ADPT_ARG(adapter));
+> -	strncpy(adapter->old_ifname, dev->name, IFNAMSIZ);
+> +	strscpy(adapter->old_ifname, dev->name);
+>  
+>  	return 0;
+>  }
 > -- 
 > 2.39.2
 > 
 >
-
-[1]: https://github.com/KSPP/linux/issues/90
 
 Thanks
 Justin
