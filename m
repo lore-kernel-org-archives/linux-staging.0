@@ -1,68 +1,57 @@
-Received: from wfhigh7-smtp.messagingengine.com (wfhigh7-smtp.messagingengine.com [64.147.123.158])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAC701E532;
-	Mon,  8 Apr 2024 18:16:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.158
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8194C1448D4
+	for <linux-staging@lists.linux.dev>; Mon,  8 Apr 2024 18:26:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712600166; cv=none; b=t2qb7o8qPYTjABuAfgdDcUhkhZsl51PVzMenRMxV7TQab2uMdTeGF0ZlVI5ZquU9cCwR0z+JmjptRJNnk9NG+j+JAPuMMIMJs9o36+e9IABwWLnOXzS4FAlWcuETKB3dgEZwCUOVyGmEM5gn20axREYWv1InB1VkXMbjJjYzBsY=
+	t=1712600782; cv=none; b=u4nbrKU/rKQxp8P5ZWw2VviYvRf+pOJVWdH5idCow6KV+MgEHL4UKHTJxCbtBmxJ2AifTBf/icRdL8Biwwc9tM9ey6XuQVc2o7q/PGHy3qzf0zhK8CS5GBKIRZhACVUJbGHtCD5xgXHLpwNE8wKsOBsl6eUcIPiXxcrCPSJfJfM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712600166; c=relaxed/simple;
-	bh=MDYifrGyvwaoGVS+wMS9G7XMJdOcFm56x3yKmUDlCjw=;
+	s=arc-20240116; t=1712600782; c=relaxed/simple;
+	bh=zHVhbDUXvIHrWkiMCgJm6IIlq6tLgPd0bdBaL4AIw+g=;
 	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=cvr8IAzWJJENKdI5vlG44jA9vZ+k8MYnAyZcaltORDBnRs41N1qswDuny63EV0lE/nFA6l5FpH7CdvgDGHvXHHs664/BpNlyQ4dgiMEIqGFWC1BUpL5+cG00qwPHednxHzDgdu0hP+MYYg3gY1UqjugqwunqMUfhKuIxA/nwpjo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=X4lqC6PP; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=brA1246/; arc=none smtp.client-ip=64.147.123.158
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	 Subject:Content-Type; b=GgqtS0wCJ7EBsaoM8kb+C3ObWmgmsmyohD5Mq4LNhLf0r8WPVNsdtPaRC6PG4B20WnCdwegNvqn5fWh7A+q4A+Qc1sbYotGSsN9SlHgi0cWmWEnVfwJPsIjQz5Eh+itEv6VZlt++Srcj0aPc9hJgpAqX3RilWYza+jVMFnRs5yw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jgl/1v36; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="X4lqC6PP";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="brA1246/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jgl/1v36"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6D78C43394;
+	Mon,  8 Apr 2024 18:26:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712600782;
+	bh=zHVhbDUXvIHrWkiMCgJm6IIlq6tLgPd0bdBaL4AIw+g=;
+	h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
+	b=Jgl/1v36x9gPDRGRtgHLpwSWPWCHyO0Au+aX1+oeGjrzJlGRsUOmUY1aLymZ1LD1l
+	 uriWZpqBeVIymR/WovDHQoyS0iLtOWMaZ9T6TX6ZZDnAdBr1VVPrskaCTEUMzChLFF
+	 b271khNSiAkAf9N/7A2kcLCykf4hAdXZSA5fMuGNmvAYNC1SC2tds+cnVaf3wcfzym
+	 5upBRFtDc+qeB/F50U21OOXfzubYNKKNiLpLm+p2vsiyYnmoAG8gO70G+sU+R5kfTB
+	 jQK90zKMDPSbIeJ+HSqnJbN2hPnWoyW5CQliIRm23OG+D2MvYaf1UCg8kslhr37SsL
+	 RMbdKOukmcmZg==
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailfhigh.west.internal (Postfix) with ESMTP id 0FFE718000A2;
-	Mon,  8 Apr 2024 14:16:02 -0400 (EDT)
+	by mailfauth.nyi.internal (Postfix) with ESMTP id C1C131200066;
+	Mon,  8 Apr 2024 14:26:20 -0400 (EDT)
 Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Mon, 08 Apr 2024 14:16:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1712600162; x=1712686562; bh=uabcAv4sm9
-	QYZcdZ/b6FrksBhz9HMv6R7WfGoejGE2M=; b=X4lqC6PPRq8/BS0cG3KhmAVnat
-	HyqBcPaVzsEiVwxpPN3rbtDmRgU9knT33j8At7hboS2MTa3cumVGjQNlivQyxAFZ
-	L7EbB76mAopFndsMBr6RHuGUF5XcOmPchlxjgtFCyd+D/gx+aTna7a+j0t3DqjuT
-	RpqwRCs3gc37ez6LlxXOaQOxlXNfk4OrMaL50j9snDNaixyf3hT5mTL+PxTgtMxj
-	dZiZrfcTReOxtL5EvkK3Ueo8EeI/XVLuJ9/gfwWvI151T56yHXBrWcb7H6TSGdL8
-	VkW20KJQxR3KhRn6GXZDVLuLaoO0YwE5Vi28y5CNcTqA7KTjENrgTZ3VCmOA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1712600162; x=1712686562; bh=uabcAv4sm9QYZcdZ/b6FrksBhz9H
-	Mv6R7WfGoejGE2M=; b=brA1246/ZjazOoL77tMsNgpiLQe1cwwZOea1I4nVQ8o2
-	B3LnC1bTfVbLaB4oq8qWOMQM8Vo1TVX0Uyc5ozULKQQdzkbgbJcW0yaVJusIz6av
-	Ots8tZz3d82uE6Incvjvqap5+iORqpx3eIuZJzoKR2ILAO0ZI3gKmdh4WTFFjLwH
-	56Ab92ae/0M0cMxh5Z+VeazcLG6joIoQ9oEhEN21wTr9lavJ/j0fKV2RePHl86Pk
-	9WPwxMVlf2YJeFlBQQ4W1VxKcldDMgiemwLTfleOd13w1IS+nlYZXFbAS/004Yyr
-	oPVvXlPbAkYg40PpXQj9eYFQbFtLuxwkdlvBBr6TnQ==
-X-ME-Sender: <xms:YTQUZqFuRf12gSUgJ3dJ02nzi9xAT0Ly0HakoA6MZ7Sr7A_dVA532g>
-    <xme:YTQUZrXcVhpbdvYvIT8_G6RScF0exkcbj6xOwoo7QxYOSzqOzp9AEb13zUZShDwT0
-    TqVhpz3b2qNnT2DPDw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudegiedguddvvdcutefuodetggdotefrod
+  by compute5.internal (MEProxy); Mon, 08 Apr 2024 14:26:20 -0400
+X-ME-Sender: <xms:zDYUZnSXwNry391rmaAK2q6pWJ7P0xZmJqjLiKNUODDJ3Pk00Nb_og>
+    <xme:zDYUZozQ-Krgj5gAi4w0A6kwSsFcIV-8dt9B-4wIyRh2cXKg42gpmJ8Jlp6Co3E4R
+    xmMNRybm_uDDjY3Vo0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudegiedguddvgecutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
     necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
     enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
-    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
-    htthgvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedt
-    keetffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    grrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:YTQUZkLvgqU3sMf570ndvKnvzIbeptNstKCcvm46jO3Cc9iYV8jguw>
-    <xmx:YTQUZkGXcC3v2o_4RxhoGZEoaSxyIqjrL8Jv5jiHW24URKjMYynmCw>
-    <xmx:YTQUZgWRBIsXSMvq5S9tALxMlE17MR-_rd9RK5VtUUFQhaJTRdoMmw>
-    <xmx:YTQUZnPZvtKfGHXe1c1RD1AbH6Ii-sJPuE1wgyoHOxUnqLEljbQWbg>
-    <xmx:YjQUZhvT4js17EwuALwlK4b_kVBv0x1QVL9g6iY3bJHwOJeV-kbyOm82>
-Feedback-ID: i56a14606:Fastmail
+    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugeskhgvrhhnvghlrdhorhhgqeenucggtf
+    frrghtthgvrhhnpefgffejleeluddugfejueeiteefvddtgfeutefhvdfgudfhveekgeeh
+    gfevledvudenucffohhmrghinhepphgrshhtvggsihhnrdgtohhmnecuvehluhhsthgvrh
+    fuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnhguodhmvghsmhhtphgr
+    uhhthhhpvghrshhonhgrlhhithihqdduvdekhedujedtvdegqddvkeejtddtvdeigedqrg
+    hrnhgupeepkhgvrhhnvghlrdhorhhgsegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:zDYUZs3rvvfu67uhmCGEJAPq0TQAmvT7jZzbrj7k9JydV3_k6Zvy9g>
+    <xmx:zDYUZnAABHBYRqtaQ-sy4qdjwWZ5twBGfpIp6UlPW9OgKyogl3P1qA>
+    <xmx:zDYUZgiUnA3CotxjZrPEu_YvIt0FIAQQQTrD-b2MARoGg2OoNZYR0g>
+    <xmx:zDYUZrrT8GCJZwI1mE0yIznln8ztL49PsAFRhw2fLcHjtuTVD2lhFw>
+    <xmx:zDYUZrjT2JJ-Q1GpA_EUI3Mpg9KqHNMSXAZdTcxUwl0GX5MSayuguQmB>
+Feedback-ID: i36794607:Fastmail
 Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id B6FB7B6008D; Mon,  8 Apr 2024 14:16:01 -0400 (EDT)
+	id 81795B60089; Mon,  8 Apr 2024 14:26:20 -0400 (EDT)
 X-Mailer: MessagingEngine.com Webmail Interface
 User-Agent: Cyrus-JMAP/3.11.0-alpha0-368-gc733b1d8df-fm-20240402.001-gc733b1d8
 Precedence: bulk
@@ -71,54 +60,76 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-Id: <132c99af-bbac-4dad-84b7-7ed016517d0c@app.fastmail.com>
-In-Reply-To: 
- <CAFhGd8oHht+uMBouT7_AXZt4DMRJi=A7_=fyhZ2Hf_ne+8xE8w@mail.gmail.com>
+Message-Id: <1622d9ff-feed-4a12-9d8d-3f00088c9edf@app.fastmail.com>
+In-Reply-To: <76214105-94ae-4540-8511-e9e2ff6d257e@moroto.mountain>
 References: <20240328140512.4148825-1-arnd@kernel.org>
- <20240328140512.4148825-10-arnd@kernel.org>
- <CAFhGd8oHht+uMBouT7_AXZt4DMRJi=A7_=fyhZ2Hf_ne+8xE8w@mail.gmail.com>
-Date: Mon, 08 Apr 2024 20:15:30 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Justin Stitt" <justinstitt@google.com>, "Arnd Bergmann" <arnd@kernel.org>
-Cc: linux-kernel@vger.kernel.org,
+ <20240328140512.4148825-11-arnd@kernel.org>
+ <76214105-94ae-4540-8511-e9e2ff6d257e@moroto.mountain>
+Date: Mon, 08 Apr 2024 20:26:00 +0200
+From: "Arnd Bergmann" <arnd@kernel.org>
+To: "Dan Carpenter" <dan.carpenter@linaro.org>
+Cc: linux-kernel@vger.kernel.org, "Viresh Kumar" <vireshk@kernel.org>,
+ "Johan Hovold" <johan@kernel.org>, "Alex Elder" <elder@kernel.org>,
  "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "Nathan Chancellor" <nathan@kernel.org>,
- "Nick Desaulniers" <ndesaulniers@google.com>,
- "Bill Wendling" <morbo@google.com>,
- "Franziska Naepelt" <franziska.naepelt@googlemail.com>,
- "Johannes Berg" <johannes.berg@intel.com>,
- "Yang Yingliang" <yangyingliang@huawei.com>,
- "Erick Archer" <erick.archer@gmx.com>, linux-staging@lists.linux.dev,
- llvm@lists.linux.dev
-Subject: Re: [PATCH 09/11] staging: rtl8723bs: convert strncpy to strscpy
+ "Arnd Bergmann" <arnd@arndb.de>,
+ "Christophe JAILLET" <christophe.jaillet@wanadoo.fr>,
+ greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 10/11] staging: greybus: change strncpy() to strscpy()
 Content-Type: text/plain
 
-On Fri, Mar 29, 2024, at 00:01, Justin Stitt wrote:
->> Change both strncpy() instances to strscpy(), which avoids the warning as well
->> as the possibly missing termination. No additional padding is needed here.
+On Thu, Mar 28, 2024, at 16:00, Dan Carpenter wrote:
+> On Thu, Mar 28, 2024 at 03:04:54PM +0100, Arnd Bergmann wrote:
+>> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+>> ---
+>> This is from randconfig testing with random gcc versions, a .config to
+>> reproduce is at https://pastebin.com/r13yezkU
+>> ---
+>>  drivers/staging/greybus/fw-management.c | 4 ++--
+>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>> 
+>> diff --git a/drivers/staging/greybus/fw-management.c b/drivers/staging/greybus/fw-management.c
+>> index 3054f084d777..35bfdd5f32d2 100644
+>> --- a/drivers/staging/greybus/fw-management.c
+>> +++ b/drivers/staging/greybus/fw-management.c
+>> @@ -303,13 +303,13 @@ static int fw_mgmt_backend_fw_update_operation(struct fw_mgmt *fw_mgmt,
+>>  	struct gb_fw_mgmt_backend_fw_update_request request;
+>>  	int ret;
+>>  
+>> -	strncpy(request.firmware_tag, tag, GB_FIRMWARE_TAG_MAX_SIZE);
+>> +	ret = strscpy(request.firmware_tag, tag, GB_FIRMWARE_TAG_MAX_SIZE);
 >
-> Could you also clean up the strncpy present in
-> drivers/staging/rtl8723bs/os_dep/os_intfs.c so all these are cleaned
-> up at once?
+> This needs to be strscpy_pad() or it risks an information leak.
 
-I originally tried not to mix the general conversion with the
-warning fixes, but it looks like it has the same issue in theory.
+Right, I think I misread the code thinking that the strncpy()
+destination was user provided, but I see now that this copy is
+from user-provided data into the stack, so the padding is indeed
+stale stack data.
 
-Not sure why there is no warning for this one, I guess it's because
-it copies from a fixed-size source of the same length?
+I could not find out whether this gets copied back to userspace,
+but adding the padding is safer indeed.
 
-Anyway, it's clearly related here so I've added this for v2.
-
-> Maybe we could use the new 2-argument version of strscpy() introduced
-> in Commit e6584c3964f2f ("string: Allow 2-argument strscpy()") for all
-> 3 of these too.
+>>  
+>>  	/*
+>>  	 * The firmware-tag should be NULL terminated, otherwise throw error and
+>                                       ^^^^^^^^^^^^^^^^
+> These comments are out of date.
 >
-> It looks like:
->     strscpy(dest, src);
->
+>>  	 * fail.
+>>  	 */
+>> -	if (request.firmware_tag[GB_FIRMWARE_TAG_MAX_SIZE - 1] != '\0') {
+>> +	if (ret == -E2BIG) {
+>>  		dev_err(fw_mgmt->parent, "backend-update: firmware-tag is not NULL terminated\n");
+>                                                           
+> ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> More out of date prints.
 
-Done now, after double-checking that the sizes actually match.
+I had thought about changing it when I did the patch, but could
+not come up with anything that describes the error condition better:
+the cause of the -E2BIG error is still the missing NUL-termination
+in the provided string.
 
-Thanks for the review,
+Maybe we should instead not print a warning at all? The general
+rule is that user triggered operations should not lead to
+spamming the kernel logs.
 
-      Arnd
+     Arnd
