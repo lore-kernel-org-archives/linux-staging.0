@@ -1,90 +1,94 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com [209.85.214.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D86667D3F4
-	for <linux-staging@lists.linux.dev>; Tue,  9 Apr 2024 08:00:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B34912B14F
+	for <linux-staging@lists.linux.dev>; Tue,  9 Apr 2024 11:40:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712649639; cv=none; b=ODODOvCzUufnZZCLosUOcbcQr3UGaOtXzxvjG9XAoFhdCSU6tRRlMURSJekeZ1dCM+jjQ6YM0sBsECNNdc2AJx+gnBJQ7taHi5ZJyspn+sZV9/WNQRMZ6RN1ioJI925kOKeeBkD8H2X0ex9uX4OODwG6+QwR2bfYTP20JGDBXPA=
+	t=1712662862; cv=none; b=iX89QBdJN/OPoEwBttk4/KFi/yYdpuk2i7okL4Tbrugf3dDdYIkSsFFLzrCoOc/AhRG8SIoZFMXHqhbtFnNmmG2HyHheXkuVK5EpbITvDi1YIjpD4Y8qMgyHgAf6sWxszjdExuADptdDYnpu3/fB63H8yUfAvT8UqzyQJFQdn1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712649639; c=relaxed/simple;
-	bh=avVXALww2VwZ9gN38ctn3234RAy9lcjvts1P4UvCWU8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fS4Zoi2f2gVfu/4/PCV3HBoohh/xTCNONarlsle+RNY24G6kP3xeEpo+ejV47UOBnm4JIg4cHh5Yk1A4w3NCzS7UG0a7FRNd9XuFbIsC5l0AfqnRxno+kfUNgu/fJfTZTCM8Hy3TiHLSd0vvxDO8oDI6En1sKGueqXhe1VaIEQk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=kxY13EaH; arc=none smtp.client-ip=209.85.208.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1712662862; c=relaxed/simple;
+	bh=rkgQpPAjwBulfGsgEC7S06810blh43cxTegTVfjicmY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ToUksey1kFhi1t9Ihu37aYjsYh4om3sCDBb2K4MVsOex9ssrCmmKEtRFLN6HE6BcLThHbQlkMLH7BMGgU99Iz0OnxumuKzMScncJTzhuRemCN74xuqF5EJ9bXOEMBYmQNRXf3nlcI4xL4g3wp3FEXSxx6XsQKGipZp/EOxLlNro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ime.usp.br; spf=pass smtp.mailfrom=ime.usp.br; dkim=pass (2048-bit key) header.d=usp.br header.i=@usp.br header.b=eMIDFkH9; arc=none smtp.client-ip=209.85.214.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ime.usp.br
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ime.usp.br
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kxY13EaH"
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-56e6282dd72so2112544a12.3
-        for <linux-staging@lists.linux.dev>; Tue, 09 Apr 2024 01:00:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=usp.br header.i=@usp.br header.b="eMIDFkH9"
+Received: by mail-pl1-f196.google.com with SMTP id d9443c01a7336-1e40042c13eso14691445ad.2
+        for <linux-staging@lists.linux.dev>; Tue, 09 Apr 2024 04:40:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1712649636; x=1713254436; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6ONlMZGZ9RPYiJA+pih4//jtldRttSyww/CoJiXseC8=;
-        b=kxY13EaHac/J1Ts5aXql/phzDIp/Vvxri+xZ08/0/mtkHF3Ztitc+ZM4fshYj35dEn
-         TC7uWPlmcwizuFSQMFuuSyYH8Gtoku46VmuqL2HRTCU6jge6uG6Iranlw+Qc4NnMgKSG
-         PK9zIWzChRE5bMYasaGR0wv4jIqKlmKU/RvCpAfSYrcNIy2uGHSptvYMKxEaDter7JkU
-         cTyNHyC0dJMiwHFeT76M1PAc0oxikYsdH/FBwL0N90+WDnmIaxZYcNp5BwK7VK4t+wjE
-         +CpVJ2Wu2tAtt8sa5wOHoB2U+L+RJQf4XVW+tjXf5EXqkMy0iQOSeYID0sWMzKMWCYbf
-         FeQQ==
+        d=usp.br; s=usp-google; t=1712662858; x=1713267658; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nj69Gf9AC1113GLKMXeajOz51G86hh4wvGeZBblnNV0=;
+        b=eMIDFkH9fEeP86C/VfD3/FzlBNIChLq31duR6QC6mSBGlXoVupb3wH8RkI8oXMo3yf
+         vwHDZaBouRF/h8WMIkcibcEKp8EVBCjITG2SsWb5D9sNNDnhblOCQM2MmVr0OqWFFgS3
+         oIlw6/vGB86WdfGa+L15cBxqvcoXSFKbJgIe/aD1BJtRbGGxIk/5pXDybeRTPLYjqUVc
+         tm7QnKn2nRYwjjMsIZqe65as3rrIi+Tmk+ZUryzjOCh4D29Sjb/3/kAJEFiTbi9HrK+r
+         /xcO3JrOR2dKfJudD1wE9bQNropRk9jrlR6i2GzysiDlqPsF+4FS38C8WeCUbfFY/E/8
+         50yA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712649636; x=1713254436;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6ONlMZGZ9RPYiJA+pih4//jtldRttSyww/CoJiXseC8=;
-        b=AF49siM3rqYUUgZvGdDQHHQSfjupBWUVshfYmdr9htqvrmFY2uvRLtTFdMnHX0dqyJ
-         K1AYnH2kMtk8Nog9wdUZxNtuWHnYxBo/RxXOUKrV+PTytID0iMrvR5JEsKYxPZPmCSl6
-         SOqmk8H9Q8JjhK2Y2ozbPl18uEuCDpQLNZpBzMt25KO/CkNs6PBp3dvEJXsoyGJP5lJO
-         LRSuOSh8hv2xtdA4QRMwlIQMBM4cE/FIfYfyxRRePWE3xNfmY88lVU3JSnE1lO3N/iZj
-         Vm5BShpZ5lridhFzdGMAa9NylPf6n6Tj2iS5lsDGBp5d4WOStG1I+/AdWtHyH6NmiGf0
-         VJsA==
-X-Forwarded-Encrypted: i=1; AJvYcCWsTgeNehhsM/X2n64HzlLpQUg8PRiptGZo228ElkL46o6d5HCO9PFK6Nr+drBzPQq/6G9q8VSqFksPh/RWvpX3LiGzDzOeotxzrKtrYw==
-X-Gm-Message-State: AOJu0Ywo2S4Ed2LFEzzrhBnnZyEmWDWjv4rhaNQ2Lfcf8iLnhPgYofBp
-	rieFrEmU8FG3ZbYH9j5iR941Jo1LJC0EyJaL7nV5lAyG6WzqBEEFsWi35zMHlx0=
-X-Google-Smtp-Source: AGHT+IGxEblWAkIcMvVn/67TittUpAQ5r3yIpuR2HIFYIIXkYrL/8PqoXuJ527K8Niw97U0bA6lP0A==
-X-Received: by 2002:a17:907:8690:b0:a4e:2600:3fb6 with SMTP id qa16-20020a170907869000b00a4e26003fb6mr4485405ejc.62.1712649635877;
-        Tue, 09 Apr 2024 01:00:35 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id dm14-20020a170907948e00b00a4e24d259edsm5289480ejc.167.2024.04.09.01.00.34
+        d=1e100.net; s=20230601; t=1712662858; x=1713267658;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nj69Gf9AC1113GLKMXeajOz51G86hh4wvGeZBblnNV0=;
+        b=Iz9UORxNqaKDTXstU5ccs5hNAJ9zg9NL7AlK+XMU5RMC7ih6Wi72bVi4/Jt7/amJit
+         OJcA8FGLV8apdmYqOlCvHIhDI2w/FQFK8i166tac50K0rtyd2YFH+mOosZFN+rGa43i2
+         o0+WZO2HEgk5gUiTvZXOkivlgTR0ffDB+IKyprCODNLXZ9Fa1/Y9Buz//s3nKQa0z1Xk
+         WW+knIWy1auz4DmcBKtrcIQttTZ1jfxH030tn2+gSNKCtcxrBfvkG+NgupaL/5KTDolG
+         te8Bw9MO8PV0YZDlAGF+6cIhsDr3l7xlBR0oB9VUctXh8Cy0O+h9NYTpADNtCt+Yf2t1
+         CG+A==
+X-Forwarded-Encrypted: i=1; AJvYcCWvA6TTCCgN3Z+co/bPEWtCfgmysvpoSr6L1ZIm37g/JewjUTjOhGYMNxYlo2nZYjTzQ+18vKoyEgi4zWQV5WQDqOkGQuHQzMy9hUSMfA==
+X-Gm-Message-State: AOJu0YyS1cNpZi5zqO+nY5dOIU/6Q5Al5dO0MGcjJFxIJJS8LSpW3HHD
+	4zko4msIGNEBgWnAUlx/pTx2b6a9W+pZsqnFAqXGhfNmTeTqzlnpZLNW6tXvvvYQVHPqmPpphXI
+	4nWV+u+19WToXrSK9
+X-Google-Smtp-Source: AGHT+IEuUOF47jKaqXVe/uBd6Zq5NWnJYAKUjbTQwvwDQJ2Yh5Jgk6dEzXqV81OERcXTuKz1rxopmA==
+X-Received: by 2002:a17:902:d386:b0:1dd:6ce3:7442 with SMTP id e6-20020a170902d38600b001dd6ce37442mr9487167pld.39.1712662858534;
+        Tue, 09 Apr 2024 04:40:58 -0700 (PDT)
+Received: from localhost.localdomain ([2804:18:18bf:c025:fe8e:1e4e:c180:47a])
+        by smtp.gmail.com with ESMTPSA id kp4-20020a170903280400b001dddbb58d5esm8617530plb.109.2024.04.09.04.40.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Apr 2024 01:00:35 -0700 (PDT)
-Date: Tue, 9 Apr 2024 11:00:30 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Jackson Chui <jacksonchui.qwerty@gmail.com>
-Cc: Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+        Tue, 09 Apr 2024 04:40:57 -0700 (PDT)
+From: topcat <bfonseca@ime.usp.br>
+X-Google-Original-From: topcat <bfonseca@ipt.br>
+To: Marc Dietrich <marvin24@gmx.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: topcat <bfonseca@ipt.br>,
+	ac100@lists.launchpad.net,
+	linux-tegra@vger.kernel.org,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [Patch v2] staging: greybus: Replace gcam macros with direct dev
- log calls
-Message-ID: <f851a212-4bb0-42ca-91c4-1ee44ea9ef4c@moroto.mountain>
-References: <ZhRzWNiak1qOdJLL@jc-ubuntu-dev-korn-1>
+Subject: [PATCH] Fixed spelling mistake
+Date: Tue,  9 Apr 2024 08:40:45 -0300
+Message-ID: <20240409114045.13872-1-bfonseca@ipt.br>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZhRzWNiak1qOdJLL@jc-ubuntu-dev-korn-1>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Apr 08, 2024 at 03:44:40PM -0700, Jackson Chui wrote:
-> Reported by checkpatch:
-> 
-> CHECK: Macro argument 'gcam' may be better as '(gcam)' to avoid
-> precedence issues
-> 
-> Inline standard calls to 'dev_*' kernel logging functions, in favor
-> of 'gcam_*' macros, to clear up gcam-related logging.
-> 
-> Signed-off-by: Jackson Chui <jacksonchui.qwerty@gmail.com>
+---
+ drivers/staging/nvec/nvec.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
-
-regards,
-dan carpenter
+diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
+index 282a664c9176..b4485b10beb8 100644
+--- a/drivers/staging/nvec/nvec.c
++++ b/drivers/staging/nvec/nvec.c
+@@ -712,7 +712,7 @@ static irqreturn_t nvec_interrupt(int irq, void *dev)
+ 	 * TODO: replace the udelay with a read back after each writel above
+ 	 * in order to work around a hardware issue, see i2c-tegra.c
+ 	 *
+-	 * Unfortunately, this change causes an intialisation issue with the
++	 * Unfortunately, this change causes an initialisation issue with the
+ 	 * touchpad, which needs to be fixed first.
+ 	 */
+ 	udelay(100);
+-- 
+2.43.0
 
