@@ -1,67 +1,72 @@
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D9B46A8D2
-	for <linux-staging@lists.linux.dev>; Tue,  9 Apr 2024 06:23:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B2DF7605D
+	for <linux-staging@lists.linux.dev>; Tue,  9 Apr 2024 07:04:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712643834; cv=none; b=E+q8evPxDJsfQJd/69pR2tyGytktQQArXS3Acxw8W6RzLudnx42nAFt4uDnlo+VF6jKQAVG5G6ym3lPx91m31FoM7VP+YUOuHbv/ZNgctsk8DcIMIz4RO3Gdue6gcI2Jmc67f5R6fcdY9RCuGV8MWLx171F7QhJOm1cdqM+AsiU=
+	t=1712646266; cv=none; b=QBj29Ak/ApWGWL+os8CVaHDQ8JS6g2KwOc7qDfjzYmuyaGf9HEBdzOL3BJW6JDCuLQrVecIN8iVmBqO8MzaCYOm7PnQnic44rqWD54TTcbPkoKcGIjV7XdFawJ9dcUrzJSRUl7CHPg9tYAsAHtDiw1bix1C/WBe8DepDtafEDB4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712643834; c=relaxed/simple;
-	bh=4FCqcdUY4noIr3hyXGLjsXuMQ28NOckQh0S4mytZc+w=;
+	s=arc-20240116; t=1712646266; c=relaxed/simple;
+	bh=hJiFGv5DW9utMvcHTnFoXsNOZQQnudImv4pfNaDBxQc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WDbKlUyza/LIJI0x62OTYBUO1gB8BtPqj6iEi1qgHQSOhUyPSCp7M520tse2ZZikcm8odP8edvOEhQOIQgm56zXQx+QFoQX1o3x2JB580fPjENito2yRyAN7hCUW2j//ycL5cuvsrF5EUQSMTQuf6r4vqTQOz7l04pIBiaFRCtU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=clg42iu6; arc=none smtp.client-ip=209.85.208.172
+	 Content-Type:Content-Disposition:In-Reply-To; b=sIEcMXjyX3YCJ7inqFOzQVI/7z+TUVE/mRzFsixZt+BgCWA0SzFvmZ2KiTcOqdfXGqPf9xqSO9TLD3rP9greJUFmdTbGWIquU343l09WLdHsC5PsW4KRTpLsu+PdYGzp+12CH7iRUvaUhSWSmJmbkbTffwQ7eKTZnkX5zcHCd3I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xN7UpJxj; arc=none smtp.client-ip=209.85.208.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="clg42iu6"
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2d8743ecebdso32471741fa.1
-        for <linux-staging@lists.linux.dev>; Mon, 08 Apr 2024 23:23:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xN7UpJxj"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-56e477db7fbso3881210a12.3
+        for <linux-staging@lists.linux.dev>; Tue, 09 Apr 2024 00:04:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1712643830; x=1713248630; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1712646263; x=1713251063; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZGaOLMAwWEbHzlVvJbIY7WaGUlj5DXjFn2iEaNlsiUw=;
-        b=clg42iu6veBlSCbZePqcFSRYiJvB0YyTclJG2FJJidXYjZb4FDcIAW3srs0D3jCYki
-         aNJW1WkLYMes1UAmy4QmIgNsHJIJv/zGIvpoEKd7KRNAmCqD+UnR9eEutY8cbvSQUzos
-         gZTuc7lRQE6/GtK80wNaKziUxOB4RahnghiK1liQv/Nyr9yDN80d7K450d+5Zk9/1bQb
-         aG6nVzh/YjzeUVqgC7GfvDhBcqQWg28xJWBo7p52ZlyAFvbjzosfW0ZUWu8zCwaWqixS
-         ov50+XNaQfadTpOIY12nybApsPkmLKGPor6uF28jVFtXR5/J0h25ruaeFwnDVZrY3t3B
-         iUDA==
+        bh=ZO+G8vYwqEif2MQQep31dNkOjqakaMIvdbgiCkuB6BI=;
+        b=xN7UpJxj1puD6HqyVF1zxGBZir6GIT9hqAMqkIL3vCC6aV4mlSdH0kS7mhJLHoo1lC
+         i3AShl3h8SDU+dpkMh3DvFm0h24IJQLry+jhl113k+8D6YiceqTTRfrEAST8zqVlorhx
+         m1tV9QhvRwf3LGJZqO4WYD6khYQJzPof2iQxGY04udzinpUEOwGvtL0oj+ZLtPUYLZwy
+         ms76cnEzL8lbAzDPRLiI5I8m3NMPT2zOG3gLVvF85zMJoS0dlRD+T8PNRm7Jv5KZxO6H
+         yr21q5E6H+7CH34e8gGSe86fs3z4dK6oRV77k+tOT0dh0Rf9gWpBj/akKKRvyo4caWhs
+         WZRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712643830; x=1713248630;
+        d=1e100.net; s=20230601; t=1712646263; x=1713251063;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZGaOLMAwWEbHzlVvJbIY7WaGUlj5DXjFn2iEaNlsiUw=;
-        b=WVoGhNqPji0o0koKUle3219udytgSWF5QyC/hGu9x/EdK8LPrrkQHtkgqLrQkmmngP
-         QgnyWF2NY8DWYD8NFGWeLNgcBs5YGUnQbzidgocygj+oswQTQytdzXQjOQdfPLrTadQj
-         nJUED5tn59jC1vCkEmC9Ea0xLJqhx3CxHm7t/LQ8KeJ3AVZtTNsQrqfuKInbwc/0z1n6
-         8ybW5l3z3HmpA7hRbDrmvbfu4oD30JEqIs1Ez6YWAM2dRTWBSVlRLwD56mfgJOTpTZom
-         xxWCZu7raJj7uKjau8So5sVTQHMR0sL0NcjGU8cHTTvQnQvQraPypEbC/Hhz+TkAQXSR
-         biow==
-X-Forwarded-Encrypted: i=1; AJvYcCWPzuOqwDUnPPR1sMzoJsMSxBxdE4KLNkNlc215XXHI4adobgFLeWXf01W5CcV2Rdn7YNGAninOexLxW3jrBbblqk1sZxEn7fjAHmUf2g==
-X-Gm-Message-State: AOJu0YxOHpylwFKK/4N5oQAsgWsMaDguqcDmWX/lUAQ6eo+ZzXxRI5C/
-	dYu+lg//qlY99ib1YbZRJ+oGDjV45KSDTxWJP4xCegg6v9pYmGuo/NKMh8ElpS8=
-X-Google-Smtp-Source: AGHT+IHic/ZFaZhwMq0y4OXitpFTOZ7AWtJP5xJ2fYwTZegcmgvKhST0G6zJfdaUu3/vRXpLi4IcoA==
-X-Received: by 2002:ac2:59d0:0:b0:513:30fb:d64 with SMTP id x16-20020ac259d0000000b0051330fb0d64mr8012172lfn.44.1712643830122;
-        Mon, 08 Apr 2024 23:23:50 -0700 (PDT)
+        bh=ZO+G8vYwqEif2MQQep31dNkOjqakaMIvdbgiCkuB6BI=;
+        b=QyjVxnQg5UHyBH0RWXjFbprs2Mn3yVK4cMQqu4mgRqHqg7Frs9iU8Zvd02C8Cuy7ue
+         pHkIbWi7rVAV1b1YyWEzosqGEWr/x4CCTAuraxu+dohAoTHj6ViTYFcn73gIvub4OKIb
+         LhKJWtKn9VVZ38vPIJLAkCyTFan3e2U+nVYqP1BI0KwsGoqWuKS9Ao4ZXrl2GbriQwQc
+         pteD/ptGEC+DvA4dme/YhnZe3P+8dnToSOjzIZ5HulubBKazIwAtgYztKLDX87IUlLci
+         iNZjh5w8Q1mSbjUJlApY1yYrZdsd07HAAsFNMMLKWFecpvyos0F6CGiGsxmgE5+OxC9C
+         a0Sw==
+X-Forwarded-Encrypted: i=1; AJvYcCWE1717DBBEI6Nt4Z44r0BJ+AFJIGIn0jMq6YV1I5t1wGkZ5BAELweEY7jPU9TFpw86EKBkzCsAfpxkWeqMsXAyCmc6zrZ/TQyOeb3eMA==
+X-Gm-Message-State: AOJu0YzovgqJUR6TTnUMIvBr2vG8hmdkceBHwbt7EqjAfp+ieVmM5Lsi
+	L1xy8e9j5qVx+u5AuXsFzyIMZo+ddQqgDnkXEDXaBTlo2OTbNFyfx1EJwHoEAB0=
+X-Google-Smtp-Source: AGHT+IEJR0mpYHfVzK+X/mS3qDum9gkPCn+raThHT7VInTnvN2rmMEEmTyHQC1FpsccQ9/zUzab77g==
+X-Received: by 2002:a17:907:948d:b0:a4d:f5d4:fb02 with SMTP id dm13-20020a170907948d00b00a4df5d4fb02mr8230339ejc.51.1712646262666;
+        Tue, 09 Apr 2024 00:04:22 -0700 (PDT)
 Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id b93-20020a509f66000000b0056e0376286bsm5021838edf.24.2024.04.08.23.23.48
+        by smtp.gmail.com with ESMTPSA id ak2-20020a170906888200b00a51dccd16d9sm1716392ejc.99.2024.04.09.00.04.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Apr 2024 23:23:49 -0700 (PDT)
-Date: Tue, 9 Apr 2024 09:23:45 +0300
+        Tue, 09 Apr 2024 00:04:21 -0700 (PDT)
+Date: Tue, 9 Apr 2024 10:04:17 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Arnd Bergmann <arnd@kernel.org>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Viresh Kumar <vireshk@kernel.org>, Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
 	Justin Stitt <justinstitt@google.com>,
-	Arnd Bergmann <arnd@arndb.de>, linux-staging@lists.linux.dev,
+	Arnd Bergmann <arnd@arndb.de>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] [v2] staging: rts5208: replace weird strncpy() with
- memcpy()
-Message-ID: <bcef5496-31e7-4fe9-ae4b-b1e335eb099b@moroto.mountain>
+Subject: Re: [PATCH 3/3] [v2] staging: greybus: change strncpy() to
+ strscpy_pad()
+Message-ID: <514e5aa2-851b-4846-93f1-51f972d782b3@moroto.mountain>
 References: <20240408194821.3183462-1-arnd@kernel.org>
+ <20240408194821.3183462-3-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -70,37 +75,37 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240408194821.3183462-1-arnd@kernel.org>
+In-Reply-To: <20240408194821.3183462-3-arnd@kernel.org>
 
-On Mon, Apr 08, 2024 at 09:48:09PM +0200, Arnd Bergmann wrote:
+On Mon, Apr 08, 2024 at 09:48:11PM +0200, Arnd Bergmann wrote:
 > From: Arnd Bergmann <arnd@arndb.de>
 > 
-> When -Wstringop-truncation is enabled, gcc finds a function that
-> always does a short copy:
+> gcc-10 warns about a strncpy() that does not enforce zero-termination:
 > 
-> In function 'inquiry',
->     inlined from 'rtsx_scsi_handler' at drivers/staging/rts5208/rtsx_scsi.c:3210:12:
-> drivers/staging/rts5208/rtsx_scsi.c:526:17: error: 'strncpy' output truncated copying between 1 and 28 bytes from a string of length 28 [-Werror=stringop-truncation]
->   526 |                 strncpy(buf + 8, inquiry_string, sendbytes - 8);
->       |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> In file included from include/linux/string.h:369,
+>                  from drivers/staging/greybus/fw-management.c:9:
+> In function 'strncpy',
+>     inlined from 'fw_mgmt_backend_fw_update_operation' at drivers/staging/greybus/fw-management.c:306:2:
+> include/linux/fortify-string.h:108:30: error: '__builtin_strncpy' specified bound 10 equals destination size [-Werror=stringop-truncation]
+>   108 | #define __underlying_strncpy __builtin_strncpy
+>       |                              ^
+> include/linux/fortify-string.h:187:9: note: in expansion of macro '__underlying_strncpy'
+>   187 |  return __underlying_strncpy(p, q, size);
+>       |         ^~~~~~~~~~~~~~~~~~~~
 > 
-> The code originally had a memcpy() that would overread the source string,
-> and commit 88a5b39b69ab ("staging/rts5208: Fix read overflow in memcpy")
-> fixed this but introduced the warning about truncation in the process.
+> For some reason, I cannot reproduce this with gcc-9 or gcc-11, and I only
+> get a warning for one of the four related strncpy()s, so I'm not
+> sure what's going on.
 > 
-> As Dan points out, the final space in the inquiry_string always gets
-> cut off, so remove it here for clarity, leaving exactly the 28 non-NUL
-> characters that can get copied into the output. In the 'pro_formatter_flag'
-> this is followed by another 20 bytes from the 'formatter_inquiry_str'
-> array, but there the output never contains a NUL-termination, and the
-> length is known, so memcpy() is the more logical choice.
+> Change all four to strscpy_pad(), which is the safest replacement here,
+> as it avoids ending up with uninitialized stack data in the tag name.
 > 
-> Cc: Dan Carpenter <dan.carpenter@linaro.org>
-> Link: https://lore.kernel.org/lkml/695be581-548f-4e5e-a211-5f3b95568e77@moroto.mountain/
 > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 > ---
-> v2: remove unneeded space byte from input string for clarity,
->     rework changelog text
+> v2
+>  - use strscpy_pad()
+>  - use two-argument form
+>  - change all four instances, not just the one that produced the warning
 
 Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
 
