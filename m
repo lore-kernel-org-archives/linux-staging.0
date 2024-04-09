@@ -1,125 +1,109 @@
-Received: from wfout6-smtp.messagingengine.com (wfout6-smtp.messagingengine.com [64.147.123.149])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAED4745D6
-	for <linux-staging@lists.linux.dev>; Tue,  9 Apr 2024 05:37:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.149
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D9B46A8D2
+	for <linux-staging@lists.linux.dev>; Tue,  9 Apr 2024 06:23:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712641040; cv=none; b=KStovpC7dTKUjdy4cKtYkOQ8k1aGFzfbaO668wVENRlrHJ0nwd+11Uz6GIdZXRWETYW3TRZzlVDQO7q7CyfAOPeKBPvLezr1Imrz210V7yZQixE6bPJVb+En3y0hF6sJmPXpTA7q7FGG/9sTMSuHuwOWito+q1xRrAP829dPTcU=
+	t=1712643834; cv=none; b=E+q8evPxDJsfQJd/69pR2tyGytktQQArXS3Acxw8W6RzLudnx42nAFt4uDnlo+VF6jKQAVG5G6ym3lPx91m31FoM7VP+YUOuHbv/ZNgctsk8DcIMIz4RO3Gdue6gcI2Jmc67f5R6fcdY9RCuGV8MWLx171F7QhJOm1cdqM+AsiU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712641040; c=relaxed/simple;
-	bh=lTCSNVlJ6eROconCklf0lUttHmQ5Wtcp6EAz241j66g=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=l2dgWbpzk6HkmJQWxe4Nr4MyWRQA0vFWXetrJ3xgY/qn8KqI01ySZym8GwMU1BZFiFRnYEErWG6lJ3FkCo/tMkcrMyjLzQnACa/hrS6jSAwVjW2y3CIZLwqCdc7O/5ZcV7w5aDgyP9vIveVee2MrqP26nzFRKPJC/5x5zqm1Bf0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=Tv2aY7QQ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ohMa2R79; arc=none smtp.client-ip=64.147.123.149
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1712643834; c=relaxed/simple;
+	bh=4FCqcdUY4noIr3hyXGLjsXuMQ28NOckQh0S4mytZc+w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WDbKlUyza/LIJI0x62OTYBUO1gB8BtPqj6iEi1qgHQSOhUyPSCp7M520tse2ZZikcm8odP8edvOEhQOIQgm56zXQx+QFoQX1o3x2JB580fPjENito2yRyAN7hCUW2j//ycL5cuvsrF5EUQSMTQuf6r4vqTQOz7l04pIBiaFRCtU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=clg42iu6; arc=none smtp.client-ip=209.85.208.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="Tv2aY7QQ";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ohMa2R79"
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailfout.west.internal (Postfix) with ESMTP id 13BFB1C000CF;
-	Tue,  9 Apr 2024 01:37:15 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Tue, 09 Apr 2024 01:37:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1712641035; x=1712727435; bh=N2u6h8moDB
-	/fTrACtRe+4SheoESaX066xDK/8RKTrfw=; b=Tv2aY7QQAm99/pz2q0eveh7JGm
-	EfuSYzJeR2QJa0vb6P9iDs/oHdeTyb9Uuy8oyOyVuT0a9TSV4dyHIwYSImGxUmmj
-	Ui8Rpk6S1W2zaVzAZAspGRz6HBlGQCGjh05+kDjVSxpa13UlZDVNWQjnkS/cXhNx
-	QIq7n8JB3QZdtsDVYIFAewpZXEX5H8w6ZWK2dUbvP9cNA+6C+XS2wQwkLjOcChni
-	mooq3eElINOpKJl7xCxmkRiYKPYzkIyqvi9lQzP0pnhk0k9nb0mqnuUnd2AFat+f
-	vBJb8Zxbg5Euo7f4POuAZotU3tUkAbWamJ/D8BsUl3MgSGugtqbcfiegXSTQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1712641035; x=1712727435; bh=N2u6h8moDB/fTrACtRe+4SheoESa
-	X066xDK/8RKTrfw=; b=ohMa2R79u15cVtS+Hp9UcT9qCYwDCzkdSZwD64PHuxLL
-	ogfPbSzwStwmmxM//S/G2juvf5lWvwnAiWTGPUyF58LgwDxXagQ+6teWjMMgreAH
-	81Wf0T5OGNV5+N6kxifl7hF7kc9pkSS5pqvpDzxqhaFWUduPi72YNzY62BGJRyd7
-	vujMGnTL6XUnJi1gzKXywDTqLbHwRygNJwLx+QjaA/lrguWL1NLORZvOkB8MIM5L
-	RhM6urcMsOQ3DpdJRBAgQi7yhMcteT9O7WnrQBxXyqSQj2e2dNEp8UDOOKr4xjyT
-	VymgXEXID6/wtD4YUl5G6TXQiY6geTb1A1NXrkfLqQ==
-X-ME-Sender: <xms:CtQUZsFfSUICkWocoB5zC5-PrQnhTJahJ5iiY4tMAfy_fZ2-uRlRlw>
-    <xme:CtQUZlVHJxGjeCMy1KEcuEUnYiervNbI-1IGG4NdDtnHwfsydE1xjT-vRYM6MiBFs
-    sicN3teljXe8Rq6Vms>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudegkedgjedvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
-    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
-    hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:C9QUZmIVjAcut8WPutq21WbfrWS5g59akM0KpCDBxcR4f1j_WwHDuQ>
-    <xmx:C9QUZuGSFgkVo1yMG-B7uF4Z3at6sW-0rUUrfZv7_il-cF5ktOreYw>
-    <xmx:C9QUZiV0Qui6M0VVg7sG5z5eBwPqb_qGfmtGfDq0kAZpuY0DwdPGeA>
-    <xmx:C9QUZhNOp0EPBYCG-SsWcla1g_pZ_qgOaCHD3toiynA_CaWONsQHCg>
-    <xmx:C9QUZkdeeGcEaKfoj5sJUbzxdTjNanxBMunWJ02EKKoa2dTxParFfkPj>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id DDC0AB6008D; Tue,  9 Apr 2024 01:37:14 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-379-gabd37849b7-fm-20240408.001-gabd37849
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="clg42iu6"
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2d8743ecebdso32471741fa.1
+        for <linux-staging@lists.linux.dev>; Mon, 08 Apr 2024 23:23:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1712643830; x=1713248630; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZGaOLMAwWEbHzlVvJbIY7WaGUlj5DXjFn2iEaNlsiUw=;
+        b=clg42iu6veBlSCbZePqcFSRYiJvB0YyTclJG2FJJidXYjZb4FDcIAW3srs0D3jCYki
+         aNJW1WkLYMes1UAmy4QmIgNsHJIJv/zGIvpoEKd7KRNAmCqD+UnR9eEutY8cbvSQUzos
+         gZTuc7lRQE6/GtK80wNaKziUxOB4RahnghiK1liQv/Nyr9yDN80d7K450d+5Zk9/1bQb
+         aG6nVzh/YjzeUVqgC7GfvDhBcqQWg28xJWBo7p52ZlyAFvbjzosfW0ZUWu8zCwaWqixS
+         ov50+XNaQfadTpOIY12nybApsPkmLKGPor6uF28jVFtXR5/J0h25ruaeFwnDVZrY3t3B
+         iUDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712643830; x=1713248630;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZGaOLMAwWEbHzlVvJbIY7WaGUlj5DXjFn2iEaNlsiUw=;
+        b=WVoGhNqPji0o0koKUle3219udytgSWF5QyC/hGu9x/EdK8LPrrkQHtkgqLrQkmmngP
+         QgnyWF2NY8DWYD8NFGWeLNgcBs5YGUnQbzidgocygj+oswQTQytdzXQjOQdfPLrTadQj
+         nJUED5tn59jC1vCkEmC9Ea0xLJqhx3CxHm7t/LQ8KeJ3AVZtTNsQrqfuKInbwc/0z1n6
+         8ybW5l3z3HmpA7hRbDrmvbfu4oD30JEqIs1Ez6YWAM2dRTWBSVlRLwD56mfgJOTpTZom
+         xxWCZu7raJj7uKjau8So5sVTQHMR0sL0NcjGU8cHTTvQnQvQraPypEbC/Hhz+TkAQXSR
+         biow==
+X-Forwarded-Encrypted: i=1; AJvYcCWPzuOqwDUnPPR1sMzoJsMSxBxdE4KLNkNlc215XXHI4adobgFLeWXf01W5CcV2Rdn7YNGAninOexLxW3jrBbblqk1sZxEn7fjAHmUf2g==
+X-Gm-Message-State: AOJu0YxOHpylwFKK/4N5oQAsgWsMaDguqcDmWX/lUAQ6eo+ZzXxRI5C/
+	dYu+lg//qlY99ib1YbZRJ+oGDjV45KSDTxWJP4xCegg6v9pYmGuo/NKMh8ElpS8=
+X-Google-Smtp-Source: AGHT+IHic/ZFaZhwMq0y4OXitpFTOZ7AWtJP5xJ2fYwTZegcmgvKhST0G6zJfdaUu3/vRXpLi4IcoA==
+X-Received: by 2002:ac2:59d0:0:b0:513:30fb:d64 with SMTP id x16-20020ac259d0000000b0051330fb0d64mr8012172lfn.44.1712643830122;
+        Mon, 08 Apr 2024 23:23:50 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id b93-20020a509f66000000b0056e0376286bsm5021838edf.24.2024.04.08.23.23.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Apr 2024 23:23:49 -0700 (PDT)
+Date: Tue, 9 Apr 2024 09:23:45 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Justin Stitt <justinstitt@google.com>,
+	Arnd Bergmann <arnd@arndb.de>, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] [v2] staging: rts5208: replace weird strncpy() with
+ memcpy()
+Message-ID: <bcef5496-31e7-4fe9-ae4b-b1e335eb099b@moroto.mountain>
+References: <20240408194821.3183462-1-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-Id: <b5740321-455e-4939-8a94-72c01e4c09f3@app.fastmail.com>
-In-Reply-To: 
- <wb5h2syqmxpoxmajwiiyqvlkyojjsjql5xpfmris6djegtqzya@6xfio4dmqjdp>
-References: <20240408194821.3183462-1-arnd@kernel.org>
- <wb5h2syqmxpoxmajwiiyqvlkyojjsjql5xpfmris6djegtqzya@6xfio4dmqjdp>
-Date: Tue, 09 Apr 2024 07:34:41 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Justin Stitt" <justinstitt@google.com>, "Arnd Bergmann" <arnd@kernel.org>
-Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "Dan Carpenter" <dan.carpenter@linaro.org>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] [v2] staging: rts5208: replace weird strncpy() with memcpy()
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240408194821.3183462-1-arnd@kernel.org>
 
-On Mon, Apr 8, 2024, at 22:28, Justin Stitt wrote:
-> On Mon, Apr 08, 2024 at 09:48:09PM +0200, Arnd Bergmann wrote:
+On Mon, Apr 08, 2024 at 09:48:09PM +0200, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> When -Wstringop-truncation is enabled, gcc finds a function that
+> always does a short copy:
+> 
+> In function 'inquiry',
+>     inlined from 'rtsx_scsi_handler' at drivers/staging/rts5208/rtsx_scsi.c:3210:12:
+> drivers/staging/rts5208/rtsx_scsi.c:526:17: error: 'strncpy' output truncated copying between 1 and 28 bytes from a string of length 28 [-Werror=stringop-truncation]
+>   526 |                 strncpy(buf + 8, inquiry_string, sendbytes - 8);
+>       |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> 
+> The code originally had a memcpy() that would overread the source string,
+> and commit 88a5b39b69ab ("staging/rts5208: Fix read overflow in memcpy")
+> fixed this but introduced the warning about truncation in the process.
+> 
+> As Dan points out, the final space in the inquiry_string always gets
+> cut off, so remove it here for clarity, leaving exactly the 28 non-NUL
+> characters that can get copied into the output. In the 'pro_formatter_flag'
+> this is followed by another 20 bytes from the 'formatter_inquiry_str'
+> array, but there the output never contains a NUL-termination, and the
+> length is known, so memcpy() is the more logical choice.
+> 
+> Cc: Dan Carpenter <dan.carpenter@linaro.org>
+> Link: https://lore.kernel.org/lkml/695be581-548f-4e5e-a211-5f3b95568e77@moroto.mountain/
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+> v2: remove unneeded space byte from input string for clarity,
+>     rework changelog text
 
->> @@ -523,7 +523,7 @@ static int inquiry(struct scsi_cmnd *srb, struct rtsx_chip *chip)
->>  
->>  	if (sendbytes > 8) {
->>  		memcpy(buf, inquiry_buf, 8);
->> -		strncpy(buf + 8, inquiry_string, sendbytes - 8);
->> +		memcpy(buf + 8, inquiry_string, min(sendbytes, 36) - 8);
->
-> I must say I am not the biggest fan of manual string management with raw
-> pointer offsets. I wonder if scnprintf() could achieve your goal here of
-> combining inquiry_buf with inquiry_string into buf (perhaps utilizing
-> %.*s format specifier).
+Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
 
-scnprintf() would be wrong here, since it's not actually a string
-but a SCSI HW data structure with both binary and ASCII members
-and no NUL termination. It's supposed to be padded with spaces.
+regards,
+dan carpenter
 
-> With that being said, I am just a casual reader of this code and I
-> really don't know much about the expected behavior of `buf`
-> (NUL-terminated, NUL-padded, etc) or even what the next line buf[4]=0x33
-> does.
-
-I believe this sets the length of the buffer to 51 bytes when
-pro_formatter_flag is set, overriding the 0x1f (31 bytes) for the
-normal length.
-
-The root of the problem here is that the driver emulates a SCSI
-command set on a card reader for both SD cards and memory sticks
-instead of using the existing abstractions from
-drivers/{mmc,memstick}.
-
-Apparently drivers/misc/cardreader/rtsx_pcr.c does this the
-right way for all later devices (rts5209 and up) but is
-not compatible with this variant of the hardware.
-
-    Arnd
