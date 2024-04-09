@@ -1,265 +1,125 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wfout6-smtp.messagingengine.com (wfout6-smtp.messagingengine.com [64.147.123.149])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28A0A171B0
-	for <linux-staging@lists.linux.dev>; Mon,  8 Apr 2024 22:44:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAED4745D6
+	for <linux-staging@lists.linux.dev>; Tue,  9 Apr 2024 05:37:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712616283; cv=none; b=j4r+hVEeKqUdhaYbn7p2N7sv7T7i62q5H2QU2HAHL29DNV0krZCJ05pKNCTEXgFH/8POgOAuuyAQoCfoSITPNpa87PtPo9aBbN0cvMHigCxfYD1X8o5/K3lbApG2nA8dTt+If8xg6mKtKhOcv9CvRp6IZFxmQGfK+wwXA15RfOA=
+	t=1712641040; cv=none; b=KStovpC7dTKUjdy4cKtYkOQ8k1aGFzfbaO668wVENRlrHJ0nwd+11Uz6GIdZXRWETYW3TRZzlVDQO7q7CyfAOPeKBPvLezr1Imrz210V7yZQixE6bPJVb+En3y0hF6sJmPXpTA7q7FGG/9sTMSuHuwOWito+q1xRrAP829dPTcU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712616283; c=relaxed/simple;
-	bh=+/3t9ECBsy9ODFlP5YpFi+yWmEkcPNa80UvzDk2CLnE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EByVUuqcDV/c7gfJRPxZUXQA724BoIu43UJou+7vrohMF3P6dj6jdXRGcfG96nH3VzmYvFIKsxs5xtWXcbWwSuCrncg6ttEYLgAsSivYhpAJGyg3/ZYKqdqkIAhDuqgA5vtgKNRBaOrMn3sGW+jA3u9ah1lS98Kcj8hQ5WwHsNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lHzdg5Xc; arc=none smtp.client-ip=209.85.210.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1712641040; c=relaxed/simple;
+	bh=lTCSNVlJ6eROconCklf0lUttHmQ5Wtcp6EAz241j66g=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=l2dgWbpzk6HkmJQWxe4Nr4MyWRQA0vFWXetrJ3xgY/qn8KqI01ySZym8GwMU1BZFiFRnYEErWG6lJ3FkCo/tMkcrMyjLzQnACa/hrS6jSAwVjW2y3CIZLwqCdc7O/5ZcV7w5aDgyP9vIveVee2MrqP26nzFRKPJC/5x5zqm1Bf0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=Tv2aY7QQ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ohMa2R79; arc=none smtp.client-ip=64.147.123.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lHzdg5Xc"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-6ecd957f949so4865191b3a.0
-        for <linux-staging@lists.linux.dev>; Mon, 08 Apr 2024 15:44:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712616281; x=1713221081; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=CKZc4c8lA2wcnIkG9X93w8id7DRu1ED4YOIT0xR9IFU=;
-        b=lHzdg5Xczigh4UpjdwC6/GQbblRwL5DsUar/PryWvQ43Y22pztKDZCQAo1Cue6B2tU
-         TD3KI1RXZ/bhnGv5j9Z/S88oUtZPGGEAOwmG/1+StcXIftAyt3SCoAqHsbyUJ4s6K3hE
-         gqp00Z0YZ+yW5L67IOJbrKILT/JvCYVykwtJdFDuk8MvfVJxB6i5UznqOphudNl2nxdw
-         IKoJxAzniL7W8ZIPYEn8neMKTBb9sqnlWHyLPNSw6DXrs1mYn28b1gk31JLrP/MlLT3n
-         CgY4SFf4HzBofBSzpAo7mdwztfdi4BMHw4KOh6XOPx7xrQYaaCVPwB4ZCsPoY+C+60ye
-         VF5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712616281; x=1713221081;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=CKZc4c8lA2wcnIkG9X93w8id7DRu1ED4YOIT0xR9IFU=;
-        b=NLsLB0Nf1eFSl3/xpp3osLliGzgHmE5ef8M1moILUfpl/wKqrNHWECUVYWsRwBUH/u
-         l9lFR8//LZy1cyVbQE0B4HJ8jrCCezJ1TSFRI9pBdrLULI2SfYoYfUUjkOKk7G6/o4t4
-         h9BOZ5a58hDCKs8c737aowzfKam1PSwtJ+7EUHif0vQ5oIh02Imau+DoWt5k2t62w5NS
-         D1rsPpYq/ilpDt4ejmNr/+n1yvynKBVd9Dxa9XKq6Iqa1W2K8JEFsxphDbsyFu2C6Gee
-         p6ybEY1grR9pqwjE9w1ZG813Zh5+0lDr3OvA+8BS3WuHz86+voLPEqJnAjvHm5ZIJDwt
-         eB5g==
-X-Forwarded-Encrypted: i=1; AJvYcCWWFsmCWF4aXf3EJskoVGu2JCL9RTSdszg69KQuNyCr8PO7OdvrKLwEpXTElTZ/m6qYHRbuMmknbso52sE7ZhAhEudBY9DdiPSCBYKUkw==
-X-Gm-Message-State: AOJu0Yyi9fiCN2znfJzzJLgVJeMQmDhNnNlmYkf9nUT8yBSA5vEeHLA2
-	EHStxzL0XiZMVxYUhqC8+iNK7m/oDgnY+ZCtpMLxxxO9f7Jxq3GZ
-X-Google-Smtp-Source: AGHT+IEQ6x5BfJgpVcqBxhQ0jHQpLc5V1u824p3HKlh4QMBlx8Di6OTQ0/e9hWxZu5kSqTeI1bVx+w==
-X-Received: by 2002:a05:6a20:c901:b0:1a7:6ca9:2925 with SMTP id gx1-20020a056a20c90100b001a76ca92925mr5739021pzb.59.1712616281303;
-        Mon, 08 Apr 2024 15:44:41 -0700 (PDT)
-Received: from jc-ubuntu-dev-korn-1 (c-98-210-1-68.hsd1.ca.comcast.net. [98.210.1.68])
-        by smtp.gmail.com with ESMTPSA id m6-20020a17090a34c600b0029be7922b32sm9623026pjf.26.2024.04.08.15.44.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Apr 2024 15:44:40 -0700 (PDT)
-Date: Mon, 8 Apr 2024 15:44:40 -0700
-From: Jackson Chui <jacksonchui.qwerty@gmail.com>
-To: Jackson Chui <jacksonchui.qwerty@gmail.com>
-Cc: Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [Patch v2] staging: greybus: Replace gcam macros with direct dev log
- calls
-Message-ID: <ZhRzWNiak1qOdJLL@jc-ubuntu-dev-korn-1>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="Tv2aY7QQ";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ohMa2R79"
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailfout.west.internal (Postfix) with ESMTP id 13BFB1C000CF;
+	Tue,  9 Apr 2024 01:37:15 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Tue, 09 Apr 2024 01:37:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1712641035; x=1712727435; bh=N2u6h8moDB
+	/fTrACtRe+4SheoESaX066xDK/8RKTrfw=; b=Tv2aY7QQAm99/pz2q0eveh7JGm
+	EfuSYzJeR2QJa0vb6P9iDs/oHdeTyb9Uuy8oyOyVuT0a9TSV4dyHIwYSImGxUmmj
+	Ui8Rpk6S1W2zaVzAZAspGRz6HBlGQCGjh05+kDjVSxpa13UlZDVNWQjnkS/cXhNx
+	QIq7n8JB3QZdtsDVYIFAewpZXEX5H8w6ZWK2dUbvP9cNA+6C+XS2wQwkLjOcChni
+	mooq3eElINOpKJl7xCxmkRiYKPYzkIyqvi9lQzP0pnhk0k9nb0mqnuUnd2AFat+f
+	vBJb8Zxbg5Euo7f4POuAZotU3tUkAbWamJ/D8BsUl3MgSGugtqbcfiegXSTQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1712641035; x=1712727435; bh=N2u6h8moDB/fTrACtRe+4SheoESa
+	X066xDK/8RKTrfw=; b=ohMa2R79u15cVtS+Hp9UcT9qCYwDCzkdSZwD64PHuxLL
+	ogfPbSzwStwmmxM//S/G2juvf5lWvwnAiWTGPUyF58LgwDxXagQ+6teWjMMgreAH
+	81Wf0T5OGNV5+N6kxifl7hF7kc9pkSS5pqvpDzxqhaFWUduPi72YNzY62BGJRyd7
+	vujMGnTL6XUnJi1gzKXywDTqLbHwRygNJwLx+QjaA/lrguWL1NLORZvOkB8MIM5L
+	RhM6urcMsOQ3DpdJRBAgQi7yhMcteT9O7WnrQBxXyqSQj2e2dNEp8UDOOKr4xjyT
+	VymgXEXID6/wtD4YUl5G6TXQiY6geTb1A1NXrkfLqQ==
+X-ME-Sender: <xms:CtQUZsFfSUICkWocoB5zC5-PrQnhTJahJ5iiY4tMAfy_fZ2-uRlRlw>
+    <xme:CtQUZlVHJxGjeCMy1KEcuEUnYiervNbI-1IGG4NdDtnHwfsydE1xjT-vRYM6MiBFs
+    sicN3teljXe8Rq6Vms>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudegkedgjedvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
+    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+    hrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:C9QUZmIVjAcut8WPutq21WbfrWS5g59akM0KpCDBxcR4f1j_WwHDuQ>
+    <xmx:C9QUZuGSFgkVo1yMG-B7uF4Z3at6sW-0rUUrfZv7_il-cF5ktOreYw>
+    <xmx:C9QUZiV0Qui6M0VVg7sG5z5eBwPqb_qGfmtGfDq0kAZpuY0DwdPGeA>
+    <xmx:C9QUZhNOp0EPBYCG-SsWcla1g_pZ_qgOaCHD3toiynA_CaWONsQHCg>
+    <xmx:C9QUZkdeeGcEaKfoj5sJUbzxdTjNanxBMunWJ02EKKoa2dTxParFfkPj>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id DDC0AB6008D; Tue,  9 Apr 2024 01:37:14 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-379-gabd37849b7-fm-20240408.001-gabd37849
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Message-Id: <b5740321-455e-4939-8a94-72c01e4c09f3@app.fastmail.com>
+In-Reply-To: 
+ <wb5h2syqmxpoxmajwiiyqvlkyojjsjql5xpfmris6djegtqzya@6xfio4dmqjdp>
+References: <20240408194821.3183462-1-arnd@kernel.org>
+ <wb5h2syqmxpoxmajwiiyqvlkyojjsjql5xpfmris6djegtqzya@6xfio4dmqjdp>
+Date: Tue, 09 Apr 2024 07:34:41 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Justin Stitt" <justinstitt@google.com>, "Arnd Bergmann" <arnd@kernel.org>
+Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Dan Carpenter" <dan.carpenter@linaro.org>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] [v2] staging: rts5208: replace weird strncpy() with memcpy()
+Content-Type: text/plain
 
-Reported by checkpatch:
+On Mon, Apr 8, 2024, at 22:28, Justin Stitt wrote:
+> On Mon, Apr 08, 2024 at 09:48:09PM +0200, Arnd Bergmann wrote:
 
-CHECK: Macro argument 'gcam' may be better as '(gcam)' to avoid
-precedence issues
+>> @@ -523,7 +523,7 @@ static int inquiry(struct scsi_cmnd *srb, struct rtsx_chip *chip)
+>>  
+>>  	if (sendbytes > 8) {
+>>  		memcpy(buf, inquiry_buf, 8);
+>> -		strncpy(buf + 8, inquiry_string, sendbytes - 8);
+>> +		memcpy(buf + 8, inquiry_string, min(sendbytes, 36) - 8);
+>
+> I must say I am not the biggest fan of manual string management with raw
+> pointer offsets. I wonder if scnprintf() could achieve your goal here of
+> combining inquiry_buf with inquiry_string into buf (perhaps utilizing
+> %.*s format specifier).
 
-Inline standard calls to 'dev_*' kernel logging functions, in favor
-of 'gcam_*' macros, to clear up gcam-related logging.
+scnprintf() would be wrong here, since it's not actually a string
+but a SCSI HW data structure with both binary and ASCII members
+and no NUL termination. It's supposed to be padded with spaces.
 
-Signed-off-by: Jackson Chui <jacksonchui.qwerty@gmail.com>
+> With that being said, I am just a casual reader of this code and I
+> really don't know much about the expected behavior of `buf`
+> (NUL-terminated, NUL-padded, etc) or even what the next line buf[4]=0x33
+> does.
 
----
-Changes in v2:
-  - Inline 'dev_*' logging functions, over wrappers and macros
-    to just use the standard call.
-  - Remove 'gcam_*' macros, since they are no longer used.
----
- drivers/staging/greybus/camera.c | 58 +++++++++++++++-----------------
- 1 file changed, 27 insertions(+), 31 deletions(-)
+I believe this sets the length of the buffer to 51 bytes when
+pro_formatter_flag is set, overriding the 0x1f (31 bytes) for the
+normal length.
 
-diff --git a/drivers/staging/greybus/camera.c b/drivers/staging/greybus/camera.c
-index a8173aa3a995..b8b2bdfa59e5 100644
---- a/drivers/staging/greybus/camera.c
-+++ b/drivers/staging/greybus/camera.c
-@@ -180,10 +180,6 @@ static const struct gb_camera_fmt_info *gb_camera_get_format_info(u16 gb_fmt)
- 
- #define GB_CAMERA_MAX_SETTINGS_SIZE	8192
- 
--#define gcam_dbg(gcam, format...)	dev_dbg(&gcam->bundle->dev, format)
--#define gcam_info(gcam, format...)	dev_info(&gcam->bundle->dev, format)
--#define gcam_err(gcam, format...)	dev_err(&gcam->bundle->dev, format)
--
- static int gb_camera_operation_sync_flags(struct gb_connection *connection,
- 					  int type, unsigned int flags,
- 					  void *request, size_t request_size,
-@@ -232,8 +228,8 @@ static int gb_camera_get_max_pkt_size(struct gb_camera *gcam,
- 
- 		fmt_info = gb_camera_get_format_info(cfg->format);
- 		if (!fmt_info) {
--			gcam_err(gcam, "unsupported greybus image format: %d\n",
--				 cfg->format);
-+			dev_err(&gcam->bundle->dev, "unsupported greybus image format: %d\n",
-+				cfg->format);
- 			return -EIO;
- 		}
- 
-@@ -241,18 +237,18 @@ static int gb_camera_get_max_pkt_size(struct gb_camera *gcam,
- 			pkt_size = le32_to_cpu(cfg->max_pkt_size);
- 
- 			if (pkt_size == 0) {
--				gcam_err(gcam,
--					 "Stream %u: invalid zero maximum packet size\n",
--					 i);
-+				dev_err(&gcam->bundle->dev,
-+					"Stream %u: invalid zero maximum packet size\n",
-+					i);
- 				return -EIO;
- 			}
- 		} else {
- 			pkt_size = le16_to_cpu(cfg->width) * fmt_info->bpp / 8;
- 
- 			if (pkt_size != le32_to_cpu(cfg->max_pkt_size)) {
--				gcam_err(gcam,
--					 "Stream %u: maximum packet size mismatch (%u/%u)\n",
--					 i, pkt_size, cfg->max_pkt_size);
-+				dev_err(&gcam->bundle->dev,
-+					"Stream %u: maximum packet size mismatch (%u/%u)\n",
-+					i, pkt_size, cfg->max_pkt_size);
- 				return -EIO;
- 			}
- 		}
-@@ -275,13 +271,13 @@ static const int gb_camera_configure_streams_validate_response(struct gb_camera
- 
- 	/* Validate the returned response structure */
- 	if (resp->padding[0] || resp->padding[1]) {
--		gcam_err(gcam, "response padding != 0\n");
-+		dev_err(&gcam->bundle->dev, "response padding != 0\n");
- 		return -EIO;
- 	}
- 
- 	if (resp->num_streams > nstreams) {
--		gcam_err(gcam, "got #streams %u > request %u\n",
--			 resp->num_streams, nstreams);
-+		dev_err(&gcam->bundle->dev, "got #streams %u > request %u\n",
-+			resp->num_streams, nstreams);
- 		return -EIO;
- 	}
- 
-@@ -289,7 +285,7 @@ static const int gb_camera_configure_streams_validate_response(struct gb_camera
- 		struct gb_camera_stream_config_response *cfg = &resp->config[i];
- 
- 		if (cfg->padding) {
--			gcam_err(gcam, "stream #%u padding != 0\n", i);
-+			dev_err(&gcam->bundle->dev, "stream #%u padding != 0\n", i);
- 			return -EIO;
- 		}
- 	}
-@@ -340,16 +336,16 @@ static int gb_camera_set_power_mode(struct gb_camera *gcam, bool hs)
- 
- 	ret = gb_camera_set_intf_power_mode(gcam, intf->interface_id, hs);
- 	if (ret < 0) {
--		gcam_err(gcam, "failed to set module interface to %s (%d)\n",
--			 hs ? "HS" : "PWM", ret);
-+		dev_err(&gcam->bundle->dev, "failed to set module interface to %s (%d)\n",
-+			hs ? "HS" : "PWM", ret);
- 		return ret;
- 	}
- 
- 	ret = gb_camera_set_intf_power_mode(gcam, svc->ap_intf_id, hs);
- 	if (ret < 0) {
- 		gb_camera_set_intf_power_mode(gcam, intf->interface_id, !hs);
--		gcam_err(gcam, "failed to set AP interface to %s (%d)\n",
--			 hs ? "HS" : "PWM", ret);
-+		dev_err(&gcam->bundle->dev, "failed to set AP interface to %s (%d)\n",
-+			hs ? "HS" : "PWM", ret);
- 		return ret;
- 	}
- 
-@@ -435,7 +431,7 @@ static int gb_camera_setup_data_connection(struct gb_camera *gcam,
- 			   sizeof(csi_cfg),
- 			   GB_APB_REQUEST_CSI_TX_CONTROL, false);
- 	if (ret < 0) {
--		gcam_err(gcam, "failed to start the CSI transmitter\n");
-+		dev_err(&gcam->bundle->dev, "failed to start the CSI transmitter\n");
- 		goto error_power;
- 	}
- 
-@@ -470,7 +466,7 @@ static void gb_camera_teardown_data_connection(struct gb_camera *gcam)
- 			   GB_APB_REQUEST_CSI_TX_CONTROL, false);
- 
- 	if (ret < 0)
--		gcam_err(gcam, "failed to stop the CSI transmitter\n");
-+		dev_err(&gcam->bundle->dev, "failed to stop the CSI transmitter\n");
- 
- 	/* Set the UniPro link to low speed mode. */
- 	gb_camera_set_power_mode(gcam, false);
-@@ -507,7 +503,7 @@ static int gb_camera_capabilities(struct gb_camera *gcam,
- 					     NULL, 0,
- 					     (void *)capabilities, size);
- 	if (ret)
--		gcam_err(gcam, "failed to retrieve capabilities: %d\n", ret);
-+		dev_err(&gcam->bundle->dev, "failed to retrieve capabilities: %d\n", ret);
- 
- done:
- 	mutex_unlock(&gcam->mutex);
-@@ -723,22 +719,22 @@ static int gb_camera_request_handler(struct gb_operation *op)
- 	struct gb_message *request;
- 
- 	if (op->type != GB_CAMERA_TYPE_METADATA) {
--		gcam_err(gcam, "Unsupported unsolicited event: %u\n", op->type);
-+		dev_err(&gcam->bundle->dev, "Unsupported unsolicited event: %u\n", op->type);
- 		return -EINVAL;
- 	}
- 
- 	request = op->request;
- 
- 	if (request->payload_size < sizeof(*payload)) {
--		gcam_err(gcam, "Wrong event size received (%zu < %zu)\n",
--			 request->payload_size, sizeof(*payload));
-+		dev_err(&gcam->bundle->dev, "Wrong event size received (%zu < %zu)\n",
-+			request->payload_size, sizeof(*payload));
- 		return -EINVAL;
- 	}
- 
- 	payload = request->payload;
- 
--	gcam_dbg(gcam, "received metadata for request %u, frame %u, stream %u\n",
--		 payload->request_id, payload->frame_number, payload->stream);
-+	dev_dbg(&gcam->bundle->dev, "received metadata for request %u, frame %u, stream %u\n",
-+		payload->request_id, payload->frame_number, payload->stream);
- 
- 	return 0;
- }
-@@ -1347,15 +1343,15 @@ static int gb_camera_resume(struct device *dev)
- 
- 	ret = gb_connection_enable(gcam->connection);
- 	if (ret) {
--		gcam_err(gcam, "failed to enable connection: %d\n", ret);
-+		dev_err(&gcam->bundle->dev, "failed to enable connection: %d\n", ret);
- 		return ret;
- 	}
- 
- 	if (gcam->data_connection) {
- 		ret = gb_connection_enable(gcam->data_connection);
- 		if (ret) {
--			gcam_err(gcam,
--				 "failed to enable data connection: %d\n", ret);
-+			dev_err(&gcam->bundle->dev,
-+				"failed to enable data connection: %d\n", ret);
- 			return ret;
- 		}
- 	}
--- 
-2.34.1
+The root of the problem here is that the driver emulates a SCSI
+command set on a card reader for both SD cards and memory sticks
+instead of using the existing abstractions from
+drivers/{mmc,memstick}.
 
+Apparently drivers/misc/cardreader/rtsx_pcr.c does this the
+right way for all later devices (rts5209 and up) but is
+not compatible with this variant of the hardware.
+
+    Arnd
