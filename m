@@ -1,120 +1,187 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from CHN02-SH0-obe.outbound.protection.partner.outlook.cn (mail-sh0chn02on2116.outbound.protection.partner.outlook.cn [139.219.146.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C136613D505;
-	Wed, 10 Apr 2024 08:02:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712736157; cv=none; b=nj/+XoOjnt/sStNX6gfPlRLy8FTwBCskCz30eSIsVqUodK36V209VjYYOJi5V2aZ6Zj9dQtWPi+X3Ja6/aJDWJWci3Id2lZkkUrr0XpNx1CbblCfphl+dhgBfkzTZ3lfCQOr3hTTA9hf372bgjVMkEX/rizVMYq3g1EvhPUutvY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712736157; c=relaxed/simple;
-	bh=KElYbch9PwjyMMyu6DqQ19Q1q06S1GdiKB4kYIvJsOA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=bBAtC04DaDVwHEUOOiFSRuslrl4QmXJkNwIxlynnpCJTLQoVrWUVTlO89Clpnhd/aF12w6oTjHuxnvrJymhY+Q8tm+0OxOvE8XUv/x2Dczi3ELoLd/y8qIsK+MyeonrFwSjZ3eR5Bs0oaVVpccWwZSXhKQxXPM80iFWgxUzQYEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EDFDC43390;
-	Wed, 10 Apr 2024 08:02:36 +0000 (UTC)
-Received: by mercury (Postfix, from userid 1000)
-	id 324081063262; Wed, 10 Apr 2024 10:02:32 +0200 (CEST)
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Michael Ellerman <mpe@ellerman.id.au>, 
- Christophe Leroy <christophe.leroy@csgroup.eu>, 
- Damien Le Moal <dlemoal@kernel.org>, Jiri Kosina <jikos@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Corey Minyard <minyard@acm.org>, Peter Huewe <peterhuewe@gmx.de>, 
- Jarkko Sakkinen <jarkko@kernel.org>, Tero Kristo <kristo@kernel.org>, 
- Stephen Boyd <sboyd@kernel.org>, Ian Abbott <abbotti@mev.co.uk>, 
- H Hartley Sweeten <hsweeten@visionengravers.com>, 
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, 
- Len Brown <lenb@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
- John Allen <john.allen@amd.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
- Vinod Koul <vkoul@kernel.org>, Ard Biesheuvel <ardb@kernel.org>, 
- Bjorn Andersson <andersson@kernel.org>, Moritz Fischer <mdf@kernel.org>, 
- Liviu Dudau <liviu.dudau@arm.com>, 
- Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
- Andi Shyti <andi.shyti@kernel.org>, 
- Michael Hennerich <michael.hennerich@analog.com>, 
- Peter Rosin <peda@axentia.se>, Lars-Peter Clausen <lars@metafoo.de>, 
- Jonathan Cameron <jic23@kernel.org>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Markuss Broks <markuss.broks@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, Lee Jones <lee@kernel.org>, 
- Jakub Kicinski <kuba@kernel.org>, 
- Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, 
- Iyappan Subramanian <iyappan@os.amperecomputing.com>, 
- Yisen Zhuang <yisen.zhuang@huawei.com>, Stanislaw Gruszka <stf_xl@wp.pl>, 
- Kalle Valo <kvalo@kernel.org>, Sebastian Reichel <sre@kernel.org>, 
- Tony Lindgren <tony@atomide.com>, Mark Brown <broonie@kernel.org>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Xiang Chen <chenxiang66@hisilicon.com>, 
- "Martin K. Petersen" <martin.petersen@oracle.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Heiko Stuebner <heiko@sntech.de>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
- Vaibhav Hiremath <hvaibhav.linux@gmail.com>, Alex Elder <elder@kernel.org>, 
- Jiri Slaby <jirislaby@kernel.org>, Jacky Huang <ychuang3@nuvoton.com>, 
- Helge Deller <deller@gmx.de>, Christoph Hellwig <hch@lst.de>, 
- Robin Murphy <robin.murphy@arm.com>, Steven Rostedt <rostedt@goodmis.org>, 
- Masami Hiramatsu <mhiramat@kernel.org>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- Kees Cook <keescook@chromium.org>, 
- Trond Myklebust <trond.myklebust@hammerspace.com>, 
- Anna Schumaker <anna@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, 
- Nathan Chancellor <nathan@kernel.org>, Takashi Iwai <tiwai@suse.com>, 
- linuxppc-dev@lists.ozlabs.org, linux-ide@vger.kernel.org, 
- openipmi-developer@lists.sourceforge.net, linux-integrity@vger.kernel.org, 
- linux-omap@vger.kernel.org, linux-clk@vger.kernel.org, 
- linux-pm@vger.kernel.org, linux-crypto@vger.kernel.org, 
- dmaengine@vger.kernel.org, linux-efi@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, linux-fpga@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org, 
- linux-i2c@vger.kernel.org, linux-iio@vger.kernel.org, 
- linux-stm32@st-md-mailman.stormreply.com, 
- linux-arm-kernel@lists.infradead.org, netdev@vger.kernel.org, 
- linux-leds@vger.kernel.org, linux-wireless@vger.kernel.org, 
- linux-rtc@vger.kernel.org, linux-scsi@vger.kernel.org, 
- linux-spi@vger.kernel.org, linux-amlogic@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
- greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev, 
- linux-serial@vger.kernel.org, linux-usb@vger.kernel.org, 
- linux-fbdev@vger.kernel.org, iommu@lists.linux.dev, 
- linux-trace-kernel@vger.kernel.org, kasan-dev@googlegroups.com, 
- linux-hardening@vger.kernel.org, linux-nfs@vger.kernel.org, 
- linux-kbuild@vger.kernel.org, alsa-devel@alsa-project.org, 
- linux-sound@vger.kernel.org
-In-Reply-To: <20240403080702.3509288-1-arnd@kernel.org>
-References: <20240403080702.3509288-1-arnd@kernel.org>
-Subject: Re: (subset) [PATCH 00/34] address all -Wunused-const warnings
-Message-Id: <171273615213.1094883.18382201508159771859.b4-ty@collabora.com>
-Date: Wed, 10 Apr 2024 10:02:32 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0383154BF7
+	for <linux-staging@lists.linux.dev>; Wed, 10 Apr 2024 09:10:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.219.146.116
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1712740246; cv=fail; b=Rwn47bqCp1saKIv+GTQippV4t2G5X+rZJBAhHuClto0rzuoeMDJhAwtCzffGhwh9YGhoZP9k2kN1tCXpsRpLvFur0wXNsxu6VhVNRotniTccvsae3V1no4qz17ONGLcy009WkYf4ep01Tn8N6kd6K2IdG9fdaoHSP05RadWW+JQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1712740246; c=relaxed/simple;
+	bh=OwdQ/LorckZcXWrjDDOl9kFQdK8dnOiSzf2Gi5uTgC0=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=U2UNH6wgtKE0CBEMdimGGeEeFX/CIwCeogxKRRETwekFkYwIQZnQIoJEqYmtVVRXuswMnHoDy9XUh2nTDzoKfPYZOQpaEWn4FuC42zaXhYnY/fVh0QdT42JMwJILbi+HXYOIEN4WxfSmSkXpWPjfKcBT6+M6D45V1Kfa6N13HEw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com; spf=pass smtp.mailfrom=starfivetech.com; arc=fail smtp.client-ip=139.219.146.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UJFSLhF4/Dcru+8D/Qisxhdh8QvVtbauXE+IE77D+8Qko5/LijKkSGTwQGAGORm5Myd/1cIAv7NZ9Mfb47YtM3EQGDraW3Fl4Y45ULtn/EDFLyqhV5+3K9D78XAI18cmueP0MhOGQpLzpkDQ9HJD7+8/KAmXI/DtXufC0zRMKRvaAr3rr/FoW3bv86b7N/yqanEAZDxBP4+U5PZ2fxWjICNObSEj7A5IjebyXbM2EPr32C/K04kM5q2xmnvTrBT5FKZQCriLN12z4VujNEBC9jjEcgtwIGLRNOOaoBQUZtOsw4FqvPTuj6ly1V2Komr1ft2crXrLeXqbxKuGSI+JyA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=dyxB5oFw3XUgR3h6xDMF8CC/wX6qkIn8P0CFG0mBuYw=;
+ b=MhhvVoRNlkUmc7nOoX+hSLcpDHjl4U1nOSBFbr9dNrIiKQOrgotsFCA8i0avV16OV1DFFGVQGe3gT1nWB679qEF22ZdDSSY+/QJVRC7IcMQi2YwwFmdbwXXIRz4HOzuTaNdynXbBdTd/1nlxpRGccIEDGhl2NK45xrVDF8pJhmYKbQ0kVupI5DybRS/0gkBHdpTogtSCSpWFjYkChwPPmpO2oVkmpGzpIDWipvjNxw4bdRaSrhWvDefKHGSgFdDInbsM0uTuK4FJPbbnSV8k8kg5DStN7vc3wTAPJaxOqgv2hk7+vSyaAcB/CvpkDQlzMOBk+v3eYmF/ZSqvwK193g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=starfivetech.com; dmarc=pass action=none
+ header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=starfivetech.com;
+Received: from SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c311:25::10) by SHXPR01MB0461.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c311:1c::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.55; Wed, 10 Apr
+ 2024 09:10:38 +0000
+Received: from SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
+ ([fe80::b0af:4c9d:2058:a344]) by
+ SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn ([fe80::b0af:4c9d:2058:a344%7])
+ with mapi id 15.20.7409.053; Wed, 10 Apr 2024 09:10:38 +0000
+From: Changhuang Liang <changhuang.liang@starfivetech.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Jack Zhu <jack.zhu@starfivetech.com>,
+	Changhuang Liang <changhuang.liang@starfivetech.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH v2 4/8] staging: media: starfive: Introduce isp_stream
+Date: Wed, 10 Apr 2024 02:10:22 -0700
+Message-Id: <20240410091026.50272-5-changhuang.liang@starfivetech.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20240410091026.50272-1-changhuang.liang@starfivetech.com>
+References: <20240410091026.50272-1-changhuang.liang@starfivetech.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BJSPR01CA0005.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c211:c::17) To SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c311:25::10)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SHXPR01MB0671:EE_|SHXPR01MB0461:EE_
+X-MS-Office365-Filtering-Correlation-Id: ce8b0b6c-0e33-4b97-5119-08dc593e16c3
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	WX/XYEzqzz2TUIjN3akmi1UYpoAIySgqNVO9/X3PzAtMXRUQ94zgmz8ZaYWU8j88uEAbjaIqd6mxXXSJFrmAhlF0NruicH55il+5nondLGTTpMrNeKOYwV0rKJ4mT/2nEA4ECZPOgXlZHnLT+1jefo74m1ZIj3zJ6Fsi3F7eRvw+BIhHaP7dOStljBow3X7rvTR5vPend88zK/OCdRhgGzmiuz4qq84A3hYbFkfXbI8YPLLi3thGXiK6A3PA6elZ6OrXqf+OKTQOHdFxkcvsimxEJDZV6pHNA155NheDTcF7ojtZWMTuujXhBi3K3bB9eZxGpkCltPMgAr31zwc0wB9LF4/65oLuR1BhY1fxpu44+XsYfv5o9nM2qE3+ZaG5VjeyV4yrwRj/l6pBMMAgpol80jYR1pYg9s+p64MyZrq53TbmzBga6ImgJA/DZ0flJbKXRL7xOE7NZTbynaPdIwo2IQCPrK/Ld97HcMteP5UAddr9Vy3Da2VlO+TMZJ1kuTH8shur1mMlpU1t4FrstAWmuc6kHlMNeGc01MPPltr+Rk6jpE31Is2BWwTaRzisGbsVgL0CyPIHxTU7xkR1+b6H/L+cynZlVhT7bEq+qCqH2YwAyowBE2E96yoOEDlH
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230031)(41320700004)(52116005)(1800799015)(366007)(38350700005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?SUU9J57OgfoR1qqQh1lNsB0K5FGgiPFcECsjQy5qx0JfGJYmo1Uuq/8IjiI6?=
+ =?us-ascii?Q?9025iLn6jH9jFPxd/vghzYE/uP1PwX+7Vo0tXhsrspq3LOgjZHCJm7Ehuzch?=
+ =?us-ascii?Q?TJZSbpq+ibkxnX6Y5yk4avC2xdzNLAwV/nNFOCFLrSCw5UMrlXnVSD5aGTfX?=
+ =?us-ascii?Q?8Js1mfG3YH/NT3OfRg06K/sE/2lV0CqEnbQ5q/5gGfu+AG1E9AKQzNKw2pcG?=
+ =?us-ascii?Q?R/sIzPuw6SRYcumhTWZU/jxjD6BYnA+PpVtxgZ3U5wqSwtx63FYpF/eIHxfM?=
+ =?us-ascii?Q?dUbAUkEbQRgwvKskZTlCQigXHEi4giZmYv2W25mS0u8jNP+FDnrkDD3SIJiY?=
+ =?us-ascii?Q?pH5VutyIoGny86jfbbXXQZWS/jpsOx9MiREdCpAigq1xRxZCoGn69lHjwa5j?=
+ =?us-ascii?Q?FM14A2RQqEHtW7+ilUDO6lRKxdapU3MqYZoMwTomG1W3ICICevwF3nMyhjbe?=
+ =?us-ascii?Q?oxC/vy4JqYpfxq2GcTBVV5lZeP29IvlTDzfngSiDZVXeSmR3AuCvwss3HkPE?=
+ =?us-ascii?Q?aScEjm3LDgt2dA8atnXHvpZcxAO8NBW0ngGA7qYMjBIxS4epCDa7XxUvnP+h?=
+ =?us-ascii?Q?fRUBB8coIHA17n6Ct0fExp3HU5LiFg/ewZdj1IcklD1iGgUNvutRxZKVeS51?=
+ =?us-ascii?Q?la7EjuaiFZ46+RXx12ht70SioS6aMt05p8kThgOFsRDsuX8r3sbf6WhMyLFW?=
+ =?us-ascii?Q?jqEa4kgXQ0fUJC6AMEn+T4ayjGr6c12Ck6ls8qEuSbfSBTtuBjspyYGmMpGk?=
+ =?us-ascii?Q?Y/ESBFxdP+oJ4gFkSOrhGmznAJLzlJRmPvaJdFHoMVljkxT1zrIUGqOtdrlt?=
+ =?us-ascii?Q?4DSj0tQAJWwk300OrgHVnaZjKpld3/eJpQ8BuZNXKVEYWPygHh/OddLuPK+1?=
+ =?us-ascii?Q?E3vHkcgLRYpLuq54QWC/O2q3/ayyqwvStyRiJ0v+jypx0kxBDQI+SlYczR7j?=
+ =?us-ascii?Q?FTg1pd0QvrbPyw1r5ZcRt+GvgOh/+61hgMpmDo0ZsvwRIJGVA6HRcTzoCOw/?=
+ =?us-ascii?Q?FK5I/tBHiGlwbTnLCD/cEfDCaxFISPwnEexxRQL02ZToXKIHKg3d/35Kxqwi?=
+ =?us-ascii?Q?ppqK6+ewgIrmoHK2XPC0lf6K3QRX6tDFRco2kfN5UmwytQaQjcbkyL+EabJ0?=
+ =?us-ascii?Q?GsyuQ3UDrnOMupZMjd2hGdUxilVDt1ZhLefKTFOKVC77csyf4BOP5pUwz2xU?=
+ =?us-ascii?Q?HyFq4v/cbVAMljO5/EO0YtgJVaBAmsd/fVBmjs2l7DqhImBXTuQLdTP4C1iN?=
+ =?us-ascii?Q?UzOpcpRDl+AdvYosiFSYB/2BakFRD+DGyX+WF9p6Ayn1OwRdXXonBNT9szmh?=
+ =?us-ascii?Q?/0+80cs1nFkO8x5Z/ThzP9mN8mK/IVJ/3JxjEb7Q/D0KQ7P67tY7b1p7/ehL?=
+ =?us-ascii?Q?l96bgya8ndRzaDA6O+HYSdylGcx8+zvcH2q/RF+pk6TMylTaRH7ZpK7oBk0+?=
+ =?us-ascii?Q?TOmycPPWP8DIw3afCoRrycaKHjuWuJQDGyddKsW7d6sRFRMnkbmS6EAFFzKz?=
+ =?us-ascii?Q?Tn+OJIsEJwBh2s7RwH/BqwV0HzEhT3tVsjnotV8fJEIMYGgw287Jn32uZOcq?=
+ =?us-ascii?Q?rOfuG2huZvZJTnPkRnnALoxMLU3pn68Gjt5+8SGU23r30p6hxRAIAN0vXU8P?=
+ =?us-ascii?Q?SQ5vhYC2fKnt4bYV5icHUKM=3D?=
+X-OriginatorOrg: starfivetech.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ce8b0b6c-0e33-4b97-5119-08dc593e16c3
+X-MS-Exchange-CrossTenant-AuthSource: SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Apr 2024 09:10:38.6084
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4udbzkIUT4NxB3LjLDTbE6f/+g48+UgkNScMrtIC3dcOTyxNya7qffOmaZunU9Bd1B6AA52yt7lsr/flguIlg9J1eXKUYWDKZiSH2zPaNoT99B3sMd+Fdi/dPu2a/wk4
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SHXPR01MB0461
 
+The ISP can support multiple output streams. Introduce isp_stream to
+store the number of streams.
 
-On Wed, 03 Apr 2024 10:06:18 +0200, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> Compilers traditionally warn for unused 'static' variables, but not
-> if they are constant. The reason here is a custom for C++ programmers
-> to define named constants as 'static const' variables in header files
-> instead of using macros or enums.
-> 
-> [...]
+Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
+---
+ .../staging/media/starfive/camss/stf-camss.h  |  1 +
+ .../staging/media/starfive/camss/stf-video.c  | 28 +++++++++++++++----
+ 2 files changed, 24 insertions(+), 5 deletions(-)
 
-Applied, thanks!
-
-[09/34] power: rt9455: hide unused rt9455_boost_voltage_values
-        commit: 452d8950db3e839aba1bb13bc5378f4bac11fa04
-
-Best regards,
+diff --git a/drivers/staging/media/starfive/camss/stf-camss.h b/drivers/staging/media/starfive/camss/stf-camss.h
+index 328318d61c6b..6b9215c92cfa 100644
+--- a/drivers/staging/media/starfive/camss/stf-camss.h
++++ b/drivers/staging/media/starfive/camss/stf-camss.h
+@@ -55,6 +55,7 @@ struct stfcamss {
+ 	struct media_pipeline pipe;
+ 	struct device *dev;
+ 	struct stf_isp_dev isp_dev;
++	unsigned int isp_stream;
+ 	struct stf_capture captures[STF_CAPTURE_NUM];
+ 	struct stf_output output;
+ 	struct v4l2_async_notifier notifier;
+diff --git a/drivers/staging/media/starfive/camss/stf-video.c b/drivers/staging/media/starfive/camss/stf-video.c
+index 4ca889a7b757..69e3e4f9e56b 100644
+--- a/drivers/staging/media/starfive/camss/stf-video.c
++++ b/drivers/staging/media/starfive/camss/stf-video.c
+@@ -295,10 +295,22 @@ static int video_start_streaming(struct vb2_queue *q, unsigned int count)
+ 
+ 	video->ops->start_streaming(video);
+ 
+-	ret = v4l2_subdev_call(video->source_subdev, video, s_stream, true);
+-	if (ret) {
+-		dev_err(video->stfcamss->dev, "stream on failed\n");
+-		goto err_pm_put;
++	if (video->source_subdev != &video->stfcamss->isp_dev.subdev) {
++		ret = v4l2_subdev_call(video->source_subdev, video, s_stream, true);
++		if (ret) {
++			dev_err(video->stfcamss->dev, "stream on failed\n");
++			goto err_pm_put;
++		}
++	} else {
++		if (!video->stfcamss->isp_stream) {
++			ret = v4l2_subdev_call(video->source_subdev, video, s_stream, true);
++			if (ret) {
++				dev_err(video->stfcamss->dev, "stream on failed\n");
++				goto err_pm_put;
++			}
++		}
++
++		video->stfcamss->isp_stream++;
+ 	}
+ 
+ 	return 0;
+@@ -319,7 +331,13 @@ static void video_stop_streaming(struct vb2_queue *q)
+ 
+ 	video->ops->stop_streaming(video);
+ 
+-	v4l2_subdev_call(video->source_subdev, video, s_stream, false);
++	if (video->source_subdev != &video->stfcamss->isp_dev.subdev) {
++		v4l2_subdev_call(video->source_subdev, video, s_stream, false);
++	} else {
++		video->stfcamss->isp_stream--;
++		if (!video->stfcamss->isp_stream)
++			v4l2_subdev_call(video->source_subdev, video, s_stream, false);
++	}
+ 
+ 	pm_runtime_put(video->stfcamss->dev);
+ 
 -- 
-Sebastian Reichel <sebastian.reichel@collabora.com>
+2.25.1
 
