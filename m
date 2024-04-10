@@ -1,150 +1,120 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C084D14D71C
-	for <linux-staging@lists.linux.dev>; Tue,  9 Apr 2024 19:21:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C136613D505;
+	Wed, 10 Apr 2024 08:02:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712690502; cv=none; b=KSY3bpi4DSfH2dqn9w0wsiOCCJbi+fF5Zb63BrMhDrmPHRXTYy3/DA22I9K3WreED6TKmlAI2lRR6kcDz1kB3EBNdnK2AW9zmJt43NldrtLz85g1T5GdNRkPxMGYsCiCV3hvlFU7zy9M6KY8fJfJbbm+oqOHsdTZJNa4rTX26rU=
+	t=1712736157; cv=none; b=nj/+XoOjnt/sStNX6gfPlRLy8FTwBCskCz30eSIsVqUodK36V209VjYYOJi5V2aZ6Zj9dQtWPi+X3Ja6/aJDWJWci3Id2lZkkUrr0XpNx1CbblCfphl+dhgBfkzTZ3lfCQOr3hTTA9hf372bgjVMkEX/rizVMYq3g1EvhPUutvY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712690502; c=relaxed/simple;
-	bh=jvMI53KJIMLfRD1iwwuF/8wUDvcZozfCeiLbp+bSkh4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ixU+xyTBbHDIlDyYD4sdTPSV6EGEaXP9tKQPSCjfpKUnuQZR19h68iOjssHYYqCMCNH8Oxx2W3ij1XdYYKK0B1q+n5ybM6lG6YbkrROyM38Xwnq7/G0e59lQwvxxsEsOCchbXqasKTI8LFF16xMmOH1Oc+Zp/evxoR86J+f4Dhs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=c9lRsjF9; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=gnB65wRc; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="c9lRsjF9";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="gnB65wRc"
-Date: Tue, 9 Apr 2024 21:21:35 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1712690498;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NbYDuH8UvmmedQECl/5+GU9kJDM7MRwKRcu5e0t3/LY=;
-	b=c9lRsjF9sB0XHQEcUJwP63q3auV+7aEk0/kF2y4JfemP33gcyTbtsAVC5refyNKkTQBSa0
-	F8tt39/m8OCPxnpTd6ATJImnVodNVVSPuqaKHAEWn2fqLQn4HLXHiRcig3xXMz/imXOH2V
-	oo0WqUh9LuzHabmzKDREQk1EH+K5nP3IR8rCXRwcjiBpKariJc7Y2DvEg6Ssl2EZWNUy3R
-	qQJG1RsCOcEXxxJhMQziL0sMV4UHFTji6zIKm2QS1LBrlmgKQc11b8JnPXEzXGnEUJi+h4
-	ZiVe0OHwo4B7hUoPs8+SpIeUE7erzIyLW+WnGbwtp9AiOuPdUIBCapHzV/ODAg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1712690498;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NbYDuH8UvmmedQECl/5+GU9kJDM7MRwKRcu5e0t3/LY=;
-	b=gnB65wRcdTieOc9VSdQ5MJUTJ+PaYqf5ECEvJAqtHVDSOGyiTwtX1bF4K2+dnqxkj3BwU2
-	RmkpTtUeUtn09ODw==
-From: Nam Cao <namcao@linutronix.de>
-To: Yuguo Pei <purofle@gmail.com>
-Cc: gregkh@linuxfoundation.org, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2] staging: fbtft: fb_st7789v: support setting offset
-Message-ID: <20240409212135.72cbac3a@namcao>
-In-Reply-To: <20240409180900.31347-2-purofle@gmail.com>
-References: <20240409180900.31347-2-purofle@gmail.com>
+	s=arc-20240116; t=1712736157; c=relaxed/simple;
+	bh=KElYbch9PwjyMMyu6DqQ19Q1q06S1GdiKB4kYIvJsOA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=bBAtC04DaDVwHEUOOiFSRuslrl4QmXJkNwIxlynnpCJTLQoVrWUVTlO89Clpnhd/aF12w6oTjHuxnvrJymhY+Q8tm+0OxOvE8XUv/x2Dczi3ELoLd/y8qIsK+MyeonrFwSjZ3eR5Bs0oaVVpccWwZSXhKQxXPM80iFWgxUzQYEU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EDFDC43390;
+	Wed, 10 Apr 2024 08:02:36 +0000 (UTC)
+Received: by mercury (Postfix, from userid 1000)
+	id 324081063262; Wed, 10 Apr 2024 10:02:32 +0200 (CEST)
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Michael Ellerman <mpe@ellerman.id.au>, 
+ Christophe Leroy <christophe.leroy@csgroup.eu>, 
+ Damien Le Moal <dlemoal@kernel.org>, Jiri Kosina <jikos@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Corey Minyard <minyard@acm.org>, Peter Huewe <peterhuewe@gmx.de>, 
+ Jarkko Sakkinen <jarkko@kernel.org>, Tero Kristo <kristo@kernel.org>, 
+ Stephen Boyd <sboyd@kernel.org>, Ian Abbott <abbotti@mev.co.uk>, 
+ H Hartley Sweeten <hsweeten@visionengravers.com>, 
+ Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, 
+ Len Brown <lenb@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+ John Allen <john.allen@amd.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
+ Vinod Koul <vkoul@kernel.org>, Ard Biesheuvel <ardb@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>, Moritz Fischer <mdf@kernel.org>, 
+ Liviu Dudau <liviu.dudau@arm.com>, 
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
+ Andi Shyti <andi.shyti@kernel.org>, 
+ Michael Hennerich <michael.hennerich@analog.com>, 
+ Peter Rosin <peda@axentia.se>, Lars-Peter Clausen <lars@metafoo.de>, 
+ Jonathan Cameron <jic23@kernel.org>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Markuss Broks <markuss.broks@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, Lee Jones <lee@kernel.org>, 
+ Jakub Kicinski <kuba@kernel.org>, 
+ Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, 
+ Iyappan Subramanian <iyappan@os.amperecomputing.com>, 
+ Yisen Zhuang <yisen.zhuang@huawei.com>, Stanislaw Gruszka <stf_xl@wp.pl>, 
+ Kalle Valo <kvalo@kernel.org>, Sebastian Reichel <sre@kernel.org>, 
+ Tony Lindgren <tony@atomide.com>, Mark Brown <broonie@kernel.org>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Xiang Chen <chenxiang66@hisilicon.com>, 
+ "Martin K. Petersen" <martin.petersen@oracle.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Heiko Stuebner <heiko@sntech.de>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Vaibhav Hiremath <hvaibhav.linux@gmail.com>, Alex Elder <elder@kernel.org>, 
+ Jiri Slaby <jirislaby@kernel.org>, Jacky Huang <ychuang3@nuvoton.com>, 
+ Helge Deller <deller@gmx.de>, Christoph Hellwig <hch@lst.de>, 
+ Robin Murphy <robin.murphy@arm.com>, Steven Rostedt <rostedt@goodmis.org>, 
+ Masami Hiramatsu <mhiramat@kernel.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Kees Cook <keescook@chromium.org>, 
+ Trond Myklebust <trond.myklebust@hammerspace.com>, 
+ Anna Schumaker <anna@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, 
+ Nathan Chancellor <nathan@kernel.org>, Takashi Iwai <tiwai@suse.com>, 
+ linuxppc-dev@lists.ozlabs.org, linux-ide@vger.kernel.org, 
+ openipmi-developer@lists.sourceforge.net, linux-integrity@vger.kernel.org, 
+ linux-omap@vger.kernel.org, linux-clk@vger.kernel.org, 
+ linux-pm@vger.kernel.org, linux-crypto@vger.kernel.org, 
+ dmaengine@vger.kernel.org, linux-efi@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, linux-fpga@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org, 
+ linux-i2c@vger.kernel.org, linux-iio@vger.kernel.org, 
+ linux-stm32@st-md-mailman.stormreply.com, 
+ linux-arm-kernel@lists.infradead.org, netdev@vger.kernel.org, 
+ linux-leds@vger.kernel.org, linux-wireless@vger.kernel.org, 
+ linux-rtc@vger.kernel.org, linux-scsi@vger.kernel.org, 
+ linux-spi@vger.kernel.org, linux-amlogic@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+ greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev, 
+ linux-serial@vger.kernel.org, linux-usb@vger.kernel.org, 
+ linux-fbdev@vger.kernel.org, iommu@lists.linux.dev, 
+ linux-trace-kernel@vger.kernel.org, kasan-dev@googlegroups.com, 
+ linux-hardening@vger.kernel.org, linux-nfs@vger.kernel.org, 
+ linux-kbuild@vger.kernel.org, alsa-devel@alsa-project.org, 
+ linux-sound@vger.kernel.org
+In-Reply-To: <20240403080702.3509288-1-arnd@kernel.org>
+References: <20240403080702.3509288-1-arnd@kernel.org>
+Subject: Re: (subset) [PATCH 00/34] address all -Wunused-const warnings
+Message-Id: <171273615213.1094883.18382201508159771859.b4-ty@collabora.com>
+Date: Wed, 10 Apr 2024 10:02:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
 
-On 10/Apr/2024 Yuguo Pei wrote:
-> Some screen sizes using st7789v chips are different from 240x320,
-> and offsets need to be set to display all images properly.
+
+On Wed, 03 Apr 2024 10:06:18 +0200, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> For those who use screens with offset, they only need to modify the values
-> of size and offset, and do not need to a new set_addr_win function.
-
-If I understand the patch correctly, you are adding a new feature so that
-people can change the screen offset? And from the patch, I think users
-are supposed change the values of macros LEFT_OFFSET and TOP_OFFSET?
-
-I hope I don't misunderstand anything, because I would be against this
-approach. Asking users to modify the source code doesn't sound like a
-good idea. If this is really needed, I suggest adding new device tree
-properties instead.
-
-> Signed-off-by: Yuguo Pei <purofle@gmail.com>
-> ---
-> v2: modify Signed-off-by, fix explanation of changes
+> Compilers traditionally warn for unused 'static' variables, but not
+> if they are constant. The reason here is a custom for C++ programmers
+> to define named constants as 'static const' variables in header files
+> instead of using macros or enums.
 > 
->  drivers/staging/fbtft/fb_st7789v.c | 22 ++++++++++++++++++++++
->  1 file changed, 22 insertions(+)
-> 
-> diff --git a/drivers/staging/fbtft/fb_st7789v.c b/drivers/staging/fbtft/fb_st7789v.c
-> index 861a154144e6..d47ab4262374 100644
-> --- a/drivers/staging/fbtft/fb_st7789v.c
-> +++ b/drivers/staging/fbtft/fb_st7789v.c
-> @@ -30,6 +30,12 @@
->  
->  #define HSD20_IPS 1
->  
-> +#define WIDTH 240
-> +#define HEIGHT 320
-> +
-> +#define LEFT_OFFSET 0
-> +#define TOP_OFFSET 0
-> +
->  /**
->   * enum st7789v_command - ST7789V display controller commands
->   *
-> @@ -349,6 +355,21 @@ static int set_gamma(struct fbtft_par *par, u32 *curves)
->  	return 0;
->  }
->  
-> +static void set_addr_win(struct fbtft_par *par, int xs, int ys, int xe, int ye)
-> +{
-> +	unsigned int x = xs + TOP_OFFSET, y = xe + TOP_OFFSET;
-> +
-> +	write_reg(par, MIPI_DCS_SET_COLUMN_ADDRESS, (x >> 8) & 0xFF, xs & 0xFF,
-                                                                     ^ should be x?
-> +		  (y >> 8) & 0xFF, xe & 0xFF);
-                                   ^ should be y?
+> [...]
 
-As noted above, I don't think this is correct. The spec says this register should
-be written with:
-	- upper 8 bit of SC
-	- lower 8 bit of SC
-	- upper 8 bit of EC
-	- lower 8 bit of EC
-...and I don't think the code does that correctly.
+Applied, thanks!
 
-> +	x = ys + LEFT_OFFSET, y = ye + LEFT_OFFSET;
-> +
-> +	write_reg(par, MIPI_DCS_SET_PAGE_ADDRESS, (x >> 8) & 0xFF, ys & 0xFF,
-> +		  (y >> 8) & 0xFF, ye & 0xFF);
-
-Same problem as above?
-
-> +	write_reg(par, MIPI_DCS_WRITE_MEMORY_START);
-> +}
-> +
->  /**
->   * blank() - blank the display
->   *
-> @@ -379,6 +400,7 @@ static struct fbtft_display display = {
->  		.set_var = set_var,
->  		.set_gamma = set_gamma,
->  		.blank = blank,
-> +		.set_addr_win = set_addr_win,
->  	},
->  };
->
-
-Because I don't think the implementation is correct, as pointed out above,
-I have to ask: has this patch been tested with hardware? Is there
-really a use case here? I wouldn't like to add code that is not really
-used..
+[09/34] power: rt9455: hide unused rt9455_boost_voltage_values
+        commit: 452d8950db3e839aba1bb13bc5378f4bac11fa04
 
 Best regards,
-Nam
-
+-- 
+Sebastian Reichel <sebastian.reichel@collabora.com>
 
