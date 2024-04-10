@@ -1,65 +1,65 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38A42159564
-	for <linux-staging@lists.linux.dev>; Wed, 10 Apr 2024 10:35:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CB9A1552EF
+	for <linux-staging@lists.linux.dev>; Wed, 10 Apr 2024 10:41:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712745336; cv=none; b=pXipI1swieCiheoNimcDAjLlsDs6u7IHI8D9ewkNp3VRYl9NKx9Co4AzOQTT6aDNaNZj7y1D4jNCXAtEUZLv+QuhP8GGKEQv/3o8RCPVymL4aV+GNqfab2xYj1NjHWdUlIXHdIrWqBuVo0M0UDT04uC4LIGUKs7/jlitXxPHpUs=
+	t=1712745664; cv=none; b=og6fwyn1kY4wa2QuNv9rSWli6Z1ZbirhJ4okWViXHec3glMKkRFlnWSlm/rn0B1nlLn4yFTTggHQos7WYaoGDliZxz3pTuVtQaY5ot2y8f759uDZGaammEyu/i/dtJWm2OkUfryoxiaWII1NOOQQP96XPhud4spXKqZ0HXQC5KY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712745336; c=relaxed/simple;
-	bh=rmoFoakUhj6+msUlbauZkAYDvK64i2LrXOHiREfUozo=;
+	s=arc-20240116; t=1712745664; c=relaxed/simple;
+	bh=d2rePbaAXYB09qw9YelL3lAO5AZZaCWIiQiczn1FsTs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PaUVSSPRJ9A/emAHooHhFvnkxBmFCIe1ZUfKmfwlgN3/JTLfbapVSsovJ+N9k/ck90wAr+UfOihpjn5YtpiW6W13bK9QSQVOEFNPxipWGBVJr3RTeF+8vc/EQA33WYUWrFFgHveFh2fdxXnKHv6Z/l9AlPBQ+PtdyA1NK6t0avE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=TZpU+PyV; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:Content-Type; b=VmHxRtzsLNJKgU/k2WnS/ZFVyyZzp3J9xzaK6v/DYsTLNwXNGTJBrFM6delMeaMu6m7t0zFBOjDq3vi98nae8PNYgBZHES60lEiacQUPOz7KeR7b1fnxpF3W6RKYqch8MHj+P1e+PIJuqdEsDk7+GO83IlliXx/0Eoc0y7R06BE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=DPEaQLLF; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TZpU+PyV"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DPEaQLLF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1712745334;
+	s=mimecast20190719; t=1712745659;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=uYnQ58s+I6zMZkaWsRCCBmtK31C23SKzGz7dYRh7GvU=;
-	b=TZpU+PyV86BomVfYhoJmjVlvmNYQni23yWo/qzlZGKeP979mqO6GJgg9wZRKMcmlkoIUJR
-	SdyxP6HJeqDoSpqHlFDSqtwp1dEQ7QhVu8792gLJXw1T2k/fleJ8kHyYdCvZy7aqVJPeLV
-	P9kRVJH0tUtXKOrnSSID6hAoAc/JLRQ=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=+TeWdebrCO/in8a4ZQ+ikj065Xf+M/htxdxpFkTfUTI=;
+	b=DPEaQLLFhC2IoTnQ8jmLIpcn3JhIn/kHiZrMc483TneoLeKSsLPR+qXc2/RUscK08Oqnbv
+	/ho71IJpCJ5zHjNA5Ejaa4/kDJZbuO/2a6Ws5AizdhpfAJ5M8VuKThGjguLtzqlP7ClT/+
+	rFVDy9Z3XA/pkFuO5Ofnl0/JVrR1qo8=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-169-B1noPQGTO8CrfaWEKHQWbQ-1; Wed, 10 Apr 2024 06:35:32 -0400
-X-MC-Unique: B1noPQGTO8CrfaWEKHQWbQ-1
-Received: by mail-ed1-f69.google.com with SMTP id 4fb4d7f45d1cf-56c3dc8d331so4910802a12.2
-        for <linux-staging@lists.linux.dev>; Wed, 10 Apr 2024 03:35:32 -0700 (PDT)
+ us-mta-163-lxQW0BFzPOiWeL6V0lXAlA-1; Wed, 10 Apr 2024 06:40:58 -0400
+X-MC-Unique: lxQW0BFzPOiWeL6V0lXAlA-1
+Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-a519e05fe4fso380434566b.3
+        for <linux-staging@lists.linux.dev>; Wed, 10 Apr 2024 03:40:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712745331; x=1713350131;
+        d=1e100.net; s=20230601; t=1712745657; x=1713350457;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uYnQ58s+I6zMZkaWsRCCBmtK31C23SKzGz7dYRh7GvU=;
-        b=xAwMiBHzzKBA6Tw8YoiDRaeWovoHIh6Bw4YaQGQO5qHmZOS8yYdvlUvPapPtVaJXTn
-         ejV86TaHfiDYYWl9Ng4HIMRu5fRW9ktWwUqmxxGr0y1wpMta1YNNZwab+6qB6P/rrj74
-         qcMko7aAMGYAFFNb6eYzvc5D1VorGvl51CHNIpAC+7RJCOq+q/EX5n09hoyjmU7WaIrR
-         fpQ8tI97N5GjycG+d2PClWy8Mv5CNT41zKRaRIpaprBeiUFSjypjA39t5TwCAJN75+Uc
-         ri0aXj8dEmkqHghGbFLrL6obGS4QUQRe9VSTOsn8u8MFbzQjCEEfjIGyPFJeQVMl2g0f
-         gE9Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVlZTfeCWDjAwB0BSOfIn2C8EUwLq72h1QK+Bl/X8flO17jpni2am/p/W/lN35XL8cbmUkp/XXu4Nph6MtVTJQ//u+UpyPOK3C4YHCHvQ==
-X-Gm-Message-State: AOJu0YyeoZS/OUBgQcjEwRd7Zrv+9tZviJdrQacRkEm6zb9vDGxj/BBM
-	jRKhc4Y4QNOpMvg0vpBjcpL6hTqYx+1k4T19V95MYyaCFZAhnemsBLLoJK4MnlO7TSUFi9FVBUB
-	YvKDDlrKPEacdpxG1ZJNGm25Q3D2XOZ32OcnqXK72BelXGSmUX5yWRz/tja5QZow=
-X-Received: by 2002:a17:907:7f88:b0:a4e:146c:ff09 with SMTP id qk8-20020a1709077f8800b00a4e146cff09mr1571287ejc.7.1712745331562;
-        Wed, 10 Apr 2024 03:35:31 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEl/DgE8lML4A21OOZtzpiFdYYtgIOsGkpz5Iu44RPGGo4g+/OgXBdiq8ILcRIkcBjkwrdv0g==
-X-Received: by 2002:a17:907:7f88:b0:a4e:146c:ff09 with SMTP id qk8-20020a1709077f8800b00a4e146cff09mr1571263ejc.7.1712745330852;
-        Wed, 10 Apr 2024 03:35:30 -0700 (PDT)
+        bh=+TeWdebrCO/in8a4ZQ+ikj065Xf+M/htxdxpFkTfUTI=;
+        b=VWyCQd9AbrvOrXl8sFMHAGAWEabuWPSzNX2v8Mr8Ld0SOm2ly93ZHx4sNdzZEkuCsq
+         YjlrTc3F0dmnN6bq3RYjNuYgacrS8k9sHcEwyAoO6g6+k2iHsjtnU/Wgqhu3iXlNdCLV
+         cagXMTBISSVwNkpFu5OpjlTbxm1Qr0pA26ppAfF+zecMTTfOw+chSdJe01V84SGuHI1D
+         czkrHV28rltvIOpfIp3VCP1WBQuuUu3i6Pty0ZMhOs6EEQ2P6+rXk1hOBX1UCrqsNyLA
+         pU3kQ290eiY+JawYe5dukw8TK0FC5Vwz/NMOzgaekyMhn+4pFN5nLyY/nrquo409mImK
+         huUA==
+X-Forwarded-Encrypted: i=1; AJvYcCXXVWNAr1RWjOnV8Hl6Pp+5sk6evnp7Jes/8GGlfk9DY7FewpSJamcYCga+nQoY2BLtN35iHdAMmxrWIqmPhDwLdPxZrydULVF6SXX24g==
+X-Gm-Message-State: AOJu0YyOiiGbj2vrNZ9ZNZ+TU/ScuuR7S99623XOA+ohpa1vMORZHoHS
+	UAyPJGlcfZGCDXQKsMtvwZtzrhnxUsa1xgBw5Cu3rU6ADZHUO5/En7bSotMCrPKzPtf6q/7RYRN
+	6G78wWRfoCgitMs3NuQDI80NEdWJYJxPMNsc9KIP8hocFTdrjREvX32H40FRr7Ho=
+X-Received: by 2002:a17:906:f116:b0:a52:10dc:4ca8 with SMTP id gv22-20020a170906f11600b00a5210dc4ca8mr946686ejb.72.1712745657401;
+        Wed, 10 Apr 2024 03:40:57 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHhdJBzUX4DuqZ2uULshWmUbL6QUe6whMHXJ3hUs3QrHGHJpjCoySP9VM42gaV/tN/8rWUJoQ==
+X-Received: by 2002:a17:906:f116:b0:a52:10dc:4ca8 with SMTP id gv22-20020a170906f11600b00a5210dc4ca8mr946665ejb.72.1712745657028;
+        Wed, 10 Apr 2024 03:40:57 -0700 (PDT)
 Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id cw23-20020a170906c79700b00a51bf5932aesm5274595ejb.28.2024.04.10.03.35.30
+        by smtp.gmail.com with ESMTPSA id lg11-20020a170906f88b00b00a4e2db8ffdcsm6790801ejb.111.2024.04.10.03.40.55
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Apr 2024 03:35:30 -0700 (PDT)
-Message-ID: <c9741df0-6c12-4ff5-90b4-5a13f0bd9b51@redhat.com>
-Date: Wed, 10 Apr 2024 12:35:29 +0200
+        Wed, 10 Apr 2024 03:40:55 -0700 (PDT)
+Message-ID: <39268d69-7a40-4891-847a-af167faa8581@redhat.com>
+Date: Wed, 10 Apr 2024 12:40:54 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -67,116 +67,172 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 2/2] media: atomisp: Replace open-coded
- i2c_find_device_by_fwnode()
+Subject: Re: [PATCH v1 1/1] media: atomisp: Remove unsused macros
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
  Sakari Ailus <sakari.ailus@linux.intel.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <20240326202813.1425431-1-andriy.shevchenko@linux.intel.com>
- <20240326202813.1425431-3-andriy.shevchenko@linux.intel.com>
+References: <20240326190903.1422069-1-andriy.shevchenko@linux.intel.com>
 From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20240326202813.1425431-3-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20240326190903.1422069-1-andriy.shevchenko@linux.intel.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US, nl
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi Andy,
+Hi,
 
-Thank you for the patch.
-
-On 3/26/24 9:27 PM, Andy Shevchenko wrote:
-> gmin_i2c_dev_exists() is using open-coded variant of
-> i2c_find_device_by_fwnode(). Replace it with a corresponding call.
+On 3/26/24 8:09 PM, Andy Shevchenko wrote:
+> Entire defs.h can be killed, so do that.
+> Also kill same macro definitions in hive_types.h
 > 
 > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
->  drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-> index 80aa2211cdc3..b7c477280986 100644
-> --- a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-> +++ b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-> @@ -394,12 +394,10 @@ static struct i2c_client *gmin_i2c_dev_exists(struct device *dev, char *name,
->  	if (!adev)
->  		return NULL;
->  
-> -	d = bus_find_device_by_acpi_dev(&i2c_bus_type, adev);
-> +	d = get_device(acpi_get_first_physical_node(adev));
->  	acpi_dev_put(adev);
-> -	if (!d)
-> -		return NULL;
->  
-> -	*client = i2c_verify_client(d);
-> +	*client = i2c_find_device_by_fwnode(dev_fwnode(d));
->  	put_device(d);
->  
->  	dev_dbg(dev, "found '%s' at address 0x%02x, adapter %d\n",
 
-If we are ging to simplify this I think the change should be:
+Thank you for your patch.
 
-From ea66d15b9a72fcb8baf22a2ff059f2b842a91b67 Mon Sep 17 00:00:00 2001
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Date: Wed, 10 Apr 2024 12:32:11 +0200
-Subject: [PATCH] media: atomisp: Replace open-coded
- i2c_find_device_by_fwnode()
+I have merged this in my media-atomisp branch:
+https://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git/log/?h=media-atomisp
 
-gmin_i2c_dev_exists() is using open-coded variant of
-i2c_find_device_by_fwnode(). Replace it with a corresponding call.
-
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
-Changes in v2:
-- Directly use the ACPI fwnode through acpi_fwnode_handle(adev) instead
-  of first calling acpi_get_first_physical_node(adev)
----
- drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-index 804ffff245f3..ed6214327ce5 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-@@ -394,14 +394,11 @@ static struct i2c_client *gmin_i2c_dev_exists(struct device *dev, char *name,
- 	if (!adev)
- 		return NULL;
- 
--	d = bus_find_device_by_acpi_dev(&i2c_bus_type, adev);
-+	*client = i2c_find_device_by_fwnode(acpi_fwnode_handle(adev));
- 	acpi_dev_put(adev);
--	if (!d)
-+	if (!*client)
- 		return NULL;
- 
--	*client = i2c_verify_client(d);
--	put_device(d);
--
- 	dev_dbg(dev, "found '%s' at address 0x%02x, adapter %d\n",
- 		(*client)->name, (*client)->addr, (*client)->adapter->nr);
- 	return *client;
--- 
-2.44.0
-
-Note I added a:
-
-	if (!*client)
-		return NULL;
-
-To fix a bug in the original code where the dev_dbg() arguments
-are dereferencing a potential NULL *client ptr.
-
-I'm going to merge this variant into my media-atomisp branch
-instead of the orignal.
+And this patch will be included in my next
+pull-request to Mauro (to media subsystem maintainer)
 
 Regards,
 
 Hans
 
 
+> ---
+>  drivers/staging/media/atomisp/pci/bits.h      |  4 +-
+>  drivers/staging/media/atomisp/pci/defs.h      | 37 -------------------
+>  .../pci/hive_isp_css_common/host/dma_local.h  |  1 -
+>  .../staging/media/atomisp/pci/hive_types.h    | 19 ----------
+>  .../pci/runtime/debug/src/ia_css_debug.c      |  3 +-
+>  5 files changed, 4 insertions(+), 60 deletions(-)
+>  delete mode 100644 drivers/staging/media/atomisp/pci/defs.h
+> 
+> diff --git a/drivers/staging/media/atomisp/pci/bits.h b/drivers/staging/media/atomisp/pci/bits.h
+> index 9fab02ebddc5..f7a66287d763 100644
+> --- a/drivers/staging/media/atomisp/pci/bits.h
+> +++ b/drivers/staging/media/atomisp/pci/bits.h
+> @@ -16,9 +16,9 @@
+>  #ifndef _HRT_BITS_H
+>  #define _HRT_BITS_H
+>  
+> -#include "defs.h"
+> +#include <linux/args.h>
+>  
+> -#define _hrt_ones(n) HRTCAT(_hrt_ones_, n)
+> +#define _hrt_ones(n)	CONCATENATE(_hrt_ones_, n)
+>  #define _hrt_ones_0x0  0x00000000U
+>  #define _hrt_ones_0x1  0x00000001U
+>  #define _hrt_ones_0x2  0x00000003U
+> diff --git a/drivers/staging/media/atomisp/pci/defs.h b/drivers/staging/media/atomisp/pci/defs.h
+> deleted file mode 100644
+> index 785e7a670a00..000000000000
+> --- a/drivers/staging/media/atomisp/pci/defs.h
+> +++ /dev/null
+> @@ -1,37 +0,0 @@
+> -/* SPDX-License-Identifier: GPL-2.0 */
+> -/*
+> - * Support for Intel Camera Imaging ISP subsystem.
+> - * Copyright (c) 2015, Intel Corporation.
+> - *
+> - * This program is free software; you can redistribute it and/or modify it
+> - * under the terms and conditions of the GNU General Public License,
+> - * version 2, as published by the Free Software Foundation.
+> - *
+> - * This program is distributed in the hope it will be useful, but WITHOUT
+> - * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+> - * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+> - * more details.
+> - */
+> -
+> -#ifndef _HRT_DEFS_H_
+> -#define _HRT_DEFS_H_
+> -
+> -#ifndef HRTCAT
+> -#define _HRTCAT(m, n)     m##n
+> -#define HRTCAT(m, n)      _HRTCAT(m, n)
+> -#endif
+> -
+> -#ifndef HRTSTR
+> -#define _HRTSTR(x)   #x
+> -#define HRTSTR(x)    _HRTSTR(x)
+> -#endif
+> -
+> -#ifndef HRTMIN
+> -#define HRTMIN(a, b) (((a) < (b)) ? (a) : (b))
+> -#endif
+> -
+> -#ifndef HRTMAX
+> -#define HRTMAX(a, b) (((a) > (b)) ? (a) : (b))
+> -#endif
+> -
+> -#endif /* _HRT_DEFS_H_ */
+> diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/dma_local.h b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/dma_local.h
+> index 48a1ace79897..1a71dbebbbe2 100644
+> --- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/dma_local.h
+> +++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/dma_local.h
+> @@ -19,7 +19,6 @@
+>  #include <type_support.h>
+>  #include "dma_global.h"
+>  
+> -#include <defs.h>				/* HRTCAT() */
+>  #include <bits.h>				/* _hrt_get_bits() */
+>  #include <hive_isp_css_defs.h>		/* HIVE_DMA_NUM_CHANNELS */
+>  #include <dma_v2_defs.h>
+> diff --git a/drivers/staging/media/atomisp/pci/hive_types.h b/drivers/staging/media/atomisp/pci/hive_types.h
+> index 55d36931f079..34f462c0c9f9 100644
+> --- a/drivers/staging/media/atomisp/pci/hive_types.h
+> +++ b/drivers/staging/media/atomisp/pci/hive_types.h
+> @@ -17,25 +17,6 @@
+>  #define _HRT_HIVE_TYPES_H
+>  
+>  #include "version.h"
+> -#include "defs.h"
+> -
+> -#ifndef HRTCAT3
+> -#define _HRTCAT3(m, n, o)     m##n##o
+> -#define HRTCAT3(m, n, o)      _HRTCAT3(m, n, o)
+> -#endif
+> -
+> -#ifndef HRTCAT4
+> -#define _HRTCAT4(m, n, o, p)     m##n##o##p
+> -#define HRTCAT4(m, n, o, p)      _HRTCAT4(m, n, o, p)
+> -#endif
+> -
+> -#ifndef HRTMIN
+> -#define HRTMIN(a, b) (((a) < (b)) ? (a) : (b))
+> -#endif
+> -
+> -#ifndef HRTMAX
+> -#define HRTMAX(a, b) (((a) > (b)) ? (a) : (b))
+> -#endif
+>  
+>  /* boolean data type */
+>  typedef unsigned int hive_bool;
+> diff --git a/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c b/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
+> index 3e92794555ec..3807b31bb98f 100644
+> --- a/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
+> +++ b/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
+> @@ -31,6 +31,7 @@
+>  #define __INLINE_STREAM2MMIO__
+>  #endif
+>  
+> +#include <linux/args.h>
+>  #include <linux/string.h> /* for strscpy() */
+>  
+>  #include "ia_css_debug.h"
+> @@ -861,7 +862,7 @@ void ia_css_debug_wake_up_sp(void)
+>  }
+>  
+>  #define FIND_DMEM_PARAMS_TYPE(stream, kernel, type) \
+> -	(struct HRTCAT(HRTCAT(sh_css_isp_, type), _params) *) \
+> +	(struct CONCATENATE(CONCATENATE(sh_css_isp_, type), _params) *) \
+>  	findf_dmem_params(stream, offsetof(struct ia_css_memory_offsets, dmem.kernel))
+>  
+>  #define FIND_DMEM_PARAMS(stream, kernel) FIND_DMEM_PARAMS_TYPE(stream, kernel, kernel)
 
