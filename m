@@ -1,125 +1,58 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B0B613CAA1
-	for <linux-staging@lists.linux.dev>; Thu, 11 Apr 2024 07:28:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2B03140E3C;
+	Thu, 11 Apr 2024 12:00:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712820535; cv=none; b=d1BwkcDX3yrvr2lzwuMYnVEqGQqdSz3bDm8//Z//KlMoQKI3x2vI2jJMjhfuU3wXXH/OPAeSoiuLhe9EjG5oyXhwRfZZ+UIbOCrH5/GSJi7q+2IWDA15eyWuqKIxrr85OlPGsPhG+sPegAdYYECN8RH8y3CnZZdx2wkeFAUfrqI=
+	t=1712836811; cv=none; b=cjv9Ke7+S355jCdpRM6u3ooTi1MXSBGu6aZ5p1O1PTrCo64H7j2Rgom3S4Wg3Rwxnyco56PkccrEW8vPhG78DfpY0hW0OCcl88JMCuT+IDF70CaAhBSB7CaFLe1NJlw4AZvC6P00pAZYCC+A6cyllo7HpUzmKs1a5216NQiyAQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712820535; c=relaxed/simple;
-	bh=7e7nGiie3B6yxrUzMgt7HY2LxDnVsFLXIhBy71O8jEk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=MVDkpQfonnbm4GBTZcjKvXkZQUa43FyBDAWwHtkpRXYTGNeDV9S4MqUP7eCTENRS/w5bZKoNrOq4WycnMUxx8SNFX6X/5AEl3TbJ3FrXe4qy0b14dGkRhof6HN/fH+uwmtDJ/rzf/gpHbOz7a7miqRn2qi2QMxB7dHVJqtclm80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1ruorT-00068O-UD; Thu, 11 Apr 2024 09:28:43 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1ruorQ-00BdtV-Dv; Thu, 11 Apr 2024 09:28:40 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1ruorQ-000Pp3-15;
-	Thu, 11 Apr 2024 09:28:40 +0200
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Jack Zhu <jack.zhu@starfivetech.com>,
-	Changhuang Liang <changhuang.liang@starfivetech.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	kernel@pengutronix.de
-Subject: [PATCH v2] media: staging: media: starfive: camss: Convert to platform remove callback returning void
-Date: Thu, 11 Apr 2024 09:28:36 +0200
-Message-ID: <20240411072836.221625-2-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1712836811; c=relaxed/simple;
+	bh=4qHw9PeMb74t/+NErXIxFc+9EeavhtL59hqszWN1wz8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UWX4AOBDjx8bcRGfACKuVNzlC6+18GNulIL5V76m51GK5iofFsNzY7F4ekgXe1YGifJVjYW7bRUT++RyZhlRViSHaxbn+O4LaVmIyLAU8kZBgfCmYzLIhamyJM/eIsYhm+gBxSGlSc5Arc3PV9hfJhZBb3HapsJqfgr8iVi6hoA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=lCprXEEY; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="lCprXEEY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E396FC433C7;
+	Thu, 11 Apr 2024 12:00:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1712836811;
+	bh=4qHw9PeMb74t/+NErXIxFc+9EeavhtL59hqszWN1wz8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lCprXEEY87W85K+ZgY8YFkuJXfkFbF4518BLD9MjQfnrwfuxSDK1tD60D2D0/++ZO
+	 Fo13jddcELgJcMpGMYEgJKolsufwLZBT1vSm5O+LkUvXOQ62pJ7khKczDgytx00uxj
+	 QNIy3tPQs9JW6ASUiy0EJQCQ+RJif2N0FcQpmmFU=
+Date: Thu, 11 Apr 2024 14:00:08 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Marc Dietrich <marvin24@gmx.de>
+Cc: linux-staging@lists.linux.dev, linux-tegra@vger.kernel.org,
+	thierry.reding@gmail.com, dan.carpenter@linaro.org
+Subject: Re: [PATCH 4/5] staging: nvec: make i2c controller register writes
+ robust
+Message-ID: <2024041156-renderer-shrunk-6da7@gregkh>
+References: <20240406123123.37148-1-marvin24@gmx.de>
+ <20240406123123.37148-5-marvin24@gmx.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2492; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=7e7nGiie3B6yxrUzMgt7HY2LxDnVsFLXIhBy71O8jEk=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBmF5ElyK6/rv4tC0OtkUvcoQkxhNg1EnvjsTZbK ByE06hJlICJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZheRJQAKCRCPgPtYfRL+ TuhcB/9GaxoYkOYO5MLbp2RGnhndIsPFqFHj8cd6JifwgeLNly+7d2YURgGi2eOOW6w41LGSHCd qQphBMkPRHs4bRqnC/pwPaJam+baDAobdvUhKHcHRnsV335bWdDoflPd/lYirEl2KqBbJ9/eHUF AFNFrUN5dGaUK9vb9RZNu+VVInxvg7e8O13v50+MivbAAgRLkuScxr9KhuW0ObhZGoUB84vhwKZ y4369yC2rVaFzkakqp4KwTYlJ296gvDVnGaM08VNUQcyA4bENbEcOAp027uwQxtUt4kSvRSI5pc LQLfpHl0vjjB4egr+iHzTQ8JlazwOiCG5/Uo0i1kPfSsQ/Kq
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-staging@lists.linux.dev
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240406123123.37148-5-marvin24@gmx.de>
 
-The .remove() callback for a platform driver returns an int which makes
-many driver authors wrongly assume it's possible to do error handling by
-returning an error code. However the value returned is ignored (apart
-from emitting a warning) and this typically results in resource leaks.
+On Sat, Apr 06, 2024 at 02:31:22PM +0200, Marc Dietrich wrote:
+> The i2c controller needs to read back the data written to its registers.
+> This way we can avoid the long delay in the interrupt handler.
+> 
+> Signed-off-by: Marc Dietrich <marvin24@gmx.de>
+> ---
+>  drivers/staging/nvec/nvec.c | 41 ++++++++++++++++++++++---------------
+>  1 file changed, 24 insertions(+), 17 deletions(-)
 
-To improve here there is a quest to make the remove callback return
-void. In the first step of this quest all drivers are converted to
-.remove_new(), which already returns void. Eventually after all drivers
-are converted, .remove_new() will be renamed to .remove().
+This change did not apply to the tree, can you rebase it and resend?
 
-Trivially convert this driver from always returning zero in the remove
-callback to the void returning variant.
-
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
-Hello,
-
-(implicit) v1: https://lore.kernel.org/linux-staging/c43a9c68e64e3e8360174ae0c6706e46d3d40a11.1709886922.git.u.kleine-koenig@pengutronix.de
-    
-Changes since (implicit) v1:
-
- - Drop doc about return value in kerneldoc, thanks to Changhuang Liang
-   for noticing
-
-Best regards
-Uwe
-
- drivers/staging/media/starfive/camss/stf-camss.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/staging/media/starfive/camss/stf-camss.c b/drivers/staging/media/starfive/camss/stf-camss.c
-index a587f860101a..4ea40671b44d 100644
---- a/drivers/staging/media/starfive/camss/stf-camss.c
-+++ b/drivers/staging/media/starfive/camss/stf-camss.c
-@@ -352,10 +352,8 @@ static int stfcamss_probe(struct platform_device *pdev)
- /*
-  * stfcamss_remove - Remove STFCAMSS platform device
-  * @pdev: Pointer to STFCAMSS platform device
-- *
-- * Always returns 0.
-  */
--static int stfcamss_remove(struct platform_device *pdev)
-+static void stfcamss_remove(struct platform_device *pdev)
- {
- 	struct stfcamss *stfcamss = platform_get_drvdata(pdev);
- 
-@@ -364,8 +362,6 @@ static int stfcamss_remove(struct platform_device *pdev)
- 	media_device_cleanup(&stfcamss->media_dev);
- 	v4l2_async_nf_cleanup(&stfcamss->notifier);
- 	pm_runtime_disable(&pdev->dev);
--
--	return 0;
- }
- 
- static const struct of_device_id stfcamss_of_match[] = {
-@@ -420,7 +416,7 @@ static const struct dev_pm_ops stfcamss_pm_ops = {
- 
- static struct platform_driver stfcamss_driver = {
- 	.probe = stfcamss_probe,
--	.remove = stfcamss_remove,
-+	.remove_new = stfcamss_remove,
- 	.driver = {
- 		.name = "starfive-camss",
- 		.pm = &stfcamss_pm_ops,
-
-base-commit: 4118d9533ff3a5d16efb476a0d00afceecd92cf5
--- 
-2.43.0
-
+thanks,
+greg k-h
