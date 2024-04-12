@@ -1,122 +1,132 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91A4B46426
-	for <linux-staging@lists.linux.dev>; Fri, 12 Apr 2024 07:08:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A768A3218B
+	for <linux-staging@lists.linux.dev>; Fri, 12 Apr 2024 07:57:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712905706; cv=none; b=gcR0tad6nLFZ3mda+qd+238zo1E6XOfGrs498KYq6BsB0xScCGgLTjhmma/leHLCl7kd8Jb55NbUDnVIYGuzqvBBUMZYoDXLW7Zw6Uk7unrII1u1o9Inuo2GtLLTK/0wiIhmGSCtLfYgbyHm2FD0JR1B2EDclcxpnukxEgsOb+Y=
+	t=1712908678; cv=none; b=OXdfPqSgAqBbW9fSgxvMTcx4ItHWdBgfOsukfE501svSTGCMC+sshp7iPByS9ifjfst2UAa0krwFXvXtOjBERQcLMoBtSrvrAOWb8nWtSxzLpQgCvNoAKBicQvnbuXjryU8USf8Jc46k8Unx+EKzPPcDEMkloLyVE5HJlx8rrMo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712905706; c=relaxed/simple;
-	bh=ClQ0BLQzOQg2jtR+VeDBEbmCd/vsAKEPEvUZhKMxUMw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VwmmaTCU3n6Bsx//542jDNkwcZ4+aLLubi+2OSvFDuTEOUew1stKl7R263K5HEJrw1+iTape9v9RK/me0GDFlk3OHoXJIbLuob1WKxP9I2q9P/1mYPYMJluCUdFGsAoQBRaYuyeP0by2eHZceWgAV+dgsNJpMeSa/bzfN/KxjnQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rvB1G-0003QT-0D; Fri, 12 Apr 2024 09:08:18 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rvB1F-00BplX-0P; Fri, 12 Apr 2024 09:08:17 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rvB1E-0011mH-2z;
-	Fri, 12 Apr 2024 09:08:16 +0200
-Date: Fri, 12 Apr 2024 09:08:16 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Changhuang Liang <changhuang.liang@starfivetech.com>
-Cc: Jack Zhu <jack.zhu@starfivetech.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>, "kernel@pengutronix.de" <kernel@pengutronix.de>, 
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Subject: Re: =?utf-8?B?5Zue5aSNOiBbUEFUQ0ggdjJdIG1lZGlhOiBzdGFnaW5nOiBt?=
- =?utf-8?Q?edia=3A_starfive?= =?utf-8?Q?=3A?= camss: Convert to platform
- remove callback returning void
-Message-ID: <e5h2nqe6umpbzw3a7hhpdttmqr2w6kprwe7mavb4lj3cbmg2hk@k7xk6wgh5veh>
-References: <20240411072836.221625-2-u.kleine-koenig@pengutronix.de>
- <SH0PR01MB066755DE4798EB2BD5EE04A9F204A@SH0PR01MB0667.CHNPR01.prod.partner.outlook.cn>
+	s=arc-20240116; t=1712908678; c=relaxed/simple;
+	bh=RAsYLbEBxilXh2KIWfeJtVTz+7im1zugUnOXKwu/CxY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FSOi/zmDSgIXSk9vdtEni4Q2M22cWBWIXjKQvulIy2kQYJK8+6KxpfKPFwk5UmLiYn+9JnAFIt8Lba5Q+4ViAZJTLvKZeHoTZPDjHIf9TSqpLQAeW21NPpfRlyNuSKzwqkyzcqYwVVAA85c5bAppgZCKDSjR2w+ZvixJ2sUW5To=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Z3e9njP7; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Z3e9njP7"
+Received: from fedora.local (unknown [103.251.226.65])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7E02C8E1;
+	Fri, 12 Apr 2024 09:57:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1712908629;
+	bh=RAsYLbEBxilXh2KIWfeJtVTz+7im1zugUnOXKwu/CxY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Z3e9njP7oHKB9sBMltBKm7iMnuJ7AUV8KDv3kzzcJlMn7G32qb+ruuUfW5A/05u6B
+	 vaoYz73crgoYqk1GEZ6JCculsBb5fNRRvEnEb29viwqfEcusyN/dZc60GBp0cAKtGt
+	 PP19PS4z88RuuCMUClMkWcW9spRdb4PHZrLhNx/0=
+From: Umang Jain <umang.jain@ideasonboard.com>
+To: linux-staging@lists.linux.dev
+Cc: Dan Carpenter <error27@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Phil Elwell <phil@raspberrypi.com>,
+	Greg KH <greg@kroah.com>,
+	Stefan Wahren <wahrenst@gmx.net>,
+	Umang Jain <umang.jain@ideasonboard.com>
+Subject: [PATCH v5 00/11] staging: vc04_services: Drop non-essential global members
+Date: Fri, 12 Apr 2024 13:27:32 +0530
+Message-ID: <20240412075743.60712-1-umang.jain@ideasonboard.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="haervp5rsxmwwzfe"
-Content-Disposition: inline
-In-Reply-To: <SH0PR01MB066755DE4798EB2BD5EE04A9F204A@SH0PR01MB0667.CHNPR01.prod.partner.outlook.cn>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-staging@lists.linux.dev
+Content-Transfer-Encoding: 8bit
+
+This series aims to drop the remaining (non-essential) global members
+to address the following TODO item:
+```
+* Get rid of all non essential global structures and create a proper per
+device structure
+```
+
+Mainly the global members are moved to be contained inside platform
+driver data. They can be access via platform_get_drvdata().
+
+More re-fractoring has gone into this version now. Please look
+for individual commit for details.
+
+Testing on top of RPi 3 with staging next.
+
+Changes in v5:
+- Rebase over latest staging-testing that contains kthreads revert [2]
+- commit messages fixup
+- Add suggested-by in 5/11
+- Use spinlock_t(typedef) instead of 'struct spinlock_t' in 8/11
+
+Changes in v4:
+- New patch to drop vchiq_connected.[ch] files and move the functions
+  to vchiq_arm.c (5/11)
+- De-globalise remapped memory region pointer (7/11)
+- De-globalise global spinlocks too (8/11)
+- De-globalise global vchiq_pointer g_state (10/11)
+- commit message updates and trivial variable renaming
+
+Changes in v3:
+- Rework 2/6 to 5/6 as per Laurent's review in v2 [1].
+- Add a comment for g_regs global __iomem ptr.
+
+Changes in v2:
+- Found even more g_* global variables than v1, so new patches to drop
+  them
+- Introduce 1/6 as suggested during v1 review
+- Introuce 6/6 to cleanup the TODO list
+
+[1]: https://lore.kernel.org/linux-staging/4ba0d745-fc8d-4886-b71a-1f19962e9103@moroto.mountain/T/#m440ee992442cc82ea43092b7c895823c918d105f
+
+[2]: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git/commit/?h=staging-testing&id=ebee9ca2f59e35a60a6704a79df6477b3c84ac96
+
+Umang Jain (11):
+  staging: vc04_services: Drop g_once_init global variable
+  staging: vc04_services: vchiq_arm: Split driver static and runtime
+    data
+  staging: vc04_services: vchiq_arm: Drop g_cache_line_size
+  staging: vc04_services: Move variables for tracking connections
+  staging: vc04_services: Drop vchiq_connected.[ch] files
+  staging: vc04_services: Move global variables tracking allocated pages
+  staging: vc04_services: Move global memory mapped pointer
+  staging: vc04_services: Move spinlocks to vchiq_state
+  staging: vc04_services: vchiq_mmal: Rename service_callback()
+  staging: vc04_services: Move global g_state to vchiq_state
+  staging: vc04_services: Drop completed TODO item
+
+ drivers/staging/vc04_services/Makefile        |   1 -
+ .../bcm2835-audio/bcm2835-vchiq.c             |   5 +-
+ .../bcm2835-camera/bcm2835-camera.c           |   4 +-
+ .../include/linux/raspberrypi/vchiq.h         |   4 +-
+ drivers/staging/vc04_services/interface/TODO  |  15 --
+ .../interface/vchiq_arm/vchiq_arm.c           | 252 ++++++++++--------
+ .../interface/vchiq_arm/vchiq_arm.h           |  41 ++-
+ .../interface/vchiq_arm/vchiq_bus.c           |   3 +
+ .../interface/vchiq_arm/vchiq_bus.h           |   3 +
+ .../interface/vchiq_arm/vchiq_connected.c     |  74 -----
+ .../interface/vchiq_arm/vchiq_connected.h     |  12 -
+ .../interface/vchiq_arm/vchiq_core.c          |  51 ++--
+ .../interface/vchiq_arm/vchiq_core.h          |  11 +-
+ .../interface/vchiq_arm/vchiq_debugfs.c       |   5 +-
+ .../interface/vchiq_arm/vchiq_dev.c           |  34 +--
+ .../vc04_services/vchiq-mmal/mmal-vchiq.c     |  14 +-
+ .../vc04_services/vchiq-mmal/mmal-vchiq.h     |   3 +-
+ 17 files changed, 255 insertions(+), 277 deletions(-)
+ delete mode 100644 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.c
+ delete mode 100644 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.h
 
 
---haervp5rsxmwwzfe
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+base-commit: e4d5e3a9ae68250f7cc7e930ffeecba2c9f32832
+-- 
+2.44.0
 
-Hello,
-
-On Fri, Apr 12, 2024 at 07:00:22AM +0000, Changhuang Liang wrote:
-> > media: staging: media: starfive: camss: Convert to platform
-> > remove callback returning void
-> >=20
-> > The .remove() callback for a platform driver returns an int which makes=
- many
-> > driver authors wrongly assume it's possible to do error handling by ret=
-urning
-> > an error code. However the value returned is ignored (apart from emitti=
-ng a
-> > warning) and this typically results in resource leaks.
-> >=20
-> > To improve here there is a quest to make the remove callback return voi=
-d. In
-> > the first step of this quest all drivers are converted to .remove_new()=
-, which
-> > already returns void. Eventually after all drivers are converted, .remo=
-ve_new()
-> > will be renamed to .remove().
-> >=20
-> > Trivially convert this driver from always returning zero in the remove =
-callback
-> > to the void returning variant.
-> >=20
-> > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
->=20
-> Reviewed-by: Changhuang Liang <changhuang.liang@starfivetech.com>
->=20
-> But it seems that v1 is already merge.
-
-Hmm, it's not in next though. IMHO it would be a good idea to add the
-tree that has my patch staged to next.
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---haervp5rsxmwwzfe
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmYY3d8ACgkQj4D7WH0S
-/k4PwAf/W7PAMu0Iy0Z9HVJy9V3tNJnkK+aI84vVoqMNsBLj4D7V4nz/GAVWZZnW
-jeGRxG6Opuqahx1CCh2ILM/eoDgOkTKvS5f682NOmiB+JvtbSr4c77yFcOEgJUsZ
-Iyo6d+TG0VgN4YypgWYIKq4uddMgkF28ROcRalunX0C7EA7frsx9riqimETroNn4
-xIlkOOIybb/reIWwU1lUtC1sEqnvVdC6+XfEqpa8Su+BgE7wCNArq97LsEGJt+OS
-hoz4HLWX2CyJddA1Go79oZeX7jYvg0GshiPLt8345Iox3vOOdfWNcCrwncPVGmDN
-cHi0Qtzs/b4INNkgUuEWdsH+BHTAkw==
-=SAif
------END PGP SIGNATURE-----
-
---haervp5rsxmwwzfe--
