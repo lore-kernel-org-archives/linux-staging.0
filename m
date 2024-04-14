@@ -1,92 +1,139 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B97B923759
-	for <linux-staging@lists.linux.dev>; Sun, 14 Apr 2024 10:23:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 914442374C
+	for <linux-staging@lists.linux.dev>; Sun, 14 Apr 2024 10:24:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713090233; cv=none; b=G7FXd10UEHnTuak6LWcOYumjMmaiCO+8cmEgur5+HBfVFIS7VBGa4kxqwkBwvJhERLEyDPWLtQwye3rfKWXT3dpldFE6WXtX3H2VKMXHFoai/huQRUchCH9x34H6fXq3IGGfNRwWrr2Of7Z9g4xU5q7HruvVEJRgydHmq35bqbw=
+	t=1713090300; cv=none; b=m1LX51KxsXzjzlKE6qKUxInbt+rs49AELAczcCHE12IAuIMIDKV6PGgrRqaqioQiTWFcqeA8WcMs5HDozH6A6d5q24luGkB/w6j6nnlykGbBE439ALbVfeaC0y4MFjYF8YYOLJH9tMqthloJtn+DO/Xt1yUhKK5GIyUW0JLgDJ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713090233; c=relaxed/simple;
-	bh=V4/v4mKvlSqF0CH+HBmVfMXz7qhit5lB0c6K7fdGKdk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KlU2MtldBrf578i+BY8EFJFstiS4SP26HG3MO2+++ECu3hQPR0JQKeml4qItAOidmh9DtjwnIiwv6nubUP3PW+7NH+sanVaATIGBetMhR+iMxO4lAvDzlZchiFoce0PdkAt4yRzS7S/3nf31hkjWB7nv0g1FwCqkDyd1FyXTdio=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=bzq1NC1B; arc=none smtp.client-ip=212.227.15.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
+	s=arc-20240116; t=1713090300; c=relaxed/simple;
+	bh=JJZlIn2mvmHgMJDDfAZ1JdDcw/dwxd99aCw9whf/RG4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=C6fzk/JZRsU7qp9Y3WxaDzQq/+L5XWmerH4oTXG7n0VTobZCFjkYjekVWwrC9vOJHhaAtHb89cfa3oDd4HBlFPpmbomYxcI6aMiif7R/onjn9zyQPyRQ0G6zZHXiYizKbFJKD4BbAqENNhzuueRe0pswb7zZClZ8ibrSX9zRitY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CAb+9wT8; arc=none smtp.client-ip=209.85.210.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="bzq1NC1B"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
-	s=s31663417; t=1713090223; x=1713695023; i=wahrenst@gmx.net;
-	bh=V4/v4mKvlSqF0CH+HBmVfMXz7qhit5lB0c6K7fdGKdk=;
-	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
-	 In-Reply-To;
-	b=bzq1NC1BgSaPH4nQi2ZksE5XBWISJUScmv8F/VldnBOSGfD4MNBULDQlNHzYGtQ2
-	 HKnMQeMsXiMnqkkANVxoWaGTxyst8XswsRd2yBvrmozj3iW7M9tQLEFCUeDfqdY3z
-	 mK3ghXAK0fmHt0hxDvnFdr5wLpbD65rL21rgXkxXAh+YUQSyo7f7wfm5hQk/y8JCz
-	 TLTp2HnK4mcXyLZqWBylwQYl/JouiIcG7E4J1TRzykWAsPtAmkRfCZrgsccyYg4Nb
-	 1LMn3ywUzlYSyZ3Gk/ZuEIcxgFhI0ujErWQ5k4/Q+ffR5pU5N3t3Dm3VPRGZfyhG3
-	 b2zIH+s0PZXJ+LFXRg==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.167] ([37.4.248.43]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MdvmO-1sVYQD3Ata-00b3Xf; Sun, 14
- Apr 2024 12:23:43 +0200
-Message-ID: <f1ad7708-5792-4efc-8169-f8b6714021b2@gmx.net>
-Date: Sun, 14 Apr 2024 12:23:42 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CAb+9wT8"
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-6ecf8ebff50so1421810b3a.1
+        for <linux-staging@lists.linux.dev>; Sun, 14 Apr 2024 03:24:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1713090299; x=1713695099; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=DADHOWnUNYP/9/v99Q0bIFc3ha7reMyzoz3vmz/f54w=;
+        b=CAb+9wT8LQ62W39PNEW+mzMgFlbu+ofDy1BBcSTppan0MyEirDswwrp+rYxEiSgnEf
+         wyBn8iripWDpDdqgmg+HYz9BaqTftNvLgCFtKnjzMjGpLt0rkXEUuVoo68uhiufIS3Qh
+         fQ+EYPFWlN+hAJXxmN8FwEElIslo6S28uJod/h87LA0fTT/V13YfKcWy+Owvt+syTuj+
+         Q5iU48+Ne1YLCjE5I2oj7nIN0dhXbDShghJU7v0asTZFbekejhThia/kgzDm7KH3HhvN
+         dj+IFwo3bDUwp3liAJCba5qb9wNT881ZBwb7VB/Ed2WcHA/d/VcXyTPkmda1f69kz36u
+         nD5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713090299; x=1713695099;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DADHOWnUNYP/9/v99Q0bIFc3ha7reMyzoz3vmz/f54w=;
+        b=BhiedleYapxos64nbl0OG2oWWA+GtbbNe8Ubvnn4lSFDZ+2prZParZQn9Qb6lJ5pNb
+         TX0rRZ8WZflue19oKcJFmEPQFTcLlcYsJ5KrYs57v+9ZRBlZuakzYJXSlYpWaoGOMREE
+         HYbN/kVMvvwaiND94ynuTBxSGG6C38S0ionzTcXOhXSXlgizP+qpgn+AMwGNl+6NT3sD
+         uHPqkM9lxlgXgmqZ314lmCYEcE3Ntz001C1k6oo9lNuBhBiawS7LagdRqIiBLt4oTuOd
+         MjGc+myO6c6OhqTGVeDNAEWlC9jGx+9Zme6uDXkrnIFR9kjKtkpwna01RfquyneQiS85
+         pg/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWvxfJAU4sz5kbeA5EvQnWADXXVk7JzzelZjz3toXe27XFurs/VqeNZ0W5l9Cav472d3nbdEo30YDX8ufN2E2SEUQfq1y+ExPpgOhuWPw==
+X-Gm-Message-State: AOJu0Ywy4Pw40oVZUcJK0ba6jQCl6vsoc1pTdB2ubwWHODzNsmuc1pfx
+	UqZK8t4RxVfizHsMKxl/TQ708RIjOf+E5AVYxH/kCivmLmXtDzmtuxUHaSOV
+X-Google-Smtp-Source: AGHT+IFo+3A88+eErsb0hrFDYgsGA859sSv6X9J0eSGBHL9qSAzFushHa4YDibASL+DuNgxlqQFy3g==
+X-Received: by 2002:a05:6a20:3241:b0:1a9:9839:f209 with SMTP id hm1-20020a056a20324100b001a99839f209mr8824592pzc.0.1713090298867;
+        Sun, 14 Apr 2024 03:24:58 -0700 (PDT)
+Received: from localhost.localdomain ([2401:4900:1cb8:5ab4:8eca:a8e7:b24c:7514])
+        by smtp.gmail.com with ESMTPSA id k187-20020a636fc4000000b005d6a0b2efb3sm5233452pgc.21.2024.04.14.03.24.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 14 Apr 2024 03:24:58 -0700 (PDT)
+From: sumadhura kalyan <opensourcecond@gmail.com>
+To: florian.fainelli@broadcom.com,
+	bcm-kernel-feedback-list@broadcom.com,
+	gregkh@linuxfoundation.org
+Cc: linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	sumadhura kalyan <opensourcecond@gmail.com>
+Subject: [PATCH] Replace function alignment of camel case by snake case.
+Date: Sun, 14 Apr 2024 15:54:42 +0530
+Message-Id: <20240414102443.98927-1-opensourcecond@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 01/11] staging: vc04_services: Drop g_once_init global
- variable
-To: Umang Jain <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev
-Cc: Dan Carpenter <error27@gmail.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Phil Elwell <phil@raspberrypi.com>, Greg KH <greg@kroah.com>,
- Dan Carpenter <dan.carpenter@linaro.org>
-References: <20240412075743.60712-1-umang.jain@ideasonboard.com>
- <20240412075743.60712-2-umang.jain@ideasonboard.com>
-Content-Language: en-US
-From: Stefan Wahren <wahrenst@gmx.net>
-In-Reply-To: <20240412075743.60712-2-umang.jain@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:yO+/75bRSgrVEEsSKllH+cZAscn2kQOwDWIlpeK3eOG9IP8q0wW
- XYyz2cqJUGXT6OlqOMlWJG1TiqbyTvSnh1m+Bk49pJfimVH0Ev+RAv73Y/oV7OwaF+iiNHL
- 1Z45xuXA5Olal94d2CBs/nyfWtFUsGQNSiP21/AEQHifqe0qFKpPCBAqwglKUgZnlHVjPuZ
- upPaw02dFwJnZVSRP3vjQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:Ptm4yEyYIDs=;2oOo6g2nyFb7ObN5ya6cUKCEPxO
- VjfvovlUk46dIcrWUb5k/ipOwz3loCYhUNP1qSFw8johjNxJQ2z9Un1EwDcs7NjOY55OOZL8u
- si5ZRxHzjJoN07eyBsTeJdFiHZNHNZpd8lmU2e2W4SjBwQt6migZ2KDpQf8vKtMbsH/5SXvQw
- fwoofKbW85Dr115I4hDIDlqdZt2/DRq9FIrpqEmOyT4pPUfOG1kSWCuNStmZIZD8BWHJYV6kj
- nyz9rzRPR17Hcp0zPJCi1WzxeRQsJXpOvOtJOKUiGaMDM9BlXHJdd2IO2thy/6Q11T7p5TSU8
- jmcLQtqCEZSrD7XKPpLOjolExlTeZlkA4Tzzr+NWHU8nsE5iuMMNqY4pP2a2uJTjaHvTNMRtY
- CcSWx5ktFMRxgIhs0BDlaWDACFir75tBYoR1ccuCBcNQHgSDhGEkEX30h2rK+83Tn0HS62xVv
- H4UpUhgSuqzIz+rnlXmsHknCGN2jlfeaWRj9Nedo4BaRJtkU991qUUqAeAHIBGYApqZryowAi
- sGsEpGbQsNDAlCGOLwsUQV5RyLhQlOVJspp9V1mdlufzwRwGw4lclC8pUEoSkmSJBw8bSy/X3
- KVfREsxfqAhwYb22NtcIpLP6p/3dh+NoYP2j7yESCUR7EGUW5jpSuFTd0+e8hmiNhd0aWc7Ky
- IKB2eRa6TMojQBLgJKz2ijgxHi+BN4ilHWc6f22JHOx83EaUdLS021KQgkatuIGmHAiTEd0n9
- z22/2mxuFT4QUFS5a++AwfS1o6cBvD7ZNoPaSooo9J9qnUYsasb5MtYpxOrSAHAfGQFQsfC5Q
- CUlaJLE9iZIXMwjCqYxz/fxxlSyovZPeJtnFVG1MKdpfo=
+Content-Transfer-Encoding: 8bit
 
-Am 12.04.24 um 09:57 schrieb Umang Jain:
-> g_once_init is not used in a meaningful way anywhere. Drop it
-> along with connected_init() which sets it.
->
-> Suggested-by: Dan Carpenter <dan.carpenter@linaro.org>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
-> Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> ---
->
-Yes, this cleans up the rest after commit 1790f2be41e4 ("staging:
-vc04_services: use DEFINE_MUTEX() for mutex lock")
+Issue found by checkpatch
 
-Reviewed-by: Stefan Wahren <wahrenst@gmx.net>
+Signed-off-by: sumadhura kalyan <opensourcecond@gmail.com>
+---
+ .../vc04_services/vchiq-mmal/mmal-vchiq.h     | 29 +++++++------------
+ 1 file changed, 11 insertions(+), 18 deletions(-)
+
+diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h
+index 09f030919d4e..98909fde978e 100644
+--- a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h
++++ b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h
+@@ -42,8 +42,7 @@ struct vchiq_mmal_port_buffer {
+ 
+ struct vchiq_mmal_port;
+ 
+-typedef void (*vchiq_mmal_buffer_cb)(
+-		struct vchiq_mmal_instance  *instance,
++typedef void (*vchiq_mmal_buffer_cb)(struct vchiq_mmal_instance  *instance,
+ 		struct vchiq_mmal_port *port,
+ 		int status, struct mmal_buffer *buffer);
+ 
+@@ -101,31 +100,25 @@ int vchiq_mmal_finalise(struct vchiq_mmal_instance *instance);
+ /* Initialise a mmal component and its ports
+  *
+  */
+-int vchiq_mmal_component_init(
+-		struct vchiq_mmal_instance *instance,
+-		const char *name,
+-		struct vchiq_mmal_component **component_out);
++int vchiq_mmal_component_init(struct vchiq_mmal_instance *instance,
++			      const char *name, struct vchiq_mmal_component **component_out);
+ 
+-int vchiq_mmal_component_finalise(
+-		struct vchiq_mmal_instance *instance,
+-		struct vchiq_mmal_component *component);
++int vchiq_mmal_component_finalise(struct vchiq_mmal_instance *instance,
++				  struct vchiq_mmal_component *component);
+ 
+-int vchiq_mmal_component_enable(
+-		struct vchiq_mmal_instance *instance,
+-		struct vchiq_mmal_component *component);
++int vchiq_mmal_component_enable(struct vchiq_mmal_instance *instance,
++				struct vchiq_mmal_component *component);
+ 
+-int vchiq_mmal_component_disable(
+-		struct vchiq_mmal_instance *instance,
+-		struct vchiq_mmal_component *component);
++int vchiq_mmal_component_disable(struct vchiq_mmal_instance *instance,
++				 struct vchiq_mmal_component *component);
+ 
+ /* enable a mmal port
+  *
+  * enables a port and if a buffer callback provided enque buffer
+  * headers as appropriate for the port.
+  */
+-int vchiq_mmal_port_enable(
+-		struct vchiq_mmal_instance *instance,
+-		struct vchiq_mmal_port *port,
++int vchiq_mmal_port_enable(struct vchiq_mmal_instance *instance,
++			   struct vchiq_mmal_port *port,
+ 		vchiq_mmal_buffer_cb buffer_cb);
+ 
+ /* disable a port
+-- 
+2.25.1
+
