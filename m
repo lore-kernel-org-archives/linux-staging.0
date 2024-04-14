@@ -1,139 +1,203 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 914442374C
-	for <linux-staging@lists.linux.dev>; Sun, 14 Apr 2024 10:24:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D585133FD
+	for <linux-staging@lists.linux.dev>; Sun, 14 Apr 2024 10:41:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713090300; cv=none; b=m1LX51KxsXzjzlKE6qKUxInbt+rs49AELAczcCHE12IAuIMIDKV6PGgrRqaqioQiTWFcqeA8WcMs5HDozH6A6d5q24luGkB/w6j6nnlykGbBE439ALbVfeaC0y4MFjYF8YYOLJH9tMqthloJtn+DO/Xt1yUhKK5GIyUW0JLgDJ4=
+	t=1713091273; cv=none; b=JO648Dw3O2xFQTT3XoH/YVGJVvsJUAGegNXPENDsFeCdjt91tVRhQp6JVWplZMcu6rWUm8nFtFphuk4pQY5oboW51YxSwH3yelavD4OI6c5ZrobYRKlHz7Gu4X2VB9HE3fkyC6BgpCQorP5O17S0gYIGnngKyLD4GQPRP2mXHKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713090300; c=relaxed/simple;
-	bh=JJZlIn2mvmHgMJDDfAZ1JdDcw/dwxd99aCw9whf/RG4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=C6fzk/JZRsU7qp9Y3WxaDzQq/+L5XWmerH4oTXG7n0VTobZCFjkYjekVWwrC9vOJHhaAtHb89cfa3oDd4HBlFPpmbomYxcI6aMiif7R/onjn9zyQPyRQ0G6zZHXiYizKbFJKD4BbAqENNhzuueRe0pswb7zZClZ8ibrSX9zRitY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CAb+9wT8; arc=none smtp.client-ip=209.85.210.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1713091273; c=relaxed/simple;
+	bh=VaX9zW67X1ateZufT+ATBmIMlc1OojPbTFOrdOs57PQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kfd8i5fPRYIxE/GPuqdB3pQtkH/nvsc72tGJhWpC+yEWKnyvtuT5xFib5XcCgI5yQHNVb+a6WlyvtCK4NSTe05ENNYhnPrvZgLr8hUmxpGRdusHIUV0CpFEhJPe3VwgVP2AatbpS61cfLXrjPpOviuZwRB3YCvoxqdYDYpXBO80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=RimPW0EA; arc=none smtp.client-ip=212.227.15.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CAb+9wT8"
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-6ecf8ebff50so1421810b3a.1
-        for <linux-staging@lists.linux.dev>; Sun, 14 Apr 2024 03:24:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713090299; x=1713695099; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=DADHOWnUNYP/9/v99Q0bIFc3ha7reMyzoz3vmz/f54w=;
-        b=CAb+9wT8LQ62W39PNEW+mzMgFlbu+ofDy1BBcSTppan0MyEirDswwrp+rYxEiSgnEf
-         wyBn8iripWDpDdqgmg+HYz9BaqTftNvLgCFtKnjzMjGpLt0rkXEUuVoo68uhiufIS3Qh
-         fQ+EYPFWlN+hAJXxmN8FwEElIslo6S28uJod/h87LA0fTT/V13YfKcWy+Owvt+syTuj+
-         Q5iU48+Ne1YLCjE5I2oj7nIN0dhXbDShghJU7v0asTZFbekejhThia/kgzDm7KH3HhvN
-         dj+IFwo3bDUwp3liAJCba5qb9wNT881ZBwb7VB/Ed2WcHA/d/VcXyTPkmda1f69kz36u
-         nD5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713090299; x=1713695099;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DADHOWnUNYP/9/v99Q0bIFc3ha7reMyzoz3vmz/f54w=;
-        b=BhiedleYapxos64nbl0OG2oWWA+GtbbNe8Ubvnn4lSFDZ+2prZParZQn9Qb6lJ5pNb
-         TX0rRZ8WZflue19oKcJFmEPQFTcLlcYsJ5KrYs57v+9ZRBlZuakzYJXSlYpWaoGOMREE
-         HYbN/kVMvvwaiND94ynuTBxSGG6C38S0ionzTcXOhXSXlgizP+qpgn+AMwGNl+6NT3sD
-         uHPqkM9lxlgXgmqZ314lmCYEcE3Ntz001C1k6oo9lNuBhBiawS7LagdRqIiBLt4oTuOd
-         MjGc+myO6c6OhqTGVeDNAEWlC9jGx+9Zme6uDXkrnIFR9kjKtkpwna01RfquyneQiS85
-         pg/Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWvxfJAU4sz5kbeA5EvQnWADXXVk7JzzelZjz3toXe27XFurs/VqeNZ0W5l9Cav472d3nbdEo30YDX8ufN2E2SEUQfq1y+ExPpgOhuWPw==
-X-Gm-Message-State: AOJu0Ywy4Pw40oVZUcJK0ba6jQCl6vsoc1pTdB2ubwWHODzNsmuc1pfx
-	UqZK8t4RxVfizHsMKxl/TQ708RIjOf+E5AVYxH/kCivmLmXtDzmtuxUHaSOV
-X-Google-Smtp-Source: AGHT+IFo+3A88+eErsb0hrFDYgsGA859sSv6X9J0eSGBHL9qSAzFushHa4YDibASL+DuNgxlqQFy3g==
-X-Received: by 2002:a05:6a20:3241:b0:1a9:9839:f209 with SMTP id hm1-20020a056a20324100b001a99839f209mr8824592pzc.0.1713090298867;
-        Sun, 14 Apr 2024 03:24:58 -0700 (PDT)
-Received: from localhost.localdomain ([2401:4900:1cb8:5ab4:8eca:a8e7:b24c:7514])
-        by smtp.gmail.com with ESMTPSA id k187-20020a636fc4000000b005d6a0b2efb3sm5233452pgc.21.2024.04.14.03.24.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Apr 2024 03:24:58 -0700 (PDT)
-From: sumadhura kalyan <opensourcecond@gmail.com>
-To: florian.fainelli@broadcom.com,
-	bcm-kernel-feedback-list@broadcom.com,
-	gregkh@linuxfoundation.org
-Cc: linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	sumadhura kalyan <opensourcecond@gmail.com>
-Subject: [PATCH] Replace function alignment of camel case by snake case.
-Date: Sun, 14 Apr 2024 15:54:42 +0530
-Message-Id: <20240414102443.98927-1-opensourcecond@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="RimPW0EA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
+	s=s31663417; t=1713091264; x=1713696064; i=wahrenst@gmx.net;
+	bh=Q9nUWbxUgUwofl0dM1emL9U4Gd7/8W8hg8bixFO1cGo=;
+	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+	 In-Reply-To;
+	b=RimPW0EA1chvFoycp1E+/rnSpDOCNjTmN0nQYZqb7SRzj0Us84CTs+CmOV6ibAwL
+	 LlYhfKZQK/JqBluf2ghfONdoRmikVsZFQZgql6Q6hXMlVSUAFut/vE5LM7ocn1RDX
+	 lhbsnEzU05RWmKJKlfdhOQj999UCBUP8T+85k4LCNJg3OlcU8yXc2I3j1LEfrjDwW
+	 5kypqVmAtZzKQ6RlboShuA6yRl8AHUV7jE95N6Pj+dft7/XgRiBmeSQ0QMjQN05vi
+	 +9r+4Igh7JHIxp3QdmXYVSfw0sNVNNPcCAK7Sy8t1A0L27qplAkEMs1xVQphqV02J
+	 DGVzN2Vp1SH/8l60ng==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.167] ([37.4.248.43]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mwwdl-1sfFSV2axH-00yNPE; Sun, 14
+ Apr 2024 12:41:04 +0200
+Message-ID: <407ceb37-82f0-4eab-81ee-4df3f185618a@gmx.net>
+Date: Sun, 14 Apr 2024 12:41:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 04/11] staging: vc04_services: Move variables for
+ tracking connections
+To: Umang Jain <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev
+Cc: Dan Carpenter <error27@gmail.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Phil Elwell <phil@raspberrypi.com>, Greg KH <greg@kroah.com>
+References: <20240412075743.60712-1-umang.jain@ideasonboard.com>
+ <20240412075743.60712-5-umang.jain@ideasonboard.com>
+Content-Language: en-US
+From: Stefan Wahren <wahrenst@gmx.net>
+In-Reply-To: <20240412075743.60712-5-umang.jain@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:So7oczWLVZSGDD4XUG9Uvmwu7B1aL+/YaLPgMvO9sq/KBh8ir0L
+ 1nD7BzuF4yF8Z3FmInAlzNeJMNw8i3Wz5DvJuHkVdVBsBLtCo1YzUP8XUkr3mS2mnn4H6Bn
+ /8g+Z0cqkBkfbkNh1424P4Fcb5GfLfgU+dFLCQ5yUI6/nplAtFdRe+SJAKFxGw1ngvP3pLx
+ TVW8nt+R5srAvTndj1AJQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:1OzEI2MiapQ=;SWr2s4u9ENyNEA8G/YneFLLOtNJ
+ 7ZaTN6CquawsgdzDr49jhF8/UNilqnduL0RI7SEuT1Qn32WaddgoGJoiKoGVURNQIDNvvPWbk
+ ELE+7NQ05TtlEpLv86o8ewbFa6eJs9Nxrsk1dDXcq8ACyoX97ouytJQi9v2qVKpRXpmfhEeZz
+ xEc75TTtnPUp+PuSO/51SDhBSuJZNjSU8S2d5MBJYhuOkGQaHcpmI7hGySpbXeHJzap9qqHhq
+ 4WVg7rMRUI4B1IH9l7DiX5TBJkp8KnHolCSa7on6lrT8FqipZmmH8n0sEXg9ogSmuPhcanR00
+ 4lX4khVwH2AIaECGHWBSWz4Vm/thrfKnDdYAGr7GdW5+XaVffzPO1LhuooM8i+wqb43E3kq+P
+ hPaaQT6Yvj9An8Zrx9KZq87CGarY4Ccyi8zCJ10U93JrjFr9NzFKFRVSpet7Ok2ue5HkvSijV
+ Glorm9Ky2MsDEgZbhVU54ninh9wyaVPv4AOywDg5QeKwIFTPzp8x6pqY0RrHqFUEL1gyiIgi1
+ 6cidO8MDwoIQJmpcifjru50aNgT98zxMm6jZqk1Iyey0J8PLlArD/CsP8+U0RT+L5MdYR5vyW
+ fumiqta+Owvze3nWpYRDVOnh39BD3t/h1fnyZahJm/oz/8PFh3+BoNWh8PaAJCvs7YFkHu+aN
+ VKXs2Arj6rqGKx05sXOPcbfHvIgKoNTgf7zM9v30FtUa0U7ZolMrmapAdwwKCMave5zQQM5VN
+ P3dmPoD9YphAZl/mIY9TaXqXlSZ3nzaiUVoqxog+9xmZ4qsE8NxW014M6k3l3gjpSqAG/lLKf
+ 1tOrig1FV7JwBU1GxPF+gOVfVZC6VGm9NbtdrH8678hrE=
 
-Issue found by checkpatch
-
-Signed-off-by: sumadhura kalyan <opensourcecond@gmail.com>
----
- .../vc04_services/vchiq-mmal/mmal-vchiq.h     | 29 +++++++------------
- 1 file changed, 11 insertions(+), 18 deletions(-)
-
-diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h
-index 09f030919d4e..98909fde978e 100644
---- a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h
-+++ b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h
-@@ -42,8 +42,7 @@ struct vchiq_mmal_port_buffer {
- 
- struct vchiq_mmal_port;
- 
--typedef void (*vchiq_mmal_buffer_cb)(
--		struct vchiq_mmal_instance  *instance,
-+typedef void (*vchiq_mmal_buffer_cb)(struct vchiq_mmal_instance  *instance,
- 		struct vchiq_mmal_port *port,
- 		int status, struct mmal_buffer *buffer);
- 
-@@ -101,31 +100,25 @@ int vchiq_mmal_finalise(struct vchiq_mmal_instance *instance);
- /* Initialise a mmal component and its ports
-  *
-  */
--int vchiq_mmal_component_init(
--		struct vchiq_mmal_instance *instance,
--		const char *name,
--		struct vchiq_mmal_component **component_out);
-+int vchiq_mmal_component_init(struct vchiq_mmal_instance *instance,
-+			      const char *name, struct vchiq_mmal_component **component_out);
- 
--int vchiq_mmal_component_finalise(
--		struct vchiq_mmal_instance *instance,
--		struct vchiq_mmal_component *component);
-+int vchiq_mmal_component_finalise(struct vchiq_mmal_instance *instance,
-+				  struct vchiq_mmal_component *component);
- 
--int vchiq_mmal_component_enable(
--		struct vchiq_mmal_instance *instance,
--		struct vchiq_mmal_component *component);
-+int vchiq_mmal_component_enable(struct vchiq_mmal_instance *instance,
-+				struct vchiq_mmal_component *component);
- 
--int vchiq_mmal_component_disable(
--		struct vchiq_mmal_instance *instance,
--		struct vchiq_mmal_component *component);
-+int vchiq_mmal_component_disable(struct vchiq_mmal_instance *instance,
-+				 struct vchiq_mmal_component *component);
- 
- /* enable a mmal port
-  *
-  * enables a port and if a buffer callback provided enque buffer
-  * headers as appropriate for the port.
-  */
--int vchiq_mmal_port_enable(
--		struct vchiq_mmal_instance *instance,
--		struct vchiq_mmal_port *port,
-+int vchiq_mmal_port_enable(struct vchiq_mmal_instance *instance,
-+			   struct vchiq_mmal_port *port,
- 		vchiq_mmal_buffer_cb buffer_cb);
- 
- /* disable a port
--- 
-2.25.1
-
+Am 12.04.24 um 09:57 schrieb Umang Jain:
+> Connections to the vchiq driver are tracked using global variables.
+> Drop those and introduce them as members of struct vchiq_drv_mgmt.
+> Hence, struct vchiq_drv_mgmt will be used to track the connections.
+>
+> Also, store a vchiq_drv_mgmt pointer to struct vchiq_device to
+> have easy access to struct vchiq_drv_mgmt across vchiq devices.
+>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> ---
+>   .../interface/vchiq_arm/vchiq_arm.c           |  3 +-
+>   .../interface/vchiq_arm/vchiq_arm.h           |  9 +++++
+>   .../interface/vchiq_arm/vchiq_bus.c           |  3 ++
+>   .../interface/vchiq_arm/vchiq_bus.h           |  3 ++
+>   .../interface/vchiq_arm/vchiq_connected.c     | 36 +++++++++----------
+>   .../interface/vchiq_arm/vchiq_connected.h     |  4 ++-
+>   6 files changed, 37 insertions(+), 21 deletions(-)
+>
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm=
+.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> index af74d7268717..ac12ed0784a4 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> @@ -545,7 +545,8 @@ static int vchiq_platform_init(struct platform_devic=
+e *pdev, struct vchiq_state
+>   	dev_dbg(&pdev->dev, "arm: vchiq_init - done (slots %pK, phys %pad)\n"=
+,
+>   		vchiq_slot_zero, &slot_phys);
+>
+> -	vchiq_call_connected_callbacks();
+> +	mutex_init(&drv_mgmt->connected_mutex);
+> +	vchiq_call_connected_callbacks(drv_mgmt);
+>
+>   	return 0;
+>   }
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm=
+.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
+> index 04683d98cd00..b4ed50e4072d 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
+> @@ -20,6 +20,8 @@
+>   #define MAX_ELEMENTS 8
+>   #define MSG_QUEUE_SIZE 128
+>
+> +#define VCHIQ_DRV_MAX_CALLBACKS 10
+> +
+>   struct rpi_firmware;
+>
+>   enum USE_TYPE_E {
+> @@ -34,6 +36,13 @@ struct vchiq_platform_info {
+>   struct vchiq_drv_mgmt {
+>   	struct rpi_firmware *fw;
+>   	const struct vchiq_platform_info *info;
+> +
+> +	bool connected;
+> +	int num_deferred_callbacks;
+> +	/* Protects connected and num_deferred_callbacks */
+> +	struct mutex connected_mutex;
+> +
+> +	void (*deferred_callback[VCHIQ_DRV_MAX_CALLBACKS])(void);
+>   };
+>
+>   struct user_service {
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus=
+.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c
+> index 93609716df84..3f87b93c6537 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c
+> @@ -11,6 +11,7 @@
+>   #include <linux/slab.h>
+>   #include <linux/string.h>
+>
+> +#include "vchiq_arm.h"
+>   #include "vchiq_bus.h"
+>
+>   static int vchiq_bus_type_match(struct device *dev, struct device_driv=
+er *drv)
+> @@ -77,6 +78,8 @@ vchiq_device_register(struct device *parent, const cha=
+r *name)
+>   	device->dev.dma_mask =3D &device->dev.coherent_dma_mask;
+>   	device->dev.release =3D vchiq_device_release;
+>
+> +	device->drv_mgmt =3D dev_get_drvdata(parent);
+> +
+>   	of_dma_configure(&device->dev, parent->of_node, true);
+>
+>   	ret =3D device_register(&device->dev);
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus=
+.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.h
+> index 4db86e76edbd..9de179b39f85 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.h
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.h
+> @@ -9,8 +9,11 @@
+>   #include <linux/device.h>
+>   #include <linux/mod_devicetable.h>
+>
+> +struct vchiq_drv_mgmt;
+> +
+>   struct vchiq_device {
+>   	struct device dev;
+> +	struct vchiq_drv_mgmt *drv_mgmt;
+>   };
+>
+>   struct vchiq_driver {
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_con=
+nected.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connect=
+ed.c
+> index 4604a2f4d2de..049b3f2d1bd4 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.=
+c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.=
+c
+> @@ -1,6 +1,7 @@
+>   // SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause
+>   /* Copyright (c) 2010-2012 Broadcom. All rights reserved. */
+>
+> +#include "vchiq_arm.h"
+>   #include "vchiq_connected.h"
+>   #include "vchiq_core.h"
+>   #include <linux/module.h>
+> @@ -8,11 +9,6 @@
+>
+>   #define  MAX_CALLBACKS  10
+I think with the introduction of VCHIQ_DRV_MAX_CALLBACKS this define
+should be removed in this patch and not in patch 5. So you will avoid
+two different things in patch 5.
