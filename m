@@ -1,38 +1,38 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F2FB23763
-	for <linux-staging@lists.linux.dev>; Sun, 14 Apr 2024 11:58:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 714AC23B1
+	for <linux-staging@lists.linux.dev>; Sun, 14 Apr 2024 11:59:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713095893; cv=none; b=eoqoZRXYG2wW/h1NAAZUJw3NMzFQyJEIW1L0IjyZ08/OYUpcSML/lo3qsuFcwolx1D+Qi+becz3kP6/lTM8ZAgwusOj8jhJWhAU1Zlf/KCM97WhWXYze/WK27bCcQkLHv5YFbtlKosWGrQ/PQc4hrwgjx7qNT3QKNyVhkqLMnaU=
+	t=1713095996; cv=none; b=c2c/eHlIL+KF3YtRmGxE2/KfkFIRMVbXrxowluFtzzofiB8/RuEvM//KvdDT76uKf0ysobiumST6dY2criY/W8k/T47QPsxoannUgcNqXqqoOywpDdYdPkw2PshFWusKnd3eV6IRSk/jCXmVx/nJKPiBwlkSNYnWJ8CtWFq3gKc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713095893; c=relaxed/simple;
-	bh=y+qRf5CWRpfO+LqDLqtMYKgkKovr3UYgdsSLZgUSpfo=;
+	s=arc-20240116; t=1713095996; c=relaxed/simple;
+	bh=ue5lvNJdZobgFg/O06OWqryAcvzlr09yx8o69ue59oE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=D3paIoxPrfSA9u9rkJVUtAcLFqFFwNRHg1jgthNSGTBC2KmWoKmHyfSX10Q2g3YBBF1/MhIBpyyrcBCiyw6RlJbMa4fM9x1je2qfnvVMRhsJiF/Sh70rNqAvCxsgrij/5nXfsnGoBb7kItHmsHCuxpXCGVAt6x+zgmBNtOCv+6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=NhdAIr0/; arc=none smtp.client-ip=212.227.15.15
+	 In-Reply-To:Content-Type; b=NQ4UEQ+r1nEJgDjg1bX9aao0WGo7OlTMYS4vChlsrVMQ5jV2gAjTVBDUJoPRWiOYt2UJhYMpkjOUTFeZ6/CRqr81Gfa3ZB7yZr+Q3ib/+UMgdSzKsnfhVhEMRsLCW7C0N6zz575y5dfv7H7MNZyAV+4L2YfHcQ4SB/JPJ3ddLYs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=eslNfB2j; arc=none smtp.client-ip=212.227.15.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="NhdAIr0/"
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="eslNfB2j"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
-	s=s31663417; t=1713095885; x=1713700685; i=wahrenst@gmx.net;
-	bh=XMQYsNEuWSF/E59X+89wYIel8l24nVaaVhv03ifgT+8=;
+	s=s31663417; t=1713095988; x=1713700788; i=wahrenst@gmx.net;
+	bh=ue5lvNJdZobgFg/O06OWqryAcvzlr09yx8o69ue59oE=;
 	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
 	 In-Reply-To;
-	b=NhdAIr0/p+SvEeM4Ji7Yizw3Nd5vc4wBuDKBuxsTT1s4WNvZ92osLFeVRgoHX73k
-	 v2A9sD8CU105vapQqX5fzs3By+0fMBol7WmcGwwC9482Q5GoKWURhinuf4tiIKsb1
-	 lTG4AEJFZPEfxMDf3cgWiJcZjhY/uxrVns/4ey6LXa76gTJh4xGLJxDxXrnIrnTQz
-	 mQE005+NZEM37vxzRR1zE+q9uDoVcUdHYW3SSS4BRlmQqZC5g8FR9d/RD+gKMWeO2
-	 QZ7WudlJaCAJw0hYmEMD9sq4VqmBYJp+3qDr0prP+NwpyjGFIbAwZoHiT7LITFtRa
-	 R2kwaCG7iSCvAykDvg==
+	b=eslNfB2jG6v8zn6bPoXhh93+Q0gLuguysPo5UVMOA82kiWJUQBV8/cUWEGizE3G+
+	 VCWpCDmvs5Y1PbBeridhykVW2AGG7VifW0I47cADDU4HlG6jzsc9aw2oTPSpmBmh3
+	 fUIx+mtem555/54+PSfQhY8JwVEdgwSbvtWcNOZY0OeqbUA48hpPcMarDg1VXqsxX
+	 vcQ8dTcbiTs66KjUXKfg+xJrf539hZ60EfjXNfEGSHSPhGDGkx98E3g13x7SYrByV
+	 AxmWxD9CJfW4Tg5iQMvE+UcL+RkP5Vw6jV0Wj2q9ErZgTjv7VSBMBOA8UlgUsvPWZ
+	 11y386N8diwQ79TewA==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.167] ([37.4.248.43]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MVeMA-1sNQym3kaC-00RZI0; Sun, 14
- Apr 2024 13:58:04 +0200
-Message-ID: <589da063-ede9-4696-acf6-d0006762b8a1@gmx.net>
-Date: Sun, 14 Apr 2024 13:58:04 +0200
+Received: from [192.168.1.167] ([37.4.248.43]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MSKuA-1sK9Eq28M4-00SdK9; Sun, 14
+ Apr 2024 13:59:48 +0200
+Message-ID: <cf4b4cab-bb7e-4764-bc27-14cd37705917@gmx.net>
+Date: Sun, 14 Apr 2024 13:59:48 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,8 +40,8 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 07/11] staging: vc04_services: Move global memory
- mapped pointer
+Subject: Re: [PATCH v5 08/11] staging: vc04_services: Move spinlocks to
+ vchiq_state
 To: Umang Jain <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev
 Cc: Dan Carpenter <error27@gmail.com>,
  Kieran Bingham <kieran.bingham@ideasonboard.com>,
@@ -49,130 +49,35 @@ Cc: Dan Carpenter <error27@gmail.com>,
  Dave Stevenson <dave.stevenson@raspberrypi.com>,
  Phil Elwell <phil@raspberrypi.com>, Greg KH <greg@kroah.com>
 References: <20240412075743.60712-1-umang.jain@ideasonboard.com>
- <20240412075743.60712-8-umang.jain@ideasonboard.com>
+ <20240412075743.60712-9-umang.jain@ideasonboard.com>
 Content-Language: en-US
 From: Stefan Wahren <wahrenst@gmx.net>
-In-Reply-To: <20240412075743.60712-8-umang.jain@ideasonboard.com>
+In-Reply-To: <20240412075743.60712-9-umang.jain@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:aUpXwh3FRuSIeBraPObKMPI1de6gyp3a0ASXJH+CWosa5ycLjPs
- SXA1+K6ffIYmsp3be3tPOVrLwjXjJ1z7CdEAZEJzFH/p/NGm/p7jzVZ50P3odo+iITlo+2Y
- 2gsPk8nACg9cVu6j7L+4IKYDdQaG5wtHpbK9xHpGu1dh4c0EYNqysvYsI4zRmCv27kxK0ul
- mkT798kbMNEUUmCpH2YzQ==
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:fCpFw7cQJtHis560J06mO8C0CQ276twoV5h4OkqLGy6ZPm0kKW/
+ GePtCWDMb+DWo0fC8bvj9LWrR4ImfwnN95gf82pI1A8oGSNH2QbbqfoGrE14rOzvZg6Abz3
+ OgKgayq8P4s5+CJyy1JrYzeLGHAYe9zFSPG88XTq5+yZsaZqskVRUcBZuUof9/05+sYEKF/
+ xJcAleIM0TSCbhUFYOXvQ==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:OsSj2F9d9Hw=;cfjXJevw6xPMIz+bSFiEB/6M192
- oHcf41UW6DEw22NHQ3h4TkI5CZDuZvLEp48PkW0Q+6CuEq5PbGqK89aS9SfHe5BlGhEjtWW1X
- m8NCSpoIiZcjz4+jlBbaPfxEfQL6fYUAYeu/tyOjod0WeZA0gJ6rkq8+fePHwXzVr8wFMdPM9
- B7Ve6fnr8nVdMRKj0GhcAzTqNiLk4r8C/qvZrJvwR3qXBVgYnHjguSgXiBxDk1gR0ENUEu+C2
- L+BCVSef/3VM0zXndWXLa2hXjt53Bh2SIIxoVLvQrgAJQ0FZySbHZoAyk7zgV7bid/ubxYIAe
- IDjwRw6DkBbTxTSWf/N1TS4cNzkfpBYV+XIzlo5loS0H7X8lg597nZfbjDhs8ccixS6elntL3
- Th2JMDYB5TEBMIzBezIw4kO2hxd5Bvlb6oh8kyCwes2cTq+QypZJpF9HUUfM1V5NfRa2kS4E1
- XgyvNt1wy4G2SmEApp1CDHR9HuYLNu8hSq8SGTSG0gH+SRFjUeBhLXerY8+91WFdIxllT/1Tb
- 2uOdbIwZtg/H8roOVegJf2sYxbo4xV1wDReWBj3kWaEXyTHDZYW/7cACDRJeEg2cOsBCwjS8h
- 0sPDbcIiJaqwCQ/WfAREkPTBn3/jq0v/4xaMlmJBSDSnuXy4qmXKz7+TJ8xpqYt+AQ4bWecnz
- 7lxf7gGYM0OXHmWi8y7dzlbMQBjr34sVPjEmmarICNTWM7Jj+yBEPPapynJI0h34hCNMaKCnP
- 6CRpP+hvB+VU2efXspZqWX91kvN+cP8lcLIDhH8h2UL+dkxtQ/HcPv6wfuwa/KciWUMMWyWFs
- 0PuwpCzNGytnzw8saZfdOdbhCpDC+a6FZM0UcxPH11jcs=
-
-Hi Umang,
+UI-OutboundReport: notjunk:1;M01:P0:DSQHPiZ3X5o=;tdkGtbiQqOt0UE7c2xwe6PpSeB3
+ BFy/m3imsRvHcOvPpttlMoYhN/eRXTK1BUiEpLlrm2MQpplZUrvmPF0aq4fie9kbqNn1YY++4
+ GVbe7XkWJSkkHhZIrvs0eNhHl/5C1hqIaxihNhDoDyBcehcITKm/Lsmu3fueEFMsBa5bRUxvn
+ 8KJ5SboVObLbHoFmkW4Lk4x2/fIHkQsrPRRjfrIJG1KFkjDUqqDJiIueb9iPUShkEslO1sZfl
+ 8huzpQfwniUJZyNz83NWhS1hwmEPplV/gDHEZ58oGCfoupHjxjHl8aTji2ifMFTRij6Bgo3Hi
+ GFmRWeO+rnUOrvxl45oDjKumSZ7Kp2gMER5cwtTrEacnyWgFEUDWNcdG74adUW49V0NCR1tIG
+ 8OMHKWEK4Cx1x7ApxT8Jhml6ZBB6jHBzeWlxcYQApYB03EOsbXaCfNseAJBi08OtCrndAQmEM
+ rosA2tEbnjQ66x/qAa69kZhmE4YvqEMrOj2pxBvtYyb12qOUSX6ilHHvn4DDHvYO9Hc6//oKq
+ S44Kh+5EzWUx7c68nzAlP80KtKlCoINqM3QxsR04bBh4uHdq/E5eAzXiqNQuGMokJ9YLrghnB
+ U/8+mpL4qbKdSlH0QE4Z9LXvU9wNNDZVdePziFOFaZxO7DvD7FWfxDfVdR6JMV2RmLTrsNma/
+ 01C6N2wkoNwoCNJ2Q/SLomYyLCqOYdGgQeSyb2QYBVgVTQuzVelHM1eY8lwWsrk8EBm6i3+AQ
+ tDY95tuS5ZSKId94NrSVsOqS7WB7N6P202LcbU6hMjGFjfDakH8+5EUH4zWCFNuq6zBn95+3B
+ x9IlF+b+s2Va7ORcfLrrh8FFeuAMxROPAjFMVHKTuYgms=
 
 Am 12.04.24 um 09:57 schrieb Umang Jain:
-> g_regs stores the remapped memory pointer for the vchiq platform.
-> It can be moved to struct vchiq_drv_mgmt instead of being global.
+> The msg_queue_spinlock, quota_spinlock and bulk_waiter_spinlock
+> are allocated globally. Instead move them to struct vchiq_state
+> and initialise them in vchiq_init_state().
 >
-> Adjust the affected functions accordingly. Pass vchiq_state pointer
-> wherever necessary to access struct vchiq_drv_mgmt.
->
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> ---
->   .../interface/vchiq_arm/vchiq_arm.c           | 19 +++++++++++--------
->   .../interface/vchiq_arm/vchiq_arm.h           |  2 ++
->   .../interface/vchiq_arm/vchiq_core.c          | 10 +++++-----
->   .../interface/vchiq_arm/vchiq_core.h          |  2 +-
->   4 files changed, 19 insertions(+), 14 deletions(-)
->
-> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm=
-.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> index 29f9affe5304..9fc98411a2b8 100644
-> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> @@ -129,8 +129,6 @@ struct vchiq_pagelist_info {
->   	unsigned int scatterlist_mapped;
->   };
->
-> -static void __iomem *g_regs;
-> -
->   static int
->   vchiq_blocking_bulk_transfer(struct vchiq_instance *instance, unsigned=
- int handle, void *data,
->   			     unsigned int size, enum vchiq_bulk_dir dir);
-> @@ -139,11 +137,14 @@ static irqreturn_t
->   vchiq_doorbell_irq(int irq, void *dev_id)
->   {
->   	struct vchiq_state *state =3D dev_id;
-> +	struct vchiq_drv_mgmt *mgmt;
->   	irqreturn_t ret =3D IRQ_NONE;
->   	unsigned int status;
->
-> +	mgmt =3D dev_get_drvdata(state->dev);
-Was there a reason against moving it in the declaration?
-> +
->   	/* Read (and clear) the doorbell */
-> -	status =3D readl(g_regs + BELL0);
-> +	status =3D readl(mgmt->regs + BELL0);
->
->   	if (status & ARM_DS_ACTIVE) {  /* Was the doorbell rung? */
->   		remote_event_pollall(state);
-> @@ -556,9 +557,9 @@ static int vchiq_platform_init(struct platform_devic=
-e *pdev, struct vchiq_state
->   	if (err)
->   		return err;
->
-> -	g_regs =3D devm_platform_ioremap_resource(pdev, 0);
-> -	if (IS_ERR(g_regs))
-> -		return PTR_ERR(g_regs);
-> +	drv_mgmt->regs =3D devm_platform_ioremap_resource(pdev, 0);
-> +	if (IS_ERR(drv_mgmt->regs))
-> +		return PTR_ERR(drv_mgmt->regs);
->
->   	irq =3D platform_get_irq(pdev, 0);
->   	if (irq <=3D 0)
-> @@ -641,8 +642,10 @@ static struct vchiq_arm_state *vchiq_platform_get_a=
-rm_state(struct vchiq_state *
->   }
->
->   void
-> -remote_event_signal(struct remote_event *event)
-> +remote_event_signal(struct vchiq_state *state, struct remote_event *eve=
-nt)
->   {
-> +	struct vchiq_drv_mgmt *mgmt =3D dev_get_drvdata(state->dev);
-> +
->   	/*
->   	 * Ensure that all writes to shared data structures have completed
->   	 * before signalling the peer.
-> @@ -654,7 +657,7 @@ remote_event_signal(struct remote_event *event)
->   	dsb(sy);         /* data barrier operation */
->
->   	if (event->armed)
-> -		writel(0, g_regs + BELL2); /* trigger vc interrupt */
-> +		writel(0, mgmt->regs + BELL2); /* trigger vc interrupt */
->   }
->
->   int
-> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm=
-.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
-> index 52013bbc5171..10c1bdc50faf 100644
-> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
-> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
-> @@ -50,6 +50,8 @@ struct vchiq_drv_mgmt {
->   	char *fragments_base;
->   	char *free_fragments;
->   	unsigned int fragments_size;
-> +
-> +	void __iomem *regs;
-I'm not a expert about cache line alignment, but maybe this should be
-moved at the beginning of struct vchiq_drv_mgmt?
-
-Not sure this would have a performance impact.
+Reviewed-by: Stefan Wahren <wahrenst@gmx.net>
