@@ -1,57 +1,57 @@
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 117971598E2
-	for <linux-staging@lists.linux.dev>; Mon, 15 Apr 2024 19:34:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71622159916
+	for <linux-staging@lists.linux.dev>; Mon, 15 Apr 2024 19:34:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713209676; cv=none; b=mZK57TzTHmE5zzjHGEFxX4vLSGKXIT1RMXYzKbObo8VJvP9pPXb2E7JXYHaOXg0bQDCN5X3lG5PzwK4f8BRlS17oQgfQhSuXTLjS2eBkSDIAb6Zefam60qXT/yWKbTUO5kxJSKkc34f6bb+F8cGY4Mc1Pb9vxiczuIRRT5xkxUY=
+	t=1713209676; cv=none; b=j8utSGZYcvhmxrzzNPkm9zWFMyb8x+1Gu7NimQlqZQuf6XHnVo+Nmq0Mi7kOAK3xUTYjUNZ4zZ0DGIBQrRKPoZMxCHmVqSSCjeLUB118UolbjcyXvydjYTJhvpyN/mvI3KusGUttFXGr8v1T0kenueh8e+eYKIP0zpxu/3nyE2c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1713209676; c=relaxed/simple;
-	bh=MbsdVQbCUWEGseggQJElQClzRok+A7X+zU8VpB5HgWY=;
+	bh=rbJ7o+aKZRgLkZZ5K/uX3oUw9BYyxclmpLca8K2IUdE=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=EwowfUVBRuDorPplrnJjxN4CRrEYttWkiy0ws6IDR4z4vtqbsena0yd6cxbXHucaK8gPn2GGZWiA4pyMMqIIxATjNLse5EDorQBoNYsy1Ib4jNOBe86/fsOG1PMTesLXSSrHW498e34sJ9xQehdii/TC4hEVyKZA+3AQ9d2NQvE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=MWSlH5L+; arc=none smtp.client-ip=209.85.210.51
+	 In-Reply-To:To:Cc; b=VdbxJJX1eiNtjzPEh34tla4hWSI6D6lL0+yB2JwIr6zfwv2Q7uaR1neELUFRfMoCyJfOfITzNDhLoNLUZp5qbJOysPYp+7LXElqDNfaxfTurmMRCvx2PEyTcDJnSMVZ/vwJBzVZsWaT7L6LvQPjRUQgLKz9GFiWcevg9lY8PmgQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=a0RgyPGj; arc=none smtp.client-ip=209.85.222.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="MWSlH5L+"
-Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-6eb7a0b3fe7so1211538a34.2
-        for <linux-staging@lists.linux.dev>; Mon, 15 Apr 2024 12:34:32 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="a0RgyPGj"
+Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-78ee82e7062so93543585a.3
+        for <linux-staging@lists.linux.dev>; Mon, 15 Apr 2024 12:34:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1713209672; x=1713814472; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1713209673; x=1713814473; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=30a1609TFHVDYvbsiCwVx5jyS7S7qnpRfAGqZPi3zic=;
-        b=MWSlH5L+eJDHLGdUzJvV0FAcDd271FdPGAZpiAkNgebekT7OYy+vVjSSVF77nF3J35
-         8YkKUO/daprIIbQmue5xgKHp3ibCcwqeTegiPXwaG9EQJ7jzDs58Dt1h47NOeP2EZ3VK
-         0ebz3+O/rnFLyfkncgHRK9ayhn8N8BjlLjZsA=
+        bh=8w49vqOwnRlIfNq1dtx4OWinIRfPHFawqCMqrawnhls=;
+        b=a0RgyPGjsb11/DhYFYcF17OOC8QjXgMyk0mqQL0RsL5UDmisdSOoqWwxoOFLmAZyCI
+         rTBRzygAEjSY9rbC22XKaOBvZzOAjxj14N/RH18JIJcqiO0Mtv9gD+tG1HHPMwaW0YhW
+         iCA5Bfn8Pzqe9DkeY+WVB3nxMXG+sYuITFd/w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713209672; x=1713814472;
+        d=1e100.net; s=20230601; t=1713209673; x=1713814473;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=30a1609TFHVDYvbsiCwVx5jyS7S7qnpRfAGqZPi3zic=;
-        b=sARk6byfJ80rUOolsU6aGpV7zmoFumEx7CytU9dSoex08PWOQ7MHbDUpwzmL1CedZ9
-         XXzpqevWb2yaJV65GquVJejuHIN3MAg4sSYZRIu+jAZrRIghtXZwnoe+uViAA7L6jjPA
-         xLyI0xIe43HE/OL/cjvvuqYXlupEhHY2A88eUPMUkIpXxO1rpQZhaQxNSUnsAln68bfJ
-         iGyIJ4MqjZg34ygSDxWhvT4OVsUesZR5TeUwgh9nzyNqJH0NZ0CQlaZ4R4dX1dxNE2ca
-         9X3F7wUDYxISsr+1YUqEhZGkTrBWwnhz4dZ/WSZEKjgi5B+01fNQ17lef3NQYEh3iswx
-         I9vg==
-X-Forwarded-Encrypted: i=1; AJvYcCUAgEVb+hL/5b8YcMU5Qez+HVVcia32npNn5BNIEzj33FiOMv4zUq/1IqYcoPbG9znW1nTWiBphnPdznmuHnZW1jChgVuZHWK7ss6FgQw==
-X-Gm-Message-State: AOJu0YwKLq0bVXJZK8yEbTD5Z/VMg6q/15nBDBQqy5FZRUmRKp0EZ0g6
-	7hStqWAeSabvCkw7Y9K7y9v2YbCQS6lNx2cHpzmbtFlnoUm6rOf4FQiCQpsSFA==
-X-Google-Smtp-Source: AGHT+IFajy4caV38o9egD00xBm8+r7fFdvax0FnbVE1biamOQ+jag9WqCsqV4RWMv5Us6Un2NRlLiw==
-X-Received: by 2002:a05:6830:14cf:b0:6eb:7a07:8746 with SMTP id t15-20020a05683014cf00b006eb7a078746mr5458830otq.31.1713209672276;
-        Mon, 15 Apr 2024 12:34:32 -0700 (PDT)
+        bh=8w49vqOwnRlIfNq1dtx4OWinIRfPHFawqCMqrawnhls=;
+        b=TPVR6Jn52Azti2PGO8f3OoLIhiOY5LwRLBtQWnnSzOhGCGgJ0j09xZIoNGXUDB2/rH
+         jRPklBuiGXa815u4QLC5u5fTSCmus4EvsEtHFwdRD4789bRZpDNW7H8JPD+x2fDt7r/f
+         pZmvZkPzcnwqsI2zdBHfeMR5WMmlh8aUWE1gm2VUKJBR4ZKcYAfCdApYiagiXEHF3D/i
+         UEwRw+/lC4YCl1Vt7Ws4EIy+FT5lYYDLc5hZOOlDR4tdq6XEljpLfnV8HB/D+Q950T1y
+         rjPZGBXTSGK9DGhQo/PzLttqvE7DfJJ20gjth3JC4wYFMwvPGuDDa18ssVFvuWZvb0IH
+         KDyQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXWwop6i9FswNYmtatpYQPVux8auM3xchH9R0+cKhyXzS0R5Zy8yjV3PDjgnRPkSVWJ3sBESVGA52BMXYQlb6kUqSaAPAM1PyYHC06aFA==
+X-Gm-Message-State: AOJu0YyJGKcGYphLMxK2wNRUg8JybaWjgEmDeJ1XuNlxWZINOF7D0PVW
+	Icw6978YP7PEysVqBdd4UNn9DWTIgj54t8sy2qnoMKUqWpLxB6RqCynow3eSdA==
+X-Google-Smtp-Source: AGHT+IF3Z64gOvH813ZrsURn6c5OX0cA+P7DewlH+o86rsWDf5urUOYDJaPeLXGD215pMul/2CCAvg==
+X-Received: by 2002:a05:620a:5e48:b0:78e:e7f8:a5e3 with SMTP id ya8-20020a05620a5e4800b0078ee7f8a5e3mr3707352qkn.52.1713209673334;
+        Mon, 15 Apr 2024 12:34:33 -0700 (PDT)
 Received: from denia.c.googlers.com (114.152.245.35.bc.googleusercontent.com. [35.245.152.114])
-        by smtp.gmail.com with ESMTPSA id s26-20020ae9f71a000000b0078d3b54eb76sm6718055qkg.78.2024.04.15.12.34.31
+        by smtp.gmail.com with ESMTPSA id s26-20020ae9f71a000000b0078d3b54eb76sm6718055qkg.78.2024.04.15.12.34.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Apr 2024 12:34:31 -0700 (PDT)
+        Mon, 15 Apr 2024 12:34:33 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 15 Apr 2024 19:34:22 +0000
-Subject: [PATCH 05/35] media: go7007: Use min and max macros
+Date: Mon, 15 Apr 2024 19:34:23 +0000
+Subject: [PATCH 06/35] media: stm32-dcmipp: Remove redundant printk
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -60,7 +60,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240415-fix-cocci-v1-5-477afb23728b@chromium.org>
+Message-Id: <20240415-fix-cocci-v1-6-477afb23728b@chromium.org>
 References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
 In-Reply-To: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
 To: Martin Tuma <martin.tuma@digiteqautomotive.com>, 
@@ -106,31 +106,33 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.12.4
 
-It makes the code simpler and cocci happier:
+platform_get_irq() already prints an error message.
 
-drivers/media/usb/go7007/go7007-fw.c:1292:14-15: WARNING opportunity for max()
-drivers/media/usb/go7007/go7007-fw.c:1293:14-15: WARNING opportunity for min()
+Found by cocci:
+drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c:444:3-10: line 444 is redundant because platform_get_irq() already prints an error
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/usb/go7007/go7007-fw.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/drivers/media/usb/go7007/go7007-fw.c b/drivers/media/usb/go7007/go7007-fw.c
-index 018019ba47d4..86ce593e0c54 100644
---- a/drivers/media/usb/go7007/go7007-fw.c
-+++ b/drivers/media/usb/go7007/go7007-fw.c
-@@ -1289,8 +1289,8 @@ static int avsync_to_package(struct go7007 *go, __le16 *code, int space)
- 		0xbf99,		(u16)((-adjratio) >> 16),
- 		0xbf92,		0,
- 		0xbf93,		0,
--		0xbff4,		f1 > f2 ? f1 : f2,
--		0xbff5,		f1 < f2 ? f1 : f2,
-+		0xbff4,		max(f1, f2),
-+		0xbff5,		min(f1, f2),
- 		0xbff6,		f1 < f2 ? ratio : ratio + 1,
- 		0xbff7,		f1 > f2 ? ratio : ratio + 1,
- 		0xbff8,		0,
+diff --git a/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c b/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c
+index bce821eb71ce..c25027b0ca32 100644
+--- a/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c
++++ b/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c
+@@ -439,11 +439,8 @@ static int dcmipp_probe(struct platform_device *pdev)
+ 				     "Could not get reset control\n");
+ 
+ 	irq = platform_get_irq(pdev, 0);
+-	if (irq <= 0) {
+-		if (irq != -EPROBE_DEFER)
+-			dev_err(&pdev->dev, "Could not get irq\n");
++	if (irq <= 0)
+ 		return irq ? irq : -ENXIO;
+-	}
+ 
+ 	dcmipp->regs = devm_platform_get_and_ioremap_resource(pdev, 0, NULL);
+ 	if (IS_ERR(dcmipp->regs)) {
 
 -- 
 2.44.0.683.g7961c838ac-goog
