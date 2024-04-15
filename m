@@ -1,90 +1,111 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 243D36BB52
-	for <linux-staging@lists.linux.dev>; Mon, 15 Apr 2024 12:03:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A99E7603F
+	for <linux-staging@lists.linux.dev>; Mon, 15 Apr 2024 14:40:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713182595; cv=none; b=LVPtU7nz7/6F77v8J0G+yygP3q8dT0/PAqH0NJbqVZLu4TZkPsEGTeZg5eJKbd3SBH4aJS7E+1PIgixcLW1Q/+yRxcmRFRu4KducTrOd7STz+/o8l5qPEIjbnsILXXvp4D2IspoqPH5UX8S6XTS2cwxjODuJXv7R9imvJqcoDPc=
+	t=1713192016; cv=none; b=ks+To94hfFnuFgvgcNCQlN4JymQUnOm0HL1pEdShw6WLrXjdq+cLAExdCSn0/3WZU9N0aIrjCo4lsIjTMArvMqfjO8JeCNqkISblI4+QZ1FxLpk1i3FNW2pvFpd/feaSgg2xaBsbVxDLJaagCe1CX64uKoW6uCDb8NLp7fX027M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713182595; c=relaxed/simple;
-	bh=YKSNmJ9meTEoy9zIufeabQgPHINDjfXPuWfRNlPUiaY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=b0ulRDLLgXJJRCHeWMzH1qhTONoxXoPGEteknTe6bagVThkyTDrUZzZFYPtV11lf0z0UaKaiDz8y4MAfRJrCFSfSNK342NVixLsNZsVJMzduhy59k6DaIF+lmpP+Ayf02qRzt3RKlwF3tb4cjjZnWT1wjqptoxiqOtYuIt1/jk4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OIpBPFCG; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OIpBPFCG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1713182592;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=A119hcBTOajWEhL+s5a5KfbuwpEfz7ZsTsceD7xkrwg=;
-	b=OIpBPFCGRn/jAiWuuZpCWPh49fYsUqOf5M4h5jRoglclz5YUgUvRHBMTfbBlg/vPk6/tkE
-	a9KL+yr7SFarwrtCpMBgNkiwb80eVR0sQKJBr3+R0updPkCfLvVYPteFBe0r6Xjnqc3Jx+
-	pWr9WC7eCwxaGKF9dJXpmVTeVIo9XYg=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-574-FQNiPVqGOfG3HSbri9w91w-1; Mon,
- 15 Apr 2024 08:03:07 -0400
-X-MC-Unique: FQNiPVqGOfG3HSbri9w91w-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 64BA138143A2;
-	Mon, 15 Apr 2024 12:03:07 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.39.195.17])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 2B94AC13FA2;
-	Mon, 15 Apr 2024 12:03:06 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>
-Cc: Hans de Goede <hdegoede@redhat.com>,
+	s=arc-20240116; t=1713192016; c=relaxed/simple;
+	bh=E13I5opHBC4BhEhgP3nJZYFyjzrOIj4bCPFhACOhxLQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=G+E/Z6xNDukqdOY5gcm45FbgfVU/9Tx1Vy3iI777FAsuoSdkoItZxjZGK0jU/l9BVEjEdURe9iN3r/BulIAQuyAFRNbRmHg7jVur+tXjPWywQytbsBXmNCF8WFxb3Bspr5djGIRUS8oz3yxx1HpZJ4sG4j4lRD/++rXaT6syEiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=fail smtp.mailfrom=kernel.org; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=kernel.org
+X-CSE-ConnectionGUID: 5JHJIsN8STKJPem9IFdIwQ==
+X-CSE-MsgGUID: 9o/u8jxpSxyLVH7Oys7zsA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="12364890"
+X-IronPort-AV: E=Sophos;i="6.07,203,1708416000"; 
+   d="scan'208";a="12364890"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 07:40:14 -0700
+X-CSE-ConnectionGUID: aOAdTzyWT2+SGTKj3XFpBA==
+X-CSE-MsgGUID: 3lber1/8S8SOb/ky1XkACA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,203,1708416000"; 
+   d="scan'208";a="26498184"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 07:40:12 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andy@kernel.org>)
+	id 1rwNVB-00000004R0a-0Q00;
+	Mon, 15 Apr 2024 17:40:09 +0300
+Date: Mon, 15 Apr 2024 17:40:08 +0300
+From: Andy Shevchenko <andy@kernel.org>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Kate Hsuan <hpa@redhat.com>,
-	Tsuchiya Yuto <kitakar@gmail.com>,
-	Fabio Aiuto <fabioaiuto83@gmail.com>,
-	linux-media@vger.kernel.org,
+	Kate Hsuan <hpa@redhat.com>, Tsuchiya Yuto <kitakar@gmail.com>,
+	Fabio Aiuto <fabioaiuto83@gmail.com>, linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 23/23] media: atomisp: Remove setting of f->fmt.pix.priv from atomisp_set_fmt()
-Date: Mon, 15 Apr 2024 14:02:20 +0200
-Message-ID: <20240415120220.219480-24-hdegoede@redhat.com>
-In-Reply-To: <20240415120220.219480-1-hdegoede@redhat.com>
+Subject: Re: [PATCH 11/23] media: atomisp: Remove test pattern generator
+ (TPG) support
+Message-ID: <Zh08SP60QytSz3aQ@smile.fi.intel.com>
 References: <20240415120220.219480-1-hdegoede@redhat.com>
+ <20240415120220.219480-12-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240415120220.219480-12-hdegoede@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-This value is not used by the driver, only returned to userspace and
-userspace should not rely on / use the priv fields. Drop setting this.
+On Mon, Apr 15, 2024 at 02:02:08PM +0200, Hans de Goede wrote:
+> The TPG support registers a v4l2-subdev for this, but this is not part of
+> the media-controller graph in any way. After manually selecting the TPG
+> as input using the s_input ioctl it does not work.
+> 
+> Several supported sensors have their own working TPG and using the sensor's
+> TPG means that the same data-flow is used as with actual sensors rather
+> then the quite different data-flow from the ISP's builtin TPG.
+> 
+> Remove the broken TPG support, when a test-pattern is needed for testing
+> a sensor's TPG can be used. Using a sensor's TPG is actually better for
+> testing since then the actual normal data-flow is being tested.
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/staging/media/atomisp/pci/atomisp_cmd.c | 2 --
- 1 file changed, 2 deletions(-)
+...
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index 2c95fd6505e0..4ecaded57b9a 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -4412,8 +4412,6 @@ int atomisp_set_fmt(struct video_device *vdev, struct v4l2_format *f)
- 	atomisp_fill_pix_format(&pipe->pix, f->fmt.pix.width, f->fmt.pix.height, format_bridge);
- 
- 	f->fmt.pix = pipe->pix;
--	f->fmt.pix.priv = PAGE_ALIGN(pipe->pix.width *
--				     pipe->pix.height * 2);
- 
- 	dev_dbg(isp->dev, "%s: %dx%d, image size: %d, %d bytes per line\n",
- 		__func__,
+> +	if (mipi_info)
+> +		fc = atomisp_find_in_fmt_conv_by_atomisp_in_fmt(mipi_info->input_format);
+>  
+> +	if (!fc)
+> +		fc = atomisp_find_in_fmt_conv(
+> +			 atomisp_subdev_get_ffmt(&asd->subdev,
+> +						 NULL, V4L2_SUBDEV_FORMAT_ACTIVE,
+> +						 ATOMISP_SUBDEV_PAD_SINK)->code);
+
+While it was in the original code, this is ugly. Can we split this to two
+assignments?
+
+> +	if (!fc)
+> +		return -EINVAL;
+> +	if (format->sh_fmt == IA_CSS_FRAME_FORMAT_RAW &&
+
+> +	    raw_output_format_match_input(fc->atomisp_in_fmt,
+> +					  pix->pixelformat))
+
+Now a single line?
+
+> +		return -EINVAL;
+
+...
+
+>  		unsigned int hblank_cycles = 100,
+>  		vblank_lines = 6,
+>  		width,
+
+Urgh... These comma operators probably is subject to replace with separate
+definitions or being grouped on a single line (as it suppose to be in this
+case).
+
 -- 
-2.44.0
+With Best Regards,
+Andy Shevchenko
+
 
