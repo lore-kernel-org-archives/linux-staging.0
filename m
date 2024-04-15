@@ -1,45 +1,45 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBCD96A355
-	for <linux-staging@lists.linux.dev>; Mon, 15 Apr 2024 12:03:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46A0B6D1A7
+	for <linux-staging@lists.linux.dev>; Mon, 15 Apr 2024 12:03:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713182587; cv=none; b=iX13C+/Su6mqLtzW7Sv9vChvP3bG1o4aAq+WSYdZ5jA0VCoo4UlHjJbzYYey0VApKgnwPPyKSHJSF/sWQO4EF78i5G0VIRWbcnGUGw4aMGXnoYCEjhO4D+1bWuTOImfCCdSACiNvJykYkcTuIVhNByZz6DP4nmXWROs4EsyswnY=
+	t=1713182587; cv=none; b=uuTmhBU2N4fXoKgRlS32TpxrcUR0lVHjkIuKQaY11mWQ4r/dgZFwh1LM+GxX1B4S/JImIQThs1yJzY3BGs4aoSqPjl83sqP7zMjGhHZRTLCVaNaGFKx05jjiyhBl7Ks7mHTW6nTOfDx6HTb++K5IB86H9sXwf4wzmJG66Dsfn1c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1713182587; c=relaxed/simple;
-	bh=KKMyyTAJpFqESuB5V6vdcIg2wnpqr+JE1DJB4LNDbiM=;
+	bh=5PiI2EAGhlCp5O7Mu/AfGmr2NBv2RumY+w+9GqUDSYg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lAE8nhjCEpWPpS5PXF0XADy9KPnPD23jpr9tocbnr5lpTytMbm1G3Q+5KlerC0d7KDEAdcjmQrWHzIaO/+TRyQdUuFNaaggcTSd/nWTrZffmfT7/D911aqNMNUuYJzCjEuq3KNG3cwuKJY/Ma6C/3GP4YWMpgJ+LcK6Uxwxcgl4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=FTR8ED5j; arc=none smtp.client-ip=170.10.129.124
+	 MIME-Version; b=Op6nejej7Xm95/DqZKbpKcqqthpj/MOM4fSF7Kg6zqza9UG2Gdj7zpi7ycajvdoYdsoBakcqT1rwRUUPqMJauVA0p8hhhHG7V4+gkd7snkmJs7aUP4kejdvmSRU7WhyH7iblzBiTuBvN7HNxjlrmVXl4dGj4KFdxuKjGRpYrLGg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cu4OP95+; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FTR8ED5j"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cu4OP95+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
 	s=mimecast20190719; t=1713182585;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=nAxWP/s/oIBjuL1HfB2KxTYGQKJBNrhVAEBZv4tLZwo=;
-	b=FTR8ED5jGXLycdNsX0qadW+ETeFq2e3ZEyXVHZRRYzFZm01NGFBhaFbihDS6h2pE21z2n3
-	zgpyq3AhDx3PrZMcV06V9dso77SAMrNLlH5nV6hZGjlpsO526teO+qslJEgmyP3li9OIcm
-	5Ip9Yy4h3VmUeMoPXoDuMore0cnz9mE=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-467-WZseYm0-Mk60lJ7kryeAOw-1; Mon,
- 15 Apr 2024 08:03:00 -0400
-X-MC-Unique: WZseYm0-Mk60lJ7kryeAOw-1
+	bh=IEtlZak3Z40jh25+hruqW/khfsHk4/m1Rl4X63tPTWk=;
+	b=cu4OP95+pH7buxiheWfv7bzrzxMpLtb3WdA25uwMeipf+rXo9/Rt/zvzC/THnngmVLyJNY
+	TUSmnPOG8KKu8ZTb3mx8X8bmwEy8+i65xMd1GrSps3lPf2yyoLGtvz2IYUhrzWDQ2OmqmN
+	mfLQCmufOujl5uUm50mS4RvLL8vKLo4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-112-Y1TUjfGsNS-jBsi8kihbSQ-1; Mon, 15 Apr 2024 08:03:03 -0400
+X-MC-Unique: Y1TUjfGsNS-jBsi8kihbSQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3C50F29ABA13;
-	Mon, 15 Apr 2024 12:03:00 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1C265810431;
+	Mon, 15 Apr 2024 12:03:03 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.195.17])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 00512C13FA2;
-	Mon, 15 Apr 2024 12:02:58 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id DA82FC13FA1;
+	Mon, 15 Apr 2024 12:03:01 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Andy Shevchenko <andy@kernel.org>
@@ -50,9 +50,9 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Fabio Aiuto <fabioaiuto83@gmail.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 18/23] media: atomisp: Remove struct atomisp_platform_data
-Date: Mon, 15 Apr 2024 14:02:15 +0200
-Message-ID: <20240415120220.219480-19-hdegoede@redhat.com>
+Subject: [PATCH 20/23] media: atomisp: Remove empty s_power() op from ISP subdev
+Date: Mon, 15 Apr 2024 14:02:17 +0200
+Message-ID: <20240415120220.219480-21-hdegoede@redhat.com>
 In-Reply-To: <20240415120220.219480-1-hdegoede@redhat.com>
 References: <20240415120220.219480-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -64,207 +64,45 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.8
 
-struct atomisp_platform_data only has a single subdevs member. Remove
-this struct and replace atomisp_get_platform_data() with
-atomisp_platform_get_subdevs().
-
-Note atomisp_get_platform_data() and now atomisp_platform_get_subdevs()
-always succeed, so while at it also remove unnecessary error checking.
+Remove the empty isp_subdev_set_power() callback.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- .../atomisp/include/linux/atomisp_platform.h  |  6 +---
- .../media/atomisp/pci/atomisp_gmin_platform.c | 36 +++++++++----------
- .../media/atomisp/pci/atomisp_internal.h      |  1 -
- .../staging/media/atomisp/pci/atomisp_v4l2.c  | 16 ++-------
- 4 files changed, 19 insertions(+), 40 deletions(-)
+ drivers/staging/media/atomisp/pci/atomisp_subdev.c | 14 +-------------
+ 1 file changed, 1 insertion(+), 13 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/include/linux/atomisp_platform.h b/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
-index 098859bde86f..0e3f6fb78483 100644
---- a/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
-+++ b/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
-@@ -115,10 +115,6 @@ struct intel_v4l2_subdev_table {
- 	struct v4l2_subdev *subdev;
- };
- 
--struct atomisp_platform_data {
--	struct intel_v4l2_subdev_table *subdevs;
--};
--
- /*
-  *  Sensor of external ISP can send multiple steams with different mipi data
-  * type in the same virtual channel. This information needs to come from the
-@@ -173,7 +169,7 @@ struct camera_mipi_info {
- 	const u32                       *metadata_effective_width;
- };
- 
--const struct atomisp_platform_data *atomisp_get_platform_data(void);
-+const struct intel_v4l2_subdev_table *atomisp_platform_get_subdevs(void);
- int atomisp_register_sensor_no_gmin(struct v4l2_subdev *subdev, u32 lanes,
- 				    enum atomisp_input_format format,
- 				    enum atomisp_bayer_order bayer_order);
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-index e12354820a3a..e176483df301 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-@@ -127,17 +127,13 @@ static int gmin_v2p8_enable_count;
- /* The atomisp uses subdev==NULL for the end-of-list marker, so leave space. */
- static struct intel_v4l2_subdev_table pdata_subdevs[MAX_SUBDEVS + 1];
- 
--static const struct atomisp_platform_data pdata = {
--	.subdevs = pdata_subdevs,
--};
--
- static struct gmin_subdev *find_gmin_subdev(struct v4l2_subdev *subdev);
- 
--const struct atomisp_platform_data *atomisp_get_platform_data(void)
-+const struct intel_v4l2_subdev_table *atomisp_platform_get_subdevs(void)
- {
--	return &pdata;
-+	return pdata_subdevs;
- }
--EXPORT_SYMBOL_GPL(atomisp_get_platform_data);
-+EXPORT_SYMBOL_GPL(atomisp_platform_get_subdevs);
- 
- int atomisp_register_i2c_module(struct v4l2_subdev *subdev,
- 				struct camera_sensor_platform_data *plat_data)
-@@ -164,7 +160,7 @@ int atomisp_register_i2c_module(struct v4l2_subdev *subdev,
- 	adev->power.flags.power_resources = 0;
- 
- 	for (i = 0; i < MAX_SUBDEVS; i++)
--		if (!pdata.subdevs[i].subdev)
-+		if (!pdata_subdevs[i].subdev)
- 			break;
- 
- 	if (i == MAX_SUBDEVS)
-@@ -179,9 +175,9 @@ int atomisp_register_i2c_module(struct v4l2_subdev *subdev,
- 	if (!gs)
- 		return -ENODEV;
- 
--	pdata.subdevs[i].port = gs->csi_port;
--	pdata.subdevs[i].lanes = gs->csi_lanes;
--	pdata.subdevs[i].subdev = subdev;
-+	pdata_subdevs[i].port = gs->csi_port;
-+	pdata_subdevs[i].lanes = gs->csi_lanes;
-+	pdata_subdevs[i].subdev = subdev;
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.c b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
+index 1bb33460210c..3a3e84a035e2 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_subdev.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
+@@ -149,18 +149,6 @@ static long isp_subdev_ioctl(struct v4l2_subdev *sd,
  	return 0;
  }
- EXPORT_SYMBOL_GPL(atomisp_register_i2c_module);
-@@ -194,9 +190,9 @@ int atomisp_gmin_remove_subdev(struct v4l2_subdev *sd)
- 		return 0;
  
- 	for (i = 0; i < MAX_SUBDEVS; i++) {
--		if (pdata.subdevs[i].subdev == sd) {
-+		if (pdata_subdevs[i].subdev == sd) {
- 			for (j = i + 1; j <= MAX_SUBDEVS; j++)
--				pdata.subdevs[j - 1] = pdata.subdevs[j];
-+				pdata_subdevs[j - 1] = pdata_subdevs[j];
- 		}
- 		if (gmin_subdevs[i].subdev == sd) {
- 			if (gmin_subdevs[i].gpio0)
-@@ -1125,7 +1121,7 @@ int atomisp_register_sensor_no_gmin(struct v4l2_subdev *subdev, u32 lanes,
- 	}
- 
- 	for (i = 0; i < MAX_SUBDEVS; i++)
--		if (!pdata.subdevs[i].subdev)
-+		if (!pdata_subdevs[i].subdev)
- 			break;
- 
- 	if (i >= MAX_SUBDEVS) {
-@@ -1137,9 +1133,9 @@ int atomisp_register_sensor_no_gmin(struct v4l2_subdev *subdev, u32 lanes,
- 	if (ret)
- 		return ret;
- 
--	pdata.subdevs[i].port = port;
--	pdata.subdevs[i].lanes = lanes;
--	pdata.subdevs[i].subdev = subdev;
-+	pdata_subdevs[i].port = port;
-+	pdata_subdevs[i].lanes = lanes;
-+	pdata_subdevs[i].subdev = subdev;
- 	return 0;
- }
- EXPORT_SYMBOL_GPL(atomisp_register_sensor_no_gmin);
-@@ -1149,12 +1145,12 @@ void atomisp_unregister_subdev(struct v4l2_subdev *subdev)
- 	int i;
- 
- 	for (i = 0; i < MAX_SUBDEVS; i++) {
--		if (pdata.subdevs[i].subdev != subdev)
-+		if (pdata_subdevs[i].subdev != subdev)
- 			continue;
- 
- 		camera_sensor_csi_free(subdev);
--		pdata.subdevs[i].subdev = NULL;
--		pdata.subdevs[i].port = 0;
-+		pdata_subdevs[i].subdev = NULL;
-+		pdata_subdevs[i].port = 0;
- 		break;
- 	}
- }
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_internal.h b/drivers/staging/media/atomisp/pci/atomisp_internal.h
-index 9227399502b9..9c2bc5332fa4 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_internal.h
-+++ b/drivers/staging/media/atomisp/pci/atomisp_internal.h
-@@ -175,7 +175,6 @@ struct atomisp_device {
- 	struct media_device media_dev;
- 	struct atomisp_sub_device asd;
- 	struct v4l2_async_notifier notifier;
--	struct atomisp_platform_data *pdata;
- 	void *mmu_l1_base;
- 	void __iomem *base;
- 	const struct firmware *firmware;
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-index 470c123256a7..4a87401a5389 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-@@ -783,27 +783,20 @@ int atomisp_csi_lane_config(struct atomisp_device *isp)
- 
- static int atomisp_subdev_probe(struct atomisp_device *isp)
- {
--	const struct atomisp_platform_data *pdata;
--	struct intel_v4l2_subdev_table *subdevs;
-+	const struct intel_v4l2_subdev_table *subdevs;
- 	int ret, mipi_port;
- 
- 	ret = atomisp_csi2_bridge_parse_firmware(isp);
- 	if (ret)
- 		return ret;
- 
--	pdata = atomisp_get_platform_data();
--	if (!pdata) {
--		dev_err(isp->dev, "no platform data available\n");
--		return 0;
--	}
+-/*
+- * isp_subdev_set_power - Power on/off the CCDC module
+- * @sd: ISP V4L2 subdevice
+- * @on: power on/off
+- *
+- * Return 0 on success or a negative error code otherwise.
+- */
+-static int isp_subdev_set_power(struct v4l2_subdev *sd, int on)
+-{
+-	return 0;
+-}
 -
- 	/*
- 	 * TODO: this is left here for now to allow testing atomisp-sensor
- 	 * drivers which are still using the atomisp_gmin_platform infra before
- 	 * converting them to standard v4l2 sensor drivers using runtime-pm +
- 	 * ACPI for pm and v4l2_async_register_subdev_sensor() registration.
- 	 */
--	for (subdevs = pdata->subdevs; subdevs->subdev; ++subdevs) {
-+	for (subdevs = atomisp_platform_get_subdevs(); subdevs->subdev; ++subdevs) {
- 		ret = v4l2_device_register_subdev(&isp->v4l2_dev, subdevs->subdev);
- 		if (ret)
- 			continue;
-@@ -1186,7 +1179,6 @@ static void atomisp_pm_uninit(struct atomisp_device *isp)
+ static int isp_subdev_subscribe_event(struct v4l2_subdev *sd,
+ 				      struct v4l2_fh *fh,
+ 				      struct v4l2_event_subscription *sub)
+@@ -596,7 +584,7 @@ static int isp_subdev_set_format(struct v4l2_subdev *sd,
  
- static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- {
--	const struct atomisp_platform_data *pdata;
- 	struct atomisp_device *isp;
- 	unsigned int start;
- 	u32 val;
-@@ -1195,10 +1187,6 @@ static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
- 	/* Pointer to struct device. */
- 	atomisp_dev = &pdev->dev;
- 
--	pdata = atomisp_get_platform_data();
--	if (!pdata)
--		dev_warn(&pdev->dev, "no platform data available\n");
--
- 	start = pci_resource_start(pdev, ATOM_ISP_PCI_BAR);
- 	dev_dbg(&pdev->dev, "start: 0x%x\n", start);
- 
+ /* V4L2 subdev core operations */
+ static const struct v4l2_subdev_core_ops isp_subdev_v4l2_core_ops = {
+-	.ioctl = isp_subdev_ioctl, .s_power = isp_subdev_set_power,
++	.ioctl = isp_subdev_ioctl,
+ 	.subscribe_event = isp_subdev_subscribe_event,
+ 	.unsubscribe_event = isp_subdev_unsubscribe_event,
+ };
 -- 
 2.44.0
 
