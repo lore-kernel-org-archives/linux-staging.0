@@ -1,38 +1,38 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6A0971B4F
-	for <linux-staging@lists.linux.dev>; Mon, 15 Apr 2024 14:53:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C101D74BE1
+	for <linux-staging@lists.linux.dev>; Mon, 15 Apr 2024 14:55:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713192814; cv=none; b=Li7AR+yNKJTlhgNAqVbFyhqKv9Q2GFFqOnhJ/c9JEAjYGjvyDwaCKn8wwSXQBd8pv5arAZUjoLmTUM2UMmMFPE5hubE7c+naJjzgfURa5WLUwylMA9CCuGBr8Rmvx6UhVbI63KM2YdfWzr9RtRGTsisF8IO7/WyFbUfaYKBEEWk=
+	t=1713192914; cv=none; b=jABu9Y/E4chgqEU9BVID/Dwnb6pUBySEMSoB5RdJt5eAkaR7BC7jR5QuEjqwqRe4BCLpJUtGiGwLR4e8kcQFucAp1mOw1kvA2eH/vbvk7v64seQyDqQJCU5Zz5uUuas0mcRjcOP5OM2HRv3NQnFbNvSX0YnT5JiNX2VzD9790TU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713192814; c=relaxed/simple;
-	bh=cnpBn7mo+Uj/dwSeexcbPN0wiCaVtBWcgLH0M7WB2b8=;
+	s=arc-20240116; t=1713192914; c=relaxed/simple;
+	bh=JISkIqiTw9XLM1iN4NJL9F8/uCtfkTAdwuGO5KhQj+I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TmaqU+ffpXKlu0EvZn988sHD5kLdlweg7yhwM9EA0VK8LF7FoAoNi+5cca8ma+XAZzsEwjx5FE6SU5uInohUloh9QJBs/Tn18NmC1aZ444eYHHeEGG+TYTWPWS8DXFIZwFBM4sxkY7bELmwU2E+bpMn5JTl92i0MvMZI4kP7wXI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=fail smtp.mailfrom=kernel.org; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=LsHpsyAlnGpJo0pRosdq31kXowj2egTlLAyf3FAFx2ACBkNUPbmc8JiOmY3cnL11oUk4KW/ePifW+c9C8sOZntAQ0Ql7qqbmjpxuCvhl92DkzVTUQ0vziPJyYoEvwhjQ8fzwVZvAe4XBbl74p4zYXoNMf/L/leVV1jDuEsxh2eY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=fail smtp.mailfrom=kernel.org; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=kernel.org
-X-CSE-ConnectionGUID: /3VVvcIRSJ+5eslh4dQizg==
-X-CSE-MsgGUID: 2mMYOtgQTy+NYmnlFBFWwA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="8694690"
+X-CSE-ConnectionGUID: Pvu5i8dbTJubboGGJq39ZA==
+X-CSE-MsgGUID: ByhfFU6tRxGzalgI5mziBg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="12381363"
 X-IronPort-AV: E=Sophos;i="6.07,203,1708416000"; 
-   d="scan'208";a="8694690"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 07:53:32 -0700
-X-CSE-ConnectionGUID: 4CI1hVX5TtaFpkZm1fdI3Q==
-X-CSE-MsgGUID: 8oG5k8lEQLKsMsgtSnJCCw==
+   d="scan'208";a="12381363"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 07:55:13 -0700
+X-CSE-ConnectionGUID: GF1cXNXXQTq08fbp/9jftw==
+X-CSE-MsgGUID: qt563BTIRzmjt3rMm7MNew==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,203,1708416000"; 
-   d="scan'208";a="22522064"
+   d="scan'208";a="21939110"
 Received: from smile.fi.intel.com ([10.237.72.54])
-  by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 07:53:30 -0700
+  by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 07:55:10 -0700
 Received: from andy by smile.fi.intel.com with local (Exim 4.97)
 	(envelope-from <andy@kernel.org>)
-	id 1rwNi2-00000004RDX-1Pmy;
-	Mon, 15 Apr 2024 17:53:26 +0300
-Date: Mon, 15 Apr 2024 17:53:26 +0300
+	id 1rwNjg-00000004REX-0221;
+	Mon, 15 Apr 2024 17:55:08 +0300
+Date: Mon, 15 Apr 2024 17:55:07 +0300
 From: Andy Shevchenko <andy@kernel.org>
 To: Hans de Goede <hdegoede@redhat.com>
 Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -40,33 +40,31 @@ Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Kate Hsuan <hpa@redhat.com>, Tsuchiya Yuto <kitakar@gmail.com>,
 	Fabio Aiuto <fabioaiuto83@gmail.com>, linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: Re: [PATCH 14/23] media: atomisp: Drop custom flash support
-Message-ID: <Zh0_Zt_65yp8Dp9g@smile.fi.intel.com>
+Subject: Re: [PATCH 16/23] media: atomisp: Drop intel_v4l2_subdev_type
+Message-ID: <Zh0_y5O9j313B8fo@smile.fi.intel.com>
 References: <20240415120220.219480-1-hdegoede@redhat.com>
- <20240415120220.219480-15-hdegoede@redhat.com>
+ <20240415120220.219480-17-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240415120220.219480-15-hdegoede@redhat.com>
+In-Reply-To: <20240415120220.219480-17-hdegoede@redhat.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Mon, Apr 15, 2024 at 02:02:11PM +0200, Hans de Goede wrote:
-> Remove the custom flash handling from the atomisp driver. There are only
-> very few Bay Trail / Cherry Trail devices with flash and if those will
+On Mon, Apr 15, 2024 at 02:02:13PM +0200, Hans de Goede wrote:
+> intel_v4l2_subdev_type / atomisp_input_subdev.type now always is
+> RAW_CAMERA, drop it.
 
-"only very few" sounds to me as an oxymoron. "only few" or "very few" —
-I believe you meant the former.
+...
 
-> ever get supported then this should be done through the new standard
-> include/linux/led-class-flash.h APIs instead of with atomisp specific
-> custom APIs.
+> -	for (subdevs = pdata->subdevs; subdevs->type; ++subdevs) {
+> +	for (subdevs = pdata->subdevs; subdevs->subdev; ++subdevs) {
 
+While at it, use postincrement.
 
 -- 
 With Best Regards,
