@@ -1,152 +1,96 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7486E40BED
-	for <linux-staging@lists.linux.dev>; Sun, 14 Apr 2024 19:23:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CF065672
+	for <linux-staging@lists.linux.dev>; Mon, 15 Apr 2024 06:02:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713122613; cv=none; b=rYpKVaSq0D6AuTKM9aqNQA7ZYLMb0X75/vizKZkN9+5d7J1s/nWXHiAcvA1k7VwG2zkEimW9qlP6V61gObKxoGVlAVJVn81risYTHCOje99jUgZvNLzwUR21tmRAWrssgxHYAQe5GMJ9it5GjvHzzfM7JBv5wRj69jw7/v5DqYI=
+	t=1713160966; cv=none; b=GU2s4cyGCRy1xi96wFZ5ao4ebQ0uagAIwQMaZ2C2WEjdPd7tWE3Z2BAoy+HjlNPBrB8vOyn81dmqSrcwnqt6jUmqXQQmmZQ/ETUrUl9fhgALXLOdiIFSVv/2EbCg3jCbstPsSxmcdTlfvVsSjFQUjA3FJXuq6qwKg5O4mFYD12U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713122613; c=relaxed/simple;
-	bh=pLS7IbsD3DFOrQdvrzDKFs+CuePkt8jH0G8abt1KxBE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=lkssaURtVky33xVBCJC4bvm+6BdjlHKfwYhKEs24L4h78JCdZGz2nHHszvR3nKJxcqwMH+zcvaU3s1RThRjiG7Dw+lNUScqnX656qRrXfoaHH4UQXHLKFiC+7mQdMD8Rp44zXSUQbJGvBMiKDyA7xPolkLM7b7KdzuLivnnbUfM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=q1lhB5Dm; arc=none smtp.client-ip=212.227.15.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
+	s=arc-20240116; t=1713160966; c=relaxed/simple;
+	bh=9kIdkk7cASoemAnUbv7nOShQL+l/0S9YmpIl5aDhKnQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sp2tla0ZMJqf2LQk3hYU/NvokTQ17K8FmIvrBWVdyKsnaYn3gY5EEN1G5LH+Y1bedlXMwoQYhiDUMGMj/WxBsIUB7Ehw6Epqvhnwz+AEANFgywtrHwj7oX6i27PP1ydYdnZa+7o2MXZEBpj7UVqVZyjidkclJ7r/Z0oV6nF1bjo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=w15QVp9F; arc=none smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="q1lhB5Dm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
-	s=s31663417; t=1713122601; x=1713727401; i=wahrenst@gmx.net;
-	bh=b7dGd2M3688/60gmQ7vdls0og9I6mq35Fc2UrWqI62s=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:
-	 MIME-Version:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=q1lhB5Dm4dMOtHE+mmQpDEG1N9KVNZffMw4u4neSfOYTUoMziL8j0+2tE9XAV6Q3
-	 T1QUUbRScvVDrNZIo3w8Kpj1uaIYLjuBcG9tNC4Yj7tqFYvVXJNo5E+XDZQGpPEw3
-	 PBrUCwkn9w4L11B4DO9cll85JuyBGu2ov9lkdSXNHnyBHVBBtK1VQdNJE4E+Q7ld4
-	 KGupsNUvCBsaXUBXxg+fmsmmM62/n7OXIePvhwqO3xxmitVM0wWs+EWWH6X6mVSv0
-	 Qqr3tRH8SbK/pisUHThGAJCG+iM7ezWBWue4Q8MVKkGGS31aQmPmbLE/55Dom2iYM
-	 r4KISYD1SUZIt3OaaQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from stefanw-SCHENKER ([37.4.248.43]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MmDIo-1seBgm43mK-00iCQX; Sun, 14
- Apr 2024 21:23:21 +0200
-From: Stefan Wahren <wahrenst@gmx.net>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>
-Cc: Umang Jain <umang.jain@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	Stefan Wahren <wahrenst@gmx.net>
-Subject: [PATCH V2] staging: vchiq: Reformat Kconfig help texts
-Date: Sun, 14 Apr 2024 21:22:57 +0200
-Message-Id: <20240414192257.6011-1-wahrenst@gmx.net>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="w15QVp9F"
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-516d0162fa1so3362367e87.3
+        for <linux-staging@lists.linux.dev>; Sun, 14 Apr 2024 23:02:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1713160963; x=1713765763; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ckDj/bgqCVkgxX+2gSDXoFFTHJGwFqjcNIY+pad7XOU=;
+        b=w15QVp9Fbzli53EK0A1m/OzfU8p9oJotSAqSzvufe0prrr7oBG86i7dibdOCGEF0dS
+         gmi/j3sS2CzdwP4KSZZwvT1UO6hq94XR/K4+gxUsQV4ZeV5Q9WtoAQVClCYNfKZJaVHD
+         DQralGlCiUx+Wxf5R/IG5XMvMKG1ozVfSuTPRixO55jIimuZ2CQNTvl0uCuyOpsCiHn0
+         L7toqUJ8Ma43yw063tuzimTRwyWwc29EsXGsxLsKJLpgV3xgdEUwfyjwKXNmxT6UPSWV
+         yuVv83aCiyDeRB15hwOeESaRoalEZLKTfxRGJQNTId646NIC+pGNfZ6J8S+LAaPIsES7
+         f3tQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713160963; x=1713765763;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ckDj/bgqCVkgxX+2gSDXoFFTHJGwFqjcNIY+pad7XOU=;
+        b=u5U2wKyjF/1LqqBfQ+x9qVHx3YVS3ORLewp8gjPRuUmVm+caHqhQCOkdrAMle/NTIT
+         +Ech2uC7yZ9vYJICq3Sd5lThIe/FdkeFJmMQaTGNQxGOQ7q2+J5A1k/Sxwa4ViUA7oY6
+         fFYXziNY0g8TTd9SdsUJESTsnN9Rixt2F54TIoC2zkvFtFsQOtKBaN99AoB8afh69zZl
+         S+96DKxFw6xDIZ2uTDzKyYJ/4ACz+DAeIRkoHoO6d1KMUhgbjaSxEhM1s/lMXMQeohwI
+         WdBmWGBi+2ynWPGKuAxnHpA+yDggGfPVwkYERvw9SHM+YeyI/zxNlPcYq6OlfxoMB+xh
+         24cw==
+X-Forwarded-Encrypted: i=1; AJvYcCV2P5NYfscXnE1BUW5sR44/wIqVvJTZdMqPXGqRZjGtSW1YnIYaWLbkxL5qtik51OWl5KUB+BK+laYkV/TcCVEQcnUpbKq6wc4cJzUSXA==
+X-Gm-Message-State: AOJu0Yx9JZFwF++R5wopUMc0Qsb1vcMcltfNOa56l5XFQfWOjJFSvbm5
+	hPADa61acTusQqu2N5U2hPcT4nxdNhS4GSDkp4AWr/oW1DccjgZeYZ3lOiAqBfg=
+X-Google-Smtp-Source: AGHT+IEDMXh7pPyTthpm66a/ouSkP9+4gJ9y2nLrcAgmRpWUaMeddCR+q+i01TRwJpnKFKYuh8gu+Q==
+X-Received: by 2002:ac2:4ac8:0:b0:516:d1af:adc1 with SMTP id m8-20020ac24ac8000000b00516d1afadc1mr6400030lfp.9.1713160962907;
+        Sun, 14 Apr 2024 23:02:42 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id a10-20020a1709064a4a00b00a51bf97e63esm5024500ejv.190.2024.04.14.23.02.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 14 Apr 2024 23:02:42 -0700 (PDT)
+Date: Mon, 15 Apr 2024 09:02:38 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Sumadhura Kalyan <opensourcecond@gmail.com>
+Cc: florian.fainelli@broadcom.com, bcm-kernel-feedback-list@broadcom.com,
+	gregkh@linuxfoundation.org, linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH V3] staging: vc04_services: Re-align function parameters
+Message-ID: <bea0a328-a27b-46b2-8893-1943d0404a29@moroto.mountain>
+References: <20240414144614.125672-1-opensourcecond@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:rAraSMZyJ2eVn76GWwZ5H4d+1Tb1xEaJ6t43VeD8CclRmKTF+Rt
- 5iPPPfiLkOhZq32Xbh7rs7NRhdLsi4986vvQtZE21jzpaj2atPQosF4hnzoM0Zz/ILcA71b
- pHuF01S2vEqkj04/LA3jsQtjjao4VF10kKvoTs3LsO14jWzkat6PiOLRHwKp04++osqEyZn
- pEOyfgVfnIGYS4zNUSzFQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:ZTWEnxuC/J4=;k4b8f2Q9iLCjVDA4lRw8ZpQw4v3
- gi4fcg8qz0MD6WqRcl2WFL9kkzRnL8vFOVsmgLU6pXViNZH266fak7bRBdpcBeDezHtuclrC4
- BLT5ty+tmMBHoLnbjJ+7qiiZ8TeCD0oRtgkJG1ZM5fbJB3gSXawG4wjfxY8CU5zI0LV2IubrC
- QWBvJjWHlaYrKj7tyKZ3r1WDNhh6XR7MYNMPsDHsCetRWfu43fAhXqNAp2TezhMNOK1pljQsF
- T05QIdPGGurU+x8/Wdi/DA3k4Q2amUOo7v2wau8WZbnliYay010i5+RQMgPSAztKhvHQDCbW1
- RpwKXoBQy8lyF5jQc5VJRU5S8PKi+1BNuyCJne5dWHVSaCWGmocgSORJDh3Uf9+VAVWBOLr8E
- XWHezIJGqYkVLyWTxLu77gvm1ElbSulntpuhfHE4XOcQjAkJ3IUykRF9Yv/T+QctQ31zocLUX
- yoOq+N/ufdo6djY2hjrAUfcnEv4aRkLeD5vRP40V3iSkJNATa9Nf0e9vBsfB9HNGxYUXqeYuB
- 4bWljCnKMsQrhGclXuW/D7itVVKhvb1Y7hh9GhSpQ3DmWNWY3ki8rP8vMskAbdJuDYN546dcs
- FXhT2L9X47Q74QSh31luuiuw0U2lLnFIskWmrk/ZOVn+O6c67GaJDE4+2iRKbduBeZg70L7xG
- 9y7zg+5dJseuaZMQ1tct3v9LTZAnwoaafgVFtIcxepFD/UOdzQCehO3HEk28azlvesJow39jG
- 9nz7ky1d7llV9RPHGq0cc2+nwfd4Q+F/ZKQrqKR//g+remfjncs9m0qxH6HkdOZ16VMHYaAsk
- y6UiYNB1NLbqHD2rYlBYPtK1hZ/QJjqZxDFyUpnZa2pqI=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240414144614.125672-1-opensourcecond@gmail.com>
 
-The lines in the VCHIQ Kconfig help texts are too long, which makes
-it hard to read the menuconfig. So reformat them to restore the
-readability.
+On Sun, Apr 14, 2024 at 08:16:14PM +0530, Sumadhura Kalyan wrote:
+> From: sumadhura kalyan <opensourcecond@gmail.com>
+        ^^^^^^^^^^^^^^^^
+This will mess things up.
 
-Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-=2D--
+> 
+> Checkpatch complains that:
+> 
+> CHECK: Lines should not end with a '('
+> +typedef void (*vchiq_mmal_buffer_cb)(
+> 
+> Re-align the function parameters to make checkpatch happy.
+> 
+> Signed-off-by: Sumadhura Kalyan <opensourcecond@gmail.com>
+> ---
+> 
+> v1 -> v2: Repharse the subject line.
 
-Changes in V2:
-- add paragraphs
-- add Reviewed-by from Laurent
+Need more changelog here.
 
- drivers/staging/vc04_services/Kconfig | 36 ++++++++++++++++-----------
- 1 file changed, 21 insertions(+), 15 deletions(-)
-
-diff --git a/drivers/staging/vc04_services/Kconfig b/drivers/staging/vc04_=
-services/Kconfig
-index 31e58c9d1a11..ccc8e1588648 100644
-=2D-- a/drivers/staging/vc04_services/Kconfig
-+++ b/drivers/staging/vc04_services/Kconfig
-@@ -16,27 +16,33 @@ config BCM2835_VCHIQ
- 	depends on HAS_DMA
- 	imply VCHIQ_CDEV
- 	help
--		Broadcom BCM2835 and similar SoCs have a VPU called VideoCore. This con=
-fig
--		enables the VCHIQ driver, which implements a messaging interface betwee=
-n
--		the kernel and the firmware running on VideoCore. Other drivers use thi=
-s
--		interface to communicate to the VPU. More specifically, the VCHIQ drive=
-r is
--		used by audio/video and camera drivers as well as for implementing MMAL
--		API, which is in turn used by several multimedia services on the BCM283=
-5
--		family of SoCs.
--		Defaults to Y when the Broadcom Videocore services are included in
--		the build, N otherwise.
-+		Broadcom BCM2835 and similar SoCs have a VPU called VideoCore.
-+		This config enables the VCHIQ driver, which implements a
-+		messaging interface between the kernel and the firmware running
-+		on VideoCore. Other drivers use this interface to communicate to
-+		the VPU. More specifically, the VCHIQ driver is used by
-+		audio/video and camera drivers as well as for implementing MMAL
-+		API, which is in turn used by several multimedia services on the
-+		BCM2835 family of SoCs.
-+
-+		Defaults to Y when the Broadcom Videocore services are included
-+		in the build, N otherwise.
-
- if BCM2835_VCHIQ
-
- config VCHIQ_CDEV
- 	bool "VCHIQ Character Driver"
- 	help
--		Enable the creation of VCHIQ character driver. The cdev exposes ioctls =
-used
--		by userspace libraries and testing tools to interact with VideoCore, vi=
-a
--		the VCHIQ core driver (Check BCM2835_VCHIQ for more info).
--		This can be set to 'N' if the VideoCore communication is not needed by
--		userspace but only by other kernel modules (like bcm2835-audio).  If no=
-t
--		sure, set this to 'Y'.
-+		Enable the creation of VCHIQ character driver. The cdev exposes
-+		ioctls used by userspace libraries and testing tools to interact
-+		with VideoCore, via the VCHIQ core driver (Check BCM2835_VCHIQ
-+		for more info).
-+
-+		This can be set to 'N' if the VideoCore communication is not
-+		needed by userspace but only by other kernel modules
-+		(like bcm2835-audio).
-+
-+		If not sure, set this to 'Y'.
-
- endif
-
-=2D-
-2.34.1
+regards,
+dan carpenter
 
