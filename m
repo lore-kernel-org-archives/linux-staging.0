@@ -1,57 +1,57 @@
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DDB91591FF
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 117971598E2
 	for <linux-staging@lists.linux.dev>; Mon, 15 Apr 2024 19:34:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713209675; cv=none; b=D1ippFHqhuzHz4Vblsq1Ye+loeReUFdUFoADxVhasjwhmFFfLdi4cuHlYh2QusR6jQIR0QpDzKSp2q5Qm2HwVb6GUXfHiCbH0Ok6FxU5s2ACbR5ExjMnvDKLcQeH2b+Q0BrYUe3CWc9TRzDZk3yjcCA8O2zbBHwi3bVKpYRkiMY=
+	t=1713209676; cv=none; b=mZK57TzTHmE5zzjHGEFxX4vLSGKXIT1RMXYzKbObo8VJvP9pPXb2E7JXYHaOXg0bQDCN5X3lG5PzwK4f8BRlS17oQgfQhSuXTLjS2eBkSDIAb6Zefam60qXT/yWKbTUO5kxJSKkc34f6bb+F8cGY4Mc1Pb9vxiczuIRRT5xkxUY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713209675; c=relaxed/simple;
-	bh=XObzijZQld/8VXyzVYTREi/3oAcyuDjxYbwKJHTRP9A=;
+	s=arc-20240116; t=1713209676; c=relaxed/simple;
+	bh=MbsdVQbCUWEGseggQJElQClzRok+A7X+zU8VpB5HgWY=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=TUxWvu9sXAB/VbpsLXrEPQw5OqN0PQdwPfs1y0UGROFaaum+EPUFka2t8gyiNPpAjwwBvLDEypwzUDEd/76YW5hvdBbj2dmVwjz2b6UavWmVwYMkjjEiRQArP8BM663s1uxhZO7udNm4YbhJ1vil+okVjJuCEqPHrIB+y9nj/0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=SAxVOz46; arc=none smtp.client-ip=209.85.222.176
+	 In-Reply-To:To:Cc; b=EwowfUVBRuDorPplrnJjxN4CRrEYttWkiy0ws6IDR4z4vtqbsena0yd6cxbXHucaK8gPn2GGZWiA4pyMMqIIxATjNLse5EDorQBoNYsy1Ib4jNOBe86/fsOG1PMTesLXSSrHW498e34sJ9xQehdii/TC4hEVyKZA+3AQ9d2NQvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=MWSlH5L+; arc=none smtp.client-ip=209.85.210.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="SAxVOz46"
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-78d57bd5781so264746785a.3
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="MWSlH5L+"
+Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-6eb7a0b3fe7so1211538a34.2
         for <linux-staging@lists.linux.dev>; Mon, 15 Apr 2024 12:34:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1713209671; x=1713814471; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1713209672; x=1713814472; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=0M0QjtxbXw5Jbt1UmA7dF8uJnSqjZdDcQqjFwr3Ktis=;
-        b=SAxVOz46rSIfy49HGYJooACAzAKUZjYWN94P++l7OeDIQLTXEMhWceXcbJRf1Y22eP
-         tQ6DXgPZlxYc+H3SBA19bt9KeBmdEdgeianTiwOPBu0KKePBqs1TrDFbiwlqM3g/OIm4
-         HMMkku0hPh0SOOl5YWma/uNzFZLRVaNdR+cH0=
+        bh=30a1609TFHVDYvbsiCwVx5jyS7S7qnpRfAGqZPi3zic=;
+        b=MWSlH5L+eJDHLGdUzJvV0FAcDd271FdPGAZpiAkNgebekT7OYy+vVjSSVF77nF3J35
+         8YkKUO/daprIIbQmue5xgKHp3ibCcwqeTegiPXwaG9EQJ7jzDs58Dt1h47NOeP2EZ3VK
+         0ebz3+O/rnFLyfkncgHRK9ayhn8N8BjlLjZsA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713209671; x=1713814471;
+        d=1e100.net; s=20230601; t=1713209672; x=1713814472;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=0M0QjtxbXw5Jbt1UmA7dF8uJnSqjZdDcQqjFwr3Ktis=;
-        b=hq8GQZU7vMxUFbVMEjGmFtZ/TGIH22TLgUB5DbQm6Mbwp1LGpjNwEUKNCsQSn4YAbP
-         mjpH00/RgnmTU/gqYkZN/qPRCwxyRKVjXUSRqiN2iV2CMT8N0M4DRmOzwEWGOwkqKS/h
-         ltbmHmh1zBHCwhlOWWndS3zfqjJ+Jm/6qAsRT6AA9ChixCwtIzFqywXNpujBdOD+aL/H
-         jC7gs/eIS1v+RhfZhNSZ4NRE6cPNDPmruKH/UF9KY2fCmq6wgs12A8nYiNuPFxSVOzkY
-         ctQI67dWcV/SYIECb0ejBfsni+4Iq4TZveuC/xQEWfvHeb4QszXPUeVSPKLndyNGijqG
-         sDvQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX8IZXMUqYGR7O0intaIoIwfYzaUau04lv3qSybR20b/E8wM5hDnaEiXJbx+75tA7F1Gs+d0RuUnKJFnorN+s8i/vpolK/qbVxAo01Ghg==
-X-Gm-Message-State: AOJu0Yx9D54yPP5hSs3c8rOOialQs+GA8wz8g6XR36ocT37iLdp4HVsg
-	VFEZMaPXnz+Co4E8CmWMRqYwxjpB0QOkuMklKrJKAnsNLDxg0fcjHW1dMN4HIA==
-X-Google-Smtp-Source: AGHT+IEqj59jRDGSbVB+H5v2oX0HE1xlFJSWXdttWaWsHugr/F+aCppE0zEJT1gUi+zgVZvdSbru2w==
-X-Received: by 2002:a05:620a:12e1:b0:78d:4424:b286 with SMTP id f1-20020a05620a12e100b0078d4424b286mr11683901qkl.39.1713209671340;
-        Mon, 15 Apr 2024 12:34:31 -0700 (PDT)
+        bh=30a1609TFHVDYvbsiCwVx5jyS7S7qnpRfAGqZPi3zic=;
+        b=sARk6byfJ80rUOolsU6aGpV7zmoFumEx7CytU9dSoex08PWOQ7MHbDUpwzmL1CedZ9
+         XXzpqevWb2yaJV65GquVJejuHIN3MAg4sSYZRIu+jAZrRIghtXZwnoe+uViAA7L6jjPA
+         xLyI0xIe43HE/OL/cjvvuqYXlupEhHY2A88eUPMUkIpXxO1rpQZhaQxNSUnsAln68bfJ
+         iGyIJ4MqjZg34ygSDxWhvT4OVsUesZR5TeUwgh9nzyNqJH0NZ0CQlaZ4R4dX1dxNE2ca
+         9X3F7wUDYxISsr+1YUqEhZGkTrBWwnhz4dZ/WSZEKjgi5B+01fNQ17lef3NQYEh3iswx
+         I9vg==
+X-Forwarded-Encrypted: i=1; AJvYcCUAgEVb+hL/5b8YcMU5Qez+HVVcia32npNn5BNIEzj33FiOMv4zUq/1IqYcoPbG9znW1nTWiBphnPdznmuHnZW1jChgVuZHWK7ss6FgQw==
+X-Gm-Message-State: AOJu0YwKLq0bVXJZK8yEbTD5Z/VMg6q/15nBDBQqy5FZRUmRKp0EZ0g6
+	7hStqWAeSabvCkw7Y9K7y9v2YbCQS6lNx2cHpzmbtFlnoUm6rOf4FQiCQpsSFA==
+X-Google-Smtp-Source: AGHT+IFajy4caV38o9egD00xBm8+r7fFdvax0FnbVE1biamOQ+jag9WqCsqV4RWMv5Us6Un2NRlLiw==
+X-Received: by 2002:a05:6830:14cf:b0:6eb:7a07:8746 with SMTP id t15-20020a05683014cf00b006eb7a078746mr5458830otq.31.1713209672276;
+        Mon, 15 Apr 2024 12:34:32 -0700 (PDT)
 Received: from denia.c.googlers.com (114.152.245.35.bc.googleusercontent.com. [35.245.152.114])
-        by smtp.gmail.com with ESMTPSA id s26-20020ae9f71a000000b0078d3b54eb76sm6718055qkg.78.2024.04.15.12.34.30
+        by smtp.gmail.com with ESMTPSA id s26-20020ae9f71a000000b0078d3b54eb76sm6718055qkg.78.2024.04.15.12.34.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Mon, 15 Apr 2024 12:34:31 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 15 Apr 2024 19:34:21 +0000
-Subject: [PATCH 04/35] media: uvcvideo: Use max() macro
+Date: Mon, 15 Apr 2024 19:34:22 +0000
+Subject: [PATCH 05/35] media: go7007: Use min and max macros
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -60,7 +60,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240415-fix-cocci-v1-4-477afb23728b@chromium.org>
+Message-Id: <20240415-fix-cocci-v1-5-477afb23728b@chromium.org>
 References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
 In-Reply-To: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
 To: Martin Tuma <martin.tuma@digiteqautomotive.com>, 
@@ -106,28 +106,31 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.12.4
 
-It makes the code slightly more clear and makes cocci incredibly happy:
+It makes the code simpler and cocci happier:
 
-drivers/media/usb/uvc/uvc_ctrl.c:839:22-23: WARNING opportunity for max()
+drivers/media/usb/go7007/go7007-fw.c:1292:14-15: WARNING opportunity for max()
+drivers/media/usb/go7007/go7007-fw.c:1293:14-15: WARNING opportunity for min()
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/usb/uvc/uvc_ctrl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/usb/go7007/go7007-fw.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-index a4a987913430..4b685f883e4d 100644
---- a/drivers/media/usb/uvc/uvc_ctrl.c
-+++ b/drivers/media/usb/uvc/uvc_ctrl.c
-@@ -836,7 +836,7 @@ static s32 uvc_get_le_value(struct uvc_control_mapping *mapping,
- 	while (1) {
- 		u8 byte = *data & mask;
- 		value |= offset > 0 ? (byte >> offset) : (byte << (-offset));
--		bits -= 8 - (offset > 0 ? offset : 0);
-+		bits -= 8 - max(offset, 0);
- 		if (bits <= 0)
- 			break;
- 
+diff --git a/drivers/media/usb/go7007/go7007-fw.c b/drivers/media/usb/go7007/go7007-fw.c
+index 018019ba47d4..86ce593e0c54 100644
+--- a/drivers/media/usb/go7007/go7007-fw.c
++++ b/drivers/media/usb/go7007/go7007-fw.c
+@@ -1289,8 +1289,8 @@ static int avsync_to_package(struct go7007 *go, __le16 *code, int space)
+ 		0xbf99,		(u16)((-adjratio) >> 16),
+ 		0xbf92,		0,
+ 		0xbf93,		0,
+-		0xbff4,		f1 > f2 ? f1 : f2,
+-		0xbff5,		f1 < f2 ? f1 : f2,
++		0xbff4,		max(f1, f2),
++		0xbff5,		min(f1, f2),
+ 		0xbff6,		f1 < f2 ? ratio : ratio + 1,
+ 		0xbff7,		f1 > f2 ? ratio : ratio + 1,
+ 		0xbff8,		0,
 
 -- 
 2.44.0.683.g7961c838ac-goog
