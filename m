@@ -1,45 +1,45 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52CFD6D1AF
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A732E67A0E
 	for <linux-staging@lists.linux.dev>; Mon, 15 Apr 2024 12:03:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713182587; cv=none; b=o2FuC/rzAuRh8K2JGssuif8GyDryHabog0W8VuKswlNyxKWvuuMwiRSIGXPDL2KPSKTMsKcfmdg03ITD/X3E52yN9yNSS+yb/4MPkF5a4oOgC/RnqgSxq49lIIbglwPCMiImVxkF+Rts40wRtjwBrdfLqUl2NkzNVMKYwyGK08I=
+	t=1713182588; cv=none; b=XGkrqutbcx2+yMClh3EoLhbZupN54TIv7EiaBQKxU3+7DPy0Sf9QokLW8/XKRzaugJeqbJtBZMUDLWt7gid7Ph84Hj/XdrMedGKrTMwKou4asOmq2UBdUKIVMynPEqihaPECKTxofcw3lJWGBdrSlEAC8S5E7bmcR2dnuoINEtM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713182587; c=relaxed/simple;
-	bh=X2zszUGBEvyLh6pvdq9YYGejPi+fN+/vjf5f7dDh6JU=;
+	s=arc-20240116; t=1713182588; c=relaxed/simple;
+	bh=TaB+/cqAPY2OKk4xB2AVQ7lJzMrfYJQAGsXq5ugtY1w=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pBH3rwHK/d7GAp5FM28+MY0ptiz8Oc1RGUMSrjCkmIfFEEseNkf565DujCqYRNiRCl7GDvxyc1+sGTUz1HPAo7sgKkGlltqaPSZnOkhuf7lODGgwgQed99ytt8Gvh9OpIMrjqmPLiwHgf74KC3UkpHCsN9Wo4Z18+fLrQCUn+es=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Y1li+l6w; arc=none smtp.client-ip=170.10.129.124
+	 MIME-Version; b=BZTs58uWa0YFSToRB4IN4EpFvVSeSkAHCcsovLww0S2HzCmBy0ed8UwFBUh+a15Z6D/yMBP1KIpEeQ0x2ZlaWHqyXLeD7K5y6Jm97xj1+Stlq9Z10Lj8Q/DPfZxhu8UbbkVFowZ8IzCrBU4iWjt5dzXF5t6To632jCAmV3ag1wc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=C4dskxst; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Y1li+l6w"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="C4dskxst"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
 	s=mimecast20190719; t=1713182585;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3I0kj/gQOo/SKjO/SH+29fGHV3spCquGvHv/QsdfZM4=;
-	b=Y1li+l6wnGh1UQMjKCZfJ/irGpADUR3UxJjNbsULHbt8toUv7qTPElqbV6ktZdnz6EM8+S
-	o79kLpK683CTi3JVY/vHc8DI76f2mGAdx1Kj/djsBiDdEbGcczDodK426laUcqRA0/b2h0
-	AtlmqUWvbX3m22oC9/jwwNrx77fmEd0=
+	bh=m7NCgwC3XBVbL5XHa69mXFMIijUU/ioL2QzPflqh4FQ=;
+	b=C4dskxstX8LRuny5KPx7hwbn31OPKnbVQfqkELaher063tvXWmIbSZ6r7Yy9PYl56SQaqD
+	vFoiL87hjmyu8sbJDiY4nNwo70WuDxBkRQypFsaKLSc1JC0DAVKgtxLk/SjfCkk3cgd2qF
+	F5ti6d1D+/dfRn0KsoW4vh5PGUAZrpw=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-199-oPWsgqtnNWCUcqZCgMvlLw-1; Mon, 15 Apr 2024 08:03:02 -0400
-X-MC-Unique: oPWsgqtnNWCUcqZCgMvlLw-1
+ us-mta-98-_mCXweOaP_WuWwCc0icTFg-1; Mon, 15 Apr 2024 08:02:59 -0400
+X-MC-Unique: _mCXweOaP_WuWwCc0icTFg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A7A7C80D678;
-	Mon, 15 Apr 2024 12:03:01 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C23CB1887313;
+	Mon, 15 Apr 2024 12:02:58 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.195.17])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 700EAC13FA4;
-	Mon, 15 Apr 2024 12:03:00 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 8941CC13FA1;
+	Mon, 15 Apr 2024 12:02:57 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Andy Shevchenko <andy@kernel.org>
@@ -50,9 +50,9 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Fabio Aiuto <fabioaiuto83@gmail.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 19/23] media: atomisp: Remove clearing of ISP crop / compose rectangles on file release
-Date: Mon, 15 Apr 2024 14:02:16 +0200
-Message-ID: <20240415120220.219480-20-hdegoede@redhat.com>
+Subject: [PATCH 17/23] media: atomisp: Remove gmin_platform VCM code.
+Date: Mon, 15 Apr 2024 14:02:14 +0200
+Message-ID: <20240415120220.219480-18-hdegoede@redhat.com>
 In-Reply-To: <20240415120220.219480-1-hdegoede@redhat.com>
 References: <20240415120220.219480-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -64,68 +64,182 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.8
 
-There is no need to clear the ISP sink-pad crop and source-pad
-compose rectangles  on release of the /dev/video# file.
-
-Both will be reset by atomisp_set_fmt() which is guaranteed to
-get called by atomisp_queue_setup() (if not called already)
-before another stream starts and thus before these selections
-are used again.
-
-Also the file injection support the comment talks about has long
-been dropped from the driver.
+VCM support has already been removed from the main atomisp driver
+in commit 7473c97dd8d0 ("media: atomisp: Remove custom VCM handling")
+remove the left-over dead VCM handling from the gmin platform code.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- .../staging/media/atomisp/pci/atomisp_fops.c  | 21 -------------------
- 1 file changed, 21 deletions(-)
+ .../include/linux/atomisp_gmin_platform.h     |  3 --
+ .../atomisp/include/linux/atomisp_platform.h  | 21 ---------
+ .../media/atomisp/pci/atomisp_gmin_platform.c | 47 -------------------
+ 3 files changed, 71 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-index 0d0c1649eaad..50c4123ba006 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-@@ -539,7 +539,6 @@ static int atomisp_release(struct file *file)
- 	struct atomisp_video_pipe *pipe = atomisp_to_video_pipe(vdev);
- 	struct atomisp_sub_device *asd = pipe->asd;
- 	struct v4l2_subdev_fh fh;
--	struct v4l2_rect clear_compose = {0};
- 
- 	v4l2_fh_init(&fh.vfh, vdev);
- 
-@@ -552,21 +551,6 @@ static int atomisp_release(struct file *file)
- 
- 	pipe->users--;
- 
--	/*
--	 * A little trick here:
--	 * file injection input resolution is recorded in the sink pad,
--	 * therefore can not be cleared when releaseing one device node.
--	 * The sink pad setting can only be cleared when all device nodes
--	 * get released.
--	 */
--	{
--		struct v4l2_mbus_framefmt isp_sink_fmt = { 0 };
+diff --git a/drivers/staging/media/atomisp/include/linux/atomisp_gmin_platform.h b/drivers/staging/media/atomisp/include/linux/atomisp_gmin_platform.h
+index 711e8fb3464f..ecd82220f04a 100644
+--- a/drivers/staging/media/atomisp/include/linux/atomisp_gmin_platform.h
++++ b/drivers/staging/media/atomisp/include/linux/atomisp_gmin_platform.h
+@@ -28,7 +28,4 @@ gmin_camera_platform_data(
+     struct v4l2_subdev *subdev,
+     enum atomisp_input_format csi_format,
+     enum atomisp_bayer_order csi_bayer);
 -
--		atomisp_subdev_set_ffmt(&asd->subdev, fh.state,
--					V4L2_SUBDEV_FORMAT_ACTIVE,
--					ATOMISP_SUBDEV_PAD_SINK, &isp_sink_fmt);
+-int atomisp_gmin_register_vcm_control(struct camera_vcm_control *);
+-
+ #endif
+diff --git a/drivers/staging/media/atomisp/include/linux/atomisp_platform.h b/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
+index 51e7b199e005..098859bde86f 100644
+--- a/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
++++ b/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
+@@ -147,25 +147,6 @@ struct atomisp_input_stream_info {
+ 	struct atomisp_isys_config_info isys_info[MAX_STREAMS_PER_CHANNEL];
+ };
+ 
+-struct camera_vcm_control;
+-struct camera_vcm_ops {
+-	int (*power_up)(struct v4l2_subdev *sd, struct camera_vcm_control *vcm);
+-	int (*power_down)(struct v4l2_subdev *sd,
+-			  struct camera_vcm_control *vcm);
+-	int (*queryctrl)(struct v4l2_subdev *sd, struct v4l2_queryctrl *qc,
+-			 struct camera_vcm_control *vcm);
+-	int (*g_ctrl)(struct v4l2_subdev *sd, struct v4l2_control *ctrl,
+-		      struct camera_vcm_control *vcm);
+-	int (*s_ctrl)(struct v4l2_subdev *sd, struct v4l2_control *ctrl,
+-		      struct camera_vcm_control *vcm);
+-};
+-
+-struct camera_vcm_control {
+-	char camera_module[CAMERA_MODULE_ID_LEN];
+-	struct camera_vcm_ops *ops;
+-	struct list_head list;
+-};
+-
+ struct camera_sensor_platform_data {
+ 	int (*flisclk_ctrl)(struct v4l2_subdev *subdev, int flag);
+ 	int (*csi_cfg)(struct v4l2_subdev *subdev, int flag);
+@@ -179,8 +160,6 @@ struct camera_sensor_platform_data {
+ 	int (*v1p8_ctrl)(struct v4l2_subdev *subdev, int on);
+ 	int (*v2p8_ctrl)(struct v4l2_subdev *subdev, int on);
+ 	int (*v1p2_ctrl)(struct v4l2_subdev *subdev, int on);
+-	struct camera_vcm_control *(*get_vcm_ctrl)(struct v4l2_subdev *subdev,
+-		char *module_id);
+ };
+ 
+ struct camera_mipi_info {
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+index aba69cf97785..e12354820a3a 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+@@ -75,7 +75,6 @@ struct gmin_subdev {
+ 	struct regulator *v1p8_reg;
+ 	struct regulator *v2p8_reg;
+ 	struct regulator *v1p2_reg;
+-	struct regulator *v2p8_vcm_reg;
+ 	enum atomisp_camera_port csi_port;
+ 	unsigned int csi_lanes;
+ 	enum atomisp_input_format csi_fmt;
+@@ -85,7 +84,6 @@ struct gmin_subdev {
+ 	bool v1p8_on;
+ 	bool v2p8_on;
+ 	bool v1p2_on;
+-	bool v2p8_vcm_on;
+ 
+ 	int v1p8_gpio;
+ 	int v2p8_gpio;
+@@ -133,9 +131,6 @@ static const struct atomisp_platform_data pdata = {
+ 	.subdevs = pdata_subdevs,
+ };
+ 
+-static LIST_HEAD(vcm_devices);
+-static DEFINE_MUTEX(vcm_lock);
+-
+ static struct gmin_subdev *find_gmin_subdev(struct v4l2_subdev *subdev);
+ 
+ const struct atomisp_platform_data *atomisp_get_platform_data(void)
+@@ -214,7 +209,6 @@ int atomisp_gmin_remove_subdev(struct v4l2_subdev *sd)
+ 				regulator_put(gmin_subdevs[i].v1p8_reg);
+ 				regulator_put(gmin_subdevs[i].v2p8_reg);
+ 				regulator_put(gmin_subdevs[i].v1p2_reg);
+-				regulator_put(gmin_subdevs[i].v2p8_vcm_reg);
+ 			}
+ 			gmin_subdevs[i].subdev = NULL;
+ 		}
+@@ -664,7 +658,6 @@ static int gmin_subdev_add(struct gmin_subdev *gs)
+ 		gs->v2p8_reg = regulator_get(dev, "V2P8SX");
+ 
+ 		gs->v1p2_reg = regulator_get(dev, "V1P2A");
+-		gs->v2p8_vcm_reg = regulator_get(dev, "VPROG4B");
+ 
+ 		/* Note: ideally we would initialize v[12]p8_on to the
+ 		 * output of regulator_is_enabled(), but sadly that
+@@ -1167,31 +1160,6 @@ void atomisp_unregister_subdev(struct v4l2_subdev *subdev)
+ }
+ EXPORT_SYMBOL_GPL(atomisp_unregister_subdev);
+ 
+-static struct camera_vcm_control *gmin_get_vcm_ctrl(struct v4l2_subdev *subdev,
+-	char *camera_module)
+-{
+-	struct i2c_client *client = v4l2_get_subdevdata(subdev);
+-	struct gmin_subdev *gs = find_gmin_subdev(subdev);
+-	struct camera_vcm_control *vcm;
+-
+-	if (!client || !gs)
+-		return NULL;
+-
+-	if (!camera_module)
+-		return NULL;
+-
+-	mutex_lock(&vcm_lock);
+-	list_for_each_entry(vcm, &vcm_devices, list) {
+-		if (!strcmp(camera_module, vcm->camera_module)) {
+-			mutex_unlock(&vcm_lock);
+-			return vcm;
+-		}
 -	}
 -
- 	atomisp_css_free_stat_buffers(asd);
- 	atomisp_free_internal_buffers(asd);
+-	mutex_unlock(&vcm_lock);
+-	return NULL;
+-}
+-
+ static struct camera_sensor_platform_data pmic_gmin_plat = {
+ 	.gpio0_ctrl = gmin_gpio0_ctrl,
+ 	.gpio1_ctrl = gmin_gpio1_ctrl,
+@@ -1200,7 +1168,6 @@ static struct camera_sensor_platform_data pmic_gmin_plat = {
+ 	.v1p2_ctrl = gmin_v1p2_ctrl,
+ 	.flisclk_ctrl = gmin_flisclk_ctrl,
+ 	.csi_cfg = gmin_csi_cfg,
+-	.get_vcm_ctrl = gmin_get_vcm_ctrl,
+ };
  
-@@ -577,11 +561,6 @@ static int atomisp_release(struct file *file)
- 	if (pm_runtime_put_sync(vdev->v4l2_dev->dev) < 0)
- 		dev_err(isp->dev, "Failed to power off device\n");
+ static struct camera_sensor_platform_data acpi_gmin_plat = {
+@@ -1211,7 +1178,6 @@ static struct camera_sensor_platform_data acpi_gmin_plat = {
+ 	.v1p2_ctrl = gmin_acpi_pm_ctrl,
+ 	.flisclk_ctrl = gmin_acpi_pm_ctrl,
+ 	.csi_cfg = gmin_csi_cfg,
+-	.get_vcm_ctrl = gmin_get_vcm_ctrl,
+ };
  
--	atomisp_subdev_set_selection(&asd->subdev, fh.state,
--				     V4L2_SUBDEV_FORMAT_ACTIVE,
--				     ATOMISP_SUBDEV_PAD_SOURCE,
--				     V4L2_SEL_TGT_COMPOSE, 0,
--				     &clear_compose);
- 	mutex_unlock(&isp->mutex);
- 	return 0;
+ struct camera_sensor_platform_data *
+@@ -1236,19 +1202,6 @@ gmin_camera_platform_data(struct v4l2_subdev *subdev,
  }
+ EXPORT_SYMBOL_GPL(gmin_camera_platform_data);
+ 
+-int atomisp_gmin_register_vcm_control(struct camera_vcm_control *vcmCtrl)
+-{
+-	if (!vcmCtrl)
+-		return -EINVAL;
+-
+-	mutex_lock(&vcm_lock);
+-	list_add_tail(&vcmCtrl->list, &vcm_devices);
+-	mutex_unlock(&vcm_lock);
+-
+-	return 0;
+-}
+-EXPORT_SYMBOL_GPL(atomisp_gmin_register_vcm_control);
+-
+ static int gmin_get_hardcoded_var(struct device *dev,
+ 				  struct gmin_cfg_var *varlist,
+ 				  const char *var8, char *out, size_t *out_len)
 -- 
 2.44.0
 
