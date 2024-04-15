@@ -1,57 +1,57 @@
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C77115FA92
-	for <linux-staging@lists.linux.dev>; Mon, 15 Apr 2024 19:34:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0757B15FA66
+	for <linux-staging@lists.linux.dev>; Mon, 15 Apr 2024 19:34:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713209696; cv=none; b=s1CDgEwVNG1xWXcx9WH2rfRq3MiJbfu26Jvej3uKEEpNYq5c8gDzXX/thH8uGZ4W7S79IwAiLsLOc+eRd814pVl8T7gwkIAz6ZMdm7aXWMFQe+bfr6hMuIbFe9zzxON52EJ8mXpO+eJ86kqeMa6rPEgfSzIWGx53mhFD3RpGFZM=
+	t=1713209700; cv=none; b=hmUSjWG8ck99Q//lTyqoAGsq6J2pBZ1At1BZxO0l6We8VVHIYRrCA4aaWa8UgJUedXEG2yoKtyXEnOTUT+9mmX6VhZVqzWIEGnbyFDFm5xph2j4j628V804BOllAknlZ2oR09luXQ32ZAznQACGT7m+BDp9tMDI812XI/TgtFyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713209696; c=relaxed/simple;
-	bh=qucjJRatI3PfJXMFAbwTvimzuU4TaNNx4LV+bRg/m9Q=;
+	s=arc-20240116; t=1713209700; c=relaxed/simple;
+	bh=MeqIMsotIT3P9woLHFJMFBDW8LpTmviMFwTz7YYEGwo=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=q7WjWiKcPoAvTv0FcmIV06b6n+592TN4HUsc+kUHWJceBIgKe/130Va4RIbE2cROeu5OTtxGlOXqHNERHa4MVFNC0iuGBvudkSXjz/D6xo4MJlozOUmD8t6yq08Pf8hPKKm0+f6mfjoPXG1bD8YQn+l1c8ZfE+IfsQ0K72+01Hs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=YTj5js3+; arc=none smtp.client-ip=209.85.222.181
+	 In-Reply-To:To:Cc; b=u5YG0bAjBXBLgOB5RofSeQ03feJg9jZJYecD/u9kW52YXmHTgpy4y+NaRf8pP0Y4QEvA4e57dVC7bZp+0aGTL1CpSpgSGY2ZdLZ7KNWw90w738DMgT6ZALeNqE8eU/kMSzK2hwvHxoOucv7xujWSV3ojly+zkVtWCnF5V94HfMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=W08paxUe; arc=none smtp.client-ip=209.85.210.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="YTj5js3+"
-Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-78d5b1a34fdso245487185a.2
-        for <linux-staging@lists.linux.dev>; Mon, 15 Apr 2024 12:34:54 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="W08paxUe"
+Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-6e0f43074edso2568651a34.1
+        for <linux-staging@lists.linux.dev>; Mon, 15 Apr 2024 12:34:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1713209693; x=1713814493; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1713209695; x=1713814495; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=/qWsKtiTtM68cPujZgkDbgLJScEQ/KU6IejvF8XzFy8=;
-        b=YTj5js3+XIidDd0k+EFVqy4KZXmJGB9E/hzdXDRp+cN7HRUAVSZQhEul77Bh77nWNd
-         7j3kys4685KXFv1rbQwSI/tQCfHh1gQfljfHU5uLEld/Iks9+f5u7mD09EfdUKZOIgN1
-         YccEPmEvX8xmbUW1cX09xCRYxJq2nKUhIwEc4=
+        bh=QeRLp7zsOtUSdDFmgCUblI9njYJR1iKxSTZ/4ILbF+w=;
+        b=W08paxUeiGVHpPV6z15Ue7VxvZ7P7pOCObe6p3tPzlPv+Wi6mTJT/oL0iZHEPBc3eP
+         98zXkQ4OCEqICjzK0fbl5wnICIFKQuh4fTz6vMgYMARCgpHYTII3OzPSO5c+elG1jaOI
+         JyoczGMbvdcWRJmDuw+h5nO7o3LpRHlSGs6lM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713209693; x=1713814493;
+        d=1e100.net; s=20230601; t=1713209695; x=1713814495;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/qWsKtiTtM68cPujZgkDbgLJScEQ/KU6IejvF8XzFy8=;
-        b=h5shz7/QMEQoyTvDyx+f0C/31oQH9wFAOQ2/1jmwWIVZmotDtRRbEuNeLQyOd42UIV
-         wOQy5l15tTd+i2XlIdVvoh8sGYyK8Pt/UscdSooP8CK2Cz+r76VNr4gC19Azn8LvgEE6
-         1Tx3oINHZ4utSafFdFhbGlZO46xNqTG0tS4sNt4o3m8xfFtME8kiI72bOyPjVDbQgv8C
-         6CrVNaplQ+Jn9TyEmBkGAulFjnJVU03cbW00AHP0zrZlMy/PGgxEMQuPczM1hnULP8fd
-         6DVQwWvgLj0MBFxE7hZplCXdCqrxL+GU7S++ev3wOLQi0pS4NMktl6UH3t5sLugh/Y7f
-         qCYw==
-X-Forwarded-Encrypted: i=1; AJvYcCU9EnzyKihoJg1uD3zFVZy7RBFLAZgZQndMX/HFz917YOWDSR090vPJhwK+DUuWROaf4vSqL42zL+H7hUn2nnuy6VYTimwye2KAW00JNw==
-X-Gm-Message-State: AOJu0YygtswRYBFG0yyQLgRXp7G8ZtZ76QMHhTl2Zw8xA/QDjrkuut9x
-	afHYjyjkets6255sK35bECZTsNDAmLV9VAeeQcRWHXO0Z5RA0fk2tMxXYDWAkw==
-X-Google-Smtp-Source: AGHT+IE7tE6n2LOOWlxUIvgFNmo/Vr0dYpoxwwqjlaXwS/vDwhHd4c5esyFK2/v/y9hDaMP9p/kqqQ==
-X-Received: by 2002:a05:620a:410a:b0:78e:f439:64ee with SMTP id j10-20020a05620a410a00b0078ef43964eemr19862qko.72.1713209693277;
-        Mon, 15 Apr 2024 12:34:53 -0700 (PDT)
+        bh=QeRLp7zsOtUSdDFmgCUblI9njYJR1iKxSTZ/4ILbF+w=;
+        b=PsaelBjDDr3YFseLPpjzkXXBclJQijzf1YK3tuqACpsb1iGgOg5Hf9e0sqNxLLEP7X
+         W4YUolwTpC8CghTmoY+DgP486x9wy12FCrABJO75tv862wJWbpNH00bELXmJxEn5JWKa
+         RkUaumbVThUc61mmYzJR3Ux7kZ2uFovEi6EHZzZ+z7M20UqDEdBMmdhEAICnAQ6EBGDz
+         i5EzDNDUyXQswM+iwLtlnCw/U42yHuMdRKRqiLhs63gYjF+5H7ZnGzt+OBAjCYYL5qwk
+         TVUWQXpP3YfJAWG9ywulBCoro5MflPEPmyDH80GvbamEk/Pn+FmV/QcfAuy8hzsnOAdA
+         Jcxg==
+X-Forwarded-Encrypted: i=1; AJvYcCVWWYQBxOmKawyvriS7YMEzxtVnhJheH8VZW5IGSZgZ2Wgr1ErviYj5EcriHoknMzIZFQR3ANs1cYJskBRUIM/EPRHN3sAAm/o0XVnZRQ==
+X-Gm-Message-State: AOJu0YxkNHHx68BpLUet1UmGRxjp/lZWc3x7nPbHGsAryUBJuwIsG4bt
+	BnJd8FLfqwmP8cixVCELljLffpbZMiWuTto7FSpSfbxoM+cRDakqUAc3bw6o6w==
+X-Google-Smtp-Source: AGHT+IFsqXR5fSRZnzm1Kf6aaPblaNqmPYRQpJrXNEFCJBpTElAi4AncAaUAPBA9CFnD3PK/w6M+nA==
+X-Received: by 2002:a9d:748b:0:b0:6eb:7d1c:f793 with SMTP id t11-20020a9d748b000000b006eb7d1cf793mr4227322otk.31.1713209695186;
+        Mon, 15 Apr 2024 12:34:55 -0700 (PDT)
 Received: from denia.c.googlers.com (114.152.245.35.bc.googleusercontent.com. [35.245.152.114])
-        by smtp.gmail.com with ESMTPSA id s26-20020ae9f71a000000b0078d3b54eb76sm6718055qkg.78.2024.04.15.12.34.52
+        by smtp.gmail.com with ESMTPSA id s26-20020ae9f71a000000b0078d3b54eb76sm6718055qkg.78.2024.04.15.12.34.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Apr 2024 12:34:52 -0700 (PDT)
+        Mon, 15 Apr 2024 12:34:54 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 15 Apr 2024 19:34:39 +0000
-Subject: [PATCH 22/35] media: i2c: st-mipid02: Use the correct div function
+Date: Mon, 15 Apr 2024 19:34:41 +0000
+Subject: [PATCH 24/35] media: tc358746: Use the correct div_ function
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -60,7 +60,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240415-fix-cocci-v1-22-477afb23728b@chromium.org>
+Message-Id: <20240415-fix-cocci-v1-24-477afb23728b@chromium.org>
 References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
 In-Reply-To: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
 To: Martin Tuma <martin.tuma@digiteqautomotive.com>, 
@@ -106,29 +106,30 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.12.4
 
-link_freq does not fit in 32 bits.
+fin does not fit in 32 bits in some arches.
 
 Found by cocci:
-drivers/media/i2c/st-mipid02.c:329:1-7: WARNING: do_div() does a 64-by-32 division, please consider using div64_s64 instead.
+drivers/media/i2c/tc358746.c:847:2-8: WARNING: do_div() does a 64-by-32 division, please consider using div64_ul instead.
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/i2c/st-mipid02.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/i2c/tc358746.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/media/i2c/st-mipid02.c b/drivers/media/i2c/st-mipid02.c
-index f250640729ca..93a40bfda1af 100644
---- a/drivers/media/i2c/st-mipid02.c
-+++ b/drivers/media/i2c/st-mipid02.c
-@@ -326,7 +326,7 @@ static int mipid02_configure_from_rx_speed(struct mipid02_dev *bridge,
- 	}
+diff --git a/drivers/media/i2c/tc358746.c b/drivers/media/i2c/tc358746.c
+index d676adc4401b..edf79107adc5 100644
+--- a/drivers/media/i2c/tc358746.c
++++ b/drivers/media/i2c/tc358746.c
+@@ -844,8 +844,7 @@ static unsigned long tc358746_find_pll_settings(struct tc358746 *tc358746,
+ 			continue;
  
- 	dev_dbg(&client->dev, "detect link_freq = %lld Hz", link_freq);
--	do_div(ui_4, link_freq);
-+	ui_4 = div64_s64(ui_4, link_freq);
- 	bridge->r.clk_lane_reg1 |= ui_4 << 2;
+ 		tmp = fout * postdiv;
+-		do_div(tmp, fin);
+-		mul = tmp;
++		mul = div64_ul(tmp, fin);
+ 		if (mul > 511)
+ 			continue;
  
- 	return 0;
 
 -- 
 2.44.0.683.g7961c838ac-goog
