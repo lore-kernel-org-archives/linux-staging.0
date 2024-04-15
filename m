@@ -1,58 +1,57 @@
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 359BB168AFC
-	for <linux-staging@lists.linux.dev>; Mon, 15 Apr 2024 19:35:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C932168B16
+	for <linux-staging@lists.linux.dev>; Mon, 15 Apr 2024 19:35:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713209711; cv=none; b=sltsOO9p/sSmnWYAQhQnArBUyo8e6Vy7hRvqSehn+FAQLuykSWW45C6jp1Ydb4ZByV0YBfoJo6ikHhAuP+L/Hl/2kqFJSI54TKzSKKmkIKbl/rdD0OrN48402anfjr8cqVhqOoPEAC0/cRsFG7OeGPC4hnMO9btcWB/Nv8Qyas0=
+	t=1713209711; cv=none; b=dJsY6wWKYZask6OzcSoVcA8vc7xu+GZ6f13bNzrLwOA74hqDrvF/KmkNjBx5S2IReeL0yL09pZ8XGeiVuimJcx1txYJsRREenCy0p9DyQV3ww1Yi/VHivI8q6i6RxBYMlcbEn6e59adb3xkyUgROMbBCmb/ZHpjjnvoVGH1+w5Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1713209711; c=relaxed/simple;
-	bh=h0c4cQBYAKG+eCRXK2bSjQ0k2ogfrTqHDn/vqghdbGk=;
+	bh=YppEHZnTLQzLGD2f5s7SR2AaXE+KWzBq1dtSVEVCatk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=WJNd1zKH5TWFzw9lq2/iBCTFQxU9GHWxx2jeI9mIZBwcj4MJTQznjGBZleOH4VDTM5ZvhO6gP7OXp3Nz/z4EHImUmazI47zTKJRYkL7bID4SaCMA4JrwgfCB/SfQrl5xKcjsQpu5twqRLQDtijuUZdoI8Gh0dULLgzqONlglAOE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=VDRVUQZW; arc=none smtp.client-ip=209.85.222.171
+	 In-Reply-To:To:Cc; b=OiyN/aNUzVE8twyU9mhaSbKJ9hhWYQq3x3OZUWCJgE5ukqygWCrs3PUJ3lF5jAchaky2DrpqCt1g4Ckqco+wTu0qFaOW0pdtHN9HoSh6pDjgWLWvtTE0EFvhAcqeDJGRPXj8+XG6fLtp4BaqEbLzKJGVmDPK0MDeVIrLVx5IwcU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ROBah5Hr; arc=none smtp.client-ip=209.85.222.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="VDRVUQZW"
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-78edc49861aso135692885a.3
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ROBah5Hr"
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-78d61a6229bso247240485a.0
         for <linux-staging@lists.linux.dev>; Mon, 15 Apr 2024 12:35:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1713209706; x=1713814506; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1713209707; x=1713814507; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=deJ10dD0+0Xsb8NjdDYAyKNbuwQhOs8Vh4XFupDcv7A=;
-        b=VDRVUQZWOJJaW4Rbx3YCU4+wQtSXJV8Gb4eIq1Xr3JOP3/8bkczvmM1tLYKGQjM+iV
-         NyP4pysDOqJ2ptexGyk92vIg2rUJSENiYIlF8WlKnbMACvf34jFoep7Q2cGLXEAHehDX
-         e8uvAl+yQ1TGcQOqB5n6yP1i7OWWnc6wvVe6o=
+        bh=+lJf0+XIBDdSVuJAMeJcbyaAa+r8UncIi6K0ZFQWngw=;
+        b=ROBah5HrPs+6iUK96vTl+3n74WFHWQfSOR890inMvGu/0QKXiIS3nTGoyZg3WaVwSx
+         l1EPXZEZORd0LhsTA4Tu9A3SxgDC/WFwvYdxtjo/KX/DXm8ZVDXOyZrL576rVlKRwS0y
+         mjDDb3+LjxKyCSnQ2b2BYGPI1Mv1AfXG4dEow=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713209706; x=1713814506;
+        d=1e100.net; s=20230601; t=1713209707; x=1713814507;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=deJ10dD0+0Xsb8NjdDYAyKNbuwQhOs8Vh4XFupDcv7A=;
-        b=epUdWtr/h9KxQWOE/n5THt/eXIPtQdJXPFDnuDhnr/8zUG0PY85adhDrp1Tq4752VR
-         q6GwdkybKp2sjYNAxP3d5q94o4qclTpBUOE3iY8hhbC1/qnMMn4fVi87yEJg+A198D/G
-         ImG/XntFAIPzOJn7uW72mXfgmMpYH2uDH7iUOdldPXdHYGJAmhXvaonacmVP2s13+92c
-         zfTgXaTKJcDTiEzg5C3y1W3GkhZgbzco5e0BORdFVfCY6pNiod1BkT5jQ6YhzIN7d+BH
-         9QuLuH8TcLS24cg4Q2gOPx7O8ItjtLkiKUI4KMGb88jZj0LiKj1CbKJpLwwHHglXcPbh
-         KDDQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXCcbpo2t1GyJckZDTUcj1EtDthpyrZpZxQDYgkpUBhQ2cT0cRBQksZDtnnZycmXcWmO2sQp/LvOSGBFTWZ9HbSAzBUTvPesBOEm3F9FQ==
-X-Gm-Message-State: AOJu0Yw5cOsum1q27CHEqeIoaVD51uINvfFQ6HVm1hpjsRMcyXfxprbN
-	Dvmj/0zrFPfccp+odbqA0YFGCo8RaZsnla24vIKH26ctk6GUNo/OQRKR038v/0D6dFp73+7MuYh
-	VHA==
-X-Google-Smtp-Source: AGHT+IER1oNXbfvuBYkiNGhDuuE0aNBQlaGZ+2a+oyzSSefdjaOmTqtivonyQ4TeCmkM1b+mS1nfvQ==
-X-Received: by 2002:a05:620a:29d1:b0:78e:ef0a:387d with SMTP id s17-20020a05620a29d100b0078eef0a387dmr2507242qkp.56.1713209706006;
-        Mon, 15 Apr 2024 12:35:06 -0700 (PDT)
+        bh=+lJf0+XIBDdSVuJAMeJcbyaAa+r8UncIi6K0ZFQWngw=;
+        b=ELpmAOgPB+SrXpNDzWusek7HOo9oB1MwqP/2P9oe+l7S55Q5pVsiEC0cnfR5FQ0a1k
+         rgcnIYZK+ICYN3g2ToSd+CUZ95VXgOK3zPbQJsJKbzXLVFFHRgWzM1B0oxj+3MsADAug
+         I9/1+fucs3xh4pQEnYqyJDsP/vnWmZGYhLtb1HcZ7IzEWjEcnkS0AioNzIcmumbPbwjN
+         S/bKcbBoB1TZ4h8sBrf4UcqSYA2k006zyItemJOw2cl8NgCa/cHpi0vzmK2irb6eyRm3
+         ycwH9RhS8zDsxWn32Zb8Kr2tZaxDSR2Gg96s96wV8eP9xYcw/KUkeq+aBwKs3/WJhMjM
+         RyAQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU7i1LbEzpPcx9mTbW7HXZlxJpT9GAw+doyiKtBuxSVtbyyre1Js+Ta77pEjGoRSg8z1EE4T8WqWR3I9wGCcMsmwpSE+/pnGyNV6hLhIA==
+X-Gm-Message-State: AOJu0YwZY3ndteia95TgAibyDTw3zQ5QXg/nFSLSK+mdw0f6anxAbrlF
+	ZmVXSW6tH1miX1FsHOmoTJJ1+Nm2ghkdk7EEC1R6erqDOY0xCbrfyNeHgkMQ8A==
+X-Google-Smtp-Source: AGHT+IHZ1e+rN5kElZ/+CBGmltPllmsoOBrN7bu5f4/61aiFTpQ8yq022XA0QecM/v+OB1heBU4SXQ==
+X-Received: by 2002:a05:620a:400a:b0:78e:ca18:4093 with SMTP id h10-20020a05620a400a00b0078eca184093mr13235627qko.60.1713209707046;
+        Mon, 15 Apr 2024 12:35:07 -0700 (PDT)
 Received: from denia.c.googlers.com (114.152.245.35.bc.googleusercontent.com. [35.245.152.114])
-        by smtp.gmail.com with ESMTPSA id s26-20020ae9f71a000000b0078d3b54eb76sm6718055qkg.78.2024.04.15.12.35.05
+        by smtp.gmail.com with ESMTPSA id s26-20020ae9f71a000000b0078d3b54eb76sm6718055qkg.78.2024.04.15.12.35.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Apr 2024 12:35:05 -0700 (PDT)
+        Mon, 15 Apr 2024 12:35:06 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 15 Apr 2024 19:34:51 +0000
-Subject: [PATCH 34/35] media: hdpvr: Refator return path
+Date: Mon, 15 Apr 2024 19:34:52 +0000
+Subject: [PATCH 35/35] media: venus: Refator return path
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -61,7 +60,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240415-fix-cocci-v1-34-477afb23728b@chromium.org>
+Message-Id: <20240415-fix-cocci-v1-35-477afb23728b@chromium.org>
 References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
 In-Reply-To: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
 To: Martin Tuma <martin.tuma@digiteqautomotive.com>, 
@@ -110,20 +109,22 @@ X-Mailer: b4 0.12.4
 This is a nop, but let cocci now that this is not a good candidate for
 min()
 
-drivers/media/usb/hdpvr/hdpvr-control.c:41:12-13: WARNING opportunity for min()
+drivers/media/platform/qcom/venus/venc.c:611:12-13: WARNING opportunity for min()
+drivers/media/platform/qcom/venus/venc.c:651:12-13: WARNING opportunity for min()
+drivers/media/platform/qcom/venus/venc.c:629:12-13: WARNING opportunity for min()
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/usb/hdpvr/hdpvr-control.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/media/platform/qcom/venus/venc.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/usb/hdpvr/hdpvr-control.c b/drivers/media/usb/hdpvr/hdpvr-control.c
-index 37c53ab85b30..a1bb0231540c 100644
---- a/drivers/media/usb/hdpvr/hdpvr-control.c
-+++ b/drivers/media/usb/hdpvr/hdpvr-control.c
-@@ -38,7 +38,9 @@ int hdpvr_config_call(struct hdpvr_device *dev, uint value, u8 valbuf)
- 		 "config call request for value 0x%x returned %d\n", value,
- 		 ret);
+diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
+index de06e1712d09..285bc1b4d888 100644
+--- a/drivers/media/platform/qcom/venus/venc.c
++++ b/drivers/media/platform/qcom/venus/venc.c
+@@ -608,7 +608,9 @@ static int venc_pm_get(struct venus_inst *inst)
+ 	ret = pm_runtime_resume_and_get(dev);
+ 	mutex_unlock(&core->pm_lock);
  
 -	return ret < 0 ? ret : 0;
 +	if (ret < 0)
@@ -131,7 +132,29 @@ index 37c53ab85b30..a1bb0231540c 100644
 +	return 0;
  }
  
- int get_video_info(struct hdpvr_device *dev, struct hdpvr_video_info *vidinf)
+ static int venc_pm_put(struct venus_inst *inst, bool autosuspend)
+@@ -626,7 +628,9 @@ static int venc_pm_put(struct venus_inst *inst, bool autosuspend)
+ 
+ 	mutex_unlock(&core->pm_lock);
+ 
+-	return ret < 0 ? ret : 0;
++	if (ret < 0)
++		return ret;
++	return 0;
+ }
+ 
+ static int venc_pm_get_put(struct venus_inst *inst)
+@@ -648,7 +652,9 @@ static int venc_pm_get_put(struct venus_inst *inst)
+ error:
+ 	mutex_unlock(&core->pm_lock);
+ 
+-	return ret < 0 ? ret : 0;
++	if (ret < 0)
++		return ret;
++	return 0;
+ }
+ 
+ static void venc_pm_touch(struct venus_inst *inst)
 
 -- 
 2.44.0.683.g7961c838ac-goog
