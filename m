@@ -1,89 +1,146 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4FBB74E25
-	for <linux-staging@lists.linux.dev>; Mon, 15 Apr 2024 14:59:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72214823B5
+	for <linux-staging@lists.linux.dev>; Mon, 15 Apr 2024 17:12:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713193148; cv=none; b=U/besvIkCu7pWov+PyQa3HHIO7t0caBkswTNAgJJxR/aE6siO3keXx5is7GthiAaW2YZJs+5p7EkXhTNX2Jjw6mwiSVuC3ER1+fSKvugcVmcFG8aDr5Wfs8c7cMIhd/ceZofh6QZ3QvZbugOqQWuphLDPA86r6FeNh33tPKz7EE=
+	t=1713201135; cv=none; b=Fjt2ne9nTpL1MTa7lhPGi0+29IPYWpvnWA2jH6iFVNGifTO4iaURjfh0M4d59tObhzabfnCmQXdmITILlj+gBqMf+4nJamBUK78XOqFRMrUPF9DgDQK8/4xn43IoSoQC2216KgyG/4Ld4UOURbJrZKC3SLr/gGl77S9jE0V1NeQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713193148; c=relaxed/simple;
-	bh=9BEfL0/R2EKlaqpP1DN0nA6JucN40DYPWmMjubPPF/s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TFsztq9zFunwOyMzFxJ0hpzlGEYHdOsp6CvadZqp7bJgCkl0+Ree9i+TbgX8n5/82FcEoN/1jAkm9iFvq5f4ClQL5DxHmDu9p3fQV2eQiUatAiuqkx5pTBOhZhtfuELoQ5+0LQlDRZQXhtxsJgBMkkGXyEV3RVFhsiXZnUoJs+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=fail smtp.mailfrom=kernel.org; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=kernel.org
-X-CSE-ConnectionGUID: X8t00qD3TvKNA4wqgR6mrw==
-X-CSE-MsgGUID: o1TfhesGQfyBJwSAIMpHug==
-X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="26045005"
-X-IronPort-AV: E=Sophos;i="6.07,203,1708416000"; 
-   d="scan'208";a="26045005"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 07:58:53 -0700
-X-CSE-ConnectionGUID: lTm7UWagS7+q1masA5MenA==
-X-CSE-MsgGUID: 8PneIB4JRzSwfOCRpssCKw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,203,1708416000"; 
-   d="scan'208";a="22035635"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 07:58:50 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
-	(envelope-from <andy@kernel.org>)
-	id 1rwNnD-00000004RHa-3GtP;
-	Mon, 15 Apr 2024 17:58:47 +0300
-Date: Mon, 15 Apr 2024 17:58:47 +0300
-From: Andy Shevchenko <andy@kernel.org>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Kate Hsuan <hpa@redhat.com>, Tsuchiya Yuto <kitakar@gmail.com>,
-	Fabio Aiuto <fabioaiuto83@gmail.com>, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH 00/23] media: atomisp: Further media-controller related
- fixes + dead code removal
-Message-ID: <Zh1Ap3Zqp2Lj9xww@smile.fi.intel.com>
-References: <20240415120220.219480-1-hdegoede@redhat.com>
+	s=arc-20240116; t=1713201135; c=relaxed/simple;
+	bh=r+GwkVwnqEAEA+xTUwJ+9bNmEWwrcN4rCWKgahGYD9U=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=HzO8/qaq/bTRf1uYaWmtY2s7GuYB3l+DViY5q2wtd/ExF0xxLQEz0+hNwC/u8aVX5FTEX24Sq14Grg8aiT+d+6DItqTsoGzw9vF8zHX40NZ+Ygg5qQXwKpgUuG4Vnr2Hc5dLPNkIPh7le/CA7eXYV0gqZarBB2HLX2OGYnIE5Zc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UJ2Tn3gT; arc=none smtp.client-ip=209.85.210.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UJ2Tn3gT"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-6ed691fb83eso2833031b3a.1
+        for <linux-staging@lists.linux.dev>; Mon, 15 Apr 2024 10:12:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1713201134; x=1713805934; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=CvwdBBuZlWCCCSofEdCkvt7eAMHgf9aarWbclnob5NQ=;
+        b=UJ2Tn3gTM6qY2ryl/kjv46y+xE/AVUgQPxCN6QnHQiifrfmJgVm61UR23GqucdQTy8
+         k/4XfafZXma24yycOAjnFMpN6URGMM0nEFQHLQru6+QOs10NpmjIYh/pihpKGzLVoKzh
+         HS+xUtabGi1FNNR0CjqK0/D3GA5A8Ma6KkVrEnE3NwrmeVzb18L5LcMZym5Avk9YOeJN
+         q+mJ7mzl/ySYdCkOHHAKaKJ7rwFnOwRVyVfdt5LdeH9iSt4kc6uliiIQ7BueS2DYJ+gD
+         1qKfKY7nrT62fNydyw9lZQ06LjaptumZ2iucVP5stwAZQWuv5w8htQ5RKS4UDZdYWwHS
+         upwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713201134; x=1713805934;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CvwdBBuZlWCCCSofEdCkvt7eAMHgf9aarWbclnob5NQ=;
+        b=XR/SW7MuhubDUFz8+Exwet4mjleS2aEH2ODGLgimPxR3uWQBA5iUvvu+QauIhz4HyE
+         lKHU5mR2hoC1o30MejpqXnmel5Ftj3TrmMPp1vCms+3QAnGCPBrP7R51kYWKbBwckcd4
+         VYlsZgd2KriQNBpoe+XV53xLRJz+ymcRvNT1BUEZOBMbf2o5ycQl8yyB7gbj3sA/oQw3
+         12mDBOOKX0koIj/jbeSPLWs8bcj15JvJeSilyd6LL0o3CD9OYQdVon8FuERTjXbGIF3b
+         HbUIw3ZpX0Bj8uhw3Uq3LrAl1Y+NLi92PpiTKNVu3pRfLbv7enjqdgJ9Z9Bup8MhQ6R1
+         z3Cw==
+X-Forwarded-Encrypted: i=1; AJvYcCVNzMyX61N7Sp5PuYCX+ri6EgxGGk0NcjNiUojlb1nmZWViBvc9hDAnznP+eknuSvaXv9fuBprk3i5wYdgGIBQ+qUFXTVd1YMloNd1qUQ==
+X-Gm-Message-State: AOJu0Yzlqf/9dYCRQ86aOk/TPoJYgxHY7EA+yd1+qBCDL4OZ3z79s6sZ
+	kXMY8lhD2jJUd1j814F+b0Q1ic1pRcQnyWEuebjrwmpk1fieUTTj
+X-Google-Smtp-Source: AGHT+IE7IZU2/0040JDE8A9eO4n2gqnQpnPo+QJy1LEsOG5qn+YdoFSORy+XVRZed49zlffpB7jPnA==
+X-Received: by 2002:a05:6a21:3707:b0:1a9:5e63:501b with SMTP id yl7-20020a056a21370700b001a95e63501bmr7294111pzb.44.1713201133804;
+        Mon, 15 Apr 2024 10:12:13 -0700 (PDT)
+Received: from localhost.localdomain ([2401:4900:1cb8:5ab4:cff:f60:1176:9dd3])
+        by smtp.gmail.com with ESMTPSA id v11-20020a63150b000000b005f769b41a58sm376599pgl.4.2024.04.15.10.12.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Apr 2024 10:12:12 -0700 (PDT)
+From: Sumadhura Kalyan <opensourcecond@gmail.com>
+To: florian.fainelli@broadcom.com,
+	bcm-kernel-feedback-list@broadcom.com,
+	gregkh@linuxfoundation.org
+Cc: linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Sumadhura Kalyan <opensourcecond@gmail.com>
+Subject: [PATCH V4] staging: vc04_services: Re-align function parameters
+Date: Mon, 15 Apr 2024 22:41:38 +0530
+Message-Id: <20240415171138.5849-1-opensourcecond@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240415120220.219480-1-hdegoede@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Mon, Apr 15, 2024 at 02:01:57PM +0200, Hans de Goede wrote:
-> Hi all,
-> 
-> This patch-set contains a couple of atomisp driver fixes for issues which
-> I found while working on a libcamera pipeline handler for the atomisp
-> (and thus controlling the atomisp driver in a more media-controller centric
-> fashion).
-> 
-> Patches 1-8 are more or less prep work for fixing an ABBA deadlock in
-> atomisp_link_setup() in patch 9.
-> 
-> Diving into the code for this made my hands itch to remove of bunch of
-> atomisp custom internal APIs for things like flash support, so the rest
-> of the series is just removing a whole bunch of dead / unwanted code.
-> 
-> This series is also available here:
-> https://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git/log/?h=media-atomisp
-> 
-> I'll do a forced push there addressing any review-comments + adding
-> tags before adding a signed-tag for a pull-request to Mauro for this.
+Checkpatch complains that:
 
-Thank you for doing this nice cleanup!
+CHECK: Lines should not end with a '('
++typedef void (*vchiq_mmal_buffer_cb)(
 
-For non-commented,
-Reviewed-by: Andy Shevchenko <andy@kernel.org>
-otherwise feel free to add it, if you agree on the suggested improvements.
+Re-align the function parameters to make checkpatch happy.
 
+Signed-off-by: Sumadhura Kalyan <opensourcecond@gmail.com>
+---
+v3 -> v4: Repharse the subject line.
+
+ .../vc04_services/vchiq-mmal/mmal-vchiq.h     | 29 +++++++------------
+ 1 file changed, 11 insertions(+), 18 deletions(-)
+
+diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h
+index 09f030919d4e..98909fde978e 100644
+--- a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h
++++ b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h
+@@ -42,8 +42,7 @@ struct vchiq_mmal_port_buffer {
+ 
+ struct vchiq_mmal_port;
+ 
+-typedef void (*vchiq_mmal_buffer_cb)(
+-		struct vchiq_mmal_instance  *instance,
++typedef void (*vchiq_mmal_buffer_cb)(struct vchiq_mmal_instance  *instance,
+ 		struct vchiq_mmal_port *port,
+ 		int status, struct mmal_buffer *buffer);
+ 
+@@ -101,31 +100,25 @@ int vchiq_mmal_finalise(struct vchiq_mmal_instance *instance);
+ /* Initialise a mmal component and its ports
+  *
+  */
+-int vchiq_mmal_component_init(
+-		struct vchiq_mmal_instance *instance,
+-		const char *name,
+-		struct vchiq_mmal_component **component_out);
++int vchiq_mmal_component_init(struct vchiq_mmal_instance *instance,
++			      const char *name, struct vchiq_mmal_component **component_out);
+ 
+-int vchiq_mmal_component_finalise(
+-		struct vchiq_mmal_instance *instance,
+-		struct vchiq_mmal_component *component);
++int vchiq_mmal_component_finalise(struct vchiq_mmal_instance *instance,
++				  struct vchiq_mmal_component *component);
+ 
+-int vchiq_mmal_component_enable(
+-		struct vchiq_mmal_instance *instance,
+-		struct vchiq_mmal_component *component);
++int vchiq_mmal_component_enable(struct vchiq_mmal_instance *instance,
++				struct vchiq_mmal_component *component);
+ 
+-int vchiq_mmal_component_disable(
+-		struct vchiq_mmal_instance *instance,
+-		struct vchiq_mmal_component *component);
++int vchiq_mmal_component_disable(struct vchiq_mmal_instance *instance,
++				 struct vchiq_mmal_component *component);
+ 
+ /* enable a mmal port
+  *
+  * enables a port and if a buffer callback provided enque buffer
+  * headers as appropriate for the port.
+  */
+-int vchiq_mmal_port_enable(
+-		struct vchiq_mmal_instance *instance,
+-		struct vchiq_mmal_port *port,
++int vchiq_mmal_port_enable(struct vchiq_mmal_instance *instance,
++			   struct vchiq_mmal_port *port,
+ 		vchiq_mmal_buffer_cb buffer_cb);
+ 
+ /* disable a port
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.25.1
 
