@@ -1,58 +1,58 @@
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5397E15A4B9
-	for <linux-staging@lists.linux.dev>; Mon, 15 Apr 2024 19:34:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF48615AADA
+	for <linux-staging@lists.linux.dev>; Mon, 15 Apr 2024 19:34:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713209678; cv=none; b=kCVGU9YSxDVOnWCM3u+Mmev4NduS+jz99IsMkplMNKTy3f0xe025rmWu4Dsi6tryMYE5nhMQI+co9JwbDmh9ODH3x9KxguetlShTIVmLWPYjzsVj8KXBdywiDlcs+tJDG5FcawQ6JMCMsuQLCL7Qi4gTpGXRb0bo5Cw8+O4MA1M=
+	t=1713209679; cv=none; b=ZHd52DrEpUVuYR5Tuzd51EDKLfvsLMRQzQQLLprK89hV7HNul6+vSzKoPOl1AC5CBi7oEt2nzjIeBEMc74crTkE88Lpi5cM33vjKDCQ42eati+fztj3zspcpYC6Acsgms/9TjH3Y/4PJD92wtb9gfEKk5LNSH8gCBGkoAnHRyfQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713209678; c=relaxed/simple;
-	bh=Vt+H5ZpqsJCiF9cU1Vjk0O2CGGQ8VmqV+GtNWpgDBmE=;
+	s=arc-20240116; t=1713209679; c=relaxed/simple;
+	bh=NnOHj16PJj1bni+SNvuNVuvXN63e8NKQOBdaXLcKwbs=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=TT1kJ8/FQUsVn/TEHAoaTKYWNdXZqds0VH8oKHW24H6jUdwWfV739eTuEIl/ZL+YXyuAnh/ii4Fpy1LUM2KCPWJE27bJYCp5yiEdeTCDsbpgtoeY/OQfUMrbPV8AdjdbUirBtlmyuIE1tY1prRy0fOJ+rjRCQRLP0YwY0I5jpqI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=cRDbWDTb; arc=none smtp.client-ip=209.85.222.174
+	 In-Reply-To:To:Cc; b=cLhkm70NEnXJgc205Pc/+t2ZxOHoAP8KzomoAx92eIBZMLt1KnUMPXkiN7Ey5aqQ7nBZBIIVz54QfxRInXPLQVkRmbitmPuurMffv6g3wo7lWf8nin5bIdddMsXTmFwFNuC9Q/f0U6JPhOgVwziGMxQzjBZPb56hlRVKE98DIWM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ghNEKqwh; arc=none smtp.client-ip=209.85.222.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="cRDbWDTb"
-Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-78d555254b7so293823085a.1
-        for <linux-staging@lists.linux.dev>; Mon, 15 Apr 2024 12:34:36 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ghNEKqwh"
+Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-78d6021e2e3so286085185a.1
+        for <linux-staging@lists.linux.dev>; Mon, 15 Apr 2024 12:34:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1713209675; x=1713814475; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1713209677; x=1713814477; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ISUo+c+Z6d9jp43vDna7WArpy0Bh/pUYqJP92YgrR0w=;
-        b=cRDbWDTb1T7luV83vGJpQ0sx4mx48FpBd2A16fNZmORgb5IdQ54vtc6K5SmyWqDSiY
-         g+O2o/5/ttcd17hMnqo6NpHiu16msdPkzcwuCv3iSkXIy5euQNhr34ZYPoTGZ51gLrGi
-         2qjd5y1hcV+6rn5klQrF21vaK4kxenrnBwOr4=
+        bh=bek9HrODBg0M3bgnVqO/LKhPssOu/ibs61pEEfKBgdM=;
+        b=ghNEKqwhORb/mWaK2LYXMOPSxOQWESFJwA3+ELWzPNl0x+MD0gd+Iga6c28K27XWE+
+         wyI9W6foMGd6WA5DY8yumfOTu3+Y94p9+SgGUd567Ph5fbFrxpmQ4k3yM60TT9LnKw5p
+         6f807gcYs1GGO2uzO7MnnYr0GFWl7vNToP2vQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713209675; x=1713814475;
+        d=1e100.net; s=20230601; t=1713209677; x=1713814477;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ISUo+c+Z6d9jp43vDna7WArpy0Bh/pUYqJP92YgrR0w=;
-        b=OeFe7zSSatpDwhLaRaOcEOLFINrxICE68QztO9R/TQSfQ/MnRpW3b2DV7whg8nm68C
-         WOwrmB8ZEuPiA/jzpL6tuBotMkj8dON04BMm0XKE2MDgujGHahdDOQMevSlLsWAuvJ1h
-         gUvKBmQJbJLVNtmDuke2rg2T1LgwBwuLvwO7LJdWdsdTms5sB7tgG6lsg4YVUweg6lFp
-         GveDmtg3rF3buGCEGQJi0mRxgrrXjZ1mnuVTOkAjtn3n//IP4qZA0OUOFCFRVe9RtViq
-         POrFzK7VG6EZqCx6uDH8SyNE3PXEHVTR1cWm5Jv7tmrhiPZ6njRDVMI4mGLovwwBekno
-         u3HA==
-X-Forwarded-Encrypted: i=1; AJvYcCWfExySLVSRSqycbK+4YCVfUMBV2ac0uiqSNTUTVbRCXMVubh3RByXUq06jRqJUy0qbEOnxQGVJh2sRZGHYp6L38jjI9iE/N0YboboDlQ==
-X-Gm-Message-State: AOJu0Yz44fawqQcryPeN/fjqh5R69dLR/8tvVIBV+lyLTLxmd99GeriD
-	dE+4AF1/eYxv7pNoPT2p9QJqEdquS6J7+hrBeu2b2nNcZlRzQINJCb8Xn1UsIw==
-X-Google-Smtp-Source: AGHT+IHNEVyzd3evramKoXF4voaYnhuPvr7ES/TUx15oMijuB+fT7oxPAB5JZ66ego178FVyftQu6Q==
-X-Received: by 2002:a05:620a:470f:b0:78d:3b55:21c8 with SMTP id bs15-20020a05620a470f00b0078d3b5521c8mr1321999qkb.24.1713209675268;
-        Mon, 15 Apr 2024 12:34:35 -0700 (PDT)
+        bh=bek9HrODBg0M3bgnVqO/LKhPssOu/ibs61pEEfKBgdM=;
+        b=iuyRgHejvZbgLSdMYCRnw6ACY/Ru3n6EE58+H7p0EDtJdSA64uzqwgkhQ8U5bzWrC3
+         JyQw9DRhjou0ZkKcgxT1BSSSYt1o9eRtI30alyinpNHBYKjKPfU3UEV+I2Z3n06hH6ji
+         hgkus/t7jtLWaVgoPEEKAYhwAxiLgZ3IegJoO/MxAH0eKIBh6Ke/8Dd3ZS/59nLfZE4E
+         idWMBNXgyzzRxrh2P39nXTbEYoOSZrwIdqkXWDzQoDfnbgGEixdK4X1Ao6NuonT3b1Gy
+         +pmeswTDuNHQZm1UFe3pOVfkT4ZE6Kw5uBly0CPnvc0O7iNER7hNxMMXk9byPCYB5UoQ
+         o97Q==
+X-Forwarded-Encrypted: i=1; AJvYcCV401FTXgAXlUUYOo9cJwhBaZxM5czpUz4w7hmgkdML/v3WhdLViQG+tIC32ptUda8CcP9SPHZ7LPqb1tEifSVEOIr5rl6iXyFvBxY8Dg==
+X-Gm-Message-State: AOJu0YyO3aeNDpi28W4XRjUNSkwfmgB2MidsNi/GkAe62ZekNETAV5ZL
+	r8lBgpRNa4jHsieu468FYnN5oL0gbR3b9VJpqsy3856+TYzMj22mvwC3Xo+V5A==
+X-Google-Smtp-Source: AGHT+IGdkApYbK4mkbCfGsE7agdP/ocKeSLQEP1wZl23ZOICtEnIFWB9MCiZP2rFcKrIOjZRFtHqpA==
+X-Received: by 2002:a05:620a:611a:b0:78e:e035:e898 with SMTP id oq26-20020a05620a611a00b0078ee035e898mr4919595qkn.75.1713209676753;
+        Mon, 15 Apr 2024 12:34:36 -0700 (PDT)
 Received: from denia.c.googlers.com (114.152.245.35.bc.googleusercontent.com. [35.245.152.114])
-        by smtp.gmail.com with ESMTPSA id s26-20020ae9f71a000000b0078d3b54eb76sm6718055qkg.78.2024.04.15.12.34.34
+        by smtp.gmail.com with ESMTPSA id s26-20020ae9f71a000000b0078d3b54eb76sm6718055qkg.78.2024.04.15.12.34.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Apr 2024 12:34:34 -0700 (PDT)
+        Mon, 15 Apr 2024 12:34:36 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 15 Apr 2024 19:34:25 +0000
-Subject: [PATCH 08/35] media: dvb-frontends: tda18271c2dd: Remove casting
- during div
+Date: Mon, 15 Apr 2024 19:34:26 +0000
+Subject: [PATCH 09/35] media: v4l: async: refactor
+ v4l2_async_create_ancillary_links
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -61,7 +61,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240415-fix-cocci-v1-8-477afb23728b@chromium.org>
+Message-Id: <20240415-fix-cocci-v1-9-477afb23728b@chromium.org>
 References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
 In-Reply-To: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
 To: Martin Tuma <martin.tuma@digiteqautomotive.com>, 
@@ -107,40 +107,46 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.12.4
 
-do_div() divides 64 bits by 32. We were adding a casting to the divider
-to 64 bits, for a number that fits perfectly in 32 bits. Remove it.
+Return 0 without checking IS_ERR or PTR_ERR if CONFIG_MEDIA_CONTROLLER
+is not enabled.
 
-Found by cocci:
-drivers/media/dvb-frontends/tda18271c2dd.c:355:1-7: WARNING: do_div() does a 64-by-32 division, please consider using div64_u64 instead.
-drivers/media/dvb-frontends/tda18271c2dd.c:331:1-7: WARNING: do_div() does a 64-by-32 division, please consider using div64_u64 instead.
+This makes cocci happier:
+
+drivers/media/v4l2-core/v4l2-async.c:331:23-30: ERROR: PTR_ERR applied after initialization to constant on line 319
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/dvb-frontends/tda18271c2dd.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/media/v4l2-core/v4l2-async.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/dvb-frontends/tda18271c2dd.c b/drivers/media/dvb-frontends/tda18271c2dd.c
-index a34834487943..fd928787207e 100644
---- a/drivers/media/dvb-frontends/tda18271c2dd.c
-+++ b/drivers/media/dvb-frontends/tda18271c2dd.c
-@@ -328,7 +328,7 @@ static int CalcMainPLL(struct tda_state *state, u32 freq)
+diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
+index 4bb073587817..e26a011c89c4 100644
+--- a/drivers/media/v4l2-core/v4l2-async.c
++++ b/drivers/media/v4l2-core/v4l2-async.c
+@@ -316,9 +316,8 @@ v4l2_async_nf_try_all_subdevs(struct v4l2_async_notifier *notifier);
+ static int v4l2_async_create_ancillary_links(struct v4l2_async_notifier *n,
+ 					     struct v4l2_subdev *sd)
+ {
+-	struct media_link *link = NULL;
+-
+ #if IS_ENABLED(CONFIG_MEDIA_CONTROLLER)
++	struct media_link *link;
  
- 	OscFreq = (u64) freq * (u64) Div;
- 	OscFreq *= (u64) 16384;
--	do_div(OscFreq, (u64)16000000);
-+	do_div(OscFreq, 16000000);
- 	MainDiv = OscFreq;
+ 	if (sd->entity.function != MEDIA_ENT_F_LENS &&
+ 	    sd->entity.function != MEDIA_ENT_F_FLASH)
+@@ -326,9 +325,10 @@ static int v4l2_async_create_ancillary_links(struct v4l2_async_notifier *n,
  
- 	state->m_Regs[MPD] = PostDiv & 0x77;
-@@ -352,7 +352,7 @@ static int CalcCalPLL(struct tda_state *state, u32 freq)
- 	OscFreq = (u64)freq * (u64)Div;
- 	/* CalDiv = u32( OscFreq * 16384 / 16000000 ); */
- 	OscFreq *= (u64)16384;
--	do_div(OscFreq, (u64)16000000);
-+	do_div(OscFreq, 16000000);
- 	CalDiv = OscFreq;
+ 	link = media_create_ancillary_link(&n->sd->entity, &sd->entity);
  
- 	state->m_Regs[CPD] = PostDiv;
+-#endif
+-
+ 	return IS_ERR(link) ? PTR_ERR(link) : 0;
++#else
++	return 0;
++#endif
+ }
+ 
+ static int v4l2_async_match_notify(struct v4l2_async_notifier *notifier,
 
 -- 
 2.44.0.683.g7961c838ac-goog
