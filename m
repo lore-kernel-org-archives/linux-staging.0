@@ -1,57 +1,57 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AAB37FBBA
-	for <linux-staging@lists.linux.dev>; Tue, 16 Apr 2024 07:37:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B4A484D11
+	for <linux-staging@lists.linux.dev>; Tue, 16 Apr 2024 07:44:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713253042; cv=none; b=Kw2m2IXTXwOO+0V7CZU+/spP3xGZPhGUb0z1xC9to8g/WUduwX1H4PC/jXY3eMsJD6qsLsqaQYrVukWnGjGCC76vb84MjA88M2IYZUSBG6HR5L4dyQWdmOOIPVz7KEZPrLVnBZyjYAlRCCYzlp6yeJX7Uib4Yx22PaPhFZdEzDI=
+	t=1713253472; cv=none; b=Fwm1aAVRGDKzYrrz456RuMY7ZGRI6gjV2eAoafWEalH9La1Igcq4icbIrPHiyTDg+dUX2t8BiIBtxQhiMpePfOFauS8kqmv9exTKBT5t2RhRlYGlsBC681aQDb5s0YPjzUmaEo7qxl6D/WQUrnvMaIoYQ7ma4zA/FJNnLTjg0Lk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713253042; c=relaxed/simple;
-	bh=BIpOJSTxOK0JfNqFwhleSJ0Efyt0sHPGszihSmkHs2A=;
+	s=arc-20240116; t=1713253472; c=relaxed/simple;
+	bh=y9gOE2zuKiIA3PVc9oPZQMxUqwvKVk8idGCEvr2B1w0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PXZUTydT7Q6GxiFrURjw0JSqC083Z9jMtiwXNDCSfV8B56bJtJV54gPs42xGAUJUUrXrXa3Vz+aAJoKeNCKNy16HqE/Grwd4EXqA1WmnJsDJBNqUn9Gqm+/vc+LZSawF9k1r1owf0yPdvn0SWhOe57Ivv+pvqE8UBTutGKwcQyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=r25GZqHH; arc=none smtp.client-ip=209.85.218.48
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZO7wFxFKbMf5BsbJ+qcxoptl2M2giFV1OEAMugGGSFauibwHXYtlcl+873+abq+TgtLZWG3M0fsHzcxgKNQJOeWPR7P5Ysr+oH5mIj4XvcLR7uipt99I2TYWatMmrvpnDSyQQGsxp2CQFg1UqwgQ01N1U9dFiP53QzXty9O3504=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=smC3k8Qn; arc=none smtp.client-ip=209.85.208.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="r25GZqHH"
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a44ad785a44so480029066b.3
-        for <linux-staging@lists.linux.dev>; Tue, 16 Apr 2024 00:37:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="smC3k8Qn"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-56e37503115so3192772a12.1
+        for <linux-staging@lists.linux.dev>; Tue, 16 Apr 2024 00:44:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1713253039; x=1713857839; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1713253468; x=1713858268; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Vz5EFUG61C/PsBsUPlDK2q+AUqaXZYNi38q3WlwiS3E=;
-        b=r25GZqHHKkL6ksedqiee0QtxEdZKyVyzOfUSmsfEwxoHiF83OlzAKG16uULoPYHWRJ
-         n2KyYfD8Pm/g1fenobVIpRUyeUAjBfnRDWMDOIhgtDNdHwSNTlYMY4GuHaizEFxMriP5
-         ogmCctatNQbix+ELgU8KsyxWbDhgBO96tO0rRv1qhT2ZROHckKkd/5+ZnlVl1AmmzRXw
-         E4rJTMARWFds9u30ESpMRwHx4HahtT8tEMNSUkRgMwhInG12pvXUwiZGLp93yPJnuaBh
-         Xd3GtftZXgtfNKBdgpFJifyr1X7SwX68/IPXRi+6tS2ZXRvlOveBnYtfR1lav4YoTaNF
-         1vOw==
+        bh=AkbPRxuJaFbf8hemSHK1ZWQRF0fsDq8QRKmW1NagRfM=;
+        b=smC3k8QnNaR9gNHM6fvKlktXLcYKjHw//+qo2wtLUoGv8kOp0jpaKBD1+liTw5fIQb
+         qTgceeMSzYKJuhuArCfyH0HnRY0lKMX4/v3dYtoOUPjHPIEUlX+oUd1UfFcCMnrppsFQ
+         SxOMjRE55vMlY/tgG0VR/4f+xlK9l1gbueDKNGDy1TuEBVaxWW+HKE0Nj353jIhgKmkF
+         ii4olDkil38aTDf7pS8cssZ3C1RtMfWetg08yktNfeUFrgy++JL/yLLT2RsmoUvC/X9i
+         NILWyEqdFD7waFB/hiNUohWw0amp1Ra9LVUKdY754FJbzMiN4Q+qsUtPY2iNDiZdv5eI
+         PpFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713253039; x=1713857839;
+        d=1e100.net; s=20230601; t=1713253468; x=1713858268;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Vz5EFUG61C/PsBsUPlDK2q+AUqaXZYNi38q3WlwiS3E=;
-        b=N/cIxfMZKXp1syy2IcLzl8xOP+pKGV6nkUQKrfdAqZDG1bG+2gmwfsmI6t0M1qUwB+
-         +MgpGLc2QBmeBquBHOBXlB6LpOOQhOLPcl7/LnqDw/Ov2DjDPLefnYrZ0BgYem0YLo1y
-         tXLFWXHCWZoV0KCXXxAIKRrVFKtjACg8mIoppymGk8xqAvVqIiJ5JSP054doFg9c+QFo
-         487GZ1Mt+kdsWPPP8r338Gp1rUVTnDXjW7Q/wlULnDLRpvB0tLNVP2KUI/0sKBXHDicr
-         ANT+GBexjaKNbb7iYaSPdvtgASZlNjusWM2m7xCSvhhEuYN+ptrCzqVOl2Iz7dknDYZ6
-         /Q+g==
-X-Forwarded-Encrypted: i=1; AJvYcCVBsnnrLRGtMeEB/x/xykNhKqKwReMAt0gRyqcrQTkkCI5KIhn43iAy1n+7StBc93ThlKlJV8yvPHpbMEF2IA0D9uchoPSODz8Jo6PFTQ==
-X-Gm-Message-State: AOJu0Yz6s3DBh9q0Yi3gvqdk9X8Ra5xEb1lUu1Y8c6lCSwGPUNcaDb5H
-	8rgKmKk/v4iinDrnoRB5sp1LzEd58uQT3+47sfYG95c91v0odW/o+y0nFN+GNtA=
-X-Google-Smtp-Source: AGHT+IF7djK9Gp7QvHWuOZzhp3iyt4a4kh6gE+5Chee7fTPBiXusYHzH5iP8LrBy89Sq7/Zoad7L6g==
-X-Received: by 2002:a17:906:3488:b0:a52:e86:ae62 with SMTP id g8-20020a170906348800b00a520e86ae62mr7767532ejb.54.1713253038496;
-        Tue, 16 Apr 2024 00:37:18 -0700 (PDT)
+        bh=AkbPRxuJaFbf8hemSHK1ZWQRF0fsDq8QRKmW1NagRfM=;
+        b=V0TLZO99oYuj1tMJAvi682yko7q6tb+kM62WuaItghObznaQdkqL47+MMKrexO5Yg0
+         g3QbhF/EiQvCpLBH6BE4hfpYIjgEZWUq6fkccoUETcf1rR0bQALac+/rAvoxCqfavzh7
+         WbCGH+QoFfIMN+pmISkQu8co3BxAypP4nYR2egBgJ0n+yxR+NtSeGOgQ1WPlP3kL9a5s
+         u++eSE2ilM1GUho3bjuwN9u6aIz5jMBAvsixbrCMcIWKTN+ILVj86+RunLWr+L+1RJoZ
+         /5umn6W99GN9KmtMSg7EML9lpDLBJ7BMJ7ylCv4mqFPDmaiiCxXmSc5RvJ6c/ujfuCas
+         1AJg==
+X-Forwarded-Encrypted: i=1; AJvYcCVruFOEhNE5OA1hUSOB7w6W0D5w2RWbFzE8tZTQrCn79T0R3j5LkL86HcNjT3tLNBkiEedEdvDnawk2ikh6OO5TIL7sfREcEbBS+eazvg==
+X-Gm-Message-State: AOJu0Yzw01vqJda7czmJCd987Pb0IAvgNrPVMEJuJisY9OmJYoXIddK9
+	bhzMgS2V+PO+esNYWzUjckxZA+hl8vRl5gT/YSu6hEKjcPMwNZgp4wfvtWfNUgo=
+X-Google-Smtp-Source: AGHT+IHyv6GyLcCM7SuFRY2lQ0w+D3nRQ0Oogv+NgpwSUUhg8+w7A2aBnM/9CzYE2fZ/BNYLgCzdrg==
+X-Received: by 2002:a50:8d0b:0:b0:570:38a:57ea with SMTP id s11-20020a508d0b000000b00570038a57eamr6318788eds.33.1713253468256;
+        Tue, 16 Apr 2024 00:44:28 -0700 (PDT)
 Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id gt43-20020a1709072dab00b00a5242ec4573sm4507206ejc.29.2024.04.16.00.37.17
+        by smtp.gmail.com with ESMTPSA id fk27-20020a056402399b00b0056e78e90a1dsm5799411edb.49.2024.04.16.00.44.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Apr 2024 00:37:18 -0700 (PDT)
-Date: Tue, 16 Apr 2024 10:37:14 +0300
+        Tue, 16 Apr 2024 00:44:28 -0700 (PDT)
+Date: Tue, 16 Apr 2024 10:44:23 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Ricardo Ribalda <ribalda@chromium.org>
 Cc: Martin Tuma <martin.tuma@digiteqautomotive.com>,
@@ -95,10 +95,11 @@ Cc: Martin Tuma <martin.tuma@digiteqautomotive.com>,
 	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
 	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
 	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH 07/35] media: staging: sun6i-isp: Remove redundant printk
-Message-ID: <b8a5cc23-240f-4fe9-9b25-b534f618506e@moroto.mountain>
+Subject: Re: [PATCH 09/35] media: v4l: async: refactor
+ v4l2_async_create_ancillary_links
+Message-ID: <a1917f15-ba04-4d8b-8dd6-0c1bc9a498ca@moroto.mountain>
 References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
- <20240415-fix-cocci-v1-7-477afb23728b@chromium.org>
+ <20240415-fix-cocci-v1-9-477afb23728b@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -107,32 +108,58 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240415-fix-cocci-v1-7-477afb23728b@chromium.org>
+In-Reply-To: <20240415-fix-cocci-v1-9-477afb23728b@chromium.org>
 
-On Mon, Apr 15, 2024 at 07:34:24PM +0000, Ricardo Ribalda wrote:
-> platform_get_irq() already prints an error for us.
+On Mon, Apr 15, 2024 at 07:34:26PM +0000, Ricardo Ribalda wrote:
+> Return 0 without checking IS_ERR or PTR_ERR if CONFIG_MEDIA_CONTROLLER
+> is not enabled.
 > 
-> Found by cocci:
-> drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c:389:2-9: line 389 is redundant because platform_get_irq() already prints an error
+> This makes cocci happier:
+> 
+> drivers/media/v4l2-core/v4l2-async.c:331:23-30: ERROR: PTR_ERR applied after initialization to constant on line 319
 > 
 > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 > ---
->  drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c | 1 -
->  1 file changed, 1 deletion(-)
+>  drivers/media/v4l2-core/v4l2-async.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
-> index 5c0a45394cba..a6424fe7023b 100644
-> --- a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
-> +++ b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
-> @@ -386,7 +386,6 @@ static int sun6i_isp_resources_setup(struct sun6i_isp_device *isp_dev,
+> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
+> index 4bb073587817..e26a011c89c4 100644
+> --- a/drivers/media/v4l2-core/v4l2-async.c
+> +++ b/drivers/media/v4l2-core/v4l2-async.c
+> @@ -316,9 +316,8 @@ v4l2_async_nf_try_all_subdevs(struct v4l2_async_notifier *notifier);
+>  static int v4l2_async_create_ancillary_links(struct v4l2_async_notifier *n,
+>  					     struct v4l2_subdev *sd)
+>  {
+> -	struct media_link *link = NULL;
+> -
+>  #if IS_ENABLED(CONFIG_MEDIA_CONTROLLER)
+> +	struct media_link *link;
 >  
->  	irq = platform_get_irq(platform_dev, 0);
->  	if (irq < 0) {
-> -		dev_err(dev, "failed to get interrupt\n");
->  		ret = -ENXIO;
 
-This is more fall out from when irq functions used to return zero (16
-years ago).  Instead of ret = -ENXIO, set ret = irq.
+I think another way you could write this is to remove the #ifs...
+
+	struct media_link *link;
+
+	if (!IS_ENABLED(CONFIG_MEDIA_CONTROLLER))
+		return 0;
+
+	if (sd->entity.function != MEDIA_ENT_F_LENS && ...
 
 regards,
 dan carpenter
+
+>  	if (sd->entity.function != MEDIA_ENT_F_LENS &&
+>  	    sd->entity.function != MEDIA_ENT_F_FLASH)
+> @@ -326,9 +325,10 @@ static int v4l2_async_create_ancillary_links(struct v4l2_async_notifier *n,
+>  
+>  	link = media_create_ancillary_link(&n->sd->entity, &sd->entity);
+>  
+> -#endif
+> -
+>  	return IS_ERR(link) ? PTR_ERR(link) : 0;
+> +#else
+> +	return 0;
+> +#endif
+>  }
+> 
