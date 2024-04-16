@@ -1,293 +1,125 @@
-Received: from sonic310-24.consmr.mail.ne1.yahoo.com (sonic310-24.consmr.mail.ne1.yahoo.com [66.163.186.205])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1937139D04
-	for <linux-staging@lists.linux.dev>; Tue, 16 Apr 2024 20:15:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.163.186.205
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E3D61553A3;
+	Tue, 16 Apr 2024 21:22:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713298505; cv=none; b=p+0M7es6haeeg9niWSZKT2o0dvd4UDxKhssOT2kBZDLT6UP8hSmgNkR+8l2H0qiPk6fAZMY6s/Nwjt/ofj7VC5dBjzqnfI7N9ueiRB4ckdQLmx8a0IQIZzY1JGLW5h/F8YCy+jzL+4TNxEjrIL+pC0+oiEpH4vKzB6v+i+n+/wY=
+	t=1713302570; cv=none; b=HVrNYN62bs2l0OU3JdjjPKCFzbJEa9uCUr3b6Ip03bIt9spUaBraUYsEsgJbTy0sg6hspOw2EK1SmEuBpx42Slu7Vdy4CIrg0hY2rxoxhLMy26THicbiSRkfLhmfKL8aTvgHCczYqXndGj6y+/CgDWwmdgFDPLNI2X+T6zIguXQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713298505; c=relaxed/simple;
-	bh=QOAxSxqPb8aM2I8dIMb9zaaMs0lLOwqGvQ0uU6Di4W8=;
-	h=Message-ID:Subject:From:To:Date:Content-Type:MIME-Version:
-	 References; b=JnbnCvI/Qtp1n68WVqK2HZjixsn7E4uhpG62qrt3SyMtj6fFI0lJZ1BZ1w0VxWz+ZCINLlzkXN+JxGb48zqbXgYD6bAeLAwP16flOxVQjfsv4a4GUm2NFEQa2Ka/NagbutCLwDuCRnvcscWD0hYqc0QQ10NLZPNVRoyoMbecq2Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com; spf=pass smtp.mailfrom=yahoo.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=B4EKl7sK; arc=none smtp.client-ip=66.163.186.205
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.com
+	s=arc-20240116; t=1713302570; c=relaxed/simple;
+	bh=d6oEEkZiXpUwThcVd9DaoNme+tX9GdjYQA7hJsSQwr0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=tcII9dP9aUNvmvd69poiIbiOs/Oa+S+B5anjRpc4nEwySBlFPhoUhVbN9pfHwWJJ647OSYVPh6qFkYVoeJA4etiPJE26WeFQhjwEfSA0s6GzLnulsthO8rmJIwzuqfEOLyxQYGZRqMms+SNdvIKwDV4iJ6UQuDGr4iBkP6L5zNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MeDPlNaZ; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="B4EKl7sK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1713298495; bh=iZgtGGZ+o2qQOMTF6tCLpgz1PmbtD2vBGZSP/gGVln0=; h=Subject:From:To:Date:References:From:Subject:Reply-To; b=B4EKl7sKCyiEi7IfleyQbwq/fvyU7ZcHZ9WO/LLg4B3Hxlx1Zsl4GxAcZwbOW8YTiUWWLRZ3uMrZQxSiFVkhW2N8YdNVcxNV5eNx77/3I3OrQE6Bzn9ZNZz7iTab1sxwD9VpD6B8BmVXJIm7Ye0obhXL562MU+GL0HsJkrUb9TGHzuMue/mjZARgjsjSL+YhRQBKHX4CyCAsQkQmgTQzZcPeoEO+Efw1FQ6EV5O7PXaffl00+l1nO7Y2QsjDhYPN8zNonBIurrTViPhblXvZnrRq0fxEb9UneDQ9GYw/CncdjOTALXBudRDTNjNzNgkk2JmNurW7+ggMfwIpbJiWOw==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1713298495; bh=PW1mmMDFh3DNKfOKZFou1Dz2YeRrclHmgXlImryPW7v=; h=X-Sonic-MF:Subject:From:To:Date:From:Subject; b=MQD9A6H/llQn2sxcvGLKqiuBN+a6wyeW8TdbwAQDCHUZIn3rb23u88tqVMa0zAEt1LkN+N4kiricxrvCfDzl64NiK7EcdmZqGDvINyaW0Xo30PEmk57tSEQ4Mmrqf4tKyTzbZe1RNEnepZSWZ6BTm6CnCn/fBhuoL4MV9dqbxmifIcs9Djo2CQ37/Jl4wvc4ZMHR9Z8688qhzymzFCVTvZhaFg0CNxkX4Q5naXIB7TBtI8mZgtNyH9e/WUyu4gzIAJr1rr/6Agcjjew0xRrF/i7QHF9BaB+HENRpRwuDMdUdC7QGe2xsjNzDOSfhIL0v81J7268NhuWiB1KigJ6uOg==
-X-YMail-OSG: 3uyJAa4VM1mFnDbn1AszT5Z1T1FdAIgJd.uGwonq0dv90Dg8qZefmyMR4a5crzo
- zcDOcXPMX.p7eotL0mX7GLOokG9NbbF3B28QJujXy9dN3C_Dkl6nkdA6QL_iE9eY5FpqtwuPFZDI
- fhGiER0shB_H7wHWBfDSJ6w77BEqjUFK9o.1ykVOZNhZx2Pfr4Ww9Azq363FI6lDZHqWwFDtkhkM
- yPhvwP1IKon5OCMJqoP2hYe8nJ9NJPwRNIKTP.fRUbbAKYZm_zjorQ7yA_9jwe5xtEWyBgOCtYJT
- i_aaL90r.va8vMBmVx0WIYvu_YB1HGg98zVgJiv6mDpLEu8MQiGRPWB4q8gppxmJXcwgf.hTNLTL
- xzw__3MLrAQHUvrV.zmftIzyMiipYvqowzrUouAxDE1vZt7T.OIui3vhB_wS24RW32PxLGYeMrVr
- xO0Y1QRqTTWBK13BdCeQlcCAx6vXG6d1Zm5OnQEDw1mkhsPQiEo5uioCeK.kajMz39OZuZn3daUU
- k8b.CDb8z3WUH7XHHb3Qs07V.AXNObu4ZbFo7sNJadF1Po4TzoH9W8Swbr_7zp0TyAV3u_e79BPH
- _e.allV.wohi6C5lhtlN8V.G3BUDpd01UZE9GxxQFu9iKRKijmzAdG6f6YC51pDXJbw9vuMIA.4t
- HGZONj0wYtFyYCaVGLFCokrqdOICEyBVcHoxFUIlZ9nLgX.q91dGr2I81gzEf0YEH1Dd.7cVzo.9
- 34MkwDyZW8tKD8qozG1S30uNx1Hh1GH1uzRgLiUDRmjs8cjhZxAlDMja2BqrBEeXuzuPPucujw7i
- w.tgSiBrvrI67h40UcjaXxqwHTTHAigSMZiXGrgbU8tF61EdEhCbzJaF0YwKbk2in5KLLt0d185D
- dkRMI0FmKTlreXMsc.0Y3bDK.j.LFrNonJmlKzmk.DQyxH75b8GzYL7O_01xzaourOkdB8YDeUDC
- r9vV9ZOdudx27osU7fQ.HOVgQFvaLmaBovHN3NqhFzya5TYW_R4fpjUwfwYLVqP2vmxycsfFaiu1
- BAYAxYBHtnj3pXOytGzKuS9lpa.s9NnOBnLTj0xJcorXXhr.pW1mzDpY.q9pcEfiWdiKP3TifdZj
- IS2Dpxcuq07f_WE9WDsoLFyR7GJ3vk0mcquYOb.wbnxT1y.gmJnEyprfRVCetXXtemeAg7B7v2vF
- Ifxi41YX.5lg1d0vmXEsjIVvTiEq2aqZjlIt5dQiM44SXfQ6RL1A0vFs2EXLcvsRc0EeO8gASWCL
- uwPbPQXbkZY5ZTQt0_ihB3FaHqBq.6C0pINcWN25VIWzbYy.ufGhL6gzrIW4c2sN3uarPiLTwGfl
- Dq1Au9gy9VLqd_L_cwnjQWlaNnhTlengvsbvFoES21LPvAoN7zqC0PZggZ52s.jd1ZeqdKGItZbf
- G5L3LrVEhDd8PECPtVw2CSvEjKXjI8PbbKL2dpptERsq3TVXxke_ua5dh6ErB5m5xQ2PkoE6YJXX
- Gfjw.94560LxkNW8ldvRJCE4x4yiDGHYJviI5XfGKEnojtxfkqm0e.XKjiIobAhvRGl2XtDO66BW
- Mx9lB1hpfD_fBiiwJLWtyoWWlSBCFNLrJva_0SLJlsLNYRmxzKYqmSa7Bt2CvOkfyc0iMkemJjNa
- 1lkAP8lUQ1fQqr3.PhnoUZUbjVUC4npjZfs15fs28XlSLCisv6FXttsN_HaIcq8sUIyHJu5dF2Z8
- bLmyWS6Vyebf04YcrKch4Y.oIU2BuwRkkBkTAYxqk9RQGXy_YxDLYWX_H846XemuJN.n_o4OUms2
- 7FGiJXyHVElXLCK0LunJkd7ceB3V6BrbqfPGDkSgRiHmKgWhmEqUQeJNcu1khve3wSyYHDL.67a5
- 7VfJYBC2.xRxtkytCLklkot6CVG_wF4J.1dpvIvXc25qqgB4imuM8oZ_lj954BnASTQ9yuFeZoCe
- Ff6llHlg3HbRYZZuPl82XfHLvzsxeAyqnlMmlS9JF1y6jBM_nlIEKkbZhGIeGbrJA57l785YmX3F
- uydyli9mhcSxDFmWC0vPxLwEm.nZHaNhWxAMCBwZXUQWxVqF2KG_RhNFSkK2qrPcjmLW0KmU.mf5
- ZgVj_UwpZLsMPWYrpFaXw0OtMH733LsTEjwJ5YnmXM6wMM1BYcshi5he_b1jaNYSk8FERob4DyYk
- Id1f3BbcpEAKvn2HWQIR7fsXclAsGS7BTn8OXNJd9UznMlOj1UyndHhEFZ_igewkxBp37VLV0Kxt
- sKfH0dTYNIDsTprxqbNFp8JQsXZKsgp4.F09Aml7az1OzJSrvbECuojGf5oBPsadvgmST.Lgd_gz
- GARoauBtmLG7Nas_mzVIYWZRweWo43xFkeXRtTKAknig-
-X-Sonic-MF: <ashokemailat@yahoo.com>
-X-Sonic-ID: e776ce5b-2ecd-4172-a11d-16b719dd513e
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic310.consmr.mail.ne1.yahoo.com with HTTP; Tue, 16 Apr 2024 20:14:55 +0000
-Received: by hermes--production-bf1-5cc9fc94c8-tmzjr (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID f7cd3a3627d699b4c5bb0c83112631a2;
-          Tue, 16 Apr 2024 20:14:54 +0000 (UTC)
-Message-ID: <cc9b9357d30c4abac7301767ff01fe7947f811c4.camel@yahoo.com>
-Subject: [PATCH] staging: fbtft Removed redundant parentheses
-From: A <ashokemailat@yahoo.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	outreachy@lists.linux.dev
-Date: Tue, 16 Apr 2024 13:14:52 -0700
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4-0ubuntu2 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MeDPlNaZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713302570; x=1744838570;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=d6oEEkZiXpUwThcVd9DaoNme+tX9GdjYQA7hJsSQwr0=;
+  b=MeDPlNaZ29CNDqSeUWV7J0uBtAN1jHdDp25hBuaJ+FzBsuH7XJf1Znn4
+   jVaAqHYGosq+vPSx4WXTs8XYEI8l0l01L7jsOBbVso0iBPUzKkJCxzUw+
+   Ob02G2elbfVcTyeaA+YNe7yhPm6i3jnDzhbX3eaT3unz5/30RGkK9rwVQ
+   m4WQPGqbyeIBs9t9Y1IiISXfVsTBM5Ql+dDxCPsl305nxKbpTE2OF/C1c
+   N6WY1yPNIO+q2lw/5Zmdhss/+5AhoI5+I6vkkRTa/dAyWxVNLfesEinRr
+   5Msx6W4uCzUs9MnQbZDvk9af+8blVnGbBZ+EgiUTpqSKtda3st2e04/Sw
+   g==;
+X-CSE-ConnectionGUID: 4JulDBQnT3aPL2GOINga0Q==
+X-CSE-MsgGUID: fdFKINGWRyqFPTmUFPBY/Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="26234996"
+X-IronPort-AV: E=Sophos;i="6.07,207,1708416000"; 
+   d="scan'208";a="26234996"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 14:22:50 -0700
+X-CSE-ConnectionGUID: ZdptqxCNRgCp0ESakjc7aA==
+X-CSE-MsgGUID: uzzJfCg4SrOsxBcp39RMZw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,207,1708416000"; 
+   d="scan'208";a="53366760"
+Received: from agluck-desk3.sc.intel.com ([172.25.222.105])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 14:22:49 -0700
+From: Tony Luck <tony.luck@intel.com>
+To: Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Tony Luck <tony.luck@intel.com>,
+	Andy Shevchenko <andy.shevchenko@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	patches@lists.linux.dev
+Subject: [PATCH v3 68/74] x86/cpu/vfm: Update drivers/staging/media/atomisp/include/linux/atomisp_platform.h
+Date: Tue, 16 Apr 2024 14:22:47 -0700
+Message-ID: <20240416212247.9949-1-tony.luck@intel.com>
+X-Mailer: git-send-email 2.44.0
+In-Reply-To: <20240416211941.9369-1-tony.luck@intel.com>
+References: <20240416211941.9369-1-tony.luck@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <cc9b9357d30c4abac7301767ff01fe7947f811c4.camel.ref@yahoo.com>
-X-Mailer: WebService/1.1.22205 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
+Content-Transfer-Encoding: 8bit
 
-From 6dbcb120581fc7cb45812193227b0a197abd8ba4 Mon Sep 17 00:00:00 2001
-From: Ashok Kumar <ashokemailat@yahoo.com>
-Date: Tue, 16 Apr 2024 09:19:32 -0700
-Subject: [PATCH] [PATCH] staging: fbtft Removed redundant parentheses on
- logical expr
+New CPU #defines encode vendor and family as well as model.
 
-Adhere to Linux Kernel coding style removed redundant parentheses,
-multiple blank lines and indentation alignment.
-
-Reported by checkpatch.pl
-
-------
-fb_ili9320.c
-
-+       if ((devcode !=3D 0x0000) && (devcode !=3D 0x9320))
-
-------
-fb_ra8875.c
-
-CHECK: Unnecessary parentheses around 'par->info->var.xres =3D=3D 320'
-+      if ((par->info->var.xres =3D=3D 320) && (par->info->var.yres =3D=3D
-240)) {
-
-------
-fb_ssd1325.c
-
-CHECK: Please don't use multiple blank lines
-------
-
-fb_tinylcd.c    - indentation adjustment
-
------
-fbtft-bus.c
-
-CHECK: Unnecessary parentheses around 'par->spi->bits_per_word =3D=3D 8'
-
-------
-fbtft-core.c
-
-CHECK: Please don't use multiple blank lines
-
-CHECK: Unnecessary parentheses around '!txbuflen'
-
-CHECK: Please don't use multiple blank lines
-------
-
-Signed-off-by: Ashok Kumar <ashokemailat@yahoo.com>
+Signed-off-by: Tony Luck <tony.luck@intel.com>
 ---
- drivers/staging/fbtft/fb_ili9320.c | 2 +-
- drivers/staging/fbtft/fb_ra8875.c  | 8 ++++----
- drivers/staging/fbtft/fb_ssd1325.c | 2 --
- drivers/staging/fbtft/fb_tinylcd.c | 2 +-
- drivers/staging/fbtft/fbtft-bus.c  | 6 +++---
- drivers/staging/fbtft/fbtft-core.c | 7 +------
- 6 files changed, 10 insertions(+), 17 deletions(-)
+ .../atomisp/include/linux/atomisp_platform.h  | 26 ++++++++-----------
+ 1 file changed, 11 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/staging/fbtft/fb_ili9320.c
-b/drivers/staging/fbtft/fb_ili9320.c
-index 0be7c2d51548..409b54cc562e 100644
---- a/drivers/staging/fbtft/fb_ili9320.c
-+++ b/drivers/staging/fbtft/fb_ili9320.c
-@@ -37,7 +37,7 @@ static int init_display(struct fbtft_par *par)
- 	devcode =3D read_devicecode(par);
- 	fbtft_par_dbg(DEBUG_INIT_DISPLAY, par, "Device code:
-0x%04X\n",
- 		      devcode);
--	if ((devcode !=3D 0x0000) && (devcode !=3D 0x9320))
-+	if (devcode !=3D 0x0000 && devcode !=3D 0x9320)
- 		dev_warn(par->info->device,
- 			 "Unrecognized Device code: 0x%04X (expected
-0x9320)\n",
- 			devcode);
-diff --git a/drivers/staging/fbtft/fb_ra8875.c
-b/drivers/staging/fbtft/fb_ra8875.c
-index 398bdbf53c9a..4b79fb48c5f0 100644
---- a/drivers/staging/fbtft/fb_ra8875.c
-+++ b/drivers/staging/fbtft/fb_ra8875.c
-@@ -50,7 +50,7 @@ static int init_display(struct fbtft_par *par)
-=20
- 	par->fbtftops.reset(par);
-=20
--	if ((par->info->var.xres =3D=3D 320) && (par->info->var.yres =3D=3D
-240)) {
-+	if (par->info->var.xres =3D=3D 320 && par->info->var.yres =3D=3D 240)
-{
- 		/* PLL clock frequency */
- 		write_reg(par, 0x88, 0x0A);
- 		write_reg(par, 0x89, 0x02);
-@@ -74,8 +74,8 @@ static int init_display(struct fbtft_par *par)
- 		write_reg(par, 0x1D, 0x0E);
- 		write_reg(par, 0x1E, 0x00);
- 		write_reg(par, 0x1F, 0x02);
--	} else if ((par->info->var.xres =3D=3D 480) &&
--		   (par->info->var.yres =3D=3D 272)) {
-+	} else if (par->info->var.xres =3D=3D 480 &&
-+		   par->info->var.yres =3D=3D 272) {
- 		/* PLL clock frequency  */
- 		write_reg(par, 0x88, 0x0A);
- 		write_reg(par, 0x89, 0x02);
-@@ -111,7 +111,7 @@ static int init_display(struct fbtft_par *par)
- 		write_reg(par, 0x04, 0x01);
- 		mdelay(1);
- 		/* horizontal settings */
--		write_reg(par, 0x14, 0x4F);
-+write_reg(par, 0x14, 0x4F);
- 		write_reg(par, 0x15, 0x05);
- 		write_reg(par, 0x16, 0x0F);
- 		write_reg(par, 0x17, 0x01);
-diff --git a/drivers/staging/fbtft/fb_ssd1325.c
-b/drivers/staging/fbtft/fb_ssd1325.c
-index 796a2ac3e194..69aa808c7e23 100644
---- a/drivers/staging/fbtft/fb_ssd1325.c
-+++ b/drivers/staging/fbtft/fb_ssd1325.c
-@@ -109,8 +109,6 @@ static int set_gamma(struct fbtft_par *par, u32
-*curves)
- {
- 	int i;
-=20
--	fbtft_par_dbg(DEBUG_INIT_DISPLAY, par, "%s()\n", __func__);
+diff --git a/drivers/staging/media/atomisp/include/linux/atomisp_platform.h b/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
+index 487ef5846c24..59f71659b2d8 100644
+--- a/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
++++ b/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
+@@ -18,6 +18,7 @@
+ #ifndef ATOMISP_PLATFORM_H_
+ #define ATOMISP_PLATFORM_H_
+ 
++#include <asm/cpu_device_id.h>
+ #include <asm/intel-family.h>
+ #include <asm/processor.h>
+ 
+@@ -217,22 +218,17 @@ void atomisp_unregister_subdev(struct v4l2_subdev *subdev);
+ int v4l2_get_acpi_sensor_info(struct device *dev, char **module_id_str);
+ 
+ /* API from old platform_camera.h, new CPUID implementation */
+-#define __IS_SOC(x) (boot_cpu_data.x86_vendor == X86_VENDOR_INTEL && \
+-		     boot_cpu_data.x86 == 6 &&                       \
+-		     boot_cpu_data.x86_model == (x))
+-#define __IS_SOCS(x,y) (boot_cpu_data.x86_vendor == X86_VENDOR_INTEL && \
+-		        boot_cpu_data.x86 == 6 &&                       \
+-		        (boot_cpu_data.x86_model == (x) || \
+-		         boot_cpu_data.x86_model == (y)))
 -
- 	for (i =3D 0; i < GAMMA_LEN; i++) {
- 		if (i > 0 && curves[i] < 1) {
- 			dev_err(par->info->device,
-diff --git a/drivers/staging/fbtft/fb_tinylcd.c
-b/drivers/staging/fbtft/fb_tinylcd.c
-index 9469248f2c50..60cda57bcb33 100644
---- a/drivers/staging/fbtft/fb_tinylcd.c
-+++ b/drivers/staging/fbtft/fb_tinylcd.c
-@@ -38,7 +38,7 @@ static int init_display(struct fbtft_par *par)
- 	write_reg(par, 0xE5, 0x00);
- 	write_reg(par, 0xF0, 0x36, 0xA5, 0x53);
- 	write_reg(par, 0xE0, 0x00, 0x35, 0x33, 0x00, 0x00, 0x00,
--		       0x00, 0x35, 0x33, 0x00, 0x00, 0x00);
-+		  0x00, 0x35, 0x33, 0x00, 0x00, 0x00);
- 	write_reg(par, MIPI_DCS_SET_PIXEL_FORMAT, 0x55);
- 	write_reg(par, MIPI_DCS_EXIT_SLEEP_MODE);
- 	udelay(250);
-diff --git a/drivers/staging/fbtft/fbtft-bus.c
-b/drivers/staging/fbtft/fbtft-bus.c
-index 3d422bc11641..02d7dbd38678 100644
---- a/drivers/staging/fbtft/fbtft-bus.c
-+++ b/drivers/staging/fbtft/fbtft-bus.c
-@@ -62,9 +62,9 @@
-out:									      \
- }                                                                   =20
-\
- EXPORT_SYMBOL(func);
-=20
--define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8, )
-+define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8,)
- define_fbtft_write_reg(fbtft_write_reg16_bus8, __be16, u16,
-cpu_to_be16)
--define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16, )
-+define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16,)
-=20
- void fbtft_write_reg8_bus9(struct fbtft_par *par, int len, ...)
- {
-@@ -85,7 +85,7 @@ void fbtft_write_reg8_bus9(struct fbtft_par *par, int
-len, ...)
- 	if (len <=3D 0)
- 		return;
-=20
--	if (par->spi && (par->spi->bits_per_word =3D=3D 8)) {
-+	if (par->spi && par->spi->bits_per_word =3D=3D 8) {
- 		/* we're emulating 9-bit, pad start of buffer with no-
-ops
- 		 * (assuming here that zero is a no-op)
- 		 */
-diff --git a/drivers/staging/fbtft/fbtft-core.c
-b/drivers/staging/fbtft/fbtft-core.c
-index 38845f23023f..98ffca49df81 100644
---- a/drivers/staging/fbtft/fbtft-core.c
-+++ b/drivers/staging/fbtft/fbtft-core.c
-@@ -216,8 +216,6 @@ static void fbtft_reset(struct fbtft_par *par)
- 	if (!par->gpio.reset)
- 		return;
-=20
--	fbtft_par_dbg(DEBUG_RESET, par, "%s()\n", __func__);
--
- 	gpiod_set_value_cansleep(par->gpio.reset, 1);
- 	usleep_range(20, 40);
- 	gpiod_set_value_cansleep(par->gpio.reset, 0);
-@@ -667,7 +665,7 @@ struct fb_info *fbtft_framebuffer_alloc(struct
-fbtft_display *display,
- 		txbuflen =3D 0;
-=20
- #ifdef __LITTLE_ENDIAN
--	if ((!txbuflen) && (bpp > 8))
-+	if (!txbuflen && bpp > 8)
- 		txbuflen =3D PAGE_SIZE; /* need buffer for byteswapping
-*/
- #endif
-=20
-@@ -1053,8 +1051,6 @@ static int fbtft_verify_gpios(struct fbtft_par
-*par)
- 	struct fbtft_platform_data *pdata =3D par->pdata;
- 	int i;
-=20
--	fbtft_par_dbg(DEBUG_VERIFY_GPIOS, par, "%s()\n", __func__);
--
- 	if (pdata->display.buswidth !=3D 9 &&  par->startbyte =3D=3D 0 &&
- 	    !par->gpio.dc) {
- 		dev_err(par->info->device,
-@@ -1159,7 +1155,6 @@ int fbtft_probe_common(struct fbtft_display
-*display,
- 		dev =3D &pdev->dev;
-=20
- 	if (unlikely(display->debug & DEBUG_DRIVER_INIT_FUNCTIONS))
--		dev_info(dev, "%s()\n", __func__);
-=20
- 	pdata =3D dev->platform_data;
- 	if (!pdata) {
---=20
-2.34.1
-
+-#define IS_MFLD	__IS_SOC(INTEL_FAM6_ATOM_SALTWELL_MID)
+-#define IS_BYT	__IS_SOC(INTEL_FAM6_ATOM_SILVERMONT)
+-#define IS_CHT	__IS_SOC(INTEL_FAM6_ATOM_AIRMONT)
+-#define IS_MRFD	__IS_SOC(INTEL_FAM6_ATOM_SILVERMONT_MID)
+-#define IS_MOFD	__IS_SOC(INTEL_FAM6_ATOM_AIRMONT_MID)
++#define __IS_SOC(x) (boot_cpu_data.x86_vfm == x)
++#define __IS_SOCS(x, y) (boot_cpu_data.x86_vfm == x || boot_cpu_data.x86_vfm == y)
++
++#define IS_MFLD	__IS_SOC(INTEL_ATOM_SALTWELL_MID)
++#define IS_BYT	__IS_SOC(INTEL_ATOM_SILVERMONT)
++#define IS_CHT	__IS_SOC(INTEL_ATOM_AIRMONT)
++#define IS_MRFD	__IS_SOC(INTEL_ATOM_SILVERMONT_MID)
++#define IS_MOFD	__IS_SOC(INTEL_ATOM_AIRMONT_MID)
+ 
+ /* Both CHT and MOFD come with ISP2401 */
+-#define IS_ISP2401 __IS_SOCS(INTEL_FAM6_ATOM_AIRMONT, \
+-			     INTEL_FAM6_ATOM_AIRMONT_MID)
++#define IS_ISP2401 __IS_SOCS(INTEL_ATOM_AIRMONT, \
++			     INTEL_ATOM_AIRMONT_MID)
+ 
+ #endif /* ATOMISP_PLATFORM_H_ */
+-- 
+2.44.0
 
