@@ -1,144 +1,156 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22BEA83CBE
-	for <linux-staging@lists.linux.dev>; Tue, 16 Apr 2024 08:47:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8CEA84A5F
+	for <linux-staging@lists.linux.dev>; Tue, 16 Apr 2024 09:25:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713257245; cv=none; b=K8kGMSBXAXhrdZfSrIL9Y8LuBIW2CtjrXG4yi2ExQzaNCXZa5O2Kcdrsy770ymksTNgDnzdE5Yfb/NRKIUpApkxRoagkIJXFdza+m9Je3Yc+QcBbvEevi9IAtznUnyLXZf3TEmmk9kFq1469FAJdZj0eQn7C4/Wg66NTYp1KJ0k=
+	t=1713259526; cv=none; b=PasYVxT7RQm1WWrbi0IC7H1e+CKehSlnxf0s8kbNuVHMdMK4DAL+TEfkWSr/HUKk+tgMMbMK0KGJizxax2g3dpfzSlxMrEYcOIqATVmtQ098yRBk8Wue+jczQo7DBncng0mJgKpFIwHwMCnO9yaKt9v7ydqv/NLqkICEGDm2RxM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713257245; c=relaxed/simple;
-	bh=+YjD1kVczgIpZpwc3pkofZBwOBnPI8au9Bf6byXPai8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S8GsZGg/V2eUxjzM6SXQcsUbrIPyDrPRfloqKFtE5GifBsqjFMPV9B04xNnH4tquqxQbgoiBnLMB50D/2p16GrwRsBBwURIMnhs/uWmlfgMD5SDZ858xTnb5sF11m96jLDLSLLedYPQjv4w50FJz0GMdZyUY7udnZNoIiiQRmwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WgrEBedd; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1713259526; c=relaxed/simple;
+	bh=VepDZcY2eTQP+WtI7Tu5jIbh15nahrwfxbgZSV0hGY0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PwlvsbkV04B3NNwQukmDI2++tzg6DG6hIpxg8LVBkH1qUUTeP2BkprsbXVlsH6dSCR0RsrpJMU2994Py+EnU0XuEW+yJi7Dy/LkSY3dskLxpR+q5H+7mcYS4n90Ztkm0gK8qUoeU8qk0mllq8HZfhFtz+Xq1Jg+b0RJZjEKvkZ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UJ+/t0Fs; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WgrEBedd"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a53f131d9deso206109066b.3
-        for <linux-staging@lists.linux.dev>; Tue, 16 Apr 2024 01:47:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1713257242; x=1713862042; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=NkM0I+aW0wUUvGJQ59wWIPVhiqCpaSf/yczLNzgYK2M=;
-        b=WgrEBeddcLf5IW6zOd4IhpJuhH+WA6SpOLkdL0mlaOUaI+s6a/hk3+uX6SNAX95xF7
-         1Jym5qcB1RbU0s7A4BkSrio2/un9fDJDgcLatGoEdhSVEk3f0N2DbiG8nEYIOeyNZBNd
-         geAELlMHO4ER42Umju4PFSPZcV2uD8wFZetk9n55vJinRtDWGM3qSGZzqtslXq0di4sO
-         YKIhjexm8QJTTZ7Frj4Z5yCOPLpTx7BwvRMcFLIYt/yZhyYVLs0uNTsbdPorFQSCArdF
-         4Q0IdAqt3025N1XygL4/TpMJcfc3Wtm4pdJ9qMvplg7JBwFZSfC3rkeVpA55OIIeB9cz
-         TwYQ==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UJ+/t0Fs"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1713259523;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FRE7xnN3DPvJ0uPhLpdtosRFGMPJeqCTZUsQYW1ove4=;
+	b=UJ+/t0Fsz1+FqxCMD38O72/dNogtNIeCGBhhtAYt/vXrJme4fjYfQm0omscjMO0HJvTPIH
+	fvUNMed8pZPMM5B/ujgzYedluzOcN0Ti2hWTF/F2LMLfn7bbp37+JOfaG9jO1TDvXDrXn1
+	8uO/e+B/95/2fhINstGJceQtkqYck4s=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-591-jkmrZMVQMBaik310QvKbbQ-1; Tue, 16 Apr 2024 05:25:22 -0400
+X-MC-Unique: jkmrZMVQMBaik310QvKbbQ-1
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-a54c11dccfaso95612366b.2
+        for <linux-staging@lists.linux.dev>; Tue, 16 Apr 2024 02:25:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713257242; x=1713862042;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NkM0I+aW0wUUvGJQ59wWIPVhiqCpaSf/yczLNzgYK2M=;
-        b=ehWLP0i+8Y363ddNqsQiV6hoKMxtzw2FAO304oCurJGK8vuWIEHCWVMeN3NgjNmNGI
-         cWwuU1tp3/JgNzV58V0cTHkfBKCHRQLNWy/fH0tnKjgIL1YCgpBfNSa74PgzwZJmrf7e
-         hH1bN0Sasyp0651AH/cLxwqm0T5AsRvpEsULgIZBeoA/W0/47WXr4tkDfo92B5Qb0BN9
-         iX1h6FYUZSFexfkH7hwzDSCFQucU6h5Oj+G/AW1b4O1fSZ/9R4KjOU8fd4/uMe0qimi1
-         Abds0YBx/qS/rH3wzNtZ+Q6+E0x5dfa7NhTpqru3/1716bplLZfmMVfRaxeVIAcvYklK
-         gCpg==
-X-Forwarded-Encrypted: i=1; AJvYcCX5niFFcWaEkG39wFDRjP40iZrdN85/iKvk8EctZ8b/Q4UEQYyTiT0GjhhaNxGZbeq3V6JQ5gCVwWxd8wTAVcqf5VPcAMK34mJqxdBtww==
-X-Gm-Message-State: AOJu0YxCsu7R4tm3aO0FmpGRve9pxw0+j36uleN+UptXdAnJtp3QYNGC
-	YS23Ku6IdogA27fuSfSyuvFAsZ46kcS0UfUWcdfe5O9WpTPn2i/JsYiXAOctdmU=
-X-Google-Smtp-Source: AGHT+IERiWoYGa51YbGEPmkvByvhia/eckpCcRSCGVJVNIFEmOLsj+qs5GtIOBV8MGWtuu2neCmDeg==
-X-Received: by 2002:a17:906:7145:b0:a52:8a8a:59cb with SMTP id z5-20020a170906714500b00a528a8a59cbmr2572423ejj.61.1713257242155;
-        Tue, 16 Apr 2024 01:47:22 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id x16-20020a170906135000b00a51a7832a7asm6572111ejb.199.2024.04.16.01.47.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Apr 2024 01:47:21 -0700 (PDT)
-Date: Tue, 16 Apr 2024 11:47:17 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Martin Tuma <martin.tuma@digiteqautomotive.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Hugues Fruchet <hugues.fruchet@foss.st.com>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Sowjanya Komatineni <skomatineni@nvidia.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>, Sergey Kozlov <serjk@netup.ru>,
-	Abylay Ospan <aospan@netup.ru>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Dmitry Osipenko <digetx@gmail.com>,
-	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-	Vikash Garodia <quic_vgarodia@quicinc.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Jacopo Mondi <jacopo+renesas@jmondi.org>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Pavel Machek <pavel@ucw.cz>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	Oleg Drokin <green@linuxhacker.ru>
-Subject: Re: [PATCH 00/35] media: Fix coccinelle warning/errors
-Message-ID: <a003494c-a1a9-4fcd-83d8-766a75d6bbb2@moroto.mountain>
-References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
+        d=1e100.net; s=20230601; t=1713259521; x=1713864321;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=FRE7xnN3DPvJ0uPhLpdtosRFGMPJeqCTZUsQYW1ove4=;
+        b=TBtnf0H1dF04AVJEM5Hz++TsCduf2vovmbOPgEUiPHWOLAycf5+GQ7NtSJlFCPJ1Fb
+         noeGLICk5Djpp93iVfhJsaxjHp+KiTNc80+hTxkAa/NebA6oQyVCrp08sCljleUMtAZ7
+         Y2O88YvvSyqNvfm9HGoDc1GiiplryfPQX71+4YXd8F2PJ0OaWQwKZNYNhQegmHWs6fH+
+         fWum+oZYoFgI5C6H6khq6P1aY4NbD7pMwZlHd+eUZUhgejRyv7cwAqFh5jXB9dPN4vdd
+         krsphqe2dhgKGVUC6omDi16caKEez2THPMbQFm0NS5q2/vxY3e25aUYKDaXq7J1H0aTc
+         n0hQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWg+1LwhHW+sSsvdxg8SFhaAiJbMl9WJiVTWSoFfbF5DSEUf4kVuA6XCiHBHY0ipcT9zzHf/Bfk8KMG3nr0a813KqiqQqdMI0qjhI1CtA==
+X-Gm-Message-State: AOJu0YxwRRkOGs4GGpRtu9pP9IOId7xcDcn8DLDEGJuYPxLAtCpPebbv
+	x9yHL2WuVgXXujMG1iNU9akdG34dMMSu3WiwoMazGzyjkP9YcllnxCV3n/r79ZLBxrJ7r6VH4AW
+	G73TxMBn4IINgsRzAPIO2u31zXip2AsQHaxl0YUoSwyLYJV71e5VyIvm7gDrUX+U=
+X-Received: by 2002:a17:906:2932:b0:a51:b3cb:cdca with SMTP id v18-20020a170906293200b00a51b3cbcdcamr10724471ejd.26.1713259521380;
+        Tue, 16 Apr 2024 02:25:21 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGmtUMeOk0F7211QUFXI0CbDNFq2sZ7MSVeKORfLoc2Cpjr5pGkDak4go1DMOeWzc3J/5PWTg==
+X-Received: by 2002:a17:906:2932:b0:a51:b3cb:cdca with SMTP id v18-20020a170906293200b00a51b3cbcdcamr10724456ejd.26.1713259520996;
+        Tue, 16 Apr 2024 02:25:20 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id bw26-20020a170906c1da00b00a52222f2b21sm6441401ejb.66.2024.04.16.02.25.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Apr 2024 02:25:20 -0700 (PDT)
+Message-ID: <294058a6-72dd-4973-95ee-eaed0c908131@redhat.com>
+Date: Tue, 16 Apr 2024 11:25:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 11/23] media: atomisp: Remove test pattern generator (TPG)
+ support
+To: Andy Shevchenko <andy@kernel.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Kate Hsuan <hpa@redhat.com>,
+ Tsuchiya Yuto <kitakar@gmail.com>, Fabio Aiuto <fabioaiuto83@gmail.com>,
+ linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+References: <20240415120220.219480-1-hdegoede@redhat.com>
+ <20240415120220.219480-12-hdegoede@redhat.com>
+ <Zh08SP60QytSz3aQ@smile.fi.intel.com>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <Zh08SP60QytSz3aQ@smile.fi.intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, nl
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-In my opinion, it's better to just ignore old warnings.
+Hi Andy,
 
-When code is new the warnings are going to be mostly correct.  The
-original author is there and knows what the code does.  Someone has
-the hardware ready to test any changes.  High value, low burden.
+Thank you for all the reviews!
 
-When the code is old only the false positives are left.  No one is
-testing the code.  It's low value, high burden.
+On 4/15/24 4:40 PM, Andy Shevchenko wrote:
+> On Mon, Apr 15, 2024 at 02:02:08PM +0200, Hans de Goede wrote:
+>> The TPG support registers a v4l2-subdev for this, but this is not part of
+>> the media-controller graph in any way. After manually selecting the TPG
+>> as input using the s_input ioctl it does not work.
+>>
+>> Several supported sensors have their own working TPG and using the sensor's
+>> TPG means that the same data-flow is used as with actual sensors rather
+>> then the quite different data-flow from the ISP's builtin TPG.
+>>
+>> Remove the broken TPG support, when a test-pattern is needed for testing
+>> a sensor's TPG can be used. Using a sensor's TPG is actually better for
+>> testing since then the actual normal data-flow is being tested.
+> 
+> ...
+> 
+>> +	if (mipi_info)
+>> +		fc = atomisp_find_in_fmt_conv_by_atomisp_in_fmt(mipi_info->input_format);
+>>  
+>> +	if (!fc)
+>> +		fc = atomisp_find_in_fmt_conv(
+>> +			 atomisp_subdev_get_ffmt(&asd->subdev,
+>> +						 NULL, V4L2_SUBDEV_FORMAT_ACTIVE,
+>> +						 ATOMISP_SUBDEV_PAD_SINK)->code);
+> 
+> While it was in the original code, this is ugly. Can we split this to two
+> assignments?
 
-Plus it puts static checker authors in a difficult place because now
-people have to work around our mistakes.  It creates animosity.
+Ack, fixed.
 
-Now we have to hold ourselves to a much higher standard for false
-positives.  It sounds like I'm complaining and lazy, right?  But Oleg
-Drokin has told me previously that I spend too much time trying to
-silence false positives instead of working on new code.  He's has a
-point which is that actually we have limited amount of time and we have
-to make choices about what's the most useful thing we can do.
+> 
+>> +	if (!fc)
+>> +		return -EINVAL;
+>> +	if (format->sh_fmt == IA_CSS_FRAME_FORMAT_RAW &&
+> 
+>> +	    raw_output_format_match_input(fc->atomisp_in_fmt,
+>> +					  pix->pixelformat))
+> 
+> Now a single line?
 
-So what I do and what the zero day bot does is we look at warnings one
-time and we re-review old warnings whenever a file is changed.
+Ack, fixed.
 
-Kernel developers are very good at addressing static checker warnings
-and fixing the real issues...  People sometimes ask me to create a
-database of warnings which I have reviewed but the answer is that
-anything old can be ignored.  As I write this, I've had a thought that
-instead of a database of false positives maybe we should record a
-database of real bugs to ensure that the fixes for anything real is
-applied.
+> 
+>> +		return -EINVAL;
+> 
+> ...
+> 
+>>  		unsigned int hblank_cycles = 100,
+>>  		vblank_lines = 6,
+>>  		width,
+> 
+> Urgh... These comma operators probably is subject to replace with separate
+> definitions or being grouped on a single line (as it suppose to be in this
+> case).
 
-regards,
-dan carpenter
+That indeed is ugly, but fixing this is out of scope for this patch,
+so I've added an extra patch to the set to address this:
+
+https://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git/commit/?h=media-atomisp&id=48d93af9d9b0fd40a21a656cb8cd8e25700bfed5
+
+Regards,
+
+Hans
+
 
