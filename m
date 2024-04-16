@@ -1,157 +1,144 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mout.web.de (mout.web.de [212.227.15.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CAB827715
-	for <linux-staging@lists.linux.dev>; Tue, 16 Apr 2024 06:42:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A2D07EEFD;
+	Tue, 16 Apr 2024 07:05:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713249781; cv=none; b=iiJlxRlvE7DQmxysmYF6/cwUOVkQcNKS+sPsbQW7t2F9g776KJurlsjNdjGYe6O/rKIJt6M7qADOXYtzsdmMFEiTV6OMwK0V43PdsynIPOcQYAFcXydYWcmMT6UMcfAg4sT5arWW2lh8XwCM5QkKl0Nptq4J6JPkolbXXnozBKw=
+	t=1713251132; cv=none; b=Q8sEBSDiF6dCWwnkxz8z6t7SEq9F2oeYmA++DsD9TpbaVCp5qtfq3Cr46FLf9Gk5oj3Okf3rUiG1hIuJMl9SbuwrjwOmBXwcHlvMF4J7uf8awNAdBSuXvCdQHZx3uN6diTpd6QYS8ljuqJEK0qslwgpu/WGTB0fT+90mgua7r8Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713249781; c=relaxed/simple;
-	bh=n6bO6kRdq9Znoqi0Wiy40EuYKaZ16iDx0eO8kyDhEAc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f1cR3Fh72Fsq8W+SIrJzjPpcXPm5e2iKiDEiSnUiBnZmkq/1nnpjhH2BM4itz8mHz2LvK+Hmx2MrGICKcPdf+sM+o3aQvPZLfEgad83ATJmoCJB7PqsvXxbltfeCEcrR4YoFk2YQR7DBzNGBvPh8EHMjeuXeKBIfkHaI/O0OGic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=JWUBmK5k; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1713251132; c=relaxed/simple;
+	bh=fpIr7vk9ma0F1Ajyvw7T8mvDHmQiafMnVUv8cVES/Q8=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=pbkEDZxhkZLvYoVyF910qvs5e34ZpDev5m6tO4WEyRpE99ImAQMo4mt3vfmbrn1oSv4t9QDWcKQApg2pxyn408c1PDGEqzR/zxC5SujK2CGlch7uwhFETBC7RddPugDRdvp3YYRON8Gs7RaYJ1u4SjQgDozAOjoqr02+2SU+p+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=uYYpoJTm; arc=none smtp.client-ip=212.227.15.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JWUBmK5k"
-Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id BFC97480;
-	Tue, 16 Apr 2024 08:42:05 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1713249725;
-	bh=n6bO6kRdq9Znoqi0Wiy40EuYKaZ16iDx0eO8kyDhEAc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JWUBmK5kj9Xa/2ObpEy+8A+nR1TqpNUKk4fHNM0W0Ez5YKtTjF81nPdQgXirFKOdb
-	 oMRl2190DGv0EVNwwX4bYryLJEI2n8g1RO1XvOpQ3JgDyFkdRyJAQwhQClZBQNOukC
-	 INwoy6/AWLwzUL9A38pcRZGwfesmeu4gvc1b4Yfo=
-Date: Tue, 16 Apr 2024 09:42:43 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Stefan Wahren <wahrenst@gmx.net>
-Cc: Umang Jain <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev,
-	Dan Carpenter <error27@gmail.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Phil Elwell <phil@raspberrypi.com>, Greg KH <greg@kroah.com>
-Subject: Re: [PATCH v5 07/11] staging: vc04_services: Move global memory
- mapped pointer
-Message-ID: <20240416064243.GA32080@pendragon.ideasonboard.com>
-References: <20240412075743.60712-1-umang.jain@ideasonboard.com>
- <20240412075743.60712-8-umang.jain@ideasonboard.com>
- <589da063-ede9-4696-acf6-d0006762b8a1@gmx.net>
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="uYYpoJTm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1713251047; x=1713855847; i=markus.elfring@web.de;
+	bh=11Y55v0AlzuRPO7ifOFiCZQ7lrJESQhpZwvX7xtpFpc=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=uYYpoJTmRqgk2fHBG3KnNz2CLPavpRrEfJtq6/fkxsSHPHo9hr9qcnbetfR4rbAv
+	 WWYYcMCU5QC3KoHYZsERO/uCRV2oxChX6X+Rafq4yYRbQohsxFKvostPltnlOgZUZ
+	 uF9kX12zxQQdi44vnDxMP2KDpxbIBaLpo5hqzClbmR4INeL93ovd+wCPNkORolTKA
+	 RsWEq1pb7kj6jurgWDs/BjuRAGZTklJtZ686dqKAidxv8QQmS4EmEZg2pw3cisyw+
+	 IuhR26xDJ4uJ6w3UN1gJ6I/LtVomRg8m99Raf/c0Fc4QVAeD0lf4ST2m6UyLR9hF4
+	 nOhZqEsl8lmkPGi/9Q==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.85.95]) by smtp.web.de (mrweb005
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1Mvspv-1smFwO1js7-010uHt; Tue, 16
+ Apr 2024 09:04:07 +0200
+Message-ID: <e0377059-4073-4779-8385-506b9b39301e@web.de>
+Date: Tue, 16 Apr 2024 09:03:36 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <589da063-ede9-4696-acf6-d0006762b8a1@gmx.net>
+User-Agent: Mozilla Thunderbird
+To: Ricardo Ribalda <ribalda@chromium.org>, linux-media@vger.kernel.org,
+ kernel-janitors@vger.kernel.org, Abylay Ospan <aospan@netup.ru>,
+ Alain Volmat <alain.volmat@foss.st.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Angelo Gioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Chen-Yu Tsai <wens@csie.org>,
+ Dmitry Osipenko <digetx@gmail.com>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Hans Verkuil <hverkuil@xs4all.nl>,
+ Hugues Fruchet <hugues.fruchet@foss.st.com>,
+ Jacopo Mondi <jacopo+renesas@jmondi.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Martin Tuma <martin.tuma@digiteqautomotive.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Pavel Machek <pavel@ucw.cz>, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Samuel Holland <samuel@sholland.org>, Sergey Kozlov <serjk@netup.ru>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>,
+ Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+ Sylvain Petinot <sylvain.petinot@foss.st.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org
+References: <20240415-fix-cocci-v1-3-477afb23728b@chromium.org>
+Subject: Re: [PATCH 03/35] media: uvcvideo: Refactor iterators
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20240415-fix-cocci-v1-3-477afb23728b@chromium.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:sHR+TeGSFgoxPZvFUHAPIEuDVzgT2GvvVwRx2R0bQhoUCLrY21q
+ 4aVwGDwLU20D7GafylHrOJidGYSPJoSoIzoqf+nPfG0K+ORf8VF8LHB5EhsUv86XaNhisus
+ 3kmBAPbDemt8Lc42bbQEjY39bQYWH3PtxU6pQC03uggivELLPehSfNoyDhXXBzC0UmXhKFx
+ xJrtOT5azfeT6A+OIpOdg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:03HI85af2Ns=;yQ8sKTONouBI76raH8Z58fLgdPG
+ cDRdjqAFM/3eXwECjUZI9h4p6mlw8k+SOXiyN6GfwXod9KAZJOxaNqbO06huy2pgBzYXWcxaK
+ 1yvcUyUm5nteIAvRh5GEJ6k2V8yU4C8rRXv94JjainnOHsSdDuPbk0aZXSWp65ziquDFaUUDN
+ YJZN7AsXSRRYZMDVispdvHubrvkMarfGAxoCn4+Sw/adTSJ9UOxI6QREc49RSDDGj50+NsVZA
+ I9/YrIlsRw4OeLnNC7dBSfeh2gas2lmTVPAdeZE5dk0sIs7aiTx7Cpr5FEHhCUFXrkReal3EO
+ gELP/4ATALLJIJbZL8oac+FZhSpqW5irTqlO//L3y6eUAaDcuOSIPWLoaYJ2J97IzS1c9eCBT
+ dPZVw6RcJR7I1g+6lDJwbla9AWsE0cHKjE7xI2z8RiMQz8Rg1JfobeDUi4lCAeun4aY23r5ct
+ YWwBdDrs6QXbNlkfk+vAwFpDgJQbH27hI7BnJLDoXByi4vvXAuZw1dpfEkQ80cUKCCCXCdn7X
+ PvxRBpoBI4VG9b+hFjsF5IAAMMrnv9iTADoQIOgnuUIHJ96lnDCSfdzxHRFAWt2M+05cdkCb1
+ Xd22EYiLsJxLnQ9xjjeW2wTuQRB2DVUy1LO2KuI3z2ZDeT+FU9j9vuFhJTTTlhlzwnv9ycOI2
+ FCqhmVe/n6PxH/5bS4hKkm4lYwNU/GheqGDyJrBHSbogo2OEAjGtEGI1SveFeBPQ/PKRQkiQ8
+ msmag1gLjDLzUZ3GnLIpmC2bTBr5sENz7Knm/uddln2TX5kDsFZDCPf9L9KYANSpzIuCxNgkh
+ +sdpCGJrmyr6dMFVvuLSI8fFEJx9x6/qw+iAMnV+HSLrk=
 
-Hello,
+I would find a hint for a variable change more appropriate in the patch su=
+bject
+instead of the word =E2=80=9Citerators=E2=80=9D.
 
-On Sun, Apr 14, 2024 at 01:58:04PM +0200, Stefan Wahren wrote:
-> Am 12.04.24 um 09:57 schrieb Umang Jain:
-> > g_regs stores the remapped memory pointer for the vchiq platform.
-> > It can be moved to struct vchiq_drv_mgmt instead of being global.
-> >
-> > Adjust the affected functions accordingly. Pass vchiq_state pointer
-> > wherever necessary to access struct vchiq_drv_mgmt.
-> >
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> > ---
-> >   .../interface/vchiq_arm/vchiq_arm.c           | 19 +++++++++++--------
-> >   .../interface/vchiq_arm/vchiq_arm.h           |  2 ++
-> >   .../interface/vchiq_arm/vchiq_core.c          | 10 +++++-----
-> >   .../interface/vchiq_arm/vchiq_core.h          |  2 +-
-> >   4 files changed, 19 insertions(+), 14 deletions(-)
-> >
-> > diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> > index 29f9affe5304..9fc98411a2b8 100644
-> > --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> > +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> > @@ -129,8 +129,6 @@ struct vchiq_pagelist_info {
-> >   	unsigned int scatterlist_mapped;
-> >   };
-> >
-> > -static void __iomem *g_regs;
-> > -
-> >   static int
-> >   vchiq_blocking_bulk_transfer(struct vchiq_instance *instance, unsigned int handle, void *data,
-> >   			     unsigned int size, enum vchiq_bulk_dir dir);
-> > @@ -139,11 +137,14 @@ static irqreturn_t
-> >   vchiq_doorbell_irq(int irq, void *dev_id)
-> >   {
-> >   	struct vchiq_state *state = dev_id;
-> > +	struct vchiq_drv_mgmt *mgmt;
-> >   	irqreturn_t ret = IRQ_NONE;
-> >   	unsigned int status;
-> >
-> > +	mgmt = dev_get_drvdata(state->dev);
-> Was there a reason against moving it in the declaration?
-> > +
-> >   	/* Read (and clear) the doorbell */
-> > -	status = readl(g_regs + BELL0);
-> > +	status = readl(mgmt->regs + BELL0);
-> >
-> >   	if (status & ARM_DS_ACTIVE) {  /* Was the doorbell rung? */
-> >   		remote_event_pollall(state);
-> > @@ -556,9 +557,9 @@ static int vchiq_platform_init(struct platform_device *pdev, struct vchiq_state
-> >   	if (err)
-> >   		return err;
-> >
-> > -	g_regs = devm_platform_ioremap_resource(pdev, 0);
-> > -	if (IS_ERR(g_regs))
-> > -		return PTR_ERR(g_regs);
-> > +	drv_mgmt->regs = devm_platform_ioremap_resource(pdev, 0);
-> > +	if (IS_ERR(drv_mgmt->regs))
-> > +		return PTR_ERR(drv_mgmt->regs);
-> >
-> >   	irq = platform_get_irq(pdev, 0);
-> >   	if (irq <= 0)
-> > @@ -641,8 +642,10 @@ static struct vchiq_arm_state *vchiq_platform_get_arm_state(struct vchiq_state *
-> >   }
-> >
-> >   void
-> > -remote_event_signal(struct remote_event *event)
-> > +remote_event_signal(struct vchiq_state *state, struct remote_event *event)
-> >   {
-> > +	struct vchiq_drv_mgmt *mgmt = dev_get_drvdata(state->dev);
-> > +
-> >   	/*
-> >   	 * Ensure that all writes to shared data structures have completed
-> >   	 * before signalling the peer.
-> > @@ -654,7 +657,7 @@ remote_event_signal(struct remote_event *event)
-> >   	dsb(sy);         /* data barrier operation */
-> >
-> >   	if (event->armed)
-> > -		writel(0, g_regs + BELL2); /* trigger vc interrupt */
-> > +		writel(0, mgmt->regs + BELL2); /* trigger vc interrupt */
-> >   }
-> >
-> >   int
-> > diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
-> > index 52013bbc5171..10c1bdc50faf 100644
-> > --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
-> > +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
-> > @@ -50,6 +50,8 @@ struct vchiq_drv_mgmt {
-> >   	char *fragments_base;
-> >   	char *free_fragments;
-> >   	unsigned int fragments_size;
-> > +
-> > +	void __iomem *regs;
+
+=E2=80=A6
+> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+=E2=80=A6
+> @@ -2175,16 +2177,16 @@ int uvc_xu_ctrl_query(struct uvc_video_chain *ch=
+ain,
+>  	int ret;
 >
-> I'm not a expert about cache line alignment, but maybe this should be
-> moved at the beginning of struct vchiq_drv_mgmt?
-> 
-> Not sure this would have a performance impact.
+>  	/* Find the extension unit. */
+=E2=80=A6
+> +	entity =3D NULL;
+> +	list_for_each_entry(iter, &chain->entities, chain) {
+=E2=80=A6
 
-I don't think it will help much, but it shouldn't hurt.
+I suggest to move this assignment into the definition for the affected loc=
+al variable.
 
--- 
+
+By the way:
+I see another source code adjustment opportunity in this function implemen=
+tation.
+https://elixir.bootlin.com/linux/v6.9-rc4/source/drivers/media/usb/uvc/uvc=
+_ctrl.c#L2165
+
+Can it be nicer to use labels =E2=80=9Cfree_data=E2=80=9D and =E2=80=9Cunl=
+ock=E2=80=9D (instead of =E2=80=9Cdone=E2=80=9D)?
+How do you think about to increase the application of scope-based resource=
+ management here?
+
 Regards,
-
-Laurent Pinchart
+Markus
