@@ -1,169 +1,83 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD80B129E76
-	for <linux-staging@lists.linux.dev>; Tue, 16 Apr 2024 11:59:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A9875FEE3
+	for <linux-staging@lists.linux.dev>; Tue, 16 Apr 2024 12:38:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713268770; cv=none; b=Q0n9COB+yIT5oZJZSO8KpYqqVw0YHw4fujSyD1iJol08Je6JzIZNmjhAObwZlpN/Y0wh1krrvs6p23pf//V0yLJxt9+i5SWYVSG7L1RoDhfMq8IZxayY/NyU0f2/9yKCU04HQuhd+ifNLUnsiZn/Ma2pcEVef3wknJ1qKGAWjRk=
+	t=1713271137; cv=none; b=A+Zi3a5B9p9+L7SIIA/yPO9QxvL2ghMvz81Kqk691kKB1LkUX8W5RyC4nzL2FYzqXN1dxUeuDNArYFPVzckuO6XN750oKl8b5C5IbiVlspljnOriNx5/aY/p4/88iVFskEfuhH6XRkI7FZph0n8ZM6dbxXLECm2HUdRrnK9HcNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713268770; c=relaxed/simple;
-	bh=qbqi+XsX6wxH4QDDPdchG2lSzTVOiuCarFXtt6z8m5g=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=iodQNTMN5sHqVIqhtG5RcSjbNF8LTg+8F4ByE4yeiLXtKO5HQ/tgCsHzeAnwiVUu/abhT/2+g6Y1IhCpL+M9aULmbfUp5FOZ0lqg1nmVTe2eVJIe7p15q2iMopSRIB0cWWlDJxLImlrk2Jnq3IyRQkNh5eEc25wuRl89J8+l94M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FbL1HS2B; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1713271137; c=relaxed/simple;
+	bh=RmzZf7KFhcOYGC2I6q3cNiiYlOfQWLYJ71vx42JQWRQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iP3FD+iCsCUqdOQlj5w/rZJ/oh5X297ZcAVUxFNnFFKzEVFkp53oQzKXLltdYJQKGDLLsIl0uMJPKG61pbA94oaNazWgmqwjO65QNrbbUbNC2ReJsEDIL+F+2Zxb/wlOwtS5JTzyig7DS66rPGz/VZeikH2DTXLAEbpasndUvRQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=kf31EdD/; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FbL1HS2B"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1e3f6f03594so27546025ad.0
-        for <linux-staging@lists.linux.dev>; Tue, 16 Apr 2024 04:59:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kf31EdD/"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a51a7dc45easo486063566b.2
+        for <linux-staging@lists.linux.dev>; Tue, 16 Apr 2024 05:38:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713268768; x=1713873568; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=hQ8Km8pUrRdj6HD7UNUZL3puRDpbGZKIzvHBUwGPNQw=;
-        b=FbL1HS2BEljUE4iTYSdl6wtwV2kL7NXVUnC/xA/fMVUUsyZxBgqmQhdwQgnlI7ib/7
-         s8fQ5hfVfNN0gowKm8+ymoxl5MqHH4O0W6AWGrz6EUAClrve2/lYQaLbXa6ezN8GQ7yA
-         lnlY0DmQNzSAomfxmgETud08S3AH4whzpUqXIQ9H++CI41V/IgAx7JBCR3OcqGO2uNLw
-         6H0cwFVHrup6j9uB5+nX0kH+CEwDQxFMC6B4+e6E4z6o7ZGl3IGvlmoBk5ngw7BJBGjG
-         acBI8G3caYls17BltbvFjW9VyhR5dQKbNegcOmLGCo6H2F0X5CeAE8pSsHnXf3cg+syX
-         rXeQ==
+        d=linaro.org; s=google; t=1713271134; x=1713875934; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=nmaZPsA5/bY9fp2hcNvKXfbEk2+XWrkUqrlml8f+fjg=;
+        b=kf31EdD/jqK+6D+oBA5cUK3VvU6dEaNEol8SC8au8m2DuScFjmAoJjXpX3UItXJj13
+         FoB91vFFMkfb5N7HYvoNZtKq5DFvrn3A53ThDxebB/lefIc5/MLoZpAZlaeMoC4aC9Ru
+         2IyUJK0t+xujzh0NXZMlUbPVKlrgdKj0TiSsqXyucrpVoCs+k1x4DXwUbfIe/aT4TYDG
+         H9z8C7ti4ohq7bdhB6jPG2Z7Iq9/m7J8z/sIMtPqYMSj0ZKKAUVfPK2n1wJN6s3LjM0i
+         1/3a4RyMN02cAPs9PlmtSv+9jajmUDyFYwfPp50erBdxtMNpmXbx/5YhCo2hnLz6D2Lw
+         wTJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713268768; x=1713873568;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hQ8Km8pUrRdj6HD7UNUZL3puRDpbGZKIzvHBUwGPNQw=;
-        b=TVynd9wp51/l3lRLFcmXCq6wysu9zaXLG5T9NMzLt8dUTi4XcqMdF6XAjJ+kbMlSl6
-         Wg8VyA5eO3VrqqRVAqMnePY5U4q6R4/CFO5wBgIu70yCJFNXNoLV63jBqjsyaeJQvqTy
-         ePGzmvt3+l5lKs7D4lH36PWa0NzcKsCT79Ca2wYR3zLcLQH0Gd4y9aAWGWdCZLgBDZME
-         52wTkFzUDG3PXhXrot9n9kwcKTvRzSFg5GrzvlKMUG07LLZgtsi/7imPsxwHqXB2L67G
-         LGeQR0dj7NSCKQgoMw7A3/N46i+wO2En2itPGxpkDxO/Jp5iN62zXTxn9FisbZzwP7/i
-         0fCA==
-X-Gm-Message-State: AOJu0Yw9wDOzl82192c76fcCIQGJMd/Jk/pmn2AS9yORwxe+ATUDHI+8
-	A52duPwSNQcQ/B3WZSa+n5oCtjVFg4vwsI4BQ2+WT4WNqxHcG7RC
-X-Google-Smtp-Source: AGHT+IG3114+5T4rKIudyGIHpqSw90eJAE+y4lnLAgiCoA96yKOqVpWxd3xunDkFep4E/G/a19QgEA==
-X-Received: by 2002:a17:902:f688:b0:1e2:6165:8086 with SMTP id l8-20020a170902f68800b001e261658086mr13188458plg.61.1713268768024;
-        Tue, 16 Apr 2024 04:59:28 -0700 (PDT)
-Received: from karan-IdeaPad-3-15ALC6-Ub.. ([2401:4900:1c96:c7dd:27d5:f53e:33a6:5717])
-        by smtp.gmail.com with ESMTPSA id k18-20020a170902c41200b001e3dff1e4d1sm9590941plk.268.2024.04.16.04.59.25
+        d=1e100.net; s=20230601; t=1713271134; x=1713875934;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nmaZPsA5/bY9fp2hcNvKXfbEk2+XWrkUqrlml8f+fjg=;
+        b=naw5GaCYsN9BW4QBU2VLCHooMV3iZ0mYwHBVxgS/9aFop65JLqkF1YHvrd/JqA2/AB
+         gSlxlYkSsjFN6DYwNslqc+l0L0fIxU+AW+D6IIda/k26fTBl6I3x0k3P00seWAyjek6J
+         HJsllsVxEOqdvYys/DHFqbdlqtyJaj/13KlHlThnVEEqG9H9g+n+xa39sruV+0tlJxJ8
+         5hKDztI7h/L+7p3wbuaBvX5ek4j/EUG/zsH9QpesmvvcMyo2wfVMtFg29eAAC+7ba7kh
+         60z8fDyR8EOWYsa7nKrdbJEwkeVk2pIUBj2ZAQdr4CbTDoVjC5y/BFb6dhcF96uKD4v4
+         4jyw==
+X-Forwarded-Encrypted: i=1; AJvYcCWvP5Vy1ZdiK43ZmoO78x8qLEwjqLcDVKwCZFyKf3+UOwCe8oY+q3JkYcyd3g4kQNG9I4KeH/rFdDmE54jAwHIKlW/tHynpN64dGr0kFw==
+X-Gm-Message-State: AOJu0YzGp8tmObmPD2zevRQ+2pXTIXTBV/cR+Qs/uohZHohcjZu+Od+b
+	TkDNa97V3e7sTeNFn1PcdisVqfWFkte9XQ5QnHGYL/8Lt4AqOoH5AwbCMKlTwyE=
+X-Google-Smtp-Source: AGHT+IGz3VKYK2E3xDM7FfRYh+Y9LTHdgWe5Ey7fM49QWy+hpmVdcxxwvu7Ke0VgRiRjbYE8DUnyXg==
+X-Received: by 2002:a17:907:9496:b0:a52:30d3:41dd with SMTP id dm22-20020a170907949600b00a5230d341ddmr11072034ejc.41.1713271134447;
+        Tue, 16 Apr 2024 05:38:54 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id dm18-20020a170907949200b00a51983e6190sm6766884ejc.205.2024.04.16.05.38.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Apr 2024 04:59:27 -0700 (PDT)
-From: Karan Sanghavi <karansanghvi98@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Karan Sanghavi <karansanghvi98@gmail.com>
-Subject: [PATCH] Staging : ks7010 ks_wlan_net : Fixed Unnecessary Paranthesis, Prefer Fallthrough and Line spacing issue.
-Date: Tue, 16 Apr 2024 17:29:03 +0530
-Message-Id: <20240416115903.92706-1-karansanghvi98@gmail.com>
-X-Mailer: git-send-email 2.40.1
+        Tue, 16 Apr 2024 05:38:53 -0700 (PDT)
+Date: Tue, 16 Apr 2024 15:38:49 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Karan Sanghavi <karansanghvi98@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Staging : ks7010 ks_wlan_net : Fixed Unnecessary
+ Paranthesis, Prefer Fallthrough and Line spacing issue.
+Message-ID: <c45387e6-1af7-40d9-a2f5-5cc174154485@moroto.mountain>
+References: <20240416115903.92706-1-karansanghvi98@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240416115903.92706-1-karansanghvi98@gmail.com>
 
-Fixed a coding style issue.
+On Tue, Apr 16, 2024 at 05:29:03PM +0530, Karan Sanghavi wrote:
+> Fixed a coding style issue.
+> 
+> Signed-off-by: Karan Sanghavi <karansanghvi98@gmail.com>
 
-Signed-off-by: Karan Sanghavi <karansanghvi98@gmail.com>
----
- drivers/staging/ks7010/ks_wlan_net.c | 23 +++++++++++------------
- 1 file changed, 11 insertions(+), 12 deletions(-)
+Greg likes parentheses so leave those alone.  The other changes are
+wrong and also break the build.
 
-diff --git a/drivers/staging/ks7010/ks_wlan_net.c b/drivers/staging/ks7010/ks_wlan_net.c
-index 0fb97a79ad0b..4b1b5d9b883b 100644
---- a/drivers/staging/ks7010/ks_wlan_net.c
-+++ b/drivers/staging/ks7010/ks_wlan_net.c
-@@ -12,7 +12,6 @@
- #include <linux/netdevice.h>
- #include <linux/timer.h>
- #include <linux/uaccess.h>
--
- static int wep_on_off;
- #define	WEP_OFF		0
- #define	WEP_ON_64BIT	1
-@@ -181,26 +180,26 @@ static int ks_wlan_set_freq(struct net_device *dev,
- 
- 	/* for SLEEP MODE */
- 	/* If setting by frequency, convert to a channel */
--	if ((fwrq->freq.e == 1) &&
--	    (fwrq->freq.m >= 241200000) && (fwrq->freq.m <= 248700000)) {
-+	if (fwrq->freq.e == 1 &&
-+	    fwrq->freq.m >= 241200000 && fwrq->freq.m <= 248700000) {
- 		int f = fwrq->freq.m / 100000;
- 		int c = 0;
- 
- 		while ((c < 14) && (f != frequency_list[c]))
- 			c++;
--		/* Hack to fall through... */
-+		[[fallthough]];
- 		fwrq->freq.e = 0;
- 		fwrq->freq.m = c + 1;
- 	}
- 	/* Setting by channel number */
--	if ((fwrq->freq.m > 1000) || (fwrq->freq.e > 0))
-+	if (fwrq->freq.m > 1000 || fwrq->freq.e >)
- 		return -EOPNOTSUPP;
- 
- 	channel = fwrq->freq.m;
- 	/* We should do a better check than that,
- 	 * based on the card capability !!!
- 	 */
--	if ((channel < 1) || (channel > 14)) {
-+	if (channel < 1 || channel > 14) {
- 		netdev_dbg(dev, "%s: New channel value of %d is invalid!\n",
- 			   dev->name, fwrq->freq.m);
- 		return -EINVAL;
-@@ -663,7 +662,7 @@ static int ks_wlan_set_rts(struct net_device *dev, struct iw_request_info *info,
- 	/* for SLEEP MODE */
- 	if (vwrq->rts.disabled)
- 		rthr = 2347;
--	if ((rthr < 0) || (rthr > 2347))
-+	if (rthr < 0 || rthr > 2347)
- 		return -EINVAL;
- 
- 	priv->reg.rts = rthr;
-@@ -701,7 +700,7 @@ static int ks_wlan_set_frag(struct net_device *dev,
- 	/* for SLEEP MODE */
- 	if (vwrq->frag.disabled)
- 		fthr = 2346;
--	if ((fthr < 256) || (fthr > 2346))
-+	if (fthr < 256 || fthr > 2346)
- 		return -EINVAL;
- 
- 	fthr &= ~0x1;	/* Get an even value - is it really needed ??? */
-@@ -780,7 +779,7 @@ static int ks_wlan_set_encode(struct net_device *dev,
- 		return -EINVAL;
- 
- 	/* for SLEEP MODE */
--	if ((index < 0) || (index > 4))
-+	if (index < 0 || index > 4)
- 		return -EINVAL;
- 
- 	index = (index == 0) ? priv->reg.wep_index : (index - 1);
-@@ -881,7 +880,7 @@ static int ks_wlan_get_encode(struct net_device *dev,
- 	}
- 
- 	/* Which key do we want ? -1 -> tx index */
--	if ((index < 0) || (index >= 4))
-+	if (index < 0 || index >= 4)
- 		index = priv->reg.wep_index;
- 	if (priv->reg.privacy_invoked) {
- 		enc->flags &= ~IW_ENCODE_DISABLED;
-@@ -1863,8 +1862,8 @@ static int ks_wlan_set_power_mgmt(struct net_device *dev,
- 	    uwrq->mode != POWER_MGMT_SAVE2)
- 		return -EINVAL;
- 
--	if ((uwrq->mode == POWER_MGMT_SAVE1 || uwrq->mode == POWER_MGMT_SAVE2) &&
--	    (priv->reg.operation_mode != MODE_INFRASTRUCTURE))
-+	if (uwrq->mode == POWER_MGMT_SAVE1 || uwrq->mode == POWER_MGMT_SAVE2 &&
-+	    priv->reg.operation_mode != MODE_INFRASTRUCTURE)
- 		return -EINVAL;
- 
- 	priv->reg.power_mgmt = uwrq->mode;
--- 
-2.40.1
+regards,
+dan carpenter
 
