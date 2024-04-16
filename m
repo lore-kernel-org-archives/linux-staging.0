@@ -1,130 +1,169 @@
-Received: from mx.gpxsee.org (mx.gpxsee.org [37.205.14.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2931C12882D;
-	Tue, 16 Apr 2024 11:30:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.205.14.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD80B129E76
+	for <linux-staging@lists.linux.dev>; Tue, 16 Apr 2024 11:59:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713267022; cv=none; b=IuCXSrQUk80KNw43jFOPEeGK0I+rFzCkyopjEuko9j4P9PDoITrcFNa47RZpdta8GJ7ayQvtBggd0Ny3H6lDUMtbaAn2xcXfONG45/IKtjHOXQqUnHm7l2X4/9cbcVFLAqBMf5fepXiDPoZ9h/10hnxRatla9KtVJY4qxbIHsaY=
+	t=1713268770; cv=none; b=Q0n9COB+yIT5oZJZSO8KpYqqVw0YHw4fujSyD1iJol08Je6JzIZNmjhAObwZlpN/Y0wh1krrvs6p23pf//V0yLJxt9+i5SWYVSG7L1RoDhfMq8IZxayY/NyU0f2/9yKCU04HQuhd+ifNLUnsiZn/Ma2pcEVef3wknJ1qKGAWjRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713267022; c=relaxed/simple;
-	bh=hFklNXAFTh7lsJu6P5YapMDLqrxmPeSouEGbwGP1ixQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=m9M+QI56RbQPaxruY5yKh+nz3eHEidniZ49VU2RW6u3PlgPXbg1I1jNI1yCoFh8lUkj8ZnZDj6ZiWK3Fi8EJqrZStkEEqTdBEQ/6l5lnpUpaKi56CZbgl9j8w/JxAJ7HzW2wfyVEZCQg7Q+VdwJ/mLwgTJcVgRkRrmKmF9RdytA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gpxsee.org; spf=pass smtp.mailfrom=gpxsee.org; arc=none smtp.client-ip=37.205.14.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gpxsee.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gpxsee.org
-Received: from [192.168.4.14] (unknown [62.77.71.229])
-	by mx.gpxsee.org (Postfix) with ESMTPSA id 9583E3B254;
-	Tue, 16 Apr 2024 13:30:06 +0200 (CEST)
-Message-ID: <0bea915c-ddad-44b6-ade1-187307da504b@gpxsee.org>
-Date: Tue, 16 Apr 2024 13:30:02 +0200
+	s=arc-20240116; t=1713268770; c=relaxed/simple;
+	bh=qbqi+XsX6wxH4QDDPdchG2lSzTVOiuCarFXtt6z8m5g=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=iodQNTMN5sHqVIqhtG5RcSjbNF8LTg+8F4ByE4yeiLXtKO5HQ/tgCsHzeAnwiVUu/abhT/2+g6Y1IhCpL+M9aULmbfUp5FOZ0lqg1nmVTe2eVJIe7p15q2iMopSRIB0cWWlDJxLImlrk2Jnq3IyRQkNh5eEc25wuRl89J8+l94M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FbL1HS2B; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FbL1HS2B"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1e3f6f03594so27546025ad.0
+        for <linux-staging@lists.linux.dev>; Tue, 16 Apr 2024 04:59:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1713268768; x=1713873568; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hQ8Km8pUrRdj6HD7UNUZL3puRDpbGZKIzvHBUwGPNQw=;
+        b=FbL1HS2BEljUE4iTYSdl6wtwV2kL7NXVUnC/xA/fMVUUsyZxBgqmQhdwQgnlI7ib/7
+         s8fQ5hfVfNN0gowKm8+ymoxl5MqHH4O0W6AWGrz6EUAClrve2/lYQaLbXa6ezN8GQ7yA
+         lnlY0DmQNzSAomfxmgETud08S3AH4whzpUqXIQ9H++CI41V/IgAx7JBCR3OcqGO2uNLw
+         6H0cwFVHrup6j9uB5+nX0kH+CEwDQxFMC6B4+e6E4z6o7ZGl3IGvlmoBk5ngw7BJBGjG
+         acBI8G3caYls17BltbvFjW9VyhR5dQKbNegcOmLGCo6H2F0X5CeAE8pSsHnXf3cg+syX
+         rXeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713268768; x=1713873568;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hQ8Km8pUrRdj6HD7UNUZL3puRDpbGZKIzvHBUwGPNQw=;
+        b=TVynd9wp51/l3lRLFcmXCq6wysu9zaXLG5T9NMzLt8dUTi4XcqMdF6XAjJ+kbMlSl6
+         Wg8VyA5eO3VrqqRVAqMnePY5U4q6R4/CFO5wBgIu70yCJFNXNoLV63jBqjsyaeJQvqTy
+         ePGzmvt3+l5lKs7D4lH36PWa0NzcKsCT79Ca2wYR3zLcLQH0Gd4y9aAWGWdCZLgBDZME
+         52wTkFzUDG3PXhXrot9n9kwcKTvRzSFg5GrzvlKMUG07LLZgtsi/7imPsxwHqXB2L67G
+         LGeQR0dj7NSCKQgoMw7A3/N46i+wO2En2itPGxpkDxO/Jp5iN62zXTxn9FisbZzwP7/i
+         0fCA==
+X-Gm-Message-State: AOJu0Yw9wDOzl82192c76fcCIQGJMd/Jk/pmn2AS9yORwxe+ATUDHI+8
+	A52duPwSNQcQ/B3WZSa+n5oCtjVFg4vwsI4BQ2+WT4WNqxHcG7RC
+X-Google-Smtp-Source: AGHT+IG3114+5T4rKIudyGIHpqSw90eJAE+y4lnLAgiCoA96yKOqVpWxd3xunDkFep4E/G/a19QgEA==
+X-Received: by 2002:a17:902:f688:b0:1e2:6165:8086 with SMTP id l8-20020a170902f68800b001e261658086mr13188458plg.61.1713268768024;
+        Tue, 16 Apr 2024 04:59:28 -0700 (PDT)
+Received: from karan-IdeaPad-3-15ALC6-Ub.. ([2401:4900:1c96:c7dd:27d5:f53e:33a6:5717])
+        by smtp.gmail.com with ESMTPSA id k18-20020a170902c41200b001e3dff1e4d1sm9590941plk.268.2024.04.16.04.59.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Apr 2024 04:59:27 -0700 (PDT)
+From: Karan Sanghavi <karansanghvi98@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Karan Sanghavi <karansanghvi98@gmail.com>
+Subject: [PATCH] Staging : ks7010 ks_wlan_net : Fixed Unnecessary Paranthesis, Prefer Fallthrough and Line spacing issue.
+Date: Tue, 16 Apr 2024 17:29:03 +0530
+Message-Id: <20240416115903.92706-1-karansanghvi98@gmail.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/35] media: pci: mgb4: Refactor struct resources
-To: Ricardo Ribalda <ribalda@chromium.org>,
- Martin Tuma <martin.tuma@digiteqautomotive.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Hugues Fruchet <hugues.fruchet@foss.st.com>,
- Alain Volmat <alain.volmat@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Chen-Yu Tsai
- <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Sowjanya Komatineni <skomatineni@nvidia.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Hans Verkuil <hverkuil@xs4all.nl>, Sergey Kozlov <serjk@netup.ru>,
- Abylay Ospan <aospan@netup.ru>,
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Dmitry Osipenko <digetx@gmail.com>,
- Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
- Sylvain Petinot <sylvain.petinot@foss.st.com>,
- Jacopo Mondi <jacopo+renesas@jmondi.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
- Pavel Machek <pavel@ucw.cz>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
- linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org
-References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
- <20240415-fix-cocci-v1-1-477afb23728b@chromium.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Martin_T=C5=AFma?= <tumic@gpxsee.org>
-In-Reply-To: <20240415-fix-cocci-v1-1-477afb23728b@chromium.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 15. 04. 24 21:34, Ricardo Ribalda wrote:
-> The struct resource end field is inclusive not exclusive, this is, the
-> size is (end - start) +1.
-> 
-> Update the definitions and use the generic resource_size() function.
-> 
-> Fixes cocci check:
-> drivers/media/pci/mgb4/mgb4_regs.c:13:22-25: WARNING: Suspicious code. resource_size is maybe missing with res
-> 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->   drivers/media/pci/mgb4/mgb4_core.c | 4 ++--
->   drivers/media/pci/mgb4/mgb4_regs.c | 2 +-
->   2 files changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/pci/mgb4/mgb4_core.c b/drivers/media/pci/mgb4/mgb4_core.c
-> index 9bcf10a77fd3..60498a5abebf 100644
-> --- a/drivers/media/pci/mgb4/mgb4_core.c
-> +++ b/drivers/media/pci/mgb4/mgb4_core.c
-> @@ -493,13 +493,13 @@ static int mgb4_probe(struct pci_dev *pdev, const struct pci_device_id *id)
->   	struct mgb4_dev *mgbdev;
->   	struct resource video = {
->   		.start	= 0x0,
-> -		.end	= 0x100,
-> +		.end	= 0xff,
->   		.flags	= IORESOURCE_MEM,
->   		.name	= "mgb4-video",
->   	};
->   	struct resource cmt = {
->   		.start	= 0x1000,
-> -		.end	= 0x1800,
-> +		.end	= 0x17ff,
->   		.flags	= IORESOURCE_MEM,
->   		.name	= "mgb4-cmt",
->   	};
-> diff --git a/drivers/media/pci/mgb4/mgb4_regs.c b/drivers/media/pci/mgb4/mgb4_regs.c
-> index 53d4e4503a74..31befd722d72 100644
-> --- a/drivers/media/pci/mgb4/mgb4_regs.c
-> +++ b/drivers/media/pci/mgb4/mgb4_regs.c
-> @@ -10,7 +10,7 @@
->   int mgb4_regs_map(struct resource *res, struct mgb4_regs *regs)
->   {
->   	regs->mapbase = res->start;
-> -	regs->mapsize = res->end - res->start;
-> +	regs->mapsize = resource_size(res);
->   
->   	if (!request_mem_region(regs->mapbase, regs->mapsize, res->name))
->   		return -EINVAL;
-> 
+Fixed a coding style issue.
 
-Reviewed-by: Martin Tůma <martin.tuma@digiteqautomotive.com>
+Signed-off-by: Karan Sanghavi <karansanghvi98@gmail.com>
+---
+ drivers/staging/ks7010/ks_wlan_net.c | 23 +++++++++++------------
+ 1 file changed, 11 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/staging/ks7010/ks_wlan_net.c b/drivers/staging/ks7010/ks_wlan_net.c
+index 0fb97a79ad0b..4b1b5d9b883b 100644
+--- a/drivers/staging/ks7010/ks_wlan_net.c
++++ b/drivers/staging/ks7010/ks_wlan_net.c
+@@ -12,7 +12,6 @@
+ #include <linux/netdevice.h>
+ #include <linux/timer.h>
+ #include <linux/uaccess.h>
+-
+ static int wep_on_off;
+ #define	WEP_OFF		0
+ #define	WEP_ON_64BIT	1
+@@ -181,26 +180,26 @@ static int ks_wlan_set_freq(struct net_device *dev,
+ 
+ 	/* for SLEEP MODE */
+ 	/* If setting by frequency, convert to a channel */
+-	if ((fwrq->freq.e == 1) &&
+-	    (fwrq->freq.m >= 241200000) && (fwrq->freq.m <= 248700000)) {
++	if (fwrq->freq.e == 1 &&
++	    fwrq->freq.m >= 241200000 && fwrq->freq.m <= 248700000) {
+ 		int f = fwrq->freq.m / 100000;
+ 		int c = 0;
+ 
+ 		while ((c < 14) && (f != frequency_list[c]))
+ 			c++;
+-		/* Hack to fall through... */
++		[[fallthough]];
+ 		fwrq->freq.e = 0;
+ 		fwrq->freq.m = c + 1;
+ 	}
+ 	/* Setting by channel number */
+-	if ((fwrq->freq.m > 1000) || (fwrq->freq.e > 0))
++	if (fwrq->freq.m > 1000 || fwrq->freq.e >)
+ 		return -EOPNOTSUPP;
+ 
+ 	channel = fwrq->freq.m;
+ 	/* We should do a better check than that,
+ 	 * based on the card capability !!!
+ 	 */
+-	if ((channel < 1) || (channel > 14)) {
++	if (channel < 1 || channel > 14) {
+ 		netdev_dbg(dev, "%s: New channel value of %d is invalid!\n",
+ 			   dev->name, fwrq->freq.m);
+ 		return -EINVAL;
+@@ -663,7 +662,7 @@ static int ks_wlan_set_rts(struct net_device *dev, struct iw_request_info *info,
+ 	/* for SLEEP MODE */
+ 	if (vwrq->rts.disabled)
+ 		rthr = 2347;
+-	if ((rthr < 0) || (rthr > 2347))
++	if (rthr < 0 || rthr > 2347)
+ 		return -EINVAL;
+ 
+ 	priv->reg.rts = rthr;
+@@ -701,7 +700,7 @@ static int ks_wlan_set_frag(struct net_device *dev,
+ 	/* for SLEEP MODE */
+ 	if (vwrq->frag.disabled)
+ 		fthr = 2346;
+-	if ((fthr < 256) || (fthr > 2346))
++	if (fthr < 256 || fthr > 2346)
+ 		return -EINVAL;
+ 
+ 	fthr &= ~0x1;	/* Get an even value - is it really needed ??? */
+@@ -780,7 +779,7 @@ static int ks_wlan_set_encode(struct net_device *dev,
+ 		return -EINVAL;
+ 
+ 	/* for SLEEP MODE */
+-	if ((index < 0) || (index > 4))
++	if (index < 0 || index > 4)
+ 		return -EINVAL;
+ 
+ 	index = (index == 0) ? priv->reg.wep_index : (index - 1);
+@@ -881,7 +880,7 @@ static int ks_wlan_get_encode(struct net_device *dev,
+ 	}
+ 
+ 	/* Which key do we want ? -1 -> tx index */
+-	if ((index < 0) || (index >= 4))
++	if (index < 0 || index >= 4)
+ 		index = priv->reg.wep_index;
+ 	if (priv->reg.privacy_invoked) {
+ 		enc->flags &= ~IW_ENCODE_DISABLED;
+@@ -1863,8 +1862,8 @@ static int ks_wlan_set_power_mgmt(struct net_device *dev,
+ 	    uwrq->mode != POWER_MGMT_SAVE2)
+ 		return -EINVAL;
+ 
+-	if ((uwrq->mode == POWER_MGMT_SAVE1 || uwrq->mode == POWER_MGMT_SAVE2) &&
+-	    (priv->reg.operation_mode != MODE_INFRASTRUCTURE))
++	if (uwrq->mode == POWER_MGMT_SAVE1 || uwrq->mode == POWER_MGMT_SAVE2 &&
++	    priv->reg.operation_mode != MODE_INFRASTRUCTURE)
+ 		return -EINVAL;
+ 
+ 	priv->reg.power_mgmt = uwrq->mode;
+-- 
+2.40.1
 
