@@ -1,57 +1,57 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD3286EB76
-	for <linux-staging@lists.linux.dev>; Tue, 16 Apr 2024 07:32:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AAB37FBBA
+	for <linux-staging@lists.linux.dev>; Tue, 16 Apr 2024 07:37:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713252742; cv=none; b=W6xS4dEKeOSakrT2cNME5QYDffb6iWglYAhI3cA9bRIOdf09sVt/2SAzXqwv8aNR0ypWAs/WKFh9qMV8iuWqMUZkhGunERfMb6CHcY1uAZt4Uv9PsUNix40w40lfrRX846ONyzOyVLVZLOBJrTnLWKZldFVK2OuYIbPh6cCMBLQ=
+	t=1713253042; cv=none; b=Kw2m2IXTXwOO+0V7CZU+/spP3xGZPhGUb0z1xC9to8g/WUduwX1H4PC/jXY3eMsJD6qsLsqaQYrVukWnGjGCC76vb84MjA88M2IYZUSBG6HR5L4dyQWdmOOIPVz7KEZPrLVnBZyjYAlRCCYzlp6yeJX7Uib4Yx22PaPhFZdEzDI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713252742; c=relaxed/simple;
-	bh=Cs1dgXPtyii2K9Gr9D0keZ57yvHI7OfDP8UWsuFVXPo=;
+	s=arc-20240116; t=1713253042; c=relaxed/simple;
+	bh=BIpOJSTxOK0JfNqFwhleSJ0Efyt0sHPGszihSmkHs2A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GDCcdgEh3AZXKdmfqBdMF9QhoddEKrOqmIwKdiDXVHDZMDDd56JimCH7qJZgyiP2w8zOAvQkVMNn0fJmM4eZvOxrHNl01DvmWPBjj4peudibgfEHGn+dywxasEtk78rT/r7xANVKsPAjxWqdk0KJVwPWlegDiL+7Cecn9XhXaZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YuQQmwKx; arc=none smtp.client-ip=209.85.218.46
+	 Content-Type:Content-Disposition:In-Reply-To; b=PXZUTydT7Q6GxiFrURjw0JSqC083Z9jMtiwXNDCSfV8B56bJtJV54gPs42xGAUJUUrXrXa3Vz+aAJoKeNCKNy16HqE/Grwd4EXqA1WmnJsDJBNqUn9Gqm+/vc+LZSawF9k1r1owf0yPdvn0SWhOe57Ivv+pvqE8UBTutGKwcQyo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=r25GZqHH; arc=none smtp.client-ip=209.85.218.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YuQQmwKx"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a51addddbd4so470522966b.0
-        for <linux-staging@lists.linux.dev>; Tue, 16 Apr 2024 00:32:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="r25GZqHH"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a44ad785a44so480029066b.3
+        for <linux-staging@lists.linux.dev>; Tue, 16 Apr 2024 00:37:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1713252739; x=1713857539; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1713253039; x=1713857839; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8R9bVOGo16amHaHdQgn3vohiOg/80cUEYV+3t7qlHzM=;
-        b=YuQQmwKxuDkJaNNpkCTS4vN7ViLR/J0AR6kJj0sU1LyYzIxaqbSv0CpVXNxcumuROr
-         y9wFlrfI2iRdvFH/t8xW/JmPbhEyY3lDOec3goKMUF9wdeMnMbwubW7NNDWkgM2KW9Eu
-         7e3BN4nMX3aC9CPxypYUK6BS6E8IvJ7vlZ/qVRAaUMOozxoHdP+XI8bQyjLNAiO/Sv0G
-         qdX12RUPv2OSvACt5/gR4vdCCFZdp6hzAqK8j38leO07gv+/dMQ+9DbCP0fAsIEUxxW0
-         q6Fdo2wX81TCjJDKKbPXGitGsTjQj+d5HLONcXVR3RgKvn5xsZT/JFV7ph8E2fjCGZ1n
-         +itg==
+        bh=Vz5EFUG61C/PsBsUPlDK2q+AUqaXZYNi38q3WlwiS3E=;
+        b=r25GZqHHKkL6ksedqiee0QtxEdZKyVyzOfUSmsfEwxoHiF83OlzAKG16uULoPYHWRJ
+         n2KyYfD8Pm/g1fenobVIpRUyeUAjBfnRDWMDOIhgtDNdHwSNTlYMY4GuHaizEFxMriP5
+         ogmCctatNQbix+ELgU8KsyxWbDhgBO96tO0rRv1qhT2ZROHckKkd/5+ZnlVl1AmmzRXw
+         E4rJTMARWFds9u30ESpMRwHx4HahtT8tEMNSUkRgMwhInG12pvXUwiZGLp93yPJnuaBh
+         Xd3GtftZXgtfNKBdgpFJifyr1X7SwX68/IPXRi+6tS2ZXRvlOveBnYtfR1lav4YoTaNF
+         1vOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713252739; x=1713857539;
+        d=1e100.net; s=20230601; t=1713253039; x=1713857839;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8R9bVOGo16amHaHdQgn3vohiOg/80cUEYV+3t7qlHzM=;
-        b=BNqaZvCA95r4wkHvUSmTW4MLhJyxEDYZlWPyyRkhFOZ5vPaz/pd71dGCXvJpYPDGv4
-         yVY0OO43LfArpNR1UK4VfrOwfr/FtJSO/HTvUfx581mD8orVKoH2po4ZKtJDC/hQN9cV
-         r3Dqehl58nmvp/Xk+I+OmSCOGPh9KK/eGlK+iL15Gc7r2+ssN11ow+CBEdgQCSejrwHA
-         ozRPW8t6SYRfe4tTWZ9VFoMRMQpMU1d4KM8/oYAJ6d2rY5MS46KCgfOs9yzAOq2jxZ9K
-         nj2n75OW4CXa3wZYCkUNh5b87cy6yG/EFpHAsNd8kiDcIE4IpnfeaMegyosIZX0ybxFr
-         g6/g==
-X-Forwarded-Encrypted: i=1; AJvYcCV96Qd0LnD7d/B4WQggvrnAsetp/MaWUX+652BHUduBklW3VhS44QKa2cN2ePeTUyg7vimuxM8wmeTvJgXeqwbTxxO3FFY3HJ+ssP8WIQ==
-X-Gm-Message-State: AOJu0YxQh9LLd++pNBVpzOsEHR0MnW2KJjnsyxtRC2jIswL9c03N86A/
-	3HyG/a+wo02Ii9XO3UANLc8l/LSb0BsWLs77eZd3jm+9ynXsj9USMZy42j/eC+0=
-X-Google-Smtp-Source: AGHT+IEiSwmXJXJlRrwBTxtu6/XHomvPQRR0BAqxebaWeb0WkKlHDct2PHGh5ytZktKV5zyNXHYwQg==
-X-Received: by 2002:a17:906:57d6:b0:a52:6c4e:25ae with SMTP id u22-20020a17090657d600b00a526c4e25aemr2620587ejr.44.1713252739010;
-        Tue, 16 Apr 2024 00:32:19 -0700 (PDT)
+        bh=Vz5EFUG61C/PsBsUPlDK2q+AUqaXZYNi38q3WlwiS3E=;
+        b=N/cIxfMZKXp1syy2IcLzl8xOP+pKGV6nkUQKrfdAqZDG1bG+2gmwfsmI6t0M1qUwB+
+         +MgpGLc2QBmeBquBHOBXlB6LpOOQhOLPcl7/LnqDw/Ov2DjDPLefnYrZ0BgYem0YLo1y
+         tXLFWXHCWZoV0KCXXxAIKRrVFKtjACg8mIoppymGk8xqAvVqIiJ5JSP054doFg9c+QFo
+         487GZ1Mt+kdsWPPP8r338Gp1rUVTnDXjW7Q/wlULnDLRpvB0tLNVP2KUI/0sKBXHDicr
+         ANT+GBexjaKNbb7iYaSPdvtgASZlNjusWM2m7xCSvhhEuYN+ptrCzqVOl2Iz7dknDYZ6
+         /Q+g==
+X-Forwarded-Encrypted: i=1; AJvYcCVBsnnrLRGtMeEB/x/xykNhKqKwReMAt0gRyqcrQTkkCI5KIhn43iAy1n+7StBc93ThlKlJV8yvPHpbMEF2IA0D9uchoPSODz8Jo6PFTQ==
+X-Gm-Message-State: AOJu0Yz6s3DBh9q0Yi3gvqdk9X8Ra5xEb1lUu1Y8c6lCSwGPUNcaDb5H
+	8rgKmKk/v4iinDrnoRB5sp1LzEd58uQT3+47sfYG95c91v0odW/o+y0nFN+GNtA=
+X-Google-Smtp-Source: AGHT+IF7djK9Gp7QvHWuOZzhp3iyt4a4kh6gE+5Chee7fTPBiXusYHzH5iP8LrBy89Sq7/Zoad7L6g==
+X-Received: by 2002:a17:906:3488:b0:a52:e86:ae62 with SMTP id g8-20020a170906348800b00a520e86ae62mr7767532ejb.54.1713253038496;
+        Tue, 16 Apr 2024 00:37:18 -0700 (PDT)
 Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id qb11-20020a1709077e8b00b00a51ab065bf0sm6421883ejc.202.2024.04.16.00.32.18
+        by smtp.gmail.com with ESMTPSA id gt43-20020a1709072dab00b00a5242ec4573sm4507206ejc.29.2024.04.16.00.37.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Apr 2024 00:32:18 -0700 (PDT)
-Date: Tue, 16 Apr 2024 10:32:14 +0300
+        Tue, 16 Apr 2024 00:37:18 -0700 (PDT)
+Date: Tue, 16 Apr 2024 10:37:14 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Ricardo Ribalda <ribalda@chromium.org>
 Cc: Martin Tuma <martin.tuma@digiteqautomotive.com>,
@@ -95,10 +95,10 @@ Cc: Martin Tuma <martin.tuma@digiteqautomotive.com>,
 	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
 	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
 	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH 02/35] media: stb0899: Remove unreacheable code
-Message-ID: <e5824d5b-9aa4-4b92-91a4-7e26de8b293d@moroto.mountain>
+Subject: Re: [PATCH 07/35] media: staging: sun6i-isp: Remove redundant printk
+Message-ID: <b8a5cc23-240f-4fe9-9b25-b534f618506e@moroto.mountain>
 References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
- <20240415-fix-cocci-v1-2-477afb23728b@chromium.org>
+ <20240415-fix-cocci-v1-7-477afb23728b@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -107,37 +107,32 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240415-fix-cocci-v1-2-477afb23728b@chromium.org>
+In-Reply-To: <20240415-fix-cocci-v1-7-477afb23728b@chromium.org>
 
-On Mon, Apr 15, 2024 at 07:34:19PM +0000, Ricardo Ribalda wrote:
-> chip_id is an unsigned number, it can never be < 0
+On Mon, Apr 15, 2024 at 07:34:24PM +0000, Ricardo Ribalda wrote:
+> platform_get_irq() already prints an error for us.
 > 
-> Fixes cocci check:
-> drivers/media/dvb-frontends/stb0899_drv.c:1280:8-15: WARNING: Unsigned expression compared with zero: chip_id > 0
+> Found by cocci:
+> drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c:389:2-9: line 389 is redundant because platform_get_irq() already prints an error
 > 
 > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 > ---
->  drivers/media/dvb-frontends/stb0899_drv.c | 5 -----
->  1 file changed, 5 deletions(-)
+>  drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c | 1 -
+>  1 file changed, 1 deletion(-)
 > 
-> diff --git a/drivers/media/dvb-frontends/stb0899_drv.c b/drivers/media/dvb-frontends/stb0899_drv.c
-> index 2f4d8fb400cd..222b5476ebfd 100644
-> --- a/drivers/media/dvb-frontends/stb0899_drv.c
-> +++ b/drivers/media/dvb-frontends/stb0899_drv.c
-> @@ -1277,11 +1277,6 @@ static int stb0899_get_dev_id(struct stb0899_state *state)
->  	dprintk(state->verbose, FE_ERROR, 1, "Demodulator Core ID=[%s], Version=[%d]", (char *) &demod_str, demod_ver);
->  	CONVERT32(STB0899_READ_S2REG(STB0899_S2FEC, FEC_CORE_ID_REG), (char *)&fec_str);
->  	fec_ver = STB0899_READ_S2REG(STB0899_S2FEC, FEC_VER_ID_REG);
-> -	if (! (chip_id > 0)) {
+> diff --git a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
+> index 5c0a45394cba..a6424fe7023b 100644
+> --- a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
+> +++ b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
+> @@ -386,7 +386,6 @@ static int sun6i_isp_resources_setup(struct sun6i_isp_device *isp_dev,
+>  
+>  	irq = platform_get_irq(platform_dev, 0);
+>  	if (irq < 0) {
+> -		dev_err(dev, "failed to get interrupt\n");
+>  		ret = -ENXIO;
 
-This is not dead code.  It's possible for chip_id to be equal to 0.
+This is more fall out from when irq functions used to return zero (16
+years ago).  Instead of ret = -ENXIO, set ret = irq.
 
 regards,
 dan carpenter
-
-> -		dprintk(state->verbose, FE_ERROR, 1, "couldn't find a STB 0899");
-> -
-> -		return -ENODEV;
-> -	}
->  	dprintk(state->verbose, FE_ERROR, 1, "FEC Core ID=[%s], Version=[%d]", (char*) &fec_str, fec_ver);
-
