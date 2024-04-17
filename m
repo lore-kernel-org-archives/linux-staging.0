@@ -1,167 +1,125 @@
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69FFE13D265;
-	Wed, 17 Apr 2024 12:58:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D5711482E0;
+	Wed, 17 Apr 2024 15:51:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713358718; cv=none; b=DTPHQEVPbHEmAZ1BFvSfMIm6+rqT9O0gOQazw2hRmak1Vc9XdVhIQhOm6Yy/PUgypMk5wODixnGzk+0rTB5+pIZmhOtdtsz1a4brijezgQHF+Fdg+m7CkwlTUaLfRGzEQ/o3QmsgQhdt3IqGO4F2Ik5VH5IycDUa5xB+xmvuJcY=
+	t=1713369086; cv=none; b=gE+M6ZzFRzAI5iVtn/m+lP2xKDeCdh2EBlKbVK8ov/x4yBmQ+E/JoQV5Z0v+XSm3ylBvDUKnwxvwOdKvLIJlUkRlQs4bTXnR/4k0t6JKizn7KvUWvex/poEWeRcBICN2ps3hLgzQw8ExzsAIXo+GhaBJhWmNytjyKPhmB5N2ric=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713358718; c=relaxed/simple;
-	bh=mRlRkorupNuv+TJWx/y+uXXu1O9+ZgMbFD+YQNFOBqM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=VDb6DguBrBLBvFu0h+BkC/h5HMoDb6Og+MV/on2CttNnflxrWK3lIbk+jP74p2kM8jnLHrsk6gzVUQD3Oper7deXYGVvkW5ofaNQKvVxw9qJueRx8l1LLDQsGtL3La464IwOgrsW8KI6rEkxvBIxccXUnqYs4U0Og8g/wnU7H9Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=ortz7J2e; arc=none smtp.client-ip=91.207.212.93
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+	s=arc-20240116; t=1713369086; c=relaxed/simple;
+	bh=edMEOEGuTlM3PAdEmFEfjl2jYJNl85TN3kgL+Uyi5vI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GGRtc3bEH7jt1aVNTWFjBArVOTQBpjMmm8CjGRUUSGXsn9wJaPjrHLypH7qCoSWRu+mkk3uFo2r0DAuk5gn7iLA2kSHhSs67+kzkHftmbJmvbc9+S5UHosATcs+XAQeEeft/bmruHcyHvjcr+nb9gtyPyrA1dwsdQnJPbH70s9Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=JZgtL9Xg; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="ortz7J2e"
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 43HClsCK003624;
-	Wed, 17 Apr 2024 14:57:28 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	selector1; bh=Oy6ydHY6pQ8DYm8xK8PeLsM+pd6WltoQh0mGRUSj86E=; b=or
-	tz7J2eIpRjwTS6nxsow94Im5O+PJ8pyQKEzgQC9x+TEQyuiVxirXsxSqUmOFi5z6
-	j9JuaMCVAueB7+ptBoHkZGcb+q5wgjo9DutZh3e/xcZNv9ir2WSLw5Tx3J4ORSCe
-	EA73ib1bb2NSzUytaI+3EJVy3k1Q1gI0fSP3IQEsjwu2YJe3ZCZaDZ9kzaEBLiHp
-	IczYev9vu0LgIHwFgY0toURY1M4EinAS1+idFQEUfhYnNuSSXU5+tp4rEI3eP1EF
-	QiCs84WlUXA+URlFhvVZDuDiVG8dZypP1QlE91pV8tkChGQWA45K8voZ9I1+fYd5
-	RRPfPDBlEjqpZ5kxlIMg==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3xgecyea3g-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 17 Apr 2024 14:57:28 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id E01244002D;
-	Wed, 17 Apr 2024 14:57:10 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id E51CB214D29;
-	Wed, 17 Apr 2024 14:55:47 +0200 (CEST)
-Received: from [10.130.72.241] (10.130.72.241) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Wed, 17 Apr
- 2024 14:55:46 +0200
-Message-ID: <ea60a9e8-6240-4a0a-a224-e132b67160b1@foss.st.com>
-Date: Wed, 17 Apr 2024 14:55:45 +0200
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JZgtL9Xg"
+Received: from pendragon.ideasonboard.com (85-76-15-230-nat.elisa-mobile.fi [85.76.15.230])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DA4CB1815;
+	Wed, 17 Apr 2024 17:50:33 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1713369034;
+	bh=edMEOEGuTlM3PAdEmFEfjl2jYJNl85TN3kgL+Uyi5vI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JZgtL9XgcBbTfPXnFAZgCDPtfvA9dKRTMOKsCQP54tvG+vgRvyoUVmKyvHqZUW8+9
+	 LNXSsOnYHGLTgFNjFxrIi0HOt16nKFhbM2X/j3JnMIJzK5z7DcFFop4CUa4dg8LTzE
+	 vNZ8xAy3r+pQq+qAKQ6gJZoeSd1hXqjf9ytYbmBY=
+Date: Wed, 17 Apr 2024 18:51:12 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Ricardo Ribalda <ribalda@chromium.org>,
+	Martin Tuma <martin.tuma@digiteqautomotive.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Hugues Fruchet <hugues.fruchet@foss.st.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>, Sergey Kozlov <serjk@netup.ru>,
+	Abylay Ospan <aospan@netup.ru>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Dmitry Osipenko <digetx@gmail.com>,
+	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+	Vikash Garodia <quic_vgarodia@quicinc.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Jacopo Mondi <jacopo+renesas@jmondi.org>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Pavel Machek <pavel@ucw.cz>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	Oleg Drokin <green@linuxhacker.ru>
+Subject: Re: [PATCH 00/35] media: Fix coccinelle warning/errors
+Message-ID: <20240417155112.GQ12561@pendragon.ideasonboard.com>
+References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
+ <a003494c-a1a9-4fcd-83d8-766a75d6bbb2@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 22/35] media: i2c: st-mipid02: Use the correct div
- function
-To: Ricardo Ribalda <ribalda@chromium.org>,
-        Martin Tuma
-	<martin.tuma@digiteqautomotive.com>,
-        Mauro Carvalho Chehab
-	<mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Hugues Fruchet
-	<hugues.fruchet@foss.st.com>,
-        Alain Volmat <alain.volmat@foss.st.com>,
-        Maxime
- Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue
-	<alexandre.torgue@foss.st.com>,
-        Paul Kocialkowski
-	<paul.kocialkowski@bootlin.com>,
-        Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec
-	<jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Sakari
- Ailus <sakari.ailus@linux.intel.com>,
-        Thierry Reding
-	<thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Sowjanya
- Komatineni <skomatineni@nvidia.com>,
-        Luca Ceresoli
-	<luca.ceresoli@bootlin.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-        Hans
- Verkuil <hverkuil@xs4all.nl>, Sergey Kozlov <serjk@netup.ru>,
-        Abylay Ospan
-	<aospan@netup.ru>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Dmitry
- Osipenko <digetx@gmail.com>,
-        Stanimir Varbanov
-	<stanimir.k.varbanov@gmail.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Bjorn Andersson
-	<andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Sylvain
- Petinot <sylvain.petinot@foss.st.com>,
-        Jacopo Mondi
-	<jacopo+renesas@jmondi.org>,
-        Kieran Bingham
-	<kieran.bingham+renesas@ideasonboard.com>,
-        Laurent Pinchart
-	<laurent.pinchart+renesas@ideasonboard.com>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-        Pavel Machek <pavel@ucw.cz>
-CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-staging@lists.linux.dev>, <linux-sunxi@lists.linux.dev>,
-        <linux-tegra@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
-        <linux-arm-msm@vger.kernel.org>
-References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
- <20240415-fix-cocci-v1-22-477afb23728b@chromium.org>
-Content-Language: en-US
-From: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-In-Reply-To: <20240415-fix-cocci-v1-22-477afb23728b@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-17_10,2024-04-16_01,2023-05-22_02
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <a003494c-a1a9-4fcd-83d8-766a75d6bbb2@moroto.mountain>
 
-Hi Ricardo,
+On Tue, Apr 16, 2024 at 11:47:17AM +0300, Dan Carpenter wrote:
+> In my opinion, it's better to just ignore old warnings.
 
-Thanks a lot.
-Reviewed-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+I agree. Whatever checkers we enable, whatever code we test, there will
+always be false positives. A CI system needs to be able to ignore those
+false positives and only warn about new issues.
 
-On 4/15/24 21:34, Ricardo Ribalda wrote:
-> link_freq does not fit in 32 bits.
+> When code is new the warnings are going to be mostly correct.  The
+> original author is there and knows what the code does.  Someone has
+> the hardware ready to test any changes.  High value, low burden.
 > 
-> Found by cocci:
-> drivers/media/i2c/st-mipid02.c:329:1-7: WARNING: do_div() does a 64-by-32 division, please consider using div64_s64 instead.
+> When the code is old only the false positives are left.  No one is
+> testing the code.  It's low value, high burden.
 > 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  drivers/media/i2c/st-mipid02.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Plus it puts static checker authors in a difficult place because now
+> people have to work around our mistakes.  It creates animosity.
 > 
-> diff --git a/drivers/media/i2c/st-mipid02.c b/drivers/media/i2c/st-mipid02.c
-> index f250640729ca..93a40bfda1af 100644
-> --- a/drivers/media/i2c/st-mipid02.c
-> +++ b/drivers/media/i2c/st-mipid02.c
-> @@ -326,7 +326,7 @@ static int mipid02_configure_from_rx_speed(struct mipid02_dev *bridge,
->  	}
->  
->  	dev_dbg(&client->dev, "detect link_freq = %lld Hz", link_freq);
-> -	do_div(ui_4, link_freq);
-> +	ui_4 = div64_s64(ui_4, link_freq);
->  	bridge->r.clk_lane_reg1 |= ui_4 << 2;
->  
->  	return 0;
+> Now we have to hold ourselves to a much higher standard for false
+> positives.  It sounds like I'm complaining and lazy, right?  But Oleg
+> Drokin has told me previously that I spend too much time trying to
+> silence false positives instead of working on new code.  He's has a
+> point which is that actually we have limited amount of time and we have
+> to make choices about what's the most useful thing we can do.
 > 
+> So what I do and what the zero day bot does is we look at warnings one
+> time and we re-review old warnings whenever a file is changed.
+> 
+> Kernel developers are very good at addressing static checker warnings
+> and fixing the real issues...  People sometimes ask me to create a
+> database of warnings which I have reviewed but the answer is that
+> anything old can be ignored.  As I write this, I've had a thought that
+> instead of a database of false positives maybe we should record a
+> database of real bugs to ensure that the fixes for anything real is
+> applied.
 
 -- 
 Regards,
 
-Benjamin
+Laurent Pinchart
