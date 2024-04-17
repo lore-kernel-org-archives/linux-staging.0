@@ -1,86 +1,163 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CBB56BFA9;
-	Wed, 17 Apr 2024 08:08:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88ADD5D8F6
+	for <linux-staging@lists.linux.dev>; Wed, 17 Apr 2024 08:36:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713341283; cv=none; b=iwXxsmS9t62FbluUUfmccRWjpcplCwJtJpIRTy70oF280ncMX3Zf3L5hwxqheNgJ0jvjPd8dIBFgV94mQWAYxGsvYOsW8FMzYBg5TFGkzjreIBBJ6LfOWRGQ8dq3vfiZevehOZKStWYCSnleEzNwzAeYS72M0xOkh/3wMbWMUsU=
+	t=1713342991; cv=none; b=uqAk4tkMkz7vyeizHdmVMzGIzNj4VGBPZe68ZfSzHyM5xDtis1fMuYwRqiVudVXnnu9XMpO9tT+hX6kjiD8naihaFm1XAPHjJ1Dy5SM3BT0zrhZ50njRBczofKibiBearp5ur8eBhLYSk7fUZMaV5ZWQyuUvGYTMILD+2Pv9+cw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713341283; c=relaxed/simple;
-	bh=DHm8Ps55G9Fj9QrWrNjR73du8vQp5pj8qoxp4e93/lA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IInerFekIqBJNUnysbHwV739Bb5YgcrNHEtolPOwAYdaoWW76YpcRiB4jDuqYg5+IEjhAgYGBhzc0YV+OdpLQ6F2j2OYVGu+ggat/ZI8aWzVh33dyJFfzDpZfjS+uaJct4jmouOtv0ew2UVl1UY7Tr2N3cL323kuQrWhJYQ85Vo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MfHfTqRE; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1713342991; c=relaxed/simple;
+	bh=jLrSv3mDwVJf7c0urmHft4NujHyUwpP7/8/epSXi7WY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=B4aXBb92PcshUsDHtwk4Sqp8jzlJCs8Kha+a0D7xOh4lJ2X5B7LW6gx00wExTWNJ600Ahl43ArljR4CXF5l7dhCT9+TruR50BYBJwJfCJREQa14H0CfZFPw2Er2kK/k7mihLUENar8pSRdYdtofHd8w6LikoOUt18qP57Sb1Nn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=msIiW8RA; arc=none smtp.client-ip=209.85.208.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MfHfTqRE"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a555faf94fcso24085866b.0;
-        Wed, 17 Apr 2024 01:08:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="msIiW8RA"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-56fd7df9ea9so6230422a12.0
+        for <linux-staging@lists.linux.dev>; Wed, 17 Apr 2024 01:36:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713341279; x=1713946079; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DHm8Ps55G9Fj9QrWrNjR73du8vQp5pj8qoxp4e93/lA=;
-        b=MfHfTqREzMANo5HVD3f7aY9qcD6bCC/ZGFGhfOJAhtYUAIJ1zMeX2DUCR6LPMTuVwi
-         F34HDdaZkbof8a1CZEl4WtpFg80/yAIYXL6IdzRiYBjxLqK51g8YxFDKSjcW29wROr6z
-         RphEb6RinakUGYSpUFDHCc3nnRbkuF30wyzhNe7zC6KM+WKHqxrFw5/WbF4exeOQFGLu
-         sLVl0EAPcLwRBzJsbVy3AwqX9XhH3S3fX7m6p3XNHYmDHdvHhWVLmsHFLFvDGV10rac3
-         Omn25cfe78lQyJ1KPvWeu92KdGozKz6Bzt9f1U+/pb4Qt0QWwk+gyrj/NV4a0WVDxcag
-         M5xw==
+        d=linaro.org; s=google; t=1713342988; x=1713947788; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=iQiui35tGbgrLHrxJlWNcYO7KRQh2YZtezQ4w5QZix0=;
+        b=msIiW8RAIbJ0/vJU7AAR6FIRdSMEEoWoza778VFyx8/jk/iqg5wvs7qhs7YAuMkP17
+         ynfzGhLN61S59PwHDPTiI/sANjYqXUtKes9VRk8H03VFhlRr7EeeLNoAMxXwxE+YJV4X
+         4e4RAg0kgaumOAKPAIwYYtpCLM4wayAgexCNwyVTbxfgV683L2gsn7GM66eHqNb0NkyQ
+         yFwRrymd6nZ80d6xBSMNnhiXS40qZiH1qM8Xmr251JUlaWR2ttE05ElMTUem/+DmM6rP
+         /ZY4+bAgktONNY2UCzrJCMJwawcAw62KGO6NpwAZEyrjpGlTjoq7APXhrTBix+zOEefE
+         anaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713341279; x=1713946079;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DHm8Ps55G9Fj9QrWrNjR73du8vQp5pj8qoxp4e93/lA=;
-        b=Nsx96wBwcvF8fErTfxuW52BAYqF2TbMIGFdAWyubUmEcWDHGpWpzmff4txVYEu+dbN
-         S7kD2PXSrsd77f+zm4KpQ+59rB6xwzVOqG0HcVOx5yfnfIPozD1z+nuYhsTtTGkySt16
-         gl+3JQUzh2CZnt8AU6QgNr/7UA/9kpY3dqYjnMAmMRwNEwxxTFhRvT3VD3V6ZgMqoyyc
-         lGM818IKesEwYSt30spk1NPYJpCNU3/XLmm7cLgzsp57P6Dp5tYxwKMnJ4K9Fhgtej3m
-         hjnDxt4Al4OwhGA2WQ0d9n8zWilR5xS4E/INX7xHtVYW/9rgfEXcsHXN4WfYbyYveL64
-         idLQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUt6yfPAA1hfYcuz7mYylqs6fgv2wmC7FfpGh7mgQRFkCw1xR7Vk9UZNpGrT+ffttrcPlpiufq/EuhBMWRqs8ZJ4kX+mNDPsFeKRXD4Tbmx5CAXFZJwe+ls5kRnpR6LrZeQdylVFu0=
-X-Gm-Message-State: AOJu0YyY2EEKXisjDN8O4cSdlztO5qiu0sS/2cmmOnenJRKwrxtgeode
-	6dtbnqXVTy5InWQcQjU9zkGV7g+qjDCUPOOiteGzfjEXez3cF2FSEpmTVGYaptmEnjYQfhyhSZK
-	F5bPu1WWZNqOtUw+4Pm8vz1opyYU=
-X-Google-Smtp-Source: AGHT+IEynMUl5J9HloIF7Lmmtb9Np+ui5Xjtf47XvRiYkRJSWfelm64saMncMNCznjQRG+iBvCfWr77dG8JoXMd7AzU=
-X-Received: by 2002:a17:906:b358:b0:a53:4cae:e40 with SMTP id
- cd24-20020a170906b35800b00a534cae0e40mr4590024ejb.25.1713341279014; Wed, 17
- Apr 2024 01:07:59 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1713342988; x=1713947788;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iQiui35tGbgrLHrxJlWNcYO7KRQh2YZtezQ4w5QZix0=;
+        b=cjItr7HBOSRVB4VVyup9aJfEVX/LM2c5B0sy4rG0Zp7Z+r5vKeJy+vnmSsDYa/GyU+
+         entNNt/xfrgRFBphviNyldAyVdHDb3eoPxZXIoOgAqxr4dR1aFoxo06dVFPtd68v0uwj
+         8yxDOTFrNr3aalocEVJWcdE+iuspuATknqzGCjF5unvktBf8kLsBqodW4QYDaP0tChWL
+         IqZKp8hniLrQabViT7w1VzEKgJN6gjT28UR1HxHO+QZok7BZo/EszaHWUWlEC2t+e4xE
+         crUvl5X9pvCiFU7WYZ/KILgZgz/1r3GVWYm2Xzwt/1pXABBkWUAuMmqKCnG+BW61EJtO
+         U1TQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV+InRqt1gp1QXGazfbllGmqEzsjx/MaWuEQahLL1wQqL0IWjGC6w/d7v3qc64jm/YhLmN9rrHXV7mXPIdhBD5A7iXghhLCS7cwPygEFw==
+X-Gm-Message-State: AOJu0Yx7cGaN5PeA+/DxGpEBM01cjT+o78dZliTq/uy1EUQUufjNAslq
+	oxI5rurjQWt9PXxifDV0G1gKVcgN2zBXOLLvt4ktoq9GfRe+awsQ9xliHLfuLdk=
+X-Google-Smtp-Source: AGHT+IGcBOrF6dlMwP4LWwT62iTJu3n3+RD0VmgZxc7ueD6NugKm/u+kb1GXFPPYn+h8dHTWajk2Vg==
+X-Received: by 2002:a17:907:846:b0:a52:6fcb:564a with SMTP id ww6-20020a170907084600b00a526fcb564amr5823920ejb.9.1713342987569;
+        Wed, 17 Apr 2024 01:36:27 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id cw21-20020a170906479500b00a52182471a2sm7905680ejc.13.2024.04.17.01.36.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Apr 2024 01:36:27 -0700 (PDT)
+Date: Wed, 17 Apr 2024 11:36:23 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Martin Tuma <martin.tuma@digiteqautomotive.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Hugues Fruchet <hugues.fruchet@foss.st.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>, Sergey Kozlov <serjk@netup.ru>,
+	Abylay Ospan <aospan@netup.ru>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Dmitry Osipenko <digetx@gmail.com>,
+	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+	Vikash Garodia <quic_vgarodia@quicinc.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Jacopo Mondi <jacopo+renesas@jmondi.org>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Pavel Machek <pavel@ucw.cz>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH 25/35] media: venus: Use the correct div_ function
+Message-ID: <06113ffe-11bd-4c73-aff7-5e55aa8e3edc@moroto.mountain>
+References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
+ <20240415-fix-cocci-v1-25-477afb23728b@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240416211941.9369-1-tony.luck@intel.com> <20240416212247.9949-1-tony.luck@intel.com>
-In-Reply-To: <20240416212247.9949-1-tony.luck@intel.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Wed, 17 Apr 2024 11:07:23 +0300
-Message-ID: <CAHp75VcQvNqaTj6GTNmhoMbTj-qbn=WX7OSuRwiPaFO5pzPd9g@mail.gmail.com>
-Subject: Re: [PATCH v3 68/74] x86/cpu/vfm: Update drivers/staging/media/atomisp/include/linux/atomisp_platform.h
-To: Tony Luck <tony.luck@intel.com>
-Cc: Hans de Goede <hdegoede@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	patches@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240415-fix-cocci-v1-25-477afb23728b@chromium.org>
 
-On Wed, Apr 17, 2024 at 12:22=E2=80=AFAM Tony Luck <tony.luck@intel.com> wr=
-ote:
->
-> New CPU #defines encode vendor and family as well as model.
+On Mon, Apr 15, 2024 at 07:34:42PM +0000, Ricardo Ribalda wrote:
+> us_per_frame does not fit in u32
+> 
 
-Thanks, but I would rather see this using the following
-https://elixir.bootlin.com/linux/v6.9-rc4/source/include/linux/platform_dat=
-a/x86/soc.h
+drivers/media/platform/qcom/venus/venc.c
+   391  static int venc_s_parm(struct file *file, void *fh, struct v4l2_streamparm *a)
+   392  {
+   393          struct venus_inst *inst = to_inst(file);
+   394          struct v4l2_outputparm *out = &a->parm.output;
+   395          struct v4l2_fract *timeperframe = &out->timeperframe;
+   396          u64 us_per_frame, fps;
+   397  
+   398          if (a->type != V4L2_BUF_TYPE_VIDEO_OUTPUT &&
+   399              a->type != V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
+   400                  return -EINVAL;
+   401  
+   402          memset(out->reserved, 0, sizeof(out->reserved));
+   403  
+   404          if (!timeperframe->denominator)
+   405                  timeperframe->denominator = inst->timeperframe.denominator;
+   406          if (!timeperframe->numerator)
+   407                  timeperframe->numerator = inst->timeperframe.numerator;
+   408  
+   409          out->capability = V4L2_CAP_TIMEPERFRAME;
+   410  
+   411          us_per_frame = timeperframe->numerator * (u64)USEC_PER_SEC;
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+It looks like in some drivers this multiply can go over U32_MAX.
 
+   412          do_div(us_per_frame, timeperframe->denominator);
+                       ^^^^^^^^^^^^
+But after this divide, then we're under 1,000,000 again.  Otherwise the
+FPS is zero.  So maybe the right thing to do is:
 
---=20
-With Best Regards,
-Andy Shevchenko
+	inst->fps = USEC_PER_SEC / (u32)us_per_frame;
+
+   413  
+   414          if (!us_per_frame)
+   415                  return -EINVAL;
+   416  
+   417          fps = (u64)USEC_PER_SEC;
+   418          do_div(fps, us_per_frame);
+   419  
+   420          inst->timeperframe = *timeperframe;
+   421          inst->fps = fps;
+   422  
+   423          return 0;
+   424  }
+
+regards,
+dan carpenter
+
