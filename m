@@ -1,497 +1,136 @@
-Received: from sonic310-24.consmr.mail.ne1.yahoo.com (sonic310-24.consmr.mail.ne1.yahoo.com [66.163.186.205])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CHN02-SH0-obe.outbound.protection.partner.outlook.cn (mail-sh0chn02on2093.outbound.protection.partner.outlook.cn [139.219.146.93])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3397C172BBA
-	for <linux-staging@lists.linux.dev>; Wed, 17 Apr 2024 18:25:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.163.186.205
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713378335; cv=none; b=Wj++4jlh3JgjdnfFj6om515TiYjebOVQiIyHtAtwbmKA3FuoBEj3fSk9GrD1QYL0k63IBvSeiUcO1MLotAKYtlsF+oQTgsn+FfoRn/dqox/DrFuiqTYRUi6YuQdEoNAHpSAu1tQfzpVayd2BfdaSIMVm4/GZhdYJ2jkIKdkd8iA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713378335; c=relaxed/simple;
-	bh=xdLoKYgXC5L31IzwPVVtlrJQXBinb4Xr0q0oUyJsbU0=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=dnMNL9GtzSeBF97ckCuBnCW+0AKZLiTay0OIK8kC0/qEWufz7RMITCiBtAlF5CZtq8WiE4eao2InsJbwk0+O/kgB5htO1cEeZJzV6JLJ3za6DEASLGZJrKEXUmOxag2pCnFsATk5epvdqyTXTAFNmLjQY/SX3TBjwIXWzyJe9vk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com; spf=pass smtp.mailfrom=yahoo.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=VXOhXfi5; arc=none smtp.client-ip=66.163.186.205
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="VXOhXfi5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1713378331; bh=U/piKB9Wfuwz4dJlXxQfbdbmZItS6Racb9B8UGl68jI=; h=Subject:From:To:Cc:Date:In-Reply-To:References:From:Subject:Reply-To; b=VXOhXfi5SXDlcYLEHVEHezHZdLx3ctC/BCKEg/rMvjdWu2xS/TXPgpfhVKCqP2YGyXplsDooh9TJD5UjICxyVfafoQJBKZ5wyX4+vq+MKG4n6hZkCK3JsutJlfX6EI8PNezfJPRB4RbAMptK+o5ilm5+AyW7yH6q/PY+ev2Ab7Fj42Xbi6V5SvShfG5TrPNZeyAATvN71xYlUbUPEtrk+Wd99E25K22dWPBsltBd2oT9d0+aptQSxVELnvT/lpu1Gj8VlIBY/3FfayIlSQeaVl8CDywmFaqfo+thRxapVGx6Ru2Ebdb51ZP80Sz1So6LzNbMMoJ5rIu8cbJ/79mStg==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1713378331; bh=JGD6YKZpa4AkYjoBJ9M/MLbQNRUL/nnirIpX7nGsk9e=; h=X-Sonic-MF:Subject:From:To:Date:From:Subject; b=nEjqdv3Qxltj2peXR1VpilsDtfrJE8mQsA6RtTaY+PD9LPTeLlq4rguDRtEy8o/RxtuVmFDikKVf+f3EA/R/VTbNc4uobbb7SYUJZyUGtfmnqKH4XKi6I6kkLp4EAz+amyLp5dXkcGslHfzji7znbdscsPs41FcMgs+45s0RADW9ihrNfhEGoPcpNkAVFbn+NdJiwVyHb6riM5OOcaOFivgtfDTyKgRiwnKj9uvUc547j2y9LP/UDM8LbN2GAbDiYHG34+8aLRfY+wNXnKfkO1pgmGWsi8WtaebqN7Cuhyh1VJyHfbnrP+N/MLKocwAq9WO0HUiErcrwvg7A0CMivQ==
-X-YMail-OSG: 3sXsXG4VM1lF1_Xch_VjjpZqUQU_c0.qRSmu4hH6O7hYVemHsMR4dWNyMiKmg7Y
- qjzYee14XbVBIcECFFbjysgA8XTovciso.ij4zFblIKtEfXPOu4di3ASM6LioqmVqph29yO4YWj7
- bRNH.L4AchKFn.jWpLieAelAa2JFQUUm8qMVPfgvz8J56Sc0V3EXp_TUmfcYdl1QgyvqrtOscinX
- oMtPGXwABVmRdTSJ38lPIWlB4bf8Yx90M74mqETcHK.dEkVUvvSx1.KxKG3HiNG5Sgka._gFbCfx
- D19rXwsMTRFcsWkfjoz7ucZgRdgkj6y_pv5NqP2GbHnEVTA9BfKw1XsTUIJufzbiDHFKxwZEV5L5
- CYq.ss9hvLMcxe2QsBz5Smb3Q1X3y4IUsVMUPiWR6jCahyq34QxlwQmrM_.aaEDz8r3gPsjoStSF
- AFLR2C84se3a5r6EeQ0FS7EaPvl4q3G7XnvQ5dpAQgZ56HjBiR9DdwjOAvxV_i0MYHt8F9SAvQCA
- w3VE5k60n1Kn6iLyb13CN76eHYFYJHJI10uNopSEHx_7PyHv4yAJtb0UUCFRMau8Y7Mh64ja5yp5
- zlurdNtnWG9hhqc0jK5dAGfroMAM_ihXjJ5qSTgbg7jaqkwrv1.PPB_udIvsVjJki6zhd0lw7Jqb
- JeNcQ81p6WzO9YfgGxGeJZ3pW7et_G5Tlinb5uVe3uEFC9gQOqKksrmeqYp4Ik.EIud27hNM3C7d
- DPobc9hH6Hca7ljEDIozYBi9Oa2_n_MwI53wziitNjxnJXjqo2cmXryQKhdd8vFsxczM5wM.Ii.g
- T2GMOOVXZURxOEBAO37zcLZr0sEyzjdvaZOgIFWns1Do4XzGpmVhAa3nu65djwr5IUgrKJR7N486
- kEX_9glTEdtYIQb4GWbrlxgBNg7hpBDVtVcIhRd78P6oP5xoK5OMxO06n5_mBRHT5GeuJH4ilMdk
- 4e0R7sav26xyVthT4MGDBsr845Ru_dyMH8rDb9br32kyC1l_yp5Hk6nBM8B.h_yqu53v6FnWgNGf
- 5wywY6ojaRxL2p1mfNwQKfZjK6P7FzGi3DuCtTELgHjV9uKpbCJ6AkalWJT_XpSxWOl0m1L8NZQ0
- GNWUzY9uCO0JZUXEnSv1jtZqTVh.i5xJda1vIs9xzuU5qyBSn46zS6ezBZFJoILq5kjs4dVfTlam
- rHBZz5RSl.BwjC2YwyadFfIcE_zffrn2HfnugW36wAUv_ste820EBxZz.DYqd9KF_WwhrgRPFPay
- McZ83ESNhD58I12eMBwqM1uVwYtBrbD_gC3a8DkTuVY9gIwduNmzyhrYqDaoovbhVGtpmS7x2FyG
- a28xt8mPYxQGgFysP.ztrbfY_TpvWFRWBpaV.iKVFR86vW8ElIIURo5VlltxDht.rApA0HYxj_QW
- HIRJlkSc5kkbfy0IqhVzN9k98AOa__wV6ka4_wXUJqrddThnnrsLFR1AnRMbudkurjphBWdTC4Zx
- 5FFKvdIcE9Nrk0_rLS1.k3EXs3zv9NCd9ee7J4VvlyUn9pcst9tkaOdlFUW7S1h8V.atprwc99uK
- A_d4TecgD4AvgtD2.BVeHjmdUfIWfyTCZw9zC7LDStRDawmc8pJ_TCWRhxun8EG.bTIobV7.5Plm
- e3RM2XmSvZNsJDGdzLOOUguWGZ9shPMnDaYrd0fgSuRWzyYatlUSc_7dwl7snolH_Mkfdm4gyl8S
- uJuoZjdjmzB_724oZENrYzwl1FnV7WKmC733.eRs5_VJGt64Xj2zS5A9o_3et_R2Ci6ZFIZrTF9z
- OfLCIVvH8Wu3XmqzK21ZO6ngHlsmHcnus_dlmbuNBUgsMK0Kzp0rNHFvXC7VD0gbAwVuHxNGsOcy
- YdBttMNwhWOXhIgM.HizzwXciw_sBobCaZ.AlE5SHHP3LKa81jXfOIi6HrjjW9RQFCt61b4qwvJx
- nuiOQJx1FYVulCTIXMAek7M2uZbiLwzXyhnGPp7uYtEsTyNcLs0jxiihwUd0ddE4AiGKBqV.h3Ef
- WRlz.yzgy.b.59JgcBn0FhdanSXR8mFXtKBissWRqWjDCjIZJ.H5UJ157wAmvbwrBpX_t.SASCjj
- 6kYEQSEZVsif8TOif3Kj8vsHBIf0l2GDByWPx4ea0034byQpT7.irYUmra15b8ZFjkR_AlVma2A3
- PrkwvCSPwiZzutzAdR__wSSHlXuxM9tdRUOft38vQMPHV74MvKtKj_8GUEYgwVEtgbHOdYbLqwVX
- iHiTUn7QlDKxw2u7GQX7tU7OjDOuDuTyUXdFMmMJam9WCs5SNzeodIZpqVUo33EZtSG_dneuk6U1
- 9O0hhp3LkFff9Wv_bKfs6guNm29oK5.GTMJDna8RU
-X-Sonic-MF: <ashokemailat@yahoo.com>
-X-Sonic-ID: 76638ec4-78ee-42a9-8715-12c8a8eea5b5
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic310.consmr.mail.ne1.yahoo.com with HTTP; Wed, 17 Apr 2024 18:25:31 +0000
-Received: by hermes--production-ne1-6488576888-g2rhl (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID efdf6dd4ecf39af123b3653e35a72d7e;
-          Wed, 17 Apr 2024 17:55:07 +0000 (UTC)
-Message-ID: <6f429c19256722f0478e5264b42c0a2a4312abc5.camel@yahoo.com>
-Subject: Re: [PATCH] staging: fbtft Removed redundant parentheses
-From: A <ashokemailat@yahoo.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	outreachy@lists.linux.dev
-Date: Wed, 17 Apr 2024 10:55:06 -0700
-In-Reply-To: <2024041724-barricade-hardly-c554@gregkh>
-References: <cc9b9357d30c4abac7301767ff01fe7947f811c4.camel.ref@yahoo.com>
-	 <cc9b9357d30c4abac7301767ff01fe7947f811c4.camel@yahoo.com>
-	 <2024041724-barricade-hardly-c554@gregkh>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4-0ubuntu2 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9AC28C11
+	for <linux-staging@lists.linux.dev>; Thu, 18 Apr 2024 06:00:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.219.146.93
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1713420046; cv=fail; b=Uqc3mrm/4+69scC4OIuYBQ6RxE4lL5IMRPsyzoJemRx+f/ogFtgo5J8OwO7e3MfL+7BWVq1Ke7PVo8Qkpp0rCNpBsz3srragFCyPrCLF+4f4SOzJc65p00zFka8yG/TpwBrLCktxr12qQ7BOEkVOT1FC1BbbGViaE0AktEtcMJg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1713420046; c=relaxed/simple;
+	bh=iYr56Oclq+HJNOH0APVrxA6/PNI0cLYsvO7OULPBnGI=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=IGVBIATT0XdOb+sUdgxKeFUfihTqr6cwjdR1/TtyAo3Se2YFtD2SMnoRSVH9G7OyXk0RZutFk6nyV0R03I8TBJskYqNQBt+Ob6whSQnMhKGAC2RpgpI5BR/g6tA5fRwmhog78FzMxNKKcbk/Zxcxi69GhDzMVEOb5H1VNSSC8fE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com; spf=pass smtp.mailfrom=starfivetech.com; arc=fail smtp.client-ip=139.219.146.93
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mE9EYXyXHmaQWZj6e6DS29b8cQdOA0kUbo7bS4IcmfjWgLCiGfJNAKpbyz2sO+lhbGrUbkfe0jIUbnXwe0xAVXjkWze+s7KgrI6HRbDcFQpKUhApXpHy/dU3GadsyQ1eLpDTjSQZMFWmxHI0Q5K8H4DDUfhmkOQyEtQtRP/C5Gf+4LIDxH2ztz0oZDlc8zcJ8TYonCH3S6fwAkSoe/5Wgte7cIBmTVJEAcbxGew/kg9F79++urJWo97rRnyIXVfne/R/evajxZcRfyXLRsiyfwHGQvwZ3IF/fKX+6em5V8lRPzfKYc44ppg7cZ6IhQVKGZzWw+QO0y23MpU50b+ucw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=iYr56Oclq+HJNOH0APVrxA6/PNI0cLYsvO7OULPBnGI=;
+ b=CvupmHhYJlktPb0bkxG6pjBdvCyjv2ksXpsXB4nkfqXoXTJR7RXjjIPTkW3H03AwPtb8k+ycgcvJI4mQKToIYBzwCUJo/n5+o+tt/L984wrR3iaf6FfAg7brTasqOmPpHYnqzK5LzyT2We8zyWj21KTLnb7RyySz1UhiaOGZBN4O7kSHuES9C0tuINepIf4DV1s4ancd7YBKj3764x6hEMA/+95c5/S4IXB7m6yBKZSTii3JBDhi00wB/QvtaYS6qhF1EcdAVDFCgWyoGOliWKNPGsS2Y8996HTEo8RjIO/Hwt3se0wP2CcT4aBc2okqwne1rUyrcX6IPsWr8z0k/A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=starfivetech.com; dmarc=pass action=none
+ header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
+Received: from SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c311:25::10) by SHXPR01MB0848.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c311:25::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Thu, 18 Apr
+ 2024 01:27:05 +0000
+Received: from SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
+ ([fe80::b0af:4c9d:2058:a344]) by
+ SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn ([fe80::b0af:4c9d:2058:a344%7])
+ with mapi id 15.20.7409.055; Thu, 18 Apr 2024 01:27:05 +0000
+From: Changhuang Liang <changhuang.liang@starfivetech.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>
+CC: Hans Verkuil <hverkuil-cisco@xs4all.nl>, Laurent Pinchart
+	<laurent.pinchart@ideasonboard.com>, Jack Zhu <jack.zhu@starfivetech.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>, "linux-media@vger.kernel.org"
+	<linux-media@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-staging@lists.linux.dev"
+	<linux-staging@lists.linux.dev>
+Subject:
+ =?gb2312?B?u9i4tDogW3YxXSBzdGFnaW5nOiBtZWRpYTogc3RhcmZpdmU6IENsZWFuIHBh?=
+ =?gb2312?B?ZCBzZWxlY3Rpb24gaW4gaXNwX3RyeV9mb3JtYXQoKQ==?=
+Thread-Topic: [v1] staging: media: starfive: Clean pad selection in
+ isp_try_format()
+Thread-Index: AQHadCdXg2iQIaE4RE2+8VSiB5BEfLFtdhSw
+Date: Thu, 18 Apr 2024 01:27:04 +0000
+Message-ID:
+ <SHXPR01MB06710239B9F69E2F0EC0CB01F20EA@SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn>
+References: <20240312024520.11022-1-changhuang.liang@starfivetech.com>
+In-Reply-To: <20240312024520.11022-1-changhuang.liang@starfivetech.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=starfivetech.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SHXPR01MB0671:EE_|SHXPR01MB0848:EE_
+x-ms-office365-filtering-correlation-id: f2fe3824-97b3-44fc-1983-08dc5f46a7f8
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ b4fuAd3IT/gcx9pFgseFreYOAXiXB87CVtOB6e+5pl8oi3lOaQZNVgUKOeWfBbrX/A3jF+/Ywl5FrcxV+4F5lCM4WD3TbaCiA+iWyikNVtkEAFyDrhXrjdQtvd5+Jwj6IT6WHstZVLz08WmIvx3aR5nFfskBVjQDFB+u8pxTwAd2Lu0cUq0RFt0Q0OyUM1PFsNE9CjTacxnIHH0fjmtd4ZeRu4vrhgmDOwbM0smZhHfkvd4chsfB8R8SoC8OoDlMeUJFuAgYKaq2/NoG9PvD5CA3/3PfEypSNNj4a7jCiMThWVswJmM6R//TpYxHJtb6xnRS9LHPdvr6xzTMTedxwOe6JLB6zOujwgwT0yIJGWpWwDZRUzGkidAOQEq4NnqCkVssrOLHTM7oBjkg3jP99KggZTfI749u/jJRxZDw9B4y5OlLKRxhxUJSft1hRi+uvXL1MP7i90/JTAH4XsKrK30GlZRUWn3T4PZYpr2mDA97Ww6nvB/B6RViuHiVqVANsXWDYveqrgYGIhITuIdlrs3NzbHUml/XbAQAhnwQ9JcsqpzyMupuvmG5kQ5wm/oMUOOUqWUJ4mAG5KET6XpipKDVuJnaoyfn35joLF2JePGBS5Bgr3HVLMyNDL9SVRDw
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:zh-cn;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230031)(366007)(1800799015)(41320700004)(38070700009);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?gb2312?B?MXd5eVhLR3Z2cVVhRGlUOWNXZGZvazM1T3QzcWgreFBlQm1vdklyVDNRVCtZ?=
+ =?gb2312?B?WSt4V2hyWHR4bHpjZWpmS0JaRVNYU3ZYbGk5UWMyaG42RVlVL2hWd1R3alNT?=
+ =?gb2312?B?dXNhUi9qL0xmZkVzWDdxS2F6c0NjMFVGalBBb2ZhRFJ3T0lJRzA3QTFIR1Zu?=
+ =?gb2312?B?Q3RkeGJlWDBBZEsxVGU5dEl2ZzR4M1pEVjRJcDNQUjkrOCtjR0NtOFVMaTEr?=
+ =?gb2312?B?VVkyOUNOcEtYTDN6VjhSWjZCUFFHaHNkL0h6Mnl2TFpHUGJEakNuZGVUV2RK?=
+ =?gb2312?B?MXVPTEtqQUdJM1hZRTRlMjFiNWNuWjZSL1pFd0V2WWtLcU9KZFRTNmFLdmpz?=
+ =?gb2312?B?SlJrVEI0NXdyMFgzc0RQVWp0Nm83bFoxanNpMVhPQk5UVVdjT1lsWGxvMS9o?=
+ =?gb2312?B?V3cwSFMxL2N4ejdCWGQxWVhjalNMVnd2bFU2LzR4Vm5DYnlRWG83Zm9ScVpJ?=
+ =?gb2312?B?WHdIV25zVExtVmxlRTN5Uzduem5mVnIzSm93bFF5SjlFODNUcWYwbW5RZ0JE?=
+ =?gb2312?B?RzRkZGhCM3BDcG1BV0V4b3pkVDM0Qkh2V1RIZG1pMTVGVkpDNUJQdjI5ZzYv?=
+ =?gb2312?B?elRzSVA3K0ZQYjlzUmwxZ2M3dlg0cDVLclNRQjVhVzBtQk5CQzVjeEhVN2pm?=
+ =?gb2312?B?a0t3WTdXYnVvNUQvMkdHbklSaWJvd2RKNnU1SXgvVS9saCt3di9vdGNDU2Mz?=
+ =?gb2312?B?eW80R3BBakY0NWR3L3dZUitKN2RFZEVQRjdaTmRRL1ZFc2p3VW9DRE9RRVRP?=
+ =?gb2312?B?UU1hVGtyWUJuVmNpWnpHUEFSdTBsSmJjZ1VsUmhKYmFUbkZQRFdJbTN4eDRm?=
+ =?gb2312?B?MVFBQlZaUGlyK0ZQa28wRzhNQW5NRlJ4eWNLUDEyRm1lRFBIcnM3cnhPV3Jm?=
+ =?gb2312?B?WjZOOXliZFAvbVlMaXZ5MENNemlhTE9SYy84NnVDbWN2bE92R2I4U3MzZGRT?=
+ =?gb2312?B?UWRjQ1hUa3RleGxadXZpUzllQTZvbHhlZUpja2pzc0tMTzF6MkNyTFZmQTZX?=
+ =?gb2312?B?OXlKZ0oxVU11aTVIU3dBVzBNZGtmSlMxVGxZUWJHUDBTNnhndVJ3UXFLbko2?=
+ =?gb2312?B?dCtuTmhtTm1SN2MwanMreFZiVWF2UUtiR2NIZklsTzBOL3FqMklyaXUvQXFj?=
+ =?gb2312?B?MWhXdklGOGQwS2tucWVKRU4vNDN5d2poSVdjZFBydmJUTHpFZDBSSTBHKzN4?=
+ =?gb2312?B?d0ovUUdXeDZtdnhQcWpwU2xnMW1NQTNrV1h5Y3d0N1FMY0I5WFhoT0Z4K1BC?=
+ =?gb2312?B?ejFPZmk2YXRIZzNVK2dyOFZFcXh0bzgvbDQvYS9iYlRqVlhBemlrbHRXMURK?=
+ =?gb2312?B?aTI2WFc5Vm1LZUc4NkdKdHd3Q2IwQWU0b01FekcrYzRIOGRlbm44V2d0aFUr?=
+ =?gb2312?B?aUdxZTNnakNLNi8zcnhzZVhDRHBXZytDZ1VCOHFpT2toQ21NRjYrNndneTkw?=
+ =?gb2312?B?Wjlsak56ZUE1OVduMmdnTldZSTNneHZhaWp6cGtrTmFLUWEvVlB0ZUNSN3Vq?=
+ =?gb2312?B?b3BpT0srSEx3NkNDeEhJYnRpa2ZVZDVDNzduQWtHVkpTbG1YYmxDU1gvaklJ?=
+ =?gb2312?B?MGRlVEs2WWl6NEUveHFveXZ5QzZvYjhqczJ3NGJpajRPdnR4ZkNRR2NMeFFv?=
+ =?gb2312?B?RU5VOGtySU1aaVRuUUp3VEQ2RkRDL2RrZkhjVXJyWXlLcjZUUzFGcW5IcTdz?=
+ =?gb2312?B?STdOMXRVVlQ2YlZpQzN5OGNWeHJ1OWRyL2JOekN5SUdoSWdHekcwK3FJRjV5?=
+ =?gb2312?B?enI1d0RlczlKZ1U0akRHSURRTmxpOTZEUFcxSVJrcFUrakZLOWNxUkwrYmF5?=
+ =?gb2312?B?QlFHK3k0SWE4Z0xEdU5JSUxFeUhtS0NoQ3o0emFQWExISDZWUnlXLzVlVWVs?=
+ =?gb2312?B?TnBWLzNGaGcvcVRZemswcnNWa0FUdElPYjF1eEswUk9WTW1TSTdoVm9nbVBO?=
+ =?gb2312?B?NEhnelQ0SVdmVi91aDloT2tiUXRCOFlrU3czVGxOTVBsb2tUY2dNeXFTUU5D?=
+ =?gb2312?B?Qk1JcU8xU2hiTkVtVVBRMGFoM2VVek1ISko5Q2JzZCswaGc1MVF5SDQzS0RF?=
+ =?gb2312?B?T0MyaEd6Uzk0cWpjY3BwQndhWW5uQUp6VHJhWWdKWmcyOEVBU0Y5Y3FPcm1T?=
+ =?gb2312?B?ZExOaVZoMy83S1A3dTZNdzdSMU9FMzhodUgzenBHUlNnZEl5YWpFc1lqUU5u?=
+ =?gb2312?B?OHc9PQ==?=
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mailer: WebService/1.1.22256 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
+X-OriginatorOrg: starfivetech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
+X-MS-Exchange-CrossTenant-Network-Message-Id: f2fe3824-97b3-44fc-1983-08dc5f46a7f8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Apr 2024 01:27:04.9721
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: PoUsAzeXeEjvUgzhiFZaw53urtgRJ9RWU1V66++6y4E/wyTZCmQy/wnlxWNEcdhBS2Ubl48rF/PH92gTCln+NG2DFMtVNeCTD/J27fQ2zvyv4VxRq0omwefL1z/D35IW
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SHXPR01MB0848
 
-On Wed, 2024-04-17 at 09:07 +0200, Greg Kroah-Hartman wrote:
-> On Tue, Apr 16, 2024 at 01:14:52PM -0700, A wrote:
-> > > From 6dbcb120581fc7cb45812193227b0a197abd8ba4 Mon Sep 17 00:00:00
-> > > 2001
-> > From: Ashok Kumar <ashokemailat@yahoo.com>
-> > Date: Tue, 16 Apr 2024 09:19:32 -0700
-> > Subject: [PATCH] [PATCH] staging: fbtft Removed redundant
-> > parentheses on
-> > =C2=A0logical expr
-> >=20
-> > Adhere to Linux Kernel coding style removed redundant parentheses,
-> > multiple blank lines and indentation alignment.
-> >=20
-> > Reported by checkpatch.pl
-> >=20
-> > ------
-> > fb_ili9320.c
-> >=20
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if ((devcode !=3D 0x0000) && (dev=
-code !=3D 0x9320))
-> >=20
-> > ------
-> > fb_ra8875.c
-> >=20
-> > CHECK: Unnecessary parentheses around 'par->info->var.xres =3D=3D 320'
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if ((par->info->var.xres =3D=3D 320) &&=
- (par->info->var.yres =3D=3D
-> > 240)) {
-> >=20
-> > ------
-> > fb_ssd1325.c
-> >=20
-> > CHECK: Please don't use multiple blank lines
-> > ------
-> >=20
-> > fb_tinylcd.c=C2=A0=C2=A0=C2=A0 - indentation adjustment
-> >=20
-> > -----
-> > fbtft-bus.c
-> >=20
-> > CHECK: Unnecessary parentheses around 'par->spi->bits_per_word =3D=3D
-> > 8'
-> >=20
-> > ------
-> > fbtft-core.c
-> >=20
-> > CHECK: Please don't use multiple blank lines
-> >=20
-> > CHECK: Unnecessary parentheses around '!txbuflen'
-> >=20
-> > CHECK: Please don't use multiple blank lines
-> > ------
-> >=20
-> > Signed-off-by: Ashok Kumar <ashokemailat@yahoo.com>
-> > ---
-> > =C2=A0drivers/staging/fbtft/fb_ili9320.c | 2 +-
-> > =C2=A0drivers/staging/fbtft/fb_ra8875.c=C2=A0 | 8 ++++----
-> > =C2=A0drivers/staging/fbtft/fb_ssd1325.c | 2 --
-> > =C2=A0drivers/staging/fbtft/fb_tinylcd.c | 2 +-
-> > =C2=A0drivers/staging/fbtft/fbtft-bus.c=C2=A0 | 6 +++---
-> > =C2=A0drivers/staging/fbtft/fbtft-core.c | 7 +------
-> > =C2=A06 files changed, 10 insertions(+), 17 deletions(-)
-> >=20
-> > diff --git a/drivers/staging/fbtft/fb_ili9320.c
-> > b/drivers/staging/fbtft/fb_ili9320.c
-> > index 0be7c2d51548..409b54cc562e 100644
-> > --- a/drivers/staging/fbtft/fb_ili9320.c
-> > +++ b/drivers/staging/fbtft/fb_ili9320.c
-> > @@ -37,7 +37,7 @@ static int init_display(struct fbtft_par *par)
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0devcode =3D read_device=
-code(par);
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0fbtft_par_dbg(DEBUG_INI=
-T_DISPLAY, par, "Device code:
-> > 0x%04X\n",
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 devcode);
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if ((devcode !=3D 0x0000) &&=
- (devcode !=3D 0x9320))
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (devcode !=3D 0x0000 && d=
-evcode !=3D 0x9320)
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0dev_warn(par->info->device,
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- "Unrecognized Device code: 0x%04X
-> > (expected
-> > 0x9320)\n",
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-devcode);
-> > diff --git a/drivers/staging/fbtft/fb_ra8875.c
-> > b/drivers/staging/fbtft/fb_ra8875.c
-> > index 398bdbf53c9a..4b79fb48c5f0 100644
-> > --- a/drivers/staging/fbtft/fb_ra8875.c
-> > +++ b/drivers/staging/fbtft/fb_ra8875.c
-> > @@ -50,7 +50,7 @@ static int init_display(struct fbtft_par *par)
-> > =C2=A0
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0par->fbtftops.reset(par=
-);
-> > =C2=A0
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if ((par->info->var.xres =3D=
-=3D 320) && (par->info->var.yres =3D=3D
-> > 240)) {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (par->info->var.xres =3D=
-=3D 320 && par->info->var.yres =3D=3D
-> > 240)
-> > {
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0/* PLL clock frequency */
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0write_reg(par, 0x88, 0x0A);
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0write_reg(par, 0x89, 0x02);
-> > @@ -74,8 +74,8 @@ static int init_display(struct fbtft_par *par)
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0write_reg(par, 0x1D, 0x0E);
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0write_reg(par, 0x1E, 0x00);
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0write_reg(par, 0x1F, 0x02);
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0} else if ((par->info->var.x=
-res =3D=3D 480) &&
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (par->info->var.yres =3D=3D 272)) {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0} else if (par->info->var.xr=
-es =3D=3D 480 &&
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 par->info->var.yres =3D=3D 272) {
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0/* PLL clock frequency=C2=A0 */
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0write_reg(par, 0x88, 0x0A);
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0write_reg(par, 0x89, 0x02);
-> > @@ -111,7 +111,7 @@ static int init_display(struct fbtft_par *par)
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0write_reg(par, 0x04, 0x01);
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0mdelay(1);
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0/* horizontal settings */
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0write_reg(par, 0x14, 0x4F);
-> > +write_reg(par, 0x14, 0x4F);
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0write_reg(par, 0x15, 0x05);
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0write_reg(par, 0x16, 0x0F);
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0write_reg(par, 0x17, 0x01);
-> > diff --git a/drivers/staging/fbtft/fb_ssd1325.c
-> > b/drivers/staging/fbtft/fb_ssd1325.c
-> > index 796a2ac3e194..69aa808c7e23 100644
-> > --- a/drivers/staging/fbtft/fb_ssd1325.c
-> > +++ b/drivers/staging/fbtft/fb_ssd1325.c
-> > @@ -109,8 +109,6 @@ static int set_gamma(struct fbtft_par *par, u32
-> > *curves)
-> > =C2=A0{
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0int i;
-> > =C2=A0
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0fbtft_par_dbg(DEBUG_INIT_DIS=
-PLAY, par, "%s()\n", __func__);
-> > -
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0for (i =3D 0; i < GAMMA=
-_LEN; i++) {
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0if (i > 0 && curves[i] < 1) {
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-dev_err(par->info->device,
-> > diff --git a/drivers/staging/fbtft/fb_tinylcd.c
-> > b/drivers/staging/fbtft/fb_tinylcd.c
-> > index 9469248f2c50..60cda57bcb33 100644
-> > --- a/drivers/staging/fbtft/fb_tinylcd.c
-> > +++ b/drivers/staging/fbtft/fb_tinylcd.c
-> > @@ -38,7 +38,7 @@ static int init_display(struct fbtft_par *par)
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0write_reg(par, 0xE5, 0x=
-00);
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0write_reg(par, 0xF0, 0x=
-36, 0xA5, 0x53);
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0write_reg(par, 0xE0, 0x=
-00, 0x35, 0x33, 0x00, 0x00, 0x00,
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0x00, 0x35, 0x33,=
- 0x00, 0x00, 0x00);
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 0x00, 0x35, 0x33, 0x00, 0x00, 0x00);
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0write_reg(par, MIPI_DCS=
-_SET_PIXEL_FORMAT, 0x55);
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0write_reg(par, MIPI_DCS=
-_EXIT_SLEEP_MODE);
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0udelay(250);
-> > diff --git a/drivers/staging/fbtft/fbtft-bus.c
-> > b/drivers/staging/fbtft/fbtft-bus.c
-> > index 3d422bc11641..02d7dbd38678 100644
-> > --- a/drivers/staging/fbtft/fbtft-bus.c
-> > +++ b/drivers/staging/fbtft/fbtft-bus.c
-> > @@ -62,9 +62,9 @@
-> > out:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 \
-> > =C2=A0}=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0
-> > =C2=A0=C2=A0=20
-> > \
-> > =C2=A0EXPORT_SYMBOL(func);
-> > =C2=A0
-> > -define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8, )
-> > +define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8,)
-> > =C2=A0define_fbtft_write_reg(fbtft_write_reg16_bus8, __be16, u16,
-> > cpu_to_be16)
-> > -define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16, )
-> > +define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16,)
-> > =C2=A0
-> > =C2=A0void fbtft_write_reg8_bus9(struct fbtft_par *par, int len, ...)
-> > =C2=A0{
-> > @@ -85,7 +85,7 @@ void fbtft_write_reg8_bus9(struct fbtft_par *par,
-> > int
-> > len, ...)
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (len <=3D 0)
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0return;
-> > =C2=A0
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (par->spi && (par->spi->b=
-its_per_word =3D=3D 8)) {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (par->spi && par->spi->bi=
-ts_per_word =3D=3D 8) {
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0/* we're emulating 9-bit, pad start of buffer wi=
-th
-> > no-
-> > ops
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 * (assuming here that zero is a no-op)
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
-> > diff --git a/drivers/staging/fbtft/fbtft-core.c
-> > b/drivers/staging/fbtft/fbtft-core.c
-> > index 38845f23023f..98ffca49df81 100644
-> > --- a/drivers/staging/fbtft/fbtft-core.c
-> > +++ b/drivers/staging/fbtft/fbtft-core.c
-> > @@ -216,8 +216,6 @@ static void fbtft_reset(struct fbtft_par *par)
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (!par->gpio.reset)
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0return;
-> > =C2=A0
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0fbtft_par_dbg(DEBUG_RESET, p=
-ar, "%s()\n", __func__);
-> > -
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0gpiod_set_value_canslee=
-p(par->gpio.reset, 1);
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0usleep_range(20, 40);
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0gpiod_set_value_canslee=
-p(par->gpio.reset, 0);
-> > @@ -667,7 +665,7 @@ struct fb_info *fbtft_framebuffer_alloc(struct
-> > fbtft_display *display,
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0txbuflen =3D 0;
-> > =C2=A0
-> > =C2=A0#ifdef __LITTLE_ENDIAN
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if ((!txbuflen) && (bpp > 8)=
-)
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (!txbuflen && bpp > 8)
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0txbuflen =3D PAGE_SIZE; /* need buffer for
-> > byteswapping
-> > */
-> > =C2=A0#endif
-> > =C2=A0
-> > @@ -1053,8 +1051,6 @@ static int fbtft_verify_gpios(struct
-> > fbtft_par
-> > *par)
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct fbtft_platform_d=
-ata *pdata =3D par->pdata;
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0int i;
-> > =C2=A0
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0fbtft_par_dbg(DEBUG_VERIFY_G=
-PIOS, par, "%s()\n", __func__);
-> > -
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (pdata->display.busw=
-idth !=3D 9 &&=C2=A0 par->startbyte =3D=3D 0 &&
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 !par=
-->gpio.dc) {
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0dev_err(par->info->device,
-> > @@ -1159,7 +1155,6 @@ int fbtft_probe_common(struct fbtft_display
-> > *display,
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0dev =3D &pdev->dev;
-> > =C2=A0
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (unlikely(display->d=
-ebug & DEBUG_DRIVER_INIT_FUNCTIONS))
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0dev_info(dev, "%s()\n", __func__);
-> > =C2=A0
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0pdata =3D dev->platform=
-_data;
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (!pdata) {
-> > --=20
-> > 2.34.1
-> >=20
-> >=20
->=20
-> Hi,
->=20
-> This is the friendly patch-bot of Greg Kroah-Hartman.=C2=A0 You have sent
-> him
-> a patch that has triggered this response.=C2=A0 He used to manually
-> respond
-> to these common problems, but in order to save his sanity (he kept
-> writing the same thing over and over, yet to different people), I was
-> created.=C2=A0 Hopefully you will not take offence and will fix the
-> problem
-> in your patch and resubmit it so that it can be accepted into the
-> Linux
-> kernel tree.
->=20
-> You are receiving this message because of the following common
-> error(s)
-> as indicated below:
->=20
-> - Your patch contains warnings and/or errors noticed by the
-> =C2=A0 scripts/checkpatch.pl tool.
->=20
->>>  Per guidelines in Newbies site for this 1st submission
->>>  picked up "CHECK" type fixes only. Other types in separate=20
->>>  patch.=20
->>>  Also Warnings were not fixed for following reasons as per
->>>  PatchPhilosophy guidelines=20
->>>  i) Warnings related to License issues  ("Please avoid sending=C2=A0
->>>  patches for the Licence related checkpatch.pl warnings. It=C2=A0
->>>  requires lot more discussion by driver authors and companies
->>>  before doing so and is not often preferred by maintainers to
->>>  accept them when sent by newbies")
->>>  ii) Warnings related Udelay skipped per Patch Philosophy guidance
->>>  ("Changes to udelay are also better to avoid. It is hard to be
->>>  sure that such changes are correct without access to the=C2=A0
->>>  device=C2=A0for careful testing.")
->>>  ERROR type will be a separate patch and not included in this=20
->>>  first patch is contains only "CHECK"
-
-> - Your patch is malformed (tabs converted to spaces, linewrapped,
-> etc.)
-> =C2=A0 and can not be applied.=C2=A0 Please read the file,
-> =C2=A0 Documentation/process/email-clients.rst in order to fix this.
->=20
-> - Your patch was attached, please place it inline so that it can be
-> =C2=A0 applied directly from the email message itself.
->=20
->>> Sent it using Evolution as per instruction in the above document
->>> Created Patch using git format-patch command
->>> In Evolution set the Format->Paragraph Style to Preformatted
->>> Then Insert Text file and picked the file formatted by git
->>> having issues in connecting mutt or git sendmail to yahoo email=20
->>> Trying to get it resolved. =20
->>> Help from anyone with similar exp welcome.
-
-> - Your patch did many different things all at once, making it
-> difficult
-> =C2=A0 to review.=C2=A0 All Linux kernel patches need to only do one thin=
-g at a
-> =C2=A0 time.=C2=A0 If you need to do multiple things (such as clean up al=
-l
-> coding
-> =C2=A0 style issues in a file/driver), do it in a sequence of patches,
-> each
-> =C2=A0 one doing only one thing.=C2=A0 This will make it easier to review=
- the
-> =C2=A0 patches to ensure that they are correct, and to help alleviate any
-> =C2=A0 merge issues that larger patches can cause.
->=20
->>> Will correct it and use patchset concept and resend it again
-
-> - You did not specify a description of why the patch is needed, or
-> =C2=A0 possibly, any description at all, in the email body.=C2=A0 Please =
-read
-> the
-> =C2=A0 section entitled "The canonical patch format" in the kernel file,
-> =C2=A0 Documentation/process/submitting-patches.rst for what is needed in
-> =C2=A0 order to properly describe the change.
->=20
->>> Had description in the body. Any help to refine/reformat welcome
-
-> - You did not write a descriptive Subject: for the patch, allowing
-> Greg,
-> =C2=A0 and everyone else, to know what this patch is all about.=C2=A0 Ple=
-ase
-> read
-> =C2=A0 the section entitled "The canonical patch format" in the kernel
-> file,
-> =C2=A0 Documentation/process/submitting-patches.rst for what a proper
-> =C2=A0 Subject: line should look like.
->=20
->>> Tried best to put the subject as per document. However
->>> In the body of the mail I see [PATCH] [PATCH] repeated twice
->>> Help to refine/reformat this welcome.  The beginning of this=20
->>> email shows what went out originally
-
-> If you wish to discuss this problem further, or you have questions
-> about
-> how to resolve this issue, please feel free to respond to this email
-> and
-> Greg will reply once he has dug out from the pending patches received
-> from other developers.
->=20
-> thanks,
->=20
-> greg k-h's patch email bot
-
+SGksIEhhbnMNCg0KPiBUaGUgY29kZSB0byBzZWxlY3QgaXNwX2Rldi0+Zm9ybWF0c1tdIGlzIG92
+ZXJseSBjb21wbGljYXRlZC4gIFdlIGNhbiBqdXN0IHVzZQ0KPiB0aGUgInBhZCIgYXMgdGhlIGlu
+ZGV4LiAgVGhpcyB3aWxsIG1ha2luZyBhZGRpbmcgbmV3IHBhZHMgZWFzaWVyIGluIGZ1dHVyZQ0K
+PiBwYXRjaGVzLiAgTm8gZnVuY3Rpb25hbCBjaGFuZ2UuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBD
+aGFuZ2h1YW5nIExpYW5nIDxjaGFuZ2h1YW5nLmxpYW5nQHN0YXJmaXZldGVjaC5jb20+DQo+IC0t
+LQ0KDQpDb3VsZCB5b3UgcGxlYXNlIGhlbHAgdG8gcmV2aWV3IHRoaXMgcGF0Y2gsIHRoYW5rcyBm
+b3IgeW91ciB0aW1lLg0KDQpCZXN0IHJlZ2FyZHMsDQpDaGFuZ2h1YW5nDQoNCg==
