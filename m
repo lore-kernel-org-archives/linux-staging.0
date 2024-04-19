@@ -1,150 +1,235 @@
-Received: from CHN02-SH0-obe.outbound.protection.partner.outlook.cn (mail-sh0chn02on2123.outbound.protection.partner.outlook.cn [139.219.146.123])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B5841E491
-	for <linux-staging@lists.linux.dev>; Fri, 19 Apr 2024 08:34:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.219.146.123
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713515690; cv=fail; b=O6aMDjLgqICLY7CqUVjjCui0GdRjy4JI/TY6NgEgQvy3hFqdSAMnnCtXPFemXgWYDaxJAYhfAvOwrxRXCAQAiqfVzQ4ibSJKT45LemiCn9GS7q0Mee1l8Ylif9gcPzcQsDj/nxNdrrAAIW7EeBXleQVfko1GxyGqiWtNw3tHl6w=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713515690; c=relaxed/simple;
-	bh=UP9/we4PHPB1X2//BiZ72LNYVHu9bnYF0MiM4U9v2BQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=fky48trvh6iLEJCUgUbLpMn6ZJ4+JqNcPq4IaGbN9jIkg/obIjsj4iEQoWobN5LirebpKDYYqYwR1ejnRA4xrWJ+AUDyPAldBIj6ckX1dPgfIwhBJaQ8iwa2aTxiY+iCbqXkCe4XDjOYDY3LzVqVwtTUJNBybaRTVfyjtKYh3OE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com; spf=pass smtp.mailfrom=starfivetech.com; arc=fail smtp.client-ip=139.219.146.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JanWvZwFusp5R775VdCVTXewOOhqq0gNK9H00j1pklQz5tps6Ef0qw2t/4Z+XMgNlFlkS7O5f6m/CBoF76VX3GdPZifn2SZnAZVgdYyP1FIYeQsSvW+MbYnidFTtoURwgeoUTbIdiUfawtnTAWJMnInM5bQ5Mp/iBjstUifTrVq/2oOC4PGudXIaZVzVmKSVC3BnGirSMuGFAXEi3fZtOhRsnSJm5pLiLE4He79Ud/AfTCkIsB38WwQ2cw0BGCvlQ0xsu36WEhgitUPqy+m/PnIZiltyKLkpznlztKQvr9Gvis9tQqtEdc8rG6angbF6+RAOfLE2JY6ylA3fUbAEyg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=flowjzOKs0zXc10a8zGVxJW0lIwqY29xTAislxFBQlw=;
- b=XYq6zx1YXPtnb5zDDe9AFIQbbZq08K+Ze1vp/Ho2aOQ84J9L6iuAP9cCNRNqqgz73GyQefBNKFC4lKWvLIhazXrD8HkU7NsYehGQpGlCehOSHB34niQ9/JYxws0hdmBKpaLK+Vz9ucnQ7z4snMna8qstjm/TOF7JmVc1vUtQF0MJ1bxpUlRgnJ9IbNDcfnich8BSYB6x+xMoqUtzbFeM/JTxPmrs95cR97QY72tSsPBFP8IQtEnP6mbqJTgbKMV0ZOGHG4/yfpUlQ0uDxD/KmbCSkFMngOX5uhe1Aexpx+i9w0l3ZuI8laQJ81c+gyQndB1xiCdIoh3ExIDX2skobg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=starfivetech.com; dmarc=pass action=none
- header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=starfivetech.com;
-Received: from SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c311:25::10) by SHXPR01MB0847.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c311:24::19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.43; Fri, 19 Apr
- 2024 08:20:03 +0000
-Received: from SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
- ([fe80::b0af:4c9d:2058:a344]) by
- SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn ([fe80::b0af:4c9d:2058:a344%7])
- with mapi id 15.20.7409.055; Fri, 19 Apr 2024 08:20:03 +0000
-From: Changhuang Liang <changhuang.liang@starfivetech.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Jack Zhu <jack.zhu@starfivetech.com>,
-	Changhuang Liang <changhuang.liang@starfivetech.com>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH] staging: media: starfive: Add multiple resolution support
-Date: Fri, 19 Apr 2024 01:19:55 -0700
-Message-Id: <20240419081955.5140-1-changhuang.liang@starfivetech.com>
-X-Mailer: git-send-email 2.25.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: ZQ0PR01CA0033.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c550:2::8) To SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c311:25::10)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4314F7BB0C
+	for <linux-staging@lists.linux.dev>; Fri, 19 Apr 2024 09:49:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1713520161; cv=none; b=u8VKTDjB8ls78qw7FP5vwWpaCAPNFwUZhg5lhTN24CCrNVf+rts/fYwe1eD1uX7Kl6Y+3S0l14+CDuPp9hNe26Uszumt2frVzBxMQeXMPOUQ0KJuWfcUadwe8ylr+fqBsOeeXge5/eIP7fdHg8D+C0WB7cxVV02D6Pp+sm4yxiU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1713520161; c=relaxed/simple;
+	bh=pKDV/DDljfYbyJBEoKPsy5J2SxcCvPCQTO74udVktBA=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=jR1JUAbC0MG4ig/Z2GaX+cKMi+dcIhdiEDesyMlWtPRWOQyywTo3JDt2xC0SMazZNROD0LCp/6G1Ovl7GekHLIYjaPK4/KWbn/6nJWRYYY5jyCuPEgAD02rzQEnnWzGkdRAQ/q17tKM85hDn+SnLckSQw/qWxu72ZWm8ksP6chM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=eE9qso9a; arc=none smtp.client-ip=209.85.222.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="eE9qso9a"
+Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-78d62c1e82bso124684485a.3
+        for <linux-staging@lists.linux.dev>; Fri, 19 Apr 2024 02:49:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1713520158; x=1714124958; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cRNZApPOWNGUw9rh6uD/J/LwtHi/yERWjgUEfHZaap4=;
+        b=eE9qso9aokpYcCZuAgtJLJv65fOHo7p8yaLpvMlzEnLiSVDk9jTGlvhZhC1rFScIZU
+         JExXovyEZSPn2iEurzwYV6z56Z+2KnUT9waeOMpLgRBWkEZkimhH3taLsnoouphwGha2
+         nHAQjYCtnBT1/M5ddMIaY1MmlOwyAyJc5H6Qg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713520158; x=1714124958;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cRNZApPOWNGUw9rh6uD/J/LwtHi/yERWjgUEfHZaap4=;
+        b=uXZK3TFQZGyXCIINOcert1PEOLav83BkkkFZJYGcEg8UGo9UtHfQnY0o9A4E6eGukm
+         rgvegZUvBaxZl8wazg85ktsbUVu9fk2LorBaSmQnZDfN8La0bfNMMOb7WI274frBcOXT
+         b4sYSp2hAUEhjtK4dE1KoInBPhVlh42ZD2ASn2Y/Ot1jVEJWqcq9pPE7VEqnb7NlEcrV
+         nNjHZnrPga795S8qnyfrdmw2H722YMF/KO8v9gB5haGDtlAdKUDfVKplelOZ+HnuXfPh
+         Z1jE4RD0/AdAe4K3v+n1JDufjuC7KMDXx8APyLg2QkhUVufsAT5DwQb0nYr7uqlxBbgk
+         3S2g==
+X-Forwarded-Encrypted: i=1; AJvYcCUkazXm65cCtjdf30Qpu360lA1I39qmbNh4AtkrOMr6C6LiE3bGphBvH0tYOPs1ish1o5EOqBkZ/hwO6XYeFNpOnQpr83Zwz67r8ez1HQ==
+X-Gm-Message-State: AOJu0YwahSRFSsbD6nfnDVtBzhrQoBn8qEHr8Ezl499l17sEe4x9N/RS
+	y75awGw56jtKSTm2Fre8PsPjPcCD2sJ2UyF6b8LO77aLT+PO1oCgS3MbUwEdqg==
+X-Google-Smtp-Source: AGHT+IEwFEqraeOqWxkPQAAFkUs5oWfyDBRxF4A8wk2qhAECZd6CFNAdYxUvmXxXTuoou68/E0VA+g==
+X-Received: by 2002:a05:620a:5a4f:b0:78d:6c05:b498 with SMTP id wx15-20020a05620a5a4f00b0078d6c05b498mr1754759qkn.14.1713520158006;
+        Fri, 19 Apr 2024 02:49:18 -0700 (PDT)
+Received: from denia.c.googlers.com (114.152.245.35.bc.googleusercontent.com. [35.245.152.114])
+        by smtp.gmail.com with ESMTPSA id dt14-20020a05620a478e00b0078d735ca917sm1434532qkb.123.2024.04.19.02.49.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Apr 2024 02:49:17 -0700 (PDT)
+From: Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH v2 00/26] media: Fix coccinelle warning/errors
+Date: Fri, 19 Apr 2024 09:47:46 +0000
+Message-Id: <20240419-fix-cocci-v2-0-2119e692309c@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SHXPR01MB0671:EE_|SHXPR01MB0847:EE_
-X-MS-Office365-Filtering-Correlation-Id: 80b4f6aa-f509-4111-f433-08dc60498316
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	eGswJsF6Ecs62UaS7Yq6vj6fJN9RWxNpdXQv0LP9JUbwIXWPh+b5k96tVwi93S0z8rKUbpEf+OtTzUFFqwtitJTS8SkJv8jKiGR/P4bu3lMN6ICvUxLarS/8dbvyh0saYBxmhvG3cSG5WObp6KZC3GtLe3ZKem8cdBDLDbJLk5vyujGsdnpJ+ZXe7MuTi6wgRUyGSZwaQ753e7yvoM/4H+ywFeGYeHfchyUwmZn/ktefQOjgZtKflzAOhM0AFoFBE9Kiz17TZ5uiCiRBSoKrM+9yV5bsM3D7a1HYlH5wOlOpBE/aLMP4zi5VezocOv6QJhakUm0WtUFBHrKW5DcseQLIn9nQjwjBsNDC/MwNOiHpvsc4CLyPHAO7RRAjnMcACrIBUal/F9p3CPDboWdoyRYtl6FTI9IvIEn/UdPqv3XKaKP1iNafhNkCP6GrvyNH3h4nffysmsritlWKXwawFkTy0ROZKA/Vr2IbwOb7lLv3wMBb1nYxbaXwpeSGbfiH4meg0Eg5HCm9Wb3uUr1xKHsJLZaCCfA/N8Ln8rSlIc7r/cRIq8j8sKWnfWJEu8KYjuAZFDOcYeGH4FRkX4eWp39Yt3fy92uDmJ0WcI1PPSZLUUiOco5GGXMV56wtdL+R
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(52116005)(41320700004)(366007)(38350700005);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?mMIYneoNwmJZXa1uIQGLeV8OMGkIuAdvWkaC0+A+4gDvh6JUT5ODgt7bQdXx?=
- =?us-ascii?Q?UiH7rBkvTXX7iY4xZ5hwbXZbufBjQxnqFDs9cXO+7MTS9cUVbPY7GR6+BlPL?=
- =?us-ascii?Q?FiO5HTWYCyUxX6kzslFWJeqk262Q0LeFsMKsaDs2g9bAeXLwTCGSJKy+UagZ?=
- =?us-ascii?Q?uCSe39LrL5XZa/A3SIleLFxrgRkv+QoGsScOpHZMjxC5b75w26OahxD3T+so?=
- =?us-ascii?Q?ZuDsMLsqpHVEAtHHCKMEM1fRisdPZEsLQ0R2PG+bEa7d9sLGw4lArrPYn6XC?=
- =?us-ascii?Q?ejng1nNtk2U7YAdXuhetm0E5a3WfOyEWJkdChV2aW0Bhn4gDdRjaE/3L8BQl?=
- =?us-ascii?Q?9a2LTLLsNXsOvAMTNMz6yBiISKbwS2pYig9XwDDoUiKU/t0kYC0MAA+VoLXJ?=
- =?us-ascii?Q?RQ+JA41xet7ycFmnLUHDcvZg3cUwYrWp7IyscriziExbvdyNoD82Wxwj9lBp?=
- =?us-ascii?Q?6inPbviZUOrwKyBOSZQpPFfOzOCaNMYdwkfSGp7IvDbylu2boUOTeldxg5i8?=
- =?us-ascii?Q?1pFQjv0ZmKNpl1HwaXGB2ZRyp6r4nFpOHNt45qwH4j0yB635k0hh9oxKc4ut?=
- =?us-ascii?Q?Ym+BwV7qjJBOrOilWMKzFfuYXwKOJ/w5JFj2SwHVPO0qI5yGDdMfz0EC/0cx?=
- =?us-ascii?Q?6OsLKaUCKdTRyadlj5cqZOAymSTeohZiZrbOdbT6mSnitq9mA4DZaxJxtXBK?=
- =?us-ascii?Q?ql4Vj3n79mdJoAF7KcM7z2rNTVIwBYOe/kEwGtcCh8Qhg91lQGr0QScm3OJt?=
- =?us-ascii?Q?pCBTGz9m6XiB8ZaR/4H2hEcmy8zbW2fPxqKRxmAMTqqZtycqJY13oGYl1euI?=
- =?us-ascii?Q?GmPhI+LBIShp4WZICIV+xYqY9rVb9eSC5WgJh6+JDgntKh8TTLFDZ60MudPq?=
- =?us-ascii?Q?2k3BVXPjIMdaD7iun6zhn4DyFcGUtQcdN+WLv4Mea0j2TolB11XRUyLT7+83?=
- =?us-ascii?Q?qLarttGGd6CLaUzHkFOZ2SjkkyYzz4AdiYqSjfAF7LScQtmCuBwxZx41CtJ3?=
- =?us-ascii?Q?RVHodeBG6ZrREORUw9bUILcQzZfgPv2CHsoMWf/L18B5gYmmdaLkM0aO7xpo?=
- =?us-ascii?Q?TAfzPOWGDYOkbfM6GR7BXpXEViDhjtQHeXG9yGms5iMBEGyQ0hK2W07nHhjm?=
- =?us-ascii?Q?dtwDsnyn5L3Ij4Kd36fq9TKgcYL1iArMUQExo3EJWvG9t3rumH5tWmyuJCp9?=
- =?us-ascii?Q?t7TkFvikaj4n20oGTOtofpNPu8T1MjyCaS3Irz2ecrwCFfzc1rViKvkwTk9W?=
- =?us-ascii?Q?5cixphVctKhRt9lssaCmqYo9jdqhC2L+6WU25OhlnCJIuxrq53oMlCneh6ad?=
- =?us-ascii?Q?tMTXgvVg0G7R+YzBmTcYzm6bIMPJbJyiww8Nuwq5KynkJ7lSyu9WMgPLFpul?=
- =?us-ascii?Q?B6bzIoh8tVIDSWBBOCh9C2MLePlhZYMPd876Kh5+HAQ+WFtifSIaZm0D7b3p?=
- =?us-ascii?Q?D5jNy+95U3ryI44gzOq3XnQ8A/Qfuc+/cmlRE0qIa5v90+JVSTHlMBaJotf+?=
- =?us-ascii?Q?GiYLoMyfIeZdcObMJk8bMwD1dL+oyqG+edod7wLANS7dz++CEiCMKHOY1sZf?=
- =?us-ascii?Q?+WtU5ZAvbF4G4MaTy91ZcjydTosJciR4VsJ4n4uXiiy7v+9qUlfn1oTHvAPt?=
- =?us-ascii?Q?7PqdJjMnkh3UXfE2hsrvnF4=3D?=
-X-OriginatorOrg: starfivetech.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 80b4f6aa-f509-4111-f433-08dc60498316
-X-MS-Exchange-CrossTenant-AuthSource: SHXPR01MB0671.CHNPR01.prod.partner.outlook.cn
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Apr 2024 08:20:02.9912
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: REdevP97PIZS4ijQXw8u8S6QIAw2aoXosC4bJEEG6IhrnAt3R5L7Ct3EUubQUuvw9rjmnj5l6gN3r9WmER7pi3p/41DNISmE+BpP9gVbrWdAFDq6k3YGN2UqNUIhlyUL
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SHXPR01MB0847
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAMI9ImYC/22MQQ7CIBBFr9LMWgxMUYwr72G6oBTKLFrMoETTc
+ Hexa5fv/5e3QfZMPsO124B9oUxpbYCHDly06+wFTY0BJWqp1UkEeguXnCOBU+h9QLTnYKD5D/b
+ t3Fv3oXGk/Ez82dNF/dZ/laKEFNoYG0bsDV7Gm4ucFnotx8QzDLXWL2eD/W6lAAAA
+To: Martin Tuma <martin.tuma@digiteqautomotive.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Hugues Fruchet <hugues.fruchet@foss.st.com>, 
+ Alain Volmat <alain.volmat@foss.st.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, 
+ Sowjanya Komatineni <skomatineni@nvidia.com>, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Hans Verkuil <hverkuil@xs4all.nl>, Sergey Kozlov <serjk@netup.ru>, 
+ Abylay Ospan <aospan@netup.ru>, 
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
+ Dmitry Osipenko <digetx@gmail.com>, 
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
+ Sylvain Petinot <sylvain.petinot@foss.st.com>, 
+ Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, 
+ Vikash Garodia <quic_vgarodia@quicinc.com>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-stm32@st-md-mailman.stormreply.com, 
+ linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev, 
+ linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
+ linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
+ Ricardo Ribalda <ribalda@chromium.org>, 
+ Sergey Senozhatsky <senozhatsky@chromium.org>, 
+ Kieran Bingham <kieran.bingham@ideasonboard.com>, 
+ Dan Carpenter <dan.carpenter@linaro.org>
+X-Mailer: b4 0.12.4
 
-Add multiple resolution support for video "capture_raw" device. Otherwise
-it will capture the wrong image data if the width is not 1920.
+After this set is applied, these are the only warnings left:
+drivers/media/pci/ivtv/ivtv-fileops.c:223:4-10: preceding lock on line 267
+drivers/media/pci/ivtv/ivtv-fileops.c:230:3-9: preceding lock on line 267
+drivers/media/pci/ivtv/ivtv-fileops.c:236:4-10: preceding lock on line 267
+drivers/media/pci/ivtv/ivtv-fileops.c:245:3-9: preceding lock on line 267
+drivers/media/pci/ivtv/ivtv-fileops.c:251:3-9: preceding lock on line 267
+drivers/media/pci/ivtv/ivtv-fileops.c:257:3-9: preceding lock on line 267
+drivers/media/pci/ivtv/ivtv-fileops.c:272:3-9: preceding lock on line 267
+drivers/media/pci/ivtv/ivtv-fileops.c:598:4-10: preceding lock on line 627
+drivers/media/pci/ivtv/ivtv-fileops.c:598:4-10: preceding lock on line 689
+drivers/media/pci/ivtv/ivtv-fileops.c:606:3-9: preceding lock on line 627
+drivers/media/pci/ivtv/ivtv-fileops.c:606:3-9: preceding lock on line 689
+drivers/media/pci/ivtv/ivtv-fileops.c:648:3-9: preceding lock on line 627
+drivers/media/pci/ivtv/ivtv-fileops.c:648:3-9: preceding lock on line 689
+drivers/media/pci/ivtv/ivtv-fileops.c:692:4-10: preceding lock on line 689
+drivers/media/dvb-core/dvb_frontend.c:2897:1-7: preceding lock on line 2776
+drivers/media/dvb-core/dvb_frontend.c:2897:1-7: preceding lock on line 2786
+drivers/media/dvb-core/dvb_frontend.c:2897:1-7: preceding lock on line 2809
+drivers/media/dvb-frontends/stv090x.c:799:1-7: preceding lock on line 768
+drivers/media/usb/go7007/go7007-i2c.c:125:1-7: preceding lock on line 61
+drivers/media/rc/imon.c:1167:1-7: preceding lock on line 1153
+drivers/media/pci/cx18/cx18-scb.h:261:22-29: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_cmds.h:77:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_cmds.h:85:5-16: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_cmds.h:154:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_cmds.h:171:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_cmds.h:180:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_cmds.h:189:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_cmds.h:201:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_cmds.h:220:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_cmds.h:230:5-16: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_helper.h:764:5-15: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_helper.h:1008:43-60: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_helper.h:1014:36-46: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_helper.h:1041:5-15: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_helper.h:1088:39-51: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_helper.h:1093:5-22: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_helper.h:1144:4-8: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_helper.h:1239:4-8: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_helper.h:1267:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/qcom/venus/hfi_helper.h:1272:4-13: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/common/siano/smscoreapi.h:619:5-13: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/common/siano/smscoreapi.h:669:6-13: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/common/siano/smscoreapi.h:1049:4-8: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/common/siano/smscoreapi.h:1055:4-8: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/dvb-frontends/mxl5xx_defs.h:171:4-8: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/dvb-frontends/mxl5xx_defs.h:182:4-8: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/allegro-dvt/nal-hevc.h:102:14-22: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/media/platform/xilinx/xilinx-dma.h:100:19-22: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/staging/media/atomisp/pci/atomisp_tpg.h:30:18-22: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
 
-Fixes: e080f339c80a ("media: staging: media: starfive: camss: Add capture driver")
+CI tested:
+https://gitlab.freedesktop.org/linux-media/media-staging/-/commit/055b5211c68e721c3a7090be5373cf44859da1a7/pipelines?ref=ribalda%2Ftest-cocci
 
-Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/staging/media/starfive/camss/stf-capture.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+Changes in v2:
+- Remove all the min() retval, and send a patch for cocci:  https://lore.kernel.org/lkml/20240415-minimax-v1-1-5feb20d66a79@chromium.org/T/#u
+- platform_get_irq() cannot return 0, fix that (Thanks Dan).
+- Fix stb0800 patch. chip_id can be 0 (Thanks Dan).
+- Use runtime (IS_ENABLED), code looks nicer. (Thanks Dan).
+- Do not replace do_div for venus (Thanks Dan).
+- Do not replace do_div for tda10048 (Thanks Dan).
+- Link to v1: https://lore.kernel.org/r/20240415-fix-cocci-v1-0-477afb23728b@chromium.org
 
-diff --git a/drivers/staging/media/starfive/camss/stf-capture.c b/drivers/staging/media/starfive/camss/stf-capture.c
-index ec5169e7b391..9e853ff2596a 100644
---- a/drivers/staging/media/starfive/camss/stf-capture.c
-+++ b/drivers/staging/media/starfive/camss/stf-capture.c
-@@ -177,9 +177,12 @@ static void stf_channel_set(struct stfcamss_video *video)
- {
- 	struct stf_capture *cap = to_stf_capture(video);
- 	struct stfcamss *stfcamss = cap->video.stfcamss;
-+	struct v4l2_pix_format *pix;
- 	u32 val;
+---
+Ricardo Ribalda (26):
+      media: pci: mgb4: Refactor struct resources
+      media: stb0899: Simplify check
+      media: uvcvideo: Refactor iterators
+      media: uvcvideo: Use max() macro
+      media: go7007: Use min and max macros
+      media: stm32-dcmipp: Remove redundant printk
+      media: staging: sun6i-isp: Remove redundant printk
+      media: dvb-frontends: tda18271c2dd: Remove casting during div
+      media: v4l: async: refactor v4l2_async_create_ancillary_links
+      staging: media: tegra-video: Use swap macro
+      media: s2255: Use refcount_t instead of atomic_t for num_channels
+      media: platform: mtk-mdp3: Use refcount_t for job_count
+      media: common: saa7146: Use min macro
+      media: dvb-frontends: drx39xyj: Use min macro
+      media: netup_unidvb: Use min macro
+      media: au0828: Use min macro
+      media: flexcop-usb: Use min macro
+      media: gspca: cpia1: Use min macro
+      media: stk1160: Use min macro
+      media: tegra-vde: Refactor timeout handling
+      media: i2c: st-mipid02: Use the correct div function
+      media: tc358746: Use the correct div_ function
+      media: venus: vdec: Make explicit the range of us_per_frame
+      media: venus: venc: Make explicit the range of us_per_frame
+      media: dvb-frontends: tda10048: Fix integer overflow
+      media: dvb-frontends: tda10048: Make explicit the range of z.
 
- 	if (cap->type == STF_CAPTURE_RAW) {
-+		pix = &video->active_fmt.fmt.pix;
-+
- 		val = stf_syscon_reg_read(stfcamss, VIN_CHANNEL_SEL_EN);
- 		val &= ~U0_VIN_CHANNEL_SEL_MASK;
- 		val |= CHANNEL(0);
-@@ -193,7 +196,7 @@ static void stf_channel_set(struct stfcamss_video *video)
- 		val |= PIXEL_HEIGH_BIT_SEL(0);
+ drivers/media/common/saa7146/saa7146_hlp.c         |  8 +++----
+ drivers/media/dvb-frontends/drx39xyj/drxj.c        |  9 +++-----
+ drivers/media/dvb-frontends/stb0899_drv.c          |  2 +-
+ drivers/media/dvb-frontends/tda10048.c             | 13 +++++++----
+ drivers/media/dvb-frontends/tda18271c2dd.c         |  4 ++--
+ drivers/media/i2c/st-mipid02.c                     |  2 +-
+ drivers/media/i2c/tc358746.c                       |  3 +--
+ drivers/media/pci/mgb4/mgb4_core.c                 |  4 ++--
+ drivers/media/pci/mgb4/mgb4_regs.c                 |  2 +-
+ drivers/media/pci/netup_unidvb/netup_unidvb_i2c.c  |  2 +-
+ .../media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c   | 10 ++++-----
+ .../media/platform/mediatek/mdp3/mtk-mdp3-core.c   |  6 ++---
+ .../media/platform/mediatek/mdp3/mtk-mdp3-core.h   |  2 +-
+ .../media/platform/mediatek/mdp3/mtk-mdp3-m2m.c    |  6 ++---
+ drivers/media/platform/nvidia/tegra-vde/h264.c     |  6 ++---
+ drivers/media/platform/qcom/venus/vdec.c           |  7 ++----
+ drivers/media/platform/qcom/venus/venc.c           |  7 ++----
+ .../platform/st/stm32/stm32-dcmipp/dcmipp-core.c   |  7 ++----
+ drivers/media/usb/au0828/au0828-video.c            |  5 +----
+ drivers/media/usb/b2c2/flexcop-usb.c               |  5 +----
+ drivers/media/usb/go7007/go7007-fw.c               |  4 ++--
+ drivers/media/usb/gspca/cpia1.c                    |  6 ++---
+ drivers/media/usb/s2255/s2255drv.c                 | 20 ++++++++---------
+ drivers/media/usb/stk1160/stk1160-video.c          | 10 ++-------
+ drivers/media/usb/uvc/uvc_ctrl.c                   | 26 ++++++++++++----------
+ drivers/media/v4l2-core/v4l2-async.c               |  7 +++---
+ drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c  |  3 +--
+ drivers/staging/media/tegra-video/tegra20.c        |  9 ++------
+ 28 files changed, 84 insertions(+), 111 deletions(-)
+---
+base-commit: 836e2548524d2dfcb5acaf3be78f203b6b4bde6f
+change-id: 20240415-fix-cocci-2df3ef22a6f7
 
- 		val &= ~U0_VIN_PIX_CNT_END_MASK;
--		val |= PIX_CNT_END(IMAGE_MAX_WIDTH / 4 - 1);
-+		val |= PIX_CNT_END(pix->width / 4 - 1);
+Best regards,
+-- 
+Ricardo Ribalda <ribalda@chromium.org>
 
- 		stf_syscon_reg_write(stfcamss, VIN_INRT_PIX_CFG, val);
- 	} else if (cap->type == STF_CAPTURE_YUV) {
---
-2.25.1
