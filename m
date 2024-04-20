@@ -1,115 +1,116 @@
-Received: from sonic312-24.consmr.mail.ne1.yahoo.com (sonic312-24.consmr.mail.ne1.yahoo.com [66.163.191.205])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CF6113BAFC
-	for <linux-staging@lists.linux.dev>; Fri, 19 Apr 2024 18:24:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.163.191.205
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B55EC17589
+	for <linux-staging@lists.linux.dev>; Sat, 20 Apr 2024 09:13:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713551087; cv=none; b=qTZtjXJyaP3hbQ2+3jQ8i2U/BgyhjoyG32XWogWAYP8Ji5Z/3Nhq8OSXYaJ8rLJ9HiTabwXvlCbtXHbXjFnrHFKW1ZxwTVnOXx94VWxhIfxop2ZHBii5eIw/M5Pnkei06/95R24ve2qdx43SCbRZfzJLmYHkCDq8qD56iL1w3oI=
+	t=1713604440; cv=none; b=anlmu9Z+12qQMaZo6g4NQ68BWk9W/4lPPYVy4a5oeWfVX9bOktOvZc0N5PJRk9uMfDIblmQ+Ta7LN0U1KX0tKDK15nZlpgV9iYHHKNyVnlLbMXeIwMajo4SHj7hJsNz5YrUnDHTKKotp7hfOoUsw4ziQeKjVQXRhGA47J8V6EH8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713551087; c=relaxed/simple;
-	bh=blljeHd9x0gxpn93U2C8DaW0yA8kvS6g/Q5C5nSZpfE=;
-	h=Message-ID:Subject:From:To:Cc:Date:Content-Type:MIME-Version:
-	 References; b=ZcYL1WLEN6P4TbVcllgl2vaGsVEWP1EEriLX9UFnTtG5FREtmUhlQBF74i6CDerW75ptXTsi/1zVGubJ+MyZw0TgkCy4csfvyiOz1D90cS/O/ShN17RA+5EQjyd9fbbKwNU5Rk0cFKS/St6BtcepHLab+ScFNYOkaMO9nOAzed0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com; spf=pass smtp.mailfrom=yahoo.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=pIuMwthc; arc=none smtp.client-ip=66.163.191.205
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.com
+	s=arc-20240116; t=1713604440; c=relaxed/simple;
+	bh=+FwMdjwyZuTWuo5EIynZ5liQvJEzJhjEHUHXxieY5NQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=bHiIJEV+ic/TRWW0qDslKIlfsl0fBWW+0aDw+RsXaYyJX0E6I/qD+4uHh1EopYjF6HHWtBSmzVumhMhpkGd45uqdhwVp2rKR6uTvtsS0km8hu9bBIKhzUdoEQYD7sBSHPJv9OgieAi1xDLzey4l1Jl/fOmYGB5gE05+MIBpvtiM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=aqbJKnQQ; arc=none smtp.client-ip=212.227.15.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="pIuMwthc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1713551079; bh=RG/96UbEdQ52BT0k7TkxJ3eNd7aF8qeJn1MJEz+axZc=; h=Subject:From:To:Cc:Date:References:From:Subject:Reply-To; b=pIuMwthcDDLpD8lMr8l2fikKv4TwSOKdEmcQL/zy6ppH6lXnVl1uV94slFN9AsFWlzRH8AN+d9wU3sEztRboYVKX9ucSuD+lOw2N6pcgIOTix0o9rJU7T9EZRbTDVP6Si3kjXcgmMimJybAFyvRFHal6M2gGrI1p1l64FtdHqQPCVjUN1EExcj3oA7uY6A5dL2DUACQVEC0wo7kRqhcDdfHFgs50ZPa2jbCN3mfcYe2fVEPLRw6k7kjsSDmMaIPXMDvqef/CeTzaMARrEVpW2vOEcBt82P2X+PysLxB27o2Rzx1+XWEm/4zLMn6MuyEEJeGvLqjTVF8gaF5zLFPUWQ==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1713551079; bh=tIixrHwTc71IQpC7vSj3s4soIiN66nail3BVR6X3WiX=; h=X-Sonic-MF:Subject:From:To:Date:From:Subject; b=FWpoSa5/CZvExkpxqZJxjWBozRkxeM8aXLpzC1px3WCtW8QkrUdk6MyRkWNoDJnwoVREJVHEB8VYD0OD08gbihq8Iut+DATHobnagoq8Ek2v/J4Z6AG7iVKgErfUUJK58YNn3ue9phYEr86IJqJSXqJlkN3h+cjoi7jcjgIjIujZ2rvdI2gQtPegEZRq+hKjO2f+5Ut4KFviFOLAjV0B/Zvqn75MYXclAs4CExh3HIkdSdYHjoNSSIf2Csej2FQGuVcZ/0Fg2Wv86dOoH1KUr0uGcqCR/j4Vd179W0IDYGgz+iiLH4JdN2nSfN2CjOCdxHk2K5YVZW/HKJgBzC4jaQ==
-X-YMail-OSG: e3gt4eoVM1nSYo.FK8LfKpIhGX4b9fecFRCvCnUBSr0WQrciss7EyRTloalubBa
- evlFHT1GrinFRAOhXeHK6yXFR.q8TqByobyZ11NzOg6wwQ0FsTelCw6FtrXZKHuOh09v7T65XcXG
- c93m_oaHdaJOPm89vxLvFrAIMsYH5CbxvKnDvU44_Jl_j_jxQvnh7m37Z_fTR6m54PEkclTr9B9l
- Tw8Q48bda4f4QPNuwjgIyuAQkBd61EEx2qqjEuvCyfHLprAnbdq4KWJrkX09d1xBK1PBcNCLmVDd
- AzCxEwBSoi6y59gfRxqNcjow7Q4g9_.o1Sff4TuTE6nlmRew_kKTsAWsFqgavvtFysIF2gFzNzTC
- XLFfU0JPEw_sG0nYSTRQEv0wDbYayEiKJNnoC.Ms9DcyK5R_jqMYFYA4rHbw2OopW.1M_6JHaUrF
- U5SMAz4oRHdpWvFqdzp7I1A65IQjFOL1QeF2FQO3QeUDvy9nUfQuLFq88RCz4iJIsLl8mtIl9buT
- cE.2BAwy4V7XA1i4jcBmIUMB92KItRoTaR37dmPXoIlWStIG.EOypwwj1eYOYSZNcGBVchYUkMUe
- kDXD2tMq0c_Ho6a82R2Hor8u_CBAkwpVXUY0uVcXEcEN2ej1PGE6BN3DYh97If3nxlqzf8b4sHLc
- aRVacWi9wq7iDDiqURn5l1jcX7wXLzD3hoU5MXntdqZtk.yelaxVh5S6sEpEQdoMdiqLckqANI.f
- YAhcSoK2RMkFIrB69QYqwIdr7k9cl2wvdsznB3SiyZ1T2FVpkg6YdGVNYCjDespEdHvVe10ijW_6
- mRfuSt_IKyawsHyb5xGsOh3x7pLxmZL6iecezqknA9XMyjJzHsdZk7Ra5KcawBnSqLnXZzYpROH4
- 3h_Pzq8TK8S4i.qREWgedGl6l.LYZ2Lha_yLgXSWZnLTqp1tALivXx5nxLedBIxXhhFst4cnjSdA
- Wx6YQQt6JZTBA9QtCZtRE02WJdzw8J.5TMQOpI1DT5f847IO9GDw682jYZVs.2VasAp7E54O8In4
- PObCWFYlKVYxLgOmZ0I3rkWwtJmfsPbwsPUHeCajcl5EsU5i._nQKSbKhnDNhH2PInAAVVoo_hvg
- hgloVBRhKwHPi8uoXGWYSfqiXTHFohfNdfYYmkTf5tJOPU5d0D_FyA3W922IwfQBm3T_hBJJ4sew
- qhHbOAwRQ6T58c9lw5o3X7TxxMUJbBcdYHUMvpl1m2G_Xczg5BNyxu8oZAvudKoo7kCBFuGcETCw
- PPttj7ZQmBSLQSAhGho5BWIhKzSLGuXEU7lXp7A74.k99PG0NpKrWbzLVZPffeOtSGzSgLS51dex
- rWderropquae7ISoo51qrxjTTyolWecnHUWPhnP6_tKus_jWP5UXYvqpV2VyRSSkZ9E5eSDHhVAS
- gGFOhPFC.mCGdK671VM0S_riM3ZNY3UbgY.R2GfEx1LqAB2M.bwn068M.6ABKCXkqXQQq2c8rAYX
- GxXaiTUjvV3i_b9W.s_qE._Lh3NAKzCaSJQ.mE8oRcBHjfebbbHbE9clOXHA1QIhYUSPDMVoijyL
- llzYG8.MQv2zbJLOwRceXXJwH5flSChhkpcbKZ_yIwYf6.hQG.YJSdjSJP6EEHdu_6AOhdsiBGUG
- m63ulRslibRTGsZV3wpf.gjA_rWOfhD.nS4S5tG5pv2OAZcccg9brpbgeSI2Idy4T5Z1ufiptbv7
- 94.CjaaV7EIxzEGNedmQOn_eaHHSVu8HHNZpusGmWMRDbYSd1QK.UzZd6CFdCzorg.boPTh1bAN_
- 8nQqhyUb.MnSQ1xro31c2N2AoM_uNN3DmDEdxuQN3.Fz0fLdKRHCq78yxYI75IbXjbO8JDs1eM_G
- yvCztbZiXrCFzVRtFbZV_7DSR.Y5VN8_hSJBM4ddhFOdnEjhmSlAk_2XANNsBh.AUgmr4dPEemZW
- aK_lCKLjbIqETWwvN8QheQM2c.emmT6bBtXbY7Q4k0ZEcmQ4Vlz7g2qvEPdqS7LaU2dVo4V7O_N.
- HiCv5vUO5a0arvHwIHKlfRaLbizTTfNgx4AWFTcNcNSpZ3nyjgxBC7GdLKO0Uz930ZefL0OONtHj
- zK8Ee9qDnmseHDnodSr9i5NJpSwLUU5tpZzDnn0Yfi8BGNaFaCMD.5HNoR8tt05KuY4gXix2eS1y
- Wt.vx0U696NEOp6FCH1VTVMoGYx3HEKjayiof6oN76uWrGLGPyFNvtAGSY9M3KTz405aOstV_t5Q
- SqM9QJ_7zgjlFnON_5wka2ih2VZS7mMXe4oT4QDlPfGB01oaR9_mjS5JkhfGXEFhWfePTWuVS6MC
- _SnW3Opp0fjXXNM_iRGoMF.5LGjluVfQydZFxg99f
-X-Sonic-MF: <ashokemailat@yahoo.com>
-X-Sonic-ID: 78246457-ecc3-42ca-977f-d023cbde13c7
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic312.consmr.mail.ne1.yahoo.com with HTTP; Fri, 19 Apr 2024 18:24:39 +0000
-Received: by hermes--production-bf1-5cc9fc94c8-2vdn9 (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID ee5c49b4a47ca886366b559aa52960a3;
-          Fri, 19 Apr 2024 18:04:23 +0000 (UTC)
-Message-ID: <452e4a2dcdc7020f75b84d787297a1d17a21ca81.camel@yahoo.com>
-Subject: [PATCH] staging:fbtft:fb_ili9320 Removed redundant Parentheses
-From: A <ashokemailat@yahoo.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	outreachy@lists.linux.dev
-Cc: ashokemailat@yahoo.com
-Date: Fri, 19 Apr 2024 11:04:21 -0700
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4-0ubuntu2 
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="aqbJKnQQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
+	s=s31663417; t=1713604427; x=1714209227; i=wahrenst@gmx.net;
+	bh=NYfpO0Y8BzAMcuNrjb6008bBmLBEvtULE00mErAUMow=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:
+	 MIME-Version:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=aqbJKnQQxM1AAHQ3urb0ivxBvDDZ5Kz5GC2oZHK9ahTSdFlZ7RR0L9l9bS75OZKY
+	 zS4TkeHY7P61ygMSVPkJ5iKzmE9yFYGe8JRMLOiSgzBPHCJqZfYHhJw82ek6Mf0xt
+	 YCpCjDgzJncA0T3JRvZROommL5YNmxOaBEsFExPpKVnEAvEfe8ZK/gTFGzPDOJzOz
+	 ARuSOAd+8xyDblrt0OsRbNVZuKujgOVyqu9KWxp34upY7bxWM3dztB+b09+oqIABd
+	 vlPsUguULxbRhgBdAWhcPWxgqjcro7PW6UvbCD4Kzr0gD2a8f2DWyoAPCsr33jrp+
+	 q+l8r/rB5X07TCy1gw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from stefanw-SCHENKER ([37.4.248.43]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1M1Ycr-1rzUMi328h-0032iq; Sat, 20
+ Apr 2024 11:13:47 +0200
+From: Stefan Wahren <wahrenst@gmx.net>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>
+Cc: Umang Jain <umang.jain@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	Stefan Wahren <wahrenst@gmx.net>
+Subject: [PATCH V2] staging: vc04_services: vchiq_arm: Fix NULL ptr dereferences
+Date: Sat, 20 Apr 2024 11:12:40 +0200
+Message-Id: <20240420091240.9552-1-wahrenst@gmx.net>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <452e4a2dcdc7020f75b84d787297a1d17a21ca81.camel.ref@yahoo.com>
-X-Mailer: WebService/1.1.22256 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:6FlioDCPMJdPnkc0CPyKL+KMOAXnHuX3V1DI/vFloDMYd/lQiHe
+ Zyn6xp3O7oSHPZxfl+BfdJVxF3ITLK6lLqOt/pl2R2VXVqhSufrRs/ZybdX2jPpZtPpmqTw
+ jUCOGpNJbmrfxvUn1fPWIFRmsX0v+7qaWlsNkAvEPVVKAKw6V3dSVdPM4Dv35NyA08CJTOH
+ jtQTv3M9YnnAgzLR1rYHg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:j8mADqAS0KU=;J6a6aPfBej26eQC5F7do7uDeFg/
+ UpFIYwq/gkrtcQptyNqoAUdQlZdF+CwMGZup+mc8soq1rshmv70TV8C1byX3bk00bUJdkp3xE
+ fXgeWRb6rg9YbCG0XGdcx4B4Cswhpioc8fJf510vrVzJVyCHbb8ONpS+E53ACusW+9UjuoKdK
+ bPO4Q1RrggjGXoPaKJcV00k7RXdFCVlZXusqEOvJbj3wlYfx5vcQFO6SDc8aJqFVTWVKn35mS
+ WBfjTJktI88hk/PhC4cVR0o2/nu1LNxuVU5xrCS6FaXcC/MJWiCBhCBMtckAIe2oHiMeGQRJC
+ pF+ndJfYOt0r1Zn5+A2eGaLIGiahzM8jFVCpEI06tK+J+W6rh0I9EDa/Q0j2ZyW9+Y5aKK2FY
+ 1Umqxk46XUoRIYdbebCA3MxwhH/7VBZttj3jIvFE7W3dpEcEWzYnYYq3ir38gN3ia7i+fUAUS
+ 0LbOixmTLUGtXvvufPXI9fhWoaFzViXrGDhNniHNZiB83fpO7kr8dCva1cjMZLBhmXhkP4EqI
+ /8NfkBanyaDFR+WAP7KRrGwM05N+mFRzDdnBHSKuhwd7hC9TTniWpGffr/WFbVj/SXwyHCUeg
+ 3aI/xaosLTNNFqVO1agXx5qCJhWUFecTmYZmZSR0xxEZYOM5HlhbnoSDz0mZPx+ILCx6BESBQ
+ ssQavw21Wf4BK80lIPfS8l2oFa1ywEUV7VY8MiANKFvtSG6fDgJAmKdxGKwo9BjpG0MwwkjNf
+ 0U7+zhQvNpFsrf5Y9xJriJXNwFKnkCGcBi+x1PRJkHdnSZ7bFSpNRjYs82/13SrQXyzWIM6fN
+ iC3TxyVVRPIrk2S60gzIPahAK64wUMGDZNx+QD8Kdkfr8=
 
-From 51e98164e314a2d1d834d2a9baea21a9823650bb Mon Sep 17 00:00:00 2001
-From: Ashok Kumar <ashokemailat@yahoo.com>
-Date: Fri, 19 Apr 2024 10:32:48 -0700
-Subject: [PATCH] staging:fbtft:fb_ili9320 Removed redundant
- Parentheses
+The commit 8c9753f63905 ("staging: vc04_services: vchiq_arm: Drop
+g_cache_line_size") introduced NULL pointer dereferences by
+using the wrong device.
 
-Adhere to Linux kernel coding style.
-Reported by checkpatch
+Fixes: 8c9753f63905 ("staging: vc04_services: vchiq_arm: Drop g_cache_line=
+_size")
+Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
+=2D--
 
-CHECK: Unnecessary parentheses around 'devcode !=3D 0x0000'
-+       if ((devcode !=3D 0x0000) && (devcode !=3D 0x9320))
+Changes in V2:
+- drop cosmetic changes as noticed by Laurent
 
-Signed-off-by: Ashok Kumar <ashokemailat@yahoo.com>
----
- drivers/staging/fbtft/fb_ili9320.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/fbtft/fb_ili9320.c
-b/drivers/staging/fbtft/fb_ili9320.c
-index 0be7c2d51548..409b54cc562e 100644
---- a/drivers/staging/fbtft/fb_ili9320.c
-+++ b/drivers/staging/fbtft/fb_ili9320.c
-@@ -37,7 +37,7 @@ static int init_display(struct fbtft_par *par)
- 	devcode =3D read_devicecode(par);
- 	fbtft_par_dbg(DEBUG_INIT_DISPLAY, par, "Device code:
-0x%04X\n",
- 		      devcode);
--	if ((devcode !=3D 0x0000) && (devcode !=3D 0x9320))
-+	if (devcode !=3D 0x0000 && devcode !=3D 0x9320)
- 		dev_warn(par->info->device,
- 			 "Unrecognized Device code: 0x%04X (expected
-0x9320)\n",
- 			devcode);
---=20
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c=
+ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+index 502ddc0f6e46..c06232fcb0fb 100644
+=2D-- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+@@ -257,7 +257,7 @@ create_pagelist(struct vchiq_instance *instance, char =
+*buf, char __user *ubuf,
+ 	if (count >=3D INT_MAX - PAGE_SIZE)
+ 		return NULL;
+
+-	drv_mgmt =3D dev_get_drvdata(instance->state->dev->parent);
++	drv_mgmt =3D dev_get_drvdata(instance->state->dev);
+
+ 	if (buf)
+ 		offset =3D (uintptr_t)buf & (PAGE_SIZE - 1);
+@@ -436,7 +436,7 @@ free_pagelist(struct vchiq_instance *instance, struct =
+vchiq_pagelist_info *pagel
+
+ 	dev_dbg(instance->state->dev, "arm: %pK, %d\n", pagelistinfo->pagelist, =
+actual);
+
+-	drv_mgmt =3D dev_get_drvdata(instance->state->dev->parent);
++	drv_mgmt =3D dev_get_drvdata(instance->state->dev);
+
+ 	/*
+ 	 * NOTE: dma_unmap_sg must be called before the
+=2D-
 2.34.1
-
 
