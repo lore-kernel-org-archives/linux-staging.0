@@ -1,37 +1,38 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 705DF29CF0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 638F626AC5
 	for <linux-staging@lists.linux.dev>; Sat, 20 Apr 2024 11:54:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713614062; cv=none; b=Wb6n1AfoD9SO48xK1flFTnRaLN5GCAZkcONf1o/LQ369r8erR96boquH45j9f28x4ewrvcXM6xADhLKVGBomP7eUG4WLIwx5oJYR658I585zLFRwifT7CuQDpnMXEufTe6Eq7cfka5knBqvln5PNZS0W3YQSqgYDjVLhds7esME=
+	t=1713614062; cv=none; b=NYSIhoGC71mHXbo9w8j/FH4WY9wlckS/egPSsfDhVkB/mmph/vmg/ZMD3vGpPd2j1ahgETwdEUm58XLkAM8KB5Cz/h/eh0s/EZs9oBg77mxMyy+dWbCVluTbkFiPk4kjuqchPdin+6skp6r56SLmGo3WtV/LJPbwvAqW77Bzh60=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1713614062; c=relaxed/simple;
-	bh=HxbExcBqD4shC4ZhsEbTqRiJMEmdS2BbmkwIQovFnrc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=qzip9Rgk99xAcSRXKpsN9G+ZHWbhOttsDdRXtKiFyG0Bfwscu/vTAc3FjuLIM8XPinMC/31arPz6BN8/AXo5gj94EjxaI+bDiJ2lXGCj9f5CRMdasVUDrPV2N8PFIdA7JYWq2u9gp56P+8uK66zwhR+wjCcbvVdFarHK/e6cBb4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=gBO/MFok; arc=none smtp.client-ip=212.227.15.18
+	bh=27SqZgiR0UUNKZ7sL091LOzB4R24gF1/J/jg7X9upik=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=dakKe33GB/oSDGlNkDZepYU2H815bpnvkWxvssAyOR9hwRFwwVrFDUI0oBSQQT3npTzA0JsqS873GqVxzeOkqI8bj4v11MmlM8Qb40aRlvhK6Vp6CaK7PnnqRcaM7UAOrbMrCLiTDLqvRK6UvTEElF3s69wQZatS8mfz5YDhTcE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=sOlUYjhl; arc=none smtp.client-ip=212.227.15.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="gBO/MFok"
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="sOlUYjhl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
-	s=s31663417; t=1713614048; x=1714218848; i=wahrenst@gmx.net;
-	bh=i8M70idR4lO5Bzt2GYCHZXqU7yRTtol4X29SW2HFgY0=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:
-	 MIME-Version:Content-Transfer-Encoding:cc:
+	s=s31663417; t=1713614049; x=1714218849; i=wahrenst@gmx.net;
+	bh=XBz6vLDOKmPiyoGHSaBiqOwfqoSTVC8G8FHmgrlgS+s=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:In-Reply-To:
+	 References:MIME-Version:Content-Transfer-Encoding:cc:
 	 content-transfer-encoding:content-type:date:from:message-id:
 	 mime-version:reply-to:subject:to;
-	b=gBO/MFokuZH+3Y/sN28kn2j4cKYRJU8cpoY3Fum+EJS7zeWIFdfPdAb/epVHDp0M
-	 5lvS9UxXKT+1Fc26Z1bAsjdrNVQpATu0XEvI+Pmw077A1jO0OasYnkFeFp0fvQx6M
-	 /XPiLbG/TPn+LRDss8YxSz8Utw8mUWyg8wbfG3jCY7S1DTovFI0LIC8e2xElK+hCZ
-	 oj63lAbfmE7snFyboI2BgGQYP0c4agG+iLsS4qqyPWVHRmxlGphQRVMg5la8t9Isk
-	 f0rengyJQm/LjEhr7pGTFldMIDsVKGBeEJudNqUTq2TPoUuXlrbouU2/yRlX1rwcn
-	 yQ0noL0cgwwleFfHZA==
+	b=sOlUYjhlB1Qo2orodh1n2/0CKwbhRN1gECha9OLRvsqGsfxKugsBTbEsgsLmymrq
+	 oySD17jd5oIQT0q8ZzTo4g9+GwobDB6jNADRstjecQJl/7rIDNqEVWYKoKAQnIURB
+	 5HjvClTKw1kSxC1/Oka7gKkgDi2geiJJjIYiQ8L8+Z+w6yKgoGo29JlrufwiZXpSO
+	 RHZnS0/0pqlpwq7wK8AJPA3Mtk5kfwTe3768xTlzx1gIZI8Kp0f6Y6AtUQpZr641q
+	 fA7yrB1miI7RzY11zwero4JD18WCsXvb8lTZagRKWJ3AibiSOHrKySWxYtFOUNhH4
+	 iUbHcDZuHDqij9+cfw==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from stefanw-SCHENKER ([37.4.248.43]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MxDp4-1svU5I15S4-00xfAh; Sat, 20
- Apr 2024 13:54:08 +0200
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1N6siz-1smvMc2wbn-018MGy; Sat, 20
+ Apr 2024 13:54:09 +0200
 From: Stefan Wahren <wahrenst@gmx.net>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Florian Fainelli <florian.fainelli@broadcom.com>
@@ -40,10 +41,12 @@ Cc: Umang Jain <umang.jain@ideasonboard.com>,
 	linux-staging@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
 	Stefan Wahren <wahrenst@gmx.net>
-Subject: [PATCH 0/4] staging: vchiq_core: Minor clean-ups
-Date: Sat, 20 Apr 2024 13:53:47 +0200
-Message-Id: <20240420115351.27713-1-wahrenst@gmx.net>
+Subject: [PATCH 4/4] staging: vchiq_core: Add missing blank lines
+Date: Sat, 20 Apr 2024 13:53:51 +0200
+Message-Id: <20240420115351.27713-5-wahrenst@gmx.net>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240420115351.27713-1-wahrenst@gmx.net>
+References: <20240420115351.27713-1-wahrenst@gmx.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -51,36 +54,56 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:Yxo9u2bLFLFuhC2DQ7/42Wef/UwYG0HfpAixdK01yVolhRtptjs
- PkREC2fPg71+9159vxf71WlsrRXnzmCqYaN94SbGNHmbYpDaGY8WUmATIeRrbsNE9d/USQc
- jjzMHrHMapb5UcuNCW7CZxm0csdQ0g0xm9eTyx+SRv7jT7P62K3eAusDksDYNIms7bnx0pp
- UYkVa/U8V1B1j+zGZutXQ==
+X-Provags-ID: V03:K1:UciPNtNmNbb/tnBiK7doL+w+C3Illm4dS3sRX1UkFtoouuJtCNp
+ KFRX+2L50PpIGA5QtaxvBrR7uw7hVT6vriyarXn4wDRV1NBT0ZgtIkEPlACJvxxDBotrnAF
+ 1gwAx+DrgNEO2gzJ+XWujLAulckWjQ4GOWs3hDZT+/s2rfVLNnpeAr2FTgHMti8VQU8wh7b
+ 4h5UFLFfqjArJ5cLE3Org==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:XmZLiurwvJE=;4hkkodWxpxETEBXYsTSLwlILBhG
- UxKXUYy3OCLbsY/nR3U/pQBa6klUVw9H1Bvo45+/ZFuATE5BV+pcQ2x6alKC6QojYOnJpRhaO
- x9oolC6IhjLbNHFh+VsGjCm0uEi/RLcD4Ny+gdewH9Y8xmM+gqbOLHDvbfrbAqSGI8iiKFQya
- SbpaKquL8XJ2BKF4dTf8sZ+NSCD30GqWfiOEx9K7WFpho+7I8mZo25t9dtsbPfG/VL4RxOaXu
- BSUN4HQZpKPHppihDGSHHMAASmjCGUyiyxCKnyMKmCr19wGEmFcMdRjUGoHYMd96dpbK0R9MY
- v9xjQ+UA27lmoOK72sfu8LnkO8mbOPxvH2T+yEXyKutUJvH0PYBDveCGWdry/sJDfyGT8LDuS
- 2wrb+Giu81Z8cIz1/R06U8jMvjC8O++didTN+ckkTD35Zog7L6+RzI4ymyQlYij3Yx1Bvl4dH
- 2wO5sR2GPpLwepG4EgZz9dd/Egk1QNHspjjiEFKgGb2BjQs9H7oZys5C6M8iVoeLuSqvZiixo
- LymrCXZxA1uI1WmYmxKryn48QAQ+KhwO4KfWa9vlu4j2cVsU4kI2KP8NMtcfJVfrCS8f852aH
- GrkufpHBS5iJhyn9C8VbJJ9iy6MKHKAiDc/uQo6ytlxE8JiKWrdYvO5nqu350REZriZnU0fvj
- 88l/uUP/vnwhQU/P0czfSR9bn/YjaXYfw+aOFK4Zk635SbMB2Sup5qg2OifQfNG07/bWaP4y+
- cbkeBk0BNQMsd1eG9q+rK+UOOhLpR9Z1jg5mc3Ojpfd4nPgbzzWFjjBoe7wX/ddljEpartV++
- MAxeT4csACnbcso+etH+dn5JE5hWN7Pd2wpuktNte5v38=
+UI-OutboundReport: notjunk:1;M01:P0:jbuVK7QtgZU=;vRu3sJclAy02O9V9zAaz748T8zY
+ HphDShhpRk6s5+jLpCETYrMIQEVvhJ6vt9MaBCr0YUOP/TQzfemHS+c+TPL/vaOWx0Wzx9Kye
+ 6Vshb4YWODldECMdmGkqLENLoB0yXB2uPXh1m0zaNacZsM9cZ4/9/FtcQnpF0QSWhb3MOUjAj
+ 6RgRX+caSEdCGmNPYVxg0QZo+zq/RUcDgGfh0aFwLWJxb8EMW3xwgx+IIk1NypgqomfYcFilw
+ ZfBkGuOQbv5hEI0OdArEd8Of3loI4cWRnlni+2RwaNYTFqFD5nZIOARwlS5aluuk51MbRoiAA
+ 3XxVf1re3hbr6EMXT3awPeJMVNYuSGOazs8eSfINzp40jIBMvb4KfWDySFsXRZGN2iBH0mGlX
+ wYIvpuwpfkC/IRFn7TKVITI5G0w5W3+0W99JSq6/1rniiRj2lr0LI0OgEw2JQiOf0MvKasnhc
+ cN9WU76EeJLTU5VDoy5yLyXviU/E0WS5dKMNzuFDXbVz3dru+IeLpwoCKXND+F/ZIEmlvfuly
+ U/0ajkVKZX1gY0vkfflSjPHmOdr1xZYOQ2rhJlUbr4yeilSkLXLbT2zBdKF514TstjJnfeb2N
+ b7qq2YrMyNLA8ha5PiwO5RFs6QQdEZ1YDrlVnZZTfSlOwgTy7ENZqhanrrqeKKqoA4SroX6LT
+ /0fODogBL8GDLOLP+GTweC7yAEloKIhfja/G2qpl6S7jnGCX59oZgYI3Sc9H+UtuzXAPvSvdr
+ k18SikKIZ7hdUDheYUboX9lEzocIYCU002VnkbZD6ivk+LRhsI8vO5yBeKm4C7yix+JGLLscD
+ z5mdyi2+xgYAtHl8cYTu65f26II7Yc/U9WI1HFOubXXhs=
 
-This series contains just minor clean-ups, which were mostly found
-by checkpatch.pl.
+checkpatch.pl noticed about missing blank line after 2 declarations.
+So add them for better readability.
 
-Stefan Wahren (4):
-  staging: vchiq_core: Use printk messages for devices
-  staging: vchiq_core: Add parentheses to VCHIQ_MSG_SRCPORT
-  staging: vchiq_core: Drop unnecessary blank lines
-  staging: vchiq_core: Add missing blank lines
+Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
+=2D--
+ drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
- .../interface/vchiq_arm/vchiq_core.c             | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.=
+c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+index ca32902afe06..df3af821f218 100644
+=2D-- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+@@ -227,6 +227,7 @@ struct vchiq_service *handle_to_service(struct vchiq_i=
+nstance *instance, unsigne
+
+ 	return rcu_dereference(instance->state->services[idx]);
+ }
++
+ struct vchiq_service *
+ find_service_by_handle(struct vchiq_instance *instance, unsigned int hand=
+le)
+ {
+@@ -2176,6 +2177,7 @@ vchiq_init_state(struct vchiq_state *state, struct v=
+chiq_slot_zero *slot_zero, s
+
+ 	for (i =3D 0; i < VCHIQ_MAX_SERVICES; i++) {
+ 		struct vchiq_service_quota *quota =3D &state->service_quotas[i];
++
+ 		init_completion(&quota->quota_event);
+ 	}
 
 =2D-
 2.34.1
