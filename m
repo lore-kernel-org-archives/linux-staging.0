@@ -1,117 +1,147 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 705AA29CEE
-	for <linux-staging@lists.linux.dev>; Sat, 20 Apr 2024 11:54:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E45D947A58
+	for <linux-staging@lists.linux.dev>; Sat, 20 Apr 2024 22:47:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713614063; cv=none; b=hUJTE9UQTcVLLoHc8g9uEVlXclX5bj4+Fyie6mkVHBt2Xoz9gy8/M817mXDXyaukazgYbwBlu+TIbD9i2SM+w1HeOd5C+HwxUZDpGQ8woLpAJ9NFG0L7O+/GYzTCs10DyGgI4+hwzEdMm9O3Ocsr780iq7KHSsSOUk0JF7PfgRI=
+	t=1713653229; cv=none; b=UvZXkS6Dytg3M1HJENqi8MvLRROTIYbO79ktJc5hmFvFa8TzdvlCd3NSyJ0bdYRLf4rlRn4OW94Q7vCEgPY8iIZ86WtZkR23QxEGvfW8AQ+buWuuWZgIpoZxpsphcH6XTBu+et0h25ijklJXlirD+USH7htv19/QiVVCbOsucUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713614063; c=relaxed/simple;
-	bh=uAaeLA3g3WY9oU9qN2Aw2y8icEXnUwBh+UiLT6c5WHk=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=GH0uBlbhxBvB2VAU+g/KX+bOLEoHUBgWx/3nwmPU8bKbj4dwJwbYqHY2tzdXiOzDI37z5oIL339mYIK+YyqC/W0R/mlmaEm0dwh74oH93XZdpG0GRIt7erD6S4fj39eJ7M3+diDgFKSNq0/kmxlANepds6BmdsI112UsQpoDU4w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=FTj1ugb1; arc=none smtp.client-ip=212.227.15.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
+	s=arc-20240116; t=1713653229; c=relaxed/simple;
+	bh=7rus6XVRgap7s1soDiF1cXI8lMxTwZlFAZbG+UDBkQ0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=f+plNBxPqevr4RP2SUQoFq8spKK3vHBH6wIX8zWD2A4dPeReoXx9XajTbcoEc6XnEpAiBlIsTO7DLcpwezpqJLr8tiBRN4Ca3Ry3I5KUa12Q8fIPuCnplhF0GwKUKuQK02OZ3Mt8mhXZ+uB21McoOUM4esPM3wD/5ojyp5FIClU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HOc9ahJA; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="FTj1ugb1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
-	s=s31663417; t=1713614048; x=1714218848; i=wahrenst@gmx.net;
-	bh=IdPvZZcmTz/4Jhv3avJuKOovLJWs7cPlfVl3VPx2mj4=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:In-Reply-To:
-	 References:MIME-Version:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=FTj1ugb1U9y4U3dVfJb4o6MJM0vjc/2mLan38rWrQPytq94fVEyru2yjY3BAh3T0
-	 WL495muh4tXjBEF1GU/m+SxW2t9U2bLqcgESF4OdYHtb+fha7k/w6sTX5NbWwpb1I
-	 nAfndgbqcRQEqr7f0fNGQcVWxt0YNygxyWlY1oGImyXUc2rqd/sokG1J95/ZNLOUy
-	 vek/AeZvZXvF+7XGR7Q5uRIzAto82uFbHeafQbz5ykrookKp3D7UcU7CXMGvT83dW
-	 Rj/YFQmJSGJF2c/dbRHGtjB81KrEDO+Xj4zBP82F/8mi+AEZXtRNaSFe8YmYzlyIX
-	 quD+NdZr1fRleLFbTA==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from stefanw-SCHENKER ([37.4.248.43]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mlf4S-1sNpKM2fCc-00igeX; Sat, 20
- Apr 2024 13:54:08 +0200
-From: Stefan Wahren <wahrenst@gmx.net>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>
-Cc: Umang Jain <umang.jain@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	Stefan Wahren <wahrenst@gmx.net>
-Subject: [PATCH 1/4] staging: vchiq_core: Use printk messages for devices
-Date: Sat, 20 Apr 2024 13:53:48 +0200
-Message-Id: <20240420115351.27713-2-wahrenst@gmx.net>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240420115351.27713-1-wahrenst@gmx.net>
-References: <20240420115351.27713-1-wahrenst@gmx.net>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HOc9ahJA"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-343b7c015a8so2523253f8f.1
+        for <linux-staging@lists.linux.dev>; Sat, 20 Apr 2024 15:47:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1713653226; x=1714258026; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=fHqxIncYJ8egtEQrph9tKgbaWj8ag9453EB89pr+LvE=;
+        b=HOc9ahJA/Qqh6Aa/qyQqzY7iJI+P3J3igL0Vp+irxb4mY1uDN6nz1eqlIOeEmPMCBa
+         4Jbq24X6LbWUCBb/cHBZHPtkS6wYcAVdHd/fpkABqOgfzZhc4f1YI4sNewVtgkHi+F0M
+         5LwxsmKxi9LjXk9DMyNuHZ4To+BnSstFXBM/UjYOKtwHgifBVOQCZwvcp6kLlNRj/P2g
+         0AF5IDEvJAd4AUDIugoGBtg4c5Of+eT2DPVy0883QOpKpK8dITTa2itMBdArEvWjeDyM
+         Hodh3VUCevdobB+uwbtRROjIZJ2wgoVE6iB1K6tMAVHw4ZMH2L9nTE6ZUADPoACDjJu3
+         k8JA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713653226; x=1714258026;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fHqxIncYJ8egtEQrph9tKgbaWj8ag9453EB89pr+LvE=;
+        b=rpgsczXFqO9V+pSNlQXDPvpZSTyaoDEq+Ae3Hv9ve0t6pCfDOQ9gDIulaQkFErGQyD
+         jFu1mpDa2zmkep4VxVg0vJmZ9zkG5tXRtbzZmb9Lub0wAb4bqfWwTrhiuOAssiqiY4Pe
+         I/iAefHX+B+/hpW8iNiRFFl3lEAOm8EAYDXbrgLh+6pkjvaJwyy0QwKr9wKeL2xX0BXn
+         kihmJ+r8MSHzQMhiPK4FAy9NVr5dW8m74StADdjRg6XxYQBbe1ZzsdYjpiAq3B9sdJCS
+         ip+c4ynArwxynvVmwFoqAB9o0hwBwev0VisOSZ8lZzkf2DcadtOoTGjUwbAc+6WCfXOK
+         VawQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXULCOdH1GHqlLqbTbMPW00k1V/Xqwzn2PiqMEqcZo9nTusAh84jrjxw5PoF9BTHqYX52wXx+fLsJDMfyRtiJ0TDMPrfYXxHEokSkKuBQ==
+X-Gm-Message-State: AOJu0YxvS600ZNPoc+bDJ7Az3EH7MLbz7WrOZv6Mny32hvHklNP/IWbj
+	9QAIF3ObAO4fVcNeUSrgArqvEEROYE0VKCru/wmtBb6ZLlUDkCXptjBElW8lKlM=
+X-Google-Smtp-Source: AGHT+IGtPzW/+9lmMVQCxqN2UztagHO9wsOjvQj41cl+HJwvySkknf0HE8sKI3A2uzyMihcZkv08Sw==
+X-Received: by 2002:a05:6000:2c2:b0:346:758e:5f29 with SMTP id o2-20020a05600002c200b00346758e5f29mr4624994wry.60.1713653226127;
+        Sat, 20 Apr 2024 15:47:06 -0700 (PDT)
+Received: from [192.168.0.102] ([176.61.106.68])
+        by smtp.gmail.com with ESMTPSA id fc14-20020a05600c524e00b004161af729f4sm11399884wmb.31.2024.04.20.15.47.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 20 Apr 2024 15:47:05 -0700 (PDT)
+Message-ID: <0b5c6091-e47c-4d24-a13a-2b5ad1b9cfb8@linaro.org>
+Date: Sat, 20 Apr 2024 23:47:01 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:S4WO36eka4RpRX8zyZMI+Fh++NjZMYAbPn2LYBG5ZAagsBg9bZv
- +6dTxW4u/SJ+KIbjIV/e3GMnw9g3buzUiWYIUuf9qJ1r9WAiPPOMTcgLiaEXkeQckOmGOKf
- QZBAVAhYz91qqEcBlW2IpCErlth2cYHFz0mQDdYl+ihk5+7vpLY5+SjogEvGvo4zD+T6ihL
- PbfsSLkzTPv3QBxXldJ9Q==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:djpi2O3a8Wo=;qsU22WJ6PCigW2NRqdwRNbuPShI
- IFS9yWoFI2j55iLe4wVAXme4QNlnZf30doClR1NLOXHgBZHBdzTSTz8N3a74qfLv0fF6r5LaV
- 7dINF0c7AGzfaHgPjK2kMFfAySCkeKjuHo31EZuSUV+mgxY128Z5FijQN3xIXv2UKO8SbNjDU
- 81voc4j02rM+531fq5Ia/4pVPgfM/KuzQZItxL8yBlVMav/Vgh4JYVSQeDJcooYsVAol4ZtCM
- Wl+YeXihZj4GBcyIEA6+pM4N5viq0XjRQnFCu1UUo0f+PD+xZKH+NQmgDuxccfQYfruG27HRL
- hbKoPWGXVU+nPZD1efcQ8Pvz/gK9g/4JtaKZ4nTvcgBV40ce4Q16jlLDMmBWQIWA5cZh/c/JQ
- iuNsvBS75rPDBkdmGNcbaA87J7rBkMkgLSbb4IBuyP6V5z+wLxeNHyLrbQpfkIEfgEwmsPngY
- qpbFafbWAPqToDHVbsmqDlhgSrBaNssyIZ7Kgu6X/TsL7JvOfgVCcD8LwuthvxIE1bJBlYV+u
- E4c4Bx1VWlzURC/VohaJdbHJ6eu8O2BDuVT94VtTGpPDfxg0r/9+V9SRewnupzxNq3QM9eSs+
- OFqxXF4cNiTOx8Vdj983y5tWRfR6EQkpOubH/6wN+V60vXjjDqH/Wc/Mu7ck692Nuvkmh43kz
- wp8b3KNx0ca/1qkk+pK9drZ4cUa6wmSxOU1BNm7EGFcvPx0YcVJJc9udiuboyXiCdbFnWEEtP
- lPIOLPrUoIGUI6CzhdlSRTPpPd1i18J//55FF/PsR9wz4rxTLqlQzEDTvdjsfZZLNSjDQbnP7
- /DO6ZF19u2ELafKv9SBX0uZ7F4cDVc6rBY6zdg6uqKIwQ=
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 23/26] media: venus: vdec: Make explicit the range of
+ us_per_frame
+To: Ricardo Ribalda <ribalda@chromium.org>,
+ Martin Tuma <martin.tuma@digiteqautomotive.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Hugues Fruchet <hugues.fruchet@foss.st.com>,
+ Alain Volmat <alain.volmat@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Chen-Yu Tsai
+ <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Hans Verkuil <hverkuil@xs4all.nl>, Sergey Kozlov <serjk@netup.ru>,
+ Abylay Ospan <aospan@netup.ru>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Dmitry Osipenko <digetx@gmail.com>,
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+ Sylvain Petinot <sylvain.petinot@foss.st.com>,
+ Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org
+References: <20240419-fix-cocci-v2-0-2119e692309c@chromium.org>
+ <20240419-fix-cocci-v2-23-2119e692309c@chromium.org>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20240419-fix-cocci-v2-23-2119e692309c@chromium.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Now that struct vchiq_state has a device reference, we can convert
-the remaining printk message helpers.
+On 19/04/2024 10:48, Ricardo Ribalda wrote:
+> Unless the fps is smaller than 0.000232829 fps, this fits in a 32 bit
+> number. Make that explicit.
+> 
+> Found by cocci:
+> drivers/media/platform/qcom/venus/vdec.c:488:1-7: WARNING: do_div() does a 64-by-32 division, please consider using div64_u64 instead.
+> 
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>   drivers/media/platform/qcom/venus/vdec.c | 7 ++-----
+>   1 file changed, 2 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
+> index 29130a9441e7..2b2874aedb2d 100644
+> --- a/drivers/media/platform/qcom/venus/vdec.c
+> +++ b/drivers/media/platform/qcom/venus/vdec.c
+> @@ -464,7 +464,7 @@ static int vdec_s_parm(struct file *file, void *fh, struct v4l2_streamparm *a)
+>   	struct venus_inst *inst = to_inst(file);
+>   	struct v4l2_captureparm *cap = &a->parm.capture;
+>   	struct v4l2_fract *timeperframe = &cap->timeperframe;
+> -	u64 us_per_frame, fps;
+> +	u64 us_per_frame;
+>   
+>   	if (a->type != V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE &&
+>   	    a->type != V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
+> @@ -484,10 +484,7 @@ static int vdec_s_parm(struct file *file, void *fh, struct v4l2_streamparm *a)
+>   	if (!us_per_frame)
+>   		return -EINVAL;
+>   
+> -	fps = (u64)USEC_PER_SEC;
+> -	do_div(fps, us_per_frame);
+> -
+> -	inst->fps = fps;
+> +	inst->fps = USEC_PER_SEC / (u32)us_per_frame;
+>   	inst->timeperframe = *timeperframe;
+>   
+>   	return 0;
+> 
 
-Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
-=2D--
- .../vc04_services/interface/vchiq_arm/vchiq_core.c     | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.=
-c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-index 3397365e551e..129d73fec2bf 100644
-=2D-- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-@@ -697,7 +697,8 @@ reserve_space(struct vchiq_state *state, size_t space,=
- int is_blocking)
-
- 		if (tx_pos =3D=3D (state->slot_queue_available * VCHIQ_SLOT_SIZE)) {
- 			complete(&state->slot_available_event);
--			pr_warn("%s: invalid tx_pos: %d\n", __func__, tx_pos);
-+			dev_warn(state->dev, "%s: invalid tx_pos: %d\n",
-+				 __func__, tx_pos);
- 			return NULL;
- 		}
-
-@@ -1732,10 +1733,9 @@ parse_message(struct vchiq_state *state, struct vch=
-iq_header *header)
- 				break;
- 			}
- 			if (queue->process !=3D queue->remote_insert) {
--				pr_err("%s: p %x !=3D ri %x\n",
--				       __func__,
--				       queue->process,
--				       queue->remote_insert);
-+				dev_err(state->dev, "%s: p %x !=3D ri %x\n",
-+					__func__, queue->process,
-+					queue->remote_insert);
- 				mutex_unlock(&service->bulk_mutex);
- 				goto bail_not_ready;
- 			}
-=2D-
-2.34.1
-
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
