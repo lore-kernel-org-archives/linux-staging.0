@@ -1,59 +1,59 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B518482EA
-	for <linux-staging@lists.linux.dev>; Sat, 20 Apr 2024 23:00:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B3264AEFD
+	for <linux-staging@lists.linux.dev>; Sat, 20 Apr 2024 23:07:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713654033; cv=none; b=IHVakpNQmtBOnGHsIbFMWesKR3LDOtWZ90RiSILVn2zLqA545gJrIOK3rCiFdKeyO8uVv/enEk3O8eOZSC0Znv1k4YwaLx5ejn2FWVIWu0woI8hKCzhAypjjaevK2hGUW0hg5+QpWlJDbPuX2unA/ffsls93wou87sP5F0vZoTA=
+	t=1713654480; cv=none; b=P1f/rpynsliWbQjzbkaYJm1NNOGQ6yigHar5sgKC1Ru99qbqqv5QQFRmw86iCkBSXySeWlaOiM1QsPXkj9+o6eRD9YXYSthOq4KemY1r6pT2gSXHuTQgRhPoMlb9Qj2LmlQunUxZZD6jDxro5Tv1gWQaN9qC+eK5o9Q9RHx4pyk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713654033; c=relaxed/simple;
-	bh=4W4kNBK/xrEcrUApwzCM7sLtC45HuF/KUzFjcCmXLt4=;
+	s=arc-20240116; t=1713654480; c=relaxed/simple;
+	bh=z6difwhnZxEoVhqGOtYJurOynqmxvUFH5a72r0Wf1ZE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oHinww1amDT+ddUdrk7elNVhMX5heti7e7AqDB+G6Dgos2z2gP1xuHJlhxA+0ar4S5lNXDwqDzAhsVCeB4JhZs9iqv9rekri4ftwcqk2n0Tc+HQnGqvycwl8fa12IDSpCBrZmf+JjtCLFRqiu41VO8uhE97eW+ZPNm7pUX27A+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=LFagpA3q; arc=none smtp.client-ip=209.85.208.54
+	 In-Reply-To:Content-Type; b=ehxukVc4mRZ+DGKGbTzfz3wKHug6/fs482Oe8W5zzcKWZ7CV5rHKBk3mEtD64EtUxI8oJRrL6Yy031hayZytoYIJkAFGiq1kXGJ5OaCe53pBgD0Jf0sFT9idh56mmaWOkhmueMjEjXBAiNxUHV7Eib7NDHWDYrQsgLFHaRvK6io=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZDRN+b16; arc=none smtp.client-ip=209.85.221.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LFagpA3q"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-56e136cbcecso4482794a12.3
-        for <linux-staging@lists.linux.dev>; Sat, 20 Apr 2024 16:00:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZDRN+b16"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-346359c8785so2728859f8f.0
+        for <linux-staging@lists.linux.dev>; Sat, 20 Apr 2024 16:07:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1713654030; x=1714258830; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1713654477; x=1714259277; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=gS/avcdT3uZE+/g4l+u7eNrKfkVrRBnHoxOYygE+RDE=;
-        b=LFagpA3qa+b5+k/7KrLrQhfWwX+m4RYb19raFeTtAB7oNlGVgjfP+1x0J5Fy4tSNl4
-         FqjGJZJHj/WZdnTY/YP/xZxHjvh8CRQ+9e5ow3rJ1Ckp/dWzAQnif9+8RCUQN6IZ76ev
-         PfyPm5mA7Z2aK558YtYLMtvV/jtrRfFdu82LpByM186dmHU9STkWDZvFIEXHJog98ylW
-         1sdJUZi6oAuaonu908AUC/of8iW5AzxUoP2q0BUYfkxlL7JVqr0TSGZEI+VOSlD/B6Cm
-         Koc27CKnZ+rH0D/fC8z2bJX3/fGuC02QAaT4leatWRe+Ysbyt6tSvHK7yl16FMwYDpEP
-         FLtQ==
+        bh=x9hTDE+OmzSnorVJyzQcFNYmLnBIvZgvXWNavzd4DaM=;
+        b=ZDRN+b16RHW8CAc9ujjJCB4FfvN5OzZVOB2AEXE60f75CFL0ABDWRyGg8sZLQdVj+2
+         j9MNsQiwcpQVgVBeKBhVurK4Bxsd3lYetIJP0RC627vz0fGod+TDNr5Hy01mflEUTp+f
+         LPfnY/nCVAGTSb8tRjQIXJcpCArByHYeVNpm5Yh5/tyRRFp/xbtnkzO1uLWvEFq/Feif
+         QZwrAdGZ9zM8cMQK1+jWeSIdWDBcz+M0+7AwD6ubFvI49KMLHCjuYEWMg++qLkZyRXRr
+         TQVyJRMnqbOnXJM8UCbkF0LF5wzY0awh1b+YvRM3LtVFAr2dpi5YxdVHdIuPA9VOiZe1
+         Md8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713654030; x=1714258830;
+        d=1e100.net; s=20230601; t=1713654477; x=1714259277;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gS/avcdT3uZE+/g4l+u7eNrKfkVrRBnHoxOYygE+RDE=;
-        b=VUbB2jcv021i6cHOjrSir63hViJJxEL6XZoj7zj0vsZnMv5RR3N8RK800DL2Qz3JeV
-         C1WPaGEIkHS2gAmH80nCQfW/lNsXAqBHWFx2tWyC2oxgLrb0F9atvQ/2nV4Zg9y/oy4Y
-         010doE9t2zMyrwPx50JWE/3A+TJFCgpU/Ul6hCSIkBjViICZud891O/yJd5XA3MRkHhA
-         XkfeYpscYuCou/2yp+KUlHsMeBZr1D2hgoTt1zCCTCes1e8LKHAQb3ObbW752ffUULWV
-         OcHB3iiCUDvL417XvixQBfn2DeRnCG2g0Z/27DKRfQNIP2mink07Xf70wZg83Af+MZmy
-         DAnQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXXzGGgZTnJ+15nJxZsXRbk/2h/iSufuWcFYWtZqTpGO7JAqfj3O5ihC+Xm0sHgvNeNZlU+utXCU43O/Sy6Ojx9IZnTdhQgPCggDktfew==
-X-Gm-Message-State: AOJu0YyQ9bqF6mY1Xbq8GJuJ2u3Ay/iDsD1U65f7CdZQDXrxtJIRdaXz
-	Tp+RzFaQpHcOrVoLZMldJb291T2YJgkdgWgCL644XHn6pRZLQAgu+VakmOzuSkw=
-X-Google-Smtp-Source: AGHT+IH4lwqPioLpoIzW6dLhOLlXPP3zMShUOxH0TJXNnW3DIij9PpcqOmEnmKfQrSavTUI2UaMo9Q==
-X-Received: by 2002:a50:9ece:0:b0:570:cd6:8ef with SMTP id a72-20020a509ece000000b005700cd608efmr4297896edf.29.1713654029517;
-        Sat, 20 Apr 2024 16:00:29 -0700 (PDT)
+        bh=x9hTDE+OmzSnorVJyzQcFNYmLnBIvZgvXWNavzd4DaM=;
+        b=AFuVMqq+DQUCmNGIp25/bc5AGrP6Dnvo74i6E2ae0/JQRnWK7HmmZ+Yzf4zMH3g2Fw
+         V0L+x3W9ulOGTLpYBmd496J/+XsUcloN8UE/cVwVQ9eNyEiNiXrhN0v9XKRdCeX3rci1
+         AflufdksjitHZKPoUnS0+aB4bdufzM3L5arzt5B1wcHx5t2BOAQvZi+QJa0YIxtykdZB
+         3R43S+/mZLtNJUUYkZbMdevfnCl0Qn6Rq1VwV0C30H58QaF8v1zGoyJhy9SwttiPJ6D1
+         whwuADRBiAAvtTkLJCL6ch7T3Hsciqpuc7xh/g3lRuNkLvONXrnM80GkrlRU4U1oaYMB
+         jmMw==
+X-Forwarded-Encrypted: i=1; AJvYcCUp2oZZtIOJH7pXCvV+pLhU81orhIiKIYMPUIxRd6V6gk/0+MLo15OAgxgbl6J2l0DzUp3MNtZzxAk6OCMGzowQYPu7Nswl4P4CfiijGg==
+X-Gm-Message-State: AOJu0YwFxqajIO002JfIy4dflaEzEOcKQm7IxfZKPSvZphxbH8f1foxH
+	M7rQ6ilKr9VTB7GD3z1xQMklmi/T5vA8096+d2nsHWZf/IAp6UMSbcWuDFMUs58=
+X-Google-Smtp-Source: AGHT+IFGdOa11zFVqyC3KCcGi9RrrofVzZm8cOluppaZLRYUDrIPrVm3Gfdre6MIxYSUZ9KallR7Bw==
+X-Received: by 2002:adf:cd84:0:b0:33e:7f51:c2f8 with SMTP id q4-20020adfcd84000000b0033e7f51c2f8mr3599510wrj.36.1713654477259;
+        Sat, 20 Apr 2024 16:07:57 -0700 (PDT)
 Received: from [192.168.0.102] ([176.61.106.68])
-        by smtp.gmail.com with ESMTPSA id eo9-20020a056402530900b00571ef2c1308sm913940edb.12.2024.04.20.16.00.27
+        by smtp.gmail.com with ESMTPSA id p3-20020a5d6383000000b00341b451a31asm7862874wru.36.2024.04.20.16.07.55
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 20 Apr 2024 16:00:29 -0700 (PDT)
-Message-ID: <9f44c386-4be9-4904-bf67-f0e664773baa@linaro.org>
-Date: Sun, 21 Apr 2024 00:00:27 +0100
+        Sat, 20 Apr 2024 16:07:56 -0700 (PDT)
+Message-ID: <ae9b190c-3961-4704-bc93-cb1c4182672b@linaro.org>
+Date: Sun, 21 Apr 2024 00:07:55 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -61,7 +61,7 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 01/26] media: pci: mgb4: Refactor struct resources
+Subject: Re: [PATCH v2 02/26] media: stb0899: Simplify check
 To: Ricardo Ribalda <ribalda@chromium.org>,
  Martin Tuma <martin.tuma@digiteqautomotive.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -97,38 +97,37 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
  linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org
 References: <20240419-fix-cocci-v2-0-2119e692309c@chromium.org>
- <20240419-fix-cocci-v2-1-2119e692309c@chromium.org>
+ <20240419-fix-cocci-v2-2-2119e692309c@chromium.org>
 Content-Language: en-US
 From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20240419-fix-cocci-v2-1-2119e692309c@chromium.org>
+In-Reply-To: <20240419-fix-cocci-v2-2-2119e692309c@chromium.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 19/04/2024 10:47, Ricardo Ribalda wrote:
-> The struct resource end field is inclusive not exclusive, this is, the
-> size is (end - start) +1.
-
-", this is," doesn't parse on my end
-
-"i.e" => that is, would be more appropriate I think.
-
-"The struct resource end field is inclusive not exclusive of the size" 
-which I still think is a confusing statement.
-
-Perhaps something much easier to understand is called for
-
-"The struct resource end field signifies the end address not the 
-relative offset from the start field i.e size == (end - start) + 1.
-
-Amend the .end field to specify the end address not the relative size 
-from the offset as is currently given."
-
-Other than that, I think its reasonable to assume the mapping != 0 - 
-0x100 inclusive.
-
-Please consider updating your commit log and if you do add my
+> chip_id is an unsigned number, it can never be < 0
+> 
+> Fixes cocci check:
+> drivers/media/dvb-frontends/stb0899_drv.c:1280:8-15: WARNING: Unsigned expression compared with zero: chip_id > 0
+> 
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>   drivers/media/dvb-frontends/stb0899_drv.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/dvb-frontends/stb0899_drv.c b/drivers/media/dvb-frontends/stb0899_drv.c
+> index 2f4d8fb400cd..35634f9a8ab5 100644
+> --- a/drivers/media/dvb-frontends/stb0899_drv.c
+> +++ b/drivers/media/dvb-frontends/stb0899_drv.c
+> @@ -1277,7 +1277,7 @@ static int stb0899_get_dev_id(struct stb0899_state *state)
+>   	dprintk(state->verbose, FE_ERROR, 1, "Demodulator Core ID=[%s], Version=[%d]", (char *) &demod_str, demod_ver);
+>   	CONVERT32(STB0899_READ_S2REG(STB0899_S2FEC, FEC_CORE_ID_REG), (char *)&fec_str);
+>   	fec_ver = STB0899_READ_S2REG(STB0899_S2FEC, FEC_VER_ID_REG);
+> -	if (! (chip_id > 0)) {
+> +	if (!chip_id) {
+>   		dprintk(state->verbose, FE_ERROR, 1, "couldn't find a STB 0899");
+>   
+>   		return -ENODEV;
+> 
 
 Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-
----
-bod
