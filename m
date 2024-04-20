@@ -1,59 +1,59 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26FCE4C630
-	for <linux-staging@lists.linux.dev>; Sat, 20 Apr 2024 23:11:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0DB34C62A
+	for <linux-staging@lists.linux.dev>; Sat, 20 Apr 2024 23:15:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713654716; cv=none; b=JOEb1syygF/4iPbpJ91k7Hxio50lNeD0F2iGE/E2J0zcrXzFwN5JKGNedRDea+8wBPRLlKnM4U6geKoFb2oOvOdMJJEW+2rKaj/mp/TpZRAERWy+zYnQkJsAdEjU0LSf3dxAmHZY/zeKmBeigdO9OPqLxbpDJjr2ladiWb2SGNs=
+	t=1713654960; cv=none; b=LByzTxlJqU70ZDaRNphMrxA/Q8omB4+urMWwTRptWikbXdf7kskiy6wcu/O1Sx9O9nnMu/SCElPfkcGN6+/z17Ngp+obevF260X4/JU3heFi/GrNiJMwGipdVgjxj42lUGd96cVSYbGXOjTnk/aETTAwbQtakx3vDqo1LtzvPvM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713654716; c=relaxed/simple;
-	bh=RnTvMGDlpXWcw0TABozpeun32zm855Jpbto6yuwQGuk=;
+	s=arc-20240116; t=1713654960; c=relaxed/simple;
+	bh=NUrvewJBcU9hHyp8pm+RCmXt1n//pDwbkcHy0aq0J3A=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EgDFpiObDgzLTfLkdP7BJt4M9WGGRwObabFc75J6YB9CydYqWrBuM5VZXd3nfGWzpmg2dzRcerYrvd5yHQExG4ePddQU4eAxFr5Ku/OJGa6jL8FJcFkQyCmYbYl4cyIr72J9VfWmjwidAfSBdOb3skpLWstg7zDBmSvuJmcfxAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ggz1xevr; arc=none smtp.client-ip=209.85.128.50
+	 In-Reply-To:Content-Type; b=RToEJGL84eCsgxc6Q3gOgphlrYrGE3KdN8nmB4PEdG6JEvCW5iNaMlhW8PNMdBwzrJJzLM1U4zDCGbNK4fRiWPQHlaktkfAIo4cb6r/gnqdpAwMS8GyoNq5sYcOLkZLI5U8z4vPNnvuMZQFZa9ckuLq5YG31M5drOGecI+MGquk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=UWayZwsb; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ggz1xevr"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-41a225fbf64so1761035e9.3
-        for <linux-staging@lists.linux.dev>; Sat, 20 Apr 2024 16:11:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UWayZwsb"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-41a24251123so1571145e9.2
+        for <linux-staging@lists.linux.dev>; Sat, 20 Apr 2024 16:15:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1713654713; x=1714259513; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1713654957; x=1714259757; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=r4SJobPXiJZTeUtb9I6Mhq3OcgAMqPAgBwxUvUsXgSw=;
-        b=ggz1xevrxDIU9XB0y8tOhh+QKIFH93X7N+LQq+Ag7/zHsMRnef+mWnOOtCiwF0yW5B
-         NgDCt41iVKVGxqynfhkTEx+iA8LHqVRf4GEIsz1SYYCo/wfFuJZlAUUxNfRmsbCdjfh4
-         jxS5Xc/vP9L5l2wHjw5dw3etdmTiSiJi5o9BRq/jnwRYwaqlMT49mGa1EX5H63t6CUAo
-         QLRzoRMH2wHccmUGJ0S1ccwyArwnT/GRI/XxB7eY19DmJZnn5xfbrdADmheh0WgMslJ7
-         kYxAXUir9fIiUkte7sb8Wjtei3u89x7Ri9LEfLkh8KMKHj+tN5mFjSSa5ZJSH8LJZtL+
-         mnLQ==
+        bh=kQknuL+r9cbmTtmVlTx7T5fh7q9KKWBimZWASaRekHw=;
+        b=UWayZwsbE63i6TN34lYVIr5LzuYxhetsjMMktv0WoJQGo3qC6FiqTxvAqJ+M0JMzJi
+         hoBhGldht20RKZu7Q4fTCn7MgyIJyz4r8W27JoH3aixsYyqasC1feeRdyEcDykbDZfvR
+         8Hf3yJXtPsoqoQZQCfeqa8hGVspqpieDup+0dFOByPnKcJKgDt3aRRkIadnOEQZ6jpmJ
+         2rkkuvcWeLx5oqTkuU00AYKNnpAdLsgbtepBkN/1AYJPcGeDrW7iLfZ3H7nLRxKmDrcy
+         lsoVKE+PlNJEieaZfvD1kum5JdOwaQKzs/54HRPcwZtX4UNR3ZqH5z+K/34TOW2kh0FM
+         N67A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713654713; x=1714259513;
+        d=1e100.net; s=20230601; t=1713654957; x=1714259757;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=r4SJobPXiJZTeUtb9I6Mhq3OcgAMqPAgBwxUvUsXgSw=;
-        b=mdjsWoy1G1blLmXR4Bu7Lvg2H1K2wKSFj3L4PJUxS6ndnbdf8OgR7kyApsGvpb52Et
-         qS6psgdP33GyTAIqmLNrWWO5FuAR2AXIMRJDHHDOpDjPmrQNX9GrXRnBY6nLjIAJVfOn
-         g5kODpcayY/EjuWu3vMVX1HR1cUvtkara6Vd5Sb1oF0jjS7/dGtc3RtqsIGdgT2RKm5Y
-         PTaBuFozr4quaaJZB5PvxqdVlzt61Gh7StXeo+Kb7Ow1h4vrADc88pGQqtr1JDXJxbV4
-         SSXuJnFfaKkWuRnlOsdduk94qWmp0gvxdooD0yAfFGR4b11KouyHu7dtT57v1UMXR+5W
-         JtWg==
-X-Forwarded-Encrypted: i=1; AJvYcCU+3rsexZXyDTzC5G3XWqQytDAmqB4CM7EM+1ixZ9bkxJTN2sfbXxEzePjJLo9iBtEhoQyxKGIKwpAnsdG4q7ZJiXj6ff79DvnDTDg+Cw==
-X-Gm-Message-State: AOJu0YzdWOJFnW47RQOTcfOsS3FXCcOUBv+ngAecRhy3/Jp0ErK2iPk6
-	Rhd3nzljFwo2ag3uBeux0vQL8bJjdBo5zN0xETR7eO98JctNcrZTAIt+KnPJA4I=
-X-Google-Smtp-Source: AGHT+IHhrXMbVyPQ3xu0BxAvDr/qwuPP5+bQspGoLom9YV5UOhqLd7IShzLKZACYdNB5R60XxGZpSg==
-X-Received: by 2002:a05:600c:1d0a:b0:418:7c58:d592 with SMTP id l10-20020a05600c1d0a00b004187c58d592mr5521241wms.28.1713654713122;
-        Sat, 20 Apr 2024 16:11:53 -0700 (PDT)
+        bh=kQknuL+r9cbmTtmVlTx7T5fh7q9KKWBimZWASaRekHw=;
+        b=uYmc5uVNx/4v15uNH3FwUcpt28SemUP8ZOul9ZaVcTjCnqfEpiDH8AAd90CK6IEurt
+         iQBuGUM98us1kc1m+apEWYxLJFR1IuDJ+Ao0ovtICjmh2tFuPiPZO/KNSXCKDMCE7LNo
+         PxpjVH8VvZ9FKwzjhNM7xaqbDqees0Ec2KiMxUsbG/ZpTaJmMdOBRCLRyThOromU7nhE
+         WA3GFcULJdYfiobAobZr0v328D+/JGXYLOh4XNuC6z4ZI+js6rPDOOscjQONGgcACVQe
+         nxP/STLUc06nKlVG7TAANtVBoiAaVXKeOtZ7+gbS3oJu9fVv0T8FQRM9YhSY9ppHBW4L
+         ET8A==
+X-Forwarded-Encrypted: i=1; AJvYcCWE8vbR4jF+EgxStBmqz0X8pk6yTw8rC5AiRwc1i1JZClvs8xbxSbmMagneHCeQekqn+0y6YaTT1NYYmDCo4jUP66GhwWjdN2lEThSPYA==
+X-Gm-Message-State: AOJu0YzM0Bps3B2xHsdD1/QISOsj4FXSte4TOkLLCofHw9zwDXwtGDhd
+	voPvr6PSH1NQUbUgaJkYvHOs5esFlMqcJ4s4m2w7dJGMFCUoPP5EeUT1gSMZ4pM=
+X-Google-Smtp-Source: AGHT+IEJ0pmo+Vbh8mjcD98mOO7pRnAuIGNTQ6Q1qc2nTTg8q3KESPbMSdkxwInYUTYo3kcHGC3OsQ==
+X-Received: by 2002:a05:600c:5486:b0:419:f497:632f with SMTP id iv6-20020a05600c548600b00419f497632fmr1710464wmb.29.1713654957220;
+        Sat, 20 Apr 2024 16:15:57 -0700 (PDT)
 Received: from [192.168.0.102] ([176.61.106.68])
-        by smtp.gmail.com with ESMTPSA id f8-20020adff8c8000000b0033e7b05edf3sm7827624wrq.44.2024.04.20.16.11.51
+        by smtp.gmail.com with ESMTPSA id q2-20020adfab02000000b00349d8717feasm7913040wrc.56.2024.04.20.16.15.55
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 20 Apr 2024 16:11:52 -0700 (PDT)
-Message-ID: <b288c62b-6a9f-4c6d-8e70-de04b6fa5fa6@linaro.org>
-Date: Sun, 21 Apr 2024 00:11:51 +0100
+        Sat, 20 Apr 2024 16:15:56 -0700 (PDT)
+Message-ID: <124e35b3-5b0d-4bd7-848a-5c848b339157@linaro.org>
+Date: Sun, 21 Apr 2024 00:15:55 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -61,7 +61,7 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 05/26] media: go7007: Use min and max macros
+Subject: Re: [PATCH v2 06/26] media: stm32-dcmipp: Remove redundant printk
 To: Ricardo Ribalda <ribalda@chromium.org>,
  Martin Tuma <martin.tuma@digiteqautomotive.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -97,49 +97,21 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
  linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org
 References: <20240419-fix-cocci-v2-0-2119e692309c@chromium.org>
- <20240419-fix-cocci-v2-5-2119e692309c@chromium.org>
+ <20240419-fix-cocci-v2-6-2119e692309c@chromium.org>
 Content-Language: en-US
 From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20240419-fix-cocci-v2-5-2119e692309c@chromium.org>
+In-Reply-To: <20240419-fix-cocci-v2-6-2119e692309c@chromium.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 19/04/2024 10:47, Ricardo Ribalda wrote:
-> It makes the code simpler and cocci happier:
-> 
-> drivers/media/usb/go7007/go7007-fw.c:1292:14-15: WARNING opportunity for max()
-> drivers/media/usb/go7007/go7007-fw.c:1293:14-15: WARNING opportunity for min()
-> 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->   drivers/media/usb/go7007/go7007-fw.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/usb/go7007/go7007-fw.c b/drivers/media/usb/go7007/go7007-fw.c
-> index 018019ba47d4..86ce593e0c54 100644
-> --- a/drivers/media/usb/go7007/go7007-fw.c
-> +++ b/drivers/media/usb/go7007/go7007-fw.c
-> @@ -1289,8 +1289,8 @@ static int avsync_to_package(struct go7007 *go, __le16 *code, int space)
->   		0xbf99,		(u16)((-adjratio) >> 16),
->   		0xbf92,		0,
->   		0xbf93,		0,
-> -		0xbff4,		f1 > f2 ? f1 : f2,
-> -		0xbff5,		f1 < f2 ? f1 : f2,
-> +		0xbff4,		max(f1, f2),
-> +		0xbff5,		min(f1, f2),
->   		0xbff6,		f1 < f2 ? ratio : ratio + 1,
->   		0xbff7,		f1 > f2 ? ratio : ratio + 1,
->   		0xbff8,		0,
-> 
+> -	if (irq <= 0) {
+<snip>
+> -		return irq ? irq : -ENXIO;
+> -	}
 
-Code is correct, but the commit log could use some expansion.
+You're dropping the original intent of the driver author there no ? when 
+irq == 0 they want to return -ENXIO.
 
-Suggest:
-
-"Replace ternary inline selection of f1 and f2 min max values with min() 
-and max() helper functions for the sake of readability and to make 
-coccinelle happier"
-
-You can take the RB either way though
-
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+---
+bod
