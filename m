@@ -1,59 +1,59 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0DB34C62A
-	for <linux-staging@lists.linux.dev>; Sat, 20 Apr 2024 23:15:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9BDC4C630
+	for <linux-staging@lists.linux.dev>; Sat, 20 Apr 2024 23:23:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713654960; cv=none; b=LByzTxlJqU70ZDaRNphMrxA/Q8omB4+urMWwTRptWikbXdf7kskiy6wcu/O1Sx9O9nnMu/SCElPfkcGN6+/z17Ngp+obevF260X4/JU3heFi/GrNiJMwGipdVgjxj42lUGd96cVSYbGXOjTnk/aETTAwbQtakx3vDqo1LtzvPvM=
+	t=1713655395; cv=none; b=ufegmt88vkQJ83CuwwoFepUYJJbBln/51cv7a/fchdZerRs2JW+3am+0qt6p4adnHhq20vnzBrK/06m2jFA2BcXa/Ag4r9w9B0gZJ2MOa86jP/Cg4IImdbDNF4gHMJ23Sniex6xoHNFUlKjNAn0v+yoFbyauF1tqplhtcVXl+Z8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713654960; c=relaxed/simple;
-	bh=NUrvewJBcU9hHyp8pm+RCmXt1n//pDwbkcHy0aq0J3A=;
+	s=arc-20240116; t=1713655395; c=relaxed/simple;
+	bh=bBNbxTaDfIJVcjkaQmgCFXE6pXweSy07pk6tkP8ChP4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RToEJGL84eCsgxc6Q3gOgphlrYrGE3KdN8nmB4PEdG6JEvCW5iNaMlhW8PNMdBwzrJJzLM1U4zDCGbNK4fRiWPQHlaktkfAIo4cb6r/gnqdpAwMS8GyoNq5sYcOLkZLI5U8z4vPNnvuMZQFZa9ckuLq5YG31M5drOGecI+MGquk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=UWayZwsb; arc=none smtp.client-ip=209.85.128.53
+	 In-Reply-To:Content-Type; b=EKtR40WO3sM0TcaBft0BzwbrrXGXl+g5VHQ/GA+efjGdpJ+7iJaN0luDBmy29JUPc++GSMkGm/gOwkwyI9e3tC+za1JTxfcuNjaykF17Im4xIIZXrUrCjQY3B8wVRzbxNUsN53gG2ByEPxOaCCXCioVKMrO1B/PcvJWnaFCL0OE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pXoJOAfP; arc=none smtp.client-ip=209.85.218.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UWayZwsb"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-41a24251123so1571145e9.2
-        for <linux-staging@lists.linux.dev>; Sat, 20 Apr 2024 16:15:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pXoJOAfP"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a52582ecde4so292175266b.0
+        for <linux-staging@lists.linux.dev>; Sat, 20 Apr 2024 16:23:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1713654957; x=1714259757; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1713655391; x=1714260191; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=kQknuL+r9cbmTtmVlTx7T5fh7q9KKWBimZWASaRekHw=;
-        b=UWayZwsbE63i6TN34lYVIr5LzuYxhetsjMMktv0WoJQGo3qC6FiqTxvAqJ+M0JMzJi
-         hoBhGldht20RKZu7Q4fTCn7MgyIJyz4r8W27JoH3aixsYyqasC1feeRdyEcDykbDZfvR
-         8Hf3yJXtPsoqoQZQCfeqa8hGVspqpieDup+0dFOByPnKcJKgDt3aRRkIadnOEQZ6jpmJ
-         2rkkuvcWeLx5oqTkuU00AYKNnpAdLsgbtepBkN/1AYJPcGeDrW7iLfZ3H7nLRxKmDrcy
-         lsoVKE+PlNJEieaZfvD1kum5JdOwaQKzs/54HRPcwZtX4UNR3ZqH5z+K/34TOW2kh0FM
-         N67A==
+        bh=G7j9WmKVfIxCtxmA5+g+ivZQajcRB8Ss1Yyb3DxCAfA=;
+        b=pXoJOAfPXfeCNK+RlhAyPFvbWIClmVnFXzdT1or4bqU+v+wTM5lK1Q7gNti94nfJrq
+         KpM9FKoeXnj967Mu4BYddyTHSOnLQUG4K31bEBVE6gAzJjMCgq6b80FIw+nKJQWkHRl+
+         VaiIatL8yRE3YKRedpIt56spFvJyxM3zxw9keuLCtkXryfOO57ZUgk1x5F6ll+0VJF4I
+         hjC8wAvphn42TNXni5kCiN2NpQpFJieZJMBAazQim+cvHnkRAEkfOGzfWESzoyjiB7b/
+         C4ZcF6UwNgR0BNBPaDu2YPjG3IGw7qkrS3iC+mVAP+yHvtqu2nurwZrUEhBWgDBoXdhT
+         CdHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713654957; x=1714259757;
+        d=1e100.net; s=20230601; t=1713655391; x=1714260191;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kQknuL+r9cbmTtmVlTx7T5fh7q9KKWBimZWASaRekHw=;
-        b=uYmc5uVNx/4v15uNH3FwUcpt28SemUP8ZOul9ZaVcTjCnqfEpiDH8AAd90CK6IEurt
-         iQBuGUM98us1kc1m+apEWYxLJFR1IuDJ+Ao0ovtICjmh2tFuPiPZO/KNSXCKDMCE7LNo
-         PxpjVH8VvZ9FKwzjhNM7xaqbDqees0Ec2KiMxUsbG/ZpTaJmMdOBRCLRyThOromU7nhE
-         WA3GFcULJdYfiobAobZr0v328D+/JGXYLOh4XNuC6z4ZI+js6rPDOOscjQONGgcACVQe
-         nxP/STLUc06nKlVG7TAANtVBoiAaVXKeOtZ7+gbS3oJu9fVv0T8FQRM9YhSY9ppHBW4L
-         ET8A==
-X-Forwarded-Encrypted: i=1; AJvYcCWE8vbR4jF+EgxStBmqz0X8pk6yTw8rC5AiRwc1i1JZClvs8xbxSbmMagneHCeQekqn+0y6YaTT1NYYmDCo4jUP66GhwWjdN2lEThSPYA==
-X-Gm-Message-State: AOJu0YzM0Bps3B2xHsdD1/QISOsj4FXSte4TOkLLCofHw9zwDXwtGDhd
-	voPvr6PSH1NQUbUgaJkYvHOs5esFlMqcJ4s4m2w7dJGMFCUoPP5EeUT1gSMZ4pM=
-X-Google-Smtp-Source: AGHT+IEJ0pmo+Vbh8mjcD98mOO7pRnAuIGNTQ6Q1qc2nTTg8q3KESPbMSdkxwInYUTYo3kcHGC3OsQ==
-X-Received: by 2002:a05:600c:5486:b0:419:f497:632f with SMTP id iv6-20020a05600c548600b00419f497632fmr1710464wmb.29.1713654957220;
-        Sat, 20 Apr 2024 16:15:57 -0700 (PDT)
+        bh=G7j9WmKVfIxCtxmA5+g+ivZQajcRB8Ss1Yyb3DxCAfA=;
+        b=mFqgnk4XYPbAFNokdk5ZxcsKHgUEQJxuLI/awhNH1gBVuArWx2YIUTEF6FX0f7SBYA
+         3u6JHNww923YWVlXCtzRKVyQcZt05TH1gdoJjtIEQrc1YbYb4i+9OzxgqPWz7fkR+lwS
+         9NYZfVp9YPIQSbiguW2Ai22oYxQ6Ya3UY4NtmHr6muqueK3RdUOPgjLrNxBGkUpwkEuf
+         drEyyng9GJIUmAsTNx8YC2m749UbnUHml7E/w7h4f5kCU25dZG0+l7iBQA/U7+l8aRpR
+         5W+ZWcfjJe6W260tAOFKndVZC7l2vIVvKv2nMGYG/78ddhIimwjkM3VBTEiU770eRJn4
+         Tn7A==
+X-Forwarded-Encrypted: i=1; AJvYcCW45WIt67ClFGSof6rQKFF1aDtdq5/847b8+h0OVAOZRzl0D8wAv2qtpUt5zhSCWyesWcN2yyd0SyCcwFs6tukr0h/MHV47U7kfiH3xHA==
+X-Gm-Message-State: AOJu0YySGH/T+j1LTp2zFZNLPvXKwDcfIdeZCGT7eqvNYkTm8Kvw+q0N
+	gfKQugbd9O5kjpSrXxj1jhQoCjSypw1Qw1BwFGsj8UFLSKVDhy/3WE7H2mk5D+A=
+X-Google-Smtp-Source: AGHT+IHIgAHqaBHAo2tv0s9P7hAH/P161Q1ck8771gq2FLpa0nizkFWxKtOsbHWkZLUsCdT//bfy9g==
+X-Received: by 2002:a17:906:c24d:b0:a4e:5137:9969 with SMTP id bl13-20020a170906c24d00b00a4e51379969mr4156927ejb.32.1713655391076;
+        Sat, 20 Apr 2024 16:23:11 -0700 (PDT)
 Received: from [192.168.0.102] ([176.61.106.68])
-        by smtp.gmail.com with ESMTPSA id q2-20020adfab02000000b00349d8717feasm7913040wrc.56.2024.04.20.16.15.55
+        by smtp.gmail.com with ESMTPSA id v24-20020a170906339800b00a521904b548sm3889268eja.166.2024.04.20.16.23.09
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 20 Apr 2024 16:15:56 -0700 (PDT)
-Message-ID: <124e35b3-5b0d-4bd7-848a-5c848b339157@linaro.org>
-Date: Sun, 21 Apr 2024 00:15:55 +0100
+        Sat, 20 Apr 2024 16:23:10 -0700 (PDT)
+Message-ID: <27513574-3131-4704-9c3d-f699cc9edb9b@linaro.org>
+Date: Sun, 21 Apr 2024 00:23:08 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -61,7 +61,8 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 06/26] media: stm32-dcmipp: Remove redundant printk
+Subject: Re: [PATCH v2 09/26] media: v4l: async: refactor
+ v4l2_async_create_ancillary_links
 To: Ricardo Ribalda <ribalda@chromium.org>,
  Martin Tuma <martin.tuma@digiteqautomotive.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -97,21 +98,55 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
  linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org
 References: <20240419-fix-cocci-v2-0-2119e692309c@chromium.org>
- <20240419-fix-cocci-v2-6-2119e692309c@chromium.org>
+ <20240419-fix-cocci-v2-9-2119e692309c@chromium.org>
 Content-Language: en-US
 From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20240419-fix-cocci-v2-6-2119e692309c@chromium.org>
+In-Reply-To: <20240419-fix-cocci-v2-9-2119e692309c@chromium.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 19/04/2024 10:47, Ricardo Ribalda wrote:
-> -	if (irq <= 0) {
-<snip>
-> -		return irq ? irq : -ENXIO;
-> -	}
+> Return 0 without checking IS_ERR or PTR_ERR if CONFIG_MEDIA_CONTROLLER
+> is not enabled.
+> 
+> This makes cocci happier:
+> 
+> drivers/media/v4l2-core/v4l2-async.c:331:23-30: ERROR: PTR_ERR applied after initialization to constant on line 319
+> 
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>   drivers/media/v4l2-core/v4l2-async.c | 7 +++----
+>   1 file changed, 3 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
+> index 4bb073587817..915a9f3ea93c 100644
+> --- a/drivers/media/v4l2-core/v4l2-async.c
+> +++ b/drivers/media/v4l2-core/v4l2-async.c
+> @@ -316,9 +316,10 @@ v4l2_async_nf_try_all_subdevs(struct v4l2_async_notifier *notifier);
+>   static int v4l2_async_create_ancillary_links(struct v4l2_async_notifier *n,
+>   					     struct v4l2_subdev *sd)
+>   {
+> -	struct media_link *link = NULL;
+> +	struct media_link *link;
+>   
+> -#if IS_ENABLED(CONFIG_MEDIA_CONTROLLER)
+> +	if (!IS_ENABLED(CONFIG_MEDIA_CONTROLLER))
+> +		return 0;
+>   
+>   	if (sd->entity.function != MEDIA_ENT_F_LENS &&
+>   	    sd->entity.function != MEDIA_ENT_F_FLASH)
+> @@ -326,8 +327,6 @@ static int v4l2_async_create_ancillary_links(struct v4l2_async_notifier *n,
+>   
+>   	link = media_create_ancillary_link(&n->sd->entity, &sd->entity);
+>   
+> -#endif
+> -
+>   	return IS_ERR(link) ? PTR_ERR(link) : 0;
+>   }
+>   
+> 
 
-You're dropping the original intent of the driver author there no ? when 
-irq == 0 they want to return -ENXIO.
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
 ---
 bod
