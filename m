@@ -1,40 +1,56 @@
-Received: from mout.web.de (mout.web.de [212.227.17.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9640FD29B;
-	Sun, 21 Apr 2024 14:08:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD34E8BFF
+	for <linux-staging@lists.linux.dev>; Sun, 21 Apr 2024 14:29:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713708487; cv=none; b=P4FroR9vj9Gfg2/lqHBzJg+62Srp3xDHgqi0pmqOz8HEHYvUZPrQ0K3EfGv+HQsdJmCYPsXK8QyYnYeBjSGFbQdLWz+vrZ6c+JH7MgL2KGUoJPGnR1QG7nu6/Q+pCBICxvRGS3tIBKgzmXWoZoqqSnUNE7Xj0EG9vyF+Xm9a1Jg=
+	t=1713709794; cv=none; b=lrpc7o92b3xl6kPGWZc2k+SR9Z9PGpSvfePMBZJWwu6XIUYI9AjAQipC5rxBXMf9teSDqtvz44NsPIcqIvV+x6q2pFn6qkG0P0JBfNXcTAVGr092mNjtAwudHenPPG+bdef4IucXY/GyZgSs38GNGkCgieFjmtL0uuW1bklCpw8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713708487; c=relaxed/simple;
-	bh=rGFEHaSAYJNx3UiIUNYR80pXYXBmvUUDb2g2ErCYGyU=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=qPUIhyLIMEZvXOupfYjDN4x3gi1t9rIWpJ5Vb3iFeJmd17TwF/kTnpFf2PQvWkyl50++9vNRRj28r0x4IODYpipCauX2DVuTcs5DI0lSCU9M1HS44mmcPjJP83TYZCg2fkKGerIOTjiF0tn8+APa+zh5PZ3cqwJRYtpe1nIXLcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=tQYCgFiD; arc=none smtp.client-ip=212.227.17.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1713709794; c=relaxed/simple;
+	bh=ZDF8wsNcQcH6GLOM6oSwZWK482FY0Az6eL6XDeob49I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jj7Szm6OopnGPJXz6mYbiXE6gm0V9hNs4uHemW9V3YWcgkbsEqq168aNRFZRkwerF2sOJEI39+W3T0tK8BY3Hn+7q5guI9g3qa/TFG/u+7hop0Oy8HL9c0D7AKHjgVb+6JtiFsYVo5KwOgZyogv8eJAh8mUtlDgBJDw18jbIsuY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ieee.org; spf=pass smtp.mailfrom=ieee.org; dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b=APxpGfun; arc=none smtp.client-ip=209.85.219.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ieee.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ieee.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="tQYCgFiD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1713708433; x=1714313233; i=markus.elfring@web.de;
-	bh=rGFEHaSAYJNx3UiIUNYR80pXYXBmvUUDb2g2ErCYGyU=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=tQYCgFiDBtzuJtaPSJ86VUUlnx3bXoxnIn1J0YHGl7VF+oYJVzcRSwD+G2zZBzgc
-	 uTB8dvnwWkDivQsAUzxLsiwv5flkheBVFHvsQiOfznxtj7fLZB3M8RFbR5o6aFner
-	 Sj1t1PzkywvlBvwKXs4Lr6JhavodozKnL0Svdq+lChYVhVirwNbPz6tS+gVYWlXqa
-	 95mVIMsrQSmRFKT9TUNwZGTilthpjTn79LrHyCd7LFaP6wfUdMG/3T6vJ4rOdi4dH
-	 iwGmCcl6aPaM0eI/pxYxleUmRrN9tSkK8x+A6S2Z4uZFiufNUmPWXhufwg8tihQys
-	 I2EGKqoXEcArn2eUPQ==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.85.95]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MIL0Q-1rt3fo3mEe-00EaEg; Sun, 21
- Apr 2024 16:07:13 +0200
-Message-ID: <8da94316-239a-4870-a29d-02a685ac9ae5@web.de>
-Date: Sun, 21 Apr 2024 16:07:06 +0200
+	dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b="APxpGfun"
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-69b4043b7b3so22326666d6.1
+        for <linux-staging@lists.linux.dev>; Sun, 21 Apr 2024 07:29:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ieee.org; s=google; t=1713709789; x=1714314589; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=a7LpaFZkm9Br//XCfOKkL+azQyEv5N/3dSKe15VqxQA=;
+        b=APxpGfun7UiB9fYPD5uXuk2HEIEAMrp94UW72xbg1FBO/VSTa2IhGqdyJRZTpsVnRy
+         46HzXs/pZsuMgoaXHT4rQpwHoQbIPKNlLTb79GUPMaQ83G6Y5sMT4zidc3BzgLojqnmb
+         8/Y1Z+LRxXeCtqJFe0oX2HbWuSmWque7TfnzE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713709789; x=1714314589;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=a7LpaFZkm9Br//XCfOKkL+azQyEv5N/3dSKe15VqxQA=;
+        b=IOclXxsnNY13J5O2cooGzWi8tgAwMvl74I+Yv768msZ8ViU84ADQHmD21FIrucprkU
+         fwhyECEURta4aihG+QkvCGLqHW881VNXNk0QHKKkLeIxRHsuKsurkyg1s6k7EWUGIXJ3
+         wXE9ntI5eSjkogPTqv8Cw+T+xn0KB+rcOMsXmVp2SLVx6RAgN3h3q/qkqLibPS66Fppf
+         cqk96kFvPRrV8Zak4DN6Oa1874MRvhNjBVTBL+LDCL5FYxXwUalKatyCeSxy3LcsHYAm
+         WqDBD70Lqaz6HrEt+3+sdfeJKhcv/QvUL6z6fV+SFKsno0PesF75LhnrpXQTApiUA81R
+         qUJw==
+X-Forwarded-Encrypted: i=1; AJvYcCXVWGNx2sRhg8tBGWoBugm7yAoROgEwUW6dP+nPKPoAEkUBVqXWXa32r7+GADDkhkx5uLUfccKDlRhcLAH70KlAv6AziQzdcww73Wd5Rw==
+X-Gm-Message-State: AOJu0YwPXkj6nk22gsQf5Tf+qxDW8z9LWoRjOwL4WDZNrd9emI3aaNSN
+	dLVRLXz8hUCPA7PLLhdk0ymTostGDeZcVa8r929Z/GU+aEGsoMHeg2RTW/rrWw==
+X-Google-Smtp-Source: AGHT+IEmilFtFEm9HQytae3OkzVU9OlPlZM5Mw8kW3/pYBmDDShIjriimzBmd8hgLnud40PUVLIaZg==
+X-Received: by 2002:ad4:4bb3:0:b0:6a0:6545:2306 with SMTP id i19-20020ad44bb3000000b006a065452306mr7041605qvw.28.1713709789526;
+        Sun, 21 Apr 2024 07:29:49 -0700 (PDT)
+Received: from [10.211.55.3] (c-73-228-159-35.hsd1.mn.comcast.net. [73.228.159.35])
+        by smtp.googlemail.com with ESMTPSA id u5-20020a0c8dc5000000b0069b412e3716sm2330418qvb.80.2024.04.21.07.29.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 21 Apr 2024 07:29:48 -0700 (PDT)
+Message-ID: <9ba1665e-70b0-4aea-9cab-b62660953f6b@ieee.org>
+Date: Sun, 21 Apr 2024 09:29:47 -0500
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -42,71 +58,223 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-To: Ricardo Ribalda <ribalda@chromium.org>, linux-media@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-staging@lists.linux.dev,
- linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
- linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, kernel-janitors@vger.kernel.org,
- Abylay Ospan <aospan@netup.ru>, Alain Volmat <alain.volmat@foss.st.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Angelo Gioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Chen-Yu Tsai <wens@csie.org>,
- Dmitry Osipenko <digetx@gmail.com>,
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+Subject: Re: [Patch v2] staging: greybus: Replace gcam macros with direct dev
+ log calls
+Content-Language: en-US
+To: Jackson Chui <jacksonchui.qwerty@gmail.com>
+Cc: Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Hans Verkuil <hverkuil@xs4all.nl>,
- Hugues Fruchet <hugues.fruchet@foss.st.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Martin Tuma <martin.tuma@digiteqautomotive.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Samuel Holland <samuel@sholland.org>, Sergey Kozlov <serjk@netup.ru>,
- Sowjanya Komatineni <skomatineni@nvidia.com>,
- Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
- Sylvain Petinot <sylvain.petinot@foss.st.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>
-Cc: LKML <linux-kernel@vger.kernel.org>
-References: <20240419-fix-cocci-v2-26-2119e692309c@chromium.org>
-Subject: Re: [PATCH v2 26/26] media: dvb-frontends: tda10048: Make explicit
- the range of z.
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20240419-fix-cocci-v2-26-2119e692309c@chromium.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:ITKldMmeWvicPfSwk1lGM7Lql2Cm3DyJ9It4EIHpN6gg859l9MR
- aVD74QMk+LR7UI7fCic1Ij6uvX8fwvnr7wmvQM8i2QbG3+d/JBqLNeRM3I4bZa4E34XPC0i
- SYsbUCsj7/cRMEyPRu6MKnSrI42n3gk8CvyH//Tym6kHgNuHGbXy4egSum6bjeRch61q+dN
- e/VFoFn+HOp3S2jycBj4g==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:aX93InMPE+A=;h+M1UNdgZoIAePk/gLkMPUcnWFE
- 5gaoXXP6v2pwlnxGO6K7et1oLiL8TIAKeJnHv51y9QwquJqybP572QDhkhzEsuPTkoIRzUN/7
- mShPYDLUIN00VsLwJwEmnundkTslk9hH7wxBTGzqOXKZ5TY5ODDTJuvlXRSs6Qt0j6Z/P7XXu
- 15PpEI3BzQ9oSDuGd4BeLDWBmnFddw2ZuXCPSrm3HnBRmIp4rcHTseicBP7mUCsPTUTDT+3Y+
- vWHqY5jFyqwmk7ss25eqM/46T0rHpKxI0nKyahCwXvP7DUiZ1GPEITM3E7kQt4ALfzBy8uKQ3
- /QbGwtOhCqs5WJIPQAZqJR6XUwVGf7oZKojimwo3AaT5UA3U1JOPBrIBsYOKM154eq6cLRhb7
- iq3PcpnWcp3XY2aFQX8MCVRIVXgd8lxxQdtn8YCerRLUuZvtUlbR4R5j/YvI2UKy7FgzUXB1x
- 3Bhlx0CwbqmbGIefOVLAyR4cfc+nIFs51pRtQ8+ewYveJRDBdeXtJMHFEz0n4phTP8RtZsl/0
- gBuiCYpYSSRcLDJIy3sB4G28Z9bjW/ocQDIUzqRvU2jwtnKM/PbNp1oZAjsy9Ua/wqTwFL3Yy
- D08zYttD1lPwxETSj/WDnXQ3ihq22+OycigTle4pH0Fu9sjflBCpMtE0wevQzd9/RPzz87VXO
- 1UKjbmrDXvCF8Uxa9dvN/3c2y+mOW1EZ9w+T50Rgk7lXX021VRrmvb28kFBahImqiPOj/VuzQ
- kgKYpxl/BMOIFE87FcD1inozha/zbBUBsau+PpHyJL+sc7SUX97HhHV18g4SNex2a01C1nw4y
- muG/WBbFF6tZ2iO9s0OozwYOGKNkAjvz3gnxDEJWMz9DY=
+ greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <ZhRzWNiak1qOdJLL@jc-ubuntu-dev-korn-1>
+From: Alex Elder <elder@ieee.org>
+In-Reply-To: <ZhRzWNiak1qOdJLL@jc-ubuntu-dev-korn-1>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-> We do not expect the sample_freq to be over 613MHz.
+On 4/8/24 5:44 PM, Jackson Chui wrote:
+> Reported by checkpatch:
+> 
+> CHECK: Macro argument 'gcam' may be better as '(gcam)' to avoid
+> precedence issues
+> 
+> Inline standard calls to 'dev_*' kernel logging functions, in favor
+> of 'gcam_*' macros, to clear up gcam-related logging.
+> 
+> Signed-off-by: Jackson Chui <jacksonchui.qwerty@gmail.com>
 
-Would the summary phrase =E2=80=9CMake the range of z explicit=E2=80=9D be=
- more appropriate?
+This looks good, thanks for doing this.
 
-Regards,
-Markus
+Nit: for the future, on a few of the dev_err() calls, the new first
+argument makes the line even wider than before.  Lines wider than
+80 columns are acceptable--especially when they contain formatted
+output--but you could have put the format string on a new line in
+a few of the cases.  I'm old-skool and prefer making things fit
+in 80 columns unless it gets too ugly.
+
+Reviewed-by: Alex Elder <elder@linaro.org>
+
+
+> 
+> ---
+> Changes in v2:
+>    - Inline 'dev_*' logging functions, over wrappers and macros
+>      to just use the standard call.
+>    - Remove 'gcam_*' macros, since they are no longer used.
+> ---
+>   drivers/staging/greybus/camera.c | 58 +++++++++++++++-----------------
+>   1 file changed, 27 insertions(+), 31 deletions(-)
+> 
+> diff --git a/drivers/staging/greybus/camera.c b/drivers/staging/greybus/camera.c
+> index a8173aa3a995..b8b2bdfa59e5 100644
+> --- a/drivers/staging/greybus/camera.c
+> +++ b/drivers/staging/greybus/camera.c
+> @@ -180,10 +180,6 @@ static const struct gb_camera_fmt_info *gb_camera_get_format_info(u16 gb_fmt)
+>   
+>   #define GB_CAMERA_MAX_SETTINGS_SIZE	8192
+>   
+> -#define gcam_dbg(gcam, format...)	dev_dbg(&gcam->bundle->dev, format)
+> -#define gcam_info(gcam, format...)	dev_info(&gcam->bundle->dev, format)
+> -#define gcam_err(gcam, format...)	dev_err(&gcam->bundle->dev, format)
+> -
+>   static int gb_camera_operation_sync_flags(struct gb_connection *connection,
+>   					  int type, unsigned int flags,
+>   					  void *request, size_t request_size,
+> @@ -232,8 +228,8 @@ static int gb_camera_get_max_pkt_size(struct gb_camera *gcam,
+>   
+>   		fmt_info = gb_camera_get_format_info(cfg->format);
+>   		if (!fmt_info) {
+> -			gcam_err(gcam, "unsupported greybus image format: %d\n",
+> -				 cfg->format);
+> +			dev_err(&gcam->bundle->dev, "unsupported greybus image format: %d\n",
+> +				cfg->format);
+>   			return -EIO;
+>   		}
+>   
+> @@ -241,18 +237,18 @@ static int gb_camera_get_max_pkt_size(struct gb_camera *gcam,
+>   			pkt_size = le32_to_cpu(cfg->max_pkt_size);
+>   
+>   			if (pkt_size == 0) {
+> -				gcam_err(gcam,
+> -					 "Stream %u: invalid zero maximum packet size\n",
+> -					 i);
+> +				dev_err(&gcam->bundle->dev,
+> +					"Stream %u: invalid zero maximum packet size\n",
+> +					i);
+>   				return -EIO;
+>   			}
+>   		} else {
+>   			pkt_size = le16_to_cpu(cfg->width) * fmt_info->bpp / 8;
+>   
+>   			if (pkt_size != le32_to_cpu(cfg->max_pkt_size)) {
+> -				gcam_err(gcam,
+> -					 "Stream %u: maximum packet size mismatch (%u/%u)\n",
+> -					 i, pkt_size, cfg->max_pkt_size);
+> +				dev_err(&gcam->bundle->dev,
+> +					"Stream %u: maximum packet size mismatch (%u/%u)\n",
+> +					i, pkt_size, cfg->max_pkt_size);
+>   				return -EIO;
+>   			}
+>   		}
+> @@ -275,13 +271,13 @@ static const int gb_camera_configure_streams_validate_response(struct gb_camera
+>   
+>   	/* Validate the returned response structure */
+>   	if (resp->padding[0] || resp->padding[1]) {
+> -		gcam_err(gcam, "response padding != 0\n");
+> +		dev_err(&gcam->bundle->dev, "response padding != 0\n");
+>   		return -EIO;
+>   	}
+>   
+>   	if (resp->num_streams > nstreams) {
+> -		gcam_err(gcam, "got #streams %u > request %u\n",
+> -			 resp->num_streams, nstreams);
+> +		dev_err(&gcam->bundle->dev, "got #streams %u > request %u\n",
+> +			resp->num_streams, nstreams);
+>   		return -EIO;
+>   	}
+>   
+> @@ -289,7 +285,7 @@ static const int gb_camera_configure_streams_validate_response(struct gb_camera
+>   		struct gb_camera_stream_config_response *cfg = &resp->config[i];
+>   
+>   		if (cfg->padding) {
+> -			gcam_err(gcam, "stream #%u padding != 0\n", i);
+> +			dev_err(&gcam->bundle->dev, "stream #%u padding != 0\n", i);
+>   			return -EIO;
+>   		}
+>   	}
+> @@ -340,16 +336,16 @@ static int gb_camera_set_power_mode(struct gb_camera *gcam, bool hs)
+>   
+>   	ret = gb_camera_set_intf_power_mode(gcam, intf->interface_id, hs);
+>   	if (ret < 0) {
+> -		gcam_err(gcam, "failed to set module interface to %s (%d)\n",
+> -			 hs ? "HS" : "PWM", ret);
+> +		dev_err(&gcam->bundle->dev, "failed to set module interface to %s (%d)\n",
+> +			hs ? "HS" : "PWM", ret);
+>   		return ret;
+>   	}
+>   
+>   	ret = gb_camera_set_intf_power_mode(gcam, svc->ap_intf_id, hs);
+>   	if (ret < 0) {
+>   		gb_camera_set_intf_power_mode(gcam, intf->interface_id, !hs);
+> -		gcam_err(gcam, "failed to set AP interface to %s (%d)\n",
+> -			 hs ? "HS" : "PWM", ret);
+> +		dev_err(&gcam->bundle->dev, "failed to set AP interface to %s (%d)\n",
+> +			hs ? "HS" : "PWM", ret);
+>   		return ret;
+>   	}
+>   
+> @@ -435,7 +431,7 @@ static int gb_camera_setup_data_connection(struct gb_camera *gcam,
+>   			   sizeof(csi_cfg),
+>   			   GB_APB_REQUEST_CSI_TX_CONTROL, false);
+>   	if (ret < 0) {
+> -		gcam_err(gcam, "failed to start the CSI transmitter\n");
+> +		dev_err(&gcam->bundle->dev, "failed to start the CSI transmitter\n");
+>   		goto error_power;
+>   	}
+>   
+> @@ -470,7 +466,7 @@ static void gb_camera_teardown_data_connection(struct gb_camera *gcam)
+>   			   GB_APB_REQUEST_CSI_TX_CONTROL, false);
+>   
+>   	if (ret < 0)
+> -		gcam_err(gcam, "failed to stop the CSI transmitter\n");
+> +		dev_err(&gcam->bundle->dev, "failed to stop the CSI transmitter\n");
+>   
+>   	/* Set the UniPro link to low speed mode. */
+>   	gb_camera_set_power_mode(gcam, false);
+> @@ -507,7 +503,7 @@ static int gb_camera_capabilities(struct gb_camera *gcam,
+>   					     NULL, 0,
+>   					     (void *)capabilities, size);
+>   	if (ret)
+> -		gcam_err(gcam, "failed to retrieve capabilities: %d\n", ret);
+> +		dev_err(&gcam->bundle->dev, "failed to retrieve capabilities: %d\n", ret);
+>   
+>   done:
+>   	mutex_unlock(&gcam->mutex);
+> @@ -723,22 +719,22 @@ static int gb_camera_request_handler(struct gb_operation *op)
+>   	struct gb_message *request;
+>   
+>   	if (op->type != GB_CAMERA_TYPE_METADATA) {
+> -		gcam_err(gcam, "Unsupported unsolicited event: %u\n", op->type);
+> +		dev_err(&gcam->bundle->dev, "Unsupported unsolicited event: %u\n", op->type);
+>   		return -EINVAL;
+>   	}
+>   
+>   	request = op->request;
+>   
+>   	if (request->payload_size < sizeof(*payload)) {
+> -		gcam_err(gcam, "Wrong event size received (%zu < %zu)\n",
+> -			 request->payload_size, sizeof(*payload));
+> +		dev_err(&gcam->bundle->dev, "Wrong event size received (%zu < %zu)\n",
+> +			request->payload_size, sizeof(*payload));
+>   		return -EINVAL;
+>   	}
+>   
+>   	payload = request->payload;
+>   
+> -	gcam_dbg(gcam, "received metadata for request %u, frame %u, stream %u\n",
+> -		 payload->request_id, payload->frame_number, payload->stream);
+> +	dev_dbg(&gcam->bundle->dev, "received metadata for request %u, frame %u, stream %u\n",
+> +		payload->request_id, payload->frame_number, payload->stream);
+>   
+>   	return 0;
+>   }
+> @@ -1347,15 +1343,15 @@ static int gb_camera_resume(struct device *dev)
+>   
+>   	ret = gb_connection_enable(gcam->connection);
+>   	if (ret) {
+> -		gcam_err(gcam, "failed to enable connection: %d\n", ret);
+> +		dev_err(&gcam->bundle->dev, "failed to enable connection: %d\n", ret);
+>   		return ret;
+>   	}
+>   
+>   	if (gcam->data_connection) {
+>   		ret = gb_connection_enable(gcam->data_connection);
+>   		if (ret) {
+> -			gcam_err(gcam,
+> -				 "failed to enable data connection: %d\n", ret);
+> +			dev_err(&gcam->bundle->dev,
+> +				"failed to enable data connection: %d\n", ret);
+>   			return ret;
+>   		}
+>   	}
+
