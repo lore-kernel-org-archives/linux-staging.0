@@ -1,171 +1,121 @@
-Received: from imap4.hz.codethink.co.uk (imap4.hz.codethink.co.uk [188.40.203.114])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4EFA1448E5;
-	Mon, 22 Apr 2024 11:57:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.40.203.114
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3978F14F13E
+	for <linux-staging@lists.linux.dev>; Mon, 22 Apr 2024 13:25:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713787042; cv=none; b=ZNe6nd85vvCGivkIxtUctOfr2rU+rZ/agVG2i9EwtOvWJEEfUOM/TWtGBHy809tJ1v4XJRm96hHJCBDQmsTBkvnCJkODU6nU+7j9K2ikAJmWzB6z0BYfaj3cnIbWWw0SNFt43zZ1CFCbKEedQf5t808BtKzdiRvWCSUOqriYATs=
+	t=1713792347; cv=none; b=ax40ug0bsnWL2LRZYXDlUEM3Ibzaxg+2/PLkXKnDoj97tA/qqK3suXBJcF/ql1RdIcLdwbsJV4Dx0zdmnYsJilnQmDZrqcSLIpd7WndIoXFqam6127rwzTLk3J5IMMnjCiZxU0vsuy9cSQlGdjmLGVSvXocQlUH1Ldd4bTKqXNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713787042; c=relaxed/simple;
-	bh=iXdnGV0GNbWvOOMay2HuTzIgDnAqwDf0+4xcJRVN9IU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UGBXeKsQ8wk8J5G87dR3ao0NnHx6ksX7oH93QIc2F99X/9pQmiOQ+sP7B17rX1lZxIU98dDp8bae/ts3W+dejZxP11bR1My0B+rSUCsK8pkpNjH6aMLyzDRgUYiW89IdwC03nMuTjkG6KJS8IDKiP38rE4ehC+mZ1ruhgH9rQx8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=codethink.co.uk; spf=pass smtp.mailfrom=codethink.co.uk; dkim=pass (2048-bit key) header.d=codethink.co.uk header.i=@codethink.co.uk header.b=oBsn/oRs; arc=none smtp.client-ip=188.40.203.114
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=codethink.co.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codethink.co.uk
+	s=arc-20240116; t=1713792347; c=relaxed/simple;
+	bh=p71XPOYccBTrK5vNtFphHMc7xrNQr0V9gF4p0adc0z8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PhJoDuOSkDrxjzeA0ACsvQbZa5ok45dCeV1Au8KhzBA/bwaArtgWl/sHqWmoJkok3MoGY9KGpp6JNi1yZiEScKP7ldowJcUxvf/fJBQIZMBmFZVfOgnMaYlSGPKGuPzMKN0Acb7C+i68xFTlQ4CHchlUbq6Tbb4IDM1UG7/8mUw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=nfOcDd29; arc=none smtp.client-ip=209.85.208.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codethink.co.uk header.i=@codethink.co.uk header.b="oBsn/oRs"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=codethink.co.uk; s=imap4-20230908; h=Sender:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=yitCqMx2a0fEw609oprUCvQiXhu4oVn7HyKwI2mxpJI=; b=oBsn/oRsEAPpByPdsGDnh0cK9o
-	jDYNwe2mOX7XCP9EJ6XNf3c8NiVxXKgnIuCm3MSfnbYcOHL+Y9LGk7HQocExZnQUYauNEDRTSTwFz
-	4Ezbq3y+YjrehaosF8fGOJrj0lQIup88dcX+YtTTvc0rMhOkGJsBvAyWJBGfewy+jsvn9z+4Zd6Dx
-	rg10Mg4Dc2QXjGYHGvtF4yo5Cc4x7ERufiLIf0ER2XbHrNaNC3rXTe4k6eZy8rIRQJRSwbrGqZ7Mu
-	FsARF8pXMtEXgm39At5IkRSpX/oNKjY/38RApM+NziulHCuRohdBr0NvK8Gf2M35UXJhYqhVqD4VH
-	HareYbmA==;
-Received: from [167.98.27.226] (helo=[10.35.6.244])
-	by imap4.hz.codethink.co.uk with esmtpsa  (Exim 4.94.2 #2 (Debian))
-	id 1ryrrD-00C7xA-Ef; Mon, 22 Apr 2024 12:29:11 +0100
-Message-ID: <2338e58b-1ec2-4500-9675-2d8a3aaa107f@codethink.co.uk>
-Date: Mon, 22 Apr 2024 12:29:10 +0100
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nfOcDd29"
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2d895138ce6so62311011fa.0
+        for <linux-staging@lists.linux.dev>; Mon, 22 Apr 2024 06:25:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1713792342; x=1714397142; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/kyPaZIZyrkWqjj0WFiDLbAxvb7aRYR+HuKJ6/NuUGw=;
+        b=nfOcDd29DEsp0RbKmWIo0V8xLsDPIEmyJvOYH4w447KdDpY7Lj6q/6PDVcTINiQHMh
+         HF3IO1Gd3Hogfl6JN0gRCmECBonwnE9+cG0nfacnUQo5B3QvHUGfDyozKl+de8FgwXjk
+         ijMeRlG+9yOLaC6yArFUeaNKceFmwlPRXuGAQkJLdq+OmP888YEaLVtZoJUQrycBHVUL
+         DqMVIaYYppkoeGwSCRMFruA+LnXyRkjE60iBpJlp3iDwsRe3g7ymGybtCRY0+wF3YXfP
+         wmVoRaU0RJxUPnv/nMCsxXtZ4/9iuv0i/8j9w7ob8hEsCbX+6Q/zRk9ePPRV27fN9bSJ
+         DzAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713792342; x=1714397142;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/kyPaZIZyrkWqjj0WFiDLbAxvb7aRYR+HuKJ6/NuUGw=;
+        b=bpghc73dfFce3ZgivKKXIVmPkst1kc1UiByzOZsePg2kXirAWZhA5DZbVsLPa8IeCl
+         MlvUvhSDPBA7TshurZmQjR8GbfgoFk+IP8Gijn3NSAZ/aVwPo2s1VfeVy2MUOCKtVDy7
+         FdQJEe6LMwbjMtiOq+s/eYBbRjJ1vo5jWm64tPYU2YyOZwGd3f/8GVCbnkoIGnDesP71
+         IkuEJuyACdaUN5/rI7/PbYbxL7XgstZ14uT1FvRhXbWd2nB2vCWtO8o9dJynAhmAYNHU
+         qCXycDlKJoAyCctQ2/zxAjEppwHkybeMoovfZO28JhgVuL5c5KThgKqO+EaG+t58F9DN
+         cGmg==
+X-Forwarded-Encrypted: i=1; AJvYcCX8hmB0e+E5qmgz6ij/fA+Pr3P0Acor9yqOeJHz0pPHBLFmGHL/Uqe0f6KXPJW78VDluZwQWzlSC4+UhjUV/Mpxhaut0egaBBt+GlK7Vg==
+X-Gm-Message-State: AOJu0YweKR/gyyS09eu/4psrYDIUJ7W57l8dC3QC9AEWy1D7z1DbWT3n
+	fXlXl+U29Nc0VR3czrL/yM8x4DS6vhrHw5o1lldMVIWRHF+tykiH+aZ//9/l124=
+X-Google-Smtp-Source: AGHT+IHWET/ZymKfhlPZrQHfC2dJ8JbIntynRS8qE8Jm7h5ARJyaDMzXxiK//kI7R+cm7SauaT3FVQ==
+X-Received: by 2002:a2e:9d43:0:b0:2d4:6f33:2e59 with SMTP id y3-20020a2e9d43000000b002d46f332e59mr5822818ljj.30.1713792342161;
+        Mon, 22 Apr 2024 06:25:42 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id ef9-20020a05640228c900b00571bde3b0a4sm5246522edb.34.2024.04.22.06.25.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Apr 2024 06:25:41 -0700 (PDT)
+Date: Mon, 22 Apr 2024 16:25:36 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: A <ashokemailat@yahoo.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev
+Subject: Re: [PATCH] staging:fbtft:fb_ili9320 Removed redundant Parentheses
+Message-ID: <9baed766-a2d2-4b94-ae2b-d16ffbea3f67@moroto.mountain>
+References: <452e4a2dcdc7020f75b84d787297a1d17a21ca81.camel.ref@yahoo.com>
+ <452e4a2dcdc7020f75b84d787297a1d17a21ca81.camel@yahoo.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: nvec: make i2c controller register writes robust
-Content-Language: en-GB
-To: Marc Dietrich <marvin24@gmx.de>, linux-staging@lists.linux.dev
-Cc: linux-tegra@vger.kernel.org, gregkh@linuxfoundation.org
-References: <20240421104642.25417-1-marvin24@gmx.de>
-From: Ben Dooks <ben.dooks@codethink.co.uk>
-Organization: Codethink Limited.
-In-Reply-To: <20240421104642.25417-1-marvin24@gmx.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Sender: ben.dooks@codethink.co.uk
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <452e4a2dcdc7020f75b84d787297a1d17a21ca81.camel@yahoo.com>
 
-On 21/04/2024 11:46, Marc Dietrich wrote:
-> The i2c controller needs to read back the data written to its registers.
-> This way we can avoid the long delay in the interrupt handler.
+0) Fix your From address.
+
+1) Look at how other people write subjects.
+   git log --oneline drivers/staging/fbtft/fb_ili9320.c
+
+On Fri, Apr 19, 2024 at 11:04:21AM -0700, A wrote:
+> >From 51e98164e314a2d1d834d2a9baea21a9823650bb Mon Sep 17 00:00:00 2001
+> From: Ashok Kumar <ashokemailat@yahoo.com>
+> Date: Fri, 19 Apr 2024 10:32:48 -0700
+> Subject: [PATCH] staging:fbtft:fb_ili9320 Removed redundant
+>  Parentheses
+
+2) This should not be part of the email.
+
 > 
-> Signed-off-by: Marc Dietrich <marvin24@gmx.de>
+> Adhere to Linux kernel coding style.
+> Reported by checkpatch
+> 
+> CHECK: Unnecessary parentheses around 'devcode != 0x0000'
+> +       if ((devcode != 0x0000) && (devcode != 0x9320))
+> 
+
+3) Just leave this as-is.  Ignore checkpatch in this case.  Greg likes
+   parens.
+
+> Signed-off-by: Ashok Kumar <ashokemailat@yahoo.com>
 > ---
->   drivers/staging/nvec/nvec.c | 41 ++++++++++++++++++++++---------------
->   1 file changed, 24 insertions(+), 17 deletions(-)
+>  drivers/staging/fbtft/fb_ili9320.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
-> index 45df190c2f94..214839f51048 100644
-> --- a/drivers/staging/nvec/nvec.c
-> +++ b/drivers/staging/nvec/nvec.c
-> @@ -570,6 +570,22 @@ static void nvec_tx_set(struct nvec_chip *nvec)
->   		(uint)nvec->tx->size, nvec->tx->data[1]);
->   }
-> 
-> +/**
-> + * i2c_writel - safely write to an I2C client controller register
-> + * @val: value to be written
-> + * @reg: register to write to
-> + *
-> + * A write to an I2C controller register needs to be read back to make sure
-> + * that the value has arrived.
-> + */
-> +static void i2c_writel(u32 val, void *reg)
-> +{
-> +	writel_relaxed(val, reg);
-> +
-> +	/* read back register to make sure that register writes completed */
-> +	readl_relaxed(reg);
-> +}
+> diff --git a/drivers/staging/fbtft/fb_ili9320.c
+> b/drivers/staging/fbtft/fb_ili9320.c
+> index 0be7c2d51548..409b54cc562e 100644
+> --- a/drivers/staging/fbtft/fb_ili9320.c
+> +++ b/drivers/staging/fbtft/fb_ili9320.c
+> @@ -37,7 +37,7 @@ static int init_display(struct fbtft_par *par)
+>  	devcode = read_devicecode(par);
+>  	fbtft_par_dbg(DEBUG_INIT_DISPLAY, par, "Device code:
+> 0x%04X\n",
 
-I thought the default behaviour of writel() should be to force writes
-out of any CPU buffers. Are there any bus isuses here causing the code
-to be necessary (and if so, why is there another buffer breaking the
-writel behaviour?)
+4) This patch is corrupt and will not apply.  Read the first two
+paragraphs of Documentation/process/email-clients.rst.
 
->   /**
->    * nvec_interrupt - Interrupt handler
->    * @irq: The IRQ
-> @@ -604,7 +620,7 @@ static irqreturn_t nvec_interrupt(int irq, void *dev)
->   	if ((status & RNW) == 0) {
->   		received = readl(nvec->base + I2C_SL_RCVD);
->   		if (status & RCVD)
-> -			writel(0, nvec->base + I2C_SL_RCVD);
-> +			i2c_writel(0, nvec->base + I2C_SL_RCVD);
->   	}
-> 
->   	if (status == (I2C_SL_IRQ | RCVD))
-> @@ -696,7 +712,7 @@ static irqreturn_t nvec_interrupt(int irq, void *dev)
-> 
->   	/* Send data if requested, but not on end of transmission */
->   	if ((status & (RNW | END_TRANS)) == RNW)
-> -		writel(to_send, nvec->base + I2C_SL_RCVD);
-> +		i2c_writel(to_send, nvec->base + I2C_SL_RCVD);
-> 
->   	/* If we have send the first byte */
->   	if (status == (I2C_SL_IRQ | RNW | RCVD))
-> @@ -713,15 +729,6 @@ static irqreturn_t nvec_interrupt(int irq, void *dev)
->   		status & RCVD ? " RCVD" : "",
->   		status & RNW ? " RNW" : "");
-> 
-> -	/*
-> -	 * TODO: replace the udelay with a read back after each writel above
-> -	 * in order to work around a hardware issue, see i2c-tegra.c
-> -	 *
-> -	 * Unfortunately, this change causes an initialisation issue with the
-> -	 * touchpad, which needs to be fixed first.
-> -	 */
-> -	udelay(100);
-> -
->   	return IRQ_HANDLED;
->   }
-> 
-> @@ -737,15 +744,15 @@ static void tegra_init_i2c_slave(struct nvec_chip *nvec)
-> 
->   	val = I2C_CNFG_NEW_MASTER_SFM | I2C_CNFG_PACKET_MODE_EN |
->   	    (0x2 << I2C_CNFG_DEBOUNCE_CNT_SHIFT);
-> -	writel(val, nvec->base + I2C_CNFG);
-> +	i2c_writel(val, nvec->base + I2C_CNFG);
-> 
->   	clk_set_rate(nvec->i2c_clk, 8 * 80000);
-> 
-> -	writel(I2C_SL_NEWSL, nvec->base + I2C_SL_CNFG);
-> -	writel(0x1E, nvec->base + I2C_SL_DELAY_COUNT);
-> +	i2c_writel(I2C_SL_NEWSL, nvec->base + I2C_SL_CNFG);
-> +	i2c_writel(0x1E, nvec->base + I2C_SL_DELAY_COUNT);
-> 
-> -	writel(nvec->i2c_addr >> 1, nvec->base + I2C_SL_ADDR1);
-> -	writel(0, nvec->base + I2C_SL_ADDR2);
-> +	i2c_writel(nvec->i2c_addr >> 1, nvec->base + I2C_SL_ADDR1);
-> +	i2c_writel(0, nvec->base + I2C_SL_ADDR2);
-> 
->   	enable_irq(nvec->irq);
->   }
-> @@ -754,7 +761,7 @@ static void tegra_init_i2c_slave(struct nvec_chip *nvec)
->   static void nvec_disable_i2c_slave(struct nvec_chip *nvec)
->   {
->   	disable_irq(nvec->irq);
-> -	writel(I2C_SL_NEWSL | I2C_SL_NACK, nvec->base + I2C_SL_CNFG);
-> +	i2c_writel(I2C_SL_NEWSL | I2C_SL_NACK, nvec->base + I2C_SL_CNFG);
->   	clk_disable_unprepare(nvec->i2c_clk);
->   }
->   #endif
-> --
-> 2.43.0
-> 
-> 
-> 
+regards,
+dan carpenter
 
--- 
-Ben Dooks				http://www.codethink.co.uk/
-Senior Engineer				Codethink - Providing Genius
-
-https://www.codethink.co.uk/privacy.html
 
