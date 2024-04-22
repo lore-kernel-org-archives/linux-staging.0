@@ -1,62 +1,171 @@
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+Received: from imap4.hz.codethink.co.uk (imap4.hz.codethink.co.uk [188.40.203.114])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D7A85029D;
-	Mon, 22 Apr 2024 08:18:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4EFA1448E5;
+	Mon, 22 Apr 2024 11:57:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.40.203.114
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713773930; cv=none; b=KTm7pF/s+L1x4s93exkltT3gtWTwvsrb5ODXQhDqV1rnnAEQ3cC/R1o07e8mV5kWKUt9/m0P52Y/SpCWQmj49+zfMhBkfvGYS8rXuoFDEqNLwia2T6OS19rsiHEZugkH98ZHKaimpuWC36p45qdtEJ9VWGvZGdRVj/5IXH1HAes=
+	t=1713787042; cv=none; b=ZNe6nd85vvCGivkIxtUctOfr2rU+rZ/agVG2i9EwtOvWJEEfUOM/TWtGBHy809tJ1v4XJRm96hHJCBDQmsTBkvnCJkODU6nU+7j9K2ikAJmWzB6z0BYfaj3cnIbWWw0SNFt43zZ1CFCbKEedQf5t808BtKzdiRvWCSUOqriYATs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713773930; c=relaxed/simple;
-	bh=1R0QdiqBkh2lDI1KZWlD4yhHxXvFKtuxtuwBOw/ITOE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=a+EoWro1vSYv/ZNn5sKp0LrXGEJL9PtjzaARAm/t9y97X+8es7AW8AXSONV2Xlw2Idw0f5RRs3eFRU0usNcj/3jgG7LtGO7qZ0wpNGQ6XH/onCZ8zFLmgWDArikSSFqCwco1GtxsJ9hEpRRlWDQsvNe7S4QvMQlAie6SNuX1T30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au; spf=pass smtp.mailfrom=ellerman.id.au; arc=none smtp.client-ip=150.107.74.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ellerman.id.au
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.ozlabs.org (Postfix) with ESMTPSA id 4VNJ6g0Nzdz4x1R;
-	Mon, 22 Apr 2024 18:18:35 +1000 (AEST)
-From: Michael Ellerman <patch-notifications@ellerman.id.au>
-To: linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Michael Ellerman <mpe@ellerman.id.au>, Christophe Leroy <christophe.leroy@csgroup.eu>, Damien Le Moal <dlemoal@kernel.org>, Jiri Kosina <jikos@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Corey Minyard <minyard@acm.org>, Peter Huewe <peterhuewe@gmx.de>, Jarkko Sakkinen <jarkko@kernel.org>, Tero Kristo <kristo@kernel.org>, Stephen Boyd <sboyd@kernel.org>, Ian Abbott <abbotti@mev.co.uk>, H Hartley Sweeten <hsweeten@visionengravers.com>, Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, Len Brown <lenb@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, John Allen <john.allen@amd.com>, Herbert Xu <herbert@gondor.apana.org.au>, Vinod Koul <vkoul@kernel.org>, Ard Biesheuvel <ardb@kernel.org>, Bjorn Andersson <andersson@kernel.org>, Moritz Fischer <mdf@kernel.org>, Liviu Dudau <liviu.dudau@arm.com>, Benjamin Tissoires <benjamin.tissoires@redhat.com>, Andi Shyti <andi.shyti@kernel.org>, Michael Hennerich <michael.hennerich@analo
- g.com>, Peter Rosin <peda@axentia.se>, Lars-Peter Clausen <lars@metafoo.de>, Jonathan Cameron <jic23@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Markuss Broks <markuss.broks@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, Lee Jones <lee@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, Iyappan Subramanian <iyappan@os.amperecomputing.com>, Yisen Zhuang <yisen.zhuang@huawei.com>, Stanislaw Gruszka <stf_xl@wp.pl>, Kalle Valo <kvalo@kernel.org>, Sebastian Reichel <sre@kernel.org>, Tony Lindgren <tony@atomide.com>, Mark Brown <broonie@kernel.org>, Alexandre Belloni <alexandre.belloni@bootlin.com>, Xiang Chen <chenxiang66@hisilicon.com>, "Martin K. Petersen" <martin.petersen@oracle.com>, Neil Armstrong <neil.armstrong@linaro.org>, Heiko Stuebner <heiko@sntech.de>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Vaibhav Hiremath <hvaibhav.linux@gmail.com>, Alex Elder <elder@kernel.org>, Jiri Slaby <jirislaby@kernel.
- org>, Jacky Huang <ychuang3@nuvoton.com>, Helge Deller <deller@gmx.de>, Christoph Hellwig <hch@lst.de>, Robin Murphy <robin.murphy@arm.com>, Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Kees Cook <keescook@chromium.org>, Trond Myklebust <trond.myklebust@hammerspace.com>, Anna Schumaker <anna@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Takashi Iwai <tiwai@suse.com>, linuxppc-dev@lists.ozlabs.org, linux-ide@vger.kernel.org, openipmi-developer@lists.sourceforge.net, linux-integrity@vger.kernel.org, linux-omap@vger.kernel.org, linux-clk@vger.kernel.org, linux-pm@vger.kernel.org, linux-crypto@vger.kernel.org, dmaengine@vger.kernel.org, linux-efi@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-fpga@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org, linux-i2c@vger.kernel.org, linux-iio@vger.kernel.org, linux-stm32@st-md-mailman.stormr
- eply.com, linux-arm-kernel@lists.infradead.org, netdev@vger.kernel.org, linux-leds@vger.kernel.org, linux-wireless@vger.kernel.org, linux-rtc@vger.kernel.org, linux-scsi@vger.kernel.org, linux-spi@vger.kernel.org, linux-amlogic@lists.infradead.org, linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org, greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev, linux-serial@vger.kernel.org, linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org, iommu@lists.linux.dev, linux-trace-kernel@vger.kernel.org, kasan-dev@googlegroups.com, linux-hardening@vger.kernel.org, linux-nfs@vger.kernel.org, linux-kbuild@vger.kernel.org, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
-In-Reply-To: <20240403080702.3509288-1-arnd@kernel.org>
-References: <20240403080702.3509288-1-arnd@kernel.org>
-Subject: Re: (subset) [PATCH 00/34] address all -Wunused-const warnings
-Message-Id: <171377378377.1025456.1313405994816400451.b4-ty@ellerman.id.au>
-Date: Mon, 22 Apr 2024 18:16:23 +1000
+	s=arc-20240116; t=1713787042; c=relaxed/simple;
+	bh=iXdnGV0GNbWvOOMay2HuTzIgDnAqwDf0+4xcJRVN9IU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UGBXeKsQ8wk8J5G87dR3ao0NnHx6ksX7oH93QIc2F99X/9pQmiOQ+sP7B17rX1lZxIU98dDp8bae/ts3W+dejZxP11bR1My0B+rSUCsK8pkpNjH6aMLyzDRgUYiW89IdwC03nMuTjkG6KJS8IDKiP38rE4ehC+mZ1ruhgH9rQx8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=codethink.co.uk; spf=pass smtp.mailfrom=codethink.co.uk; dkim=pass (2048-bit key) header.d=codethink.co.uk header.i=@codethink.co.uk header.b=oBsn/oRs; arc=none smtp.client-ip=188.40.203.114
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=codethink.co.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codethink.co.uk
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=codethink.co.uk header.i=@codethink.co.uk header.b="oBsn/oRs"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=codethink.co.uk; s=imap4-20230908; h=Sender:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=yitCqMx2a0fEw609oprUCvQiXhu4oVn7HyKwI2mxpJI=; b=oBsn/oRsEAPpByPdsGDnh0cK9o
+	jDYNwe2mOX7XCP9EJ6XNf3c8NiVxXKgnIuCm3MSfnbYcOHL+Y9LGk7HQocExZnQUYauNEDRTSTwFz
+	4Ezbq3y+YjrehaosF8fGOJrj0lQIup88dcX+YtTTvc0rMhOkGJsBvAyWJBGfewy+jsvn9z+4Zd6Dx
+	rg10Mg4Dc2QXjGYHGvtF4yo5Cc4x7ERufiLIf0ER2XbHrNaNC3rXTe4k6eZy8rIRQJRSwbrGqZ7Mu
+	FsARF8pXMtEXgm39At5IkRSpX/oNKjY/38RApM+NziulHCuRohdBr0NvK8Gf2M35UXJhYqhVqD4VH
+	HareYbmA==;
+Received: from [167.98.27.226] (helo=[10.35.6.244])
+	by imap4.hz.codethink.co.uk with esmtpsa  (Exim 4.94.2 #2 (Debian))
+	id 1ryrrD-00C7xA-Ef; Mon, 22 Apr 2024 12:29:11 +0100
+Message-ID: <2338e58b-1ec2-4500-9675-2d8a3aaa107f@codethink.co.uk>
+Date: Mon, 22 Apr 2024 12:29:10 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: nvec: make i2c controller register writes robust
+Content-Language: en-GB
+To: Marc Dietrich <marvin24@gmx.de>, linux-staging@lists.linux.dev
+Cc: linux-tegra@vger.kernel.org, gregkh@linuxfoundation.org
+References: <20240421104642.25417-1-marvin24@gmx.de>
+From: Ben Dooks <ben.dooks@codethink.co.uk>
+Organization: Codethink Limited.
+In-Reply-To: <20240421104642.25417-1-marvin24@gmx.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+Sender: ben.dooks@codethink.co.uk
 
-On Wed, 03 Apr 2024 10:06:18 +0200, Arnd Bergmann wrote:
-> Compilers traditionally warn for unused 'static' variables, but not
-> if they are constant. The reason here is a custom for C++ programmers
-> to define named constants as 'static const' variables in header files
-> instead of using macros or enums.
+On 21/04/2024 11:46, Marc Dietrich wrote:
+> The i2c controller needs to read back the data written to its registers.
+> This way we can avoid the long delay in the interrupt handler.
 > 
-> In W=1 builds, we get warnings only static const variables in C
-> files, but not in headers, which is a good compromise, but this still
-> produces warning output in at least 30 files. These warnings are
-> almost all harmless, but also trivial to fix, and there is no
-> good reason to warn only about the non-const variables being unused.
+> Signed-off-by: Marc Dietrich <marvin24@gmx.de>
+> ---
+>   drivers/staging/nvec/nvec.c | 41 ++++++++++++++++++++++---------------
+>   1 file changed, 24 insertions(+), 17 deletions(-)
 > 
-> [...]
+> diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
+> index 45df190c2f94..214839f51048 100644
+> --- a/drivers/staging/nvec/nvec.c
+> +++ b/drivers/staging/nvec/nvec.c
+> @@ -570,6 +570,22 @@ static void nvec_tx_set(struct nvec_chip *nvec)
+>   		(uint)nvec->tx->size, nvec->tx->data[1]);
+>   }
+> 
+> +/**
+> + * i2c_writel - safely write to an I2C client controller register
+> + * @val: value to be written
+> + * @reg: register to write to
+> + *
+> + * A write to an I2C controller register needs to be read back to make sure
+> + * that the value has arrived.
+> + */
+> +static void i2c_writel(u32 val, void *reg)
+> +{
+> +	writel_relaxed(val, reg);
+> +
+> +	/* read back register to make sure that register writes completed */
+> +	readl_relaxed(reg);
+> +}
 
-Applied to powerpc/next.
+I thought the default behaviour of writel() should be to force writes
+out of any CPU buffers. Are there any bus isuses here causing the code
+to be necessary (and if so, why is there another buffer breaking the
+writel behaviour?)
 
-[01/34] powerpc/fsl-soc: hide unused const variable
-        https://git.kernel.org/powerpc/c/01acaf3aa75e1641442cc23d8fe0a7bb4226efb1
+>   /**
+>    * nvec_interrupt - Interrupt handler
+>    * @irq: The IRQ
+> @@ -604,7 +620,7 @@ static irqreturn_t nvec_interrupt(int irq, void *dev)
+>   	if ((status & RNW) == 0) {
+>   		received = readl(nvec->base + I2C_SL_RCVD);
+>   		if (status & RCVD)
+> -			writel(0, nvec->base + I2C_SL_RCVD);
+> +			i2c_writel(0, nvec->base + I2C_SL_RCVD);
+>   	}
+> 
+>   	if (status == (I2C_SL_IRQ | RCVD))
+> @@ -696,7 +712,7 @@ static irqreturn_t nvec_interrupt(int irq, void *dev)
+> 
+>   	/* Send data if requested, but not on end of transmission */
+>   	if ((status & (RNW | END_TRANS)) == RNW)
+> -		writel(to_send, nvec->base + I2C_SL_RCVD);
+> +		i2c_writel(to_send, nvec->base + I2C_SL_RCVD);
+> 
+>   	/* If we have send the first byte */
+>   	if (status == (I2C_SL_IRQ | RNW | RCVD))
+> @@ -713,15 +729,6 @@ static irqreturn_t nvec_interrupt(int irq, void *dev)
+>   		status & RCVD ? " RCVD" : "",
+>   		status & RNW ? " RNW" : "");
+> 
+> -	/*
+> -	 * TODO: replace the udelay with a read back after each writel above
+> -	 * in order to work around a hardware issue, see i2c-tegra.c
+> -	 *
+> -	 * Unfortunately, this change causes an initialisation issue with the
+> -	 * touchpad, which needs to be fixed first.
+> -	 */
+> -	udelay(100);
+> -
+>   	return IRQ_HANDLED;
+>   }
+> 
+> @@ -737,15 +744,15 @@ static void tegra_init_i2c_slave(struct nvec_chip *nvec)
+> 
+>   	val = I2C_CNFG_NEW_MASTER_SFM | I2C_CNFG_PACKET_MODE_EN |
+>   	    (0x2 << I2C_CNFG_DEBOUNCE_CNT_SHIFT);
+> -	writel(val, nvec->base + I2C_CNFG);
+> +	i2c_writel(val, nvec->base + I2C_CNFG);
+> 
+>   	clk_set_rate(nvec->i2c_clk, 8 * 80000);
+> 
+> -	writel(I2C_SL_NEWSL, nvec->base + I2C_SL_CNFG);
+> -	writel(0x1E, nvec->base + I2C_SL_DELAY_COUNT);
+> +	i2c_writel(I2C_SL_NEWSL, nvec->base + I2C_SL_CNFG);
+> +	i2c_writel(0x1E, nvec->base + I2C_SL_DELAY_COUNT);
+> 
+> -	writel(nvec->i2c_addr >> 1, nvec->base + I2C_SL_ADDR1);
+> -	writel(0, nvec->base + I2C_SL_ADDR2);
+> +	i2c_writel(nvec->i2c_addr >> 1, nvec->base + I2C_SL_ADDR1);
+> +	i2c_writel(0, nvec->base + I2C_SL_ADDR2);
+> 
+>   	enable_irq(nvec->irq);
+>   }
+> @@ -754,7 +761,7 @@ static void tegra_init_i2c_slave(struct nvec_chip *nvec)
+>   static void nvec_disable_i2c_slave(struct nvec_chip *nvec)
+>   {
+>   	disable_irq(nvec->irq);
+> -	writel(I2C_SL_NEWSL | I2C_SL_NACK, nvec->base + I2C_SL_CNFG);
+> +	i2c_writel(I2C_SL_NEWSL | I2C_SL_NACK, nvec->base + I2C_SL_CNFG);
+>   	clk_disable_unprepare(nvec->i2c_clk);
+>   }
+>   #endif
+> --
+> 2.43.0
+> 
+> 
+> 
 
-cheers
+-- 
+Ben Dooks				http://www.codethink.co.uk/
+Senior Engineer				Codethink - Providing Genius
+
+https://www.codethink.co.uk/privacy.html
+
