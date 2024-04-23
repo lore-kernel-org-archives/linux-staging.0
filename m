@@ -1,59 +1,59 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19CB713D258
-	for <linux-staging@lists.linux.dev>; Tue, 23 Apr 2024 16:42:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDC0913D51B
+	for <linux-staging@lists.linux.dev>; Tue, 23 Apr 2024 16:49:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713890578; cv=none; b=lrhxfO0XhwgfQh8jFxfH/PHSoLiCVooE4rtWo1kwc5tV4LrNzyjQFjVcOCMa0R7WNJFJJrdJRbGSO3kmTrG/3JGuRcuI5VKWoM2veVMK0DVMA6xnZDkGy76GBZgW5yuP8eQMGYpU6CL+ZG4iV/k1Md+3YSiuTKScSj/qAtSeBvc=
+	t=1713890956; cv=none; b=SXFC2Su/s4NWEJ8AsR5ReIpFO6znK6NNpxYQ5qxFFveCp8vuSOaci9POv/XMsErZdLp/hfYmit6o7Oj4t6+mtjbf0xM2ED452phyUd4FIkAkf2TxSwLIM7nIOXsXo31JhGFeqoZhzi+cg0xIx02sxx9aL8sZ2Obv3eJOpbwj1eQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713890578; c=relaxed/simple;
-	bh=GpHmjh1oP5OnIlmRru0FaAZCq+BYGXsln5CRJl5tfWA=;
+	s=arc-20240116; t=1713890956; c=relaxed/simple;
+	bh=ldVzTwv3fwEiTXBi6dYuRPKuiRpDDdt1y7A0qo9Q2QA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=q7TWDSJgRgPHIkw5lprw1r9/6RS6wEEEo3GdKfT5uocXALY3hcvrHNQxvJN6ugpMu7uMAkA8Dg2iNqu3uroKdPqxmdcb+Iwk5qjRZ8RC85eh5lUTxV8ZsSM+/J6pLmJ1n7T8jBSpol4z13QEBlXjWt9ZoDxJ96CsklM+w9kqKuU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZGHSCp2s; arc=none smtp.client-ip=209.85.128.53
+	 In-Reply-To:Content-Type; b=BEVPKrJ6WAmoy5hTLWAc3zoTY7RqQpBes4D/A/hz7pwYxKkMNR38PcraS95wOS/ibefqzcRtlmn3b9b07M54csVKo8ztmzA0zo1wjnAnXEUaqgu1GLkXjQMfw7tFBJd/AQulcJseU8oRxR5ZMcpZb5hjRxYdGzqqep/ZzzkYkV8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=rxQWcgDN; arc=none smtp.client-ip=209.85.221.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZGHSCp2s"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-41a7820620dso16144685e9.0
-        for <linux-staging@lists.linux.dev>; Tue, 23 Apr 2024 09:42:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rxQWcgDN"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-34b029296f5so2614919f8f.2
+        for <linux-staging@lists.linux.dev>; Tue, 23 Apr 2024 09:49:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1713890575; x=1714495375; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1713890953; x=1714495753; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=AAjd9LkEDNuVK7j7GhyFYBnO65hiE7cXAXMhivu0jgk=;
-        b=ZGHSCp2sTp3wlv3qYvfyqwaZp5vTZVpG+IsZ840rGUppOuKDChlcBR89MiCIggRdMx
-         pcdT3ncFGAiGh2XRiIT79WEQIqfOPs68dID4X/we40S7yFXF4aBwQ4EJ/4HAExrlTOV0
-         jHsWM4okV6CdNzUm4HygfGKkMRYPE5iShfz9bxvA8QNXKUgWp8DN1T76NbpHhLaKATKA
-         zwI/z9EdfXLPFIQRRAzPhYit9oBhwI3sHOj/9na2pvLUAv7q94JsN9JHmrFIZpiCBjUj
-         DLctnsJ6LSLgnezu9MpDdLLyvqLfa8Ogd7DTrNWC3BGXx2+U0UTjnoi2ktG1DF54dkcb
-         8dBA==
+        bh=ldVzTwv3fwEiTXBi6dYuRPKuiRpDDdt1y7A0qo9Q2QA=;
+        b=rxQWcgDNGrfel9O2yRkvNylaqTAdvq9SoAC4Y+bkm+4ew0ZaNGP/NfxSciigVrLzhh
+         dNUQtHf+qdxUgvNU66HeDHf4kNSXmrHeUBxTzPC6cLOOlkAXIdnnnKTPEUlv3rk7gAV/
+         gOVXdSLRelUWi2moZ8/AxC4DveJmuEYOzBJGzqDH9DhXNa0drCAysf7EXxsEg2RA7bK6
+         CpsAuYQtO+9nV1so1fodfCoQ1p2XU5VqzNV79TajSnVbEXiAlcrw6iX0ndRMHUzb/etn
+         oZt5BuqgXLWSJA+mEC43KdAD2618zBg4n2w4njkfCQxCZCR6P4dbMFdVYyLVIobPo+ZG
+         uIzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713890575; x=1714495375;
+        d=1e100.net; s=20230601; t=1713890953; x=1714495753;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=AAjd9LkEDNuVK7j7GhyFYBnO65hiE7cXAXMhivu0jgk=;
-        b=bG5LQrmDv9MZ9S299pUZ9AUyfuGQoCvMnxAYzScpqK6w6RxMBLbiNI5B9MtxDbg+gS
-         C43ZX/iRpLXk6UOHH6JjSoyw6b3E9I1COwFV0wM9Ng3SCuMZTcDglEk6Vlh2wtfrJ6Xt
-         +SGhy8jD6j7VXM88aDgCZCQq/cFTwFV7gr1SYiTKFotOOy7BQzrSc7O4jteeYple1kGa
-         XIa9jacfx4B77n9dnpPIdY/xP6uTBSKn57lUuYvimNm7+FQ6FFAemg1NnOv7nqJVXqoG
-         C0O7rrlBS6nW1D+a8dsDJC/H/Pj8Ix0e2l+mQzBy0y7Rwsry/gEN+m2rxnEwzhhCV6JR
-         O+Xg==
-X-Forwarded-Encrypted: i=1; AJvYcCV4aDrtwGasYEEJzV7RAls6UU9vvMnvvUayH6cKoIUtFYfjQJtJIau8Yz8Y5NPfU0Msnckmao1A+drYhTIHBiMy7v6Zlj0DoHyvm/nvnQ==
-X-Gm-Message-State: AOJu0YyeHU1dQdxYicNb1Xm6gOB91TCnBCyU2ZV5kM9bYLr2H0mm13b3
-	FbJWvwbUJ93gVG9ltm2qzPjJjpSvqRW5bq/0aRA4h0id+/yNp3cozazqh3yCnKc=
-X-Google-Smtp-Source: AGHT+IFrxYPbNd0JIn8yeAWouLUX4KO2HR4fWg0b0VJjkA0zy4qA+fxtUoj+497CZ/NN5m4uB+meNA==
-X-Received: by 2002:a05:600c:1c9e:b0:418:a5fc:5a5b with SMTP id k30-20020a05600c1c9e00b00418a5fc5a5bmr10146720wms.36.1713890575406;
-        Tue, 23 Apr 2024 09:42:55 -0700 (PDT)
+        bh=ldVzTwv3fwEiTXBi6dYuRPKuiRpDDdt1y7A0qo9Q2QA=;
+        b=fo2o9AGbx7HpIWkm6cO5tHhe3ViJHS+zKbiBN+NCQGLVlczPk9mZs8Q22+j8tsi3pp
+         6FZeQ8OJkGoDLxwVcw/zy3kTHfS9H0NhkWVDy6tHPv6aM2zlFsw0qNBa6vtF0hUFZlBN
+         bSJV6VHAFA56pPE8vRxhc4b4dxeBSBmWa8B4pf86Wt6l9t1x6wTgOpfuEPqwD4j5KTPt
+         erhWj2p6jiHs4UnEVJtDP2NT49jIzqGR8Frz0tdRTT5Nyx6YdZpn8wIDbTsDjCUpvwtf
+         1qgiQCo05mPw/E0avKra7czMHaPCawKDvziY0O5pHGEyrQZmy82JwdR+RPC6O4IaOaag
+         3EDQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWr7kZ7hpZwVGu33mbz+ktOQsadZn8ZzIiQvXNoa1kuBooN0Hi6zJC3g1Ks6EF5lT8vJyEYkQiPgbS9JQPLiM93kElQn4TKzm7QjRY3FA==
+X-Gm-Message-State: AOJu0Yy/giZymuc8KwNS5TlDwCpYhmjXpwDZAXoPb8sLykVOoEED4Ddr
+	bQiJSNOPa/gkok6aYxFHrYMO5+h7oYlWQowHwftrt9yiP4YnVnvvBCMZMnouFM4=
+X-Google-Smtp-Source: AGHT+IFFjiX0lGTvRX6PkqniQZmmmeygPyoAEul4datqZN6BwlChbzsJP3H/9AAw03G7QKIB4ZDERg==
+X-Received: by 2002:adf:fa88:0:b0:34a:d130:611b with SMTP id h8-20020adffa88000000b0034ad130611bmr7093753wrr.17.1713890953167;
+        Tue, 23 Apr 2024 09:49:13 -0700 (PDT)
 Received: from [192.168.0.102] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id jg1-20020a05600ca00100b004183e983d97sm20619705wmb.39.2024.04.23.09.42.53
+        by smtp.gmail.com with ESMTPSA id n12-20020a5d67cc000000b0034a51283404sm12576954wrw.72.2024.04.23.09.49.11
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Apr 2024 09:42:54 -0700 (PDT)
-Message-ID: <3f5c46bc-6fe8-45a4-8929-7b93b276478f@linaro.org>
-Date: Tue, 23 Apr 2024 17:42:53 +0100
+        Tue, 23 Apr 2024 09:49:12 -0700 (PDT)
+Message-ID: <81770681-7ddb-41b4-8202-8dd44014c5e8@linaro.org>
+Date: Tue, 23 Apr 2024 17:49:10 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -61,7 +61,7 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 19/35] media: stk1160: Use min macro
+Subject: Re: [PATCH 26/35] media: venus: Refator return path
 To: Ricardo Ribalda <ribalda@chromium.org>,
  Martin Tuma <martin.tuma@digiteqautomotive.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -103,28 +103,30 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
  linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org
 References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
- <20240415-fix-cocci-v1-19-477afb23728b@chromium.org>
+ <20240415-fix-cocci-v1-26-477afb23728b@chromium.org>
 Content-Language: en-US
 From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20240415-fix-cocci-v1-19-477afb23728b@chromium.org>
+In-Reply-To: <20240415-fix-cocci-v1-26-477afb23728b@chromium.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 15/04/2024 20:34, Ricardo Ribalda wrote:
-> Simplifies the code.
-> 
-> Found by cocci:
-> drivers/media/usb/stk1160/stk1160-video.c:133:12-13: WARNING opportunity for min()
-> drivers/media/usb/stk1160/stk1160-video.c:176:13-14: WARNING opportunity for min()
-> 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> This is a nop, but let cocci now that this is not a good candidate for
 
-Show the commit log some love, then add
+*know
+
+> min()
+
+But I think you should change the commit log ->
+
+"Rewrite ternary return assignment to mitigate the following cocci WARNING."
+
+> drivers/media/platform/qcom/venus/vdec.c:672:12-13: WARNING opportunity for min()
+> drivers/media/platform/qcom/venus/vdec.c:650:12-13: WARNING opportunity for min()
+
+then
 
 Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
-For patches 16 through 19.
-
 ---
 bod
-
