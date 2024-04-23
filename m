@@ -1,90 +1,116 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1CA4154BEE
-	for <linux-staging@lists.linux.dev>; Mon, 22 Apr 2024 17:55:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 062E62B9A0
+	for <linux-staging@lists.linux.dev>; Tue, 23 Apr 2024 07:38:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713808552; cv=none; b=fZIY+EiImn4spzlVYVKMlJx3VcRt1LIo9jdy0HJ9vO17wiSXkINj8T6iqmZgLe+gkJePro1TQdln9N9mQPLGwKySFT1AzOULqpaQkSfTBic8vSTdrKDmaIVyPSB0Qnq8x1pWKoDG9i4DVn6nxA6kAPI5AWGwRz0SKUGVICrPPk8=
+	t=1713857930; cv=none; b=D3P/V9H997HHdr3e90sQIqL4JD700uKIYMARTlNEzCPGnqYgw+fj/RlUlqQQFZCTvQneprL8kNbqnPd1ZbVdn40qPaX8OjpamAF8JhcC8dlQ4jo4uBzaskH8p6ozZNJKilhgiETXUD1Vipcczkjzg+f082Q/mR+XNSv6lgZMSLA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713808552; c=relaxed/simple;
-	bh=JSZu+JHGcp6O5rFJwB0+7gm/1fUE5JP/jTsLbXnt33Y=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=I7SvFRLBZLfuTf+Kab4j08NIkN7rlh19pUu3CapmdyygQ7hGR/Mo/AtR2NMMndWacCR9hrxHYHNJCRQkg0t2JOes7ga4RtmvdJY7F4QkgJk3/XIyvYdDQjlpRnRcRop3cxE7r5CrnbPQan1p67O3r+cGzPzqr0+LMwHPS/YObp8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gf+2c9AQ; arc=none smtp.client-ip=209.85.167.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1713857930; c=relaxed/simple;
+	bh=mjRkFfdBtZbVYBPrvsjPmWl58HkXWr16xgIBP3dQroM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=V+EuFngNHI3VtvUoN628OHjjc1JhWDijFgYlwB6qUsFWaN0z33Fp+zjyp17XCo3HfjuJKoZzmW5Sic+6LO45YeG1JeNNBbkiArHpsKpEKhgsIljh2MrnSvBpH7a6PRh7rqb00dgS/qkfgd47+ExPLeHxAzoCVswyBB029xD7DUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g2nCNumm; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gf+2c9AQ"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-516d585c60bso549334e87.1
-        for <linux-staging@lists.linux.dev>; Mon, 22 Apr 2024 10:55:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713808549; x=1714413349; darn=lists.linux.dev;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Yq4UihHHPf8X9fkzW8/5yOFWNRtWLeXNtouM4+vRomo=;
-        b=Gf+2c9AQ0cwTqpVM37Qxr4iV/iL1zp/t0R6wAZ4EykQFHA6ztmSUBJR1TcWELJsdlw
-         q9mE0GJ/PVKSE75izxo/cm03+1Ln7WReUvdMlVt7TvyIa2XJvobeXG9Jwu5G3uDGNOSz
-         lTFw7aHqabLhxXZB2km40laO02V7zDMjuPpZaTicg4kucQHBWIFG66geERZ0IOS+5cwy
-         S0dRv8LbeJVa8I9jry7kthtjxoXspIhOAjyChwiWZhDj4q+G7f76MXLOjhHHHKk09A5I
-         Ha4sl74ACTqPMPUrQ6n3YO8v8TPOa5ZPnB+TX3IPclP0YYSKdjh7/X+IBB7mMfDPBQBL
-         Y9rg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713808549; x=1714413349;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Yq4UihHHPf8X9fkzW8/5yOFWNRtWLeXNtouM4+vRomo=;
-        b=I0xWjAxZT6vAJVTJx99zENN2JGEwAzB4M4TG050faOMIPzqgDtFa14gV/RqOIyTGMK
-         yYlUv1Rz1LUVMN/A6OdDde8eJdqrtoDUOCU5Zm+Stq+jBby1mFaZe6+7OaAbg6svmbiT
-         AojLQbbapKX5layNL4IeunSTxYXtw6nWNcFjbuay0SpGejqU+5IShzWYrVvTU3q3i4P8
-         P8YgNChyR6Gn5DYerPbb6DRvymAG4ge2XLKDDy2SKz5sv9avWxvsGcg2wHdjRp4tE7Fe
-         ud2kv0wPze3xd65c2uhkvYrWU4Ce5cZyDUKHJxWC7XfeuV2ciFW4w/AMO8DLqE21SvUn
-         jChA==
-X-Forwarded-Encrypted: i=1; AJvYcCU0MRnGn92nA/xHK16RlqgIHcYJFhBhpgCD3529/MzuUkeTAAaIxQfMMhZII+jLXfNuCoZZg9vfM3/k1Wf7f9ABoDVudmC+t/HXIs3gFQ==
-X-Gm-Message-State: AOJu0Yw2sV5aEHpG7sXJiz8rE+k8rGhQNWIrUgb5JraVOz0d8lDfnPKB
-	6GZ8N/rkBaYXp8K9P8wT6SDzx2bUD9Ay3chIgLjLzlKhm13tUBQs
-X-Google-Smtp-Source: AGHT+IFwMaFrfp2gvzap1J8QnviEFzpNnf0imbW5AdxuOzeoKDb25tpi5xxF8SxqM7m1vtyY0hbthQ==
-X-Received: by 2002:ac2:4db9:0:b0:513:ec32:aa89 with SMTP id h25-20020ac24db9000000b00513ec32aa89mr6629628lfe.2.1713808548539;
-        Mon, 22 Apr 2024 10:55:48 -0700 (PDT)
-Received: from [192.168.0.104] (p57935690.dip0.t-ipconnect.de. [87.147.86.144])
-        by smtp.gmail.com with ESMTPSA id x20-20020a1709060a5400b00a524b2ffed6sm6012023ejf.56.2024.04.22.10.55.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Apr 2024 10:55:48 -0700 (PDT)
-Message-ID: <f82fffbf-a983-4ab4-897b-b5a810426f04@gmail.com>
-Date: Mon, 22 Apr 2024 19:55:47 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g2nCNumm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713857929; x=1745393929;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=mjRkFfdBtZbVYBPrvsjPmWl58HkXWr16xgIBP3dQroM=;
+  b=g2nCNummvlRj+JVkPdJL1qOV+3rWgeywty2ipzANBbnJsXrpqJJhNC7x
+   dGhRdKrMZSNTTUv7zqboihF8yRIa41pCGR5wGmoqMRkgLsiM8PALfGbR1
+   QdhdVn+mJmY7z6GSblg/InVuNT9Rjr5AtxSwnZ3T6ufoZTK95L2gBnmWx
+   axZ/DlclZSuohycmHPNp5Se6llS/di/BlqDwFb3xVT7eUAq0rvYY2Du5K
+   lXp5pwMepesZQcGKV6qnCKNpwAwNpF8ae4EQ3zNICZrq10y2XAS9Y9ttD
+   omYiHR2SC0iie8sQ17O7EN5NbilH9cgNWuen1tOzmGrUrFS0yOTUm+Cb1
+   A==;
+X-CSE-ConnectionGUID: I0DY/mJXSAmRmre1WDTU7A==
+X-CSE-MsgGUID: fofr1hRgRWOf3bXACr6t2Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11052"; a="31918017"
+X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
+   d="scan'208";a="31918017"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 00:38:48 -0700
+X-CSE-ConnectionGUID: s/KDoHdVTiSM0XnX3bJmkw==
+X-CSE-MsgGUID: mzxAigJiRoSRJZwbwrOibA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
+   d="scan'208";a="24332315"
+Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
+  by fmviesa006.fm.intel.com with ESMTP; 23 Apr 2024 00:38:37 -0700
+Date: Tue, 23 Apr 2024 15:33:16 +0800
+From: Xu Yilun <yilun.xu@linux.intel.com>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: linux-kernel@vger.kernel.org, Corey Minyard <minyard@acm.org>,
+	Peter Huewe <peterhuewe@gmx.de>,
+	Jarkko Sakkinen <jarkko@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+	Moritz Fischer <mdf@kernel.org>, Wu Hao <hao.wu@intel.com>,
+	Xu Yilun <yilun.xu@intel.com>, Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+	Michael Hennerich <michael.hennerich@analog.com>,
+	Peter Rosin <peda@axentia.se>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Iyappan Subramanian <iyappan@os.amperecomputing.com>,
+	Keyur Chudgar <keyur@os.amperecomputing.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Yisen Zhuang <yisen.zhuang@huawei.com>,
+	Salil Mehta <salil.mehta@huawei.com>,
+	Tony Lindgren <tony@atomide.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Xiang Chen <chenxiang66@hisilicon.com>,
+	"James E.J. Bottomley" <jejb@linux.ibm.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Jacky Huang <ychuang3@nuvoton.com>,
+	Shan-Chun Hung <schung@nuvoton.com>, Arnd Bergmann <arnd@arndb.de>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Tom Rix <trix@redhat.com>,
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Randy Dunlap <rdunlap@infradead.org>, Rob Herring <robh@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	openipmi-developer@lists.sourceforge.net,
+	linux-integrity@vger.kernel.org, dmaengine@vger.kernel.org,
+	linux-fpga@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-i2c@vger.kernel.org, netdev@vger.kernel.org,
+	linux-omap@vger.kernel.org, linux-rtc@vger.kernel.org,
+	linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-serial@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 33/34] drivers: remove incorrect of_match_ptr/ACPI_PTR
+ annotations
+Message-ID: <ZidkPHp27jz0t6t3@yilunxu-OptiPlex-7050>
+References: <20240403080702.3509288-1-arnd@kernel.org>
+ <20240403080702.3509288-34-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: info@sang-engineering.com, wsa+renesas@sang-engineering.com
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Subject: [RFC] staging: ks7010: How to proceed with Spectec SDW-823 microSD
- driver
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240403080702.3509288-34-arnd@kernel.org>
 
-Hi Wolfram,
+> diff --git a/drivers/fpga/versal-fpga.c b/drivers/fpga/versal-fpga.c
+> index 3710e8f01be2..e6189106c468 100644
+> --- a/drivers/fpga/versal-fpga.c
+> +++ b/drivers/fpga/versal-fpga.c
+> @@ -69,7 +69,7 @@ static struct platform_driver versal_fpga_driver = {
+>  	.probe = versal_fpga_probe,
+>  	.driver = {
+>  		.name = "versal_fpga_manager",
+> -		.of_match_table = of_match_ptr(versal_fpga_of_match),
+> +		.of_match_table = versal_fpga_of_match,
 
-you contributed a driver ks7010 to the staging subsystem in 2016.
+For this part
 
-In the first commit description you stated that you have not been able 
-to connect to a WPA-protected network. Did you manage to connect to a 
-WPA-protected network at a later time? Have you done any tests with this 
-hardware in the years up to today?
-
-I am asking because I tried to find a test device to test it. That is 
-difficult in 2024.
-
-Do you think the driver can be removed or should it stay in the mainline 
-kernel?
-
-Thanks for your response.
-
-Bye Philipp
+Acked-by: Xu Yilun <yilun.xu@intel.com>
