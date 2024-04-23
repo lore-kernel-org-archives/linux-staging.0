@@ -1,254 +1,260 @@
-Received: from EUR04-VI1-obe.outbound.protection.outlook.com (mail-vi1eur04on2122.outbound.protection.outlook.com [40.107.8.122])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 397E22AD11
-	for <linux-staging@lists.linux.dev>; Tue, 23 Apr 2024 09:53:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.8.122
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713865985; cv=fail; b=juyrNQ51BMC93JBOsqZlDeErMpyWxJzG2N9eJBoOMbnWCxVPWoDJn3UldCmTZviqnwDSL+QJyVfqZG+5tYjyGR/Lor7+Vvn66CLgZbfIIv+Eqr63x/MhGALBmAxrdLNOJn+welnIWtPXXNKCwYRp6eb5fDqZ0kurMcnTXrehjSM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713865985; c=relaxed/simple;
-	bh=hOgw0GWf9fra+ddKgDiMQGavHEa4pmDIg1waKJEUc/I=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=BRjzeyOwhEvcSaljuwufi2ueUb7lHbeTRZcrcfUCyD1vKoal5LHUJEtzCe/k5Bz2OtoOOLqDjQXUyWpyblkDspJJNNiGShFdp0iUAe64ARlKm1tUKUALDNbnWSU89ABPrVK4WPxBnkn2eKNNUd5P2NiIaPa4+rjkQr6ag/wNRCw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=axentia.se; spf=pass smtp.mailfrom=axentia.se; dkim=pass (1024-bit key) header.d=axentia.se header.i=@axentia.se header.b=d60iubmr; arc=fail smtp.client-ip=40.107.8.122
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=axentia.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=axentia.se
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7E2159B4E
+	for <linux-staging@lists.linux.dev>; Tue, 23 Apr 2024 09:55:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1713866134; cv=none; b=jsdxOyUJRPSPQAKMmEvqtJY4qafvXhwF43nd6iCzFB8+zmB9JDRc2X6S2nuXRJZZOPqP9tESM+0mxoZixSDZSr+/a/Ez5nsHm87icEkJKMHL1UjQbFhddTVdxf2NtKmQcwJVanxmpJgsM54h4YYRQbge2JOGfE8v1VbDakFFdPk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1713866134; c=relaxed/simple;
+	bh=vO2U7XlqO7Gm+bvUty2YvXkuYegSrXjqBIpxt5idPTk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=M85QytBPp1wnnW2e1BmdsUl7OExPgUMIzlJq9zQ5qkL8NaNA5gdI/0zg5oL/eoZdUjV2x7J9KWUt/OJS89iDzfOsJGzN/ArlF33oFxYjr1JcIo3AnMMor+gR1n3SVCxmdq/AwUSlNwZsZp1Khu0LttudtJxY3hgh5Tn0KaA146c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ILlKNpBL; arc=none smtp.client-ip=209.85.167.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=axentia.se header.i=@axentia.se header.b="d60iubmr"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gCwZEyLVxM2AYGFhcmhFknKl5LYVlGDOQ5IHcNRjA6AqAZBeVt1w4LcH2x5mHPxKf8jF0xSEJseFTGLJZsZ6MiWsi12b90y8N26e6pJoQX1jSZCVYj0Q9Yrn/Pr0wzX4J7FX6mijsTO3hht9NUPSvMaiNAg2CslLB7t1QukIUsL/L8uKDOxzzSCeInRY/Lw0KHaENIuiZhWeBSbFcTx781sZrPeeMj2KGnNeXQntZJvdvem1iurOx8WElFmGbstVb9NjsqGQi09AwBKJ8lDCld47yRg6FfMpbjQznFjHIxh7wWs9Ewd5De2k+OrJCKCA03+P9tj5KwSFQe8nOyrB/g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+aqDDPtLW+03CjmA273kXqCvoB6TThtpLzHqTpQoWRU=;
- b=KoZVnLUK4Cy+fupKJnosHdAlgma5S3JHZnH6b5kX8qnZp406IPKzX3sHMO+2SueDAVylef9awF+G80+Gq5kpyb8OEMd9V5B04dtcsGN5L3GoMYWmewy8hUiyuhmLY85HyUVyfXsj34vJqIH9mVkJ61R0LWr4QIqU44CAiJLqDc/1exUM8z5rk4yMQmRFdIFPblHs2YaRimPKTCsJUvHrbE0QRouXJG/fxDOoCyRRQ/vrLFVP24KzcVnZ8zYGYsQJz2XpdGhHfI2Z9M3aF25YtNMk6+P3+K3Up/NVELi3FnocssFL5GHwEQ0X7M0JLFO9NEZc0KAoU9Ia3BUAmK6W2g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=axentia.se; dmarc=pass action=none header.from=axentia.se;
- dkim=pass header.d=axentia.se; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axentia.se;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+aqDDPtLW+03CjmA273kXqCvoB6TThtpLzHqTpQoWRU=;
- b=d60iubmrv8d39FFfuF4XItfndt6V9JvIfCVFYUZBzJn4MdxLFmt4VGBngpDPdnkZWUCJdeAHckHBtu0X/ntBKct3fov8IscqFoq9GbsKs5Cc7dCmLPfzZ3Y3JFHfITfQMERVL7A5NCrHbx+sjPDI3mJ5v459mhceWNsltdcz+so=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=axentia.se;
-Received: from DU0PR02MB8500.eurprd02.prod.outlook.com (2603:10a6:10:3e3::8)
- by DBAPR02MB6326.eurprd02.prod.outlook.com (2603:10a6:10:19a::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Tue, 23 Apr
- 2024 09:52:58 +0000
-Received: from DU0PR02MB8500.eurprd02.prod.outlook.com
- ([fe80::aff4:cbc7:ff18:b827]) by DU0PR02MB8500.eurprd02.prod.outlook.com
- ([fe80::aff4:cbc7:ff18:b827%4]) with mapi id 15.20.7472.044; Tue, 23 Apr 2024
- 09:52:58 +0000
-Message-ID: <3f095b5d-ced2-1c8a-9bd2-2ff2a9480fa1@axentia.se>
-Date: Tue, 23 Apr 2024 11:52:52 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH 33/34] drivers: remove incorrect of_match_ptr/ACPI_PTR
- annotations
-Content-Language: sv-SE
-To: Arnd Bergmann <arnd@kernel.org>, linux-kernel@vger.kernel.org,
- Corey Minyard <minyard@acm.org>, Peter Huewe <peterhuewe@gmx.de>,
- Jarkko Sakkinen <jarkko@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Moritz Fischer <mdf@kernel.org>, Wu Hao <hao.wu@intel.com>,
- Xu Yilun <yilun.xu@intel.com>, Jiri Kosina <jikos@kernel.org>,
- Benjamin Tissoires <benjamin.tissoires@redhat.com>,
- Michael Hennerich <michael.hennerich@analog.com>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Iyappan Subramanian <iyappan@os.amperecomputing.com>,
- Keyur Chudgar <keyur@os.amperecomputing.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Yisen Zhuang <yisen.zhuang@huawei.com>, Salil Mehta
- <salil.mehta@huawei.com>, Tony Lindgren <tony@atomide.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Xiang Chen <chenxiang66@hisilicon.com>,
- "James E.J. Bottomley" <jejb@linux.ibm.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Russell King <linux@armlinux.org.uk>, Jiri Slaby <jirislaby@kernel.org>,
- Jacky Huang <ychuang3@nuvoton.com>, Shan-Chun Hung <schung@nuvoton.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Jason Gunthorpe <jgg@ziepe.ca>,
- Tom Rix <trix@redhat.com>, =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?=
- <u.kleine-koenig@pengutronix.de>, Randy Dunlap <rdunlap@infradead.org>,
- Rob Herring <robh@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
- openipmi-developer@lists.sourceforge.net, linux-integrity@vger.kernel.org,
- dmaengine@vger.kernel.org, linux-fpga@vger.kernel.org,
- linux-input@vger.kernel.org, linux-i2c@vger.kernel.org,
- netdev@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-rtc@vger.kernel.org, linux-scsi@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-serial@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
-References: <20240403080702.3509288-1-arnd@kernel.org>
- <20240403080702.3509288-34-arnd@kernel.org>
-From: Peter Rosin <peda@axentia.se>
-In-Reply-To: <20240403080702.3509288-34-arnd@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: GV3P280CA0033.SWEP280.PROD.OUTLOOK.COM
- (2603:10a6:150:9::26) To DU0PR02MB8500.eurprd02.prod.outlook.com
- (2603:10a6:10:3e3::8)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ILlKNpBL"
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5193363d255so7283632e87.3
+        for <linux-staging@lists.linux.dev>; Tue, 23 Apr 2024 02:55:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1713866130; x=1714470930; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=PoZeq6WcMiA51J+rv15DHhi85i73xIx4cQAhZD3lUPo=;
+        b=ILlKNpBLf6jJs7F3PGMR22kubBYfvswyjkZXL1xDXTmVcHMYr7vC6+Tt+Pwe9icwWU
+         Y6mVoQVz+EkTnyxWACq6yeDkNfb8Rs0Cyt0Ypsu8mskXK2L6t+1AwiyyyENCor7mjI4H
+         5vGqK6ZHVevLQZyucf9Kz3EZ6ZQEIVXvhbYqFzADkFIpZ8NhYC+xPexdy7PcnCnT+Ira
+         CWUQXa+1BgrtlWtQI1JN+hx2ki+8B5vu8OWc/c9sF0s2ZOjc6DNT5Ydyyzb3XpDB80aA
+         dK2cbGDynKkIFxWuHD/97xy++GnMD8wK2ZVlh/UGJkHuBhgUsLXhsKpi8R2QwL5Tugf7
+         4Hfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713866130; x=1714470930;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PoZeq6WcMiA51J+rv15DHhi85i73xIx4cQAhZD3lUPo=;
+        b=PNlgzGluGZUIFtRQzIQ4q/IZQFHI8p1f7srcGo0X4o8S2nMrKwxYAe7C90QQ9k7eHM
+         YD+wFMrQSQTaMUefouDjI66miv6+MvvswMtaR1ziAQwJVAP5Aji/tbwqhf6MT3msdExE
+         32D3QHEQDq4EMhdR9OptPErURHdjdxTN2MU0SUf/zH66nhZvMS4SBRqzhmhQheEsTZEg
+         nW5nMtUparIePOBFqwoGuQYSRNu3xgM1d37ysw7n8UtZzgPdCC2bQ69n7c8g0iA/9yel
+         WwxY98qXCnXESFjUxId2pK1LC9nyIGFvFubbViHs0J3coSFycSpLLtZ4ibVmx+rjumAZ
+         NMLg==
+X-Forwarded-Encrypted: i=1; AJvYcCXEFSsFTlP9dDl9km1mBRI6Hlp+An0rjern7ZKHYd9m17QMkK32uRlNEngQyhWlinP0Ha+B5jtpL4cVkofDcqXyhb5gQcvAj/95Ts4vgA==
+X-Gm-Message-State: AOJu0YwbCHjqKNEwyOgkrPF46j/aTwK2HDIbkSLagPFzvNXL6uDFJ5cw
+	S77gUQgntD9fUto/uVt/ikUjQ+Kw2EBZ88ssgdzqBNFeDxvlJY+76ZhlPZs8ycs=
+X-Google-Smtp-Source: AGHT+IE2be/A2B9Zfosf92aNBL2ISTmwauZ9dpIkfUZzfkmeDva07wFk+gPwquGCL+lgiJ80Cvxjig==
+X-Received: by 2002:ac2:5e75:0:b0:519:5df9:d945 with SMTP id a21-20020ac25e75000000b005195df9d945mr7080951lfr.4.1713866129675;
+        Tue, 23 Apr 2024 02:55:29 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id i9-20020a170906090900b00a55b05c4598sm2829865ejd.133.2024.04.23.02.55.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Apr 2024 02:55:28 -0700 (PDT)
+Date: Tue, 23 Apr 2024 12:55:24 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Martin Tuma <martin.tuma@digiteqautomotive.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Hugues Fruchet <hugues.fruchet@foss.st.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>, Sergey Kozlov <serjk@netup.ru>,
+	Abylay Ospan <aospan@netup.ru>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Dmitry Osipenko <digetx@gmail.com>,
+	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+	Vikash Garodia <quic_vgarodia@quicinc.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Jacopo Mondi <jacopo+renesas@jmondi.org>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Pavel Machek <pavel@ucw.cz>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH 23/35] media: dvb-frontends: tda10048: Use the right div
+Message-ID: <9ba7f4e6-2b8b-44a3-9cac-9ed6e50f1700@moroto.mountain>
+References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
+ <20240415-fix-cocci-v1-23-477afb23728b@chromium.org>
+ <97f51ae8-6672-4bd4-b55b-f02114e3d8d0@moroto.mountain>
+ <7a8d403b-8baf-4eff-8f9c-69cdcb8b2180@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU0PR02MB8500:EE_|DBAPR02MB6326:EE_
-X-MS-Office365-Filtering-Correlation-Id: a390de60-815c-4b1e-f305-08dc637b27d1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?cmR0M09JeVB4b0NBeW1lNThHUlBNUDhlRC9QaURhNjhKTlFTeHZnK1F2TnNW?=
- =?utf-8?B?c09Gd3BrakZXcVZsNzVXTVpkOWFwTUdoWmgyaU5iYTZhVGYvNkErc1hTbnpS?=
- =?utf-8?B?b2pxSkFSektuS2JaUm44Z1VscldFTHgvUzB6RUFGTk1ycmJLL1FhY2wwQ2FB?=
- =?utf-8?B?UEpBQUNodWQ2NE9rVDZjM2dpM0dDdXQ3TkhjdEtveTBBKzlqSS9uLzhVK1Fj?=
- =?utf-8?B?QW5CZm0rMXFROW5VODkxZHlLTjYrUlpxdU15SUhEV1ozQjEzOUY2ZmtnREt5?=
- =?utf-8?B?SjNlY2R4cnhhcUs3dzFkUWpkWWRaTzhiMlExSGxNL0Z2ZFc2aG1SOHh6TWgz?=
- =?utf-8?B?aFA5dUpmcHVsTFFSd0hGNmoveFNPZ2I5bW10TEMzcVp2TzF0R2tQV0tjZ2ZM?=
- =?utf-8?B?QWNUejQ3bFJJQk5HTndPUHBUNHFLVUw4R0wxRno2T0pjaVJkMUNlV3E4NHlN?=
- =?utf-8?B?RFl2Y01reHg3eHBiYUthOWw1ZXI5UHE3YndyaU1FbEljenBIbkRaQUlWWXh6?=
- =?utf-8?B?UGhuOE93ajFzZ3Y0bThtNitlZU5MczJkdk5SVCtTckw5b0pibzEydlZjV0Np?=
- =?utf-8?B?eFRLWGhqOVlLUTh2VTVxRmx6THJoRnY3dUgzZFRmVGxQVlVxWmlYTjlVckVa?=
- =?utf-8?B?N2g1SUQxbTNuenZ2aWFhU01PZUlzYkFMTUdhN2J2a3UwZHhJcElqdURtTlVw?=
- =?utf-8?B?N2M2RDZaQldWRjhSamF3RnZmZjR0eWJERnhVZDB1ZGE1S3kybmFxbEtmZjk5?=
- =?utf-8?B?NXdWZFRaRnR6OWNoaWovb3B6V0o2MTdtbWVDd1pQcThjQWx6Z2VmcXNlZnhP?=
- =?utf-8?B?RWZvb1NJQ0FabUxacUVkT01uTDNKZkFrSkpORFBGWVZRVmxMaTdEdEVQYm9K?=
- =?utf-8?B?WEtJVEtzUkZLMmNhYU1RdXRqaGcwVzlQQUZQVm9OSjZHd0FvMVFKZUxEckRF?=
- =?utf-8?B?Y1piZWhEUUkzam1sUExZbDY0RlNGbTVBNlNMS2piS3g2WFZLaGJPVklsWkYr?=
- =?utf-8?B?Uk92RkNqc0JlUm5sVzNiTzZpYU5aUE15Zi9waS9iM2FLb24zVWRYNXBuT0Vu?=
- =?utf-8?B?UHEwb2J4c3o4K0dSaVM5UzRVU21vWjc2dVd4eW5sd0VFTnl0NnRCM2IwdFhP?=
- =?utf-8?B?aHErNVRYUm9QNko0OFJISzJrK2Q4LzkzWHhBai9GQzV5dU9uOEU0b21iRWpr?=
- =?utf-8?B?cGpjbGtoVzFRMjh4QmFjNmlwTU5qZTNQbUtQVk1TdkhVdklYVEpDUnZVU056?=
- =?utf-8?B?MHlaNzNSL21UZkRsREM2cmU1MXF0T2VNcTljL1ROR2hiSngzb3BpWWFWOXFs?=
- =?utf-8?B?NzlxQWpQYnV1bGNpM0hLVFF6NzBnM1RaRXh3US9VSFVQVDZiaEgzY2kxUEdW?=
- =?utf-8?B?dnQ2ZWt5TXVDcjZzUlgzYTJyNlY1cHhsbVFhK0FPSXdpaW5aMTJsU3ZrcEVs?=
- =?utf-8?B?UStrckx2N1dGekpOeWZKUEc5UnFSWFNvZ21tVjk1RktHenp2S2UvL2ppSTlX?=
- =?utf-8?B?Yi9VdFFIRXBSWE1weWwrNkxaYk1CTEc5WGFhc3l6TWxQZ0NyQm9Yc2RhOU5l?=
- =?utf-8?B?dzl4dmtHbUV5R1lmb0VvVTFHT1dpdUx2Qml2Q3lUZ3F3UytJYS9UR01oNEdI?=
- =?utf-8?B?OU8xM24reGYwK3M0Q0t3TUlCMlQwMnhLVTk4blNGQUJ5YjNpZjN0em9PREhL?=
- =?utf-8?B?OHdPZkhVZi85c2UvL0dmQzA3cURKeHprQVQ3bDMyV0RuVnhyRnYrU21YMFo4?=
- =?utf-8?Q?T1MEmaG+ZFywJAjhH4mhA8Lvv2Kq+TD+89znL7w?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU0PR02MB8500.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(1800799015)(7416005)(921011);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Unl1SEZCa28wWjJZUmFETU95a3FnVG4yYWMrSjJBZXpCcCtKRURDU3RxK0cz?=
- =?utf-8?B?cmlBN2tzdml5ZlUvRE9xcEZXRG5ncXFhM3YwQ2NoVi9oY0ViRHJBR2RHVjlH?=
- =?utf-8?B?RWZLaDNvUHdPRFBKc3lmaXk3aGVBRDUrVXlwV3VvOGNnM2RIQWJtNG1Ta3Jz?=
- =?utf-8?B?U3MzYWZiM2hkVTl2L3F0c0trdTh3RzV5R0xoSVpyQld5czI0WGlHL2NCazJF?=
- =?utf-8?B?YzNQT1JsYnNCUXhKS2hDZnFXZmNPV3NQMlg5cTk1ZmpGRUhNWk1jeE1HL0xT?=
- =?utf-8?B?djhiSmcrT2tENnEzR1VTbk9kdVRSNlZ6bTBOcW1MK2x6dGJGZFJkUDVodDg3?=
- =?utf-8?B?WnZ0UGVEMkYwK0Eyc29tamJpN1ZqMVU1VmR4S0VKbndlQ05QbmtCWXRuRURo?=
- =?utf-8?B?S1BzZFc3ditKZThpSjdGZ2hlcjQ1aVNtWm9ycU9jMFc4UkljVFpmMmYzdk40?=
- =?utf-8?B?WXBzMHk0SDFpcUVIR1hZM2t2MXlMc1YrcW1DekNBVzFld0gveUZZVEdaTnN0?=
- =?utf-8?B?QjBWbzFXWHk1RzBBM3BrdU5ycnlmRWJoYm4xaU1nT2ZNOG5IYkExeUVYaEtJ?=
- =?utf-8?B?NjZtczBwVVNVdXhzVHIvSXRMVGRjNy9Ud1JERWQvRFJSMFRpZ0J0REZ2bEJ1?=
- =?utf-8?B?eDNGT0JLZmhHZHJmQUxOYTJ2aUhQaHZrUzkwa215MU41TjhJRzc1c0x1dGNt?=
- =?utf-8?B?OGpUWjVVRWkvZnp4bjNUTDNBcjRCajV6OTZqZTZ6TjJ3bWdVcjRheDY0N2xH?=
- =?utf-8?B?eUQyQ1pJWFFwM2NhbzA3Qko3NDhJb0c3M1Erd3dQN2dIdklLSjg2NEdDWDZL?=
- =?utf-8?B?TFlXVThkWitnYVRoU29ZamZkWmYrajQ5NFdwbGJoRm9VdVFTYlU1WU01YXVj?=
- =?utf-8?B?ZXJQKytJbW44WThSNGdHWGNES3dVNzNQWnNjRzBET2hRVHhiem9NUnIyWmM0?=
- =?utf-8?B?ZzdkZ25XZFVrUmd3NVk4S2JVajBoMEhlZ0l0Mm9mQ29pajR4YmZ2RDVNN3dI?=
- =?utf-8?B?Y3F1cG8wUS9BbmFBeU9mMktKZStVT0Z4c05oMVQvY1E1Q1dIRnloUHd1dURr?=
- =?utf-8?B?amY5ZmdXUlQxZWpKeUtwM1orMk8rdFByLzVaWVZ0RGtxU240VVFqVmhhejh0?=
- =?utf-8?B?Y3pQOEhIUjY4WENJRmd5RUFJMkRTd3ZyaTFlWUFIU1lEUFd2SmhFcXBGZDgy?=
- =?utf-8?B?RHpKcEtSdndkMHV5R1lNR2N3SDY4QzRBYjg2R3FXTXRJOFl2SGtSLzkvTjVa?=
- =?utf-8?B?RXBQazI2WXhTaWEweFhoVVZoN3dtN2RKUlliK011R3NkM2NKVVd1dEhxU2ZW?=
- =?utf-8?B?VjJlT2Z4blFXNGVMLzh4YTRaeDVBRVE3bXBCK01GNytXYU5TNzZtQkxWZCsr?=
- =?utf-8?B?WDYwT0hZSzFBNk9IR0NGWExhTkVld1VsQXVaalpHVm53UWlPbEY1MER5azdZ?=
- =?utf-8?B?eTliWXFMVnU0RUtRQ3QzZmM5dXJBd2xXakpiTVVVK1NOZitrcVZROXlDNEU3?=
- =?utf-8?B?UmlBRVg1NjVrZUNSY2NwVFlGMGo2VUc4dVdPZVlya3BOa3RVeUg4ZVl3VVBo?=
- =?utf-8?B?RXQrQi9sbEdDaVp6T3FPRzlGSjJaRDJIa1M5U25zQjJTQmlDTC81OEVnTCtp?=
- =?utf-8?B?MHNwSnlDN0xKcklMQklqOHBUVFdCM3ZZVVZOZWI2azM1MjdYZ0lXMkpsUVJi?=
- =?utf-8?B?RGMxVEhORUo1cXJWU3kwcUVPdHFlN2JaZGdNTVBiaWhvekhQSU5MRnZoczhO?=
- =?utf-8?B?bElXak9VRksrdE5tZW5aRVpySWZxNXdVbWFnRFR1QzZoK25JS2ltWlZXVmJj?=
- =?utf-8?B?YUpXSzRjeVlZSWo5TEVvb2xSMFh0dm9UVExpdVhqeUVlOFRZcjg4Qm9ZeUY2?=
- =?utf-8?B?VlJpT0VzWk1WQ2cvb2RTOVRNNlRuWXAyME1hSzg5ekNmbmxWMkRUTlFvS1J2?=
- =?utf-8?B?ZnZVaUhzd1IyWmMyaVNHU0h0TEdxVEVKWExadWlhYnVtVXg3dVl1MlJiM1c2?=
- =?utf-8?B?aWRaNCtNeHdXM2NabU9XVGZyM2Q2RUh0K2toOWtJaTA2cmhIa2UrL1lqbS8v?=
- =?utf-8?B?R2JkVTFvZWRQVURlWWUxcDI3U0NLWk1va2psdGh5anNnalJka0VXRkNJODFZ?=
- =?utf-8?Q?MeJcXB9SQvBhJipuMfESL3T51?=
-X-OriginatorOrg: axentia.se
-X-MS-Exchange-CrossTenant-Network-Message-Id: a390de60-815c-4b1e-f305-08dc637b27d1
-X-MS-Exchange-CrossTenant-AuthSource: DU0PR02MB8500.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Apr 2024 09:52:58.2071
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4ee68585-03e1-4785-942a-df9c1871a234
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Pn1dpT9Y/3FlbsQdjJFMm1KIT6sGNi3KXACwth7VbQVikRHLkJV+FX8vIwXA5ynp
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR02MB6326
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7a8d403b-8baf-4eff-8f9c-69cdcb8b2180@moroto.mountain>
 
-Hi!
+Btw, here is the output from my check (based on linux next from a few
+days ago).  There are some false positives because Smatch parses
+__pow10() incorrectly etc but it's mostly correct.
 
-2024-04-03 at 10:06, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> When building with CONFIG_OF and/or CONFIG_ACPI disabled but W=1 extra
-> warnings enabled, a lot of driver cause a warning about an unused
-> ID table:
-> 
-> drivers/char/tpm/tpm_ftpm_tee.c:356:34: error: unused variable 'of_ftpm_tee_ids' [-Werror,-Wunused-const-variable]
-> drivers/dma/img-mdc-dma.c:863:34: error: unused variable 'mdc_dma_of_match' [-Werror,-Wunused-const-variable]
-> drivers/fpga/versal-fpga.c:62:34: error: unused variable 'versal_fpga_of_match' [-Werror,-Wunused-const-variable]
-> drivers/i2c/muxes/i2c-mux-ltc4306.c:200:34: error: unused variable 'ltc4306_of_match' [-Werror,-Wunused-const-variable]
-> drivers/i2c/muxes/i2c-mux-reg.c:242:34: error: unused variable 'i2c_mux_reg_of_match' [-Werror,-Wunused-const-variable]
-> drivers/memory/pl353-smc.c:62:34: error: unused variable 'pl353_smc_supported_children' [-Werror,-Wunused-const-variable]
-> drivers/regulator/pbias-regulator.c:136:34: error: unused variable 'pbias_of_match' [-Werror,-Wunused-const-variable]
-> drivers/regulator/twl-regulator.c:552:34: error: unused variable 'twl_of_match' [-Werror,-Wunused-const-variable]
-> drivers/regulator/twl6030-regulator.c:645:34: error: unused variable 'twl_of_match' [-Werror,-Wunused-const-variable]
-> drivers/scsi/hisi_sas/hisi_sas_v2_hw.c:3635:36: error: unused variable 'sas_v2_acpi_match' [-Werror,-Wunused-const-variable]
-> drivers/staging/pi433/pi433_if.c:1359:34: error: unused variable 'pi433_dt_ids' [-Werror,-Wunused-const-variable]
-> drivers/tty/serial/amba-pl011.c:2945:34: error: unused variable 'sbsa_uart_of_match' [-Werror,-Wunused-const-variable]
-> 
-> The fix is always to just remove the of_match_ptr() and ACPI_PTR() wrappers
-> that remove the reference, rather than adding another #ifdef just for build
-> testing for a configuration that doesn't matter in practice.
-> 
-> I considered splitting up the large patch into per subsystem patches, but since
-> it's really just the same thing everywhere it feels better to do it all at once.
-> 
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->  drivers/char/ipmi/ipmb_dev_int.c          | 2 +-
->  drivers/char/tpm/tpm_ftpm_tee.c           | 2 +-
->  drivers/dma/img-mdc-dma.c                 | 2 +-
->  drivers/fpga/versal-fpga.c                | 2 +-
->  drivers/hid/hid-google-hammer.c           | 6 ++----
->  drivers/i2c/muxes/i2c-mux-ltc4306.c       | 2 +-
->  drivers/i2c/muxes/i2c-mux-reg.c           | 2 +-
->  drivers/input/touchscreen/wdt87xx_i2c.c   | 2 +-
->  drivers/mux/adg792a.c                     | 2 +-
->  drivers/net/ethernet/apm/xgene-v2/main.c  | 2 +-
->  drivers/net/ethernet/hisilicon/hns_mdio.c | 2 +-
->  drivers/regulator/pbias-regulator.c       | 2 +-
->  drivers/regulator/twl-regulator.c         | 2 +-
->  drivers/regulator/twl6030-regulator.c     | 2 +-
->  drivers/rtc/rtc-fsl-ftm-alarm.c           | 2 +-
->  drivers/scsi/hisi_sas/hisi_sas_v1_hw.c    | 2 +-
->  drivers/scsi/hisi_sas/hisi_sas_v2_hw.c    | 2 +-
->  drivers/staging/pi433/pi433_if.c          | 2 +-
->  drivers/tty/serial/amba-pl011.c           | 6 +++---
->  drivers/tty/serial/ma35d1_serial.c        | 2 +-
->  20 files changed, 23 insertions(+), 25 deletions(-)
+regards,
+dan carpenter
 
-As far as I can tell, this triggers unconditional use of the
-.of_match_table, and the compiler will have a harder time dropping
-that data. However, the wasted data is negligible for the parts
-touching "my" drivers:
-
-drivers/i2c/muxes/i2c-mux-ltc4306.c
-drivers/i2c/muxes/i2c-mux-reg.c
-drivers/mux/adg729a.c
-
-Acked-by: Peter Rosin <peda@axentia.se>
-
-Cheers,
-Peter
+drivers/mtd/spi-nor/core.c:2896 spi_nor_late_init_params() warn: unnecessary div64_u64(): divisor = '2-255'
+drivers/mtd/spi-nor/core.c:3409 spi_nor_set_mtd_eraseregions() warn: unnecessary div64_u64(): divisor = '1-u32max'
+drivers/hwmon/occ/common.c:467 occ_get_powr_avg() warn: unnecessary div64_u64(): divisor = '1-u32max'
+drivers/hwmon/occ/common.c:702 occ_store_caps_user() warn: unnecessary div64_u64(): divisor = '1000000'
+drivers/hwmon/scmi-hwmon.c:67 scmi_hwmon_scale() warn: unnecessary div64_u64(): divisor = '1,10'
+drivers/infiniband/hw/cxgb4/device.c:160 wr_log_show() warn: unnecessary div64_u64(): divisor = '1000'
+drivers/infiniband/hw/cxgb4/device.c:161 wr_log_show() warn: unnecessary div64_u64(): divisor = '1000'
+drivers/clk/clk-versaclock7.c:743 vc7_get_apll_rate() warn: unnecessary div64_u64(): divisor = '2-31'
+drivers/clk/clk-versaclock7.c:794 vc7_calc_fod_1st_stage_rate() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/clk/clk-versaclock7.c:812 vc7_calc_fod_2nd_stage_rate() warn: unnecessary div64_u64(): divisor = '2-u32max'
+drivers/clk/clk-versaclock7.c:973 vc7_iod_recalc_rate() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/clk/clk-versaclock7.c:990 vc7_iod_round_rate() warn: unnecessary div64_u64(): divisor = '14-33554431'
+drivers/clk/clk-versaclock7.c:1016 vc7_iod_set_rate() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/clk/clk-si570.c:263 si570_round_rate() warn: unnecessary div64_u64(): divisor = '2'
+drivers/pci/setup-bus.c:1909 pci_bus_distribute_available_resources() warn: unnecessary div64_u64(): divisor = '1-u32max'
+drivers/pci/setup-bus.c:1910 pci_bus_distribute_available_resources() warn: unnecessary div64_u64(): divisor = '1-u32max'
+drivers/pci/setup-bus.c:1911 pci_bus_distribute_available_resources() warn: unnecessary div64_u64(): divisor = '1-u32max'
+drivers/pci/setup-bus.c:1914 pci_bus_distribute_available_resources() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/pci/setup-bus.c:1915 pci_bus_distribute_available_resources() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/pci/setup-bus.c:1916 pci_bus_distribute_available_resources() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/tty/serial/serial_core.c:431 uart_update_timeout() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/ptp/ptp_qoriq.c:224 ptp_qoriq_adjfine() warn: unnecessary div64_u64(): divisor = '2'
+drivers/ptp/ptp_dte.c:150 ptp_dte_adjfine() warn: unnecessary div64_u64(): divisor = '125000000'
+drivers/ptp/ptp_dte.c:152 ptp_dte_adjfine() warn: unnecessary div64_u64(): divisor = '125000000'
+drivers/gpu/drm/radeon/si_dpm.c:2200 si_calculate_power_efficiency_ratio() warn: unnecessary div64_u64(): divisor = '1000'
+drivers/gpu/drm/radeon/si_dpm.c:2202 si_calculate_power_efficiency_ratio() warn: unnecessary div64_u64(): divisor = '1-4294836225'
+drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c:356 rcar_mipi_dsi_pll_calc() warn: unnecessary div64_u64(): divisor = '0-255'
+drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c:361 rcar_mipi_dsi_pll_calc() warn: unnecessary div64_u64(): divisor = '0-u16max'
+drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/si_dpm.c:2351 si_calculate_power_efficiency_ratio() warn: unnecessary div64_u64(): divisor = '1000'
+drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/si_dpm.c:2353 si_calculate_power_efficiency_ratio() warn: unnecessary div64_u64(): divisor = '1-4294836225'
+drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:1673 amdgpu_ras_sysfs_badpages_read() warn: unnecessary div64_u64(): divisor = '28'
+drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:1674 amdgpu_ras_sysfs_badpages_read() warn: unnecessary div64_u64(): divisor = '28'
+drivers/gpu/drm/amd/amdgpu/../display/dc/dc_dmub_srv.c:592 populate_subvp_cmd_drr_info() warn: unnecessary div64_u64(): divisor = '2'
+drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dce110/dce110_hwseq.c:807 dce110_edp_power_control() warn: unnecessary div64_u64(): divisor = '1000000'
+drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dce110/dce110_hwseq.c:812 dce110_edp_power_control() warn: unnecessary div64_u64(): divisor = '1000000'
+drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dce110/dce110_hwseq.c:935 dce110_edp_wait_for_T12() warn: unnecessary div64_u64(): divisor = '1000000'
+drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_edp_panel_control.c:765 edp_setup_psr() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_edp_panel_control.c:765 edp_setup_psr() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_mst_types.c:800 kbps_to_peak_pbn() warn: unnecessary div64_u64(): divisor = '432000'
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_psr.c:160 amdgpu_dm_psr_enable() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_psr.c:160 amdgpu_dm_psr_enable() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/gpu/drm/amd/amdgpu/../display/modules/freesync/freesync.c:106 calc_duration_in_us_from_refresh_in_uhz() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/gpu/drm/amd/amdgpu/../display/modules/freesync/freesync.c:117 calc_duration_in_us_from_v_total() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/gpu/drm/amd/amdgpu/../display/modules/freesync/freesync.c:132 mod_freesync_calc_v_total_from_refresh() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/gpu/drm/amd/amdgpu/../display/modules/freesync/freesync.c:135 mod_freesync_calc_v_total_from_refresh() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/gpu/drm/amd/amdgpu/../display/modules/freesync/freesync.c:135 mod_freesync_calc_v_total_from_refresh() warn: unnecessary div64_u64(): divisor = '1000000'
+drivers/gpu/drm/amd/amdgpu/../display/modules/freesync/freesync.c:169 calc_v_total_from_duration() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/gpu/drm/amd/amdgpu/../display/modules/freesync/freesync.c:169 calc_v_total_from_duration() warn: unnecessary div64_u64(): divisor = '1000'
+drivers/gpu/drm/amd/amdgpu/../display/modules/freesync/freesync.c:201 update_v_total_for_static_ramp() warn: unnecessary div64_u64(): divisor = '1000000'
+drivers/gpu/drm/amd/amdgpu/../display/modules/freesync/freesync.c:200 update_v_total_for_static_ramp() warn: unnecessary div64_u64(): divisor = '1000-4467765'
+drivers/gpu/drm/amd/amdgpu/../display/modules/freesync/freesync.c:207 update_v_total_for_static_ramp() warn: unnecessary div64_u64(): divisor = '1000'
+drivers/gpu/drm/amd/amdgpu/../display/modules/freesync/freesync.c:214 update_v_total_for_static_ramp() warn: unnecessary div64_u64(): divisor = '16666'
+drivers/gpu/drm/amd/amdgpu/../display/modules/freesync/freesync.c:245 update_v_total_for_static_ramp() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/gpu/drm/amd/amdgpu/../display/modules/freesync/freesync.c:245 update_v_total_for_static_ramp() warn: unnecessary div64_u64(): divisor = '1000'
+drivers/gpu/drm/amd/amdgpu/../display/modules/freesync/freesync.c:1004 mod_freesync_build_vrr_params() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/acpi/cppc_acpi.c:1855 cppc_perf_to_khz() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/acpi/cppc_acpi.c:1863 cppc_perf_to_khz() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/acpi/cppc_acpi.c:1885 cppc_khz_to_perf() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/leds/rgb/leds-qcom-lpg.c:458 lpg_calc_freq() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/leds/rgb/leds-qcom-lpg.c:464 lpg_calc_freq() warn: unnecessary div64_u64(): divisor = '1024'
+drivers/md/dm-cache-policy-smq.c:1750 __smq_create() warn: unnecessary div64_u64(): divisor = '64-2097152'
+drivers/md/dm-verity-fec.c:764 verity_fec_ctr() warn: unnecessary div64_u64(): divisor = '512-130560'
+drivers/pwm/pwm-lpc32xx.c:48 lpc32xx_pwm_config() warn: unnecessary div64_u64(): divisor = 's32min-s32max'
+drivers/pwm/pwm-bcm-iproc.c:138 iproc_pwmc_apply() warn: unnecessary div64_u64(): divisor = '1000000000'
+drivers/pwm/pwm-bcm-iproc.c:140 iproc_pwmc_apply() warn: unnecessary div64_u64(): divisor = '1000000000'
+drivers/pwm/pwm-sifive.c:95 pwm_sifive_update_clock() warn: unnecessary div64_u64(): divisor = '1000000000'
+drivers/pwm/pwm-spear.c:98 spear_pwm_config() warn: unnecessary div64_u64(): divisor = '1000000000'
+drivers/pwm/pwm-spear.c:100 spear_pwm_config() warn: unnecessary div64_u64(): divisor = '1000000000'
+drivers/media/i2c/st-vgxy61.c:482 get_pixel_rate() warn: unnecessary div64_u64(): divisor = '0-255'
+drivers/media/i2c/st-vgxy61.c:569 vgxy61_check_bw() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/media/i2c/ds90ub913.c:642 ub913_i2c_master_init() warn: unnecessary div64_u64(): divisor = '1000000000'
+drivers/media/i2c/ds90ub913.c:643 ub913_i2c_master_init() warn: unnecessary div64_u64(): divisor = '1000000000'
+drivers/media/i2c/ds90ub953.c:832 ub953_i2c_master_init() warn: unnecessary div64_u64(): divisor = '1000000000'
+drivers/media/i2c/ds90ub953.c:833 ub953_i2c_master_init() warn: unnecessary div64_u64(): divisor = '1000000000'
+drivers/media/platform/ti/vpe/sc.c:202 sc_config_scaler() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/media/dvb-core/dvb_demux.c:425 dvb_dmx_swfilter_packet() warn: unnecessary div64_u64(): divisor = '1024'
+drivers/scsi/sym53c8xx_2/sym_hipd.c:749 sym_prepare_setting() warn: unnecessary div64_u64(): divisor = '40000-2560000'
+drivers/video/fbdev/omap2/omapfb/dss/dsi.c:4773 dsi_vm_calc() warn: unnecessary div64_u64(): divisor = 's32min-s32max'
+drivers/video/fbdev/omap2/omapfb/dss/dsi.c:4780 dsi_vm_calc() warn: unnecessary div64_u64(): divisor = 's32min-s32max'
+drivers/cpufreq/cppc_cpufreq.c:124 cppc_scale_freq_workfn() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/pinctrl/ti/pinctrl-ti-iodelay.c:192 ti_iodelay_compute_dpe() warn: unnecessary div64_u64(): divisor = '176-34602480'
+drivers/net/wireless/intel/iwlwifi/mvm/ptp.c:55 iwl_mvm_ptp_get_adj_time() warn: unnecessary div64_u64(): divisor = '1000'
+drivers/net/ethernet/xilinx/xilinx_axienet_main.c:240 axienet_usec_to_timer() warn: unnecessary div64_u64(): divisor = '125000000'
+drivers/net/ethernet/broadcom/bnxt/bnxt_ptp.c:407 bnxt_get_target_cycles() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/net/ethernet/aquantia/atlantic/hw_atl/hw_atl_b0.c:1262 hw_atl_b0_adj_params_get() warn: unnecessary div64_u64(): divisor = '1000000000'
+drivers/net/ethernet/engleder/tsnep_selftests.c:164 delay_base_time() warn: unnecessary div64_u64(): divisor = '62500,100000,200000,333333,400000,411854,500000,1000000,1500000,1700000,2000000,6000000'
+drivers/net/ethernet/mellanox/mlxsw/spectrum_ptp.c:301 mlxsw_sp1_ptp_clock_init() warn: unnecessary div64_u64(): divisor = '3435819912'
+drivers/net/ethernet/mellanox/mlx5/core/en/htb.c:263 mlx5e_htb_convert_rate() warn: unnecessary div64_u64(): divisor = '1-u32max'
+drivers/net/ethernet/mellanox/mlx5/core/lib/clock.c:519 find_target_cycles() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/net/ethernet/mellanox/mlx5/core/lib/clock.c:966 mlx5_init_overflow_period() warn: unnecessary div64_u64(): divisor = '0-u32max'
+drivers/net/ethernet/intel/ice/ice_ptp.c:1717 ice_ptp_cfg_clkout() warn: unnecessary div64_u64(): divisor = '1000000000'
+drivers/base/arch_topology.c:406 topology_init_cpu_capacity_cppc() warn: unnecessary div64_u64(): divisor = '0-u32max'
+block/blk-iolatency.c:441 check_scale_change() warn: unnecessary div64_u64(): divisor = '100'
+block/blk-iolatency.c:266 iolat_update_total_lat_avg() warn: unnecessary div64_u64(): divisor = '250000000'
+block/blk-iolatency.c:236 latency_sum_ok() warn: unnecessary div64_u64(): divisor = '10'
+block/blk-iolatency.c:955 iolatency_pd_stat() warn: unnecessary div64_u64(): divisor = '1000'
+block/blk-iolatency.c:956 iolatency_pd_stat() warn: unnecessary div64_u64(): divisor = '1000000'
+block/blk-iocost.c:706 abs_cost_to_cost() warn: unnecessary div64_u64(): divisor = '0-u32max'
+block/blk-iocost.c:714 cost_to_abs_cost() warn: unnecessary div64_u64(): divisor = '65536'
+block/blk-iocost.c:797 ioc_refresh_period_us() warn: unnecessary div64_u64(): divisor = '100'
+block/blk-iocost.c:831 ioc_autop_idx() warn: unnecessary div64_u64(): divisor = '137438'
+block/blk-iocost.c:943 ioc_refresh_params_disk() warn: unnecessary div64_u64(): divisor = '1000000'
+block/blk-iocost.c:945 ioc_refresh_params_disk() warn: unnecessary div64_u64(): divisor = '1000000'
+block/blk-iocost.c:1015 ioc_adjust_base_vrate() warn: unnecessary div64_u64(): divisor = '100'
+block/blk-iocost.c:1018 ioc_adjust_base_vrate() warn: unnecessary div64_u64(): divisor = '100'
+block/blk-iocost.c:1030 ioc_adjust_base_vrate() warn: unnecessary div64_u64(): divisor = '100'
+block/blk-iocost.c:1365 iocg_kick_delay() warn: unnecessary div64_u64(): divisor = '1000000'
+block/blk-iocost.c:1618 ioc_lat_stat() warn: unnecessary div64_u64(): divisor = '0-u32max'
+block/blk-iocost.c:1762 hweight_after_donation() warn: unnecessary div64_u64(): divisor = '65536'
+block/blk-iocost.c:1990 transfer_surpluses() warn: unnecessary div64_u64(): divisor = '0-65536'
+block/blk-iocost.c:1999 transfer_surpluses() warn: unnecessary div64_u64(): divisor = '65536'
+block/blk-iocost.c:2004 transfer_surpluses() warn: unnecessary div64_u64(): divisor = '0-u32max'
+block/blk-iocost.c:2009 transfer_surpluses() warn: unnecessary div64_u64(): divisor = '0-u32max'
+block/blk-iocost.c:2013 transfer_surpluses() warn: unnecessary div64_u64(): divisor = '0-u32max'
+block/blk-iocost.c:2016 transfer_surpluses() warn: unnecessary div64_u64(): divisor = '0-u32max'
+block/blk-iocost.c:2020 transfer_surpluses() warn: unnecessary div64_u64(): divisor = '0-u32max'
+block/blk-iocost.c:2044 transfer_surpluses() warn: unnecessary div64_u64(): divisor = '0-u32max'
+block/blk-iocost.c:2213 ioc_check_iocgs() warn: unnecessary div64_u64(): divisor = '65536'
+block/blk-iocost.c:2823 ioc_rqos_done() warn: unnecessary div64_u64(): divisor = '137'
+block/blk-iocost.c:3047 ioc_pd_stat() warn: unnecessary div64_u64(): divisor = '137438'
+fs/bcachefs/tests.c:788 btree_perf_test_thread() warn: unnecessary div64_u64(): divisor = '0-u32max'
+fs/bcachefs/alloc_background.c:2261 bch2_recalc_capacity() warn: unnecessary div64_u64(): divisor = '100'
+fs/btrfs/block-group.c:2793 calculate_global_root_id() warn: unnecessary div64_u64(): divisor = '134217728,1073741824'
+fs/nilfs2/the_nilfs.c:416 nilfs_max_segment_count() warn: unnecessary div64_u64(): divisor = '16-u32max'
+fs/f2fs/gc.c:568 atgc_lookup_victim() warn: unnecessary div64_u64(): divisor = '0-u32max'
+fs/f2fs/iostat.c:23 iostat_get_avg_bytes() warn: unnecessary div64_u64(): divisor = '0'
+kernel/trace/trace_benchmark.c:107 trace_do_benchmark() warn: unnecessary div64_u64(): divisor = '0,2-u32max'
+kernel/trace/trace_benchmark.c:129 trace_do_benchmark() warn: unnecessary div64_u64(): divisor = '1-u32max'
+kernel/trace/trace_events_hist.c:701 hist_field_get_div_fn() warn: unnecessary div64_u64(): divisor = '1-1048576'
+kernel/trace/trace_events_hist.c:5430 __get_percentage() warn: unnecessary div64_u64(): divisor = '10000'
+kernel/dma/map_benchmark.c:82 map_benchmark_thread() warn: unnecessary div64_u64(): divisor = '100'
+kernel/dma/map_benchmark.c:83 map_benchmark_thread() warn: unnecessary div64_u64(): divisor = '100'
+kernel/fork.c:1011 set_max_threads() warn: unnecessary div64_u64(): divisor = '131072'
+sound/usb/mixer_quirks.c:2353 snd_rme_current_freq_get() warn: unnecessary div64_u64(): divisor = '1-u32max'
+sound/soc/sof/ipc4-mtrace.c:432 ipc4_mtrace_enable() warn: unnecessary div64_u64(): divisor = '1000'
+sound/soc/sti/uniperif_player.c:182 uni_player_clk_set_rate() warn: unnecessary div64_u64(): divisor = '1000000'
+net/netfilter/xt_hashlimit.c:498 user2credits() warn: unnecessary div64_u64(): divisor = '32000'
+net/netfilter/xt_hashlimit.c:498 user2credits() warn: unnecessary div64_u64(): divisor = '31'
+net/netfilter/xt_hashlimit.c:500 user2credits() warn: unnecessary div64_u64(): divisor = '10000,1000000'
+net/ipv4/inetpeer.c:79 inet_initpeers() warn: unnecessary div64_u64(): divisor = '19200'
