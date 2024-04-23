@@ -1,126 +1,136 @@
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F4611EB56
-	for <linux-staging@lists.linux.dev>; Tue, 23 Apr 2024 10:31:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 379D71386B1
+	for <linux-staging@lists.linux.dev>; Tue, 23 Apr 2024 12:43:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713868277; cv=none; b=RQ2S76BUvVYCiFTfoPrjSwJkQNIkTL3vn62eRrcSt/dkfWX+bJjl6e+88h0r7gCtaxsKSMfeTOvjzMpXb08Mxko32FTCMBZ2/hnZCT8c4jlYMkKTU8JDke11TGBIX5s1NSWsLWwyodVMI3a6adhiz4a7CaIk78kP9UOeh6uX2rM=
+	t=1713876236; cv=none; b=fwV/c26RAQR706ggZ630lbnNgDH0YPpAbtM5VxDF4mToYAohHiIVeb8PG8WQNqIQh/YpG2NN4JAbVWmSUsLFZxyM9iegdkn4TH+pKA7WxBBtKNgsEf5Kn6yeoSGjIpA4Jlw4p9l/5UuA7dDks5v+OEV9wcArjRoG2yDBRHzUI1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713868277; c=relaxed/simple;
-	bh=PcYcuOSqV46II7BrnvYB4EZcNEFix5aZnqwwbCmOXwk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qBy83xYIniKoP5wMLauKjDyTqzlFhIFOHMs2LpBrIlZZFl9FQMKCdxO1T2bYvvHoO8O3OSQ5vRh0u09/+ywSZuGb0gwmFIBS/u7eA+oAyVZV5wcltJ7O8JbTj5iyBX3rzkj2h9cZLwREqw9aGc/VDYusMfDJpVNlg2vXS0w8vIQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=APdWQ1Qm; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	s=arc-20240116; t=1713876236; c=relaxed/simple;
+	bh=r0UmnNWiljWy3w/DWQQ7Ic6mYcT+iVhIRMPUeFTh3tM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bcvSD8eUAXgZScskmb1XsPx/NxaDynXVOXF9Cl5i6Pgzel3hFhmHC3isx+joTrUq241haNzBqP9Ih876JZswzI8355QCKdq+6pHh6wclE18kVXsyE2xJTTHc1I+NBGaR/nMEDiVm1zM2GMUZaA+sr9+czAS0ewaOc1OXAQW0XHQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VE3pQ/8K; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="APdWQ1Qm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=+BiW
-	rOl4aTAOc1VnI1B/z0NAIf4Z3F6xH/jaErmcQ58=; b=APdWQ1QmCzLI1UD1i+o1
-	StQ0NgUo36536UILLaH6VOCZ5YMm9TBz7hB1hDN/kNslvngBYWyLkUw1gTY0y/PH
-	IAIhyiNJbIIizTdtDr6IKLDJfYD59W99O9MKIpsI4YxXle+KjbwI6ec9+JZkaXLq
-	ZaV3DYVvnYckhg7NOM0vJHaUYiMevjieD7duhqSUHLYK6s58PsaNCtOwl5E2H5Bw
-	9sLsyjNmRUmkLxAcWXIrbRRauup6GMbWRfNHHdW2YLcQ2e3nSwls8K0xzfFXJ6Gr
-	tIF+a1lmUR6QtjDHwwjQ9LITEC8pECzzzM1ODhJ+VMHvVbD2OhoH9QSChYAOp7li
-	jA==
-Received: (qmail 185780 invoked from network); 23 Apr 2024 12:31:05 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 23 Apr 2024 12:31:05 +0200
-X-UD-Smtp-Session: l3s3148p1@oJsfDcEWcLIgAwDPXxiyACzheF6dGXh7
-Date: Tue, 23 Apr 2024 12:31:04 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Cc: info@sang-engineering.com, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [RFC] staging: ks7010: How to proceed with Spectec SDW-823
- microSD driver
-Message-ID: <igi27iwrzg3ovgj3sym4gsi45timpkt4vkl5ss5dbftdzat6p4@ctxcjocvunpt>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Philipp Hortmann <philipp.g.hortmann@gmail.com>, info@sang-engineering.com, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <f82fffbf-a983-4ab4-897b-b5a810426f04@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VE3pQ/8K"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-343f62d8124so4518514f8f.2
+        for <linux-staging@lists.linux.dev>; Tue, 23 Apr 2024 05:43:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1713876232; x=1714481032; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+qnKAwgvBHM35XCDpuBit4GUKItb+LTK0jOfybUvb7k=;
+        b=VE3pQ/8KsNBMJMos9vf9NNNHeUqGpQYYjL5pbhHv+K8pTpPgW2J6atK0TZVnIEvkQX
+         kYmmtvoVz6kHejaOWs2PJF5UsQqpXZjRQLhZe3uw9ZbgbzWaqfEdT7+W9aJ3sOPwXHeT
+         iPiG5oha9sjqjByJUBtOmIAxCB54M7fZg6xWYhWAZJtZsOdqNL3W+GdnaNdVTun3KNNf
+         wyoWbQug7Zn+Yojn2cwxSGk6lGTPksaQGt9yDBK8zuRoHHstn9Bc1+AgbHpPYleAU7WT
+         R2OATXbkNg39IJdgRUQPmb7OzJDybwTPgQ1Nk7tIfbIrQACPUBl06PBzapBANSoufjdP
+         ezSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713876232; x=1714481032;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+qnKAwgvBHM35XCDpuBit4GUKItb+LTK0jOfybUvb7k=;
+        b=poWV0hijv+J4BPxuvnqvJW/e5riLw3E6qFPF4lCNpdeCbr6Q+yPgz1SJkV41k2SBwU
+         a6l/0H7eKScHxxV7mOAsGmWY/b1dxrIaLpAwq3U5yirR5VOj5+CbmnjBH+b36WfmRoHx
+         HT2BO3c6DFBq79tb2nbKqf/U+d3cLc6MovAUI8j/IOTcEJAfj7WARSnuOT2E/gifvQvZ
+         8kaEicycAc6RkzsORdaGXZUh+TvCOgYooPOXZOalXrHpIfXfUXzCwEIx0GaYIzei6yQl
+         KmD18TlD/JYCGxKe4yfLHk50sbGDKEoaFnG8c+L2u7UEh4Prd9zsazKqaOA6LP3ra6z4
+         1YcQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWKRzUJtzXTFiP8zkrwFgCARpFlXblydpsCC4dDFOUVPqHOoa5s5qsXMIHU9y7/UAQLS3tL04reRcoLRX2ZTrC6YUEoKMMd9qwcO731KA==
+X-Gm-Message-State: AOJu0YxfKi5qjp2SR5TE1W839YkF8HNOn9sN5k0lsCiVrEZgbKaJMuCi
+	G8UbnqSRZpph4TJMvyvpTj2X+aVFynmjUDN3e5b7r7Mv7kkv3JfkZhzEgpz2Kt0=
+X-Google-Smtp-Source: AGHT+IHx5NN+z23VludiFeHTrKmrJCe4gLG+r1lTx6C4j7QEMysWQLMdtEpvLnQqAlOL1NQMbBj3Zg==
+X-Received: by 2002:a5d:6a8d:0:b0:34b:5caf:6342 with SMTP id s13-20020a5d6a8d000000b0034b5caf6342mr2073298wru.67.1713876232556;
+        Tue, 23 Apr 2024 05:43:52 -0700 (PDT)
+Received: from [192.168.0.102] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id r16-20020a5d6950000000b003477d26736dsm14506412wrw.94.2024.04.23.05.43.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 23 Apr 2024 05:43:52 -0700 (PDT)
+Message-ID: <d13fd47e-1ecd-4aa8-844b-cd260e9fa437@linaro.org>
+Date: Tue, 23 Apr 2024 13:43:49 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="zuedaelil5upwm7o"
-Content-Disposition: inline
-In-Reply-To: <f82fffbf-a983-4ab4-897b-b5a810426f04@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 11/35] media: s2255: Use refcount_t instead of atomic_t
+ for num_channels
+To: Ricardo Ribalda <ribalda@chromium.org>,
+ Martin Tuma <martin.tuma@digiteqautomotive.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Hugues Fruchet <hugues.fruchet@foss.st.com>,
+ Alain Volmat <alain.volmat@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Chen-Yu Tsai
+ <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Hans Verkuil <hverkuil@xs4all.nl>, Sergey Kozlov <serjk@netup.ru>,
+ Abylay Ospan <aospan@netup.ru>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Dmitry Osipenko <digetx@gmail.com>,
+ Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+ Sylvain Petinot <sylvain.petinot@foss.st.com>,
+ Jacopo Mondi <jacopo+renesas@jmondi.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+ Pavel Machek <pavel@ucw.cz>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org
+References: <20240415-fix-cocci-v1-0-477afb23728b@chromium.org>
+ <20240415-fix-cocci-v1-11-477afb23728b@chromium.org>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20240415-fix-cocci-v1-11-477afb23728b@chromium.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 15/04/2024 20:34, Ricardo Ribalda wrote:
+> Use an API that resembles more the actual use of num_channels.
+> 
+> Found by cocci:
+> drivers/media/usb/s2255/s2255drv.c:2362:5-24: WARNING: atomic_dec_and_test variation before object free at line 2363.
+> drivers/media/usb/s2255/s2255drv.c:1557:5-24: WARNING: atomic_dec_and_test variation before object free at line 1558.
 
---zuedaelil5upwm7o
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Hmm, that commit log needs more detail.
 
-Hi Philipp,
+"Convert from atomic_t to refcount_t because refcount_t has memory 
+ordering guarantees which atomic does not, hence the WARNING for the 
+free after the atomic dec."
 
-> In the first commit description you stated that you have not been able to
-> connect to a WPA-protected network. Did you manage to connect to a
-> WPA-protected network at a later time? Have you done any tests with this
-> hardware in the years up to today?
+Something like that.
 
-I was about to say I never connected to a WPA-network, but my
-documentation says I actually did. Good documentation :)
+I'll leave it up to yourself to decide if this warrants a Fixes:
 
-https://elinux.org/Tests:SDIO-KS7010
+I don't think so myself because the previous code doesn't seem to matter 
+to the decrement and free.
 
-About testing, when the first set of staging-cleanup patches came in, I
-actually tested them. But after some weeks, I stopped doing that because
-the amount of patches was just too high and the developers mostly too
-inexperienced to understand potential side-effects of their changes. I
-didn't have the bandwidth to educate them.
-
-> I am asking because I tried to find a test device to test it. That is
-> difficult in 2024.
-
-I still have one or two cards. You could have one if you want. That
-doesn't change the whole situation, of course.
-
-> Do you think the driver can be removed or should it stay in the mainline
-> kernel?
-
-Frankly, I think it can be removed. When I upstreamed the code, it
-served two purposes:
-
-a) I needed to test SDIO communication on my back then recent boards.
-   That worked, but I have other hardware now with SDIO on board.
-
-b) there were different versions of KS7010 drivers floating on the net.
-   I combined them into one and made sure it was easy to compile with
-   upstream Linux. We have that definitive version in the history now.
-
-As both purposes are fulfilled, I don't think we need to maintain this
-code anymore. I couldn't imagine someone wants to convert it from WEXT
-to cfg80211/nl80211 which would be needed for mainline.
-
-Thanks and happy hacking,
-
-   Wolfram
-
-
---zuedaelil5upwm7o
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmYnjeQACgkQFA3kzBSg
-KbZqEg//b63DJYhIsukBE1hpx7vPMe9PZomTCos6N8WctT24S9r8A30eR+NPb/0R
-kb7LjDriwOhYYxWFmSBrxChVTCfaYOZPV8i9WI/DixoaNUPNWlTl45omNmbDyFUb
-SlYAHqyXXxyKcUQbDR6hhJ1Apnd5NfFKBZRKIRECr3xH7KHZsdPfkPnGiVYnevmO
-kzIzbCSze3SK3josSpSceIIpfUSNYRNltM8sjEGLTCRrqLRP2CYND/GqgdKc757m
-4GFh2LamzEbAktFae2Ko1I9kPF5LyTqBaHphoDoG6o50HNJhSmncuvrqQFSA0nDN
-nR1opXSy2y1S/+GUwVRZxdiMvrtkDpDQrBC3ij3jfG4i2OtUvxHTJ7BXTzBN6IBs
-5aIExGNlrKCM6ic9eb6QMrQMAl4lE2Wv0w4BvwGBuKn7ZrLVHPxwoecTE47bYhkV
-+QmOR60Vtmi1hDnun8akSWKy/v2NCLMqbf3fzqtLeApawXIdZYuZD7PqO2hnW1ri
-TvoV52G+Uk1swU1I5jpo/3W4mxt4qte8P7/e1bthQ6dDcisGTsZT9mI0mQRUM8qU
-+vkj0tMxYJ7347aN1TSxzfZYsec/mq45XAmZ40rAekZatZx7LhXtzHgFKwRIb3sk
-EQBNOt422HKtrhuBFMN79fGaYmKBTkMchO6BmqVkBtAQ6Ug+rPM=
-=YzvD
------END PGP SIGNATURE-----
-
---zuedaelil5upwm7o--
+---
+bod
