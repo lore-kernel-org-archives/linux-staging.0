@@ -1,102 +1,95 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 603CF15991B
-	for <linux-staging@lists.linux.dev>; Wed, 24 Apr 2024 11:43:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2150415DBC3
+	for <linux-staging@lists.linux.dev>; Wed, 24 Apr 2024 14:03:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713959017; cv=none; b=G4xlE7hHubXE2EejNYns52J2Qg5EPmNvxDjBk6/8oNwXJfOHEz0BLlkamusiQZLvYQSqvzszWGvoM5g9zgBDBmJLrvawyrv1ZdN8+/2GcNEoPWnzxSlnA8GqU0IBC+foXXp88uIcVbz5X9PzQIYDgKBBmNn6qlUgJlZ8HwpK3X8=
+	t=1713967394; cv=none; b=PULFfXNx1eSEi05/1I+usuSprS8QqKev/DBdhIsJnvTODr7EWYmN0/mdwDz/RgFS3cAIWsYRjYpOuNc9LaJc8nrs4owjtwN4Amv1WxwRVfwhHdLsIgqEcNgc6fwbdkt82kGPqNNq7X4f7LzKrfuRntIHCUkZz+lvupu5VWQUG2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713959017; c=relaxed/simple;
-	bh=3lahgNJKWCq8KC5g+5ZgzQuCAxnQjDYOSrfMMIwSLEY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mmEtbCBXaDvDHlBJatGrsY3oHPSsB9qwOBDPLwQWos8EsAvjPO3k31kU9jf+6ct/gki3VB/YD7vGndunT6AfFuSKOXRBDjEuVVjrdAjixpeXbfiQhBDfjllbt8RiUWItaqwJh6+noEY9EoHChXPbIxFbM8K8Ezsk/i2tStYshwg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MM89I82+; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MM89I82+"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-343c7fae6e4so5948335f8f.1
-        for <linux-staging@lists.linux.dev>; Wed, 24 Apr 2024 04:43:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1713959013; x=1714563813; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=enk6u0NWo+HjAlsfAsaG/0BOtgb+vI9MCBxWfkbUG6A=;
-        b=MM89I82+IG6Ilx06cmD+0bmPSpAbIshMjYU9hye8umEQgNR190NoIkmW5FJb1m5LAk
-         vM6b9XNbomOIAsxAHPAXtmHPs/1JZmkMzyy+iP4/SY+uIZULsa47rtSGhEhjllLRELY3
-         1WFa3dyZfwRAhHggGJ/+fQTUVnn2HaM6aaCeezqQCe2uWzP+qw7a35UN3X9RGRoNgLX6
-         WOlnFqq63WX5Q0joQe96+gsvjWAz7hd3LRSGAfMU+ui8pePc2m3zabeWxfc7/l5GOnh0
-         4eBw4buMRxZrec0kS98PJDUJONHl2HRyUyjrcn5K2/KOh7deamcOhkbeu1Ly+UkH81kF
-         6GQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713959013; x=1714563813;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=enk6u0NWo+HjAlsfAsaG/0BOtgb+vI9MCBxWfkbUG6A=;
-        b=HauRNZMRRYPA2yS9tzNTlDuVc1am4RM/wZFJVeZOnQ8WGXVWhyQ1BiCJyOOkUB9fNL
-         S7mJMRfGzP7tTxQBirSEU+bZdywVNTeI/a0OB2iDWzzVCZJduVuy3RA8NXGhJpXuh2Pd
-         6L77ZvUVpZv9SaV7Y+rvUXGdEnHeYOySx1WOCXZGEE0b6zlyhR5Cq1m5glir9nXdX1A6
-         /ACGely/AN5pyrlJmQ1DTg99wqZ/HgqicdLdrso/5eW8+Yq1ZEGPmfOEmTGkFcKSuFpV
-         /ERlaU9q6CZKxWSFkoxTb1hgw8ow4xNzxoBYGzIFu1SeiQzlT2mMdrTJkgL2MZkZj7SM
-         Da8w==
-X-Forwarded-Encrypted: i=1; AJvYcCWcOErJOYlbps4ajQoJUsTTZ/8wwg1o67lOf5m5qxv2P4+6+jcvdBEk1Q7uX5Ag9kagQ72L+3rgkyTvfs4upG1KUWyHGDFGr47Tn2h6kw==
-X-Gm-Message-State: AOJu0YyI5a7ztS7hPTzyB4CmLwWRnntvPbkdLu+P60R8lLFv9TAu1tRG
-	kEQ9XUbWVxSW5mP80DI8pAFxgQ5zDhjrmbPFD52B0e9BOSJ55qk4RyB/vsuYSHE=
-X-Google-Smtp-Source: AGHT+IF5vUsuDt3b5kATjhz13YwMUbFsgUZ7ijQ1OWYZHfaNiPIFT/g4J+dEvQgjMaMZVRjTozCIKQ==
-X-Received: by 2002:adf:ef43:0:b0:343:4b39:9dbc with SMTP id c3-20020adfef43000000b003434b399dbcmr1447812wrp.42.1713959012474;
-        Wed, 24 Apr 2024 04:43:32 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id p16-20020a05600c1d9000b0041b0d4e1c27sm1442161wms.42.2024.04.24.04.43.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Apr 2024 04:43:32 -0700 (PDT)
-Date: Wed, 24 Apr 2024 14:43:28 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Florian Fainelli <florian.fainelli@broadcom.com>
-Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	s=arc-20240116; t=1713967394; c=relaxed/simple;
+	bh=Pg8txjRVbzj2hFRPqum3z0ZJAjjvEu2hliTjBoZOI7c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Ute2zRezwoNiFevgfGoyh8JyqRpg9CPW8N+IPM69z3ADWJGrUL5zAuvrVBJv3RJW5nOa3BxQ+JWkE0RMH+S65LS+B59Ilr6C5veHwBQnW2b+7A3LRWES9pQqOdaobNOoFnS9VWXsxc94l0OGdTUC2bCoG1WpiXJr6DhuJ4AFmI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rzdD5-0007ew-NN; Wed, 24 Apr 2024 16:02:55 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rzdD3-00E5yh-Rx; Wed, 24 Apr 2024 16:02:53 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rzdD3-007pZw-2V;
+	Wed, 24 Apr 2024 16:02:53 +0200
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Jack Zhu <jack.zhu@starfivetech.com>,
+	Changhuang Liang <changhuang.liang@starfivetech.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	Stefan Wahren <wahrenst@gmx.net>,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: [PATCH] staging: vc04_services: Delete unnecessary NULL check
-Message-ID: <526ec2ff-6277-4d5d-b2d9-63b087a97c7c@moroto.mountain>
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	kernel@pengutronix.de
+Subject: [PATCH] media: staging: media: starfive: camss: Drop obsolete return value documentation
+Date: Wed, 24 Apr 2024 16:02:48 +0200
+Message-ID: <20240424140249.542283-2-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1344; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=Pg8txjRVbzj2hFRPqum3z0ZJAjjvEu2hliTjBoZOI7c=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBmKREJ4zoXWj4ZwD1KB7S775jSuQv2HbykNQU0c Sipn/zM08OJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZikRCQAKCRCPgPtYfRL+ TvMaCACycmcXxx/NvkNYKICM6N6Hde8P57yZGXRhzqndIjNlmYghNYGKqhWEpPgoRS3H2q10Ebv vPM1yWZSIvVvMi0DbH7lT5/DqDfayep2lSa3YapKSQe2Iaa62GMJSgimpgION55k9I0BkDD7HVK y4MmJ78gLhgoQxA7bzBF0PsIMHeH6YZnUANqD8se7gd5xR1exf+VzY9sPZsw81RaoymJ6v0NkV+ LRy2uwIJAyeBG64m2Vhzkws/T+r58dm5AsDNwT85Zswtvf4hktIaua1R1kWErJos9gm3XIdAsW0 xUVWNR88qhBfXJOOCCD13J9jPinb8j1efszq99CJd+KyDksg
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-staging@lists.linux.dev
 
-The "state" pointer points to an offset in the middle of the "mgmt"
-struct so it can't possibly be NULL.  And also we dereferenced it on the
-line before.  So this NULL check is pointless.  Delete it.
+Recently the function stfcamss_remove() was changed to not return a
+value. Drop the documentation of the return value in the kernel doc.
 
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+Fixes: b1f3677aebe5 ("media: staging: media: starfive: camss: Convert to platform remove callback returning void")
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- .../staging/vc04_services/interface/vchiq_arm/vchiq_dev.c    | 5 -----
- 1 file changed, 5 deletions(-)
+Hello,
 
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
-index 9fe35864936c..3c63347d2d08 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
-@@ -1170,11 +1170,6 @@ static int vchiq_open(struct inode *inode, struct file *file)
- 
- 	dev_dbg(state->dev, "arm: vchiq open\n");
- 
--	if (!state) {
--		dev_err(state->dev, "arm: vchiq has no connection to VideoCore\n");
--		return -ENOTCONN;
--	}
--
- 	instance = kzalloc(sizeof(*instance), GFP_KERNEL);
- 	if (!instance)
- 		return -ENOMEM;
+during review of the patch that became b1f3677aebe5 Changhuang pointed
+out this patch opportunity. But before I came around to send a v2,
+b1f3677aebe5 was already applied. So here comes a separate patch.
+
+If you prefer, feel free to squash this into b1f3677aebe5.
+
+Best regards
+Uwe
+
+ drivers/staging/media/starfive/camss/stf-camss.c | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/drivers/staging/media/starfive/camss/stf-camss.c b/drivers/staging/media/starfive/camss/stf-camss.c
+index fecd3e67c7a1..b6d34145bc19 100644
+--- a/drivers/staging/media/starfive/camss/stf-camss.c
++++ b/drivers/staging/media/starfive/camss/stf-camss.c
+@@ -358,8 +358,6 @@ static int stfcamss_probe(struct platform_device *pdev)
+ /*
+  * stfcamss_remove - Remove STFCAMSS platform device
+  * @pdev: Pointer to STFCAMSS platform device
+- *
+- * Always returns 0.
+  */
+ static void stfcamss_remove(struct platform_device *pdev)
+ {
+
+base-commit: a59668a9397e7245b26e9be85d23f242ff757ae8
 -- 
 2.43.0
 
