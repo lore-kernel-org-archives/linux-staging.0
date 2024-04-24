@@ -1,139 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C923616EBF8;
-	Wed, 24 Apr 2024 18:22:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DBE414265
+	for <linux-staging@lists.linux.dev>; Wed, 24 Apr 2024 18:33:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713982946; cv=none; b=UMQ4Nj1SvoR89q3Xbs0d2rQTkD3Sh/NBbRYhljt1oFX2JjaEIUbQNU5Mb7BllfBB337Je+OL5ok8p7vEtze118D7yITg2l2KdgN3dsu6eyN09lhArL9Vcxbess1/YoY/rT47v87R7Z08lA4EiuYVaBWOzWRI/H685Lv102dQD58=
+	t=1713983610; cv=none; b=bYoko/e6suywIseIgoFPwB8IXu6rDJcgMYpzLcmSAZNy2NN0wogoHJYrPWXYDW7ilWnJen0rZHaKSdq0fLvfVs/Q2oJJPrjOUJ9VZ18RddO233ntpHymvLYoTBAIcxlmaumR7DntIsVPpFhiNooOtFiK2jWSJDXs9Hmgm4vOJMk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713982946; c=relaxed/simple;
-	bh=9dqTFNekjq83nuq4A5WxGVHQROMd+6+bp42VQddKZ4k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GTmLZSy/OgNLOj1Nd0O2qlsJTezDRuxAlyil+W7UrKpNRXAjdEry1dTaRG6BGtRBGNk/o8Bg6SPGT3svwAxCcOvTyiClfk711PG+4wnI3wdNmrdSCLH9Oz6bZBmDXG+wJQbRQp31G46vhGYsfrOlee4fBXDyzR8LN46pNMC6rHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fo3++ylS; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1713983610; c=relaxed/simple;
+	bh=kHEzDIv3XUVBHeAWKXNAdviJULHuAQPFpdGHRXmFYH0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:Cc:From:
+	 In-Reply-To:Content-Type; b=YXYVzo19nq3oTvLGC6rMUELG8k9/FPIHIKVflKGRncpgIMtKdRLD8Hcgy89NAxAF6RkGCAb0sYX/aBaFBMgqtjPcnQjYa9xom3D0d5n4klkSSu518ZFOSObuW7jLhjZH61oy+vlIDvtCgmbm/VTAo0+3gvIpKnHCcJc52ZKhgHs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QmN5x2K7; arc=none smtp.client-ip=209.85.208.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fo3++ylS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713982945; x=1745518945;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9dqTFNekjq83nuq4A5WxGVHQROMd+6+bp42VQddKZ4k=;
-  b=fo3++ylSefi/dy2kpifjOlO5XrbHsGCKJHdWBES9BcVHq1mNwgCy8ajL
-   2mIX5jm0OyI/VVunl5LsqQ0hUKO0EfIzvlx5iir4ArjiLcA3hg7djk2T8
-   jvm36yGEB/XqK++KKzrL/fSeWYqll2kiruNpYD5uw8ZWVkZUmJ3Rh52dB
-   YhCDFwm1BRs/WTLOims2Da1CrzLymko0RGxXLMXAt0y4EQkUy/lJAx7dN
-   8fP6vbBfxTa6CDtxueNVG1NaybGWyuvj60jeBMCIkg+n9/W4smAjWl4h+
-   Ocz0xAruRSUY9oUXegrUYngeWl8dR2bg82Lk8B7TI1j4mdAcbFyVxcZ7c
-   g==;
-X-CSE-ConnectionGUID: tFsgeE1JQdW7hVpzyktkUg==
-X-CSE-MsgGUID: Yjmw66juQXexu0kivUoLVw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11054"; a="9756858"
-X-IronPort-AV: E=Sophos;i="6.07,226,1708416000"; 
-   d="scan'208";a="9756858"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 11:22:24 -0700
-X-CSE-ConnectionGUID: nPsWMScFSZuFDn8N5RVk9Q==
-X-CSE-MsgGUID: xyDd/+6JTdurYNniUF5Glg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,226,1708416000"; 
-   d="scan'208";a="24751858"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 11:22:16 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 2C82E11F855;
-	Wed, 24 Apr 2024 21:22:13 +0300 (EEST)
-Date: Wed, 24 Apr 2024 18:22:13 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Martin Tuma <martin.tuma@digiteqautomotive.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Hugues Fruchet <hugues.fruchet@foss.st.com>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Sowjanya Komatineni <skomatineni@nvidia.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>, Sergey Kozlov <serjk@netup.ru>,
-	Abylay Ospan <aospan@netup.ru>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Dmitry Osipenko <digetx@gmail.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-	Vikash Garodia <quic_vgarodia@quicinc.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH v2 21/26] media: i2c: st-mipid02: Use the correct div
- function
-Message-ID: <ZilN1VBduFcqNBbr@kekkonen.localdomain>
-References: <20240419-fix-cocci-v2-0-2119e692309c@chromium.org>
- <20240419-fix-cocci-v2-21-2119e692309c@chromium.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QmN5x2K7"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-570320bed10so13084a12.0
+        for <linux-staging@lists.linux.dev>; Wed, 24 Apr 2024 11:33:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1713983607; x=1714588407; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:cc:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=mymcTcoFnmfCuBd9tSV1M+VIzBLDz8u1np2D12YjbSY=;
+        b=QmN5x2K7HVsv7NTE/NQEqg7Ee3cpo4hRkZL85//rHdHHoj352tyuKTq2VpELAGXNJg
+         wt6R6P1fh/DKXbKFcWT+6eg1p+LB/L+gUQqh37XwQKueXSsxvr/VVK9suR8OO2NW9Ad5
+         VXf348rHmCfMtoXo4Wv9uPUbsI2NQ3LGD5kenS+nHurUmey4p8pcWbuWD0CvpgkJVFfG
+         vNXvjOr9WRPup5LXTMTAckay3pIs1CMeOJlWenqKmm1xvU3v2qcJ91c4qTI6c7C9Z9xH
+         +86e29+325G0q3nvaNuo8m12UhW7LVC7QlFejk2Dlyag1fDYC1GWEyfCjcEhs2W4esR9
+         /0AA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713983607; x=1714588407;
+        h=content-transfer-encoding:in-reply-to:from:cc:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mymcTcoFnmfCuBd9tSV1M+VIzBLDz8u1np2D12YjbSY=;
+        b=BlYoOMNpPHRz1mAzjTcfdb0eiJCD0bukDkG6Sp9snMk40ecKLgEM2fDB2setrVUA/P
+         w+5Hi4Trc+bLXZjq/ZMl481SBCG2SvT+KNyKjqfkT2jD0KVPQ3VPGrChEhKT5/dMJSiu
+         4RR37mDrMJELgPCkV7tEg23MwApwt1f2jZ6QFgBizhb0kdZkQaYxZJisRmewt8Rs/b/U
+         wPmHaDCUKEsOpBcUpWjbPWoo14y9goIivck8oMKDFsrQH9CRmm8eCWfh+ewzl+CYuH2o
+         DdEOGrsVHq7O+kk2zaUMkxz+Nlk7gn22s8QP+wyUm9z4klfPEexWjmk6AEQUBXxaB7Qk
+         W+4Q==
+X-Forwarded-Encrypted: i=1; AJvYcCX4r8janXDh7PrMbBh8lTsSFXkL+M2v0AMP6yBK1ydb2lmDHBxIAmFB4jKojIWg73UaB8SU0KQfxpK5QmbebNFxZ7VSxu2hILK3JKA/+Q==
+X-Gm-Message-State: AOJu0YzLLGN6C/ZGMdp3FweTQPndXdTCuhwtqb9ERmImFvfC7Kw/AtKL
+	KMS1FJ7qpFNBMAGhzveX6hSmmd3Ku+9TXib5HY/y7ZlE/t6TgD/7
+X-Google-Smtp-Source: AGHT+IE9WvvwGZMCcIImCTKQ+CZB4Pk3J+Ehqq7A2TXWkBPqei7QD2l8gfXMiDVCtONY53pQNY2vbg==
+X-Received: by 2002:a50:9e81:0:b0:56f:e1af:58ab with SMTP id a1-20020a509e81000000b0056fe1af58abmr2749373edf.4.1713983606461;
+        Wed, 24 Apr 2024 11:33:26 -0700 (PDT)
+Received: from [192.168.0.104] (p57935690.dip0.t-ipconnect.de. [87.147.86.144])
+        by smtp.gmail.com with ESMTPSA id g22-20020a056402091600b005721f9fbb60sm2265577edz.63.2024.04.24.11.33.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 24 Apr 2024 11:33:26 -0700 (PDT)
+Message-ID: <78b521eb-4e89-4c01-8dfc-1fb990e6887d@gmail.com>
+Date: Wed, 24 Apr 2024 20:33:25 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240419-fix-cocci-v2-21-2119e692309c@chromium.org>
+User-Agent: Mozilla Thunderbird
+Subject: [RFC] staging: gdm724x: How to proceed with drivers gdmtty and
+ gdmulte
+To: Jonathan Kim <jonathankim@gctsemi.com>, Dean ahn <deanahn@gctsemi.com>,
+ Won Kang <wonkang@gctsemi.com>, support@gctsemi.com
+References: <f82fffbf-a983-4ab4-897b-b5a810426f04@gmail.com>
+ <igi27iwrzg3ovgj3sym4gsi45timpkt4vkl5ss5dbftdzat6p4@ctxcjocvunpt>
+Content-Language: en-US
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <igi27iwrzg3ovgj3sym4gsi45timpkt4vkl5ss5dbftdzat6p4@ctxcjocvunpt>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Ricardo,
+Dear Sirs,
 
-On Fri, Apr 19, 2024 at 09:48:07AM +0000, Ricardo Ribalda wrote:
-> link_freq does not fit in 32 bits.
-> 
-> Found by cocci:
-> drivers/media/i2c/st-mipid02.c:329:1-7: WARNING: do_div() does a 64-by-32 division, please consider using div64_s64 instead.
-> 
-> Reviewed-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  drivers/media/i2c/st-mipid02.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/i2c/st-mipid02.c b/drivers/media/i2c/st-mipid02.c
-> index f250640729ca..93a40bfda1af 100644
-> --- a/drivers/media/i2c/st-mipid02.c
-> +++ b/drivers/media/i2c/st-mipid02.c
-> @@ -326,7 +326,7 @@ static int mipid02_configure_from_rx_speed(struct mipid02_dev *bridge,
->  	}
->  
->  	dev_dbg(&client->dev, "detect link_freq = %lld Hz", link_freq);
-> -	do_div(ui_4, link_freq);
-> +	ui_4 = div64_s64(ui_4, link_freq);
+Won Kang contributed a driver gdm724x to the Linux kernel staging 
+subsystem in 2013. Have you done any tests with this hardware in the 
+years up to today?
 
-These are positive numbers and ui_4 is unsigned. I'd use div64_u64()
-instead. With that,
+struct usb_device_id lists the following devices the driver can work with:
+PID_GDM7240		0x8000
+PID_GDM7243		0x9000
 
-Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+but on http://www.linux-usb.org/usb.ids I can only find:
+0x1076  GCT Semiconductor, Inc.
+	0x0031  Bluetooth Device
+	0x0032  Bluetooth Device
+	0x8002  LU150 LTE Modem [Yota LU150]
 
->  	bridge->r.clk_lane_reg1 |= ui_4 << 2;
->  
->  	return 0;
-> 
+I am asking because I tried to find a test device to test it. That is 
+difficult in 2024.
 
--- 
+Do you think the driver can be removed or should it stay in the mainline 
+kernel?
+
+Thanks for your response.
+
 Regards,
 
-Sakari Ailus
+Philipp Hortmann
+
+
+
