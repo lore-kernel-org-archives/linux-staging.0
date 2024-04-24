@@ -1,94 +1,343 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89E1875818;
-	Wed, 24 Apr 2024 19:31:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B22BE745CB
+	for <linux-staging@lists.linux.dev>; Wed, 24 Apr 2024 21:08:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713987118; cv=none; b=Q6ExkuWXfZm911W/rZ/moTzUSEuqq0b3oiVCtS8CrU4mR3o10LmZe/HxKasl/iRjOcjOVQXsXyoE+BmmENquH0pyX6KqsviaHEFuIrvhRBVs0moofbSqShShu7Aa011sCjPMG2aRs4fOXacFxqoaSBEairZS/K792ju6/L89Xpw=
+	t=1713992889; cv=none; b=XB2O7uC9Pl57Ymo9vJ9neDUFMxsQIkA2sBDsj1+IEvN/8C4wIe/7AsmH8+kvXoGrgjXADTvvB5iSKljk1JAes0sGreTj1aX2xjh6rjn8FrqVyne/S//v+D2PIMsgWzxNZwTSkAyd7NjMPOgiVQwlsTLyfrxyRxz2xjaGYC4Y8aU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713987118; c=relaxed/simple;
-	bh=mQ/+d3gWAOcD9KnX2wfP3u+ftFZAlpcW1F7JU92hcsc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TasILrE3z+GERj+53Ezy9OP/D5vqJ/hPqoU4WQWdqKU7TkUDHG+2MeEaRAC3wC5U0O1UvAZy/Zq+A63n7rW6HT2YmrycJVippVOr533/wqholFCPKeLVDmi+4il6lTK67jijow+LWZc7BKDwJIpn7cP/ugmzI9obxgByTXjQHqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Kno2zZIW; arc=none smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1713992889; c=relaxed/simple;
+	bh=EleAqayESlUVzBofwFBWgvBnL/gAQLThLFFs1fbkf/0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CWzdtE0E7RYISnfy8kYgb/NYS5GWxWgraS3sg2FNCxmzB3wI1SgGv4pB7qXBF9UA8/yPAyVkzgw1FQqux5NtoF8Uf3LHvcrtCSJozgmqfjU5FcwDd2g06jbQXRgG7Pn2nqQqyc3pFEUvmUkYF0hpP8nyZYa/PBG3JJHVyCFqz9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gHQdcPXp; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Kno2zZIW"
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-51bafbe7509so226731e87.1;
-        Wed, 24 Apr 2024 12:31:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713987114; x=1714591914; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IZ0TpkzmYZr6hTX7MZ3GhreDMH2peuAcdL3k38EcDhs=;
-        b=Kno2zZIWFv+voAe0hgZ7GOtxqm2x2ACw708hnSEXrwdx+yy8OndMh9kN2usC2XUqtR
-         AxSfryPdSXcs/33QY2UnQ0MpcArA2rZ2YFVqH4fdjZXb5QA4mywcf2EJvgVsN81rfFLh
-         dimkl/jhKiRg44Tyf6bE/sGE5ftxh5iBBQfkr/96o/aC7a5znGzqKuuhBNcyFWAzmM2f
-         bKvFgdj//A0OjmHFGhLhFzSjs5tiJxnUQT55rKrRTKk/0JdCd55Jp6uxU4bDA70F1ar4
-         iWIxapme5dXJ3ugD731akp+IdtKNz2Kigz5oaW802HtEAqWlyXbzPVeNQqoo+A+Ze+GB
-         15sQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713987114; x=1714591914;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IZ0TpkzmYZr6hTX7MZ3GhreDMH2peuAcdL3k38EcDhs=;
-        b=U5GoQHXAbnwxTfI8jxtaTZav/qsCaMSN9o0odK6bPRD+h/xl6hRL15AlxxbzUTkxLv
-         sk97FjtYFQ3NOrWHlH55UEwaelFFihqcK21i3UuveKvRjvct0uhffE3vrq+u9Xtn2JeY
-         KROp18eapD/odtYRV/yblfERqzRBhn7poE0Z51hNVknlstqj8Z8BiMkb0uHComqzT+3B
-         z7JabW/EW8awb5rXVW9Y/cjpsYuNozCMcdYKZXyf2/b//ey+hfZFoYmdl5oRyRzw13UM
-         OUinatDgPoY2CR2eVsCwtItIpRxL3Pa3cFW2U9knSGrPxwWJ6ixPHA+q7oSkesL9bF84
-         PxGw==
-X-Forwarded-Encrypted: i=1; AJvYcCX86WYaX0hpURVzrd1JQ7/RSXLRhF3/iN7j0n9XHmiLTA3sQhGvow8LB5zSpcNgmz6BHe+CXDmG/QUqrtmt3Osvzo38CnDEPFRQStvxlmot78FqqnoeC2PPWBgeHrBx8fbbTW3lFb4=
-X-Gm-Message-State: AOJu0YwVjNOW+bY/DBigq0ywlAyp9kQQjyiThHqSiPUE67wynqOCuRRE
-	qwpbXYGMrNq4I8VsUALKYb8B8foVukr4XGgS1RhUFJwVnavrUkDs13cUCB0rRvEjfI+5UEt0kW9
-	baGXH7Y/H+WexPpeyBKtg7cNrsRg=
-X-Google-Smtp-Source: AGHT+IHIaGYAxKkGvJ35yj7ZqMlmMinua0HY7IEEpin7dNCuHY4Mh1cMERg/mBPHCSACXd8sTXQWUXRgQWVjYKKxamo=
-X-Received: by 2002:a05:6512:39ca:b0:51c:9d2:f440 with SMTP id
- k10-20020a05651239ca00b0051c09d2f440mr2034502lfu.38.1713987113376; Wed, 24
- Apr 2024 12:31:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gHQdcPXp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713992887; x=1745528887;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=EleAqayESlUVzBofwFBWgvBnL/gAQLThLFFs1fbkf/0=;
+  b=gHQdcPXpGnwODpjs+jxKqA0Y4sLrIwyhDDYaTyqAsLCcRmXWWYI9fPKo
+   3+fOA1i4WahhqEMWMVJCFivOdPAW86pJBRzU/FiL4k7Ef/zdDwUehWBiV
+   40BR5WTIwP1VwBdpKl08Ldsp/HKuE5PUiQVffxTOvWd7EyWXTapg7XoKU
+   0A4g0HKG9EgOKevY8NDsz6c5u6dj2gMu/1sx36Yj2JWBpM4QUHsIvq5P0
+   WxgGQezhtk3mWKGT1ujaYi0EhKg9PPXao70sQrBOOcPy2bKxQX0pnNAW5
+   +cZB8Sw/mO0YtZ4755utnL87M2V9MOZIHLxWcjKVw5Q9ky5Zu/WiyvwkF
+   w==;
+X-CSE-ConnectionGUID: YJ5MVWPwTKCFRC7aETWphA==
+X-CSE-MsgGUID: Tbn+s1G1Q0ec5f9t2zzlSw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11054"; a="9773164"
+X-IronPort-AV: E=Sophos;i="6.07,227,1708416000"; 
+   d="scan'208";a="9773164"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 14:08:07 -0700
+X-CSE-ConnectionGUID: Lv1gvZraTkKZW5iTcmo1Hg==
+X-CSE-MsgGUID: ABvCwH99TYqF8RioM8Aj9A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,227,1708416000"; 
+   d="scan'208";a="24848109"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmviesa009.fm.intel.com with ESMTP; 24 Apr 2024 14:08:04 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+	id 6646F288; Thu, 25 Apr 2024 00:08:03 +0300 (EEST)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Kate Hsuan <hpa@redhat.com>,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH v1 1/1] media: atomisp: Remove unused GPIO related defines and APIs
+Date: Thu, 25 Apr 2024 00:08:00 +0300
+Message-ID: <20240424210800.1776038-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.43.0.rc1.1336.g36b5255a03ac
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240424181245.41141-1-tony.luck@intel.com> <20240424181546.42446-1-tony.luck@intel.com>
-In-Reply-To: <20240424181546.42446-1-tony.luck@intel.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Wed, 24 Apr 2024 22:31:17 +0300
-Message-ID: <CAHp75Ve_vX=J9wKd5iEP4m7foGpjCQGWepMaSfwhewbPJA=1XA@mail.gmail.com>
-Subject: Re: [PATCH v4 67/71] media: atomisp: Switch to new Intel CPU model defines
-To: Tony Luck <tony.luck@intel.com>
-Cc: Borislav Petkov <bp@alien8.de>, Hans de Goede <hdegoede@redhat.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	patches@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Apr 24, 2024 at 9:15=E2=80=AFPM Tony Luck <tony.luck@intel.com> wro=
-te:
->
-> New CPU #defines encode vendor and family as well as model.
+Remove unused GPIO related defines and APIs.
 
-Got less LoCs, so good change,
-Reviewed-by: Andy Shevchenko <andy@kernel.org>
-See also one nit-pick below.
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ .../media/atomisp/pci/gpio_block_defs.h       | 17 -------
+ .../pci/hive_isp_css_common/gpio_global.h     | 23 ----------
+ .../pci/hive_isp_css_common/host/gpio_local.h | 21 ---------
+ .../hive_isp_css_common/host/gpio_private.h   |  9 ++--
+ .../atomisp/pci/hive_isp_css_include/gpio.h   | 46 -------------------
+ .../hive_isp_css_include/host/gpio_public.h   | 46 -------------------
+ drivers/staging/media/atomisp/pci/sh_css.c    | 10 ++--
+ 7 files changed, 7 insertions(+), 165 deletions(-)
+ delete mode 100644 drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gpio_local.h
+ delete mode 100644 drivers/staging/media/atomisp/pci/hive_isp_css_include/gpio.h
+ delete mode 100644 drivers/staging/media/atomisp/pci/hive_isp_css_include/host/gpio_public.h
 
-...
+diff --git a/drivers/staging/media/atomisp/pci/gpio_block_defs.h b/drivers/staging/media/atomisp/pci/gpio_block_defs.h
+index e1bd638d344a..55c39067a9bf 100644
+--- a/drivers/staging/media/atomisp/pci/gpio_block_defs.h
++++ b/drivers/staging/media/atomisp/pci/gpio_block_defs.h
+@@ -16,27 +16,10 @@
+ #ifndef _gpio_block_defs_h_
+ #define _gpio_block_defs_h_
+ 
+-#define _HRT_GPIO_BLOCK_REG_ALIGN 4
+-
+ /* R/W registers */
+ #define _gpio_block_reg_do_e				 0
+ #define _gpio_block_reg_do_select		       1
+ #define _gpio_block_reg_do_0				 2
+ #define _gpio_block_reg_do_1				 3
+-#define _gpio_block_reg_do_pwm_cnt_0	     4
+-#define _gpio_block_reg_do_pwm_cnt_1	     5
+-#define _gpio_block_reg_do_pwm_cnt_2	     6
+-#define _gpio_block_reg_do_pwm_cnt_3	     7
+-#define _gpio_block_reg_do_pwm_main_cnt    8
+-#define _gpio_block_reg_do_pwm_enable      9
+-#define _gpio_block_reg_di_debounce_sel	  10
+-#define _gpio_block_reg_di_debounce_cnt_0	11
+-#define _gpio_block_reg_di_debounce_cnt_1	12
+-#define _gpio_block_reg_di_debounce_cnt_2	13
+-#define _gpio_block_reg_di_debounce_cnt_3	14
+-#define _gpio_block_reg_di_active_level	  15
+-
+-/* read-only registers */
+-#define _gpio_block_reg_di				  16
+ 
+ #endif /* _gpio_block_defs_h_ */
+diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/gpio_global.h b/drivers/staging/media/atomisp/pci/hive_isp_css_common/gpio_global.h
+index b5f017482f89..06b6cb3842f4 100644
+--- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/gpio_global.h
++++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/gpio_global.h
+@@ -16,31 +16,8 @@
+ #ifndef __GPIO_GLOBAL_H_INCLUDED__
+ #define __GPIO_GLOBAL_H_INCLUDED__
+ 
+-#define IS_GPIO_VERSION_1
+-
+ #include <gpio_block_defs.h>
+ 
+-/* pqiao: following part only defines in hive_isp_css_defs.h in fpga system.
+-	port it here
+-*/
+-
+-/* GPIO pin defines */
+-/*#define HIVE_GPIO_CAMERA_BOARD_RESET_PIN_NR                   0
+-#define HIVE_GPIO_LCD_CLOCK_SELECT_PIN_NR                     7
+-#define HIVE_GPIO_HDMI_CLOCK_SELECT_PIN_NR                    8
+-#define HIVE_GPIO_LCD_VERT_FLIP_PIN_NR                        8
+-#define HIVE_GPIO_LCD_HOR_FLIP_PIN_NR                         9
+-#define HIVE_GPIO_AS3683_GPIO_P0_PIN_NR                       1
+-#define HIVE_GPIO_AS3683_DATA_P1_PIN_NR                       2
+-#define HIVE_GPIO_AS3683_CLK_P2_PIN_NR                        3
+-#define HIVE_GPIO_AS3683_T1_F0_PIN_NR                         4
+-#define HIVE_GPIO_AS3683_SFL_F1_PIN_NR                        5
+-#define HIVE_GPIO_AS3683_STROBE_F2_PIN_NR                     6
+-#define HIVE_GPIO_MAX1577_EN1_PIN_NR                          1
+-#define HIVE_GPIO_MAX1577_EN2_PIN_NR                          2
+-#define HIVE_GPIO_MAX8685A_EN_PIN_NR                          3
+-#define HIVE_GPIO_MAX8685A_TRIG_PIN_NR                        4*/
+-
+ #define HIVE_GPIO_STROBE_TRIGGER_PIN		2
+ 
+ #endif /* __GPIO_GLOBAL_H_INCLUDED__ */
+diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gpio_local.h b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gpio_local.h
+deleted file mode 100644
+index 14013733f826..000000000000
+--- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gpio_local.h
++++ /dev/null
+@@ -1,21 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 */
+-/*
+- * Support for Intel Camera Imaging ISP subsystem.
+- * Copyright (c) 2010-2015, Intel Corporation.
+- *
+- * This program is free software; you can redistribute it and/or modify it
+- * under the terms and conditions of the GNU General Public License,
+- * version 2, as published by the Free Software Foundation.
+- *
+- * This program is distributed in the hope it will be useful, but WITHOUT
+- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+- * more details.
+- */
+-
+-#ifndef __GPIO_LOCAL_H_INCLUDED__
+-#define __GPIO_LOCAL_H_INCLUDED__
+-
+-#include "gpio_global.h"
+-
+-#endif /* __GPIO_LOCAL_H_INCLUDED__ */
+diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gpio_private.h b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gpio_private.h
+index cc60bed71ddb..85fcde0b8615 100644
+--- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gpio_private.h
++++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gpio_private.h
+@@ -16,13 +16,10 @@
+ #ifndef __GPIO_PRIVATE_H_INCLUDED__
+ #define __GPIO_PRIVATE_H_INCLUDED__
+ 
+-#include "gpio_public.h"
+-
++#include "assert_support.h"
+ #include "device_access.h"
+ 
+-#include "assert_support.h"
+-
+-STORAGE_CLASS_GPIO_C void gpio_reg_store(
++static inline void gpio_reg_store(
+     const gpio_ID_t	ID,
+     const unsigned int		reg,
+     const hrt_data			value)
+@@ -33,7 +30,7 @@ STORAGE_CLASS_GPIO_C void gpio_reg_store(
+ 	return;
+ }
+ 
+-STORAGE_CLASS_GPIO_C hrt_data gpio_reg_load(
++static inline hrt_data gpio_reg_load(
+     const gpio_ID_t	ID,
+     const unsigned int		reg)
+ {
+diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_include/gpio.h b/drivers/staging/media/atomisp/pci/hive_isp_css_include/gpio.h
+deleted file mode 100644
+index 6f16ca77cf75..000000000000
+--- a/drivers/staging/media/atomisp/pci/hive_isp_css_include/gpio.h
++++ /dev/null
+@@ -1,46 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 */
+-/*
+- * Support for Intel Camera Imaging ISP subsystem.
+- * Copyright (c) 2015, Intel Corporation.
+- *
+- * This program is free software; you can redistribute it and/or modify it
+- * under the terms and conditions of the GNU General Public License,
+- * version 2, as published by the Free Software Foundation.
+- *
+- * This program is distributed in the hope it will be useful, but WITHOUT
+- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+- * more details.
+- */
+-
+-#ifndef __GPIO_H_INCLUDED__
+-#define __GPIO_H_INCLUDED__
+-
+-/*
+- * This file is included on every cell {SP,ISP,host} and on every system
+- * that uses the input system device(s). It defines the API to DLI bridge
+- *
+- * System and cell specific interfaces and inline code are included
+- * conditionally through Makefile path settings.
+- *
+- *  - .        system and cell agnostic interfaces, constants and identifiers
+- *	- public:  system agnostic, cell specific interfaces
+- *	- private: system dependent, cell specific interfaces & inline implementations
+- *	- global:  system specific constants and identifiers
+- *	- local:   system and cell specific constants and identifiers
+- */
+-
+-#include "system_local.h"
+-#include "gpio_local.h"
+-
+-#ifndef __INLINE_GPIO__
+-#define STORAGE_CLASS_GPIO_H extern
+-#define STORAGE_CLASS_GPIO_C
+-#include "gpio_public.h"
+-#else  /* __INLINE_GPIO__ */
+-#define STORAGE_CLASS_GPIO_H static inline
+-#define STORAGE_CLASS_GPIO_C static inline
+-#include "gpio_private.h"
+-#endif /* __INLINE_GPIO__ */
+-
+-#endif /* __GPIO_H_INCLUDED__ */
+diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/gpio_public.h b/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/gpio_public.h
+deleted file mode 100644
+index 13df9b57a5fb..000000000000
+--- a/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/gpio_public.h
++++ /dev/null
+@@ -1,46 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 */
+-/*
+- * Support for Intel Camera Imaging ISP subsystem.
+- * Copyright (c) 2015, Intel Corporation.
+- *
+- * This program is free software; you can redistribute it and/or modify it
+- * under the terms and conditions of the GNU General Public License,
+- * version 2, as published by the Free Software Foundation.
+- *
+- * This program is distributed in the hope it will be useful, but WITHOUT
+- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+- * more details.
+- */
+-
+-#ifndef __GPIO_PUBLIC_H_INCLUDED__
+-#define __GPIO_PUBLIC_H_INCLUDED__
+-
+-#include "system_local.h"
+-
+-/*! Write to a control register of GPIO[ID]
+-
+- \param	ID[in]				GPIO identifier
+- \param	reg_addr[in]		register byte address
+- \param value[in]			The data to be written
+-
+- \return none, GPIO[ID].ctrl[reg] = value
+- */
+-STORAGE_CLASS_GPIO_H void gpio_reg_store(
+-    const gpio_ID_t	ID,
+-    const unsigned int		reg_addr,
+-    const hrt_data			value);
+-
+-/*! Read from a control register of GPIO[ID]
+-
+- \param	ID[in]				GPIO identifier
+- \param	reg_addr[in]		register byte address
+- \param value[in]			The data to be written
+-
+- \return GPIO[ID].ctrl[reg]
+- */
+-STORAGE_CLASS_GPIO_H hrt_data gpio_reg_load(
+-    const gpio_ID_t	ID,
+-    const unsigned int		reg_addr);
+-
+-#endif /* __GPIO_PUBLIC_H_INCLUDED__ */
+diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
+index e2497fc4dfc9..01f0b8a33c99 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css.c
++++ b/drivers/staging/media/atomisp/pci/sh_css.c
+@@ -66,8 +66,8 @@
+ #include "sp.h"			/* cnd_sp_irq_enable() */
+ #include "isp.h"		/* cnd_isp_irq_enable, ISP_VEC_NELEMS */
+ #include "gp_device.h"		/* gp_device_reg_store() */
+-#define __INLINE_GPIO__
+-#include "gpio.h"
++#include <gpio_global.h>
++#include <gpio_private.h>
+ #include "timed_ctrl.h"
+ #include "ia_css_inputfifo.h"
+ #define WITH_PC_MONITORING  0
+@@ -1363,10 +1363,8 @@ ia_css_init(struct device *dev, const struct ia_css_env *env,
+ 
+ 	ia_css_device_access_init(&env->hw_access_env);
+ 
+-	select = gpio_reg_load(GPIO0_ID, _gpio_block_reg_do_select)
+-	& (~GPIO_FLASH_PIN_MASK);
+-	enable = gpio_reg_load(GPIO0_ID, _gpio_block_reg_do_e)
+-	| GPIO_FLASH_PIN_MASK;
++	select = gpio_reg_load(GPIO0_ID, _gpio_block_reg_do_select) & ~GPIO_FLASH_PIN_MASK;
++	enable = gpio_reg_load(GPIO0_ID, _gpio_block_reg_do_e) | GPIO_FLASH_PIN_MASK;
+ 	sh_css_mmu_set_page_table_base_index(mmu_l1_base);
+ 
+ 	my_css_save.mmu_base = mmu_l1_base;
+-- 
+2.43.0.rc1.1336.g36b5255a03ac
 
->  /* Both CHT and MOFD come with ISP2401 */
-
-> +#define IS_ISP2401 __IS_SOCS(INTEL_ATOM_AIRMONT, \
-> +                            INTEL_ATOM_AIRMONT_MID)
-
-I would make it one line.
-
---=20
-With Best Regards,
-Andy Shevchenko
