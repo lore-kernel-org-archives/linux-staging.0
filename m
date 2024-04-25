@@ -1,72 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE598156999;
-	Wed, 24 Apr 2024 21:39:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CFF153E15
+	for <linux-staging@lists.linux.dev>; Thu, 25 Apr 2024 06:37:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713994768; cv=none; b=PBqmxFH8Iin3rHC88sPWs7y8AtW4H+33ST3ZDh8wvI39mFR3JRodccWwTfq+MznaSLdYkJwC6qCYdPuTQc5f39zaxKEd3z21RjU6nPAHQi+KGhGqktYiWoRMWLOhXj+/g2O1Mo8d93I5BXNVJKRZkjaH6A19RgxP6FGNIZvebjs=
+	t=1714027079; cv=none; b=kyt+FmDjEfS6L9/nX/B+gSAdfa2MyzLoqJG0j78XuzthLpwJV3xApeDdjMnIMcskvEip/EuvdA++iJlQBlkQDoDhK2KmLuN1a6KGKeCVmghWb3YCf/zFHz+n8kSe0uJsu6qKquc0u0sF9yIKZdudHNSCL+q/bnm8DixK0zhhQr8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713994768; c=relaxed/simple;
-	bh=Yoz0p4DuYNY86ytkQCrafsdSRRHisQsrPccjw+Ox++E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Lav1MnwLk4bEzVpt57bjB29zmyQyAnZIO9LGw6Kgl/H55IbOiNLnJqWaCofENty1EgOTFeLGM2IR1RzPlzONh05OS2qjZlut3V4/akaMx6Le9oxqEBCtYOip2Bbb6jk3Fr60nVZi5yX65kimNYnaMAZEnq7/0iY95rCOquTI6SY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=CuofVGuC; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1714027079; c=relaxed/simple;
+	bh=v5UhDezQrgaGxA0azv+XR1T5U+isFYlYg3qnj+sRLIg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=J65kbYsBFK6JppCNv6z0oHwE2OB17YoVwTwiS+nzmGj54dkcGLZmTOXr/ZxOhRh2NOLmib2Rxk1cI6nNaf2KyJmbjV6z2BW9NZzYcJW/CNmXK068Af1EbLHxy3FU3PhqGLGLyopd+qrkHWsX3Uyl7khYaTMiyr0Rye7vViUNRqs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=a4+367cX; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="CuofVGuC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7404FC113CD;
-	Wed, 24 Apr 2024 21:39:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1713994767;
-	bh=Yoz0p4DuYNY86ytkQCrafsdSRRHisQsrPccjw+Ox++E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CuofVGuCfq18i3Z1DHuKb3sp9/YMkdI9oIQ3cnJDfQT2Pf2eLsUFD1EPC4aV3PQ6A
-	 74hxtgaTGVNlphKnzKJp7yJbz/EtFYDUday2A3bXZ8CFx+udBeuBeeiHP4xQ8N91n0
-	 EzTDn+9g6QBcWAVrlizQZ5VzCWRKZELp+TK6acZg=
-Date: Wed, 24 Apr 2024 14:39:18 -0700
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Cc: Jonathan Kim <jonathankim@gctsemi.com>, Dean ahn <deanahn@gctsemi.com>,
-	Won Kang <wonkang@gctsemi.com>, support@gctsemi.com,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [RFC] staging: gdm724x: How to proceed with drivers gdmtty and
- gdmulte
-Message-ID: <2024042433-reimburse-cork-8239@gregkh>
-References: <f82fffbf-a983-4ab4-897b-b5a810426f04@gmail.com>
- <igi27iwrzg3ovgj3sym4gsi45timpkt4vkl5ss5dbftdzat6p4@ctxcjocvunpt>
- <78b521eb-4e89-4c01-8dfc-1fb990e6887d@gmail.com>
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="a4+367cX"
+Received: from [192.168.1.106] (unknown [103.86.18.137])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3C2F5674;
+	Thu, 25 Apr 2024 08:37:00 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1714027022;
+	bh=v5UhDezQrgaGxA0azv+XR1T5U+isFYlYg3qnj+sRLIg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=a4+367cXIUj7G5UbHNKAqmBQPJvdLaZTBgNhBDt2Ec9G3MZ5QN4QbA2z6+zhpFOSS
+	 h423/e88mmhRpn2FYNn3SN+moslUy4VtdtgkWbdSoTpo/g86BzViGGUoYYiHfNYgw+
+	 pMvDL5oP883DpO4CHKc3XqnsYw1XYt3tiLDU3jto=
+Message-ID: <9cd4919c-657e-4533-8f11-521d31e60123@ideasonboard.com>
+Date: Thu, 25 Apr 2024 12:07:47 +0530
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <78b521eb-4e89-4c01-8dfc-1fb990e6887d@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: vc04_services: Delete unnecessary NULL check
+To: Dan Carpenter <dan.carpenter@linaro.org>,
+ Florian Fainelli <florian.fainelli@broadcom.com>
+Cc: Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Stefan Wahren <wahrenst@gmx.net>, linux-rpi-kernel@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+References: <526ec2ff-6277-4d5d-b2d9-63b087a97c7c@moroto.mountain>
+Content-Language: en-US
+From: Umang Jain <umang.jain@ideasonboard.com>
+In-Reply-To: <526ec2ff-6277-4d5d-b2d9-63b087a97c7c@moroto.mountain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Apr 24, 2024 at 08:33:25PM +0200, Philipp Hortmann wrote:
-> Dear Sirs,
-> 
-> Won Kang contributed a driver gdm724x to the Linux kernel staging subsystem
-> in 2013. Have you done any tests with this hardware in the years up to
-> today?
-> 
-> struct usb_device_id lists the following devices the driver can work with:
-> PID_GDM7240		0x8000
-> PID_GDM7243		0x9000
-> 
-> but on http://www.linux-usb.org/usb.ids I can only find:
-> 0x1076  GCT Semiconductor, Inc.
-> 	0x0031  Bluetooth Device
-> 	0x0032  Bluetooth Device
-> 	0x8002  LU150 LTE Modem [Yota LU150]
+HI Dan,
 
-Note, not all USB devices (I would guess only a fraction) are listed in
-the usb.ids file because USB devices are self-described (i.e. the
-strings are in the device itself).  So don't go by the presence or not
-of a device in this file to determine if it is "real" or not.
+Thank you for the patch
 
-thanks,
+On 24/04/24 5:13 pm, Dan Carpenter wrote:
+> The "state" pointer points to an offset in the middle of the "mgmt"
+> struct so it can't possibly be NULL.  And also we dereferenced it on the
+> line before.  So this NULL check is pointless.  Delete it.
+>
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 
-greg k-h
+Reviewed-by: Umang Jain <umang.jain@ideasonboard.com>
+> ---
+>   .../staging/vc04_services/interface/vchiq_arm/vchiq_dev.c    | 5 -----
+>   1 file changed, 5 deletions(-)
+>
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
+> index 9fe35864936c..3c63347d2d08 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
+> @@ -1170,11 +1170,6 @@ static int vchiq_open(struct inode *inode, struct file *file)
+>   
+>   	dev_dbg(state->dev, "arm: vchiq open\n");
+>   
+> -	if (!state) {
+> -		dev_err(state->dev, "arm: vchiq has no connection to VideoCore\n");
+> -		return -ENOTCONN;
+> -	}
+> -
+>   	instance = kzalloc(sizeof(*instance), GFP_KERNEL);
+>   	if (!instance)
+>   		return -ENOMEM;
+
