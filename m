@@ -1,38 +1,38 @@
 Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69D3014D439
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97A0214D2AA
 	for <linux-staging@lists.linux.dev>; Thu, 25 Apr 2024 16:59:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714064369; cv=none; b=t6besgFMe+gYvt6+ixgXdWCaP5s+tdw/NT6ivF6ewfCkcQDtodfmzf8rMz+8vZbWFQeZ+iiiOiG8H3FMZfgxuPLrFA89RzmVo1kXnBmWsMOlgPGb7UHg/zbu5PFXuPXYevWvbmILAo0TVH/6HupHf8XK+IzDf6xyEQm2Ug8pFHI=
+	t=1714064369; cv=none; b=hHhizmkj6pXc9caj2S2qu8jJlahYHQY+f5hu+PXa4mmVSoViJDowa7a3BS3z89eWOMT6KqxraTT2WHvalnZQ2zkYZxb2g5xIvEQiIhJSZVbIP0YmofkTfJjGry2j5kSVgQbHUhMfj7U51fz9DoUcChcBL9McYZZT7gBr/6XRM34=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1714064369; c=relaxed/simple;
-	bh=0f+6GTUkzZ+F8Sq58FKm96+Gd+AOuzQHCa0B9cveagA=;
+	bh=QPMFYuJ4Ei9IBTE3GqCmtqSGWhgu+6h50h9Muj+5njo=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=FZKxzHR+90zlB7HJ7L7i+hMr4v19SZz2y30TxX7XSBxGoHrUZ2/tEMxd1htSDkOUkCnTw3LUdQUyZGRKV+jSBfvit114+JLSoxQtJWaMvHRwv1QnaLmw4xei5K4KIihHwTuwCwuNO58gqLbeoEqx4cewPju32wbsYMqo4srdIz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=coA+a2cr; arc=none smtp.client-ip=212.227.15.18
+	 MIME-Version; b=Flw/jpS1Jm/vG+yrumljYvFxlr3Or7TUNI/2lgkz8tzpftQDllGsZXMZZb5zIwAhO/VMev1opEIGAOBf//UN7NWT2pg2thDtw0+C/vHR/JNuWTg2mZIaXuR9rXs6zOZMIGk+5K3+9pf4Z3wBqwa7JCi3y+2uusXS4x8DD/IZMK0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=DaQj8fgk; arc=none smtp.client-ip=212.227.15.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="coA+a2cr"
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="DaQj8fgk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
-	s=s31663417; t=1714064356; x=1714669156; i=wahrenst@gmx.net;
-	bh=CNQeXx88+PWs4m7o5y0Jq0wLFvN1UeH9xseza45YiAE=;
+	s=s31663417; t=1714064355; x=1714669155; i=wahrenst@gmx.net;
+	bh=qxbEz+OYjkfKXFV1gUswI7ZceQqaUjKdCgHNV4HXajg=;
 	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:In-Reply-To:
 	 References:MIME-Version:Content-Transfer-Encoding:cc:
 	 content-transfer-encoding:content-type:date:from:message-id:
 	 mime-version:reply-to:subject:to;
-	b=coA+a2cr1eeN/EKaUndygwblIprNpeT7DtXjuWdHbGJyVKiEwQnFNkQKJtkbg538
-	 CuM39PRB67+9hL7cBPaZf2I+F4LApF8JH9bjKbnIheBD1wCkvyN8AszcPlsVXCfsd
-	 gp4jE0yvArpFdLyu4jqaGXOb8Qla54bFA1/XOCh9qJZ8h3IQW1+KeXFLXTCN/PI7l
-	 EFQ0D7MafY7yopLTfA+nNc01yF3i2XWxJ2H0MSmzY5Dv78h1Ck8emJXu2HlYQj9W2
-	 v5rU0e1IaD3NLRxxTvLUz3gGxxDqVJWISXTFCLFVkfwoEQv742eg6m2tfFO94CC9Q
-	 +RTi98l5bZjwupqAoA==
+	b=DaQj8fgkNmsbDFD7MMBtLJzeP6jCOpYZTjWj7/hfcA3odkSRvfBeTmL6V4OCOf/T
+	 4Scv4++nX72hABDyBmkQiGplBFPc9I/eF5vgGFHLaZyermHBQww+ocOfwifSP1+lT
+	 NzcIF+rNtIVGeUvQxPCM5j+JOI3grtpsyo2wE95h4F1hRj667yBkVXqwRzhl07k5q
+	 mYT5T6NP1i1OAoeFu7Om1W0f0Gi2Ets4+nmhet65ao2FBAVVeG8BYuZ9gZJxnVTsx
+	 +zqy4hFVlnLqDh0yzJO20m7k7Uz119s4ebvfyi0CSNyq5B9eUKq6YEoXG5fhgmLtM
+	 qGkFv6XhwRLbzzrjfg==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from stefanw-SCHENKER ([37.4.248.43]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MMobO-1sIoHH3A0q-00IZ7C; Thu, 25
- Apr 2024 18:59:15 +0200
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MNKhs-1sJMVs3k30-00PjqW; Thu, 25
+ Apr 2024 18:59:14 +0200
 From: Stefan Wahren <wahrenst@gmx.net>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Florian Fainelli <florian.fainelli@broadcom.com>
@@ -41,9 +41,9 @@ Cc: Umang Jain <umang.jain@ideasonboard.com>,
 	linux-staging@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
 	Stefan Wahren <wahrenst@gmx.net>
-Subject: [PATCH V2 5/5] staging: vchiq_core: Add missing blank lines
-Date: Thu, 25 Apr 2024 18:58:52 +0200
-Message-Id: <20240425165852.6681-6-wahrenst@gmx.net>
+Subject: [PATCH V2 2/5] staging: vchiq_core: Use printk messages for devices
+Date: Thu, 25 Apr 2024 18:58:49 +0200
+Message-Id: <20240425165852.6681-3-wahrenst@gmx.net>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240425165852.6681-1-wahrenst@gmx.net>
 References: <20240425165852.6681-1-wahrenst@gmx.net>
@@ -54,58 +54,65 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:5ZmdyL0d0n11brCiTDARa/Sl7DKBkm+kiTclKZk6DhVNQzTPHsP
- 9WDM42//cGxaQreIHeUX2Ek0Y2tAkHwqU3uOeQgz2fKfRbAgeFDXvqkOL5/6aLzr1kSTbQa
- U8klil03sFNREkm1QqLOljrp/b3c9iY/cXb5PPafHb7tAgKuE5c/1i/i0D7mby9nCxhRHNB
- Ke/g89AMLNrApdWCkBqbg==
+X-Provags-ID: V03:K1:cd7rHLvt5pHpDdQEbBWy4OYx1oqQcqVOfqkrjV4LM7ueZm1902V
+ dvXGoedOggvt3H6ezl47JIY2mGwRnWXjIiGPWrE5oWXw+xJdrIY8JMw4FbPxzsamiCjWqvA
+ PDDgD3WK5WvDVfgUPAeEZFJW7gvidgZsP4bDBEf10b/TAsZo3h0+UGP2+obdpoi6NrpeWP+
+ Cot2BuofRNMp7o5X3HC0w==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:BdrE43XugC8=;gsKDqjA48TcgVEhomlzSkZfp/Xk
- Oq3uf7UZ3G17GWDA4cO9+B32F/cT5s/v1NSXkPngp9dBZfhNFAd4yaDbuYuSilfp4b1/zcGzZ
- O8Gy/GAbTNkhzzV9OPP6tsAcxv/h8RdRg5Y+a05KJbBfxd9wnNN6vd/HgELWRuH84SyzCFEn+
- 0izpy4ECxGLzRWjU0dWMsG5B7MnkaukzfqHjRcHGb+zqzTN1c9Rs/esRMHfbLSZ3RSkIv/TgU
- i00xWn7Ch9rzPJRHznz6lOy4SzOXClYsxGYXWJqqcbuC0KczajZDgyoQAFFrq7TCNt4Qzhsig
- SOfh0segilTio4u3VPSKYifu6ieBj1DeNZkILGtweHxhxwKdbHruD9Gm+t8Jo4eO2mHz9R5yk
- q5SN3+i0B4QBc0nsQzygDlLtufqzMIyrWLfeJk4EV2DVjUevRMRru24+pT+t3MRgkgNiszHY9
- 5fsZnZROTiPt9moAGOaooNOgDkT6Vn+0FMpLtAoOJB6GO2CEQVD5QRjwpXy/gmUCtba5/bKpn
- 5ImiXuC4Rr6ky4tun0nBKGOxvFAnEiCI/+7MQeXNc3SBfjB7KS28adA/Zo2cvBdOBe5wAJb59
- O+QyLU66CvdVGOQBIW8RswKz4olx1erQGkQ1B+gQrmkq400iGfp2oRyINUeewIdwgKUxgU6O1
- vCKFw+Elh8H/T2HQ9qehIdrvc7b2uUTyicKQ2pqbLRlmFOrvaiilydsig3f0puMhRo6MAjTz3
- uHfCL09wS8oZs4vQgMbdr6/Eu5dqKVOqjy67ln6dG+MdMd/c0A0gbIwy5cWCui/euXolGUtTN
- aUCqJYue8vlzmXxNMGL2vZgx8hdC6+SUt0TVzupCxI7po=
+UI-OutboundReport: notjunk:1;M01:P0:ZI1hX3BJO34=;5f0rW5JSHuGRdOKUhyOzyajOZEs
+ PVHVzO+w4lp2bh2ByURnO+NaXIEeMUrofBc0sBwAsg93jAdnVPdkUIkGuPYtM8na1pGgmW9JV
+ 7OMQ2Y6FPzbzaTGnDq30NaETAzxRsd7wHWGmbObomw/YOj8hh5OMXdaHaWhngnqoWwj8ke+f5
+ EFp6HS/WRieLyZTVuftB91k8wv9xhLiPziWvq1v1/v/JmGTbXQLL3v1GV+Wd2AcyV8QEOyWf+
+ fUnyuL1s8XvTfGTMGpjw5dGZFQI45XifjFizdJfkpYvlAYZzoIm040SMM76QC35Jdbz4cQLiQ
+ k+NBMNSIdxD5V3NYJ1dLKqDE8kYPYdqeSAWQDwL/XmlL6+LrMavKkSQN5j5/mBlT4PhdJV12n
+ oChMh1QQleaWA8PczX5QUJlWTVnGZDe1Eh+dwmIV+b+2asFi1j4nG+2R1zT0beUcwcOlrOwEN
+ PbZKbkK6ZpGsuDFpiOlVl/CAmT1Jo/pKq9KlFNQbIpSkw+XN2QO5+hrGxPiy0rYjHi+OQ7gWN
+ PE0UWHDI1w3boBI7nObJ93uohIeFVJeAEFqeWrfNCxV9EFep01pfwS70I0UqztOpnzJnxd+bp
+ 2+IuqfX/eLYAolYJ/laIubzC/cJTgPGV3fa8H4K5Hj9gse63jpnt/rNrqBhWZSxx7617TDm9u
+ XOba7IZbN4qLD0VTF8/QU90FUYhoAwIwfRM58EOUYGgvphuuk11OpTymKk3QYs2stsWuPtbj4
+ uhbvCrXSvu/Xjm7v6y/jeYXZIJh5LatJcX+OvT8Z4zqNAHFz9LxqfDScJmp1Z/W6otACLenx5
+ eQ00S+xA0Wjh4g+Y5ejV0kYeFCKfQ8yVPrOd+LTe8080Y=
 
-checkpatch.pl noticed about missing blank line after 2 declarations.
-So add them for better readability.
+Now that struct vchiq_state has a device reference, we can convert
+the remaining printk message helpers.
 
 Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
 Reviewed-by: Umang Jain <umang.jain@ideasonboard.com>
 =2D--
- drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c | 2 ++
- 1 file changed, 2 insertions(+)
+ .../vc04_services/interface/vchiq_arm/vchiq_core.c     | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.=
 c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-index ca32902afe06..df3af821f218 100644
+index 3397365e551e..129d73fec2bf 100644
 =2D-- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
 +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-@@ -227,6 +227,7 @@ struct vchiq_service *handle_to_service(struct vchiq_i=
-nstance *instance, unsigne
+@@ -697,7 +697,8 @@ reserve_space(struct vchiq_state *state, size_t space,=
+ int is_blocking)
 
- 	return rcu_dereference(instance->state->services[idx]);
- }
-+
- struct vchiq_service *
- find_service_by_handle(struct vchiq_instance *instance, unsigned int hand=
-le)
- {
-@@ -2176,6 +2177,7 @@ vchiq_init_state(struct vchiq_state *state, struct v=
-chiq_slot_zero *slot_zero, s
+ 		if (tx_pos =3D=3D (state->slot_queue_available * VCHIQ_SLOT_SIZE)) {
+ 			complete(&state->slot_available_event);
+-			pr_warn("%s: invalid tx_pos: %d\n", __func__, tx_pos);
++			dev_warn(state->dev, "%s: invalid tx_pos: %d\n",
++				 __func__, tx_pos);
+ 			return NULL;
+ 		}
 
- 	for (i =3D 0; i < VCHIQ_MAX_SERVICES; i++) {
- 		struct vchiq_service_quota *quota =3D &state->service_quotas[i];
-+
- 		init_completion(&quota->quota_event);
- 	}
-
+@@ -1732,10 +1733,9 @@ parse_message(struct vchiq_state *state, struct vch=
+iq_header *header)
+ 				break;
+ 			}
+ 			if (queue->process !=3D queue->remote_insert) {
+-				pr_err("%s: p %x !=3D ri %x\n",
+-				       __func__,
+-				       queue->process,
+-				       queue->remote_insert);
++				dev_err(state->dev, "%s: p %x !=3D ri %x\n",
++					__func__, queue->process,
++					queue->remote_insert);
+ 				mutex_unlock(&service->bulk_mutex);
+ 				goto bail_not_ready;
+ 			}
 =2D-
 2.34.1
 
