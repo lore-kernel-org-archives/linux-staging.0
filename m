@@ -1,86 +1,94 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CFF153E15
-	for <linux-staging@lists.linux.dev>; Thu, 25 Apr 2024 06:37:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6149F131746
+	for <linux-staging@lists.linux.dev>; Thu, 25 Apr 2024 16:59:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714027079; cv=none; b=kyt+FmDjEfS6L9/nX/B+gSAdfa2MyzLoqJG0j78XuzthLpwJV3xApeDdjMnIMcskvEip/EuvdA++iJlQBlkQDoDhK2KmLuN1a6KGKeCVmghWb3YCf/zFHz+n8kSe0uJsu6qKquc0u0sF9yIKZdudHNSCL+q/bnm8DixK0zhhQr8=
+	t=1714064366; cv=none; b=oTH6qtl4bN1iMUbJ8ZDAPO+lD4LMzdD8UENvhXhEo2OI2gqh0fotnv47K+0ZFZkX39qg3HbAlnw+rfbSwM1cB+8GhjwQ0T4OpScukxVImQkJqq3bblhBwPMV/nsUu9E5I3Fz3IBl5g2v+yV3Y1fViCjqDePRw81mV+ZldD5SNyA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714027079; c=relaxed/simple;
-	bh=v5UhDezQrgaGxA0azv+XR1T5U+isFYlYg3qnj+sRLIg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=J65kbYsBFK6JppCNv6z0oHwE2OB17YoVwTwiS+nzmGj54dkcGLZmTOXr/ZxOhRh2NOLmib2Rxk1cI6nNaf2KyJmbjV6z2BW9NZzYcJW/CNmXK068Af1EbLHxy3FU3PhqGLGLyopd+qrkHWsX3Uyl7khYaTMiyr0Rye7vViUNRqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=a4+367cX; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1714064366; c=relaxed/simple;
+	bh=jqR2fE9cOhiw2KFqqkTZwEFJmuq8U5LK6w/9SoOu0Do=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=kNK3nBCAqKZBCC5RY1/+GfTS/AwBFPxeo3f5rSYrPnKGghZwmB7WRQCZV0sLAFNcKOcBUVZ3ViqAQWi+RgCzyhzeTH2HAuZMVqcT1v2UXBxJfVdocFxUhkEDTR+taHBxqUv5bTIxEgsqhDA3PfnuU2jP82rpNQmNheVd2SpO42M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=Wa9gM3cg; arc=none smtp.client-ip=212.227.15.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="a4+367cX"
-Received: from [192.168.1.106] (unknown [103.86.18.137])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3C2F5674;
-	Thu, 25 Apr 2024 08:37:00 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1714027022;
-	bh=v5UhDezQrgaGxA0azv+XR1T5U+isFYlYg3qnj+sRLIg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=a4+367cXIUj7G5UbHNKAqmBQPJvdLaZTBgNhBDt2Ec9G3MZ5QN4QbA2z6+zhpFOSS
-	 h423/e88mmhRpn2FYNn3SN+moslUy4VtdtgkWbdSoTpo/g86BzViGGUoYYiHfNYgw+
-	 pMvDL5oP883DpO4CHKc3XqnsYw1XYt3tiLDU3jto=
-Message-ID: <9cd4919c-657e-4533-8f11-521d31e60123@ideasonboard.com>
-Date: Thu, 25 Apr 2024 12:07:47 +0530
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="Wa9gM3cg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
+	s=s31663417; t=1714064353; x=1714669153; i=wahrenst@gmx.net;
+	bh=60cRyj7ZdQVJDrQogyJ8fx47LVozNsiqgJdbSCKPFVM=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:
+	 MIME-Version:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=Wa9gM3cgqQZIMlxm2/9r/9BD3nmYgh5IllwS2qKLU8/RgSytR46m8NbRs1bf87xZ
+	 pFySfLH1Du7Fmgt7acrVirHPloa7RUAMXpUhyxl1l7wCe6pwO02KsjWsfRiFq8WMo
+	 LEil37K96W5xyx0bSTpmZKYqqQA98/ZxSHO2hta4EF1+InEaM3vipTMVH50Fmol/7
+	 8hajKR4CVuEywvXRiDDtVXqr6XyF4x6iy8W0NTUDp8Tki+OSfZzux2JD6xakAM6p5
+	 aNyzV69zvmqmzy3Ba5sBlHcd1oYlP4tpp5haYLOEUhHOuGAEA6jclm29rkIrRKSdJ
+	 FQ1xK+tiJobaSBc/Ww==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from stefanw-SCHENKER ([37.4.248.43]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1M7sDg-1s3u3n2kh0-00604a; Thu, 25
+ Apr 2024 18:59:13 +0200
+From: Stefan Wahren <wahrenst@gmx.net>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>
+Cc: Umang Jain <umang.jain@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	Stefan Wahren <wahrenst@gmx.net>
+Subject: [PATCH V2 0/5] staging: vc04_services: Minor clean-ups
+Date: Thu, 25 Apr 2024 18:58:47 +0200
+Message-Id: <20240425165852.6681-1-wahrenst@gmx.net>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: vc04_services: Delete unnecessary NULL check
-To: Dan Carpenter <dan.carpenter@linaro.org>,
- Florian Fainelli <florian.fainelli@broadcom.com>
-Cc: Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Stefan Wahren <wahrenst@gmx.net>, linux-rpi-kernel@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-References: <526ec2ff-6277-4d5d-b2d9-63b087a97c7c@moroto.mountain>
-Content-Language: en-US
-From: Umang Jain <umang.jain@ideasonboard.com>
-In-Reply-To: <526ec2ff-6277-4d5d-b2d9-63b087a97c7c@moroto.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:v4CVP7pccLEcuqGfLXllmmowC9x7O3wuG1d+Ox2PKjciDK/TGWC
+ 53Memv92B3Mbdx9+SVl9Q51wJqBq7x+MVjgKc2ecAS+rJ3kR0RXtgOjhhTMGDtoq8z7sv7b
+ wtQ8QG09Oh2Ut++koBuRxM3NOWMztnfUr1Tj19gf38wq3KRsHbbknYpIGq7mtAYLGETqOrc
+ f+8O4fWgBXcuA0toF3ETg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:Q/wOmf4ghaM=;Dz6AnDJDv4B5mPn5CY63Sfmqxf0
+ R3WYVfEtZcJCYKeDAvjE+GhdBJMDewOqvxVytzCev/giRgh8Ghv3ZiiDPt3cUkkwmeH11eYJv
+ eJmM5UAxFSFS2uatuV2ykL2quCOrqkcwEnrCh1xVxGg6ARh48eaZsnDPzx4LOhrocpQuezq+8
+ 4QpJ+1Yh1E1trmjELT7o0JG6VORbjxMQX0LhJsWAgYvLkz1fDCXdwtHdWWtmjvJIh/B042EBi
+ VRykoeEQlnX3vD9uHXUJLTu59sQAIBJH0yefDUDo7ltigZhIdaoLaxVyV/XZTjHBq1fu+7f6J
+ eAuL+AYkEknuPRt98m0ERiYawChSUpi/zQWoIzndud95SLUpHRvcqUbu+k0B8g5SRMQwSoEE9
+ +fvZ9YGU9LadQyxdP9HOPpSVOW/T+6Uee7MKByqf3L+/iMeqORaqeg3xNwAthU1tvIsle10jl
+ O2T0d16/WvdYmvHS+wdXjqn4xohhfAlhmJvbLLtzpMNro5J3PW8WJEdI5GuORM2mza2902NZS
+ r98ygFjnsOUcPIkbHxJeg8q7WH9x9Akrrxc2VU+5/SSjrnZzRC3/RW8wcJ3CKZC9w62oSxuF/
+ GDDxobOuaIIjImM2wjIcM2ocfxgN9CA2MNa7Il8swRslHOZwWirWmldJV6+kCdfe8POGtjupK
+ 1ACAxaWpMEoD2iTFtkl0GFTwTo4MKQqIAwJc5MOiI21awqHfKUgiZu5FZrN4YSRg5bQbrd6z8
+ pfWvWkqoK/7YAcMwclAjU9vlnpbpBkRD6UhYfzFZ51x0xSxmqMJaFjKA2HsQ1bjz3btBy9JsO
+ eRyEaQ++acI2daU5UjrOuyR96hZI37Fp/K669IRTZHWUg=
 
-HI Dan,
+This series contains just minor clean-ups, which were mostly found
+by checkpatch.pl or kernel test robot.
 
-Thank you for the patch
+Changes in V2:
+- Add patch for issue found by kernel test robot
+- Fix typo found by Umang
+- Add Umangs Reviewed-by
 
-On 24/04/24 5:13 pm, Dan Carpenter wrote:
-> The "state" pointer points to an offset in the middle of the "mgmt"
-> struct so it can't possibly be NULL.  And also we dereferenced it on the
-> line before.  So this NULL check is pointless.  Delete it.
->
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+Stefan Wahren (5):
+  staging: vchiq_arm: Drop unnecessary NULL check
+  staging: vchiq_core: Use printk messages for devices
+  staging: vchiq_core: Add parentheses to VCHIQ_MSG_SRCPORT
+  staging: vchiq_core: Drop unnecessary blank lines
+  staging: vchiq_core: Add missing blank lines
 
-Reviewed-by: Umang Jain <umang.jain@ideasonboard.com>
-> ---
->   .../staging/vc04_services/interface/vchiq_arm/vchiq_dev.c    | 5 -----
->   1 file changed, 5 deletions(-)
->
-> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
-> index 9fe35864936c..3c63347d2d08 100644
-> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
-> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
-> @@ -1170,11 +1170,6 @@ static int vchiq_open(struct inode *inode, struct file *file)
->   
->   	dev_dbg(state->dev, "arm: vchiq open\n");
->   
-> -	if (!state) {
-> -		dev_err(state->dev, "arm: vchiq has no connection to VideoCore\n");
-> -		return -ENOTCONN;
-> -	}
-> -
->   	instance = kzalloc(sizeof(*instance), GFP_KERNEL);
->   	if (!instance)
->   		return -ENOMEM;
+ .../interface/vchiq_arm/vchiq_arm.c              |  2 +-
+ .../interface/vchiq_arm/vchiq_core.c             | 16 ++++++++--------
+ 2 files changed, 9 insertions(+), 9 deletions(-)
+
+=2D-
+2.34.1
 
