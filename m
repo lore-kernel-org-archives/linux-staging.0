@@ -1,76 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D88D1474D8;
-	Fri, 26 Apr 2024 10:15:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BE3E15B978
+	for <linux-staging@lists.linux.dev>; Fri, 26 Apr 2024 17:04:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714126540; cv=none; b=frCNbOprA1eR6F+UIrrQ+pzGQQJE7A/RMZVT98SDAOTihTralJbRqAuBnOJuepB37GWb13q9r2cpWTlCHL8m+nZJvuQkGkYBp0B4UtWzNQ3hjl+Bg5XQGGPcn0sCju/gl4bSHyrIeVDEttwS9d2KzIuN1WuEASVB0sMXJzRPAp4=
+	t=1714151058; cv=none; b=N1lOfe9/U8CcMXX+18RuPdKHjIa008Z20Nn8v/HMkjK5T12Cz+2nVDdQ5Fdmnumzy0cO2JBkI1idBJb20xmSdpi49GYf67DGvYykFkdzx4s9Ug/q7TyWKMO4+y7staJWLzkgQRUTjX4C59SOWPADOQsheyAehbDefglD/VGG7AY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714126540; c=relaxed/simple;
-	bh=ZYZa8gCD3uP/iTbMImuB3h3YvaLrCRfjyDRge32qZvk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IDHsYmUyhwhymwMQcTC0skKkOlwVf9t40GtTSHPO0GUDaWsTlm6zbEv3VijmF9EMMsaw6VIAYRjr4dKkHS2ZocNiaErYFpKzFHoi386myYB9DQqzVwTXLThOSTlaT+Nsn/VNzBqbyzykSLSLh9He7b1rkHXI+IHH1ztiYW8aKbY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DnXmegH0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1714151058; c=relaxed/simple;
+	bh=JURdutCF+END7fzD44sY8qmEZBj/T2NxwhqAOG0f0Tg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=vBosTdcVbK9l3uMM4MhGg7rwxfwEGaYbFlsXrzk0Z0FKXbgOKi3egHIo8qm/f1Y74/96imcoBIuxc3xMwZ96+ItaZry88e7niNlRPdJvxaRJPerWLnO/0pilLMybrFVv8b44oYV175uyugk2Sn7mCJoCrbnYDy8fxecO4k/4p5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QkTF4wof; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DnXmegH0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4AC7C113CD;
-	Fri, 26 Apr 2024 10:15:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714126539;
-	bh=ZYZa8gCD3uP/iTbMImuB3h3YvaLrCRfjyDRge32qZvk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=DnXmegH0H6OP3IcufzqLB5mo8s742TBz97fCveX4NCJxEOvhQVCdLxJDrgb2BuF95
-	 MVO5ok0Ah9FJdXOOXqP3bHfF55ZmdUkzKve7IWdZap1iR7cSx/ckZBlht7K2+UgdiY
-	 JoKdrgIzRqUw2eHEU3jU7Za/l+WivM31mo1ghjhf1xVvL/+cNhImucA6QiL3LGJ6dR
-	 eMNC0VLDCwfKG9igQQgwjhfkJMPgm2MLyc7cHV5xeJktP2OWivtECqB68NCFQCRXft
-	 ZZ7nWZCUlwXg0ZSLSwae+7x/+irOohaP4108kQmnG1ezDGqBIpd0Xlqcdf56YsyERA
-	 uAzzDpR+jMPwQ==
-Date: Fri, 26 Apr 2024 11:15:33 +0100
-From: Mauro Carvalho Chehab <mchehab@kernel.org>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>, Hans Verkuil
- <hverkuil-cisco@xs4all.nl>, Sakari Ailus <sakari.ailus@linux.intel.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-staging@lists.linux.dev, Kate Hsuan <hpa@redhat.com>,
- "kieran.bingham@ideasonboard.com" <kieran.bingham@ideasonboard.com>
-Subject: Re: [GIT PULL] media: atomisp: Changes for 6.10-2
-Message-ID: <20240426111533.2b717d57@sal.lan>
-In-Reply-To: <5f89adf7-23e3-4966-ac50-838335b13207@redhat.com>
-References: <5f89adf7-23e3-4966-ac50-838335b13207@redhat.com>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QkTF4wof"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1714151054;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YR4Gv35+BwT8FfgrQlC3UZaYFeN55BL8jPB96NcMVq4=;
+	b=QkTF4wof54XGNhTRp8aKrpLGm2tl3wYpxKVh4+KjV6RPKkVxvLgJR8myUFXZVEQZQXMjYm
+	KIq8YYMD5I1hFoSIbnXeG+fzRPvAxGQCYTWTSJkcgqQU7ZNuag5jLg6QU1NPF77BO8sZZj
+	9TcvVfXylv0MNUiFyEuVhDD9qoOkAM8=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-657-SOjqLEkPOe-eKR_ujnDc4g-1; Fri, 26 Apr 2024 13:04:13 -0400
+X-MC-Unique: SOjqLEkPOe-eKR_ujnDc4g-1
+Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-a51eb0c14c8so124216066b.0
+        for <linux-staging@lists.linux.dev>; Fri, 26 Apr 2024 10:04:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714151052; x=1714755852;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YR4Gv35+BwT8FfgrQlC3UZaYFeN55BL8jPB96NcMVq4=;
+        b=S3NDxc6hwO2Zlm7QpdMpUy7r4ADraHbZqyVa4C4Zb74iNE3vPAy9RDao7ZxzaeyL4c
+         5OqV+MR02gh8Sq2StjARKK5rJSTMKy3Eiv6kCEmLXI2xZ0KhnUyxzveeXQL0p60AM2pv
+         lJhJ7UtbUPkT4pQnRf1avOZE5kxWlrJ5dOOeVd9vb9QL2+3WjfRus4+y6q2Wmk8kS78o
+         KFDgMzcEGp4dj+gVqyJskBLw+p7lHo/j0J6gU00iRw1tIoo0uli7fqRUST1GMwYw19/V
+         h1957Rr0hgKYybYGyo8PD2QtSzz+g32qbwl5ogr1Ap87aMpeZJvuPR1eJln9jofF1sbt
+         8ZDQ==
+X-Forwarded-Encrypted: i=1; AJvYcCURJFGPDuEVvE5jbfNG1oaMeTEu2Ved6R403/9EBm9Ra0xQ8IiRQEn+XLjBXSNl2YT0nmQHnOcHqBWDJKGhJuHxhMiBOUlIiCa0l+3/0w==
+X-Gm-Message-State: AOJu0YyC7+OMeM1L7Slzrkg9T6Rt9oy/i+aSjJi4GfNhPH/iUlNlPdJ6
+	jYn4q6o0H/FZADKVPvgH4uvpbdMpqFTXmFOPXnIWSPNam5sesnGMa70PdpjW+BDFfxsGR2XvDUk
+	zvXT2ycPus4B8yiVAyNyp5OAVT7r7XBYksEO/Yz1IvoPWV0khYxsLnBqyBX2HGl8=
+X-Received: by 2002:a17:906:3710:b0:a55:b175:170 with SMTP id d16-20020a170906371000b00a55b1750170mr2234551ejc.56.1714151052168;
+        Fri, 26 Apr 2024 10:04:12 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEYYA9S6T7xATHGrn15Wxc7mXQiDc6aY9dIZP0Ls5or1cwELEYDh7n2Gml6LJdlfgkBJruXpQ==
+X-Received: by 2002:a17:906:3710:b0:a55:b175:170 with SMTP id d16-20020a170906371000b00a55b1750170mr2234535ejc.56.1714151051784;
+        Fri, 26 Apr 2024 10:04:11 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id q26-20020a1709066b1a00b00a53c746b499sm10728572ejr.137.2024.04.26.10.04.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 26 Apr 2024 10:04:11 -0700 (PDT)
+Message-ID: <57b7f59a-8549-44d5-95fd-4402951d4bd2@redhat.com>
+Date: Fri, 26 Apr 2024 19:04:10 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [GIT PULL] media: atomisp: Changes for 6.10-2
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ linux-staging@lists.linux.dev, Kate Hsuan <hpa@redhat.com>,
+ "kieran.bingham@ideasonboard.com" <kieran.bingham@ideasonboard.com>
+References: <5f89adf7-23e3-4966-ac50-838335b13207@redhat.com>
+ <20240426111533.2b717d57@sal.lan>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20240426111533.2b717d57@sal.lan>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, nl
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi Hans,
+Hi Mauro,
 
-Em Tue, 16 Apr 2024 11:33:51 +0200
-Hans de Goede <hdegoede@redhat.com> escreveu:
-
-> Hi Mauro, Hans,
+On 4/26/24 12:15 PM, Mauro Carvalho Chehab wrote:
+> Hi Hans,
 > 
-> Here is a second round of atomisp changes for 6.10,
-> this pull-request supersedes / replace my
-> "media: atomisp: Changes for 6.10-1" pull-request.
+> Em Tue, 16 Apr 2024 11:33:51 +0200
+> Hans de Goede <hdegoede@redhat.com> escreveu:
 > 
-> Various cleanup patches from Jonathan Bergh and Andy +
-> a set of patches from me which has been reviewed
-> by Andy and Kieran.
+>> Hi Mauro, Hans,
+>>
+>> Here is a second round of atomisp changes for 6.10,
+>> this pull-request supersedes / replace my
+>> "media: atomisp: Changes for 6.10-1" pull-request.
+>>
+>> Various cleanup patches from Jonathan Bergh and Andy +
+>> a set of patches from me which has been reviewed
+>> by Andy and Kieran.
+> 
+> Atomisp patches applied, thanks!
+> 
+> I had to do a rebase here first, as it seems some patches were 
+> merged already on this series and on the previous one.
+> 
+> Please double-check if I picked everything, and rebase your
+> tree on the top of media-stage before the next PR, to avoid
+> potential issues during patch review.
 
-Atomisp patches applied, thanks!
+Thank you for merging all the patches.
 
-I had to do a rebase here first, as it seems some patches were 
-merged already on this series and on the previous one.
-
-Please double-check if I picked everything, and rebase your
-tree on the top of media-stage before the next PR, to avoid
-potential issues during patch review.
+I have done a rebase of my media-atomisp tree and all patches
+there were skipped as "previously applied commit", so everything
+looks good.
 
 Regards,
-Mauro
+
+Hans
+
+
