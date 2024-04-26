@@ -1,105 +1,91 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A01114D6ED
-	for <linux-staging@lists.linux.dev>; Thu, 25 Apr 2024 16:59:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A2938473
+	for <linux-staging@lists.linux.dev>; Fri, 26 Apr 2024 04:22:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714064371; cv=none; b=tgd5JpUUhyk7qcYN8Iz2/pce6YIoxPLIPO0iPOKyZ5+MDHNqn2OZ2vsH22vExCnydTB+b0jfUZ/cS822SzNmDxA5cRYXMq4y969Z73EXHvCdCZEJK+ONGd15OP1XOkR8MvsMB0I1DMrOqpp1xO4FhL5oSt08+PgVHtOF5uEZnrs=
+	t=1714105330; cv=none; b=S8pvx4e+g5baRzFCLUJJbhIN94m+Y6/dphOm2K1creYMFFVD6TvpgC46gWXuIDWYRtZntMSb0FwKweKHuult+T9MVwWEFic8ToC5QH68AzPcJCPrx5A8h2OV0uVpzFAEPWXqv306EvErjX4MCFQa4GPWNx2cj8qr2WBTLJWAR00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714064371; c=relaxed/simple;
-	bh=gVmbL7xjcpocw3NCsu3h0BYYG6oHTVg5iZZdZYCyXHE=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Guq1/W27sR/XctaOrXtsBHLCiMoBIWcH9JPfMgN52XQqie1Z7BBXi1o6ry+jwxlULwzNZm2Lhu4wU0fmzUogsvvqzTGTTIIjIG7LpPG3h9R4l2HBndBvxzijCEzm8gCpoT42dHuuCO37XTd33xP+Cf+mkjc1wLIo0AANRv/KAuQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=Nhhu7SWf; arc=none smtp.client-ip=212.227.15.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
+	s=arc-20240116; t=1714105330; c=relaxed/simple;
+	bh=YvxLeIF545RDhFDFg7eYwWSB4pJ7Fpc+cpsR6vzhTpA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LfMeUVd9J6QXxnGEN31XvKFg6MVsY4612dDw9U41Gdgq/5+yVGIy4dnTRMGv4lAssYaX0EGd51jHYx2WgxOtK02kpXBMoUafzHaE0hnFe45i7FSCL4JfHHLzR9VECe/7r97hQiZfCLWdQf1LhJsyjLIunZB3OrLuSgAv3iCNq2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=kgBO4EJg; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="Nhhu7SWf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
-	s=s31663417; t=1714064355; x=1714669155; i=wahrenst@gmx.net;
-	bh=wPypIIQTokbo4EjM6YVsR7tSk2WsbqJ0JopVFbdtfEc=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:In-Reply-To:
-	 References:MIME-Version:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=Nhhu7SWfZQBYDq7s9vyY1wVX5ZeCH+aCghLvy2Gzfz4O2hjCGylkiU5WwtY7cSgN
-	 vQJxFN4GC32J9DbtVelL1UYZrA4Mp7kjnw/WzdaJzw/CQri0wbxRZLWlMm0okC0Pz
-	 y/QpBkHDI5x2dESiF4kxpGZvTf7v9WyOcU1mqEHukxUSpGHKnBWIW00JMH+KJL9Pe
-	 sgEn7skQW+0xuIlx8f/FV4alCV8h51wRwDNB1LB+eygN43o1p8NEP8F00Bh2zfptd
-	 6p6rXfCYvYRr20WLLbDsl3c1HoaatVBpSzHoZGwe53ewnyJWb57hAIZKgC13Sf1Du
-	 Qfxh1vzmD275rGbeBA==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from stefanw-SCHENKER ([37.4.248.43]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mr9Bk-1sVImb0p3m-00mnX6; Thu, 25
- Apr 2024 18:59:15 +0200
-From: Stefan Wahren <wahrenst@gmx.net>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>
-Cc: Umang Jain <umang.jain@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	Stefan Wahren <wahrenst@gmx.net>
-Subject: [PATCH V2 3/5] staging: vchiq_core: Add parentheses to VCHIQ_MSG_SRCPORT
-Date: Thu, 25 Apr 2024 18:58:50 +0200
-Message-Id: <20240425165852.6681-4-wahrenst@gmx.net>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240425165852.6681-1-wahrenst@gmx.net>
-References: <20240425165852.6681-1-wahrenst@gmx.net>
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="kgBO4EJg"
+Received: from [192.168.1.106] (unknown [103.86.18.162])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B19D5CC8;
+	Fri, 26 Apr 2024 06:21:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1714105273;
+	bh=YvxLeIF545RDhFDFg7eYwWSB4pJ7Fpc+cpsR6vzhTpA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=kgBO4EJgMEXR0DExoPoAK84UIPiRR9jfmaJ402x0DFpxkM4S4LL0zkGs73RDyc22b
+	 WDjgrjK1BbKs3f9Rj5ITh1IC+TPSdkB0RNxoTIphx2VqnXp2C8nGLw/08rFXHa+5zj
+	 k1vxBMa5sDDp1JfTEZruB7BL88C7JymNZ9N3EZ/4=
+Message-ID: <d78c79c7-a2a9-4a67-8bb9-7635bb738778@ideasonboard.com>
+Date: Fri, 26 Apr 2024 09:52:00 +0530
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:oY5UNS83PsUXx5/TDMB16nrcmlHYSAjojirgi4e3inJkU1bQEAg
- 5nqS80rj7SvicOQQlNv1kF8LnDtsd3/R3Nw3K6KC+iAy+nMJtlQfBzK4tfTGq61uTAeJgP3
- sgXz+4zIU5T7dMO6tL49z3KS1Yf5oRZ5xFb3weG19XlFgtIiTenDEl0DlIwvGa4Sc6p9Mba
- FohIoHB0DPbs8EvqIQlww==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:kjHtP95uzF0=;Wv2JQC4KtR6rfUa5iTBJk4ofXt+
- WkwAEecJK+VhEPR6oOFXAh7tBegI1aPG66zxehOkc+yJvmvd8SDHSSgtnMn9Vwig8v8Iu/BRN
- tpERlKNOKQIsJTGOP6OqJA7S3TzrlCp9SkRxnyfnszJWmmlBovcqCebOS3RyeMq9cjrFC5cXA
- f55QOphoB4ykXVPUM8GD4mq/pX+7A+qpKVnP0xPD5QDq1Yag6msWgeA7a6jw5uQVBIoZUPah6
- 9g36XvgYx0uhGYboHzLEAFfSJj5rmqgu1ND/Am9GCp9pobhMSwt36zuEMqgQZi9nX9deuA66d
- GuSdG6CHSbEZaad0dNO9T1iW927KfFCtDHxuEnBDkE7SZsfzC+0Qwt+AgO76ISI8AnitLLSj7
- QeCYfWEUPeWyVDKmtDOGPZ8Yd2c5zW9Z97DVFTKGK8LZJ41cAVT/Lawdt+sn/CbSBAaBvngpE
- CyWsh086Esrtylhfa/fv8oyRul947OYHhQQBs/fP0499+T3Nzg3fgyX9sW76CGgnzEt9hyZd3
- OcwP4imab+Abi2IJtw4bspr6KcaRMJc0WEDtnHtjYvZe/CDcYGhL+Y6ZK5qAwBOzk1a2FZycj
- 7Mf6bTBEotXuoMKlcW+csl1cljmINEoL3mguFZMD1ZjPFUItWWo/G7NsQUxJSeDyMhgmiGC6/
- 9hWiVtWtrLASzoxm841M0MIot0cqDmsoEuhd9A6TJgD0NW/fZpZRmHFhOcmlei72jdEtviTNM
- fGMpA8JZDwQRucCNLxTgACPvcvB74xJcuQmzQo7af7DZmz6jBzd/d8dyN7N++dc4u8czgBq0z
- mFd09K0GlUWDq6EebO2VGI+f+YmsmJe7IBbum5mmuJor8=
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V2 1/5] staging: vchiq_arm: Drop unnecessary NULL check
+To: Stefan Wahren <wahrenst@gmx.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Florian Fainelli <florian.fainelli@broadcom.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ kernel test robot <lkp@intel.com>
+References: <20240425165852.6681-1-wahrenst@gmx.net>
+ <20240425165852.6681-2-wahrenst@gmx.net>
+Content-Language: en-US
+From: Umang Jain <umang.jain@ideasonboard.com>
+In-Reply-To: <20240425165852.6681-2-wahrenst@gmx.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-checkpatch.pl complains
+Hi Stefan,
 
-ERROR: Macros with complex values should be enclosed in parentheses
-+#define VCHIQ_MSG_SRCPORT(msgid) \
-+	(unsigned short)(((unsigned int)(msgid) >> 12) & 0xfff)
+Thank you for the patch
 
-Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
+On 25/04/24 10:28 pm, Stefan Wahren wrote:
+> Looking at the handling of service instance within the VCHIQ
+> driver shows that it's not possible that service_callback is
+> called with instance is a NULL pointer. So drop the unnecessary
+> NULL check and fix:
+>
+> vchiq_arm.c:1109 service_callback() warn:
+>    variable dereferenced before check 'instance' (see line 1091)
+>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/linux-arm-kernel/202404230315.vx7ESZ3r-lkp@intel.com/
+> Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
+
 Reviewed-by: Umang Jain <umang.jain@ideasonboard.com>
-=2D--
- drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.=
-c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-index 129d73fec2bf..58451ee08abc 100644
-=2D-- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-@@ -43,7 +43,7 @@
- 	(((type) << TYPE_SHIFT) | ((srcport) << 12) | ((dstport) << 0))
- #define VCHIQ_MSG_TYPE(msgid)          ((unsigned int)(msgid) >> TYPE_SHI=
-FT)
- #define VCHIQ_MSG_SRCPORT(msgid) \
--	(unsigned short)(((unsigned int)(msgid) >> 12) & 0xfff)
-+	((unsigned short)(((unsigned int)(msgid) >> 12) & 0xfff))
- #define VCHIQ_MSG_DSTPORT(msgid) \
- 	((unsigned short)(msgid) & 0xfff)
-
-=2D-
-2.34.1
+> ---
+>   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> index c06232fcb0fb..297af1d80b12 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> @@ -1106,7 +1106,7 @@ service_callback(struct vchiq_instance *instance, enum vchiq_reason reason,
+>
+>   	user_service = (struct user_service *)service->base.userdata;
+>
+> -	if (!instance || instance->closing) {
+> +	if (instance->closing) {
+>   		rcu_read_unlock();
+>   		return 0;
+>   	}
+> --
+> 2.34.1
+>
 
