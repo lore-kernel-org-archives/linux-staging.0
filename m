@@ -1,87 +1,104 @@
-Received: from out203-205-221-240.mail.qq.com (out203-205-221-240.mail.qq.com [203.205.221.240])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93FD453E14
-	for <linux-staging@lists.linux.dev>; Sun, 28 Apr 2024 12:19:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.240
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCC186A8DE
+	for <linux-staging@lists.linux.dev>; Sun, 28 Apr 2024 13:59:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714306783; cv=none; b=ZmE6mPROAusB59rzhnlrYHI4ALJ/OmANMIJ+NFTePuy0vOk8QxL4tzAQPQGfM+Znks0T+VzLn1Zo9a/FGh6tAYjxkxDUwIw9bNF7Lwld6y+Hu5+8NjX2URsE0KtE9KpKBQdNGxaA6ZGng8dtRD2EMcA4M24iNoBAyQyCXhZI4Kw=
+	t=1714312797; cv=none; b=c9Zauy6LBA2RJDjLPModc8AaHvFxHqY9AkBmsPPbDXp1iTUyqYBztP7xRLkveWvHmaoATOi3gCvF82R2byxRBdEJG9mST0L+yLjyzJ8/iWr4sPvhEHxJkIDHJ76eI5O/bm/1opHKRg0OvCPgwqIwMZCejPsjC/1D1RDlgggKQyc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714306783; c=relaxed/simple;
-	bh=TmOhP4qc8Qi8jh/T/QcsP5k7J4MiQIZY8f+q7/ewjis=;
-	h=Message-ID:From:To:Subject:Date:MIME-Version; b=q4rRv7e9k4HCpmEzWrP+6ztixP/lhqJ01HXYGq2q/8ptVvigamxd5OH9/u0MFeVbQe1ukcHbkEf+xuxn9nfahCMySdOT6xl3NEByBeNMMhgg7mT4JmG4xldy5kNAAY/7Yk1+29JJxtdsY+jr4pVmaqs9Q+IED4tUsv1HileQ2RE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=rwrW4mzo; arc=none smtp.client-ip=203.205.221.240
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	s=arc-20240116; t=1714312797; c=relaxed/simple;
+	bh=ifpvloXdEiAtjgG4eP4E91YicSxPPCb+dKd9T99W3/c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=X/PcdYaMRFvs8kIBL5AOZgArAOJDMp/Am3G7vV7Y5Hv0LP2/VeCrAjNcovd8i2WZWUsw6CGx64KAjaHTMk5XKS/1+JzZO7ojli4W34RUW1rXarrSl73jLN3RghPEffcm5fA/cmiCbTNoo1x4zSHjD5gc2Q/UAE0+pSxe8tvQb/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NhDEqaoa; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="rwrW4mzo"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1714306763; bh=WhRK7c5VI5zG7dpXv/k2M42hjr8IyRYvYtQoYcJ0eOU=;
-	h=From:To:Subject:Date;
-	b=rwrW4mzotcqbFh9j9SnVYuky3lY9KwkFH+bX28FFZRy8OGn3lCP7QTQc9VgmnfFji
-	 NJPeiLT8k3vJ4/wPK+ef4umV8X9CSx31KoDVOaQGXWybTN2VOGWnPFe4wJiwsSw4Xc
-	 IISmAkkZjuTYSY+j0efJd0umCPeCoP8m5gGJ4xI4=
-Received: from pipishuo-OMEN-by-HP-Laptop-16-b0xxx.. ([123.115.148.131])
-	by newxmesmtplogicsvrszb9-0.qq.com (NewEsmtp) with SMTP
-	id 4C8B4CD2; Sun, 28 Apr 2024 20:19:08 +0800
-X-QQ-mid: xmsmtpt1714306748t5cry6yph
-Message-ID: <tencent_FDF9E162435F21368C39AB61255D2F2C8D08@qq.com>
-X-QQ-XMAILINFO: MR/iVh5QLeiesT/qxp6yj39CByasNjpnL5Z9mIbo5D+NZ9po4qliBl7DIFt78D
-	 ITDjU605nzcmebLng8uzqyv7GojIslOw3SROUovLp80U7NtYgHQnx+0tG0sDkC4/pM60JQYKoO7t
-	 Sc+vbmlLFOlv7X0tMWf3+tqikoA56BEh+DMM5Dk1GSPcU9TD+GBbEd1roUWxE4AFFwgCR0iDXn8Z
-	 LaXMgDB6PqBeaz1v8uoeiG1eh5QLGos1LwTtyWf36ATlikbNTZIsVpx7vIVHcWrbXfismzSPwC0G
-	 +XCifmb0TFFO07iC2Lx9MyQjno6okveCNNfKqna0LEGzNp0oQ/GGvZiPpXQJAe/+dVs1Yz1zXVjl
-	 w0hKCqlP5nWcES09G7l18v93GFj85xB2QdzDiwhUc3cFs9gu1+w/yvaCVE8t0a9RHi/xmps0szop
-	 LN/43paZ/CXvrvxBV/VHobonLF1cePaUBzMk/ECZl5iPF+/d+0G1Uc7Yn77KUminZ091tYdvjEwt
-	 2fCPcK2cmxfhPXR2/zB3zArhQNnd2XtBJ50S5fP2MRvQhocC1n80yo0trCqnUgF/g20xmoWdrks6
-	 HLJYE0cjSdT+iEVS5YfFs6YPJoSYS6z5+AwZiaowHzc8U+3hXN8PYsYmWDFHERA20ph5hrKc/7Xv
-	 agjPWoZ6Z0jq/Nx0+EIFGTfUTkDocBNNuu8r7BXAixw9JmosQKKI1fYOsQftT+Tt5XanuVvw5msF
-	 URs7/MTpd7ccZ2Uy604K2VaoBx+w5YCUFzLDETlEkR1HCL+m/vWpCYMHimitSueAmWxL7U9vb2vK
-	 7BcryxX+D7XLOL7LVFFenBBKXXwDsCsRM6P/KOpR5gboNr2z4SvJDjgWI7Nloi3g6FyoyXc8VMtm
-	 jyq6qdeBlI8XArgDPCYq2PNXnDyuvB/V6QO0x5sEBxGdi+Lp7lU4lkbfms6e3HijM4uAUcb8aGAw
-	 us/kan5KW3wwyvPVYAEtBKLnJcWR/OY9UMG+5SYU7lU2/8AWvgsEg/VKHtMaSdtOJBEQWZSmrVXA
-	 YzeRrEoJ9G5TB+eSHCM9xEtP82Ca6j4UXkIpg0/Q==
-X-QQ-XMRINFO: OD9hHCdaPRBwq3WW+NvGbIU=
-From: pipishuo <1289151713@qq.com>
-To: dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	1289151713@qq.com
-Subject: [PATCH] staging: fbtft:fixes unnecessary parentheses
-Date: Sun, 28 Apr 2024 20:19:08 +0800
-X-OQ-MSGID: <20240428121908.16060-1-1289151713@qq.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NhDEqaoa"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-34cc606b1b1so751918f8f.3
+        for <linux-staging@lists.linux.dev>; Sun, 28 Apr 2024 06:59:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1714312793; x=1714917593; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZugnSPb4SAW1kpa7qzNAd6wZf57ZPRMniC6Lpv5AqXA=;
+        b=NhDEqaoabBUWlZfJAgXcwafhy3Y6mTxgQWihsXsQ81C13t5crhx5bJjbvm3yttyOb4
+         mtnvDJ9/QKK927+HkoclwKToRLqwdhStYop6zqiKjfraf7ErvyUr6b2w9lNdqBv+z522
+         6XwZbnbNfQs/krZDySxBVJltYATQ/4icGOzo9AyrnUb3c0AT7ZqYPTR9iOej77I/0g/n
+         AKdhm6MJ+GBjnO5qoaXteOmrlyTa2FbHWlhh8DePhY2sM36R/0DKlTVpOllDaKRVj/mq
+         9YPZNRNYTsu4yTZ549D5jvsmSWs+aBb1LGCUG0dWdTvq4VCwILZSuTffqt2FSzud2K3o
+         1p+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714312793; x=1714917593;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZugnSPb4SAW1kpa7qzNAd6wZf57ZPRMniC6Lpv5AqXA=;
+        b=lMA/EeC5pUadIJmm2Itij5l2aek81H6x//XpkYu2jjYEYYbZU6W5rJtbWsUyVILfGl
+         T2I2AC0JWlhIsAhtrzwkjuZ6N0pOZKtGu+/M1RDwYjiLZFkLMJjUT5nJsuivZOjj7BwF
+         rSEAO8xoagRlbY5+9JdAwFyiKFr1j8kHoL1DeGhJ8Xjjh4sDe04dluWLObcmRlUCuRCZ
+         usKYZsC4KfWh9iExNMLEVg2o2qFFJ7y1YXGuMN34/TTWlkahosmBvPNxL8pwfpbQ8FSR
+         CPytWtYHMStHEXijrQ++GhKyqWFF9gY46gc4094mV8bx6B7u2zj596REIr6uqHsJniyi
+         qrsg==
+X-Gm-Message-State: AOJu0Yyc6XPxmbCRzi6EtXA/jzNRrbxRO1KKfM9PbJL7dKu13R4OLqKc
+	+R9fn5lcI+z863SISFnpVI7hHl2y/MnepYT0Rh9XJhT0E+6tojpk4pSV9lqYvwA=
+X-Google-Smtp-Source: AGHT+IGsE/EPW99tYDRYqKaO70aNIu/69G93grzhRIwvisgUrFWC4P5pO98zUtP9vShBN2ocCHTsBQ==
+X-Received: by 2002:a5d:6306:0:b0:34c:7410:d6c8 with SMTP id i6-20020a5d6306000000b0034c7410d6c8mr5695266wru.49.1714312792901;
+        Sun, 28 Apr 2024 06:59:52 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id f7-20020a170906c08700b00a51a80028e8sm12807165ejz.65.2024.04.28.06.59.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 28 Apr 2024 06:59:52 -0700 (PDT)
+Date: Sun, 28 Apr 2024 16:59:48 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: pipishuo <1289151713@qq.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: axis-fifo: fixes alignment should match open
+ parenthesis
+Message-ID: <e028e6a0-be04-4e1a-8932-c2fdcd7b7185@moroto.mountain>
+References: <tencent_58C9EBCB7FA35A38EAD077080863D46A5D06@qq.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <tencent_58C9EBCB7FA35A38EAD077080863D46A5D06@qq.com>
 
-This patch fixes the checks reported by checkpatch.pl
-for unnecessary parentheses
+On Sun, Apr 28, 2024 at 08:04:34PM +0800, pipishuo wrote:
+> This patch fixes the checks reported by checkpatch.pl
+> for alignment should match open parenthesis
+> 
+> Signed-off-by: pipishuo <1289151713@qq.com>
 
-Signed-off-by: pipishuo <1289151713@qq.com>
----
- drivers/staging/fbtft/fb_ili9320.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+This is your legal name that you use to sign legal documents?  Just one
+word, all lower case?
 
-diff --git a/drivers/staging/fbtft/fb_ili9320.c b/drivers/staging/fbtft/fb_ili9320.c
-index 0be7c2d51548..045275a9bc0b 100644
---- a/drivers/staging/fbtft/fb_ili9320.c
-+++ b/drivers/staging/fbtft/fb_ili9320.c
-@@ -37,7 +37,8 @@ static int init_display(struct fbtft_par *par)
- 	devcode = read_devicecode(par);
- 	fbtft_par_dbg(DEBUG_INIT_DISPLAY, par, "Device code: 0x%04X\n",
- 		      devcode);
--	if ((devcode != 0x0000) && (devcode != 0x9320))
-+	if (devcode != 0x0000 &&
-+	    devcode != 0x9320)
- 		dev_warn(par->info->device,
- 			 "Unrecognized Device code: 0x%04X (expected 0x9320)\n",
- 			devcode);
--- 
-2.34.1
+> ---
+>  drivers/staging/axis-fifo/axis-fifo.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
+> index c51818c56dd2..04f0e5b45a8b 100644
+> --- a/drivers/staging/axis-fifo/axis-fifo.c
+> +++ b/drivers/staging/axis-fifo/axis-fifo.c
+> @@ -376,7 +376,7 @@ static ssize_t axis_fifo_read(struct file *f, char __user *buf,
+>  		 */
+>  		mutex_lock(&fifo->read_lock);
+>  		ret = wait_event_interruptible_timeout(fifo->read_queue,
+> -			ioread32(fifo->base_addr + XLLF_RDFO_OFFSET),
+> +						       ioread32(fifo->base_addr + XLLF_RDFO_OFFSET),
+>  			read_timeout);
+
+Checkpatch is just a tool.  It's supposed to make the code more
+readable.  Sometimes it makes mistakes and makes the code worse.
+
+If it tells you to do something crazy then just ignore it.
+
+regards,
+dan carpenter
+
 
