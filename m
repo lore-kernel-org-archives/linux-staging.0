@@ -1,56 +1,56 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20EE710958
-	for <linux-staging@lists.linux.dev>; Sun, 28 Apr 2024 23:01:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B107C10A3B
+	for <linux-staging@lists.linux.dev>; Sun, 28 Apr 2024 23:01:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714345273; cv=none; b=UBnK8V/nYHWe7Z1xv6FoDQXd6iGq0V7KG3OpWTZJHJndqnGaxBe241Yx1UikFN9jo6OGp5t1a4rk6IMhFFmTv7QmUbWm0reRPTHPppzpzyMI+2FLYw3hIOokhuYKRaThWn7GC9UJRQBQ69iwzDADpv0PN2a7otwm/DTUe0SIidg=
+	t=1714345274; cv=none; b=ikenGP35TOQAiAk5kWCQmQXOl2mTbP05C+4uBZOHggpIs2JwQuJaeRAn+zrhJe9O2x+7nYTaPwNYwg/lTLUJGkxHZ0NGPjv/c83xa44oSQkGYjDUbMuerALlRGMbIvMh2crBB+Bjcgdm80qtVv9zBupb1wcPdDTzzP8XbUo4cPE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714345273; c=relaxed/simple;
-	bh=3ZTw8BeceEMrLI2eXWrhHPIMhWTE257zxH1ARkgOI/8=;
+	s=arc-20240116; t=1714345274; c=relaxed/simple;
+	bh=l1N7ppwQAFsdyrxlamyLKMlCpeI3ctv4JREfJWzeHj0=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=CQh6o1lQ6KrdeIhm8fqHB1Gpxyd0WLOSnAnIF2iM4C5mHPzndTpw8M8KcBZiJ4r3Pbx8an2zli4FI7q5eHD73T/+G0D1Brcj/QdX1k/CItzGpm2Nhp45HIYPURhl9rKNkEcGLIfKdBkpuVYe3STWamIIUS3T6G7ANIBlfKzecQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net; spf=pass smtp.mailfrom=darkphysics.net; dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b=JEp8J8On; arc=none smtp.client-ip=209.85.216.41
+	 MIME-Version; b=gMnwuJaNWQjn1VnO4zbftZPNaCFWy8SPGrCoFFcVmYMgEt+ql/CxmSIkWVRNF8SVxeFQUtpPJxbCpjeZ9gln7dXGHUAnpFHHBaGOChPvIRmoXisEZOK/gSOA5RKn0oTSBNPb9UUgl+BtVC36VOCYb2b5hk+ggM0ya/Uu1hyYKMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net; spf=pass smtp.mailfrom=darkphysics.net; dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b=B3y5oaN/; arc=none smtp.client-ip=209.85.216.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=darkphysics.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="JEp8J8On"
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-2a2da57ab3aso3341541a91.3
-        for <linux-staging@lists.linux.dev>; Sun, 28 Apr 2024 16:01:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="B3y5oaN/"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-2ad8fb779d2so3234919a91.0
+        for <linux-staging@lists.linux.dev>; Sun, 28 Apr 2024 16:01:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=darkphysics.net; s=google; t=1714345270; x=1714950070; darn=lists.linux.dev;
+        d=darkphysics.net; s=google; t=1714345271; x=1714950071; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=c6pdYepRZz8G1EwreRVScRjhNUy4bVKjwuiU8xh1WxQ=;
-        b=JEp8J8OnoZXwtNPn0vwbof+0JOTWd9xHx5GfJ7F3dsd9wYvoeURtq66k0SGic/aUPd
-         vm9LBU3DMK6PbmwZGX6ovMIdAGgzjc/G+0RIc32J3h87hKxS03Su3TwiMl8fozvu9OAw
-         DR5Kxd1VepKx43Mc7nc2mKd6KJKVO9/MnVKmH5fK/M91eh3uXHmkAeqRCeoCt8cAspyy
-         4VYFCO6NyFEGL98mC4YktKHwZYyaPdxBA2vL8eIlr5haKCWEpMZ+YbXZBxjf9S0BXY6/
-         Lel/OaYMMSBspug2qZ49LQs6LwManwk6wZjbs5DszBgErw93/+1WFIDSdsVDaj5xnU90
-         P1NA==
+        bh=6KENCVx6uegL7ew41ijCYKGsXuud/xPQNe/tRNshJuk=;
+        b=B3y5oaN/GAZhkLYTkkH/Be0VWn48Ty+MK1klqp6o3hRZZPMzehHJ7Il0nwG/cL2QSK
+         CBdIMuy+2E8+RRCUlb0Tpqo3IGFDqcHXXBmXfVyGGAq8ePw0l6Au15OK3NnsOL6zdU1K
+         9x30kZglPU1FhrRvuIFqEnHToaWqVFoOawmMfEyknieEbmBrSohCS8Kp4gZnurok7oZR
+         a0iyPtxFSQobnh3StiuCdL5Xs5cV2rdHy9/bePHxhtWAFF9lseQ4wXQzbpnoM1FMTr5w
+         rDhNQbPoKG3H1XZSbJ1169Fr6wLMQu6ZN+ejmRGm797qCpglKt5pkcsMSk4Talg12fle
+         126A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714345270; x=1714950070;
+        d=1e100.net; s=20230601; t=1714345271; x=1714950071;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=c6pdYepRZz8G1EwreRVScRjhNUy4bVKjwuiU8xh1WxQ=;
-        b=UpRLNYkVBRZ5Q6m2buMlMqNbYnzsqE+gkYFd8t8MTIrl/p3zVm4DjZ9lGQVBxP/mpb
-         PBz0M9/wKz+rcCKXxxEvZn5f7z1Dp/O5EUqM2PrjyDu004R9A+FK855PyZDSZBqXB2Qd
-         NrhIihCDpW+eYq0b+/eceK/TexxhTYPH6nI0cYiVLtoar9Jje0J9abgq1lKizKRHxrgk
-         C2P3VKOzxmfBrv3PcfSKgR1ts1Lsp7TwQVlMZFEzuk/Rp/7sUj5cMIeQ3BdHFFlr99TL
-         ngNWmifwopbLtm8xXmNNdcKhgAdrirh7OAEvJcUA1NuvuvLGFjX349rkvxv30RhTeUr4
-         1pcg==
-X-Gm-Message-State: AOJu0YxEgFjwBHjIKecVFWe62ViIU7j9rUvbSYRVMT8bm7lP4JSC19Ox
-	U55TYq6freahOwApkgMh+67J10PPh1iqy1c86SOI4GHzl5Dn2SjjAz66QUwJ5KQ=
-X-Google-Smtp-Source: AGHT+IF21UBD9P5VB314FqSjAvmC1hZ2R5W0zntXq9dHkyC0QLzOSszvvqhMX0h7QWUpecwyBoH6Pg==
-X-Received: by 2002:a17:90b:2303:b0:2ac:8366:8ab4 with SMTP id mt3-20020a17090b230300b002ac83668ab4mr8214191pjb.38.1714345270321;
+        bh=6KENCVx6uegL7ew41ijCYKGsXuud/xPQNe/tRNshJuk=;
+        b=FXMB7bn3jxefPUUIEgHvkHjZ1k/NKhvG4jcDa6zQN2dBK+znWf2F2aWNKkoxAVKyuA
+         yoQUT9gsiMJSloAonpOSorGc10H40NZgAkgiFlXg+98uCQ9eMAKWhkWaLAQ5UcSFCp8x
+         p9700tNJISygWOTQJgsYd3OtvTCn3pTdWJT3bosEqqteoWtBb5zV4CGwBTQM4Yp3s6gm
+         bhE1KYFyFkdYrNtgKiYb2opvvkRU13hslnFtUGdqxmCLYiVkbFPYaEmJpB71J4x7S/WA
+         AIGAJCAwJsDpJ1/IyUK/ujvwKMggZNvQzHZJtYY0cFMXEO9e8tMyUqUBKowfrjmOYgNg
+         U3+g==
+X-Gm-Message-State: AOJu0YwiVWUS/6sXKplTZveSi/zB3sCQE69AjbgQrDG3LOrm88MPBtOF
+	+CLXblS8YsxTeOuR6JzjAn6LnG9koyblCLoR8XHmXF6jkWqtE2mxQWdkloGTFsQ=
+X-Google-Smtp-Source: AGHT+IFVEu6gQBfsHHhNIwJLCMTct8XdvZOfNrf8MZU2TBod0vCG9bXbxCA+vqYoaWeprrpR86u2UQ==
+X-Received: by 2002:a17:90a:1548:b0:2a4:b9db:acf5 with SMTP id y8-20020a17090a154800b002a4b9dbacf5mr7428162pja.24.1714345270986;
         Sun, 28 Apr 2024 16:01:10 -0700 (PDT)
 Received: from lunchbox.darkphysics (c-76-146-178-2.hsd1.wa.comcast.net. [76.146.178.2])
-        by smtp.gmail.com with ESMTPSA id o16-20020a17090aac1000b002a27132ac02sm17860864pjq.2.2024.04.28.16.01.09
+        by smtp.gmail.com with ESMTPSA id o16-20020a17090aac1000b002a27132ac02sm17860864pjq.2.2024.04.28.16.01.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Apr 2024 16:01:09 -0700 (PDT)
+        Sun, 28 Apr 2024 16:01:10 -0700 (PDT)
 From: Tree Davies <tdavies@darkphysics.net>
 To: gregkh@linuxfoundation.org,
 	philipp.g.hortmann@gmail.com,
@@ -58,9 +58,9 @@ To: gregkh@linuxfoundation.org,
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Tree Davies <tdavies@darkphysics.net>
-Subject: [PATCH 01/18] Staging: rtl8192e: Rename variable CurSTAExtChnlOffset
-Date: Sun, 28 Apr 2024 16:00:49 -0700
-Message-Id: <20240428230106.6548-2-tdavies@darkphysics.net>
+Subject: [PATCH 02/18] Staging: rtl8192e: Rename variable CurrentAMPDUFactor
+Date: Sun, 28 Apr 2024 16:00:50 -0700
+Message-Id: <20240428230106.6548-3-tdavies@darkphysics.net>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20240428230106.6548-1-tdavies@darkphysics.net>
 References: <20240428230106.6548-1-tdavies@darkphysics.net>
@@ -72,86 +72,71 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rename variable CurSTAExtChnlOffset to cur_sta_ext_chnl_offset
+Rename variable CurrentAMPDUFactor to current_ampdu_factor
 to fix checkpatch warning Avoid CamelCase.
 
 Signed-off-by: Tree Davies <tdavies@darkphysics.net>
 ---
- drivers/staging/rtl8192e/rtl819x_HT.h        |  2 +-
- drivers/staging/rtl8192e/rtl819x_HTProc.c    | 12 ++++++------
- drivers/staging/rtl8192e/rtllib_softmac_wx.c |  2 +-
- 3 files changed, 8 insertions(+), 8 deletions(-)
+ drivers/staging/rtl8192e/rtl819x_HT.h     | 2 +-
+ drivers/staging/rtl8192e/rtl819x_HTProc.c | 8 ++++----
+ drivers/staging/rtl8192e/rtllib_tx.c      | 2 +-
+ 3 files changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtl819x_HT.h b/drivers/staging/rtl8192e/rtl819x_HT.h
-index a4580445305d..eeb5a5eb94be 100644
+index eeb5a5eb94be..b789d0f17156 100644
 --- a/drivers/staging/rtl8192e/rtl819x_HT.h
 +++ b/drivers/staging/rtl8192e/rtl819x_HT.h
-@@ -109,7 +109,7 @@ struct rt_hi_throughput {
+@@ -104,7 +104,7 @@ struct rt_hi_throughput {
+ 	u8 ampdu_enable;
+ 	u8 current_ampdu_enable;
+ 	u8 ampdu_factor;
+-	u8 CurrentAMPDUFactor;
++	u8 current_ampdu_factor;
+ 	u8 current_mpdu_density;
  	u8 forced_ampdu_factor;
  	u8 forced_mpdu_density;
- 	u8 current_op_mode;
--	enum ht_extchnl_offset CurSTAExtChnlOffset;
-+	enum ht_extchnl_offset cur_sta_ext_chnl_offset;
- 	u8 cur_tx_bw40mhz;
- 	u8 sw_bw_in_progress;
- 	u8 current_rt2rt_aggregation;
 diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-index 618523bacc8e..e82e8c50c090 100644
+index e82e8c50c090..3982c37f208c 100644
 --- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
 +++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-@@ -638,10 +638,10 @@ static void ht_set_connect_bw_mode_callback(struct rtllib_device *ieee)
- 	struct rt_hi_throughput *ht_info = ieee->ht_info;
+@@ -470,12 +470,12 @@ void ht_on_assoc_rsp(struct rtllib_device *ieee)
  
- 	if (ht_info->cur_bw_40mhz) {
--		if (ht_info->CurSTAExtChnlOffset == HT_EXTCHNL_OFFSET_UPPER)
-+		if (ht_info->cur_sta_ext_chnl_offset == HT_EXTCHNL_OFFSET_UPPER)
- 			ieee->set_chan(ieee->dev,
- 				       ieee->current_network.channel + 2);
--		else if (ht_info->CurSTAExtChnlOffset ==
-+		else if (ht_info->cur_sta_ext_chnl_offset ==
- 			 HT_EXTCHNL_OFFSET_LOWER)
- 			ieee->set_chan(ieee->dev,
- 				       ieee->current_network.channel - 2);
-@@ -650,7 +650,7 @@ static void ht_set_connect_bw_mode_callback(struct rtllib_device *ieee)
- 				       ieee->current_network.channel);
- 
- 		ieee->set_bw_mode_handler(ieee->dev, HT_CHANNEL_WIDTH_20_40,
--				       ht_info->CurSTAExtChnlOffset);
-+				       ht_info->cur_sta_ext_chnl_offset);
+ 	if (ieee->current_network.bssht.bd_rt2rt_aggregation) {
+ 		if (ieee->pairwise_key_type != KEY_TYPE_NA)
+-			ht_info->CurrentAMPDUFactor =
++			ht_info->current_ampdu_factor =
+ 					 pPeerHTCap->MaxRxAMPDUFactor;
+ 		else
+-			ht_info->CurrentAMPDUFactor = HT_AGG_SIZE_64K;
++			ht_info->current_ampdu_factor = HT_AGG_SIZE_64K;
  	} else {
- 		ieee->set_chan(ieee->dev, ieee->current_network.channel);
- 		ieee->set_bw_mode_handler(ieee->dev, HT_CHANNEL_WIDTH_20,
-@@ -680,14 +680,14 @@ void ht_set_connect_bw_mode(struct rtllib_device *ieee,
- 		if (Offset == HT_EXTCHNL_OFFSET_UPPER ||
- 		    Offset == HT_EXTCHNL_OFFSET_LOWER) {
- 			ht_info->cur_bw_40mhz = true;
--			ht_info->CurSTAExtChnlOffset = Offset;
-+			ht_info->cur_sta_ext_chnl_offset = Offset;
- 		} else {
- 			ht_info->cur_bw_40mhz = false;
--			ht_info->CurSTAExtChnlOffset = HT_EXTCHNL_OFFSET_NO_EXT;
-+			ht_info->cur_sta_ext_chnl_offset = HT_EXTCHNL_OFFSET_NO_EXT;
- 		}
- 	} else {
- 		ht_info->cur_bw_40mhz = false;
--		ht_info->CurSTAExtChnlOffset = HT_EXTCHNL_OFFSET_NO_EXT;
-+		ht_info->cur_sta_ext_chnl_offset = HT_EXTCHNL_OFFSET_NO_EXT;
+-		ht_info->CurrentAMPDUFactor = min_t(u32, pPeerHTCap->MaxRxAMPDUFactor,
++		ht_info->current_ampdu_factor = min_t(u32, pPeerHTCap->MaxRxAMPDUFactor,
+ 						    HT_AGG_SIZE_32K);
  	}
  
- 	netdev_dbg(ieee->dev, "%s():ht_info->bCurBW40MHz:%x\n", __func__,
-diff --git a/drivers/staging/rtl8192e/rtllib_softmac_wx.c b/drivers/staging/rtl8192e/rtllib_softmac_wx.c
-index d6bc74ba9092..11542aea4a20 100644
---- a/drivers/staging/rtl8192e/rtllib_softmac_wx.c
-+++ b/drivers/staging/rtl8192e/rtllib_softmac_wx.c
-@@ -319,7 +319,7 @@ void rtllib_wx_sync_scan_wq(void *data)
- 	if (ieee->ht_info->current_ht_support && ieee->ht_info->enable_ht &&
- 	    ieee->ht_info->cur_bw_40mhz) {
- 		b40M = 1;
--		chan_offset = ieee->ht_info->CurSTAExtChnlOffset;
-+		chan_offset = ieee->ht_info->cur_sta_ext_chnl_offset;
- 		bandwidth = (enum ht_channel_width)ieee->ht_info->cur_bw_40mhz;
- 		ieee->set_bw_mode_handler(ieee->dev, HT_CHANNEL_WIDTH_20,
- 				       HT_EXTCHNL_OFFSET_NO_EXT);
+@@ -514,7 +514,7 @@ void ht_initialize_ht_info(struct rtllib_device *ieee)
+ 	ht_info->cur_short_gi_40mhz = false;
+ 
+ 	ht_info->current_mpdu_density = 0;
+-	ht_info->CurrentAMPDUFactor = ht_info->ampdu_factor;
++	ht_info->current_ampdu_factor = ht_info->ampdu_factor;
+ 
+ 	memset((void *)(&ht_info->self_ht_cap), 0,
+ 	       sizeof(ht_info->self_ht_cap));
+diff --git a/drivers/staging/rtl8192e/rtllib_tx.c b/drivers/staging/rtl8192e/rtllib_tx.c
+index 54100dd81505..1aeb207a3fee 100644
+--- a/drivers/staging/rtl8192e/rtllib_tx.c
++++ b/drivers/staging/rtl8192e/rtllib_tx.c
+@@ -313,7 +313,7 @@ static void rtllib_tx_query_agg_cap(struct rtllib_device *ieee,
+ 		}
+ 		if (ieee->iw_mode == IW_MODE_INFRA) {
+ 			tcb_desc->ampdu_enable = true;
+-			tcb_desc->ampdu_factor = ht_info->CurrentAMPDUFactor;
++			tcb_desc->ampdu_factor = ht_info->current_ampdu_factor;
+ 			tcb_desc->ampdu_density = ht_info->current_mpdu_density;
+ 		}
+ 	}
 -- 
 2.30.2
 
