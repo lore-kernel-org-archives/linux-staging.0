@@ -1,139 +1,110 @@
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C40512BF3F
-	for <linux-staging@lists.linux.dev>; Mon, 29 Apr 2024 15:05:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1875A8665A
+	for <linux-staging@lists.linux.dev>; Mon, 29 Apr 2024 17:40:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714403123; cv=none; b=TMht+Ca0mJdHUZ6mmC/3XtUOcCQE3/o+F+cki3Oyn+u92jEHL+6QegK27cPwi5xlSBO2dz4j5XeUpzP4FR3qDXI7BDE95Z489gl64v3HM9XDTMB8hqDgR8QtN4HEDd0Rcb8gN/icB49LbTT9VYQ1xI4yjNBE1xkku5bjvL496Ng=
+	t=1714412449; cv=none; b=gctZ3MbNCn5ioKbF9FFDas4gO0D4zGIGrzjBnrZT8yhydn1GFSKsLTpqQC3RAst8fQm26wt2q0nPbH5Jc0snrGautwH/KvAu/ilXK6XkG3t/k81XuUq3IU/AezxDSVudmHNkheRQkFPIGCMbMXv/q3WcDNLWkocRF1eC8EWWWBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714403123; c=relaxed/simple;
-	bh=17e3seaVPIolCVRnz9dvrXMTILwJmsuH1BK6VcvWdM0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=c0m5zHnakfL97G6DCfXFX2Nnv3IgxTHMwkNeAlpFX9nGkZ7/NVkL/7HuHfg6I52rKJD/KOdMsVsTtSscC3hpR0lhrKA9twmCtMjgG2jfayDgseUdEJZEbaHWFKMJOzRUb5oWfkRTAcKfX9gPANtQHCuGTbWp0DKaeJlyVQdYiQY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=WrJjTdcg; arc=none smtp.client-ip=209.85.222.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1714412449; c=relaxed/simple;
+	bh=AJe7hDA+FAhFKDxklHcSHgjXDvoB7jvUVi6rDdBGHxs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SP8kIKVnTSnLhgxpMPCJpj7tW+cM9Jm29P1WzhrjXe709BjTdO+PeLPngv78lwBOSlIf/mNV9e4accGSyIhtnLV0voWAONlN4dYXXUq8faYgfLZWkoyrV6Ixvhaet6A8XKeOk2kPR31ez1h2VAXIJW1ZPs7RNJv2D5PtRKjAeCA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GFwS2LAH; arc=none smtp.client-ip=209.85.167.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="WrJjTdcg"
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-78edc0f9636so308060485a.2
-        for <linux-staging@lists.linux.dev>; Mon, 29 Apr 2024 08:05:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GFwS2LAH"
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-51788cbec59so915863e87.1
+        for <linux-staging@lists.linux.dev>; Mon, 29 Apr 2024 10:40:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1714403111; x=1715007911; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=STqazHEagBxWlHC69lQFp5WbvQ2Sdx8rB6+uKcUB0cU=;
-        b=WrJjTdcgFXzhMYcZ0zkZ9bJk/1MICWQ01Q/OCH0piecAlKcsbmCShyvHGipEOECNNQ
-         IAj2KHf5CX/tM32NY1d/ewmA45BZJSz+oCaF2V9g1aUjvtgXDVyZw7NWplTWbxPgG8sU
-         FpnjoejH/ME1Ova4ES0OocnIsmMbZolmvuceA=
+        d=gmail.com; s=20230601; t=1714412446; x=1715017246; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=NME6IMdi2Oz5flUJ3rLIhaX1spcUgVHRV9oyuwgHAnE=;
+        b=GFwS2LAHePMQJjMaZSiM60817X5lo4fPXXO4saxRp9ew3ROlUxqea0p9AO5s0RWLth
+         vdKyqL4vFORoLL/9Q2t4wxpHo96Y+iSDcTnPmR1rgoJ0bmcjdLzuUAz0TRkPZTSJ0cC+
+         4Jf5UW1TeXdn/Aaz76a1P4IJ5/wqR1CVLw1v+1s/UIJO5LAXZa2Wm5E6YcjIbeMuHQjC
+         UqU8+IlHKHN2EG45UW8iq+lj9cuOIRmRmHi8MTJnv8Sf6Q8uvnp//1vsdAF/4LLY/71W
+         6Oby+2QLJynjEU4lRe5143zQLjwdh/AnqFDCTJZHmcAQyTCt3J22XU7PBxWSMSIAJ7Tb
+         xdIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714403111; x=1715007911;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=STqazHEagBxWlHC69lQFp5WbvQ2Sdx8rB6+uKcUB0cU=;
-        b=ajE79O2ttlJQ+sv8T8unfjV3VToU63iuZFhe8U6vU8mBGNT8fxYk10BZL2qkWB2PN5
-         0fxYzlSm6FpEdBCQpWYPN2TeQOaIBwaFNDOYjRwjYVsEgqhrHkzlp3Sr1KmQszPckLaE
-         k0tdZ2PAt91wDl6gwZig6jIkuInat8iFfRmRPM1mQvPeHxzc8+zUs7LlhVI9Sge2NLhL
-         gE0E7/6ICGNBWh8iS5VeWgQnuanBRwXkqMCynsjdf2JA6xgxjiqU+2CWBKbHyCaHcuUI
-         QX6yr+ux8aEtJeRoECCjq6TYFc49rmwzsnHJ3VqzEHJeJhbvyhmvXYS5GoT+EHAungsj
-         PQYA==
-X-Forwarded-Encrypted: i=1; AJvYcCVEeystvHOLnLQ7BZ0IlV5fbTktGs9dMbTq2fX2jv4hwo+2QOfH89H5vuBZcWxqj2na5rZRFY3BX0h6nXuIkcb4t5QyPAy+PHvMYwm0Kg==
-X-Gm-Message-State: AOJu0YwI1ql92j/9TDt69N0Kqjt6H0oBIplPKv8DE2K/cn08+JsMtVfD
-	llcl2PLq0E92+sWjUOHAe5rvLb6lM+Sd7nFEHXx111SzEsweCmcHFWMrObedEQ==
-X-Google-Smtp-Source: AGHT+IHvPitwm/34xW/kQUa8TA8n6UCg3fwO9ex2lf7MaH+MC5XxlTHiUGq0Riy9QnEe78dxXREmpg==
-X-Received: by 2002:a05:620a:5e48:b0:790:c81e:7840 with SMTP id ya8-20020a05620a5e4800b00790c81e7840mr6919928qkn.12.1714403111405;
-        Mon, 29 Apr 2024 08:05:11 -0700 (PDT)
-Received: from denia.c.googlers.com (114.152.245.35.bc.googleusercontent.com. [35.245.152.114])
-        by smtp.gmail.com with ESMTPSA id p7-20020a05620a056700b0078d3b9139edsm10568591qkp.97.2024.04.29.08.05.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Apr 2024 08:05:11 -0700 (PDT)
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 29 Apr 2024 15:05:05 +0000
-Subject: [PATCH v3 26/26] media: dvb-frontends: tda10048: Make the range of
- z explicit.
+        d=1e100.net; s=20230601; t=1714412446; x=1715017246;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NME6IMdi2Oz5flUJ3rLIhaX1spcUgVHRV9oyuwgHAnE=;
+        b=j1vOsbLogZWNN9UWTNMF9gX0A3jL4RzpSfQuIWPejbEj2NrXjBT7ZFYIpQPIHAL8KA
+         pw+qrGdWhNJWlwFXVYXyjq//Nru8U0VUPSGAD8JbgrJzlLkK7Pe77Wd86iCWm8WVXjY+
+         Xpr52ufUK7w2omdIOgECDMq+jSGFmHgkRbc8LaybiTrSbdFKveKesbFayXR/5mTz6+rS
+         VQW6a+5ZOQjPks8Dku0SOAmfxba6zA8ICCUbRkblB5wBk4oOYrdNwLW3yczEKGO4uTmJ
+         9rZNrmdVxt60v6tmiMOJJKOb43rYp7mgJzLnqOgeeLdQQNYO2MMIZU3vtARNy1EMbCJ2
+         YKlA==
+X-Gm-Message-State: AOJu0YyPg2uC7eZig/IHZ90dKUJDHA9MGUv8gsNrThK6u5j/PloFv9Dv
+	dmWFEFjBtN3cUvf+PBA1s9hoU2AxPyjJ5a5hOjuXUdQXvGarzXsm
+X-Google-Smtp-Source: AGHT+IHWoLRyL9PlF7Vc0wXMfAlv/kDMjkYUxrE++vGREy/Adt/g7+bMzNgPiwZK2QodTS7C9PggiA==
+X-Received: by 2002:a19:ca48:0:b0:519:2e3d:213 with SMTP id h8-20020a19ca48000000b005192e3d0213mr6413176lfj.5.1714412445860;
+        Mon, 29 Apr 2024 10:40:45 -0700 (PDT)
+Received: from [192.168.0.103] (p57935690.dip0.t-ipconnect.de. [87.147.86.144])
+        by smtp.gmail.com with ESMTPSA id fj17-20020a0564022b9100b0056fe8f3eec6sm13159245edb.62.2024.04.29.10.40.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 29 Apr 2024 10:40:45 -0700 (PDT)
+Message-ID: <3ed42990-29bc-4b2d-b8e1-eb3335207184@gmail.com>
+Date: Mon, 29 Apr 2024 19:40:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/18] Staging: rtl8192e: Rename variables in
+ rtl819x_HTProc.c
+To: Tree Davies <tdavies@darkphysics.net>, gregkh@linuxfoundation.org,
+ anjan@momi.ca
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20240428230106.6548-1-tdavies@darkphysics.net>
+Content-Language: en-US
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <20240428230106.6548-1-tdavies@darkphysics.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240429-fix-cocci-v3-26-3c4865f5a4b0@chromium.org>
-References: <20240429-fix-cocci-v3-0-3c4865f5a4b0@chromium.org>
-In-Reply-To: <20240429-fix-cocci-v3-0-3c4865f5a4b0@chromium.org>
-To: Martin Tuma <martin.tuma@digiteqautomotive.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Hugues Fruchet <hugues.fruchet@foss.st.com>, 
- Alain Volmat <alain.volmat@foss.st.com>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Thierry Reding <thierry.reding@gmail.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>, 
- Sowjanya Komatineni <skomatineni@nvidia.com>, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Hans Verkuil <hverkuil@xs4all.nl>, Sergey Kozlov <serjk@netup.ru>, 
- Abylay Ospan <aospan@netup.ru>, 
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
- Dmitry Osipenko <digetx@gmail.com>, 
- Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
- Sylvain Petinot <sylvain.petinot@foss.st.com>, 
- Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, 
- Vikash Garodia <quic_vgarodia@quicinc.com>, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-stm32@st-md-mailman.stormreply.com, 
- linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev, 
- linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
- linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
- Ricardo Ribalda <ribalda@chromium.org>
-X-Mailer: b4 0.12.4
 
-We do not expect the sample_freq to be over 613MHz.
+On 4/29/24 01:00, Tree Davies wrote:
+> This series renames 18 variables found in rtl819x_HTProc.c
+> Thank you in advance to reviewers.
+> ~Tree
+> 
+> Tree Davies (18):
+>    Staging: rtl8192e: Rename variable CurSTAExtChnlOffset
+>    Staging: rtl8192e: Rename variable CurrentAMPDUFactor
+>    Staging: rtl8192e: Rename variable OptMode
+>    Staging: rtl8192e: Rename variable LSigTxopProtect
+>    Staging: rtl8192e: Rename variable ChlWidth
+>    Staging: rtl8192e: Rename variable AdvCoding
+>    Staging: rtl8192e: Rename variable MimoPwrSave
+>    Staging: rtl8192e: Rename variable ShortGI40Mhz
+>    Staging: rtl8192e: Rename variable ShortGI20Mhz
+>    Staging: rtl8192e: Rename variable GreenField
+>    Staging: rtl8192e: Rename variable TxSTBC
+>    Staging: rtl8192e: Rename variable RxSTBC
+>    Staging: rtl8192e: Rename variable DelayBA
+>    Staging: rtl8192e: Rename variable MaxAMSDUSize
+>    Staging: rtl8192e: Rename variable MaxRxAMPDUFactor
+>    Staging: rtl8192e: Rename variable MPDUDensity
+>    Staging: rtl8192e: Rename variable ExtHTCapInfo
+>    Staging: rtl8192e: Rename variable DssCCk
+> 
+>   drivers/staging/rtl8192e/rtl819x_HT.h        | 36 ++++-----
+>   drivers/staging/rtl8192e/rtl819x_HTProc.c    | 84 ++++++++++----------
+>   drivers/staging/rtl8192e/rtllib_rx.c         |  2 +-
+>   drivers/staging/rtl8192e/rtllib_softmac_wx.c |  2 +-
+>   drivers/staging/rtl8192e/rtllib_tx.c         |  2 +-
+>   drivers/staging/rtl8192e/rtllib_wx.c         |  8 +-
+>   6 files changed, 67 insertions(+), 67 deletions(-)
+> 
 
-Found by cocci:
-drivers/media/dvb-frontends/tda10048.c:345:1-7: WARNING: do_div() does a 64-by-32 division, please consider using div64_u64 instead.
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- drivers/media/dvb-frontends/tda10048.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/media/dvb-frontends/tda10048.c b/drivers/media/dvb-frontends/tda10048.c
-index 3e725cdcc66b..1886f733dbbf 100644
---- a/drivers/media/dvb-frontends/tda10048.c
-+++ b/drivers/media/dvb-frontends/tda10048.c
-@@ -328,7 +328,8 @@ static int tda10048_set_wref(struct dvb_frontend *fe, u32 sample_freq_hz,
- 			     u32 bw)
- {
- 	struct tda10048_state *state = fe->demodulator_priv;
--	u64 t, z;
-+	u32 z;
-+	u64 t;
- 
- 	dprintk(1, "%s()\n", __func__);
- 
-@@ -341,6 +342,7 @@ static int tda10048_set_wref(struct dvb_frontend *fe, u32 sample_freq_hz,
- 	/* t *= 2147483648 on 32bit platforms */
- 	t *= (2048 * 1024);
- 	t *= 1024;
-+	/* Sample frequency is under 613MHz */
- 	z = 7 * sample_freq_hz;
- 	do_div(t, z);
- 	t += 5;
-
--- 
-2.44.0.769.g3c40516874-goog
-
+Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
