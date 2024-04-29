@@ -1,58 +1,57 @@
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A2FB126F19
-	for <linux-staging@lists.linux.dev>; Mon, 29 Apr 2024 15:04:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7689127B60
+	for <linux-staging@lists.linux.dev>; Mon, 29 Apr 2024 15:04:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714403099; cv=none; b=YG9BnUWYcUK017rnwV/u9G5r0XozcjcTT/YykisvsgTiDBa1FwpjxuzPFa/YJggL+OdsmPmR1dxlhuh8elWZ3wK+eoV3tWq15coRy7XRQ8Y0Te3OHcYibZhBDmc3XV1kQeXR8ZYc5HukE+xr+I7dNVbpT2eBhCZ09TUsi20SpZk=
+	t=1714403102; cv=none; b=lboJRAeEBkY5b6Gy/1gGnGHkqnMEImYLHpkZMfwLr/LIuqt+dB75AX42/vuCy7v0I7fB0unrH6liZwzy1XRBILYrhXA3XkGuEO/cIbTvkcgHIgKnp1sSeIXiKBFG70mMfdoFFG8Valnqj1EpjEfC0d1W6Df6RdHNnr0h1ycXTCU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714403099; c=relaxed/simple;
-	bh=IwVC+qmR5b/10H0elYXxcr5eG/G4ClY19WrOjc/vxJY=;
+	s=arc-20240116; t=1714403102; c=relaxed/simple;
+	bh=ZrSAiJk+HniMoYPBukNZYTZLYvGcTc1ueDzpp3ZiRCg=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=qbWbPWKqaHEiLRvQx9aUYX4UTNdQQuhFW4HLoCchK4DaJ9lek5+zz/azEtbUPbDJtTyxoFmkf+tw7NjWiy/GPsrCrX1knKXOPLEKX4XKU08dDNS1Tkc6UUcCYrmTo1fRHn3d+n9FWaCortoC5EFAWNl4P1d4w8co7iWWMQShkCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Det+3wPn; arc=none smtp.client-ip=209.85.222.169
+	 In-Reply-To:To:Cc; b=NUVw4xyOMnLKgZSzaYCRgk3L0PYThMM2QSFFU5uSthtGOtWWSdMz4y5EG+3EBmFCqxFvsHP76SfPyubKL1RtK4kBnbeQ40rdReWgfMHJFz8+gA+dwUkviUqacH8xzzw+grLbMhcj3Kaa0nPjPE6HFjTw/88dnFMMubQpt5hUk38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=fqrg/uYS; arc=none smtp.client-ip=209.85.222.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Det+3wPn"
-Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-78edc49861aso344063985a.3
-        for <linux-staging@lists.linux.dev>; Mon, 29 Apr 2024 08:04:55 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="fqrg/uYS"
+Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-78f05afc8d6so360727885a.3
+        for <linux-staging@lists.linux.dev>; Mon, 29 Apr 2024 08:04:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1714403095; x=1715007895; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1714403096; x=1715007896; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=M/K5Byxt1ig+CQr/X/PeYwmg4ty1EjIby+WFZ625f+g=;
-        b=Det+3wPnN9mfL1j52DkzVzDZESFtCufmO3UOdyhTIL2eGctm57/xHV7lZWTcSR2gpK
-         /HqAPrWqfYfrtl6Gdd1JrNOTJoGTCYh+1JkCTDSuiddQzf3xHWNfKnnSRfxWoSEB6Piy
-         o9jl6DVa1SSY0TFU0I8aO7KSWVdV/TSPN0rJ0=
+        bh=ouc75z4uJmyNonUkF5EXar7vMPGdSwUxTwWXSBMXCBo=;
+        b=fqrg/uYS8nEsqSzixFz/2YvZvy4jaOlsoETmB/Ahj36L/cRLM1lE3Tfmk3Sn0YG9Ne
+         +lJ0iAA2SVpveTgMho+qlU8W8s1mzQZjpNUOXidCR95LlXgemU2hJdCUeEsNt+PTdP3F
+         0WR+YgeMHkJBUd6GG6ytYstNrY3A6uw7YjKg0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714403095; x=1715007895;
+        d=1e100.net; s=20230601; t=1714403096; x=1715007896;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=M/K5Byxt1ig+CQr/X/PeYwmg4ty1EjIby+WFZ625f+g=;
-        b=Pn8zvxnExvEpqFYJ66hgzDQRcxiAuHsdN3a+E/OjPkcmR/GCyGmUedas5R2gEi+KP8
-         gSxM+l9l6nRmopqJGSTgF+dgUpCWjyKbxlJPvQxlPmLzuUa9EzUdwBmRVVOr2Abmvq2t
-         jz/+GcPPvj8AI9GNrdSL50EXyVh96hVQgsWd8TkaA/TXJVa0STvHI/fLmqbdTStejBA1
-         Ul6i8zp7xVQq4qyoRI28LcmyQy6wpZGqv39NCNuc53HGBuVhX/SxHwk1gH2LWUiHMnvW
-         Si8JBwhyDPYSXwyIqnq+M4R8bmERb+rO0mqL1jKonh+RmOGidDKIAC1I4NABvz4psBVj
-         0/nA==
-X-Forwarded-Encrypted: i=1; AJvYcCUiomgsjmFV91pivkwvvkDcOqiYGkKhcwQRl3JgS4f5XgFUvjeywznUiLiTdWgqA9fpAWpviQRG9IWvq6T4aG0a96Xz1n8s1d3/1Uk3VQ==
-X-Gm-Message-State: AOJu0Yw1j8QO1skwYb7W5RAKSVcaZhGN1+uhBpNAnU+VBKuppO6/Sxiy
-	BX72G1WaZauVLt/mfERrplxZXiWF7fWXC700V5P74SCi7vGgb0khCqRN1uJFcw==
-X-Google-Smtp-Source: AGHT+IFfkHTGOiMiEN/DumhtisfWTU2X4/tYd3muzzupABl3mh4QKavP+6J3XAW0kBG33eeQdwXV6g==
-X-Received: by 2002:a05:620a:298a:b0:790:f2b2:ed2e with SMTP id r10-20020a05620a298a00b00790f2b2ed2emr5311152qkp.64.1714403094908;
-        Mon, 29 Apr 2024 08:04:54 -0700 (PDT)
+        bh=ouc75z4uJmyNonUkF5EXar7vMPGdSwUxTwWXSBMXCBo=;
+        b=op8Jfws22ol8p8OcMhnLtY3PytcM9rbehA3thfJCFxB2VQR6VsojFvpNzfgM0uVtOx
+         MIJJq+mauLLklzVyh85P8mPPLzBygMVZyO6qHpNV8B8NXofwBpM/6MCJkBjjK2yb4Swh
+         dufCwXY3zkLn65v+oAJBfymH+13AEws5fdh3s5oi37Axjq2UbrtpJ+B4vvPKVNohcjG8
+         +Q5VUTgtE9PnummCCDWwJT6z2pBYDfCNS3pjxJbOIu0Eq+SGiqQqIrtzyxY2d5/1jgB4
+         q2gQd9280T6ceLZAdcRsSnIF+/WvyvEuQlsXF8IiDxJKYJR2bahXL2QEonrUfv3flRdu
+         tFcg==
+X-Forwarded-Encrypted: i=1; AJvYcCXoFNW7aAActJMRrbQ5IIpdE2fkeNvynAdFq5E65BDnDsxMIzEwRv+qDKQuMud1jc1aBHOB0xbZi5+ouHA8ikHPePUcri/8GkgDzL+aCQ==
+X-Gm-Message-State: AOJu0YxKscmPjmH8ysRqfMFZwkS6EDQPikU9tuIROoLbN915cBGo9Cgl
+	SxbZcOqLRY1QJwpY8UQNTKovX3KZCUZL/Se9yQCJFldF2IzC13dVt4TQyI29UA==
+X-Google-Smtp-Source: AGHT+IEBZ4dmfr/e0QaIDLPes2AA5z7Utc0Aqd4uHb97QSLpEnTeDt3Yt9PtJFu+W2rGkPiTmePlKA==
+X-Received: by 2002:a05:620a:640a:b0:790:f573:2ec5 with SMTP id pz10-20020a05620a640a00b00790f5732ec5mr3631789qkn.8.1714403096616;
+        Mon, 29 Apr 2024 08:04:56 -0700 (PDT)
 Received: from denia.c.googlers.com (114.152.245.35.bc.googleusercontent.com. [35.245.152.114])
-        by smtp.gmail.com with ESMTPSA id p7-20020a05620a056700b0078d3b9139edsm10568591qkp.97.2024.04.29.08.04.54
+        by smtp.gmail.com with ESMTPSA id p7-20020a05620a056700b0078d3b9139edsm10568591qkp.97.2024.04.29.08.04.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Apr 2024 08:04:54 -0700 (PDT)
+        Mon, 29 Apr 2024 08:04:56 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 29 Apr 2024 15:04:50 +0000
-Subject: [PATCH v3 11/26] media: s2255: Use refcount_t instead of atomic_t
- for num_channels
+Date: Mon, 29 Apr 2024 15:04:52 +0000
+Subject: [PATCH v3 13/26] media: common: saa7146: Use min macro
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -61,7 +60,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240429-fix-cocci-v3-11-3c4865f5a4b0@chromium.org>
+Message-Id: <20240429-fix-cocci-v3-13-3c4865f5a4b0@chromium.org>
 References: <20240429-fix-cocci-v3-0-3c4865f5a4b0@chromium.org>
 In-Reply-To: <20240429-fix-cocci-v3-0-3c4865f5a4b0@chromium.org>
 To: Martin Tuma <martin.tuma@digiteqautomotive.com>, 
@@ -101,100 +100,54 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.12.4
 
-Use an API that resembles more the actual use of num_channels.
+Simplifies the code. Found by cocci:
 
-Found by cocci:
-drivers/media/usb/s2255/s2255drv.c:2362:5-24: WARNING: atomic_dec_and_test variation before object free at line 2363.
-drivers/media/usb/s2255/s2255drv.c:1557:5-24: WARNING: atomic_dec_and_test variation before object free at line 1558.
+drivers/media/common/saa7146/saa7146_hlp.c:125:36-37: WARNING opportunity for min()
+drivers/media/common/saa7146/saa7146_hlp.c:154:41-42: WARNING opportunity for min()
+drivers/media/common/saa7146/saa7146_hlp.c:286:35-36: WARNING opportunity for min()
+drivers/media/common/saa7146/saa7146_hlp.c:289:35-36: WARNING opportunity for min()
 
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/usb/s2255/s2255drv.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ drivers/media/common/saa7146/saa7146_hlp.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/usb/s2255/s2255drv.c b/drivers/media/usb/s2255/s2255drv.c
-index 8e1de1e8bd12..a6e450181fd0 100644
---- a/drivers/media/usb/s2255/s2255drv.c
-+++ b/drivers/media/usb/s2255/s2255drv.c
-@@ -247,7 +247,7 @@ struct s2255_vc {
- struct s2255_dev {
- 	struct s2255_vc         vc[MAX_CHANNELS];
- 	struct v4l2_device      v4l2_dev;
--	atomic_t                num_channels;
-+	refcount_t		num_channels;
- 	int			frames;
- 	struct mutex		lock;	/* channels[].vdev.lock */
- 	struct mutex		cmdlock; /* protects cmdbuf */
-@@ -1550,11 +1550,11 @@ static void s2255_video_device_release(struct video_device *vdev)
- 		container_of(vdev, struct s2255_vc, vdev);
+diff --git a/drivers/media/common/saa7146/saa7146_hlp.c b/drivers/media/common/saa7146/saa7146_hlp.c
+index 7569d8cdd4d8..fe3348af543e 100644
+--- a/drivers/media/common/saa7146/saa7146_hlp.c
++++ b/drivers/media/common/saa7146/saa7146_hlp.c
+@@ -122,7 +122,7 @@ static int calculate_h_scale_registers(struct saa7146_dev *dev,
+ 	xacm = 0;
  
- 	dprintk(dev, 4, "%s, chnls: %d\n", __func__,
--		atomic_read(&dev->num_channels));
-+		refcount_read(&dev->num_channels));
+ 	/* set horizontal filter parameters (CXY = CXUV) */
+-	cxy = hps_h_coeff_tab[( (xpsc - 1) < 63 ? (xpsc - 1) : 63 )].hps_coeff;
++	cxy = hps_h_coeff_tab[min(xpsc - 1, 63)].hps_coeff;
+ 	cxuv = cxy;
  
- 	v4l2_ctrl_handler_free(&vc->hdl);
+ 	/* calculate and set horizontal fine scale (xsci) */
+@@ -151,7 +151,7 @@ static int calculate_h_scale_registers(struct saa7146_dev *dev,
+ 		xacm = 0;
+ 		/* get best match in the table of attenuations
+ 		   for horizontal scaling */
+-		h_atten = hps_h_coeff_tab[( (xpsc - 1) < 63 ? (xpsc - 1) : 63 )].weight_sum;
++		h_atten = hps_h_coeff_tab[min(xpsc - 1, 63)].weight_sum;
  
--	if (atomic_dec_and_test(&dev->num_channels))
-+	if (refcount_dec_and_test(&dev->num_channels))
- 		s2255_destroy(dev);
- 	return;
- }
-@@ -1659,7 +1659,7 @@ static int s2255_probe_v4l(struct s2255_dev *dev)
- 				"failed to register video device!\n");
- 			break;
+ 		for (i = 0; h_attenuation[i] != 0; i++) {
+ 			if (h_attenuation[i] >= h_atten)
+@@ -283,10 +283,10 @@ static int calculate_v_scale_registers(struct saa7146_dev *dev, enum v4l2_field
  		}
--		atomic_inc(&dev->num_channels);
-+		refcount_inc(&dev->num_channels);
- 		v4l2_info(&dev->v4l2_dev, "V4L2 device registered as %s\n",
- 			  video_device_node_name(&vc->vdev));
  
-@@ -1667,11 +1667,11 @@ static int s2255_probe_v4l(struct s2255_dev *dev)
- 	pr_info("Sensoray 2255 V4L driver Revision: %s\n",
- 		S2255_VERSION);
- 	/* if no channels registered, return error and probe will fail*/
--	if (atomic_read(&dev->num_channels) == 0) {
-+	if (refcount_read(&dev->num_channels) == 0) {
- 		v4l2_device_unregister(&dev->v4l2_dev);
- 		return ret;
- 	}
--	if (atomic_read(&dev->num_channels) != MAX_CHANNELS)
-+	if (refcount_read(&dev->num_channels) != MAX_CHANNELS)
- 		pr_warn("s2255: Not all channels available.\n");
- 	return 0;
- }
-@@ -2221,7 +2221,7 @@ static int s2255_probe(struct usb_interface *interface,
- 		goto errorFWDATA1;
- 	}
+ 		/* get filter coefficients for cya, cyb from table hps_v_coeff_tab */
+-		cya_cyb = hps_v_coeff_tab[ (yacl < 63 ? yacl : 63 ) ].hps_coeff;
++		cya_cyb = hps_v_coeff_tab[min(yacl, 63)].hps_coeff;
  
--	atomic_set(&dev->num_channels, 0);
-+	refcount_set(&dev->num_channels, 0);
- 	dev->pid = id->idProduct;
- 	dev->fw_data = kzalloc(sizeof(struct s2255_fw), GFP_KERNEL);
- 	if (!dev->fw_data)
-@@ -2341,12 +2341,12 @@ static void s2255_disconnect(struct usb_interface *interface)
- {
- 	struct s2255_dev *dev = to_s2255_dev(usb_get_intfdata(interface));
- 	int i;
--	int channels = atomic_read(&dev->num_channels);
-+	int channels = refcount_read(&dev->num_channels);
- 	mutex_lock(&dev->lock);
- 	v4l2_device_disconnect(&dev->v4l2_dev);
- 	mutex_unlock(&dev->lock);
- 	/*see comments in the uvc_driver.c usb disconnect function */
--	atomic_inc(&dev->num_channels);
-+	refcount_inc(&dev->num_channels);
- 	/* unregister each video device. */
- 	for (i = 0; i < channels; i++)
- 		video_unregister_device(&dev->vc[i].vdev);
-@@ -2359,7 +2359,7 @@ static void s2255_disconnect(struct usb_interface *interface)
- 		dev->vc[i].vidstatus_ready = 1;
- 		wake_up(&dev->vc[i].wait_vidstatus);
- 	}
--	if (atomic_dec_and_test(&dev->num_channels))
-+	if (refcount_dec_and_test(&dev->num_channels))
- 		s2255_destroy(dev);
- 	dev_info(&interface->dev, "%s\n", __func__);
- }
+ 		/* get best match in the table of attenuations for vertical scaling */
+-		v_atten = hps_v_coeff_tab[ (yacl < 63 ? yacl : 63 ) ].weight_sum;
++		v_atten = hps_v_coeff_tab[min(yacl, 63)].weight_sum;
+ 
+ 		for (i = 0; v_attenuation[i] != 0; i++) {
+ 			if (v_attenuation[i] >= v_atten)
 
 -- 
 2.44.0.769.g3c40516874-goog
