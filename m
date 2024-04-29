@@ -1,58 +1,57 @@
-Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3D2381AB1
-	for <linux-staging@lists.linux.dev>; Mon, 29 Apr 2024 15:04:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 207E0127E1F
+	for <linux-staging@lists.linux.dev>; Mon, 29 Apr 2024 15:04:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714403102; cv=none; b=If6I5xJNpVL++XUGqCMxVN1dKDf9srRTnznPWDnNVI9lSZ9om+tcGc+IG34rsyamcC8Yq7ueYiM6oA5xDODo0Y0+4XzCjIUqQiaIjk859Dfr01jjdlWp2uXDBMAnIYefuxiFZj/8IkYMuW0j4G8LxbwgUb6QpMQ3HTofRZp5Iqw=
+	t=1714403103; cv=none; b=JLgNNx+8gmI1eJR9a9nuctZ20eX0h2rsbS6UY4SxPXhFjnjLK8qx0j/esJOxN9b24bTnzbX6U7lKSZuz2JaccOdTtcstGnfL+mwVxJFvO8SuPPtcxIZ4Xx0awZ0BkwAFVg8zMI1GOXGvNxM4NJQnnjs0ClOVn/hezxHmJpeYXPU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714403102; c=relaxed/simple;
-	bh=06mL5EXe9kTunFEegEJRz7Wo9ks6u/t6gIH9sJH9trw=;
+	s=arc-20240116; t=1714403103; c=relaxed/simple;
+	bh=HnkZzu3hOGP6WP/z/J628OEomq/9kbGj6cjO+bxIfdk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Vl2oz3MgRzNBeD4m12ygdW4N+DT9AULtMtMx/Mx7a8TSLuIl85lU90NUq2lWSk6i40Ymu8bxK6FVlbCcTbK9/SQF6MO14gcYqOpHPlsMv1+X6jTRER64XpIMer8O1FqlDNnwXzH5hcrXt7HP+RFzWYRe4Ujc9x5AaYzyJEOoTEI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=kUUjHByZ; arc=none smtp.client-ip=209.85.160.50
+	 In-Reply-To:To:Cc; b=XGHFeF5JTrVjCePfNmtrmVBI6SSMClJaH7DpKOMpYMqcZMfpD4XFnrhr2aHRZdaQe1T7cCS3w8Ug5IozktWd+Q9ToHCFUcBUpzLNXS0OFT0/UV8o8fe+5Or0Vee8ObRmengQavxRDSndas2R85jz5UvIvMe9Fp9kCtUEZIXbDbQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Ixziyj0r; arc=none smtp.client-ip=209.85.222.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="kUUjHByZ"
-Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-238e171b118so2097333fac.3
-        for <linux-staging@lists.linux.dev>; Mon, 29 Apr 2024 08:04:56 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Ixziyj0r"
+Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-78edc3e80e6so362028285a.2
+        for <linux-staging@lists.linux.dev>; Mon, 29 Apr 2024 08:04:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1714403096; x=1715007896; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1714403099; x=1715007899; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=X5IbU7HBHK5ZSrS81fN3o3XopIPldfFFy8PdyHH7F6Q=;
-        b=kUUjHByZ3mEuumYQFtPLRySNJD8I+KSpO/7BYCNVh9SRkZILsPtanVT1MzT1rH7RCk
-         W1PZLwzt0KmIk6NjhPra4vOfNRWafXl0Ro9KQTEEir8vhgF15KnHlFGQrpfTSt/hKU+Y
-         28J4dFmzByst4ExPpD+IVrdAG4ensxQmqUflo=
+        bh=oXXgUMwvGuh/bAZ05Vu9f2lIZUwmSZiJ1Ue2E9QmyGE=;
+        b=Ixziyj0rYxE7JEBeSW5mWsTCuqvUXWtlslbQ1iG+otUQrIkddlAfsGJgvS7dmQO4wu
+         agNVBo/vDxemfUbeX9rhVTiprpKYfKm9WbKVkCcWNI8D6CwQxeEktSFt5R0vmwiQwNKQ
+         WWQ/qbBEx3OpX8KG8x/jEQq57AmEDWRvkxAeA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714403096; x=1715007896;
+        d=1e100.net; s=20230601; t=1714403099; x=1715007899;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=X5IbU7HBHK5ZSrS81fN3o3XopIPldfFFy8PdyHH7F6Q=;
-        b=g8MInp1kKyZgr9loBvwWojcC9U04qKjYV8XC6hkuyHOMhS0Y5Q39iTrbRVEyx/td3U
-         Qn4tsDxxUEyJ/z9/TTRXcflcd48TtGq26jcu787KyiRxBgcscS/EzLuOgri2v6LSun1l
-         U1Ft97EYAmyp/64MHMm8ZXy1VnsdNry/a7QbvY1xxOSYEqJy2W0PD9AYNMDfvQtckBlG
-         vDfnv9aW8bKumLxSbynfBsO9znbnsAnmY2yjZXLX5XnVnQM9BBNZbv2cPZMPHi0qltNl
-         0AHiekdxwclRyd7QXFDnyW5Ze/FuaEQuoo3CRhO6pNGghLQ7U3uD3mc/a2W/BNt+zXWP
-         cw6g==
-X-Forwarded-Encrypted: i=1; AJvYcCUINHdwaeO0J7sdSeetl0Od5SHrnZpjX108zn62owZ/4vo/DJ5+Q5uMAAEiyOyPzBOmsnSoupb2oucT4+VqIkVVY7ktbMaatrRw6RihWQ==
-X-Gm-Message-State: AOJu0Yw7YTHYxH9Cx/Zt7NO+fWO4ZcmZTp+gqfLbZP+bVHbM6/yujxfr
-	RFDkz4+ztJTDFWxAi9KYBTRftf0rJI4wkZ5tTOCEvLXJmpv/vSFuRCsX+t+iJw==
-X-Google-Smtp-Source: AGHT+IGVAH/IwNYZ4S96l7NvgpYNIEj4hEsjMjcli1Y8ndu6kmVsTG4AE2U+O+g2MrONF6L3wD0YHA==
-X-Received: by 2002:a05:6870:2401:b0:233:55b8:edf1 with SMTP id n1-20020a056870240100b0023355b8edf1mr12050766oap.8.1714403095753;
-        Mon, 29 Apr 2024 08:04:55 -0700 (PDT)
+        bh=oXXgUMwvGuh/bAZ05Vu9f2lIZUwmSZiJ1Ue2E9QmyGE=;
+        b=cF/enwpAVu5cr+5+OEKkqJXOVXwagptf0P6S5rfysCYmjvHUSK/0r4hHb0yi/PBemK
+         mI8q+yGWII9SvCJeY4JVPBPPjspTGkOgXCPNZj7GDqSdp7Sw4P3NIm36+keQuY2ne0OS
+         T+VMfCB0mkYOXlhik0p+CBrNJybQ5g5cdSX2BjI9vkGpAcczDuteQDRvyUICGe2V/Ew7
+         UEQMOgdPHqeFsKkxT/2U3z3BCO9hFElMIIDT4TO+9gkBiCmclEs8QGGw75sRz4MC4UW5
+         3HOLWsFhgNCJYHEEmRSOXssMg9SWs6m4bbHmtC9LzMm/YGmtoQIH3X4lAjdPIi38MfBI
+         3y1Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUAGOhd+E5qkOvOFZBVm5ej2129o5fck/xjPoi6Rir7Gr6ayrBLGSAlqN0OH314mshE2rwNQR0OJtNBE1nk2qRFPrwLmPXM2Ud8ouWDkQ==
+X-Gm-Message-State: AOJu0YyGBZRI4Yc50VQlp9LGuIWegv77ayFUQxrRj1GGXl4gLf7XrDEi
+	y5NKMIZsx0iCSjieYYh9xaRdGp3KtEPj5CbXpyScXpTnjmt31vNCMT39c6BsSg==
+X-Google-Smtp-Source: AGHT+IFJT4Q2Syc1PBrJKVClvA35sFEGet4fgiHKy6TprlGgcTs6U4UnMxlpWR+ax38rGRoBMytLog==
+X-Received: by 2002:a05:620a:410c:b0:790:ef3e:24fc with SMTP id j12-20020a05620a410c00b00790ef3e24fcmr5535437qko.16.1714403098672;
+        Mon, 29 Apr 2024 08:04:58 -0700 (PDT)
 Received: from denia.c.googlers.com (114.152.245.35.bc.googleusercontent.com. [35.245.152.114])
-        by smtp.gmail.com with ESMTPSA id p7-20020a05620a056700b0078d3b9139edsm10568591qkp.97.2024.04.29.08.04.55
+        by smtp.gmail.com with ESMTPSA id p7-20020a05620a056700b0078d3b9139edsm10568591qkp.97.2024.04.29.08.04.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Apr 2024 08:04:55 -0700 (PDT)
+        Mon, 29 Apr 2024 08:04:58 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 29 Apr 2024 15:04:51 +0000
-Subject: [PATCH v3 12/26] media: platform: mtk-mdp3: Use refcount_t for
- job_count
+Date: Mon, 29 Apr 2024 15:04:54 +0000
+Subject: [PATCH v3 15/26] media: netup_unidvb: Use min macro
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -61,7 +60,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240429-fix-cocci-v3-12-3c4865f5a4b0@chromium.org>
+Message-Id: <20240429-fix-cocci-v3-15-3c4865f5a4b0@chromium.org>
 References: <20240429-fix-cocci-v3-0-3c4865f5a4b0@chromium.org>
 In-Reply-To: <20240429-fix-cocci-v3-0-3c4865f5a4b0@chromium.org>
 To: Martin Tuma <martin.tuma@digiteqautomotive.com>, 
@@ -101,120 +100,29 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.12.4
 
-Use an API that resembles more the actual use of job_count.
+Simplify the code.
 
 Found by cocci:
-drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c:527:5-24: WARNING: atomic_dec_and_test variation before object free at line 541.
-drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c:578:6-25: WARNING: atomic_dec_and_test variation before object free at line 581.
+drivers/media/pci/netup_unidvb/netup_unidvb_i2c.c:138:26-27: WARNING opportunity for min()
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c | 10 +++++-----
- drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c |  6 +++---
- drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.h |  2 +-
- drivers/media/platform/mediatek/mdp3/mtk-mdp3-m2m.c  |  6 +++---
- 4 files changed, 12 insertions(+), 12 deletions(-)
+ drivers/media/pci/netup_unidvb/netup_unidvb_i2c.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c
-index 1d64bac34b90..ea2ea119dd2a 100644
---- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c
-+++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c
-@@ -524,7 +524,7 @@ static void mdp_auto_release_work(struct work_struct *work)
- 	mdp_comp_clocks_off(&mdp->pdev->dev, cmd->comps,
- 			    cmd->num_comps);
+diff --git a/drivers/media/pci/netup_unidvb/netup_unidvb_i2c.c b/drivers/media/pci/netup_unidvb/netup_unidvb_i2c.c
+index 46676f2c89c7..1c885d620b75 100644
+--- a/drivers/media/pci/netup_unidvb/netup_unidvb_i2c.c
++++ b/drivers/media/pci/netup_unidvb/netup_unidvb_i2c.c
+@@ -135,7 +135,7 @@ static void netup_i2c_fifo_tx(struct netup_i2c *i2c)
+ 		(readw(&i2c->regs->tx_fifo.stat_ctrl) & 0x3f);
+ 	u32 msg_length = i2c->msg->len - i2c->xmit_size;
  
--	if (atomic_dec_and_test(&mdp->job_count)) {
-+	if (refcount_dec_and_test(&mdp->job_count)) {
- 		if (cmd->mdp_ctx)
- 			mdp_m2m_job_finish(cmd->mdp_ctx);
- 
-@@ -575,7 +575,7 @@ static void mdp_handle_cmdq_callback(struct mbox_client *cl, void *mssg)
- 		mdp_comp_clocks_off(&mdp->pdev->dev, cmd->comps,
- 				    cmd->num_comps);
- 
--		if (atomic_dec_and_test(&mdp->job_count))
-+		if (refcount_dec_and_test(&mdp->job_count))
- 			wake_up(&mdp->callback_wq);
- 
- 		mdp_cmdq_pkt_destroy(&cmd->pkt);
-@@ -724,9 +724,9 @@ int mdp_cmdq_send(struct mdp_dev *mdp, struct mdp_cmdq_param *param)
- 	int i, ret;
- 	u8 pp_used = __get_pp_num(param->param->type);
- 
--	atomic_set(&mdp->job_count, pp_used);
-+	refcount_set(&mdp->job_count, pp_used);
- 	if (atomic_read(&mdp->suspended)) {
--		atomic_set(&mdp->job_count, 0);
-+		refcount_set(&mdp->job_count, 0);
- 		return -ECANCELED;
- 	}
- 
-@@ -764,7 +764,7 @@ int mdp_cmdq_send(struct mdp_dev *mdp, struct mdp_cmdq_param *param)
- 		mdp_comp_clocks_off(&mdp->pdev->dev, cmd[i]->comps,
- 				    cmd[i]->num_comps);
- err_cancel_job:
--	atomic_set(&mdp->job_count, 0);
-+	refcount_set(&mdp->job_count, 0);
- 
- 	return ret;
- }
-diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
-index 5209f531ef8d..c1f3bf98120a 100644
---- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
-+++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
-@@ -380,14 +380,14 @@ static int __maybe_unused mdp_suspend(struct device *dev)
- 
- 	atomic_set(&mdp->suspended, 1);
- 
--	if (atomic_read(&mdp->job_count)) {
-+	if (refcount_read(&mdp->job_count)) {
- 		ret = wait_event_timeout(mdp->callback_wq,
--					 !atomic_read(&mdp->job_count),
-+					 !refcount_read(&mdp->job_count),
- 					 2 * HZ);
- 		if (ret == 0) {
- 			dev_err(dev,
- 				"%s:flushed cmdq task incomplete, count=%d\n",
--				__func__, atomic_read(&mdp->job_count));
-+				__func__, refcount_read(&mdp->job_count));
- 			return -EBUSY;
- 		}
- 	}
-diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.h b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.h
-index 8c09e984fd01..430251f63754 100644
---- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.h
-+++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.h
-@@ -134,7 +134,7 @@ struct mdp_dev {
- 	/* synchronization protect for m2m device operation */
- 	struct mutex				m2m_lock;
- 	atomic_t				suspended;
--	atomic_t				job_count;
-+	refcount_t				job_count;
- };
- 
- struct mdp_pipe_info {
-diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-m2m.c b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-m2m.c
-index 35a8b059bde5..0e69128a3772 100644
---- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-m2m.c
-+++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-m2m.c
-@@ -104,14 +104,14 @@ static void mdp_m2m_device_run(void *priv)
- 	task.cb_data = NULL;
- 	task.mdp_ctx = ctx;
- 
--	if (atomic_read(&ctx->mdp_dev->job_count)) {
-+	if (refcount_read(&ctx->mdp_dev->job_count)) {
- 		ret = wait_event_timeout(ctx->mdp_dev->callback_wq,
--					 !atomic_read(&ctx->mdp_dev->job_count),
-+					 !refcount_read(&ctx->mdp_dev->job_count),
- 					 2 * HZ);
- 		if (ret == 0) {
- 			dev_err(&ctx->mdp_dev->pdev->dev,
- 				"%d jobs not yet done\n",
--				atomic_read(&ctx->mdp_dev->job_count));
-+				refcount_read(&ctx->mdp_dev->job_count));
- 			goto worker_end;
- 		}
- 	}
+-	msg_length = (msg_length < fifo_space ? msg_length : fifo_space);
++	msg_length = min(msg_length, fifo_space);
+ 	while (msg_length--) {
+ 		data = i2c->msg->buf[i2c->xmit_size++];
+ 		writeb(data, &i2c->regs->tx_fifo.data8);
 
 -- 
 2.44.0.769.g3c40516874-goog
