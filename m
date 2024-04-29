@@ -1,57 +1,58 @@
-Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79B76129A6A
-	for <linux-staging@lists.linux.dev>; Mon, 29 Apr 2024 15:05:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C11EB129A71
+	for <linux-staging@lists.linux.dev>; Mon, 29 Apr 2024 15:05:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714403111; cv=none; b=FM3F39ZdRYisKKOL8Q0EvyORzO/33PxRtX9ex3kQtc/ZKwbgElzX0ptCnm0bm4I/FkWfL6qtvXa4elNPAgtjfwD45JGJh7vLYrh7DAoQK8rrYsbrPyHfPJOfdRDkuAtLPZDkISdnC0mkLeYTGUu+KXq5WI5qJ9UuAniK0LdumCs=
+	t=1714403111; cv=none; b=p0jvW92fFr7FpWMZ07elnzs2N0b4dyQq3/aLOIrdo3OzGYZd37tVT4sbFUCHk6ktIFi5ji/vwgrPyXo3zkrvrPe13xfGjqEEBaMKa5K9shX+YanVpkCt0NtX1aIjR/zmB11G7DLLydR7FMK1dewbGAJgiLNF+lsfJfZjNbwpEXk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1714403111; c=relaxed/simple;
-	bh=m351M6HyiT8IWLkyID5itxiSqWILJmFaZ7lxVFnP6BY=;
+	bh=jlNXpmWLkhoBvAVUnCnFp5WG/uIoSkDxDimhD2tWIcs=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=WgaV41bvoI78xITxwpUZXHvHM3+ySS/OzoWaeH/qYRSImo3iWRR6KNMSJD8GFgKUrFxF3o3okkO+Heb6z8LUpTCkVRqyE54TDWzsW2a+/j1MA/Q+f1+nheHX4dFAnZTy3J8AiEn/lVylPhKTGJ8rItJ/sZW8PdI84Bybs5mKng4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Y4WN6Aac; arc=none smtp.client-ip=209.85.160.43
+	 In-Reply-To:To:Cc; b=uqcpRZW6oOxMq3J415r2daxteYWbM7p5N3dH0qx87G6WR3yCHAGhBI+YpuIIhpob6YgOz6MRiWgj7z8MgOBFhvZEix79ott8j6kgVcf2sBXOdPHgnrapw+/WEuDpyLdIO8XhrAqJwrsballNPt/I3M5UflKLz4RVxypPeEtRqC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=NMVjqtFB; arc=none smtp.client-ip=209.85.222.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Y4WN6Aac"
-Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-22fa7e4b0beso1700979fac.1
-        for <linux-staging@lists.linux.dev>; Mon, 29 Apr 2024 08:05:04 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="NMVjqtFB"
+Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-78f05341128so332493485a.0
+        for <linux-staging@lists.linux.dev>; Mon, 29 Apr 2024 08:05:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1714403103; x=1715007903; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1714403104; x=1715007904; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=gMpzOFCFY/OFyCB78Iqov2ITRER3c7lueX7XaC40UJk=;
-        b=Y4WN6AacIzV87VDZuQaNhXowEfSZZpP12DILJJuXTg0C/YUp39r4lTtFQfIb3pMMaa
-         g23snBaJxBgSrIKbYHDHBln0mH1GryoG4i7TMgW9WtDDqG8ilFP0QYj8ZZ1dKOUyUGEp
-         bC7132xCBIgTF+3oW5X4tordRUdwGFY/eMAt8=
+        bh=8OKO6D6+Uymjr7y5phUxNbL6FrIK2B37/+KaDSdt/b8=;
+        b=NMVjqtFB9LJld+BF87Y8LopKuJk+0ksb8fTmD6aL561SN4yQxFDXoT7wmpdWbw7/PX
+         f7hZOx5hJSj/FHcCc8GGZn+j2bhwGonESMqBZ253DR3qFdtZtdQE8mI2mC+58oeECKCQ
+         u72Vew2KqPsEObJPm3aVPQGzLz6VZ/aoeM59o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714403103; x=1715007903;
+        d=1e100.net; s=20230601; t=1714403104; x=1715007904;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=gMpzOFCFY/OFyCB78Iqov2ITRER3c7lueX7XaC40UJk=;
-        b=pkdCs9lk9uRASw32aMvgJBG5aLdShhAJ/wxQyO5crrUiqnLDQUNjjp0V/2ANL+kav5
-         CeA6HhI+NEOv+XDGfKZ05pmCIZmIvUjXYSEugx2PjcQdEMmo/Ly48F4UmcUx+ZRu4iZ9
-         ZRbM7YKlJYFegeM97RXmFlk4ceuER8+K+RsYl111+swCBz68P3772G2xubZqtLpBRuES
-         n+DSZxfBPnEH9zqnCd23OwBUxsIiH/5t4q+imJvOftH3qVmTfSuSJsEFkjkWZRpQEZ7U
-         hcMJ6fOua/1MV6nCB4KvPFNFTtFpdibn5M0cXR1FKfA2vONV6MPtRP0AJnme2zxHNMt/
-         IEBg==
-X-Forwarded-Encrypted: i=1; AJvYcCVhTCE9hLdb3CNoyo1kTQRnbkzE9xyx4dEcWMiwv+m36shNv0HehSM+oLX7foQnaIgkz/9JkkVOpmR9+KWsFMmCpjPsuFkKhsxkkacL+g==
-X-Gm-Message-State: AOJu0Yzf8rxuvWdn+i8h9a6x7HLERCHNB/bxXolM5YtE/ErjZPXdMZeV
-	t4IbxjUoe8TFmUyntH4emj+SzPuO8EXIVzgosZxOcl//l5LnEyHberfRQkNhjg==
-X-Google-Smtp-Source: AGHT+IFhJl+kGtaYhV7Q9Gv3xiaVng6RdI8g6vF7vUpIJM3CzWksrp2O5EtILgQd8YzMcEQUTtUSrA==
-X-Received: by 2002:a05:6870:701f:b0:22e:d258:bc43 with SMTP id u31-20020a056870701f00b0022ed258bc43mr12416234oae.42.1714403103424;
-        Mon, 29 Apr 2024 08:05:03 -0700 (PDT)
+        bh=8OKO6D6+Uymjr7y5phUxNbL6FrIK2B37/+KaDSdt/b8=;
+        b=e7UBr8ONu868lqH+YHqd9iqfNDpkqPNdfkT68Q8RUISwvACTefCYJLFBubB5e5T+iq
+         aNfrmD3F1CPqZtI3wTaYQhaEFB2CFrHGpBn1mTUXbXoABikrxmH6YAi+1ymKetIx0Iar
+         b7LCClZC+WI0pS4kpG1njdvXU8urWcg23SwF6yG1stpwQPiGN0jBktMn0G3Q4e2GqJOh
+         DGfBVjTbk9/QrYmdvNYca10KcUFFL9W5Fs031sjufW1I5wyyJ/I28mNBcU6edw6sFrWQ
+         YE7NRWJYIYHn/bkAESidVARmNLrkpJHJEHEVYmwoYze34UhxrfML24+qPl1sKDFy/HqP
+         kmiQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVqG6C1FzsBWPuLIMFTVczitb6+MDvaotgmaGaDRfiXiWIBz+h7qG0wJBcI0GqQJogIv9I54u274uhaD8fjcz/u0mW2YYoxkj8VmJxeVA==
+X-Gm-Message-State: AOJu0YwjpNRgO5zdlfydn5XJRc5aZGaPsqt4qot+/TDVdcJnB7Cn0h8S
+	BUEaFsQPtNIqnRXKXjBfS8am8PPhHk6ueXyBuLUjSXTSCcpE37b4UZz6CFj6fA==
+X-Google-Smtp-Source: AGHT+IFaMtke8GiK3PVK81BO+wCQ6+s/afNMwPPBZtmDsaryJW0dODmZmCJQPhu+Legma0gxWaBb/A==
+X-Received: by 2002:a05:620a:561c:b0:78e:d4f6:3949 with SMTP id vu28-20020a05620a561c00b0078ed4f63949mr12152221qkn.25.1714403104299;
+        Mon, 29 Apr 2024 08:05:04 -0700 (PDT)
 Received: from denia.c.googlers.com (114.152.245.35.bc.googleusercontent.com. [35.245.152.114])
-        by smtp.gmail.com with ESMTPSA id p7-20020a05620a056700b0078d3b9139edsm10568591qkp.97.2024.04.29.08.05.02
+        by smtp.gmail.com with ESMTPSA id p7-20020a05620a056700b0078d3b9139edsm10568591qkp.97.2024.04.29.08.05.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Apr 2024 08:05:02 -0700 (PDT)
+        Mon, 29 Apr 2024 08:05:04 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 29 Apr 2024 15:04:59 +0000
-Subject: [PATCH v3 20/26] media: tegra-vde: Refactor timeout handling
+Date: Mon, 29 Apr 2024 15:05:00 +0000
+Subject: [PATCH v3 21/26] media: i2c: st-mipid02: Use the correct div
+ function
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -60,7 +61,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240429-fix-cocci-v3-20-3c4865f5a4b0@chromium.org>
+Message-Id: <20240429-fix-cocci-v3-21-3c4865f5a4b0@chromium.org>
 References: <20240429-fix-cocci-v3-0-3c4865f5a4b0@chromium.org>
 In-Reply-To: <20240429-fix-cocci-v3-0-3c4865f5a4b0@chromium.org>
 To: Martin Tuma <martin.tuma@digiteqautomotive.com>, 
@@ -100,39 +101,31 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.12.4
 
-Reorder the branches a bit, so cocci stops complaining about the code.
+link_freq does not fit in 32 bits.
 
-drivers/media/platform/nvidia/tegra-vde/h264.c:645:20-21: WARNING opportunity for min()
+Found by cocci:
+drivers/media/i2c/st-mipid02.c:329:1-7: WARNING: do_div() does a 64-by-32 division, please consider using div64_s64 instead.
 
+Reviewed-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/platform/nvidia/tegra-vde/h264.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/media/i2c/st-mipid02.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/nvidia/tegra-vde/h264.c b/drivers/media/platform/nvidia/tegra-vde/h264.c
-index 204e474d57f7..cfea5572a1b8 100644
---- a/drivers/media/platform/nvidia/tegra-vde/h264.c
-+++ b/drivers/media/platform/nvidia/tegra-vde/h264.c
-@@ -633,7 +633,9 @@ static int tegra_vde_decode_end(struct tegra_vde *vde)
- 
- 	timeout = wait_for_completion_interruptible_timeout(
- 			&vde->decode_completion, msecs_to_jiffies(1000));
--	if (timeout == 0) {
-+	if (timeout < 0) {
-+		ret = timeout;
-+	} else if (timeout == 0) {
- 		bsev_ptr = tegra_vde_readl(vde, vde->bsev, 0x10);
- 		macroblocks_nb = tegra_vde_readl(vde, vde->sxe, 0xC8) & 0x1FFF;
- 		read_bytes = bsev_ptr ? bsev_ptr - vde->bitstream_data_addr : 0;
-@@ -642,8 +644,6 @@ static int tegra_vde_decode_end(struct tegra_vde *vde)
- 			read_bytes, macroblocks_nb);
- 
- 		ret = -EIO;
--	} else if (timeout < 0) {
--		ret = timeout;
- 	} else {
- 		ret = 0;
+diff --git a/drivers/media/i2c/st-mipid02.c b/drivers/media/i2c/st-mipid02.c
+index f250640729ca..b947a55281f0 100644
+--- a/drivers/media/i2c/st-mipid02.c
++++ b/drivers/media/i2c/st-mipid02.c
+@@ -326,7 +326,7 @@ static int mipid02_configure_from_rx_speed(struct mipid02_dev *bridge,
  	}
+ 
+ 	dev_dbg(&client->dev, "detect link_freq = %lld Hz", link_freq);
+-	do_div(ui_4, link_freq);
++	ui_4 = div64_u64(ui_4, link_freq);
+ 	bridge->r.clk_lane_reg1 |= ui_4 << 2;
+ 
+ 	return 0;
 
 -- 
 2.44.0.769.g3c40516874-goog
