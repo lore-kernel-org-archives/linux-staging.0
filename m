@@ -1,57 +1,58 @@
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D55F7127B70
-	for <linux-staging@lists.linux.dev>; Mon, 29 Apr 2024 15:04:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3D2381AB1
+	for <linux-staging@lists.linux.dev>; Mon, 29 Apr 2024 15:04:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714403103; cv=none; b=dBDAm8DbbYY0SoQLwBOc9Qrfs+woeiLePcq6RpqCdvbyBDk0Kr04YVSpEsCeinTePBtBQaCLEEGaf78lreLB4j5mGcDQSsN3ixqX5wQnhiFhX+4Zk1wd9zsg79C6mD8xx3QqdBAh+VSeCoQD4Wn1tqF3qdITUPpagyoZ4pdmY/0=
+	t=1714403102; cv=none; b=If6I5xJNpVL++XUGqCMxVN1dKDf9srRTnznPWDnNVI9lSZ9om+tcGc+IG34rsyamcC8Yq7ueYiM6oA5xDODo0Y0+4XzCjIUqQiaIjk859Dfr01jjdlWp2uXDBMAnIYefuxiFZj/8IkYMuW0j4G8LxbwgUb6QpMQ3HTofRZp5Iqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714403103; c=relaxed/simple;
-	bh=eTwz8g9CAKdFfcMUb1pEl/K4JXk6NTjbKJcjx2VRsnQ=;
+	s=arc-20240116; t=1714403102; c=relaxed/simple;
+	bh=06mL5EXe9kTunFEegEJRz7Wo9ks6u/t6gIH9sJH9trw=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=GWaT7c8ZUvrSHq63enrUpl4NccM8Z3Wd2l8NRqX1sF2cJkTALNJdMvs9OmnhJ/7diLFm0TdS18Odc4nOUL54guZIRNghdQa8DLFLkobG3f00mihPhHbJkEcEnPr+Px5vF3r6ORJseypbpaRFXTYg5koorGOGm1sQEDNjRYPc6TM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=RJYb+tds; arc=none smtp.client-ip=209.85.222.174
+	 In-Reply-To:To:Cc; b=Vl2oz3MgRzNBeD4m12ygdW4N+DT9AULtMtMx/Mx7a8TSLuIl85lU90NUq2lWSk6i40Ymu8bxK6FVlbCcTbK9/SQF6MO14gcYqOpHPlsMv1+X6jTRER64XpIMer8O1FqlDNnwXzH5hcrXt7HP+RFzWYRe4Ujc9x5AaYzyJEOoTEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=kUUjHByZ; arc=none smtp.client-ip=209.85.160.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="RJYb+tds"
-Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-78f103d9f64so358663585a.0
-        for <linux-staging@lists.linux.dev>; Mon, 29 Apr 2024 08:04:58 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="kUUjHByZ"
+Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-238e171b118so2097333fac.3
+        for <linux-staging@lists.linux.dev>; Mon, 29 Apr 2024 08:04:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1714403097; x=1715007897; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1714403096; x=1715007896; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=B7WgC2+IPrCSABKNTDoDmq5evIyXV522VQOG0leEbcc=;
-        b=RJYb+tdsjTSkNNGAiBOBBuhAZ5hx+gXcUGHy/bWyY9Yc45SmJgdfj3VloaJHls0Hi0
-         l/3BxpPFWzSbaSr+fSPH6pFKQ0sPD1eZE5s6Uj87hCKzEPwbhg4HqudP3OxVCu0UfB8i
-         DpwUvmVY0r/iXyzpC4wsKz05mNFV5dr0RfaOc=
+        bh=X5IbU7HBHK5ZSrS81fN3o3XopIPldfFFy8PdyHH7F6Q=;
+        b=kUUjHByZ3mEuumYQFtPLRySNJD8I+KSpO/7BYCNVh9SRkZILsPtanVT1MzT1rH7RCk
+         W1PZLwzt0KmIk6NjhPra4vOfNRWafXl0Ro9KQTEEir8vhgF15KnHlFGQrpfTSt/hKU+Y
+         28J4dFmzByst4ExPpD+IVrdAG4ensxQmqUflo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714403097; x=1715007897;
+        d=1e100.net; s=20230601; t=1714403096; x=1715007896;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=B7WgC2+IPrCSABKNTDoDmq5evIyXV522VQOG0leEbcc=;
-        b=VmJN8v1mbiSwqI6rouNsjdvXBGMZwJjxvX8z4FiBLoYwvqjcVVaB+tNj9wAwTOWfi1
-         iMPb4UP8RS6znW+8h+T4A3Z0hCRQ1/CgtwfmmD45KQ9MAjUhACMOAZX1ZDy+YcwpX5uu
-         fw5grq8JdsMotdFBVNT+i4GlIktHHe9W8E/Hnnapiwc1zvcjw8Fv6gndpc2ezaqA82wl
-         nfSdBIYz9DptbPET7UHxCMAsWJt8KV9c8SK7On0f7Nh4Itcr01Uex8qdKyXHj87whGRc
-         raUaB3DXLdkm/f2AqFTnmKXLyFXV/mqgqd7ivZKDxE3CiU9R3uVRuZdaTdQZuNgtHwLG
-         9ekQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXj1gjNFud+WK2oWnJptugW2ICO5CZZ9IoUGhnWHfwM2OGNcCzMPDlHwMFHjtIjPo4z19SJefrxD2hRDZNcH2CYkjT1iD7AS6Fj3Mwxzw==
-X-Gm-Message-State: AOJu0YyNi/av88FvXyeJ2eQ2TS9zxv9ZDW9iDummfxmPtwiAlL+J+uGc
-	RI/2oQJbdO2PGv3PnadxP5yobkIgRbWnJplayonn397bfw4gUHgqemfhhwzczQ==
-X-Google-Smtp-Source: AGHT+IF5XTR9AvencoZ/44RX25g9bUhd0pibp8Bru1gSUBx9gDRO27bIj/oJhNJSOtkZAwqzS5pcnA==
-X-Received: by 2002:a05:620a:29d4:b0:790:8656:8427 with SMTP id s20-20020a05620a29d400b0079086568427mr12321977qkp.7.1714403097437;
-        Mon, 29 Apr 2024 08:04:57 -0700 (PDT)
+        bh=X5IbU7HBHK5ZSrS81fN3o3XopIPldfFFy8PdyHH7F6Q=;
+        b=g8MInp1kKyZgr9loBvwWojcC9U04qKjYV8XC6hkuyHOMhS0Y5Q39iTrbRVEyx/td3U
+         Qn4tsDxxUEyJ/z9/TTRXcflcd48TtGq26jcu787KyiRxBgcscS/EzLuOgri2v6LSun1l
+         U1Ft97EYAmyp/64MHMm8ZXy1VnsdNry/a7QbvY1xxOSYEqJy2W0PD9AYNMDfvQtckBlG
+         vDfnv9aW8bKumLxSbynfBsO9znbnsAnmY2yjZXLX5XnVnQM9BBNZbv2cPZMPHi0qltNl
+         0AHiekdxwclRyd7QXFDnyW5Ze/FuaEQuoo3CRhO6pNGghLQ7U3uD3mc/a2W/BNt+zXWP
+         cw6g==
+X-Forwarded-Encrypted: i=1; AJvYcCUINHdwaeO0J7sdSeetl0Od5SHrnZpjX108zn62owZ/4vo/DJ5+Q5uMAAEiyOyPzBOmsnSoupb2oucT4+VqIkVVY7ktbMaatrRw6RihWQ==
+X-Gm-Message-State: AOJu0Yw7YTHYxH9Cx/Zt7NO+fWO4ZcmZTp+gqfLbZP+bVHbM6/yujxfr
+	RFDkz4+ztJTDFWxAi9KYBTRftf0rJI4wkZ5tTOCEvLXJmpv/vSFuRCsX+t+iJw==
+X-Google-Smtp-Source: AGHT+IGVAH/IwNYZ4S96l7NvgpYNIEj4hEsjMjcli1Y8ndu6kmVsTG4AE2U+O+g2MrONF6L3wD0YHA==
+X-Received: by 2002:a05:6870:2401:b0:233:55b8:edf1 with SMTP id n1-20020a056870240100b0023355b8edf1mr12050766oap.8.1714403095753;
+        Mon, 29 Apr 2024 08:04:55 -0700 (PDT)
 Received: from denia.c.googlers.com (114.152.245.35.bc.googleusercontent.com. [35.245.152.114])
-        by smtp.gmail.com with ESMTPSA id p7-20020a05620a056700b0078d3b9139edsm10568591qkp.97.2024.04.29.08.04.56
+        by smtp.gmail.com with ESMTPSA id p7-20020a05620a056700b0078d3b9139edsm10568591qkp.97.2024.04.29.08.04.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Apr 2024 08:04:57 -0700 (PDT)
+        Mon, 29 Apr 2024 08:04:55 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 29 Apr 2024 15:04:53 +0000
-Subject: [PATCH v3 14/26] media: dvb-frontends: drx39xyj: Use min macro
+Date: Mon, 29 Apr 2024 15:04:51 +0000
+Subject: [PATCH v3 12/26] media: platform: mtk-mdp3: Use refcount_t for
+ job_count
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -60,7 +61,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240429-fix-cocci-v3-14-3c4865f5a4b0@chromium.org>
+Message-Id: <20240429-fix-cocci-v3-12-3c4865f5a4b0@chromium.org>
 References: <20240429-fix-cocci-v3-0-3c4865f5a4b0@chromium.org>
 In-Reply-To: <20240429-fix-cocci-v3-0-3c4865f5a4b0@chromium.org>
 To: Martin Tuma <martin.tuma@digiteqautomotive.com>, 
@@ -100,54 +101,120 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.12.4
 
-Replace ternary assignments with min() to simplify and make the code
-more readable.
+Use an API that resembles more the actual use of job_count.
 
 Found by cocci:
-drivers/media/dvb-frontends/drx39xyj/drxj.c:1447:23-24: WARNING opportunity for min()
-drivers/media/dvb-frontends/drx39xyj/drxj.c:1662:21-22: WARNING opportunity for min()
-drivers/media/dvb-frontends/drx39xyj/drxj.c:1685:24-25: WARNING opportunity for min()
+drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c:527:5-24: WARNING: atomic_dec_and_test variation before object free at line 541.
+drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c:578:6-25: WARNING: atomic_dec_and_test variation before object free at line 581.
 
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/dvb-frontends/drx39xyj/drxj.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c | 10 +++++-----
+ drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c |  6 +++---
+ drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.h |  2 +-
+ drivers/media/platform/mediatek/mdp3/mtk-mdp3-m2m.c  |  6 +++---
+ 4 files changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/media/dvb-frontends/drx39xyj/drxj.c b/drivers/media/dvb-frontends/drx39xyj/drxj.c
-index 1ef53754bc03..6fcaf07e1b82 100644
---- a/drivers/media/dvb-frontends/drx39xyj/drxj.c
-+++ b/drivers/media/dvb-frontends/drx39xyj/drxj.c
-@@ -1445,8 +1445,7 @@ static int drxdap_fasi_read_block(struct i2c_device_addr *dev_addr,
+diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c
+index 1d64bac34b90..ea2ea119dd2a 100644
+--- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c
++++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c
+@@ -524,7 +524,7 @@ static void mdp_auto_release_work(struct work_struct *work)
+ 	mdp_comp_clocks_off(&mdp->pdev->dev, cmd->comps,
+ 			    cmd->num_comps);
  
- 	/* Read block from I2C **************************************************** */
- 	do {
--		u16 todo = (datasize < DRXDAP_MAX_RCHUNKSIZE ?
--			      datasize : DRXDAP_MAX_RCHUNKSIZE);
-+		u16 todo = min(datasize, DRXDAP_MAX_RCHUNKSIZE);
+-	if (atomic_dec_and_test(&mdp->job_count)) {
++	if (refcount_dec_and_test(&mdp->job_count)) {
+ 		if (cmd->mdp_ctx)
+ 			mdp_m2m_job_finish(cmd->mdp_ctx);
  
- 		bufx = 0;
+@@ -575,7 +575,7 @@ static void mdp_handle_cmdq_callback(struct mbox_client *cl, void *mssg)
+ 		mdp_comp_clocks_off(&mdp->pdev->dev, cmd->comps,
+ 				    cmd->num_comps);
  
-@@ -1660,7 +1659,7 @@ static int drxdap_fasi_write_block(struct i2c_device_addr *dev_addr,
- 		   Address must be rewritten because HI is reset after data transport and
- 		   expects an address.
- 		 */
--		todo = (block_size < datasize ? block_size : datasize);
-+		todo = min(block_size, datasize);
- 		if (todo == 0) {
- 			u16 overhead_size_i2c_addr = 0;
- 			u16 data_block_size = 0;
-@@ -1682,9 +1681,7 @@ static int drxdap_fasi_write_block(struct i2c_device_addr *dev_addr,
- 				first_err = st;
- 			}
- 			bufx = 0;
--			todo =
--			    (data_block_size <
--			     datasize ? data_block_size : datasize);
-+			todo = min(data_block_size, datasize);
+-		if (atomic_dec_and_test(&mdp->job_count))
++		if (refcount_dec_and_test(&mdp->job_count))
+ 			wake_up(&mdp->callback_wq);
+ 
+ 		mdp_cmdq_pkt_destroy(&cmd->pkt);
+@@ -724,9 +724,9 @@ int mdp_cmdq_send(struct mdp_dev *mdp, struct mdp_cmdq_param *param)
+ 	int i, ret;
+ 	u8 pp_used = __get_pp_num(param->param->type);
+ 
+-	atomic_set(&mdp->job_count, pp_used);
++	refcount_set(&mdp->job_count, pp_used);
+ 	if (atomic_read(&mdp->suspended)) {
+-		atomic_set(&mdp->job_count, 0);
++		refcount_set(&mdp->job_count, 0);
+ 		return -ECANCELED;
+ 	}
+ 
+@@ -764,7 +764,7 @@ int mdp_cmdq_send(struct mdp_dev *mdp, struct mdp_cmdq_param *param)
+ 		mdp_comp_clocks_off(&mdp->pdev->dev, cmd[i]->comps,
+ 				    cmd[i]->num_comps);
+ err_cancel_job:
+-	atomic_set(&mdp->job_count, 0);
++	refcount_set(&mdp->job_count, 0);
+ 
+ 	return ret;
+ }
+diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
+index 5209f531ef8d..c1f3bf98120a 100644
+--- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
++++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
+@@ -380,14 +380,14 @@ static int __maybe_unused mdp_suspend(struct device *dev)
+ 
+ 	atomic_set(&mdp->suspended, 1);
+ 
+-	if (atomic_read(&mdp->job_count)) {
++	if (refcount_read(&mdp->job_count)) {
+ 		ret = wait_event_timeout(mdp->callback_wq,
+-					 !atomic_read(&mdp->job_count),
++					 !refcount_read(&mdp->job_count),
+ 					 2 * HZ);
+ 		if (ret == 0) {
+ 			dev_err(dev,
+ 				"%s:flushed cmdq task incomplete, count=%d\n",
+-				__func__, atomic_read(&mdp->job_count));
++				__func__, refcount_read(&mdp->job_count));
+ 			return -EBUSY;
  		}
- 		memcpy(&buf[bufx], data, todo);
- 		/* write (address if can do and) data */
+ 	}
+diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.h b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.h
+index 8c09e984fd01..430251f63754 100644
+--- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.h
++++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.h
+@@ -134,7 +134,7 @@ struct mdp_dev {
+ 	/* synchronization protect for m2m device operation */
+ 	struct mutex				m2m_lock;
+ 	atomic_t				suspended;
+-	atomic_t				job_count;
++	refcount_t				job_count;
+ };
+ 
+ struct mdp_pipe_info {
+diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-m2m.c b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-m2m.c
+index 35a8b059bde5..0e69128a3772 100644
+--- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-m2m.c
++++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-m2m.c
+@@ -104,14 +104,14 @@ static void mdp_m2m_device_run(void *priv)
+ 	task.cb_data = NULL;
+ 	task.mdp_ctx = ctx;
+ 
+-	if (atomic_read(&ctx->mdp_dev->job_count)) {
++	if (refcount_read(&ctx->mdp_dev->job_count)) {
+ 		ret = wait_event_timeout(ctx->mdp_dev->callback_wq,
+-					 !atomic_read(&ctx->mdp_dev->job_count),
++					 !refcount_read(&ctx->mdp_dev->job_count),
+ 					 2 * HZ);
+ 		if (ret == 0) {
+ 			dev_err(&ctx->mdp_dev->pdev->dev,
+ 				"%d jobs not yet done\n",
+-				atomic_read(&ctx->mdp_dev->job_count));
++				refcount_read(&ctx->mdp_dev->job_count));
+ 			goto worker_end;
+ 		}
+ 	}
 
 -- 
 2.44.0.769.g3c40516874-goog
