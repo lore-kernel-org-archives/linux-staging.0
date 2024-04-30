@@ -1,202 +1,291 @@
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AF93177991
-	for <linux-staging@lists.linux.dev>; Tue, 30 Apr 2024 16:19:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50381DDA1
+	for <linux-staging@lists.linux.dev>; Tue, 30 Apr 2024 16:31:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714493957; cv=none; b=KmRlyUboaNa+Wp1xYDhHiUulxr5iSVjTjZ7dCBQfiwkhl6yigEJp+c7uw8JJtfPCGsVKuU6qUCku2CcYTLbxAheIVAgfwNe+cP6KAQmmSoLgQqEJ4iJTJM3Wt3y/LBHkiDkWPT/RSq6fbp29VEhhLeovzJs2u5r2fY0U2ItxYEQ=
+	t=1714494710; cv=none; b=RcVZyvxWBR1JBb0nlVnsSgLm8NIofz+W37ybY33Rnjz0t9GcrzVkNj0hnmoVOos8hJdk7+AuQfvgZR59lkxp9LFFgGzbTQ/8ppXC5aj1V6qy3ZVNDzwu62u+CHUh/AX0h9i8B3YKrSHvDdf8wVbE+LwReAJsPOqFyTm7l6/D7HA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714493957; c=relaxed/simple;
-	bh=J44hCCyxD35NbqWW6nQLBqBSODmWNn0Dexkak4J/EvQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ojMD+Bi9YGLaLFqwUYJTbKK66Fz1UCRfWCddfuyo75OF3L1ULHqrFRDu+8RvnTmpi6gu/OLppNYU3lI7VDcwAMuxQtNTdJEajE47sA3Hyo12QcvsTqm/6HwNwgvIGW+L3HpPyTTnuteQ9cotosLJ/qRl8c4AAi/9/buqvzSVcpg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=z7Y8Ntg4; arc=none smtp.client-ip=209.85.208.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1714494710; c=relaxed/simple;
+	bh=Qlj+LZXf2VoaxgRG3XS+GJ3XCSH0Ydr5hRABBdqxBDM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ima1Ge/uTEaNBZzUOjk2fz0+HE3LKDtK2czbHWKZJNFp9UnddvZmJy3doBDhtRibjYVjGArLXPmZBCo8wzoxmbi422dB5uReCtwineQ4ULkYEcVu5lI8zh+JCq7cYnud47eD3V5rxe1c1kNauxms4/k5v/s4cxZu8BybcMez500=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jXd0COk4; arc=none smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="z7Y8Ntg4"
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2dae975d0dcso72279371fa.1
-        for <linux-staging@lists.linux.dev>; Tue, 30 Apr 2024 09:19:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jXd0COk4"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-2b1817f0d34so1962047a91.0
+        for <linux-staging@lists.linux.dev>; Tue, 30 Apr 2024 09:31:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1714493953; x=1715098753; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EYdB/zYMgqlA7okFvLjIPPWUlhTGwRwh73eiOLj9MZw=;
-        b=z7Y8Ntg4RgbCqUyDiQvqVBrHIIXCdND+EX3lcucgEz1xkQLmqbDo69rrPitlfJGhDY
-         DPQYg0KpN8pZ59YT2ckRMNsGilFPzFJRd5dfmooJEuSH8GeJIpdO4KzbB6roq0pTDVhZ
-         4OcAcsfCLiaUlmWlu5v52e0p5t3k0GW4e9qOXaIRvFgCPatRdj5lVq8soY4CeALhNQde
-         /eDAwNviuZeDb+cktO5oI5PXrZxCQ1+VCanuIUHq4CcDnIwk9njQzDS6oRlDo8ErImlq
-         sSBtHYm8tD/wUExrfwNxNAXDVQR9ztNbJa8ywNp1VBEXpUnrth2JQ14LLkSqP0ZOHtRq
-         9kug==
+        d=gmail.com; s=20230601; t=1714494708; x=1715099508; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=WQN4KbcxjV5fEP83EPXO6Wtm42S0d0QxDy7zu6p3kS8=;
+        b=jXd0COk4pD8S5WDEIDC5UnGawqVIM9rb4zG0+o2GnEWrxa7DcHfKGC7jNz5zjrAL/6
+         NG00Ch9GWu0f7VSftpQZ/vKg3ZHwFIFpN9rAEwRJiRRc8QbsRydO8JrIRUlzO10tX0o7
+         23t561TdSndHrvHQ5A2Ty2yNr91SfplokkVxP1gKn6LyS8aX8/9mxe/0PrkRNh90k0jy
+         G2zy87AOAdIYIiLratoKBkxIgtcmjOcE+3O4sJKZi9w9S8PkGWgldN3ZMNSQIyUXmL2U
+         v0qZKOlxLiL2xtmqfYrFlqzx8U36Ca7Oex4DcOMKcxvohsMinmrQoXn/YKLrukdpkImC
+         MqTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714493953; x=1715098753;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=EYdB/zYMgqlA7okFvLjIPPWUlhTGwRwh73eiOLj9MZw=;
-        b=DYmLqtpiTqMADSUg1bPey/N1R5CieA27Ork27Ez8vewp/JacH5zqGLM2k1PnCAIMuT
-         GpyqDwzm4ihtBiYDZpw+gXgiQGJMjs18cLxoCfUWzvF5Ye7NDIMxcwpLfBm2nW/xP8KO
-         6awdJbGKn9QmPX4mg6EsUkHAC26vf324e83lEfrQ2oxGcURCv30UC5w57M5z52GFTUDV
-         9qEhSzTMNTKoMXKw0Jr7hy17wHwEkoh1J29pHBKPUFo0X9LGDdMGGWXjt7RMic3XVgPN
-         4+GWpG7m6boOwpmwQr7+Qr/8Wv7QXY3VxZ4Ia3UwndnFmWEDTQWxztUXHe0dEL/4YphI
-         sL/Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXTcCv+jTENqxjz8WztnfRfQVKfkrf/7hESJqo/TxKxwqKhhl0zAQaIMpqkftPdwbEEaPlLKAuRTHwLsWGrT8w4ACIh/P9XHV4NCdCWgQ==
-X-Gm-Message-State: AOJu0Yx2LU3HCyKt6P73UWwDFo0KjdTvK0CaX30AFcsBGCCHaVa6o0Gm
-	fAmT03lKpn9KXYC5brM0vbQGdbAFEPMYR/qXRKmKGBJfh19vuSFCRHfJ7hfsoEX1F/kz0AwRwPx
-	im4OCmJ+n1dPp8pnKTQXFwHEAAsSqD77XyiHB3A==
-X-Google-Smtp-Source: AGHT+IHNUEuRQYO/ery9q1WbMjDy+FPeaxsW7gh/vbOG22U6B5PZTmXy7tHPumx1KaMD3DrYzbtRncJOi4/QHYWE08I=
-X-Received: by 2002:a2e:3515:0:b0:2de:6f52:5c8d with SMTP id
- z21-20020a2e3515000000b002de6f525c8dmr73932ljz.21.1714493953250; Tue, 30 Apr
- 2024 09:19:13 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1714494708; x=1715099508;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WQN4KbcxjV5fEP83EPXO6Wtm42S0d0QxDy7zu6p3kS8=;
+        b=Suhv8ty99tMmf2kOO6VylEUxLu7Y0fydu3Ad7X7xcGcLop7X0nXa4JKhi5Va0vNzL/
+         zvFb5rBXWqulRzPLtH5osIGNdwcMVrJsalIEftDufCUb0d1mhKTZwhEjVLW7zLpqveSr
+         Cu8R6hFaJKC66kUtX4v1aXwpq7b7wi6+/FbsJDuuQ+FFjVz/QfTl/v4D0iqDeJAfAoiV
+         C9rAUg85riYUjCzXrwqWXfElbXAbS0OLpxqSRWt+iXr8NDOHmDax2Q7wRcUD3+dP981x
+         OlYR0rowvNGTwA4n6+uxTyqROdni0mlJgeJpiJu1Ks4i3UxX01PBZPchgzT2LVC3moBW
+         bujA==
+X-Forwarded-Encrypted: i=1; AJvYcCU3cSB7EVcLSVxUEkoFkxMuThyQeGTTI5L1k91fCWONbqjLYJ4jJvfV4FWfKWa35rmgkhblfXOXR6KB50jeLU85GUDUigCREcKBiypVNw==
+X-Gm-Message-State: AOJu0Yzz0C9NavBAdVdTdgshe+pDrwDpbUDLhKK7XCgGsjVLW57emKn0
+	Ku8W5/aUgQ283HJnsTtAvdwIhlQftYIoB6zEDjJaBMJjgf/ieKQI
+X-Google-Smtp-Source: AGHT+IG0yCT0xYb1tKd+62Xy29JHRr1NLJOo6Huz8MNBkEhwOt6j9FCtyvd0drfG76Yj0Rkc017wXw==
+X-Received: by 2002:a17:90a:a582:b0:2a2:eb67:b20a with SMTP id b2-20020a17090aa58200b002a2eb67b20amr9431121pjq.42.1714494707489;
+        Tue, 30 Apr 2024 09:31:47 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id qb13-20020a17090b280d00b002b1581a0fccsm4902669pjb.44.2024.04.30.09.31.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Apr 2024 09:31:46 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <39248b1f-f8ef-413d-87ff-62404f1effb5@roeck-us.net>
+Date: Tue, 30 Apr 2024 09:31:44 -0700
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/7] hwmon: (adc128d818) Use
+ devm_regulator_get_enable_read_voltage()
+To: David Lechner <dlechner@baylibre.com>, Liam Girdwood
+ <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jean Delvare <jdelvare@suse.com>, Jonathan Cameron <jic23@kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+ Support Opensource <support.opensource@diasemi.com>,
+ Cosmin Tanislav <cosmin.tanislav@analog.com>,
+ Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Antoniu Miclaus <antoniu.miclaus@analog.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+ linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-input@vger.kernel.org, Jonathan Cameron <Jonathan.Cameron@huawei.com>
 References: <20240429-regulator-get-enable-get-votlage-v2-0-b1f11ab766c1@baylibre.com>
- <20240429-regulator-get-enable-get-votlage-v2-1-b1f11ab766c1@baylibre.com>
-In-Reply-To: <20240429-regulator-get-enable-get-votlage-v2-1-b1f11ab766c1@baylibre.com>
-From: David Lechner <dlechner@baylibre.com>
-Date: Tue, 30 Apr 2024 11:19:01 -0500
-Message-ID: <CAMknhBG2ySYNEvghnO63wE=x6W8jk0-T2oWZKeXApM_d_eeoCw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/7] regulator: devres: add API for reference voltage supplies
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
-	Jonathan Cameron <jic23@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Support Opensource <support.opensource@diasemi.com>, 
-	Cosmin Tanislav <cosmin.tanislav@analog.com>, Lars-Peter Clausen <lars@metafoo.de>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, Antoniu Miclaus <antoniu.miclaus@analog.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, 
-	linux-iio@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ <20240429-regulator-get-enable-get-votlage-v2-2-b1f11ab766c1@baylibre.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <20240429-regulator-get-enable-get-votlage-v2-2-b1f11ab766c1@baylibre.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Apr 29, 2024 at 6:40=E2=80=AFPM David Lechner <dlechner@baylibre.co=
-m> wrote:
->
-> A common use case for regulators is to supply a reference voltage to an
-> analog input or output device. This adds a new devres API to get,
-> enable, and get the voltage in a single call. This allows eliminating
-> boilerplate code in drivers that use reference supplies in this way.
->
+On 4/29/24 16:40, David Lechner wrote:
+> We can reduce boilerplate code and eliminate the driver remove()
+> function by using devm_regulator_get_enable_read_voltage().
+> 
+> A new external_vref flag is added since we no longer have the handle
+> to the regulator to check if it is present.
+> 
+> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 > Signed-off-by: David Lechner <dlechner@baylibre.com>
+
+Nit below in case you resend, otherwise
+
+Acked-by: Guenter Roeck <linux@roeck-us.net>
+
 > ---
->
+> 
 > v2 changes:
-> * removed dev_err_probe() on error return
-> * dropped optional version of the function since there is no more
->   difference after dev_err_probe() is removed
-> * renamed function to devm_regulator_get_enable_read_voltage()
-> * added unwinding on error paths
+> * rename to devm_regulator_get_enable_read_voltage()
+> * use vref instead of err for return value
+> * simplify last error check to return PTR_ERR directly
 > ---
->  Documentation/driver-api/driver-model/devres.rst |  1 +
->  drivers/regulator/devres.c                       | 59 ++++++++++++++++++=
-++++++
->  include/linux/regulator/consumer.h               |  7 +++
->  3 files changed, 67 insertions(+)
->
-> diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documenta=
-tion/driver-api/driver-model/devres.rst
-> index 7be8b8dd5f00..18caebad7376 100644
-> --- a/Documentation/driver-api/driver-model/devres.rst
-> +++ b/Documentation/driver-api/driver-model/devres.rst
-> @@ -433,6 +433,7 @@ REGULATOR
->    devm_regulator_bulk_put()
->    devm_regulator_get()
->    devm_regulator_get_enable()
-> +  devm_regulator_get_enable_read_voltage()
->    devm_regulator_get_enable_optional()
->    devm_regulator_get_exclusive()
->    devm_regulator_get_optional()
-> diff --git a/drivers/regulator/devres.c b/drivers/regulator/devres.c
-> index 90bb0d178885..4f290b9b559b 100644
-> --- a/drivers/regulator/devres.c
-> +++ b/drivers/regulator/devres.c
-> @@ -145,6 +145,65 @@ struct regulator *devm_regulator_get_optional(struct=
- device *dev,
->  }
->  EXPORT_SYMBOL_GPL(devm_regulator_get_optional);
->
-> +/**
-> + * devm_regulator_get_enable_read_voltage - Resource managed regulator g=
-et and
-> + *                                          enable that returns the volt=
-age
-> + * @dev: device to supply
-> + * @id:  supply name or regulator ID.
-> + *
-> + * Get and enable regulator for duration of the device life-time.
-> + * regulator_disable() and regulator_put() are automatically called on d=
-river
-> + * detach. See regulator_get_optional(), regulator_enable(), and
-> + * regulator_get_voltage() for more information.
-> + *
-> + * This is a convenience function for supplies that provide a reference =
-voltage
-> + * where the consumer driver just needs to know the voltage and keep the
-> + * regulator enabled.
-> + *
-> + * In cases where the supply is not strictly required, callers can check=
- for
-> + * -ENODEV error and handle it accordingly.
-> + *
-> + * Returns: voltage in microvolts on success, or an error code on failur=
-e.
-> + */
-> +int devm_regulator_get_enable_read_voltage(struct device *dev, const cha=
-r *id)
-> +{
-> +       struct regulator *r;
-> +       int ret;
-> +
-> +       /*
-> +        * Since we need a real voltage, we use devm_regulator_get_option=
-al()
-> +        * rather than getting a dummy regulator with devm_regulator_get(=
-) and
-> +        * then letting regulator_get_voltage() fail with -EINVAL. This w=
-ay, the
-> +        * caller can handle the -ENODEV error code if needed instead of =
-the
-> +        * ambiguous -EINVAL.
-> +        */
-> +       r =3D devm_regulator_get_optional(dev, id);
-> +       if (IS_ERR(r))
-> +               return PTR_ERR(r);
-> +
-> +       ret =3D regulator_enable(r);
-> +       if (ret)
-> +               goto err_regulator_put;
-> +
-> +       ret =3D devm_add_action_or_reset(dev, regulator_action_disable, r=
-);
-> +       if (ret)
-> +               goto err_regulator_put;
-> +
-> +       ret =3D regulator_get_voltage(r);
-> +       if (ret < 0)
-> +               goto err_release_action;
-> +
-> +       return 0;
+>   drivers/hwmon/adc128d818.c | 57 ++++++++++++++--------------------------------
+>   1 file changed, 17 insertions(+), 40 deletions(-)
+> 
+> diff --git a/drivers/hwmon/adc128d818.c b/drivers/hwmon/adc128d818.c
+> index 46e3c8c50765..2a35acb011eb 100644
+> --- a/drivers/hwmon/adc128d818.c
+> +++ b/drivers/hwmon/adc128d818.c
+> @@ -58,7 +58,6 @@ static const u8 num_inputs[] = { 7, 8, 4, 6 };
+>   
+>   struct adc128_data {
+>   	struct i2c_client *client;
+> -	struct regulator *regulator;
+>   	int vref;		/* Reference voltage in mV */
+>   	struct mutex update_lock;
+>   	u8 mode;		/* Operation mode */
+> @@ -389,7 +388,7 @@ static int adc128_detect(struct i2c_client *client, struct i2c_board_info *info)
+>   	return 0;
+>   }
+>   
+> -static int adc128_init_client(struct adc128_data *data)
+> +static int adc128_init_client(struct adc128_data *data, bool external_vref)
+>   {
+>   	struct i2c_client *client = data->client;
+>   	int err;
+> @@ -408,7 +407,7 @@ static int adc128_init_client(struct adc128_data *data)
+>   		regval |= data->mode << 1;
+>   
+>   	/* If external vref is selected, configure the chip to use it */
+> -	if (data->regulator)
+> +	if (external_vref)
+>   		regval |= 0x01;
+>   
+>   	/* Write advanced configuration register */
+> @@ -430,9 +429,9 @@ static int adc128_init_client(struct adc128_data *data)
+>   static int adc128_probe(struct i2c_client *client)
+>   {
+>   	struct device *dev = &client->dev;
+> -	struct regulator *regulator;
+>   	struct device *hwmon_dev;
+>   	struct adc128_data *data;
+> +	bool external_vref;
+>   	int err, vref;
+>   
+>   	data = devm_kzalloc(dev, sizeof(struct adc128_data), GFP_KERNEL);
+> @@ -440,20 +439,15 @@ static int adc128_probe(struct i2c_client *client)
+>   		return -ENOMEM;
+>   
+>   	/* vref is optional. If specified, is used as chip reference voltage */
+> -	regulator = devm_regulator_get_optional(dev, "vref");
+> -	if (!IS_ERR(regulator)) {
+> -		data->regulator = regulator;
+> -		err = regulator_enable(regulator);
+> -		if (err < 0)
+> -			return err;
+> -		vref = regulator_get_voltage(regulator);
+> -		if (vref < 0) {
+> -			err = vref;
+> -			goto error;
+> -		}
+> -		data->vref = DIV_ROUND_CLOSEST(vref, 1000);
+> -	} else {
+> +	vref = devm_regulator_get_enable_read_voltage(dev, "vref");
+> +	if (vref == -ENODEV) {
+> +		external_vref = false;
+>   		data->vref = 2560;	/* 2.56V, in mV */
+> +	} else if (vref < 0) {
+> +		return vref;
+> +	} else {
+> +		external_vref = true;
+> +		data->vref = DIV_ROUND_CLOSEST(vref, 1000);
+>   	}
+>   
+>   	/* Operation mode is optional. If unspecified, keep current mode */
+> @@ -461,13 +455,12 @@ static int adc128_probe(struct i2c_client *client)
+>   		if (data->mode > 3) {
+>   			dev_err(dev, "invalid operation mode %d\n",
+>   				data->mode);
+> -			err = -EINVAL;
+> -			goto error;
+> +			return -EINVAL;
+>   		}
+>   	} else {
+>   		err = i2c_smbus_read_byte_data(client, ADC128_REG_CONFIG_ADV);
+>   		if (err < 0)
+> -			goto error;
+> +			return err;
+>   		data->mode = (err >> 1) & ADC128_REG_MASK;
+>   	}
+>   
+> @@ -476,31 +469,16 @@ static int adc128_probe(struct i2c_client *client)
+>   	mutex_init(&data->update_lock);
+>   
+>   	/* Initialize the chip */
+> -	err = adc128_init_client(data);
+> +	err = adc128_init_client(data, external_vref);
+>   	if (err < 0)
+> -		goto error;
+> +		return err;
+>   
+>   	hwmon_dev = devm_hwmon_device_register_with_groups(dev, client->name,
+>   							   data, adc128_groups);
+> -	if (IS_ERR(hwmon_dev)) {
+> -		err = PTR_ERR(hwmon_dev);
+> -		goto error;
+> -	}
+> +	if (IS_ERR(hwmon_dev))
+> +		return PTR_ERR(hwmon_dev);
+>   
+>   	return 0;
 
-Oof. Apparently I didn't test this as well as I should have after
-adding the unwinding. This obviously should return ret, not 0.
+	return PTR_ERR_OR_ZERO(hwmon_dev);
 
-I did more extensive testing today, including faking error returns to
-test unwinding to make sure I didn't miss anything else.
+> -
+> -error:
+> -	if (data->regulator)
+> -		regulator_disable(data->regulator);
+> -	return err;
+> -}
+> -
+> -static void adc128_remove(struct i2c_client *client)
+> -{
+> -	struct adc128_data *data = i2c_get_clientdata(client);
+> -
+> -	if (data->regulator)
+> -		regulator_disable(data->regulator);
+>   }
+>   
+>   static const struct i2c_device_id adc128_id[] = {
+> @@ -522,7 +500,6 @@ static struct i2c_driver adc128_driver = {
+>   		.of_match_table = of_match_ptr(adc128_of_match),
+>   	},
+>   	.probe		= adc128_probe,
+> -	.remove		= adc128_remove,
+>   	.id_table	= adc128_id,
+>   	.detect		= adc128_detect,
+>   	.address_list	= normal_i2c,
+> 
 
-> +
-> +err_release_action:
-> +       devm_release_action(dev, regulator_action_disable, r);
-> +err_regulator_put:
-> +       devm_regulator_put(r);
-> +
-> +       return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(devm_regulator_get_enable_read_voltage);
-> +
