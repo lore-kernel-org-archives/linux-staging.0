@@ -1,64 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AEA412E1E0;
-	Wed,  1 May 2024 14:14:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16F9412FF86
+	for <linux-staging@lists.linux.dev>; Wed,  1 May 2024 16:26:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714572844; cv=none; b=tkJLwsrFK8g0fKtwM+0gZie/pqUQ94ghuBzPmjlaL93BAXojhBU5V1xEHy9lqAXAipj9PSDcXRuT2YxuP1XQXYkQRiyxvk7muouVpZJkkaFRO/BeNQ3jIkiorZQpCyFAYVkMnWkC0yE0WqsHn1h89QLwJTv6ObjFL3Q8wv/BgLI=
+	t=1714580795; cv=none; b=hzM/uhVJoDGH5WQ1G28STE+etoP0JRmMZHEuv5gAn8JFVHzeYiEvDMiEDA74r0BdkyDgC+PkJf7fhIGjafn6QvZkJ7jZQq7zCPcr92a411MrHq49Ghd0soTZ+iuu0ljZ0XMu5OcBrNwBQlcedh7RZrqzoszl27WgUmdsB6CasPQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714572844; c=relaxed/simple;
-	bh=6OXPCkzN/zHDiCjzDlCgu+l7lTQF3AP9altTiQ3IE9k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eLiPh+YvQcuK8Uonp/AfmApI2RGVCNWlrXQ4puWZbNr2uTLgzsxcU7pg7Z+euIAZSWwM/Nypp8U/A4IA/RKoffB78zZukPt+L0e3bVsLoJkNbuXRBUWxhYFx3XFcZfcMrtXIg+TkAE6OTAF2hnW52AHe15N2lUVjJXlrm6I8V90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=TSUOSfvb; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1714580795; c=relaxed/simple;
+	bh=F9XWlYsdcvjUY25fJrjVOG6I20rFQt/83OfE3Wn2Lek=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=L+WYmCmkxz6kvxICK26D86xwfI5zrkVx40xiy6Q/WN8S0oJLNfoFS11Ossz2gxIKUD6Qf0DWL08gCrcPeEHfvmS7NwuuHFTPQjC0572dF5+rry5VLT7XgRVebtrffTG9pY4jF5PsZElwKYJGGFSdZqwVwqpPa68SOEflwDbNh2I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h7JVaRPn; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="TSUOSfvb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC4DFC072AA;
-	Wed,  1 May 2024 14:14:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1714572844;
-	bh=6OXPCkzN/zHDiCjzDlCgu+l7lTQF3AP9altTiQ3IE9k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TSUOSfvbMvt/DMmrDdhA5xPkX+OTAJnABIBIOiVM6d0kBCVGb50NMRiqGYqT7phuM
-	 3vfGEYZ0XmLlgMWw/k5d7z8UuB0IShuOSmwojgJ5Zbj5XVKn9jcQyi8yTQeAHBG/e4
-	 o8q9nZy6fIqORMHOKfE0i60tuVbAjXCx0eDu6rCA=
-Date: Wed, 1 May 2024 16:14:00 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Shahar Avidar <ikobh7@gmail.com>, hverkuil-cisco@xs4all.nl,
-	andriy.shevchenko@linux.intel.com, robh@kernel.org,
-	felixkimbu1@gmail.com, krzysztof.kozlowski@linaro.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] staging: pi433: Use class_create instead of
- class_register.
-Message-ID: <2024050158-mutilated-zero-13b0@gregkh>
-References: <20240501055820.603272-1-ikobh7@gmail.com>
- <20240501055820.603272-2-ikobh7@gmail.com>
- <cc00ea68-0ec9-40af-a147-e8f67f7f29d0@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h7JVaRPn"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-6edb76d83d0so6025334b3a.0
+        for <linux-staging@lists.linux.dev>; Wed, 01 May 2024 09:26:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1714580793; x=1715185593; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NOnUqkuMHAwnSWqNQgVi5Ycko5vgJVVqK0L4U2r54t4=;
+        b=h7JVaRPnv/lvj4RaHyGMVr35TcIQWAZqYpkizh4USmhvhuqNUaOTeo9m7eId8fjAry
+         8tVxzEgc5dVfu4PAtgwKRkkPR8fqBGC0TsNU2Z0P105iKVTHmcFLan+Sl9FQ+UagNitf
+         lghMLr94icrYyHuKLMnRwOEvyuIMrPiXWyX30TB2JUgbV7cMRFtChf/cn5v/KIJPD6ik
+         6Xv73boWRw0iKPgcpqgci4myo1IJVY+o+yU0PchssAJ2VOTsAHQu8oNu8cLBj18ijbXZ
+         ZyMiJBQ6jF99N1aXt8K+sRvsB6AmQ1WriY87fj35QFi0AXudnGZ9IsKoCmmhX4PQkGy9
+         DcvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714580793; x=1715185593;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NOnUqkuMHAwnSWqNQgVi5Ycko5vgJVVqK0L4U2r54t4=;
+        b=rVDYq7u6m3Md5hkjZr1haj3Mo9E5e4HNma9F2Q0wnQEVBKUZaJqQtXDE2B8TIiIKdX
+         Ad2Lnb9p7jT23BtlklrRxJLXWG3IJwRsy2twAIZjp9CbmcaVthPWzACTOHJaCUhj7ezk
+         oriikIM5z9xagJZ4+9r6RVBQ6a9dL/957TaYZAVou3i/EqrD04j68TsMNtCIAlfBhhvB
+         mF913CjPoEHh7lQzfw0GwDGecOw2JOT8pD3ULBaWxQ4FEnroBcDn30nMD/1kG3q9eWHD
+         hCf+JkYDfNOZYOzZmHqxlxpGlChhUIIvcm9XcEoaL+ziZ9iakWW50xCcmD0OaaBx3x3A
+         CQwg==
+X-Forwarded-Encrypted: i=1; AJvYcCWCqjI5DsqopBAoAx6FmHA3CS6tN3hbirXzGhhmmBY+UKN187wF78ejeUn2cgKA3rGmJSGBu9FXbkKDWuPPfXDLiuQOpaNti6U6s6yLoQ==
+X-Gm-Message-State: AOJu0Yyuhc0R+6tNIIhBKUdEqYvUdsWAsAGXB/I7TalZutBiIddKwfB5
+	ZtjzptyGfMnRTyE5w9HNhx2fcDxgE0vByGRD6wdsfaOCgyVeZZBX
+X-Google-Smtp-Source: AGHT+IHwKDw622ZbV1L1HorkBmhkCKboNerHmQ/mlSSn9JUfoO5O+Fa9naEaEBEeVTWaH+p4jTI4Wg==
+X-Received: by 2002:a05:6a00:23d5:b0:6ed:4288:650a with SMTP id g21-20020a056a0023d500b006ed4288650amr2783147pfc.19.1714580793180;
+        Wed, 01 May 2024 09:26:33 -0700 (PDT)
+Received: from ubuntukernelserver.. ([49.236.212.182])
+        by smtp.gmail.com with ESMTPSA id l26-20020a65681a000000b00606506a95bbsm11117806pgt.13.2024.05.01.09.26.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 May 2024 09:26:32 -0700 (PDT)
+From: Roshan Khatri <topofeverest8848@gmail.com>
+To: hdegoede@redhat.com,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	gregkh@linuxfoundation.org,
+	hpa@redhat.com
+Cc: Roshan Khatri <topofeverest8848@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: atomisp: Fix spelling mistake in sh_css_internal.h
+Date: Wed,  1 May 2024 22:11:20 +0545
+Message-Id: <20240501162620.86865-1-topofeverest8848@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cc00ea68-0ec9-40af-a147-e8f67f7f29d0@moroto.mountain>
+Content-Transfer-Encoding: 8bit
 
-On Wed, May 01, 2024 at 05:00:44PM +0300, Dan Carpenter wrote:
-> On Wed, May 01, 2024 at 08:58:19AM +0300, Shahar Avidar wrote:
-> > Make use of a higher level API.
-> > Reduce global memory allocation from struct class to pointer size.
-> 
-> Doesn't this move the memory in the opposite direction from what we
-> want?  Originally, it's static const.  Isn't that the simplest best
-> kind of memory?
+codespell reported misspelled words still and member.
+This patch fixes misspellings.
 
-Our reviews just crossed...  This is just a revert (in 2 steps oddly),
-of a previous commit that changed this api call, and for that reason
-alone we can't take it :)
+Signed-off-by: Roshan Khatri <topofeverest8848@gmail.com>
+---
+ drivers/staging/media/atomisp/pci/sh_css_internal.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-thanks,
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_internal.h b/drivers/staging/media/atomisp/pci/sh_css_internal.h
+index 2349eb4d3767..5395be1ed26b 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_internal.h
++++ b/drivers/staging/media/atomisp/pci/sh_css_internal.h
+@@ -509,7 +509,7 @@ struct sh_css_sp_pipeline {
+  * of the associated pipe. Dynamic means that the data address can
+  * change with every (frame) iteration of the associated pipe
+  *
+- * s3a and dis are now also dynamic but (stil) handled separately
++ * s3a and dis are now also dynamic but (still) handled separately
+  */
+ #define SH_CSS_NUM_DYNAMIC_FRAME_IDS (3)
+ 
+@@ -597,7 +597,7 @@ struct sh_css_sp_stage {
+ 
+ /*
+  * Time: 2012-07-19, 17:40.
+- * Note: Add a new data memeber "debug" in "sh_css_sp_group". This
++ * Note: Add a new data member "debug" in "sh_css_sp_group". This
+  * data member is used to pass the debugging command from the
+  * Host to the SP.
+  *
+-- 
+2.34.1
 
-greg k-h
