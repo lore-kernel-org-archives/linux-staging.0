@@ -1,107 +1,122 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16F9412FF86
-	for <linux-staging@lists.linux.dev>; Wed,  1 May 2024 16:26:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16F71182DF;
+	Wed,  1 May 2024 19:03:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714580795; cv=none; b=hzM/uhVJoDGH5WQ1G28STE+etoP0JRmMZHEuv5gAn8JFVHzeYiEvDMiEDA74r0BdkyDgC+PkJf7fhIGjafn6QvZkJ7jZQq7zCPcr92a411MrHq49Ghd0soTZ+iuu0ljZ0XMu5OcBrNwBQlcedh7RZrqzoszl27WgUmdsB6CasPQ=
+	t=1714590218; cv=none; b=JflVI0j77ejN2kMoEaVJnstJifSQZCeWXjoP295+pw93FFiMCLXT+EAKBAKzHk3OZ8ZaXTdeg6hllPbqp4hYXDtQMsiAVwALWwUK474Uoie4O9MJE9+kAYVQuI3O0togw8kKbg/rROS+OafR/ToBLkv+bAWAgwT7VynHQZGfdDU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714580795; c=relaxed/simple;
-	bh=F9XWlYsdcvjUY25fJrjVOG6I20rFQt/83OfE3Wn2Lek=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=L+WYmCmkxz6kvxICK26D86xwfI5zrkVx40xiy6Q/WN8S0oJLNfoFS11Ossz2gxIKUD6Qf0DWL08gCrcPeEHfvmS7NwuuHFTPQjC0572dF5+rry5VLT7XgRVebtrffTG9pY4jF5PsZElwKYJGGFSdZqwVwqpPa68SOEflwDbNh2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h7JVaRPn; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1714590218; c=relaxed/simple;
+	bh=k/y5BeiXRkme53wJh5vTzb2hZLgiLP5EW3r2wagWwcc=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=rB5w+auffmyhAWfbcvOQbhZvQMdDRSeYmNllw+fI4xcuND7h/+QupbpnC4tIahg7g65aQIrLtCKgHypJXelNJHGHVhCX/f0rLGULI2P8JLf4NRIbBPnFc469YvazNJ+89hLyQdcpX/JcUryffTJ2jQuurdaef6cldM1icAq1pc0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=marvin24@gmx.de header.b=Ry5Z8XdI; arc=none smtp.client-ip=212.227.15.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h7JVaRPn"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-6edb76d83d0so6025334b3a.0
-        for <linux-staging@lists.linux.dev>; Wed, 01 May 2024 09:26:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714580793; x=1715185593; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=NOnUqkuMHAwnSWqNQgVi5Ycko5vgJVVqK0L4U2r54t4=;
-        b=h7JVaRPnv/lvj4RaHyGMVr35TcIQWAZqYpkizh4USmhvhuqNUaOTeo9m7eId8fjAry
-         8tVxzEgc5dVfu4PAtgwKRkkPR8fqBGC0TsNU2Z0P105iKVTHmcFLan+Sl9FQ+UagNitf
-         lghMLr94icrYyHuKLMnRwOEvyuIMrPiXWyX30TB2JUgbV7cMRFtChf/cn5v/KIJPD6ik
-         6Xv73boWRw0iKPgcpqgci4myo1IJVY+o+yU0PchssAJ2VOTsAHQu8oNu8cLBj18ijbXZ
-         ZyMiJBQ6jF99N1aXt8K+sRvsB6AmQ1WriY87fj35QFi0AXudnGZ9IsKoCmmhX4PQkGy9
-         DcvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714580793; x=1715185593;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NOnUqkuMHAwnSWqNQgVi5Ycko5vgJVVqK0L4U2r54t4=;
-        b=rVDYq7u6m3Md5hkjZr1haj3Mo9E5e4HNma9F2Q0wnQEVBKUZaJqQtXDE2B8TIiIKdX
-         Ad2Lnb9p7jT23BtlklrRxJLXWG3IJwRsy2twAIZjp9CbmcaVthPWzACTOHJaCUhj7ezk
-         oriikIM5z9xagJZ4+9r6RVBQ6a9dL/957TaYZAVou3i/EqrD04j68TsMNtCIAlfBhhvB
-         mF913CjPoEHh7lQzfw0GwDGecOw2JOT8pD3ULBaWxQ4FEnroBcDn30nMD/1kG3q9eWHD
-         hCf+JkYDfNOZYOzZmHqxlxpGlChhUIIvcm9XcEoaL+ziZ9iakWW50xCcmD0OaaBx3x3A
-         CQwg==
-X-Forwarded-Encrypted: i=1; AJvYcCWCqjI5DsqopBAoAx6FmHA3CS6tN3hbirXzGhhmmBY+UKN187wF78ejeUn2cgKA3rGmJSGBu9FXbkKDWuPPfXDLiuQOpaNti6U6s6yLoQ==
-X-Gm-Message-State: AOJu0Yyuhc0R+6tNIIhBKUdEqYvUdsWAsAGXB/I7TalZutBiIddKwfB5
-	ZtjzptyGfMnRTyE5w9HNhx2fcDxgE0vByGRD6wdsfaOCgyVeZZBX
-X-Google-Smtp-Source: AGHT+IHwKDw622ZbV1L1HorkBmhkCKboNerHmQ/mlSSn9JUfoO5O+Fa9naEaEBEeVTWaH+p4jTI4Wg==
-X-Received: by 2002:a05:6a00:23d5:b0:6ed:4288:650a with SMTP id g21-20020a056a0023d500b006ed4288650amr2783147pfc.19.1714580793180;
-        Wed, 01 May 2024 09:26:33 -0700 (PDT)
-Received: from ubuntukernelserver.. ([49.236.212.182])
-        by smtp.gmail.com with ESMTPSA id l26-20020a65681a000000b00606506a95bbsm11117806pgt.13.2024.05.01.09.26.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 May 2024 09:26:32 -0700 (PDT)
-From: Roshan Khatri <topofeverest8848@gmail.com>
-To: hdegoede@redhat.com,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org,
-	hpa@redhat.com
-Cc: Roshan Khatri <topofeverest8848@gmail.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: atomisp: Fix spelling mistake in sh_css_internal.h
-Date: Wed,  1 May 2024 22:11:20 +0545
-Message-Id: <20240501162620.86865-1-topofeverest8848@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=marvin24@gmx.de header.b="Ry5Z8XdI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1714590209; x=1715195009; i=marvin24@gmx.de;
+	bh=gYwHy5LNplYoKK6zdvHGMt/83YYvl6lIqLhP/47UlBk=;
+	h=X-UI-Sender-Class:Date:From:To:cc:Subject:In-Reply-To:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=Ry5Z8XdIbGLREuOfxiRV8WgooMM9iGSxjEEl8RyiufjpK3DKkKy0at+I80C+6S3Z
+	 FqO3Rs4reH3odx4mwDQEW4UiWzqajYgZbFhsOCK3vBKa7nZCltbKMPgwHWnU0JBNg
+	 8/0QSjbEncdAYLO5no2T5I5SMpv3tVNuLy4JBWciWKSnGPWQCXsZJEmfHMOvtBpT9
+	 brORn+bwuAzcIkIctM4j3ShBXSJGB/EVv9EtfR95pQECjRCd07SinVJBo2f3tKckV
+	 v4xaEqBBmq/tHrBWckrih0S6fj9RQyVOAnGmX24NUoq/pW6TAtky2BHgwyO7bKfOf
+	 QTO3BWdRrXjiHGwP+A==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from n5219w05.fritz.box ([109.250.33.78]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MyKHm-1srrxd19qe-00yhwF; Wed, 01
+ May 2024 21:03:29 +0200
+Date: Wed, 1 May 2024 21:03:28 +0200 (CEST)
+From: Marc Dietrich <marvin24@gmx.de>
+To: Ben Dooks <ben.dooks@codethink.co.uk>
+cc: Marc Dietrich <marvin24@gmx.de>, linux-staging@lists.linux.dev, 
+    linux-tegra@vger.kernel.org, gregkh@linuxfoundation.org, 
+    Thierry Reding <treding@nvidia.com>
+Subject: Re: [PATCH] staging: nvec: make i2c controller register writes
+ robust
+In-Reply-To: <2338e58b-1ec2-4500-9675-2d8a3aaa107f@codethink.co.uk>
+Message-ID: <79c10e8e-bf3e-7eca-a0cd-e177a270a517@gmx.de>
+References: <20240421104642.25417-1-marvin24@gmx.de> <2338e58b-1ec2-4500-9675-2d8a3aaa107f@codethink.co.uk>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Provags-ID: V03:K1:Ja7zapM5O1KRHIaFdURWIzIUrQygATLJYtj57B3Vfjm5jjb17E9
+ zWEuYTfu/QnV0QJg81B6UmzlqEj5QvHoBUu3bzzjD+HEp84wg70Txx3VtBAB/7DZIkd7JjR
+ Le5XDU+7E0lhnPmq6hbLrKCIH/QBp25dbqId95of7C8K8HwD+SW/XjgascNWBhb7vnjqlkN
+ NT2UTWOWM3vETKvxQzONw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:RmgwIelw/CU=;fqNOTpQAO3hKcjClNDzl5Gd1oLO
+ 2oxHPx2w6mRH7EeiZVzoi2bsSdC+Uxm6p0xI7FANMPHvzF7Q2PbTDip3hiyHxglyRW8oy1+IG
+ jcgm5jN+vu7Pdd6NhlwtDLOZgef6l13RRl5lqmxpGYZioCI2FmOVcPQujyOGRvXsihW6wNwno
+ HDMsVgHJvvYu7vDv3Y5R3lj+/tSebapnbvyKmDX6MtG2psFAGXVIrM+KMo4CkE8OzjUbBZw+q
+ 7bmzFHkhERerAqlCx8U7pWx4RiQ4doIG9mruIHWkqrCx2X9p/6yfjBJY8xdnkFIE+6VNSF4Hw
+ IrZha8YiGbGQvzOu2s8khqxms9lUjqRpyVLy8roUhSNtQc4LWZB61zlpKjUG3GOa+OO3tdzgS
+ VfhYzJeB3enSoEHW3s1QCiYqSWokEpoRZbnorHdfosXOlJKYFFB9a0T2TWijzdJ1ivFXXTwE3
+ BlsXPjpk38iY+u/TjTZg/rljKvYRzJrb8dLgXMci/6KEUeyjAm2Z4HgFOQKu1lWXRfsvsUb0q
+ xJYhHokH5AjYGMD+1AKf3rHsVmhuMYPqaisJfO6OZLwWbul1nl9qIdKUPupveIu2SsR0eD8m8
+ 6TRI6foXPf8wNF8gg9R4YxuWqPV2wt2gqCwJyTcb8pC3yWf4n2bNXhH/yDuf9bgylAZ7hn4fC
+ A4jFnMm6xof1O/gIm4cpYaQ/EqqQshGHWxlUY7sNRRI/hH6mTH+czceaRxsxIZ1lxGdBAePqe
+ xfm7eWq7/Z37QHNDrBYJxFXFpCQPJUIvDgbPlbOH0ChS8bAFslJfZe7+QFqV2wRMt1MAIwar9
+ EzRgU7MqEuj6xfI/iuCrz6Q11dHvRw+1LsjEzCtwQcQlY=
+Content-Transfer-Encoding: quoted-printable
 
-codespell reported misspelled words still and member.
-This patch fixes misspellings.
+Hi Ben,
 
-Signed-off-by: Roshan Khatri <topofeverest8848@gmail.com>
----
- drivers/staging/media/atomisp/pci/sh_css_internal.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On Mon, 22 Apr 2024, Ben Dooks wrote:
 
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_internal.h b/drivers/staging/media/atomisp/pci/sh_css_internal.h
-index 2349eb4d3767..5395be1ed26b 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_internal.h
-+++ b/drivers/staging/media/atomisp/pci/sh_css_internal.h
-@@ -509,7 +509,7 @@ struct sh_css_sp_pipeline {
-  * of the associated pipe. Dynamic means that the data address can
-  * change with every (frame) iteration of the associated pipe
-  *
-- * s3a and dis are now also dynamic but (stil) handled separately
-+ * s3a and dis are now also dynamic but (still) handled separately
-  */
- #define SH_CSS_NUM_DYNAMIC_FRAME_IDS (3)
- 
-@@ -597,7 +597,7 @@ struct sh_css_sp_stage {
- 
- /*
-  * Time: 2012-07-19, 17:40.
-- * Note: Add a new data memeber "debug" in "sh_css_sp_group". This
-+ * Note: Add a new data member "debug" in "sh_css_sp_group". This
-  * data member is used to pass the debugging command from the
-  * Host to the SP.
-  *
--- 
-2.34.1
+> On 21/04/2024 11:46, Marc Dietrich wrote:
+>> The i2c controller needs to read back the data written to its registers=
+.
+>> This way we can avoid the long delay in the interrupt handler.
+>>
+>> Signed-off-by: Marc Dietrich <marvin24@gmx.de>
+>> ---
+>>   drivers/staging/nvec/nvec.c | 41 ++++++++++++++++++++++--------------=
+-
+>>   1 file changed, 24 insertions(+), 17 deletions(-)
+>>
+>> diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
+>> index 45df190c2f94..214839f51048 100644
+>> --- a/drivers/staging/nvec/nvec.c
+>> +++ b/drivers/staging/nvec/nvec.c
+>> @@ -570,6 +570,22 @@ static void nvec_tx_set(struct nvec_chip *nvec)
+>>   		(uint)nvec->tx->size, nvec->tx->data[1]);
+>>   }
+>>
+>> +/**
+>> + * i2c_writel - safely write to an I2C client controller register
+>> + * @val: value to be written
+>> + * @reg: register to write to
+>> + *
+>> + * A write to an I2C controller register needs to be read back to make
+>> sure
+>> + * that the value has arrived.
+>> + */
+>> +static void i2c_writel(u32 val, void *reg)
+>> +{
+>> +	writel_relaxed(val, reg);
+>> +
+>> +	/* read back register to make sure that register writes completed */
+>> +	readl_relaxed(reg);
+>> +}
+>
+> I thought the default behaviour of writel() should be to force writes
+> out of any CPU buffers. Are there any bus isuses here causing the code
+> to be necessary (and if so, why is there another buffer breaking the
+> writel behaviour?)
+
+if fear that's a question only NVIDIA can answer.
+
+Marc
 
