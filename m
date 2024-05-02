@@ -1,41 +1,69 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C6AD22F00;
-	Thu,  2 May 2024 08:55:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12FDF26AE6
+	for <linux-staging@lists.linux.dev>; Thu,  2 May 2024 08:59:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714640103; cv=none; b=gZOHuz3qafMO4+yTKnLAtCy9tLNehn4lD0hat2JkFKqDolU/XUJjJ5679GaneVaOtKrh4q4YgIDpeUymkrVIi+2ejoodZ0TKGiInR/MRuV0xwZQXYE8TOZaR42Gh+15EgOjnV9RiPYTlLfzqGAgEOWfsN4IRMpKFvt9joWhkmMk=
+	t=1714640364; cv=none; b=oxC1Ku0T1B+4OGyP/osTkpwVBw8Am3rmDwmNUcKtSYf0D0JnTe97dwxCAXwCGT5X/wePHP9mZoukUCTIJodLio6VbrWprKPQYCJQGvMuwe694Rhi+Y+p7le732xDPNLufQuE+iOuVndOEmvaLCbAZzHiv2xePEVzaGtQJDLn/R8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714640103; c=relaxed/simple;
-	bh=vnXVC6Kf8epv7ASZX8DY9VCJSTt9HM5ceyAQKMp9tvk=;
+	s=arc-20240116; t=1714640364; c=relaxed/simple;
+	bh=cgYb2kPZ5GbGdUXi0a4N9CJtK6f0uTTDVTCr6ydiVgk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HMBeAvJo2ZbhbkVJ6MLRBV5b1zWpm/qwM8BhbRVTnHZ8mGowQFdwaAj4XrZ7l0Et749wyBoD9ZlAx+dOc/Jf3ilE9T7opy8pXB7+p4gJfxs95aV6tZhc0GFvYswyiEalCHKkdK0bN28dI5in1pfLuWiqslCm2bAJJxiunVEE3CI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=WbFo1kEP; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=RWU3h3D3qyl6VaivNtOEPYu68evdv90Ek1PTwRAt945CS2TkVeOwAwAzYJzjx/yhPOewct7upNaPuNx8cN7mbiOoTlDyT82Bdy+pLrUWorakavvWWZ2Y9nXjMcOQk+I9WrSM3VOEjeXJrQaTSA6t/8jDQE9yr3rcdevwuvteEWk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DkW2FbYL; arc=none smtp.client-ip=209.85.167.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="WbFo1kEP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6060C113CC;
-	Thu,  2 May 2024 08:55:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1714640102;
-	bh=vnXVC6Kf8epv7ASZX8DY9VCJSTt9HM5ceyAQKMp9tvk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WbFo1kEPVZa9bGX8IcbyRTGRoHKpjjVVZYdL+zmDwAhPKa9gTvNSejgWEmWYSSGIB
-	 nOJc5VEmoxh8f8EZF9mn+GF/SAgEROR49CaNr6tO6l4jH6rFXANEkls7d0Ja4ff4BF
-	 AOnkOqLfvOmGTtVS4eYGt4ojXEopX4byW0dsEHco=
-Date: Thu, 2 May 2024 10:54:59 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DkW2FbYL"
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-51f4d2676d1so149533e87.3
+        for <linux-staging@lists.linux.dev>; Thu, 02 May 2024 01:59:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1714640361; x=1715245161; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=JArO4bX3IUaYcurGaRFt9DxIObyTrUcxPuO3BO9ScqU=;
+        b=DkW2FbYLbBGGfYcaKYexkjywPL+n1Zih8n/vt9ccjpFc/wjGlGzdVpwwSAW0q+I4eX
+         WjDvns5Ks5HT8J2+hHo9/DMvJqRd4x5ZooPTQWIIQAVcM3FxNnG+GtjBWOfFwL+Qr9uw
+         akOROEmP87z3c+Ui64WYwByBTEbe56sc2oyClwuiPxvtl981rJJ514dtggtThMc/2md4
+         ZMdFidZCQeAS0S882uCaadhkP0QBaBTfgTqM58mBMZSxZMY9Vnp3C9bhb858lpdw7sRj
+         Pei0kPihD7CUwcWzoYpTcpPTCYEdYp5MWwpsCv3usfdt5zDBRkl24bEewbryECQBsfJM
+         JpNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714640361; x=1715245161;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JArO4bX3IUaYcurGaRFt9DxIObyTrUcxPuO3BO9ScqU=;
+        b=sPHY1y7ARXcWDlrV6xlFU6OtMmoEw12IQuPSlyO/XHWQZsmQMw8Z1JMgEZE1zTs6GW
+         Z1THLnrgin9cxs0eqOra0bPvQ4S6/J9CvT67el6MhAbhIzSCklxgyroWsOYuXF26RAhG
+         8VrnqGKAoKnyyAqrJKKGpzYdzsAqPX//ZxxRviCEge4RTVVDQUYFQXQt4IhdO7dJfCtU
+         gc8AkO3CRr+thnJSTbxMYlG4N1ZXd5StksWwn+AJEayLvpuSz3hvREEl8tqWkgxMQXYz
+         cGPizuDi6idG/pYPA2+ASejXFfVDTUu8/ripRH07l2o/INXHA6q8edU6ywF6nRbf3Bwp
+         7lwg==
+X-Forwarded-Encrypted: i=1; AJvYcCUSASJt9W3TZCvnPDaSEQrctDb6rEjLDAkn5OwWMMp5NFeSQ4uqogbx0/DvFXBac28jEoyq9K3UhNKuTS8IJS1wfaXDqfwWARC7dCkung==
+X-Gm-Message-State: AOJu0Yz/R43Awcr0SQR0VH4Y0SV/tCq5hGaMKOpo2Wk1d6dUs1duHd1o
+	TfV2mGJvy7nKJIvKzs8DGKLdPzy4JvV2tSMEWmrx5kAAwALPBtz48XBdP5aEj9s=
+X-Google-Smtp-Source: AGHT+IH1P9B88ovnKP0SkYQLjObmvbIH5cf6HaZXDX/4lkfpxRooBAbtPgShWMsInUtb90o/du4pqg==
+X-Received: by 2002:a05:6512:3b87:b0:519:1e33:9d85 with SMTP id g7-20020a0565123b8700b005191e339d85mr1153370lfv.36.1714640359096;
+        Thu, 02 May 2024 01:59:19 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id br39-20020a056512402700b0051da1d9c47esm101814lfb.64.2024.05.02.01.59.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 May 2024 01:59:18 -0700 (PDT)
+Date: Thu, 2 May 2024 11:59:14 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Shahar Avidar <ikobh7@gmail.com>
-Cc: hverkuil-cisco@xs4all.nl, andriy.shevchenko@linux.intel.com,
-	robh@kernel.org, felixkimbu1@gmail.com, dan.carpenter@linaro.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] staging: pi433: Use class_create instead of
- class_register.
-Message-ID: <2024050257-gong-issue-ec40@gregkh>
+Cc: gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
+	andriy.shevchenko@linux.intel.com, robh@kernel.org,
+	felixkimbu1@gmail.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] staging: pi433: Rename goto label.
+Message-ID: <752171bd-9695-44f2-aad0-c8140e5099dc@moroto.mountain>
 References: <20240501055820.603272-1-ikobh7@gmail.com>
- <20240501055820.603272-2-ikobh7@gmail.com>
- <2024050109-reward-vision-58e9@gregkh>
- <fede8589-dd11-4b0c-aa70-7ec23aed64b1@gmail.com>
+ <20240501055820.603272-3-ikobh7@gmail.com>
+ <3005db51-58f7-4247-a37b-02933767f644@moroto.mountain>
+ <b0cd37c3-5465-467d-8074-67fa2fddcc4d@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -44,88 +72,44 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <fede8589-dd11-4b0c-aa70-7ec23aed64b1@gmail.com>
+In-Reply-To: <b0cd37c3-5465-467d-8074-67fa2fddcc4d@gmail.com>
 
-On Thu, May 02, 2024 at 11:40:44AM +0300, Shahar Avidar wrote:
-> On 01/05/2024 17:12, Greg KH wrote:
-> > On Wed, May 01, 2024 at 08:58:19AM +0300, Shahar Avidar wrote:
-> > > Make use of a higher level API.
+On Thu, May 02, 2024 at 11:44:15AM +0300, Shahar Avidar wrote:
+> On 01/05/2024 17:06, Dan Carpenter wrote:
+> > On Wed, May 01, 2024 at 08:58:20AM +0300, Shahar Avidar wrote:
+> > > Use destroy_class_and_remove_dbfs instead of unreg_class_and_remove_dbfs.
+> > > 
+> > > Signed-off-by: Shahar Avidar <ikobh7@gmail.com>
+> > > ---
+> > >   drivers/staging/pi433/pi433_if.c | 4 ++--
+> > >   1 file changed, 2 insertions(+), 2 deletions(-)
+> > > 
+> > > diff --git a/drivers/staging/pi433/pi433_if.c b/drivers/staging/pi433/pi433_if.c
+> > > index c8c1d296184b..4fffd7007040 100644
+> > > --- a/drivers/staging/pi433/pi433_if.c
+> > > +++ b/drivers/staging/pi433/pi433_if.c
+> > > @@ -1409,11 +1409,11 @@ static int __init pi433_init(void)
+> > >   	status = spi_register_driver(&pi433_spi_driver);
+> > >   	if (status < 0)
+> > > -		goto unreg_class_and_remove_dbfs;
+> > > +		goto destroy_class_and_remove_dbfs;
+> > >   	return 0;
+> > > -unreg_class_and_remove_dbfs:
+> > > +destroy_class_and_remove_dbfs:
+> > >   	debugfs_remove(root_dir);
+> > >   	class_destroy(pi433_class);
 > > 
-> > What does this mean?
+> > This is cleaning up something which changed in patch 1 so it should have
+> > been done in patch 1.
 > > 
-> By "higher level" I meant a wrapper function that includes the
-> "class_register" call.
-> 
-> > > Reduce global memory allocation from struct class to pointer size.
-> > 
-> > No, you increased memory allocation here, why do you think you reduced
-> > it?
-> > 
-> Reducing *global* memory allocation.
+> Thanks for your input.
+> I thought of a previous comment you had were you noted Greg preferred small
+> patches, so I did my best to keep the first patch the with minimum changes
+> without breaking git digest.
 
-And again, you *increased* memory allocation by making this be
-dynamically created instead of the current code which is a static and
-can be placed into read-only memory with no padding required unlike a
-dynamic memory chunk is.  You also removed the read-only markings of the
-structure for no reason, in a way, making the code a tad be more
-insecure as well as increasing memory usage.
+The rule is not "as small as possible", it's "one thing per patch".
+It's a bit subtle, but you're doing half a thing in this patch.  Not a
+huge deal.  It's part of the learning process.
 
-So be careful please.
-
-> I understand the tradeoff would be allocating in run time the class struct
-> anyway, but than, it could also be freed.
-
-When is it freed that the current code is not also freed?
-
-> Since the Pi433 is a RasPi expansion board and can be attached\removed in an
-> asynchronous matter by the user, and only one can be attached at a time, I
-> thought it is best not to statically allocate memory which won't be freed
-> even if the hat is removed.
-
-Is that what happens in the code?
-
-> By using the class_create & class_destroy I thought of reducing memory
-> allocated by the RasPi if the pi433 is removed.
-
-Try it and see :)
-
-> But following your response I now actually see that the class struct will
-> have the same lifespan anyway if allocated statically or dynamically if its
-> alive between the init\exit calls.
-
-Yes.
-
-> > Also, this looks like a revert of commit f267da65bb6b ("staging: pi433:
-> > make pi433_class constant"), accepted a few months ago, why not just
-> > call it out as an explicit revert if that's what you want to do?
-> > 
-> I actually saw this commit, but for some reason did not connect the dots
-> when I wrote this patch. My bad.
-> 
-> > class_create is going away "soon", why add this back when people are
-> > working so hard to remove its usage?  What tutorial did you read that
-> > made you want to make this change?
-> > 
-> It's true, I got it the wrong way I guess. I thought class_create is the
-> preferred API (but now that you mentioned commit f267da65bb6b, I see it's
-> not). I did notice it in many other drivers though, and took them as an
-> example (e.g. gnss).
-
-There are patches out that replace almost all users of class_create()
-such that it should be almost gone from the tree.
-
-> > thanks,
-> > 
-> > greg k-h
-> 
-> I actually initially thought that the pi433 class should be removed since it
-> doesn't bring any new attributes with it, and that spi_slave_class is more
-> appropriate, but then I saw no other driver using it. Any thoughts about
-> that?
-
-The whole driver is going to be removed soon, please see the mailing
-list archives for the details.
-
-thanks,
-
-greg k-h
+regards,
+dan carpenter
