@@ -1,59 +1,59 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6856F2E859
-	for <linux-staging@lists.linux.dev>; Thu,  2 May 2024 08:40:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 771FF51C52
+	for <linux-staging@lists.linux.dev>; Thu,  2 May 2024 08:44:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714639250; cv=none; b=vACEPFQ38mVolemGFoH/BhivQ1jokmzZk/hhCFkhdOw2D9xalHrsju6vRWPhb+Ic76J2ylOdqhwkPfJ9rh8nUCdd1IpGU+CI3il2OnimyRzJ9GNJt9pFD0pmTj2izQMmeMxAbWkXX7BzLGEnKq5sN772bheXqcAgSiYueHXCRCM=
+	t=1714639461; cv=none; b=iD3iBs54ZGZp+2NZzzqmY1wA8nwvpZ+/HfOZubHU/jsMY0QDapgEtprU/lqYH4QO1jkwrfeieBWxEUftN9Dd+62jAtt+4EjE2cf8/wJl5lXHlI+mD4OelETBlHczHzcYg+r78b4SO3oY9mpo6L1y2yF1YqESoehHQylMYcr3nVQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714639250; c=relaxed/simple;
-	bh=VMLirMjE7AcT2Pt9YizN+gPPnTlDr2S+LO8VpGBJIyg=;
+	s=arc-20240116; t=1714639461; c=relaxed/simple;
+	bh=kgt/1SMeEZnm5Ptv8rEZ64sSPgtiVX0biVlUi6l52F8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TwumSp7/lGEZryXLKVZ7rWuIjZafSF/+oDAjH2wREXsyf9ngUdJpYIzITsKwy9MWy6WVd00vQE3y087AEn8gkx9TIQ4MNll0dCKAkbDj6W6Qo2MU0OFOhWr/6EPFeS7E8Me7FUPiHN+8uutZwMTpRO6c4/LlXwTChnttoUmd4no=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gGyy9lPV; arc=none smtp.client-ip=209.85.128.42
+	 In-Reply-To:Content-Type; b=NUf+iQkO9cTh2xaR5Blmb9umFpDdpTpoHp9fmFaA/Wz40puzoN8ibCO3h+JcSAL1+YfgUNYXznKCOeoqk6lx/td7+LUwtwl6sqElh3CqTz4Ch3b0ILwkKdXFmXq5fOPx0PvhnjhkOup0DjCVjxVep/GmqKebfWZ/xpP4T6Q/vXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Oxs1IIfV; arc=none smtp.client-ip=209.85.167.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gGyy9lPV"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-41b782405d5so65543795e9.2
-        for <linux-staging@lists.linux.dev>; Thu, 02 May 2024 01:40:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Oxs1IIfV"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-518931f8d23so7704421e87.3
+        for <linux-staging@lists.linux.dev>; Thu, 02 May 2024 01:44:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714639247; x=1715244047; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1714639457; x=1715244257; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=bq3P2Ir5EDp6mbAqX1BN2BAvxEatV8uFmb1a71hk3Cs=;
-        b=gGyy9lPVguesF/MUhscYo4izIydbAsFRWqq2UtMwLRJzf7LUFwO48OpmPoSgS8rIa7
-         ssDbbk/A84GPvrgpoKKyGy7ZGafqenOQQ8ogITp+oYkhA1Y64Z/2zyZr9B8Q/dybe3gY
-         3YuvLTB73TgBD91Bj1yYy3vNMMzrfYqkACT084CeYjrWkPFKO1f6IKLQk46oS9PrRVMU
-         2nEnFXK0c1LipruP2pbWRyweJ9txMhL50RviJSw3FEhmnB9FQeqGcgvR4R1GvX3yggSF
-         IEvCtQDwnf4o51ECTbxWQi8NKYnyy4A9An5ZI2ZWi8Ka3QvBkOar1APSkDdyZVQs0LEb
-         blOA==
+        bh=HcUAASY20ow1VFW4//wEVrnYF6VyjHuuXQ8tiu7WF10=;
+        b=Oxs1IIfVtXPGGdi0So1njFileu9GzLeveTVWLbj3jP+CauJRSIkmSkkTpXl9aYRkYg
+         u9wGFz2gmNIqAoqXlpI+oHGvPcjb2K7g38dsxteM4bd15hmtJw87VY7KhfzF3NcXoulr
+         X3lqKAscxR0wHswfHJRiQg1gwL8XlO9WWuW8dUwU3x7G60t9bRfNDvfFR/BPFy6R8NdW
+         IuBeANt/VE4UDOf8VYVahOnzVdq1jl6Z88caWdqk88pgoldrFJc61iT3QLI9kZu432Oo
+         DhoLEaRTkLAbRv0Ui+WZQ8f9Uzb3UXjkFzjmjDQW0FuuWTbhNJ1S35+kPpFoqMrhuTHH
+         t6CQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714639247; x=1715244047;
+        d=1e100.net; s=20230601; t=1714639457; x=1715244257;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bq3P2Ir5EDp6mbAqX1BN2BAvxEatV8uFmb1a71hk3Cs=;
-        b=PBAAtZomv5GWDAWJXZCdwxWaZOBcN/u93gpXNTDo6iLj/B9tN+SL2S0BOxcxhCccka
-         BP7pMuMuJ+BuGuFisHQ0+AjWODrWKF3eA2jdkg8pZWjuQ/pKYFjuTCFPFBQ/JMyBocTZ
-         tZ2EryX0jrZ+V5wJygyqCRwHESRKjUEuTbIWJlV79vztjxy7zopbZFi9A9KRrucYhQcY
-         sJiOq0F0QCqPTzjefHVYpYbW3no78+h05FUWu+dNTVgYZCSGqPbHD0V0R+jxThzPto0x
-         nw7gH09jE0aiTfTH+Os0SISFceWcYANEGl/FzGDTheB9BvAftT7tHqGsLGph+oPomKHI
-         YUxQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXLD42XfkcB4kORlj8ZBV5FxojHKO1PXMr5iwXhTm2t48gO/H/c9OiGyE6+Ii3g/L70kUKydkibqBnJ9Ww36wKM7xZVJiKB+dNgWT+7xQ==
-X-Gm-Message-State: AOJu0YzC1lhZh41XYFgOdSjyOovRp3g1Ins5KKDgGMZ3fbGTGVDMNVZg
-	nQ1A6/wMG4SmEt+3uGNohhILiaZne7nOJlOhw27Nlt/IiSK+j0GW
-X-Google-Smtp-Source: AGHT+IHJnxzIwf+DgF1c1kiPElsKttyZJqap1UUMMrgC3gCd5mjUoBOTDzblLV9e7t6XE/b8mYxtfA==
-X-Received: by 2002:a05:600c:4e11:b0:41c:8754:8793 with SMTP id b17-20020a05600c4e1100b0041c87548793mr4849943wmq.41.1714639246648;
-        Thu, 02 May 2024 01:40:46 -0700 (PDT)
+        bh=HcUAASY20ow1VFW4//wEVrnYF6VyjHuuXQ8tiu7WF10=;
+        b=IQgQtA9jGn6X6VIA63zP3hslmvfzo2+egKmyFNEyqNEtE3oNmleKLrsTt/SErDfh+4
+         R4Jz8Y/nwUTNiPL0Jro7l/1rudPuBtudkWTRIgiyPpqiSNEZxUHMAaK13BPpFTQteNJ5
+         a+wUc+PWl/2cyuqPeSaH3X1mfFneW01ASDjliSdgd0BSDWxb4nO7SNX154lfpUoCHcP9
+         O2k/V+432/li8OR5dpgLdCDdbFAnpMd2+xYxDX7DcOyiF/c6uuxg5LaXcUEBgRpPQf0F
+         Vedc0GtVIkei3BGLJdNP28e3LWl4Gj69NRw6f6jjwS/6IXWjTKOhU43AlQbozKhYbamr
+         qblg==
+X-Forwarded-Encrypted: i=1; AJvYcCXevfERoJPvuuLiA91enMGeUiT1Oza6BkHobBAcz1lY2xdMD9xd+ioAzY5MykG6C8RvuL9wNwlnFndligY/U5kI5SjFyQBfYJgSqg6Sug==
+X-Gm-Message-State: AOJu0YwAaZ2OPtNAQbiZSH6c84q5Ju+Sx20XW4wXI1dTUzL8zxAsj7YK
+	aJ8kEVNgYndwuo/PP0c6/nAQFdnbDrxeD1tF68RNZLmQ2oGV3PYm
+X-Google-Smtp-Source: AGHT+IGVAwRs80djLEUTTlp/zFwopzo7i0fXr93wtXW+S5botvqJTpOB/D17ajYNyCvcpnMsh7p1UA==
+X-Received: by 2002:a19:2d06:0:b0:51f:4a03:a053 with SMTP id k6-20020a192d06000000b0051f4a03a053mr257773lfj.4.1714639457317;
+        Thu, 02 May 2024 01:44:17 -0700 (PDT)
 Received: from ?IPV6:2a06:c701:737b:ef00:c50a:d96c:6c34:ec52? ([2a06:c701:737b:ef00:c50a:d96c:6c34:ec52])
-        by smtp.gmail.com with ESMTPSA id f8-20020a05600c154800b00418f99170f2sm1160001wmg.32.2024.05.02.01.40.45
+        by smtp.gmail.com with ESMTPSA id l8-20020a05600c4f0800b0041bfa349cadsm4902544wmq.16.2024.05.02.01.44.15
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 May 2024 01:40:46 -0700 (PDT)
-Message-ID: <fede8589-dd11-4b0c-aa70-7ec23aed64b1@gmail.com>
-Date: Thu, 2 May 2024 11:40:44 +0300
+        Thu, 02 May 2024 01:44:16 -0700 (PDT)
+Message-ID: <b0cd37c3-5465-467d-8074-67fa2fddcc4d@gmail.com>
+Date: Thu, 2 May 2024 11:44:15 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -61,76 +61,63 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] staging: pi433: Use class_create instead of
- class_register.
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: hverkuil-cisco@xs4all.nl, andriy.shevchenko@linux.intel.com,
- robh@kernel.org, felixkimbu1@gmail.com, dan.carpenter@linaro.org,
+Subject: Re: [PATCH 2/2] staging: pi433: Rename goto label.
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
+ andriy.shevchenko@linux.intel.com, robh@kernel.org, felixkimbu1@gmail.com,
  linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
 References: <20240501055820.603272-1-ikobh7@gmail.com>
- <20240501055820.603272-2-ikobh7@gmail.com>
- <2024050109-reward-vision-58e9@gregkh>
+ <20240501055820.603272-3-ikobh7@gmail.com>
+ <3005db51-58f7-4247-a37b-02933767f644@moroto.mountain>
 Content-Language: en-US
 From: Shahar Avidar <ikobh7@gmail.com>
-In-Reply-To: <2024050109-reward-vision-58e9@gregkh>
+In-Reply-To: <3005db51-58f7-4247-a37b-02933767f644@moroto.mountain>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 01/05/2024 17:12, Greg KH wrote:
-> On Wed, May 01, 2024 at 08:58:19AM +0300, Shahar Avidar wrote:
->> Make use of a higher level API.
+On 01/05/2024 17:06, Dan Carpenter wrote:
+> On Wed, May 01, 2024 at 08:58:20AM +0300, Shahar Avidar wrote:
+>> Use destroy_class_and_remove_dbfs instead of unreg_class_and_remove_dbfs.
+>>
+>> Signed-off-by: Shahar Avidar <ikobh7@gmail.com>
+>> ---
+>>   drivers/staging/pi433/pi433_if.c | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/staging/pi433/pi433_if.c b/drivers/staging/pi433/pi433_if.c
+>> index c8c1d296184b..4fffd7007040 100644
+>> --- a/drivers/staging/pi433/pi433_if.c
+>> +++ b/drivers/staging/pi433/pi433_if.c
+>> @@ -1409,11 +1409,11 @@ static int __init pi433_init(void)
+>>   
+>>   	status = spi_register_driver(&pi433_spi_driver);
+>>   	if (status < 0)
+>> -		goto unreg_class_and_remove_dbfs;
+>> +		goto destroy_class_and_remove_dbfs;
+>>   
+>>   	return 0;
+>>   
+>> -unreg_class_and_remove_dbfs:
+>> +destroy_class_and_remove_dbfs:
+>>   	debugfs_remove(root_dir);
+>>   	class_destroy(pi433_class);
 > 
-> What does this mean?
+> This is cleaning up something which changed in patch 1 so it should have
+> been done in patch 1.
 > 
-By "higher level" I meant a wrapper function that includes the 
-"class_register" call.
+Thanks for your input.
+I thought of a previous comment you had were you noted Greg preferred 
+small patches, so I did my best to keep the first patch the with minimum 
+changes without breaking git digest.
 
->> Reduce global memory allocation from struct class to pointer size.
+This patchset won't be accepted anyway.
+
+> regards,
+> dan carpenter
 > 
-> No, you increased memory allocation here, why do you think you reduced
-> it?
-> 
-Reducing *global* memory allocation.
-I understand the tradeoff would be allocating in run time the class 
-struct anyway, but than, it could also be freed.
-
-Since the Pi433 is a RasPi expansion board and can be attached\removed 
-in an asynchronous matter by the user, and only one can be attached at a 
-time, I thought it is best not to statically allocate memory which won't 
-be freed even if the hat is removed.
-
-By using the class_create & class_destroy I thought of reducing memory 
-allocated by the RasPi if the pi433 is removed.
-
-But following your response I now actually see that the class struct 
-will have the same lifespan anyway if allocated statically or 
-dynamically if its alive between the init\exit calls.
-
-> Also, this looks like a revert of commit f267da65bb6b ("staging: pi433:
-> make pi433_class constant"), accepted a few months ago, why not just
-> call it out as an explicit revert if that's what you want to do?
-> 
-I actually saw this commit, but for some reason did not connect the dots 
-when I wrote this patch. My bad.
-
-> class_create is going away "soon", why add this back when people are
-> working so hard to remove its usage?  What tutorial did you read that
-> made you want to make this change?
-> 
-It's true, I got it the wrong way I guess. I thought class_create is the 
-preferred API (but now that you mentioned commit f267da65bb6b, I see 
-it's not). I did notice it in many other drivers though, and took them 
-as an example (e.g. gnss).
-
-
-> thanks,
-> 
-> greg k-h
-
-I actually initially thought that the pi433 class should be removed 
-since it doesn't bring any new attributes with it, and that 
-spi_slave_class is more appropriate, but then I saw no other driver 
-using it. Any thoughts about that?
+>>   unreg_chrdev:
+>> -- 
+>> 2.34.1
 -- 
 Regards,
 
