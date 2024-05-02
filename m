@@ -1,115 +1,168 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12FDF26AE6
-	for <linux-staging@lists.linux.dev>; Thu,  2 May 2024 08:59:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6458715A4BB;
+	Thu,  2 May 2024 15:24:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714640364; cv=none; b=oxC1Ku0T1B+4OGyP/osTkpwVBw8Am3rmDwmNUcKtSYf0D0JnTe97dwxCAXwCGT5X/wePHP9mZoukUCTIJodLio6VbrWprKPQYCJQGvMuwe694Rhi+Y+p7le732xDPNLufQuE+iOuVndOEmvaLCbAZzHiv2xePEVzaGtQJDLn/R8=
+	t=1714663445; cv=none; b=TAjJSmdPw8CQxtEOQFkHxWfCljDSoSiq/ph5JY5F8AO/Wh3AgFSBjGfigDhCKatFA4n6YpVh3bPw6lbsEolRIOhYWuzcKxO54wRCpT+0LGIwu7faMYZwwEMX3bqzXCax8TLqu+jDTOemdmMZx32l8d4HQEixyA5poFWufdBvYbE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714640364; c=relaxed/simple;
-	bh=cgYb2kPZ5GbGdUXi0a4N9CJtK6f0uTTDVTCr6ydiVgk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RWU3h3D3qyl6VaivNtOEPYu68evdv90Ek1PTwRAt945CS2TkVeOwAwAzYJzjx/yhPOewct7upNaPuNx8cN7mbiOoTlDyT82Bdy+pLrUWorakavvWWZ2Y9nXjMcOQk+I9WrSM3VOEjeXJrQaTSA6t/8jDQE9yr3rcdevwuvteEWk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DkW2FbYL; arc=none smtp.client-ip=209.85.167.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1714663445; c=relaxed/simple;
+	bh=FMM3UnDTD2ByyP54LzZrE/Xw0svJa2P8ocjjbGkC5tQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=IOpN2BkL6SXumnvR5VIs4qZBFmC87F/jPelrJtXpU0mz4QVVVxb0MLyeG3F7FnaOc2Gr+oUipX1LpEMngjdgFTf0efswlF5faqOUaXJHQ20+8L8MxxAr1JQAZJGyQmyzLzBzKxU1vfZ9zoOyNOUr1Mj+iiWvwPOa8HD89lZAZpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=1F3t/Ktg; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DkW2FbYL"
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-51f4d2676d1so149533e87.3
-        for <linux-staging@lists.linux.dev>; Thu, 02 May 2024 01:59:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1714640361; x=1715245161; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=JArO4bX3IUaYcurGaRFt9DxIObyTrUcxPuO3BO9ScqU=;
-        b=DkW2FbYLbBGGfYcaKYexkjywPL+n1Zih8n/vt9ccjpFc/wjGlGzdVpwwSAW0q+I4eX
-         WjDvns5Ks5HT8J2+hHo9/DMvJqRd4x5ZooPTQWIIQAVcM3FxNnG+GtjBWOfFwL+Qr9uw
-         akOROEmP87z3c+Ui64WYwByBTEbe56sc2oyClwuiPxvtl981rJJ514dtggtThMc/2md4
-         ZMdFidZCQeAS0S882uCaadhkP0QBaBTfgTqM58mBMZSxZMY9Vnp3C9bhb858lpdw7sRj
-         Pei0kPihD7CUwcWzoYpTcpPTCYEdYp5MWwpsCv3usfdt5zDBRkl24bEewbryECQBsfJM
-         JpNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714640361; x=1715245161;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JArO4bX3IUaYcurGaRFt9DxIObyTrUcxPuO3BO9ScqU=;
-        b=sPHY1y7ARXcWDlrV6xlFU6OtMmoEw12IQuPSlyO/XHWQZsmQMw8Z1JMgEZE1zTs6GW
-         Z1THLnrgin9cxs0eqOra0bPvQ4S6/J9CvT67el6MhAbhIzSCklxgyroWsOYuXF26RAhG
-         8VrnqGKAoKnyyAqrJKKGpzYdzsAqPX//ZxxRviCEge4RTVVDQUYFQXQt4IhdO7dJfCtU
-         gc8AkO3CRr+thnJSTbxMYlG4N1ZXd5StksWwn+AJEayLvpuSz3hvREEl8tqWkgxMQXYz
-         cGPizuDi6idG/pYPA2+ASejXFfVDTUu8/ripRH07l2o/INXHA6q8edU6ywF6nRbf3Bwp
-         7lwg==
-X-Forwarded-Encrypted: i=1; AJvYcCUSASJt9W3TZCvnPDaSEQrctDb6rEjLDAkn5OwWMMp5NFeSQ4uqogbx0/DvFXBac28jEoyq9K3UhNKuTS8IJS1wfaXDqfwWARC7dCkung==
-X-Gm-Message-State: AOJu0Yz/R43Awcr0SQR0VH4Y0SV/tCq5hGaMKOpo2Wk1d6dUs1duHd1o
-	TfV2mGJvy7nKJIvKzs8DGKLdPzy4JvV2tSMEWmrx5kAAwALPBtz48XBdP5aEj9s=
-X-Google-Smtp-Source: AGHT+IH1P9B88ovnKP0SkYQLjObmvbIH5cf6HaZXDX/4lkfpxRooBAbtPgShWMsInUtb90o/du4pqg==
-X-Received: by 2002:a05:6512:3b87:b0:519:1e33:9d85 with SMTP id g7-20020a0565123b8700b005191e339d85mr1153370lfv.36.1714640359096;
-        Thu, 02 May 2024 01:59:19 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id br39-20020a056512402700b0051da1d9c47esm101814lfb.64.2024.05.02.01.59.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 May 2024 01:59:18 -0700 (PDT)
-Date: Thu, 2 May 2024 11:59:14 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Shahar Avidar <ikobh7@gmail.com>
-Cc: gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
-	andriy.shevchenko@linux.intel.com, robh@kernel.org,
-	felixkimbu1@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] staging: pi433: Rename goto label.
-Message-ID: <752171bd-9695-44f2-aad0-c8140e5099dc@moroto.mountain>
-References: <20240501055820.603272-1-ikobh7@gmail.com>
- <20240501055820.603272-3-ikobh7@gmail.com>
- <3005db51-58f7-4247-a37b-02933767f644@moroto.mountain>
- <b0cd37c3-5465-467d-8074-67fa2fddcc4d@gmail.com>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="1F3t/Ktg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1714663441;
+	bh=FMM3UnDTD2ByyP54LzZrE/Xw0svJa2P8ocjjbGkC5tQ=;
+	h=From:Subject:Date:To:Cc:From;
+	b=1F3t/KtgV/3O9jHY4rDBPoqhFXyGhrx/P+SuFnKtrChJD4vL3dDMJuR9lGl3WDNZ+
+	 3EMc1sBEJhIkXVe0NDhNOYtShppc+aC2Lnv2fg/bDa5nJL8KVwMIud9UsFfT3/G9tA
+	 rmzgWBRetUvyukCLhc4fk1SWdRhHGyFAqjnrlygrrJucGimBH/dPh8O3rSWIRDicGS
+	 ndFwKOAjAAAF0SMjaI8n1d/p28PnRRiDrUneRZA/T9MFeunvmh5PYJQbNLA2CKnHht
+	 sstAzJ1ImRhhWHbHHkBYNTDGVtf8SCs61U6zgASibtszi697ta4syUIwqniy/LC/Ph
+	 O3CNWTGM3qOdQ==
+Received: from apertis.home (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: jmassot)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id DA9A4378148F;
+	Thu,  2 May 2024 15:23:57 +0000 (UTC)
+From: Julien Massot <julien.massot@collabora.com>
+Subject: [PATCH 0/2] Introduce v4l2_async_nf_unregister_cleanup
+Date: Thu, 02 May 2024 17:22:20 +0200
+Message-Id: <20240502-master-v1-0-8bd109c6a3ba@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b0cd37c3-5465-467d-8074-67fa2fddcc4d@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKyvM2YC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxMDUwMj3dzE4pLUIl3TlNTUVENj4ySTNFMloOKCotS0zAqwQdGxtbUARbQ
+ EZVgAAAA=
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ Jacopo Mondi <jacopo+renesas@jmondi.org>, 
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+ =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
+ Sylvain Petinot <sylvain.petinot@foss.st.com>, 
+ Yong Zhi <yong.zhi@intel.com>, Bingbu Cao <bingbu.cao@intel.com>, 
+ Dan Scally <djrscally@gmail.com>, Tianshu Qiu <tian.shu.qiu@intel.com>, 
+ Eugen Hristev <eugen.hristev@collabora.com>, 
+ Nicolas Ferre <nicolas.ferre@microchip.com>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+ Maxime Ripard <mripard@kernel.org>, Rui Miguel Silva <rmfrfs@gmail.com>, 
+ Martin Kepplinger <martink@posteo.de>, Purism Kernel Team <kernel@puri.sm>, 
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Robert Foss <rfoss@kernel.org>, 
+ Todor Tomov <todor.too@gmail.com>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>, 
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+ Dafna Hirschfeld <dafna@fastmail.com>, Heiko Stuebner <heiko@sntech.de>, 
+ Sylwester Nawrocki <s.nawrocki@samsung.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Alim Akhtar <alim.akhtar@samsung.com>, 
+ Hugues Fruchet <hugues.fruchet@foss.st.com>, 
+ Alain Volmat <alain.volmat@foss.st.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Yong Deng <yong.deng@magewell.com>, 
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>, 
+ Benoit Parrot <bparrot@ti.com>, Jai Luthra <j-luthra@ti.com>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, Michal Simek <michal.simek@amd.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, 
+ Sowjanya Komatineni <skomatineni@nvidia.com>, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev, 
+ linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+ linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
+ linux-staging@lists.linux.dev, linux-tegra@vger.kernel.org, 
+ Julien Massot <julien.massot@collabora.com>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+X-Mailer: b4 0.13.0
 
-On Thu, May 02, 2024 at 11:44:15AM +0300, Shahar Avidar wrote:
-> On 01/05/2024 17:06, Dan Carpenter wrote:
-> > On Wed, May 01, 2024 at 08:58:20AM +0300, Shahar Avidar wrote:
-> > > Use destroy_class_and_remove_dbfs instead of unreg_class_and_remove_dbfs.
-> > > 
-> > > Signed-off-by: Shahar Avidar <ikobh7@gmail.com>
-> > > ---
-> > >   drivers/staging/pi433/pi433_if.c | 4 ++--
-> > >   1 file changed, 2 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/drivers/staging/pi433/pi433_if.c b/drivers/staging/pi433/pi433_if.c
-> > > index c8c1d296184b..4fffd7007040 100644
-> > > --- a/drivers/staging/pi433/pi433_if.c
-> > > +++ b/drivers/staging/pi433/pi433_if.c
-> > > @@ -1409,11 +1409,11 @@ static int __init pi433_init(void)
-> > >   	status = spi_register_driver(&pi433_spi_driver);
-> > >   	if (status < 0)
-> > > -		goto unreg_class_and_remove_dbfs;
-> > > +		goto destroy_class_and_remove_dbfs;
-> > >   	return 0;
-> > > -unreg_class_and_remove_dbfs:
-> > > +destroy_class_and_remove_dbfs:
-> > >   	debugfs_remove(root_dir);
-> > >   	class_destroy(pi433_class);
-> > 
-> > This is cleaning up something which changed in patch 1 so it should have
-> > been done in patch 1.
-> > 
-> Thanks for your input.
-> I thought of a previous comment you had were you noted Greg preferred small
-> patches, so I did my best to keep the first patch the with minimum changes
-> without breaking git digest.
+Many drivers has
+  v4l2_async_nf_unregister(&notifier);
+  v4l2_async_nf_cleanup(&notifier);
 
-The rule is not "as small as possible", it's "one thing per patch".
-It's a bit subtle, but you're doing half a thing in this patch.  Not a
-huge deal.  It's part of the learning process.
+Introduce a helper function to call both functions in one line.
 
-regards,
-dan carpenter
+---
+Julien Massot (2):
+      media: v4l: async: Add v4l2_async_nf_unregister_cleanup
+      media: convert all drivers to use v4l2_async_nf_unregister_cleanup
+
+ drivers/media/i2c/ds90ub913.c                           | 10 ++--------
+ drivers/media/i2c/ds90ub953.c                           | 10 ++--------
+ drivers/media/i2c/ds90ub960.c                           | 10 ++--------
+ drivers/media/i2c/max9286.c                             |  3 +--
+ drivers/media/i2c/st-mipid02.c                          |  6 ++----
+ drivers/media/i2c/tc358746.c                            |  3 +--
+ drivers/media/pci/intel/ipu3/ipu3-cio2.c                |  6 ++----
+ drivers/media/pci/intel/ipu6/ipu6-isys.c                |  8 +-------
+ drivers/media/pci/intel/ivsc/mei_csi.c                  |  6 ++----
+ drivers/media/platform/atmel/atmel-isi.c                |  3 +--
+ drivers/media/platform/cadence/cdns-csi2rx.c            |  6 ++----
+ drivers/media/platform/intel/pxa_camera.c               |  3 +--
+ drivers/media/platform/marvell/mcam-core.c              |  6 ++----
+ drivers/media/platform/microchip/microchip-csi2dc.c     |  3 +--
+ drivers/media/platform/microchip/microchip-isc-base.c   |  6 ++----
+ drivers/media/platform/nxp/imx-mipi-csis.c              |  6 ++----
+ drivers/media/platform/nxp/imx7-media-csi.c             |  3 +--
+ drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c     |  3 +--
+ drivers/media/platform/nxp/imx8mq-mipi-csi2.c           |  6 ++----
+ drivers/media/platform/qcom/camss/camss.c               |  3 +--
+ drivers/media/platform/renesas/rcar-csi2.c              |  6 ++----
+ drivers/media/platform/renesas/rcar-isp.c               |  6 ++----
+ drivers/media/platform/renesas/rcar-vin/rcar-core.c     |  9 +++------
+ drivers/media/platform/renesas/rcar_drif.c              |  3 +--
+ drivers/media/platform/renesas/renesas-ceu.c            |  4 +---
+ drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c   |  3 +--
+ drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c   |  6 ++----
+ drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c     |  3 +--
+ drivers/media/platform/samsung/exynos4-is/media-dev.c   |  3 +--
+ drivers/media/platform/st/stm32/stm32-dcmi.c            |  3 +--
+ .../media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c  |  3 +--
+ drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c      |  3 +--
+ .../media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.c   |  3 +--
+ .../platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c    |  3 +--
+ .../sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c   |  3 +--
+ drivers/media/platform/ti/am437x/am437x-vpfe.c          |  3 +--
+ drivers/media/platform/ti/cal/cal.c                     |  8 +-------
+ drivers/media/platform/ti/davinci/vpif_capture.c        |  3 +--
+ drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c   | 10 ++--------
+ drivers/media/platform/ti/omap3isp/isp.c                |  3 +--
+ drivers/media/platform/video-mux.c                      |  3 +--
+ drivers/media/platform/xilinx/xilinx-vipp.c             |  3 +--
+ drivers/staging/media/deprecated/atmel/atmel-isc-base.c |  6 ++----
+ drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.c  |  3 +--
+ drivers/staging/media/tegra-video/vi.c                  |  3 +--
+ include/media/v4l2-async.h                              | 17 +++++++++++++++++
+ 46 files changed, 80 insertions(+), 153 deletions(-)
+---
+base-commit: 843a9f4a7a85988f2f3af98adf21797c2fd05ab1
+change-id: 20240502-master-5deee133b4f5
+
+Best regards,
+-- 
+Julien Massot <julien.massot@collabora.com>
+
