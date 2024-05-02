@@ -1,122 +1,107 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16F71182DF;
-	Wed,  1 May 2024 19:03:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 134572595
+	for <linux-staging@lists.linux.dev>; Thu,  2 May 2024 04:34:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714590218; cv=none; b=JflVI0j77ejN2kMoEaVJnstJifSQZCeWXjoP295+pw93FFiMCLXT+EAKBAKzHk3OZ8ZaXTdeg6hllPbqp4hYXDtQMsiAVwALWwUK474Uoie4O9MJE9+kAYVQuI3O0togw8kKbg/rROS+OafR/ToBLkv+bAWAgwT7VynHQZGfdDU=
+	t=1714624484; cv=none; b=NeeFZiCnwOF+RbEtYsxGV58uXfkF0P61dXXE6xKr2ohjNYTOksk1yREIsel8vqCVmX2xpCDkeJqh6Vm2/++0IIYEeZKg/M3n4XQgl4uI03f0YnRrzIfhcDDizJScFsUcoQMUy4oiORb0x+r9Zn/ovl7sK+kNdoxH0W2uOv3e7ts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714590218; c=relaxed/simple;
-	bh=k/y5BeiXRkme53wJh5vTzb2hZLgiLP5EW3r2wagWwcc=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=rB5w+auffmyhAWfbcvOQbhZvQMdDRSeYmNllw+fI4xcuND7h/+QupbpnC4tIahg7g65aQIrLtCKgHypJXelNJHGHVhCX/f0rLGULI2P8JLf4NRIbBPnFc469YvazNJ+89hLyQdcpX/JcUryffTJ2jQuurdaef6cldM1icAq1pc0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=marvin24@gmx.de header.b=Ry5Z8XdI; arc=none smtp.client-ip=212.227.15.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+	s=arc-20240116; t=1714624484; c=relaxed/simple;
+	bh=cQcFEdgdc6pC9GqB2gbSdsy2bAhuFyqluR262OhVmVg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=RgTkkoeyO4E+/CIgqHApT2dIIfQa0twy+OPGX9SzC1tqwaH7Aa2Zhfl7XdT8gNVWt3pCRDbHDsyDYdPcXn/sx+3vzzaEYgisPTBYTPPJDiL+IOITMiRXiMlN81ZmvpcuOCl4+CVPfJkiSqMwKrFYvxuhTxpP1PmTRkvLmEp9DOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CuU4c3et; arc=none smtp.client-ip=209.85.161.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=marvin24@gmx.de header.b="Ry5Z8XdI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1714590209; x=1715195009; i=marvin24@gmx.de;
-	bh=gYwHy5LNplYoKK6zdvHGMt/83YYvl6lIqLhP/47UlBk=;
-	h=X-UI-Sender-Class:Date:From:To:cc:Subject:In-Reply-To:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=Ry5Z8XdIbGLREuOfxiRV8WgooMM9iGSxjEEl8RyiufjpK3DKkKy0at+I80C+6S3Z
-	 FqO3Rs4reH3odx4mwDQEW4UiWzqajYgZbFhsOCK3vBKa7nZCltbKMPgwHWnU0JBNg
-	 8/0QSjbEncdAYLO5no2T5I5SMpv3tVNuLy4JBWciWKSnGPWQCXsZJEmfHMOvtBpT9
-	 brORn+bwuAzcIkIctM4j3ShBXSJGB/EVv9EtfR95pQECjRCd07SinVJBo2f3tKckV
-	 v4xaEqBBmq/tHrBWckrih0S6fj9RQyVOAnGmX24NUoq/pW6TAtky2BHgwyO7bKfOf
-	 QTO3BWdRrXjiHGwP+A==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from n5219w05.fritz.box ([109.250.33.78]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MyKHm-1srrxd19qe-00yhwF; Wed, 01
- May 2024 21:03:29 +0200
-Date: Wed, 1 May 2024 21:03:28 +0200 (CEST)
-From: Marc Dietrich <marvin24@gmx.de>
-To: Ben Dooks <ben.dooks@codethink.co.uk>
-cc: Marc Dietrich <marvin24@gmx.de>, linux-staging@lists.linux.dev, 
-    linux-tegra@vger.kernel.org, gregkh@linuxfoundation.org, 
-    Thierry Reding <treding@nvidia.com>
-Subject: Re: [PATCH] staging: nvec: make i2c controller register writes
- robust
-In-Reply-To: <2338e58b-1ec2-4500-9675-2d8a3aaa107f@codethink.co.uk>
-Message-ID: <79c10e8e-bf3e-7eca-a0cd-e177a270a517@gmx.de>
-References: <20240421104642.25417-1-marvin24@gmx.de> <2338e58b-1ec2-4500-9675-2d8a3aaa107f@codethink.co.uk>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CuU4c3et"
+Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-5acf5c1a2f5so4838792eaf.0
+        for <linux-staging@lists.linux.dev>; Wed, 01 May 2024 21:34:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1714624481; x=1715229281; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Bzbfs0wiOv7uq3FgsVma6gfgD2lkV5u/sFounqmBNIY=;
+        b=CuU4c3etJNTdH3bvKnkeLzpag7DUj7H9tJz9AegAbvs2sMuxxmK4QUFHO9UPBbpWf/
+         j5NJ/QybO8L0zfeodSx7JJjexusgsugOakxCOErI5TMmc3pT8tEuFQe80PXBwxOIix1B
+         dGOhKiUm7QBXipX/tzSDpuG4cjgdLJM3nPutEovPuiUQlVL3kbqPx6Gqrznv2KcS7DFc
+         SmfUTG6I5d61x6KmI39Z6amA9Z8oVmWuSdodexSBOq0QJSfhmcGvp50gkYZWaCjgfBxg
+         YSXcbCUSLOvExqAZ7TL2HQ9g4UiS6IIR4tVUE0KdYvJ2q1z4a1zSPIDYJanhNZ6krFH6
+         FMUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714624481; x=1715229281;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Bzbfs0wiOv7uq3FgsVma6gfgD2lkV5u/sFounqmBNIY=;
+        b=p0gwTLi+O0Wy9ZOngF0Z57feTrwaqq7cT2bqlEZkW2TJ5wbrD5dVGfnJPTZUq4/uMq
+         g6CJVAT3yATaF+ClIYLbR1vGN72CCsI9rzns5GoKsWuPas/qo9mzO/PZJsrWjIgdRYRU
+         Aqh1gkLIB5ikrdLhvkYSoMTtx1m8HPWadRmRKHjcm4kCkqKQoF4cwlKiZoahGbitVuSP
+         RvZN2JyHQzuhp06qUIu8/NblBsN5WRmrox4gYqnpGE2/T1m+hC73Pz0WzLOzK8BOBqKi
+         ByaPBWQ8zK0plJjiUqlr+h2rfxTW58DmB/vPdIFVng+qoAvKdcFtCAlzD0nlDJj4D1pz
+         pXCw==
+X-Forwarded-Encrypted: i=1; AJvYcCUHx4lHVF+t155Fl6K6NMblfrVZFzeRUEbv7ljVa1QTU5ymVtFJgj9bMnkmj0vP0gIH789hhTtaagV781qjYfJmtQIpXvbXaQWqS6e34A==
+X-Gm-Message-State: AOJu0Yytti0mljv7EpJdNcT1h53rGVaa91+opXHn5mTdBsstlCkbiuvu
+	/VvvPh5Kc959Y73DdQy5JUgXi0S0wLlNbc2TSmxb8oJ5FQhnA9Mg
+X-Google-Smtp-Source: AGHT+IGeu/ACFu3SjAKNGVfjeMh927PMA1C6f2aJpIqq5+0IAzwlmCSEygLC+J2eN5WRx5QXO7/7Dg==
+X-Received: by 2002:a05:6870:2151:b0:233:60e7:52bf with SMTP id g17-20020a056870215100b0023360e752bfmr4986671oae.50.1714624481027;
+        Wed, 01 May 2024 21:34:41 -0700 (PDT)
+Received: from ubuntukernelserver.. ([49.236.212.182])
+        by smtp.gmail.com with ESMTPSA id s17-20020a056a00195100b006e64c9bc2b3sm251133pfk.11.2024.05.01.21.34.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 May 2024 21:34:40 -0700 (PDT)
+From: Roshan Khatri <topofeverest8848@gmail.com>
+To: hdegoede@redhat.com,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	hpa@redhat.com,
+	gregkh@linuxfoundation.org
+Cc: Roshan Khatri <topofeverest8848@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: atomisp: Fix spelling mistake in csi_rx_public.h
+Date: Thu,  2 May 2024 10:19:15 +0545
+Message-Id: <20240502043415.88434-1-topofeverest8848@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Provags-ID: V03:K1:Ja7zapM5O1KRHIaFdURWIzIUrQygATLJYtj57B3Vfjm5jjb17E9
- zWEuYTfu/QnV0QJg81B6UmzlqEj5QvHoBUu3bzzjD+HEp84wg70Txx3VtBAB/7DZIkd7JjR
- Le5XDU+7E0lhnPmq6hbLrKCIH/QBp25dbqId95of7C8K8HwD+SW/XjgascNWBhb7vnjqlkN
- NT2UTWOWM3vETKvxQzONw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:RmgwIelw/CU=;fqNOTpQAO3hKcjClNDzl5Gd1oLO
- 2oxHPx2w6mRH7EeiZVzoi2bsSdC+Uxm6p0xI7FANMPHvzF7Q2PbTDip3hiyHxglyRW8oy1+IG
- jcgm5jN+vu7Pdd6NhlwtDLOZgef6l13RRl5lqmxpGYZioCI2FmOVcPQujyOGRvXsihW6wNwno
- HDMsVgHJvvYu7vDv3Y5R3lj+/tSebapnbvyKmDX6MtG2psFAGXVIrM+KMo4CkE8OzjUbBZw+q
- 7bmzFHkhERerAqlCx8U7pWx4RiQ4doIG9mruIHWkqrCx2X9p/6yfjBJY8xdnkFIE+6VNSF4Hw
- IrZha8YiGbGQvzOu2s8khqxms9lUjqRpyVLy8roUhSNtQc4LWZB61zlpKjUG3GOa+OO3tdzgS
- VfhYzJeB3enSoEHW3s1QCiYqSWokEpoRZbnorHdfosXOlJKYFFB9a0T2TWijzdJ1ivFXXTwE3
- BlsXPjpk38iY+u/TjTZg/rljKvYRzJrb8dLgXMci/6KEUeyjAm2Z4HgFOQKu1lWXRfsvsUb0q
- xJYhHokH5AjYGMD+1AKf3rHsVmhuMYPqaisJfO6OZLwWbul1nl9qIdKUPupveIu2SsR0eD8m8
- 6TRI6foXPf8wNF8gg9R4YxuWqPV2wt2gqCwJyTcb8pC3yWf4n2bNXhH/yDuf9bgylAZ7hn4fC
- A4jFnMm6xof1O/gIm4cpYaQ/EqqQshGHWxlUY7sNRRI/hH6mTH+czceaRxsxIZ1lxGdBAePqe
- xfm7eWq7/Z37QHNDrBYJxFXFpCQPJUIvDgbPlbOH0ChS8bAFslJfZe7+QFqV2wRMt1MAIwar9
- EzRgU7MqEuj6xfI/iuCrz6Q11dHvRw+1LsjEzCtwQcQlY=
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Ben,
+codespell reported misspelled register in
+csi_rx_public.h. This patch fixes the misspellings.
 
-On Mon, 22 Apr 2024, Ben Dooks wrote:
+Signed-off-by: Roshan Khatri <topofeverest8848@gmail.com>
+---
+ .../atomisp/pci/hive_isp_css_include/host/csi_rx_public.h     | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> On 21/04/2024 11:46, Marc Dietrich wrote:
->> The i2c controller needs to read back the data written to its registers=
-.
->> This way we can avoid the long delay in the interrupt handler.
->>
->> Signed-off-by: Marc Dietrich <marvin24@gmx.de>
->> ---
->>   drivers/staging/nvec/nvec.c | 41 ++++++++++++++++++++++--------------=
--
->>   1 file changed, 24 insertions(+), 17 deletions(-)
->>
->> diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
->> index 45df190c2f94..214839f51048 100644
->> --- a/drivers/staging/nvec/nvec.c
->> +++ b/drivers/staging/nvec/nvec.c
->> @@ -570,6 +570,22 @@ static void nvec_tx_set(struct nvec_chip *nvec)
->>   		(uint)nvec->tx->size, nvec->tx->data[1]);
->>   }
->>
->> +/**
->> + * i2c_writel - safely write to an I2C client controller register
->> + * @val: value to be written
->> + * @reg: register to write to
->> + *
->> + * A write to an I2C controller register needs to be read back to make
->> sure
->> + * that the value has arrived.
->> + */
->> +static void i2c_writel(u32 val, void *reg)
->> +{
->> +	writel_relaxed(val, reg);
->> +
->> +	/* read back register to make sure that register writes completed */
->> +	readl_relaxed(reg);
->> +}
->
-> I thought the default behaviour of writel() should be to force writes
-> out of any CPU buffers. Are there any bus isuses here causing the code
-> to be necessary (and if so, why is there another buffer breaking the
-> writel behaviour?)
-
-if fear that's a question only NVIDIA can answer.
-
-Marc
+diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/csi_rx_public.h b/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/csi_rx_public.h
+index 693154e8ec2f..7e37f0809034 100644
+--- a/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/csi_rx_public.h
++++ b/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/csi_rx_public.h
+@@ -94,7 +94,7 @@ hrt_data csi_rx_fe_ctrl_reg_load(
+     const hrt_address reg);
+ /**
+  * @brief Store a value to the register.
+- * Store a value to the registe of the csi rx fe.
++ * Store a value to the register of the csi rx fe.
+  *
+  * @param[in]	ID		The global unique ID for the ibuf-controller instance.
+  * @param[in]	reg		The offset address of the register.
+@@ -119,7 +119,7 @@ hrt_data csi_rx_be_ctrl_reg_load(
+     const hrt_address reg);
+ /**
+  * @brief Store a value to the register.
+- * Store a value to the registe of the csi rx be.
++ * Store a value to the register of the csi rx be.
+  *
+  * @param[in]	ID		The global unique ID for the ibuf-controller instance.
+  * @param[in]	reg		The offset address of the register.
+-- 
+2.34.1
 
