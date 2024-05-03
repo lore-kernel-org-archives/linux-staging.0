@@ -1,85 +1,86 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FA1313957F
-	for <linux-staging@lists.linux.dev>; Fri,  3 May 2024 05:11:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 032F21F951;
+	Fri,  3 May 2024 06:55:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.104
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714713114; cv=none; b=fBuz3wISZCtM8AazPu7dCLQoHNfn5sLhMooJSdcSBqm/yHk3jLt6QcOWIh0Fg+Yg/Dw9mYzrUJmq2BQkYNND8GKgl1BoL1jK99979zBnYlw3w+20/st1f1tBV91sefc/2h+hsOZcGtoDFQdJaZ+n0nYfXMHokj4+gLnsV4Qe5tA=
+	t=1714719307; cv=none; b=s1MP19t+Cog20fzvDFLTQ5z/ECiN9RXdEYTOOuLx1t1ZuO7dpptkFmu5b9ymXEcd+dK5CW0KZvTqQ6N/JOXGHFFwRFdJqnwtcjMeIcScEXrl7D6o5qssYn6fj+N9dLBPfglW9zdhD/j8sNuDlAtjSr47tdyK1gQBDkLyq5xfwAM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714713114; c=relaxed/simple;
-	bh=4IFUujD0WtUytHMnCa5Oq26awC+SVnMB+m5+QMpSIrY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OJgl8izRrjnRAfWIK512DCkggdAzXFxGRMtqIX9joa4fUmgtwqJqkGPCr0G2m5ruJv9bLg5aonqm9xWykj2GvTHGsWGlU1ZtCcctJuSnpGpgXrY0E7FhJOoWllnNrPZQ7OoTQBBXfn6K8uJCQf50bu/G4+0uCpE1Cm0FPG7aLTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xVcC5cKQ; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1714719307; c=relaxed/simple;
+	bh=aeR6d7QNpNGKgjioiG0+Wi/T3DUmWoGfYOl6RO/Rd8o=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=MiEbue7WJZ9u8qSTAmUQfOPbj28AvPe5mb5fYlFAupRxClM7AptoDEDyzWR4lQ88HExsrkvYFUgtg1GsWXqLXwKzNdtxbFurgGVPe+KHFk+1MjGgEbATnR35XfwF8r5s9DxHAqMoL7M/rIj5V98FTr2utiErkP/HnHZSnY/y7uc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=eprVmb7G; arc=none smtp.client-ip=192.134.164.104
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xVcC5cKQ"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-41b79451128so51756435e9.0
-        for <linux-staging@lists.linux.dev>; Thu, 02 May 2024 22:11:51 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="eprVmb7G"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1714713110; x=1715317910; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=IZ52txFEn84DZ4Gx318II2hjm45dLlkgVXuI6MMj02M=;
-        b=xVcC5cKQNvrGv/SPXS64c9gYnGhPhiiYyBC9V6nWZ92nFxz7lH9v5VpbKA0GnbqiXC
-         J+zsguCr2JnG8JMz8nFbLlB3cLiKxw+3pFDT/v+9srru1dhOfDHGsT3Sp2kM3zttPERd
-         MkQ4mZYDF2KXY5H3qvC9dVLJmtYybYVpg+OM960uDD1KyUDgP6dpqJWYec0FmUe6f5po
-         OETCBrCkUSkG4FJ/mCINb5/lPVd4EBfpa+7iaYm6LBNVitlgz+v6eHgn7SaG6AlG1rQg
-         kRaQQa/mKoJSE3xFt5yKZ0vSgy0IAxelu+Mc12G3bZnxVjok15xObW4a7K+G6jNGchnp
-         Wk0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714713110; x=1715317910;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IZ52txFEn84DZ4Gx318II2hjm45dLlkgVXuI6MMj02M=;
-        b=GwalAPAHtUTAm8WUBYTKkUkhwkfD4iqBbcMqagBtqZuWXlRll9qiKxObjfhdTpJv8Y
-         A2lUPM66yaud/7RFdg1GO2OZUvHZeYpvHDDmvAEKofF4rTp7XPzgtAjbvhVI+C/HnmRV
-         pTEIkTfNJiM+xAOCXoF4aiCfNJwLYqSgqe8zVNdB9rqi4Zauuqovr4mHPCoux38U74Le
-         XacM0v9eXdtRUTMRCcPZ/cHAfy7qQa0XebqP+W61iD3rNqBuoqHLvFKjvhLHDYpRohvi
-         QsJOFtvw1sRn0ee4XA5P2PEgRyVCIPGI4x3lpejpuIq1Nx0x1dcBbQUBVjU86V9OAs82
-         5aPg==
-X-Forwarded-Encrypted: i=1; AJvYcCVHybJ4pTWLp4I1v++CLoCoe9imMsEB9yokZu29ko6Zw2ip+7Nzg8B1b8Zt8Pj1DHFmcYgwH/AMwjFLZcFiQARzx/bhTnJWkbaB9e7r8g==
-X-Gm-Message-State: AOJu0YzannWZN0LVafXBb+r35qMyZjq7kJpnLyoeTEDK49Xc17ThaBEJ
-	9KCKUGqeiiMiWe9QZ4KqJGmiiXYFO4U1nX9VXjWdcBT0UiTVNJ2akpT8EhqqKt8=
-X-Google-Smtp-Source: AGHT+IHlVU6WqV9hfbm78/kvRSpT3qBzDU+6UDBfCiHBW2deYrVDpU1cdv/gO3y+VfA5WQLnrHXNhQ==
-X-Received: by 2002:a05:600c:3c93:b0:419:f2a0:138e with SMTP id bg19-20020a05600c3c9300b00419f2a0138emr1271927wmb.34.1714713110268;
-        Thu, 02 May 2024 22:11:50 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id g19-20020a05600c311300b0041496734318sm7964771wmo.24.2024.05.02.22.11.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 May 2024 22:11:50 -0700 (PDT)
-Date: Fri, 3 May 2024 08:11:45 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=pAEE6F/lHC0qjSxFbOHdQMXput3X1kOxyC2NSyVYBlg=;
+  b=eprVmb7Gv+jGy029uLyHQLJIW3qkFZGOd5emIquo3oByYR9gRPfZWw0o
+   0nsW4ZHbSPUrwxDe3CCQMiGhDVS5wHi8Uy7Q5XV6KrkKG5fk4jMn1xaTX
+   EZZ5+C+HSUcI29As3FffHJTd8J1TOWSZ0QcI1MJ9dDq8eAQ/YNnQ2m3h+
+   o=;
+Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.07,247,1708383600"; 
+   d="scan'208";a="86281735"
+Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2024 08:54:56 +0200
+Date: Fri, 3 May 2024 08:54:55 +0200 (CEST)
+From: Julia Lawall <julia.lawall@inria.fr>
 To: Ashok Kumar <ashokemailat@yahoo.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev
+cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+    dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
+    linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+    outreachy@lists.linux.dev
 Subject: Re: [PATCH] staging: fb_tinylcd Alignment to open parenthesis
-Message-ID: <37db687e-ce7f-4f18-8464-f9b04226e14c@moroto.mountain>
-References: <ZjRDUO6/M+RDCcQJ.ref@c>
- <ZjRDUO6/M+RDCcQJ@c>
+In-Reply-To: <ZjRDUO6/M+RDCcQJ@c>
+Message-ID: <c8d24241-1763-f7b7-4491-2e5aa3ea3be@inria.fr>
+References: <ZjRDUO6/M+RDCcQJ.ref@c> <ZjRDUO6/M+RDCcQJ@c>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZjRDUO6/M+RDCcQJ@c>
+Content-Type: text/plain; charset=US-ASCII
 
-On Thu, May 02, 2024 at 06:52:16PM -0700, Ashok Kumar wrote:
+
+
+On Thu, 2 May 2024, Ashok Kumar wrote:
+
 > Corrected coding style CHECK: Alignment should match open parenthesis
-> 
 
-The original author was aligned it deliberately to improve readability.
+Ashok, I think the code is nicer as is, because it has all the constant
+numbers lined up.
 
-Just ignore checkpatch on this.
+julia
 
-regards,
-dan carpenter
-
+>
+> Signed-off-by: Ashok Kumar <ashokemailat@yahoo.com>
+> ---
+>  drivers/staging/fbtft/fb_tinylcd.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/staging/fbtft/fb_tinylcd.c b/drivers/staging/fbtft/fb_tinylcd.c
+> index 9469248f2c50..60cda57bcb33 100644
+> --- a/drivers/staging/fbtft/fb_tinylcd.c
+> +++ b/drivers/staging/fbtft/fb_tinylcd.c
+> @@ -38,7 +38,7 @@ static int init_display(struct fbtft_par *par)
+>  	write_reg(par, 0xE5, 0x00);
+>  	write_reg(par, 0xF0, 0x36, 0xA5, 0x53);
+>  	write_reg(par, 0xE0, 0x00, 0x35, 0x33, 0x00, 0x00, 0x00,
+> -		       0x00, 0x35, 0x33, 0x00, 0x00, 0x00);
+> +		  0x00, 0x35, 0x33, 0x00, 0x00, 0x00);
+>  	write_reg(par, MIPI_DCS_SET_PIXEL_FORMAT, 0x55);
+>  	write_reg(par, MIPI_DCS_EXIT_SLEEP_MODE);
+>  	udelay(250);
+> --
+> 2.34.1
+>
+>
+>
