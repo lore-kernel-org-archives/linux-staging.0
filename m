@@ -1,208 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D673B57CAE;
-	Sat,  4 May 2024 08:25:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 876551B812
+	for <linux-staging@lists.linux.dev>; Sat,  4 May 2024 11:18:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714811151; cv=none; b=tEwoob+G8Sc/Oxiw3au/0NUnsMqrWWEAP1LMUOAf/11hSq4vPkaPSKl5CEhj8tVA/XTUft3TCaSVBL4XMjlAi/4+NvDtQ9JS/Z7muooBFB8Ek7W2tblMaAdCQq85sRoNfVEuxubDZxUMmjnw4h/Euk/2E8MgxxF3dgeWUmdsf8I=
+	t=1714821491; cv=none; b=KNMTNeih3Nft9/kYKl02Bnfge6008PutZUyEF7H4Sigzh2LDPyyr832q0WuPVazqo+T9/IrE+LDsjLwHBzk2Hdu5gSLZ+HmaBtl02xow6nD4U+gp3D7qVByICJvbhAQRlcqVzxakkiDGT5gdsU5hfzNk/uNq8wAaaA0YTonSbFY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714811151; c=relaxed/simple;
-	bh=fLeV6TQVWA84Es9rMG8vcDpeqrwOawiwQupR9rySaYE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TXIBzkWbW39eMdByYkaNObAsRxyBHrs693ZNELoU/f0GwEbNi0zjIVUIVDwv1mU2AfjgmJtsjqA79hcfD+dNBQm/S1puTKy3/wRddanI6r6GG0BLyJwokWmXb8x36fFdozI8zr2x+uIc1/5OVn1zj4G+MplsKLOV1mFLDrnGLK4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 164C3C072AA;
-	Sat,  4 May 2024 08:25:43 +0000 (UTC)
-Message-ID: <5780ea67-eff1-4c0e-9443-1cd7d61aa581@xs4all.nl>
-Date: Sat, 4 May 2024 10:25:42 +0200
+	s=arc-20240116; t=1714821491; c=relaxed/simple;
+	bh=smELU36PpAU3prIkce0be7IjpSNr4t5xDRxPzlw1+z4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qDDewyha8aWnpdEacbXBr6lmbtyvee9ACnvxuzayX0gCRX5Jv0mbDTU6yNbAdqrQAx59+rOVdcQMdUO4gKF2sQT27IYRBWaSi3v8xAEWs45k92PrpmNrCk+3MGmXpg6p5bQ1O2NNDkCYr9K4MvDZfiw0TdC50MCZoIMyH10rddU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=sPVzYb3H; arc=none smtp.client-ip=209.85.208.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="sPVzYb3H"
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2dcc8d10d39so4771741fa.3
+        for <linux-staging@lists.linux.dev>; Sat, 04 May 2024 04:18:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1714821488; x=1715426288; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=yv9FzWOzBDzyrTcS40BSQArXvrw2k2j9CKdjQ6IcHqo=;
+        b=sPVzYb3HououVvbe/Nb4Jb1TljNFlVzBw7DEefwdqK5vfmM8IFrr/fBii9sjg7RPto
+         EoPYM9jCiOp1pa6tr7FJb8CqUbn+Az3zOM7Uxwa3nF2R8ugb64ufMBMYmrHjSwLaV14x
+         YUDYEa2yciA5zsRMxVPQPdMc05HSqknm8pMWVeLEpFYReUhkj8jbczapoNCY6GhIekRn
+         RH/GlYPrirA+4xq/3AZZMabMfu4idpKTbWlTq1JJECSFSTqxkD92LqUqjzI0hQ61u2J3
+         LAzpus3XUE+O+g+Rbgxe0y7ow8EopWyQqIScvWl7CcAnZIrt6qQWWIoOPCDdfzCjZjCe
+         0aog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714821488; x=1715426288;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yv9FzWOzBDzyrTcS40BSQArXvrw2k2j9CKdjQ6IcHqo=;
+        b=XT+ebR1P7YuRczd5Ex+cjF4lQu1ph89xx6mVA1zfNgLIFtJZJDv6M4t0ox2wbVATFq
+         garlVe0yXcoo/HmVkYkks/O9b7U/MfBnxqKInUjPNf3voG1LHiBQShsrT119+tG3Qr4j
+         w4VYgYBtLpHkyS6sWHDTnRh1xMOEtCikSzdXHV+wB91vT2ygF36eic+p6kg9vRs4UjAl
+         JCtNk0Zie3YQbVTKh2/KGFaMUUmCtYan4lmSxmk4Fwx8Iap+TyWsYEVh1ddVySPCgcF8
+         MydN2XrgTybQ+mvFrIqph2hJqqDiIW6QhsoJnVVgVQJJS2bkDCs8o2OAUh6OlHm0HCds
+         W/Yg==
+X-Forwarded-Encrypted: i=1; AJvYcCVzPeoi5SQO6DK47zML0u9wSYmhmRQtNEIjlT+sU2Xk1KCiACwa/FSYXbEmmUjx+1ljTWjFTVxrQ5aBxKRF80uQ8rczeL/Ztq/ggUeZkQ==
+X-Gm-Message-State: AOJu0Yw7YXfb9BGUU9ooOz1J1TCoqrNzQwqfKJ+WdBT8hP6D7hMmbX5E
+	ml5w0IHiSyChAkdGCguyEC53CHqEhkiKmfINz/juAo0bQBfuuJ3hHw/PjnKLyKM=
+X-Google-Smtp-Source: AGHT+IEggVHErInNqsEkGN4lf9Fm25s9yd+oVBzpPNb90IQ2CCo7mKtWyU3ysBaUz2WYQTnosuIkqw==
+X-Received: by 2002:a2e:9dd4:0:b0:2e2:2791:9842 with SMTP id x20-20020a2e9dd4000000b002e227919842mr3499876ljj.44.1714821487428;
+        Sat, 04 May 2024 04:18:07 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id je8-20020a05600c1f8800b0041bf28aa11dsm8916105wmb.42.2024.05.04.04.18.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 04 May 2024 04:18:07 -0700 (PDT)
+Date: Sat, 4 May 2024 14:17:59 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Ashok Kumar <ashokemailat@yahoo.com>
+Cc: Julia Lawall <julia.lawall@inria.fr>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"outreachy@lists.linux.dev" <outreachy@lists.linux.dev>
+Subject: Re: [PATCH] staging: fb_tinylcd Alignment to open parenthesis
+Message-ID: <45366e52-47e7-4e9d-a2a2-7eede9d3b450@moroto.mountain>
+References: <ZjRDUO6/M+RDCcQJ.ref@c>
+ <ZjRDUO6/M+RDCcQJ@c>
+ <c8d24241-1763-f7b7-4491-2e5aa3ea3be@inria.fr>
+ <1389558595.6771301.1714753224419@mail.yahoo.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 09/26] media: v4l: async: refactor
- v4l2_async_create_ancillary_links
-Content-Language: en-US, nl
-To: Ricardo Ribalda <ribalda@chromium.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
- Martin Tuma <martin.tuma@digiteqautomotive.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Hugues Fruchet <hugues.fruchet@foss.st.com>,
- Alain Volmat <alain.volmat@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Chen-Yu Tsai
- <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Sowjanya Komatineni <skomatineni@nvidia.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Sergey Kozlov <serjk@netup.ru>, Abylay Ospan <aospan@netup.ru>,
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Dmitry Osipenko <digetx@gmail.com>,
- Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
- Sylvain Petinot <sylvain.petinot@foss.st.com>,
- Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
- linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org
-References: <20240419-fix-cocci-v2-0-2119e692309c@chromium.org>
- <20240419-fix-cocci-v2-9-2119e692309c@chromium.org>
- <40b9c015-8ccf-4313-800a-ecae9aa8cc27@xs4all.nl>
- <ZilMu614pUAzEGTa@kekkonen.localdomain>
- <20240424184603.GA6282@pendragon.ideasonboard.com>
- <CANiDSCucvz=dQYDguzBZ-f95ZP84zuhvoKnmEYoJqAs1YnZ3ZA@mail.gmail.com>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <CANiDSCucvz=dQYDguzBZ-f95ZP84zuhvoKnmEYoJqAs1YnZ3ZA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1389558595.6771301.1714753224419@mail.yahoo.com>
 
-On 29/04/2024 12:51, Ricardo Ribalda wrote:
-> Hi Hans
+On Fri, May 03, 2024 at 04:20:24PM +0000, Ashok Kumar wrote:
 > 
-> Your proposal is what I sent for v1:
-> https://lore.kernel.org/linux-media/20240415-fix-cocci-v1-9-477afb23728b@chromium.org/
+> Is there a list of exceptions to the checkpatch information that we can ignore in general.
+> 
 
-I decided to go for the v1. I prefer it, and more importantly, Sakari as
-maintainer of this code prefers it as well.
+For Greg's subsystems ignore the warning about extra parentheses.
+You can search on lore for if a patch has been patch has been sent
+before.  Otherwise ignore checkpatch if it tells you to do something
+that makes the code less readable.
 
-Regards,
-
-	Hans
-
-> 
-> I have no strong opinion for any of the two, please feel free to land
-> whatever version you prefer.
-> 
-> 
-> Regards
-> 
-> On Wed, 24 Apr 2024 at 20:46, Laurent Pinchart
-> <laurent.pinchart@ideasonboard.com> wrote:
->>
->> On Wed, Apr 24, 2024 at 06:17:31PM +0000, Sakari Ailus wrote:
->>> On Wed, Apr 24, 2024 at 12:55:20PM +0200, Hans Verkuil wrote:
->>>> On 19/04/2024 11:47, Ricardo Ribalda wrote:
->>>>> Return 0 without checking IS_ERR or PTR_ERR if CONFIG_MEDIA_CONTROLLER
->>>>> is not enabled.
->>>>>
->>>>> This makes cocci happier:
->>>>>
->>>>> drivers/media/v4l2-core/v4l2-async.c:331:23-30: ERROR: PTR_ERR applied after initialization to constant on line 319
->>>>>
->>>>> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
->>>>> ---
->>>>>  drivers/media/v4l2-core/v4l2-async.c | 7 +++----
->>>>>  1 file changed, 3 insertions(+), 4 deletions(-)
->>>>>
->>>>> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
->>>>> index 4bb073587817..915a9f3ea93c 100644
->>>>> --- a/drivers/media/v4l2-core/v4l2-async.c
->>>>> +++ b/drivers/media/v4l2-core/v4l2-async.c
->>>>> @@ -316,9 +316,10 @@ v4l2_async_nf_try_all_subdevs(struct v4l2_async_notifier *notifier);
->>>>>  static int v4l2_async_create_ancillary_links(struct v4l2_async_notifier *n,
->>>>>                                        struct v4l2_subdev *sd)
->>>>>  {
->>>>> - struct media_link *link = NULL;
->>>>> + struct media_link *link;
->>>>>
->>>>> -#if IS_ENABLED(CONFIG_MEDIA_CONTROLLER)
->>>>> + if (!IS_ENABLED(CONFIG_MEDIA_CONTROLLER))
->>>>> +         return 0;
->>>>>
->>>>>   if (sd->entity.function != MEDIA_ENT_F_LENS &&
->>>>>       sd->entity.function != MEDIA_ENT_F_FLASH)
->>>>> @@ -326,8 +327,6 @@ static int v4l2_async_create_ancillary_links(struct v4l2_async_notifier *n,
->>>>>
->>>>>   link = media_create_ancillary_link(&n->sd->entity, &sd->entity);
->>>>>
->>>>> -#endif
->>>>> -
->>>>>   return IS_ERR(link) ? PTR_ERR(link) : 0;
->>>>>  }
->>>>
->>>> I think I would prefer:
->>>>
->>>> static int v4l2_async_create_ancillary_links(struct v4l2_async_notifier *n,
->>>>                                          struct v4l2_subdev *sd)
->>>> {
->>>> #if IS_ENABLED(CONFIG_MEDIA_CONTROLLER)
->>>>     struct media_link *link;
->>>>
->>>>     ...
->>>>
->>>>     return IS_ERR(link) ? PTR_ERR(link) : 0;
->>>> #else
->>>>     return 0;
->>>> #endif
->>>> }
->>>>
->>>
->>> Me, too.
->>
->> I actually prefer Ricardo's proposal :-)
->>
->> --
->> Regards,
->>
->> Laurent Pinchart
-> 
-> 
-> 
+regards,
+dan carpenter
 
