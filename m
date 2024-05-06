@@ -1,107 +1,101 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B70D47F4A
-	for <linux-staging@lists.linux.dev>; Mon,  6 May 2024 05:58:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E38B153583;
+	Mon,  6 May 2024 14:59:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714975111; cv=none; b=DmG4rOMgNQeNvHkfFFNOvnwEBuaFvw4n83onunkBpQtO3y6KbGIgJ0wgDqHi2nhzZCZ6jIoZ1dhPlNE5lb7CrFGHjv+do5CLdxoG1jiK67Jsm4HplIsjIJGML8pAhEol4msHp6GTT6JmSAlIAkbI6yFqnLkdljDIGqr4DlCpBlI=
+	t=1715007564; cv=none; b=g2051KvBELRE822nbQSEGPWdlXP7IELyRehbowa2mwZa8qdv4GFT+LT8Z/1+B89M8XLWig2/AzHyJCsX+PQ6MKLZ10hy+RUpsKyyLaLfQdt9G9HE4ykhJlwwfhxdRnRjJbp7gboq5hUmpbFwxcmZJmFQYcHcLyxfTWhXT8gdWzc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714975111; c=relaxed/simple;
-	bh=Qg+oNkKwnd2IUYGxP3VVcbqQZ/khrZhVb1GbWFDn6l8=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=LAQg3bq74qb/MRxHfjBTNwN5ZDDv5RzVaHAXzb65TWZhGViNgUk7mcNBD4cXPVTI4RQ8kNxZ0zpFCRGFJgDF6czzlV4TvUb4RWUKHyJUAaqF/yPu4BzdEAQoq3bKPXskroska7iwb7p94VFREr3uwNa3zeyxvaFpTy97cfsPk9c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DLMRjBS3; arc=none smtp.client-ip=209.85.216.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1715007564; c=relaxed/simple;
+	bh=mS7dSTeWCBi5ZyYS09A2fI9maoy49+AMSmPQlxoNqps=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=MQnoqd4eHBI5qsTIuhPp5LiJCu2h6PWCyMf5wO6Z2MgS+H1nJLSny9zKdIEQygzsNeWsnHVjLT6rx32mV3ZmGKKhmhHVMK2MkrYmoNiegEkxLLP5DSSMX9ZBw2JOFonSeDG7lqbxMul50NdQKys3Vd0WoKH+ucpgn4ZFHq3BoS8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qfEjx5Lu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DLMRjBS3"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-2b3646494a8so1142656a91.2
-        for <linux-staging@lists.linux.dev>; Sun, 05 May 2024 22:58:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714975109; x=1715579909; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZUzrEYcxxtjau4TcE/YkY3seNanf+E2axNOscE+yJfw=;
-        b=DLMRjBS3mt6l+2iUHdY4aF631kY3n+yykIDIX41dYfkx6g/1Z1yuTs9aPEIV3wkQ7s
-         vmn3EaPuD6/IpyZN71cT6Jcg2f1qQhICIn3ap2M8bzJ+NekRKUIwf1vY9jG3uVbndZaH
-         I+HoTqVTcWp0bl3svNFCkB8rtbKG2LBevxVUQrx75n23ihvsKX8wUKciMwYdC6qLbgSf
-         RKIf8HtXm+Cey+8a454LnIpaNiAnQMJ4Jw7wdrc/fYg5lHaRHmbJGD6SPdJDg8mL1cRi
-         lq1sjqw6i1BNnN0pf6jwOMj7+kPa+XUm+JS0UmPBRG2r1JVT7CcsYHtv98BVr8yJ5jRm
-         omuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714975109; x=1715579909;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZUzrEYcxxtjau4TcE/YkY3seNanf+E2axNOscE+yJfw=;
-        b=jA0AKnltajbFD4SjLJ9B5LzZG2apeI+bJuHkEC1t+8UqC2lsU7lsx8di9e0VznI00K
-         cylxir3oMypZwtTWgiLcULXTIP76vPPRXvOcA0DdWoPmtpU+UUavhJ5szVLEjEEsNFOj
-         497tj5zT8rgro+p1ntD7rxh+u9FZcITbij1T9+HbK6yRq1d1v7IJdPOde3Jp33ORMpMS
-         UK2XSi7gQysnFAJSA8UfXWxPGQJA/FQtN9sxW2Igzah8FFkQX6igOLZx07d/3MIr+QIi
-         NcKpIhe6ipKddxixN7tIoTyvTYdjsyM5K7FmBk0iurke48/+1CMYAuHM9O5j/RXeCS5T
-         6+pw==
-X-Forwarded-Encrypted: i=1; AJvYcCUkOb2gi05xPMltaVLS266Ankv90fn3TG3PMhQCzQyXZild+NKZ7LoOWB6LbY+TifsmXdNjYpk1biyea06ngq0uiHFEasHDktVNyDMvXg==
-X-Gm-Message-State: AOJu0YwR22UuK2ka6refoqP3oZ0YxJ7WYUbm7YXsBBDCo725qFbI4Jp1
-	WLlRLaV+if4H2EvP/GtvYyo3Z6uiaD+UM8B1Q5VlbfehBfsQ7c6X
-X-Google-Smtp-Source: AGHT+IEi69z7mWn7W9ALtpdFofxAgk3jSSRm1Rp19U+XHsUnpB8tkT8NTbFw40g4S7bzrlYBadcC/Q==
-X-Received: by 2002:a17:90b:f93:b0:2b2:c84e:9124 with SMTP id ft19-20020a17090b0f9300b002b2c84e9124mr6100790pjb.45.1714975109208;
-        Sun, 05 May 2024 22:58:29 -0700 (PDT)
-Received: from ubuntukernelserver.. ([110.44.116.44])
-        by smtp.gmail.com with ESMTPSA id sx7-20020a17090b2cc700b002a4b2933a7asm9389812pjb.1.2024.05.05.22.58.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 May 2024 22:58:28 -0700 (PDT)
-From: Roshan Khatri <topofeverest8848@gmail.com>
-To: hdegoede@redhat.com,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	hpa@redhat.com,
-	gregkh@linuxfoundation.org
-Cc: Roshan Khatri <topofeverest8848@gmail.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: atomisp: Fix spelling mistake in ia_css_debug.c
-Date: Mon,  6 May 2024 11:43:18 +0545
-Message-Id: <20240506055818.2532-1-topofeverest8848@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qfEjx5Lu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC200C4AF66;
+	Mon,  6 May 2024 14:59:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715007563;
+	bh=mS7dSTeWCBi5ZyYS09A2fI9maoy49+AMSmPQlxoNqps=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=qfEjx5LuL6bEffjRxJ3mTsH7wUbsTYK2zv/kCnb0FqyCADylG1X3h4GDctDp87LcN
+	 ho5M7DPB8GVZpQR+W7uuldtRJ1DsWnZaQ2GtECLFCPHuvwtnc3FUeEvH9OXTPIREVH
+	 qhViGMzOF/ROqN7qaUL5xixVYa3AdwK0kkPUBUUUOhtLljgYQyaG6ZcJuGc2kRckiS
+	 JZQIhA4sMuFK07RLGE6kiak3yPV0E1sh7T2zQvYOo5fTScibR6kqMh5ONj43akUL3a
+	 rg9NVNAl3QG/+5macYiqyI0D4Myn5Q4OBdNWjk6lzdU9C9iCQqq5S9q0lTFLSaLImq
+	 fE9uJ5u90f3RA==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Jean Delvare <jdelvare@suse.com>, 
+ Guenter Roeck <linux@roeck-us.net>, Jonathan Cameron <jic23@kernel.org>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ David Lechner <dlechner@baylibre.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, 
+ Support Opensource <support.opensource@diasemi.com>, 
+ Cosmin Tanislav <cosmin.tanislav@analog.com>, 
+ Lars-Peter Clausen <lars@metafoo.de>, 
+ Michael Hennerich <Michael.Hennerich@analog.com>, 
+ Antoniu Miclaus <antoniu.miclaus@analog.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, 
+ linux-iio@vger.kernel.org, linux-staging@lists.linux.dev, 
+ linux-input@vger.kernel.org, Jonathan Cameron <Jonathan.Cameron@huawei.com>
+In-Reply-To: <20240429-regulator-get-enable-get-votlage-v2-0-b1f11ab766c1@baylibre.com>
+References: <20240429-regulator-get-enable-get-votlage-v2-0-b1f11ab766c1@baylibre.com>
+Subject: Re: (subset) [PATCH v2 0/7] regulator: new API for voltage
+ reference supplies
+Message-Id: <171500756002.1968386.17290951989557329800.b4-ty@kernel.org>
+Date: Mon, 06 May 2024 23:59:20 +0900
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14-dev
 
-codespell reported misspelled suppress and implicit on ia_css_debug.c.
-This patch fixes the misspellings.
+On Mon, 29 Apr 2024 18:40:08 -0500, David Lechner wrote:
+> In the IIO subsystem, we noticed a pattern in many drivers where we need
+> to get, enable and get the voltage of a supply that provides a reference
+> voltage. In these cases, we only need the voltage and not a handle to
+> the regulator. Another common pattern is for chips to have an internal
+> reference voltage that is used when an external reference is not
+> available. There are also a few drivers outside of IIO that do the same.
+> 
+> [...]
 
-Signed-off-by: Roshan Khatri <topofeverest8848@gmail.com>
----
- .../media/atomisp/pci/runtime/debug/src/ia_css_debug.c        | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Applied to
 
-diff --git a/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c b/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
-index 3e92794555ec..f81e1b1df4e4 100644
---- a/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
-@@ -847,7 +847,7 @@ void ia_css_debug_enable_sp_sleep_mode(enum ia_css_sp_sleep_mode mode)
- 	fw = &sh_css_sp_fw;
- 	HIVE_ADDR_sp_sleep_mode = fw->info.sp.sleep_mode;
- 
--	(void)HIVE_ADDR_sp_sleep_mode;	/* Suppres warnings in CRUN */
-+	(void)HIVE_ADDR_sp_sleep_mode;	/* Suppress warnings in CRUN */
- 
- 	sp_dmem_store_uint32(SP0_ID,
- 			     (unsigned int)sp_address_of(sp_sleep_mode),
-@@ -1333,7 +1333,7 @@ ia_css_debug_pipe_graph_dump_stage(
- 
- 	if (stage->stage_num == 0) {
- 		/*
--		 * There are some implicite assumptions about which bin is the
-+		 * There are some implicit assumptions about which bin is the
- 		 * input binary e.g. which one is connected to the input system
- 		 * Priority:
- 		 * 1) sp_raw_copy bin has highest priority
--- 
-2.34.1
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
+
+Thanks!
+
+[1/7] regulator: devres: add API for reference voltage supplies
+      commit: b250c20b64290808aa4b5cc6d68819a7ee28237f
+[2/7] hwmon: (adc128d818) Use devm_regulator_get_enable_read_voltage()
+      commit: cffb8d74bd4e9dd0653c7093c4a5164a72c52b1f
+[3/7] hwmon: (da9052) Use devm_regulator_get_enable_read_voltage()
+      commit: d72fd5228c9f2136a3143daf5c7822140211883a
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
