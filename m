@@ -1,94 +1,180 @@
-Received: from sonic306-22.consmr.mail.ne1.yahoo.com (sonic306-22.consmr.mail.ne1.yahoo.com [66.163.189.84])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0E5C42A97
-	for <linux-staging@lists.linux.dev>; Tue,  7 May 2024 04:20:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.163.189.84
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5AEB4F61D
+	for <linux-staging@lists.linux.dev>; Tue,  7 May 2024 05:25:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715055631; cv=none; b=fNS5Uaey0Bed9hIQN6ht/nbmYXePYidmEsFl2+ZNVEpKAXzNvCcWQdSGR5AmU8nnRV3qSCl0TGw+h/9BziMdtrZERtP56ASNldzD9U4LTd1O/IcDNNuck2LnHUCN+edRB848DojdVFuMclT2r5uJHdy46H9/cv6GZyLokvizvqo=
+	t=1715059523; cv=none; b=mDS4t8/K6EovqaUc7hdWA8qNjQBU9oArVj8stf8V05+iqKfuqGoxVS5sH3KVEPh6yzOSg4WY81UDhuCkOnq8xHGBs/LJFzzV2ULed1FUpEIm6dF9nEWG4flCzwEASNi8A5JNRkSrpqPuR28PiEbZspwxLXMcU4PkT2gLS6Z0k4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715055631; c=relaxed/simple;
-	bh=yBd5iJJkhGCtWrRHHUh2Cy7RfSiIGU4wuvSAFtG2uYg=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:References; b=OLk4Yn7l3zfme+YrlVe7GZ8v+stJsJYCjoDb5f/TrFbah4dCsnkYmHw/80vjvEg1k5Dl4tZL/kP0BWfNOlLawKixxiccKOBVY+TgLxmnKJ6n5ZE9e+WrFA/tDVB8N0v+TuDgxcOE1E0BKWnlq3QXtnwdbP88Tgcn8lQYQnZ4cxU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com; spf=pass smtp.mailfrom=yahoo.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=fdxIWxkC; arc=none smtp.client-ip=66.163.189.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.com
+	s=arc-20240116; t=1715059523; c=relaxed/simple;
+	bh=Lz9upKnBUWSJCR3radsm+C5q/ZD++lGHXzZbSNDY3Jc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=thLnSrIBIZ6B798XXk0rnSQQxlPw66poijIQ0ayEG4TMVUdydD5aREBtZM7688zl+qD32m0EsrakNCboL7luTc5ZxYa6AzFTAI8EIQBydLTL3RXTpT0EXG4zMumg8TAdCqkgtfSz2xccR/GH0TEpVJ9VeAOojURHHOPw4c0KbYo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bCVwBbHL; arc=none smtp.client-ip=209.85.210.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="fdxIWxkC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1715055623; bh=yBd5iJJkhGCtWrRHHUh2Cy7RfSiIGU4wuvSAFtG2uYg=; h=Date:From:To:Subject:References:From:Subject:Reply-To; b=fdxIWxkC9DKL2A8k+SwzyW+WvETTiI0M41Q0nN/zugR2eo5dnrxeXD/ueykYRXgJQiHoyNjmhHWoaZ4D+X8pz3qSA5nFGfGWrw6+dETkEs9M9sZpNh3GRz7SIRqzzjTWjOgd8LUFUpbkZu9v2tWY6tTsY7vsnC7xczhOxBMtmiZpF8U6MlW0B7i4cg0NcIqh+vYOtbO2VwYEhXJYtbF6U3QffoXyE+N/I45uJvhfVXUBBsCCLUXPfIwZEMzI7VH7tQ5vfYGxz/rJmM7TAEHZgEklGhlvYYptNO5YqLLK87G/r2Pq8bFs9pvzRdTL/YpaQ7MCLsdXQoEFLy5+uV+DzQ==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1715055623; bh=9bazwOmnXQMosmZhC0nI7UqxY1qvbKFBdZB+wLLJbBA=; h=X-Sonic-MF:Date:From:To:Subject:From:Subject; b=HXv+SO2cOQCq7vNs1MlXC9vDVIyvQuFscQSEzbQLjSr89ucplZOJPM/q3U8jcitWQ872eJwkvGDAzWwXk+2IVS+bGZrfiVsaL/7+M/tj8FxHn1j9BmxeY8Xq/Qa45D4RsHZawG0IR/uG8HKkSaKvncfnu6m3xDHBDcr/2C8Y6ie/f/geYQoyjquKv4GG4hM8P0vsZWSHPY0gO58cG9VSUnbM7Aml495EjgB374VsWynExhJNSaZJN8oq9fwifyXugo/2r8bQ9KC+qa1FgP3ZkosTgfM/Ur8yAMYPOp0cNYeQk4CRyjDLqfSaPWTZR6+HpHB62YZ0YCyl1W5trnCm7A==
-X-YMail-OSG: twiscKMVM1m7dUmQ9FUKnkYtR7D_os1WXueeBU2EZbGlzma1rND7t_VXk7m.Kw6
- Lq3kVUPADUDEfl6ZyvZDAr4O9LvpAFJelVq9V9ggg45rYwM3lmq6cPQV1adFBmOC3NjUMeVC8WbN
- ur5b7W3u6UsWtIfo_AQAl2XZtmS2R67wrc8H0mrxoSzDUDsvDGy96H47zWY4PHykv6X3fV136kXn
- Hcz2Ce5daWioqe8kzgKctXgGxEI6JHuXQj2ZUxHXYDqCZ_APeCpH89ieg5zJEMj1er0Xd02buwhY
- ZqKsfLsFroueBwCsicBz4h9gXQ6hCbgsyMfWtQo.LTQ21r3S5BvsioIME_CXqxy68YtNyOc8OWXp
- VKNHPs1e9C3iL6E.mBcLxLEM7di3B0eLbT2WHKUfYE8QGISdjwlJCA408NSKhBo1MeAFd_s0pV4q
- MO.2qtpC9CelljZnYiwfGuRoz5zCsEqL.2tMmP3gcTUGuSXC3W73nPIYUgUI9yOpCyRRO8Vb6esT
- 2rPjcUvetXGuq3gN7Q9YQRtVg29hQWvOq7UUjurShm__GddfgXfBhr06tjoCh8Aj_r2iA5t.8wM7
- PWBTy99hx0C7DX47MMJz6mQmVGdiSRzmgbpkYBqn8bn9g1ZW9SAMBLffBWJaG5g2LIdu90ySXMrU
- JXunFAEKyK8bt6P_D8ztX8dSlbeTThu4HDcH3FVgJp1qa7TEsIWsupYMRS8MQwiNLTLeAkXCTd3g
- 6lwjn.y7vq9vCNjdZEDkj.LzcFlsEKeIddS.nXt0M2WA1pCprBWyyqI3foQVEqDNfsuQYVldIA3D
- mNIaT9EcwKG_w95hHTQS_Sv_EBbxmYBW6RsJlylAC_FlsQHFM4naddCdISsymapPlk.qof8gzVfD
- k2V737Z2PskCTrCarscZFjMEwD9FEKI6TTVMcbA6xWy6Tt.DKm8lstjKiKWjk_VuHC3ExGZL.QV5
- HWlFc.mWIJjeMPK4ZJIlEHsB4itfUl14.BIOGvs.x3STyrydWXhy4aYQSpa7kmJfteQ7JF3QOudd
- eW2VEIjgTjq68v5NEvsqP3x6UnKDxYOsBPDQGfx1cF7q6qBRaGXvLn24IHL7340BFSQchj6h7jA0
- HNIPDEoh5zfixKotbABPiKCi262FF34.XSA3Hwna0UWuK8iRLqQ3L8o3rss9kYVBdG1bYrq8ZBJD
- c5kkwE7SPmvBgU2EmsO4O1UthYTLowof9pGd1o9ucDLi7x2Un_G8Qhyv9r0aHdUQhNElNzwo._Gq
- YMY.sMxIfS40ec5V2rovMhxiSAYKPYe3.o7kNrm9x9Gl1jC8NNPhdsk43QjgmME8aL9qzPti6Hw8
- aHZ2Zp0VYUeW82YbUd3B52hIc31jbOwu9DqtB7BGYaYewZZmgRFfJzSLCBRhi58IiiHjX07v7mPC
- O.Z4Bi2hwGwY.ib6gqJNaBQjmAo3F3..vyU5oooxIbpizR8Kw_rv3cERtbiEDGBAX9spReKEjNs1
- nMIvIkDtwybkiWOMZWyyQFQWKgpGJ3tVEvXsNJ9RyzEmxCbLscpoxOj69yXLUxRJhNWqgQqUl_8Q
- H8x0qobmAOWG7nOK5m.wav7th_cUjbCJB4xLGRSITSp48hAHpiysich4utTuh6DXe7ym2s0XUng4
- znUNfJVX.6CLCzf9VzQe8n1zUbOE8WOPKrhTDfQz3s5wDUP4lwDTAmVxlj1F1C9mvm_W_z8Ug5vv
- POJfyM52fMOaFJZ3b1qdH2dC1Kvdt.i19igCx6VgRuJDfZUBGr.eeJJaIlJXrw74rMuHKYaVadTM
- tWKZFtA8I5_XxC9Qi02X5xDmV1J4owAISJvUxqCJkJtM7Ssn1vyRE1HbKoBJboh8IMeWqX2c_PSI
- .x3hfrDOvvxG3uv7H3H_u6Yon6hXl1KfGEnGgu7JrKt_7QcyCuzEiUnHuaOrew8t_yco6Rh_ryfo
- HSHhXbGITo3sD0cfYVE3iI2M8kZbTXjMi7FJflOK_3y3mpBwdnjeyxxNrrLldlN17Nbkdaggn1MS
- CKwERrCssQP4HMuL9UFZAohiTP6izjxXCdLZ4RTIYti2_pF.On5EwQ2sQmR5MlGz7x.8RaRS.50G
- TvqTM92krChUkRVhYDmR1DAIX0PJgjfImvZX7qsVhdxYsOeF9cddVwJRQPrC7JXzZe9.fG.dh_Qg
- PHipYLDEDK2LVgx4oKjS2.ZWZgBG80WPg7EkujMs5VE1.a7eujIj0oInv1f0JXb2gwLgbBDZ5nHr
- ZwmwJ5nm_KHMqvwosqez1Kl2VS4wlUHqzHr8RxtexAD4AjaRZnRd0l.5BZv83xQfqCEMJuPq9f14
- -
-X-Sonic-MF: <ashokemailat@yahoo.com>
-X-Sonic-ID: 10a2b099-89fc-4124-bf07-605818fdfc44
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic306.consmr.mail.ne1.yahoo.com with HTTP; Tue, 7 May 2024 04:20:23 +0000
-Received: by hermes--production-bf1-5cc9fc94c8-qql8s (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 88b0ea99ab69fea61943fcb9ca83817a;
-          Tue, 07 May 2024 04:20:20 +0000 (UTC)
-Date: Mon, 6 May 2024 21:20:17 -0700
-From: Ashok Kumar <ashokemailat@yahoo.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev
-Subject: [RFC] CamelCase can it be fixed per Checkpatch.pl script
-Message-ID: <ZjmsAVlZmA5sje/Y@c>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bCVwBbHL"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-6f489e64eb3so776797b3a.1
+        for <linux-staging@lists.linux.dev>; Mon, 06 May 2024 22:25:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1715059521; x=1715664321; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=VotM072PU5f1ynFHubhbSZEV9Z58k4OS4yjrvCyi/KU=;
+        b=bCVwBbHLkTf1Kr4VO2HhweUXPmCXBJw6TZ5WGHxZWBZoEganu2e9xyAZDPxRWjeq2p
+         PFsbV0JqU9ooAgKGmDThMBnzY0xIpvIobeV/yYBOpvu6YdFfDVRaG1A6Wvw5JjzGFAEO
+         3LSIc6pxqvL5HvvPhQlIn8F/wQ0KIsb06h+yfxf8hZ2ocunCJ/MRo4sfA+n5gwuxAzdD
+         PLKXO1XnUh79AClA+EMYB1zQtGcaWhgCS3zXzyuDIxZ2oqbXoVfIKk/UZGyTs8XE7Ag7
+         aQaZ3T3ziTm3hmGNR2r1E0WYAmrJI5vCH1ZjTAHOqMvdvgQ3KU2Yc9NbRvv8pOIbwc/C
+         KhJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715059521; x=1715664321;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VotM072PU5f1ynFHubhbSZEV9Z58k4OS4yjrvCyi/KU=;
+        b=XdABAvfXEJX77i1PkfkJpnewD0DGXXfbh4rTwTDpQ69SJeHp/q23J8d7FBFdGPeR4Y
+         TGq0N0PxsrEmjsjX2vLWom934SfapiD3v0xwhB8dOZEjZGqSEQvWioSYCPueRp8zzh86
+         ijvDg6MLNM4ZILP/Lvy8fPb04BAXE8Kz+i9mPpEKxGkFMkCQcmeZgbx++WvtkhOKY+8S
+         JPwSyZJWKepo83oWndCelYyBPdOD0UJixtrH3q9oxM6I7cvHxYprxBY1oFMsJ44258Tz
+         9tR5YFHc0fICld2lTruuzKT+6eNG8GrzVOIwPbracVIXLQenBJl1eR7EG20tDiJZjHhp
+         PHvg==
+X-Forwarded-Encrypted: i=1; AJvYcCVflslCaGc1Hc9+Po+XTAayJMj1GeO+EfEvHqPH2ksbU5wRN1yo05dBOp8vZ2WswXZm5rkEx/HEPDjY9ta++/excx5fttKYDtW0pduglA==
+X-Gm-Message-State: AOJu0YweuyxyLwXCpgvY6ZIszTE3IBs72jFKpgUrfcm9UjdrapwDvEDL
+	Q+H2uECNe1e6RkMCj/iG8YEivvp6QlelEgnSsKtTVX3tHG6H7D8e
+X-Google-Smtp-Source: AGHT+IEXAeBUuXaJ5L39BPGwF3v+uLqY+hCMwjgssXQL5Lk+kDguAle74Rzr9m631YM+fytEf0u6EA==
+X-Received: by 2002:a05:6a00:3910:b0:6f3:86ac:5eae with SMTP id fh16-20020a056a00391000b006f386ac5eaemr14548559pfb.28.1715059520934;
+        Mon, 06 May 2024 22:25:20 -0700 (PDT)
+Received: from ubuntukernelserver.. ([110.44.116.44])
+        by smtp.gmail.com with ESMTPSA id it21-20020a056a00459500b006f4401df6c9sm8276063pfb.113.2024.05.06.22.25.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 May 2024 22:25:20 -0700 (PDT)
+From: Roshan Khatri <topofeverest8848@gmail.com>
+To: hdegoede@redhat.com,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	hpa@redhat.com,
+	hverkuil-cisco@xs4all.nl,
+	gregkh@linuxfoundation.org
+Cc: Roshan Khatri <topofeverest8848@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: atomisp: Fix spelling mistakes in sh_css_sp.c
+Date: Tue,  7 May 2024 11:10:12 +0545
+Message-Id: <20240507052512.7296-1-topofeverest8848@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: attachment; filename=mtxt
-References: <ZjmsAVlZmA5sje/Y.ref@c>
-X-Mailer: WebService/1.1.22256 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
+Content-Transfer-Encoding: 8bit
 
-Found some files in Staging Drivers for which checkpatch.pl throws a CHECK to
-+remove CamelCase.
+Codespell reported misspelled fields,suppress,separately and offset in
+file sh_css_sp.c. This patch fixes the misspellings.
 
-For instance in program vt6655/card.c find the usage of CamelCase as
-i) Variable names eg: &priv->apTD0Rings[0]
-ii) Function names eg: void CARDvSafeResetRx(
+Signed-off-by: Roshan Khatri <topofeverest8848@gmail.com>
+---
+ drivers/staging/media/atomisp/pci/sh_css_sp.c | 20 +++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-Note: some of the functions are
-+static functions
-
-Reviewed lore and seems in some instances removing CamelCase was allowed and in
-+some case removing them was disallowed.
-
-Hence wanted comments if we should change them or not.
-
-Thanks
-Ashok
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_sp.c b/drivers/staging/media/atomisp/pci/sh_css_sp.c
+index cd7f5a3fecaa..9da89290c954 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_sp.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_sp.c
+@@ -1038,7 +1038,7 @@ sh_css_sp_init_stage(struct ia_css_binary *binary,
+ 	if (binary->info->sp.pipeline.mode == IA_CSS_BINARY_MODE_PREVIEW &&
+ 	    (binary->vf_downscale_log2 > 0)) {
+ 		/* TODO: Remove this after preview output decimation is fixed
+-		 * by configuring out&vf info fiels properly */
++		 * by configuring out&vf info fields properly */
+ 		sh_css_sp_stage.frames.out[0].info.padded_width
+ 		<<= binary->vf_downscale_log2;
+ 		sh_css_sp_stage.frames.out[0].info.res.width
+@@ -1333,7 +1333,7 @@ bool sh_css_write_host2sp_command(enum host2sp_commands host2sp_command)
+ 			      host2sp_command)
+ 			      / sizeof(int);
+ 	enum host2sp_commands last_cmd = host2sp_cmd_error;
+-	(void)HIVE_ADDR_host_sp_com; /* Suppres warnings in CRUN */
++	(void)HIVE_ADDR_host_sp_com; /* Suppress warnings in CRUN */
+ 
+ 	/* Previous command must be handled by SP (by design) */
+ 	last_cmd = load_sp_array_uint(host_sp_com, offset);
+@@ -1351,7 +1351,7 @@ sh_css_read_host2sp_command(void)
+ 	unsigned int HIVE_ADDR_host_sp_com = sh_css_sp_fw.info.sp.host_sp_com;
+ 	unsigned int offset = (unsigned int)offsetof(struct host_sp_communication, host2sp_command)
+ 	/ sizeof(int);
+-	(void)HIVE_ADDR_host_sp_com; /* Suppres warnings in CRUN */
++	(void)HIVE_ADDR_host_sp_com; /* Suppress warnings in CRUN */
+ 	return (enum host2sp_commands)load_sp_array_uint(host_sp_com, offset);
+ }
+ 
+@@ -1359,7 +1359,7 @@ sh_css_read_host2sp_command(void)
+  * Frame data is no longer part of the sp_stage structure but part of a
+  * separate structure. The aim is to make the sp_data struct static
+  * (it defines a pipeline) and that the dynamic (per frame) data is stored
+- * separetly.
++ * separately.
+  *
+  * This function must be called first every where were you start constructing
+  * a new pipeline by defining one or more stages with use of variable
+@@ -1372,7 +1372,7 @@ sh_css_init_host2sp_frame_data(void)
+ 	/* Clean table */
+ 	unsigned int HIVE_ADDR_host_sp_com = sh_css_sp_fw.info.sp.host_sp_com;
+ 
+-	(void)HIVE_ADDR_host_sp_com; /* Suppres warnings in CRUN */
++	(void)HIVE_ADDR_host_sp_com; /* Suppress warnings in CRUN */
+ 	/*
+ 	 * rvanimme: don't clean it to save static frame info line ref_in
+ 	 * ref_out, and tnr_frames. Once this static data is in a
+@@ -1551,7 +1551,7 @@ ia_css_pipe_set_irq_mask(struct ia_css_pipe *pipe,
+ 	 * - different assert for Linux and Windows
+ 	 */
+ 
+-	(void)HIVE_ADDR_host_sp_com; /* Suppres warnings in CRUN */
++	(void)HIVE_ADDR_host_sp_com; /* Suppress warnings in CRUN */
+ 
+ 	IA_CSS_LOG("or_mask=%x, and_mask=%x", or_mask, and_mask);
+ 	event_irq_mask.or_mask  = (uint16_t)or_mask;
+@@ -1580,7 +1580,7 @@ ia_css_event_get_irq_mask(const struct ia_css_pipe *pipe,
+ 	struct sh_css_event_irq_mask event_irq_mask;
+ 	unsigned int pipe_num;
+ 
+-	(void)HIVE_ADDR_host_sp_com; /* Suppres warnings in CRUN */
++	(void)HIVE_ADDR_host_sp_com; /* Suppress warnings in CRUN */
+ 
+ 	IA_CSS_ENTER_LEAVE("");
+ 
+@@ -1630,7 +1630,7 @@ sh_css_sp_start_isp(void)
+ 	if (sp_running)
+ 		return;
+ 
+-	(void)HIVE_ADDR_sp_sw_state; /* Suppres warnings in CRUN */
++	(void)HIVE_ADDR_sp_sw_state; /* Suppress warnings in CRUN */
+ 
+ 	/* no longer here, sp started immediately */
+ 	/*ia_css_debug_pipe_graph_dump_epilogue();*/
+@@ -1669,7 +1669,7 @@ ia_css_isp_has_started(void)
+ {
+ 	const struct ia_css_fw_info *fw = &sh_css_sp_fw;
+ 	unsigned int HIVE_ADDR_ia_css_ispctrl_sp_isp_started = fw->info.sp.isp_started;
+-	(void)HIVE_ADDR_ia_css_ispctrl_sp_isp_started; /* Suppres warnings in CRUN */
++	(void)HIVE_ADDR_ia_css_ispctrl_sp_isp_started; /* Suppress warnings in CRUN */
+ 
+ 	return (bool)load_sp_uint(ia_css_ispctrl_sp_isp_started);
+ }
+@@ -1724,7 +1724,7 @@ sh_css_sp_set_dma_sw_reg(int dma_id,
+ 	sw_reg =
+ 	    sh_css_sp_group.debug.dma_sw_reg;
+ 
+-	/* get the offest of the target bit */
++	/* get the offset of the target bit */
+ 	bit_offset = (8 * request_type) + channel_id;
+ 
+ 	/* clear the value of the target bit */
+-- 
+2.34.1
 
