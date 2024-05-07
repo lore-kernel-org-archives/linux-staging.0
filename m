@@ -1,69 +1,55 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out162-62-57-49.mail.qq.com (out162-62-57-49.mail.qq.com [162.62.57.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5AEB4F61D
-	for <linux-staging@lists.linux.dev>; Tue,  7 May 2024 05:25:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E092156C72
+	for <linux-staging@lists.linux.dev>; Tue,  7 May 2024 12:14:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715059523; cv=none; b=mDS4t8/K6EovqaUc7hdWA8qNjQBU9oArVj8stf8V05+iqKfuqGoxVS5sH3KVEPh6yzOSg4WY81UDhuCkOnq8xHGBs/LJFzzV2ULed1FUpEIm6dF9nEWG4flCzwEASNi8A5JNRkSrpqPuR28PiEbZspwxLXMcU4PkT2gLS6Z0k4A=
+	t=1715084051; cv=none; b=ZNAFb/ECS0Ol72IJhNefUUTMZHc4fDnHgQfW0Kj0HzqB3PhXLZf8IJQtAs+pBZz0pug1ZWfJQhvhErqpIjdVXMJ2hJFa3RZIbLWCXAFGq1SAOXchXviwIddTOmp9ME30/yTZzo06vRkmAQl3V38MkasCTF6Sq6EIANS3C51TlR4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715059523; c=relaxed/simple;
-	bh=Lz9upKnBUWSJCR3radsm+C5q/ZD++lGHXzZbSNDY3Jc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=thLnSrIBIZ6B798XXk0rnSQQxlPw66poijIQ0ayEG4TMVUdydD5aREBtZM7688zl+qD32m0EsrakNCboL7luTc5ZxYa6AzFTAI8EIQBydLTL3RXTpT0EXG4zMumg8TAdCqkgtfSz2xccR/GH0TEpVJ9VeAOojURHHOPw4c0KbYo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bCVwBbHL; arc=none smtp.client-ip=209.85.210.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1715084051; c=relaxed/simple;
+	bh=B6kR1xJ17f2MEcCkehimUgPLU+4LRK2+MrfwNpVDTX0=;
+	h=Message-ID:From:To:Subject:Date:MIME-Version; b=EWKlQ/eJLWbf5H6kw3bl3VTPWvvjzn4JWbuwhqYnd/zR49rc1a39aLD6JDvoVw62k3Lu381DVzLo1RJVOfYuTR9utAyKjVu7Tv1OIUJowHYXsz5Clpcl1dvb223Fw52jS3n1pGisUBLMGH7oD4wEI9NccNRXpRe/hq+CAQ4PD5M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=hIYo7Qx5; arc=none smtp.client-ip=162.62.57.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bCVwBbHL"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-6f489e64eb3so776797b3a.1
-        for <linux-staging@lists.linux.dev>; Mon, 06 May 2024 22:25:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715059521; x=1715664321; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=VotM072PU5f1ynFHubhbSZEV9Z58k4OS4yjrvCyi/KU=;
-        b=bCVwBbHLkTf1Kr4VO2HhweUXPmCXBJw6TZ5WGHxZWBZoEganu2e9xyAZDPxRWjeq2p
-         PFsbV0JqU9ooAgKGmDThMBnzY0xIpvIobeV/yYBOpvu6YdFfDVRaG1A6Wvw5JjzGFAEO
-         3LSIc6pxqvL5HvvPhQlIn8F/wQ0KIsb06h+yfxf8hZ2ocunCJ/MRo4sfA+n5gwuxAzdD
-         PLKXO1XnUh79AClA+EMYB1zQtGcaWhgCS3zXzyuDIxZ2oqbXoVfIKk/UZGyTs8XE7Ag7
-         aQaZ3T3ziTm3hmGNR2r1E0WYAmrJI5vCH1ZjTAHOqMvdvgQ3KU2Yc9NbRvv8pOIbwc/C
-         KhJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715059521; x=1715664321;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VotM072PU5f1ynFHubhbSZEV9Z58k4OS4yjrvCyi/KU=;
-        b=XdABAvfXEJX77i1PkfkJpnewD0DGXXfbh4rTwTDpQ69SJeHp/q23J8d7FBFdGPeR4Y
-         TGq0N0PxsrEmjsjX2vLWom934SfapiD3v0xwhB8dOZEjZGqSEQvWioSYCPueRp8zzh86
-         ijvDg6MLNM4ZILP/Lvy8fPb04BAXE8Kz+i9mPpEKxGkFMkCQcmeZgbx++WvtkhOKY+8S
-         JPwSyZJWKepo83oWndCelYyBPdOD0UJixtrH3q9oxM6I7cvHxYprxBY1oFMsJ44258Tz
-         9tR5YFHc0fICld2lTruuzKT+6eNG8GrzVOIwPbracVIXLQenBJl1eR7EG20tDiJZjHhp
-         PHvg==
-X-Forwarded-Encrypted: i=1; AJvYcCVflslCaGc1Hc9+Po+XTAayJMj1GeO+EfEvHqPH2ksbU5wRN1yo05dBOp8vZ2WswXZm5rkEx/HEPDjY9ta++/excx5fttKYDtW0pduglA==
-X-Gm-Message-State: AOJu0YweuyxyLwXCpgvY6ZIszTE3IBs72jFKpgUrfcm9UjdrapwDvEDL
-	Q+H2uECNe1e6RkMCj/iG8YEivvp6QlelEgnSsKtTVX3tHG6H7D8e
-X-Google-Smtp-Source: AGHT+IEXAeBUuXaJ5L39BPGwF3v+uLqY+hCMwjgssXQL5Lk+kDguAle74Rzr9m631YM+fytEf0u6EA==
-X-Received: by 2002:a05:6a00:3910:b0:6f3:86ac:5eae with SMTP id fh16-20020a056a00391000b006f386ac5eaemr14548559pfb.28.1715059520934;
-        Mon, 06 May 2024 22:25:20 -0700 (PDT)
-Received: from ubuntukernelserver.. ([110.44.116.44])
-        by smtp.gmail.com with ESMTPSA id it21-20020a056a00459500b006f4401df6c9sm8276063pfb.113.2024.05.06.22.25.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 May 2024 22:25:20 -0700 (PDT)
-From: Roshan Khatri <topofeverest8848@gmail.com>
-To: hdegoede@redhat.com,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	hpa@redhat.com,
-	hverkuil-cisco@xs4all.nl,
-	gregkh@linuxfoundation.org
-Cc: Roshan Khatri <topofeverest8848@gmail.com>,
-	linux-media@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="hIYo7Qx5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1715084032; bh=k7iH2IWINf1iF9AVyAxjOgBfh0oZVxsfFHZWtxe/7Eg=;
+	h=From:To:Subject:Date;
+	b=hIYo7Qx5rn3z2BRt4vcjlyrW+/M+csuAC8Xc6FVIDdchkjPT+xOsjEloolmRtTXX7
+	 iV3jGIBv1aaJ812dd1igHuu5oGsiZrx4FBOjH8jev1KAmbmEIui5FEjIFawCP/KAgP
+	 Zow1Fqj/CBlB3xUqZMMH7HoRtTt09kd1DZUCnF4M=
+Received: from pipishuo-OMEN-by-HP-Laptop-16-b0xxx.. ([123.115.148.131])
+	by newxmesmtplogicsvrszc19-0.qq.com (NewEsmtp) with SMTP
+	id 3669CAAC; Tue, 07 May 2024 20:13:38 +0800
+X-QQ-mid: xmsmtpt1715084018t4hbvjsd9
+Message-ID: <tencent_1423E8EA63C9C00B49636738FF1050480C06@qq.com>
+X-QQ-XMAILINFO: Mkw1Oys1xyjC2i83KPm7vqPCnLjHHv/GZzgcJSKqikIOxCvf/FI8McfE4NaUAU
+	 viL8DQ/NNdBZzmwcJa5oCGEauzG/aAh/qYtV3ZxQT04QK4FrlBPUt5hCzWBgh4fxKHMROVuL3A9M
+	 /fTZVSaH8eil1ty7yErlpwqwDRffVXC/LbNsD6zsrPYZ3SHTh0U5+9Y6Yb3BgyfGHxF3/2nppUxV
+	 ZeMMWHkKhaYxU52vazuEtcZ/TgnIfSebEMaNIgsbtc7S3WmJztc1ulDFp5Sl7++NwodtnqErS/fQ
+	 sodcZQ0pf5/iuDLzyAtsAZeijVqdKYSxmLTlUdk1l43EnXHFWTa9ojTFut5zEBB6vb8Ssd/F8RdN
+	 xeD8kgQP3+SAiK6M+vIpS2qqtzhDunZlfTIBkgOzN8Khkm08JPswo/a/Rrqsk4fZs3+SkPQ+pbZC
+	 8rbGzRgHBN7dWkxs+YGOGuAqdDDSzjrJCTcY72NuplYOSk5CCv+M5e+pEMK+EN0guIaKCyTd/FkO
+	 s3cAcIhs1f9ddXWRfU4V8GQY5zNTn5M1LX4lWMZyQoO9jO+AlMja11AokFnvL+WhxWpm5BBvORXl
+	 ZlunnuZYc6eXvLwWWyrwZZWUT6BdRYmjw2MPnD6FaELx+6c+Okv1Lj2EBDr5ECxWSxJ5C1+sy+FD
+	 Qpr/uRLCtAbX+hr/VEpeGrbodEbNt0qruFk4JbfZ0AUPHXL2DjW6g7DwhY93rzQVqjPAYMBczLpg
+	 zBjCWd1kRVBnfzH8dsLeMt7gUQd1kdb3pSMUE5BOoZpv1SnnaZfnfUqHOM4eoaSqTdn1RduevHl1
+	 zTAfJHfC46CVm0AWssCKPsrYoeshuQciN0o+6vfZMMSzFuh8f5AMvpzLUoXiiz9/OwgpltA5aujk
+	 SS2q2NIqqpJIZ3dr9K9qL37k5VpLbyc1BTFxDstE2kcwU4OkMlOZLUZFTSHEyxcnomGPhXymHwXZ
+	 6R8xkCDOJiKftYiW7qbOjMJq1yYGpTCdcCOpmpQa1vUb+jZA7KqbAiiupEKev1uEHIrETRCrZS5/
+	 YRB5rZPhzk2Bw7y20YJ6yF5DpNYElhUphlfjohhbJbJCFJ9o3PasV7OAottbM+WbIrpzCAQ/H5xF
+	 4coCauYQRZZ6YCZVK5VWSFOInTWkgNCvwzfaeSNgAN3j+NJK8=
+X-QQ-XMRINFO: MPJ6Tf5t3I/ycC2BItcBVIA=
+From: Chen shuo <1289151713@qq.com>
+To: 1289151713@qq.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: atomisp: Fix spelling mistakes in sh_css_sp.c
-Date: Tue,  7 May 2024 11:10:12 +0545
-Message-Id: <20240507052512.7296-1-topofeverest8848@gmail.com>
+Subject: [PATCH] staging:rtl8192e:fixes unnecessary braces
+Date: Tue,  7 May 2024 20:13:37 +0800
+X-OQ-MSGID: <20240507121337.10511-1-1289151713@qq.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -73,108 +59,29 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Codespell reported misspelled fields,suppress,separately and offset in
-file sh_css_sp.c. This patch fixes the misspellings.
+This patch fixes the warnings reported by checkpatch.pl
+for braces {} are not necessary for single statement blocks
 
-Signed-off-by: Roshan Khatri <topofeverest8848@gmail.com>
+Signed-off-by: Chen shuo <1289151713@qq.com>
 ---
- drivers/staging/media/atomisp/pci/sh_css_sp.c | 20 +++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_sp.c b/drivers/staging/media/atomisp/pci/sh_css_sp.c
-index cd7f5a3fecaa..9da89290c954 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_sp.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_sp.c
-@@ -1038,7 +1038,7 @@ sh_css_sp_init_stage(struct ia_css_binary *binary,
- 	if (binary->info->sp.pipeline.mode == IA_CSS_BINARY_MODE_PREVIEW &&
- 	    (binary->vf_downscale_log2 > 0)) {
- 		/* TODO: Remove this after preview output decimation is fixed
--		 * by configuring out&vf info fiels properly */
-+		 * by configuring out&vf info fields properly */
- 		sh_css_sp_stage.frames.out[0].info.padded_width
- 		<<= binary->vf_downscale_log2;
- 		sh_css_sp_stage.frames.out[0].info.res.width
-@@ -1333,7 +1333,7 @@ bool sh_css_write_host2sp_command(enum host2sp_commands host2sp_command)
- 			      host2sp_command)
- 			      / sizeof(int);
- 	enum host2sp_commands last_cmd = host2sp_cmd_error;
--	(void)HIVE_ADDR_host_sp_com; /* Suppres warnings in CRUN */
-+	(void)HIVE_ADDR_host_sp_com; /* Suppress warnings in CRUN */
+diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+index e3ed709a7674..1862a9899966 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
++++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+@@ -1640,9 +1640,8 @@ bool rtl92e_get_rx_stats(struct net_device *dev, struct rtllib_rx_stats *stats,
+ 	if (stats->Length < 24)
+ 		stats->bHwError |= 1;
  
- 	/* Previous command must be handled by SP (by design) */
- 	last_cmd = load_sp_array_uint(host_sp_com, offset);
-@@ -1351,7 +1351,7 @@ sh_css_read_host2sp_command(void)
- 	unsigned int HIVE_ADDR_host_sp_com = sh_css_sp_fw.info.sp.host_sp_com;
- 	unsigned int offset = (unsigned int)offsetof(struct host_sp_communication, host2sp_command)
- 	/ sizeof(int);
--	(void)HIVE_ADDR_host_sp_com; /* Suppres warnings in CRUN */
-+	(void)HIVE_ADDR_host_sp_com; /* Suppress warnings in CRUN */
- 	return (enum host2sp_commands)load_sp_array_uint(host_sp_com, offset);
- }
+-	if (stats->bHwError) {
++	if (stats->bHwError)
+ 		return false;
+-	}
  
-@@ -1359,7 +1359,7 @@ sh_css_read_host2sp_command(void)
-  * Frame data is no longer part of the sp_stage structure but part of a
-  * separate structure. The aim is to make the sp_data struct static
-  * (it defines a pipeline) and that the dynamic (per frame) data is stored
-- * separetly.
-+ * separately.
-  *
-  * This function must be called first every where were you start constructing
-  * a new pipeline by defining one or more stages with use of variable
-@@ -1372,7 +1372,7 @@ sh_css_init_host2sp_frame_data(void)
- 	/* Clean table */
- 	unsigned int HIVE_ADDR_host_sp_com = sh_css_sp_fw.info.sp.host_sp_com;
- 
--	(void)HIVE_ADDR_host_sp_com; /* Suppres warnings in CRUN */
-+	(void)HIVE_ADDR_host_sp_com; /* Suppress warnings in CRUN */
- 	/*
- 	 * rvanimme: don't clean it to save static frame info line ref_in
- 	 * ref_out, and tnr_frames. Once this static data is in a
-@@ -1551,7 +1551,7 @@ ia_css_pipe_set_irq_mask(struct ia_css_pipe *pipe,
- 	 * - different assert for Linux and Windows
- 	 */
- 
--	(void)HIVE_ADDR_host_sp_com; /* Suppres warnings in CRUN */
-+	(void)HIVE_ADDR_host_sp_com; /* Suppress warnings in CRUN */
- 
- 	IA_CSS_LOG("or_mask=%x, and_mask=%x", or_mask, and_mask);
- 	event_irq_mask.or_mask  = (uint16_t)or_mask;
-@@ -1580,7 +1580,7 @@ ia_css_event_get_irq_mask(const struct ia_css_pipe *pipe,
- 	struct sh_css_event_irq_mask event_irq_mask;
- 	unsigned int pipe_num;
- 
--	(void)HIVE_ADDR_host_sp_com; /* Suppres warnings in CRUN */
-+	(void)HIVE_ADDR_host_sp_com; /* Suppress warnings in CRUN */
- 
- 	IA_CSS_ENTER_LEAVE("");
- 
-@@ -1630,7 +1630,7 @@ sh_css_sp_start_isp(void)
- 	if (sp_running)
- 		return;
- 
--	(void)HIVE_ADDR_sp_sw_state; /* Suppres warnings in CRUN */
-+	(void)HIVE_ADDR_sp_sw_state; /* Suppress warnings in CRUN */
- 
- 	/* no longer here, sp started immediately */
- 	/*ia_css_debug_pipe_graph_dump_epilogue();*/
-@@ -1669,7 +1669,7 @@ ia_css_isp_has_started(void)
- {
- 	const struct ia_css_fw_info *fw = &sh_css_sp_fw;
- 	unsigned int HIVE_ADDR_ia_css_ispctrl_sp_isp_started = fw->info.sp.isp_started;
--	(void)HIVE_ADDR_ia_css_ispctrl_sp_isp_started; /* Suppres warnings in CRUN */
-+	(void)HIVE_ADDR_ia_css_ispctrl_sp_isp_started; /* Suppress warnings in CRUN */
- 
- 	return (bool)load_sp_uint(ia_css_ispctrl_sp_isp_started);
- }
-@@ -1724,7 +1724,7 @@ sh_css_sp_set_dma_sw_reg(int dma_id,
- 	sw_reg =
- 	    sh_css_sp_group.debug.dma_sw_reg;
- 
--	/* get the offest of the target bit */
-+	/* get the offset of the target bit */
- 	bit_offset = (8 * request_type) + channel_id;
- 
- 	/* clear the value of the target bit */
+ 	stats->RxDrvInfoSize = pdesc->RxDrvInfoSize;
+ 	stats->RxBufShift = (pdesc->Shift) & 0x03;
 -- 
 2.34.1
 
