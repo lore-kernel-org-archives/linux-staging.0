@@ -1,101 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E971A160880;
-	Tue,  7 May 2024 14:58:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A6857462
+	for <linux-staging@lists.linux.dev>; Tue,  7 May 2024 17:49:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715093920; cv=none; b=Ay6zG/slMlJ0HtHftXw4emxz2S/cBVu/G8QHl5UlM7Xuret5tGu086fw08P93rovC66J0xDB19Qop4j7fdzRVaDVcVs68uKN0TnofsWaP9yIsDfYKM7y2atUCkgGTnJvMJceL5tGHbhxJ6/bH+lbU04UZLTsIDtyS5G8cjBCz+Y=
+	t=1715104151; cv=none; b=smLPwOITb/XGJ6A8DnzYTPIDULWYagqNUnFCbS8l1dFL3FwbdUHWNFRGuP8ipU/etpL80WRW1N2nHU6MW76+HDdakIV/FFJcKnyjHMUJh8u091SiY6dcqtB/jaWEgqGyrUmr+Ehl0jhLkx51flMsM+iaf0RE7Wvk6kWeUp/nwPk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715093920; c=relaxed/simple;
-	bh=gsF49rpRd7cEvtum0swJOWyyH0y73tl9jTA077FL6Qw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=WkZmWT1uKcz6joxxp9htqgUmwPr+stY5SPoe8fFrnyJnCiXE47p+C07Pd9PDfgisl1ivCoAQBPF/LHcrJnSasvFvgNsy9fLiTlt7zZJFd0purUCAjMUPOuVvVLZnZImmpKxojWt7p56dQ+VfwW2nSdLaeNgBI198sHFECBbdo7Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MaVLuODM; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1715104151; c=relaxed/simple;
+	bh=pwh4kKnyJTvJNbrZR87w9WNS7/BMALHW64bn1krHADg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=sEBN9pgf75m2EcQohOA2/ksTYI6Y6XuBfcw80IcqLvNy6zPihPgZtjKpLfRRMLVE8VOtBCanZdu/ZVVktiUSf8k+pphzGhZ8n21SaMPqaE+bLZVGPIMhz9youQ/6uawoTFHvejZcMTaNe+Jz8w4JYv3sSqV49Ccr4Bfmvklk6gM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lXQ2o2fw; arc=none smtp.client-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MaVLuODM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CF7AC2BBFC;
-	Tue,  7 May 2024 14:58:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715093919;
-	bh=gsF49rpRd7cEvtum0swJOWyyH0y73tl9jTA077FL6Qw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=MaVLuODMusqKr76w3NGsb6FBrSHT41EgQOFGJkVyUczjEkAXPgQna4W8w7b/wwfFQ
-	 5oL3ksgUpOuMfg87rkeJsH1wB5H/3Zvk1NP2v0RhmIDoCKyFCLPgunfXC0geT926Bh
-	 Sr405Gd/YESltUsO0+eqj4KSFcOfGe9ekWaAI5u2ac2ddt6kkMKZoeYCQVq8c8S6ZT
-	 xJXqRYZPsHtVAn1W79kR7Jjdj6mV0fCnKv7tohHRHcvF48HMNllnYj970xF64gkrdc
-	 i4i2beZQGR+UOhz4HZ6VK4WeHht+CJZrao9TCcbYRE1Oa41Dat/gCzXRHB+Owtoree
-	 rsyRcFRfahf6A==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jean Delvare <jdelvare@suse.com>, 
- Guenter Roeck <linux@roeck-us.net>, Jonathan Cameron <jic23@kernel.org>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- David Lechner <dlechner@baylibre.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, 
- Support Opensource <support.opensource@diasemi.com>, 
- Cosmin Tanislav <cosmin.tanislav@analog.com>, 
- Lars-Peter Clausen <lars@metafoo.de>, 
- Michael Hennerich <Michael.Hennerich@analog.com>, 
- Antoniu Miclaus <antoniu.miclaus@analog.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, 
- linux-iio@vger.kernel.org, linux-staging@lists.linux.dev, 
- linux-input@vger.kernel.org, Jonathan Cameron <Jonathan.Cameron@huawei.com>
-In-Reply-To: <20240429-regulator-get-enable-get-votlage-v2-0-b1f11ab766c1@baylibre.com>
-References: <20240429-regulator-get-enable-get-votlage-v2-0-b1f11ab766c1@baylibre.com>
-Subject: Re: (subset) [PATCH v2 0/7] regulator: new API for voltage
- reference supplies
-Message-Id: <171509391425.1991000.13525667517853877249.b4-ty@kernel.org>
-Date: Tue, 07 May 2024 23:58:34 +0900
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lXQ2o2fw"
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a59a0906a7aso97472866b.1
+        for <linux-staging@lists.linux.dev>; Tue, 07 May 2024 10:49:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1715104148; x=1715708948; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=5KzNsGk04Aj/iaOaD0uQRj7sJlFSLSEs6o0qY1ztONQ=;
+        b=lXQ2o2fwELYMQ+LgOK52zFg13h3bZr4JdboY4zBclV210doQl32LyydIXVR7pgeHDU
+         i3oDcDQHMLseunVTirfzgfmlV5z1l2ZfeBoGbm5gmiQ0GgWAA9DSP7Kei0VWLaCkHS2n
+         ehEEnYEydvLSiv86xFtHXnzbow4UJovEFnxKLq+tzonI4AkJtS34t7Iz7mkwdPpGG1gf
+         gjpMsgXUKtf9Cs3Mfj42jKD0z0hFDWbAd7qKvaGbiHgyVSo0T9ODJnSRTIaSUSjfGIxv
+         qBVNSeIKc2yK1iBlEqRs35lnSAX3GuKOpEd3avX4NE6dF4bhr0ZDD9s24ktzI2ZnSmte
+         R4GQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715104148; x=1715708948;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5KzNsGk04Aj/iaOaD0uQRj7sJlFSLSEs6o0qY1ztONQ=;
+        b=wJiuNJEZ8weBWtEofrKUmImRn9YpCJShwonXE7310bGUT+YW6+CBUeSbOFVfOi7QxJ
+         ee+UIl95EBBRPMHk5mDPbQfnHgyYaB9Nf8d5CPEHL6i6xgTqbdd6U5TrYyXH8N4TB4/6
+         eOXCh3WyHCVkzbtB6zk8gyexAcT9Z9ByLsQzyprL/XnMdizDs62xg1RJ+QUOQ8v1fIKC
+         F7fuL+FDhOUhzq2Axg1QZesDB9IMHBgLak0Jkuqum0l/GnblEkRyawLUMFbXhOFH8san
+         poxHtv5OpDqD/6g877f19VEu8fSnC5A500zoTbZzP7hrFr9brweRlr1tY9DnMcCmP0Ik
+         DhQA==
+X-Forwarded-Encrypted: i=1; AJvYcCX8ubDLFdhVMoSVMGqoVe1AfTEvxFR25jxlJuJDQPzLg65Q3d/bySmdySz74ZRb4S+QnN69pvK/GcW8PwHOa7vMIUUjT848OsXXLBEing==
+X-Gm-Message-State: AOJu0Yyv1eCwfitfNOV2umH4Vbq8YFsK6fA77H6tZ5Lwde0IUahR9K14
+	h9bdAY+QO5saPEI2rzmEimOcC7IL870KvVcu3QYCqIbQ72nG8XzpjqiO+A==
+X-Google-Smtp-Source: AGHT+IE5DMX+XI/tzZLisS11tES8cNFOzvMrHLvepHpBfRDTKb+hpqZQWQrvtTKVVJucSTr7rAL40w==
+X-Received: by 2002:a05:6402:401e:b0:572:65f7:eed0 with SMTP id 4fb4d7f45d1cf-5731d91696bmr355648a12.0.1715104148260;
+        Tue, 07 May 2024 10:49:08 -0700 (PDT)
+Received: from [192.168.0.104] (p57935690.dip0.t-ipconnect.de. [87.147.86.144])
+        by smtp.gmail.com with ESMTPSA id fj20-20020a0564022b9400b00572336c900asm6554848edb.74.2024.05.07.10.49.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 07 May 2024 10:49:07 -0700 (PDT)
+Message-ID: <42016d13-b69c-400a-98a6-f34db6dd3e06@gmail.com>
+Date: Tue, 7 May 2024 19:49:06 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging:rtl8192e:fixes unnecessary braces
+To: Chen shuo <1289151713@qq.com>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <tencent_1423E8EA63C9C00B49636738FF1050480C06@qq.com>
+Content-Language: en-US
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <tencent_1423E8EA63C9C00B49636738FF1050480C06@qq.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14-dev
 
-On Mon, 29 Apr 2024 18:40:08 -0500, David Lechner wrote:
-> In the IIO subsystem, we noticed a pattern in many drivers where we need
-> to get, enable and get the voltage of a supply that provides a reference
-> voltage. In these cases, we only need the voltage and not a handle to
-> the regulator. Another common pattern is for chips to have an internal
-> reference voltage that is used when an external reference is not
-> available. There are also a few drivers outside of IIO that do the same.
+On 5/7/24 14:13, Chen shuo wrote:
+> This patch fixes the warnings reported by checkpatch.pl
+> for braces {} are not necessary for single statement blocks
 > 
-> [...]
+> Signed-off-by: Chen shuo <1289151713@qq.com>
+> ---
+>   drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+> index e3ed709a7674..1862a9899966 100644
+> --- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+> +++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+> @@ -1640,9 +1640,8 @@ bool rtl92e_get_rx_stats(struct net_device *dev, struct rtllib_rx_stats *stats,
+>   	if (stats->Length < 24)
+>   		stats->bHwError |= 1;
+>   
+> -	if (stats->bHwError) {
+> +	if (stats->bHwError)
+>   		return false;
+> -	}
+>   
+>   	stats->RxDrvInfoSize = pdesc->RxDrvInfoSize;
+>   	stats->RxBufShift = (pdesc->Shift) & 0x03;
 
-Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
+Hi Chen,
 
-Thanks!
+Please make your "Subject" line more unique. Consider that we may end up
+with having dozen of commits like yours, all of them referring to
+different removals and all without the necessary information to tell 
+what they differ in (except the driver/subsystem). So it would help if 
+you add the changed file or function to make it more unique.
 
-[4/7] iio: addac: ad74115: Use devm_regulator_get_enable_read_voltage()
-      commit: 41b94bc6d96b9b046ef08114f057dcc6c52e28b6
-[5/7] iio: frequency: admv1013: Use devm_regulator_get_enable_read_voltage()
-      commit: 2f4bb1fa758abf4f5ee5a70ea7c2b1b8c8f7625d
-[6/7] staging: iio: impedance-analyzer: ad5933: Use devm_regulator_get_enable_read_voltage()
-      commit: 9fcf6ef3e10b9fc605d84802058c0f30517bbaa7
+Also typically we use space after : and driver name in the subject.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+It is not required to add the name of the tool who found this. Much more 
+important is a good description __why__ this change makes sense...
+For example:
+... to shorten code.
+... to improve readability.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+If you send in a second version of this patch please use a change 
+history. Description from Dan under:
+https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+Feel free to contact me direct for further questions.
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+Thanks for your support.
 
-Thanks,
-Mark
+Bye Philipp
 
