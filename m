@@ -1,96 +1,101 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34DC715E216
-	for <linux-staging@lists.linux.dev>; Tue,  7 May 2024 13:42:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E971A160880;
+	Tue,  7 May 2024 14:58:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715089362; cv=none; b=ZZXHLOuWYbElzk6ceGop3CUu1sMg0AqAqK/Hvy+7pHLT9mfzmI45aX3U8q0sHB8HIYg6Lmv/yjY8mF8yTNMKKul1VrXDqJzGCRK2S1SwEcqM4v0HqvyrMOdm7Q8DMRFYyUx1qnZjETd0J7+Hxl6BYqMop3WMeWhvRAvtSXIT3XQ=
+	t=1715093920; cv=none; b=Ay6zG/slMlJ0HtHftXw4emxz2S/cBVu/G8QHl5UlM7Xuret5tGu086fw08P93rovC66J0xDB19Qop4j7fdzRVaDVcVs68uKN0TnofsWaP9yIsDfYKM7y2atUCkgGTnJvMJceL5tGHbhxJ6/bH+lbU04UZLTsIDtyS5G8cjBCz+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715089362; c=relaxed/simple;
-	bh=RNmcCGwn/9/Ko6Q/dYPFgq3QsYqQcfCFf9m2+RNV4HU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Fmy1NqrnZHjOSiCvtYhf81qwZA81L9c+B4hZdCUCqSySFOZwZ5Ew+cqgfePSc23YAUUL4J9K9ED2YlIyj4YdyXmYAwt+d3LuYjDSgBWBOJp+tSAgEvCNySi5b/l6k1JIpkhZGMn+wOFGr/HAqbCehgHLoQv6IdEwcPzqa6ORg7A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NUxQZR0f; arc=none smtp.client-ip=209.85.167.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1715093920; c=relaxed/simple;
+	bh=gsF49rpRd7cEvtum0swJOWyyH0y73tl9jTA077FL6Qw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=WkZmWT1uKcz6joxxp9htqgUmwPr+stY5SPoe8fFrnyJnCiXE47p+C07Pd9PDfgisl1ivCoAQBPF/LHcrJnSasvFvgNsy9fLiTlt7zZJFd0purUCAjMUPOuVvVLZnZImmpKxojWt7p56dQ+VfwW2nSdLaeNgBI198sHFECBbdo7Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MaVLuODM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NUxQZR0f"
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-51f72a29f13so3846509e87.3
-        for <linux-staging@lists.linux.dev>; Tue, 07 May 2024 06:42:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1715089359; x=1715694159; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ofLWh7+7lynH4ssD7W2H3GNyThDD7FYWFzKSbNNIGKY=;
-        b=NUxQZR0fx6II9d2Zvj9zv9JEKCbgW0VRNjIFpjCGAjUUs41ryZoYTOyO/6U8k1X9Us
-         yAWkrU/07TgY7zt8Eg0KjHf6SAV55iu3T3bTHGAB+FIOkLZ6qXF3UsT3sgQZMpbPYBq0
-         pXKGMhEhBDqzvb8TjJfji8kwetXG9hZz1L+49bovvscwrS/fmyydBu4u7VbJTw5U3puY
-         14LAU1D1AqMSxMaPpp/+ll3YIPWKR8oevr8QmgNr9K6bZiiq4fFh8pWkfkAK5JiD6gEj
-         e+l2KkyQLmGqlX1EGqFP2UqdOg/v3kF61Nosy30s+9Inougvh+jUUxnsJpdKKOFLs0BU
-         3E6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715089359; x=1715694159;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ofLWh7+7lynH4ssD7W2H3GNyThDD7FYWFzKSbNNIGKY=;
-        b=wOLslAITgOnyABADZRVXsVPlv9YXoOLE2LcddCWYAbODrel6sRmCWwCWPbHm6gQgB5
-         +XvWYVhK8OE3VdDAWsDvk6FWi1zBVQIMhpnTA5g0SM+V18uRcb8o4HkEYq5xcOhnl1U9
-         4oOiNbJYTNaCIX+8+fLT06J8roM50NHNljhElhDGsUfVtHZfVEtMYFzD3j/J4fcNW/Hv
-         IWRK83Sx7RgJ9gpGr2rX86X+lVeEShUSeXHBtrVbvEnTfQ+ziCFNefnFmmHKSWGvJxbj
-         KQoe6azy6GqqqZSknqVBxLOBo6S8DntOTGqCoSq+VDt0Igd+nqnAn9OkLrRUQW3GlSRU
-         vOkA==
-X-Forwarded-Encrypted: i=1; AJvYcCV9e3CGKhLhrs9TLRTXvPjYJZ8DJh9+WNg9iOyU3vQAL0Sij5+6t/0K6R4wo/UjrhpJ/3qtfUFR2F8PML9kx4pjamun7gznH0hoV0ku2g==
-X-Gm-Message-State: AOJu0YyVwy+17M0hocX9k6m/0CZez+Atcy20e39RT1feGYKtnI6Z0ZiR
-	V29lGy6GpH+4rX45MaG579xHEvDQfGLOQQrAWjHuB5Xq69g+pBnCPdyGyYBiWxc=
-X-Google-Smtp-Source: AGHT+IEcEQ1M88NR4vmUiqGMt8ZxsM659IZuZ4CO8gzi53YrJgC5MzydtewGy6QWY5cBxG7eM8j7VQ==
-X-Received: by 2002:ac2:483a:0:b0:51e:11d5:bca3 with SMTP id 26-20020ac2483a000000b0051e11d5bca3mr8661395lft.18.1715089359358;
-        Tue, 07 May 2024 06:42:39 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
-        by smtp.gmail.com with ESMTPSA id j6-20020ac24546000000b0051da3abd6c8sm2109596lfm.150.2024.05.07.06.42.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 May 2024 06:42:39 -0700 (PDT)
-Date: Tue, 7 May 2024 16:42:37 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Ashok Kumar <ashokemailat@yahoo.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
-Subject: Re: [RFC] CamelCase can it be fixed per Checkpatch.pl script
-Message-ID: <uewpqrf2hkczmxftsl5pb2lx4tylxcntxqn5cwmlcrx3w54mu5@bc7nta7chbkm>
-References: <ZjmsAVlZmA5sje/Y.ref@c>
- <ZjmsAVlZmA5sje/Y@c>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MaVLuODM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CF7AC2BBFC;
+	Tue,  7 May 2024 14:58:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715093919;
+	bh=gsF49rpRd7cEvtum0swJOWyyH0y73tl9jTA077FL6Qw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=MaVLuODMusqKr76w3NGsb6FBrSHT41EgQOFGJkVyUczjEkAXPgQna4W8w7b/wwfFQ
+	 5oL3ksgUpOuMfg87rkeJsH1wB5H/3Zvk1NP2v0RhmIDoCKyFCLPgunfXC0geT926Bh
+	 Sr405Gd/YESltUsO0+eqj4KSFcOfGe9ekWaAI5u2ac2ddt6kkMKZoeYCQVq8c8S6ZT
+	 xJXqRYZPsHtVAn1W79kR7Jjdj6mV0fCnKv7tohHRHcvF48HMNllnYj970xF64gkrdc
+	 i4i2beZQGR+UOhz4HZ6VK4WeHht+CJZrao9TCcbYRE1Oa41Dat/gCzXRHB+Owtoree
+	 rsyRcFRfahf6A==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Jean Delvare <jdelvare@suse.com>, 
+ Guenter Roeck <linux@roeck-us.net>, Jonathan Cameron <jic23@kernel.org>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ David Lechner <dlechner@baylibre.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, 
+ Support Opensource <support.opensource@diasemi.com>, 
+ Cosmin Tanislav <cosmin.tanislav@analog.com>, 
+ Lars-Peter Clausen <lars@metafoo.de>, 
+ Michael Hennerich <Michael.Hennerich@analog.com>, 
+ Antoniu Miclaus <antoniu.miclaus@analog.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, 
+ linux-iio@vger.kernel.org, linux-staging@lists.linux.dev, 
+ linux-input@vger.kernel.org, Jonathan Cameron <Jonathan.Cameron@huawei.com>
+In-Reply-To: <20240429-regulator-get-enable-get-votlage-v2-0-b1f11ab766c1@baylibre.com>
+References: <20240429-regulator-get-enable-get-votlage-v2-0-b1f11ab766c1@baylibre.com>
+Subject: Re: (subset) [PATCH v2 0/7] regulator: new API for voltage
+ reference supplies
+Message-Id: <171509391425.1991000.13525667517853877249.b4-ty@kernel.org>
+Date: Tue, 07 May 2024 23:58:34 +0900
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZjmsAVlZmA5sje/Y@c>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14-dev
 
-On Mon, May 06, 2024 at 09:20:17PM -0700, Ashok Kumar wrote:
-> Found some files in Staging Drivers for which checkpatch.pl throws a CHECK to
-> +remove CamelCase.
+On Mon, 29 Apr 2024 18:40:08 -0500, David Lechner wrote:
+> In the IIO subsystem, we noticed a pattern in many drivers where we need
+> to get, enable and get the voltage of a supply that provides a reference
+> voltage. In these cases, we only need the voltage and not a handle to
+> the regulator. Another common pattern is for chips to have an internal
+> reference voltage that is used when an external reference is not
+> available. There are also a few drivers outside of IIO that do the same.
 > 
-> For instance in program vt6655/card.c find the usage of CamelCase as
-> i) Variable names eg: &priv->apTD0Rings[0]
-> ii) Function names eg: void CARDvSafeResetRx(
-> 
-> Note: some of the functions are
-> +static functions
-> 
-> Reviewed lore and seems in some instances removing CamelCase was allowed and in
-> +some case removing them was disallowed.
-> 
-> Hence wanted comments if we should change them or not.
+> [...]
 
-It's better to work with the corresponding driver maintainer. Generic
-comment is that functions must be renamed, while variables / fields
-naming usually depends on the maintainer's decision.
+Applied to
 
--- 
-With best wishes
-Dmitry
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
+
+Thanks!
+
+[4/7] iio: addac: ad74115: Use devm_regulator_get_enable_read_voltage()
+      commit: 41b94bc6d96b9b046ef08114f057dcc6c52e28b6
+[5/7] iio: frequency: admv1013: Use devm_regulator_get_enable_read_voltage()
+      commit: 2f4bb1fa758abf4f5ee5a70ea7c2b1b8c8f7625d
+[6/7] staging: iio: impedance-analyzer: ad5933: Use devm_regulator_get_enable_read_voltage()
+      commit: 9fcf6ef3e10b9fc605d84802058c0f30517bbaa7
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
