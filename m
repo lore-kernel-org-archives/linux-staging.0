@@ -1,101 +1,91 @@
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out203-205-251-72.mail.qq.com (out203-205-251-72.mail.qq.com [203.205.251.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 925A554F86
-	for <linux-staging@lists.linux.dev>; Tue,  7 May 2024 21:15:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35E1186652
+	for <linux-staging@lists.linux.dev>; Wed,  8 May 2024 15:14:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.251.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715116559; cv=none; b=NgTRserjKP9FJaCTjUtEPWu2LkCvRhaKwRfqRr+uk/k2dPDGYxskTb6H7msNJjHJWt3tb+pzvqlZnfqhBi7wqlLH7vP1Hi6uSbYkIAT5g7Fn6Ct+kSHb835TckL1wvX3t9aZx2NzwJ3AqandQyi3WQTgkx9QcE8E5frju8rAiAI=
+	t=1715181261; cv=none; b=RoOFoJAio4iGF0ebuRVgbuR5Ghld7gZnb07v5aAzygf4kcHnXH/JacEqSHtib805/z+pQzpLoqXKhgRGK4rW1WvZxQmO3F9MCHr+POcCk2SQrdo4XFCRnGQC2pqIc0/qnDTj5Fg33MPajvUdn51f7EFcwUVEOH3G6Jkl9IOqpV4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715116559; c=relaxed/simple;
-	bh=goUkuLckbYtMinqNxuCVrvPMEnCgp7dtnW5xcRA5XCY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PHZdvjroxPTI4aZp/Xt+nvZTd2Sk/0H9vTuvFcsWoOtB1c5k/Q9AILXIQFUzQHKFevthlqNBYba+El/j0dSnzqsesZzxV0OjNRyRjMJCqae+me8PrJ1KGr6c3Y+KZRXKWFa6JGhH6HCgfMmu4QkFqlULi62KbG7SBLWaitYhSdE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JLnmiO0Z; arc=none smtp.client-ip=209.85.128.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1715181261; c=relaxed/simple;
+	bh=pVWuYbzUs7Jev4RY7RmHJPW4092hATCc5SdzY5qRSLw=;
+	h=Message-ID:From:To:Subject:Date:MIME-Version; b=udsV10CfVYj0l4MfZYuDsbA4XnIWZsoFQHQS8hVZe/SYLX1oLRBCm6qTRuteMXzc79X68hKnCHfrWtyrUNhXZ52GdPoIWEkAQJFNsqGAtNeELpixKcXwhy8lsOaoRZyitjqPIIkAD3NhYltxSf34kctjBba3m2Gf3mSl10Qjwyc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=yJiroyhW; arc=none smtp.client-ip=203.205.251.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JLnmiO0Z"
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-61b4cbb8834so35647617b3.0
-        for <linux-staging@lists.linux.dev>; Tue, 07 May 2024 14:15:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715116556; x=1715721356; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=mYeGMToteaskIs6sMPrkW/JKjEbgC3kWhMUNPICMUpk=;
-        b=JLnmiO0Z4f8LV/4BBUYQPKbAxudsLY81071IpGesEiyCVD0CbVl/cA1WSkB8/gT4Fa
-         3Gpf4SBxZOYDtn3u4/Fw23uGs8mxVwiTQUeN4bmQyusyO3opduv15d9ha4O51Nwk7psR
-         bQ4QvV34ptQrMfcXH87mayaJmp3Tc0syw+pryKnGM3kyL8gmb+DyKQxy6oHmswGk58yr
-         F4b6wTNo7ieg29KbC4P4G9X41oHj5f7pIXva1qCE+5zDIFK9MlU7A2oB4xS1812YRXYA
-         qj/bBQRBBSHRmT8QbotEHEmsXRhuXh7a9Ne79QtlbQwqH7LPX01f2snY+vdFZbQ6wz3N
-         MSzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715116556; x=1715721356;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mYeGMToteaskIs6sMPrkW/JKjEbgC3kWhMUNPICMUpk=;
-        b=c5HKVHHGbMA8STS3VamunHl6snrevYy6HriP9+wGPXWozJ1jcjzGha8+ES76uPhy34
-         OzecQHcnUnhrMujgRm6XePCCYnIWU59pBsw1cCYiODjyr0XR4PoP0xmk3ozUZzdw7ZrG
-         ZJVBL/+f5aCCcFeRKv4IRqTq3WwsjHSYDTh7Hav/4SNwaZjrIHLkyRf8gPO0f/mR7v5W
-         cEB1sG4zp3weEeRQF4ikG7E+x9yd7cUfU/qSPLF0ACkfjEWtSUGs2fJjr/YsSQGYUfeK
-         TC4pdZisDpUFfKFSefB9g2RoCnTnAz+ORl0rGpG34DzbzoEIQz0I63YtGw/cVOApD/kn
-         Xpgw==
-X-Forwarded-Encrypted: i=1; AJvYcCVTAxX6Qu/VF8G/x8QKmg7r9mQecRHe2brwvQJtXaG5QuK1saDqUjT1jzyX5BNajHFHbjU2rsHB6O5yM5y8hQB//bAgLBY9ODbK5ZWhOg==
-X-Gm-Message-State: AOJu0Yxa05Iom6H/EPhUYC75oor8Vne+quZceVwx8zk8p/cqhd4K27iu
-	mBLu8+MSqDQNq5g9IfKMW1JID7EJ79g4Qqk4JOcUy+8EmCwcCgSE
-X-Google-Smtp-Source: AGHT+IGkf8neUX4Td3fdf5viAkv7QSY2fzH2N80z+lW4vEfVjVZop7l7kDw3wXLDKTTm9Ao1ryNEdw==
-X-Received: by 2002:a05:690c:3603:b0:61b:1718:7302 with SMTP id 00721157ae682-62086299e20mr10077027b3.31.1715116556362;
-        Tue, 07 May 2024 14:15:56 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:e3c:6631:2efa:fee2])
-        by smtp.gmail.com with ESMTPSA id u70-20020a0deb49000000b00618876dc75fsm2879497ywe.27.2024.05.07.14.15.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 May 2024 14:15:56 -0700 (PDT)
-Date: Tue, 7 May 2024 14:15:52 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: David Lechner <dlechner@baylibre.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Support Opensource <support.opensource@diasemi.com>,
-	Cosmin Tanislav <cosmin.tanislav@analog.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Antoniu Miclaus <antoniu.miclaus@analog.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-input@vger.kernel.org,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH v2 7/7] Input: mpr121: Use
- devm_regulator_get_enable_read_voltage()
-Message-ID: <ZjqaCHUc7PlbKDCK@google.com>
-References: <20240429-regulator-get-enable-get-votlage-v2-0-b1f11ab766c1@baylibre.com>
- <20240429-regulator-get-enable-get-votlage-v2-7-b1f11ab766c1@baylibre.com>
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="yJiroyhW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1715181243; bh=elRxz6OWhugfzFAIlmwlLj9gRAiGJCPhF4W6JN9Xyhg=;
+	h=From:To:Subject:Date;
+	b=yJiroyhW4dRFus/60A7z9T3n/4yioFE46vd9ziOU5Z1D1WVDA+IKeVItVz6Fu/4wP
+	 46DMDhIysDzIiV70idrvPL56itCqKvHzTJkaUFTbZPcsaAww78TNoRIaGXmYreQMOP
+	 cUsiX00T3BRI/X1ov60bISvNPu6cnhr0e44ywjP8=
+Received: from pipishuo-OMEN-by-HP-Laptop-16-b0xxx.. ([123.115.148.131])
+	by newxmesmtplogicsvrsza10-0.qq.com (NewEsmtp) with SMTP
+	id 375AB210; Wed, 08 May 2024 23:13:53 +0800
+X-QQ-mid: xmsmtpt1715181233tkjqblovg
+Message-ID: <tencent_1992979C468AF087A1909000C6D0D5E61207@qq.com>
+X-QQ-XMAILINFO: MUl6Z5IrFzo7Rxpr5BMoTbyvm829X+fUJdpiyFAfklHaNPjsUL+MRRa88iq6np
+	 3dCgOCRp+f1wzZtEYcNcXa6FM6+LOwGTASB1HPAU0OnaQ/YTIAkrP9/I7LPEKwb7KeVwKg44OmYf
+	 r61J/cAI+dDoBOx7ilN+jxbQZ1tDWQ8e+Y0g/gZK3s+QcBrxjFjGamqOnddAcKpwgc6fBOwh38mz
+	 5uzMJAJmfMHoWD5ROP8p8jgZpCF1oQxjTXNXPY1rXOft+/uPxGLk6HwvEAijQhMHjHlhLxQOmyjf
+	 095s3a31xa+OqJPx0a9xJX6OfbBHXgVG66ZPHKx3JlWGCDXfrrRdQljO5TZDDjhFUJywSrg7RK4u
+	 6F6MGGcFcirD4eXvzvT2XSRJcSxdXWdRlAK80zgUa4Z/GXi6fjyZQJkiexd2vfYrr9Oj0XO91uF7
+	 WBxJEWDszBDeF5GGPWkwAdzhJCBPzhgbx5roJywTUY47CyfCHlKH3C5s0yEx1PAAI8GPCqofqTrr
+	 qXecxlbWm0kB7WocpxS4S3Ah1a5IPsr6fiR5FehXWe3vz/PC4oftteA03AikEqsznXwWJgg6CktF
+	 DdK4mBrGzobzKhNjkGgzZfLyHY3aTNA7L3+3UFprG9nPkgqfWyoZxQDj5MWjNfEnmea7g9UjZAdM
+	 68VJZWjuw4cujoSMppGqKGEBu1NXklINrk88Aqp7KdHKDfkXB3fDh59eq/J7Azha4/o2iYb3+Jx4
+	 qZ8iV+GucNO0rMx7sWtxB817jWB+52QD+R6OTiWyCa29yOqMULjUzFvZX1/vQ7jG/Es+ePpDu5En
+	 Q5VGh4KNNtDag+IVgDs74I5YKKGsnc1x1bu8g7KQxQ6Q8xuVi2DBLHdJyOjSlRTwbXg3CxSr5+9O
+	 FJyT5qtY68xbOargjIpdou8k9H37z/fX5Sp6uDhvXztEGiiDLytJQn+B6Ul7D4AJvAf3qznt01DI
+	 pNqKBzaSf3MaybwXggIUHj93jGvziYl/TuCyx7efXP4X/fuY10ZQjHSLfzw3u0PtJlKJeuDZ+fvz
+	 P06Gp/Aje/IQruYAn0U6qBRfjhgfzCsb1JibiV0gfMVoGVnp6+8B/KtwQvqcURTnk0zn+7+Bdr8F
+	 DF5lNdpfhZXpM4VJvJw7jbvAuKk9rP8bWc5hpGUTkgZnCT7c0WMvu/uyIcg92NEYmo5mYyIrRS9U
+	 ciOkc/2yAsioev2Q==
+X-QQ-XMRINFO: OD9hHCdaPRBwq3WW+NvGbIU=
+From: Chen shuo <1289151713@qq.com>
+To: 1289151713@qq.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] staging: rtl8192e: remove the r8192E_dev.c's unnecessary brace
+Date: Wed,  8 May 2024 23:13:52 +0800
+X-OQ-MSGID: <20240508151352.6831-1-1289151713@qq.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240429-regulator-get-enable-get-votlage-v2-7-b1f11ab766c1@baylibre.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Apr 29, 2024 at 06:40:15PM -0500, David Lechner wrote:
-> We can reduce boilerplate code by using
-> devm_regulator_get_enable_read_voltage().
-> 
-> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> Signed-off-by: David Lechner <dlechner@baylibre.com>
+There is a unnecessary brace in r8192E_dev.c.Remove it to shorten
+code and improve readability.
 
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Signed-off-by: Chen shuo <1289151713@qq.com>
+---
+v2:Make "Subject" line more unique.
+   Add space after : and driver name in the subject.
 
-Mark, maybe you will pick up this one as well?
+ drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Thanks.
-
+diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+index e3ed709a7674..1862a9899966 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
++++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+@@ -1640,9 +1640,8 @@ bool rtl92e_get_rx_stats(struct net_device *dev, struct rtllib_rx_stats *stats,
+ 	if (stats->Length < 24)
+ 		stats->bHwError |= 1;
+ 
+-	if (stats->bHwError) {
++	if (stats->bHwError)
+ 		return false;
+-	}
+ 
+ 	stats->RxDrvInfoSize = pdesc->RxDrvInfoSize;
+ 	stats->RxBufShift = (pdesc->Shift) & 0x03;
 -- 
-Dmitry
+2.34.1
+
