@@ -1,91 +1,103 @@
-Received: from out203-205-251-72.mail.qq.com (out203-205-251-72.mail.qq.com [203.205.251.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35E1186652
-	for <linux-staging@lists.linux.dev>; Wed,  8 May 2024 15:14:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.251.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7500A13C8E1
+	for <linux-staging@lists.linux.dev>; Thu,  9 May 2024 07:51:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715181261; cv=none; b=RoOFoJAio4iGF0ebuRVgbuR5Ghld7gZnb07v5aAzygf4kcHnXH/JacEqSHtib805/z+pQzpLoqXKhgRGK4rW1WvZxQmO3F9MCHr+POcCk2SQrdo4XFCRnGQC2pqIc0/qnDTj5Fg33MPajvUdn51f7EFcwUVEOH3G6Jkl9IOqpV4=
+	t=1715241097; cv=none; b=hC+Lp02n+mdNWN42t4GqhxkN2D+Vh0Oc0Jz8XBXM/zjpFXZkgfl0HqVZONRFK6bOxsXIDX7g2RKCN4lSG1mBIdSDK+nFuGum2Wd3yKFRO74PNWtSC+yVhk6wlp/WC4EmRiXPYFIgGtTA+PbWYM2tzc6uKlx6CvLA2a3iN1zgN+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715181261; c=relaxed/simple;
-	bh=pVWuYbzUs7Jev4RY7RmHJPW4092hATCc5SdzY5qRSLw=;
-	h=Message-ID:From:To:Subject:Date:MIME-Version; b=udsV10CfVYj0l4MfZYuDsbA4XnIWZsoFQHQS8hVZe/SYLX1oLRBCm6qTRuteMXzc79X68hKnCHfrWtyrUNhXZ52GdPoIWEkAQJFNsqGAtNeELpixKcXwhy8lsOaoRZyitjqPIIkAD3NhYltxSf34kctjBba3m2Gf3mSl10Qjwyc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=yJiroyhW; arc=none smtp.client-ip=203.205.251.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	s=arc-20240116; t=1715241097; c=relaxed/simple;
+	bh=Qpetu/YpQMTZ8pAa1jeqlxfiWUijO299LmcayGsUaX8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=j2wQiMbWGl3eLZYFA4L9xwm5MYyOK9fxVFkysU0mKc0EJglq55Z6g4s/uwxjwVQK4XiOIKfmUsTP2gLHFaoIcE6mMkR0hoIVRHpU9/2RRXakeIH/f8QqCQb58nFpAYmptRrvY6WkqgmvuL4Ij+R/8pUb8hIkfwjfMz+4gDw3E7s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=elilZSAP; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="yJiroyhW"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1715181243; bh=elRxz6OWhugfzFAIlmwlLj9gRAiGJCPhF4W6JN9Xyhg=;
-	h=From:To:Subject:Date;
-	b=yJiroyhW4dRFus/60A7z9T3n/4yioFE46vd9ziOU5Z1D1WVDA+IKeVItVz6Fu/4wP
-	 46DMDhIysDzIiV70idrvPL56itCqKvHzTJkaUFTbZPcsaAww78TNoRIaGXmYreQMOP
-	 cUsiX00T3BRI/X1ov60bISvNPu6cnhr0e44ywjP8=
-Received: from pipishuo-OMEN-by-HP-Laptop-16-b0xxx.. ([123.115.148.131])
-	by newxmesmtplogicsvrsza10-0.qq.com (NewEsmtp) with SMTP
-	id 375AB210; Wed, 08 May 2024 23:13:53 +0800
-X-QQ-mid: xmsmtpt1715181233tkjqblovg
-Message-ID: <tencent_1992979C468AF087A1909000C6D0D5E61207@qq.com>
-X-QQ-XMAILINFO: MUl6Z5IrFzo7Rxpr5BMoTbyvm829X+fUJdpiyFAfklHaNPjsUL+MRRa88iq6np
-	 3dCgOCRp+f1wzZtEYcNcXa6FM6+LOwGTASB1HPAU0OnaQ/YTIAkrP9/I7LPEKwb7KeVwKg44OmYf
-	 r61J/cAI+dDoBOx7ilN+jxbQZ1tDWQ8e+Y0g/gZK3s+QcBrxjFjGamqOnddAcKpwgc6fBOwh38mz
-	 5uzMJAJmfMHoWD5ROP8p8jgZpCF1oQxjTXNXPY1rXOft+/uPxGLk6HwvEAijQhMHjHlhLxQOmyjf
-	 095s3a31xa+OqJPx0a9xJX6OfbBHXgVG66ZPHKx3JlWGCDXfrrRdQljO5TZDDjhFUJywSrg7RK4u
-	 6F6MGGcFcirD4eXvzvT2XSRJcSxdXWdRlAK80zgUa4Z/GXi6fjyZQJkiexd2vfYrr9Oj0XO91uF7
-	 WBxJEWDszBDeF5GGPWkwAdzhJCBPzhgbx5roJywTUY47CyfCHlKH3C5s0yEx1PAAI8GPCqofqTrr
-	 qXecxlbWm0kB7WocpxS4S3Ah1a5IPsr6fiR5FehXWe3vz/PC4oftteA03AikEqsznXwWJgg6CktF
-	 DdK4mBrGzobzKhNjkGgzZfLyHY3aTNA7L3+3UFprG9nPkgqfWyoZxQDj5MWjNfEnmea7g9UjZAdM
-	 68VJZWjuw4cujoSMppGqKGEBu1NXklINrk88Aqp7KdHKDfkXB3fDh59eq/J7Azha4/o2iYb3+Jx4
-	 qZ8iV+GucNO0rMx7sWtxB817jWB+52QD+R6OTiWyCa29yOqMULjUzFvZX1/vQ7jG/Es+ePpDu5En
-	 Q5VGh4KNNtDag+IVgDs74I5YKKGsnc1x1bu8g7KQxQ6Q8xuVi2DBLHdJyOjSlRTwbXg3CxSr5+9O
-	 FJyT5qtY68xbOargjIpdou8k9H37z/fX5Sp6uDhvXztEGiiDLytJQn+B6Ul7D4AJvAf3qznt01DI
-	 pNqKBzaSf3MaybwXggIUHj93jGvziYl/TuCyx7efXP4X/fuY10ZQjHSLfzw3u0PtJlKJeuDZ+fvz
-	 P06Gp/Aje/IQruYAn0U6qBRfjhgfzCsb1JibiV0gfMVoGVnp6+8B/KtwQvqcURTnk0zn+7+Bdr8F
-	 DF5lNdpfhZXpM4VJvJw7jbvAuKk9rP8bWc5hpGUTkgZnCT7c0WMvu/uyIcg92NEYmo5mYyIrRS9U
-	 ciOkc/2yAsioev2Q==
-X-QQ-XMRINFO: OD9hHCdaPRBwq3WW+NvGbIU=
-From: Chen shuo <1289151713@qq.com>
-To: 1289151713@qq.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] staging: rtl8192e: remove the r8192E_dev.c's unnecessary brace
-Date: Wed,  8 May 2024 23:13:52 +0800
-X-OQ-MSGID: <20240508151352.6831-1-1289151713@qq.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="elilZSAP"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a59cac06ec3so14391266b.0
+        for <linux-staging@lists.linux.dev>; Thu, 09 May 2024 00:51:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1715241094; x=1715845894; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=M6xNzfhaoWFm6sJlVLBh3GSwTzYAxKnIt/VRGk/R2Mk=;
+        b=elilZSAP2Vx1T+74r6hW8LqW+4f/08IiVFmqKRUuuqDhOJqG0HCHUkh3D3PBXRTeKq
+         yQOgtHiqCmJOeB/2IqdvZjUSPSFbkzidgvHcYFrwqByoVa2W7KR2VwHxNc3efEw7afu+
+         dSWi0t83SlZ6HCtXUqXKU/MEgzR/aXaygRneCiFFk0ReCpKjjFLSFGCYwq5+POdEM8Gp
+         /iC30nODRIntFNbTk4n8ZJyOIdAXMGfptaYr80QcFB9lBkxO/8hxRhPsDHQIjE0KFCDY
+         P06CkVRjedEPG2dQlXQxX7Gt0CAIKBwkUA4g2BpORJ1hVuaK0XtGApY9KW0l3EVT4NsI
+         slaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715241094; x=1715845894;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=M6xNzfhaoWFm6sJlVLBh3GSwTzYAxKnIt/VRGk/R2Mk=;
+        b=gabAFixwzAMOMkJgWurQF+xKZM4Y8NPrLUmYUCMwqt9Vumjaq1f9zSFwSPj24bzOC3
+         h+8X+Qg9cweyDxs2qpjPiC+E3/rdX7vNjJ4PS4xSpq7mVfLS6DY8XYuUeqd+hQx3WKTp
+         pR2W+lf8M/tozm3t290zkmasJz4+G6JtbsKrRrFWRE3UFyjx8Bvmf/N/xf1+MmiWZxRv
+         vWLxloXtYD9nQruO5renkHcjcVhIsqDUDw19cNHurbDTu0OPYmVsD4mC/vl9cMprLWsF
+         hpAX1HFXksf21WIEg6AhcNWHPs/fopMfdkI5P6G8bvzZzJZN2Gt/AbP2kdEaB31fHtHa
+         T8SA==
+X-Forwarded-Encrypted: i=1; AJvYcCVixeZnwOooIWFn8EVGfPom1IrrNu3DnCiCLqccEpuhAykxqstZAagFUMsHX+/chNqrQHSLMbxGHkTJvXt9aIktJN6P9AYf/dGU4n2wKg==
+X-Gm-Message-State: AOJu0YwMkWr+fB1rzywrhCYJiMko4LYysj3idpy2LfZQINjaawv34Gv3
+	pNZyuARYrnbMl+pYmKBtKJVUsJsPd4iq8PzD5GhcQbNjeTdsrEKO
+X-Google-Smtp-Source: AGHT+IHFBKDCvOz55Wyv8QIEsf4C9hOee+D6I/ijudRZT079I4yTV8oRLt6pk1px/3473/B+DRXWwg==
+X-Received: by 2002:a05:6402:3894:b0:572:543c:70eb with SMTP id 4fb4d7f45d1cf-5731da28059mr3237730a12.2.1715241093597;
+        Thu, 09 May 2024 00:51:33 -0700 (PDT)
+Received: from [192.168.0.103] (p57935690.dip0.t-ipconnect.de. [87.147.86.144])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5733becfc24sm448399a12.42.2024.05.09.00.51.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 May 2024 00:51:33 -0700 (PDT)
+Message-ID: <190dcc76-7753-4191-8578-482c2942583d@gmail.com>
+Date: Thu, 9 May 2024 09:51:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] staging: rtl8192e: remove the r8192E_dev.c's
+ unnecessary brace
+To: Chen shuo <1289151713@qq.com>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <tencent_1992979C468AF087A1909000C6D0D5E61207@qq.com>
+Content-Language: en-US
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <tencent_1992979C468AF087A1909000C6D0D5E61207@qq.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-There is a unnecessary brace in r8192E_dev.c.Remove it to shorten
-code and improve readability.
+On 5/8/24 17:13, Chen shuo wrote:
+> There is a unnecessary brace in r8192E_dev.c.Remove it to shorten
+> code and improve readability.
+> 
+> Signed-off-by: Chen shuo <1289151713@qq.com>
+> ---
+> v2:Make "Subject" line more unique.
+>     Add space after : and driver name in the subject.
+> 
+>   drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+> index e3ed709a7674..1862a9899966 100644
+> --- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+> +++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+> @@ -1640,9 +1640,8 @@ bool rtl92e_get_rx_stats(struct net_device *dev, struct rtllib_rx_stats *stats,
+>   	if (stats->Length < 24)
+>   		stats->bHwError |= 1;
+>   
+> -	if (stats->bHwError) {
+> +	if (stats->bHwError)
+>   		return false;
+> -	}
+>   
+>   	stats->RxDrvInfoSize = pdesc->RxDrvInfoSize;
+>   	stats->RxBufShift = (pdesc->Shift) & 0x03;
 
-Signed-off-by: Chen shuo <1289151713@qq.com>
----
-v2:Make "Subject" line more unique.
-   Add space after : and driver name in the subject.
-
- drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-index e3ed709a7674..1862a9899966 100644
---- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-@@ -1640,9 +1640,8 @@ bool rtl92e_get_rx_stats(struct net_device *dev, struct rtllib_rx_stats *stats,
- 	if (stats->Length < 24)
- 		stats->bHwError |= 1;
- 
--	if (stats->bHwError) {
-+	if (stats->bHwError)
- 		return false;
--	}
- 
- 	stats->RxDrvInfoSize = pdesc->RxDrvInfoSize;
- 	stats->RxBufShift = (pdesc->Shift) & 0x03;
--- 
-2.34.1
-
+Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
