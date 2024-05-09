@@ -1,103 +1,99 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from sonic301-32.consmr.mail.ne1.yahoo.com (sonic301-32.consmr.mail.ne1.yahoo.com [66.163.184.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7500A13C8E1
-	for <linux-staging@lists.linux.dev>; Thu,  9 May 2024 07:51:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91F8A38DD4
+	for <linux-staging@lists.linux.dev>; Thu,  9 May 2024 17:19:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.163.184.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715241097; cv=none; b=hC+Lp02n+mdNWN42t4GqhxkN2D+Vh0Oc0Jz8XBXM/zjpFXZkgfl0HqVZONRFK6bOxsXIDX7g2RKCN4lSG1mBIdSDK+nFuGum2Wd3yKFRO74PNWtSC+yVhk6wlp/WC4EmRiXPYFIgGtTA+PbWYM2tzc6uKlx6CvLA2a3iN1zgN+4=
+	t=1715275180; cv=none; b=oItojSkLn52A6j6o2OiATP60dxTP0BSNL4IdKGfkl1DJFTyULgAGYPXpsD6tkez1WswKFPmzT8HtYT7s9sxh5RFVsl2T8U7amua9mGx2xUcA74XTYMO9HDzpzKvbuqAIpdAWOKB7VoKcXXLdLTmBb1LJDDRhhmsGsCM6A9pFoMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715241097; c=relaxed/simple;
-	bh=Qpetu/YpQMTZ8pAa1jeqlxfiWUijO299LmcayGsUaX8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=j2wQiMbWGl3eLZYFA4L9xwm5MYyOK9fxVFkysU0mKc0EJglq55Z6g4s/uwxjwVQK4XiOIKfmUsTP2gLHFaoIcE6mMkR0hoIVRHpU9/2RRXakeIH/f8QqCQb58nFpAYmptRrvY6WkqgmvuL4Ij+R/8pUb8hIkfwjfMz+4gDw3E7s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=elilZSAP; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1715275180; c=relaxed/simple;
+	bh=lPwiKuRV4pwIKYvBI0L3A7kueSDCMOHQdhNSH02aozE=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:References; b=X5uEU90i4xOORg1NZo3Z5J636r+IMzjaoeewLMQVszSXatSZFovl8D2gOnUFS2/X+2Y/xOOPAwI2j6HoB7y/fSk0JNDz543YKWrq4w+N02WEVXWucsOfB7tlTcHIHPiUpRmTVI6c5UHeiagwmd4nAJ9RtIlKZYGZ5t8NzIPeW7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com; spf=pass smtp.mailfrom=yahoo.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=E/sGQ9XS; arc=none smtp.client-ip=66.163.184.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="elilZSAP"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a59cac06ec3so14391266b.0
-        for <linux-staging@lists.linux.dev>; Thu, 09 May 2024 00:51:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715241094; x=1715845894; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=M6xNzfhaoWFm6sJlVLBh3GSwTzYAxKnIt/VRGk/R2Mk=;
-        b=elilZSAP2Vx1T+74r6hW8LqW+4f/08IiVFmqKRUuuqDhOJqG0HCHUkh3D3PBXRTeKq
-         yQOgtHiqCmJOeB/2IqdvZjUSPSFbkzidgvHcYFrwqByoVa2W7KR2VwHxNc3efEw7afu+
-         dSWi0t83SlZ6HCtXUqXKU/MEgzR/aXaygRneCiFFk0ReCpKjjFLSFGCYwq5+POdEM8Gp
-         /iC30nODRIntFNbTk4n8ZJyOIdAXMGfptaYr80QcFB9lBkxO/8hxRhPsDHQIjE0KFCDY
-         P06CkVRjedEPG2dQlXQxX7Gt0CAIKBwkUA4g2BpORJ1hVuaK0XtGApY9KW0l3EVT4NsI
-         slaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715241094; x=1715845894;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=M6xNzfhaoWFm6sJlVLBh3GSwTzYAxKnIt/VRGk/R2Mk=;
-        b=gabAFixwzAMOMkJgWurQF+xKZM4Y8NPrLUmYUCMwqt9Vumjaq1f9zSFwSPj24bzOC3
-         h+8X+Qg9cweyDxs2qpjPiC+E3/rdX7vNjJ4PS4xSpq7mVfLS6DY8XYuUeqd+hQx3WKTp
-         pR2W+lf8M/tozm3t290zkmasJz4+G6JtbsKrRrFWRE3UFyjx8Bvmf/N/xf1+MmiWZxRv
-         vWLxloXtYD9nQruO5renkHcjcVhIsqDUDw19cNHurbDTu0OPYmVsD4mC/vl9cMprLWsF
-         hpAX1HFXksf21WIEg6AhcNWHPs/fopMfdkI5P6G8bvzZzJZN2Gt/AbP2kdEaB31fHtHa
-         T8SA==
-X-Forwarded-Encrypted: i=1; AJvYcCVixeZnwOooIWFn8EVGfPom1IrrNu3DnCiCLqccEpuhAykxqstZAagFUMsHX+/chNqrQHSLMbxGHkTJvXt9aIktJN6P9AYf/dGU4n2wKg==
-X-Gm-Message-State: AOJu0YwMkWr+fB1rzywrhCYJiMko4LYysj3idpy2LfZQINjaawv34Gv3
-	pNZyuARYrnbMl+pYmKBtKJVUsJsPd4iq8PzD5GhcQbNjeTdsrEKO
-X-Google-Smtp-Source: AGHT+IHFBKDCvOz55Wyv8QIEsf4C9hOee+D6I/ijudRZT079I4yTV8oRLt6pk1px/3473/B+DRXWwg==
-X-Received: by 2002:a05:6402:3894:b0:572:543c:70eb with SMTP id 4fb4d7f45d1cf-5731da28059mr3237730a12.2.1715241093597;
-        Thu, 09 May 2024 00:51:33 -0700 (PDT)
-Received: from [192.168.0.103] (p57935690.dip0.t-ipconnect.de. [87.147.86.144])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5733becfc24sm448399a12.42.2024.05.09.00.51.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 May 2024 00:51:33 -0700 (PDT)
-Message-ID: <190dcc76-7753-4191-8578-482c2942583d@gmail.com>
-Date: Thu, 9 May 2024 09:51:32 +0200
+	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="E/sGQ9XS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1715275172; bh=NZbNRrxw4TZ5GUHo6xbduEkO3V+u7bBWuS3fZOqgnWw=; h=Date:From:To:Subject:References:From:Subject:Reply-To; b=E/sGQ9XSQAInYBcCAr59IhHBQXni3bhPlU8Kgm/Pj2cAKpb7uaK7/kw+fMjFppy3kOTBmW/jtCEybtg5MTLzsOTnCCpr3HUpu3TzWcIfIFQDJQu5759hjR4DtUBtmkafrOO2eNix8t9aF0lAj3kIdV8dhv5SfVUOu3od6OcBe3c4z4WpnsMxptvobPv1Pk8OeKjm3LRk4bVIS966ZDuofIppwtnj7qdm/nxtGlN663ayGGissB3ntg5xnJa1hlEnF12BJavjN7OlsU/yXiv2o01KflE0vMWU4TdLKYnq6cZMTc2ReWhkGOoPzFr2U2SdTFjFh1XMYh0PonQNfyaVhw==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1715275172; bh=6PzBqGn1mN9HfO1K0PxSsW8pRPgg8FNbGJqdYvpAzIJ=; h=X-Sonic-MF:Date:From:To:Subject:From:Subject; b=TctDPwm9EgDLpZ/B2h55RnpXsINTP9p71zzI1BEiiBtvCvHK6dA3/YCzFgbDwKRsiuNglTgrYhgeBY1S5cYEoIAwID4w9u0NbQiayRURmi9d2MMmwwsXsXZ1t3lVdtm5xtJQAaBjeFmIqsoPSuDJHnVnZHkFuDjGQO4WAusoiaDmaGgDMcCiCcCX5rrPEDZcznVLcT18OXAJPjoWb18iqc9jLoepNM/HF9eM8gy16Nyy+IP4NelqwaY673PQgNBkgl51wGW0u49MaGfl2s9nRFwNvw2WvzsJXeTqNCGcpSN3W+jM1pKVDE/z5LM71ZbT2Vl8hCQNwbGRTpIfTt3bHw==
+X-YMail-OSG: PkdX.QkVM1kpyhiQ7hOHI.512rSweFleKGxwxW59QRIDbtep3ObYtuyUTwSuxff
+ AGaSjyJQsnB6yDFrwLl5iVQ3dNJ6YOFVA4fptDODHPf_y9mSfTjaD9McrOuOCsf6vGNW3MEZHk49
+ jA.xARcbFCCqbR14Nq7JCBA_KrFXRu8m3g81G_Dmz.XnIH4mr_t6npgLLarcq.V2jsucCDS1m2Jk
+ oEZViNZo_Ls78C91WAAeCRs_vEGQMns8eR4jdjXN14gdiwGcF5IA4BAARXHxZ_L0AXdb2E2G3hFz
+ 75lwFDVVypkctsXxNYeVYqhbgJD0NwUHycxRPNaZKO7gjO3YHFSxtZ.zqK7SeTITncn6C09nczVA
+ CXfSohnBV4vNf0FqPfMe4GBCX.5ahxuh6xeKk_M4OwSWmDK6rXmlsEGxtMxheds5Pkrh82p9Hl5a
+ eQWiayE2GYQlRmfZeDjzFb53uupFXxYxm00Pzgznc0yrPOmAXE.n4pbOe7AD1OW70Bwht9tjyMgW
+ b2cq2c_3BbF3xEMti2hM8l_SlsQ1q6rGUDDlFICDJ4s7fhsgPGknwJslqXrBznmhhYhguiatRJXg
+ KtS.RiZhpvCYt0Uc9o0H4f7enyEXGqjpRC1RFasWtRRPMUdLRsWgL8e3GfzfKhqz6Gfsaq0MCgxu
+ 0rqWszq_Y4_iB0YJo6_C.bt8BOoyKkWsxqYE49lsLKFgGSZZ7yorp25FxAlM2ks4erHf9I0EoGSW
+ asSbVHGJyCZ_w2JDWLOLg6iNVnMozj.dE.ua_L6kCF.KqLFr7guemEyuWiGLoYCoVpboEn6k9OK_
+ QKj1ZNkU6BB0DuNqYdfjNadhZE3yJvhOxBjfO2LmwJ7h56qvpeqfhCH5990jorXPK4vpeS12Ap8J
+ HkeY8g2vSdQqCBZSizCOeWWPljDPopP5a7JmxNRDqkrynzoLXCgAk6KQ0O0m_0t2W0hGZgg87wF1
+ aLpmntWbCcLlC6dJR7ZQrMgodV460CrRrg1qBAeGsKmbUFBm7joDLK6wMyeur9PjX3Q7xLYlYN2E
+ BEaPipw3TSD3xeDLOam3EaIN4o9viXOTasTRC_6871iskeYLJ6hgPwIV_10BlpG2QmazMxC_Yd_x
+ ymLm.ThPVTNmB.K5nWl5FbBzWg8JljuH5yvyvzcdZPSGQsvCCVJcWsDkPRlzt70ZBwQYOq09anuP
+ SyOtbvNgUisYCxgyikZX9Brf.tx4LJV9p6b28W2enzdiMZv4INj6bvKN2AbJetGrHaiOLSxcvD4Y
+ p3tBIK51D8hpbzZLC6xYUn0.y2YDonFezMIbMpngkJ1LdsS66Nl40FfPp2lteqtJvlAVtufr5GLE
+ I6bf6kl07TBCZN3L59QNceTG22lDe4C40E1qm4Rr7_b2iNmURWKr9mLBHECB98t4V4CIBalf8YH9
+ _mcUJP_a4R55nOWd.0VN31up_HbQ1DBsX0ds_CRBibSl8DlIvZI8.3oKsQEPrTOYZcGU2MiwK9Xv
+ 3HWcsQKjB_7fEsXuN0kSF8rJQhQ4CPZrYEHo65LvNbnMe9SFC0PmYFkymEcw7XyV1VSY5RvJaVDX
+ 3IeeFx8r_z9SeU3v5KrZ0idxMvLuZU9tiNsYZGZDaJXDaZgAw.jiy.szEZIMt_5yxETOLkiWn2Vf
+ ATR1_IjwgvJGkos5Ki9bodAMtycLm1ibnGuB8ZtXX9ahIDAbwRKtbN.C4nWnlHfjw7aL5sU4v1OV
+ mdpcCflLVin2haFqC7Gi_gjA0Coxsn_cFg73mdH3VxvqJS7J5vTPJkof7HVGGAMxFFNG29cM6q9o
+ UYGKEWV0Unv3_GGPu4VXJ3wx9GKRR0PIWCvq0sCsYGMR780K0yuOGET3jeQ73m79exLF.jMMvCWM
+ qHpUsdxEfyw7MAUiIZus_0BER_N6aUtRDj2o3OsKRsBqaZ8WfMmvfsHbDOEiof.t3CEvYkPyFTF5
+ c3TKCjl3q4MofUDMMMlhYLZnO.kfqpJg0.KwRv29iF.o.ZJ20zfNzIQFK1lK1ZunWVd6gbmKBYdR
+ NaCA6CMmMN0xq4IPpsacONpQLsGtgi7o0eUklNph_jVV_EonFhLQaW36Ji047gqf6.4CTFXpq2kS
+ 7SHGeg_x9XttOrknHlHix61fWTBwih3G4PXXbVvt5A6AstCbqd__7jLjQnYOesn8p7rKkPRXsJdZ
+ 382CdREwKOniRcxTqHvI6U9FI9Y3MzB7fGVU89c_lZRzoA.UALDNvtwX.S_CTe4vnhYpR5qfcLJV
+ 4Yzl0VgX.bzMUwXpK1wzoxDp.dpYm4_SkFSKeq7LjD.2srIBDXx9yWjP6rlkxoKjVFz5mXC01x6g
+ zGg--
+X-Sonic-MF: <ashokemailat@yahoo.com>
+X-Sonic-ID: baa26a51-26d1-4fe6-8191-d04c43177dae
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic301.consmr.mail.ne1.yahoo.com with HTTP; Thu, 9 May 2024 17:19:32 +0000
+Received: by hermes--production-bf1-5cc9fc94c8-dv569 (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 6f8786067ae67dbd6de1c4462c36a576;
+          Thu, 09 May 2024 17:19:26 +0000 (UTC)
+Date: Thu, 9 May 2024 10:19:23 -0700
+From: Ashok Kumar <ashokemailat@yahoo.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev
+Subject: [PATCH] staging:vme_user: Add blank line after struct decl
+Message-ID: <Zj0Fm+vBdzPHlZKS@c>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] staging: rtl8192e: remove the r8192E_dev.c's
- unnecessary brace
-To: Chen shuo <1289151713@qq.com>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <tencent_1992979C468AF087A1909000C6D0D5E61207@qq.com>
-Content-Language: en-US
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <tencent_1992979C468AF087A1909000C6D0D5E61207@qq.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+References: <Zj0Fm+vBdzPHlZKS.ref@c>
+X-Mailer: WebService/1.1.22321 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
 
-On 5/8/24 17:13, Chen shuo wrote:
-> There is a unnecessary brace in r8192E_dev.c.Remove it to shorten
-> code and improve readability.
-> 
-> Signed-off-by: Chen shuo <1289151713@qq.com>
-> ---
-> v2:Make "Subject" line more unique.
->     Add space after : and driver name in the subject.
-> 
->   drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c | 3 +--
->   1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-> index e3ed709a7674..1862a9899966 100644
-> --- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-> +++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-> @@ -1640,9 +1640,8 @@ bool rtl92e_get_rx_stats(struct net_device *dev, struct rtllib_rx_stats *stats,
->   	if (stats->Length < 24)
->   		stats->bHwError |= 1;
->   
-> -	if (stats->bHwError) {
-> +	if (stats->bHwError)
->   		return false;
-> -	}
->   
->   	stats->RxDrvInfoSize = pdesc->RxDrvInfoSize;
->   	stats->RxBufShift = (pdesc->Shift) & 0x03;
+Added blank line after struct declarions for improving readability indicated by
+checkpatch.pl
 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Signed-off-by: Ashok Kumar <ashokemailat@yahoo.com>
+---
+ drivers/staging/vme_user/vme_user.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/staging/vme_user/vme_user.c b/drivers/staging/vme_user/vme_user.c
+index 36183f923768..5829a4141561 100644
+--- a/drivers/staging/vme_user/vme_user.c
++++ b/drivers/staging/vme_user/vme_user.c
+@@ -106,6 +106,7 @@ static struct vme_dev *vme_user_bridge;		/* Pointer to user device */
+ static const struct class vme_user_sysfs_class = {
+ 	.name = DRIVER_NAME,
+ };
++
+ static const int type[VME_DEVS] = {	MASTER_MINOR,	MASTER_MINOR,
+ 					MASTER_MINOR,	MASTER_MINOR,
+ 					SLAVE_MINOR,	SLAVE_MINOR,
+-- 
+2.34.1
+
