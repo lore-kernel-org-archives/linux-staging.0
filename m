@@ -1,216 +1,108 @@
-Received: from wfhigh1-smtp.messagingengine.com (wfhigh1-smtp.messagingengine.com [64.147.123.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE40C14F9E6
-	for <linux-staging@lists.linux.dev>; Fri, 10 May 2024 10:37:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6207712C817
+	for <linux-staging@lists.linux.dev>; Fri, 10 May 2024 13:40:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715337423; cv=none; b=iNY2Y6cGZQYGeUOmVwQQ2Nvk95BipauvNczMItQK+KcYeIzOaZ9kKxZdqrTl3EzyrthldqZgDsTxTZBOpa8a6U+9ynhso1LKs8zsW7kjVL+osszl1fE4RrwK9o4Z/imgcXvltlp2GLXK4EvpN6DciF1RUUlzNPIpbTmq0Ng3OmA=
+	t=1715348411; cv=none; b=ecdR/MKdDfpdLLsoCPQGMRCB/pNr2N0imRGSBmLA+ehTxQPJcSbtq0j+XvWBRiyrXGGOsDx/9O++QDs4gKVAWgre1QFzzyuf+qSgMoIamM1xFGZxuORHBgUwOqFuveKqFkmlnBTz7yDpbHQ2wp+OSJJy9q69d4Dak15ALDKDJdc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715337423; c=relaxed/simple;
-	bh=r4vlle9Q4FBfYXrlUcWN+QXO6xywT5pj1pyhtpsJ9E4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U+TJ+UIB20X7pUtbMXXsnaXMBRRZzQdDk3Ty6O4llrcH27vxam6miLOjBEsBbm2h9+Ckj3tDsPBorJ7kpMj/+FZTKiJy093DBgtDk2FVH0GLJRtgJ4YMnZTxCWz9UX9w0HHHd3jmnmmu4dykosSchfEzsdpuqd4o9XMhHuBUZDk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=hGRornFA; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=KNIx4kEe; arc=none smtp.client-ip=64.147.123.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+	s=arc-20240116; t=1715348411; c=relaxed/simple;
+	bh=1XGNUjPVitKhhjXuO83/2GVp0nYJ0Aeb9pCB5XMr1n4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=A56SU5/YN5eO4P9XgJ1awx9ono8Rn0Sua2iZsYWDd41hPiss8iKAnH+4cDQPqBWzkbdlt7KGoad0qfrWqxqPYHesJT4WsnZazBY9+AvwOXUNoFml6hLP5GNen/MroYvI7IRx8WVsG1XPyvyft738aITmlJtXYS3i3jKHOD37EKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q4dPs5Fa; arc=none smtp.client-ip=209.85.216.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="hGRornFA";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="KNIx4kEe"
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailfhigh.west.internal (Postfix) with ESMTP id 7E19B180008D;
-	Fri, 10 May 2024 06:36:59 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Fri, 10 May 2024 06:37:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1715337419;
-	 x=1715423819; bh=a6SzMKs+Z1WRrGQJpaTEfFEyTutJDtN23fi5/2iHtRg=; b=
-	hGRornFAdAw+shjFh/OJjggz+InUN4Og/GwS61RPD8rpCzqMmCbcR9/xoOUGl3dF
-	42f5Aa5vYS7eVHijjo8IzRGq5Vkuj2vcnZhEQ8rDNhXxvwkKyxLGjk96bLAIgQWu
-	v/LgoHCcfoF4cieGP8OGMiy3gkBUjswE2h4n+TVlP3LN7SHSLpq/ZAn5qok4P53w
-	w/J7J9B+FZ3avg7eYP5iujhdhS/rtea9u8Q6cGcsgzL1PENhnrbNCkyiJ+O1Eu3l
-	u5N6unkqnD2ooLYoR/Y0sz5jrOR0JuFpQ/qKQ51o/oI2ak76xNie3gIp167/1aFF
-	gG6Lq8YdBTkeTtPzub5TTA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1715337419; x=
-	1715423819; bh=a6SzMKs+Z1WRrGQJpaTEfFEyTutJDtN23fi5/2iHtRg=; b=K
-	NIx4kEeLXbChZE4+Y+AigXr9HUyb8VOJzHXQdAHkfjoZv7vRXVJUUj2EZpnBw5Ei
-	1ytapo61Qg3Goxt8O44mAlon41t+OuJdOv4aZI2lWFrFLA/fDNDwsAjz+I5d9J61
-	suzlTAhEtpFgTuUK2HXkt4YfKjT1t9UlA9gMYoXwzP+pJ0FLpBv9HTpKteB+h47m
-	gxGrJn+MvMmBGypGLEtSnh6DCVwTERhgMSPMryrjgOCVpcNzOD4wOtO5mRaPq7LA
-	dRBdIYKtRvjf4iP4uy4HbZuXdZM7GAr2cR+HtHrCTR54yeoYpG0AiDbC67eHuF+L
-	YSmZPdZRU5X2TroHtojQg==
-X-ME-Sender: <xms:yvg9ZuNzpg71JVukbMpvkhD9rMLj-AH_RbU7J8l8YhG_04onvAu-5Q>
-    <xme:yvg9Zs9lN8AGS1o5ObIzorgDaYcQqRTP4tgteguL6yeULiABycSVbDu_H_BCtQtBW
-    74eDPh7uKfJb2R3qz0>
-X-ME-Received: <xmr:yvg9ZlSrQvEe7sb5N841Z54LxVFdlTei4AItd8ZxohwjAWfYsK8eoIm4JubAy73mupt9zcnRgy7EwhR8XoEWLjSOXLACVxE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdefkedgfedtucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhk
-    lhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnh
-    gvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeefhfellefh
-    ffejgfefudfggeejlefhveehieekhfeulefgtdefueehffdtvdelieenucevlhhushhtvg
-    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggv
-    rhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
-X-ME-Proxy: <xmx:yvg9ZuvWo63nEFrbTpzfXtSjsr_emTD_tUDtVm6iWox6o3KI3XDv7A>
-    <xmx:yvg9ZmdowUjAqRqVfEpgtnn1CSYaUmHF4pxkIZ8Amr8XO0yaDrPE6A>
-    <xmx:yvg9Zi2aANAlsu8adl0SMI3Tgc3hkOW2NovpKmZMfjksZtCXULZz0A>
-    <xmx:yvg9Zq-k37Q8m570KjXvnrYKGDmim2gC2uR8ZAvxlVHnPMedscKVbw>
-    <xmx:y_g9ZnXi_npQ0FSYxolD9ztujz-UzQf9wlNglXvhfFEP19BYIAaV1pTv>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 10 May 2024 06:36:58 -0400 (EDT)
-Date: Fri, 10 May 2024 12:36:56 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] media: staging: max96712: Store format in subdev active
- state
-Message-ID: <20240510103656.GB2165064@ragnatech.se>
-References: <20240510100347.102392-1-niklas.soderlund+renesas@ragnatech.se>
- <20240510101340.GG6407@pendragon.ideasonboard.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q4dPs5Fa"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-2b5f3e20615so1842014a91.1
+        for <linux-staging@lists.linux.dev>; Fri, 10 May 2024 06:40:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1715348410; x=1715953210; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=S1ijVzsoPBDrirJugKDkdAFNChA4uJX+cHWvWwlSmVM=;
+        b=Q4dPs5Fau7A1SvfVsvibsLEC8our/4uOY6BvujmGGroXwWhCj1oYvBM0rzZhD5KqNK
+         ziS1dTR+ihA6IPannGhc2U32/y2syjVDv2qzb9cRqleHJiJsT5W0+gFzlmcZfQmpcfLW
+         fpy2LPi31GuJwgID5GbiSYHdDzzJoqm0aExiZCaMLJbwW+8tp7dxiJiKM+GsKi6H+HR7
+         C6ZYafCMMOI2HZec3z4tGzCQGULZ/oDOV8cFoXoZx7wFnbKKTfw2SGhhHQoSWgFgIGjf
+         k8aICy6Pg2kS3eGjmsZg4hlxY+H3ugkhK2g6U3SEhMCLxtv+UxXFmeeSCAchNSwoZWNV
+         +J4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715348410; x=1715953210;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=S1ijVzsoPBDrirJugKDkdAFNChA4uJX+cHWvWwlSmVM=;
+        b=ZcZZtJAlCmjhrLEeAIo86Ef+TaYDFYCko2WxdWkxUNremrLw8cu78I3Ig8mq39CXeE
+         +b1UhyJMl+n9qc8Ap94UDLZHT0qEeReYysb+mIakNk0OmGGvxiaUCQM4A9ES4i3GbZtT
+         ENmQx79NbSGLpaejKpphuoVInMj4NNPyRumVbvOalp6YO9mtTCEoJEdEuqpzRMPMRRbI
+         nez0vDN8b6WskhPSaHtWhxzpqBp7KYdmbzEDUBqaeTcrtdUwjKLQehJJ01DHlTkcCtOr
+         cm+mPH6BKTVTAXhje0i56E8rda4exRU0NYwOwh4oAwEYpCgHf8JmcXI+FwTe3E6GyfPE
+         StKw==
+X-Forwarded-Encrypted: i=1; AJvYcCWcxL6h5Lr6JCGkAECCfFTX28Beht/mM2WEFSjMCeysSeNKbdQMtQoY+kO/vrpJprzKyJqwy8nnXhFLg6pcktdWxwSJ6n0d4IufYGhlwA==
+X-Gm-Message-State: AOJu0YzHQCz6Su8kgzpzlfBJQER8c6g09kXY6d3GiYXh8ePeYgl+Vn6p
+	32cdMQzsQ/6tiTJ2u3v0ffj5at+VSq3+JYak6SsuLzS5I1Osh27l
+X-Google-Smtp-Source: AGHT+IFUrsug2vB+Pywt/1aiWlfZ+P8BRoZJhjnnpH2KLKhCUWHRA1t0jNHtItXsQrecDk+9Y0YsEg==
+X-Received: by 2002:a17:90a:9281:b0:2b2:b99f:4d5b with SMTP id 98e67ed59e1d1-2b6cc454828mr2539648a91.18.1715348409574;
+        Fri, 10 May 2024 06:40:09 -0700 (PDT)
+Received: from ubuntukernelserver.. ([49.236.212.182])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2b628ca5109sm5074148a91.38.2024.05.10.06.40.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 May 2024 06:40:09 -0700 (PDT)
+From: Roshan Khatri <topofeverest8848@gmail.com>
+To: hdegoede@redhat.com,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	hpa@redhat.com,
+	andy.shevchenko@gmail.com,
+	gregkh@linuxfoundation.org
+Cc: Roshan Khatri <topofeverest8848@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: atomisp: Fix spelling mistakes in atomisp_platform.h
+Date: Fri, 10 May 2024 19:25:00 +0545
+Message-Id: <20240510134000.23848-1-topofeverest8848@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240510101340.GG6407@pendragon.ideasonboard.com>
 
-Hello Laurent,
+Codespell reported misspelled streams and corresponding in
+atomisp_platform.h. This patch fixes the misspellings.
 
-Thanks for your feedback.
+Signed-off-by: Roshan Khatri <topofeverest8848@gmail.com>
+---
+ .../staging/media/atomisp/include/linux/atomisp_platform.h    | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-On 2024-05-10 13:13:40 +0300, Laurent Pinchart wrote:
-> Hi Niklas,
-> 
-> Thank you for the patch.
-> 
-> On Fri, May 10, 2024 at 12:03:47PM +0200, Niklas Söderlund wrote:
-> > Create and store the subdevice format in the subdevices active state.
-> > This change do not have a huge effect on the driver as it do not yet
-> > support changing the format.
-> > 
-> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > ---
-> > Hello,
-> > 
-> > This change is mostly to align all driver used in the R-Car VIN pipeline
-> > to use the same set of API and to make it easier to extend them in
-> > tandem going forward.
-> > 
-> > This should be seen as a compliment to Jacopo's larger work in "[PATCH
-> > v3 00/11] media: renesas: rcar-csi2: Use the subdev active state" which
-> > updates other drivers in the VIN pipeline to use the active state.
-> > ---
-> >  drivers/staging/media/max96712/max96712.c | 36 +++++++++++++++++------
-> >  1 file changed, 27 insertions(+), 9 deletions(-)
-> > 
-> > diff --git a/drivers/staging/media/max96712/max96712.c b/drivers/staging/media/max96712/max96712.c
-> > index c44145284aa1..2da65ccd2c57 100644
-> > --- a/drivers/staging/media/max96712/max96712.c
-> > +++ b/drivers/staging/media/max96712/max96712.c
-> > @@ -242,21 +242,34 @@ static const struct v4l2_subdev_video_ops max96712_video_ops = {
-> >  	.s_stream = max96712_s_stream,
-> >  };
-> >  
-> > -static int max96712_get_pad_format(struct v4l2_subdev *sd,
-> > -				   struct v4l2_subdev_state *sd_state,
-> > -				   struct v4l2_subdev_format *format)
-> > +static int max96712_init_state(struct v4l2_subdev *sd,
-> > +			       struct v4l2_subdev_state *state)
-> >  {
-> > -	format->format.width = 1920;
-> > -	format->format.height = 1080;
-> > -	format->format.code = MEDIA_BUS_FMT_RGB888_1X24;
-> > -	format->format.field = V4L2_FIELD_NONE;
-> > +	static const struct v4l2_mbus_framefmt default_fmt = {
-> > +		.width          = 1920,
-> > +		.height         = 1080,
-> > +		.code           = MEDIA_BUS_FMT_RGB888_1X24,
-> > +		.colorspace     = V4L2_COLORSPACE_SRGB,
-> > +		.field          = V4L2_FIELD_NONE,
-> > +		.ycbcr_enc      = V4L2_YCBCR_ENC_DEFAULT,
-> > +		.quantization   = V4L2_QUANTIZATION_DEFAULT,
-> > +		.xfer_func      = V4L2_XFER_FUNC_DEFAULT,
-> > +	};
-> > +	struct v4l2_mbus_framefmt *fmt;
-> > +
-> > +	fmt = v4l2_subdev_state_get_format(state, 0);
-> > +	*fmt = default_fmt;
-> >  
-> >  	return 0;
-> >  }
-> >  
-> > +static const struct v4l2_subdev_internal_ops max96712_internal_ops = {
-> > +	.init_state = max96712_init_state,
-> > +};
-> > +
-> >  static const struct v4l2_subdev_pad_ops max96712_pad_ops = {
-> > -	.get_fmt = max96712_get_pad_format,
-> > -	.set_fmt = max96712_get_pad_format,
-> > +	.get_fmt = v4l2_subdev_get_fmt,
-> > +	.set_fmt = v4l2_subdev_get_fmt,
-> >  };
-> >  
-> >  static const struct v4l2_subdev_ops max96712_subdev_ops = {
-> > @@ -293,6 +306,7 @@ static int max96712_v4l2_register(struct max96712_priv *priv)
-> >  	long pixel_rate;
-> >  	int ret;
-> >  
-> > +	priv->sd.internal_ops = &max96712_internal_ops;
-> >  	v4l2_i2c_subdev_init(&priv->sd, priv->client, &max96712_subdev_ops);
-> >  	priv->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-> >  	priv->sd.entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
-> > @@ -324,6 +338,10 @@ static int max96712_v4l2_register(struct max96712_priv *priv)
-> >  
-> >  	v4l2_set_subdevdata(&priv->sd, priv);
-> >  
-> 
-> I think it would be nice to already use the control handler lock as the
-> active state lock. Apart from that, the patch looks good to me.
-
-I also worked on this to learn a bit more about the active state API. I 
-assume what you are asking for here is ?
-
-    priv->sd.state_lock = priv->ctrl_handler.lock;
-
-What is the rational for using the control handler lock over the default 
-state lock? I checked Jacopo's series when working on this and there he 
-uses no lock for the R-Car CSI-2 driver and a private driver global 
-state lock for ADV748x.
-
-> 
-> > +	ret = v4l2_subdev_init_finalize(&priv->sd);
-> > +	if (ret)
-> > +		goto error;
-> > +
-> >  	ret = v4l2_async_register_subdev(&priv->sd);
-> >  	if (ret < 0) {
-> >  		dev_err(&priv->client->dev, "Unable to register subdevice\n");
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
-
+diff --git a/drivers/staging/media/atomisp/include/linux/atomisp_platform.h b/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
+index 487ef5846c24..9f55f0b65864 100644
+--- a/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
++++ b/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
+@@ -134,7 +134,7 @@ struct atomisp_platform_data {
+ };
+ 
+ /*
+- *  Sensor of external ISP can send multiple steams with different mipi data
++ *  Sensor of external ISP can send multiple streams with different mipi data
+  * type in the same virtual channel. This information needs to come from the
+  * sensor or external ISP
+  */
+@@ -156,7 +156,7 @@ struct atomisp_input_stream_info {
+ 	/*
+ 	 * if more isys_configs is more than 0, sensor needs to configure the
+ 	 * input format differently. width and height can be 0. If width and
+-	 * height is not zero, then the corresponsing data needs to be set
++	 * height is not zero, then the corresponding data needs to be set
+ 	 */
+ 	struct atomisp_isys_config_info isys_info[MAX_STREAMS_PER_CHANNEL];
+ };
 -- 
-Kind Regards,
-Niklas Söderlund
+2.34.1
+
