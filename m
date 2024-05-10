@@ -1,108 +1,190 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6207712C817
-	for <linux-staging@lists.linux.dev>; Fri, 10 May 2024 13:40:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B588F171657
+	for <linux-staging@lists.linux.dev>; Fri, 10 May 2024 15:27:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715348411; cv=none; b=ecdR/MKdDfpdLLsoCPQGMRCB/pNr2N0imRGSBmLA+ehTxQPJcSbtq0j+XvWBRiyrXGGOsDx/9O++QDs4gKVAWgre1QFzzyuf+qSgMoIamM1xFGZxuORHBgUwOqFuveKqFkmlnBTz7yDpbHQ2wp+OSJJy9q69d4Dak15ALDKDJdc=
+	t=1715354864; cv=none; b=lAJvPFcAMfY59RHbOHH3cl3XmjioitfbCYF2OcRc5YD3TTWEGwaBO39oz+sfu+J6ABhqiSgrNhp9UOyOszC2D0W7alc/L7ZFcCBbm4rUiL4AS8Y5GgD9GQRq9GgR2fVfEP983ZDt8NwzAIPoiP8LJNR78cDbqQuVUYrRKwMrEQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715348411; c=relaxed/simple;
-	bh=1XGNUjPVitKhhjXuO83/2GVp0nYJ0Aeb9pCB5XMr1n4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=A56SU5/YN5eO4P9XgJ1awx9ono8Rn0Sua2iZsYWDd41hPiss8iKAnH+4cDQPqBWzkbdlt7KGoad0qfrWqxqPYHesJT4WsnZazBY9+AvwOXUNoFml6hLP5GNen/MroYvI7IRx8WVsG1XPyvyft738aITmlJtXYS3i3jKHOD37EKk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q4dPs5Fa; arc=none smtp.client-ip=209.85.216.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1715354864; c=relaxed/simple;
+	bh=HtbqmLUZz/ngyjRLWPxq0lgnSYUAb9OCTTlLybCIDZA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OtKnPKO9DrhG0gMH24bRDqFw0M+rfTtk4Hnsa6SpzA1sgFI4JFCrFX9S8xJ+zMnuM3aFnll9ZxA+NOSbGWgDxGELruPc8Gshf8ny/5+OadKBdkinwo0gZaCiBpQWyIcrY6aS7NYyEPqABdj79b7IfzfwjTWBSu7CshG2TJNa048=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=oaKJw+K5; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q4dPs5Fa"
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-2b5f3e20615so1842014a91.1
-        for <linux-staging@lists.linux.dev>; Fri, 10 May 2024 06:40:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715348410; x=1715953210; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=S1ijVzsoPBDrirJugKDkdAFNChA4uJX+cHWvWwlSmVM=;
-        b=Q4dPs5Fau7A1SvfVsvibsLEC8our/4uOY6BvujmGGroXwWhCj1oYvBM0rzZhD5KqNK
-         ziS1dTR+ihA6IPannGhc2U32/y2syjVDv2qzb9cRqleHJiJsT5W0+gFzlmcZfQmpcfLW
-         fpy2LPi31GuJwgID5GbiSYHdDzzJoqm0aExiZCaMLJbwW+8tp7dxiJiKM+GsKi6H+HR7
-         C6ZYafCMMOI2HZec3z4tGzCQGULZ/oDOV8cFoXoZx7wFnbKKTfw2SGhhHQoSWgFgIGjf
-         k8aICy6Pg2kS3eGjmsZg4hlxY+H3ugkhK2g6U3SEhMCLxtv+UxXFmeeSCAchNSwoZWNV
-         +J4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715348410; x=1715953210;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=S1ijVzsoPBDrirJugKDkdAFNChA4uJX+cHWvWwlSmVM=;
-        b=ZcZZtJAlCmjhrLEeAIo86Ef+TaYDFYCko2WxdWkxUNremrLw8cu78I3Ig8mq39CXeE
-         +b1UhyJMl+n9qc8Ap94UDLZHT0qEeReYysb+mIakNk0OmGGvxiaUCQM4A9ES4i3GbZtT
-         ENmQx79NbSGLpaejKpphuoVInMj4NNPyRumVbvOalp6YO9mtTCEoJEdEuqpzRMPMRRbI
-         nez0vDN8b6WskhPSaHtWhxzpqBp7KYdmbzEDUBqaeTcrtdUwjKLQehJJ01DHlTkcCtOr
-         cm+mPH6BKTVTAXhje0i56E8rda4exRU0NYwOwh4oAwEYpCgHf8JmcXI+FwTe3E6GyfPE
-         StKw==
-X-Forwarded-Encrypted: i=1; AJvYcCWcxL6h5Lr6JCGkAECCfFTX28Beht/mM2WEFSjMCeysSeNKbdQMtQoY+kO/vrpJprzKyJqwy8nnXhFLg6pcktdWxwSJ6n0d4IufYGhlwA==
-X-Gm-Message-State: AOJu0YzHQCz6Su8kgzpzlfBJQER8c6g09kXY6d3GiYXh8ePeYgl+Vn6p
-	32cdMQzsQ/6tiTJ2u3v0ffj5at+VSq3+JYak6SsuLzS5I1Osh27l
-X-Google-Smtp-Source: AGHT+IFUrsug2vB+Pywt/1aiWlfZ+P8BRoZJhjnnpH2KLKhCUWHRA1t0jNHtItXsQrecDk+9Y0YsEg==
-X-Received: by 2002:a17:90a:9281:b0:2b2:b99f:4d5b with SMTP id 98e67ed59e1d1-2b6cc454828mr2539648a91.18.1715348409574;
-        Fri, 10 May 2024 06:40:09 -0700 (PDT)
-Received: from ubuntukernelserver.. ([49.236.212.182])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2b628ca5109sm5074148a91.38.2024.05.10.06.40.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 May 2024 06:40:09 -0700 (PDT)
-From: Roshan Khatri <topofeverest8848@gmail.com>
-To: hdegoede@redhat.com,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	hpa@redhat.com,
-	andy.shevchenko@gmail.com,
-	gregkh@linuxfoundation.org
-Cc: Roshan Khatri <topofeverest8848@gmail.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: atomisp: Fix spelling mistakes in atomisp_platform.h
-Date: Fri, 10 May 2024 19:25:00 +0545
-Message-Id: <20240510134000.23848-1-topofeverest8848@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="oaKJw+K5"
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0B6639EC;
+	Fri, 10 May 2024 17:27:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1715354848;
+	bh=HtbqmLUZz/ngyjRLWPxq0lgnSYUAb9OCTTlLybCIDZA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oaKJw+K5hNcs4YE5Iw8FSMvpMH0SqskSvg2n2jxT3Dtp+Ur+5iFo7nAMWqdX7jKYe
+	 e82NhLLKL0OTrLm9Fyul4UDf7hLAOE1Pa943/neZJJc3KF7PxBGRcBcMlWntMisEAt
+	 REnlXZGsZYb4Jn0jnQCWf8S3M7HdrEPM7fncdxuU=
+Date: Fri, 10 May 2024 18:27:24 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] media: staging: max96712: Store format in subdev active
+ state
+Message-ID: <20240510152724.GB17158@pendragon.ideasonboard.com>
+References: <20240510100347.102392-1-niklas.soderlund+renesas@ragnatech.se>
+ <20240510101340.GG6407@pendragon.ideasonboard.com>
+ <20240510103656.GB2165064@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240510103656.GB2165064@ragnatech.se>
 
-Codespell reported misspelled streams and corresponding in
-atomisp_platform.h. This patch fixes the misspellings.
+Hi Niklas,
 
-Signed-off-by: Roshan Khatri <topofeverest8848@gmail.com>
----
- .../staging/media/atomisp/include/linux/atomisp_platform.h    | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On Fri, May 10, 2024 at 12:36:56PM +0200, Niklas Söderlund wrote:
+> On 2024-05-10 13:13:40 +0300, Laurent Pinchart wrote:
+> > On Fri, May 10, 2024 at 12:03:47PM +0200, Niklas Söderlund wrote:
+> > > Create and store the subdevice format in the subdevices active state.
+> > > This change do not have a huge effect on the driver as it do not yet
+> > > support changing the format.
+> > > 
+> > > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > > ---
+> > > Hello,
+> > > 
+> > > This change is mostly to align all driver used in the R-Car VIN pipeline
+> > > to use the same set of API and to make it easier to extend them in
+> > > tandem going forward.
+> > > 
+> > > This should be seen as a compliment to Jacopo's larger work in "[PATCH
+> > > v3 00/11] media: renesas: rcar-csi2: Use the subdev active state" which
+> > > updates other drivers in the VIN pipeline to use the active state.
+> > > ---
+> > >  drivers/staging/media/max96712/max96712.c | 36 +++++++++++++++++------
+> > >  1 file changed, 27 insertions(+), 9 deletions(-)
+> > > 
+> > > diff --git a/drivers/staging/media/max96712/max96712.c b/drivers/staging/media/max96712/max96712.c
+> > > index c44145284aa1..2da65ccd2c57 100644
+> > > --- a/drivers/staging/media/max96712/max96712.c
+> > > +++ b/drivers/staging/media/max96712/max96712.c
+> > > @@ -242,21 +242,34 @@ static const struct v4l2_subdev_video_ops max96712_video_ops = {
+> > >  	.s_stream = max96712_s_stream,
+> > >  };
+> > >  
+> > > -static int max96712_get_pad_format(struct v4l2_subdev *sd,
+> > > -				   struct v4l2_subdev_state *sd_state,
+> > > -				   struct v4l2_subdev_format *format)
+> > > +static int max96712_init_state(struct v4l2_subdev *sd,
+> > > +			       struct v4l2_subdev_state *state)
+> > >  {
+> > > -	format->format.width = 1920;
+> > > -	format->format.height = 1080;
+> > > -	format->format.code = MEDIA_BUS_FMT_RGB888_1X24;
+> > > -	format->format.field = V4L2_FIELD_NONE;
+> > > +	static const struct v4l2_mbus_framefmt default_fmt = {
+> > > +		.width          = 1920,
+> > > +		.height         = 1080,
+> > > +		.code           = MEDIA_BUS_FMT_RGB888_1X24,
+> > > +		.colorspace     = V4L2_COLORSPACE_SRGB,
+> > > +		.field          = V4L2_FIELD_NONE,
+> > > +		.ycbcr_enc      = V4L2_YCBCR_ENC_DEFAULT,
+> > > +		.quantization   = V4L2_QUANTIZATION_DEFAULT,
+> > > +		.xfer_func      = V4L2_XFER_FUNC_DEFAULT,
+> > > +	};
+> > > +	struct v4l2_mbus_framefmt *fmt;
+> > > +
+> > > +	fmt = v4l2_subdev_state_get_format(state, 0);
+> > > +	*fmt = default_fmt;
+> > >  
+> > >  	return 0;
+> > >  }
+> > >  
+> > > +static const struct v4l2_subdev_internal_ops max96712_internal_ops = {
+> > > +	.init_state = max96712_init_state,
+> > > +};
+> > > +
+> > >  static const struct v4l2_subdev_pad_ops max96712_pad_ops = {
+> > > -	.get_fmt = max96712_get_pad_format,
+> > > -	.set_fmt = max96712_get_pad_format,
+> > > +	.get_fmt = v4l2_subdev_get_fmt,
+> > > +	.set_fmt = v4l2_subdev_get_fmt,
+> > >  };
+> > >  
+> > >  static const struct v4l2_subdev_ops max96712_subdev_ops = {
+> > > @@ -293,6 +306,7 @@ static int max96712_v4l2_register(struct max96712_priv *priv)
+> > >  	long pixel_rate;
+> > >  	int ret;
+> > >  
+> > > +	priv->sd.internal_ops = &max96712_internal_ops;
+> > >  	v4l2_i2c_subdev_init(&priv->sd, priv->client, &max96712_subdev_ops);
+> > >  	priv->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+> > >  	priv->sd.entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
+> > > @@ -324,6 +338,10 @@ static int max96712_v4l2_register(struct max96712_priv *priv)
+> > >  
+> > >  	v4l2_set_subdevdata(&priv->sd, priv);
+> > >  
+> > 
+> > I think it would be nice to already use the control handler lock as the
+> > active state lock. Apart from that, the patch looks good to me.
+> 
+> I also worked on this to learn a bit more about the active state API. I 
+> assume what you are asking for here is ?
+> 
+>     priv->sd.state_lock = priv->ctrl_handler.lock;
 
-diff --git a/drivers/staging/media/atomisp/include/linux/atomisp_platform.h b/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
-index 487ef5846c24..9f55f0b65864 100644
---- a/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
-+++ b/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
-@@ -134,7 +134,7 @@ struct atomisp_platform_data {
- };
- 
- /*
-- *  Sensor of external ISP can send multiple steams with different mipi data
-+ *  Sensor of external ISP can send multiple streams with different mipi data
-  * type in the same virtual channel. This information needs to come from the
-  * sensor or external ISP
-  */
-@@ -156,7 +156,7 @@ struct atomisp_input_stream_info {
- 	/*
- 	 * if more isys_configs is more than 0, sensor needs to configure the
- 	 * input format differently. width and height can be 0. If width and
--	 * height is not zero, then the corresponsing data needs to be set
-+	 * height is not zero, then the corresponding data needs to be set
- 	 */
- 	struct atomisp_isys_config_info isys_info[MAX_STREAMS_PER_CHANNEL];
- };
+That's right.
+
+> What is the rational for using the control handler lock over the default 
+> state lock?
+
+When there are interactions between controls and formats, using separate
+locks can lead to AB/BA deadlocks if you need to access controls from a
+context where the state is locked (e.g. calling
+v4l2_ctrl_handler_setup() at stream enable time), and access the active
+state from a context where the control handler is locked (e.g. accessing
+the state in .s_ctrl()). Using the same lock helps there, you can then
+call __v4l2_ctrl_handler_setup() at stream enable time, and get the
+state without locking it in .s_ctrl().
+
+At some point in the not too distant future I would like to move storage
+of controls to the state. I don't know how painful that will be though,
+the control framework has grown to be a very complex beast, with lots of
+features that are not useful for MC-based drivers (such as control
+handler inheritance). I'm worried that we'll need a full rewrite...
+We'll see :-)
+
+> I checked Jacopo's series when working on this and there he 
+> uses no lock for the R-Car CSI-2 driver and a private driver global 
+> state lock for ADV748x.
+
+For the CSI-2 RX driver, that's because it doesn't have a control
+handler. For the ADV748x driver, that's because the control handler is
+configured to use the device-wide mutex.
+
+> > > +	ret = v4l2_subdev_init_finalize(&priv->sd);
+> > > +	if (ret)
+> > > +		goto error;
+> > > +
+> > >  	ret = v4l2_async_register_subdev(&priv->sd);
+> > >  	if (ret < 0) {
+> > >  		dev_err(&priv->client->dev, "Unable to register subdevice\n");
+
 -- 
-2.34.1
+Regards,
 
+Laurent Pinchart
