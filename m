@@ -1,38 +1,61 @@
-Received: from out30-97.freemail.mail.aliyun.com (out30-97.freemail.mail.aliyun.com [115.124.30.97])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.smtpout.orange.fr (smtp-18.smtpout.orange.fr [80.12.242.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09D7754656
-	for <linux-staging@lists.linux.dev>; Sat, 11 May 2024 09:36:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.97
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 159031B800
+	for <linux-staging@lists.linux.dev>; Sat, 11 May 2024 16:34:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715420176; cv=none; b=bRFPd4lrUKr48yWUEsrS682/lzY2vqN69MC/s7YooIyAIhP3IMws/adJB9FHJisCz8UQYvzc3LesPUFoaPm5CekmGgu2VzO5kmAJh6GDCF8AHnGQspIv5i9PNZOGc49z9KBV6uwmXymw/pSIqPz9hLE9+/vQGCkSR2JUZMclTeA=
+	t=1715445249; cv=none; b=Ynuqm1aU3K9s0i8c5MKA3kRP6C1mSsngDRVKdOMtE6tQ3Jy7b1pD1Fo5JTgLkR/aZg0qLzcPLSjOuiDB2bTXcmTfnShQoZLY/Row6afhCvbOnSYiTk+nQdF23a+PJBRAl4T1rbtE0CLLPvqh0sr3puIvuRpYfj/tDEI4nZwl+BI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715420176; c=relaxed/simple;
-	bh=rAKFwk/efMwW+MeQPuD6PtCCtYxvnbb3HIjziVO2oGc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=bBsU9ghzXp4qiiQXeuYA0X5CFMPaWlbYzkQo9iJzanHng4U6uumxu69+JBex2Wi2nclSUYMyTXphJkKuSagv/A9BceZCFnDf8aPxuQCkRp5qe2cV05VSY1rOpnYtcwPSjpIMf2orNzW1AkZ/9ArpTTy3bweZtp1iV1mly+gakUM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=hHuo8Njs; arc=none smtp.client-ip=115.124.30.97
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1715445249; c=relaxed/simple;
+	bh=6xUepPtYC3ErhIlctwNeg5gGvuYSj4ulAS7J+8qRDFI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ZKl60oNIQ0fYcqS8WXutpBOed7z06bnM7xM+D5Ru+hLCUFFwAKC3YLOsgo66oZw/i90LtoNZaB9xZT1nyxaUQBgOqIo/G8k3bwfRjQ0Opu5s9lzymKgDEcolLvrqGenJAYJJojyc3OiFEl6Jv1ii58Ov2ESh02HWAbofS7xyJIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=liIzOWID; arc=none smtp.client-ip=80.12.242.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="hHuo8Njs"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1715420165; h=From:To:Subject:Date:Message-Id:MIME-Version;
-	bh=EUPan2gfDkWp2M5OjKiJ+CMIZSYhzS4bg/90aCLR3Xs=;
-	b=hHuo8NjsB9qid0RsOTv7IaJMYnTh70WjqQ3mz6sO1HPhTXFCfZCcBWPQ1TUI7cf7x7Ng5st2bWiKy+rjeXDk9npOA85aKYmEnuiC2lfgK6eZyumDjiUv98ulSccsCnYciB6lP7nFfYw8tDYd/kVm+753GPRW9Nut9SCJPLiq3sM=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R111e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037067112;MF=yang.lee@linux.alibaba.com;NM=1;PH=DS;RN=4;SR=0;TI=SMTPD_---0W6Cv1xp_1715420162;
-Received: from localhost(mailfrom:yang.lee@linux.alibaba.com fp:SMTPD_---0W6Cv1xp_1715420162)
-          by smtp.aliyun-inc.com;
-          Sat, 11 May 2024 17:36:03 +0800
-From: Yang Li <yang.lee@linux.alibaba.com>
-To: florian.fainelli@broadcom.com
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="liIzOWID"
+Received: from localhost.localdomain ([86.243.17.157])
+	by smtp.orange.fr with ESMTPA
+	id 5peUsjqa5MXQT5pejssoZh; Sat, 11 May 2024 18:33:05 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1715445185;
+	bh=TvU+WlooXy0Q21dSizGCB4Cb/0JOSAxcicREnFxTifI=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=liIzOWIDjx8/YNNuXbZGPQlUWGtZWeft+8oZjli5cYFxHZXyaSZpZByNzPc9IBsLn
+	 bnn7lggOC0xKex95Hgk7+Rt/jjxEVM3kX7ZLZhUkFdCeruuZU/XirEt+DUjyobze0i
+	 p1qonssPev0W5Js3rBff9BISofoAwN6fG9JuYNY14Kl9erbccWh9qL6KI3uhb6b4TL
+	 j7HHI6BWwHZYc0q2V713AUIKf0bGkSodSlEEYa++ZgOH4v/SE6Loc5QjO1omsLjbZf
+	 QfSK/uts5OSlItfWIoIRfhywOgVQGP8HwKmKhNop3dq946uoNz3Fc44ka2VSEx89FE
+	 m05c2ECzJw3FA==
+X-ME-Helo: localhost.localdomain
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sat, 11 May 2024 18:33:05 +0200
+X-ME-IP: 86.243.17.157
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: gregkh@linuxfoundation.org,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	johannes@sipsolutions.net,
+	philipp.g.hortmann@gmail.com,
+	tdavies@darkphysics.net,
+	garyrookard@fastmail.org,
+	straube.linux@gmail.com
 Cc: linux-staging@lists.linux.dev,
+	netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Yang Li <yang.lee@linux.alibaba.com>
-Subject: [PATCH -next] staging: vc04_services: Fix kernel-doc param for vchiq_register_chrdev
-Date: Sat, 11 May 2024 17:36:00 +0800
-Message-Id: <20240511093600.59180-1-yang.lee@linux.alibaba.com>
-X-Mailer: git-send-email 2.20.1.7.g153144c
+	kernel-janitors@vger.kernel.org,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: [PATCH 1/3] lib80211: Handle const struct lib80211_crypto_ops in lib80211
+Date: Sat, 11 May 2024 18:32:38 +0200
+Message-ID: <d6306f7c76015653e9539ddbcd1ed74d1681a98f.1715443223.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.45.0
+In-Reply-To: <cover.1715443223.git.christophe.jaillet@wanadoo.fr>
+References: <cover.1715443223.git.christophe.jaillet@wanadoo.fr>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -41,27 +64,102 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-To adhere to the kernel-doc specification, use a colon to separate the
-parameter name and its description.
+lib80211_register_crypto_ops() and lib80211_unregister_crypto_ops() don't
+modify their "struct lib80211_crypto_ops *ops" argument. So, it can be
+declared as const.
 
-Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+Doing so, some adjustments are needed to also constify some date in
+"struct lib80211_crypt_data", "struct lib80211_crypto_alg" and the
+return value of lib80211_get_crypto_ops().
+
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 ---
- drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Compile tested only.
+---
+ drivers/staging/rtl8192e/rtllib_wx.c | 2 +-
+ include/net/lib80211.h               | 8 ++++----
+ net/wireless/lib80211.c              | 8 ++++----
+ 3 files changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
-index 3c63347d2d08..67ba9ceaad3e 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
-@@ -1319,7 +1319,7 @@ static struct miscdevice vchiq_miscdev = {
-  *	vchiq_register_chrdev - Register the char driver for vchiq
-  *				and create the necessary class and
-  *				device files in userspace.
-- *	@parent		The parent of the char device.
-+ *	@parent:	The parent of the char device.
-  *
-  *	Returns 0 on success else returns the error code.
-  */
+diff --git a/drivers/staging/rtl8192e/rtllib_wx.c b/drivers/staging/rtl8192e/rtllib_wx.c
+index fbd4ec824084..c730d921463d 100644
+--- a/drivers/staging/rtl8192e/rtllib_wx.c
++++ b/drivers/staging/rtl8192e/rtllib_wx.c
+@@ -474,7 +474,7 @@ int rtllib_wx_set_encode_ext(struct rtllib_device *ieee,
+ 	int i, idx;
+ 	int group_key = 0;
+ 	const char *alg, *module;
+-	struct lib80211_crypto_ops *ops;
++	const struct lib80211_crypto_ops *ops;
+ 	struct lib80211_crypt_data **crypt;
+ 
+ 	struct rtllib_security sec = {
+diff --git a/include/net/lib80211.h b/include/net/lib80211.h
+index 8b47d3a51cf8..fd0f15d87d80 100644
+--- a/include/net/lib80211.h
++++ b/include/net/lib80211.h
+@@ -92,7 +92,7 @@ struct lib80211_crypto_ops {
+ 
+ struct lib80211_crypt_data {
+ 	struct list_head list;	/* delayed deletion list */
+-	struct lib80211_crypto_ops *ops;
++	const struct lib80211_crypto_ops *ops;
+ 	void *priv;
+ 	atomic_t refcnt;
+ };
+@@ -113,9 +113,9 @@ struct lib80211_crypt_info {
+ int lib80211_crypt_info_init(struct lib80211_crypt_info *info, char *name,
+                                 spinlock_t *lock);
+ void lib80211_crypt_info_free(struct lib80211_crypt_info *info);
+-int lib80211_register_crypto_ops(struct lib80211_crypto_ops *ops);
+-int lib80211_unregister_crypto_ops(struct lib80211_crypto_ops *ops);
+-struct lib80211_crypto_ops *lib80211_get_crypto_ops(const char *name);
++int lib80211_register_crypto_ops(const struct lib80211_crypto_ops *ops);
++int lib80211_unregister_crypto_ops(const struct lib80211_crypto_ops *ops);
++const struct lib80211_crypto_ops *lib80211_get_crypto_ops(const char *name);
+ void lib80211_crypt_delayed_deinit(struct lib80211_crypt_info *info,
+ 				    struct lib80211_crypt_data **crypt);
+ 
+diff --git a/net/wireless/lib80211.c b/net/wireless/lib80211.c
+index d66a913027e0..51e31316bcb8 100644
+--- a/net/wireless/lib80211.c
++++ b/net/wireless/lib80211.c
+@@ -34,7 +34,7 @@ MODULE_LICENSE("GPL");
+ 
+ struct lib80211_crypto_alg {
+ 	struct list_head list;
+-	struct lib80211_crypto_ops *ops;
++	const struct lib80211_crypto_ops *ops;
+ };
+ 
+ static LIST_HEAD(lib80211_crypto_algs);
+@@ -161,7 +161,7 @@ void lib80211_crypt_delayed_deinit(struct lib80211_crypt_info *info,
+ }
+ EXPORT_SYMBOL(lib80211_crypt_delayed_deinit);
+ 
+-int lib80211_register_crypto_ops(struct lib80211_crypto_ops *ops)
++int lib80211_register_crypto_ops(const struct lib80211_crypto_ops *ops)
+ {
+ 	unsigned long flags;
+ 	struct lib80211_crypto_alg *alg;
+@@ -183,7 +183,7 @@ int lib80211_register_crypto_ops(struct lib80211_crypto_ops *ops)
+ }
+ EXPORT_SYMBOL(lib80211_register_crypto_ops);
+ 
+-int lib80211_unregister_crypto_ops(struct lib80211_crypto_ops *ops)
++int lib80211_unregister_crypto_ops(const struct lib80211_crypto_ops *ops)
+ {
+ 	struct lib80211_crypto_alg *alg;
+ 	unsigned long flags;
+@@ -206,7 +206,7 @@ int lib80211_unregister_crypto_ops(struct lib80211_crypto_ops *ops)
+ }
+ EXPORT_SYMBOL(lib80211_unregister_crypto_ops);
+ 
+-struct lib80211_crypto_ops *lib80211_get_crypto_ops(const char *name)
++const struct lib80211_crypto_ops *lib80211_get_crypto_ops(const char *name)
+ {
+ 	struct lib80211_crypto_alg *alg;
+ 	unsigned long flags;
 -- 
-2.20.1.7.g153144c
+2.45.0
 
