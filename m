@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AC551BC44;
-	Sun, 12 May 2024 09:25:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AF5B19470;
+	Mon, 13 May 2024 02:15:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715505958; cv=none; b=mLnHuY0fbvarrPcXB61xCAxkRU/XxuJPje1qcLOL089lWC7hRZFw1i71FmHywkRKYya932Yq3a64yfmCwLZ6jxHPbj8w9yilIP1nnE26xpUpmaW2G58CNn76FeKFgDNVAAuPpdoLyAojhP6kZc8udbGD5FbcyMDAxa6GNr5QCAU=
+	t=1715566511; cv=none; b=suIUIqc8MS7hteMCe8HlKgi5l80RVUkeavBsKQAtxiQEB/T0pdMXqUaGG1ktEXzxVhY5QvHRxvCJxNtEOVjxbGXvb93FdYOmTWZWggvmFFVjeEY658S0xgOArwYJwomsmnobjO7zybkSdc+JZ809WiK0GjbQszsn8xJrs9GO4ZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715505958; c=relaxed/simple;
-	bh=BWXKzgg+yOLk4OIGEuHf6i8solH3Ag+HeQXOT9fuYbA=;
+	s=arc-20240116; t=1715566511; c=relaxed/simple;
+	bh=0VAOcaO47ViYN0bE4o2MNcHqcHxmHC8zeryv8HizuaA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mT4amsIAkUgRqbdj1gaYNuJHLCUx5j8BMefgKs+8BUzqD8qkfrbfr8LgDHKb9BiAn+uquIxp92vdwnSLZB90nQhT/SpncGpTLafEV0MI6FacPjKWT3gQliZrKKbtG941sU5FJ0t6qRTEwFVRv9CcSMcvG5rC9GSwhSdj+1ioBLU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IzOIFnxu; arc=none smtp.client-ip=192.198.163.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=CnX1q/ZQE5sZnf2RgzXCw5L4GO0x+fWDuX21w/60zCVKLlHpBnYau5ZKjAYK81zZnTr8ljJMmGK6O5975IpnK4djZXM/8hG4ulpLnQ7y7eiaPM4Y3UVAaA+UJAOo0THco4aYyNz8THx/WgsMGcyH+lQJ6RNE6SyPvdojI2FqPWQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ayjDv5ct; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IzOIFnxu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ayjDv5ct"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715505955; x=1747041955;
+  t=1715566510; x=1747102510;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=BWXKzgg+yOLk4OIGEuHf6i8solH3Ag+HeQXOT9fuYbA=;
-  b=IzOIFnxup1VEd2WZEzc02fqdFNAuBtxXme4hVcK8AsbLWCup9L3hmgX9
-   uFvb/ZcuRWrEPuIOqBsm8kL9iGne75U9R2248lGq98kv94Mf4r4oV1Mti
-   9hPwOLM52GQlCGbCogB8RiZuoYg2P4ndrapdWsvCQ1rFfXZr/3yrZRTk0
-   GPXq7kjePdWyRiZ/ZYK5Jvg6H4UUI2TUYV8ywjxHwuuHoQO8x9Hbunx2a
-   rtzC757q4auhgPLVFJqqQ4dmmmdkWBYqqPZUxsEew7UjrKSeTUObpe50S
-   1fDKcZlaS012+zz6GcTGPEaFRoJbIVPMcuZKBQv2KyreBvQDI1OgO9UOi
-   w==;
-X-CSE-ConnectionGUID: xzw+Uw3gSf+Vik+ZAgoW5A==
-X-CSE-MsgGUID: JvC+2M68TOOmvm88da3vwA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11070"; a="11279141"
-X-IronPort-AV: E=Sophos;i="6.08,155,1712646000"; 
-   d="scan'208";a="11279141"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2024 02:25:54 -0700
-X-CSE-ConnectionGUID: PIBJgVICT6mGNG6Do7mq0w==
-X-CSE-MsgGUID: QYL8+nNQTK6lTlUTZ/WJ+g==
+  bh=0VAOcaO47ViYN0bE4o2MNcHqcHxmHC8zeryv8HizuaA=;
+  b=ayjDv5ctxKLBgRhYKkQccXx9KgFlNYDWbep57w8+rglCtZNK5z8BG58d
+   ldsxKXGj1wXdWnu1s8VAUbBqTCHuInTtItOzS50VdwCMAd4Hp2cLWqptd
+   vT5V17uhqalC/k3f8q5jYW0837q8NcIGRbWJMlWU3wgAULrpwuygYJQh3
+   NKxBNH43oc67v8WwV4dvpsc261kI1igylOmb6PZ/gmlseis2GOmue6iqI
+   6KtybdUneKtHqU4F0wu5nfPKK7qEujASerAtr9CZdmEPvWN5aD8yP+ESA
+   xoPYjR6tzehku+shsfI+pHw17epywuVQNaTLy25gucLRhgz3qtoKosQ2h
+   A==;
+X-CSE-ConnectionGUID: dA7m7bNoTPyKdfj02MZnwQ==
+X-CSE-MsgGUID: w4DM8+CgTQGyc+8XN3U6cA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11071"; a="11336592"
+X-IronPort-AV: E=Sophos;i="6.08,157,1712646000"; 
+   d="scan'208";a="11336592"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2024 19:15:09 -0700
+X-CSE-ConnectionGUID: x+dHR9TqReyTglgKWezljw==
+X-CSE-MsgGUID: ZJXzqTgfRGeK6QDn7kbW9w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,155,1712646000"; 
-   d="scan'208";a="30180623"
+X-IronPort-AV: E=Sophos;i="6.08,157,1712646000"; 
+   d="scan'208";a="34870413"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 12 May 2024 02:25:50 -0700
+  by orviesa003.jf.intel.com with ESMTP; 12 May 2024 19:15:04 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s65Sl-0008TZ-0U;
-	Sun, 12 May 2024 09:25:47 +0000
-Date: Sun, 12 May 2024 17:25:37 +0800
+	id 1s6LDR-0009P1-1Y;
+	Mon, 13 May 2024 02:15:01 +0000
+Date: Mon, 13 May 2024 10:14:57 +0800
 From: kernel test robot <lkp@intel.com>
 To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
 	gregkh@linuxfoundation.org, davem@davemloft.net,
@@ -61,7 +61,7 @@ Cc: oe-kbuild-all@lists.linux.dev, linux-staging@lists.linux.dev,
 	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 Subject: Re: [PATCH 1/3] lib80211: Handle const struct lib80211_crypto_ops in
  lib80211
-Message-ID: <202405121630.0zJQqloS-lkp@intel.com>
+Message-ID: <202405130949.5EW85uAq-lkp@intel.com>
 References: <d6306f7c76015653e9539ddbcd1ed74d1681a98f.1715443223.git.christophe.jaillet@wanadoo.fr>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -78,7 +78,7 @@ Hi Christophe,
 kernel test robot noticed the following build warnings:
 
 [auto build test WARNING on staging/staging-testing]
-[also build test WARNING on staging/staging-next staging/staging-linus wireless-next/main wireless/main linus/master v6.9-rc7 next-20240510]
+[also build test WARNING on staging/staging-next staging/staging-linus wireless-next/main wireless/main linus/master v6.9 next-20240510]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
@@ -87,27 +87,24 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Christophe-JAILLET/lib802
 base:   staging/staging-testing
 patch link:    https://lore.kernel.org/r/d6306f7c76015653e9539ddbcd1ed74d1681a98f.1715443223.git.christophe.jaillet%40wanadoo.fr
 patch subject: [PATCH 1/3] lib80211: Handle const struct lib80211_crypto_ops in lib80211
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240512/202405121630.0zJQqloS-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240512/202405121630.0zJQqloS-lkp@intel.com/reproduce)
+config: csky-randconfig-r132-20240513 (https://download.01.org/0day-ci/archive/20240513/202405130949.5EW85uAq-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240513/202405130949.5EW85uAq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405121630.0zJQqloS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405130949.5EW85uAq-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/net/wireless/intel/ipw2x00/libipw_wx.c:587:13: sparse: sparse: incorrect type in assignment (different modifiers) @@     expected struct lib80211_crypto_ops *ops @@     got struct lib80211_crypto_ops const * @@
+   drivers/net/wireless/intel/ipw2x00/libipw_wx.c:587:13: sparse:     expected struct lib80211_crypto_ops *ops
+   drivers/net/wireless/intel/ipw2x00/libipw_wx.c:587:13: sparse:     got struct lib80211_crypto_ops const *
+   drivers/net/wireless/intel/ipw2x00/libipw_wx.c:590:21: sparse: sparse: incorrect type in assignment (different modifiers) @@     expected struct lib80211_crypto_ops *ops @@     got struct lib80211_crypto_ops const * @@
+   drivers/net/wireless/intel/ipw2x00/libipw_wx.c:590:21: sparse:     expected struct lib80211_crypto_ops *ops
+   drivers/net/wireless/intel/ipw2x00/libipw_wx.c:590:21: sparse:     got struct lib80211_crypto_ops const *
 
-   drivers/net/wireless/intel/ipw2x00/libipw_wx.c: In function 'libipw_wx_set_encodeext':
->> drivers/net/wireless/intel/ipw2x00/libipw_wx.c:587:13: warning: assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     587 |         ops = lib80211_get_crypto_ops(alg);
-         |             ^
-   drivers/net/wireless/intel/ipw2x00/libipw_wx.c:590:21: warning: assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     590 |                 ops = lib80211_get_crypto_ops(alg);
-         |                     ^
-
-
-vim +/const +587 drivers/net/wireless/intel/ipw2x00/libipw_wx.c
+vim +587 drivers/net/wireless/intel/ipw2x00/libipw_wx.c
 
 b453872c35cfcb net/ieee80211/ieee80211_wx.c                   Jeff Garzik        2005-05-12  501  
 b0a4e7d8a291de drivers/net/wireless/ipw2x00/libipw_wx.c       John W. Linville   2009-08-20  502  int libipw_wx_set_encodeext(struct libipw_device *ieee,
