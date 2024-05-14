@@ -1,168 +1,101 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 365901802B
-	for <linux-staging@lists.linux.dev>; Tue, 14 May 2024 04:32:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A57B384FD2
+	for <linux-staging@lists.linux.dev>; Tue, 14 May 2024 12:55:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715661162; cv=none; b=P7xy/Yz8pC/Q/WxNSXVLyCNTshhMJR+UNDeMYPluxTtBK11qMTmSeNXO5lM4md1IQjToMkDs0LOLW5LDVqralVizRaPVsol0ppfL8o+udEFyUHixPbCuAjhDaycCPDaVON8Z2mLN/Nqv++pp6Yp1Gf1UgpQDgOH2f+NxetCa0fU=
+	t=1715691347; cv=none; b=QXHOOdCEpbhtC0vnr9hpbGwBE483wg8j2D22z0bjj83710Z5YDqGC9BqpyrBL46psJcrbfd5V5tW4nNVV0VJ93NPu2DY2DBqiWE4G0s7B7DJEnHu+5y2gcjJKu714mt+aaBF+28VPj4vgtH4gqPkv8HY4D4coazwxuEPT5K3Vb4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715661162; c=relaxed/simple;
-	bh=Y3ORLDWMvf238L0QLHUG319akzxeS7ywqW/nxFGRVj8=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=b+LDTZ4a3fKRq764XKsf/k0DWaAIM9wBjJ2iKKGIa4UqnHK2vy84ykt9p7ic3DTCMNlyDyYZuRz7rDVzPYuBp8xM2xxwZWCgKjSamFZuM4WBnjX0n6tO3OMSAlEiB/HP6Mawxa0pyJ1WcdBjJhozi1uZFMX0QSyvvGN07vKLkl4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YGmjd5Hu; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1715691347; c=relaxed/simple;
+	bh=JegKl63JU3+HoS2Kj0zGHv+XRNw+qSIozCHP8J1ApPI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BA0UVPPhJifoF+RFdq27vrM6PzlsbPV+egfth/1y4BtWOlBbOPX6/jkd9I3z9G3giPv8AXN3fg//vsOfDm2KaWVhUinyhDiAEgOV98fyt+4l6DJiJuS1xieOEBOQaH5oO6wVKDYFSbhJn5Cm0uvrW2nK3wUqU7ZlKbFPPck3zys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d2qWrFSc; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YGmjd5Hu"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a599b74fd49so127364566b.2
-        for <linux-staging@lists.linux.dev>; Mon, 13 May 2024 21:32:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715661159; x=1716265959; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-language:cc:to:subject:from
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jgTPDIdjSRWLN5VOr/94gFsl27B1qYJKvP5tv5bWr9g=;
-        b=YGmjd5HudPmddIdkvfGOXjjPiRsKCc3/Xz28mEp/2YJqmL3SwhzuQCcBxfFnytB2lp
-         y3zrhywK2jndDS0oNx+MI84pJLWqOG9pTdUwYtzCsBVfANeZRTNYfefoM3uHkLAD/lNi
-         gECMtm+qqJS5B0TwbxHF4oH34ZNAxdSdLU9/Ot0me3aTkQWU+nycRBLFALOQ8ayqN8cw
-         Ty2+5rMbPURKk8E34sBNYT49takFr7502Uk9zCGY9XChiLGYl8NkBdfAaVRm5QUBeKhd
-         mlXeqV6syslUbB423qVP7OyihE5RISM0mdXK5LUh/DmqJcmsyRo9jT8zqtirw9EwyPGQ
-         7iNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715661159; x=1716265959;
-        h=content-transfer-encoding:content-language:cc:to:subject:from
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=jgTPDIdjSRWLN5VOr/94gFsl27B1qYJKvP5tv5bWr9g=;
-        b=wOmmCpfD81XtE80T+BO2OMgX22OweM0NokBd7577C7SI0NrsdnAfI9wCcV8oYZBwMa
-         zYShePGMvaZ59R4IHKJZgZkVLvH2lYwQNhrkXbZv45BLTOlpWP5iw7ZqQGzJ6RaTLtb8
-         EtvQ6ItLmgQVRWM1JtO4VmBCjf92eY+Yv5D24/ybMZcuDgt792L+MJRBKjyvy47um4PJ
-         Nkf9ngDxSnCA2GDtwZljM9DayodH8ceNBedODO3RgcFdfPuWpioYQ88ljZvj3fKs9eoP
-         8Jl1/GzKDHUlnIJkZK0VDLnHRnUmcHb82YBvvn/uf/eNlOQVjbyzyl5Qf1Yev5TsHOYr
-         MDig==
-X-Gm-Message-State: AOJu0YyonwyHFKdj2xGJ9aHEI1dl39nY1EqAGjFBqpqP9CeaIuOf6qGV
-	+sXYeO9FNKTirwd8AYYKwzpkKX6sMREfyRPWh5o+B/lXffDCUbIJKDUdhA==
-X-Google-Smtp-Source: AGHT+IEUoj6f8wyS1jdQZliRA9Ol4cmk941rUs8WpauT7UcvfV4kTC8SuaLV0U4NeE3yMpcDb7bkeA==
-X-Received: by 2002:a17:906:f591:b0:a5a:5bf2:b889 with SMTP id a640c23a62f3a-a5a5bf2b8b4mr633408366b.0.1715661159336;
-        Mon, 13 May 2024 21:32:39 -0700 (PDT)
-Received: from [192.168.0.101] (p57935690.dip0.t-ipconnect.de. [87.147.86.144])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a5a17b01724sm674438566b.162.2024.05.13.21.32.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 May 2024 21:32:38 -0700 (PDT)
-Message-ID: <8fe72cec-adba-42dd-9185-15e777714a81@gmail.com>
-Date: Tue, 14 May 2024 06:32:37 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d2qWrFSc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1715691347; x=1747227347;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=JegKl63JU3+HoS2Kj0zGHv+XRNw+qSIozCHP8J1ApPI=;
+  b=d2qWrFSc8IYzxZ/o4HnbgkBouX07xnjnG7beQwzRMB5+272r4aancIU8
+   0C7UC94br6cZpbjQcs0OskfTx76J+RwzIYMUJ+cmq3bepDGVmQbg5Z1y8
+   2DxnMT1Dj2af527TrKR1m2FdLPrXh7CWm3iafoUkmUQZMPMBi8m4y2nuI
+   c/CyaVl4b7Zd0cCZmUGfRjlnxhHh6In5vJ1y9oWNHZSFCpFt24I6DbpkA
+   vkal3+ARIk0PvcszX1DwZ7X+0+awNhHiaPXs8HinlDnQm98mXf/15Gkwm
+   cvgj7JVFxFQr+gu09HK3GXGqrRATJMW7M1oQwqfrmaQPXE/n47qgD8UUH
+   w==;
+X-CSE-ConnectionGUID: 2U1j96wfRL+Cvp81f02Viw==
+X-CSE-MsgGUID: 71ORSrijQbSTKn+NwFIU8Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11073"; a="11613733"
+X-IronPort-AV: E=Sophos;i="6.08,159,1712646000"; 
+   d="scan'208";a="11613733"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2024 05:55:46 -0700
+X-CSE-ConnectionGUID: uPqxZQ7UQ16yfGxkcY/2QA==
+X-CSE-MsgGUID: WEZl111KQGCg7ZvqYT9c5Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,159,1712646000"; 
+   d="scan'208";a="31232243"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2024 05:55:45 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1s6rgz-00000007Qy8-3M37;
+	Tue, 14 May 2024 15:55:41 +0300
+Date: Tue, 14 May 2024 15:55:41 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>, linux-serial@vger.kernel.org,
+	Peter Collingbourne <pcc@google.com>
+Subject: Re: [Bug] staging: rtl8723bs: Bluetooth stops working after patch:
+ serial: 8250_dw: Do not reclock if already at correct rate
+Message-ID: <ZkNfTRv0Lk8-_M1s@smile.fi.intel.com>
+References: <8fe72cec-adba-42dd-9185-15e777714a81@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Subject: [Bug] staging: rtl8723bs: Bluetooth stops working after patch:
- serial: 8250_dw: Do not reclock if already at correct rate
-To: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jiri Slaby <jirislaby@kernel.org>, linux-serial@vger.kernel.org
-Cc: Peter Collingbourne <pcc@google.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8fe72cec-adba-42dd-9185-15e777714a81@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Hi,
+On Tue, May 14, 2024 at 06:32:37AM +0200, Philipp Hortmann wrote:
+> Hi,
+> 
+> I have a ODYS Trendbook next 14 with the wlan/bluetooth module rtl8723bs.
+> 
+> Bluetooth stops working with the following commit:
+> commit e5d6bd25f93d6ae158bb4cd04956cb497a85b8ef (HEAD)
+> Author: Peter Collingbourne <pcc@google.com>
+> Date:   Thu Feb 22 11:26:34 2024 -0800
+>     serial: 8250_dw: Do not reclock if already at correct rate
+> 
+> Please find dmesg below. Module has issues to load firmware.
+> 
+> To enshure that this is the function breaking commit I applied the commit
+> reversed on top of the latest kernel from the staging tree. Then bluetooth
+> is working again.
+> 
+> I can support with further tests. I do not have a good proposal for a fix as
+> I expect a lot of side effects. Please send me proposals for a fix.
 
-I have a ODYS Trendbook next 14 with the wlan/bluetooth module rtl8723bs.
+The revert is in the tree IIRC.
+7dfae6cbadc1 ("serial: 8250_dw: Revert: Do not reclock if already at correct rate")
 
-Bluetooth stops working with the following commit:
-commit e5d6bd25f93d6ae158bb4cd04956cb497a85b8ef (HEAD)
-Author: Peter Collingbourne <pcc@google.com>
-Date:   Thu Feb 22 11:26:34 2024 -0800
-     serial: 8250_dw: Do not reclock if already at correct rate
+First appeared in v6.9-rc5.
 
-Please find dmesg below. Module has issues to load firmware.
-
-To enshure that this is the function breaking commit I applied the 
-commit reversed on top of the latest kernel from the staging tree. Then 
-bluetooth is working again.
-
-I can support with further tests. I do not have a good proposal for a 
-fix as I expect a lot of side effects. Please send me proposals for a 
-fix. Comming Thursday I will be OOO.
-
-Thanks for your support.
-
-Bye Philipp
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
-dmesg when not working:
-[   26.904914] Bluetooth: Core ver 2.22
-[   26.905130] NET: Registered PF_BLUETOOTH protocol family
-[   26.905136] Bluetooth: HCI device and connection manager initialized
-[   26.905154] Bluetooth: HCI socket layer initialized
-[   26.905161] Bluetooth: L2CAP socket layer initialized
-[   26.905184] Bluetooth: SCO socket layer initialized
-[   27.291346] audit: type=1130 audit(1715629261.116:39): pid=1 uid=0 
-auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 
-msg='unit=systemd-tmpfiles-setup comm="systemd" 
-exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
-[   27.335410] audit: type=1334 audit(1715629261.160:40): prog-id=57 op=LOAD
-[   29.472422] usb 1-4: Found UVC 1.00 device USB 2.0 Camera (058f:5608)
-[   29.494762] usbcore: registered new interface driver uvcvideo
-[   29.506692] RPC: Registered named UNIX socket transport module.
-[   29.506704] RPC: Registered udp transport module.
-[   29.506707] RPC: Registered tcp transport module.
-[   29.506709] RPC: Registered tcp-with-tls transport module.
-[   29.506711] RPC: Registered tcp NFSv4.1 backchannel transport module.
-[   29.532484] Bluetooth: HCI UART driver ver 2.3
-[   29.532503] Bluetooth: HCI UART protocol H4 registered
-[   29.532507] Bluetooth: HCI UART protocol BCSP registered
-[   29.532594] Bluetooth: HCI UART protocol LL registered
-[   29.532599] Bluetooth: HCI UART protocol ATH3K registered
-[   29.533139] Bluetooth: HCI UART protocol Three-wire (H5) registered
-[   29.533325] Bluetooth: HCI UART protocol Intel registered
-[   29.533506] Bluetooth: HCI UART protocol Broadcom registered
-[   29.533541] Bluetooth: HCI UART protocol QCA registered
-[   29.533546] Bluetooth: HCI UART protocol AG6XX registered
-[   29.533572] Bluetooth: HCI UART protocol Marvell registered
-[   30.114887] cfg80211: Loading compiled-in X.509 certificates for 
-regulatory database
-[   30.172864] Loaded X.509 cert 'sforshee: 00b28ddf47aef9cea7'
-[   30.175628] Loaded X.509 cert 'wens: 
-61c038651aabdcf94bd0ac7ff06c7248db18c600'
-[   30.269514] Bluetooth: hci0: RTL: examining hci_ver=06 hci_rev=000b 
-lmp_ver=06 lmp_subver=8723
-[   30.273192] Bluetooth: hci0: RTL: rom_version status=0 version=1
-[   30.273218] Bluetooth: hci0: RTL: loading rtl_bt/rtl8723bs_fw.bin
-[   30.300067] Bluetooth: hci0: RTL: loading 
-rtl_bt/rtl8723bs_config-OBDA8723.bin
-[   30.328993] Bluetooth: hci0: RTL: cfg_sz 64, total sz 24508
-[   30.617609] input: chtnau8824 Headset as 
-/devices/pci0000:00/808622A8:00/cht-bsw-nau8824/sound/card1/input15
-[   31.630950] Bluetooth: BNEP (Ethernet Emulation) ver 1.3
-[   31.630966] Bluetooth: BNEP filters: protocol multicast
-[   31.631013] Bluetooth: BNEP socket layer initialized
-[   32.388997] Bluetooth: hci0: command 0xfc20 tx timeout
-[   33.397774] NET: Registered PF_QIPCRTR protocol family
-[   35.872260] r8723bs: module is from the staging directory, the 
-quality is unknown, you have been warned.
-[   36.008866] pnetdev = 0000000086c577c1
-[   38.957652] rtl8723bs: acquire FW from file:rtlwifi/rtl8723bs_nic.bin
-[   39.065930] ax88179_178a 2-1:1.0 enp0s20u1: ax88179 - Link status is: 1
-[   40.516641] Bluetooth: hci0: RTL: download fw command failed (-110)
-[   41.754022] ax88179_178a 2-1:1.0 enp0s20u1: ax88179 - Link status is: 1
-[   62.939117] rfkill: input handler disabled
-[   66.873746] intel_sst_acpi 808622A8:00: FW Version 01.0b.02.02
-[   95.201213] systemd-journald[587]: 
-/var/log/journal/deb6c1cc9b434036821e1d20b20e14ec/user-1000.journal: 
-Journal file uses a different sequence number ID, rotating.
-[   96.212917] rfkill: input handler enabled
-[  104.357628] rfkill: input handler disabled
-[  124.215728]  mmcblk1: p1 p2 p3
-[  169.291952] netfs: FS-Cache loaded
-[  169.343759] Key type dns_resolver registered
-[  170.689598] Key type cifs.spnego registered
-[  170.689677] Key type cifs.idmap registered
-[  170.691671] CIFS: Attempting to mount //192.168.2.110/kernelcomp
-[  181.038648]  mmcblk1: p1 p2 p3
