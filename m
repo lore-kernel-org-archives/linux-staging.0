@@ -1,56 +1,56 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2003E2BAF6
-	for <linux-staging@lists.linux.dev>; Wed, 15 May 2024 04:52:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01DB839FD3
+	for <linux-staging@lists.linux.dev>; Wed, 15 May 2024 04:52:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715748758; cv=none; b=kt3cSTz39CnvQeaOfNUbVCtK2NiuanyF+NcPg7IanUXlNJh/0ilVK2kVLhTURtg9vsTG4fQI0CqItr1qWZgD/rt6LtlhCJMFGLV0CF7cty4Ucg4UTebEKSMxOtiFQXcZIp+raEHO0FspMQjl0raBTfpBWntv6Gr14NGGui36wr4=
+	t=1715748759; cv=none; b=WHcaUNwTtPtqKWES5ovEWB7KZAXn47xIwdQVw0BkX/O1U8s01tc6T4Y2RnUUcUU0EOxizXJnG7LwhEvxPVGXkR1GilmCVH0uvMjPBbcAfefm5cPDGBN2EI0Iq4F5YzVivu/STAoyCLfg2GwVDpgX6NRV2FC8mBGYDs90fwzM8SU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715748758; c=relaxed/simple;
-	bh=bMj1LTysdPDWnmSnuPdPl6x6oclWypZmQaNvIISuQVs=;
+	s=arc-20240116; t=1715748759; c=relaxed/simple;
+	bh=TEU9avpaX/N43LfNkZJD36hkEcVzdowUram2d7CoU3g=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=KeCivcrHytDeDi0Cxc7yZlJtjh1ol2q4J6+tU49jxNdiPeX7N4B8aSwulfA5c/izYELV27ExMu/vilsYgRyg1mXHlsYFTwniue45jicn0QNjcdxD/wcosAwFXs5NuOoUUHMeG7y5hpiZmmCZu/viIc9AQcj95vnhU2jdSYjP7eE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net; spf=pass smtp.mailfrom=darkphysics.net; dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b=YMi+LxgF; arc=none smtp.client-ip=209.85.210.171
+	 MIME-Version; b=MezKarY+4PgO06m3kUQczfqprgs0kXplK8HnwBl5KTiwHNKN17tpsWeJlRnlukwZ17jGm4ucmN3fl9M/5j1LgotGICHm9kfXkSnWg3yqWVyfnF+XByjxpCGma3SUuo2MBO8YiPXBmqFbmhnPro43XFKaE/GZhtOAA06D+L7ygGA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net; spf=pass smtp.mailfrom=darkphysics.net; dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b=NmFAavJ3; arc=none smtp.client-ip=209.85.167.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=darkphysics.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="YMi+LxgF"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-6f467fb2e66so5711130b3a.1
-        for <linux-staging@lists.linux.dev>; Tue, 14 May 2024 21:52:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="NmFAavJ3"
+Received: by mail-oi1-f169.google.com with SMTP id 5614622812f47-3c99c66a40fso2825720b6e.1
+        for <linux-staging@lists.linux.dev>; Tue, 14 May 2024 21:52:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=darkphysics.net; s=google; t=1715748756; x=1716353556; darn=lists.linux.dev;
+        d=darkphysics.net; s=google; t=1715748757; x=1716353557; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+bA+4MlFti+w7GYvI8La/yKfya2pdjLh+dw43i0/xQU=;
-        b=YMi+LxgFdzNkSvB5U6w1pWaIZDYSpHTeZv1twcPAYA16XVHFRJMj72MPOVA1nCrYK/
-         qOucHa3/pBtNL98B0ZYzWUzUY/vZ7YSRFLHKbZI0/S1+XdXyjmZ6pwup6V46v/wtXI4Z
-         GuLzTzwq/Nm1bsZn4lPzsBr45LvdxJg1LFUYwBKxyoaVs5GOEFOAc48AQlQ6B2NMPsfD
-         q4mFX23OaMsdRSY+KVTZNU/qDT3HphjcIZQgb5TlREe3R2rB83QmX3iJiYD6bCCQJlqJ
-         eltb3+yqSJQ+ay8yE6D6Xl6pFLVtSF8+dT0lchgasIwZIjUqLCdQZDMUdxScS9zCWXaq
-         YLww==
+        bh=lvjRAcugX4Y+qbTFQbTgqGMibulX1uDB5tb1Q6bCIzE=;
+        b=NmFAavJ3i5q/01/FmfCjm4qQfitZ3FkeK2KJGe/1ctIf3x3boU7dqcL4eAA8jpigJI
+         bxsM/4jHL2QJM8eVlm74WzG/UiHplKYg4BSnB7hbnO3xMFxFyzeyhu/H4YudTpPTtGOY
+         nwQ1CNGxa0NP8AiCE1W1s7INPKX2yfd7ilvivIhe3MtkfczHhkzo2IwXXFfMycq1GKWk
+         j5FLmN+R/YfGTTNEKuJj9YxjB/zZQSe8SR222FN/PKq/IxuqBEZpkNVTdNBxeV6rP+3Z
+         GnOxoQbt4AO4RBtZluPGjtfKTxA5CnZjYWDaRV9T1tBGx1PJWWoDUsuf5lwYDr17HaY7
+         8NeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715748756; x=1716353556;
+        d=1e100.net; s=20230601; t=1715748757; x=1716353557;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+bA+4MlFti+w7GYvI8La/yKfya2pdjLh+dw43i0/xQU=;
-        b=hnQ8S9/rScTTNbqtlZIW3XIPYTuj9YQOmpUSkYIxJQl6FDKuW7MyCtwJZkw4ASzwyu
-         hc8WiNvlpqWSdEjFBNDWFAx08O+yHKp0FNbw145IZ+wqBuqp3IsOyK439eXIPQtxL8wD
-         fuI3IgGm27wF97Z+ZqJvq+yd2TsSEO7eLJvret1goGaiN/m6auYEQIsPVXvxzmI3b5mG
-         dLG+xbtsn6YoksN/yI3AFCadRhiLAQrJsylvz6zKLtnz2Jpz7Qak0F3wf8le6L9psXkj
-         8iGieAx+SZf7GS4baiCbCZIn7wa8ZHT7qqPpWku+d8Soxq4zIxsENiGoAeT2u2zTpv9J
-         O1Jw==
-X-Gm-Message-State: AOJu0Yx1gQhmxaIU64VP9Jqfb3Ql3wFPWovI3KSbxZ5bjCRiHs9aGMdv
-	IYvO4XBhAsbmb63MVjIkz+vqv9GS8NDHW06AragxhX+eya/p4NDczcVCrTYyxpE=
-X-Google-Smtp-Source: AGHT+IH+7IPgOluoAi3IpL4zc0TWJUrUEQhz7bufL00+sd65WAAqzL9nuA6x83MXq7Z+UVGa6pgcOg==
-X-Received: by 2002:a05:6a00:1807:b0:6e8:f66f:6b33 with SMTP id d2e1a72fcca58-6f4e029fc8emr19237540b3a.4.1715748756357;
-        Tue, 14 May 2024 21:52:36 -0700 (PDT)
+        bh=lvjRAcugX4Y+qbTFQbTgqGMibulX1uDB5tb1Q6bCIzE=;
+        b=Z1q8tOPDmY2SbiQuxBNCCcpZQYFE6P+a3NzDU90MsO0KM9m2vwXIRoZpcfs+yaBXO0
+         e2Vy+EvOYjUHonoKB5q9XFfCi9vhQpdHHY97tJn0wVNmts3AV/y+FNus2QZySYm9bN++
+         wWu0Ly+dulspCW5sZ4/gqlzNwoBAYYc7w8bYhTh5zgdF6mcjA/Sf+x9zNadlD5DGlS85
+         Ec1MRiZlGbMQvDaxNAaDq1YKNSNagim2H5ThUjlM20sKuqyH6GGwTRFqKugvkDaVOAIF
+         4TVB2pTRJhHhZwXarQGe8VzyUJCdxFB6X00lu3pbSk6+1Xxe82zdMeWoIBfBfvP4zRtW
+         a81A==
+X-Gm-Message-State: AOJu0YwQ2EuYBF4PJt0O5CVZ1W9aBjbLTfL51Wf5/LaYCRb3QkPA0A4t
+	L5iY3UtwFbWCn4tAhy/1p7dhbFaiH4RiJIW4GUno5we8HwL+eNRDPthORNS+4Fc=
+X-Google-Smtp-Source: AGHT+IHXSKVG6OpQmEqKTMNFvcpSpKH2NcFI8y8VYcx2Qr+CVyvglrb+pY8R0r6g03tt0VQww6xQKw==
+X-Received: by 2002:a05:6808:f03:b0:3c9:714d:cc7b with SMTP id 5614622812f47-3c997039622mr18101556b6e.9.1715748757124;
+        Tue, 14 May 2024 21:52:37 -0700 (PDT)
 Received: from lunchbox.darkphysics (c-76-146-178-2.hsd1.wa.comcast.net. [76.146.178.2])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f4d2a827fdsm10135035b3a.60.2024.05.14.21.52.35
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f4d2a827fdsm10135035b3a.60.2024.05.14.21.52.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 May 2024 21:52:35 -0700 (PDT)
+        Tue, 14 May 2024 21:52:36 -0700 (PDT)
 From: Tree Davies <tdavies@darkphysics.net>
 To: gregkh@linuxfoundation.org,
 	philipp.g.hortmann@gmail.com,
@@ -58,9 +58,9 @@ To: gregkh@linuxfoundation.org,
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Tree Davies <tdavies@darkphysics.net>
-Subject: [PATCH 03/31] Staging: rtl8192e: Rename variable CountryIeLen
-Date: Tue, 14 May 2024 21:52:00 -0700
-Message-Id: <20240515045228.35928-4-tdavies@darkphysics.net>
+Subject: [PATCH 04/31] Staging: rtl8192e: Rename variable bWithAironetIE
+Date: Tue, 14 May 2024 21:52:01 -0700
+Message-Id: <20240515045228.35928-5-tdavies@darkphysics.net>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20240515045228.35928-1-tdavies@darkphysics.net>
 References: <20240515045228.35928-1-tdavies@darkphysics.net>
@@ -72,7 +72,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rename variable CountryIeLen to country_ie_len
+Rename variable bWithAironetIE to with_aironet_ie
 to fix checkpatch warning Avoid CamelCase.
 
 Signed-off-by: Tree Davies <tdavies@darkphysics.net>
@@ -82,42 +82,49 @@ Signed-off-by: Tree Davies <tdavies@darkphysics.net>
  2 files changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-index 8a84d61e6912..cae4df481397 100644
+index cae4df481397..40ec29434d68 100644
 --- a/drivers/staging/rtl8192e/rtllib.h
 +++ b/drivers/staging/rtl8192e/rtllib.h
-@@ -949,7 +949,7 @@ struct rtllib_network {
- 	u8 wmm_info;
- 	struct rtllib_wmm_ac_param wmm_param[4];
- 	u8 turbo_enable;
--	u16 CountryIeLen;
-+	u16 country_ie_len;
- 	u8 country_ie_buf[MAX_IE_LEN];
- 	struct bss_ht bssht;
- 	bool broadcom_cap_exist;
+@@ -910,7 +910,7 @@ struct rtllib_network {
+ 	u8 hidden_ssid_len;
+ 	struct rtllib_qos_data qos_data;
+ 
+-	bool	bWithAironetIE;
++	bool	with_aironet_ie;
+ 	bool	ckip_supported;
+ 	bool	ccx_rm_enable;
+ 	u8	CcxRmState[2];
 diff --git a/drivers/staging/rtl8192e/rtllib_rx.c b/drivers/staging/rtl8192e/rtllib_rx.c
-index dc0db6fade0f..1cae6d6efb96 100644
+index 1cae6d6efb96..d4dbf8052c30 100644
 --- a/drivers/staging/rtl8192e/rtllib_rx.c
 +++ b/drivers/staging/rtl8192e/rtllib_rx.c
-@@ -2183,7 +2183,7 @@ static inline int rtllib_network_init(
- 	network->turbo_enable = 0;
- 	network->SignalStrength = stats->SignalStrength;
- 	network->RSSI = stats->SignalStrength;
--	network->CountryIeLen = 0;
-+	network->country_ie_len = 0;
- 	memset(network->country_ie_buf, 0, MAX_IE_LEN);
- 	ht_initialize_bss_desc(&network->bssht);
- 	network->flags |= NETWORK_HAS_CCK;
-@@ -2342,8 +2342,8 @@ static inline void update_network(struct rtllib_device *ieee,
- 	dst->RSSI = src->RSSI;
- 	dst->turbo_enable = src->turbo_enable;
+@@ -2090,7 +2090,7 @@ int rtllib_parse_info_param(struct rtllib_device *ieee,
+ 			netdev_dbg(ieee->dev, "MFIE_TYPE_AIRONET: %d bytes\n",
+ 				   info_element->len);
+ 			if (info_element->len > IE_CISCO_FLAG_POSITION) {
+-				network->bWithAironetIE = true;
++				network->with_aironet_ie = true;
  
--	dst->CountryIeLen = src->CountryIeLen;
--	memcpy(dst->country_ie_buf, src->country_ie_buf, src->CountryIeLen);
-+	dst->country_ie_len = src->country_ie_len;
-+	memcpy(dst->country_ie_buf, src->country_ie_buf, src->country_ie_len);
+ 				if ((info_element->data[IE_CISCO_FLAG_POSITION]
+ 				     & SUPPORT_CKIP_MIC) ||
+@@ -2100,7 +2100,7 @@ int rtllib_parse_info_param(struct rtllib_device *ieee,
+ 				else
+ 					network->ckip_supported = false;
+ 			} else {
+-				network->bWithAironetIE = false;
++				network->with_aironet_ie = false;
+ 				network->ckip_supported = false;
+ 			}
+ 			break;
+@@ -2345,7 +2345,7 @@ static inline void update_network(struct rtllib_device *ieee,
+ 	dst->country_ie_len = src->country_ie_len;
+ 	memcpy(dst->country_ie_buf, src->country_ie_buf, src->country_ie_len);
  
- 	dst->bWithAironetIE = src->bWithAironetIE;
+-	dst->bWithAironetIE = src->bWithAironetIE;
++	dst->with_aironet_ie = src->with_aironet_ie;
  	dst->ckip_supported = src->ckip_supported;
+ 	memcpy(dst->CcxRmState, src->CcxRmState, 2);
+ 	dst->ccx_rm_enable = src->ccx_rm_enable;
 -- 
 2.30.2
 
