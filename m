@@ -1,56 +1,56 @@
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A84F4EB2B
-	for <linux-staging@lists.linux.dev>; Wed, 15 May 2024 04:52:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ECDC4EB51
+	for <linux-staging@lists.linux.dev>; Wed, 15 May 2024 04:52:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715748767; cv=none; b=cpZcTFHOwDPjtGjFLHGdfGxjcD3NhzBAaIQUbYOzJqxNW8F+RB5LYUTH0DR81kB1AMIRCeYYOWYpSigq15aZaeRGlen11gxCTJOQlLsgrTpoG38CflObOzeeLkxIuhnMflDGfbEyk1O+ljpNdeZxN8TTtQV+TDQXIu109AWqIIQ=
+	t=1715748767; cv=none; b=MMGSgCAp4gcnowPJAItXxo9dopS5tqbwlmbb9ezBdz35pdixW0suLbv7QguzRkM4q/PWg8KxSAh8ui1ypTPP81SMpykIV+ptLjG93ZVWYK00VSF4vy0grQZf94ZKr2P4EEzLmuAWLrJ9JVjKa7boBY28pa6ugIjZ+28zOMexvys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1715748767; c=relaxed/simple;
-	bh=W7YanCirN9wvp2zde5wv/2tgJrgt1xFhjhHajSKuSHA=;
+	bh=ew7QTjnBQLH0PTpIA8W7zoW+lQRRUkKEJUaHs9Sl+38=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=gJpsi7hKt+lhuwYrRcIBig43mZQX4hp7ei8k4ESZEb4gRuDIhCUZ24yRaoatJyuEmjBI01dIs5aYEUGb5DxLUDzXJed3mlmAiOvOVfffigEnIBr0ipdDGgRT1rbMVX26sDJ7LvNQSNUM5QK4t3RxwcY3z2rZ08UFtg5sze+U/wo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net; spf=pass smtp.mailfrom=darkphysics.net; dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b=NVPBJ+Ly; arc=none smtp.client-ip=209.85.167.176
+	 MIME-Version; b=VG1UFpEon1MQcDTtpelfCzUpB8LUxdUNBOGeOSPghWLZpMcnn4DFsH/z+Mr3XyGeyr1Oi4O2KXqaFDdQkWGSBHt1ufchwCFtFYFbsxgNH/CQH9TGhpxsGmoPZRyvb6D96g9qYsJ3nZ5c4JKKV7+O9vJM42iMx3b4GJilgqH1eAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net; spf=pass smtp.mailfrom=darkphysics.net; dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b=bMY5EymC; arc=none smtp.client-ip=209.85.210.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=darkphysics.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="NVPBJ+Ly"
-Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-3c9b94951cfso520922b6e.3
-        for <linux-staging@lists.linux.dev>; Tue, 14 May 2024 21:52:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="bMY5EymC"
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-6f4ed9dc7beso2626615b3a.1
+        for <linux-staging@lists.linux.dev>; Tue, 14 May 2024 21:52:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=darkphysics.net; s=google; t=1715748765; x=1716353565; darn=lists.linux.dev;
+        d=darkphysics.net; s=google; t=1715748766; x=1716353566; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Q5uBXo5orQcdm4k609Ve5/BzbHzbX6bMArVHYg6Cjbw=;
-        b=NVPBJ+Lyr4/EExghwBm5JZXLk/IZczPm5NCroyIX7myR6P/6YSzcXHq/df+oCi2OXg
-         0vH5WWF1xn8PB10XoqALJkgfwDNG12RmzoYq4xkkhnHo04yzCE7PJu/sdyxNJ0L9WuDo
-         VTuC8xyyphzoZdXFeYL5x0q8+1WFtToP9I+3i1HHydAT5zCoPQaDfzbLb/BaiFR8+byH
-         5XylhXAJJ0ZiZ+OgXuGeCD8p9nVj53ssOfxGtBk0dKSuy8Ajx5zRs91q3tUu2RfJJX2W
-         FZwzf9tL2/l8jh/+pz+2Ka7OED+f8pCOVsgIdxV2Mfxiz7M7kG5swLI4bcaG79R4EapA
-         ZSAg==
+        bh=DEx6vAr52pGxysjGe3jw5iXqLZA63B3Rf1CnGustKUE=;
+        b=bMY5EymCJ5GbuuD8x75NaHyxL8mF5EAhZ8PBbEwvPtpGLT1xgwApK+rqwV9dZ3mXkV
+         nWBm4hptY5si4x45uIdRiselfOLgSWERbMrNBPxhUQuoWDNZ6phWEw+PpbmxLPkJjATb
+         ouCFQw4g2jGN6Ypn+/dVYV9bX8rli551cEbHzMBUwN9fwq6qijlngJNgu2KBK7ReZhBi
+         gPtWrFnO2JuFhZINCke0qGCPcahmwHNHB1/zgfJIiQIfMIOfcglHL77zrq+4a9XblJPp
+         TqeF1LdmX4O73ZtcIpipwP8IOZHeeR1HHdEt3Tdxhw87cg4iUOKI89GuUqvOtgpi5XB5
+         M9xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715748765; x=1716353565;
+        d=1e100.net; s=20230601; t=1715748766; x=1716353566;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Q5uBXo5orQcdm4k609Ve5/BzbHzbX6bMArVHYg6Cjbw=;
-        b=gOOLLP47fCIec5q7KF51vym0Hwn6IzTQcpFt2RA7F63XaKGkHk/TBnxY5xxV/k25Sd
-         BQt7lo8oAWprJ/6C7rUkabJQLr+cqPZaQ/004fb9DwlsnvNBI5iZBJvuHDiJ0vfOKyy8
-         h248Z4Rw9hWdBV6QIIslZxfr1RutrG9n4OE+TDta2/oK/xNddtIKwtVFir3WENSB2XHa
-         0jZ6IBLoCEpWj8q3xrKkw4jQGpTEqZs/reV5gsF5NFLsyYYFnc2+Jdkk/0o5cHDoijy6
-         gtJGxBd+in4tTu6sI+ltwo0IABTI86YjbJ+7qpNGtIro/WVLHjuNYXs+wy6mgnOFV8nf
-         IGqQ==
-X-Gm-Message-State: AOJu0YwFwjmTAlk48B+Iip3WK1u4XH/yAiJJDF8Kal+PjZTo5cYNim8Q
-	NEP+4b5lRac/tSG/+olv/d3mX1KuOMoh7rCmCiucJvT48AAnlUMIEabVHoRYnWU=
-X-Google-Smtp-Source: AGHT+IGd8pJGmwnbAEWl4DdU9jN9a9BZE7BDE2KjzGYE95GascgoKwP00mKOm6PzR9TUCs2ysEYhsQ==
-X-Received: by 2002:a05:6808:144e:b0:3c9:63d1:6fce with SMTP id 5614622812f47-3c9970ba8camr21808933b6e.40.1715748765203;
+        bh=DEx6vAr52pGxysjGe3jw5iXqLZA63B3Rf1CnGustKUE=;
+        b=TKO4NC/138lLuWcRKqX5NSmlDTlx3oUQR6QFgMMzcSzVYNw9fsbnlu70Ay6I5PAkLb
+         +eWke9ooSd5H6sU7aYN0sfgqgOMbb/uzL8WuksaQxebFDxX0SKF1ZwByKJHRcycVFAuY
+         XEnYayrTRtCDHJbNKoXJgYj6AXaNupyPkdPjtUgq3AovKnc6AA3TL8895D2XZraLDaHm
+         NrJ2EqNLrTXPI7aZMuoP9aJ/y/hBSv5R6eusaiOECkzywXBDhp3ZBZYYtx/KaGRvOyLI
+         ay+oIh4t1v9uSdgpU8dGrN8WQXYizwgiO/JQDlsSTBjwsXJC3ps+iTvbPB11J8DYzkKt
+         BvVg==
+X-Gm-Message-State: AOJu0YwouA5OGm5qNH21Lv5FfZvcBJqU8IuTH7XM107B6pydNWrsarb2
+	b1oRQQEnmqEJ4ZgvVUvf8ar7i8apRqPzkmyQWeqyUuCAetSBQF3iQH5u4Zc8skg=
+X-Google-Smtp-Source: AGHT+IEU3v7pENlKhFG6PdHM+Xs0TQ2WLZQ8Zb7U6UcQlLVQL8MHf7S6XzWlBzqSwaDRgqPpu67fmg==
+X-Received: by 2002:a05:6a00:4613:b0:6ed:41f4:1886 with SMTP id d2e1a72fcca58-6f4df3db383mr25644408b3a.8.1715748765879;
         Tue, 14 May 2024 21:52:45 -0700 (PDT)
 Received: from lunchbox.darkphysics (c-76-146-178-2.hsd1.wa.comcast.net. [76.146.178.2])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f4d2a827fdsm10135035b3a.60.2024.05.14.21.52.44
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f4d2a827fdsm10135035b3a.60.2024.05.14.21.52.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 May 2024 21:52:44 -0700 (PDT)
+        Tue, 14 May 2024 21:52:45 -0700 (PDT)
 From: Tree Davies <tdavies@darkphysics.net>
 To: gregkh@linuxfoundation.org,
 	philipp.g.hortmann@gmail.com,
@@ -58,9 +58,9 @@ To: gregkh@linuxfoundation.org,
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Tree Davies <tdavies@darkphysics.net>
-Subject: [PATCH 15/31] Staging: rtl8192e: Rename variable AddReorderEntry
-Date: Tue, 14 May 2024 21:52:12 -0700
-Message-Id: <20240515045228.35928-16-tdavies@darkphysics.net>
+Subject: [PATCH 16/31] Staging: rtl8192e: Rename variable pList
+Date: Tue, 14 May 2024 21:52:13 -0700
+Message-Id: <20240515045228.35928-17-tdavies@darkphysics.net>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20240515045228.35928-1-tdavies@darkphysics.net>
 References: <20240515045228.35928-1-tdavies@darkphysics.net>
@@ -72,36 +72,51 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rename variable AddReorderEntry to add_reorder_entry
+Rename variable pList to plist
 to fix checkpatch warning Avoid CamelCase.
 
 Signed-off-by: Tree Davies <tdavies@darkphysics.net>
 ---
- drivers/staging/rtl8192e/rtllib_rx.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/rtl8192e/rtllib_rx.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtllib_rx.c b/drivers/staging/rtl8192e/rtllib_rx.c
-index 3afce436a5d8..30bd6f49e915 100644
+index 30bd6f49e915..fb679229f173 100644
 --- a/drivers/staging/rtl8192e/rtllib_rx.c
 +++ b/drivers/staging/rtl8192e/rtllib_rx.c
-@@ -403,7 +403,7 @@ static int is_duplicate_packet(struct rtllib_device *ieee,
- 	return 1;
- }
- 
--static bool AddReorderEntry(struct rx_ts_record *ts,
-+static bool add_reorder_entry(struct rx_ts_record *ts,
+@@ -406,24 +406,24 @@ static int is_duplicate_packet(struct rtllib_device *ieee,
+ static bool add_reorder_entry(struct rx_ts_record *ts,
  			    struct rx_reorder_entry *pReorderEntry)
  {
- 	struct list_head *pList = &ts->rx_pending_pkt_list;
-@@ -610,7 +610,7 @@ static void rx_reorder_indicate_packet(struct rtllib_device *ieee,
- 			pReorderEntry->SeqNum = SeqNum;
- 			pReorderEntry->prxb = prxb;
+-	struct list_head *pList = &ts->rx_pending_pkt_list;
++	struct list_head *plist = &ts->rx_pending_pkt_list;
  
--			if (!AddReorderEntry(ts, pReorderEntry)) {
-+			if (!add_reorder_entry(ts, pReorderEntry)) {
- 				int i;
+-	while (pList->next != &ts->rx_pending_pkt_list) {
++	while (plist->next != &ts->rx_pending_pkt_list) {
+ 		if (SN_LESS(pReorderEntry->SeqNum, ((struct rx_reorder_entry *)
+-		    list_entry(pList->next, struct rx_reorder_entry,
++		    list_entry(plist->next, struct rx_reorder_entry,
+ 		    list))->SeqNum))
+-			pList = pList->next;
++			plist = plist->next;
+ 		else if (SN_EQUAL(pReorderEntry->SeqNum,
+-			((struct rx_reorder_entry *)list_entry(pList->next,
++			((struct rx_reorder_entry *)list_entry(plist->next,
+ 			struct rx_reorder_entry, list))->SeqNum))
+ 			return false;
+ 		else
+ 			break;
+ 	}
+-	pReorderEntry->list.next = pList->next;
++	pReorderEntry->list.next = plist->next;
+ 	pReorderEntry->list.next->prev = &pReorderEntry->list;
+-	pReorderEntry->list.prev = pList;
+-	pList->next = &pReorderEntry->list;
++	pReorderEntry->list.prev = plist;
++	plist->next = &pReorderEntry->list;
  
- 				netdev_dbg(ieee->dev,
+ 	return true;
+ }
 -- 
 2.30.2
 
