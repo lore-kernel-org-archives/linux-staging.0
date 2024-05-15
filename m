@@ -1,57 +1,56 @@
-Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
+Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAF52481DF
-	for <linux-staging@lists.linux.dev>; Wed, 15 May 2024 04:52:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A84F4EB2B
+	for <linux-staging@lists.linux.dev>; Wed, 15 May 2024 04:52:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715748767; cv=none; b=USpJKBtiRb5A8gcLX/kRgU+cb5UUb+Mi2OY/EQnO6q+/yxPfe45M0U35RNzK/8aDTTtcKdeJdu7rshzor0d5FnAyJ+qu/+hiPBXgVggt7BCe/XcaLO4L8o/yfKlhjVxaGWV3s+peO7Qu8DR7cnY9lvJN+6R5aMKDfWjVPoJVPWs=
+	t=1715748767; cv=none; b=cpZcTFHOwDPjtGjFLHGdfGxjcD3NhzBAaIQUbYOzJqxNW8F+RB5LYUTH0DR81kB1AMIRCeYYOWYpSigq15aZaeRGlen11gxCTJOQlLsgrTpoG38CflObOzeeLkxIuhnMflDGfbEyk1O+ljpNdeZxN8TTtQV+TDQXIu109AWqIIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1715748767; c=relaxed/simple;
-	bh=OQCA/Wuv/HfcLT3KLlRcg8Og+eLrIFBwwBqRoIqjfpQ=;
+	bh=W7YanCirN9wvp2zde5wv/2tgJrgt1xFhjhHajSKuSHA=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=cm3ihGOqvQMcGsZU0xT+fU8EHNxC0hbPpeWGXZN/CyFpKDbM+h/G9wZaQi2SduBF30SYuqugUbdJ0JHr5ox/mQUY1vkWTwMzccq96FVquJ0fURwhwlNFQVxcJ/+krl3nClCTCwheCc5htp7qZNCZlaAKMx975+5pEEpdpTjF2kE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net; spf=pass smtp.mailfrom=darkphysics.net; dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b=ApC0LW86; arc=none smtp.client-ip=209.85.161.44
+	 MIME-Version; b=gJpsi7hKt+lhuwYrRcIBig43mZQX4hp7ei8k4ESZEb4gRuDIhCUZ24yRaoatJyuEmjBI01dIs5aYEUGb5DxLUDzXJed3mlmAiOvOVfffigEnIBr0ipdDGgRT1rbMVX26sDJ7LvNQSNUM5QK4t3RxwcY3z2rZ08UFtg5sze+U/wo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net; spf=pass smtp.mailfrom=darkphysics.net; dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b=NVPBJ+Ly; arc=none smtp.client-ip=209.85.167.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=darkphysics.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="ApC0LW86"
-Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-5b2733389f9so3496656eaf.1
-        for <linux-staging@lists.linux.dev>; Tue, 14 May 2024 21:52:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="NVPBJ+Ly"
+Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-3c9b94951cfso520922b6e.3
+        for <linux-staging@lists.linux.dev>; Tue, 14 May 2024 21:52:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=darkphysics.net; s=google; t=1715748764; x=1716353564; darn=lists.linux.dev;
+        d=darkphysics.net; s=google; t=1715748765; x=1716353565; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9dZh+TjKA4PTqq8oux7GZt+IFGMZGNC7LsD9Ci9/UDI=;
-        b=ApC0LW86mh8el3q9K0BDgkfz5vvnKBeumPsENwP1Za1VOIZwKyTyY379sqC21mpRkX
-         rbLh+oxSVOfTg66eUrGEzZvY3T/n/8xZ9J9bZBNnVRB9BZoDhV0KF4q5de8XQS4TLzdV
-         7Nq0eXn0H4ubl+LqnSl1YbUTwj/w/hgpx/DJvBHqSFuxU54my8saFdCsWb8TzuKsNdvy
-         Ov97C5bVvTsQ7Z6IfSNch0+gLHU6MIpj6jUjrDg8m5axDHItihmGLebRL0z2p8Wu3PLu
-         x4MzLbdgvGPVcCA7gCefMebek1GANHoIleJJZtm0da+xw6fz+PCTTkBaFfLHL50j7Xsu
-         5J4A==
+        bh=Q5uBXo5orQcdm4k609Ve5/BzbHzbX6bMArVHYg6Cjbw=;
+        b=NVPBJ+Lyr4/EExghwBm5JZXLk/IZczPm5NCroyIX7myR6P/6YSzcXHq/df+oCi2OXg
+         0vH5WWF1xn8PB10XoqALJkgfwDNG12RmzoYq4xkkhnHo04yzCE7PJu/sdyxNJ0L9WuDo
+         VTuC8xyyphzoZdXFeYL5x0q8+1WFtToP9I+3i1HHydAT5zCoPQaDfzbLb/BaiFR8+byH
+         5XylhXAJJ0ZiZ+OgXuGeCD8p9nVj53ssOfxGtBk0dKSuy8Ajx5zRs91q3tUu2RfJJX2W
+         FZwzf9tL2/l8jh/+pz+2Ka7OED+f8pCOVsgIdxV2Mfxiz7M7kG5swLI4bcaG79R4EapA
+         ZSAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715748764; x=1716353564;
+        d=1e100.net; s=20230601; t=1715748765; x=1716353565;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9dZh+TjKA4PTqq8oux7GZt+IFGMZGNC7LsD9Ci9/UDI=;
-        b=g45TR8CZq0f/O1SiS+VAlPt3Qkj9u8uRrAEQK/GbtftnDHtQxjtIQCi7HhCfBb9n6i
-         +ereipvD2582jaTWBwMLITgtHShtm1IxZWK34UCeo/JtVK/QdMYab9b8H5rNT1aF6fmW
-         DKJrxC/wUaHJDQrIwMGhwMAhOEVXZPDJ5qJbvyX6mfxN0S8B5SRVcd6O44naT8EjiVOi
-         K/oQRHojzfCbVcR3gA6+sy2q2l6gBwS6iUQlbMCmhK6VW/ATI6mWsj/P39YI85UKne5S
-         MEuaqEGt9kCvZ1Ll+702M9BSDP0wE7PGSWINCeu+3/nGcU882BCPgUXn7FKsQptKbWy4
-         ph2g==
-X-Gm-Message-State: AOJu0YyJtHHFRO3hAq7I2OBh/FcZP9vpp+6RteTqnYEMWmRRu1LkqOvA
-	QTTV0D+qs4q4f7FH5uEl3SZbwwezONRFu02GIT0F8goaB5Las+9V7aUAEMochMrgLqE33agSs5v
-	/
-X-Google-Smtp-Source: AGHT+IETKpJHTIGgyOdig88uRhkcCct6gCbyK/ArdRVDW/rPCpb+83MR9NMIqp097Ctk+y26VdNS3g==
-X-Received: by 2002:a05:6871:5892:b0:244:bec8:febc with SMTP id 586e51a60fabf-244bec90232mr11318039fac.56.1715748763820;
-        Tue, 14 May 2024 21:52:43 -0700 (PDT)
+        bh=Q5uBXo5orQcdm4k609Ve5/BzbHzbX6bMArVHYg6Cjbw=;
+        b=gOOLLP47fCIec5q7KF51vym0Hwn6IzTQcpFt2RA7F63XaKGkHk/TBnxY5xxV/k25Sd
+         BQt7lo8oAWprJ/6C7rUkabJQLr+cqPZaQ/004fb9DwlsnvNBI5iZBJvuHDiJ0vfOKyy8
+         h248Z4Rw9hWdBV6QIIslZxfr1RutrG9n4OE+TDta2/oK/xNddtIKwtVFir3WENSB2XHa
+         0jZ6IBLoCEpWj8q3xrKkw4jQGpTEqZs/reV5gsF5NFLsyYYFnc2+Jdkk/0o5cHDoijy6
+         gtJGxBd+in4tTu6sI+ltwo0IABTI86YjbJ+7qpNGtIro/WVLHjuNYXs+wy6mgnOFV8nf
+         IGqQ==
+X-Gm-Message-State: AOJu0YwFwjmTAlk48B+Iip3WK1u4XH/yAiJJDF8Kal+PjZTo5cYNim8Q
+	NEP+4b5lRac/tSG/+olv/d3mX1KuOMoh7rCmCiucJvT48AAnlUMIEabVHoRYnWU=
+X-Google-Smtp-Source: AGHT+IGd8pJGmwnbAEWl4DdU9jN9a9BZE7BDE2KjzGYE95GascgoKwP00mKOm6PzR9TUCs2ysEYhsQ==
+X-Received: by 2002:a05:6808:144e:b0:3c9:63d1:6fce with SMTP id 5614622812f47-3c9970ba8camr21808933b6e.40.1715748765203;
+        Tue, 14 May 2024 21:52:45 -0700 (PDT)
 Received: from lunchbox.darkphysics (c-76-146-178-2.hsd1.wa.comcast.net. [76.146.178.2])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f4d2a827fdsm10135035b3a.60.2024.05.14.21.52.43
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f4d2a827fdsm10135035b3a.60.2024.05.14.21.52.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 May 2024 21:52:43 -0700 (PDT)
+        Tue, 14 May 2024 21:52:44 -0700 (PDT)
 From: Tree Davies <tdavies@darkphysics.net>
 To: gregkh@linuxfoundation.org,
 	philipp.g.hortmann@gmail.com,
@@ -59,9 +58,9 @@ To: gregkh@linuxfoundation.org,
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Tree Davies <tdavies@darkphysics.net>
-Subject: [PATCH 13/31] Staging: rtl8192e: Rename variable RfdArray
-Date: Tue, 14 May 2024 21:52:10 -0700
-Message-Id: <20240515045228.35928-14-tdavies@darkphysics.net>
+Subject: [PATCH 15/31] Staging: rtl8192e: Rename variable AddReorderEntry
+Date: Tue, 14 May 2024 21:52:12 -0700
+Message-Id: <20240515045228.35928-16-tdavies@darkphysics.net>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20240515045228.35928-1-tdavies@darkphysics.net>
 References: <20240515045228.35928-1-tdavies@darkphysics.net>
@@ -73,48 +72,36 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rename variable RfdArray to rfd_array
+Rename variable AddReorderEntry to add_reorder_entry
 to fix checkpatch warning Avoid CamelCase.
 
 Signed-off-by: Tree Davies <tdavies@darkphysics.net>
 ---
- drivers/staging/rtl8192e/rtllib.h    | 2 +-
  drivers/staging/rtl8192e/rtllib_rx.c | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-index cdb3ebc77a53..996662a06e3f 100644
---- a/drivers/staging/rtl8192e/rtllib.h
-+++ b/drivers/staging/rtl8192e/rtllib.h
-@@ -1407,7 +1407,7 @@ struct rtllib_device {
- 	struct work_struct wx_sync_scan_wq;
- 
- 	union {
--		struct rtllib_rxb *RfdArray[REORDER_WIN_SIZE];
-+		struct rtllib_rxb *rfd_array[REORDER_WIN_SIZE];
- 		struct rtllib_rxb *stats_IndicateArray[REORDER_WIN_SIZE];
- 		struct rtllib_rxb *prxbIndicateArray[REORDER_WIN_SIZE];
- 		struct {
 diff --git a/drivers/staging/rtl8192e/rtllib_rx.c b/drivers/staging/rtl8192e/rtllib_rx.c
-index a30945f30e14..4c8cfa40927c 100644
+index 3afce436a5d8..30bd6f49e915 100644
 --- a/drivers/staging/rtl8192e/rtllib_rx.c
 +++ b/drivers/staging/rtl8192e/rtllib_rx.c
-@@ -509,13 +509,13 @@ void rtllib_flush_rx_ts_pending_pkts(struct rtllib_device *ieee,
- 			   pRxReorderEntry->SeqNum);
- 		list_del_init(&pRxReorderEntry->list);
- 
--		ieee->RfdArray[RfdCnt] = pRxReorderEntry->prxb;
-+		ieee->rfd_array[RfdCnt] = pRxReorderEntry->prxb;
- 
- 		RfdCnt = RfdCnt + 1;
- 		list_add_tail(&pRxReorderEntry->list,
- 			      &ieee->RxReorder_Unused_List);
- 	}
--	rtllib_indicate_packets(ieee, ieee->RfdArray, RfdCnt);
-+	rtllib_indicate_packets(ieee, ieee->rfd_array, RfdCnt);
- 
- 	ts->rx_indicate_seq = 0xffff;
+@@ -403,7 +403,7 @@ static int is_duplicate_packet(struct rtllib_device *ieee,
+ 	return 1;
  }
+ 
+-static bool AddReorderEntry(struct rx_ts_record *ts,
++static bool add_reorder_entry(struct rx_ts_record *ts,
+ 			    struct rx_reorder_entry *pReorderEntry)
+ {
+ 	struct list_head *pList = &ts->rx_pending_pkt_list;
+@@ -610,7 +610,7 @@ static void rx_reorder_indicate_packet(struct rtllib_device *ieee,
+ 			pReorderEntry->SeqNum = SeqNum;
+ 			pReorderEntry->prxb = prxb;
+ 
+-			if (!AddReorderEntry(ts, pReorderEntry)) {
++			if (!add_reorder_entry(ts, pReorderEntry)) {
+ 				int i;
+ 
+ 				netdev_dbg(ieee->dev,
 -- 
 2.30.2
 
