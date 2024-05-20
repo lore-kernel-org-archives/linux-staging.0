@@ -1,100 +1,82 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from exchange.fintech.ru (exchange.fintech.ru [195.54.195.159])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCC5F8BEA;
-	Mon, 20 May 2024 09:03:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C97453E07
+	for <linux-staging@lists.linux.dev>; Mon, 20 May 2024 14:47:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.54.195.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716195811; cv=none; b=mFnt8Bd2H/9ekJABp8D8tiv4MCcerGX/wPr4YiO6ww/DIWjfZRv09oF7Qdl5yB+CRayXVVM7UbLDnsR4m6IKF/APeHihqPczF+wBRaMiVcjtsgYtvmBaTYfc9dcdf2I6xAsg0iesXGhbSLKTpcTpOKwJjZaRifPEBevzvncDdP4=
+	t=1716216444; cv=none; b=fe0d5sphvEl4ZOU4ZilSkPrRKAfI5Q/A5all0UkBwQRX5EEn2LFkDENakLWPuyNN3EPYhVbw9LYDQcUVXEVmP9F8rItzp++C4p6Zq0aibK+xMk6Eunxbh3eRk3yQ2OxB3EuvqhrIh0ptNnHJmmozo9Ys79jeHqyXU1O/1nuIUHQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716195811; c=relaxed/simple;
-	bh=vNIDBF9X86I3eNH3ACbqdxubrgXLfR93QrgLlvkHabM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ho5AhLgeqrETieKO+wP4TSRuWr9XdBBjlXk0FKPcqa9kpVKpbDPjpsC+rhRZMVsIgqhbMm+qWc18Zx3uzPODnqt3sFG2sD559tMv9Wo2atnANvT6F9oFGDGPoo3UHj1HmoaAuQVWb/OIhI4E9rhUQyDrbsrwB6zKtwvNSkG9RP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=t+Eld+Qe; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="t+Eld+Qe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE033C2BD10;
-	Mon, 20 May 2024 09:03:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1716195810;
-	bh=vNIDBF9X86I3eNH3ACbqdxubrgXLfR93QrgLlvkHabM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=t+Eld+QeRuyMzXsiBDA6bKkJBWz4UxGITjqpjVyhJ43ySTPuwleWWyZTJm4L8uWgS
-	 jU43YQH2gTFxPUcDfTaHyNz+7cY5F7blavYCX7bGF2D22nuv59D32isDwBBm/L8ucq
-	 PtnTSJePjop2UjQTf5qdDRqbrNojFNhFRivSsFFo=
-Date: Mon, 20 May 2024 11:03:27 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Marc Dietrich <marvin24@gmx.de>
-Cc: linux-staging@lists.linux.dev, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH] staging: nvec: make i2c controller register writes robust
-Message-ID: <2024052009-impotent-open-1621@gregkh>
-References: <20240421104642.25417-1-marvin24@gmx.de>
- <334d0a42-9dda-a21b-2650-d33187525eb9@gmx.de>
+	s=arc-20240116; t=1716216444; c=relaxed/simple;
+	bh=NszCYuGG62vA2thKcJ8SoYDRFimKvFGOM29xafLKn54=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=MF8uMF+4J/0tY9u+S4D4arEfEPA13cNMZ8/NAP98TP0fSID1fPMkkD7Jc0lD3WdokmIMnaAlIQWTrajyEb5mFl4/FCv+7q/eArNm5XXNHi9xY7pOcPyWvw2UtgEhHaqyabgou0hur2ptq4CM6XsJQr5IXKmvTAqG5pqlRAZANuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fintech.ru; spf=pass smtp.mailfrom=fintech.ru; arc=none smtp.client-ip=195.54.195.159
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fintech.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fintech.ru
+Received: from Ex16-01.fintech.ru (10.0.10.18) by exchange.fintech.ru
+ (195.54.195.159) with Microsoft SMTP Server (TLS) id 14.3.498.0; Mon, 20 May
+ 2024 17:47:11 +0300
+Received: from localhost (10.0.253.138) by Ex16-01.fintech.ru (10.0.10.18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Mon, 20 May
+ 2024 17:47:11 +0300
+From: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+To: syzbot <syzbot+83763e624cfec6b462cb@syzkaller.appspotmail.com>
+CC: Nikita Zhandarovich <n.zhandarovich@fintech.ru>,
+	<Larry.Finger@lwfinger.net>, <florian.c.schilhabel@googlemail.com>,
+	<gregkh@linuxfoundation.org>, <linux-kernel@vger.kernel.org>,
+	<linux-media@vger.kernel.org>, <linux-staging@lists.linux.dev>,
+	<linux-usb@vger.kernel.org>, <syzkaller-bugs@googlegroups.com>
+Subject: Re: [syzbot] [staging?] [usb?] memory leak in _r8712_init_xmit_priv (2)
+Date: Mon, 20 May 2024 07:46:41 -0700
+Message-ID: <20240520144641.17643-1-n.zhandarovich@fintech.ru>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <000000000000809328060a8a4c1c@google.com>
+References:
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <334d0a42-9dda-a21b-2650-d33187525eb9@gmx.de>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: Ex16-02.fintech.ru (10.0.10.19) To Ex16-01.fintech.ru
+ (10.0.10.18)
 
-On Mon, May 20, 2024 at 10:11:20AM +0200, Marc Dietrich wrote:
-> Hello Greg,
-> 
-> On Sun, 21 Apr 2024, Marc Dietrich wrote:
-> 
-> > The i2c controller needs to read back the data written to its registers.
-> > This way we can avoid the long delay in the interrupt handler.
-> > 
-> > Signed-off-by: Marc Dietrich <marvin24@gmx.de>
-> > ---
-> > drivers/staging/nvec/nvec.c | 41 ++++++++++++++++++++++---------------
-> > 1 file changed, 24 insertions(+), 17 deletions(-)
-> 
-> I think I answered all remaining comments. Are there any other
-> objections?
+Hi,
 
-Sorry, just went back and looked, and no, as-is I don't want to take
-this:
+> BUG: memory leak
+> unreferenced object 0xffff888107a5c000 (size 4096):
+>   comm "kworker/1:0", pid 22, jiffies 4294943134 (age 18.720s)
+>   hex dump (first 32 bytes):
+>     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+>     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+>   backtrace:
+>     [<ffffffff816337cd>] kmemleak_alloc_recursive include/linux/kmemleak.h:42 [inline]
+>     [<ffffffff816337cd>] slab_post_alloc_hook mm/slab.h:766 [inline]
+>     [<ffffffff816337cd>] slab_alloc_node mm/slub.c:3478 [inline]
+>     [<ffffffff816337cd>] __kmem_cache_alloc_node+0x2dd/0x3f0 mm/slub.c:3517
+>     [<ffffffff8157e625>] kmalloc_trace+0x25/0x90 mm/slab_common.c:1098
+>     [<ffffffff83cee442>] kmalloc include/linux/slab.h:600 [inline]
+>     [<ffffffff83cee442>] _r8712_init_xmit_priv+0x2b2/0x6e0 drivers/staging/rtl8712/rtl871x_xmit.c:130
+>     [<ffffffff83ce9033>] r8712_init_drv_sw+0xc3/0x290 drivers/staging/rtl8712/os_intfs.c:311
+>     [<ffffffff83ce7ce6>] r871xu_drv_init+0x1c6/0x920 drivers/staging/rtl8712/usb_intf.c:386
+>     [<ffffffff832d0f0b>] usb_probe_interface+0x16b/0x3a0 drivers/usb/core/driver.c:396
+>     [<ffffffff82c3bb06>] call_driver_probe drivers/base/dd.c:579 [inline]
 
-> > diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
-> > index 45df190c2f94..214839f51048 100644
-> > --- a/drivers/staging/nvec/nvec.c
-> > +++ b/drivers/staging/nvec/nvec.c
-> > @@ -570,6 +570,22 @@ static void nvec_tx_set(struct nvec_chip *nvec)
-> > 		(uint)nvec->tx->size, nvec->tx->data[1]);
-> > }
-> > 
-> > +/**
-> > + * i2c_writel - safely write to an I2C client controller register
-> > + * @val: value to be written
-> > + * @reg: register to write to
-> > + *
-> > + * A write to an I2C controller register needs to be read back to make sure
-> > + * that the value has arrived.
-> > + */
-> > +static void i2c_writel(u32 val, void *reg)
-> > +{
-> > +	writel_relaxed(val, reg);
-> > +
-> > +	/* read back register to make sure that register writes completed */
-> > +	readl_relaxed(reg);
-> > +}
+I am inclined to think that this issue might be false positive. During
+repro the device is initialized correctly, does some work and then
+exits, calling all required functions to clean things up
+(i.e. _free_xmit_priv()), including pxmitbuf->pallocated_buf.
+Kmemleak triggers disappear if you set longer intervals between
+scannning for them (obviously). And if all the things get cleared up
+when the device disconnects, isn't that correct and expected
+behaviour? Could the scanner just "lose track" of some of the objects
+here?
 
-This is not an i2c write function, please don't call it that and give it
-kernel doc formatting implying that it is an i2c write.
+Or am I missing something?
 
-Name it after this odd device that requires the read to happen, that's
-unique to it, nothing else.
-
-And don't worry about "potential drivers in the future", we worry about
-what we have here today.  You can rename/modify/whatever in the future
-if anything else ever happens.  We can only go off of what we have in
-front of us now.
-
-thanks,
-
-greg k-h
+Regards,
+Nikita
