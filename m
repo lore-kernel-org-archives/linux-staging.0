@@ -1,105 +1,120 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 844FA53E13
-	for <linux-staging@lists.linux.dev>; Mon, 20 May 2024 17:19:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3B10FBF6
+	for <linux-staging@lists.linux.dev>; Mon, 20 May 2024 18:39:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716225544; cv=none; b=KzJKGcLVofRUB8W1Q6te0I1uIoJae9Y4zImye92HHqxKnH+MBeObgCXSZv4kjnumabz1g1jsOqgzk5leKnoijLt92DqKPzB0FSYd1wmsmEdN9w+jFAHtDcI8yAe2brjuftdfg6mw94YFDk0m5H6WgbMURy/F8Xgo4LmOTokv+2s=
+	t=1716230370; cv=none; b=djNid9OypOCN45aKcbmW0CzBRrH5VUL1ja6rmFgc0E8ZK4DaJCv1qZ7a6otPy/2G0kKS++XieaCh3hpgR58qcKbAKs6e8S48odft9QrPDqrfXEqNqUslcwl1BmJW+GdopKVL4wIpcOJENDGVrj7jIzlJ99+gajRy3TiGKmwUJoY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716225544; c=relaxed/simple;
-	bh=ZulL6qcXBmPMizDGMFa38MV6hLqalQopbVewHPPYeiA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f3mnDDAtV3De8noUZ9cK1MjhxBT6M04uV4uzD0WQxm1Oyq/lP7kAxMxtfB+wrgi61QTQOnXFltuAXORKOnNjsjQZrnapuradd5OpcQ5iLCH9zqm7TBIvZHgmaCy697PzDRi2a+t/SXiNdg2DYBFPBXQCeLbU6f7rZ3ODz0Afyhs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=qw9rgYTC; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=57LL6CO5; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1716230370; c=relaxed/simple;
+	bh=riKvgZ8PmrYw2l2iaXL/BmS7souBplnqNokWCweAC4A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=s5xEG3Zrd4zX/W8ALtZHviSNPz9gPdecWpcdpDfwjop1aKPr9Lz5NYDwcgHgGC5ThwKnwH7KuDlBCBwbt/Y7o2HK2TJt31W2LQ8xoFmY+Sj+g1coDse1yI2RdDDf+Fi2QAQnHsJNpwejmlnX8DHuYq1hVzAIZoPF30BLVJNgb6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WILSiJjH; arc=none smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="qw9rgYTC";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="57LL6CO5"
-Date: Mon, 20 May 2024 19:18:48 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1716225535;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=P2V0fdH4t2poMRftCjRvPZHt3gefMT0fvdsrTqva5qU=;
-	b=qw9rgYTCydS26maYwXWBoL/7nMIZZdaccxQIOVk787jMgA6a5txSIR+y2nffAuCPPofmn1
-	oPCJW7v9dj1diB7JN+5NKhHMfIdGe72q2n6F/4ylPZFFDUt9M4SI54vbp+9grQkUTs11HU
-	g+taABgvmeLWQPE4OeNu5E264f76xw02HnR9EnCMpoWCQ3mWQUiA+xFnOdcbksCT10WJty
-	V7wGSrVImu6Uk7zqKu+GHtgt2hBkBe5RDwZoJJoxKQ0gMcr5ARL7ag4oSJouVmeYc/XtOP
-	sXpJK+JxleCfnk+2xc8H9yeFUFJ/ISQjWbXYXXml3EnmsZkfnTPkzeHNhMbawg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1716225535;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=P2V0fdH4t2poMRftCjRvPZHt3gefMT0fvdsrTqva5qU=;
-	b=57LL6CO5ZyAXHZYeHd5nbaeYh6SIDlHkM+L3BDLsQBQc860I2EPt/5IFLRoW/wIPEuWjoZ
-	jqt0WVlJI55MluDQ==
-From: Nam Cao <namcao@linutronix.de>
-To: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
-Cc: syzbot <syzbot+83763e624cfec6b462cb@syzkaller.appspotmail.com>,
-	Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
-	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Subject: Re: [syzbot] [staging?] [usb?] memory leak in _r8712_init_xmit_priv
- (2)
-Message-ID: <20240520171848.60Nzvv8y@linutronix.de>
-References: <000000000000809328060a8a4c1c@google.com>
- <20240520144641.17643-1-n.zhandarovich@fintech.ru>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WILSiJjH"
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-575070cff74so1108598a12.3
+        for <linux-staging@lists.linux.dev>; Mon, 20 May 2024 11:39:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1716230367; x=1716835167; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=4PuNSzGjhogueYScZ//LeIbyJSH+S3XLhUJDLk4IO08=;
+        b=WILSiJjHtQHbcohlMnBs2Sea183WvT9lshqQOYSWCWfDccq+aWRI/hQUcCzzGyxcFr
+         QNLPn6r9PDpxtWlku1ufxF7hRJ9OfMgcA8SYOSJ+DIpvGCnFa5tERdIMgPiQhjjVE8qh
+         vhWueordRiOOVT6GBBC8Kf+bhZwT+uwAJ3tT6ovVmG/PbPZlhNL5yA1VNtgb2juJj7oY
+         Aokn//N4tmgsgMfybWxiDaiPe75z11W7cuaGKpUdroGR4tGKRT0bWsuulOPckcdX4tV9
+         U5aEyUQ6OjGJfKwDlbXyhj5ewc76+Oqtkx08sjpafc4bL5G82T6S9Gtq8W+oIgLJl+HX
+         eOIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716230367; x=1716835167;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4PuNSzGjhogueYScZ//LeIbyJSH+S3XLhUJDLk4IO08=;
+        b=hA7t7mvcaPnwJ35B/BZ/9oeiLO9cjoimu0abf8EVGg52EXxzpQBZdEYflvs1wVIwKT
+         vcR09/Z4F/9tfd+yU64WLy3/E42KwRN2gVu/1LIhwsUqrqmbpyMtmggN8ghOQboU4yVb
+         4D03DcQB0IIDOCg0IuJTLOPr0O7UrdBkQSt/UlL/OGQ5WLkQIWXk/+Bc6nkobtIQbOw6
+         ugO8rcp2KEF5eA6CErQQA3kLyq8D1mkBlHEK7ojYLxnK/5OgL6T0cmzsA99jLQaTAON0
+         02xtMerYy12tLTvIiyJGKujUr4Fv+ZMfNangQbl+JY2LvQUYChjauEo1xfN1mfbiq9Cv
+         gfhw==
+X-Gm-Message-State: AOJu0Ywl4UPA0POhd7ZTyg/iy6Y1yAIOZr+HsiZwu/b9JXiWLBLBV5R/
+	6zTYfdF5jxTsqP4/B8LldjpDFC/iLKT7wGg0mqksor4+N7v6ph8V
+X-Google-Smtp-Source: AGHT+IFNKRCLE4JVZIDmnHetVUMxMLgUnr/T3dRuolRB8r9/2nqR9RmsH2G54rfHf79jKCtCQYUpqA==
+X-Received: by 2002:a17:907:50e:b0:a59:a0b7:1850 with SMTP id a640c23a62f3a-a5a2d6871dfmr1944871066b.5.1716230366766;
+        Mon, 20 May 2024 11:39:26 -0700 (PDT)
+Received: from [192.168.0.102] (p57935690.dip0.t-ipconnect.de. [87.147.86.144])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a5a17b17cc5sm1482258566b.205.2024.05.20.11.39.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 May 2024 11:39:26 -0700 (PDT)
+Message-ID: <e26f09d5-0a04-4392-bae6-d619008b3d9e@gmail.com>
+Date: Mon, 20 May 2024 20:39:25 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240520144641.17643-1-n.zhandarovich@fintech.ru>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: rtl8712: Fix spelling mistakes in
+ rtl871x_event.h
+To: Roshan Khatri <topofeverest8848@gmail.com>, Larry.Finger@lwfinger.net,
+ florian.c.schilhabel@googlemail.com, gregkh@linuxfoundation.org,
+ ayushtiw0110@gmail.com, dan.carpenter@linaro.org, namcaov@gmail.com,
+ linux-kernel@vger.kernel.org
+Cc: linux-staging@lists.linux.dev
+References: <20240520064750.48912-1-topofeverest8848@gmail.com>
+Content-Language: en-US
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <20240520064750.48912-1-topofeverest8848@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, May 20, 2024 at 07:46:41AM -0700, Nikita Zhandarovich wrote:
-> Hi,
+On 5/20/24 08:47, Roshan Khatri wrote:
+> codespell reported misspelled joining in rtl871x_event.h. This patch
+> fixes the misspelled joining word.
 > 
-> > BUG: memory leak
-> > unreferenced object 0xffff888107a5c000 (size 4096):
-> >   comm "kworker/1:0", pid 22, jiffies 4294943134 (age 18.720s)
-> >   hex dump (first 32 bytes):
-> >     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-> >     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-> >   backtrace:
-> >     [<ffffffff816337cd>] kmemleak_alloc_recursive include/linux/kmemleak.h:42 [inline]
-> >     [<ffffffff816337cd>] slab_post_alloc_hook mm/slab.h:766 [inline]
-> >     [<ffffffff816337cd>] slab_alloc_node mm/slub.c:3478 [inline]
-> >     [<ffffffff816337cd>] __kmem_cache_alloc_node+0x2dd/0x3f0 mm/slub.c:3517
-> >     [<ffffffff8157e625>] kmalloc_trace+0x25/0x90 mm/slab_common.c:1098
-> >     [<ffffffff83cee442>] kmalloc include/linux/slab.h:600 [inline]
-> >     [<ffffffff83cee442>] _r8712_init_xmit_priv+0x2b2/0x6e0 drivers/staging/rtl8712/rtl871x_xmit.c:130
-> >     [<ffffffff83ce9033>] r8712_init_drv_sw+0xc3/0x290 drivers/staging/rtl8712/os_intfs.c:311
-> >     [<ffffffff83ce7ce6>] r871xu_drv_init+0x1c6/0x920 drivers/staging/rtl8712/usb_intf.c:386
-> >     [<ffffffff832d0f0b>] usb_probe_interface+0x16b/0x3a0 drivers/usb/core/driver.c:396
-> >     [<ffffffff82c3bb06>] call_driver_probe drivers/base/dd.c:579 [inline]
+> Signed-off-by: Roshan Khatri <topofeverest8848@gmail.com>
+> ---
+>   drivers/staging/rtl8712/rtl871x_event.h | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> I am inclined to think that this issue might be false positive. During
-> repro the device is initialized correctly, does some work and then
-> exits, calling all required functions to clean things up
-> (i.e. _free_xmit_priv()), including pxmitbuf->pallocated_buf.
-> Kmemleak triggers disappear if you set longer intervals between
-> scannning for them (obviously). And if all the things get cleared up
-> when the device disconnects, isn't that correct and expected
-> behaviour? Could the scanner just "lose track" of some of the objects
-> here?
-> 
-> Or am I missing something?
+> diff --git a/drivers/staging/rtl8712/rtl871x_event.h b/drivers/staging/rtl8712/rtl871x_event.h
+> index 759a2d27d8f2..0cc780cf4341 100644
+> --- a/drivers/staging/rtl8712/rtl871x_event.h
+> +++ b/drivers/staging/rtl8712/rtl871x_event.h
+> @@ -37,7 +37,7 @@ struct surveydone_event {
+>   };
+>   
+>   /*
+> - * Used to report the link result of joinning the given bss
+> + * Used to report the link result of joining the given bss
+>    * join_res:
+>    *  -1: authentication fail
+>    *  -2: association fail
 
-Possibly this is because the driver's probe function doesn't clean up
-itself properly if it fails in the middle (e.g. due to the system running
-out of memory and kmalloc() fails). These aren't easy to reproduce, because
-you would need to make probing fails somehow.
+Hi Roshan,
 
-Example fix: ac83631230f7 ("staging: r8712: Fix memory leak in
-_r8712_init_xmit_priv()")
+Subject line looks good to me - but it is only one mistake and not mistakes.
 
-Best regards,
-Nam
+Patch description: Omit what you are changing as this can be seen in the 
+change itself. Do only write why you are doing this.
+
+You can find examples with
+git log --grep=codespell
+or
+git log --grep=typo
+
+If you send in a second version of this patch please use a change 
+history. Description from Dan under:
+https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
+
+This is just my opinion but often I am right. Any response from Greg is 
+binding.
+
+Bye Philipp
+
