@@ -1,90 +1,98 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F6D48F49
-	for <linux-staging@lists.linux.dev>; Sat, 18 May 2024 22:02:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CB2A1B7E9
+	for <linux-staging@lists.linux.dev>; Mon, 20 May 2024 06:48:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716069760; cv=none; b=qxbwfqcHv6cfYpndZw0fWJ+O6btjmAvYjG47D/1MBRcnSuuuXQABuegG3t0kC4/CQHrJmySWFGdGryM32p2+h5ogLZhhj0TgCI1RKvzcO946DsfidrgeZaCVLtc03KKKaaOwkEBd0UjrU9jIH2t9w8BsfOopmkzDpGfqR6w8f5I=
+	t=1716187687; cv=none; b=eXYH1pUSzogGpkdsyOezBMefzG+5gHvuk3DW3CKt/oPA6RBcsA3FJ3MXuzriSM9SeQCS7RVus70cJUDSFreFdY5UUd0nRDXehj8zP4ZBFMhg3Ea2CYvnvZRXzl1KUqE8rbRVVGSSy7EAPhQ9Rp+8KeNjmdorSKq2YD/jnfpofaA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716069760; c=relaxed/simple;
-	bh=kedmeD4aX62R44RLOmYiPNNusWIBA/LEAOhBmBHsFjM=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kB7VATpzoFIsGyZQ3xqIXFzSU2tA7H4Rm4xOc+RnZuIUflcL+6A4XXxIJo1x2uaNHE+7/BDaE5rqP75HM2nW6aQ6BKSHJJvzUcMHeQkqyQ5wNWAcBUoIw/IKl6OkGcMArcJ4Le5E+jjh417k1+948a1nXuvGnK3h5Gjut2TH9us=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net; spf=pass smtp.mailfrom=darkphysics.net; dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b=cCJlPXbt; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=darkphysics.net
+	s=arc-20240116; t=1716187687; c=relaxed/simple;
+	bh=y9ZGn5ap2YWzMsXkY7gtbA7uHfkEFSZUvzYZUdbBh+o=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=hH+/Z4PVSI69VH4xMOHI2AcMp1BT7umWWnoQrG5+6hFI3wBTEvm8uxZwpYGRp87Az/KThfHNX6pbNcdBT24w+5WaAXauSd/0cqXSmPGVvBV6+7sSxpxb7M62r4/98fJqtXIBbZvXJ6Z2B+8XHOewzQj36OEBSAxdqjZFM/olxJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iLFgT+F0; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="cCJlPXbt"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1f0537e39b3so41477465ad.3
-        for <linux-staging@lists.linux.dev>; Sat, 18 May 2024 15:02:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iLFgT+F0"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1edc696df2bso75114605ad.0
+        for <linux-staging@lists.linux.dev>; Sun, 19 May 2024 23:48:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=darkphysics.net; s=google; t=1716069758; x=1716674558; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/Dt6GgNMEhbMDY/9MX5M405N11rz/0+cbz8H78AH/cw=;
-        b=cCJlPXbtYr05/olhDnKQCVWqu/adDTuIlcrW2S5eVW8gR3qdSb/+RbMfWi2BTT67UC
-         LDM3Q/ritZzm4Ms+6SaOKe2HpzhpL9KIEi4ijwtjRIyoikqL6DfUJ0gGPPmXyJyp3SpZ
-         l3VWu9hJCpcJrHy3C0pzYDF8oHRy7pfNE84DQVhu7MeYjg91ANnoKZGYnCfw+z50OxPI
-         Isu91ArN0GuBZB3GXlYBXG0yLm6CgEfN7Rce3rhEVGeDL0pBs1hQIpLuBcTqqBkfPvgh
-         bUpisfyOAFZSdPNwh9rzNuerLljo4H+euPQ36fel0yZdYjhM+QIsHbxxIIX+Fpipi2Gf
-         nTwg==
+        d=gmail.com; s=20230601; t=1716187685; x=1716792485; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zfMzlC0870/LEOajOtqmC6jp6j08ml+NFYZpxKCmgUI=;
+        b=iLFgT+F0kuK2kAdnyOYf8xbxECj0gOHg3FkpoWzLfuNnY/StMbCw6vAKgUW320FY9X
+         6hLlPN4up86TuuxAF7wo+nlgH5ZrjkxJyZlgEIghUi/R2WoD4dmbHMJ8KwY3v6cWiqwE
+         CSvN4RodpLNL5EeWtsV4V2vZBYfd4UcujBH02hFfR53Jo7KRrCj3W2dTheC8xB6byb9p
+         18wHlUwSyzUnWEPx+o1lOidze5uLkUNMSKQQlm4/Rg1LH/eoDqS0VuJg9jcqKxpqBlN5
+         VWBJ2lbGhxUWE1mBhUGj/IUGnr4WY63TJPnYlFpQYDJY/LwzSk46wMf4CF9yNoZ27Gz+
+         Y5mQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716069758; x=1716674558;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/Dt6GgNMEhbMDY/9MX5M405N11rz/0+cbz8H78AH/cw=;
-        b=c92FzsbkyRSigdsLCU7+0jWWMHLgl3zhRhk4X26AjWXFQJnag9Qb4buHh1wWDsSu85
-         uyxXsL4YdY5FEMF4/BjZ/QSV7Am7jsLjpNdGHZo6YWeUYCV8SOE/WN4hxWpEhhvdVI00
-         iA+3uYXpjObeEWp9z8dqqxn0tTVf6/BjGk/5EVY7UVU2UW7lhBwmAMxZJ8qp1rHZl9xQ
-         SlzjOLi65PioIMDhyBE6O/VqHR54rPGbLEbDGcYQQ1HOVuIznW3Lu6glFqopFioJ5Bev
-         xukldIc/jwHUx/hBirNvfv1MGzxxrjseYL7FWZs9qjHNgEEvKV3X+4oePUTb47K1gu9j
-         1/iA==
-X-Forwarded-Encrypted: i=1; AJvYcCVuytJdhCJGCbF9IiiGWpYRxkWe0mnBjj2QIzANJj5KbeQ+XOea+NpbMV0COPdoCrAsgB+l9DAnFR4rKYpoq3A3/VE8NWmR4+gHhWhTIA==
-X-Gm-Message-State: AOJu0Yxf6uxGSc2VswQDaaue6X67/bM2nvdR4lbfrFaWf0GM3qjWoGPj
-	nOBdiIyx6Av0Ws5EFGCTes8GxJQLJoDAYMF5ZgaEk4knq56nGp53lrUHlmv7jXI=
-X-Google-Smtp-Source: AGHT+IEhdDfAdlW5zWrQVXUMQoQD3CaQAI159xoqyK3WPc5KCs5rHttXSJJg3iNZAXw+s5U/dsRbEA==
-X-Received: by 2002:a05:6a00:9285:b0:6e6:98bf:7b62 with SMTP id d2e1a72fcca58-6f4e02ac4cdmr30838143b3a.8.1716069757595;
-        Sat, 18 May 2024 15:02:37 -0700 (PDT)
-Received: from lunchbox.darkphysics (c-76-146-178-2.hsd1.wa.comcast.net. [76.146.178.2])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f6805cbe76sm5283629b3a.43.2024.05.18.15.02.36
+        d=1e100.net; s=20230601; t=1716187685; x=1716792485;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zfMzlC0870/LEOajOtqmC6jp6j08ml+NFYZpxKCmgUI=;
+        b=Z1menyvYY6Az8TUNejnezcW8Y9St+7QNnB1L8GPK5ZcgSdpiscWgpQ6vQxXj04MJt5
+         U8UjGEFYpL86ubR1c0a3OXvg40/4HpWwCeXL7zZUGtETsku4br4ax9j8pZh7ToBbVt4b
+         6mRw1OpTDkbHybLMFZDDwUUe8uif5lq95gGYbUlVBErb4Xac/mnPGCoTTjg5+ikLQO22
+         iOPJttuE5uO7trN8kjKYMMR4sUGhVCUoMZpp0Tvig/nZqF4Y4clZlAb/qhiOP6edCFBU
+         WVqy0cUBwdOTQIXRSsgMZ5kJSlHkjaCb5LHHAY7EExrwJfZvk9BtW8mRU30YatrXUq1T
+         tX3A==
+X-Forwarded-Encrypted: i=1; AJvYcCWXq6141/y3xyao1LbyLbWvPyXoaJtWKwkCsNJS2O0w9jY3FmQfh5qdZPl4pFXkmWfcx/ROS1T9rjoic6knf9+QkyLFtugN64qMS/H87A==
+X-Gm-Message-State: AOJu0YwFU9RzCxK2WdhNhv2IKfa0OYvg8XijEu+6+D5IodX+A73cXqJQ
+	jMeSRQDSEYkJo2dK1Gck5OdDxnxaW4RQozCCA/4p9LZ14wwJ/hPB
+X-Google-Smtp-Source: AGHT+IGMwSQRDnd6pbwi2Fukz0POjpWHTpsfdv+vu5vnuyuyukqUIACaipIlOEHjNA7nHESLEyakWg==
+X-Received: by 2002:a17:90a:9601:b0:2ac:9baf:25b5 with SMTP id 98e67ed59e1d1-2b6cc76f70emr24064874a91.25.1716187685331;
+        Sun, 19 May 2024 23:48:05 -0700 (PDT)
+Received: from ubuntukernelserver.. ([49.236.212.182])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2b62863cd9dsm21206699a91.12.2024.05.19.23.48.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 May 2024 15:02:36 -0700 (PDT)
-From: "<Tree Davies" <tdavies@darkphysics.net>
-X-Google-Original-From: "<Tree Davies" <tdavies@gmail.com>
-Date: Sat, 18 May 2024 15:02:34 -0700
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Tree Davies <tdavies@darkphysics.net>, gregkh@linuxfoundation.org,
-	philipp.g.hortmann@gmail.com, anjan@momi.ca,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 19/31] Staging: rtl8192e: Rename variable ChkLength
-Message-ID: <Zkklei8JM4zz37xP@lunchbox.darkphysics>
-References: <20240515045228.35928-1-tdavies@darkphysics.net>
- <20240515045228.35928-20-tdavies@darkphysics.net>
- <2624273f-3589-435f-8bc0-8ae6514916b4@suswa.mountain>
+        Sun, 19 May 2024 23:48:04 -0700 (PDT)
+From: Roshan Khatri <topofeverest8848@gmail.com>
+To: Larry.Finger@lwfinger.net,
+	florian.c.schilhabel@googlemail.com,
+	gregkh@linuxfoundation.org,
+	ayushtiw0110@gmail.com,
+	dan.carpenter@linaro.org,
+	namcaov@gmail.com,
+	linux-kernel@vger.kernel.org
+Cc: Roshan Khatri <topofeverest8848@gmail.com>,
+	linux-staging@lists.linux.dev
+Subject: [PATCH] staging: rtl8712: Fix spelling mistakes in rtl871x_event.h
+Date: Mon, 20 May 2024 12:32:50 +0545
+Message-Id: <20240520064750.48912-1-topofeverest8848@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2624273f-3589-435f-8bc0-8ae6514916b4@suswa.mountain>
+Content-Transfer-Encoding: 8bit
 
-On Wed, May 15, 2024 at 12:31:20PM +0200, Dan Carpenter wrote:
-> On Tue, May 14, 2024 at 09:52:16PM -0700, Tree Davies wrote:
-> > Rename variable ChkLength to chk_length
-> > to fix checkpatch warning Avoid CamelCase.
-> > 
-> 
-> Just use llc_directly and delete ChkLength variable.
-> 
-> regards,
-> dan carpenter
-> 
+codespell reported misspelled joining in rtl871x_event.h. This patch
+fixes the misspelled joining word.
 
-Thanks Dan, I will send a v2.
-~Tree
+Signed-off-by: Roshan Khatri <topofeverest8848@gmail.com>
+---
+ drivers/staging/rtl8712/rtl871x_event.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/staging/rtl8712/rtl871x_event.h b/drivers/staging/rtl8712/rtl871x_event.h
+index 759a2d27d8f2..0cc780cf4341 100644
+--- a/drivers/staging/rtl8712/rtl871x_event.h
++++ b/drivers/staging/rtl8712/rtl871x_event.h
+@@ -37,7 +37,7 @@ struct surveydone_event {
+ };
  
+ /*
+- * Used to report the link result of joinning the given bss
++ * Used to report the link result of joining the given bss
+  * join_res:
+  *  -1: authentication fail
+  *  -2: association fail
+-- 
+2.34.1
+
