@@ -1,98 +1,192 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CB2A1B7E9
-	for <linux-staging@lists.linux.dev>; Mon, 20 May 2024 06:48:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EB6AFC1D;
+	Mon, 20 May 2024 08:11:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716187687; cv=none; b=eXYH1pUSzogGpkdsyOezBMefzG+5gHvuk3DW3CKt/oPA6RBcsA3FJ3MXuzriSM9SeQCS7RVus70cJUDSFreFdY5UUd0nRDXehj8zP4ZBFMhg3Ea2CYvnvZRXzl1KUqE8rbRVVGSSy7EAPhQ9Rp+8KeNjmdorSKq2YD/jnfpofaA=
+	t=1716192687; cv=none; b=GOe0BL8mfTExQbHU6fiPgAMYCogjTur1hqZ4yo6MAGhvCHZue0RQ++WZzN6yTupiCoINImpY+6DrirsNwLkgaJh3IfuUbyxFajMCW+s1/6TQ+OBN7baIgMKfHJciUM6rVh4pFUuKjEZBJfwTjpAR/wnVTRklaHNLdtELUc/aw3o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716187687; c=relaxed/simple;
-	bh=y9ZGn5ap2YWzMsXkY7gtbA7uHfkEFSZUvzYZUdbBh+o=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=hH+/Z4PVSI69VH4xMOHI2AcMp1BT7umWWnoQrG5+6hFI3wBTEvm8uxZwpYGRp87Az/KThfHNX6pbNcdBT24w+5WaAXauSd/0cqXSmPGVvBV6+7sSxpxb7M62r4/98fJqtXIBbZvXJ6Z2B+8XHOewzQj36OEBSAxdqjZFM/olxJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iLFgT+F0; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1716192687; c=relaxed/simple;
+	bh=4lednIxVtYVy8GpGMJIcuPPeV6vQOUz9OhOInB64kV0=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=Y6IOwA3tNRy11+CvUC31GB59kbmiAeKytaCc+00CyxwRZSlaOCu/UuRI1GZ3d+F20cunBU1la3SECnzK3PJfTmv7yhmF+PRg5AXo666zV8FX2LuTW9IwNiAz8OUQLOMW/wTnTP3CgEPvebv8GQJzzrNUEma2Pl46jhlwp+UGabs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=marvin24@gmx.de header.b=TvZ8Nx1r; arc=none smtp.client-ip=212.227.15.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iLFgT+F0"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1edc696df2bso75114605ad.0
-        for <linux-staging@lists.linux.dev>; Sun, 19 May 2024 23:48:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716187685; x=1716792485; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zfMzlC0870/LEOajOtqmC6jp6j08ml+NFYZpxKCmgUI=;
-        b=iLFgT+F0kuK2kAdnyOYf8xbxECj0gOHg3FkpoWzLfuNnY/StMbCw6vAKgUW320FY9X
-         6hLlPN4up86TuuxAF7wo+nlgH5ZrjkxJyZlgEIghUi/R2WoD4dmbHMJ8KwY3v6cWiqwE
-         CSvN4RodpLNL5EeWtsV4V2vZBYfd4UcujBH02hFfR53Jo7KRrCj3W2dTheC8xB6byb9p
-         18wHlUwSyzUnWEPx+o1lOidze5uLkUNMSKQQlm4/Rg1LH/eoDqS0VuJg9jcqKxpqBlN5
-         VWBJ2lbGhxUWE1mBhUGj/IUGnr4WY63TJPnYlFpQYDJY/LwzSk46wMf4CF9yNoZ27Gz+
-         Y5mQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716187685; x=1716792485;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zfMzlC0870/LEOajOtqmC6jp6j08ml+NFYZpxKCmgUI=;
-        b=Z1menyvYY6Az8TUNejnezcW8Y9St+7QNnB1L8GPK5ZcgSdpiscWgpQ6vQxXj04MJt5
-         U8UjGEFYpL86ubR1c0a3OXvg40/4HpWwCeXL7zZUGtETsku4br4ax9j8pZh7ToBbVt4b
-         6mRw1OpTDkbHybLMFZDDwUUe8uif5lq95gGYbUlVBErb4Xac/mnPGCoTTjg5+ikLQO22
-         iOPJttuE5uO7trN8kjKYMMR4sUGhVCUoMZpp0Tvig/nZqF4Y4clZlAb/qhiOP6edCFBU
-         WVqy0cUBwdOTQIXRSsgMZ5kJSlHkjaCb5LHHAY7EExrwJfZvk9BtW8mRU30YatrXUq1T
-         tX3A==
-X-Forwarded-Encrypted: i=1; AJvYcCWXq6141/y3xyao1LbyLbWvPyXoaJtWKwkCsNJS2O0w9jY3FmQfh5qdZPl4pFXkmWfcx/ROS1T9rjoic6knf9+QkyLFtugN64qMS/H87A==
-X-Gm-Message-State: AOJu0YwFU9RzCxK2WdhNhv2IKfa0OYvg8XijEu+6+D5IodX+A73cXqJQ
-	jMeSRQDSEYkJo2dK1Gck5OdDxnxaW4RQozCCA/4p9LZ14wwJ/hPB
-X-Google-Smtp-Source: AGHT+IGMwSQRDnd6pbwi2Fukz0POjpWHTpsfdv+vu5vnuyuyukqUIACaipIlOEHjNA7nHESLEyakWg==
-X-Received: by 2002:a17:90a:9601:b0:2ac:9baf:25b5 with SMTP id 98e67ed59e1d1-2b6cc76f70emr24064874a91.25.1716187685331;
-        Sun, 19 May 2024 23:48:05 -0700 (PDT)
-Received: from ubuntukernelserver.. ([49.236.212.182])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2b62863cd9dsm21206699a91.12.2024.05.19.23.48.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 May 2024 23:48:04 -0700 (PDT)
-From: Roshan Khatri <topofeverest8848@gmail.com>
-To: Larry.Finger@lwfinger.net,
-	florian.c.schilhabel@googlemail.com,
-	gregkh@linuxfoundation.org,
-	ayushtiw0110@gmail.com,
-	dan.carpenter@linaro.org,
-	namcaov@gmail.com,
-	linux-kernel@vger.kernel.org
-Cc: Roshan Khatri <topofeverest8848@gmail.com>,
-	linux-staging@lists.linux.dev
-Subject: [PATCH] staging: rtl8712: Fix spelling mistakes in rtl871x_event.h
-Date: Mon, 20 May 2024 12:32:50 +0545
-Message-Id: <20240520064750.48912-1-topofeverest8848@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=marvin24@gmx.de header.b="TvZ8Nx1r"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1716192681; x=1716797481; i=marvin24@gmx.de;
+	bh=3NfhAAlGGL5bnfia+lgDMGYdaP1U8gjKIdNADZAsnp4=;
+	h=X-UI-Sender-Class:Date:From:To:cc:Subject:In-Reply-To:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=TvZ8Nx1raB223W3VkmSooF7Lj+VMnu57THR8dZUxnLEbgjdYTlZNDNPpH4KcUYy+
+	 I1qJScklcAXwZWHL5x9HCmxbcHPmvX4Uvb7EwfOP0YthIRSqoDJ5wJB+tVUK7alYX
+	 fZRVTGOEc9luDg9BrdSfQ8Mh3Fwavki1v8E2j2VMyJYlWl5IW+kJ2WU7wVH8J3IhD
+	 N/wEsJ40JMjdHdG4GF0Cfj/Py53CKTsKfwspfpbbem0vMy1V9rTLpi35k9sIVA93G
+	 AnB2W/DOb4K7h0zPmMtd1OCGMa1sGI0/Rpx/Dv8rPRIl9ofL8Xp3v7Cs63WlidRWu
+	 fryw3w567bxi1tyQMg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from n5219w05.fritz.box ([109.250.53.23]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1N2mFi-1sYVlt2XlM-0139dW; Mon, 20
+ May 2024 10:11:21 +0200
+Date: Mon, 20 May 2024 10:11:20 +0200 (CEST)
+From: Marc Dietrich <marvin24@gmx.de>
+To: gregkh@linuxfoundation.org
+cc: linux-staging@lists.linux.dev, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH] staging: nvec: make i2c controller register writes
+ robust
+In-Reply-To: <20240421104642.25417-1-marvin24@gmx.de>
+Message-ID: <334d0a42-9dda-a21b-2650-d33187525eb9@gmx.de>
+References: <20240421104642.25417-1-marvin24@gmx.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Provags-ID: V03:K1:iFcfqAbBPLUMeXedLDJRczc7mjr8fzHnZaR0DJZ4W5nxJyW8hC+
+ v/S7MC/XA/ilWcPlUwng63H8ICncdk4wz79nos4aptjiV2R6j+Biv9EqrM1azxd4IPUiqlq
+ 02c5JU29F5bvqgEUEnO6/gR+ILv02a6AFJ/6ISDCYbSnmFDf8yTsOLpJtUcy899drsJcrc6
+ K0AHg/H7VjP4ck9UH3lpw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:QQbpeC2A+l8=;oXBLK8/+lZxfZ/N38Ip3EnfEynl
+ 9yHXJ1fbSpj7iy6VsGXpBOj/NFnZf3KmXllxrs3pXI79rPRA7LxdphpTNNNEcGrjv/aHBzN1M
+ assSNfQ8XWfGuMbqvCg2D0vk2LlVXHk3vq+jJtvsNqL2MYRWjNnBpuhzoOWqrvteydpFvXrKP
+ 0MRHI1t6WIBhz9WXC4DUINchJKILU1jvx1FnAxITX4o+q+m2keizScLDCfYrHlwBS4czcqXDm
+ xaapP3a4AZcAhh+O1O42RE0Ffvtt3IIDDNmZZKPkDcaA1sNR5W5XgnRjjKjjARV5wiSWn1GzB
+ kw0mpBpleH7UxwjgCTL3ZcNqmI2uUv7l6bQ1x4Iw/ysljJEd0wI7KsR6ZGFFrp7/xcs4cBou1
+ wQAkK8CGvVzKWzAKinrnVYXhf0q4ybAzp46OptEVeh0O73xxcIp221Kukm4F8YdcCNwACwqiR
+ bvAm3g+LccR+TrzxqQiS8Wjtv/BIUcy99NAq+NOM4Q6Wht/I9ELD6PAd17Iaf4C6HgV6JSkNN
+ V1qhqdx4S92B1mSucUJxe5T0yCqGbPBt5APmoTVJ47IzH7dlxfkjr2awHDCd6BEFVgwjgXKY8
+ /MumGWdFBsykVUtYGsGZj1WEIPeF/SCxQYPwhy2gLLCE+RR1a5hqMe/itORvwRKi1UC72AeCn
+ f6zkD015Cr6AqGs9F4047Ah9j76hI43iQQgf1k+Y6dsI6Ux/Sq0PIyub7udffpo8T38CoRK+q
+ c+qfP0nW5e7+wmkiVeQfF2fXTKzCWP4pHuv8VoY+bOO1k6sMUbY/+WjsQtvRjnRQk9Hqma75U
+ NV1ix7/jfhdGTFbJKyWR35KkG+c+GO3jCv+IjI+i8a8bI=
+Content-Transfer-Encoding: quoted-printable
 
-codespell reported misspelled joining in rtl871x_event.h. This patch
-fixes the misspelled joining word.
+Hello Greg,
 
-Signed-off-by: Roshan Khatri <topofeverest8848@gmail.com>
----
- drivers/staging/rtl8712/rtl871x_event.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Sun, 21 Apr 2024, Marc Dietrich wrote:
 
-diff --git a/drivers/staging/rtl8712/rtl871x_event.h b/drivers/staging/rtl8712/rtl871x_event.h
-index 759a2d27d8f2..0cc780cf4341 100644
---- a/drivers/staging/rtl8712/rtl871x_event.h
-+++ b/drivers/staging/rtl8712/rtl871x_event.h
-@@ -37,7 +37,7 @@ struct surveydone_event {
- };
- 
- /*
-- * Used to report the link result of joinning the given bss
-+ * Used to report the link result of joining the given bss
-  * join_res:
-  *  -1: authentication fail
-  *  -2: association fail
--- 
-2.34.1
+> The i2c controller needs to read back the data written to its registers.
+> This way we can avoid the long delay in the interrupt handler.
+>
+> Signed-off-by: Marc Dietrich <marvin24@gmx.de>
+> ---
+> drivers/staging/nvec/nvec.c | 41 ++++++++++++++++++++++---------------
+> 1 file changed, 24 insertions(+), 17 deletions(-)
 
+I think I answered all remaining comments. Are there any other
+objections?
+
+Best wishes,
+
+Marc
+
+
+> diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
+> index 45df190c2f94..214839f51048 100644
+> --- a/drivers/staging/nvec/nvec.c
+> +++ b/drivers/staging/nvec/nvec.c
+> @@ -570,6 +570,22 @@ static void nvec_tx_set(struct nvec_chip *nvec)
+> 		(uint)nvec->tx->size, nvec->tx->data[1]);
+> }
+>
+> +/**
+> + * i2c_writel - safely write to an I2C client controller register
+> + * @val: value to be written
+> + * @reg: register to write to
+> + *
+> + * A write to an I2C controller register needs to be read back to make =
+sure
+> + * that the value has arrived.
+> + */
+> +static void i2c_writel(u32 val, void *reg)
+> +{
+> +	writel_relaxed(val, reg);
+> +
+> +	/* read back register to make sure that register writes completed */
+> +	readl_relaxed(reg);
+> +}
+> +
+> /**
+>  * nvec_interrupt - Interrupt handler
+>  * @irq: The IRQ
+> @@ -604,7 +620,7 @@ static irqreturn_t nvec_interrupt(int irq, void *dev=
+)
+> 	if ((status & RNW) =3D=3D 0) {
+> 		received =3D readl(nvec->base + I2C_SL_RCVD);
+> 		if (status & RCVD)
+> -			writel(0, nvec->base + I2C_SL_RCVD);
+> +			i2c_writel(0, nvec->base + I2C_SL_RCVD);
+> 	}
+>
+> 	if (status =3D=3D (I2C_SL_IRQ | RCVD))
+> @@ -696,7 +712,7 @@ static irqreturn_t nvec_interrupt(int irq, void *dev=
+)
+>
+> 	/* Send data if requested, but not on end of transmission */
+> 	if ((status & (RNW | END_TRANS)) =3D=3D RNW)
+> -		writel(to_send, nvec->base + I2C_SL_RCVD);
+> +		i2c_writel(to_send, nvec->base + I2C_SL_RCVD);
+>
+> 	/* If we have send the first byte */
+> 	if (status =3D=3D (I2C_SL_IRQ | RNW | RCVD))
+> @@ -713,15 +729,6 @@ static irqreturn_t nvec_interrupt(int irq, void *de=
+v)
+> 		status & RCVD ? " RCVD" : "",
+> 		status & RNW ? " RNW" : "");
+>
+> -	/*
+> -	 * TODO: replace the udelay with a read back after each writel above
+> -	 * in order to work around a hardware issue, see i2c-tegra.c
+> -	 *
+> -	 * Unfortunately, this change causes an initialisation issue with the
+> -	 * touchpad, which needs to be fixed first.
+> -	 */
+> -	udelay(100);
+> -
+> 	return IRQ_HANDLED;
+> }
+>
+> @@ -737,15 +744,15 @@ static void tegra_init_i2c_slave(struct nvec_chip =
+*nvec)
+>
+> 	val =3D I2C_CNFG_NEW_MASTER_SFM | I2C_CNFG_PACKET_MODE_EN |
+> 	    (0x2 << I2C_CNFG_DEBOUNCE_CNT_SHIFT);
+> -	writel(val, nvec->base + I2C_CNFG);
+> +	i2c_writel(val, nvec->base + I2C_CNFG);
+>
+> 	clk_set_rate(nvec->i2c_clk, 8 * 80000);
+>
+> -	writel(I2C_SL_NEWSL, nvec->base + I2C_SL_CNFG);
+> -	writel(0x1E, nvec->base + I2C_SL_DELAY_COUNT);
+> +	i2c_writel(I2C_SL_NEWSL, nvec->base + I2C_SL_CNFG);
+> +	i2c_writel(0x1E, nvec->base + I2C_SL_DELAY_COUNT);
+>
+> -	writel(nvec->i2c_addr >> 1, nvec->base + I2C_SL_ADDR1);
+> -	writel(0, nvec->base + I2C_SL_ADDR2);
+> +	i2c_writel(nvec->i2c_addr >> 1, nvec->base + I2C_SL_ADDR1);
+> +	i2c_writel(0, nvec->base + I2C_SL_ADDR2);
+>
+> 	enable_irq(nvec->irq);
+> }
+> @@ -754,7 +761,7 @@ static void tegra_init_i2c_slave(struct nvec_chip *n=
+vec)
+> static void nvec_disable_i2c_slave(struct nvec_chip *nvec)
+> {
+> 	disable_irq(nvec->irq);
+> -	writel(I2C_SL_NEWSL | I2C_SL_NACK, nvec->base + I2C_SL_CNFG);
+> +	i2c_writel(I2C_SL_NEWSL | I2C_SL_NACK, nvec->base + I2C_SL_CNFG);
+> 	clk_disable_unprepare(nvec->i2c_clk);
+> }
+> #endif
+> --
+> 2.43.0
+>
+>
