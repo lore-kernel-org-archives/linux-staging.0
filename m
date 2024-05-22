@@ -1,107 +1,63 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B0AB13E03E
-	for <linux-staging@lists.linux.dev>; Wed, 22 May 2024 16:19:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8957F146A79;
+	Wed, 22 May 2024 19:38:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716394742; cv=none; b=XvfNR8R16E1toZxhK4aHLDtOEQ5QUdRQZJ2kIF8/DiynmMFCPxD4CDkdeh8FmecyxO24L4pC5PMaxMwMIMr6GK3OkMOvxREy0b89PqzNIS/0C1DGdYSFlYmXlL2nBMK0GmT4SdgmjuYtrD6o2nZndE6pt445S3CYXSkfSvimnRw=
+	t=1716406697; cv=none; b=QKlyp6fEG6C0RdhPqqjpI1za1k5xYdbFgP7riFWIxF34bqqm82N7tqRRgXeCRl3NfgQtvfNYmRhrD0dEE7/tIKzxbYSsB38Y0hRYTdyWoKA4yvVeCl4geZrnHRAm+EOlm5yh+PQa3XI58BF0ljD/xKcidhNjL81rrdAroEXPe1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716394742; c=relaxed/simple;
-	bh=oxFKEohBMHZV6yUy6/LmAq6oKk+NBVtVEkNKhy9XKdw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=JWP9kw2j8Dh4vDFF1AQo9rbWz3qSHxinfJZTMtrGeindaAFnbjH6ZMj7TYL4YCFxujEwdlStE6tYmLEaKCU+zQEF+7jW15h2ykgnvo/YseX9CDZpvTPqFzzMpA6+SQ1/NnGbXvcMRNc0ePNuC/ExCvXE+F8WBRW3Xekd/I3AkrM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J2eecof+; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1716406697; c=relaxed/simple;
+	bh=fHXvx8CL2UwVPwAeZnP3j3Tm0Kp3Ebtfy1/hNZlqxqo=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=QgOK472TWyWkpr0oclMI2I8Z+rDBAuVJpf67fikEp4xTlAujCI5HeZuDRVw9KNbJ80f+KVqVqsczFH9gJ1UiVwODg7vvL5kaMNEKQ/QliE0lTIEK+zbJZ8DRzPuZMnakkMPFcMIw+SDLaXNj+g6nGtKSuc7R6gNB53OoK6JhVck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TwDVtKZz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J2eecof+"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-6f4521ad6c0so1510715b3a.0
-        for <linux-staging@lists.linux.dev>; Wed, 22 May 2024 09:19:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716394740; x=1716999540; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=AxJFeH3HiDVDkh3oGTnmJjc83iwNoljE8xuAzbGV+Os=;
-        b=J2eecof+KkHAhtPTsmJ7VmYBAZSnEYjFrF6+HQ8iy7PGZhHzhs1bIP19QFXOt1VnbQ
-         4LkFx11qfVSHYbIHETpZYQ7YVHVwln5EKzcLrrPQ+04BlhQeZF2OLizn9hyALeu8WLz1
-         xrpVWa9lGR0vVypAitcPGsXutOUdfFVyYMtteXlI/TgPCPALSEoGfk7PtCyhl4TG2GWc
-         qbhqG1kvH4CE3JnUimygzWiucjb/roz0IqPeDzuFibg7qF70V0bqm3E47bnuHaSDRzXm
-         bMvvqtmfDG6njGF56Ofv6VK9Ax9ql8YoG1TuSandf67b6auwBuEox6hFVSQrbULw/Csp
-         eeOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716394740; x=1716999540;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=AxJFeH3HiDVDkh3oGTnmJjc83iwNoljE8xuAzbGV+Os=;
-        b=cuvd66NPR9KZ6WTH6PUg8n16WfaeUjAx7ZEV9fNVvVSWcxD8V65FBtDObVrt5zlZfP
-         5Drr/XIXUNWA940gzENRzPjNoNkB2g6V9ATT1yEixoB+P9um6pJhW7fRyZxDU9LGPCO9
-         DRuAwOaxnm8M9yr5/URNNfKFqmwA433wupAlvLMYl0szv9lFCk6kc7gXYPFzEcsStxC6
-         6LjF4V0nE+J12lb0iHsjgENO0QA+SC0VUy/9Yc313qnJiAgYrLPg/2xZwVqrlOhhDSWn
-         eUvng4NsB2Ya6rrZl0xf3GhC5t43WoYxTIO/CD8garr00WY533Ca4LyeDmqLQi427Huc
-         BYyQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWnBRbAx5EYlxwfTs03bp4UTySH/AafL+tbrOMW6yRcMe6yyX65Sf0pQX09B3Qvoj5be952sjawgSERj0ERB4QAXovBQGrE8I27VxS13w==
-X-Gm-Message-State: AOJu0YyeQtB/b3pwteT+kybmV/sHqXKjMXVpYMeQEouAhkdDHJwZVAXc
-	5YQyJz7Z9sEH1YGxt52U9EO7rv9GzsDTPw5c2kL8+M4WsdXrnbMN
-X-Google-Smtp-Source: AGHT+IFq8ysxXZEYoiEQCycaIHWjUas3IvhCA3MXSebOQ1xZkLZ3iAY7gzl1s8SJPwLz1d+Ssz6COQ==
-X-Received: by 2002:a05:6a00:2da9:b0:6f4:d07a:e7f0 with SMTP id d2e1a72fcca58-6f6d61aea62mr2506918b3a.27.1716394740296;
-        Wed, 22 May 2024 09:19:00 -0700 (PDT)
-Received: from ubuntukernelserver.. ([49.236.212.182])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f4d2af2969sm22531958b3a.152.2024.05.22.09.18.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 May 2024 09:18:59 -0700 (PDT)
-From: Roshan Khatri <topofeverest8848@gmail.com>
-To: hdegoede@redhat.com,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org,
-	andy@kernel.org
-Cc: Roshan Khatri <topofeverest8848@gmail.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: media/atomisp/include/linux: Fix spelling mistakes in atomisp.h
-Date: Wed, 22 May 2024 22:03:30 +0545
-Message-Id: <20240522161830.57434-1-topofeverest8848@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TwDVtKZz"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 6C37FC3277B;
+	Wed, 22 May 2024 19:38:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1716406697;
+	bh=fHXvx8CL2UwVPwAeZnP3j3Tm0Kp3Ebtfy1/hNZlqxqo=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=TwDVtKZziCv47dYKYHRWCNp0zBVaQ6O1DqjV+hgJsOXUGt6NMk/qhE4Nx41F4nJ9F
+	 inGjahNpIh/wPRkBiLYT6YODeVlGzJXBjlyv9DR3bZoOoSsRG0s6MnI0uBQMg8wNaA
+	 NyGiIuVDuUjC7iF8lrFNaKNYaS1K7ymkw0NwEioyLcRV8kfDZqhrQv4UtGpomqqzlG
+	 AOXyzgpOtCzrdo4PeJZcw6Gm3RQkrJBDZw99TjnHE1Ez3ceAdTzO9z0EA7wX39EcU4
+	 88lPISxHRc6mwCDoozL3PR/qMVeXXgmDBcXHQoXIRPHSEo3j4Aok7Pxz3gGjXz5KUv
+	 2Ealq/jOr65eQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 659CFC43618;
+	Wed, 22 May 2024 19:38:17 +0000 (UTC)
+Subject: Re: [GIT PULL] Staging driver changes for 6.10-rc1
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <Zk4GPfBsYwVvk2H1@kroah.com>
+References: <Zk4GPfBsYwVvk2H1@kroah.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <Zk4GPfBsYwVvk2H1@kroah.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.10-rc1
+X-PR-Tracked-Commit-Id: eb563dc752d33b0a5d4952964af15ca892f59524
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: be81389c82e2c1ed0997629cb3d910f584666e33
+Message-Id: <171640669741.20241.18116329327209924009.pr-tracker-bot@kernel.org>
+Date: Wed, 22 May 2024 19:38:17 +0000
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andrew Morton <akpm@linux-foundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-codespell reported misspelled coefficients and vector in atomisp.h. This
-patch corrects the spellings to increase readability and searching.
+The pull request you sent on Wed, 22 May 2024 16:50:37 +0200:
 
-Signed-off-by: Roshan Khatri <topofeverest8848@gmail.com>
----
- drivers/staging/media/atomisp/include/linux/atomisp.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.10-rc1
 
-diff --git a/drivers/staging/media/atomisp/include/linux/atomisp.h b/drivers/staging/media/atomisp/include/linux/atomisp.h
-index bbbd904b696a..1d11a9579587 100644
---- a/drivers/staging/media/atomisp/include/linux/atomisp.h
-+++ b/drivers/staging/media/atomisp/include/linux/atomisp.h
-@@ -201,7 +201,7 @@ struct atomisp_dis_vector {
- };
- 
- /* DVS 2.0 Coefficient types. This structure contains 4 pointers to
-- *  arrays that contain the coeffients for each type.
-+ *  arrays that contain the coefficients for each type.
-  */
- struct atomisp_dvs2_coef_types {
- 	short __user *odd_real; /** real part of the odd coefficients*/
-@@ -741,7 +741,7 @@ enum atomisp_burst_capture_options {
- /* Digital Image Stabilization:
-  * 1. get dis statistics: reads DIS statistics from ISP (every frame)
-  * 2. set dis coefficients: set DIS filter coefficients (one time)
-- * 3. set dis motion vecotr: set motion vector (result of DIS, every frame)
-+ * 3. set dis motion vector: set motion vector (result of DIS, every frame)
-  */
- #define ATOMISP_IOC_G_DIS_STAT \
- 	_IOWR('v', BASE_VIDIOC_PRIVATE + 6, struct atomisp_dis_statistics)
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/be81389c82e2c1ed0997629cb3d910f584666e33
+
+Thank you!
+
 -- 
-2.34.1
-
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
