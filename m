@@ -1,219 +1,359 @@
-Received: from exchange.fintech.ru (exchange.fintech.ru [195.54.195.159])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31C21140E23
-	for <linux-staging@lists.linux.dev>; Wed, 22 May 2024 13:34:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.54.195.159
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF44C22EF4;
+	Wed, 22 May 2024 14:50:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716384850; cv=none; b=h8KAo9NAF6WRNGGFHxA3RH275rq0sF3faEFPG73qrulqcVH7FxblksG7Cm+iNnCjnM8tn4xRELFB/FruU7ZPax8ItKrkCIGKhN1GNF6uSfSQrXRQwJBokwIU53B4idLgBT0ON6vftrxMDxJubY/wz9GDhugPxkLUcBn+8SnLwco=
+	t=1716389441; cv=none; b=q1ubDAxqRMDpPNjQOgMZpMqi2lhdZZm7BR9bppZqFph+7dN72YJMfJfD8OAl1K6ekQDD2+kvmESmyNRTS7Wo89/crs2LPvhYTlTO4ErxAKcWMZxgG4qczBUE3qcK8UxGGfyL+iYCaEju1TB4csTEWMS12uZgWgw0rNmm9yKt0W0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716384850; c=relaxed/simple;
-	bh=TZP5dNki7jTzKxJ4a7RW9CQQzhAHTIb0RYx5kkokGQA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=VYJYiz5NkZp/RTChfXzpyXK6dVuPjFetpbolxnMsbXvTObRjcEDitkFlqgNVx8cXJMWK3h547K8jDIkLjWcsxEoggMgG1TBkn/nqP3I/sz/Qp8dOLPk64JOrh5zcFo8hGlfzD17ilwNspqaZ2MUuVdrmxSqp9R9eB4TNa913FyM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fintech.ru; spf=pass smtp.mailfrom=fintech.ru; arc=none smtp.client-ip=195.54.195.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fintech.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fintech.ru
-Received: from Ex16-01.fintech.ru (10.0.10.18) by exchange.fintech.ru
- (195.54.195.169) with Microsoft SMTP Server (TLS) id 14.3.498.0; Wed, 22 May
- 2024 16:33:57 +0300
-Received: from [192.168.211.130] (10.0.253.138) by Ex16-01.fintech.ru
- (10.0.10.18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Wed, 22 May
- 2024 16:33:57 +0300
-Message-ID: <5b351cfa-6537-4e3d-9d5b-0435e4eceef9@fintech.ru>
-Date: Wed, 22 May 2024 06:33:57 -0700
+	s=arc-20240116; t=1716389441; c=relaxed/simple;
+	bh=W5bA09DBlRWHH2Tf8kmFEwEAQY6JbDlVfEA5gtboA8Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=fBfsr+M/YKbPcxtgF72N8C2Z2rYPTw81sVKnI6hZu1ITsIvgP9FW+h0dNoiufdvnrz2uVUEbwNjLdLLSQDYI0rzySJVq5ayYduDVSTZPY5hNsphuZCABlXEFYGigYPPM4vj4DnhIAWMDUJA01FDQbuVU3tJhhsKvjfGHbNLb3SU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=GqyHKQjF; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="GqyHKQjF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0A53C2BBFC;
+	Wed, 22 May 2024 14:50:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1716389440;
+	bh=W5bA09DBlRWHH2Tf8kmFEwEAQY6JbDlVfEA5gtboA8Q=;
+	h=Date:From:To:Cc:Subject:From;
+	b=GqyHKQjF9DinCLcg19hNpvdafzaOfQcf8py2mrJAyqym375Nhi3TJ6PTm6Z2NFQhg
+	 4qRqSbZaDM+yJYHr2T+A3yFxq2iA3uSdHSaYqXKT1E+wYmiMySNdO+Y4Qjr8gJCj1P
+	 O3RJ9TdxYkVeTVHUiduKoobF0bhvKaqSm9xNE4ho=
+Date: Wed, 22 May 2024 16:50:37 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Stephen Rothwell <sfr@canb.auug.org.au>
+Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: [GIT PULL] Staging driver changes for 6.10-rc1
+Message-ID: <Zk4GPfBsYwVvk2H1@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [syzbot] [staging?] [usb?] memory leak in _r8712_init_xmit_priv
- (2)
-Content-Language: en-US
-To: Nam Cao <namcao@linutronix.de>
-CC: syzbot <syzbot+83763e624cfec6b462cb@syzkaller.appspotmail.com>,
-	<Larry.Finger@lwfinger.net>, <florian.c.schilhabel@googlemail.com>,
-	<gregkh@linuxfoundation.org>, <linux-kernel@vger.kernel.org>,
-	<linux-media@vger.kernel.org>, <linux-staging@lists.linux.dev>,
-	<linux-usb@vger.kernel.org>, <syzkaller-bugs@googlegroups.com>
-References: <000000000000809328060a8a4c1c@google.com>
- <20240520144641.17643-1-n.zhandarovich@fintech.ru>
- <20240520171848.60Nzvv8y@linutronix.de>
-From: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
-In-Reply-To: <20240520171848.60Nzvv8y@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: Ex16-02.fintech.ru (10.0.10.19) To Ex16-01.fintech.ru
- (10.0.10.18)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi,
+The following changes since commit 39cd87c4eb2b893354f3b850f916353f2658ae6f:
 
-On 5/20/24 10:18, Nam Cao wrote:
-> On Mon, May 20, 2024 at 07:46:41AM -0700, Nikita Zhandarovich wrote:
->> Hi,
->>
->>> BUG: memory leak
->>> unreferenced object 0xffff888107a5c000 (size 4096):
->>>   comm "kworker/1:0", pid 22, jiffies 4294943134 (age 18.720s)
->>>   hex dump (first 32 bytes):
->>>     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
->>>     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
->>>   backtrace:
->>>     [<ffffffff816337cd>] kmemleak_alloc_recursive include/linux/kmemleak.h:42 [inline]
->>>     [<ffffffff816337cd>] slab_post_alloc_hook mm/slab.h:766 [inline]
->>>     [<ffffffff816337cd>] slab_alloc_node mm/slub.c:3478 [inline]
->>>     [<ffffffff816337cd>] __kmem_cache_alloc_node+0x2dd/0x3f0 mm/slub.c:3517
->>>     [<ffffffff8157e625>] kmalloc_trace+0x25/0x90 mm/slab_common.c:1098
->>>     [<ffffffff83cee442>] kmalloc include/linux/slab.h:600 [inline]
->>>     [<ffffffff83cee442>] _r8712_init_xmit_priv+0x2b2/0x6e0 drivers/staging/rtl8712/rtl871x_xmit.c:130
->>>     [<ffffffff83ce9033>] r8712_init_drv_sw+0xc3/0x290 drivers/staging/rtl8712/os_intfs.c:311
->>>     [<ffffffff83ce7ce6>] r871xu_drv_init+0x1c6/0x920 drivers/staging/rtl8712/usb_intf.c:386
->>>     [<ffffffff832d0f0b>] usb_probe_interface+0x16b/0x3a0 drivers/usb/core/driver.c:396
->>>     [<ffffffff82c3bb06>] call_driver_probe drivers/base/dd.c:579 [inline]
->>
->> I am inclined to think that this issue might be false positive. During
->> repro the device is initialized correctly, does some work and then
->> exits, calling all required functions to clean things up
->> (i.e. _free_xmit_priv()), including pxmitbuf->pallocated_buf.
->> Kmemleak triggers disappear if you set longer intervals between
->> scannning for them (obviously). And if all the things get cleared up
->> when the device disconnects, isn't that correct and expected
->> behaviour? Could the scanner just "lose track" of some of the objects
->> here?
->>
->> Or am I missing something?
-> 
-> Possibly this is because the driver's probe function doesn't clean up
-> itself properly if it fails in the middle (e.g. due to the system running
-> out of memory and kmalloc() fails). These aren't easy to reproduce, because
-> you would need to make probing fails somehow.
-> 
-> Example fix: ac83631230f7 ("staging: r8712: Fix memory leak in
-> _r8712_init_xmit_priv()")
-> 
-> Best regards,
-> Nam
+  Linux 6.9-rc2 (2024-03-31 14:32:39 -0700)
 
-I did some more testing with the help of reproducer from [1].
-The way I see it, during repro leaks supposedly occur this way:
+are available in the Git repository at:
 
-r871xu_drv_init() // probe starts
-	...
-	r8712_init_drv_sw() // success at init
-	...
-	/* this takes around 20-30 secs during which LEAKS appear.
-	They only appear if repro tries to connect another similar
-	device in a loop. With only a single iteration no leaks are
-	present. */
-	for (i = 0, offset = 0; i < 128; i += 8, offset++)
-		r8712_efuse_pg_packet_read(padapter, offset,
-				   &pdata[i]);
-	...
-	return 0; // probe succeeds
-...
-...
-r871xu_dev_remove() // device starts disconnecting
-	...	
-	r8712_free_drv_sw()
-		...
-		*/ clean up all the stuff that 'leaks'
-		_free_xmit_priv(&padapter->xmitpriv);
-		...
-	...
-...
+  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.10-rc1
 
-In short, I think that probe finishes fine (compared to an example you
-brought up). But it is the interference from an attempt to connect a
-similar device that throws off KMEMLEAK and triggers leaks. Currently I
-can't figure out what exactly occurs to confuse the sanitizer.
+for you to fetch changes up to eb563dc752d33b0a5d4952964af15ca892f59524:
 
-P.S.
-Test log during repro execution looks like this (please excuse some
-crude and lazy debug printing on my part) with some added comments:
+  staging: pi433: Remove unused driver (2024-05-04 18:42:43 +0200)
 
-syz: main: finished sleeping, starting repro
+----------------------------------------------------------------
+Staging driver changes for 6.10-rc1
 
-// first process spawns, starts connecting device
+Here is the big set of staging driver changes for 6.10-rc1.  Not a lot
+of cleanups happening this kernel release, intern applications must be
+out of sync at the moment.  But we did delete two drivers, wlan-ng and
+pi433, as they are no longer in use and the developers involved wanted
+them just gone entirely, allowing us to drop 19k lines from the tree.
 
-syz: loop: pid 8532 			
-[ 7420.475276][ T8518] usb 1-1: new high-speed USB device number 8 using
-dummy_hcd
-[ 7421.060451][ T8518] usb 1-1: New USB device found, idVendor=083a,
-idProduct=c512, bcdDevice=cf.c8
-[ 7421.064860][ T8518] usb 1-1: New USB device strings: Mfr=1,
-Product=2, SerialNumber=3
-[ 7421.068964][ T8518] usb 1-1: Product: syz
-[ 7421.069828][ T8518] usb 1-1: Manufacturer: syz
-[ 7421.070776][ T8518] usb 1-1: SerialNumber: syz
-[ 7421.073606][ T8518] usb 1-1: config 0 descriptor??
-[ 7421.109353][ T8518] r8712u: register rtl8712_netdev_ops to netdev_ops
-[ 7421.110706][ T8518] usb 1-1: r8712u: USB_SPEED_HIGH with 0 endpoints
-[ 7421.112160][ T8518] usb 1-1: r8712u: starting step 4 init_drv_sw
-[ 7421.325368][ T8518] usb 1-1: r8712u: starting step 5 (efuze/eeprom etc)
-[ 7421.545164][ T8518] usb 1-1: r8712u: Boot from EEPROM: Autoload OK
-[ 7421.895138][ T8518] usb 1-1: r8712u: start read 128 efuse pg packets
+Other than the normal coding style cleanups here, there has been a lot
+of work on the vc04_services code, with the intent to finally get that
+out of staging hopefully soon.  It's getting closer, which is nice to
+see.
 
-// !!! syzbot repro spawns second process that tries to connect again
-// while r8712_efuse_pg_packet_read() in probe() is run in a loop.
+All of these have been in linux-next for a while with no reported
+issues.
 
-syz: loop: pid 8545
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-// !!! now KMEMLEAK messages appear
+----------------------------------------------------------------
+Andy Shevchenko (1):
+      fbtft: seps525: Don't use "proxy" headers
 
-[ 7433.115796][ T8531] kmemleak: 12 new suspected memory leaks (see
-/sys/kernel/debug/kmemleak)
-BUG: memory leak
-unreferenced object 0xffff88814a019000 (size 4096):
-  comm "kworker/0:0", pid 8518, jiffies 4295679317
-  hex dump (first 32 bytes):
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  backtrace (crc 0):
-    [<ffffffff81687c97>] kmalloc_trace+0x297/0x310
-    [<ffffffff83f45fb7>] _r8712_init_xmit_priv+0x2b7/0x700
-    [<ffffffff83f40608>] r8712_init_drv_sw+0xc8/0x280
-    [<ffffffff83f3f15f>] r871xu_drv_init+0x20f/0xa80
-    [<ffffffff834c5a5e>] usb_probe_interface+0x16e/0x420
-    [<ffffffff82dd0168>] really_probe+0x138/0x3e0
-    [<ffffffff82dd04ee>] __driver_probe_device+0xce/0x1a0
-    [<ffffffff82dd05ff>] driver_probe_device+0x2f/0x130
-    [<ffffffff82dd0824>] __device_attach_driver+0x114/0x170
-    [<ffffffff82dccdb4>] bus_for_each_drv+0xc4/0x120
-    [<ffffffff82dcfef5>] __device_attach+0x165/0x260
-    [<ffffffff82dce617>] bus_probe_device+0xd7/0xe0
-    [<ffffffff82dcaef5>] device_add+0x935/0xc00
-    [<ffffffff834c23fc>] usb_set_configuration+0x81c/0xcd0
-    [<ffffffff834d64e7>] usb_generic_driver_probe+0x87/0xe0
-    [<ffffffff834c37c1>] usb_probe_device+0x81/0x220
+Ariel Silver (1):
+      Staging: rtl8192e: Declare variable with static
 
-...
+Arnd Bergmann (4):
+      greybus: arche-ctrl: move device table to its right location
+      staging: rts5208: replace weird strncpy() with memcpy()
+      staging: rtl8723bs: convert strncpy to strscpy
+      staging: greybus: change strncpy() to strscpy_pad()
 
-// but 1st process is still going, finishing probe
+Ayush Tiwari (8):
+      staging: greybus: Constify gb_audio_module_type
+      staging: rtl8712: rename tmpVal to avg_val
+      staging: rtl8712: Fix line length exceeding 100 columns
+      staging: rtl8712: Remove additional space
+      staging: rtl8712: Add space between operands and operator
+      staging: rtl8712: rename backupPMKIDList to backup_PMKID_list
+      staging: rtl8712: rename backupPMKIDIndex to backup_PMKID_index
+      staging: rtl8712: rename backupTKIPCountermeasure to backup_TKIP_countermeasure
 
-[ 7455.585251][ T8518] usb 1-1: r8712u: finished reading 128 packets
-[ 7455.588869][ T8518] usb 1-1: r8712u: CustomerID = 0x0000
-[ 7455.589726][ T8518] usb 1-1: r8712u: MAC Address from efuse =
-00:e0:4c:87:00:00
-[ 7455.591080][ T8518] usb 1-1: r8712u: starting to load fw
-[ 7455.591994][ T8518] usb 1-1: r8712u: Loading firmware from
-"rtlwifi/rtl8712u.bin"
-[ 7455.594094][ T8518] usb 1-1: r8712u: r871xu_drv_init ended well as probe
+Colin Ian King (1):
+      staging: vt6655: remove redundant assignment to variable byData
 
-// probe succeeds, device disconnects and frees all necessary objects
-// the very objects at risk as KMEMLEAK sees it.
+Dan Carpenter (1):
+      staging: vc04_services: Delete unnecessary NULL check
 
-[ 7455.603027][ T8518] usb 1-1: USB disconnect, device number 8
-[ 7455.604359][ T8518] r871xu_dev_remove
-[ 7455.655251][ T8518] r8712_free_drv_sw
-[ 7455.655910][ T8518] _free_xmit_priv
+Dorine Tipo (3):
+      staging: greybus: Add blank line after struct declaration
+      staging: vt6655: Remove unused declaration of RFbAL7230SelectChannelPostProcess()
+      staging: nvec: Fix documentation typo in nvec.c
 
-[1]
-Syzbot link: https://syzkaller.appspot.com/bug?extid=83763e624cfec6b462cb
-Original repro link:
-https://syzkaller.appspot.com/text?tag=ReproC&x=17a7c024e80000
+Felix N. Kimbu (3):
+      staging: wlan-ng: Rename 'foo' to 'rc' in p80211conv.c
+      staging: wlan-ng: Rename 'wlan_unsetup' to 'wlan_teardown'
+      staging: pi433: Correct comment typos in pi433_if.c
 
-Best regards,
-Nikita
+Greg Kroah-Hartman (1):
+      Merge 6.9-rc2 into staging-next
+
+Jackson Chui (1):
+      staging: greybus: Replace gcam macros with direct dev log calls
+
+Krzysztof Kozlowski (2):
+      staging: pi433: drop driver owner assignment
+      staging: ks7010: replace open-coded module_sdio_driver()
+
+Marc Dietrich (4):
+      staging: nvec: add ability to ignore EC responses in sync writes
+      staging: nvec: make keyboard init synchronous
+      staging: nvec: make touchpad init synchronous
+      staging: nvec: update TODO
+
+Meir Elisha (1):
+      Staging: rtl8723bs: Delete dead code from update_current_network()
+
+Michael Straube (2):
+      staging: rtl8192e: replace variable with direct return
+      staging: rtl8192e: remove unnecessary wrapper
+
+Philipp Hortmann (3):
+      staging: wlan-ng: Remove broken driver prism2_usb
+      MAINTAINERS: vt665?: Replace Forest with Philipp as maintainer
+      staging: pi433: Remove unused driver
+
+Prasad Pandit (1):
+      staging: bcm2835-audio: add terminating new line to Kconfig
+
+Rui Miguel Silva (1):
+      greybus: lights: check return of get_channel_from_mode
+
+Shahar Avidar (7):
+      staging: pi433: Rename struct pi433_device buffer field to tx_buffer.
+      staging: pi433: Rename struct pi433_device instances to pi433.
+      staging: pi433: Replace pi433_receive param void type to struct pi433_device.
+      staging: pi433: Rename "pi433_dev" of type "dev_t" to "pi433_devt"
+      staging: pi433: Remove duplicated code using the "goto" error recovery scheme.
+      staging: pi433: Add debugfs_remove in case of driver register fails.
+      staging: pi433: Reorder pi433_exit cleanup calls.
+
+Stefan Wahren (7):
+      staging: vchiq: Reformat Kconfig help texts
+      staging: vc04_services: vchiq_arm: Fix NULL ptr dereferences
+      staging: vchiq_arm: Drop unnecessary NULL check
+      staging: vchiq_core: Use printk messages for devices
+      staging: vchiq_core: Add parentheses to VCHIQ_MSG_SRCPORT
+      staging: vchiq_core: Drop unnecessary blank lines
+      staging: vchiq_core: Add missing blank lines
+
+Sumadhura Kalyan (1):
+      staging: vc04_services: Re-align function parameters
+
+Tree Davies (28):
+      Staging: rtl8192e: Rename variable ReturnPoint
+      Staging: rtl8192e: Rename variable TimeStampLow
+      Staging: rtl8192e: Rename variable TimeStampHigh
+      Staging: rtl8192e: Rename variable Frame_Order
+      Staging: rtl8192e: Rename variable aSifsTime
+      Staging: rtl8192e: Rename variable posHTCap
+      Staging: rtl8192e: Rename variable bRTSUseShortPreamble
+      Staging: rtl8192e: Rename variable pBssHT
+      Staging: rtl8192e: Rename variable bAllowAllDA
+      Staging: rtl8192e: Rename variable WriteIntoReg
+      Staging: rtl8192e: Rename variable CurSTAExtChnlOffset
+      Staging: rtl8192e: Rename variable CurrentAMPDUFactor
+      Staging: rtl8192e: Rename variable OptMode
+      Staging: rtl8192e: Rename variable LSigTxopProtect
+      Staging: rtl8192e: Rename variable ChlWidth
+      Staging: rtl8192e: Rename variable AdvCoding
+      Staging: rtl8192e: Rename variable MimoPwrSave
+      Staging: rtl8192e: Rename variable ShortGI40Mhz
+      Staging: rtl8192e: Rename variable ShortGI20Mhz
+      Staging: rtl8192e: Rename variable GreenField
+      Staging: rtl8192e: Rename variable TxSTBC
+      Staging: rtl8192e: Rename variable RxSTBC
+      Staging: rtl8192e: Rename variable DelayBA
+      Staging: rtl8192e: Rename variable MaxAMSDUSize
+      Staging: rtl8192e: Rename variable MaxRxAMPDUFactor
+      Staging: rtl8192e: Rename variable MPDUDensity
+      Staging: rtl8192e: Rename variable ExtHTCapInfo
+      Staging: rtl8192e: Rename variable DssCCk
+
+Umang Jain (17):
+      staging: vc04_services: Remove unused function declarations
+      staging: vc04_services: vchiq_arm: Use appropriate dev_* log helpers
+      staging: vc04_services: Do not log error on kzalloc()
+      staging: vc04_services: Implement vchiq_bus .remove
+      staging: vc04_services: vchiq_core: Stop kthreads on shutdown
+      Revert "staging: vc04_services: vchiq_core: Stop kthreads on shutdown"
+      staging: vc04_services: Drop g_once_init global variable
+      staging: vc04_services: vchiq_arm: Split driver static and runtime data
+      staging: vc04_services: vchiq_arm: Drop g_cache_line_size
+      staging: vc04_services: Move variables for tracking connections
+      staging: vc04_services: Drop vchiq_connected.[ch] files
+      staging: vc04_services: Move global variables tracking allocated pages
+      staging: vc04_services: Move global memory mapped pointer
+      staging: vc04_services: Move spinlocks to vchiq_state
+      staging: vc04_services: vchiq_mmal: Rename service_callback()
+      staging: vc04_services: Move global g_state to vchiq_state
+      staging: vc04_services: Drop completed TODO item
+
+Uri Arev (1):
+      staging: axis-fifo: Fix indentation
+
+ MAINTAINERS                                        |    2 +-
+ drivers/staging/Kconfig                            |    4 -
+ drivers/staging/Makefile                           |    2 -
+ drivers/staging/axis-fifo/axis-fifo.c              |   10 +-
+ drivers/staging/fbtft/fb_seps525.c                 |    7 +-
+ drivers/staging/greybus/arche-apb-ctrl.c           |    1 +
+ drivers/staging/greybus/arche-platform.c           |    9 +-
+ drivers/staging/greybus/audio_manager_module.c     |    2 +-
+ drivers/staging/greybus/camera.c                   |   58 +-
+ drivers/staging/greybus/fw-management.c            |   12 +-
+ drivers/staging/greybus/light.c                    |    8 +-
+ drivers/staging/greybus/loopback.c                 |    1 +
+ drivers/staging/ks7010/ks7010_sdio.c               |    2 +-
+ drivers/staging/nvec/TODO                          |    1 -
+ drivers/staging/nvec/nvec.c                        |   11 +-
+ drivers/staging/nvec/nvec_kbd.c                    |    9 +-
+ drivers/staging/nvec/nvec_ps2.c                    |   31 +-
+ .../Documentation/devicetree/pi433-overlay.dtso    |   48 -
+ .../pi433/Documentation/devicetree/pi433.txt       |   62 -
+ drivers/staging/pi433/Documentation/pi433.txt      |  274 --
+ drivers/staging/pi433/Kconfig                      |   17 -
+ drivers/staging/pi433/Makefile                     |    4 -
+ drivers/staging/pi433/TODO                         |    8 -
+ drivers/staging/pi433/pi433_if.c                   | 1438 --------
+ drivers/staging/pi433/pi433_if.h                   |  148 -
+ drivers/staging/pi433/rf69.c                       |  832 -----
+ drivers/staging/pi433/rf69.h                       |   66 -
+ drivers/staging/pi433/rf69_enum.h                  |  126 -
+ drivers/staging/pi433/rf69_registers.h             |  478 ---
+ drivers/staging/rtl8192e/rtl8192e/r8192E_cmdpkt.c  |   11 +-
+ drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c     |   16 +-
+ drivers/staging/rtl8192e/rtl8192e/r8192E_dev.h     |    4 +-
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c       |    2 +-
+ drivers/staging/rtl8192e/rtl8192e/rtl_dm.c         |   10 +-
+ drivers/staging/rtl8192e/rtl819x_HT.h              |   36 +-
+ drivers/staging/rtl8192e/rtl819x_HTProc.c          |  104 +-
+ drivers/staging/rtl8192e/rtllib.h                  |   20 +-
+ drivers/staging/rtl8192e/rtllib_rx.c               |    2 +-
+ drivers/staging/rtl8192e/rtllib_softmac_wx.c       |    2 +-
+ drivers/staging/rtl8192e/rtllib_tx.c               |    2 +-
+ drivers/staging/rtl8192e/rtllib_wx.c               |    8 +-
+ drivers/staging/rtl8712/mlme_linux.c               |   18 +-
+ drivers/staging/rtl8712/os_intfs.c                 |    3 +-
+ drivers/staging/rtl8712/rtl8712_led.c              |    2 +-
+ drivers/staging/rtl8712/rtl8712_recv.c             |    6 +-
+ drivers/staging/rtl8712/rtl8712_recv.h             |    2 +-
+ drivers/staging/rtl8723bs/core/rtw_mlme.c          |   92 +-
+ drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c  |    5 +-
+ drivers/staging/rtl8723bs/os_dep/os_intfs.c        |    2 +-
+ drivers/staging/rts5208/rtsx_scsi.c                |   10 +-
+ drivers/staging/vc04_services/Kconfig              |   36 +-
+ drivers/staging/vc04_services/Makefile             |    1 -
+ .../staging/vc04_services/bcm2835-audio/Kconfig    |    2 +-
+ .../vc04_services/bcm2835-audio/bcm2835-vchiq.c    |    5 +-
+ .../vc04_services/bcm2835-camera/bcm2835-camera.c  |    4 +-
+ .../include/linux/raspberrypi/vchiq.h              |    4 +-
+ drivers/staging/vc04_services/interface/TODO       |   15 -
+ .../vc04_services/interface/vchiq_arm/vchiq_arm.c  |  265 +-
+ .../vc04_services/interface/vchiq_arm/vchiq_arm.h  |   41 +-
+ .../vc04_services/interface/vchiq_arm/vchiq_bus.c  |   13 +
+ .../vc04_services/interface/vchiq_arm/vchiq_bus.h  |    3 +
+ .../interface/vchiq_arm/vchiq_connected.c          |   74 -
+ .../interface/vchiq_arm/vchiq_connected.h          |   12 -
+ .../vc04_services/interface/vchiq_arm/vchiq_core.c |   67 +-
+ .../vc04_services/interface/vchiq_arm/vchiq_core.h |   17 +-
+ .../interface/vchiq_arm/vchiq_debugfs.c            |    5 +-
+ .../vc04_services/interface/vchiq_arm/vchiq_dev.c  |   39 +-
+ .../staging/vc04_services/vchiq-mmal/mmal-vchiq.c  |   14 +-
+ .../staging/vc04_services/vchiq-mmal/mmal-vchiq.h  |   32 +-
+ drivers/staging/vt6655/rf.h                        |    4 -
+ drivers/staging/vt6655/srom.c                      |    1 -
+ drivers/staging/wlan-ng/Kconfig                    |   13 -
+ drivers/staging/wlan-ng/Makefile                   |    8 -
+ drivers/staging/wlan-ng/README                     |    8 -
+ drivers/staging/wlan-ng/TODO                       |   16 -
+ drivers/staging/wlan-ng/cfg80211.c                 |  718 ----
+ drivers/staging/wlan-ng/hfa384x.h                  | 1236 -------
+ drivers/staging/wlan-ng/hfa384x_usb.c              | 3880 --------------------
+ drivers/staging/wlan-ng/p80211conv.c               |  643 ----
+ drivers/staging/wlan-ng/p80211conv.h               |  141 -
+ drivers/staging/wlan-ng/p80211hdr.h                |  189 -
+ drivers/staging/wlan-ng/p80211ioctl.h              |   69 -
+ drivers/staging/wlan-ng/p80211metadef.h            |  227 --
+ drivers/staging/wlan-ng/p80211metastruct.h         |  236 --
+ drivers/staging/wlan-ng/p80211mgmt.h               |  199 -
+ drivers/staging/wlan-ng/p80211msg.h                |   39 -
+ drivers/staging/wlan-ng/p80211netdev.c             |  988 -----
+ drivers/staging/wlan-ng/p80211netdev.h             |  212 --
+ drivers/staging/wlan-ng/p80211req.c                |  223 --
+ drivers/staging/wlan-ng/p80211req.h                |   33 -
+ drivers/staging/wlan-ng/p80211types.h              |  292 --
+ drivers/staging/wlan-ng/p80211wep.c                |  207 --
+ drivers/staging/wlan-ng/prism2fw.c                 | 1213 ------
+ drivers/staging/wlan-ng/prism2mgmt.c               | 1315 -------
+ drivers/staging/wlan-ng/prism2mgmt.h               |   89 -
+ drivers/staging/wlan-ng/prism2mib.c                |  742 ----
+ drivers/staging/wlan-ng/prism2sta.c                | 1945 ----------
+ drivers/staging/wlan-ng/prism2usb.c                |  299 --
+ 98 files changed, 531 insertions(+), 19331 deletions(-)
+ delete mode 100644 drivers/staging/pi433/Documentation/devicetree/pi433-overlay.dtso
+ delete mode 100644 drivers/staging/pi433/Documentation/devicetree/pi433.txt
+ delete mode 100644 drivers/staging/pi433/Documentation/pi433.txt
+ delete mode 100644 drivers/staging/pi433/Kconfig
+ delete mode 100644 drivers/staging/pi433/Makefile
+ delete mode 100644 drivers/staging/pi433/TODO
+ delete mode 100644 drivers/staging/pi433/pi433_if.c
+ delete mode 100644 drivers/staging/pi433/pi433_if.h
+ delete mode 100644 drivers/staging/pi433/rf69.c
+ delete mode 100644 drivers/staging/pi433/rf69.h
+ delete mode 100644 drivers/staging/pi433/rf69_enum.h
+ delete mode 100644 drivers/staging/pi433/rf69_registers.h
+ delete mode 100644 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.c
+ delete mode 100644 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.h
+ delete mode 100644 drivers/staging/wlan-ng/Kconfig
+ delete mode 100644 drivers/staging/wlan-ng/Makefile
+ delete mode 100644 drivers/staging/wlan-ng/README
+ delete mode 100644 drivers/staging/wlan-ng/TODO
+ delete mode 100644 drivers/staging/wlan-ng/cfg80211.c
+ delete mode 100644 drivers/staging/wlan-ng/hfa384x.h
+ delete mode 100644 drivers/staging/wlan-ng/hfa384x_usb.c
+ delete mode 100644 drivers/staging/wlan-ng/p80211conv.c
+ delete mode 100644 drivers/staging/wlan-ng/p80211conv.h
+ delete mode 100644 drivers/staging/wlan-ng/p80211hdr.h
+ delete mode 100644 drivers/staging/wlan-ng/p80211ioctl.h
+ delete mode 100644 drivers/staging/wlan-ng/p80211metadef.h
+ delete mode 100644 drivers/staging/wlan-ng/p80211metastruct.h
+ delete mode 100644 drivers/staging/wlan-ng/p80211mgmt.h
+ delete mode 100644 drivers/staging/wlan-ng/p80211msg.h
+ delete mode 100644 drivers/staging/wlan-ng/p80211netdev.c
+ delete mode 100644 drivers/staging/wlan-ng/p80211netdev.h
+ delete mode 100644 drivers/staging/wlan-ng/p80211req.c
+ delete mode 100644 drivers/staging/wlan-ng/p80211req.h
+ delete mode 100644 drivers/staging/wlan-ng/p80211types.h
+ delete mode 100644 drivers/staging/wlan-ng/p80211wep.c
+ delete mode 100644 drivers/staging/wlan-ng/prism2fw.c
+ delete mode 100644 drivers/staging/wlan-ng/prism2mgmt.c
+ delete mode 100644 drivers/staging/wlan-ng/prism2mgmt.h
+ delete mode 100644 drivers/staging/wlan-ng/prism2mib.c
+ delete mode 100644 drivers/staging/wlan-ng/prism2sta.c
+ delete mode 100644 drivers/staging/wlan-ng/prism2usb.c
