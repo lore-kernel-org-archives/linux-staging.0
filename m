@@ -1,106 +1,219 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from exchange.fintech.ru (exchange.fintech.ru [195.54.195.159])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B2FA1CD13
-	for <linux-staging@lists.linux.dev>; Wed, 22 May 2024 06:35:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31C21140E23
+	for <linux-staging@lists.linux.dev>; Wed, 22 May 2024 13:34:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.54.195.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716359715; cv=none; b=psJZuC81mRooD7yLmpWsjtyS7zA0oktsLbck00MOd7u6BLrtyefV6DvIFfVJG9d7O6J+IKIJD1XKR8fztVmr3eQ700Q6uDkdO04TuYO9KMtHUbFUDm+KuXGVk6gbXWbaLHpZF89e1d1bGea6OjovsHOpNch0TZbCfU0ZL06SM70=
+	t=1716384850; cv=none; b=h8KAo9NAF6WRNGGFHxA3RH275rq0sF3faEFPG73qrulqcVH7FxblksG7Cm+iNnCjnM8tn4xRELFB/FruU7ZPax8ItKrkCIGKhN1GNF6uSfSQrXRQwJBokwIU53B4idLgBT0ON6vftrxMDxJubY/wz9GDhugPxkLUcBn+8SnLwco=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716359715; c=relaxed/simple;
-	bh=X8rLGo0UlJp2wtKgpA+t8cBG/O4x7c1LqkTnEXK4a/o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RPQ0TGzMhSWUrLNZe7G0Z5Kz3lshKg3wtcPiNqmpD6z1FP8UF4Slvn30oEi3tAqHFx35cDpdChoVRkAr2YVmWNXWEw/E6ag/xO+Dr5TvwYRKoDiF+/TvKQghy1T48G7gd08VvIFGSNP43PrP/7mc2X7q4YcjDYmTEDnx7E4NIlk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1s9fZ3-0004gb-HP; Wed, 22 May 2024 08:35:05 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1s9fZ2-002UMT-E7; Wed, 22 May 2024 08:35:04 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1s9fZ2-009mSN-16;
-	Wed, 22 May 2024 08:35:04 +0200
-Date: Wed, 22 May 2024 08:35:04 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Jack Zhu <jack.zhu@starfivetech.com>, 
-	Changhuang Liang <changhuang.liang@starfivetech.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: linux-staging@lists.linux.dev, kernel@pengutronix.de, 
-	linux-media@vger.kernel.org
-Subject: Re: [PATCH] media: staging: media: starfive: camss: Drop obsolete
- return value documentation
-Message-ID: <qftrobdg46arzt5isc2fwmgwncnszkcfcsw3gf3exk7a6ubhzv@w4icj5ykvskl>
-References: <20240424140249.542283-2-u.kleine-koenig@pengutronix.de>
+	s=arc-20240116; t=1716384850; c=relaxed/simple;
+	bh=TZP5dNki7jTzKxJ4a7RW9CQQzhAHTIb0RYx5kkokGQA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=VYJYiz5NkZp/RTChfXzpyXK6dVuPjFetpbolxnMsbXvTObRjcEDitkFlqgNVx8cXJMWK3h547K8jDIkLjWcsxEoggMgG1TBkn/nqP3I/sz/Qp8dOLPk64JOrh5zcFo8hGlfzD17ilwNspqaZ2MUuVdrmxSqp9R9eB4TNa913FyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fintech.ru; spf=pass smtp.mailfrom=fintech.ru; arc=none smtp.client-ip=195.54.195.159
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fintech.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fintech.ru
+Received: from Ex16-01.fintech.ru (10.0.10.18) by exchange.fintech.ru
+ (195.54.195.169) with Microsoft SMTP Server (TLS) id 14.3.498.0; Wed, 22 May
+ 2024 16:33:57 +0300
+Received: from [192.168.211.130] (10.0.253.138) by Ex16-01.fintech.ru
+ (10.0.10.18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Wed, 22 May
+ 2024 16:33:57 +0300
+Message-ID: <5b351cfa-6537-4e3d-9d5b-0435e4eceef9@fintech.ru>
+Date: Wed, 22 May 2024 06:33:57 -0700
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="irto7zmcai2v5kbc"
-Content-Disposition: inline
-In-Reply-To: <20240424140249.542283-2-u.kleine-koenig@pengutronix.de>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-staging@lists.linux.dev
+User-Agent: Mozilla Thunderbird
+Subject: Re: [syzbot] [staging?] [usb?] memory leak in _r8712_init_xmit_priv
+ (2)
+Content-Language: en-US
+To: Nam Cao <namcao@linutronix.de>
+CC: syzbot <syzbot+83763e624cfec6b462cb@syzkaller.appspotmail.com>,
+	<Larry.Finger@lwfinger.net>, <florian.c.schilhabel@googlemail.com>,
+	<gregkh@linuxfoundation.org>, <linux-kernel@vger.kernel.org>,
+	<linux-media@vger.kernel.org>, <linux-staging@lists.linux.dev>,
+	<linux-usb@vger.kernel.org>, <syzkaller-bugs@googlegroups.com>
+References: <000000000000809328060a8a4c1c@google.com>
+ <20240520144641.17643-1-n.zhandarovich@fintech.ru>
+ <20240520171848.60Nzvv8y@linutronix.de>
+From: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+In-Reply-To: <20240520171848.60Nzvv8y@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: Ex16-02.fintech.ru (10.0.10.19) To Ex16-01.fintech.ru
+ (10.0.10.18)
 
+Hi,
 
---irto7zmcai2v5kbc
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 5/20/24 10:18, Nam Cao wrote:
+> On Mon, May 20, 2024 at 07:46:41AM -0700, Nikita Zhandarovich wrote:
+>> Hi,
+>>
+>>> BUG: memory leak
+>>> unreferenced object 0xffff888107a5c000 (size 4096):
+>>>   comm "kworker/1:0", pid 22, jiffies 4294943134 (age 18.720s)
+>>>   hex dump (first 32 bytes):
+>>>     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+>>>     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+>>>   backtrace:
+>>>     [<ffffffff816337cd>] kmemleak_alloc_recursive include/linux/kmemleak.h:42 [inline]
+>>>     [<ffffffff816337cd>] slab_post_alloc_hook mm/slab.h:766 [inline]
+>>>     [<ffffffff816337cd>] slab_alloc_node mm/slub.c:3478 [inline]
+>>>     [<ffffffff816337cd>] __kmem_cache_alloc_node+0x2dd/0x3f0 mm/slub.c:3517
+>>>     [<ffffffff8157e625>] kmalloc_trace+0x25/0x90 mm/slab_common.c:1098
+>>>     [<ffffffff83cee442>] kmalloc include/linux/slab.h:600 [inline]
+>>>     [<ffffffff83cee442>] _r8712_init_xmit_priv+0x2b2/0x6e0 drivers/staging/rtl8712/rtl871x_xmit.c:130
+>>>     [<ffffffff83ce9033>] r8712_init_drv_sw+0xc3/0x290 drivers/staging/rtl8712/os_intfs.c:311
+>>>     [<ffffffff83ce7ce6>] r871xu_drv_init+0x1c6/0x920 drivers/staging/rtl8712/usb_intf.c:386
+>>>     [<ffffffff832d0f0b>] usb_probe_interface+0x16b/0x3a0 drivers/usb/core/driver.c:396
+>>>     [<ffffffff82c3bb06>] call_driver_probe drivers/base/dd.c:579 [inline]
+>>
+>> I am inclined to think that this issue might be false positive. During
+>> repro the device is initialized correctly, does some work and then
+>> exits, calling all required functions to clean things up
+>> (i.e. _free_xmit_priv()), including pxmitbuf->pallocated_buf.
+>> Kmemleak triggers disappear if you set longer intervals between
+>> scannning for them (obviously). And if all the things get cleared up
+>> when the device disconnects, isn't that correct and expected
+>> behaviour? Could the scanner just "lose track" of some of the objects
+>> here?
+>>
+>> Or am I missing something?
+> 
+> Possibly this is because the driver's probe function doesn't clean up
+> itself properly if it fails in the middle (e.g. due to the system running
+> out of memory and kmalloc() fails). These aren't easy to reproduce, because
+> you would need to make probing fails somehow.
+> 
+> Example fix: ac83631230f7 ("staging: r8712: Fix memory leak in
+> _r8712_init_xmit_priv()")
+> 
+> Best regards,
+> Nam
 
-Hello,
+I did some more testing with the help of reproducer from [1].
+The way I see it, during repro leaks supposedly occur this way:
 
-On Wed, Apr 24, 2024 at 04:02:48PM +0200, Uwe Kleine-K=F6nig wrote:
-> Recently the function stfcamss_remove() was changed to not return a
-> value. Drop the documentation of the return value in the kernel doc.
->=20
-> Fixes: b1f3677aebe5 ("media: staging: media: starfive: camss: Convert to =
-platform remove callback returning void")
-> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-> ---
-> Hello,
->=20
-> during review of the patch that became b1f3677aebe5 Changhuang pointed
-> out this patch opportunity. But before I came around to send a v2,
-> b1f3677aebe5 was already applied. So here comes a separate patch.
->=20
-> If you prefer, feel free to squash this into b1f3677aebe5.
+r871xu_drv_init() // probe starts
+	...
+	r8712_init_drv_sw() // success at init
+	...
+	/* this takes around 20-30 secs during which LEAKS appear.
+	They only appear if repro tries to connect another similar
+	device in a loop. With only a single iteration no leaks are
+	present. */
+	for (i = 0, offset = 0; i < 128; i += 8, offset++)
+		r8712_efuse_pg_packet_read(padapter, offset,
+				   &pdata[i]);
+	...
+	return 0; // probe succeeds
+...
+...
+r871xu_dev_remove() // device starts disconnecting
+	...	
+	r8712_free_drv_sw()
+		...
+		*/ clean up all the stuff that 'leaks'
+		_free_xmit_priv(&padapter->xmitpriv);
+		...
+	...
+...
 
-Who feels responsible to pick up this patch (or alternatively give
-feedback)? Did I forget to address the relevant persons?
+In short, I think that probe finishes fine (compared to an example you
+brought up). But it is the interference from an attempt to connect a
+similar device that throws off KMEMLEAK and triggers leaks. Currently I
+can't figure out what exactly occurs to confuse the sanitizer.
 
-Best regards
-Uwe
+P.S.
+Test log during repro execution looks like this (please excuse some
+crude and lazy debug printing on my part) with some added comments:
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+syz: main: finished sleeping, starting repro
 
---irto7zmcai2v5kbc
-Content-Type: application/pgp-signature; name="signature.asc"
+// first process spawns, starts connecting device
 
------BEGIN PGP SIGNATURE-----
+syz: loop: pid 8532 			
+[ 7420.475276][ T8518] usb 1-1: new high-speed USB device number 8 using
+dummy_hcd
+[ 7421.060451][ T8518] usb 1-1: New USB device found, idVendor=083a,
+idProduct=c512, bcdDevice=cf.c8
+[ 7421.064860][ T8518] usb 1-1: New USB device strings: Mfr=1,
+Product=2, SerialNumber=3
+[ 7421.068964][ T8518] usb 1-1: Product: syz
+[ 7421.069828][ T8518] usb 1-1: Manufacturer: syz
+[ 7421.070776][ T8518] usb 1-1: SerialNumber: syz
+[ 7421.073606][ T8518] usb 1-1: config 0 descriptor??
+[ 7421.109353][ T8518] r8712u: register rtl8712_netdev_ops to netdev_ops
+[ 7421.110706][ T8518] usb 1-1: r8712u: USB_SPEED_HIGH with 0 endpoints
+[ 7421.112160][ T8518] usb 1-1: r8712u: starting step 4 init_drv_sw
+[ 7421.325368][ T8518] usb 1-1: r8712u: starting step 5 (efuze/eeprom etc)
+[ 7421.545164][ T8518] usb 1-1: r8712u: Boot from EEPROM: Autoload OK
+[ 7421.895138][ T8518] usb 1-1: r8712u: start read 128 efuse pg packets
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmZNkhcACgkQj4D7WH0S
-/k7//ggAgqCR5IcnjUsAPtllfh8Zcrl8n3PJ7M0KomFrfg5bfcfrHuLQJgVU3kNH
-mehcN/LaVLSNoT9zl23q6Sbr+3AFG8DfFKcSFAY7qX78PGlqFoqK29cZcGxr1tEV
-F+JzO2MERburA/cbz5/88axVq75zY9uGiuPtnFYjv0amoYg7cWm9WzP6XzdkOr8E
-dC9i6uE6lrYK0Ap90XIydmnPlUWhD6MEis7cF7TrVIN+nHYJBDsyVE78jmu905Ag
-N9oYpv5r+9Z8kdsP4Ba8XFNaVJP4eNMXnpmhqD1ySB5N01L7H+Kv/c5uGYda1bsG
-cQoBtYQCD3j5fviXV357pVrYZf1yWg==
-=6Qcj
------END PGP SIGNATURE-----
+// !!! syzbot repro spawns second process that tries to connect again
+// while r8712_efuse_pg_packet_read() in probe() is run in a loop.
 
---irto7zmcai2v5kbc--
+syz: loop: pid 8545
+
+// !!! now KMEMLEAK messages appear
+
+[ 7433.115796][ T8531] kmemleak: 12 new suspected memory leaks (see
+/sys/kernel/debug/kmemleak)
+BUG: memory leak
+unreferenced object 0xffff88814a019000 (size 4096):
+  comm "kworker/0:0", pid 8518, jiffies 4295679317
+  hex dump (first 32 bytes):
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  backtrace (crc 0):
+    [<ffffffff81687c97>] kmalloc_trace+0x297/0x310
+    [<ffffffff83f45fb7>] _r8712_init_xmit_priv+0x2b7/0x700
+    [<ffffffff83f40608>] r8712_init_drv_sw+0xc8/0x280
+    [<ffffffff83f3f15f>] r871xu_drv_init+0x20f/0xa80
+    [<ffffffff834c5a5e>] usb_probe_interface+0x16e/0x420
+    [<ffffffff82dd0168>] really_probe+0x138/0x3e0
+    [<ffffffff82dd04ee>] __driver_probe_device+0xce/0x1a0
+    [<ffffffff82dd05ff>] driver_probe_device+0x2f/0x130
+    [<ffffffff82dd0824>] __device_attach_driver+0x114/0x170
+    [<ffffffff82dccdb4>] bus_for_each_drv+0xc4/0x120
+    [<ffffffff82dcfef5>] __device_attach+0x165/0x260
+    [<ffffffff82dce617>] bus_probe_device+0xd7/0xe0
+    [<ffffffff82dcaef5>] device_add+0x935/0xc00
+    [<ffffffff834c23fc>] usb_set_configuration+0x81c/0xcd0
+    [<ffffffff834d64e7>] usb_generic_driver_probe+0x87/0xe0
+    [<ffffffff834c37c1>] usb_probe_device+0x81/0x220
+
+...
+
+// but 1st process is still going, finishing probe
+
+[ 7455.585251][ T8518] usb 1-1: r8712u: finished reading 128 packets
+[ 7455.588869][ T8518] usb 1-1: r8712u: CustomerID = 0x0000
+[ 7455.589726][ T8518] usb 1-1: r8712u: MAC Address from efuse =
+00:e0:4c:87:00:00
+[ 7455.591080][ T8518] usb 1-1: r8712u: starting to load fw
+[ 7455.591994][ T8518] usb 1-1: r8712u: Loading firmware from
+"rtlwifi/rtl8712u.bin"
+[ 7455.594094][ T8518] usb 1-1: r8712u: r871xu_drv_init ended well as probe
+
+// probe succeeds, device disconnects and frees all necessary objects
+// the very objects at risk as KMEMLEAK sees it.
+
+[ 7455.603027][ T8518] usb 1-1: USB disconnect, device number 8
+[ 7455.604359][ T8518] r871xu_dev_remove
+[ 7455.655251][ T8518] r8712_free_drv_sw
+[ 7455.655910][ T8518] _free_xmit_priv
+
+[1]
+Syzbot link: https://syzkaller.appspot.com/bug?extid=83763e624cfec6b462cb
+Original repro link:
+https://syzkaller.appspot.com/text?tag=ReproC&x=17a7c024e80000
+
+Best regards,
+Nikita
