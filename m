@@ -1,129 +1,106 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 349801EB40
-	for <linux-staging@lists.linux.dev>; Tue, 21 May 2024 20:01:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B2FA1CD13
+	for <linux-staging@lists.linux.dev>; Wed, 22 May 2024 06:35:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716321713; cv=none; b=hQE/feNqtE2qv8yXt4hapjWB0ZdqqkHZLFcz9YWw/0axSG/Ov8AUMJJyZJIK5HGaF/Dtfqjc71gNicNppf0r8FPShutGSWTXuMY5xmGc32krynSCHduQq0OYlXNiDj+mb1sGB0ElUJxeWD2tfsKryOmCoZZxY99YaZq+Ipx8GXI=
+	t=1716359715; cv=none; b=psJZuC81mRooD7yLmpWsjtyS7zA0oktsLbck00MOd7u6BLrtyefV6DvIFfVJG9d7O6J+IKIJD1XKR8fztVmr3eQ700Q6uDkdO04TuYO9KMtHUbFUDm+KuXGVk6gbXWbaLHpZF89e1d1bGea6OjovsHOpNch0TZbCfU0ZL06SM70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716321713; c=relaxed/simple;
-	bh=jYfrh6IB/H70cLPJ13z6qCmeOQJxG2Z02ywTH8Uaon4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VglKG5NI79h57nImLryon6MZzrSCz+nzZ3IjfXw5HjwRDmMWhHte207poQZzGnZ3Mwqw0ywEt7RcdhG4pmWWvhha+YBdfImBpGvcWWP1EoOvkQPsrs7L4RvheGbNtjbarxATUC/T/d2b3vhnw3lAne0P/HD50FymOPL4LfA2640=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NdhU5vKK; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NdhU5vKK"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-354cd064810so8343f8f.0
-        for <linux-staging@lists.linux.dev>; Tue, 21 May 2024 13:01:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716321710; x=1716926510; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=U4lo6fagN8cZt1RfD02V0z/UoOAxB4b8uSr30hJTpAk=;
-        b=NdhU5vKKbdnAgYv14CA3rXFwH57jrSG/I4IQai7otyM2XyDRBwqPmzaj/2qjK1r21A
-         upzwKJRQUk255aVcCH8XzHwV1fLPCmqmETwAZeNElfF0kO6KyqXKKuTeMmWb2zK3PAgz
-         0BZY94aa57e2JvomiuLmkjwQ/62fa12YGuOqA+XATdrI9qBJZWvb58QAcuJdGe0WcBQN
-         RQEPHFxWHRyMUyCAZABqN7UtiEilsdMBvDzuJa7rDvujxrwTXFkrqURjWp0np8P4LCi6
-         uragSgDuoKh7U8j+iDCfLoZq9Fb/UlTDULgrkoM8VApM6zdtAzqB0vnwfVeij5MRh1cD
-         7J1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716321710; x=1716926510;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=U4lo6fagN8cZt1RfD02V0z/UoOAxB4b8uSr30hJTpAk=;
-        b=NBsG6DZtXfiyUqGK1kAcZdppch0JzVf3J8n/ZEhRbF/ASNvRZTiaPhpS3u8nl5LU8r
-         RTsjsm7yBFr3DpYdH1Vh1nEQZoXxdxojAOxGP2LsEUFRNh0FLqFTeQE9w39kZc3RZi6u
-         bFMm1lsfCZWJspcEmoDlvdU/1JLi0bu3wk8EADfAiBVQ3G018Srl1gD1AI5vaBpsJekz
-         MhYncOHr3xVVaVoHcIYifuMAHv4skSLMCQd9T9sJ+yTbPRn+PrLIeTCtOW9AeyOPDPp3
-         gCc3b1yjbhxu0ZveTCrAZKA/uVpUPJ6JWC9WlVZVUL2Lta7UGDf5yNTZrA1aqRoH6dqZ
-         pWbg==
-X-Forwarded-Encrypted: i=1; AJvYcCURNu/sI9xtaYD3hVOwkoHM0SwAqMYY+YG96m99uVQHr1AQfgge0ltGveXOna+BybFLuyD/+O4stAW3t/gOuuYJj0xHOTy2sI90eDJENA==
-X-Gm-Message-State: AOJu0YyKiW5/7UQrzhBm01gjZO52z9DrT6cXaIDrGe5zyuBKhOAkNKSX
-	O49uVsLroTfb9it4HOljs6pUQPz31Cc4DyvUcbTGGMZ02eYGnIU4
-X-Google-Smtp-Source: AGHT+IFf9EV4pdgf2JoYXUwaxtj7mjO46NJ2dbIphTXFEA9mOZZTuIrx01dLF7aYH5Hz/LYaEuqYQw==
-X-Received: by 2002:a5d:4312:0:b0:354:b55e:654c with SMTP id ffacd0b85a97d-354b55e675cmr9425318f8f.1.1716321710209;
-        Tue, 21 May 2024 13:01:50 -0700 (PDT)
-Received: from [192.168.0.102] (p57935690.dip0.t-ipconnect.de. [87.147.86.144])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a5a17b1771bsm1640748366b.215.2024.05.21.13.01.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 May 2024 13:01:49 -0700 (PDT)
-Message-ID: <ff5e9e62-f2b0-4229-9afe-68e0ae467674@gmail.com>
-Date: Tue, 21 May 2024 22:01:48 +0200
+	s=arc-20240116; t=1716359715; c=relaxed/simple;
+	bh=X8rLGo0UlJp2wtKgpA+t8cBG/O4x7c1LqkTnEXK4a/o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RPQ0TGzMhSWUrLNZe7G0Z5Kz3lshKg3wtcPiNqmpD6z1FP8UF4Slvn30oEi3tAqHFx35cDpdChoVRkAr2YVmWNXWEw/E6ag/xO+Dr5TvwYRKoDiF+/TvKQghy1T48G7gd08VvIFGSNP43PrP/7mc2X7q4YcjDYmTEDnx7E4NIlk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1s9fZ3-0004gb-HP; Wed, 22 May 2024 08:35:05 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1s9fZ2-002UMT-E7; Wed, 22 May 2024 08:35:04 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1s9fZ2-009mSN-16;
+	Wed, 22 May 2024 08:35:04 +0200
+Date: Wed, 22 May 2024 08:35:04 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Jack Zhu <jack.zhu@starfivetech.com>, 
+	Changhuang Liang <changhuang.liang@starfivetech.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: linux-staging@lists.linux.dev, kernel@pengutronix.de, 
+	linux-media@vger.kernel.org
+Subject: Re: [PATCH] media: staging: media: starfive: camss: Drop obsolete
+ return value documentation
+Message-ID: <qftrobdg46arzt5isc2fwmgwncnszkcfcsw3gf3exk7a6ubhzv@w4icj5ykvskl>
+References: <20240424140249.542283-2-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 00/31] Staging: rtl8192e: rtllib_rx.c Rename camelcase
- variables
-To: Tree Davies <tdavies@darkphysics.net>, gregkh@linuxfoundation.org
-Cc: dan.carpenter@linaro.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20240521031718.17852-1-tdavies@darkphysics.net>
-Content-Language: en-US
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20240521031718.17852-1-tdavies@darkphysics.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="irto7zmcai2v5kbc"
+Content-Disposition: inline
+In-Reply-To: <20240424140249.542283-2-u.kleine-koenig@pengutronix.de>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-staging@lists.linux.dev
 
-On 5/21/24 05:16, Tree Davies wrote:
-> This is v2 of series renaming camelcase variables to meet style
-> guide requirements. Thank you in advance to reviewers.
-> ~ Tree
-> 
-> Changes:
-> #16 Renamed plist to list
-> #17 Renamed npadding_length to pad_len
-> #19 Deleted ChkLength variable
-> 
-> Tree Davies (31):
->    Staging: rtl8192e: Rename variable IsPassiveChannel
->    Staging: rtl8192e: Rename variable CountryIeBuf
->    Staging: rtl8192e: Rename variable CountryIeLen
->    Staging: rtl8192e: Rename variable bWithAironetIE
->    Staging: rtl8192e: Rename variable bContainHTC
->    Staging: rtl8192e: Rename variable MBssid
->    Staging: rtl8192e: Rename variable MBssidMask
->    Staging: rtl8192e: Rename variable elementID
->    Staging: rtl8192e: Rename variable rtllib_rx_Monitor
->    Staging: rtl8192e: Rename variable rtllib_rx_InfraAdhoc
->    Staging: rtl8192e: Rename variable IsLegacyDataFrame
->    Staging: rtl8192e: Rename variable RxReorderIndicatePacket
->    Staging: rtl8192e: Rename variable RfdArray
->    Staging: rtl8192e: Rename variable Decrypted
->    Staging: rtl8192e: Rename variable AddReorderEntry
->    Staging: rtl8192e: Rename variable pList
->    Staging: rtl8192e: Rename variable nPadding_Length
->    Staging: rtl8192e: Rename variable LLCOffset
->    Staging: rtl8192e: Remove variable ChkLength
->    Staging: rtl8192e: Rename variable WinEnd
->    Staging: rtl8192e: Rename variable WinSize
->    Staging: rtl8192e: Rename variable IsDataFrame
->    Staging: rtl8192e: Rename variable bMatchWinStart
->    Staging: rtl8192e: Rename variable bMBssidValid
->    Staging: rtl8192e: Rename variable bWithCcxVerNum
->    Staging: rtl8192e: Rename variable Frame_QoSTID
->    Staging: rtl8192e: Rename variable CcxRmState
->    Staging: rtl8192e: Rename variable IsQoSDataFrame
->    Staging: rtl8192e: Rename variable RfdCnt
->    Staging: rtl8192e: Rename variable prxbIndicateArray
->    Staging: rtl8192e: Rename variable bPktInBuf
-> 
->   .../staging/rtl8192e/rtl8192e/r8192E_dev.c    |   2 +-
->   drivers/staging/rtl8192e/rtl819x_HTProc.c     |   2 +-
->   drivers/staging/rtl8192e/rtl819x_TSProc.c     |   8 +-
->   drivers/staging/rtl8192e/rtllib.h             |  36 ++--
->   drivers/staging/rtl8192e/rtllib_rx.c          | 183 +++++++++---------
->   drivers/staging/rtl8192e/rtllib_tx.c          |   4 +-
->   6 files changed, 116 insertions(+), 119 deletions(-)
-> 
 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+--irto7zmcai2v5kbc
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+Hello,
+
+On Wed, Apr 24, 2024 at 04:02:48PM +0200, Uwe Kleine-K=F6nig wrote:
+> Recently the function stfcamss_remove() was changed to not return a
+> value. Drop the documentation of the return value in the kernel doc.
+>=20
+> Fixes: b1f3677aebe5 ("media: staging: media: starfive: camss: Convert to =
+platform remove callback returning void")
+> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+> ---
+> Hello,
+>=20
+> during review of the patch that became b1f3677aebe5 Changhuang pointed
+> out this patch opportunity. But before I came around to send a v2,
+> b1f3677aebe5 was already applied. So here comes a separate patch.
+>=20
+> If you prefer, feel free to squash this into b1f3677aebe5.
+
+Who feels responsible to pick up this patch (or alternatively give
+feedback)? Did I forget to address the relevant persons?
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--irto7zmcai2v5kbc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmZNkhcACgkQj4D7WH0S
+/k7//ggAgqCR5IcnjUsAPtllfh8Zcrl8n3PJ7M0KomFrfg5bfcfrHuLQJgVU3kNH
+mehcN/LaVLSNoT9zl23q6Sbr+3AFG8DfFKcSFAY7qX78PGlqFoqK29cZcGxr1tEV
+F+JzO2MERburA/cbz5/88axVq75zY9uGiuPtnFYjv0amoYg7cWm9WzP6XzdkOr8E
+dC9i6uE6lrYK0Ap90XIydmnPlUWhD6MEis7cF7TrVIN+nHYJBDsyVE78jmu905Ag
+N9oYpv5r+9Z8kdsP4Ba8XFNaVJP4eNMXnpmhqD1ySB5N01L7H+Kv/c5uGYda1bsG
+cQoBtYQCD3j5fviXV357pVrYZf1yWg==
+=6Qcj
+-----END PGP SIGNATURE-----
+
+--irto7zmcai2v5kbc--
