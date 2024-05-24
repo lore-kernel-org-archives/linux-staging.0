@@ -1,98 +1,158 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B0563CF6A
-	for <linux-staging@lists.linux.dev>; Fri, 24 May 2024 15:40:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A8AF3D0C5
+	for <linux-staging@lists.linux.dev>; Fri, 24 May 2024 20:12:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716565224; cv=none; b=VFCPsAkvPDycGENHWjNJTth9n60eyOiNuhhkymwcJZVXrzRHhYDf+UtXQ5XcOsSM4NLgkc+DTMJjjXAZ+uKontj8Wa4guenkufLlSNyJsDfFL5ZEybR7hCAQ2dAImBZ6pL0N+/ZLifYSMRcWGL6APfQkzHjqWZ4trRAf1wVh58g=
+	t=1716581540; cv=none; b=OWGIQHIP3PsCmWkYUjuf+srL0OLSH3jH4VRdkE17OUOsqnFwReFab/fXtEaa97VkAgOSXDUI13mu+t54okc/JjDZbb06Q4K3Kfri8eRTjqq2k8yV3r+fV/stW2c0+Y9rh+QpX5HKi3DfBQKpODDbAwrogppMyLpJv4AJ+RUYSOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716565224; c=relaxed/simple;
-	bh=dfy7lBx9o/LoiFhztFzB6TT+AoSqyiXNlnNPdSnQbY4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=uBop9Vc8XkWzXDAxl3In3EwMM3aIWnr0ObLBK11XMTd7W0GyilG54AzE9LleG8a6tgb5T7vPlck6qIyAqxw66m1wSIonZtFufIYTm91JfOU/4E6CzZVlrOPjiEpqg7mgk9vqpyWW24eelQfN6GOvNNPvgETFc79Y0WlITUNxc4c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lFSig0Sz; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1716581540; c=relaxed/simple;
+	bh=/0AJ4dHxpn+FPk7XO9/c18yo0iSc19ctgk3pqPUkIwo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tOEPO4igXRzCjDyTLAtbDpkEnngNoFpeKPwGyn2D6GR6GnV5GpdRZl6SJ5yMAjYsaF3H3OX3CXMTI94Rn8psWPDs8kFJ3eRAc4rFAJE8KQhxVQ6t0izn51ScDJ0cwpjWEC3nFHR0nppSguz8qQma+hwdRE/C7hIF/F4zNci83wk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=WpeJsYyv; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=hoYbLTxK; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lFSig0Sz"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-6f8ecafd661so936449b3a.3
-        for <linux-staging@lists.linux.dev>; Fri, 24 May 2024 08:40:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716565223; x=1717170023; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=wP+0c9kO69lJishldPkRtQz2m4VWJyfKYjNILD4qKl8=;
-        b=lFSig0SzpWKFwmonRGTseXLQeSSEgODHm7K5QnFYO/tbeFabpDjI7qw4hiuFZoLhFS
-         zTx9922a+UzniWNbYSTe5oE5+kG63WvRJJMcVMlYa6C4zIqhH6JX0DgrGHuu7S2BfwzK
-         CuFUY50ygPPoXRCAmgVSG3LSmKkdPEdPtiCyM1L3gxkKk9fCsiPx0HTupaoSsbPi9j7h
-         naMNoPiHhm5IDCKRPEj5cAj2zd78Lav5Htt0cZxC1YwTlc1BZd3jGfezrL+HjHSGRN5b
-         lX2bIXfkiNKxVjwU1R3PFfmrDuDWddkGYO+MePsptz8uM7c8va7ebWdBv54wIOYektXi
-         iKIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716565223; x=1717170023;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wP+0c9kO69lJishldPkRtQz2m4VWJyfKYjNILD4qKl8=;
-        b=V3/0n0YkyySKExu4uOV1bwdG1C/TdradSURMcj0NvncHMvwcGVTEzy1lWJH4IDOkKB
-         WIPIUsDc9h7hTJP21A8BDYazFurLJBeDFhc4h5tiNZxW7BiEr5+qacVhTG1yjWwKgKVs
-         Gk+0HcohqUrR0Zq07VuqYGTatkCxrBZh3tTor6ZO4EgWA56A3X1WDagJWEJsI3/UVCQe
-         /DnihCyvH203g7IfLFJR0P5LRW28OS925y2ZcIe4D8dLd1C5Qf1Sfilbnb5xWB7hWfY1
-         QOULiYQIUkf8F6bOH0kmJ0OIcRxACbjrY3DPwmChziFvgvmQDu4qaqTqxlGr1eSyShQt
-         j6VA==
-X-Forwarded-Encrypted: i=1; AJvYcCU91CWwEgp9H1CG+itgNhEl4ph2Y1JAPwEdMs3hAGBpHjqM42C0gp72M3k6TPwIrXJl3kVRtX2KhozW7aQwiKqJPOiB5pccVLobxBRryA==
-X-Gm-Message-State: AOJu0YyT4vJ/zKxwNA0ryGVQ315CfHfWOFWNhqO75KTUjxV46k/Ehpq1
-	qgoRIZjVTB+HKYEmR8YSyibY/NgVdg3UrUc2V/+36zDDYUvQ8bqA
-X-Google-Smtp-Source: AGHT+IE+IJeJkijTrkeCMpTMKxv6s/e3nRYLMeX+cNgRdLnj0qTw/3UWTy2pZII5zaz3A4LlDkGwuA==
-X-Received: by 2002:a05:6a21:3115:b0:1af:dae8:5eac with SMTP id adf61e73a8af0-1b212e1cc21mr3349631637.46.1716565222648;
-        Fri, 24 May 2024 08:40:22 -0700 (PDT)
-Received: from ubuntukernelserver.. ([110.44.116.44])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f8fd4e3704sm1242993b3a.202.2024.05.24.08.40.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 May 2024 08:40:22 -0700 (PDT)
-From: Roshan Khatri <topofeverest8848@gmail.com>
-To: Larry.Finger@lwfinger.net,
-	florian.c.schilhabel@googlemail.com,
-	gregkh@linuxfoundation.org,
-	ayushtiw0110@gmail.com,
-	namcaov@gmail.com,
-	dan.carpenter@linaro.org
-Cc: Roshan Khatri <topofeverest8848@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: rtl8712: Fix spelling mistake in rtl871x_mlme.c
-Date: Fri, 24 May 2024 21:25:01 +0545
-Message-Id: <20240524154001.63946-1-topofeverest8848@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="WpeJsYyv";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="hoYbLTxK"
+Date: Fri, 24 May 2024 22:12:12 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1716581537;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xtvCptJpVCuAsJ2ZJytWgyRQHpaYiuYuk+w0LKHWO7c=;
+	b=WpeJsYyvfRQCdvsuiugotFM2OeN+eJK54kuZZFjeHwH/jI6N5gBK8SruIep0g4FivxhfPF
+	+qEmvoBZaWWjuojdVBRmEaQ3oExGnbzPP+9FMx4Tq8NtGL3V5qRgfoE3IX81TXotpzcieC
+	WMQCa1uaoW1M+hn0y3BH0dJQCQBmdkO96DQFK0W5aR1KXwEj2Xq3c39ZEkzutwANhvkSf9
+	uh9U3PmdeLo8K4FAS+wjmXY3wvqp0p4K0t7BAmnY8kYRCQMicxYqSDv2kFflawbBefhc73
+	LQC8oEr0YhGl9oQjCXJi9ubmSypOix7KvmuTYTvYM+/lRJQ3ZbQ6/uMH7upZ8g==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1716581537;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xtvCptJpVCuAsJ2ZJytWgyRQHpaYiuYuk+w0LKHWO7c=;
+	b=hoYbLTxKk+aDa5qSkASfvMUdMj1vNefW8gt92TzKCuE1gbUgOMVWr/wdeOPwdaw2XPQzN1
+	kEfvwJIoFPfGjXCQ==
+From: Nam Cao <namcao@linutronix.de>
+To: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+Cc: syzbot <syzbot+83763e624cfec6b462cb@syzkaller.appspotmail.com>,
+	Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
+	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Subject: Re: [syzbot] [staging?] [usb?] memory leak in _r8712_init_xmit_priv
+ (2)
+Message-ID: <20240524201212.mjMDljAc@linutronix.de>
+References: <000000000000809328060a8a4c1c@google.com>
+ <20240520144641.17643-1-n.zhandarovich@fintech.ru>
+ <20240520171848.60Nzvv8y@linutronix.de>
+ <5b351cfa-6537-4e3d-9d5b-0435e4eceef9@fintech.ru>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5b351cfa-6537-4e3d-9d5b-0435e4eceef9@fintech.ru>
 
-This patch corrects misspelled word to increase code readability and
-searching.
+On Wed, May 22, 2024 at 06:33:57AM -0700, Nikita Zhandarovich wrote:
+> On 5/20/24 10:18, Nam Cao wrote:
+> > On Mon, May 20, 2024 at 07:46:41AM -0700, Nikita Zhandarovich wrote:
+> >>> BUG: memory leak
+> >>> unreferenced object 0xffff888107a5c000 (size 4096):
+> >>>   comm "kworker/1:0", pid 22, jiffies 4294943134 (age 18.720s)
+> >>>   hex dump (first 32 bytes):
+> >>>     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+> >>>     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+> >>>   backtrace:
+> >>>     [<ffffffff816337cd>] kmemleak_alloc_recursive include/linux/kmemleak.h:42 [inline]
+> >>>     [<ffffffff816337cd>] slab_post_alloc_hook mm/slab.h:766 [inline]
+> >>>     [<ffffffff816337cd>] slab_alloc_node mm/slub.c:3478 [inline]
+> >>>     [<ffffffff816337cd>] __kmem_cache_alloc_node+0x2dd/0x3f0 mm/slub.c:3517
+> >>>     [<ffffffff8157e625>] kmalloc_trace+0x25/0x90 mm/slab_common.c:1098
+> >>>     [<ffffffff83cee442>] kmalloc include/linux/slab.h:600 [inline]
+> >>>     [<ffffffff83cee442>] _r8712_init_xmit_priv+0x2b2/0x6e0 drivers/staging/rtl8712/rtl871x_xmit.c:130
+> >>>     [<ffffffff83ce9033>] r8712_init_drv_sw+0xc3/0x290 drivers/staging/rtl8712/os_intfs.c:311
+> >>>     [<ffffffff83ce7ce6>] r871xu_drv_init+0x1c6/0x920 drivers/staging/rtl8712/usb_intf.c:386
+> >>>     [<ffffffff832d0f0b>] usb_probe_interface+0x16b/0x3a0 drivers/usb/core/driver.c:396
+> >>>     [<ffffffff82c3bb06>] call_driver_probe drivers/base/dd.c:579 [inline]
+> >>
+> >> I am inclined to think that this issue might be false positive. During
+> >> repro the device is initialized correctly, does some work and then
+> >> exits, calling all required functions to clean things up
+> >> (i.e. _free_xmit_priv()), including pxmitbuf->pallocated_buf.
+> >> Kmemleak triggers disappear if you set longer intervals between
+> >> scannning for them (obviously). And if all the things get cleared up
+> >> when the device disconnects, isn't that correct and expected
+> >> behaviour? Could the scanner just "lose track" of some of the objects
+> >> here?
 
-Signed-off-by: Roshan Khatri <topofeverest8848@gmail.com>
----
- drivers/staging/rtl8712/rtl871x_mlme.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I think you may be right that this is false negative.
 
-diff --git a/drivers/staging/rtl8712/rtl871x_mlme.c b/drivers/staging/rtl8712/rtl871x_mlme.c
-index fccfa0915a02..70c295e97068 100644
---- a/drivers/staging/rtl8712/rtl871x_mlme.c
-+++ b/drivers/staging/rtl8712/rtl871x_mlme.c
-@@ -944,7 +944,7 @@ void r8712_cpwm_event_callback(struct _adapter *adapter, u8 *pbuf)
+I am guessing that kmemleak scans memory for pointers in block of 8-byte.
+However, this driver aligns the buffer from kmalloc() to 4 bytes, which is
+not necessary because pointers from kmalloc() is at least 8-byte-aligned.
+Then more pointers are stored in this 4-byte-aligned buffer. Thus, kmemleak
+misses these pointers, and falsely report memory leak.
+
+I never interacted with syzbot before, let's hope it can catch this:
+
+#syz test: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+
+diff --git a/drivers/staging/rtl8712/rtl871x_xmit.c b/drivers/staging/rtl8712/rtl871x_xmit.c
+index 6353dbe554d3..408616e9afcf 100644
+--- a/drivers/staging/rtl8712/rtl871x_xmit.c
++++ b/drivers/staging/rtl8712/rtl871x_xmit.c
+@@ -117,12 +117,9 @@ int _r8712_init_xmit_priv(struct xmit_priv *pxmitpriv,
+ 	/*init xmit_buf*/
+ 	_init_queue(&pxmitpriv->free_xmitbuf_queue);
+ 	_init_queue(&pxmitpriv->pending_xmitbuf_queue);
+-	pxmitpriv->pallocated_xmitbuf =
+-		kmalloc(NR_XMITBUFF * sizeof(struct xmit_buf) + 4, GFP_ATOMIC);
+-	if (!pxmitpriv->pallocated_xmitbuf)
++	pxmitpriv->pxmitbuf = kmalloc(NR_XMITBUFF * sizeof(struct xmit_buf), GFP_ATOMIC);
++	if (!pxmitpriv->pxmitbuf)
+ 		goto clean_up_frame_buf;
+-	pxmitpriv->pxmitbuf = pxmitpriv->pallocated_xmitbuf + 4 -
+-			      ((addr_t)(pxmitpriv->pallocated_xmitbuf) & 3);
+ 	pxmitbuf = (struct xmit_buf *)pxmitpriv->pxmitbuf;
+ 	for (i = 0; i < NR_XMITBUFF; i++) {
+ 		INIT_LIST_HEAD(&pxmitbuf->list);
+@@ -165,8 +162,8 @@ int _r8712_init_xmit_priv(struct xmit_priv *pxmitpriv,
+ 		for (k = 0; k < 8; k++)		/* delete xmit urb's */
+ 			usb_free_urb(pxmitbuf->pxmit_urb[k]);
+ 	}
+-	kfree(pxmitpriv->pallocated_xmitbuf);
+-	pxmitpriv->pallocated_xmitbuf = NULL;
++	kfree(pxmitpriv->pxmitbuf);
++	pxmitpriv->pxmitbuf = NULL;
+ clean_up_frame_buf:
+ 	kfree(pxmitpriv->pallocated_frame_buf);
+ 	pxmitpriv->pallocated_frame_buf = NULL;
+@@ -193,7 +190,7 @@ void _free_xmit_priv(struct xmit_priv *pxmitpriv)
+ 		pxmitbuf++;
+ 	}
+ 	kfree(pxmitpriv->pallocated_frame_buf);
+-	kfree(pxmitpriv->pallocated_xmitbuf);
++	kfree(pxmitpriv->pxmitbuf);
+ 	free_hwxmits(padapter);
+ }
  
- /*	When the Netgear 3500 AP is with WPA2PSK-AES mode, it will send
-  *	 the ADDBA req frame with start seq control = 0 to wifi client after
-- *	 the WPA handshake and the seqence number of following data packet
-+ *	 the WPA handshake and the sequence number of following data packet
-  *	will be 0. In this case, the Rx reorder sequence is not longer than 0
-  *	 and the WiFi client will drop the data with seq number 0.
-  *	So, the 8712 firmware has to inform driver with receiving the
--- 
-2.34.1
-
+diff --git a/drivers/staging/rtl8712/rtl871x_xmit.h b/drivers/staging/rtl8712/rtl871x_xmit.h
+index cdcbc87a3cad..784172c385e3 100644
+--- a/drivers/staging/rtl8712/rtl871x_xmit.h
++++ b/drivers/staging/rtl8712/rtl871x_xmit.h
+@@ -244,7 +244,6 @@ struct	xmit_priv {
+ 	int cmdseq;
+ 	struct  __queue free_xmitbuf_queue;
+ 	struct  __queue pending_xmitbuf_queue;
+-	u8 *pallocated_xmitbuf;
+ 	u8 *pxmitbuf;
+ 	uint free_xmitbuf_cnt;
+ };
