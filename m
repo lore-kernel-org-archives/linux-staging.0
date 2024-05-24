@@ -1,48 +1,68 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60C6853E31
-	for <linux-staging@lists.linux.dev>; Fri, 24 May 2024 15:16:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B0563CF6A
+	for <linux-staging@lists.linux.dev>; Fri, 24 May 2024 15:40:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716563786; cv=none; b=h5YztgG9tpes3TDAe1iZ/j7XybIXToodlZUIiG3w1CMFMKk0+N6hrEfZ4FwlVxk2pSS3U1aC55Ld/ZEbai2DC9xZo9/EOlU5AISEXecXTYmPT6GIccBP+K6mTcfRETvVFDW2RnkkaNY1f20u9OeipeLUkif1A3Ns6r/VSiFETq0=
+	t=1716565224; cv=none; b=VFCPsAkvPDycGENHWjNJTth9n60eyOiNuhhkymwcJZVXrzRHhYDf+UtXQ5XcOsSM4NLgkc+DTMJjjXAZ+uKontj8Wa4guenkufLlSNyJsDfFL5ZEybR7hCAQ2dAImBZ6pL0N+/ZLifYSMRcWGL6APfQkzHjqWZ4trRAf1wVh58g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716563786; c=relaxed/simple;
-	bh=FFdy67FNc38YIKQSk0Wh2FiWZUDFCZNmIWQIdmtu3jE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=GvzWbUElDEJXgwhCywmrHJI2eWoW1GsVfrjHDs2jHiANitimCWfHmD8WVGnmtgAbfRBE8SenI6Ikit5qxpFgjs7XAMyBZVk7RZNUB4d98/UbRMSkF0I2FqP6wdwTbayjINhXfmyDRC9oACkntn2Tg4LZ3NOwgiPN1YKzuH0WiPg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=bAtkxrO6; arc=none smtp.client-ip=212.227.15.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
+	s=arc-20240116; t=1716565224; c=relaxed/simple;
+	bh=dfy7lBx9o/LoiFhztFzB6TT+AoSqyiXNlnNPdSnQbY4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=uBop9Vc8XkWzXDAxl3In3EwMM3aIWnr0ObLBK11XMTd7W0GyilG54AzE9LleG8a6tgb5T7vPlck6qIyAqxw66m1wSIonZtFufIYTm91JfOU/4E6CzZVlrOPjiEpqg7mgk9vqpyWW24eelQfN6GOvNNPvgETFc79Y0WlITUNxc4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lFSig0Sz; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="bAtkxrO6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
-	s=s31663417; t=1716563772; x=1717168572; i=wahrenst@gmx.net;
-	bh=RLMkn7lgZyfKKgxdUzdYd3qjD1x+AdrYBSTGmC4yM7w=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:
-	 MIME-Version:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=bAtkxrO6yZDoEW5Y3JZkZKE0OE/a+YqhI+txl+raqwoS2El3jeGifTWWo0SW971u
-	 /6/fnI4izOiNp/KL9EpmdPlFSIHMtIuH1Pw6GQmej8fxm6iSfZir9O2uaCK+mdM+W
-	 1dGMKzIFCId+6b3V1oMdQi9T1ZV905xTVZtGkNDCw6+QqFu5NrvG/Bec0A944rOFU
-	 JverLXAQD5Lp4o1PVR6w+t4eotodGpZZrWEMj8dSvhf78/DLZjNg6hIFyr97tGRR6
-	 qe444Mb++bLrP/Z4ZEiQlU3rltBkimgYZGdP0USR081y2dMQvUdMJHaI/NqlKfAqw
-	 xlzjijWXx8IjFEDmwg==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from stefanw-SCHENKER ([37.4.248.43]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MUosN-1s22Cz0SWn-00Qnpw; Fri, 24
- May 2024 17:16:12 +0200
-From: Stefan Wahren <wahrenst@gmx.net>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>
-Cc: Umang Jain <umang.jain@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lFSig0Sz"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-6f8ecafd661so936449b3a.3
+        for <linux-staging@lists.linux.dev>; Fri, 24 May 2024 08:40:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1716565223; x=1717170023; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=wP+0c9kO69lJishldPkRtQz2m4VWJyfKYjNILD4qKl8=;
+        b=lFSig0SzpWKFwmonRGTseXLQeSSEgODHm7K5QnFYO/tbeFabpDjI7qw4hiuFZoLhFS
+         zTx9922a+UzniWNbYSTe5oE5+kG63WvRJJMcVMlYa6C4zIqhH6JX0DgrGHuu7S2BfwzK
+         CuFUY50ygPPoXRCAmgVSG3LSmKkdPEdPtiCyM1L3gxkKk9fCsiPx0HTupaoSsbPi9j7h
+         naMNoPiHhm5IDCKRPEj5cAj2zd78Lav5Htt0cZxC1YwTlc1BZd3jGfezrL+HjHSGRN5b
+         lX2bIXfkiNKxVjwU1R3PFfmrDuDWddkGYO+MePsptz8uM7c8va7ebWdBv54wIOYektXi
+         iKIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716565223; x=1717170023;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wP+0c9kO69lJishldPkRtQz2m4VWJyfKYjNILD4qKl8=;
+        b=V3/0n0YkyySKExu4uOV1bwdG1C/TdradSURMcj0NvncHMvwcGVTEzy1lWJH4IDOkKB
+         WIPIUsDc9h7hTJP21A8BDYazFurLJBeDFhc4h5tiNZxW7BiEr5+qacVhTG1yjWwKgKVs
+         Gk+0HcohqUrR0Zq07VuqYGTatkCxrBZh3tTor6ZO4EgWA56A3X1WDagJWEJsI3/UVCQe
+         /DnihCyvH203g7IfLFJR0P5LRW28OS925y2ZcIe4D8dLd1C5Qf1Sfilbnb5xWB7hWfY1
+         QOULiYQIUkf8F6bOH0kmJ0OIcRxACbjrY3DPwmChziFvgvmQDu4qaqTqxlGr1eSyShQt
+         j6VA==
+X-Forwarded-Encrypted: i=1; AJvYcCU91CWwEgp9H1CG+itgNhEl4ph2Y1JAPwEdMs3hAGBpHjqM42C0gp72M3k6TPwIrXJl3kVRtX2KhozW7aQwiKqJPOiB5pccVLobxBRryA==
+X-Gm-Message-State: AOJu0YyT4vJ/zKxwNA0ryGVQ315CfHfWOFWNhqO75KTUjxV46k/Ehpq1
+	qgoRIZjVTB+HKYEmR8YSyibY/NgVdg3UrUc2V/+36zDDYUvQ8bqA
+X-Google-Smtp-Source: AGHT+IE+IJeJkijTrkeCMpTMKxv6s/e3nRYLMeX+cNgRdLnj0qTw/3UWTy2pZII5zaz3A4LlDkGwuA==
+X-Received: by 2002:a05:6a21:3115:b0:1af:dae8:5eac with SMTP id adf61e73a8af0-1b212e1cc21mr3349631637.46.1716565222648;
+        Fri, 24 May 2024 08:40:22 -0700 (PDT)
+Received: from ubuntukernelserver.. ([110.44.116.44])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f8fd4e3704sm1242993b3a.202.2024.05.24.08.40.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 May 2024 08:40:22 -0700 (PDT)
+From: Roshan Khatri <topofeverest8848@gmail.com>
+To: Larry.Finger@lwfinger.net,
+	florian.c.schilhabel@googlemail.com,
+	gregkh@linuxfoundation.org,
+	ayushtiw0110@gmail.com,
+	namcaov@gmail.com,
+	dan.carpenter@linaro.org
+Cc: Roshan Khatri <topofeverest8848@gmail.com>,
 	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	Stefan Wahren <wahrenst@gmx.net>
-Subject: [PATCH] staging: vchiq_debugfs: Fix NPD in vchiq_dump_state
-Date: Fri, 24 May 2024 17:15:42 +0200
-Message-Id: <20240524151542.19415-1-wahrenst@gmx.net>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: rtl8712: Fix spelling mistake in rtl871x_mlme.c
+Date: Fri, 24 May 2024 21:25:01 +0545
+Message-Id: <20240524154001.63946-1-topofeverest8848@gmail.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -50,104 +70,29 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:lO1n2cBHKSUZX+4dlOWSByjNLlXLRMBuv+j1Cuwz7ym4FTlfTbN
- jg5TzkaaSNLMKKAhvY7zhtg9j+ti6TWNd/2Wd+zn16d4NQyAwOp8zuwX4LBJ8HqXDpF4j5U
- iGYcnJ5SYCSFTZHCfk4UDyEWZeh2kbAUQRrKv3AQCRno4ZI93FzfzaVgMMaDUAaLXUi6ggW
- 4m3uxjBH+gaP5S/d0+cuA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:ir+K2GJMytQ=;5AyWK/h7khCLQ6a+iTbl3FQ4xyV
- S9dOHMLpVoJ/S/Kdbh6UX+6z5c2HIOabJ7OKbT0C72aEWNi37rbeaMBF1N+NzsQ81leE/5qY/
- S5KSyDH8QMcv5c3m4TNdGwMJC24stYYthg3SeHUClPZwGGI1Lai2sKhjKdkAX6XwlL+qrrB66
- QfrJkckVliyu70u9RqI0xxLOL3Jb6tJLw7eTGvEcrU/0IHgGPApH/VIW8E4/jElQIP0NNaNVI
- qWMdJuNcv6NQaimBMgbckeAMr/rsJdWFVbRxQE1H8/snRxOCxq9lqBe7ZiKM9H4s3QrM9ayzh
- jVKIcf970mOSTlalzbjI5ZUFZAwESfPdWEDpVU/vh7SH9TxAqWl8Uu/EDdHDobQGNpdJIkbTv
- xvroIcyQVPVFUCpKcbOoIOQhTqvgnzYrPC5myyomYc9QgdRG0JfcwyjdoeTlmYabv+QAe1vel
- 7lsizlzt42wbjxa6EOaNAL4RVttijO2SSdbNzkkhagTHay62f9uXA7iuIKszUXcBDUEbWDsGb
- f5JCceL169ZFrLQXVGdmUgwADBwTLN5Csk+E9ONWtC73Dih1qKA41R6oJmf0yhCiH+lW5b3cf
- 0cbirW2ffrti0VNX8Wv00S0wyHZn/o3RKsVOcHsZ7bz1qBYu7hunTKmDnbPSpzHpBLey6Qhy5
- ED3FIu4QQo6SSRiTsSH1nsIRnvwkr0aznJeX5kjnYlQ7fBG/525tJbxjWx7AlsQ7PRpWceY82
- N1JbUW9yp19dylaaCPUzmdQbNatorzifxtSDKXdof1P9yyEtMpKCivxlAA9Vf8MZU3+/lyZvF
- l/jXtvn4N+zVcKEGeA47+oJunRIetT6LAx/8CrDtaL3zw=
+Content-Transfer-Encoding: 8bit
 
-The commit 42a2f6664e18 ("staging: vc04_services: Move global g_state
-to vchiq_state") falsely assumed that the debugfs entry vchiq/state
-was created with vchiq_instance as data. This causes now a NULL
-pointer derefence while trying to dump the vchiq state. So fix
-this by passing vchiq_state as data, because this is the relevant
-part here.
+This patch corrects misspelled word to increase code readability and
+searching.
 
-Fixes: 42a2f6664e18 ("staging: vc04_services: Move global g_state to vchiq=
-_state")
-Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
-=2D--
- .../staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 2 +-
- .../vc04_services/interface/vchiq_arm/vchiq_debugfs.c     | 8 ++++----
- .../vc04_services/interface/vchiq_arm/vchiq_debugfs.h     | 2 +-
- 3 files changed, 6 insertions(+), 6 deletions(-)
+Signed-off-by: Roshan Khatri <topofeverest8848@gmail.com>
+---
+ drivers/staging/rtl8712/rtl871x_mlme.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c=
- b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-index 297af1d80b12..69daeba974f2 100644
-=2D-- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-@@ -1759,7 +1759,7 @@ static int vchiq_probe(struct platform_device *pdev)
- 	if (err)
- 		goto failed_platform_init;
-
--	vchiq_debugfs_init();
-+	vchiq_debugfs_init(&mgmt->state);
-
- 	dev_dbg(&pdev->dev, "arm: platform initialised - version %d (min %d)\n",
- 		VCHIQ_VERSION, VCHIQ_VERSION_MIN);
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_debug=
-fs.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_debugfs.c
-index 54e7bf029d9a..1f74d0bb33ba 100644
-=2D-- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_debugfs.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_debugfs.c
-@@ -42,9 +42,9 @@ static int debugfs_trace_show(struct seq_file *f, void *=
-offset)
-
- static int vchiq_dump_show(struct seq_file *f, void *offset)
- {
--	struct vchiq_instance *instance =3D f->private;
-+	struct vchiq_state *state =3D f->private;
-
--	vchiq_dump_state(f, instance->state);
-+	vchiq_dump_state(f, state);
-
- 	return 0;
- }
-@@ -121,12 +121,12 @@ void vchiq_debugfs_remove_instance(struct vchiq_inst=
-ance *instance)
- 	debugfs_remove_recursive(node->dentry);
- }
-
--void vchiq_debugfs_init(void)
-+void vchiq_debugfs_init(struct vchiq_state *state)
- {
- 	vchiq_dbg_dir =3D debugfs_create_dir("vchiq", NULL);
- 	vchiq_dbg_clients =3D debugfs_create_dir("clients", vchiq_dbg_dir);
-
--	debugfs_create_file("state", S_IFREG | 0444, vchiq_dbg_dir, NULL,
-+	debugfs_create_file("state", S_IFREG | 0444, vchiq_dbg_dir, state,
- 			    &vchiq_dump_fops);
- }
-
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_debug=
-fs.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_debugfs.h
-index e9bf055a4ca9..fabffd81b1ec 100644
-=2D-- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_debugfs.h
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_debugfs.h
-@@ -10,7 +10,7 @@ struct vchiq_debugfs_node {
- 	struct dentry *dentry;
- };
-
--void vchiq_debugfs_init(void);
-+void vchiq_debugfs_init(struct vchiq_state *state);
-
- void vchiq_debugfs_deinit(void);
-
-=2D-
+diff --git a/drivers/staging/rtl8712/rtl871x_mlme.c b/drivers/staging/rtl8712/rtl871x_mlme.c
+index fccfa0915a02..70c295e97068 100644
+--- a/drivers/staging/rtl8712/rtl871x_mlme.c
++++ b/drivers/staging/rtl8712/rtl871x_mlme.c
+@@ -944,7 +944,7 @@ void r8712_cpwm_event_callback(struct _adapter *adapter, u8 *pbuf)
+ 
+ /*	When the Netgear 3500 AP is with WPA2PSK-AES mode, it will send
+  *	 the ADDBA req frame with start seq control = 0 to wifi client after
+- *	 the WPA handshake and the seqence number of following data packet
++ *	 the WPA handshake and the sequence number of following data packet
+  *	will be 0. In this case, the Rx reorder sequence is not longer than 0
+  *	 and the WiFi client will drop the data with seq number 0.
+  *	So, the 8712 firmware has to inform driver with receiving the
+-- 
 2.34.1
 
