@@ -1,92 +1,123 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1630502BB
-	for <linux-staging@lists.linux.dev>; Thu, 23 May 2024 20:07:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27C682AF00
+	for <linux-staging@lists.linux.dev>; Fri, 24 May 2024 03:55:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716494848; cv=none; b=NnInKyWByqNV24x3IzbLVL4QooavUHHsoyO0FD7tivaTaUTmghqCtKCVt1AFtALsRyWMzbS34HiSRV+BEQpRxNlUa1u1Nnm2q/4ySUQZ1DrQvoHNY8lO0I0398idZ5+741rMD8GCBjnOIrzAKoFRdY1ZNFP6tb9r2huMnspj4BM=
+	t=1716522959; cv=none; b=fxfW/1hwzeWepN6ztOnhQlb568/BIYbLcWJH2BXRIrgPMdnioQUYm4NUCQWrV/uqJe4RsfByrilV7BQvQPWiRa6oFAugLuvGOIA3cePKjVrdCLu0KZqAnkwr9C+3l3qeMNsVtl1VmUeeRz2TtDVhmvU5x9tx8ZrAi01V0d+TCIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716494848; c=relaxed/simple;
-	bh=2d1CJhorrDMIVYkpTcXwLIMkbxnSfCS2p0mDoQiNPwY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PiKWuccDlSt0zqnoF5CFPwL1cWIv35lxsJKF313uJIAy7VDcAyIffbe/tld8Hg2e1d7ArO24Z1nZAJ6O5G4vYA/RbLlgkOFfeRVJLgUO+qpRjxWAjqF+mM3799pzYMZqK8WmaOGS9JizW5Q1Z44pitqRddPGhEWXFIDoYepvKHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b199HmwV; arc=none smtp.client-ip=209.85.167.49
+	s=arc-20240116; t=1716522959; c=relaxed/simple;
+	bh=hz6yD3YpRQ+/vmJO/Jc9hA4ctopEf7XFcndZkYLFllw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=auCZYaLmscwXrOk5JvP3GdkwrbgIGaz36RR2qOV8bjGLuLXeKtWku8LJ3y6udm4yrgf+eTPnbnyzZaPLWYmv/mhpYGosVxNiThqEIUQapVIjTjQZnk8ww3+Q7RWwJuuHPDFawBy6otqgthngFLb6NeH45eyxpXlywxDnFxmUyFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LiWdy2xp; arc=none smtp.client-ip=209.85.214.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b199HmwV"
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-52397dd31a0so175691e87.0
-        for <linux-staging@lists.linux.dev>; Thu, 23 May 2024 13:07:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LiWdy2xp"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1f2ecea41deso121404575ad.1
+        for <linux-staging@lists.linux.dev>; Thu, 23 May 2024 20:55:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716494845; x=1717099645; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ZaW0YeWd9W9RWy2XGhmCKnTq6HAsW7a5Iz8eTGNYJ14=;
-        b=b199HmwVzJDl6yGGNJYTeWDdlXaShdUoEXV45HmGBkcB8+i/yRnZcOqAqXEIqTwXcR
-         xQnzG/dTvJc4u+GJHxTMCTqNBBVnBIq9+5OqZE8IiH0PVT/bA7ByMd7l6wITLwbbgzsz
-         fUT8WJK3qO0S8M9kuwcyk9MB09mJus5ZyMRwqRW/D9T/6z8klUaO6mMu00vIz0WC7O3v
-         VqmMowtlQVqaWMLlxkQV3LAy96UwNNy73wYfej1tlknC1F/fQiZ/guZjmYzzZhHXT1lC
-         edE+j86RFT38H8vv47WIpkE+WFR7KShcEIwz3ydqKmxccmWY7pRKfEFHBT0C60nd8H4y
-         Tq5Q==
+        d=gmail.com; s=20230601; t=1716522957; x=1717127757; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3x9vVo+8n8DI9HwirLv4lx4BXroqIOS5ZYSTB5Fjk5s=;
+        b=LiWdy2xpFYE8rrOY3uh2ykt/Hkimf0cSpMyrKfUC8DfPFWdVbSJpLlU8KmiPIQIDX6
+         QC88YlYkS2frpHBlF3+7Nx38sAJSS+fOa8VUBzZ9W5tF0ErRfh5qMBnF/sAUgRR81rC3
+         QetoAlucJe6QRARE/DFS7VSLU86/ooQVAXnjdmHeGid2ObSaKtvILO1G6Ew6P7mz7nlK
+         W+kQED6MmOuU7+aPmJC+aKhAw0gA7qUBI6Kz3rQ9nEoIsLagUn7MWVJpotg4i/MIGTL3
+         pUoeDb7lHGV4ta66rAtsGWqnlnOg3Oo6E0yCL7cFZJCAVhokYqacpURVn3rSQXdCI0Sy
+         4gcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716494845; x=1717099645;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZaW0YeWd9W9RWy2XGhmCKnTq6HAsW7a5Iz8eTGNYJ14=;
-        b=fnGBl0V7WC1+jDuDcyC6IMfRfKybLVljgqcsaJZkCN4BwVtfves3bgG5N+slADG2Ox
-         plMnGuK5VpQFL6wZz4EWcjocZcU0WubiXA3L0eGXCHtAY7t67i230VavZZl+tpBPswVH
-         w+cvCmUCoPzT/dC3Ynk1Y/YyHg5o3wTzxX/mWGewy6g+/Y+WUIpzPhOCN2HNiaYgBkds
-         WV/i85hRtSRs7zz0Q7Qi1+y8dVnQVLP4BIkeMrowRzwwbJa4fU938dbgXSYL4ldK0e+f
-         CfiH8MSkEXOTDZpsgd81BaIqjPOOCQjl1SWpq5B4fy46uJtCh0V/wA+QFG+T0oo6t1qF
-         zhsA==
-X-Gm-Message-State: AOJu0Yy8rEstRIi5pLKtF4Fmt+MZRQYCBzZEzXpgV9wgto6yWfwIDDk6
-	7lUPnadL1vzMDZq3MENE3dnp1IhE2lO4ZKOyuojUF7LbxbCxRi7V
-X-Google-Smtp-Source: AGHT+IECPlwCDpDrzkV9K4kzMzuvIu2MUp1Nz/mNd/l/h0qCNqTxfv04Qrg3eQ9DyAzjPy9VotCIxg==
-X-Received: by 2002:a05:6512:68f:b0:51f:6b63:75a6 with SMTP id 2adb3069b0e04-529619867acmr109619e87.0.1716494844854;
-        Thu, 23 May 2024 13:07:24 -0700 (PDT)
-Received: from [192.168.0.102] (p57935690.dip0.t-ipconnect.de. [87.147.86.144])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a626c817088sm4265866b.24.2024.05.23.13.07.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 May 2024 13:07:24 -0700 (PDT)
-Message-ID: <ab941550-b78a-4b30-a3eb-68c8967f6cb0@gmail.com>
-Date: Thu, 23 May 2024 22:07:23 +0200
+        d=1e100.net; s=20230601; t=1716522957; x=1717127757;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3x9vVo+8n8DI9HwirLv4lx4BXroqIOS5ZYSTB5Fjk5s=;
+        b=k/rZEqSQ24rx+Kh6qBdlNQKFa0ZTLqHBfhsCJyTl+1KBY2ezfR4gHb3WRm+0zuwE/k
+         SsQptVSo/GguWlwCAXxczd5w4MRyftdiPMaOjD8W8qHJKhuerEQ8FzfloYacF5SFRJR4
+         zf7D8fJ6XTW3IWX0UQgiM94P+dJr2H+829AjdAegD0T20LCoEda3BdoP4QsafVcLrhsR
+         81IOZeOXBFobsjEF1QVTzi7tmNCX4VxB090nsvsOvNnO3V9wkjO/ezrRpiSL9Q3yxS4U
+         ll7OspIIyuNCvv39xvcOEj7s4R+IQnaHuO+QgFXW+lIMpnCsyiZVCZ5sxtqCne0eUPFN
+         0Hng==
+X-Forwarded-Encrypted: i=1; AJvYcCUMg3Q3mP3PStMi6bqfEQqgFQaMDgxxdLPPR/JbaI134HPXamK/iHkMuo2VXPIGkoOe1qCbvM7/vZIREV7z9j4FyT7trf9KciZUmrqyrQ==
+X-Gm-Message-State: AOJu0YxMKPJ7vMlRdFv+0oJn7WDBCJbERWHIimlHE/xqdE2e0IZq0HPt
+	uzJzYYLhIatpdApSrHbjD2Ex2kX2EsDpX9w0fnu9tymd1qfT/PrN
+X-Google-Smtp-Source: AGHT+IGHa4C3FN7n8+eC7KzOZBlPE2yGNCes1Lr9VjmAe4+0SYxnbQiTgj05W5VxdVyMph6XmY9Tqw==
+X-Received: by 2002:a17:902:d2c9:b0:1ee:8fb7:dce1 with SMTP id d9443c01a7336-1f44893d42bmr14924295ad.31.1716522957373;
+        Thu, 23 May 2024 20:55:57 -0700 (PDT)
+Received: from ubuntukernelserver.. ([110.44.116.44])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f44c79d046sm3708015ad.72.2024.05.23.20.55.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 May 2024 20:55:56 -0700 (PDT)
+From: Roshan Khatri <topofeverest8848@gmail.com>
+To: gregkh@linuxfoundation.org,
+	tdavies@darkphysics.net,
+	philipp.g.hortmann@gmail.com,
+	garyrookard@fastmail.org
+Cc: Roshan Khatri <topofeverest8848@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] staging: rtl8192e: Fix spelling mistakes in rtllib_softmac.c
+Date: Fri, 24 May 2024 09:40:24 +0545
+Message-Id: <20240524035525.61072-1-topofeverest8848@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: rtl8192e: Fix spelling mistakes in
- rtllib_softmac.c
-To: Roshan Khatri <topofeverest8848@gmail.com>, gregkh@linuxfoundation.org,
- tdavies@darkphysics.net, garyrookard@fastmail.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20240523035952.59724-1-topofeverest8848@gmail.com>
-Content-Language: en-US
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20240523035952.59724-1-topofeverest8848@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 5/23/24 05:59, Roshan Khatri wrote:
-> codespell reported misspellings of temporarily, possibly, notify and
-> param on rtllib_softmac.c. This patch fixes the misspellings to increase
-> code readability and searching.
-> 
+This patch corrects some misspellings to increase code readability and
+searching.
 
-Hi Roshan,
+Signed-off-by: Roshan Khatri <topofeverest8848@gmail.com>
+---
+ drivers/staging/rtl8192e/rtllib_softmac.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-please do not describe what you do in the description. What you do can 
-be seen in the patch. It is not important which tool found the isssue. 
-Keep the why.
-
-Thanks.
-
-Bye Philipp
-
-
+diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
+index 97fdca828da7..0fc97c868f81 100644
+--- a/drivers/staging/rtl8192e/rtllib_softmac.c
++++ b/drivers/staging/rtl8192e/rtllib_softmac.c
+@@ -421,7 +421,7 @@ static void rtllib_softmac_scan_syncro(struct rtllib_device *ieee)
+ 		 *    So we switch to MAC80211_LINKED_SCANNING to remember
+ 		 *    that we are still logically linked (not interested in
+ 		 *    new network events, despite for updating the net list,
+-		 *    but we are temporarly 'unlinked' as the driver shall
++		 *    but we are temporarily 'unlinked' as the driver shall
+ 		 *    not filter RX frames and the channel is changing.
+ 		 * So the only situation in which are interested is to check
+ 		 * if the state become LINKED because of the #1 situation
+@@ -934,7 +934,7 @@ static void rtllib_associate_abort(struct rtllib_device *ieee)
+ 
+ 	ieee->associate_seq++;
+ 
+-	/* don't scan, and avoid to have the RX path possibily
++	/* don't scan, and avoid to have the RX path possibly
+ 	 * try again to associate. Even do not react to AUTH or
+ 	 * ASSOC response. Just wait for the retry wq to be scheduled.
+ 	 * Here we will check if there are good nets to associate
+@@ -1359,7 +1359,7 @@ static short rtllib_sta_ps_sleep(struct rtllib_device *ieee, u64 *time)
+ 		return 0;
+ 	timeout = ieee->current_network.beacon_interval;
+ 	ieee->current_network.dtim_data = RTLLIB_DTIM_INVALID;
+-	/* there's no need to nofity AP that I find you buffered
++	/* there's no need to notify AP that I find you buffered
+ 	 * with broadcast packet
+ 	 */
+ 	if (dtim & (RTLLIB_DTIM_UCAST & ieee->ps))
+@@ -1806,7 +1806,7 @@ void rtllib_softmac_xmit(struct rtllib_txb *txb, struct rtllib_device *ieee)
+ 
+ 	spin_lock_irqsave(&ieee->lock, flags);
+ 
+-	/* called with 2nd parm 0, no tx mgmt lock required */
++	/* called with 2nd param 0, no tx mgmt lock required */
+ 	rtllib_sta_wakeup(ieee, 0);
+ 
+ 	/* update the tx status */
+-- 
+2.34.1
 
