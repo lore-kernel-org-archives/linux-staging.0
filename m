@@ -1,98 +1,132 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D39EB8562E
-	for <linux-staging@lists.linux.dev>; Sat, 25 May 2024 16:02:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06F13171AF
+	for <linux-staging@lists.linux.dev>; Sat, 25 May 2024 19:53:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716652971; cv=none; b=RVjoaz9niWEZtJIA8K0TloNvLQZkRDD1BcfDRXvUhIe5N0UvoiSqaLiM9A31TwtOc5JtYqfKZClhBjaEjMaVrgg8mom9W6waz7Pcbfc/J8jnV02NiffGAXsn/v8qZf8lZLoZFXP4I95XMmXS0vVruU9T2ROGEc8ES0s1afkZwBY=
+	t=1716666804; cv=none; b=rBfea5YUlmsEE1oNIxxMr+BJxSMZnr/hs2U/wiITgeHQ5xmvJJ5N8P97abnsOofUOXy697oqcxrmBT9wumIbOeAD4tme6hCFnJID2UKF/ezWMPY85/nT9nr8UGWQBJlw5UPOCvKK2ABu8piAXVBuPMFLBZJsmK4FzOO6UMy8Kco=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716652971; c=relaxed/simple;
-	bh=2PocUIctJT1LGB/9mzIa0giFi5RIO4kYRtnrssDuAGU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=X06Eix3IRW+bzx3Kss/BIurqQFIRu8PQrx83kBR5ScOYQi88z4lEHquivoFAKAgPfOVA2VU7Hr2/0KrTVu1EMLw6ht1EAOt0+hbuBdgLuRt1e8QzxbClljjdjp6oivVWp2/q+gIDw479hiSZJkpvkrirMnMiD2TCH4GswV15vIY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HEt3ABn3; arc=none smtp.client-ip=209.85.214.178
+	s=arc-20240116; t=1716666804; c=relaxed/simple;
+	bh=M/3s1GxCdbe10Q+Ris65wPXVXEe1DMs6c1mNw58Yb4I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HHrau3BQ7ROAroaEEeHFIjBaf+PRmesRSpb8sdlfz3tSwqRkPzBkEkVet/WPWu283thuyXRJrIjlrE8B3Y6TyUcSYuWDm/8GfsAECCqRkNN35W0HU5VyJ16vZ6hFwvQEP6j1BzyGDNF4fIAMFUCcnTO63wc+F2Tm1/D7FR3yPSw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dB8HIZyy; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HEt3ABn3"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1f333e7a669so30064505ad.3
-        for <linux-staging@lists.linux.dev>; Sat, 25 May 2024 09:02:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dB8HIZyy"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4210f187e3cso130655e9.2
+        for <linux-staging@lists.linux.dev>; Sat, 25 May 2024 12:53:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716652969; x=1717257769; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=AViMprnRZDg8WlLNdCeKLRe1EXgWkFqK17wBJRWM63I=;
-        b=HEt3ABn3+Tjk6PZgTMG5dbO7oOh4zJavRyATmc7c2+g5g4a6DphwICo2ZMGfKr4HhT
-         43FZqHoEzZ0+Q57dGavHvCrkD8GAokno8exhJlgnjyWlMVLM5gfbvg48NpDvvjUv4vD8
-         YPKhCDAWoTgAQq3EMZsjy2kZn9gw8/stNpLAAk6ZD3ifCk8AR71mYnKPyIZ50gNnLhIo
-         cClKqbASx5d9DuVpZAnRqhJbKS7qH44Pgo0sUdkIEYVhDtxn6DIdSGv3jZetkg0Kg0v8
-         aoYJJTdO6rYQazms91niow+vH5JWTmFGvKXuvKGKwzz+xmp9tQGwdMN7LAxaV8oCEb1g
-         FDDQ==
+        d=gmail.com; s=20230601; t=1716666801; x=1717271601; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=oPqPzXoshwO3X5GrkiASssYjgVLQm4/xRukqmuyA2Sg=;
+        b=dB8HIZyyOsO66R5bV3Yus897JldBwI6bcubH7osA6xzqZmoH3O6RY5QDmj/ga7knbl
+         r3s7v8wTvpAuwCF4h1GLjg3yFl2lMt6VTXRJHfSJ6Cg+M/r696msssu6lpUBkYkXgbXz
+         iOVSWhhfL0z2cLW6B7I7gLvgQKos7RegyY5l5VcqA1JmFQY/7XIUVAhb2oxEQjFDKxT1
+         9k/X3nlKc76Ok+ZtuKBz5wWYe7A/CzGRN4g0tWunIdPEtR4ggyuiCTdTt9XiLywcr88Q
+         CjHnPQ8DjUyfFAJJd/bX0z82a3ozU3aEcxH43InyToIeush6JbpD0LJEsHUo8rXl7IXm
+         bCig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716652969; x=1717257769;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=AViMprnRZDg8WlLNdCeKLRe1EXgWkFqK17wBJRWM63I=;
-        b=tveDe78PeZfucJ0qRMythU2/lHG6iuSR8u7vNZckwLfw4P4qXKOWq0fFrMsEA29D5g
-         KyYGKWlAjfN92PwQK7M6J6v4LtVMUmmMuPPneRzGLEOsoHjz2V2GZTRD1//jPT4+dVX6
-         BQ2izAsjfVwvaTmVyvX89KXuGAuXx/7v6Nnd3H9wIKYwQx5VdDbyvF9N2Sh12yTtuXb9
-         cpUQ3Eo1/DBj5/wHBhx3/UPfVGQuByClVL25MvS+Oyz5rMXiA1G5RgqvDQP+xHwypM7u
-         FPr9OWnNF8qqe8zjZzQ0zcQ+oucpT16Qy2w1UocSOCAOUbMjB9GLki9GVzP0GVlbmChx
-         MfJg==
-X-Forwarded-Encrypted: i=1; AJvYcCWOnh2kQcKYkLGf5iBZJqfjDctpMKshPK56XMcJucktU0+nVIJOc0vu3e1VGULgAE5O++KhxtOeMMK7h3BCyPaEgkv27rb4bg0n8TGoRg==
-X-Gm-Message-State: AOJu0Yw+j8IzJS2H+Uj5LsMRC8ID+ZLk1pzvwHd7IpO32lGVpXZO2qmx
-	7xZwkRud4EBXJXPf+9cwTQqjN9aCANc5M6Qf6Eg+wEtqIbHDpK8u
-X-Google-Smtp-Source: AGHT+IH8F+iMmwX9YKpALznoihMfYEKPSO49DL5/qynDmNyFDsPcSgr0VzrN329gKNRZCvIhdxRbew==
-X-Received: by 2002:a17:902:7808:b0:1f2:f854:f59 with SMTP id d9443c01a7336-1f4486efeeamr39861045ad.15.1716652969053;
-        Sat, 25 May 2024 09:02:49 -0700 (PDT)
-Received: from ubuntukernelserver.. ([110.44.116.44])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f44c9b0787sm31668435ad.242.2024.05.25.09.02.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 May 2024 09:02:48 -0700 (PDT)
-From: Roshan Khatri <topofeverest8848@gmail.com>
-To: Larry.Finger@lwfinger.net,
-	florian.c.schilhabel@googlemail.com,
-	gregkh@linuxfoundation.org,
-	ayushtiw0110@gmail.com,
-	namcaov@gmail.com,
-	dan.carpenter@linaro.org
-Cc: Roshan Khatri <topofeverest8848@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: rtl8712: Fix spelling mistake in rtl871x_io.h
-Date: Sat, 25 May 2024 21:47:29 +0545
-Message-Id: <20240525160230.66365-1-topofeverest8848@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20230601; t=1716666801; x=1717271601;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=oPqPzXoshwO3X5GrkiASssYjgVLQm4/xRukqmuyA2Sg=;
+        b=n1AUQoBfg6glw2/EbyV7VmjdWTuBXcnz2M9mf53YsQVbsoRTOKpdtqsmkwXVTQ8Dhz
+         fFwNHKDF5kCNVMaFxwEqs49+7f0CfdFBUPfeBvmf9L1ZsEGmrXF3rRVuNI24shvOD3Tz
+         oz482K5XosWK6r9vOz0C8KQxJRHS2SW9VSvSIKs4LZHCbENMrmCBxemDxpbiECoRH8EH
+         mUTNiMaY+8wvO49Llbecibv79UbqR7vj0t3UPfPFV3v5SUqq3HfHfgX4PK4Dypce+rI8
+         D7izi5pOs3Cpp6cKtXqvMi1lfUiOgAsMTNX1/QD0tGbXilowVoARZ22sxhFvRX8CkOWq
+         Cqig==
+X-Gm-Message-State: AOJu0Yz6eLV/9ytFo33pfl7B8+Ubc/yUyP99WY71ImTRq5pB2CDwpaJj
+	/wUFpUD7AV+NLC9jE0hN9p6gRgLOlAV+wxh1l33YJGVVm0XCFPiT
+X-Google-Smtp-Source: AGHT+IFe6BKMaPWpLr6rOrgLIvvYyuPJtLKEx/wU3Add+KxVCLzTLbbpch0b4hOOGRd2/PyWAZJeBw==
+X-Received: by 2002:a05:600c:3b88:b0:418:ef65:4b11 with SMTP id 5b1f17b1804b1-421099b03e5mr40154515e9.2.1716666801145;
+        Sat, 25 May 2024 12:53:21 -0700 (PDT)
+Received: from [192.168.44.127] ([185.238.218.61])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42100ee7e1fsm90288625e9.6.2024.05.25.12.53.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 25 May 2024 12:53:20 -0700 (PDT)
+Message-ID: <5f591c67-235c-4afa-bf87-8fd01dc0e5af@gmail.com>
+Date: Sat, 25 May 2024 21:53:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] staging: rtl8192e: Fix spelling mistakes in
+ rtllib_softmac.c
+To: Roshan Khatri <topofeverest8848@gmail.com>, gregkh@linuxfoundation.org,
+ tdavies@darkphysics.net, garyrookard@fastmail.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20240524041235.61184-1-topofeverest8848@gmail.com>
+Content-Language: en-US
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <20240524041235.61184-1-topofeverest8848@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This patch corrects misspelled word to increase code readability and
-searching.
+On 24.05.24 06:12, Roshan Khatri wrote:
+> This patch corrects some misspellings to increase code readability and
+> searching.
+> 
+> Signed-off-by: Roshan Khatri <topofeverest8848@gmail.com>
+> ---
+> v3:
+>   - Added the missing patch history on v2 patch
+> v2:
+>   - Updated the patch description as suggested by Phillips
+>   - https://lore.kernel.org/all/1aefa708-b1fe-4246-bb67-36f25919c766@gmail.com/
+> v1: https://lore.kernel.org/all/20240523035952.59724-1-topofeverest8848@gmail.com/
+> 
+>   drivers/staging/rtl8192e/rtllib_softmac.c | 8 ++++----
+>   1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
+> index 97fdca828da7..0fc97c868f81 100644
+> --- a/drivers/staging/rtl8192e/rtllib_softmac.c
+> +++ b/drivers/staging/rtl8192e/rtllib_softmac.c
+> @@ -421,7 +421,7 @@ static void rtllib_softmac_scan_syncro(struct rtllib_device *ieee)
+>   		 *    So we switch to MAC80211_LINKED_SCANNING to remember
+>   		 *    that we are still logically linked (not interested in
+>   		 *    new network events, despite for updating the net list,
+> -		 *    but we are temporarly 'unlinked' as the driver shall
+> +		 *    but we are temporarily 'unlinked' as the driver shall
+>   		 *    not filter RX frames and the channel is changing.
+>   		 * So the only situation in which are interested is to check
+>   		 * if the state become LINKED because of the #1 situation
+> @@ -934,7 +934,7 @@ static void rtllib_associate_abort(struct rtllib_device *ieee)
+>   
+>   	ieee->associate_seq++;
+>   
+> -	/* don't scan, and avoid to have the RX path possibily
+> +	/* don't scan, and avoid to have the RX path possibly
+>   	 * try again to associate. Even do not react to AUTH or
+>   	 * ASSOC response. Just wait for the retry wq to be scheduled.
+>   	 * Here we will check if there are good nets to associate
+> @@ -1359,7 +1359,7 @@ static short rtllib_sta_ps_sleep(struct rtllib_device *ieee, u64 *time)
+>   		return 0;
+>   	timeout = ieee->current_network.beacon_interval;
+>   	ieee->current_network.dtim_data = RTLLIB_DTIM_INVALID;
+> -	/* there's no need to nofity AP that I find you buffered
+> +	/* there's no need to notify AP that I find you buffered
+>   	 * with broadcast packet
+>   	 */
+>   	if (dtim & (RTLLIB_DTIM_UCAST & ieee->ps))
+> @@ -1806,7 +1806,7 @@ void rtllib_softmac_xmit(struct rtllib_txb *txb, struct rtllib_device *ieee)
+>   
+>   	spin_lock_irqsave(&ieee->lock, flags);
+>   
+> -	/* called with 2nd parm 0, no tx mgmt lock required */
+> +	/* called with 2nd param 0, no tx mgmt lock required */
+>   	rtllib_sta_wakeup(ieee, 0);
+>   
+>   	/* update the tx status */
 
-Signed-off-by: Roshan Khatri <topofeverest8848@gmail.com>
----
- drivers/staging/rtl8712/rtl871x_io.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/staging/rtl8712/rtl871x_io.h b/drivers/staging/rtl8712/rtl871x_io.h
-index c5b12f74ebf8..f09d50a29b82 100644
---- a/drivers/staging/rtl8712/rtl871x_io.h
-+++ b/drivers/staging/rtl8712/rtl871x_io.h
-@@ -62,7 +62,7 @@
- #define IO_WR_BURST(x)		(IO_WRITE_ | _IO_SYNC_ | _IO_BURST_ | \
- 				((x) & _IOSZ_MASK_))
- #define IO_RD_BURST(x)		(_IO_SYNC_ | _IO_BURST_ | ((x) & _IOSZ_MASK_))
--/*below is for the intf_option bit defition...*/
-+/*below is for the intf_option bit definition...*/
- #define _INTF_ASYNC_	BIT(0)	/*support async io*/
- struct intf_priv;
- struct	intf_hdl;
--- 
-2.34.1
-
+Reviewed-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
