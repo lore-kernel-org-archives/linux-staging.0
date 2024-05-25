@@ -1,74 +1,139 @@
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com [209.85.166.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B03B16FB2
-	for <linux-staging@lists.linux.dev>; Sat, 25 May 2024 05:11:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 527A6BE6F
+	for <linux-staging@lists.linux.dev>; Sat, 25 May 2024 07:32:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716613866; cv=none; b=YtxOwrKJt8I1GuxOS6qAe9TzbOCvZDzZmxpezUQLN4QAkI2cA+BUXZINLS3x9AryAR7bIn4vYe+HHJjY94Z71Ye8cDpNx/wdYuSFZC1XnF085iqGbGm5m1KXC5AMNXsZ89CGEyc3vZzY+njDG8Xcz4hx0lPwpFxXLp78yIrYuyU=
+	t=1716622356; cv=none; b=Rg/Wl80WASUONjq4MSeDlQSukrQS6H4xSlcaP89kPemifC039h/yQdtn/y7m/5W251HkS6/yk3uFoM81n+uhKs/fIH56VrXjSBoe+C93dksoj/VYlKSyZIasHdTNEkEVqTjLzHNrwZ7JK5ZGobaRYvN6OGxZn/bu8p1bf1nE0hU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716613866; c=relaxed/simple;
-	bh=ChEzdL3+2gOHaf5Aw/yfnfdaUguDfZndQdJ72R/j/mQ=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=RijhjN2h7Y7JyA2Y/2N83Oa29rS5ml90aBh4zFjyD8fqGDTo+5UGLzbSFinVEknaiDhY9XNgbboBQSR8buKaEo8IFtPUKR8wBz6CDAY7el11E6xdn3xHB7aeA8hi5EHTOL/4pupBoP14m+yZ2ll8xZux/+cZ8eipfAM9lAkUJyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f199.google.com with SMTP id e9e14a558f8ab-36db4c1ecb3so36132215ab.2
-        for <linux-staging@lists.linux.dev>; Fri, 24 May 2024 22:11:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716613863; x=1717218663;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=I8IyrQNJ0zAFLZsLTn91HX7IoDexMyQtJMtnbbiIgt0=;
-        b=m0SHoZWEbK+zY1UK+Vo2o/VpVv4gmBdPfi7gOOu0QKyRKp4matrmHnBEq19BkIm/7e
-         en9bRKtWZtACHbCnFqNQ79z8PP7JeQL02Rm4n4N7XM+o8SNcZf2KNTXcsLxwmWqhuJmq
-         D/AcP5ZYJMCRZIOkNQsH3/cOn1bk/6mBusd9esZcz8GzB+Vd8CK2RbxdekoX+P2mzblp
-         fu0UaKsCEn9N1CXuZkM1zhYofoV1dv2+tWRVTTKnDoKLJpSfbo6hkGinAeoTw+ng1JmM
-         okF3lWBUJp3pwIA/MbG9EZhDKVj9IqsprW044C2EFt2Wbd0DWWgAQMOLLg85xRbTE41s
-         0+Ww==
-X-Forwarded-Encrypted: i=1; AJvYcCXyB4mPQSrKa6CM6nrIvI3C+sQVeNx0yzee7BHh0ZlGaEs3qOYq97gPNyDzB9Nds1GlQjxlLn9pU1QhkgeKnXCGMSn/Vw96RBEWIiMIfw==
-X-Gm-Message-State: AOJu0Yybbl9x5YTPL75iJbCBb6pyIBB937IpV019YuutConDtuvr89Fe
-	vVGsQAb0GO25KipxBB7F2mDR/wSh6VpzrSM6+xM1DVr229oMZq1eGN0rtmN5vyCTTacAUEZrFDd
-	+D8RBpI6TOoRk+lieMvE34zEW9dpRngn3aMtDznzSdDxgHxewUM1GJlQ=
-X-Google-Smtp-Source: AGHT+IEwpd5Ene7lFVYgVE0epmFBsfn5s2UO1jINS7zpgHxZEKqzT9qhLjfX+igNk2YQjqbsnny9VTdFYS/nCzzlC7H/KSJs3Gmi
+	s=arc-20240116; t=1716622356; c=relaxed/simple;
+	bh=7/qtvsoEYPm/gp5Dn4A9Wd7Ix2aEqp7UV1ynS6s6QVg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=LIjtczW7dwEs3QgkObm1gnPhs3FSgno8GQ06VDr2Vl6GvrXAJFrfEWGc2YmdcuwfYz/o76TH2YDfXPQYe74KZE++ldiuon8tyIHgsNIXB27BltzRwpAdTQRA+urVuini9mlHaEhuzeO73KMsclbE91VARIo/7AKsCLhe/G84IP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=YcUDsL6D; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=HDbMBRb+; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="YcUDsL6D";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="HDbMBRb+"
+From: Nam Cao <namcao@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1716622353;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=wi+/J+ptePQGvzXQ0v1rtPKu00m6VIgRcYRhLkIVOyY=;
+	b=YcUDsL6DOKRV1Su0hk7BeA3Umye3dohePC6fFISxBMs9/b/VWwCI6EN8n93rcMvsjw5Mz4
+	SurM6A2oipPlgllcdUWCQ3bkCsapnX2nvA5Jp/Wa80pNASPt4xRUy7rxPpsvSinl6fQcJ7
+	Ih3uKtg3W6HCdFgsxmNuCD+2rgCpwMvnI9CgqMjnoU2mTjB4gLKkJ0rSvSDzJfX4jQ4yRu
+	6QBSQDf/SU7ISC7GAUCRdQuIIe35Rr7f+/cIOF8ovWDJf6CSJf1WYInIt5tc3aQ0Tel8Vd
+	oHHk5XFiAhCP3OiORvHNfE5DfAEQKqbHSTqSFaKpyLSyPDPyKubIJxyHpjzH6A==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1716622353;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=wi+/J+ptePQGvzXQ0v1rtPKu00m6VIgRcYRhLkIVOyY=;
+	b=HDbMBRb+gwwDSymD2ZGCQydsOKGCm/du827Due4IKaY5lYB04uZwONAawKs+PPdhghdJz5
+	eA+t0v+xyKtonjCw==
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+	Florian Schilhabel <florian.c.schilhabel@googlemail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+Cc: Nam Cao <namcao@linutronix.de>,
+	syzbot+83763e624cfec6b462cb@syzkaller.appspotmail.com
+Subject: [PATCH] staging: rtl8712: remove unnecessary alignment of pxmitpriv->pxmitbuf
+Date: Sat, 25 May 2024 09:32:29 +0200
+Message-Id: <20240525073229.4144612-1-namcao@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:1a4e:b0:373:8c59:d31b with SMTP id
- e9e14a558f8ab-3738c59d5c8mr455755ab.2.1716613863064; Fri, 24 May 2024
- 22:11:03 -0700 (PDT)
-Date: Fri, 24 May 2024 22:11:03 -0700
-In-Reply-To: <20240524201212.mjMDljAc@linutronix.de>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000865ac60619404fa2@google.com>
-Subject: Re: [syzbot] [staging?] [usb?] memory leak in _r8712_init_xmit_priv (2)
-From: syzbot <syzbot+83763e624cfec6b462cb@syzkaller.appspotmail.com>
-To: florian.c.schilhabel@googlemail.com, gregkh@linuxfoundation.org, 
-	larry.finger@lwfinger.net, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-usb@vger.kernel.org, n.zhandarovich@fintech.ru, namcao@linutronix.de, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hello,
+This driver wants pxmitpriv->pxmitbuf to be 4-byte aligned. This is ensured
+by allocating 4 more bytes than required with kmalloc(), then do the
+p = p + 4 - (p & 3) trick to make sure the pointer is 4-byte aligned.
 
-syzbot has tested the proposed patch and the reproducer did not trigger any issue:
+This is unnecessary. Pointers from kmalloc() are already at least
+8-byte-aligned.
+
+Remove this alignment trick to simplify the code, and also to stop wasting
+4 extra bytes of dynamic memory allocator.
+
+This also gets rid of a (false) warning from kmemleak. This 4-byte-aligned
+buffer is used to store pointers from kmalloc(). For 64-bit platforms,
+pointer size is 8 bytes and kmemleak only scans for pointers in 8-byte
+blocks, thus it misses the pointers stored in this 4-byte-aligned buffer
+and thinks that these pointers have been leaked. This is just a false
+warning, not a real problem. But still, it would be nice to get rid of
+these warnings.
 
 Reported-and-tested-by: syzbot+83763e624cfec6b462cb@syzkaller.appspotmail.com
+Closes: https://lore.kernel.org/linux-staging/000000000000809328060a8a4c1c@google.com
+Signed-off-by: Nam Cao <namcao@linutronix.de>
+---
+Patch sent using this driver with this patch applied.
 
-Tested on:
+ drivers/staging/rtl8712/rtl871x_xmit.c | 13 +++++--------
+ drivers/staging/rtl8712/rtl871x_xmit.h |  1 -
+ 2 files changed, 5 insertions(+), 9 deletions(-)
 
-commit:         56fb6f92 Merge tag 'drm-next-2024-05-25' of https://gi..
-git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-console output: https://syzkaller.appspot.com/x/log.txt?x=12817cb2980000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=b43fd1b132bcf5ba
-dashboard link: https://syzkaller.appspot.com/bug?extid=83763e624cfec6b462cb
-compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
-patch:          https://syzkaller.appspot.com/x/patch.diff?x=117c460c980000
+diff --git a/drivers/staging/rtl8712/rtl871x_xmit.c b/drivers/staging/rtl8712/rtl871x_xmit.c
+index 6353dbe554d3..408616e9afcf 100644
+--- a/drivers/staging/rtl8712/rtl871x_xmit.c
++++ b/drivers/staging/rtl8712/rtl871x_xmit.c
+@@ -117,12 +117,9 @@ int _r8712_init_xmit_priv(struct xmit_priv *pxmitpriv,
+ 	/*init xmit_buf*/
+ 	_init_queue(&pxmitpriv->free_xmitbuf_queue);
+ 	_init_queue(&pxmitpriv->pending_xmitbuf_queue);
+-	pxmitpriv->pallocated_xmitbuf =
+-		kmalloc(NR_XMITBUFF * sizeof(struct xmit_buf) + 4, GFP_ATOMIC);
+-	if (!pxmitpriv->pallocated_xmitbuf)
++	pxmitpriv->pxmitbuf = kmalloc(NR_XMITBUFF * sizeof(struct xmit_buf), GFP_ATOMIC);
++	if (!pxmitpriv->pxmitbuf)
+ 		goto clean_up_frame_buf;
+-	pxmitpriv->pxmitbuf = pxmitpriv->pallocated_xmitbuf + 4 -
+-			      ((addr_t)(pxmitpriv->pallocated_xmitbuf) & 3);
+ 	pxmitbuf = (struct xmit_buf *)pxmitpriv->pxmitbuf;
+ 	for (i = 0; i < NR_XMITBUFF; i++) {
+ 		INIT_LIST_HEAD(&pxmitbuf->list);
+@@ -165,8 +162,8 @@ int _r8712_init_xmit_priv(struct xmit_priv *pxmitpriv,
+ 		for (k = 0; k < 8; k++)		/* delete xmit urb's */
+ 			usb_free_urb(pxmitbuf->pxmit_urb[k]);
+ 	}
+-	kfree(pxmitpriv->pallocated_xmitbuf);
+-	pxmitpriv->pallocated_xmitbuf = NULL;
++	kfree(pxmitpriv->pxmitbuf);
++	pxmitpriv->pxmitbuf = NULL;
+ clean_up_frame_buf:
+ 	kfree(pxmitpriv->pallocated_frame_buf);
+ 	pxmitpriv->pallocated_frame_buf = NULL;
+@@ -193,7 +190,7 @@ void _free_xmit_priv(struct xmit_priv *pxmitpriv)
+ 		pxmitbuf++;
+ 	}
+ 	kfree(pxmitpriv->pallocated_frame_buf);
+-	kfree(pxmitpriv->pallocated_xmitbuf);
++	kfree(pxmitpriv->pxmitbuf);
+ 	free_hwxmits(padapter);
+ }
+ 
+diff --git a/drivers/staging/rtl8712/rtl871x_xmit.h b/drivers/staging/rtl8712/rtl871x_xmit.h
+index cdcbc87a3cad..784172c385e3 100644
+--- a/drivers/staging/rtl8712/rtl871x_xmit.h
++++ b/drivers/staging/rtl8712/rtl871x_xmit.h
+@@ -244,7 +244,6 @@ struct	xmit_priv {
+ 	int cmdseq;
+ 	struct  __queue free_xmitbuf_queue;
+ 	struct  __queue pending_xmitbuf_queue;
+-	u8 *pallocated_xmitbuf;
+ 	u8 *pxmitbuf;
+ 	uint free_xmitbuf_cnt;
+ };
+-- 
+2.39.2
 
-Note: testing is done by a robot and is best-effort only.
