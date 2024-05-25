@@ -1,52 +1,69 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 527A6BE6F
-	for <linux-staging@lists.linux.dev>; Sat, 25 May 2024 07:32:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D39EB8562E
+	for <linux-staging@lists.linux.dev>; Sat, 25 May 2024 16:02:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716622356; cv=none; b=Rg/Wl80WASUONjq4MSeDlQSukrQS6H4xSlcaP89kPemifC039h/yQdtn/y7m/5W251HkS6/yk3uFoM81n+uhKs/fIH56VrXjSBoe+C93dksoj/VYlKSyZIasHdTNEkEVqTjLzHNrwZ7JK5ZGobaRYvN6OGxZn/bu8p1bf1nE0hU=
+	t=1716652971; cv=none; b=RVjoaz9niWEZtJIA8K0TloNvLQZkRDD1BcfDRXvUhIe5N0UvoiSqaLiM9A31TwtOc5JtYqfKZClhBjaEjMaVrgg8mom9W6waz7Pcbfc/J8jnV02NiffGAXsn/v8qZf8lZLoZFXP4I95XMmXS0vVruU9T2ROGEc8ES0s1afkZwBY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716622356; c=relaxed/simple;
-	bh=7/qtvsoEYPm/gp5Dn4A9Wd7Ix2aEqp7UV1ynS6s6QVg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=LIjtczW7dwEs3QgkObm1gnPhs3FSgno8GQ06VDr2Vl6GvrXAJFrfEWGc2YmdcuwfYz/o76TH2YDfXPQYe74KZE++ldiuon8tyIHgsNIXB27BltzRwpAdTQRA+urVuini9mlHaEhuzeO73KMsclbE91VARIo/7AKsCLhe/G84IP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=YcUDsL6D; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=HDbMBRb+; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1716652971; c=relaxed/simple;
+	bh=2PocUIctJT1LGB/9mzIa0giFi5RIO4kYRtnrssDuAGU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=X06Eix3IRW+bzx3Kss/BIurqQFIRu8PQrx83kBR5ScOYQi88z4lEHquivoFAKAgPfOVA2VU7Hr2/0KrTVu1EMLw6ht1EAOt0+hbuBdgLuRt1e8QzxbClljjdjp6oivVWp2/q+gIDw479hiSZJkpvkrirMnMiD2TCH4GswV15vIY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HEt3ABn3; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="YcUDsL6D";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="HDbMBRb+"
-From: Nam Cao <namcao@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1716622353;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=wi+/J+ptePQGvzXQ0v1rtPKu00m6VIgRcYRhLkIVOyY=;
-	b=YcUDsL6DOKRV1Su0hk7BeA3Umye3dohePC6fFISxBMs9/b/VWwCI6EN8n93rcMvsjw5Mz4
-	SurM6A2oipPlgllcdUWCQ3bkCsapnX2nvA5Jp/Wa80pNASPt4xRUy7rxPpsvSinl6fQcJ7
-	Ih3uKtg3W6HCdFgsxmNuCD+2rgCpwMvnI9CgqMjnoU2mTjB4gLKkJ0rSvSDzJfX4jQ4yRu
-	6QBSQDf/SU7ISC7GAUCRdQuIIe35Rr7f+/cIOF8ovWDJf6CSJf1WYInIt5tc3aQ0Tel8Vd
-	oHHk5XFiAhCP3OiORvHNfE5DfAEQKqbHSTqSFaKpyLSyPDPyKubIJxyHpjzH6A==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1716622353;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=wi+/J+ptePQGvzXQ0v1rtPKu00m6VIgRcYRhLkIVOyY=;
-	b=HDbMBRb+gwwDSymD2ZGCQydsOKGCm/du827Due4IKaY5lYB04uZwONAawKs+PPdhghdJz5
-	eA+t0v+xyKtonjCw==
-To: Larry Finger <Larry.Finger@lwfinger.net>,
-	Florian Schilhabel <florian.c.schilhabel@googlemail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HEt3ABn3"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1f333e7a669so30064505ad.3
+        for <linux-staging@lists.linux.dev>; Sat, 25 May 2024 09:02:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1716652969; x=1717257769; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=AViMprnRZDg8WlLNdCeKLRe1EXgWkFqK17wBJRWM63I=;
+        b=HEt3ABn3+Tjk6PZgTMG5dbO7oOh4zJavRyATmc7c2+g5g4a6DphwICo2ZMGfKr4HhT
+         43FZqHoEzZ0+Q57dGavHvCrkD8GAokno8exhJlgnjyWlMVLM5gfbvg48NpDvvjUv4vD8
+         YPKhCDAWoTgAQq3EMZsjy2kZn9gw8/stNpLAAk6ZD3ifCk8AR71mYnKPyIZ50gNnLhIo
+         cClKqbASx5d9DuVpZAnRqhJbKS7qH44Pgo0sUdkIEYVhDtxn6DIdSGv3jZetkg0Kg0v8
+         aoYJJTdO6rYQazms91niow+vH5JWTmFGvKXuvKGKwzz+xmp9tQGwdMN7LAxaV8oCEb1g
+         FDDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716652969; x=1717257769;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=AViMprnRZDg8WlLNdCeKLRe1EXgWkFqK17wBJRWM63I=;
+        b=tveDe78PeZfucJ0qRMythU2/lHG6iuSR8u7vNZckwLfw4P4qXKOWq0fFrMsEA29D5g
+         KyYGKWlAjfN92PwQK7M6J6v4LtVMUmmMuPPneRzGLEOsoHjz2V2GZTRD1//jPT4+dVX6
+         BQ2izAsjfVwvaTmVyvX89KXuGAuXx/7v6Nnd3H9wIKYwQx5VdDbyvF9N2Sh12yTtuXb9
+         cpUQ3Eo1/DBj5/wHBhx3/UPfVGQuByClVL25MvS+Oyz5rMXiA1G5RgqvDQP+xHwypM7u
+         FPr9OWnNF8qqe8zjZzQ0zcQ+oucpT16Qy2w1UocSOCAOUbMjB9GLki9GVzP0GVlbmChx
+         MfJg==
+X-Forwarded-Encrypted: i=1; AJvYcCWOnh2kQcKYkLGf5iBZJqfjDctpMKshPK56XMcJucktU0+nVIJOc0vu3e1VGULgAE5O++KhxtOeMMK7h3BCyPaEgkv27rb4bg0n8TGoRg==
+X-Gm-Message-State: AOJu0Yw+j8IzJS2H+Uj5LsMRC8ID+ZLk1pzvwHd7IpO32lGVpXZO2qmx
+	7xZwkRud4EBXJXPf+9cwTQqjN9aCANc5M6Qf6Eg+wEtqIbHDpK8u
+X-Google-Smtp-Source: AGHT+IH8F+iMmwX9YKpALznoihMfYEKPSO49DL5/qynDmNyFDsPcSgr0VzrN329gKNRZCvIhdxRbew==
+X-Received: by 2002:a17:902:7808:b0:1f2:f854:f59 with SMTP id d9443c01a7336-1f4486efeeamr39861045ad.15.1716652969053;
+        Sat, 25 May 2024 09:02:49 -0700 (PDT)
+Received: from ubuntukernelserver.. ([110.44.116.44])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f44c9b0787sm31668435ad.242.2024.05.25.09.02.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 25 May 2024 09:02:48 -0700 (PDT)
+From: Roshan Khatri <topofeverest8848@gmail.com>
+To: Larry.Finger@lwfinger.net,
+	florian.c.schilhabel@googlemail.com,
+	gregkh@linuxfoundation.org,
+	ayushtiw0110@gmail.com,
+	namcaov@gmail.com,
+	dan.carpenter@linaro.org
+Cc: Roshan Khatri <topofeverest8848@gmail.com>,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Nikita Zhandarovich <n.zhandarovich@fintech.ru>
-Cc: Nam Cao <namcao@linutronix.de>,
-	syzbot+83763e624cfec6b462cb@syzkaller.appspotmail.com
-Subject: [PATCH] staging: rtl8712: remove unnecessary alignment of pxmitpriv->pxmitbuf
-Date: Sat, 25 May 2024 09:32:29 +0200
-Message-Id: <20240525073229.4144612-1-namcao@linutronix.de>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: rtl8712: Fix spelling mistake in rtl871x_io.h
+Date: Sat, 25 May 2024 21:47:29 +0545
+Message-Id: <20240525160230.66365-1-topofeverest8848@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,85 +72,27 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This driver wants pxmitpriv->pxmitbuf to be 4-byte aligned. This is ensured
-by allocating 4 more bytes than required with kmalloc(), then do the
-p = p + 4 - (p & 3) trick to make sure the pointer is 4-byte aligned.
+This patch corrects misspelled word to increase code readability and
+searching.
 
-This is unnecessary. Pointers from kmalloc() are already at least
-8-byte-aligned.
-
-Remove this alignment trick to simplify the code, and also to stop wasting
-4 extra bytes of dynamic memory allocator.
-
-This also gets rid of a (false) warning from kmemleak. This 4-byte-aligned
-buffer is used to store pointers from kmalloc(). For 64-bit platforms,
-pointer size is 8 bytes and kmemleak only scans for pointers in 8-byte
-blocks, thus it misses the pointers stored in this 4-byte-aligned buffer
-and thinks that these pointers have been leaked. This is just a false
-warning, not a real problem. But still, it would be nice to get rid of
-these warnings.
-
-Reported-and-tested-by: syzbot+83763e624cfec6b462cb@syzkaller.appspotmail.com
-Closes: https://lore.kernel.org/linux-staging/000000000000809328060a8a4c1c@google.com
-Signed-off-by: Nam Cao <namcao@linutronix.de>
+Signed-off-by: Roshan Khatri <topofeverest8848@gmail.com>
 ---
-Patch sent using this driver with this patch applied.
+ drivers/staging/rtl8712/rtl871x_io.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- drivers/staging/rtl8712/rtl871x_xmit.c | 13 +++++--------
- drivers/staging/rtl8712/rtl871x_xmit.h |  1 -
- 2 files changed, 5 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/staging/rtl8712/rtl871x_xmit.c b/drivers/staging/rtl8712/rtl871x_xmit.c
-index 6353dbe554d3..408616e9afcf 100644
---- a/drivers/staging/rtl8712/rtl871x_xmit.c
-+++ b/drivers/staging/rtl8712/rtl871x_xmit.c
-@@ -117,12 +117,9 @@ int _r8712_init_xmit_priv(struct xmit_priv *pxmitpriv,
- 	/*init xmit_buf*/
- 	_init_queue(&pxmitpriv->free_xmitbuf_queue);
- 	_init_queue(&pxmitpriv->pending_xmitbuf_queue);
--	pxmitpriv->pallocated_xmitbuf =
--		kmalloc(NR_XMITBUFF * sizeof(struct xmit_buf) + 4, GFP_ATOMIC);
--	if (!pxmitpriv->pallocated_xmitbuf)
-+	pxmitpriv->pxmitbuf = kmalloc(NR_XMITBUFF * sizeof(struct xmit_buf), GFP_ATOMIC);
-+	if (!pxmitpriv->pxmitbuf)
- 		goto clean_up_frame_buf;
--	pxmitpriv->pxmitbuf = pxmitpriv->pallocated_xmitbuf + 4 -
--			      ((addr_t)(pxmitpriv->pallocated_xmitbuf) & 3);
- 	pxmitbuf = (struct xmit_buf *)pxmitpriv->pxmitbuf;
- 	for (i = 0; i < NR_XMITBUFF; i++) {
- 		INIT_LIST_HEAD(&pxmitbuf->list);
-@@ -165,8 +162,8 @@ int _r8712_init_xmit_priv(struct xmit_priv *pxmitpriv,
- 		for (k = 0; k < 8; k++)		/* delete xmit urb's */
- 			usb_free_urb(pxmitbuf->pxmit_urb[k]);
- 	}
--	kfree(pxmitpriv->pallocated_xmitbuf);
--	pxmitpriv->pallocated_xmitbuf = NULL;
-+	kfree(pxmitpriv->pxmitbuf);
-+	pxmitpriv->pxmitbuf = NULL;
- clean_up_frame_buf:
- 	kfree(pxmitpriv->pallocated_frame_buf);
- 	pxmitpriv->pallocated_frame_buf = NULL;
-@@ -193,7 +190,7 @@ void _free_xmit_priv(struct xmit_priv *pxmitpriv)
- 		pxmitbuf++;
- 	}
- 	kfree(pxmitpriv->pallocated_frame_buf);
--	kfree(pxmitpriv->pallocated_xmitbuf);
-+	kfree(pxmitpriv->pxmitbuf);
- 	free_hwxmits(padapter);
- }
- 
-diff --git a/drivers/staging/rtl8712/rtl871x_xmit.h b/drivers/staging/rtl8712/rtl871x_xmit.h
-index cdcbc87a3cad..784172c385e3 100644
---- a/drivers/staging/rtl8712/rtl871x_xmit.h
-+++ b/drivers/staging/rtl8712/rtl871x_xmit.h
-@@ -244,7 +244,6 @@ struct	xmit_priv {
- 	int cmdseq;
- 	struct  __queue free_xmitbuf_queue;
- 	struct  __queue pending_xmitbuf_queue;
--	u8 *pallocated_xmitbuf;
- 	u8 *pxmitbuf;
- 	uint free_xmitbuf_cnt;
- };
+diff --git a/drivers/staging/rtl8712/rtl871x_io.h b/drivers/staging/rtl8712/rtl871x_io.h
+index c5b12f74ebf8..f09d50a29b82 100644
+--- a/drivers/staging/rtl8712/rtl871x_io.h
++++ b/drivers/staging/rtl8712/rtl871x_io.h
+@@ -62,7 +62,7 @@
+ #define IO_WR_BURST(x)		(IO_WRITE_ | _IO_SYNC_ | _IO_BURST_ | \
+ 				((x) & _IOSZ_MASK_))
+ #define IO_RD_BURST(x)		(_IO_SYNC_ | _IO_BURST_ | ((x) & _IOSZ_MASK_))
+-/*below is for the intf_option bit defition...*/
++/*below is for the intf_option bit definition...*/
+ #define _INTF_ASYNC_	BIT(0)	/*support async io*/
+ struct intf_priv;
+ struct	intf_hdl;
 -- 
-2.39.2
+2.34.1
 
