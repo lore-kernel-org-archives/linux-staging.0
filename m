@@ -1,132 +1,86 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06F13171AF
-	for <linux-staging@lists.linux.dev>; Sat, 25 May 2024 19:53:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8C9379DF
+	for <linux-staging@lists.linux.dev>; Sun, 26 May 2024 11:20:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716666804; cv=none; b=rBfea5YUlmsEE1oNIxxMr+BJxSMZnr/hs2U/wiITgeHQ5xmvJJ5N8P97abnsOofUOXy697oqcxrmBT9wumIbOeAD4tme6hCFnJID2UKF/ezWMPY85/nT9nr8UGWQBJlw5UPOCvKK2ABu8piAXVBuPMFLBZJsmK4FzOO6UMy8Kco=
+	t=1716722447; cv=none; b=IApulWemTWDvjG9Xhlh5r3zJZuOyyl+ZZ9/DM+LVgZmzdW2AqIMdoyjtsowphpltLNYxyhu+bbsrPBMtFL+aX1Le3nmBD8Sxi5kh/JSCkFEA7dux6LzTMdMimpVNmh6I+MFXn0wTeJH/eOZL5npCwIdWPpZS5UWsNkUBL6W1hyU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716666804; c=relaxed/simple;
-	bh=M/3s1GxCdbe10Q+Ris65wPXVXEe1DMs6c1mNw58Yb4I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HHrau3BQ7ROAroaEEeHFIjBaf+PRmesRSpb8sdlfz3tSwqRkPzBkEkVet/WPWu283thuyXRJrIjlrE8B3Y6TyUcSYuWDm/8GfsAECCqRkNN35W0HU5VyJ16vZ6hFwvQEP6j1BzyGDNF4fIAMFUCcnTO63wc+F2Tm1/D7FR3yPSw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dB8HIZyy; arc=none smtp.client-ip=209.85.128.49
+	s=arc-20240116; t=1716722447; c=relaxed/simple;
+	bh=+QyzVB+hF/W0F7duXYUqSZVzerWLK56Lq1XaLySrJfU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=T8shqQohBu8PY6Vn58hBm8FAIIDK1jjvxbfuNWeEDsOOTlnLgeuQoGyvS2YHX0dHp0g6RLYk//4dQXXgnXWB8Quwt9z+HC3smBQLvu5Cm6AJsnedaUlM0M+65cku2r/G/Ibc17N4PABGF5TAB68A1UEqbnbOISpJl1E+4/vgWDY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j4fsK6E9; arc=none smtp.client-ip=209.85.218.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dB8HIZyy"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4210f187e3cso130655e9.2
-        for <linux-staging@lists.linux.dev>; Sat, 25 May 2024 12:53:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j4fsK6E9"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a59a609dd3fso801486266b.0
+        for <linux-staging@lists.linux.dev>; Sun, 26 May 2024 04:20:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716666801; x=1717271601; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=oPqPzXoshwO3X5GrkiASssYjgVLQm4/xRukqmuyA2Sg=;
-        b=dB8HIZyyOsO66R5bV3Yus897JldBwI6bcubH7osA6xzqZmoH3O6RY5QDmj/ga7knbl
-         r3s7v8wTvpAuwCF4h1GLjg3yFl2lMt6VTXRJHfSJ6Cg+M/r696msssu6lpUBkYkXgbXz
-         iOVSWhhfL0z2cLW6B7I7gLvgQKos7RegyY5l5VcqA1JmFQY/7XIUVAhb2oxEQjFDKxT1
-         9k/X3nlKc76Ok+ZtuKBz5wWYe7A/CzGRN4g0tWunIdPEtR4ggyuiCTdTt9XiLywcr88Q
-         CjHnPQ8DjUyfFAJJd/bX0z82a3ozU3aEcxH43InyToIeush6JbpD0LJEsHUo8rXl7IXm
-         bCig==
+        d=gmail.com; s=20230601; t=1716722443; x=1717327243; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kOnZ78TgB4Zxh2HcKouq8wUbppxd3i0KcEghV6k4HzI=;
+        b=j4fsK6E9oplZYaKpWMKvCsUb545bTABgqjLPXw1NSOew0b++KrZuuoqL+SuuwCLBEB
+         cawCe9JpRI5L6OuV5++KpzL9JsYK6ld1oDVCEBuC8w+o0aZHUjPi5P+jfpdksR3Uelpg
+         RgQosEYQ17sg3WP4PjrOyJjyo1YHGbsNe03Uxe1Xi+eKkodaU7SPKOAHzEEx2SGrHv5t
+         I3e69Vq6KOCF7waSOnfylUQ0h9KwfUa4YIQxqj4jYwB4gpqkkZ1L2xFfCzCpCs1CPJQO
+         epV/gpV53zCbKfcT+cxkWvitcPPLmkcF9I1TC95tX8+BOKtVDaA/svqiuZPyu0TxSgoy
+         csfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716666801; x=1717271601;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=oPqPzXoshwO3X5GrkiASssYjgVLQm4/xRukqmuyA2Sg=;
-        b=n1AUQoBfg6glw2/EbyV7VmjdWTuBXcnz2M9mf53YsQVbsoRTOKpdtqsmkwXVTQ8Dhz
-         fFwNHKDF5kCNVMaFxwEqs49+7f0CfdFBUPfeBvmf9L1ZsEGmrXF3rRVuNI24shvOD3Tz
-         oz482K5XosWK6r9vOz0C8KQxJRHS2SW9VSvSIKs4LZHCbENMrmCBxemDxpbiECoRH8EH
-         mUTNiMaY+8wvO49Llbecibv79UbqR7vj0t3UPfPFV3v5SUqq3HfHfgX4PK4Dypce+rI8
-         D7izi5pOs3Cpp6cKtXqvMi1lfUiOgAsMTNX1/QD0tGbXilowVoARZ22sxhFvRX8CkOWq
-         Cqig==
-X-Gm-Message-State: AOJu0Yz6eLV/9ytFo33pfl7B8+Ubc/yUyP99WY71ImTRq5pB2CDwpaJj
-	/wUFpUD7AV+NLC9jE0hN9p6gRgLOlAV+wxh1l33YJGVVm0XCFPiT
-X-Google-Smtp-Source: AGHT+IFe6BKMaPWpLr6rOrgLIvvYyuPJtLKEx/wU3Add+KxVCLzTLbbpch0b4hOOGRd2/PyWAZJeBw==
-X-Received: by 2002:a05:600c:3b88:b0:418:ef65:4b11 with SMTP id 5b1f17b1804b1-421099b03e5mr40154515e9.2.1716666801145;
-        Sat, 25 May 2024 12:53:21 -0700 (PDT)
-Received: from [192.168.44.127] ([185.238.218.61])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42100ee7e1fsm90288625e9.6.2024.05.25.12.53.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 25 May 2024 12:53:20 -0700 (PDT)
-Message-ID: <5f591c67-235c-4afa-bf87-8fd01dc0e5af@gmail.com>
-Date: Sat, 25 May 2024 21:53:16 +0200
+        d=1e100.net; s=20230601; t=1716722443; x=1717327243;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kOnZ78TgB4Zxh2HcKouq8wUbppxd3i0KcEghV6k4HzI=;
+        b=MugRNZrOqM/JXEODw8FEKCBi6t967EwAXPkfdaj8R5wy3S9lInllqQiXvWmctyvUWl
+         sAfWabEe/+hJtf/DRwSkuosD72Ht5hjFRSIpYAPOE6TyVqy/xLVdqXyirW8uqtLT+Jom
+         geJlz8z1lEUR/MEvpxY8wgxPc2AU5UvOGOSv2gc4nKYuGAIRJTWfv8ZHKFQ6+FTSW08C
+         xZLFyKSlhWZd9/Zyc8L8j56ucQIK2HAQMoyM5x6dvqSJbt1mDOvO4yhk4NRqT+v9BtCg
+         QQV1EgrHuhZxk1tlqON+6x+pERpInzq8p5JN8Rzb34dNglcvuFFdvA1vQmnvcWm1M89r
+         WDfg==
+X-Forwarded-Encrypted: i=1; AJvYcCXpCLaet45DHYbzsFKrJdBXS2z7agZUsuGckwgc8ipbk0utk9juGgc7yspG+zzB8pJhS5bj3/n6QRR2N24q5MKiLFPyFw+S2BL01BPHIQ==
+X-Gm-Message-State: AOJu0Yw/6BuJS3l46BUW3Y9TBAOGde5u07jW141YArzMDA21zB+IrgZA
+	kEKRTfx4Iy6dKpSj3bYXAvE/qOXXS/NQYAyiacYFW0zqPdD0R5PH
+X-Google-Smtp-Source: AGHT+IH+8lftp06Xp7fZ3kAF6+csz1iu2s5FwfpZw54pP2vg0ijtiylT487UVwvIvD3zFKQKlZfsxg==
+X-Received: by 2002:a17:906:f0c3:b0:a59:9ed5:eefc with SMTP id a640c23a62f3a-a6262b14494mr583538466b.32.1716722443159;
+        Sun, 26 May 2024 04:20:43 -0700 (PDT)
+Received: from localhost.localdomain (ip-77-25-34-87.web.vodafone.de. [77.25.34.87])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a626cc8e534sm373983366b.170.2024.05.26.04.20.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 May 2024 04:20:42 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: philipp.g.hortmann@gmail.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH 0/3] staging: rtl8192e: some refactoring
+Date: Sun, 26 May 2024 13:19:25 +0200
+Message-ID: <20240526111928.14574-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.45.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] staging: rtl8192e: Fix spelling mistakes in
- rtllib_softmac.c
-To: Roshan Khatri <topofeverest8848@gmail.com>, gregkh@linuxfoundation.org,
- tdavies@darkphysics.net, garyrookard@fastmail.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20240524041235.61184-1-topofeverest8848@gmail.com>
-Content-Language: en-US
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20240524041235.61184-1-topofeverest8848@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 24.05.24 06:12, Roshan Khatri wrote:
-> This patch corrects some misspellings to increase code readability and
-> searching.
-> 
-> Signed-off-by: Roshan Khatri <topofeverest8848@gmail.com>
-> ---
-> v3:
->   - Added the missing patch history on v2 patch
-> v2:
->   - Updated the patch description as suggested by Phillips
->   - https://lore.kernel.org/all/1aefa708-b1fe-4246-bb67-36f25919c766@gmail.com/
-> v1: https://lore.kernel.org/all/20240523035952.59724-1-topofeverest8848@gmail.com/
-> 
->   drivers/staging/rtl8192e/rtllib_softmac.c | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
-> index 97fdca828da7..0fc97c868f81 100644
-> --- a/drivers/staging/rtl8192e/rtllib_softmac.c
-> +++ b/drivers/staging/rtl8192e/rtllib_softmac.c
-> @@ -421,7 +421,7 @@ static void rtllib_softmac_scan_syncro(struct rtllib_device *ieee)
->   		 *    So we switch to MAC80211_LINKED_SCANNING to remember
->   		 *    that we are still logically linked (not interested in
->   		 *    new network events, despite for updating the net list,
-> -		 *    but we are temporarly 'unlinked' as the driver shall
-> +		 *    but we are temporarily 'unlinked' as the driver shall
->   		 *    not filter RX frames and the channel is changing.
->   		 * So the only situation in which are interested is to check
->   		 * if the state become LINKED because of the #1 situation
-> @@ -934,7 +934,7 @@ static void rtllib_associate_abort(struct rtllib_device *ieee)
->   
->   	ieee->associate_seq++;
->   
-> -	/* don't scan, and avoid to have the RX path possibily
-> +	/* don't scan, and avoid to have the RX path possibly
->   	 * try again to associate. Even do not react to AUTH or
->   	 * ASSOC response. Just wait for the retry wq to be scheduled.
->   	 * Here we will check if there are good nets to associate
-> @@ -1359,7 +1359,7 @@ static short rtllib_sta_ps_sleep(struct rtllib_device *ieee, u64 *time)
->   		return 0;
->   	timeout = ieee->current_network.beacon_interval;
->   	ieee->current_network.dtim_data = RTLLIB_DTIM_INVALID;
-> -	/* there's no need to nofity AP that I find you buffered
-> +	/* there's no need to notify AP that I find you buffered
->   	 * with broadcast packet
->   	 */
->   	if (dtim & (RTLLIB_DTIM_UCAST & ieee->ps))
-> @@ -1806,7 +1806,7 @@ void rtllib_softmac_xmit(struct rtllib_txb *txb, struct rtllib_device *ieee)
->   
->   	spin_lock_irqsave(&ieee->lock, flags);
->   
-> -	/* called with 2nd parm 0, no tx mgmt lock required */
-> +	/* called with 2nd param 0, no tx mgmt lock required */
->   	rtllib_sta_wakeup(ieee, 0);
->   
->   	/* update the tx status */
+This series refactors two for loops in _rtl92e_dm_rx_path_sel_byrssi()
+to reduce indentation and improve readability.
 
-Reviewed-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Compile-tested only, due to lack of hardware.
+
+Michael Straube (3):
+  staging: rtl8192e: reduce indentation level
+  staging: rtl8192e: remove unnecessary line breaks
+  staging: rtl8192e: remove dead code
+
+ drivers/staging/rtl8192e/rtl8192e/rtl_dm.c | 154 ++++++++++-----------
+ 1 file changed, 71 insertions(+), 83 deletions(-)
+
+-- 
+2.45.1
+
