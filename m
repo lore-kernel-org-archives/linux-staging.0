@@ -1,50 +1,50 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50D95F9DF
-	for <linux-staging@lists.linux.dev>; Sun, 26 May 2024 14:31:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F35BCF9DF
+	for <linux-staging@lists.linux.dev>; Sun, 26 May 2024 14:33:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716733865; cv=none; b=RUYnMBT1RxVkIB2arWoBBJ/LqhnQhOcVpgduyA17KNwOUFhu8ZS9jmc5eEkrj3GcG8pD1qcVXr5oPPG+EAUsNScnP3AZMDBsaQZjhCqd5G7MOd3PcywU56vBCF5F6lWVuy3j/QolR7t8ULb9nU3yVrcPTuwhcdM1xHdupDRf+98=
+	t=1716734026; cv=none; b=pMZg2YU1Rn8Xb3QK1YGrKEkFJpJnWedP1A0K1kQNqKhUBHbDXu2L/lQXZ1yfqnEVOljLH+bdpTTApImlid5s6Irhmc2njvSPkQslrBnsaMVwBcb9lDq1+vtwj+pqjjUwvB8URRvNe5OPCVAiegD+rW00BD2DRHdthNMVmpWa7Fg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716733865; c=relaxed/simple;
-	bh=GztFcP8ReuyEBq22Bavh1nCcM/HA12Jpwj7ouvRvTOw=;
+	s=arc-20240116; t=1716734026; c=relaxed/simple;
+	bh=QA0dpRGMhYJPQHPub7gg3sxVHBbUEmvxO/7j2q05/bw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BvC5BO2gvxFQaulf4NBMzDgNp3T5yT4La+x1gphwms3s2E/eCGZS4WV4ALPuuai6Qs1ra/5voLkzx/TDGBrnRQVH4E+mzACoPiJwsz4s7cK2TUaMM8bczWC0PZNgPF7j2CZpjQWkpLJvbdLByXBAmkjYYOpcqyLnd0DYMlJVMgE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=e36w4Xbu; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Rdcm6R9B; arc=none smtp.client-ip=193.142.43.55
+	 Content-Type:Content-Disposition:In-Reply-To; b=kL9i1lkZsldQxgP3F/e1XqDHBNtMG0d4Lr7cyO+CJFqI1QkMchbV5lOYTI9unCLZXPEXycvXqDfYTHBtOQe6jhgc7GmBKq5QIgr43ePgMJeq4QJU7tSfi3VF7tUgezswgiO2umPc1hWN/QwIyPNPT8TAIWJgpIVK1cXuYesX1o8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ByHYsSYE; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=hI8HtTao; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="e36w4Xbu";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Rdcm6R9B"
-Date: Sun, 26 May 2024 16:31:00 +0200
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ByHYsSYE";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="hI8HtTao"
+Date: Sun, 26 May 2024 16:33:42 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1716733861;
+	s=2020; t=1716734023;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hfLHXUSmV0OIK5d8efxFE2fuJzOP3P7TYV7a9MORL6A=;
-	b=e36w4XbuoYSsQAZMzY/UrVy+pQCdMLPISsipTirmICt2ITfJqVLeUWrVmLN3h8NPC4ME/t
-	nnaStfeGTi0u8NVswV5qSxewWlB7L9gOAoNXHPnxm+5S/VBj7g6dVCZczmasQIHl7PCkXq
-	wybPjNxJezFrGk9saMC2xJ4ChT23y1oe/n+P7hTHS826zMLc3WCkMKiigJU2js3VTVIFdn
-	BKSH0TY+tuXibb7myCMuSoYeVI8pEKc+AOZ1KY8lVMaFTSQuMaz4DzUNR/h/PGdYHcvxZw
-	92a9TWRZbqYFfK3Gd4CQqZeA0BMWR4+BGrHrWU4hYAHBaLKWanNebZYa32Rt1A==
+	bh=YXGpB/omnYIn3jauojGC79gVRJe/9Up/TN/TGtNhfpY=;
+	b=ByHYsSYE5tuKjQwJK38UEN8eieTg5f3+UTMYoJk+nPHiHyswtdsQy6i0kGbTIuNwO5y0Xt
+	rhWnTcQgFT4U5r1SdrgIxy/I57nRQH0FtAvxGWUcMpSbfeJOXWX7qdTRLtKq08CNQDj4UB
+	1UHT0vlmqsQWJB7tIcWqSkghxL5DNaAyPy3rJjcNQeo5FFApWx7Mo1pjYGcHKQnRf4jUoO
+	8H4ArKrc+gvgtoGe2MDmFkGDOrgal9vfeTBvHk5zsFZJdLe6funqh11zTnoPj16+MkaxmJ
+	ApOvJhlzvT0nO2+4HO5pPdxWPAVJbX5O8/zrHtOMBQH+UF4HLR+gXZsGXRsNmQ==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1716733861;
+	s=2020e; t=1716734023;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hfLHXUSmV0OIK5d8efxFE2fuJzOP3P7TYV7a9MORL6A=;
-	b=Rdcm6R9BUePEEOfPrkzxu3h44FwZyombsqMy/lGJM5rdMIGIEBB8uq7yRV5ElKO8jXg4VP
-	QnFJbbYjRSgzt0AA==
+	bh=YXGpB/omnYIn3jauojGC79gVRJe/9Up/TN/TGtNhfpY=;
+	b=hI8HtTaoVnbK2qYoSmRcFsV7t5186FubjTtHnGJ0z4Zzh6XYvDr1/e3SqPwce5iH64pzGl
+	QdTR9Xg0dPFYcyBQ==
 From: Nam Cao <namcao@linutronix.de>
 To: Michael Straube <straube.linux@gmail.com>
 Cc: gregkh@linuxfoundation.org, philipp.g.hortmann@gmail.com,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] staging: rtl8192e: remove dead code
-Message-ID: <20240526143100.FmVupNWq@linutronix.de>
+Subject: Re: [PATCH 2/3] staging: rtl8192e: remove unnecessary line breaks
+Message-ID: <20240526143342.tPBauUTi@linutronix.de>
 References: <20240526111928.14574-1-straube.linux@gmail.com>
- <20240526111928.14574-4-straube.linux@gmail.com>
+ <20240526111928.14574-3-straube.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -53,47 +53,68 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240526111928.14574-4-straube.linux@gmail.com>
+In-Reply-To: <20240526111928.14574-3-straube.linux@gmail.com>
 
-On Sun, May 26, 2024 at 01:19:28PM +0200, Michael Straube wrote:
-> Remove two else-if arms that do nothing.
+On Sun, May 26, 2024 at 01:19:27PM +0200, Michael Straube wrote:
+> Remove some unnecessary line breaks after '=' and '==' to improve
+> readability.
 > 
 > Signed-off-by: Michael Straube <straube.linux@gmail.com>
 > ---
->  drivers/staging/rtl8192e/rtl8192e/rtl_dm.c | 6 ------
->  1 file changed, 6 deletions(-)
+>  drivers/staging/rtl8192e/rtl8192e/rtl_dm.c | 24 ++++++++--------------
+>  1 file changed, 8 insertions(+), 16 deletions(-)
 > 
 > diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-> index 5392d2daf870..4e03eb100175 100644
+> index 2fda44c5a412..5392d2daf870 100644
 > --- a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
 > +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-> @@ -1370,9 +1370,6 @@ static void _rtl92e_dm_rx_path_sel_byrssi(struct net_device *dev)
->  					tmp_sec_rssi = cur_rf_rssi;
->  					sec_rssi_index = i;
+> @@ -1392,8 +1392,7 @@ static void _rtl92e_dm_rx_path_sel_byrssi(struct net_device *dev)
+>  				continue;
+>  
+>  			rf_num++;
+> -			cur_cck_pwdb =
+> -					dm_rx_path_sel_table.cck_pwdb_sta[i];
+> +			cur_cck_pwdb = dm_rx_path_sel_table.cck_pwdb_sta[i];
+>  
+>  			if (rf_num == 1) {
+>  				cck_rx_ver2_max_index = i;
+> @@ -1412,27 +1411,20 @@ static void _rtl92e_dm_rx_path_sel_byrssi(struct net_device *dev)
 >  				}
-> -			} else if ((cur_rf_rssi < tmp_sec_rssi) &&
-> -					(cur_rf_rssi > tmp_min_rssi)) {
-> -				;
->  			} else if (cur_rf_rssi == tmp_min_rssi) {
->  				if (tmp_sec_rssi == tmp_min_rssi) {
->  					tmp_min_rssi = cur_rf_rssi;
-> @@ -1426,9 +1423,6 @@ static void _rtl92e_dm_rx_path_sel_byrssi(struct net_device *dev)
->  						tmp_cck_sec_pwdb = cur_cck_pwdb;
->  						cck_rx_ver2_sec_index = i;
+>  			} else {
+>  				if (cur_cck_pwdb > tmp_cck_max_pwdb) {
+> -					tmp_cck_sec_pwdb =
+> -							tmp_cck_max_pwdb;
+> -					cck_rx_ver2_sec_index =
+> -							cck_rx_ver2_max_index;
+> +					tmp_cck_sec_pwdb = tmp_cck_max_pwdb;
+> +					cck_rx_ver2_sec_index = cck_rx_ver2_max_index;
+>  					tmp_cck_max_pwdb = cur_cck_pwdb;
+>  					cck_rx_ver2_max_index = i;
+> -				} else if (cur_cck_pwdb ==
+> -						tmp_cck_max_pwdb) {
+> +				} else if (cur_cck_pwdb == tmp_cck_max_pwdb) {
+>  					tmp_cck_sec_pwdb = cur_cck_pwdb;
+>  					cck_rx_ver2_sec_index = i;
+>  				} else if (PWDB_IN_RANGE) {
+>  					tmp_cck_sec_pwdb = cur_cck_pwdb;
+>  					cck_rx_ver2_sec_index = i;
+> -				} else if (cur_cck_pwdb ==
+> -						tmp_cck_sec_pwdb) {
+> -					if (tmp_cck_sec_pwdb ==
+> -						tmp_cck_min_pwdb) {
+> -						tmp_cck_sec_pwdb =
+> -								cur_cck_pwdb;
+> -						cck_rx_ver2_sec_index =
+> -								i;
+> +				} else if (cur_cck_pwdb == tmp_cck_sec_pwdb) {
+> +					if (tmp_cck_sec_pwdb == tmp_cck_min_pwdb) {
+> +						tmp_cck_sec_pwdb = cur_cck_pwdb;
+> +						cck_rx_ver2_sec_index = i;
 >  					}
-> -				} else if ((cur_cck_pwdb < tmp_cck_sec_pwdb) &&
-> -						(cur_cck_pwdb > tmp_cck_min_pwdb)) {
-> -					;
->  				} else if (cur_cck_pwdb == tmp_cck_min_pwdb) {
->  					if (tmp_cck_sec_pwdb == tmp_cck_min_pwdb)
->  						tmp_cck_min_pwdb = cur_cck_pwdb;
+>  				} else if ((cur_cck_pwdb < tmp_cck_sec_pwdb) &&
+>  						(cur_cck_pwdb > tmp_cck_min_pwdb)) {
 
-I would be careful with these changes. These else-if do prevent the
-execution of the other else-if, so the code do not behave the same anymore.
-
-The only case this patch doesn't change anything functionally is when the
-condition of the removed if-else is mutually exclusive with the conditions
-of the following if-else. Are you sure this is the case?
+Reviewed-by: Nam Cao <namcao@linutronix.de>
 
 Best regards,
 Nam
