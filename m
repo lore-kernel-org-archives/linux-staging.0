@@ -1,83 +1,98 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FA1239FC1
-	for <linux-staging@lists.linux.dev>; Mon, 27 May 2024 07:39:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C409381C2
+	for <linux-staging@lists.linux.dev>; Mon, 27 May 2024 07:50:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716795591; cv=none; b=pfiEO+cSkt6qvx/TvGMwWk+fBLelJnTNiivppjFBWrKbVuuj+vT7AUrGK2z6U2euVmfUZkK4QwwI/EjI3m1ii5dmJaC6H+zqFLw4UATA1xEaCnwxT/8nue1W/DtYroET+BTD75lal3QR8Y2sAgQFYY2aqsl3Jp+V9G9m8KFKikg=
+	t=1716796260; cv=none; b=o80dfp9c7QgCbeKctSU/TyERgOsaVWVF3EwvAPUqlbfBuQsvb3onw1aRUTKlFRzBZNlhW1lpRQNYgsMDV3hJCgtZ1RiOL3qMKb/UFqznwunxjEfT7gzCgOZ25F4ud9PFoQQw5T0CjwWKofyz7lT2PzkKCNxSJum8zPSsZn8Fq2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716795591; c=relaxed/simple;
-	bh=04u4dQCtGcXS38Akhe0zrrj/sbwxvvlprltkYuVA5Ng=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=otEofjsq+YrPTAGVKh2zW+4XMjUCoMtjMv3W1sXK4zVpMiHE/X65YwJWSFPH3iEI1jtyhO7jFsJIXxaIVSvWec0kP0UiQDWxKxto5Cr0hvpDYyo/RypFYALsIyD+KzQjyAYWzgPqab4vlQ1K/lj+bI8BP5wI7u4oYf3g3iGiVM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Ul0UClQd; arc=none smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1716796260; c=relaxed/simple;
+	bh=/krQonlYmbw1sOAOMQ2N1SXExQJOfJ1+7eOEm+fnXnA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=sw8J6qpzO5o5e3/dmtA6emj0cvSjgUSV98YnmWbLN/C1cVwuV0dJvLI9eZJ1fwuKN4DjuAvZxF6kO/t1j9Dq2qJ9q8VEcVAlATZut4xHXvvudz9rNIDZTJT2Spd3HGtgmGrU08Jba+uhTPm4VRY7w03oj80PEfQ6hIBLVTVqkzM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EZNXA2UP; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Ul0UClQd"
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a620a28e95cso718819166b.3
-        for <linux-staging@lists.linux.dev>; Mon, 27 May 2024 00:39:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EZNXA2UP"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-35507f63293so330121f8f.1
+        for <linux-staging@lists.linux.dev>; Mon, 27 May 2024 00:50:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1716795588; x=1717400388; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Xz0VrIh5WbRJv1JirmWuslt3IpDSba63xN+Qyimt8p0=;
-        b=Ul0UClQd/OOYM8Tbmu3qO/BfSzHnFzE/d65mCwnYpH1qlIkVuu5u0OzOc7hdhix5PJ
-         fVUjSJwb/hRz0RwI2tIneGEW/a13OGitcDURRV9hgQe8UZgq5gRrqVeLu0DKhGpQX+fA
-         gfN7urusjMQhMbq/8y0pHdyHHbrcyVSR3Y48EIGI0BgfNnJ/O+eHvkFo48UACXXhmW2u
-         TWRHYjz7Sb9lGc/T6AiRgJ85cY+zpCWXO78yQW+ePcUQuGnNquaHjqoYWIBP90kQ81j1
-         Tdicoonu+h+46h9fotwZ7N83kT9nff9EyUvzF/7hhXB3vHDe2I0QZKXY5l2AeerHEsNJ
-         12SQ==
+        d=gmail.com; s=20230601; t=1716796257; x=1717401057; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+pBJCfU1EMiwbwjvYVHX4+y6MSOaDGyPtDJJSN/EFcc=;
+        b=EZNXA2UPKjQHP4V3A/U+osA1FKGKKQwIMeG3pYOtyPzroyfWve7USoxRKalEPJbjHQ
+         X1tDiOIkUGy+r5oCRvAHAuRb12G3Z4VcL3J6jfZpi3/L3VQlF3j/PLIznoVauAvfTcf9
+         ItLwJb1E851LKq2RRzVqXqOoXVZ+R3oQj2h3+YvPOs7GG6k/491SNl2trMUw4oKNktC0
+         R0zsK/YdObldVqaKcCR6GMrCRWOBA9dCKEAXzeGwpKSg5WGN9RlQetumyIeK8Fp0E+TG
+         JCp+F+OFc2565XArDBTkWAQ/ImAAiTO2c7YuKru4l7ETH7hQ2xNM+MGQnHWjusD32+le
+         6PoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716795588; x=1717400388;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Xz0VrIh5WbRJv1JirmWuslt3IpDSba63xN+Qyimt8p0=;
-        b=IAH6YHDhyS8KLR/EWpqr/HorXLc1BZV5GJnkf78id/xOnWWk1UcaKO8E6N6t0d3TB6
-         fVtjBu9xEoxNlBHuOI1hqOR09X8pDDRTQIOKoTPrQL4CgI6Id2jIo4myddlUUIlsc64V
-         2oeqhZwUhKs67Eqh17IVKnviQKEdcf44EuPjeuUG0LfYxTukVvqq4TmXVomMDvcd80Ya
-         zJyiYAX/QEWvyPZkpN6cjyCDLZLnOjncAx29Edw2qERzMobSeziiiM8C3bdARcI4r/Vw
-         3/JzR7BHCy+A5sEcBPNTRGr2L6xECmW+7YS+fNvItii//M3PFZo0XPUsg66LvpOHTShu
-         nDCw==
-X-Forwarded-Encrypted: i=1; AJvYcCWys4KHDScAydtOjN6Kk2Lx+PJmniNEXOgOUCipfcRtlS6dj1Ze4sEx2eYS75PkhAbhhmHwCeV90PwYU/EuUN/3k1PcFLOm7r70K4PI6Q==
-X-Gm-Message-State: AOJu0Yzvp69JuPsPcXgTSjfhxitSTvTU/XsE2c8dutJR/HddadMBGY4c
-	05lskfD/S8FiA/GThIuScLIKAc2lNthJ/9GnYv+OwWjKggTb9b0Ih7sbvFmdbJU=
-X-Google-Smtp-Source: AGHT+IG/HLXyHbW6yeseNbj0NSVOG4AOMaoKaf0CmG6jhGtq2IkEwO6pSd2/za8ScxvEWTGn9C3Xhg==
-X-Received: by 2002:a17:906:55d1:b0:a59:c319:f1db with SMTP id a640c23a62f3a-a62640779b9mr555490366b.1.1716795587600;
-        Mon, 27 May 2024 00:39:47 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a626cda6cdcsm459010666b.209.2024.05.27.00.39.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 May 2024 00:39:47 -0700 (PDT)
-Date: Mon, 27 May 2024 10:39:43 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Michael Straube <straube.linux@gmail.com>
-Cc: Nam Cao <namcao@linutronix.de>, gregkh@linuxfoundation.org,
-	philipp.g.hortmann@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] staging: rtl8192e: remove dead code
-Message-ID: <9802cc9e-5962-44a1-a384-3e5ee226cbcb@moroto.mountain>
-References: <20240526111928.14574-1-straube.linux@gmail.com>
- <20240526111928.14574-4-straube.linux@gmail.com>
- <20240526143100.FmVupNWq@linutronix.de>
- <e25831a9-9913-43da-831b-d37bdc4d9dd3@gmail.com>
+        d=1e100.net; s=20230601; t=1716796257; x=1717401057;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+pBJCfU1EMiwbwjvYVHX4+y6MSOaDGyPtDJJSN/EFcc=;
+        b=db/ZCg6voADfyGMimID6U9PfcLjX1xn1rhfI0WAzkwuVYPHbR9GpelHnqugvaQxlKD
+         EQ6DuMV41GSbHnMJPUEJrO9UgsYn5wPbKwodsq0achZSHDIHkb3XId3qvR46JViUVS16
+         uFSnTOPMyn66mlaWkXWAD3GsXaWs4oLAF6/dKbyAPLkhgcRvRDXTintGBYOc0qvKBCRp
+         g8MryJowUxHRkW6zouKt/3Wr1G15DwcCQ1nyD/fokObzAGBr+Z6RD1eQ+cBMXzLgWSkI
+         zE3TX7iWFOo5MgVvsJhUUI4rHbm1thEKu/3Rw4pXSHsJXGZg+q4ghrMQO2/jnL72KTPg
+         aFjQ==
+X-Gm-Message-State: AOJu0YzpA2gy+EoCGYXYmPUhXfJP/uUTrZC++Xb4nKEmpZQhFvda8Yuk
+	3K5cVZbYJKkxfh3ZkMEu/MPUcdvTwMDtMrMxNH7gq0PzfDcoiDsZ
+X-Google-Smtp-Source: AGHT+IFFITWv20yApzO6c8RENiggymT4uirN2a/LQ4AiUTVW4jfuNKTjDnDnY1lxFcDigAzxvKlddQ==
+X-Received: by 2002:a05:6000:a8f:b0:351:d33b:51e8 with SMTP id ffacd0b85a97d-35526c29719mr6479298f8f.4.1716796257095;
+        Mon, 27 May 2024 00:50:57 -0700 (PDT)
+Received: from [192.168.44.127] ([185.238.219.46])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35671d03330sm6762544f8f.64.2024.05.27.00.50.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 May 2024 00:50:56 -0700 (PDT)
+Message-ID: <7345af0c-945f-417d-bf18-33a4cdb66df0@gmail.com>
+Date: Mon, 27 May 2024 09:50:55 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e25831a9-9913-43da-831b-d37bdc4d9dd3@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: rtl8712: Fix spelling mistake in rtl871x_mlme.c
+To: Roshan Khatri <topofeverest8848@gmail.com>, Larry.Finger@lwfinger.net,
+ florian.c.schilhabel@googlemail.com, gregkh@linuxfoundation.org,
+ ayushtiw0110@gmail.com, namcaov@gmail.com, dan.carpenter@linaro.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20240524154001.63946-1-topofeverest8848@gmail.com>
+Content-Language: en-US
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <20240524154001.63946-1-topofeverest8848@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This patch doesn't affect behavior at all, but to me the original
-author wrote the do nothing case for readability, and I don't have a
-problem with that.  In fact, I applaud the author for caring about
-readability at all which is not a given in staging code.  :P
+On 24.05.24 17:40, Roshan Khatri wrote:
+> This patch corrects misspelled word to increase code readability and
+> searching.
+> 
+> Signed-off-by: Roshan Khatri <topofeverest8848@gmail.com>
+> ---
+>   drivers/staging/rtl8712/rtl871x_mlme.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/rtl8712/rtl871x_mlme.c b/drivers/staging/rtl8712/rtl871x_mlme.c
+> index fccfa0915a02..70c295e97068 100644
+> --- a/drivers/staging/rtl8712/rtl871x_mlme.c
+> +++ b/drivers/staging/rtl8712/rtl871x_mlme.c
+> @@ -944,7 +944,7 @@ void r8712_cpwm_event_callback(struct _adapter *adapter, u8 *pbuf)
+>   
+>   /*	When the Netgear 3500 AP is with WPA2PSK-AES mode, it will send
+>    *	 the ADDBA req frame with start seq control = 0 to wifi client after
+> - *	 the WPA handshake and the seqence number of following data packet
+> + *	 the WPA handshake and the sequence number of following data packet
+>    *	will be 0. In this case, the Rx reorder sequence is not longer than 0
+>    *	 and the WiFi client will drop the data with seq number 0.
+>    *	So, the 8712 firmware has to inform driver with receiving the
 
-regards,
-dan carpenter
-
+Reviewed-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
