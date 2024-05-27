@@ -1,89 +1,208 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wfout6-smtp.messagingengine.com (wfout6-smtp.messagingengine.com [64.147.123.149])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0D2ADDAA
-	for <linux-staging@lists.linux.dev>; Mon, 27 May 2024 10:07:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE86016C6A4
+	for <linux-staging@lists.linux.dev>; Mon, 27 May 2024 13:34:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716804430; cv=none; b=ULDhVZmfkgmXDeNbInOaI11sGgAZSX2Z1Cul8YlIQ7ppb9WNaoLvvXqmRg2uCsJf6s6zt0AyI2K8iXDo4XLGWJXr8w0ZF3uQjvFbtXDdrctbtlT7T70MA0+0MwsVAPJqm62NaJXN+LZwxg6JyyEwC4Mb0dZOit0tdw69fP+C2dY=
+	t=1716816864; cv=none; b=jnP+WbHtOxvp5VQSxzY7VoYJizOswg//v6zx/zC74Tt454hbf6f2FvojUW9Xon0/kvzKzS0m/vRQt53ACSmOAu4Fdlv9rNE9jaPI3d3ybwXaqp5yvt0AbTAL/8h7HaxU6D2uuhDgB7e4uApLdxaigiO3Z18pQMUJG3GaNOc0WWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716804430; c=relaxed/simple;
-	bh=lhGSLA+6Fd+lkf7hFK9IB1TG8eIIis9jKYhy9eOwP2A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Dx2eLZTsoGq3JDk83y3VEjUiLSvnZpqi4Sf7j0YCgkTqcWmp/pKp/e0mbax98+NnIreRA3X34N/UVAyR/heMqGSP9bNGEVyp2AbVGVUgPuBwpcA6o3NrFl2C0uj4yz/Q2SUA4l4mfx+nfExNyDxaOU00wLwDCXMjCPh3+yKlEw8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jraOkYhB; arc=none smtp.client-ip=209.85.208.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1716816864; c=relaxed/simple;
+	bh=d+v41JcbajrjvSh/0PWN39VYtQ8YDsJdOOHPujagmso=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=HbLSHJJqRKP8XyMwj2aIsD7IM9g7ZuhZMmdSlBrb1pOuYD5LtVcQk2Lw8ODaBVufmOa0JUBFvMQ0S5jian+lWDnxGdlUq+L1wZHcVdusXxGB4VFOT4xBSTfRMKfNZR+Zo1F4Gzr/gzKWNvnYKpj9nSN8qG8OuDmYE/ahEk38S3U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=G+MjiFHP; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=CdYdGbyd; arc=none smtp.client-ip=64.147.123.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jraOkYhB"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-57857e0f462so3013369a12.0
-        for <linux-staging@lists.linux.dev>; Mon, 27 May 2024 03:07:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1716804427; x=1717409227; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=JbPDN1bud0jCQR0vRfMQ4CNUPwHYHGmVY5chaq0K9V0=;
-        b=jraOkYhBK9m0+5G+veVy53fNZ7kFjFwKtejxUEcJ0sMGRB+/QlwvPbBfE4aPETeVNX
-         kvphlAP8cQmsZ2BVqrD5t5B6IHhDS4fUjg9H7NUnXAknVjj6kZ/ebL1mCGGL4qrN8ow/
-         rYqkUqRE1LggQ1mXsWT/5jWf1OZnNHGWF37zsBBmyKJLqh51b6K3kw9yaSlM0izFLBba
-         mZUytTQ7uJbTiTAuQN1c/tLAPkq8I0CUkrmHYm2jN5YBu5Ob594+qhCI66s66xy/gOwe
-         2pepoBRmormgp/8BCNbtq8GsK+Dlx+BytKc0w5LQ8YS9e0/CMDkz3u0bUMBzZ2jgnKaQ
-         POhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716804427; x=1717409227;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JbPDN1bud0jCQR0vRfMQ4CNUPwHYHGmVY5chaq0K9V0=;
-        b=t1/x9f0vj3asl0ym7yJDCdvieqDiTvu458uOQoptIssXgLzvltsoc2Q8iSZptvoHsI
-         CEnKLbeOti/g6dSt2dS3sk1k/GISK6dLvsKWbgmw+mYe7qv/Fs+4bIjegUmYoFAC0B+d
-         DRSEabhd4DKtbCcjb2eIF+RsjeNjH9Q3hyIzTm2kK+nBQ1GTwJbITn+UZSYLL7wRMatx
-         Afb/J1UBKDmWPx7tc/LJp1alPmtw0wNRG1H5qYvjqJTGDmS4x5rUxYqzgpfs4X2PeHvH
-         EA/jYiihVgTn5QTcnBqcL3PjcVEW/ma4czGPaoL+L1Vqgzm9XKuGWPqbcntW0tt68n0O
-         mzlw==
-X-Forwarded-Encrypted: i=1; AJvYcCWlzW/E4vASsCQ3JZCIjBrLXFrcBLQJvqxb5D9WMl/KUYYfImTgs5ltSJ/RQE5WHjoDeREbRqPKc5MfFQlNpuQkiuEQUR8Q7txLWcIgHA==
-X-Gm-Message-State: AOJu0Yxyw3kB8v+FICdiRKqdBft1Drog/xghN9S18Zlf+DHsWP2f6EgG
-	wf7dU3TlLQURHp21DNq6Ht2S0wEwLsEFIBBom/P8Og4LJmfYeiuQLdW9UEOO0us=
-X-Google-Smtp-Source: AGHT+IHmKdFKS+UH05kV/Ub9d8YRErAmwvuWURmcX2+a+Wh+DzcLct8J/iJmx6FJlI5QlYuLMmZ62A==
-X-Received: by 2002:a50:cc85:0:b0:578:3336:92a with SMTP id 4fb4d7f45d1cf-578517a5268mr5768669a12.0.1716804426876;
-        Mon, 27 May 2024 03:07:06 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-579d018ef3fsm1649365a12.13.2024.05.27.03.07.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 May 2024 03:07:06 -0700 (PDT)
-Date: Mon, 27 May 2024 13:07:02 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Michael Straube <straube.linux@gmail.com>
-Cc: gregkh@linuxfoundation.org, philipp.g.hortmann@gmail.com,
-	namcao@linutronix.de, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/2] staging: rtl8192e: some refactoring
-Message-ID: <efe21ff3-313f-44cf-b1c5-361b48393fda@moroto.mountain>
-References: <20240527094527.2046-1-straube.linux@gmail.com>
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="G+MjiFHP";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="CdYdGbyd"
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+	by mailfout.west.internal (Postfix) with ESMTP id EEF241C000EC;
+	Mon, 27 May 2024 09:34:21 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute6.internal (MEProxy); Mon, 27 May 2024 09:34:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm3; t=1716816861; x=1716903261; bh=nh
+	ZVIFUNaoYwBoLE4NfSC2jv1TkPZZzgfD9ip6TlWJs=; b=G+MjiFHP7kFd42uKOh
+	fNrRGT6NyupbOwxPGl06VqzEVF2NyoOSSQ4gVFrNcoWVHaV+985gxN3JjvYDV2vy
+	GK1CRucq4J1OpWg61cbjpaJk00e+i2h9BqFWbyyNX7iwhQxVPAnvzxRUj222zKyS
+	cdPxtOmR4540BLoggdAUmNnlRFt+1JRYQoRnp62RR5MFaoND9I5t3ARwDnFSqbhi
+	qnFD23v1Gc96Fogt4KpHgsmTL1w/aMfiOLtpPHkbxjmOb3qL0KzayeZD4kNBl3+v
+	rOwFyHd9OkcLWr/WhzL5kfzQkQn3UZSXxoFT5J8u1bKbYJnVTZhTsrLDmRN2Bn9G
+	eo8w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; t=1716816861; x=1716903261; bh=nhZVIFUNaoYwB
+	oLE4NfSC2jv1TkPZZzgfD9ip6TlWJs=; b=CdYdGbydK1W+8D9+Y4ZFSO/WQXHQ+
+	H4sSKRLFWLg7jQ4TARHBeAuw5sK5u1lJm4AepSAXWeYdWVJccH8Q9C4STCHbNB03
+	H1/rJ0gKLSBTKOmx2e3VlGn0/ulVwgTPCe31nAC2Rr690JW6wFn4xLaYuylBhP4F
+	wGWcATOA/xdVKFTJAuvzLWsW7aufEQ6sBzviFmoDHjF+DiYVVMJmirkl6ePi7fjQ
+	7TBauRtm+iWAXf6xeiRnQWM1B5Mo/Z65PM9TY3PGDlzFIGLANO5lau1hYXND8pNd
+	rXizSFwGpdTW2v/bgpXUR0HWxGL6jnIDjF66X4gVV3qbkFVYcHHQkvwyQ==
+X-ME-Sender: <xms:3YtUZnrHch-pMhobOhcT48UW55sopT5mn60if9ZqGQNZeFBIBQcTqw>
+    <xme:3YtUZhqnhHsX2fMrle-mxMN9Uq2UH8tuiMnAKa6FSAVwdDbLMvtsuRFyPThoYhCMS
+    xGDOtW_w_RWsayOwqU>
+X-ME-Received: <xmr:3YtUZkPa9FRA49DkvACHYfUUzFzQqf0LYO7QiktUr0sjtbtz8dnOH1E8Pb844VDMwMkCHKOjzGSQiFwvR4rpi9tuIpjIm0gyB1nZ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdejgedgieegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvvefufffkofggtgfgsehtkeertdertdejnecuhfhrohhmpefpihhklhgr
+    shcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvsh
+    grshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeehudelteetkefg
+    ffefudefuedvjeeivdekhfevieefgeffheeltddvvefhfeetgeenucevlhhushhtvghruf
+    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhl
+    uhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
+X-ME-Proxy: <xmx:3YtUZq6MAL3aqphNFwvJLZCijXmI8yVTglQ6L-MN1RhxWTfkD4kL3w>
+    <xmx:3YtUZm7-S8h5AciHaLVHj4IfmA8p0V0lDpQOf8DqjWd97ZIo9UqaDw>
+    <xmx:3YtUZijFQAEjAV3xoSDVtKzCe845Q4pspsgOk2fCrHELig-5-lyTmw>
+    <xmx:3YtUZo5zM52dssLeXGXtfFdIwCKywpHwkdetz0URpzjq5kO7D_Oydw>
+    <xmx:3YtUZjv_aLBdGFcYWh-k-HvVyOx_OhmfZ6H_QNMgKZbZSnxRNImH5pEj>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 27 May 2024 09:34:20 -0400 (EDT)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Cc: linux-renesas-soc@vger.kernel.org,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH] media: staging: max96712: Add support for MAX96724
+Date: Mon, 27 May 2024 15:34:10 +0200
+Message-ID: <20240527133410.1690169-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.45.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240527094527.2046-1-straube.linux@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, May 27, 2024 at 11:45:25AM +0200, Michael Straube wrote:
-> This series refactors two for loops in _rtl92e_dm_rx_path_sel_byrssi()
-> to reduce indentation and improve readability.
-> 
-> Compile-tested only, due to lack of hardware.
-> 
-> v1 -> v2
-> - Removed patch 3/3
-> - Added Nam Cao's reviewed-by tags from v1
+The MAX96724 is almost identical to the MAX96712 and can be supported by
+the same driver, add support for it.
 
-Thanks!
+For the staging driver which only supports patter generation the big
+difference is that the datasheet (rev 4) for MAX96724 do not describe
+the DEBUG_EXTRA register, which is at offset 0x0009 on MAX96712. It's
+not clear if this register is removed or moved to a different offset.
+What is known is writing to register 0x0009 have no effect on MAX96724.
 
-Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+This makes it impossible to increase the test pattern clock frequency
+from 25 MHz to 75Mhz on MAX96724. To be able to get a stable test
+pattern the DPLL frequency have to be increase instead to compensate for
+this. The frequency selected is found by experimentation as the MAX96724
+datasheet is much sparser then what's available for MAX96712.
 
-regards,
-dan carpenter
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+---
+ drivers/staging/media/max96712/max96712.c | 26 ++++++++++++++++++-----
+ 1 file changed, 21 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/staging/media/max96712/max96712.c b/drivers/staging/media/max96712/max96712.c
+index ea67bcf69c9d..69a0a6a16cf9 100644
+--- a/drivers/staging/media/max96712/max96712.c
++++ b/drivers/staging/media/max96712/max96712.c
+@@ -17,8 +17,10 @@
+ #include <media/v4l2-subdev.h>
+ 
+ #define MAX96712_ID 0x20
++#define MAX96724_ID 0xA7
+ 
+ #define MAX96712_DPLL_FREQ 1000
++#define MAX96724_DPLL_FREQ 1200
+ 
+ enum max96712_pattern {
+ 	MAX96712_PATTERN_CHECKERBOARD = 0,
+@@ -31,6 +33,7 @@ struct max96712_priv {
+ 	struct gpio_desc *gpiod_pwdn;
+ 
+ 	bool cphy;
++	bool max96724;
+ 	struct v4l2_mbus_config_mipi_csi2 mipi;
+ 
+ 	struct v4l2_subdev sd;
+@@ -120,6 +123,7 @@ static void max96712_mipi_enable(struct max96712_priv *priv, bool enable)
+ 
+ static void max96712_mipi_configure(struct max96712_priv *priv)
+ {
++	unsigned int dpll_freq;
+ 	unsigned int i;
+ 	u8 phy5 = 0;
+ 
+@@ -152,10 +156,11 @@ static void max96712_mipi_configure(struct max96712_priv *priv)
+ 	max96712_write(priv, 0x8a5, phy5);
+ 
+ 	/* Set link frequency for PHY0 and PHY1. */
++	dpll_freq = priv->max96724 ? MAX96724_DPLL_FREQ : MAX96712_DPLL_FREQ;
+ 	max96712_update_bits(priv, 0x415, 0x3f,
+-			     ((MAX96712_DPLL_FREQ / 100) & 0x1f) | BIT(5));
++			     ((dpll_freq / 100) & 0x1f) | BIT(5));
+ 	max96712_update_bits(priv, 0x418, 0x3f,
+-			     ((MAX96712_DPLL_FREQ / 100) & 0x1f) | BIT(5));
++			     ((dpll_freq / 100) & 0x1f) | BIT(5));
+ 
+ 	/* Enable PHY0 and PHY1 */
+ 	max96712_update_bits(priv, 0x8a2, 0xf0, 0x30);
+@@ -181,7 +186,8 @@ static void max96712_pattern_enable(struct max96712_priv *priv, bool enable)
+ 	}
+ 
+ 	/* PCLK 75MHz. */
+-	max96712_write(priv, 0x0009, 0x01);
++	if (!priv->max96724)
++		max96712_write(priv, 0x0009, 0x01);
+ 
+ 	/* Configure Video Timing Generator for 1920x1080 @ 30 fps. */
+ 	max96712_write_bulk_value(priv, 0x1052, 0, 3);
+@@ -290,6 +296,7 @@ static const struct v4l2_ctrl_ops max96712_ctrl_ops = {
+ 
+ static int max96712_v4l2_register(struct max96712_priv *priv)
+ {
++	unsigned int dpll_freq;
+ 	long pixel_rate;
+ 	int ret;
+ 
+@@ -303,7 +310,8 @@ static int max96712_v4l2_register(struct max96712_priv *priv)
+ 	 * TODO: Once V4L2_CID_LINK_FREQ is changed from a menu control to an
+ 	 * INT64 control it should be used here instead of V4L2_CID_PIXEL_RATE.
+ 	 */
+-	pixel_rate = MAX96712_DPLL_FREQ / priv->mipi.num_data_lanes * 1000000;
++	dpll_freq = priv->max96724 ? MAX96724_DPLL_FREQ : MAX96712_DPLL_FREQ;
++	pixel_rate = dpll_freq / priv->mipi.num_data_lanes * 1000000;
+ 	v4l2_ctrl_new_std(&priv->ctrl_handler, NULL, V4L2_CID_PIXEL_RATE,
+ 			  pixel_rate, pixel_rate, 1, pixel_rate);
+ 
+@@ -419,8 +427,15 @@ static int max96712_probe(struct i2c_client *client)
+ 	if (priv->gpiod_pwdn)
+ 		usleep_range(4000, 5000);
+ 
+-	if (max96712_read(priv, 0x4a) != MAX96712_ID)
++	switch (max96712_read(priv, 0x4a)) {
++	case MAX96712_ID:
++		break;
++	case MAX96724_ID:
++		priv->max96724 = true;
++		break;
++	default:
+ 		return -ENODEV;
++	}
+ 
+ 	max96712_reset(priv);
+ 
+@@ -444,6 +459,7 @@ static void max96712_remove(struct i2c_client *client)
+ 
+ static const struct of_device_id max96712_of_table[] = {
+ 	{ .compatible = "maxim,max96712" },
++	{ .compatible = "maxim,max96724" },
+ 	{ /* sentinel */ },
+ };
+ MODULE_DEVICE_TABLE(of, max96712_of_table);
+-- 
+2.45.1
 
