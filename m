@@ -1,120 +1,115 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AED652F2A
-	for <linux-staging@lists.linux.dev>; Wed, 29 May 2024 00:52:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0CF21802C9
+	for <linux-staging@lists.linux.dev>; Wed, 29 May 2024 11:25:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716943974; cv=none; b=XUulApOSbjDJt2MnE1ci+viYJdwuIb852wLmcdBPEhEAZs+o18m0P4fFI7YgxHN4TLKdfw5EBSCmiSofogOy7ViVHeJUkT1wp8bw8jxlWk6u7tCcUV0Xb4owTq8rarZUQcFh5JNNOL9EvUI4x1ZNwEa7q4KATYEg24i7FceXcUw=
+	t=1716981904; cv=none; b=TCDfz/RdAaNDuEjtGPpMj3ffq+g5kxMD0rZVOS4rKTez0D8EVM73wSmVbcMiom7hRBGBMFNOiaevpqX7xkFAEkT7xvH5FeSewEx11Pmj2C6p07AboUNmbn0+RxeAzS3NcohBQosfUBGqvCpnLGy6rLlTTntiNtSqwN99951tgIU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716943974; c=relaxed/simple;
-	bh=1q+t0/VxxVLsjDI0GbCm3LqcOzQUbDeFhtPcR4Xj4hE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uSYwwgrVioGJ/Ipb+5ftCeYuVwEzCmBdD6UwmlpXLlOWyLxId4xCqQjtLBN7cTTPTuU3B5ZuOFJAuNRFxyTC/H4mKIaYzzG6Vo36gr/4LX7OuHGl0GEWeOKEthoecqTJUUQnHKcfRIegBTGLNKPuycwT2ULvGbFEA02ObicdHW8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=SLi6d67P; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1716981904; c=relaxed/simple;
+	bh=TzZQrzj+WOG1xkO/GYUZ4HiFLMiivXVoPSh1a4x0Q04=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Cl3+hyZPg2YTyW3G9IAoyrvNv49oIW3a/Nrg2liSL51PstGemF5lr97tdXm88+Luvg4E7Z6RRrHsPvzIHzYw9Xkh9lUztEjV/LKdKxQfsSQw5dEzAXO18RgLGeyacVTiJqEHxF5itHDkVbRMwH79grEEt3QGzJ0BL2QzdZhNLnA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J+TjlvKO; arc=none smtp.client-ip=209.85.208.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SLi6d67P"
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 28ECA9CA;
-	Wed, 29 May 2024 02:52:48 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1716943968;
-	bh=1q+t0/VxxVLsjDI0GbCm3LqcOzQUbDeFhtPcR4Xj4hE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SLi6d67PaQcDxO1ehYHD27ul03jDSkQfe+aeYaHbmw+zBrIbFAbDeraihzTh3VqUx
-	 BQgdc7XK1n2LXjwZ5XW0ipdDqf2A9llXm7kMLsUW9sHjx+zCJAptRjt56EdoBykfU4
-	 IQytp29wMllcifqLKAMkh2TLYfPeXR8NHnO3BbTc=
-Date: Wed, 29 May 2024 03:52:39 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: prabhakar.csengg@gmail.com,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
-	Eugen Hristev <eugen.hristev@collabora.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Helge Deller <deller@gmx.de>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Michal Simek <michal.simek@amd.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	coresight@lists.linaro.org, dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 resend 8/8] fbdev: omapfb: use
- of_graph_get_remote_port()
-Message-ID: <20240529005239.GH1436@pendragon.ideasonboard.com>
-References: <87ikyx4hm1.wl-kuninori.morimoto.gx@renesas.com>
- <877cfd4hkg.wl-kuninori.morimoto.gx@renesas.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J+TjlvKO"
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2e9819a630fso786521fa.1
+        for <linux-staging@lists.linux.dev>; Wed, 29 May 2024 04:25:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1716981901; x=1717586701; darn=lists.linux.dev;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=n5uEzMRdxtO7RULJZB7deduoIw+Y3iKQ4EZq8+uKKOA=;
+        b=J+TjlvKOWJcGaEU5dKTlPmdhqmCuTHSuPUnnMfH0IB/lh/5k3jyXt0ISP5kvW/naWu
+         uQ6ACIeJwXAe1gTdfrFBBANUxkIw/38GT2Mv6Slh8h7rhhBX3LwEQd2imbDd/Qa+GY/n
+         Y44mQflVonygvajYYq5X+xsMtP39UyW2b0fc79ResXOf+2JIp82vRg0YS1coUEcEkUxD
+         7v1p+9Z+BTSzTt6A47Zof3022lzphMUzzROKEB2FYyxCY1FbLMzq/4V5zPCFJEUc0Mcb
+         irtjRBtGhahqLaINT6gzHZ22d9NPCP7m2dBt3ZO96/lmShU212rP9g/nyNT6GkWQPV9D
+         Sm0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716981901; x=1717586701;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=n5uEzMRdxtO7RULJZB7deduoIw+Y3iKQ4EZq8+uKKOA=;
+        b=gtM/RRAgpBl0xju/eSkZ3upK0xpniH/vwj1dpMEchPy7PNuy4hCfgy3QSVkCUuOhKA
+         AOjlMO0tPXU+3c95RkzCoWTe/4Q1QRAfTmy7TxhNonjcLn6xJr3VYUYrmLvhH1UrvfyP
+         KbQre1n7W13hpF2oa5fOwBxXB13Vus9O19dCA6P15AzAXy0ezMfXlWCD2yDFMTAcF5oR
+         5JWa6SyECyW5Cwb931lsPq7MwCE5xQpknEPTuEix+jvXV8w2ZmWuScO8HESQnExG2IOn
+         +GbMB4Kh+41qK0GN9K6qeXenvTJs3HNk/uvbMO+aoRXQOP4s9RMDRvEFD5ywQfH8+Nwk
+         nQQQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV1xBsbVN5+QjR8zqFZiIOjEzuWjWT15tKQ+xbESInD8QoR4XqkIEUhOq5NSshZvv1lplRfNWHlz2xUeHKrwf8K5WftXrYCBTm+DsGQ/Q==
+X-Gm-Message-State: AOJu0YyUZUGFGJfz3KTLWTQnja7wmj9d0N9PRoqPxrV+oD62YehQMLzr
+	WMcxk8KXzmgEpf6UV2DtW4+QFSy6hBmJ2DmW/lqLzDkpXWm2pP7+
+X-Google-Smtp-Source: AGHT+IFrPvh7qeKnY8XKng8faeG4RHzsfNVpq2beLpTDGHDt1ahg4B1fMWblmIksy9gHtLUqFTZeQQ==
+X-Received: by 2002:a2e:9810:0:b0:2ea:7d9f:8f62 with SMTP id 38308e7fff4ca-2ea7d9f917bmr10742401fa.10.1716981900672;
+        Wed, 29 May 2024 04:25:00 -0700 (PDT)
+Received: from nsa.fritz.box ([2001:a61:35f9:9001:40df:88bb:5090:7ab6])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a626cc8c287sm710848966b.162.2024.05.29.04.25.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 May 2024 04:25:00 -0700 (PDT)
+Message-ID: <23d5359dca83dd803655b0990479f6fb0eadc61c.camel@gmail.com>
+Subject: Re: [PATCH] staging: iio: adt7316: remove unused struct
+ 'adt7316_limit_regs'
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: linux@treblig.org, lars@metafoo.de, Michael.Hennerich@analog.com, 
+	jic23@kernel.org
+Cc: linux-iio@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Date: Wed, 29 May 2024 13:24:59 +0200
+In-Reply-To: <20240528233008.191403-1-linux@treblig.org>
+References: <20240528233008.191403-1-linux@treblig.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.1 (3.52.1-1.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <877cfd4hkg.wl-kuninori.morimoto.gx@renesas.com>
 
-Hi Morimoto-san,
-
-Thank you for the patch.
-
-On Tue, May 28, 2024 at 11:55:59PM +0000, Kuninori Morimoto wrote:
-> We already have of_graph_get_remote_port(), Let's use it.
-> 
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
+On Wed, 2024-05-29 at 00:30 +0100, linux@treblig.org wrote:
+> From: "Dr. David Alan Gilbert" <linux@treblig.org>
+>=20
+> 'adt7316_limit_regs' has never been used since the original
+> commit 35f6b6b86ede ("staging: iio: new ADT7316/7/8 and ADT7516/7/9
+> driver").
+>=20
+> The comment above it is a copy-and-paste from a different struct.
+>=20
+> Remove both the struct and the comment.
+>=20
+> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
 > ---
->  drivers/video/fbdev/omap2/omapfb/dss/dss-of.c | 15 +--------------
->  1 file changed, 1 insertion(+), 14 deletions(-)
-> 
-> diff --git a/drivers/video/fbdev/omap2/omapfb/dss/dss-of.c b/drivers/video/fbdev/omap2/omapfb/dss/dss-of.c
-> index 14965a3fd05b7..4040e247e026e 100644
-> --- a/drivers/video/fbdev/omap2/omapfb/dss/dss-of.c
-> +++ b/drivers/video/fbdev/omap2/omapfb/dss/dss-of.c
-> @@ -117,19 +117,6 @@ u32 dss_of_port_get_port_number(struct device_node *port)
->  	return reg;
->  }
->  
-> -static struct device_node *omapdss_of_get_remote_port(const struct device_node *node)
-> -{
-> -	struct device_node *np;
-> -
-> -	np = of_graph_get_remote_endpoint(node);
-> -	if (!np)
-> -		return NULL;
-> -
-> -	np = of_get_next_parent(np);
-> -
-> -	return np;
-> -}
-> -
->  struct omap_dss_device *
->  omapdss_of_find_source_for_first_ep(struct device_node *node)
->  {
-> @@ -141,7 +128,7 @@ omapdss_of_find_source_for_first_ep(struct device_node *node)
->  	if (!ep)
->  		return ERR_PTR(-EINVAL);
->  
-> -	src_port = omapdss_of_get_remote_port(ep);
-> +	src_port = of_graph_get_remote_port(ep);
->  	if (!src_port) {
->  		of_node_put(ep);
->  		return ERR_PTR(-EINVAL);
 
--- 
-Regards,
+Reviewed-by: Nuno Sa <nuno.sa@analog.com>
 
-Laurent Pinchart
+> =C2=A0drivers/staging/iio/addac/adt7316.c | 8 --------
+> =C2=A01 file changed, 8 deletions(-)
+>=20
+> diff --git a/drivers/staging/iio/addac/adt7316.c
+> b/drivers/staging/iio/addac/adt7316.c
+> index 79467f056a05..23d036d2802c 100644
+> --- a/drivers/staging/iio/addac/adt7316.c
+> +++ b/drivers/staging/iio/addac/adt7316.c
+> @@ -209,14 +209,6 @@ struct adt7316_chip_info {
+> =C2=A0#define ADT7316_TEMP_AIN_INT_MASK	\
+> =C2=A0	(ADT7316_TEMP_INT_MASK)
+> =C2=A0
+> -/*
+> - * struct adt7316_chip_info - chip specific information
+> - */
+> -
+> -struct adt7316_limit_regs {
+> -	u16	data_high;
+> -	u16	data_low;
+> -};
+> =C2=A0
+> =C2=A0static ssize_t adt7316_show_enabled(struct device *dev,
+> =C2=A0				=C2=A0=C2=A0=C2=A0 struct device_attribute *attr,
+
