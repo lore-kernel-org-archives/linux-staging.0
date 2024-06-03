@@ -1,113 +1,81 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 509E712CDB6
-	for <linux-staging@lists.linux.dev>; Mon,  3 Jun 2024 13:21:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 744083838F
+	for <linux-staging@lists.linux.dev>; Mon,  3 Jun 2024 19:36:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717420873; cv=none; b=jKYBs8E61ZVmg5CDKdZAGzBm8kx8oWJybJHpodG8WgpgDtqOCU/IVVV9+ePFNZQN9Wu98Sjn5tOTW+dslEycF6cwg0N+ybsX840vlsn5XlAw+NUOu9OwGcb4HzQ+9reFrLNuAXVLivWnnvcK3po15tG8E4YweLZQ2js4GhXo9ug=
+	t=1717443369; cv=none; b=o5BotNS5ghYLA4g5x5yO2xYGy9MfTy3Dpde9CJq1gkrmbf9WKlGAu9zk2jcP14AIxDAl9uF+yI/HtJNW1BeLna1pezMtTQa3IQPm7kse2bX/qF0aOiksEpKoI1yAwR4Ke0WYYMf8MABRTk2OC+BWojUgKygFvIacO66MUo3tmmQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717420873; c=relaxed/simple;
-	bh=spejO9Ax59qDBxq1FpiCyDkZRm2XUKwAyhbS7yGL19Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fQw+sHqnnGjAoaV9L5NJ8EGgS0mgr73vFF8wkOFVMgEzosZh/5ZbteCTgVnr7CNd2Pyowi6R1Tb/ECICcqIXzFWmEx+WBgKZTxjI405Z9JA74RxuZkFXaX37OBpJSanGeK5FWsO33tuaRwBWbDKYjD8/Q5r3hEvY6To2PUIK7yI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=R5Yvx5lM; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="R5Yvx5lM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1717420871;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=k+IcFdSJronQ1oWSHAS+kEkqniZ7f8peJp91iub+LhQ=;
-	b=R5Yvx5lMCyJOcDWyR+pjROYtxLtA/a3wupkBuk+qbAt4tsMkKmcXHLDnG4G7cjHz9NnUx6
-	N4xO4FrYhmAOUmzU/a5Rq6T34kej5sfzqQ7fiFiDBa8e0ti6BoCNOJEUBVhwDqc83GBgTS
-	atdf29P4UUJ6pp702v2b5gNYX2D9MJQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-142-9jvRd3VtPTKq22AYvfJxvQ-1; Mon, 03 Jun 2024 09:21:07 -0400
-X-MC-Unique: 9jvRd3VtPTKq22AYvfJxvQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A783D801785;
-	Mon,  3 Jun 2024 13:21:06 +0000 (UTC)
-Received: from x1.localdomain.com (unknown [10.39.193.39])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 4409B5624;
-	Mon,  3 Jun 2024 13:21:05 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Hans de Goede <hdegoede@redhat.com>,
+	s=arc-20240116; t=1717443369; c=relaxed/simple;
+	bh=f0IksoUlSvBawwaSs4J4hxad8qufYFUfpPuMEMc7A7M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oMWeHmTQoJ3fns7xNk7uvBRxlOdZnORQmTnbMJYfqxunzMwaXQhneNKk0LxwTzhItbcT8QQsi/ea61a8z7/3+vPz6Sw1PdMBtOgNzx3TCI0onZ/AarJcRHmzxrOfRzOYHBUbOsWDOEMdN2wtuqD7HlMG/1krP1ODyvn2OWLoi/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=fail smtp.mailfrom=kernel.org; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=kernel.org
+X-CSE-ConnectionGUID: a/4uQDVDQPGajfCjUInmeA==
+X-CSE-MsgGUID: U516mdNeSNupncHZc4VtdQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11092"; a="14074751"
+X-IronPort-AV: E=Sophos;i="6.08,212,1712646000"; 
+   d="scan'208";a="14074751"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2024 12:36:08 -0700
+X-CSE-ConnectionGUID: Fmi1pWMMROuqZrxVOK0wpQ==
+X-CSE-MsgGUID: EMDeZdItSMGQ1eLyrSDk8Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,212,1712646000"; 
+   d="scan'208";a="37006190"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2024 12:36:05 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andy@kernel.org>)
+	id 1sEDTO-0000000DN5f-2g1U;
+	Mon, 03 Jun 2024 22:36:02 +0300
+Date: Mon, 3 Jun 2024 22:36:02 +0300
+From: Andy Shevchenko <andy@kernel.org>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Tsuchiya Yuto <kitakar@gmail.com>,
-	Andy Shevchenko <andy@kernel.org>,
 	Yury Luneff <yury.lunev@gmail.com>,
-	Nable <nable.maininbox@googlemail.com>,
-	andrey.i.trufanov@gmail.com,
-	Fabio Aiuto <fabioaiuto83@gmail.com>,
-	Kate Hsuan <hpa@redhat.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH 5/5] media: atomisp: csi2-bridge: Add DMI quirk for OV5693 on Xiaomi Mipad2
-Date: Mon,  3 Jun 2024 15:20:57 +0200
-Message-ID: <20240603132057.255917-5-hdegoede@redhat.com>
-In-Reply-To: <20240603132057.255917-1-hdegoede@redhat.com>
+	Nable <nable.maininbox@googlemail.com>, andrey.i.trufanov@gmail.com,
+	Fabio Aiuto <fabioaiuto83@gmail.com>, Kate Hsuan <hpa@redhat.com>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 3/5] media: atomisp: Prefix firmware paths with
+ "intel/ipu/"
+Message-ID: <Zl4bIoxczvKt03bF@smile.fi.intel.com>
 References: <20240603132057.255917-1-hdegoede@redhat.com>
+ <20240603132057.255917-3-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240603132057.255917-3-hdegoede@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-The OV5693 the Xiaomi Mipad2 is used as a front facing sensor and
-as such is connected to CsiPort 0, but the _DSM has CsiPort 1, add
-a DMI quirk to override the wrong _DSM setting.
+On Mon, Jun 03, 2024 at 03:20:55PM +0200, Hans de Goede wrote:
+> The atomisp firmwares have been added to upstream linux-firmware
+> under intel/ipu/ add this prefix to the firmware name passed
+> to request_firmware().
+> 
+> Fall back to the old location if this fails to avoid breaking existing
+> setups.
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- .../media/atomisp/pci/atomisp_csi2_bridge.c        | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+...
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c b/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
-index 03940c11505f..31c9e05a1435 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
-@@ -106,6 +106,12 @@ static struct gmin_cfg_var lenovo_ideapad_miix_310_vars[] = {
- 	{}
- };
- 
-+static struct gmin_cfg_var xiaomi_mipad2_vars[] = {
-+	/* _DSM contains the wrong CsiPort for the front facing OV5693 sensor */
-+	{ "INT33BE:00", "CsiPort", "0" },
-+	{}
-+};
-+
- static const struct dmi_system_id gmin_cfg_dmi_overrides[] = {
- 	{
- 		/* Lenovo Ideapad Miix 310 */
-@@ -115,6 +121,14 @@ static const struct dmi_system_id gmin_cfg_dmi_overrides[] = {
- 		},
- 		.driver_data = lenovo_ideapad_miix_310_vars,
- 	},
-+	{
-+		/* Xiaomi Mipad2 */
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "Xiaomi Inc"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "Mipad2"),
-+		},
-+		.driver_data = xiaomi_mipad2_vars,
-+	},
- 	{}
- };
- 
+> +	/* Fallback to old fw_path with "intel/ipu/" prefix */
+> +	if (rc)
+> +		rc = request_firmware(&fw, strrchr(fw_path, '/') + 1, isp->dev);
+
+Perhaps kbasename() ?
+
 -- 
-2.45.1
+With Best Regards,
+Andy Shevchenko
+
 
