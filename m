@@ -1,38 +1,38 @@
 Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC159149C6A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC10A149C4D
 	for <linux-staging@lists.linux.dev>; Tue,  4 Jun 2024 17:29:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717522174; cv=none; b=qSipkpUfJb4rX02MXkZZGwgG6hcB76qWnOMDH/eOCCGe38ifk8cy5/8a3DIP5Xr9MGm8GOggKAcuba0x75m/zR5C1cE0reZqx5GopxkD6hyYq9oRHjG1w+Ds5z2qaX8pkyhWLAn+wvHwliThZ0tjTM6fguZOROyyxbzjB1oGLLs=
+	t=1717522174; cv=none; b=H4WR7Cg/VpDbWcScGILTj53yEwY09EBWYPKBjqSojE6Hy6FVWfQd43VedLWnutqIfMSbC6Fv/OljeaD3FvlwhTdy8/otT4GFM9OhybRmpihG6tqZqqw1av6QkY/UlkyQ0CidQlu+8Jb1fJFQ0C2S4DCrGjBEARwDhIQcSI9PgLk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1717522174; c=relaxed/simple;
-	bh=drZLbwJK/d5DTrLrmnfBtwGK7AniFJODUE7sIVldQm8=;
+	bh=cdjk/XCudZhyV6eEW/Gr9bEO8PlVFF+61Ayc23UGf88=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=DrSj3YHqlQ7mXEJHYbAAdj5Ng5OGTyqwoSRlZJlbv1NOskxdnnbjsrCCH++/cRDxAX/PlII3Lp23Bv3RGY0kpr3NeCwbKWSb6VxMDFfDSjCWY/ZKHGEptsDHRmd2uQ105npw65WM4AcqZcpWtYDJtixeM9UkETYPtZ2wpRLCe2U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=JpexnhFr; arc=none smtp.client-ip=212.227.17.20
+	 MIME-Version; b=VIqO4ISeW8gVEWv5Z6kfJIVtnorxom98yu7ZuPYPqNZOVpPiQl0N5rbmccyAL4w5oQcueen0drkhrRQv8MDjJDmvwoITwfn+SOko0s97u77vnloyu4PjNGXfgHKds6J0GizYuHwGfOUcPRU4FO+W9QaZyajMdM1I/fjRekVHzA8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=ZnS87Cxv; arc=none smtp.client-ip=212.227.17.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="JpexnhFr"
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="ZnS87Cxv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
-	s=s31663417; t=1717522164; x=1718126964; i=wahrenst@gmx.net;
-	bh=LTurhgqGBCWSBmH7AaC3KDylsswoCMbxqEa1yyg5lJo=;
+	s=s31663417; t=1717522165; x=1718126965; i=wahrenst@gmx.net;
+	bh=J8u0D/gqYRaWIAY1ZLOXtY9R4hmDlnmeyzUMbLiRoSg=;
 	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:In-Reply-To:
 	 References:MIME-Version:Content-Transfer-Encoding:cc:
 	 content-transfer-encoding:content-type:date:from:message-id:
 	 mime-version:reply-to:subject:to;
-	b=JpexnhFri5PF/j5P8eZUGD/rLE+wHlsIlzb+tc1/Lk7hljOvM/YHMxCQg+YvkhKt
-	 wZc65m7UoZqU+A6BIU71IT2pVJRJ3YKUlWI5bMF0ao0I1dX7PksdFJWA3sALlO7ZY
-	 5y9gP5UXeFVrTUwODxuvll1Sqc/g4C0t/1oYeoralC6HtmrQqjxbb3rRgpTHIXvEy
-	 6YE9gPTRbe8zf4cdUhg5GWcxyKNYT+VagviPpnLhA0YBTFkLv5+fGt6PaEMM0NWhS
-	 Fh4dj7+1neBsyjjl3yYx5fO+FgwiLgHt7ErtyBZclP2r/9kmNlBsW+aeWOsBk7jG7
-	 l4ZnxHDcSJHuG+S3Gw==
+	b=ZnS87CxvJuTpD2oU8uudhKlVgfMl1DUEpWimVjpwkWbeq20JNdtkjQClBCKGQWhA
+	 KL95hxQ4SH2N96H6exvZtDFkM4a4MGm+wyEnxs8WEIGvf6PqVh8hKIhb2oxQQwE+a
+	 dgNIDHJ98mgNeSsOyx5IZ5cECeK1gux+3prlUEiO+Ymvt1ctsLBFCFiKWDD1Im92x
+	 h9ce60x/lcJpPrUcXJRzwSmuTI2oeCZ2TdsKS7z+4gdSR3sDxeEMrre4KFPMWf3+p
+	 2M59in3gfI7vT+uV6eS3lMfl+v4cVT3DUn4ORe3QlDWn86KjrxJbS/Lnjf7rogHPB
+	 EhRE5nlPvn9OxfIGPQ==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from stefanw-SCHENKER ([37.4.248.43]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1Md6R1-1sn3Vg3b4F-00dESM; Tue, 04
- Jun 2024 19:29:23 +0200
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1N1fii-1scq563bA0-011BUz; Tue, 04
+ Jun 2024 19:29:24 +0200
 From: Stefan Wahren <wahrenst@gmx.net>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Florian Fainelli <florian.fainelli@broadcom.com>
@@ -41,9 +41,9 @@ Cc: Umang Jain <umang.jain@ideasonboard.com>,
 	linux-staging@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
 	Stefan Wahren <wahrenst@gmx.net>
-Subject: [PATCH 04/11] staging: vchiq_arm: Drop unnecessary declarations
-Date: Tue,  4 Jun 2024 19:28:57 +0200
-Message-Id: <20240604172904.61613-5-wahrenst@gmx.net>
+Subject: [PATCH 07/11] staging: vchiq_arm: Reduce indentation of service_callback
+Date: Tue,  4 Jun 2024 19:29:00 +0200
+Message-Id: <20240604172904.61613-8-wahrenst@gmx.net>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240604172904.61613-1-wahrenst@gmx.net>
 References: <20240604172904.61613-1-wahrenst@gmx.net>
@@ -54,65 +54,169 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:+6MBcs2hLQzB6gsoVTK9u6MrzrO9bb3vr8uDoCRVVxtnlBs8Opt
- bckuv99I1RUHGRtRqV86N1ReO4qLLPrE4Zvn2YC/QlO861pAqm1Nq7RsxJiL2xzcwIqHSmo
- LYe5wq92NjOGUP6nBLhUDcfflGCE733JH/hy/fa0Jou4hAwoD3k49I/+HygoqBKfpR7Ijj9
- YSCyESukDOW/Xkw5XVUwg==
+X-Provags-ID: V03:K1:xh3wPN2mIO7wghK1lfDXv0h4oqXgfc66pt2IdguB11S/DgvPseL
+ 2eAJ8Zdefbow5cJ60vG/LeSMDAiI8JxytPcoTYgeZjwWHVMlm9lLWNp5+KCpvbhkCwvy7TZ
+ q08B7nuF9ezypXro/yjIGsYXvU2jOqifBbadsQjVSskoUUmYt9Z6oKsYa39rmFlkMAz5fje
+ GhDaUWfYeKsyAXCtqTaSQ==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:Gk929ch/ZcE=;Yj2Tn/UPQe1OsCo/sJBz2PEU57X
- 5psE9OuuA+uzMjI0nD+XUhoL5qpS77bar78ggCcAHvWEfkn4zUevHO7R6aleH2G/u4FE2FYdB
- k4HOvIPDrFwcS0TIFVttYKFJNxI9+P6JfUX9lYIFxUNCS4iuG1RlNo0ABrF0uqTdv/zFvXhYU
- rzf/8Lh5qTm2GiEhUrkbZILF7Pf00H4xVWtmuvMc6dtjYdPRkBv2ibeK/NYnvADb1ND3GXYxy
- 5AQKkEaASDSe/PN0oZLXbgcR5Yg3qgpKt5HFGzFJH3cstuMAdb07pZRWK0wBlcXN8bpB5Z3QQ
- b3sa83n5jputrRx9VnkXUX1opAngxV3vUV2HHgdHXAi+x3AI7H8DNhlpeLjSYcRFGohCTaQCA
- ZfFWC9TboSeo+JE0O235/Hr61CXWzRxAL72wgrlEKiy72tkgbbMwAiUmWCW51E07iyXOyCW1s
- kJ7mUmsD9iY4MBv6m8YJ/R+OC7qbTAZBe0ubi0qdHRmrNPFC8gQGQ68XP4jih+p0iacPai0y/
- hNfYVFI4stIDH3g1brvOxflYkjUViyZiplZHQgQsxCNWk8jExSltgBHjtXn1WEFOpilkz+OBo
- 5zCVPRCCoMV0FO6YDCNzTjaLSpvBsBanlU9EjrMJWCm3bMPIfWSbrIC1Sx5y91W6MtYntfD+V
- ZA6ReVfxDLqXdqZ41jcUzRB1j4BnhDAgalhyT3O0TuQgnhSwYwUrjsLYZ1IXrjX/1CuK0+I+I
- Wc7ccI8voHm4wPYEoF6Boov6DjbLwtPP8/jKSZCAmGe6T+ZC/BSTEH5PfF9/lqw3hX5MSxzS+
- 3Y4CG9w59bOG+Bt+AHCVStT7avUbHjYjiv0aA8MF7LKZ0=
+UI-OutboundReport: notjunk:1;M01:P0:MfG+iriPnb0=;/GwZxITaXWjLak0kr22F4OTZdb+
+ CJZL2zKwtv+qxR6CXEJ/XNveBOgWKz4zsctVLHRjml8QikVJDd+4Bw3QkI78u4zCu/Yljvw8s
+ FOilxpBpoO2bcHtXziYaogSpibmBLY3+1Nek8OeGfjlL95u8mU3zH7aK/0cjxp039LSI+I946
+ zLRuWg7jjjJM3qitGi5o2mWXfEIgTWj9DiUegdjRBs7fC+gDLYYCpfv+2KH/UuhacyMaixALA
+ X7zmES3YuZ1Bv+Uka/fbNgN20ZwyhPJz49oOAuadeRzoapDwS1SXkiiSDwlqz4Ax3KaybbBm5
+ fI3T7BUnjCTi2AY4s8z9w4tYydGNq8WBkSLKd4eIciR6pP6Qel19N2h9B8PbKfFwzQ5YzyKC7
+ Zf6cIrQB8gen2iwEIBS3rouHj4fj7G9EVjnWP2QHs5BNHHZKmYtKBkZ0Th42RGPO2V3EhQYzK
+ k3maSher2ix/IiE3336yLZtiZzXcjgj1obwkurkZ1/9FOnX/D41ACbyxTBRGnF0ocKJY0umz/
+ Nzkjg1Ub+rETXpCZBvkozAPN+wEpwDiKqKpQMfpvfuAQ13p+MW0xHZAsuJOfeCjwXFd7DsRA8
+ NRbiWkbGsiJs3r8yoSqTEYJmyJBTFar8XYmLeEyuTIv6Bq2WbIMzj8v9jDidqztgYpuAj4VOC
+ iq7Y/VqhheA+ZSjC7Ds7pCd4q6jEEqF1E6yRe3oRaqPjlDWNhWfp3jpDNRKhG6+dMKdKH7qbW
+ E0+zXVVscpLseacKZK2eKnsMr8yjX2hJXcenNqviTlevDo8Q/lod0nd6oQFrE6h6LaXmRVnf1
+ yfd2bEKEopUM2ZYezvN6mKZP6V1sxDfOhNR82Q6vTYMPs=
 
-These declarations are left from cleanups and not necessary
-anymore. So we can drop them.
+The service_callback has 5 levels of indentation, which makes it
+hard to read. Reduce this by using a goto for the corner cases
+(no header or VCHI service).
 
 Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
 =2D--
- drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h  | 3 ---
- drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h | 2 --
- 2 files changed, 5 deletions(-)
+ .../interface/vchiq_arm/vchiq_arm.c           | 111 +++++++++---------
+ 1 file changed, 57 insertions(+), 54 deletions(-)
 
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h=
- b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
-index fd1b9d3555ce..b402aac333d9 100644
-=2D-- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
-@@ -109,9 +109,6 @@ vchiq_release_service(struct vchiq_instance *instance,=
- unsigned int handle);
- extern int
- vchiq_check_service(struct vchiq_service *service);
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c=
+ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+index 45acca670bbd..0055c7d7e617 100644
+=2D-- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+@@ -1101,71 +1101,74 @@ service_callback(struct vchiq_instance *instance, =
+enum vchiq_reason reason,
+ 		user_service, service->localport, user_service->userdata,
+ 		reason, header, instance, bulk_userdata);
 
--extern void
--vchiq_dump_platform_use_state(struct vchiq_state *state);
+-	if (header && user_service->is_vchi) {
+-		spin_lock(&service->state->msg_queue_spinlock);
+-		while (user_service->msg_insert =3D=3D
+-			(user_service->msg_remove + MSG_QUEUE_SIZE)) {
+-			spin_unlock(&service->state->msg_queue_spinlock);
+-			DEBUG_TRACE(SERVICE_CALLBACK_LINE);
+-			DEBUG_COUNT(MSG_QUEUE_FULL_COUNT);
+-			dev_dbg(service->state->dev, "arm: msg queue full\n");
+-			/*
+-			 * If there is no MESSAGE_AVAILABLE in the completion
+-			 * queue, add one
+-			 */
+-			if ((user_service->message_available_pos -
+-				instance->completion_remove) < 0) {
+-				int status;
 -
- extern void
- vchiq_dump_service_use_state(struct vchiq_state *state);
+-				dev_dbg(instance->state->dev,
+-					"arm: Inserting extra MESSAGE_AVAILABLE\n");
+-				DEBUG_TRACE(SERVICE_CALLBACK_LINE);
+-				status =3D add_completion(instance, reason, NULL, user_service,
+-							bulk_userdata);
+-				if (status) {
+-					DEBUG_TRACE(SERVICE_CALLBACK_LINE);
+-					vchiq_service_put(service);
+-					return status;
+-				}
+-			}
++	if (!header || !user_service->is_vchi)
++		goto service_put;
++
++	spin_lock(&service->state->msg_queue_spinlock);
++	while (user_service->msg_insert =3D=3D
++		(user_service->msg_remove + MSG_QUEUE_SIZE)) {
++		spin_unlock(&service->state->msg_queue_spinlock);
++		DEBUG_TRACE(SERVICE_CALLBACK_LINE);
++		DEBUG_COUNT(MSG_QUEUE_FULL_COUNT);
++		dev_dbg(service->state->dev, "arm: msg queue full\n");
++		/*
++		 * If there is no MESSAGE_AVAILABLE in the completion
++		 * queue, add one
++		 */
++		if ((user_service->message_available_pos -
++			instance->completion_remove) < 0) {
++			int status;
 
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.=
-h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-index be20abcfad75..3c7a6838ddba 100644
-=2D-- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-@@ -539,8 +539,6 @@ int vchiq_platform_init_state(struct vchiq_state *stat=
-e);
++			dev_dbg(instance->state->dev,
++				"arm: Inserting extra MESSAGE_AVAILABLE\n");
+ 			DEBUG_TRACE(SERVICE_CALLBACK_LINE);
+-			if (wait_for_completion_interruptible(&user_service->remove_event)) {
+-				dev_dbg(instance->state->dev, "arm: interrupted\n");
+-				DEBUG_TRACE(SERVICE_CALLBACK_LINE);
+-				vchiq_service_put(service);
+-				return -EAGAIN;
+-			} else if (instance->closing) {
+-				dev_dbg(instance->state->dev, "arm: closing\n");
++			status =3D add_completion(instance, reason, NULL, user_service,
++						bulk_userdata);
++			if (status) {
+ 				DEBUG_TRACE(SERVICE_CALLBACK_LINE);
+ 				vchiq_service_put(service);
+-				return -EINVAL;
++				return status;
+ 			}
+-			DEBUG_TRACE(SERVICE_CALLBACK_LINE);
+-			spin_lock(&service->state->msg_queue_spinlock);
+ 		}
 
- int vchiq_check_service(struct vchiq_service *service);
-
--void vchiq_on_remote_use_active(struct vchiq_state *state);
+-		user_service->msg_queue[user_service->msg_insert &
+-			(MSG_QUEUE_SIZE - 1)] =3D header;
+-		user_service->msg_insert++;
 -
- int vchiq_send_remote_use(struct vchiq_state *state);
+-		/*
+-		 * If there is a thread waiting in DEQUEUE_MESSAGE, or if
+-		 * there is a MESSAGE_AVAILABLE in the completion queue then
+-		 * bypass the completion queue.
+-		 */
+-		if (((user_service->message_available_pos -
+-			instance->completion_remove) >=3D 0) ||
+-			user_service->dequeue_pending) {
+-			user_service->dequeue_pending =3D 0;
+-			skip_completion =3D true;
++		DEBUG_TRACE(SERVICE_CALLBACK_LINE);
++		if (wait_for_completion_interruptible(&user_service->remove_event)) {
++			dev_dbg(instance->state->dev, "arm: interrupted\n");
++			DEBUG_TRACE(SERVICE_CALLBACK_LINE);
++			vchiq_service_put(service);
++			return -EAGAIN;
++		} else if (instance->closing) {
++			dev_dbg(instance->state->dev, "arm: closing\n");
++			DEBUG_TRACE(SERVICE_CALLBACK_LINE);
++			vchiq_service_put(service);
++			return -EINVAL;
+ 		}
++		DEBUG_TRACE(SERVICE_CALLBACK_LINE);
++		spin_lock(&service->state->msg_queue_spinlock);
++	}
 
- int vchiq_send_remote_use_active(struct vchiq_state *state);
+-		spin_unlock(&service->state->msg_queue_spinlock);
+-		complete(&user_service->insert_event);
++	user_service->msg_queue[user_service->msg_insert &
++		(MSG_QUEUE_SIZE - 1)] =3D header;
++	user_service->msg_insert++;
+
+-		header =3D NULL;
++	/*
++	 * If there is a thread waiting in DEQUEUE_MESSAGE, or if
++	 * there is a MESSAGE_AVAILABLE in the completion queue then
++	 * bypass the completion queue.
++	 */
++	if (((user_service->message_available_pos -
++		instance->completion_remove) >=3D 0) ||
++		user_service->dequeue_pending) {
++		user_service->dequeue_pending =3D 0;
++		skip_completion =3D true;
+ 	}
++
++	spin_unlock(&service->state->msg_queue_spinlock);
++	complete(&user_service->insert_event);
++
++	header =3D NULL;
++
++service_put:
+ 	DEBUG_TRACE(SERVICE_CALLBACK_LINE);
+ 	vchiq_service_put(service);
+
 =2D-
 2.34.1
 
