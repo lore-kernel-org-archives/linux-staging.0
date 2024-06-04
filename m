@@ -1,196 +1,106 @@
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C7051386B9;
-	Tue,  4 Jun 2024 01:38:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C65242F30
+	for <linux-staging@lists.linux.dev>; Tue,  4 Jun 2024 05:15:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717465101; cv=none; b=JvxZkDxHuCb221SvNWLsy7LDyq2/cJhXDesH2TSL0d2EBGAGTmpgf7GkkY58zFmT8ooLBuWWmy/Ax9fz7gI8HfwXBO56ArDiOPAA78FS++EA8yBQ0kjF6nsxCwga3ymGWHxf5nILIHC0n0Dq0CtvSmMi88DvZ4Os2bOPE+1x1l8=
+	t=1717478141; cv=none; b=aUUh2ONBjkiQv+IBNO8taSGE7LxEQ0n68ja7fyuAUus2QuFJUhCLR2IkdJsxv/k9oAnCb6R2VSTlV4739A8QMqiN4ptkJz2xpie74qbiYpG1UShxuQI5i7QDQjcLFxT8SgivSrS88KLWLKkG7Md81S81BE+EWnMhf6ExLkfBE4g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717465101; c=relaxed/simple;
-	bh=AJSz8KJObMMDxhywmduW5EuoLxLL09BUaUxOa9QUubw=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=W76wPOqJhcfdB6bDI384qYWr5It8IGNtsF7P3ZiEf2do4DteNys1XNAEj5j60+v6mm0u/CGqeb0nwGs+414yqQsMpnESMXIbwZneeb0x7Kbi/vtHxEGiYG4HQPZLqgd0UOu3U5f8c5+SFb6zgHHWbikoW93g8IYO0vRmjfGZQu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.163.252])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4VtY6M5szWzwRV0;
-	Tue,  4 Jun 2024 09:34:19 +0800 (CST)
-Received: from kwepemm600013.china.huawei.com (unknown [7.193.23.68])
-	by mail.maildlp.com (Postfix) with ESMTPS id 7C016180069;
-	Tue,  4 Jun 2024 09:38:14 +0800 (CST)
-Received: from [10.174.178.46] (10.174.178.46) by
- kwepemm600013.china.huawei.com (7.193.23.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Tue, 4 Jun 2024 09:38:02 +0800
-Subject: Re: [PATCH v1 1/1] treewide: Align match_string() with
- sysfs_match_string()
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, "Rafael J. Wysocki"
-	<rafael.j.wysocki@intel.com>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, Corey Minyard <minyard@acm.org>, Allen Pais
-	<apais@linux.microsoft.com>, Sebastian Reichel
-	<sebastian.reichel@collabora.com>, Perry Yuan <perry.yuan@amd.com>, Giovanni
- Cabiddu <giovanni.cabiddu@intel.com>, Herbert Xu
-	<herbert@gondor.apana.org.au>, Nuno Sa <nuno.sa@analog.com>, Guenter Roeck
-	<linux@roeck-us.net>, Randy Dunlap <rdunlap@infradead.org>, Andi Shyti
-	<andi.shyti@kernel.org>, Heiner Kallweit <hkallweit1@gmail.com>, Lee Jones
-	<lee@kernel.org>, Samuel Holland <samuel@sholland.org>, Elad Nachman
-	<enachman@marvell.com>, Arseniy Krasnov <AVKrasnov@sberdevices.ru>, Johannes
- Berg <johannes.berg@intel.com>, Gregory Greenman
-	<gregory.greenman@intel.com>, Benjamin Berg <benjamin.berg@intel.com>, Bjorn
- Helgaas <bhelgaas@google.com>, Robert Richter <rrichter@amd.com>, Vinod Koul
-	<vkoul@kernel.org>, Chunfeng Yun <chunfeng.yun@mediatek.com>, Linus Walleij
-	<linus.walleij@linaro.org>, Hans de Goede <hdegoede@redhat.com>,
-	=?UTF-8?Q?Ilpo_J=c3=a4rvinen?= <ilpo.jarvinen@linux.intel.com>, Nikita
- Kravets <teackot@gmail.com>, Jiri Slaby <jirislaby@kernel.org>, Srinivas
- Pandruvada <srinivas.pandruvada@linux.intel.com>, Stanley Chang
-	<stanley_chang@realtek.com>, Heikki Krogerus
-	<heikki.krogerus@linux.intel.com>, Abdel Alkuor <abdelalkuor@geotab.com>,
-	Kent Overstreet <kent.overstreet@linux.dev>, Eric Biggers
-	<ebiggers@google.com>, Kees Cook <keescook@chromium.org>, Ingo Molnar
-	<mingo@kernel.org>, "Steven Rostedt (Google)" <rostedt@goodmis.org>, Daniel
- Bristot de Oliveira <bristot@kernel.org>, Andrew Morton
-	<akpm@linux-foundation.org>, Hugh Dickins <hughd@google.com>, Abel Wu
-	<wuyun.abel@bytedance.com>, John Johansen <john.johansen@canonical.com>, Mimi
- Zohar <zohar@linux.ibm.com>, Stefan Berger <stefanb@linux.ibm.com>, Roberto
- Sassu <roberto.sassu@huawei.com>, Eric Snowberg <eric.snowberg@oracle.com>,
-	Takashi Iwai <tiwai@suse.de>, Takashi Sakamoto <o-takashi@sakamocchi.jp>,
-	Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, Mark Brown
-	<broonie@kernel.org>, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	<linuxppc-dev@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
-	<keyrings@vger.kernel.org>, <linux-crypto@vger.kernel.org>,
-	<linux-acpi@vger.kernel.org>, <linux-ide@vger.kernel.org>,
-	<openipmi-developer@lists.sourceforge.net>, <linux-clk@vger.kernel.org>,
-	<linux-rpi-kernel@lists.infradead.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-rockchip@lists.infradead.org>,
-	<linux-tegra@vger.kernel.org>, <linux-pm@vger.kernel.org>,
-	<qat-linux@intel.com>, <dri-devel@lists.freedesktop.org>,
-	<intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
-	<nouveau@lists.freedesktop.org>, <linux-hwmon@vger.kernel.org>,
-	<linux-i2c@vger.kernel.org>, <linux-leds@vger.kernel.org>,
-	<linux-sunxi@lists.linux.dev>, <linux-omap@vger.kernel.org>,
-	<linux-mmc@vger.kernel.org>, <linux-mtd@lists.infradead.org>,
-	<netdev@vger.kernel.org>, <linux-wireless@vger.kernel.org>,
-	<linux-pci@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
-	<linux-phy@lists.infradead.org>, <linux-gpio@vger.kernel.org>,
-	<platform-driver-x86@vger.kernel.org>, <linux-staging@lists.linux.dev>,
-	<linux-usb@vger.kernel.org>, <linux-fbdev@vger.kernel.org>,
-	<linux-bcachefs@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
-	<cgroups@vger.kernel.org>, <linux-trace-kernel@vger.kernel.org>,
-	<linux-mm@kvack.org>, <apparmor@lists.ubuntu.com>,
-	<linux-security-module@vger.kernel.org>, <linux-integrity@vger.kernel.org>,
-	<alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>
-CC: Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin
-	<npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, "Naveen
- N. Rao" <naveen.n.rao@linux.ibm.com>, Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
-	<dave.hansen@linux.intel.com>, <x86@kernel.org>, "H. Peter Anvin"
-	<hpa@zytor.com>, David Howells <dhowells@redhat.com>, "David S. Miller"
-	<davem@davemloft.net>, "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown
-	<lenb@kernel.org>, Sergey Shtylyov <s.shtylyov@omp.ru>, Damien Le Moal
-	<dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>, Daniel Scally
-	<djrscally@gmail.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, Michael
- Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Florian
- Fainelli <florian.fainelli@broadcom.com>, Ray Jui <rjui@broadcom.com>, Scott
- Branden <sbranden@broadcom.com>, Broadcom internal kernel review list
-	<bcm-kernel-feedback-list@broadcom.com>, Heiko Stuebner <heiko@sntech.de>,
-	Peter De Schrijver <pdeschrijver@nvidia.com>, Prashant Gaikwad
-	<pgaikwad@nvidia.com>, Thierry Reding <thierry.reding@gmail.com>, Jonathan
- Hunter <jonathanh@nvidia.com>, Huang Rui <ray.huang@amd.com>, "Gautham R.
- Shenoy" <gautham.shenoy@amd.com>, Mario Limonciello
-	<mario.limonciello@amd.com>, Viresh Kumar <viresh.kumar@linaro.org>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
-	<mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
-	<airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Jani Nikula
-	<jani.nikula@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, Joonas
- Lahtinen <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin
-	<tursulin@ursulin.net>, Karol Herbst <kherbst@redhat.com>, Lyude Paul
-	<lyude@redhat.com>, Danilo Krummrich <dakr@redhat.com>, Jean Delvare
-	<jdelvare@suse.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Pavel Machek <pavel@ucw.cz>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
-	<jernej.skrabec@gmail.com>, Tony Lindgren <tony@atomide.com>, Adrian Hunter
-	<adrian.hunter@intel.com>, Hu Ziji <huziji@marvell.com>, Ulf Hansson
-	<ulf.hansson@linaro.org>, Miquel Raynal <miquel.raynal@bootlin.com>, Richard
- Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, Potnuri
- Bharat Teja <bharat@chelsio.com>, Eric Dumazet <edumazet@google.com>, Jakub
- Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Miri Korenblit
-	<miriam.rachel.korenblit@intel.com>, Kalle Valo <kvalo@kernel.org>, Mahesh J
- Salgaonkar <mahesh@linux.ibm.com>, Oliver O'Halloran <oohall@gmail.com>,
-	Kishon Vijay Abraham I <kishon@kernel.org>, Matthias Brugger
-	<matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
-	<angelogioacchino.delregno@collabora.com>, JC Kuo <jckuo@nvidia.com>, Andrew
- Lunn <andrew@lunn.ch>, Gregory Clement <gregory.clement@bootlin.com>,
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Sebastian Reichel
-	<sre@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui
-	<rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, Thinh Nguyen
-	<Thinh.Nguyen@synopsys.com>, Helge Deller <deller@gmx.de>, Brian Foster
-	<bfoster@redhat.com>, Tejun Heo <tj@kernel.org>, Zefan Li
-	<lizefan.x@bytedance.com>, Johannes Weiner <hannes@cmpxchg.org>, Peter
- Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, Vincent
- Guittot <vincent.guittot@linaro.org>, Dietmar Eggemann
-	<dietmar.eggemann@arm.com>, Ben Segall <bsegall@google.com>, Mel Gorman
-	<mgorman@suse.de>, Daniel Bristot de Oliveira <bristot@redhat.com>, Valentin
- Schneider <vschneid@redhat.com>, Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Jason Baron
-	<jbaron@akamai.com>, Jim Cromie <jim.cromie@gmail.com>, Paul Moore
-	<paul@paul-moore.com>, James Morris <jmorris@namei.org>, "Serge E. Hallyn"
-	<serge@hallyn.com>, Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, Clemens
- Ladisch <clemens@ladisch.de>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
-	<tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>, Linus Torvalds
-	<torvalds@linux-foundation.org>
-References: <20240603211538.289765-1-andriy.shevchenko@linux.intel.com>
-From: Zhihao Cheng <chengzhihao1@huawei.com>
-Message-ID: <a6cff4d3-821a-3723-b261-3699053b5a51@huawei.com>
-Date: Tue, 4 Jun 2024 09:37:50 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+	s=arc-20240116; t=1717478141; c=relaxed/simple;
+	bh=D6Si2bEd/gJd1CSLAqajZQzPBLVMC2TuZsR1YACoGVo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=cIDWSj9agiso7/FYmmmWKBPlNcp6ICzb7cOcwV2Wexa7JUJeVs44NSCKdhYxJF01dAK05p2yub4mXlqveBF3q13cnMAUTUr6YHF6Kv1xRvqWAU3ONGWzZPCIZJ3Kbcj62NXG2POw6lD5KW0/Cn0xu2C0IKce4HbmsXTm+79mo1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H1HwkLM3; arc=none smtp.client-ip=209.85.208.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H1HwkLM3"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-57a7dc13aabso553462a12.0
+        for <linux-staging@lists.linux.dev>; Mon, 03 Jun 2024 22:15:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1717478138; x=1718082938; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2KFwSuk79X9DX5w/ku6Z9rjU54vKlCO06+DBoLY9A3Y=;
+        b=H1HwkLM33WH3767XmS9THSXwQuLgYkf8liEXrXWli5i+vJgcXAx74UFmsCUMruv/uf
+         ySeCFLjadDj05UEHfSRas43G4n8oq3fE+C1RN+mSAbrpvEZDJpf2KoVHRDMvgnEa4GVw
+         szzv+Zy5zLLFimN4GOpRdw5rxq//DgmTspJ0V7qs1zWF+dG/6JuNpxJzo3liL4YXLS83
+         c9u5YEJkWB/u5+l4/VKg3QLzsUkG9XStudu2l6anmzOzvmzxv7N0Ar5ZR2v70NfLXw8c
+         /YPMn5zjaQxBE/RYDMhTgWn10AGI72rout9kK+HPjwegR8zyRdFBjRFe0Ql7l8cbx9sD
+         PaMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717478138; x=1718082938;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2KFwSuk79X9DX5w/ku6Z9rjU54vKlCO06+DBoLY9A3Y=;
+        b=pKL/kJZEqpqTjPuBSlfpffw6EeH5NdYbRKXMq/EOU+7QRVrnn8ecrEOQpT6tDLbwb7
+         o50vByLra0BPacrCZ3KL/sJpwEKAIw+/yIKSkY1Kv/cR7tQNpDC2yuO+QVweEbPM/H+E
+         Fnq4JhnWdiYqsF78uQdoEtBeroVS5ovZjlokW+DkzHcIihBZUnK7cclY3XtkbvcLTAPV
+         gzGz27KUDkiDKSrLRQeG9e0D69bqBlu2HVSUOxX1zxDqVYu3ZzAvvyYhqyV6N7Y65wyx
+         fUQMwPWZyjPivcYTWptGEPlqEtvfzbmLF8eVxeMcFMcegZeP+1/KXksZ51V2cgImr/UR
+         grzQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVveFP3KV4mcHu0VB/TFuqrUZWdIQu6vAhrcgpgd3ftj/JvsQcaKz3TIS+iI+kQ83kmK4jFk28X/0s7SLcC5ASew6lOsAW9j4itc0M2ag==
+X-Gm-Message-State: AOJu0Yz+WGJtVj8pmUwFfCT+I0h22Q6tGwjUXZ6NPMknrfMbV7KBWTKP
+	ILh40owY8DvtCptnLPN3jedAzb5CZbSq2kHuCcpr5U1VZPGfS9Fm
+X-Google-Smtp-Source: AGHT+IELwPjYkPPMjx/cOlLOkJTKS9byWM4fjPErh9dLotwDfRJJOfxB6eikJGAPgwJevRJtlecYGA==
+X-Received: by 2002:a17:907:970e:b0:a69:228:8a6e with SMTP id a640c23a62f3a-a690228939dmr370899266b.44.1717478138040;
+        Mon, 03 Jun 2024 22:15:38 -0700 (PDT)
+Received: from toolbox.. ([87.200.95.144])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a68afbaac03sm451896566b.149.2024.06.03.22.15.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Jun 2024 22:15:37 -0700 (PDT)
+From: Christian Hewitt <christianshewitt@gmail.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	linux-media@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Cc: Christian Hewitt <christianshewitt@gmail.com>
+Subject: [PATCH 1/2] dt-bindings: media: amlogic,gx-vdec: add the GXLX SoC family and update GXL
+Date: Tue,  4 Jun 2024 05:15:32 +0000
+Message-Id: <20240604051533.3312944-1-christianshewitt@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20240603211538.289765-1-andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset="gbk"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- kwepemm600013.china.huawei.com (7.193.23.68)
 
-ÔÚ 2024/6/2 23:57, Andy Shevchenko Ð´µÀ:
-> Make two APIs look similar. Hence convert match_string() to be
-> a 2-argument macro. In order to avoid unneeded churn, convert
-> all users as well. There is no functional change intended.
-> 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
-> 
-> Compile tested with `make allyesconfig` and `make allmodconfig`
-> on x86_64, arm, aarch64, powerpc64 (8 builds total).
-> 
+The GXLX SoC is a GXL variant that omits VP9 codec support. Also add S905W
+and S905Y as GXL chips and sort the GXL comment.
 
-[...]
-> diff --git a/fs/ubifs/auth.c b/fs/ubifs/auth.c
-> index a4a0158f712d..fc0da18bfa65 100644
-> --- a/fs/ubifs/auth.c
-> +++ b/fs/ubifs/auth.c
-> @@ -264,13 +264,13 @@ int ubifs_init_authentication(struct ubifs_info *c)
->   		return -EINVAL;
->   	}
->   
-> -	c->auth_hash_algo = match_string(hash_algo_name, HASH_ALGO__LAST,
-> -					 c->auth_hash_name);
-> -	if ((int)c->auth_hash_algo < 0) {
-> +	err = __match_string(hash_algo_name, HASH_ALGO__LAST, c->auth_hash_name);
-> +	if (err < 0) {
->   		ubifs_err(c, "Unknown hash algo %s specified",
->   			  c->auth_hash_name);
-> -		return -EINVAL;
-> +		return err;
->   	}
-> +	c->auth_hash_algo = err;
->   
->   	snprintf(hmac_name, CRYPTO_MAX_ALG_NAME, "hmac(%s)",
->   		 c->auth_hash_name);
+Signed-off-by: Christian Hewitt <christianshewitt@gmail.com>
+---
+ Documentation/devicetree/bindings/media/amlogic,gx-vdec.yaml | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Reviewed-by: Zhihao Cheng <chengzhihao1@huawei.com>  # fs/ubifs
+diff --git a/Documentation/devicetree/bindings/media/amlogic,gx-vdec.yaml b/Documentation/devicetree/bindings/media/amlogic,gx-vdec.yaml
+index 55930f6107c9..47dce75aeae6 100644
+--- a/Documentation/devicetree/bindings/media/amlogic,gx-vdec.yaml
++++ b/Documentation/devicetree/bindings/media/amlogic,gx-vdec.yaml
+@@ -31,7 +31,8 @@ properties:
+       - items:
+           - enum:
+               - amlogic,gxbb-vdec # GXBB (S905)
+-              - amlogic,gxl-vdec # GXL (S905X, S905D)
++              - amlogic,gxl-vdec # GXL (S905D, S905W, S905X, S905Y)
++              - amlogic,gxlx-vdec # GXLX (S905L)
+               - amlogic,gxm-vdec # GXM (S912)
+           - const: amlogic,gx-vdec
+       - enum:
+-- 
+2.34.1
+
