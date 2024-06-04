@@ -1,38 +1,38 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED7BC13DDAA
-	for <linux-staging@lists.linux.dev>; Tue,  4 Jun 2024 17:29:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A9E213E030
+	for <linux-staging@lists.linux.dev>; Tue,  4 Jun 2024 17:29:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717522175; cv=none; b=bYsUPqxRkdFFMhDrstCBLyvFlsMkY2O8ig6ZIk2CvBAd+H+jyHrhQ+IdS/rzSDgS5786GZPFw8RXHg4WvJOg/cXggDAeW4jZ5xmwM1UOMhAX0OlXq6KM2amSQKUdaCGGfZVOk0wEpiO9r+2uj+iDbUiZhkEmy0uBzt/ab+3OeKI=
+	t=1717522176; cv=none; b=uL7rcMwWQ1iNfiXwdd+1BN+OtlG8Hq0Pu65gB3AIIn8mWxY7Hfj5PTG0Z0UWBmES2u5vL3h0HLQrCqIANICiMea5/2jlwp8RDtlWDL5JyWXDUgsGq3LsthN7vxdyft4gcoi0C478cxYpEkefaRDXv8takmNIvTOmuQBvryMfwWo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717522175; c=relaxed/simple;
-	bh=JXNWA+ubrBbGTGHQ3fiyooas53vWpW1tnxzWy0QUOu0=;
+	s=arc-20240116; t=1717522176; c=relaxed/simple;
+	bh=1yaaAonmHYsrNmTOdysB/NhX4wSvO3EgV0FZO/K/sTQ=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=uQIJ14nuaCQwznlzEFjyVUdN1w6UfZp2NCW2Y9IQbqubgbUTTsBb7PfJjqPMB6z6Z/CBVDYcPHSYnBSxU1VF1KgDYU1P+s7lVu7rxZhRZtV5NgyuEDYvfv1YO4JDpWfWuDf5swNl/RcXd3NbP3Qpvwl1mgMThdgFmxPZHFWvoHA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=bmfXTvai; arc=none smtp.client-ip=212.227.17.20
+	 MIME-Version; b=SYnGRsQhIaSw0MQX8CmTNGQTrHXJzwZYguKa8jznOSEIbL9myqzd7YicuK4jkdSVq15BcG4CLsicZOhYZVcFqWjD1WZxvIOu14M4n7d7GuMD4+hyzRcfAwAjr8JvWQzy5iS8Z79JLyookhws/6rPcAynUK0eICL0YiU0rQLX3Lw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=cvVlNEDK; arc=none smtp.client-ip=212.227.17.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="bmfXTvai"
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="cvVlNEDK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
-	s=s31663417; t=1717522164; x=1718126964; i=wahrenst@gmx.net;
-	bh=cPi4YOg3++c1NzBOCaXmqdHTfRwQCOT+4zrHxzV2j+c=;
+	s=s31663417; t=1717522165; x=1718126965; i=wahrenst@gmx.net;
+	bh=Rfry0NXDm1gI1wrMbe/CMHPe2LIMDEs/iZcoJxyMFUI=;
 	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:In-Reply-To:
 	 References:MIME-Version:Content-Transfer-Encoding:cc:
 	 content-transfer-encoding:content-type:date:from:message-id:
 	 mime-version:reply-to:subject:to;
-	b=bmfXTvai81PvpmoP8rkg4jrwBW2Kl6rgJmzSJBwTsXvBTdxTmH9411uxjNFcUlIg
-	 9sBVKUUeL+Qc/Ya/e1DYtCK1BQJvZV/kmJWo3WZM0Cj6gOeD4FsKNYpS+oVl/e1QQ
-	 h2EGaZWg+/vJUyCFTp0jazJD8Ya6tEgTlDVSo6xMeyf6Fa4aIebgHAvpvqW4jBJY3
-	 fsVBW7ATnA/HwrttOKgEFusqoMBHYP3xL8cBtGTiEC2csD2kWPRNRvyaWqIEmZJZ0
-	 vu98oWuUvUAXZBfsurT6UvGczoziZs2O/ruEXtJjEkB65zLRRQ7bDmmAf3F8KnXTE
-	 sHybU2irHDlwu5Ft8Q==
+	b=cvVlNEDKvi2Q5RqimCm0SkcC+jXYTPm4JPh+RrQqxhspd1YQ0Aq2Xbo3lyy8YEkY
+	 Mg9lcdsQIvL+L4R4Aug/ysrLknrvUz0dOmMnEbQOfZ8CBA14qGmZMGgLXZrYmrhV7
+	 4gxZzLyy7KBWvD1HchqmulZt2hB1LRwPuHuRgw5dlv1vZlJetbTF1JBUYxxMmQjHi
+	 T3JCAT47TXA09YL8M8M4LU0VwS1ep28k0F0+oLrQOVfUnrMW3QNL+icrRk/eUrPSn
+	 ZtURP/ZEb+l/4wSV/WH7ygZvDGeAn4Gk7Dipe/6ScmDNyocASyMr0QNYVPSMB7Scx
+	 UbzmvYpag8AQe3NZpg==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from stefanw-SCHENKER ([37.4.248.43]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MXp5Q-1ry1960ieS-00VA3t; Tue, 04
- Jun 2024 19:29:24 +0200
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1N7zFj-1sZq4M1M6l-01857O; Tue, 04
+ Jun 2024 19:29:25 +0200
 From: Stefan Wahren <wahrenst@gmx.net>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Florian Fainelli <florian.fainelli@broadcom.com>
@@ -40,10 +40,11 @@ Cc: Umang Jain <umang.jain@ideasonboard.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	linux-staging@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
+	Phil Elwell <phil@raspberrypi.com>,
 	Stefan Wahren <wahrenst@gmx.net>
-Subject: [PATCH 05/11] staging: vchiq_arm: Get the rid off struct vchiq_2835_state
-Date: Tue,  4 Jun 2024 19:28:58 +0200
-Message-Id: <20240604172904.61613-6-wahrenst@gmx.net>
+Subject: [PATCH 08/11] staging: vchiq_core: Add comments to mutex/spinlocks
+Date: Tue,  4 Jun 2024 19:29:01 +0200
+Message-Id: <20240604172904.61613-9-wahrenst@gmx.net>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240604172904.61613-1-wahrenst@gmx.net>
 References: <20240604172904.61613-1-wahrenst@gmx.net>
@@ -54,91 +55,83 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:Y201S/auoNhGuy1Zdhgan48f7+dU9nXqYq/STRvIFilo6dSWN0b
- IZXbfFXTWwIRurufUh75bEmSJhTXu3/jB+3jNFUstQm743WLqqInIDCwbN2XEK49uVgH6Ik
- /WVIICPuUI42pbrWlJTikJSxzfaf/pskGHXLM5PwfhUtmKtj72VrWXi+vweGzwi8IFYMHvn
- jMo1j8JGqEwt2FKygzHQg==
+X-Provags-ID: V03:K1:1GYyFfrK1UIOo9UDgccMzFEDbhAkCS6WELbwpYOASjPgzxulI9j
+ AS8NOL7esJnmUBLN4RuNU1kiwH8KUxO5WLW2IXfcR9t+zv/08ws5hF37MBGYZXT+fRX7NVC
+ OmveHThI5j7S/fR6u5mlv4qFR/CcOxgxG+we4Mv8oXrBC+Guu/rc8ZZcGUa8kM/53wH++J6
+ o81GDmjopDfYn9Vh8whNQ==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:cp8TfH8WKaE=;3o+TwRnRIoUkhMqvaVvV2peoyY5
- 0++BRiKOPyWyChPDpJJoKMo5WYKOWbhmm83tjnFzriuFDSmxl71HJB7F9LWM7tNwu5oQYB4/t
- Qn4+pnLK0roZIfaUBNM3FXo13YfF/4fvRb5KyIqPXzFAHe4cAX+yBlRSi7n8/wG5e5J6cCsLz
- sa0EPuf6OF/Vsv4GdEgpEj6no1IbUfZPitOwURIznoRVxjzoyWoxegMKSDob+abxMkaADLugi
- BPtWHpseXvtmQyRt1tIZCN37b1Ukrleeb1vLNDyKUkWskezBTgLLgyEJKyOFWPMH7bATS11YD
- +dFKFdjFxoz90+WN/Mq61lGw12lCqak2uYMa4LfFcIHm7ocDiGR8Q3HXaDSId4SZwZgb7k08D
- c4U/s0L+JoobmUtABnYpET+LKZotskhnfucPUzahT/OM8HoTwQBcCcOd/2R2yybOMPdjW6kv7
- URu+k3/45z86NOrwqdx2xBdZ3WWnv+zXG6QIdIdoGwGj4v6RceQBGjGUh8DfYXm1GDPeACe3o
- o5pwbx85ImX3BJLPnaHsU5c+xV22xZiM20Ff49I+usufIiujDPG2VAYI6zu6TSJc7AlAePz1Q
- pVSYOinYa0VcpNyZu6Zotqbo5C4SSnNHxcoa2faoTRU4BxRs4ZVUQdqpIuqKJErLPmJ5dPBOr
- waKD2D0ha3Efvoz1s2t7DJuL66yKd1y4lofPT7UjhhGBq1xWhNX1PF1aWNSCc6QYpgqtCETu3
- ap2AArZ22uCsQo2T6L8c6Ug7OA43TRdCH1e2Xi/8xBK7v9B/ky8rGXMBALEOqdy03jWeYnEny
- ODQSvtYrIp/HJjaveCMXLIFsV+wOuBy0tRoSLEbeLux+0=
+UI-OutboundReport: notjunk:1;M01:P0:xfwWQuTnG7U=;Bjx5uWH5WBW6qPqLclv0AJ8aWGh
+ b5Q4JVia+tkKrM2fyZV7HKpRgYFy1xsUk/huh9FNDffiOft5ocFJINle1M5uN07SuDYOX938d
+ gnG7ZKqptm/LK8oQ1tA88ZjJZmMGKrMW4sQ3TQG72ISfr7/+SvyFlacBq0Bnv9Pz9Jl5eS6yc
+ zOZqmcDYQiLZPhRWh1lQUDdGECboRrsVIY0r62kP7Hjlkdo4ikJwTPHH951/LG5RSzKLqIl00
+ 9Pm9h6dX4A7238SjSGs/gMTeQdJAhbFAMh8z7+tH0PeXbaTiLNEjjtTut6ZUqUwKOnw0oPmcM
+ RDrkzTOToiDW59uctY0s9NfylCqjwv4OQHH/kTYwQG4GPFompcg4j8dd+QTsOSeR0HAn86vGz
+ 1WLxzuNmTM/6GnfKAJEShcNLvveGwJPie7IpCUQdIv6bsrnw3UmMoB9/G0it56tZFDFmS1qzv
+ DLJPKsyKIGsNYAPN+xNAD1QgaDWk/eNYrNx57IH6UXLWqx600PPOA7G7nbcx1bwFxHXHj9NXm
+ C1vZ9hMr10M3NQ2MKdXP21M27DC44lRmObVPvkUBy+CEl7kpO3iyeoM00irBOkMbx/B6LSyjB
+ NxWrVmDzeUOnb1awlgDSNkLVlL2E9vAkdxqsToIuHs+MjH0SB+lAW8/N8f6UGZGLMF4HSo7tU
+ JP2sH2xRv86S5jR9W3gW+oou2538Rf7mUQ63J4E6ilzdfAJJct0vH8uWrdxabzQUWFPJCwjy2
+ 826IU+DvZGEmkfOZSARbbvVCY2bSoK5N6nNTDjII+775rbgNwrgu8pR5nsyL4gaNVspQNwTDx
+ th89u4/mfIv4tRRyB9pZuTS3y5GPgmIm3E/6lv4B2qcx4=
 
-The whole benefit of this encapsulating struct is questionable.
-It just stores a flag to signalize the init state of vchiq_arm_state.
-Beside the fact this flag is set too soon, the access to uninitialized
-members should be avoided per design. So initialize vchiq_arm_state
-properly before assign it directly to vchiq_state.
+From: Phil Elwell <phil@raspberrypi.com>
 
+checkpatch.pl complains about missing comments at
+mutex/spinlock definitions. So add them accordingly.
+
+Link: https://github.com/raspberrypi/linux/pull/6139/
+Signed-off-by: Phil Elwell <phil@raspberrypi.com>
 Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
 =2D--
- .../interface/vchiq_arm/vchiq_arm.c           | 25 +++++--------------
- 1 file changed, 6 insertions(+), 19 deletions(-)
+ .../vc04_services/interface/vchiq_arm/vchiq_core.h     | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c=
- b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-index 515cdcba043d..98a0b2d52af5 100644
-=2D-- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-@@ -109,11 +109,6 @@ struct vchiq_arm_state {
- 	int first_connect;
- };
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.=
+h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
+index 3c7a6838ddba..3abcd6910f25 100644
+=2D-- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
+@@ -196,6 +196,8 @@ struct vchiq_service {
 
--struct vchiq_2835_state {
--	int inited;
--	struct vchiq_arm_state arm_state;
--};
--
- struct vchiq_pagelist_info {
- 	struct pagelist *pagelist;
- 	size_t pagelist_buffer_size;
-@@ -613,29 +608,21 @@ vchiq_arm_init_state(struct vchiq_state *state,
- int
- vchiq_platform_init_state(struct vchiq_state *state)
- {
--	struct vchiq_2835_state *platform_state;
-+	struct vchiq_arm_state *platform_state;
+ 	struct completion remove_event;
+ 	struct completion bulk_remove_event;
++
++	/* Serialise access to the bulk transfer queues */
+ 	struct mutex bulk_mutex;
 
--	state->platform_state =3D kzalloc(sizeof(*platform_state), GFP_KERNEL);
--	if (!state->platform_state)
-+	platform_state =3D kzalloc(sizeof(*platform_state), GFP_KERNEL);
-+	if (!platform_state)
- 		return -ENOMEM;
+ 	struct service_stats_struct {
+@@ -312,7 +314,7 @@ struct vchiq_state {
+ 	/* Event indicating connect message received */
+ 	struct completion connect;
 
--	platform_state =3D (struct vchiq_2835_state *)state->platform_state;
--
--	platform_state->inited =3D 1;
--	vchiq_arm_init_state(state, &platform_state->arm_state);
-+	vchiq_arm_init_state(state, platform_state);
-+	state->platform_state =3D (struct opaque_platform_state *)platform_state=
-;
+-	/* Mutex protecting services */
++	/* Mutex protecting service creation */
+ 	struct mutex mutex;
+ 	struct vchiq_instance **instance;
 
- 	return 0;
- }
+@@ -341,16 +343,22 @@ struct vchiq_state {
+ 	char *rx_data;
+ 	struct vchiq_slot_info *rx_info;
 
- static struct vchiq_arm_state *vchiq_platform_get_arm_state(struct vchiq_=
-state *state)
- {
--	struct vchiq_2835_state *platform_state;
--
--	platform_state   =3D (struct vchiq_2835_state *)state->platform_state;
--
--	WARN_ON_ONCE(!platform_state->inited);
--
--	return &platform_state->arm_state;
-+	return (struct vchiq_arm_state *)state->platform_state;
- }
++	/* Serialise access to the main message slots */
+ 	struct mutex slot_mutex;
 
- void
++	/* Serialise slot refcount updates */
+ 	struct mutex recycle_mutex;
+
++	/* Serialise access to the single synchronous message slot */
+ 	struct mutex sync_mutex;
+
++	/* Serialise access to the message queues to userspace */
+ 	spinlock_t msg_queue_spinlock;
+
++	/* Serialise completion of blocking transfers */
+ 	spinlock_t bulk_waiter_spinlock;
+
++	/* Serialise updates to slot quota data */
+ 	spinlock_t quota_spinlock;
+
+ 	/*
 =2D-
 2.34.1
 
