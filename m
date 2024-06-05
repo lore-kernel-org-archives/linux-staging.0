@@ -1,43 +1,42 @@
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78645190490
-	for <linux-staging@lists.linux.dev>; Wed,  5 Jun 2024 07:07:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E2CA13F425
+	for <linux-staging@lists.linux.dev>; Wed,  5 Jun 2024 07:08:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717571267; cv=none; b=to+rwR+sMcC9ZsKtixBR46/2z5qGM5Cf/dYf1Z4KoJSaB3lElMWBQ9crZqKg/9MDOtepc9S849lTS9xcJw4YTNRuCSfU3pdm2Ff5z2aPPn1wxfNmGweU2RDpfjcJog8OGLYg1lQ9t4yaReSS/vKeTQ19SXe+flgvs/fAY97EKv8=
+	t=1717571330; cv=none; b=uBQCLu3Fb7nUt4CqmQN51bMJtGBvTC4pl1Xb2r/Qh0BiRv+tRIPdnNXD9+GdVQafZvE5lRHjOH8LB4IoP4PhYNx6qfRNFE8s1TguSL3yw045CSOUeGI3KoEsyjKtZELppyFNCej8yfm/FdxA8WEdIL11aoeQ5foyQNDjYDaG/Ds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717571267; c=relaxed/simple;
-	bh=s4lo2D5CYmFDoqgh8iknfXx2tNx870WfNaMcRm1qgTk=;
+	s=arc-20240116; t=1717571330; c=relaxed/simple;
+	bh=HWAYXHPhgPpcmgh/5gPuvaPPXgphUbzczsAXDQJ5gLs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RKyIgNsBNXj+GA+Ic4kWVwFzMePZopkrt8K79mC3w7dR0IFSC89ssi0tEwbq1kDBidNAXnx1bY2qudgLVBpi5e23GqWLQPaB/0uzeyg8WDUuBc4flZj7/QGIv8EGhL0oKrekCfT3nVBcwUTeZr6GZxbZrgr2CxxAbt9MBsM4e54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=fEHVc98G; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=LUuaLNmp2l+HHHgfiGuDZW8iQHg8A3peYzVTf+KDipfqWvsEh+/OXixvuLFFa/dWRllkFS3jWyyG4j0VVHo+EjaFnvQi4qJFUYrqXVH1s7S2LeCcs1iPx4ouU0pz148SZvutFT906QGeLiWb0zTWGnmnGYO24rAyxk+hImYVFGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=fbYKg56y; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="fEHVc98G"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="fbYKg56y"
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 74EB8BEB;
-	Wed,  5 Jun 2024 09:07:35 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 35821BEB;
+	Wed,  5 Jun 2024 09:08:39 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1717571255;
-	bh=s4lo2D5CYmFDoqgh8iknfXx2tNx870WfNaMcRm1qgTk=;
+	s=mail; t=1717571319;
+	bh=HWAYXHPhgPpcmgh/5gPuvaPPXgphUbzczsAXDQJ5gLs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fEHVc98GdE4/9890K1uDlywybXNfBxTgWyfR5pXYdFNhG2hg1ISQ49UXpF7h9cQPr
-	 9ngtLLLIeL08QzWWMVa+nyySy16JA42ZQWtYcXGbEhX9bWLekjCfTyolKrLM7FRcUF
-	 cBxiz4ZzkMUxBp9z5uvH6oqMRS/A5LRQMzCn3E2A=
-Date: Wed, 5 Jun 2024 10:07:27 +0300
+	b=fbYKg56y2FgD5yZSsguM9nFhkKAKom98Zjh2X2e0vUlqbvHupyikWUIr7SRcW19bd
+	 wie6P+0o6sjpQyUkliSKUazBwiziwtk6H09ajTeOBQBxPZgbLvYV2FVzUFOUU84u+v
+	 dRRlWROs3tL/rKtZpT7+OflmOvft+NfP/3TlVJzk=
+Date: Wed, 5 Jun 2024 10:08:31 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Stefan Wahren <wahrenst@gmx.net>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Florian Fainelli <florian.fainelli@broadcom.com>,
 	Umang Jain <umang.jain@ideasonboard.com>,
 	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 07/11] staging: vchiq_arm: Reduce indentation of
- service_callback
-Message-ID: <20240605070727.GA3488@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 06/11] staging: vchiq_arm: Drop vchiq_arm_init_state
+Message-ID: <20240605070831.GB3488@pendragon.ideasonboard.com>
 References: <20240604172904.61613-1-wahrenst@gmx.net>
- <20240604172904.61613-8-wahrenst@gmx.net>
+ <20240604172904.61613-7-wahrenst@gmx.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -46,159 +45,69 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240604172904.61613-8-wahrenst@gmx.net>
+In-Reply-To: <20240604172904.61613-7-wahrenst@gmx.net>
 
 Hi Stefan,
 
 Thank you for the patch.
 
-On Tue, Jun 04, 2024 at 07:29:00PM +0200, Stefan Wahren wrote:
-> The service_callback has 5 levels of indentation, which makes it
-> hard to read. Reduce this by using a goto for the corner cases
-> (no header or VCHI service).
-
-I think the goto isn't very nice. Could you instead try to split code to
-a separate function ? That should do a better job at improve
-readability.
-
+On Tue, Jun 04, 2024 at 07:28:59PM +0200, Stefan Wahren wrote:
+> After removal of struct vchiq_2835_state, the init of vchiq_arm_state
+> can be simplified by doing it directly within vchiq_platform_init_state.
+> 
 > Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
 > ---
->  .../interface/vchiq_arm/vchiq_arm.c           | 111 +++++++++---------
->  1 file changed, 57 insertions(+), 54 deletions(-)
+>  .../interface/vchiq_arm/vchiq_arm.c           | 27 +++++++------------
+>  1 file changed, 9 insertions(+), 18 deletions(-)
 > 
 > diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> index 45acca670bbd..0055c7d7e617 100644
+> index 98a0b2d52af5..45acca670bbd 100644
 > --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
 > +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> @@ -1101,71 +1101,74 @@ service_callback(struct vchiq_instance *instance, enum vchiq_reason reason,
->  		user_service, service->localport, user_service->userdata,
->  		reason, header, instance, bulk_userdata);
+> @@ -588,23 +588,6 @@ static int vchiq_platform_init(struct platform_device *pdev, struct vchiq_state
+>  	return 0;
+>  }
 > 
-> -	if (header && user_service->is_vchi) {
-> -		spin_lock(&service->state->msg_queue_spinlock);
-> -		while (user_service->msg_insert ==
-> -			(user_service->msg_remove + MSG_QUEUE_SIZE)) {
-> -			spin_unlock(&service->state->msg_queue_spinlock);
-> -			DEBUG_TRACE(SERVICE_CALLBACK_LINE);
-> -			DEBUG_COUNT(MSG_QUEUE_FULL_COUNT);
-> -			dev_dbg(service->state->dev, "arm: msg queue full\n");
-> -			/*
-> -			 * If there is no MESSAGE_AVAILABLE in the completion
-> -			 * queue, add one
-> -			 */
-> -			if ((user_service->message_available_pos -
-> -				instance->completion_remove) < 0) {
-> -				int status;
+> -static void
+> -vchiq_arm_init_state(struct vchiq_state *state,
+> -		     struct vchiq_arm_state *arm_state)
+> -{
+> -	if (arm_state) {
+> -		rwlock_init(&arm_state->susp_res_lock);
 > -
-> -				dev_dbg(instance->state->dev,
-> -					"arm: Inserting extra MESSAGE_AVAILABLE\n");
-> -				DEBUG_TRACE(SERVICE_CALLBACK_LINE);
-> -				status = add_completion(instance, reason, NULL, user_service,
-> -							bulk_userdata);
-> -				if (status) {
-> -					DEBUG_TRACE(SERVICE_CALLBACK_LINE);
-> -					vchiq_service_put(service);
-> -					return status;
-> -				}
-> -			}
-> +	if (!header || !user_service->is_vchi)
-> +		goto service_put;
-> +
-> +	spin_lock(&service->state->msg_queue_spinlock);
-> +	while (user_service->msg_insert ==
-> +		(user_service->msg_remove + MSG_QUEUE_SIZE)) {
-> +		spin_unlock(&service->state->msg_queue_spinlock);
-> +		DEBUG_TRACE(SERVICE_CALLBACK_LINE);
-> +		DEBUG_COUNT(MSG_QUEUE_FULL_COUNT);
-> +		dev_dbg(service->state->dev, "arm: msg queue full\n");
-> +		/*
-> +		 * If there is no MESSAGE_AVAILABLE in the completion
-> +		 * queue, add one
-> +		 */
-> +		if ((user_service->message_available_pos -
-> +			instance->completion_remove) < 0) {
-> +			int status;
-> 
-> +			dev_dbg(instance->state->dev,
-> +				"arm: Inserting extra MESSAGE_AVAILABLE\n");
->  			DEBUG_TRACE(SERVICE_CALLBACK_LINE);
-> -			if (wait_for_completion_interruptible(&user_service->remove_event)) {
-> -				dev_dbg(instance->state->dev, "arm: interrupted\n");
-> -				DEBUG_TRACE(SERVICE_CALLBACK_LINE);
-> -				vchiq_service_put(service);
-> -				return -EAGAIN;
-> -			} else if (instance->closing) {
-> -				dev_dbg(instance->state->dev, "arm: closing\n");
-> +			status = add_completion(instance, reason, NULL, user_service,
-> +						bulk_userdata);
-> +			if (status) {
->  				DEBUG_TRACE(SERVICE_CALLBACK_LINE);
->  				vchiq_service_put(service);
-> -				return -EINVAL;
-> +				return status;
->  			}
-> -			DEBUG_TRACE(SERVICE_CALLBACK_LINE);
-> -			spin_lock(&service->state->msg_queue_spinlock);
->  		}
-> 
-> -		user_service->msg_queue[user_service->msg_insert &
-> -			(MSG_QUEUE_SIZE - 1)] = header;
-> -		user_service->msg_insert++;
+> -		init_completion(&arm_state->ka_evt);
+> -		atomic_set(&arm_state->ka_use_count, 0);
+> -		atomic_set(&arm_state->ka_use_ack_count, 0);
+> -		atomic_set(&arm_state->ka_release_count, 0);
 > -
-> -		/*
-> -		 * If there is a thread waiting in DEQUEUE_MESSAGE, or if
-> -		 * there is a MESSAGE_AVAILABLE in the completion queue then
-> -		 * bypass the completion queue.
-> -		 */
-> -		if (((user_service->message_available_pos -
-> -			instance->completion_remove) >= 0) ||
-> -			user_service->dequeue_pending) {
-> -			user_service->dequeue_pending = 0;
-> -			skip_completion = true;
-> +		DEBUG_TRACE(SERVICE_CALLBACK_LINE);
-> +		if (wait_for_completion_interruptible(&user_service->remove_event)) {
-> +			dev_dbg(instance->state->dev, "arm: interrupted\n");
-> +			DEBUG_TRACE(SERVICE_CALLBACK_LINE);
-> +			vchiq_service_put(service);
-> +			return -EAGAIN;
-> +		} else if (instance->closing) {
-> +			dev_dbg(instance->state->dev, "arm: closing\n");
-> +			DEBUG_TRACE(SERVICE_CALLBACK_LINE);
-> +			vchiq_service_put(service);
-> +			return -EINVAL;
->  		}
-> +		DEBUG_TRACE(SERVICE_CALLBACK_LINE);
-> +		spin_lock(&service->state->msg_queue_spinlock);
-> +	}
+> -		arm_state->state = state;
+> -		arm_state->first_connect = 0;
+> -	}
+> -}
+> -
+>  int
+>  vchiq_platform_init_state(struct vchiq_state *state)
+>  {
+> @@ -614,7 +597,15 @@ vchiq_platform_init_state(struct vchiq_state *state)
+>  	if (!platform_state)
+>  		return -ENOMEM;
 > 
-> -		spin_unlock(&service->state->msg_queue_spinlock);
-> -		complete(&user_service->insert_event);
-> +	user_service->msg_queue[user_service->msg_insert &
-> +		(MSG_QUEUE_SIZE - 1)] = header;
-> +	user_service->msg_insert++;
+> -	vchiq_arm_init_state(state, platform_state);
+> +	rwlock_init(&platform_state->susp_res_lock);
+> +
+> +	init_completion(&platform_state->ka_evt);
+> +	atomic_set(&platform_state->ka_use_count, 0);
+> +	atomic_set(&platform_state->ka_use_ack_count, 0);
+> +	atomic_set(&platform_state->ka_release_count, 0);
+> +
+> +	platform_state->state = state;
+> +
+>  	state->platform_state = (struct opaque_platform_state *)platform_state;
 > 
-> -		header = NULL;
-> +	/*
-> +	 * If there is a thread waiting in DEQUEUE_MESSAGE, or if
-> +	 * there is a MESSAGE_AVAILABLE in the completion queue then
-> +	 * bypass the completion queue.
-> +	 */
-> +	if (((user_service->message_available_pos -
-> +		instance->completion_remove) >= 0) ||
-> +		user_service->dequeue_pending) {
-> +		user_service->dequeue_pending = 0;
-> +		skip_completion = true;
->  	}
-> +
-> +	spin_unlock(&service->state->msg_queue_spinlock);
-> +	complete(&user_service->insert_event);
-> +
-> +	header = NULL;
-> +
-> +service_put:
->  	DEBUG_TRACE(SERVICE_CALLBACK_LINE);
->  	vchiq_service_put(service);
-> 
+>  	return 0;
 
 -- 
 Regards,
