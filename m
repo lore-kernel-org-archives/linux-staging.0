@@ -1,124 +1,118 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2938721C185
-	for <linux-staging@lists.linux.dev>; Wed,  5 Jun 2024 07:16:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64C4618FC6B
+	for <linux-staging@lists.linux.dev>; Wed,  5 Jun 2024 10:02:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717571799; cv=none; b=OQSrMYY9KgGNAc/R4RmzB0U8s/4/YbJzI2IThhsZ5SfPXe2MDgavMotZ16VyhuBDZadZRJd/+Maahj4eGcNJTlBPHdNJgsqAb55z9uwDX+RnK0JMH/ZGyOCZkuK0bwxxbENsTsMIRPkRL4uVrkfPAVWeQO5HFDT38pqKy8BFzIU=
+	t=1717581779; cv=none; b=Btj7MyEvCPmlBDHxHEg5IPS9QQo8wJ8rHlX1d2k1Xr80TW+eeZYzlaXsLgGIHdnci1HHy2UYFWva1jTVNv0x/rPlqHe2BEYxOfhQmjREe/fPUxvzwe6xHYj3+elWyJR5J4Vh2jHG+hMU7Yh19YRT3cQZQhASELD6keaEVonFr6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717571799; c=relaxed/simple;
-	bh=1ESLAowMP1JRP9ka+WuhpLYX0ZkJUOoxoJbrwEM2aKU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g1U7YtbHzqOy/Pa1PqNjdCtw/PKSu4Ij+tfb8o1WpFvq5bZPEPMpjHoHZUDeqWNMy5nT1Fpv+TYumeNDS2ZTjOdTnQAVr9DmOkEbtXFKliDzQcrX3lDlhxrYBQRc2O7mcXOC2lmb7ODKGp4s0fgll/MUEOMv4IuC0/HcDegXams=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=c1TwfO/G; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1717581779; c=relaxed/simple;
+	bh=0RwbECn8vcjlTtm7BxJQTuls9p4CwH2DYz5zJSvpESE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=sBNayQrZ93CsgLYgzaMwESJenGuh3LEhnIaqaC0yDn7OlL8u2+W1nafjxKH79ZsefiPm1w3g96IX/VPDD7+sj//9YE1OwWn5n1DEE9e3UecrdyeMhc4o8/bL/FJXHUZDBkRSHvCdEirXoNuuY0w++/EA13h30cpClfVuAvvUenA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=PoBWlTMO; arc=none smtp.client-ip=212.227.17.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="c1TwfO/G"
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 29DA2BEB;
-	Wed,  5 Jun 2024 09:16:28 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1717571788;
-	bh=1ESLAowMP1JRP9ka+WuhpLYX0ZkJUOoxoJbrwEM2aKU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=c1TwfO/GAax7ct/52TTuN9exPeul25B1Cqi+Od6+JdFO1ijmlejuny4Fm/O7hqlGC
-	 Cn9jw2WDFKlDPqZBcx2wyKysk81Wq4jHilK/Y1lf6U+9VDM3SRr+EIrFf2r+H16VPE
-	 41xVYv0DRgj/VrevZ3NJ5oED+ahOOHMMwgjr+3Ts=
-Date: Wed, 5 Jun 2024 10:16:19 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Stefan Wahren <wahrenst@gmx.net>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 09/11] staging: vchiq: Move struct vchiq_config to vchiq.h
-Message-ID: <20240605071619.GI879@pendragon.ideasonboard.com>
-References: <20240604172904.61613-1-wahrenst@gmx.net>
- <20240604172904.61613-10-wahrenst@gmx.net>
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="PoBWlTMO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
+	s=s31663417; t=1717581762; x=1718186562; i=wahrenst@gmx.net;
+	bh=F/AW18Z/Du+YBfpGsTCFCEyHYtS3tCQhUz5kBxSHiXA=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=PoBWlTMOisME9QUYgwWz8t6+Ft6KaCHTJX42EVKdNrX97DR/i+c/6vIDjrH7puKI
+	 P0XnaVw56+Maz3A7BDzjmcDgRIi9TBIKeBsifq8x1epUzgojseI7AHmBEW0O8FJPg
+	 RyPwCYZDEE6Ki044GYtN9onu82Y/Y9ZvYVOjupgOg1IQI5VGvKuJ3oajyEX8/xLhJ
+	 T0Tx/kFiat+0CR3WAY5WyCWgRrfZY1YGZzN6/lgjM/kbk+V1JuKTJxXpPXZt9d9JU
+	 s8E0N9LKi2LuO9gxX+qlp/da0lf8BW+wmcICaXx2qSreiF6mHMkPJAOoOJs85e8sA
+	 W9f6qy1XLuqk+YGRNA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.127] ([37.4.248.43]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1N2mFY-1sR4Vq02Wa-01370F; Wed, 05
+ Jun 2024 12:02:42 +0200
+Message-ID: <d780ef1e-a712-4e83-aa0d-72c123b2e654@gmx.net>
+Date: Wed, 5 Jun 2024 12:02:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240604172904.61613-10-wahrenst@gmx.net>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 02/11] staging: vchiq_arm: Drop obsolete comment
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Umang Jain <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
+References: <20240604172904.61613-1-wahrenst@gmx.net>
+ <20240604172904.61613-3-wahrenst@gmx.net>
+ <20240605065253.GD879@pendragon.ideasonboard.com>
+Content-Language: en-US
+From: Stefan Wahren <wahrenst@gmx.net>
+In-Reply-To: <20240605065253.GD879@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:11K8rj5L6hASJ6cWjSZWiVz5/xVBxjy73rlv7+arbn5oDFYYmBN
+ VdRtKiOkdW9HvOjVnTXH2VfgvqsQtFRbhqL7Q4+U4MDccQFTbYMhlOzloybit3UI2GvlaDn
+ 1jG27SbnlJEkVQzq8qarHwVCik/Y3O9z2jcb+qIxM7tvpuYpC8uN9DHM1WPsK5kN43eRdcS
+ ksTmkKgGaoPUnkahHvWLQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:lC2YQoiKEXA=;z42pL0YPOqokUBwFaVGSVrbKHDD
+ K1epyXunWPP18QYVua26TI7r3nwxCusRllOJrmbwcsK0VC+p8QjqMwSOMXK1qT8mDgR7b9rY5
+ R66kAdZPkI+cX4t3vOBkBG6+SdibtJL3MBHlhbE67dSoajOjFvaYEPf1D4JgxvF/4Q47xBRfd
+ YHwG1iNm5/DpuVsM5i/gHkSceBlYSnwE3XJlmaN0NiZo1nPAJp+xeTXNfbMlYnYOYiJVn+um1
+ MCtcDB3YX5bLvpfhcujwt2WUhsyOtMq+44hNsMmFsWuXsfaC/hAisM8PKy3wqqo/LaxNv5L8b
+ ZZZ0SCuR2WsawKKE9Rg8BSmgUajgeIBNDPeaYgeXZy/AaIdIdYdgFUS0rFQl8W9ryfq8Nt+rx
+ qKiZxNgBoHHt8lqIC7Xfh1td3J2ae2w7hxaEkU/VgP01gmkwr3t4oCzY0KpIPe9AP+qXNQine
+ 6a+dsKlCD24isbbdVVYFoz29a1Z//0kgP7kPFDLPwL/5gkM/7qdmvLgZtSCIJvhiIW/qSXaC3
+ Ud9EEr5ozTGTnDM55Q/vE6a6nzdCo4mlZlsWPEfOBy8Dj157wMk+oTovtvs5U6rhFkRaB3nCz
+ Ixhb70NbFIBI6aU/02e4Js7izyMN+/6vRuOcvT/fIirYjg5XKyHr+u4ZAqJ3BlClKJBI8Y2Bh
+ 6DgXPgGPSpz37U4lRpWhlJNhxsZQldbo5DAKsPQcjHTM3hF6WrM83O3qOxwpunvD6KGxyQG+z
+ p5gYPo/JnobIzppfiF9mAZRGs9jZCUIJu4l73U/oPqb8rxiPBd3cTl40ZCK/9xtwTECtNRSKS
+ c9iRQjRQ/wiGTOAyyxZcwiVBIwvbCa7kI+LWv9HBOpvWo=
 
-Hi Stefan,
+Hi Laurent,
 
-Thank you for the patch.
+Am 05.06.24 um 08:52 schrieb Laurent Pinchart:
+> Hi Stefan,
+>
+> Thank you for the patch.
+>
+> On Tue, Jun 04, 2024 at 07:28:55PM +0200, Stefan Wahren wrote:
+>> The BUG_ON has been replaced with WARN_ON. So we can drop the
+>> comment.
+> Note https://lwn.net/Articles/969923/ :-)
+>
+> This being said, I think the comment can be dropped, regardless of
+> whether or not we drop the WARN_ON() later.
+thanks i wasn't aware of that article. I think, we can address this in a
+separate series and try to replace WARN_ON() with dev_warn() in cases it
+makes sense.
+>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>
+>> Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
+>> ---
+>>   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 1 -
+>>   1 file changed, 1 deletion(-)
+>>
+>> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_ar=
+m.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+>> index e2f4aa00cb70..515cdcba043d 100644
+>> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+>> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+>> @@ -1451,7 +1451,6 @@ vchiq_release_internal(struct vchiq_state *state,=
+ struct vchiq_service *service)
+>>
+>>   	write_lock_bh(&arm_state->susp_res_lock);
+>>   	if (!arm_state->videocore_use_count || !(*entity_uc)) {
+>> -		/* Don't use BUG_ON - don't allow user thread to crash kernel */
+>>   		WARN_ON(!arm_state->videocore_use_count);
+>>   		WARN_ON(!(*entity_uc));
+>>   		ret =3D -EINVAL;
 
-On Tue, Jun 04, 2024 at 07:29:02PM +0200, Stefan Wahren wrote:
-> This struct is part of the VCHIQ userspace API, which we
-> don't want to break. So move the struct definition to
-> vchiq.h, which contains the rest of the userspace API.
-
-Dies it ? vchiq.h contains lots of kernel API elements. Beside, we have
-headers such as vc04_services/interface/vchiq_arm/vchiq_ioctl.h that
-contain UAPI elements.
-
-Splitting the UAPI to separate headers is a good idea. Could you address
-that task as a whole, and create a
-drivers/staging/vc04_services/include/uapi/linux/raspberrypi/vchiq.h
-file for the whole UAPI ?
-
-> Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
-> ---
->  .../vc04_services/include/linux/raspberrypi/vchiq.h  | 12 ++++++++++++
->  .../vc04_services/interface/vchiq_arm/vchiq_core.h   | 12 ------------
->  2 files changed, 12 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/staging/vc04_services/include/linux/raspberrypi/vchiq.h b/drivers/staging/vc04_services/include/linux/raspberrypi/vchiq.h
-> index 6c40d8c1dde6..2e34c67966c6 100644
-> --- a/drivers/staging/vc04_services/include/linux/raspberrypi/vchiq.h
-> +++ b/drivers/staging/vc04_services/include/linux/raspberrypi/vchiq.h
-> @@ -79,6 +79,18 @@ struct vchiq_service_params_kernel {
->  	short version_min;   /* Update for incompatible changes */
->  };
-> 
-> +struct vchiq_config {
-> +	unsigned int max_msg_size;
-> +	unsigned int bulk_threshold;	/* The message size above which it
-> +					 * is better to use a bulk transfer
-> +					 * (<= max_msg_size)
-> +					 */
-> +	unsigned int max_outstanding_bulks;
-> +	unsigned int max_services;
-> +	short version;      /* The version of VCHIQ */
-> +	short version_min;  /* The minimum compatible version of VCHIQ */
-> +};
-> +
->  extern int vchiq_initialise(struct vchiq_state *state,
->  			    struct vchiq_instance **pinstance);
->  extern int vchiq_shutdown(struct vchiq_instance *instance);
-> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-> index 3abcd6910f25..a83f9a5d478f 100644
-> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-> @@ -423,18 +423,6 @@ struct bulk_waiter {
->  	int actual;
->  };
-> 
-> -struct vchiq_config {
-> -	unsigned int max_msg_size;
-> -	unsigned int bulk_threshold;	/* The message size above which it
-> -					 * is better to use a bulk transfer
-> -					 * (<= max_msg_size)
-> -					 */
-> -	unsigned int max_outstanding_bulks;
-> -	unsigned int max_services;
-> -	short version;      /* The version of VCHIQ */
-> -	short version_min;  /* The minimum compatible version of VCHIQ */
-> -};
-> -
->  extern spinlock_t bulk_waiter_spinlock;
-> 
->  extern const char *
-
--- 
-Regards,
-
-Laurent Pinchart
