@@ -1,199 +1,129 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 770EC49627;
-	Wed,  5 Jun 2024 11:17:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE3311E861
+	for <linux-staging@lists.linux.dev>; Thu,  6 Jun 2024 15:54:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717586241; cv=none; b=uqgRjRcgOB8KXtHtP6tKfBBJT6HP+Iyv01IATBTLUexk9KjvFxVgYVwol33Rb0/b5xoJ0SZdr8DNpUYk2ACVnb6wga8g1HRtqQtdD/uFHOEQZEz4y+6ClWYi3L2aS7h6RhrgsaPLK74sJG68u8YwKi65Llh3PWgv+u/d91SIYM8=
+	t=1717689265; cv=none; b=FfHSNV3IlEloLfbi1zrFPWtJdrOEdh2qu29NNzFV7NvHcEusIje5gR7ObMqjO8pfy0hD7UPKjbQ3Po0gQFHIKWD82vJ+S00hYEjItdb3Nl2Z+NGsvv+kUyiFVMAOVXGenRUqaQm+xpfJNlE6TS1WYxaJ6ZTwsC5+LW3xAsgD4xE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717586241; c=relaxed/simple;
-	bh=T4XzM1jF2tUa5BY+kwAb41B69XIQcAAOzlrO4rZOsn8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=upi2Cf3kMtNeFaxJtC7rOV0PLEVLSugdN3Ul+WrltZf4v26ay1/34m6rcubvspRuk+Cx4ihV3eDBsBPpaHzkJLqYT3N/ImOB6gfbayR6iYz0K69uhVfkPDbOojxUHqd2fJ3EGDG2zp4K3nktyAy4aHvBYkrDQN9mtt7QgGJNs4I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=cUxjVX9f; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1717689265; c=relaxed/simple;
+	bh=Ek8uvkVoQwtrbJBja6EM5Lcgx+Z0IlAX8pZOfk/I1zE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ThL6otg2kDf3ijk4BDVDl/9lmVedkcQOW4/tCkaIZm8Ct2V3zpBCQSozv/IWfNcAWpAyaTxRTZ1y/GDewuVI8fo5d/kgP0F0z/UxWpe9NF9wWnG8truUukCgu3PIlSpwCaLRLDE0DdWK6+NDV4wI5HSbJvHXV9QaXFJj+6C4dVQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=mZbRPes8; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="cUxjVX9f"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1717586237;
-	bh=T4XzM1jF2tUa5BY+kwAb41B69XIQcAAOzlrO4rZOsn8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=cUxjVX9fMQqYNnjKD9e5B7uNMwPhZ4PdF1qkbxSLubRlrrDeM6OGh7RmJMY2a2/p8
-	 BhCnTty3gocbWNtt16voyqg800tlnU7LvPGA8GTBD/mHlGTXXpG94ZpQYU5plydRbf
-	 kUD0NUcgn4zhl4g2Y8kvZ6B0usudC/o9dHBpnAee5CuEObix6Tm52paV5wqvGbaYDs
-	 lItSF22xdlcfHZiYU/LJSsYXQ1u7ENQ2sTSPRTp2FUzYtzUimDrYpiBdDu5iAQDRy0
-	 mO/Vy/WsEaBv0kiIZMluJ8IcGcOaFdkh4rOokTQK4fC2YPlB9Uiun1+MdwcWlywEf6
-	 9ek03xOr91Ahg==
-Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 31E0437804C9;
-	Wed,  5 Jun 2024 11:17:05 +0000 (UTC)
-Message-ID: <b017841b-0e52-4699-af1d-3620f35f79e0@collabora.com>
-Date: Wed, 5 Jun 2024 13:17:03 +0200
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="mZbRPes8"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4213b94b8b5so11880725e9.0
+        for <linux-staging@lists.linux.dev>; Thu, 06 Jun 2024 08:54:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1717689261; x=1718294061; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=q7RAALchSArLdEez8weaABgh2SvVfCvHFLfQRisjhOk=;
+        b=mZbRPes8ExKLSokruCn4t0LxBlBoIjoITHJU37lMZxh3vKuNVRDvLxRifqY7twc8mn
+         YewPHmSSq6hOvut9AE0RQWGV+a3BiLskrvmN0C8ZMZSStlnHhGcSKIgAj9Zk9f1p0bHX
+         OeHfTE4VbqVEo/q7knMIsPLXVuLC6TsWO5p6Feb9VojnFU9rnyaLVoTudmyRWht1v11Y
+         7Mg5tjDO3E2Jh0TU4/laM+Ycjhob7ZwVh8R4WO8e+DdMGiaIo3SuS0E9HZvmeiiXaNYe
+         Majj7fncpd4TYirq6+weNbA+7TPfG2Yt7kUYgWQWRfx4O8Ro5FG1DJLgPbr1jTzyjkyA
+         jrBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717689261; x=1718294061;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=q7RAALchSArLdEez8weaABgh2SvVfCvHFLfQRisjhOk=;
+        b=tYMAlu4LWp0AJF5mBHOzdo1cBl2jDnPBhWwA7dYFOpsnkmxgYDa3ygc1OjBkjMUGiS
+         jEpygdKLRNpKvMxkMa/wE/eFDCu5sNwltg5MRILFSkBDP2SDyZGpXtgPs+51Mwqgw8Ge
+         VjDHJncAkUklk0m0aOgjLyPtatH2oUS92vUYOPIZSHizS1V9atc+wg6MjSU5SxDWNBlN
+         6uG2v4XN+9YL8JgwLJyEbX0vadx32eWuvUS/EL1CMCTOEBxVliZAz+LBs2Ra+3KqIb8+
+         DWqwIgJyEDyyMcMOjFJmNLkL7lfAWuDgMA0h+1Ely9BwJaPGXQ3eaUUoeFHZcTN5Yg/d
+         HwHg==
+X-Forwarded-Encrypted: i=1; AJvYcCXm6n1ONsoN3LPoxqewv2z2GkjwMYqW2apVNx7XbvqIIc37gUz0DxXmYuIoTqtEcgyvnwdqBvxMGG+B0ySIOJX8W3udw+PfCWGdvhpEdQ==
+X-Gm-Message-State: AOJu0Yx2I7B0LcbuU+DcHGeRWk8HYcESAQlHJt4Q3rue12MZHiBfIeU3
+	71oqHkxPSQVvlnj8YUBGOuUIoTH9sPWLiuzcjTYmCtZ7phH6ZnQUdHEcGY9zsuA=
+X-Google-Smtp-Source: AGHT+IGcJ78wf//iyjMcVhRRQucY6jo9NOu0cxE6uq3JHMLnWlhl+nIhsgi75WLvHdo+juV6Flk7FQ==
+X-Received: by 2002:a05:600c:510f:b0:41f:afa6:3d85 with SMTP id 5b1f17b1804b1-42164a28f8fmr913945e9.31.1717689261173;
+        Thu, 06 Jun 2024 08:54:21 -0700 (PDT)
+Received: from localhost (p509153eb.dip0.t-ipconnect.de. [80.145.83.235])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-421580fe366sm60119245e9.7.2024.06.06.08.54.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Jun 2024 08:54:20 -0700 (PDT)
+From: "=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?=" <ukleinek@baylibre.com>
+X-Google-Original-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Jonathan Cameron <jic23@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH] staging: iio: Drop explicit initialization of struct i2c_device_id::driver_data to 0
+Date: Thu,  6 Jun 2024 17:54:04 +0200
+Message-ID: <20240606155407.499344-1-u.kleine-koenig@baylibre.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/1] treewide: Align match_string() with
- sysfs_match_string()
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Corey Minyard <minyard@acm.org>, Allen Pais <apais@linux.microsoft.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Perry Yuan <perry.yuan@amd.com>,
- Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
- Herbert Xu <herbert@gondor.apana.org.au>, Nuno Sa <nuno.sa@analog.com>,
- Guenter Roeck <linux@roeck-us.net>, Randy Dunlap <rdunlap@infradead.org>,
- Andi Shyti <andi.shyti@kernel.org>, Heiner Kallweit <hkallweit1@gmail.com>,
- Lee Jones <lee@kernel.org>, Samuel Holland <samuel@sholland.org>,
- Elad Nachman <enachman@marvell.com>,
- Arseniy Krasnov <AVKrasnov@sberdevices.ru>,
- Johannes Berg <johannes.berg@intel.com>,
- Gregory Greenman <gregory.greenman@intel.com>,
- Benjamin Berg <benjamin.berg@intel.com>, Bjorn Helgaas
- <bhelgaas@google.com>, Robert Richter <rrichter@amd.com>,
- Vinod Koul <vkoul@kernel.org>, Chunfeng Yun <chunfeng.yun@mediatek.com>,
- Linus Walleij <linus.walleij@linaro.org>, Hans de Goede
- <hdegoede@redhat.com>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?=
- <ilpo.jarvinen@linux.intel.com>, Nikita Kravets <teackot@gmail.com>,
- Jiri Slaby <jirislaby@kernel.org>,
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
- Stanley Chang <stanley_chang@realtek.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Abdel Alkuor <abdelalkuor@geotab.com>,
- Kent Overstreet <kent.overstreet@linux.dev>,
- Eric Biggers <ebiggers@google.com>, Kees Cook <keescook@chromium.org>,
- Ingo Molnar <mingo@kernel.org>, "Steven Rostedt (Google)"
- <rostedt@goodmis.org>, Daniel Bristot de Oliveira <bristot@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>, Hugh Dickins <hughd@google.com>,
- Abel Wu <wuyun.abel@bytedance.com>,
- John Johansen <john.johansen@canonical.com>, Mimi Zohar
- <zohar@linux.ibm.com>, Stefan Berger <stefanb@linux.ibm.com>,
- Roberto Sassu <roberto.sassu@huawei.com>,
- Eric Snowberg <eric.snowberg@oracle.com>, Takashi Iwai <tiwai@suse.de>,
- Takashi Sakamoto <o-takashi@sakamocchi.jp>,
- Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
- Mark Brown <broonie@kernel.org>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- keyrings@vger.kernel.org, linux-crypto@vger.kernel.org,
- linux-acpi@vger.kernel.org, linux-ide@vger.kernel.org,
- openipmi-developer@lists.sourceforge.net, linux-clk@vger.kernel.org,
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
- linux-pm@vger.kernel.org, qat-linux@intel.com,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-hwmon@vger.kernel.org, linux-i2c@vger.kernel.org,
- linux-leds@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-omap@vger.kernel.org, linux-mmc@vger.kernel.org,
- linux-mtd@lists.infradead.org, netdev@vger.kernel.org,
- linux-wireless@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-phy@lists.infradead.org,
- linux-gpio@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-usb@vger.kernel.org,
- linux-fbdev@vger.kernel.org, linux-bcachefs@vger.kernel.org,
- linux-hardening@vger.kernel.org, cgroups@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-mm@kvack.org,
- apparmor@lists.ubuntu.com, linux-security-module@vger.kernel.org,
- linux-integrity@vger.kernel.org, alsa-devel@alsa-project.org,
- linux-sound@vger.kernel.org
-Cc: Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin
- <npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>,
- "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
- David Howells <dhowells@redhat.com>, "David S. Miller"
- <davem@davemloft.net>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Len Brown <lenb@kernel.org>, Sergey Shtylyov <s.shtylyov@omp.ru>,
- Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>,
- Daniel Scally <djrscally@gmail.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Florian Fainelli <florian.fainelli@broadcom.com>,
- Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Heiko Stuebner <heiko@sntech.de>,
- Peter De Schrijver <pdeschrijver@nvidia.com>,
- Prashant Gaikwad <pgaikwad@nvidia.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Huang Rui <ray.huang@amd.com>,
- "Gautham R. Shenoy" <gautham.shenoy@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, Karol Herbst <kherbst@redhat.com>,
- Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@redhat.com>,
- Jean Delvare <jdelvare@suse.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Pavel Machek <pavel@ucw.cz>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Tony Lindgren <tony@atomide.com>,
- Adrian Hunter <adrian.hunter@intel.com>, Hu Ziji <huziji@marvell.com>,
- Ulf Hansson <ulf.hansson@linaro.org>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Potnuri Bharat Teja <bharat@chelsio.com>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>,
- Miri Korenblit <miriam.rachel.korenblit@intel.com>,
- Kalle Valo <kvalo@kernel.org>, Mahesh J Salgaonkar <mahesh@linux.ibm.com>,
- Oliver O'Halloran <oohall@gmail.com>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, JC Kuo <jckuo@nvidia.com>,
- Andrew Lunn <andrew@lunn.ch>, Gregory Clement <gregory.clement@bootlin.com>,
- Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
- Sebastian Reichel <sre@kernel.org>,
- Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>,
- Lukasz Luba <lukasz.luba@arm.com>, Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
- Helge Deller <deller@gmx.de>, Brian Foster <bfoster@redhat.com>,
- Zhihao Cheng <chengzhihao1@huawei.com>, Tejun Heo <tj@kernel.org>,
- Zefan Li <lizefan.x@bytedance.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>, Ben Segall
- <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
- Daniel Bristot de Oliveira <bristot@redhat.com>,
- Valentin Schneider <vschneid@redhat.com>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Jason Baron <jbaron@akamai.com>, Jim Cromie <jim.cromie@gmail.com>,
- Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
- "Serge E. Hallyn" <serge@hallyn.com>,
- Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
- Clemens Ladisch <clemens@ladisch.de>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Linus Torvalds <torvalds@linux-foundation.org>
-References: <20240603211538.289765-1-andriy.shevchenko@linux.intel.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20240603211538.289765-1-andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Il 02/06/24 17:57, Andy Shevchenko ha scritto:
-> Make two APIs look similar. Hence convert match_string() to be
-> a 2-argument macro. In order to avoid unneeded churn, convert
-> all users as well. There is no functional change intended.
-> 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+These drivers don't use the driver_data member of struct i2c_device_id,
+so don't explicitly initialize this member.
 
-For MediaTek
+This prepares putting driver_data in an anonymous union which requires
+either no initialization or named designators. But it's also a nice
+cleanup on its own.
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
+---
+ drivers/staging/iio/addac/adt7316-i2c.c         | 12 ++++++------
+ drivers/staging/iio/impedance-analyzer/ad5933.c |  4 ++--
+ 2 files changed, 8 insertions(+), 8 deletions(-)
 
+diff --git a/drivers/staging/iio/addac/adt7316-i2c.c b/drivers/staging/iio/addac/adt7316-i2c.c
+index 6c1f91c859ca..e6ad088636f6 100644
+--- a/drivers/staging/iio/addac/adt7316-i2c.c
++++ b/drivers/staging/iio/addac/adt7316-i2c.c
+@@ -109,12 +109,12 @@ static int adt7316_i2c_probe(struct i2c_client *client)
+ }
+ 
+ static const struct i2c_device_id adt7316_i2c_id[] = {
+-	{ "adt7316", 0 },
+-	{ "adt7317", 0 },
+-	{ "adt7318", 0 },
+-	{ "adt7516", 0 },
+-	{ "adt7517", 0 },
+-	{ "adt7519", 0 },
++	{ "adt7316" },
++	{ "adt7317" },
++	{ "adt7318" },
++	{ "adt7516" },
++	{ "adt7517" },
++	{ "adt7519" },
+ 	{ }
+ };
+ 
+diff --git a/drivers/staging/iio/impedance-analyzer/ad5933.c b/drivers/staging/iio/impedance-analyzer/ad5933.c
+index b7af5fe63e09..cd00d9607565 100644
+--- a/drivers/staging/iio/impedance-analyzer/ad5933.c
++++ b/drivers/staging/iio/impedance-analyzer/ad5933.c
+@@ -721,8 +721,8 @@ static int ad5933_probe(struct i2c_client *client)
+ }
+ 
+ static const struct i2c_device_id ad5933_id[] = {
+-	{ "ad5933", 0 },
+-	{ "ad5934", 0 },
++	{ "ad5933" },
++	{ "ad5934" },
+ 	{}
+ };
+ 
+
+base-commit: ee78a17615ad0cfdbbc27182b1047cd36c9d4d5f
+-- 
+2.43.0
 
