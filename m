@@ -1,92 +1,217 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B552D15B131
-	for <linux-staging@lists.linux.dev>; Fri,  7 Jun 2024 09:19:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FF3B1953AA
+	for <linux-staging@lists.linux.dev>; Fri,  7 Jun 2024 16:04:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717751968; cv=none; b=qkNo102AuMygI4W0vGtfx4XZ1ZrAToJ1ZMQmp4w5/fVIPqyEfshnnDc2ECdxF7KhzPWyMj9BJFfOBuHSGEXg+mb8eGvaA5K1rUFrRUUeysftAp3+dxtNKlIV2oMOxW+XkYHBWVeaofQlKidumyPBWcgO4QkVzx1adgPt5CbKKHY=
+	t=1717776297; cv=none; b=nzS8pss59Mng2XCloauHLp2I5xo6zsPRiZSTilGPcu3BIB3PiYnzXwTZ+W9faR0idmbtQp2J6bOiGLKV2sOHXeVhBAHpIK6r7SJ/nUchn8wS5JtiWkfOKEDhUxzsD/OGXFQkjDuojjtg2DAPR7sbMzm19OsEH4HnL7TOuQ+bDaQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717751968; c=relaxed/simple;
-	bh=V56qmirCFVXzJkhSirl8ym+WKZELaohL/SWX8q5xyA0=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=nzEoVNJUPGpIx3gBBsGfYO9a87X9nUilw19SWcwFL/qFsyAxF55sb4elInMWuG316Xc6yFFJ/o7QzJNeRniVexf2JJCnroVA3PxOp7AnvuSg1n876yaX3XGwEK1ldmnECKvvN9GMoy+3kJF8QbxLDT9lcO7H7RbFHlP+PLxaFAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GQuugaSD; arc=none smtp.client-ip=209.85.208.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1717776297; c=relaxed/simple;
+	bh=XF3f6iDBLjVh6WynPeig0UvGb0DigkwMdfgbk338+B4=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:References:
+	 In-Reply-To:Content-Type; b=FMeqhzPXBpWnYc7c7Xh2Z8ldwomKs0uwPSidu28VonTcqTBljBFY3twbyYpNDKmRi3L+/ksIbzUVEyw+3L2rBuBmCEJfabdEyfIPOCYfva78LdPG6XMB/T1MmY6RJNJwwUSsDs/P+ghu1WacD/PheKuEHK8hbuh+xO2MwwMPS8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GmcjKoea; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GQuugaSD"
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-57a44c2ce80so2100153a12.0
-        for <linux-staging@lists.linux.dev>; Fri, 07 Jun 2024 02:19:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GmcjKoea"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-35dc7d0387cso2625161f8f.1
+        for <linux-staging@lists.linux.dev>; Fri, 07 Jun 2024 09:04:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717751965; x=1718356765; darn=lists.linux.dev;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=V56qmirCFVXzJkhSirl8ym+WKZELaohL/SWX8q5xyA0=;
-        b=GQuugaSDVCKmsL1L9tgjFBW1x1u5h2z+xY1O8UxJ4XwI/EPttQJARpr0Il2bD3VJYJ
-         YH9tdr/JgX0hSY93UUBWsck/0EM8e1mnTi5KWMLJOfhiNFUfLCeRvlqfr2XEG/GijtMi
-         5TwPn6+NKC7xYNfjL29qqg0nD/jDe8QS18ZohoO50CSpqP239kF9iQHG5gapNzR4ttRG
-         5xqQzbnifGkuIsKwFDsDUz+LkhLYISDzLJGDTa6dKTSB/zc9VvWAX6Mwz+KcaXn9mdnU
-         XaAyACWIDMYZ0loksrcaOpiVFepXiwliL7S//5odjyR4o755U5+qXsYqu6CkO0AZN7uM
-         ZxVg==
+        d=linaro.org; s=google; t=1717776294; x=1718381094; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MijIgA09q0PdO32nGZaoZGyK+T1ltd9jm7YiJqErqN4=;
+        b=GmcjKoeaMKUFxW+D73nvKksfbvGoa/yQ3iX1B4DCTXq3zDkt9xRruyhdDaAC9wOVcu
+         D0ID1+4p7j/tsy1cvlKWQM+slXfPMwJY+g+3t/4ylJpUNmai64FGWAC/X396VFy6w4uK
+         arRVJ4XU2q6nBt3ZI6XuRGKy/X7uUjFwsVb9GtwXt47pTq6iBFfuk4f0/Jz43AzFp6vp
+         sJhQWSFVe5sxBxDT12i/kY+bYqtLeMHgKinC1BXZMl5gMdGZMDFGjCr0f7Bs5z3NddR4
+         HtZBKx5dsniBqJqmPOTy7TT65WP0s4mI5GWkEMcZffC6bWVHFhEAEkQTCrIS9tc834Uq
+         k0IA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717751965; x=1718356765;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=V56qmirCFVXzJkhSirl8ym+WKZELaohL/SWX8q5xyA0=;
-        b=AF889+/lgDyGnsC+kUKHAIWuO2TDxgOCGYrUnS3cGN6Hgi4Zc/FfP77pC+9JegM/e3
-         +koNbn9wqYM1pTrNlPOAQaaumhqFkhJu1ok8y36Cjraw3HLJmH3jJSuHNMwbIYQ6RJfC
-         cdIMfhJuKXUjBe+deLnDelp/APbS2jwUFc39pepadfCiC3oek6GK68hhCHNqP9nJA1k9
-         xLFD5rwA/o9qlbY0f2w8pIn49FidPfgJQdunfQzfHfilRXgutsmdWti3Pkv8quYw1OHh
-         zqhHXyQW/2Xi04P6sqUDtZfsx53Nz4MrS5diM3gzrLR3n+QQjiDtlJ1iGjeE8kMQ/r5k
-         Cnqg==
-X-Forwarded-Encrypted: i=1; AJvYcCVIsIq9B3IxTW+6vPUD6oX5/6pxiVUtoL9i4cU49ccMp6S+Zzmrr3w92ztO1+OGQ/pnaXyvtgDuus3Szh/isYYc/cSHOQ7HleRT1q9Dnw==
-X-Gm-Message-State: AOJu0YxG5u8zaX/ubOoQ8/ZNkBi8AQZwQs4LLESRsJK+p9ly/6FPavO7
-	fXzRMHWEKV8+7K6FoX0knzIzDgXlNiWVkUiujIxyoRwACe+MQ7sPy1GDoV/zIhPiEw==
-X-Google-Smtp-Source: AGHT+IE5eH3XAjqumOHvbveY5vCe4FKDD0C2xPaYWsV28+Mwai79w3ytVk7FDDsoYpsteWi9vuyvKQ==
-X-Received: by 2002:a50:bb66:0:b0:57c:600b:b64e with SMTP id 4fb4d7f45d1cf-57c600bb6bemr264703a12.27.1717751964949;
-        Fri, 07 Jun 2024 02:19:24 -0700 (PDT)
-Received: from ?IPv6:2003:f6:ef1c:c500:ee59:d953:f148:40ba? (p200300f6ef1cc500ee59d953f14840ba.dip0.t-ipconnect.de. [2003:f6:ef1c:c500:ee59:d953:f148:40ba])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57c5fd78477sm265913a12.40.2024.06.07.02.19.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Jun 2024 02:19:24 -0700 (PDT)
-Message-ID: <89675b5391c3c37a69654f0cd4ffd0e2ea312056.camel@gmail.com>
-Subject: Re: [PATCH] staging: iio: Drop explicit initialization of struct
- i2c_device_id::driver_data to 0
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= <ukleinek@baylibre.com>, Jonathan
- Cameron <jic23@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich
-	 <Michael.Hennerich@analog.com>, linux-iio@vger.kernel.org, 
-	linux-staging@lists.linux.dev
-Date: Fri, 07 Jun 2024 11:23:12 +0200
-In-Reply-To: <20240606155407.499344-1-u.kleine-koenig@baylibre.com>
-References: <20240606155407.499344-1-u.kleine-koenig@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.2 
+        d=1e100.net; s=20230601; t=1717776294; x=1718381094;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=MijIgA09q0PdO32nGZaoZGyK+T1ltd9jm7YiJqErqN4=;
+        b=nt2GMhn5Bs/tI7fss4HS8JPFm5R9DkJqD0/mBAHfLR83WiHE7eHuUF4N5+c5oLr/XT
+         kZ70O1MpzKcNffagFRl8fOWy2HcZDc4NXpyvBZgjoujfIUcG0edsAkxszk/rWHXLTevQ
+         EXvW7P3WswlByTQUbFVNpHn85F2HVJvpZtYTLaBwMv5ZkY++9iJppAY3VjyKjr/vH0Xe
+         I+hITrIDcUpubtgZiA2+aHug156AE2l6Vqs5tHl870QzTvM/oEyfAE/LIrMPeUZB9vbs
+         vgSgGm0vODq4YtFO3K708fxpTy+KvsNxVmxwicbFfXiH6p9njmcnw4qgJDyqWZV7l5I/
+         K5sQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXo1hkIZFrs3V0VtSBDNLAc34dIW8mT7/oeIOLsAml5hiLe3j6YCpDL/rgXILUFpq4SRSp1BSIdH8RGEBcfRPOI6C0W8Ib0puNzQMXIpg==
+X-Gm-Message-State: AOJu0YyXHIq07T1xH/S9wSipWYHHFAm5IspAucEp4B7+yNjiYJ1Omkz8
+	Y4UDMSVYKeJqpJLD009r6wnkAgUIfeUz/bNoo/sLj1nqjIrKhvwc/Ux4fkobSsE=
+X-Google-Smtp-Source: AGHT+IEU8HYa3hCTxSSYayUA1arnljkwYr7GSlFCw5TxepPqNeXLrtFb+yavJ0gq5yYhVjrRMVV3Lg==
+X-Received: by 2002:a05:6000:50:b0:35f:d60:f183 with SMTP id ffacd0b85a97d-35f0d60f2c0mr1006174f8f.24.1717776293576;
+        Fri, 07 Jun 2024 09:04:53 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:7e4b:b0d3:6a34:6404? ([2a01:e0a:982:cbb0:7e4b:b0d3:6a34:6404])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35f094fbf3esm1392894f8f.77.2024.06.07.09.04.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 07 Jun 2024 09:04:52 -0700 (PDT)
+Message-ID: <94773a91-a845-4821-a6ee-a0be93ea49d9@linaro.org>
+Date: Fri, 7 Jun 2024 18:04:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Reply-To: neil.armstrong@linaro.org
+Subject: Re: [PATCH 2/2] media: meson: vdec: add GXLX SoC platform
+To: Christian Hewitt <christianshewitt@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20240604051533.3312944-1-christianshewitt@gmail.com>
+ <20240604051533.3312944-2-christianshewitt@gmail.com>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20240604051533.3312944-2-christianshewitt@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, 2024-06-06 at 17:54 +0200, Uwe Kleine-K=C3=B6nig wrote:
-> These drivers don't use the driver_data member of struct i2c_device_id,
-> so don't explicitly initialize this member.
->=20
-> This prepares putting driver_data in an anonymous union which requires
-> either no initialization or named designators. But it's also a nice
-> cleanup on its own.
->=20
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@baylibre.com>
+On 04/06/2024 07:15, Christian Hewitt wrote:
+> Add the GXLX SoC platform which is based on GXL but omits the VP9 codec.
+> 
+> Signed-off-by: Christian Hewitt <christianshewitt@gmail.com>
 > ---
+>   drivers/staging/media/meson/vdec/vdec.c       |  2 +
+>   .../staging/media/meson/vdec/vdec_platform.c  | 44 +++++++++++++++++++
+>   .../staging/media/meson/vdec/vdec_platform.h  |  2 +
+>   3 files changed, 48 insertions(+)
+> 
+> diff --git a/drivers/staging/media/meson/vdec/vdec.c b/drivers/staging/media/meson/vdec/vdec.c
+> index de3e0345ab7c..5e5b296f93ba 100644
+> --- a/drivers/staging/media/meson/vdec/vdec.c
+> +++ b/drivers/staging/media/meson/vdec/vdec.c
+> @@ -982,6 +982,8 @@ static const struct of_device_id vdec_dt_match[] = {
+>   	  .data = &vdec_platform_gxm },
+>   	{ .compatible = "amlogic,gxl-vdec",
+>   	  .data = &vdec_platform_gxl },
+> +	{ .compatible = "amlogic,gxlx-vdec",
+> +	  .data = &vdec_platform_gxlx },
+>   	{ .compatible = "amlogic,g12a-vdec",
+>   	  .data = &vdec_platform_g12a },
+>   	{ .compatible = "amlogic,sm1-vdec",
+> diff --git a/drivers/staging/media/meson/vdec/vdec_platform.c b/drivers/staging/media/meson/vdec/vdec_platform.c
+> index 70c9fd7c8bc5..66bb307db85a 100644
+> --- a/drivers/staging/media/meson/vdec/vdec_platform.c
+> +++ b/drivers/staging/media/meson/vdec/vdec_platform.c
+> @@ -101,6 +101,44 @@ static const struct amvdec_format vdec_formats_gxl[] = {
+>   	},
+>   };
+>   
+> +static const struct amvdec_format vdec_formats_gxlx[] = {
+> +	{
+> +		.pixfmt = V4L2_PIX_FMT_H264,
+> +		.min_buffers = 2,
+> +		.max_buffers = 24,
+> +		.max_width = 3840,
+> +		.max_height = 2160,
+> +		.vdec_ops = &vdec_1_ops,
+> +		.codec_ops = &codec_h264_ops,
+> +		.firmware_path = "meson/vdec/gxl_h264.bin",
+> +		.pixfmts_cap = { V4L2_PIX_FMT_NV12M, 0 },
+> +		.flags = V4L2_FMT_FLAG_COMPRESSED |
+> +			 V4L2_FMT_FLAG_DYN_RESOLUTION,
+> +	}, {
+> +		.pixfmt = V4L2_PIX_FMT_MPEG1,
+> +		.min_buffers = 8,
+> +		.max_buffers = 8,
+> +		.max_width = 1920,
+> +		.max_height = 1080,
+> +		.vdec_ops = &vdec_1_ops,
+> +		.codec_ops = &codec_mpeg12_ops,
+> +		.firmware_path = "meson/vdec/gxl_mpeg12.bin",
+> +		.pixfmts_cap = { V4L2_PIX_FMT_NV12M, V4L2_PIX_FMT_YUV420M, 0 },
+> +		.flags = V4L2_FMT_FLAG_COMPRESSED,
+> +	}, {
+> +		.pixfmt = V4L2_PIX_FMT_MPEG2,
+> +		.min_buffers = 8,
+> +		.max_buffers = 8,
+> +		.max_width = 1920,
+> +		.max_height = 1080,
+> +		.vdec_ops = &vdec_1_ops,
+> +		.codec_ops = &codec_mpeg12_ops,
+> +		.firmware_path = "meson/vdec/gxl_mpeg12.bin",
+> +		.pixfmts_cap = { V4L2_PIX_FMT_NV12M, V4L2_PIX_FMT_YUV420M, 0 },
+> +		.flags = V4L2_FMT_FLAG_COMPRESSED,
+> +	},
+> +};
+> +
+>   static const struct amvdec_format vdec_formats_gxm[] = {
+>   	{
+>   		.pixfmt = V4L2_PIX_FMT_VP9,
+> @@ -263,6 +301,12 @@ const struct vdec_platform vdec_platform_gxl = {
+>   	.revision = VDEC_REVISION_GXL,
+>   };
+>   
+> +const struct vdec_platform vdec_platform_gxlx = {
+> +	.formats = vdec_formats_gxlx,
+> +	.num_formats = ARRAY_SIZE(vdec_formats_gxlx),
+> +	.revision = VDEC_REVISION_GXLX,
+> +};
+> +
+>   const struct vdec_platform vdec_platform_gxm = {
+>   	.formats = vdec_formats_gxm,
+>   	.num_formats = ARRAY_SIZE(vdec_formats_gxm),
+> diff --git a/drivers/staging/media/meson/vdec/vdec_platform.h b/drivers/staging/media/meson/vdec/vdec_platform.h
+> index 731877a771f4..88ca4a9db8a8 100644
+> --- a/drivers/staging/media/meson/vdec/vdec_platform.h
+> +++ b/drivers/staging/media/meson/vdec/vdec_platform.h
+> @@ -14,6 +14,7 @@ struct amvdec_format;
+>   enum vdec_revision {
+>   	VDEC_REVISION_GXBB,
+>   	VDEC_REVISION_GXL,
+> +	VDEC_REVISION_GXLX,
+>   	VDEC_REVISION_GXM,
+>   	VDEC_REVISION_G12A,
+>   	VDEC_REVISION_SM1,
+> @@ -28,6 +29,7 @@ struct vdec_platform {
+>   extern const struct vdec_platform vdec_platform_gxbb;
+>   extern const struct vdec_platform vdec_platform_gxm;
+>   extern const struct vdec_platform vdec_platform_gxl;
+> +extern const struct vdec_platform vdec_platform_gxlx;
+>   extern const struct vdec_platform vdec_platform_g12a;
+>   extern const struct vdec_platform vdec_platform_sm1;
+>   
 
-Reviewed-by: Nuno Sa <nuno.sa@analog.com>
-
-- Nuno S=C3=A1
-
-
+Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
