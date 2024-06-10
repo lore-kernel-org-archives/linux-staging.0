@@ -1,217 +1,147 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout5-smtp.messagingengine.com (fout5-smtp.messagingengine.com [103.168.172.148])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1281B770E9
-	for <linux-staging@lists.linux.dev>; Mon, 10 Jun 2024 05:49:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E67CB14F98
+	for <linux-staging@lists.linux.dev>; Mon, 10 Jun 2024 06:00:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717998556; cv=none; b=s1/EF9yJObXk5LeNz41nlbfC63twRUK1AquYr74SGsq8FpVWiZMzhpExn0CV//udu5HuUIMuTkjOAClkD6QaEergxvUX7hGTUpjadASOzC5na7h4ezkSItk+b8ogtlMSABoNybET5ws/mi3cUeJZUzR9rG8HaZQt92a/xaSoGUI=
+	t=1717999260; cv=none; b=GqKnl17lKihdTr9RWu7tc1kQSKxEd9u07BC1DMBHozaFC00RqOOJX7b4+V0zeN/aens13bq9yBd29NiO3OlMZXideSYetOhEzcIaEoX1mMTCKMSJ/65jXXgSlcyN7B6g1OiGUpYJRN1YzLXz8UzgajGgWnK8mAGqBM6ou0hC7nQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717998556; c=relaxed/simple;
-	bh=Ub3Lz0kq9cHw6ETMzkkSWol05hUKiUw5VODOBEyT3U0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=KTlzIBD4WPT9/cndG7qON8fBPorFu7VgG+sAZRArDNBmZSIZ98kjMTRHkcgSKW8bBx7zWfNqUkfnVLrJeg0Rc1OrfeuiblpbA+NyaVXSL0S8qVepKbNk7XAgfZYNEPAsljZYHnDKI4nVx10TwIrc5uCNOp1rsSoG1aIUqsT3T+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net; spf=pass smtp.mailfrom=darkphysics.net; dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b=Rl/zg2Nh; arc=none smtp.client-ip=209.85.215.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=darkphysics.net
+	s=arc-20240116; t=1717999260; c=relaxed/simple;
+	bh=G2Mmw/03HT9wTJHE1SUutnlOlQy3ut+XQLleBtq2vyg=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=XzehJvju6BdZy4oKTyjhPLCBFNWYs050eE0DD45iWl9md8D+NV579IFGBPaZGPUQISByVneRaXX8AtrL4rcglOavI8tPxucTmqJSGvzbwJoNQ58XaCn21OVWE6KTk2j6JEst9rQtY5JrT+GQKrn+9XepmP0K28yA1y4hrjTPA4Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=NvtSa3lC; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=nh68+DkQ; arc=none smtp.client-ip=103.168.172.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="Rl/zg2Nh"
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-6ce533b6409so3045711a12.1
-        for <linux-staging@lists.linux.dev>; Sun, 09 Jun 2024 22:49:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=darkphysics.net; s=google; t=1717998554; x=1718603354; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7qwAwpwAO53f9qqkevNifntO2vA4QwFToDUZm0Cm1rw=;
-        b=Rl/zg2NhDVs8NpMDmsu8BOfQ6xh/pcyefhFUxV1d/S6Jmr7MUnQlcHleAEQGjW2jCV
-         FEXy2QHP6sqTSbqsXsoJDR4M+FhdpwxvFxls/tSd4KCTI/0WPCA6HC2/8dVPp9HmqmfV
-         1KEUBXUXGAvwcEKdDUB96hd4rQ0f3q7rJKIfE0DfXkP6bDqrxsvJUijMpgIpISsDkas7
-         lCKVUvvhSuAkFC4U1U3t3rphjWugaJ8w/3hkI0sra7PxWpM9IVlwCiT92BD+YQtcvNuB
-         bLIzQna+4wSO5nqJZ4mbz5+6xfJm+LpoCpQQssiP3ROHgKAIwi96r5AoOT/J/vaeJKXm
-         W6Tw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717998554; x=1718603354;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7qwAwpwAO53f9qqkevNifntO2vA4QwFToDUZm0Cm1rw=;
-        b=KDn67wSX16RsIf70hkHB3Y30sDhD5YUCRFTKmJ3vJ73rYyCxxdmgxcri9RWBnMO0C+
-         2MU4h+w580fvmTUtF4pEurSTp52wPoU9FunrM/1L0BkRiSKbWU1J3v/NNghwiRLL3Iyj
-         ICEH9HUt8deufXo64RqrWMVdyRg33JKqMZdWE0a2WVqiNEmsyldgFNIrVap2Fy7qYztl
-         1YhxeJSb7zkLaM118tsZe+o3pXYaVVfbwGbE7UjHzbEcSbbZ4flzafS2Uan1DVjFHNLU
-         QlfFr7UR+Az1dXBarVG6N6avg+vn5ARoBgf83GLYL0jRmDR0f0V19P7BDDAlLfgnG8DV
-         ljZQ==
-X-Gm-Message-State: AOJu0YxRILGrU2DlbfOkkrNyYsbrNQOufBIg8Z5VdUM22jk3qVb8Fit1
-	KTpH6kG/tVK/sX3ypX0w05pG+on1rSwretgW+z3eAKiemV/qkb3SgTKNTrksb9r0VeItTjBD92l
-	/rdk=
-X-Google-Smtp-Source: AGHT+IEUw/U3OnyhXA7ievG+0D9kzPU25F5Qw1FTMYAMu+V5k7NBOPn2j3m23QPFcoHAwSMih4rZqA==
-X-Received: by 2002:a17:902:c085:b0:1f6:828e:869b with SMTP id d9443c01a7336-1f6d036a7dcmr88522475ad.53.1717998554393;
-        Sun, 09 Jun 2024 22:49:14 -0700 (PDT)
-Received: from lunchbox.darkphysics (c-76-146-178-2.hsd1.wa.comcast.net. [76.146.178.2])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f6f1aced64sm35653725ad.9.2024.06.09.22.49.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Jun 2024 22:49:14 -0700 (PDT)
-From: Tree Davies <tdavies@darkphysics.net>
-To: gregkh@linuxfoundation.org,
-	philipp.g.hortmann@gmail.com,
-	anjan@momi.ca
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Tree Davies <tdavies@darkphysics.net>
-Subject: [PATCH 24/24] Fix space/tab alignment to match open parenthesis in rtllib_rx.c
-Date: Sun,  9 Jun 2024 22:44:49 -0700
-Message-Id: <20240610054449.71316-25-tdavies@darkphysics.net>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20240610054449.71316-1-tdavies@darkphysics.net>
-References: <20240610054449.71316-1-tdavies@darkphysics.net>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="NvtSa3lC";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="nh68+DkQ"
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailfout.nyi.internal (Postfix) with ESMTP id EB81613800F1;
+	Mon, 10 Jun 2024 02:00:57 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Mon, 10 Jun 2024 02:00:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1717999257;
+	 x=1718085657; bh=j+sK7jp6HG10g5aZu/GHC7JvpZY0AaIXu7mAACFrz4s=; b=
+	NvtSa3lCEqtq3PJJgoiuM3R9SXJGTK20wHQ5eOrEYscHiBDh1hEs24/qVoqgpgkl
+	kb5kn9B13do0UOXcgvP0Cn1ujco5ud7QRskbfvbcuc5a5ZbXtUPoWhC5TozcJDs3
+	gA4JOanOg4EKyV6mksz1X8lcQFk2EVSl0njvgU9Z9ZUjUJ9lzqh6SRQfcCRbe94q
+	dwsSE3jCp+S+Av09ACbm/IMPmOSOjVHBwE9pWZDwNIn6OQKRlIRbPKTPrBHOM0ZH
+	XHg3m3idcGef9tQCJRDUf8AT/2roeYWemVio/ufxeROTDyKb7FUUgPIuPQNyEsvW
+	Ih3bPoXOgzuihO/8kDnHCA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1717999257; x=
+	1718085657; bh=j+sK7jp6HG10g5aZu/GHC7JvpZY0AaIXu7mAACFrz4s=; b=n
+	h68+DkQrCYmzjVhmz+ISyURayYDoUa5+MM0wmfwGnbIl/pMytPNoEv0zUPFbthe7
+	VFfuw8YCa1Lo+rjpzlNpwLQejUvC11v3R53wQjDMyYJzVXsKq+munqgUMgBhuEJ4
+	tH3DevjTMaB+5gjtsms/iIw6z8vIS0yT5iWwwg0JBDhM3z7/sFYwb+GxzKL/55Dk
+	l3lYKqGdqFzq4QsPQYeP03SlVteSHML0orsXU6dqN5kbCBIb2+ysqFY57PE60xit
+	V+1mpJFnAvVPAqdoVZcgE326foKZr/BRHCBL1LkWb4zrsttvVR0vmKKYVc3oltc/
+	5cbtSVUCp1wNBnhzvOcjA==
+X-ME-Sender: <xms:mZZmZhLgqi55rxWLAMfhZXf5B7DXpjjtzAnJybMuffEsuH_TeUz6Fg>
+    <xme:mZZmZtKvn9hSUrjAZMsbP4C0omB9n94H11sR0adPeNONA7Yg6Jjh7LGdkB7WWa-Vp
+    ADMig6-rFzyUs-595I>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrfedtledggeeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtgfesthhqredtreerjeenucfhrhhomhepfdet
+    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
+    htthgvrhhnpeegfeejhedvledvffeijeeijeeivddvhfeliedvleevheejleetgedukedt
+    gfejveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    grrhhnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:mZZmZpvg7Nz-6pVrPg1SHpYRuWKG2fpGttMmDfjdolJ0rP4l_sLnsg>
+    <xmx:mZZmZiZQbqAxYuTXSv5FE54asFZ_uThPV4jvZJywfuiAO0srtmLPlw>
+    <xmx:mZZmZoYIRn4bL19xuDmdFfdvMHq-liVzPRnu646rFILu-ZABm-8ZXw>
+    <xmx:mZZmZmCh6D_sSoCH-7WUxc4Ji-6FyJx2Py5Ow6UgPh50c7eK8AU2nQ>
+    <xmx:mZZmZlTI90iDinyu0feQZvmxRa3giOpRZiJ_2V2kWtb2xHrBqpUiwPMQ>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id EC1D4B6008D; Mon, 10 Jun 2024 02:00:56 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-497-g97f96844c-fm-20240526.001-g97f96844
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Message-Id: <9d603d43-0f8a-4f9b-b11b-9e7543f421b9@app.fastmail.com>
+In-Reply-To: <ad2b7034-ecc9-4d6e-844c-bfe32fb5b23c@gmx.net>
+References: <ad2b7034-ecc9-4d6e-844c-bfe32fb5b23c@gmx.net>
+Date: Mon, 10 Jun 2024 08:00:26 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Stefan Wahren" <wahrenst@gmx.net>,
+ "Catalin Marinas" <catalin.marinas@arm.com>,
+ "Phil Elwell" <phil@raspberrypi.com>,
+ "laurent.pinchart" <laurent.pinchart@ideasonboard.com>
+Cc: "Will Deacon" <will@kernel.org>, "Christoph Hellwig" <hch@lst.de>,
+ "Florian Fainelli" <florian.fainelli@broadcom.com>,
+ "Robin Murphy" <robin.murphy@arm.com>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Linux ARM" <linux-arm-kernel@lists.infradead.org>,
+ linux-staging@lists.linux.dev
+Subject: Re: WARNING: drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:364
+ vchiq_prepare_bulk_data
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Add spaces and tabs to fix warning: Alignment should match open
-parenthesis.
+On Mon, Jun 10, 2024, at 00:24, Stefan Wahren wrote:
 
-Signed-off-by: Tree Davies <tdavies@darkphysics.net>
----
- drivers/staging/rtl8192e/rtllib_rx.c | 37 ++++++++++++++--------------
- 1 file changed, 18 insertions(+), 19 deletions(-)
+>
+> After that i'm getting the following warning:
+>
+>  =C2=A0 create_pagelist: block 1, DMA address 0x00000000f5f62800 doesn=
+'t
+> align with PAGE_MASK 0xfffffffffffff000
+>
+> Then i bisected the issue to this commit:
+>
+> commit 1c1a429efd4ee8ca244cc2401365c983cda4ed76
+> Author: Catalin Marinas <catalin.marinas@arm.com>
+> Date:=C2=A0=C2=A0 Mon Jun 12 16:32:01 2023 +0100
+>
+>  =C2=A0=C2=A0=C2=A0 arm64: enable ARCH_WANT_KMALLOC_DMA_BOUNCE for arm=
+64
+>
+>  =C2=A0=C2=A0=C2=A0 With the DMA bouncing of unaligned kmalloc() buffe=
+rs now in place,
+> enable
+>  =C2=A0=C2=A0=C2=A0 it for arm64 to allow the kmalloc-{8,16,32,48,96} =
+caches.=C2=A0 In addition,
+>  =C2=A0=C2=A0=C2=A0 always create the swiotlb buffer even when the end=
+ of RAM is within the
+>  =C2=A0=C2=A0=C2=A0 32-bit physical address range (the swiotlb buffer =
+can still be
+> disabled on
+>  =C2=A0=C2=A0=C2=A0 the kernel command line).
+>
+> So how can the root cause of these warnings be fixed?
+> Or is the specific WARN_ON() now obsolete?
+>
 
-diff --git a/drivers/staging/rtl8192e/rtllib_rx.c b/drivers/staging/rtl8192e/rtllib_rx.c
-index 3bff54efe66e..84ca5d769b7e 100644
---- a/drivers/staging/rtl8192e/rtllib_rx.c
-+++ b/drivers/staging/rtl8192e/rtllib_rx.c
-@@ -55,7 +55,7 @@ static inline void rtllib_monitor_rx(struct rtllib_device *ieee,
- /* Called only as a tasklet (software IRQ) */
- static struct rtllib_frag_entry *
- rtllib_frag_cache_find(struct rtllib_device *ieee, unsigned int seq,
--			  unsigned int frag, u8 tid, u8 *src, u8 *dst)
-+		       unsigned int frag, u8 tid, u8 *src, u8 *dst)
- {
- 	struct rtllib_frag_entry *entry;
- 	int i;
-@@ -84,7 +84,7 @@ rtllib_frag_cache_find(struct rtllib_device *ieee, unsigned int seq,
- /* Called only as a tasklet (software IRQ) */
- static struct sk_buff *
- rtllib_frag_cache_get(struct rtllib_device *ieee,
--			 struct ieee80211_hdr *hdr)
-+		      struct ieee80211_hdr *hdr)
- {
- 	struct sk_buff *skb = NULL;
- 	u16 fc = le16_to_cpu(hdr->frame_control);
-@@ -143,7 +143,7 @@ rtllib_frag_cache_get(struct rtllib_device *ieee,
- 		 * should have already been received
- 		 */
- 		entry = rtllib_frag_cache_find(ieee, seq, frag, tid, hdr->addr2,
--						  hdr->addr1);
-+					       hdr->addr1);
- 		if (entry) {
- 			entry->last_frag = frag;
- 			skb = entry->skb;
-@@ -155,7 +155,7 @@ rtllib_frag_cache_get(struct rtllib_device *ieee,
- 
- /* Called only as a tasklet (software IRQ) */
- static int rtllib_frag_cache_invalidate(struct rtllib_device *ieee,
--					   struct ieee80211_hdr *hdr)
-+					struct ieee80211_hdr *hdr)
- {
- 	u16 fc = le16_to_cpu(hdr->frame_control);
- 	u16 sc = le16_to_cpu(hdr->seq_ctrl);
-@@ -181,7 +181,7 @@ static int rtllib_frag_cache_invalidate(struct rtllib_device *ieee,
- 	}
- 
- 	entry = rtllib_frag_cache_find(ieee, seq, -1, tid, hdr->addr2,
--					  hdr->addr1);
-+				       hdr->addr1);
- 
- 	if (!entry) {
- 		netdev_dbg(ieee->dev,
-@@ -202,8 +202,7 @@ static int rtllib_frag_cache_invalidate(struct rtllib_device *ieee,
-  */
- static inline int
- rtllib_rx_frame_mgmt(struct rtllib_device *ieee, struct sk_buff *skb,
--			struct rtllib_rx_stats *rx_stats, u16 type,
--			u16 stype)
-+		     struct rtllib_rx_stats *rx_stats, u16 type, u16 stype)
- {
- 	/* On the struct stats definition there is written that
- 	 * this is not mandatory.... but seems that the probe
-@@ -228,7 +227,7 @@ rtllib_rx_frame_mgmt(struct rtllib_device *ieee, struct sk_buff *skb,
- 
- /* Called by rtllib_rx_frame_decrypt */
- static int rtllib_is_eapol_frame(struct rtllib_device *ieee,
--				    struct sk_buff *skb, size_t hdrlen)
-+				 struct sk_buff *skb, size_t hdrlen)
- {
- 	struct net_device *dev = ieee->dev;
- 	u16 fc, ethertype;
-@@ -346,7 +345,7 @@ rtllib_rx_frame_decrypt_msdu(struct rtllib_device *ieee, struct sk_buff *skb,
- /* this function is stolen from ipw2200 driver*/
- #define IEEE_PACKET_RETRY_TIME (5 * HZ)
- static int is_duplicate_packet(struct rtllib_device *ieee,
--				      struct ieee80211_hdr *header)
-+			       struct ieee80211_hdr *header)
- {
- 	u16 fc = le16_to_cpu(header->frame_control);
- 	u16 sc = le16_to_cpu(header->seq_ctrl);
-@@ -404,7 +403,7 @@ static int is_duplicate_packet(struct rtllib_device *ieee,
- }
- 
- static bool add_reorder_entry(struct rx_ts_record *ts,
--			    struct rx_reorder_entry *pReorderEntry)
-+			      struct rx_reorder_entry *pReorderEntry)
- {
- 	struct list_head *list = &ts->rx_pending_pkt_list;
- 
-@@ -521,8 +520,8 @@ void rtllib_flush_rx_ts_pending_pkts(struct rtllib_device *ieee,
- }
- 
- static void rx_reorder_indicate_packet(struct rtllib_device *ieee,
--				    struct rtllib_rxb *prxb,
--				    struct rx_ts_record *ts, u16 SeqNum)
-+				       struct rtllib_rxb *prxb,
-+				       struct rx_ts_record *ts, u16 SeqNum)
- {
- 	struct rt_hi_throughput *ht_info = ieee->ht_info;
- 	struct rx_reorder_entry *pReorderEntry = NULL;
-@@ -1911,7 +1910,7 @@ int rtllib_parse_info_param(struct rtllib_device *ieee,
- 		switch (info_element->id) {
- 		case MFIE_TYPE_SSID:
- 			if (rtllib_is_empty_essid(info_element->data,
--						     info_element->len)) {
-+						  info_element->len)) {
- 				network->flags |= NETWORK_EMPTY_ESSID;
- 				break;
- 			}
-@@ -2190,10 +2189,10 @@ static inline int rtllib_network_init(
- 	network->wzc_ie_len = 0;
- 
- 	if (rtllib_parse_info_param(ieee,
--			beacon->info_element,
--			(stats->len - sizeof(*beacon)),
--			network,
--			stats))
-+				    beacon->info_element,
-+				    (stats->len - sizeof(*beacon)),
-+				    network,
-+				    stats))
- 		return 1;
- 
- 	network->mode = 0;
-@@ -2559,7 +2558,7 @@ static void rtllib_rx_mgt(struct rtllib_device *ieee,
- 			schedule_work(&ieee->ps_task);
- 	} else if (ieee80211_is_probe_resp(header->frame_control)) {
- 		netdev_dbg(ieee->dev, "received PROBE RESPONSE\n");
--		rtllib_process_probe_response(ieee,
--			      (struct rtllib_probe_response *)header, stats);
-+		rtllib_process_probe_response(ieee, (struct rtllib_probe_response *)header,
-+					      stats);
- 	}
- }
--- 
-2.30.2
+It appears that the buffer that gets passed to the device
+has a start address and length that both come from user
+space, and in this case crosses a page boundary, and the
+second half is not aligned to ARCH_KMALLOC_MINALIGN.
 
+This means it's not actually a kmalloc buffer that goes
+wrong, but userspace passing something that is problematic,
+see also the comment above create_pagelist().
+
+If that is a correct interpretation of what is going on,
+one way to solve it would be to add the same logic for
+vchiq user buffers that we have for kmalloc buffers:
+if either the start or the size of the user buffer in
+vchiq_irq_queue_bulk_tx_rx() are unaligned, just
+allocate a new kernel buffer for the whole thing instead
+of pinning the user buffer.
+
+     Arnd
