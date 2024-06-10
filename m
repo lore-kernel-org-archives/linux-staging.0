@@ -1,65 +1,36 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E358D101D4
-	for <linux-staging@lists.linux.dev>; Mon, 10 Jun 2024 06:08:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E81D17C91;
+	Mon, 10 Jun 2024 06:25:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717999691; cv=none; b=aC3n3h0dimHhpQS/1eZTYZ0hYI2/zc+/0VHVLJcVkaQVOcPQ2F+Y6udyqIal2RhcbHpiRtUNxqzVIZCbf+0fZFT5s9lCeQcdUckXMu6HO+eL9NgoI5aQJq/kMCNWnisGKOGv+WRbveuKDN8df7/vGB3AVXW+j9kZD9tG5/fBUZE=
+	t=1718000728; cv=none; b=QFXvAkQo8sTsQHjJmgEi6pvtBfHeeJ4Ijhq30gaJxqQGFHIdj2r6syGmKsIgjRubD/f83rFKFc0lue1/umBGn1V4q4sPWFA6U+D+fYoexsvopIYe34PptUCO7YDbfR3dSpJhq4RIIupYuZwvbqa5JRLsaweMFuB3iu4jKaf3gLo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717999691; c=relaxed/simple;
-	bh=5CmpMQ5KRNxApdYrHcBMYUq10a/yj5KAKMjMhnTxKY0=;
+	s=arc-20240116; t=1718000728; c=relaxed/simple;
+	bh=kFnEOlKoCXi9xsfPM/KcDWCHzC3Nd4WkcUBue7po2kU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qYi8qTQTIERY0nO79QbpifVhG2q2pqSVdPrlsatsYhOncDRJxIVX5bLAo/2DKMpNdl4Minre8DpiSr6rlby8aJyF0urMAnfNpgT4qeVSpmuaXx8NDWwrsiPmLoqMtMvV26kYeW7IcK1QB4OiH/FaYCmpIabebnnm/YU4UoFyRNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zoNc+zU2; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=rUlXWB/IW66HwzZyjvvcSSU7gTyPoTSIRYvWOOpkyTKNbGkKhGLLSDM/owehG2sft9A/vNBb4MNDCviHUk8pCuNQWHzqodnKHKL+7mSTzXupfTREgRy1YdCkoQeLjLo9xwEv+Pi8gxhKlxhnXxPlwWDgF1UomlBn2ReOY21pKXY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=zb3TtYbg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zoNc+zU2"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-42172ed3597so13834785e9.0
-        for <linux-staging@lists.linux.dev>; Sun, 09 Jun 2024 23:08:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1717999688; x=1718604488; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1/J87sE5WWCxANMtnNec2a7KoufmyUGsipNDanWepiQ=;
-        b=zoNc+zU2Eh/XiKErU8v333FToXE6PKND87FRGvhv24YA3wjKE08HNZbzLRiTtm8VI4
-         WHzaJcsdTv3aAzmQdDcuk+Kv1Ol33bf0h8SNpBB8u8pIAAHG3fy1PqhqN94kuDKqkguU
-         cM+SKBBjJmMdi1c/tJZ99GXwSwsh4vblG0PSN3dnYxE5Nq7RZ0W8KSM+wT8mp+ZBfyjX
-         rah3oAPKFaq4voI+De+LTcA4zXumjD4y/Sg8IjLaUQvdMBFEHqhbgOf0SzLOU+Sm8CE5
-         EthSKtiAVy0299jiHZPqSvZkazWjtD1DmIdBJwR2DYqWgPE+v9YxO1UZA2mATb5vOBWY
-         CsJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717999688; x=1718604488;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1/J87sE5WWCxANMtnNec2a7KoufmyUGsipNDanWepiQ=;
-        b=UBv94sxEKtiWzn5HmLg7JO+boDL2qJZlKU85Taf5iJpvF0VQRVINrzErLIVA4bl2SI
-         daVKWQc06jx1Boi1H9YK+wVj36r9WFpE9vPW/Tf/7gQBqwxGEZEPQ8iDep1IOyYsDVSt
-         CiPafymnhdaashtLoq9QJ3CijvOYqz4fX1OVQIgdBslh9p2S3oF+cBnLyWpea9+/vRH7
-         1IOkC1b+aaEk9Mu9h7EsHaR4+mOVPP6qunRFVSv8nLyE2QweV82hLEnVxQPwnMHw2sqq
-         JlzCs47YP2IhZ4atnYwfiar0ELIFHv1NfiWWsD0BkpL+PJi+AaqXkQmS6cSHO9VeAi3i
-         ZWAw==
-X-Forwarded-Encrypted: i=1; AJvYcCWYW4jBqi0Q/U85BBsCREJUPE2c4kgS9GMVnZaDa9CdVMUcdcoBdUrH0wAkrculBBUDaDleleYZbweEuLXappJp6NKUifunYTUdLz28EA==
-X-Gm-Message-State: AOJu0Yx6vxHB7luW5IWGt9sbeq0ldmP7PstMmS4QwvFIte1p5VW+zJyL
-	qoptie+HQFMGfMszHdLz1cGPjhPqSJOKKKzv+hMr6WRG9uCFsjdJ3p8nhzeOw+A=
-X-Google-Smtp-Source: AGHT+IGzRdIwGC7ZVECSHelhkNw1xi169Id85SkAxS+xVHhRG655lnQ9cAHpX+PeqgP1/dH1IQAdLw==
-X-Received: by 2002:a05:600c:4f4a:b0:421:20df:c6d7 with SMTP id 5b1f17b1804b1-421649f0744mr86433385e9.4.1717999688003;
-        Sun, 09 Jun 2024 23:08:08 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35f0bdce051sm7008759f8f.75.2024.06.09.23.08.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Jun 2024 23:08:07 -0700 (PDT)
-Date: Mon, 10 Jun 2024 09:08:03 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="zb3TtYbg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99919C2BBFC;
+	Mon, 10 Jun 2024 06:25:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1718000728;
+	bh=kFnEOlKoCXi9xsfPM/KcDWCHzC3Nd4WkcUBue7po2kU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=zb3TtYbg138HkVOo20OzWd9hMHjVPbcQXaAyueVnv6sHDsQLmoQZrR7Q5hIcz0fW7
+	 pJY2k6B9pY1oo4aCj1nJIhqibXQUGM6HFjKDb07QiwNPz6w63+GI5rSLBIr4VGEziU
+	 an7NqRPhvrPcT1d72wjiicrSAiBYMs2t/RioMI38=
+Date: Mon, 10 Jun 2024 08:25:24 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
 To: Tree Davies <tdavies@darkphysics.net>
-Cc: gregkh@linuxfoundation.org, philipp.g.hortmann@gmail.com, anjan@momi.ca,
+Cc: philipp.g.hortmann@gmail.com, anjan@momi.ca,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 09/24] Staging: rtl8192e: Rename variable bforced_tx20Mhz
-Message-ID: <5ccfa433-f1be-45f6-9138-348cb4093866@moroto.mountain>
+Subject: Re: [PATCH 00/24] Staging: rtl8192e: Maintenance renames and cleanup
+Message-ID: <2024061059-coziness-tacky-28a0@gregkh>
 References: <20240610054449.71316-1-tdavies@darkphysics.net>
- <20240610054449.71316-10-tdavies@darkphysics.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -68,15 +39,48 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240610054449.71316-10-tdavies@darkphysics.net>
+In-Reply-To: <20240610054449.71316-1-tdavies@darkphysics.net>
 
-On Sun, Jun 09, 2024 at 10:44:34PM -0700, Tree Davies wrote:
-> Rename variable bforced_tx20Mhz to forced_tx_20mhz
-> to fix checkpatch warning Avoid CamelCase.
+On Sun, Jun 09, 2024 at 10:44:25PM -0700, Tree Davies wrote:
+> This patch series attacks CamelCase variable renames, removes
+> un-used variables and adjusts alignment issues found in
+> rtllib_rx.c and rtllib_tx.c. 
+> 
+> This completes the last of the remaining checkpatch issues 
+> for rtllib_tx.c.
+> 
+> Thank you in advance to all reviewers.
+> ~Tree
+> 
+> 
+> Tree Davies (24):
+>   Staging: rtl8192e: Rename variable bHwSec
+>   Staging: rtl8192e: Rename variable bIsMulticast
+>   Staging: rtl8192e: Rename variable HTCurrentOperaRate
+>   Staging: rtl8192e: Rename variable HTOpMode
+>   Staging: rtl8192e: Rename variable bRTSEnable
+>   Staging: rtl8192e: Rename variable bRTSBW
+>   Staging: rtl8192e: Rename variable bCTSEnable
+>   Staging: rtl8192e: Rename variable bRTSUseShortGI
+>   Staging: rtl8192e: Rename variable bforced_tx20Mhz
+>   Staging: rtl8192e: Rename variable bPacketBW
+>   Staging: rtl8192e: Rename variable bBroadcast
+>   Staging: rtl8192e: Rename variable CntAfterLink
+>   Staging: rtl8192e: Rename variable bUseShortGI
+>   Staging: rtl8192e: Rename function TsStartAddBaProcess()
+>   Staging: rtl8192e: Fix spaces/tab alignment to match open parenthesis
+>   Staging: rtl8192e: Rename function rtllib_query_BandwidthMode
+>   Staging: rtl8192e: Rename function rtllib_query_ShortPreambleMode
+>   Staging: rtl8192e: Rename function rtllib_query_HTCapShortGI
+>   Staging: rtl8192e: Rename variable bUseShortPreamble
+>   Staging: rtl8192e: Rename variable bRTSSTBC
+>   Remove parameter bIsAmsdu from rtllib_classify()
+>   Remove variable IsAmsdu from rtllib_xmit_inter()
+>   Fix space/tab alignment to match open parenthesis in rtllib_tx.c
+>   Fix space/tab alignment to match open parenthesis in rtllib_rx.c
 
-The correct capitalization for megahertz is MHz.  So the original is
-wrong but the new name is not correct either.
+Any reason why the last 4 patches lost the "Staging: rtl8192e:" prefix?
 
-regards,
-dan carpenter
+thanks,
 
+greg k-h
