@@ -1,37 +1,37 @@
 Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2DC2339A8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CC3D4D8B6
 	for <linux-staging@lists.linux.dev>; Mon, 10 Jun 2024 21:02:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718053376; cv=none; b=nDzpvnl10lQ9LzM1x2UeKNxfvbWoAjpyc0JJ0RYc79ubPUVSB9YVHuW/13IhxbB0HuS/Yngwu7+acGkjTUXm9rhhv62Vk/71jPOr2ccErxBMiT7GM8HT2vBnxQWEyKO9jP8SS4uoL5gK2yTccW65mV9xYnm4bmbePOmRo5+XJKI=
+	t=1718053376; cv=none; b=R4SeeEPymCULhbjaHuYqStbUraQl3WOO1uPedj6bOJwrsWfPh7Fewc+QB5nrcgTHXFmtVvU7NRMPSjx/Wv4S2ACWELZXzSXYYauiJjiF2QV3c31R40kpSgLI0Qtp2Rf7PTM/6kWhNlJ4mJ6452Vcr6MzqmKtjuR7MiR4i1XFPGs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1718053376; c=relaxed/simple;
-	bh=kUWyMmxZtq16GZ98JIccGbbK81BdrmX+wbi8UVQGiEc=;
+	bh=p9OoPnDAXdppL0AFx94l2keBpIHvfCHIpv9GHLzQ0+8=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=JJBs88a9JBnI4hetevg32db+BTBtSJu5+qbJ0HBIiToT8s3HGvByJPdMS3RZcQJ+BCdhjO5TTX3S7aiDYFL0xW/iP1sT1hViYUjipDbtMKlR7Yb188tqdA3D/pz/ctIoi2q1Wj3Z34OfVhcjPCt6l/qEGlZdKmV5uf2lRdDtDYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=CiMaZlgg; arc=none smtp.client-ip=212.227.15.15
+	 MIME-Version; b=cXtc9rCU1E+8OYFWsRc6ARaTdebnx3hguI6/iB8U/cBWG2wxuIP8yIxvMW/OQoYMBod57+Su7BaT/kvNBEpuH5J7kZzbe5v6qPy/b8k3cuqLvhHtWM7obvOhrAJfVjTEvF1CXWHlPGujQ4GXEnqaBLO+QLGf94VImmTfh8EtRr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=QrwY2C0B; arc=none smtp.client-ip=212.227.15.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="CiMaZlgg"
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="QrwY2C0B"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
 	s=s31663417; t=1718053364; x=1718658164; i=wahrenst@gmx.net;
-	bh=uX+rS5G3W7Xd5WyDA9MnftLeq1vdmexAme+rSO6wfwE=;
+	bh=dz+Ztr+H90QiZfF3gUr2cM0tb7zn20bPsMucWMQkuCY=;
 	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:In-Reply-To:
 	 References:MIME-Version:Content-Transfer-Encoding:cc:
 	 content-transfer-encoding:content-type:date:from:message-id:
 	 mime-version:reply-to:subject:to;
-	b=CiMaZlggEI1ID+F1arwj5TyrGB7YeHeyhxkCW+/91fyAO3RjDsDl5b475vUTGhRQ
-	 AMFikK1yFDEIdJA7nfkuvmhYIPs2gfnLruetghxLVCkJ4NNqpkvh2JTFbsB9ahoUg
-	 zbvwv+hSb992LJ6N1r3uruFJ2/wA8aldd2tk1ixBMsSxCZwcx/L6N+cRVJte4Q20F
-	 4CzhVbDFhzZFjciD/bZecbjTXt98OKCt7ybndP0oAOx47u/mJb/wDGzr51H+loZao
-	 pzEDgS5NNPdgmCXPRfURI6tCO8XPzdTeUQpk61O/yQr8QwwEZvbx+iD5F5LjsU5Cu
-	 AjmbOfoIVXbJzSIKxA==
+	b=QrwY2C0BSTKCjEiavKGw7a9ZqqUCjGLoy3Bjrh+hQW9Vm5qc+AB7hIHPG/phnyWV
+	 Eg8FIFfht2tSMqZLWCFTUPREOi41HDSY4l7C8FmuJOCNNLj5moGXzMEfY8bfZii/E
+	 kglUdoZ0NZ4bOR/Utd02FirzhqoSP5ElTa5JnJoriyYFj/krMZpGIx9rygFxEm0st
+	 YFNOl1mQd1Qmpp0G8wtsgAUDrxrO2jkA3xFx9X5EAGzwjyVbGdx5pzE1z8gzzQ1Ds
+	 vmwdnNBAmDEXIPfwv8+QEKg6eEr748qiHgc97bAPRXi7DNw+CEVwAapxGBctOPi1f
+	 tGDphvvYPjy3E0wGUw==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from stefanw-SCHENKER ([37.4.248.43]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MhU5R-1sthg703dL-00kfO1; Mon, 10
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MtOKi-1sYzTG1DJ8-015Lbc; Mon, 10
  Jun 2024 23:02:44 +0200
 From: Stefan Wahren <wahrenst@gmx.net>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -41,9 +41,9 @@ Cc: Umang Jain <umang.jain@ideasonboard.com>,
 	linux-staging@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
 	Stefan Wahren <wahrenst@gmx.net>
-Subject: [PATCH V2 08/10] staging: vchiq_core: Add hex prefix to debugfs output
-Date: Mon, 10 Jun 2024 23:02:18 +0200
-Message-Id: <20240610210220.95524-9-wahrenst@gmx.net>
+Subject: [PATCH V2 09/10] staging: vchiq_arm: Don't cast scatter-gather elements
+Date: Mon, 10 Jun 2024 23:02:19 +0200
+Message-Id: <20240610210220.95524-10-wahrenst@gmx.net>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240610210220.95524-1-wahrenst@gmx.net>
 References: <20240610210220.95524-1-wahrenst@gmx.net>
@@ -54,79 +54,60 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:7B7vRjXXi/8U92n6c0z2aO25TjW1C9858voYxu2gVzM30RHzC20
- Dzk8X3juqyZMCCyvVjdeea5kNbMQOiBfSWP+IAdoaL+Whd37siozPflMYO/W/JFE5rlI/nJ
- y1Qma2UKMRl03cFJqrtP1dOs7bOHgRNet8NECRwrTilnctdULjgukph39Glh6cw0uMLB9oF
- 4htsNVA0mdQ9xPuyNHCHw==
+X-Provags-ID: V03:K1:AU1M+rIRn+YXGsOGeaf1U8LDOmKf2Ayj9OTRLgWmnyZM5sErLNo
+ YvwObcWEVuYC+HGUL5EKpr7lwAFMy5jLTNKTxL/xgk1xHmW4WdUU/FW9n6T1aisS6kggUlQ
+ SzAtuj1Jmjq3pLCW1TudkpS874sM1MOxWtpP2CCROyyOI7Yngezxj3Y5GTUk/ySdTyi3FuH
+ +X2qVI6iEh2reaZ4e7YoQ==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:IfE+h6N/QFo=;5gG5hzUNDBciy4YaMOff3u73qzC
- 6W/TRDM4CIaqVCvlo3CgOS22lXenRAEstkqGzZr3rde7Y8sjS300XbNitSlblgadBjH3NnP2c
- aTluQzcQlXTjX1BpL3hDXzsxVPCZ4QF4DE7kDE5RgUxHZ4FEUc4QPpWDtpLFXbVkbqYGrSB/H
- REm91n6iqRx/+EPeYqDXnW7K2zWqIWVV71V3W7kYD7ZzQa3VnoSJMBDWFr94gv7+CzzbOp5Z5
- GmDDdxyoOJaZs2+FkMLZW4fiUxNCLsu8/V6GQ4UB/oTUEmnJrtWym8An0LsgJd+g5DvCmLuIg
- MJ1ooDR3/1kwdJYTXMA3dhZAZlKxpbPV3e4xyW6zGYbHp2sX8nF9nSBt+2q48imwm6k88Cwvc
- V5aRECtzrwTQlAFQHW/wXGRP5apmMz+NrG9+jErO9958HyEJCY8YPlB1Sh9TethqR7iPHl0LE
- 53JqJKcjMSOqg5Llw3zv8LNUzRD6tS2vLTRdJXexYkcr2WtLMpOZHdosjVh06exMtORi2ezMb
- P057t+2N0tLARA8FbspjyvKlnA1RCHomoPpq1gP1iQQE5J39unH3YaFYhq+E7br4zga/mIe2r
- TtC7bxUtY4QVG8upNz3R7KxCKjKsNZbVc4zt72Pb6j/qj+JyEOCM8c9VxNQZ7Hj+EOuYlYTjV
- 0SGjF+kqc2o7hSQi5OcPKq9hrXnd6WIx5cYkWt7HQT3Fn4FqawGfbSkitsjHMLTahPbqEYWJo
- YOwtNvvhrQKRjcMtFZHwlDEq+8u/iMa8qLdCO/FgPX43UrDlC6ApKdmom+hRWJ+XD5rJAZc/h
- vqLXHu85w0/sftVdXROqMHfqQTovWqjJBawdOBndwxr5s=
+UI-OutboundReport: notjunk:1;M01:P0:9wxSLz1OYSk=;rsn4us+HhQLrct/dLRbRVGzM48k
+ VYz0gRJRZAeMZnm9uB5IcJyeldXlciiMJc2r2hgPN6R30UjEo+S22on27z0NLNv2rDS46DkHd
+ 1FSbwII8cgTRfaoNar4IZSOIutWGpCfP1YCtO0L7UZifknn2sZCMVrCklQGqs7lCJQ9EySz24
+ LXSiGNDS06hBDasv//qcJ91dJ15LQPpVNF7qiLANtDBxcgsFh93FI/D+a1QcxnrX2BdSEmwnq
+ CYOY96Oy6ABmdV7U2u+4mvoEQIKBUCghOyiqaGJ5PtrzlYNwPNDV3A4qu8VahkWK0ZZNv6nqF
+ 9k5iJbluiVniYDXok05lwexoO+ORyrhAVBc7JUr7XZHdtIrlv0GhBj6FnDCqCnhWugB1I3lh0
+ Rb7bbvrJJEEfAidkncZ0jxzjrhGrDRrTYnvPi0tPGaDW8wwUyfTXqVTNa0wa2/UbA0LGspCEt
+ E3TtYjIx9gQ11SACl50lpXyM0V+PUm9qalbFKTwXWNoiEk6QvpV/0L0PvIhc1g0Ml9KtKtm9T
+ lZsqX750g7KKNTOtg1nic1dQhlXbpu4UTje+4E3hvvMAuTrl/kv7mQzm2kFzAI8eaeYPIUm1V
+ qrCXQHq49nykuqyuP5dxjYn+wWfQKsllXwkAANav3sk7nVCpjkWPxYfME8kHy3W/tdJ2VrZBZ
+ eYz9p6cVhP9plUczUAkMJUlozpISYvwlAOE3hUsob6I4KPvnTWwAme2G4BbK/Urug6W95/Mpo
+ KemMslPTxUgs3T7NgfLBypZzW/Yp2PP/j+GID3ekSGkqJYwrFJiULQS7UXrJ67hWsmAOT0rwk
+ BT/eIaQUjyUzoP3vQMNTjM7JlfAPCjEz3RaJouMSgJh+A=
 
-The number format of VCHIQ debugfs isn't always clear. So let's
-add a prefix for all hex values, in order to make things clear.
+The kernel uses different types for DMA length & address,
+so better use them.
 
 Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 =2D--
- .../vc04_services/interface/vchiq_arm/vchiq_core.c        | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ .../staging/vc04_services/interface/vchiq_arm/vchiq_arm.c   | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.=
-c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-index 51cfc366519b..4f65e4021c4d 100644
-=2D-- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-@@ -3370,7 +3370,7 @@ vchiq_dump_shared_state(struct seq_file *f, struct v=
-chiq_state *state,
- 	};
- 	int i;
-
--	seq_printf(f, "  %s: slots %d-%d tx_pos=3D%x recycle=3D%x\n",
-+	seq_printf(f, "  %s: slots %d-%d tx_pos=3D0x%x recycle=3D0x%x\n",
- 		   label, shared->slot_first, shared->slot_last,
- 		   shared->tx_pos, shared->slot_queue_recycle);
-
-@@ -3386,7 +3386,7 @@ vchiq_dump_shared_state(struct seq_file *f, struct v=
-chiq_state *state,
- 	}
-
- 	for (i =3D 1; i < shared->debug[DEBUG_ENTRIES]; i++) {
--		seq_printf(f, "    DEBUG: %s =3D %d(%x)\n",
-+		seq_printf(f, "    DEBUG: %s =3D %d(0x%x)\n",
- 			   debug_names[i], shared->debug[i], shared->debug[i]);
- 	}
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c=
+ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+index 706bfc7a0b90..02392073c4aa 100644
+=2D-- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+@@ -162,7 +162,7 @@ cleanup_pagelistinfo(struct vchiq_instance *instance, =
+struct vchiq_pagelist_info
  }
-@@ -3414,7 +3414,7 @@ vchiq_dump_service_state(struct seq_file *f, struct =
-vchiq_service *service)
 
- 			if (service->public_fourcc !=3D VCHIQ_FOURCC_INVALID)
- 				scnprintf(remoteport + len2, sizeof(remoteport) - len2,
--					  " (client %x)", service->client_id);
-+					  " (client 0x%x)", service->client_id);
- 		} else {
- 			strscpy(remoteport, "n/a", sizeof(remoteport));
- 		}
-@@ -3475,7 +3475,7 @@ void vchiq_dump_state(struct seq_file *f, struct vch=
-iq_state *state)
- 	seq_printf(f, "State %d: %s\n", state->id,
- 		   conn_state_names[state->conn_state]);
+ static inline bool
+-is_adjacent_block(u32 *addrs, u32 addr, unsigned int k)
++is_adjacent_block(u32 *addrs, dma_addr_t addr, unsigned int k)
+ {
+ 	u32 tmp;
 
--	seq_printf(f, "  tx_pos=3D%x(@%pK), rx_pos=3D%x(@%pK)\n",
-+	seq_printf(f, "  tx_pos=3D0x%x(@%pK), rx_pos=3D0x%x(@%pK)\n",
- 		   state->local->tx_pos,
- 		   state->tx_data + (state->local_tx_pos & VCHIQ_SLOT_MASK),
- 		   state->rx_pos,
+@@ -377,8 +377,8 @@ create_pagelist(struct vchiq_instance *instance, char =
+*buf, char __user *ubuf,
+ 	/* Combine adjacent blocks for performance */
+ 	k =3D 0;
+ 	for_each_sg(scatterlist, sg, dma_buffers, i) {
+-		u32 len =3D sg_dma_len(sg);
+-		u32 addr =3D sg_dma_address(sg);
++		unsigned int len =3D sg_dma_len(sg);
++		dma_addr_t addr =3D sg_dma_address(sg);
+
+ 		/* Note: addrs is the address + page_count - 1
+ 		 * The firmware expects blocks after the first to be page-
 =2D-
 2.34.1
 
