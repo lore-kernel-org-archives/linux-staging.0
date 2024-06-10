@@ -1,38 +1,38 @@
 Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 050E444C64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CEA047A40
 	for <linux-staging@lists.linux.dev>; Mon, 10 Jun 2024 21:02:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718053376; cv=none; b=PWoAmGyC8FBWpHy4lYuh6Urs034g4fgHq7vbpLVDwDQa8QXWdDxNiX+OV63JRUBlFRPn/xjYnO0uUW0e3NUU0yyf65oPtughCyIBgb+AhSplaVbtO5bpGmtOdEroowSonoFUUcz76K2KgVUbZ4omBmxjR63e/BgMVeYjd0MAamU=
+	t=1718053376; cv=none; b=J+THSSvkQG8327pVs7ZLqs0phq7o6MKkJjKxBUH5JZvpc7WQzybq9yZSk057z5TCPxOYnynnZUatMp1EoY0ynTmo3nLv1mVxmUYkOFWYU1+pzsJqe6+GLVJewGxb7ZFuT10Z8xYeueLHmJOOg0wnnv75Y13e5QWkCUkbePZlAF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1718053376; c=relaxed/simple;
-	bh=HKuAa3zfGFBIHffIsm1VcT3Ne5xBIdXjQZP3Nl0zw+0=;
+	bh=aGDYVRxQRR0UAFKpQJI8+OH9qCJ+tFm2ovDHE+6UMaQ=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=DLwCzK0rdVKS8o2ufXUOydrn4GeQc9yMvdn0LrNhOW1Qtq3NrQDnaLa/khmH98Boygr4YZsBhhIlp+OQ7NNqMECrmRyMyVry3b0i7Fj2eAZtEcFvip5xYLxMMLq33KR+xFS+sxWlabl9rpnJToiUumzFeLk2rVOBBC/NlMDYatE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=RcXraUxo; arc=none smtp.client-ip=212.227.15.15
+	 MIME-Version; b=tC8fUohlFKgimf/z9CPY9rPIPueX4M7KIZig250O7vQ7sMLwyI+pdPyS1L15z90LaibKAwtXkt3MpXyrDyLNKak+5o7SpFiBUxjKUpfh1S4WBYYchW5s09OolrbRkboj2ioXndyc2I2Aq196R0S0E2RM+Jieg9gN4h54ZpSM0IM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=Q5ELSIze; arc=none smtp.client-ip=212.227.15.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="RcXraUxo"
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="Q5ELSIze"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
 	s=s31663417; t=1718053363; x=1718658163; i=wahrenst@gmx.net;
-	bh=t7gpFqb4SdLrYI3z+nSsyk29RTJgE7SHfUpRcltmtsg=;
+	bh=RIZLK4Mq6tf/0k1hA0SAyjoUPxlZbtYJq1exf8ZpY+M=;
 	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:In-Reply-To:
 	 References:MIME-Version:Content-Transfer-Encoding:cc:
 	 content-transfer-encoding:content-type:date:from:message-id:
 	 mime-version:reply-to:subject:to;
-	b=RcXraUxovVTfZ+Eg0pFwTEPS40qXtxjS7EOxzB72K99VuksD56m3Wg98z2pvkXL7
-	 Scc7tgZqe63rw+5pLYDXfpSRCEjazMeP/JMGeQ168hB3OIuhvA214DUBDN8o3LeMX
-	 Hya5z4jDceCtlXRYEw2ziMqVj6GfG91dR1B751DAjVrkFoTY8Zd3V1SM9n6RK5mxO
-	 /9c8ziSh/iUdxUa9MF15ZsBPH0D9s/pKHbC3RVX6HfzOG9wdtmg6BKNHDMwGy6Hk4
-	 dBiszBcL6gQWA5VIGZkFOheooE3fAcosasf9uTHnPQmAxB5Ru3/I/Uej0J9BkW4uJ
-	 bVsj2VquGC01ikF++w==
+	b=Q5ELSIzesj9XN/my8QD2PGUJOUpDBp3cLEBQmtAgy6oYpZi3S/mxWKBAGhuyVB6R
+	 dZq7Pw5nUrdZGt453Naen3EGU3aozxQyqT/s9KRmp5mbNOzgQrnd3xtbt9pNrcm/Z
+	 3KQVU7wwcAJd3e7fMl1b++h3RlawLKtJ85PkG7LNXPeRbwzc8jStFHLDXRCTfW9qI
+	 rFFBtN4BbZ+XCxoS40OmXY/aVxwt0dJ3xNFxvCw4LV35VRL77FGJkeobt+288Jg0M
+	 lbQ+T1OrZAQ8S/FQumnyOjhz6hpjtysBDelVip1odBTkO/XMViLl4nYOq548fk/TX
+	 i7oJxeVUVXmRp1bUTg==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from stefanw-SCHENKER ([37.4.248.43]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MYNNo-1ru8vZ0QT4-00JtNE; Mon, 10
- Jun 2024 23:02:43 +0200
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MBUmD-1s8DJF3Jb5-005mjx; Mon, 10
+ Jun 2024 23:02:42 +0200
 From: Stefan Wahren <wahrenst@gmx.net>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Florian Fainelli <florian.fainelli@broadcom.com>
@@ -41,9 +41,9 @@ Cc: Umang Jain <umang.jain@ideasonboard.com>,
 	linux-staging@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
 	Stefan Wahren <wahrenst@gmx.net>
-Subject: [PATCH V2 05/10] staging: vchiq_arm: Get the rid off struct vchiq_2835_state
-Date: Mon, 10 Jun 2024 23:02:15 +0200
-Message-Id: <20240610210220.95524-6-wahrenst@gmx.net>
+Subject: [PATCH V2 04/10] staging: vchiq_arm: Drop unnecessary declarations
+Date: Mon, 10 Jun 2024 23:02:14 +0200
+Message-Id: <20240610210220.95524-5-wahrenst@gmx.net>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240610210220.95524-1-wahrenst@gmx.net>
 References: <20240610210220.95524-1-wahrenst@gmx.net>
@@ -54,91 +54,66 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:OrJhS9YN58hIG60M/gX0F7JV+hQ5syPBKWbfb/q9Un9VkhW6oxS
- OxIUtsERnHD4lSnmjFy2mHna/C5oTdS3OVCDHymJ02hlqZx4L7iuq/4DGePCfVgqIed5kk6
- Qw4l4GOtmOZYZyoqjV9M6TuW5v1XulwH2Am0qNuYpYFd5NUhYkOm+rSMNkDurUX5DvxovPh
- vqEg9SE6cEzwT/PUZfvtQ==
+X-Provags-ID: V03:K1:c9mHqwgPaF2/adxzfeyM4WwC9J3jHXOEVGEILGXs42V20UP3NHP
+ IMiVI3QahObV4kZxr3Z2FETtpn19k0OLPMJacGe08YBbnJvd9/+1Yh3nu6/DKfu2bzAlg06
+ FtvJbs6XTD1OBd6swcQCeKM8ZYuuh5rMFwW1IncTJiVXH9kziYZimuX2drklEMENnDQpjjF
+ ccU2/gWJpLBky8SCDi5VQ==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:Em2A8KvPtIA=;v8rmYcm/HzHJTFmA4E2OQQJ1XnF
- WHi5Ygxf7VGEK88lkX4t8cRZqxWLqHuOwnoEMkvcevtT04W+6gByHvWtKvQmfaUBEuxo4HL26
- Pico9GYSvFjocCIq3nVzWurZO/TY2TZd7QbMvPOiFq52D3ZNHLJJj/k1IpI6KBSQct+M9qVCt
- yVhFmUPCbq6qKlWxxfZwmRpXBh0jK1Z9f5metCPOBTK7t2eul8YEq2Ta9Xt4ypeZZC70yp/TR
- ecSgfoZGcU22qFr4eDE2L7hSekx6Exstm42C69zkDSDsnUXINxH1FtoVO/9djyYjvRqf/KLqb
- sqTlFwrtDEx1lw6HrnHy2AkC4ZuY2pFjTrb0NsAIi1KWbixL/+6yviW9WrtTAyg0roaEeH1fJ
- 2pKLUkVwYClS/i13cd8cZ5+BFKOuQfaLYsDOEOwPIEv0xONaQBwL81VyYpzRB0idB/7Soyik7
- bcAhY9kpzgXUjF+gFAv59mdOAE62rFvAUkkZotBKNFDaTEx+i8+c4UnR8x57By7XqSOQPC4FY
- giSE/oF/3O4w7n5gj2vI5zrWEf2/4IbcGI6QsMS4FvQYPGSHVh9AnX0qdzUih/JZVHRLLlq2j
- +huMdwKX+fXcD0EQRchSD9Svf5FgW7I+TS/oUTeibPYaBmy3dDRyHh0sVkhsnOQkDb7mi0BfO
- MuGYbB08JCq2lJ/OSDXnpstPM/BKoFDUJshA5Pf5NNf2MIbhcfY+nLMoAGukX8rvYY0cIYYuV
- 2d3mgQc7w0RHd7puua13MyG6BHg2QkKuxCxCmpeOEIf9p9qN1MPx9Cjz5uMSVYYlKMdK3KZS7
- 0vkboEMPLBxMhMnq3YdVwMMnVTaYkSj9E3Jucbkc8c7vU=
+UI-OutboundReport: notjunk:1;M01:P0:iYr/5F7vlU0=;F1/+lN0DDzFimFx46/nTmIiY7El
+ qNsyY9TEW1744MhDoF+PAneawD/SfOXZLIcL/7Zh9AdIZxlPwm+WLTNjFBrjsbxf870VxhoUm
+ VyAmPrLHpf7lXC4bykgI2D4hITgloStNlSSRcyBDTbeZAYKdg+3rrzaUwIePQlBNwURBF+lL4
+ Xp+J1JZzXBiZ0HLsyizLOQGZQLkHsSCcyD8VrtVi2S0bHSfRBkzVJf0ZM+wOwWs/wp/zIXweL
+ bRUMDOA7m1iXMGkxBeW5RoWMKEz3tOQGX7rHJEwfHTKBER6hKUVT1rdaCy1+/MkUWk4UIuQIe
+ FaX2LCz7D2DdAUiLQI9BfYa1Hl3l4e//3SNuhUMWzjhKwt8GXmt8MysRUOKQtBAG0DjYVPnRA
+ NThtSh2GVOqu/bSeOwEDuP+CvgHT6zD3O0O3wQQcRgJOZmhFTiRgdA+62/U/YQH512IKjV99f
+ nEpvShs6bVMZTR/ZkbjjeRQGA/USr1XzatCbhzFAKfSNS97r2qDGcLnUALMdjtktrK1C7j3sn
+ zL6UTW8v4nJJJ6yHokymAGWC6TDACe5JMTDasOZyeabw5eDjJl43FDxtArfpZCcZ4y7sL2hj9
+ 1lkhQ/1qSyQJBGIhDmpEwlPuxKzNvjN5n6bvTar/39CrxTuf+AKR77gi2rKWJWYze18dcaACy
+ H0puXPN0NP4vJMr+HWIuXCBPFu71SbPESL61HppaMMQ8F/z6uMwZLnjV4igt9+Hn9OkW0OSQv
+ J5R23jdOMrGT3KClj9IjLPZStdBdMFDgn+Ws0xl+/hCC4xWqjLz1QESgKwuTe27e++h2FGWxH
+ l2qiU+0Qou9bfnKhQEL20SBoziKoKxRAJ2/OTHRFfAjfU=
 
-The whole benefit of this encapsulating struct is questionable.
-It just stores a flag to signalize the init state of vchiq_arm_state.
-Beside the fact this flag is set too soon, the access to uninitialized
-members should be avoided. So initialize vchiq_arm_state properly before
-assign it directly to vchiq_state.
+These declarations are left from cleanups and not necessary
+anymore. So we can drop them.
 
 Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 =2D--
- .../interface/vchiq_arm/vchiq_arm.c           | 25 +++++--------------
- 1 file changed, 6 insertions(+), 19 deletions(-)
+ drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h  | 3 ---
+ drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h | 2 --
+ 2 files changed, 5 deletions(-)
 
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c=
- b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-index 094ba1aea8f6..6ef4cf702c78 100644
-=2D-- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-@@ -109,11 +109,6 @@ struct vchiq_arm_state {
- 	int first_connect;
- };
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h=
+ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
+index fd1b9d3555ce..b402aac333d9 100644
+=2D-- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
+@@ -109,9 +109,6 @@ vchiq_release_service(struct vchiq_instance *instance,=
+ unsigned int handle);
+ extern int
+ vchiq_check_service(struct vchiq_service *service);
 
--struct vchiq_2835_state {
--	int inited;
--	struct vchiq_arm_state arm_state;
--};
+-extern void
+-vchiq_dump_platform_use_state(struct vchiq_state *state);
 -
- struct vchiq_pagelist_info {
- 	struct pagelist *pagelist;
- 	size_t pagelist_buffer_size;
-@@ -613,29 +608,21 @@ vchiq_arm_init_state(struct vchiq_state *state,
- int
- vchiq_platform_init_state(struct vchiq_state *state)
- {
--	struct vchiq_2835_state *platform_state;
-+	struct vchiq_arm_state *platform_state;
+ extern void
+ vchiq_dump_service_use_state(struct vchiq_state *state);
 
--	state->platform_state =3D kzalloc(sizeof(*platform_state), GFP_KERNEL);
--	if (!state->platform_state)
-+	platform_state =3D kzalloc(sizeof(*platform_state), GFP_KERNEL);
-+	if (!platform_state)
- 		return -ENOMEM;
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.=
+h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
+index be20abcfad75..3c7a6838ddba 100644
+=2D-- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
+@@ -539,8 +539,6 @@ int vchiq_platform_init_state(struct vchiq_state *stat=
+e);
 
--	platform_state =3D (struct vchiq_2835_state *)state->platform_state;
+ int vchiq_check_service(struct vchiq_service *service);
+
+-void vchiq_on_remote_use_active(struct vchiq_state *state);
 -
--	platform_state->inited =3D 1;
--	vchiq_arm_init_state(state, &platform_state->arm_state);
-+	vchiq_arm_init_state(state, platform_state);
-+	state->platform_state =3D (struct opaque_platform_state *)platform_state=
-;
+ int vchiq_send_remote_use(struct vchiq_state *state);
 
- 	return 0;
- }
-
- static struct vchiq_arm_state *vchiq_platform_get_arm_state(struct vchiq_=
-state *state)
- {
--	struct vchiq_2835_state *platform_state;
--
--	platform_state   =3D (struct vchiq_2835_state *)state->platform_state;
--
--	WARN_ON_ONCE(!platform_state->inited);
--
--	return &platform_state->arm_state;
-+	return (struct vchiq_arm_state *)state->platform_state;
- }
-
- void
+ int vchiq_send_remote_use_active(struct vchiq_state *state);
 =2D-
 2.34.1
 
