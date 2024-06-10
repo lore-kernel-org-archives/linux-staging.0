@@ -1,260 +1,262 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C93BA55884
-	for <linux-staging@lists.linux.dev>; Sun,  9 Jun 2024 22:24:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 112E3DDC0
+	for <linux-staging@lists.linux.dev>; Mon, 10 Jun 2024 05:48:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717971871; cv=none; b=rUcpjFXZ/hl4zTGO5g6fSCVBZLCSYFdqTIcaP5CWVrmrMWfggBoVS7ObMsZQRwQjoaKcVdLE0fZpO69gRQ/nNd1PfOuFSc61AaZseM+WsPJG/DeUOvoIJq4pM5EQMVcfp70ECssuXGdRflss8muWOPqyfxwrfak1LpJ5CubauFM=
+	t=1717998540; cv=none; b=k2RFnShCBc4nhnKKFebL1Z21ngg7lOUWwiPlUR2uQ/IuPqPOH1JcjF77gQlqhH9Z2/dArC/dXi+7NOoebiOw1Q1dhvElSzwnOFre4zjc6E9wuCkIJ+W5Kl4jggrdk3QLJRMAo5CRxwZkQMBPlWO0//SgkRZpABi/6DPPsgK3Vrk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717971871; c=relaxed/simple;
-	bh=CwlA2XWpylmghwW82kcJuuHVOtVeAgY64AJcXqvAtrU=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=AStZGvKCltzEIKpW5aEQGWTgljbPl6XZYo71mQ9kHM2mM7m9jgPAOVp6DUDn3nx0H1ybvBdsj1GIV3y2F7XbgAY3IyciFJ7rg1b9G7SRm7gMYjlf59/ZRSh4qjuG69/K6jjysPq4UiMfjYW+nXKcTh8HYU7VkJFqdQzjKcIARX4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=bHXXUw4C; arc=none smtp.client-ip=212.227.15.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
+	s=arc-20240116; t=1717998540; c=relaxed/simple;
+	bh=wGuLcEvBM1TxJVrx7wgm+rJmZyAPeLFY2yA7Snu4PlE=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=H1OpyB/T/Q5lyf7MqA1Ns6t/sqwsA9//2b4O6EZ8O/xg6SFtxmSrej5BOv3QxjeKXwn1NJRpomWI12UzNnFKJNmpyQrRUQ2tggo+0wDPpIW4UI/+RO+HVgaGhhziBgk5X/drIg1O75Z9wVLGYBUANF7ATIymwQLIWUmRFchOQuk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net; spf=pass smtp.mailfrom=darkphysics.net; dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b=WIkRASp3; arc=none smtp.client-ip=209.85.215.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=darkphysics.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="bHXXUw4C"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
-	s=s31663417; t=1717971848; x=1718576648; i=wahrenst@gmx.net;
-	bh=CwlA2XWpylmghwW82kcJuuHVOtVeAgY64AJcXqvAtrU=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:From:
-	 Subject:Content-Type:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=bHXXUw4Cc+Hoq9Buys5bRPujwwjJtbVOli7ACK84gl58ltCikF3JCadroD+Sdu0y
-	 oey9gXNQsqgJizAPJALN1KscIJOApcpuJDaGveJTtMe07qEQLFbU7Ts+Cd5jOgxEa
-	 lnwv91E+Q0A5yxzq3uCyYYlvVZ6ziYQMTCVwqIWcAh59UJc2Uk36VciMInA8wnmII
-	 /hbIpsesQW4sHx6CkmebR0W9ggc3tFU/ZNRD3ajs7EIsKFgfwmsNB6F8WvFGE//nG
-	 WyLeBOghy6RZTCyd6PUX57tO9g+eZyoyAkXBYkZcd2uauvB8Rw4r8dwcs2Lnl2YjT
-	 bLXVOIx2DXzZxdV6xQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.127] ([37.4.248.43]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MQe9s-1s1fna0mVK-00TorN; Mon, 10
- Jun 2024 00:24:08 +0200
-Message-ID: <ad2b7034-ecc9-4d6e-844c-bfe32fb5b23c@gmx.net>
-Date: Mon, 10 Jun 2024 00:24:07 +0200
+	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="WIkRASp3"
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-6ce533b643dso3032262a12.3
+        for <linux-staging@lists.linux.dev>; Sun, 09 Jun 2024 22:48:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=darkphysics.net; s=google; t=1717998538; x=1718603338; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VS8+tN2wE0yBpRCgcBNKFr5QsSiOhIdKbcY3TBHOZic=;
+        b=WIkRASp3LwYhUn5iCCy04yuyXWHgb1ieWH4B79igxpkZTKQt56/BxOZu3kDKBnkFkF
+         yZ277jceroVMpdDSR7laOwezgTaTTfiBG6gUW5Pb+eB9VnEJd7oGpnHKGVUwkZc0qAAn
+         15isuQOLBOqF2OCZ7Wttl61adNPCH2AXDzNvwhV13FItfMEzz7OJbwO690ZSQqb3vucb
+         fzYnQBX8ORC94dL+ks9t3M1cy9bkynSzZ5LYmLtT7OxwofRgUlxJbS+hqkZspv6RG3OR
+         yrfuZWw36YB34u+0uu4RpIYqtVmB4ycdEUBh5LBj8ycVhI+b9SUS/qW1LYhOzgqKMQ/4
+         otFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717998538; x=1718603338;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=VS8+tN2wE0yBpRCgcBNKFr5QsSiOhIdKbcY3TBHOZic=;
+        b=D0qtWn4URLwepMFizZ7yJvUVe5LT+THq9RtqP6TDhZy8ln9nkvkiTNZHTGGOAlzdk/
+         g/zJeqtZpaf8l5jRRySkFVShqnD9+juvhVAwutITGnolpaUqlTME8qP2iJoFbyHP1C9P
+         cSG9MUnqcRnbDGCxVsGBXMxpF1pkJJAfuW49A2+K/q1YRoqELKcGnqH32gA0kr1eK9O7
+         JI8QXJpQZU/XRSdTbM5bhg2af9z1H/C7Yxy43zEC+b3w+mqnZIHkQ5K3cFDbTKd6vLhu
+         WeHjHUf57tuTCy50dVm9KJx+rAiFmn93obydomtQ8d9tDE9d89zKgD/cVQ3oYLc/iicr
+         JvIw==
+X-Gm-Message-State: AOJu0YwxB/Oh9EVtjxV6MhM4Vrdhs2EekyTY9ml2OVqFnEzqBKfxZydG
+	YSSyApt3/2/yLB2+fFcsWk+N4WVOI9pR2xf3bT2qDIZ9oqIeIDdNjnGBAtjS9yA=
+X-Google-Smtp-Source: AGHT+IHPeIIVRuksUR2EounPc0w5SxO3M055OQucGnBel37jU/DwJqO16utCbowWjdkxfq9/KnuKAA==
+X-Received: by 2002:a05:6a20:1583:b0:1b6:cd8e:4a4 with SMTP id adf61e73a8af0-1b6cd8e087amr3491610637.1.1717998538232;
+        Sun, 09 Jun 2024 22:48:58 -0700 (PDT)
+Received: from lunchbox.darkphysics (c-76-146-178-2.hsd1.wa.comcast.net. [76.146.178.2])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f6f1aced64sm35653725ad.9.2024.06.09.22.48.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 09 Jun 2024 22:48:57 -0700 (PDT)
+From: Tree Davies <tdavies@darkphysics.net>
+To: gregkh@linuxfoundation.org,
+	philipp.g.hortmann@gmail.com,
+	anjan@momi.ca
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Tree Davies <tdavies@darkphysics.net>
+Subject: [PATCH 01/24] Staging: rtl8192e: Rename variable bHwSec
+Date: Sun,  9 Jun 2024 22:44:26 -0700
+Message-Id: <20240610054449.71316-2-tdavies@darkphysics.net>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20240610054449.71316-1-tdavies@darkphysics.net>
+References: <20240610054449.71316-1-tdavies@darkphysics.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: Catalin Marinas <catalin.marinas@arm.com>,
- Phil Elwell <phil@raspberrypi.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Will Deacon <will@kernel.org>,
- Christoph Hellwig <hch@lst.de>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- linux-staging@lists.linux.dev
-From: Stefan Wahren <wahrenst@gmx.net>
-Subject: WARNING:
- drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:364
- vchiq_prepare_bulk_data
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:qNsRZmqGHH75DWNfgijucHO8ezT35SGbbSRMhjuhmxsPIoJwW8f
- rcKs90R3NfFU3niHoWmjoQIx5TiDWcsBLiPzuEYzCe1IUA84umzHJi2KYTLDP7ZLEFsqcON
- JAXNueIw93HWQDP9sbyiPM6L39waaDb9Hcsh3cVEEGZcfsx3n3v42rN6rUamsh5Y15wEYc8
- CwWLd/ycMRZ3EMGG1HFIA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:TbTv1iOZxWw=;Bi7nP9MiSrZOnsB5xv+RUT7Sioo
- YFcV/kpQP7sf/QSRpEeDZHKGfQ9ZoU4KV7JqzJrd2WwY0FY3WNbXhLUwunWPWLyf9bjUvzNx3
- bB2FVq5A1HPvPtwRO5aHDgrrrvKTR5OcuZbNrhvSxPHDXwsOh2UNzcFZvHXKnUB9Sv8q1bcml
- SQClmNAaPFNM3MNIokHcfe2FE3GzEm785X01OQdE7drxNyymbkA+hwpoPB7CVZ/UeVASXbBzT
- yTzgADb4TI92snP+byeDWkvYvGGxEQ79gaoxCYFJjBNdSfyTSeVJWvWi7d8SMjvLzVGJDYmrn
- nLMY9/9YtR0We3G76uAdTCalUzPsRawBRwMnkpiJIbxE2dhJGgyw5FkGuPGP8nZxHsrwUkmIV
- RlYw1RocI+fHsTUFn10UXGsFlXdaU3zzAfCRhoZOZmI6ArHVgOaBH+KmSxFuJ619C4j+WXbq0
- cynq1+NIsEdMDYOPEdwOhRD/em2Ww4NM34lQ6zrunuEDdAxYjzxGrHHP07X+Depatr98argKQ
- 1LLlHu+7NnJ79fjBSTyTNvh6HTyhC+BYeH98Hwsp6P63rhIZfRlhOK4CK06C4m4hVuiMlCkOs
- IYQJJ17QC04CZ/nnN1LXkv+QKmxl0BEnQGISVt+uiJb1++hxf1xHNX1c5FvT1OEVVdpxVicsS
- AvYz0+siqBjAu1mu0nSa30LNFn7sK31fSocnJLHPG5OTkRKDk9DfgGNo2rJbj404dBpp95JlJ
- RJ9DVphkvRxkBldIfoDlP9X9hluEUqAJpFNFADx+nBKEWkOthlgQJmyDSzPKlDTVSjrg6YMrA
- xSf17OCrgoxVe2hpKXCVIuaeD7ftFTg0yFNqIxaZ8ZLJY=
+Content-Transfer-Encoding: 8bit
 
-Hi,
-i was able to trigger a flood of WARNINGs with Raspberry Pi 3 B Plus (
-arm64/defconfig + CONFIG_BCM2835_VCHIQ=3Dm + CONFIG_VCHIQ_CDEV=3Dy ) runni=
-ng
-the following userspace tool (triggers DMA transfer)
+Rename variable bHwSec to hw_sec
+to fix checkpatch warning Avoid CamelCase.
 
-vchiq_test -f 1
+Signed-off-by: Tree Davies <tdavies@darkphysics.net>
+---
+ drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c |  2 +-
+ drivers/staging/rtl8192e/rtllib.h              |  2 +-
+ drivers/staging/rtl8192e/rtllib_crypt_ccmp.c   |  4 ++--
+ drivers/staging/rtl8192e/rtllib_crypt_tkip.c   | 10 +++++-----
+ drivers/staging/rtl8192e/rtllib_crypt_wep.c    |  4 ++--
+ drivers/staging/rtl8192e/rtllib_rx.c           |  8 ++++----
+ drivers/staging/rtl8192e/rtllib_tx.c           |  6 +++---
+ 7 files changed, 18 insertions(+), 18 deletions(-)
 
-The command seems to succeed as usual except of the warnings. But these
-warnings are not reproducible with 32 bit configuration like
-multi_v7_defconfig on the same Raspberry Pi 3 B Plus:
-
-[=C2=A0=C2=A0 64.531826] WARNING: CPU: 3 PID: 867 at
-drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:364
-vchiq_prepare_bulk_data+0x2cc/0x4e8 [vchiq]
-[=C2=A0=C2=A0 64.531880] Modules linked in: aes_neon_blk af_alg 8021q garp=
- mrp stp
-llc microchip raspberrypi_cpufreq brcmfmac_wcc snd_bcm2835(C) lan78xx
-brcmfmac brcmutil vc4 cfg80211 hci_uart snd_soc_hdmi_codec btqca cec
-btbcm onboard_usb_hub drm_display_helper bluetooth crct10dif_ce
-drm_dma_helper raspberrypi_hwmon clk_raspberrypi drm_kms_helper
-ecdh_generic bcm2835_thermal i2c_bcm2835 ecc pwm_bcm2835 rfkill vchiq(C)
-drm fuse ip_tables x_tables ipv6
-[=C2=A0=C2=A0 64.532010] CPU: 3 PID: 867 Comm: vchiq_test Tainted: G WC=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
-6.4.0-rc4-00297-gf999f38b4e6f #24
-[=C2=A0=C2=A0 64.532022] Hardware name: Raspberry Pi 3 Model B Plus Rev 1.=
-3 (DT)
-[=C2=A0=C2=A0 64.532029] pstate: 00000005 (nzcv daif -PAN -UAO -TCO -DIT -=
-SSBS
-BTYPE=3D--)
-[=C2=A0=C2=A0 64.532038] pc : vchiq_prepare_bulk_data+0x2cc/0x4e8 [vchiq]
-[=C2=A0=C2=A0 64.532060] lr : vchiq_prepare_bulk_data+0x320/0x4e8 [vchiq]
-[=C2=A0=C2=A0 64.532080] sp : ffff8000093dbb10
-[=C2=A0=C2=A0 64.532086] x29: ffff8000093dbb10 x28: 00000000000000a4 x27:
-ffff80000b065000
-[=C2=A0=C2=A0 64.532101] x26: ffff80000b065010 x25: ffff80000b065060 x24:
-0000000000000000
-[=C2=A0=C2=A0 64.532114] x23: 0000000000000001 x22: 0000000000000001 x21:
-0000000000000001
-[=C2=A0=C2=A0 64.532127] x20: ffff80000b065040 x19: 0000000000000002 x18:
-0000000000000800
-[=C2=A0=C2=A0 64.532139] x17: 001fffffffffffff x16: ffffdefad16fc6d0 x15:
-ffff1449b720713c
-[=C2=A0=C2=A0 64.532151] x14: 0000000000000000 x13: ffff1449b7207130 x12:
-ffff1449b7207100
-[=C2=A0=C2=A0 64.532163] x11: 0000000000000030 x10: 00000000000000ff x9 :
-000000003f000000
-[=C2=A0=C2=A0 64.532175] x8 : 00000000351ae800 x7 : 00000000351ae800 x6 :
-00000000000000ff
-[=C2=A0=C2=A0 64.532187] x5 : ffff1449b51ae801 x4 : ffff1449b9efc001 x3 :
-0000000000000000
-[=C2=A0=C2=A0 64.532201] x2 : 00000000f51ae800 x1 : fffffc5126e7bf02 x0 :
-0000000000000001
-[=C2=A0=C2=A0 64.532218] Call trace:
-[=C2=A0=C2=A0 64.532222]=C2=A0 vchiq_prepare_bulk_data+0x2cc/0x4e8 [vchiq]
-[=C2=A0=C2=A0 64.532247]=C2=A0 vchiq_bulk_transfer+0x25c/0x3bc [vchiq]
-[=C2=A0=C2=A0 64.532272]=C2=A0 vchiq_irq_queue_bulk_tx_rx+0x6c/0x348 [vchi=
-q]
-[=C2=A0=C2=A0 64.532293]=C2=A0 vchiq_ioctl+0x684/0xbe8 [vchiq]
-[=C2=A0=C2=A0 64.532313]=C2=A0 __arm64_sys_ioctl+0xa8/0xec
-[=C2=A0=C2=A0 64.532327]=C2=A0 invoke_syscall+0x48/0x114
-[=C2=A0=C2=A0 64.532341]=C2=A0 el0_svc_common.constprop.0+0x44/0xf4
-[=C2=A0=C2=A0 64.532353]=C2=A0 do_el0_svc+0x3c/0xa8
-[=C2=A0=C2=A0 64.532362]=C2=A0 el0_svc+0x2c/0x84
-[=C2=A0=C2=A0 64.532379]=C2=A0 el0t_64_sync_handler+0xbc/0x138
-[=C2=A0=C2=A0 64.532389]=C2=A0 el0t_64_sync+0x190/0x194
-[=C2=A0=C2=A0 64.532400] ---[ end trace 0000000000000000 ]---
-
-Since there are a lot of WARN_ON in the function, i applied the
-following patch:
-
-diff --git
-a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-index 9fb8f657cc78..2beeb94f629e 100644
-=2D-- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-@@ -192,7 +192,7 @@ cleanup_pagelistinfo(struct vchiq_instance
-*instance, struct vchiq_pagelist_info
- =C2=A0}
-
- =C2=A0static inline bool
--is_adjacent_block(u32 *addrs, u32 addr, unsigned int k)
-+is_adjacent_block(u32 *addrs, dma_addr_t addr, unsigned int k)
- =C2=A0{
- =C2=A0=C2=A0=C2=A0=C2=A0 u32 tmp;
-
-@@ -357,15 +357,19 @@ create_pagelist(struct vchiq_instance *instance,
-char *buf, char __user *ubuf,
- =C2=A0=C2=A0=C2=A0=C2=A0 k =3D 0;
- =C2=A0=C2=A0=C2=A0=C2=A0 for_each_sg(scatterlist, sg, dma_buffers, i) {
- =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 u32 len =3D sg_dma_len(sg);
--=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 u32 addr =3D sg_dma_address(sg);
-+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 dma_addr_t addr =3D sg_dma_address(=
-sg);
-
- =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 /* Note: addrs is the address=
- + page_count - 1
- =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0* The firmware expects =
-blocks after the first to be page-
- =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0* aligned and a multipl=
-e of the page size
- =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0*/
--=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 WARN_ON(len =3D=3D 0);
--=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 WARN_ON(i && (i !=3D (dma_buffers -=
- 1)) && (len & ~PAGE_MASK));
--=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 WARN_ON(i && (addr & ~PAGE_MASK));
-+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 if (len =3D=3D 0)
-+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 pr_warn_once("%s=
-: sg_dma_len() =3D=3D 0\n", __func__);
-+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 else if (i && (i !=3D (dma_buffers =
-- 1)) && (len & ~PAGE_MASK))
-+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 pr_warn_once("%s=
-: following block not page aligned\n",
-__func__);
-+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 else if (i && (addr & ~PAGE_MASK))
-+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 pr_warn_once("%s=
-: block %u, DMA address %pad doesn't align
-with PAGE_MASK 0x%lx\n", __func__, i, &addr, PAGE_MASK);
-+
- =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 if (is_adjacent_block(addrs, =
-addr, k))
- =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 addrs[k - =
-1] +=3D ((len + PAGE_SIZE - 1) >> PAGE_SHIFT);
- =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 else
-@@ -385,11 +389,15 @@ create_pagelist(struct vchiq_instance *instance,
-char *buf, char __user *ubuf,
- =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 return NUL=
-L;
- =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 }
-
--=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 WARN_ON(!g_free_fragments);
-+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 if (!g_free_fragments)
-+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 pr_warn_once("%s=
-: !g_free_fragments\n", __func__);
-
- =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 down(&g_free_fragments_mutex)=
-;
- =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 fragments =3D g_free_fragment=
-s;
--=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 WARN_ON(!fragments);
-+
-+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 if (!fragments)
-+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 pr_warn_once("%s=
-: !fragments\n", __func__);
-+
- =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 g_free_fragments =3D *(char *=
-*)g_free_fragments;
- =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 up(&g_free_fragments_mutex);
- =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 pagelist->type =3D PAGELIST_R=
-EAD_WITH_FRAGMENTS +
-
-After that i'm getting the following warning:
-
- =C2=A0 create_pagelist: block 1, DMA address 0x00000000f5f62800 doesn't
-align with PAGE_MASK 0xfffffffffffff000
-
-Then i bisected the issue to this commit:
-
-commit 1c1a429efd4ee8ca244cc2401365c983cda4ed76
-Author: Catalin Marinas <catalin.marinas@arm.com>
-Date:=C2=A0=C2=A0 Mon Jun 12 16:32:01 2023 +0100
-
- =C2=A0=C2=A0=C2=A0 arm64: enable ARCH_WANT_KMALLOC_DMA_BOUNCE for arm64
-
- =C2=A0=C2=A0=C2=A0 With the DMA bouncing of unaligned kmalloc() buffers n=
-ow in place,
-enable
- =C2=A0=C2=A0=C2=A0 it for arm64 to allow the kmalloc-{8,16,32,48,96} cach=
-es.=C2=A0 In addition,
- =C2=A0=C2=A0=C2=A0 always create the swiotlb buffer even when the end of =
-RAM is within the
- =C2=A0=C2=A0=C2=A0 32-bit physical address range (the swiotlb buffer can =
-still be
-disabled on
- =C2=A0=C2=A0=C2=A0 the kernel command line).
-
-So how can the root cause of these warnings be fixed?
-Or is the specific WARN_ON() now obsolete?
+diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+index a0fc33f984e8..27dfa268cd68 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
++++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+@@ -934,7 +934,7 @@ void  rtl92e_fill_tx_desc(struct net_device *dev, struct tx_desc *pdesc,
+ 
+ 	pdesc->NoEnc = 1;
+ 	pdesc->SecType = 0x0;
+-	if (cb_desc->bHwSec) {
++	if (cb_desc->hw_sec) {
+ 		static u8 tmp;
+ 
+ 		if (!tmp)
+diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
+index 62af48c20229..46bc3561f56f 100644
+--- a/drivers/staging/rtl8192e/rtllib.h
++++ b/drivers/staging/rtl8192e/rtllib.h
+@@ -105,7 +105,7 @@ struct cb_desc {
+ 	u8 bCmdOrInit:1;
+ 	u8 tx_dis_rate_fallback:1;
+ 	u8 tx_use_drv_assinged_rate:1;
+-	u8 bHwSec:1;
++	u8 hw_sec:1;
+ 
+ 	u8 nStuckCount;
+ 
+diff --git a/drivers/staging/rtl8192e/rtllib_crypt_ccmp.c b/drivers/staging/rtl8192e/rtllib_crypt_ccmp.c
+index cbb8c8dbe9b0..230552dd2b4d 100644
+--- a/drivers/staging/rtl8192e/rtllib_crypt_ccmp.c
++++ b/drivers/staging/rtl8192e/rtllib_crypt_ccmp.c
+@@ -182,7 +182,7 @@ static int rtllib_ccmp_encrypt(struct sk_buff *skb, int hdr_len, void *priv)
+ 	*pos++ = key->tx_pn[0];
+ 
+ 	hdr = (struct ieee80211_hdr *)skb->data;
+-	if (!tcb_desc->bHwSec) {
++	if (!tcb_desc->hw_sec) {
+ 		struct aead_request *req;
+ 		struct scatterlist sg[2];
+ 		u8 *aad = key->tx_aad;
+@@ -265,7 +265,7 @@ static int rtllib_ccmp_decrypt(struct sk_buff *skb, int hdr_len, void *priv)
+ 		key->dot11rsna_stats_ccmp_replays++;
+ 		return -4;
+ 	}
+-	if (!tcb_desc->bHwSec) {
++	if (!tcb_desc->hw_sec) {
+ 		size_t data_len = skb->len - hdr_len - CCMP_HDR_LEN;
+ 		struct aead_request *req;
+ 		struct scatterlist sg[2];
+diff --git a/drivers/staging/rtl8192e/rtllib_crypt_tkip.c b/drivers/staging/rtl8192e/rtllib_crypt_tkip.c
+index 0244b524a7d4..a45fcb13bd54 100644
+--- a/drivers/staging/rtl8192e/rtllib_crypt_tkip.c
++++ b/drivers/staging/rtl8192e/rtllib_crypt_tkip.c
+@@ -268,7 +268,7 @@ static int rtllib_tkip_encrypt(struct sk_buff *skb, int hdr_len, void *priv)
+ 
+ 	hdr = (struct ieee80211_hdr *)skb->data;
+ 
+-	if (!tcb_desc->bHwSec) {
++	if (!tcb_desc->hw_sec) {
+ 		if (!tkey->tx_phase1_done) {
+ 			tkip_mixing_phase1(tkey->tx_ttak, tkey->key, hdr->addr2,
+ 					   tkey->tx_iv32);
+@@ -285,7 +285,7 @@ static int rtllib_tkip_encrypt(struct sk_buff *skb, int hdr_len, void *priv)
+ 	memmove(pos, pos + 8, hdr_len);
+ 	pos += hdr_len;
+ 
+-	if (tcb_desc->bHwSec) {
++	if (tcb_desc->hw_sec) {
+ 		*pos++ = Hi8(tkey->tx_iv16);
+ 		*pos++ = (Hi8(tkey->tx_iv16) | 0x20) & 0x7F;
+ 		*pos++ = Lo8(tkey->tx_iv16);
+@@ -301,7 +301,7 @@ static int rtllib_tkip_encrypt(struct sk_buff *skb, int hdr_len, void *priv)
+ 	*pos++ = (tkey->tx_iv32 >> 16) & 0xff;
+ 	*pos++ = (tkey->tx_iv32 >> 24) & 0xff;
+ 
+-	if (!tcb_desc->bHwSec) {
++	if (!tcb_desc->hw_sec) {
+ 		icv = skb_put(skb, 4);
+ 		crc = ~crc32_le(~0, pos, len);
+ 		icv[0] = crc;
+@@ -319,7 +319,7 @@ static int rtllib_tkip_encrypt(struct sk_buff *skb, int hdr_len, void *priv)
+ 		tkey->tx_iv32++;
+ 	}
+ 
+-	if (!tcb_desc->bHwSec)
++	if (!tcb_desc->hw_sec)
+ 		return ret;
+ 	return 0;
+ }
+@@ -371,7 +371,7 @@ static int rtllib_tkip_decrypt(struct sk_buff *skb, int hdr_len, void *priv)
+ 	iv32 = pos[4] | (pos[5] << 8) | (pos[6] << 16) | (pos[7] << 24);
+ 	pos += 8;
+ 
+-	if (!tcb_desc->bHwSec || (skb->cb[0] == 1)) {
++	if (!tcb_desc->hw_sec || (skb->cb[0] == 1)) {
+ 		if ((iv32 < tkey->rx_iv32 ||
+ 		     (iv32 == tkey->rx_iv32 && iv16 <= tkey->rx_iv16)) &&
+ 		     tkey->initialized) {
+diff --git a/drivers/staging/rtl8192e/rtllib_crypt_wep.c b/drivers/staging/rtl8192e/rtllib_crypt_wep.c
+index 21c2b7666d6f..bd732c562b82 100644
+--- a/drivers/staging/rtl8192e/rtllib_crypt_wep.c
++++ b/drivers/staging/rtl8192e/rtllib_crypt_wep.c
+@@ -102,7 +102,7 @@ static int prism2_wep_encrypt(struct sk_buff *skb, int hdr_len, void *priv)
+ 	/* Copy rest of the WEP key (the secret part) */
+ 	memcpy(key + 3, wep->key, wep->key_len);
+ 
+-	if (!tcb_desc->bHwSec) {
++	if (!tcb_desc->hw_sec) {
+ 		/* Append little-endian CRC32 and encrypt it to produce ICV */
+ 		crc = ~crc32_le(~0, pos, len);
+ 		icv = skb_put(skb, 4);
+@@ -155,7 +155,7 @@ static int prism2_wep_decrypt(struct sk_buff *skb, int hdr_len, void *priv)
+ 	/* Apply RC4 to data and compute CRC32 over decrypted data */
+ 	plen = skb->len - hdr_len - 8;
+ 
+-	if (!tcb_desc->bHwSec) {
++	if (!tcb_desc->hw_sec) {
+ 		arc4_setkey(&wep->rx_ctx_arc4, key, klen);
+ 		arc4_crypt(&wep->rx_ctx_arc4, pos, pos, plen + 4);
+ 
+diff --git a/drivers/staging/rtl8192e/rtllib_rx.c b/drivers/staging/rtl8192e/rtllib_rx.c
+index 86b8d342ac80..3bff54efe66e 100644
+--- a/drivers/staging/rtl8192e/rtllib_rx.c
++++ b/drivers/staging/rtl8192e/rtllib_rx.c
+@@ -282,10 +282,10 @@ rtllib_rx_frame_decrypt(struct rtllib_device *ieee, struct sk_buff *skb,
+ 		struct cb_desc *tcb_desc = (struct cb_desc *)
+ 						(skb->cb + MAX_DEV_ADDR_SIZE);
+ 
+-		tcb_desc->bHwSec = 1;
++		tcb_desc->hw_sec = 1;
+ 
+ 		if (ieee->need_sw_enc)
+-			tcb_desc->bHwSec = 0;
++			tcb_desc->hw_sec = 0;
+ 	}
+ 
+ 	hdr = (struct ieee80211_hdr *)skb->data;
+@@ -321,10 +321,10 @@ rtllib_rx_frame_decrypt_msdu(struct rtllib_device *ieee, struct sk_buff *skb,
+ 		struct cb_desc *tcb_desc = (struct cb_desc *)
+ 						(skb->cb + MAX_DEV_ADDR_SIZE);
+ 
+-		tcb_desc->bHwSec = 1;
++		tcb_desc->hw_sec = 1;
+ 
+ 		if (ieee->need_sw_enc)
+-			tcb_desc->bHwSec = 0;
++			tcb_desc->hw_sec = 0;
+ 	}
+ 
+ 	hdr = (struct ieee80211_hdr *)skb->data;
+diff --git a/drivers/staging/rtl8192e/rtllib_tx.c b/drivers/staging/rtl8192e/rtllib_tx.c
+index b1bde5c0050a..87d1ff943617 100644
+--- a/drivers/staging/rtl8192e/rtllib_tx.c
++++ b/drivers/staging/rtl8192e/rtllib_tx.c
+@@ -751,14 +751,14 @@ static int rtllib_xmit_inter(struct sk_buff *skb, struct net_device *dev)
+ 
+ 		if (encrypt) {
+ 			if (ieee->hwsec_active)
+-				tcb_desc->bHwSec = 1;
++				tcb_desc->hw_sec = 1;
+ 			else
+-				tcb_desc->bHwSec = 0;
++				tcb_desc->hw_sec = 0;
+ 			skb_reserve(skb_frag,
+ 				    crypt->ops->extra_mpdu_prefix_len +
+ 				    crypt->ops->extra_msdu_prefix_len);
+ 		} else {
+-			tcb_desc->bHwSec = 0;
++			tcb_desc->hw_sec = 0;
+ 		}
+ 		frag_hdr = skb_put_data(skb_frag, &header, hdr_len);
+ 
+-- 
+2.30.2
 
