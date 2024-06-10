@@ -1,123 +1,111 @@
-Received: from fout7-smtp.messagingengine.com (fout7-smtp.messagingengine.com [103.168.172.150])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C87B18C31
-	for <linux-staging@lists.linux.dev>; Mon, 10 Jun 2024 09:20:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.150
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12BC674054
+	for <linux-staging@lists.linux.dev>; Mon, 10 Jun 2024 09:25:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718011212; cv=none; b=nPzGw/hXPNleoTKwGX+Kx/EM9QXCOtLXdvMvxcDwp+5veMNTstTCi03UhPfB7Xlt8LUc3VtQKD3Hh5tJ4sQvrk2gGi3ux1Lzjxks3g+t36O/rfqmVWuPVQSVVS0F1M6DPk/ZEPH9OuFSpLyEmedJsNizuvpbPDconkZra0AE/ZA=
+	t=1718011512; cv=none; b=ZYy7QeJAJcgHQdqjcKfitBjafWuMeN2OEV6NTNW809apOZ28I6PzMv5vvAoqgSjFAU9B1woAv/RHPk0kmdYGLmvO7oYrS+bExuItTg4qVmipnowHmtmNavjLd/kDB/vpK7ugth1Hn9bHi8pdYeLqMXqfCsvKrZ+hpdvO3Tq4KhA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718011212; c=relaxed/simple;
-	bh=db7HUaRQ0RsBOufcp3NSrxaTQlMF+XJ2RXlBoo6bv/U=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=ZTLs+nvs85JdxMBUexP+raWgPawSxdh5DX+mUOr2qmiS9Nf35+etIsay66ufWKzcAasGPImGPHuvj7gnQSVRvvRqtCcdABv5dRYGccpVgwoEBGB5YdoUAAfL3D4/lFD8KMedA8b5zQC/pV2iC3KRzz+v2XvC0C2oz41ywLhqtd8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=KQvaG0Xs; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=GZqICvub; arc=none smtp.client-ip=103.168.172.150
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1718011512; c=relaxed/simple;
+	bh=JTZOwPU+VxB0/kN/e2KfZLF+FybumIOZw9skQ70PxTQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Xy9ILlorNhxtEw1gQSQUjyDaF1DScxR8xoX8J8MhTEEYqpNdQIEnbb1DOL4cgIJF9ICQvuGYDnPcWC9v1IK2J27Tfsk7DTqbjiR70UptFou2mCHwFOuxjlLec3cW9Ow4HADJHzVBlzTgoQ2+9yCWPA65Sf2ZQLm1tqIjfEgd7/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=f5xClaf2; arc=none smtp.client-ip=209.85.219.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="KQvaG0Xs";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="GZqICvub"
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailfout.nyi.internal (Postfix) with ESMTP id C44591380172;
-	Mon, 10 Jun 2024 05:20:08 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Mon, 10 Jun 2024 05:20:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1718011208; x=1718097608; bh=vS+z2PoXmA
-	eDThmmxcYxDuh5kBNZp5X+04/PDK3xdTc=; b=KQvaG0XsFKgj2Ec4TKzpGROGIr
-	9L2UqwRxyagIzzd9IYMnK19uOXaXG9Pq3Rs8lN3GeCBlvSTvQLQit2peaZcWuqYm
-	d4bz1873kahpicrqWIOfOEkR0KQVhQC9uj7dRCzNVJe0QVqoHhYxG+DyVJgSm1w5
-	KTRCNY/eVMMPnV7+vbwYMLH+C2IGvpQrJ67HQxC/+RyOpuG/VJOD9253aBSU0cs0
-	NUagT+2CQqx+dy7iimcYwoTIHgM1BjVTfL+mzBQP4I3f7QzPBjjTqAmM4Nn6mH2a
-	hFF1thOCdHTWBWLLins3mgSfsnNeh7J2X0x0bPcR8W/gOLduej7Ba/SWnrrg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1718011208; x=1718097608; bh=vS+z2PoXmAeDThmmxcYxDuh5kBNZ
-	p5X+04/PDK3xdTc=; b=GZqICvubtG7KkHoXlBtkUpuUAJnffvD9Hw96Wa7fgYWF
-	vCM8GRoYlpumhkt5CONPayM0bsQPbfkiVd1X8CqhwzgswZec9k+Zck7HOBm485gZ
-	Qqh7lgbYlCRqOdg0NHw5blwCYEqE29nLhM0fUnvCHw8SvEUXF39rMAgaug3frayN
-	s9ObkTpJN+rgwDe52Y4Fr3k8oYD6aWazGJjePNQO0TkN1GXYZryOg+G5bSTxeOfl
-	TOD7evB7P7w3xzMttKH/vWQPAsmjVgnQAYUimUbaU0kSVwqkcImfLStGAc9cZpUJ
-	Qn93W2uBmWuh6oG9jivlSc461IC5AedluNSCjCQNDQ==
-X-ME-Sender: <xms:SMVmZt1Mxh1uE7-GFGxXDng_-fMhfq9FViWOMxqi_uSWewCEXA27Lw>
-    <xme:SMVmZkFkL6CUecf4MJjSidxYB1giRSjgLUlvME8Pr3-BiweGtv8SB-iTA6nEURqMD
-    mAec_jfsqy_gPl5gQ0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrfedutddgudehucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
-    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
-    hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:SMVmZt5tjImzvFRYKnO0iKdpkP4C_2uu8hiwUzdZq-lUywUh--gRBA>
-    <xmx:SMVmZq2nC82qPyv20YcIAExFARJ1IFbgu7VrUjita5BV46Muf05SwQ>
-    <xmx:SMVmZgGXW5z3QsBjTOp8chsVTpt8s9WmAJKjg6yRYeSB7tCebKVGuQ>
-    <xmx:SMVmZr_NfHAv6bcbh9E-Dg9VaqXpm_pW0v55XIIySEyivsWThGUl2Q>
-    <xmx:SMVmZo_rSccvBHwCDVK-inqPahZf2TxD0qkRbOfSQXLWHjwGSuCVujyt>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 5C9F5B6008D; Mon, 10 Jun 2024 05:20:08 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-497-g97f96844c-fm-20240526.001-g97f96844
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="f5xClaf2"
+Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-dfa7faffa6cso4616821276.0
+        for <linux-staging@lists.linux.dev>; Mon, 10 Jun 2024 02:25:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1718011510; x=1718616310; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=oxXFK2e0y5r0UCujN7S/+t7hqwk7APqO+4L4P/I+uyI=;
+        b=f5xClaf2NOdGeJfPX9HQbTUM0EHjA3uttTCIDCHtsriiWVzaia3MgR2CPaT1zIqF9o
+         2zGxBspUAjMdriklqQ8XnY3WyX0O6FFeCrfbgwdrUFMUWvRmlcuklw84eJpOONSfp4pR
+         qCwX8uHQzo4R9Yw54ecP8vMgj0M4TeR+JmPCW99wra8bpKMwh1hz91/mg+pS7xn+tfWM
+         N4kCgTyWP5p7YEWXWjv+5Tj+QZTelMtTaPnaNnPEHLFaBuxplih/F5IDNfzfkM3XiW5f
+         FzutK0smIFYAUahqsXY4PXInCznXJpn+3lAcgbjGMQpc/QYeYRBG2nTEEeJQQBTeu9xq
+         Y4kA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718011510; x=1718616310;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=oxXFK2e0y5r0UCujN7S/+t7hqwk7APqO+4L4P/I+uyI=;
+        b=e7boO5HNBq98IVO4vZkteEmhTOL7XBERQyJ1pfz7MmyAffkzWG2cNy6o7YhJblLMX3
+         3eSkYbRmBTzfJAbEjxzCObifPzTuiNIopUwQtJNbNpcUj/3Laefr+shpvPx4dLQLhMS5
+         noeeHDdXkTc9neIkelOA27euh3gRFRSgD407uBAFgngA8oTzYCciM88m+NjYVxjohVyG
+         PRsY5CcPK2OJ9gGjAbtdDRP1jgp19oHqi/dWxzMRs8M+F2EiO5q4HVXNEY/oHXgZnRxh
+         jgyiizBANsY3Cv6L8xkJFovIq1DYzVaFW1/r8XG9mQ518XF8t1s0PPM2jF6fRH152zs6
+         2Pwg==
+X-Forwarded-Encrypted: i=1; AJvYcCWq2DFkZx7nGz1rQkfbzIkY4kKBpSGfgF7KnJFcJI4iyfmx3lZF+qrpLQzbWvBDUDGpqtuvZMPl7sWpDS3HgHbQ62PFnzhtKuG/Y3zoug==
+X-Gm-Message-State: AOJu0YzwHd7TjaYGqQ5SPUM2oEM3xq9L64JUA69tpsGUvn6jjBJLi16c
+	lYq4dV5Nb1yVH3dsCg08tib23GBCaF0+Mt7KwqAZHS7TJl+kt6c0yAY0psHB0RZl1GWXBcUWa/T
+	RaZg3jtIhYD0dvFgp7Q0yxw/MhfU5EwODY3j95A==
+X-Google-Smtp-Source: AGHT+IFzjKyHUSwXJNHdF5VhGBs59NqiC+cGMmseeVgQSgaRCXI3j1ciK8rp7iILS2q9Ti/coL/8R7d29jjd+6mARXE=
+X-Received: by 2002:a25:8e09:0:b0:df4:f2d2:fcd6 with SMTP id
+ 3f1490d57ef6-dfaf66bc863mr7585983276.44.1718011509948; Mon, 10 Jun 2024
+ 02:25:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-Id: <28495bd5-41af-41b8-b427-6b6fd36a2740@app.fastmail.com>
-In-Reply-To: <20240610091534.GO18479@pendragon.ideasonboard.com>
-References: <ad2b7034-ecc9-4d6e-844c-bfe32fb5b23c@gmx.net>
- <9d603d43-0f8a-4f9b-b11b-9e7543f421b9@app.fastmail.com>
+References: <ad2b7034-ecc9-4d6e-844c-bfe32fb5b23c@gmx.net> <9d603d43-0f8a-4f9b-b11b-9e7543f421b9@app.fastmail.com>
  <CAMEGJJ3BqY9=9cq_JpKTVhyWKO50hcbEK0MXkBcYZwqadciGiA@mail.gmail.com>
- <72a414e4-4cd0-4b12-a662-cb73d1e3515e@app.fastmail.com>
- <20240610091534.GO18479@pendragon.ideasonboard.com>
-Date: Mon, 10 Jun 2024 11:19:47 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "laurent.pinchart" <laurent.pinchart@ideasonboard.com>
-Cc: "Phil Elwell" <phil@raspberrypi.com>, "Stefan Wahren" <wahrenst@gmx.net>,
- "Catalin Marinas" <catalin.marinas@arm.com>, "Will Deacon" <will@kernel.org>,
- "Christoph Hellwig" <hch@lst.de>,
- "Florian Fainelli" <florian.fainelli@broadcom.com>,
- "Robin Murphy" <robin.murphy@arm.com>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "Linux ARM" <linux-arm-kernel@lists.infradead.org>,
- linux-staging@lists.linux.dev
+ <72a414e4-4cd0-4b12-a662-cb73d1e3515e@app.fastmail.com> <20240610091534.GO18479@pendragon.ideasonboard.com>
+ <28495bd5-41af-41b8-b427-6b6fd36a2740@app.fastmail.com>
+In-Reply-To: <28495bd5-41af-41b8-b427-6b6fd36a2740@app.fastmail.com>
+From: Phil Elwell <phil@raspberrypi.com>
+Date: Mon, 10 Jun 2024 10:24:58 +0100
+Message-ID: <CAMEGJJ30ffMSd40YpqGuMWOeazoT+oiDvzkYEc37jOTx4fZBNg@mail.gmail.com>
 Subject: Re: WARNING: drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:364
  vchiq_prepare_bulk_data
-Content-Type: text/plain
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: "laurent.pinchart" <laurent.pinchart@ideasonboard.com>, Stefan Wahren <wahrenst@gmx.net>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Christoph Hellwig <hch@lst.de>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Robin Murphy <robin.murphy@arm.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Jun 10, 2024, at 11:15, Laurent Pinchart wrote:
-> On Mon, Jun 10, 2024 at 11:00:12AM +0200, Arnd Bergmann wrote:
->> On Mon, Jun 10, 2024, at 10:26, Phil Elwell wrote:
->> > On Mon, 10 Jun 2024 at 07:00, Arnd Bergmann <arnd@arndb.de> wrote:
->> >
->> > Why is swiotlb involved at all? The DMA controller on BCM2837 can
->> > access all RAM that is visible to the ARM cores.
->> 
->> When a device is not cache-coherent and the buffer is not
->> cache aligned, we now use swiotlb to avoid clobbering data
->> in the same cache line during DMA synchronization.
->> 
->> We used to rely on kmalloc() returning buffers that are
->> cacheline aligned, but that was very expensive.
+On Mon, 10 Jun 2024 at 10:20, Arnd Bergmann <arnd@arndb.de> wrote:
 >
-> Could we reject buffers provided by userspace that are not
-> cache-aligned ?
+> On Mon, Jun 10, 2024, at 11:15, Laurent Pinchart wrote:
+> > On Mon, Jun 10, 2024 at 11:00:12AM +0200, Arnd Bergmann wrote:
+> >> On Mon, Jun 10, 2024, at 10:26, Phil Elwell wrote:
+> >> > On Mon, 10 Jun 2024 at 07:00, Arnd Bergmann <arnd@arndb.de> wrote:
+> >> >
+> >> > Why is swiotlb involved at all? The DMA controller on BCM2837 can
+> >> > access all RAM that is visible to the ARM cores.
+> >>
+> >> When a device is not cache-coherent and the buffer is not
+> >> cache aligned, we now use swiotlb to avoid clobbering data
+> >> in the same cache line during DMA synchronization.
+> >>
+> >> We used to rely on kmalloc() returning buffers that are
+> >> cacheline aligned, but that was very expensive.
+> >
+> > Could we reject buffers provided by userspace that are not
+> > cache-aligned ?
+>
+> My guess is that this will likely break existing applications,
+> in which case we cannot.
+>
+> It's probably a good idea to take a look at what buffers
+> are actually passed by userspace today. That would also
+> help decide how we allocate bounce buffers if we have to.
+> E.g. it's a big difference if the buffers are always
+> within a few bytes, kilobytes or megabytes.
+>
+>      Arnd
 
-My guess is that this will likely break existing applications,
-in which case we cannot.
+vchiq sends partial cache lines at the start and of reads (as seen
+from the ARM host) out of band, so the only misaligned DMA transfers
+should be from ARM to VPU. This should not require a bounce buffer.
 
-It's probably a good idea to take a look at what buffers
-are actually passed by userspace today. That would also
-help decide how we allocate bounce buffers if we have to.
-E.g. it's a big difference if the buffers are always
-within a few bytes, kilobytes or megabytes.
-
-     Arnd
+Phil
