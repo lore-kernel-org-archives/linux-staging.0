@@ -1,95 +1,135 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFC2979DDB
-	for <linux-staging@lists.linux.dev>; Mon, 10 Jun 2024 10:25:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A6CA339A8
+	for <linux-staging@lists.linux.dev>; Mon, 10 Jun 2024 21:02:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718015134; cv=none; b=DM952Ga60k8+e2Zbq82TJ+vM4sLD+WUfWo7W6Lgs47jfY/LME5lPTTE7cDhj11OAXOppKGiNtaZ9XA5ujQDhiHbcPjhhhN2OfqyoI1+8IzYceKQOHJG2ZJLf4/G68WPe6N1mQh6e8qp6Adm5m1b06wB4sfX6dpQxL8e4MBiXA8M=
+	t=1718053374; cv=none; b=rVIFMIRwmGs7T2j6tah0ZFpiXKyBbObBkIG3/ZkkvAcJt/Qy6EKiFdOoHA/nw42HktTsXQIcXet4qy4amDjcvmZt1Zg4YoBO6A2MRScg2RQjzCifBtwNvfspLHRrEzkoPio5kBESp9/HDsl0z/EtK7skUGtdKdZZIZ9qGDzKlhc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718015134; c=relaxed/simple;
-	bh=NzTnEhfuaJwdt5rz44K4VDSdL4GnCx7M9WpQ9MoxEr0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=E20WdDKX4PilLa3GgHLdRUdP9pqnhjYC/bRj6ubzwuxcV0kMxmrjPa40m5SzvyHAJaYQEgHDFMF6IS9brFY/1pcpBkYrauBJauTWprDK6kxMc/TJnJmWuCVTjjstOGXUTEX2XWU59eLH+xh7AxgRmehLZwDPQPJcIWeXCSeqaS4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 65D7112FC;
-	Mon, 10 Jun 2024 03:25:55 -0700 (PDT)
-Received: from [10.57.69.222] (unknown [10.57.69.222])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 46E523F73B;
-	Mon, 10 Jun 2024 03:25:29 -0700 (PDT)
-Message-ID: <04b1276d-4db3-41a5-9960-15e96b779b13@arm.com>
-Date: Mon, 10 Jun 2024 11:25:29 +0100
+	s=arc-20240116; t=1718053374; c=relaxed/simple;
+	bh=ZvVTcI8Nyn3gWemcp7JQREwVcfOYyj4Im6fa4/CbXkk=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=nkyE5TRNK5Tn97bCEVWmhPJr8KKsqbHzEHdfTBthKHxE+6P7T1+DalCs7rIutWOolkvV+eVrcbdMTm1s/mpfV1mncZaaMm97PGGcf/gTG1xC4sWFb5hZJQbA2HlssE0vTZRLDU0mXXPoFQbIeL4duX0D7uwnSPod04W4vCcSqC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=ll2J9zVl; arc=none smtp.client-ip=212.227.15.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="ll2J9zVl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
+	s=s31663417; t=1718053363; x=1718658163; i=wahrenst@gmx.net;
+	bh=ar1NLPxF4FZyTBWrDAr+cKjNP/7T4hUOU0PPMGPmEf8=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:In-Reply-To:
+	 References:MIME-Version:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=ll2J9zVlZCgGmXbpbtoe9F6RblFGi+/+3G6KfjXkkGz9sRPUydNY63bYjCGLbF6Q
+	 fl1dtgF6R9tK0mXOT0JyHZYFk/tL42scsP15Ylg6bgdIv4NXl4kEnsy5AAfCeGhGx
+	 cHamhVg6Qy0BlwenHentdjm2Xa8MDkXk9BZbKNGsTqX+vkponVfPeCRrNbVBYV7RL
+	 30jnJCDh3mxxexFFc44f6x8iq8XuKrm624MrsioV5PTOWP6VQH0yxgXT4FbclYfzJ
+	 3oUMjbPNSs+wrVbRq2+8qNqq/YnHX4fnGczCHGF6aSMeBGSqK+t2iwsxYUfXM95NA
+	 Qp7FRW59HIx/79sumQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from stefanw-SCHENKER ([37.4.248.43]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1McpNo-1spYwr1eew-00om7o; Mon, 10
+ Jun 2024 23:02:43 +0200
+From: Stefan Wahren <wahrenst@gmx.net>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>
+Cc: Umang Jain <umang.jain@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	Stefan Wahren <wahrenst@gmx.net>
+Subject: [PATCH V2 06/10] staging: vchiq_arm: Drop vchiq_arm_init_state
+Date: Mon, 10 Jun 2024 23:02:16 +0200
+Message-Id: <20240610210220.95524-7-wahrenst@gmx.net>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240610210220.95524-1-wahrenst@gmx.net>
+References: <20240610210220.95524-1-wahrenst@gmx.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: WARNING:
- drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:364
- vchiq_prepare_bulk_data
-To: Phil Elwell <phil@raspberrypi.com>, Arnd Bergmann <arnd@arndb.de>
-Cc: "laurent.pinchart" <laurent.pinchart@ideasonboard.com>,
- Stefan Wahren <wahrenst@gmx.net>, Catalin Marinas <catalin.marinas@arm.com>,
- Will Deacon <will@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- linux-staging@lists.linux.dev
-References: <ad2b7034-ecc9-4d6e-844c-bfe32fb5b23c@gmx.net>
- <9d603d43-0f8a-4f9b-b11b-9e7543f421b9@app.fastmail.com>
- <CAMEGJJ3BqY9=9cq_JpKTVhyWKO50hcbEK0MXkBcYZwqadciGiA@mail.gmail.com>
- <72a414e4-4cd0-4b12-a662-cb73d1e3515e@app.fastmail.com>
- <20240610091534.GO18479@pendragon.ideasonboard.com>
- <28495bd5-41af-41b8-b427-6b6fd36a2740@app.fastmail.com>
- <CAMEGJJ30ffMSd40YpqGuMWOeazoT+oiDvzkYEc37jOTx4fZBNg@mail.gmail.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Content-Language: en-GB
-In-Reply-To: <CAMEGJJ30ffMSd40YpqGuMWOeazoT+oiDvzkYEc37jOTx4fZBNg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:8VtTvGmjyY52zusCmOdbftJqeWV9KvMZBiXUHU9nm5Hp3KM1Kul
+ TDjhkJKsftWxyUrsfPv7EZVTcSeldfW6Vmru3uBPCl9xgU75ftccxN9PEWAOhftV+F7rXxg
+ T4JeMRRrR6KHY0ianRd1iO9n+7SXBEtGA68Cb2wGgCpLuFEQOzOXlJEWk4BnUgsiH7JoGqy
+ e1Gs+FTmZKCpC1KzDDmhQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:CCDkiY1a3is=;5ad24nRpgTfEV8OFCfuQwi4W5WJ
+ JmKk6y+hxhFgL0ihZBGbNmW4640EIdj1PXjE5eQFwHgDN0nWsnQ8RubPntr6s75hwwUbarVU5
+ Y0YueQTzETco85MhrtijyRnl6MRbgOA8263phLWVaoi/4ko3FtiIDUiOCEWE85DwB1NDxe8nJ
+ qOIxnFGOfgkwyTPDQo17dndJBpuXhKRLhygcwA/JwNTzMl7nyhFcbbKVMnnZEKZYnF9VGhNTK
+ eVZI5i04o8E2VwCDhuDyTBdD4tvhE0hXn7d6fO02DCC2M8MSc1AVFVcIKgYE4YR7Gl1GXGxlN
+ aeRmcRD4UIe6kqIsmhn+lRmDZM3wUDlbpJA28GWHuNPpcO5oa02q0tywzF1DxNLl03CbGZarq
+ IvFQchhVsFWLWXGMsZdae5mpqjl35QK8151/yaSJWUXoISBxz5dNxIoz2IstIyTyoaU19O0mz
+ CTGAZhCVKLvgzRT1bjfPbk9mDrDs7+yfMmciQzxC/xlVcEmRR7YusVWuf9TSr8QXoM23Ne7/f
+ Bu3cnjbSbgG4W/dk8nVuIquxwO6uarZhw6Sh8yP8srMRvYmFJNEfAtyQuFgc7cQLr8/XaOXcP
+ Bl8Azn+YTnChXZLKllEr9m+Gux+tL1tGsT9zrrTC6Z1qps0/S2VE6ZMe1m1QkvSkVijF5aSSG
+ jx3ZwHJB1BrO1bk1Saq5NexsU2zeQ41q1CK11BAsfmp9TYLc4YosnnS1qYucuEmWRvfGil0cT
+ 4kPQKJFJAptqeqeJWKu1nRLsGCxECEwLp0tq4QTd0TVrpggfKytabE/TMKeKQoUdkkuHQd/vO
+ VJ5Ox+mrXIt/tMsvqeqK6nBy48CB7lJXOikUF4zuZyEIk=
 
-On 2024-06-10 10:24 am, Phil Elwell wrote:
-> On Mon, 10 Jun 2024 at 10:20, Arnd Bergmann <arnd@arndb.de> wrote:
->>
->> On Mon, Jun 10, 2024, at 11:15, Laurent Pinchart wrote:
->>> On Mon, Jun 10, 2024 at 11:00:12AM +0200, Arnd Bergmann wrote:
->>>> On Mon, Jun 10, 2024, at 10:26, Phil Elwell wrote:
->>>>> On Mon, 10 Jun 2024 at 07:00, Arnd Bergmann <arnd@arndb.de> wrote:
->>>>>
->>>>> Why is swiotlb involved at all? The DMA controller on BCM2837 can
->>>>> access all RAM that is visible to the ARM cores.
->>>>
->>>> When a device is not cache-coherent and the buffer is not
->>>> cache aligned, we now use swiotlb to avoid clobbering data
->>>> in the same cache line during DMA synchronization.
->>>>
->>>> We used to rely on kmalloc() returning buffers that are
->>>> cacheline aligned, but that was very expensive.
->>>
->>> Could we reject buffers provided by userspace that are not
->>> cache-aligned ?
->>
->> My guess is that this will likely break existing applications,
->> in which case we cannot.
->>
->> It's probably a good idea to take a look at what buffers
->> are actually passed by userspace today. That would also
->> help decide how we allocate bounce buffers if we have to.
->> E.g. it's a big difference if the buffers are always
->> within a few bytes, kilobytes or megabytes.
->>
->>       Arnd
-> 
-> vchiq sends partial cache lines at the start and of reads (as seen
-> from the ARM host) out of band, so the only misaligned DMA transfers
-> should be from ARM to VPU. This should not require a bounce buffer.
+After removal of struct vchiq_2835_state, the init of vchiq_arm_state
+can be simplified by doing it directly within vchiq_platform_init_state.
 
-Hmm, indeed the dma_kmalloc_safe() takes into account that unaligned 
-DMA_TO_DEVICE does not need bouncing, so it would suggest that 
-something's off in what vchiq is asking for.
+Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+=2D--
+ .../interface/vchiq_arm/vchiq_arm.c           | 27 +++++++------------
+ 1 file changed, 9 insertions(+), 18 deletions(-)
 
-Thanks,
-Robin.
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c=
+ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+index 6ef4cf702c78..0ba52c9d8bc3 100644
+=2D-- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+@@ -588,23 +588,6 @@ static int vchiq_platform_init(struct platform_device=
+ *pdev, struct vchiq_state
+ 	return 0;
+ }
+
+-static void
+-vchiq_arm_init_state(struct vchiq_state *state,
+-		     struct vchiq_arm_state *arm_state)
+-{
+-	if (arm_state) {
+-		rwlock_init(&arm_state->susp_res_lock);
+-
+-		init_completion(&arm_state->ka_evt);
+-		atomic_set(&arm_state->ka_use_count, 0);
+-		atomic_set(&arm_state->ka_use_ack_count, 0);
+-		atomic_set(&arm_state->ka_release_count, 0);
+-
+-		arm_state->state =3D state;
+-		arm_state->first_connect =3D 0;
+-	}
+-}
+-
+ int
+ vchiq_platform_init_state(struct vchiq_state *state)
+ {
+@@ -614,7 +597,15 @@ vchiq_platform_init_state(struct vchiq_state *state)
+ 	if (!platform_state)
+ 		return -ENOMEM;
+
+-	vchiq_arm_init_state(state, platform_state);
++	rwlock_init(&platform_state->susp_res_lock);
++
++	init_completion(&platform_state->ka_evt);
++	atomic_set(&platform_state->ka_use_count, 0);
++	atomic_set(&platform_state->ka_use_ack_count, 0);
++	atomic_set(&platform_state->ka_release_count, 0);
++
++	platform_state->state =3D state;
++
+ 	state->platform_state =3D (struct opaque_platform_state *)platform_state=
+;
+
+ 	return 0;
+=2D-
+2.34.1
+
