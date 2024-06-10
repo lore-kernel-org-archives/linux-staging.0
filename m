@@ -1,37 +1,38 @@
 Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16B024DA09
-	for <linux-staging@lists.linux.dev>; Mon, 10 Jun 2024 21:02:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C026B4437C
+	for <linux-staging@lists.linux.dev>; Mon, 10 Jun 2024 21:02:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718053377; cv=none; b=C1vlegNnoY3i1DUEhqf520bmTA74QxCoB5odVo09sYweP2oIpbejJ57Wz8kua2ESy0xAUuCi9g95J/ncksEWUY6rdLp+CsIOgeh+jwSUSl2UbDDOSp6tWiYG4anYo/6EjTkySVX0ZFrEciIN1UdVvfTx1evpY2cQyujTIjJUf9E=
+	t=1718053380; cv=none; b=Iusi02qHQa6rgub0ZHazvNnZo4fFYltkgHWX8x8bveiCIov0qxXfMItEun8k94qaqZwLUlusgdzmkAElg7z35IG7a1SkklNl7GfEk3FhDgV4Kad3evIUdwuu5VeiRjJb2gYURDBrUe9FzRrjM4EOWie8BI9l4WQdl3y89btz7Bw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718053377; c=relaxed/simple;
-	bh=Z3/JjVrTdM9SBAU/8NRIQbmct1VsNhAXPQtJ65V5eXI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=iFY0x7+/KgPmc/S/BhurJgAkghRJrPcBUlUq1tD8bzmxZx8frFHEN0HPCVNMgjGkgDLeJ3GTvi6CVvdSN6At5FDZKAJYzZwD+12bmGSrjXs7D40It/5n6nlqK5siMBvlooBa1qfrG1/jjyFwe8/R3KMfRn3ztCCpLx7jwNalois=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=gmb4hIQu; arc=none smtp.client-ip=212.227.15.15
+	s=arc-20240116; t=1718053380; c=relaxed/simple;
+	bh=aHMIaYo31gK5AiGxLDZxj03sCBFWGsMxpvd4Sw7Ouew=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=cmWwfptEYMJh6vM/8+EUW+lS9jPJEeSicLjM6wyqV7gnW39YEntNerd0YQMV6XbBcDJmG+ySmWCm/1CjVzJQKLSMFL780vihKwKmFfmUp5GWKEcxOZfelVzyP9rQxM+D3/OpPHJZUvDresAVavDvxvTllF+WgL+WGL96UmfrnG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=h1HYhK1S; arc=none smtp.client-ip=212.227.15.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="gmb4hIQu"
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="h1HYhK1S"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
-	s=s31663417; t=1718053361; x=1718658161; i=wahrenst@gmx.net;
-	bh=1g2OvbxHtxKT0PRHqWij0NUGTLZhjh4r90yi8QuVEqQ=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:
-	 MIME-Version:Content-Transfer-Encoding:cc:
+	s=s31663417; t=1718053364; x=1718658164; i=wahrenst@gmx.net;
+	bh=Orjc4i7tUyVoi6f4QE0Sy2YxU1o6Nh1ldyLhIzy/dgA=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:In-Reply-To:
+	 References:MIME-Version:Content-Transfer-Encoding:cc:
 	 content-transfer-encoding:content-type:date:from:message-id:
 	 mime-version:reply-to:subject:to;
-	b=gmb4hIQuLLXV6QnxYSeuaKcLbgCOjFje8Bs6wh6zww/6bXSCco3UOJ+2KhH4u/cS
-	 YAh2ZMAsvJmCUVRjVyq+ujQUocn312JhObLVrYjJbsWzEw3qIvi8xzb/frtMQTlhr
-	 yBwOUC86UyvlyIo7x/BHSnqB52PABX0Yh0TEFPLsfuGHC2aVrzg0VCZbaMUKjJtIH
-	 AGflLw/PNV3R3pLyb9D3REp9IqHROyNZamnQ0T0rYXD59aB5hzCyfyhk4lzK2+ERY
-	 FzCLPGCUdk5uSw9yOgZcSSJjDOTxd/h2yyX4xwonrIcDI9KHTlVIDDrRVTG60JsvJ
-	 /KPetRmqJUoRceYSMg==
+	b=h1HYhK1StnuyRrhfn2F5rJHBhKN1HNuxIepDhUVYC8M9L1fb/WruDZztqDUYhzp+
+	 nnRThcE8q/iFtif7gCrTgCnyczIhhtKaXTRAf3sRe0IqAqoEXCSRxZHkspt5wJ82X
+	 mLkJQCPFYsEAWd+srplXKQH9NU1yzDrg5z0NctPbqvL4KjEJ5VahkH4U4NAA/VXwl
+	 MS//lf5l0briAE6fK8RTPyveBvlSpoydiCj9CQAjeiuWtrta1RIJqGqHKwWT7zbpB
+	 fPSiFcE71t1KLlq6VOKl/Xhn8T3VLDu5JI4DhPiZwkidSkOv/FKLdA+9q6u3ZpK2h
+	 wCphLVlzUQKfIZAK+g==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from stefanw-SCHENKER ([37.4.248.43]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MK3W0-1rzeil2JCg-00W0r2; Mon, 10
- Jun 2024 23:02:41 +0200
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MMofW-1ry0p62O84-00Ykfy; Mon, 10
+ Jun 2024 23:02:44 +0200
 From: Stefan Wahren <wahrenst@gmx.net>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Florian Fainelli <florian.fainelli@broadcom.com>
@@ -40,10 +41,12 @@ Cc: Umang Jain <umang.jain@ideasonboard.com>,
 	linux-staging@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
 	Stefan Wahren <wahrenst@gmx.net>
-Subject: [PATCH V2 00/10] staging: vc04_services: Random cleanups
-Date: Mon, 10 Jun 2024 23:02:10 +0200
-Message-Id: <20240610210220.95524-1-wahrenst@gmx.net>
+Subject: [PATCH V2 10/10] staging: vc04_services: Update testing instructions
+Date: Mon, 10 Jun 2024 23:02:20 +0200
+Message-Id: <20240610210220.95524-11-wahrenst@gmx.net>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240610210220.95524-1-wahrenst@gmx.net>
+References: <20240610210220.95524-1-wahrenst@gmx.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -51,60 +54,96 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:VCPr0+QjWZnbzqNDtF+ZSmpTyloUhkp/1hUTE2XUsEgq+2SfRGi
- F4bv8fRFnh+ZR5MtjjInOgy6dEoHhkue1As6GGkEdyPD0NomcFuUIg1RiRTJ8mVnV6yVK7D
- B8bjAaJJRn8yCYxuZ5s0TF/tBYisJxWf3KJ04jBX4J8gnOGNgao8TH/7pwnQoGioOJKcrRD
- W88t0gBx+A6S4pdIZZt7Q==
+X-Provags-ID: V03:K1:rLh9H3EhgXg4+LJs9Pw7IOuMco8Uqivr4bgbVHXsEqbanKNWcGb
+ AFvvUlWfpC7mx/R/M5Zl4ThuuzSwLYj4Efp3Lz5pw5NPuiNO1Db/iqJ/WDf2MxQr2dvCICr
+ O9z7u6FmXyfqNmOeXxYFa37tTlNGU6nEMBup+ViSjCw1mf42ntBNJpafsf8xMKuMzTuzR75
+ 5dZ0TnFjMIdieo5mVdkdQ==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:7+dv/8wohvI=;3tueQo46q+2QwOCOKP79MtjgWCr
- 67kR+YnLD4AtX+6Nt2lvlXAa4ZM5GmEZC4bU6jWrDI4d/svojNwDO0IpV7qCSPnXp3GCev5mx
- 8m8puRUPP/XV79JvEtCeL1Z8UC+EJuIZWgaW3/0o4zBiT/E2mlScDXX0owQIF87p3At7pUfFq
- yOs8hs7HX2BN/AhqKmWyXEhVfDxH9xXlXkTCLVoAsg+U8PRcM+QWgv3/dLCEq1ZTrkowOnwC/
- 0vORAClykKys/+9Y3IO3SZBpgMSm5GO2pRD5KOdQG9IMIb+G6L/0TskZnXBvskD4dD10a7hsT
- JGSGjvXJLerXYtbPRhIHSeS1DYL/XoF7VDLnOv/96yO0MUUMRXsFup0Bo4XUW7nM8aczXrOPc
- 7/mSkWAreEDZQGXqMIXrujwPF8/mDeAJhVkw9xDVhOaABp/Cq2QE1i1em2/RfiOyatecmrxzU
- NwaHo1kjPQtALG8/vPsEr2joYmBDCIvJdWkTTH0MIb7UDp4ccYinU++vRQhRKvGW9P0ZqAExU
- oSjrBPasW7Ybpzpau2oiD6ncWBwZ+2YvxQNqNtjdWGLJrrNK2PhXcKNePbxea2XyQ9z+iDJ4s
- +6SB3VoHgWTuGWJojEf2CaM2S14rN5tQJsv4JAo1aMEHtmbp6S0VFt+2kS8xWXsNHQuGtzntL
- s7uHw9CyW/EXtlK2NWqKfQI+njKycUlu+fOONvTgnw2ovnah+2la6A9xvL/GDNLy+i1P0leKB
- uyj52gX42jjJf7Ckf1nBcDoUG8aBXx/hWxb7lirqD+3eQ5ejds+PrmGmIfsN1GBG4UW9KifzR
- lffHTyMiiP4VR3S34ug6vgiqgF06ch+h0O3sLiSdBcgjo=
+UI-OutboundReport: notjunk:1;M01:P0:LXMyQZCt5pY=;hkpM1m+t/1KaaHKHrN5L4ZDSk3u
+ po20UBEQWzqnHnYTSenJfGCcca+XV/2g5LCLKD5CHAo+1HZJoww6vppmQphmbvo8hALCwKKbi
+ adPjSSDXWFJ66REpuDiuF76/OGjWbw8dJ/vOYUxqEpb2qIEdZ6nVLbQ3vyfiPO7O4FiLil0MW
+ 3W5rUEKbnUF9SEtjUJQVrDJoOIL01KaWFfeomD5lOCANGj4rP6rkensW58Q+c9xyvY5Lbxbhr
+ soj8bcVvxxDq7IskN5N99eqeCTEv4xr3ehWRMOxYYUim/9oAfzOe9VbDfE3vCEhOTGlU9023J
+ 3226V2r0jewaQpgMTWEGqYuL3VbZKTkjCqVSKhE4aPaI5r6ZbiA5hEzyLtKaPp1yZRk1yKZU/
+ /1P/LUX4l0Dek0AdQvI2tk00Sa7NQ6K0OwD8E/mTlYDId7/CW2dWa2tvh4bEd0WFcHdWnstHD
+ JUtqL1ANCnRZXlx6CZCXoEMLTh15hvHc9YQQOyUDOXRj8GqckTqY6v7pFr/X14SfNnnSPD0kk
+ UAVATK0J48HI1Ld/9IHOXcdWWlSGRLgR17qYr4biysc7gWeaRW3+qrpOECyGQpfH10PIFRVCX
+ xR92kI5EbepIJCitpnQN/5Xy2X4Dd7tTh9W/xTpWtg3hXdG9TvjayvV6NbXuDcgRKUyhaPF9V
+ YfzmgC9FE1RlTk1udKrCNNoPxOWJgl3T4j/VNcjQWCO/QKL0JXPgc5bLl3uhbhmDuhKXL/AbI
+ wHbCsvJz/lfWjgCHoB6X5dQnU4p9ucMTwn7QkUSUkM7M7PUVkWbuFtKg6pyJHvXXX6mvCQAFe
+ JmquOXCHirrpxCF3GNiNNunGpXu3dKASCMooNNewmW5is=
 
-This patch series contains a wild mix of cleanups. Most of them
-remove unused parts. But there are also improvements to better
-understand the code. Finally the testing instructions are
-updated.
+Since the initial version of the testing instructions a few
+things has changed. So consider the latest arm64/defconfig changes
+and the new debugfs entry.
 
-The series has been tested with a Raspberry Pi 3 B Plus.
+Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
+=2D--
+ .../staging/vc04_services/interface/TESTING   | 45 ++++++++++++++++++-
+ 1 file changed, 44 insertions(+), 1 deletion(-)
 
-Changes in V2:
-- Add Laurent's Reviewed-bys
-- Drop "staging: vchiq_core: Add comments to mutex/spinlocks" and
-  "staging: vchiq: Move struct vchiq_config to vchiq.h" from the series
-  this will be addressed in a different series
-- Rework patch #1 to use a common return code variable
-- Rework patch #7 to avoid goto
-- Add patch #10 to fix scatter-gather casting
+diff --git a/drivers/staging/vc04_services/interface/TESTING b/drivers/sta=
+ging/vc04_services/interface/TESTING
+index a6d63efcbcb9..273952dc9d85 100644
+=2D-- a/drivers/staging/vc04_services/interface/TESTING
++++ b/drivers/staging/vc04_services/interface/TESTING
+@@ -31,7 +31,7 @@ Here are the most common kernel configurations:
 
-Stefan Wahren (10):
-  staging: vchiq_arm: Unify return code variable
-  staging: vchiq_arm: Drop obsolete comment
-  staging: vchiq_core: Drop non-functional struct members
-  staging: vchiq_arm: Drop unnecessary declarations
-  staging: vchiq_arm: Get the rid off struct vchiq_2835_state
-  staging: vchiq_arm: Drop vchiq_arm_init_state
-  staging: vchiq_arm: Reduce indentation of service_callback
-  staging: vchiq_core: Add hex prefix to debugfs output
-  staging: vchiq_arm: Don't cast scatter-gather elements
-  staging: vc04_services: Update testing instructions
+  3. BCM2837 target SoC (ARM 64 bit)
 
- .../staging/vc04_services/interface/TESTING   |  45 +++-
- .../interface/vchiq_arm/vchiq_arm.c           | 254 ++++++++----------
- .../interface/vchiq_arm/vchiq_arm.h           |   3 -
- .../interface/vchiq_arm/vchiq_core.c          |  10 +-
- .../interface/vchiq_arm/vchiq_core.h          |   6 -
- 5 files changed, 167 insertions(+), 151 deletions(-)
+-    Use the defconfig as a base and then enable all VCHIQ options.
++    Use the defconfig which has most of the VCHIQ options enabled.
 
+ * Scenarios
+
+@@ -80,3 +80,46 @@ Here are the most common kernel configurations:
+    vchi ping (size 0, 100 async, 100 oneway) -> infus
+    vchi ping (size 0, 200 async, 0 oneway) -> infus
+    ...
++
++ * Debugfs test
++
++   Command: cat /sys/kernel/debug/vchiq/state
++
++   Example output:
++   State 0: CONNECTED
++     tx_pos=3D0x1e8(@43b0acda), rx_pos=3D0x170(@05493af8)
++     Version: 8 (min 3)
++     Stats: ctrl_tx_count=3D7, ctrl_rx_count=3D7, error_count=3D0
++     Slots: 30 available (29 data), 0 recyclable, 0 stalls (0 data)
++     Platform: 2835 (VC master)
++     Local: slots 34-64 tx_pos=3D0x1e8 recycle=3D0x1f
++       Slots claimed:
++       DEBUG: SLOT_HANDLER_COUNT =3D 20(0x14)
++       DEBUG: SLOT_HANDLER_LINE =3D 1937(0x791)
++       DEBUG: PARSE_LINE =3D 1864(0x748)
++       DEBUG: PARSE_HEADER =3D -249155224(0xf1263168)
++       DEBUG: PARSE_MSGID =3D 67362817(0x403e001)
++       DEBUG: AWAIT_COMPLETION_LINE =3D 0(0x0)
++       DEBUG: DEQUEUE_MESSAGE_LINE =3D 0(0x0)
++       DEBUG: SERVICE_CALLBACK_LINE =3D 0(0x0)
++       DEBUG: MSG_QUEUE_FULL_COUNT =3D 0(0x0)
++       DEBUG: COMPLETION_QUEUE_FULL_COUNT =3D 0(0x0)
++     Remote: slots 2-32 tx_pos=3D0x170 recycle=3D0x1f
++       Slots claimed:
++         2: 10/9
++       DEBUG: SLOT_HANDLER_COUNT =3D 20(0x14)
++       DEBUG: SLOT_HANDLER_LINE =3D 1851(0x73b)
++       DEBUG: PARSE_LINE =3D 1827(0x723)
++       DEBUG: PARSE_HEADER =3D -150330912(0xf70a21e0)
++       DEBUG: PARSE_MSGID =3D 67113022(0x400103e)
++       DEBUG: AWAIT_COMPLETION_LINE =3D 0(0x0)
++       DEBUG: DEQUEUE_MESSAGE_LINE =3D 0(0x0)
++       DEBUG: SERVICE_CALLBACK_LINE =3D 0(0x0)
++       DEBUG: MSG_QUEUE_FULL_COUNT =3D 0(0x0)
++       DEBUG: COMPLETION_QUEUE_FULL_COUNT =3D 0(0x0)
++   Service 0: LISTENING (ref 1) 'PEEK little-endian (0x4b454550)' remote =
+n/a (msg use 0/3840, slot use 0/15)
++     Bulk: tx_pending=3D0 (size 0), rx_pending=3D0 (size 0)
++     Ctrl: tx_count=3D0, tx_bytes=3D0, rx_count=3D0, rx_bytes=3D0
++     Bulk: tx_count=3D0, tx_bytes=3D0, rx_count=3D0, rx_bytes=3D0
++     0 quota stalls, 0 slot stalls, 0 bulk stalls, 0 aborted, 0 errors
++     instance b511f60b
 =2D-
 2.34.1
 
