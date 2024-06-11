@@ -1,183 +1,137 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0445F47A40
-	for <linux-staging@lists.linux.dev>; Mon, 10 Jun 2024 21:02:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CC2936D;
+	Tue, 11 Jun 2024 00:33:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718053380; cv=none; b=bxRpEcFLnfhebB9cTrB6PzbaXCG1tPBoYL5a7H1xfAA8taPt+kqd9xKZydWcdtX1oGk15rSsG1KMmJgBBKtRwUttlBK25OnVgbVlET/UERVHkM9LYMNlXaHPWrQpr3YpybV+frxthLSjnkPVFDYqsB08ap1aUhdQtYd+GTAeDn8=
+	t=1718066028; cv=none; b=CZoDcR9Y6ngQFiQJm1pnWuMHAPF2f0ubai8WDRU+1GeJwNIagdZo5rB3WxBYdhLu9lVjE9q3tGRVHxCN6uvkEYrLqfDpb/MLrFEcsCxCSuo8cbuH8MmBFtgzWnrQGve+9FhOG7y1Pk/zkFgqH9UofAcBuhjIRqJ49rdFFcDt6ko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718053380; c=relaxed/simple;
-	bh=D9g0q75kaxED9MCxCd8C8I5WJb+3gMLX8jtCG0z438I=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=G/wepQB9LtKhf2Z/nQp5l0caHZ7AYnU0eGUqRa0v44Ej2d2aUDv1kxZat1dIQ9ygsIRm6aSi66dmMdj64Wlt6Q03QnQN4VSnZWr34ZjL3raRUSWMfThyzW4vvt9EW5jWTXApthK3zou6QkJ1yXgkTp0RZkgB1u0A+OPHHvUpkLM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=CaVxv85f; arc=none smtp.client-ip=212.227.15.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
+	s=arc-20240116; t=1718066028; c=relaxed/simple;
+	bh=wtdzQRxOMexWGjNC8skrlZnz3w3ta2PK/Jy6mSAiXnw=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:To:CC; b=gU3sYXjNx8tz3fYd7pEhXl6cBHk0reD+0t3gYS1UzG1UsC9Aqddwuw3SrWSxFPq5QqzPQYNdX1+UZ23k+P4eKui5Ji7mIN0f+X4FEaN4xxg+UkuhY7BxyufK/ZVy8Cj3ZYDsPIoBWZk1R0rvzwxWj/S5YnxcuwDKgHjWJAs5aOc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=XGOCwBsM; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="CaVxv85f"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
-	s=s31663417; t=1718053363; x=1718658163; i=wahrenst@gmx.net;
-	bh=T7//eBxmN7USTV8D4FLEnPWuKhDOM+u9egkPUDbGcOw=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:In-Reply-To:
-	 References:MIME-Version:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=CaVxv85ftsGkhRCF9k/mcpI9dmaRAgZscydX3iu8UtRLBvRFCDxhPO9ez6P+QGZ9
-	 VbaQewLMMl7dICrCl1qoMrwb+scxN0q35NT5Mtv7AhFEQMVQfXdjSPkO+oIqbY64S
-	 c08KymBvVseOKCdFeYOjOtPcrDBmms7whal7mEuDTqia+Uou8/MBY+sGXoWFf672J
-	 Nxu3rf4YMDQCynpuIAB6gXRN0UXegrmUzXN15wwxzLJaAB7/7U9RAcQSfmPF9iOSH
-	 L8LRkcsw1GjNKWGccrtDBXeP30AwYDXu2Z6h77NyZ4LE93OTWADOl9MCmd3xSD5KT
-	 zpnrP2C6S23RNROBqQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from stefanw-SCHENKER ([37.4.248.43]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MowKi-1smF1J2xvK-00aSmu; Mon, 10
- Jun 2024 23:02:43 +0200
-From: Stefan Wahren <wahrenst@gmx.net>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>
-Cc: Umang Jain <umang.jain@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	Stefan Wahren <wahrenst@gmx.net>
-Subject: [PATCH V2 07/10] staging: vchiq_arm: Reduce indentation of service_callback
-Date: Mon, 10 Jun 2024 23:02:17 +0200
-Message-Id: <20240610210220.95524-8-wahrenst@gmx.net>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240610210220.95524-1-wahrenst@gmx.net>
-References: <20240610210220.95524-1-wahrenst@gmx.net>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="XGOCwBsM"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45AEVpMr002947;
+	Tue, 11 Jun 2024 00:33:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=bZhndy4MI3ONNuNIKTshtD
+	iak6BeQW4L/GKC3VmY628=; b=XGOCwBsMjITwMdQq+2Xk8x8LL4H5WkZtD67bME
+	+Qu+ZMhBnmCqRoBx2yaXG6wicnXMyAHfEThhhnJq9Nsm2LQ7mUXEx0bcWS/xRV5x
+	+vVaiaOZbd4C+q9NfTL46yN8ViMfeaTDUv9Ketudu/y7x9DjJOEGkcRKonnUL0bT
+	+709Lr8cEEPpf5MYqOWcy1Mi4Cmm21dPI4RWTAeK+fQoGEUOzLGmtixLY07t0sP0
+	CGFSGc+JYUF45C9kNukB5l/DXPdcorqFUDWtZTsHsU7njo+HKbG1Pib6A4G0JOlA
+	wa22tqErTQVfmvTXAXak/YLr3oewf+rOcJnQmRlFFKO3GQHQ==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ymgfk5gqc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 11 Jun 2024 00:33:45 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA01.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 45B0Ximc021191
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 11 Jun 2024 00:33:44 GMT
+Received: from [169.254.0.1] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 10 Jun
+ 2024 17:33:44 -0700
+From: Jeff Johnson <quic_jjohnson@quicinc.com>
+Date: Mon, 10 Jun 2024 17:33:41 -0700
+Subject: [PATCH] staging: rtl8192e: add missing MODULE_DESCRIPTION() macros
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:5IELyVZF69ncOBP23krFvMXQiE6plIS7FcZFkRWgKh+4YeTdtL3
- iRo1vSZ7eGsZtA+KmQbp3jJae4vm343cBSlFSEmH8kSpJ6jGHtW5y3Q/K8ID/chM5TCVt09
- 6zEy9JvAbvw9xaaV3fh2mOfYdQCX5GyFLmq2Dw9dWXTlrFQvTGG+V+DOqQpzv0SpNhsL+GN
- XzKKNPfqDAxC2ci5TBqEA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:A0GmSEpGVqU=;axIg5ICDU53Oo3upXbI80fksFjy
- gz073sDaPETkIgGdd/1fQ550HtqDUXNpJJOddrxdMoHT9NhL2SaPolQBC5zI0vCFlz6WzDMoE
- 7f33Z3uma6lXdLvz1TShblLRn4AByoDpFdk1hZTHPPMuT7Mxp+M4npLExHZ4CJYXojLYmflsP
- zEw78x+hEgNPc2p2gWx9Otid/WonX1Oxyeg3yFlxyoTMULJVk3QvI+0PyvNCrIU1/I5Y2fuot
- XoR8WWsuuCGzmNP8Fpdri7YokO+uQUpMye/zVb95vMzgMiPxvBZ7KvEspaSI99H20RIxBhTS3
- 8qBmSC67kkwYa8EeuvUCHJ/+vTGXyB+Dvw0Q28Nx3oJmf/UamEKsE7KxTlUfuCowkI4XQT9gy
- H3xmvLj7rAZMDw/51JVpFv48k49R0HTN8/qwxbtA9epEfs/v9WwfhExKvbeDPokIPe/jkQiqb
- TDezeWqGtOJ86PjyXGEihSfe6ZrJeagHFv648W+jEMnOZun+WRrh8bPCfIFIxWcIunDL8ZgnN
- 9ebDYZnsWIPidRoBCkD8/Z1kK85raZZekt0Njm7/9lTI/o7MdNKtucmf+Owri7Juzi1LZo2Ev
- oOOWZd2jUSlhWJ7ZgpfBGE6izUfooNmjN9/+nGbB2i9jkKTxEC+UIXo5zmxYkVMPBtq5C3sdC
- Xumyzg13ejQsayaHslcohgz6nem9hrX1z4ywxxXtlPssYqeHkCXFSPkrL6XqgdasR1ry7F71o
- ZwtE1w4/3gvHQkVu/nrJiQWrBEtDni6SDShDYELBiVC4N1m1InK4v18Fdb2zI4OPLZRff1aVE
- Gz+INu+dbU9qvv56kzCZ/WjAlhsa0F2s7i9tNJByW9a4Q=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-ID: <20240610-md-drivers-staging-rtl8192e-v1-1-b5d11ee98297@quicinc.com>
+X-B4-Tracking: v=1; b=H4sIAGSbZ2YC/x3MwQqDMAwA0F+RnBdo1ZW5Xxke2prVgHYj6UQQ/
+ 33dju/yDlASJoV7c4DQxsqvXGEvDcTZ50TIUzW0pu2NswbXCSfhjURRi0+cE0pZbnZoCc3QXYO
+ Lfeg6B3V4Cz15/++PsTp4JQzic5x/58L5s+PqtZDAeX4BMlxz14wAAAA=
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+        <kernel-janitors@vger.kernel.org>,
+        Jeff Johnson <quic_jjohnson@quicinc.com>
+X-Mailer: b4 0.13.0
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: q_mmv1-qJ1CM5rptC5ufGbu261egW6-d
+X-Proofpoint-ORIG-GUID: q_mmv1-qJ1CM5rptC5ufGbu261egW6-d
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-10_07,2024-06-10_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ clxscore=1015 priorityscore=1501 phishscore=0 adultscore=0 spamscore=0
+ malwarescore=0 mlxlogscore=982 suspectscore=0 impostorscore=0 bulkscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405170001 definitions=main-2406110002
 
-The service_callback has 5 levels of indentation, which makes it
-hard to read. Reduce this by splitting the code in a new function
-service_single_message() as suggested by Laurent Pinchart.
+make allmodconfig && make W=1 C=1 reports:
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/rtl8192e/rtllib.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/rtl8192e/rtllib_crypt_ccmp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/rtl8192e/rtllib_crypt_tkip.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/rtl8192e/rtllib_crypt_wep.o
 
-Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
-=2D--
- .../interface/vchiq_arm/vchiq_arm.c           | 68 +++++++++++--------
- 1 file changed, 39 insertions(+), 29 deletions(-)
+Add the missing invocations of the MODULE_DESCRIPTION() macro.
 
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c=
- b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-index 0ba52c9d8bc3..706bfc7a0b90 100644
-=2D-- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-@@ -1055,6 +1055,39 @@ add_completion(struct vchiq_instance *instance, enu=
-m vchiq_reason reason,
- 	return 0;
- }
+Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
+---
+ drivers/staging/rtl8192e/rtllib_crypt_ccmp.c | 1 +
+ drivers/staging/rtl8192e/rtllib_crypt_tkip.c | 1 +
+ drivers/staging/rtl8192e/rtllib_crypt_wep.c  | 1 +
+ drivers/staging/rtl8192e/rtllib_module.c     | 1 +
+ 4 files changed, 4 insertions(+)
 
-+static int
-+service_single_message(struct vchiq_instance *instance,
-+		       enum vchiq_reason reason,
-+		       struct vchiq_service *service, void *bulk_userdata)
-+{
-+	struct user_service *user_service;
-+
-+	user_service =3D (struct user_service *)service->base.userdata;
-+
-+	dev_dbg(service->state->dev, "arm: msg queue full\n");
-+	/*
-+	 * If there is no MESSAGE_AVAILABLE in the completion
-+	 * queue, add one
-+	 */
-+	if ((user_service->message_available_pos -
-+	     instance->completion_remove) < 0) {
-+		dev_dbg(instance->state->dev,
-+			"arm: Inserting extra MESSAGE_AVAILABLE\n");
-+		return add_completion(instance, reason, NULL, user_service,
-+				      bulk_userdata);
-+	}
-+
-+	if (wait_for_completion_interruptible(&user_service->remove_event)) {
-+		dev_dbg(instance->state->dev, "arm: interrupted\n");
-+		return -EAGAIN;
-+	} else if (instance->closing) {
-+		dev_dbg(instance->state->dev, "arm: closing\n");
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
- int
- service_callback(struct vchiq_instance *instance, enum vchiq_reason reaso=
-n,
- 		 struct vchiq_header *header, unsigned int handle, void *bulk_userdata)
-@@ -1104,41 +1137,18 @@ service_callback(struct vchiq_instance *instance, =
-enum vchiq_reason reason,
- 		spin_lock(&service->state->msg_queue_spinlock);
- 		while (user_service->msg_insert =3D=3D
- 			(user_service->msg_remove + MSG_QUEUE_SIZE)) {
-+			int ret;
-+
- 			spin_unlock(&service->state->msg_queue_spinlock);
- 			DEBUG_TRACE(SERVICE_CALLBACK_LINE);
- 			DEBUG_COUNT(MSG_QUEUE_FULL_COUNT);
--			dev_dbg(service->state->dev, "arm: msg queue full\n");
--			/*
--			 * If there is no MESSAGE_AVAILABLE in the completion
--			 * queue, add one
--			 */
--			if ((user_service->message_available_pos -
--				instance->completion_remove) < 0) {
--				int ret;
--
--				dev_dbg(instance->state->dev,
--					"arm: Inserting extra MESSAGE_AVAILABLE\n");
--				DEBUG_TRACE(SERVICE_CALLBACK_LINE);
--				ret =3D add_completion(instance, reason, NULL, user_service,
--						     bulk_userdata);
--				if (ret) {
--					DEBUG_TRACE(SERVICE_CALLBACK_LINE);
--					vchiq_service_put(service);
--					return ret;
--				}
--			}
+diff --git a/drivers/staging/rtl8192e/rtllib_crypt_ccmp.c b/drivers/staging/rtl8192e/rtllib_crypt_ccmp.c
+index cbb8c8dbe9b0..da9e630b594c 100644
+--- a/drivers/staging/rtl8192e/rtllib_crypt_ccmp.c
++++ b/drivers/staging/rtl8192e/rtllib_crypt_ccmp.c
+@@ -407,4 +407,5 @@ static void __exit rtllib_crypto_ccmp_exit(void)
+ module_init(rtllib_crypto_ccmp_init);
+ module_exit(rtllib_crypto_ccmp_exit);
+ 
++MODULE_DESCRIPTION("Support module for rtllib CCMP crypto");
+ MODULE_LICENSE("GPL");
+diff --git a/drivers/staging/rtl8192e/rtllib_crypt_tkip.c b/drivers/staging/rtl8192e/rtllib_crypt_tkip.c
+index 0244b524a7d4..3969b6b916ed 100644
+--- a/drivers/staging/rtl8192e/rtllib_crypt_tkip.c
++++ b/drivers/staging/rtl8192e/rtllib_crypt_tkip.c
+@@ -708,4 +708,5 @@ static void __exit rtllib_crypto_tkip_exit(void)
+ module_init(rtllib_crypto_tkip_init);
+ module_exit(rtllib_crypto_tkip_exit);
+ 
++MODULE_DESCRIPTION("Support module for rtllib TKIP crypto");
+ MODULE_LICENSE("GPL");
+diff --git a/drivers/staging/rtl8192e/rtllib_crypt_wep.c b/drivers/staging/rtl8192e/rtllib_crypt_wep.c
+index 21c2b7666d6f..eae75d122553 100644
+--- a/drivers/staging/rtl8192e/rtllib_crypt_wep.c
++++ b/drivers/staging/rtl8192e/rtllib_crypt_wep.c
+@@ -238,4 +238,5 @@ static void __exit rtllib_crypto_wep_exit(void)
+ module_init(rtllib_crypto_wep_init);
+ module_exit(rtllib_crypto_wep_exit);
+ 
++MODULE_DESCRIPTION("Support module for rtllib WEP crypto");
+ MODULE_LICENSE("GPL");
+diff --git a/drivers/staging/rtl8192e/rtllib_module.c b/drivers/staging/rtl8192e/rtllib_module.c
+index e7af4a25b0be..469a69726c16 100644
+--- a/drivers/staging/rtl8192e/rtllib_module.c
++++ b/drivers/staging/rtl8192e/rtllib_module.c
+@@ -175,4 +175,5 @@ static void __exit rtllib_exit(void)
+ module_init(rtllib_init);
+ module_exit(rtllib_exit);
+ 
++MODULE_DESCRIPTION("Support module for rtllib wireless devices");
+ MODULE_LICENSE("GPL");
 
--			DEBUG_TRACE(SERVICE_CALLBACK_LINE);
--			if (wait_for_completion_interruptible(&user_service->remove_event)) {
--				dev_dbg(instance->state->dev, "arm: interrupted\n");
--				DEBUG_TRACE(SERVICE_CALLBACK_LINE);
--				vchiq_service_put(service);
--				return -EAGAIN;
--			} else if (instance->closing) {
--				dev_dbg(instance->state->dev, "arm: closing\n");
-+			ret =3D service_single_message(instance, reason,
-+						     service, bulk_userdata);
-+			if (ret) {
- 				DEBUG_TRACE(SERVICE_CALLBACK_LINE);
- 				vchiq_service_put(service);
--				return -EINVAL;
-+				return ret;
- 			}
- 			DEBUG_TRACE(SERVICE_CALLBACK_LINE);
- 			spin_lock(&service->state->msg_queue_spinlock);
-=2D-
-2.34.1
+---
+base-commit: 83a7eefedc9b56fe7bfeff13b6c7356688ffa670
+change-id: 20240610-md-drivers-staging-rtl8192e-0935b6c4b336
 
