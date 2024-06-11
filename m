@@ -1,67 +1,67 @@
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADDD952F71
-	for <linux-staging@lists.linux.dev>; Tue, 11 Jun 2024 06:01:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5BA179C2
+	for <linux-staging@lists.linux.dev>; Tue, 11 Jun 2024 06:04:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718085699; cv=none; b=K0Q8ELsabMLNslDl2y4sKSqQ4WyALjgZRzgbIHw0rJmRrtzCk76BaUyAwytSiviHLIM+16XtKDdTASzpif00crDCPMshY7yazm1obRXLjDXG8Mj2L76TOWyHl2M+1iVKAXhkgd0xkJ0j85fNS/s3e3jic4A4Iop3NV1NdZohFCQ=
+	t=1718085876; cv=none; b=fIoiLm3XbpiF9JsEtz88nggieARbyxkMub6O7TxebaNH5ZkUURb8OluFwQJ4b5pCEBcdpHCxq/rrhk/4BxIxv+nGCERC+I7OrWoYAvqHjDw+g79gJs1NBSDzaRTzNbloIhmQkO2L8PdkyLYsmpTxMrcKCADnXEgZ4miDYglfMNE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718085699; c=relaxed/simple;
-	bh=Cx0q3gP0BnWqzY3fvL/YhYkEMYEkCPnJ+86JE92iKkk=;
+	s=arc-20240116; t=1718085876; c=relaxed/simple;
+	bh=SBOh5FMqWjlQnLRCzPkRoSoXGpXY/Kx1rplBIzP/Kpo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aIbBk6puc7FRGDSyM8q+SkhZoa0DyRK5jO+IBrFEyL4oUpYuroYLHpW/WZduJHlEFF9MGDySVluEReA6U20qj5oN7zOigg1m5/F7yEOc3fhnmpTEgSclv2cCbz/bfljxA4RNidENfYDddQt3xtF6lLfZ/0CHbEwYLSUPRkAspFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KjuJbgKz; arc=none smtp.client-ip=209.85.208.169
+	 Content-Type:Content-Disposition:In-Reply-To; b=vB+DvLxIcXhlggAg8D1kfIn+FPUj1KNfY/85166EjNtfO1kFvXlfUVU+p46H27HAQpzjyc2mdbuVYdHvfL20STf+0X8ALNwWF4kjnCo+lBXRQwlooCwlXxCbAk0b3XJnmKZ85X8ojCJrU/Q6in2hdQzTCSvbiIwSXrSklZhju/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Jcl5CTSf; arc=none smtp.client-ip=209.85.167.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KjuJbgKz"
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2eaea28868dso46118341fa.3
-        for <linux-staging@lists.linux.dev>; Mon, 10 Jun 2024 23:01:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Jcl5CTSf"
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-52c32d934c2so2782981e87.2
+        for <linux-staging@lists.linux.dev>; Mon, 10 Jun 2024 23:04:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1718085696; x=1718690496; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1718085872; x=1718690672; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=BuOO4FEld62nqLG8IYMGOnAJeVsi2pihKon3LpkekiM=;
-        b=KjuJbgKzALlO5xUBgv9Rsy0Xc4qHpUrMM7BK+fSJ3AYjYo8fC8jqFE4pBeFzYpzT9g
-         FILMLYCrgW5+9ha2U9zbUnDu0MlZKdbQmyEGbCcDS8yLWmwH+32iaDp5oDcwMglM5hYq
-         SmrV2+D51LqpsQ6VIAjo3ZyLLKABYo5W2YMsmpq6jpZO1Omh7KDG+k3Cv7kOAJ9Fz0E/
-         lPGwCbL+3FZMWf3rtFLuyPtcs48ZaB9HgaSkhz6fl09y66+nh2U6i2hx9jiCYi7MinXf
-         g3QxUvVEmEYBGit07sjHwT/E5N1I7kJcldO8ZLrWAgUYahUTgxoeF6hP7fkRG6ql6Oci
-         w2Ww==
+        bh=yAPZO3yTkrqMJ5pPtOySZTxQ0ESxWcduJjtdKssr1x0=;
+        b=Jcl5CTSfIg3Bv/st+eI3STs3lQttc0UC1QWzX93YnAlpAQMzzTHtRpF/oQng5n8FUY
+         FVIifuG9l6BkzCpDVLNL9sf2raje0VqKBJpcmAgc6dH2u8WsVFIKzIlm9rmw0C2Ug3dz
+         XaRHJF/TC5sehxfoso40HSjfo8AVfXh7IQwN51/7ngUM2VlIMK91q7FIfB72tRAg6zNd
+         jriritl8sbWu5xl6Wipoa1CxjluHh412iU37qoUOTT9elkkTicgzmYYG+wVfqDoAwmQg
+         MUNCZdWbVZ3F233QNbMo6nZLOTFLbIJGIEpGpZd3305km2uiYPNeTbI0ZzPFGWFHjGcI
+         ljqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718085696; x=1718690496;
+        d=1e100.net; s=20230601; t=1718085872; x=1718690672;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BuOO4FEld62nqLG8IYMGOnAJeVsi2pihKon3LpkekiM=;
-        b=d0IFd1BZluGJS9mSncn8Yq7KYRkuQYFM5kXd/s8TsF9auRdu40O4fF5eG4lymaDuJl
-         JrAjEMFw8bRtfMSFnaULXKeSt1l/RAgyqWJ1PJ7eK7PJnQbjIKbqjSLjlS4sPmi2qWSt
-         aw0xMPb+0p+hx3E3VwgMqiJQYe7BEbrA75Ye9+FWB68IBSia0a6WDlHLZDPh0Vcy1UBs
-         rqR9WhW417ZFSQI9nQBKIBo04xbYy8hT+CrYNb5kI9ShOZZ58rtzm58hcUDAU9QBv424
-         AQEi9+oWo/EI6reL1jaLE82LtmHDAul63rVbkcQir52Guc3bHyYgWvmkcXZPBlHUeGkM
-         XMGg==
-X-Forwarded-Encrypted: i=1; AJvYcCUZ1iMg7xYGeU+7D9rHRmqQuRT0w16SXSjtj6ONdW3kI6okNJZmu8REEc+VSjb0iPmRL2tbMxvP3EXhkem4AydYpd7k5N62zexyDQSKag==
-X-Gm-Message-State: AOJu0YysYzjVCbt4bRiSSN2ONsv7ImZ+m4C3GD83dkd2WsjrJQJaa0GW
-	szL6p+eyI6c4J9t25AF+8/BsSUFlIbed2opB/mTfA/4NzHW0zW6qWpSIjf7Glws=
-X-Google-Smtp-Source: AGHT+IH7nFqBPvBNIY3q2uJsKi3mjUDea6KTtUJubrbQtrPgk2APStf5+mhXIwQ7DQL7polTrCbMTg==
-X-Received: by 2002:a2e:9b0c:0:b0:2ea:ebb0:b5ef with SMTP id 38308e7fff4ca-2eaebb0b884mr68334421fa.19.1718085695483;
-        Mon, 10 Jun 2024 23:01:35 -0700 (PDT)
+        bh=yAPZO3yTkrqMJ5pPtOySZTxQ0ESxWcduJjtdKssr1x0=;
+        b=QoFsZGZoh0kS2h39EDXR5xOWAx6gvWYEcvur4G7mriAbNOwAyB6jQAKEfXljq9JhQM
+         rAr34oVGJM2Czu9VFTbupnwaBn+sEwGnfcORSgsrR1HelS6nrFwc2lwLoyrXO1ZCwkfp
+         YYalzuVSIJFp9Hjr1tnzBQ57pYUGqJKET01VPCQvHFGRNYLxNfkTBPvtOIspdArmZDj7
+         9yN/xpXx2nML8gfGXi28+p69yIKXCuqAIQRzApe/5ce8rtqMbTD8Vuo1U/iKu/VTYoCR
+         bDmUnX4OYt45FkpZ1dWlk+A69alaXYMe2zQxqJhFSoamJuEfEQ0EYAUpZH97dQS84Cau
+         VNHg==
+X-Forwarded-Encrypted: i=1; AJvYcCWuBTFOGlZdFAbOWBs3VNvSHUUN5C/PfZIGCFBKmUirTw+FLNw2Yto2MWLRKxGlKX1UK4h6TE4vN/HJJGQ/W2EXRFRc0rhMmbWEZSA+0A==
+X-Gm-Message-State: AOJu0Yxc2slLdNdmMXLBNBHMzX+9tZOZ2cKtiVV37csTjdR5zHbUSgKb
+	yLqI8vX5WzMOBv+1SwlqQ6sGMHqwiZIPJQxDyo+OOP/lWyXxJEcgMcwN9yLFBog=
+X-Google-Smtp-Source: AGHT+IGnLjRuH5I3DZyMOkcQJRaqyoOS3zZjJWaQBS2WlZZraSJ2sjozH7QJS+RDPy719gYBD4WbhQ==
+X-Received: by 2002:a05:6512:3f10:b0:52b:59f7:7602 with SMTP id 2adb3069b0e04-52bb9f66381mr9382633e87.8.1718085872022;
+        Mon, 10 Jun 2024 23:04:32 -0700 (PDT)
 Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35f2616666esm3737568f8f.1.2024.06.10.23.01.34
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35f25dc3f07sm3798947f8f.79.2024.06.10.23.04.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Jun 2024 23:01:34 -0700 (PDT)
-Date: Tue, 11 Jun 2024 09:01:31 +0300
+        Mon, 10 Jun 2024 23:04:31 -0700 (PDT)
+Date: Tue, 11 Jun 2024 09:04:28 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Stefan Wahren <wahrenst@gmx.net>
+To: Stefan Wahren <wahrenst@gmx.net>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Florian Fainelli <florian.fainelli@broadcom.com>,
 	Umang Jain <umang.jain@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 Subject: Re: [PATCH V2 07/10] staging: vchiq_arm: Reduce indentation of
  service_callback
-Message-ID: <88eb1d33-9423-4a5a-b5b1-f858dd9169aa@moroto.mountain>
+Message-ID: <01190bf2-c698-423a-b587-c80ce5d92bb8@moroto.mountain>
 References: <20240610210220.95524-1-wahrenst@gmx.net>
  <20240610210220.95524-8-wahrenst@gmx.net>
 Precedence: bulk
@@ -80,111 +80,13 @@ On Mon, Jun 10, 2024 at 11:02:17PM +0200, Stefan Wahren wrote:
 > service_single_message() as suggested by Laurent Pinchart.
 > 
 > Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
-> ---
->  .../interface/vchiq_arm/vchiq_arm.c           | 68 +++++++++++--------
->  1 file changed, 39 insertions(+), 29 deletions(-)
-> 
-> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> index 0ba52c9d8bc3..706bfc7a0b90 100644
-> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> @@ -1055,6 +1055,39 @@ add_completion(struct vchiq_instance *instance, enum vchiq_reason reason,
->  	return 0;
->  }
-> 
-> +static int
-> +service_single_message(struct vchiq_instance *instance,
-> +		       enum vchiq_reason reason,
-> +		       struct vchiq_service *service, void *bulk_userdata)
-> +{
-> +	struct user_service *user_service;
-> +
-> +	user_service = (struct user_service *)service->base.userdata;
-> +
-> +	dev_dbg(service->state->dev, "arm: msg queue full\n");
-> +	/*
-> +	 * If there is no MESSAGE_AVAILABLE in the completion
-> +	 * queue, add one
-> +	 */
-> +	if ((user_service->message_available_pos -
-> +	     instance->completion_remove) < 0) {
-> +		dev_dbg(instance->state->dev,
-> +			"arm: Inserting extra MESSAGE_AVAILABLE\n");
-> +		return add_completion(instance, reason, NULL, user_service,
-> +				      bulk_userdata);
 
-In the original code we added a completion and
+To be honest, I liked the version of this patch which Laurent didn't
+like.  Even after pulling this code into a separate function, I'd still
+support flipping the conditions around and adding the goto...
 
-> +	}
-> +
-> +	if (wait_for_completion_interruptible(&user_service->remove_event)) {
-
-then waited for it here...  Why did this change?
+Laurent, you really didn't like the goto?
 
 regards,
 dan carpenter
 
-> +		dev_dbg(instance->state->dev, "arm: interrupted\n");
-> +		return -EAGAIN;
-> +	} else if (instance->closing) {
-> +		dev_dbg(instance->state->dev, "arm: closing\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  int
->  service_callback(struct vchiq_instance *instance, enum vchiq_reason reason,
->  		 struct vchiq_header *header, unsigned int handle, void *bulk_userdata)
-> @@ -1104,41 +1137,18 @@ service_callback(struct vchiq_instance *instance, enum vchiq_reason reason,
->  		spin_lock(&service->state->msg_queue_spinlock);
->  		while (user_service->msg_insert ==
->  			(user_service->msg_remove + MSG_QUEUE_SIZE)) {
-> +			int ret;
-> +
->  			spin_unlock(&service->state->msg_queue_spinlock);
->  			DEBUG_TRACE(SERVICE_CALLBACK_LINE);
->  			DEBUG_COUNT(MSG_QUEUE_FULL_COUNT);
-> -			dev_dbg(service->state->dev, "arm: msg queue full\n");
-> -			/*
-> -			 * If there is no MESSAGE_AVAILABLE in the completion
-> -			 * queue, add one
-> -			 */
-> -			if ((user_service->message_available_pos -
-> -				instance->completion_remove) < 0) {
-> -				int ret;
-> -
-> -				dev_dbg(instance->state->dev,
-> -					"arm: Inserting extra MESSAGE_AVAILABLE\n");
-> -				DEBUG_TRACE(SERVICE_CALLBACK_LINE);
-> -				ret = add_completion(instance, reason, NULL, user_service,
-> -						     bulk_userdata);
-> -				if (ret) {
-> -					DEBUG_TRACE(SERVICE_CALLBACK_LINE);
-> -					vchiq_service_put(service);
-> -					return ret;
-> -				}
-> -			}
-> 
-> -			DEBUG_TRACE(SERVICE_CALLBACK_LINE);
-> -			if (wait_for_completion_interruptible(&user_service->remove_event)) {
-> -				dev_dbg(instance->state->dev, "arm: interrupted\n");
-> -				DEBUG_TRACE(SERVICE_CALLBACK_LINE);
-> -				vchiq_service_put(service);
-> -				return -EAGAIN;
-> -			} else if (instance->closing) {
-> -				dev_dbg(instance->state->dev, "arm: closing\n");
-> +			ret = service_single_message(instance, reason,
-> +						     service, bulk_userdata);
-> +			if (ret) {
->  				DEBUG_TRACE(SERVICE_CALLBACK_LINE);
->  				vchiq_service_put(service);
-> -				return -EINVAL;
-> +				return ret;
->  			}
->  			DEBUG_TRACE(SERVICE_CALLBACK_LINE);
->  			spin_lock(&service->state->msg_queue_spinlock);
-> --
-> 2.34.1
-> 
