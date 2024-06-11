@@ -1,65 +1,61 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 661012D61B
-	for <linux-staging@lists.linux.dev>; Tue, 11 Jun 2024 15:23:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5874C46444;
+	Tue, 11 Jun 2024 17:34:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718119441; cv=none; b=JJAxy0+FQaZO7Z6F/41aHRV17TqWK8WOBZibz4gdUp4ThfEb1u2E8kvwvirh0nXLTUw3BlGfL4Tdqnu36DqJeeuS/ma595yNfWA3TeDkZStO/EWiMX8BPnlXHa9e/PhKUdgUAo+A/Sns7+N1i7TYAE8HBSITlcRnqsSxrdLip0M=
+	t=1718127256; cv=none; b=Xg5WfqV3qyeR6frSjyDNqXNekgmktGKB8bDhtKJ9CusxoTb2+GEqn66dEdBeUR8KbwQFvpMZg8bHsx6OelG0ZlQn/PIvwwSh4eBsnvw213X6iFMSjBBIygocXQLKPV11AnPrLty3aiPaxtibdQulbSjaFasqC4T+g9GzKrIZv/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718119441; c=relaxed/simple;
-	bh=B49BfP/n62cC5L3T8DG2DbtbA+R5iyv8rVdtsI/Ab6E=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=PxRjLTOub3nQmMgj9ah4KCwSHT9PpN2o43BDqEbt4OzPj+22cKi7Vhkv+xIjm+zw7taN3SwGjxk3SsLWJui1hWvWOZuPf08q7NNK9ttvXFvSYJXMozRDq/2GviAxjMht2JkfF9SIVYMakETmatfJwLnpThvonWnwEGtnfkBORx8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VZwJHQla; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1718127256; c=relaxed/simple;
+	bh=IGWRkyXrapW7OPOE9BiYZCSGgeR9F5qaCexXoS2vqgY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Wzrsb/rjdx1lj89Q4ulXTbm0BBiKidQ9kIhsNKt4Uut2EwJl8nUroRjCHU6hOBmfd4Gegf19FFbTWtAEeVuphcXS7BSdQjtSh8jF73k+xdUPGE/ObIrTc/iVEUYkM9PWXs4PgwQ7jAINU2Z/8o+GfA9YHKlImtaMcBbGTQYsU94=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IWxr0+Mf; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VZwJHQla"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-35f1c209842so2477397f8f.3
-        for <linux-staging@lists.linux.dev>; Tue, 11 Jun 2024 08:23:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718119438; x=1718724238; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=qqhHKqu8J5x8pyYIaPsNCcIOlIn0KQ56jThNjIBi0ic=;
-        b=VZwJHQla2aHU/CbUtdEb01BZumCay7L38U4ID3VXIl8BWN3DYX7tAf7TofkYD4AnsU
-         1y/9mFmY2uHWhX8N6D2HOsM3vz+zfx22abH6rBjH+C0sCdHDc+EisBCtfNEyIfTvYVuf
-         rk+XfFfax2xwU1UFGU658pcmbICVjB7a5/r9j6RI0OZhRa3rzvfOtmE99QZmeRItJbck
-         bc/Sc1xohvi+8x2IWLGOKdK+CUf4JUXsZiJuR5j9hfSEo/mPUxWULiYbB4To2GY7/eQ1
-         TpV7ufMaUSDGv1j98Jzx1VvaRtRcMJgydLiovRrJlOVI0UYl/Gv8iRZ3XSvUsoRqMe8E
-         DDeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718119438; x=1718724238;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=qqhHKqu8J5x8pyYIaPsNCcIOlIn0KQ56jThNjIBi0ic=;
-        b=O8eBR7Xwj+5YUIIJ1meu6bcCNoMn4ANiENl6E8jGgyw7KMgYoCTm1vSyedWf9KUQIF
-         j2P3oNG70rK04dkvbobnOfyFzOLza1U0yCC70CMjj5KKuJLa8oU05hn52yz/SkJHPYYz
-         3Fh/MhcyJWty4KLapnBme+Suy2NeGA45o1xNe00604uL+FRUYpaDsg5PsGltwkkNh5Yq
-         BvMZ6i/7hj3hO6IJDmNNE/x2SULNtwIaK3tlxiiDYbbWBntx2Fj8MEEqSH3Co41QIeaG
-         ZOjBAyfJWIpWW4SKGvb6S7uOxZBCig7Z81Z/kn/5dzAOVjvqGuJZ98xwpyD5LjVsGZaC
-         DkIA==
-X-Forwarded-Encrypted: i=1; AJvYcCVvEZfm8tth58ukWlt+GveXUyvvjH7OaafJgiHFuGUt3+FjMV8ujxEx7/AIr+/qdIhZ9B/rBOTPlErHeaA9oPGjvj68HGgJJpZMMWQHEw==
-X-Gm-Message-State: AOJu0YwAv/swy928rA488WZePXxhSS1TF+lGB1RJZktaw6a2xAVBB9En
-	5ch0syquwtVJvgnd7pNR9uN8DbOmLg8FROylO6hNSJGF64dXMsTs7aL47lkAyRM=
-X-Google-Smtp-Source: AGHT+IHcFnG6/IspHE0p3GMElQnHHuNm9W//aQQuoYBzkQbmaxLJxzn8ycr9NDfb+FwJsULVkcyrrQ==
-X-Received: by 2002:a5d:4010:0:b0:35f:1d13:c843 with SMTP id ffacd0b85a97d-35f21254c37mr4445617f8f.11.1718119437544;
-        Tue, 11 Jun 2024 08:23:57 -0700 (PDT)
-Received: from localhost.localdomain ([31.120.167.14])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35f301dfc52sm1167545f8f.82.2024.06.11.08.23.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jun 2024 08:23:56 -0700 (PDT)
-From: Teddy Engel <engel.teddy@gmail.com>
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IWxr0+Mf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718127255; x=1749663255;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=IGWRkyXrapW7OPOE9BiYZCSGgeR9F5qaCexXoS2vqgY=;
+  b=IWxr0+MfehaHIxuOjWMe69fO9ZqzV4rzujSkl9SUglZbvqjTsp8NY4wU
+   SHUFwZafOFLtFkVLRyQCZcD19M/ocwPIMI10z90noim+kYzh2EO2Xe2++
+   8YBSgtjyHOZDFt6u+FO43SdNfR57rtB+UWbR1Zd/u9AN6bDNKL4KvzDA0
+   5jcufOhjel+O2/DpkmT62wYA7yptTySWyD9J8q4aUQclj938AugOnuqBS
+   ysP82TPD5ihUyfvGm71dHvWDy59By9fz9reOqMVWlIXr4IdYeeduOKJiN
+   uksP9mxTU3NJ3wozjZQowPri2CeaSKOknECCsNEoB9CizaSLwRhYnsYM1
+   Q==;
+X-CSE-ConnectionGUID: Y73XDfADS3253eF1Yturfg==
+X-CSE-MsgGUID: j4RXagDNT3+NGilA08g46A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11100"; a="18685825"
+X-IronPort-AV: E=Sophos;i="6.08,230,1712646000"; 
+   d="scan'208";a="18685825"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2024 10:34:14 -0700
+X-CSE-ConnectionGUID: DNfh+BcqTou8u9tShGZuKQ==
+X-CSE-MsgGUID: Zb35i7RcREybUQmYmRkGUQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,230,1712646000"; 
+   d="scan'208";a="39486007"
+Received: from agluck-desk3.sc.intel.com ([172.25.222.70])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2024 10:34:13 -0700
+From: Tony Luck <tony.luck@intel.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	linux-kernel@vger.kernel.org,
+	patches@lists.linux.dev
+Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Teddy Engel <engel.teddy@gmail.com>
-Subject: [PATCH] staging: vt6656: Fix checkpatch unnecessary parentheses
-Date: Tue, 11 Jun 2024 16:22:56 +0100
-Message-Id: <20240611152256.24563-1-engel.teddy@gmail.com>
-X-Mailer: git-send-email 2.39.2
+	Tony Luck <tony.luck@intel.com>,
+	Andy Shevchenko <andy@kernel.org>
+Subject: [PATCH v6 05/49 RESEND] media: atomisp: Switch to new Intel CPU model defines
+Date: Tue, 11 Jun 2024 10:34:06 -0700
+Message-ID: <20240611173406.352874-1-tony.luck@intel.com>
+X-Mailer: git-send-email 2.45.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -68,96 +64,65 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove unnecessary parentheses - according to checkpatch.pl strict
+New CPU #defines encode vendor and family as well as model.
 
-Signed-off-by: Teddy Engel <engel.teddy@gmail.com>
+Signed-off-by: Tony Luck <tony.luck@intel.com>
+Reviewed-by: Andy Shevchenko <andy@kernel.org>
+Acked-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/staging/vt6656/TODO       | 2 +-
- drivers/staging/vt6656/baseband.c | 8 ++++----
- drivers/staging/vt6656/main_usb.c | 4 ++--
- drivers/staging/vt6656/usbpipe.c  | 8 ++++----
- 4 files changed, 11 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/staging/vt6656/TODO b/drivers/staging/vt6656/TODO
-index e154b2f3b247..507b7aec9f14 100644
---- a/drivers/staging/vt6656/TODO
-+++ b/drivers/staging/vt6656/TODO
-@@ -11,7 +11,7 @@ TODO:
- - switch to use LIB80211
- - switch to use MAC80211
- - use kernel coding style
--- checkpatch.pl fixes
-+- checkpatch.pl fixes -- done
- - sparse fixes
- - integrate with drivers/net/wireless
+Mauro, Hans, Greg: Which one of you owns this one. Can you take
+a look please. Let me know if changes are needed.
+
+ .../atomisp/include/linux/atomisp_platform.h  | 27 ++++++++-----------
+ 1 file changed, 11 insertions(+), 16 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/include/linux/atomisp_platform.h b/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
+index 0e3f6fb78483..fdeb247036b0 100644
+--- a/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
++++ b/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
+@@ -18,7 +18,7 @@
+ #ifndef ATOMISP_PLATFORM_H_
+ #define ATOMISP_PLATFORM_H_
  
-diff --git a/drivers/staging/vt6656/baseband.c b/drivers/staging/vt6656/baseband.c
-index ad7b963f0d98..c981fc75a030 100644
---- a/drivers/staging/vt6656/baseband.c
-+++ b/drivers/staging/vt6656/baseband.c
-@@ -230,8 +230,8 @@ int vnt_vt3184_init(struct vnt_private *priv)
+-#include <asm/intel-family.h>
++#include <asm/cpu_device_id.h>
+ #include <asm/processor.h>
  
- 	dev_dbg(&priv->usb->dev, "RF Type %d\n", priv->rf_type);
+ #include <linux/i2c.h>
+@@ -178,22 +178,17 @@ void atomisp_unregister_subdev(struct v4l2_subdev *subdev);
+ int v4l2_get_acpi_sensor_info(struct device *dev, char **module_id_str);
  
--	if ((priv->rf_type == RF_AL2230) ||
--	    (priv->rf_type == RF_AL2230S)) {
-+	if (priv->rf_type == RF_AL2230 ||
-+	    priv->rf_type == RF_AL2230S) {
- 		priv->bb_rx_conf = vnt_vt3184_al2230[10];
- 		length = sizeof(vnt_vt3184_al2230);
- 		addr = vnt_vt3184_al2230;
-@@ -275,8 +275,8 @@ int vnt_vt3184_init(struct vnt_private *priv)
- 	if (ret)
- 		goto end;
+ /* API from old platform_camera.h, new CPUID implementation */
+-#define __IS_SOC(x) (boot_cpu_data.x86_vendor == X86_VENDOR_INTEL && \
+-		     boot_cpu_data.x86 == 6 &&                       \
+-		     boot_cpu_data.x86_model == (x))
+-#define __IS_SOCS(x,y) (boot_cpu_data.x86_vendor == X86_VENDOR_INTEL && \
+-		        boot_cpu_data.x86 == 6 &&                       \
+-		        (boot_cpu_data.x86_model == (x) || \
+-		         boot_cpu_data.x86_model == (y)))
+-
+-#define IS_MFLD	__IS_SOC(INTEL_FAM6_ATOM_SALTWELL_MID)
+-#define IS_BYT	__IS_SOC(INTEL_FAM6_ATOM_SILVERMONT)
+-#define IS_CHT	__IS_SOC(INTEL_FAM6_ATOM_AIRMONT)
+-#define IS_MRFD	__IS_SOC(INTEL_FAM6_ATOM_SILVERMONT_MID)
+-#define IS_MOFD	__IS_SOC(INTEL_FAM6_ATOM_AIRMONT_MID)
++#define __IS_SOC(x) (boot_cpu_data.x86_vfm == x)
++#define __IS_SOCS(x, y) (boot_cpu_data.x86_vfm == x || boot_cpu_data.x86_vfm == y)
++
++#define IS_MFLD	__IS_SOC(INTEL_ATOM_SALTWELL_MID)
++#define IS_BYT	__IS_SOC(INTEL_ATOM_SILVERMONT)
++#define IS_CHT	__IS_SOC(INTEL_ATOM_AIRMONT)
++#define IS_MRFD	__IS_SOC(INTEL_ATOM_SILVERMONT_MID)
++#define IS_MOFD	__IS_SOC(INTEL_ATOM_AIRMONT_MID)
  
--	if ((priv->rf_type == RF_VT3226) ||
--	    (priv->rf_type == RF_VT3226D0)) {
-+	if (priv->rf_type == RF_VT3226 ||
-+	    priv->rf_type == RF_VT3226D0) {
- 		data = (priv->rf_type == RF_VT3226D0) ? 0x11 : 0x23;
+ /* Both CHT and MOFD come with ISP2401 */
+-#define IS_ISP2401 __IS_SOCS(INTEL_FAM6_ATOM_AIRMONT, \
+-			     INTEL_FAM6_ATOM_AIRMONT_MID)
++#define IS_ISP2401 __IS_SOCS(INTEL_ATOM_AIRMONT, \
++			     INTEL_ATOM_AIRMONT_MID)
  
- 		ret = vnt_control_out_u8(priv, MESSAGE_REQUEST_MACREG,
-diff --git a/drivers/staging/vt6656/main_usb.c b/drivers/staging/vt6656/main_usb.c
-index 7bbed462f062..86085f3674c1 100644
---- a/drivers/staging/vt6656/main_usb.c
-+++ b/drivers/staging/vt6656/main_usb.c
-@@ -339,8 +339,8 @@ static int vnt_init_registers(struct vnt_private *priv)
- 
- 	/* load vt3266 calibration parameters in EEPROM */
- 	if (priv->rf_type == RF_VT3226D0) {
--		if ((priv->eeprom[EEP_OFS_MAJOR_VER] == 0x1) &&
--		    (priv->eeprom[EEP_OFS_MINOR_VER] >= 0x4)) {
-+		if (priv->eeprom[EEP_OFS_MAJOR_VER] == 0x1 &&
-+		    priv->eeprom[EEP_OFS_MINOR_VER] >= 0x4) {
- 			calib_tx_iq = priv->eeprom[EEP_OFS_CALIB_TX_IQ];
- 			calib_tx_dc = priv->eeprom[EEP_OFS_CALIB_TX_DC];
- 			calib_rx_iq = priv->eeprom[EEP_OFS_CALIB_RX_IQ];
-diff --git a/drivers/staging/vt6656/usbpipe.c b/drivers/staging/vt6656/usbpipe.c
-index d505b4b69ba4..42b2e0a0a431 100644
---- a/drivers/staging/vt6656/usbpipe.c
-+++ b/drivers/staging/vt6656/usbpipe.c
-@@ -287,7 +287,7 @@ static int vnt_rx_data(struct vnt_private *priv, struct vnt_rcb *ptr_rcb,
- 		return false;
- 	}
- 
--	if ((bytes_received > 2372) || (bytes_received <= 40)) {
-+	if (bytes_received > 2372 || bytes_received <= 40) {
- 		/* Frame Size error drop this packet.*/
- 		dev_dbg(&priv->usb->dev, "------ WRONG Length 2\n");
- 		return false;
-@@ -299,9 +299,9 @@ static int vnt_rx_data(struct vnt_private *priv, struct vnt_rcb *ptr_rcb,
- 	/* if SQ3 the range is 24~27, if no SQ3 the range is 20~23 */
- 
- 	/*Fix hardware bug => PLCP_Length error */
--	if (((bytes_received - head->pay_load_len) > 27) ||
--	    ((bytes_received - head->pay_load_len) < 24) ||
--	    (bytes_received < head->pay_load_len)) {
-+	if ((bytes_received - head->pay_load_len) > 27 ||
-+	    (bytes_received - head->pay_load_len) < 24 ||
-+	    bytes_received < head->pay_load_len) {
- 		dev_dbg(&priv->usb->dev, "Wrong PLCP Length %x\n",
- 			head->pay_load_len);
- 		return false;
+ #endif /* ATOMISP_PLATFORM_H_ */
 -- 
-2.39.2
+2.45.0
 
