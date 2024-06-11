@@ -1,41 +1,25 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7044178CCF
-	for <linux-staging@lists.linux.dev>; Tue, 11 Jun 2024 13:09:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED85F17D35A
+	for <linux-staging@lists.linux.dev>; Tue, 11 Jun 2024 13:35:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718111383; cv=none; b=RJumPHJ+T+B8re4Cw7gGtjqgj9oXQIKesnC9xvjh/NTGRR9OqEk0Vh4TE+dXyxOvRYd1DiVFmsZaaL4RPqEnQVMPfIuXvOWIcQY5CgyGfk2gtaZ6TmLXttmOhv2uZePPSNl28K/NvWtgRrDAjwnzUVUmgOkPPWsQpCBwW8LM2hI=
+	t=1718112922; cv=none; b=Bjbrv2b3pAoPnakLyFRnCHTNu2gju4313DwjzvK/IHxojLu9NSpxQ8U8vkGUuaJoHCJgKkMoUWJvYeb3DFxsqAqS/q3PPa+uQOzpkHyhKG//i0GyqO+8ZGBJjT2PzEK9vUcrm5KV8R0LZTEli86O7rsOCjIA586aYjCPlW+CXCQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718111383; c=relaxed/simple;
-	bh=htTChbBA+MmnKAZLP01j7mypZjo//LR/R+vYV9/UXIg=;
+	s=arc-20240116; t=1718112922; c=relaxed/simple;
+	bh=+0d6v5n0atppJQ/nmp3CSYCQvACU9OB8sPkVUFznm90=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Iiv3AFH2vA6etarAkxn3DCNfCOJ9q2tbyMsOMkkv1j+hpj1frJqTbVtPLtvZ6aOYuCOnNSIH9CquCkbLoHymukkURTc6VE7BjfHQh5r0jPV3TYkr0HCK/gVT1vvFadtXVaYvHQSZXeHrezAq1LvLEcqlxJWUWXnZyVvuUsu1P+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=Tgd735NJ; arc=none smtp.client-ip=212.227.17.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="Tgd735NJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
-	s=s31663417; t=1718111360; x=1718716160; i=wahrenst@gmx.net;
-	bh=C/qy24EZjE9bp21B10xy4RBhu0Qrn/97XJMgD57eTtg=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=Tgd735NJi2oyRwwJXelb0CLQWcbqwzEKCeZKVYwNz9WW3rK0hGq+0cAPOj63+q/L
-	 uA/hj3KkgUgnGX4cJfnC89oNmSlPt/ZtVyvNNYrIEVR+zCILqtdO3esQYmXGu7cD2
-	 B/LfVi0SIPvTeSpCj6dI1PLMpMEmAfjrz0KCSZUc1ZPm1ssEHtgiAuh2MhDIKuQdA
-	 05asu36XLs4/Yh1knIpkRsTojI60I70PH4uJl6Zh7c5ru9nemYqDhJAAJMSM8/6p6
-	 459UiJZkKVTCnxHLMGdukCquXVR2I4YRvG4rFaN50LeWBv2MBINlsZKxO2/3vfOQV
-	 CmOyUD+QBvzRuyXbfw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.127] ([37.4.248.43]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1Mk0JM-1sfNea1KtE-00iqYX; Tue, 11
- Jun 2024 15:09:20 +0200
-Message-ID: <66aafbbd-b90c-4ca6-80a7-233ec0f6dce6@gmx.net>
-Date: Tue, 11 Jun 2024 15:09:19 +0200
+	 In-Reply-To:Content-Type; b=thI5nIV29cI0Y7JoglBK3Ccv4Hit7rstUw0VbQDmXMJRr4erRN7XDBNGKRH+gt+0HA0zcMGHvmW6j7iD17g3DqFuuf8pnhVpK/sIJXjRWvAfwOh0FEveFUZb25pInZE2bNpdX+eWCLHCVCXIHFUt+Ei3InxGHK/tNLgBQVvNDeA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 895B3152B;
+	Tue, 11 Jun 2024 06:35:43 -0700 (PDT)
+Received: from [10.1.196.40] (e121345-lin.cambridge.arm.com [10.1.196.40])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B7F303F5A1;
+	Tue, 11 Jun 2024 06:35:17 -0700 (PDT)
+Message-ID: <28a88478-3f3b-4e4a-96b2-840661c14790@arm.com>
+Date: Tue, 11 Jun 2024 14:35:16 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -46,7 +30,7 @@ User-Agent: Mozilla Thunderbird
 Subject: Re: WARNING:
  drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:364
  vchiq_prepare_bulk_data
-To: Arnd Bergmann <arnd@arndb.de>, Robin Murphy <robin.murphy@arm.com>,
+To: Stefan Wahren <wahrenst@gmx.net>, Arnd Bergmann <arnd@arndb.de>,
  Phil Elwell <phil@raspberrypi.com>
 Cc: "laurent.pinchart" <laurent.pinchart@ideasonboard.com>,
  Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
@@ -66,99 +50,103 @@ References: <ad2b7034-ecc9-4d6e-844c-bfe32fb5b23c@gmx.net>
  <d6f28773-d408-425c-8347-d0dbf301aea6@gmx.net>
  <9c2917fa-d2ee-4d0b-b42a-a27191e93088@app.fastmail.com>
  <5113a1df-858b-4ba1-bd8b-c53c0313c7ce@gmx.net>
- <87699d92-64f4-4b28-840e-8b320502acb2@app.fastmail.com>
-Content-Language: en-US
-From: Stefan Wahren <wahrenst@gmx.net>
-In-Reply-To: <87699d92-64f4-4b28-840e-8b320502acb2@app.fastmail.com>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <5113a1df-858b-4ba1-bd8b-c53c0313c7ce@gmx.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:jHWAQYtLCQLOVZdlsRy0uhZJvvWE/49++jAL7WvO8MSeDxsURHB
- AfyCpn3rAQNmNv8lhBt47ha7zE6MEWM7mmXjs2BqjK6ZJBJ4Ch2C+JnJzKe8voqV1GpYQJn
- b1KBf+xdWDeaj/pQUrV1i6/doW7/zpTOg6I6zyclP1+b0fr6XKEed4zSDVqeXJVhsQed673
- JIo/3SvVso5JUzMI9mk/g==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:mf+h5EmeDQI=;Az2bjoFsAI5BsknuChA7ZRB5/ad
- jW58YdFAUxKI8vF581s3yPrRKvln42ybCE6gUGtUh6NeOjkPFEKaQ/FTTAoS4l4rf1PCpXJfi
- qDgrZtih9oIQbEYboXTxfRxn9UD4pYfpupLXNO7PgjIPyAIu0PuhomWMr4z+5lmOi46kZPPmy
- zzDu7EfqhQXRqaSXp/F+PCdUmD6zB61OFm7QTPf+cZGGo18Cb7khQBD1Uu2gMtWDGIWHQqNFs
- 96I5ooA/7FwcZjT8eeEvVXP9pkROKAQn61DVSeWXhtwUh8G0oR/LUfPreERtfnM7ve0H3mmq3
- Y3z8t29nbmVKD5mlZqVZkAQKWoZAjDH86VdNFex/z3Yktp5S9mlST4eujUjX+RwEeD4wJ3AoU
- T/tj1rk0TwWy88RpPKzf+SvMn7YCOUE0voYKwXB/sdTDH9wWkH1LfHXkrqKCHRddQvs8gsgvv
- x9IW5P5n+1Tpu28NvrOSHzKGzXul1a2BLZ2vOWGRN+3NfD9leaG5Ff9hzk0+0Ynx2Pb5AsgVN
- +1tNnJsrJtwx43BRzuBGyGUnVtPh2RRJH/VeJT4iVZx+9JE/1r26toH9Zx0te94lR0VXkSh3A
- dYw2fw2U0/5jwAkbuwK5kupAh67vNSNE4JDCRBucDzTDG1aXt/9P2tyjbNchiBrgL8R2LTko8
- wZIh3LN4ROO1TO1WfCSi8urdOFqQ4xbr/IF+z+q+sOzoXude44F4yJLGA28RqTwzNyQfdLNJz
- FK/R1OOlJTaLSza4nBP3wBZhMD3BDF7DEipoz3oQZPasrDDm5fDItt0MvyER8BUQG0Rx3zUA/
- TKLoRW2e55d1yd4/uCNtomHgLUO+bJU3mLCkHqXcefHSc=
+Content-Transfer-Encoding: 8bit
 
-Hi Arnd,
+On 11/06/2024 12:37 pm, Stefan Wahren wrote:
+> Am 11.06.24 um 13:08 schrieb Arnd Bergmann:
+>> On Tue, Jun 11, 2024, at 12:47, Stefan Wahren wrote:
+>>> Am 10.06.24 um 12:25 schrieb Robin Murphy:
+>>>> On 2024-06-10 10:24 am, Phil Elwell wrote:
+>>>>> On Mon, 10 Jun 2024 at 10:20, Arnd Bergmann <arnd@arndb.de> wrote:
+>>>>>>        Arnd
+>>>>> vchiq sends partial cache lines at the start and of reads (as seen
+>>>>> from the ARM host) out of band, so the only misaligned DMA transfers
+>>>>> should be from ARM to VPU. This should not require a bounce buffer.
+>>>> Hmm, indeed the dma_kmalloc_safe() takes into account that unaligned
+>>>> DMA_TO_DEVICE does not need bouncing, so it would suggest that
+>>>> something's off in what vchiq is asking for.
+>>> I'm available to debug this further, but i need more guidance here.
+>>>
+>>> At least i extend the output for the error case:
+>>>
+>>> -               WARN_ON(len == 0);
+>>> -               WARN_ON(i && (i != (dma_buffers - 1)) && (len &
+>>> ~PAGE_MASK));
+>>> -               WARN_ON(i && (addr & ~PAGE_MASK));
+>>> +               if (len == 0)
+>>> +                       pr_warn_once("%s: sg_dma_len() == 0\n", 
+>>> __func__);
+>>> +               else if (i && (i != (dma_buffers - 1)) && (len &
+>>> ~PAGE_MASK))
+>>> +                       pr_warn_once("%s: following block not page
+>>> aligned\n", __func__);
+>>> +               else if (i && (addr & ~PAGE_MASK)) {
+>>> +                       pr_warn_once("%s: block %u, DMA address %pad
+>>> doesn't align with PAGE_MASK 0x%lx\n", __func__, i, &addr, PAGE_MASK);
+>>> +                       pr_warn_once("sg_dma_is_swiotlb: %d, dma_flags:
+>>> %x\n", sg_dma_is_swiotlb(sg), sg->dma_flags);
+>>> +               }
+>>>
+>>> Example result:
+>>>
+>>> [   84.180527] create_pagelist: block 1, DMA address 0x00000000f5f74800
+>>> doesn't align with PAGE_MASK 0xfffffffffffff000
+>>> [   84.180553] sg_dma_is_swiotlb: 0, dma_flags: 0
+>>>
+>>> Is this helpful?
+>> It's interesting that this does not have the SG_DMA_SWIOTLB
+>> flag set, as the theory so far was that an unaligned
+>> user address is what caused this to bounce.
 
-Am 11.06.24 um 14:14 schrieb Arnd Bergmann:
-> On Tue, Jun 11, 2024, at 13:37, Stefan Wahren wrote:
->> Am 11.06.24 um 13:08 schrieb Arnd Bergmann:
->>> On Tue, Jun 11, 2024, at 12:47, Stefan Wahren wrote:
->>   =C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 if (len =3D=3D 0)
->>   =C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 pr_warn_once=
-("%s: sg_dma_len() =3D=3D 0\n", __func__);
->>   =C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 else if (i && (i !=3D (dma_buff=
-ers - 1)) && (len & ~PAGE_MASK))
->>   =C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 pr_warn_once=
-("%s: following block not page aligned\n",
->> __func__);
->>   =C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 else if (i && (addr & ~PAGE_MAS=
-K)) {
->>   =C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 pr_warn_once=
-("%s: block %u, DMA address %pad doesn't align
->> with PAGE_MASK 0x%lx\n", __func__, i, &addr, PAGE_MASK);
->>   =C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 pr_warn_once=
-("sg_dma_is_swiotlb: %d, dma_flags: %x\n",
->> sg_dma_is_swiotlb(sg), sg->dma_flags);
->>   =C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 pr_warn_once=
-("type =3D %s\n", (type =3D=3D PAGELIST_WRITE) ?
->> "PAGELIST_WRITE" : "PAGELIST_READ");
->>   =C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 if (buf)
->>   =C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=
-=C2=A0 pr_warn_once("buf =3D %p, count =3D %zu\n", buf, count);
->>   =C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 else
->>   =C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=
-=C2=A0 pr_warn_once("ubuf =3D %p, count =3D %zu\n", ubuf, count);
->>   =C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 }
+dma-direct doesn't use that flag (at least for now; potentially it might 
+offer a tiny micro-optimisation, but not enough to really matter). At 
+this point, len and pagelistinfo->dma_dir (as passed to dma_map_sg()) 
+are what would have defined the bounce condition...
+
+>> I think the most helpful bit of information that is
+>> currently missing is the 'ubuf' and 'count' arguments
+>> that got passed down from userspace into create_pagelist(),
+>> to see what alignment they have in the failure case.
+> Here is my attempt:
+> 
+>          if (len == 0)
+>              pr_warn_once("%s: sg_dma_len() == 0\n", __func__);
+>          else if (i && (i != (dma_buffers - 1)) && (len & ~PAGE_MASK))
+>              pr_warn_once("%s: following block not page aligned\n",
+> __func__);
+>          else if (i && (addr & ~PAGE_MASK)) {
+>              pr_warn_once("%s: block %u, DMA address %pad doesn't align
+> with PAGE_MASK 0x%lx\n", __func__, i, &addr, PAGE_MASK);
+>              pr_warn_once("sg_dma_is_swiotlb: %d, dma_flags: %x\n",
+> sg_dma_is_swiotlb(sg), sg->dma_flags);
+>              pr_warn_once("type = %s\n", (type == PAGELIST_WRITE) ?
+> "PAGELIST_WRITE" : "PAGELIST_READ");
+>              if (buf)
+>                  pr_warn_once("buf = %p, count = %zu\n", buf, count);
+>              else
+>                  pr_warn_once("ubuf = %p, count = %zu\n", ubuf, count);
+>          }
+> 
+> Output:
+> 
+> [   66.184030] create_pagelist: block 1, DMA address 0x00000000f5fc7800
+> doesn't align with PAGE_MASK 0xfffffffffffff000
+> [   66.184056] sg_dma_is_swiotlb: 0, dma_flags: 0
+> [   66.184063] type = PAGELIST_READ
+
+...so from the dma_dir assignment, this would imply DMA_FROM_DEVICE, 
+(indicating vchiq writing to RAM, CPU reading from RAM) which with the 
+unaligned address below would indeed cause a bounce. However that 
+appears to contradict what Phil said is supposed to happen :/
+
+Thanks,
+Robin
+
+> [   66.184066] ubuf = 00000000266a70a7, count = 0
 >>
->> Output:
->>
->> [=C2=A0=C2=A0 66.184030] create_pagelist: block 1, DMA address 0x000000=
-00f5fc7800
->> doesn't align with PAGE_MASK 0xfffffffffffff000
->> [=C2=A0=C2=A0 66.184056] sg_dma_is_swiotlb: 0, dma_flags: 0
->> [=C2=A0=C2=A0 66.184063] type =3D PAGELIST_READ
->> [=C2=A0=C2=A0 66.184066] ubuf =3D 00000000266a70a7, count =3D 0
-sorry my debug attempt for count was pointless. The value is always
-decremented to zero at this point. So your suggested change won't have
-any effect.
->  From my reading of the code, it's not really meant to handle
-> count=3D0, so maybe the answer for that is to just return an
-> error (or possibly success) when there is data attached to
-> the request from user space, something like
->
-> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
-> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
-> @@ -328,6 +328,11 @@ static int vchiq_irq_queue_bulk_tx_rx(struct vchiq_=
-instance *instance,
->                  userdata =3D args->userdata;
->          }
->
-> +       if (!args->size) {
-> +               ret =3D 0;
-> +               goto out;
-> +       }
-> +
->          status =3D vchiq_bulk_transfer(instance, args->handle, NULL, ar=
-gs->data, args->size,
->                                       userdata, args->mode, dir);
->
->
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
-
+>>       Arnd
+> 
