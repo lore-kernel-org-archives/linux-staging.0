@@ -1,67 +1,69 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27FE98C04
-	for <linux-staging@lists.linux.dev>; Tue, 11 Jun 2024 05:18:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADDD952F71
+	for <linux-staging@lists.linux.dev>; Tue, 11 Jun 2024 06:01:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718083091; cv=none; b=RQuz8rOlE+eiQvr/JPvMqnNEWnxkfyl3TPHFA7fp5OdRApcD81h38Y0fbJrVzIfQywtw86NbEazNKZf6CXEEcXpgzG20mguJ8Dd/iidLuW9XwZQQdcTgAPNOSaq/aL/yOfjcGtOByPNiMMUSB9RISKQVhwlQdCRJ7zXY1uWAlk8=
+	t=1718085699; cv=none; b=K0Q8ELsabMLNslDl2y4sKSqQ4WyALjgZRzgbIHw0rJmRrtzCk76BaUyAwytSiviHLIM+16XtKDdTASzpif00crDCPMshY7yazm1obRXLjDXG8Mj2L76TOWyHl2M+1iVKAXhkgd0xkJ0j85fNS/s3e3jic4A4Iop3NV1NdZohFCQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718083091; c=relaxed/simple;
-	bh=6OTUcRUUrdspohxppwdQEu0HKCFgNJDqHInYXkSTd+U=;
+	s=arc-20240116; t=1718085699; c=relaxed/simple;
+	bh=Cx0q3gP0BnWqzY3fvL/YhYkEMYEkCPnJ+86JE92iKkk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NE1NedAW+91JWQhaDdeSI4rED9J81VWxaJf5vPN9ie00TG0xzpgATGsFz4c2glJq6PTWhqwnEct5reez582UqQbImS1T06o8Fcc9rDTplmUuH7tIM6ua+rnY6FPi7XvNdapCECeVTrhNU3XptIPDBsH7S0UII9qLHez9+rHEByI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DL6rh39b; arc=none smtp.client-ip=209.85.221.45
+	 Content-Type:Content-Disposition:In-Reply-To; b=aIbBk6puc7FRGDSyM8q+SkhZoa0DyRK5jO+IBrFEyL4oUpYuroYLHpW/WZduJHlEFF9MGDySVluEReA6U20qj5oN7zOigg1m5/F7yEOc3fhnmpTEgSclv2cCbz/bfljxA4RNidENfYDddQt3xtF6lLfZ/0CHbEwYLSUPRkAspFM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KjuJbgKz; arc=none smtp.client-ip=209.85.208.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DL6rh39b"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-354f3f6c3b1so4185330f8f.2
-        for <linux-staging@lists.linux.dev>; Mon, 10 Jun 2024 22:18:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KjuJbgKz"
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2eaea28868dso46118341fa.3
+        for <linux-staging@lists.linux.dev>; Mon, 10 Jun 2024 23:01:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1718083088; x=1718687888; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1718085696; x=1718690496; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=YmU4ffLX3V4eUudJDevCe7/zEPmQFBgv5tDr195a2UA=;
-        b=DL6rh39bCsseLtpiOYWQyvb02JwPjmjCCwYKYoBNUENIZYFQEDJjWwQSTMoSyb/zzN
-         y3Iy4ISZPVEmAmYeeRE4vEfdFEv25ZWJ3EYhf0MNMespg3mfrL/ZvK/2E9selBfM3h+y
-         z8tvAkqGJhixyV/hoMod5I+3nWsT67VSnRwYx2xGMdrMe15yLNwHkJcO3JP3ljI9dHMl
-         cZnJAckX8j6j6QbavC24V9GoM1q5QlDMYM0UNAC4irMwSwVX0z+42B7dZtHfzNviGq7Z
-         wbxsUOoKqS0oTPmzh93X/WE/DuoX1MXiSeL5xx5nofDPvK3beNf6Oy3taC0lCkVNV3VO
-         jy3g==
+        bh=BuOO4FEld62nqLG8IYMGOnAJeVsi2pihKon3LpkekiM=;
+        b=KjuJbgKzALlO5xUBgv9Rsy0Xc4qHpUrMM7BK+fSJ3AYjYo8fC8jqFE4pBeFzYpzT9g
+         FILMLYCrgW5+9ha2U9zbUnDu0MlZKdbQmyEGbCcDS8yLWmwH+32iaDp5oDcwMglM5hYq
+         SmrV2+D51LqpsQ6VIAjo3ZyLLKABYo5W2YMsmpq6jpZO1Omh7KDG+k3Cv7kOAJ9Fz0E/
+         lPGwCbL+3FZMWf3rtFLuyPtcs48ZaB9HgaSkhz6fl09y66+nh2U6i2hx9jiCYi7MinXf
+         g3QxUvVEmEYBGit07sjHwT/E5N1I7kJcldO8ZLrWAgUYahUTgxoeF6hP7fkRG6ql6Oci
+         w2Ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718083088; x=1718687888;
+        d=1e100.net; s=20230601; t=1718085696; x=1718690496;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YmU4ffLX3V4eUudJDevCe7/zEPmQFBgv5tDr195a2UA=;
-        b=qaviYsFUsZcoLHKNXGyelKIr5lEOSRb5wqJA5tEIOlHzXUXSOrd67wv8mEmERSmitF
-         bZ53VblUjvA0iLszyA/qG6qAr9gt/3/j/op/KLPP97UltykNyVINEVtlURbsNOPA15zb
-         0XJMoLtrB8BS9mxMeGImJ7tqKTsR+8578XYvhRn1YB7DdKsb/NWkMytIzWXtCYh/L96u
-         Q5h8yR05cP0+OeypjTwYkqdd7gEgLQaKm2GRPiE+jOPL2ccJibehcVArx45kjeTQu8BN
-         BmysXXhDueDNvz0YiZk02ySc2f5zwr5HGLXKe3ON8f9yX021HH1oC8/zE7RGMzS1AXvH
-         s4yA==
-X-Forwarded-Encrypted: i=1; AJvYcCW78NVMiEikOkeEnHfZYAVwD4DBf0m0034oFQC/jTXDwaJHPAKaOXZrgtYjFLybhQVcqqrPtKygkWS+VPd5hQ5t7n15OC26Bs87Q7hF/A==
-X-Gm-Message-State: AOJu0YyO2QW3USpN/3Y6Hw8kl6a3Re9UUKTWn0oQCI/G2jKv3q8CoLxi
-	PY88dFe8GngL89DnlXzgSfuuVMYo3ZiAgrhBq9Y7dJUwQbSrDNtfFY0rcrbRDPQ=
-X-Google-Smtp-Source: AGHT+IHwP2sXbnp5s72//FcHfUYCa9pMOUptw2DRVkkSYdcOQGPFYeC0WUlKVB3MWVQURanv1ZPO1Q==
-X-Received: by 2002:a05:6000:2c1:b0:35f:231e:ef87 with SMTP id ffacd0b85a97d-35f231eefc8mr4729600f8f.29.1718083088259;
-        Mon, 10 Jun 2024 22:18:08 -0700 (PDT)
+        bh=BuOO4FEld62nqLG8IYMGOnAJeVsi2pihKon3LpkekiM=;
+        b=d0IFd1BZluGJS9mSncn8Yq7KYRkuQYFM5kXd/s8TsF9auRdu40O4fF5eG4lymaDuJl
+         JrAjEMFw8bRtfMSFnaULXKeSt1l/RAgyqWJ1PJ7eK7PJnQbjIKbqjSLjlS4sPmi2qWSt
+         aw0xMPb+0p+hx3E3VwgMqiJQYe7BEbrA75Ye9+FWB68IBSia0a6WDlHLZDPh0Vcy1UBs
+         rqR9WhW417ZFSQI9nQBKIBo04xbYy8hT+CrYNb5kI9ShOZZ58rtzm58hcUDAU9QBv424
+         AQEi9+oWo/EI6reL1jaLE82LtmHDAul63rVbkcQir52Guc3bHyYgWvmkcXZPBlHUeGkM
+         XMGg==
+X-Forwarded-Encrypted: i=1; AJvYcCUZ1iMg7xYGeU+7D9rHRmqQuRT0w16SXSjtj6ONdW3kI6okNJZmu8REEc+VSjb0iPmRL2tbMxvP3EXhkem4AydYpd7k5N62zexyDQSKag==
+X-Gm-Message-State: AOJu0YysYzjVCbt4bRiSSN2ONsv7ImZ+m4C3GD83dkd2WsjrJQJaa0GW
+	szL6p+eyI6c4J9t25AF+8/BsSUFlIbed2opB/mTfA/4NzHW0zW6qWpSIjf7Glws=
+X-Google-Smtp-Source: AGHT+IH7nFqBPvBNIY3q2uJsKi3mjUDea6KTtUJubrbQtrPgk2APStf5+mhXIwQ7DQL7polTrCbMTg==
+X-Received: by 2002:a2e:9b0c:0:b0:2ea:ebb0:b5ef with SMTP id 38308e7fff4ca-2eaebb0b884mr68334421fa.19.1718085695483;
+        Mon, 10 Jun 2024 23:01:35 -0700 (PDT)
 Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35f24c7a9c8sm4294926f8f.78.2024.06.10.22.18.07
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35f2616666esm3737568f8f.1.2024.06.10.23.01.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Jun 2024 22:18:07 -0700 (PDT)
-Date: Tue, 11 Jun 2024 08:18:04 +0300
+        Mon, 10 Jun 2024 23:01:34 -0700 (PDT)
+Date: Tue, 11 Jun 2024 09:01:31 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: "<Tree Davies" <tdavies@darkphysics.net>
-Cc: gregkh@linuxfoundation.org, philipp.g.hortmann@gmail.com, anjan@momi.ca,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 09/24] Staging: rtl8192e: Rename variable bforced_tx20Mhz
-Message-ID: <a3049efc-b69f-427f-9de5-7e18c22e30b8@moroto.mountain>
-References: <20240610054449.71316-1-tdavies@darkphysics.net>
- <20240610054449.71316-10-tdavies@darkphysics.net>
- <5ccfa433-f1be-45f6-9138-348cb4093866@moroto.mountain>
- <ZmezV4UvCEImxMBX@lunchbox.darkphysics>
+To: Stefan Wahren <wahrenst@gmx.net>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH V2 07/10] staging: vchiq_arm: Reduce indentation of
+ service_callback
+Message-ID: <88eb1d33-9423-4a5a-b5b1-f858dd9169aa@moroto.mountain>
+References: <20240610210220.95524-1-wahrenst@gmx.net>
+ <20240610210220.95524-8-wahrenst@gmx.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -70,26 +72,119 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZmezV4UvCEImxMBX@lunchbox.darkphysics>
+In-Reply-To: <20240610210220.95524-8-wahrenst@gmx.net>
 
-On Mon, Jun 10, 2024 at 07:15:51PM -0700, <Tree Davies wrote:
-> On Mon, Jun 10, 2024 at 09:08:03AM +0300, Dan Carpenter wrote:
-> > On Sun, Jun 09, 2024 at 10:44:34PM -0700, Tree Davies wrote:
-> > > Rename variable bforced_tx20Mhz to forced_tx_20mhz
-> > > to fix checkpatch warning Avoid CamelCase.
-> > 
-> > The correct capitalization for megahertz is MHz.  So the original is
-> > wrong but the new name is not correct either.
-> > 
-> > regards,
-> > dan carpenter
-> > 
+On Mon, Jun 10, 2024 at 11:02:17PM +0200, Stefan Wahren wrote:
+> The service_callback has 5 levels of indentation, which makes it
+> hard to read. Reduce this by splitting the code in a new function
+> service_single_message() as suggested by Laurent Pinchart.
 > 
-> Thanks Dan,
-> So... I guess just spell it out as 'forced_tx_20_megahertz' ?
+> Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
+> ---
+>  .../interface/vchiq_arm/vchiq_arm.c           | 68 +++++++++++--------
+>  1 file changed, 39 insertions(+), 29 deletions(-)
+> 
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> index 0ba52c9d8bc3..706bfc7a0b90 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> @@ -1055,6 +1055,39 @@ add_completion(struct vchiq_instance *instance, enum vchiq_reason reason,
+>  	return 0;
+>  }
+> 
+> +static int
+> +service_single_message(struct vchiq_instance *instance,
+> +		       enum vchiq_reason reason,
+> +		       struct vchiq_service *service, void *bulk_userdata)
+> +{
+> +	struct user_service *user_service;
+> +
+> +	user_service = (struct user_service *)service->base.userdata;
+> +
+> +	dev_dbg(service->state->dev, "arm: msg queue full\n");
+> +	/*
+> +	 * If there is no MESSAGE_AVAILABLE in the completion
+> +	 * queue, add one
+> +	 */
+> +	if ((user_service->message_available_pos -
+> +	     instance->completion_remove) < 0) {
+> +		dev_dbg(instance->state->dev,
+> +			"arm: Inserting extra MESSAGE_AVAILABLE\n");
+> +		return add_completion(instance, reason, NULL, user_service,
+> +				      bulk_userdata);
 
-No, just write it as "forced_tx_20MHz".  Don't bow down to checkpatch.
+In the original code we added a completion and
+
+> +	}
+> +
+> +	if (wait_for_completion_interruptible(&user_service->remove_event)) {
+
+then waited for it here...  Why did this change?
 
 regards,
 dan carpenter
 
+> +		dev_dbg(instance->state->dev, "arm: interrupted\n");
+> +		return -EAGAIN;
+> +	} else if (instance->closing) {
+> +		dev_dbg(instance->state->dev, "arm: closing\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  int
+>  service_callback(struct vchiq_instance *instance, enum vchiq_reason reason,
+>  		 struct vchiq_header *header, unsigned int handle, void *bulk_userdata)
+> @@ -1104,41 +1137,18 @@ service_callback(struct vchiq_instance *instance, enum vchiq_reason reason,
+>  		spin_lock(&service->state->msg_queue_spinlock);
+>  		while (user_service->msg_insert ==
+>  			(user_service->msg_remove + MSG_QUEUE_SIZE)) {
+> +			int ret;
+> +
+>  			spin_unlock(&service->state->msg_queue_spinlock);
+>  			DEBUG_TRACE(SERVICE_CALLBACK_LINE);
+>  			DEBUG_COUNT(MSG_QUEUE_FULL_COUNT);
+> -			dev_dbg(service->state->dev, "arm: msg queue full\n");
+> -			/*
+> -			 * If there is no MESSAGE_AVAILABLE in the completion
+> -			 * queue, add one
+> -			 */
+> -			if ((user_service->message_available_pos -
+> -				instance->completion_remove) < 0) {
+> -				int ret;
+> -
+> -				dev_dbg(instance->state->dev,
+> -					"arm: Inserting extra MESSAGE_AVAILABLE\n");
+> -				DEBUG_TRACE(SERVICE_CALLBACK_LINE);
+> -				ret = add_completion(instance, reason, NULL, user_service,
+> -						     bulk_userdata);
+> -				if (ret) {
+> -					DEBUG_TRACE(SERVICE_CALLBACK_LINE);
+> -					vchiq_service_put(service);
+> -					return ret;
+> -				}
+> -			}
+> 
+> -			DEBUG_TRACE(SERVICE_CALLBACK_LINE);
+> -			if (wait_for_completion_interruptible(&user_service->remove_event)) {
+> -				dev_dbg(instance->state->dev, "arm: interrupted\n");
+> -				DEBUG_TRACE(SERVICE_CALLBACK_LINE);
+> -				vchiq_service_put(service);
+> -				return -EAGAIN;
+> -			} else if (instance->closing) {
+> -				dev_dbg(instance->state->dev, "arm: closing\n");
+> +			ret = service_single_message(instance, reason,
+> +						     service, bulk_userdata);
+> +			if (ret) {
+>  				DEBUG_TRACE(SERVICE_CALLBACK_LINE);
+>  				vchiq_service_put(service);
+> -				return -EINVAL;
+> +				return ret;
+>  			}
+>  			DEBUG_TRACE(SERVICE_CALLBACK_LINE);
+>  			spin_lock(&service->state->msg_queue_spinlock);
+> --
+> 2.34.1
+> 
