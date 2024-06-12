@@ -1,56 +1,56 @@
-Received: from mail-il1-f169.google.com (mail-il1-f169.google.com [209.85.166.169])
+Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E08F31EA80
-	for <linux-staging@lists.linux.dev>; Wed, 12 Jun 2024 03:22:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79F2A210E6
+	for <linux-staging@lists.linux.dev>; Wed, 12 Jun 2024 03:22:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718162558; cv=none; b=beg4PKH3GBTEZbsJb6KE3VECJqsQZEOhc1BYQk8ECUPjhfRCgcooSDzQTjQk30cSCpd6W1tG9KlevUPiZD55g8/EnfqGPn45hh2CM7A2zA+eBqnzbCEbEoii9NzSrRzSuPqoMpjYvDfGjqqnO+QDc8Ry2SS8OdZ1IDZLkE1xODw=
+	t=1718162558; cv=none; b=AKAFAtuZf74JL1pJESu2wLW8H2CZ7RcftVnY9u2L+7KUu7O/Ru/fDSBCwPmycnmbQw1ds04KAmkI+IsQxsr3TMEOP3Ao7Lpnxku/m4jV3hGVf+QbE9P6E5Ojb9pv2tmALLflGMSqXihzSnQDpfUCIjTDGu/POCQ+qZHQtiJtEFc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1718162558; c=relaxed/simple;
-	bh=Z2Og8hD3ZwqLqSZxTqFmWZuV5tskamWURf9scY/q4VE=;
+	bh=MNGZfx/m8G/rOwnxNGd4tIVSOsIacMXC8rkJWcI6FKI=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=GKWickqzymYaV1dMW6B93415hvL3MF3o6poJz52qfVOz8su48tvS8TRM66lAnN7AkiG77QvDrYAIlH2sMbW4UJluSK9IyXhmD00deqwaCebaO0jS6J3gXdIPmWFhGOw8pVVE91OvfaE6cYlbXUeQvhVUFCowlhuJjAJUIpUAFeI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net; spf=pass smtp.mailfrom=darkphysics.net; dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b=MeVbhZCB; arc=none smtp.client-ip=209.85.166.169
+	 MIME-Version; b=tjkHLCxl0jGMxBQWNBwMHnUg6qsXdfDxUlu9CegMUMPr+iHvKrJMYi4x7EnMdSSRaonw0UcSVkCXotA4h2Q9B3a/+KLhTbhrce8+HAoxXoOgE0K09OoG+NYWV84E0pHyzaecCa8/eNDvVzv0dECZyBDpZyVQcf+bhH6DG9Be4d8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net; spf=pass smtp.mailfrom=darkphysics.net; dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b=Ue6R0Dw0; arc=none smtp.client-ip=209.85.161.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=darkphysics.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="MeVbhZCB"
-Received: by mail-il1-f169.google.com with SMTP id e9e14a558f8ab-3758fa1cc8eso7385295ab.3
-        for <linux-staging@lists.linux.dev>; Tue, 11 Jun 2024 20:22:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="Ue6R0Dw0"
+Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-5ba33b08550so952065eaf.2
+        for <linux-staging@lists.linux.dev>; Tue, 11 Jun 2024 20:22:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=darkphysics.net; s=google; t=1718162555; x=1718767355; darn=lists.linux.dev;
+        d=darkphysics.net; s=google; t=1718162556; x=1718767356; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kn6Y3ZurmMy+llEC4r5fkl0HupmvFt8cRPelN9RG3Yg=;
-        b=MeVbhZCBX69guce55ockEgKg43hcjkS7Sxutn/cXJS1UfwMF+/TiDqihYCgBcKzuUb
-         zhtFXgUC59Y45GTLrcbEGaTth/wShECIOtndpn997yjztGaviRgtFSyvRwJCtddioklY
-         H8kcvCLl/+1iRkMcfsuOD3NxWWVfNvZDoMdYeHEUEmNcATug9dd8wEfagvMDc31y1/fj
-         3avezG4C5j913wSto0bVhBF/TtXRauYOVa1T7NOU/S3iR1iJPXlZ/3ML0phZPZw0N4hw
-         H9K1SKN9+0zwfAQiNN7exxS28/plOqubjO0VETYDCPZDlNKZUVqBA1vddLnas7UeTPKv
-         ni8g==
+        bh=Ih+jocFy4KluPcELXVg85YttXvFxOSqGBEasMdYF/eA=;
+        b=Ue6R0Dw01MG1qcPpYQ55+Cbtfpv+MuqHM3xgmyuUiDRAV8iQzyoK7MRGha7DA5Xr2f
+         Sl/b9jz6euUt979cLrQVpW7/82+CmDgTZ54OjcvAWsuXq8rT5dwsF6jbvZ52f5SOIrZr
+         LnoH3bbaSIvkpcmblibcp6SO5DhcTlkDz060xeU8OvR7VrtyRe9tdPPVI2FpeCXYplid
+         2IamcxVDYIwV8EeZ5BCVLG6irJemZzhnO/4dOokNA9+hunGO2xPh3PcQ9g9xeSVJ4h7R
+         uWUCgdVmgeulZGLENFSbdXNOTzHJ4J2VakZXcyhIWOqToGXOAwVKBonCufUOYNfStTHd
+         GKzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718162555; x=1718767355;
+        d=1e100.net; s=20230601; t=1718162556; x=1718767356;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=kn6Y3ZurmMy+llEC4r5fkl0HupmvFt8cRPelN9RG3Yg=;
-        b=LhE6rQa1uXl/ESzhKz+OxHh8fkI3Vf48xuv602U4b7+wpDy2Djtt2kz9MZ8O00t8oi
-         9yhuYPbJlnK03A476wcdVH8QQBrNLC4GoPYhMhnvexiqO8igq3NbDdkRP0TWQVszs5MM
-         isPyGgdR4TYwxCjrEvk0x2sM0AndHufyCP5MzSKByso5n1Mp0NIt44VXITgwzLLMf7Ul
-         ZjVzzetxlCnKEMNaqRGN9YIN7WyWeTFP3py7095H2bWIrQ0gHJIK73aLxEVy1cHFj52I
-         lVoKdTEIRuZPiFlFrlOsw+OgzoKIX+NLbZHvxVj6gaM8UlGCvFSds99O/DRqhsjcs2YF
-         EWxQ==
-X-Gm-Message-State: AOJu0YzP7E3AGljZI30zwQTH/+bXWuyEmOi8MI0KpWhhwOdFwxTSSZdc
-	Z65aUPVFswpINVsLLriyuBdHp4MBxpfPXsOm6y1OMLjbrpk7a/86t+2xhHoSGjI=
-X-Google-Smtp-Source: AGHT+IHlb1SEKPZ48DLEKbZ8JbrKYCfG1s8maoccY1eQUTqDbRm0E8V53nWrYeQDI2gx7GqagFjmhQ==
-X-Received: by 2002:a05:6e02:1c8a:b0:374:8e4e:86c6 with SMTP id e9e14a558f8ab-375cd14f8e3mr8105285ab.4.1718162554971;
-        Tue, 11 Jun 2024 20:22:34 -0700 (PDT)
+        bh=Ih+jocFy4KluPcELXVg85YttXvFxOSqGBEasMdYF/eA=;
+        b=fzM6jmib9jBQak/N3m8eJxbrqQdu2R1PZCZWBvLnwrySq5A5syY5XLdrJ7LViWgTgi
+         /ithzrRJrlFDIMylX+St4qN6MrEbBecwuP0Fgq+X9ROEWbsI5dcnWPg2BwP1ecH9Rymb
+         7wOsqn+8I4QBwLfyzyKS50XmswNq4tu9Zz3zaAPw0YcsjM3wHDfvN4TLaYDAyAz9mReX
+         JpIEUwB7+91bM2Ajk6j9pKyq39k/tY0yVh+8saXbMllTN4Go2F7GVgM+DhIZlGRZPBgq
+         NMp2M3zzuIzRGjBicSxcsMNd4BBBUrT2uNwn4fSggC3oxbQrCyM3rUrZRJFidaG4Lnl4
+         EMrA==
+X-Gm-Message-State: AOJu0YzAF6CgZ2NQZzNbjZu4MA8Ghz1leFj3nVKUfmymKILFTSzY1bX+
+	xSxquBVhY2yzF6WM4JPtEONuw8h5agpg9kLezLJZ/nzfyEQvL4XeTIWTDIOEkKM=
+X-Google-Smtp-Source: AGHT+IHBuiTxrdPRHM4jtIqD5RsNI+BOh+MI67NlK2/uiXzoHG78x2okPV55dQLCkk6gbMYYzfFfhw==
+X-Received: by 2002:a05:6358:e4a3:b0:19f:5550:84b2 with SMTP id e5c5f4694b2df-19f69d9a729mr92606055d.22.1718162556481;
+        Tue, 11 Jun 2024 20:22:36 -0700 (PDT)
 Received: from lunchbox.darkphysics (c-76-146-178-2.hsd1.wa.comcast.net. [76.146.178.2])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-6e8e8a84949sm5635411a12.32.2024.06.11.20.22.34
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-6e8e8a84949sm5635411a12.32.2024.06.11.20.22.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jun 2024 20:22:34 -0700 (PDT)
+        Tue, 11 Jun 2024 20:22:36 -0700 (PDT)
 From: Tree Davies <tdavies@darkphysics.net>
 To: gregkh@linuxfoundation.org,
 	philipp.g.hortmann@gmail.com,
@@ -58,9 +58,9 @@ To: gregkh@linuxfoundation.org,
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Tree Davies <tdavies@darkphysics.net>
-Subject: [PATCH v2 02/24] Staging: rtl8192e: Rename variable bIsMulticast
-Date: Tue, 11 Jun 2024 20:22:08 -0700
-Message-Id: <20240612032230.9738-3-tdavies@darkphysics.net>
+Subject: [PATCH v2 04/24] Staging: rtl8192e: Rename variable HTOpMode
+Date: Tue, 11 Jun 2024 20:22:10 -0700
+Message-Id: <20240612032230.9738-5-tdavies@darkphysics.net>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20240612032230.9738-1-tdavies@darkphysics.net>
 References: <20240612032230.9738-1-tdavies@darkphysics.net>
@@ -72,63 +72,35 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rename variable bIsMulticast to is_multicast
+Rename variable HTOpMode to ht_op_mode
 to fix checkpatch warning Avoid CamelCase.
 
 Signed-off-by: Tree Davies <tdavies@darkphysics.net>
 ---
 v2: No Change
- drivers/staging/rtl8192e/rtllib_tx.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/staging/rtl8192e/rtllib_tx.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtllib_tx.c b/drivers/staging/rtl8192e/rtllib_tx.c
-index 87d1ff943617..8856191a1228 100644
+index 360d1cc446d0..83082a990fbd 100644
 --- a/drivers/staging/rtl8192e/rtllib_tx.c
 +++ b/drivers/staging/rtl8192e/rtllib_tx.c
-@@ -538,7 +538,7 @@ static int rtllib_xmit_inter(struct sk_buff *skb, struct net_device *dev)
- 	u8 src[ETH_ALEN];
- 	struct lib80211_crypt_data *crypt = NULL;
- 	struct cb_desc *tcb_desc;
--	u8 bIsMulticast = false;
-+	u8 is_multicast = false;
- 	u8 IsAmsdu = false;
- 	bool	bdhcp = false;
- 
-@@ -655,14 +655,14 @@ static int rtllib_xmit_inter(struct sk_buff *skb, struct net_device *dev)
- 			ether_addr_copy(header.addr3, dest);
- 	}
- 
--	bIsMulticast = is_multicast_ether_addr(header.addr1);
-+	is_multicast = is_multicast_ether_addr(header.addr1);
- 
- 	header.frame_control = cpu_to_le16(fc);
- 
- 	/* Determine fragmentation size based on destination (multicast
- 	 * and broadcast are not fragmented)
- 	 */
--	if (bIsMulticast) {
-+	if (is_multicast) {
- 		frag_size = MAX_FRAG_THRESHOLD;
- 		qos_ctl |= QOS_CTL_NOTCONTAIN_ACK;
- 	} else {
-@@ -774,7 +774,7 @@ static int rtllib_xmit_inter(struct sk_buff *skb, struct net_device *dev)
- 			/* The last fragment has the remaining length */
- 			bytes = bytes_last_frag;
+@@ -417,11 +417,11 @@ static void rtllib_query_protectionmode(struct rtllib_device *ieee,
+ 			break;
  		}
--		if ((qos_activated) && (!bIsMulticast)) {
-+		if ((qos_activated) && (!is_multicast)) {
- 			frag_hdr->seq_ctrl =
- 				 cpu_to_le16(rtllib_query_seqnum(ieee, skb_frag,
- 								 header.addr1));
-@@ -809,7 +809,7 @@ static int rtllib_xmit_inter(struct sk_buff *skb, struct net_device *dev)
- 			skb_put(skb_frag, 4);
- 	}
+ 		if (ht_info->current_ht_support && ht_info->enable_ht) {
+-			u8 HTOpMode = ht_info->current_op_mode;
++			u8 ht_op_mode = ht_info->current_op_mode;
  
--	if ((qos_activated) && (!bIsMulticast)) {
-+	if ((qos_activated) && (!is_multicast)) {
- 		if (ieee->seq_ctrl[UP2AC(skb->priority) + 1] == 0xFFF)
- 			ieee->seq_ctrl[UP2AC(skb->priority) + 1] = 0;
- 		else
+-			if ((ht_info->cur_bw_40mhz && (HTOpMode == 2 ||
+-						      HTOpMode == 3)) ||
+-			     (!ht_info->cur_bw_40mhz && HTOpMode == 3)) {
++			if ((ht_info->cur_bw_40mhz && (ht_op_mode == 2 ||
++						      ht_op_mode == 3)) ||
++			     (!ht_info->cur_bw_40mhz && ht_op_mode == 3)) {
+ 				tcb_desc->rts_rate = MGN_24M;
+ 				tcb_desc->bRTSEnable = true;
+ 				break;
 -- 
 2.30.2
 
