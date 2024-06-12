@@ -1,58 +1,41 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 335B52C697
-	for <linux-staging@lists.linux.dev>; Wed, 12 Jun 2024 05:07:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E034F28DD1
+	for <linux-staging@lists.linux.dev>; Wed, 12 Jun 2024 05:12:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718168861; cv=none; b=R4UJwK+ZWxZzNQFtFKh9xjzXwFW91Tu+GzcFa4xXmU5iRwr7u6wQ+G2w2ABv5eBQNXYRbqg35pBZqw0Zp3395c75ETSeuTdsosolhVKNQNct6GrDBSoJRQ1YBy9/vamly0KFuAyRX0ZC9dL8hf7p7BDO8CKPdwXCLm/31GD8yKA=
+	t=1718169171; cv=none; b=KC4ac+XZMIEp42yTcqLT0SPEo9EZvUoGB2G91s9SNRmi5zVoElHodkHp0nx+8wXWMPL5RCI+Uy2aHAB6JMFrXqliLumRUXcM/ZQUkiBFyS29hx1plXHZ4x0Ahs/Oxd/ht3viEDqHiYpZ/ANism/65Q3oviTxBaZABe2JwKFxJWE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718168861; c=relaxed/simple;
-	bh=WjmktKeZlwW6thj1REFux9X6Fa55rngqfegdZkghqx8=;
+	s=arc-20240116; t=1718169171; c=relaxed/simple;
+	bh=4pF36l/gMFQ1zJGHnzh2PchuRQyb6cnNwZJVevdX7lQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=P0u6F4NubpVZ/rxkdxnFECypeyYS+T9e0FrTJMKypId1ygeHY5qB2u0CIlh9fwx9wHuxg8b7R5nl2MgvDypMMK+uxJOx8zN/PLECFIbRhcb7J4XL9WGqmqPbtiiqAMLk5cCCSvDmP0gxi6OBbS6AGChC6JiZTafez5jn+1l1iTc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F+rTcBmD; arc=none smtp.client-ip=209.85.208.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=JXvyKCXnCemvlFaahQGcgBBiXFhYkgkyZXovdNW7ssie+qiX8CvR1XSguAv6qputAJ+qmcgCFVToM0MnxX2C2qeo+Ug9cTJUUKfijIN6BJKnQdU2xmWYc+XWOYE7zAurdk26mKFiy+GY+gcNM6LGJ7XbfrEVwTjqf1DXvExs1ks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=ESraC2H5; arc=none smtp.client-ip=212.227.15.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F+rTcBmD"
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-57c74085d57so610958a12.3
-        for <linux-staging@lists.linux.dev>; Tue, 11 Jun 2024 22:07:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718168858; x=1718773658; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=qvq+FLhWYryoGqxlyUDGx6ThrzsXpwXKMCWedG+iFXo=;
-        b=F+rTcBmDsI2mboPz+ty3ogkBCz4CbX6DtcO5HYt59d+S+di4mBFWl4788NR9vMx29G
-         AaWcKlzrPFCAs+8NN4tezZNCf3yamZzeb6j+CzpCzaI3+xxkfzhfYu7bE6pEHlHLLAgC
-         eTBdIFw6967xOm3pjyoakbUQZbt/e9kyPQI7i1SoeHcjZ65dG28e8tkTycKdgkxW+wzf
-         xZ8DqrhIGn+V71TeptR5ba5FclWm1bSjoGRrvbQU216NtNgRmAEa5bWkjndTd4CTo/Qd
-         za7U9ArMWgRxtgRL11on0b2T0ZDVGWU1L9dd14vTC6848OZ6m0qBuzpjbSL378sgQNtM
-         9XSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718168858; x=1718773658;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qvq+FLhWYryoGqxlyUDGx6ThrzsXpwXKMCWedG+iFXo=;
-        b=M5MitSg3zi0TlDsx+MCMGqy8JqmuUdYEX7yMFImucykPQIf7rmuM4ae322PAwT9POD
-         YOK9LqKltPFmSLw+A9iNcB8dKUgrb7sHLRkXzubGbMvs5m/k4EtOnhxGLBXiCitc+Btk
-         6a2jQ7H9hQkKkN3RznEqBV6z1jPXU+uYHoLVieeBmWX4PA6T+coxZjYbfXZorvQHV58c
-         VduC1Al5zO2D/jXUwOokU6ZNbsbWJmtEgqEAwfPVDL+KgP0wfwzhtL9RCa/sspkH69N8
-         ZCzWLXKUTD/3SPhVprpCby0QV4SSd8aZGg7Rv6oHN4wKRrnqk8dXxUI9eyk8wfQrLt67
-         4lpQ==
-X-Gm-Message-State: AOJu0YzGheXY5vr8VXlXxb4MYVdxO/FfGeRtlHWu9xCBHXTlTnClPFGz
-	VD1iJey2TGaiTbFWACzeZUKA2HSmp2Fd4fD0N1FqDeTyT7YxAgkdk2RJ6w==
-X-Google-Smtp-Source: AGHT+IGYL/xS9J6m/swK/Sj5RpwgOawzjyVI55GlBqI24z3BUWgiiKtGTAGXgwiptkMdyimmZp3/hw==
-X-Received: by 2002:a50:d591:0:b0:57c:710b:22ca with SMTP id 4fb4d7f45d1cf-57ca97497camr410101a12.1.1718168858109;
-        Tue, 11 Jun 2024 22:07:38 -0700 (PDT)
-Received: from [192.168.0.101] (p57935a9b.dip0.t-ipconnect.de. [87.147.90.155])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57c8f3a0c33sm2959245a12.82.2024.06.11.22.07.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Jun 2024 22:07:37 -0700 (PDT)
-Message-ID: <f849b64f-eaf4-46ca-b4a0-039fd0f6f2e7@gmail.com>
-Date: Wed, 12 Jun 2024 07:07:36 +0200
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="ESraC2H5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
+	s=s31663417; t=1718169159; x=1718773959; i=wahrenst@gmx.net;
+	bh=4pF36l/gMFQ1zJGHnzh2PchuRQyb6cnNwZJVevdX7lQ=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=ESraC2H5Z//g75f4UamXmrzPkCTjDE6xZpTF3F4T4M9MicF4Q0I6eH3cj0WxeCB8
+	 RIc4VEJqF2IGRJUdCljryV5DuiPO7J+ts0xEjxTZp0buiFdce34I9UbUOg3iafjNO
+	 Ii0An/swvVECraBMCops17Zhz2xNaDeGM+Wx8o9rkYXFwKtfL9gxt6EVe6SxZWot1
+	 2VeEiXcvWvg5e7+j2S4duJ31v2lZPEn1JLI8xJhvE1cMFQUVT/XwP4ta6zqEhk9n9
+	 gaE+cxO/K8cCwgFpCh9Jv8k6kXy8KQpKnJkqMBZQGXZvWrosEmlvVXkNyVhkn7/bs
+	 RhqYGd5XvrZ7nlB+bg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.127] ([37.4.248.43]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MDysg-1s9WWg3fRE-009Ysk; Wed, 12
+ Jun 2024 07:12:38 +0200
+Message-ID: <edf098c3-23cd-49ed-9271-690185873c3b@gmx.net>
+Date: Wed, 12 Jun 2024 07:12:38 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -60,82 +43,63 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: rtl8192e: add missing MODULE_DESCRIPTION()
- macros
-To: Jeff Johnson <quic_jjohnson@quicinc.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org
-References: <20240610-md-drivers-staging-rtl8192e-v1-1-b5d11ee98297@quicinc.com>
+Subject: Re: [PATCH 05/11] staging: vchiq_arm: Get the rid off struct
+ vchiq_2835_state
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Umang Jain <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
+References: <20240604172904.61613-1-wahrenst@gmx.net>
+ <20240604172904.61613-6-wahrenst@gmx.net>
+ <20240605071109.GG879@pendragon.ideasonboard.com>
+ <f01308d9-505b-4c57-af6b-b3febfd98112@gmx.net>
+ <20240611212253.GF10397@pendragon.ideasonboard.com>
 Content-Language: en-US
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20240610-md-drivers-staging-rtl8192e-v1-1-b5d11ee98297@quicinc.com>
+From: Stefan Wahren <wahrenst@gmx.net>
+In-Reply-To: <20240611212253.GF10397@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:+lgzZExllE8zD7tOExgO3kxrMJgicyIYSjG+3wGJ5JfNS5I0Qk3
+ ieDvvgklmJfkd2k0w53Z04CcLnTG/VvsjUv/jgYqjtjJPrlCemsWltHap6bHfxDryECCDrs
+ n3xHBhy65mL0aSRAnPBqhJHFf8SNen/jMxr2IeS1DNne2lL7g5isCde67gVdHUZ0q0iMV6v
+ mfV95zOt1xXqrfJIheE1A==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:08neoE4lLk4=;OANuhnbkfy8GIfg2TIPQB4tGO7J
+ CG7Vfk/b9ny1urLqjDN9zeEfr4GgOo4xVT5u4f0zKciDuyfNsnMrJRBzfnwwTgcLIq8ry77/6
+ cQKEzx3J/Kgz/n++GPg8xJGNVF81ZH4R4zXp2yJkw5gv1Jkrq14ER7WkGO+EHVIwS2uFFwNL3
+ z5i/8YKDyG/AT+4H7WGUjpo8gXP6ejrkWtu/RFUuFZrQoYg8neWvBzvH+sde0+G9xzEPk7TKH
+ iqytQbJV+6RLNtcIeJHn4yPaEUxxtEl56sZEz8oD7a+rCTzgbq4/gDsQ+t9UzzucfRmF4YW4O
+ x3qkbbVNCW9rczv9cweeTaS/erfec/g+q2RwiOqcyjfTRlWvRabgNZ1wkyOU6S/1/tCJp6WWL
+ yvPPsLngzd7NaClfSLQaBjUEdnHHYKr3YDzm1LiPGDuPknB9sa0imIgg4b1GVQhz3u2/mo2t0
+ JwS0pqBq7NCIpstZx7el6Z3vNz8mSVvIL5KDsYFhieD+W6yw9JzgevSzDpDjuNE456/i0fQ/C
+ JBHMLqLi8AjgqBL2UH01HBWigVOCB4W2bUwXTbBbsbsMb2QTIxgjl+vI5GwRu7GsIf3C6csPF
+ aEi49xx+CLLk3Jd4BgEqh9rbLqN4oSHAHrFWNt8AnOlg+jg6T+vlgLoYKLxVhziu3sjmstUtG
+ 0+4CostkjkSxodp8cu7PIvuHZF89UDn9VSC6wLjmPzCNetZZHTQ/DjLw8XBzBUAlYWqz53SBO
+ B3M9R+lsgrV6Hd13ktPN7p+Reo3LSoaGUodG9yp2TqDsV7Wf0Ujv+lBZ5aSUMyVt+UoELjw7U
+ yxqSBPg4upgrvthayNxGFj7knA6hY+MoVxSnKCRtFyeaU=
 
-On 6/11/24 02:33, Jeff Johnson wrote:
-> make allmodconfig && make W=1 C=1 reports:
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/rtl8192e/rtllib.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/rtl8192e/rtllib_crypt_ccmp.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/rtl8192e/rtllib_crypt_tkip.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/rtl8192e/rtllib_crypt_wep.o
-> 
-> Add the missing invocations of the MODULE_DESCRIPTION() macro.
-> 
-> Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
-> ---
->   drivers/staging/rtl8192e/rtllib_crypt_ccmp.c | 1 +
->   drivers/staging/rtl8192e/rtllib_crypt_tkip.c | 1 +
->   drivers/staging/rtl8192e/rtllib_crypt_wep.c  | 1 +
->   drivers/staging/rtl8192e/rtllib_module.c     | 1 +
->   4 files changed, 4 insertions(+)
-> 
-> diff --git a/drivers/staging/rtl8192e/rtllib_crypt_ccmp.c b/drivers/staging/rtl8192e/rtllib_crypt_ccmp.c
-> index cbb8c8dbe9b0..da9e630b594c 100644
-> --- a/drivers/staging/rtl8192e/rtllib_crypt_ccmp.c
-> +++ b/drivers/staging/rtl8192e/rtllib_crypt_ccmp.c
-> @@ -407,4 +407,5 @@ static void __exit rtllib_crypto_ccmp_exit(void)
->   module_init(rtllib_crypto_ccmp_init);
->   module_exit(rtllib_crypto_ccmp_exit);
->   
-> +MODULE_DESCRIPTION("Support module for rtllib CCMP crypto");
->   MODULE_LICENSE("GPL");
-> diff --git a/drivers/staging/rtl8192e/rtllib_crypt_tkip.c b/drivers/staging/rtl8192e/rtllib_crypt_tkip.c
-> index 0244b524a7d4..3969b6b916ed 100644
-> --- a/drivers/staging/rtl8192e/rtllib_crypt_tkip.c
-> +++ b/drivers/staging/rtl8192e/rtllib_crypt_tkip.c
-> @@ -708,4 +708,5 @@ static void __exit rtllib_crypto_tkip_exit(void)
->   module_init(rtllib_crypto_tkip_init);
->   module_exit(rtllib_crypto_tkip_exit);
->   
-> +MODULE_DESCRIPTION("Support module for rtllib TKIP crypto");
->   MODULE_LICENSE("GPL");
-> diff --git a/drivers/staging/rtl8192e/rtllib_crypt_wep.c b/drivers/staging/rtl8192e/rtllib_crypt_wep.c
-> index 21c2b7666d6f..eae75d122553 100644
-> --- a/drivers/staging/rtl8192e/rtllib_crypt_wep.c
-> +++ b/drivers/staging/rtl8192e/rtllib_crypt_wep.c
-> @@ -238,4 +238,5 @@ static void __exit rtllib_crypto_wep_exit(void)
->   module_init(rtllib_crypto_wep_init);
->   module_exit(rtllib_crypto_wep_exit);
->   
-> +MODULE_DESCRIPTION("Support module for rtllib WEP crypto");
->   MODULE_LICENSE("GPL");
-> diff --git a/drivers/staging/rtl8192e/rtllib_module.c b/drivers/staging/rtl8192e/rtllib_module.c
-> index e7af4a25b0be..469a69726c16 100644
-> --- a/drivers/staging/rtl8192e/rtllib_module.c
-> +++ b/drivers/staging/rtl8192e/rtllib_module.c
-> @@ -175,4 +175,5 @@ static void __exit rtllib_exit(void)
->   module_init(rtllib_init);
->   module_exit(rtllib_exit);
->   
-> +MODULE_DESCRIPTION("Support module for rtllib wireless devices");
->   MODULE_LICENSE("GPL");
-> 
-> ---
-> base-commit: 83a7eefedc9b56fe7bfeff13b6c7356688ffa670
-> change-id: 20240610-md-drivers-staging-rtl8192e-0935b6c4b336
-> 
-> 
+Hi Laurent,
 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-
+Am 11.06.24 um 23:22 schrieb Laurent Pinchart:
+> Hi Stefan,
+>
+> On Wed, Jun 05, 2024 at 12:11:41PM +0200, Stefan Wahren wrote:
+>> Am 05.06.24 um 09:11 schrieb Laurent Pinchart:
+>>> On Tue, Jun 04, 2024 at 07:28:58PM +0200, Stefan Wahren wrote:
+>>>> The whole benefit of this encapsulating struct is questionable.
+>>>> It just stores a flag to signalize the init state of vchiq_arm_state.
+>>>> Beside the fact this flag is set too soon, the access to uninitialize=
+d
+>>>> members should be avoided per design.
+>>> Do you have plans to address the design ?
+>> by using kzalloc and assigning platform_state at the end of
+>> vchiq_platform_init_state, i would consider this as fulfilled. Or do yo=
+u
+>> care about the possible platform_state NULL pointer?
+> Reading the commit message, I thought you meant further changes were
+> need to fix the design. A clarification in the commit message could be
+> useful.
+i missed to mention it in the V2 changelog, but i shorten the sentence
+there to avoid the confusion. Is it better in V2 or does it still need
+adjustment?
