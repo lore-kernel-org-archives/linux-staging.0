@@ -1,162 +1,93 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F0A84C63
-	for <linux-staging@lists.linux.dev>; Wed, 12 Jun 2024 08:10:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77A0C5336D
+	for <linux-staging@lists.linux.dev>; Wed, 12 Jun 2024 14:08:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718179821; cv=none; b=lQXyWf5+z+D+sKElTR4lp6vAVPu+tF74tQvJjNIL3JqGHfpqSDgaJPCDAgO649Gms4wVmqlP7yHWAfadW6Jg3/p6n9/2HhZ+d++FdHvG7XRXsKiEp/gzaFmaHGYgzChn2IE48DFXVLviBvzE3uDjQiTU/Onvw8I6RbexIJzkAKk=
+	t=1718201319; cv=none; b=iSLo8DlhRcROV/PEd3i5dnbBwOfwKa+8yeTPlrNgSSN6sSxVp1ugpmKRKX1sgeu4YewZzzVHWk4PhSI+UHeCMgqOcjK8pUKnTXPlo0xYsilHp/sNQexG8GJ3zwlmf7lZdxwfhXDiJ6ZA7Dtg5QJKIBRlZpCotI6OSRDx1NtL5Og=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718179821; c=relaxed/simple;
-	bh=KD8XsOYWtuKQcjM/eNkuQb8vTo+mQEltuXJ5GVxlhnk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=O9+wTpgvVGplHFmAVwWxBdlIqzCpcdHv9lUEMJkeK6WiBAoG2Vs1WwBqZJZ++f9mWODLHcI7iCaKfPTm+E5xqaeoU9651I/ZOGe9tUSapWEJ0XESNoFaSIOP41xKCUxN7x7kz/xNi9lJMvK7c3Ho3jFU6hz7lDIB+uL0AzP6nfc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Thtc9So0; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1718201319; c=relaxed/simple;
+	bh=EpvtIHS1PelMca+SvWG7puAknhHjGxVB5DFPtxmwnCs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=RMmDMnZjckOE4BbBObFKe6vBZsDXcVewBXV9qKVF4FepiOcpE57UYJoqIEK1aHQUzgebx8H2mgq1qaePWks2xrTwhNaJSRVkbrv4WzAuubp4s58yiPNTuumd3AbszC1zC7fPMLDZ+B4mwSRVL8NtxYLZsqnC7w+buRcSpF3P4KM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SCtYPfTI; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Thtc9So0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1718179819;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mZzSDXkByvhQTe8Q6mgT19yqvdN/uz/2Piu84KIHlJ0=;
-	b=Thtc9So0HxBppRwvayd8INRPFc+/oOlIhhrPEXLYSV5uEkdpfLaB8puh84Wl+dusTKZKR3
-	zjC3ebDOqIoefS3Yi+irutcvF3Hrp7fWb7ikz1tMNvKBqCmNr0CW++BxbUIft7rU2FqFMU
-	dQqyo2GBOtSRLOEUv+cXm41mSWJLeOA=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-515-LxCMKCZdN1mmRXA3WNi59w-1; Wed, 12 Jun 2024 04:10:18 -0400
-X-MC-Unique: LxCMKCZdN1mmRXA3WNi59w-1
-Received: by mail-ed1-f71.google.com with SMTP id 4fb4d7f45d1cf-57c753a879dso1976490a12.3
-        for <linux-staging@lists.linux.dev>; Wed, 12 Jun 2024 01:10:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SCtYPfTI"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-421a1b834acso29140875e9.3
+        for <linux-staging@lists.linux.dev>; Wed, 12 Jun 2024 07:08:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718201316; x=1718806116; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HObF6GyKNBlnlVP2vyDjiuSpWYXmvpX4Hwsfl7m9FPA=;
+        b=SCtYPfTIg0FGohV4prv1Ti84I+a5kpSPeX/yLY9t2God8Xqs2fSvv8gx2+GEGtuLn2
+         OjxzNPnUtXu1Cf8ZSSxRqbE7pMs9Zx5RboUlTTh0kRJvvAKAZzBbapMrjOy6BGaZ7W1h
+         S0Q0/5WQsopObmQBNfZTkF2k8j3xEVWrnS1WtZIZYHN2Ig/zxFNWoVD5qgZAafQDoNdt
+         P2uR/eYkL+bRJL+LFdT1I2YsSfWzGPYgPC8vOFdpwoVMJG6YcXBYB2LMkjkjaXdvtySS
+         tekTKFcamh+jYdgiVhJdR4w0GpwxkIgikl1amXM2lQtEFf87OHoDMYr0GNPisWoEJnq5
+         v7ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718179816; x=1718784616;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mZzSDXkByvhQTe8Q6mgT19yqvdN/uz/2Piu84KIHlJ0=;
-        b=ILvkDLnpC1T2Lu+Iobz63wQ+Iy4mnKn5Q2tcNIRzXcyIjsdb7yrkwVifHC4K01PJTr
-         Kp1g/t5rEMb51CW4yVLYCrZvLJDO0Gjd+LFXUF02sCcwMGn037OiXpX+UxehCXa2R/ms
-         cC3uQpwJOfUkM9QxGD1EMi6sUyAKfivf7YXPmQFNNiENzQOfXCYDaHZsMYSJ0CLD41Lv
-         S1aGC7jPAvqgqZYo8//yjnaEOCRCtrMzpsNaAtxG46G5SlqtoF2QIYk/AdHOJ2HlkyRm
-         8f4xMqxhKkwq9SCywFP8orPUSEYIozx3JPWDgm36bq4lp1uEH5mTDqsNsJrAzdFO0S+j
-         qcAA==
-X-Forwarded-Encrypted: i=1; AJvYcCVjO0V/B2BM9F5B2iELI1vROd8fNa8jjQ52lzNbcm7o2XjFnYvnc4U1PfdAAd43Lp7kblTqr2TaCwN3NRKdzjHo0ZXjujwR9co+Bm637A==
-X-Gm-Message-State: AOJu0Yy9x3Fs4KTin365LzkYX0+i18XaucNczUZ9drpR5DlUrLNG/1md
-	zV5GC5E9lCIOjzjCc2nfrImqho/RtKQQZzIPjK0FVSVlcLOFxESnH8YYf9KhK++eiMTe5LHmvGw
-	iKDFlJebFLsJWrgTbbMNwcDVhhB+KpYj98dEmpXAT7Ywr+BAFmcmRc5Jp69oI0IX/f/0J4to=
-X-Received: by 2002:a50:d583:0:b0:57c:4769:562a with SMTP id 4fb4d7f45d1cf-57ca8dfff3dmr677218a12.0.1718179816664;
-        Wed, 12 Jun 2024 01:10:16 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFFmHuWpMoOlHLB/y32XdBF0kh5+hdKiBK6cLkE/6baSa9huKfKvmf3UKQQ1wP6lTycKWuKMA==
-X-Received: by 2002:a50:d583:0:b0:57c:4769:562a with SMTP id 4fb4d7f45d1cf-57ca8dfff3dmr677193a12.0.1718179816152;
-        Wed, 12 Jun 2024 01:10:16 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57cae50adc2sm38283a12.75.2024.06.12.01.10.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Jun 2024 01:10:15 -0700 (PDT)
-Message-ID: <38336785-cb59-464f-b2a7-49812f4c2ce0@redhat.com>
-Date: Wed, 12 Jun 2024 10:10:14 +0200
+        d=1e100.net; s=20230601; t=1718201316; x=1718806116;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HObF6GyKNBlnlVP2vyDjiuSpWYXmvpX4Hwsfl7m9FPA=;
+        b=WfPbZ6/dDdrjw5opDhZZlI5ftguEqXwv0s1m+RvRHxzn7BlIdvOlWHlmIGcsUcxh5Z
+         ux32XIZ3WPOGU7DRYejFKpsePtEf3bbjk6KqXju7K7p4Bv0TmcfW5RSyO9uKAMy+lFC9
+         rOk7I+8RUIqjYGV/zvQC1+Q+bhDiROhryiggB6Vdn3ZMeXLZHDqDlCB9smpqnlHVu2Op
+         qzn+A9yYKae8fS7mjczqCHVqBj2mIQwP3zV0MB4O1KjygrAwKmU+dakkTn5c7f1LNzwo
+         k+jbYI+MErSktrDiTp+q5RtW3HUIhmI+1Q+qPlxxhLOtugGDfDzsWYwDURfMgPGqKRq7
+         KETA==
+X-Forwarded-Encrypted: i=1; AJvYcCXpGq08Z/CBIitFRihBBpYwqzjvmNRLGavu/T6iUTLJ/F2rzHPvkS/wSZ0l6Jd8nW4PB71daQKb/xDV5FphoWz5/YrXgZFBZwOhDYRYpw==
+X-Gm-Message-State: AOJu0YzCKrb87SmlXOOvV9HVReAxjx18wGUkNQUtlpmu/lbLFdOh7oB3
+	oEk5p/PFYODEQW5sIOJsSTNO3Y6R+OdBytbabIDCRN7FWKijJ58Q
+X-Google-Smtp-Source: AGHT+IGtyhCbkkyE4wxl92np4Yd0e/c4iXM7sZBxzrfswg2WrQiy8hXPAmQ9iuPCrsi0sQcRtMET8A==
+X-Received: by 2002:a05:600c:4e04:b0:421:29ab:1605 with SMTP id 5b1f17b1804b1-422862a7461mr17234685e9.7.1718201315631;
+        Wed, 12 Jun 2024 07:08:35 -0700 (PDT)
+Received: from localhost.localdomain ([31.120.167.14])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35f2f67b5b8sm4023796f8f.12.2024.06.12.07.08.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Jun 2024 07:08:35 -0700 (PDT)
+From: Teddy Engel <engel.teddy@gmail.com>
+To: Philipp Hortmann <philipp.g.hortmann@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Teddy Engel <engel.teddy@gmail.com>
+Subject: [PATCH] staging: vt6656: Remove line from TODO
+Date: Wed, 12 Jun 2024 15:07:35 +0100
+Message-Id: <20240612140735.2423-1-engel.teddy@gmail.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 05/49 RESEND] media: atomisp: Switch to new Intel CPU
- model defines
-To: Tony Luck <tony.luck@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-kernel@vger.kernel.org,
- patches@lists.linux.dev
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- Andy Shevchenko <andy@kernel.org>
-References: <20240611173406.352874-1-tony.luck@intel.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20240611173406.352874-1-tony.luck@intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, nl
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Tony,
+Remove checkpatch.pl line from TODO as no valid checkpatch
+recommendations still present.
 
-On 6/11/24 7:34 PM, Tony Luck wrote:
-> New CPU #defines encode vendor and family as well as model.
-> 
-> Signed-off-by: Tony Luck <tony.luck@intel.com>
-> Reviewed-by: Andy Shevchenko <andy@kernel.org>
-> Acked-by: Hans de Goede <hdegoede@redhat.com>
-> ---
-> 
-> Mauro, Hans, Greg: Which one of you owns this one. Can you take
-> a look please. Let me know if changes are needed.
+Signed-off-by: Teddy Engel <engel.teddy@gmail.com>
+---
+ drivers/staging/vt6656/TODO | 1 -
+ 1 file changed, 1 deletion(-)
 
-I'll pick this one up. But atomisp support is a side project,
-so I only work on this every few weeks.
-
-My intent is to get this send to Mauro (media-next) in time
-for the 6.11 merge window.
-
-Regards,
-
-Hans
-
-
-
-> 
->  .../atomisp/include/linux/atomisp_platform.h  | 27 ++++++++-----------
->  1 file changed, 11 insertions(+), 16 deletions(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/include/linux/atomisp_platform.h b/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
-> index 0e3f6fb78483..fdeb247036b0 100644
-> --- a/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
-> +++ b/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
-> @@ -18,7 +18,7 @@
->  #ifndef ATOMISP_PLATFORM_H_
->  #define ATOMISP_PLATFORM_H_
->  
-> -#include <asm/intel-family.h>
-> +#include <asm/cpu_device_id.h>
->  #include <asm/processor.h>
->  
->  #include <linux/i2c.h>
-> @@ -178,22 +178,17 @@ void atomisp_unregister_subdev(struct v4l2_subdev *subdev);
->  int v4l2_get_acpi_sensor_info(struct device *dev, char **module_id_str);
->  
->  /* API from old platform_camera.h, new CPUID implementation */
-> -#define __IS_SOC(x) (boot_cpu_data.x86_vendor == X86_VENDOR_INTEL && \
-> -		     boot_cpu_data.x86 == 6 &&                       \
-> -		     boot_cpu_data.x86_model == (x))
-> -#define __IS_SOCS(x,y) (boot_cpu_data.x86_vendor == X86_VENDOR_INTEL && \
-> -		        boot_cpu_data.x86 == 6 &&                       \
-> -		        (boot_cpu_data.x86_model == (x) || \
-> -		         boot_cpu_data.x86_model == (y)))
-> -
-> -#define IS_MFLD	__IS_SOC(INTEL_FAM6_ATOM_SALTWELL_MID)
-> -#define IS_BYT	__IS_SOC(INTEL_FAM6_ATOM_SILVERMONT)
-> -#define IS_CHT	__IS_SOC(INTEL_FAM6_ATOM_AIRMONT)
-> -#define IS_MRFD	__IS_SOC(INTEL_FAM6_ATOM_SILVERMONT_MID)
-> -#define IS_MOFD	__IS_SOC(INTEL_FAM6_ATOM_AIRMONT_MID)
-> +#define __IS_SOC(x) (boot_cpu_data.x86_vfm == x)
-> +#define __IS_SOCS(x, y) (boot_cpu_data.x86_vfm == x || boot_cpu_data.x86_vfm == y)
-> +
-> +#define IS_MFLD	__IS_SOC(INTEL_ATOM_SALTWELL_MID)
-> +#define IS_BYT	__IS_SOC(INTEL_ATOM_SILVERMONT)
-> +#define IS_CHT	__IS_SOC(INTEL_ATOM_AIRMONT)
-> +#define IS_MRFD	__IS_SOC(INTEL_ATOM_SILVERMONT_MID)
-> +#define IS_MOFD	__IS_SOC(INTEL_ATOM_AIRMONT_MID)
->  
->  /* Both CHT and MOFD come with ISP2401 */
-> -#define IS_ISP2401 __IS_SOCS(INTEL_FAM6_ATOM_AIRMONT, \
-> -			     INTEL_FAM6_ATOM_AIRMONT_MID)
-> +#define IS_ISP2401 __IS_SOCS(INTEL_ATOM_AIRMONT, \
-> +			     INTEL_ATOM_AIRMONT_MID)
->  
->  #endif /* ATOMISP_PLATFORM_H_ */
+diff --git a/drivers/staging/vt6656/TODO b/drivers/staging/vt6656/TODO
+index e154b2f3b247..876cdccb6948 100644
+--- a/drivers/staging/vt6656/TODO
++++ b/drivers/staging/vt6656/TODO
+@@ -11,7 +11,6 @@ TODO:
+ - switch to use LIB80211
+ - switch to use MAC80211
+ - use kernel coding style
+-- checkpatch.pl fixes
+ - sparse fixes
+ - integrate with drivers/net/wireless
+ 
+-- 
+2.39.2
 
