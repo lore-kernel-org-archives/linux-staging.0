@@ -1,217 +1,141 @@
-Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com [209.85.161.54])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EB29763E4
-	for <linux-staging@lists.linux.dev>; Wed, 12 Jun 2024 03:22:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 335B52C697
+	for <linux-staging@lists.linux.dev>; Wed, 12 Jun 2024 05:07:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718162575; cv=none; b=nuHOmeg4xybBJPEI8hSiPZjjw8ps8GBvukfl7K1a8623ha9tGIWVzP7NzX/tFJ/TpB7ENbX6/rrQ3vm+JqLYod5jvVWFzj/1M4xOr8DVpdjjiqYGi6SJp+t6lcpc9TJwBdSaNA3Ot7oiFLRTrJfCgPVmHDkWVDFlb5UQHN9iGjw=
+	t=1718168861; cv=none; b=R4UJwK+ZWxZzNQFtFKh9xjzXwFW91Tu+GzcFa4xXmU5iRwr7u6wQ+G2w2ABv5eBQNXYRbqg35pBZqw0Zp3395c75ETSeuTdsosolhVKNQNct6GrDBSoJRQ1YBy9/vamly0KFuAyRX0ZC9dL8hf7p7BDO8CKPdwXCLm/31GD8yKA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718162575; c=relaxed/simple;
-	bh=5lYQdNuUHz8/GTVUO7BqqszIM5H7aPs0vexG3JfhGeA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Ph20lrRSM0JdN4vZomTlzPNrUar5vOvuKS2l3LfdOgWj/+fRdRwILgcHY25ZJFsxfoNh6ngVlejfgIRX0zfeXEo+U6FO56rH2a3bsHAWLBpQ2+bjb5uFAmGmXmFvBgv/fZWi9K33GWtVZ8PlRbODA+CRL9/UHOalQstouT+9zNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net; spf=pass smtp.mailfrom=darkphysics.net; dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b=gjP7/jri; arc=none smtp.client-ip=209.85.161.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=darkphysics.net
+	s=arc-20240116; t=1718168861; c=relaxed/simple;
+	bh=WjmktKeZlwW6thj1REFux9X6Fa55rngqfegdZkghqx8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=P0u6F4NubpVZ/rxkdxnFECypeyYS+T9e0FrTJMKypId1ygeHY5qB2u0CIlh9fwx9wHuxg8b7R5nl2MgvDypMMK+uxJOx8zN/PLECFIbRhcb7J4XL9WGqmqPbtiiqAMLk5cCCSvDmP0gxi6OBbS6AGChC6JiZTafez5jn+1l1iTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F+rTcBmD; arc=none smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="gjP7/jri"
-Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-5b97a071c92so3241852eaf.1
-        for <linux-staging@lists.linux.dev>; Tue, 11 Jun 2024 20:22:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F+rTcBmD"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-57c74085d57so610958a12.3
+        for <linux-staging@lists.linux.dev>; Tue, 11 Jun 2024 22:07:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=darkphysics.net; s=google; t=1718162573; x=1718767373; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jmqxGFNhFO/LKAwg0O4NLTkC1jcwbpMGmNWI2cJ3ekw=;
-        b=gjP7/jri7oZxwbs8CAdkvoe0RuBOjx1BFndICbLwIHwefQDKV3D8NdREqgudLLs8sM
-         TPmxlaOx8Bw2NvDYQH0BgHVSFOY8BS06O31ZL8ayfypcrbo4q4oZZX2lqChYqbJ+MWAq
-         5wC0+gB4/sd/v0SlsIndnEIEpam0ansMg0Qabf1MuDDX7gZ7qNzFheIzfgWRzcYXWJXd
-         iFlC+SFxiRRD7L4rCG1gHLUs9WvFiQqf0+r44s+HP5fzRtaqRZ0sIywWawhPKUZw+/DH
-         9xxhc8pTCmgLOkFidTwDnWwCiUwDElcg8lPQwDuZMPbwXRrP11kAy8XymocYti2sBZon
-         1rfA==
+        d=gmail.com; s=20230601; t=1718168858; x=1718773658; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qvq+FLhWYryoGqxlyUDGx6ThrzsXpwXKMCWedG+iFXo=;
+        b=F+rTcBmDsI2mboPz+ty3ogkBCz4CbX6DtcO5HYt59d+S+di4mBFWl4788NR9vMx29G
+         AaWcKlzrPFCAs+8NN4tezZNCf3yamZzeb6j+CzpCzaI3+xxkfzhfYu7bE6pEHlHLLAgC
+         eTBdIFw6967xOm3pjyoakbUQZbt/e9kyPQI7i1SoeHcjZ65dG28e8tkTycKdgkxW+wzf
+         xZ8DqrhIGn+V71TeptR5ba5FclWm1bSjoGRrvbQU216NtNgRmAEa5bWkjndTd4CTo/Qd
+         za7U9ArMWgRxtgRL11on0b2T0ZDVGWU1L9dd14vTC6848OZ6m0qBuzpjbSL378sgQNtM
+         9XSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718162573; x=1718767373;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jmqxGFNhFO/LKAwg0O4NLTkC1jcwbpMGmNWI2cJ3ekw=;
-        b=d2QHmfQR/pWVVQoCQfFNPj2ACs8gzfQehg7bS7VWc9r6RbJvCJC2z3QuAsXWH/rS2o
-         pjR+m/gKU/ZaoVbeQR0AZxZlslSkVolYmcy2HQP67hvC8eQw99wLwuWD/KV4PEaPjXvq
-         h1nOH5DBd4kAO2nS9RlTlXviUk5sCU22DW5yQz6KrWsp7eqdDMuCjajR2jdsAZtlh2sb
-         Wt2SsTJWymE3fSC3tSNXi5mxDT8GCrq3F4QPU4PlsiBJOLxYkiv5bcUyZ85WKVUZD894
-         vIZPfERsFGW/l6sdtdsOZrI3l1qDcYgBhfFM4LZeEGBySfV1FctKKK+OvwDXw3dQq/G6
-         YgdA==
-X-Gm-Message-State: AOJu0YxrlhRYrB40nhxUxrA1NXX4LPqsumddrgAgA4+lVOozgW6w5ZxU
-	ZfeDJNW3C6bfIbfmAmL88w/CgYqBel56q0NRYslkfxsPCVcvuuAN4ifuSkNN+HY=
-X-Google-Smtp-Source: AGHT+IETnZqpy9qMIhAYwfn4Ereu8xqT/+82iztRkoZQbUm5OxrUwKu7I9DdD4Qh3UC2mkNl37aCLw==
-X-Received: by 2002:a05:6359:1a94:b0:19f:6aab:1af6 with SMTP id e5c5f4694b2df-19f6aab1c6dmr44896855d.5.1718162573092;
-        Tue, 11 Jun 2024 20:22:53 -0700 (PDT)
-Received: from lunchbox.darkphysics (c-76-146-178-2.hsd1.wa.comcast.net. [76.146.178.2])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-6e8e8a84949sm5635411a12.32.2024.06.11.20.22.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jun 2024 20:22:52 -0700 (PDT)
-From: Tree Davies <tdavies@darkphysics.net>
-To: gregkh@linuxfoundation.org,
-	philipp.g.hortmann@gmail.com,
-	anjan@momi.ca
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Tree Davies <tdavies@darkphysics.net>
-Subject: [PATCH v2 24/24] Staging: rtl8192e: Fix alignment to match open parenthesis in rtllib_rx.c
-Date: Tue, 11 Jun 2024 20:22:30 -0700
-Message-Id: <20240612032230.9738-25-tdavies@darkphysics.net>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20240612032230.9738-1-tdavies@darkphysics.net>
-References: <20240612032230.9738-1-tdavies@darkphysics.net>
+        d=1e100.net; s=20230601; t=1718168858; x=1718773658;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qvq+FLhWYryoGqxlyUDGx6ThrzsXpwXKMCWedG+iFXo=;
+        b=M5MitSg3zi0TlDsx+MCMGqy8JqmuUdYEX7yMFImucykPQIf7rmuM4ae322PAwT9POD
+         YOK9LqKltPFmSLw+A9iNcB8dKUgrb7sHLRkXzubGbMvs5m/k4EtOnhxGLBXiCitc+Btk
+         6a2jQ7H9hQkKkN3RznEqBV6z1jPXU+uYHoLVieeBmWX4PA6T+coxZjYbfXZorvQHV58c
+         VduC1Al5zO2D/jXUwOokU6ZNbsbWJmtEgqEAwfPVDL+KgP0wfwzhtL9RCa/sspkH69N8
+         ZCzWLXKUTD/3SPhVprpCby0QV4SSd8aZGg7Rv6oHN4wKRrnqk8dXxUI9eyk8wfQrLt67
+         4lpQ==
+X-Gm-Message-State: AOJu0YzGheXY5vr8VXlXxb4MYVdxO/FfGeRtlHWu9xCBHXTlTnClPFGz
+	VD1iJey2TGaiTbFWACzeZUKA2HSmp2Fd4fD0N1FqDeTyT7YxAgkdk2RJ6w==
+X-Google-Smtp-Source: AGHT+IGYL/xS9J6m/swK/Sj5RpwgOawzjyVI55GlBqI24z3BUWgiiKtGTAGXgwiptkMdyimmZp3/hw==
+X-Received: by 2002:a50:d591:0:b0:57c:710b:22ca with SMTP id 4fb4d7f45d1cf-57ca97497camr410101a12.1.1718168858109;
+        Tue, 11 Jun 2024 22:07:38 -0700 (PDT)
+Received: from [192.168.0.101] (p57935a9b.dip0.t-ipconnect.de. [87.147.90.155])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57c8f3a0c33sm2959245a12.82.2024.06.11.22.07.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 Jun 2024 22:07:37 -0700 (PDT)
+Message-ID: <f849b64f-eaf4-46ca-b4a0-039fd0f6f2e7@gmail.com>
+Date: Wed, 12 Jun 2024 07:07:36 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: rtl8192e: add missing MODULE_DESCRIPTION()
+ macros
+To: Jeff Johnson <quic_jjohnson@quicinc.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ kernel-janitors@vger.kernel.org
+References: <20240610-md-drivers-staging-rtl8192e-v1-1-b5d11ee98297@quicinc.com>
+Content-Language: en-US
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <20240610-md-drivers-staging-rtl8192e-v1-1-b5d11ee98297@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Add spaces and tabs to fix warning: Alignment should match open
-parenthesis.
+On 6/11/24 02:33, Jeff Johnson wrote:
+> make allmodconfig && make W=1 C=1 reports:
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/rtl8192e/rtllib.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/rtl8192e/rtllib_crypt_ccmp.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/rtl8192e/rtllib_crypt_tkip.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/rtl8192e/rtllib_crypt_wep.o
+> 
+> Add the missing invocations of the MODULE_DESCRIPTION() macro.
+> 
+> Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
+> ---
+>   drivers/staging/rtl8192e/rtllib_crypt_ccmp.c | 1 +
+>   drivers/staging/rtl8192e/rtllib_crypt_tkip.c | 1 +
+>   drivers/staging/rtl8192e/rtllib_crypt_wep.c  | 1 +
+>   drivers/staging/rtl8192e/rtllib_module.c     | 1 +
+>   4 files changed, 4 insertions(+)
+> 
+> diff --git a/drivers/staging/rtl8192e/rtllib_crypt_ccmp.c b/drivers/staging/rtl8192e/rtllib_crypt_ccmp.c
+> index cbb8c8dbe9b0..da9e630b594c 100644
+> --- a/drivers/staging/rtl8192e/rtllib_crypt_ccmp.c
+> +++ b/drivers/staging/rtl8192e/rtllib_crypt_ccmp.c
+> @@ -407,4 +407,5 @@ static void __exit rtllib_crypto_ccmp_exit(void)
+>   module_init(rtllib_crypto_ccmp_init);
+>   module_exit(rtllib_crypto_ccmp_exit);
+>   
+> +MODULE_DESCRIPTION("Support module for rtllib CCMP crypto");
+>   MODULE_LICENSE("GPL");
+> diff --git a/drivers/staging/rtl8192e/rtllib_crypt_tkip.c b/drivers/staging/rtl8192e/rtllib_crypt_tkip.c
+> index 0244b524a7d4..3969b6b916ed 100644
+> --- a/drivers/staging/rtl8192e/rtllib_crypt_tkip.c
+> +++ b/drivers/staging/rtl8192e/rtllib_crypt_tkip.c
+> @@ -708,4 +708,5 @@ static void __exit rtllib_crypto_tkip_exit(void)
+>   module_init(rtllib_crypto_tkip_init);
+>   module_exit(rtllib_crypto_tkip_exit);
+>   
+> +MODULE_DESCRIPTION("Support module for rtllib TKIP crypto");
+>   MODULE_LICENSE("GPL");
+> diff --git a/drivers/staging/rtl8192e/rtllib_crypt_wep.c b/drivers/staging/rtl8192e/rtllib_crypt_wep.c
+> index 21c2b7666d6f..eae75d122553 100644
+> --- a/drivers/staging/rtl8192e/rtllib_crypt_wep.c
+> +++ b/drivers/staging/rtl8192e/rtllib_crypt_wep.c
+> @@ -238,4 +238,5 @@ static void __exit rtllib_crypto_wep_exit(void)
+>   module_init(rtllib_crypto_wep_init);
+>   module_exit(rtllib_crypto_wep_exit);
+>   
+> +MODULE_DESCRIPTION("Support module for rtllib WEP crypto");
+>   MODULE_LICENSE("GPL");
+> diff --git a/drivers/staging/rtl8192e/rtllib_module.c b/drivers/staging/rtl8192e/rtllib_module.c
+> index e7af4a25b0be..469a69726c16 100644
+> --- a/drivers/staging/rtl8192e/rtllib_module.c
+> +++ b/drivers/staging/rtl8192e/rtllib_module.c
+> @@ -175,4 +175,5 @@ static void __exit rtllib_exit(void)
+>   module_init(rtllib_init);
+>   module_exit(rtllib_exit);
+>   
+> +MODULE_DESCRIPTION("Support module for rtllib wireless devices");
+>   MODULE_LICENSE("GPL");
+> 
+> ---
+> base-commit: 83a7eefedc9b56fe7bfeff13b6c7356688ffa670
+> change-id: 20240610-md-drivers-staging-rtl8192e-0935b6c4b336
+> 
+> 
 
-Signed-off-by: Tree Davies <tdavies@darkphysics.net>
----
-v2: Update subject prefix with 'Staging: rtl8192e:'
- drivers/staging/rtl8192e/rtllib_rx.c | 37 ++++++++++++++--------------
- 1 file changed, 18 insertions(+), 19 deletions(-)
-
-diff --git a/drivers/staging/rtl8192e/rtllib_rx.c b/drivers/staging/rtl8192e/rtllib_rx.c
-index 3bff54efe66e..84ca5d769b7e 100644
---- a/drivers/staging/rtl8192e/rtllib_rx.c
-+++ b/drivers/staging/rtl8192e/rtllib_rx.c
-@@ -55,7 +55,7 @@ static inline void rtllib_monitor_rx(struct rtllib_device *ieee,
- /* Called only as a tasklet (software IRQ) */
- static struct rtllib_frag_entry *
- rtllib_frag_cache_find(struct rtllib_device *ieee, unsigned int seq,
--			  unsigned int frag, u8 tid, u8 *src, u8 *dst)
-+		       unsigned int frag, u8 tid, u8 *src, u8 *dst)
- {
- 	struct rtllib_frag_entry *entry;
- 	int i;
-@@ -84,7 +84,7 @@ rtllib_frag_cache_find(struct rtllib_device *ieee, unsigned int seq,
- /* Called only as a tasklet (software IRQ) */
- static struct sk_buff *
- rtllib_frag_cache_get(struct rtllib_device *ieee,
--			 struct ieee80211_hdr *hdr)
-+		      struct ieee80211_hdr *hdr)
- {
- 	struct sk_buff *skb = NULL;
- 	u16 fc = le16_to_cpu(hdr->frame_control);
-@@ -143,7 +143,7 @@ rtllib_frag_cache_get(struct rtllib_device *ieee,
- 		 * should have already been received
- 		 */
- 		entry = rtllib_frag_cache_find(ieee, seq, frag, tid, hdr->addr2,
--						  hdr->addr1);
-+					       hdr->addr1);
- 		if (entry) {
- 			entry->last_frag = frag;
- 			skb = entry->skb;
-@@ -155,7 +155,7 @@ rtllib_frag_cache_get(struct rtllib_device *ieee,
- 
- /* Called only as a tasklet (software IRQ) */
- static int rtllib_frag_cache_invalidate(struct rtllib_device *ieee,
--					   struct ieee80211_hdr *hdr)
-+					struct ieee80211_hdr *hdr)
- {
- 	u16 fc = le16_to_cpu(hdr->frame_control);
- 	u16 sc = le16_to_cpu(hdr->seq_ctrl);
-@@ -181,7 +181,7 @@ static int rtllib_frag_cache_invalidate(struct rtllib_device *ieee,
- 	}
- 
- 	entry = rtllib_frag_cache_find(ieee, seq, -1, tid, hdr->addr2,
--					  hdr->addr1);
-+				       hdr->addr1);
- 
- 	if (!entry) {
- 		netdev_dbg(ieee->dev,
-@@ -202,8 +202,7 @@ static int rtllib_frag_cache_invalidate(struct rtllib_device *ieee,
-  */
- static inline int
- rtllib_rx_frame_mgmt(struct rtllib_device *ieee, struct sk_buff *skb,
--			struct rtllib_rx_stats *rx_stats, u16 type,
--			u16 stype)
-+		     struct rtllib_rx_stats *rx_stats, u16 type, u16 stype)
- {
- 	/* On the struct stats definition there is written that
- 	 * this is not mandatory.... but seems that the probe
-@@ -228,7 +227,7 @@ rtllib_rx_frame_mgmt(struct rtllib_device *ieee, struct sk_buff *skb,
- 
- /* Called by rtllib_rx_frame_decrypt */
- static int rtllib_is_eapol_frame(struct rtllib_device *ieee,
--				    struct sk_buff *skb, size_t hdrlen)
-+				 struct sk_buff *skb, size_t hdrlen)
- {
- 	struct net_device *dev = ieee->dev;
- 	u16 fc, ethertype;
-@@ -346,7 +345,7 @@ rtllib_rx_frame_decrypt_msdu(struct rtllib_device *ieee, struct sk_buff *skb,
- /* this function is stolen from ipw2200 driver*/
- #define IEEE_PACKET_RETRY_TIME (5 * HZ)
- static int is_duplicate_packet(struct rtllib_device *ieee,
--				      struct ieee80211_hdr *header)
-+			       struct ieee80211_hdr *header)
- {
- 	u16 fc = le16_to_cpu(header->frame_control);
- 	u16 sc = le16_to_cpu(header->seq_ctrl);
-@@ -404,7 +403,7 @@ static int is_duplicate_packet(struct rtllib_device *ieee,
- }
- 
- static bool add_reorder_entry(struct rx_ts_record *ts,
--			    struct rx_reorder_entry *pReorderEntry)
-+			      struct rx_reorder_entry *pReorderEntry)
- {
- 	struct list_head *list = &ts->rx_pending_pkt_list;
- 
-@@ -521,8 +520,8 @@ void rtllib_flush_rx_ts_pending_pkts(struct rtllib_device *ieee,
- }
- 
- static void rx_reorder_indicate_packet(struct rtllib_device *ieee,
--				    struct rtllib_rxb *prxb,
--				    struct rx_ts_record *ts, u16 SeqNum)
-+				       struct rtllib_rxb *prxb,
-+				       struct rx_ts_record *ts, u16 SeqNum)
- {
- 	struct rt_hi_throughput *ht_info = ieee->ht_info;
- 	struct rx_reorder_entry *pReorderEntry = NULL;
-@@ -1911,7 +1910,7 @@ int rtllib_parse_info_param(struct rtllib_device *ieee,
- 		switch (info_element->id) {
- 		case MFIE_TYPE_SSID:
- 			if (rtllib_is_empty_essid(info_element->data,
--						     info_element->len)) {
-+						  info_element->len)) {
- 				network->flags |= NETWORK_EMPTY_ESSID;
- 				break;
- 			}
-@@ -2190,10 +2189,10 @@ static inline int rtllib_network_init(
- 	network->wzc_ie_len = 0;
- 
- 	if (rtllib_parse_info_param(ieee,
--			beacon->info_element,
--			(stats->len - sizeof(*beacon)),
--			network,
--			stats))
-+				    beacon->info_element,
-+				    (stats->len - sizeof(*beacon)),
-+				    network,
-+				    stats))
- 		return 1;
- 
- 	network->mode = 0;
-@@ -2559,7 +2558,7 @@ static void rtllib_rx_mgt(struct rtllib_device *ieee,
- 			schedule_work(&ieee->ps_task);
- 	} else if (ieee80211_is_probe_resp(header->frame_control)) {
- 		netdev_dbg(ieee->dev, "received PROBE RESPONSE\n");
--		rtllib_process_probe_response(ieee,
--			      (struct rtllib_probe_response *)header, stats);
-+		rtllib_process_probe_response(ieee, (struct rtllib_probe_response *)header,
-+					      stats);
- 	}
- }
--- 
-2.30.2
+Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 
