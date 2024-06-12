@@ -1,56 +1,56 @@
-Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C196D6F533
-	for <linux-staging@lists.linux.dev>; Wed, 12 Jun 2024 03:22:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D0A5762FF
+	for <linux-staging@lists.linux.dev>; Wed, 12 Jun 2024 03:22:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718162568; cv=none; b=W9gISMtACkFDT6x94tCEJegCzlGPpb3rtM16XdnwKMf8bi9Hr5iRozee4hkIQ8jbJUJs/Figqlly6MyZB+1Epy79FkSEtNc/CDeAxbOSyzhje6RL1XQRRyAPoJ8YQlIpiSZJdaIlGdUgAQ9LwOyiE3UDPG3NkOFSmznQJrHivoM=
+	t=1718162568; cv=none; b=ho/KPcWqpaz62mRR02TIjG6NraogSQ6T6LcLfsCcOiKUR261YNhV3f0dh/aaFaKQNzs+1qdahXjc+muhC2zOGLfHuP/12/i2NWdx03waIpg/7cgCju+/GYG66/0Xg524tbuCluUwertG7/ItCpyT+Rg41QQsvaz5oSi2r6o4OVE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1718162568; c=relaxed/simple;
-	bh=ntP5CddFKzxSIvMkfKkjwYRPCYeJfHWhrugRVal2F7E=;
+	bh=xqYhFHFq3mDjhjbf+ydGJnOq96SvYxfTi4zxwowpm20=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Zk6K1WxENoMWqVDv9CRD96k36XtWe2zYcAZY9mmNfUi7iUArnzIXJzSGjxyuONHV6WPhy22/qvi0RYZziOh/oRBJJJDe+r2wLe6sp7lh8G7GfMjtA7pL3gt6w0csaDgbYMCyJvIIRP69pv1tYFqst3/xDJPNskyx3fGkULYuYlg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net; spf=pass smtp.mailfrom=darkphysics.net; dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b=gLczpH3M; arc=none smtp.client-ip=209.85.210.46
+	 MIME-Version; b=DPB5O1yZuv87JhvCVraX0R8idpdsIhyj2df5+1xLW0e35ZLs6iIzGHFrO+zSLkfhWemg3sjZCTBBZHcHddBdFlDkCFa0qwMUsi0uLToJ6IaPiaqwOmDjMMg0tqMjtlRDda4EQRkBcMPtMte4N/KTYLpZOVy2r1Kwd2DfQqGMDYo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net; spf=pass smtp.mailfrom=darkphysics.net; dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b=iGAP+nnY; arc=none smtp.client-ip=209.85.215.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=darkphysics.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="gLczpH3M"
-Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-6f97b836c42so2024855a34.1
-        for <linux-staging@lists.linux.dev>; Tue, 11 Jun 2024 20:22:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="iGAP+nnY"
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-6e5fd488d9fso1478159a12.3
+        for <linux-staging@lists.linux.dev>; Tue, 11 Jun 2024 20:22:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=darkphysics.net; s=google; t=1718162566; x=1718767366; darn=lists.linux.dev;
+        d=darkphysics.net; s=google; t=1718162567; x=1718767367; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=NCKBtGjcOvea+CqwVQjR7UgfHciXiKLeVB+o0+sSG38=;
-        b=gLczpH3MQ44bDcKi3oExCmYSy6Q6/Y60plUtmNkgAHUuslGKECGsWK4UE3kHYz+6Tr
-         IdZ0B/hdLGQuSzZ6nRKEH1Y5R8BSHT1Isr0lllFTBaKbX6y1kDEbRkDuqlrzl1KoagBv
-         RF5vHA2c9Xvrmml8EVaI39XDs5gNYVRO45s72pfhfyR0WpfaaBc0Ib+J4E8O8MtOeO8r
-         cX8WtlelidN/qE3qzWwnK1293FEVyapA5HUhuDm+ASrfAq/38VpdGXyE7hV/QyisCzGw
-         wiWRyCLOVBb/DYa4c8Ii8ftY3Z+2fU1IqN79RS7qFrN56Su2fCY7nBgMzDeUmdNvHQu8
-         T8Ng==
+        bh=/+OGqMxIyTYTRN2LvPValmPFKV1Pwn8huMgM/8/nKaY=;
+        b=iGAP+nnYLGf3SpI/D0IDMIFAsPseHNzJkb5TFrN+MXOEKNNmpkri1sDOnJ/o9081Tg
+         ESO2mzZwdRnvoqEOz1iaMPfs8ESiA92RebK1wZc9cFhem5Tz1cq/3P9GfMmKsy4d/wNg
+         Sck3MGetBQ7U+DLs89ZsCkCcMJiZYX0yhIMs8qwiUOft6dKvcSwmOfSbeSNd9UrdZT3b
+         zNpzxgFigbORuSeZYHUTii6x4j2RDWkXDvJv/vhcgzAG1lhkE0CGXl8zeZ/OrqrII/9g
+         LetDbTtrkfF0z/sVx10PWia517ucid8RUyzouTWimCXTzdjNrq+dNH5ajGg7g7hoOVC+
+         oiIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718162566; x=1718767366;
+        d=1e100.net; s=20230601; t=1718162567; x=1718767367;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=NCKBtGjcOvea+CqwVQjR7UgfHciXiKLeVB+o0+sSG38=;
-        b=fssdQ7Jr7I+75izs4O3R9PBOwr/X6+Le/TmMPPsK3c6wTKV+RlngIs6DEWAfC1DPaL
-         MZlSEH1SzMvVFoX6CIa/sqXhmbnJ+apIDCdP8opVCCmFH4o0xT/uxWXanixcQmi0ZnT8
-         CtsyIbBqY4GWP4IqIqoyPCVm949YQZjVV/k0WgUuXFXC/g+edgwtyIkk95FcpEgQ6Hkx
-         9SuZ7KUIOVRm0TpYlNsUviAd15iqF8iigvDnjM8AwfQLDq4tlci9+poX3tUJc0e0k6aN
-         3bbVAlKase5A9g7y4t4srmNK9jg64UxtUbUoJ3vg4E6RU3srjnFlK27GifuH2ftB2EIB
-         tumw==
-X-Gm-Message-State: AOJu0YztqbA2aP4ayn0RS4Y5LhE/oNl0TVOjQHfcgIEZVbZNkix+wN+h
-	TYRcv2CpSzOj+E8+MPd5yVXN3EQpr1CkiL0p7j7ijf96DLhh89f9w2OnCzXFfAk=
-X-Google-Smtp-Source: AGHT+IEq2ayhxxtHGON6heGtAGEhhMCRP+iqH2sPnHGV3IfxIOg0c3o/rSjd+rEweEURdDIj0r7y5w==
-X-Received: by 2002:a05:6358:914c:b0:19f:1e0c:e1a3 with SMTP id e5c5f4694b2df-19f69d7b6dbmr94139655d.22.1718162565777;
-        Tue, 11 Jun 2024 20:22:45 -0700 (PDT)
+        bh=/+OGqMxIyTYTRN2LvPValmPFKV1Pwn8huMgM/8/nKaY=;
+        b=rZnpBnKQZnP6PiHpYkKYpKRlUNaP/kx8x81kFBbSQLzuv3ixbHU4ZobsxK9cPkmefQ
+         ikCYTCZKoqsYGrfJM33itYYhO6bKuKZSGjURmQZgr8h4K+X2xFsGz4dYgybYdhqtIP00
+         IKttATbD8xcAFZalduxK9NIs0WBiiJUI8UWOQ2FXFEorL1JFNP115WjBbkaDhBr0Zksn
+         KTcgltmA24GXTLulbAeJgMkUPlKT6u6ts7r/yzz5Q/n8BuFt2J6yGLZt/woYzewXCPmI
+         BQy+bVV7PdHqBnxUALVyr2rSNc0gL86llz07eT74JCLRGmTxWZ+LoqWtVlaqlVtANzI2
+         tClg==
+X-Gm-Message-State: AOJu0YzW3UkzwgztXHA4eyoVqpJexkosfGLtQlyLrCP+/BCfFmBOMEv/
+	Xthlc8IUnx3egeKEmaKVmKF3hKy/5fE15rqhCaT+Lh5ctROhf9J+C+QuBRazplo=
+X-Google-Smtp-Source: AGHT+IEZP/8LQIrVJ6fkZMgUyIwe3/bpxWI3Eq9BKhb8OVPt/JCV+CHgIa+UVL4HfOivalNdMRFykQ==
+X-Received: by 2002:a05:6a20:3caa:b0:1b7:f59d:fd12 with SMTP id adf61e73a8af0-1b8a9e7f04amr1064259637.55.1718162566665;
+        Tue, 11 Jun 2024 20:22:46 -0700 (PDT)
 Received: from lunchbox.darkphysics (c-76-146-178-2.hsd1.wa.comcast.net. [76.146.178.2])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-6e8e8a84949sm5635411a12.32.2024.06.11.20.22.44
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-6e8e8a84949sm5635411a12.32.2024.06.11.20.22.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jun 2024 20:22:44 -0700 (PDT)
+        Tue, 11 Jun 2024 20:22:46 -0700 (PDT)
 From: Tree Davies <tdavies@darkphysics.net>
 To: gregkh@linuxfoundation.org,
 	philipp.g.hortmann@gmail.com,
@@ -58,9 +58,9 @@ To: gregkh@linuxfoundation.org,
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Tree Davies <tdavies@darkphysics.net>
-Subject: [PATCH v2 15/24] Staging: rtl8192e: Fix alignment to match open parenthesis
-Date: Tue, 11 Jun 2024 20:22:21 -0700
-Message-Id: <20240612032230.9738-16-tdavies@darkphysics.net>
+Subject: [PATCH v2 16/24] Staging: rtl8192e: Rename function rtllib_query_BandwidthMode
+Date: Tue, 11 Jun 2024 20:22:22 -0700
+Message-Id: <20240612032230.9738-17-tdavies@darkphysics.net>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20240612032230.9738-1-tdavies@darkphysics.net>
 References: <20240612032230.9738-1-tdavies@darkphysics.net>
@@ -72,57 +72,38 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Added tabs and spaces to fix warning:
-Alignment should match open parenthesis
+Rename function rtllib_query_BandwidthMode to
+rtllib_query_bandwidth_mode to fix checkpatch warning Avoid
+CamelCase.
 
 Signed-off-by: Tree Davies <tdavies@darkphysics.net>
 ---
 v2: No Change
- drivers/staging/rtl8192e/rtllib_tx.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/staging/rtl8192e/rtllib_tx.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtllib_tx.c b/drivers/staging/rtl8192e/rtllib_tx.c
-index 6514d53c9679..24ae90915b10 100644
+index 24ae90915b10..06c3166a5b47 100644
 --- a/drivers/staging/rtl8192e/rtllib_tx.c
 +++ b/drivers/staging/rtl8192e/rtllib_tx.c
-@@ -290,7 +290,7 @@ static void rtllib_tx_query_agg_cap(struct rtllib_device *ieee,
- 		return;
- 	if (ht_info->current_ampdu_enable) {
- 		if (!rtllib_get_ts(ieee, (struct ts_common_info **)(&ts), hdr->addr1,
--			   skb->priority, TX_DIR, true)) {
-+				   skb->priority, TX_DIR, true)) {
- 			netdev_info(ieee->dev, "%s: can't get TS\n", __func__);
- 			return;
+@@ -346,7 +346,7 @@ static void rtllib_query_HTCapShortGI(struct rtllib_device *ieee,
+ 		tcb_desc->use_short_gi = true;
+ }
+ 
+-static void rtllib_query_BandwidthMode(struct rtllib_device *ieee,
++static void rtllib_query_bandwidth_mode(struct rtllib_device *ieee,
+ 				       struct cb_desc *tcb_desc)
+ {
+ 	struct rt_hi_throughput *ht_info = ieee->ht_info;
+@@ -872,7 +872,7 @@ static int rtllib_xmit_inter(struct sk_buff *skb, struct net_device *dev)
+ 			rtllib_tx_query_agg_cap(ieee, txb->fragments[0],
+ 						tcb_desc);
+ 			rtllib_query_HTCapShortGI(ieee, tcb_desc);
+-			rtllib_query_BandwidthMode(ieee, tcb_desc);
++			rtllib_query_bandwidth_mode(ieee, tcb_desc);
+ 			rtllib_query_protectionmode(ieee, tcb_desc,
+ 						    txb->fragments[0]);
  		}
-@@ -420,7 +420,7 @@ static void rtllib_query_protectionmode(struct rtllib_device *ieee,
- 			u8 ht_op_mode = ht_info->current_op_mode;
- 
- 			if ((ht_info->cur_bw_40mhz && (ht_op_mode == 2 ||
--						      ht_op_mode == 3)) ||
-+						       ht_op_mode == 3)) ||
- 			     (!ht_info->cur_bw_40mhz && ht_op_mode == 3)) {
- 				tcb_desc->rts_rate = MGN_24M;
- 				tcb_desc->rts_enable = true;
-@@ -476,7 +476,7 @@ static u16 rtllib_query_seqnum(struct rtllib_device *ieee, struct sk_buff *skb,
- 		struct tx_ts_record *ts = NULL;
- 
- 		if (!rtllib_get_ts(ieee, (struct ts_common_info **)(&ts), dst,
--			   skb->priority, TX_DIR, true))
-+				   skb->priority, TX_DIR, true))
- 			return 0;
- 		seqnum = ts->tx_cur_seq;
- 		ts->tx_cur_seq = (ts->tx_cur_seq + 1) % 4096;
-@@ -548,8 +548,8 @@ static int rtllib_xmit_inter(struct sk_buff *skb, struct net_device *dev)
- 	 * creating it...
- 	 */
- 	if (!(ieee->softmac_features & IEEE_SOFTMAC_TX_QUEUE) ||
--	   ((!ieee->softmac_data_hard_start_xmit &&
--	   (ieee->softmac_features & IEEE_SOFTMAC_TX_QUEUE)))) {
-+	    ((!ieee->softmac_data_hard_start_xmit &&
-+	     (ieee->softmac_features & IEEE_SOFTMAC_TX_QUEUE)))) {
- 		netdev_warn(ieee->dev, "No xmit handler.\n");
- 		goto success;
- 	}
 -- 
 2.30.2
 
