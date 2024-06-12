@@ -1,91 +1,95 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A199F1E869
-	for <linux-staging@lists.linux.dev>; Wed, 12 Jun 2024 14:34:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1014178CE2;
+	Wed, 12 Jun 2024 15:24:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718202858; cv=none; b=R38JA6QWizhwjaoQ5FAMfpY1OYYEPRjGRgHtSTYTeqVQa2yvJkOchjfGuw/GcBiZvv9inlcETAqo4vkTvdj1cRlSsWBhdHjJbSVYnbnRZNQCf7maaXIc6HsV8EX1+Gy4zuK3qTXNzVwBX1U5IuOaM+iMrQGvCBygq169+iAEjhI=
+	t=1718205846; cv=none; b=F0vcjfmBEfjp4wZ9VcJzX/INDIXbpYiEEGr5HZ0Ik+wBmMosqVHfvKOCURa8sBT2FvD3oJbSGHyVCrNk6ZpzY58CM31vusqtm+Du44SuMhg1TFsNgAikhQebpLBVqmCzA4srirpLrNy/HnJ0ewn/nrbG0dvkBECZarVHZ82kK7E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718202858; c=relaxed/simple;
-	bh=LFPQeU9q4FsqywsDqQ+Lwqx2MK2V0A/PxmsFBqLV0bE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=uaogxuRhJTWVeD2iQbCBn85de0JVmU3uavAySHnj/eomDTpxQ2EbH/j/nZ+ffRvYPxDx2SGvlcbkucayIThdiR9twKK1dsgkFYRMQvXcWscOWM0zXZWIE8u2v+ff7mNTWG57zlnQFy4ru5fvD7PPGLIvyb0Hn0+5FGxhi2YurOU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XgcB2M49; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1718205846; c=relaxed/simple;
+	bh=fUZ+mbaSNdcCsJSK/yWLJwUy2bPRSRlb6UhOxTORqE0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=P5h0hNE0AKpULB3OuBSIEYKBDNNcLqJBjdKnfg8h+e/y7MKUKMY/aO2NBkoco+BGP7e2eY1bjJPBUQggqK6WSQbb5/Oy4F/s7jIpeKasAL9M8qVn1UHJ4Gv+4i6/N8/bxJ0AekGofiZ9twKSy2f5IDuukdbzuf1kNKTCkvZyI+8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e5fxdoXk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XgcB2M49"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-42172ed3597so6978625e9.0
-        for <linux-staging@lists.linux.dev>; Wed, 12 Jun 2024 07:34:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718202855; x=1718807655; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=45hi7CYVmDt3hhlDLfSd5gueMZgniK5jw3pCKS1O/Rk=;
-        b=XgcB2M497Bqi9SV1TmT4xGWkot0HcJh6D9sGT8fmddLhea1repC8HKKGIrxzmwck1/
-         hChjOF31ANhUx9GHvA4EQomyJXfQdtqoxDopE8Xdsw67c4DdrifiYrMG4aRi7QFNz5Bv
-         bLQoEGmMD/IOpK8Ly/+XHRVWmIWMFK9ikTjJu9pLhNzu59nzH1yTQ1OibbSbFw9cbB5a
-         bQQBkMVUxhTSAypHcnbufkQMYU38daUCnfbx++D2HhTAJlKFT2ERROiVhJb9pml8M/AB
-         YAMEEvN4nz2DUt5FVpmFVLYR8033Ab0Cgw3+6nmGMIcCiIrNMl4uaOEas8y0RyE+6duZ
-         AVeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718202855; x=1718807655;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=45hi7CYVmDt3hhlDLfSd5gueMZgniK5jw3pCKS1O/Rk=;
-        b=j6llM8h5zPSER69aNfVd08dBGirbaWjG3DRQnBBZWPjDKBNXY/u97V31c4JyJ7Jig0
-         LTet+5Z407C1XW5QEzCj89rFVJn4e9r2GVd+VA6Kk0DwDynLea8eG6YNi4p1GWsJd1E4
-         gaCtTnmCOFTt40+zXapEy1q1zlNK2qPujvcdhBdkGCLviZkCS3UTnUkOaar89D1LXrrp
-         7Fjcbj1YI9DkPxq4eZmBh9pvmIF8LzxwXnf9Te9hAVm1XepBtjBVumPDqHZlAKtbdeCn
-         dh+jWStOtUFAFkVBCg2N9DuvF6HIIqXKjovWH37WXsaxImt9aeSysYwHD92f0NxncUOK
-         jImQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVFdtD9w1PSE6YYelHggrKO3cpWuSlfEwfCbwileHM3L+hhT8802j0F9SwoTu8VnaLLiZXMp0Jfo2EplPgpgH9Y4a/56HwH2vY5nLzKZQ==
-X-Gm-Message-State: AOJu0Yy5aVdj6fbOyOiPHccV/YQrtmdnFhDA4jNaPL0TYW5Y5lkRg//p
-	PjJbq3ul+p53ldHXZV/iPM4tiC/pXi3aaSb59W3oZccG8wSTuMPY
-X-Google-Smtp-Source: AGHT+IGUbEgRbUewkZ9/hJ9J3L553IVcbn3aXC5zr5hcRQzc4weBPSkFt029esQGJZ+cg/pLyT4vJQ==
-X-Received: by 2002:a05:600c:19c9:b0:421:75af:e64a with SMTP id 5b1f17b1804b1-422862aef2bmr21206525e9.6.1718202854732;
-        Wed, 12 Jun 2024 07:34:14 -0700 (PDT)
-Received: from localhost.localdomain ([31.120.167.14])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35f304f3f80sm3581136f8f.113.2024.06.12.07.34.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Jun 2024 07:34:14 -0700 (PDT)
-From: Teddy Engel <engel.teddy@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Teddy Engel <engel.teddy@gmail.com>
-Subject: [PATCH] staging: rtl8192e: Remove unused constant IC_VersionCut_C
-Date: Wed, 12 Jun 2024 15:33:26 +0100
-Message-Id: <20240612143326.6764-1-engel.teddy@gmail.com>
-X-Mailer: git-send-email 2.39.2
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e5fxdoXk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79703C116B1;
+	Wed, 12 Jun 2024 15:24:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718205845;
+	bh=fUZ+mbaSNdcCsJSK/yWLJwUy2bPRSRlb6UhOxTORqE0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=e5fxdoXkLnhAyXr3At8tTK6JNXGcMLYj4TZElKo8O6bHPtdB46ztAIvKtqZGzm8MK
+	 /Fy+PECw+KWsFQ8MOC65zLNKOktZIDNtDQTVlXZgnQfnnlP0lLQTd/42Ot85SQcE5i
+	 HfTx/l3vxkxLm+xpNuRJD0/L5Acc7rTMJHYlZF2thN8mrqxvAhDSoqIxCvKGbuxOTH
+	 Fiz1KxvFum6I0WTNydoSDdYCTgL3CctoOkxwFNHk355IjTjldwAaMWaM+fbsCtExvG
+	 O2UVqGSEot75v2/Nb3PW15haxVw7QpAJ4lLD8Z/yeav6hdE1urR0x0dMh2RghqlAFK
+	 yBzZWH96Pef7Q==
+Date: Wed, 12 Jun 2024 17:24:00 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Tony Luck <tony.luck@intel.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-kernel@vger.kernel.org, patches@lists.linux.dev,
+ linux-media@vger.kernel.org, linux-staging@lists.linux.dev, Andy Shevchenko
+ <andy@kernel.org>
+Subject: Re: [PATCH v6 05/49 RESEND] media: atomisp: Switch to new Intel CPU
+ model defines
+Message-ID: <20240612172355.11c470a3@coco.lan>
+In-Reply-To: <38336785-cb59-464f-b2a7-49812f4c2ce0@redhat.com>
+References: <20240611173406.352874-1-tony.luck@intel.com>
+	<38336785-cb59-464f-b2a7-49812f4c2ce0@redhat.com>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.42; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Remove unused constant.
+Em Wed, 12 Jun 2024 10:10:14 +0200
+Hans de Goede <hdegoede@redhat.com> escreveu:
 
-Signed-off-by: Teddy Engel <engel.teddy@gmail.com>
----
- drivers/staging/rtl8192e/rtl8192e/r8190P_def.h | 1 -
- 1 file changed, 1 deletion(-)
+> Hi Tony,
+> 
+> On 6/11/24 7:34 PM, Tony Luck wrote:
+> > New CPU #defines encode vendor and family as well as model.
+> > 
+> > Signed-off-by: Tony Luck <tony.luck@intel.com>
+> > Reviewed-by: Andy Shevchenko <andy@kernel.org>
+> > Acked-by: Hans de Goede <hdegoede@redhat.com>
+> > ---
+> > 
+> > Mauro, Hans, Greg: Which one of you owns this one. Can you take
+> > a look please. Let me know if changes are needed.  
+> 
+> I'll pick this one up. But atomisp support is a side project,
+> so I only work on this every few weeks.
+> 
+> My intent is to get this send to Mauro (media-next) in time
+> for the 6.11 merge window.
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/r8190P_def.h b/drivers/staging/rtl8192e/rtl8192e/r8190P_def.h
-index 8c85f1c866d3..2cab232bbf30 100644
---- a/drivers/staging/rtl8192e/rtl8192e/r8190P_def.h
-+++ b/drivers/staging/rtl8192e/rtl8192e/r8190P_def.h
-@@ -88,7 +88,6 @@ enum version_8190_loopback {
- 	VERSION_8190_BE
- };
- 
--#define IC_VersionCut_C	0x2
- #define IC_VersionCut_D	0x3
- #define IC_VersionCut_E	0x4
- 
--- 
-2.39.2
+Hans,
 
+It seems that you already acked to this one, right?
+
+If so, please add my acked-by, if this will end being merged
+via some other tree.
+
+Tony,
+
+I don't object having this merged via your tree with Hans
+ack.
+
+We may also have it merged on media via Hans tree. He usually
+send me one or two pull requests per Kernel cycle with lots
+of atomisp patches on it.
+
+Regards,
+Mauro
+
+Thanks,
+Mauro
