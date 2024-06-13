@@ -1,110 +1,141 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96ABF14B942
-	for <linux-staging@lists.linux.dev>; Thu, 13 Jun 2024 19:21:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA47B1474A8
+	for <linux-staging@lists.linux.dev>; Thu, 13 Jun 2024 19:41:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718306521; cv=none; b=F6OzK28shU+Ff7BNF+jbceqFClleALHS8BiuQMXQE5Ua9n3pN+fgyHjolX3oK2TgQnVQe38mSSDD0Zikotka9/jb2wYhXey92BLQ0swReCxZJmWIGIiby2KHKgax0VRmnYbvI80WDpXzROLA64f26smN6jiMhg2ubPz5OC8mBYQ=
+	t=1718307718; cv=none; b=hZPTepxopfZficvMML8Ok2Tgyh5Lk90mXyF0Ey3wlzDslHsQzGTEe/zq+CSkUWF1YWpac91DTmswBTh6e10HnSAyJULKKRr4mvmDYUPAksQ3s9QVBT8o5sCGTYlb2hLWiiIdtOEL1blUoREVCXf4pe2eYtpwkV3o3rFWq2ZOfvo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718306521; c=relaxed/simple;
-	bh=DtpVjB5sWQlCVYIqC72LrS433BYoesAm2RPCyqhlDqI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iOtw3xuPmXe57ptP9UGteKMsudTwgxeIA1KBEb1EZk6xVYB5kWnoIc3poaui2zrr2qi1C/R/dujwq9Z3uPDOCzw9hf+a8gfOExvkOy5u7ODMCuHINtZB682/VtcJ4dJDWCjte1WNSPCRLx8Xc+0HmDyMSeQvRtoMo8MwgrWKHDg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KTFZcU+S; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1718307718; c=relaxed/simple;
+	bh=XAZMt9N0NCglaqew8dSYutoepiDFHTvY9wdHf9ybtaM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=QUuZUOlETydEVZjldLcM//Zc64ND2aAgk47QyF+8F3xvMfajQpg/GEkdlF9ebZiUlO/DkLHZg5u3/AzkIJ65ZOHoZ6Mg8Od1196spbDDsk2o6s3CiGN2LTjz5AYJ5BQupMaQEdAEM1Bg+aSjRvzr/xTKbTrNZgLOJ0rzueuAtP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=H8n2FqwP; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KTFZcU+S"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4217990f997so10846325e9.2
-        for <linux-staging@lists.linux.dev>; Thu, 13 Jun 2024 12:21:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1718306518; x=1718911318; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=n7FkFcl3NcUnPjJ/3i8zWPfRNnb33v+XbwikQNsK1NA=;
-        b=KTFZcU+Swfx5QzzE2KP5cK8wP9H0NxKWOvv98NZGHD9t4EUwppNApqgwaoDt9OLR/o
-         DQcnn9iZ/7LFU0rqvrh0TX9YrVuS04WnMh983frT3pit/mnLHWmtpZO5UrdvBeNHV5Kf
-         6yI4bH6V0pSMSIlsGC9AG/vSm4ODbcm6Abg4Y1cR7mnK0jaDLs2M8psMrvOhEvkZHz8i
-         6SfwDeysy0naEMrJmS0dlM76uufFN6GfIRBhGmzwVOYHLQPUPoRdNS+ewigap725C1Ef
-         XHQU6Vc0xPCqcpk7Jo8PJs6nm1A3y3k6XajGQECoGk1E58JqjL8hGyuUYGq+ZPvK+4oj
-         NJxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718306518; x=1718911318;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=n7FkFcl3NcUnPjJ/3i8zWPfRNnb33v+XbwikQNsK1NA=;
-        b=E9wdcjteZcMnAJgd0wsmcvK9a2uTifEj11fuNGB1MV8AhQ8BpleYlo4gKvhgfvO6Cf
-         bnVzOCtlkib7n4B9So2J6z0djzbcFEBg8ApLAfCIJ7Ti/5xL9oVdceHzxxTpasxrrprl
-         xSdFB6V7QLWGAmO7JJbcsPCFaKnSGvZPgwxhuMhlr/cbR0I8Hbm2LSanD/KKdump4oO6
-         OLQa3xh3QvZxvSUr1fuWJPwEjSZ9ugDAKxuNBqripKtDte8shvTWeF9duWg3Yq0BzXXS
-         VdTs1XtlrgnkILGX8mfa7u7BsTg3KbcGXOszDiZblGh8NiTCCs1SFKUizQi6OaD9yz4T
-         +UZw==
-X-Forwarded-Encrypted: i=1; AJvYcCVybymVH1iyoRY5HLPWOjR5R6AteIcabmW6lqH+/VfP1ibxx83TJ6ecXm+lNHE7MXDPhL40ij0hYqdKHqZ8RKwThXpRD8nLHE0JOBuT3A==
-X-Gm-Message-State: AOJu0YxMBtBVgev4lKb7BHvoVrp0a8zlzIcL1KSXgEzy5S+/h7QlkdtZ
-	MwhEz98SXK/Rk12l5h2gqBBKsoX6a8eIuIvC0awtpVOuUF/RaE4qwBFzaSsy3uk=
-X-Google-Smtp-Source: AGHT+IGX6SQaOm6gsbMfRyp/T0mtjG1ZhlSQ10k4BzkF3I/QyjnCIlOiS+4+o4+r50rTnJ/QZr1CdA==
-X-Received: by 2002:a05:600c:2d8c:b0:422:140:f440 with SMTP id 5b1f17b1804b1-4230484adc9mr6269195e9.36.1718306517743;
-        Thu, 13 Jun 2024 12:21:57 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-422f602e802sm34335595e9.11.2024.06.13.12.21.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Jun 2024 12:21:57 -0700 (PDT)
-Date: Thu, 13 Jun 2024 22:21:49 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Cc: Teddy Engel <engel.teddy@gmail.com>,
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="H8n2FqwP"
+Received: from Monstersaurus.local (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B82CF4CF;
+	Thu, 13 Jun 2024 21:41:39 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1718307700;
+	bh=XAZMt9N0NCglaqew8dSYutoepiDFHTvY9wdHf9ybtaM=;
+	h=From:To:Cc:Subject:Date:From;
+	b=H8n2FqwPsn9XaUAxAi9ViKjzn9H+1Tkzuk/1K3gSDTwc6yMFsT1158JD9PRUBOYRr
+	 Y/dH1FDyJsknVhZrgFl14dWZcxuZdpYGQcs6jm234HLZK05ZeADGcVq+/VgCaJmfLv
+	 nsb1V5NLPlAgYYg99kkhmzjrb4ijc+POsIHLxAR4=
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+To: Umang Jain <umang.jain@ideasonboard.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	linux-rpi-kernel@lists.infradead.org
+Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/6] staging: rtl8192e: Cleanup multiple issues
-Message-ID: <c0f2bca8-a7e6-4874-b5fc-98911a7c09d8@moroto.mountain>
-References: <cover.1718291024.git.engel.teddy@gmail.com>
- <ee01dbd2-fe83-46cf-9ceb-279a06ce9aad@gmail.com>
+	Stefan Wahren <wahrenst@gmx.net>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.org>,
+	detule <ogjoneski@gmail.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	linux-arm-kernel@lists.infradead.org (moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE),
+	linux-staging@lists.linux.dev (open list:STAGING SUBSYSTEM),
+	linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] staging: vc04_services: vchiq_arm: Fix initialisation check
+Date: Thu, 13 Jun 2024 20:41:45 +0100
+Message-Id: <20240613194150.2915202-1-kieran.bingham@ideasonboard.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ee01dbd2-fe83-46cf-9ceb-279a06ce9aad@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jun 13, 2024 at 09:05:03PM +0200, Philipp Hortmann wrote:
-> On 6/13/24 17:16, Teddy Engel wrote:
-> > Remove some unused constants, macros, and structs.
-> > Capitalize a constant.
-> > 
-> > No specific patch order required.
-> > 
-> > Teddy Engel (6):
-> >    staging: rtl8192e: Remove unused constant IC_VersionCut_E
-> >    staging: rtl8192e: Remove unused struct phy_ofdm_rx_status_rxsc
-> >    staging: rtl8192e: Remove unused constant WA_IOT_TH_VAL
-> >    staging: rtl8192e: Capitalize constant RegC38_TH
-> >    staging: rtl8192e: Remove unused macro dm_tx_bb_gain_idx_to_amplify
-> >    staging: rtl8192e: Remove unnecessary pre-declaration of struct
-> >      net_device
-> > 
-> >   drivers/staging/rtl8192e/rtl8192e/r8190P_def.h | 8 --------
-> >   drivers/staging/rtl8192e/rtl8192e/rtl_cam.h    | 1 -
-> >   drivers/staging/rtl8192e/rtl8192e/rtl_dm.c     | 4 ++--
-> >   drivers/staging/rtl8192e/rtl8192e/rtl_dm.h     | 6 +-----
-> >   drivers/staging/rtl8192e/rtl8192e/rtl_pci.h    | 1 -
-> >   5 files changed, 3 insertions(+), 17 deletions(-)
-> > 
-> 
-> 
-> Hi Teddy,
-> 
-> please combine patch 1 and 3 (Remove unused constant ...) . You can change
-> more than one item in a patch. But it has to be of the same kind.
-> 
+The vchiq_state used to be obtained through an accessor
+which would validate that the VCHIQ had been initialised
+correctly with the remote.
 
-Could you combine that with the earlier patch that deleted
-IC_VersionCut_C as well?  (Unless that has already been merged).
+In commit 42a2f6664e18 ("staging: vc04_services: Move global g_state to
+vchiq_state") the global state was moved to the vchiq_mgnt structures
+stored as a vchiq instance specific context. This conversion removed the
+helpers and instead replaced users of this helper with the assumption
+that the state is always available and the remote connected.
 
-regards,
-dan carpenter
+Fix this broken assumption by re-introducing the logic that was lost
+during the conversion.
+
+Fixes: 42a2f6664e18 ("staging: vc04_services: Move global g_state to vchiq_state")
+Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+---
+ .../staging/vc04_services/interface/vchiq_arm/vchiq_arm.c  | 4 ++--
+ .../staging/vc04_services/interface/vchiq_arm/vchiq_core.h | 5 +++++
+ .../staging/vc04_services/interface/vchiq_arm/vchiq_dev.c  | 7 ++++++-
+ 3 files changed, 13 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+index 54467be8c371..67d853f5f2a0 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+@@ -804,7 +804,7 @@ int vchiq_initialise(struct vchiq_state *state, struct vchiq_instance **instance
+ 	 * block forever.
+ 	 */
+ 	for (i = 0; i < VCHIQ_INIT_RETRIES; i++) {
+-		if (state)
++		if (vchiq_remote_initialised(state))
+ 			break;
+ 		usleep_range(500, 600);
+ 	}
+@@ -1299,7 +1299,7 @@ void vchiq_dump_platform_instances(struct vchiq_state *state, struct seq_file *f
+ {
+ 	int i;
+ 
+-	if (!state)
++	if (!vchiq_remote_initialised(state))
+ 		return;
+ 
+ 	/*
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
+index 8af209e34fb2..382ec08f6a14 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
+@@ -413,6 +413,11 @@ struct vchiq_state {
+ 	struct opaque_platform_state *platform_state;
+ };
+ 
++static inline bool vchiq_remote_initialised(const struct vchiq_state *state)
++{
++	return state->remote && state->remote->initialised;
++}
++
+ struct bulk_waiter {
+ 	struct vchiq_bulk *bulk;
+ 	struct completion event;
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
+index 3c63347d2d08..8c4830df1070 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
+@@ -1170,6 +1170,11 @@ static int vchiq_open(struct inode *inode, struct file *file)
+ 
+ 	dev_dbg(state->dev, "arm: vchiq open\n");
+ 
++	if (!vchiq_remote_initialised(state)) {
++		dev_err(state->dev, "arm: vchiq has no connection to VideoCore\n");
++		return -ENOTCONN;
++	}
++
+ 	instance = kzalloc(sizeof(*instance), GFP_KERNEL);
+ 	if (!instance)
+ 		return -ENOMEM;
+@@ -1200,7 +1205,7 @@ static int vchiq_release(struct inode *inode, struct file *file)
+ 
+ 	dev_dbg(state->dev, "arm: instance=%p\n", instance);
+ 
+-	if (!state) {
++	if (!vchiq_remote_initialised(state)) {
+ 		ret = -EPERM;
+ 		goto out;
+ 	}
+-- 
+2.34.1
 
