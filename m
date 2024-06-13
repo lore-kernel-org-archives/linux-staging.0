@@ -1,112 +1,119 @@
-Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36782757E0
-	for <linux-staging@lists.linux.dev>; Thu, 13 Jun 2024 19:58:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 916127829C
+	for <linux-staging@lists.linux.dev>; Thu, 13 Jun 2024 19:58:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718308699; cv=none; b=rUhNdEVNoikwHCQWUuiY3YkCyu2F1mDYvruFEsE399akYLJeRFnSb6PWC//9rJocYn+BdlgkKqMmHhcfGpmxrg0UgS+ASkLkw5Kk6rvSbwT9BXIduPf1d6q/oekwYME8gsXk3eySXAhA7AUQom5myfyvcKDkEdkmcuibpXHFxHA=
+	t=1718308730; cv=none; b=cVGMIpuHiJRb4WdI6q+i4xe4Oh7KrAVP90GgtF5pIKQbkv00HAOpj8DSipdSQdBjbn/grAsem6qochooFAgVprQrY3dluCk4SPsOon9vRVhlUJv91y1z6UUoR2wN+R3FdVJO5YLrV1nif0mIjrzEeHIGgTg9j5rGlOSTwE8PQzA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718308699; c=relaxed/simple;
-	bh=Jxf4G1Cw44uD3kmRGCrTIT28JPe1a+FsUG1RBOkcXD0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Jtmkuax789V6MNkJ7qMCKqQAg3wbpmTZrNwEvKQ85pSS1cHkxEFr9EB9FTLvS36u/YjTj72vUn0xhtwB7hePSNZjDkFWpYqcNcBbMiEC+E3seCOnhNnWg/ugTU11rwweVoIHDJBVNemHza0ob+hnqmV3B1avmBk4gpZCr+ReKsU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S6KtcZOZ; arc=none smtp.client-ip=209.85.161.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1718308730; c=relaxed/simple;
+	bh=8Ssi1Wk64QWUfBb7mj4mwNzyhBvvKGpbyu23BxvyHPY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=K/UE7w93gxJ/DLNzAv/LkAjIjIDRY8VCS7FyWTbC2I6HRCbw1RGaQlqUU8p6MJvDM4EqKHsYjvonnlGF13mdSqdgpqE+nGbOQmzyyJUUadX9COaXVXva2EeFxFxJv7NcPZGp/SkDVQ+LLvoMCKW/hsSwiS9Px52WVo/OiIwoWK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=unAGD/Bq; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S6KtcZOZ"
-Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-5b970a97e8eso756617eaf.1
-        for <linux-staging@lists.linux.dev>; Thu, 13 Jun 2024 12:58:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="unAGD/Bq"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-35f188e09a8so1145037f8f.2
+        for <linux-staging@lists.linux.dev>; Thu, 13 Jun 2024 12:58:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718308697; x=1718913497; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=gIoupV97+6nxLC7sqVzEqH827nnjncr+5XzDw/JAbos=;
-        b=S6KtcZOZNaLfQcQI0aRLD/2aOaygmsCA2cD/yHkPecOicqhwer3Ocl17S9ELnupNgM
-         ppDXsw6KoAL4XdD+xsYBY+WpeOk9RC9cWKKx2V21ltU9/uzKHLHKeEEGzhfN2n+iUzWc
-         cnj1uazpt6UPTHII37/xT/1niADi4HKtZigBw1fBu9GH//ObsVOpQkfEcy/CEPZpKbEJ
-         2ZBT/QxVgYISDq1Do+FmpD+oX0cUJIPJE7vF60HhIfImFLkffThvXIgtgvbMmtHuaXQa
-         Xp6J9y+uF5l1YdTyO0QgCsUnFblWR2SHnLIGmKJO5DdvGzqzJ6qnEeTVj2WCsx+xFX9d
-         +nIA==
+        d=linaro.org; s=google; t=1718308726; x=1718913526; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=J8nD3Tx/2ajPq4oiZeg181ZjliU9kpOqAJj/ASz1bTw=;
+        b=unAGD/Bqa2VBuqU0rEt2PHaopufN+6DOYFy6kMlaS+A6Et9Qk8MypgUDyTTekU9Zum
+         7b3Kf/doQmrkF+chUT90nXR5eb7dfpWdP7qaBwdGSvIAaK44vXs6THdx6H/l+AfEUd4a
+         fmKz5cxH/wtUj1M3hTex9nlC941cyyNm87gj3wOrbMuf9Dnqadl5rfHzmwQ5/epQmCYH
+         fhYofF4Beeys0xUWBZ9LH8NEpGF1/Rl1be953F3c/78CsPB42YNvN6tiKcME4Bap0SCm
+         IOV7uCRY6NbfKUQDYBjgHF6mtu8f+qH4v6sZ1JGu4tfu/Yb3GAJ4HhF8THmI/iLUz5Wv
+         GxRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718308697; x=1718913497;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gIoupV97+6nxLC7sqVzEqH827nnjncr+5XzDw/JAbos=;
-        b=LkU9u+lPwlx4+MXXLDOM2exESgL0mwYyDoCc+NIlZaCKEIBtIjCdAT0u+HDmGnENwO
-         jxUJG25JYSdLnf21bL6zqHjqAGW0f5yd8If+vBQy7Jcs0vkqScSZuRRaWJrdc/mwesfr
-         7SjlLGhhlkjXCjFdzi3vVlMSsiGAnyk+n9Aq0O1/X5U4Mxt441aw3/xZesV2Q3A/isRx
-         bS/EH4wthWvzTmlzpj3m+o/hgqW/issbW4ukd+ekM92DdynIiyESS7p8PL02X9vwK0aK
-         e8HRmQRstpx0/XmCzL5kfHlM5089HNkFYZslH0/CcIkeiOigCGupz5woHyBWpXQCqBpA
-         3eIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW4Cfv0BINdkegIiwhivsYzbnLIRi5z5zb8zgJPVt9lieP76yhU+0GGy1/DOZ+5jWrtvrCBs6rK2HzxIkBGO08i/VgUymc80kelBsB2KQ==
-X-Gm-Message-State: AOJu0YwpLMkPvtg1Ifvs5BNidVCEfFgGRzCyRU+JtXoTxYTHx6+rmJL1
-	+eCZJruOyAkAxFvBBAYH5wUi4WC4Yd+rSgntWgAB3fLMYyxyNXi7vSxdx6cGThxGsK0tO/HcTMv
-	cJMeQfamc/r3lbTIAuqS7mq335hM=
-X-Google-Smtp-Source: AGHT+IEaDfvC8trFFIrTc3xuGkqGzTAeTKgYCAH89Q4Oqt4WDUyMpWYP7ZdsnvqScltazx1yVoWqZwtPX4Qvvi90t9s=
-X-Received: by 2002:a05:6820:627:b0:5ba:71ce:f82c with SMTP id
- 006d021491bc7-5bdadbbefb6mr778075eaf.3.1718308697236; Thu, 13 Jun 2024
- 12:58:17 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1718308726; x=1718913526;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=J8nD3Tx/2ajPq4oiZeg181ZjliU9kpOqAJj/ASz1bTw=;
+        b=pVZN2B7NocUBbCJTr8ndURWUVn8VL6/TW1qh0xzQxDvoC31T1M2+J1nsKYJ19QGr8C
+         miGSmwaAb+uBtVh42wyUOlOabOVA/L8ft9Lq53WRG3RtVcLOnXNBSL1EttX2t6IXcm4N
+         MoVmzpZDK33NWE4KVA7g3lmvBWpN9lb+kU1ruM90uc7c/US64+heRngN7bBjf8rJBG21
+         pOVm9MI6zy91/R1Dvwr4XLA+4S9Wgj8KDJr3z6iy34h6EENxpObqiBQE7qSwpDB1XWg7
+         ucD3mq1LEaKbW1OohD0x5FPgbXwgJx6tSwBBLUmzaU/z+7IjRww7BPGvKVX9xsBkTRZs
+         6MKg==
+X-Forwarded-Encrypted: i=1; AJvYcCWjJZfiNPncEM0OemUpL5AMBj8ZIvWynDtOX64j0NybTI9np4IVxtsP1nG8pI1s0UnBYY2lW8cep457aNdPldhcpNu7wNXDtQkn4Z3/ng==
+X-Gm-Message-State: AOJu0YxJsiUfb5IzJwaSxTEb7nXWTF5i4mcBQXx5u1pPaxoQA2zxAXyl
+	DYUrlezRZxWiOn9T/mGB30oZQSKgyhuRPXUdg859A1BPVn7LkSB5bwl062hOWuE=
+X-Google-Smtp-Source: AGHT+IGhE54rnPxMpctAzOM52kvVqwoHNWOb3ufa5cu9POuaX89ge9H6lokYmXmoiIrQpIX/ilu++Q==
+X-Received: by 2002:adf:e64c:0:b0:35f:1f3c:b632 with SMTP id ffacd0b85a97d-3607a746efbmr516075f8f.12.1718308725147;
+        Thu, 13 Jun 2024 12:58:45 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36075104a0fsm2545651f8f.96.2024.06.13.12.58.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Jun 2024 12:58:44 -0700 (PDT)
+Date: Thu, 13 Jun 2024 22:58:40 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: Umang Jain <umang.jain@ideasonboard.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	linux-rpi-kernel@lists.infradead.org,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Stefan Wahren <wahrenst@gmx.net>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.org>,
+	detule <ogjoneski@gmail.com>,
+	"moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>,
+	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+	open list <linux-kernel@vger.kernel.org>,
+	Julia Lawall <Julia.Lawall@inria.fr>
+Subject: Re: [PATCH] staging: vc04_services: vchiq_arm: Fix initialisation
+ check
+Message-ID: <a440cbf7-c6d5-4286-a69f-05e668522931@moroto.mountain>
+References: <20240613194150.2915202-1-kieran.bingham@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <cover.1718291024.git.engel.teddy@gmail.com> <ee01dbd2-fe83-46cf-9ceb-279a06ce9aad@gmail.com>
- <c0f2bca8-a7e6-4874-b5fc-98911a7c09d8@moroto.mountain>
-In-Reply-To: <c0f2bca8-a7e6-4874-b5fc-98911a7c09d8@moroto.mountain>
-From: Teddy Engel <engel.teddy@gmail.com>
-Date: Thu, 13 Jun 2024 20:58:06 +0100
-Message-ID: <CACP1t+tqj828NsSH85fKsm2QUPy5b9Nbk5RTb=hXg3MNS8CwGQ@mail.gmail.com>
-Subject: Re: [PATCH 0/6] staging: rtl8192e: Cleanup multiple issues
-To: Dan Carpenter <dan.carpenter@linaro.org>, 
-	Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240613194150.2915202-1-kieran.bingham@ideasonboard.com>
 
-On Thu, 13 Jun 2024 at 20:22, Dan Carpenter <dan.carpenter@linaro.org> wrote:
->
-> On Thu, Jun 13, 2024 at 09:05:03PM +0200, Philipp Hortmann wrote:
-> > On 6/13/24 17:16, Teddy Engel wrote:
-> > > Remove some unused constants, macros, and structs.
-> > > Capitalize a constant.
-> > >
-> > > No specific patch order required.
-> > >
-> > > Teddy Engel (6):
-> > >    staging: rtl8192e: Remove unused constant IC_VersionCut_E
-> > >    staging: rtl8192e: Remove unused struct phy_ofdm_rx_status_rxsc
-> > >    staging: rtl8192e: Remove unused constant WA_IOT_TH_VAL
-> > >    staging: rtl8192e: Capitalize constant RegC38_TH
-> > >    staging: rtl8192e: Remove unused macro dm_tx_bb_gain_idx_to_amplify
-> > >    staging: rtl8192e: Remove unnecessary pre-declaration of struct
-> > >      net_device
-> > >
-> > >   drivers/staging/rtl8192e/rtl8192e/r8190P_def.h | 8 --------
-> > >   drivers/staging/rtl8192e/rtl8192e/rtl_cam.h    | 1 -
-> > >   drivers/staging/rtl8192e/rtl8192e/rtl_dm.c     | 4 ++--
-> > >   drivers/staging/rtl8192e/rtl8192e/rtl_dm.h     | 6 +-----
-> > >   drivers/staging/rtl8192e/rtl8192e/rtl_pci.h    | 1 -
-> > >   5 files changed, 3 insertions(+), 17 deletions(-)
-> > >
-> >
-> >
-> > Hi Teddy,
-> >
-> > please combine patch 1 and 3 (Remove unused constant ...) . You can change
-> > more than one item in a patch. But it has to be of the same kind.
-> >
->
-> Could you combine that with the earlier patch that deleted
-> IC_VersionCut_C as well?  (Unless that has already been merged).
->
-> regards,
-> dan carpenter
->
+On Thu, Jun 13, 2024 at 08:41:45PM +0100, Kieran Bingham wrote:
+> ---
+>  .../staging/vc04_services/interface/vchiq_arm/vchiq_arm.c  | 4 ++--
+>  .../staging/vc04_services/interface/vchiq_arm/vchiq_core.h | 5 +++++
+>  .../staging/vc04_services/interface/vchiq_arm/vchiq_dev.c  | 7 ++++++-
+>  3 files changed, 13 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> index 54467be8c371..67d853f5f2a0 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> @@ -804,7 +804,7 @@ int vchiq_initialise(struct vchiq_state *state, struct vchiq_instance **instance
+>  	 * block forever.
+>  	 */
+>  	for (i = 0; i < VCHIQ_INIT_RETRIES; i++) {
+> -		if (state)
+> +		if (vchiq_remote_initialised(state))
+>  			break;
+>  		usleep_range(500, 600);
+>  	}
 
-I will, thanks Dan & Philip
-Teddy
+:/  In the original code, this would either break on the first iteration
+or fail.  The diff looked like this:
+
+        for (i = 0; i < VCHIQ_INIT_RETRIES; i++) {
+-               state = vchiq_get_state();
+                if (state)
+                        break;
+
+I feel bad for not spotting this.  A static checker which looked at
+diffs could have made this work, but all of our tools look at a momement
+in time instead of looking at the change over time.
+
+regards,
+dan carpenter
+
