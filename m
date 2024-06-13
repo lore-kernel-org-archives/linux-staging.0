@@ -1,30 +1,31 @@
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA47B1474A8
-	for <linux-staging@lists.linux.dev>; Thu, 13 Jun 2024 19:41:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16F5F1474A8
+	for <linux-staging@lists.linux.dev>; Thu, 13 Jun 2024 19:41:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718307718; cv=none; b=hZPTepxopfZficvMML8Ok2Tgyh5Lk90mXyF0Ey3wlzDslHsQzGTEe/zq+CSkUWF1YWpac91DTmswBTh6e10HnSAyJULKKRr4mvmDYUPAksQ3s9QVBT8o5sCGTYlb2hLWiiIdtOEL1blUoREVCXf4pe2eYtpwkV3o3rFWq2ZOfvo=
+	t=1718307721; cv=none; b=OZcG2PQLu6HcGN2VUuPJZNaoCIXSBY78Mc92R4UNJEWr0HHyKXR2S0ncbD+dU7iofHHbuICkdLJ5ee3bpilSvng4tQ50uYW+0boTn4SU4rc8onBMdJWqZf34KAEbBxeC3e+OW1RyYc5peBdDjluhwYOGRzfnEw1yfJwNABnagds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718307718; c=relaxed/simple;
+	s=arc-20240116; t=1718307721; c=relaxed/simple;
 	bh=XAZMt9N0NCglaqew8dSYutoepiDFHTvY9wdHf9ybtaM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=QUuZUOlETydEVZjldLcM//Zc64ND2aAgk47QyF+8F3xvMfajQpg/GEkdlF9ebZiUlO/DkLHZg5u3/AzkIJ65ZOHoZ6Mg8Od1196spbDDsk2o6s3CiGN2LTjz5AYJ5BQupMaQEdAEM1Bg+aSjRvzr/xTKbTrNZgLOJ0rzueuAtP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=H8n2FqwP; arc=none smtp.client-ip=213.167.242.64
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=FisQkeUN1vh1Tmu3fbSfArRgFRDK3i+/toyCDswOsPVsZnHq6zu/BXGo3ooviH+bsvcQYQOAwxac1QZnRr8Bf9f8Q3irilBvF4W74F0PNqcde/vIySZJJfwvJj5e1TFdcHqj2rIiaT77vg0MRLa2CCh2BQYRvZBmZXJaXaC8ynw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=fPRCophs; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="H8n2FqwP"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="fPRCophs"
 Received: from Monstersaurus.local (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B82CF4CF;
-	Thu, 13 Jun 2024 21:41:39 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1A9E2675;
+	Thu, 13 Jun 2024 21:41:44 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1718307700;
+	s=mail; t=1718307704;
 	bh=XAZMt9N0NCglaqew8dSYutoepiDFHTvY9wdHf9ybtaM=;
-	h=From:To:Cc:Subject:Date:From;
-	b=H8n2FqwPsn9XaUAxAi9ViKjzn9H+1Tkzuk/1K3gSDTwc6yMFsT1158JD9PRUBOYRr
-	 Y/dH1FDyJsknVhZrgFl14dWZcxuZdpYGQcs6jm234HLZK05ZeADGcVq+/VgCaJmfLv
-	 nsb1V5NLPlAgYYg99kkhmzjrb4ijc+POsIHLxAR4=
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=fPRCophsCkL/oJokmlFr3G1tmx1YfRvarY1fKLc6go9/IO43NxaSWvcUDfAVgaKmC
+	 FnMs0BeA70P0XsBxkmBzb1WBBAbyf66Ri7U4acX8fll9sORbQbJJxF7JJNjbsNTXqL
+	 W7lQyOl3ceJajuufSI6wD6q/56Zamqmd+/hhG/sY=
 From: Kieran Bingham <kieran.bingham@ideasonboard.com>
 To: Umang Jain <umang.jain@ideasonboard.com>,
 	Florian Fainelli <florian.fainelli@broadcom.com>,
@@ -41,9 +42,11 @@ Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>,
 	linux-staging@lists.linux.dev (open list:STAGING SUBSYSTEM),
 	linux-kernel@vger.kernel.org (open list)
 Subject: [PATCH] staging: vc04_services: vchiq_arm: Fix initialisation check
-Date: Thu, 13 Jun 2024 20:41:45 +0100
-Message-Id: <20240613194150.2915202-1-kieran.bingham@ideasonboard.com>
+Date: Thu, 13 Jun 2024 20:41:46 +0100
+Message-Id: <20240613194150.2915202-2-kieran.bingham@ideasonboard.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240613194150.2915202-1-kieran.bingham@ideasonboard.com>
+References: <20240613194150.2915202-1-kieran.bingham@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
