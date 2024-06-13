@@ -1,64 +1,63 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AD1C144D12
-	for <linux-staging@lists.linux.dev>; Thu, 13 Jun 2024 13:29:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5566C145358
+	for <linux-staging@lists.linux.dev>; Thu, 13 Jun 2024 15:17:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718285388; cv=none; b=Qlo586X3ae9t3avd2GPw0q9m8zbduDzPOT4fHmFe6Xl3j7SbHAyTxdnMFy7MKEXEa2aPlkHY0n5jna+C345fadqVC+Wly1e3EAn7zb80eMCn732duIMV1G35+toSn5wnNFWv5uzFOJWnBJ8iApQ6p7bL1WroGZ5lov4a+smlBVs=
+	t=1718291856; cv=none; b=hJb1t+BobiQlU8XE/ChsY0Wmrua8xW/YrqjMJm61H5NQwIzqEKh4psPkLcCkLNK0+GQ1wSB806Wemkhb+s/l0ECcuBwmEimy2A7Wylcl0aqUqauZnCnl308d2MSyZWtukdJzAKVAp3axjNikgL1Sj4b11fRBgdhfVs/AwQOtI3g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718285388; c=relaxed/simple;
-	bh=9YjZ0mNxtiI0w3TDnF6tuEkwNoMXfJVq5u/FUSPFA1I=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=qZWEfrk7OifXEFxMo2VE/sN0vJpgMyM8WETbIT+nVzr1M5LYsRNlj/xqGwuPqDhSTmtWHJsIU2t9ox9MZNOyRHE/WRQJcA+1Cfdvd/1MsGsNwDmCGKkV6peE5nGFzH43aKrOYBZQ42yoM1XE/OPWSd1PpMwtzbiDsAL4ikdA4M8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PnJldZcA; arc=none smtp.client-ip=209.85.128.48
+	s=arc-20240116; t=1718291856; c=relaxed/simple;
+	bh=kJFBG9EnhnvVx5BtGyWc4wfBumRieRFADNoy3amDwa4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=psCgRWzbWzi88Ktjnuy0dD4Q2Y18ZDgLbJs9q6ATOAaoxJz1FbUxlb51iZIGibPRZpHLG6RBpsRdzA5pBuMPJ6IyVy1698O02nT8EESD5CL7J4wILtJiZKGu97442IHT8hpYs3fYQ4K14Qj8iDPdC19COWz0fAfCAxto8ndr+h0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WdVURKiJ; arc=none smtp.client-ip=209.85.167.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PnJldZcA"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-42198492353so8554345e9.1
-        for <linux-staging@lists.linux.dev>; Thu, 13 Jun 2024 06:29:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WdVURKiJ"
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-52c85a7f834so1608520e87.0
+        for <linux-staging@lists.linux.dev>; Thu, 13 Jun 2024 08:17:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718285385; x=1718890185; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1718291852; x=1718896652; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=aj73urKvgW9wZChdKp/grUo5S7WR7EBtNMzzOYz9T24=;
-        b=PnJldZcASrymMwRbI7afzdn+LHR+HICI1yu3rreus7hXJxCnC7XK54CcWCWdOh4hPH
-         B1M7brFG7aCkDPFa4RR5VpL1SqmWUSLwAUMWNyGD2qyHdEuiQhD2iOBGH3PStxrcL9sR
-         N7ES1PNkmDLb6/74Z2OuDUSL6PX8ds0r2M/eyScLE0/FryQg2jznPwD/uAIIeVdkzWFa
-         zDUjhOia/s0IrrEgO9ViDVMviX815YIBVgSzKXzIw3N5b3m2nXo/zg37UM/jxQoosN0I
-         Er79q1F6cGb4wgr4y/b6EGlA62YZoHZl6dYXbnXeDJGu5Im8VKOqKdvdmx8uMrR2gqIF
-         ojXg==
+        bh=zWZ9jwhxEyNAmvATs50sdCbv0Ojx6ZhooJEx919ELJM=;
+        b=WdVURKiJ6yq7qWbYVbbj/S11xwoskcLVn4wc//MDeCq6Xt8IENZkHVOyMMumj6ow/M
+         mRKKF+N5FDggy8+K/tvgTb367w9GzSn7cygn371fY2A97pRqZIal3ICGWyw6iGf92oHp
+         iCQ3yMqTaDXJFL+ruvQKI6LMTwmbuLHAOWRqeaUmdmPEZAVQ2X4pghpmVBFMecX9OASh
+         KSvbyrU77vXihRGrou9YcBOnbhDdGiHL84Emc3vk1CZuwAQHDXHSHBKXyioElMK0neIh
+         kWvMAEXuQ3g4SFjVegNQ/jJj7MAotWnIa0AySoyvCCXdrEPcxkNPMRRticnGCy1tCqkQ
+         bksw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718285385; x=1718890185;
+        d=1e100.net; s=20230601; t=1718291852; x=1718896652;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=aj73urKvgW9wZChdKp/grUo5S7WR7EBtNMzzOYz9T24=;
-        b=n5D8SAhd+ZmPWNVoHDNUNxZORjDVezIqGLpUGd5sqqFSzqLFQpsHnMGeA0j1cl27xb
-         3Pk3HPdRtrKc72++8ekHPGcnXbo2OTzgkObdRjK+lnxkPyD74fKelUvMea3vJ1wa2U/E
-         9JCmnBQTfWEHCNinLkplJ5gr8M/8GACXp8vjw3r5kGJ65qtjVtqWRZQ+rlDLe651VNjA
-         EmxrkjI3lpjDRfnfZSSB3pOseGcXr3BFRWn1uO8g+fOZiONcTTSXPAI1Vwp0n+i7BNCa
-         P2V3sKfOPxc7IA9oXSegtMAQoiqJ1QCTz1E+EEEhOXOTPpeWhyg3H6vCyagNwNCRNlch
-         n9vg==
-X-Forwarded-Encrypted: i=1; AJvYcCUAZn5tCpH48zxNxK0C3HYGnmuhtW+QBSNMynpTylJ4ZRtkkRVgkDuA5NRO1WdSq5XdlGNI+ITR/77YQO5Qv5cSI3ZfYB4ZWYBCEsekbw==
-X-Gm-Message-State: AOJu0YzJbTUpbfpRi8Ic9VFF0DngePvE9BOpfdeZ1x7kgounnShlh4OC
-	8/of9s0Uv9yR6fgABZNU6WQMOEDwKZGK9yirLYqHhv5LCpfyBUn7EyP5nsXv0bA=
-X-Google-Smtp-Source: AGHT+IGN3ewMVPxG6hTEa9MKx/jd9wdA02rG/0ezuJmL2oalAxDGMCY9OKmvZ+w1oQsMikOP8XdAZA==
-X-Received: by 2002:a05:600c:1c83:b0:422:1609:a7db with SMTP id 5b1f17b1804b1-422861ae833mr42397645e9.8.1718285385168;
-        Thu, 13 Jun 2024 06:29:45 -0700 (PDT)
+        bh=zWZ9jwhxEyNAmvATs50sdCbv0Ojx6ZhooJEx919ELJM=;
+        b=I0kgBOr+OoWbHFeB3IhC9SUKc3fs74ewvA1xipLcVo1BP+yXeTlsw2SXo5BLxNCUhR
+         Tv5eq04oCQ5mQtSCyWXxMlt382aDrUdns5R96QTvOAJzRM7bhCTAsY+hR4XK8W2t2p7I
+         amSqrcewwkTY+W8SOpMOI/+qna7m6dTSmC2Yq+YF96cEJuiB4PILK2KBlUJ8rPVL7ye5
+         MPsJ9w+OchRzYPQmdZEzNO28Ayf8CkAmJafLfLmNJm4dwO4u7ZoNtYv/yimF1BW9FsOO
+         58G0QdBcxzNmTABIfSevtZSKJ/M+Ips3A77LIJdnUs/lPLWEQmMbqYxONZjwj+QJigmw
+         8W3w==
+X-Forwarded-Encrypted: i=1; AJvYcCWHVeiOnnx576HZLxv/N4D82aDic3IpyisszW+ApWRj/gT51LtjHoNT5fWhQCGreNO1JkY/5PrJrdhjF8QPhJqHwsQKMyiLo8BP1Ko1VQ==
+X-Gm-Message-State: AOJu0Yz14tT5LYa/nZTVRS+tY6ymuH3eIPOVlGx4gudHV0qGFsbaKUAT
+	5SXuYKI9FtfqWnPBNWT3YFgMUpvBa/2q2x4WfWwt2SwUvExIaPT6
+X-Google-Smtp-Source: AGHT+IHuZh1G+bIi5eoLswQ+gWxOBBBqkEkfB8P5li66QJlx752XejcutCtA5HmkAxyskmhTlXe7vw==
+X-Received: by 2002:a05:6512:4806:b0:52b:8455:a9df with SMTP id 2adb3069b0e04-52ca6e6dc25mr31340e87.34.1718291852188;
+        Thu, 13 Jun 2024 08:17:32 -0700 (PDT)
 Received: from localhost.localdomain ([31.120.167.14])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-422d0be1424sm29981455e9.12.2024.06.13.06.29.44
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36076515a80sm1856978f8f.76.2024.06.13.08.17.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Jun 2024 06:29:44 -0700 (PDT)
+        Thu, 13 Jun 2024 08:17:31 -0700 (PDT)
 From: Teddy Engel <engel.teddy@gmail.com>
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: Teddy Engel <engel.teddy@gmail.com>
-Subject: [PATCH v3] staging: vt6656: Remove line from TODO
-Date: Thu, 13 Jun 2024 14:28:53 +0100
-Message-Id: <20240613132853.2249-1-engel.teddy@gmail.com>
+Subject: [PATCH 0/6] staging: rtl8192e: Cleanup multiple issues
+Date: Thu, 13 Jun 2024 16:16:31 +0100
+Message-Id: <cover.1718291024.git.engel.teddy@gmail.com>
 X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -68,29 +67,27 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove checkpatch.pl line from TODO as no valid checkpatch recommendations
-still present.
+Remove some unused constants, macros, and structs. 
+Capitalize a constant.
 
-Signed-off-by: Teddy Engel <engel.teddy@gmail.com>
----
-v3: Bump version number + add version history changes.
-v2: Revert the parentheses removal changes.
----
- drivers/staging/vt6656/TODO | 1 -
- 1 file changed, 1 deletion(-)
+No specific patch order required.
 
-diff --git a/drivers/staging/vt6656/TODO b/drivers/staging/vt6656/TODO
-index e154b2f3b247..876cdccb6948 100644
---- a/drivers/staging/vt6656/TODO
-+++ b/drivers/staging/vt6656/TODO
-@@ -11,7 +11,6 @@ TODO:
- - switch to use LIB80211
- - switch to use MAC80211
- - use kernel coding style
--- checkpatch.pl fixes
- - sparse fixes
- - integrate with drivers/net/wireless
- 
+Teddy Engel (6):
+  staging: rtl8192e: Remove unused constant IC_VersionCut_E
+  staging: rtl8192e: Remove unused struct phy_ofdm_rx_status_rxsc
+  staging: rtl8192e: Remove unused constant WA_IOT_TH_VAL
+  staging: rtl8192e: Capitalize constant RegC38_TH
+  staging: rtl8192e: Remove unused macro dm_tx_bb_gain_idx_to_amplify
+  staging: rtl8192e: Remove unnecessary pre-declaration of struct
+    net_device
+
+ drivers/staging/rtl8192e/rtl8192e/r8190P_def.h | 8 --------
+ drivers/staging/rtl8192e/rtl8192e/rtl_cam.h    | 1 -
+ drivers/staging/rtl8192e/rtl8192e/rtl_dm.c     | 4 ++--
+ drivers/staging/rtl8192e/rtl8192e/rtl_dm.h     | 6 +-----
+ drivers/staging/rtl8192e/rtl8192e/rtl_pci.h    | 1 -
+ 5 files changed, 3 insertions(+), 17 deletions(-)
+
 -- 
 2.39.2
 
