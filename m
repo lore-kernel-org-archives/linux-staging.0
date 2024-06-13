@@ -1,65 +1,65 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 041CE149DF0
-	for <linux-staging@lists.linux.dev>; Thu, 13 Jun 2024 15:17:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C27E6149E0E
+	for <linux-staging@lists.linux.dev>; Thu, 13 Jun 2024 15:17:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718291866; cv=none; b=RiogMIqt4NVCQdU0pxXGyaxLZHZerynEarwtLKMXH0x8Z263nOtzkkneBkTassj2ABcy07kofa5MXqzxXop2yrbJlMqqd8UtCxNNySDw6qNBkE9RriOHpV/V8lWevi89hYyNxRsEPx3mQyRTxbBYd2o2t/VsEYuw90fUSCZ/s6M=
+	t=1718291867; cv=none; b=lhfVEuixxxqrtnc3nJdcIm7bkMyKzkcKodBaJEdNBWRUOSaD7fuKSst4hns35bHBJyAydvYaU2nxhFPZNzTtrQrUgbU7elMDKq3ALi3RfxUIvjWend+1B9uYhefSvXZyK87V8XSkIgbp0+q0O+U1U2US1eIfxC5WzzSLMOlrg4w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718291866; c=relaxed/simple;
-	bh=qQRjjZZws/Ma6VIvIPN2Ic4SkHiuVcNFQMuhJXO9qHw=;
+	s=arc-20240116; t=1718291867; c=relaxed/simple;
+	bh=zN1UETXXdqrh3WBTxRV+3WqwL49VqCIOmitMRKZXlLU=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=IlNJkj9dWjDp0eCSJb6wdQk0uCBXaKbAgED9B0YrNMlSfF1JjcTr2x83ZLW185wlqaMXHQav7lCW95TUAytOtPrpi631DFvltuRc9cmSTroUW5Ly9dWd/BqLHhVY0CqcABXJs+HfXE9BJOJltjTnYekzmyEfI2iIEAKcIbB5nHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ysx8OEM8; arc=none smtp.client-ip=209.85.221.44
+	 MIME-Version; b=SRTAzodE06vdTDBI0srEqfD2xwLNF8b+BPqvq0850XOc281nT+fdH86qQn/24IAg1WPwKMLnEhFQoHWbXnAa+8CxNJKsNk3IacbZAUa3NvWbsdzBAjAxi27w9LZBAJauqv1VZQuE/UkxRMEByrKhzNPmFdI5A3WXJUKCCCR8NvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bZDwCxel; arc=none smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ysx8OEM8"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-356c4e926a3so1228078f8f.1
-        for <linux-staging@lists.linux.dev>; Thu, 13 Jun 2024 08:17:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bZDwCxel"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-421cd1e5f93so8935035e9.0
+        for <linux-staging@lists.linux.dev>; Thu, 13 Jun 2024 08:17:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718291863; x=1718896663; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1718291864; x=1718896664; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=tcEzKvcxuUEgSwRZ+SIVZqsXz/1BXJpqKsYkBURq044=;
-        b=Ysx8OEM8Nsc+XlipeVV07kGj12GETK/fWAOLScN+oGZgcxCesWErwdG4bWfGoNKkET
-         6ETy8odmbiFxMUZZwUq8VO1sU/dImPVY0x+YBS6outK8ngarWvl1xNFokNzcDuGShB7l
-         lCFzierMFUQZqArm8YFj3MF3MJw2xm1wrTXgxvnLlXcKqwstUZRn1Tl1RcYM0LvTx/rC
-         87hloGfN7TKSPDlN9oCbDBUFWKrFHyavNwSzNW8AVUnWsxdaAKddr6lhjGQ+xZqh9t2y
-         HNh/AboPvN41eifQyweGvP+PsRRrzkUS6SZNVHWR8HL55lVWg1ktRH7scJTC6sJpzSQs
-         JsKQ==
+        bh=6BG0M0s1xfKWqVwW2SMl3OjEYd7P2vlsk2ol4M6/ryk=;
+        b=bZDwCxeliP6DMzbVHTKhbRSbWKK+6FvW9shVUD3DbhZLKyguKpcgS3/SnUEEgTbZz4
+         8VdKiMIC8LF+9+n542hh+hjS/rri+U+4/Wx6lFrVWFiTwBJxlXTwly4WPwKuhWSU1ZTG
+         whTfPDr1bH2lGMmdF8Tgi5aCLNFsS0F8SO6KNgPnMuPWPVmfE62N1kM4U7mtFDptH4Cq
+         EkcBdxnfTKtCs+LBkRG4XtKk3UAxMt6I+7eZ+P1GSxEFlAXJxzoiX9rmQJPDrs3WVv2M
+         V3mUSfUe1m56aKEswq5R3puwZE5+3oXKzZkJnXcKL/y9GNZ47abv9xH50tXSKF39Cza2
+         18dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718291863; x=1718896663;
+        d=1e100.net; s=20230601; t=1718291864; x=1718896664;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=tcEzKvcxuUEgSwRZ+SIVZqsXz/1BXJpqKsYkBURq044=;
-        b=kUrcjZtzdlN1QsLpx8zAuv+HjdAyXDcn3bN+QCn/PMqNOMuyXU4Qh0tYZalNLI3RC1
-         ND2u94QKkqutJ69d1YHrMvnz/LVN6a78r95dsLaKz3NLjv8r5RVcDGStTnQRPiiCGiHE
-         oT8WnXSSlWmT7umUIQn/4wLSjOB9CjoY+dJm/sDJp+fZcFZ7PlijoV9QW3Brui0HELTs
-         aFgVyv2PCnhE0VHGWmWAFt1u+qzmAVMD9xGJCUOKZLWKwuME/w56OCT9AtL8q0f0yA62
-         uaty4x3JMsJ90z+WSFtyNgWYYG8yJYDQcd1uWa9UkN7qVhw+wCIldNvVYhOj21ESdzOY
-         6Rww==
-X-Forwarded-Encrypted: i=1; AJvYcCXVxatibEJaZ6kcv/9oaJOFuvTbdL+D9kDRLbFsJHLQOuaNY8ddv8aYiEoCFrpr8s/CvPqdRDKGCLkV+EZrQDn1W5bkpbIii6y3L/Ci4g==
-X-Gm-Message-State: AOJu0YxbKCYDtLdRIwO1n0Fvo+nw5lcbxGPk01OYSJHJEbMeFZmX7tpi
-	xATv/SgC4lpmr62HAh3teVnHZZ5VMNDnETowICAjqBnbH/Lvgm7w
-X-Google-Smtp-Source: AGHT+IFo365wIbaTyR5MvgPkQnOZIFxNKFkoeJy3PVoY4SbWu7nxToHLufTUlQJONnJUSagdq2ojaA==
-X-Received: by 2002:a5d:6dc7:0:b0:360:7809:ff0b with SMTP id ffacd0b85a97d-360780a0073mr1253891f8f.51.1718291863156;
-        Thu, 13 Jun 2024 08:17:43 -0700 (PDT)
+        bh=6BG0M0s1xfKWqVwW2SMl3OjEYd7P2vlsk2ol4M6/ryk=;
+        b=uOSSEqj16D0QuF/8n2VyslrkTo59KsfIHSGm8pnVTgmlWVlT2mLdMfM60gXYATsns+
+         C2BoFBMdCAgdybQGGHU0LKBzuaf6HNTDSPsuYbRSBl38XxXnRmvPO4pH9EHn4kRhSBB1
+         tZhSVkzR/cBOUFjfgFNJ0sUQy5YSJMimdYggSiO9koAOfF2GD4ShxZaomxishhJIqyrc
+         VmDZuexaurefdHYlvQRn1OGrLzJpMHc+aeKptN0tIiy1bK59Gi4hk6eLscrR+qOX0N8l
+         JF2Gpv12ePnOYtiRuZk47E0Crbp0ulzJ3LF1hjtyEzKEGtjdapy+P/okxEij7PgYjErD
+         ryxw==
+X-Forwarded-Encrypted: i=1; AJvYcCXEiP2dFq9fbbxm8q+E/vezrG3qUeCyiY2qq7x9BSvEvJaS9O4Tt/Ytl2C5MDP57aTRwV8aCx0HpH1HvmVMucMeE3fdxiYnNcjROy9rkw==
+X-Gm-Message-State: AOJu0YzR8AZFrs+4nD9F5E7En+QMwyvSN542o7BpNb5oSFPLcR0d5GFV
+	MxTLhxnnB5M0RxYrPdSe6dkFlWQTpyjukWu+Mq8IWUYBFnl3758ZW2+gtsNzg2k=
+X-Google-Smtp-Source: AGHT+IHivfMxCPLBIseyR/PkOdi/noH37L986yS0duDhQKgZmcCVn63dfugPrWMeffsl/KWndzwFpA==
+X-Received: by 2002:a05:6000:2aa:b0:360:6435:b40 with SMTP id ffacd0b85a97d-36064350bfcmr6572880f8f.7.1718291864170;
+        Thu, 13 Jun 2024 08:17:44 -0700 (PDT)
 Received: from localhost.localdomain ([31.120.167.14])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36076515a80sm1856978f8f.76.2024.06.13.08.17.42
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36076515a80sm1856978f8f.76.2024.06.13.08.17.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Jun 2024 08:17:42 -0700 (PDT)
+        Thu, 13 Jun 2024 08:17:43 -0700 (PDT)
 From: Teddy Engel <engel.teddy@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: Teddy Engel <engel.teddy@gmail.com>
-Subject: [PATCH 4/6] staging: rtl8192e: Capitalize constant RegC38_TH
-Date: Thu, 13 Jun 2024 16:16:35 +0100
-Message-Id: <5a64c076a932cd062587dae176418a39ccf8d19a.1718291024.git.engel.teddy@gmail.com>
+Subject: [PATCH 5/6] staging: rtl8192e: Remove unused macro dm_tx_bb_gain_idx_to_amplify
+Date: Thu, 13 Jun 2024 16:16:36 +0100
+Message-Id: <91961c0f7acba56576cfaf2a19d2d4121c90e721.1718291024.git.engel.teddy@gmail.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1718291024.git.engel.teddy@gmail.com>
 References: <cover.1718291024.git.engel.teddy@gmail.com>
@@ -71,48 +71,25 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-According to kernel coding style, capitalize defined constant.
+Remove unused macro.
 
 Signed-off-by: Teddy Engel <engel.teddy@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl8192e/rtl_dm.c | 4 ++--
- drivers/staging/rtl8192e/rtl8192e/rtl_dm.h | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ drivers/staging/rtl8192e/rtl8192e/rtl_dm.h | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-index 5392d2daf870..4863ced04916 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-@@ -1752,7 +1752,7 @@ static void _rtl92e_dm_check_fsync(struct net_device *dev)
- 
- 		if (priv->rtllib->link_state == MAC80211_LINKED) {
- 			if (priv->undecorated_smoothed_pwdb <=
--			    RegC38_TH) {
-+			    REG_C38_TH) {
- 				if (reg_c38_State !=
- 				    RegC38_NonFsync_Other_AP) {
- 					rtl92e_writeb(dev,
-@@ -1763,7 +1763,7 @@ static void _rtl92e_dm_check_fsync(struct net_device *dev)
- 					     RegC38_NonFsync_Other_AP;
- 				}
- 			} else if (priv->undecorated_smoothed_pwdb >=
--				   (RegC38_TH + 5)) {
-+				   (REG_C38_TH + 5)) {
- 				if (reg_c38_State) {
- 					rtl92e_writeb(dev,
- 						rOFDM0_RxDetector3,
 diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.h b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.h
-index 863af8ef9f94..3add5aa933b8 100644
+index 3add5aa933b8..55641f17412b 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.h
 +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.h
-@@ -42,7 +42,7 @@
- #define		CURRENT_TX_RATE_REG		0x1e0
- #define		INITIAL_TX_RATE_REG		0x1e1
- #define		TX_RETRY_COUNT_REG		0x1ac
--#define		RegC38_TH				 20
-+#define		REG_C38_TH				 20
+@@ -133,8 +133,6 @@ extern	struct dig_t dm_digtable;
+ extern const u32 dm_tx_bb_gain[TX_BB_GAIN_TABLE_LEN];
+ extern const u8 dm_cck_tx_bb_gain[CCK_TX_BB_GAIN_TABLE_LEN][8];
+ extern const u8 dm_cck_tx_bb_gain_ch14[CCK_TX_BB_GAIN_TABLE_LEN][8];
+-/* Maps table index to iq amplify gain (dB, 12 to -24dB) */
+-#define dm_tx_bb_gain_idx_to_amplify(idx) (-idx + 12)
  
- /*--------------------------Define Parameters-------------------------------*/
+ /*------------------------Export global variable----------------------------*/
  
 -- 
 2.39.2
