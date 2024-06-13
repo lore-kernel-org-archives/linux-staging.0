@@ -1,59 +1,59 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3B5014A614
-	for <linux-staging@lists.linux.dev>; Thu, 13 Jun 2024 18:12:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77DC52F34
+	for <linux-staging@lists.linux.dev>; Thu, 13 Jun 2024 19:05:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718302344; cv=none; b=PT6XhJbHDSKpu4mve9bw2MyA3ZoZcW1ZeOvlxQx5OtIxyMHgxUKNwT2nRf9cc2wnuGttU+6i16pK+vZSg+hZuZuMYBfluoAn2LUoc9GdXSP6PYN+PeNJ7uSbLYRQofep4OKgo4Wc96S+shAzdxyt9DRb2DTF6dtlyrW0nBzagx4=
+	t=1718305529; cv=none; b=uAuyFyrO4ImKQHam9T2Cd58Gx8h3GwOce9X+PBkGT93/CJ1yjRL6HBPGmGeYIgLRATH84FvoL6a5LMfb/iKVjbJb72g/3/zTZiVkLNxvuXFyLhSlnOH+oSeZkgxyJP7vykCptqrluY+6248TZtR7aX8SlGt4779MbAIKV5PPcgI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718302344; c=relaxed/simple;
-	bh=09bkj0aYiRhYPThOrEXj9DZrwqjxIISXp/K4ALT9sCI=;
+	s=arc-20240116; t=1718305529; c=relaxed/simple;
+	bh=fUn8fj2+aOx1qt24UXCgWzuYqLTzLzRTdcyQBNixoKk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=MinWai1kHgoHcq20tNpmYiCO0rGZ/1LjbpkpNW9pmYjLxcWG8710FrtZdgRuiXew9S61py4eXx6aK8dNZl1AjZKresCYx2ZgaNiJOv7sIVVPgks8xf7lqT+TM6Gn+WGqn1lQRxW6LunD/0/aVZeOjLEQVnDGjJ9Jep7W65vTsVo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d7Zuzwke; arc=none smtp.client-ip=209.85.218.42
+	 In-Reply-To:Content-Type; b=E/QsRllaAsgf748qzvOCfgAd6SCUmdTt/2lHsegs2ughERgibeR8eFh2SS+XXENYGq8HmLk2EqDAKQqAPPz8SSA/6YoSzqYh/MJ7vltEIhV9JYqSBdRy2W71kBy2IWf83N/PAu26Ij16kVt3EAQFH8UWKJa70p3IQ/jjA1A6sug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dtS8VG7A; arc=none smtp.client-ip=209.85.167.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d7Zuzwke"
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a6f3b629b4dso18213866b.3
-        for <linux-staging@lists.linux.dev>; Thu, 13 Jun 2024 11:12:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dtS8VG7A"
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-52ca721395eso30954e87.0
+        for <linux-staging@lists.linux.dev>; Thu, 13 Jun 2024 12:05:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718302341; x=1718907141; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1718305526; x=1718910326; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:to:subject:user-agent:mime-version:date:message-id:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=QEkxYFxJcB/Qc3+AFrMvOaUS2Xwfl9Pd1HSoosJHfmM=;
-        b=d7ZuzwkedrRzwvzArB8/ncfdmW23ndvJx/sN1SRwA6QFi+Pul1eM8n/rHYAR7oe07A
-         VI3WL9ucrMNmIjMI+QusgSnhz0+nDBA2GdITbgZIY1J8oYPSBYFpIRnrX7Xr2NptpKJM
-         Ux9ztWWqd3RMJuvEwRK9I15W0LIzno4YZv0TaQP5pT2ByHSdRtZeu9ltxXEI211S29aS
-         74Hq1Z0m9m6XpGfcHz0qu41llOl+91rJcvlHKRQptRFxmPbFMQ/M5xoSMITR2IAxNdJ2
-         42v08N+v/trOjuM04U2RWKOpvFp2L9rW2vkdSeR/t4kZBBPRtVzdhojbMWgMF2NmJ0bJ
-         pICw==
+        bh=4IyJ8+sKrBscC136/+WcAKqMMnfDSQvhb/s79SNUCQw=;
+        b=dtS8VG7AqrJgyQ5FlE7QwsPLZoHF1Wj0SFt9PdxEeleTJEY2mqKK72JCCRLEb3xHRr
+         49JLovzP9OxCN7DUo1YZUmyXxglc38FOl6R1sVl+Jk00YpZBNOrhUFgEqo2zgqfNSXeC
+         Nxh93PQ3LLc3jprmIrfoRNXn72RpEiapmsg+1KWPGjZgdv0KQH8vbVz4Btm1swPEBIKQ
+         dVJuSs0WM9jc6LQbaZUtFSsZMh1zpaxXj2vRHXsO1iD4MZIkSXqOPtsYXX8D6RxwQwfI
+         FBZ6uZzHLU+cbPiJIxemYSPRpGjkBieYyBvchUQLq6JAxzfFY5aB/f2Y10INJWh1p0T9
+         7LuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718302341; x=1718907141;
+        d=1e100.net; s=20230601; t=1718305526; x=1718910326;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QEkxYFxJcB/Qc3+AFrMvOaUS2Xwfl9Pd1HSoosJHfmM=;
-        b=oGEFjyerhGnaG6/SYJ8iXS6gm5YSoZuYas25MsgjPaZxoDfYu1bV3gIDpPfguqd6xD
-         7TCHJW+a9+GxGSJqabVEHs7OhUTbOjyqnU8AUXdEttn8r3HMbTteFO42hu66YQA20tdp
-         Kawcgr+MaIsFcv5afUQMo6cgW0/7rqjblPVJBgyVxQpCGKu5ijIWiZxQnqts3SF9ua/Y
-         kZMzaiTJ9TVBIV8bpyBOKNsiZJFWeC1mjH2+TqQhRlyTYxFJYLU0YBRIWdz3HRbM/lnC
-         NMpNpUfFofLmh2ZSiYOg6ce32HUoXV24prAhfwMskgUV3vtuu6LrsIh4DV8R2+wb65oy
-         ttfQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXBie8T/WMf6dxYW6NJ3HSKQpjAo5m29Afq80MEeFzxU05OKsNR6Mz2kf0hYvbUpPHhRqgHswW+fzzxcsYK@lists.linux.dev
-X-Gm-Message-State: AOJu0YywfeYr4ZTqIIMFmULNMWy32b8dDagYmndthet+SA5O9bzd5WR/
-	8H7oJzhAAbuQY1lLkVuvPdtKnOyjI2RJptDYclCz7jyZx5GhA12d
-X-Google-Smtp-Source: AGHT+IHLdAy6PcmCufcU/Hj/bfUFKCJ6XRnfpYJV7AdmG6mHhlAQE2I9MyPtMQFbh9R27xr8Wkhdzw==
-X-Received: by 2002:a17:906:48d:b0:a6f:f1f:1d5 with SMTP id a640c23a62f3a-a6f60de5efamr34230266b.6.1718302341020;
-        Thu, 13 Jun 2024 11:12:21 -0700 (PDT)
+        bh=4IyJ8+sKrBscC136/+WcAKqMMnfDSQvhb/s79SNUCQw=;
+        b=YuxXxIsDPJdqNfi6WOCAfNbSfze+cIsWIFUFpBHoVLEjQeuccC+QpPhsICD1GP0gwt
+         7r3aTo7KdNCbzUGAEwtSF6YUn0ZZ0bNeewXhELuAFrxASEBc8cVWaEqMViecNgvKvhEt
+         nJnY+4s8JqK+ZzwBqvs+114NqjVpCCQTEzGfVnZA+Eu7p6SJYPjtc2QzRjuzJIA6BeXG
+         xO21jQnM6fHohkZjqKE4rXrUvRC1vMplmnOL202HYADPQTUYycOe4fFIyeK3QQqrWrbJ
+         1MD7xa17Ad9hLU4g/FibfgSgLohUPVHRq0lkhvWj3FES3UFrO7Exu+SNBZ42kj+QuxLP
+         dQUg==
+X-Forwarded-Encrypted: i=1; AJvYcCV3J+9L5tG0z9Tfuu0cKrtAYw0C/GjvP8K1DE8wUrjtln8hLe4r3JVteWkgIdfcgkvfpIChufuwqtIfIy56ECh00nydnSW7XSB0p+3yvw==
+X-Gm-Message-State: AOJu0Yxc5PWucqDQF39HZ7QlBR3ik8AyHYKBBQqMzkAZWcazHqZl9vTI
+	cvLpHPVfDqjSKYpI1knG04sIut1Oy+Ddxq6O7GK6AjsF+/4aaxvpTAjlYg==
+X-Google-Smtp-Source: AGHT+IFJssBhPmQQSAePWwpx5PwYFKiBgNSfksm9N1SHI2GdSKJ2rjRpFkyU3G6RIyrOjtZm8PA7WQ==
+X-Received: by 2002:a17:906:134b:b0:a6f:5815:f5e2 with SMTP id a640c23a62f3a-a6f60dcb41emr41895766b.4.1718305505006;
+        Thu, 13 Jun 2024 12:05:05 -0700 (PDT)
 Received: from [192.168.0.103] (p57935a9b.dip0.t-ipconnect.de. [87.147.90.155])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6f56f9978esm94520866b.200.2024.06.13.11.12.20
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6f56ecdd63sm99012766b.124.2024.06.13.12.05.04
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 13 Jun 2024 11:12:20 -0700 (PDT)
-Message-ID: <100e5c87-d06b-4d17-b036-2e48fb234a08@gmail.com>
-Date: Thu, 13 Jun 2024 20:12:19 +0200
+        Thu, 13 Jun 2024 12:05:04 -0700 (PDT)
+Message-ID: <ee01dbd2-fe83-46cf-9ceb-279a06ce9aad@gmail.com>
+Date: Thu, 13 Jun 2024 21:05:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -61,40 +61,46 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] staging: vt6656: Remove line from TODO
+Subject: Re: [PATCH 0/6] staging: rtl8192e: Cleanup multiple issues
 To: Teddy Engel <engel.teddy@gmail.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20240613132853.2249-1-engel.teddy@gmail.com>
+References: <cover.1718291024.git.engel.teddy@gmail.com>
 Content-Language: en-US
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20240613132853.2249-1-engel.teddy@gmail.com>
+In-Reply-To: <cover.1718291024.git.engel.teddy@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 6/13/24 15:28, Teddy Engel wrote:
-> Remove checkpatch.pl line from TODO as no valid checkpatch recommendations
-> still present.
+On 6/13/24 17:16, Teddy Engel wrote:
+> Remove some unused constants, macros, and structs.
+> Capitalize a constant.
 > 
-> Signed-off-by: Teddy Engel <engel.teddy@gmail.com>
-> ---
-> v3: Bump version number + add version history changes.
-> v2: Revert the parentheses removal changes.
-> ---
->   drivers/staging/vt6656/TODO | 1 -
->   1 file changed, 1 deletion(-)
+> No specific patch order required.
 > 
-> diff --git a/drivers/staging/vt6656/TODO b/drivers/staging/vt6656/TODO
-> index e154b2f3b247..876cdccb6948 100644
-> --- a/drivers/staging/vt6656/TODO
-> +++ b/drivers/staging/vt6656/TODO
-> @@ -11,7 +11,6 @@ TODO:
->   - switch to use LIB80211
->   - switch to use MAC80211
->   - use kernel coding style
-> -- checkpatch.pl fixes
->   - sparse fixes
->   - integrate with drivers/net/wireless
->   
+> Teddy Engel (6):
+>    staging: rtl8192e: Remove unused constant IC_VersionCut_E
+>    staging: rtl8192e: Remove unused struct phy_ofdm_rx_status_rxsc
+>    staging: rtl8192e: Remove unused constant WA_IOT_TH_VAL
+>    staging: rtl8192e: Capitalize constant RegC38_TH
+>    staging: rtl8192e: Remove unused macro dm_tx_bb_gain_idx_to_amplify
+>    staging: rtl8192e: Remove unnecessary pre-declaration of struct
+>      net_device
+> 
+>   drivers/staging/rtl8192e/rtl8192e/r8190P_def.h | 8 --------
+>   drivers/staging/rtl8192e/rtl8192e/rtl_cam.h    | 1 -
+>   drivers/staging/rtl8192e/rtl8192e/rtl_dm.c     | 4 ++--
+>   drivers/staging/rtl8192e/rtl8192e/rtl_dm.h     | 6 +-----
+>   drivers/staging/rtl8192e/rtl8192e/rtl_pci.h    | 1 -
+>   5 files changed, 3 insertions(+), 17 deletions(-)
+> 
 
-Reviewed-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+
+Hi Teddy,
+
+please combine patch 1 and 3 (Remove unused constant ...) . You can 
+change more than one item in a patch. But it has to be of the same kind.
+
+Thanks for your support.
+
+Bye Philipp
