@@ -1,100 +1,101 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEBFD142658;
-	Fri, 14 Jun 2024 06:51:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5FA6194AF5
+	for <linux-staging@lists.linux.dev>; Fri, 14 Jun 2024 10:41:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718347893; cv=none; b=H1Ul+pAR1HI0Vx/W3zp04hYW+vwn37FywGMixsKjtjMx9ikA/kUIrPJzUFR4EWNC414NTJ8zIw4vW9ewXdYuNKgHVmgylbFYL6CX59809OYnKWRcpuXZvZ8mYNL9Ua8Uwp1O6OAC8qLPM98RnlaciERr7DtPoLh79YjbqU51NEw=
+	t=1718361668; cv=none; b=iCEQ4sLkw8OAd54ID0BO90ZEQxDn1NtKNb4IiL/Jr2RiuNJDrCfUhtbsKOm1jmzW/YQlLD/yqNcHnxGcKB5n1AN7W1kURYoMb6/7ew9YucV2tcO6nQpHiOIreP27waha5r6o3+xKGE+C1X/Hwxebmpag+HEVn77fDQAvkS31fL8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718347893; c=relaxed/simple;
-	bh=/+1eONkvO8JIY6Rq6EFqoF9/NIO8BCLXFebfthtEbz8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MpOeH/mn5HhEAelPr14Ib8f68N6l6VTJdADxFLiXyXknNj4zW2Hk5yTj8P/c4hvIgZmrQM2GjRaGwvx/aDoHVJ70Y0tvSj3n/kROoH8SkzCy5Pj/08O2PcGpsaZcdRDbn9lu0Ws4lTy44l4S5YkJoARgHH0CG5fECqNyKXCXmgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=LqO4aDAc; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718361668; c=relaxed/simple;
+	bh=fR5O23eHFUud678VEBckctrC86/Dv5g0dvv4PUadpzA=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=qjGB3zVRxlPkncGwmFAt0IBwKIwt7UHwmYsXat2LoS/Y1YglAflVUzmFHZZWdMbp62k6nq2Y/KVUv9+ilKqO/77ZC9oAdgb5OzRPma4IDI9X7t5y9IYf7pI5a+sJMrMNIRt4m8v4jvD7Jct38VwO3BYI8VwvVbGoOcglFby8nAU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=pOz6eajc; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="LqO4aDAc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5345C2BD10;
-	Fri, 14 Jun 2024 06:51:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1718347893;
-	bh=/+1eONkvO8JIY6Rq6EFqoF9/NIO8BCLXFebfthtEbz8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LqO4aDAc5EJeBru60s3VDteNr8FP8TcHSBS+YrgCalnJneAKc5gQFohUptGp7gr4x
-	 SSvmuPn2+uAsqWL8PnEGI/C4filgCCH+z5ZPNeKBVr+NR35hT9XfcpdIU1OFSGQlI6
-	 3X0tW8PQOYIFTHH74dnrZgt2tGwyqb83wwiYQVJA=
-Date: Fri, 14 Jun 2024 08:51:30 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Teddy Engel <engel.teddy@gmail.com>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>,
-	Philipp Hortmann <philipp.g.hortmann@gmail.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/6] staging: rtl8192e: Cleanup multiple issues
-Message-ID: <2024061403-obedient-decoy-d3eb@gregkh>
-References: <cover.1718291024.git.engel.teddy@gmail.com>
- <ee01dbd2-fe83-46cf-9ceb-279a06ce9aad@gmail.com>
- <c0f2bca8-a7e6-4874-b5fc-98911a7c09d8@moroto.mountain>
- <CACP1t+uF6R6zDNDsL-ZZOnvWM-t2w097P0tMpxuSsj7=AXvJGA@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="pOz6eajc"
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1EE88B53;
+	Fri, 14 Jun 2024 12:40:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1718361650;
+	bh=fR5O23eHFUud678VEBckctrC86/Dv5g0dvv4PUadpzA=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=pOz6eajcv2YAkl8f4GlFN7CGZVF1hq5qrUsUky03sFd6sPPsSy5cL+lNTBCGTWTzR
+	 A69m1n/8xI1VNTT33zwGv1IuKDaa6uGFxafOevwIA1CStAPgW9HMr3g14FdBuMkzF5
+	 pqPjUf2q/YDqZhiYylgonSwxjwKmSKy9e4Z3nFWk=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CACP1t+uF6R6zDNDsL-ZZOnvWM-t2w097P0tMpxuSsj7=AXvJGA@mail.gmail.com>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <2024061436-twister-survival-a05c@gregkh>
+References: <20240613194150.2915202-1-kieran.bingham@ideasonboard.com> <20240613194150.2915202-2-kieran.bingham@ideasonboard.com> <2024061436-twister-survival-a05c@gregkh>
+Subject: Re: [PATCH] staging: vc04_services: vchiq_arm: Fix initialisation check
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: Umang Jain <umang.jain@ideasonboard.com>, Florian Fainelli <florian.fainelli@broadcom.com>, linux-rpi-kernel@lists.infradead.org, Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Stefan Wahren <wahrenst@gmx.net>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Dave Stevenson <dave.stevenson@raspberrypi.org>, detule <ogjoneski@gmail.com>, Dan Carpenter <dan.carpenter@linaro.org>, moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE <linux-arm-kernel@lists.infradead.org>, open list:STAGING SUBSYSTEM <linux-staging@lists.linux.dev>, open list <linux-kernel@vger.kernel.org>;
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Date: Fri, 14 Jun 2024 11:41:02 +0100
+Message-ID: <171836166207.2248009.279146431554771910@ping.linuxembedded.co.uk>
+User-Agent: alot/0.10
 
-On Thu, Jun 13, 2024 at 08:34:37PM +0100, Teddy Engel wrote:
-> On Thu, 13 Jun 2024 at 20:22, Dan Carpenter <dan.carpenter@linaro.org>
-> wrote:
-> 
-> > On Thu, Jun 13, 2024 at 09:05:03PM +0200, Philipp Hortmann wrote:
-> > > On 6/13/24 17:16, Teddy Engel wrote:
-> > > > Remove some unused constants, macros, and structs.
-> > > > Capitalize a constant.
-> > > >
-> > > > No specific patch order required.
-> > > >
-> > > > Teddy Engel (6):
-> > > >    staging: rtl8192e: Remove unused constant IC_VersionCut_E
-> > > >    staging: rtl8192e: Remove unused struct phy_ofdm_rx_status_rxsc
-> > > >    staging: rtl8192e: Remove unused constant WA_IOT_TH_VAL
-> > > >    staging: rtl8192e: Capitalize constant RegC38_TH
-> > > >    staging: rtl8192e: Remove unused macro dm_tx_bb_gain_idx_to_amplify
-> > > >    staging: rtl8192e: Remove unnecessary pre-declaration of struct
-> > > >      net_device
-> > > >
-> > > >   drivers/staging/rtl8192e/rtl8192e/r8190P_def.h | 8 --------
-> > > >   drivers/staging/rtl8192e/rtl8192e/rtl_cam.h    | 1 -
-> > > >   drivers/staging/rtl8192e/rtl8192e/rtl_dm.c     | 4 ++--
-> > > >   drivers/staging/rtl8192e/rtl8192e/rtl_dm.h     | 6 +-----
-> > > >   drivers/staging/rtl8192e/rtl8192e/rtl_pci.h    | 1 -
-> > > >   5 files changed, 3 insertions(+), 17 deletions(-)
-> > > >
-> > >
-> > >
-> > > Hi Teddy,
-> > >
-> > > please combine patch 1 and 3 (Remove unused constant ...) . You can
-> > change
-> > > more than one item in a patch. But it has to be of the same kind.
-> > >
-> >
-> > Could you combine that with the earlier patch that deleted
-> > IC_VersionCut_C as well?  (Unless that has already been merged).
-> >
-> > regards,
-> > dan carpenter
-> >
-> > Hey Dan,
-> 
-> I registered to the mailing list (very) recently so unfortunately I don't
-> have that change showing in my mail history...
+Quoting Greg Kroah-Hartman (2024-06-14 07:50:08)
+> On Thu, Jun 13, 2024 at 08:41:46PM +0100, Kieran Bingham wrote:
+> > The vchiq_state used to be obtained through an accessor
+> > which would validate that the VCHIQ had been initialised
+> > correctly with the remote.
+> >=20
+> > In commit 42a2f6664e18 ("staging: vc04_services: Move global g_state to
+> > vchiq_state") the global state was moved to the vchiq_mgnt structures
+> > stored as a vchiq instance specific context. This conversion removed the
+> > helpers and instead replaced users of this helper with the assumption
+> > that the state is always available and the remote connected.
+> >=20
+> > Fix this broken assumption by re-introducing the logic that was lost
+> > during the conversion.
+> >=20
+> > Fixes: 42a2f6664e18 ("staging: vc04_services: Move global g_state to vc=
+hiq_state")
+> > Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+> > ---
+> >  .../staging/vc04_services/interface/vchiq_arm/vchiq_arm.c  | 4 ++--
+> >  .../staging/vc04_services/interface/vchiq_arm/vchiq_core.h | 5 +++++
+> >  .../staging/vc04_services/interface/vchiq_arm/vchiq_dev.c  | 7 ++++++-
+> >  3 files changed, 13 insertions(+), 3 deletions(-)
+>=20
+> You sent 2 different patches here, both with the same subject, which one
+> is correct?
 
-lore.kernel.org has the history of the list since it was started, no
-need to be subscribed to see everything that has happened :)
+What in the git ... ? (history formatted to new lines..)
 
-thanks
+kbingham@Monstersaurus:~/iob/libcamera/raspberrypi/sources/linux$ history |=
+ grep send-email
+ 2427  git send-email \
+ 	./0001-staging-vc04_services-vchiq_arm-Fix-initialisation-c.patch \
+ 	--cc-cmd ./scripts/get_maintainer.pl \
+	./0001-staging-vc04_services-vchiq_arm-Fix-initialisation-c.patch \
+	--to "Umang Jain <umang.jain@ideasonboard.com>" \
+	--to "Florian Fainelli <florian.fainelli@broadcom.com>" \
+	--to "linux-rpi-kernel@lists.infradead.org"
 
-greg k-h
+I .... uh ... somehow specified the patch twice...
+
+So both mails are the identical patch. Would you like me to send a third
+identical one as a v2? or pick either of these?
+
+in fact - never mind - v2 coming.
+
+--
+Kieran
+
+
+>=20
+> Please send a v2 so that I know what to apply, I've dropped this one
+> from my queue now, thanks.
+>=20
+> greg k-h
