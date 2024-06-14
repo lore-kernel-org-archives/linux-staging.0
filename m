@@ -1,161 +1,124 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5927186E5D
-	for <linux-staging@lists.linux.dev>; Fri, 14 Jun 2024 11:36:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 425D7195B16;
+	Fri, 14 Jun 2024 11:53:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718364972; cv=none; b=XIFg4VYntQ2uBSMtZztHP063e5CowmRumoK8cc9R1k7QQnK7qSk/u1XsqIPXb5uh9UWYfBkv7yEH23RDTp/Oq9NDmGn/CIjqM7uiSB6dqX1V09KuXZys8d8chHaaC2AYPI5XDDeDRg/inVZGke0y2xgxrfzjnc3OUu+6AbYZE7E=
+	t=1718365987; cv=none; b=qUKxWhsq1bGWYKdNbz2LtIp6yF4Xz/O12ei23fwC1duPsgPw3z4vS1Q86JGJw2loZzX+qDGdWJBwKlet9j8fAWpOnDhYWQjyfIuFY1DQtjcWQiB/NP1/yV+EfRtoSGFg4dKaylaEqxwqZMg5nrCBsRVLbYHJDtfTXKn0Y/Zn5zE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718364972; c=relaxed/simple;
-	bh=D57VW2tUjXTLhv/XmrfsMmV1i/cLw0/QIlJ1ekguQ3s=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=QEh8J7HRoVlyDfmmfV39ZuPG0Mh0NlqycLfAdM0Z0EMbLV/VipKwon9Sk4C2WWsfd/bNswY6/81rzwObhFqlEnnD7jrivjgjMK6aQvgiOKzyEZlUjlR/Pdjn5SY2wlu94A6lHql6yRjiHQ+L3WXuf59yQd/IdXtC5MZyVzJCuXI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=R28OVEM3; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1718365987; c=relaxed/simple;
+	bh=yXlthA35cfeR1MyCqMf03r9IKObV2EtyLUo+AVV/Vro=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jEdlZLCRUKNhmle0MyL/vWEY5PyzpUooQal/mT8NpycfFAdbXOGP6+9regFAGNdwhs1x6aCaUgNit/WucPsTCvvi102EH7m9r6Eez07GB/sqYsGr3QdhpjMKBQMeNOBlEqi0J3hBUIrA4JKURum9/nwzG/FsVmYNAR1I0ag8iZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=jSRi3hoV; arc=none smtp.client-ip=212.227.15.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="R28OVEM3"
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6CCFB397;
-	Fri, 14 Jun 2024 13:35:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1718364953;
-	bh=D57VW2tUjXTLhv/XmrfsMmV1i/cLw0/QIlJ1ekguQ3s=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=R28OVEM3qBRkruo0lA6efSJ2h9zoPF5nl4sscfD4VdZW2fa+hs0GuZapUSTLcRXkF
-	 /xXdu9zC89vz1FYULTc2RdsSuBLryN6j9EjvVdpwuTLQpAS5p6fgs2HA2WnROTV/LW
-	 RZxsfr/a0L3oHAIPMQOv2lQrHjRdeK27wKQ2V5YQ=
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="jSRi3hoV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
+	s=s31663417; t=1718365974; x=1718970774; i=wahrenst@gmx.net;
+	bh=yXlthA35cfeR1MyCqMf03r9IKObV2EtyLUo+AVV/Vro=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=jSRi3hoVb9fpg50ybPceUfzasqRGeUGCQScWAanhuSGs68EP3jDH3DhykHPIepyQ
+	 zUPKpDxbp/J+rvqRCAOSRJQOss9XmxRp8H39dDk0BuE6x2RVIE5viUsOv0ThxQU1b
+	 O4Z9rGijZAttQCijhjMyC1hXa4Cz9buI152d+d2cG6uRchrkQoA+xoLpMCcP6LKhe
+	 oMyMZogjFAdkh7QNXyQqAZb7tUV5h6WcbfuUklPGw5vnGClgcF0f0/17v1M1G+F/S
+	 cVOI9MjymMoqywh8Z/d+cP5Ac0AyJH9d4xN11t6/pp6IGSjtTrii6qbkB/buPBy7R
+	 AmbS+bc+iQil8/wO5A==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.127] ([37.4.248.43]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1N3KTo-1sRbjI2CNm-00xcPN; Fri, 14
+ Jun 2024 13:52:54 +0200
+Message-ID: <104f23d7-9832-4c06-92c7-d3ea84fbf186@gmx.net>
+Date: Fri, 14 Jun 2024 13:52:53 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: vc04_services: vchiq_arm: Fix initialisation
+ check
+To: Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Umang Jain <umang.jain@ideasonboard.com>,
+ linux-rpi-kernel@lists.infradead.org
+Cc: Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.org>, detule
+ <ogjoneski@gmail.com>, Dan Carpenter <dan.carpenter@linaro.org>,
+ BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE
+ <linux-arm-kernel@lists.infradead.org>,
+ STAGING SUBSYSTEM <linux-staging@lists.linux.dev>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20240613194150.2915202-1-kieran.bingham@ideasonboard.com>
+ <20240613194150.2915202-2-kieran.bingham@ideasonboard.com>
+ <082d9df0-0947-4452-a3fc-87eab2019e01@gmx.net>
+ <171836496531.2248009.11650291484570726735@ping.linuxembedded.co.uk>
+Content-Language: en-US
+From: Stefan Wahren <wahrenst@gmx.net>
+In-Reply-To: <171836496531.2248009.11650291484570726735@ping.linuxembedded.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <082d9df0-0947-4452-a3fc-87eab2019e01@gmx.net>
-References: <20240613194150.2915202-1-kieran.bingham@ideasonboard.com> <20240613194150.2915202-2-kieran.bingham@ideasonboard.com> <082d9df0-0947-4452-a3fc-87eab2019e01@gmx.net>
-Subject: Re: [PATCH] staging: vc04_services: vchiq_arm: Fix initialisation check
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Dave Stevenson <dave.stevenson@raspberrypi.org>, detule <ogjoneski@gmail.com>, Dan Carpenter <dan.carpenter@linaro.org>, moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE <linux-arm-kernel@lists.infradead.org>, open list:STAGING SUBSYSTEM <linux-staging@lists.linux.dev>, open list <linux-kernel@vger.kernel.org>;
-To: Florian Fainelli <florian.fainelli@broadcom.com>, Stefan Wahren <wahrenst@gmx.net>, Umang Jain <umang.jain@ideasonboard.com>, linux-rpi-kernel@lists.infradead.org
-Date: Fri, 14 Jun 2024 12:36:05 +0100
-Message-ID: <171836496531.2248009.11650291484570726735@ping.linuxembedded.co.uk>
-User-Agent: alot/0.10
+X-Provags-ID: V03:K1:IVK4kVk1lkaB2alF6g8ChP2vH4UwkZn8RCqNsu2RrEnfQ0h8pe0
+ max8l1w/pnF0r8yIx4wki094uvcbytMdLSXwBH2TegYE/V0Fz+C2YxWw+/vWp/pXHxiSP+/
+ QHS0L5YUA8XoL2mG98ZGIb2XMDXFC1Ee5x+36USWU/5GTC2pC5HX62AltQ3iirNaVgwiuPU
+ EJx+CE9LbCZotQYhWTJ+A==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:IXSy47jmsJA=;XxNo+wybPSb96wXOawF84Ikkh0p
+ Rxq85Y5W1LmlQ75ZCF9PeU1SS2wWfKQMNXGf42CYSTlhVWdvOLCJbv2fb3YP3EY4He+OycHuy
+ lOM8LIF/YpXDy3WjGtmx03wFUMPeas9OK7kx+g6SUVNlG7tHTRmvrxuXXaMz/HRwgd8NTfGH3
+ bOfem205pxAzu7yigz32OckVyvS7B3Trw7pkLoIN/152O6BoqcyQB5dPMyFtwM9Q/gZ0i3Rqo
+ yCVBsF87VeBHrFJfzqn+JTncXlbXvHZ1/i7ypDibf6o6kJ+GdLUtbiaW7XbXcqt64RIA//xFC
+ y/jJ8nQb0ppv+3qDpy5zwh8RPdQ8nO+ZfGO3Y/15VMBqGJ1sgiWQXImyqcC2UQ9SOfbeKyIUr
+ vW3bW5oqXdOe2N+GVd4qzcRAFMqw2OeXiehLmD9ErcWr799OriQsdhpHO9LhN/9laFD2jb1ZI
+ bhe1+S5kUUvs3xYOthYFSHw6OTvdHZ9vTHt58hMZ0Vq1OBW/J6baViuL1TcqHo4sTzRrxsS+x
+ k9EtI5800/fxANiC1UAi8KocV0oeN54XtoevGFKkriB1nbB0VCikWr88rXeZDbSeu1FJKq+78
+ b0KuD4ozxrMz02vqhiXnTjH08kdh1gykQSfLlR/b3IZi3xk955MHI2zqZId2labtlCKK9YEKR
+ /nOecab2yKKLHBRj0d9BC65u5BdVU9j+4G8DRoaQG1J6PpsQ4jKx+qdOCB5R4ldMlWQmloLSr
+ SRnvqX8rhCzRF3zYQqaEWX/4vWCKE6SMCXpmL4/numP8be0dQwYpdGnpUm0Wwxsb6FJIE58WU
+ x45/5ZQVFnDiSFgl4NQmpYGy2gHdmP1iuCfEGQ4A3x8ts=
 
-Hi Stefan,
+Hi Kieran,
 
-Sorry, indeed I completely missed this mail.
-
-Quoting Stefan Wahren (2024-06-13 21:01:42)
-> Hi Kieran,
->=20
-> Am 13.06.24 um 21:41 schrieb Kieran Bingham:
-> > The vchiq_state used to be obtained through an accessor
-> > which would validate that the VCHIQ had been initialised
-> > correctly with the remote.
-> >
-> > In commit 42a2f6664e18 ("staging: vc04_services: Move global g_state to
-> > vchiq_state") the global state was moved to the vchiq_mgnt structures
-> > stored as a vchiq instance specific context. This conversion removed the
-> > helpers and instead replaced users of this helper with the assumption
-> > that the state is always available and the remote connected.
-> >
-> > Fix this broken assumption by re-introducing the logic that was lost
-> > during the conversion.
->=20
-> thank you for sending this patch. Maybe it's worth to mention that this
-> patch also drop some unnecessary NULL checks of state.
-
-I don't understand this comment. Nothing is dropped is it?
-
-The newly added vchiq_remote_initialised() is itself a null-check too!
-
-> > Fixes: 42a2f6664e18 ("staging: vc04_services: Move global g_state to vc=
-hiq_state")
-> > Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-> > ---
-> >   .../staging/vc04_services/interface/vchiq_arm/vchiq_arm.c  | 4 ++--
-> >   .../staging/vc04_services/interface/vchiq_arm/vchiq_core.h | 5 +++++
-> >   .../staging/vc04_services/interface/vchiq_arm/vchiq_dev.c  | 7 ++++++-
-> >   3 files changed, 13 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_ar=
-m.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> > index 54467be8c371..67d853f5f2a0 100644
-> > --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> > +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> > @@ -804,7 +804,7 @@ int vchiq_initialise(struct vchiq_state *state, str=
-uct vchiq_instance **instance
-> >        * block forever.
-> >        */
-> >       for (i =3D 0; i < VCHIQ_INIT_RETRIES; i++) {
-> > -             if (state)
-> > +             if (vchiq_remote_initialised(state))
-> >                       break;
-> >               usleep_range(500, 600);
-> >       }
-> > @@ -1299,7 +1299,7 @@ void vchiq_dump_platform_instances(struct vchiq_s=
-tate *state, struct seq_file *f
-> >   {
-> >       int i;
-> >
-> > -     if (!state)
-> > +     if (!vchiq_remote_initialised(state))
-> >               return;
-> >
-> >       /*
-> > diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_co=
-re.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-> > index 8af209e34fb2..382ec08f6a14 100644
-> > --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-> > +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-> > @@ -413,6 +413,11 @@ struct vchiq_state {
-> >       struct opaque_platform_state *platform_state;
-> >   };
-> >
-> > +static inline bool vchiq_remote_initialised(const struct vchiq_state *=
-state)
-> > +{
-> > +     return state->remote && state->remote->initialised;
-> > +}
-> > +
-> >   struct bulk_waiter {
-> >       struct vchiq_bulk *bulk;
-> >       struct completion event;
-> > diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_de=
-v.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
-> > index 3c63347d2d08..8c4830df1070 100644
-> > --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
-> > +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
-> > @@ -1170,6 +1170,11 @@ static int vchiq_open(struct inode *inode, struc=
-t file *file)
-> >
-> >       dev_dbg(state->dev, "arm: vchiq open\n");
-> >
-> > +     if (!vchiq_remote_initialised(state)) {
-> > +             dev_err(state->dev, "arm: vchiq has no connection to Vide=
-oCore\n");
-> Can you please downgrade the log level to dev_dbg, because vchiq_open is
-> called from userspace, so we can prevent log spamming?
-
-Sure.
-
-> > +             return -ENOTCONN;
-> > +     }
-> > +
-> >       instance =3D kzalloc(sizeof(*instance), GFP_KERNEL);
-> >       if (!instance)
-> >               return -ENOMEM;
-> > @@ -1200,7 +1205,7 @@ static int vchiq_release(struct inode *inode, str=
-uct file *file)
-> >
-> >       dev_dbg(state->dev, "arm: instance=3D%p\n", instance);
-> >
-> > -     if (!state) {
-> > +     if (!vchiq_remote_initialised(state)) {
-> >               ret =3D -EPERM;
-> >               goto out;
-> >       }
+Am 14.06.24 um 13:36 schrieb Kieran Bingham:
+> Hi Stefan,
 >
+> Sorry, indeed I completely missed this mail.
+>
+> Quoting Stefan Wahren (2024-06-13 21:01:42)
+>> Hi Kieran,
+>>
+>> Am 13.06.24 um 21:41 schrieb Kieran Bingham:
+>>> The vchiq_state used to be obtained through an accessor
+>>> which would validate that the VCHIQ had been initialised
+>>> correctly with the remote.
+>>>
+>>> In commit 42a2f6664e18 ("staging: vc04_services: Move global g_state t=
+o
+>>> vchiq_state") the global state was moved to the vchiq_mgnt structures
+>>> stored as a vchiq instance specific context. This conversion removed t=
+he
+>>> helpers and instead replaced users of this helper with the assumption
+>>> that the state is always available and the remote connected.
+>>>
+>>> Fix this broken assumption by re-introducing the logic that was lost
+>>> during the conversion.
+>> thank you for sending this patch. Maybe it's worth to mention that this
+>> patch also drop some unnecessary NULL checks of state.
+> I don't understand this comment. Nothing is dropped is it?
+>
+> The newly added vchiq_remote_initialised() is itself a null-check too!
+the vchiq_remote_initialised() only checks the member remote, but not
+state itself. From my point of view the null-check for state is
+unnecessary, because most of the code already assumed that state is not
+null like e.g. in vchiq_open().
+
