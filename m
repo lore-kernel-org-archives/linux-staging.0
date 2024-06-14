@@ -1,144 +1,99 @@
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A59DB1946A0
-	for <linux-staging@lists.linux.dev>; Fri, 14 Jun 2024 10:43:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58780194C67
+	for <linux-staging@lists.linux.dev>; Fri, 14 Jun 2024 10:45:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718361838; cv=none; b=fHA3s9HA57pQaQiPJT1EvtfmwEwfbMt/8pDVBzI2VDj3GtxvxXycEMOGN9mSZEgE9GdIQZ2yoGmK2SbS5mUum+3DPB3LECTpoZCFJP38kveCzQsi+i0bfUrQ62+1QNu11a73aH2V1BE7qwW7Btb0tL2W0Oc8jjg9Rk7318m4p1Q=
+	t=1718361935; cv=none; b=NRtazN/wLRizwr9AogHg1lTv518+19HSFtwiA+sCTQHdPT1OqnAKNAcNKGq8FnC4fTN/ipRloqz8kCHUx3ccioG+c+xmTFYj+gPxl36g7KHnJKmQ3JT1211qj3/YoD6pGBzIOTkqHjvxXK93YQClSO2CS1nz+7/n1GglSUiH96g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718361838; c=relaxed/simple;
-	bh=7PuP78ru6jiBfVBrYl1dVfoJwyFY0gSotJgrsbXkFAI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=dvSSNM5Bu5sq5uDwh4w5ZFnhX+tdWunZ3X6+/39oC2fPPTZoA/nQoKa7JWLdB3v4RNC5XC61m6jOnLJ8NFngeJyAcSFeKRNsvyuP33N+97+Wxt50rG+WKlpTPmNbebYZ68BPb90rV/Q20ybHgX3tinEps6vIs8V8p1qk4cy8SVU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Mm+xjw2A; arc=none smtp.client-ip=213.167.242.64
+	s=arc-20240116; t=1718361935; c=relaxed/simple;
+	bh=7lzRe+1E0JegteQZ9jcjULYUBZjEYPgjtxe0zFeptVU=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=AYkj2FjrEW/dZmuAYwwWTH6fXDOt2OV1JHwK+PK5CzEWS/JzV0STZXlhkt4WHmUGBGhpAIBYV5MddMNPd48LdyFUYA8U2WiPmXEs7x2j9kSaX0aEQEFkU7gjnxTEN8e73fpjFWkdqlLQrlFc12gR38rmOi3zUSuNDyQtCXPwfxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=LdJOG65Y; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Mm+xjw2A"
-Received: from Monstersaurus.local (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 92348B53;
-	Fri, 14 Jun 2024 12:43:39 +0200 (CEST)
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="LdJOG65Y"
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9BEDCB53;
+	Fri, 14 Jun 2024 12:45:18 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1718361820;
-	bh=7PuP78ru6jiBfVBrYl1dVfoJwyFY0gSotJgrsbXkFAI=;
-	h=From:To:Cc:Subject:Date:From;
-	b=Mm+xjw2ApRB54+5k532l1+y03V7JRK0Go9F/0TpWBjPwdXuYQuxMr+JvElVoPlwMp
-	 /y2T+QWmfil/MkJzh4tE+iNITBXadyAPbueDeq6CAcuMuJ41URZNrjfOs2FiCAqvOs
-	 n/y3YM3W4K5cBqTgiN1PyG7syjC6T2qhC/35pp5g=
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-To: Umang Jain <umang.jain@ideasonboard.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	linux-rpi-kernel@lists.infradead.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Stefan Wahren <wahrenst@gmx.net>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.org>,
-	detule <ogjoneski@gmail.com>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	linux-arm-kernel@lists.infradead.org (moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE),
-	linux-staging@lists.linux.dev (open list:STAGING SUBSYSTEM),
-	linux-kernel@vger.kernel.org (open list)
-Subject: [v2 PATCH] staging: vc04_services: vchiq_arm: Fix initialisation check
-Date: Fri, 14 Jun 2024 11:43:35 +0100
-Message-Id: <20240614104339.3858830-1-kieran.bingham@ideasonboard.com>
-X-Mailer: git-send-email 2.34.1
+	s=mail; t=1718361918;
+	bh=7lzRe+1E0JegteQZ9jcjULYUBZjEYPgjtxe0zFeptVU=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=LdJOG65Y0oSetUsi2iJD9sdscWmjuaXvkvi/XZ3lrLEBF8cWLpF6xeF5fGOgLtmBy
+	 xgc/EadHfc8StTjWWPcZRIjBEvYCIrWWPWC8W85IlsEaQcz5HIsVGXSiitJ0Wu4jY+
+	 8Dcqiqw6sGbjrKmfUebvZNqIS+Sx7ATFT6H8+3GU=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <a440cbf7-c6d5-4286-a69f-05e668522931@moroto.mountain>
+References: <20240613194150.2915202-1-kieran.bingham@ideasonboard.com> <a440cbf7-c6d5-4286-a69f-05e668522931@moroto.mountain>
+Subject: Re: [PATCH] staging: vc04_services: vchiq_arm: Fix initialisation check
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: Umang Jain <umang.jain@ideasonboard.com>, Florian Fainelli <florian.fainelli@broadcom.com>, linux-rpi-kernel@lists.infradead.org, Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Stefan Wahren <wahrenst@gmx.net>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Dave Stevenson <dave.stevenson@raspberrypi.org>, detule <ogjoneski@gmail.com>, moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE <linux-arm-kernel@lists.infradead.org>, open list:STAGING SUBSYSTEM <linux-staging@lists.linux.dev>, open list <linux-kernel@vger.kernel.org>, Julia Lawall <Julia.Lawall@inria.fr>;
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Date: Fri, 14 Jun 2024 11:45:30 +0100
+Message-ID: <171836193023.2248009.1498291832866754294@ping.linuxembedded.co.uk>
+User-Agent: alot/0.10
 
-The vchiq_state used to be obtained through an accessor
-which would validate that the VCHIQ had been initialised
-correctly with the remote.
+Quoting Dan Carpenter (2024-06-13 20:58:40)
+> On Thu, Jun 13, 2024 at 08:41:45PM +0100, Kieran Bingham wrote:
+> > ---
+> >  .../staging/vc04_services/interface/vchiq_arm/vchiq_arm.c  | 4 ++--
+> >  .../staging/vc04_services/interface/vchiq_arm/vchiq_core.h | 5 +++++
+> >  .../staging/vc04_services/interface/vchiq_arm/vchiq_dev.c  | 7 ++++++-
+> >  3 files changed, 13 insertions(+), 3 deletions(-)
+> >=20
+> > diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_ar=
+m.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> > index 54467be8c371..67d853f5f2a0 100644
+> > --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> > +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> > @@ -804,7 +804,7 @@ int vchiq_initialise(struct vchiq_state *state, str=
+uct vchiq_instance **instance
+> >        * block forever.
+> >        */
+> >       for (i =3D 0; i < VCHIQ_INIT_RETRIES; i++) {
+> > -             if (state)
+> > +             if (vchiq_remote_initialised(state))
+> >                       break;
+> >               usleep_range(500, 600);
+> >       }
+>=20
+> :/  In the original code, this would either break on the first iteration
+> or fail.  The diff looked like this:
+>=20
+>         for (i =3D 0; i < VCHIQ_INIT_RETRIES; i++) {
+> -               state =3D vchiq_get_state();
+>                 if (state)
+>                         break;
+>=20
+> I feel bad for not spotting this.  A static checker which looked at
 
-In commit 42a2f6664e18 ("staging: vc04_services: Move global g_state to
-vchiq_state") the global state was moved to the vchiq_mgnt structures
-stored as a vchiq instance specific context. This conversion removed the
-helpers and instead replaced users of this helper with the assumption
-that the state is always available and the remote connected.
+Definitely don't feel bad - I'm pretty sure I looked through the patch
+on it's way through too and missed it then!
 
-Fix this broken assumption by re-introducing the logic that was lost
-during the conversion.
+I only spotted this once I went deeper and was doing more rework, so it
+suddenly stood out with more context.
 
-Fixes: 42a2f6664e18 ("staging: vc04_services: Move global g_state to vchiq_state")
-Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
----
-v2:
- - No change, just resend
+Unfortunately - it's one of the pains of limited context in diffs in a
+mail client I think.
 
- .../staging/vc04_services/interface/vchiq_arm/vchiq_arm.c  | 4 ++--
- .../staging/vc04_services/interface/vchiq_arm/vchiq_core.h | 5 +++++
- .../staging/vc04_services/interface/vchiq_arm/vchiq_dev.c  | 7 ++++++-
- 3 files changed, 13 insertions(+), 3 deletions(-)
+--
+Kieran
 
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-index 54467be8c371..67d853f5f2a0 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-@@ -804,7 +804,7 @@ int vchiq_initialise(struct vchiq_state *state, struct vchiq_instance **instance
- 	 * block forever.
- 	 */
- 	for (i = 0; i < VCHIQ_INIT_RETRIES; i++) {
--		if (state)
-+		if (vchiq_remote_initialised(state))
- 			break;
- 		usleep_range(500, 600);
- 	}
-@@ -1299,7 +1299,7 @@ void vchiq_dump_platform_instances(struct vchiq_state *state, struct seq_file *f
- {
- 	int i;
- 
--	if (!state)
-+	if (!vchiq_remote_initialised(state))
- 		return;
- 
- 	/*
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-index 8af209e34fb2..382ec08f6a14 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-@@ -413,6 +413,11 @@ struct vchiq_state {
- 	struct opaque_platform_state *platform_state;
- };
- 
-+static inline bool vchiq_remote_initialised(const struct vchiq_state *state)
-+{
-+	return state->remote && state->remote->initialised;
-+}
-+
- struct bulk_waiter {
- 	struct vchiq_bulk *bulk;
- 	struct completion event;
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
-index 3c63347d2d08..8c4830df1070 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
-@@ -1170,6 +1170,11 @@ static int vchiq_open(struct inode *inode, struct file *file)
- 
- 	dev_dbg(state->dev, "arm: vchiq open\n");
- 
-+	if (!vchiq_remote_initialised(state)) {
-+		dev_err(state->dev, "arm: vchiq has no connection to VideoCore\n");
-+		return -ENOTCONN;
-+	}
-+
- 	instance = kzalloc(sizeof(*instance), GFP_KERNEL);
- 	if (!instance)
- 		return -ENOMEM;
-@@ -1200,7 +1205,7 @@ static int vchiq_release(struct inode *inode, struct file *file)
- 
- 	dev_dbg(state->dev, "arm: instance=%p\n", instance);
- 
--	if (!state) {
-+	if (!vchiq_remote_initialised(state)) {
- 		ret = -EPERM;
- 		goto out;
- 	}
--- 
-2.34.1
 
+> diffs could have made this work, but all of our tools look at a momement
+> in time instead of looking at the change over time.
+>=20
+> regards,
+> dan carpenter
+>
