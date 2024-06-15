@@ -1,173 +1,129 @@
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com [95.215.58.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B41C20326
-	for <linux-staging@lists.linux.dev>; Sat, 15 Jun 2024 08:26:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.28.215.223
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0211D1BC59
+	for <linux-staging@lists.linux.dev>; Sat, 15 Jun 2024 08:51:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718439962; cv=none; b=oFHTfg7p5/ha64qRpQS7Zokt6iRT3ZF20QP3XxkpP2GAGgKJKeEbFQI/LwoTrR7LfjpQOYcCq0lesLtdH5VVHRVH2CcZOXH8cpiDQhr2VdCIpXjodA1fOKIoZJo0M6tVxtQmVrKO1iVo7Mhi/H28Jy0vE2jmBb9cYqUZCLwqpPE=
+	t=1718441514; cv=none; b=nwWwUfmparUK++38E63K2806N0h2k7sL+ZARVcmgfzPV+3O0aMnIZjQTvaeWox6oODRFjGIj6RYKD3AKINtFZd14bqUTYd+YoskCUe5xXLrybEQF+dOZLllR5iRyXfrL5I2Y9WCLH+xn/o7UZpv8jAJakUfNahkFrBr2FDuvTbo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718439962; c=relaxed/simple;
-	bh=RPVnhJfAcbOnu/iAuVsxIQIuS1yChCUbf4uGbhv50aI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SsgNSPA+p0FarXe0G9vdIttsHFqWf4qnRrRaLoHKOQ7Re9O+19hZVhq3XvvnS0FTAwEJpAuxH3A/3xAUhvX1OCXvVL5FUw8Qgy3HtFz/vpR1ewZIw3djEdX1dHAo1w1mO36hd6EnnlyY1mcQOZFNYt8QvmKxuN4CaA81aKk3lfU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=x4pKHQ8x; arc=none smtp.client-ip=149.28.215.223
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
+	s=arc-20240116; t=1718441514; c=relaxed/simple;
+	bh=2uhNmFDzmca77n8/NYMgx5PLYKQsfE2F4rpsDHEStzY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fkafxXoLnepCJw3X1HQZx55ws4hzmsQU44gUz9CcqT46erqpbcZ6GI8sUpOz1wajhzxGmSZ6z+Xayg/s2odqJQfNUo4F10u4H1WWuXJMuIk8FUsi5yrXsj410Syius1FE94xZdU/rfNcnkH0Z+8YyZ7q8xrwqzLVVh62ho6eIaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org; spf=pass smtp.mailfrom=cknow.org; dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b=QeDy1YrO; arc=none smtp.client-ip=95.215.58.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cknow.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="x4pKHQ8x"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
- h=Content-Transfer-Encoding: Content-Type: In-Reply-To: From: References:
- Cc: To: Subject: MIME-Version: Date: Message-ID; q=dns/txt;
- s=fe-e1b5cab7be; t=1718439934;
- bh=EW7jvkwNl5KPdKEMQlw7NNrj1stNAcl0D/1kkAtbX9s=;
- b=x4pKHQ8xY4jG2m4ai/rW5ZXbsDn3QBmtALJi+WiuR4Fz4Weyu0kuskrVNAsce9CQ4pgLgcBmp
- JnXriXcuP18dwwfs2e51uanLqxEFSxN0U26zVBFTa6tY5BIIu5BhJnU2CbhuRr2HHwIOnFrwR28
- ZJL3Cm/zmz7mraYUKnVelMcRnC3iJAGPXtfBTasiPYn3ntsqo8CSLDukQ+rw+j0C++dF4NDPV9w
- eK5t9JKqMkx1P7rw36uqM8YNKgZ6fYadat6ssaWIM4F8bQrsxgnaC/eU4O3M0Rc3GgR6mjmYTnG
- 1pj/NnJbD5j8U3iCSi/05NhRobCfDSHDfDhe9Zt0knvA==
-Message-ID: <944c4296-8dd2-4ffd-b430-1839ff3a3ed2@kwiboo.se>
-Date: Sat, 15 Jun 2024 10:25:27 +0200
+	dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b="QeDy1YrO"
+X-Envelope-To: linux-kernel@vger.kernel.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
+	t=1718441510;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FzCprlv9GxaDwbOC21n35gObXPY/amCP46gcmpDxZd4=;
+	b=QeDy1YrOxKKjkHJdePkDCle/LiRFoccvtCuVRnqHasyfAD1jXs8sM0xR/XLODlq+yHXE7J
+	QoodMcP8WCQEbHdDeq1ci6I8HIHG4e9/raQle5ZGipBK2gouPgARL67W26kt8f9tTvNMv6
+	HBuQOQAsk+jD0jB+kXUysP8AqskjdOU+iS7pHsmEjDkdEIR4qMTWc4/rTfbzyJ+wHz+jZS
+	f4jFFiP9JhsRpL/LpvLMPoTkG08Eb4/nmEvvIom1l/797aDmrjBhZKVgQKxedovcIo9yFw
+	ynlOh5JDc9Q9Xpd/JsCJ1Y+RDmZCPyd93WkHdJF6+1AHs6CzRA5n28v3mZgaOw==
+X-Envelope-To: detlev.casanova@collabora.com
+X-Envelope-To: mchehab@kernel.org
+X-Envelope-To: robh@kernel.org
+X-Envelope-To: krzk+dt@kernel.org
+X-Envelope-To: conor+dt@kernel.org
+X-Envelope-To: heiko@sntech.de
+X-Envelope-To: gregkh@linuxfoundation.org
+X-Envelope-To: sebastian.reichel@collabora.com
+X-Envelope-To: dsimic@manjaro.org
+X-Envelope-To: alchark@gmail.com
+X-Envelope-To: cristian.ciocaltea@collabora.com
+X-Envelope-To: andy.yan@rock-chips.com
+X-Envelope-To: linux-media@vger.kernel.org
+X-Envelope-To: devicetree@vger.kernel.org
+X-Envelope-To: linux-arm-kernel@lists.infradead.org
+X-Envelope-To: linux-rockchip@lists.infradead.org
+X-Envelope-To: linux-staging@lists.linux.dev
+X-Envelope-To: detlev.casanova@collabora.com
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Diederik de Haas <didi.debian@cknow.org>
+To: linux-kernel@vger.kernel.org,
+ Detlev Casanova <detlev.casanova@collabora.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Heiko Stuebner <heiko@sntech.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Dragan Simic <dsimic@manjaro.org>, Alexey Charkov <alchark@gmail.com>,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+ Andy Yan <andy.yan@rock-chips.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+ Detlev Casanova <detlev.casanova@collabora.com>
+Subject: Re: [PATCH 1/3] media: rockchip: Introduce the rkvdec2 driver
+Date: Sat, 15 Jun 2024 10:51:38 +0200
+Message-ID: <3333233.eAoTOS8U2s@bagend>
+Organization: Connecting Knowledge
+In-Reply-To: <20240615015734.1612108-2-detlev.casanova@collabora.com>
+References:
+ <20240615015734.1612108-1-detlev.casanova@collabora.com>
+ <20240615015734.1612108-2-detlev.casanova@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] arm64: dts: rockchip: Add rkvdec2 Video Decoder on
- rk3588(s)
-To: Detlev Casanova <detlev.casanova@collabora.com>
-Cc: linux-kernel@vger.kernel.org, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner
- <heiko@sntech.de>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- Sebastian Reichel <sebastian.reichel@collabora.com>, Dragan Simic
- <dsimic@manjaro.org>, Alexey Charkov <alchark@gmail.com>, Cristian
- Ciocaltea <cristian.ciocaltea@collabora.com>, Diederik de Haas
- <didi.debian@cknow.org>, Andy Yan <andy.yan@rock-chips.com>,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-staging@lists.linux.dev
-References: <20240615015734.1612108-1-detlev.casanova@collabora.com>
- <20240615015734.1612108-4-detlev.casanova@collabora.com>
-Content-Language: en-US
-From: Jonas Karlman <jonas@kwiboo.se>
-In-Reply-To: <20240615015734.1612108-4-detlev.casanova@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Report-Abuse-To: abuse@forwardemail.net
-X-Report-Abuse: abuse@forwardemail.net
-X-Complaints-To: abuse@forwardemail.net
-X-ForwardEmail-Version: 0.4.40
-X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
- 149.28.215.223
-X-ForwardEmail-ID: 666d4ffdb23880544d1f1533
+Content-Type: multipart/signed; boundary="nextPart8264659.XZnPd2NMnp";
+ micalg="pgp-sha256"; protocol="application/pgp-signature"
+X-Migadu-Flow: FLOW_OUT
 
-Hi Detlev,
+--nextPart8264659.XZnPd2NMnp
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"; protected-headers="v1"
+From: Diederik de Haas <didi.debian@cknow.org>
+Subject: Re: [PATCH 1/3] media: rockchip: Introduce the rkvdec2 driver
+Date: Sat, 15 Jun 2024 10:51:38 +0200
+Message-ID: <3333233.eAoTOS8U2s@bagend>
+Organization: Connecting Knowledge
+In-Reply-To: <20240615015734.1612108-2-detlev.casanova@collabora.com>
+MIME-Version: 1.0
 
-On 2024-06-15 03:56, Detlev Casanova wrote:
-> Add the rkvdec2 Video Decoder to the RK3588s devicetree.
-> 
-> Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
-> ---
->  .../boot/dts/rockchip/rk3588-rock-5b.dts      |  4 ++++
->  .../boot/dts/rockchip/rk3588s-orangepi-5.dts  |  4 ++++
->  arch/arm64/boot/dts/rockchip/rk3588s.dtsi     | 19 +++++++++++++++++++
->  3 files changed, 27 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
-> index c551b676860c..965322c24a65 100644
-> --- a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
-> +++ b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
-> @@ -503,6 +503,10 @@ &pwm1 {
->  	status = "okay";
->  };
->  
-> +&rkvdec0 {
-> +	status = "okay";
-> +};
+On Saturday, 15 June 2024 03:56:27 CEST Detlev Casanova wrote:
+> This driver supports the second generation of the Rockchip Video
+> decoder, also known as vdpu34x.
+> It is currently only used on the RK3588(s) SoC.
+> ...
+> The core supports H264, HEVC, VP9 and AVS2 decoding but this driver
+> currently only supports H264.
+> ...
+> The decision to make a different driver is mainly because rkvdec2 has
+> more features and can work with multiple cores.
 
-Enable of rkvdec0 should probably be split out from the patch that adds
-the rkvdec0 node to soc dtsi.
+https://wiki.pine64.org/wiki/Quartz64_Development#Upstreaming_Status uses both 
+the rkvdec2 and vdpu346 words and I *assumed* that meant that the Quartz64 
+Model A and B would use rkvdec2. The Q64-A and -B are rk3566 devices though.
 
-Also why is rkvdec0 only enabled on rock-5b and orangepi-5?
+So is this just an (unfortunate) use of the same words or is that wiki page 
+just wrong ... or better yet: does rkvdec2 support RK356x too?
 
-> +
->  &saradc {
->  	vref-supply = <&avcc_1v8_s0>;
->  	status = "okay";
-> diff --git a/arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dts b/arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dts
-> index feea6b20a6bf..2828fb4c182a 100644
-> --- a/arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dts
-> +++ b/arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dts
-> @@ -321,6 +321,10 @@ typec5v_pwren: typec5v-pwren {
->  	};
->  };
->  
-> +&rkvdec0 {
-> +	status = "okay";
-> +};
-> +
->  &saradc {
->  	vref-supply = <&avcc_1v8_s0>;
->  	status = "okay";
-> diff --git a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-> index 0fecbf46e127..09672636dcea 100644
-> --- a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-> +++ b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-> @@ -3034,6 +3034,9 @@ system_sram2: sram@ff001000 {
->  		ranges = <0x0 0x0 0xff001000 0xef000>;
->  		#address-cells = <1>;
->  		#size-cells = <1>;
+Cheers,
+  Diederik
+--nextPart8264659.XZnPd2NMnp
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
 
-Blank line is missing.
+-----BEGIN PGP SIGNATURE-----
 
-> +		rkvdec0_sram: rkvdec-sram@0 {
-> +			reg = <0x0 0x78000>;
-> +		};
->  	};
->  
->  	pinctrl: pinctrl {
-> @@ -3103,6 +3106,22 @@ gpio4: gpio@fec50000 {
->  			#interrupt-cells = <2>;
->  		};
->  	};
-> +
-> +	rkvdec0: video-decoder@fdc38100 {
-> +		compatible = "rockchip,rk3588-vdec2";
-> +		reg = <0x0 0xfdc38100 0x0 0x500>;
-> +		interrupts = <GIC_SPI 95 IRQ_TYPE_LEVEL_HIGH 0>;
-> +		clocks = <&cru ACLK_RKVDEC0>, <&cru HCLK_RKVDEC0>, <&cru CLK_RKVDEC0_CORE>,
-> +			 <&cru CLK_RKVDEC0_CA>, <&cru CLK_RKVDEC0_HEVC_CA>;
-> +		clock-names = "axi", "ahb", "core",
-> +			      "cabac", "hevc_cabac";
-> +		assigned-clocks = <&cru ACLK_RKVDEC0>, <&cru CLK_RKVDEC0_CORE>,
-> +				  <&cru CLK_RKVDEC0_CA>, <&cru CLK_RKVDEC0_HEVC_CA>;
-> +		assigned-clock-rates = <800000000>, <600000000>,
-> +				       <600000000>, <1000000000>;
-> +		power-domains = <&power RK3588_PD_RKVDEC0>;
+iHUEABYIAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCZm1WGgAKCRDXblvOeH7b
+brgQAQD+T08UA2/wwhvAFvEN6YbiMOcTnBEhemxyxRye7DTggwD/YEcUSIQQ/RPc
+NSTPgX06r8mCGK7SuZ4YyKRWnCMpWgQ=
+=M6ol
+-----END PGP SIGNATURE-----
 
-iommus and resets should probably be added.
+--nextPart8264659.XZnPd2NMnp--
 
-> +		status = "disabled";
-> +	};
 
-The iommu node for rkvdec0_mmu seem to be missing, is it not required to
-be able to use memory >4GiB as decoding buffers?
-
-I would also consider adding the rkvdec1 node(s), if I am understanding
-correctly they can both be used in a cluster or completely independent.
-
-Also on RK3582/RK3583 one (or both) of the decoder cores may be marked
-as bad, yet the remaining one can still be used independently. The idea
-will be that bootloader fixup the DT and disabled/delete-node the bad
-core(s).
-
-Regards,
-Jonas
-
->  };
->  
->  #include "rk3588s-pinctrl.dtsi"
 
