@@ -1,130 +1,128 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 442635C603
-	for <linux-staging@lists.linux.dev>; Sat, 15 Jun 2024 18:05:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70A9E4C622
+	for <linux-staging@lists.linux.dev>; Sat, 15 Jun 2024 19:45:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718474717; cv=none; b=d4IXpIqJWs5jrPb31VkdxILt4sNjRQZCWKAt1cmxtItfH3rux6VTiL6tc+zPvu3OH7WvNU/1xuuK3gfjzZbpFR5AauZ81Y67PQ7vA3JLyAlOvbNRlxF/4krk0Pa2krIuV2ypvEhMKNa2rPGDhSofUWB8PtsjQSa0tEQXLt2tsFQ=
+	t=1718480711; cv=none; b=pifN1vJzjhLXtgh9lJV38bdiU1MxaBA4rdBVi4zOHsU80AZq2NO2EqEPSZiXcFUJ2FjWew/BsyxAwxm2K6//RmzwenwfIBjAN5tNklGyYXcNYl1+pqIKh0Ggo67Aw7RWwgupfXa90xr9TR2RTkwUNCIlPZAjQMVHyDGFxgPzmJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718474717; c=relaxed/simple;
-	bh=AerkokwDAt1HXVNRUDovu2QK0YFTI7Ng3dmM04onMvI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bxjObQ/G+SdkOgNaruu/GyROqhpH5Lt9HtI5BgJZ5pZ1yKJ5AouIQmCHFdgp1CnBaqH/2e9ASlfvmDxcJ3mzJC0zspIuEz238bnh6Kg4W2m5tIp/UJ/GMX0VL17wkaMkAHTRazr2/xWdIL3q/yZxORpRojl4nFuKmo4QI+NVExg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=FdqXNdvX; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=GNkJ8nkR; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1718480711; c=relaxed/simple;
+	bh=6ge6kBsic43LaRUhVK+Qy4wNotbyA3ATob2zdjA5ig8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=oP7wY4hBEyFCINgLYtEefuMojLDZgZnz2DMlMDN9Y8n34kEl6dehlGMEunETvUR0xrjjE2TJYYHROK/7GjvTQDjGg5whEkIDu7dqxCNnMCWmcCmhZolI38JrWVbpfk92ztZ0j0f8YGwTUcUK1sO09pnFM3XpUi0nqsc4+Ntvo+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=KfWBE8JV; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="FdqXNdvX";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="GNkJ8nkR"
-Date: Sat, 15 Jun 2024 20:05:01 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1718474708;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WcfY5CiTtCeV7ulN7IcXp0SqaGIOpdKgvfAdsg4ZkT4=;
-	b=FdqXNdvXEGSC8BJ4edUGmw/eo633+o071Z5spOJhCYOhPLhPqz5m96nXoQ1+TYw/GU2hd1
-	qOLj+MgQct1hHJ8JGEcUgPVcIQibG3/1ivha2eaqTWPvcTItAgyl67XjjGKUWTBew8V8I9
-	8Q9qijqpukMTaiGati8XeLwcHnM3chE+Xhi3ZMAeh01gKPqxWd9McSFiK0x/+kuPMri0Dy
-	L0hMvmLp8x/Pl4v6EQKfuOc0FrhhB8pzawkt/+F8xFwT+enjEN7ZugUbb0JBhvCloYPpvf
-	mdnjqHQlLAx6PTPEAdPcJB+3IWFREYyDcSdyGcQWweySwfoU5B3kfT5Y981oag==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1718474708;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WcfY5CiTtCeV7ulN7IcXp0SqaGIOpdKgvfAdsg4ZkT4=;
-	b=GNkJ8nkRi+Vt+VUwztZHRaR+5I6Zyl5tI4sYNtTfa0+ju5n2TEiqWYcQNVFqrbAeHTBJYx
-	0/L3HbmjK26l/ECw==
-From: Nam Cao <namcao@linutronix.de>
-To: Abhinav Jain <jain.abhinav177@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
-	javier.carrasco.cruz@gmail.com
-Subject: Re: [PATCH] staging: rtl8723bs: Align address to 4-byte boundary
-Message-ID: <20240615180501.KINZFINu@linutronix.de>
-References: <20240614224256.43131-1-jain.abhinav177@gmail.com>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="KfWBE8JV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1718480703;
+	bh=6ge6kBsic43LaRUhVK+Qy4wNotbyA3ATob2zdjA5ig8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=KfWBE8JVWsokMFf3Z1wBEBl5fcvstJv2kwTH5NXXs/VQPIhETDPP5CO9EAZEdlhxc
+	 01GUoQLqmGxViP8okrGnqbw4QK5kU5wJSCqh5sF4u1v0K7voXT9LaglTV7SyoO4E5q
+	 6Afkz23M03w5zo3r6/rxkJvBTx67/fWLEPhK5fkLUrjwWT8UZOvdnvEfWU9RwONxkg
+	 QEg2QhZhOq/AawrBvYkVgoXKcBbzm3CRN/AhvuXvl+q6fYwvjTkaRKi+QhRiLf5hNy
+	 hIghj3RJ3JrdZzrje+ygyHv7gycxjTrDE2ZMiGp3dTpSHGmiWquZiw0r4QSnBsSNUv
+	 pQ8Fmt8BV5Mjg==
+Received: from arisu.localnet (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: detlev)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 46F4837806BA;
+	Sat, 15 Jun 2024 19:45:00 +0000 (UTC)
+From: Detlev Casanova <detlev.casanova@collabora.com>
+To: linux-kernel@vger.kernel.org, Diederik de Haas <didi.debian@cknow.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Heiko Stuebner <heiko@sntech.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Dragan Simic <dsimic@manjaro.org>, Alexey Charkov <alchark@gmail.com>,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+ Andy Yan <andy.yan@rock-chips.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 1/3] media: rockchip: Introduce the rkvdec2 driver
+Date: Sat, 15 Jun 2024 15:44:32 -0400
+Message-ID: <5969581.LvFx2qVVIh@arisu>
+Organization: Collabora
+In-Reply-To: <3333233.eAoTOS8U2s@bagend>
+References:
+ <20240615015734.1612108-1-detlev.casanova@collabora.com>
+ <20240615015734.1612108-2-detlev.casanova@collabora.com>
+ <3333233.eAoTOS8U2s@bagend>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240614224256.43131-1-jain.abhinav177@gmail.com>
+Content-Type: multipart/signed; boundary="nextPart3724567.ElGaqSPkdT";
+ micalg="pgp-sha256"; protocol="application/pgp-signature"
 
-On Fri, Jun 14, 2024 at 10:42:56PM +0000, Abhinav Jain wrote:
-> Add address alignment in sdio_local_read, _sdio_local_read &
-> sdio_local_write functions as per the TODO.
+--nextPart3724567.ElGaqSPkdT
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"; protected-headers="v1"
+From: Detlev Casanova <detlev.casanova@collabora.com>
+Subject: Re: [PATCH 1/3] media: rockchip: Introduce the rkvdec2 driver
+Date: Sat, 15 Jun 2024 15:44:32 -0400
+Message-ID: <5969581.LvFx2qVVIh@arisu>
+Organization: Collabora
+In-Reply-To: <3333233.eAoTOS8U2s@bagend>
+MIME-Version: 1.0
+
+On Saturday, June 15, 2024 4:51:38 A.M. EDT Diederik de Haas wrote:
+> On Saturday, 15 June 2024 03:56:27 CEST Detlev Casanova wrote:
+> > This driver supports the second generation of the Rockchip Video
+> > decoder, also known as vdpu34x.
+> > It is currently only used on the RK3588(s) SoC.
+> > ...
+> > The core supports H264, HEVC, VP9 and AVS2 decoding but this driver
+> > currently only supports H264.
+> > ...
+> > The decision to make a different driver is mainly because rkvdec2 has
+> > more features and can work with multiple cores.
 > 
-> Signed-off-by: Abhinav Jain <jain.abhinav177@gmail.com>
-> ---
->  drivers/staging/rtl8723bs/hal/sdio_ops.c | 12 +++---------
->  1 file changed, 3 insertions(+), 9 deletions(-)
+> https://wiki.pine64.org/wiki/Quartz64_Development#Upstreaming_Status uses
+> both the rkvdec2 and vdpu346 words and I *assumed* that meant that the
+> Quartz64 Model A and B would use rkvdec2. The Q64-A and -B are rk3566
+> devices though.
 > 
-> diff --git a/drivers/staging/rtl8723bs/hal/sdio_ops.c b/drivers/staging/rtl8723bs/hal/sdio_ops.c
-> index 107f427ee4aa..caee2d2043b3 100644
-> --- a/drivers/staging/rtl8723bs/hal/sdio_ops.c
-> +++ b/drivers/staging/rtl8723bs/hal/sdio_ops.c
-> @@ -478,9 +478,6 @@ void sdio_set_intf_ops(struct adapter *adapter, struct _io_ops *ops)
->  	ops->_write_port = &sdio_write_port;
->  }
->  
-> -/*
-> - * Todo: align address to 4 bytes.
-> - */
->  static s32 _sdio_local_read(
->  	struct adapter *adapter,
->  	u32 addr,
-> @@ -494,6 +491,7 @@ static s32 _sdio_local_read(
->  	u8 *tmpbuf;
->  	u32 n;
->  
-> +	addr = addr & ~3;
->  	intfhdl = &adapter->iopriv.intf;
->  
->  	hal_sdio_get_cmd_addr_8723b(adapter, SDIO_LOCAL_DEVICE_ID, addr, &addr);
-> @@ -516,9 +514,6 @@ static s32 _sdio_local_read(
->  	return err;
->  }
->  
-> -/*
-> - * Todo: align address to 4 bytes.
-> - */
->  s32 sdio_local_read(
->  	struct adapter *adapter,
->  	u32 addr,
-> @@ -532,6 +527,7 @@ s32 sdio_local_read(
->  	u8 *tmpbuf;
->  	u32 n;
->  
-> +	addr = addr & ~3;
->  	intfhdl = &adapter->iopriv.intf;
->  
->  	hal_sdio_get_cmd_addr_8723b(adapter, SDIO_LOCAL_DEVICE_ID, addr, &addr);
-> @@ -557,9 +553,6 @@ s32 sdio_local_read(
->  	return err;
->  }
->  
-> -/*
-> - * Todo: align address to 4 bytes.
-> - */
->  s32 sdio_local_write(
->  	struct adapter *adapter,
->  	u32 addr,
-> @@ -572,6 +565,7 @@ s32 sdio_local_write(
->  	s32 err;
->  	u8 *tmpbuf;
->  
-> +	addr = addr & ~3;
->  	intfhdl = &adapter->iopriv.intf;
->  
->  	hal_sdio_get_cmd_addr_8723b(adapter, SDIO_LOCAL_DEVICE_ID, addr, &addr);
+> So is this just an (unfortunate) use of the same words or is that wiki page
+> just wrong ... or better yet: does rkvdec2 support RK356x too?
 
-Tthese functions are never called with "addr" that is not 4-byte-aligned.
-So I don't think this patch is what the Todo notes meant.
+Yes, the vdpu34x decoder on rk356x socs should be supported by this driver but 
+I don't have boards to test that unfortunately.
 
-Best regards,
-Nam
+This might also be used on future rockchip releases like the rk3576. But they 
+all have their own adaptations. If you can test it on rk3568 based hardware, 
+I'll happily add a compatible for it.
+
+> Cheers,
+>   Diederik
+
+
+--nextPart3724567.ElGaqSPkdT
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCAAdFiEEonF9IvGrXNkDg+CX5EFKUk4x7bYFAmZt7yAACgkQ5EFKUk4x
+7baMaQf/U5qjYueP/x3wLHQ5Cn6NXoSud1b5T+//Ia5e+4Y1qtap8KKbIRPb2UOf
+xqKdIdkqQNXHRtXUmqW17n/cdJZY4EiX7FCsbJzhhKz1E68T4xYBKDOOlaq65GsT
+tGOBacH4GqjYM21sSiWxcJN8lqzub3QH5gr3oKgXwoPr0W3yRM118BduS2NEX6W8
+HAweihViOTdo8jZONG/YuQzQP6xo6Ld6uOb76/f3r0Z2c1zV8ZKAAPzu/xH+qZPu
+Y4Ky6v/8r3u8wPSXv/qqwCyniD/QXTKc9HuIm+/W/W0Y2k5E/VkNo25wC0xt9o+7
+4F7bLWZNM/XGFOGE00jLG0x7hZH8Jg==
+=Vv2R
+-----END PGP SIGNATURE-----
+
+--nextPart3724567.ElGaqSPkdT--
+
+
+
