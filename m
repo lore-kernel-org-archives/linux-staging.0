@@ -1,64 +1,77 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [167.172.40.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B501B10F7;
-	Sat, 15 Jun 2024 03:15:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 704611C68E
+	for <linux-staging@lists.linux.dev>; Sat, 15 Jun 2024 08:12:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=167.172.40.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718421359; cv=none; b=h3juUpVMXVUld23QvBoWzzohg1+NlxmZaszg084lTVzXR1jEZedRC2DsUFHy9L+Jwr/GCfPZUeRwZY/ht0q+wMq2xoEzVj3KZ9mbb7GFlhhy6coqZ/QtA6p+MtjXKDbAne00ZuUIgZdeOnx2TWnT3NQYkSZG6wkiPa3Q1UfYJhQ=
+	t=1718439126; cv=none; b=jjE+3vD6CeO3ea0iNFmID139VeN3qR3aNyZfLcl28/uwoQ+HgAuf3jcloJ4lL/MTuQdIibi/1NgXa+xiu669Cm6NdoCFryBltGYaxK2NlZYFCMpozXdnqf785uHHZ3FZr9GhMQ4F8YZTlc9EjQD8l5ZrNqSGRVklatwd4fVdECU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718421359; c=relaxed/simple;
-	bh=YLAQKIAnX3QMVP03+hq3W1LYE+KdzSFfVIBax3SmWnw=;
-	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
-	 Message-Id:Subject; b=ZjAKPr8y3cEfCZrnRJNKiSadFYh0fe4dowIKNMsyjIo84tmr2r0LcyDovZKWX6nXFlXbtbILTLhpekiqrGvP6QAhg9c6IsfI8wXz+Zit81xWl2rJpRHCELD5uTvUzjJ8fbQR4ngasCBJOv6FH9fDKVLnbKYO9iKc2W8/L94jN5U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fufHqMUN; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718439126; c=relaxed/simple;
+	bh=VLOfu2sHlSblRVxS7M24YOwUMCWmyAxHORa4eJ1jtGE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kMSYqKH1KhJ5n4Sg8N52cGD/OjJuI9FVEfLnWW8p0lvsE6Bs+XM+7Fw1tjFrPktgeI0/9z9V7KlRT4hiL1It94MdVb222X/sMs56xMwDWKJKC1RQwAZsqi5raitstJXWrp1AbXBr8JzJJ66hf6aBy0g8QfhU/YEHhgmOiyKivpk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=y0fF29Kl; arc=none smtp.client-ip=167.172.40.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fufHqMUN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2E22C2BD10;
-	Sat, 15 Jun 2024 03:15:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718421359;
-	bh=YLAQKIAnX3QMVP03+hq3W1LYE+KdzSFfVIBax3SmWnw=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=fufHqMUNUJVqYWeGSnEY3L2GyzfFt9r1rIGoyLTMphbZMcfWeBW2zaOKKF2McoWwt
-	 ic/QLRbSIwkLviUB85ZJyevRAK2RiWI6t3CKPO1EbhcDJYvPPs5JeZOcSlCoVJFGqJ
-	 MCZxZkoFNsc2qrawuTFAKzWafMjcBvB6oy6hFvKDKmKeHNb4DlQtJZTdqZ3JD670LC
-	 EjuIpuRmx+o9j7IdolP7nLbcKyBF4z/OloteTC0yYA7gqTQjw5YfNdNa6vn7jhP6CK
-	 WJoAVn1q5nbwqz/I6T0tz9jaerJVtrOn5+0S46wDGtACdgErB5yYtrvK3qj3r+1JQD
-	 ez6U/NLONQ7BA==
-Date: Fri, 14 Jun 2024 21:15:58 -0600
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="y0fF29Kl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
+ h=Content-Transfer-Encoding: Content-Type: In-Reply-To: From: References:
+ Cc: To: Subject: MIME-Version: Date: Message-ID; q=dns/txt;
+ s=fe-e1b5cab7be; t=1718439068;
+ bh=KD9XMEsUfvBdMg6V4GnJ0Xmth7fRvLlwhgghB2MFr/I=;
+ b=y0fF29KlmtPU2HFDuFwRWA4MhxHmNZxGVUD/h5xkUSYQC1AHBRVFTqCjt5avCPyhtrAe6BYnG
+ Fxj0B9vKfIC6vnQtvKf4D1BT5tfmbSGwMJnGErYk3xtmM9N2oyCx5BqpKM2LjMg9qeQPPyFJsyj
+ L0zFvwFR95a60P7FEJ0wOYgCsO7XAQ6R1Fs3qHN+MxLZ91tKKrRqvAHagXzRBGRtdJSQUDF0jDV
+ bHpkYl1CZkiLTJeLhCIVOjIaGbemeTWsJHgB+zNgJSz6970n6xlnHlCIww/CwERqJbkOsfwRwcR
+ Yzc1z7cKv018sN4XvgzIPDndgdrLxU4Lrd/doa8FVxeA==
+Message-ID: <442bbb41-40ed-4e6c-b854-02b636f09fc3@kwiboo.se>
+Date: Sat, 15 Jun 2024 10:11:00 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] media: dt-bindings: rockchip: Document RK3588 Video
+ Decoder 2 bindings
 To: Detlev Casanova <detlev.casanova@collabora.com>
-Cc: Andy Yan <andy.yan@rock-chips.com>, 
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, 
- Diederik de Haas <didi.debian@cknow.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-kernel@vger.kernel.org, 
- Conor Dooley <conor+dt@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Sebastian Reichel <sebastian.reichel@collabora.com>, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- Heiko Stuebner <heiko@sntech.de>, devicetree@vger.kernel.org, 
- linux-staging@lists.linux.dev, Alexey Charkov <alchark@gmail.com>, 
- linux-media@vger.kernel.org, Dragan Simic <dsimic@manjaro.org>
-In-Reply-To: <20240615015734.1612108-3-detlev.casanova@collabora.com>
+Cc: linux-kernel@vger.kernel.org, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner
+ <heiko@sntech.de>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>, Dragan Simic
+ <dsimic@manjaro.org>, Alexey Charkov <alchark@gmail.com>, Cristian
+ Ciocaltea <cristian.ciocaltea@collabora.com>, Diederik de Haas
+ <didi.debian@cknow.org>, Andy Yan <andy.yan@rock-chips.com>,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-staging@lists.linux.dev
 References: <20240615015734.1612108-1-detlev.casanova@collabora.com>
  <20240615015734.1612108-3-detlev.casanova@collabora.com>
-Message-Id: <171842135800.2249604.16144745633066075384.robh@kernel.org>
-Subject: Re: [PATCH 2/3] media: dt-bindings: rockchip: Document RK3588
- Video Decoder 2 bindings
+Content-Language: en-US
+From: Jonas Karlman <jonas@kwiboo.se>
+In-Reply-To: <20240615015734.1612108-3-detlev.casanova@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Report-Abuse-To: abuse@forwardemail.net
+X-Report-Abuse: abuse@forwardemail.net
+X-Complaints-To: abuse@forwardemail.net
+X-ForwardEmail-Version: 0.4.40
+X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
+ 167.172.40.54
+X-ForwardEmail-ID: 666d4c9a01f41f7e8a2106cd
 
+Hi Detlev,
 
-On Fri, 14 Jun 2024 21:56:28 -0400, Detlev Casanova wrote:
+On 2024-06-15 03:56, Detlev Casanova wrote:
 > Document the Rockchip RK3588 Video Decoder 2 bindings.
+
+Why the need for a new schema file and not just extending existing
+rockchip,vdec.yaml with a new compatible and the new clock?
+
 > 
 > Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
 > ---
@@ -66,31 +79,101 @@ On Fri, 14 Jun 2024 21:56:28 -0400, Detlev Casanova wrote:
 >  1 file changed, 80 insertions(+)
 >  create mode 100644 Documentation/devicetree/bindings/media/rockchip,vdec2.yaml
 > 
+> diff --git a/Documentation/devicetree/bindings/media/rockchip,vdec2.yaml b/Documentation/devicetree/bindings/media/rockchip,vdec2.yaml
+> new file mode 100644
+> index 000000000000..e54891b46986
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/rockchip,vdec2.yaml
+> @@ -0,0 +1,80 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/rockchip,vdec2.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Rockchip Video Decoder 2 (VDec2)
+> +
+> +maintainers:
+> +  - Heiko Stuebner <heiko@sntech.de>
+> +
+> +description: |-
+> +  The Rockchip rk3588 has a stateless Video Decoder that can decodes H.264,
+> +  HEVC, VP9 and AVS2 streams.
+> +
+> +properties:
+> +  compatible:
+> +    const: rockchip,rk3588-vdec2
 
-My bot found errors running 'make dt_binding_check' on your patch:
+I fail to see the need to call this vdec2 instead of established vdec.
 
-yamllint warnings/errors:
+Suggest this is changed to rockchip,rk3588-vdec.
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/rockchip,vdec2.example.dtb: video-codec@fdc38100: reg: [[0, 4257448192], [0, 1280]] is too long
-	from schema $id: http://devicetree.org/schemas/media/rockchip,vdec2.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/rockchip,vdec2.example.dtb: video-codec@fdc38100: clock-names:1: 'ahb' was expected
-	from schema $id: http://devicetree.org/schemas/media/rockchip,vdec2.yaml#
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    items:
+> +      - description: The Video decoder AXI interface clock
+> +      - description: The Video decoder AHB interface clock
+> +      - description: The Video decoder core clock
+> +      - description: The Video decoder CABAC clock
+> +      - description: The Video decoder HEVC CABAC clock
+> +
+> +  clock-names:
+> +    items:
+> +      - const: axi
+> +      - const: ahb
+> +      - const: core
+> +      - const: cabac
+> +      - const: hevc_cabac
+> +
+> +  assigned-clocks: true
+> +
+> +  assigned-clock-rates: true
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - clock-names
+> +  - power-domains
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/clock/rockchip,rk3588-cru.h>
+> +    #include <dt-bindings/power/rk3588-power.h>
+> +
+> +    vdec2: video-codec@fdc38100 {
+> +        compatible = "rockchip,rk3588-vdec2";
+> +        reg = <0x0 0xfdc38100 0x0 0x500>;
+> +        interrupts = <GIC_SPI 95 IRQ_TYPE_LEVEL_HIGH 0>;
+> +        clocks = <&cru ACLK_RKVDEC0>, <&cru HCLK_RKVDEC0>, <&cru CLK_RKVDEC0_CORE>,
+> +                 <&cru CLK_RKVDEC0_CA>, <&cru CLK_RKVDEC0_HEVC_CA>;
+> +        clock-names = "axi", "ahc", "core",
+> +                      "cabac", "hevc_cabac";
+> +        assigned-clocks = <&cru ACLK_RKVDEC0>, <&cru CLK_RKVDEC0_CORE>,
+> +                          <&cru CLK_RKVDEC0_CA>, <&cru CLK_RKVDEC0_HEVC_CA>;
+> +        assigned-clock-rates = <800000000>, <600000000>,
+> +                               <600000000>, <1000000000>;
+> +        power-domains = <&power RK3588_PD_RKVDEC0>;
 
-doc reference errors (make refcheckdocs):
+iommus and resets seem to be missing?
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240615015734.1612108-3-detlev.casanova@collabora.com
+Regards,
+Jonas
 
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+> +    };
+> +
+> +...
 
