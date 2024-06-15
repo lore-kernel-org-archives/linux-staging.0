@@ -1,129 +1,145 @@
-Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com [95.215.58.170])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0211D1BC59
-	for <linux-staging@lists.linux.dev>; Sat, 15 Jun 2024 08:51:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D445946F;
+	Sat, 15 Jun 2024 13:55:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718441514; cv=none; b=nwWwUfmparUK++38E63K2806N0h2k7sL+ZARVcmgfzPV+3O0aMnIZjQTvaeWox6oODRFjGIj6RYKD3AKINtFZd14bqUTYd+YoskCUe5xXLrybEQF+dOZLllR5iRyXfrL5I2Y9WCLH+xn/o7UZpv8jAJakUfNahkFrBr2FDuvTbo=
+	t=1718459725; cv=none; b=I59QbSQhJbKbMMs0hvoRz8YFOBWyivRo5kKB38SeVKE5iKO0FfmrJVnrGAySN3Sj93JmLtrqqrQkdFdWLY5K/KToI2byE3cPe6iC4RSY5SBN7JSWFIBbY3WKfgQsB4xY0dWLdLZ+ArBYg3LbsiJu7BYc6FZlRVaHoQoYS3yGXZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718441514; c=relaxed/simple;
-	bh=2uhNmFDzmca77n8/NYMgx5PLYKQsfE2F4rpsDHEStzY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fkafxXoLnepCJw3X1HQZx55ws4hzmsQU44gUz9CcqT46erqpbcZ6GI8sUpOz1wajhzxGmSZ6z+Xayg/s2odqJQfNUo4F10u4H1WWuXJMuIk8FUsi5yrXsj410Syius1FE94xZdU/rfNcnkH0Z+8YyZ7q8xrwqzLVVh62ho6eIaM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org; spf=pass smtp.mailfrom=cknow.org; dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b=QeDy1YrO; arc=none smtp.client-ip=95.215.58.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cknow.org
+	s=arc-20240116; t=1718459725; c=relaxed/simple;
+	bh=o2zni6lmU6brxTe62oPbpr/wNnVyUniYuEMKpQZnOmQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TyThjsJbVeGzzov0u1EcC3EPJJjZtaS1ygsYdAKVOI32eMwj4Zrj4lKz6cqFn7VrKQ+jxrblm0TQZ3aGXjrV78kNqyMp2vNErLTUzKdO7Mv0tgdsWQiS4MoAMXzySxY50eQgxbPvR5Lg5mzoaWu+haCXmylZws2k0awHKdzsTWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ai/hAGqb; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b="QeDy1YrO"
-X-Envelope-To: linux-kernel@vger.kernel.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
-	t=1718441510;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FzCprlv9GxaDwbOC21n35gObXPY/amCP46gcmpDxZd4=;
-	b=QeDy1YrOxKKjkHJdePkDCle/LiRFoccvtCuVRnqHasyfAD1jXs8sM0xR/XLODlq+yHXE7J
-	QoodMcP8WCQEbHdDeq1ci6I8HIHG4e9/raQle5ZGipBK2gouPgARL67W26kt8f9tTvNMv6
-	HBuQOQAsk+jD0jB+kXUysP8AqskjdOU+iS7pHsmEjDkdEIR4qMTWc4/rTfbzyJ+wHz+jZS
-	f4jFFiP9JhsRpL/LpvLMPoTkG08Eb4/nmEvvIom1l/797aDmrjBhZKVgQKxedovcIo9yFw
-	ynlOh5JDc9Q9Xpd/JsCJ1Y+RDmZCPyd93WkHdJF6+1AHs6CzRA5n28v3mZgaOw==
-X-Envelope-To: detlev.casanova@collabora.com
-X-Envelope-To: mchehab@kernel.org
-X-Envelope-To: robh@kernel.org
-X-Envelope-To: krzk+dt@kernel.org
-X-Envelope-To: conor+dt@kernel.org
-X-Envelope-To: heiko@sntech.de
-X-Envelope-To: gregkh@linuxfoundation.org
-X-Envelope-To: sebastian.reichel@collabora.com
-X-Envelope-To: dsimic@manjaro.org
-X-Envelope-To: alchark@gmail.com
-X-Envelope-To: cristian.ciocaltea@collabora.com
-X-Envelope-To: andy.yan@rock-chips.com
-X-Envelope-To: linux-media@vger.kernel.org
-X-Envelope-To: devicetree@vger.kernel.org
-X-Envelope-To: linux-arm-kernel@lists.infradead.org
-X-Envelope-To: linux-rockchip@lists.infradead.org
-X-Envelope-To: linux-staging@lists.linux.dev
-X-Envelope-To: detlev.casanova@collabora.com
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Diederik de Haas <didi.debian@cknow.org>
-To: linux-kernel@vger.kernel.org,
- Detlev Casanova <detlev.casanova@collabora.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Heiko Stuebner <heiko@sntech.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Dragan Simic <dsimic@manjaro.org>, Alexey Charkov <alchark@gmail.com>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Andy Yan <andy.yan@rock-chips.com>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
- Detlev Casanova <detlev.casanova@collabora.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ai/hAGqb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718459723; x=1749995723;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=o2zni6lmU6brxTe62oPbpr/wNnVyUniYuEMKpQZnOmQ=;
+  b=ai/hAGqbww4RcVptOnfayU1o+TDDLZZsSD2kJGDZKhDLB381oDeJrkzX
+   /X+23SO772j7Bhb/uSk5N2TfYq2OZeqUZNCYEf6avaIMDxC5j2yY7khBI
+   TEoguSNFzTUIOSUxHstQqeXAkyvCT3oGYjtMKL27mJ0oVCz3ehHHLOQzQ
+   EpC8ZK7M+9JY+xZTLh2u0QLa+yW676bMXriI/Ic9QdXDY5ZH2sD9uzUR3
+   JwEVBoqveeKeSX1FYlDjEVvakSJhpVsx22UfuxQfpg4mYSJ7NT7kN5agM
+   T2WNla0s0Nb5wYzo7nyHk6FVWW9JuhPJwDnASgQcYOMsHlLt18Krle/FM
+   Q==;
+X-CSE-ConnectionGUID: 4MkFnTiURFqVxWIchdiKpg==
+X-CSE-MsgGUID: aJqDadEvTICxb46XXwKFcg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11104"; a="40760309"
+X-IronPort-AV: E=Sophos;i="6.08,240,1712646000"; 
+   d="scan'208";a="40760309"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2024 06:55:22 -0700
+X-CSE-ConnectionGUID: Z1nASWauRT2SWTLC7u9Yow==
+X-CSE-MsgGUID: AAqhFvwAQbO9qsOphaSZhg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,240,1712646000"; 
+   d="scan'208";a="40630041"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 15 Jun 2024 06:55:19 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sITsC-00005N-21;
+	Sat, 15 Jun 2024 13:55:16 +0000
+Date: Sat, 15 Jun 2024 21:55:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: Detlev Casanova <detlev.casanova@collabora.com>,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sebastian Reichel <sebastian.reichel@collabora.com>,
+	Dragan Simic <dsimic@manjaro.org>,
+	Alexey Charkov <alchark@gmail.com>,
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+	Diederik de Haas <didi.debian@cknow.org>,
+	Andy Yan <andy.yan@rock-chips.com>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+	Detlev Casanova <detlev.casanova@collabora.com>
 Subject: Re: [PATCH 1/3] media: rockchip: Introduce the rkvdec2 driver
-Date: Sat, 15 Jun 2024 10:51:38 +0200
-Message-ID: <3333233.eAoTOS8U2s@bagend>
-Organization: Connecting Knowledge
-In-Reply-To: <20240615015734.1612108-2-detlev.casanova@collabora.com>
-References:
- <20240615015734.1612108-1-detlev.casanova@collabora.com>
- <20240615015734.1612108-2-detlev.casanova@collabora.com>
+Message-ID: <202406152129.dV4K8R5k-lkp@intel.com>
+References: <20240615015734.1612108-2-detlev.casanova@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart8264659.XZnPd2NMnp";
- micalg="pgp-sha256"; protocol="application/pgp-signature"
-X-Migadu-Flow: FLOW_OUT
-
---nextPart8264659.XZnPd2NMnp
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"; protected-headers="v1"
-From: Diederik de Haas <didi.debian@cknow.org>
-Subject: Re: [PATCH 1/3] media: rockchip: Introduce the rkvdec2 driver
-Date: Sat, 15 Jun 2024 10:51:38 +0200
-Message-ID: <3333233.eAoTOS8U2s@bagend>
-Organization: Connecting Knowledge
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <20240615015734.1612108-2-detlev.casanova@collabora.com>
-MIME-Version: 1.0
 
-On Saturday, 15 June 2024 03:56:27 CEST Detlev Casanova wrote:
-> This driver supports the second generation of the Rockchip Video
-> decoder, also known as vdpu34x.
-> It is currently only used on the RK3588(s) SoC.
-> ...
-> The core supports H264, HEVC, VP9 and AVS2 decoding but this driver
-> currently only supports H264.
-> ...
-> The decision to make a different driver is mainly because rkvdec2 has
-> more features and can work with multiple cores.
+Hi Detlev,
 
-https://wiki.pine64.org/wiki/Quartz64_Development#Upstreaming_Status uses both 
-the rkvdec2 and vdpu346 words and I *assumed* that meant that the Quartz64 
-Model A and B would use rkvdec2. The Q64-A and -B are rk3566 devices though.
+kernel test robot noticed the following build errors:
 
-So is this just an (unfortunate) use of the same words or is that wiki page 
-just wrong ... or better yet: does rkvdec2 support RK356x too?
+[auto build test ERROR on rockchip/for-next]
+[also build test ERROR on robh/for-next linus/master v6.10-rc3 next-20240613]
+[cannot apply to media-tree/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Cheers,
-  Diederik
---nextPart8264659.XZnPd2NMnp
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
+url:    https://github.com/intel-lab-lkp/linux/commits/Detlev-Casanova/media-rockchip-Introduce-the-rkvdec2-driver/20240615-100124
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git for-next
+patch link:    https://lore.kernel.org/r/20240615015734.1612108-2-detlev.casanova%40collabora.com
+patch subject: [PATCH 1/3] media: rockchip: Introduce the rkvdec2 driver
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240615/202406152129.dV4K8R5k-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240615/202406152129.dV4K8R5k-lkp@intel.com/reproduce)
 
------BEGIN PGP SIGNATURE-----
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406152129.dV4K8R5k-lkp@intel.com/
 
-iHUEABYIAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCZm1WGgAKCRDXblvOeH7b
-brgQAQD+T08UA2/wwhvAFvEN6YbiMOcTnBEhemxyxRye7DTggwD/YEcUSIQQ/RPc
-NSTPgX06r8mCGK7SuZ4YyKRWnCMpWgQ=
-=M6ol
------END PGP SIGNATURE-----
+All errors (new ones prefixed by >>):
 
---nextPart8264659.XZnPd2NMnp--
+   drivers/staging/media/rkvdec2/rkvdec2-h264.c: In function 'rkvdec2_write_regs':
+>> drivers/staging/media/rkvdec2/rkvdec2-h264.c:563:9: error: implicit declaration of function '__iowrite32_copy_full'; did you mean '__iowrite32_copy'? [-Werror=implicit-function-declaration]
+     563 |         __iowrite32_copy_full(rkvdec->regs + OFFSET_COMMON_REGS,
+         |         ^~~~~~~~~~~~~~~~~~~~~
+         |         __iowrite32_copy
+   cc1: some warnings being treated as errors
 
 
+vim +563 drivers/staging/media/rkvdec2/rkvdec2-h264.c
 
+   557	
+   558	static void rkvdec2_write_regs(struct rkvdec2_ctx *ctx)
+   559	{
+   560		struct rkvdec2_dev *rkvdec = ctx->dev;
+   561		struct rkvdec2_h264_ctx *h264_ctx = ctx->priv;
+   562	
+ > 563		__iowrite32_copy_full(rkvdec->regs + OFFSET_COMMON_REGS,
+   564				      &h264_ctx->regs.common,
+   565				      sizeof(h264_ctx->regs.common));
+   566		__iowrite32_copy_full(rkvdec->regs + OFFSET_CODEC_PARAMS_REGS,
+   567				      &h264_ctx->regs.h264_param,
+   568				      sizeof(h264_ctx->regs.h264_param));
+   569		__iowrite32_copy_full(rkvdec->regs + OFFSET_COMMON_ADDR_REGS,
+   570				      &h264_ctx->regs.common_addr,
+   571				      sizeof(h264_ctx->regs.common_addr));
+   572		__iowrite32_copy_full(rkvdec->regs + OFFSET_CODEC_ADDR_REGS,
+   573				      &h264_ctx->regs.h264_addr,
+   574				      sizeof(h264_ctx->regs.h264_addr));
+   575		__iowrite32_copy_full(rkvdec->regs + OFFSET_POC_HIGHBIT_REGS,
+   576				      &h264_ctx->regs.h264_highpoc,
+   577				      sizeof(h264_ctx->regs.h264_highpoc));
+   578	}
+   579	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
