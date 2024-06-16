@@ -1,115 +1,63 @@
-Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4774B1E867
-	for <linux-staging@lists.linux.dev>; Sun, 16 Jun 2024 11:55:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.91.91
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FE9054907;
+	Sun, 16 Jun 2024 18:24:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718538934; cv=none; b=uzpXBa128E15bY88Q22Dme9OL63eLQ1+TC/0wZGYDD9nK+qg9ZVvO91O1bywB1t04mAGUA3dNou0TOuc7tQwiQnZ78WFzyPRe5M65cVdaypWFtZUOK4P7y8bSxkIqobt8T/f01wxitin4eKJ1cp+RjkjgaMkYg/jFarxfDnsfQk=
+	t=1718562273; cv=none; b=WwSE/t2zB4rUpPEPj1WcG4644kUDq5rpKsiaFCy+6lyfoNZ6GwTRdZKXCJxOxpwRWv8dhsvwfH8kMtWRomuIFQeh6m5jCTvrAtZlfHuRKl1FhOvqAg1lXJvmXaOKmQLg0BqJySP2fNPDUGP6E9fQ09phgzQq07MGWz6yZcVEvN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718538934; c=relaxed/simple;
-	bh=FvTVuelNwNx9cbWw7NNoHn9o1aAt7UuF/J0KxqWgJt8=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=DcWsC3LGYuwpmxTjCbMR4cHGgOdlRl8e4sVgG4cUH/Tu82vz8RgxmYa/yEazo2STzbyVa788AUChc820hPzPK9tWNSpimG1lFNOrXG8DuMYgLaeo2/XPnY+INN2GlMeIlJBxDqBLmgWnnSW/sJ+J/ZHjBMqxPVXPgMdpJZht+oM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org; spf=pass smtp.mailfrom=manjaro.org; dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b=lp8NiBCn; arc=none smtp.client-ip=116.203.91.91
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manjaro.org
+	s=arc-20240116; t=1718562273; c=relaxed/simple;
+	bh=yg4o6sJcvUm7bnCNsYd9rZwixTzhDrhPIlkXUjskAlQ=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=RR8D8Tl26MfmXmtpTu00SFys6tZYj1DtqVwDMTqZySIvPugNZMBHpvu8iXnYSFYq4CC7MwKQynxrKTvhYBn2IPvv6WkFqvM3YLP/C/LDlVzhCVlveL2XcV49ILkLuarb48oOP8h9kIgz6iqn/iwNnYHA2qS+nVyVoQC0cD3IAeY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TQGk+MbP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="lp8NiBCn"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TQGk+MbP"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E9796C4AF48;
+	Sun, 16 Jun 2024 18:24:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718562272;
+	bh=yg4o6sJcvUm7bnCNsYd9rZwixTzhDrhPIlkXUjskAlQ=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=TQGk+MbPy8cZNTDHWvswvJuyum8WtaFTQkAeQWKdIkC/xkwlidAT+XjyUGb8OYh+w
+	 S7DNY2wS3nly6ox6dOCocPO4K/aC9fqkBwgtT0Kk6a8I0vWgE5M1coaegNL0TniLzZ
+	 IP5P5hYpx/yhL/2eJT2TR+QT5c7/Hap96GOvte+4/p7vozzmWSSjPCi1C6olwSRjTB
+	 PfOqUD4s9MIaJhm6Pu3bf1JfsuoTBKQIe3skpJcGnGIlxnPDmaInraepcWA/CrSqiO
+	 7p1GshoJm0igyxforIR1A19L3tycym3N4cYTB8zQb1trAyl0QmpVavuFr0u6UgIJij
+	 ZGQTxTFhstUEg==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id E0D8FC43616;
+	Sun, 16 Jun 2024 18:24:32 +0000 (UTC)
+Subject: Re: [GIT PULL] Staging driver fix for 6.10-rc4
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <Zm7DsDUAGWwEE6Lf@kroah.com>
+References: <Zm7DsDUAGWwEE6Lf@kroah.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <Zm7DsDUAGWwEE6Lf@kroah.com>
+X-PR-Tracked-Remote: ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.10-rc4
+X-PR-Tracked-Commit-Id: c3552ab19aeb8101b751e7c7ad45deab9e1134e1
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: d3e6dc4ff03d976d1b427e7e45fe4a7bc330c5e0
+Message-Id: <171856227291.1143.16140259900617921475.pr-tracker-bot@kernel.org>
+Date: Sun, 16 Jun 2024 18:24:32 +0000
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andrew Morton <akpm@linux-foundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
-	t=1718538921;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=o/mVBey1pUUAnezlicmXpXgXj8Qwj9yoReY/ospObPs=;
-	b=lp8NiBCnAttf4fU8LXw3j5OaeEoGWaQYQsnjPLe/cvcoGDXEQvIKZkK9oyjD352fcL9zhl
-	R4ihgLmZMENLAFKITuFMnXgPHWKmTwmRodzzs8ciZnOGUD5OuQHvH+ShL+6z/qW6nOH0Jt
-	hydAKz4ELF8p5g+r2u8aDTZQk/O46NG5IyxGIIPdMhuXa4/naOcq9MTkPj/5++TwoOwqOd
-	VsOBszOE3gkpAq37w1+vJ3CWsR9PsH2UCBpDlIDcGj5egvKjv7uCXolPHYy3WUDq6NESro
-	IExMsXqfAZz3U1dW/VohVUj6Zny5g9m1DotU38/6yBgyP2gQun9o9FCebHRsig==
-Date: Sun, 16 Jun 2024 13:55:19 +0200
-From: Dragan Simic <dsimic@manjaro.org>
-To: Jonas Karlman <jonas@kwiboo.se>
-Cc: Detlev Casanova <detlev.casanova@collabora.com>,
- linux-kernel@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Sebastian Reichel
- <sebastian.reichel@collabora.com>, Alexey Charkov <alchark@gmail.com>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, Diederik de Haas
- <didi.debian@cknow.org>, Andy Yan <andy.yan@rock-chips.com>,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-staging@lists.linux.dev
-Subject: Re: [PATCH 3/3] arm64: dts: rockchip: Add rkvdec2 Video Decoder on
- rk3588(s)
-In-Reply-To: <f4c140a3-2b11-405c-bfd4-32e50180f6b7@kwiboo.se>
-References: <20240615015734.1612108-1-detlev.casanova@collabora.com>
- <20240615015734.1612108-4-detlev.casanova@collabora.com>
- <944c4296-8dd2-4ffd-b430-1839ff3a3ed2@kwiboo.se> <3666279.iZASKD2KPV@arisu>
- <f4c140a3-2b11-405c-bfd4-32e50180f6b7@kwiboo.se>
-Message-ID: <7f649d79666a175da7c9d9fd9377a687@manjaro.org>
-X-Sender: dsimic@manjaro.org
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Authentication-Results: ORIGINATING;
-	auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
 
-Hello all,
+The pull request you sent on Sun, 16 Jun 2024 12:51:28 +0200:
 
-On 2024-06-16 11:17, Jonas Karlman wrote:
-> On 2024-06-15 21:55, Detlev Casanova wrote:
->> On Saturday, June 15, 2024 4:25:27 A.M. EDT Jonas Karlman wrote:
->>> On 2024-06-15 03:56, Detlev Casanova wrote:
->>>> Add the rkvdec2 Video Decoder to the RK3588s devicetree.
->>>> 
->>>> Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
->>>> ---
->>>> 
->>>>  .../boot/dts/rockchip/rk3588-rock-5b.dts      |  4 ++++
->>>>  .../boot/dts/rockchip/rk3588s-orangepi-5.dts  |  4 ++++
->>>>  arch/arm64/boot/dts/rockchip/rk3588s.dtsi     | 19 
->>>> +++++++++++++++++++
->>>>  3 files changed, 27 insertions(+)
->>>> 
->>>> diff --git a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
->>>> b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts index
->>>> c551b676860c..965322c24a65 100644
->>>> --- a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
->>>> +++ b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
->>>> @@ -503,6 +503,10 @@ &pwm1 {
->>>> 
->>>>  	status = "okay";
->>>> 
->>>>  };
->>>> 
->>>> +&rkvdec0 {
->>>> +	status = "okay";
->>>> +};
->>> 
->>> Enable of rkvdec0 should probably be split out from the patch that 
->>> adds
->>> the rkvdec0 node to soc dtsi.
->> 
->> Ack
->> 
->>> Also why is rkvdec0 only enabled on rock-5b and orangepi-5?
->> 
->> I only could test on those two but I can enable it on all rk3588 
->> devices.
-> 
-> Because the decoder is an integrated part of the SoC the default should
-> probably be that the IP is enabled, i.e. no status prop required for 
-> the
-> vdec and related mmu nodes in rk3588s.dtsi.
+> ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.10-rc4
 
-Agreed, the decoder is a SoC feature.  As such, it should be enabled on
-the SoC level, instead of having it enabled on the board level.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/d3e6dc4ff03d976d1b427e7e45fe4a7bc330c5e0
+
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
