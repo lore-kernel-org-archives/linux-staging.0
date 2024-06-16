@@ -1,196 +1,73 @@
-Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com [91.218.175.182])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C42518410E
-	for <linux-staging@lists.linux.dev>; Sun, 16 Jun 2024 09:47:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8C2D1862BC;
+	Sun, 16 Jun 2024 10:51:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718531280; cv=none; b=NIAbIcZTpnOMuEw4wcunPBT1906y+Q0k9bei29bmJk5h3oEKlrhw8HUIAv1vmHwp22zeTfvPBA2LyXWIVUtigD/+QZMwO7VH++9mLvu9UPXaGn9wgtw+r/9g4uPj1ZSviKyeG2rv8JPZe1TPdhMJT/F8QEJNFdoxpaznOTByajI=
+	t=1718535092; cv=none; b=stHALAzLqRY84Br0iQId+XTvbiIFVqvmHKJsAl4i4ZaxyLdSnjWu7E96z6XsBcOIwEPoX2AvCypNNabaSeATcCMqhxn5k9VruuhQISocGz4ruNA0ocfjC8eQKy7OoRGcfDq+DydlOiqDLqo6pzBFm6LicBtO39IcIFXoqBmv6Rw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718531280; c=relaxed/simple;
-	bh=U/8NZyO/ejgieYgN7cns+EsSBMKQVOy6mJpLWv03dTo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iw2+KFUPGa0JRPlVJ1kOC0XjCmr8yBXj83Dx+a3UNqRN0fzxOudVzmWDXH699nUlx/wMLj9KbKCgjuyztHAY0LsdPcDzjD1C0buAwxRGaAFSd1NZFsBzth8Pm3+ovLpwNE5iwdQctPzDSp8fsMIfFojxjvNqzM6gKIUchC80g1s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org; spf=pass smtp.mailfrom=cknow.org; dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b=yDLjLqOV; arc=none smtp.client-ip=91.218.175.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cknow.org
+	s=arc-20240116; t=1718535092; c=relaxed/simple;
+	bh=0eELrSJysNrNj6umF99zEZ4yybfNsK9EaRxvQPW7/IU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=nvFmebzLlF+qkoW9TU6gqZxRXUxx+o+sFW3KlayO9jum7qhVTgrP3fiH7XsYHDki8dEclM9g2hMtFiE1xi01/dQb4Zhk3XKRtOSaiW1Ls9kPlUFWANOFlPudOlvYLwA/f5dGRPOQKh4tAKWc7GBSl55wIs6TPOZbMth6OxDGwww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=U2EhW2K2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b="yDLjLqOV"
-X-Envelope-To: ezequiel@vanguardiasur.com.ar
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
-	t=1718531276;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YsGDxw7euO03Xurgk7SCoMe6i8m3qHGwgfyQyq8DqHE=;
-	b=yDLjLqOV0BEutjvYcq1hJfA3ZHO0eUrH9kF7nNO3il/VF/h/bMWxWPZkG2RcqEFqPV76Uz
-	qI2qJa18CdVdYxsM6pVcVIAbep4Wly2Wmz7lkgyKuls0/EiRtvJe8AnvF38iprjQoK5Y5H
-	r8sMBQncCQYuLCRVlqW8C4o8qeh2VReRFOnBZqvAZskeZLEnS874LfH1YaO1gNS6kadDYp
-	B4XWXB1Q6VmyGZ8E0i9yDzAyzt6JWEU2/JMnM5tQM2mVJN5Bb8W4Hqjnfi5YRPWsgCOJtg
-	hGCpMuLl/tL0aa34HYB7BRA43KtSFNaqQsbi4AdWJImIha9r/WAPK0RyGTHLag==
-X-Envelope-To: mchehab@kernel.org
-X-Envelope-To: hverkuil-cisco@xs4all.nl
-X-Envelope-To: linux-rockchip@lists.infradead.org
-X-Envelope-To: jonas@kwiboo.se
-X-Envelope-To: andyshrk@163.com
-X-Envelope-To: knaerzche@gmail.com
-X-Envelope-To: nicolas.dufresne@collabora.com
-X-Envelope-To: benjamin.gaignard@collabora.com
-X-Envelope-To: sebastian.fricke@collabora.com
-X-Envelope-To: chris.obbard@collabora.com
-X-Envelope-To: linux-media@vger.kernel.org
-X-Envelope-To: linux-rockchip@lists.infradead.org
-X-Envelope-To: linux-staging@lists.linux.dev
-X-Envelope-To: linux-kernel@vger.kernel.org
-X-Envelope-To: jonas@kwiboo.se
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Diederik de Haas <didi.debian@cknow.org>
-To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-rockchip@lists.infradead.org,
- Jonas Karlman <jonas@kwiboo.se>, Andy Yan <andyshrk@163.com>
-Cc: Alex Bee <knaerzche@gmail.com>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Sebastian Fricke <sebastian.fricke@collabora.com>,
- Christopher Obbard <chris.obbard@collabora.com>, linux-media@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>
-Subject:
- Re: [PATCH v4 00/11] media: rkvdec: Add H.264 High 10 and 4:2:2 profile
- support
-Date: Sun, 16 Jun 2024 11:47:43 +0200
-Message-ID: <122755518.lCnTqr06ca@bagend>
-Organization: Connecting Knowledge
-In-Reply-To: <20231105165521.3592037-1-jonas@kwiboo.se>
-References: <20231105165521.3592037-1-jonas@kwiboo.se>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="U2EhW2K2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20492C2BBFC;
+	Sun, 16 Jun 2024 10:51:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1718535091;
+	bh=0eELrSJysNrNj6umF99zEZ4yybfNsK9EaRxvQPW7/IU=;
+	h=Date:From:To:Cc:Subject:From;
+	b=U2EhW2K2rsc+npZA4oAAUlMMxyGaFYO0rNHeYZ1HC0lTXrV7cII8mj0rQGDepY1uC
+	 ilDNJkViX71m0YF18Db39sEsE9c3S6YD7EQ5BNC716MUM8Weex4Q+D/jcqiZDJfia0
+	 Uf7MtkbpgYL3f9qaEHy7Sov+UV3DXrvRyajJaMcU=
+Date: Sun, 16 Jun 2024 12:51:28 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Stephen Rothwell <sfr@canb.auug.org.au>
+Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: [GIT PULL] Staging driver fix for 6.10-rc4
+Message-ID: <Zm7DsDUAGWwEE6Lf@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart2306946.yOONvtlcC0";
- micalg="pgp-sha256"; protocol="application/pgp-signature"
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---nextPart2306946.yOONvtlcC0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"; protected-headers="v1"
-From: Diederik de Haas <didi.debian@cknow.org>
-Date: Sun, 16 Jun 2024 11:47:43 +0200
-Message-ID: <122755518.lCnTqr06ca@bagend>
-Organization: Connecting Knowledge
-In-Reply-To: <20231105165521.3592037-1-jonas@kwiboo.se>
-References: <20231105165521.3592037-1-jonas@kwiboo.se>
-MIME-Version: 1.0
+The following changes since commit c3f38fa61af77b49866b006939479069cd451173:
 
-On Sunday, 5 November 2023 17:54:59 CEST Jonas Karlman wrote:
-> This is a revival of a 3 year old series [1] now that NV15/NV20/NV30 support
-> for display driver have landed in mainline tree.
-> 
-> This series adds H.264 High 10 and 4:2:2 profile support to the Rockchip
-> Video Decoder driver.
-> 
-> Patch 1 adds helpers for calculating plane bytesperline and sizeimage.
-> Patch 2 adds two new pixelformats for semi-planer 10-bit 4:2:0/4:2:2 YUV.
-> 
-> Patch 3 change to use bytesperline and buffer height to configure strides.
-> Patch 4 change to use values from SPS/PPS control to configure the HW.
-> Patch 5 remove an unnecessary call to validate sps at streaming start.
-> 
-> Patch 6-10 refactor code to support filtering of CAPUTRE formats based
-> on the image format returned from a get_image_fmt ops.
-> 
-> Patch 11 adds final bits to support H.264 High 10 and 4:2:2 profiles.
-> 
-> Tested on a ROCK Pi 4 (RK3399) and Rock64 (RK3328):
-> 
->   v4l2-compliance 1.24.1, 64 bits, 64-bit time_t
->   ...
->   Total for rkvdec device /dev/video1: 46, Succeeded: 46, Failed: 0,
-> Warnings: 0
-> 
->   Running test suite JVT-FR-EXT with decoder FFmpeg-H.264-V4L2-request
->   ...
->   Ran 65/69 tests successfully
-> 
->   Running test suite JVT-AVC_V1 with decoder FFmpeg-H.264-V4L2-request
->   ...
->   Ran 127/135 tests successfully
-> 
-> Before this series:
-> 
->   Running test suite JVT-FR-EXT with decoder FFmpeg-H.264-V4L2-request
->   ...
->   Ran 44/69 tests successfully
-> 
-> ...
-> 
-> Following commits adds support for NV15/NV20/NV30 to VOP driver:
-> 728c15b4b5f3 ("drm/fourcc: Add NV20 and NV30 YUV formats")
-> d4b384228562 ("drm/rockchip: vop: Add NV15, NV20 and NV30 support")
-> 
-> To fully runtime test this series you may need above drm commits and ffmpeg
-> patches from [2], this series and drm patches is also available at [3].
-> 
-> [1]
-> https://lore.kernel.org/linux-media/20200706215430.22859-1-jonas@kwiboo.se/
-> [2] https://github.com/Kwiboo/FFmpeg/commits/v4l2-request-n6.1-dev/ [3]
-> https://github.com/Kwiboo/linux-rockchip/commits/linuxtv-rkvdec-high-10-v4/
-> [4] https://gist.github.com/Kwiboo/f4ac15576b2c72887ae2bc5d58b5c865 [5]
-> https://gist.github.com/Kwiboo/459a1c8f1dcb56e45dc7a7a29cc28adf
+  Linux 6.10-rc2 (2024-06-02 15:44:56 -0700)
 
-Reviving this old thread now that rkvdec2 'stuff' emerged.
-I have (actually) done quite some tests with this (and "media: rkvdec: Add 
-HEVC backend" patch set) and they have been part of my kernel builds ever 
-since.
-I _think_, but don't know, that is relevant for Andy's question:
+are available in the Git repository at:
 
-On zondag 16 juni 2024 08:58:20 CEST Andy Yan <andyshrk@163.com> wrote:
-> How can I test these patches? Do they require any additional userspace
-> patches?
+  ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.10-rc4
 
-I have the same question and I think you'd need this and the HEVC patch set 
-and then also patch FFmpeg and then it should enable HW acceleration.
-So my question boils down to: with the rkvdec2 patch set, should V4L2-requests 
-now also work with rkvdec, so not just Hantro anymore?
+for you to fetch changes up to c3552ab19aeb8101b751e7c7ad45deab9e1134e1:
 
-BTW: the libdrm commits have been merged upstream quite some time ago, so if 
-you have a recent version of that, you don't need to patch that.
-If you use FFmpeg 7.0, then Jonas has a branch for that too (haven't tried it 
-yet though).
+  staging: vchiq_debugfs: Fix NPD in vchiq_dump_state (2024-06-04 13:36:44 +0200)
 
-FWIW: my test results were a bit mixed. I didn't post them before as I don't 
-fully/really understand this 'video stuff', and I didn't want you all to suffer 
-from what was likely a PEBKAC issue.
+----------------------------------------------------------------
+Staging driver fix for 6.10-rc4
 
-On my PineTab2 (rk3566) I had some h.264 videos HW accelerated, but not all. 
-My guess is that it's related to the resolution. 1920x1080 worked, while it 
-didn't work with a 1280x640 video. The video still played, just not HW 
-accelerated. IOW: improvements in some and otherwise it was just rendered by 
-the CPU (I think), just like before.
+Here is a single staging driver fix, for the vc04 driver, for 6.10-rc4.
+It resolves a reported problem that showed up in the 6.10-rc1 set of
+changes.
 
-On my Rock64 I got a pink tint with all videos, like described here:
-https://github.com/mpv-player/mpv/issues/12968
-IIUC, that's actually a problem in the lima driver?
+It's been in linux-next for over a week with no reported problems.
 
-Cheers,
-  Diederik
---nextPart2306946.yOONvtlcC0
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
------BEGIN PGP SIGNATURE-----
+----------------------------------------------------------------
+Stefan Wahren (1):
+      staging: vchiq_debugfs: Fix NPD in vchiq_dump_state
 
-iHUEABYIAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCZm60vwAKCRDXblvOeH7b
-bunzAQDtoUoO69YOCfIwQy1BpyubGMFwwb7YvB1mYGizpNzaAwD8Cw1NbPvKRJrd
-AlNeNCuUbZbkJRIj5vHMteqOVa7VhwU=
-=6pBz
------END PGP SIGNATURE-----
-
---nextPart2306946.yOONvtlcC0--
-
-
-
+ drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c     | 2 +-
+ drivers/staging/vc04_services/interface/vchiq_arm/vchiq_debugfs.c | 8 ++++----
+ drivers/staging/vc04_services/interface/vchiq_arm/vchiq_debugfs.h | 2 +-
+ 3 files changed, 6 insertions(+), 6 deletions(-)
