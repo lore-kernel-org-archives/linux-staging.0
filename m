@@ -1,56 +1,77 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F18181AED2F
-	for <linux-staging@lists.linux.dev>; Mon, 17 Jun 2024 13:43:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B57A1D9517
+	for <linux-staging@lists.linux.dev>; Mon, 17 Jun 2024 13:52:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718631818; cv=none; b=MJEZpF4y/1OVQa941H1h32JY4KyZRZmIqgroJ2rPQ8/Fk9vxhhBHGeGwSFwmuq4L1h5KQgjXWovEkMSCNjSILqyrGX3nXI4qwGtYcS8CFNO+UzjDVvrx7na+ppOCZuWTTz1qbEKHOEao5CHF+Qjz0AF8ZgCH3+qzaWHVmnH1Tr4=
+	t=1718632338; cv=none; b=eE+DcFNuxKsiL4V84d3ouxWtIS1EiI5YKfEUXSClhXYdyejSTzizk0c27zdY/tQ9ZpR3oZbEwPbbt3hhNCgJKoQ9VPFS/12i04ozBcQPGSarSzNQX5qLSc4irgpkzLjK4PS7Fox8iF1/+QZjEpmzYIDnw3DjQIG3TfBqqrrMjDc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718631818; c=relaxed/simple;
-	bh=wPdlMn4BkQJ1i+WvuHCmNwqJAwmoMMcYl971v9DomFs=;
+	s=arc-20240116; t=1718632338; c=relaxed/simple;
+	bh=S8oKg7qQ4NYsaNZMwjpwaY5Zq6XvOvJgc9CYYY9wH1A=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=FnPdep+IHRWNGYUAIpzXJMV7KC6CCF6DdZ5AweACKKzeKUT5zj3Xzd24eKmkc919TSjZyVDWllB2XbNjxfLTCw8qzowPDz0WFU0BprgqSPuQ051fEZEuGCTfqYyvkGRfd1MKxi6B8M0/ILJ11/A9O2Czloj7oZccBDCX7P1iG1k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=S3HkmBr6; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	 Content-Type:MIME-Version; b=cYM2Y0YDUavDL8fDCmYK1d/NxqOrQgJltCvCnvVbbhEhEczB4P7DjMP7uGuvkfwpnfenZ9V7cKCwR1q+X+7L7od/F0CMXvMTBvKfSPWjPd0a7gnA5hKN3wDj0GmoAS3Jk6v1XRZgjjq4+ZyQfSIm6At3RIdLzgWL/KKvXRCwtfU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=u1tTcJpP; arc=none smtp.client-ip=209.85.222.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="S3HkmBr6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1718631814;
-	bh=wPdlMn4BkQJ1i+WvuHCmNwqJAwmoMMcYl971v9DomFs=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=S3HkmBr6agUfW95p6IZ5XRCZ8SXGakexEfxerssqNteb6ERE+9IrPn+eIzXQ3pPwT
-	 QRQcBuxxe/IdVRooZRu4o6xbj88PsaPT0WRD7HzPGgSeFCnVoavP/DQJB7t8eKL9gP
-	 GEClxw+4Gn1LePmGb7jSe7RM4T09+hfsHST1NeqyQDdJOHvOdbpbP0LVG7K7j/DxS+
-	 gc2UJuy5w7VXuaOlPt+5WIvUXr4S97awQsFm5m1SjMBFPkxpnEP0rzHEhR5UPX99je
-	 f417DkkCcpc9mkI4RuDtBywU40yoThKahWTcPehbESaQIyfFwJhaHm4gPpQYvorx3E
-	 jb7T1pIkbGI/Q==
-Received: from nicolas-tpx395.localdomain (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 6CB9E3782121;
-	Mon, 17 Jun 2024 13:43:32 +0000 (UTC)
-Message-ID: <ec8e632a80a8d4ded6f692d92dff9f699881773e.camel@collabora.com>
-Subject: Re: [PATCH v4 00/11] media: rkvdec: Add H.264 High 10 and 4:2:2
- profile support
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Diederik de Haas <didi.debian@cknow.org>, Ezequiel Garcia
- <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab
- <mchehab@kernel.org>,  Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- linux-rockchip@lists.infradead.org, Jonas Karlman <jonas@kwiboo.se>,  Andy
- Yan <andyshrk@163.com>
-Cc: Alex Bee <knaerzche@gmail.com>, Benjamin Gaignard
-	 <benjamin.gaignard@collabora.com>, Sebastian Fricke
-	 <sebastian.fricke@collabora.com>, Christopher Obbard
-	 <chris.obbard@collabora.com>, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Date: Mon, 17 Jun 2024 09:43:29 -0400
-In-Reply-To: <122755518.lCnTqr06ca@bagend>
-References: <20231105165521.3592037-1-jonas@kwiboo.se>
-	 <122755518.lCnTqr06ca@bagend>
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="u1tTcJpP"
+Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-795fb13b256so419841085a.0
+        for <linux-staging@lists.linux.dev>; Mon, 17 Jun 2024 06:52:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1718632335; x=1719237135; darn=lists.linux.dev;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=S8oKg7qQ4NYsaNZMwjpwaY5Zq6XvOvJgc9CYYY9wH1A=;
+        b=u1tTcJpPWb1eLa/wNP6sUK1nOfd0Y3a9CLHUw9bU47QB+fw2eeUw1qHKyNZ978gSy8
+         5Cjs3lP7zJH/mlisbm4BlUVmGsT3l6q8U0GjeygX1Zp3+7q2/obMrs1YHiKh8F6dgVms
+         ylV/a09GYe13ksdROhfu+yfERWyT1mPY2kevuQo4rpYXQFEWKsYfBHYmXn6sg9lojI7s
+         f570AukalgQa0GDR0fDhZ3FSTi1B0A1qwdjiTzXrTuSuqqcass8QlVLJLhMAZe4jRTMG
+         9z6naoqPlrTUn+jGw51MMa3VmP9ftReuMB51L+sf7cGDCpsC3dWI9SBVto4PPvL2iOdE
+         6Jlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718632335; x=1719237135;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=S8oKg7qQ4NYsaNZMwjpwaY5Zq6XvOvJgc9CYYY9wH1A=;
+        b=oT4wSKoRbAffVDyGJ0r9Rx7FAjo4gU9wvaZcRLe3LEggZ2ENhTYT2sHgVcKYBit3QN
+         zZUDshlr43AzDJY8VH9wc0Mq0xGVKXC2Q9QgOQiauuevF/XPjX56OEDjlNPaxYg8+hsw
+         NMgiq74aZeLyhM3mrP03OYonxcYhqj+a/7U3k4LUHYrzgMFxSmpVi6lDpJP99o39dHnK
+         qiZ7r7lImNzUPXlMw5ltJsbX87g0r6zmpIxFdipVZMWPDfaIUy3VK3VGACwpPuzQEQfx
+         H6LfuO5auAKybC8PYeywQDMO+6mmOFphJjAemH4FBVuMuEFcJm/B6+aTCuLjlZTDHpv1
+         x3NQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUDSZ809c1cLuEPp7rhVWWVkwjjOK95KiepBnELBgMYLDtGNSJHJJ/I5EDByKn+BcVKoN2Ww3vCMVeDkewya2JEjkdrIB+BeMzyPUKYkA==
+X-Gm-Message-State: AOJu0Ywb8RTLWM7dm7hGnccwZfiAnWTcvfdOHfjqfJJHY58UkTbR27aI
+	3+E9kmxgMdZYr7jdxexYO8txAMO5MBd2kSYag1esqI1jXR/BGzkN16jG/NbgGBg=
+X-Google-Smtp-Source: AGHT+IGyIko1VGBafHP2QtDzGF8rEqYm+Kn5JkvhSCEhEsxF7IzDWjF9X3Q8Mr2an8LHTllmb6fjkQ==
+X-Received: by 2002:a05:620a:19a6:b0:795:e9cd:f5b8 with SMTP id af79cd13be357-79810103ab8mr2338158885a.23.1718632335615;
+        Mon, 17 Jun 2024 06:52:15 -0700 (PDT)
+Received: from nicolas-tpx395.lan ([2606:6d00:15:57da::7a9])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-798abc02f68sm431571485a.86.2024.06.17.06.52.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Jun 2024 06:52:15 -0700 (PDT)
+Message-ID: <eb36cf0fef6208e2842c41517579066109530b28.camel@ndufresne.ca>
+Subject: Re: [PATCH 1/3] media: rockchip: Introduce the rkvdec2 driver
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Diederik de Haas <didi.debian@cknow.org>, linux-kernel@vger.kernel.org, 
+ Detlev Casanova <detlev.casanova@collabora.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh@kernel.org>,  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>,  Sebastian Reichel
+ <sebastian.reichel@collabora.com>, Dragan Simic <dsimic@manjaro.org>,
+ Alexey Charkov <alchark@gmail.com>, Cristian Ciocaltea
+ <cristian.ciocaltea@collabora.com>,  Andy Yan <andy.yan@rock-chips.com>,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+ linux-staging@lists.linux.dev
+Date: Mon, 17 Jun 2024 09:52:14 -0400
+In-Reply-To: <5087685.q4sLEYJVHI@bagend>
+References: <20240615015734.1612108-1-detlev.casanova@collabora.com>
+	 <3333233.eAoTOS8U2s@bagend> <5969581.LvFx2qVVIh@arisu>
+	 <5087685.q4sLEYJVHI@bagend>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.52.2 (3.52.2-1.fc40) 
@@ -63,157 +84,30 @@ MIME-Version: 1.0
 
 Hi,
 
-Le dimanche 16 juin 2024 =C3=A0 11:47 +0200, Diederik de Haas a =C3=A9crit=
+Le dimanche 16 juin 2024 =C3=A0 10:40 +0200, Diederik de Haas a =C3=A9crit=
 =C2=A0:
-> On Sunday, 5 November 2023 17:54:59 CEST Jonas Karlman wrote:
-> > This is a revival of a 3 year old series [1] now that NV15/NV20/NV30 su=
-pport
-> > for display driver have landed in mainline tree.
+> On Saturday, 15 June 2024 21:44:32 CEST Detlev Casanova wrote:
+> > > So is this just an (unfortunate) use of the same words or is that wik=
+i
+> > > page just wrong ... or better yet: does rkvdec2 support RK356x too?
 > >=20
-> > This series adds H.264 High 10 and 4:2:2 profile support to the Rockchi=
-p
-> > Video Decoder driver.
+> > Yes, the vdpu34x decoder on rk356x socs should be supported by this dri=
+ver
+> > but I don't have boards to test that unfortunately.
 > >=20
-> > Patch 1 adds helpers for calculating plane bytesperline and sizeimage.
-> > Patch 2 adds two new pixelformats for semi-planer 10-bit 4:2:0/4:2:2 YU=
-V.
-> >=20
-> > Patch 3 change to use bytesperline and buffer height to configure strid=
-es.
-> > Patch 4 change to use values from SPS/PPS control to configure the HW.
-> > Patch 5 remove an unnecessary call to validate sps at streaming start.
-> >=20
-> > Patch 6-10 refactor code to support filtering of CAPUTRE formats based
-> > on the image format returned from a get_image_fmt ops.
-> >=20
-> > Patch 11 adds final bits to support H.264 High 10 and 4:2:2 profiles.
-> >=20
-> > Tested on a ROCK Pi 4 (RK3399) and Rock64 (RK3328):
-> >=20
-> >   v4l2-compliance 1.24.1, 64 bits, 64-bit time_t
-> >   ...
-> >   Total for rkvdec device /dev/video1: 46, Succeeded: 46, Failed: 0,
-> > Warnings: 0
-> >=20
-> >   Running test suite JVT-FR-EXT with decoder FFmpeg-H.264-V4L2-request
-> >   ...
-> >   Ran 65/69 tests successfully
-> >=20
-> >   Running test suite JVT-AVC_V1 with decoder FFmpeg-H.264-V4L2-request
-> >   ...
-> >   Ran 127/135 tests successfully
-> >=20
-> > Before this series:
-> >=20
-> >   Running test suite JVT-FR-EXT with decoder FFmpeg-H.264-V4L2-request
-> >   ...
-> >   Ran 44/69 tests successfully
-> >=20
-> > ...
-> >=20
-> > Following commits adds support for NV15/NV20/NV30 to VOP driver:
-> > 728c15b4b5f3 ("drm/fourcc: Add NV20 and NV30 YUV formats")
-> > d4b384228562 ("drm/rockchip: vop: Add NV15, NV20 and NV30 support")
-> >=20
-> > To fully runtime test this series you may need above drm commits and ff=
-mpeg
-> > patches from [2], this series and drm patches is also available at [3].
-> >=20
-> > [1]
-> > https://lore.kernel.org/linux-media/20200706215430.22859-1-jonas@kwiboo=
-.se/
-> > [2] https://github.com/Kwiboo/FFmpeg/commits/v4l2-request-n6.1-dev/ [3]
-> > https://github.com/Kwiboo/linux-rockchip/commits/linuxtv-rkvdec-high-10=
--v4/
-> > [4] https://gist.github.com/Kwiboo/f4ac15576b2c72887ae2bc5d58b5c865 [5]
-> > https://gist.github.com/Kwiboo/459a1c8f1dcb56e45dc7a7a29cc28adf
+> > This might also be used on future rockchip releases like the rk3576. Bu=
+t
+> > they all have their own adaptations. If you can test it on rk3568 based
+> > hardware, I'll happily add a compatible for it.
 >=20
-> Reviving this old thread now that rkvdec2 'stuff' emerged.
-> I have (actually) done quite some tests with this (and "media: rkvdec: Ad=
-d=20
-> HEVC backend" patch set) and they have been part of my kernel builds ever=
-=20
-> since.
-> I _think_, but don't know, that is relevant for Andy's question:
->=20
-> On zondag 16 juni 2024 08:58:20 CEST Andy Yan <andyshrk@163.com> wrote:
-> > How can I test these patches? Do they require any additional userspace
-> > patches?
->=20
-> I have the same question and I think you'd need this and the HEVC patch s=
-et=20
-> and then also patch FFmpeg and then it should enable HW acceleration.
-> So my question boils down to: with the rkvdec2 patch set, should V4L2-req=
-uests=20
-> now also work with rkvdec, so not just Hantro anymore?
+> It would be great if you'd add a compatible for it.
+> I don't have rk3568 based HW, but I do have rk3566 based HW and AFAIK tho=
+se=20
+> are the same when it comes to the 'video' stuff.
 
-FFmpeg changes are still downstream, and different people (even within
-LibreELEC) seems to have slightly different version or alteration. It would=
- be
-really nice if this work could move upstream FFMpeg so that we can be more =
-sure
-what what "working with FFmpeg v4l2-requests" means.
-
-Meanwhile, support in upstream GStreamer is stable on Hantro G2 and Mediate=
-k
-VCODEC. In theory, it works fine with RKVDEC, and it will certainly work wi=
-th
-RKVDEC2 when we get to write the HEVC support.
-
->=20
-> BTW: the libdrm commits have been merged upstream quite some time ago, so=
- if=20
-> you have a recent version of that, you don't need to patch that.
-> If you use FFmpeg 7.0, then Jonas has a branch for that too (haven't trie=
-d it=20
-> yet though).
->=20
-> FWIW: my test results were a bit mixed. I didn't post them before as I do=
-n't=20
-> fully/really understand this 'video stuff', and I didn't want you all to =
-suffer=20
-> from what was likely a PEBKAC issue.
->=20
-> On my PineTab2 (rk3566) I had some h.264 videos HW accelerated, but not a=
-ll.=20
-> My guess is that it's related to the resolution. 1920x1080 worked, while =
-it=20
-> didn't work with a 1280x640 video. The video still played, just not HW=
-=20
-> accelerated. IOW: improvements in some and otherwise it was just rendered=
- by=20
-> the CPU (I think), just like before.
-
-This is because all rk35XX have two hardware video decoders for H.264. This=
- is
-not to be be confused with rkvdec which is gone. It has a modified Hantro G=
-1
-core (limited to 1080p60) and rkvdec2 core (driver in progress). I don't th=
-ink
-Rockchip really expected the first one to be ever used, but upstream has be=
-en
-pushy and its now enabled upstream. That has a side effect, which is that
-userspace will have to work harder on these platform to pick the right HW f=
-or
-the task.
-
->=20
-> On my Rock64 I got a pink tint with all videos, like described here:
-> https://github.com/mpv-player/mpv/issues/12968
-> IIUC, that's actually a problem in the lima driver?
-
-Its not clear from the bug report. This visual artefact has been seen with
-wayland compositors lately (notably weston). Notably, this can happen if yo=
-u try
-and import NV12 with mesa (panfrost and lima included) but forcing a TEXTUR=
-E_2D
-target instead of external target. Normally this should be rejected by mesa=
-, but
-is accidentally not, and cause miss-render.
+Our usual approach is to require at least a "Test-by:" to include patches
+written without HW. I think it will come soon enough, and we can focus on
+getting the driver in at this moment.
 
 Nicolas
-
->=20
-> Cheers,
->   Diederik
 
