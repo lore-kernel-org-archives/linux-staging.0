@@ -1,115 +1,143 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2901195FE2
-	for <linux-staging@lists.linux.dev>; Mon, 17 Jun 2024 09:47:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10022194C64
+	for <linux-staging@lists.linux.dev>; Mon, 17 Jun 2024 12:03:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718617665; cv=none; b=U7mRcMUoYHpwzYDkEhEozGyEBQv0INAv3RjgibAIzSkuQw7GC9hRXhPoKowjR5I4ZUERGxqIe6qkvJjKTpSQwJcEB7Bji2vmcZxMKqLwKCgJrRKdpw07yl2hKL1OdA7T/NiUgGFzVq3SY36lvyZ3nHzBAl6J4d1NRmlhN4XTuAg=
+	t=1718625784; cv=none; b=SiFxnzmv+n1zgyX/p0yXWyqKUxgnka+evtroYPXFe+FyqDZMAThHdsiqDEsVyF1VzGQRUzjKZGKLHap5xKO4JGeEuNeyugHp+HAbST4udhrWBNQfSAUjhZ997+K2nubxqiRsQI8D1d8br15JzK5YndGDi7MIrZfYbbJ2sZ0oRts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718617665; c=relaxed/simple;
-	bh=8RBdNog9v6i7Y12AFGORLNl5FaRMz/KfSoh+ctsLO0s=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JTQ188wSLnlbiH/MBAmjRwBXyRUo0FwL+VsCs/i5BDcgQv+CDsuwDRPHB22duts6zbYRwE1WOTEWIWOz4UorSvvW78XeiAJCusV6J/iyUTSBoIfm+UZh1Ibe9V4uEmxxCUQ7QKFeLCCS3Pr7VprDN8Za59JDL9GQl86wSJEvWt0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gPVxCRxc; arc=none smtp.client-ip=209.85.210.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1718625784; c=relaxed/simple;
+	bh=Rr5iGFqpSNRXB+KBYwcPoY3tWHo2mwxMfOhiOo09gUY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=O6LqYzqHEW9LdmE+XbINwE6cnHfkhnNUCzbOxxOTjk3Kh5mTeY6zIiT9jPiWDwReoUEOrTUwbrdfO60/+0/erqySi0HvdJt0v0vSxUrG/W/jAqI/GT0mEyq0gfhqm+GTGdGlS/hRxZ0posv6jOC8aGCp98lNL1WyeWzXxRv7I1E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=uFZ2cn3K; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gPVxCRxc"
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-704313fa830so3156430b3a.3
-        for <linux-staging@lists.linux.dev>; Mon, 17 Jun 2024 02:47:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="uFZ2cn3K"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-42172ab4b60so37568415e9.0
+        for <linux-staging@lists.linux.dev>; Mon, 17 Jun 2024 05:03:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718617663; x=1719222463; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=usGpbKfnBPC6WUjY1RuxzYU4ZgAbIRTvzZTlT0vlyVY=;
-        b=gPVxCRxcFYMnoRqdWBLDCsL3K79CSgIB4GKSdM0/zBm/6mtjaiD23foevHs8fwTv5C
-         MO7ViehEs46+K409VC3FAzdMdS9oBSMsDEGCUWmeFhZkgAsAceFEVCl3KJpekDczzXuA
-         KQssaaxDFrnWm4by6cM7eZ/gJw2opLaiiEFMfSJ4nmk+wYox4Mp3IHiXRwxZk7yD+eAA
-         OPkBKdzSjK1IpzZ+n00709oklx2k4WsmwJIGvcPna5qA41Ytcn/59ygFv9O8kZ+pqpR4
-         25BHMhN4JBNq1arqz4N3HB4qZtMStGsrdtimnuyQNUxBAdT7cKnyESYetl2WMHyoZeMa
-         EM9g==
+        d=linaro.org; s=google; t=1718625781; x=1719230581; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=d8Fhf4JOX+eQHmfKJgo0VL59I075x6PJI/pMFa803UQ=;
+        b=uFZ2cn3KvhXocS9hoPQqFNOp/shh/TUij/p8uSGPxXQlratmU4ZRG+gfOz3Q0D7/cg
+         6qyPJHXhsOKn2lihYD+3hJhOwER3xpkc3aHicnG7Zv4n4VHmwkbVcBwbZPR3g5ll9mLm
+         rY7+aaljrBh42xy8TBGzwSkTJL6gYAXxrasC3XH2iHFpQcN2PHoQwRx/OsJOgx+PIhgC
+         UALWcrtc8e8AjYtZNOyf+Ak+dpKC6qdpsdIFAKTSCzgX02VCfu8+kG40cXSumFRJm9l8
+         /Zl9MJVTPg1wD2zdwqIBFUWdQwkHzwDPnd8W8+st8iJufxJjpkNoORDsgfDKT4dYSSMy
+         B5gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718617663; x=1719222463;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=usGpbKfnBPC6WUjY1RuxzYU4ZgAbIRTvzZTlT0vlyVY=;
-        b=na35thylC9qChfeMm178K5QeYMqdgRpi+t7TfyrnUmeotpNzp7vg+Jf7qjC9TaEIBj
-         /YqDkCAP5j1bMopY3bfxfqr8Acw2pH7qE3Tgo3C8EXw57fkwEd5hl/aH9A6dQUCYNXLM
-         TAbs+55PP1QG4Y6eUCxhbA0t6zfEGSm8YI42A5JauCk/9pimp501C8m0KSECW4fPvK9+
-         YQAQKcvF9Ih7gFa8XiGZXZMliDlulWoQo2IYb3NyTXMWMSFXt15343EQtJMd0pnayJU5
-         YPjscSiLYP7h8KdJeyp1QakLfP2jQdj3B40Z8rZW4IUkWtS8tzVIwbRf3ZoBEmzhPzVK
-         FKtA==
-X-Forwarded-Encrypted: i=1; AJvYcCVdHd5hrJzbg+pqvWJ+dEUhUQog0QwlHSG4zWmTYX5DUVlaUg9AqNyZcAc0tPeOshuHSzHorFXv6kZ4dDhrrXPAX3mRSGNDqkKdjDgQnw==
-X-Gm-Message-State: AOJu0YwwYtPzpEfKS67XQraXPtKVUvUdiJQ+EaNGxB21D2vo5YjWt2Pa
-	xFMTzmr8cQyM62zemJONKyZssS8Env/iEqd/xcb3IoIzOV+fPqz0
-X-Google-Smtp-Source: AGHT+IFyxj6DeLjbzNAUMQS9A9wQr543YPl1rLY7vjP9jo76xxnmD/MsXV8euv4MDQM0ooApWPY5Kw==
-X-Received: by 2002:a05:6a20:da92:b0:1b5:b214:efcc with SMTP id adf61e73a8af0-1bae82fd317mr10638457637.53.1718617662752;
-        Mon, 17 Jun 2024 02:47:42 -0700 (PDT)
-Received: from localhost.localdomain ([221.220.133.99])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2c4c46701absm8576488a91.40.2024.06.17.02.47.38
+        d=1e100.net; s=20230601; t=1718625781; x=1719230581;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=d8Fhf4JOX+eQHmfKJgo0VL59I075x6PJI/pMFa803UQ=;
+        b=GGvrp+RGVw5DQXoxOON+BuAjH+x/g78Sw1XCA/OvXeamB/IzOMw5GTVi6BaFo5HuSF
+         vg+JoVmfALTclrc0R+q9CLWmxbydc1tct1Fap9yvizdZk1K0f4oaYGR4wg1DWIoovRye
+         CFAkrDBwrr3/jn5IwQSXtgVLMc/emjAIm9ncMZQupyMb1/hyyl3T/4L6r1psCGEZjAc7
+         Z4mF+Tt4j1wmWw15B/H/mPvFgkkIVwEZKbfaz9Dr7ad4g6hRQl43JI07nftVGI3QHZIT
+         YXQjE9JjjEu0Vgfn8izjtGbSXYvRrAeVTkOK/eDRnifiWFq/B+hVXp6F9BqhpqzT5L6z
+         W98g==
+X-Forwarded-Encrypted: i=1; AJvYcCWp9BvsnyTA7R+dYq940tNGinqs2mx9/EyEx95u2pLQcLkHBHkWG8/7w8GYi83bDYC1EQQGsvIFBU+WgFwg6y/BgXJMWOHf/oT3NpMSLg==
+X-Gm-Message-State: AOJu0YzflquxgclLKZmrt9mxj2j+nvsYaiu8KkuCuxCP9Mh3BCKyxDcF
+	O+0HcHFAWDSZ4gXZgvR2tqJgHenwuXrqNXXS9AiHukKI7W8w2UocQ7Twh7YC6QE=
+X-Google-Smtp-Source: AGHT+IETqjtVw4vm/BaAXb+7+BMz4Su+YcAJ5zJwSTOWHGTDcdm9ORyc65IHd9xEKGG8oTMrigZ+jg==
+X-Received: by 2002:a05:600c:1d0f:b0:423:4c2:7a43 with SMTP id 5b1f17b1804b1-42304c27b17mr80244375e9.0.1718625781238;
+        Mon, 17 Jun 2024 05:03:01 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-422f6127c1esm156486645e9.23.2024.06.17.05.03.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Jun 2024 02:47:42 -0700 (PDT)
-From: Jianfeng Liu <liujianfeng1994@gmail.com>
-To: detlev.casanova@collabora.com
-Cc: alchark@gmail.com,
-	andy.yan@rock-chips.com,
-	conor+dt@kernel.org,
-	cristian.ciocaltea@collabora.com,
-	devicetree@vger.kernel.org,
-	didi.debian@cknow.org,
-	dsimic@manjaro.org,
-	gregkh@linuxfoundation.org,
-	heiko@sntech.de,
-	krzk+dt@kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-staging@lists.linux.dev,
-	mchehab@kernel.org,
-	robh@kernel.org,
-	sebastian.reichel@collabora.com
+        Mon, 17 Jun 2024 05:03:00 -0700 (PDT)
+Date: Mon, 17 Jun 2024 15:02:56 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Detlev Casanova <detlev.casanova@collabora.com>
+Cc: linux-kernel@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sebastian Reichel <sebastian.reichel@collabora.com>,
+	Dragan Simic <dsimic@manjaro.org>,
+	Alexey Charkov <alchark@gmail.com>,
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+	Diederik de Haas <didi.debian@cknow.org>,
+	Andy Yan <andy.yan@rock-chips.com>, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev
 Subject: Re: [PATCH 1/3] media: rockchip: Introduce the rkvdec2 driver
-Date: Mon, 17 Jun 2024 17:47:34 +0800
-Message-Id: <20240617094735.27928-1-liujianfeng1994@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240615015734.1612108-2-detlev.casanova@collabora.com>
-References: <20240615015734.1612108-2-detlev.casanova@collabora.com>
+Message-ID: <94b9e0fd-2f4f-4d75-ae39-7d780a4e6374@moroto.mountain>
+References: <20240615015734.1612108-1-detlev.casanova@collabora.com>
+ <20240615015734.1612108-2-detlev.casanova@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240615015734.1612108-2-detlev.casanova@collabora.com>
 
-Hi Detlev,
+On Fri, Jun 14, 2024 at 09:56:27PM -0400, Detlev Casanova wrote:
+> +static int rkvdec2_start_streaming(struct vb2_queue *q, unsigned int count)
+> +{
+> +	struct rkvdec2_ctx *ctx = vb2_get_drv_priv(q);
+> +	const struct rkvdec2_coded_fmt_desc *desc;
+> +	int ret, i;
+> +	u32 width, height;
+> +
+> +	if (V4L2_TYPE_IS_CAPTURE(q->type))
+> +		return 0;
+> +
+> +	desc = ctx->coded_fmt_desc;
+> +	if (WARN_ON(!desc))
+> +		return -EINVAL;
+> +
+> +	width = ctx->decoded_fmt.fmt.pix_mp.width;
+> +	height = ctx->decoded_fmt.fmt.pix_mp.height;
+> +	for (i = 0; i < RKVDEC2_RCB_COUNT; i++) {
+> +		ctx->rcb_bufs[i].cpu =
+> +			dma_alloc_coherent(ctx->dev->dev,
+> +					   RCB_SIZE(i),
+> +					   &ctx->rcb_bufs[i].dma,
+> +					   GFP_KERNEL);
+> +		if (!ctx->rcb_bufs[i].cpu) {
+> +			ret = -ENOMEM;
+> +			goto err_rcb;
+> +		}
+> +	}
+> +
+> +	if (desc->ops->start) {
+> +		ret = desc->ops->start(ctx);
+> +		if (ret)
+> +			goto err_ops_start;
+> +	}
+> +
+> +	return 0;
+> +
+> +err_ops_start:
+> +err_rcb:
+> +	i--;
+> +	while (i) {
+> +		dma_free_coherent(ctx->dev->dev,
+> +				  RCB_SIZE(i),
+> +				  ctx->rcb_bufs[i].cpu,
+> +				  ctx->rcb_bufs[i].dma);
+> +		i--;
+> +	}
 
-Thanks a lot for your work! I try to use rkvdec2 with chromium but it
-can't play h264 video. Here is the log of chromium:
+This will leak the first element of the ctx->rcb_bufs[i] array.  The
+traditional way to write this is either while (--i >= 0) or for unsigned
+int i iterators it would be while (i--).
 
-[5799:5873:0617/171224.850061:VERBOSE2:video_decoder_pipeline.cc(473)] Initialize(): config: codec: h264, profile: h264 high, level: not available, alpha_mode: is_opaque, coded size: [1920,1080], visible rect: [0,0,1920,1080], natural size: [1920,1080], has extra data: true, encryption scheme: Unencrypted, rotation: 0°, flipped: 0, color space: {primaries:BT709, transfer:BT709, matrix:BT709, range:LIMITED}
-[5799:5886:0617/171224.850915:VERBOSE2:v4l2_video_decoder.cc(182)] V4L2VideoDecoder():
-[5799:5886:0617/171224.851218:VERBOSE1:v4l2_device.cc(128)] Open(): No devices supporting H264 for type: 0
-[5799:5886:0617/171224.851346:VERBOSE4:v4l2_queue.cc(1069)] This queue does  support requests.: No such file or directory (2)
-[5799:5886:0617/171224.851426:VERBOSE1:v4l2_video_decoder.cc(476)] InitializeBackend(): Using a stateless API for profile: h264 high and fourcc: S264
-[5799:5886:0617/171224.851687:VERBOSE1:v4l2_video_decoder.cc(598)] SetupInputFormat(): Input (OUTPUT queue) Fourcc: S264
-[5799:5886:0617/171224.851797:VERBOSE1:v4l2_video_decoder.cc(636)] AllocateInputBuffers(): Requesting: 17 OUTPUT buffers of type V4L2_MEMORY_MMAP
-[5799:5886:0617/171224.867687:VERBOSE1:v4l2_queue.cc(1511)] Streamon(): (OUTPUT_MPLANE) VIDIOC_STREAMON failed: Invalid argument (22)
-[5799:5886:0617/171224.867902:VERBOSE1:v4l2_video_decoder.cc(937)] StartStreamV4L2Queue(): Failed to streamon V4L2 queue.
-[5799:5886:0617/171224.868009:VERBOSE1:v4l2_video_decoder.cc(1377)] SetState(): Error occurred, stopping queues.
-[5799:5886:0617/171224.868105:ERROR:v4l2_video_decoder.cc(120)] StartStreamV4L2Queue failed at Decode@media/gpu/v4l2/v4l2_video_decoder.cc:915
-[5799:5886:0617/171224.871898:WARNING:v4l2_video_decoder_backend_stateless.cc(126)] There is/are 0 pending CAPTURE queue buffers pending dequeuing. This might be fine or a problem depending on the destruction semantics (of theclient code.
+> +
+> +	return ret;
+> +}
 
-Here is the chromium code failed when calling VIDIOC_STREAMON:
-https://github.com/chromium/chromium/blob/125.0.6422.60/media/gpu/v4l2/v4l2_queue.cc#L1508
-
-I'm running chromium v125.0.6422.60 and I can decode 1080p h264 with
-hantro g1 decoder on rk3588.
-
-Best regards,
-Jianfeng
+regards,
+dan carpenter
