@@ -1,54 +1,82 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC3F4FC18;
-	Mon, 17 Jun 2024 15:27:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2361CD26A
+	for <linux-staging@lists.linux.dev>; Tue, 18 Jun 2024 01:14:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718638048; cv=none; b=gT2JxYuLfJF2e/qK0aMtWSNNvEkbrDHPZgofZTNxP2FwY/wJpxm3nomXR3Upw9dQexBDJVnoXCOFd63L8AJg4Ta22hBZQjqQESe7ox3VmYiOuDkeIGCjsB2lv0KI73IGFldHmj7SxxVXzbvmvSr8p3jjoiI/kf77FRvLKFAlcyg=
+	t=1718673284; cv=none; b=D5U7zluCI6RZnz3HojP2lBPqP9Xy/eGNe0ZVF1C27a5wqN9s589+8fWkZyFGuFRl1n3z8s/fo76VyE2F57rzwQV8dH8JCG02OY359tHn8tpO2coXHampNJzjiwnU04PabxTwNshmO8u/vW4jC902vSwkabdSm5RvJYBqIz0y39E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718638048; c=relaxed/simple;
-	bh=JqQieqOI7uaMFyxd7GU6ZdU463tO4X0tPf2fLy0tgxo=;
+	s=arc-20240116; t=1718673284; c=relaxed/simple;
+	bh=LpKGdcyMCbqIMJ8dif2EM/QbCokrPjd/dBDjqDCknDY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K98CmeMUw3zzHTT5xkYKiJmL5ypCYy8IpYfT2ngWQUdomfVGfsuziWVP0zBab+gMHXLvUQvAACdZsviOKSMsMS14ZfHUvINzkiq9ekOrk+3hSKSSFCinq+OXotZXl+u4ohdjHZ8hMEB/yUSiFYNPWFJgUy5BAc7HOou6T46teI4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=kp9v/qMe; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=U9xDy0RnVfiEQyL1yl+R/k44QY7CNwf2d1Xv2bl2utYM2UC4k8Jf0cEFKy77AcKOnR/AXh53t1XI0gY4wcULGpD6AsAULAOAuKne85Qdbvxidox5vbygiFFpOVrw0RQAfVpnm7mWQcDF0QJFDpaBdBIMrKPrq7qoJaz+AWoBpsE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=l8LeyYtK; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="kp9v/qMe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E18A8C4AF1C;
-	Mon, 17 Jun 2024 15:27:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1718638047;
-	bh=JqQieqOI7uaMFyxd7GU6ZdU463tO4X0tPf2fLy0tgxo=;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="l8LeyYtK"
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CBBFA7E1;
+	Tue, 18 Jun 2024 03:14:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1718673263;
+	bh=LpKGdcyMCbqIMJ8dif2EM/QbCokrPjd/dBDjqDCknDY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kp9v/qMeE///xRyWXaDyuuwUtJYSiliwMIDIoQTzGa1dKJ9eXZjFd2xZHl57uwt81
-	 G1KoA67VdxH7Oek6QhLYDnFrgF3ArqWjpIsFijgj+WgbBVnPjEaouzhzCJZdN0jd+1
-	 9uoEJrgsG7INGo92rGtK0aJlCKQzJKK5WL3puKfo=
-Date: Mon, 17 Jun 2024 17:27:24 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Shiva Kiran K <shiva_kr@riseup.net>
-Cc: Roshan Khatri <topofeverest8848@gmail.com>,
-	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: fbtft: Remove unnecessary parentheses
-Message-ID: <2024061759-hemlock-humped-ac2f@gregkh>
-References: <20240617142746.51885-2-shiva_kr@riseup.net>
+	b=l8LeyYtKBybPLH6+86JBl8RIYu4HBnuxcxBYDHtfd+UldnI+JivNZdDwSDHSkv1gV
+	 hLqlbOG917G5mXS7eHsdfKXWAIZdIUXA1TducAyIPytn516Mdj/fi5kjH6JNyYoud+
+	 F3Itr6rwK6MQHTd4p/Ypx4BtJYxvm9PL/jIRE5oY=
+Date: Tue, 18 Jun 2024 04:14:18 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Stefan Wahren <wahrenst@gmx.net>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH V2 07/10] staging: vchiq_arm: Reduce indentation of
+ service_callback
+Message-ID: <20240618011418.GF21998@pendragon.ideasonboard.com>
+References: <20240610210220.95524-1-wahrenst@gmx.net>
+ <20240610210220.95524-8-wahrenst@gmx.net>
+ <01190bf2-c698-423a-b587-c80ce5d92bb8@moroto.mountain>
+ <20240611212347.GG10397@pendragon.ideasonboard.com>
+ <eaeb19b0-beff-4931-a6c1-102341ca3999@gmx.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240617142746.51885-2-shiva_kr@riseup.net>
+In-Reply-To: <eaeb19b0-beff-4931-a6c1-102341ca3999@gmx.net>
 
-On Mon, Jun 17, 2024 at 07:57:47PM +0530, Shiva Kiran K wrote:
-> Remove unnecessary parentheses in `if` statements.
-> Reported by checkpatch.pl
+On Wed, Jun 12, 2024 at 07:16:16AM +0200, Stefan Wahren wrote:
+> Hi,
+> 
+> Am 11.06.24 um 23:23 schrieb Laurent Pinchart:
+> > On Tue, Jun 11, 2024 at 09:04:28AM +0300, Dan Carpenter wrote:
+> >> On Mon, Jun 10, 2024 at 11:02:17PM +0200, Stefan Wahren wrote:
+> >>> The service_callback has 5 levels of indentation, which makes it
+> >>> hard to read. Reduce this by splitting the code in a new function
+> >>> service_single_message() as suggested by Laurent Pinchart.
+> >>>
+> >>> Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
+> >> To be honest, I liked the version of this patch which Laurent didn't
+> >> like.  Even after pulling this code into a separate function, I'd still
+> >> support flipping the conditions around and adding the goto...
+> >>
+> >> Laurent, you really didn't like the goto?
+> > I won't nack it, but I really think gotos seriously hinder readability,
+> > with the exception of error paths.
+> >
+> so at least you both are fine with the split approach here (assuming the
+> Dan's comment will be fixed in V3)?
 
-As per the many times this came up in the past (see the mailing list
-archives), checkpatch is wrong here.
+Fine with me.
 
-sorry,
+-- 
+Regards,
 
-greg k-h
+Laurent Pinchart
