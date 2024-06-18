@@ -1,32 +1,34 @@
 Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74BB41741D4
-	for <linux-staging@lists.linux.dev>; Tue, 18 Jun 2024 19:47:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF840178398
+	for <linux-staging@lists.linux.dev>; Tue, 18 Jun 2024 19:47:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.28.215.223
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718740049; cv=none; b=B/103YFpIaaka45pXOYA6OjzZHeYgrsWWuz97rwQnCkRjDVm+F7Ta9KLio0QaMJJ/r+mAaX7+93QOM6sCFx+mldXJZNQJNCI9SWfWRzS6MSjSmKylQxVMh6K0686dgDk6DJ7mtE/Myx9jsJPhvqrEIDF8iEr/JV5Fvc68bCVwDE=
+	t=1718740062; cv=none; b=CBSZhRuqcVVjB7tyjGyceNolJYZLsq7y60jLpzpJtOhw25xBt0ZuVI9O3xoPj2WQAf3EzZtdcVE1M4qurFjoP/7kpguOAmgXDYPOS2P9tR8bFsFhfs1EPi8ix2fiuK2JedIA+zkoEZVr3hn29+ASClP/iMzI5Rtwf0y904l9pvE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718740049; c=relaxed/simple;
-	bh=bIXxso8A/hZp4Oq1/DAIOgmiMrZchGG3V5DivXV6cWs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MIX3RGpbIZ8Ii9WnTvZrN3UOmRwjqHuXE/MetZOEgXIRuRHl15Ocg5zL24qVnc6l/40h2OeCvEwOe6RL+YP2K4MeNj2xeh1FCjn5NBDcvT2EV18p8nkPA1guSnuqe3BbpZ1k9faZsZDhiDaPlW1xmKo0Iv0KK9p8TG6lX7W+yMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=nocVBP05; arc=none smtp.client-ip=149.28.215.223
+	s=arc-20240116; t=1718740062; c=relaxed/simple;
+	bh=f7MDqrTS9VA2w94f9+abC6s+OPf3kDOoiI4lylYuxJk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=HUQMRfC8q5X5Z5C1IpUMndGi6YK3uxOrb58zoM+hB7bgMK5vq3WelSYrfFIjlKAnkSnEilrM3iW4UkII4Z+dFKwNWGPJ1xaxDkPsoXVWb30pJytliH7UD0UTlYEhh2QXRZ7YxGZsYeE7TeJMWekQbXWsEJ2d8FuA7AWYYE/+RMs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=HenJYAdY; arc=none smtp.client-ip=149.28.215.223
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="nocVBP05"
+	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="HenJYAdY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
- h=Content-Transfer-Encoding: MIME-Version: Message-ID: Date: Subject: Cc:
- To: From; q=dns/txt; s=fe-e1b5cab7be; t=1718740014;
- bh=YAAXxga0MG8jXLgcQK8Lgyj9QF0HIlvekYbBctGFp48=;
- b=nocVBP05S7asK6pRnqkn8o8qM9RmMVgLV2cYvseKoWnDZPwn9xd6hXZwMn4yW8jyHBAr03RID
- pizX3Xww2fY2Ef10PPtIYduUmKcy8Azw4wW4YsiV2d+P8X8D0G4heOkqQG8MMxW1ftQ68oKH4nD
- W/g2cqcu4JrM71OTvb/ZKoKDwLvMABjbEy2cOcD5RJlkxFqlR37MhI8ryHT/4QhuZZgePX8Y4fG
- +b/ORwWh1U0s9sFZK640nW8K8TSdy1fCt8fc+b6qEza7dna/9Kqhc0iPzCIQIsAQIjvn9d+liYi
- 42PDruYCIyCLSxEpd716wTVEHOUhmIvmXGebKaoFRIbQ==
+ h=Content-Transfer-Encoding: MIME-Version: References: In-Reply-To:
+ Message-ID: Date: Subject: Cc: To: From; q=dns/txt; s=fe-e1b5cab7be;
+ t=1718740037; bh=KB45lJtSwQJs9wxJYwKUH/S/Frg3RhjQrCXHEaw5DeQ=;
+ b=HenJYAdYjg+PRVnPJ0uai12GuMaqdaDEywRDETcDa2zsws1szChQvi3TGKyjVfISrGXl768Kr
+ lycQDdzoCcuSMLsvRk6fP1QGinOqYGv35jbAkyWABOv8WVQcon4hSxiKFa+YXlLj5v4pCBesfhY
+ 1DQnHrz6ssolwYW+UplVfuC71MCz5IUme35Y8wU3ianW+wF+rxYfg1wj4pdE/JUBYInMJ11b9/x
+ PyG5GTzWTMJyfDK8O4jiIGK4+WQU2bHsOFjJzZIs1h1JyiR4fNWvtjlzUXU82GO+9rdlkIIwDRm
+ VCswyX4WbIQTMg4P9GESbB+cLtYep4w+TtvbAWNAYawA==
 From: Jonas Karlman <jonas@kwiboo.se>
 To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>
+ <mchehab@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, "Greg
+ Kroah-Hartman" <gregkh@linuxfoundation.org>
 Cc: Alex Bee <knaerzche@gmail.com>, Nicolas Dufresne
  <nicolas.dufresne@collabora.com>, Benjamin Gaignard
  <benjamin.gaignard@collabora.com>, Sebastian Fricke
@@ -35,10 +37,12 @@ Cc: Alex Bee <knaerzche@gmail.com>, Nicolas Dufresne
  <detlev.casanova@collabora.com>, linux-media@vger.kernel.org,
  linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
  linux-kernel@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>
-Subject: [PATCH v5 00/10] media: rkvdec: Add H.264 High 10 and 4:2:2 profile support
-Date: Tue, 18 Jun 2024 19:46:24 +0000
-Message-ID: <20240618194647.742037-1-jonas@kwiboo.se>
+Subject: [PATCH v5 04/10] media: rkvdec: h264: Don't hardcode SPS/PPS parameters
+Date: Tue, 18 Jun 2024 19:46:28 +0000
+Message-ID: <20240618194647.742037-5-jonas@kwiboo.se>
 X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20240618194647.742037-1-jonas@kwiboo.se>
+References: <20240618194647.742037-1-jonas@kwiboo.se>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -52,111 +56,68 @@ X-Complaints-To: abuse@forwardemail.net
 X-ForwardEmail-Version: 0.4.40
 X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
  149.28.215.223
-X-ForwardEmail-ID: 6671e42d64ade33c90059f61
+X-ForwardEmail-ID: 6671e43f64ade33c90059fb7
 
-This is a re-revival of an old series [1] now that NV15/NV20/NV30 support
-for display driver have landed in linux v6.7.
+From: Alex Bee <knaerzche@gmail.com>
 
-This series adds H.264 High 10 and 4:2:2 profile support to the Rockchip
-Video Decoder driver.
+Some SPS/PPS parameters are currently hardcoded in the driver even
+though they exist in the stable uapi controls.
 
-Patch 1 adds helpers for calculating plane bytesperline and sizeimage.
-Patch 2 adds two new pixelformats for semi-planer 10-bit 4:2:0/4:2:2 YUV.
+Use values from SPS/PPS controls instead of hardcoding them.
 
-Patch 3 change to use bytesperline and buffer height to configure strides.
-Patch 4 change to use values from SPS/PPS control to configure the HW.
-
-Patch 5-9 refactor code to support filtering of CAPUTRE formats based
-on the image format returned from a get_image_fmt ops.
-
-Patch 10 adds final bits to support H.264 High 10 and 4:2:2 profiles.
-
-Tested on a ROCK Pi 4 (RK3399) and Rock64 (RK3328):
-
-  v4l2-compliance 1.26.1, 64 bits, 64-bit time_t
-  ...
-  Total for rkvdec device /dev/video3: 47, Succeeded: 47, Failed: 0, Warnings: 0
-
-  Running test suite JVT-FR-EXT with decoder FFmpeg-H.264-V4L2-request
-  ...
-  Ran 65/69 tests successfully
-
-  Running test suite JVT-AVC_V1 with decoder FFmpeg-H.264-V4L2-request
-  ...
-  Ran 129/135 tests successfully
-
-Before this series:
-
-  Running test suite JVT-FR-EXT with decoder FFmpeg-H.264-V4L2-request
-  ...
-  Ran 44/69 tests successfully
-
-Changes in v5:
-- Drop Remove SPS validation at streaming start patch
-- Move buffer align from rkvdec_fill_decoded_pixfmt to min/step_width
-- Use correct profiles for V4L2_CID_MPEG_VIDEO_H264_PROFILE
+Signed-off-by: Alex Bee <knaerzche@gmail.com>
+[jonas@kwiboo.se: constraint_set_flags condition, commit message]
+Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Tested-by: Christopher Obbard <chris.obbard@collabora.com>
+---
+v5:
 - Collect r-b and t-b tags
-- Fluster test score same as v4, see [4] and [5]
-Link to v4: https://lore.kernel.org/linux-media/20231105165521.3592037-1-jonas@kwiboo.se/
 
-Changes in v4:
-- Fix failed v4l2-compliance tests related to CAPTURE queue
-- Rework CAPTURE format filter anv validate to use an image format
-- Run fluster test suite JVT-FR-EXT [4] and JVT-AVC_V1 [5]
-Link to v3: https://lore.kernel.org/linux-media/20231029183427.1781554-1-jonas@kwiboo.se/
+v4:
+- No change
 
-Changes in v3:
-- Drop merged patches
-- Use bpp and bpp_div instead of prior misuse of block_w/block_h
-- New patch to use values from SPS/PPS control to configure the HW
-- New patch to remove an unnecessary call to validate sps at streaming start
-- Reworked pixel format validation
-Link to v2: https://lore.kernel.org/linux-media/20200706215430.22859-1-jonas@kwiboo.se/
+v3:
+- New patch
 
-Changes in v2:
-- Collect r-b tags
-- SPS pic width and height in mbs validation moved to rkvdec_try_ctrl
-- New patch to not override output buffer sizeimage
-- Reworked pixel format validation
-- Only align decoded buffer instead of changing frmsize step_width
-Link to v1: https://lore.kernel.org/linux-media/20200701215616.30874-1-jonas@kwiboo.se/
+ drivers/staging/media/rkvdec/rkvdec-h264.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
-To fully runtime test this series you may need ffmpeg patches from [2],
-this series is also available at [3].
-
-[1] https://lore.kernel.org/linux-media/20200706215430.22859-1-jonas@kwiboo.se/
-[2] https://github.com/Kwiboo/FFmpeg/commits/v4l2-request-n6.1-dev/
-[3] https://github.com/Kwiboo/linux-rockchip/commits/linuxtv-rkvdec-high-10-v5/
-[4] https://gist.github.com/Kwiboo/f4ac15576b2c72887ae2bc5d58b5c865
-[5] https://gist.github.com/Kwiboo/459a1c8f1dcb56e45dc7a7a29cc28adf
-
-Regards,
-Jonas
-
-Alex Bee (1):
-  media: rkvdec: h264: Don't hardcode SPS/PPS parameters
-
-Jonas Karlman (9):
-  media: v4l2-common: Add helpers to calculate bytesperline and
-    sizeimage
-  media: v4l2: Add NV15 and NV20 pixel formats
-  media: rkvdec: h264: Use bytesperline and buffer height as virstride
-  media: rkvdec: Extract rkvdec_fill_decoded_pixfmt into helper
-  media: rkvdec: Move rkvdec_reset_decoded_fmt helper
-  media: rkvdec: Extract decoded format enumeration into helper
-  media: rkvdec: Add image format concept
-  media: rkvdec: Add get_image_fmt ops
-  media: rkvdec: h264: Support High 10 and 4:2:2 profiles
-
- .../media/v4l/pixfmt-yuv-planar.rst           | 128 ++++++++++
- drivers/media/v4l2-core/v4l2-common.c         |  80 ++++---
- drivers/media/v4l2-core/v4l2-ioctl.c          |   2 +
- drivers/staging/media/rkvdec/rkvdec-h264.c    |  64 +++--
- drivers/staging/media/rkvdec/rkvdec.c         | 226 +++++++++++++-----
- drivers/staging/media/rkvdec/rkvdec.h         |  18 +-
- include/uapi/linux/videodev2.h                |   2 +
- 7 files changed, 399 insertions(+), 121 deletions(-)
-
+diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
+index 7a1e76d423df..8bce8902b8dd 100644
+--- a/drivers/staging/media/rkvdec/rkvdec-h264.c
++++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
+@@ -655,13 +655,14 @@ static void assemble_hw_pps(struct rkvdec_ctx *ctx,
+ 
+ #define WRITE_PPS(value, field) set_ps_field(hw_ps->info, field, value)
+ 	/* write sps */
+-	WRITE_PPS(0xf, SEQ_PARAMETER_SET_ID);
+-	WRITE_PPS(0xff, PROFILE_IDC);
+-	WRITE_PPS(1, CONSTRAINT_SET3_FLAG);
++	WRITE_PPS(sps->seq_parameter_set_id, SEQ_PARAMETER_SET_ID);
++	WRITE_PPS(sps->profile_idc, PROFILE_IDC);
++	WRITE_PPS(!!(sps->constraint_set_flags & (1 << 3)), CONSTRAINT_SET3_FLAG);
+ 	WRITE_PPS(sps->chroma_format_idc, CHROMA_FORMAT_IDC);
+ 	WRITE_PPS(sps->bit_depth_luma_minus8, BIT_DEPTH_LUMA);
+ 	WRITE_PPS(sps->bit_depth_chroma_minus8, BIT_DEPTH_CHROMA);
+-	WRITE_PPS(0, QPPRIME_Y_ZERO_TRANSFORM_BYPASS_FLAG);
++	WRITE_PPS(!!(sps->flags & V4L2_H264_SPS_FLAG_QPPRIME_Y_ZERO_TRANSFORM_BYPASS),
++		  QPPRIME_Y_ZERO_TRANSFORM_BYPASS_FLAG);
+ 	WRITE_PPS(sps->log2_max_frame_num_minus4, LOG2_MAX_FRAME_NUM_MINUS4);
+ 	WRITE_PPS(sps->max_num_ref_frames, MAX_NUM_REF_FRAMES);
+ 	WRITE_PPS(sps->pic_order_cnt_type, PIC_ORDER_CNT_TYPE);
+@@ -688,8 +689,8 @@ static void assemble_hw_pps(struct rkvdec_ctx *ctx,
+ 		  DIRECT_8X8_INFERENCE_FLAG);
+ 
+ 	/* write pps */
+-	WRITE_PPS(0xff, PIC_PARAMETER_SET_ID);
+-	WRITE_PPS(0x1f, PPS_SEQ_PARAMETER_SET_ID);
++	WRITE_PPS(pps->pic_parameter_set_id, PIC_PARAMETER_SET_ID);
++	WRITE_PPS(pps->seq_parameter_set_id, PPS_SEQ_PARAMETER_SET_ID);
+ 	WRITE_PPS(!!(pps->flags & V4L2_H264_PPS_FLAG_ENTROPY_CODING_MODE),
+ 		  ENTROPY_CODING_MODE_FLAG);
+ 	WRITE_PPS(!!(pps->flags & V4L2_H264_PPS_FLAG_BOTTOM_FIELD_PIC_ORDER_IN_FRAME_PRESENT),
 -- 
 2.45.2
 
