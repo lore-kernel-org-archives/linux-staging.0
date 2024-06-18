@@ -1,147 +1,193 @@
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADF5113C80E
-	for <linux-staging@lists.linux.dev>; Tue, 18 Jun 2024 16:34:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74C251741D5
+	for <linux-staging@lists.linux.dev>; Tue, 18 Jun 2024 19:47:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.28.215.223
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718728453; cv=none; b=Lcc0e2F6W91YwZY34c5tjaGziCn/ZBpCWU6ad/AI5tYYexz16xspubMxNm78T/04jU194nfU3Mrc06XIWtK9lSbrX1z4lwUxqYJVTY8ghyQTdJEFsOOOHd3lE6xYuT1m6GydaG38P8RWFoBcVerSbjowujKioiutDyjc+5KW2BQ=
+	t=1718740048; cv=none; b=W117TlDE/k6w9ORz15FMUFUDihqWZwNZdHwXq+1doLiBvvXd93casQU0aOSylMasvlmjiriPk4uDr2oY1MWjq8olJQVvTaTAgKOEfxwnYz5oIlRKpjXOhRiYH8BGWtizgGxN/7BtOcD9jUmtQlQP+DxXjUj6zUqfhcn8ZGUrkFA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718728453; c=relaxed/simple;
-	bh=JwSJvOkZ9FK72lyrJf2XHFu9wWCzAyRi9vx/g3UaMRM=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=r79QGcIcFtAGjHOE/XggUJoRey55hl19NVDAmni9/f4JMvTHh8wxRXXx5fJ9pzjDf09UIqNS7JKqxT0mNtmcjijrXAbBVba/gtKgyFjMFByKI8Bt+4aC51dVMY7nuNX1cujLogmXJ4nuZsPUj2SilPEzBxw4ggmgdJofc6DLGfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=ZT3qapVP; arc=none smtp.client-ip=209.85.219.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
+	s=arc-20240116; t=1718740048; c=relaxed/simple;
+	bh=ebV/XqmTJBV2qr6WY+LpZiNUBYoPi3SbUHc7dUlxhlY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=hQDqzy7oLn67iwJDPs3IFYxu0ZWydttyp1ViBKJ3XXMpI8020adfS9CM4mZVl4wMGIxcr+jEpYixf+yvSd4taYLnopD2lht+etjq/emP3GM2D6Mhzax1SHpjIx7toHFETC26SQ3Qxr5lwzDSzMl5BJ1oYX6FpFSun8PE8fWhlVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=HXO0CXhA; arc=none smtp.client-ip=149.28.215.223
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="ZT3qapVP"
-Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-6b50018e054so1682476d6.1
-        for <linux-staging@lists.linux.dev>; Tue, 18 Jun 2024 09:34:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1718728450; x=1719333250; darn=lists.linux.dev;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=UyATPdua0xIvG9IEZTu2KPUCxjrD23ixmP+LULFeCqg=;
-        b=ZT3qapVPBPJBMAdqTv/WP8uqpuULmA5h8QDQwqGHoQpQI9uk4xRW9drarqd3VXN3EB
-         jlh/QouR1CP2Hx8KqR1HX/6nKDhAqHo9tR/QxW/HtLlmjsDagnDPps7ogiuBPZ5cgQsV
-         Vpmeh5olK4Ksm2q/8R1oLqcdivCbl9RparA8v59EzLPM19dNLqUxcujGYhqCXdkAHC5J
-         rwEcILHMC/co9JPfSKjQ/bhad0OzgAR1V1s6zl6ZJ/9EGur+ZaJHgaT+PV2y5rYolyyX
-         1YtdRw3q8+DoKzfpppLT1zS33/58AIvtkNs1I8XW+R3gKFzfVqCXcwXEo8MEvJ6uhLqh
-         WqiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718728450; x=1719333250;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=UyATPdua0xIvG9IEZTu2KPUCxjrD23ixmP+LULFeCqg=;
-        b=LdruhX/Yx0O7arEFms8dmcQO/DcjlDFDdhjk55dfOaksnt64PxBIYnKvbjYCDKaSS1
-         sx+rrUfDrX/rO/5896Vo5wbnpNU/qw4qce28Dl0ahpuuNNkRToE0lbBgU1onSgaCk0W0
-         J1/68zy0E0jZaf7ZXLRBwAevigXyTptdjakQvBA8GQkWVOFXPHxUJHq2NKZ7sjAJtWb1
-         Iy0qt2//jM4xeTpILIR3el/jE01HLMxwvS5qpKL4QLDVSrScLuwSlN0E/2y0m3tbaJFw
-         +NKGcg6ESfJbojI03cp1hXSYRwDx6MqDm0ytkyG/nV4bPHD/Ea+ZD7YvxFLAAcJWTz9q
-         BVIg==
-X-Forwarded-Encrypted: i=1; AJvYcCW/Nz2WcOY2q9EMu4o7VnAh2HSSmA+dwOTq3KYi3Atdk9G9HuacqQSzQKVrOMmURhyAU1qSTMOGu5e8u3MX3lu/upyKfFfP+jxWC2OKgQ==
-X-Gm-Message-State: AOJu0YzdXAsOd+aVkwd52gtw2Z1MPO+i0mOVySCzTnDuPxVqi1qCZ1hs
-	eCoU2qqti02PG1/ilxiiG6rc9YDJ07KzsoGEVR5caG2nZ2xd1VBb4O+94E6tg0s=
-X-Google-Smtp-Source: AGHT+IHobfGlJhLnHEFotyk1CGxdoLtB4S8IrrxZ0v/h08LqEqBMy+9LORb68TjsMWCIXoDBM5yDLA==
-X-Received: by 2002:a05:6214:80c:b0:6b0:724a:6ed9 with SMTP id 6a1803df08f44-6b501e1e3acmr2439486d6.17.1718728450578;
-        Tue, 18 Jun 2024 09:34:10 -0700 (PDT)
-Received: from nicolas-tpx395.lan ([2606:6d00:17:5fb9::7a9])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6b2a5bf1f96sm68175396d6.12.2024.06.18.09.34.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Jun 2024 09:34:10 -0700 (PDT)
-Message-ID: <0e8561108c4fc99291ad7cdc0c6af2dbb8e58f02.camel@ndufresne.ca>
-Subject: Re: [PATCH 1/3] media: rockchip: Introduce the rkvdec2 driver
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Detlev Casanova <detlev.casanova@collabora.com>, Jianfeng Liu
-	 <liujianfeng1994@gmail.com>
-Cc: alchark@gmail.com, andy.yan@rock-chips.com, conor+dt@kernel.org, 
-	cristian.ciocaltea@collabora.com, devicetree@vger.kernel.org, 
-	didi.debian@cknow.org, dsimic@manjaro.org, gregkh@linuxfoundation.org, 
-	heiko@sntech.de, krzk+dt@kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, 
-	mchehab@kernel.org, robh@kernel.org, sebastian.reichel@collabora.com
-Date: Tue, 18 Jun 2024 12:34:07 -0400
-In-Reply-To: <4302165.yKVeVyVuyW@arisu>
-References: <4116468.VLH7GnMWUR@arisu>
-	 <20240618121329.79936-1-liujianfeng1994@gmail.com>
-	 <4302165.yKVeVyVuyW@arisu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.2 (3.52.2-1.fc40) 
+	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="HXO0CXhA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
+ h=Content-Transfer-Encoding: MIME-Version: References: In-Reply-To:
+ Message-ID: Date: Subject: Cc: To: From; q=dns/txt; s=fe-e1b5cab7be;
+ t=1718740021; bh=XP+PQQpBG4wSocp1mSz4RzoXp8YVq7y4W8nQ4GpBj2g=;
+ b=HXO0CXhAa9Ny8vvBFFYE3H06AAAp2Cp0AcxaogMXz6bkwrpTRDrX6yGgY+KRlK5hW3ne7jMot
+ Lsjv0H6WXD/HHY8kvtWW5Qv2CH2n0s/PBbN5BG4F2mUXRqiOirCHbgHutjulTpJr35gosuAE6Im
+ tw8HNNmcCIU4FcUP8V7l3c5lyFtg6Vw4VNMQQ3Kcn2FW+kzHssqUfns1dqOSFBDKiPVS0ueweSp
+ DncomTCi7kK/ESwxDFapxd9Bn378GYi/K0re52FUJfsBuSgoyFfOWdwCa4JUXopKyVAo3+2SJmM
+ gVxJmmbqnAe6eXaHn0/PQVf4RvMF4Ta1gtG067oNQ8sQ==
+From: Jonas Karlman <jonas@kwiboo.se>
+To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Alex Bee <knaerzche@gmail.com>, Nicolas Dufresne
+ <nicolas.dufresne@collabora.com>, Benjamin Gaignard
+ <benjamin.gaignard@collabora.com>, Sebastian Fricke
+ <sebastian.fricke@collabora.com>, Christopher Obbard
+ <chris.obbard@collabora.com>, Detlev Casanova
+ <detlev.casanova@collabora.com>, linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>
+Subject: [PATCH v5 01/10] media: v4l2-common: Add helpers to calculate bytesperline and sizeimage
+Date: Tue, 18 Jun 2024 19:46:25 +0000
+Message-ID: <20240618194647.742037-2-jonas@kwiboo.se>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20240618194647.742037-1-jonas@kwiboo.se>
+References: <20240618194647.742037-1-jonas@kwiboo.se>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Report-Abuse-To: abuse@forwardemail.net
+X-Report-Abuse: abuse@forwardemail.net
+X-Complaints-To: abuse@forwardemail.net
+X-ForwardEmail-Version: 0.4.40
+X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
+ 149.28.215.223
+X-ForwardEmail-ID: 6671e43264ade33c90059f78
 
-Hi,
+Add helper functions to calculate plane bytesperline and sizeimage,
+these new helpers consider bpp div, block width and height when
+calculating plane bytesperline and sizeimage.
 
-Le mardi 18 juin 2024 =C3=A0 08:39 -0400, Detlev Casanova a =C3=A9crit=C2=
-=A0:
-> On Tuesday, June 18, 2024 8:13:29 A.M. EDT Jianfeng Liu wrote:
-> > Hi Detlev,
-> >=20
-> > On Fri, 14 Jun 2024 21:56:27 -0400, Detlev Casanova wrote:
-> > > +		.frmsize =3D {
-> > > +			.min_width =3D 16,
-> > > +			.max_width =3D  65520,
-> > > +			.step_width =3D 16,
-> > > +			.min_height =3D 16,
-> > > +			.max_height =3D  65520,
-> > > +			.step_height =3D 16,
-> > > +		},
-> >=20
-> > I think the min/max width/height are incorrect. From rockchip's TRM V1.=
-0
-> > Part1 page 374, supported image size is 64x64 to 65472x65472.
-> i,
-> Page 374 shows the sizes for h265. h264 is the next table, where 16x16 an=
-d=20
-> 65520x65520 is documented.
+Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Tested-by: Christopher Obbard <chris.obbard@collabora.com>
+---
+v5:
+- Collect t-b tags
 
-Just a theory, but 64x64 looks like Mali GPU requirement to me. Can you giv=
-e
-more details how it fails exactly ?
+v4:
+- No change
 
-Meanwhile, if fluster suite does not exercise it already, we can craft a st=
-ream
-to verify the its decodes fine. We also have issues in rkvdec were the driv=
-er
-reports CAPTURE queue constraints for OUTPUT formats.
+v3:
+- Consider bpp_div in calculation
 
-Nicolas
+ drivers/media/v4l2-core/v4l2-common.c | 78 +++++++++++++--------------
+ 1 file changed, 39 insertions(+), 39 deletions(-)
 
->=20
-> > And my
-> > chromium can't use rkvdec2 because min width/height are set to 16, whic=
-h
-> >=20
-> > will cause error at here in rkvdec2_h264_validate_sps:
-> > > +	if (width > ctx->coded_fmt.fmt.pix_mp.width ||
-> > > +	    height > ctx->coded_fmt.fmt.pix_mp.height)
-> > > +		return -EINVAL;
-> >=20
-> > width is 16, height is 32 while ctx->coded_fmt.fmt.pix_mp.width and
-> > ctx->coded_fmt.fmt.pix_mp.height are both 16.
->=20
-> Maybe
->=20
-> if (!(sps->flags & V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY))
-> 	height *=3D 2;
->=20
-> is causing issues in this case, I can check.
->=20
-> > After changing them to 64 my chromium can use rkvdec2 to decode h264
-> > videos now.
-> >=20
-> > Anyway many thanks to your amazing work!
-> >=20
-> > Best regards,
-> > Jianfeng
->=20
+diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+index 4165c815faef..9f749384a4f5 100644
+--- a/drivers/media/v4l2-core/v4l2-common.c
++++ b/drivers/media/v4l2-core/v4l2-common.c
+@@ -355,6 +355,34 @@ static inline unsigned int v4l2_format_block_height(const struct v4l2_format_inf
+ 	return info->block_h[plane];
+ }
+ 
++static inline unsigned int v4l2_format_plane_width(const struct v4l2_format_info *info, int plane,
++						   unsigned int width)
++{
++	unsigned int hdiv = plane ? info->hdiv : 1;
++	unsigned int aligned_width =
++		ALIGN(width, v4l2_format_block_width(info, plane));
++
++	return DIV_ROUND_UP(aligned_width, hdiv) *
++	       info->bpp[plane] / info->bpp_div[plane];
++}
++
++static inline unsigned int v4l2_format_plane_height(const struct v4l2_format_info *info, int plane,
++						    unsigned int height)
++{
++	unsigned int vdiv = plane ? info->vdiv : 1;
++	unsigned int aligned_height =
++		ALIGN(height, v4l2_format_block_height(info, plane));
++
++	return DIV_ROUND_UP(aligned_height, vdiv);
++}
++
++static inline unsigned int v4l2_format_plane_size(const struct v4l2_format_info *info, int plane,
++						  unsigned int width, unsigned int height)
++{
++	return v4l2_format_plane_width(info, plane, width) *
++	       v4l2_format_plane_height(info, plane, height);
++}
++
+ void v4l2_apply_frmsize_constraints(u32 *width, u32 *height,
+ 				    const struct v4l2_frmsize_stepwise *frmsize)
+ {
+@@ -390,37 +418,19 @@ int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt,
+ 
+ 	if (info->mem_planes == 1) {
+ 		plane = &pixfmt->plane_fmt[0];
+-		plane->bytesperline = ALIGN(width, v4l2_format_block_width(info, 0)) * info->bpp[0] / info->bpp_div[0];
++		plane->bytesperline = v4l2_format_plane_width(info, 0, width);
+ 		plane->sizeimage = 0;
+ 
+-		for (i = 0; i < info->comp_planes; i++) {
+-			unsigned int hdiv = (i == 0) ? 1 : info->hdiv;
+-			unsigned int vdiv = (i == 0) ? 1 : info->vdiv;
+-			unsigned int aligned_width;
+-			unsigned int aligned_height;
+-
+-			aligned_width = ALIGN(width, v4l2_format_block_width(info, i));
+-			aligned_height = ALIGN(height, v4l2_format_block_height(info, i));
+-
+-			plane->sizeimage += info->bpp[i] *
+-				DIV_ROUND_UP(aligned_width, hdiv) *
+-				DIV_ROUND_UP(aligned_height, vdiv) / info->bpp_div[i];
+-		}
++		for (i = 0; i < info->comp_planes; i++)
++			plane->sizeimage +=
++				v4l2_format_plane_size(info, i, width, height);
+ 	} else {
+ 		for (i = 0; i < info->comp_planes; i++) {
+-			unsigned int hdiv = (i == 0) ? 1 : info->hdiv;
+-			unsigned int vdiv = (i == 0) ? 1 : info->vdiv;
+-			unsigned int aligned_width;
+-			unsigned int aligned_height;
+-
+-			aligned_width = ALIGN(width, v4l2_format_block_width(info, i));
+-			aligned_height = ALIGN(height, v4l2_format_block_height(info, i));
+-
+ 			plane = &pixfmt->plane_fmt[i];
+ 			plane->bytesperline =
+-				info->bpp[i] * DIV_ROUND_UP(aligned_width, hdiv) / info->bpp_div[i];
+-			plane->sizeimage =
+-				plane->bytesperline * DIV_ROUND_UP(aligned_height, vdiv);
++				v4l2_format_plane_width(info, i, width);
++			plane->sizeimage = plane->bytesperline *
++				v4l2_format_plane_height(info, i, height);
+ 		}
+ 	}
+ 	return 0;
+@@ -444,22 +454,12 @@ int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt, u32 pixelformat,
+ 	pixfmt->width = width;
+ 	pixfmt->height = height;
+ 	pixfmt->pixelformat = pixelformat;
+-	pixfmt->bytesperline = ALIGN(width, v4l2_format_block_width(info, 0)) * info->bpp[0] / info->bpp_div[0];
++	pixfmt->bytesperline = v4l2_format_plane_width(info, 0, width);
+ 	pixfmt->sizeimage = 0;
+ 
+-	for (i = 0; i < info->comp_planes; i++) {
+-		unsigned int hdiv = (i == 0) ? 1 : info->hdiv;
+-		unsigned int vdiv = (i == 0) ? 1 : info->vdiv;
+-		unsigned int aligned_width;
+-		unsigned int aligned_height;
+-
+-		aligned_width = ALIGN(width, v4l2_format_block_width(info, i));
+-		aligned_height = ALIGN(height, v4l2_format_block_height(info, i));
+-
+-		pixfmt->sizeimage += info->bpp[i] *
+-			DIV_ROUND_UP(aligned_width, hdiv) *
+-			DIV_ROUND_UP(aligned_height, vdiv) / info->bpp_div[i];
+-	}
++	for (i = 0; i < info->comp_planes; i++)
++		pixfmt->sizeimage +=
++			v4l2_format_plane_size(info, i, width, height);
+ 	return 0;
+ }
+ EXPORT_SYMBOL_GPL(v4l2_fill_pixfmt);
+-- 
+2.45.2
 
