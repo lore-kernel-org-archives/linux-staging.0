@@ -1,128 +1,141 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DC9C7406B
-	for <linux-staging@lists.linux.dev>; Wed, 19 Jun 2024 07:21:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2DB9762D0
+	for <linux-staging@lists.linux.dev>; Wed, 19 Jun 2024 07:41:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718781714; cv=none; b=G34+Qt66MFwU0KACdV0U6Opvxj48GN6CgQxyek6ul+3bXgQ1MnYADf+s1ek8CTOC+ctEZSJfNNn+JlMmqpKliV7H+6u+ilNTKe44cWUPajYLC4/Q1DOt2OK4kRWvU/RC4w3RBjq7d1k9Nz5CRbmlU+47UqkUYWzs4X6W02rKk9k=
+	t=1718782920; cv=none; b=siEcussFJCiNOJnsscFC70+snGsFbF5xqH7LqpgF71ci+OAeRw6VQqC0+vWc0/hHaBAr+Nt+jaYwCTibyCF5vXmJOxbOiig2NT/ScmZR69ZSGq+3KneD6hDAMleFapqUOhNcHqbds3nLCs/yLvfq+6l/aYEmeatad8VbszQC5oc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718781714; c=relaxed/simple;
-	bh=R/kmyQPRM325I/bwHAyp+h9CTCTqygm4C67yMCBClTk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b9WTvrae0OOP5h6Eiavt56QN6Yu0QLu233CVEDYwCopr4xr85cEkIOJS1mO24iAmsaeWX+6VVtq2WrBHtcVbFxxXC+QzmTETa3f2RCiwEKCIKlaO7mkUHLVOYOPd53UXQV/9J9b6+tw8yn/V0LsmU56tabL/SjT1aN98sG8+smY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gdVB+9Qp; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1718782920; c=relaxed/simple;
+	bh=YTRa4gq5UCd3xSgYihZnce0eIH+/AuZILZa29HHqF/s=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=TExON7r0eH2hsZG3RIx1VafBdowLnuMhaWguIC4sIE7qjHO8vv0HBHotmvsQEOYl7d1s7NjTB8G7ahEMo70SKRXrli6DVp8ycExWIlYjh+rTzGH0aFlJoBO0Dm5AWGVlFivpTYCmEczNAnT1vGhrIoGMeeLy2cWLZzYTTZqRxv0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E3zhpOZE; arc=none smtp.client-ip=209.85.215.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gdVB+9Qp"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3608e6d14b6so2602724f8f.0
-        for <linux-staging@lists.linux.dev>; Wed, 19 Jun 2024 00:21:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E3zhpOZE"
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-6e57506bb2dso4624162a12.0
+        for <linux-staging@lists.linux.dev>; Wed, 19 Jun 2024 00:41:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1718781710; x=1719386510; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=5FlCuYx89OMN7s2VzglpB6pm+N8b7rvZjLOnkOOQ78c=;
-        b=gdVB+9QpQO/UVPfPeR3YZF0d4WCwsRIrw7JPIWWHe3fZmLsPJXOtwniq1PLEYI5Te0
-         jcNxQu2nWBC8Vc6AMD9I79YY3d5cpZWhUoktr1ARtQuyKLO6p1WkBs9/sgu14aSXQMrU
-         JJ8NqohOEU1OvKqQjTW692NeuXsR17LPy8HO+bZBXUr1J+7wc+0OIRDXqjUu+IF0H5t+
-         RxwdTG5GeMAFG3jMR58S/ayAf4TE/GG6lQttq4GaIGZ6dzdVB8g2p7ULqX9XcpALLeLN
-         TGca6zHpkVIn9DL/HjnndiEE2X30jHJGbakP/GevTsuO8z68XAK1fLfne0It+FQs+JM4
-         LMQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718781710; x=1719386510;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1718782918; x=1719387718; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5FlCuYx89OMN7s2VzglpB6pm+N8b7rvZjLOnkOOQ78c=;
-        b=k3wEwY/942jrSV0/smV8htrf3P/u53Zluqms2KKPhOFLGWwsTrOSJianpndFHJVjOC
-         c+ujGnWtrEPRliSmWmBQh/URGdTlQSfQzlKPTqlqJjwzn8GpCOa7qIq1vwpwWGoprLkP
-         B0VqaLSSVIg1bypxLT4ttn+w5ptaikbrVqFT5yybkoS5KWs3yHYgtr/zLBzoOodH/YG9
-         I3wyg7ZTLETt0767W8BkpFvWZEgYsNm+dAW+lj/wv0WBqYW6j001xD9+vOhzeN8mb3q1
-         2/ryn5GvmMG2RkUgyiRAU3+oy2yueNBC6wg4E4yAEYkFXYeea0IUatJxmp5rtPzSCUCA
-         K9uw==
-X-Forwarded-Encrypted: i=1; AJvYcCXHIugwFPeauAm7gXQsR5A9bH0hX6M7KK+DCsMDNX0EQ4MRx5FrpZF8tryZHZ8pSAsFZhjFLDJY+11I7/OLxCpATlIL6Q7bFYL1WSLJSQ==
-X-Gm-Message-State: AOJu0YwkRxP9R3AD0bHUz1WsKwmfdhjD8U7SLTuzTdQz3Lji6g1KZv7l
-	jblBgPPkVN2/WGTaENvQoZR9jmUOjzpjgaTEBMBoOXDkTVahtB/BqjrxFHXI9cA=
-X-Google-Smtp-Source: AGHT+IF2UOLV+qz3Kk3N1LJ8/j7ro1aIbV92WwNj2KhCxSSnTu3IwZUZX9P1RLZZrBmMGynzY0ETcg==
-X-Received: by 2002:a5d:5402:0:b0:35f:1f91:c23 with SMTP id ffacd0b85a97d-36319990751mr1278337f8f.65.1718781710339;
-        Wed, 19 Jun 2024 00:21:50 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-363bd4668aasm534412f8f.48.2024.06.19.00.21.49
+        bh=EYf14K0o/GtP+Ak9bfKmmPfeyfY6du+2C660F2DlOvU=;
+        b=E3zhpOZElRnxRFLsprq70BdOK9J4Tzvn5Fk3c1gdeD5928M02XjclHZX6N1jhRs94h
+         Qub/k6b+TonAvo0XzHKq7RiSqnOyeBy8g/Y/wOtlUgcp2U14+41KaI5v4pfF3/tElPXo
+         csdrPOUh3iNf1eeLkhWRZxzN697KrFIpqiXsEmX6xVxyuEqPJM3ar+02w9+JxyWNQ7gr
+         UQPSwy9lGrlguiWq3ycP6HdYfj8XdIfH1tw/S5f7xco+YXbneAfQwyTS0xrlsPppHo8L
+         dwaPVqEzyE9zjt6lGfe6Cgo0Ip3eQLy2xygauKTsByHqnx4LGPYWDjiTojw+BqaKKYMV
+         v8Kg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718782918; x=1719387718;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=EYf14K0o/GtP+Ak9bfKmmPfeyfY6du+2C660F2DlOvU=;
+        b=dBVTBpLIxLZQ7AoMqEfrqj5U8WyqoEsnehEkU7DJ7/vMNrPIoGR6fgdSZN1dxDqXdb
+         /noLEB5ZP9wtUyAFmCOYzDELZYefQ1vMWbnOGTGSFEAEIqJzLfpYCg98HMKhaliWlk4c
+         0qtNztGr7sRS6cU6sXiuSGWLZr2TtPAtw6jpe3RS+gxmQcQjjLA9qSjODp6G0aZKd1IC
+         WsuQyZq9anwophvihXAkUI6G4D3bMzymoZrCkcLGcNVRQt10lDvlQ1oGsfcQBC1zxHrt
+         Q2pbGV9LpuYgiYjcO1POX5MfyKoghbQrjaqFNMbdr1EzuWS3PUh1NGZfs1AJvNPQjWvI
+         JOFg==
+X-Forwarded-Encrypted: i=1; AJvYcCU082KplM/OikmERDSiMPmlR9Os1ywj16m49yuK5uu4mkPSed3wTZ74asJEHYBl6yRfRhzFEUji4FofGvOh2Dfa0UtqFwYFuzwZP+mIWw==
+X-Gm-Message-State: AOJu0YyEMaKuIP/vp/dhdgZi6l8U30OXB6ps5YCDz7O17eHS1mLhIets
+	uBCV9ZXaY3Egq5oa5oyGpMXF4pAM+jRtY8JxbXBRiMFvhlwpL5U1
+X-Google-Smtp-Source: AGHT+IH+9mFlVOWUGxjHQVXw4qG3V8AeXjQgSMD+qpxAz0/Fx43VORUI8LtUbjV7U3DwdOEy2ZllCQ==
+X-Received: by 2002:a05:6a21:610:b0:1b0:58e:1b93 with SMTP id adf61e73a8af0-1bcbb3826camr1797590637.1.1718782917869;
+        Wed, 19 Jun 2024 00:41:57 -0700 (PDT)
+Received: from localhost.localdomain ([221.220.133.99])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f855effc9fsm109835865ad.189.2024.06.19.00.41.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Jun 2024 00:21:49 -0700 (PDT)
-Date: Wed, 19 Jun 2024 10:21:45 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Jonas Karlman <jonas@kwiboo.se>
-Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Alex Bee <knaerzche@gmail.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Sebastian Fricke <sebastian.fricke@collabora.com>,
-	Christopher Obbard <chris.obbard@collabora.com>,
-	Detlev Casanova <detlev.casanova@collabora.com>,
-	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 08/10] media: rkvdec: Add image format concept
-Message-ID: <f7e4b0be-fe09-4db8-b081-21c46c0d836f@moroto.mountain>
-References: <20240618194647.742037-1-jonas@kwiboo.se>
- <20240618194647.742037-9-jonas@kwiboo.se>
+        Wed, 19 Jun 2024 00:41:57 -0700 (PDT)
+From: Jianfeng Liu <liujianfeng1994@gmail.com>
+To: nicolas@ndufresne.ca
+Cc: alchark@gmail.com,
+	andy.yan@rock-chips.com,
+	conor+dt@kernel.org,
+	cristian.ciocaltea@collabora.com,
+	detlev.casanova@collabora.com,
+	devicetree@vger.kernel.org,
+	didi.debian@cknow.org,
+	dsimic@manjaro.org,
+	gregkh@linuxfoundation.org,
+	heiko@sntech.de,
+	krzk+dt@kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	liujianfeng1994@gmail.com,
+	mchehab@kernel.org,
+	robh@kernel.org,
+	sebastian.reichel@collabora.com
+Subject: Re: [PATCH 1/3] media: rockchip: Introduce the rkvdec2 driver
+Date: Wed, 19 Jun 2024 15:41:50 +0800
+Message-Id: <20240619074150.103770-1-liujianfeng1994@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <0e8561108c4fc99291ad7cdc0c6af2dbb8e58f02.camel@ndufresne.ca>
+References: <0e8561108c4fc99291ad7cdc0c6af2dbb8e58f02.camel@ndufresne.ca>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240618194647.742037-9-jonas@kwiboo.se>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jun 18, 2024 at 07:46:32PM +0000, Jonas Karlman wrote:
-> +static u32 rkvdec_enum_decoded_fmt(struct rkvdec_ctx *ctx, int index,
-> +				   enum rkvdec_image_fmt image_fmt)
->  {
->  	const struct rkvdec_coded_fmt_desc *desc = ctx->coded_fmt_desc;
-> +	unsigned int i, j;
->  
->  	if (WARN_ON(!desc))
->  		return 0;
->  
-> -	if (index >= desc->num_decoded_fmts)
-> -		return 0;
-> +	for (i = 0, j = 0; i < desc->num_decoded_fmts; i++) {
-> +		if (rkvdec_image_fmt_match(desc->decoded_fmts[i].image_fmt,
-> +					   image_fmt) &&
-> +		    index == j++)
+Hi,
 
-I really don't care for this j++ which is tucked inside a condition.
+On Tue, 18 Jun 2024 08:39:07 -0400, Detlev Casanova wrote:
+>> I think the min/max width/height are incorrect. From rockchip's TRM V1.0
+>> Part1 page 374, supported image size is 64x64 to 65472x65472.
+>
+>Page 374 shows the sizes for h265. h264 is the next table, where 16x16 and 
+>65520x65520 is documented.
+>
+>> And my
+>> chromium can't use rkvdec2 because min width/height are set to 16, which
+>> 
+>> will cause error at here in rkvdec2_h264_validate_sps:
+>> >+	if (width > ctx->coded_fmt.fmt.pix_mp.width ||
+>> >+	    height > ctx->coded_fmt.fmt.pix_mp.height)
+>> >+		return -EINVAL;
+>> 
+>> width is 16, height is 32 while ctx->coded_fmt.fmt.pix_mp.width and
+>> ctx->coded_fmt.fmt.pix_mp.height are both 16.
+>
+>Maybe
+>
+>if (!(sps->flags & V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY))
+>	height *= 2;
+>
+>is causing issues in this case, I can check.
 
-> +			return desc->decoded_fmts[i].fourcc;
-> +	}
+You are right. H264 decoder should support 16x16 to 65520x65520. After 
+removeing the "height *= 2" code chromium can also decode video now.
+Checking with V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY is copied from rkvdec and
+rkvdec has min width/height 48x48 so there is no issue with chromium.
+Chromium will call VIDIOC_STREAMON with size 16x16 and without sps flag
+V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY at the beginning of the video play.
+Gstreamer doesn't has this issue because it will call VIDIOC_STREAMON
+with the actual video size like 1920x1080.
 
-	int fmt_idx = -1;
-	unsigned int i;
+On Tue, 18 Jun 2024 12:34:07 -0400, Nicolas Dufresne worte:
+>Just a theory, but 64x64 looks like Mali GPU requirement to me. Can you give
+>more details how it fails exactly ?
 
-	for (i = 0, i < desc->num_decoded_fmts; i++) {
-		if (!rkvdec_image_fmt_match(desc->decoded_fmts[i].image_fmt,
-					    image_fmt))
-			continue;
-		fmt_idx++;
-		if (index == fmt_idx)
-			return desc->decoded_fmts[i].fourcc;
-	}
+Chromium failed when calling v4l2 uapi VIDIOC_STREAMON with size 16x16 and
+V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY disabled. It has not come to render step
+which will use gpu. Other decoders I have tested with chromium like
+hantro g1 and rkvdec both don't have this 16x16 min width/height.
 
-	return 0;
+I also tried gstreamer with a 16x16 video and it works fine. So there
+should be something wrong in chromium's code. But I have not find where
+chromium set sps flags in its v4l2 decoder.
 
->  
-> -	return desc->decoded_fmts[index];
-> +	return 0;
->  }
-
-Don't resend if this is the only issue, but if you do resend could you
-get rid of the j++?
-
-regards,
-dan carpenter
+Best regards,
+Jianfeng
