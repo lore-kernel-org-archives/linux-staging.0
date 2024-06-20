@@ -1,95 +1,152 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E128C745EF;
-	Thu, 20 Jun 2024 20:42:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9C9A823DC
+	for <linux-staging@lists.linux.dev>; Thu, 20 Jun 2024 22:10:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718916138; cv=none; b=gQ/rgU8cFLiXLtKmc4y5+KA/TNWMubhd8jAwNtD8RPg9rc8ojg1gP05nUdq9CntmKEd35yJiffZEbgDtjyvnt1oZsfR3YJtKKV2r2+eTni+W4RRTGd6i2X6qbpHZZeu8q+/+z1gAUI4kjdHFIM0kwysha7F39IZTkHv8aEb35wE=
+	t=1718921456; cv=none; b=qtewsXSm+hKD2Qpr3zIGaMlauUleUixqeNTfixKovrUm2rwTy4ZESky5E8qiLs8KccQ4tM7TmcL4Pjql/3mtrCgCU1k2FQbuOrijVnhmopkImABCcYPyYXHzMHOZz7dtF37wOQoguWb5wgS22fH2uPP8lz99ecUDPmtCn1/9wA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718916138; c=relaxed/simple;
-	bh=DrXA93yem7kpSAQKXAZ3duAKOyOncZJfLxoceIbKyEU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BaXF4ROcoO+Oq8EXylgfnG5Et/K3W95fRlxYOvlYQUg7RBq18FjUoVfa4fs27QtPxtFTbTMAUHUIqA2oL0b5wKEVca9wsP68z2c3ypp4lMbcDqqwsrH2J1Y/udbio4iEbpjmnJBp1U1xqXhR3eR8UxPeJby6m5grwWGr0Y7AEC4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=k/jVziH/; arc=none smtp.client-ip=212.227.15.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
+	s=arc-20240116; t=1718921456; c=relaxed/simple;
+	bh=NDe1t69bQjF5wXikbN+OjRjQ1Lrwn+Df1AKfDsfwvxQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=SWEHuj7Gai3mMLbW2iNOD2go6YEL5C6/ZCZ/D3P32BRo8LlKGJUMkohPtoy/dLyz/P4NLuFdG+BIeFZmw+EJM8hay627NQ4l6dWUNVK3DzB6EPSw4EpETa0JfhfI4p2AkNlBcZtPeI35I+nBe9hcvsa2Xy6r//m2FlriqpLisWw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=oFxHduq6; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="k/jVziH/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
-	s=s31663417; t=1718916126; x=1719520926; i=wahrenst@gmx.net;
-	bh=EG3q4S6KfzEyj8HzO3hFQtrkMippDMNTA053axxrKEE=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=k/jVziH/A9lB9staHsYGtiPPbPTqy9iPZ/oGYX+n2Qhlz19VheB19G46SOgTiyc4
-	 nQ3rg7VQaahl5rXosNv11Id4LGpENZpZeQyCBZC0SVRse0IgHjQt4jlwMkE95jFT8
-	 5he3w+3tXKjMxbehKd7mE+YlHkWxnOt4GjlnZpZZ1rptzPZNkhFMqe+vjzfN4KVof
-	 8mjVIO/wKdnogm5Je8Yfx5DtD7XylKeDLWp41oqddyURYuoCwIJVjw1umo/8Yt4Ar
-	 9CWYLPAzMSxbnQym4RLvhDLW6flBkBNuAyesaLv41OH3lASaylEsHutAvAfxQHXdW
-	 /BTQvI0M3ch+Tfv2ZQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.127] ([37.4.248.43]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1N0G1d-1sXEYT3EmN-00vWej; Thu, 20
- Jun 2024 22:42:06 +0200
-Message-ID: <c4c9f013-3cff-47dd-9adb-76b30925d8c7@gmx.net>
-Date: Thu, 20 Jun 2024 22:42:05 +0200
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="oFxHduq6"
+Received: from Monstersaurus.local (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 954943E6;
+	Fri, 21 Jun 2024 00:10:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1718921432;
+	bh=NDe1t69bQjF5wXikbN+OjRjQ1Lrwn+Df1AKfDsfwvxQ=;
+	h=From:To:Cc:Subject:Date:From;
+	b=oFxHduq68IIllLHaxXLNuY0UcE4sx6hUibNArOvt7lL4h8gkSRPeGGmyAgH0VcI/j
+	 j4MMVDvcDsX+0oaKV/llBZ0d3+Nmir4uvOgfDU0nop2+4IE1vGoN2PzGv49CfLwHqf
+	 B+E5qtunHnbszERCFuao/zBwnIyL+nWTzBkUUZ+Q=
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+To: Umang Jain <umang.jain@ideasonboard.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	linux-rpi-kernel@lists.infradead.org,
+	Stefan Wahren <wahrenst@gmx.net>
+Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Yang Li <yang.lee@linux.alibaba.com>,
+	linux-arm-kernel@lists.infradead.org (moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE),
+	linux-staging@lists.linux.dev (open list:STAGING SUBSYSTEM),
+	linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH v3] staging: vc04_services: vchiq_arm: Fix initialisation check
+Date: Thu, 20 Jun 2024 23:10:42 +0100
+Message-Id: <20240620221046.2731704-1-kieran.bingham@ideasonboard.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: vc04_services: use 'time_left' variable with
- wait_for_completion_timeout()
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
- linux-kernel@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>,
- Scott Branden <sbranden@broadcom.com>, linux-staging@lists.linux.dev,
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org
-References: <20240620182538.5497-2-wsa+renesas@sang-engineering.com>
-Content-Language: en-US
-From: Stefan Wahren <wahrenst@gmx.net>
-In-Reply-To: <20240620182538.5497-2-wsa+renesas@sang-engineering.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:/PljUOGvJb5w8aUzifp/ONdkuICeeisq9ZwvMRafKV8lcmjZWFX
- apZF2FTuaiktuGVagxQwkm3/aoMHdH62lGFaDIIP8ciq1X1KpxcSCa4BDGPKzPaLV5nKgdM
- L/2sTE6WY4PgRgDHno6GcaENyVtdIfHtfubjy6eGkSFKxtXapAWPUwGXzwk4xwyALLbCiuC
- ARs4SZDufYA0dB4SfOpkA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:5ZAmFN1SBZY=;AGP+r+deZj0yLQcTBNsKBn+fj+n
- 83I5Kx1re2qxug3jkU80zRLRynjfqUiaWiupb9zcB9muGNjc4dv47ZnkV5BmiE3ZHHp9Fcgd9
- aLkp6NgfJwiS5Ha7SWY9c252mwTEiYhdLL9O/HIT2VQ40XgA/lbLHA+NGJihuYrq/W0/v+Pfm
- V//h6sBX2c1zUgMWUwWZnM24iTdVSlGwM08wusOoP9WtfiPGGaHs6OHOdsUON6S3oVyf7nlHO
- W+U0+jh8U99khbKngdZYNSeIeEFWOoC02Zh7EvyP1wRpl02vD+irl5bafiBb+YSOh7J4ooKD4
- tO+LCWQK2PJPnrin1s1x/P4gcdxiNfj5TpwfAH2n6slx2nIvpemClP2AYKoFmlf0qAUJOsHLq
- 7aN6BMQcccS7s14hIVMaPFSY1QNf7gtok0GnhCBmLUL2Co5VX0MQ0uDHfFh4WbTtKd5nrmAFo
- FKsk8RlinzAUSFX+leUbZm0rh0Btvzb6SB9z6k/WEVccPTYiCC+hFh0LaQSFzlPhd0AurRnY4
- GSOcUNruqXvxyGUjtPe7g7o5CV145tF66sMMXVNwOxFMwk9WXcghkg0JWL6XOWtfxvg8QHvH3
- qhkwu4nwQMlPVBQZi8vpEkwfA207KBjqG+pykswt4HfKpQVtuy+hNIR7lsu/MG50zx2LCDfje
- zrAr5VhZr2Y68T3+Qq+XYEUkmMsNnE1RhJYVJasl7cLZc/df4o28vHyXa/c4m/4HaxPhUR+cy
- jn4Oc8GWcZJf4I8y4ji8FKpNTdn1uSIAsn3BOimK0wPul0SsfnY7mBev9ACd+uzGEvGfAD5cD
- 3ZWhcq6U1g7xEF72bVXUJU5M0DYKsATQNueJoEuuDVMgo=
+Content-Transfer-Encoding: 8bit
 
-Am 20.06.24 um 20:25 schrieb Wolfram Sang:
-> There is a confusing pattern in the kernel to use a variable named
-> 'timeout' to store the result of wait_for_completion_timeout() causing
-> patterns like:
->
->          timeout = wait_for_completion_timeout(...)
->          if (!timeout) return -ETIMEDOUT;
->
-> with all kinds of permutations. Use 'time_left' as a variable to make the
-> code self explaining.
->
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Reviewed-by: Stefan Wahren <wahrenst@gmx.net>
+The vchiq_state used to be obtained through an accessor which would
+validate that the VCHIQ had been initialised correctly with the remote,
+or return a null state.
 
-Thanks
+In commit 42a2f6664e18 ("staging: vc04_services: Move global g_state to
+vchiq_state") the global state was moved to the vchiq_mgnt structures
+stored as a vchiq instance specific context. This conversion removed the
+helpers and instead replaced users of this helper with the assumption
+that the state is always available and the remote connected.
+
+The conversion does ensure that the state is always available, so some
+remaining state null pointer checks that remain are unnecessary, but the
+assumption that the remote is present and initialised is incorrect.
+
+Fix this broken assumption by re-introducing the logic that was lost
+during the conversion.
+
+Fixes: 42a2f6664e18 ("staging: vc04_services: Move global g_state to vchiq_state")
+Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+
+---
+v2:
+ - Just a resend
+
+v3:
+ - Downgrade vchiq_open() error path print to dbg
+ - Clarify commit message about unnecessary state checks.
+
+ .../staging/vc04_services/interface/vchiq_arm/vchiq_arm.c  | 4 ++--
+ .../staging/vc04_services/interface/vchiq_arm/vchiq_core.h | 5 +++++
+ .../staging/vc04_services/interface/vchiq_arm/vchiq_dev.c  | 7 ++++++-
+ 3 files changed, 13 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+index 69daeba974f2..5f518e5a9273 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+@@ -707,7 +707,7 @@ int vchiq_initialise(struct vchiq_state *state, struct vchiq_instance **instance
+ 	 * block forever.
+ 	 */
+ 	for (i = 0; i < VCHIQ_INIT_RETRIES; i++) {
+-		if (state)
++		if (vchiq_remote_initialised(state))
+ 			break;
+ 		usleep_range(500, 600);
+ 	}
+@@ -1202,7 +1202,7 @@ void vchiq_dump_platform_instances(struct vchiq_state *state, struct seq_file *f
+ {
+ 	int i;
+ 
+-	if (!state)
++	if (!vchiq_remote_initialised(state))
+ 		return;
+ 
+ 	/*
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
+index 8af209e34fb2..382ec08f6a14 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
+@@ -413,6 +413,11 @@ struct vchiq_state {
+ 	struct opaque_platform_state *platform_state;
+ };
+ 
++static inline bool vchiq_remote_initialised(const struct vchiq_state *state)
++{
++	return state->remote && state->remote->initialised;
++}
++
+ struct bulk_waiter {
+ 	struct vchiq_bulk *bulk;
+ 	struct completion event;
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
+index 67ba9ceaad3e..9cd2a64dce5e 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
+@@ -1170,6 +1170,11 @@ static int vchiq_open(struct inode *inode, struct file *file)
+ 
+ 	dev_dbg(state->dev, "arm: vchiq open\n");
+ 
++	if (!vchiq_remote_initialised(state)) {
++		dev_dbg(state->dev, "arm: vchiq has no connection to VideoCore\n");
++		return -ENOTCONN;
++	}
++
+ 	instance = kzalloc(sizeof(*instance), GFP_KERNEL);
+ 	if (!instance)
+ 		return -ENOMEM;
+@@ -1200,7 +1205,7 @@ static int vchiq_release(struct inode *inode, struct file *file)
+ 
+ 	dev_dbg(state->dev, "arm: instance=%p\n", instance);
+ 
+-	if (!state) {
++	if (!vchiq_remote_initialised(state)) {
+ 		ret = -EPERM;
+ 		goto out;
+ 	}
+-- 
+2.34.1
+
