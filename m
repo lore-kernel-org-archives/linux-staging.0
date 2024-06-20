@@ -1,128 +1,174 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43CF31B3735;
-	Thu, 20 Jun 2024 16:59:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FD141B29D0
+	for <linux-staging@lists.linux.dev>; Thu, 20 Jun 2024 17:38:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718902795; cv=none; b=UXlbR/1cac9t+u2RrbW8FthX4z4byzfQp1m9axQfx4cCnMVhynm5S7NRR6JACQ2JRfke5eW1XvMCABUvst8eNRNScX2CGa178wbUidihIJYp0NOBAAXzfO8lYQRsVHFcC6V34PTCDChZUVbjC/b+tfXS7PG9Fz/dvU7YwtidrS8=
+	t=1718905122; cv=none; b=KO1eQ6eg4jctO9JEEuwC1esYtGk2Cjzp2h7Nls6g+MQq0Xj7MOSFZxuen8egbsOxmcmFpOq/75DoRWlVqgK4eilEs6u/cpRXYlq2hPCXF3Clq0aHZwuABSzrSyY2lvZvvrHFRy0Z1iac1l2XJhFmPFk6DhafPBAL8hlyHnEgIC8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718902795; c=relaxed/simple;
-	bh=BRG+sP7vlU9S0Ij+PyX4BGt/+GXAKzOhTP+8j7+zSLM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Mco7QZuL9o2oc26TrVQs0Di5PyruR2qptC0AAUx/vz9DvVKugK9Vm8rSoVxvuLvc690Xc0wk0vIokAlZdctSWHtSWolp8IL0EDTAk8nqSlgW6r0VUYUu+WuQuwfQ3uHc70dZl54qpk5uRxaZzcD9nwjF4sj7YG/tN2nUTPSJBdA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=pUdt3xI6; arc=none smtp.client-ip=212.227.15.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
+	s=arc-20240116; t=1718905122; c=relaxed/simple;
+	bh=WNDUfhBM9/HSXNcFmiKwEnh7+iaCd5SdM7ZCgWc+f/g=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=h4bV1iqdrLikiaY3/dKVj8LSi7rq1JlN1AMmDpg8GDA/faHxpoRZFNS1Z791vgQtwqb6v0Du2hlbBMHoJd88HNrKg/47qbsnLKXOveQ9gCOF4Itwf/c+4GdmpLtHmJcBqvmSxELxd5FUzSPEJkevLDSrbE6GKH5bkP5UwdxMqfU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i+ZP/AfH; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="pUdt3xI6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
-	s=s31663417; t=1718902780; x=1719507580; i=wahrenst@gmx.net;
-	bh=VSq24EbJ74gt4mzsgZlLMeZYIybo9QSU6HsfTsY4ehs=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=pUdt3xI6V96TNv8FWBom+RXXUwSUql9w2JLvjtF6SeZyCvm1Gh+t1l3lnNXarJCc
-	 pI+kD3rytnSWN8/ULKBkX4x4qvrVCR7A42rRzKVYTM1tzucs3XFe8HHn89w3IT2Ay
-	 Rb2zjTW/UDwl0lvOzeFQUuVznsRfZ9MYD3rBA8RymGvrABiX6Fkc/gzMGJ7SVEBQM
-	 fqQ9x2tbPfKl/El0Bk/iRByLJtYqaXQv+at1nuuI65y+H1BWvVltM9uZWYNA//3jO
-	 b/5sopt2rlrqV1O2BLS59iV6Xy8tUFGLr2N9O19u4KbNy1EK5jBqfaNxKkrCYvOGG
-	 n6n7tdYqY7S+oL+4Sw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.127] ([37.4.248.43]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MTzf6-1ruSFS2yhO-00OHYa; Thu, 20
- Jun 2024 18:59:40 +0200
-Message-ID: <a2f08c04-ff9c-4854-b5a6-a3b84e20b50c@gmx.net>
-Date: Thu, 20 Jun 2024 18:59:39 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i+ZP/AfH"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1f480624d10so9612065ad.1
+        for <linux-staging@lists.linux.dev>; Thu, 20 Jun 2024 10:38:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718905120; x=1719509920; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4sG4Va9OdsdsAbudvNBTbNSzmionWI4fbzxfvxF/ZFU=;
+        b=i+ZP/AfHuvYT58fHG1RpQkWTUvgd/h+tomZrMpyYyBJ1ZTiAGpFKskRC2iek4hiCna
+         cSNBD/7nAfl5WHK5cigqyQWzBt38lm3b2fphIinLOy++tjPybl+ijVV0rRZ6T263UMeZ
+         CJR0k8WoUd4TaiykCE4lQpObvg1oRX4JYtsBYclnNhPjnwnUFcDf2VkD2lcV+tKHD8oq
+         C8wJU6Nde7QC/qCYvvN+oxr3MNASJwg7Mx9kbFz75MzCJFeOVslqlVbPX89zt6TyCvbF
+         zqiuJkMyAlrbfcP9ey3mJvvMzEqc2Kqg9H89Z1hvCnBbdfwzAzjUepGVSWDlyc1SlKmJ
+         yBog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718905120; x=1719509920;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4sG4Va9OdsdsAbudvNBTbNSzmionWI4fbzxfvxF/ZFU=;
+        b=K08Ir1bu3ZRRMroZhIG7W0LZ2N7JNKI3L8zFTrTtUfNiU7rty+RErmEENCxLYpQh90
+         XSxASUPlm41r8IFXT2mwQusFpsIRhKnyy5REN6DpTw+uGkf+A6Q2/pwxglx/WLr0vir/
+         48qy9d7EBDShgN/0QToHOHan0hPZVUtst7z2f2PopMnY8D/0c3oRxZo+g6grrqtcxsqv
+         MrLthTlRInM/9Dxo/fBIIt5C3SlWBEEIhmyiMCGokVN9qbvn0MdHo8sCZgxGWzDm9JBx
+         Xfa5AWLSGInmJ9LKZCO1c8v4ezrvuGgFPMottjJ/yTqQgesXhQCdT6jn4O4CYiUrZMaE
+         rBkQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUYGYAoP91TPqRuwuOFryWavIzVgjaX7nFdy4Yr3nIRjRl1sf4wV/4izg1YhxOox7IaXTsuYzHk0GbHan54hKXAbt2bx9a2nwPkpuSdsg==
+X-Gm-Message-State: AOJu0YzEANJijLxRZiBpMnBq0k6A4kRCBbiLK6qsG+N9/KdlMfKZnyG/
+	4w5Pof6V+gZVOPA100qujBJo7ecGzKlOaaloC9iK1ZOJbv8soweq
+X-Google-Smtp-Source: AGHT+IGuxDdFAgdWqgiP/kZrg0iwxBJMVyTH3b8zZKvOQHHripPZ4bEWsXUOLcu/oJJn63EYCqpTKg==
+X-Received: by 2002:a17:903:2443:b0:1f9:cbe1:ae9 with SMTP id d9443c01a7336-1f9cbe10dc6mr23294315ad.44.1718905119620;
+        Thu, 20 Jun 2024 10:38:39 -0700 (PDT)
+Received: from localhost.localdomain ([221.220.128.96])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f855e55ca1sm140132045ad.49.2024.06.20.10.38.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Jun 2024 10:38:39 -0700 (PDT)
+From: Jianfeng Liu <liujianfeng1994@gmail.com>
+To: nicolas.dufresne@collabora.com
+Cc: andy.yan@rock-chips.com,
+	benjamin.gaignard@collabora.com,
+	boris.brezillon@collabora.com,
+	conor+dt@kernel.org,
+	daniel.almeida@collabora.com,
+	detlev.casanova@collabora.com,
+	devicetree@vger.kernel.org,
+	didi.debian@cknow.org,
+	dsimic@manjaro.org,
+	ezequiel@vanguardiasur.com.ar,
+	gregkh@linuxfoundation.org,
+	heiko@sntech.de,
+	hverkuil-cisco@xs4all.nl,
+	jonas@kwiboo.se,
+	knaerzche@gmail.com,
+	krzk+dt@kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	liujianfeng1994@gmail.com,
+	mchehab@kernel.org,
+	paul.kocialkowski@bootlin.com,
+	robh@kernel.org,
+	sebastian.reichel@collabora.com
+Subject: Re: [PATCH v2 2/4] media: rockchip: Introduce the rkvdec2 driver
+Date: Fri, 21 Jun 2024 01:38:30 +0800
+Message-Id: <20240620173830.277022-1-liujianfeng1994@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <2349746d488f4edf9c7c40df5e15ff70d3ec67b7.camel@collabora.com>
+References: <2349746d488f4edf9c7c40df5e15ff70d3ec67b7.camel@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [v2 PATCH] staging: vc04_services: vchiq_arm: Fix initialisation
- check
-To: Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Umang Jain <umang.jain@ideasonboard.com>,
- linux-rpi-kernel@lists.infradead.org
-Cc: Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.org>, detule
- <ogjoneski@gmail.com>, Dan Carpenter <dan.carpenter@linaro.org>,
- BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE
- <linux-arm-kernel@lists.infradead.org>,
- STAGING SUBSYSTEM <linux-staging@lists.linux.dev>,
- open list <linux-kernel@vger.kernel.org>
-References: <20240614104339.3858830-1-kieran.bingham@ideasonboard.com>
- <37779db2-114c-4df6-97fd-2444bdad5529@gmx.net>
- <171836466631.2248009.16741779932900773222@ping.linuxembedded.co.uk>
-Content-Language: en-US
-From: Stefan Wahren <wahrenst@gmx.net>
-In-Reply-To: <171836466631.2248009.16741779932900773222@ping.linuxembedded.co.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:+wNmFXiH+5ZE6MG+T03/1HnnEwf5i0wgjf2gm9qTCMRMPCOz2oP
- cGP8uy9/P9I1JNRuMNltj5+ifvHkj0M+r9PD7mV+Vc0qzk7Jw9u4etBIkNQHzJCgfySzgnU
- o7koxn3CFaBbwtdHveDtJIzBXF17+sDAs3qBFMjbeKPo8+n+XRl2D/1bdHG9oQHBVR1W3d4
- jWg7RmtRMTbk15Cx96hVQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:YON8xkvmoz0=;jnd5KYPzskkseD9u2qH2d1jv2Fq
- FaTcN3PNQ1j0LOXfEZjeEPMYFzm5UQQsYsZPaXOgg0bkt3mvB4Q0InrUY2C0JwqjgogiFZxkO
- Mppg7F61Co/4N2aXE3xeyN2ahh73e6EvYSEEJmQkECDSALMN3cqo7nZaS2w6k8CWGnO1YaIEC
- FUkgG3BetrmysjXSm2kAmHN9hZyFoTlXCuTornGJQ0PdwwYH/Cogf1/vU28z4JjfvPlIbR/DX
- 7bIpFjDf0Axvw5ispFa3ky97i7D7FJvpowfLHjE0d6ZI8HuLM4O05pVu4kHpp4Hr1+JUsbNa0
- cFTuRIJ2FktwG6Oi4hATpnogdjusP/SS6FzN72zq4f3UopbsG49peYku57s23BgOYZ5X2YaY+
- anAyow0FcVKbfeTOGQWXTQGhB9rkAOAzEsgNjxYqD1hvuZ0ApHXcqNY+USCZcCwnoCkjkmB1u
- VySxM4tpTlTtxawDUnYxVky5z2m8kRlX4EzJgKlZMwGvBca0aEKFhhGqxLpPuA9VyNoOZ4XiX
- /pfoD+NXy/FH6++I6yqygeTilu2fRUddQseDw3wZDSTxW97iHPCQBe6MJ3ey1LF3xN+007Zp+
- XUqAvm0b64i4OeNcwVKACfYNZLDaRHK88XgtACva8h7OVR90UPDYdTrlmU6RDWimzaY9ex+8z
- MciL4rXz04oq7Bu+fOqBbwosg62ny85PLC7t9yJ1AA+Che2hfUQi7RNz1Z6hNiAaIS2ZryZTl
- vma119XkV1sSGGcryanQG2gBdQxoeMVU2GXTImwC3e0gejX27QXc1lmeuuYA5ffEEx9VE8+bW
- DKqpe5vfNMTsAG02dEPYiibgqmYWeqcWeBb7eSApcNbiM=
+Content-Transfer-Encoding: 8bit
 
-Hi Kieran,
+Hi Detlev,
 
-Am 14.06.24 um 13:31 schrieb Kieran Bingham:
-> Quoting Stefan Wahren (2024-06-14 12:00:38)
->> Hi Kieran,
->>
->> Am 14.06.24 um 12:43 schrieb Kieran Bingham:
->>> The vchiq_state used to be obtained through an accessor
->>> which would validate that the VCHIQ had been initialised
->>> correctly with the remote.
->>>
->>> In commit 42a2f6664e18 ("staging: vc04_services: Move global g_state t=
-o
->>> vchiq_state") the global state was moved to the vchiq_mgnt structures
->>> stored as a vchiq instance specific context. This conversion removed t=
-he
->>> helpers and instead replaced users of this helper with the assumption
->>> that the state is always available and the remote connected.
->>>
->>> Fix this broken assumption by re-introducing the logic that was lost
->>> during the conversion.
->>>
->>> Fixes: 42a2f6664e18 ("staging: vc04_services: Move global g_state to v=
-chiq_state")
->>> Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
->>> ---
->>> v2:
->>>    - No change, just resend
->> what happen to my comments for the first version?
-> Err ... i missed them ... let me go back and look!
-sorry for pestering, but could you please send v3 of the fix? I want to
-rebase my cleanup series on top of that, because bisecting vchiq is
-currently no fun.
+On Thu, 20 Jun 2024 10:07:41 -0400, Detlev Casanova wrote:
 
-Thanks
-Stefan
+>This feels like hacking the driver to please a specific userspace application, 
+>so I'd like to understand better what chromium is doing.
+
+Yes that hack is ugly. I have added log print in chromium to see if they
+have set frame_mbs_only_flag to zero and found nothing. This sps->flags is
+initialized 0 by kernel's v4l2 code. I printed all sps values in function
+rkvdec2_h264_validate_sps and they are all initial values when chromiumn
+call VIDIOC_STREAMON at the first time.
+
+Hi Nicolas,
+
+On Thu, 20 Jun 2024 11:03:54 -0400, Nicolas Dufresne wrote:
+
+>This falls short of a specification to support the uninitialized usage by
+>Chromium. That being said, we do make an effort to try and have a valid default
+>SPS control and OUTPUT format combination. So my suggestion would be to set
+>V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY in the default compound control init. This
+>way, 0x0 get translate to 16x16 instead of 16x32, thus will work with more
+>drivers.
+
+Yeah that's the root cause. Vaule of sps->flags is initialized to 0 along
+with pic_width_in_mbs_minus1 and pic_height_in_map_units_minus1, so this
+check would fall with minimal decoder size 16x16.
+
+>Chromium these days is not being tested on anything else then MTK, which has a
+>64x64 minimum size, this is why they never get into this issue. This driver
+>validation is entirely correct. Removing in some cases is unsafe, it would need
+>to be replaced with STREAMON only validation of the CAPTURE sizes (which
+>currently is validate by implied propagation of valid SPS/OUTPUT).
 >
-> --
-> Kieran
+>**not even compiled tested, just to illustrate**
+>
+>diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-
+>core/v4l2-ctrls-core.c
+>index c4d995f32191..a55e165ea9c3 100644
+>--- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
+>+++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+>@@ -111,6 +111,7 @@ static void std_init_compound(const struct v4l2_ctrl *ctrl,
+>u32 idx,
+>        struct v4l2_ctrl_vp9_frame *p_vp9_frame;
+>        struct v4l2_ctrl_fwht_params *p_fwht_params;
+>        struct v4l2_ctrl_h264_scaling_matrix *p_h264_scaling_matrix;
+>+       struct v4l2_ctrl_h264_sps *p_h264_sps;
+>        struct v4l2_ctrl_av1_sequence *p_av1_sequence;
+>        void *p = ptr.p + idx * ctrl->elem_size;
+> 
+>@@ -179,6 +180,18 @@ static void std_init_compound(const struct v4l2_ctrl *ctrl,
+>u32 idx,
+>                 */
+>                memset(p_h264_scaling_matrix, 16,
+>sizeof(*p_h264_scaling_matrix));
+>                break;
+>+       case V4L2_CTRL_TYPE_H264_SPS:
+>+               p_h264_sps = p;
+>+               /*
+>+                * Without V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY,
+>+                * frame_mbs_only_flag set to 0 will translate to a miniumum
+>+                * height of 32 (see H.264 specification 7-8). Some driver may
+>+                * have a minimum size lower then 32, which would fail
+>+                * validation with the SPS value. Set this flag, so that there
+>+                * is now doubling in the height, allowing a valid default.
+>+                */
+>+               p_h264_sps->flags = V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY;
+>+               break;
+>        }
+> }
+>
+>Nicolas
 
+This patch makes sense and I just confirmed that it works with chromium.
+Thank you very much!
+
+Best regards,
+Jianfeng
