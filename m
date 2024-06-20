@@ -1,152 +1,156 @@
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 617CE1E497
-	for <linux-staging@lists.linux.dev>; Thu, 20 Jun 2024 13:41:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 150EF1DFE8
+	for <linux-staging@lists.linux.dev>; Thu, 20 Jun 2024 14:08:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718890866; cv=none; b=W+OuFEIUxZAPwaArc0k8iqu2Vp4IouCK8C8zzhwxToBoQoGWUg1sG2my5Bx1bUzTOyHIrzH/CxkIMwDJSIhTZHYHci62Xm7XMughKX4t4VAXGTRwWeAJ3sjxtXWF7Fc1Ak0I0NVaTDcNxv3HRJ9v/0+oP+7QMAtUNCVGgDSqjtY=
+	t=1718892497; cv=none; b=ZDNn7zsOpTZKBPk/TT9GRLsGTvxeiItXTnYBGBh3KBPcMfvM6L/81QvYNYVaEG7cB4sukBpbfu724vTbtkzdCcWOCQo2yeI6mcB3OeUw4p78TkqYrIGA+dSlW18kZ2bHjG7bA2fc0cUEqs9j2Iyybqqb2rr2Z2yVV/VmxvfZFMs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718890866; c=relaxed/simple;
-	bh=MXb/JFel+g0jLVI/vSHtNdzpSZ2gi9otcO1O+OJ3IgI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TRf9bMGMAMC2Zrt0Z0NtzPPCAIqlgJnMHGUuokufGWJfuVJlcZpN7yNJ2QzLGFlcnE1lEeOn+fPba9/wJhaNUPTOqZ1CeTwrVtUpFORRiIk2onoVpq4jJbX+B09RzY2n5zwee739+Ur2j+kto687clngrMItCr/esX0YdRSpIHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=31rEfK1z; arc=none smtp.client-ip=46.235.227.194
+	s=arc-20240116; t=1718892497; c=relaxed/simple;
+	bh=Obh1l7ctkuteMg1GKDKq263sZnU4xN5tzaYs6CgQKHg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=lYGatFV6UA6uWEKUjDyLrsjDqUVAyHQHRoxh54anbRDUjadT214pGs90c/5kbxSo6Wrg9gQbNxVt06p+59IsPJKT8cQT399Nk5bo8ru8BhCuNqnC5LHZoAdvvAEhzLjUdx3wCUOy+5goUOpK/566GhNAEsPkizRopuCeDDFfd2E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=RsiO9sOV; arc=none smtp.client-ip=46.235.227.194
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="31rEfK1z"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="RsiO9sOV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1718890863;
-	bh=MXb/JFel+g0jLVI/vSHtNdzpSZ2gi9otcO1O+OJ3IgI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=31rEfK1zKEp5adqlU6WR3ZhzqN8vRiZ/q5Jwns/Crg+wTVk0x3NL5HOstTmAEV19l
-	 s4BYiQLQ1V4N0kbAREM9oDSc/0Pz5WY8vNt8MkfQ+n9zCdD7y1PKLSDXLpo+fOcdcu
-	 rRV/HsL0xJRQIYWEgn2UuOvGIcAZ62MCZu71WC7EC4YcRwlzGm9r3Qs4Ctz+tBmCOc
-	 lklEVSIK4VXQ6+7ik4TIb/fIv9zp7ioBtLy9CZKa+wc1TqMlPv0tDdwcCqzj4P5VKo
-	 qzQzwpItuPD/572aWhfGjTCB0uoKZnYgVrtuldPj4Gpm+OkGH2RPrzlfrbx8giTGjw
-	 CeZE78Srmwcdw==
-Received: from mercury (cola.collaboradmins.com [195.201.22.229])
+	s=mail; t=1718892494;
+	bh=Obh1l7ctkuteMg1GKDKq263sZnU4xN5tzaYs6CgQKHg=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=RsiO9sOVDN2eJ/YtpjsnzPKkWk4fizsnrP5t/sQf/8gyHJW3uWq66biHXkTCKAze0
+	 WR20iJ5rkAYZvv4ibNL+s5sGWvlzGBX/jVuLDeyEY828zUfg7kEagtD4JEdX/oIRDm
+	 E3b79qQBjd4GTdhcdGAh32u5ngJe8Q5LUUUuC7/m1Eri/wlUs1nUfh9SOP0HleBPLI
+	 R8L2xmpQ7+SxdOKryWI6RyIhZE2ZK5GvQ11pVcVzoxJhBJBYXEXchdNfPdUlLcbZAn
+	 JRtBLyBrnOVPw0JNp8OhPTu3loixPRB/9veXLSRpxhXShbEU5nurV9jfTQMirryWbv
+	 3kQO1zTY9c+Fg==
+Received: from arisu.localnet (cola.collaboradmins.com [195.201.22.229])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	(Authenticated sender: sre)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 5D1773782039;
-	Thu, 20 Jun 2024 13:41:03 +0000 (UTC)
-Received: by mercury (Postfix, from userid 1000)
-	id 0687C106045A; Thu, 20 Jun 2024 15:41:03 +0200 (CEST)
-Date: Thu, 20 Jun 2024 15:41:03 +0200
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Detlev Casanova <detlev.casanova@collabora.com>, 
-	linux-kernel@vger.kernel.org, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Heiko Stuebner <heiko@sntech.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Dragan Simic <dsimic@manjaro.org>, Diederik de Haas <didi.debian@cknow.org>, 
-	Andy Yan <andy.yan@rock-chips.com>, Boris Brezillon <boris.brezillon@collabora.com>, 
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>, Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Jonas Karlman <jonas@kwiboo.se>, Alex Bee <knaerzche@gmail.com>, 
-	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev
+	(Authenticated sender: detlev)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 835D037821C0;
+	Thu, 20 Jun 2024 14:08:10 +0000 (UTC)
+From: Detlev Casanova <detlev.casanova@collabora.com>
+To: Jianfeng Liu <liujianfeng1994@gmail.com>
+Cc: andy.yan@rock-chips.com, benjamin.gaignard@collabora.com,
+ boris.brezillon@collabora.com, conor+dt@kernel.org,
+ daniel.almeida@collabora.com, devicetree@vger.kernel.org,
+ didi.debian@cknow.org, dsimic@manjaro.org, ezequiel@vanguardiasur.com.ar,
+ gregkh@linuxfoundation.org, heiko@sntech.de, hverkuil-cisco@xs4all.nl,
+ jonas@kwiboo.se, knaerzche@gmail.com, krzk+dt@kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-staging@lists.linux.dev, mchehab@kernel.org,
+ nicolas.dufresne@collabora.com, paul.kocialkowski@bootlin.com,
+ robh@kernel.org, sebastian.reichel@collabora.com
 Subject: Re: [PATCH v2 2/4] media: rockchip: Introduce the rkvdec2 driver
-Message-ID: <klzru2ak3yxccywqr57bslyctqtmrl2d3eghgv5letp7jkel6s@rlupljmxfijg>
-References: <20240619150029.59730-1-detlev.casanova@collabora.com>
+Date: Thu, 20 Jun 2024 10:07:41 -0400
+Message-ID: <2187039.irdbgypaU6@arisu>
+Organization: Collabora
+In-Reply-To: <20240619174623.270706-1-liujianfeng1994@gmail.com>
+References:
  <20240619150029.59730-3-detlev.casanova@collabora.com>
- <dc232a01-1495-42ff-ad2a-5a0aa780b60c@kernel.org>
+ <20240619174623.270706-1-liujianfeng1994@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="twf4p3kbbzlssnu2"
-Content-Disposition: inline
-In-Reply-To: <dc232a01-1495-42ff-ad2a-5a0aa780b60c@kernel.org>
+Content-Type: multipart/signed; boundary="nextPart13537518.uLZWGnKmhe";
+ micalg="pgp-sha256"; protocol="application/pgp-signature"
 
-
---twf4p3kbbzlssnu2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--nextPart13537518.uLZWGnKmhe
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"; protected-headers="v1"
+From: Detlev Casanova <detlev.casanova@collabora.com>
+To: Jianfeng Liu <liujianfeng1994@gmail.com>
+Date: Thu, 20 Jun 2024 10:07:41 -0400
+Message-ID: <2187039.irdbgypaU6@arisu>
+Organization: Collabora
+In-Reply-To: <20240619174623.270706-1-liujianfeng1994@gmail.com>
+MIME-Version: 1.0
 
-Hi,
+Hi Jianfeng,
 
-On Thu, Jun 20, 2024 at 12:30:00PM GMT, Krzysztof Kozlowski wrote:
-> On 19/06/2024 16:57, Detlev Casanova wrote:
-> > +static const char * const rkvdec2_clk_names[] =3D {
-> > +	"axi",
-> > +	"ahb",
-> > +	"core",
-> > +	"cabac",
-> > +	"hevc_cabac",
-> > +};
-> > +
-> > +/*
-> > + * Some SoCs, like RK3588 have multiple identical vdpu34x cores, but t=
-he
-> > + * kernel is currently missing support for multi-core handling. Exposi=
-ng
-> > + * separate devices for each core to userspace is bad, since that does
-> > + * not allow scheduling tasks properly (and creates ABI). With this wo=
-rkaround
-> > + * the driver will only probe for the first core and early exit for th=
-e other
-> > + * cores. Once the driver gains multi-core support, the same technique
-> > + * for detecting the main core can be used to cluster all cores togeth=
-er.
-> > + */
-> > +static int rkvdec2_disable_multicore(struct rkvdec2_dev *rkvdec)
-> > +{
-> > +	const char *compatible;
-> > +	struct device_node *node;
-> > +	int ret;
-> > +
-> > +	/* Intentionally ignores the fallback strings */
-> > +	ret =3D of_property_read_string(rkvdec->dev->of_node, "compatible", &=
-compatible);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	/* first compatible node found from the root node is considered the m=
-ain core */
+On Wednesday, June 19, 2024 1:46:23 P.M. EDT Jianfeng Liu wrote:
+> Hi Detlev,
 >=20
-> So you rely on order of nodes? Before you claim "identical cores", but
-> now "main core" suggests one is different than others.
+> On Wed, 19 Jun 2024 10:57:19 -0400, Detlev Casanova wrote:
+> >+	if (!(sps->flags & V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY))
+> >+		height *=3D 2;
+> >+
+> >+	if (width > ctx->coded_fmt.fmt.pix_mp.width ||
+> >+	    height > ctx->coded_fmt.fmt.pix_mp.height)
+> >+		return -EINVAL;
+>=20
+> I did further invesatigation on chromium. I find that before real video
+> is decoded, chromium will call VIDIOC_STREAMON twice with value of
+> sps->flags 0:
+>=20
+> At the first time width and height are 16; ctx->coded_fmt.fmt.pix_mp.width
+> and coded_fmt.fmt.pix_mp.height are 16, which are the min size of decoder;
+> At the second time width and height are still 16; while
+> coded_fmt.fmt.pix_mp.width is 1920 and coded_fmt.fmt.pix_mp.height is
+> 1088, which are the real size of video.
+>=20
+> So VIDIOC_STREAMON will fall at the first time call because sps->flags is
+> 0 so V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY is not set, and then height is
+> doubled to 32 which is larger than 16.
+>=20
+> What do you think if we skip doubling height if sps->flags is 0 and at the
+> same time V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY is not set? The following hack
+> did fix my chromium:
+>=20
+> --- a/drivers/staging/media/rkvdec2/rkvdec2-h264.c
+> +++ b/drivers/staging/media/rkvdec2/rkvdec2-h264.c
+> @@ -767,7 +767,7 @@ static int rkvdec2_h264_validate_sps(struct rkvdec2_c=
+tx
+> *ctx, * which is half the final height (see (7-18) in the
+>          * specification)
+>          */
+> -       if (!(sps->flags & V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY))
+> +       if (!(sps->flags & V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY) && sps->fla=
+gs)
+> height *=3D 2;
+>=20
+>         if (width > ctx->coded_fmt.fmt.pix_mp.width ||
 
-Heh, I wrote that comment for Hantro. By main core I was referencing
-the software side of things. With a number of equal cores and no DT
-node describing a cluster (from HW point of view it's just equal
-cores), they somehow need to be combined into a single entity to allow
-scheduling work between them. This solves the issue by making one of
-the devices the "main" device. From the HW point it's exactly the same
-as the others. The function could also use the last core or the second
-one. It does not matter as long as there is only one "main" core.
+I'm not sure what Chromium is trying to do here. But the spec is clear that=
+=20
+height should be multiplied by 2 (That's actually 7-8, not 7-18):
 
-Greetings,
+  FrameHeightInMbs =3D ( 2 =E2=80=93 frame_mbs_only_flag ) * PicHeightInMap=
+Units
 
--- Sebastian
+This feels like hacking the driver to please a specific userspace applicati=
+on,=20
+so I'd like to understand better what chromium is doing.
 
---twf4p3kbbzlssnu2
+Regards,
+Detlev.
+
+--nextPart13537518.uLZWGnKmhe
 Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmZ0MWQACgkQ2O7X88g7
-+pqbMA//Z5Ti8uy0mdUzAGS0Mfn5J1NUNWqus8fR5S7wDtYVJYvyqrsEkSeJ0iFw
-1f3sPaNTIQQS4KTPhRtjCi6BImU9MnfOAJYELHFqibESxacqAIDxGhqiQkC57t2h
-9tI13kcEiUM69czxT6cmJIeZ3Y9cJ0znaJ+HTs/QRGYM+OnOr4tIDdC5/CRWK3od
-7cZizdGpbg0q2f/OaY7AAmNLlTL/5UgWD5xXQzud1hAAR1FhZlK3VSp4OPsdlpP+
-+zEArBx9XtW+Os6l4Nn73T5p+Ibqgood9dxdq58MEkHhlFzWwoDjCgItqSBMJkby
-y8u0whzx/EjJ/onaeBtuzAXsf7OAALtnkz5WV8Cs8lqBI7ekhG5QkMOxZ0AGbKI/
-ZmtOrA3n1995HJqxMpKuepyF3oVy28YloNbA/5PNWqOFLAEM3pM7r0/fF6DeMrZf
-evKFG4n3BXHcACwScohbaIgBXAsm8fkcoiS2Wh6cyC1nqjhbXtd+jYrlOsdYrziQ
-IYpL8zSf5FtjD8uOjFlGNYuVc5tAqit2NBz3ok7VXvY2KdVy6CQpjhdxTk1ZJxwh
-cMNGsGx/sKSatNWURaNqmyYKoxaZe/TglJS6sl1Wfk2A8m88krx6aRj2qIfhm8B2
-PMoDwflLXjwBRC+gXa7h+SS/yZFcCZ+4DcM/T5WNCmdc8qiJ2ys=
-=okQ+
+iQEzBAABCAAdFiEEonF9IvGrXNkDg+CX5EFKUk4x7bYFAmZ0N60ACgkQ5EFKUk4x
+7bbkywgAtKkDH6nMcaU7/h9CiC9sAFMgb3R0h3425HDWWYCWzlR6H3SNvlNc1AOu
+8QBuQnqf/Q5FR8iYNfuTXiEDoCGfOVpxpKmUyh1gURZD5Ea5skFm0a7U6+HfmCr1
+CWzNfTOoqqxNbkJSGwesshEB9bRS/r+fjLulIPhBiItnVOnnDMrWmdgpwcJya5RH
+H6kOw/B3ENImQtlsbLhawoaULowVN832okdMrqC+/cRTenn+zOiRKlFYgBmJDm27
+3jNAQNSfj65NBKZWr8Bwsv74dOcntvjLDEUeAExEPhyDcnu0KKhiNceKqQohei5b
+E0Cylo58qmCvUjiEz2JjlAdG2CizfQ==
+=S3/z
 -----END PGP SIGNATURE-----
 
---twf4p3kbbzlssnu2--
+--nextPart13537518.uLZWGnKmhe--
+
+
+
