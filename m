@@ -1,179 +1,153 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4BFC1AD9C9
-	for <linux-staging@lists.linux.dev>; Thu, 20 Jun 2024 15:04:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF9E71B143A;
+	Thu, 20 Jun 2024 16:01:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718895844; cv=none; b=OVsfiG2FaBYJiqgNJx/woWo5EVI1jHRuOMQI3aExdV0HAgz5hnBnQoCe7sRNdEKRDUrfkxNEKZN8mjYCMyZaMQzjJwQdwCjVRWoTim+A7yPUZZ5yJqyPBFdwojc5NSf0q+LEXVeNKy0gTjtTUzLxKX6rGQ00osHFagonqp2tuSk=
+	t=1718899315; cv=none; b=fC8Cld56lMHyMQWAsL96GuNpGMgxQTTrQapffxz5K7rLIad/iUz54qjmlH4H4ICZkIzh6GpplXMJsgHZhYzqZAnOJN9qW8cWZE3WPOBo7ZJirVL/IrudnKHjsfNFQZTkXe7eUIUhtEyOxStn94K2UpFIgo+G78rXZR0x6P5ls30=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718895844; c=relaxed/simple;
-	bh=x/vZAHZVKlbt1TM2vckPahTO9LL1ZOh2lyhpbR2qC0g=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=IysqoMWtcaVJ6l+quHvNTDVDHztXV5Mse1bgREiNtJS/6ma1rfUGadjuFH69frWxNcM4u/MgZeJzsjroq3cfk3W+/Qdbhvcz5Z6FawHPiSiXGIm3TFXiA792Leo9f3GdgIOwo1NTFoVjBEY7s1IPMz77l+YLlB+eR63lVcYVKUs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=M4AFZ3nC; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1718899315; c=relaxed/simple;
+	bh=V0ZRCVEkL9xvrdNgLyQfRm+vLHBlxj8ql16aQp+/5OM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cdxfNFNrs/GgFHWFQ233o6WciOkQx7ezq65/qMVj/0vGFdK8tqovhM2bcU1FjBzhB1pJT8T90S4DbZoc5LjNFIR7QGpJXD/wncWRNiD6jHMaAwATrykoH9ytsGyozWsVs1vL+je12y893BeLujga5qr5zzoPADlTsdgdlrl/kso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Aq74HY/e; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="M4AFZ3nC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1718895841;
-	bh=x/vZAHZVKlbt1TM2vckPahTO9LL1ZOh2lyhpbR2qC0g=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=M4AFZ3nCd77ATlvL9HOelsIQ0B1xH9kKkCDwtoVUzNbsW6pWjogrjNAlrvj5FbPWS
-	 cubpgiijA0MrP6coFE67bTImg4BDZTo3Ii+Yiup5/lLwVFn9H3QJm7N0m9b+61xLCC
-	 ZRDATubUG9LqaK8eWKxacVtTOdXPgw9f0hBDcrG+R/0HFBmkG7ShsH2/RlD7qZXek4
-	 KysfT8FpG0RGWyz1CdNsEPsrAdnU8UAC0Fs7V7GsFI2GvJoo19mDP+7feajl03+n/b
-	 7G3H9YuZQm84Rln+px3aSrCoho92e2/fNtGDbGFwAcOZJ6bJOXkAntIWArNXIeEOp/
-	 55BivXZ/uMlDg==
-Received: from nicolas-tpx395.localdomain (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id E58E73780C1F;
-	Thu, 20 Jun 2024 15:03:57 +0000 (UTC)
-Message-ID: <2349746d488f4edf9c7c40df5e15ff70d3ec67b7.camel@collabora.com>
-Subject: Re: [PATCH v2 2/4] media: rockchip: Introduce the rkvdec2 driver
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Jianfeng Liu <liujianfeng1994@gmail.com>, detlev.casanova@collabora.com
-Cc: andy.yan@rock-chips.com, benjamin.gaignard@collabora.com, 
- boris.brezillon@collabora.com, conor+dt@kernel.org,
- daniel.almeida@collabora.com,  devicetree@vger.kernel.org,
- didi.debian@cknow.org, dsimic@manjaro.org,  ezequiel@vanguardiasur.com.ar,
- gregkh@linuxfoundation.org, heiko@sntech.de,  hverkuil-cisco@xs4all.nl,
- jonas@kwiboo.se, knaerzche@gmail.com, krzk+dt@kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
- linux-staging@lists.linux.dev, mchehab@kernel.org,
- paul.kocialkowski@bootlin.com,  robh@kernel.org,
- sebastian.reichel@collabora.com
-Date: Thu, 20 Jun 2024 11:03:54 -0400
-In-Reply-To: <20240619174623.270706-1-liujianfeng1994@gmail.com>
-References: <20240619150029.59730-3-detlev.casanova@collabora.com>
-	 <20240619174623.270706-1-liujianfeng1994@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.2 (3.52.2-1.fc40) 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Aq74HY/e"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1166C2BD10;
+	Thu, 20 Jun 2024 16:01:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718899315;
+	bh=V0ZRCVEkL9xvrdNgLyQfRm+vLHBlxj8ql16aQp+/5OM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Aq74HY/evqwGDs7XSFADEXqTYws3XqaPebwjZAD0k6cwiWKR8Gy1OynOqu51L0Q4h
+	 xfh0fvcxVb+b7uZgIkZhB4609aGNiJdHdFgyoZ4L6OKgrcXNlt+XVN3Ld2aXHHGjWc
+	 isk2r47WfEod6S2tsJ6jF7g/mOpnRDkRHBwLkCjbCf+LCU20DKwrOhX8CIA7GIE4Vc
+	 cLh1yMoUahoqVMz+RZwk1RvrQ1XhCH9IwAiZoHBzD2uAkjWLBKbZDO57fDdPOwNjpb
+	 glhmsr041yPbE69ciTuYWED3QcUAeIDi5M2bclc5FHJ/vlrJzDTMEcvqXnGHi9c8Nr
+	 yOWE6F38jJYSg==
+Date: Thu, 20 Jun 2024 17:01:48 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Detlev Casanova <detlev.casanova@collabora.com>
+Cc: linux-kernel@vger.kernel.org,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sebastian Reichel <sebastian.reichel@collabora.com>,
+	Dragan Simic <dsimic@manjaro.org>,
+	Diederik de Haas <didi.debian@cknow.org>,
+	Andy Yan <andy.yan@rock-chips.com>,
+	Boris Brezillon <boris.brezillon@collabora.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Jonas Karlman <jonas@kwiboo.se>, Alex Bee <knaerzche@gmail.com>,
+	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH v3 3/4] media: dt-bindings: rockchip: Document RK3588
+ Video Decoder bindings
+Message-ID: <20240620-unsmooth-surfer-b62ed94b4a5e@spud>
+References: <20240620142532.406564-1-detlev.casanova@collabora.com>
+ <20240620142532.406564-4-detlev.casanova@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="ZhJn1SX/DkOq9GFq"
+Content-Disposition: inline
+In-Reply-To: <20240620142532.406564-4-detlev.casanova@collabora.com>
 
-Hi Jianfeng,
 
-Le jeudi 20 juin 2024 =C3=A0 01:46 +0800, Jianfeng Liu a =C3=A9crit=C2=A0:
-> Hi Detlev,
+--ZhJn1SX/DkOq9GFq
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Jun 20, 2024 at 10:19:45AM -0400, Detlev Casanova wrote:
+> Document the Rockchip RK3588 Video Decoder bindings.
 >=20
-> On Wed, 19 Jun 2024 10:57:19 -0400, Detlev Casanova wrote:
-> > +	if (!(sps->flags & V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY))
-> > +		height *=3D 2;
-> > +
-> > +	if (width > ctx->coded_fmt.fmt.pix_mp.width ||
-> > +	    height > ctx->coded_fmt.fmt.pix_mp.height)
-> > +		return -EINVAL;
+> Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
+> ---
+>  .../bindings/media/rockchip,vdec.yaml         | 55 +++++++++++++++++++
+>  1 file changed, 55 insertions(+)
 >=20
-> I did further invesatigation on chromium. I find that before real video
-> is decoded, chromium will call VIDIOC_STREAMON twice with value of
-> sps->flags 0:
->=20
-> At the first time width and height are 16; ctx->coded_fmt.fmt.pix_mp.widt=
-h
-> and coded_fmt.fmt.pix_mp.height are 16, which are the min size of decoder=
-;
-
-This falls short of a specification to support the uninitialized usage by
-Chromium. That being said, we do make an effort to try and have a valid def=
-ault
-SPS control and OUTPUT format combination. So my suggestion would be to set
-V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY in the default compound control init. Thi=
-s
-way, 0x0 get translate to 16x16 instead of 16x32, thus will work with more
-drivers.
-
-Chromium these days is not being tested on anything else then MTK, which ha=
-s a
-64x64 minimum size, this is why they never get into this issue. This driver
-validation is entirely correct. Removing in some cases is unsafe, it would =
-need
-to be replaced with STREAMON only validation of the CAPTURE sizes (which
-currently is validate by implied propagation of valid SPS/OUTPUT).
-
-**not even compiled tested, just to illustrate**
-
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2=
--
-core/v4l2-ctrls-core.c
-index c4d995f32191..a55e165ea9c3 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-@@ -111,6 +111,7 @@ static void std_init_compound(const struct v4l2_ctrl *c=
-trl,
-u32 idx,
-        struct v4l2_ctrl_vp9_frame *p_vp9_frame;
-        struct v4l2_ctrl_fwht_params *p_fwht_params;
-        struct v4l2_ctrl_h264_scaling_matrix *p_h264_scaling_matrix;
-+       struct v4l2_ctrl_h264_sps *p_h264_sps;
-        struct v4l2_ctrl_av1_sequence *p_av1_sequence;
-        void *p =3D ptr.p + idx * ctrl->elem_size;
-=20
-@@ -179,6 +180,18 @@ static void std_init_compound(const struct v4l2_ctrl *=
-ctrl,
-u32 idx,
-                 */
-                memset(p_h264_scaling_matrix, 16,
-sizeof(*p_h264_scaling_matrix));
-                break;
-+       case V4L2_CTRL_TYPE_H264_SPS:
-+               p_h264_sps =3D p;
-+               /*
-+                * Without V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY,
-+                * frame_mbs_only_flag set to 0 will translate to a miniumu=
-m
-+                * height of 32 (see H.264 specification 7-8). Some driver =
-may
-+                * have a minimum size lower then 32, which would fail
-+                * validation with the SPS value. Set this flag, so that th=
-ere
-+                * is now doubling in the height, allowing a valid default.
-+                */
-+               p_h264_sps->flags =3D V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY;
-+               break;
-        }
- }
-
-Nicolas
-
-> At the second time width and height are still 16; while
-> coded_fmt.fmt.pix_mp.width is 1920 and coded_fmt.fmt.pix_mp.height is
-> 1088, which are the real size of video.
->=20
-> So VIDIOC_STREAMON will fall at the first time call because sps->flags is
-> 0 so V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY is not set, and then height is
-> doubled to 32 which is larger than 16.
->=20
-> What do you think if we skip doubling height if sps->flags is 0 and at th=
-e
-> same time V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY is not set? The following hac=
-k
-> did fix my chromium:
->=20
-> --- a/drivers/staging/media/rkvdec2/rkvdec2-h264.c
-> +++ b/drivers/staging/media/rkvdec2/rkvdec2-h264.c
-> @@ -767,7 +767,7 @@ static int rkvdec2_h264_validate_sps(struct rkvdec2_c=
-tx *ctx,
->          * which is half the final height (see (7-18) in the
->          * specification)
->          */
-> -       if (!(sps->flags & V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY))
-> +       if (!(sps->flags & V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY) && sps->fla=
-gs)
->                 height *=3D 2;
+> diff --git a/Documentation/devicetree/bindings/media/rockchip,vdec.yaml b=
+/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
+> index 08b02ec16755..d44f6b0d2c55 100644
+> --- a/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
+> +++ b/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
+> @@ -17,6 +17,7 @@ properties:
+>    compatible:
+>      oneOf:
+>        - const: rockchip,rk3399-vdec
+> +      - const: rockchip,rk3588-vdec
+>        - items:
+>            - enum:
+>                - rockchip,rk3228-vdec
+> @@ -30,29 +31,56 @@ properties:
+>      maxItems: 1
 > =20
->         if (width > ctx->coded_fmt.fmt.pix_mp.width ||
->=20
-> Best regards
-> Jianfeng
+>    clocks:
+> +    minItems: 4
+>      items:
+>        - description: The Video Decoder AXI interface clock
+>        - description: The Video Decoder AHB interface clock
+>        - description: The Video Decoded CABAC clock
+>        - description: The Video Decoder core clock
+> +      - description: The Video decoder HEVC CABAC clock
+> =20
+>    clock-names:
+> +    minItems: 4
+>      items:
+>        - const: axi
+>        - const: ahb
+>        - const: cabac
+>        - const: core
+> +      - const: hevc_cabac
+> =20
+>    assigned-clocks: true
+> =20
+>    assigned-clock-rates: true
+> =20
+> +  resets:
+> +    items:
+> +      - description: The Video Decoder AXI interface reset
+> +      - description: The Video Decoder AHB interface reset
+> +      - description: The Video Decoded CABAC reset
+> +      - description: The Video Decoder core reset
+> +      - description: The Video decoder HEVC CABAC reset
+> +
+> +  reset-names:
+> +    items:
+> +      - const: rst_axi
+> +      - const: rst_ahb
+> +      - const: rst_cabac
+> +      - const: rst_core
+> +      - const: rst_hevc_cabac
 
+I should have noticed this last time, but drop the "rst_", these are all
+resets. With that,
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+
+--ZhJn1SX/DkOq9GFq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZnRSbAAKCRB4tDGHoIJi
+0q7QAQDJlNfQDbzPdmJ1RausFnn0zlMVyAJTYhKDcOeA2MbIbwEAr09bKJzKA6Th
+GXbZJTjRrfW0abU6ps1HhASV6DVAQAs=
+=fWXH
+-----END PGP SIGNATURE-----
+
+--ZhJn1SX/DkOq9GFq--
