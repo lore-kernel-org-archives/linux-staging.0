@@ -1,21 +1,21 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F9E015B118;
-	Thu, 20 Jun 2024 11:03:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63F378175E;
+	Thu, 20 Jun 2024 12:04:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718881384; cv=none; b=ipAKmgYLcbX442lQxd8gLia9T+GrKtlUkRc3OzR+VAnQ8bEyNC/MjQ1LtJIry8ipTh798BPrSEZ+rDhMw6obvC629/RZWT8sMkhIzIeLSXNKjKdoWQDIMoJTHuFwFaXeVGgeT1K12j6MPuBTgj1h5cOkpGO3Daf07wjtST6F/rg=
+	t=1718885061; cv=none; b=jijWvwMLtLrNdxSSTR1ezue7crvOakU2IC0UMVFFWwmqqqtzfWAI8VCZyyP/7utzF8XAOtu1zE7tWOariRdFXb7aIU3pjhzTWNc78yCWFS5bku2HsMMOXnU2uB6Z5whItf+j8Vzf16BoNeR7uM2mlCzxatqaVh58u+A3lnDsTbs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718881384; c=relaxed/simple;
-	bh=4Y0MPE4qmBzdg9/OiL765SDjW1rx6Hyz2PXwdWkAmew=;
+	s=arc-20240116; t=1718885061; c=relaxed/simple;
+	bh=/rnJIfDMz58XJ9kBch42tOFQeYg0PSUvuDshcPA247U=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sevjeGgGPp6tCxc1NL5/IoBNdF6anR2Fki7/1MtfHnbCJL/JDnWMx0zMhCaPmlYMLYnwurt8H4q1vPpGsZmi7eD87bRpgQeghe+k1uQ6PZpnPGbKa52zAghnWv1use7Cak7ZPLhKHV3MT+W3sliVo0ZkXWy2J7HIPzmn98Jcd1k=
+	 In-Reply-To:Content-Type; b=KsrtUcEeIz49JkTYDCKmJMO3MyJ4deDfMLX1R/4ax4jsF5Q0rvuTJnUWPj4RG+FESWjh2iAGM1ZS14CbWMSkmuxe8st5PaZc4bfyOqrXydZKzsue+39n3dvMnbhRsPITL7usJ89hEKovQCEg5GX1fFZsr0QayL1YYr4j0zS9fmc=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B3C9C4AF0A;
-	Thu, 20 Jun 2024 11:02:59 +0000 (UTC)
-Message-ID: <c401600b-263e-4798-9cb9-91a511c6adc5@xs4all.nl>
-Date: Thu, 20 Jun 2024 13:02:58 +0200
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0CBFC2BD10;
+	Thu, 20 Jun 2024 12:04:16 +0000 (UTC)
+Message-ID: <94acc95a-c0cc-4ec1-836f-bedbd46b73cd@xs4all.nl>
+Date: Thu, 20 Jun 2024 14:04:15 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -23,8 +23,8 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 01/13] media: starfive: Add JH7110 ISP module
- definitions
+Subject: Re: [PATCH v4 08/13] staging: media: starfive: Add for StarFive ISP
+ 3A SC
 To: Changhuang Liang <changhuang.liang@starfivetech.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -37,806 +37,536 @@ To: Changhuang Liang <changhuang.liang@starfivetech.com>,
 Cc: Jack Zhu <jack.zhu@starfivetech.com>, linux-media@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
 References: <20240402100011.13480-1-changhuang.liang@starfivetech.com>
- <20240402100011.13480-2-changhuang.liang@starfivetech.com>
+ <20240402100011.13480-9-changhuang.liang@starfivetech.com>
 Content-Language: en-US, nl
 From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20240402100011.13480-2-changhuang.liang@starfivetech.com>
+In-Reply-To: <20240402100011.13480-9-changhuang.liang@starfivetech.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Hi Changhuang,
-
-Have you checked that these structs have the same layout for 32 and 64 architectures?
-pahole is a useful tool for that.
-
-I.e., if the kernel is 64 bit but userspace is compiled for 32 bit, then these structs
-should still have the same layout.
-
-It probably is fine, checking it with pahole is a good idea.
-
-On 02/04/2024 11:59, Changhuang Liang wrote:
-> Add JH7110 ISP module definitions for user space.
+On 02/04/2024 12:00, Changhuang Liang wrote:
+> Register ISP 3A "capture_scd" video device to receive statistics
+> collection data.
 > 
 > Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
-> Signed-off-by: Zejian Su <zejian.su@starfivetech.com>
 > ---
->  MAINTAINERS                     |   1 +
->  include/uapi/linux/jh7110-isp.h | 739 ++++++++++++++++++++++++++++++++
->  2 files changed, 740 insertions(+)
->  create mode 100644 include/uapi/linux/jh7110-isp.h
+>  .../staging/media/starfive/camss/stf-buffer.h |   1 +
+>  .../staging/media/starfive/camss/stf-camss.c  |  13 ++
+>  .../media/starfive/camss/stf-capture.c        |  21 ++-
+>  .../media/starfive/camss/stf-isp-hw-ops.c     |  66 ++++++++
+>  .../staging/media/starfive/camss/stf-isp.h    |  23 +++
+>  .../staging/media/starfive/camss/stf-video.c  | 143 +++++++++++++++++-
+>  .../staging/media/starfive/camss/stf-video.h  |   1 +
+>  7 files changed, 259 insertions(+), 9 deletions(-)
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 88b4cdde1ad8..e5ed3c876a55 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -20955,6 +20955,7 @@ S:	Maintained
->  F:	Documentation/admin-guide/media/starfive_camss.rst
->  F:	Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml
->  F:	drivers/staging/media/starfive/camss
-> +F:	include/uapi/linux/jh7110-isp.h
+> diff --git a/drivers/staging/media/starfive/camss/stf-buffer.h b/drivers/staging/media/starfive/camss/stf-buffer.h
+> index 9d1670fb05ed..727d00617448 100644
+> --- a/drivers/staging/media/starfive/camss/stf-buffer.h
+> +++ b/drivers/staging/media/starfive/camss/stf-buffer.h
+> @@ -23,6 +23,7 @@ enum stf_v_state {
+>  struct stfcamss_buffer {
+>  	struct vb2_v4l2_buffer vb;
+>  	dma_addr_t addr[2];
+> +	void *vaddr;
+>  	struct list_head queue;
+>  };
 >  
->  STARFIVE CRYPTO DRIVER
->  M:	Jia Jie Ho <jiajie.ho@starfivetech.com>
-> diff --git a/include/uapi/linux/jh7110-isp.h b/include/uapi/linux/jh7110-isp.h
-> new file mode 100644
-> index 000000000000..e9857995068b
-> --- /dev/null
-> +++ b/include/uapi/linux/jh7110-isp.h
-> @@ -0,0 +1,739 @@
-> +/* SPDX-License-Identifier: ((GPL-2.0+ WITH Linux-syscall-note) OR BSD-3-Clause) */
-> +/*
-> + * jh7110-isp.h
-> + *
-> + * JH7110 ISP driver - user space header file.
-> + *
-> + * Copyright © 2023 StarFive Technology Co., Ltd.
-> + *
-> + * Author: Zejian Su <zejian.su@starfivetech.com>
-> + *
-> + */
+> diff --git a/drivers/staging/media/starfive/camss/stf-camss.c b/drivers/staging/media/starfive/camss/stf-camss.c
+> index 323aa70fdeaf..3fe4e3332719 100644
+> --- a/drivers/staging/media/starfive/camss/stf-camss.c
+> +++ b/drivers/staging/media/starfive/camss/stf-camss.c
+> @@ -126,6 +126,7 @@ static int stfcamss_of_parse_ports(struct stfcamss *stfcamss)
+>  static int stfcamss_register_devs(struct stfcamss *stfcamss)
+>  {
+>  	struct stf_capture *cap_yuv = &stfcamss->captures[STF_CAPTURE_YUV];
+> +	struct stf_capture *cap_scd = &stfcamss->captures[STF_CAPTURE_SCD];
+>  	struct stf_isp_dev *isp_dev = &stfcamss->isp_dev;
+>  	int ret;
+>  
+> @@ -150,8 +151,18 @@ static int stfcamss_register_devs(struct stfcamss *stfcamss)
+>  
+>  	cap_yuv->video.source_subdev = &isp_dev->subdev;
+>  
+> +	ret = media_create_pad_link(&isp_dev->subdev.entity, STF_ISP_PAD_SRC_SCD,
+> +				    &cap_scd->video.vdev.entity, 0, 0);
+> +	if (ret)
+> +		goto err_rm_links0;
 > +
-> +#ifndef __JH7110_ISP_H_
-> +#define __JH7110_ISP_H_
+> +	cap_scd->video.source_subdev = &isp_dev->subdev;
 > +
-> +/**
-> + * ISP Module Diagram
-> + * ------------------
-> + *
-> + *  Raw  +-----+    +------+    +------+    +----+
-> + *  ---->| OBC |--->| OECF |--->| LCCF |--->| WB |-----+
-> + *       +-----+    +------+    +------+    +----+     |
-> + *                                                     |
-> + *  +--------------------------------------------------+
-> + *  |
-> + *  |    +-----+    +-----+    +-----+    +-----+
-> + *  +--->| DBC |--->| CTC |--->| CFA |--->| CAR |------+
-> + *       +-----+    +-----+    +-----+    +-----+      |
-> + *                                                     |
-> + *  +--------------------------------------------------+
-> + *  |
-> + *  |    +-----+    +--------+    +-----+    +------+
-> + *  +--->| CCM |--->| GMARGB |--->| R2Y |--->| YCRV |--+
-> + *       +-----+    +--------+    +-----+    +------+  |
-> + *                                                     |
-> + *  +--------------------------------------------------+
-> + *  |
-> + *  |    +-------+    +-------+    +-----+    +----+
-> + *  +--->| SHARP |--->| DNYUV |--->| SAT |--->| SC |
-> + *       +-------+    +-------+    +-----+    +----+
-> + *
-> + */
-> +
-> +/* Auto White Balance */
-> +#define JH7110_ISP_MODULE_WB_SETTING			(1U << 0)
-> +/* Color Artifact Removal */
-> +#define JH7110_ISP_MODULE_CAR_SETTING			(1U << 1)
-> +/* Color Correction Matrix */
-> +#define JH7110_ISP_MODULE_CCM_SETTING			(1U << 2)
-> +/* Color Filter Arrays */
-> +#define JH7110_ISP_MODULE_CFA_SETTING			(1U << 3)
-> +/* Crosstalk Correction */
-> +#define JH7110_ISP_MODULE_CTC_SETTING			(1U << 4)
-> +/* Defect Bad Pixel Correction */
-> +#define JH7110_ISP_MODULE_DBC_SETTING			(1U << 5)
-> +/* Denoise YUV */
-> +#define JH7110_ISP_MODULE_DNYUV_SETTING			(1U << 6)
-> +/* RGB Gamma */
-> +#define JH7110_ISP_MODULE_GMARGB_SETTING		(1U << 7)
-> +/* Lens Correction Cosine Fourth */
-> +#define JH7110_ISP_MODULE_LCCF_SETTING			(1U << 8)
-> +/* Optical Black Correction */
-> +#define JH7110_ISP_MODULE_OBC_SETTING			(1U << 9)
-> +/* Opto-Electric Conversion Function */
-> +#define JH7110_ISP_MODULE_OECF_SETTING			(1U << 10)
-> +/* RGB To YUV */
-> +#define JH7110_ISP_MODULE_R2Y_SETTING			(1U << 11)
-> +/* Saturation */
-> +#define JH7110_ISP_MODULE_SAT_SETTING			(1U << 12)
-> +/* Sharpen */
-> +#define JH7110_ISP_MODULE_SHARP_SETTING			(1U << 13)
-> +/* Y Curve */
-> +#define JH7110_ISP_MODULE_YCRV_SETTING			(1U << 14)
-> +/* Statistics Collection */
-> +#define JH7110_ISP_MODULE_SC_SETTING			(1U << 15)
-> +
-> +/**
-> + * struct jh7110_isp_wb_gain - auto white balance gain
-> + *
-> + * @gain_r: gain value for red component.
-> + * @gain_g: gain value for green component.
-> + * @gain_b: gain value for blue component.
-> + */
-> +struct jh7110_isp_wb_gain {
-> +	__u16 gain_r;
-> +	__u16 gain_g;
-> +	__u16 gain_b;
+>  	return ret;
+>  
+> +err_rm_links0:
+> +	media_entity_remove_links(&isp_dev->subdev.entity);
+> +	media_entity_remove_links(&cap_yuv->video.vdev.entity);
+>  err_cap_unregister:
+>  	stf_capture_unregister(stfcamss);
+>  err_isp_unregister:
+> @@ -163,10 +174,12 @@ static int stfcamss_register_devs(struct stfcamss *stfcamss)
+>  static void stfcamss_unregister_devs(struct stfcamss *stfcamss)
+>  {
+>  	struct stf_capture *cap_yuv = &stfcamss->captures[STF_CAPTURE_YUV];
+> +	struct stf_capture *cap_scd = &stfcamss->captures[STF_CAPTURE_SCD];
+>  	struct stf_isp_dev *isp_dev = &stfcamss->isp_dev;
+>  
+>  	media_entity_remove_links(&isp_dev->subdev.entity);
+>  	media_entity_remove_links(&cap_yuv->video.vdev.entity);
+> +	media_entity_remove_links(&cap_scd->video.vdev.entity);
+>  
+>  	stf_isp_unregister(&stfcamss->isp_dev);
+>  	stf_capture_unregister(stfcamss);
+> diff --git a/drivers/staging/media/starfive/camss/stf-capture.c b/drivers/staging/media/starfive/camss/stf-capture.c
+> index 75f6ef405e61..328b8c6e351d 100644
+> --- a/drivers/staging/media/starfive/camss/stf-capture.c
+> +++ b/drivers/staging/media/starfive/camss/stf-capture.c
+> @@ -12,6 +12,7 @@
+>  static const char * const stf_cap_names[] = {
+>  	"capture_raw",
+>  	"capture_yuv",
+> +	"capture_scd",
+>  };
+>  
+>  static const struct stfcamss_format_info stf_wr_fmts[] = {
+> @@ -55,6 +56,14 @@ static const struct stfcamss_format_info stf_isp_fmts[] = {
+>  	},
+>  };
+>  
+> +/* 3A Statistics Collection Data */
+> +static const struct stfcamss_format_info stf_isp_scd_fmts[] = {
+> +	{
+> +		.code = MEDIA_BUS_FMT_METADATA_FIXED,
+> +		.pixelformat = V4L2_META_FMT_STF_ISP_STAT_3A,
+> +	},
 > +};
 > +
-> +/**
-> + * struct jh7110_isp_wb_setting - Configuration used by auto white balance gain
-> + *
-> + * @enabled: enabled setting flag.
-> + * @gains: auto white balance gain setting.
-> + */
-> +struct jh7110_isp_wb_setting {
-> +	__u32 enabled;
-> +	struct jh7110_isp_wb_gain gains;
+>  static inline struct stf_capture *to_stf_capture(struct stfcamss_video *video)
+>  {
+>  	return container_of(video, struct stf_capture, video);
+> @@ -84,6 +93,8 @@ static void stf_init_addrs(struct stfcamss_video *video)
+>  		stf_set_raw_addr(video->stfcamss, addr0);
+>  	else if (cap->type == STF_CAPTURE_YUV)
+>  		stf_set_yuv_addr(video->stfcamss, addr0, addr1);
+> +	else
+> +		stf_set_scd_addr(video->stfcamss, addr0, addr1, TYPE_AWB);
+>  }
+>  
+>  static void stf_cap_s_cfg(struct stfcamss_video *video)
+> @@ -227,18 +238,24 @@ static void stf_capture_init(struct stfcamss *stfcamss, struct stf_capture *cap)
+>  	INIT_LIST_HEAD(&cap->buffers.ready_bufs);
+>  	spin_lock_init(&cap->buffers.lock);
+>  
+> -	cap->video.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+>  	cap->video.stfcamss = stfcamss;
+>  	cap->video.bpl_alignment = 16 * 8;
+>  
+>  	if (cap->type == STF_CAPTURE_RAW) {
+> +		cap->video.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+>  		cap->video.formats = stf_wr_fmts;
+>  		cap->video.nformats = ARRAY_SIZE(stf_wr_fmts);
+>  		cap->video.bpl_alignment = 8;
+>  	} else if (cap->type == STF_CAPTURE_YUV) {
+> +		cap->video.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+>  		cap->video.formats = stf_isp_fmts;
+>  		cap->video.nformats = ARRAY_SIZE(stf_isp_fmts);
+>  		cap->video.bpl_alignment = 1;
+> +	} else {
+> +		cap->video.type = V4L2_BUF_TYPE_META_CAPTURE;
+> +		cap->video.formats = stf_isp_scd_fmts;
+> +		cap->video.nformats = ARRAY_SIZE(stf_isp_scd_fmts);
+> +		cap->video.bpl_alignment = 16 * 8;
+>  	}
+>  }
+>  
+> @@ -362,9 +379,11 @@ void stf_capture_unregister(struct stfcamss *stfcamss)
+>  {
+>  	struct stf_capture *cap_raw = &stfcamss->captures[STF_CAPTURE_RAW];
+>  	struct stf_capture *cap_yuv = &stfcamss->captures[STF_CAPTURE_YUV];
+> +	struct stf_capture *cap_scd = &stfcamss->captures[STF_CAPTURE_SCD];
+>  
+>  	stf_capture_unregister_one(cap_raw);
+>  	stf_capture_unregister_one(cap_yuv);
+> +	stf_capture_unregister_one(cap_scd);
+>  }
+>  
+>  int stf_capture_register(struct stfcamss *stfcamss,
+> diff --git a/drivers/staging/media/starfive/camss/stf-isp-hw-ops.c b/drivers/staging/media/starfive/camss/stf-isp-hw-ops.c
+> index 6b3966ca18bf..abdfa4417145 100644
+> --- a/drivers/staging/media/starfive/camss/stf-isp-hw-ops.c
+> +++ b/drivers/staging/media/starfive/camss/stf-isp-hw-ops.c
+> @@ -451,11 +451,57 @@ void stf_set_yuv_addr(struct stfcamss *stfcamss,
+>  	stf_isp_reg_write(stfcamss, ISP_REG_UV_PLANE_START_ADDR, uv_addr);
+>  }
+>  
+> +static enum stf_isp_type_scd stf_isp_get_scd_type(struct stfcamss *stfcamss)
+> +{
+> +	int val;
+> +
+> +	val = stf_isp_reg_read(stfcamss, ISP_REG_SC_CFG_1);
+> +	return (enum stf_isp_type_scd)(val & ISP_SC_SEL_MASK) >> 30;
+> +}
+> +
+> +void stf_set_scd_addr(struct stfcamss *stfcamss,
+> +		      dma_addr_t yhist_addr, dma_addr_t scd_addr,
+> +		      enum stf_isp_type_scd type_scd)
+> +{
+> +	stf_isp_reg_set_bit(stfcamss, ISP_REG_SC_CFG_1, ISP_SC_SEL_MASK,
+> +			    SEL_TYPE(type_scd));
+> +	stf_isp_reg_write(stfcamss, ISP_REG_SCD_CFG_0, scd_addr);
+> +	stf_isp_reg_write(stfcamss, ISP_REG_YHIST_CFG_4, yhist_addr);
+> +}
+> +
+> +static void stf_isp_fill_yhist(struct stfcamss *stfcamss, void *vaddr)
+> +{
+> +	struct jh7110_isp_sc_buffer *sc = (struct jh7110_isp_sc_buffer *)vaddr;
+> +	u32 reg_addr = ISP_REG_YHIST_ACC_0;
+> +	u32 i;
+> +
+> +	for (i = 0; i < 64; i++, reg_addr += 4)
+> +		sc->y_histogram[i] = stf_isp_reg_read(stfcamss, reg_addr);
+> +}
+> +
+> +static void stf_isp_fill_flag(struct stfcamss *stfcamss, void *vaddr,
+> +			      enum stf_isp_type_scd *type_scd)
+> +{
+> +	struct jh7110_isp_sc_buffer *sc = (struct jh7110_isp_sc_buffer *)vaddr;
+> +
+> +	*type_scd = stf_isp_get_scd_type(stfcamss);
+> +	if (*type_scd == TYPE_AWB) {
+> +		sc->flag = JH7110_ISP_SC_FALG_AWB;
+> +		*type_scd = TYPE_OECF;
+> +	} else {
+> +		sc->flag = JH7110_ISP_SC_FALG_AE_AF;
+> +		*type_scd = TYPE_AWB;
+> +	}
+> +}
+> +
+>  irqreturn_t stf_line_irq_handler(int irq, void *priv)
+>  {
+>  	struct stfcamss *stfcamss = priv;
+>  	struct stf_capture *cap = &stfcamss->captures[STF_CAPTURE_YUV];
+> +	struct stf_capture *cap_scd = &stfcamss->captures[STF_CAPTURE_SCD];
+>  	struct stfcamss_buffer *change_buf;
+> +	enum stf_isp_type_scd type_scd;
+> +	u32 value;
+>  	u32 status;
+>  
+>  	status = stf_isp_reg_read(stfcamss, ISP_REG_ISP_CTRL_0);
+> @@ -467,6 +513,17 @@ irqreturn_t stf_line_irq_handler(int irq, void *priv)
+>  					stf_set_yuv_addr(stfcamss, change_buf->addr[0],
+>  							 change_buf->addr[1]);
+>  			}
+> +
+> +			value = stf_isp_reg_read(stfcamss, ISP_REG_CSI_MODULE_CFG);
+> +			if (value & CSI_SC_EN) {
+> +				change_buf = stf_change_buffer(&cap_scd->buffers);
+> +				if (change_buf) {
+> +					stf_isp_fill_flag(stfcamss, change_buf->vaddr,
+> +							  &type_scd);
+> +					stf_set_scd_addr(stfcamss, change_buf->addr[0],
+> +							 change_buf->addr[1], type_scd);
+> +				}
+> +			}
+>  		}
+>  
+>  		stf_isp_reg_set_bit(stfcamss, ISP_REG_CSIINTS,
+> @@ -485,6 +542,7 @@ irqreturn_t stf_isp_irq_handler(int irq, void *priv)
+>  {
+>  	struct stfcamss *stfcamss = priv;
+>  	struct stf_capture *cap = &stfcamss->captures[STF_CAPTURE_YUV];
+> +	struct stf_capture *cap_scd = &stfcamss->captures[STF_CAPTURE_SCD];
+>  	struct stfcamss_buffer *ready_buf;
+>  	u32 status;
+>  
+> @@ -496,6 +554,14 @@ irqreturn_t stf_isp_irq_handler(int irq, void *priv)
+>  				vb2_buffer_done(&ready_buf->vb.vb2_buf, VB2_BUF_STATE_DONE);
+>  		}
+>  
+> +		if (status & ISPC_SC) {
+> +			ready_buf = stf_buf_done(&cap_scd->buffers);
+> +			if (ready_buf) {
+> +				stf_isp_fill_yhist(stfcamss, ready_buf->vaddr);
+> +				vb2_buffer_done(&ready_buf->vb.vb2_buf, VB2_BUF_STATE_DONE);
+> +			}
+> +		}
+> +
+>  		stf_isp_reg_write(stfcamss, ISP_REG_ISP_CTRL_0,
+>  				  (status & ~ISPC_INT_ALL_MASK) |
+>  				  ISPC_ISP | ISPC_CSI | ISPC_SC);
+> diff --git a/drivers/staging/media/starfive/camss/stf-isp.h b/drivers/staging/media/starfive/camss/stf-isp.h
+> index fcda0502e3b0..0af7b367e57a 100644
+> --- a/drivers/staging/media/starfive/camss/stf-isp.h
+> +++ b/drivers/staging/media/starfive/camss/stf-isp.h
+> @@ -10,6 +10,7 @@
+>  #ifndef STF_ISP_H
+>  #define STF_ISP_H
+>  
+> +#include <linux/jh7110-isp.h>
+>  #include <media/v4l2-subdev.h>
+>  
+>  #include "stf-video.h"
+> @@ -107,6 +108,12 @@
+>  #define Y_COOR(y)				((y) << 16)
+>  #define X_COOR(x)				((x) << 0)
+>  
+> +#define ISP_REG_SCD_CFG_0			0x098
+> +
+> +#define ISP_REG_SC_CFG_1			0x0bc
+> +#define ISP_SC_SEL_MASK				GENMASK(31, 30)
+> +#define SEL_TYPE(n)				((n) << 30)
+> +
+>  #define ISP_REG_LCCF_CFG_2			0x0e0
+>  #define ISP_REG_LCCF_CFG_3			0x0e4
+>  #define ISP_REG_LCCF_CFG_4			0x0e8
+> @@ -305,6 +312,10 @@
+>  #define DNRM_F(n)				((n) << 16)
+>  #define CCM_M_DAT(n)				((n) << 0)
+>  
+> +#define ISP_REG_YHIST_CFG_4			0xcd8
+> +
+> +#define ISP_REG_YHIST_ACC_0			0xd00
+> +
+>  #define ISP_REG_GAMMA_VAL0			0xe00
+>  #define ISP_REG_GAMMA_VAL1			0xe04
+>  #define ISP_REG_GAMMA_VAL2			0xe08
+> @@ -389,6 +400,15 @@
+>  #define IMAGE_MAX_WIDTH				1920
+>  #define IMAGE_MAX_HEIGH				1080
+>  
+> +#define ISP_YHIST_BUFFER_SIZE			(64 * sizeof(__u32))
+> +
+> +enum stf_isp_type_scd {
+> +	TYPE_DEC = 0,
+> +	TYPE_OBC,
+> +	TYPE_OECF,
+> +	TYPE_AWB,
 > +};
 > +
-> +/**
-> + * struct jh7110_isp_car_setting - Configuration used by color artifact removal
-> + *
-> + * @enabled: enabled setting flag.
-> + */
-> +struct jh7110_isp_car_setting {
-> +	__u32 enabled;
-> +};
+>  /* pad id for media framework */
+>  enum stf_isp_pad_id {
+>  	STF_ISP_PAD_SINK = 0,
+> @@ -429,5 +449,8 @@ int stf_isp_unregister(struct stf_isp_dev *isp_dev);
+>  
+>  void stf_set_yuv_addr(struct stfcamss *stfcamss,
+>  		      dma_addr_t y_addr, dma_addr_t uv_addr);
+> +void stf_set_scd_addr(struct stfcamss *stfcamss,
+> +		      dma_addr_t yhist_addr, dma_addr_t scd_addr,
+> +		      enum stf_isp_type_scd type_scd);
+>  
+>  #endif /* STF_ISP_H */
+> diff --git a/drivers/staging/media/starfive/camss/stf-video.c b/drivers/staging/media/starfive/camss/stf-video.c
+> index 989b5e82bae9..d9e51d4e2004 100644
+> --- a/drivers/staging/media/starfive/camss/stf-video.c
+> +++ b/drivers/staging/media/starfive/camss/stf-video.c
+> @@ -125,6 +125,14 @@ static int stf_video_init_format(struct stfcamss_video *video)
+>  	return 0;
+>  }
+>  
+> +static int stf_video_scd_init_format(struct stfcamss_video *video)
+> +{
+> +	video->active_fmt.fmt.meta.dataformat = video->formats[0].pixelformat;
+> +	video->active_fmt.fmt.meta.buffersize = sizeof(struct jh7110_isp_sc_buffer);
 > +
-> +/**
-> + * struct jh7110_isp_ccm_smlow - Color correction matrix
-> + *
-> + * @ccm: color transform matrix with size 3 by 3.
-> + * @offsets: the offsets of R, G, B after the transform by the ccm.
-> + */
-> +struct jh7110_isp_ccm_smlow {
-> +	__s32 ccm[3][3];
-> +	__s32 offsets[3];
-> +};
+> +	return 0;
+> +}
 > +
-> +/**
-> + * struct jh7110_isp_ccm_setting - Configuration used by color correction matrix
-> + *
-> + * @enabled: enabled setting flag.
-> + * @ccm_smlow: Color correction matrix.
-> + */
-> +struct jh7110_isp_ccm_setting {
-> +	__u32 enabled;
-> +	struct jh7110_isp_ccm_smlow ccm_smlow;
-> +};
-> +
-> +/**
-> + * struct jh7110_isp_cfa_params - demosaic parameters
-> + *
-> + * @hv_width: detail smooth factor
-> + * @cross_cov: Cross covariance weighting.
-> + */
-> +struct jh7110_isp_cfa_params {
-> +	__s32 hv_width;
-> +	__s32 cross_cov;
-> +};
-> +
-> +/**
-> + * struct jh7110_isp_cfa_params - Configuration used by demosaic module
-> + *
-> + * @enabled: enabled setting flag.
-> + * @settings: demosaic parameters.
-> + */
-> +struct jh7110_isp_cfa_setting {
-> +	__u32 enabled;
-> +	struct jh7110_isp_cfa_params settings;
-> +};
-> +
-> +/**
-> + * struct jh7110_isp_ctc_params - crosstalk remove parameters
-> + *
-> + * @saf_mode: smooth area filter mode.
-> + * @daf_mode: detail area filter mode.
-> + * @max_gt: the threshold for imbalance detection when pixel intensity is close to maximum.
-> + * @min_gt: the threshold for imbalance detection when pixel intensity is close to 0.
-> + */
-> +struct jh7110_isp_ctc_params {
-> +	__u8 saf_mode;
-> +	__u8 daf_mode;
-> +	__s32 max_gt;
-> +	__s32 min_gt;
-> +};
-> +
-> +/**
-> + * struct jh7110_isp_ctc_params - Configuration used by crosstalk remove
-> + *
-> + * @enabled: enabled setting flag.
-> + * @settings: corsstakl remove parameters.
+>  /* -----------------------------------------------------------------------------
+>   * Video queue operations
+>   */
+> @@ -330,6 +338,75 @@ static const struct vb2_ops stf_video_vb2_q_ops = {
+>  	.stop_streaming  = video_stop_streaming,
+>  };
+>  
+> +static int video_scd_queue_setup(struct vb2_queue *q,
+> +				 unsigned int *num_buffers,
+> +				 unsigned int *num_planes,
+> +				 unsigned int sizes[],
+> +				 struct device *alloc_devs[])
+> +{
 
-corsstakl -> crosstalk
+This still needs:
 
-> + */
-> +struct jh7110_isp_ctc_setting {
-> +	__u32 enabled;
-> +	struct jh7110_isp_ctc_params settings;
-> +};
-> +
-> +/**
-> + * struct jh7110_isp_dbc_params - defect pixels correction parameters
-> + *
-> + * @bad_gt: bad pixel threshold for the green channel.
-> + * @bad_xt: bad pixel threshold for the red and blue channels.
-> + */
-> +struct jh7110_isp_dbc_params {
-> +	__s32 bad_gt;
-> +	__s32 bad_xt;
-> +};
-> +
-> +/**
-> + * struct jh7110_isp_dbc_params - Configuration used by defect bad pixels correction
-> + *
-> + * @enabled: enabled setting flag.
-> + * @settings: defect pixels correction parameters.
-> + */
-> +struct jh7110_isp_dbc_setting {
-> +	__u32 enabled;
-> +	struct jh7110_isp_dbc_params settings;
-> +};
-> +
-> +/**
-> + * struct jh7110_isp_dnyuv_params - yuv domain denoise parameters
-> + *
-> + * @y_sweight: ten coefficients of 7x7 spatial filter for Y channel.
-> + * @y_curve: intensity difference (similarity) weight lookup table for Y channel.
-> + * @uv_sweight: ten coefficients of 7x7 spatial filter for U and V channel.
-> + * @uv_curve: intensity difference (similarity) weight lookup table for U and V channel.
-> + */
-> +struct jh7110_isp_dnyuv_params {
-> +	__u8 y_sweight[10];
-> +	__u16 y_curve[7];
-> +	__u8 uv_sweight[10];
-> +	__u16 uv_curve[7];
-> +};
-> +
-> +/**
-> + * struct jh7110_isp_dnyuv_params - Configuration used by yuv domain denoise
-> + *
-> + * @enabled: enabled setting flag.
-> + * @settings: yuv domain denoise parameters.
-> + */
-> +struct jh7110_isp_dnyuv_setting {
-> +	__u32 enabled;
-> +	struct jh7110_isp_dnyuv_params settings;
-> +};
-> +
-> +/**
-> + * struct jh7110_isp_gmargb_point - RGB Gamma point
-> + *
-> + * @g_val: RGB gamma value.
-> + * @sg_val: RGB gamma slope value.
-> + */
-> +struct jh7110_isp_gmargb_point {
-> +	__u16 g_val;
-> +	__u16 sg_val;
-> +};
-> +
-> +/**
-> + * struct jh7110_isp_gmargb_setting - Configuration used by RGB gamma
-> + *
-> + * @enabled: enabled setting flag.
-> + * @curve: RGB Gamma point table.
-> + */
-> +struct jh7110_isp_gmargb_setting {
-> +	__u32 enabled;
-> +	struct jh7110_isp_gmargb_point curve[15];
-> +};
-> +
-> +/**
-> + * struct jh7110_isp_lccf_circle - len circle
-> + *
-> + * @center_x: center X distance from capture window.
-> + * @center_y: center Y distance from capture window.
-> + * @radius: len circle radius.
-> + */
-> +struct jh7110_isp_lccf_circle {
-> +	__s16 center_x;
-> +	__s16 center_y;
-> +	__u8 radius;
-> +};
-> +
-> +/**
-> + * struct jh7110_isp_lccf_curve_param - lens correction cosine fourth curve param
-> + *
-> + * @f1: F1 parameter.
-> + * @f2: F2 parameter.
-> + */
-> +struct jh7110_isp_lccf_curve_param {
-> +	__s16 f1;
-> +	__s16 f2;
-> +};
-> +
-> +/**
-> + * struct jh7110_isp_lccf_setting - Configuration used by lens correction cosine fourth
-> + *
-> + * @enabled: enabled setting flag.
-> + * @circle: len circle.
-> + * @r_param: lens correction cosine fourth curve param for Bayer pattern R.
-> + * @gr_param: lens correction cosine fourth curve param for Bayer pattern Gr.
-> + * @gb_param: lens correction cosine fourth curve param for Bayer pattern Gb.
-> + * @b_param: lens correction cosine fourth curve param for Bayer pattern B.
-> + */
-> +struct jh7110_isp_lccf_setting {
-> +	__u32 enabled;
-> +	struct jh7110_isp_lccf_circle circle;
-> +	struct jh7110_isp_lccf_curve_param r_param;
-> +	struct jh7110_isp_lccf_curve_param gr_param;
-> +	struct jh7110_isp_lccf_curve_param gb_param;
-> +	struct jh7110_isp_lccf_curve_param b_param;
-> +};
-> +
-> +/**
-> + * struct jh7110_isp_obc_win_size - optical balck correction window size
+        if (*nplanes)
+                return sizes[0] < sizeof(struct jh7110_isp_sc_buffer) ? -EINVAL : 0;
 
-balck -> black
+for proper VIDIOC_CREATEBUFS support.
 
-> + *
-> + * @width: window width.
-> + * @height: window height.
-> + */
-> +struct jh7110_isp_obc_win_size {
-> +	__u32 width;
-> +	__u32 height;
-> +};
-> +
-> +/**
-> + * struct jh7110_isp_obc_gain - optical balck correction symbol gain
+Otherwise this will probably fail with 'v4l2-compliance -s'.
 
-Ditto. There are a lot more of these, so please do a search-and-replace.
-
-> + *
-> + * @tl_gain: gain at point A for symbol.
-> + * @tr_gain: gain at point B for symbol.
-> + * @bl_gain: gain at point C for symbol.
-> + * @br_gain: gain at point D for symbol.
-> + */
-> +struct jh7110_isp_obc_gain {
-> +	__u8 tl_gain;
-> +	__u8 tr_gain;
-> +	__u8 bl_gain;
-> +	__u8 br_gain;
+> +	*num_planes = 1;
+> +	sizes[0] = sizeof(struct jh7110_isp_sc_buffer);
+> +
+> +	return 0;
+> +}
+> +
+> +static int video_scd_buf_init(struct vb2_buffer *vb)
+> +{
+> +	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+> +	struct stfcamss_buffer *buffer = to_stfcamss_buffer(vbuf);
+> +	dma_addr_t *paddr;
+> +
+> +	paddr = vb2_plane_cookie(vb, 0);
+> +	buffer->addr[0] = *paddr;
+> +	buffer->addr[1] = buffer->addr[0] + ISP_YHIST_BUFFER_SIZE;
+> +	buffer->vaddr = vb2_plane_vaddr(vb, 0);
+> +
+> +	return 0;
+> +}
+> +
+> +static int video_scd_buf_prepare(struct vb2_buffer *vb)
+> +{
+> +	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+> +
+> +	if (sizeof(struct jh7110_isp_sc_buffer) > vb2_plane_size(vb, 0))
+> +		return -EINVAL;
+> +
+> +	vb2_set_plane_payload(vb, 0, sizeof(struct jh7110_isp_sc_buffer));
+> +
+> +	vbuf->field = V4L2_FIELD_NONE;
+> +
+> +	return 0;
+> +}
+> +
+> +static int video_scd_start_streaming(struct vb2_queue *q, unsigned int count)
+> +{
+> +	struct stfcamss_video *video = vb2_get_drv_priv(q);
+> +
+> +	video->ops->start_streaming(video);
+> +
+> +	return 0;
+> +}
+> +
+> +static void video_scd_stop_streaming(struct vb2_queue *q)
+> +{
+> +	struct stfcamss_video *video = vb2_get_drv_priv(q);
+> +
+> +	video->ops->stop_streaming(video);
+> +
+> +	video->ops->flush_buffers(video, VB2_BUF_STATE_ERROR);
+> +}
+> +
+> +static const struct vb2_ops stf_video_scd_vb2_q_ops = {
+> +	.queue_setup     = video_scd_queue_setup,
+> +	.wait_prepare    = vb2_ops_wait_prepare,
+> +	.wait_finish     = vb2_ops_wait_finish,
+> +	.buf_init        = video_scd_buf_init,
+> +	.buf_prepare     = video_scd_buf_prepare,
+> +	.buf_queue       = video_buf_queue,
+> +	.start_streaming = video_scd_start_streaming,
+> +	.stop_streaming  = video_scd_stop_streaming,
 > +};
 > +
-> +/**
-> + * struct jh7110_isp_obc_offset - optical balck correction symbol offset
-> + *
-> + * @tl_offset: offset at point A for symbol.
-> + * @tr_offset: offset at point B for symbol.
-> + * @bl_offset: offset at point C for symbol.
-> + * @br_offset: offset at point D for symbol.
-> + */
-> +struct jh7110_isp_obc_offset {
-> +	__u8 tl_offset;
-> +	__u8 tr_offset;
-> +	__u8 bl_offset;
-> +	__u8 br_offset;
+>  /* -----------------------------------------------------------------------------
+>   * V4L2 ioctls
+>   */
+> @@ -448,6 +525,37 @@ static const struct v4l2_ioctl_ops stf_vid_ioctl_ops = {
+>  	.vidioc_streamoff               = vb2_ioctl_streamoff,
+>  };
+>  
+> +static int video_scd_g_fmt(struct file *file, void *fh, struct v4l2_format *f)
+> +{
+> +	struct stfcamss_video *video = video_drvdata(file);
+> +	struct v4l2_meta_format *meta = &f->fmt.meta;
+> +
+> +	if (f->type != video->type)
+> +		return -EINVAL;
+> +
+> +	meta->dataformat = video->active_fmt.fmt.meta.dataformat;
+> +	meta->buffersize = video->active_fmt.fmt.meta.buffersize;
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct v4l2_ioctl_ops stf_vid_scd_ioctl_ops = {
+> +	.vidioc_querycap                = video_querycap,
+> +	.vidioc_enum_fmt_meta_cap       = video_enum_fmt,
+> +	.vidioc_g_fmt_meta_cap          = video_scd_g_fmt,
+> +	.vidioc_s_fmt_meta_cap          = video_scd_g_fmt,
+> +	.vidioc_try_fmt_meta_cap        = video_scd_g_fmt,
+> +	.vidioc_reqbufs                 = vb2_ioctl_reqbufs,
+> +	.vidioc_querybuf                = vb2_ioctl_querybuf,
+> +	.vidioc_qbuf                    = vb2_ioctl_qbuf,
+> +	.vidioc_expbuf                  = vb2_ioctl_expbuf,
+> +	.vidioc_dqbuf                   = vb2_ioctl_dqbuf,
+> +	.vidioc_create_bufs             = vb2_ioctl_create_bufs,
+> +	.vidioc_prepare_buf             = vb2_ioctl_prepare_buf,
+> +	.vidioc_streamon                = vb2_ioctl_streamon,
+> +	.vidioc_streamoff               = vb2_ioctl_streamoff,
 > +};
 > +
-> +/**
-> + * struct jh7110_isp_obc_setting - Configuration used by optical balck correction
-> + *
-> + * @enabled: enabled setting flag.
-> + * @win_size: optical balck correction window size.
-> + * @gain: optical balck correction symbol gain.
-> + * @offset: optical balck correction symbol offset.
-> + */
-> +struct jh7110_isp_obc_setting {
-> +	__u32 enabled;
-> +	struct jh7110_isp_obc_win_size win_size;
-> +	struct jh7110_isp_obc_gain gain[4];
-> +	struct jh7110_isp_obc_offset offset[4];
-> +};
+>  /* -----------------------------------------------------------------------------
+>   * V4L2 file operations
+>   */
+> @@ -473,6 +581,9 @@ static int stf_link_validate(struct media_link *link)
+>  	struct stfcamss_video *video = video_get_drvdata(vdev);
+>  	int ret;
+>  
+> +	if (video->type == V4L2_BUF_TYPE_META_CAPTURE)
+> +		return 0;
 > +
-> +/**
-> + * struct jh7110_isp_oecf_point - oecf curve
-> + *
-> + * @x: x coordinate.
-> + * @y: y coordinate.
-> + * @slope: the slope between this point and the next point.
-> + */
-> +struct jh7110_isp_oecf_point {
-> +	__u16 x;
-> +	__u16 y;
-> +	__s16 slope;
-> +};
+>  	ret = stf_video_check_format(video);
+>  
+>  	return ret;
+> @@ -506,7 +617,11 @@ int stf_video_register(struct stfcamss_video *video,
+>  	q = &video->vb2_q;
+>  	q->drv_priv = video;
+>  	q->mem_ops = &vb2_dma_contig_memops;
+> -	q->ops = &stf_video_vb2_q_ops;
 > +
-> +/**
-> + * struct jh7110_isp_oecf_setting - Configuration used by opto-electric conversion function
-> + *
-> + * @enabled: enabled setting flag.
-> + * @r_curve: red pixel oecf curve.
-> + * @gr_curve: green pixel oecf curve in GR line.
-> + * @gb_curve: green pixel oecf curve in GB line.
-> + * @b_curve: blue pixel oecf curve.
-> + */
-> +struct jh7110_isp_oecf_setting {
-> +	__u32 enabled;
-> +	struct jh7110_isp_oecf_point r_curve[16];
-> +	struct jh7110_isp_oecf_point gr_curve[16];
-> +	struct jh7110_isp_oecf_point gb_curve[16];
-> +	struct jh7110_isp_oecf_point b_curve[16];
-> +};
-> +
-> +/**
-> + * struct jh7110_isp_r2y_matrix - RGB to YUV color conversion matrix
-> + *
-> + * @m: The 3x3 color conversion matrix coefficient.
-> + */
-> +struct jh7110_isp_r2y_matrix {
-> +	__s16 m[9];
-> +};
-> +
-> +/**
-> + * struct jh7110_isp_r2y_setting - Configuration used by RGB To YUV
-> + *
-> + * @enabled: enabled setting flag.
-> + * @matrix: RGB to YUV color conversion matrix.
-> + */
-> +struct jh7110_isp_r2y_setting {
-> +	__u32 enabled;
-> +	struct jh7110_isp_r2y_matrix matrix;
-> +};
-> +
-> +/**
-> + * struct jh7110_isp_sat_curve - Saturation curve
-> + *
-> + * @yi_min: the minimum input Y value.
-> + * @yo_ir: the ratio of Y output range to input range.
-> + * @yo_min: the minimum output Y value.
-> + * @yo_max: the maximum output Y value.
-> + */
-> +struct jh7110_isp_sat_curve {
-> +	__s16 yi_min;
-> +	__s16 yo_ir;
-> +	__s16 yo_min;
-> +	__s16 yo_max;
-> +};
-> +
-> +/**
-> + * struct jh7110_isp_sat_hue_info - Chroma Saturation Hue Factor
-> + *
-> + * @cos: COS hue factor.
-> + * @sin: SIN hue factor.
-> + */
-> +struct jh7110_isp_sat_hue_info {
-> +	__s16 cos;
-> +	__s16 sin;
-> +};
-> +
-> +/**
-> + * struct jh7110_isp_sat_info - Saturation information
-> + *
-> + * @gain_cmab: Chroma saturation magnitude amplification base for gain.
-> + * @gain_cmmd: Chroma saturation magnitude amplification delta for gain.
-> + * @threshold_cmb: Chroma saturation magnitude base threshold.
-> + * @threshold_cmd: Chroma saturation magbitude delta threshold.
-
-magbitude -> magnitude
-
-> + * @offset_u: Chroma saturation U offset.
-> + * @offset_v: Chroma saturation V offset.
-> + * @cmsf: Chroma saturation magbitude scaling factor.
-
-Ditto.
-
-> + */
-> +struct jh7110_isp_sat_info {
-> +	__s16 gain_cmab;
-> +	__s16 gain_cmmd;
-> +	__s16 threshold_cmb;
-> +	__s16 threshold_cmd;
-> +	__s16 offset_u;
-> +	__s16 offset_v;
-> +	__s16 cmsf;
-> +};
-> +
-> +/**
-> + * struct jh7110_isp_sat_setting - Configuration used by Saturation
-> + *
-> + * @enabled: enabled setting flag.
-> + * @curve: Saturation curve.
-> + * @hue_info: Chroma Saturation Hue Factor.
-> + * @sat_info: Saturation information.s
-> + */
-> +struct jh7110_isp_sat_setting {
-> +	__u32 enabled;
-> +	struct jh7110_isp_sat_curve curve;
-> +	struct jh7110_isp_sat_hue_info hue_info;
-> +	struct jh7110_isp_sat_info sat_info;
-> +};
-> +
-> +/**
-> + * struct jh7110_isp_sharp_weight - Sharpe weight
-> + *
-> + * @weight: Sharpen filter weight.
-> + * @recip_wei_sum: Sharpen amplification filter weight normalization factor.
-> + */
-> +struct jh7110_isp_sharp_weight {
-> +	__u8 weight[15];
-> +	__u32 recip_wei_sum;
-> +};
-> +
-> +/**
-> + * struct jh7110_isp_sharp_strength - Sharpen strength
-> + *
-> + * @diff: Sharpen Edge amplification delta level.
-> + * @f: Sharpen Edge amplification factor.
-> + * @s: Sharpen Edge amplification factor slope.
-> + */
-> +struct jh7110_isp_sharp_strength {
-> +	__s16 diff[4];
-> +	__s16 f[3];
-> +	__s32 s[3];
-> +};
-> +
-> +/**
-> + * struct jh7110_isp_sharp_setting - Configuration used by Sharpen
-> + *
-> + * @enabled: enabled setting flag.
-> + * @weight: Sharpe weight.
-> + * @strength: Sharpen strength.
-> + * @pdirf: Positive Factor Multiplier.
-> + * @ndirf: Negative Factor Multiplier.
-> + */
-> +struct jh7110_isp_sharp_setting {
-> +	__u32 enabled;
-> +	struct jh7110_isp_sharp_weight weight;
-> +	struct jh7110_isp_sharp_strength strength;
-> +	__s8 pdirf;
-> +	__s8 ndirf;
-> +};
-> +
-> +/**
-> + * struct jh7110_isp_ycrv_curve - Y Curve parameters table
-> + *
-> + * @y: Y curve L parameters value.
-> + */
-> +struct jh7110_isp_ycrv_curve {
-> +	__s16 y[64];
-> +};
-> +
-> +/**
-> + * struct jh7110_isp_ycrv_setting - Configuration used by Y Curve
-> + *
-> + * @enabled: enabled setting flag.
-> + * @curve: Y Curve parameters table.
-> + */
-> +struct jh7110_isp_ycrv_setting {
-> +	__u32 enabled;
-> +	struct jh7110_isp_ycrv_curve curve;
-> +};
-> +
-> +/**
-> + * struct jh7110_isp_sc_config - statistics collection crop configure
-> + *
-> + * @h_start: Horizontal starting point for frame cropping.
-> + * @v_start: Vertical starting point for frame cropping.
-> + * @sw_width: Width of statistics collection sub-window.
-> + * @sw_height: Height of statistics collection sub-window.
-> + * @hperiod: Horizontal period.
-> + * @hkeep: Horizontal keep.
-> + * @vperiod: Vertical period.
-> + * @vkeep: Vertical keep.
-> + */
-> +struct jh7110_isp_sc_config {
-> +	__u16 h_start;
-> +	__u16 v_start;
-> +	__u8 sw_width;
-> +	__u8 sw_height;
-> +	__u8 hperiod;
-> +	__u8 hkeep;
-> +	__u8 vperiod;
-> +	__u8 vkeep;
-> +};
-> +
-> +/**
-> + * struct jh7110_isp_sc_af_config - statistics collection auto focus configure
-> + *
-> + * @es_hor_mode: Horizontal mode.
-> + * @es_sum_mode: sum mode.
-> + * @hor_en: Horizontal enable.
-> + * @ver_en: Vertical enable.
-> + * @es_ver_thr: Vertical threshold.
-> + * @es_hor_thr: Horizontal threshold.
-> + */
-> +struct jh7110_isp_sc_af_config {
-> +	__u8 es_hor_mode;
-> +	__u8 es_sum_mode;
-> +	__u8 hor_en;
-> +	__u8 ver_en;
-> +	__u8 es_ver_thr;
-> +	__u16 es_hor_thr;
-> +};
-> +
-> +/**
-> + * struct jh7110_isp_sc_awb_ps - statistics collection auto white balance pixel sum
-> + *
-> + * @awb_ps_rl: Lower boundary of R value for pixel sum.
-> + * @awb_ps_ru: Upper boundary of R value for pixel sum.
-> + * @awb_ps_gl: Lower boundary of G value for pixel sum.
-> + * @awb_ps_gu: Upper boundary of G value for pixel sum.
-> + * @awb_ps_bl: Lower boundary of B value for pixel sum.
-> + * @awb_ps_bu: Upper boundary of B value for pixel sum.
-> + * @awb_ps_yl: Lower boundary of Y value for pixel sum.
-> + * @awb_ps_yu: Upper boundary of Y value for pixel sum.
-> + * @awb_ps_grl: Lower boundary of G/R ratio for pixel sum.
-> + * @awb_ps_gru: Upper boundary of G/R ratio for pixel sum.
-> + * @awb_ps_gbl: Lower boundary of G/B ratio for pixel sum.
-> + * @awb_ps_gbu: Upper boundary of G/B ratio for pixel sum.
-> + * @awb_ps_grbl: Lower boundary of (Gr/R + b/a * Gb/B) for pixel sum.
-> + * @awb_ps_grbu: Upper boundary of (Gr/R + b/a * Gb/B) for pixel sum.
-> + */
-> +struct jh7110_isp_sc_awb_ps {
-> +	__u8 awb_ps_rl;
-> +	__u8 awb_ps_ru;
-> +	__u8 awb_ps_gl;
-> +	__u8 awb_ps_gu;
-> +	__u8 awb_ps_bl;
-> +	__u8 awb_ps_bu;
-> +	__u8 awb_ps_yl;
-> +	__u8 awb_ps_yu;
-> +	__u16 awb_ps_grl;
-> +	__u16 awb_ps_gru;
-> +	__u16 awb_ps_gbl;
-> +	__u16 awb_ps_gbu;
-> +	__u16 awb_ps_grbl;
-> +	__u16 awb_ps_grbu;
-> +};
-> +
-> +/**
-> + * struct jh7110_isp_sc_awb_ws - statistics collection auto white balance weight sum
-> + *
-> + * @awb_ws_rl: Lower boundary of R value for weight sum.
-> + * @awb_ws_ru: Upper boundary of R value for weight sum.
-> + * @awb_ws_grl: Lower boundary of Gr value for weight sum.
-> + * @awb_ws_gru: Upper boundary of Gr value for weight sum.
-> + * @awb_ws_gbl: Lower boundary of Gb value for weight sum.
-> + * @awb_ws_gbu: Upper boundary of Gb value for weight sum.
-> + * @awb_ws_bl: Lower boundary of B value for weight sum.
-> + * @awb_ws_bu: Upper boundary of B value for weight sum.
-> + */
-> +struct jh7110_isp_sc_awb_ws {
-> +	__u8 awb_ws_rl;
-> +	__u8 awb_ws_ru;
-> +	__u8 awb_ws_grl;
-> +	__u8 awb_ws_gru;
-> +	__u8 awb_ws_gbl;
-> +	__u8 awb_ws_gbu;
-> +	__u8 awb_ws_bl;
-> +	__u8 awb_ws_bu;
-> +};
-> +
-> +/**
-> + * struct jh7110_isp_sc_awb_point - statistics collection auto white balance point
-> + *
-> + * @weight: Weighting value at point.
-> + */
-> +struct jh7110_isp_sc_awb_point {
-> +	__u8 weight;
-> +};
-> +
-> +/**
-> + * struct jh7110_isp_sc_awb_config - statistics collection auto white balance configure
-> + *
-> + * @ps_config: statistics collection auto white balance pixel sum.
-> + * @awb_ps_grb_ba: auto white balance b/a value.
-> + * @sel: input mux for statistics collection auto white balance.
-> + * @ws_config: statistics collection auto white balance weight sum.
-> + * @awb_cw: Weighting value at 13x13 point.
-> + * @pts: statistics collection auto white balance point.
-> + */
-> +struct jh7110_isp_sc_awb_config {
-> +	struct jh7110_isp_sc_awb_ps ps_config;
-> +	__u8 awb_ps_grb_ba;
-> +	__u8 sel;
-> +	struct jh7110_isp_sc_awb_ws ws_config;
-> +	__u8 awb_cw[169];
-> +	struct jh7110_isp_sc_awb_point pts[17];
-> +};
-> +
-> +/**
-> + * struct jh7110_isp_sc_setting - Configuration used by statistics collection
-> + *
-> + * @enabled: enabled setting flag.
-> + * @crop_config: statistics collection crop configure.
-> + * @af_config: statistics collection auto focus configure.
-> + * @awb_config: statistics collection auto white balance configure.
-> + */
-> +struct jh7110_isp_sc_setting {
-> +	__u32 enabled;
-> +	struct jh7110_isp_sc_config crop_config;
-> +	struct jh7110_isp_sc_af_config af_config;
-> +	struct jh7110_isp_sc_awb_config awb_config;
-> +};
-> +
-> +/**
-> + * struct jh7110_isp_params_buffer - StarFive JH7110 ISP Parameters Meta Data
-> + *
-> + * @enable_setting: enabled setting module (JH7110_ISP_MODULE_* definitions).
-> + * @wb_setting: Configuration used by auto white balance gain.
-> + * @car_setting: Configuration used by color artifact removal.
-> + * @ccm_setting: Configuration used by color correction matrix.
-> + * @cfa_setting: Configuration used by demosaic module.
-> + * @ctc_setting: Configuration used by crosstalk remove.
-> + * @dbc_setting: Configuration used by defect bad pixels correction.
-> + * @dnyuv_setting: Configuration used by yuv domain denoise.
-> + * @gmargb_setting: Configuration used by RGB gamma.
-> + * @lccf_setting: Configuration used by lens correction cosine fourth.
-> + * @obc_setting: Configuration used by optical balck compensation.
-> + * @oecf_setting: Configuration used by opto-electric conversion function.
-> + * @r2y_setting: Configuration used by RGB To YUV.
-> + * @sat_setting: Configuration used by Saturation.
-> + * @sharp_setting: Configuration used by Sharpen.
-> + * @ycrv_setting: Configuration used by Y Curve.
-> + * @sc_setting: Configuration used by statistics collection.
-> + */
-> +struct jh7110_isp_params_buffer {
-> +	__u32 enable_setting;
-> +	struct jh7110_isp_wb_setting wb_setting;
-> +	struct jh7110_isp_car_setting car_setting;
-> +	struct jh7110_isp_ccm_setting ccm_setting;
-> +	struct jh7110_isp_cfa_setting cfa_setting;
-> +	struct jh7110_isp_ctc_setting ctc_setting;
-> +	struct jh7110_isp_dbc_setting dbc_setting;
-> +	struct jh7110_isp_dnyuv_setting dnyuv_setting;
-> +	struct jh7110_isp_gmargb_setting gmargb_setting;
-> +	struct jh7110_isp_lccf_setting lccf_setting;
-> +	struct jh7110_isp_obc_setting obc_setting;
-> +	struct jh7110_isp_oecf_setting oecf_setting;
-> +	struct jh7110_isp_r2y_setting r2y_setting;
-> +	struct jh7110_isp_sat_setting sat_setting;
-> +	struct jh7110_isp_sharp_setting sharp_setting;
-> +	struct jh7110_isp_ycrv_setting ycrv_setting;
-> +	struct jh7110_isp_sc_setting sc_setting;
-> +};
-> +
-> +/**
-> + * Statistics Collection Meta Data Flag
-> + */
-> +#define JH7110_ISP_SC_FALG_AE_AF		0x0
-> +#define JH7110_ISP_SC_FALG_AWB			0xffff
-> +
-> +#pragma pack(1)
-> +
-> +/**
-> + * struct jh7110_isp_sc_buffer - StarFive JH7110 ISP Statistics Collection Meta Data
-> + *
-> + * @y_histogram: Y histogram data for saturation control.
-> + * @reserv0: reserve byte.
-> + * @bright_sc: bright statistic. If flag is JH7110_ISP_SC_FALG_AE_AF, This field is
-> + *             saved auto exposure and auto focus. If flag is JH7110_ISP_SC_FALG_AWB,
-> + *             This field is saved auto white balance.
-> + * @reserv1: reserve byte.
-> + * @ae_hist_y: Y histogram for auto exposure.
-> + * @reserv2: reserve byte.
-> + * @flag: Statistics Collection Meta Data Flag (JH7110_ISP_SC_FALG_* definitions)
-> + */
-> +struct jh7110_isp_sc_buffer {
-> +	__u32 y_histogram[64];
-> +	__u32 reserv0[33];
-> +	__u32 bright_sc[4096];
-> +	__u32 reserv1[96];
-> +	__u32 ae_hist_y[128];
-> +	__u32 reserv2[511];
-> +	__u16 flag;
-> +};
-> +
-> +#pragma pack()
-> +
-> +#endif
+> +	if (video->type == V4L2_BUF_TYPE_VIDEO_CAPTURE)
+> +		q->ops = &stf_video_vb2_q_ops;
+> +	else
+> +		q->ops = &stf_video_scd_vb2_q_ops;
+>  	q->type = video->type;
+>  	q->io_modes = VB2_DMABUF | VB2_MMAP;
+>  	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+> @@ -529,16 +644,28 @@ int stf_video_register(struct stfcamss_video *video,
+>  		goto err_mutex_destroy;
+>  	}
+>  
+> -	ret = stf_video_init_format(video);
+> -	if (ret < 0) {
+> -		dev_err(video->stfcamss->dev,
+> -			"Failed to init format: %d\n", ret);
+> -		goto err_media_cleanup;
+> +	if (video->type == V4L2_BUF_TYPE_VIDEO_CAPTURE) {
+> +		ret = stf_video_init_format(video);
+> +		if (ret < 0) {
+> +			dev_err(video->stfcamss->dev,
+> +				"Failed to init format: %d\n", ret);
+> +			goto err_media_cleanup;
+> +		}
+> +		vdev->ioctl_ops = &stf_vid_ioctl_ops;
+> +		vdev->device_caps = V4L2_CAP_VIDEO_CAPTURE;
+> +	} else {
+> +		ret = stf_video_scd_init_format(video);
+> +		if (ret < 0) {
+> +			dev_err(video->stfcamss->dev,
+> +				"Failed to init format: %d\n", ret);
+> +			goto err_media_cleanup;
+> +		}
+> +		vdev->ioctl_ops = &stf_vid_scd_ioctl_ops;
+> +		vdev->device_caps = V4L2_CAP_META_CAPTURE;
+>  	}
+>  
+>  	vdev->fops = &stf_vid_fops;
+> -	vdev->ioctl_ops = &stf_vid_ioctl_ops;
+> -	vdev->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING;
+> +	vdev->device_caps |= V4L2_CAP_STREAMING;
+>  	vdev->entity.ops = &stf_media_ops;
+>  	vdev->vfl_dir = VFL_DIR_RX;
+>  	vdev->release = stf_video_release;
+> diff --git a/drivers/staging/media/starfive/camss/stf-video.h b/drivers/staging/media/starfive/camss/stf-video.h
+> index 59799b65cbe5..53a1cf4e59b7 100644
+> --- a/drivers/staging/media/starfive/camss/stf-video.h
+> +++ b/drivers/staging/media/starfive/camss/stf-video.h
+> @@ -37,6 +37,7 @@ enum stf_v_line_id {
+>  enum stf_capture_type {
+>  	STF_CAPTURE_RAW = 0,
+>  	STF_CAPTURE_YUV,
+> +	STF_CAPTURE_SCD,
+>  	STF_CAPTURE_NUM,
+>  };
+>  
 
 Regards,
 
