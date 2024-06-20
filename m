@@ -1,153 +1,128 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF9E71B143A;
-	Thu, 20 Jun 2024 16:01:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43CF31B3735;
+	Thu, 20 Jun 2024 16:59:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718899315; cv=none; b=fC8Cld56lMHyMQWAsL96GuNpGMgxQTTrQapffxz5K7rLIad/iUz54qjmlH4H4ICZkIzh6GpplXMJsgHZhYzqZAnOJN9qW8cWZE3WPOBo7ZJirVL/IrudnKHjsfNFQZTkXe7eUIUhtEyOxStn94K2UpFIgo+G78rXZR0x6P5ls30=
+	t=1718902795; cv=none; b=UXlbR/1cac9t+u2RrbW8FthX4z4byzfQp1m9axQfx4cCnMVhynm5S7NRR6JACQ2JRfke5eW1XvMCABUvst8eNRNScX2CGa178wbUidihIJYp0NOBAAXzfO8lYQRsVHFcC6V34PTCDChZUVbjC/b+tfXS7PG9Fz/dvU7YwtidrS8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718899315; c=relaxed/simple;
-	bh=V0ZRCVEkL9xvrdNgLyQfRm+vLHBlxj8ql16aQp+/5OM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cdxfNFNrs/GgFHWFQ233o6WciOkQx7ezq65/qMVj/0vGFdK8tqovhM2bcU1FjBzhB1pJT8T90S4DbZoc5LjNFIR7QGpJXD/wncWRNiD6jHMaAwATrykoH9ytsGyozWsVs1vL+je12y893BeLujga5qr5zzoPADlTsdgdlrl/kso=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Aq74HY/e; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718902795; c=relaxed/simple;
+	bh=BRG+sP7vlU9S0Ij+PyX4BGt/+GXAKzOhTP+8j7+zSLM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Mco7QZuL9o2oc26TrVQs0Di5PyruR2qptC0AAUx/vz9DvVKugK9Vm8rSoVxvuLvc690Xc0wk0vIokAlZdctSWHtSWolp8IL0EDTAk8nqSlgW6r0VUYUu+WuQuwfQ3uHc70dZl54qpk5uRxaZzcD9nwjF4sj7YG/tN2nUTPSJBdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=pUdt3xI6; arc=none smtp.client-ip=212.227.15.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Aq74HY/e"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1166C2BD10;
-	Thu, 20 Jun 2024 16:01:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718899315;
-	bh=V0ZRCVEkL9xvrdNgLyQfRm+vLHBlxj8ql16aQp+/5OM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Aq74HY/evqwGDs7XSFADEXqTYws3XqaPebwjZAD0k6cwiWKR8Gy1OynOqu51L0Q4h
-	 xfh0fvcxVb+b7uZgIkZhB4609aGNiJdHdFgyoZ4L6OKgrcXNlt+XVN3Ld2aXHHGjWc
-	 isk2r47WfEod6S2tsJ6jF7g/mOpnRDkRHBwLkCjbCf+LCU20DKwrOhX8CIA7GIE4Vc
-	 cLh1yMoUahoqVMz+RZwk1RvrQ1XhCH9IwAiZoHBzD2uAkjWLBKbZDO57fDdPOwNjpb
-	 glhmsr041yPbE69ciTuYWED3QcUAeIDi5M2bclc5FHJ/vlrJzDTMEcvqXnGHi9c8Nr
-	 yOWE6F38jJYSg==
-Date: Thu, 20 Jun 2024 17:01:48 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Detlev Casanova <detlev.casanova@collabora.com>
-Cc: linux-kernel@vger.kernel.org,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
-	Dragan Simic <dsimic@manjaro.org>,
-	Diederik de Haas <didi.debian@cknow.org>,
-	Andy Yan <andy.yan@rock-chips.com>,
-	Boris Brezillon <boris.brezillon@collabora.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Jonas Karlman <jonas@kwiboo.se>, Alex Bee <knaerzche@gmail.com>,
-	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v3 3/4] media: dt-bindings: rockchip: Document RK3588
- Video Decoder bindings
-Message-ID: <20240620-unsmooth-surfer-b62ed94b4a5e@spud>
-References: <20240620142532.406564-1-detlev.casanova@collabora.com>
- <20240620142532.406564-4-detlev.casanova@collabora.com>
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="pUdt3xI6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
+	s=s31663417; t=1718902780; x=1719507580; i=wahrenst@gmx.net;
+	bh=VSq24EbJ74gt4mzsgZlLMeZYIybo9QSU6HsfTsY4ehs=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=pUdt3xI6V96TNv8FWBom+RXXUwSUql9w2JLvjtF6SeZyCvm1Gh+t1l3lnNXarJCc
+	 pI+kD3rytnSWN8/ULKBkX4x4qvrVCR7A42rRzKVYTM1tzucs3XFe8HHn89w3IT2Ay
+	 Rb2zjTW/UDwl0lvOzeFQUuVznsRfZ9MYD3rBA8RymGvrABiX6Fkc/gzMGJ7SVEBQM
+	 fqQ9x2tbPfKl/El0Bk/iRByLJtYqaXQv+at1nuuI65y+H1BWvVltM9uZWYNA//3jO
+	 b/5sopt2rlrqV1O2BLS59iV6Xy8tUFGLr2N9O19u4KbNy1EK5jBqfaNxKkrCYvOGG
+	 n6n7tdYqY7S+oL+4Sw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.127] ([37.4.248.43]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MTzf6-1ruSFS2yhO-00OHYa; Thu, 20
+ Jun 2024 18:59:40 +0200
+Message-ID: <a2f08c04-ff9c-4854-b5a6-a3b84e20b50c@gmx.net>
+Date: Thu, 20 Jun 2024 18:59:39 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="ZhJn1SX/DkOq9GFq"
-Content-Disposition: inline
-In-Reply-To: <20240620142532.406564-4-detlev.casanova@collabora.com>
-
-
---ZhJn1SX/DkOq9GFq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [v2 PATCH] staging: vc04_services: vchiq_arm: Fix initialisation
+ check
+To: Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Umang Jain <umang.jain@ideasonboard.com>,
+ linux-rpi-kernel@lists.infradead.org
+Cc: Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.org>, detule
+ <ogjoneski@gmail.com>, Dan Carpenter <dan.carpenter@linaro.org>,
+ BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE
+ <linux-arm-kernel@lists.infradead.org>,
+ STAGING SUBSYSTEM <linux-staging@lists.linux.dev>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20240614104339.3858830-1-kieran.bingham@ideasonboard.com>
+ <37779db2-114c-4df6-97fd-2444bdad5529@gmx.net>
+ <171836466631.2248009.16741779932900773222@ping.linuxembedded.co.uk>
+Content-Language: en-US
+From: Stefan Wahren <wahrenst@gmx.net>
+In-Reply-To: <171836466631.2248009.16741779932900773222@ping.linuxembedded.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:+wNmFXiH+5ZE6MG+T03/1HnnEwf5i0wgjf2gm9qTCMRMPCOz2oP
+ cGP8uy9/P9I1JNRuMNltj5+ifvHkj0M+r9PD7mV+Vc0qzk7Jw9u4etBIkNQHzJCgfySzgnU
+ o7koxn3CFaBbwtdHveDtJIzBXF17+sDAs3qBFMjbeKPo8+n+XRl2D/1bdHG9oQHBVR1W3d4
+ jWg7RmtRMTbk15Cx96hVQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:YON8xkvmoz0=;jnd5KYPzskkseD9u2qH2d1jv2Fq
+ FaTcN3PNQ1j0LOXfEZjeEPMYFzm5UQQsYsZPaXOgg0bkt3mvB4Q0InrUY2C0JwqjgogiFZxkO
+ Mppg7F61Co/4N2aXE3xeyN2ahh73e6EvYSEEJmQkECDSALMN3cqo7nZaS2w6k8CWGnO1YaIEC
+ FUkgG3BetrmysjXSm2kAmHN9hZyFoTlXCuTornGJQ0PdwwYH/Cogf1/vU28z4JjfvPlIbR/DX
+ 7bIpFjDf0Axvw5ispFa3ky97i7D7FJvpowfLHjE0d6ZI8HuLM4O05pVu4kHpp4Hr1+JUsbNa0
+ cFTuRIJ2FktwG6Oi4hATpnogdjusP/SS6FzN72zq4f3UopbsG49peYku57s23BgOYZ5X2YaY+
+ anAyow0FcVKbfeTOGQWXTQGhB9rkAOAzEsgNjxYqD1hvuZ0ApHXcqNY+USCZcCwnoCkjkmB1u
+ VySxM4tpTlTtxawDUnYxVky5z2m8kRlX4EzJgKlZMwGvBca0aEKFhhGqxLpPuA9VyNoOZ4XiX
+ /pfoD+NXy/FH6++I6yqygeTilu2fRUddQseDw3wZDSTxW97iHPCQBe6MJ3ey1LF3xN+007Zp+
+ XUqAvm0b64i4OeNcwVKACfYNZLDaRHK88XgtACva8h7OVR90UPDYdTrlmU6RDWimzaY9ex+8z
+ MciL4rXz04oq7Bu+fOqBbwosg62ny85PLC7t9yJ1AA+Che2hfUQi7RNz1Z6hNiAaIS2ZryZTl
+ vma119XkV1sSGGcryanQG2gBdQxoeMVU2GXTImwC3e0gejX27QXc1lmeuuYA5ffEEx9VE8+bW
+ DKqpe5vfNMTsAG02dEPYiibgqmYWeqcWeBb7eSApcNbiM=
 
-On Thu, Jun 20, 2024 at 10:19:45AM -0400, Detlev Casanova wrote:
-> Document the Rockchip RK3588 Video Decoder bindings.
->=20
-> Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
-> ---
->  .../bindings/media/rockchip,vdec.yaml         | 55 +++++++++++++++++++
->  1 file changed, 55 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/media/rockchip,vdec.yaml b=
-/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
-> index 08b02ec16755..d44f6b0d2c55 100644
-> --- a/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
-> +++ b/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
-> @@ -17,6 +17,7 @@ properties:
->    compatible:
->      oneOf:
->        - const: rockchip,rk3399-vdec
-> +      - const: rockchip,rk3588-vdec
->        - items:
->            - enum:
->                - rockchip,rk3228-vdec
-> @@ -30,29 +31,56 @@ properties:
->      maxItems: 1
-> =20
->    clocks:
-> +    minItems: 4
->      items:
->        - description: The Video Decoder AXI interface clock
->        - description: The Video Decoder AHB interface clock
->        - description: The Video Decoded CABAC clock
->        - description: The Video Decoder core clock
-> +      - description: The Video decoder HEVC CABAC clock
-> =20
->    clock-names:
-> +    minItems: 4
->      items:
->        - const: axi
->        - const: ahb
->        - const: cabac
->        - const: core
-> +      - const: hevc_cabac
-> =20
->    assigned-clocks: true
-> =20
->    assigned-clock-rates: true
-> =20
-> +  resets:
-> +    items:
-> +      - description: The Video Decoder AXI interface reset
-> +      - description: The Video Decoder AHB interface reset
-> +      - description: The Video Decoded CABAC reset
-> +      - description: The Video Decoder core reset
-> +      - description: The Video decoder HEVC CABAC reset
-> +
-> +  reset-names:
-> +    items:
-> +      - const: rst_axi
-> +      - const: rst_ahb
-> +      - const: rst_cabac
-> +      - const: rst_core
-> +      - const: rst_hevc_cabac
+Hi Kieran,
 
-I should have noticed this last time, but drop the "rst_", these are all
-resets. With that,
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+Am 14.06.24 um 13:31 schrieb Kieran Bingham:
+> Quoting Stefan Wahren (2024-06-14 12:00:38)
+>> Hi Kieran,
+>>
+>> Am 14.06.24 um 12:43 schrieb Kieran Bingham:
+>>> The vchiq_state used to be obtained through an accessor
+>>> which would validate that the VCHIQ had been initialised
+>>> correctly with the remote.
+>>>
+>>> In commit 42a2f6664e18 ("staging: vc04_services: Move global g_state t=
+o
+>>> vchiq_state") the global state was moved to the vchiq_mgnt structures
+>>> stored as a vchiq instance specific context. This conversion removed t=
+he
+>>> helpers and instead replaced users of this helper with the assumption
+>>> that the state is always available and the remote connected.
+>>>
+>>> Fix this broken assumption by re-introducing the logic that was lost
+>>> during the conversion.
+>>>
+>>> Fixes: 42a2f6664e18 ("staging: vc04_services: Move global g_state to v=
+chiq_state")
+>>> Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+>>> ---
+>>> v2:
+>>>    - No change, just resend
+>> what happen to my comments for the first version?
+> Err ... i missed them ... let me go back and look!
+sorry for pestering, but could you please send v3 of the fix? I want to
+rebase my cleanup series on top of that, because bisecting vchiq is
+currently no fun.
 
---ZhJn1SX/DkOq9GFq
-Content-Type: application/pgp-signature; name="signature.asc"
+Thanks
+Stefan
+>
+> --
+> Kieran
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZnRSbAAKCRB4tDGHoIJi
-0q7QAQDJlNfQDbzPdmJ1RausFnn0zlMVyAJTYhKDcOeA2MbIbwEAr09bKJzKA6Th
-GXbZJTjRrfW0abU6ps1HhASV6DVAQAs=
-=fWXH
------END PGP SIGNATURE-----
-
---ZhJn1SX/DkOq9GFq--
