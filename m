@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D05D1A8C04;
-	Thu, 20 Jun 2024 10:24:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 932D6157A59;
+	Thu, 20 Jun 2024 10:30:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718879091; cv=none; b=a7RkS8fOhF5Geov2xiAbJT6OV6dyyysVp6w8PhS/BdpfnQD/lIzceDLplAQZ5opKmIJVPsXEAVgHbXE4nG6Sg1dPiQHccr3Ww9YScv5LMSKzQ4vBwIwtdR/a5Y3DC+45bHSdRhPyhPr0usdo+Zkp8t8OIBKfmvzb1cRTe1PtXKk=
+	t=1718879411; cv=none; b=CmxsSqEYYoT57XWHbFjPJ9d5xTPYEn6w+2PqVIZdFqbn3DkydH14HIgnUZGOxBJsvJ2gaeNOl6vRA4GmmIG1zeggBDbdmXBB57GJTr00zd/DkXfGXpAoMhrxZ8vOameJa5ggWdXC7VnLe7yfBrUPTr9z/F2wLaWFnqKsaerOOo4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718879091; c=relaxed/simple;
-	bh=V/mGbbKZbujOtZFWTQj3ShrU4q2VeQqYjy/tEpPe/EQ=;
+	s=arc-20240116; t=1718879411; c=relaxed/simple;
+	bh=QYnwa1tKWGvI4i3wGgJ+WVQCC0RYFTwvjdqbcOlcxHI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MaQ+mGl82ge5+FeQtgSbr6f85ifUlHpykATkCDvOnbSVfspwNQi0ZpjrN1GfQzDghje0BPTbxDM29yYIyFIXxRUBC/qZPjy0TNEdt8jmPDw2W+aWIbrg4X23VakaQ4E7tfxkCSalijJsOecNOLzh+VmxJwLyxsZewGWq7hzai9Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DAH3/g6C; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=EdrkWVp2rO38OlhPb/vR0WcCroZkCTN2ixL7+2IVXt5/9Y9aeTN9U4v2NQAGRlWKvr4fpgiFvnx+318pcdlZEBUVH5+IUaT/alJ2rkScmnn2ytbXHiTezPdBBzibHDr2MkMSePUnzySFaBNN73fwj4eCy8NpwYDAyOacwWgzL20=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sA4VK03B; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DAH3/g6C"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F9E0C2BD10;
-	Thu, 20 Jun 2024 10:24:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sA4VK03B"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC849C2BD10;
+	Thu, 20 Jun 2024 10:30:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718879090;
-	bh=V/mGbbKZbujOtZFWTQj3ShrU4q2VeQqYjy/tEpPe/EQ=;
+	s=k20201202; t=1718879410;
+	bh=QYnwa1tKWGvI4i3wGgJ+WVQCC0RYFTwvjdqbcOlcxHI=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=DAH3/g6C3rXFP/0p/DiQbo3TQlhf5gIpg4KYgGs0LPUBW5uWSGfkEJjsFj+fcBM+0
-	 io6AgYmDT620GqYXQUQj3JIJd8yy/iZZd6w5cYBjW7kjWVOh4w5UuJeb9V0SgSS0PQ
-	 LkNdn6Sh74DiGug/fsW9vay1NG7ACuHWKXz2VEzDo9UBJOQ2FOPM5sXstjeBEHOnBR
-	 jyuuLh44yLyOCHxk0+M07iWUX/nbzhAueDNkUz+8x7VmxLtRY03QaNvgh+KJWng5vJ
-	 MWs19QsIi57O5BGm00gjmdPHLh4oJInzMMm1DZwfeuP3fiqyLUNP5KtzoWqPaSo9FJ
-	 0+IBxFgyinnlw==
-Message-ID: <9601672b-3288-4eff-a295-1892ef8df0aa@kernel.org>
-Date: Thu, 20 Jun 2024 12:24:39 +0200
+	b=sA4VK03B8O4NN/ioSKuvv2TpW4gyf61MAt3fnDT277F3aEaMhgHYMTUhaEnHqukJj
+	 9inp9GpwU3ZPulW1Cj76NA2kmIO63z5Gz2KtOiNTxCUp08Ud0vDlKXMmZZCGopKI3O
+	 kejVHxLSixFejNm8GSYSPFUbM7jP8/x/DSO6aShN6nbUAcK8HNHiMj4TBNWFRanKEj
+	 vMuEysP472lPk880BneD+N3Xv0Za7jIYLDFuPtome8bwnmCGVLDYhAQlfj0dX4UTCG
+	 LYLrQJgY60vMGPERHesNx0eZXHxHb0SKhrcagw1prG+LfTyJGiaYSpGgCzGCLpb+26
+	 9rbbvn0XkwolQ==
+Message-ID: <dc232a01-1495-42ff-ad2a-5a0aa780b60c@kernel.org>
+Date: Thu, 20 Jun 2024 12:30:00 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -35,8 +35,7 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/4] arm64: dts: rockchip: Add rkvdec2 Video Decoder on
- rk3588(s)
+Subject: Re: [PATCH v2 2/4] media: rockchip: Introduce the rkvdec2 driver
 To: Detlev Casanova <detlev.casanova@collabora.com>,
  linux-kernel@vger.kernel.org
 Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
@@ -58,7 +57,7 @@ Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-staging@lists.linux.dev
 References: <20240619150029.59730-1-detlev.casanova@collabora.com>
- <20240619150029.59730-5-detlev.casanova@collabora.com>
+ <20240619150029.59730-3-detlev.casanova@collabora.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -104,89 +103,45 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240619150029.59730-5-detlev.casanova@collabora.com>
+In-Reply-To: <20240619150029.59730-3-detlev.casanova@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 19/06/2024 16:57, Detlev Casanova wrote:
-> Add the rkvdec2 Video Decoder to the RK3588s devicetree.
-> 
-> Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
-> ---
->  arch/arm64/boot/dts/rockchip/rk3588s.dtsi | 50 +++++++++++++++++++++++
->  1 file changed, 50 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-> index 6ac5ac8b48ab..7690632f57f1 100644
-> --- a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-> +++ b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-> @@ -2596,6 +2596,16 @@ system_sram2: sram@ff001000 {
->  		ranges = <0x0 0x0 0xff001000 0xef000>;
->  		#address-cells = <1>;
->  		#size-cells = <1>;
+> +static const char * const rkvdec2_clk_names[] = {
+> +	"axi",
+> +	"ahb",
+> +	"core",
+> +	"cabac",
+> +	"hevc_cabac",
+> +};
 > +
-> +		vdec0_sram: rkvdec-sram@0 {
-> +			reg = <0x0 0x78000>;
-> +			pool;
-> +		};
+> +/*
+> + * Some SoCs, like RK3588 have multiple identical vdpu34x cores, but the
+> + * kernel is currently missing support for multi-core handling. Exposing
+> + * separate devices for each core to userspace is bad, since that does
+> + * not allow scheduling tasks properly (and creates ABI). With this workaround
+> + * the driver will only probe for the first core and early exit for the other
+> + * cores. Once the driver gains multi-core support, the same technique
+> + * for detecting the main core can be used to cluster all cores together.
+> + */
+> +static int rkvdec2_disable_multicore(struct rkvdec2_dev *rkvdec)
+> +{
+> +	const char *compatible;
+> +	struct device_node *node;
+> +	int ret;
 > +
-> +		vdec1_sram: rkvdec-sram@1 {
-> +			reg = <0x78000 0x77000>;
-> +			pool;
-> +		};
->  	};
->  
->  	pinctrl: pinctrl {
-> @@ -2665,6 +2675,46 @@ gpio4: gpio@fec50000 {
->  			#interrupt-cells = <2>;
->  		};
->  	};
+> +	/* Intentionally ignores the fallback strings */
+> +	ret = of_property_read_string(rkvdec->dev->of_node, "compatible", &compatible);
+> +	if (ret)
+> +		return ret;
 > +
-> +	vdec0: video-decoder@fdc38100 {
-> +		compatible = "rockchip,rk3588-vdec";
-> +		reg = <0x0 0xfdc38100 0x0 0x500>;
-> +		interrupts = <GIC_SPI 95 IRQ_TYPE_LEVEL_HIGH 0>;
-> +		clocks = <&cru ACLK_RKVDEC0>, <&cru HCLK_RKVDEC0>, <&cru CLK_RKVDEC0_CA>,
-> +			 <&cru CLK_RKVDEC0_CORE>, <&cru CLK_RKVDEC0_HEVC_CA>;
-> +		clock-names = "axi", "ahb", "cabac", "core", "hevc_cabac";
-> +		assigned-clocks = <&cru ACLK_RKVDEC0>, <&cru CLK_RKVDEC0_CORE>,
-> +				  <&cru CLK_RKVDEC0_CA>, <&cru CLK_RKVDEC0_HEVC_CA>;
-> +		assigned-clock-rates = <800000000>, <600000000>,
-> +				       <600000000>, <1000000000>;
-> +		resets = <&cru SRST_A_RKVDEC0>, <&cru SRST_H_RKVDEC0>, <&cru SRST_RKVDEC0_CA>,
-> +			 <&cru SRST_RKVDEC0_CORE>, <&cru SRST_RKVDEC0_HEVC_CA>;
-> +		reset-names = "rst_axi", "rst_ahb", "rst_cabac",
-> +			      "rst_core", "rst_hevc_cabac";
-> +		power-domains = <&power RK3588_PD_RKVDEC0>;
-> +		sram = <&vdec0_sram>;
-> +		status = "okay";
+> +	/* first compatible node found from the root node is considered the main core */
 
-Should not be needed. Where did you disable it?
+So you rely on order of nodes? Before you claim "identical cores", but
+now "main core" suggests one is different than others.
 
-> +	};
-> +
-> +	vdec1: video-decoder@fdc40100 {
-> +		compatible = "rockchip,rk3588-vdec";
-> +		reg = <0x0 0xfdc40100 0x0 0x500>;
-> +		interrupts = <GIC_SPI 97 IRQ_TYPE_LEVEL_HIGH 0>;
-> +		clocks = <&cru ACLK_RKVDEC1>, <&cru HCLK_RKVDEC1>, <&cru CLK_RKVDEC1_CA>,
-> +			 <&cru CLK_RKVDEC1_CORE>, <&cru CLK_RKVDEC1_HEVC_CA>;
-> +		clock-names = "axi", "ahb", "cabac", "core", "hevc_cabac";
-> +		assigned-clocks = <&cru ACLK_RKVDEC1>, <&cru CLK_RKVDEC1_CORE>,
-> +				  <&cru CLK_RKVDEC1_CA>, <&cru CLK_RKVDEC1_HEVC_CA>;
-> +		assigned-clock-rates = <800000000>, <600000000>,
-> +				       <600000000>, <1000000000>;
-> +		resets = <&cru SRST_A_RKVDEC1>, <&cru SRST_H_RKVDEC1>, <&cru SRST_RKVDEC1_CA>,
-> +			 <&cru SRST_RKVDEC1_CORE>, <&cru SRST_RKVDEC1_HEVC_CA>;
-> +		reset-names = "rst_axi", "rst_ahb", "rst_cabac",
-> +			      "rst_core", "rst_hevc_cabac";
-> +		power-domains = <&power RK3588_PD_RKVDEC1>;
-> +		sram = <&vdec1_sram>;
-> +		status = "okay";
-
-Should not be needed. Where did you disable it?
-
-
+...
 
 Best regards,
 Krzysztof
