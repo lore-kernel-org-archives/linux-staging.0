@@ -1,38 +1,38 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77E6515575B
-	for <linux-staging@lists.linux.dev>; Fri, 21 Jun 2024 13:20:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4DC315531E
+	for <linux-staging@lists.linux.dev>; Fri, 21 Jun 2024 13:20:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718976030; cv=none; b=tSA7sZOyYw71mM+80P30XD3Hl17BVYadoFgLYskqzjCf2wdSvLC7f9d+zACvkKklFmZeYbV2F2F+Fi2dnDCGkYkVLk0tpsQRuBMLOeJewEI2rQmImRFFj5d+/U+x2QeZIZ756y8efz6WCkTarVHMkd9zY10Mq5IND0ii1yWgfOY=
+	t=1718976030; cv=none; b=ZApZ978AdJPX5WADN3YdDgifUMSWwEQMxz85Hh2/11VVLBmxvMQL8jAEpMV8+ZIShHN+EiTmiiM8lYWgwoZ6p5rXNxfDTaL+ecPPiW4mUm1gBqEnD6LnxKreSKa7aGqImoGzAlVhGNr4mKKzUfPnPzKMjkWdVdGNYr76E6Tv8Po=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1718976030; c=relaxed/simple;
-	bh=aHMIaYo31gK5AiGxLDZxj03sCBFWGsMxpvd4Sw7Ouew=;
+	bh=0VNrysURQwB1o+d6JGMlX3z+roN5nLN+ihSOu6DcA3k=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=fFDBQZL1E4BcocN48dxDLVCdlN5DAcCmOSYfLMBhCNk1H5/uKP2vlongOyyu64Rex8/AjwHC6pMG20D6K6ko2WoxZ0a0FzaFrqAitW/LI5+a9YQAreJH+RdrggKSbas36QDjhAiDS7pLzkVDI4jDe+j7NdQI9q68oH9+9otWhM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=U/GxEzIB; arc=none smtp.client-ip=212.227.15.15
+	 MIME-Version; b=uLPXCexmPlzSWcSJ91pD3U+VxxcRA/+Rf8Th+jOQYuTi2EXp3SOffFKIIRFkAwjdtJcUUmUBWvQ5tdVrzz1+kBPlaeJb0bw3JN5Joa/JTVbWFLJRNStEwAyRtHm3K8UauxhfV5ZtbIe6g/e59gn0r6rJyrH+g3+LoV/m4XVfuQE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=QkllLSfO; arc=none smtp.client-ip=212.227.15.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="U/GxEzIB"
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="QkllLSfO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
-	s=s31663417; t=1718976018; x=1719580818; i=wahrenst@gmx.net;
-	bh=Orjc4i7tUyVoi6f4QE0Sy2YxU1o6Nh1ldyLhIzy/dgA=;
+	s=s31663417; t=1718976015; x=1719580815; i=wahrenst@gmx.net;
+	bh=o8GKLwh+nv/Ie+gqmpfYUPt//UHosAXpX+nkpmI0TLA=;
 	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:In-Reply-To:
 	 References:MIME-Version:Content-Transfer-Encoding:cc:
 	 content-transfer-encoding:content-type:date:from:message-id:
 	 mime-version:reply-to:subject:to;
-	b=U/GxEzIB6obsTfL6d3AaH+RAAbwRSyToj/1D1iO4VDG80Cmabjr2ItDq2pIJFnTf
-	 twwMLdTVk/sa65I7k8f7c9EQF5hxW3Hb81yYJdjp0FWvfvcouSZ3oSWskOU29PRH8
-	 8oTrZaHro7JREi9coxowXU0EC8Totv8ExYWzeXFWyLwfb3nEH7Ygg5iB7xDwEo3C0
-	 Dh4EDyoZQGwnNpebl81ONLC+4AnxkL6vO9BHSjaGquzsERmml7J+LpH+9fYuorK9d
-	 YboWVl4gwUpPTr5HBaWjZJBjWhNP3CIK0RaArnu/4hNdRFXBVYej+UAHZNqo6hdi2
-	 rKWyPvHNsdvGTKQ4YQ==
+	b=QkllLSfOMUOyKUpzX3xYrmqAqXlmMWbyT+XsvPvdMJAE1qStlBUUhmC3x6QvdIDS
+	 BpvHQtK9WYR8vxEmZjxwwz/5uRe+yYNjrnOcMxDWycG7AuMkVK28Fkm0rXs6MBndI
+	 yiC1+OR6PNix/t9YmzIYJVxLlRYrkbUUkVA4qHHj6bCtpaprkQ9//vh+SJUIwLz5A
+	 0eyQbAWqRXMKWUz0wHPL3LlIpUcMkMGWsfZDvws8GQ3tmQcSydbKBmIsuYEeT2Xh1
+	 xKmRea8EguxcTxAMKselbE+iSQzFIvCp2k397t7vldaeOJ9Ix+Gzbqx2Vcqekr1mG
+	 RvEHfwBkNNJx4GV+WA==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from stefanw-SCHENKER ([37.4.248.43]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mnpns-1sjTI01fwI-00poOE; Fri, 21
- Jun 2024 15:20:18 +0200
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1M1HZo-1sNO0T2cQs-003XHq; Fri, 21
+ Jun 2024 15:20:15 +0200
 From: Stefan Wahren <wahrenst@gmx.net>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Florian Fainelli <florian.fainelli@broadcom.com>
@@ -41,9 +41,9 @@ Cc: Umang Jain <umang.jain@ideasonboard.com>,
 	linux-staging@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
 	Stefan Wahren <wahrenst@gmx.net>
-Subject: [PATCH V3 10/10] staging: vc04_services: Update testing instructions
-Date: Fri, 21 Jun 2024 15:19:58 +0200
-Message-Id: <20240621131958.98208-11-wahrenst@gmx.net>
+Subject: [PATCH V3 01/10] staging: vchiq_arm: Unify return code variable
+Date: Fri, 21 Jun 2024 15:19:49 +0200
+Message-Id: <20240621131958.98208-2-wahrenst@gmx.net>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240621131958.98208-1-wahrenst@gmx.net>
 References: <20240621131958.98208-1-wahrenst@gmx.net>
@@ -54,96 +54,437 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:rjYjr7NVw5bQtEQUG/5CcZ4VqDjorYBCz6M2qSOQ9BGi8bO/fs2
- UBU2/KlaUckGFqM4ssoxAXpdzMJyzeptMgp3wREOWj76WFgJl3hiJd+o7CRvNQOsU4SJl5g
- 9o7IgW1Ko9e/sm5XKWpIAwiZccw3agffwBvkKOYjdBD1JQrbFVyHQo5r65S112SJOms3ofk
- n7gyc2Qomq6Pci8Ji8tYQ==
+X-Provags-ID: V03:K1:V9V6Ap4Og4UnlRSyDyXvvxX6yvJdAoS8ckNHB0vEu4LZdKU5ya4
+ zWysFaOfbTpwdJ2b42LTIgb1r1zwddG4C53a+p972A3O7zd6RRFhiIypREgo1hooMMwUOIe
+ 5hxFed1WD8wyJLufSXz/7sCetcQhW+sJkbk3SZzcHpN9H22SMT5SYKqA3NAhYC1A8pAO3hz
+ cBtPWB74dTzkyVuqDaBxg==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:DckBwmdH+G0=;zo1Uy7tXJEVnPY02NV128tYTXaA
- dbQWQ9akiJluDUPBs2mEuKxKY1E01ifoJeDnJYNVrxpbuk2gKBUp3dgSdv9+lbKJBAxlmV8jC
- 2zBhw3rej9JPtQROqZQWqIoLXHmMi/2gdH5zVYoxJqaAA5NBsulcOG7go6OsWd7WKfBKuivZk
- +z2z/DyRR6MTV6X9GgaqXyifsDLuKdsvxOf/e3ili8ZKg9tpoTJZ3nJupkSUPV7OM0KR5EoCv
- exUO27xwjSNh60WYKoAqwpt/PLSVsR/A0bs9BKvrcwXSAcMKn6VUx2Mv07BGacx1STh6i4s6g
- 09uNB4NA12PYNcEhD0XK0BZBUYrrJ6+K+e0GiQ40uAXot2nZLMzDvVxRHLx7kCSx/WRotWNHG
- HCJWeWkaOjXc2E0eHQ7S2a8O5zlCqnOXzfSUT4jDaJR/SZjeKlFRm+5wd+OfMqj8ECwbJxBa7
- F97iU3CN3vuVKSwVSKMXhHvIYomYBJKGS+GE04FviCgqMB1kGwFIghdS3pizR5vuTvgBz9G+7
- D+jPTQcqHbme1dzibRzzpuidKD/nojJEP/XdpsaRjqeMbSdEeMN45WRFVtALVnbQoEcUhXJeU
- z0puNTUGPMZ9ACgYaIqT3+0pf48x66+4TZkuaTQNZfytabgR6Vjs8X78JrhuxodV4QwqKmWqE
- w8axobpGOQzsQV2wG3RAScYQQMJ3Hysu0wSNDo/YEjfkYzo0yX0X+JpCfcNTv6JbJt3w9VO+R
- g9/E3oYsdF3ZOOJX450ECiNXWYHZft0pcND9dbgTw1UI8p1KPjekoVJtGc/jpuBVnoTs9ZX+L
- aw/EIhqcPIAboplTrQB+7gi42jKMLuUjo+1m2q/ANn6OE=
+UI-OutboundReport: notjunk:1;M01:P0:8Aau/RPmQC4=;zxPbB8GEx75ysvMjDY25hd8XHPa
+ 2Uh3lyXvQ8x9FkXLo1v3ZulRg9dm34ZxqY0Awi3ZDKxpRKcWDSqQkrzxMN+LtcS0EeKJTLkW7
+ 5LxxqB0wa9vQ0WcN1p7M9jW6G16cYzYSmzFkooBP6A83l23IB580NtrKDewhfp/tJcGvIruUG
+ nndSrjEmKUBP4HEeqklk4+bHJsNRirl9GwOI7QxkF1iC7XkWZxY2huvzsR/EaW2e5syWyO/sa
+ R7tds+LvLrUgoxnJQOkMfaKwKYcUg+B83t7ZaFKELbCJI0yKGeb8o+zpqBebt3KRGlTSFSIy5
+ nmvox+0hNKTGbNd2eYFNQAqEsOFlNC8h4sC8Ttdl4NwQvUp9KJKt5vvKT47emPreSjbLvzLga
+ D6BOJknBjKfykPyZhUg7+f9UFn6dPjQMnayYdLOXF9G19JdHbIuEW8gOCGpw2Yk8bLQrFBxia
+ y1DAvk94QUj5/kEQEC/wkw6VWoaPt83QQ/uVGU6xzowjrUVoogRzbO03fltLYEeDXyV9+Jsfk
+ itzL7uha/BPnnmVFVMfiCE/JGm+TPpNezdlPTAcC0TULmpVMPJ77qbC2grqmkgu9DoEI34CkX
+ YceEV/W12jOHF6r2GbRana+SQ11MR9Tz+LlJ/zPxNVzp9dNM6poZq/DkJwEGG1oOQgh5igTl0
+ 5jKM3xnSouhkoypLrveT/pv2Y9O1SekGH1AO38PvwqWmtOIG7voYNYHn5Xe0RTJDmYdbg60dU
+ fHHChAP2IDDAdDECt2nG8f9iCNU/2g3qzcGQVx9RCSA7oc+PijpTZfB6Db7rqny4molbADMZd
+ Pchj5SgJpEt5MVIGIxr8szgeMM0sv6v+M5sXpM27rIhyg=
 
-Since the initial version of the testing instructions a few
-things has changed. So consider the latest arm64/defconfig changes
-and the new debugfs entry.
+The file vchiq_arm uses a wild mixture of variable names for
+return codes. Unify them by using the common name "ret".
 
 Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 =2D--
- .../staging/vc04_services/interface/TESTING   | 45 ++++++++++++++++++-
- 1 file changed, 44 insertions(+), 1 deletion(-)
+ .../interface/vchiq_arm/vchiq_arm.c           | 141 +++++++++---------
+ 1 file changed, 69 insertions(+), 72 deletions(-)
 
-diff --git a/drivers/staging/vc04_services/interface/TESTING b/drivers/sta=
-ging/vc04_services/interface/TESTING
-index a6d63efcbcb9..273952dc9d85 100644
-=2D-- a/drivers/staging/vc04_services/interface/TESTING
-+++ b/drivers/staging/vc04_services/interface/TESTING
-@@ -31,7 +31,7 @@ Here are the most common kernel configurations:
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c=
+ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+index 5f518e5a9273..2357402f8ab9 100644
+=2D-- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+@@ -758,8 +758,8 @@ void free_bulk_waiter(struct vchiq_instance *instance)
 
-  3. BCM2837 target SoC (ARM 64 bit)
+ int vchiq_shutdown(struct vchiq_instance *instance)
+ {
+-	int status =3D 0;
+ 	struct vchiq_state *state =3D instance->state;
++	int ret =3D 0;
 
--    Use the defconfig as a base and then enable all VCHIQ options.
-+    Use the defconfig which has most of the VCHIQ options enabled.
+ 	if (mutex_lock_killable(&state->mutex))
+ 		return -EAGAIN;
+@@ -769,12 +769,12 @@ int vchiq_shutdown(struct vchiq_instance *instance)
 
- * Scenarios
+ 	mutex_unlock(&state->mutex);
 
-@@ -80,3 +80,46 @@ Here are the most common kernel configurations:
-    vchi ping (size 0, 100 async, 100 oneway) -> infus
-    vchi ping (size 0, 200 async, 0 oneway) -> infus
-    ...
-+
-+ * Debugfs test
-+
-+   Command: cat /sys/kernel/debug/vchiq/state
-+
-+   Example output:
-+   State 0: CONNECTED
-+     tx_pos=3D0x1e8(@43b0acda), rx_pos=3D0x170(@05493af8)
-+     Version: 8 (min 3)
-+     Stats: ctrl_tx_count=3D7, ctrl_rx_count=3D7, error_count=3D0
-+     Slots: 30 available (29 data), 0 recyclable, 0 stalls (0 data)
-+     Platform: 2835 (VC master)
-+     Local: slots 34-64 tx_pos=3D0x1e8 recycle=3D0x1f
-+       Slots claimed:
-+       DEBUG: SLOT_HANDLER_COUNT =3D 20(0x14)
-+       DEBUG: SLOT_HANDLER_LINE =3D 1937(0x791)
-+       DEBUG: PARSE_LINE =3D 1864(0x748)
-+       DEBUG: PARSE_HEADER =3D -249155224(0xf1263168)
-+       DEBUG: PARSE_MSGID =3D 67362817(0x403e001)
-+       DEBUG: AWAIT_COMPLETION_LINE =3D 0(0x0)
-+       DEBUG: DEQUEUE_MESSAGE_LINE =3D 0(0x0)
-+       DEBUG: SERVICE_CALLBACK_LINE =3D 0(0x0)
-+       DEBUG: MSG_QUEUE_FULL_COUNT =3D 0(0x0)
-+       DEBUG: COMPLETION_QUEUE_FULL_COUNT =3D 0(0x0)
-+     Remote: slots 2-32 tx_pos=3D0x170 recycle=3D0x1f
-+       Slots claimed:
-+         2: 10/9
-+       DEBUG: SLOT_HANDLER_COUNT =3D 20(0x14)
-+       DEBUG: SLOT_HANDLER_LINE =3D 1851(0x73b)
-+       DEBUG: PARSE_LINE =3D 1827(0x723)
-+       DEBUG: PARSE_HEADER =3D -150330912(0xf70a21e0)
-+       DEBUG: PARSE_MSGID =3D 67113022(0x400103e)
-+       DEBUG: AWAIT_COMPLETION_LINE =3D 0(0x0)
-+       DEBUG: DEQUEUE_MESSAGE_LINE =3D 0(0x0)
-+       DEBUG: SERVICE_CALLBACK_LINE =3D 0(0x0)
-+       DEBUG: MSG_QUEUE_FULL_COUNT =3D 0(0x0)
-+       DEBUG: COMPLETION_QUEUE_FULL_COUNT =3D 0(0x0)
-+   Service 0: LISTENING (ref 1) 'PEEK little-endian (0x4b454550)' remote =
-n/a (msg use 0/3840, slot use 0/15)
-+     Bulk: tx_pending=3D0 (size 0), rx_pending=3D0 (size 0)
-+     Ctrl: tx_count=3D0, tx_bytes=3D0, rx_count=3D0, rx_bytes=3D0
-+     Bulk: tx_count=3D0, tx_bytes=3D0, rx_count=3D0, rx_bytes=3D0
-+     0 quota stalls, 0 slot stalls, 0 bulk stalls, 0 aborted, 0 errors
-+     instance b511f60b
+-	dev_dbg(state->dev, "core: (%p): returning %d\n", instance, status);
++	dev_dbg(state->dev, "core: (%p): returning %d\n", instance, ret);
+
+ 	free_bulk_waiter(instance);
+ 	kfree(instance);
+
+-	return status;
++	return ret;
+ }
+ EXPORT_SYMBOL(vchiq_shutdown);
+
+@@ -785,26 +785,26 @@ static int vchiq_is_connected(struct vchiq_instance =
+*instance)
+
+ int vchiq_connect(struct vchiq_instance *instance)
+ {
+-	int status;
+ 	struct vchiq_state *state =3D instance->state;
++	int ret;
+
+ 	if (mutex_lock_killable(&state->mutex)) {
+ 		dev_dbg(state->dev,
+ 			"core: call to mutex_lock failed\n");
+-		status =3D -EAGAIN;
++		ret =3D -EAGAIN;
+ 		goto failed;
+ 	}
+-	status =3D vchiq_connect_internal(state, instance);
++	ret =3D vchiq_connect_internal(state, instance);
+
+-	if (!status)
++	if (!ret)
+ 		instance->connected =3D 1;
+
+ 	mutex_unlock(&state->mutex);
+
+ failed:
+-	dev_dbg(state->dev, "core: (%p): returning %d\n", instance, status);
++	dev_dbg(state->dev, "core: (%p): returning %d\n", instance, ret);
+
+-	return status;
++	return ret;
+ }
+ EXPORT_SYMBOL(vchiq_connect);
+
+@@ -813,10 +813,9 @@ vchiq_add_service(struct vchiq_instance *instance,
+ 		  const struct vchiq_service_params_kernel *params,
+ 		  unsigned int *phandle)
+ {
+-	int status;
+ 	struct vchiq_state *state =3D instance->state;
+ 	struct vchiq_service *service =3D NULL;
+-	int srvstate;
++	int srvstate, ret;
+
+ 	*phandle =3D VCHIQ_SERVICE_HANDLE_INVALID;
+
+@@ -828,14 +827,14 @@ vchiq_add_service(struct vchiq_instance *instance,
+
+ 	if (service) {
+ 		*phandle =3D service->handle;
+-		status =3D 0;
++		ret =3D 0;
+ 	} else {
+-		status =3D -EINVAL;
++		ret =3D -EINVAL;
+ 	}
+
+-	dev_dbg(state->dev, "core: (%p): returning %d\n", instance, status);
++	dev_dbg(state->dev, "core: (%p): returning %d\n", instance, ret);
+
+-	return status;
++	return ret;
+ }
+
+ int
+@@ -843,9 +842,9 @@ vchiq_open_service(struct vchiq_instance *instance,
+ 		   const struct vchiq_service_params_kernel *params,
+ 		   unsigned int *phandle)
+ {
+-	int status =3D -EINVAL;
+ 	struct vchiq_state   *state =3D instance->state;
+ 	struct vchiq_service *service =3D NULL;
++	int ret =3D -EINVAL;
+
+ 	*phandle =3D VCHIQ_SERVICE_HANDLE_INVALID;
+
+@@ -856,17 +855,17 @@ vchiq_open_service(struct vchiq_instance *instance,
+
+ 	if (service) {
+ 		*phandle =3D service->handle;
+-		status =3D vchiq_open_service_internal(service, current->pid);
+-		if (status) {
++		ret =3D vchiq_open_service_internal(service, current->pid);
++		if (ret) {
+ 			vchiq_remove_service(instance, service->handle);
+ 			*phandle =3D VCHIQ_SERVICE_HANDLE_INVALID;
+ 		}
+ 	}
+
+ failed:
+-	dev_dbg(state->dev, "core: (%p): returning %d\n", instance, status);
++	dev_dbg(state->dev, "core: (%p): returning %d\n", instance, ret);
+
+-	return status;
++	return ret;
+ }
+ EXPORT_SYMBOL(vchiq_open_service);
+
+@@ -874,20 +873,20 @@ int
+ vchiq_bulk_transmit(struct vchiq_instance *instance, unsigned int handle,=
+ const void *data,
+ 		    unsigned int size, void *userdata, enum vchiq_bulk_mode mode)
+ {
+-	int status;
++	int ret;
+
+ 	while (1) {
+ 		switch (mode) {
+ 		case VCHIQ_BULK_MODE_NOCALLBACK:
+ 		case VCHIQ_BULK_MODE_CALLBACK:
+-			status =3D vchiq_bulk_transfer(instance, handle,
+-						     (void *)data, NULL,
+-						     size, userdata, mode,
+-						     VCHIQ_BULK_TRANSMIT);
++			ret =3D vchiq_bulk_transfer(instance, handle,
++						  (void *)data, NULL,
++						  size, userdata, mode,
++						  VCHIQ_BULK_TRANSMIT);
+ 			break;
+ 		case VCHIQ_BULK_MODE_BLOCKING:
+-			status =3D vchiq_blocking_bulk_transfer(instance, handle, (void *)data=
+, size,
+-							      VCHIQ_BULK_TRANSMIT);
++			ret =3D vchiq_blocking_bulk_transfer(instance, handle, (void *)data, s=
+ize,
++							   VCHIQ_BULK_TRANSMIT);
+ 			break;
+ 		default:
+ 			return -EINVAL;
+@@ -898,13 +897,13 @@ vchiq_bulk_transmit(struct vchiq_instance *instance,=
+ unsigned int handle, const
+ 		 * to implement a retry mechanism since this function is
+ 		 * supposed to block until queued
+ 		 */
+-		if (status !=3D -EAGAIN)
++		if (ret !=3D -EAGAIN)
+ 			break;
+
+ 		msleep(1);
+ 	}
+
+-	return status;
++	return ret;
+ }
+ EXPORT_SYMBOL(vchiq_bulk_transmit);
+
+@@ -912,19 +911,19 @@ int vchiq_bulk_receive(struct vchiq_instance *instan=
+ce, unsigned int handle,
+ 		       void *data, unsigned int size, void *userdata,
+ 		       enum vchiq_bulk_mode mode)
+ {
+-	int status;
++	int ret;
+
+ 	while (1) {
+ 		switch (mode) {
+ 		case VCHIQ_BULK_MODE_NOCALLBACK:
+ 		case VCHIQ_BULK_MODE_CALLBACK:
+-			status =3D vchiq_bulk_transfer(instance, handle, data, NULL,
+-						     size, userdata,
+-						     mode, VCHIQ_BULK_RECEIVE);
++			ret =3D vchiq_bulk_transfer(instance, handle, data, NULL,
++						  size, userdata,
++						  mode, VCHIQ_BULK_RECEIVE);
+ 			break;
+ 		case VCHIQ_BULK_MODE_BLOCKING:
+-			status =3D vchiq_blocking_bulk_transfer(instance, handle, (void *)data=
+, size,
+-							      VCHIQ_BULK_RECEIVE);
++			ret =3D vchiq_blocking_bulk_transfer(instance, handle, (void *)data, s=
+ize,
++							   VCHIQ_BULK_RECEIVE);
+ 			break;
+ 		default:
+ 			return -EINVAL;
+@@ -935,13 +934,13 @@ int vchiq_bulk_receive(struct vchiq_instance *instan=
+ce, unsigned int handle,
+ 		 * to implement a retry mechanism since this function is
+ 		 * supposed to block until queued
+ 		 */
+-		if (status !=3D -EAGAIN)
++		if (ret !=3D -EAGAIN)
+ 			break;
+
+ 		msleep(1);
+ 	}
+
+-	return status;
++	return ret;
+ }
+ EXPORT_SYMBOL(vchiq_bulk_receive);
+
+@@ -950,8 +949,8 @@ vchiq_blocking_bulk_transfer(struct vchiq_instance *in=
+stance, unsigned int handl
+ 			     unsigned int size, enum vchiq_bulk_dir dir)
+ {
+ 	struct vchiq_service *service;
+-	int status;
+ 	struct bulk_waiter_node *waiter =3D NULL, *iter;
++	int ret;
+
+ 	service =3D find_service_by_handle(instance, handle);
+ 	if (!service)
+@@ -991,10 +990,10 @@ vchiq_blocking_bulk_transfer(struct vchiq_instance *=
+instance, unsigned int handl
+ 			return -ENOMEM;
+ 	}
+
+-	status =3D vchiq_bulk_transfer(instance, handle, data, NULL, size,
+-				     &waiter->bulk_waiter,
+-				     VCHIQ_BULK_MODE_BLOCKING, dir);
+-	if ((status !=3D -EAGAIN) || fatal_signal_pending(current) || !waiter->b=
+ulk_waiter.bulk) {
++	ret =3D vchiq_bulk_transfer(instance, handle, data, NULL, size,
++				  &waiter->bulk_waiter,
++				  VCHIQ_BULK_MODE_BLOCKING, dir);
++	if ((ret !=3D -EAGAIN) || fatal_signal_pending(current) || !waiter->bulk=
+_waiter.bulk) {
+ 		struct vchiq_bulk *bulk =3D waiter->bulk_waiter.bulk;
+
+ 		if (bulk) {
+@@ -1013,7 +1012,7 @@ vchiq_blocking_bulk_transfer(struct vchiq_instance *=
+instance, unsigned int handl
+ 			waiter, current->pid);
+ 	}
+
+-	return status;
++	return ret;
+ }
+
+ static int
+@@ -1137,17 +1136,17 @@ service_callback(struct vchiq_instance *instance, =
+enum vchiq_reason reason,
+ 			 */
+ 			if ((user_service->message_available_pos -
+ 				instance->completion_remove) < 0) {
+-				int status;
++				int ret;
+
+ 				dev_dbg(instance->state->dev,
+ 					"arm: Inserting extra MESSAGE_AVAILABLE\n");
+ 				DEBUG_TRACE(SERVICE_CALLBACK_LINE);
+-				status =3D add_completion(instance, reason, NULL, user_service,
+-							bulk_userdata);
+-				if (status) {
++				ret =3D add_completion(instance, reason, NULL, user_service,
++						     bulk_userdata);
++				if (ret) {
+ 					DEBUG_TRACE(SERVICE_CALLBACK_LINE);
+ 					vchiq_service_put(service);
+-					return status;
++					return ret;
+ 				}
+ 			}
+
+@@ -1294,8 +1293,6 @@ vchiq_keepalive_thread_func(void *v)
+ {
+ 	struct vchiq_state *state =3D (struct vchiq_state *)v;
+ 	struct vchiq_arm_state *arm_state =3D vchiq_platform_get_arm_state(state=
+);
+-
+-	int status;
+ 	struct vchiq_instance *instance;
+ 	unsigned int ka_handle;
+ 	int ret;
+@@ -1313,16 +1310,16 @@ vchiq_keepalive_thread_func(void *v)
+ 		goto exit;
+ 	}
+
+-	status =3D vchiq_connect(instance);
+-	if (status) {
+-		dev_err(state->dev, "suspend: %s: vchiq_connect failed %d\n", __func__,=
+ status);
++	ret =3D vchiq_connect(instance);
++	if (ret) {
++		dev_err(state->dev, "suspend: %s: vchiq_connect failed %d\n", __func__,=
+ ret);
+ 		goto shutdown;
+ 	}
+
+-	status =3D vchiq_add_service(instance, &params, &ka_handle);
+-	if (status) {
++	ret =3D vchiq_add_service(instance, &params, &ka_handle);
++	if (ret) {
+ 		dev_err(state->dev, "suspend: %s: vchiq_open_service failed %d\n",
+-			__func__, status);
++			__func__, ret);
+ 		goto shutdown;
+ 	}
+
+@@ -1348,17 +1345,17 @@ vchiq_keepalive_thread_func(void *v)
+ 		 */
+ 		while (uc--) {
+ 			atomic_inc(&arm_state->ka_use_ack_count);
+-			status =3D vchiq_use_service(instance, ka_handle);
+-			if (status) {
++			ret =3D vchiq_use_service(instance, ka_handle);
++			if (ret) {
+ 				dev_err(state->dev, "suspend: %s: vchiq_use_service error %d\n",
+-					__func__, status);
++					__func__, ret);
+ 			}
+ 		}
+ 		while (rc--) {
+-			status =3D vchiq_release_service(instance, ka_handle);
+-			if (status) {
++			ret =3D vchiq_release_service(instance, ka_handle);
++			if (ret) {
+ 				dev_err(state->dev, "suspend: %s: vchiq_release_service error %d\n",
+-					__func__, status);
++					__func__, ret);
+ 			}
+ 		}
+ 	}
+@@ -1408,13 +1405,13 @@ vchiq_use_internal(struct vchiq_state *state, stru=
+ct vchiq_service *service,
+ 	write_unlock_bh(&arm_state->susp_res_lock);
+
+ 	if (!ret) {
+-		int status =3D 0;
++		int ret =3D 0;
+ 		long ack_cnt =3D atomic_xchg(&arm_state->ka_use_ack_count, 0);
+
+-		while (ack_cnt && !status) {
++		while (ack_cnt && !ret) {
+ 			/* Send the use notify to videocore */
+-			status =3D vchiq_send_remote_use_active(state);
+-			if (!status)
++			ret =3D vchiq_send_remote_use_active(state);
++			if (!ret)
+ 				ack_cnt--;
+ 			else
+ 				atomic_add(ack_cnt, &arm_state->ka_use_ack_count);
+@@ -1730,7 +1727,7 @@ static int vchiq_probe(struct platform_device *pdev)
+ 	struct device_node *fw_node;
+ 	const struct vchiq_platform_info *info;
+ 	struct vchiq_drv_mgmt *mgmt;
+-	int err;
++	int ret;
+
+ 	info =3D of_device_get_match_data(&pdev->dev);
+ 	if (!info)
+@@ -1755,8 +1752,8 @@ static int vchiq_probe(struct platform_device *pdev)
+ 	mgmt->info =3D info;
+ 	platform_set_drvdata(pdev, mgmt);
+
+-	err =3D vchiq_platform_init(pdev, &mgmt->state);
+-	if (err)
++	ret =3D vchiq_platform_init(pdev, &mgmt->state);
++	if (ret)
+ 		goto failed_platform_init;
+
+ 	vchiq_debugfs_init(&mgmt->state);
+@@ -1768,8 +1765,8 @@ static int vchiq_probe(struct platform_device *pdev)
+ 	 * Simply exit on error since the function handles cleanup in
+ 	 * cases of failure.
+ 	 */
+-	err =3D vchiq_register_chrdev(&pdev->dev);
+-	if (err) {
++	ret =3D vchiq_register_chrdev(&pdev->dev);
++	if (ret) {
+ 		dev_err(&pdev->dev, "arm: Failed to initialize vchiq cdev\n");
+ 		goto error_exit;
+ 	}
+@@ -1782,7 +1779,7 @@ static int vchiq_probe(struct platform_device *pdev)
+ failed_platform_init:
+ 	dev_err(&pdev->dev, "arm: Could not initialize vchiq platform\n");
+ error_exit:
+-	return err;
++	return ret;
+ }
+
+ static void vchiq_remove(struct platform_device *pdev)
 =2D-
 2.34.1
 
