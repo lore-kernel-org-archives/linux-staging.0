@@ -1,41 +1,33 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD28D12D771;
-	Fri, 21 Jun 2024 06:41:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 285D016D9B9
+	for <linux-staging@lists.linux.dev>; Fri, 21 Jun 2024 08:07:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.28.215.223
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718952115; cv=none; b=AloaONmXz4Q5xyDCeTdKj9+aDbbLYviqdHjtuGCNAlTwYT95LqthXq7lkY+cUMyShgUYXBP2wBq1i5wPLFSc48vLRpGOoQA1IGOrw9YGbB1u5OLZkmVh10UOsVctk2zAduMA7FLdRmYDg0XAA1R1NUPSan58eQuVkTn/8C1Ne1o=
+	t=1718957272; cv=none; b=Rl5mb6w8n4gOw3X1Il5uBMgCeLhiBBbiThx10UfsfB3LoaiHDgXS57NC54aHUPfOnK3MiMkoSkANIMjyNhl6AwjNzUW0bemyk8XtMkydeV9g26ndBrGFBzVyikGQz4AmWIpze1RizzaYmQewSf9EjFacvrGE2FWERHggls0wiJ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718952115; c=relaxed/simple;
-	bh=VUkaSSu+ECaDnsfMkRJ9SaqPBCmF4mpMSRv73bTS0Ss=;
+	s=arc-20240116; t=1718957272; c=relaxed/simple;
+	bh=cYL+H7AGAnrPAHYPKdXPj84OKuI8WX6V4GQiyS46RLA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mJZOQnzpKb6BkblQHduEipT/IBbbdVhXE2I1El5zqoKuY8b1bQlA299YE1MHojpOjua/s8qdIbVNytMOodCTTOFNdT209bektG2ejNZ+8QnlWVqdt+TsVt4gf7k0lcGpA5GU3+8/J5CTBCax/WKufq6VypJmQlQGZTyXmxSy1qY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=g0CdWj5l; arc=none smtp.client-ip=212.227.15.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
+	 In-Reply-To:Content-Type; b=iEladETyUr2tJqPXLMv8KXVQTy2L0pTM90icTyg1AQPbb/ucW/2WHAJAt/PfJD4egknoe4pQx2S7TigN72kbUFXJlFBP4zoX7p6x1zL8q+rABcDR0xmQdaGHwGZTd+Wks9FF1vkBIETS1MfHEgzJI9D4dh4b0VYb8YEPAGuMYb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=OTtOWskP; arc=none smtp.client-ip=149.28.215.223
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="g0CdWj5l"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
-	s=s31663417; t=1718952092; x=1719556892; i=wahrenst@gmx.net;
-	bh=VUkaSSu+ECaDnsfMkRJ9SaqPBCmF4mpMSRv73bTS0Ss=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=g0CdWj5lavn6LORQY1hFb6H4A1ofC63qY80ugDYcpGFhp9EZn0zK5laIydIyPpOY
-	 2acOpyL52P62MG5yDc3mnQroMO2EOr9B1Vp4nZbKV2Xrllax5wm8dCVv7F+SOu9y8
-	 lWoMTE2oPzr7gABhQ7HPpoPnt5NH4R+t3X0NEFGyPlAngonMrx/CHKrRm2+vWUgyL
-	 JQLR3Km1aH1LTVrzrIW6FfucACgGHMLhxNDx54X8hhMknxkvPiZNzbCp+LskoZg3m
-	 D0Tw8/dTc7rp5BG09iaynk1yB23Qm4zRRZzv77ECdfv+oPJhrKBB/Ffe9uR6e6iNc
-	 xNJWXmFTgWYa6H+LJw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.127] ([37.4.248.43]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mi2Nv-1spE0j0crZ-00fe7Q; Fri, 21
- Jun 2024 08:41:32 +0200
-Message-ID: <c52b1019-c287-496f-add2-88904998e10a@gmx.net>
-Date: Fri, 21 Jun 2024 08:41:31 +0200
+	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="OTtOWskP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
+ h=Content-Transfer-Encoding: Content-Type: In-Reply-To: From: References:
+ Cc: To: Subject: MIME-Version: Date: Message-ID; q=dns/txt;
+ s=fe-e1b5cab7be; t=1718957244;
+ bh=Q5m7FnmD+I8+3SbjaKEWhSpPiVLp9WYZo7V5c0qQxQs=;
+ b=OTtOWskPel11nlSanZ7f3BkGw7zdVol4KcbryrXqTREz5rFzYx2tBMpgai1Cdco3T5+FYPEli
+ v0YFUGe8ZYrglfsCCz51/ld0UiEPpuO1rqV6KhwTntw8uvQjAwPQpiV5FrDDYVQ+yAh41xrmqCg
+ fAUH1D8q4kxNeyJM7fzfUIgBMNJ7ltXr4v9eHR6mcogHLIg098VY0CH9Pz4tfGXWfWIEAnnCQJz
+ RaRzAy9QEYs2cALhHlk3l/u4rlHLAumrO3lpQo8oZkGFFNrSrFcsMZMOau0KltlT+Rf3nFB8t/y
+ eD0pDubCa6UwQFE//6quHQrYs4cdCVNKqlylkC/LEo1w==
+Message-ID: <ee0d649b-9293-4bb7-9042-1a697cefb610@kwiboo.se>
+Date: Fri, 21 Jun 2024 10:07:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -43,69 +35,89 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] staging: vc04_services: vchiq_arm: Fix initialisation
- check
-To: Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Umang Jain <umang.jain@ideasonboard.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- linux-rpi-kernel@lists.infradead.org
-Cc: Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Dan Carpenter <dan.carpenter@linaro.org>,
- Yang Li <yang.lee@linux.alibaba.com>,
- "moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>,
- "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
- open list <linux-kernel@vger.kernel.org>
-References: <20240620221046.2731704-1-kieran.bingham@ideasonboard.com>
+Subject: Re: [PATCH v3 4/4] arm64: dts: rockchip: Add rkvdec2 Video Decoder on
+ rk3588(s)
+To: Detlev Casanova <detlev.casanova@collabora.com>
+Cc: linux-kernel@vger.kernel.org, Ezequiel Garcia
+ <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner
+ <heiko@sntech.de>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>, Dragan Simic
+ <dsimic@manjaro.org>, Diederik de Haas <didi.debian@cknow.org>, Andy Yan
+ <andy.yan@rock-chips.com>, Boris Brezillon
+ <boris.brezillon@collabora.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Daniel Almeida <daniel.almeida@collabora.com>, Paul Kocialkowski
+ <paul.kocialkowski@bootlin.com>, Nicolas Dufresne
+ <nicolas.dufresne@collabora.com>, Benjamin Gaignard
+ <benjamin.gaignard@collabora.com>, Alex Bee <knaerzche@gmail.com>,
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-staging@lists.linux.dev
+References: <20240620142532.406564-1-detlev.casanova@collabora.com>
+ <20240620142532.406564-5-detlev.casanova@collabora.com>
 Content-Language: en-US
-From: Stefan Wahren <wahrenst@gmx.net>
-In-Reply-To: <20240620221046.2731704-1-kieran.bingham@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Jonas Karlman <jonas@kwiboo.se>
+In-Reply-To: <20240620142532.406564-5-detlev.casanova@collabora.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:Wpd9KkIeXygl/nb32+4UUSqSYwdlgtvNOFmQsRZAf0Z1X33jVGz
- MFD16gpFHutXkgJ38a5tEUVrG9wWWVJ5wJPdh4c1KJX4G/TYQmKohSKxOvMsl8m9jYeNSFw
- iHM5p+/Req66TGjXGNwuVDI96WmPi8VZB5ASDjFVC9/2q9b00F/WxbRfX56Z4rrKNo/rJMt
- YCECaXf6cY1Z8Dh7NGwVQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:9PT+CJB2Xy4=;fzACF8lnaW4XVn6UB9m69cikxw6
- FK2ojhx7tVz9U3+axixBDWqB8ccRdk2c2VA6ZzV0Lzc7Xl15mV4liI5+WF65iEKNKJy2Tmkh2
- 1Ol2Zx2CXBJM7/PP+kgrzvWx0A6AMdlbQgC32JQVxLrI7SzpJ+F+p4tXfwBhjFI2ByBoh+Vm7
- yhYZ7JWcod6PAtWxj7ttjRI+nFgwzOhs2voouf3fjExkcWFw8gTbSL4dn3dInlNxc0gA+MiTl
- s3SUDPXYTpyOkNdWfW5sZfTHGes0SvlItGEBzL5McUm57wAG/1s7hkNAfOOSzEiuaL05UsNHf
- 95MJqw58XLlxe+7Njmo0CoemPCG6fCVT/TdBuKFzhOEd4WXcSC0QwUNZ8gMrqOKaKv0OYKBOF
- mRBTLJaSpkEiJQCC61xYTqjKcIr+aRfyZYbFwINNUFCDeuISz43oamWWms0NyGTVccj8mBuvz
- bdgtrn+nDilCzaReCRYequEOGp6t5KKcwEvPN8BMDR87+DLCbHB7yDdQtYzdoi6xZS4aIdSOK
- 007dow8y2GIfhy3ryD06J0j+yKTX7ET7MlgcORRQwPI87ql2qifFPLAz+mlE5ZQiFsH+H53zt
- C9QtLdsKBWLjIH9dgagv6kSGVLRfMtrVuoJwCP6kOe6pk/UEu0qsufkOi8kypifw/D8pMVuX+
- jIEUxStvQBdODI/LySN1eKvwS6D5hRdVlNvpMEwUew4wdKfFFM8XArYPknoP12Gi1E+plq4Kx
- Y76EmOUUY0XLSTwJlUAxh9RnCkgPeKAOqRXOEAl5EG9O5UZoMIDNNsFcjtlDFNCjzZThelAuo
- plgGVibmNI7a+KkvLuphJKB6Zjd3nVN7Xl9dcqzg+6+vY=
+X-Report-Abuse-To: abuse@forwardemail.net
+X-Report-Abuse: abuse@forwardemail.net
+X-Complaints-To: abuse@forwardemail.net
+X-ForwardEmail-Version: 0.4.40
+X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
+ 149.28.215.223
+X-ForwardEmail-ID: 667534bb7560ce51b8f276cf
 
-Am 21.06.24 um 00:10 schrieb Kieran Bingham:
-> The vchiq_state used to be obtained through an accessor which would
-> validate that the VCHIQ had been initialised correctly with the remote,
-> or return a null state.
->
-> In commit 42a2f6664e18 ("staging: vc04_services: Move global g_state to
-> vchiq_state") the global state was moved to the vchiq_mgnt structures
-> stored as a vchiq instance specific context. This conversion removed the
-> helpers and instead replaced users of this helper with the assumption
-> that the state is always available and the remote connected.
->
-> The conversion does ensure that the state is always available, so some
-> remaining state null pointer checks that remain are unnecessary, but the
-> assumption that the remote is present and initialised is incorrect.
->
-> Fix this broken assumption by re-introducing the logic that was lost
-> during the conversion.
->
-> Fixes: 42a2f6664e18 ("staging: vc04_services: Move global g_state to vchiq_state")
-> Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
->
+Hi Datlev,
 
-Reviewed-by: Stefan Wahren <wahrenst@gmx.net>
+On 2024-06-20 16:19, Detlev Casanova wrote:
+> Add the rkvdec2 Video Decoder to the RK3588s devicetree.
+> 
+> Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
+> ---
+>  arch/arm64/boot/dts/rockchip/rk3588s.dtsi | 48 +++++++++++++++++++++++
+>  1 file changed, 48 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
+> index 6ac5ac8b48ab..9c44c99125b4 100644
+> --- a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
+> +++ b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
+> @@ -2596,6 +2596,16 @@ system_sram2: sram@ff001000 {
+>  		ranges = <0x0 0x0 0xff001000 0xef000>;
+>  		#address-cells = <1>;
+>  		#size-cells = <1>;
+> +
+> +		vdec0_sram: rkvdec-sram@0 {
 
-Thanks
+The node name should reflect the purpose of the node, not sure rkvdec is
+a good purpose, cache-sram/codec-sram/sram-section could be a better
+node name.
+
+node name pattern: ^([a-z0-9]*-)?sram(-section)?@[a-f0-9]+$
+
+> +			reg = <0x0 0x78000>;
+> +			pool;
+> +		};
+> +
+> +		vdec1_sram: rkvdec-sram@1 {
+
+The binding for sram mention:
+
+  Following the generic-names recommended practice, node names should
+  reflect the purpose of the node. Unit address (@<address>) should be
+  appended to the name.
+
+so the unit address should be @78000 and not @1. For name see above.
+
+Regards,
+Jonas
+
+> +			reg = <0x78000 0x77000>;
+> +			pool;
+> +		};
+>  	};
+>  
+>  	pinctrl: pinctrl {
+
+[snip]
