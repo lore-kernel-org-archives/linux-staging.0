@@ -1,62 +1,63 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CE5F186E5C
-	for <linux-staging@lists.linux.dev>; Sun, 23 Jun 2024 17:58:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55149184137
+	for <linux-staging@lists.linux.dev>; Sun, 23 Jun 2024 17:58:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719165499; cv=none; b=eZcpDdLnAWORgfMxaUAAWe1O8NUaAaZvZKGdNKzi4b4NDC8XrkZD6TOPt3zjZOJysKYvi6fux0b5y3E66OG1xnOxLB4rdCfA0rsRln6XiwBL1ebcc6vvwXETWkkoOvSZX2lsyV8BVCGVk+Dr6J5ef71h9dq9zxTjxtsqFpSSLfM=
+	t=1719165508; cv=none; b=drCVxNz70E6F+/BzR0LU/4wiX3nkY3J0axVAsDnYLEY12Pqsj81UCaVlzYQ3sOzYmj1G3l9gPSlWNOBCM4q2N6FpZNM+5UWBh6XiO5LJtiyn8q0vxqGUqogo0lK30qhfm6IDDfHTvI05b5cs4U7Ry/w4p+XcFGBcqSgouefodKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719165499; c=relaxed/simple;
-	bh=qyGIc+oIfQgy5MKT2F+qVfi3DUjrNkAKWv5yBxbxNEY=;
+	s=arc-20240116; t=1719165508; c=relaxed/simple;
+	bh=c0a3Pr0ZOQG6hRnnht8gNUqkLt66dO4HBllllz7OIIU=;
 	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qQSyUnAKSDbSPqT9XVZfOlT/oyWax7JHLpT11I+e396FOGa0lRpMU2kzFI+hGmmnlxN+fRTeWEYC4oPu+pS2k308pZxmCpZb51DcSZ/Dfwo8hN5ek4RKyeKMSEXLvI7ljOPJdj1RUMtjYwVPh0FdZFzzw1BfkVp8zu6rcTcfv20=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ha3JOdDV; arc=none smtp.client-ip=209.85.208.54
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZLbRgDzWjPipXyyIUmKo71N3OeWqhHZvPG1RvLF7J9H563ydYfbxVXAdRjtJTGrlq0nlOt5xMGtnM1J5+kKgqMks55GLRIXuAoc1F/NupZEpw5T7tK9V8krQk1Z4RYZKaDE2DTBxh8YbtNuZlS4oGwFI5DW8KwUT6RUNJkjK3FA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m84kHQRs; arc=none smtp.client-ip=209.85.208.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ha3JOdDV"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-57cc310bca3so493314a12.0
-        for <linux-staging@lists.linux.dev>; Sun, 23 Jun 2024 10:58:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m84kHQRs"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-57d1594f3a6so569387a12.2
+        for <linux-staging@lists.linux.dev>; Sun, 23 Jun 2024 10:58:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719165497; x=1719770297; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1719165505; x=1719770305; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=0AO01oKOA3xCjs8tyAcfStxUCftobcQ/yCAcPc0dY2I=;
-        b=ha3JOdDVDdxIZpBNBRKntTVJdV75Lg72xJJx0wjnkU10kRFvBzesle4k4CF2Bg7R7b
-         elTnlLr4IonizM7P/Sdjd19djILPrXhotLaz6CMG40rbgk+XUVKxuFcZWGhosWlwhGdM
-         m5ws6EdQB2pzEYe0euxGoZRrmLK9h6E71E4mbuCDTAvGDqMhkrGCo0Y68a+74LDFLeIL
-         d43Wpj7HWTwH0KDdqY8923YGInNB0Kf52EF2o+zSJnMB6m2glIGDKYVj6WAHl+YpasiO
-         b1zMVNEn1HX4oZPb4WHyTHUld4xE2Oh/UEyBV8O1RF+0LVqoKs7U9Q5gDQGm0v7zmmy/
-         5TlQ==
+        bh=axOwCCFkiHXRQoWrBYOvBy8/Yk0F9t8t/fQByhrED9E=;
+        b=m84kHQRsU+Z6pGXF9dsnGnofenWvFz/e9+sgcRyzk8QRti565kWP6ikruqw7xlFAQc
+         oWXabsQKDhR9HI093yfGp9/vCWwzX0wzf4O2tRRC/u0AsDP9chCVJhYkdfxQT+0msrnD
+         EG+oPsOYZp9/YRlA3p9yXkbQ4KBuC9kHtQvDPWXQyKelPWvzEJP+u3VQKJRffrQF36+F
+         wYzjJ4FW7ts/FfKuvOYumihat9rpfcVo4yyUav2FPEWJbly6/UD+eAFc2sI8zTIoJ12+
+         Rw6KgJ2/A5UmTA9yz50jQgz5TbLvzzZII9clXzP+dKf9xeiW6iEjj6ozjVka6+yVSqjo
+         W9Rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719165497; x=1719770297;
+        d=1e100.net; s=20230601; t=1719165505; x=1719770305;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0AO01oKOA3xCjs8tyAcfStxUCftobcQ/yCAcPc0dY2I=;
-        b=w14/tRbuJyNMNsSoqSEwMrMaADXSuM7Q3hRd9x8btg5CZXlks+2V1JLk0CxdumZgoD
-         CmuO8FEOVSNM+4VZ4CvKQ/3zmPq/4UmeQK3yBTrSYPmzt2vL/9vjKvk2Balo+TznO13G
-         mP63teGsQNk5DFjymOZlXge3Pz0VbZByeeGmpMdLSWTU4o41f+uF+2/pEbDALhC7E8hO
-         nPoIHGXmgKL23YbbQeEiw0xF0XrI6vIUWYsVLlaVNYdZx6OK/g8RbVuiSxLZDtL5IIQN
-         7DXkIoPYPi8hzVPTFoCHwAP+XrYJVWTCaP/On3+zq1U/gt0xFFdAAaRljDG5x60hJ4L/
-         tFcg==
-X-Forwarded-Encrypted: i=1; AJvYcCWGnJFzF0eoduQj3B12Ll7kL9yKnsKE1BL64xt34M1rRMJbm1rHOmZEdzofqWgkidxFV5e7o3UeREGhMzRjEUV8Svayd3fIDGSr9cyqtQ==
-X-Gm-Message-State: AOJu0Yyt1C2DRN6EobOUi3tH8DGAMKbtJwLmlV1VscQzemwC2nFZWvCu
-	ropgbY9sk5YajFoXgzRQYX9pfDtk4ywbIei65DYx0kbZkbn2LcC7
-X-Google-Smtp-Source: AGHT+IFvvdMNsYHLTJeHDtdF6kgpyqtgEbCpVNVhVf/84J4lSYrjGv64FjYJ8nQzXE5Nhx9x1e2prA==
-X-Received: by 2002:a50:d61d:0:b0:57c:6d24:26e8 with SMTP id 4fb4d7f45d1cf-57d43b68d3dmr2167140a12.4.1719165496696;
-        Sun, 23 Jun 2024 10:58:16 -0700 (PDT)
+        bh=axOwCCFkiHXRQoWrBYOvBy8/Yk0F9t8t/fQByhrED9E=;
+        b=k9wdpacG0Hj2R6opmwpW1GCP9fCeketK8btNjlv9QceRRe8VVK7H52I8Ni/yAEvP2X
+         m235v/njfOP8JPlRmpTYjPX3CBAwt57BJq8wd6iLAv21E6zyhil8YcTgFCRl/CGjUKlQ
+         /H9m0DS+hoKMx2C+tjKkEgq6JUwpxWMwajPeFGiWmcQPZZcM/JFpMIiYnU55dUE8kHaX
+         HvT+VcocfE27Tzscg3h0zye9Y6G1612+QFh7fU9XebAR0hxwsdo3NiCWK3Cwi++Hsx3D
+         /3euTBcZKjXBT1SXWaBEtktere7pV5j3RyfIL4xaK8GkxRHqjpIGHHp3Hes4wScbaGnc
+         f94Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVtPPGO7xb2LYOLhYI6R/2ahjj3ZZJkuE2O68D3/F5V7PbV0nmocK9le4rPWlZqWfe3omdQ9D7tVXjAcyXM0YXBVdDUorVpbkHTvmoLmw==
+X-Gm-Message-State: AOJu0YxhULqKr5rNfo1LI89S3JpF6Djzed5LY11hTWBRY0Glu0iKcvYb
+	HayP+TcIlTIx4brfM0/F4DdW8bw8vYPna1ofQ3ZQlsoPtIqQcIHGVCCm/A==
+X-Google-Smtp-Source: AGHT+IENE7Gapd83HNRZmNE/54dQQ4aIVciES6cnxcJVr6P3l8hZt++p9nvFw+N6HFqqAxkG9r34Qg==
+X-Received: by 2002:a17:906:258a:b0:a72:51d8:bf30 with SMTP id a640c23a62f3a-a7251d8c3d0mr59225166b.0.1719165505554;
+        Sun, 23 Jun 2024 10:58:25 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p57935a9b.dip0.t-ipconnect.de. [87.147.90.155])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57d3041208esm3743177a12.30.2024.06.23.10.58.16
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6fcf549385sm325730566b.105.2024.06.23.10.58.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Jun 2024 10:58:16 -0700 (PDT)
-Date: Sun, 23 Jun 2024 19:58:15 +0200
+        Sun, 23 Jun 2024 10:58:25 -0700 (PDT)
+Date: Sun, 23 Jun 2024 19:58:23 +0200
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 13/14] staging: rtl8723bs: Remove unused macros in rtw_io.h
-Message-ID: <91e79b32292ba567c2ec624e130350a40a7866b5.1719155208.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 14/14] staging: rtl8723bs: Remove unused macro in
+ ioctl_cfg80211.c
+Message-ID: <0a33ebb3e11558f41dc847dcaa9733bfe1cf4ba6.1719155208.git.philipp.g.hortmann@gmail.com>
 References: <cover.1719155208.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -68,88 +69,25 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1719155208.git.philipp.g.hortmann@gmail.com>
 
-Remove unused macros.
+Remove unused macro.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8723bs/include/rtw_io.h | 57 ----------------------
- 1 file changed, 57 deletions(-)
+ drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8723bs/include/rtw_io.h b/drivers/staging/rtl8723bs/include/rtw_io.h
-index e98083a07a66..be9741a056e5 100644
---- a/drivers/staging/rtl8723bs/include/rtw_io.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_io.h
-@@ -8,70 +8,13 @@
- #ifndef _RTW_IO_H_
- #define _RTW_IO_H_
+diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+index 82722897d6cc..2bd8b1447698 100644
+--- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
++++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+@@ -2588,7 +2588,6 @@ static int cfg80211_rtw_mgmt_tx(struct wiphy *wiphy, struct wireless_dev *wdev,
  
--#define NUM_IOREQ		8
--
--#define MAX_PROT_SZ	(64-16)
--
--#define _IOREADY			0
--#define _IO_WAIT_COMPLETE   1
--#define _IO_WAIT_RSP        2
--
--/*  IO COMMAND TYPE */
--#define _IOSZ_MASK_		(0x7F)
--#define _IO_WRITE_		BIT(7)
--#define _IO_FIXED_		BIT(8)
--#define _IO_BURST_		BIT(9)
--#define _IO_BYTE_		BIT(10)
--#define _IO_HW_			BIT(11)
--#define _IO_WORD_		BIT(12)
--#define _IO_SYNC_		BIT(13)
--#define _IO_CMDMASK_	(0x1F80)
--
--
- /*
- 	For prompt mode accessing, caller shall free io_req
- 	Otherwise, io_handler will free io_req
- */
+ static void rtw_cfg80211_init_ht_capab(struct ieee80211_sta_ht_cap *ht_cap, enum nl80211_band band)
+ {
+-#define MAX_BIT_RATE_40MHZ_MCS15	300	/* Mbps */
+ #define MAX_BIT_RATE_40MHZ_MCS7		150	/* Mbps */
  
--
--
--/*  IO STATUS TYPE */
--#define _IO_ERR_		BIT(2)
--#define _IO_SUCCESS_	BIT(1)
--#define _IO_DONE_		BIT(0)
--
--
--#define IO_RD32			(_IO_SYNC_ | _IO_WORD_)
--#define IO_RD16			(_IO_SYNC_ | _IO_HW_)
--#define IO_RD8			(_IO_SYNC_ | _IO_BYTE_)
--
--#define IO_RD32_ASYNC	(_IO_WORD_)
--#define IO_RD16_ASYNC	(_IO_HW_)
--#define IO_RD8_ASYNC	(_IO_BYTE_)
--
--#define IO_WR32			(_IO_WRITE_ | _IO_SYNC_ | _IO_WORD_)
--#define IO_WR16			(_IO_WRITE_ | _IO_SYNC_ | _IO_HW_)
--#define IO_WR8			(_IO_WRITE_ | _IO_SYNC_ | _IO_BYTE_)
--
--#define IO_WR32_ASYNC	(_IO_WRITE_ | _IO_WORD_)
--#define IO_WR16_ASYNC	(_IO_WRITE_ | _IO_HW_)
--#define IO_WR8_ASYNC	(_IO_WRITE_ | _IO_BYTE_)
--
--/*
--
--	Only Sync. burst accessing is provided.
--
--*/
--
--#define IO_WR_BURST(x)		(_IO_WRITE_ | _IO_SYNC_ | _IO_BURST_ | ((x) & _IOSZ_MASK_))
--#define IO_RD_BURST(x)		(_IO_SYNC_ | _IO_BURST_ | ((x) & _IOSZ_MASK_))
--
--
--
- /* below is for the intf_option bit defition... */
- 
--#define _INTF_ASYNC_	BIT(0)	/* support async io */
--
- struct intf_priv;
- struct intf_hdl;
- struct io_queue;
+ 	ht_cap->ht_supported = true;
 -- 
 2.45.2
 
