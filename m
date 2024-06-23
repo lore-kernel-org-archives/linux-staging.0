@@ -1,62 +1,63 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C0BB1849E4
-	for <linux-staging@lists.linux.dev>; Sun, 23 Jun 2024 17:57:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42388181D15
+	for <linux-staging@lists.linux.dev>; Sun, 23 Jun 2024 17:58:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719165474; cv=none; b=ZIG/LkmSfjr8au04eFnS3DNMogb2N0n115GqLuMzjil0I2pSwqRUPxdflTLdxanpdkUYO3Sr9wTs8lG7DfHV/oYbGj37u/zC4Gv+mNTpAjVoPSfHe6jmE7VMfWir1y76TEJQTNTSNjP9FBdgZiv6coFAFtjZZwUiWJ9YXoNUTpg=
+	t=1719165481; cv=none; b=c/3hqnSooppq5yZYw27MZAuMZ7Y7KiZ6R2QewckSMZ2uXAEQioQlOgqpZr95exoboELxtTINi5xUkWuLfj50nh0SgmHH9Dm2MBCvAFMeK1jfNiRUhhZj3PfVXnSshb2UYCDrOc14KbN7ZMuZIcuCaijD3r8GL5wOJpz0fB0XQxs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719165474; c=relaxed/simple;
-	bh=k2pXJazt4d1jjxZb/wUSVEme55AeCZ/0RLf0i7Q9H80=;
+	s=arc-20240116; t=1719165481; c=relaxed/simple;
+	bh=4y99/Bx95YqKoijdJWQ6liswcalzChA+1DSzWRfTZQk=;
 	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AUInWzAXQ3VTWRBN0D8Vv50cW4x0WSgKRoLnefocxI5ChqYX4fwk60a+h2TXsZrEmCBrmO51lVsKyMgII5cjQbGcy2WrfOjcIil+U6ooQSK2qadfJNzt5gr2eYxE8XgLgtJNg59m+qDY/Q8Y+XXYXKOzN1D0xV/PEkqPvC6B1EY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BmAhByvl; arc=none smtp.client-ip=209.85.208.42
+	 Content-Type:Content-Disposition:In-Reply-To; b=StgWICIoEwAXx5Lb763+YP9uSIwJM3QB2N0hmnMR3Nt/6NcgNQgPhSkSQIiYt+ReKCKI+YdMCZR+ajYWpTyKze6+Pm7m6QADXNYh6FrdX6sM4mHgCvzjpFZOOof7B2Tt5mlkDal9AA1VwHT6jiM3h7dtcW6w/Xt5Qo9Rm5ML8yI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XkqmDQfB; arc=none smtp.client-ip=209.85.208.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BmAhByvl"
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-57d16069321so374228a12.2
-        for <linux-staging@lists.linux.dev>; Sun, 23 Jun 2024 10:57:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XkqmDQfB"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-57d106f4025so560674a12.1
+        for <linux-staging@lists.linux.dev>; Sun, 23 Jun 2024 10:58:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719165471; x=1719770271; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1719165479; x=1719770279; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=us8E5vDLoSO4M4RMp0uTUWJe7+6fXoztBOD5gWfqUsg=;
-        b=BmAhByvl6DLTHX7a/dYAYVqxYFetGihdrObgdtkgM4eKasDgMOvoXqq8T/t/JpUJzT
-         3Mee/Wxv+E1do7tKGh4t1avqMB4Z5glcfyYkJvrbPTAQPR4ckpae5DUswXl38k7p3lQ7
-         T+Oc4ibutQ50ORuAg8s7vqQIGpEwlehlC333afr0oS8Uae03KkCHzC6gqH2Mfx0o7SvQ
-         TMRvupfSUozvZ2ldN2wrcScDsATFhTTssY9u8aadxfRdkfXmpnWrWZsU4YmAHUP0ISRk
-         iBeJbVcZ+F3knWOr6NUNbMkVC6Ub1fJ7wPLAotn9WOePTQJG7K05/qjUBQlpt3c7Pjfo
-         QeVA==
+        bh=DTvgNDU+h3og9mxQKfg7iaFGh0/NWIwcOhQKR6cLy8I=;
+        b=XkqmDQfBP7CXTusA2cX80Cf+9i/EpJt+mCUA1jbNSlMfMsqTOFetv0uE8aTGPNbcNe
+         ZilkuZSyi7oLHEqdp+4EWg7E7aGzeQygzIjYGKs+vT6o++3jW8v1hwHFgodXHoKQQT+d
+         mhI+krxKACOVMgOhl/wOiphBD3swioQpVv1rdSIUnX20GYQkLiW0c89XkKU/MZ99gPVY
+         9GG/P49nJddl35gy+vpw18QzZDi7dW7N5vo1ovwqVB839tO2QrAt3VCoEjdBMJpFfnzT
+         xYjDCkZwAi0YiFFMXeGwUSICUztqX3W+wMt5qUpavwAOSehikBeh/VrC8OsoBhJ2SPa9
+         tDGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719165471; x=1719770271;
+        d=1e100.net; s=20230601; t=1719165479; x=1719770279;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=us8E5vDLoSO4M4RMp0uTUWJe7+6fXoztBOD5gWfqUsg=;
-        b=Q95QHAvl93NjwHoy76DYHqDhU28FX4c8JDQpiDcrvSS5xW1A09no51U9UUNGPntsoh
-         lQ2jSsow24BB0GZe7Puw0TaoBOKaxqTewhJREDEmcR5+JdFbUqa2b6VUj84VQ8m5fSs8
-         vNArf2FkVBdsThTa4V2QK4CYaLXL7l6QNKiEN1arQCtmm5J0k1/PMTgGQaqo0V+2Ne77
-         G5R+QfHgRgWShCnD8kLKPWrYklzkIki91LAf851kJkOiSm8swmE+Y7/H8WEO8gx0EF1L
-         cXdtRwpzbtIPJr/GjXCEvnfExA7fHbF4GTFulF4ynOCN37fk9GSxwtbtOcnd9ac3BeuW
-         b4fQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVgSr/3YPu7f3umdQERbWJP8eQ1tNzuX6IH2ZQYFSmJNy1WzCGKJUAx4VwU7y6YVV3s1v0NmtCGSRS9alkDeipzJUxSL3R4cp+D/9f5Tw==
-X-Gm-Message-State: AOJu0Yw2WYGEJr5eyv9/QSd/IzmtLiq5VNlwiWiKQtA4uiGf7pOm2Kls
-	cj5AmgT7ldPG2nWjGFPpEqxorwKMHxvcjAltZTBxzLkrMFjFZAPp6qfVzQ==
-X-Google-Smtp-Source: AGHT+IFWDDAhpWFXRz5D4xudjIIA+RJlu4D7h0rcBpDuiuFdUPanvBxhvd7exQKGm9eyDuzmL1jlHA==
-X-Received: by 2002:a05:6402:51d4:b0:57d:43c3:842b with SMTP id 4fb4d7f45d1cf-57d43c3853fmr3074330a12.2.1719165471380;
-        Sun, 23 Jun 2024 10:57:51 -0700 (PDT)
+        bh=DTvgNDU+h3og9mxQKfg7iaFGh0/NWIwcOhQKR6cLy8I=;
+        b=fAopE8EWtwu7y/Px9zWrKjctT0uzZvbNHEvcSx8tSg1t/0+QY8IZUAp3JL0OlPk2aV
+         g8bWVsrA93FVnkSKs5QIYmog2dARZ7qQXKT9jnOmlug5R+HonsB8rdkdcoQkRH9/Qrv2
+         mYOLNpC4i+pjfOvqr1M9M/W1o16YDm5VdV9OxlKKLtc/jBJAdLBFDE8Pp0GIV9qJVvIC
+         dsVcg6WBePv1c6fg0vpWSAByg6Mp94gmDHhfEfutvqjAz70g3fThYtbAQNAcyAWSf5L5
+         /DvEb+MTcWd1LHdP/FK0CUnqzl9WaXzuRlDPT/Czk9V6DflFx3NTqEeg82MUDaPNoV3C
+         edOg==
+X-Forwarded-Encrypted: i=1; AJvYcCWh2sNUbmh6fVKi4ZuAIx2smtxUcPjTVuNDPlO/c9N8Vt2yj2ZdprTKh0m8qNI8MdVC29ZNEvb5CMI2AQKVng8IqcjxTN9odnpbmUU/lw==
+X-Gm-Message-State: AOJu0Yxjgs+Fk2uDgRIG5/J+AO1A8267nAKEuIw/bdpsgcfJ1XY4r3Wa
+	RAwOyirhjOdoqotWb/dvv69FRHMWHOtyLicUmrdwZ8F4jveheIg7
+X-Google-Smtp-Source: AGHT+IHMPaQGprf4rtmy3Gu/mjzQPRZSiz6TtuTyq3VY53ubxDRFgFMzVhhddc0O/8P6jBruBA5Uxw==
+X-Received: by 2002:a17:906:2a14:b0:a6f:bbfd:39d1 with SMTP id a640c23a62f3a-a6fe087be90mr271230566b.2.1719165478521;
+        Sun, 23 Jun 2024 10:57:58 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p57935a9b.dip0.t-ipconnect.de. [87.147.90.155])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57d3040ea36sm3749019a12.21.2024.06.23.10.57.50
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a724cac7c48sm78050566b.220.2024.06.23.10.57.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Jun 2024 10:57:51 -0700 (PDT)
-Date: Sun, 23 Jun 2024 19:57:49 +0200
+        Sun, 23 Jun 2024 10:57:58 -0700 (PDT)
+Date: Sun, 23 Jun 2024 19:57:56 +0200
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 09/14] staging: rtl8723bs: Remove unused macros in rtw_recv.h
-Message-ID: <e9f61bab428def7298212aecfab3708a32469cef.1719155208.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 10/14] staging: rtl8723bs: Remove unused macros in
+ rtw_pwrctrl.h
+Message-ID: <41f7ed26b5a6de187a71bdc7f062f3817993ba5f.1719155208.git.philipp.g.hortmann@gmail.com>
 References: <cover.1719155208.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -72,68 +73,91 @@ Remove unused macros.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8723bs/include/rtw_recv.h | 16 ----------------
- 1 file changed, 16 deletions(-)
+ .../staging/rtl8723bs/include/rtw_pwrctrl.h   | 38 -------------------
+ 1 file changed, 38 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/include/rtw_recv.h b/drivers/staging/rtl8723bs/include/rtw_recv.h
-index fef2fd0e8c84..c93594f75436 100644
---- a/drivers/staging/rtl8723bs/include/rtw_recv.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_recv.h
-@@ -9,8 +9,6 @@
+diff --git a/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h b/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
+index 0767dbb84199..c27d07861b8c 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
++++ b/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
+@@ -9,25 +9,8 @@
  
- #define NR_RECVBUFF (8)
+ #include <linux/mutex.h>
  
--#define NR_PREALLOC_RECV_SKB (8)
--
- #define NR_RECVFRAME 256
- 
- #define RXFRAME_ALIGN	8
-@@ -18,21 +16,11 @@
- 
- #define DRVINFO_SZ	4 /*  unit is 8bytes */
- 
--#define MAX_RXFRAME_CNT	512
- #define MAX_RX_NUMBLKS		(32)
- #define RECVFRAME_HDR_ALIGN 128
- 
--
--#define PHY_RSSI_SLID_WIN_MAX				100
--#define PHY_LINKQUALITY_SLID_WIN_MAX		20
+-#define FW_PWR0	0
+-#define FW_PWR1		1
+-#define FW_PWR2		2
+-#define FW_PWR3		3
 -
 -
- #define SNAP_SIZE sizeof(struct ieee80211_snap_hdr)
- 
--#define RX_MPDU_QUEUE				0
--#define RX_CMD_QUEUE				1
--#define RX_MAX_QUEUE				2
+-#define HW_PWR0	7
+-#define HW_PWR1		6
+-#define HW_PWR2		2
+-#define HW_PWR3	0
+-#define HW_PWR4	8
 -
- #define MAX_SUBFRAME_COUNT	64
- 
- #define LLC_HEADER_LENGTH	6
-@@ -178,7 +166,6 @@ struct rx_pkt_attrib	{
- #define RECVBUFF_ALIGN_SZ 8
- 
- #define RXDESC_SIZE	24
--#define RXDESC_OFFSET RXDESC_SIZE
- 
- struct recv_stat {
- 	__le32 rxdw0;
-@@ -191,8 +178,6 @@ struct recv_stat {
- #endif /* if BUF_DESC_ARCH is defined, rx_buf_desc occupy 4 double words */
- };
- 
--#define EOR BIT(30)
+-#define FW_PWRMSK	0x7
 -
- /*
- accesser of recv_priv: rtw_recv_entry(dispatch / passive level); recv_thread(passive) ; returnpkt(dispatch)
- ; halt(passive) ;
-@@ -363,7 +348,6 @@ extern union recv_frame *_rtw_alloc_recvframe(struct __queue *pfree_recv_queue);
- extern union recv_frame *rtw_alloc_recvframe(struct __queue *pfree_recv_queue);  /* get a free recv_frame from pfree_recv_queue */
- extern int	 rtw_free_recvframe(union recv_frame *precvframe, struct __queue *pfree_recv_queue);
+-
+ #define XMIT_ALIVE	BIT(0)
+-#define RECV_ALIVE	BIT(1)
+ #define CMD_ALIVE	BIT(2)
+-#define EVT_ALIVE	BIT(3)
+ #define BTCOEX_ALIVE	BIT(4)
  
--#define rtw_dequeue_recvframe(queue) rtw_alloc_recvframe(queue)
- extern int _rtw_enqueue_recvframe(union recv_frame *precvframe, struct __queue *queue);
- extern int rtw_enqueue_recvframe(union recv_frame *precvframe, struct __queue *queue);
+ 
+@@ -58,31 +41,17 @@ enum {
+ #define PS_ALL_ON			BIT(2)
+ #define PS_ST_ACTIVE		BIT(3)
+ 
+-#define PS_ISR_ENABLE		BIT(4)
+-#define PS_IMR_ENABLE		BIT(5)
+ #define PS_ACK				BIT(6)
+ #define PS_TOGGLE			BIT(7)
+ 
+ #define PS_STATE_MASK		(0x0F)
+-#define PS_STATE_HW_MASK	(0x07)
+-#define PS_SEQ_MASK			(0xc0)
+ 
+ #define PS_STATE(x)		(PS_STATE_MASK & (x))
+-#define PS_STATE_HW(x)	(PS_STATE_HW_MASK & (x))
+-#define PS_SEQ(x)		(PS_SEQ_MASK & (x))
+ 
+ #define PS_STATE_S0		(PS_DPS)
+-#define PS_STATE_S1		(PS_LCLK)
+ #define PS_STATE_S2		(PS_RF_OFF)
+-#define PS_STATE_S3		(PS_ALL_ON)
+ #define PS_STATE_S4		((PS_ST_ACTIVE) | (PS_ALL_ON))
+ 
+-
+-#define PS_IS_RF_ON(x)	((x) & (PS_ALL_ON))
+-#define PS_IS_ACTIVE(x)	((x) & (PS_ST_ACTIVE))
+-#define CLR_PS_STATE(x)	((x) = ((x) & (0xF0)))
+-
+-
+ struct reportpwrstate_parm {
+ 	unsigned char mode;
+ 	unsigned char state; /* the CPWM value */
+@@ -91,10 +60,6 @@ struct reportpwrstate_parm {
+ 
+ #define LPS_DELAY_TIME	(1 * HZ) /*  1 sec */
+ 
+-#define EXE_PWR_NONE	0x01
+-#define EXE_PWR_IPS		0x02
+-#define EXE_PWR_LPS		0x04
+-
+ /*  RF state. */
+ enum rt_rf_power_state {
+ 	rf_on,		/*  RF is on after RFSleep or RFOff */
+@@ -247,9 +212,6 @@ struct pwrctrl_priv {
+ 		_set_timer(&(pwrctl)->pwr_state_check_timer, (ms)); \
+ 	} while (0)
+ 
+-#define rtw_set_pwr_state_check_timer(pwrctl) \
+-	_rtw_set_pwr_state_check_timer((pwrctl), (pwrctl)->pwr_state_check_interval)
+-
+ extern void rtw_init_pwrctrl_priv(struct adapter *adapter);
+ extern void rtw_free_pwrctrl_priv(struct adapter *adapter);
  
 -- 
 2.45.2
