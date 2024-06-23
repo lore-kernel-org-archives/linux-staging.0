@@ -1,41 +1,59 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCCE082492
-	for <linux-staging@lists.linux.dev>; Sat, 22 Jun 2024 13:34:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D5DB7E0F2
+	for <linux-staging@lists.linux.dev>; Sun, 23 Jun 2024 09:33:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719063297; cv=none; b=Bbg7jcpuSiS7qE0LeYFFIM+KEvTjmfocrKjTmM7cMXDK4F+KZ9B/HEuzmta6DZlvoJiRiLJOUcXdIaEkr1mT99MeI93zzJfEVX80Krg9xpOl0xUBT+6shX8uC0HHCx3Wo1Jo1dAhTwVFoffay5BUswlkMSq5b1GOk3cwuyTmZpA=
+	t=1719135215; cv=none; b=lFYC2egdTC7rmm3LX+Oeh96hm8LAkTLo0ZIZrW4X28gPfaEbxenQbMVeqal2t0CKGscRXuXCMjsO3MJyUMpCMFtvUWg0vsfissxVoLBQr0bnxfHtH2FGo1G1qJRpCV9yD6DxBiRxWF3QD4rmhHy2r4ndjBS/xVbDLgdTkjhieeA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719063297; c=relaxed/simple;
-	bh=9PcOwuoShfkOTMi4FA3UJOkI8ujSzTbYy53uK1oTlt4=;
+	s=arc-20240116; t=1719135215; c=relaxed/simple;
+	bh=JdGQjQ8ugHuD7lfotcDPVss8wiDxrM/eB79Z6QArE3g=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nQVm8CVJz1neNaFQ9v0t4rx+vBs4xDOjB7lhSgUcJnpGJiSD6d/YuXwPdcHvsFVpQR/WxKU/x4ipHkX0b5xkFQ+ldHiN74ERKmw7qrJriYGgA1SZMvYyLthUAtNoMvE6kPJ2nhU7NiPJmhSrA37TOFuBOqBNNXJ/7Xigei2oT68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=OHVfIsol; arc=none smtp.client-ip=212.227.15.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
+	 In-Reply-To:Content-Type; b=fIF+x97zbW3ov9LYUVvKUFVQ/dVlDCUXeTNlgEo01LcRG1RCTdLmaV/GBCMqvwuXR6szQ3U4JRwbX4n5rTdAYaV7MeRb7Bbh6KqpCVzaeWh46i6/gdScaVsEwpuSWLB3ebpUojyxNdsMy9XmHE+bzt2YlCOnsiajC0SCzKzcUss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h8oTAvt+; arc=none smtp.client-ip=209.85.208.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="OHVfIsol"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
-	s=s31663417; t=1719063284; x=1719668084; i=wahrenst@gmx.net;
-	bh=oB3wyyTnVlK7F2QMPp4BcsT9JyYZz6HlBFPKTmbIhB4=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=OHVfIsolfJvn9VRFQxpvv0o2xn234010AcFEYXoKX4SVy1n4hWLypQueu32wfO1G
-	 CqQ2ZvEf8mZCEon9iS25jUw/LjNljZqNSen3ne7NksoAEWkQ3bEQNAyAmtE/6akLm
-	 pgbdhhE5Hy2sudM78h2ieBonKv57jKIq3/QXGi2bRFlpu/3fO43mlKJOgG6x85BLT
-	 jFPgPFWeI+V4CbIUEAcSGv61wIP2kVEes0ulTcWWRT0LFzSK+mzhHwNSkeCinVMgV
-	 ymFxEjod+TeRB1E5Q3GGxjr+HBCVKWWifXrrBjnyq2gKPd4ZVxLeBmUJUMDfJJtFN
-	 SDPyW8jxCBh1gXSMaw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.127] ([37.4.248.43]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MS3mz-1rwVqh1LsB-00U7W4; Sat, 22
- Jun 2024 15:34:44 +0200
-Message-ID: <f6a7d151-0d4c-482d-95a1-4f9264dd071c@gmx.net>
-Date: Sat, 22 Jun 2024 15:34:43 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h8oTAvt+"
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2ec002caf3eso48275841fa.1
+        for <linux-staging@lists.linux.dev>; Sun, 23 Jun 2024 02:33:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1719135210; x=1719740010; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=AjZoaS2Am0A8j/9rhUaTOpBI3VQYzkae19fmYTVfhu4=;
+        b=h8oTAvt+D0itF6GpbPkGBwupNVlxgl7qxZNs2d4biKTXJ5wxsnj+L60rhogUrxXVDn
+         TNFwNjIdxl5mUR73dPLWufy/xf8lqT9YLtH95EN+8BcUQJL3xixtXbtrsh/5Uo+cyVbR
+         OmSTEIgYrhC8hRDS9N80Ta1RVTCaofVExkHcrcXEpXlqY+Y7Wf8u6Tw885ngcSg6/IdO
+         ce/3Pze1NMrkiIW+LWnTuyfWR7/R0MM94d7A8r5aCZzh75rgGamfuGTHVr72scdf/bjy
+         LnFvIpU4xSV7dtmEr2JZ//iLYO2XMfey2rHT7uRtnWCTsctaOG+eAoqDWbwQ4dsIGy4O
+         bCgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719135210; x=1719740010;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=AjZoaS2Am0A8j/9rhUaTOpBI3VQYzkae19fmYTVfhu4=;
+        b=LSj5vva6npjU+c0K9mUfIoaGuG7LZjvmbpfifj2PZWWKrI7gg0o1so9Cjv3rGo6CsD
+         UPLBtcZ9JSWbR11VW2yvg4AfIzoPLH3d9P00xZtTE0XzlOxX1wrWZWVwAZMIbFw8VuG8
+         4MyP6aUbLPYZ2HF+0TWMyW0ZgdJT8Und/tZbT8phEk9bQ+WPfEOjHJqzXKATioG1HGSM
+         5BhFsMbqX9yfRKQzd3ZRhUB5G/BTTwTqETBdK7N4LtizV6DwnJoru9SGWo7ko2YlpX/z
+         Zwri5kumM5C4xE66UBkva+zknbH++VT5eFLE5Y1KgZFQhBpCzRTe12xtF8IL5P+ytnDI
+         c6Pg==
+X-Forwarded-Encrypted: i=1; AJvYcCWK4cHV3jsuz5zSI4wXoXu37suxL8wfY6g5cL90s1NRe4nA9q15DorSMaqICXe/b8Pi9YnLTXNsJVpzzF0C3Ka1aTLXwKjvOD090CQ8Kg==
+X-Gm-Message-State: AOJu0Yz20MZ1SAG51ulRA9mtcEPbhrqbSYRec84/oYEGdwfEqVHx0SQc
+	QNestFdgw+cbsRbNDCksFaNU3wXC2UfZAh1VQZEmVeJ7Kalh2fc=
+X-Google-Smtp-Source: AGHT+IH6KUI2bioFkoMZdiCXVbMS6OWNo1xhcCBiJkbNjUI36kuWQR3a8SDuPSHNgleWUhg85nvxmA==
+X-Received: by 2002:a2e:3518:0:b0:2ec:57b4:1c6f with SMTP id 38308e7fff4ca-2ec5b31d1a2mr12159971fa.34.1719135210188;
+        Sun, 23 Jun 2024 02:33:30 -0700 (PDT)
+Received: from ?IPV6:2a02:810b:f40:4600:ffa8:3dda:1e1c:17ff? ([2a02:810b:f40:4600:ffa8:3dda:1e1c:17ff])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a724adc5dd4sm48127666b.129.2024.06.23.02.33.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 23 Jun 2024 02:33:29 -0700 (PDT)
+Message-ID: <c7882f94-e2cb-4023-a53e-87ebc8fa3460@gmail.com>
+Date: Sun, 23 Jun 2024 11:33:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -43,83 +61,151 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V3 09/10] staging: vchiq_arm: Don't cast scatter-gather
- elements
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Umang Jain <umang.jain@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-References: <20240621131958.98208-1-wahrenst@gmx.net>
- <20240621131958.98208-10-wahrenst@gmx.net>
- <f655db50-b9d1-4b06-b1d9-5bfc22fd2756@suswa.mountain>
+Subject: Re: [PATCH v3 2/4] media: rockchip: Introduce the rkvdec2 driver
+To: Detlev Casanova <detlev.casanova@collabora.com>,
+ linux-kernel@vger.kernel.org
+Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Dragan Simic <dsimic@manjaro.org>, Diederik de Haas <didi.debian@cknow.org>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev
+References: <20240620142532.406564-1-detlev.casanova@collabora.com>
+ <20240620142532.406564-3-detlev.casanova@collabora.com>
 Content-Language: en-US
-From: Stefan Wahren <wahrenst@gmx.net>
-In-Reply-To: <f655db50-b9d1-4b06-b1d9-5bfc22fd2756@suswa.mountain>
+From: Alex Bee <knaerzche@gmail.com>
+In-Reply-To: <20240620142532.406564-3-detlev.casanova@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:xoi/iWR652to/6T/nGtx7OzTaHNxqeoirV3eIVvlgAOmxbymYnt
- 4SHk0Eo7S0uyYZ/wgzz8W+xeMVP8CFUr4qz0noT7LGojALLkhIXrB469GmV3t0jHN6kNpy2
- kpSuLrX6VKfgJzjUV4wKVIEcmBONAfxalu5Ndw2cS9Vb8T5nxeiDCPVBvouXG5HeEHSr4Az
- Ww9lctwtIPvrzndfG39RQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:h9QLU8VeJUc=;o9ZL1Nh28CFkIVEVz3V8Lk8dNTt
- 1JjeoGyoVwvs1YpaVRIhhmLlHNf/eo6g4CjW5AptY1L9xlfL++Mqtw8gviGr5fojFCS6DTTuO
- eA/wOoaffRBFv37q/bPJdzP47ghA4DY0uBI6kQlERHcIy4DuSXiQABX8pz6rLeMlc+9lRWE1Q
- PUjsUFw/lTGFvo4nZglddOsGgBtvUvx/5CaeVYD8c1mv2zYKkqdtxENkRmc2LkRRBMJSwR1Z+
- Dgc8jCmnlFePvHM12J5tLxIJOJogqNA/dJ83N7zU9hXVXNb9igdWstPOcg2Y1jvnnG0dnBwZY
- VURPh7RXDi3DmwECf8W9B1L/WQV/iQqVfB++chcPY/RH25iRkkM2NGRE8tcgEH3ue1QUMIMO+
- UHoh9rO+tKW0F+a+aIeBbSw2Q/bRnkIcpk1MkTzgoMuibGbe+PGdQp2QoLFwaJQqvDofH3sBT
- 7Mcju5mCf389OVc3GK+QV8dw7dh76oDttaTAYtjGGDK8NQtvOC2a4uqdewtk4L4ZRx95S8+UI
- So5TdtWsPTzfTzTjuZ0uNeC+I66WNANyB8KHXB/BSKvYLyyfNe2zH29BGG/i4eEanG0QTDz3O
- HYfv98nRahnEDMlBxiQO10iqbMZKMYhD1f8KmdPUxoIfRhRMnBlqOrpe9rmD8jw9R3txrowNW
- PPV1K/YrgiE0473LiDArr9djEeloj1AUnWBl7Vs46X1NFRN08dwLJW+I9FdxL4nUVTt36R5wH
- 3CHRel5LyXrsGT5aEgzUIEK2qaVwmVLNdcpVaZ7bFqjqqjT0JtrgoTo1+fcaBEaMdCuXZUBiI
- 5CS2Chpak/fA050TvpJKlQq7OZs4ZqE6M5LUbHMXHQB3c=
+Content-Transfer-Encoding: 7bit
 
-Hi Dan,
+Hi Detlev,
 
-Am 21.06.24 um 16:31 schrieb Dan Carpenter:
-> On Fri, Jun 21, 2024 at 03:19:57PM +0200, Stefan Wahren wrote:
->> The kernel uses different types for DMA length & address,
->> so better use them.
->>
->> Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
->> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->> ---
->>   .../staging/vc04_services/interface/vchiq_arm/vchiq_arm.c   | 6 +++--=
--
->>   1 file changed, 3 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_ar=
-m.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
->> index e3d49d4bdb1d..9e6102c43e00 100644
->> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
->> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
->> @@ -162,7 +162,7 @@ cleanup_pagelistinfo(struct vchiq_instance *instanc=
-e, struct vchiq_pagelist_info
->>   }
->>
->>   static inline bool
->> -is_adjacent_block(u32 *addrs, u32 addr, unsigned int k)
->> +is_adjacent_block(u32 *addrs, dma_addr_t addr, unsigned int k)
->>   {
->>   	u32 tmp;
->>
-> You can't actually use more than 32bits because *addrs is u32 and it's
-> part of the UAPI.
-
-i'm aware that we cannot use more than 32bits and AFAIK the VPU is not
-able to handle that. The intention of this change was to use the special
-Linux datatype as much as possible to signalize the special meaning and
-allow to use the special format specificier in case we want to introduce
-debug logs later.
-
-Or do you mean this change possibly breaks something?
+Am 20.06.24 um 16:19 schrieb Detlev Casanova:
+> This driver supports the second generation of the Rockchip Video
+> decoder, also known as vdpu34x.
+> It is currently only used on the RK3588(s) SoC.
 >
-> regards,
-> dan carpenter
+> There are 2 decoders on the RK3588 SoC that can work in pair to decode
+> 8K video at 30 FPS but currently, only using one core at a time is
+> supported.
 >
+> Scheduling requests between the two cores will be implemented later.
 >
+> The core supports H264, HEVC, VP9 and AVS2 decoding but this driver
+> currently only supports H264.
+>
+> The driver is based on rkvdec and they may share some code in the
+> future.
+> The decision to make a different driver is mainly because rkvdec2 has
+> more features and can work with multiple cores.
+>
+> The registers are mapped in a struct in RAM using bitfields. It is IO
+> copied to the HW when all values are configured.
+> The decision to use such a struct instead of writing buffers one by one
+> is based on the following reasons:
+>   - Rockchip cores are known to misbehave when registers are not written
+>     in address order,
+>   - Those cores also need the software to write all registers, even if
+>     they are written their default values or are not related to the task
+>     (this core will not start decoding some H264 frames if some VP9
+>     registers are not written to 0)
+>   - In the future, to support multiple cores, the scheduler could be
+>     optimized by storing the precomputed registers values and copy them
+>     to the HW as soos as a core becomes available.
+>
+> This makes the code more readable and may bring performance improvements
+> in future features.
+>
+> Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
+> ---
+>   drivers/staging/media/Kconfig                |    1 +
+>   drivers/staging/media/Makefile               |    1 +
+>   drivers/staging/media/rkvdec2/Kconfig        |   15 +
+>   drivers/staging/media/rkvdec2/Makefile       |    3 +
+>   drivers/staging/media/rkvdec2/TODO           |    9 +
+>   drivers/staging/media/rkvdec2/rkvdec2-h264.c |  739 +++++++++++
+>   drivers/staging/media/rkvdec2/rkvdec2-regs.h |  345 +++++
+>   drivers/staging/media/rkvdec2/rkvdec2.c      | 1253 ++++++++++++++++++
+>   drivers/staging/media/rkvdec2/rkvdec2.h      |  130 ++
+>   9 files changed, 2496 insertions(+)
+>   create mode 100644 drivers/staging/media/rkvdec2/Kconfig
+>   create mode 100644 drivers/staging/media/rkvdec2/Makefile
+>   create mode 100644 drivers/staging/media/rkvdec2/TODO
+>   create mode 100644 drivers/staging/media/rkvdec2/rkvdec2-h264.c
+>   create mode 100644 drivers/staging/media/rkvdec2/rkvdec2-regs.h
+>   create mode 100644 drivers/staging/media/rkvdec2/rkvdec2.c
+>   create mode 100644 drivers/staging/media/rkvdec2/rkvdec2.h
+...
+> +static inline void rkvdec2_memcpy_toio(void __iomem *dst, void *src, size_t len)
+> +{
+> +#ifdef CONFIG_ARM64
+> +	__iowrite32_copy(dst, src, len);
+> +#elif defined(CONFIG_ARM)
+I guess that can get an "#else" since memcpy_toio exists for all archs.
+> +	memcpy_toio(dst, src, len);
+> +#endif
+> +}
+> +
+...
+> +	/* Set timeout threshold */
+> +	if (pixels < RKVDEC2_1080P_PIXELS)
+> +		regs->common.timeout_threshold = RKVDEC2_TIMEOUT_1080p;
+> +	else if (pixels < RKVDEC2_4K_PIXELS)
+> +		regs->common.timeout_threshold = RKVDEC2_TIMEOUT_4K;
+> +	else if (pixels < RKVDEC2_8K_PIXELS)
+> +		regs->common.timeout_threshold = RKVDEC2_TIMEOUT_8K;
+> +
+
+Did you test if it works with anything > 8K? If so, you propably want to 
+make the check above
+
++	else
++		regs->common.timeout_threshold = RKVDEC2_TIMEOUT_8K;
+
+Otherwise the timeout may not be set/contain invalid values from any former stream.
+
+...
+
+> +
+> +static const struct rkvdec2_coded_fmt_desc rkvdec2_coded_fmts[] = {
+> +	{
+> +		.fourcc = V4L2_PIX_FMT_H264_SLICE,
+> +		.frmsize = {
+> +			.min_width = 16,
+> +			.max_width =  65520,
+> +			.step_width = 16,
+> +			.min_height = 16,
+> +			.max_height =  65520,
+> +			.step_height = 16,
+> +		},
+> +		.ctrls = &rkvdec2_h264_ctrls,
+> +		.ops = &rkvdec2_h264_fmt_ops,
+> +		.num_decoded_fmts = ARRAY_SIZE(rkvdec2_h264_decoded_fmts),
+> +		.decoded_fmts = rkvdec2_h264_decoded_fmts,
+> +		.subsystem_flags = VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF,
+> +	},
+> +};
+> +
+Note, that this is also given to userspace (VIDIOC_ENUM_FRAMESIZES) and 
+this is already incorrect in the old rkvdec driver (and hantro): From 
+userspace perspective we do not have a restriction in 
+step_width/step_width, as we are aligning any given width/height to HW 
+requirements in the driver - what we should give to userspace is 
+fsize->type = V4L2_FRMSIZE_TYPE_CONTINUOUS; fsize->stepwise.min_height = 
+1; fsize->stepwise.min_width = 1; fsize->stepwise.max_height = 65520; 
+fsize->stepwise.max_width = 65520; I guess this new driver should be an 
+opportunity to fix that and distinguish between internal and external 
+frame size requirements and the .vidioc_enum_framesizes callback should 
+adapted accordingly. Regards, Alex
 
