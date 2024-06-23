@@ -1,62 +1,62 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 630511836EA
-	for <linux-staging@lists.linux.dev>; Sun, 23 Jun 2024 17:57:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2FCB184104
+	for <linux-staging@lists.linux.dev>; Sun, 23 Jun 2024 17:57:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719165436; cv=none; b=tmdV+RSfYYps8Fzx3EJj9qxS38OIeC28Uq3V9Sj0RMP4HoIkKru9jTcdOWzbIN2X3Ou1Sy0JAmfHEaW5crNF7RRMek6IEQRCD/BvSK3+iGTKebpBVxXDhfYcF+2RAYFhE3nccAgOEhEAQBnRD8kO95V2l75SkEyliy/FcMZGMGE=
+	t=1719165450; cv=none; b=apPFIh4Gc++vIPJpqMM4JcqG+JC30ii9wZ+G//jYmOvzyh79BIf8KZLhj+hsd3BJcM6Ris3AdSpuE777HrhRmao4GrpMPwITkTVfJ+NXu4WTxeh8bj5zd0vG3LNtBqQXMebrU7xyEr21c3hDgyl3XtJV4UXtF/HcUEPAsqdjlcs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719165436; c=relaxed/simple;
-	bh=Oqf2/LX2KvmZtP/r86VKLs2nphv9h8emvJrnjD6FL+w=;
+	s=arc-20240116; t=1719165450; c=relaxed/simple;
+	bh=ltnpviKeMUaGVhrUWPFxY2jebDlq6BnNyfcV9un9fnk=;
 	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G3e8IUjvS/1gn7B7H5ELN/+BkeNAAFqwdTi8rb03lAPTNuUxlzbgWVZRBECm6ONB2g8BV1Dy4SzfgpK1EnGVFAcHwSx4FIfIxa7+4/XLL1WV8J+e1imazwJbysw7kzeM8Okv9ohyyA+Tm+bY4PAdYqhkz8vP0pQdRbmxBjnq3hs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A4Fdoa9t; arc=none smtp.client-ip=209.85.208.53
+	 Content-Type:Content-Disposition:In-Reply-To; b=UPBQ1LxJNFzDIKCZAvQdKYbzTn/toapkmGOiomT86Br1gaFCNsY4eWnTVmrdUpHRcsGupWTp0cl1if52ZapUcsmnaqVcph26N4J8R0FY80CMz8Qmm2YfZSMM2NK4phBNR6DrcVFmFoHY2U8T8zCZHv+q9NMcm0fHh5RA3LegH7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OU2gmKtT; arc=none smtp.client-ip=209.85.218.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A4Fdoa9t"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-57cc310bca3so493162a12.0
-        for <linux-staging@lists.linux.dev>; Sun, 23 Jun 2024 10:57:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OU2gmKtT"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a6f4a474636so31755266b.0
+        for <linux-staging@lists.linux.dev>; Sun, 23 Jun 2024 10:57:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719165434; x=1719770234; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1719165446; x=1719770246; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=uBnm7LvNgBYrwkaanaOkw1aUgSe3s7OTZa0lQuB6rvY=;
-        b=A4Fdoa9txTbMlpPp3kPKaLjFRPfHxphv7mvBLWF6Ipi8TU3BGEYUTVvsE2bqAoIXb2
-         KSitWSghIuBJYSso+or1wtQSQv4RWbQc+Sk9/jmbf/04qNu+0RhZJ9QCS5nxsq4LX10S
-         TYdnevAQeyhROSRsKxcX7Lmh4c0rYTwtSOYMuzK1rHh3qi5lP1ZVkUIPpdusS02SxiZf
-         wkdPASqkAL8oCP5Ygi2lZTyRnB5iIwUAVSsfeP6VpewKX1USIyt6IWZNEEVdwMwPrVeJ
-         bhE72F/tZx8rRSodxEVgHbpUamlj0eTO+kM1Ebs4SKnJglMIJoYMz8caVD0cxwcgDLkP
-         44cQ==
+        bh=a1vTbeSw9W7HSIQFs+9BiSn5ojSpE/rQVZOSqlwPo9I=;
+        b=OU2gmKtTW+VUkbY1mF0YBy/w6D3VYpKbOIazaxQv/DHLBOJPXQpT7NwOxFmvdjI4gG
+         C+UWFD+eoABS25TyivxTlU/eOJiL4sAGnLUEdALp83N0UOoXSRC1gGKHe1zvTxFI2bB1
+         OVKi2H/wMijmkTR+bpkFArRpHvQT8kw7wuF/HMo+yZTu/UIJjRCeWS/wJWqHYH7QPvYq
+         qpHT2oZA8D/5N7j4NRDLPISRB3NAU+SdBDlfsmNEVXIunPGLOVVzYXKRWXlVymmb+PTh
+         hDRBHwkmOgnTXB+FV59NgDOQwAbvaKLXoW+UyzsZJPtL8aFd7tTlk4plSUZPzGGXRS1O
+         j/SQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719165434; x=1719770234;
+        d=1e100.net; s=20230601; t=1719165446; x=1719770246;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=uBnm7LvNgBYrwkaanaOkw1aUgSe3s7OTZa0lQuB6rvY=;
-        b=EFOE5B3P/PUz9zRpw2fOo5wg4U8SHfhi7JuKRMR4tHJnFUQCBWKVq+7Yo1+iHUGgcb
-         gZkloEZ49scyjyuIGT/nzIu7wv9LKIvyv0WwmLLrfEXacxlxWO8T12cxl1usmCIU1wqC
-         /1JuKMroL6LADpcu0NfP9hX2ULrfs4UF4nsbNHQIl9NX7ELRfVVC7dBaR24LGrIIhJH6
-         3HWTZgKK5CFFtRG0T/LARB8de1qs+rOInAmJ6NH8tlh2TTGR3J56ECC/zD61Z70/rzir
-         vUzx7/upDEaao9Pqw8ZvOqpux4eBTQeb4GT0fiGSSmovzFRxGkevktXFzNcIVi8qsjyM
-         dTvA==
-X-Forwarded-Encrypted: i=1; AJvYcCUr5htfL0ucLnf1Wew0mpt3q1zy5+KGL2OvRLYOTe9hGhEAnexsAsHNZau4dXxRy2uk0XFmg8inEq/tPD88xTMQ8nwUa02McSPkOef+9Q==
-X-Gm-Message-State: AOJu0Yzw8ISzN4hP6eHsSlsMXCvpgc8AY3ZlX20tVH/ydiADoNHKTYj2
-	2jobc+i885Hlr+mMHgFI3l4o0Jps34feeng0v2J0ibxbaeGBHtRr
-X-Google-Smtp-Source: AGHT+IFxrn9qTyBBQfpSZhcWaD2ZhACotZf6ckydRfDUWHKnU7piVXIWC/5Ll42iH0w3xAop+af6ZQ==
-X-Received: by 2002:a50:cc8e:0:b0:578:6959:9d36 with SMTP id 4fb4d7f45d1cf-57d4396a17emr2282888a12.0.1719165433815;
-        Sun, 23 Jun 2024 10:57:13 -0700 (PDT)
+        bh=a1vTbeSw9W7HSIQFs+9BiSn5ojSpE/rQVZOSqlwPo9I=;
+        b=bG3J9okHrOvTGTzECW2W0dCbFRRnSgHNjl9v3niptP0Ujh2y5IgSNN/JdwiFCStL37
+         YHbAYV58eXErzMhvxlMsaQhXHwyTGBSKAPmFx8qMGECILxWYB59z7Fz1VCyx9RJ82wi2
+         umbgsCpNnL8fdMIS1yeg86vXj+8nbi9lL3ZbDksW8i/wvdJq9jOJTqcJmGIe84em2ZE4
+         YLUf9B7YvO31r2o23qZQLLnmyGEqebhaAV7+uG5FNzbYJHZqxCT8FpVUgkBg/iFWZAdf
+         3K6qXY+200fAwUMCtFtD/nBLVWD0jUDt5kL2n+xC/qvFhJklPDg4ns9vwMuSr3h/dIoN
+         IjLg==
+X-Forwarded-Encrypted: i=1; AJvYcCXbXMgqeGgU2g3Ef1GpAG1Uqrgj2ikWU5u1on/Y6+7imqB3qFE//YFFICa8d2zZ/HcGaHL1lp2CtqxSeFpYpZXKakZykNSeQMi4B+tQBw==
+X-Gm-Message-State: AOJu0Yz5GIxZ6xXx67Vov78veO01X5ME/UR9so0W5S6IMxMiYR9/j7Zr
+	VN7CVQ03THjZSPjNI6UdthD5nOtwPe4pnJAqW9J7JPo69tN5FcxYS6mWzQ==
+X-Google-Smtp-Source: AGHT+IFuD8nz40RMqkzYJCfxTE68PfV3pHMIdzh7Ep55xtIPlx+Citggle90AtKKROXdK/6gMWF4UQ==
+X-Received: by 2002:a17:906:37c8:b0:a6f:aba1:ae34 with SMTP id a640c23a62f3a-a6fe76b5db1mr232009466b.2.1719165446140;
+        Sun, 23 Jun 2024 10:57:26 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p57935a9b.dip0.t-ipconnect.de. [87.147.90.155])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57d303da378sm3684703a12.18.2024.06.23.10.57.13
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7252a1a659sm42920166b.58.2024.06.23.10.57.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Jun 2024 10:57:13 -0700 (PDT)
-Date: Sun, 23 Jun 2024 19:57:12 +0200
+        Sun, 23 Jun 2024 10:57:25 -0700 (PDT)
+Date: Sun, 23 Jun 2024 19:57:24 +0200
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 04/14] staging: rtl8723bs: Remove empty file sdio_osintf.h
-Message-ID: <1536950be4d4e4fc4757e10070ffc38c0158f808.1719155208.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 05/14] staging: rtl8723bs: Remove unused macros in wifi.h
+Message-ID: <26af5a910e84523d9040ee29967c9b3a4971daa5.1719155208.git.philipp.g.hortmann@gmail.com>
 References: <cover.1719155208.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -68,43 +68,400 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1719155208.git.philipp.g.hortmann@gmail.com>
 
-Remove empty file sdio_osintf.h.
+Remove unused macros.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8723bs/include/drv_types.h   |  1 -
- drivers/staging/rtl8723bs/include/sdio_osintf.h | 10 ----------
- 2 files changed, 11 deletions(-)
- delete mode 100644 drivers/staging/rtl8723bs/include/sdio_osintf.h
+ drivers/staging/rtl8723bs/include/wifi.h | 299 -----------------------
+ 1 file changed, 299 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/include/drv_types.h b/drivers/staging/rtl8723bs/include/drv_types.h
-index ea6bb44c5e1d..9e6ca1dec525 100644
---- a/drivers/staging/rtl8723bs/include/drv_types.h
-+++ b/drivers/staging/rtl8723bs/include/drv_types.h
-@@ -490,7 +490,6 @@ static inline u8 *myid(struct eeprom_priv *peepriv)
- }
+diff --git a/drivers/staging/rtl8723bs/include/wifi.h b/drivers/staging/rtl8723bs/include/wifi.h
+index 53f9411fcc4c..230b2c4ffd3b 100644
+--- a/drivers/staging/rtl8723bs/include/wifi.h
++++ b/drivers/staging/rtl8723bs/include/wifi.h
+@@ -7,30 +7,11 @@
+ #ifndef _WIFI_H_
+ #define _WIFI_H_
  
- /*  HCI Related header file */
--#include <sdio_osintf.h>
- #include <sdio_ops.h>
- #include <sdio_hal.h>
+-#define WLAN_ETHHDR_LEN		14
+-#define WLAN_ETHADDR_LEN	6
+-#define WLAN_IEEE_OUI_LEN	3
+-#define WLAN_ADDR_LEN		6
+-#define WLAN_CRC_LEN		4
+-#define WLAN_BSSID_LEN		6
+-#define WLAN_BSS_TS_LEN		8
+ #define WLAN_HDR_A3_LEN		24
+-#define WLAN_HDR_A4_LEN		30
+ #define WLAN_HDR_A3_QOS_LEN	26
+-#define WLAN_HDR_A4_QOS_LEN	32
+-#define WLAN_SSID_MAXLEN	32
+-#define WLAN_DATA_MAXLEN	2312
  
-diff --git a/drivers/staging/rtl8723bs/include/sdio_osintf.h b/drivers/staging/rtl8723bs/include/sdio_osintf.h
-deleted file mode 100644
-index 198cf3889a27..000000000000
---- a/drivers/staging/rtl8723bs/include/sdio_osintf.h
-+++ /dev/null
-@@ -1,10 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 */
--/******************************************************************************
-- *
-- * Copyright(c) 2007 - 2011 Realtek Corporation. All rights reserved.
-- *
-- ******************************************************************************/
--#ifndef __SDIO_OSINTF_H__
--#define __SDIO_OSINTF_H__
+-#define WLAN_A3_PN_OFFSET	24
+-#define WLAN_A4_PN_OFFSET	30
 -
--#endif
+-#define WLAN_MIN_ETHFRM_LEN	60
+-#define WLAN_MAX_ETHFRM_LEN	1514
+-#define WLAN_ETHHDR_LEN		14
+ #define WLAN_WMM_LEN		24
+ 
+-#define P80211CAPTURE_VERSION	0x80211001
+-
+ /*  This value is tested by WiFi 11n Test Plan 5.2.3. */
+ /*  This test verifies the WLAN NIC can update the NAV through sending the CTS with large duration. */
+ #define	WiFiNavUpperUs				30000	/*  30 ms */
+@@ -164,9 +145,6 @@ enum {
+ #define GetFragNum(pbuf)			\
+ 	(le16_to_cpu(*(__le16 *)((size_t)(pbuf) + 22)) & 0x0f)
+ 
+-#define GetTupleCache(pbuf)			\
+-	(cpu_to_le16(*(unsigned short *)((size_t)(pbuf) + 22)))
+-
+ #define SetFragNum(pbuf, num) \
+ 	do {    \
+ 		*(unsigned short *)((size_t)(pbuf) + 22) = \
+@@ -305,27 +283,13 @@ static inline int IsFrameTypeCtrl(unsigned char *pframe)
+ /*-----------------------------------------------------------------------------
+ 			Below is for the security related definition
+ ------------------------------------------------------------------------------*/
+-#define _RESERVED_FRAME_TYPE_	0
+-#define _SKB_FRAME_TYPE_		2
+-#define _PRE_ALLOCMEM_			1
+-#define _PRE_ALLOCHDR_			3
+-#define _PRE_ALLOCLLCHDR_		4
+-#define _PRE_ALLOCICVHDR_		5
+-#define _PRE_ALLOCMICHDR_		6
+-
+-#define _ACKCTSLNG_				14	/* 14 bytes long, including crclng */
+-#define _CRCLNG_				4
+ 
+ #define _ASOCREQ_IE_OFFSET_		4	/*  excluding wlan_hdr */
+-#define	_ASOCRSP_IE_OFFSET_		6
+ #define _REASOCREQ_IE_OFFSET_	10
+-#define _REASOCRSP_IE_OFFSET_	6
+ #define _PROBEREQ_IE_OFFSET_	0
+ #define	_PROBERSP_IE_OFFSET_	12
+ #define _AUTH_IE_OFFSET_		6
+-#define _DEAUTH_IE_OFFSET_		0
+ #define _BEACON_IE_OFFSET_		12
+-#define _PUBLIC_ACTION_IE_OFFSET_	8
+ 
+ #define _FIXED_IE_LENGTH_			_BEACON_IE_OFFSET_
+ 
+@@ -336,20 +300,11 @@ static inline int IsFrameTypeCtrl(unsigned char *pframe)
+ #define _AUTH_SEQ_NUM_			2
+ #define _BEACON_ITERVAL_		2
+ #define _CAPABILITY_			2
+-#define _CURRENT_APADDR_		6
+-#define _LISTEN_INTERVAL_		2
+ #define _RSON_CODE_				2
+ #define _ASOC_ID_				2
+ #define _STATUS_CODE_			2
+ #define _TIMESTAMP_				8
+ 
+-#define AUTH_ODD_TO				0
+-#define AUTH_EVEN_TO			1
+-
+-#define WLAN_ETHCONV_ENCAP		1
+-#define WLAN_ETHCONV_RFC1042	2
+-#define WLAN_ETHCONV_8021h		3
+-
+ /*-----------------------------------------------------------------------------
+ 				Below is the definition for 802.11i / 802.1x
+ ------------------------------------------------------------------------------*/
+@@ -361,18 +316,10 @@ static inline int IsFrameTypeCtrl(unsigned char *pframe)
+ 				Below is the definition for WMM
+ ------------------------------------------------------------------------------*/
+ #define _WMM_IE_Length_				7  /*  for WMM STA */
+-#define _WMM_Para_Element_Length_		24
+-
+ 
+ /*-----------------------------------------------------------------------------
+ 				Below is the definition for 802.11n
+ ------------------------------------------------------------------------------*/
+-
+-#define SetOrderBit(pbuf)	\
+-	do	{	\
+-		*(unsigned short *)(pbuf) |= cpu_to_le16(_ORDER_); \
+-	} while (0)
+-
+ #define GetOrderBit(pbuf)	(((*(unsigned short *)(pbuf)) & cpu_to_le16(_ORDER_)) != 0)
+ 
+ #define ACT_CAT_VENDOR				0x7F/* 127 */
+@@ -440,244 +387,20 @@ struct ADDBA_request {
+ #define IEEE80211_HT_CAP_SGI_40			0x0040
+ #define IEEE80211_HT_CAP_TX_STBC			0x0080
+ #define IEEE80211_HT_CAP_RX_STBC_1R		0x0100
+-#define IEEE80211_HT_CAP_RX_STBC_2R		0x0200
+ #define IEEE80211_HT_CAP_RX_STBC_3R		0x0300
+-#define IEEE80211_HT_CAP_DELAY_BA		0x0400
+ #define IEEE80211_HT_CAP_MAX_AMSDU		0x0800
+ #define IEEE80211_HT_CAP_DSSSCCK40		0x1000
+ /* 802.11n HT capability AMPDU settings */
+ #define IEEE80211_HT_CAP_AMPDU_FACTOR		0x03
+ #define IEEE80211_HT_CAP_AMPDU_DENSITY		0x1C
+-/* 802.11n HT capability MSC set */
+-#define IEEE80211_SUPP_MCS_SET_UEQM		4
+-#define IEEE80211_HT_CAP_MAX_STREAMS		4
+-#define IEEE80211_SUPP_MCS_SET_LEN		10
+-/* maximum streams the spec allows */
+-#define IEEE80211_HT_CAP_MCS_TX_DEFINED		0x01
+-#define IEEE80211_HT_CAP_MCS_TX_RX_DIFF		0x02
+-#define IEEE80211_HT_CAP_MCS_TX_STREAMS		0x0C
+-#define IEEE80211_HT_CAP_MCS_TX_UEQM		0x10
+-/* 802.11n HT capability TXBF capability */
+-#define IEEE80211_HT_CAP_TXBF_RX_NDP		0x00000008
+-#define IEEE80211_HT_CAP_TXBF_TX_NDP		0x00000010
+-#define IEEE80211_HT_CAP_TXBF_EXPLICIT_COMP_STEERING_CAP	0x00000400
+ 
+ /* endif */
+ 
+ /* 	===============WPS Section =============== */
+-/* 	For WPSv1.0 */
+-#define WPSOUI							0x0050f204
+ /* 	WPS attribute ID */
+-#define WPS_ATTR_VER1					0x104A
+-#define WPS_ATTR_SIMPLE_CONF_STATE	0x1044
+-#define WPS_ATTR_RESP_TYPE			0x103B
+-#define WPS_ATTR_UUID_E				0x1047
+-#define WPS_ATTR_MANUFACTURER		0x1021
+-#define WPS_ATTR_MODEL_NAME			0x1023
+-#define WPS_ATTR_MODEL_NUMBER		0x1024
+-#define WPS_ATTR_SERIAL_NUMBER		0x1042
+-#define WPS_ATTR_PRIMARY_DEV_TYPE	0x1054
+-#define WPS_ATTR_SEC_DEV_TYPE_LIST	0x1055
+-#define WPS_ATTR_DEVICE_NAME			0x1011
+-#define WPS_ATTR_CONF_METHOD			0x1008
+-#define WPS_ATTR_RF_BANDS				0x103C
+-#define WPS_ATTR_DEVICE_PWID			0x1012
+-#define WPS_ATTR_REQUEST_TYPE			0x103A
+-#define WPS_ATTR_ASSOCIATION_STATE	0x1002
+-#define WPS_ATTR_CONFIG_ERROR			0x1009
+-#define WPS_ATTR_VENDOR_EXT			0x1049
+ #define WPS_ATTR_SELECTED_REGISTRAR	0x1041
+ 
+-/* 	Value of WPS attribute "WPS_ATTR_DEVICE_NAME */
+-#define WPS_MAX_DEVICE_NAME_LEN		32
+-
+-/* 	Value of WPS Request Type Attribute */
+-#define WPS_REQ_TYPE_ENROLLEE_INFO_ONLY			0x00
+-#define WPS_REQ_TYPE_ENROLLEE_OPEN_8021X		0x01
+-#define WPS_REQ_TYPE_REGISTRAR					0x02
+-#define WPS_REQ_TYPE_WLAN_MANAGER_REGISTRAR	0x03
+-
+-/* 	Value of WPS Response Type Attribute */
+-#define WPS_RESPONSE_TYPE_INFO_ONLY	0x00
+-#define WPS_RESPONSE_TYPE_8021X		0x01
+-#define WPS_RESPONSE_TYPE_REGISTRAR	0x02
+-#define WPS_RESPONSE_TYPE_AP			0x03
+-
+-/* 	Value of WPS WiFi Simple Configuration State Attribute */
+-#define WPS_WSC_STATE_NOT_CONFIG	0x01
+-#define WPS_WSC_STATE_CONFIG			0x02
+-
+-/* 	Value of WPS Version Attribute */
+-#define WPS_VERSION_1					0x10
+-
+-/* 	Value of WPS Configuration Method Attribute */
+-#define WPS_CONFIG_METHOD_FLASH		0x0001
+-#define WPS_CONFIG_METHOD_ETHERNET	0x0002
+-#define WPS_CONFIG_METHOD_LABEL		0x0004
+-#define WPS_CONFIG_METHOD_DISPLAY	0x0008
+-#define WPS_CONFIG_METHOD_E_NFC		0x0010
+-#define WPS_CONFIG_METHOD_I_NFC		0x0020
+-#define WPS_CONFIG_METHOD_NFC		0x0040
+-#define WPS_CONFIG_METHOD_PBC		0x0080
+-#define WPS_CONFIG_METHOD_KEYPAD	0x0100
+-#define WPS_CONFIG_METHOD_VPBC		0x0280
+-#define WPS_CONFIG_METHOD_PPBC		0x0480
+-#define WPS_CONFIG_METHOD_VDISPLAY	0x2008
+-#define WPS_CONFIG_METHOD_PDISPLAY	0x4008
+-
+-/* 	Value of Category ID of WPS Primary Device Type Attribute */
+-#define WPS_PDT_CID_DISPLAYS			0x0007
+-#define WPS_PDT_CID_MULIT_MEDIA		0x0008
+-#define WPS_PDT_CID_RTK_WIDI			WPS_PDT_CID_MULIT_MEDIA
+-
+-/* 	Value of Sub Category ID of WPS Primary Device Type Attribute */
+-#define WPS_PDT_SCID_MEDIA_SERVER	0x0005
+-#define WPS_PDT_SCID_RTK_DMP			WPS_PDT_SCID_MEDIA_SERVER
+-
+-/* 	Value of Device Password ID */
+-#define WPS_DPID_PIN					0x0000
+-#define WPS_DPID_USER_SPEC			0x0001
+-#define WPS_DPID_MACHINE_SPEC			0x0002
+-#define WPS_DPID_REKEY					0x0003
+-#define WPS_DPID_PBC					0x0004
+-#define WPS_DPID_REGISTRAR_SPEC		0x0005
+-
+-/* 	Value of WPS RF Bands Attribute */
+-#define WPS_RF_BANDS_2_4_GHZ		0x01
+-#define WPS_RF_BANDS_5_GHZ		0x02
+-
+-/* 	Value of WPS Association State Attribute */
+-#define WPS_ASSOC_STATE_NOT_ASSOCIATED			0x00
+-#define WPS_ASSOC_STATE_CONNECTION_SUCCESS		0x01
+-#define WPS_ASSOC_STATE_CONFIGURATION_FAILURE	0x02
+-#define WPS_ASSOC_STATE_ASSOCIATION_FAILURE		0x03
+-#define WPS_ASSOC_STATE_IP_FAILURE				0x04
+-
+ /* 	=====================P2P Section ===================== */
+-/* 	For P2P */
+-#define	P2POUI							0x506F9A09
+-
+-/* 	P2P Attribute ID */
+-#define	P2P_ATTR_STATUS					0x00
+-#define	P2P_ATTR_MINOR_REASON_CODE		0x01
+-#define	P2P_ATTR_CAPABILITY				0x02
+-#define	P2P_ATTR_DEVICE_ID				0x03
+-#define	P2P_ATTR_GO_INTENT				0x04
+-#define	P2P_ATTR_CONF_TIMEOUT			0x05
+-#define	P2P_ATTR_LISTEN_CH				0x06
+-#define	P2P_ATTR_GROUP_BSSID				0x07
+-#define	P2P_ATTR_EX_LISTEN_TIMING		0x08
+-#define	P2P_ATTR_INTENTED_IF_ADDR		0x09
+-#define	P2P_ATTR_MANAGEABILITY			0x0A
+-#define	P2P_ATTR_CH_LIST					0x0B
+-#define	P2P_ATTR_NOA						0x0C
+-#define	P2P_ATTR_DEVICE_INFO				0x0D
+-#define	P2P_ATTR_GROUP_INFO				0x0E
+-#define	P2P_ATTR_GROUP_ID					0x0F
+-#define	P2P_ATTR_INTERFACE				0x10
+-#define	P2P_ATTR_OPERATING_CH			0x11
+-#define	P2P_ATTR_INVITATION_FLAGS		0x12
+-
+-/* 	Value of Status Attribute */
+-#define	P2P_STATUS_SUCCESS						0x00
+-#define	P2P_STATUS_FAIL_INFO_UNAVAILABLE		0x01
+-#define	P2P_STATUS_FAIL_INCOMPATIBLE_PARAM		0x02
+-#define	P2P_STATUS_FAIL_LIMIT_REACHED			0x03
+-#define	P2P_STATUS_FAIL_INVALID_PARAM			0x04
+-#define	P2P_STATUS_FAIL_REQUEST_UNABLE			0x05
+-#define	P2P_STATUS_FAIL_PREVOUS_PROTO_ERR		0x06
+-#define	P2P_STATUS_FAIL_NO_COMMON_CH			0x07
+-#define	P2P_STATUS_FAIL_UNKNOWN_P2PGROUP		0x08
+-#define	P2P_STATUS_FAIL_BOTH_GOINTENT_15		0x09
+-#define	P2P_STATUS_FAIL_INCOMPATIBLE_PROVSION	0x0A
+-#define	P2P_STATUS_FAIL_USER_REJECT				0x0B
+-
+-/* 	Value of Invitation Flags Attribute */
+-#define	P2P_INVITATION_FLAGS_PERSISTENT			BIT(0)
+-
+-#define	DMP_P2P_DEVCAP_SUPPORT	(P2P_DEVCAP_SERVICE_DISCOVERY | \
+-									P2P_DEVCAP_CLIENT_DISCOVERABILITY | \
+-									P2P_DEVCAP_CONCURRENT_OPERATION | \
+-									P2P_DEVCAP_INVITATION_PROC)
+-
+-#define	DMP_P2P_GRPCAP_SUPPORT	(P2P_GRPCAP_INTRABSS)
+-
+-/* 	Value of Device Capability Bitmap */
+-#define	P2P_DEVCAP_SERVICE_DISCOVERY		BIT(0)
+-#define	P2P_DEVCAP_CLIENT_DISCOVERABILITY	BIT(1)
+-#define	P2P_DEVCAP_CONCURRENT_OPERATION	BIT(2)
+-#define	P2P_DEVCAP_INFRA_MANAGED			BIT(3)
+-#define	P2P_DEVCAP_DEVICE_LIMIT				BIT(4)
+-#define	P2P_DEVCAP_INVITATION_PROC			BIT(5)
+-
+-/* 	Value of Group Capability Bitmap */
+-#define	P2P_GRPCAP_GO							BIT(0)
+-#define	P2P_GRPCAP_PERSISTENT_GROUP			BIT(1)
+-#define	P2P_GRPCAP_GROUP_LIMIT				BIT(2)
+-#define	P2P_GRPCAP_INTRABSS					BIT(3)
+-#define	P2P_GRPCAP_CROSS_CONN				BIT(4)
+-#define	P2P_GRPCAP_PERSISTENT_RECONN		BIT(5)
+-#define	P2P_GRPCAP_GROUP_FORMATION			BIT(6)
+-
+-/* 	P2P Public Action Frame (Management Frame) */
+-#define	P2P_PUB_ACTION_ACTION				0x09
+-
+-/* 	P2P Public Action Frame Type */
+-#define	P2P_GO_NEGO_REQ						0
+-#define	P2P_GO_NEGO_RESP						1
+-#define	P2P_GO_NEGO_CONF						2
+-#define	P2P_INVIT_REQ							3
+-#define	P2P_INVIT_RESP							4
+-#define	P2P_DEVDISC_REQ						5
+-#define	P2P_DEVDISC_RESP						6
+-#define	P2P_PROVISION_DISC_REQ				7
+-#define	P2P_PROVISION_DISC_RESP				8
+-
+-/* 	P2P Action Frame Type */
+-#define	P2P_NOTICE_OF_ABSENCE	0
+-#define	P2P_PRESENCE_REQUEST		1
+-#define	P2P_PRESENCE_RESPONSE	2
+-#define	P2P_GO_DISC_REQUEST		3
+-
+-
+-#define	P2P_MAX_PERSISTENT_GROUP_NUM		10
+-
+-#define	P2P_PROVISIONING_SCAN_CNT			3
+-
+-#define	P2P_WILDCARD_SSID_LEN				7
+-
+-#define	P2P_FINDPHASE_EX_NONE				0	/*  default value, used when: (1)p2p disabled or (2)p2p enabled but only do 1 scan phase */
+-#define	P2P_FINDPHASE_EX_FULL				1	/*  used when p2p enabled and want to do 1 scan phase and P2P_FINDPHASE_EX_MAX-1 find phase */
+-#define	P2P_FINDPHASE_EX_SOCIAL_FIRST		(P2P_FINDPHASE_EX_FULL+1)
+-#define	P2P_FINDPHASE_EX_MAX					4
+-#define	P2P_FINDPHASE_EX_SOCIAL_LAST		P2P_FINDPHASE_EX_MAX
+-
+-#define	P2P_PROVISION_TIMEOUT				5000	/* 	5 seconds timeout for sending the provision discovery request */
+-#define	P2P_CONCURRENT_PROVISION_TIMEOUT	3000	/* 	3 seconds timeout for sending the provision discovery request under concurrent mode */
+-#define	P2P_GO_NEGO_TIMEOUT					5000	/* 	5 seconds timeout for receiving the group negotiation response */
+-#define	P2P_CONCURRENT_GO_NEGO_TIMEOUT		3000	/* 	3 seconds timeout for sending the negotiation request under concurrent mode */
+-#define	P2P_TX_PRESCAN_TIMEOUT				100		/* 	100ms */
+-#define	P2P_INVITE_TIMEOUT					5000	/* 	5 seconds timeout for sending the invitation request */
+-#define	P2P_CONCURRENT_INVITE_TIMEOUT		3000	/* 	3 seconds timeout for sending the invitation request under concurrent mode */
+-#define	P2P_RESET_SCAN_CH						25000	/* 	25 seconds timeout to reset the scan channel (based on channel plan) */
+-#define	P2P_MAX_INTENT						15
+-
+-#define	P2P_MAX_NOA_NUM						2
+-
+-/* 	WPS Configuration Method */
+-#define	WPS_CM_NONE							0x0000
+-#define	WPS_CM_LABEL							0x0004
+-#define	WPS_CM_DISPLYA						0x0008
+-#define	WPS_CM_EXTERNAL_NFC_TOKEN			0x0010
+-#define	WPS_CM_INTEGRATED_NFC_TOKEN		0x0020
+-#define	WPS_CM_NFC_INTERFACE					0x0040
+-#define	WPS_CM_PUSH_BUTTON					0x0080
+-#define	WPS_CM_KEYPAD						0x0100
+-#define	WPS_CM_SW_PUHS_BUTTON				0x0280
+-#define	WPS_CM_HW_PUHS_BUTTON				0x0480
+-#define	WPS_CM_SW_DISPLAY_PIN				0x2008
+-#define	WPS_CM_LCD_DISPLAY_PIN				0x4008
+-
+ enum p2p_role {
+ 	P2P_ROLE_DISABLE = 0,
+ 	P2P_ROLE_DEVICE = 1,
+@@ -718,28 +441,6 @@ enum p2p_wpsinfo {
+ 	P2P_GOT_WPSINFO_PBC					= 3,
+ };
+ 
+-#define	P2P_PRIVATE_IOCTL_SET_LEN		64
+-
+-/* 	=====================WFD Section ===================== */
+-/* 	For Wi-Fi Display */
+-#define	WFD_ATTR_DEVICE_INFO			0x00
+-#define	WFD_ATTR_ASSOC_BSSID			0x01
+-#define	WFD_ATTR_COUPLED_SINK_INFO	0x06
+-#define	WFD_ATTR_LOCAL_IP_ADDR		0x08
+-#define	WFD_ATTR_SESSION_INFO		0x09
+-#define	WFD_ATTR_ALTER_MAC			0x0a
+-
+-/* 	For WFD Device Information Attribute */
+-#define	WFD_DEVINFO_SOURCE					0x0000
+-#define	WFD_DEVINFO_PSINK					0x0001
+-#define	WFD_DEVINFO_SSINK					0x0002
+-#define	WFD_DEVINFO_DUAL					0x0003
+-
+-#define	WFD_DEVINFO_SESSION_AVAIL			0x0010
+-#define	WFD_DEVINFO_WSD						0x0040
+-#define	WFD_DEVINFO_PC_TDLS					0x0080
+-#define	WFD_DEVINFO_HDCP_SUPPORT			0x0100
+-
+ #define IP_MCAST_MAC(mac)		((mac[0] == 0x01) && (mac[1] == 0x00) && (mac[2] == 0x5e))
+ #define ICMPV6_MCAST_MAC(mac)	((mac[0] == 0x33) && (mac[1] == 0x33) && (mac[2] != 0xff))
+ 
 -- 
 2.45.2
 
