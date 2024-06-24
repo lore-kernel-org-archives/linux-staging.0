@@ -1,266 +1,138 @@
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B4E0130A66
-	for <linux-staging@lists.linux.dev>; Mon, 24 Jun 2024 09:17:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.28.215.223
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9955161FF5;
+	Mon, 24 Jun 2024 13:16:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719220663; cv=none; b=cM3fE0MDRml5EV06eCLC/CgRusmHzE9yy589xUg10K7TtHDCstpsF+ywrIoAFKgEhEQSSc/PzyHF6npXLfBWenzy9yMg4Wrx3b1oqiIj053L0J1/nevtKunm4pEp2DvdiL6oCnWV8nvKT07JmiUWpXfxJbHiOjHJJjGGnPVptcA=
+	t=1719235018; cv=none; b=iFszls0j/OfkjqVK/aflpHP20A1uvnhBpgex0AwU8dURsnYJARKgtTtSZlPmYzD1DuUbWxb+qKqPGYRVfJcCm6o16iUc7u6TUgNssuf300QpbbzntTqmDN9SRLliokmMpJBaPimaorRmeGRX6SA4A2yEKNOU9UrwwhglysjYgSA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719220663; c=relaxed/simple;
-	bh=+uqWxqydGNV60BGVNbNUNrlX212BiEPpsR3/wls/bNI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Qc0ztmuhmcwXACpQp6i2b4CQpO/Y6dAGh8aENxHslb6cFZJzsAwNcfCepibs2XWq4T+fK3d4PdHOA1Q7DNRO2kZ+N+2paGIx0l4NpjcXgS2U4faktP0mrC4n6zRvFt/HnrV+KJzvnjRsbW3DKiO/j4R414/thnifsM9V2sdHnzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=InnWyQQh; arc=none smtp.client-ip=149.28.215.223
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
+	s=arc-20240116; t=1719235018; c=relaxed/simple;
+	bh=j3tSMrNeaGr/GDA1b1OfEDf0WMzQpAsWSoGQg7nQuP8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hIjqszlsMiOGtbUulrORcwZafCDC9CkBlqUGvGYTszSIU4MdRHSlCGSUMpw03n1Sph7zP+LrnL4hmYDvLhkCb27CphLVblmtMA9EwXrGjHl0EzIkcSW0hCAiNPQvXySWPsHDM+RDv3IZg15qoQVvB2sENd/me2kUW2yWfrfXyvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=0UVNZPOC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="InnWyQQh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
- h=Content-Transfer-Encoding: Content-Type: In-Reply-To: From: References:
- Cc: To: Subject: MIME-Version: Date: Message-ID; q=dns/txt;
- s=fe-e1b5cab7be; t=1719220615;
- bh=V0z8fSGygfWQrGgys3mw+zwRnCICw2KPF1UnM/mzsfM=;
- b=InnWyQQh9+bvjqeFYz1ea3PKSuz8nwZBn/Q20R/qxh3p/0m1wX0pkaTfUpuDxZxTMPdzveMYW
- 0SEc+h23QFDnzGjmPq+BlCBnQ5kMUXZom62ViJ0OOwARXJ1daJCdnqsqAPc+gGotl4Bxz95beqX
- 3dTDRRPHQY6MoA/yD+m/i071Xq/e/ltbndp1b7D4NwdH0K+t/6nTt13Z8NyK+/ipPkMtsdz06uu
- h0ZYm0TP1Sj9SjelMufc8hJYj4dRNLz2Bk/Hb4jlYWSyFuTtLaG7CKvvyzNfBW8WG+60eNYW5+N
- OjCZm/yC36tiZbNnDAlZ8C9PwATkUo3qZVS5AGKH25IQ==
-Message-ID: <156b5aaf-8b9a-46b9-82c2-d7e32f4899f5@kwiboo.se>
-Date: Mon, 24 Jun 2024 11:16:33 +0200
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="0UVNZPOC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD099C2BBFC;
+	Mon, 24 Jun 2024 13:16:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1719235018;
+	bh=j3tSMrNeaGr/GDA1b1OfEDf0WMzQpAsWSoGQg7nQuP8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=0UVNZPOCgNL3Z2mOu+qR47HGLZKP0+08/YM6rEFZ3lEL0EEFSSXSiOmO1UXek/4/F
+	 qhC+gyxQn9Sr56P1iJ153yCcOyJSx9MRilZ5mN7bHYbzt0Psr0pG2bwhu7vV2+6qyj
+	 FAphyBwKfczxSMMotk9p0+Zm4Kq/SoAt9fDW/XpU=
+Date: Mon, 24 Jun 2024 15:16:55 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Shiva Kiran K <shiva_kr@riseup.net>
+Cc: Roshan Khatri <topofeverest8848@gmail.com>,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: fbtft: Remove unnecessary parentheses
+Message-ID: <2024062443-udder-spotted-cc0d@gregkh>
+References: <20240617142746.51885-2-shiva_kr@riseup.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/4] arm64: dts: rockchip: Add rkvdec2 Video Decoder on
- rk3588(s)
-To: Detlev Casanova <detlev.casanova@collabora.com>, Alex Bee
- <knaerzche@gmail.com>
-Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner
- <heiko@sntech.de>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- Sebastian Reichel <sebastian.reichel@collabora.com>, Dragan Simic
- <dsimic@manjaro.org>, Diederik de Haas <didi.debian@cknow.org>, Andy Yan
- <andy.yan@rock-chips.com>, Boris Brezillon
- <boris.brezillon@collabora.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Daniel Almeida <daniel.almeida@collabora.com>, Paul Kocialkowski
- <paul.kocialkowski@bootlin.com>, Nicolas Dufresne
- <nicolas.dufresne@collabora.com>, Benjamin Gaignard
- <benjamin.gaignard@collabora.com>, linux-media@vger.kernel.org,
- linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20240619150029.59730-1-detlev.casanova@collabora.com>
- <052f2ea7-2ded-4d39-a513-3a47fee1bf02@gmail.com>
- <e6e2e0f1-0b16-4a3d-ae7b-be5a04d7902b@kwiboo.se> <5790441.DvuYhMxLoT@arisu>
-Content-Language: en-US
-From: Jonas Karlman <jonas@kwiboo.se>
-In-Reply-To: <5790441.DvuYhMxLoT@arisu>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Report-Abuse-To: abuse@forwardemail.net
-X-Report-Abuse: abuse@forwardemail.net
-X-Complaints-To: abuse@forwardemail.net
-X-ForwardEmail-Version: 0.4.40
-X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
- 149.28.215.223
-X-ForwardEmail-ID: 6679397778c9998650f049d1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240617142746.51885-2-shiva_kr@riseup.net>
 
-Hi Detlev and Alex,
-
-On 2024-06-20 15:31, Detlev Casanova wrote:
-> Hi Jonas, Alex,
+On Mon, Jun 17, 2024 at 07:57:47PM +0530, Shiva Kiran K wrote:
+> Remove unnecessary parentheses in `if` statements.
+> Reported by checkpatch.pl
 > 
-> On Wednesday, June 19, 2024 2:06:40 P.M. EDT Jonas Karlman wrote:
->> Hi Alex,
->>
->> On 2024-06-19 19:19, Alex Bee wrote:
->>> Am 19.06.24 um 17:28 schrieb Jonas Karlman:
->>>> Hi Detlev,
->>>>
->>>> On 2024-06-19 16:57, Detlev Casanova wrote:
->>>>> Add the rkvdec2 Video Decoder to the RK3588s devicetree.
->>>>>
->>>>> Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
->>>>> ---
->>>>>
->>>>>   arch/arm64/boot/dts/rockchip/rk3588s.dtsi | 50 +++++++++++++++++++++++
->>>>>   1 file changed, 50 insertions(+)
->>>>>
->>>>> diff --git a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
->>>>> b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi index
->>>>> 6ac5ac8b48ab..7690632f57f1 100644
->>>>> --- a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
->>>>> +++ b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
->>>>> @@ -2596,6 +2596,16 @@ system_sram2: sram@ff001000 {
->>>>>
->>>>>   		ranges = <0x0 0x0 0xff001000 0xef000>;
->>>>>   		#address-cells = <1>;
->>>>>   		#size-cells = <1>;
->>>>>
->>>>> +
->>>>> +		vdec0_sram: rkvdec-sram@0 {
->>>>> +			reg = <0x0 0x78000>;
->>>>> +			pool;
->>>>> +		};
->>>>> +
->>>>> +		vdec1_sram: rkvdec-sram@1 {
->>>>> +			reg = <0x78000 0x77000>;
->>>>> +			pool;
->>>>> +		};
->>>>>
->>>>>   	};
->>>>>   	
->>>>>   	pinctrl: pinctrl {
->>>>>
->>>>> @@ -2665,6 +2675,46 @@ gpio4: gpio@fec50000 {
->>>>>
->>>>>   			#interrupt-cells = <2>;
->>>>>   		
->>>>>   		};
->>>>>   	
->>>>>   	};
->>>>>
->>>>> +
->>>>> +	vdec0: video-decoder@fdc38100 {
->>>>> +		compatible = "rockchip,rk3588-vdec";
->>>>> +		reg = <0x0 0xfdc38100 0x0 0x500>;
->>>>> +		interrupts = <GIC_SPI 95 IRQ_TYPE_LEVEL_HIGH 0>;
->>>>> +		clocks = <&cru ACLK_RKVDEC0>, <&cru HCLK_RKVDEC0>, 
-> <&cru
->>>>> CLK_RKVDEC0_CA>, +			 <&cru 
-> CLK_RKVDEC0_CORE>, <&cru
->>>>> CLK_RKVDEC0_HEVC_CA>;
->>>>> +		clock-names = "axi", "ahb", "cabac", "core", 
-> "hevc_cabac";
->>>>> +		assigned-clocks = <&cru ACLK_RKVDEC0>, <&cru 
-> CLK_RKVDEC0_CORE>,
->>>>> +				  <&cru CLK_RKVDEC0_CA>, <&cru 
-> CLK_RKVDEC0_HEVC_CA>;
->>>>> +		assigned-clock-rates = <800000000>, <600000000>,
->>>>> +				       <600000000>, <1000000000>;
->>>>> +		resets = <&cru SRST_A_RKVDEC0>, <&cru SRST_H_RKVDEC0>, 
-> <&cru
->>>>> SRST_RKVDEC0_CA>, +			 <&cru 
-> SRST_RKVDEC0_CORE>, <&cru
->>>>> SRST_RKVDEC0_HEVC_CA>;
->>>>> +		reset-names = "rst_axi", "rst_ahb", "rst_cabac",
->>>>> +			      "rst_core", "rst_hevc_cabac";
->>>>> +		power-domains = <&power RK3588_PD_RKVDEC0>;
->>>>> +		sram = <&vdec0_sram>;
->>>>> +		status = "okay";
->>>>> +	};
->>>>> +
->>>>> +	vdec1: video-decoder@fdc40100 {
->>>>> +		compatible = "rockchip,rk3588-vdec";
->>>>> +		reg = <0x0 0xfdc40100 0x0 0x500>;
->>>>> +		interrupts = <GIC_SPI 97 IRQ_TYPE_LEVEL_HIGH 0>;
->>>>> +		clocks = <&cru ACLK_RKVDEC1>, <&cru HCLK_RKVDEC1>, 
-> <&cru
->>>>> CLK_RKVDEC1_CA>, +			 <&cru 
-> CLK_RKVDEC1_CORE>, <&cru
->>>>> CLK_RKVDEC1_HEVC_CA>;
->>>>> +		clock-names = "axi", "ahb", "cabac", "core", 
-> "hevc_cabac";
->>>>> +		assigned-clocks = <&cru ACLK_RKVDEC1>, <&cru 
-> CLK_RKVDEC1_CORE>,
->>>>> +				  <&cru CLK_RKVDEC1_CA>, <&cru 
-> CLK_RKVDEC1_HEVC_CA>;
->>>>> +		assigned-clock-rates = <800000000>, <600000000>,
->>>>> +				       <600000000>, <1000000000>;
->>>>> +		resets = <&cru SRST_A_RKVDEC1>, <&cru SRST_H_RKVDEC1>, 
-> <&cru
->>>>> SRST_RKVDEC1_CA>, +			 <&cru 
-> SRST_RKVDEC1_CORE>, <&cru
->>>>> SRST_RKVDEC1_HEVC_CA>;
->>>>> +		reset-names = "rst_axi", "rst_ahb", "rst_cabac",
->>>>> +			      "rst_core", "rst_hevc_cabac";
->>>>> +		power-domains = <&power RK3588_PD_RKVDEC1>;
->>>>> +		sram = <&vdec1_sram>;
->>>>> +		status = "okay";
->>>>> +	};
->>>>
->>>> This is still missing the iommus, please add the iommus, they should be
->>>>
->>>> supported/same as the one used for e.g. VOP2:
->>>>    compatible = "rockchip,rk3588-iommu", "rockchip,rk3568-iommu";
->>>>
->>>> The VOP2 MMUs does have one extra mmu_cfg_mode flag in AUTO_GATING,
->>>> compared to the VDPU381 MMUs, however only the AV1D MMU should be
->>>> special on RK3588.
->>>>
->>>> Please add the iommus :-)
->>>
->>> When looking add the vendor DT/iommu driver I'm seeing serval quirks
->>> applied for vdec's iommus. Since it's rightly frowned upon adding such
->>> boolean-quirk-properties to upstream devicetrees, we'd at least need
->>> additional (fallback-) compatibles, even if it works with the iommu driver
->>> as is (what I doubt, but haven't tested). We need to be able to apply
->>> those
->>> quirks later without changing the devicetree (as usual) and I'm sure RK
->>> devs haven't added these quirks for the personal amusement.
->>
->> Based on what I investigated the hw should work similar, and the quirks
->> mostly seem related to optimizations and sw quirks, like do not zap each
->> line, keep it alive even when pm runtime say it is not in use and other
->> quirks that seem to be more of sw nature on how to best utilize the hw.
+> Signed-off-by: Shiva Kiran K <shiva_kr@riseup.net>
+> ---
+>  drivers/staging/fbtft/fb_ili9320.c | 2 +-
+>  drivers/staging/fbtft/fb_ra8875.c  | 2 +-
+>  drivers/staging/fbtft/fbtft-bus.c  | 2 +-
+>  drivers/staging/fbtft/fbtft-core.c | 2 +-
+>  4 files changed, 4 insertions(+), 4 deletions(-)
 > 
-> I did some testing with the IOMMU but unfortunately, I'm only getting page 
-> fault errors. This may be something I'm doing wrong, but it clearly needs more 
-> investigation.
-
-I re-tested and the addition of sram seem to now cause page faults, the
-sram also need to be mapped in the iommu.
-
-However, doing more testing revealed that use of iommu present the same
-issue as seen with hevc on rk3399, after a fail fluster tests continue
-to fail until a reset.
-
-Seeing how this issue was very similar I re-tested on rk3399 without
-iommu and cma=1G and could observe that there was no longer any need to
-reset after a failed test. Interestingly the score also went up from
-135 to 137/147.
-
-Digging some more revealed that the iommu also is reset during the
-internal rkvdec soft reset on error, leaving the iommu with dte_addr=0
-and paging in disabled state.
-
-Ensuring that the iommu was reconfigured after a failure fixed the issue
-observed on rk3399 and I now also get 137/147 hevc fluster score using
-the iommu.
-
-Will send out a rkvdec hevc v2 series after some more testing.
-
-Guessing there is a similar need to reconfigure iommu on rk3588, and my
-initial tests also showed promising result, however more tests are
-needed.
-
-Regards,
-Jonas
-
-> 
->>> If Detlev says
->>> iommu is out of scope for this series (which is valid), I'd say it's fine
->>> to leave them out for now (as no binding exists) and the HW works
->>> (obviously) fine without them.
->>
->> Sure, use of MMU can be added later.
-> 
-> I'd rather go for that for now. I'll add that IMMU support is missing in the 
-> TODO file.
-> 
->> Regards,
->> Jonas
->>
->>>> Regards,
->>>> Jonas
->>>>
->>>>>   };
->>>>>   
->>>>>   #include "rk3588s-pinctrl.dtsi"
+> diff --git a/drivers/staging/fbtft/fb_ili9320.c b/drivers/staging/fbtft/fb_ili9320.c
+> index 0be7c2d51..409b54cc5 100644
+> --- a/drivers/staging/fbtft/fb_ili9320.c
+> +++ b/drivers/staging/fbtft/fb_ili9320.c
+> @@ -37,7 +37,7 @@ static int init_display(struct fbtft_par *par)
+>  	devcode = read_devicecode(par);
+>  	fbtft_par_dbg(DEBUG_INIT_DISPLAY, par, "Device code: 0x%04X\n",
+>  		      devcode);
+> -	if ((devcode != 0x0000) && (devcode != 0x9320))
+> +	if (devcode != 0x0000 && devcode != 0x9320)
+>  		dev_warn(par->info->device,
+>  			 "Unrecognized Device code: 0x%04X (expected 0x9320)\n",
+>  			devcode);
+> diff --git a/drivers/staging/fbtft/fb_ra8875.c b/drivers/staging/fbtft/fb_ra8875.c
+> index 398bdbf53..ce305a0be 100644
+> --- a/drivers/staging/fbtft/fb_ra8875.c
+> +++ b/drivers/staging/fbtft/fb_ra8875.c
+> @@ -50,7 +50,7 @@ static int init_display(struct fbtft_par *par)
+>  
+>  	par->fbtftops.reset(par);
+>  
+> -	if ((par->info->var.xres == 320) && (par->info->var.yres == 240)) {
+> +	if (par->info->var.xres == 320 && par->info->var.yres == 240) {
+>  		/* PLL clock frequency */
+>  		write_reg(par, 0x88, 0x0A);
+>  		write_reg(par, 0x89, 0x02);
+> diff --git a/drivers/staging/fbtft/fbtft-bus.c b/drivers/staging/fbtft/fbtft-bus.c
+> index 3d422bc11..ab903c938 100644
+> --- a/drivers/staging/fbtft/fbtft-bus.c
+> +++ b/drivers/staging/fbtft/fbtft-bus.c
+> @@ -85,7 +85,7 @@ void fbtft_write_reg8_bus9(struct fbtft_par *par, int len, ...)
+>  	if (len <= 0)
+>  		return;
+>  
+> -	if (par->spi && (par->spi->bits_per_word == 8)) {
+> +	if (par->spi && par->spi->bits_per_word == 8) {
+>  		/* we're emulating 9-bit, pad start of buffer with no-ops
+>  		 * (assuming here that zero is a no-op)
+>  		 */
+> diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
+> index c8d52c63d..64babfe3a 100644
+> --- a/drivers/staging/fbtft/fbtft-core.c
+> +++ b/drivers/staging/fbtft/fbtft-core.c
+> @@ -666,7 +666,7 @@ struct fb_info *fbtft_framebuffer_alloc(struct fbtft_display *display,
+>  		txbuflen = 0;
+>  
+>  #ifdef __LITTLE_ENDIAN
+> -	if ((!txbuflen) && (bpp > 8))
+> +	if (!txbuflen && bpp > 8)
+>  		txbuflen = PAGE_SIZE; /* need buffer for byteswapping */
+>  #endif
+>  
+> -- 
+> 2.45.2
 > 
 
+Hi,
+
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
+
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- You sent a patch that has been sent multiple times in the past few
+  days, and is identical to ones that has been recently rejected.
+  Please always look at the mailing list traffic to determine if you are
+  duplicating other people's work.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
