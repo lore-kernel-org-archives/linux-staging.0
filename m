@@ -1,93 +1,163 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55149184137
-	for <linux-staging@lists.linux.dev>; Sun, 23 Jun 2024 17:58:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A20D03BBEA
+	for <linux-staging@lists.linux.dev>; Mon, 24 Jun 2024 07:14:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719165508; cv=none; b=drCVxNz70E6F+/BzR0LU/4wiX3nkY3J0axVAsDnYLEY12Pqsj81UCaVlzYQ3sOzYmj1G3l9gPSlWNOBCM4q2N6FpZNM+5UWBh6XiO5LJtiyn8q0vxqGUqogo0lK30qhfm6IDDfHTvI05b5cs4U7Ry/w4p+XcFGBcqSgouefodKg=
+	t=1719213264; cv=none; b=R2WVaNi4nwki6p3z1ATmK+VT6W0nnLGoxMEXn+2YHfUNTA2DFl4SgNVJfWOl9OVt7AjQbQWfYwOnLtyihBOb3Qv7z0KHsrMHf2bKCJP7LCsriVuAlTQtmwaYaOkC7OckMj2LIQLROUBjyRxwbq7BIzj7067P33zrCAPzz2n2C9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719165508; c=relaxed/simple;
-	bh=c0a3Pr0ZOQG6hRnnht8gNUqkLt66dO4HBllllz7OIIU=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZLbRgDzWjPipXyyIUmKo71N3OeWqhHZvPG1RvLF7J9H563ydYfbxVXAdRjtJTGrlq0nlOt5xMGtnM1J5+kKgqMks55GLRIXuAoc1F/NupZEpw5T7tK9V8krQk1Z4RYZKaDE2DTBxh8YbtNuZlS4oGwFI5DW8KwUT6RUNJkjK3FA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m84kHQRs; arc=none smtp.client-ip=209.85.208.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1719213264; c=relaxed/simple;
+	bh=TPwGeCbxaMvWhwasuexajYhtdGbtYaMDnzOCEVwhdAY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dCeSCZkePtuoqCakChOBB6eTLaaWi8ObHmjThGrtWv2QHeWL88GvwKBVt2UuoO1d6GQGsk3QgQ75eB1erkWbvwBb8G7Vxi9iK2YK6t6WpFYqie/eLUHv7U/PxTkgkmtHOzyCm+hWSLHmUFLZK91tq9rXd4RHKR9rZlkFPRjVT6g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=lPGJU+FD; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m84kHQRs"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-57d1594f3a6so569387a12.2
-        for <linux-staging@lists.linux.dev>; Sun, 23 Jun 2024 10:58:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719165505; x=1719770305; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=axOwCCFkiHXRQoWrBYOvBy8/Yk0F9t8t/fQByhrED9E=;
-        b=m84kHQRsU+Z6pGXF9dsnGnofenWvFz/e9+sgcRyzk8QRti565kWP6ikruqw7xlFAQc
-         oWXabsQKDhR9HI093yfGp9/vCWwzX0wzf4O2tRRC/u0AsDP9chCVJhYkdfxQT+0msrnD
-         EG+oPsOYZp9/YRlA3p9yXkbQ4KBuC9kHtQvDPWXQyKelPWvzEJP+u3VQKJRffrQF36+F
-         wYzjJ4FW7ts/FfKuvOYumihat9rpfcVo4yyUav2FPEWJbly6/UD+eAFc2sI8zTIoJ12+
-         Rw6KgJ2/A5UmTA9yz50jQgz5TbLvzzZII9clXzP+dKf9xeiW6iEjj6ozjVka6+yVSqjo
-         W9Rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719165505; x=1719770305;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=axOwCCFkiHXRQoWrBYOvBy8/Yk0F9t8t/fQByhrED9E=;
-        b=k9wdpacG0Hj2R6opmwpW1GCP9fCeketK8btNjlv9QceRRe8VVK7H52I8Ni/yAEvP2X
-         m235v/njfOP8JPlRmpTYjPX3CBAwt57BJq8wd6iLAv21E6zyhil8YcTgFCRl/CGjUKlQ
-         /H9m0DS+hoKMx2C+tjKkEgq6JUwpxWMwajPeFGiWmcQPZZcM/JFpMIiYnU55dUE8kHaX
-         HvT+VcocfE27Tzscg3h0zye9Y6G1612+QFh7fU9XebAR0hxwsdo3NiCWK3Cwi++Hsx3D
-         /3euTBcZKjXBT1SXWaBEtktere7pV5j3RyfIL4xaK8GkxRHqjpIGHHp3Hes4wScbaGnc
-         f94Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVtPPGO7xb2LYOLhYI6R/2ahjj3ZZJkuE2O68D3/F5V7PbV0nmocK9le4rPWlZqWfe3omdQ9D7tVXjAcyXM0YXBVdDUorVpbkHTvmoLmw==
-X-Gm-Message-State: AOJu0YxhULqKr5rNfo1LI89S3JpF6Djzed5LY11hTWBRY0Glu0iKcvYb
-	HayP+TcIlTIx4brfM0/F4DdW8bw8vYPna1ofQ3ZQlsoPtIqQcIHGVCCm/A==
-X-Google-Smtp-Source: AGHT+IENE7Gapd83HNRZmNE/54dQQ4aIVciES6cnxcJVr6P3l8hZt++p9nvFw+N6HFqqAxkG9r34Qg==
-X-Received: by 2002:a17:906:258a:b0:a72:51d8:bf30 with SMTP id a640c23a62f3a-a7251d8c3d0mr59225166b.0.1719165505554;
-        Sun, 23 Jun 2024 10:58:25 -0700 (PDT)
-Received: from matrix-ESPRIMO-P710 (p57935a9b.dip0.t-ipconnect.de. [87.147.90.155])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6fcf549385sm325730566b.105.2024.06.23.10.58.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Jun 2024 10:58:25 -0700 (PDT)
-Date: Sun, 23 Jun 2024 19:58:23 +0200
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 14/14] staging: rtl8723bs: Remove unused macro in
- ioctl_cfg80211.c
-Message-ID: <0a33ebb3e11558f41dc847dcaa9733bfe1cf4ba6.1719155208.git.philipp.g.hortmann@gmail.com>
-References: <cover.1719155208.git.philipp.g.hortmann@gmail.com>
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lPGJU+FD"
+Received: from [IPV6:2405:201:2015:f873:9278:2c85:fd02:c5f5] (unknown [IPv6:2405:201:2015:f873:9278:2c85:fd02:c5f5])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C3CEB7E0;
+	Mon, 24 Jun 2024 09:13:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1719213233;
+	bh=TPwGeCbxaMvWhwasuexajYhtdGbtYaMDnzOCEVwhdAY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=lPGJU+FDKBl8q1dkkqYL779EAOsE1BApzA8jsoaem+hbbX20HEeToA1YUHFJHgkja
+	 WkXn2rVXBfurqQuLg1+PHPEJKBAKXR2kLRCWub7f9KXgbU4I0TVHFCj9vg3oK9EVbh
+	 zLDphaeVdUbDYRjo78FRZKbLX/GOszit2g3ifZiw=
+Message-ID: <246fef06-4759-4b2c-a515-933fece425da@ideasonboard.com>
+Date: Mon, 24 Jun 2024 12:44:11 +0530
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1719155208.git.philipp.g.hortmann@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] staging: vc04_services: vchiq_arm: Fix initialisation
+ check
+Content-Language: en-US
+To: Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ linux-rpi-kernel@lists.infradead.org, Stefan Wahren <wahrenst@gmx.net>
+Cc: Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>,
+ Yang Li <yang.lee@linux.alibaba.com>,
+ "moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>,
+ "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20240620221046.2731704-1-kieran.bingham@ideasonboard.com>
+From: Umang Jain <umang.jain@ideasonboard.com>
+In-Reply-To: <20240620221046.2731704-1-kieran.bingham@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Remove unused macro.
+Hi Kieran,
 
-Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
----
- drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 1 -
- 1 file changed, 1 deletion(-)
+On 21/06/24 3:40 am, Kieran Bingham wrote:
+> The vchiq_state used to be obtained through an accessor which would
+> validate that the VCHIQ had been initialised correctly with the remote,
+> or return a null state.
+>
+> In commit 42a2f6664e18 ("staging: vc04_services: Move global g_state to
+> vchiq_state") the global state was moved to the vchiq_mgnt structures
+> stored as a vchiq instance specific context. This conversion removed the
+> helpers and instead replaced users of this helper with the assumption
+> that the state is always available and the remote connected.
+>
+> The conversion does ensure that the state is always available, so some
+> remaining state null pointer checks that remain are unnecessary, but the
+> assumption that the remote is present and initialised is incorrect.
+>
+> Fix this broken assumption by re-introducing the logic that was lost
+> during the conversion.
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-index 82722897d6cc..2bd8b1447698 100644
---- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-+++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-@@ -2588,7 +2588,6 @@ static int cfg80211_rtw_mgmt_tx(struct wiphy *wiphy, struct wireless_dev *wdev,
- 
- static void rtw_cfg80211_init_ht_capab(struct ieee80211_sta_ht_cap *ht_cap, enum nl80211_band band)
- {
--#define MAX_BIT_RATE_40MHZ_MCS15	300	/* Mbps */
- #define MAX_BIT_RATE_40MHZ_MCS7		150	/* Mbps */
- 
- 	ht_cap->ht_supported = true;
--- 
-2.45.2
+Yes, the logic was broken. thanks for noticing this.
+>
+> Fixes: 42a2f6664e18 ("staging: vc04_services: Move global g_state to vchiq_state")
+> Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+
+Reviewed-by: Umang Jain <umang.jain@ideasonboard.com>
+>
+> ---
+> v2:
+>   - Just a resend
+>
+> v3:
+>   - Downgrade vchiq_open() error path print to dbg
+>   - Clarify commit message about unnecessary state checks.
+>
+>   .../staging/vc04_services/interface/vchiq_arm/vchiq_arm.c  | 4 ++--
+>   .../staging/vc04_services/interface/vchiq_arm/vchiq_core.h | 5 +++++
+>   .../staging/vc04_services/interface/vchiq_arm/vchiq_dev.c  | 7 ++++++-
+>   3 files changed, 13 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> index 69daeba974f2..5f518e5a9273 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> @@ -707,7 +707,7 @@ int vchiq_initialise(struct vchiq_state *state, struct vchiq_instance **instance
+>   	 * block forever.
+>   	 */
+>   	for (i = 0; i < VCHIQ_INIT_RETRIES; i++) {
+> -		if (state)
+> +		if (vchiq_remote_initialised(state))
+>   			break;
+>   		usleep_range(500, 600);
+>   	}
+> @@ -1202,7 +1202,7 @@ void vchiq_dump_platform_instances(struct vchiq_state *state, struct seq_file *f
+>   {
+>   	int i;
+>   
+> -	if (!state)
+> +	if (!vchiq_remote_initialised(state))
+>   		return;
+>   
+>   	/*
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
+> index 8af209e34fb2..382ec08f6a14 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
+> @@ -413,6 +413,11 @@ struct vchiq_state {
+>   	struct opaque_platform_state *platform_state;
+>   };
+>   
+> +static inline bool vchiq_remote_initialised(const struct vchiq_state *state)
+> +{
+> +	return state->remote && state->remote->initialised;
+> +}
+> +
+>   struct bulk_waiter {
+>   	struct vchiq_bulk *bulk;
+>   	struct completion event;
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
+> index 67ba9ceaad3e..9cd2a64dce5e 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
+> @@ -1170,6 +1170,11 @@ static int vchiq_open(struct inode *inode, struct file *file)
+>   
+>   	dev_dbg(state->dev, "arm: vchiq open\n");
+>   
+> +	if (!vchiq_remote_initialised(state)) {
+> +		dev_dbg(state->dev, "arm: vchiq has no connection to VideoCore\n");
+> +		return -ENOTCONN;
+> +	}
+> +
+>   	instance = kzalloc(sizeof(*instance), GFP_KERNEL);
+>   	if (!instance)
+>   		return -ENOMEM;
+> @@ -1200,7 +1205,7 @@ static int vchiq_release(struct inode *inode, struct file *file)
+>   
+>   	dev_dbg(state->dev, "arm: instance=%p\n", instance);
+>   
+> -	if (!state) {
+> +	if (!vchiq_remote_initialised(state)) {
+>   		ret = -EPERM;
+>   		goto out;
+>   	}
 
