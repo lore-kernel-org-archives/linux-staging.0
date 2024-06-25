@@ -1,41 +1,42 @@
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDF5F1487C4
-	for <linux-staging@lists.linux.dev>; Tue, 25 Jun 2024 16:56:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D57A91448E5
+	for <linux-staging@lists.linux.dev>; Tue, 25 Jun 2024 17:41:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719334618; cv=none; b=s7RrjNQ3lTjLPwfaennUX+BCxiSrCV6NbYmpsyQRS//medUaBSwq9OvUSog6uWN3P0DkdlpVYUKu6QHHRjEVYnaBdZZ+6FEcOjwjcVtncrO12NbFXVKimLKBQRYFNQ8YTsRuP//1+vJu4OF+s4yLVW3FpSRrHstAL3rYzSChrTg=
+	t=1719337284; cv=none; b=lDLQDKc6JEJ1uExtK5SHVXoFGXjMd4yFSb8/8PWKDBjt8CSLK/+3EsJ8SqlHa5zhQoFAAANYs/MhG4tG+FXjo5LOHDp/OEWcnM35k2kZY0+2CIqeocd0A1z+bvoRwG6JCGaeKAkfts9ThlNShXujcQ2jkQzv4GToHDQsN4rIoyk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719334618; c=relaxed/simple;
-	bh=J7aUssdG+d+SSneJjCzjAIvna71yISDKfeg2F6cDG5I=;
+	s=arc-20240116; t=1719337284; c=relaxed/simple;
+	bh=SpYw8cVTSv38pw6L8vipG+mNWuwy7NhLdes7jhapxkE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qfmZEIWhgOBD+Uj3jNNdvw+dogbQ+STCb7V8gI+v/BYw3ve0i/UD+WRBZaW0ScY7QZtVurLlqrZHmOsgIwIStpiSm+WsoQ8gzqLMCQU0nFaqJ5MCKZpnGTukf1Kpmt1gZ2VECXeS7rQ06E0M7i65wIDGrLoQghBT6KPeLky3WyM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=PaEjRFyx; arc=none smtp.client-ip=46.235.227.194
+	 MIME-Version:Content-Type; b=uHfknQfSfT5cjZuE/zIPoiNzC7GBV+CdLtHWQh6awtvBXcsPt6aF0m+gQQP156gPLXxYt4nbHwM228IApvZk+gpmCPo/9ESToZmgJCkmpyWWSdzHPzzf1FTTMbLvrnUxk+J9OivqB4tX6k9AVSS/L03xXi1k/N3F5nsRIsatVJg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=dE11m+b9; arc=none smtp.client-ip=46.235.227.194
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="PaEjRFyx"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="dE11m+b9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1719334615;
-	bh=J7aUssdG+d+SSneJjCzjAIvna71yISDKfeg2F6cDG5I=;
+	s=mail; t=1719337281;
+	bh=SpYw8cVTSv38pw6L8vipG+mNWuwy7NhLdes7jhapxkE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=PaEjRFyx/ENwXiPBxuhCmUBAQvT4N1kdNZ/T3YWSGawBczsJTgGOkpHNIgYvPdEMQ
-	 u7Q6yqTFzUSrhoJ+guzDr/SF8P6RnwAqSfuADoTh8inpNRJNcfcRr7jT47tnCHo9ln
-	 V641SbYDnkuWIJq1TpqPzmKiZAW+poAS+CFo6a+9XuDNAYewwb/uLFZU/Gvy4d3eoT
-	 RNAnMZ55eEspJedCuPCGRwVV/roTSL7ZA6SydLffUn9fR1fhwmBo57oQVK9+167SKV
-	 fXNxpRFLhzECX7Z8GtSaOEP3e1YxQRfbXTitapA4QW+mWhgTWJXqpDf4koFABmO+d8
-	 Kp5pJvS2wuDGw==
+	b=dE11m+b9R+OmHNCOvAAv2nVgeF4NEMdaQ6vSfJmG72Y+wcDrPdrFLYlbT09ESEhtP
+	 xE6eyg4+gcSzSFk10/ej1H/K+yowQU82DTwd1J6NHDElfi+4GoGMbmVL00aNYf/thX
+	 jOB07m0lBUx2l24vCqk/O8DKl7KvtNvj9+dLZK9wq9xTiAXi1w9Tb0b0RxVvfmuu8w
+	 YNp2w6yMFola0bikNbzZ3sVk2fIw4BZ1N9s2+4wwLAk7BcgZJi8KP48tQg+dC5GV87
+	 zCK7HSsEEjC6a+CQ2ZRwjrOm03dnrYp932k1K8mO1WnRY9cxYIg9edekhBi+cCLuOL
+	 z7TSs0Mw8vPPA==
 Received: from arisu.localnet (cola.collaboradmins.com [195.201.22.229])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: detlev)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id E299B378107C;
-	Tue, 25 Jun 2024 16:56:51 +0000 (UTC)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 0BEEB378000A;
+	Tue, 25 Jun 2024 17:41:17 +0000 (UTC)
 From: Detlev Casanova <detlev.casanova@collabora.com>
-To: linux-kernel@vger.kernel.org, Alex Bee <knaerzche@gmail.com>
-Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+To: Jonas Karlman <jonas@kwiboo.se>
+Cc: linux-kernel@vger.kernel.org,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
  Heiko Stuebner <heiko@sntech.de>,
@@ -49,224 +50,222 @@ Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
  Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
  Nicolas Dufresne <nicolas.dufresne@collabora.com>,
  Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Jonas Karlman <jonas@kwiboo.se>, linux-media@vger.kernel.org,
+ Alex Bee <knaerzche@gmail.com>, linux-media@vger.kernel.org,
  linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v3 2/4] media: rockchip: Introduce the rkvdec2 driver
-Date: Tue, 25 Jun 2024 12:56:24 -0400
-Message-ID: <3815203.kQq0lBPeGt@arisu>
+Subject:
+ Re: [PATCH v3 4/4] arm64: dts: rockchip: Add rkvdec2 Video Decoder on
+ rk3588(s)
+Date: Tue, 25 Jun 2024 13:40:50 -0400
+Message-ID: <3228705.5fSG56mABF@arisu>
 Organization: Collabora
-In-Reply-To: <c7882f94-e2cb-4023-a53e-87ebc8fa3460@gmail.com>
+In-Reply-To: <311770c3-d3ea-4650-ae11-7c278e043d0a@kwiboo.se>
 References:
  <20240620142532.406564-1-detlev.casanova@collabora.com>
- <20240620142532.406564-3-detlev.casanova@collabora.com>
- <c7882f94-e2cb-4023-a53e-87ebc8fa3460@gmail.com>
+ <20240620142532.406564-5-detlev.casanova@collabora.com>
+ <311770c3-d3ea-4650-ae11-7c278e043d0a@kwiboo.se>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart3570016.iIbC2pHGDl";
+Content-Type: multipart/signed; boundary="nextPart5952195.MhkbZ0Pkbq";
  micalg="pgp-sha256"; protocol="application/pgp-signature"
 
---nextPart3570016.iIbC2pHGDl
+--nextPart5952195.MhkbZ0Pkbq
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"; protected-headers="v1"
 From: Detlev Casanova <detlev.casanova@collabora.com>
-To: linux-kernel@vger.kernel.org, Alex Bee <knaerzche@gmail.com>
-Date: Tue, 25 Jun 2024 12:56:24 -0400
-Message-ID: <3815203.kQq0lBPeGt@arisu>
+To: Jonas Karlman <jonas@kwiboo.se>
+Date: Tue, 25 Jun 2024 13:40:50 -0400
+Message-ID: <3228705.5fSG56mABF@arisu>
 Organization: Collabora
-In-Reply-To: <c7882f94-e2cb-4023-a53e-87ebc8fa3460@gmail.com>
+In-Reply-To: <311770c3-d3ea-4650-ae11-7c278e043d0a@kwiboo.se>
 MIME-Version: 1.0
 
-Hi Alex,
+Hi Jonas,
 
-On Sunday, June 23, 2024 5:33:28 A.M. EDT you wrote:
+On Thursday, June 20, 2024 11:00:49 A.M. EDT Jonas Karlman wrote:
 > Hi Detlev,
 > 
-> Am 20.06.24 um 16:19 schrieb Detlev Casanova:
-> > This driver supports the second generation of the Rockchip Video
-> > decoder, also known as vdpu34x.
-> > It is currently only used on the RK3588(s) SoC.
-> > 
-> > There are 2 decoders on the RK3588 SoC that can work in pair to decode
-> > 8K video at 30 FPS but currently, only using one core at a time is
-> > supported.
-> > 
-> > Scheduling requests between the two cores will be implemented later.
-> > 
-> > The core supports H264, HEVC, VP9 and AVS2 decoding but this driver
-> > currently only supports H264.
-> > 
-> > The driver is based on rkvdec and they may share some code in the
-> > future.
-> > The decision to make a different driver is mainly because rkvdec2 has
-> > more features and can work with multiple cores.
-> > 
-> > The registers are mapped in a struct in RAM using bitfields. It is IO
-> > copied to the HW when all values are configured.
-> > The decision to use such a struct instead of writing buffers one by one
-> > 
-> > is based on the following reasons:
-> >   - Rockchip cores are known to misbehave when registers are not written
-> >   
-> >     in address order,
-> >   
-> >   - Those cores also need the software to write all registers, even if
-> >   
-> >     they are written their default values or are not related to the task
-> >     (this core will not start decoding some H264 frames if some VP9
-> >     registers are not written to 0)
-> >   
-> >   - In the future, to support multiple cores, the scheduler could be
-> >   
-> >     optimized by storing the precomputed registers values and copy them
-> >     to the HW as soos as a core becomes available.
-> > 
-> > This makes the code more readable and may bring performance improvements
-> > in future features.
+> On 2024-06-20 16:19, Detlev Casanova wrote:
+> > Add the rkvdec2 Video Decoder to the RK3588s devicetree.
 > > 
 > > Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
 > > ---
 > > 
-> >   drivers/staging/media/Kconfig                |    1 +
-> >   drivers/staging/media/Makefile               |    1 +
-> >   drivers/staging/media/rkvdec2/Kconfig        |   15 +
-> >   drivers/staging/media/rkvdec2/Makefile       |    3 +
-> >   drivers/staging/media/rkvdec2/TODO           |    9 +
-> >   drivers/staging/media/rkvdec2/rkvdec2-h264.c |  739 +++++++++++
-> >   drivers/staging/media/rkvdec2/rkvdec2-regs.h |  345 +++++
-> >   drivers/staging/media/rkvdec2/rkvdec2.c      | 1253 ++++++++++++++++++
-> >   drivers/staging/media/rkvdec2/rkvdec2.h      |  130 ++
-> >   9 files changed, 2496 insertions(+)
-> >   create mode 100644 drivers/staging/media/rkvdec2/Kconfig
-> >   create mode 100644 drivers/staging/media/rkvdec2/Makefile
-> >   create mode 100644 drivers/staging/media/rkvdec2/TODO
-> >   create mode 100644 drivers/staging/media/rkvdec2/rkvdec2-h264.c
-> >   create mode 100644 drivers/staging/media/rkvdec2/rkvdec2-regs.h
-> >   create mode 100644 drivers/staging/media/rkvdec2/rkvdec2.c
-> >   create mode 100644 drivers/staging/media/rkvdec2/rkvdec2.h
-> 
-> ...
-> 
-> > +static inline void rkvdec2_memcpy_toio(void __iomem *dst, void *src,
-> > size_t len) +{
-> > +#ifdef CONFIG_ARM64
-> > +	__iowrite32_copy(dst, src, len);
-> > +#elif defined(CONFIG_ARM)
-> 
-> I guess that can get an "#else" since memcpy_toio exists for all archs.
-> 
-> > +	memcpy_toio(dst, src, len);
-> > +#endif
-> > +}
+> >  arch/arm64/boot/dts/rockchip/rk3588s.dtsi | 48 +++++++++++++++++++++++
+> >  1 file changed, 48 insertions(+)
+> > 
+> > diff --git a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
+> > b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi index
+> > 6ac5ac8b48ab..9c44c99125b4 100644
+> > --- a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
+> > +++ b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
+> > @@ -2596,6 +2596,16 @@ system_sram2: sram@ff001000 {
+> > 
+> >  		ranges = <0x0 0x0 0xff001000 0xef000>;
+> >  		#address-cells = <1>;
+> >  		#size-cells = <1>;
+> > 
 > > +
-> 
-> ...
-> 
-> > +	/* Set timeout threshold */
-> > +	if (pixels < RKVDEC2_1080P_PIXELS)
-> > +		regs->common.timeout_threshold = RKVDEC2_TIMEOUT_1080p;
-> > +	else if (pixels < RKVDEC2_4K_PIXELS)
-> > +		regs->common.timeout_threshold = RKVDEC2_TIMEOUT_4K;
-> > +	else if (pixels < RKVDEC2_8K_PIXELS)
-> > +		regs->common.timeout_threshold = RKVDEC2_TIMEOUT_8K;
+> > +		vdec0_sram: rkvdec-sram@0 {
+> > +			reg = <0x0 0x78000>;
+> > +			pool;
+> > +		};
 > > +
-> 
-> Did you test if it works with anything > 8K? If so, you propably want to
-> make the check above
-> 
-> +	else
-> +		regs->common.timeout_threshold = RKVDEC2_TIMEOUT_8K;
-> 
-> Otherwise the timeout may not be set/contain invalid values from any former
-> stream.
-
-That's right, but it would be set to 0 because of the memset. 
-RKVDEC2_TIMEOUT_8K might not be enough for bigger frame sizes, so I'll set it 
-to the maximum value (0xffffffff) when frames are bigger than 8K and also adapt 
-the watchdog time: RKVDEC2_TIMEOUT_8K is around 100 ms, but 0xffffffff is arnoud 
-5.3 seconds (reg032/axi_clock_freq)
-
-I'll do more tests with this as well.
-
-> ...
-> 
+> > +		vdec1_sram: rkvdec-sram@1 {
+> > +			reg = <0x78000 0x77000>;
+> > +			pool;
+> > +		};
+> > 
+> >  	};
+> >  	
+> >  	pinctrl: pinctrl {
+> > 
+> > @@ -2665,6 +2675,44 @@ gpio4: gpio@fec50000 {
+> > 
+> >  			#interrupt-cells = <2>;
+> >  		
+> >  		};
+> >  	
+> >  	};
+> > 
 > > +
-> > +static const struct rkvdec2_coded_fmt_desc rkvdec2_coded_fmts[] = {
-> > +	{
-> > +		.fourcc = V4L2_PIX_FMT_H264_SLICE,
-> > +		.frmsize = {
-> > +			.min_width = 16,
-> > +			.max_width =  65520,
-> > +			.step_width = 16,
-> > +			.min_height = 16,
-> > +			.max_height =  65520,
-> > +			.step_height = 16,
-> > +		},
-> > +		.ctrls = &rkvdec2_h264_ctrls,
-> > +		.ops = &rkvdec2_h264_fmt_ops,
-> > +		.num_decoded_fmts = 
-ARRAY_SIZE(rkvdec2_h264_decoded_fmts),
-> > +		.decoded_fmts = rkvdec2_h264_decoded_fmts,
-> > +		.subsystem_flags = 
-VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF,
-> > +	},
-> > +};
-> > +
+> > +	vdec0: video-decoder@fdc38100 {
 > 
-> Note, that this is also given to userspace (VIDIOC_ENUM_FRAMESIZES) and
-> this is already incorrect in the old rkvdec driver (and hantro): From
-> userspace perspective we do not have a restriction in
-> step_width/step_width, as we are aligning any given width/height to HW
-> requirements in the driver - what we should give to userspace is
-> fsize->type = V4L2_FRMSIZE_TYPE_CONTINUOUS; fsize->stepwise.min_height =
-> 1; fsize->stepwise.min_width = 1; fsize->stepwise.max_height = 65520;
-> fsize->stepwise.max_width = 65520; 
+> This and the vdec1 node should probably be added between
+> 
+>   pmu: power-management@fd8d8000
+> 
+> and
+> 
+>   av1d: video-codec@fdc70000
+> 
+> to follow reg order.
+> 
+> Also I am wondering if the nodes should be named
+> 
+>   video-codec@fdc38000
+> 
+> and
+> 
+>   video-codec@fdc40000
+> 
+> to match "1.1 Address Mapping" in TRM and the actual base address for
+> the VDPU381 IP and video-codec is used for other codec nodes.
+> 
+> > +		compatible = "rockchip,rk3588-vdec";
+> > +		reg = <0x0 0xfdc38100 0x0 0x500>;
+> 
+> For existing rkvdec1 devices the cache regs is also included in the
+> range, should cache regs also be included for rkvdec2?, e.g.:
+> 
+>   reg = <0x0 0xfdc38100 0x0 0x600>;
+> 
+> And maybe it also should include the link list regs, e.g.:
+> 
+>   reg = <0x0 0xfdc38000 0x0 0x700>;
+> 
+> or possible:
+> 
+>   reg = <0x0 0xfdc38000 0x0 0x100>,
+>         <0x0 0xfdc38100 0x0 0x500>,
+>         <0x0 0xfdc38600 0x0 0x100>;
+> 
+> Something like that may be a better description of the hw.
 
-Is fsize->stepwise.min_height = 1; and fsize->stepwise.min_width = 1 correct ?
-Or do you mean fsize->stepwise.step_height = 1; and fsize->stepwise.setp_width 
-= 1 ? 
-
-It would give this instead:
-
-.frmsize = {
-	.min_width = 16,
-	.max_width =  65520,
-	.step_width = 1,
-	.min_height = 16,
-	.max_height =  65520,
-	.step_height = 1,
-},
-
-and .vidioc_enum_framesizes sets fsize->type = V4L2_FRMSIZE_TYPE_CONTINUOUS;
-
-> I guess this new driver should be an
-> opportunity to fix that and distinguish between internal and external
-> frame size requirements and the .vidioc_enum_framesizes callback should
-> adapted accordingly. Regards, Alex
+Would it make sense to also add reg-names then ?
+reg-names = "link", "function", "cache";
 
 Detlev.
---nextPart3570016.iIbC2pHGDl
+
+> > +		interrupts = <GIC_SPI 95 IRQ_TYPE_LEVEL_HIGH 0>;
+> > +		clocks = <&cru ACLK_RKVDEC0>, <&cru HCLK_RKVDEC0>, 
+<&cru
+> > CLK_RKVDEC0_CA>, +			 <&cru CLK_RKVDEC0_CORE>, <&cru
+> > CLK_RKVDEC0_HEVC_CA>;
+> > +		clock-names = "axi", "ahb", "cabac", "core", 
+"hevc_cabac";
+> > +		assigned-clocks = <&cru ACLK_RKVDEC0>, <&cru 
+CLK_RKVDEC0_CORE>,
+> > +				  <&cru CLK_RKVDEC0_CA>, <&cru 
+CLK_RKVDEC0_HEVC_CA>;
+> > +		assigned-clock-rates = <800000000>, <600000000>,
+> > +				       <600000000>, <1000000000>;
+> > +		resets = <&cru SRST_A_RKVDEC0>, <&cru SRST_H_RKVDEC0>, 
+<&cru
+> > SRST_RKVDEC0_CA>, +			 <&cru SRST_RKVDEC0_CORE>, <&cru
+> > SRST_RKVDEC0_HEVC_CA>;
+> > +		reset-names = "rst_axi", "rst_ahb", "rst_cabac",
+> > +			      "rst_core", "rst_hevc_cabac";
+> 
+> Do we need to include the rst prefix in the reset name?, does not look
+> like other DT/bindings normally include rst in their name.
+> 
+> > +		power-domains = <&power RK3588_PD_RKVDEC0>;
+> > +		sram = <&vdec0_sram>;
+> > +	};
+> > +
+> > +	vdec1: video-decoder@fdc40100 {
+> 
+> Same as above.
+> 
+> > +		compatible = "rockchip,rk3588-vdec";
+> > +		reg = <0x0 0xfdc40100 0x0 0x500>;
+> 
+> Same as above.
+> 
+> Regards,
+> Jonas
+> 
+> > +		interrupts = <GIC_SPI 97 IRQ_TYPE_LEVEL_HIGH 0>;
+> > +		clocks = <&cru ACLK_RKVDEC1>, <&cru HCLK_RKVDEC1>, 
+<&cru
+> > CLK_RKVDEC1_CA>, +			 <&cru CLK_RKVDEC1_CORE>, <&cru
+> > CLK_RKVDEC1_HEVC_CA>;
+> > +		clock-names = "axi", "ahb", "cabac", "core", 
+"hevc_cabac";
+> > +		assigned-clocks = <&cru ACLK_RKVDEC1>, <&cru 
+CLK_RKVDEC1_CORE>,
+> > +				  <&cru CLK_RKVDEC1_CA>, <&cru 
+CLK_RKVDEC1_HEVC_CA>;
+> > +		assigned-clock-rates = <800000000>, <600000000>,
+> > +				       <600000000>, <1000000000>;
+> > +		resets = <&cru SRST_A_RKVDEC1>, <&cru SRST_H_RKVDEC1>, 
+<&cru
+> > SRST_RKVDEC1_CA>, +			 <&cru SRST_RKVDEC1_CORE>, <&cru
+> > SRST_RKVDEC1_HEVC_CA>;
+> > +		reset-names = "rst_axi", "rst_ahb", "rst_cabac",
+> > +			      "rst_core", "rst_hevc_cabac";
+> > +		power-domains = <&power RK3588_PD_RKVDEC1>;
+> > +		sram = <&vdec1_sram>;
+> > +	};
+> > 
+> >  };
+> >  
+> >  #include "rk3588s-pinctrl.dtsi"
+
+
+--nextPart5952195.MhkbZ0Pkbq
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part.
 Content-Transfer-Encoding: 7Bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCAAdFiEEonF9IvGrXNkDg+CX5EFKUk4x7bYFAmZ69rgACgkQ5EFKUk4x
-7bajeggAmSBRiILCUDDpGbIjXBxb00RYdK6MgtbGJuQfBDgf3F0t1eYIpRNodLjn
-HLcauJWna1LSOjVdzemEWqrbzXMNaT2w1YyN3emSxO4IRZ7SLlM9ZvoNoELtE9Bu
-Lww+nu1qxDwuieFRQLIRRoySMHWfN2b+mjDTJEFmfSrXis+izpqthQsAt1Pqm8FV
-kugdGZNqtqx5fUPuYXkn2zorpPcSXFL58vqUZ9yhYRKoVvdz+X+bkfNvg6vMIW91
-kq0isaB9YHSX5+P1mAn8fU2utGNrv15F4ZgQChLnKVVCjfT0IO++t12dh7ff19hl
-1br0WjEsuhJ/UwmcVWhqp3S1NG5MoA==
-=4M84
+iQEzBAABCAAdFiEEonF9IvGrXNkDg+CX5EFKUk4x7bYFAmZ7ASIACgkQ5EFKUk4x
+7ba5dwf/RdfDrZB8mD/RDu84s+6YT5Jip9mee5p9Fi0EC75O5KteglNHTpcUCm15
+y6/KblK2i8JCLcSGbqX18YBPuezNdOnHdjJq5Dgv6oYlqKVrQkE0AAOfdbY5Yrd9
+513emUmA1CV6yfwXMWR8BWNAphh9osoCGhIOlIfvtFQV+50LRF6Vp3X/JkH/Wj0S
+AZWY2Jp3MxX1qr6MVCAyau/NT1Gj775M8kilIKy+njYqBSX2ob0czNNpQVTElvZw
+HWDZ7ZWL6XcCUWu6zeWJmHCMIy316fKzfbJPLWz0oASb7XxEKZ2cZ2xTOO9hNk5M
+znC8qElWyebrFyyVk2A5sc7twyAQOg==
+=A5Jn
 -----END PGP SIGNATURE-----
 
---nextPart3570016.iIbC2pHGDl--
+--nextPart5952195.MhkbZ0Pkbq--
 
 
 
