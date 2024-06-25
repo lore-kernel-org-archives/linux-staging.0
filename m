@@ -1,116 +1,272 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67D7D13B2B0;
-	Tue, 25 Jun 2024 16:35:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDF5F1487C4
+	for <linux-staging@lists.linux.dev>; Tue, 25 Jun 2024 16:56:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719333302; cv=none; b=l2+x9Xcj1EWtbKhDKogBoNCypLvVOBxY6tlo4ktqA+lIVwiwFmGJHcqE9QQWJGJob9kOx/JPT+NZ6d8lSWmtTE2Ea88Oq0jci3D/v7ZTDondsGm4EQT7Z4juZ1lp8f/w8KealhgAbBT04gCAp0zUGzR65QW3rxLBBK5wHvWpk+4=
+	t=1719334618; cv=none; b=s7RrjNQ3lTjLPwfaennUX+BCxiSrCV6NbYmpsyQRS//medUaBSwq9OvUSog6uWN3P0DkdlpVYUKu6QHHRjEVYnaBdZZ+6FEcOjwjcVtncrO12NbFXVKimLKBQRYFNQ8YTsRuP//1+vJu4OF+s4yLVW3FpSRrHstAL3rYzSChrTg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719333302; c=relaxed/simple;
-	bh=bAsxVx0UvzMzKlZe2Vcp9z6yB46BDlBPDqTLhsJySag=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ShZQKZzfe5CaL4TRSXkILXeYwAFdPjOW6EiF4cLYf5vPV9IUSBIesTQKyMdOQrKR9vHS27WNDU5q8OVECO+xgUWmMmTmfVE7Wz4spmHBcD95WiyvL0zCyDDbUR3dfW2SYRT8SonWZ8L/ePUUYNUYEIYsQDNvfGhaW9WUI9rWdcc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SeCdie2+; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1719334618; c=relaxed/simple;
+	bh=J7aUssdG+d+SSneJjCzjAIvna71yISDKfeg2F6cDG5I=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=qfmZEIWhgOBD+Uj3jNNdvw+dogbQ+STCb7V8gI+v/BYw3ve0i/UD+WRBZaW0ScY7QZtVurLlqrZHmOsgIwIStpiSm+WsoQ8gzqLMCQU0nFaqJ5MCKZpnGTukf1Kpmt1gZ2VECXeS7rQ06E0M7i65wIDGrLoQghBT6KPeLky3WyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=PaEjRFyx; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SeCdie2+"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-424798859dfso47920585e9.0;
-        Tue, 25 Jun 2024 09:35:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719333299; x=1719938099; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=f2D5WnbI6hoDNtONP1hohTOtNAD6BEhzID8lJ1CZtes=;
-        b=SeCdie2+hVZIyNxzYmdtfHAfb/NQlke/+Dvrp2hhRyEPVfmV+sAozY2pdtpzChyooo
-         EFUlE699ysFv9LR0IvKNjqcoUG/tQ8t1m8cQKzyqKB3a6Wi1NUSxoHtSXw79pY2p0YlG
-         fGOSaB5I9zrzv1zHEOcWkOJKXE8IjInS527yhv9lt+O9m1P/bAZGGGuseTZvExE0ooaa
-         zT4BYFjzxf8VMz5xSzvMMA65O+9aQmgAq4hIyTOBBCQqGK9H3wVmq7uxLm25T9fHPBWN
-         8+WWCR+0wiNE7AgLssxj7UgvzIaeTNy+x4BZBFEmSwpVkKFkb9LdtPO/75Z85MOY9li/
-         LLUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719333299; x=1719938099;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=f2D5WnbI6hoDNtONP1hohTOtNAD6BEhzID8lJ1CZtes=;
-        b=q2HPSUYC9xVhbwBKO7O5oW8CR2Ha81W1DS/ORA6svLYXiotxBkXtD76eFFe2LPQZka
-         C26voR7QFJ/hPz5mvkJ2mklGODOtQHJadWmxvjhmdIDC80R2lbto1VwWTVqCNUeAYwCr
-         0pbljbo+RHuR7caYKTZlwNlT8CbdjjpIDs1B6EkfkaZfm0s7Nmpc90IO1YWf6C8/NmzH
-         k+LoVDRigIfmTmb02jmKITlR3Wi8MeS3MggWrI3510HyPU3E116WxoOfROzvAtujaXH6
-         CH6a6xEcRJ9qv27UQnnYLSwJM71aEcbpqxLDYmB/oao7LX+Lrp3irFol6Poy4V0VI598
-         cCLQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUXbA6CE/bW0r+o55MGMstqvhe1wIXbYkMkLQP59ZXIOU5dthqVWziSwXmr0ya4pJn227nmBmmx3glnZUTdm+gG602XbcU5OMdyQ8INUr/idgEEOCcuSlwxL72BBzza45mUySd3xxNm0igPE2c=
-X-Gm-Message-State: AOJu0Yx8alHb2Zku+wsdcY7EFi4WifEo0NGh37Qb2DT6Uibn10UroHox
-	oMBjlQoKauLpNrz7hUHmEhXjVXiDwPiHt4FheTZtneHdgmA7tUzI
-X-Google-Smtp-Source: AGHT+IGGyhODIpXfM2MCK3HCTtKZDoIwysdpuC9axXxzoGpIKWMr3flaE2pWWJ9AT7H/BxuHIv/ECg==
-X-Received: by 2002:a05:600c:2d55:b0:424:a319:6b46 with SMTP id 5b1f17b1804b1-424a3196b9fmr14603165e9.18.1719333298504;
-        Tue, 25 Jun 2024 09:34:58 -0700 (PDT)
-Received: from localhost.localdomain ([31.120.167.14])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4247d208e4dsm217457415e9.33.2024.06.25.09.34.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Jun 2024 09:34:57 -0700 (PDT)
-From: Teddy Engel <engel.teddy@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	oe-kbuild-all@lists.linux.dev,
-	devel@driverdev.osuosl.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Teddy Engel <engel.teddy@gmail.com>,
-	kernel test robot <lkp@intel.com>
-Subject: [PATCH v3] staging: rtl8192e: Fix conflicting types error with net_device.
-Date: Tue, 25 Jun 2024 17:33:34 +0100
-Message-Id: <20240625163334.11117-1-engel.teddy@gmail.com>
-X-Mailer: git-send-email 2.39.2
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="PaEjRFyx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1719334615;
+	bh=J7aUssdG+d+SSneJjCzjAIvna71yISDKfeg2F6cDG5I=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=PaEjRFyx/ENwXiPBxuhCmUBAQvT4N1kdNZ/T3YWSGawBczsJTgGOkpHNIgYvPdEMQ
+	 u7Q6yqTFzUSrhoJ+guzDr/SF8P6RnwAqSfuADoTh8inpNRJNcfcRr7jT47tnCHo9ln
+	 V641SbYDnkuWIJq1TpqPzmKiZAW+poAS+CFo6a+9XuDNAYewwb/uLFZU/Gvy4d3eoT
+	 RNAnMZ55eEspJedCuPCGRwVV/roTSL7ZA6SydLffUn9fR1fhwmBo57oQVK9+167SKV
+	 fXNxpRFLhzECX7Z8GtSaOEP3e1YxQRfbXTitapA4QW+mWhgTWJXqpDf4koFABmO+d8
+	 Kp5pJvS2wuDGw==
+Received: from arisu.localnet (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: detlev)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id E299B378107C;
+	Tue, 25 Jun 2024 16:56:51 +0000 (UTC)
+From: Detlev Casanova <detlev.casanova@collabora.com>
+To: linux-kernel@vger.kernel.org, Alex Bee <knaerzche@gmail.com>
+Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Heiko Stuebner <heiko@sntech.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Dragan Simic <dsimic@manjaro.org>, Diederik de Haas <didi.debian@cknow.org>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v3 2/4] media: rockchip: Introduce the rkvdec2 driver
+Date: Tue, 25 Jun 2024 12:56:24 -0400
+Message-ID: <3815203.kQq0lBPeGt@arisu>
+Organization: Collabora
+In-Reply-To: <c7882f94-e2cb-4023-a53e-87ebc8fa3460@gmail.com>
+References:
+ <20240620142532.406564-1-detlev.casanova@collabora.com>
+ <20240620142532.406564-3-detlev.casanova@collabora.com>
+ <c7882f94-e2cb-4023-a53e-87ebc8fa3460@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="nextPart3570016.iIbC2pHGDl";
+ micalg="pgp-sha256"; protocol="application/pgp-signature"
 
-Add a pre-declaration of struct net_device so the compiler is able to
-use rtl_pci.h / rtl_cam.h.
+--nextPart3570016.iIbC2pHGDl
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"; protected-headers="v1"
+From: Detlev Casanova <detlev.casanova@collabora.com>
+To: linux-kernel@vger.kernel.org, Alex Bee <knaerzche@gmail.com>
+Date: Tue, 25 Jun 2024 12:56:24 -0400
+Message-ID: <3815203.kQq0lBPeGt@arisu>
+Organization: Collabora
+In-Reply-To: <c7882f94-e2cb-4023-a53e-87ebc8fa3460@gmail.com>
+MIME-Version: 1.0
 
-Signed-off-by: Teddy Engel <engel.teddy@gmail.com>
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202406250858.L8rJMHQm-lkp@intel.com/
-Fixes: 7dff0b27d9c8 ("staging: rtl8192e: Remove unnecessary pre-declaration of struct net_device")
----
-v3: Replace ad-hoc commit id / subject by expected Fixes tag.
-v2: Add commit id / commit subject  under description.
+Hi Alex,
 
- drivers/staging/rtl8192e/rtl8192e/rtl_cam.h | 2 ++
- drivers/staging/rtl8192e/rtl8192e/rtl_pci.h | 2 ++
- 2 files changed, 4 insertions(+)
+On Sunday, June 23, 2024 5:33:28 A.M. EDT you wrote:
+> Hi Detlev,
+> 
+> Am 20.06.24 um 16:19 schrieb Detlev Casanova:
+> > This driver supports the second generation of the Rockchip Video
+> > decoder, also known as vdpu34x.
+> > It is currently only used on the RK3588(s) SoC.
+> > 
+> > There are 2 decoders on the RK3588 SoC that can work in pair to decode
+> > 8K video at 30 FPS but currently, only using one core at a time is
+> > supported.
+> > 
+> > Scheduling requests between the two cores will be implemented later.
+> > 
+> > The core supports H264, HEVC, VP9 and AVS2 decoding but this driver
+> > currently only supports H264.
+> > 
+> > The driver is based on rkvdec and they may share some code in the
+> > future.
+> > The decision to make a different driver is mainly because rkvdec2 has
+> > more features and can work with multiple cores.
+> > 
+> > The registers are mapped in a struct in RAM using bitfields. It is IO
+> > copied to the HW when all values are configured.
+> > The decision to use such a struct instead of writing buffers one by one
+> > 
+> > is based on the following reasons:
+> >   - Rockchip cores are known to misbehave when registers are not written
+> >   
+> >     in address order,
+> >   
+> >   - Those cores also need the software to write all registers, even if
+> >   
+> >     they are written their default values or are not related to the task
+> >     (this core will not start decoding some H264 frames if some VP9
+> >     registers are not written to 0)
+> >   
+> >   - In the future, to support multiple cores, the scheduler could be
+> >   
+> >     optimized by storing the precomputed registers values and copy them
+> >     to the HW as soos as a core becomes available.
+> > 
+> > This makes the code more readable and may bring performance improvements
+> > in future features.
+> > 
+> > Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
+> > ---
+> > 
+> >   drivers/staging/media/Kconfig                |    1 +
+> >   drivers/staging/media/Makefile               |    1 +
+> >   drivers/staging/media/rkvdec2/Kconfig        |   15 +
+> >   drivers/staging/media/rkvdec2/Makefile       |    3 +
+> >   drivers/staging/media/rkvdec2/TODO           |    9 +
+> >   drivers/staging/media/rkvdec2/rkvdec2-h264.c |  739 +++++++++++
+> >   drivers/staging/media/rkvdec2/rkvdec2-regs.h |  345 +++++
+> >   drivers/staging/media/rkvdec2/rkvdec2.c      | 1253 ++++++++++++++++++
+> >   drivers/staging/media/rkvdec2/rkvdec2.h      |  130 ++
+> >   9 files changed, 2496 insertions(+)
+> >   create mode 100644 drivers/staging/media/rkvdec2/Kconfig
+> >   create mode 100644 drivers/staging/media/rkvdec2/Makefile
+> >   create mode 100644 drivers/staging/media/rkvdec2/TODO
+> >   create mode 100644 drivers/staging/media/rkvdec2/rkvdec2-h264.c
+> >   create mode 100644 drivers/staging/media/rkvdec2/rkvdec2-regs.h
+> >   create mode 100644 drivers/staging/media/rkvdec2/rkvdec2.c
+> >   create mode 100644 drivers/staging/media/rkvdec2/rkvdec2.h
+> 
+> ...
+> 
+> > +static inline void rkvdec2_memcpy_toio(void __iomem *dst, void *src,
+> > size_t len) +{
+> > +#ifdef CONFIG_ARM64
+> > +	__iowrite32_copy(dst, src, len);
+> > +#elif defined(CONFIG_ARM)
+> 
+> I guess that can get an "#else" since memcpy_toio exists for all archs.
+> 
+> > +	memcpy_toio(dst, src, len);
+> > +#endif
+> > +}
+> > +
+> 
+> ...
+> 
+> > +	/* Set timeout threshold */
+> > +	if (pixels < RKVDEC2_1080P_PIXELS)
+> > +		regs->common.timeout_threshold = RKVDEC2_TIMEOUT_1080p;
+> > +	else if (pixels < RKVDEC2_4K_PIXELS)
+> > +		regs->common.timeout_threshold = RKVDEC2_TIMEOUT_4K;
+> > +	else if (pixels < RKVDEC2_8K_PIXELS)
+> > +		regs->common.timeout_threshold = RKVDEC2_TIMEOUT_8K;
+> > +
+> 
+> Did you test if it works with anything > 8K? If so, you propably want to
+> make the check above
+> 
+> +	else
+> +		regs->common.timeout_threshold = RKVDEC2_TIMEOUT_8K;
+> 
+> Otherwise the timeout may not be set/contain invalid values from any former
+> stream.
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_cam.h b/drivers/staging/rtl8192e/rtl8192e/rtl_cam.h
-index 3a5635494385..9deffdf96072 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_cam.h
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_cam.h
-@@ -12,6 +12,8 @@
- 
- #include <linux/types.h>
- 
-+struct net_device;
-+
- void rtl92e_cam_reset(struct net_device *dev);
- void rtl92e_enable_hw_security_config(struct net_device *dev);
- void rtl92e_set_key(struct net_device *dev, u8 EntryNo, u8 KeyIndex,
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_pci.h b/drivers/staging/rtl8192e/rtl8192e/rtl_pci.h
-index c645775b2150..3e39c4835ac8 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_pci.h
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_pci.h
-@@ -13,6 +13,8 @@
- #include <linux/types.h>
- #include <linux/pci.h>
- 
-+struct net_device;
-+
- bool rtl92e_check_adapter(struct pci_dev *pdev, struct net_device *dev);
- 
- #endif
--- 
-2.39.2
+That's right, but it would be set to 0 because of the memset. 
+RKVDEC2_TIMEOUT_8K might not be enough for bigger frame sizes, so I'll set it 
+to the maximum value (0xffffffff) when frames are bigger than 8K and also adapt 
+the watchdog time: RKVDEC2_TIMEOUT_8K is around 100 ms, but 0xffffffff is arnoud 
+5.3 seconds (reg032/axi_clock_freq)
+
+I'll do more tests with this as well.
+
+> ...
+> 
+> > +
+> > +static const struct rkvdec2_coded_fmt_desc rkvdec2_coded_fmts[] = {
+> > +	{
+> > +		.fourcc = V4L2_PIX_FMT_H264_SLICE,
+> > +		.frmsize = {
+> > +			.min_width = 16,
+> > +			.max_width =  65520,
+> > +			.step_width = 16,
+> > +			.min_height = 16,
+> > +			.max_height =  65520,
+> > +			.step_height = 16,
+> > +		},
+> > +		.ctrls = &rkvdec2_h264_ctrls,
+> > +		.ops = &rkvdec2_h264_fmt_ops,
+> > +		.num_decoded_fmts = 
+ARRAY_SIZE(rkvdec2_h264_decoded_fmts),
+> > +		.decoded_fmts = rkvdec2_h264_decoded_fmts,
+> > +		.subsystem_flags = 
+VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF,
+> > +	},
+> > +};
+> > +
+> 
+> Note, that this is also given to userspace (VIDIOC_ENUM_FRAMESIZES) and
+> this is already incorrect in the old rkvdec driver (and hantro): From
+> userspace perspective we do not have a restriction in
+> step_width/step_width, as we are aligning any given width/height to HW
+> requirements in the driver - what we should give to userspace is
+> fsize->type = V4L2_FRMSIZE_TYPE_CONTINUOUS; fsize->stepwise.min_height =
+> 1; fsize->stepwise.min_width = 1; fsize->stepwise.max_height = 65520;
+> fsize->stepwise.max_width = 65520; 
+
+Is fsize->stepwise.min_height = 1; and fsize->stepwise.min_width = 1 correct ?
+Or do you mean fsize->stepwise.step_height = 1; and fsize->stepwise.setp_width 
+= 1 ? 
+
+It would give this instead:
+
+.frmsize = {
+	.min_width = 16,
+	.max_width =  65520,
+	.step_width = 1,
+	.min_height = 16,
+	.max_height =  65520,
+	.step_height = 1,
+},
+
+and .vidioc_enum_framesizes sets fsize->type = V4L2_FRMSIZE_TYPE_CONTINUOUS;
+
+> I guess this new driver should be an
+> opportunity to fix that and distinguish between internal and external
+> frame size requirements and the .vidioc_enum_framesizes callback should
+> adapted accordingly. Regards, Alex
+
+Detlev.
+--nextPart3570016.iIbC2pHGDl
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCAAdFiEEonF9IvGrXNkDg+CX5EFKUk4x7bYFAmZ69rgACgkQ5EFKUk4x
+7bajeggAmSBRiILCUDDpGbIjXBxb00RYdK6MgtbGJuQfBDgf3F0t1eYIpRNodLjn
+HLcauJWna1LSOjVdzemEWqrbzXMNaT2w1YyN3emSxO4IRZ7SLlM9ZvoNoELtE9Bu
+Lww+nu1qxDwuieFRQLIRRoySMHWfN2b+mjDTJEFmfSrXis+izpqthQsAt1Pqm8FV
+kugdGZNqtqx5fUPuYXkn2zorpPcSXFL58vqUZ9yhYRKoVvdz+X+bkfNvg6vMIW91
+kq0isaB9YHSX5+P1mAn8fU2utGNrv15F4ZgQChLnKVVCjfT0IO++t12dh7ff19hl
+1br0WjEsuhJ/UwmcVWhqp3S1NG5MoA==
+=4M84
+-----END PGP SIGNATURE-----
+
+--nextPart3570016.iIbC2pHGDl--
+
+
 
