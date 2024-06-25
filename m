@@ -1,82 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx1.t-argos.ru (mx1.t-argos.ru [109.73.34.58])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 758E113A876;
-	Mon, 24 Jun 2024 13:17:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 675A91487E9
+	for <linux-staging@lists.linux.dev>; Tue, 25 Jun 2024 10:00:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.73.34.58
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719235067; cv=none; b=qqUUDl91EC8AEbTBNIzvSV7GFgKmyw8N7MVnVc5s6KfXATHgUjr8bsyOAAEcQ3CBk/iObORgBAUhNGNvib3w3WL6IB38XwNSgE1h0xAOi/eVuiSlvVFqvyUjEGtbm/9lZcyFtVx2d7GU7xL7mShPy5IefyS0QAfKmeNJ5SOdeB8=
+	t=1719309609; cv=none; b=MQQs2yagfUm0nX1L0KRLNblEpYjfgE97/fvspk+3gQMhNMuYAG6LY7HD5zgS/h88nzPVcbVavxKihBPc1pGccaG9985hqRfbJATWoSWo7h1GoootdeDZtMX0d44/mEALok8ddODKRlL1k2NvDVtN6KOhwAfUwEesISbDIOJcvbE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719235067; c=relaxed/simple;
-	bh=x0qE1AbTE2E3Y2ugPMh1v8bbkWrZyWYuZzqqNaawNKY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qaapJIucjMx7ZJrqaW/lxiXmyqGBiSKzouP0Z/q6E+69EYcXKVzMp8vUOrFU+QchMyJUdTYS/z4mJRt2rsPVI5IpN5YadtE/UrkYeTIkvKxi+VM3DmCSivr9ycVTuWdmd62kqNy/9MgCcp1yxXqttOTcGEPAa9Rj3Ii6AwFV/nM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Jtxjl/lz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719309609; c=relaxed/simple;
+	bh=4zszA4SMVIv54uYFhTaWLecq7Lh3LgTqqijXzXbP+F0=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ISIX3mG7WRF9S3ccgMlfdu0ZWLPglxYu8K+gDb5q6dyhKn7wwMBWg8W4FOWZE0BekmjtKDJM0Mjlk90hdMc9XZ6M27BhS8wg+7q/szr22t/fn1RfjCa0VIevdsExcvwOwc507pK0wdUrl57YYdIAhE7KvizER5YWJDdJYFJUOSo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=t-argos.ru; spf=pass smtp.mailfrom=t-argos.ru; dkim=pass (2048-bit key) header.d=t-argos.ru header.i=@t-argos.ru header.b=svWpGbYv; arc=none smtp.client-ip=109.73.34.58
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=t-argos.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=t-argos.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Jtxjl/lz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B53F6C32781;
-	Mon, 24 Jun 2024 13:17:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1719235066;
-	bh=x0qE1AbTE2E3Y2ugPMh1v8bbkWrZyWYuZzqqNaawNKY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Jtxjl/lzbjh2ajHo7DZeSnk5oGRUzKwen5oZ7MHu7GoBj41yYpkL5/s8jieKSyRO3
-	 tvHlY3bjlDgyFFDWjv24w+IBc4jq8RKsY90o+glvK0Bbltgn7dfVL3jBd6cHDa7gmN
-	 QCQ3mRyayi81qP6HC9d402qkSbAtii8eguP+EWq8=
-Date: Mon, 24 Jun 2024 15:17:43 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Abhinav Jain <jain.abhinav177@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org, javier.carrasco.cruz@gmail.com
-Subject: Re: [PATCH] staging: rtl8723bs: Align address to 4-byte boundary
-Message-ID: <2024062408-stash-gluten-ef19@gregkh>
-References: <20240614224256.43131-1-jain.abhinav177@gmail.com>
+	dkim=pass (2048-bit key) header.d=t-argos.ru header.i=@t-argos.ru header.b="svWpGbYv"
+Received: from mx1.t-argos.ru (localhost [127.0.0.1])
+	by mx1.t-argos.ru (Postfix) with ESMTP id D079B100002;
+	Tue, 25 Jun 2024 12:59:41 +0300 (MSK)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=t-argos.ru; s=mail;
+	t=1719309581; bh=OkwuqtpjtxnHwZ9UlQkDEX+6wrYJn7SyMmyp+k1tLtA=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=svWpGbYvqpA3xSHGIb3jmR6ZXenCNyfEdf3QtE3UjUWooXBultzXB4PmWY+2UbBl3
+	 qQLg2mJyOiqo2LNMGuUt+yhVNx8tWiCCFBFaX5iLVlYHpYeqklDnZ3s7JvrxBUy4M/
+	 mCe+CnORTRK8Xx1W+10nMdriDxmaggadAghhYoJ1bUCSaknwxCZ68txIHjeIjIGoA2
+	 TlvPVv+k7ACPs9s3dAfeyCTZKUQhgx6+JC5hXQRrfjLkC1k1fSUk8g+RsZ5teilnx2
+	 wX2oeub6IEyNBP3WjsfC1FvZ5stlScSxKuHmOPd76GpzicLETuxUyo2tnOj/MaP78Y
+	 kPQzUUn9Eh77A==
+Received: from mx1.t-argos.ru.ru (ta-mail-02.ta.t-argos.ru [172.17.13.212])
+	by mx1.t-argos.ru (Postfix) with ESMTP;
+	Tue, 25 Jun 2024 12:58:50 +0300 (MSK)
+Received: from localhost.localdomain (172.17.215.5) by ta-mail-02
+ (172.17.13.212) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 25 Jun
+ 2024 12:58:30 +0300
+From: Aleksandr Mishin <amishin@t-argos.ru>
+To: Martyn Welch <martyn.welch@gefanuc.com>
+CC: Aleksandr Mishin <amishin@t-argos.ru>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, Soumya Negi <soumya.negi97@gmail.com>, Michael
+ Straube <straube.linux@gmail.com>, <linux-kernel@vger.kernel.org>,
+	<linux-staging@lists.linux.dev>, <lvc-project@linuxtesting.org>, Dan
+ Carpenter <dan.carpenter@linaro.org>
+Subject: [PATCH v2] staging: vme_user: Validate geoid value used for VME window address
+Date: Tue, 25 Jun 2024 12:58:04 +0300
+Message-ID: <20240625095804.11336-1-amishin@t-argos.ru>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <9ccf4b68-acd0-465b-a5dd-4aa4569da9ce@suswa.mountain>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240614224256.43131-1-jain.abhinav177@gmail.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: ta-mail-02.ta.t-argos.ru (172.17.13.212) To ta-mail-02
+ (172.17.13.212)
+X-KSMG-Rule-ID: 1
+X-KSMG-Message-Action: clean
+X-KSMG-AntiSpam-Lua-Profiles: 186120 [Jun 25 2024]
+X-KSMG-AntiSpam-Version: 6.1.0.4
+X-KSMG-AntiSpam-Envelope-From: amishin@t-argos.ru
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Auth: dkim=none
+X-KSMG-AntiSpam-Info: LuaCore: 20 0.3.20 743589a8af6ec90b529f2124c2bbfc3ce1d2f20f, {Tracking_uf_ne_domains}, {Tracking_from_domain_doesnt_match_to}, d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2;mx1.t-argos.ru.ru:7.1.1;t-argos.ru:7.1.1;indico.cern.ch:7.1.1, FromAlignment: s
+X-MS-Exchange-Organization-SCL: -1
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiPhishing: Clean, bases: 2024/06/25 02:33:00
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 1.1.2.30, bases: 2024/06/25 09:11:00 #25697028
+X-KSMG-AntiVirus-Status: Clean, skipped
 
-On Fri, Jun 14, 2024 at 10:42:56PM +0000, Abhinav Jain wrote:
-> Add address alignment in sdio_local_read, _sdio_local_read &
-> sdio_local_write functions as per the TODO.
+The address of VME window is either set by jumpers (VME64) or derived from
+the slot number (geographical addressing, VME64x) with the formula:
+address = slot# * 0x80000
+https://indico.cern.ch/event/68278/contributions/1234555/attachments/
+1024465/1458672/VMEbus.pdf
 
-How was this tested?
+slot# value can be set from module parameter 'geoid' which can contain any
+value. In this case the value of an arithmetic expression 'slot# * 0x80000'
+is a subject to overflow because its operands are not cast to a larger data
+type before performing arithmetic.
 
-> 
-> Signed-off-by: Abhinav Jain <jain.abhinav177@gmail.com>
-> ---
->  drivers/staging/rtl8723bs/hal/sdio_ops.c | 12 +++---------
->  1 file changed, 3 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/hal/sdio_ops.c b/drivers/staging/rtl8723bs/hal/sdio_ops.c
-> index 107f427ee4aa..caee2d2043b3 100644
-> --- a/drivers/staging/rtl8723bs/hal/sdio_ops.c
-> +++ b/drivers/staging/rtl8723bs/hal/sdio_ops.c
-> @@ -478,9 +478,6 @@ void sdio_set_intf_ops(struct adapter *adapter, struct _io_ops *ops)
->  	ops->_write_port = &sdio_write_port;
->  }
->  
-> -/*
-> - * Todo: align address to 4 bytes.
-> - */
->  static s32 _sdio_local_read(
->  	struct adapter *adapter,
->  	u32 addr,
-> @@ -494,6 +491,7 @@ static s32 _sdio_local_read(
->  	u8 *tmpbuf;
->  	u32 n;
->  
-> +	addr = addr & ~3;
+Validate the provided geoid value using the Geographic Addr Mask.
 
-Are you sure you are allowed to do this?  Why?  And a comment about what
-you are doing, and why it is required to do so, is needed for this to be
-acceptable.
+Found by Linux Verification Center (linuxtesting.org) with SVACE.
 
-thanks,
+Fixes: d22b8ed9a3b0 ("Staging: vme: add Tundra TSI148 VME-PCI Bridge driver")
+Suggested-by: Dan Carpenter <dan.carpenter@linaro.org>
+Signed-off-by: Aleksandr Mishin <amishin@t-argos.ru>
+---
+v1->v2: Move geoid validation to the probe() function as suggested by Dan
 
-greg k-h
+ drivers/staging/vme_user/vme_tsi148.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/vme_user/vme_tsi148.c b/drivers/staging/vme_user/vme_tsi148.c
+index 2ec9c2904404..e7fcbc3f4348 100644
+--- a/drivers/staging/vme_user/vme_tsi148.c
++++ b/drivers/staging/vme_user/vme_tsi148.c
+@@ -2448,12 +2448,17 @@ static int tsi148_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	data = ioread32be(tsi148_device->base + TSI148_LCSR_VSTAT);
+ 	dev_info(&pdev->dev, "Board is%s the VME system controller\n",
+ 		(data & TSI148_LCSR_VSTAT_SCONS) ? "" : " not");
+-	if (!geoid)
++	if (!geoid) {
+ 		dev_info(&pdev->dev, "VME geographical address is %d\n",
+ 			data & TSI148_LCSR_VSTAT_GA_M);
+-	else
++	} else if (geoid & ~TSI148_LCSR_VSTAT_GA_M) {
++		dev_err(&pdev->dev, "VME geographical address is out of range\n");
++		retval = -EINVAL;
++		goto err_crcsr;
++	} else {
+ 		dev_info(&pdev->dev, "VME geographical address is set to %d\n",
+ 			geoid);
++	}
+ 
+ 	dev_info(&pdev->dev, "VME Write and flush and error check is %s\n",
+ 		err_chk ? "enabled" : "disabled");
+-- 
+2.30.2
+
