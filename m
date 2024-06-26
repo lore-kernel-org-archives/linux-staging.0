@@ -1,373 +1,104 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBCE118FDC7
-	for <linux-staging@lists.linux.dev>; Wed, 26 Jun 2024 17:32:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8C3E2AF1A;
+	Wed, 26 Jun 2024 21:37:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719423162; cv=none; b=aCmljFvWoMLV3QqpQftDeVY4CmCf8KlNXlzkISdUXOhelDWgF5G+vekPVcqkjG+9ihOy0mCwnl7SV9STf6SWojhYgzk+paCSjh3VJlWyz7Kmc81PlBNXXhTW3+2E5QXRmDjKEzG0CCtNHkJA5GZbRdR9tzOlbwAPLie+5UB59+I=
+	t=1719437841; cv=none; b=aoTBANXZPAiNAh/eHUMsKiKKlQ49wbfd5FMgTRZ5/9cd2YuPBVLoNawDIQ+ChkOsSfMIZtuqkoO/HEXoJEAKhP3PpUGlHfP6sG+wdP2NPcR5Q3Asr12M0mrsomGmYDP2uNI3Bbo0CpXZHh1gztk0UWS0X8qOXjFIElR7irBsiVA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719423162; c=relaxed/simple;
-	bh=GqJZQKiPCuO6dEumoHej8MaBuCHlsche1tdUn5g/xYQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WZq4gjDXwNPwxk/A+3zjArf+No0NryZVe8q5JgLbzRRSEFt4NsDvfS95DSEZvgswX5JB876nFxQo0ZYIG7IiRrakEfBA6dcDjrZFIKEAko2bGgLjY6qBeNVnLiwDeSBNmg6sIADZWpQQR7L/P9fLD2t5WdsDNr1Bo51ayXUNUWM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I/36j/7I; arc=none smtp.client-ip=209.85.208.47
+	s=arc-20240116; t=1719437841; c=relaxed/simple;
+	bh=wm8IOjSy0IazMs+GqeoJgo5DdVy+HlV5n4Xf3NJQpYw=;
+	h=Message-ID:Date:From:To:Subject:MIME-Version:Content-Type:
+	 Content-Disposition; b=Gx9F4/fzVwJPc1v1EdsRFNerlc1KEZUxyYDvmxVzA6r5qBTbNbCDKcig1yHwJbP3Kpb7/M2gkSd3mjBmN1ozL+oU8ZG6jF5OHXqjZAbYjWo2ZsMxVkvOPILximxDax7Xe48tRLPZJNwkyWg/yVTxJng2kbGJXFuHOibZ24oxxVw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KoeLKAJW; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I/36j/7I"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-579e1bf599aso54812a12.3
-        for <linux-staging@lists.linux.dev>; Wed, 26 Jun 2024 10:32:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KoeLKAJW"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-421bb51d81aso58420735e9.3;
+        Wed, 26 Jun 2024 14:37:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719423159; x=1720027959; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=gmail.com; s=20230601; t=1719437837; x=1720042637; darn=lists.linux.dev;
+        h=content-disposition:mime-version:subject:to:from:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=uoaypK5qKempXAjx4rxIsoucnho88lwGVYl3Cv1sJJo=;
-        b=I/36j/7Ik3n+ZdTbN33XKgecXiZo85y0Oc/3AwmtDKluSeKyrQwkVNUYDQLt9Fbbym
-         8zjl42PBaXd1XGy64NUV4VEHfBShNaZN0bGtv3sh5WTtQgIUNaSD35f06dlfmkoLG6HC
-         IlVoojp3TOo2LmLXLhyMuisPbY6S0ndSHE7OYdy7iW5AiZxgn/9+TzVhkAS0WBfzRB2I
-         dHOHLdw204FpBfXaeHDLzwYc+2R6FXHxVCX3OqWOJG9jbmJ9bHOULwJYx5cyyl5stVub
-         BrM2w/0T0w+ECqmUsIrXJ6ZoUE9DVQLwFKaJCLTbaJSMnsRgxg8jazJcd4czFUNwaUNz
-         5aNQ==
+        bh=UnGnPkXUd1aUtrN7P0KReA3W4+M4jw6ycApaJIjtT8M=;
+        b=KoeLKAJWmAcC6r6vFy5e6RM8KSjfAMzKT7dbCXyDb5hFFwnLNz6qRDsPExp8N+ZXgp
+         AsZgg+TUCQgwVy1vBqrpICaQt7AE7lr2I2Ux/CDw5JcZUGXKm/xASHIsu5t+ujKp1u/6
+         a4I9boySNHK+1RSyJmEuyD3Df6kYH95cm0eOKbfoSghJ3DuM5PKnKZxDVAJj3w8cnPuO
+         XxNs2jb+9lLV/rId8ta/90sRPhZEnNAiGeNw8WZIWoxB1ZC4qKplcwFwKsDdlhrZVaEr
+         Xqlyjrfw+RnJVkoSWBZUzqJX0exXi3DFHD0/3b1kJwaNIPBMO2y78+t3gHQZo7LQdKnQ
+         g3Gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719423159; x=1720027959;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1719437837; x=1720042637;
+        h=content-disposition:mime-version:subject:to:from:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uoaypK5qKempXAjx4rxIsoucnho88lwGVYl3Cv1sJJo=;
-        b=LS5qjEHMCOdBPuNqXquzqFgRbHvOb9ri1JmJ/ijHKNFqye9L/9i/NGJJgkfy44eZz/
-         PS1IQPV/ESBYTQnWuhj35WH7eCzPj2N569qvxMLRjLUSm0N+U8vRtpJKI3ZnmesQw7K9
-         aIZPYTnYsslpHXAohc34GDzRCue/S+gvLlTP9ObQ6bglKoH7+pEtIjN9aLtom5PT5ZNr
-         C+lEN74w1E7nSW3z5ixfcznz9Cg4Kbtwvc+1CruVab0BHAQizM5lXcXk+1Ad6ZW/XPhf
-         uUl2Ci6aIfmFTvvBcV5U8RFlf3vocA7f/MRHzMawmOD/85iIC6nkAq4eBON/AvKFMHC2
-         IDbA==
-X-Gm-Message-State: AOJu0YxhKzFfXvMpcaqZh/4arr1Fp5zVtfGPTx60e6VLHsb/U6ysDg5a
-	WVoX2LxssnQEm7IFg1NrbjCUV7k2vUusSOqm2BZPVQSwJDEJLWRo
-X-Google-Smtp-Source: AGHT+IEz+FCdDX15s3dT/Gci5qkJzUTh/8OaYF3f+cCCrZ+TCBcXWD4CZ3Af4d0LDBWphs+JoTDoSA==
-X-Received: by 2002:a17:906:c34b:b0:a6f:1f6d:eb70 with SMTP id a640c23a62f3a-a6fe780178dmr742755766b.5.1719423158836;
-        Wed, 26 Jun 2024 10:32:38 -0700 (PDT)
-Received: from [192.168.0.103] (p57935a9b.dip0.t-ipconnect.de. [87.147.90.155])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7251563486sm362453566b.88.2024.06.26.10.32.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Jun 2024 10:32:38 -0700 (PDT)
-Message-ID: <4b489362-7714-4d96-b6a1-50d627b15319@gmail.com>
-Date: Wed, 26 Jun 2024 19:32:37 +0200
+        bh=UnGnPkXUd1aUtrN7P0KReA3W4+M4jw6ycApaJIjtT8M=;
+        b=H4Rt3UNv4h0cigyi4veNAgoEEBqeDKqdA9V1IPRvGexIWxnxWpzsu/YNvu9R/8V2Qg
+         UsJUXFtTjTRgMXtv+zYjpt6VtOkz0HysLnSYnYcBNFZ/S8eUO+iH587SwZkwc7JDCFV6
+         32XTgD0dpOL/WYXh8aWXgrKBIlQ+RlWhhMqw4hqcpGaXB2bm1wG5yt72ya0mjHAIu9Mk
+         rqvlYN1usf/+D1FEdqz/T1T29UxDVCDY9hThqxI8+Cunp6NtdMTlT0FbUiOesvhGwIT4
+         y7TTgDGeFPjVOpEatezX0eopNmWDvjEr8bM7LZnZzU9cO7rkJVQsDJsF37H7HTozarS9
+         WAzQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVVOmvRtAd4enN+yNaHf83kg2sVVr0kQawlcax7+TvKbnnGbuSidmgy1T9oYWdedzaqcXbcP2/OEWAQ56fdbHhXMLTnMAgIS6Oy7VNHVhkJtAc1kT9M219GW6gSAfeTyomCYDpkjiNNUg==
+X-Gm-Message-State: AOJu0YxgrHyHjUmKzFSGDMBRuIBCJDgNkLe8gaNcHTYHv/rycyI19Uyq
+	oxOgl35ozoHpVcpAo0dkxjl4iDRPrGqSRfEWgsfQTOTtxOoz1dSli+eljdTp
+X-Google-Smtp-Source: AGHT+IF8ZxfDkoY7tQaMlIFw8ibDYc8+OnII82pa9zKj7EIAs2ieSt1GO9QKjuGhzrBLqEfni8Xosg==
+X-Received: by 2002:a05:600c:1ca2:b0:424:8e12:9ef3 with SMTP id 5b1f17b1804b1-4248e129f6fmr82029245e9.0.1719437836861;
+        Wed, 26 Jun 2024 14:37:16 -0700 (PDT)
+Received: from laptom (88-121-55-84.subs.proxad.net. [88.121.55.84])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-424a2abc265sm44536785e9.1.2024.06.26.14.37.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Jun 2024 14:37:16 -0700 (PDT)
+Message-ID: <667c8a0c.050a0220.9e3d5.3b80@mx.google.com>
+X-Google-Original-Message-ID: <ZnyKCpE2tbvWD8Xm@laptom.>
+Date: Wed, 26 Jun 2024 23:37:14 +0200
+From: Tom Mounet <tommounet@gmail.com>
+To: Marc Dietrich <marvin24@gmx.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	ac100@lists.launchpad.net, linux-tegra@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev
+Subject: [PATCH v2] staging: nvec: Use x instead of x != NULL to improve
+ readability.
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] Staging: rtl8192e: rtllib_rx: fix alignment
-To: Yusef Aslam <yuzi54780@outlook.com>, gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <CWLP265MB65165E806F938F87CB67BF87FDD62@CWLP265MB6516.GBRP265.PROD.OUTLOOK.COM>
-Content-Language: en-US
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <CWLP265MB65165E806F938F87CB67BF87FDD62@CWLP265MB6516.GBRP265.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 6/26/24 14:56, Yusef Aslam wrote:
-> From: Yusef Aslam <YUZi54780@outlook.com>
-> Date: Wed, 26 Jun 2024 13:02:02 +0100
-> Subject: [PATCH v3] Staging: rtl8192e: rtllib_rx: fix alignment
-> 
-> Fix alignment.
-Hi Yusef,
+Issue identified by checkpatch.
 
-The patch can be applied. Thanks for the change history.
+Signed-off-by: Tom Mounet <tommounet@gmail.com>
+---
+ drivers/staging/nvec/nvec.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-But your patch description is not answering the why.
-
-It could be: Fix alignment to increase readabiltiy.
-
-For the first patch this is way to long and the indentations are really 
-a mess. Issue is that lines then get to long which leads again to 
-checkpatch issues. Please find some of my comments below.
-
-
-> 
-> Signed-off-by: Yusef Aslam <YUZi54780@outlook.com>
-> ---
->   v3:
->   - Used the correct email addresses.
->   - Developed against the correct git repository.
->   v2:
->   - The email address of Greg Kroah-Hartman was wrong.
->   - Developed against the wrong git repository.
->   v1:
->   - Developed against the wrong git repository.
-> 
->   drivers/staging/rtl8192e/rtllib_rx.c | 110 +++++++++++++--------------
->   1 file changed, 55 insertions(+), 55 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8192e/rtllib_rx.c b/drivers/staging/rtl8192e/rtllib_rx.c
-> index 84ca5d769b7e..1f6c4a3de5c2 100644
-> --- a/drivers/staging/rtl8192e/rtllib_rx.c
-> +++ b/drivers/staging/rtl8192e/rtllib_rx.c
-> @@ -410,7 +410,7 @@ static bool add_reorder_entry(struct rx_ts_record *ts,
->   	while (list->next != &ts->rx_pending_pkt_list) {
->   		if (SN_LESS(pReorderEntry->SeqNum, ((struct rx_reorder_entry *)
->   		    list_entry(list->next, struct rx_reorder_entry,
-> -		    list))->SeqNum))
-> +			       list))->SeqNum))
->   			list = list->next;
->   		else if (SN_EQUAL(pReorderEntry->SeqNum,
->   			((struct rx_reorder_entry *)list_entry(list->next,
-> @@ -736,7 +736,7 @@ static u8 parse_subframe(struct rtllib_device *ieee, struct sk_buff *skb,
->   	/* just for debug purpose */
->   	SeqNum = WLAN_GET_SEQ_SEQ(le16_to_cpu(hdr->seq_ctrl));
->   	if ((RTLLIB_QOS_HAS_SEQ(fc)) &&
-> -	   (((union frameqos *)(skb->data + RTLLIB_3ADDR_LEN))->field.reserved))
-> +	    (((union frameqos *)(skb->data + RTLLIB_3ADDR_LEN))->field.reserved))
->   		is_aggregate_frame = true;
->   
->   	if (RTLLIB_QOS_HAS_SEQ(fc))
-> @@ -876,13 +876,13 @@ static int rtllib_rx_check_duplicate(struct rtllib_device *ieee,
->   	frag = WLAN_GET_SEQ_FRAG(sc);
->   
->   	if (!ieee->ht_info->cur_rx_reorder_enable ||
-> -		!ieee->current_network.qos_data.active ||
-> -		!is_data_frame(skb->data) ||
-> -		is_legacy_data_frame(skb->data)) {
-> -		if (!ieee80211_is_beacon(hdr->frame_control)) {
-> -			if (is_duplicate_packet(ieee, hdr))
-> -				return -1;
-> -		}
-> +	    !ieee->current_network.qos_data.active ||
-> +	    !is_data_frame(skb->data) ||
-> +	    is_legacy_data_frame(skb->data)) {
-> +	  if (!ieee80211_is_beacon(hdr->frame_control)) {
-Why is the above line indentation 1 Tab two spaces?
-> +	    if (is_duplicate_packet(ieee, hdr))
-> +	      return -1;
-> +	  }
->   	} else {
->   		struct rx_ts_record *ts = NULL;
->   
-> @@ -976,7 +976,7 @@ static int rtllib_rx_data_filter(struct rtllib_device *ieee, struct ieee80211_hd
->   }
->   
->   static int rtllib_rx_get_crypt(struct rtllib_device *ieee, struct sk_buff *skb,
-> -			struct lib80211_crypt_data **crypt, size_t hdrlen)
-> +			       struct lib80211_crypt_data **crypt, size_t hdrlen)
->   {
->   	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)skb->data;
->   	u16 fc = le16_to_cpu(hdr->frame_control);
-> @@ -1008,8 +1008,8 @@ static int rtllib_rx_get_crypt(struct rtllib_device *ieee, struct sk_buff *skb,
->   }
->   
->   static int rtllib_rx_decrypt(struct rtllib_device *ieee, struct sk_buff *skb,
-> -		      struct rtllib_rx_stats *rx_stats,
-> -		      struct lib80211_crypt_data *crypt, size_t hdrlen)
-> +			     struct rtllib_rx_stats *rx_stats,
-> +			     struct lib80211_crypt_data *crypt, size_t hdrlen)
->   {
->   	struct ieee80211_hdr *hdr;
->   	int keyidx = 0;
-> @@ -1092,9 +1092,9 @@ static int rtllib_rx_decrypt(struct rtllib_device *ieee, struct sk_buff *skb,
->   	 * encrypted/authenticated
->   	 */
->   	if ((fc & IEEE80211_FCTL_PROTECTED) &&
-> -		rtllib_rx_frame_decrypt_msdu(ieee, skb, keyidx, crypt)) {
-> -		netdev_info(ieee->dev, "%s: ==>decrypt msdu error\n", __func__);
-> -		return -1;
-> +	    rtllib_rx_frame_decrypt_msdu(ieee, skb, keyidx, crypt)) {
-> +	  netdev_info(ieee->dev, "%s: ==>decrypt msdu error\n", __func__);
-> +	  return -1;
-Why are the two above lines indentation 1 Tab two spaces?
->   	}
->   
->   	hdr = (struct ieee80211_hdr *)skb->data;
-> @@ -1152,10 +1152,10 @@ static void rtllib_rx_check_leave_lps(struct rtllib_device *ieee, u8 unicast,
->   }
->   
->   static void rtllib_rx_indicate_pkt_legacy(struct rtllib_device *ieee,
-> -		struct rtllib_rx_stats *rx_stats,
-> -		struct rtllib_rxb *rxb,
-> -		u8 *dst,
-> -		u8 *src)
-> +					  struct rtllib_rx_stats *rx_stats,
-> +					  struct rtllib_rxb *rxb,
-> +					  u8 *dst,
-> +					  u8 *src)
->   {
->   	struct net_device *dev = ieee->dev;
->   	u16 ethertype;
-> @@ -1175,17 +1175,17 @@ static void rtllib_rx_indicate_pkt_legacy(struct rtllib_device *ieee,
->   			 */
->   			ethertype = (sub_skb->data[6] << 8) | sub_skb->data[7];
->   			if (sub_skb->len >= 8 &&
-> -				((memcmp(sub_skb->data, rfc1042_header, SNAP_SIZE) == 0 &&
-> -				ethertype != ETH_P_AARP && ethertype != ETH_P_IPX) ||
-> -				memcmp(sub_skb->data, bridge_tunnel_header, SNAP_SIZE) == 0)) {
-> -				/* remove RFC1042 or Bridge-Tunnel encapsulation
-> -				 * and replace EtherType
-> -				 */
-> -				skb_pull(sub_skb, SNAP_SIZE);
-> -				ether_addr_copy(skb_push(sub_skb, ETH_ALEN),
-> -						src);
-> -				ether_addr_copy(skb_push(sub_skb, ETH_ALEN),
-> -						dst);
-> +			    ((memcmp(sub_skb->data, rfc1042_header, SNAP_SIZE) == 0 &&
-> +			      ethertype != ETH_P_AARP && ethertype != ETH_P_IPX) ||
-> +			     memcmp(sub_skb->data, bridge_tunnel_header, SNAP_SIZE) == 0)) {
-> +			  /* remove RFC1042 or Bridge-Tunnel encapsulation
-> +			   * and replace EtherType
-> +			   */
-> +			  skb_pull(sub_skb, SNAP_SIZE);
-> +			  ether_addr_copy(skb_push(sub_skb, ETH_ALEN),
-> +					  src);
-> +			  ether_addr_copy(skb_push(sub_skb, ETH_ALEN),
-> +					  dst);
-Why are the eight above lines indentation 3 Tab two spaces?
->   			} else {
->   				u16 len;
->   				/* Leave Ethernet header part of hdr
-> @@ -1220,7 +1220,7 @@ static void rtllib_rx_indicate_pkt_legacy(struct rtllib_device *ieee,
->   }
->   
->   static int rtllib_rx_infra_adhoc(struct rtllib_device *ieee, struct sk_buff *skb,
-> -		 struct rtllib_rx_stats *rx_stats)
-> +				 struct rtllib_rx_stats *rx_stats)
->   {
->   	struct net_device *dev = ieee->dev;
->   	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)skb->data;
-> @@ -1323,9 +1323,9 @@ static int rtllib_rx_infra_adhoc(struct rtllib_device *ieee, struct sk_buff *skb
->   		TID = frame_qos_tid(skb->data);
->   		SeqNum = WLAN_GET_SEQ_SEQ(sc);
->   		rtllib_get_ts(ieee, (struct ts_common_info **)&ts, hdr->addr2, TID,
-> -		      RX_DIR, true);
-> +			      RX_DIR, true);
->   		if (TID != 0 && TID != 3)
-> -			ieee->bis_any_nonbepkts = true;
-> +		  ieee->bis_any_nonbepkts = true;
-Why is the above line indentation 2 Tab two spaces?
-I am stopping here sorry.
-
-Bye Philipp
->   	}
->   
->   	/* Parse rx data frame (For AMSDU) */
-> @@ -1380,7 +1380,7 @@ static int rtllib_rx_infra_adhoc(struct rtllib_device *ieee, struct sk_buff *skb
->   }
->   
->   static int rtllib_rx_monitor(struct rtllib_device *ieee, struct sk_buff *skb,
-> -		 struct rtllib_rx_stats *rx_stats)
-> +			     struct rtllib_rx_stats *rx_stats)
->   {
->   	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)skb->data;
->   	u16 fc = le16_to_cpu(hdr->frame_control);
-> @@ -1412,7 +1412,7 @@ static int rtllib_rx_monitor(struct rtllib_device *ieee, struct sk_buff *skb,
->    * This function is called only as a tasklet (software IRQ).
->    */
->   int rtllib_rx(struct rtllib_device *ieee, struct sk_buff *skb,
-> -		 struct rtllib_rx_stats *rx_stats)
-> +	      struct rtllib_rx_stats *rx_stats)
->   {
->   	int ret = 0;
->   
-> @@ -1577,10 +1577,10 @@ static int rtllib_parse_qos_info_param_IE(struct rtllib_device *ieee,
->   		struct rtllib_qos_parameter_info param_element;
->   
->   		rc = rtllib_read_qos_param_element(&param_element,
-> -						      info_element);
-> +						   info_element);
->   		if (rc == 0) {
->   			rtllib_qos_convert_ac_to_parameters(&param_element,
-> -							       &(network->qos_data));
-> +							    &(network->qos_data));
->   			network->flags |= NETWORK_HAS_QOS_PARAMETERS;
->   			network->qos_data.param_count =
->   			    param_element.info_element.ac_info & 0x0F;
-> @@ -1864,7 +1864,7 @@ static void rtllib_parse_mfie_ht_cap(struct rtllib_info_element *info_element,
->   	if (*tmp_htcap_len != 0) {
->   		ht->bd_ht_spec_ver = HT_SPEC_VER_EWC;
->   		ht->bd_ht_cap_len = min_t(u16, *tmp_htcap_len,
-> -				       sizeof(ht->bd_ht_cap_buf));
-> +					  sizeof(ht->bd_ht_cap_buf));
->   		memcpy(ht->bd_ht_cap_buf, info_element->data, ht->bd_ht_cap_len);
->   
->   		ht->bd_support_ht = true;
-> @@ -1882,10 +1882,10 @@ static void rtllib_parse_mfie_ht_cap(struct rtllib_info_element *info_element,
->   }
->   
->   int rtllib_parse_info_param(struct rtllib_device *ieee,
-> -		struct rtllib_info_element *info_element,
-> -		u16 length,
-> -		struct rtllib_network *network,
-> -		struct rtllib_rx_stats *stats)
-> +			    struct rtllib_info_element *info_element,
-> +			    u16 length,
-> +			    struct rtllib_network *network,
-> +			    struct rtllib_rx_stats *stats)
->   {
->   	u8 i;
->   	short offset;
-> @@ -2329,10 +2329,10 @@ static inline void update_network(struct rtllib_device *ieee,
->   
->   	dst->wmm_info = src->wmm_info;
->   	if (src->wmm_param[0].ac_aci_acm_aifsn ||
-> -	   src->wmm_param[1].ac_aci_acm_aifsn ||
-> -	   src->wmm_param[2].ac_aci_acm_aifsn ||
-> -	   src->wmm_param[3].ac_aci_acm_aifsn)
-> -		memcpy(dst->wmm_param, src->wmm_param, WME_AC_PRAM_LEN);
-> +	    src->wmm_param[1].ac_aci_acm_aifsn ||
-> +	    src->wmm_param[2].ac_aci_acm_aifsn ||
-> +	    src->wmm_param[3].ac_aci_acm_aifsn)
-> +	  memcpy(dst->wmm_param, src->wmm_param, WME_AC_PRAM_LEN);
->   
->   	dst->SignalStrength = src->SignalStrength;
->   	dst->RSSI = src->RSSI;
-> @@ -2450,7 +2450,7 @@ static inline void rtllib_process_probe_response(
->   
->   	spin_lock_irqsave(&ieee->lock, flags);
->   	if (is_same_network(&ieee->current_network, network,
-> -	   (network->ssid_len ? 1 : 0))) {
-> +			    (network->ssid_len ? 1 : 0))) {
->   		update_network(ieee, &ieee->current_network, network);
->   		if ((ieee->current_network.mode == WIRELESS_MODE_N_24G ||
->   		     ieee->current_network.mode == WIRELESS_MODE_G) &&
-> @@ -2467,10 +2467,10 @@ static inline void rtllib_process_probe_response(
->   	}
->   	list_for_each_entry(target, &ieee->network_list, list) {
->   		if (is_same_network(target, network,
-> -		   (target->ssid_len ? 1 : 0)))
-> -			break;
-> +				    (target->ssid_len ? 1 : 0)))
-> +		  break;
->   		if (!oldest || (target->last_scanned < oldest->last_scanned))
-> -			oldest = target;
-> +		  oldest = target;
->   	}
->   
->   	/* If we didn't find a match, then get a new network slot to initialize
-> @@ -2528,9 +2528,9 @@ static inline void rtllib_process_probe_response(
->   	spin_unlock_irqrestore(&ieee->lock, flags);
->   	if (ieee80211_is_beacon(frame_ctl) &&
->   	    is_same_network(&ieee->current_network, network,
-> -	    (network->ssid_len ? 1 : 0)) &&
-> +			    (network->ssid_len ? 1 : 0)) &&
->   	    (ieee->link_state == MAC80211_LINKED)) {
-> -		ieee->handle_beacon(ieee->dev, beacon, &ieee->current_network);
-> +	  ieee->handle_beacon(ieee->dev, beacon, &ieee->current_network);
->   	}
->   free_network:
->   	kfree(network);
-> @@ -2553,9 +2553,9 @@ static void rtllib_rx_mgt(struct rtllib_device *ieee,
->   				stats);
->   
->   		if (ieee->sta_sleep || (ieee->ps != RTLLIB_PS_DISABLED &&
-> -		    ieee->iw_mode == IW_MODE_INFRA &&
-> -		    ieee->link_state == MAC80211_LINKED))
-> -			schedule_work(&ieee->ps_task);
-> +					ieee->iw_mode == IW_MODE_INFRA &&
-> +					ieee->link_state == MAC80211_LINKED))
-> +		  schedule_work(&ieee->ps_task);
->   	} else if (ieee80211_is_probe_resp(header->frame_control)) {
->   		netdev_dbg(ieee->dev, "received PROBE RESPONSE\n");
->   		rtllib_process_probe_response(ieee, (struct rtllib_probe_response *)header,
+diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
+index e5ca78e57..814eb121c 100644
+--- a/drivers/staging/nvec/nvec.c
++++ b/drivers/staging/nvec/nvec.c
+@@ -300,7 +300,7 @@ int nvec_write_sync(struct nvec_chip *nvec,
+ {
+ 	mutex_lock(&nvec->sync_write_mutex);
+ 
+-	if (msg != NULL)
++	if (msg)
+ 		*msg = NULL;
+ 
+ 	nvec->sync_write_pending = (data[1] << 8) + data[0];
+@@ -322,7 +322,7 @@ int nvec_write_sync(struct nvec_chip *nvec,
+ 
+ 	dev_dbg(nvec->dev, "nvec_sync_write: pong!\n");
+ 
+-	if (msg != NULL)
++	if (msg)
+ 		*msg = nvec->last_sync_msg;
+ 	else
+ 		nvec_msg_free(nvec, nvec->last_sync_msg);
+-- 
+2.39.2
 
