@@ -1,48 +1,58 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1FE418FC63
-	for <linux-staging@lists.linux.dev>; Wed, 26 Jun 2024 16:38:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBCE118FDC7
+	for <linux-staging@lists.linux.dev>; Wed, 26 Jun 2024 17:32:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719419883; cv=none; b=k0kw3EQWSwNJXgkEH95LNLNn1ppWS4bUgqEvyh4xt0QAa8TIRxgIN8WONvX1YCSJsWbHObNRMKdBwaD0eV9JJ9SQUAd0+dRRqlMbeUpe2krEA0PrZB9N0C7ZSBgMzbGM/XLVlxJ09y8oCO7LBqnkz6gg3o/59UAtA1NZwXPR4Jg=
+	t=1719423162; cv=none; b=aCmljFvWoMLV3QqpQftDeVY4CmCf8KlNXlzkISdUXOhelDWgF5G+vekPVcqkjG+9ihOy0mCwnl7SV9STf6SWojhYgzk+paCSjh3VJlWyz7Kmc81PlBNXXhTW3+2E5QXRmDjKEzG0CCtNHkJA5GZbRdR9tzOlbwAPLie+5UB59+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719419883; c=relaxed/simple;
-	bh=quDgZOW6YvheFb7yHwFy1dLNIq03jS6xr5TWbu53Ok0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=rdxAtAtKUOJ2Ynk2makj/jzxpwzutgRlVnSYifnxaTLfEWpAcIfseOxJRsjq9hDhz35WFTDEtshOrfQhVkBOFAxkOQGIiHbrj7D7u2tURBjFy4AoXormL88SxFt98G1aePJvWt+TnWRC+Gac1jUoJq/H6tpQ/nYGLyaoVy7zVAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=e9NxQsmh; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1719423162; c=relaxed/simple;
+	bh=GqJZQKiPCuO6dEumoHej8MaBuCHlsche1tdUn5g/xYQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WZq4gjDXwNPwxk/A+3zjArf+No0NryZVe8q5JgLbzRRSEFt4NsDvfS95DSEZvgswX5JB876nFxQo0ZYIG7IiRrakEfBA6dcDjrZFIKEAko2bGgLjY6qBeNVnLiwDeSBNmg6sIADZWpQQR7L/P9fLD2t5WdsDNr1Bo51ayXUNUWM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I/36j/7I; arc=none smtp.client-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="e9NxQsmh"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45QAfPi0023204;
-	Wed, 26 Jun 2024 16:37:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	EeQVUKZnUwKoGoDNJ2FAjvUYnjPiyCIqsv16t1D3psI=; b=e9NxQsmh0yKvL+HD
-	8mWSoY5rsvRq3mgU9VZhg17Fu4PBjQ2+yEpbFvdRThH1Inmo18nkRpWeOod4Aqu+
-	lyF7lqKtKonxkSKAmkuZAHLMyuTvLM9Rvh4IaXiDyEgxGsVnL1cT1ZrePthSyZNX
-	dtVORKoTxEmAropQ/j+ErkI6P6Qyb1QAA++lHpsApdqT4nem/Zm3QYyBznEgEwhY
-	zM+8xeFoCQHHTwvtp8nQ1YeleF+7P3TtIret0mBbVnpeIWR0+kETLtlJPq8S8/fY
-	mikuiNBeEeQX4UyQsKAoXl92tjKXvpGfZVeJNUlXGCQXoCKr66rZBQud8fpzYyXT
-	gPTAJA==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ywpu19p5t-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 26 Jun 2024 16:37:55 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA01.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 45QGbsAt004988
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 26 Jun 2024 16:37:54 GMT
-Received: from [10.48.244.230] (10.49.16.6) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 26 Jun
- 2024 09:37:53 -0700
-Message-ID: <be4544a3-ac67-4d4c-b00b-0e2e47a7522a@quicinc.com>
-Date: Wed, 26 Jun 2024 09:37:53 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I/36j/7I"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-579e1bf599aso54812a12.3
+        for <linux-staging@lists.linux.dev>; Wed, 26 Jun 2024 10:32:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1719423159; x=1720027959; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=uoaypK5qKempXAjx4rxIsoucnho88lwGVYl3Cv1sJJo=;
+        b=I/36j/7Ik3n+ZdTbN33XKgecXiZo85y0Oc/3AwmtDKluSeKyrQwkVNUYDQLt9Fbbym
+         8zjl42PBaXd1XGy64NUV4VEHfBShNaZN0bGtv3sh5WTtQgIUNaSD35f06dlfmkoLG6HC
+         IlVoojp3TOo2LmLXLhyMuisPbY6S0ndSHE7OYdy7iW5AiZxgn/9+TzVhkAS0WBfzRB2I
+         dHOHLdw204FpBfXaeHDLzwYc+2R6FXHxVCX3OqWOJG9jbmJ9bHOULwJYx5cyyl5stVub
+         BrM2w/0T0w+ECqmUsIrXJ6ZoUE9DVQLwFKaJCLTbaJSMnsRgxg8jazJcd4czFUNwaUNz
+         5aNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719423159; x=1720027959;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=uoaypK5qKempXAjx4rxIsoucnho88lwGVYl3Cv1sJJo=;
+        b=LS5qjEHMCOdBPuNqXquzqFgRbHvOb9ri1JmJ/ijHKNFqye9L/9i/NGJJgkfy44eZz/
+         PS1IQPV/ESBYTQnWuhj35WH7eCzPj2N569qvxMLRjLUSm0N+U8vRtpJKI3ZnmesQw7K9
+         aIZPYTnYsslpHXAohc34GDzRCue/S+gvLlTP9ObQ6bglKoH7+pEtIjN9aLtom5PT5ZNr
+         C+lEN74w1E7nSW3z5ixfcznz9Cg4Kbtwvc+1CruVab0BHAQizM5lXcXk+1Ad6ZW/XPhf
+         uUl2Ci6aIfmFTvvBcV5U8RFlf3vocA7f/MRHzMawmOD/85iIC6nkAq4eBON/AvKFMHC2
+         IDbA==
+X-Gm-Message-State: AOJu0YxhKzFfXvMpcaqZh/4arr1Fp5zVtfGPTx60e6VLHsb/U6ysDg5a
+	WVoX2LxssnQEm7IFg1NrbjCUV7k2vUusSOqm2BZPVQSwJDEJLWRo
+X-Google-Smtp-Source: AGHT+IEz+FCdDX15s3dT/Gci5qkJzUTh/8OaYF3f+cCCrZ+TCBcXWD4CZ3Af4d0LDBWphs+JoTDoSA==
+X-Received: by 2002:a17:906:c34b:b0:a6f:1f6d:eb70 with SMTP id a640c23a62f3a-a6fe780178dmr742755766b.5.1719423158836;
+        Wed, 26 Jun 2024 10:32:38 -0700 (PDT)
+Received: from [192.168.0.103] (p57935a9b.dip0.t-ipconnect.de. [87.147.90.155])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7251563486sm362453566b.88.2024.06.26.10.32.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 26 Jun 2024 10:32:38 -0700 (PDT)
+Message-ID: <4b489362-7714-4d96-b6a1-50d627b15319@gmail.com>
+Date: Wed, 26 Jun 2024 19:32:37 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -50,76 +60,314 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: atomisp: add missing MODULE_DESCRIPTION() macros
+Subject: Re: [PATCH v3] Staging: rtl8192e: rtllib_rx: fix alignment
+To: Yusef Aslam <yuzi54780@outlook.com>, gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <CWLP265MB65165E806F938F87CB67BF87FDD62@CWLP265MB6516.GBRP265.PROD.OUTLOOK.COM>
 Content-Language: en-US
-To: Hans de Goede <hdegoede@redhat.com>,
-        Mauro Carvalho Chehab
-	<mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>
-CC: <linux-media@vger.kernel.org>, <linux-staging@lists.linux.dev>,
-        <linux-kernel@vger.kernel.org>, <kernel-janitors@vger.kernel.org>
-References: <20240610-md-drivers-staging-media-atomisp-i2c-v1-1-c7b63464fae5@quicinc.com>
-From: Jeff Johnson <quic_jjohnson@quicinc.com>
-In-Reply-To: <20240610-md-drivers-staging-media-atomisp-i2c-v1-1-c7b63464fae5@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <CWLP265MB65165E806F938F87CB67BF87FDD62@CWLP265MB6516.GBRP265.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: rJ-s3Ke3Q4OKJORi2gQRNgnrVPlDxD72
-X-Proofpoint-ORIG-GUID: rJ-s3Ke3Q4OKJORi2gQRNgnrVPlDxD72
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-26_07,2024-06-25_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 spamscore=0
- clxscore=1011 malwarescore=0 lowpriorityscore=0 priorityscore=1501
- adultscore=0 phishscore=0 mlxlogscore=999 bulkscore=0 suspectscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2406140001 definitions=main-2406260122
 
-On 6/10/2024 5:34 PM, Jeff Johnson wrote:
-> make allmodconfig && make W=1 C=1 reports:
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/media/atomisp/i2c/atomisp-mt9m114.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/media/atomisp/i2c/atomisp-libmsrlisthelper.o
+On 6/26/24 14:56, Yusef Aslam wrote:
+> From: Yusef Aslam <YUZi54780@outlook.com>
+> Date: Wed, 26 Jun 2024 13:02:02 +0100
+> Subject: [PATCH v3] Staging: rtl8192e: rtllib_rx: fix alignment
 > 
-> Add the missing invocations of the MODULE_DESCRIPTION() macro.
+> Fix alignment.
+Hi Yusef,
+
+The patch can be applied. Thanks for the change history.
+
+But your patch description is not answering the why.
+
+It could be: Fix alignment to increase readabiltiy.
+
+For the first patch this is way to long and the indentations are really 
+a mess. Issue is that lines then get to long which leads again to 
+checkpatch issues. Please find some of my comments below.
+
+
 > 
-> Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
+> Signed-off-by: Yusef Aslam <YUZi54780@outlook.com>
 > ---
->  drivers/staging/media/atomisp/i2c/atomisp-libmsrlisthelper.c | 1 +
->  drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c          | 1 +
->  2 files changed, 2 insertions(+)
+>   v3:
+>   - Used the correct email addresses.
+>   - Developed against the correct git repository.
+>   v2:
+>   - The email address of Greg Kroah-Hartman was wrong.
+>   - Developed against the wrong git repository.
+>   v1:
+>   - Developed against the wrong git repository.
 > 
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-libmsrlisthelper.c b/drivers/staging/media/atomisp/i2c/atomisp-libmsrlisthelper.c
-> index 7a20d918a9d5..3499353f8ea5 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-libmsrlisthelper.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-libmsrlisthelper.c
-> @@ -207,4 +207,5 @@ module_init(init_msrlisthelper);
->  module_exit(exit_msrlisthelper);
->  
->  MODULE_AUTHOR("Jukka Kaartinen <jukka.o.kaartinen@intel.com>");
-> +MODULE_DESCRIPTION("Helper library to load, parse and apply large register lists");
->  MODULE_LICENSE("GPL");
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-> index 23b1001c2a55..918ea4fa9f6b 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-> @@ -1614,4 +1614,5 @@ static struct i2c_driver mt9m114_driver = {
->  module_i2c_driver(mt9m114_driver);
->  
->  MODULE_AUTHOR("Shuguang Gong <Shuguang.gong@intel.com>");
-> +MODULE_DESCRIPTION("Aptina mt9m114 sensor support module");
->  MODULE_LICENSE("GPL");
+>   drivers/staging/rtl8192e/rtllib_rx.c | 110 +++++++++++++--------------
+>   1 file changed, 55 insertions(+), 55 deletions(-)
 > 
-> ---
-> base-commit: 83a7eefedc9b56fe7bfeff13b6c7356688ffa670
-> change-id: 20240610-md-drivers-staging-media-atomisp-i2c-18a7a4f883eb
-> 
+> diff --git a/drivers/staging/rtl8192e/rtllib_rx.c b/drivers/staging/rtl8192e/rtllib_rx.c
+> index 84ca5d769b7e..1f6c4a3de5c2 100644
+> --- a/drivers/staging/rtl8192e/rtllib_rx.c
+> +++ b/drivers/staging/rtl8192e/rtllib_rx.c
+> @@ -410,7 +410,7 @@ static bool add_reorder_entry(struct rx_ts_record *ts,
+>   	while (list->next != &ts->rx_pending_pkt_list) {
+>   		if (SN_LESS(pReorderEntry->SeqNum, ((struct rx_reorder_entry *)
+>   		    list_entry(list->next, struct rx_reorder_entry,
+> -		    list))->SeqNum))
+> +			       list))->SeqNum))
+>   			list = list->next;
+>   		else if (SN_EQUAL(pReorderEntry->SeqNum,
+>   			((struct rx_reorder_entry *)list_entry(list->next,
+> @@ -736,7 +736,7 @@ static u8 parse_subframe(struct rtllib_device *ieee, struct sk_buff *skb,
+>   	/* just for debug purpose */
+>   	SeqNum = WLAN_GET_SEQ_SEQ(le16_to_cpu(hdr->seq_ctrl));
+>   	if ((RTLLIB_QOS_HAS_SEQ(fc)) &&
+> -	   (((union frameqos *)(skb->data + RTLLIB_3ADDR_LEN))->field.reserved))
+> +	    (((union frameqos *)(skb->data + RTLLIB_3ADDR_LEN))->field.reserved))
+>   		is_aggregate_frame = true;
+>   
+>   	if (RTLLIB_QOS_HAS_SEQ(fc))
+> @@ -876,13 +876,13 @@ static int rtllib_rx_check_duplicate(struct rtllib_device *ieee,
+>   	frag = WLAN_GET_SEQ_FRAG(sc);
+>   
+>   	if (!ieee->ht_info->cur_rx_reorder_enable ||
+> -		!ieee->current_network.qos_data.active ||
+> -		!is_data_frame(skb->data) ||
+> -		is_legacy_data_frame(skb->data)) {
+> -		if (!ieee80211_is_beacon(hdr->frame_control)) {
+> -			if (is_duplicate_packet(ieee, hdr))
+> -				return -1;
+> -		}
+> +	    !ieee->current_network.qos_data.active ||
+> +	    !is_data_frame(skb->data) ||
+> +	    is_legacy_data_frame(skb->data)) {
+> +	  if (!ieee80211_is_beacon(hdr->frame_control)) {
+Why is the above line indentation 1 Tab two spaces?
+> +	    if (is_duplicate_packet(ieee, hdr))
+> +	      return -1;
+> +	  }
+>   	} else {
+>   		struct rx_ts_record *ts = NULL;
+>   
+> @@ -976,7 +976,7 @@ static int rtllib_rx_data_filter(struct rtllib_device *ieee, struct ieee80211_hd
+>   }
+>   
+>   static int rtllib_rx_get_crypt(struct rtllib_device *ieee, struct sk_buff *skb,
+> -			struct lib80211_crypt_data **crypt, size_t hdrlen)
+> +			       struct lib80211_crypt_data **crypt, size_t hdrlen)
+>   {
+>   	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)skb->data;
+>   	u16 fc = le16_to_cpu(hdr->frame_control);
+> @@ -1008,8 +1008,8 @@ static int rtllib_rx_get_crypt(struct rtllib_device *ieee, struct sk_buff *skb,
+>   }
+>   
+>   static int rtllib_rx_decrypt(struct rtllib_device *ieee, struct sk_buff *skb,
+> -		      struct rtllib_rx_stats *rx_stats,
+> -		      struct lib80211_crypt_data *crypt, size_t hdrlen)
+> +			     struct rtllib_rx_stats *rx_stats,
+> +			     struct lib80211_crypt_data *crypt, size_t hdrlen)
+>   {
+>   	struct ieee80211_hdr *hdr;
+>   	int keyidx = 0;
+> @@ -1092,9 +1092,9 @@ static int rtllib_rx_decrypt(struct rtllib_device *ieee, struct sk_buff *skb,
+>   	 * encrypted/authenticated
+>   	 */
+>   	if ((fc & IEEE80211_FCTL_PROTECTED) &&
+> -		rtllib_rx_frame_decrypt_msdu(ieee, skb, keyidx, crypt)) {
+> -		netdev_info(ieee->dev, "%s: ==>decrypt msdu error\n", __func__);
+> -		return -1;
+> +	    rtllib_rx_frame_decrypt_msdu(ieee, skb, keyidx, crypt)) {
+> +	  netdev_info(ieee->dev, "%s: ==>decrypt msdu error\n", __func__);
+> +	  return -1;
+Why are the two above lines indentation 1 Tab two spaces?
+>   	}
+>   
+>   	hdr = (struct ieee80211_hdr *)skb->data;
+> @@ -1152,10 +1152,10 @@ static void rtllib_rx_check_leave_lps(struct rtllib_device *ieee, u8 unicast,
+>   }
+>   
+>   static void rtllib_rx_indicate_pkt_legacy(struct rtllib_device *ieee,
+> -		struct rtllib_rx_stats *rx_stats,
+> -		struct rtllib_rxb *rxb,
+> -		u8 *dst,
+> -		u8 *src)
+> +					  struct rtllib_rx_stats *rx_stats,
+> +					  struct rtllib_rxb *rxb,
+> +					  u8 *dst,
+> +					  u8 *src)
+>   {
+>   	struct net_device *dev = ieee->dev;
+>   	u16 ethertype;
+> @@ -1175,17 +1175,17 @@ static void rtllib_rx_indicate_pkt_legacy(struct rtllib_device *ieee,
+>   			 */
+>   			ethertype = (sub_skb->data[6] << 8) | sub_skb->data[7];
+>   			if (sub_skb->len >= 8 &&
+> -				((memcmp(sub_skb->data, rfc1042_header, SNAP_SIZE) == 0 &&
+> -				ethertype != ETH_P_AARP && ethertype != ETH_P_IPX) ||
+> -				memcmp(sub_skb->data, bridge_tunnel_header, SNAP_SIZE) == 0)) {
+> -				/* remove RFC1042 or Bridge-Tunnel encapsulation
+> -				 * and replace EtherType
+> -				 */
+> -				skb_pull(sub_skb, SNAP_SIZE);
+> -				ether_addr_copy(skb_push(sub_skb, ETH_ALEN),
+> -						src);
+> -				ether_addr_copy(skb_push(sub_skb, ETH_ALEN),
+> -						dst);
+> +			    ((memcmp(sub_skb->data, rfc1042_header, SNAP_SIZE) == 0 &&
+> +			      ethertype != ETH_P_AARP && ethertype != ETH_P_IPX) ||
+> +			     memcmp(sub_skb->data, bridge_tunnel_header, SNAP_SIZE) == 0)) {
+> +			  /* remove RFC1042 or Bridge-Tunnel encapsulation
+> +			   * and replace EtherType
+> +			   */
+> +			  skb_pull(sub_skb, SNAP_SIZE);
+> +			  ether_addr_copy(skb_push(sub_skb, ETH_ALEN),
+> +					  src);
+> +			  ether_addr_copy(skb_push(sub_skb, ETH_ALEN),
+> +					  dst);
+Why are the eight above lines indentation 3 Tab two spaces?
+>   			} else {
+>   				u16 len;
+>   				/* Leave Ethernet header part of hdr
+> @@ -1220,7 +1220,7 @@ static void rtllib_rx_indicate_pkt_legacy(struct rtllib_device *ieee,
+>   }
+>   
+>   static int rtllib_rx_infra_adhoc(struct rtllib_device *ieee, struct sk_buff *skb,
+> -		 struct rtllib_rx_stats *rx_stats)
+> +				 struct rtllib_rx_stats *rx_stats)
+>   {
+>   	struct net_device *dev = ieee->dev;
+>   	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)skb->data;
+> @@ -1323,9 +1323,9 @@ static int rtllib_rx_infra_adhoc(struct rtllib_device *ieee, struct sk_buff *skb
+>   		TID = frame_qos_tid(skb->data);
+>   		SeqNum = WLAN_GET_SEQ_SEQ(sc);
+>   		rtllib_get_ts(ieee, (struct ts_common_info **)&ts, hdr->addr2, TID,
+> -		      RX_DIR, true);
+> +			      RX_DIR, true);
+>   		if (TID != 0 && TID != 3)
+> -			ieee->bis_any_nonbepkts = true;
+> +		  ieee->bis_any_nonbepkts = true;
+Why is the above line indentation 2 Tab two spaces?
+I am stopping here sorry.
 
-Following up to see if anything else is needed from me. Hoping to see this in
-linux-next so I can remove it from my tracking spreadsheet :)
+Bye Philipp
+>   	}
+>   
+>   	/* Parse rx data frame (For AMSDU) */
+> @@ -1380,7 +1380,7 @@ static int rtllib_rx_infra_adhoc(struct rtllib_device *ieee, struct sk_buff *skb
+>   }
+>   
+>   static int rtllib_rx_monitor(struct rtllib_device *ieee, struct sk_buff *skb,
+> -		 struct rtllib_rx_stats *rx_stats)
+> +			     struct rtllib_rx_stats *rx_stats)
+>   {
+>   	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)skb->data;
+>   	u16 fc = le16_to_cpu(hdr->frame_control);
+> @@ -1412,7 +1412,7 @@ static int rtllib_rx_monitor(struct rtllib_device *ieee, struct sk_buff *skb,
+>    * This function is called only as a tasklet (software IRQ).
+>    */
+>   int rtllib_rx(struct rtllib_device *ieee, struct sk_buff *skb,
+> -		 struct rtllib_rx_stats *rx_stats)
+> +	      struct rtllib_rx_stats *rx_stats)
+>   {
+>   	int ret = 0;
+>   
+> @@ -1577,10 +1577,10 @@ static int rtllib_parse_qos_info_param_IE(struct rtllib_device *ieee,
+>   		struct rtllib_qos_parameter_info param_element;
+>   
+>   		rc = rtllib_read_qos_param_element(&param_element,
+> -						      info_element);
+> +						   info_element);
+>   		if (rc == 0) {
+>   			rtllib_qos_convert_ac_to_parameters(&param_element,
+> -							       &(network->qos_data));
+> +							    &(network->qos_data));
+>   			network->flags |= NETWORK_HAS_QOS_PARAMETERS;
+>   			network->qos_data.param_count =
+>   			    param_element.info_element.ac_info & 0x0F;
+> @@ -1864,7 +1864,7 @@ static void rtllib_parse_mfie_ht_cap(struct rtllib_info_element *info_element,
+>   	if (*tmp_htcap_len != 0) {
+>   		ht->bd_ht_spec_ver = HT_SPEC_VER_EWC;
+>   		ht->bd_ht_cap_len = min_t(u16, *tmp_htcap_len,
+> -				       sizeof(ht->bd_ht_cap_buf));
+> +					  sizeof(ht->bd_ht_cap_buf));
+>   		memcpy(ht->bd_ht_cap_buf, info_element->data, ht->bd_ht_cap_len);
+>   
+>   		ht->bd_support_ht = true;
+> @@ -1882,10 +1882,10 @@ static void rtllib_parse_mfie_ht_cap(struct rtllib_info_element *info_element,
+>   }
+>   
+>   int rtllib_parse_info_param(struct rtllib_device *ieee,
+> -		struct rtllib_info_element *info_element,
+> -		u16 length,
+> -		struct rtllib_network *network,
+> -		struct rtllib_rx_stats *stats)
+> +			    struct rtllib_info_element *info_element,
+> +			    u16 length,
+> +			    struct rtllib_network *network,
+> +			    struct rtllib_rx_stats *stats)
+>   {
+>   	u8 i;
+>   	short offset;
+> @@ -2329,10 +2329,10 @@ static inline void update_network(struct rtllib_device *ieee,
+>   
+>   	dst->wmm_info = src->wmm_info;
+>   	if (src->wmm_param[0].ac_aci_acm_aifsn ||
+> -	   src->wmm_param[1].ac_aci_acm_aifsn ||
+> -	   src->wmm_param[2].ac_aci_acm_aifsn ||
+> -	   src->wmm_param[3].ac_aci_acm_aifsn)
+> -		memcpy(dst->wmm_param, src->wmm_param, WME_AC_PRAM_LEN);
+> +	    src->wmm_param[1].ac_aci_acm_aifsn ||
+> +	    src->wmm_param[2].ac_aci_acm_aifsn ||
+> +	    src->wmm_param[3].ac_aci_acm_aifsn)
+> +	  memcpy(dst->wmm_param, src->wmm_param, WME_AC_PRAM_LEN);
+>   
+>   	dst->SignalStrength = src->SignalStrength;
+>   	dst->RSSI = src->RSSI;
+> @@ -2450,7 +2450,7 @@ static inline void rtllib_process_probe_response(
+>   
+>   	spin_lock_irqsave(&ieee->lock, flags);
+>   	if (is_same_network(&ieee->current_network, network,
+> -	   (network->ssid_len ? 1 : 0))) {
+> +			    (network->ssid_len ? 1 : 0))) {
+>   		update_network(ieee, &ieee->current_network, network);
+>   		if ((ieee->current_network.mode == WIRELESS_MODE_N_24G ||
+>   		     ieee->current_network.mode == WIRELESS_MODE_G) &&
+> @@ -2467,10 +2467,10 @@ static inline void rtllib_process_probe_response(
+>   	}
+>   	list_for_each_entry(target, &ieee->network_list, list) {
+>   		if (is_same_network(target, network,
+> -		   (target->ssid_len ? 1 : 0)))
+> -			break;
+> +				    (target->ssid_len ? 1 : 0)))
+> +		  break;
+>   		if (!oldest || (target->last_scanned < oldest->last_scanned))
+> -			oldest = target;
+> +		  oldest = target;
+>   	}
+>   
+>   	/* If we didn't find a match, then get a new network slot to initialize
+> @@ -2528,9 +2528,9 @@ static inline void rtllib_process_probe_response(
+>   	spin_unlock_irqrestore(&ieee->lock, flags);
+>   	if (ieee80211_is_beacon(frame_ctl) &&
+>   	    is_same_network(&ieee->current_network, network,
+> -	    (network->ssid_len ? 1 : 0)) &&
+> +			    (network->ssid_len ? 1 : 0)) &&
+>   	    (ieee->link_state == MAC80211_LINKED)) {
+> -		ieee->handle_beacon(ieee->dev, beacon, &ieee->current_network);
+> +	  ieee->handle_beacon(ieee->dev, beacon, &ieee->current_network);
+>   	}
+>   free_network:
+>   	kfree(network);
+> @@ -2553,9 +2553,9 @@ static void rtllib_rx_mgt(struct rtllib_device *ieee,
+>   				stats);
+>   
+>   		if (ieee->sta_sleep || (ieee->ps != RTLLIB_PS_DISABLED &&
+> -		    ieee->iw_mode == IW_MODE_INFRA &&
+> -		    ieee->link_state == MAC80211_LINKED))
+> -			schedule_work(&ieee->ps_task);
+> +					ieee->iw_mode == IW_MODE_INFRA &&
+> +					ieee->link_state == MAC80211_LINKED))
+> +		  schedule_work(&ieee->ps_task);
+>   	} else if (ieee80211_is_probe_resp(header->frame_control)) {
+>   		netdev_dbg(ieee->dev, "received PROBE RESPONSE\n");
+>   		rtllib_process_probe_response(ieee, (struct rtllib_probe_response *)header,
 
-/jeff
