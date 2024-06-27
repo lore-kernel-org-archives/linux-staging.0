@@ -1,313 +1,101 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C8BF146D7F
-	for <linux-staging@lists.linux.dev>; Thu, 27 Jun 2024 11:10:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBBE615A85D
+	for <linux-staging@lists.linux.dev>; Thu, 27 Jun 2024 12:44:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719486644; cv=none; b=EqPnsgAjdheLJSrzVxsZHB4UQhejPVWYGmt4E1IsjboiYUgFBWi+T9x6Fv1e460saTMeS927vJRMMaeG4LnUl3VycTbMTO697UjBbZFzUUJQ2cVRWgp5NxLKe3ZQcQv2wHAn+mOpof2AyXghQh3f5wqwmEeCvcqTqNO85ZS9d8o=
+	t=1719492266; cv=none; b=RgiFF87YE5X/KxQG022zx+Sx4a4tf4dDi//sbiymko2w3/fx0KBKz4b2EkeROX5MHBaN9EJPMlVrwzfXQyfvx7GSrzAMxjd8ETrgKao/Bgs4th103Dw3SHf6GUcnpdJCATW8gFVVLb8OETT49wy5ene6sQF45RppU/e0QJzMb3E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719486644; c=relaxed/simple;
-	bh=UbKp9LUghCiCU/BUAdg2EMYa4NybHUKKdju3cq3QKZg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lLhsRVdPrTIeyEUbwVbHaP8Fyq2Vq5lRLyVB+EcvwETLznQd9pBDODspHA/toGZRTLAOMyjm2X34B50Ll6OjrCu8D/PKGxkiTqp++WdP2Tik5KQJfcMZspV3T6O6pYJ0gHVOo6bZI+qaegysptoSPDaYrPCBz3O3uRaZfzpDyeM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BUuw4Alx; arc=none smtp.client-ip=209.85.208.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1719492266; c=relaxed/simple;
+	bh=pi3DHNQCv9R6UCFWH2MdSRk0b7vmsHj+UgIAfiRMFTM=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=AjjRMKW5VD2Rl5VWI2b0ctGbltEQeFqDH515Y7ciBZitC5BkQUEeM4cGpGsJUmad05OTNGO38lR+kPE+ofCdWPbC9eXXn3PHsg9KHpiqbsiM0QN0K+3uOHe3coBPBbyVw0w2sZ1hcMG24PSIWGSKGV1dHeTRG8WVN8VtE06Z9d0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=y955o6s0; arc=none smtp.client-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BUuw4Alx"
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-57d20d89748so1402754a12.0
-        for <linux-staging@lists.linux.dev>; Thu, 27 Jun 2024 04:10:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="y955o6s0"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-584ef6c07c2so898546a12.1
+        for <linux-staging@lists.linux.dev>; Thu, 27 Jun 2024 05:44:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719486641; x=1720091441; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=RjG4NvLPZHP15XSF73Un+NgkQkULbEPKorgzxgkPLfo=;
-        b=BUuw4AlxJpQIPFJB9T0wY1528OmrymeJ2oghMreKzj3/AxWtPQShFVEVb1tJu6iVM/
-         5eAX9pUhbbJ26H159+XMmZN82Zmkg6GilRkww3W7NBZziuv3QUu/fiRxvcZ9+v5u5ZYc
-         d4SczRsu1sXiRJYu6+WFtcfTX45M7WdHxhuoan3wmdNnn6yclsDiSm1nHb/otYo9LE9h
-         Q6O1K3mmSkqIT6nuOj5XszDJw9gKeB4BSGy1hhKwjBomLUzI42/EZvoSur4kfKUjUdrH
-         biJA+V+yErNVrQycEUaHevGnLDmuQWHU9gxFBXU9Lvlh9/TvbQviIoHeNW4ckJ7545pj
-         ivdg==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1719492261; x=1720097061; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=AoHL1adqPi6egt2LDvYCmnfXjH4AiRnMDVVthfhiOGY=;
+        b=y955o6s0nptPLFTeHAgLHLlXCFh77kH2u/pDhBjUOu5XaLDVTUYLu9/7javdO1K3VZ
+         wJVGTWlVHZbdvYXJ4U7qxTrPWhgHi976eNkC4FUsPScrqRTUUMQIwbaCgHfHnBA2hR0O
+         CNpNrvKbH/LChPxEEFY0YtPAEDXwQSk/sDkY6f/BTCK6+n0F/BfcYmPnrZ1gGT/Y4PY5
+         KNNX3ItCg33sHw5DBql/+nBFeUNMnlb9WLHW3kyHTunYHP8FeRjyCpZhPcKXoHqZtYx1
+         dquSf5drktxpow2FpZDdLQhtYaxWpGLSUtLE00aD+LoDkp6kOMKU4Rzr+EZqNJJQCW5B
+         2tZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719486641; x=1720091441;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RjG4NvLPZHP15XSF73Un+NgkQkULbEPKorgzxgkPLfo=;
-        b=RYiYaI+e5AkwuufviS+WXoaD0Acyr9GB03eC0HkxaQ1KjFrE9QAiXmumY3T/3Ccs/V
-         Nx9P74JYMlqfFtgMoRZ/sEELW7HzxcqLyv/rTrCw/sKHjQfNx//fbnYFqVMHjkPZokej
-         o7lLPPeN5EnCuD2pTaWJ+rLw0/T+HeM84SpFEWTLD2jsR/rgCs/PLG4QN945XYYLq6vd
-         x6Fd9tYxVSlkpwzuCM+gdkdAU3YCbF69uWiun39bNzRk33OlPYi6K7txTmDMNKys3ls5
-         nvYGYI1UXg9LpKTFJQS0bZE5W9XHBIJbgIP0hC3eednf7AyZTQ2oiBdrUl4Kxb2ZUGBU
-         Whow==
-X-Forwarded-Encrypted: i=1; AJvYcCVwX6D2vtuQJMP1M4QhGbZjR+T9qidL9XogOI0XMFlbQcYZ8G9DuepH4LQRU6tjsY65PJgd3Cvr169WdsDJgj9C8+3Rdq8wJ/Ipt7/FpQ==
-X-Gm-Message-State: AOJu0YwzyqFEq0gKg7hKOaAnEVsnu5O12wIKBWs8E39xFGAMgMkIeCWz
-	uIHHeAoUyOOlJZs3652ull0zSFD1kNDkU1yaiXEOF1tNq0d4cWo=
-X-Google-Smtp-Source: AGHT+IH4fbvY1cFOwHHzrwt3dVlavsf75UZvpMeelUbWWYiwXGXJ5CcSyvDpzggFY+YcW3P4/NbQ2g==
-X-Received: by 2002:a05:6402:520c:b0:582:1f66:1472 with SMTP id 4fb4d7f45d1cf-5821f661646mr6043539a12.31.1719486640245;
-        Thu, 27 Jun 2024 04:10:40 -0700 (PDT)
-Received: from ?IPV6:2a02:810b:f40:4600:2023:48bf:6b4:88a4? ([2a02:810b:f40:4600:2023:48bf:6b4:88a4])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-584d16bbf1csm733229a12.44.2024.06.27.04.10.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Jun 2024 04:10:39 -0700 (PDT)
-Message-ID: <cc8fd552-c6cb-46d6-a781-28d004b49d52@gmail.com>
-Date: Thu, 27 Jun 2024 13:10:38 +0200
+        d=1e100.net; s=20230601; t=1719492261; x=1720097061;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=AoHL1adqPi6egt2LDvYCmnfXjH4AiRnMDVVthfhiOGY=;
+        b=gWjrNuGDBeXezq6wakHEsB6RWadNHVX8BYy0yUv/ixPofkV4HqNrhp9hGc+8RM+zaf
+         9jdW+kZhqcgntzkFZbrsXrE43FGuVoI6vL8003sygM7qQuYuOUrKwLm89hsHBUK5s5cB
+         Q/FaX+H4Y7uWhc7xedLrEzz+q6iFd2CtLYV+Ycfip1eOnaB4q1AWgRkKp58j5Z58E0Uq
+         G/RZgj3P+nT0kJKGYLDTuf/7r/k3BAKUh1AU0DgnCq4q1DwtTCkj6KiXWrjUvg2c22X/
+         o+j626Z4CRLIpDk056JduHcqVFFZjwSf0iH49v7p/b5q3VNAHU4tqHYMbu/Tkc7Wpn1N
+         NbbA==
+X-Forwarded-Encrypted: i=1; AJvYcCUg6o5vAZlNTlQbI+NDiKeHcSTshk8vpveGRl4vLAKeNSAtOtV94iwo0cyA69D8yywbC9UX/TzQOSVBqWGtdvaHz5ayn54ODzYCXEHS+A==
+X-Gm-Message-State: AOJu0YwF31q1R3OkKZfUe+zqylEzAKmijQNlitCH1dCjfNqZ5AFu5Bo2
+	xAZSikaEd9AU8CwG97OjOGO4nbX8HiFSOZyKYRf9iIsrZNODMvGyZCNvebGDnTc=
+X-Google-Smtp-Source: AGHT+IFeaiSpwuIh7g2JkEWpjFnfDJbPJTm3K8sWRedli0PvmQPwA/kwXIvdntky4Hl+GJAwNEAyPQ==
+X-Received: by 2002:a17:906:99d5:b0:a72:58c3:2696 with SMTP id a640c23a62f3a-a7296f5d2admr226130066b.14.1719492261140;
+        Thu, 27 Jun 2024 05:44:21 -0700 (PDT)
+Received: from ryzen9.fritz.box ([2a01:2a8:8103:2c01:45d5:74ac:5265:59da])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a729d6fdf62sm57030266b.8.2024.06.27.05.44.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Jun 2024 05:44:20 -0700 (PDT)
+From: =?UTF-8?q?Bernhard=20Rosenkr=C3=A4nzer?= <bero@baylibre.com>
+To: florian.fainelli@broadcom.com,
+	bcm-kernel-feedback-list@broadcom.com,
+	gregkh@linuxfoundation.org,
+	umang.jain@ideasonboard.com,
+	wahrenst@gmx.net,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: vchiq_debugfs: Fix build if CONFIG_DEBUG_FS is not set
+Date: Thu, 27 Jun 2024 14:44:19 +0200
+Message-ID: <20240627124419.2498642-1-bero@baylibre.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/4] media: rockchip: Introduce the rkvdec2 driver
-To: Jonas Karlman <jonas@kwiboo.se>,
- Detlev Casanova <detlev.casanova@collabora.com>
-Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Dragan Simic <dsimic@manjaro.org>, Diederik de Haas <didi.debian@cknow.org>,
- Andy Yan <andy.yan@rock-chips.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20240620142532.406564-1-detlev.casanova@collabora.com>
- <20240620142532.406564-3-detlev.casanova@collabora.com>
- <c7882f94-e2cb-4023-a53e-87ebc8fa3460@gmail.com> <3815203.kQq0lBPeGt@arisu>
- <5a15b138-4e03-4487-8a53-b7ff3527701f@gmail.com>
- <66e56996-4b56-4262-973f-672121071391@kwiboo.se>
-Content-Language: en-US
-From: Alex Bee <knaerzche@gmail.com>
-In-Reply-To: <66e56996-4b56-4262-973f-672121071391@kwiboo.se>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+Commit 42a2f6664e18 ("staging: vc04_services: Move global g_state to
+vchiq_state") adds a parameter to vchiq_debugfs_init, but leaves the
+dummy implementation in the !CONFIG_DEBUG_FS case untouched, causing a
+compile time error.
 
-Am 27.06.24 um 11:41 schrieb Jonas Karlman:
-> Hi Alex,
->
-> On 2024-06-26 11:12, Alex Bee wrote:
->> Hi Detlev,
->>
->> Am 25.06.24 um 18:56 schrieb Detlev Casanova:
->>> Hi Alex,
->>>
->>> On Sunday, June 23, 2024 5:33:28 A.M. EDT you wrote:
->>>> Hi Detlev,
->>>>
->>>> Am 20.06.24 um 16:19 schrieb Detlev Casanova:
->>>>> This driver supports the second generation of the Rockchip Video
->>>>> decoder, also known as vdpu34x.
->>>>> It is currently only used on the RK3588(s) SoC.
->>>>>
->>>>> There are 2 decoders on the RK3588 SoC that can work in pair to decode
->>>>> 8K video at 30 FPS but currently, only using one core at a time is
->>>>> supported.
->>>>>
->>>>> Scheduling requests between the two cores will be implemented later.
->>>>>
->>>>> The core supports H264, HEVC, VP9 and AVS2 decoding but this driver
->>>>> currently only supports H264.
->>>>>
->>>>> The driver is based on rkvdec and they may share some code in the
->>>>> future.
->>>>> The decision to make a different driver is mainly because rkvdec2 has
->>>>> more features and can work with multiple cores.
->>>>>
->>>>> The registers are mapped in a struct in RAM using bitfields. It is IO
->>>>> copied to the HW when all values are configured.
->>>>> The decision to use such a struct instead of writing buffers one by one
->>>>>
->>>>> is based on the following reasons:
->>>>>     - Rockchip cores are known to misbehave when registers are not written
->>>>>     
->>>>>       in address order,
->>>>>     
->>>>>     - Those cores also need the software to write all registers, even if
->>>>>     
->>>>>       they are written their default values or are not related to the task
->>>>>       (this core will not start decoding some H264 frames if some VP9
->>>>>       registers are not written to 0)
->>>>>     
->>>>>     - In the future, to support multiple cores, the scheduler could be
->>>>>     
->>>>>       optimized by storing the precomputed registers values and copy them
->>>>>       to the HW as soos as a core becomes available.
->>>>>
->>>>> This makes the code more readable and may bring performance improvements
->>>>> in future features.
->>>>>
->>>>> Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
->>>>> ---
->>>>>
->>>>>     drivers/staging/media/Kconfig                |    1 +
->>>>>     drivers/staging/media/Makefile               |    1 +
->>>>>     drivers/staging/media/rkvdec2/Kconfig        |   15 +
->>>>>     drivers/staging/media/rkvdec2/Makefile       |    3 +
->>>>>     drivers/staging/media/rkvdec2/TODO           |    9 +
->>>>>     drivers/staging/media/rkvdec2/rkvdec2-h264.c |  739 +++++++++++
->>>>>     drivers/staging/media/rkvdec2/rkvdec2-regs.h |  345 +++++
->>>>>     drivers/staging/media/rkvdec2/rkvdec2.c      | 1253 ++++++++++++++++++
->>>>>     drivers/staging/media/rkvdec2/rkvdec2.h      |  130 ++
->>>>>     9 files changed, 2496 insertions(+)
->>>>>     create mode 100644 drivers/staging/media/rkvdec2/Kconfig
->>>>>     create mode 100644 drivers/staging/media/rkvdec2/Makefile
->>>>>     create mode 100644 drivers/staging/media/rkvdec2/TODO
->>>>>     create mode 100644 drivers/staging/media/rkvdec2/rkvdec2-h264.c
->>>>>     create mode 100644 drivers/staging/media/rkvdec2/rkvdec2-regs.h
->>>>>     create mode 100644 drivers/staging/media/rkvdec2/rkvdec2.c
->>>>>     create mode 100644 drivers/staging/media/rkvdec2/rkvdec2.h
->>>> ...
->>>>
->>>>> +static inline void rkvdec2_memcpy_toio(void __iomem *dst, void *src,
->>>>> size_t len) +{
->>>>> +#ifdef CONFIG_ARM64
->>>>> +	__iowrite32_copy(dst, src, len);
->>>>> +#elif defined(CONFIG_ARM)
->>>> I guess that can get an "#else" since memcpy_toio exists for all archs.
->>>>
->>>>> +	memcpy_toio(dst, src, len);
->>>>> +#endif
->>>>> +}
->>>>> +
->>>> ...
->>>>
->>>>> +	/* Set timeout threshold */
->>>>> +	if (pixels < RKVDEC2_1080P_PIXELS)
->>>>> +		regs->common.timeout_threshold = RKVDEC2_TIMEOUT_1080p;
->>>>> +	else if (pixels < RKVDEC2_4K_PIXELS)
->>>>> +		regs->common.timeout_threshold = RKVDEC2_TIMEOUT_4K;
->>>>> +	else if (pixels < RKVDEC2_8K_PIXELS)
->>>>> +		regs->common.timeout_threshold = RKVDEC2_TIMEOUT_8K;
->>>>> +
->>>> Did you test if it works with anything > 8K? If so, you propably want to
->>>> make the check above
->>>>
->>>> +	else
->>>> +		regs->common.timeout_threshold = RKVDEC2_TIMEOUT_8K;
->>>>
->>>> Otherwise the timeout may not be set/contain invalid values from any former
->>>> stream.
->>> That's right, but it would be set to 0 because of the memset.
->>> RKVDEC2_TIMEOUT_8K might not be enough for bigger frame sizes, so I'll set it
->>> to the maximum value (0xffffffff) when frames are bigger than 8K and also adapt
->>> the watchdog time: RKVDEC2_TIMEOUT_8K is around 100 ms, but 0xffffffff is arnoud
->>> 5.3 seconds (reg032/axi_clock_freq)
->>>
->>> I'll do more tests with this as well.
->>>
->>>> ...
->>>>
->>>>> +
->>>>> +static const struct rkvdec2_coded_fmt_desc rkvdec2_coded_fmts[] = {
->>>>> +	{
->>>>> +		.fourcc = V4L2_PIX_FMT_H264_SLICE,
->>>>> +		.frmsize = {
->>>>> +			.min_width = 16,
->>>>> +			.max_width =  65520,
->>>>> +			.step_width = 16,
->>>>> +			.min_height = 16,
->>>>> +			.max_height =  65520,
->>>>> +			.step_height = 16,
->>>>> +		},
->>>>> +		.ctrls = &rkvdec2_h264_ctrls,
->>>>> +		.ops = &rkvdec2_h264_fmt_ops,
->>>>> +		.num_decoded_fmts =
->>> ARRAY_SIZE(rkvdec2_h264_decoded_fmts),
->>>>> +		.decoded_fmts = rkvdec2_h264_decoded_fmts,
->>>>> +		.subsystem_flags =
->>> VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF,
->>>>> +	},
->>>>> +};
->>>>> +
->>>> Note, that this is also given to userspace (VIDIOC_ENUM_FRAMESIZES) and
->>>> this is already incorrect in the old rkvdec driver (and hantro): From
->>>> userspace perspective we do not have a restriction in
->>>> step_width/step_width, as we are aligning any given width/height to HW
->>>> requirements in the driver - what we should give to userspace is
->>>> fsize->type = V4L2_FRMSIZE_TYPE_CONTINUOUS; fsize->stepwise.min_height =
->>>> 1; fsize->stepwise.min_width = 1; fsize->stepwise.max_height = 65520;
->>>> fsize->stepwise.max_width = 65520;
->>> Is fsize->stepwise.min_height = 1; and fsize->stepwise.min_width = 1 correct ?
->>> Or do you mean fsize->stepwise.step_height = 1; and fsize->stepwise.setp_width
->>> = 1 ?
->>>
->>> It would give this instead:
->>>
->>> .frmsize = {
->>> 	.min_width = 16,
->>> 	.max_width =  65520,
->>> 	.step_width = 1,
->>> 	.min_height = 16,
->>> 	.max_height =  65520,
->>> 	.step_height = 1,
->>> },
->>>
->>> and .vidioc_enum_framesizes sets fsize->type = V4L2_FRMSIZE_TYPE_CONTINUOUS;
->> You can't adapt this here, because this .frmsize is also given to the
->> v4l2_apply_frmsize_constraints helper, which does the actual alignment to
->> HW requirements and requires the HW step_with and step_height.
->> IIRC, we also align framesizes which are below minimum HW requirement, at
->> least in rkvdec1 driver and it looks a lot like this is done here the same:
->> so this should be .min_height = 1 and .min_width = 1. (I remember because
->> there are VP9 conformance tests with very small framesizes). And yes, it
->> looks like you've had to set .step_width and .step_height to 1 for
->> V4L2_FRMSIZE_TYPE_CONTINUOUS, not sure why that is required.
->>
->> So, imho, the final rkvdec2_enum_framesizes should look like
->>
->> +static int rkvdec2_enum_framesizes(struct file *file, void *priv,
->> +                   struct v4l2_frmsizeenum *fsize)
->> ....
->> +    fmt = rkvdec2_find_coded_fmt_desc(fsize->pixel_format);
->> +    if (!fmt)
->> +        return -EINVAL;
->> +
->> +    fsize->type = V4L2_FRMSIZE_TYPE_CONTINUOUS;
->> +    fsize->stepwise.min_height = 1;
->> +    fsize->stepwise.max_height = fmt->frmsize.max_height;
->> +    fsize->stepwise.min_width = 1;
->> +    fsize->stepwise.max_width = fmt->frmsize.max_width;
->> +    fsize->stepwise.min_width = 1;
->> +    fsize->stepwise.step_height = 1;
->> +    fsize->stepwise.step_width = 1;
->> +    return 0;
->> +}
->>
->> Note: Not even build tested :)
->> Jonas: maybe you can add a fixup patch to your rkvdec patches as well.
-> Thanks, will take a closer look and include something for rkvdec high10
-> v6 later today/tomorrow.
-Great, thanks.
+Fixes: c3552ab19aeb ("staging: vchiq_debugfs: Fix NPD in vchiq_dump_state")
+Signed-off-by: Bernhard Rosenkränzer <bero@baylibre.com>
+---
+ .../staging/vc04_services/interface/vchiq_arm/vchiq_debugfs.c   | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-To back up the "IIRC" part of my previous reply about .min_width and
-.min_height: v4l2_apply_frmsize_constraints does clamp_roundup on width and
-height, which means it sets height = hw_min_height and/or width =
-hw_min_width if the given width/height is smaller. Thus userspace doesn't
-need to care about width/height as long as it's 1 <=
-hw_max_height/hw_max_width.
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_debugfs.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_debugfs.c
+index 1f74d0bb33bae..d5f7f61c56269 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_debugfs.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_debugfs.c
+@@ -138,7 +138,7 @@ void vchiq_debugfs_deinit(void)
+ 
+ #else /* CONFIG_DEBUG_FS */
+ 
+-void vchiq_debugfs_init(void)
++void vchiq_debugfs_init(struct vchiq_state *state)
+ {
+ }
+ 
+-- 
+2.45.2
 
-Alex
-
-> Regards,
-> Jonas
->
->> Regards,
->>
->> Alex
->>
->>>> I guess this new driver should be an
->>>> opportunity to fix that and distinguish between internal and external
->>>> frame size requirements and the .vidioc_enum_framesizes callback should
->>>> adapted accordingly. Regards, Alex
->>> Detlev.
