@@ -1,89 +1,113 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25AF613E41F;
-	Thu, 27 Jun 2024 13:35:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFF10179950;
+	Thu, 27 Jun 2024 13:41:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719495332; cv=none; b=f7SnVvoVLE9MJmndPeLV3qKqCMQNC1vgO3ptNk47xw54CVF09xrXjk6zduCYwD8rQBiPSWnRm/9C3k7XM0T98YJzhiWAu36Q4jWZwgsILj9o/B3gWMNU9TDPw8QXuNr5McbKur9LuF0YwkC1NfH1tVynyy/nLDrf47LSWo/YnK0=
+	t=1719495681; cv=none; b=tcpNdUUTaqc7mHDN3R1RhDSGenmW6uhPoJdx6zKZ33Gu3h2Tsv7xThk/eFtL/tYrbffqrI1V/MipYgNARvaTUOqa8UfGaa/E6OC3435+kQ4H2V6rOW1Fd5Y2GdctdGwrsR2j26q0nWGIjv/LhYpinVW7dTGiHgeJdoDkW9ZSoKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719495332; c=relaxed/simple;
-	bh=pTKuIe9/YmDaHNjxPpbXHGyhcrdJe6sgTA2yII4wYBs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=ZsN+R8oTHlCM14p1tDuwWf+bTTZAR8H22jyWaY2tAjUlwzDqMZjnOYLPSGEK/atxbcaTc083N4JV0WLbneGyTOISebBVC7xy+fNP0Z0+tM2UMTKk1+n+qwmPKoSM8Keleae+piGTjT5YJ89NmfMl/cZlr6GipyreRxTltg88ezk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=mtyrB/lD; arc=none smtp.client-ip=212.227.15.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
+	s=arc-20240116; t=1719495681; c=relaxed/simple;
+	bh=Dwy2s0y95mzx1iEnVA/PRbR0NHTx0TmBwaZcUK5Vojo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nKrW8g8o1fB9u+RHrA6zenEJ9yfIKOplaC+vJs4ztOO69Vo+lNQNCFL2HnlLfqRJVn2NiJkzAm55EDIVcfwyAVUw8SbVMKBO0rurysKbho2/pRkBOIuIjKzvaCR6n4I80Xrd0qXGl91BvrMHoTgYmLanN6Wi5rG2BbSu9OqUZQA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=rsQLz/Wp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="mtyrB/lD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
-	s=s31663417; t=1719495300; x=1720100100; i=wahrenst@gmx.net;
-	bh=pTKuIe9/YmDaHNjxPpbXHGyhcrdJe6sgTA2yII4wYBs=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=mtyrB/lD/MaEGf7aXATIUbLwCQoQdAxYidxRcGH3r0PWF/PkIFoehT5Qw8Qr8jmu
-	 GXc0QuOPzDvlEIJXY+kE+oZ9i8XffmolCjNKb3csxX0+0gCb0ycAcf/5N3ZhlaXbF
-	 rPQr+0rcu1ifvpX89UMamHNYtVRqXCle4T+jCf4XoLjmWXj/qL7LrtQSXD5JQO+vV
-	 YPam7MZrfQAr7YwhoiASAJn7JvwjB3vlX+sFyJmo9Y8m0fRLqi/kQtOVf7fQlCMXK
-	 4czXfIlML5Zhj38gSmCLwtqg9dEVuv73KX8Qjd0R7RAxBCThgU0nYxVKplZ9L6AyF
-	 cka63OFTCa6uqn4k/A==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.127] ([37.4.248.43]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MgvrL-1soCTp2gSz-00k7Pd; Thu, 27
- Jun 2024 15:35:00 +0200
-Message-ID: <148a8d9e-6012-4213-aaeb-f47548a83b7d@gmx.net>
-Date: Thu, 27 Jun 2024 15:34:59 +0200
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="rsQLz/Wp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E92D1C2BBFC;
+	Thu, 27 Jun 2024 13:41:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1719495680;
+	bh=Dwy2s0y95mzx1iEnVA/PRbR0NHTx0TmBwaZcUK5Vojo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rsQLz/Wp4vpMICXPYzxUdOxkuShwlOa7QStlklxv+m/SD4Deq73RMkSbJQ9zTnhwp
+	 kRQMrYteatU/wL9HGblx+ps7PHafwuDuyAwIy25O+keNRupa6OqCbbxVdsnagb0hcB
+	 qiZqprEMqibtSxXL7ZITDhTlyqYfdcPc/x+64rRs=
+Date: Thu, 27 Jun 2024 15:41:16 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Tom Mounet <tommounet@gmail.com>
+Cc: Marc Dietrich <marvin24@gmx.de>, ac100@lists.launchpad.net,
+	linux-tegra@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
+Subject: Re: [PATCH v2] staging: nvec: Use x instead of x != NULL to improve
+ readability.
+Message-ID: <2024062752-jockey-wife-7017@gregkh>
+References: <667c8a0c.050a0220.9e3d5.3b80@mx.google.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: vchiq_debugfs: Fix build if CONFIG_DEBUG_FS is
- not set
-To: =?UTF-8?Q?Bernhard_Rosenkr=C3=A4nzer?= <bero@baylibre.com>,
- florian.fainelli@broadcom.com, bcm-kernel-feedback-list@broadcom.com,
- gregkh@linuxfoundation.org, umang.jain@ideasonboard.com,
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20240627124419.2498642-1-bero@baylibre.com>
-Content-Language: en-US
-From: Stefan Wahren <wahrenst@gmx.net>
-In-Reply-To: <20240627124419.2498642-1-bero@baylibre.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:ODqEM1xOq7NNYUf2wLJeFPacpSSFiZ05hxsA2CATvHJpdEiUmSP
- E/ZovIFjKTH3FcRpDc28XUB20m3uEJESZwpAa5va2A9lDteRBTHyvP6JMz9vbWlKnEk3ywF
- /wRgMqVEoYp8e/u1oZLaGxFfXPgAhAJFkBDqrNut3hZttBRi8U63lg+WWocbsQMzL9asxdX
- XsOmSbVOu+vEol2kX8gIg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:v/83yD1TKMc=;Ox6NeYvhdn8GSX0nEhX6rVomXuj
- UzIhJ88HeNFeP/3HtPH+m7uGEJIG/RVgHURTzLeuMk5QdbnRQaDvkMHUDS8bVBQVcmA9DuyN1
- JCcGng/CATFl423pk28WB/NgnxSMmCb34co6zwc5iR8DOdS4wNV7Dx/ZI1zIAfJHNXEIsPuNn
- FydUp/wA2toI9W0XKMsxFmPvqE9fXJAT9AnY7p3OnfbiCQQk7eKlMzDsbIJaZEiKrFKlecFqi
- 3KIYCgSIPJ2u/gxpHo1sOKm84ZT+GuV29/bfZLv7TPFA37nuhRdawh++kam3+A09J/ATUPFtl
- yXQKo5PQXZ9gPwyZoCXDJFTwsrsByZ4cwYPf3LO+67sqgdzGGFcHFk+gA6VBTYUg5lQ96DtHc
- 7EE2xvZ7WUkcVM1mE6AbHnO77YV+Gz6smatGDMEKGHqyYLDUU4W2EclHPdsFqz9SjCIKMNP8v
- uTCUqiKAIiMCFRYwbokIc5OS+sndXra7YPMEA0f3oFMKhOWpDzhF6IyIUiTlAbIrz/ik/bb4a
- 0bFcQvM98mTeGZkd3sB+6Y/6PC4SBrP1eGmyQc86GZnbuveP4FZ0NZqe33jaCpE17WxwvDrnL
- kCZCvxQV928079wP70nRQPQ0PD79ZaWQaKYK8+zE+q5VTLZ0tCqF5zkdTsH+DH/4TFLoqcdB4
- WwyUt4KR2UcSs44mqzk7USlI9/pBNodMXCwWVnyjIm2wgMhFgQ355fBZjS2ZyDKFRuHTCNDuw
- 5tay8fnsAVsQ4ClVH1n2BIfd4ec50GmN92rF7Qik8oe8FHxAgybJaDZlrJa3HlhnBw1X6TJlV
- /cfyemJB1w8NhjkmTX6cj5k3+5oBjjog2fI+k3hOsO31w=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <667c8a0c.050a0220.9e3d5.3b80@mx.google.com>
 
-Am 27.06.24 um 14:44 schrieb Bernhard Rosenkr=C3=A4nzer:
-> Commit 42a2f6664e18 ("staging: vc04_services: Move global g_state to
-> vchiq_state") adds a parameter to vchiq_debugfs_init, but leaves the
-> dummy implementation in the !CONFIG_DEBUG_FS case untouched, causing a
-> compile time error.
->
-> Fixes: c3552ab19aeb ("staging: vchiq_debugfs: Fix NPD in vchiq_dump_stat=
-e")
-> Signed-off-by: Bernhard Rosenkr=C3=A4nzer <bero@baylibre.com>
-Oh dear, thanks for fixing
+On Wed, Jun 26, 2024 at 11:37:14PM +0200, Tom Mounet wrote:
+> Issue identified by checkpatch.
+> 
+> Signed-off-by: Tom Mounet <tommounet@gmail.com>
+> ---
+>  drivers/staging/nvec/nvec.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
+> index e5ca78e57..814eb121c 100644
+> --- a/drivers/staging/nvec/nvec.c
+> +++ b/drivers/staging/nvec/nvec.c
+> @@ -300,7 +300,7 @@ int nvec_write_sync(struct nvec_chip *nvec,
+>  {
+>  	mutex_lock(&nvec->sync_write_mutex);
+>  
+> -	if (msg != NULL)
+> +	if (msg)
+>  		*msg = NULL;
+>  
+>  	nvec->sync_write_pending = (data[1] << 8) + data[0];
+> @@ -322,7 +322,7 @@ int nvec_write_sync(struct nvec_chip *nvec,
+>  
+>  	dev_dbg(nvec->dev, "nvec_sync_write: pong!\n");
+>  
+> -	if (msg != NULL)
+> +	if (msg)
+>  		*msg = nvec->last_sync_msg;
+>  	else
+>  		nvec_msg_free(nvec, nvec->last_sync_msg);
+> -- 
+> 2.39.2
+> 
+> 
 
-Reviewed-by: Stefan Wahren <wahrenst@gmx.net>
+Hi,
+
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
+
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- You did not specify a description of why the patch is needed, or
+  possibly, any description at all, in the email body.  Please read the
+  section entitled "The canonical patch format" in the kernel file,
+  Documentation/process/submitting-patches.rst for what is needed in
+  order to properly describe the change.
+
+- This looks like a new version of a previously submitted patch, but you
+  did not list below the --- line any changes from the previous version.
+  Please read the section entitled "The canonical patch format" in the
+  kernel file, Documentation/process/submitting-patches.rst for what
+  needs to be done here to properly describe this.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
