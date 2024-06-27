@@ -1,101 +1,89 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBBE615A85D
-	for <linux-staging@lists.linux.dev>; Thu, 27 Jun 2024 12:44:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25AF613E41F;
+	Thu, 27 Jun 2024 13:35:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719492266; cv=none; b=RgiFF87YE5X/KxQG022zx+Sx4a4tf4dDi//sbiymko2w3/fx0KBKz4b2EkeROX5MHBaN9EJPMlVrwzfXQyfvx7GSrzAMxjd8ETrgKao/Bgs4th103Dw3SHf6GUcnpdJCATW8gFVVLb8OETT49wy5ene6sQF45RppU/e0QJzMb3E=
+	t=1719495332; cv=none; b=f7SnVvoVLE9MJmndPeLV3qKqCMQNC1vgO3ptNk47xw54CVF09xrXjk6zduCYwD8rQBiPSWnRm/9C3k7XM0T98YJzhiWAu36Q4jWZwgsILj9o/B3gWMNU9TDPw8QXuNr5McbKur9LuF0YwkC1NfH1tVynyy/nLDrf47LSWo/YnK0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719492266; c=relaxed/simple;
-	bh=pi3DHNQCv9R6UCFWH2MdSRk0b7vmsHj+UgIAfiRMFTM=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=AjjRMKW5VD2Rl5VWI2b0ctGbltEQeFqDH515Y7ciBZitC5BkQUEeM4cGpGsJUmad05OTNGO38lR+kPE+ofCdWPbC9eXXn3PHsg9KHpiqbsiM0QN0K+3uOHe3coBPBbyVw0w2sZ1hcMG24PSIWGSKGV1dHeTRG8WVN8VtE06Z9d0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=y955o6s0; arc=none smtp.client-ip=209.85.208.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1719495332; c=relaxed/simple;
+	bh=pTKuIe9/YmDaHNjxPpbXHGyhcrdJe6sgTA2yII4wYBs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=ZsN+R8oTHlCM14p1tDuwWf+bTTZAR8H22jyWaY2tAjUlwzDqMZjnOYLPSGEK/atxbcaTc083N4JV0WLbneGyTOISebBVC7xy+fNP0Z0+tM2UMTKk1+n+qwmPKoSM8Keleae+piGTjT5YJ89NmfMl/cZlr6GipyreRxTltg88ezk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=mtyrB/lD; arc=none smtp.client-ip=212.227.15.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="y955o6s0"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-584ef6c07c2so898546a12.1
-        for <linux-staging@lists.linux.dev>; Thu, 27 Jun 2024 05:44:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1719492261; x=1720097061; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=AoHL1adqPi6egt2LDvYCmnfXjH4AiRnMDVVthfhiOGY=;
-        b=y955o6s0nptPLFTeHAgLHLlXCFh77kH2u/pDhBjUOu5XaLDVTUYLu9/7javdO1K3VZ
-         wJVGTWlVHZbdvYXJ4U7qxTrPWhgHi976eNkC4FUsPScrqRTUUMQIwbaCgHfHnBA2hR0O
-         CNpNrvKbH/LChPxEEFY0YtPAEDXwQSk/sDkY6f/BTCK6+n0F/BfcYmPnrZ1gGT/Y4PY5
-         KNNX3ItCg33sHw5DBql/+nBFeUNMnlb9WLHW3kyHTunYHP8FeRjyCpZhPcKXoHqZtYx1
-         dquSf5drktxpow2FpZDdLQhtYaxWpGLSUtLE00aD+LoDkp6kOMKU4Rzr+EZqNJJQCW5B
-         2tZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719492261; x=1720097061;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=AoHL1adqPi6egt2LDvYCmnfXjH4AiRnMDVVthfhiOGY=;
-        b=gWjrNuGDBeXezq6wakHEsB6RWadNHVX8BYy0yUv/ixPofkV4HqNrhp9hGc+8RM+zaf
-         9jdW+kZhqcgntzkFZbrsXrE43FGuVoI6vL8003sygM7qQuYuOUrKwLm89hsHBUK5s5cB
-         Q/FaX+H4Y7uWhc7xedLrEzz+q6iFd2CtLYV+Ycfip1eOnaB4q1AWgRkKp58j5Z58E0Uq
-         G/RZgj3P+nT0kJKGYLDTuf/7r/k3BAKUh1AU0DgnCq4q1DwtTCkj6KiXWrjUvg2c22X/
-         o+j626Z4CRLIpDk056JduHcqVFFZjwSf0iH49v7p/b5q3VNAHU4tqHYMbu/Tkc7Wpn1N
-         NbbA==
-X-Forwarded-Encrypted: i=1; AJvYcCUg6o5vAZlNTlQbI+NDiKeHcSTshk8vpveGRl4vLAKeNSAtOtV94iwo0cyA69D8yywbC9UX/TzQOSVBqWGtdvaHz5ayn54ODzYCXEHS+A==
-X-Gm-Message-State: AOJu0YwF31q1R3OkKZfUe+zqylEzAKmijQNlitCH1dCjfNqZ5AFu5Bo2
-	xAZSikaEd9AU8CwG97OjOGO4nbX8HiFSOZyKYRf9iIsrZNODMvGyZCNvebGDnTc=
-X-Google-Smtp-Source: AGHT+IFeaiSpwuIh7g2JkEWpjFnfDJbPJTm3K8sWRedli0PvmQPwA/kwXIvdntky4Hl+GJAwNEAyPQ==
-X-Received: by 2002:a17:906:99d5:b0:a72:58c3:2696 with SMTP id a640c23a62f3a-a7296f5d2admr226130066b.14.1719492261140;
-        Thu, 27 Jun 2024 05:44:21 -0700 (PDT)
-Received: from ryzen9.fritz.box ([2a01:2a8:8103:2c01:45d5:74ac:5265:59da])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a729d6fdf62sm57030266b.8.2024.06.27.05.44.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Jun 2024 05:44:20 -0700 (PDT)
-From: =?UTF-8?q?Bernhard=20Rosenkr=C3=A4nzer?= <bero@baylibre.com>
-To: florian.fainelli@broadcom.com,
-	bcm-kernel-feedback-list@broadcom.com,
-	gregkh@linuxfoundation.org,
-	umang.jain@ideasonboard.com,
-	wahrenst@gmx.net,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: vchiq_debugfs: Fix build if CONFIG_DEBUG_FS is not set
-Date: Thu, 27 Jun 2024 14:44:19 +0200
-Message-ID: <20240627124419.2498642-1-bero@baylibre.com>
-X-Mailer: git-send-email 2.45.2
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="mtyrB/lD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
+	s=s31663417; t=1719495300; x=1720100100; i=wahrenst@gmx.net;
+	bh=pTKuIe9/YmDaHNjxPpbXHGyhcrdJe6sgTA2yII4wYBs=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=mtyrB/lD/MaEGf7aXATIUbLwCQoQdAxYidxRcGH3r0PWF/PkIFoehT5Qw8Qr8jmu
+	 GXc0QuOPzDvlEIJXY+kE+oZ9i8XffmolCjNKb3csxX0+0gCb0ycAcf/5N3ZhlaXbF
+	 rPQr+0rcu1ifvpX89UMamHNYtVRqXCle4T+jCf4XoLjmWXj/qL7LrtQSXD5JQO+vV
+	 YPam7MZrfQAr7YwhoiASAJn7JvwjB3vlX+sFyJmo9Y8m0fRLqi/kQtOVf7fQlCMXK
+	 4czXfIlML5Zhj38gSmCLwtqg9dEVuv73KX8Qjd0R7RAxBCThgU0nYxVKplZ9L6AyF
+	 cka63OFTCa6uqn4k/A==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.127] ([37.4.248.43]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MgvrL-1soCTp2gSz-00k7Pd; Thu, 27
+ Jun 2024 15:35:00 +0200
+Message-ID: <148a8d9e-6012-4213-aaeb-f47548a83b7d@gmx.net>
+Date: Thu, 27 Jun 2024 15:34:59 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: vchiq_debugfs: Fix build if CONFIG_DEBUG_FS is
+ not set
+To: =?UTF-8?Q?Bernhard_Rosenkr=C3=A4nzer?= <bero@baylibre.com>,
+ florian.fainelli@broadcom.com, bcm-kernel-feedback-list@broadcom.com,
+ gregkh@linuxfoundation.org, umang.jain@ideasonboard.com,
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20240627124419.2498642-1-bero@baylibre.com>
+Content-Language: en-US
+From: Stefan Wahren <wahrenst@gmx.net>
+In-Reply-To: <20240627124419.2498642-1-bero@baylibre.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:ODqEM1xOq7NNYUf2wLJeFPacpSSFiZ05hxsA2CATvHJpdEiUmSP
+ E/ZovIFjKTH3FcRpDc28XUB20m3uEJESZwpAa5va2A9lDteRBTHyvP6JMz9vbWlKnEk3ywF
+ /wRgMqVEoYp8e/u1oZLaGxFfXPgAhAJFkBDqrNut3hZttBRi8U63lg+WWocbsQMzL9asxdX
+ XsOmSbVOu+vEol2kX8gIg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:v/83yD1TKMc=;Ox6NeYvhdn8GSX0nEhX6rVomXuj
+ UzIhJ88HeNFeP/3HtPH+m7uGEJIG/RVgHURTzLeuMk5QdbnRQaDvkMHUDS8bVBQVcmA9DuyN1
+ JCcGng/CATFl423pk28WB/NgnxSMmCb34co6zwc5iR8DOdS4wNV7Dx/ZI1zIAfJHNXEIsPuNn
+ FydUp/wA2toI9W0XKMsxFmPvqE9fXJAT9AnY7p3OnfbiCQQk7eKlMzDsbIJaZEiKrFKlecFqi
+ 3KIYCgSIPJ2u/gxpHo1sOKm84ZT+GuV29/bfZLv7TPFA37nuhRdawh++kam3+A09J/ATUPFtl
+ yXQKo5PQXZ9gPwyZoCXDJFTwsrsByZ4cwYPf3LO+67sqgdzGGFcHFk+gA6VBTYUg5lQ96DtHc
+ 7EE2xvZ7WUkcVM1mE6AbHnO77YV+Gz6smatGDMEKGHqyYLDUU4W2EclHPdsFqz9SjCIKMNP8v
+ uTCUqiKAIiMCFRYwbokIc5OS+sndXra7YPMEA0f3oFMKhOWpDzhF6IyIUiTlAbIrz/ik/bb4a
+ 0bFcQvM98mTeGZkd3sB+6Y/6PC4SBrP1eGmyQc86GZnbuveP4FZ0NZqe33jaCpE17WxwvDrnL
+ kCZCvxQV928079wP70nRQPQ0PD79ZaWQaKYK8+zE+q5VTLZ0tCqF5zkdTsH+DH/4TFLoqcdB4
+ WwyUt4KR2UcSs44mqzk7USlI9/pBNodMXCwWVnyjIm2wgMhFgQ355fBZjS2ZyDKFRuHTCNDuw
+ 5tay8fnsAVsQ4ClVH1n2BIfd4ec50GmN92rF7Qik8oe8FHxAgybJaDZlrJa3HlhnBw1X6TJlV
+ /cfyemJB1w8NhjkmTX6cj5k3+5oBjjog2fI+k3hOsO31w=
 
-Commit 42a2f6664e18 ("staging: vc04_services: Move global g_state to
-vchiq_state") adds a parameter to vchiq_debugfs_init, but leaves the
-dummy implementation in the !CONFIG_DEBUG_FS case untouched, causing a
-compile time error.
+Am 27.06.24 um 14:44 schrieb Bernhard Rosenkr=C3=A4nzer:
+> Commit 42a2f6664e18 ("staging: vc04_services: Move global g_state to
+> vchiq_state") adds a parameter to vchiq_debugfs_init, but leaves the
+> dummy implementation in the !CONFIG_DEBUG_FS case untouched, causing a
+> compile time error.
+>
+> Fixes: c3552ab19aeb ("staging: vchiq_debugfs: Fix NPD in vchiq_dump_stat=
+e")
+> Signed-off-by: Bernhard Rosenkr=C3=A4nzer <bero@baylibre.com>
+Oh dear, thanks for fixing
 
-Fixes: c3552ab19aeb ("staging: vchiq_debugfs: Fix NPD in vchiq_dump_state")
-Signed-off-by: Bernhard Rosenkränzer <bero@baylibre.com>
----
- .../staging/vc04_services/interface/vchiq_arm/vchiq_debugfs.c   | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_debugfs.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_debugfs.c
-index 1f74d0bb33bae..d5f7f61c56269 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_debugfs.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_debugfs.c
-@@ -138,7 +138,7 @@ void vchiq_debugfs_deinit(void)
- 
- #else /* CONFIG_DEBUG_FS */
- 
--void vchiq_debugfs_init(void)
-+void vchiq_debugfs_init(struct vchiq_state *state)
- {
- }
- 
--- 
-2.45.2
-
+Reviewed-by: Stefan Wahren <wahrenst@gmx.net>
