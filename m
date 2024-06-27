@@ -1,134 +1,122 @@
-Received: from GBR01-LO4-obe.outbound.protection.outlook.com (mail-lo4gbr01olkn2054.outbound.protection.outlook.com [40.92.113.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6ED817C68
-	for <linux-staging@lists.linux.dev>; Thu, 27 Jun 2024 08:06:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.113.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719475614; cv=fail; b=Um50S94ogr0PsZ2n+b5Zp2hN2fox7msM1viTbWiHrlsaosQHLJZmBgjjySFx55nFNUhDAwHJLz/KDEWa5XGNefTKudccsWxxj6Q+3qfsYvk1GlUc0+lJ8jrYr8ecXxml9jCfdA2FG32Y1poOpQeFnlOTypwfbJd0nI3r9ZIu0AU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719475614; c=relaxed/simple;
-	bh=MzBEJAPBWfYhP2yl8/RzYTyiHbDm+GWbcW/WeCmZT2E=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=t9ziUryKYJA+1O+alkm5iDnZr0Irl9zcAmC2H4PYEh0SkhP+FL0YijGI6MWPgJUeb84c4CMwei2XJT4jJP++KoAleE7u/3ch9oFUSYDyfndA4Ae5JaU8pVYwI4+46Olakw2eOI1d34hI9BDysE9vBbH87bxuce1VJMFuXYje7q0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=qT/8Xw0v; arc=fail smtp.client-ip=40.92.113.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92FC21386C6
+	for <linux-staging@lists.linux.dev>; Thu, 27 Jun 2024 09:39:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.28.215.223
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1719481198; cv=none; b=cK3J5sA1nJ30QtH5JEjhOGa8EsFvhKOnxls+KC6Em5j4M0qhW6FRisTLtAeGmNrNioG/FczaQ5GE8RQ5LAwJOcD/BV95MC6DRWX52dFOM64J706dmuv9Mjz9kgny7RD9b43rRHO+zryelpX+0QcsiFNhpBxx4GfLEl+VhRbL93k=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1719481198; c=relaxed/simple;
+	bh=lxTZXKZuxfotuscn6ZIT1ZAkADWhWpvVGjic8HteS5E=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FsNAQtTwlPEQRp3ASRdxyfAor3Qk3axTrD3WxYeCfV2dZsCNOb0a0oWGbAkNEk5u8a4VxlsE5DgRh8YMh51PS8GPMXylLqho+R9nN9ViyNOFWBwus1k3e1vSicMbcuo25Dp8gSIr/ef8GAz8YvZRpHwRoVrHT5WRTm8VZwmhdpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=W0FT3aMa; arc=none smtp.client-ip=149.28.215.223
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="qT/8Xw0v"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aPBIbZNG8BXRmYez0NXn4MKO/VVIuSnv8MW7fQhZQ0RLtjgNM2Tt8gjo2us/pA923C15VqspXgiEZ0G0DFtqObcfMzu/TIg4TQG/eTYJ64LIR+1ncQzciQUA4boLs5kdX/qpY9i+0QnjecHm/tzeR3+8bfGmbxBVW7NsRLDTEoMCEvR63u5v0xjiX6Z14FP+TOjxxfFv+2UkPJFz4Rs8DjQ13lVgpCTnSP5W4JbbwgDP5QnE/aWXXzReEsIsNaieh3HisLVpTCMioAtoxwqYRJ8pB8iyP61bicA6FKwLl5eRLadoD+Lw66YgtC7vb8rrqLk9o8yk3VFVIdME1289Bg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MzBEJAPBWfYhP2yl8/RzYTyiHbDm+GWbcW/WeCmZT2E=;
- b=cKzsB/4g9djzq9luDF3o7oiP7k8zYMEAJxcRsKETJJIMLEgRiM13ewSRG9S4GDq7EBY3jqf+u5uvmMBuZhcwgK2N6/xAMwkK646VSfGDmIMw7/1NYLCC9YDkY1yvtpSn/Z0BbgoFDvHE0cXFOC1JcXXPzIrcxuIEuCfUCmhTR15cRySKvfoHQ2nnMP0OE8eidg6g3V8Xy9EXDT25Gx219/d5ZcLf06zKrvCAiU8z4Vrk5pEXI2VSscp5opOJ0e7PayfGfEowuOz6L1S5CiU420bJZmCzTgIFqN66qZI3OCpPPjNKX58OYZIy2UNHoWr8rA7Ox4d7yuWRPKB6EftDnQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MzBEJAPBWfYhP2yl8/RzYTyiHbDm+GWbcW/WeCmZT2E=;
- b=qT/8Xw0va49ylCrP2rnQ83d4mQTBC91yv2xX6IJbXc9rN/qo2RWrGgWyhlOfgvkDPE6d6Go/Y/cM0/hpnQrYE148tVtsmQuRjj/zuafjcsQ+TfltfgQYQaPqjqX9Q5b3rz6JSEkvF0xDfrqDIPwfGtrUN/7YyU6MSvW5SATSSl6v5yUYz6VYrnfK/6hBLBo5Sxfypm1LVJq7ioJEGHbxnTcfx9AZFuZUdlmKjn6k+m45UWNYjlsty0cTstgkPc7oquDvloVSRDyyxWk6hmvvd+J5ozLGA9vkeNwNt96Pc+aWc0qhv5hCxdl4nFWx4KAg3jD4UrA7xOEcUzY+Ytbw6w==
-Received: from CWLP265MB6516.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:1da::7)
- by CWXP265MB3575.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:fa::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7698.35; Thu, 27 Jun
- 2024 08:06:50 +0000
-Received: from CWLP265MB6516.GBRP265.PROD.OUTLOOK.COM
- ([fe80::a912:f233:4847:e806]) by CWLP265MB6516.GBRP265.PROD.OUTLOOK.COM
- ([fe80::a912:f233:4847:e806%5]) with mapi id 15.20.7698.033; Thu, 27 Jun 2024
- 08:06:50 +0000
-Message-ID:
- <CWLP265MB651633F722342DFB3F923799FDD72@CWLP265MB6516.GBRP265.PROD.OUTLOOK.COM>
-Subject: Re: [PATCH v3] Staging: rtl8192e: rtllib_rx: fix alignment
-From: Yusef Aslam <yuzi54780@outlook.com>
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Date: Thu, 27 Jun 2024 09:06:48 +0100
-In-Reply-To: <4b489362-7714-4d96-b6a1-50d627b15319@gmail.com>
-References:
- <CWLP265MB65165E806F938F87CB67BF87FDD62@CWLP265MB6516.GBRP265.PROD.OUTLOOK.COM>
-	 <4b489362-7714-4d96-b6a1-50d627b15319@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.2 
-X-TMN: [5xU/7fFN1Vn0cYZ2RhRB6wV+0lL1wXXl]
-X-ClientProxiedBy: LO4P123CA0029.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:151::16) To CWLP265MB6516.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:400:1da::7)
-X-Microsoft-Original-Message-ID:
- <2bff39cea56a28f3a3828f10089c592029943857.camel@outlook.com>
+	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="W0FT3aMa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
+ h=Content-Transfer-Encoding: Content-Type: In-Reply-To: From: References:
+ Cc: To: Subject: MIME-Version: Date: Message-ID; q=dns/txt;
+ s=fe-e1b5cab7be; t=1719481174;
+ bh=t84FHH9Qz2oscsWXd253HB7jbbaRf6bF8zfUqJ67FIU=;
+ b=W0FT3aMa2lrw4vE48d5nRgT2oomXuhZveVPMuMb6bPxOLENPJQF1KyFmsMD6tgZD114M1zrg5
+ 5vs+v76Q8Vjbg1JOz2iFOQCVWjQk9nNR8d7uo/oavDQUTTYrt6VygU4pfAkGLiqgAoY+1Wx14EI
+ gpwLaa0IlK/JSdRU7GtHwO96QrRSMmToMP2uPtRBfZJjm29mCK1T++0IWSnHc95Op7zpMpOKcpm
+ xy9fn/U45R5QPrR2eaJHPtGEnXzUtaqCXjfA99iqrJR+e/BDWjze1HGJx8TzKMdrDMGk8JlqqLk
+ I+oIP2rZv8blW3Z/zlDCEQVApbUqawtBERQ9w4N6UMnA==
+Message-ID: <e72fb6fb-4dcd-4fb4-9d44-d8de3c5ffe30@kwiboo.se>
+Date: Thu, 27 Jun 2024 11:39:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CWLP265MB6516:EE_|CWXP265MB3575:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2145e3bb-1e33-46ff-47d7-08dc96801901
-X-Microsoft-Antispam: BCL:0;ARA:14566002|461199028|3412199025|440099028;
-X-Microsoft-Antispam-Message-Info:
-	MQDHosNqwvi1yMe0hJX8d65oicm5ww4W9i/aQHS8CsNl/fiEb4O1ZDNfO3EtYBh25ieevbGyH3jzC7AIS6S3U1Ckt7ffxndmIQgV9GbqQw5MaP996m6gB2GbH89cJeZ9KPyCxjgxOungjeFqcoZfDEs+Yv3AkKiwk7g+/PmhHfQcLEjXRMgktPs9DPAe5ISw+PuQkQRbxDedJvPUVj1YKlTUSSgdrAOv6aNAKtks8ZvJo63fMFu+e+ah4WBjtLXMGoSd3hPa1xaMiEahh1o5vJqwrxRyq5aFLehov81QuokP+ZXmGHacqh6ba/AGRFAJ6JYZqAFQzWRWNJqLRjNuAVJHaN7cXNFGXIetBsUTseTJdvd8Rq8e2MDrXyCWv97AQ8lz+taOEduhZWmL1b0Ggy4CVupON//o/jEY0YE82vtLEz3YGQR7fTrDPdNfZanPwpyMt4FhhJMeu0xu2q+LyJ4svpnRELojnsjMCUzo+Fq1HmH2jw9x4VmabMyAuQduSE/pMdNivNRMBDtmNLKFtYFLxzBqYC1epmwYp6gSvaRK1hzLy34x2k79pxPkcMNf
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?TTlnWXVkc2hNWXNuUlB4Q2NmMmVlRDJ5WjVFOTBkV3I3OXk0RENmeVk0VkVE?=
- =?utf-8?B?a3RraFBROXBEeVJpOXZZZWpadGhZNUU2YXc5NVF6SHppOWdWSENmVGE3dFJD?=
- =?utf-8?B?NlZKNThUbGt1enV3cGovRWlYRTEvdk9hcys3SzJ3aVpkZDM3RnFyT0Z2Vzc2?=
- =?utf-8?B?cGhldGt3VUVaS2dBQ0tZRk1PQVlUcWJOM2tjcE5NYVlzNCtpRlRZQ2xzYWZK?=
- =?utf-8?B?QVUzOC9pekVUZXVKdDcrS2RLQ24wOTUxUEU3TTlKYzRZbG1QOWhRYzgrR0dB?=
- =?utf-8?B?UnFhcWZBQ2sra3VFNzgrYjY3YVM0dWdmTnBWYUVET1RhRlE0aU9NQ3YraGhp?=
- =?utf-8?B?M0U1ZXFuTy9XdEE1Y0k3dmh4VU5Ja3B1dGlhRkNtUGhlRkgwU3R3R2FpcFFw?=
- =?utf-8?B?RTVIakhLdTFUK2srUTRXT2NjR1lTZXk0MXBOc3BPR3doQndjVGZYTWg5TWNu?=
- =?utf-8?B?bEFUcGJDd01MVktnSC9hL1NmUUFoTmJKZHY2MlN3ZTVnTm9LdDFlV3pmeWJH?=
- =?utf-8?B?THUxMjJwL3dCTzdoQ1NxUGtENXVJWVRwUVV4VTNxaHNYeWV0WldZLzdocy9D?=
- =?utf-8?B?bDVEN1h3L0p5VURrNXRQL0REYWw2YnhxOVM3Y1dzY3hrOXl2bDFTdXp1YkdW?=
- =?utf-8?B?NXdkRVE1VHhIZklNVjl4VU93VWJGQng1WkQvWUxGV05mTHhHR0xGZzByU3ZD?=
- =?utf-8?B?V0htWEdXNjh1Vkp2NDErdzZqcnVDSnZ0V281QkNpYUF0WUNPQlRxanNyVlFS?=
- =?utf-8?B?VnRSaTFuRnVzQlQ2OFp2b0RKVmZobmtzOWFGejFTR25QeEhJWWNYbWNtcEVE?=
- =?utf-8?B?eTRhdlVMMHdvM3I5ejRyUisxL0V4TjZYZG10dFZwTU4zK3A1Qm0xbVc0ZXJG?=
- =?utf-8?B?d2Fpd2h5YXVkazh4OU5EKy90QUNRVkc5MHBGaWJ2ZnlJVnoxdmlBT1dTVm1S?=
- =?utf-8?B?aVF0cFMvUzZ1cmV1YktsdUIxNjlNUHF6UERnRTRwVjFRdVVITmhMQ3BYT2Nl?=
- =?utf-8?B?emEwTVVnSGE2cWR2VHpWNG5NS0lMY1VSUUtuWHlhc3EreDdubEdHVHpHUlVX?=
- =?utf-8?B?eVdjNTBET2tXbnZHcnVWQnlYejNLRU5DN3RtNjYwS0I3NklaY1k5SzZlMlNH?=
- =?utf-8?B?eDVIOUFBRUwvaW9SdEg4MmkvSlBrQjVNdGxRUzc3eXVwMXZXNE9Fb0ZXTmdn?=
- =?utf-8?B?c2c3dGRIaVBMUFdyVit1UDFrNnRvbmNYSGllRWFXM3Y4VHNST3ZZRmhLL2NP?=
- =?utf-8?B?bllvK1MwVHNIbVI1L09UaVRUSzBnbmQ4K01BZWVGS0kwZDYwNll3U0xsbTJo?=
- =?utf-8?B?Y0RtSWtVdG1aZk5peWJ3K09YUWc5RmcxQ2lrTk1Vb3g3elFEbzdwL1dwbG5K?=
- =?utf-8?B?NHBETVA2ZkFYMlFOT2d6NUE3Y3Z0Q3p0bXZyZ2ltSVoyckFVWFpaNzZIMHJi?=
- =?utf-8?B?SUoyWFhXUUEzeU9lbC9GRXloaU1neHZBOVlUcWNTZWI3aWtPV2RHTGVQMjBO?=
- =?utf-8?B?L2h3Ry81VjFUYXROcXhWZDNPc1JTVGZHSFRvTEJPdndUd3ZnL0NHZ3ZPQ015?=
- =?utf-8?B?Si9kYlBVcEhCTE5UNzRpbnEzQXpNL2g2aGpBT3AzdnlFUVh6QUlQNU50TVNG?=
- =?utf-8?Q?fOjyDqOrvGm7pQvqSukHPKquQXbVLHdO4cVBDoEQdyzo=3D?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2145e3bb-1e33-46ff-47d7-08dc96801901
-X-MS-Exchange-CrossTenant-AuthSource: CWLP265MB6516.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jun 2024 08:06:50.1735
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWXP265MB3575
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 08/10] media: rkvdec: Add image format concept
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, "Greg
+ Kroah-Hartman" <gregkh@linuxfoundation.org>, Alex Bee
+ <knaerzche@gmail.com>, Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>, Sebastian Fricke
+ <sebastian.fricke@collabora.com>, Christopher Obbard
+ <chris.obbard@collabora.com>, Detlev Casanova
+ <detlev.casanova@collabora.com>, linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20240618194647.742037-1-jonas@kwiboo.se>
+ <20240618194647.742037-9-jonas@kwiboo.se>
+ <f7e4b0be-fe09-4db8-b081-21c46c0d836f@moroto.mountain>
+Content-Language: en-US
+From: Jonas Karlman <jonas@kwiboo.se>
+In-Reply-To: <f7e4b0be-fe09-4db8-b081-21c46c0d836f@moroto.mountain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Report-Abuse-To: abuse@forwardemail.net
+X-Report-Abuse: abuse@forwardemail.net
+X-Complaints-To: abuse@forwardemail.net
+X-ForwardEmail-Version: 0.4.40
+X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
+ 149.28.215.223
+X-ForwardEmail-ID: 667d33569aa1b906e1d3e383
 
-On Wed, 2024-06-26 at 19:32 +0200, Philipp Hortmann wrote:
-> On 6/26/24 14:56, Yusef Aslam wrote:
-> Hi Yusef,
+Hi Dan,
 
-Hi Philipp.
+On 2024-06-19 09:21, Dan Carpenter wrote:
+> On Tue, Jun 18, 2024 at 07:46:32PM +0000, Jonas Karlman wrote:
+>> +static u32 rkvdec_enum_decoded_fmt(struct rkvdec_ctx *ctx, int index,
+>> +				   enum rkvdec_image_fmt image_fmt)
+>>  {
+>>  	const struct rkvdec_coded_fmt_desc *desc = ctx->coded_fmt_desc;
+>> +	unsigned int i, j;
+>>  
+>>  	if (WARN_ON(!desc))
+>>  		return 0;
+>>  
+>> -	if (index >= desc->num_decoded_fmts)
+>> -		return 0;
+>> +	for (i = 0, j = 0; i < desc->num_decoded_fmts; i++) {
+>> +		if (rkvdec_image_fmt_match(desc->decoded_fmts[i].image_fmt,
+>> +					   image_fmt) &&
+>> +		    index == j++)
+> 
+> I really don't care for this j++ which is tucked inside a condition.
+> 
+>> +			return desc->decoded_fmts[i].fourcc;
+>> +	}
+> 
+> 	int fmt_idx = -1;
+> 	unsigned int i;
+> 
+> 	for (i = 0, i < desc->num_decoded_fmts; i++) {
+> 		if (!rkvdec_image_fmt_match(desc->decoded_fmts[i].image_fmt,
+> 					    image_fmt))
+> 			continue;
+> 		fmt_idx++;
+> 		if (index == fmt_idx)
+> 			return desc->decoded_fmts[i].fourcc;
+> 	}
+> 
+> 	return 0;
+> 
+>>  
+>> -	return desc->decoded_fmts[index];
+>> +	return 0;
+>>  }
+> 
+> Don't resend if this is the only issue, but if you do resend could you
+> get rid of the j++?
 
-> The patch can be applied. Thanks for the change history.
->=20
-> But your patch description is not answering the why.
->=20
-> It could be: Fix alignment to increase readabiltiy.
->=20
-> For the first patch this is way to long and the indentations are
-> really=20
-> a mess. Issue is that lines then get to long which leads again to=20
-> checkpatch issues. Please find some of my comments below.
+Thanks, I will send a v6 later today/tomorrow and will include your
+proposed change.
 
-Thank you for your comments and advice. They help me alot.
+Regards,
+Jonas
+
+> 
+> regards,
+> dan carpenter
+
