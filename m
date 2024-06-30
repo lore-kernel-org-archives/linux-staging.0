@@ -1,166 +1,114 @@
-Received: from CWXP265CU008.outbound.protection.outlook.com (mail-ukwestazolkn19010002.outbound.protection.outlook.com [52.103.38.2])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C61E539FE4
-	for <linux-staging@lists.linux.dev>; Sun, 30 Jun 2024 08:31:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.38.2
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719736306; cv=fail; b=AlXXSX6ZHoAIopM8tIjO/q+qt7NHK/Wfn3qDeHYNNLZZoVxYxg5CvJDE08fk1i+aCRLQ6IcB5nn47Ow11lcCFrys7z9J9eJsMlk1L/nsf5KJmaBscYpA1rkk4lQODs7fShUzAsWACe6tbK7pLwa7iwPOiWo459U8x982YpO1hFg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719736306; c=relaxed/simple;
-	bh=s7uXXyEEohwHT0elQa7sGFIoU98edapm40tF3qsBqZU=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=YmdrlrOIyeYNw/fbPsOkMbC8tkeuyHj+lylfzdkZglhh4kDj2SSl8qiMr93aPX7fg+k/48kvf4O/8U8DREmVHHS0NZTclY97ECkXU9mhEZ1DRkQyqwUBlyQCL55RjKILwq5xwNfMVNwofxNQoZ/XAvmz0eq4K2ChxAuBfX2e9oY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=T4XAwoAT; arc=fail smtp.client-ip=52.103.38.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BC24133987
+	for <linux-staging@lists.linux.dev>; Sun, 30 Jun 2024 10:37:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1719743878; cv=none; b=Rprz0wP3qilIZxrPT6lZm+qoQPFdkJYfAxJKKfbDfbwV/rJQGfFqcUqDIKnUKHhOo6Gfzv4ygQY08b31Tm1hfNNRpcNjqPkrKtVA2VNyDRFRyo34IMJ8L1xYdBpOSfSFtCz4u5xgAH6wlmXwTjdRGNMdxb1cUvOX8g9R4mCNLV4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1719743878; c=relaxed/simple;
+	bh=bpcViS5LQY0OktTmKYD6xTF3nZ89Wbqo1+5YJX485f4=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=OMF0IocND/34HmZRApcSFqluTAuE8EiPBVqr6N0lRKEhSq0NQ7VY4oOhXikIhKS/p0xv7k2fBXiJuwZ2rYNK1lpXDvRt43OIg/n9g4SWCpJbAbnyNaEbivHOGikRGGD8cOTZqFj3y7zz9S8RMMopMYSE2LL7uSSw8JcYBOEkZrE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eVoqvMaw; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="T4XAwoAT"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Nod7Aw7070ElkvJelGcq38OQcTpw7Ebx3vX/i6/AHdzmhORRCaveRWyZJNEdXq33iwtWbbJb3HUEgn4tDfdd58/fXAte/TnoBfDQteJSisS0Zk0p9zHw5r7tiKFTtbNcIZIwlff3IhbKvwNn8PvfhWEdSD6MqPu9xs72u/1BUFzqIz63fU5/dSQ5JKirOMKZnJ6Txx1VA4XlWgAemzu58GbgXlF0BvgxJamQTIgAw3XVBOIcvJrgH4Rh2yudg5n5TWm1d06+fMhJJC/8Jroeq+UQ44NRfvKm/07Z3aZMZNlB5PyunYqPWVuXsbKeiFDIbmuvTJt9DW9ob0qZwl6Ktg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=s7uXXyEEohwHT0elQa7sGFIoU98edapm40tF3qsBqZU=;
- b=GNBAdFPxwykj+dSt4bbQGgELUmwE2uC1Uzmm/x1govufW1c/pIGrYulBwXM6nkeXH9VVmN8Ihv8qAvm/Gl2M5MXxDkKaWUoSkytV6EKXfkgs9XYY/E0U4/nt1a5ctKVw6Pl2Kji4aAThR6SU6DUYesT82ApqIIONCBFPB1+JRq03jHEnhPNhtW5+//z+cUNKY3nfWOgAqidwgOuKoo2+KbgSl4e6x+aQjv6jYfduih12UKXdoRYeEvkc98TZWzUcxf4T+pLiWJQmM0yWnsvyULnOrBuBvipM+R9kh18//mcI3WQwvDCJkx6AFfLyLdr8kEI9UtzBqwCQfMXO7wM0aA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=s7uXXyEEohwHT0elQa7sGFIoU98edapm40tF3qsBqZU=;
- b=T4XAwoATcNe77mtCXUArsso6id+a2Cah13C8LIgmemCje2DoDdUC4TAYvF6qE+Mle5m+kLj7VRjboeibl/Rr1lmVeJ7Gig4ul3Fsd0S7j12f5bBCAOWSDHGxJIkiZsuLG39XAyyCVawI1OZHB6Gr0iBw04Ha41mQ6pMonYNmKn+Bk4slbHpHgK/PxpOebGQuAECA1Txq6OlqSc76mzaSHADqOyVpwELAgftopuk9xEWUEYEkZUF4mAeXzK3xAzcH45PYbEL+2Je3rgz4tkUFjhnMggOSIKKsuNUvbHVTy9wcyY87fid5gZvbGwvzrhGsc/jeb395HI9HFfaa8OtfpA==
-Received: from CWLP265MB6516.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:1da::7)
- by LO2P265MB3513.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:1b7::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7719.29; Sun, 30 Jun
- 2024 08:31:42 +0000
-Received: from CWLP265MB6516.GBRP265.PROD.OUTLOOK.COM
- ([fe80::a912:f233:4847:e806]) by CWLP265MB6516.GBRP265.PROD.OUTLOOK.COM
- ([fe80::a912:f233:4847:e806%5]) with mapi id 15.20.7719.028; Sun, 30 Jun 2024
- 08:31:42 +0000
-Message-ID:
- <CWLP265MB65161FE430650BBAB28F1885FDD22@CWLP265MB6516.GBRP265.PROD.OUTLOOK.COM>
-Subject: Re: [PATCH v3] Staging: rtl8192e: rtllib_rx: fix alignment
-From: Yusef Aslam <yuzi54780@outlook.com>
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>, Bagas Sanjaya
-	 <bagasdotme@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Greg KH
-	 <gregkh@linuxfoundation.org>
-Date: Sun, 30 Jun 2024 09:31:41 +0100
-In-Reply-To: <43cae9ee-e05e-4447-a62d-eac8307e9670@gmail.com>
-References:
- <CWLP265MB65165E806F938F87CB67BF87FDD62@CWLP265MB6516.GBRP265.PROD.OUTLOOK.COM>
-	 <2024062727-diabolic-lusty-7baf@gregkh>
-	 <CWLP265MB6516AB499D407C0AB0CF106EFDD72@CWLP265MB6516.GBRP265.PROD.OUTLOOK.COM>
-	 <ZoCeul3pAjZLOT8E@archie.me>
-	 <43cae9ee-e05e-4447-a62d-eac8307e9670@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.2 
-X-TMN: [cgVhzp2Tv25La3JLusoNG0qBwsxnm/qv]
-X-ClientProxiedBy: LO4P123CA0297.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:196::14) To CWLP265MB6516.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:400:1da::7)
-X-Microsoft-Original-Message-ID:
- <28145002862684f66323b5a3e252ea37f4166aaf.camel@outlook.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eVoqvMaw"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-364fee5051fso152289f8f.1
+        for <linux-staging@lists.linux.dev>; Sun, 30 Jun 2024 03:37:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1719743875; x=1720348675; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:from:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iuE2Ud4V3w+e53yi43m8pMBIJuScpcjaVEcgNcib0DQ=;
+        b=eVoqvMawXYm+ecHYKJ4e/RkzlQFXuKoJyLKV3RM+6cWuYSlyRE1BlvgU67ZlyL+Bh5
+         snhcUJylzQQq6w8M9EdxhLxHyTXELry9T1Pksb4TdNSY7fJiQT9uANQsXVcYVIiMb63j
+         /ablg+Crnxq4vWSLk44D00vV/up04PoNX9tMt5z4GNqXpcLQFJsS6yNUrsW5NgeT1ryt
+         I2x0xDpWTF6XtLeerba4a3qTxDYY3PnyYsDDrEhaOee48+2RXfkR6PUGUJ09PDETetbG
+         U//Wi1kiw9lHqIrsPyrGZsI59T09F2Zs0PiC7Ycr49ORb9u894Tg5Ntqa9nt/E+E2GxZ
+         jhZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719743875; x=1720348675;
+        h=content-transfer-encoding:cc:to:subject:from:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=iuE2Ud4V3w+e53yi43m8pMBIJuScpcjaVEcgNcib0DQ=;
+        b=OJDljqjqoNK/n/hXm63fD5kWQEaXs8U86Kk4Bzqt0NAKl2Z0iRRfleimEbx71pOZPP
+         R4gsSe6usRPMuaG7zyeQOF5v7cwh+tKgzT0Y32xfiJQLGHLRHIR4erJxm4mCISng7c+b
+         2khmw7Q2iM0+qgQP7X5fqSfevtkOD24maGJGlgHRjhfIIfz6kbwfqbHulRISGMBk/ywb
+         yiMaSzFjHFHuQJyPpu1tnLVT9Lsv385WH8fMxwOT+vMAsFs1NJ6ctBhwJQjxZ64MQ8eF
+         GT8+a7R1XHx7KQ0Qmy9aE/xHYtUSYFM/UNaKoaps+Yg2u8O3brYcvrv7vapCLlhmWQJN
+         kApw==
+X-Forwarded-Encrypted: i=1; AJvYcCXihjVdXy0kijLtJgQbxBfD0i+pb62rEqsSzRaqmlqbQR3XEyHGTB0LFoj9sXejsg8xAgrdcDnHfeetBWUnGgwtWfCNDzzrOedoRYkzZA==
+X-Gm-Message-State: AOJu0YwVQJZKq4wntEsP8VQrksxIC0REPN0AFbuD1//HTCG9m3ItjVFr
+	aTMrLE3PbEXhxSLXj58Mt1R0URavsLJSI/G4NuLAtPkA6ZFidPMB
+X-Google-Smtp-Source: AGHT+IHKMZ0WthVhHtisNWWMCcUCgeN80h/zkh4IY9YimIQzobB2EJFD5tra1jRJSemaeYnQJyFSGw==
+X-Received: by 2002:a5d:59a4:0:b0:360:872b:7e03 with SMTP id ffacd0b85a97d-3677561dd88mr2087042f8f.0.1719743875235;
+        Sun, 30 Jun 2024 03:37:55 -0700 (PDT)
+Received: from [192.168.0.103] (p57ba2f9b.dip0.t-ipconnect.de. [87.186.47.155])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3675a0e1412sm7088215f8f.53.2024.06.30.03.37.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 30 Jun 2024 03:37:54 -0700 (PDT)
+Message-ID: <13cd3ec0-0f4f-4119-b2a5-f74e33e3c862@gmail.com>
+Date: Sun, 30 Jun 2024 12:37:53 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CWLP265MB6516:EE_|LO2P265MB3513:EE_
-X-MS-Office365-Filtering-Correlation-Id: cb8a6dc5-d4c6-4fb3-b0ab-08dc98df1190
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|461199028|8060799006|3412199025|440099028;
-X-Microsoft-Antispam-Message-Info:
-	ZSjwLbkI/NPpx+axms+3yG8pkrCIIKgij81HIKZ/U/OMngm+4YoGMdCiwLy6950LDSfxdL9F+Xy/N8X4ExE/D7q2atF8Ph65sbnL1wcVNAgXgeGUuSRUz9YtI/H2qa64lfG6++KTXAVui5uokKyFnLxpoYyxJgjr14Wf0eIcMBfen3bur/GjZxWcMYtU/H030z4bxtITEQm7m1SRf3NdVZJ9V839rxN3Nt4vEW96xCtXhdOw0aqyK5GNx5GFa1Jp+eWP9Lg8xsK6QheD7wW/78cwbHS31LeLwZlQIM3J7cgK3H4pOI0UMV2DwDFrGrMqpX2KNp0+mTomuqbKz5k66GpM3zo9Iz/xnDKiCprXNFZ36RvQNgLaD1GLxkDk0IPlFghfL3htTS1YKfAtqAmD5rj/krY7SXFtUSl/veA/fQl9C6vAbIsn5Az+ibZzath6JuKcGNiOglCFC1uuBwe1Iup/NE3iFNVTpsoNwrvWUuqTevGpas5XbmPoJwWn9UYtTHsZWMmIjBdYn2jQQ/V5KPdDId6UjuQQvvp3PGxu0IoYQwgvTRXevkQIb1W+pxauRyc2MtKJDaRM0KH8439X1VC/oP36t0HomJbxiF9n3Tv8InvA78cBXLHK6QNmK9XK
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?U3BJR1NPRlVKYlRWd25DV2haalA4aE1vOTBUdTNVUC9JN3ZORTQyNkgwcERy?=
- =?utf-8?B?Qzl0VE1RRDk0em9mUC93bnliMkE0aCtvK3E1NVRlT1lBczRvNDJ6ci9wbjdM?=
- =?utf-8?B?L2ZWSnJhRVNMQnk2SEFkMG4vRVBCcGg1eFFsWTZDOGZ2dGpEVitobU9sMjJh?=
- =?utf-8?B?cU42dHcyRTE5aS9LOEZnNFFnSW5YSFFOL3YreG1yR09uV2E1YU0vZ2F5SWd3?=
- =?utf-8?B?K2s4MXNDdHpQd2hwVktmdlNmamZ1RTExYTZQeEFHbTMybWhKUTk3anNvTTlq?=
- =?utf-8?B?YkZaOWxZOUxhRndqRFYwdGVmdHBzUFFQMTA0ZjczSDNaMkdjYlpVd21GaWZH?=
- =?utf-8?B?NEp3N1FCOTM0QXpRME1tbjJCMTRrOUUwUE5yZ2pJdjZ0Z1VteU9PL1BsOUtN?=
- =?utf-8?B?WmdJS2JIek9PSzJ6WmpQR25sT1V4MTB5aWpaa09vVGxsMktCZnNLUld1Y0tV?=
- =?utf-8?B?MGVQSTFWaUFRcUZUcGUzVHh1a0FUNjlJMzNGaGFEVnh4ZWU4d0pSVDFmVzh4?=
- =?utf-8?B?WFNHbVVIZTllVVhXQjErQTZVMUkreXR3SHNVNjNDdmRxeUd0dm1OZHA5a1ZU?=
- =?utf-8?B?U3RjNWZjdGNDWjNyL3o1TjVibGJZZVVyYmtJYjRiUG9JSXRLN2xoRVFnbU1N?=
- =?utf-8?B?OUgyOXJkQ2ZQcktVUW81N2VyVCtMNUU0bnZKb3YxanVoWXRLdGoyU2tIV2pH?=
- =?utf-8?B?VlNQNVNwUHU2QVl1WDNzZHV3RjZON3dwMlNOenY1aVNVenlYRmQ4SDU1K045?=
- =?utf-8?B?SysyUFBJRU85UVg5K3RrWDU2MUtJQXpvWE9hUWd1M3l3TGQ5UDdtL2dhUkRH?=
- =?utf-8?B?TjBXWGxCbWE4VFQxY1oreWg1UUEwbGZCei8vNFllOERaUEZiZXNVNUtVb1BE?=
- =?utf-8?B?U0dsb2ovOWxKVEtHUytkNDl3S0VHR2t4K3hwcndiOThjVUpwaWxlczd5ZUl6?=
- =?utf-8?B?Yk1pZk5PdVVkUm1BVHB4SjA2YkRaSVRXWDJOdTQ4VFdZOGtRcFlZN1MxRFdY?=
- =?utf-8?B?WGFCeDlXbFhpNThXMm9ZelVpVmZXL0JJVVpUemdEQmZvSmZ1aUhYdGJmdHlQ?=
- =?utf-8?B?a3MzMnhnRlFjMFI0T3lDNGRyVVdoNFNYcjFoa1dwTmpWaVhIN0Q3TWFzN2lS?=
- =?utf-8?B?ZmlkUkZBYk5vbUwyWmZHTFZmQUhYSCtkWWowOS9vRms4b2YwV1FnOEh4aWJC?=
- =?utf-8?B?N3N5dGw5ZmRuRHpibEZJZFhscjJXSjZwa2x6QUthRmo1dzFNWXN3WDllTXlC?=
- =?utf-8?B?RVJCaFhWSEY5TzF6U3Vqb2hsUFFLK2hMSXBkckF0aGZQeHowcXdmVHpUdTZ5?=
- =?utf-8?B?V09OQlZEOTFCVzNUZ25mWDBWRzdzUVZYU2NnaXFoVHV2U2ZmOEFNQ296U0Mv?=
- =?utf-8?B?YW1aMHhkaTM4RHFaTGsvN1BsbWZTSGdDanhrQm9CZ2U5ZUs2TG1UVmVoekNm?=
- =?utf-8?B?dkJrT1dkU2pWeVlqcy92L1greC9iSEdaMTNtdmFvcVQ1cHl0QWVEWnRTVDJ1?=
- =?utf-8?B?QzdDbFpUYVhEUWVvc1hTVGtwZktLUFZwOTNGTzByQUh6UFl3dkRxdEZWQ29W?=
- =?utf-8?B?OCtsR3prWGFqcTJoeGhHbUxBT1pTeG9FOEJ1SkM3ZlkvS1FJOGYvWmRUa1Rp?=
- =?utf-8?Q?cGitXqGWTzgoSSOMsZAPbg4QjlnD0aAIt2Ni/lQGwOyQ=3D?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cb8a6dc5-d4c6-4fb3-b0ab-08dc98df1190
-X-MS-Exchange-CrossTenant-AuthSource: CWLP265MB6516.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2024 08:31:42.1292
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO2P265MB3513
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Subject: [RFC] staging: nvec: cannot configure to compile driver for testing
+To: linux-tegra@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Cc: Tom Mounet <tommounet@gmail.com>, Julia Lawall <julia.lawall@inria.fr>,
+ Marc Dietrich <marvin24@gmx.de>, Greg KH <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Philipp Hortmann <philipp.g.hortmann@gmail.com> writes:
+Hi,
 
-> On 6/30/24 01:54, Bagas Sanjaya wrote:
->> Authentication issues?
->> Confused...
->>=20
->
-> Hi Yusef,
+to test the patch:
 
-Hi.
+[PATCH v3] staging: nvec: Use x instead of x != NULL to improve readability.
+https://lore.kernel.org/linux-staging/66804898.5d0a0220.6df0f.4f0a@mx.google.com/T/#u
 
-> I use gmail. There I have 2-factor authentication enabled. I am
-sending my patches in via mutt. To be able to use mutt I have to create
-a app-password especially for mutt. I have no clue if you need to do
-something similar for outlook.com. I recommend to use gmail for sending
-in patches.
+I would like to compile the driver nvec. But the issue I have is that I 
+cannot configure to compile it.
 
-I was having issues like:
-msmtp: envelope from address yaslam not accepted by the server
-msmtp: server message: 501 5.1.7 Invalid address
-msmtp: could not send mail (account outlook from
-/home/yaslam/.config/msmtp/config)
 
-Even though everything in the msmtp config file was correct.
+When start make menuconfig
 
-I created an app password for outlook and used that in msmtp, but it
-still didn't work and from what I have read outlook is phasing out app
-passwords so using msmtp with outlook will be impossible. What did work
-though is not using msmtp and setting the SMTP server and password
-directly in the .gitconfig . But as I mentioned outlook is phasing out
-app passwords so this will not be possible aswell.
+and search with / for NVEC I can see:
 
-But when I sent using my gmail account through msmtp it worked
-perfectly. So I think I will use my gmail address from now on to send
-to the mailing list.
+Symbol: MFD_NVEC [=n] 
+                                                        Type  : tristate 
+ 
+                                        Defined at 
+drivers/staging/nvec/Kconfig:2 
+                                              Prompt: NV Tegra Embedded 
+Controller SMBus Interface 
+                              Depends on: STAGING [=y] && I2C [=y] && 
+GPIOLIB [=y] && ARCH_TEGRA 
+                Location: 
+ 
+  -> Device Drivers 
+                                                      (2)   -> Staging 
+drivers (STAGING [=y])
+	 -> NV Tegra Embedded Controller SMBus Interface (MFD_NVEC [=n])
+Selects: MFD_CORE [=y] 
 
-My GMail address is: yaslam0x1@gmail.com
 
-> Feel free to write to me directly for further questions.
+But I cannot jump or go into "NV Tegra Embedded Controller SMBus Interface"
 
-Ok, thank you.
+In my .config file there is no string "NVEC" at all.
 
-> Bye Philipp
+How to config this driver to be compiled?
 
+Thanks for your support.
+
+Bye Philipp
