@@ -1,112 +1,79 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx1.t-argos.ru (mx1.t-argos.ru [109.73.34.58])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90E8E6FE16;
-	Mon,  1 Jul 2024 19:31:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97C9416E882
+	for <linux-staging@lists.linux.dev>; Mon,  1 Jul 2024 23:45:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.73.34.58
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719862280; cv=none; b=eLVPP7bDBIqkZtHdfkmFfcv+0mCVTfFiFpHqP2ZlNEqsiT0Nv3+UfRpAmVslB8n9IrzFISdHEfzIfxAA7gF5JoPqgFCCdDX2q9ZrO1oWA2wjvPF0DL3+yPEe1D9vDZnDuSkla2iPCY/MgpGlnD1FD7n2adhQmH2rNNyZNjR83Zw=
+	t=1719877536; cv=none; b=d6Xc7vIme9JAqrjLduhJe9l8jgn00YEExpQ/YqWAE+LGSzQfHe2Yp12IRPp34qIUsqOdkdRDIihEjrR9LCIGbJGSM86eNwuCewnFRFHnYAbyJAjyRyWE8pW2FQr4rGagXsZw3j1C8ujgK/VPhp6tlrDWGL0uWJDUXTv5W5HnNWc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719862280; c=relaxed/simple;
-	bh=7uK56noa9OT7NT7AiKzpcK8+8gv6waaOJ9178RHutXM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=hNBh3RyusbVzkneC0pKiXNvbaeS4yFYE7jhkXAflHMvRzDKsWxEUvyqNV0SFBL4OR34rvS6zmrrBpypcBzLtRpnE3OK/bHZjAkiLtCfBdGv7FYEV2kDz0kr9Uz8jaLIrxPn3tRgiG9jQl3mX+JyTajOwHIpVztfFbFL/gB7VTRU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kOHjqv0g; arc=none smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1719877536; c=relaxed/simple;
+	bh=sLHYDUClzFe8ceyCDc93RSvaPE+NuHXwSlwFTQtAxbw=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=VcwBpYkcCLgB6Em5UcC4L1AHx3iFvmoLo3aAvyppokEx4jpmOtllLLCPHhhzT9NU6KJQcO8BBPchqA+i29K5tgskmq26pcvIowXUpNU98y2j3jOkglB+TqQEGVz3LUp4Xpz5YKQ4iLzHKHgwbvHqmV8s8cRmbCQsB1LY73mlhR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=t-argos.ru; spf=pass smtp.mailfrom=t-argos.ru; dkim=pass (2048-bit key) header.d=t-argos.ru header.i=@t-argos.ru header.b=MJm72Q0i; arc=none smtp.client-ip=109.73.34.58
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=t-argos.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=t-argos.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kOHjqv0g"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-57d0ea30e87so89189a12.1;
-        Mon, 01 Jul 2024 12:31:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719862277; x=1720467077; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=D0HZlK8nHwoje+lWDsShpqSJVC51ECArGsANp8ntoAw=;
-        b=kOHjqv0gLp+BKdOFh/qNFte/rGwSHasMICSEovNIADUIhicz5ywsL5VgMCdbi5yU29
-         o1JBn7+SsWX8hfYc2IvPEo3IhgyOmL4RFFY/pLBfd61G5r30UbdLjL44mqV7P7hCH7LH
-         JerLtT0bN230BEZ3KOe9feR/WB95H88WT+zPeu2UdQuNMfFH/dnkRGrRWk6/PPnLdkJv
-         +/JZiy4iDYY9O8WSxJVOL5DhthpwEm2ShQ0jJpvirWQFwZISGPRuMH9BGuz98c/CnHxy
-         ZsY3ypMzezQrSEj0W4UI6zBs5wR6Sf0KSMFC/Mkq2WD5WcSkrjBBIlmEAVjpZxxzRKnh
-         Rzmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719862277; x=1720467077;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=D0HZlK8nHwoje+lWDsShpqSJVC51ECArGsANp8ntoAw=;
-        b=Pk01K9Q3Igj2SHT9hJuaGPRFaUioaOBn59YfrNuZ8rpWhAm9B5MyDCmOlYgqh8hUGG
-         iMvt4t1d/nd2WT8VKZDDL+/3OQKTs/lO46jQdhyaXjjUdXOsLuiNdb+eJUONsTbPOkG9
-         BF9c1H/Y/2lNEam0w5H7RiCeV7nYtpllC4YxbJEagedd7p9HEWxl37aNXldn//Mbirzr
-         2rd1iohSYDcYNN0IvhUwTi5H9ZOxXoKChuQwAaufGIFo7UqCwn5Ymxk+CUcp6vspKUXV
-         relRb6vYWMfrJhJG9nAHlntFFp7F9fCDAY8HkXeq9y2ChLc4ruDUvFXmSLchb9yq0SbQ
-         3GKw==
-X-Forwarded-Encrypted: i=1; AJvYcCVKYue++iBZZW9AiJKOBVQrOPYcYEifsaW0W4QKXgQEZav8xHWEp+lgzVze6bLWVu9xcGkMMSNyl3Y24C+MzFdxVyTw6qXJsVKBGivfNkwRrCuigYWVboNY6le70c4qShgVgmMvzVi2nA==
-X-Gm-Message-State: AOJu0YxVd/ghF5oTMyZcqIvggD64kGTiZ1DOL+42CVVTYhJZ9L1pUl2p
-	GE71wPMM0kw9F6cSZsz3ea+rp+93H0hx4D+TLmU8RfFZX+fHkYIu
-X-Google-Smtp-Source: AGHT+IEtOTFhO5s/ESTanETwKJvhOIab0I4p7PgSG6Bi6jKBUgeYqvdk9TOJBWlSN/5+j6oA7dtTMg==
-X-Received: by 2002:a50:c356:0:b0:57c:bc7f:fb51 with SMTP id 4fb4d7f45d1cf-587a0b030abmr4269936a12.2.1719862276901;
-        Mon, 01 Jul 2024 12:31:16 -0700 (PDT)
-Received: from [192.168.0.103] (p57ba2f9b.dip0.t-ipconnect.de. [87.186.47.155])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-58612c835c4sm4730177a12.11.2024.07.01.12.31.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 01 Jul 2024 12:31:16 -0700 (PDT)
-Message-ID: <cbd7ead7-bfe9-40d1-ae9d-053388384356@gmail.com>
-Date: Mon, 1 Jul 2024 21:31:15 +0200
+	dkim=pass (2048-bit key) header.d=t-argos.ru header.i=@t-argos.ru header.b="MJm72Q0i"
+Received: from mx1.t-argos.ru (localhost [127.0.0.1])
+	by mx1.t-argos.ru (Postfix) with ESMTP id 7F115100003;
+	Tue,  2 Jul 2024 02:45:08 +0300 (MSK)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=t-argos.ru; s=mail;
+	t=1719877508; bh=sLHYDUClzFe8ceyCDc93RSvaPE+NuHXwSlwFTQtAxbw=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=MJm72Q0i1k4V3EwqWz8WA2WDSxJdVAoQACFMT1km3bw7lW40Ig8LuGZYpLcooJO2U
+	 6ydGIcCYN2VPqOSpb/K1AQsg4qRQZMd+2FsE5AQkqOoS6qlIpKFJb1FZStUZiD8UP9
+	 t+oGf2wKESrxqVCvHC8pFAAyZgsJ1/+ZVs6qePP8UqlE3ikWHGjYlE7bXjXFW4Z8ij
+	 afFjER1HLcH0mcIoC6ZvNLjRm+g5aXQNCcSX/mFaHZuD6c2dxPCT2F8wIF8JJGrXSp
+	 qX7WCK5N0W49zG4Dq9rAJfWLN+UNpV+9ZsycNVNDzmnhtJVzYJcWK/Ip/HcCEPdApT
+	 lWTtFXQiSUrhw==
+Received: from mx1.t-argos.ru.ru (ta-mail-02.ta.t-argos.ru [172.17.13.212])
+	by mx1.t-argos.ru (Postfix) with ESMTP;
+	Tue,  2 Jul 2024 02:44:02 +0300 (MSK)
+Received: from localhost.localdomain (172.17.215.5) by ta-mail-02
+ (172.17.13.212) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 2 Jul 2024
+ 02:43:41 +0300
+From: Aleksandr Mishin <amishin@t-argos.ru>
+To: <stable@vger.kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC: Aleksandr Mishin <amishin@t-argos.ru>, Lars-Peter Clausen
+	<lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, Jonathan
+ Cameron <jic23@kernel.org>, Graf Yang <graf.yang@analog.com>, Mike Frysinger
+	<vapier@gentoo.org>, <linux-iio@vger.kernel.org>,
+	<linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+	<lvc-project@linuxtesting.org>
+Subject: [PATCH 5.10/5.15/6.1 0/1] staging: iio: resolver: ad2s1210: remove call to spi_setup()
+Date: Tue, 2 Jul 2024 02:43:23 +0300
+Message-ID: <20240701234324.20811-1-amishin@t-argos.ru>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] staging: nvec: Use x instead of x != NULL to improve
- readability.
-To: Tom Mounet <tommounet@gmail.com>, Marc Dietrich <marvin24@gmx.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, ac100@lists.launchpad.net,
- linux-tegra@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
-References: <66804898.5d0a0220.6df0f.4f0a@mx.google.com>
-Content-Language: en-US
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <66804898.5d0a0220.6df0f.4f0a@mx.google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: ta-mail-02.ta.t-argos.ru (172.17.13.212) To ta-mail-02
+ (172.17.13.212)
+X-KSMG-Rule-ID: 1
+X-KSMG-Message-Action: clean
+X-KSMG-AntiSpam-Lua-Profiles: 186263 [Jul 02 2024]
+X-KSMG-AntiSpam-Version: 6.1.0.4
+X-KSMG-AntiSpam-Envelope-From: amishin@t-argos.ru
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Auth: dkim=none
+X-KSMG-AntiSpam-Info: LuaCore: 21 0.3.21 ebee5449fc125b2da45f1a6a6bc2c5c0c3ad0e05, {Tracking_from_domain_doesnt_match_to}, t-argos.ru:7.1.1;127.0.0.199:7.1.2;mx1.t-argos.ru.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1, FromAlignment: s
+X-MS-Exchange-Organization-SCL: -1
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiPhishing: Clean, bases: 2024/07/01 22:18:00
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 1.1.2.30, bases: 2024/07/01 17:38:00 #25803542
+X-KSMG-AntiVirus-Status: Clean, skipped
 
-On 6/29/24 19:47, Tom Mounet wrote:
-> Use x instead of x != NULL to improve readability.
-> Issue identified by checkpatch.
-> 
-> Signed-off-by: Tom Mounet <tommounet@gmail.com>
-> ---
-> v3: Add change history and proper description
-> v2: Make commit title clearer
-> 
->   drivers/staging/nvec/nvec.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
-> index e5ca78e57..814eb121c 100644
-> --- a/drivers/staging/nvec/nvec.c
-> +++ b/drivers/staging/nvec/nvec.c
-> @@ -300,7 +300,7 @@ int nvec_write_sync(struct nvec_chip *nvec,
->   {
->   	mutex_lock(&nvec->sync_write_mutex);
->   
-> -	if (msg != NULL)
-> +	if (msg)
->   		*msg = NULL;
->   
->   	nvec->sync_write_pending = (data[1] << 8) + data[0];
-> @@ -322,7 +322,7 @@ int nvec_write_sync(struct nvec_chip *nvec,
->   
->   	dev_dbg(nvec->dev, "nvec_sync_write: pong!\n");
->   
-> -	if (msg != NULL)
-> +	if (msg)
->   		*msg = nvec->last_sync_msg;
->   	else
->   		nvec_msg_free(nvec, nvec->last_sync_msg);
-
-Reviewed-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+This removes the call to spi_setup() in the ad2s1210 driver.
+Setting MODE_3 was incorrect. It should be MODE_1 but we can let the
+device tree select this and avoid the need to call spi_setup().
+This issue has been fixed by the following patch which can be
+cleanly applied to the 5.10/5.15/6.1.y branches.
