@@ -1,103 +1,101 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 718FD12CDA8
-	for <linux-staging@lists.linux.dev>; Mon,  1 Jul 2024 10:16:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com [209.85.222.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B834012FF6E
+	for <linux-staging@lists.linux.dev>; Mon,  1 Jul 2024 11:24:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719828999; cv=none; b=piS7rI3jeHbdXQCUVcI+lojq3PbdWFJXxrG7vnZV5Sl+8mbgJZ802L1XvW7HTJkl+ERd96lUrhquV0l+x91q8Gbm55x9ztC31Bd7U3rQ+gF+gWdVP/kmTA+8Fw83JFze0r+DfKCe0nqALnh85UVxQJCG7NDoQqVOkOj0rySJXhk=
+	t=1719833067; cv=none; b=k648afC1rrQ9AWKX76GvWfeEsP/UHYzrMtOa9lcxvVaaWTTvZBxrXmwtqceaaZr+UaPERjm9A+IYP54RuhLxK2CnzunkR6t2hfL5inkqsoi13HuUpY6+FGRjC097fdeLMI/XbVxBvXVbTL0Cd2OYhY6F7lLoh8M3yY7+JUjy+cY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719828999; c=relaxed/simple;
-	bh=1oLewmcy0vRKIVUlzNgxiiDAU1wsuWipvuG13FoxmoU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=R07qDJvoVqO8N55+OUvDziVh+ay8EqF2892T1DaC3sHGqa8YLH4ztHou+O3xRtOzYH5upkZ5uXVuhBwABZD8SQKEgZXAbbXr8lHuQLVyjys944MfHZJFQte/wyqumJWsOZVScPUu6qKxg5YHct8XREWoySlXNi5bfYA4cIQ9TUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D6C6B339;
-	Mon,  1 Jul 2024 03:17:00 -0700 (PDT)
-Received: from [10.1.197.1] (ewhatever.cambridge.arm.com [10.1.197.1])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CB5EA3F762;
-	Mon,  1 Jul 2024 03:16:29 -0700 (PDT)
-Message-ID: <9dd07016-9666-4564-9369-b76a30a6fec9@arm.com>
-Date: Mon, 1 Jul 2024 11:16:13 +0100
+	s=arc-20240116; t=1719833067; c=relaxed/simple;
+	bh=WsrDBMgEMcLTt4oJ6+QPF9iMS1Rmq+55ucXu/SczPMw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=m4yL7tIViZkiZ+uZaPczHFiJrYMDowxLAzJd0bAZjHScxcOn+1aS00P9dKFcN0COn4qaj5i1OGBEkIuMhbAuLl7JQMxT2pqJx56lW4h1m/u2J7Kbhc+fWr1U13w2Xk5H3PBEMTgKjIOfdIo5DN7ibOgdWrqGHwVKQ+8QUQrcYOs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KnSdBXpV; arc=none smtp.client-ip=209.85.222.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KnSdBXpV"
+Received: by mail-ua1-f42.google.com with SMTP id a1e0cc1a2514c-80f6efd265bso485255241.2
+        for <linux-staging@lists.linux.dev>; Mon, 01 Jul 2024 04:24:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1719833064; x=1720437864; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oUrL67AhfddDFHRxH2TRoEF8hBbehX2Axe/cx3JPvX0=;
+        b=KnSdBXpVCDVzciW3lgfTEu5nxhzdlqPWuFPAzezEdkyMiX9QnhtDGE71PUPr+IniNf
+         pIs4bmIzJw/8oMwHFB2s3wGBkdv0cDbtQBz/z2mYPSw6ovOaMhRpYRGU2+vTUEvp+Dzl
+         nbY6Zzb35/becmN8wMbZiAoPi5HOklHYdhavVVU/ErTM/lDpwHcr7d8Etd0K0+mg+Ycr
+         NTEDqR9LrNxdFLekxf1GeajwoN3ZMNScfGpQCeheveZR/0elXFpxWguy48n35kgoBsjI
+         1Bxxy5ZUFXaofid/NNVDZ2P60Y9Wxy0I8b5AmkLTrqV3IRYdAiVB2qMCr71eAmRfpa+Y
+         /csA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719833064; x=1720437864;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=oUrL67AhfddDFHRxH2TRoEF8hBbehX2Axe/cx3JPvX0=;
+        b=YnB+o6d00flKZ1m1PwUWU7Y34CMIbH4AS48A529zEEyaQ/hIV1ct8JyjjVV2wc1+Y1
+         9+zX/QxRPund8VC1KKPrkPRx3lSHG2Zqd91xusrv81WPRifY42NdfjR9dkbkH9H370Zs
+         IPJ8cGs0T/fCCcPyvwdREkMWlSRj1dHeuQ4McvzjDo3J5zDn/XH7bOksvmZvCayMyMWv
+         wbVaHqXq99W2X59hQfgSv3Rt1umyzEE78ASyuVZeGLYDZM9hl2c/Hfan1VeUU7Q0RCaz
+         /tR4mDEYS6ZfIP30LODw4mBCAuSO58MyFgW7hBGB8U4oBGY6W67v7kmZIXjMYq+EiCto
+         JvqA==
+X-Forwarded-Encrypted: i=1; AJvYcCU+bZBBMM/Gp2PsmGyeC0LZ7j7r7CWSIm9nxxyXajnTjRiJe/l1t3gFmPjHkj6rk4AiOrKW1tc7TFUPeu7a2K/xIJ6lVKnwlg5/EEhhBQ==
+X-Gm-Message-State: AOJu0Yxvcero3+52MhOZf+tjvPno/iLY3tlPIBk45d5jcjfPijiiQ00T
+	yuc8NH3A5TM9Xv+dVZaoAhnPXF953tVg8QCGvgVQHQwGbQ0eh7qpNglX9MO60vAT84xLgfUENZ9
+	nbwJX4c9ugCz+bYSUzX8n+0bcWOM=
+X-Google-Smtp-Source: AGHT+IGwyMqOfO87PLcMKYzWqKj15ArhzLp2ipo62An2cYoqn8JEiXomOKPcQ3YWcK787dlLTa9WLMfj39rGKsdv6fM=
+X-Received: by 2002:a05:6122:d1e:b0:4ef:61c2:6331 with SMTP id
+ 71dfb90a1353d-4f2a563c321mr3165714e0c.1.1719833064580; Mon, 01 Jul 2024
+ 04:24:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 3/7] hwtracing: use for_each_endpoint_of_node()
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Alexey Brodkin <abrodkin@synopsys.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Eugen Hristev <eugen.hristev@collabora.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Maxime Ripard <mripard@kernel.org>, Michal Simek <michal.simek@amd.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- coresight@lists.linaro.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
- linux-rpi-kernel@lists.infradead.org, linux-staging@lists.linux.dev
-References: <87cynx971l.wl-kuninori.morimoto.gx@renesas.com>
- <878qyl970c.wl-kuninori.morimoto.gx@renesas.com>
-Content-Language: en-US
-From: Suzuki K Poulose <suzuki.poulose@arm.com>
-In-Reply-To: <878qyl970c.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <87cynx971l.wl-kuninori.morimoto.gx@renesas.com> <875xtp96zy.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <875xtp96zy.wl-kuninori.morimoto.gx@renesas.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Mon, 1 Jul 2024 12:23:14 +0100
+Message-ID: <CA+V-a8uY6QSC4nfk5dEgB80O4z1nxpeBqwGPVBL4h5NHqjhjdA@mail.gmail.com>
+Subject: Re: [PATCH v5 5/7] media: platform: ti: use for_each_endpoint_of_node()
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Alexey Brodkin <abrodkin@synopsys.com>, 
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Daniel Vetter <daniel@ffwll.ch>, 
+	David Airlie <airlied@gmail.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+	Eugen Hristev <eugen.hristev@collabora.com>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Maxime Ripard <mripard@kernel.org>, 
+	Michal Simek <michal.simek@amd.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+	coresight@lists.linaro.org, dri-devel@lists.freedesktop.org, 
+	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org, 
+	linux-rpi-kernel@lists.infradead.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 01/07/2024 03:32, Kuninori Morimoto wrote:
+On Mon, Jul 1, 2024 at 3:32=E2=80=AFAM Kuninori Morimoto
+<kuninori.morimoto.gx@renesas.com> wrote:
+>
 > We already have for_each_endpoint_of_node(), don't use
 > of_graph_get_next_endpoint() directly. Replace it.
-> 
+>
 > Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
 > Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Reviewed-by: James Clark <james.clark@arm.com>
 > ---
->   drivers/hwtracing/coresight/coresight-platform.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/hwtracing/coresight/coresight-platform.c b/drivers/hwtracing/coresight/coresight-platform.c
-> index 57a009552cc5..64e171eaad82 100644
-> --- a/drivers/hwtracing/coresight/coresight-platform.c
-> +++ b/drivers/hwtracing/coresight/coresight-platform.c
-> @@ -275,7 +275,7 @@ static int of_get_coresight_platform_data(struct device *dev,
->   	 */
->   	if (!parent) {
->   		/*
-> -		 * Avoid warnings in of_graph_get_next_endpoint()
-> +		 * Avoid warnings in for_each_endpoint_of_node()
->   		 * if the device doesn't have any graph connections
->   		 */
->   		if (!of_graph_is_present(node))
-> @@ -286,7 +286,7 @@ static int of_get_coresight_platform_data(struct device *dev,
->   	}
->   
->   	/* Iterate through each output port to discover topology */
-> -	while ((ep = of_graph_get_next_endpoint(parent, ep))) {
-> +	for_each_endpoint_of_node(parent, ep) {
->   		/*
->   		 * Legacy binding mixes input/output ports under the
->   		 * same parent. So, skip the input ports if we are dealing
+>  drivers/media/platform/ti/am437x/am437x-vpfe.c   | 12 +++++-------
+>  drivers/media/platform/ti/davinci/vpif_capture.c | 14 +++++++-------
+>  2 files changed, 12 insertions(+), 14 deletions(-)
+>
+Reviewed-by: Prabhakar <prabhakar.csengg@gmail.com>
 
-
-Applied to coresight next
-
-https://git.kernel.org/coresight/c/2e5657aa5966
-
-Thanks
-Suzuki
-
+Cheers,
+Prabhakar
