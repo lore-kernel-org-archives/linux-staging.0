@@ -1,106 +1,156 @@
-Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ED7282D9A
-	for <linux-staging@lists.linux.dev>; Mon,  1 Jul 2024 14:22:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 560B615DBD6
+	for <linux-staging@lists.linux.dev>; Mon,  1 Jul 2024 19:26:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719843723; cv=none; b=WbrNN0IkvWAuDvOxUFfSxBFd3uIQeEvWFU8DiTQSbgeFGAhn3pys+yqWIAWPGFaeSAUjZesk9GGLWU3Qsgqz1kXDBMnaoh9UbivpeC+0amn7f8BJe+8as2F/GjxZNIen9Zu+rhLjxFiCR8vYJKPni02Tct4gjr7aRmdGgjFrTas=
+	t=1719862009; cv=none; b=G1ITZ8iIrC38oIhjiJWWYTX1DaqJ5HVWcf5IZdPm+WFgq2mNLPwEtiHhA50WofkcLQGYOShYt8AuvqA9X7h0eWZv3dLV8kCUt0FMpJQTj5RaLbz9veetiJt1NfNNIoqlk4WLk2zJl8PRe/RDhNhMab45WhaqJ6bEvBFINJEu9n0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719843723; c=relaxed/simple;
-	bh=LxtuEpJdzPr3oQLvmbS2EaRpqRT1WsjVufXNSet/JJ8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QZ86BIVKQRQZma/pjPwQpspROyKcwF84ssN3AvCx6qDZ9xIOZKsvAjs9YsN6Cujdw++95ZuEor0ihqxCxq6WER/5tNz1VMX6j8AGgIkir/rQrjkZTNLrn0/9Rzr6+oDW4nR5Zfsak0rOxKBp1l42T1+A3MlcODDAmPKoghQ0zbY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VSmd2vgf; arc=none smtp.client-ip=209.85.161.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1719862009; c=relaxed/simple;
+	bh=LHk7eROmcWbnYfS7vGmlALNYA1Wkpd69NP4AeKt/6wQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YNo7Y8UmgCNqqkYEDyaGZA7LxuF6Yt8sGATOy4jcAwjbtB38XfNRjw8nwIymu+Uoo4IyaHwPAfDiwrAMN9W/VlTSYStrwe+gaeX+8GZXpx+fBcsV9u3QZvg3VgHK4f8KzWoKOyYSvbhAT8LWvp+j5qRM8Lk58eQPgf6GI4AZqbI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IBECWOBl; arc=none smtp.client-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VSmd2vgf"
-Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-5c21a17760fso1370866eaf.1
-        for <linux-staging@lists.linux.dev>; Mon, 01 Jul 2024 07:22:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IBECWOBl"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-57d3125e0baso100956a12.0
+        for <linux-staging@lists.linux.dev>; Mon, 01 Jul 2024 12:26:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1719843721; x=1720448521; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=K03ObKsb30WbBMyJmbDqIqKU1C0pbAUrdm8Q0M5cO7E=;
-        b=VSmd2vgfJt65LIyMnFT3tIAVel1lRz5kmvVccAhESTUqgtj0fdnWE/dJuyaucBz2HQ
-         sAWneqa0R2VlLUQvrtUehoTtx+sUdwQCZQ05B4f+l70yeeJd+TPvO07cvdWnkwBIIIE3
-         lLVhU7ieHG7eZBM25gb7uJja1ylf+bn9yVWvP34r9EnzX6U4Hyne81d9HT0nSTqUJDnI
-         FKgHVCTPJTvxFBIsDpJAHM0U4CU4KUob5qQ5Lsk2cSt09cf8UgL46ewX3nOwBdw3U1SM
-         mFyC5kfOWcLjPc2rnPzyj5XFmIa4bWcikB8POjRFY9RV4wvGk1ziqrPToCz9WjbL16ll
-         zxYg==
+        d=gmail.com; s=20230601; t=1719862007; x=1720466807; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nfdinNK4I+EoPid1lO74/d3sekkGPezRAAen9ZXKCjo=;
+        b=IBECWOBl+dNu+yP2+OFFzprTKJRoEkQw1BsWiY/OzB049Ri68I1uUVPobb4mohhNSz
+         g6j4UUYpVsP1yp+8+/iyjVqpEt96te/xu9D6eH1z75j/tHbiGlchHPnh1ZMT7bxHuVlq
+         xwEvtKF5LeWgF8P+4DG9o+kGWiBGMshP9DwCxLviTOXRCXi8U7DlWoDv9OIHQn4pTKd+
+         OFykLASoz/js36ssY//d19M1YkdGNKepo7yVu+ZFDQx+4n+amzv57+K2nrXlOS06tzYd
+         i9CyONMZqsq88/tP1TYpRfbE7GCLLJCgfnsmYlvMSs6Rrosk6IwoSwYtUcO3u1aF6Y45
+         WXlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719843721; x=1720448521;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=K03ObKsb30WbBMyJmbDqIqKU1C0pbAUrdm8Q0M5cO7E=;
-        b=OrSt71C+pqkTmijs4B/GPHBMpCLtN1LpmBhpnrpc81aVrp19nmTDQ3U1LacbhxVDNA
-         o2JVXVyRn3//8BO70A2PN6gPBU2lyMLEW+ELNB7Vu8RR2dj5lJ2s/3K1ygMkSBDNL/4X
-         Ei825HdpL0vq2edyZF6wPMQnBE+b7Cmd/nzzWk6xN7XxyR6X7wRR0XoGXbpxV2XYuaBP
-         WPKxyDN7cGyn5eU+dmpFvwl8Sllb6rXEZGpJqsa0YAMf2FJrNdgbNEcCqRyjgBFDE9eQ
-         VMFuAkaUNjV+0sruXapZjP/9EujBJ9bT9ZrVT5l9WcLyiTmm4Q5d00hPDbPI6uKjyr2e
-         LyzA==
-X-Forwarded-Encrypted: i=1; AJvYcCXiAw9KUvOZXybQdf4UZICmme+TcZ1b0HtAGPe3J+qn9u9vsZSkJBZzu2cGYlaLVRATQjno/30vCSF/MgQxiZLwch+K3wvsaE0UuY/ukA==
-X-Gm-Message-State: AOJu0Ywv2wFa8Z7A5BMQpOxyp1mn56geYfpRInclTAwSePd4ocyM+S40
-	5Qxj0fe8oAEk0+WurLkqDDIHUS0YpGCs62ShCDsChdFR+XPnw68DsGq9Jsc6+k0=
-X-Google-Smtp-Source: AGHT+IElmVojqqFPd7WLZo0rySoK5/PWWVDrfwUNFIIu56dR1A+tJUy5Ehoq4+320Cw3qTfUiDaGJQ==
-X-Received: by 2002:a4a:b246:0:b0:5c4:4787:1d4 with SMTP id 006d021491bc7-5c447870301mr3948738eaf.5.1719843721139;
-        Mon, 01 Jul 2024 07:22:01 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700:e8c6:2364:637f:c70e])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5c414835d09sm1028326eaf.11.2024.07.01.07.22.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Jul 2024 07:22:00 -0700 (PDT)
-Date: Mon, 1 Jul 2024 16:21:58 +0200
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Aleksandr Mishin <amishin@t-argos.ru>
-Cc: Martyn Welch <martyn.welch@gefanuc.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Soumya Negi <soumya.negi97@gmail.com>,
-	Michael Straube <straube.linux@gmail.com>,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-	lvc-project@linuxtesting.org
-Subject: Re: [PATCH v2] staging: vme_user: Validate geoid value used for VME
- window address
-Message-ID: <d5ac7346-f8ad-43b7-a794-9b7a55fedc3c@suswa.mountain>
-References: <9ccf4b68-acd0-465b-a5dd-4aa4569da9ce@suswa.mountain>
- <20240625095804.11336-1-amishin@t-argos.ru>
+        d=1e100.net; s=20230601; t=1719862007; x=1720466807;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nfdinNK4I+EoPid1lO74/d3sekkGPezRAAen9ZXKCjo=;
+        b=hS92nFy/z3PSKOhf5D+AEVWKKaXTASl4Mm7T7FS+eRzJx0Dww1WgNk7k4I3YRyqaOG
+         ehAp1CtTXQs8KRsU75g5RipzmRFVVFFyGNe6GIcsmTLPRSN0qe449U8UtQjDC6PJCZrn
+         t2v7sJh+SXUPCVpdY25tYfLpDgt+OOXrbD/xEPirwYKFCoRCzDf58brfeVIV+9QiuaQm
+         VOm5s1xLHosQmtAa/vkxF0IQz6csIXI3yJNxjcTL3wor9bCq8lkeYbVvOk/45Dck+38Q
+         TxnAKpEgITCSYaWmbhdfWcWVXrEZqA5v/RGVZjnQ8znCFSlhVtcJFA2nYdBLNqRfuqav
+         WqkQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWteFbuclgAztvFoyCvZ8xKFhp/b3JU0V9AbWjloTSFPGKZbsmPBzhZCGmWr2Z/DdQeoIwcjt1pRaMQptIbCW46wiaXJSCE7WSZk4hmwA==
+X-Gm-Message-State: AOJu0Yx7tDG/wvT4vXN7GMArR+jCQTp4DYvH71/5JJaVjm0SWJ12yJI4
+	QyJ9OBIB8+7ECs6IFti6MkZ8BFMhNYVvaujwZnvdO1mX2H95DJWV
+X-Google-Smtp-Source: AGHT+IFIldSyzbbCJ+hsZsoZunyrocfc9ycgS0pL5fYmvUqQyAR2jtyv2kjmcAuWJPQInx+F8WFnGA==
+X-Received: by 2002:a05:6402:14d0:b0:58b:e3b:c5db with SMTP id 4fb4d7f45d1cf-58b0e3bcb29mr393220a12.4.1719862006584;
+        Mon, 01 Jul 2024 12:26:46 -0700 (PDT)
+Received: from [192.168.0.103] (p57ba2f9b.dip0.t-ipconnect.de. [87.186.47.155])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-58614d50da0sm4761129a12.59.2024.07.01.12.26.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 01 Jul 2024 12:26:46 -0700 (PDT)
+Message-ID: <e4006c92-b5ff-4f28-9cf7-3f5c2a808234@gmail.com>
+Date: Mon, 1 Jul 2024 21:26:45 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240625095804.11336-1-amishin@t-argos.ru>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC] staging: nvec: cannot configure to compile driver for
+ testing
+To: =?UTF-8?Q?=C3=81gatha_Isabelle_Chris_Moreira_Guedes?= <code@agatha.dev>
+Cc: linux-tegra@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Tom Mounet <tommounet@gmail.com>,
+ Julia Lawall <julia.lawall@inria.fr>, Marc Dietrich <marvin24@gmx.de>,
+ Greg KH <gregkh@linuxfoundation.org>
+References: <13cd3ec0-0f4f-4119-b2a5-f74e33e3c862@gmail.com>
+ <yhpx2piocn5bkzaqec7mdyosb7x5zpws5l52lmx4xnejmr5xeh@6s3oe4cagcen>
+Content-Language: en-US
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <yhpx2piocn5bkzaqec7mdyosb7x5zpws5l52lmx4xnejmr5xeh@6s3oe4cagcen>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jun 25, 2024 at 12:58:04PM +0300, Aleksandr Mishin wrote:
-> The address of VME window is either set by jumpers (VME64) or derived from
-> the slot number (geographical addressing, VME64x) with the formula:
-> address = slot# * 0x80000
-> https://indico.cern.ch/event/68278/contributions/1234555/attachments/
-> 1024465/1458672/VMEbus.pdf
+On 7/1/24 04:13, Ágatha Isabelle Chris Moreira Guedes wrote:
+> Hi!
 > 
-> slot# value can be set from module parameter 'geoid' which can contain any
-> value. In this case the value of an arithmetic expression 'slot# * 0x80000'
-> is a subject to overflow because its operands are not cast to a larger data
-> type before performing arithmetic.
+> On Sun, Jun 30, 2024 at 12:37:53PM GMT, Philipp Hortmann wrote:
+>> When start make menuconfig
+>>
+>> and search with / for NVEC I can see:
+>>
+>> Symbol: MFD_NVEC [=n]
+>> Type  : tristate
+>>
+>>                                         Defined at
+>> drivers/staging/nvec/Kconfig:2
+>> Prompt: NV Tegra Embedded Controller SMBus Interface
+>> Depends on: STAGING [=y] && I2C [=y] && GPIOLIB [=y] && ARCH_TEGRA
+>> Location:
+>>
+>>   -> Device Drivers                                                      (2)
+>> -> Staging drivers (STAGING [=y])
+>> 	 -> NV Tegra Embedded Controller SMBus Interface (MFD_NVEC [=n])
+>> Selects: MFD_CORE [=y]
+>>
+>>
+>> But I cannot jump or go into "NV Tegra Embedded Controller SMBus Interface"
 > 
-> Validate the provided geoid value using the Geographic Addr Mask.
+> Have you checked whether you have its dependencies enabled?
 > 
-> Found by Linux Verification Center (linuxtesting.org) with SVACE.
+> It seems like you have STAGING, I2C and GPIOLIB, but not ARCH_TEGRA.
 > 
-> Fixes: d22b8ed9a3b0 ("Staging: vme: add Tundra TSI148 VME-PCI Bridge driver")
-> Suggested-by: Dan Carpenter <dan.carpenter@linaro.org>
-> Signed-off-by: Aleksandr Mishin <amishin@t-argos.ru>
-> ---
-> v1->v2: Move geoid validation to the probe() function as suggested by Dan
+> Is your kernel configured for the right architecture? Are you using
+> ARCH=arm environment variable? You can do this by running the command:
+> 
+> $ ARCH=arm make menuconfig
+> 
+>> In my .config file there is no string "NVEC" at all.
+> 
+> If it's generated by `make menuconfig` and you don't have the
+> dependencies, as far as I can recall it's not supposed to have this
+> string at all.
+> 
+>> How to config this driver to be compiled?
+> 
+> I haven't worked much with kernel for ARM-based SoCs, but I think as
+> soon as you have your kernel properly configured for the correct
+> architecture and having all dependencies met  you'll see it there. I
+> just tested and it shows up for me
+> 
 
-Yeah, I think this works.
 
-Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+Hi,
 
-regards,
-dan carpenter
+thanks for the hints. Here the steps I took on my x86_64:
+
+saved my .config file.
+sudo apt install gcc-aarch64-linux-gnu
+export ARCH=arm64
+export CROSS_COMPILE=aarch64-linux-gnu-
+make defconfig
+make menuconfig
+	used / NVEC to find driver(s) and set them all to modules
+make scripts prepare modules_prepare
+make -j6
+make -C . M=drivers/staging/nvec
+
+Thanks for your support.
+
+Bye Philipp
+
+
+
+
+
+
+
+
+
+
 
