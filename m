@@ -1,101 +1,106 @@
-Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com [209.85.222.42])
+Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B834012FF6E
-	for <linux-staging@lists.linux.dev>; Mon,  1 Jul 2024 11:24:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ED7282D9A
+	for <linux-staging@lists.linux.dev>; Mon,  1 Jul 2024 14:22:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719833067; cv=none; b=k648afC1rrQ9AWKX76GvWfeEsP/UHYzrMtOa9lcxvVaaWTTvZBxrXmwtqceaaZr+UaPERjm9A+IYP54RuhLxK2CnzunkR6t2hfL5inkqsoi13HuUpY6+FGRjC097fdeLMI/XbVxBvXVbTL0Cd2OYhY6F7lLoh8M3yY7+JUjy+cY=
+	t=1719843723; cv=none; b=WbrNN0IkvWAuDvOxUFfSxBFd3uIQeEvWFU8DiTQSbgeFGAhn3pys+yqWIAWPGFaeSAUjZesk9GGLWU3Qsgqz1kXDBMnaoh9UbivpeC+0amn7f8BJe+8as2F/GjxZNIen9Zu+rhLjxFiCR8vYJKPni02Tct4gjr7aRmdGgjFrTas=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719833067; c=relaxed/simple;
-	bh=WsrDBMgEMcLTt4oJ6+QPF9iMS1Rmq+55ucXu/SczPMw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=m4yL7tIViZkiZ+uZaPczHFiJrYMDowxLAzJd0bAZjHScxcOn+1aS00P9dKFcN0COn4qaj5i1OGBEkIuMhbAuLl7JQMxT2pqJx56lW4h1m/u2J7Kbhc+fWr1U13w2Xk5H3PBEMTgKjIOfdIo5DN7ibOgdWrqGHwVKQ+8QUQrcYOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KnSdBXpV; arc=none smtp.client-ip=209.85.222.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1719843723; c=relaxed/simple;
+	bh=LxtuEpJdzPr3oQLvmbS2EaRpqRT1WsjVufXNSet/JJ8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QZ86BIVKQRQZma/pjPwQpspROyKcwF84ssN3AvCx6qDZ9xIOZKsvAjs9YsN6Cujdw++95ZuEor0ihqxCxq6WER/5tNz1VMX6j8AGgIkir/rQrjkZTNLrn0/9Rzr6+oDW4nR5Zfsak0rOxKBp1l42T1+A3MlcODDAmPKoghQ0zbY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VSmd2vgf; arc=none smtp.client-ip=209.85.161.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KnSdBXpV"
-Received: by mail-ua1-f42.google.com with SMTP id a1e0cc1a2514c-80f6efd265bso485255241.2
-        for <linux-staging@lists.linux.dev>; Mon, 01 Jul 2024 04:24:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VSmd2vgf"
+Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-5c21a17760fso1370866eaf.1
+        for <linux-staging@lists.linux.dev>; Mon, 01 Jul 2024 07:22:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719833064; x=1720437864; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oUrL67AhfddDFHRxH2TRoEF8hBbehX2Axe/cx3JPvX0=;
-        b=KnSdBXpVCDVzciW3lgfTEu5nxhzdlqPWuFPAzezEdkyMiX9QnhtDGE71PUPr+IniNf
-         pIs4bmIzJw/8oMwHFB2s3wGBkdv0cDbtQBz/z2mYPSw6ovOaMhRpYRGU2+vTUEvp+Dzl
-         nbY6Zzb35/becmN8wMbZiAoPi5HOklHYdhavVVU/ErTM/lDpwHcr7d8Etd0K0+mg+Ycr
-         NTEDqR9LrNxdFLekxf1GeajwoN3ZMNScfGpQCeheveZR/0elXFpxWguy48n35kgoBsjI
-         1Bxxy5ZUFXaofid/NNVDZ2P60Y9Wxy0I8b5AmkLTrqV3IRYdAiVB2qMCr71eAmRfpa+Y
-         /csA==
+        d=linaro.org; s=google; t=1719843721; x=1720448521; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=K03ObKsb30WbBMyJmbDqIqKU1C0pbAUrdm8Q0M5cO7E=;
+        b=VSmd2vgfJt65LIyMnFT3tIAVel1lRz5kmvVccAhESTUqgtj0fdnWE/dJuyaucBz2HQ
+         sAWneqa0R2VlLUQvrtUehoTtx+sUdwQCZQ05B4f+l70yeeJd+TPvO07cvdWnkwBIIIE3
+         lLVhU7ieHG7eZBM25gb7uJja1ylf+bn9yVWvP34r9EnzX6U4Hyne81d9HT0nSTqUJDnI
+         FKgHVCTPJTvxFBIsDpJAHM0U4CU4KUob5qQ5Lsk2cSt09cf8UgL46ewX3nOwBdw3U1SM
+         mFyC5kfOWcLjPc2rnPzyj5XFmIa4bWcikB8POjRFY9RV4wvGk1ziqrPToCz9WjbL16ll
+         zxYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719833064; x=1720437864;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oUrL67AhfddDFHRxH2TRoEF8hBbehX2Axe/cx3JPvX0=;
-        b=YnB+o6d00flKZ1m1PwUWU7Y34CMIbH4AS48A529zEEyaQ/hIV1ct8JyjjVV2wc1+Y1
-         9+zX/QxRPund8VC1KKPrkPRx3lSHG2Zqd91xusrv81WPRifY42NdfjR9dkbkH9H370Zs
-         IPJ8cGs0T/fCCcPyvwdREkMWlSRj1dHeuQ4McvzjDo3J5zDn/XH7bOksvmZvCayMyMWv
-         wbVaHqXq99W2X59hQfgSv3Rt1umyzEE78ASyuVZeGLYDZM9hl2c/Hfan1VeUU7Q0RCaz
-         /tR4mDEYS6ZfIP30LODw4mBCAuSO58MyFgW7hBGB8U4oBGY6W67v7kmZIXjMYq+EiCto
-         JvqA==
-X-Forwarded-Encrypted: i=1; AJvYcCU+bZBBMM/Gp2PsmGyeC0LZ7j7r7CWSIm9nxxyXajnTjRiJe/l1t3gFmPjHkj6rk4AiOrKW1tc7TFUPeu7a2K/xIJ6lVKnwlg5/EEhhBQ==
-X-Gm-Message-State: AOJu0Yxvcero3+52MhOZf+tjvPno/iLY3tlPIBk45d5jcjfPijiiQ00T
-	yuc8NH3A5TM9Xv+dVZaoAhnPXF953tVg8QCGvgVQHQwGbQ0eh7qpNglX9MO60vAT84xLgfUENZ9
-	nbwJX4c9ugCz+bYSUzX8n+0bcWOM=
-X-Google-Smtp-Source: AGHT+IGwyMqOfO87PLcMKYzWqKj15ArhzLp2ipo62An2cYoqn8JEiXomOKPcQ3YWcK787dlLTa9WLMfj39rGKsdv6fM=
-X-Received: by 2002:a05:6122:d1e:b0:4ef:61c2:6331 with SMTP id
- 71dfb90a1353d-4f2a563c321mr3165714e0c.1.1719833064580; Mon, 01 Jul 2024
- 04:24:24 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1719843721; x=1720448521;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=K03ObKsb30WbBMyJmbDqIqKU1C0pbAUrdm8Q0M5cO7E=;
+        b=OrSt71C+pqkTmijs4B/GPHBMpCLtN1LpmBhpnrpc81aVrp19nmTDQ3U1LacbhxVDNA
+         o2JVXVyRn3//8BO70A2PN6gPBU2lyMLEW+ELNB7Vu8RR2dj5lJ2s/3K1ygMkSBDNL/4X
+         Ei825HdpL0vq2edyZF6wPMQnBE+b7Cmd/nzzWk6xN7XxyR6X7wRR0XoGXbpxV2XYuaBP
+         WPKxyDN7cGyn5eU+dmpFvwl8Sllb6rXEZGpJqsa0YAMf2FJrNdgbNEcCqRyjgBFDE9eQ
+         VMFuAkaUNjV+0sruXapZjP/9EujBJ9bT9ZrVT5l9WcLyiTmm4Q5d00hPDbPI6uKjyr2e
+         LyzA==
+X-Forwarded-Encrypted: i=1; AJvYcCXiAw9KUvOZXybQdf4UZICmme+TcZ1b0HtAGPe3J+qn9u9vsZSkJBZzu2cGYlaLVRATQjno/30vCSF/MgQxiZLwch+K3wvsaE0UuY/ukA==
+X-Gm-Message-State: AOJu0Ywv2wFa8Z7A5BMQpOxyp1mn56geYfpRInclTAwSePd4ocyM+S40
+	5Qxj0fe8oAEk0+WurLkqDDIHUS0YpGCs62ShCDsChdFR+XPnw68DsGq9Jsc6+k0=
+X-Google-Smtp-Source: AGHT+IElmVojqqFPd7WLZo0rySoK5/PWWVDrfwUNFIIu56dR1A+tJUy5Ehoq4+320Cw3qTfUiDaGJQ==
+X-Received: by 2002:a4a:b246:0:b0:5c4:4787:1d4 with SMTP id 006d021491bc7-5c447870301mr3948738eaf.5.1719843721139;
+        Mon, 01 Jul 2024 07:22:01 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700:e8c6:2364:637f:c70e])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5c414835d09sm1028326eaf.11.2024.07.01.07.22.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Jul 2024 07:22:00 -0700 (PDT)
+Date: Mon, 1 Jul 2024 16:21:58 +0200
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Aleksandr Mishin <amishin@t-argos.ru>
+Cc: Martyn Welch <martyn.welch@gefanuc.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Soumya Negi <soumya.negi97@gmail.com>,
+	Michael Straube <straube.linux@gmail.com>,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	lvc-project@linuxtesting.org
+Subject: Re: [PATCH v2] staging: vme_user: Validate geoid value used for VME
+ window address
+Message-ID: <d5ac7346-f8ad-43b7-a794-9b7a55fedc3c@suswa.mountain>
+References: <9ccf4b68-acd0-465b-a5dd-4aa4569da9ce@suswa.mountain>
+ <20240625095804.11336-1-amishin@t-argos.ru>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <87cynx971l.wl-kuninori.morimoto.gx@renesas.com> <875xtp96zy.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <875xtp96zy.wl-kuninori.morimoto.gx@renesas.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Mon, 1 Jul 2024 12:23:14 +0100
-Message-ID: <CA+V-a8uY6QSC4nfk5dEgB80O4z1nxpeBqwGPVBL4h5NHqjhjdA@mail.gmail.com>
-Subject: Re: [PATCH v5 5/7] media: platform: ti: use for_each_endpoint_of_node()
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Alexey Brodkin <abrodkin@synopsys.com>, 
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Daniel Vetter <daniel@ffwll.ch>, 
-	David Airlie <airlied@gmail.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
-	Eugen Hristev <eugen.hristev@collabora.com>, 
-	Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Maxime Ripard <mripard@kernel.org>, 
-	Michal Simek <michal.simek@amd.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
-	coresight@lists.linaro.org, dri-devel@lists.freedesktop.org, 
-	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org, 
-	linux-rpi-kernel@lists.infradead.org, linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240625095804.11336-1-amishin@t-argos.ru>
 
-On Mon, Jul 1, 2024 at 3:32=E2=80=AFAM Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
->
-> We already have for_each_endpoint_of_node(), don't use
-> of_graph_get_next_endpoint() directly. Replace it.
->
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+On Tue, Jun 25, 2024 at 12:58:04PM +0300, Aleksandr Mishin wrote:
+> The address of VME window is either set by jumpers (VME64) or derived from
+> the slot number (geographical addressing, VME64x) with the formula:
+> address = slot# * 0x80000
+> https://indico.cern.ch/event/68278/contributions/1234555/attachments/
+> 1024465/1458672/VMEbus.pdf
+> 
+> slot# value can be set from module parameter 'geoid' which can contain any
+> value. In this case the value of an arithmetic expression 'slot# * 0x80000'
+> is a subject to overflow because its operands are not cast to a larger data
+> type before performing arithmetic.
+> 
+> Validate the provided geoid value using the Geographic Addr Mask.
+> 
+> Found by Linux Verification Center (linuxtesting.org) with SVACE.
+> 
+> Fixes: d22b8ed9a3b0 ("Staging: vme: add Tundra TSI148 VME-PCI Bridge driver")
+> Suggested-by: Dan Carpenter <dan.carpenter@linaro.org>
+> Signed-off-by: Aleksandr Mishin <amishin@t-argos.ru>
 > ---
->  drivers/media/platform/ti/am437x/am437x-vpfe.c   | 12 +++++-------
->  drivers/media/platform/ti/davinci/vpif_capture.c | 14 +++++++-------
->  2 files changed, 12 insertions(+), 14 deletions(-)
->
-Reviewed-by: Prabhakar <prabhakar.csengg@gmail.com>
+> v1->v2: Move geoid validation to the probe() function as suggested by Dan
 
-Cheers,
-Prabhakar
+Yeah, I think this works.
+
+Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+
+regards,
+dan carpenter
+
