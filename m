@@ -1,142 +1,109 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4DED145B0D
-	for <linux-staging@lists.linux.dev>; Tue,  2 Jul 2024 10:48:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BD5C1B4C31
+	for <linux-staging@lists.linux.dev>; Tue,  2 Jul 2024 13:46:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719917292; cv=none; b=NgtEgjT19Z+ld4vjCNraBxfCkdqbLPG/jVhyrYfSieiSZQvQNwvddynOKbUKcBMaKkCYn8VYEUIAkqBEzWQtdg4v6usoMQ6gVKP8s1oz6JwBt4wsro5XVX8+y9GEK33XhqgatK7HCNraQav2uYsWHPWXRyoYoFGQKVUxezcpJYg=
+	t=1719927964; cv=none; b=UldgJWxsFd0V9J8ghC1HVkj8fGOqjOyE8Ln8hFyCPejC+V0fcyN9TbxbVR0mgyJMn4LPlImiM5wfUtsh+c4huiD+QrVoE6D00H23lhFUBbpIEy+zsv9LGFSNc9ajvwBnafkRhCiMRh/KZN8wBlRLih157KdSlIkR2BjXSeixnyg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719917292; c=relaxed/simple;
-	bh=lmx62mmNzlzKSDmqFAsrE6aHOd8QVU/K+YKTTXWRB5g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rrBiw7ywvr+siA9ll4v7O+DIpPoQYTF2saxIBbvsGIU56IREKevy7jF1yWHwwPs385L08qHEsk7XeP4ENejttJyQioKDvR7e3ccH9ypYEB6PAFD4uVzr1TS3vz/7BCse70YsdG6aOQRF1b0PW/H2am/7LXC+N7u5mlN15swi784=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Lsya2XoA; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1719927964; c=relaxed/simple;
+	bh=VGdyH+yFJZICp/mwbvFetq0ibB2CUajUHzE5kfWvTEo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ntJw2CrDKciUbi7qobrYxE8ITDzhpdJRxM8cTwTfUR8FiLNywqeYZti+/oBqP2afSW/bx0KceXXXAy4RM7NdFKzPzUNJmZdJJo9BcP5tIBSdcTyRYPB1Wiht/S4Wmi6O1M7SFYodRuMuKgBOCDnS6wgzU9tFXMY0FSh3dj5IbUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=O3AynTQw; arc=none smtp.client-ip=209.85.160.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Lsya2XoA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1719917287;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ddUEaynzSPdLAUSnF0X54jX92vwScTAP/nJccagtVuQ=;
-	b=Lsya2XoAEarfhPdFErFEJYU5YpyP+rzOocN6sjixB6KqCXM6KXLFxePEKliiuKY4g1+zZZ
-	7JLqyhlh/DFmGtCka05bEjU17wyzmx26vNyppZhVDIPdyw8/3BAsC1jLpHkrqaISo9AkOn
-	J2ZC3SHtbgc3mMTv3a4gGPHBIuvZs4s=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-108-BAT1JypvOpCpPowMGyvJnw-1; Tue, 02 Jul 2024 06:48:06 -0400
-X-MC-Unique: BAT1JypvOpCpPowMGyvJnw-1
-Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-a729da8fbf1so642814966b.1
-        for <linux-staging@lists.linux.dev>; Tue, 02 Jul 2024 03:48:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="O3AynTQw"
+Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-25e00f348e6so151675fac.1
+        for <linux-staging@lists.linux.dev>; Tue, 02 Jul 2024 06:46:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1719927960; x=1720532760; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=NiyhmXpZS1r7WZeDrgRFtefnzEGTGZ2jJsCR0mdYOhA=;
+        b=O3AynTQwWEiqMzJkfDAvY1aL6U3yDjlYVZsL+TkwqZGGVzlPoWYWISnVmWYi3wbNJg
+         Ekq8nrKtmeEojO9VXVsfXTn0/tJtOTxS1QzbXNo5gTeTsCl1jnkal/CKvvd+z1+kEVTa
+         g9x6O+j0MRKfcD2haSMayOYUpzzHVQFJ47TOH2nLIGPnlDEbYiT7M3Q6rjBuSO6UX/pc
+         ycxkm7ek2Reqp5LZCxnniPBFAzgPx0fLylb7g8yH3VMkW/pLpv+YcXRqafLTKxSyEPxA
+         jW0hoiBKIMtuE+FX01uxqW0ZREqe1zkqwf5ibJh+IGHcx0AltL5yiB8Or2q1JkYGOlFs
+         Y1Fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719917284; x=1720522084;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1719927960; x=1720532760;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ddUEaynzSPdLAUSnF0X54jX92vwScTAP/nJccagtVuQ=;
-        b=mSx1r6rCgSbIzvgQgsvu5wtlfbl+m7Pz/02bhb+AlzfTO7KvcdET5XhVT18FkXW0OQ
-         dQcVFZNOxAmoIe/LEoygLPqvFSQNBAsv5MaZYPtTXvkUBFtCv50iWFI2dFPM3Di7NlE9
-         OVNbJE961p2CtJYZ0HolN18lg760ivP/exHR+HeoPUs8yFTu4LrKyRW4pAfW4RkhujYr
-         +wfxCIJZ3+3FaS5TtDW9W+xrKq5GSsOhnNcfRelf9yyMKfAsC3Ix5BVMqROe2um0zyQi
-         BB4tG3sKn6CowVUh2rfh80MUkwTiYukiY1Dbdu6dYRRRJugL29EPINHWUWAPpkY6Bfwe
-         0qxg==
-X-Forwarded-Encrypted: i=1; AJvYcCVbGt8nLxJYenwxGP086Nc8km+3RUFVFz2Ajwmp+cDtYR65snQlZidQD94l5zBK4VnaJLG8c9TVYzz4aloW2tbVohi2ciTDJStWLeWRkA==
-X-Gm-Message-State: AOJu0Yz6U5mXiBo8vmWZHrv+iItz+IGCi8p93S8QDUMR2Aulpm5Q9uhU
-	8TRx6rffrZu3d3EODoVTMbdECyFTeO1HxMtsQtcMsg0jC60NcT97PZQ6paxm+TTZ0MQtTXEawGj
-	93Y/1dorfEwaBi0dP1vRe2rlP0zUneSxCrAmLb4fcfpPpF7GpzeZu6DvNFR0tZzY=
-X-Received: by 2002:a17:907:3da9:b0:a75:21d3:1f4d with SMTP id a640c23a62f3a-a7521d3206dmr548042166b.31.1719917284250;
-        Tue, 02 Jul 2024 03:48:04 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEE9MGT5mfjPY4ZOeg9i4J0MDWtNu/bF0+BnklR5EGx7o+JjjoMwvIos8X+tp+XXuVLWJRdfQ==
-X-Received: by 2002:a17:907:3da9:b0:a75:21d3:1f4d with SMTP id a640c23a62f3a-a7521d3206dmr547931666b.31.1719917254270;
-        Tue, 02 Jul 2024 03:47:34 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-58614d507d2sm5446929a12.64.2024.07.02.03.47.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 02 Jul 2024 03:47:33 -0700 (PDT)
-Message-ID: <bc52402d-8ebe-4096-9a8e-94fac8747bd7@redhat.com>
-Date: Tue, 2 Jul 2024 12:47:33 +0200
+        bh=NiyhmXpZS1r7WZeDrgRFtefnzEGTGZ2jJsCR0mdYOhA=;
+        b=mRlB8uDrO3falyt8UEldbKe6nIcGzUmSSdfXsjI090AcozVPIbCm0xKVcJqrjQ/g8N
+         TEI4THbC9XHY7V/cGJq+f2DiiiBQ9vKo6C3c8M58mDf9cP1N4ypoOvY2Pf0eYFZn8bO0
+         Sl5h814ziEtvelN54uzJVKh8j5AXY9hsGHrohBqjiP/v6uv4KZo8Bj65fcdRdu3ih5HM
+         2YQDnJ+qSC2zCRnck2pY/8wRA6BpeTuToL38pvi+AAb6IKicLCBZzG99nT1lZjpgdV6J
+         FHhco7EjJ/PNP5lsxKxxhuAfZoS0K5X6MVtbMI/ViH8pJm59Hk4g8ZViwxRSjNNb+6zG
+         /EnQ==
+X-Gm-Message-State: AOJu0YyJxV321jJnjiU2Dh66C5yNlV6N8sGnfox5xZZ0ovirMEPv+4xS
+	ZwMddd5EYijUyTTgVqUuofyD8Nw8BsEUeT77kCuyiSdVdkBu73/JESwjh9vKwP4=
+X-Google-Smtp-Source: AGHT+IFpG/+NxuDQTZzifvzctc9H1OWBvWlhgyHr9DRMBTOjzX5KQcOawMFkjTy2lBWhf7Nw/PdOiQ==
+X-Received: by 2002:a05:6870:6494:b0:24f:ebcd:6aa9 with SMTP id 586e51a60fabf-25db338f930mr7423045fac.1.1719927960594;
+        Tue, 02 Jul 2024 06:46:00 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700:a6f1:b7be:4c8c:bf62])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-25d8e1f0490sm2227612fac.20.2024.07.02.06.45.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Jul 2024 06:45:59 -0700 (PDT)
+Date: Tue, 2 Jul 2024 15:45:55 +0200
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: =?iso-8859-1?Q?=C1gatha?= Isabelle Chris Moreira Guedes <code@agatha.dev>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-modules@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	=?iso-8859-1?Q?=C1gatha?= Isabelle Chris Moreira Guedes <patch-reply@agatha.dev>,
+	Jookia <contact@jookia.org>
+Subject: Re: [PATCH] staging: Fix missing warning/taint on builtin code
+Message-ID: <ad745b51-0aef-4a16-95a4-3514846e6504@suswa.mountain>
+References: <yf3ewok3u7fu7f4yqlcovcvedkhyjtibvwzlgbcjwf7ijcsktt@vrk54srlnk2n>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: atomisp: add missing MODULE_DESCRIPTION() macros
-To: Jeff Johnson <quic_jjohnson@quicinc.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-References: <20240610-md-drivers-staging-media-atomisp-i2c-v1-1-c7b63464fae5@quicinc.com>
- <be4544a3-ac67-4d4c-b00b-0e2e47a7522a@quicinc.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <be4544a3-ac67-4d4c-b00b-0e2e47a7522a@quicinc.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, nl
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <yf3ewok3u7fu7f4yqlcovcvedkhyjtibvwzlgbcjwf7ijcsktt@vrk54srlnk2n>
 
-Hi Jeff,
+On Tue, Jul 02, 2024 at 02:44:31AM -0300, Ágatha Isabelle Chris Moreira Guedes wrote:
+> diff --git a/init/main.c b/init/main.c
+> index 206acdde51f5..fca889f3bcc0 100644
+> --- a/init/main.c
+> +++ b/init/main.c
+> @@ -1602,3 +1602,23 @@ static noinline void __init kernel_init_freeable(void)
+>  
+>  	integrity_load_keys();
+>  }
+> +
+> +#ifdef CONFIG_STAGING
+> +/**
+> + * staging_init_taint() - We need to taint the kernel whenever staging code
+> + * is initialized (from built-in drivers) or loaded (as modules) and issue
+> + * a warning the first time it happens.
+> + */
+> +void staging_taint(const char *code_id, bool module)
+> +{
+> +	char *code_type = module ? "module" : "builtin driver at";
+> +
+> +	pr_warn("%s %s: The kernel contains code from staging directory"
 
-On 6/26/24 6:37 PM, Jeff Johnson wrote:
-> On 6/10/2024 5:34 PM, Jeff Johnson wrote:
->> make allmodconfig && make W=1 C=1 reports:
->> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/media/atomisp/i2c/atomisp-mt9m114.o
->> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/media/atomisp/i2c/atomisp-libmsrlisthelper.o
->>
->> Add the missing invocations of the MODULE_DESCRIPTION() macro.
->>
->> Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
->> ---
->>  drivers/staging/media/atomisp/i2c/atomisp-libmsrlisthelper.c | 1 +
->>  drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c          | 1 +
->>  2 files changed, 2 insertions(+)
->>
->> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-libmsrlisthelper.c b/drivers/staging/media/atomisp/i2c/atomisp-libmsrlisthelper.c
->> index 7a20d918a9d5..3499353f8ea5 100644
->> --- a/drivers/staging/media/atomisp/i2c/atomisp-libmsrlisthelper.c
->> +++ b/drivers/staging/media/atomisp/i2c/atomisp-libmsrlisthelper.c
->> @@ -207,4 +207,5 @@ module_init(init_msrlisthelper);
->>  module_exit(exit_msrlisthelper);
->>  
->>  MODULE_AUTHOR("Jukka Kaartinen <jukka.o.kaartinen@intel.com>");
->> +MODULE_DESCRIPTION("Helper library to load, parse and apply large register lists");
->>  MODULE_LICENSE("GPL");
->> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
->> index 23b1001c2a55..918ea4fa9f6b 100644
->> --- a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
->> +++ b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
->> @@ -1614,4 +1614,5 @@ static struct i2c_driver mt9m114_driver = {
->>  module_i2c_driver(mt9m114_driver);
->>  
->>  MODULE_AUTHOR("Shuguang Gong <Shuguang.gong@intel.com>");
->> +MODULE_DESCRIPTION("Aptina mt9m114 sensor support module");
->>  MODULE_LICENSE("GPL");
->>
->> ---
->> base-commit: 83a7eefedc9b56fe7bfeff13b6c7356688ffa670
->> change-id: 20240610-md-drivers-staging-media-atomisp-i2c-18a7a4f883eb
->>
-> 
-> Following up to see if anything else is needed from me. Hoping to see this in
-> linux-next so I can remove it from my tracking spreadsheet :)
+Needs a space after directory before the quote.
 
-This has already been merged in media-staging (the media's tree for-next)
-by Hans Verkuil:
+> +		"the quality is unknown, you have been warned.\n",
+> +		code_type, code_id);
+> +
+> +	add_taint(TAINT_CRAP, LOCKDEP_STILL_OK);
+> +}
+> +EXPORT_SYMBOL(staging_taint);
 
-https://git.linuxtv.org/media_stage.git/log/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-
-Regards,
-
-Hans
-
-
-
+regards,
+dan carpenter
