@@ -1,110 +1,255 @@
-Received: from mx1.t-argos.ru (mx1.t-argos.ru [109.73.34.58])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from relay1-d.mailbaby.net (relay1-d.mailbaby.net [64.20.36.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 004C3502A9
-	for <linux-staging@lists.linux.dev>; Mon,  1 Jul 2024 23:46:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.73.34.58
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA05A374C6
+	for <linux-staging@lists.linux.dev>; Tue,  2 Jul 2024 05:49:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.20.36.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719877571; cv=none; b=QU+KvS2ldlAHa6WvNhUFkQiH5t07QlmiSXivYcZLUTvqkGuXi/Yi5+NEd/fBWBBl2FgNAtxF0gTxLyFsNgKcSpFwwkF1GJc1OrCmFyFO4B6sKrs0xQdrpC97cx9vi45CAVbpS7IEjQSKhFpzGkWClIDIvETJwL0bzL81oXFWPho=
+	t=1719899397; cv=none; b=IopaoIWX+cZ2amHRonJM+vQExXkUZWFaztikp2g7Ya/pLrrO6LQ50pC8wzUyWPjWRqCenLJPxPy3fV4O8kokDKXyzPWTPv6grKEMpEJMkKU8RTabFTVeGKF0fvIdz3L1mqGgTGFQYLhURD4aeAy6zG9VGrslVAQDiAJ85lIzmg4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719877571; c=relaxed/simple;
-	bh=vDCAs5hfddH+lemVzwZUk4EaAhxdz0tNNx9npgmH4No=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CxRdkGNKT4IDMrX/FEnwMF300A4IqiqDODq9kbOtD+7uXFl0iihqbJEcRDd9bJB8pwNmU2hN3/RmQtfW1hFRBen4oX6r+KPm5gO1e138C3tkwo+rTAniwfYgEd+SKoktjHcLmgLSe5CnhXeyA92eby1PEtue73KpnBUPast1yKo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=t-argos.ru; spf=pass smtp.mailfrom=t-argos.ru; dkim=pass (2048-bit key) header.d=t-argos.ru header.i=@t-argos.ru header.b=D1fWCCmL; arc=none smtp.client-ip=109.73.34.58
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=t-argos.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=t-argos.ru
+	s=arc-20240116; t=1719899397; c=relaxed/simple;
+	bh=jZFHz7qk29RqwEyiJGu1UAgq5doWP0aOqvcNZeq1qyE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ZgWX9NvR+T5l+2zlphtz2XNrcoMElCh5wJkqq1uVJHOOi4mhXld1vdD95JaM2kau/R46DzegMpOw0uLI8lUVIOB8muiTU+3BIc6ULabqEpD3usygPWGLIqtDBeIlmsWbjITnxX+t9J8t5/uuAbhWuD23fQ1CQB6Bhdppcd4Nvso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=agatha.dev; spf=fail smtp.mailfrom=agatha.dev; dkim=pass (1024-bit key) header.d=mailbaby.net header.i=@mailbaby.net header.b=cEppydcu; dkim=pass (2048-bit key) header.d=agatha.dev header.i=@agatha.dev header.b=SSgQ+pJT; arc=none smtp.client-ip=64.20.36.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=agatha.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=agatha.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=t-argos.ru header.i=@t-argos.ru header.b="D1fWCCmL"
-Received: from mx1.t-argos.ru (localhost [127.0.0.1])
-	by mx1.t-argos.ru (Postfix) with ESMTP id 5F333100005;
-	Tue,  2 Jul 2024 02:45:52 +0300 (MSK)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=t-argos.ru; s=mail;
-	t=1719877552; bh=zsi0EpcTiG/36yNGtHhih1fjouzjejGqb6SOyBmE7js=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=D1fWCCmLKjwjB9HvsrYgzXso4sRv8EyaZPFGwLqPlpFkVpqJEbbA4N9snZL8K5Z0z
-	 Xt/qOvtHQ8ziVhyAnULHda7XrtGKMbByVDAzI5IxpTfSJ2vMXw+mH9BVPpZg4/RR/1
-	 btX+RX+2VPNp3g0OYMAY2VZzDSqqqrYlT//qbfc55tRleG2iZNT+ZF4926t38atD7v
-	 QR4jG8QfyXeMu7C8RNJ3VD5Qfcb1/qYYaD1xJ5EepB9fgy9c10RlUJ3zQL8l1tBVcF
-	 la+7qrUQU4A0c/0qjDOmJLPPnIvoEmiO3hsVxQDIP46BRJfATRjYRkdh4xBNkvZhO/
-	 weXxJSgfbBGPg==
-Received: from mx1.t-argos.ru.ru (ta-mail-02.ta.t-argos.ru [172.17.13.212])
-	by mx1.t-argos.ru (Postfix) with ESMTP;
-	Tue,  2 Jul 2024 02:44:36 +0300 (MSK)
-Received: from localhost.localdomain (172.17.215.5) by ta-mail-02
- (172.17.13.212) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 2 Jul 2024
- 02:43:46 +0300
-From: Aleksandr Mishin <amishin@t-argos.ru>
-To: <stable@vger.kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC: Aleksandr Mishin <amishin@t-argos.ru>, Lars-Peter Clausen
-	<lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, Jonathan
- Cameron <jic23@kernel.org>, Graf Yang <graf.yang@analog.com>, Mike Frysinger
-	<vapier@gentoo.org>, <linux-iio@vger.kernel.org>,
-	<linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-	<lvc-project@linuxtesting.org>, David Lechner <dlechner@baylibre.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: [PATCH 5.10/5.15/6.1 1/1] staging: iio: resolver: ad2s1210: remove call to spi_setup()
-Date: Tue, 2 Jul 2024 02:43:24 +0300
-Message-ID: <20240701234324.20811-2-amishin@t-argos.ru>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20240701234324.20811-1-amishin@t-argos.ru>
-References: <20240701234324.20811-1-amishin@t-argos.ru>
+	dkim=pass (1024-bit key) header.d=mailbaby.net header.i=@mailbaby.net header.b="cEppydcu";
+	dkim=pass (2048-bit key) header.d=agatha.dev header.i=@agatha.dev header.b="SSgQ+pJT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbaby.net;
+ q=dns/txt; s=bambino; bh=kLRQSdBWD5O01x5quSpu5x32+TFH2X1iwkgzQjlFJjA=;
+ h=from:subject:date:message-id:to:cc:mime-version:content-type;
+ b=cEppydcumRHOK6OYUsUc6CgWJ/jZqaWpY6ikj6FFyaRX8jcJWgVN6iMG707phaTdN1+Q38HLq
+ vsGw5pdbjcXT4rF6Cf5WMOVfdgcrwi/Z+/ou1WGSznzh3JEisVIFFCjbEpb6GY+Y4Ps6ckF7HNc
+ fd7pvRvlnvATGNGMP960Mlg=
+Received: from mia3000.dnsiaas.com ([192.155.110.18] mia3000.dnsiaas.com)
+ (Authenticated sender: mb6724)
+ by relay1-d.mailbaby.net (MailBabyMTA) with ESMTPSA id 19071f93f2f0009a32.001
+ for <linux-staging@lists.linux.dev>
+ (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+ Tue, 02 Jul 2024 05:44:38 +0000
+X-Zone-Loop: dfc73d3d4f44ec350c51632b8753c4f8c779c0fe2f7d
+X-Get-Message-Sender-Via: mb6724: authenticated_id: code@agatha.dev
+X-NS-SCAN: PASS
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=agatha.dev;
+	s=default; h=Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:
+	Sender:Reply-To:Content-Transfer-Encoding:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=kLRQSdBWD5O01x5quSpu5x32+TFH2X1iwkgzQjlFJjA=; b=SSgQ+pJT2Yl7bYtV2EO+AWkUR2
+	FSUJgsvxdh2Tyb+URU8u5J32pWw1wBQf0bTZYzlHdr7qcLSWVM/61IiMuNkZhJ1AEM2w+qTnrX/+S
+	fYOcPdLrFtSquHIZmqwN6v8SrRZuA4FnY5uConT45d22leIVQgz5sx3xjdVRwxO4MAQJysGF3aLGW
+	p4RGDuZjGcUmn1IDSwvUotHfBHdExtcaJ3UVK5dYW5IRxE28EUmoK1ZUEvWS+1BZYyI2TnioevqDc
+	A3TUO4530o/UqOqA/JR1NXTndChf1LjluWL+qUq0BV5QHB/CDFJsKwqnXK9lxItsR9irWRlVuxY/z
+	Ox7pNlkQ==;
+Received: from [186.250.91.79] (port=19818 helo=kurupi-arch.blackcat)
+	by mia3000.dnsiaas.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.97.1)
+	(envelope-from <code@agatha.dev>)
+	id 1sOWJe-00000001HnP-3X5k;
+	Tue, 02 Jul 2024 01:44:35 -0400
+Date: Tue, 2 Jul 2024 02:44:31 -0300
+From: =?utf-8?Q?=C3=81gatha?= Isabelle Chris Moreira Guedes <code@agatha.dev>
+To: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-modules@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Luis Chamberlain <mcgrof@kernel.org>
+Cc: =?utf-8?Q?=C3=81gatha?= Isabelle Chris Moreira Guedes <patch-reply@agatha.dev>, 
+	Jookia <contact@jookia.org>
+Subject: [PATCH] staging: Fix missing warning/taint on builtin code
+Message-ID: <yf3ewok3u7fu7f4yqlcovcvedkhyjtibvwzlgbcjwf7ijcsktt@vrk54srlnk2n>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4942; i=code@agatha.dev;
+ h=from:subject; bh=M0JBCO3WgTHKX1tSFWBSzLK4B1xEvuxIrpd2ceDc2cc=;
+ b=owGbwMvMwCX2vcdPlI2bz4fxtFoSQ1pz70ebCxU2Be1Cu9PScgqb/szZ482lx3KG47noiWOBG
+ ZUVL1o6SlkYxLgYZMUUWXjKhRO04v+kvyvaGQIzh5UJZAgDF6cATKSOmeE3u+Kjl738rt4mxs88
+ c8w3XlZg5eN4cHDvscq3tw0LdzYtYWTY3j7hpX+XtIP85q8P5V9y1v//db1xpuOaZ8wfTqzXdn/
+ BAgA=
+X-Developer-Key: i=code@agatha.dev; a=openpgp;
+ fpr=0C7713602A5FFC67EE72B954F78C4E15060B0E4C
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: ta-mail-02.ta.t-argos.ru (172.17.13.212) To ta-mail-02
- (172.17.13.212)
-X-KSMG-Rule-ID: 1
-X-KSMG-Message-Action: clean
-X-KSMG-AntiSpam-Lua-Profiles: 186263 [Jul 02 2024]
-X-KSMG-AntiSpam-Version: 6.1.0.4
-X-KSMG-AntiSpam-Envelope-From: amishin@t-argos.ru
-X-KSMG-AntiSpam-Rate: 0
-X-KSMG-AntiSpam-Status: not_detected
-X-KSMG-AntiSpam-Method: none
-X-KSMG-AntiSpam-Auth: dkim=none
-X-KSMG-AntiSpam-Info: LuaCore: 21 0.3.21 ebee5449fc125b2da45f1a6a6bc2c5c0c3ad0e05, {Tracking_uf_ne_domains}, {Tracking_from_domain_doesnt_match_to}, lore.kernel.org:7.1.1;mx1.t-argos.ru.ru:7.1.1;127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;t-argos.ru:7.1.1, FromAlignment: s
-X-MS-Exchange-Organization-SCL: -1
-X-KSMG-AntiSpam-Interceptor-Info: scan successful
-X-KSMG-AntiPhishing: Clean, bases: 2024/07/01 22:18:00
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 1.1.2.30, bases: 2024/07/01 17:38:00 #25803542
-X-KSMG-AntiVirus-Status: Clean, skipped
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="g43t564sfxvjtdzc"
+Content-Disposition: inline
+X-AuthUser: me@agatha.dev
 
-From: David Lechner <dlechner@baylibre.com>
 
-commit 9829ebacea804ad4b5d1a74a8d94a1f843505546 upstream.
+--g43t564sfxvjtdzc
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This removes the call to spi_setup() in the ad2s1210 driver.
-Setting MODE_3 was incorrect. It should be MODE_1 but we can let the
-device tree select this and avoid the need to call spi_setup().
+Fix the absence of warning message and kernel tainting when initializing
+drivers from the `drivers/staging` subtree from initcalls (when
+configured as built-in).
 
-Signed-off-by: David Lechner <dlechner@baylibre.com>
-Link: https://lore.kernel.org/r/20230929-ad2s1210-mainline-v3-3-fa4364281745@baylibre.com
-Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Signed-off-by: Aleksandr Mishin <amishin@t-argos.ru>
+When such a driver is built as module and the module is loaded, the
+`load_module()` function taints the kernel to signal code of unknown
+quality is loaded, and produces a warning like this:
+
+[    8.076352] rts5208: module is from the staging directory, the
+quality is unknown, you have been warned.
+
+The same behaviour is absent, however, when a staging driver is compiled
+as built-in on the kernel image, since loading it happens through
+initcalls and not through load_module().
+
+This might prevent relevant information of being available on a bug
+report (i.e. on a panic log) among other possible problems.
+
+Signed-off-by: =C1gatha Isabelle Chris Moreira Guedes <code@agatha.dev>
 ---
- drivers/staging/iio/resolver/ad2s1210.c | 2 --
- 1 file changed, 2 deletions(-)
+ACKNOWLEDGEMENTS
+Thanks for Jookia, heat and ukleinek for the important comments &
+suggestions on this patch prior to submission.
 
-diff --git a/drivers/staging/iio/resolver/ad2s1210.c b/drivers/staging/iio/resolver/ad2s1210.c
-index 636c45b12843..42aab1ac3aac 100644
---- a/drivers/staging/iio/resolver/ad2s1210.c
-+++ b/drivers/staging/iio/resolver/ad2s1210.c
-@@ -681,8 +681,6 @@ static int ad2s1210_probe(struct spi_device *spi)
- 		return ret;
- 
- 	st->fclkin = spi->max_speed_hz;
--	spi->mode = SPI_MODE_3;
--	spi_setup(spi);
- 	ad2s1210_initial(st);
- 
- 	return 0;
--- 
-2.30.2
+ drivers/staging/Makefile |  2 ++
+ include/linux/init.h     |  6 ++++++
+ include/linux/module.h   | 33 +++++++++++++++++++++++++++++++++
+ init/main.c              | 20 ++++++++++++++++++++
+ kernel/module/main.c     |  4 +---
+ 5 files changed, 62 insertions(+), 3 deletions(-)
 
+diff --git a/drivers/staging/Makefile b/drivers/staging/Makefile
+index 5390879b5d1b..7cea13436426 100644
+--- a/drivers/staging/Makefile
++++ b/drivers/staging/Makefile
+@@ -1,6 +1,8 @@
+ # SPDX-License-Identifier: GPL-2.0
+ # Makefile for staging directory
+=20
++subdir-ccflags-y +=3D -DSTAGING_CODE
++
+ obj-y				+=3D media/
+ obj-$(CONFIG_FB_OLPC_DCON)	+=3D olpc_dcon/
+ obj-$(CONFIG_RTL8192E)		+=3D rtl8192e/
+diff --git a/include/linux/init.h b/include/linux/init.h
+index 58cef4c2e59a..68c37600958f 100644
+--- a/include/linux/init.h
++++ b/include/linux/init.h
+@@ -397,4 +397,10 @@ void __init parse_early_options(char *cmdline);
+ #define __exit_p(x) NULL
+ #endif
+=20
++#ifdef CONFIG_STAGING
++#ifndef __ASSEMBLY__
++extern void staging_taint(const char *code_id, bool module);
++#endif /* __ASSEMBLY__ */
++#endif /* CONFIG_STAGING */
++
+ #endif /* _LINUX_INIT_H */
+diff --git a/include/linux/module.h b/include/linux/module.h
+index 330ffb59efe5..ffe58f5d143b 100644
+--- a/include/linux/module.h
++++ b/include/linux/module.h
+@@ -76,6 +76,39 @@ extern struct module_attribute module_uevent;
+ extern int init_module(void);
+ extern void cleanup_module(void);
+=20
++#ifdef CONFIG_STAGING
++
++#define __lower_define_initcall(fn, id) ___define_initcall(fn, id, .initca=
+ll##id)
++
++/**
++ * __staging_define_initcall(fn,id) - staging initialization entry point
++ * @fn: the function to run at kernel boot time
++ * @id: the initcall level
++ *
++ * __staging_define_initcall() will ensure the drive's init function is al=
+ways
++ * called during initcalls for staging code by producing a wrapper functio=
+n.
++ * It applies if a module from the drivers/staging subtree is builtin to t=
+he
++ * kernel. It reproduces the behavior in load_module() by tainting the ker=
+nel
++ * and logging a warning about the code quality.
++ */
++
++#define __staging_define_initcall(fn, id) \
++	static int __init __staging_wrapped_##fn(void) \
++	{ \
++		staging_taint(__FILE__, false); \
++		return fn(); \
++	} \
++__lower_define_initcall(__staging_wrapped_##fn, id)
++
++#ifdef STAGING_CODE
++
++#undef __define_initcall
++#define __define_initcall(fn, id) __staging_define_initcall(fn, id)
++
++#endif /* STAGING_CODE */
++
++#endif /* CONFIG_STAGING */
++
+ #ifndef MODULE
+ /**
+  * module_init() - driver initialization entry point
+diff --git a/init/main.c b/init/main.c
+index 206acdde51f5..fca889f3bcc0 100644
+--- a/init/main.c
++++ b/init/main.c
+@@ -1602,3 +1602,23 @@ static noinline void __init kernel_init_freeable(voi=
+d)
+=20
+ 	integrity_load_keys();
+ }
++
++#ifdef CONFIG_STAGING
++/**
++ * staging_init_taint() - We need to taint the kernel whenever staging code
++ * is initialized (from built-in drivers) or loaded (as modules) and issue
++ * a warning the first time it happens.
++ */
++void staging_taint(const char *code_id, bool module)
++{
++	char *code_type =3D module ? "module" : "builtin driver at";
++
++	pr_warn("%s %s: The kernel contains code from staging directory"
++		"the quality is unknown, you have been warned.\n",
++		code_type, code_id);
++
++	add_taint(TAINT_CRAP, LOCKDEP_STILL_OK);
++}
++EXPORT_SYMBOL(staging_taint);
++
++#endif /* CONFIG_STAGING */
+diff --git a/kernel/module/main.c b/kernel/module/main.c
+index d18a94b973e1..d7d33336ab43 100644
+--- a/kernel/module/main.c
++++ b/kernel/module/main.c
+@@ -2039,9 +2039,7 @@ static void module_augment_kernel_taints(struct modul=
+e *mod, struct load_info *i
+ 	check_modinfo_retpoline(mod, info);
+=20
+ 	if (get_modinfo(info, "staging")) {
+-		add_taint_module(mod, TAINT_CRAP, LOCKDEP_STILL_OK);
+-		pr_warn("%s: module is from the staging directory, the quality "
+-			"is unknown, you have been warned.\n", mod->name);
++		staging_taint(mod->name, true);
+ 	}
+=20
+ 	if (is_livepatch_module(mod)) {
+--=20
+2.45.2
+
+
+--g43t564sfxvjtdzc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQQMdxNgKl/8Z+5yuVT3jE4VBgsOTAUCZoOTugAKCRD3jE4VBgsO
+TPWCAPwOyNBuM1QEcscgmuuJFibaalLbh+ZZc4yb3TVJkqpGNQEAvqpNDfRaKcZJ
++PyayOxrPy9KDV4NYowEE0s3RC/32Ac=
+=ReiF
+-----END PGP SIGNATURE-----
+
+--g43t564sfxvjtdzc--
