@@ -1,160 +1,118 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FE2D18EB8
-	for <linux-staging@lists.linux.dev>; Wed,  3 Jul 2024 13:11:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79D8717A58A
+	for <linux-staging@lists.linux.dev>; Wed,  3 Jul 2024 13:29:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720012274; cv=none; b=F946okoMbR56THsTSSPKwNJG21EY77WYUIBpTtrLgTsoFOZh0d8WI5L6QYGvedJ3CUb5VvZY6PORPn7a1psuc5uV/jN/8YLUWVinaPTuukuFHKByXYbFAu93kVAFpVHVgMgq4MMd5K1PGSfpsaqWGzbiy/ti/7soz/tkltfNPzQ=
+	t=1720013399; cv=none; b=k0BioklOFbP9A9mPk3OS7x9RpLg4uoWoh8AvnxQDPLovLq5YpbbnU/iY/uyuqQCGbru1ROAYLhSb9UtnMOG53W9PJ0bY3OlLfo5IKczwB4/vWuZxaVRJHpRIFvnphWP5cizBNYS8IWl1yZ+pPADFdOo162vUCR3NMC5+Jkj3w3M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720012274; c=relaxed/simple;
-	bh=Ep7Wkp05xeb0gwBIeNK2C+jf+wt0nx5HxrZBcyf+FTc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UPwLHbXE1MWzyUKzq7LajFzzwG05z84G95TUytF/itf6to6EThUDjSWFRWnUlKOhwHAPAwRSWgzU5vFtcXH1qOR1K9Mivz9rGpLsen4ZHiIRPNnJbYhxnpM1P4oURSTF9MasYqUiJ4iWw0DQHhsI44gikgaFo581iMjxGxINOKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=K7XmDWQY; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1720013399; c=relaxed/simple;
+	bh=n8rNcgytzr18aqcfGjlWgLimsnfqxE4xExXiuU5ntOs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MKcXN1TbCZbNWNCpYDV8YOcD/OHX8MzW5qmbQZ3BQW0BqFvYo/YYjM84jP+jwWsdG414/Xkdj/XTB/w1gOFBxgurDv8lFjMFhBHWmhtMDJ+kuAgC9dodXvt+yL1qvhHiCIVUcOcT2uxf21tGIO6d2Q31GI3qhIuMyKnrkGNUKKg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gm/iLT3I; arc=none smtp.client-ip=209.85.161.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="K7XmDWQY"
-Received: from localhost.localdomain (unknown [IPv6:2405:201:2015:f873:55f8:639e:8e9f:12ec])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4A5EA8A9;
-	Wed,  3 Jul 2024 15:10:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1720012243;
-	bh=Ep7Wkp05xeb0gwBIeNK2C+jf+wt0nx5HxrZBcyf+FTc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=K7XmDWQYVpjh31cwJ9HbbRbizEG9Zs93LUwYlq/ST7zbxXMI3ecaj268EYthqKrPn
-	 sqrPZjjrzFe8XW4TEQnF2tdh84tji6mjS5Q8OvDhWxItv+TjOeXiDIjJnSFKeeXmkd
-	 sDRa4R8sSAWYQ90SHh+igIVjq+NUIexeITgD7rDI=
-From: Umang Jain <umang.jain@ideasonboard.com>
-To: linux-staging@lists.linux.dev
-Cc: Dan Carpenter <error27@gmail.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Phil Elwell <phil@raspberrypi.com>,
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gm/iLT3I"
+Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-5c219c54800so2632787eaf.0
+        for <linux-staging@lists.linux.dev>; Wed, 03 Jul 2024 06:29:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1720013396; x=1720618196; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=tkRMXmFtnswe4eBnsfdstcxfteOHZcne41UQHuOq2C8=;
+        b=gm/iLT3IjHFu/kHJp0Ym2U7ucIMZYW/JZ5kyeE98aibFgUo8RIZwegAliiMcNKWXGa
+         YQIAyZ5pF50TP+BGNT4jhVv99Wc8Fz0JB/ZKX2EmGe6WYr1JsgAMppvYJtjblEYA4KM9
+         E8vePZrXwA/pPwtN4UC1mcXnsyYBt6Gx88VH3bMKnRKRAuTdbcnwqSgiz/XCyUFF7Yy5
+         Z1KGz18k+N+kKQUiRRtQDgzUChy8u6s568O6w2JCJemFtl4K/MeXXaEu+9Utk6TxOOro
+         vsPqvCSLqi9i6lFGAql2qYpXbhlEzpwaZXjah50bmAKz5XRISkh58qBeMRNYBUDU3EMr
+         oGJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720013396; x=1720618196;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tkRMXmFtnswe4eBnsfdstcxfteOHZcne41UQHuOq2C8=;
+        b=wNtdQ+vPWv9C3xj+fj4EYm3KKPlbWm4FHNyn9e2L32P0qcp0smrA8A0K3QAjby19k+
+         EhknpLlM3TYtq7agOzcdy0s3f3GGaJXfAqK3FPtgCZQfZv3YTgXGZx5Y8wqY67SCj/I/
+         Trmt8UkFU31tP9oj1FNr1BQ/cJjOr9wrJb+772tlGuD2SWlVwzI4LP9MB8VxU0nK0vOe
+         t1ebKEeFalwkP3i6gCFwcyS8wR7oTHzCJ1pGDBHxspuKhz5vY5sJJcnuFHCHnKwo5NZK
+         cy4LYid0vbutmtlP6Db5zR05bb6jo+CFRNU3UZ/sBAGCFTvfItpLxXKmv+rISB3lWhyD
+         7BJg==
+X-Forwarded-Encrypted: i=1; AJvYcCXpGAY8HQgAMVy83JQaDhpI74QHSNogNuTg9eNMEKp4PUChLcPSq2jxkaOV3Ex0/1RLN58D+Qc2kscoqPZVDO5H42F8hynSfGX0eBQyeQ==
+X-Gm-Message-State: AOJu0YzZqe5IQJU4rzDaktgkQ++EAX3NxocO/3ZP6/V1cckSb7Gy8sg2
+	+jqPAHSIUyH6Ok1w+o4mPFTyYbxCB0PV3IhWZgw3tcC4gUsYbbIDjEa7S5AZkuc=
+X-Google-Smtp-Source: AGHT+IFanVXEA/1p7SjGFF8jh/JC/+imI8O4iXN7/80UChDVmSkOKSU/7pzcNDcgJUpdKpfCj/5s4w==
+X-Received: by 2002:a4a:ad8e:0:b0:5ba:f20c:361b with SMTP id 006d021491bc7-5c439286278mr14014241eaf.8.1720013394630;
+        Wed, 03 Jul 2024 06:29:54 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700:5b79:ebe0:e3cb:2ba6])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5c414939fdcsm1524335eaf.25.2024.07.03.06.29.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Jul 2024 06:29:54 -0700 (PDT)
+Date: Wed, 3 Jul 2024 15:29:52 +0200
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Aleksandr Mishin <amishin@t-argos.ru>
+Cc: Michael Hennerich <Michael.Hennerich@analog.com>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Jonathan Cameron <jic23@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Stefan Wahren <wahrenst@gmx.net>,
-	Umang Jain <umang.jain@ideasonboard.com>
-Subject: [PATCH v2 2/2] staging: vc04_services: vchiq_core: Stop kthreads on vchiq module unload
-Date: Wed,  3 Jul 2024 18:40:52 +0530
-Message-ID: <20240703131052.597443-3-umang.jain@ideasonboard.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240703131052.597443-1-umang.jain@ideasonboard.com>
-References: <20240703131052.597443-1-umang.jain@ideasonboard.com>
+	Datta Shubhrajyoti <shubhrajyoti@ti.com>, linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	lvc-project@linuxtesting.org
+Subject: Re: [PATCH] staging: iio: frequency: ad9834: Validate frequency
+ parameter value
+Message-ID: <b7cc378d-11a8-44b6-a86f-baee12b5b1fa@suswa.mountain>
+References: <20240703104734.12034-1-amishin@t-argos.ru>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240703104734.12034-1-amishin@t-argos.ru>
 
-The various kthreads thread functions (slot_handler_func, sync_func,
-recycle_func) in vchiq_core and vchiq_keepalive_thread_func in
-vchiq_arm should be stopped when the module is unloaded.
+On Wed, Jul 03, 2024 at 01:47:34PM +0300, Aleksandr Mishin wrote:
+> In ad9834_write_frequency() clk_get_rate() can return 0. In such case
+> ad9834_calc_freqreg() call will lead to division by zero. Checking
+> 'if (fout > (clk_freq / 2))' doesn't protect in case of 'fout' is 0.
+> ad9834_write_frequency() is called from ad9834_write(), where fout is
+> taken from text buffer, which can contain any value.
+> 
+> Modify parameters checking.
+> 
+> Found by Linux Verification Center (linuxtesting.org) with SVACE.
+> 
+> Fixes: 12b9d5bf76bf ("Staging: IIO: DDS: AD9833 / AD9834 driver")
+> Signed-off-by: Aleksandr Mishin <amishin@t-argos.ru>
+> ---
+>  drivers/staging/iio/frequency/ad9834.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/iio/frequency/ad9834.c b/drivers/staging/iio/frequency/ad9834.c
+> index a7a5cdcc6590..9e42129f44f7 100644
+> --- a/drivers/staging/iio/frequency/ad9834.c
+> +++ b/drivers/staging/iio/frequency/ad9834.c
+> @@ -114,7 +114,7 @@ static int ad9834_write_frequency(struct ad9834_state *st,
+>  
+>  	clk_freq = clk_get_rate(st->mclk);
+>  
+> -	if (fout > (clk_freq / 2))
+> +	if (!fout || fout > (clk_freq / 2))
 
-Previous attempt were made to address this but later reverted [1]
-due to VC04 firmware corruption. The issue around
-wait_event_interruptible() handling on stopping a kthread has been
-handled in the previous commit. Hence, it is now safe to stop kthreads
-on module unload, without any firmware corruption.
+So you don't want "clk_freq" to be zero so you check if "fout" can be
+zero and do the algebra?  That's a lot of acrobatics.  Just check
+if clk_freq == 0 directly.
 
-This also completes the "Fix kernel module support" TODO item, hence
-drop it from the list.
+regards,
+dan carpenter
 
-[1] commit ebee9ca2f59e ("Revert "staging: vc04_services: vchiq_core: Stop kthreads on shutdown"")
-
-Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
----
- drivers/staging/vc04_services/interface/TODO           |  7 -------
- .../vc04_services/interface/vchiq_arm/vchiq_arm.c      | 10 +++++++++-
- .../vc04_services/interface/vchiq_arm/vchiq_core.c     |  6 +++---
- 3 files changed, 12 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/staging/vc04_services/interface/TODO b/drivers/staging/vc04_services/interface/TODO
-index 05f129c0c254..dfb1ee49633f 100644
---- a/drivers/staging/vc04_services/interface/TODO
-+++ b/drivers/staging/vc04_services/interface/TODO
-@@ -16,13 +16,6 @@ some of the ones we want:
-   to manage these buffers as dmabufs so that we can zero-copy import
-   camera images into vc4 for rendering/display.
- 
--* Fix kernel module support
--
--Even the VPU firmware doesn't support a VCHI re-connect, the driver
--should properly handle a module unload. This also includes that all
--resources must be freed (kthreads, debugfs entries, ...) and global
--variables avoided.
--
- * Documentation
- 
- A short top-down description of this driver's architecture (function of
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-index 9e6102c43e00..c4d97dbf6ba8 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-@@ -1315,7 +1315,7 @@ vchiq_keepalive_thread_func(void *v)
- 		goto shutdown;
- 	}
- 
--	while (1) {
-+	while (!kthread_should_stop()) {
- 		long rc = 0, uc = 0;
- 
- 		if (wait_for_completion_interruptible(&arm_state->ka_evt)) {
-@@ -1776,12 +1776,20 @@ static int vchiq_probe(struct platform_device *pdev)
- static void vchiq_remove(struct platform_device *pdev)
- {
- 	struct vchiq_drv_mgmt *mgmt = dev_get_drvdata(&pdev->dev);
-+	struct vchiq_arm_state *arm_state;
- 
- 	vchiq_device_unregister(bcm2835_audio);
- 	vchiq_device_unregister(bcm2835_camera);
- 	vchiq_debugfs_deinit();
- 	vchiq_deregister_chrdev();
- 
-+	kthread_stop(mgmt->state.sync_thread);
-+	kthread_stop(mgmt->state.recycle_thread);
-+	kthread_stop(mgmt->state.slot_handler_thread);
-+
-+	arm_state = vchiq_platform_get_arm_state(&mgmt->state);
-+	kthread_stop(arm_state->ka_thread);
-+
- 	kfree(mgmt);
- }
- 
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-index dd70f2881eca..50af04b217f4 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-@@ -1941,7 +1941,7 @@ slot_handler_func(void *v)
- 
- 	DEBUG_INITIALISE(local);
- 
--	while (1) {
-+	while (!kthread_should_stop()) {
- 		DEBUG_COUNT(SLOT_HANDLER_COUNT);
- 		DEBUG_TRACE(SLOT_HANDLER_LINE);
- 		ret = remote_event_wait(&state->trigger_event, &local->trigger);
-@@ -1986,7 +1986,7 @@ recycle_func(void *v)
- 	if (!found)
- 		return -ENOMEM;
- 
--	while (1) {
-+	while (!kthread_should_stop()) {
- 		ret = remote_event_wait(&state->recycle_event, &local->recycle);
- 		if (ret)
- 			return ret;
-@@ -2008,7 +2008,7 @@ sync_func(void *v)
- 	int svc_fourcc;
- 	int ret;
- 
--	while (1) {
-+	while (!kthread_should_stop()) {
- 		struct vchiq_service *service;
- 		int msgid, size;
- 		int type;
--- 
-2.43.0
-
+>  		return -EINVAL;
+>  
+>  	regval = ad9834_calc_freqreg(clk_freq, fout);
+> -- 
+> 2.30.2
+> 
