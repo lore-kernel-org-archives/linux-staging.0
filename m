@@ -1,118 +1,113 @@
-Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx1.t-argos.ru (mx1.t-argos.ru [109.73.34.58])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79D8717A58A
-	for <linux-staging@lists.linux.dev>; Wed,  3 Jul 2024 13:29:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49F7D1DA319
+	for <linux-staging@lists.linux.dev>; Wed,  3 Jul 2024 15:47:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.73.34.58
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720013399; cv=none; b=k0BioklOFbP9A9mPk3OS7x9RpLg4uoWoh8AvnxQDPLovLq5YpbbnU/iY/uyuqQCGbru1ROAYLhSb9UtnMOG53W9PJ0bY3OlLfo5IKczwB4/vWuZxaVRJHpRIFvnphWP5cizBNYS8IWl1yZ+pPADFdOo162vUCR3NMC5+Jkj3w3M=
+	t=1720021641; cv=none; b=WYh1WD2f1UVydbRDuzuhUzz+8LmuV8hG4myWcOA4jQF4KbV+t8Q77KM51+xaNr1d+Lm0gx0GVlEw7YB9ih1+yu8OBZNM8GSC0u6pssK+UY66D0Hs1rGyrqDN5cFIf99p9jbB1KgztFQiYZxbEbC3WSzRii+2fW2xVCY78jhfb9s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720013399; c=relaxed/simple;
-	bh=n8rNcgytzr18aqcfGjlWgLimsnfqxE4xExXiuU5ntOs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MKcXN1TbCZbNWNCpYDV8YOcD/OHX8MzW5qmbQZ3BQW0BqFvYo/YYjM84jP+jwWsdG414/Xkdj/XTB/w1gOFBxgurDv8lFjMFhBHWmhtMDJ+kuAgC9dodXvt+yL1qvhHiCIVUcOcT2uxf21tGIO6d2Q31GI3qhIuMyKnrkGNUKKg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gm/iLT3I; arc=none smtp.client-ip=209.85.161.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1720021641; c=relaxed/simple;
+	bh=Q8Xt/8YnnP3LTXdqSBkCU3Ipwti9fbiabN+rpCqT3cg=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=qJFItxzcOfrkKAzLXPpVPKPsEsINMBAHeF8ttvm8t1qPnaXFFQB+J6W61CLN3c3ylHmCLR0DSOqzlpCFe/Fwi4a7JsX1f2l63bNRh+O2sJ27BZ0ViUoaVfxQ8b/oNjeCmREwXZJagK3V/1ZzJLBCPS0FJlCl12dpD3nQcvKPVpw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=t-argos.ru; spf=pass smtp.mailfrom=t-argos.ru; dkim=pass (2048-bit key) header.d=t-argos.ru header.i=@t-argos.ru header.b=BP4wdYBK; arc=none smtp.client-ip=109.73.34.58
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=t-argos.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=t-argos.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gm/iLT3I"
-Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-5c219c54800so2632787eaf.0
-        for <linux-staging@lists.linux.dev>; Wed, 03 Jul 2024 06:29:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1720013396; x=1720618196; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=tkRMXmFtnswe4eBnsfdstcxfteOHZcne41UQHuOq2C8=;
-        b=gm/iLT3IjHFu/kHJp0Ym2U7ucIMZYW/JZ5kyeE98aibFgUo8RIZwegAliiMcNKWXGa
-         YQIAyZ5pF50TP+BGNT4jhVv99Wc8Fz0JB/ZKX2EmGe6WYr1JsgAMppvYJtjblEYA4KM9
-         E8vePZrXwA/pPwtN4UC1mcXnsyYBt6Gx88VH3bMKnRKRAuTdbcnwqSgiz/XCyUFF7Yy5
-         Z1KGz18k+N+kKQUiRRtQDgzUChy8u6s568O6w2JCJemFtl4K/MeXXaEu+9Utk6TxOOro
-         vsPqvCSLqi9i6lFGAql2qYpXbhlEzpwaZXjah50bmAKz5XRISkh58qBeMRNYBUDU3EMr
-         oGJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720013396; x=1720618196;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tkRMXmFtnswe4eBnsfdstcxfteOHZcne41UQHuOq2C8=;
-        b=wNtdQ+vPWv9C3xj+fj4EYm3KKPlbWm4FHNyn9e2L32P0qcp0smrA8A0K3QAjby19k+
-         EhknpLlM3TYtq7agOzcdy0s3f3GGaJXfAqK3FPtgCZQfZv3YTgXGZx5Y8wqY67SCj/I/
-         Trmt8UkFU31tP9oj1FNr1BQ/cJjOr9wrJb+772tlGuD2SWlVwzI4LP9MB8VxU0nK0vOe
-         t1ebKEeFalwkP3i6gCFwcyS8wR7oTHzCJ1pGDBHxspuKhz5vY5sJJcnuFHCHnKwo5NZK
-         cy4LYid0vbutmtlP6Db5zR05bb6jo+CFRNU3UZ/sBAGCFTvfItpLxXKmv+rISB3lWhyD
-         7BJg==
-X-Forwarded-Encrypted: i=1; AJvYcCXpGAY8HQgAMVy83JQaDhpI74QHSNogNuTg9eNMEKp4PUChLcPSq2jxkaOV3Ex0/1RLN58D+Qc2kscoqPZVDO5H42F8hynSfGX0eBQyeQ==
-X-Gm-Message-State: AOJu0YzZqe5IQJU4rzDaktgkQ++EAX3NxocO/3ZP6/V1cckSb7Gy8sg2
-	+jqPAHSIUyH6Ok1w+o4mPFTyYbxCB0PV3IhWZgw3tcC4gUsYbbIDjEa7S5AZkuc=
-X-Google-Smtp-Source: AGHT+IFanVXEA/1p7SjGFF8jh/JC/+imI8O4iXN7/80UChDVmSkOKSU/7pzcNDcgJUpdKpfCj/5s4w==
-X-Received: by 2002:a4a:ad8e:0:b0:5ba:f20c:361b with SMTP id 006d021491bc7-5c439286278mr14014241eaf.8.1720013394630;
-        Wed, 03 Jul 2024 06:29:54 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700:5b79:ebe0:e3cb:2ba6])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5c414939fdcsm1524335eaf.25.2024.07.03.06.29.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jul 2024 06:29:54 -0700 (PDT)
-Date: Wed, 3 Jul 2024 15:29:52 +0200
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Aleksandr Mishin <amishin@t-argos.ru>
-Cc: Michael Hennerich <Michael.Hennerich@analog.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Datta Shubhrajyoti <shubhrajyoti@ti.com>, linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	lvc-project@linuxtesting.org
-Subject: Re: [PATCH] staging: iio: frequency: ad9834: Validate frequency
- parameter value
-Message-ID: <b7cc378d-11a8-44b6-a86f-baee12b5b1fa@suswa.mountain>
-References: <20240703104734.12034-1-amishin@t-argos.ru>
+	dkim=pass (2048-bit key) header.d=t-argos.ru header.i=@t-argos.ru header.b="BP4wdYBK"
+Received: from mx1.t-argos.ru (localhost [127.0.0.1])
+	by mx1.t-argos.ru (Postfix) with ESMTP id 39C38100004;
+	Wed,  3 Jul 2024 18:46:55 +0300 (MSK)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=t-argos.ru; s=mail;
+	t=1720021615; bh=aaAtfu0bay8K56ozdAui+ro4SrSIeYspj4YS0cWnXTk=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=BP4wdYBK4iQ+N8gE7rk2ZDgJNwrIPpgCAi4uledt8oN9WTRG6s7zzVq2ZvS462k8u
+	 TCvEP0bNZ3Zx/cLNeJV82cv0YBvomQZYfO0gB9Sn3/QZeCnpceQaQbF7WxmhylLARq
+	 PW1Sk/LfpFLLzj9kWKg4eXgBL4YapDMv04BKhD7XknXnWtzTPNSrQmK5If6f89y321
+	 m8u0B/fY6Jws9bM3R1c+lz82lwrXYzq+jHBYPvW5G4SNrQ6vLja0azfh1hgsImE3ZQ
+	 R+5G///N7vM6Yi+xrRlQrs0Fh6uYk41aKzq4LKSvp7FH3f/01TLFF5Ts2tZkxsB2At
+	 JiaPVpdlwJzZg==
+Received: from mx1.t-argos.ru.ru (ta-mail-02.ta.t-argos.ru [172.17.13.212])
+	by mx1.t-argos.ru (Postfix) with ESMTP;
+	Wed,  3 Jul 2024 18:45:53 +0300 (MSK)
+Received: from localhost.localdomain (172.17.215.5) by ta-mail-02
+ (172.17.13.212) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 3 Jul 2024
+ 18:45:33 +0300
+From: Aleksandr Mishin <amishin@t-argos.ru>
+To: Michael Hennerich <Michael.Hennerich@analog.com>
+CC: Aleksandr Mishin <amishin@t-argos.ru>, Lars-Peter Clausen
+	<lars@metafoo.de>, Jonathan Cameron <jic23@kernel.org>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, Datta Shubhrajyoti <shubhrajyoti@ti.com>,
+	<linux-iio@vger.kernel.org>, <linux-staging@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>, <lvc-project@linuxtesting.org>, Dan Carpenter
+	<dan.carpenter@linaro.org>
+Subject: [PATCH v2] staging: iio: frequency: ad9834: Validate frequency parameter value
+Date: Wed, 3 Jul 2024 18:45:06 +0300
+Message-ID: <20240703154506.25584-1-amishin@t-argos.ru>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20240703104734.12034-1-amishin@t-argos.ru>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240703104734.12034-1-amishin@t-argos.ru>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: ta-mail-02.ta.t-argos.ru (172.17.13.212) To ta-mail-02
+ (172.17.13.212)
+X-KSMG-Rule-ID: 1
+X-KSMG-Message-Action: clean
+X-KSMG-AntiSpam-Lua-Profiles: 186312 [Jul 03 2024]
+X-KSMG-AntiSpam-Version: 6.1.0.4
+X-KSMG-AntiSpam-Envelope-From: amishin@t-argos.ru
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Auth: dkim=none
+X-KSMG-AntiSpam-Info: LuaCore: 21 0.3.21 ebee5449fc125b2da45f1a6a6bc2c5c0c3ad0e05, {Tracking_from_domain_doesnt_match_to}, mx1.t-argos.ru.ru:7.1.1;127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;t-argos.ru:7.1.1, FromAlignment: s
+X-MS-Exchange-Organization-SCL: -1
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiPhishing: Clean, bases: 2024/07/03 14:53:00
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 1.1.2.30, bases: 2024/07/03 06:16:00 #25818842
+X-KSMG-AntiVirus-Status: Clean, skipped
 
-On Wed, Jul 03, 2024 at 01:47:34PM +0300, Aleksandr Mishin wrote:
-> In ad9834_write_frequency() clk_get_rate() can return 0. In such case
-> ad9834_calc_freqreg() call will lead to division by zero. Checking
-> 'if (fout > (clk_freq / 2))' doesn't protect in case of 'fout' is 0.
-> ad9834_write_frequency() is called from ad9834_write(), where fout is
-> taken from text buffer, which can contain any value.
-> 
-> Modify parameters checking.
-> 
-> Found by Linux Verification Center (linuxtesting.org) with SVACE.
-> 
-> Fixes: 12b9d5bf76bf ("Staging: IIO: DDS: AD9833 / AD9834 driver")
-> Signed-off-by: Aleksandr Mishin <amishin@t-argos.ru>
-> ---
->  drivers/staging/iio/frequency/ad9834.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/iio/frequency/ad9834.c b/drivers/staging/iio/frequency/ad9834.c
-> index a7a5cdcc6590..9e42129f44f7 100644
-> --- a/drivers/staging/iio/frequency/ad9834.c
-> +++ b/drivers/staging/iio/frequency/ad9834.c
-> @@ -114,7 +114,7 @@ static int ad9834_write_frequency(struct ad9834_state *st,
->  
->  	clk_freq = clk_get_rate(st->mclk);
->  
-> -	if (fout > (clk_freq / 2))
-> +	if (!fout || fout > (clk_freq / 2))
+In ad9834_write_frequency() clk_get_rate() can return 0. In such case
+ad9834_calc_freqreg() call will lead to division by zero. Checking
+'if (fout > (clk_freq / 2))' doesn't protect in case of 'fout' is 0.
+ad9834_write_frequency() is called from ad9834_write(), where fout is
+taken from text buffer, which can contain any value.
 
-So you don't want "clk_freq" to be zero so you check if "fout" can be
-zero and do the algebra?  That's a lot of acrobatics.  Just check
-if clk_freq == 0 directly.
+Modify parameters checking.
 
-regards,
-dan carpenter
+Found by Linux Verification Center (linuxtesting.org) with SVACE.
 
->  		return -EINVAL;
->  
->  	regval = ad9834_calc_freqreg(clk_freq, fout);
-> -- 
-> 2.30.2
-> 
+Fixes: 12b9d5bf76bf ("Staging: IIO: DDS: AD9833 / AD9834 driver")
+Suggested-by: Dan Carpenter <dan.carpenter@linaro.org>
+Signed-off-by: Aleksandr Mishin <amishin@t-argos.ru>
+---
+v1->v2: Check if clk_freq == 0 directly instead of fout == 0
+ as suggested by Dan
+
+ drivers/staging/iio/frequency/ad9834.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/staging/iio/frequency/ad9834.c b/drivers/staging/iio/frequency/ad9834.c
+index a7a5cdcc6590..47e7d7e6d920 100644
+--- a/drivers/staging/iio/frequency/ad9834.c
++++ b/drivers/staging/iio/frequency/ad9834.c
+@@ -114,7 +114,7 @@ static int ad9834_write_frequency(struct ad9834_state *st,
+ 
+ 	clk_freq = clk_get_rate(st->mclk);
+ 
+-	if (fout > (clk_freq / 2))
++	if (!clk_freq || fout > (clk_freq / 2))
+ 		return -EINVAL;
+ 
+ 	regval = ad9834_calc_freqreg(clk_freq, fout);
+-- 
+2.30.2
+
