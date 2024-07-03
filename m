@@ -1,50 +1,44 @@
-Received: from mx1.t-argos.ru (mx1.t-argos.ru [109.73.34.58])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9165179675
-	for <linux-staging@lists.linux.dev>; Wed,  3 Jul 2024 10:49:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.73.34.58
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77ED513DDA6
+	for <linux-staging@lists.linux.dev>; Wed,  3 Jul 2024 13:11:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720003787; cv=none; b=FwmElplVn9MUO9/MD00Ci331kjekCB6O5kBYwhUR9SjS8UEvbH1dUzhsX40UMMMdfAMAptgEoQa6xXAnd++2zbYsggF1KYeSZnsD/l+ayAuBUPzczJzjJXRXLVTKp5c5gsRIIOXKJ5DN4ubPwbyaZ33StpR1sPAjC9+gtE8iX/s=
+	t=1720012270; cv=none; b=EHfBQR8wBL3SDY+6lDtdr8aXHdUCF7AB5O+Y3ofpl0c4iZFKK+d2D6xfw1RfEgA6j5Axl2dfvAbtHWpj0O3t9Np+KatZy2M2gTn7AsYt/H+zpanQlYLHkW4niaoNubcnzAUU+i0qBzGpsFz04rFZQghkjNb7VaqaZ2f0HE6wvoM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720003787; c=relaxed/simple;
-	bh=3qXmo/5pNDaZWNpYAjzoXZ2kcJMP7hkArNksNzOixz8=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=OSuZvEbNWA8ZIwVrU+byXFND9eSqTHHFA7gu/ESEOyuZ5vxv4LCBPF2NBVL6gTmlAkBDrlk96d4eYBpbbBfkgOFJc18uWlGibLLZHBBEeMit3pGjraMFXhdeegrTQmnmuAI1p2ArkmZBHL8tG1xb/MsW6/CjGsnB/B8yxQDeocc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=t-argos.ru; spf=pass smtp.mailfrom=t-argos.ru; dkim=pass (2048-bit key) header.d=t-argos.ru header.i=@t-argos.ru header.b=VLDgNOSK; arc=none smtp.client-ip=109.73.34.58
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=t-argos.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=t-argos.ru
+	s=arc-20240116; t=1720012270; c=relaxed/simple;
+	bh=16IATYUkH4RNobDhEkBiMEiaaroCzTY3eKpfb+j6gmU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ho1sJLY6s3N8w1kMDjjtvqpnAjXeOezHvSEwRlC8z2Zg3UqJm3uLH88d78Dax0YhgZLw/s86Qhciv/oSUsl5awjjvSyJ9RQEjeDkvoKNt88gEuYWoZzkZOFJf5y4VcektbtTMOjozKasDjuL0nfhnViXZUSv2ExYUmW42q5T3QY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Wk/C06Y3; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=t-argos.ru header.i=@t-argos.ru header.b="VLDgNOSK"
-Received: from mx1.t-argos.ru (localhost [127.0.0.1])
-	by mx1.t-argos.ru (Postfix) with ESMTP id B4F3D100004;
-	Wed,  3 Jul 2024 13:49:21 +0300 (MSK)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=t-argos.ru; s=mail;
-	t=1720003761; bh=qBTrMRweeYn17EcgCxBKWTPEOQW17rObU/UXX5H3hws=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=VLDgNOSKdpC3Zroyoh26tyyRk7D5usQSaCSbQ0vIocD11Ugj/zXbhoJIqgoKxoDyT
-	 XON1rzewXW90zK43ttAXAHOueRErWIOhqtD8yVfz6jWROgolAiJPiB+oXpl81JIPps
-	 RBwxgtzWH51j0i5+Ep7YX2d+F6/+N4KWOOrsKcyU2Krxcmm3w13+cnBVkTQ/ot5joy
-	 F2D6G8OA7DIDV0dlMnbYZcPv/cVEH7MZosaa2lwEdqdYYwsDYBRyV2O/eDGdCJRE8o
-	 BC/BcRAvzjdg4MNUTP8ODpRW/0RTc0/v2pjL16UM3s6KkqgyPeckjnTtaY/H+FjVOz
-	 2lNLCKWm0CMNg==
-Received: from mx1.t-argos.ru.ru (ta-mail-02.ta.t-argos.ru [172.17.13.212])
-	by mx1.t-argos.ru (Postfix) with ESMTP;
-	Wed,  3 Jul 2024 13:48:06 +0300 (MSK)
-Received: from localhost.localdomain (172.17.215.5) by ta-mail-02
- (172.17.13.212) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 3 Jul 2024
- 13:47:45 +0300
-From: Aleksandr Mishin <amishin@t-argos.ru>
-To: Michael Hennerich <Michael.Hennerich@analog.com>
-CC: Aleksandr Mishin <amishin@t-argos.ru>, Lars-Peter Clausen
-	<lars@metafoo.de>, Jonathan Cameron <jic23@kernel.org>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, Datta Shubhrajyoti <shubhrajyoti@ti.com>,
-	<linux-iio@vger.kernel.org>, <linux-staging@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>, <lvc-project@linuxtesting.org>
-Subject: [PATCH] staging: iio: frequency: ad9834: Validate frequency parameter value
-Date: Wed, 3 Jul 2024 13:47:34 +0300
-Message-ID: <20240703104734.12034-1-amishin@t-argos.ru>
-X-Mailer: git-send-email 2.30.2
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Wk/C06Y3"
+Received: from localhost.localdomain (unknown [IPv6:2405:201:2015:f873:55f8:639e:8e9f:12ec])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 700313D6;
+	Wed,  3 Jul 2024 15:10:35 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1720012237;
+	bh=16IATYUkH4RNobDhEkBiMEiaaroCzTY3eKpfb+j6gmU=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Wk/C06Y3LJne+jA+Ce0qCiKZDz7gJEe+2CVrVV5Oyd7VAXQh+CxDtxhi00uw15LIY
+	 E2dzZ4xHSfzdREFpceY3AZ0o9hW9mwj7uGOxKD3A6fO8wsRFEXZejiY0KJ8sGzhycE
+	 h/hIKlBP0p/rNzTIoDqeZ/pyKvyPGEBFeMRAR5kY=
+From: Umang Jain <umang.jain@ideasonboard.com>
+To: linux-staging@lists.linux.dev
+Cc: Dan Carpenter <error27@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Phil Elwell <phil@raspberrypi.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Stefan Wahren <wahrenst@gmx.net>,
+	Umang Jain <umang.jain@ideasonboard.com>
+Subject: [PATCH v2 0/2] staging: vchiq_core: Stop kthreads on module unload
+Date: Wed,  3 Jul 2024 18:40:50 +0530
+Message-ID: <20240703131052.597443-1-umang.jain@ideasonboard.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -52,54 +46,52 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: ta-mail-02.ta.t-argos.ru (172.17.13.212) To ta-mail-02
- (172.17.13.212)
-X-KSMG-Rule-ID: 1
-X-KSMG-Message-Action: clean
-X-KSMG-AntiSpam-Lua-Profiles: 186302 [Jul 03 2024]
-X-KSMG-AntiSpam-Version: 6.1.0.4
-X-KSMG-AntiSpam-Envelope-From: amishin@t-argos.ru
-X-KSMG-AntiSpam-Rate: 0
-X-KSMG-AntiSpam-Status: not_detected
-X-KSMG-AntiSpam-Method: none
-X-KSMG-AntiSpam-Auth: dkim=none
-X-KSMG-AntiSpam-Info: LuaCore: 21 0.3.21 ebee5449fc125b2da45f1a6a6bc2c5c0c3ad0e05, {Tracking_from_domain_doesnt_match_to}, 127.0.0.199:7.1.2;mx1.t-argos.ru.ru:7.1.1;t-argos.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1, FromAlignment: s
-X-MS-Exchange-Organization-SCL: -1
-X-KSMG-AntiSpam-Interceptor-Info: scan successful
-X-KSMG-AntiPhishing: Clean, bases: 2024/07/03 07:47:00
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 1.1.2.30, bases: 2024/07/03 06:16:00 #25818842
-X-KSMG-AntiVirus-Status: Clean, skipped
 
-In ad9834_write_frequency() clk_get_rate() can return 0. In such case
-ad9834_calc_freqreg() call will lead to division by zero. Checking
-'if (fout > (clk_freq / 2))' doesn't protect in case of 'fout' is 0.
-ad9834_write_frequency() is called from ad9834_write(), where fout is
-taken from text buffer, which can contain any value.
+This is a re-attempt of [1] where we noticed corruption of vc04 firmware
+on stopping the kthread.
 
-Modify parameters checking.
+After investigation, I found that the case where
+wait_event_interruptible() can return early(wait failed) with
+-ERESTARTSYS, is something not handling in remote_event_wait(). Once we
+bubble up the that return/err code and handle it - the issue is resolved
+correctly and kthreads are stopped as expected.
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
+Patch 1/2 handles the returning of the return value from
+wait_event_interruptible()
 
-Fixes: 12b9d5bf76bf ("Staging: IIO: DDS: AD9833 / AD9834 driver")
-Signed-off-by: Aleksandr Mishin <amishin@t-argos.ru>
+Patch 2/2 handles stopping of kthreads.
+
 ---
- drivers/staging/iio/frequency/ad9834.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Testing with
++CONFIG_BCM_VIDEOCORE=y
++CONFIG_BCM2835_VCHIQ=m
++CONFIG_VCHIQ_CDEV=y
++CONFIG_BCM2835_VCHIQ_MMAL=m
++CONFIG_VIDEO_BCM2835=m
 
-diff --git a/drivers/staging/iio/frequency/ad9834.c b/drivers/staging/iio/frequency/ad9834.c
-index a7a5cdcc6590..9e42129f44f7 100644
---- a/drivers/staging/iio/frequency/ad9834.c
-+++ b/drivers/staging/iio/frequency/ad9834.c
-@@ -114,7 +114,7 @@ static int ad9834_write_frequency(struct ad9834_state *st,
- 
- 	clk_freq = clk_get_rate(st->mclk);
- 
--	if (fout > (clk_freq / 2))
-+	if (!fout || fout > (clk_freq / 2))
- 		return -EINVAL;
- 
- 	regval = ad9834_calc_freqreg(clk_freq, fout);
+and as per
+drivers/staging/vc04_services/interface/TESTING
+
+Entire test sequence:
+https://paste.debian.net/plain/1322185
+---
+
+[1]: https://lore.kernel.org/linux-staging/20240403052100.2794-1-umang.jain@ideasonboard.com/ 
+
+Changes in v2:
+- Return 0 as success value for remote_wait_event() in 1/2
+- Fix stopping of 'keep-alive' kthread in 2/2. 
+
+Umang Jain (2):
+  staging: vchiq_core: Bubble up wait_event_interruptible() return value
+  staging: vc04_services: vchiq_core: Stop kthreads on vchiq module
+    unload
+
+ drivers/staging/vc04_services/interface/TODO  |  7 ----
+ .../interface/vchiq_arm/vchiq_arm.c           | 10 ++++-
+ .../interface/vchiq_arm/vchiq_core.c          | 37 ++++++++++++++-----
+ 3 files changed, 36 insertions(+), 18 deletions(-)
+
 -- 
-2.30.2
+2.43.0
 
