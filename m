@@ -1,151 +1,108 @@
-Received: from relay3-o.mailbaby.net (relay3-o.mailbaby.net [208.73.205.250])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx1.t-argos.ru (mx1.t-argos.ru [109.73.34.58])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 982161487E7
-	for <linux-staging@lists.linux.dev>; Fri,  5 Jul 2024 10:18:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=208.73.205.250
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1355B146A93
+	for <linux-staging@lists.linux.dev>; Fri,  5 Jul 2024 11:04:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.73.34.58
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720174725; cv=none; b=fVrEW8EyBgJtHGkojxkKtHvESSXaQ9a6Dl51Jw5A7JUZ/Ojy05qg9e2URm7SvyKeWQYP+Hhe1lazbzaBe/u3rx4pziJP5l5sOkhqS3wEiJc0wp4C8WG27KPHn4A6inJmftZqTEnLZOw07F1ZWQE3GNUSuIvF9AnckzKOEw+srrA=
+	t=1720177485; cv=none; b=hDigkCDsAw5TL8ed5SU1/VDHhesCJkDVkSsSKKAVlK77IqqOCndooggLOZ9WtBiAVFUdmHFVefxUc0lDbnoVJJmsjokNB72SXmLw8gT168xcsH5PZga3NPC+XAQl84kZm82DwG8l1thqJEQFPzyfqs7FJMbPT+U6T3bwBlxDiLQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720174725; c=relaxed/simple;
-	bh=7jgEqcjTCqs+FgYseS70xGsCqp1rhQstQZWc1/wKPSg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P68Nh6uvAlWbv5GzkLIxjkfpkHQrQZPo8+m+xrXDukmhOAf6pX4IxMPfWJCOjtKTZsMHrK4RiQeLUg2AsYJIrfXPUSOV23SRA4ch+ixox+3vvLpVM0FO0HwmJSpAWmE8yV9FdDE4P8wkW8IJeXhiHHo2ZbZCdEXUappLDj+kO5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=agatha.dev; spf=fail smtp.mailfrom=agatha.dev; dkim=pass (1024-bit key) header.d=mailbaby.net header.i=@mailbaby.net header.b=CDAgf5mE; dkim=pass (2048-bit key) header.d=agatha.dev header.i=@agatha.dev header.b=Ib8u6rJS; arc=none smtp.client-ip=208.73.205.250
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=agatha.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=agatha.dev
+	s=arc-20240116; t=1720177485; c=relaxed/simple;
+	bh=y8qVi77ckYkW9scjpifA6YBU/+LYzRWUULo+xlhCkiY=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=DDe7R153V2m3lbb/E0o/yCBmlW+uuj1XBlrtar8Wym7Squ4gSTp7Jc8PhNHujZVqq+U5eUTDq6kHEQ4vof3qSDYDnsmDZ+H8Y1HliD1HcE+n/RtvdOvy1z5bB+nenVLLLoWL4agxAq94R1cypgyl9k/R1Syg+PvvHry2DukHx38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=t-argos.ru; spf=pass smtp.mailfrom=t-argos.ru; dkim=pass (2048-bit key) header.d=t-argos.ru header.i=@t-argos.ru header.b=MeVV/q/T; arc=none smtp.client-ip=109.73.34.58
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=t-argos.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=t-argos.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mailbaby.net header.i=@mailbaby.net header.b="CDAgf5mE";
-	dkim=pass (2048-bit key) header.d=agatha.dev header.i=@agatha.dev header.b="Ib8u6rJS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbaby.net;
- q=dns/txt; s=bambino; bh=P7407o4cF3B3cHSlfH75shhge4JAHbqilxKRRnWL+8o=;
- h=from:subject:date:message-id:to:cc:mime-version:content-type:in-reply-to:references;
- b=CDAgf5mEnPxcEZLeOyHX0NnSV0Rd23kmHFPekeozSUZ9LbblNZ8vhk70S8xhCsscIR9w5SP2k
- ShCu/bT0IoGB/YnqXwmyl4WfhcP7SeqjDTuccbCrF58WFNWE80pR6G3v5azo8CtzNT7Hu2kZ5SY
- H+Px50ivmtrKDXtOrjmmSEE=
-Received: from mia3000.dnsiaas.com ([192.155.110.18] mia3000.dnsiaas.com)
- (Authenticated sender: mb6724)
- by relay3-o.mailbaby.net (MailBabyMTA) with ESMTPSA id 190826280870005453.002
- for <linux-staging@lists.linux.dev>
- (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
- Fri, 05 Jul 2024 10:13:31 +0000
-X-Zone-Loop: 4fe677c31d4b98f8842f61579bee56c41aa51f021e0a
-X-Get-Message-Sender-Via: mb6724: authenticated_id: code@agatha.dev
-X-NS-SCAN: PASS
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=agatha.dev;
-	s=default; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=P7407o4cF3B3cHSlfH75shhge4JAHbqilxKRRnWL+8o=; b=Ib8u6rJS6X/+/PLmKBlRHX2yeJ
-	qy4HoGVr2oLyTIFGhwSA+OUK1LcKp3CRxgkwZzt+WDv1LSv4EEYjQrAru9p2ZYTSmppHGU7/IDte2
-	CF4JdLrpbmHIUgPPiHLMP5HPOo8BauyON+IKeLaaStIhmMrBylcNRG+YfIcDw/KmbWMRYbv6WlcBm
-	BsKbu1dWBukyfDTYw4UeoyiNEV6CB2uPg18SqfwiwdTPuBUVZy43ZGGtlcxh4sKjvKYPcQxUgQUIv
-	YnUYvLAo6bpzQvG+QBbkg77z6QY5Igi5XLV0q9Rr55xwJVSqjSPbaFee+iKEReVLIApVTNI7f1ekN
-	+sZqeznw==;
-Received: from [186.250.91.79] (port=19691 helo=kurupi-arch.blackcat)
-	by mia3000.dnsiaas.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.97.1)
-	(envelope-from <code@agatha.dev>)
-	id 1sPfwX-000000025By-1Ekx;
-	Fri, 05 Jul 2024 06:13:29 -0400
-Date: Fri, 5 Jul 2024 07:13:25 -0300
-From: =?utf-8?Q?=C3=81gatha?= Isabelle Chris Moreira Guedes <code@agatha.dev>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Luis Chamberlain <mcgrof@kernel.org>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-modules@vger.kernel.org
-Cc: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
-	Dan Carpenter <dan.carpenter@linaro.org>, patch-reply@agatha.dev
-Subject: Re: [PATCH v2] init: staging: Fix missing warning/taint on builtin
- code
-Message-ID: <ntho73bskbdi36rh32ufxdzs7c7yf3neo5xsemiy4bbkhzkmrn@dyoyyjjovirx>
-References: <n5plxnkubcnbuyv7l24i4cwsauh4odwk6g5yiys6oiiwj3i34r@izcjggvv2om2>
+	dkim=pass (2048-bit key) header.d=t-argos.ru header.i=@t-argos.ru header.b="MeVV/q/T"
+Received: from mx1.t-argos.ru (localhost [127.0.0.1])
+	by mx1.t-argos.ru (Postfix) with ESMTP id 4A870100004;
+	Fri,  5 Jul 2024 14:04:22 +0300 (MSK)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=t-argos.ru; s=mail;
+	t=1720177462; bh=SniJIlg0JpEI6DnXcprb6Lcp0NhWTP/XmcYBl44OhjM=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=MeVV/q/Tyaqa5o+A4EclpxqOtbG+uPemI9a5vSCTsDlC+SlwW9MRuLR9OwL0zvo7h
+	 a968TGp6e4zW3+n7W/Ph+71k8TvS37HtlZ4aYxbXRKXdbdCRnf475GYzJ3xf+V3/d0
+	 eIB9/WV+S5ns4qdbstqMxEb0HcEaHhjLUI1Ftl4p3oPZ4qxX5DBkiJpB3cPv0ugOjX
+	 VUxZ23DGMhIRcr3o54wARAWuspe9aOnaG347MQlfs5cr1DSKEBFxvfx+KQpPiz0cKN
+	 u7HZ+843lznW9Up87ucXEqYIkSeS995u86A8g/BzP2yP0RMuNG7D1qimgdVSrnDNd7
+	 lAQE22iYKJySA==
+Received: from mx1.t-argos.ru.ru (ta-mail-02.ta.t-argos.ru [172.17.13.212])
+	by mx1.t-argos.ru (Postfix) with ESMTP;
+	Fri,  5 Jul 2024 14:03:07 +0300 (MSK)
+Received: from localhost.localdomain (172.17.215.5) by ta-mail-02
+ (172.17.13.212) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 5 Jul 2024
+ 14:02:47 +0300
+From: Aleksandr Mishin <amishin@t-argos.ru>
+To: Martyn Welch <martyn.welch@gefanuc.com>
+CC: Aleksandr Mishin <amishin@t-argos.ru>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, Soumya Negi <soumya.negi97@gmail.com>, Alexon
+ Oliveira <alexondunkan@gmail.com>, Piro Yang <piroyangg@gmail.com>, Andi
+ Shyti <andi.shyti@linux.intel.com>, "Ricardo B. Marliere"
+	<ricardo@marliere.net>, Jinjie Ruan <ruanjinjie@huawei.com>,
+	<linux-kernel@vger.kernel.org>, <linux-staging@lists.linux.dev>,
+	<lvc-project@linuxtesting.org>
+Subject: [PATCH] staging: vme: Remove unneeded check in vme_lm_request()
+Date: Fri, 5 Jul 2024 14:02:34 +0300
+Message-ID: <20240705110234.14969-1-amishin@t-argos.ru>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="jaor3nrnh2yw2jhr"
-Content-Disposition: inline
-In-Reply-To: <n5plxnkubcnbuyv7l24i4cwsauh4odwk6g5yiys6oiiwj3i34r@izcjggvv2om2>
-X-AuthUser: me@agatha.dev
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: ta-mail-02.ta.t-argos.ru (172.17.13.212) To ta-mail-02
+ (172.17.13.212)
+X-KSMG-Rule-ID: 1
+X-KSMG-Message-Action: clean
+X-KSMG-AntiSpam-Lua-Profiles: 186342 [Jul 05 2024]
+X-KSMG-AntiSpam-Version: 6.1.0.4
+X-KSMG-AntiSpam-Envelope-From: amishin@t-argos.ru
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Auth: dkim=none
+X-KSMG-AntiSpam-Info: LuaCore: 21 0.3.21 ebee5449fc125b2da45f1a6a6bc2c5c0c3ad0e05, {Tracking_from_domain_doesnt_match_to}, d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;t-argos.ru:7.1.1;mx1.t-argos.ru.ru:7.1.1;127.0.0.199:7.1.2, FromAlignment: s
+X-MS-Exchange-Organization-SCL: -1
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiPhishing: Clean, bases: 2024/07/05 10:17:00
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 1.1.2.30, bases: 2024/07/05 03:12:00 #25860202
+X-KSMG-AntiVirus-Status: Clean, skipped
 
+In vme_lm_request() list_for_each() pointer 'lm' is compared to NULL which
+is useless.
 
---jaor3nrnh2yw2jhr
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Fix this issue by removing unneeded check.
 
-Hello,
+Found by Linux Verification Center (linuxtesting.org) with SVACE.
 
-Please disregard this one, there will be a v3 soon.
+Fixes: 42fb503122d8 ("Staging: vme: add VME Location Monitor management mechanism")
+Signed-off-by: Aleksandr Mishin <amishin@t-argos.ru>
+---
+ drivers/staging/vme_user/vme.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
-There were some oversights on my side regarding some review points, and
-also the code itself.
+diff --git a/drivers/staging/vme_user/vme.c b/drivers/staging/vme_user/vme.c
+index 0cd370ab1008..223c4d607c88 100644
+--- a/drivers/staging/vme_user/vme.c
++++ b/drivers/staging/vme_user/vme.c
+@@ -1445,12 +1445,6 @@ struct vme_resource *vme_lm_request(struct vme_dev *vdev)
+ 
+ 	/* Loop through LM resources */
+ 	list_for_each_entry(lm, &bridge->lm_resources, list) {
+-		if (!lm) {
+-			dev_err(bridge->parent,
+-				"Registered NULL Location Monitor resource\n");
+-			continue;
+-		}
+-
+ 		/* Find an unlocked controller */
+ 		mutex_lock(&lm->mtx);
+ 		if (lm->locked == 0) {
+-- 
+2.30.2
 
-On Thu, Jul 04, 2024 at 09:20:49PM GMT, =C1gatha Isabelle Chris Moreira Gue=
-des wrote:
-> diff --git a/init/main.c b/init/main.c
-> index 206acdde51f5..a297675dd397 100644
-> --- a/init/main.c
-> +++ b/init/main.c
-> @@ -1602,3 +1602,23 @@ static noinline void __init kernel_init_freeable(v=
-oid)
-> =20
->  	integrity_load_keys();
->  }
-> +
-> +#ifdef CONFIG_STAGING
-
-Here we break the building in kernel configs where `CONFIG_STAGING=3Dn`
-because:
-
-> +/**
-> + * staging_init_taint() - We need to taint the kernel whenever staging c=
-ode
-> + * is initialized (from built-in drivers) or loaded (as modules) and iss=
-ue
-> + * a warning the first time it happens.
-> + */
-> +void staging_taint(const char *code_id, bool module)
-> +{
-
-^ `staging_taint()` is built only with `CONFIG_STAGING`, and
-
-> +#endif /* CONFIG_STAGING */
-> diff --git a/kernel/module/main.c b/kernel/module/main.c
-> index d18a94b973e1..d7d33336ab43 100644
-> --- a/kernel/module/main.c
-> +++ b/kernel/module/main.c
-> @@ -2039,9 +2039,7 @@ static void module_augment_kernel_taints(struct mod=
-ule *mod, struct load_info *i
->  	check_modinfo_retpoline(mod, info);
-> =20
->  	if (get_modinfo(info, "staging")) {
-> -		add_taint_module(mod, TAINT_CRAP, LOCKDEP_STILL_OK);
-
-here we call `staging_taint()` regardless of having `CONFIG_STAGING` or
-not. So on all kernels with modules enabled this patch as it is now
-would break the builds.
-
-I just noticed a couple of hours after submission when I was looking at
-it again.
-
-I'll fix it and submit v3 soon.
-
-
---jaor3nrnh2yw2jhr
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQQMdxNgKl/8Z+5yuVT3jE4VBgsOTAUCZofHPwAKCRD3jE4VBgsO
-TDOgAQDK1u0p/uGNzQYphLK2DjZywb57FlvwmsNtXZUpWQ9slgEAvs66Q1fqoSTX
-mSfAaukLZ0DbRHoA71KisjCk8DNWGQw=
-=teyj
------END PGP SIGNATURE-----
-
---jaor3nrnh2yw2jhr--
