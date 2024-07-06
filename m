@@ -1,99 +1,86 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12737B67E
-	for <linux-staging@lists.linux.dev>; Sat,  6 Jul 2024 08:50:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCAE417722;
+	Sat,  6 Jul 2024 11:41:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720255811; cv=none; b=nfv0PcWfv4Rksf8g0nHfqPQrsMDrHrptOGu823BIioDmtoIeTVgk2ETkUDbCW94wPB6vyMpm8eQ+kvShPa/EmuIAXGdFQYtgTTwfEjJkHKt/ijisl0QJfwb9pTSjrdLpz0wW9hI+3KhNnXB07cwjCmKZ/fPrMwxqMINMEAnAX5c=
+	t=1720266113; cv=none; b=FGyObo6At4fR9rZa8U8jQSn5WDBNQZovWFFvGzZj+dOgMfhGF2DLATDqirmxZeEjj8lIQMSlglzUXSaKmI5tOrBlRTUf+5QZML3wVCUkhWXqXwRq8ahNJRwfJ5TGFExnmrtLFHHd/5+YUaokUkGKww2E6lK6BtecVhg/319vSjE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720255811; c=relaxed/simple;
-	bh=Ak+3ilxLp1bnYMUyHSth8LWaVuTgH6IWCAlgrNaaixQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qpDUmDi/9QU7AgqCeMymeSYreFQxiXZmxEv6nBujs+4v1eicQpWRBpybCw7ibZ/ZnYewegoqv9OOeLLN8jJT5H5SK3p0tDbMft32auEM5o2ivE4zRVGfHFCvGzDibcphp1M8hXEO37Rh2YAf7DerqtHrnjPECkh2Gm1T6E9H/rQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=JiBRZ8w1; arc=none smtp.client-ip=212.227.15.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
+	s=arc-20240116; t=1720266113; c=relaxed/simple;
+	bh=ZpiVxTkDAGl22bjAArHNJMuQ2aUZXYATBN98gMUP21o=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=seH+fK8+/3YRavF2FhxJuUtzkIsZlyRY+IOyNptssQlWHL4F32Egced8+VtLt4bM6J6B9EeyntLIZx/Hlvd65q7ZjNc8HAg/AyKxigaFNLf9A6YvpXbvd6nTbiD+HK+tymfZ99f2YCjPmwONSq0kEZuh5HdSmNWvStpZRXWi4Kc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pdbVrXBM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="JiBRZ8w1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
-	s=s31663417; t=1720255805; x=1720860605; i=wahrenst@gmx.net;
-	bh=Ak+3ilxLp1bnYMUyHSth8LWaVuTgH6IWCAlgrNaaixQ=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=JiBRZ8w1Ygpr8pcJUx7p1i+mZE1hpfrPx1dgE0mNdgTIvEpXH4wECzcbgRXnVjk9
-	 2VKOuTZdkKwq1CEM7Sw/eY1nhDcu3OFG3PB/ipErVX7XN+bNTetqnW8ytXHHGHfk2
-	 V4cEK09v2zkZcmM/ag4n5rmBmsaoqDWUzHzdXr63C/TDdeAaL1gUVj2ww2NNJfOSe
-	 3xqGZANUoAOVyftKS0/I5aLrqqKnKiglGIY+d/vbQb1PN6w0ZCw6oSS2Vr+LCGAs3
-	 2Dun6U3rUPYkzJhPqdZhP1oFfQq8uEBZG9aWG3Px9Z8//34N9fyjIcMl/z/Tyd5bq
-	 2Kbn23FhMrmIh7NApA==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.127] ([37.4.248.43]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MDQiS-1saUxv0CCE-007hNP; Sat, 06
- Jul 2024 10:50:05 +0200
-Message-ID: <f2037585-afa6-443c-abfe-4e2b4b278433@gmx.net>
-Date: Sat, 6 Jul 2024 10:50:04 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pdbVrXBM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49B5CC3277B;
+	Sat,  6 Jul 2024 11:41:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1720266113;
+	bh=ZpiVxTkDAGl22bjAArHNJMuQ2aUZXYATBN98gMUP21o=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=pdbVrXBMMhrkNbPlOYhoopbfyJZKXKB7YfADm1W4wkui0/I0wSjo+olFCsab1Eq49
+	 CUPuhVMV/weIvaJwy+S45vFVEouTkc5c/yMdtq3WzO2bhDpYuQHrYnov/ArFFLWucA
+	 FDOu4lk3VM57dcQaPwXoMIfSQR9b19FvAmoJWqxGdN9zaBh9OKgxv9zm+ReHpTmeKA
+	 Z/jsHtxUKg8+q0PcGbxEcj2BpSYr0Q+HVxJpsdhwpvJ+AEi++AC5QVZHvmvOmekWq7
+	 ZHHxuL3Hn0JfbFUTrDP62xwihhbonXFMHtgtUoZwyrIEKPSC4Z2zhmuZg8N4bFyPo8
+	 dxKj4EKuBlqhQ==
+Date: Sat, 6 Jul 2024 12:41:46 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Aleksandr Mishin <amishin@t-argos.ru>, Michael Hennerich
+ <Michael.Hennerich@analog.com>, Lars-Peter Clausen <lars@metafoo.de>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Datta Shubhrajyoti
+ <shubhrajyoti@ti.com>, linux-iio@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ lvc-project@linuxtesting.org
+Subject: Re: [PATCH v2] staging: iio: frequency: ad9834: Validate frequency
+ parameter value
+Message-ID: <20240706124146.036f152a@jic23-huawei>
+In-Reply-To: <59cc60a1-f6d6-4f9f-bc36-6b06315eaee4@suswa.mountain>
+References: <20240703104734.12034-1-amishin@t-argos.ru>
+	<20240703154506.25584-1-amishin@t-argos.ru>
+	<59cc60a1-f6d6-4f9f-bc36-6b06315eaee4@suswa.mountain>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/2] staging: vchiq_core: Stop kthreads on module
- unload
-To: Umang Jain <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev
-Cc: Dan Carpenter <error27@gmail.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Phil Elwell <phil@raspberrypi.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <20240703131052.597443-1-umang.jain@ideasonboard.com>
-Content-Language: en-US
-From: Stefan Wahren <wahrenst@gmx.net>
-In-Reply-To: <20240703131052.597443-1-umang.jain@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:PVLEwoxyv4kWCfgNLpCYhEErqAttowa+PzywBbytUJm9KqAWkBP
- XXaGLQiTh7fB4VBc6sElPTyac29S+BJTNFnoxkZVMOj/yjtqpPVBzXc7cNBQdWSU7XWeFwq
- ps1cheXYjKraeoxefLJQ/yElmOfNkI+qAGcDS2FPYKXRt8J5TotbZTRSCgKpHcvmzME8tk2
- Rm9uNTiO2bxt/UTTwyn+A==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:SvKm0GPh9d0=;/+S/aKVODttQXVcJmUT8vOLEr7o
- RrUqRdIEPX+UzDmdwNa+rF7UCy7xRi7kLg/CKgOHtBf6IdEv4ePfxJjX+Jpj1qa9gU8N8shzE
- yVLRYYRjZj3qXutP3VpMyqPnj+bjto4Yk3VqqBt16mj4UUlsCDaE0vzRP/jk/ihDFPjpFNDU4
- UyLmU/2ZhO+4hllFwk3pHRxtcGUDkL/xZ108PGOKHVqYKaGB04qxQZl4aoJFJlR0jbk0HHkjK
- yZA6LcuBEhixeswBokn2YNYgrgN+G54sGSueJ7qVzAKyBB7hpY2x5dRf2SwnD6mHg2XpsErtg
- jlHD9n47G+Si2B6JId9qnvfMcRa/e1qHaF/FHqn1UJkbfOSeqhANltGPEWV/mfeVSPb7H3uOx
- XTb7OmjQ3+z/hLPnhKl3Yex5RkAMJj56YoEOAoW+XVKo5y0KNXy4hSKvhAk6d/kce4b+55vew
- zBtnr5cDQWVmCB7xbIv+lZZDTc5HLqgwknuY9SzH8Q/SF35a8gorVHBWEpx4nUWW7jsUvo3wh
- f7i0YvSkKwCKK6NWiepVQdKShMGiYodm2vG0OycBOdy1+4xDXuI7i9pEbe0/xd3OK8YNat44k
- mi/AY/ciXNDUQPHydXXJpwpDt2KPKHkqtfOa7HOL9fuxRWuh+VDj1G98JxYOtTAP13eAvV9Xh
- GyjK8X70X+k3wsg6dTWVouOwQQgetDB6tdW4d8EHWVabyglL5BFPMjec54BW5lVbe2tgEZtvr
- /S9S0zFMbyscN3FX2BNYmfq9STxGUea699yyjlDqTlVVCzkAmuJ8JWUaM+Y/zW15crwP9K57P
- Nsyr6xr/35iMIwstKaqQQarKfBvVhakALgAfvHF4tADE8=
 
+On Wed, 3 Jul 2024 18:29:43 +0200
+Dan Carpenter <dan.carpenter@linaro.org> wrote:
 
+> On Wed, Jul 03, 2024 at 06:45:06PM +0300, Aleksandr Mishin wrote:
+> > In ad9834_write_frequency() clk_get_rate() can return 0. In such case
+> > ad9834_calc_freqreg() call will lead to division by zero. Checking
+> > 'if (fout > (clk_freq / 2))' doesn't protect in case of 'fout' is 0.
+> > ad9834_write_frequency() is called from ad9834_write(), where fout is
+> > taken from text buffer, which can contain any value.
+> > 
+> > Modify parameters checking.
+> > 
+> > Found by Linux Verification Center (linuxtesting.org) with SVACE.
+> > 
+> > Fixes: 12b9d5bf76bf ("Staging: IIO: DDS: AD9833 / AD9834 driver")
+> > Suggested-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > Signed-off-by: Aleksandr Mishin <amishin@t-argos.ru>
+> > ---
+> > v1->v2: Check if clk_freq == 0 directly instead of fout == 0
+> >  as suggested by Dan  
+> 
+> 
+> Thanks!
+> 
+> Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+> 
+Applied and marked for stable.
 
-Am 03.07.24 um 15:10 schrieb Umang Jain:
-> This is a re-attempt of [1] where we noticed corruption of vc04 firmware
-> on stopping the kthread.
->
-> After investigation, I found that the case where
-> wait_event_interruptible() can return early(wait failed) with
-> -ERESTARTSYS, is something not handling in remote_event_wait(). Once we
-> bubble up the that return/err code and handle it - the issue is resolved
-> correctly and kthreads are stopped as expected.
->
-> Patch 1/2 handles the returning of the return value from
-> wait_event_interruptible()
->
-> Patch 2/2 handles stopping of kthreads.
->
-The whole series is:
+> regards,
+> dan carpenter
+> 
 
-Tested-by: Stefan Wahren <wahrenst@gmx.net>
