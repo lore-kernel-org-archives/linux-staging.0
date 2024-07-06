@@ -1,86 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCAE417722;
-	Sat,  6 Jul 2024 11:41:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97CD624B5B
+	for <linux-staging@lists.linux.dev>; Sat,  6 Jul 2024 14:16:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720266113; cv=none; b=FGyObo6At4fR9rZa8U8jQSn5WDBNQZovWFFvGzZj+dOgMfhGF2DLATDqirmxZeEjj8lIQMSlglzUXSaKmI5tOrBlRTUf+5QZML3wVCUkhWXqXwRq8ahNJRwfJ5TGFExnmrtLFHHd/5+YUaokUkGKww2E6lK6BtecVhg/319vSjE=
+	t=1720275376; cv=none; b=A6vCsvyEn8ah+gZHDWbcIkMtfEByqhMakCpDFM+dpDc9DQNWPw31kK/7aB35BAS+FuU+5uuf0wxuKRD33TPPmmjlQ9HIogsK4TB0KuP9YdM0L+yQZ9hl/0+P+BvtfbUelpIRIgpaUqBtgWz7Iii0OlkSeiQgkgWl3kjhrhKjnrA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720266113; c=relaxed/simple;
-	bh=ZpiVxTkDAGl22bjAArHNJMuQ2aUZXYATBN98gMUP21o=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=seH+fK8+/3YRavF2FhxJuUtzkIsZlyRY+IOyNptssQlWHL4F32Egced8+VtLt4bM6J6B9EeyntLIZx/Hlvd65q7ZjNc8HAg/AyKxigaFNLf9A6YvpXbvd6nTbiD+HK+tymfZ99f2YCjPmwONSq0kEZuh5HdSmNWvStpZRXWi4Kc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pdbVrXBM; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1720275376; c=relaxed/simple;
+	bh=qswpG7HM9/+63dhg7D5ryWyMPINcfuRDBHyPx9737Zk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KM+wvUqrg8BOOYRoQoV3KEhcAaUYeB749pYHpP3BykechnwnhVc82vqibrIBOTovSE1NesTnmmBJPJ+PII8YrjvZutR0GIrHTzLWpzE1B312dt8FUFKFDRvOryHAjHDggpawKHDAvOmtHZPHRjaBsZ2jrjOSRQ8Ow5Y9hye5XC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=bzwISKtK; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pdbVrXBM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49B5CC3277B;
-	Sat,  6 Jul 2024 11:41:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720266113;
-	bh=ZpiVxTkDAGl22bjAArHNJMuQ2aUZXYATBN98gMUP21o=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=pdbVrXBMMhrkNbPlOYhoopbfyJZKXKB7YfADm1W4wkui0/I0wSjo+olFCsab1Eq49
-	 CUPuhVMV/weIvaJwy+S45vFVEouTkc5c/yMdtq3WzO2bhDpYuQHrYnov/ArFFLWucA
-	 FDOu4lk3VM57dcQaPwXoMIfSQR9b19FvAmoJWqxGdN9zaBh9OKgxv9zm+ReHpTmeKA
-	 Z/jsHtxUKg8+q0PcGbxEcj2BpSYr0Q+HVxJpsdhwpvJ+AEi++AC5QVZHvmvOmekWq7
-	 ZHHxuL3Hn0JfbFUTrDP62xwihhbonXFMHtgtUoZwyrIEKPSC4Z2zhmuZg8N4bFyPo8
-	 dxKj4EKuBlqhQ==
-Date: Sat, 6 Jul 2024 12:41:46 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Aleksandr Mishin <amishin@t-argos.ru>, Michael Hennerich
- <Michael.Hennerich@analog.com>, Lars-Peter Clausen <lars@metafoo.de>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Datta Shubhrajyoti
- <shubhrajyoti@ti.com>, linux-iio@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- lvc-project@linuxtesting.org
-Subject: Re: [PATCH v2] staging: iio: frequency: ad9834: Validate frequency
- parameter value
-Message-ID: <20240706124146.036f152a@jic23-huawei>
-In-Reply-To: <59cc60a1-f6d6-4f9f-bc36-6b06315eaee4@suswa.mountain>
-References: <20240703104734.12034-1-amishin@t-argos.ru>
-	<20240703154506.25584-1-amishin@t-argos.ru>
-	<59cc60a1-f6d6-4f9f-bc36-6b06315eaee4@suswa.mountain>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="bzwISKtK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=qswp
+	G7HM9/+63dhg7D5ryWyMPINcfuRDBHyPx9737Zk=; b=bzwISKtKBoTXHNF5pzSO
+	PJ01x6O/PAadKLIHH2CcIVTSrRJY43exp9dIhS2V9QcJ1tolAeS3ns/7YzqXJ2ep
+	JYFxCGNxg+mDHspOZah5Dzb9yaj5tTtFHSWkcG9B8gKaJX4KUmTsU0NGF8/lyGWG
+	7NHjNfpRDANBYDHOKZ7fgUjVNxvJBLqU8pWORzXc5KE7FcUSLxBPJd5Ce632q/tc
+	/B6XTCkxpbOi27QEhaQ2D/3ujYPN1rJsfOCiJbWcZ475JNHEznDfe3e7OdvORf4p
+	RAOyoncTzpzUJzZhbL43C8QMfBEg1faeLmMfQllCzkIijpZg0KUAKISrb/d+uSTT
+	Tw==
+Received: (qmail 3844746 invoked from network); 6 Jul 2024 16:16:02 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 6 Jul 2024 16:16:02 +0200
+X-UD-Smtp-Session: l3s3148p1@G5fb0ZQcLKFQT+F6
+Date: Sat, 6 Jul 2024 16:16:01 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Aleksandr Mishin <amishin@t-argos.ru>,
+	Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Zhang Shurong <zhang_shurong@foxmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	lvc-project@linuxtesting.org
+Subject: Re: [PATCH] staging: ks7010: Remove unneeded check in
+ ks_wlan_get_range()
+Message-ID: <ZolRoeaPETSmJMGJ@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Aleksandr Mishin <amishin@t-argos.ru>,
+	Philipp Hortmann <philipp.g.hortmann@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Zhang Shurong <zhang_shurong@foxmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	lvc-project@linuxtesting.org
+References: <20240705204434.10541-1-amishin@t-argos.ru>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="nEOPBJ7qUqMeqsl5"
+Content-Disposition: inline
+In-Reply-To: <20240705204434.10541-1-amishin@t-argos.ru>
 
-On Wed, 3 Jul 2024 18:29:43 +0200
-Dan Carpenter <dan.carpenter@linaro.org> wrote:
 
-> On Wed, Jul 03, 2024 at 06:45:06PM +0300, Aleksandr Mishin wrote:
-> > In ad9834_write_frequency() clk_get_rate() can return 0. In such case
-> > ad9834_calc_freqreg() call will lead to division by zero. Checking
-> > 'if (fout > (clk_freq / 2))' doesn't protect in case of 'fout' is 0.
-> > ad9834_write_frequency() is called from ad9834_write(), where fout is
-> > taken from text buffer, which can contain any value.
-> > 
-> > Modify parameters checking.
-> > 
-> > Found by Linux Verification Center (linuxtesting.org) with SVACE.
-> > 
-> > Fixes: 12b9d5bf76bf ("Staging: IIO: DDS: AD9833 / AD9834 driver")
-> > Suggested-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > Signed-off-by: Aleksandr Mishin <amishin@t-argos.ru>
-> > ---
-> > v1->v2: Check if clk_freq == 0 directly instead of fout == 0
-> >  as suggested by Dan  
-> 
-> 
-> Thanks!
-> 
-> Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
-> 
-Applied and marked for stable.
+--nEOPBJ7qUqMeqsl5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> regards,
-> dan carpenter
-> 
+On Fri, Jul 05, 2024 at 11:44:34PM +0300, Aleksandr Mishin wrote:
+> In ks_wlan_get_range() variable 'i' which value is always 12, is compared
+> to 2. This check is unneeded and should be removed.
+>=20
+> Remove unneeded check to clean up the code.
+>=20
+> Found by Linux Verification Center (linuxtesting.org) with SVACE.
+>=20
+> Fixes: 13a9930d15b4 ("staging: ks7010: add driver from Nanonote extra-rep=
+ository")
+> Signed-off-by: Aleksandr Mishin <amishin@t-argos.ru>
 
+I thought this driver was to be removed[1]? Phillip (CCed), what is the
+current status? If you are busy, I can remove it as well...
+
+[1] https://lore.kernel.org/all/igi27iwrzg3ovgj3sym4gsi45timpkt4vkl5ss5dbft=
+dzat6p4@ctxcjocvunpt/
+
+
+--nEOPBJ7qUqMeqsl5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmaJUaEACgkQFA3kzBSg
+KbYXsg/9F9lDcloURuKEd74oJH0/gSGKTh+Uy1hslnHWs0cjNepYMVPIi/IRC7Cf
+67JRJoeFCdJgNkac3pOBKHLqSDaYgMOnlYRAKKvVFKWO6qC3Pl27aisYLeqgxRm1
+oCDIhr8FpCVFDOmPDBqxcvMHvz583lssPiQiBubjgMV0o4zAUH8l0d4oq1+xIXq/
+nDBBVufSqk4BgTR2yiqpf880pcG2B8OYwwCB/XU7u9tR4pHH1cxaLbIPgN0QJ9eG
+f/GotdC0rygRbURVxc25FvImYY+dEyyAW5M/s+M7QX1UksBohJSYwLs9qcfjRH0k
+DYQp1f96dGMVfLduOOsgLsCedN4S34+NOVpiXtEbmjPt0yKI8BvAyufIDTjup1NJ
+k0NB8EBF9GpJNz2ppOOZO1BcJn1ZXFMu1Q/S8cju8iQhRk2PUaqq4wj1svzgGiJF
+ksiL9YHmiPUIH3q2CRMSZ5SLEKdiU1QtaXyVPlxD/5huFe7YysyrBVaaY6EVEnJB
+2d+BZ0IwhrpI+9eUMdoWd1WhUG3xeU/UNASjKSyxzwWgH66jnwI3vO5iNSVbLJSR
+/soy598yJk9rbGbUcAPeJB1qSPTCepohdPiynHSCalztapZVpTAOO3nOKCoL37QG
+mrWCoBw0Abw8PZSwgCs/jvqr+E8kJQurkbqLxhT7zdDmjzsqwxs=
+=iuBZ
+-----END PGP SIGNATURE-----
+
+--nEOPBJ7qUqMeqsl5--
