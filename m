@@ -1,112 +1,129 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CB30127E0D
-	for <linux-staging@lists.linux.dev>; Sat,  6 Jul 2024 14:23:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F4D91EEF9
+	for <linux-staging@lists.linux.dev>; Sat,  6 Jul 2024 14:34:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720275841; cv=none; b=ISFgQ5dtexS/S9tnYVOjrFMG8QjqX08ZbHq8FY+hCzDKJ+H5UJMhtjuuLco8G6/g+r66tDfPYjg07R9cKfzyoTczuImNngBNckvMLvJ3S4fXRK19Ad3yi4hOHKyI1k5VJ35v3+8bXtPK9XN+3pL7TinNso+FfSE3CPOE91osgXU=
+	t=1720276472; cv=none; b=EaF80O8w2lqy3eIIaVyuySl739AcFmidcggRmlDMvLkumaRJvb4Vu+vYRIDoPPbX4rYr/YWIt35pWWyfptddaT+JnCbsAP6JM3CLoVVwpkiZUKaV1sSsWeV8l9aTD5a4eubdZIF8xfAiRyUbqM/ZoY/NxGiERYz7eDC18zJK9Do=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720275841; c=relaxed/simple;
-	bh=5yTgALKeZ76fdbq3u+Yz7W/eWNPyh3ZsQrQPYUpXS90=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=Z0s8W2r2UJtyfenAB/0HjhGdZiDyMNSQtqtgzVUQT6XiYxOJlkw9di0DE2dQuOaMju1A+uvsxK35w74yN6ZVS/iX3wuOw1bB2gXITQjhBCH9a/ue3qGcormrA704F4y/dZ3mvyNFdPvvAAb4Fp1MBBG2+xOzNTk2kEJ5rHT11yI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QODlm4ja; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1720276472; c=relaxed/simple;
+	bh=0aFkKjeQR7yItr5YT5HS0t3s6OuI7El9Wwi8jRk7mbs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KtIX0aakQ4C5I1Mfy8ghB9gs7csy+MzYSxipR6zIcvRwp3tMd302bIp/bEOtWJZsU1k6Fbk+Oj5ndl/z31DDDHDxmNmQP+YYUPscqcGpYk9U46bF59iNiBKvK+eU/Jz9GaUw/vlnK7kTJhVcSqDsRIfxq4MGIdhrAh0C6/8/wlY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=CH71998s; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QODlm4ja"
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-52ce65e0f44so206644e87.0
-        for <linux-staging@lists.linux.dev>; Sat, 06 Jul 2024 07:23:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720275837; x=1720880637; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=MUMwLV6505BsBECdLQNLbzOn9+IIGo72PKN55IPpokk=;
-        b=QODlm4ja57V1IdUkNWeOHQlnDw9KYoviEZgLp9sH5/egJaDPu7ZM3qPtVQYKwwU2dp
-         my7Qh4vRbvCs8nkb1EtZ/g19D+GmITIjx8p8mcofBABvQocZ5sxyaFbXpdr3wOO5bqWP
-         XLT2y18JqZU2Fvx9ilx9wpALkNyyoBibgO6sUPnULKNRMWbsJIh8uWQHNR7+x6eDLqZ6
-         57bZNk8hYo9daHxJvp0LeGyJ1k3loR95PLmrVFoKF4DSRTbyS4JU7OMDJVxU3w7CLZ0U
-         FOJKpaNApg4o/ZPthJA3KGGi30KGoc9F2KUmaaRriwMcIiykVZpli5dA9XrJwvyMf5WQ
-         gxPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720275837; x=1720880637;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MUMwLV6505BsBECdLQNLbzOn9+IIGo72PKN55IPpokk=;
-        b=d33cptaCUK6R8leBM2Ba6NvLupYHMP/VeZYo6oSs4QMkHjRpdc6KznzTNxwHEZXXok
-         IjDWtnvyBC7LTGc6ppBfKSkSseGGpy9L2meqT6WcYlDTVLuMQtz131L6v1VbV2Q9yLyL
-         6gnMjMN0/tzFDs7q0N1MM95uV7jR1O1bdwUCSPvtK5EMV8agXIFT1smFO8iMdvkQPyb2
-         OwOedmtz5VwEQDUmUEjKw7dNu+1U0oUgVsAb4N49hEwYCX4brCLJc749fOCSRNZxQL1U
-         vxi+MQbxO++hxl2QXw9m3SddTAVZRM2cjwG72ohlAdvsbwh9DyoJbzNO4cWjvK1yBoeU
-         9wLw==
-X-Forwarded-Encrypted: i=1; AJvYcCWcNT4DAsG/+x/0QNoGUaytXWdB+Qww/BDYm5iiU61DKn55MznMEgcoX1A99oqCNvvq6gsiI9MfE9KEp3ruNYhDPLbp/ursYAd62DhjvQ==
-X-Gm-Message-State: AOJu0Yylcx+bEsC4gUzVl8yl+mOUn5dv2mHSBCn1+hDXWGTXDujlD6Yk
-	NAbumEMZTOF6h3WLpqmHff84fOWHrDysrTQJ7cfuagck6zpODAo6
-X-Google-Smtp-Source: AGHT+IG+tHfLWWvemqMxOQPTvsTq+iJgAu8efvK/eJQhTgLidV+4gtztplGVeQeVkV07268jtc8uxw==
-X-Received: by 2002:a2e:8710:0:b0:2ee:7e6c:34d7 with SMTP id 38308e7fff4ca-2ee8eda939cmr46691171fa.1.1720275837026;
-        Sat, 06 Jul 2024 07:23:57 -0700 (PDT)
-Received: from [192.168.0.101] (p57ba2f9b.dip0.t-ipconnect.de. [87.186.47.155])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4264a1dd5dfsm97633825e9.11.2024.07.06.07.23.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 06 Jul 2024 07:23:56 -0700 (PDT)
-Message-ID: <bf57e119-d957-484b-be23-ea43811f30e3@gmail.com>
-Date: Sat, 6 Jul 2024 16:23:55 +0200
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="CH71998s"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=prJo
+	DUW6lJpKM04RsYU/Ivzc814a5QLaNaF57qPoxNI=; b=CH71998s3J8GAM1vxT1E
+	cEDufy/HqjzkZuTWqXxsVCW85k59D1Yy4rTiFINn6oorRzNU3TuSJoTSAvZx+gIQ
+	ayUPO6BgiVD0AeCGKdb/zY3O5m3wlfw/i7JrMzl5Q0SPWQ2R5O2dsFhW+J9rEt9Y
+	jd/TdflsxPus2zQlQtAzefzvhu5CC7/kl7MA3f0aWlRDFMDGdgmMd+xmrg/fJSYc
+	m49ThRRyd8RIaoQlrCvmsYpatKVszd95ttXbTPu1FnNiDwPdB/hFD1jKCKNUrWjN
+	HzXGdfnp3G6L+VG+izMdUkRIdSaTubnn65Dlw2zgOuW9iB3CV1oNnLsMXpp7O/9k
+	Zw==
+Received: (qmail 3848381 invoked from network); 6 Jul 2024 16:34:27 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 6 Jul 2024 16:34:27 +0200
+X-UD-Smtp-Session: l3s3148p1@udy5E5UcQJdQT+F6
+Date: Sat, 6 Jul 2024 16:34:26 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Cc: Aleksandr Mishin <amishin@t-argos.ru>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Zhang Shurong <zhang_shurong@foxmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	lvc-project@linuxtesting.org
+Subject: Re: [PATCH] staging: ks7010: Remove unneeded check in
+ ks_wlan_get_range()
+Message-ID: <ZolV8vtD4KKo-gg3@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Philipp Hortmann <philipp.g.hortmann@gmail.com>,
+	Aleksandr Mishin <amishin@t-argos.ru>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Zhang Shurong <zhang_shurong@foxmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	lvc-project@linuxtesting.org
+References: <20240705204434.10541-1-amishin@t-argos.ru>
+ <ZolRoeaPETSmJMGJ@shikoro>
+ <bf57e119-d957-484b-be23-ea43811f30e3@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: ks7010: Remove unneeded check in
- ks_wlan_get_range()
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Aleksandr Mishin <amishin@t-argos.ru>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dan Carpenter <dan.carpenter@linaro.org>,
- Zhang Shurong <zhang_shurong@foxmail.com>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org
-References: <20240705204434.10541-1-amishin@t-argos.ru>
- <ZolRoeaPETSmJMGJ@shikoro>
-Content-Language: en-US
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <ZolRoeaPETSmJMGJ@shikoro>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-
-On 7/6/24 16:16, Wolfram Sang wrote:
-> On Fri, Jul 05, 2024 at 11:44:34PM +0300, Aleksandr Mishin wrote:
->> In ks_wlan_get_range() variable 'i' which value is always 12, is compared
->> to 2. This check is unneeded and should be removed.
->>
->> Remove unneeded check to clean up the code.
->>
->> Found by Linux Verification Center (linuxtesting.org) with SVACE.
->>
->> Fixes: 13a9930d15b4 ("staging: ks7010: add driver from Nanonote extra-repository")
->> Signed-off-by: Aleksandr Mishin <amishin@t-argos.ru>
-> 
-> I thought this driver was to be removed[1]? Phillip (CCed), what is the
-> current status? If you are busy, I can remove it as well...
-> 
-> [1] https://lore.kernel.org/all/igi27iwrzg3ovgj3sym4gsi45timpkt4vkl5ss5dbftdzat6p4@ctxcjocvunpt/
-> 
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="HLurbxx7uv6xj442"
+Content-Disposition: inline
+In-Reply-To: <bf57e119-d957-484b-be23-ea43811f30e3@gmail.com>
 
 
-Hi Wolfram,
+--HLurbxx7uv6xj442
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-no the driver is not removed yet. Planned to do this on the next cycle. 
-I did remove two others and wanted to wait some time to see if any 
-complains arise. I am a bit scared.
+Hi Philipp,
 
-Please always consider: If you do not use the driver, it does not mean 
-that anybody else is also not using it.
+> no the driver is not removed yet. Planned to do this on the next cycle. I
 
-But may be you are right. I am a bit slow and to hesitant.
+Ah, this is good to know!
 
-I plan to send deletion in 3 weeks.
+> did remove two others and wanted to wait some time to see if any complains
+> arise. I am a bit scared.
 
-Bye Philipp
+No worries, it is okay to be rather a tad too cautios than too careless
+IMO.
+
+> Please always consider: If you do not use the driver, it does not mean that
+> anybody else is also not using it.
+
+I am very well aware of that. However, hardware is super-rare (it was
+even some years ago) and it doesn't support network encryptions we
+really want users to use. Risk is low. And even in the unlikely case of
+someone complaining, we can revert, right?
+
+> But may be you are right. I am a bit slow and to hesitant.
+
+I don't think removing it next cycle is "slow". But it is good, of
+course, to let people know of your plans. Like a reply to my mail saying
+"OK, let's remove it next cycle" would keep me in the loop. But no harm
+done, I can also ask what the status is. Like I did now. All good.
+
+> I plan to send deletion in 3 weeks.
+
+Perfect. You can already add my
+
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+
+Thank you and happy hacking,
+
+   Wolfram
+
+
+--HLurbxx7uv6xj442
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmaJVfIACgkQFA3kzBSg
+KbYIzg//VWYJpFhB8j2a4YEBptlF5VgMeDqheO80Ox8M6wTD+4BYUgSSEVBP+0iO
+bQtKP8VoQq7VqR/waLw26qhI8rwF9vHI4z2/fskDVjK8fh0GZdr3rHcRfCwCsNK3
+qIGZX2Lc3ptEdOEjZqKsJRqYZUwFzD8HqR5VggtBIbn43x0G2SP9pXfb2RGGPW49
+dGDzzbxz7/Sm2/NW07dhPXjq6zz1n75nPInvJZcLkHIKqnQLtdIBKUK0gtNNkuNj
+Tepo8n7q7u+rzGJ9zT+jZJC6twH8kiuzbslQDKAd4KMRo3IdlnoCyoVTL+vdRnQi
+7hiiWxRLqnj1hKHCKlWca/wjS3MVoM+bZ3+VISAj6rqW1zuwQqrWfSo3bA3FLIRw
+Fd4HyDqZDcPuULF+tzGLwcIyCAfbq15kkn1cNypJsZkexxX6gcyhRe1zJ0hW3hmE
+TKeOac5d41+ftVPhVTh4+fNQvfYa59V9WxylgEo0C+N/L+FfattWfiwc9zGzEvVS
+hS2zzhbRXa4ywlwdjoyPP7nm9EMnpkartgxrzW811i6Z1LzwCnmXwb8EUUbUVYyI
+cDh+QCC/YRgvWO803xg4OBsSAH04qd6bPdllPJd7SyQYyJ0Kjjm6L7I5QmaHABnq
+2FCD4PTJtEvb40hcbjvcnjp58vz6x/zYMMqQKFey3rbrpNxo9Mw=
+=Svpi
+-----END PGP SIGNATURE-----
+
+--HLurbxx7uv6xj442--
