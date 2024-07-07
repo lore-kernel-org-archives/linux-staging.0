@@ -1,129 +1,109 @@
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F4D91EEF9
-	for <linux-staging@lists.linux.dev>; Sat,  6 Jul 2024 14:34:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E6D9AD4B
+	for <linux-staging@lists.linux.dev>; Sun,  7 Jul 2024 06:51:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720276472; cv=none; b=EaF80O8w2lqy3eIIaVyuySl739AcFmidcggRmlDMvLkumaRJvb4Vu+vYRIDoPPbX4rYr/YWIt35pWWyfptddaT+JnCbsAP6JM3CLoVVwpkiZUKaV1sSsWeV8l9aTD5a4eubdZIF8xfAiRyUbqM/ZoY/NxGiERYz7eDC18zJK9Do=
+	t=1720335120; cv=none; b=YBje5f3MgsAae8bikoLfwYOQknuLtAauk9Gi28kdv2hxRhCHWpM0xzS8N15V7uZrxQ89pUnfvvfpSAtkKVhLy8SP/BwAyxQQln3IE+NyI2Is7f+edtPkRTVcsqRuvQBtLM44anB0VjxLG/dVQdTxeEdccpuS3u8KQNIg+hMfhT4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720276472; c=relaxed/simple;
-	bh=0aFkKjeQR7yItr5YT5HS0t3s6OuI7El9Wwi8jRk7mbs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KtIX0aakQ4C5I1Mfy8ghB9gs7csy+MzYSxipR6zIcvRwp3tMd302bIp/bEOtWJZsU1k6Fbk+Oj5ndl/z31DDDHDxmNmQP+YYUPscqcGpYk9U46bF59iNiBKvK+eU/Jz9GaUw/vlnK7kTJhVcSqDsRIfxq4MGIdhrAh0C6/8/wlY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=CH71998s; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	s=arc-20240116; t=1720335120; c=relaxed/simple;
+	bh=L4WoQul3N5LS7PJxrWssweaVbAa+vK+j6cEzfVUg2So=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=T3Nx9zlCqAzv9vk5CjgFr0v97M7sofIub1X+ijXCOGHIm0Yw45Sm3aHmyjiMPTg/NyffZfP4pgHvKq+ks7POffOq3qA+jsHoBdOQ5ThxP8tv6ifuTzLdq810Ft2jYtbTNZcsxGEUzWAYJVPyHWnE+3mU4vaq3DWmcC3JV/fi+4w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hiWRWHPg; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="CH71998s"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=prJo
-	DUW6lJpKM04RsYU/Ivzc814a5QLaNaF57qPoxNI=; b=CH71998s3J8GAM1vxT1E
-	cEDufy/HqjzkZuTWqXxsVCW85k59D1Yy4rTiFINn6oorRzNU3TuSJoTSAvZx+gIQ
-	ayUPO6BgiVD0AeCGKdb/zY3O5m3wlfw/i7JrMzl5Q0SPWQ2R5O2dsFhW+J9rEt9Y
-	jd/TdflsxPus2zQlQtAzefzvhu5CC7/kl7MA3f0aWlRDFMDGdgmMd+xmrg/fJSYc
-	m49ThRRyd8RIaoQlrCvmsYpatKVszd95ttXbTPu1FnNiDwPdB/hFD1jKCKNUrWjN
-	HzXGdfnp3G6L+VG+izMdUkRIdSaTubnn65Dlw2zgOuW9iB3CV1oNnLsMXpp7O/9k
-	Zw==
-Received: (qmail 3848381 invoked from network); 6 Jul 2024 16:34:27 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 6 Jul 2024 16:34:27 +0200
-X-UD-Smtp-Session: l3s3148p1@udy5E5UcQJdQT+F6
-Date: Sat, 6 Jul 2024 16:34:26 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Cc: Aleksandr Mishin <amishin@t-argos.ru>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	Zhang Shurong <zhang_shurong@foxmail.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	lvc-project@linuxtesting.org
-Subject: Re: [PATCH] staging: ks7010: Remove unneeded check in
- ks_wlan_get_range()
-Message-ID: <ZolV8vtD4KKo-gg3@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Philipp Hortmann <philipp.g.hortmann@gmail.com>,
-	Aleksandr Mishin <amishin@t-argos.ru>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	Zhang Shurong <zhang_shurong@foxmail.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	lvc-project@linuxtesting.org
-References: <20240705204434.10541-1-amishin@t-argos.ru>
- <ZolRoeaPETSmJMGJ@shikoro>
- <bf57e119-d957-484b-be23-ea43811f30e3@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hiWRWHPg"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a6fe49699f7so27617366b.2
+        for <linux-staging@lists.linux.dev>; Sat, 06 Jul 2024 23:51:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1720335117; x=1720939917; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6XOOmKwyPR1K1bWeX1bkuqoM5NDjvh/8+FGEvea0Jow=;
+        b=hiWRWHPg3zmxe4shOiFu+qN9RAC87MA3GeShwhHDAgU4tOnnqIuMmDK1qdwJNksT9x
+         HlDcc09Ap2f98lJPx8V9Ps1CGTTrZI+LUkeuc1DQGztJbYKnJL9fRNATtsAwhMrgtBqn
+         4xSRKjRWaLQ0Yf+KV/CPRH9bScccvsCTIci1D9VxmfVzM8KuXYmtaf124DaL0TmM8AQ+
+         q/TB7gBk8NeKUHI4JT+9fRwDB3QyrAMBU0wnu7tK/cIA9OYvbrOThtt0JD/FERVdZuyv
+         hHqKcP24PAB9bEpmZwDV6pQk8ONFcvvZ2a9j9iepN/JNtaAg6/XAoqFsmnORD+rUIA0n
+         0EYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720335117; x=1720939917;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6XOOmKwyPR1K1bWeX1bkuqoM5NDjvh/8+FGEvea0Jow=;
+        b=eJCHZfkOmtYtJOJam7O3DsUPcKXUR4Ffx2/ssycmP7yml40zPRt+l2rp81EmRK7ANg
+         wYCq0m3uyAglYlVD5vMPClXEbJ9WUPybJdyMkfh5vvzQFtpJZLU7t7WjncjDlwqGpblI
+         0j2+mU+mqvPonRZbWNQ8u+t5UChVVxTsHqMwO+BpFXIfZ70F65/NGhSs3fq2XETRc+c5
+         Zh5UlCEhIfWOHrXJjdpBG0x1Ko2ZCbUZf9ka8ZzPi3QkFrPNTk8UUuMajzdoBgopCNbH
+         /H3XR9sTv8ZigJD3S+pzvfxLZd/59fiDdN+D62u/fxuXIRLCZHAfdh6NzwIS3XKTp9N0
+         1E1g==
+X-Forwarded-Encrypted: i=1; AJvYcCVPskdkMYSSOmKac4eqz3jTnklvFKEDrhMZ9XJtgucaR4k5ImuOo2YyxXmI8Qldbwr5NLVILStVxdweSPMjcP7xNuOdOW2A1rlqD/hQ2g==
+X-Gm-Message-State: AOJu0YxgwfciJhnRDAobnO7UcOyHmMFvDukqYXR2vZN+WiKDlQIPQziK
+	aZKXhJJXCC2NWwxMLOFFg5Q6Zp1/itGkhzAasffOZ+IZSQltq/wL3KNBXw==
+X-Google-Smtp-Source: AGHT+IEiED1MqeinvizuswuqGoOHbKZeca0Haem6CX69FMhsyBn/byEZw5xQMR58wYUJAzHA0KBbyQ==
+X-Received: by 2002:a17:906:7f0c:b0:a6f:186d:9e9f with SMTP id a640c23a62f3a-a77ba727942mr595413466b.5.1720335116417;
+        Sat, 06 Jul 2024 23:51:56 -0700 (PDT)
+Received: from matrix-ESPRIMO-P710 (p57ba2f9b.dip0.t-ipconnect.de. [87.186.47.155])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a72ab065667sm822029966b.114.2024.07.06.23.51.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 06 Jul 2024 23:51:56 -0700 (PDT)
+Date: Sun, 7 Jul 2024 08:51:54 +0200
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH 00/13] staging: rtl8723bs: Remove unused macros starting with
+ hal_com_h2c.h
+Message-ID: <cover.1720245061.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="HLurbxx7uv6xj442"
-Content-Disposition: inline
-In-Reply-To: <bf57e119-d957-484b-be23-ea43811f30e3@gmail.com>
-
-
---HLurbxx7uv6xj442
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Philipp,
+Remove unused macros.
 
-> no the driver is not removed yet. Planned to do this on the next cycle. I
+Anyone who thinks this can't go wrong is mistaken. Some of the macros are
+double. I checkt that those are with the same value. However this is
+a manual process.
 
-Ah, this is good to know!
+Tested with rtl8723bs in ODYS Trendbook Next 14
 
-> did remove two others and wanted to wait some time to see if any complains
-> arise. I am a bit scared.
+Philipp Hortmann (13):
+  staging: rtl8723bs: Remove unused macros in hal_com_h2c.h
+  staging: rtl8723bs: Remove unused macros in rtw_ht.h
+  staging: rtl8723bs: Remove unused macros in hal_com_reg.h
+  staging: rtl8723bs: Remove unused macros in hal_phy_reg_8723b.h
+  staging: rtl8723bs: Move last macro from hal_phy_reg_8723b.h
+  staging: rtl8723bs: Delete file hal_phy_reg_8723b.h
+  staging: rtl8723bs: Remove unused macros in Hal8192CPhyReg.h
+  staging: rtl8723bs: Remove unused macros in Hal8723BReg.h
+  staging: rtl8723bs: Remove unused macros in HalPwrSeqCmd.h
+  staging: rtl8723bs: Remove unused macros in rtw_mlme.h
+  staging: rtl8723bs: Remove unused macros in rtw_efuse.h
+  staging: rtl8723bs: Remove unused macros in hal_pwr_seq.h
+  staging: rtl8723bs: Remove unused macros in rtw_mlme_ext.h
 
-No worries, it is okay to be rather a tad too cautios than too careless
-IMO.
+ drivers/staging/rtl8723bs/hal/Hal8723BReg.h   | 373 --------
+ .../rtl8723bs/include/Hal8192CPhyReg.h        | 882 +-----------------
+ .../staging/rtl8723bs/include/HalPwrSeqCmd.h  |  11 -
+ .../staging/rtl8723bs/include/hal_com_h2c.h   |  76 --
+ .../staging/rtl8723bs/include/hal_com_reg.h   | 796 +---------------
+ .../rtl8723bs/include/hal_phy_reg_8723b.h     |  69 --
+ .../staging/rtl8723bs/include/hal_pwr_seq.h   |   7 -
+ .../staging/rtl8723bs/include/rtl8723b_hal.h  |   2 +-
+ drivers/staging/rtl8723bs/include/rtw_efuse.h |  13 -
+ drivers/staging/rtl8723bs/include/rtw_ht.h    |  22 -
+ drivers/staging/rtl8723bs/include/rtw_mlme.h  |  26 -
+ .../staging/rtl8723bs/include/rtw_mlme_ext.h  |  37 -
+ 12 files changed, 4 insertions(+), 2310 deletions(-)
+ delete mode 100644 drivers/staging/rtl8723bs/include/hal_phy_reg_8723b.h
 
-> Please always consider: If you do not use the driver, it does not mean that
-> anybody else is also not using it.
+-- 
+2.45.2
 
-I am very well aware of that. However, hardware is super-rare (it was
-even some years ago) and it doesn't support network encryptions we
-really want users to use. Risk is low. And even in the unlikely case of
-someone complaining, we can revert, right?
-
-> But may be you are right. I am a bit slow and to hesitant.
-
-I don't think removing it next cycle is "slow". But it is good, of
-course, to let people know of your plans. Like a reply to my mail saying
-"OK, let's remove it next cycle" would keep me in the loop. But no harm
-done, I can also ask what the status is. Like I did now. All good.
-
-> I plan to send deletion in 3 weeks.
-
-Perfect. You can already add my
-
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-
-Thank you and happy hacking,
-
-   Wolfram
-
-
---HLurbxx7uv6xj442
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmaJVfIACgkQFA3kzBSg
-KbYIzg//VWYJpFhB8j2a4YEBptlF5VgMeDqheO80Ox8M6wTD+4BYUgSSEVBP+0iO
-bQtKP8VoQq7VqR/waLw26qhI8rwF9vHI4z2/fskDVjK8fh0GZdr3rHcRfCwCsNK3
-qIGZX2Lc3ptEdOEjZqKsJRqYZUwFzD8HqR5VggtBIbn43x0G2SP9pXfb2RGGPW49
-dGDzzbxz7/Sm2/NW07dhPXjq6zz1n75nPInvJZcLkHIKqnQLtdIBKUK0gtNNkuNj
-Tepo8n7q7u+rzGJ9zT+jZJC6twH8kiuzbslQDKAd4KMRo3IdlnoCyoVTL+vdRnQi
-7hiiWxRLqnj1hKHCKlWca/wjS3MVoM+bZ3+VISAj6rqW1zuwQqrWfSo3bA3FLIRw
-Fd4HyDqZDcPuULF+tzGLwcIyCAfbq15kkn1cNypJsZkexxX6gcyhRe1zJ0hW3hmE
-TKeOac5d41+ftVPhVTh4+fNQvfYa59V9WxylgEo0C+N/L+FfattWfiwc9zGzEvVS
-hS2zzhbRXa4ywlwdjoyPP7nm9EMnpkartgxrzW811i6Z1LzwCnmXwb8EUUbUVYyI
-cDh+QCC/YRgvWO803xg4OBsSAH04qd6bPdllPJd7SyQYyJ0Kjjm6L7I5QmaHABnq
-2FCD4PTJtEvb40hcbjvcnjp58vz6x/zYMMqQKFey3rbrpNxo9Mw=
-=Svpi
------END PGP SIGNATURE-----
-
---HLurbxx7uv6xj442--
