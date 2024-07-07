@@ -1,63 +1,62 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DD83F501
-	for <linux-staging@lists.linux.dev>; Sun,  7 Jul 2024 06:54:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76916F511
+	for <linux-staging@lists.linux.dev>; Sun,  7 Jul 2024 06:54:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720335245; cv=none; b=VUNpY4y819tltx/3g7whkNSP+y3PEt/Dg1nLo6XnUmZEH4FAiqKeCSOqh18Af8wurtny+PBWxktG0h7vnW34+V2Yz5nQpj+gOVR6jvkSqbch1fYE70RbmKzzLwUeXtUFeZzxWgT5krevK5r1VwhxPJZPpRUIJsuoOF6RucaISfQ=
+	t=1720335272; cv=none; b=GQv0U5OpK+vCjzF6dArEITeR6LADbUHQODN0Poh+SqaWhhclg/LjUzsxw/rc33WTrjJC1iR9poIWQalNyLixGt1VAcoESgfrWr7pmFRFig41oPxtS6we0oS8T/oMy7BmKqf+8VKg25TFhCJX8N3Rt0HmVK4bsoLtdcB5mD3rLpE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720335245; c=relaxed/simple;
-	bh=vzhS4eOdB3JVBmGj6GZR41u0035kWUjZHf2QmYjBHj0=;
+	s=arc-20240116; t=1720335272; c=relaxed/simple;
+	bh=+IuYxCm1vlnF378i4O4W0jciEGj38cmeBQhvj6kIefI=;
 	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z/Zd0EXcAE0DAyAz6EteLKrVW+oHtneg6W/lcfw17vgc3y9m18k/SNgBj9/o3au143H+DfE/NpHBb7L6OtzH6CP/n5m4Bjxyy4W0VrNvbLtniqQ86CGDIvfPnw+ITck8VS+Xh8qB0wi0fOLBsBszmAoEQJFoJe5tHiav6emOshg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kiRv2TLE; arc=none smtp.client-ip=209.85.128.48
+	 Content-Type:Content-Disposition:In-Reply-To; b=peE5xYWDzEYbs3DAmBS1JleKhUM7qXvfXbyVdZVJkRjrTgeMXR66lv58p26rbMdvFpaPm/R9M/BynZmVIho8urwecS+W2oNCMOWjVNyWGq6hJi/Dfyts15QEFfIJoCjGlbWU7db+IKMdu4UrCUfjrfiPTjLzhciuKGiWQ9vRC0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LwzU5YQk; arc=none smtp.client-ip=209.85.221.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kiRv2TLE"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4212b102935so3368325e9.2
-        for <linux-staging@lists.linux.dev>; Sat, 06 Jul 2024 23:54:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LwzU5YQk"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-367a0645984so230938f8f.1
+        for <linux-staging@lists.linux.dev>; Sat, 06 Jul 2024 23:54:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720335243; x=1720940043; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1720335269; x=1720940069; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=L17bu5yX3ssgKrMTsiZwMgl58vpmJ1s2WNn54DauvtI=;
-        b=kiRv2TLExoHZzbXkrCSHFANnUcChTqwKAJMMvD3MJCnCYScy9sYkPBgBSoKsVHEEpN
-         hZc2G5Ye2LUvAzdXuVFTJp+zhwP2G8JxMIuQnjg9hhwAW90m/ceogphEtizN/DZeThwK
-         Bp5L40eL6mEhC9aCGPTSglpY3i9qt3B3N2kJPvtq1wuy0xMLGjq+3rCLiPQn341H7IZb
-         sjlcj+qbT0NNWWEdv4sIg4eOyOllzuMpsXjFcZ2WsbKkFXRs2qyyMxnzbJQbYyAgHiXz
-         b2OCBhAOaWUa759Rp7rcuG/GnnxFMGkLpGrFsivpOVcnKc/CCfb+Eg4VYmhNmUlX7nrQ
-         K4vg==
+        bh=GrA22IGjkXIPIsfTt9aOZ8ajLSC1LUgeoha8qPdMqb8=;
+        b=LwzU5YQkIgYql/ftkEiM5fHaDUXwP2dXKK9ja/xuDsT3zrDd4sv821MPnce166Q+eP
+         X56HLlu/De2ekVEYNv7Euj1yIdYf9zltrkZ7Jd644DZ0chG9nmBui8Jc4Zke6yohPxMI
+         J3YhRV4rXQNM2tv9XXVDz+KpENm4mpwfZU1unwKBElJer//fzAzoNPKBNU6TNwzqRrDO
+         RyTXhwAMxz0DGq2muuUHKEtaikBV/EyfNJwRVrvbgy/iGFOy6mo6HxOvhEsIUO4ExLpG
+         QLPtmkf5IqkooFWCQHDK2RNxKYlHQ4TfLB0hCTRBwss41p1Zk/JzQiPHjwsY4S0wYh/n
+         P5Dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720335243; x=1720940043;
+        d=1e100.net; s=20230601; t=1720335269; x=1720940069;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=L17bu5yX3ssgKrMTsiZwMgl58vpmJ1s2WNn54DauvtI=;
-        b=uWjpHHLlKzYQKoqtS20zwEyKEfVIinY4KoAZfe1GtgoRcuubN7vtU715/oSs6cmD6H
-         iAvYqoVrTJgEmybaTk/cFCsQ9iL6p54oA6e3jHgROCVuMUQZSfy8ZqVgRuzXLgCoqxWm
-         P5b2JsMYjstUAD/7cNp4UJEJvKL48PAzoYJgBC2/ijyhVKXcrnYuWqehuYHfWj8Uawyc
-         XuSTpynhoCJacESuQZBam6eybRbDAOhz8U5bisVz3/gULWN5enGnpBu/goiv+SCXxeVs
-         q7Lp+fO664M+FH5V8Hx9lKRospuJQcyHhx+D5KVTk2F289OUpor8DKTHDEG6uGKfrra9
-         sdPQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWKUJkOwT/7Z/QHsSvRCaEZliVu77aZACl1l7msW0xu2hOfBx8/ZQdU/hEr4yQ7pTLBG7jC6abHq9yS0+dg9OKqPZUlOg3T4xKArhb5GA==
-X-Gm-Message-State: AOJu0YxcC2DK6VhTvEpolRDyNpVt6fpgPL6VSYWEL8UAnzAVpiArrARW
-	aRWaWzbEeN+Igztt09SkmRSLDqDmiZET0ZuCYV80SAn9YYnCGlJ3
-X-Google-Smtp-Source: AGHT+IEQVNF8CLloFDHw1LG1lFShBIaHRdILEu+du4X3fMXKOpjm5yvzkkVqU6oMCYCFgqaXvqKjoQ==
-X-Received: by 2002:a05:600c:4c0a:b0:426:5fd1:281 with SMTP id 5b1f17b1804b1-4265fd10561mr19771895e9.1.1720335242564;
-        Sat, 06 Jul 2024 23:54:02 -0700 (PDT)
+        bh=GrA22IGjkXIPIsfTt9aOZ8ajLSC1LUgeoha8qPdMqb8=;
+        b=C11nkwvyj4FzTG9P76/hyiA3giohGHkuLw450VztHGa7KDrjOwDxLu05mDa4k+uz+J
+         tpIDOzgjzq6ChJLG+HyY6YP4mMQOTZrB9aQ4Qn3sMWgsHU1dbeHYx4veO6WWS8jmQCJ4
+         Cv/6/GlTxFH43FqcJi6eVrs0OV6TijtQY1coi+bXeki98RTZEj1c+cTlRN2wwWV5QEUa
+         p1PiJM3qDELmZvvT7hamsV0l9lrDwTzgluk+3s/JvMY7G0jjRoeWPvlI43iFldx+dele
+         60OZqdkudsJ3g3+YdI6dALXFQE/dFaPlPkL4rfmD93T7ZANoMuM5SGqy2aOsi+B5OrUY
+         BT8g==
+X-Forwarded-Encrypted: i=1; AJvYcCV4O7kZ5tpVv616b2gReuCeOB7Jo576c7u+6Dx5IVVxmIMzmGdEd3PgJ4jCz5ZstK8ei4vTPa/fUKbYYuBT9EJu0NuYW1BZPx3/rYO/Ag==
+X-Gm-Message-State: AOJu0Yy0fI+wU/IgD3baRoNGiDLTA+b0jBZoLCGOVJYpOqZP2y2JbqRA
+	X4m4+hORWWozSE4GJ1ucvdcpYz4Wy4wBkSMoBTbmpoMZa20593aFf+nlJA==
+X-Google-Smtp-Source: AGHT+IGufE3eoOICGbDX7bEjamrSracJzS3rK65OoospbvJ4bZw+aIa8Ytp4bOT2V1liAOcVi6lhmQ==
+X-Received: by 2002:a5d:6c6a:0:b0:366:e496:1caa with SMTP id ffacd0b85a97d-3679dd73a48mr5689649f8f.5.1720335268857;
+        Sat, 06 Jul 2024 23:54:28 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p57ba2f9b.dip0.t-ipconnect.de. [87.186.47.155])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42662a21066sm29644725e9.22.2024.07.06.23.54.01
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3678877f19dsm13204328f8f.43.2024.07.06.23.54.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 06 Jul 2024 23:54:01 -0700 (PDT)
-Date: Sun, 7 Jul 2024 08:54:00 +0200
+        Sat, 06 Jul 2024 23:54:28 -0700 (PDT)
+Date: Sun, 7 Jul 2024 08:54:26 +0200
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 09/13] staging: rtl8723bs: Remove unused macros in
- HalPwrSeqCmd.h
-Message-ID: <ac52d73666090a70e8c1edc87e511f1ea2c139e4.1720245061.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 10/13] staging: rtl8723bs: Remove unused macros in rtw_mlme.h
+Message-ID: <e04836b646ccd0a97ee0658dc61db7ac748bcb40.1720245061.git.philipp.g.hortmann@gmail.com>
 References: <cover.1720245061.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -73,44 +72,67 @@ Remove unused macros.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8723bs/include/HalPwrSeqCmd.h | 11 -----------
- 1 file changed, 11 deletions(-)
+ drivers/staging/rtl8723bs/include/rtw_mlme.h | 26 --------------------
+ 1 file changed, 26 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/include/HalPwrSeqCmd.h b/drivers/staging/rtl8723bs/include/HalPwrSeqCmd.h
-index e30071935d27..b81252d374ef 100644
---- a/drivers/staging/rtl8723bs/include/HalPwrSeqCmd.h
-+++ b/drivers/staging/rtl8723bs/include/HalPwrSeqCmd.h
-@@ -49,8 +49,6 @@
- /*---------------------------------------------*/
-    /*  define the base address of each block */
- #define PWR_BASEADDR_MAC		0x00
--#define PWR_BASEADDR_USB		0x01
--#define PWR_BASEADDR_PCIE		0x02
- #define PWR_BASEADDR_SDIO		0x03
+diff --git a/drivers/staging/rtl8723bs/include/rtw_mlme.h b/drivers/staging/rtl8723bs/include/rtw_mlme.h
+index f939d267b0c7..e103c4a15d1a 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_mlme.h
++++ b/drivers/staging/rtl8723bs/include/rtw_mlme.h
+@@ -39,11 +39,6 @@
  
- /*---------------------------------------------*/
-@@ -64,21 +62,12 @@
- /*---------------------------------------------*/
- /* 3 The value of fab_msk: 4 bits */
- /*---------------------------------------------*/
--#define	PWR_FAB_TSMC_MSK		BIT(0)
--#define	PWR_FAB_UMC_MSK			BIT(1)
- #define	PWR_FAB_ALL_MSK			(BIT(0)|BIT(1)|BIT(2)|BIT(3))
+ /* ifdef UNDER_MPTEST */
+ #define	WIFI_MP_STATE							0x00010000
+-#define	WIFI_MP_CTX_BACKGROUND				0x00020000	/*  in continuous tx background */
+-#define	WIFI_MP_CTX_ST						0x00040000	/*  in continuous tx with single-tone */
+-#define	WIFI_MP_CTX_BACKGROUND_PENDING	0x00080000	/*  pending in continuous tx background due to out of skb */
+-#define	WIFI_MP_CTX_CCK_HW					0x00100000	/*  in continuous tx */
+-#define	WIFI_MP_CTX_CCK_CS					0x00200000	/*  in continuous tx with carrier suppression */
+ /* endif */
  
- /*---------------------------------------------*/
- /* 3 The value of cut_msk: 8 bits */
- /*---------------------------------------------*/
- #define	PWR_CUT_TESTCHIP_MSK	BIT(0)
--#define	PWR_CUT_A_MSK			BIT(1)
--#define	PWR_CUT_B_MSK			BIT(2)
--#define	PWR_CUT_C_MSK			BIT(3)
--#define	PWR_CUT_D_MSK			BIT(4)
--#define	PWR_CUT_E_MSK			BIT(5)
--#define	PWR_CUT_F_MSK			BIT(6)
--#define	PWR_CUT_G_MSK			BIT(7)
- #define	PWR_CUT_ALL_MSK			0xFF
+ /* define _FW_UNDER_CMD		WIFI_UNDER_CMD */
+@@ -75,8 +70,6 @@ enum {
+ 	GHZ_MAX,
+ };
  
+-#define rtw_band_valid(band) ((band) >= GHZ24_50 && (band) < GHZ_MAX)
+-
+ /*
  
+ there are several "locks" in mlme_priv,
+@@ -252,11 +245,6 @@ struct mlme_priv {
+ 	unsigned long	timeBcnInfoChkStart;
+ };
+ 
+-#define rtw_mlme_set_auto_scan_int(adapter, ms) \
+-	do { \
+-		adapter->mlmepriv.auto_scan_int_ms = ms; \
+-	while (0)
+-
+ void rtw_mlme_reset_auto_scan_int(struct adapter *adapter);
+ 
+ struct hostapd_priv {
+@@ -400,20 +388,6 @@ int is_same_network(struct wlan_bssid_ex *src, struct wlan_bssid_ex *dst, u8 fea
+ 
+ #define rtw_roam_flags(adapter) ((adapter)->mlmepriv.roam_flags)
+ #define rtw_chk_roam_flags(adapter, flags) ((adapter)->mlmepriv.roam_flags & flags)
+-#define rtw_clr_roam_flags(adapter, flags) \
+-	do { \
+-		((adapter)->mlmepriv.roam_flags &= ~flags); \
+-	} while (0)
+-
+-#define rtw_set_roam_flags(adapter, flags) \
+-	do { \
+-		((adapter)->mlmepriv.roam_flags |= flags); \
+-	} while (0)
+-
+-#define rtw_assign_roam_flags(adapter, flags) \
+-	do { \
+-		((adapter)->mlmepriv.roam_flags = flags); \
+-	} while (0)
+ 
+ void _rtw_roaming(struct adapter *adapter, struct wlan_network *tgt_network);
+ void rtw_roaming(struct adapter *adapter, struct wlan_network *tgt_network);
 -- 
 2.45.2
 
