@@ -1,143 +1,511 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CHN02-SH0-obe.outbound.protection.partner.outlook.cn (mail-sh0chn02on2099.outbound.protection.partner.outlook.cn [139.219.146.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9B4713D63E
-	for <linux-staging@lists.linux.dev>; Tue,  9 Jul 2024 06:58:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720508321; cv=none; b=a6hJGHNsEnjxf4zhNdUvPZjIr2v8f22HrMIJfcYcba8kRNGe91+U+Gk7sOLPQOXZfmkPN71Zj06f9texswBK1aVgZ5DNex5qfve9WHrfhtV4cVgXT6QnghjWSUdGF5BjVtoIeceipDExY+pnTC4jCKLer2xEmOQZ4xLvPxKTSPo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720508321; c=relaxed/simple;
-	bh=6cpbzmjkMj/+KT7yjNAf9Um11QZ/lIiDyJuGkRGSK4Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uzzTkC9vCctLfakRZudGOw70eiYdFvBLqHF7UTlwWTlkjseXTiS+yqguYGCHumP1lsPaQgNp425hoEd3IPoNbdYtd9p4W6BWIGYTXt0Fvq4BwbBRVGpcYqWowFx7YUxWuIpHZqkHDrT510B8zaeE4WtIO7huuWc0yencOkUsDB4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=CcWZ1l4u; arc=none smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="CcWZ1l4u"
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-52ccc40e72eso3031093e87.3
-        for <linux-staging@lists.linux.dev>; Mon, 08 Jul 2024 23:58:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1720508318; x=1721113118; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=KBZlTb8Eof6R20qrr/sRa7dwLCzeq9PnMFLS9YGLiLI=;
-        b=CcWZ1l4unjsEEY3Nl94IHzI3q0IYffdcja0aCtmWWzHNGdqZX0Y6vh0rTwy8TRNTuZ
-         En30kI3i95A2Z/+o2omoKZpGprZzG+MuFzdlJbbBbiwgp/PJaE36ZBtgYVdbeAAGEEtt
-         3ZLDtzDZPwEXOK/wRhjHhZUytYk841XZuQKn9lIO7mPXyg/O3LSqr5ZFF/ntrZD3rWf3
-         6NvnVF/aLooXry62ykhn/mFh6lPjgoKLDhQSHwuUhcmbSh0IiT4WDRnFThgMU8ZSy3U4
-         gK6q09BStB9ctIFaSNuvCj2XxHzykpLpFBFEGFfPo1irf8Wa3LCcypdcBx/AG74mPRoI
-         DTcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720508318; x=1721113118;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KBZlTb8Eof6R20qrr/sRa7dwLCzeq9PnMFLS9YGLiLI=;
-        b=xR9qSTwswaSJoYL2mglQgAJyDnaBRZkx/3f/DcqZdNBzMDUNvqWu6CxW4s+U1Kxm+B
-         8q809u+lv6TrhxTy6wjGPcndaS3Qo9ZXafp3ZOVVfCz1e6Fe9fovOgMwIbUoIxpqgcTd
-         dLvqTqVbVkjOZpb0YxO6QhBLc+Vkw2M4YeXRKyqqARxDY1Yz86Z/JmM1wFo6PwEOHxGp
-         hIxjizSq32oHIiYjRApl6NY9AoGQhahVuPV80qrxhGCsEQKchy4DvTbuexxtKVGN/YtW
-         Zvxpo6Ceeln3i7pfvuXE9EINEiUjy/O6stPMmIWoweAcmCaoACpovrzvJZS7mRbbL7ZA
-         iB5A==
-X-Forwarded-Encrypted: i=1; AJvYcCXN57Opynxmp3sNQOIifhTkjgDJgxrwKbQWrkgS2u4T+3OkCHittwLAQFKePLgWhU9cnmWLwdaiVbHCIvSadY++TjayTQATWeWXxo8Vxg==
-X-Gm-Message-State: AOJu0YxB4NqJ/qHPrd9aOPJqjJuL8hvcJ6zTKI8tvDCXO6SzrnUXnFrv
-	9pcBePy1bTw62yQBxsxo/YU3eseBDXmqgckNvHtL+dWThEJs8yg1/chSSxgr/dA=
-X-Google-Smtp-Source: AGHT+IGObn48yczLVOSPPn2MgOHMOxVpueStKydNv/bOLPNKAJELBv0hX605oHaZX1AC9SAjpv4s/Q==
-X-Received: by 2002:a05:6512:3142:b0:52d:215b:9028 with SMTP id 2adb3069b0e04-52eb99d5d76mr931572e87.60.1720508317663;
-        Mon, 08 Jul 2024 23:58:37 -0700 (PDT)
-Received: from localhost (p50915e7b.dip0.t-ipconnect.de. [80.145.94.123])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-594bba548fesm706835a12.11.2024.07.08.23.58.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jul 2024 23:58:37 -0700 (PDT)
-Date: Tue, 9 Jul 2024 08:58:36 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: 
-	=?utf-8?Q?=C3=81gatha?= Isabelle Chris Moreira Guedes <code@agatha.dev>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Luis Chamberlain <mcgrof@kernel.org>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-modules@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>, patch-reply@agatha.dev
-Subject: Re: [PATCH v3] init: staging: Fix missing warning/taint on builtin
- code
-Message-ID: <yttxdeeg6uxosoiom3jf6h5wfkgk7ths6qnqf5s3sr2nikftgh@dvexcjeznxpp>
-References: <zsk54zosv6tht4j4nma4ix7lq2knxi3ylqadd2foznc72nkaa3@xbc7gpozx6ai>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B73BE1534E9
+	for <linux-staging@lists.linux.dev>; Tue,  9 Jul 2024 08:38:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.219.146.99
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1720514338; cv=fail; b=TE5pM7O7EqJ0/9W4ifhFJ3ir1xDryT447jkCAxm5cli8Ms2C/iROuvRzC0q4Nm94dJ7Y9ePWnymy9+R4UnUZVWGTZwggTl8hBHJUqQ7e7bHMdFRwboQVdCYEWGx4pQq4+TjH1gHV/Tzi+6FHDndOGsaYl/CsmWAgbhGUoYLZLIU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1720514338; c=relaxed/simple;
+	bh=l2eQBzej24IjzdZ3yeayafRT5sLEKwPTMgtQXRN62s4=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=Tp89DMoXR8BxDQQquppquCS7fdAcZ0D2yXbIruZ9pJSWLEnpLZcIN7L2Zu2oYFffjiSROT34+6pKgMkOe3r7X2giFcRMAVkCioVrZ3Ex37Ww9Lhfi849WsZP331Ud3Tw3o4hn7Xf4KDRzby9PH/qyymzOKCs35LdU1loWPuL8RU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com; spf=pass smtp.mailfrom=starfivetech.com; arc=fail smtp.client-ip=139.219.146.99
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TMfPCIJJfBXlaftFUfDoes0NvIwwl5uyAdACY9yQzcr046ScWzw0Uc5/hYj2ycSac1DRocKtHN/4WWSVeNxHsUh4r6N5YFZPmTZaH873ITtxIzYrH0Bw0/fSaI1Oybs5vKa3wFLlCRb9Vc2PvLCGsnv1TnXBids38C/XNLFSxVgCslioZxsdPLV9Tg/jQWGK/MH4u63hLwCVVvd6aYHegUzzv8d/tQ5rNmDL+htURmcRb8L9FqDqcnxPlIgkEa3rV7sZbORqqSWulgItDMtMKYXhZQSEVM17scsT5BUs1W3vzbDyQLSIRjB3vHRuXNp10VN2dxgpVWawxy0v36Vbdw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6X3adM2k6EIyu9eez4lG13vTog4sjUA3WmIRtsko+vQ=;
+ b=NjmnBcUQYZcYe69FrGDAfv2gPIzsRjGIV7IAB55Z4laXZ+oq/z5SoxojpPlYgIk5z/T4v4/A0OoFJHob2Wx1MpUdwvml944IXR5i1Soghg5sFWQ5ezrWqOnJyCLeeOhQIZAL8T5tvvtpHXL/Ehg3oY3eJEg3iHpO4fp3nFtOxAwnVMEMhGSsDQFBixs9CpiBTPr6gR1P74k/bcaYQSl948EgFKJ3E9cdm4BgLEz+48x9gfUREnPgqn0IUHybY1/UbMZP7O9yeyBnDQdCK2PTcKiif5lKWWIW9Sqr52RCAPz77ku+3D+rC9KKehihuEIzr1NJI8sI64rWKUgtZzDe5A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=starfivetech.com; dmarc=pass action=none
+ header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=starfivetech.com;
+Received: from ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c550:1b::9) by ZQ0PR01MB1271.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c550:18::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.37; Tue, 9 Jul
+ 2024 08:38:32 +0000
+Received: from ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
+ ([fe80::64c5:50d8:4f2c:59aa]) by
+ ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn ([fe80::64c5:50d8:4f2c:59aa%6])
+ with mapi id 15.20.7741.033; Tue, 9 Jul 2024 08:38:32 +0000
+From: Changhuang Liang <changhuang.liang@starfivetech.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	Mingjia Zhang <mingjia.zhang@mediatek.com>
+Cc: Jack Zhu <jack.zhu@starfivetech.com>,
+	Keith Zhao <keith.zhao@starfivetech.com>,
+	Changhuang Liang <changhuang.liang@starfivetech.com>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH v5 00/14] Add ISP 3A for StarFive
+Date: Tue,  9 Jul 2024 01:38:10 -0700
+Message-Id: <20240709083824.430473-1-changhuang.liang@starfivetech.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: ZQ0PR01CA0031.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c550:2::16) To ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c550:1b::9)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="3knqfckw67jieu3n"
-Content-Disposition: inline
-In-Reply-To: <zsk54zosv6tht4j4nma4ix7lq2knxi3ylqadd2foznc72nkaa3@xbc7gpozx6ai>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: ZQ0PR01MB1302:EE_|ZQ0PR01MB1271:EE_
+X-MS-Office365-Filtering-Correlation-Id: d8c66862-b23a-4de7-22de-08dc9ff283a9
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|41320700013|366016|52116014|7416014|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	ZBIlS9qUDOVdpgqu4dSkGaj5WhDIkRUYEYf0QlSZrQG4utaXvMIxeuzljv86kWJC5xTfSYlaKOM3trYAU4JUXShnUEXCM4ZtkfAWrM1IAdopYdqkZGAgfxHEpZlyE88WP1gDhGPQn+V+gS1pwI5eZKrjGxDlA+sC8zTuiaZbV1Hj0iQqsUJQwJ0fty9fVULl3kPwQEqa5xpmIr4IwvrWBXmshUqs8+OapK+l8yRtuQMr5jRDfSqMtat1X4VRH6h67XjJEUs7VLEspz7o42wVBLLlDxzB6+SWz9+/DQmvjd51J7KYLKna3nOXRae4lzat7g6Jxj6B6+qQvniL9u+fE5C/8EKGCoED1KL8tHJ/2NdtuflPmUjGQxGgJkem9U1W48VYGmojaIm66Os5m1ciVtu5cmv9OkmOS4+Adv0g9f2zLDWgV4apprjHJcAy6T6zxlIFm612WdgUC7wGuJPjMvmRdzNjFt7659ugPglwKuPkmDzlvaRLiAyN+uP/676aT1AhqcLL/T1cJG29t/bNwRiSvhceJDgq34pmPlXTp9QMIH59tfyi3uxnJ/jqW/XFurZrLz8r86RplLpKAZh0YTHg9RlNcwnAIonbi0ijlLAhH6Cxk9sA/shz6jiIencN
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(41320700013)(366016)(52116014)(7416014)(38350700014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?fFGEI6x9cxsrxXRo8mVD5rkGJzT7c1nfOMmKzrTzPliTlA5bKfu3mb3oaJUw?=
+ =?us-ascii?Q?C9wr+A6EfnqtolnmfRPNKIzcu2pde1twxUAaTgowYkpgTVcI4Z9C5dbbHAbh?=
+ =?us-ascii?Q?OFWaVQDSIIrTYc2Js0a18FWYDt8lcj0uz6aWG39F61KSgnTZtJ+Trpl2V9se?=
+ =?us-ascii?Q?n/d7VanMPfr7VRfZCuxKnyttiI4e/ERw6xUDpc7OsrUBMJ1n8/tF3LbAtSaX?=
+ =?us-ascii?Q?oW2RUHgXY1G+FmCUxaYXaFcuIbSK9363NgvoZn1DL0AwfJLNKRRSY+4N8UAR?=
+ =?us-ascii?Q?eoGW2z+wsvAiiggndz5jub8KyxuSUiNQvgzQuHmBo1bw8WRGMAa2feYva6aT?=
+ =?us-ascii?Q?BJbmJT13c0ouXIlkw1w4JzyViHxIkU25ZGaGkmClX+bo7qsqwR1UuWMmC/cO?=
+ =?us-ascii?Q?cdIoT5OcVKb0gjpZ2IlYY0m0Pop4c0Saagiv6v3jXaty1cLrFcxCRHKQeh9M?=
+ =?us-ascii?Q?d5d+biYShzUrRbquMwK3hxvGqVyL15+n4czpMLLrlBULRItwU2MEwLtXILuo?=
+ =?us-ascii?Q?zVcyIBj3KGW6TexOB+EXKokIXUSOVMkQ7wdHT1uMRWRjt22YTjcASaCurUxa?=
+ =?us-ascii?Q?X3NRFXvOshUo5rFGGGQvwqJ0LBXVy/BGwglL8xtvaYSZOJZiRVPvVdIVUOKL?=
+ =?us-ascii?Q?uMTNY20el+o7bX7LUqHiLWuS4zO8jDwazWj5q3c3oUYrDqPIMcrwi00m4ifc?=
+ =?us-ascii?Q?HpxOBfILA70/Yapu5bwhqXWwerGu+7CNn+qSFp9M73q+gjEIwiQuEd8nrrsy?=
+ =?us-ascii?Q?6+faH6PtyNHDQp/8R4dqk3zU8kFADQ8VBwZHCC1Jdgkub1p1nTIjxfm7/ci9?=
+ =?us-ascii?Q?1ntyi4rFiZ8G6YPRLvHnJViuH78/My58ZZXgjBLhs3vf4rhjZ/5NvwKnUluJ?=
+ =?us-ascii?Q?5vS2uJdLw9B3ZWYJu3JzbQ2eXrKEj4uA0Gnbl13cJLgliaowH3RmMctdrqev?=
+ =?us-ascii?Q?FU/9Glo2N0yz41F/y50rlKgdqE8IK9Dnr2r2U7pNhoTpgVLGYHT23Hoi3CkC?=
+ =?us-ascii?Q?OYXth4KKCYuj+WHEIEL7eqGtMFX1ELc68R0IO3e/I1qH+6inwTi7SwKjNYJt?=
+ =?us-ascii?Q?w41QJsOq9K9/YDGIJInmRIdppIOHRjNrBEJbMylFisZBZKdkW/UD5k/y4mn/?=
+ =?us-ascii?Q?0tSGjfacwe0OQRLGtUtnw0zarFy7hMtUDwprO+roW9ZtVkbMUFWai1524bGu?=
+ =?us-ascii?Q?yn4dDbIGv5ifYBEZwxit9bkw3FPoOJwIRmNM1Q9S7D+6HLqFjljfU8f9R3/F?=
+ =?us-ascii?Q?oDFRSKPVSrFKFPfinhuzwZQwI8IRxvKuiLznvBDu8Iwvh2v23dw9pwHpZvhd?=
+ =?us-ascii?Q?5G5LTnYaqwcZo1EKhUpHHg7WJguID1aLyw1lsr0SYBFXLYn79uKLTjpb2tRe?=
+ =?us-ascii?Q?TFCBcvhbq6zQ8s9h0YPE9B6XXbMXR4iQbCEW94Gk4pxA6f2bGVbFPDUL4y2e?=
+ =?us-ascii?Q?ibA4vyeif4Qu53gN/QEKmyL+9ifWU1W7gqkVFuCL/2bw6z/qj3mT+v5QEFQG?=
+ =?us-ascii?Q?Fyz6SwNyWQjh5Dj93wK67E+bdcyk4wjROjhW9ZcJxXNRBDI0qwOJofli/JMB?=
+ =?us-ascii?Q?ZcQcSw1ARzMSxIT7FgLIMKMb/7dWroUoKR0LBQcWvNZQUyCEsk9Pjs5OOlyT?=
+ =?us-ascii?Q?ECSC0KtMmM0yD7NWtDrLW1o=3D?=
+X-OriginatorOrg: starfivetech.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d8c66862-b23a-4de7-22de-08dc9ff283a9
+X-MS-Exchange-CrossTenant-AuthSource: ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2024 08:38:32.0960
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Pwm5wvq7SQHPECVIWQRb9bEOoPysJ8wFqO/cI8hRsIbt+ArN8OzSSlmNP/8AkZdQAbP0cmSwFr47agLXoJ5P1eN9iezXAb1TF4RppCle4yI0nZU1MPaJNv8MTWVoV9lv
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: ZQ0PR01MB1271
 
+This series implements the ISP 3A function to the Camera Subsystem on StarFive
+JH7110 SoC. The series has been tested on the VisionFive 2 board.
 
---3knqfckw67jieu3n
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This series is based on top of the master branch of media_stage repository,
+which is tested with a v4l2-compliance compiled from the git repo
+(git://linuxtv.org/v4l-utils.git).
 
-Hello,
+changes since v4:
+- Rebase on top of the master branch of media_stage repository.
+- Insert a new PATCH 13
+- PATCH 1:
+1. Fix spelling error:
+	- corsstakl -> crosstalk
+	- balck -> black
+	- magbitude -> magnitude
+	- FALG -> FLAG
+2. Exchange of the values of JH7110_ISP_SC_FLAG_AE_AF and JH7110_ISP_SC_FLAG_AWB
 
-On Sat, Jul 06, 2024 at 12:15:01AM -0300, =C1gatha Isabelle Chris Moreira G=
-uedes wrote:
-> Fix the absence of warning message and kernel tainting when initializing
-> drivers from the `drivers/staging` subtree from initcalls (when
-> configured as built-in).
->=20
-> When such a driver is built as module and the module is loaded, the
-> `load_module()` function taints the kernel to signal code of unknown
-> quality is loaded, and produces a warning like this:
->=20
-> [    8.076352] rts5208: module is from the staging directory, the
-> quality is unknown, you have been warned.
->=20
-> The same behaviour is absent, however, when a staging driver is compiled
-> as built-in on the kernel image, since loading it happens through
-> initcalls and not through load_module().
->=20
-> This might prevent relevant information of being available on a bug
-> report (i.e. on a panic log) among other possible problems.
->=20
-> NOTES:
-> - The patch is written in such a way that all non-staging drivers are
->   kept the way they were, except for staging drivers built with
->   `-DSTAGING_CODE`.
-> - Since it changes some macros related to clang LTO as well, I tested it
->   and it works properly in kernels compiled with both clang and gcc.
-> - Some `checkpatch.pl` errors, warnings and checks (with `--strict`) are
->   present. Some were already there, some I introduced but I think
->   they're unavoidable. Some IMHO don=B4t make sense at all, I think they
->   would apply for most regular macros but initcall macros are just way
->   different.
->=20
-> Fixes: 061b1bd394ca ("Staging: add TAINT_CRAP for all drivers/staging cod=
-e")
-> Signed-off-by: =C1gatha Isabelle Chris Moreira Guedes <code@agatha.dev>
+- PATCH 8:
+1. Synchronous spelling error: FALG -> FLAG
+2. Add:
 
-I didn't grok the complete patch, the but intention is good.
+if (*num_planes)
+	return sizes[0] < sizeof(struct jh7110_isp_sc_buffer) ? -EINVAL : 0;
 
-Thanks
-Acked-by: Uwe Kleine-K=F6nig <u.kleine-koenig@baylibre.com>
+- PATCH 11:
+1. Drop read hook.
+2. Add:
 
-Best regards
-Uwe
+if (*num_planes)
+	return sizes[0] < sizeof(struct jh7110_isp_params_buffer) ? -EINVAL : 0;
 
---3knqfckw67jieu3n
-Content-Type: application/pgp-signature; name="signature.asc"
+- PATCH 12:
+1. Add:
 
------BEGIN PGP SIGNATURE-----
+ready_buf->vb.vb2_buf.timestamp = ktime_get_ns();
+ready_buf->vb.sequence = output->buffers.sequence++;
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmaM35kACgkQj4D7WH0S
-/k53Wgf/S2QsAUpX9rVxaP4UXEN1jtI8O5t43BTPfB4g7rEmwB4vhT3ntuPY/VqU
-nuebxMkdmMp7tiEb99uCfp2W9WDtZxsc6bf5BXuFyp1opwsvZqZXQBMVMndPTRf/
-0xPF4vpb4ypXwI/XYXjRSnh7mRdF9UP309w87TGpqxde1/CZ4Q0QMldBpOUyfVZr
-BrikXOzKfp4psA0fB1y7NLWXJeZHsaN+zGkzATc8w8ZfN1A67aPHsQf/Xj4cX9RA
-Hd4aHHo2wp1DASkaevPXPna/kSVCxBpEbrBKqschrC1NiE4wexB1r79XbWnLOujZ
-y6oCH3XDle5EvxxLWHHTpek8sWNbrg==
-=Y6sb
------END PGP SIGNATURE-----
+to fix "v4l2-compliance -s" Failed.
 
---3knqfckw67jieu3n--
+v4: https://lore.kernel.org/all/20240402100011.13480-1-changhuang.liang@starfivetech.com/
+
+changes since v3:
+- Rebased on top of the master branch of media_stage repository and patch [1][2].
+- Replaced "stf_get_isp_scd_type" with "stf_isp_get_scd_type" in PATCH 8.
+
+v3: https://lore.kernel.org/all/20240205090424.40302-1-changhuang.liang@starfivetech.com/
+
+changes since v2:
+- Rebased on top of the master branch of media_stage repository.
+- Added helper function "media_entity_remove_links" in PATCH 8 and PATCH 11 to cleanup links.
+
+v2: https://lore.kernel.org/all/20240111084120.16685-1-changhuang.liang@starfivetech.com/
+
+changes since v1:
+- Rebased on top of the master branch of media_stage repository.
+- Documentated ISP submodule.
+- Added new ISP parameters format and document it.
+- Added a meta output video device and link to ISP subdev.
+- Replaced control with meta output video buffer for write ISP parameters.
+- Separated buffer operation which can use for capture and output device.
+- Droped ISP frame sync event.
+
+v1: https://lore.kernel.org/all/20231214065027.28564-1-changhuang.liang@starfivetech.com/
+
+The following are the media graph for the device and the v4l2-compliance
+output.
+
+==========================================================================================
+
+[the media graph]:
+
+digraph board {
+	rankdir=TB
+	n00000001 [label="{{<port0> 0 | <port1> 1} | stf_isp\n/dev/v4l-subdev0 | {<port2> 2 | <port3> 3}}", shape=Mrecord, style=filled, fillcolor=green]
+	n00000001:port2 -> n0000000e
+	n00000001:port3 -> n00000012 [style=dashed]
+	n00000006 [label="output_params\n/dev/video0", shape=box, style=filled, fillcolor=yellow]
+	n00000006 -> n00000001:port1 [style=dashed]
+	n0000000a [label="capture_raw\n/dev/video1", shape=box, style=filled, fillcolor=yellow]
+	n0000000e [label="capture_yuv\n/dev/video2", shape=box, style=filled, fillcolor=yellow]
+	n00000012 [label="capture_scd\n/dev/video3", shape=box, style=filled, fillcolor=yellow]
+	n0000001c [label="{{<port0> 0} | cdns_csi2rx.19800000.csi-bridge\n/dev/v4l-subdev1 | {<port1> 1 | <port2> 2 | <port3> 3 | <port4> 4}}", shape=Mrecord, style=filled, fillcolor=green]
+	n0000001c:port1 -> n00000001:port0 [style=dashed]
+	n0000001c:port1 -> n0000000a [style=dashed]
+	n00000026 [label="{{} | imx219 6-0010\n/dev/v4l-subdev2 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
+	n00000026:port0 -> n0000001c:port0 [style=bold]
+}
+
+[v4l2-compliance test]:
+
+# ./v4l2-compliance -s -d /dev/video0
+v4l2-compliance 1.27.0-5220, 64 bits, 64-bit time_t
+v4l2-compliance SHA: 8387e3673837 2024-07-01 11:09:32
+
+Compliance test for starfive-camss device /dev/video0:
+
+Driver Info:
+        Driver name      : starfive-camss
+        Card type        : Starfive Camera Subsystem
+        Bus info         : platform:19840000.isp
+        Driver version   : 6.10.0
+        Capabilities     : 0xac200000
+                Metadata Output
+                I/O MC
+                Streaming
+                Extended Pix Format
+                Device Capabilities
+        Device Caps      : 0x2c200000
+                Metadata Output
+                I/O MC
+                Streaming
+                Extended Pix Format
+Media Driver Info:
+        Driver name      : starfive-camss
+        Model            : Starfive Camera Subsystem
+        Serial           :
+        Bus info         : platform:19840000.isp
+        Media version    : 6.10.0
+        Hardware revision: 0x00000000 (0)
+        Driver version   : 6.10.0
+Interface Info:
+        ID               : 0x03000008
+        Type             : V4L Video
+Entity Info:
+        ID               : 0x00000006 (6)
+        Name             : output_params
+        Function         : V4L2 I/O
+        Pad 0x01000007   : 0: Source
+          Link 0x0200001a: to remote pad 0x1000003 of entity 'stf_isp' (Image Signal Processor): Data
+
+Required ioctls:
+        test MC information (see 'Media Driver Info' above): OK
+        test VIDIOC_QUERYCAP: OK
+        test invalid ioctls: OK
+
+Allow for multiple opens:
+        test second /dev/video0 open: OK
+        test VIDIOC_QUERYCAP: OK
+        test VIDIOC_G/S_PRIORITY: OK
+        test for unlimited opens: OK
+
+Debug ioctls:
+        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 1 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls (Output 0):
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+        test VIDIOC_QUERYCTRL: OK (Not Supported)
+        test VIDIOC_G/S_CTRL: OK (Not Supported)
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 0 Private Controls: 0
+
+Format ioctls (Output 0):
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+        test VIDIOC_G/S_PARM: OK (Not Supported)
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK
+        test VIDIOC_TRY_FMT: OK
+        test VIDIOC_S_FMT: OK
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK (Not Supported)
+        test Composing: OK (Not Supported)
+        test Scaling: OK (Not Supported)
+
+Codec ioctls (Output 0):
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls (Output 0):
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+        test CREATE_BUFS maximum buffers: OK
+        test VIDIOC_REMOVE_BUFS: OK
+        test VIDIOC_EXPBUF: OK
+        test Requests: OK (Not Supported)
+
+Test output 0:
+
+Streaming ioctls:
+        test read/write: OK (Not Supported)
+        test blocking wait: OK
+        test MMAP (no poll): OK
+        test MMAP (select): OK
+        test MMAP (epoll): OK
+        test USERPTR (no poll): OK (Not Supported)
+        test USERPTR (select): OK (Not Supported)
+        test DMABUF: Cannot test, specify --expbuf-device
+
+Total for starfive-camss device /dev/video0: 55, Succeeded: 55, Failed: 0, Warnings: 0
+
+# ./v4l2-compliance -s -d /dev/video3
+v4l2-compliance 1.27.0-5220, 64 bits, 64-bit time_t
+v4l2-compliance SHA: 8387e3673837 2024-07-01 11:09:32
+
+Compliance test for starfive-camss device /dev/video3:
+
+Driver Info:
+        Driver name      : starfive-camss
+        Card type        : Starfive Camera Subsystem
+        Bus info         : platform:19840000.isp
+        Driver version   : 6.10.0
+        Capabilities     : 0xa4a00000
+                Metadata Capture
+                I/O MC
+                Streaming
+                Extended Pix Format
+                Device Capabilities
+        Device Caps      : 0x24a00000
+                Metadata Capture
+                I/O MC
+                Streaming
+                Extended Pix Format
+Media Driver Info:
+        Driver name      : starfive-camss
+        Model            : Starfive Camera Subsystem
+        Serial           :
+        Bus info         : platform:19840000.isp
+        Media version    : 6.10.0
+        Hardware revision: 0x00000000 (0)
+        Driver version   : 6.10.0
+Interface Info:
+        ID               : 0x03000014
+        Type             : V4L Video
+Entity Info:
+        ID               : 0x00000012 (18)
+        Name             : capture_scd
+        Function         : V4L2 I/O
+        Pad 0x01000013   : 0: Sink
+          Link 0x02000018: from remote pad 0x1000005 of entity 'stf_isp' (Image Signal Processor): Data
+
+Required ioctls:
+        test MC information (see 'Media Driver Info' above): OK
+        test VIDIOC_QUERYCAP: OK
+        test invalid ioctls: OK
+
+Allow for multiple opens:
+        test second /dev/video3 open: OK
+        test VIDIOC_QUERYCAP: OK
+        test VIDIOC_G/S_PRIORITY: OK
+        test for unlimited opens: OK
+
+Debug ioctls:
+        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 1 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls (Input 0):
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+        test VIDIOC_QUERYCTRL: OK (Not Supported)
+        test VIDIOC_G/S_CTRL: OK (Not Supported)
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 0 Private Controls: 0
+
+Format ioctls (Input 0):
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+        test VIDIOC_G/S_PARM: OK (Not Supported)
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK
+        test VIDIOC_TRY_FMT: OK
+        test VIDIOC_S_FMT: OK
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK (Not Supported)
+        test Composing: OK (Not Supported)
+        test Scaling: OK (Not Supported)
+
+Codec ioctls (Input 0):
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls (Input 0):
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+        test CREATE_BUFS maximum buffers: OK
+        test VIDIOC_REMOVE_BUFS: OK
+        test VIDIOC_EXPBUF: OK
+        test Requests: OK (Not Supported)
+
+Test input 0:
+
+Streaming ioctls:
+        test read/write: OK (Not Supported)
+        test blocking wait: OK
+        test MMAP (no poll): OK
+        test MMAP (select): OK
+        test MMAP (epoll): OK
+        test USERPTR (no poll): OK (Not Supported)
+        test USERPTR (select): OK (Not Supported)
+        test DMABUF: Cannot test, specify --expbuf-device
+
+Total for starfive-camss device /dev/video3: 55, Succeeded: 55, Failed: 0, Warnings: 0
+
+Changhuang Liang (14):
+  media: starfive: Add JH7110 ISP module definitions
+  media: Documentation: Add description for StarFive ISP metadata
+    formats
+  media: videodev2.h, v4l2-ioctl: Add StarFive ISP meta buffer format
+  staging: media: starfive: Add a params sink pad and a scd source pad
+    for ISP
+  staging: media: starfive: Separate buffer from ISP hardware operation
+  staging: media: starfive: Separate buffer be a common file
+  staging: media: starfive: Separate ISP hardware from capture device
+  staging: media: starfive: Add for StarFive ISP 3A SC
+  staging: media: starfive: Update ISP initialise config for 3A
+  staging: media: starfive: Add V4L2_CAP_IO_MC capability
+  staging: media: starfive: Add ISP params video device
+  staging: media: starfive: Add ISP parameters hardware configure
+  staging: media: starfive: Drop read support for video capture devices
+  admin-guide: media: Update documents for StarFive Camera Subsystem
+
+ .../admin-guide/media/starfive_camss.rst      |  11 +-
+ .../media/starfive_camss_graph.dot            |  22 +-
+ .../media/v4l/metafmt-starfive-isp.rst        |  75 ++
+ MAINTAINERS                                   |   2 +
+ drivers/media/v4l2-core/v4l2-ioctl.c          |   2 +
+ drivers/staging/media/starfive/camss/Makefile |   3 +
+ .../staging/media/starfive/camss/stf-buffer.c | 166 ++++
+ .../staging/media/starfive/camss/stf-buffer.h |  53 ++
+ .../staging/media/starfive/camss/stf-camss.c  |  38 +-
+ .../staging/media/starfive/camss/stf-camss.h  |  12 +
+ .../media/starfive/camss/stf-capture.c        | 248 +-----
+ .../media/starfive/camss/stf-capture.h        |  22 -
+ .../media/starfive/camss/stf-isp-hw-ops.c     | 722 +++++++++++++++++
+ .../media/starfive/camss/stf-isp-params.c     | 240 ++++++
+ .../staging/media/starfive/camss/stf-isp.c    |  77 +-
+ .../staging/media/starfive/camss/stf-isp.h    | 188 +++++
+ .../staging/media/starfive/camss/stf-output.c |  83 ++
+ .../staging/media/starfive/camss/stf-output.h |  22 +
+ .../staging/media/starfive/camss/stf-video.c  | 147 +++-
+ .../staging/media/starfive/camss/stf-video.h  |  11 +-
+ include/uapi/linux/jh7110-isp.h               | 739 ++++++++++++++++++
+ include/uapi/linux/videodev2.h                |   4 +
+ 22 files changed, 2608 insertions(+), 279 deletions(-)
+ create mode 100644 Documentation/userspace-api/media/v4l/metafmt-starfive-isp.rst
+ create mode 100644 drivers/staging/media/starfive/camss/stf-buffer.c
+ create mode 100644 drivers/staging/media/starfive/camss/stf-buffer.h
+ create mode 100644 drivers/staging/media/starfive/camss/stf-isp-params.c
+ create mode 100644 drivers/staging/media/starfive/camss/stf-output.c
+ create mode 100644 drivers/staging/media/starfive/camss/stf-output.h
+ create mode 100644 include/uapi/linux/jh7110-isp.h
+
+--
+2.25.1
