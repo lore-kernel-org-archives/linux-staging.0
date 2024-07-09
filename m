@@ -1,25 +1,26 @@
 Received: from CHN02-SH0-obe.outbound.protection.partner.outlook.cn (mail-sh0chn02on2099.outbound.protection.partner.outlook.cn [139.219.146.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B73BE1534E9
-	for <linux-staging@lists.linux.dev>; Tue,  9 Jul 2024 08:38:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10AC9152E15
+	for <linux-staging@lists.linux.dev>; Tue,  9 Jul 2024 08:38:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.219.146.99
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720514338; cv=fail; b=TE5pM7O7EqJ0/9W4ifhFJ3ir1xDryT447jkCAxm5cli8Ms2C/iROuvRzC0q4Nm94dJ7Y9ePWnymy9+R4UnUZVWGTZwggTl8hBHJUqQ7e7bHMdFRwboQVdCYEWGx4pQq4+TjH1gHV/Tzi+6FHDndOGsaYl/CsmWAgbhGUoYLZLIU=
+	t=1720514340; cv=fail; b=ebkGs16EsbYZhxDOF4V7lOTjsFABTnAEy84kMht7HcijSWQcgbM6P5Ualw1rjFhgTibHo6tHd0xk5iPpysBVUTcqfR25RWZwV5NhHDqa3mtkow8/RSYslwU9B6WtP0vFISlvzEJa4BQ+jvZsPSajDXWreAlR3RaFpBatNUdA0b8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720514338; c=relaxed/simple;
-	bh=l2eQBzej24IjzdZ3yeayafRT5sLEKwPTMgtQXRN62s4=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=Tp89DMoXR8BxDQQquppquCS7fdAcZ0D2yXbIruZ9pJSWLEnpLZcIN7L2Zu2oYFffjiSROT34+6pKgMkOe3r7X2giFcRMAVkCioVrZ3Ex37Ww9Lhfi849WsZP331Ud3Tw3o4hn7Xf4KDRzby9PH/qyymzOKCs35LdU1loWPuL8RU=
+	s=arc-20240116; t=1720514340; c=relaxed/simple;
+	bh=vuW0MghvQk8lyOzG380nCj7MP1pcGYfW4BjZqCcwbn4=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=kC1D7FpAY9w6ENJsE/37EOovFViKheUhlD6VFbicfZPJvFgafkkgHkYQVpupYLB/QnGO/ighmr56UHuQNi02Y7OewsAy0Dgp3/O7dRlaW5LXLql2PyeQA1I8y/QNTLv/nkbvMUxtYn9O7T14BO23XrShTWj0rgPU9DhJ1W44GwA=
 ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com; spf=pass smtp.mailfrom=starfivetech.com; arc=fail smtp.client-ip=139.219.146.99
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TMfPCIJJfBXlaftFUfDoes0NvIwwl5uyAdACY9yQzcr046ScWzw0Uc5/hYj2ycSac1DRocKtHN/4WWSVeNxHsUh4r6N5YFZPmTZaH873ITtxIzYrH0Bw0/fSaI1Oybs5vKa3wFLlCRb9Vc2PvLCGsnv1TnXBids38C/XNLFSxVgCslioZxsdPLV9Tg/jQWGK/MH4u63hLwCVVvd6aYHegUzzv8d/tQ5rNmDL+htURmcRb8L9FqDqcnxPlIgkEa3rV7sZbORqqSWulgItDMtMKYXhZQSEVM17scsT5BUs1W3vzbDyQLSIRjB3vHRuXNp10VN2dxgpVWawxy0v36Vbdw==
+ b=gpwoQdwA6+RxoFb4TgOPQK2Su0Jz+aT1QlWXcuYh3xnmPQRWeYY2gSq3x7bqUTKOBfhE3yX3y8reUkQdgY5uqtm+FBAJChh0ZSlQ63otFHbzbsKhhcYfOR9NGpJ6AydQxkElOYh7k54nzg+nL41cIW+TC+XKMDN2XPMyGmgBH9XzA6pIcKW52+Ipl/lrNTHLSUiXiL4qzGNqZ3OtyA3ai07RF/2za3mb2GoEyhURK5fqU2gKCXyvUOTUK0vAv58+tDtn0V1zqAPsSizC8bMp84I4pU9Xa3eguhZQhUD0/8NH70NYRYfsFxLksVOaIIWhVMcehcUyOMzqohko47WDtA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6X3adM2k6EIyu9eez4lG13vTog4sjUA3WmIRtsko+vQ=;
- b=NjmnBcUQYZcYe69FrGDAfv2gPIzsRjGIV7IAB55Z4laXZ+oq/z5SoxojpPlYgIk5z/T4v4/A0OoFJHob2Wx1MpUdwvml944IXR5i1Soghg5sFWQ5ezrWqOnJyCLeeOhQIZAL8T5tvvtpHXL/Ehg3oY3eJEg3iHpO4fp3nFtOxAwnVMEMhGSsDQFBixs9CpiBTPr6gR1P74k/bcaYQSl948EgFKJ3E9cdm4BgLEz+48x9gfUREnPgqn0IUHybY1/UbMZP7O9yeyBnDQdCK2PTcKiif5lKWWIW9Sqr52RCAPz77ku+3D+rC9KKehihuEIzr1NJI8sI64rWKUgtZzDe5A==
+ bh=ZmntXUNq1t/9ERF2Yi3c7CL3wjvxFpC22TLPemHaeqE=;
+ b=PhSY8QIkUlCsXOtLS4Esx4IXpnergObxvL6QcOGJWcEeorR7zPS+lnEW7zQ4SA75a/ie8XyCjGKDl+/tDQaIjwBjCaLW5nzOaIuefn89RCRnju9bZ5yXkz0clLVq/jOVeAtr2yVq3zc/1gr9NmyN7c48ell4xOL2gNocVKl9U/FlHeKujjqmf6JkeVfQNAAOZMxuOAgtj5oSb4f4pNHPWbpnop3+ejX0Kaf+1uwG8ydT7IPbeuLyWr/4bpNVp/HVh9iXWuN/AWScGGVjvCCPMzVu50l+Cw3CcHIHKMvnrtRDd3FKpNbWGhnmP2eY5jns5PUprUcgKJsnPyZTK7hvTQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=starfivetech.com; dmarc=pass action=none
  header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
@@ -29,11 +30,11 @@ Received: from ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
  (2406:e500:c550:1b::9) by ZQ0PR01MB1271.CHNPR01.prod.partner.outlook.cn
  (2406:e500:c550:18::13) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.37; Tue, 9 Jul
- 2024 08:38:32 +0000
+ 2024 08:38:33 +0000
 Received: from ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
  ([fe80::64c5:50d8:4f2c:59aa]) by
  ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn ([fe80::64c5:50d8:4f2c:59aa%6])
- with mapi id 15.20.7741.033; Tue, 9 Jul 2024 08:38:32 +0000
+ with mapi id 15.20.7741.033; Tue, 9 Jul 2024 08:38:33 +0000
 From: Changhuang Liang <changhuang.liang@starfivetech.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -50,12 +51,14 @@ Cc: Jack Zhu <jack.zhu@starfivetech.com>,
 	linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH v5 00/14] Add ISP 3A for StarFive
-Date: Tue,  9 Jul 2024 01:38:10 -0700
-Message-Id: <20240709083824.430473-1-changhuang.liang@starfivetech.com>
+Subject: [PATCH v5 01/14] media: starfive: Add JH7110 ISP module definitions
+Date: Tue,  9 Jul 2024 01:38:11 -0700
+Message-Id: <20240709083824.430473-2-changhuang.liang@starfivetech.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20240709083824.430473-1-changhuang.liang@starfivetech.com>
+References: <20240709083824.430473-1-changhuang.liang@starfivetech.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-ClientProxiedBy: ZQ0PR01CA0031.CHNPR01.prod.partner.outlook.cn
  (2406:e500:c550:2::16) To ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
  (2406:e500:c550:1b::9)
@@ -67,445 +70,832 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: ZQ0PR01MB1302:EE_|ZQ0PR01MB1271:EE_
-X-MS-Office365-Filtering-Correlation-Id: d8c66862-b23a-4de7-22de-08dc9ff283a9
+X-MS-Office365-Filtering-Correlation-Id: 87ae9ad8-c412-4a25-7b77-08dc9ff2845e
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam:
 	BCL:0;ARA:13230040|1800799024|41320700013|366016|52116014|7416014|38350700014;
 X-Microsoft-Antispam-Message-Info:
-	ZBIlS9qUDOVdpgqu4dSkGaj5WhDIkRUYEYf0QlSZrQG4utaXvMIxeuzljv86kWJC5xTfSYlaKOM3trYAU4JUXShnUEXCM4ZtkfAWrM1IAdopYdqkZGAgfxHEpZlyE88WP1gDhGPQn+V+gS1pwI5eZKrjGxDlA+sC8zTuiaZbV1Hj0iQqsUJQwJ0fty9fVULl3kPwQEqa5xpmIr4IwvrWBXmshUqs8+OapK+l8yRtuQMr5jRDfSqMtat1X4VRH6h67XjJEUs7VLEspz7o42wVBLLlDxzB6+SWz9+/DQmvjd51J7KYLKna3nOXRae4lzat7g6Jxj6B6+qQvniL9u+fE5C/8EKGCoED1KL8tHJ/2NdtuflPmUjGQxGgJkem9U1W48VYGmojaIm66Os5m1ciVtu5cmv9OkmOS4+Adv0g9f2zLDWgV4apprjHJcAy6T6zxlIFm612WdgUC7wGuJPjMvmRdzNjFt7659ugPglwKuPkmDzlvaRLiAyN+uP/676aT1AhqcLL/T1cJG29t/bNwRiSvhceJDgq34pmPlXTp9QMIH59tfyi3uxnJ/jqW/XFurZrLz8r86RplLpKAZh0YTHg9RlNcwnAIonbi0ijlLAhH6Cxk9sA/shz6jiIencN
+	nt5A2ptF5d6HFp3NlkDJJyw27LI+8TtRlrjNCIGxCj50cewCSuVBselpyI58Ceut+8oCBuFJvHuC1cDTypV3CYN7iooAueD6bVpxSDgrnKqfnKhPWIQCinWb5snSk/6kB4MHEkjt+JGMPLw1nGuCYgTB/qRAJGMXqQ8Oi1035L0aVqzI7coroLOkRBJjipkLKsBZBgUXHBxDmAuKH5vnOLSq7va35u66eLNjYCaEWKF1FbQhRRH+nKcrSCYhDILGXROv6eYlgaUxBaQW/W7hCTupSca1CvWgIHUvB+bkitKsNM97qd1CiTXthKauZUatoEVWG4BcUja99oNFq2gW6sY4PlRTFtXkZa7S2eLMd+QQ1ZmsV2VhfdZgO/MUAWz+xlhjo1gAPoJhN1IA816B5yiohp7LXKcFcSMtefmDDMW9IStLTpnJiKvbAiaHjIg/duLBtFJRP6qAhbEXmm2CkPb4frHT+g0gFODIzEM0f1IRdi4V3X2cSow7KkkU1s5pagsrY7D6tVB/xKhs1BT9PyO4M/MphiGaWj558TVzRWaxx9caHLfRz5YIyGCiacJNBxxjiWeBdUC2eoOqz/1YIeVK0tqVwRS0IwEu6oe6Q3zoTWqRzVhSPqjJcotFrhhu
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(41320700013)(366016)(52116014)(7416014)(38350700014);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?fFGEI6x9cxsrxXRo8mVD5rkGJzT7c1nfOMmKzrTzPliTlA5bKfu3mb3oaJUw?=
- =?us-ascii?Q?C9wr+A6EfnqtolnmfRPNKIzcu2pde1twxUAaTgowYkpgTVcI4Z9C5dbbHAbh?=
- =?us-ascii?Q?OFWaVQDSIIrTYc2Js0a18FWYDt8lcj0uz6aWG39F61KSgnTZtJ+Trpl2V9se?=
- =?us-ascii?Q?n/d7VanMPfr7VRfZCuxKnyttiI4e/ERw6xUDpc7OsrUBMJ1n8/tF3LbAtSaX?=
- =?us-ascii?Q?oW2RUHgXY1G+FmCUxaYXaFcuIbSK9363NgvoZn1DL0AwfJLNKRRSY+4N8UAR?=
- =?us-ascii?Q?eoGW2z+wsvAiiggndz5jub8KyxuSUiNQvgzQuHmBo1bw8WRGMAa2feYva6aT?=
- =?us-ascii?Q?BJbmJT13c0ouXIlkw1w4JzyViHxIkU25ZGaGkmClX+bo7qsqwR1UuWMmC/cO?=
- =?us-ascii?Q?cdIoT5OcVKb0gjpZ2IlYY0m0Pop4c0Saagiv6v3jXaty1cLrFcxCRHKQeh9M?=
- =?us-ascii?Q?d5d+biYShzUrRbquMwK3hxvGqVyL15+n4czpMLLrlBULRItwU2MEwLtXILuo?=
- =?us-ascii?Q?zVcyIBj3KGW6TexOB+EXKokIXUSOVMkQ7wdHT1uMRWRjt22YTjcASaCurUxa?=
- =?us-ascii?Q?X3NRFXvOshUo5rFGGGQvwqJ0LBXVy/BGwglL8xtvaYSZOJZiRVPvVdIVUOKL?=
- =?us-ascii?Q?uMTNY20el+o7bX7LUqHiLWuS4zO8jDwazWj5q3c3oUYrDqPIMcrwi00m4ifc?=
- =?us-ascii?Q?HpxOBfILA70/Yapu5bwhqXWwerGu+7CNn+qSFp9M73q+gjEIwiQuEd8nrrsy?=
- =?us-ascii?Q?6+faH6PtyNHDQp/8R4dqk3zU8kFADQ8VBwZHCC1Jdgkub1p1nTIjxfm7/ci9?=
- =?us-ascii?Q?1ntyi4rFiZ8G6YPRLvHnJViuH78/My58ZZXgjBLhs3vf4rhjZ/5NvwKnUluJ?=
- =?us-ascii?Q?5vS2uJdLw9B3ZWYJu3JzbQ2eXrKEj4uA0Gnbl13cJLgliaowH3RmMctdrqev?=
- =?us-ascii?Q?FU/9Glo2N0yz41F/y50rlKgdqE8IK9Dnr2r2U7pNhoTpgVLGYHT23Hoi3CkC?=
- =?us-ascii?Q?OYXth4KKCYuj+WHEIEL7eqGtMFX1ELc68R0IO3e/I1qH+6inwTi7SwKjNYJt?=
- =?us-ascii?Q?w41QJsOq9K9/YDGIJInmRIdppIOHRjNrBEJbMylFisZBZKdkW/UD5k/y4mn/?=
- =?us-ascii?Q?0tSGjfacwe0OQRLGtUtnw0zarFy7hMtUDwprO+roW9ZtVkbMUFWai1524bGu?=
- =?us-ascii?Q?yn4dDbIGv5ifYBEZwxit9bkw3FPoOJwIRmNM1Q9S7D+6HLqFjljfU8f9R3/F?=
- =?us-ascii?Q?oDFRSKPVSrFKFPfinhuzwZQwI8IRxvKuiLznvBDu8Iwvh2v23dw9pwHpZvhd?=
- =?us-ascii?Q?5G5LTnYaqwcZo1EKhUpHHg7WJguID1aLyw1lsr0SYBFXLYn79uKLTjpb2tRe?=
- =?us-ascii?Q?TFCBcvhbq6zQ8s9h0YPE9B6XXbMXR4iQbCEW94Gk4pxA6f2bGVbFPDUL4y2e?=
- =?us-ascii?Q?ibA4vyeif4Qu53gN/QEKmyL+9ifWU1W7gqkVFuCL/2bw6z/qj3mT+v5QEFQG?=
- =?us-ascii?Q?Fyz6SwNyWQjh5Dj93wK67E+bdcyk4wjROjhW9ZcJxXNRBDI0qwOJofli/JMB?=
- =?us-ascii?Q?ZcQcSw1ARzMSxIT7FgLIMKMb/7dWroUoKR0LBQcWvNZQUyCEsk9Pjs5OOlyT?=
- =?us-ascii?Q?ECSC0KtMmM0yD7NWtDrLW1o=3D?=
+	=?utf-8?B?SEhSNDhkeGppQlJQZXVZcGhOS1VYMWFUTjdlRjF6MXhmUmc0cW00aEpncmJM?=
+ =?utf-8?B?aDlDYmtwUEQwTXprL01nS3BuKzM3NEVhRkkwZUhmRG1Ua3RzczFXTTRHN1Bw?=
+ =?utf-8?B?R2ZmRm1xbEprUzBYTHpaWXVxcTBVbVB2TkJPK1hHblhtZ1FIaVIyQUV1bGUv?=
+ =?utf-8?B?NzdPMERaZWtmcnFKdmpubmZzdEJ5ZlYxYWlxQktpSkFreG1uZjRMeUVlM3lN?=
+ =?utf-8?B?Vis2L3VBT0NzN0VaU1lFUUF2UEVFcEpRcDRPSUpZL3JuM3NuUUlvV0NzL2NP?=
+ =?utf-8?B?OTJVN2JKdytTR0doQ3FUa3U3OW1KSmFBQUNnS3NRQXBYY0R1OWdZekVxdGY4?=
+ =?utf-8?B?VW1HUU8rSTV4V05TT2VqeUtLK1dBYWcwMjlZa1BnOW16SjNhRHg0VVhzNnRH?=
+ =?utf-8?B?RVh3RU1sblZyWHJYbGU3VkZkLzBoVVdQZ1dKMUxFb2tDYmtua3N4N0ZVNE1B?=
+ =?utf-8?B?ajdOSGFldjJZUzM5ZVQxZUEzVUhPcUx0cDA4RnIraDVuRklXTDlKSmJqNFZB?=
+ =?utf-8?B?bU40VVhMMWRtb2FpZG5zaE4zVExNTklTNFB5NGNCWklZUlpwN1BmVWNMbG90?=
+ =?utf-8?B?QkU1M0NXZENEZ2hMVWVsbVRiZFBjMGdwWU1iTXVISldNa3FORmpCL1dhck51?=
+ =?utf-8?B?MjFIeFpTbDMxNXpTNVRNMG8xdGdKZnloM0RhUlV6SXVXYXFUeWZXK29TSkVI?=
+ =?utf-8?B?NGdXRE1UcXJsQ1diRm52YndJSmVBbmRvMlBqYkI0WU9HT2VQdVF6SkNkbm41?=
+ =?utf-8?B?c3VvU2tUUkpHZFJQZEthR0hWRXhaYWpGYkw4QXJvMVVBTVUxanEzQVVMVWl0?=
+ =?utf-8?B?bUpOamlHalZkNnB1SmNtUWFXN0lQK0hhR0lBNzVpaHpFYXNwZ3RQRFpJM0Fp?=
+ =?utf-8?B?Z1M3a0VpdWNYNFpndmdkU2JlWlY1SEJWc1ZRc2lnK0t2dFVJNlFGRXlMZ3d2?=
+ =?utf-8?B?b0ZvUzdPRFAwaWJENXU3bWtkRGsxeHYySmhiNlRCTEFjbHNOZ1FmVGdNL0dE?=
+ =?utf-8?B?ZmRXUW54V0JzWTlYSXdNQ3c5NnRTWFZybHZZZjROYkJOQzQyMVZkTlhLWTUr?=
+ =?utf-8?B?d2g5ZlVjSjh6YmZGZ1IySnVkalc5T1hLRUhUdFE0WjhxTGtGQ0dMcnFMNVk4?=
+ =?utf-8?B?ditZdkpHdlZFR0RxeC9WSFZtbWx1QTBGY2NWUzlabXB5U1luVXFoL2o3ZTdK?=
+ =?utf-8?B?Zjhzd1VUYkZWS25scVNXVWFpcG15a0lGSzdlaUxMd1E1TjVNZTJHL1l5aC9a?=
+ =?utf-8?B?RFJPcktyd2tpTEhiaEo4WmVTY2hLWGZwblNoR0IyL0tDRlN3UTh1Z0lvLy94?=
+ =?utf-8?B?WWU1dm81eVBNMmpocGE5cDFlcTFUVkdGRzVZdUF5ZXM5Rnl2V0o2YTJEb3lL?=
+ =?utf-8?B?emphVG55RWxIWklsQ2g2eEhFbnBxeEpINmRYNzZCSzB0ZlUvNld6aEY1eHhJ?=
+ =?utf-8?B?NUJuaXZYNktrb1hoRE1hZE9vZTRNMnNPSVhiclJ3eFNIanVrTXFLaEw4UWpl?=
+ =?utf-8?B?d0ZuQnNhSDZwUGRweTcyNnViQjdYcDk0YTdaOUZaNnJoSWREdzZlSmF5VHhS?=
+ =?utf-8?B?OUFtbGF3ZDhhSmwzaHErV1IvRmhZT0NsRXhXVUtpV1JFeXBOWWZqTmtSay9t?=
+ =?utf-8?B?UUVPWVBHT3hrazdMbUgxcGR4Z0FENVlKUzZldm9zTy96dXozS1lmUExlTjNX?=
+ =?utf-8?B?R0FuZlEzR1plNWtxeHlZVHYxYWlrUEQ4UFQwQUdCMlEreTRCN1dQbGJaU092?=
+ =?utf-8?B?SUNSR2x5aEl1cjNwektlTVhySSsxaFJpL1dhSWt3R051QWhVWWpmQ2NWNk45?=
+ =?utf-8?B?aEljVkJEclBVdlhjdStKb0JXOThoU2lyZllTMzlEN2hwUDY2clNqMlI4M1JF?=
+ =?utf-8?B?UTQvMmRvRkJjYTlwcXdCaHB6VFQvcW1tWEpqSWtzN29PT1MzT2pvRk5FOGdK?=
+ =?utf-8?B?YzNTQmtwdHpQOWgwbk1VOHA4Y3dMR1ZFZXVVa01HS3Jkb1BGY3c2OGpJa3hr?=
+ =?utf-8?B?SVZBbXNCNWN3amExV1BqKzN5d0FvSHZtTXMxb3JsY1Q4a3ZZeENHL3owbmxI?=
+ =?utf-8?B?djNwTHc3RVNJc0lwaTdLZkNWeGZBTGFsazFVeEpsc2o5Zk5FTUNQZzhpai9z?=
+ =?utf-8?B?WmJFckNNTmtzY0dsdU1Ma1JsNjVJakRyYVlGWDQ4Z0prSzJ0MUY0STcwSlV1?=
+ =?utf-8?Q?e4ZAycsawjhO5Ux5iG26Z/4=3D?=
 X-OriginatorOrg: starfivetech.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d8c66862-b23a-4de7-22de-08dc9ff283a9
+X-MS-Exchange-CrossTenant-Network-Message-Id: 87ae9ad8-c412-4a25-7b77-08dc9ff2845e
 X-MS-Exchange-CrossTenant-AuthSource: ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2024 08:38:32.0960
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2024 08:38:33.2787
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Pwm5wvq7SQHPECVIWQRb9bEOoPysJ8wFqO/cI8hRsIbt+ArN8OzSSlmNP/8AkZdQAbP0cmSwFr47agLXoJ5P1eN9iezXAb1TF4RppCle4yI0nZU1MPaJNv8MTWVoV9lv
+X-MS-Exchange-CrossTenant-UserPrincipalName: W4wlKUbbHBKtRyD8fFa2MXcjekYr9IAE1i87vmCp1exO+Ln/BYz+leZ7jYBZbnQeGFYmv0C0ZVTrucjWMvpTzfxT2iV+k0J7ZQn/0ecy3NDUU5lbNbo2GfIdNvuTQItR
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: ZQ0PR01MB1271
 
-This series implements the ISP 3A function to the Camera Subsystem on StarFive
-JH7110 SoC. The series has been tested on the VisionFive 2 board.
+Add JH7110 ISP module definitions for user space.
 
-This series is based on top of the master branch of media_stage repository,
-which is tested with a v4l2-compliance compiled from the git repo
-(git://linuxtv.org/v4l-utils.git).
-
-changes since v4:
-- Rebase on top of the master branch of media_stage repository.
-- Insert a new PATCH 13
-- PATCH 1:
-1. Fix spelling error:
-	- corsstakl -> crosstalk
-	- balck -> black
-	- magbitude -> magnitude
-	- FALG -> FLAG
-2. Exchange of the values of JH7110_ISP_SC_FLAG_AE_AF and JH7110_ISP_SC_FLAG_AWB
-
-- PATCH 8:
-1. Synchronous spelling error: FALG -> FLAG
-2. Add:
-
-if (*num_planes)
-	return sizes[0] < sizeof(struct jh7110_isp_sc_buffer) ? -EINVAL : 0;
-
-- PATCH 11:
-1. Drop read hook.
-2. Add:
-
-if (*num_planes)
-	return sizes[0] < sizeof(struct jh7110_isp_params_buffer) ? -EINVAL : 0;
-
-- PATCH 12:
-1. Add:
-
-ready_buf->vb.vb2_buf.timestamp = ktime_get_ns();
-ready_buf->vb.sequence = output->buffers.sequence++;
-
-to fix "v4l2-compliance -s" Failed.
-
-v4: https://lore.kernel.org/all/20240402100011.13480-1-changhuang.liang@starfivetech.com/
-
-changes since v3:
-- Rebased on top of the master branch of media_stage repository and patch [1][2].
-- Replaced "stf_get_isp_scd_type" with "stf_isp_get_scd_type" in PATCH 8.
-
-v3: https://lore.kernel.org/all/20240205090424.40302-1-changhuang.liang@starfivetech.com/
-
-changes since v2:
-- Rebased on top of the master branch of media_stage repository.
-- Added helper function "media_entity_remove_links" in PATCH 8 and PATCH 11 to cleanup links.
-
-v2: https://lore.kernel.org/all/20240111084120.16685-1-changhuang.liang@starfivetech.com/
-
-changes since v1:
-- Rebased on top of the master branch of media_stage repository.
-- Documentated ISP submodule.
-- Added new ISP parameters format and document it.
-- Added a meta output video device and link to ISP subdev.
-- Replaced control with meta output video buffer for write ISP parameters.
-- Separated buffer operation which can use for capture and output device.
-- Droped ISP frame sync event.
-
-v1: https://lore.kernel.org/all/20231214065027.28564-1-changhuang.liang@starfivetech.com/
-
-The following are the media graph for the device and the v4l2-compliance
-output.
-
-==========================================================================================
-
-[the media graph]:
-
-digraph board {
-	rankdir=TB
-	n00000001 [label="{{<port0> 0 | <port1> 1} | stf_isp\n/dev/v4l-subdev0 | {<port2> 2 | <port3> 3}}", shape=Mrecord, style=filled, fillcolor=green]
-	n00000001:port2 -> n0000000e
-	n00000001:port3 -> n00000012 [style=dashed]
-	n00000006 [label="output_params\n/dev/video0", shape=box, style=filled, fillcolor=yellow]
-	n00000006 -> n00000001:port1 [style=dashed]
-	n0000000a [label="capture_raw\n/dev/video1", shape=box, style=filled, fillcolor=yellow]
-	n0000000e [label="capture_yuv\n/dev/video2", shape=box, style=filled, fillcolor=yellow]
-	n00000012 [label="capture_scd\n/dev/video3", shape=box, style=filled, fillcolor=yellow]
-	n0000001c [label="{{<port0> 0} | cdns_csi2rx.19800000.csi-bridge\n/dev/v4l-subdev1 | {<port1> 1 | <port2> 2 | <port3> 3 | <port4> 4}}", shape=Mrecord, style=filled, fillcolor=green]
-	n0000001c:port1 -> n00000001:port0 [style=dashed]
-	n0000001c:port1 -> n0000000a [style=dashed]
-	n00000026 [label="{{} | imx219 6-0010\n/dev/v4l-subdev2 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
-	n00000026:port0 -> n0000001c:port0 [style=bold]
-}
-
-[v4l2-compliance test]:
-
-# ./v4l2-compliance -s -d /dev/video0
-v4l2-compliance 1.27.0-5220, 64 bits, 64-bit time_t
-v4l2-compliance SHA: 8387e3673837 2024-07-01 11:09:32
-
-Compliance test for starfive-camss device /dev/video0:
-
-Driver Info:
-        Driver name      : starfive-camss
-        Card type        : Starfive Camera Subsystem
-        Bus info         : platform:19840000.isp
-        Driver version   : 6.10.0
-        Capabilities     : 0xac200000
-                Metadata Output
-                I/O MC
-                Streaming
-                Extended Pix Format
-                Device Capabilities
-        Device Caps      : 0x2c200000
-                Metadata Output
-                I/O MC
-                Streaming
-                Extended Pix Format
-Media Driver Info:
-        Driver name      : starfive-camss
-        Model            : Starfive Camera Subsystem
-        Serial           :
-        Bus info         : platform:19840000.isp
-        Media version    : 6.10.0
-        Hardware revision: 0x00000000 (0)
-        Driver version   : 6.10.0
-Interface Info:
-        ID               : 0x03000008
-        Type             : V4L Video
-Entity Info:
-        ID               : 0x00000006 (6)
-        Name             : output_params
-        Function         : V4L2 I/O
-        Pad 0x01000007   : 0: Source
-          Link 0x0200001a: to remote pad 0x1000003 of entity 'stf_isp' (Image Signal Processor): Data
-
-Required ioctls:
-        test MC information (see 'Media Driver Info' above): OK
-        test VIDIOC_QUERYCAP: OK
-        test invalid ioctls: OK
-
-Allow for multiple opens:
-        test second /dev/video0 open: OK
-        test VIDIOC_QUERYCAP: OK
-        test VIDIOC_G/S_PRIORITY: OK
-        test for unlimited opens: OK
-
-Debug ioctls:
-        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
-        test VIDIOC_LOG_STATUS: OK (Not Supported)
-
-Input ioctls:
-        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
-        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-        test VIDIOC_ENUMAUDIO: OK (Not Supported)
-        test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
-        test VIDIOC_G/S_AUDIO: OK (Not Supported)
-        Inputs: 0 Audio Inputs: 0 Tuners: 0
-
-Output ioctls:
-        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-        test VIDIOC_G/S/ENUMOUTPUT: OK
-        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-        Outputs: 1 Audio Outputs: 0 Modulators: 0
-
-Input/Output configuration ioctls:
-        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
-        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
-        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
-        test VIDIOC_G/S_EDID: OK (Not Supported)
-
-Control ioctls (Output 0):
-        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
-        test VIDIOC_QUERYCTRL: OK (Not Supported)
-        test VIDIOC_G/S_CTRL: OK (Not Supported)
-        test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
-        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
-        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-        Standard Controls: 0 Private Controls: 0
-
-Format ioctls (Output 0):
-        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
-        test VIDIOC_G/S_PARM: OK (Not Supported)
-        test VIDIOC_G_FBUF: OK (Not Supported)
-        test VIDIOC_G_FMT: OK
-        test VIDIOC_TRY_FMT: OK
-        test VIDIOC_S_FMT: OK
-        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-        test Cropping: OK (Not Supported)
-        test Composing: OK (Not Supported)
-        test Scaling: OK (Not Supported)
-
-Codec ioctls (Output 0):
-        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-
-Buffer ioctls (Output 0):
-        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
-        test CREATE_BUFS maximum buffers: OK
-        test VIDIOC_REMOVE_BUFS: OK
-        test VIDIOC_EXPBUF: OK
-        test Requests: OK (Not Supported)
-
-Test output 0:
-
-Streaming ioctls:
-        test read/write: OK (Not Supported)
-        test blocking wait: OK
-        test MMAP (no poll): OK
-        test MMAP (select): OK
-        test MMAP (epoll): OK
-        test USERPTR (no poll): OK (Not Supported)
-        test USERPTR (select): OK (Not Supported)
-        test DMABUF: Cannot test, specify --expbuf-device
-
-Total for starfive-camss device /dev/video0: 55, Succeeded: 55, Failed: 0, Warnings: 0
-
-# ./v4l2-compliance -s -d /dev/video3
-v4l2-compliance 1.27.0-5220, 64 bits, 64-bit time_t
-v4l2-compliance SHA: 8387e3673837 2024-07-01 11:09:32
-
-Compliance test for starfive-camss device /dev/video3:
-
-Driver Info:
-        Driver name      : starfive-camss
-        Card type        : Starfive Camera Subsystem
-        Bus info         : platform:19840000.isp
-        Driver version   : 6.10.0
-        Capabilities     : 0xa4a00000
-                Metadata Capture
-                I/O MC
-                Streaming
-                Extended Pix Format
-                Device Capabilities
-        Device Caps      : 0x24a00000
-                Metadata Capture
-                I/O MC
-                Streaming
-                Extended Pix Format
-Media Driver Info:
-        Driver name      : starfive-camss
-        Model            : Starfive Camera Subsystem
-        Serial           :
-        Bus info         : platform:19840000.isp
-        Media version    : 6.10.0
-        Hardware revision: 0x00000000 (0)
-        Driver version   : 6.10.0
-Interface Info:
-        ID               : 0x03000014
-        Type             : V4L Video
-Entity Info:
-        ID               : 0x00000012 (18)
-        Name             : capture_scd
-        Function         : V4L2 I/O
-        Pad 0x01000013   : 0: Sink
-          Link 0x02000018: from remote pad 0x1000005 of entity 'stf_isp' (Image Signal Processor): Data
-
-Required ioctls:
-        test MC information (see 'Media Driver Info' above): OK
-        test VIDIOC_QUERYCAP: OK
-        test invalid ioctls: OK
-
-Allow for multiple opens:
-        test second /dev/video3 open: OK
-        test VIDIOC_QUERYCAP: OK
-        test VIDIOC_G/S_PRIORITY: OK
-        test for unlimited opens: OK
-
-Debug ioctls:
-        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
-        test VIDIOC_LOG_STATUS: OK (Not Supported)
-
-Input ioctls:
-        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
-        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-        test VIDIOC_ENUMAUDIO: OK (Not Supported)
-        test VIDIOC_G/S/ENUMINPUT: OK
-        test VIDIOC_G/S_AUDIO: OK (Not Supported)
-        Inputs: 1 Audio Inputs: 0 Tuners: 0
-
-Output ioctls:
-        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-        Outputs: 0 Audio Outputs: 0 Modulators: 0
-
-Input/Output configuration ioctls:
-        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
-        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
-        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
-        test VIDIOC_G/S_EDID: OK (Not Supported)
-
-Control ioctls (Input 0):
-        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
-        test VIDIOC_QUERYCTRL: OK (Not Supported)
-        test VIDIOC_G/S_CTRL: OK (Not Supported)
-        test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
-        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
-        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-        Standard Controls: 0 Private Controls: 0
-
-Format ioctls (Input 0):
-        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
-        test VIDIOC_G/S_PARM: OK (Not Supported)
-        test VIDIOC_G_FBUF: OK (Not Supported)
-        test VIDIOC_G_FMT: OK
-        test VIDIOC_TRY_FMT: OK
-        test VIDIOC_S_FMT: OK
-        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-        test Cropping: OK (Not Supported)
-        test Composing: OK (Not Supported)
-        test Scaling: OK (Not Supported)
-
-Codec ioctls (Input 0):
-        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-
-Buffer ioctls (Input 0):
-        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
-        test CREATE_BUFS maximum buffers: OK
-        test VIDIOC_REMOVE_BUFS: OK
-        test VIDIOC_EXPBUF: OK
-        test Requests: OK (Not Supported)
-
-Test input 0:
-
-Streaming ioctls:
-        test read/write: OK (Not Supported)
-        test blocking wait: OK
-        test MMAP (no poll): OK
-        test MMAP (select): OK
-        test MMAP (epoll): OK
-        test USERPTR (no poll): OK (Not Supported)
-        test USERPTR (select): OK (Not Supported)
-        test DMABUF: Cannot test, specify --expbuf-device
-
-Total for starfive-camss device /dev/video3: 55, Succeeded: 55, Failed: 0, Warnings: 0
-
-Changhuang Liang (14):
-  media: starfive: Add JH7110 ISP module definitions
-  media: Documentation: Add description for StarFive ISP metadata
-    formats
-  media: videodev2.h, v4l2-ioctl: Add StarFive ISP meta buffer format
-  staging: media: starfive: Add a params sink pad and a scd source pad
-    for ISP
-  staging: media: starfive: Separate buffer from ISP hardware operation
-  staging: media: starfive: Separate buffer be a common file
-  staging: media: starfive: Separate ISP hardware from capture device
-  staging: media: starfive: Add for StarFive ISP 3A SC
-  staging: media: starfive: Update ISP initialise config for 3A
-  staging: media: starfive: Add V4L2_CAP_IO_MC capability
-  staging: media: starfive: Add ISP params video device
-  staging: media: starfive: Add ISP parameters hardware configure
-  staging: media: starfive: Drop read support for video capture devices
-  admin-guide: media: Update documents for StarFive Camera Subsystem
-
- .../admin-guide/media/starfive_camss.rst      |  11 +-
- .../media/starfive_camss_graph.dot            |  22 +-
- .../media/v4l/metafmt-starfive-isp.rst        |  75 ++
- MAINTAINERS                                   |   2 +
- drivers/media/v4l2-core/v4l2-ioctl.c          |   2 +
- drivers/staging/media/starfive/camss/Makefile |   3 +
- .../staging/media/starfive/camss/stf-buffer.c | 166 ++++
- .../staging/media/starfive/camss/stf-buffer.h |  53 ++
- .../staging/media/starfive/camss/stf-camss.c  |  38 +-
- .../staging/media/starfive/camss/stf-camss.h  |  12 +
- .../media/starfive/camss/stf-capture.c        | 248 +-----
- .../media/starfive/camss/stf-capture.h        |  22 -
- .../media/starfive/camss/stf-isp-hw-ops.c     | 722 +++++++++++++++++
- .../media/starfive/camss/stf-isp-params.c     | 240 ++++++
- .../staging/media/starfive/camss/stf-isp.c    |  77 +-
- .../staging/media/starfive/camss/stf-isp.h    | 188 +++++
- .../staging/media/starfive/camss/stf-output.c |  83 ++
- .../staging/media/starfive/camss/stf-output.h |  22 +
- .../staging/media/starfive/camss/stf-video.c  | 147 +++-
- .../staging/media/starfive/camss/stf-video.h  |  11 +-
- include/uapi/linux/jh7110-isp.h               | 739 ++++++++++++++++++
- include/uapi/linux/videodev2.h                |   4 +
- 22 files changed, 2608 insertions(+), 279 deletions(-)
- create mode 100644 Documentation/userspace-api/media/v4l/metafmt-starfive-isp.rst
- create mode 100644 drivers/staging/media/starfive/camss/stf-buffer.c
- create mode 100644 drivers/staging/media/starfive/camss/stf-buffer.h
- create mode 100644 drivers/staging/media/starfive/camss/stf-isp-params.c
- create mode 100644 drivers/staging/media/starfive/camss/stf-output.c
- create mode 100644 drivers/staging/media/starfive/camss/stf-output.h
+Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
+Signed-off-by: Zejian Su <zejian.su@starfivetech.com>
+---
+ MAINTAINERS                     |   1 +
+ include/uapi/linux/jh7110-isp.h | 739 ++++++++++++++++++++++++++++++++
+ 2 files changed, 740 insertions(+)
  create mode 100644 include/uapi/linux/jh7110-isp.h
 
---
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 507f04a80499..890604eb0d64 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -21305,6 +21305,7 @@ S:	Maintained
+ F:	Documentation/admin-guide/media/starfive_camss.rst
+ F:	Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml
+ F:	drivers/staging/media/starfive/camss
++F:	include/uapi/linux/jh7110-isp.h
+ 
+ STARFIVE CRYPTO DRIVER
+ M:	Jia Jie Ho <jiajie.ho@starfivetech.com>
+diff --git a/include/uapi/linux/jh7110-isp.h b/include/uapi/linux/jh7110-isp.h
+new file mode 100644
+index 000000000000..4939cd63e771
+--- /dev/null
++++ b/include/uapi/linux/jh7110-isp.h
+@@ -0,0 +1,739 @@
++/* SPDX-License-Identifier: ((GPL-2.0+ WITH Linux-syscall-note) OR BSD-3-Clause) */
++/*
++ * jh7110-isp.h
++ *
++ * JH7110 ISP driver - user space header file.
++ *
++ * Copyright © 2023 StarFive Technology Co., Ltd.
++ *
++ * Author: Zejian Su <zejian.su@starfivetech.com>
++ *
++ */
++
++#ifndef __JH7110_ISP_H_
++#define __JH7110_ISP_H_
++
++/**
++ * ISP Module Diagram
++ * ------------------
++ *
++ *  Raw  +-----+    +------+    +------+    +----+
++ *  ---->| OBC |--->| OECF |--->| LCCF |--->| WB |-----+
++ *       +-----+    +------+    +------+    +----+     |
++ *                                                     |
++ *  +--------------------------------------------------+
++ *  |
++ *  |    +-----+    +-----+    +-----+    +-----+
++ *  +--->| DBC |--->| CTC |--->| CFA |--->| CAR |------+
++ *       +-----+    +-----+    +-----+    +-----+      |
++ *                                                     |
++ *  +--------------------------------------------------+
++ *  |
++ *  |    +-----+    +--------+    +-----+    +------+
++ *  +--->| CCM |--->| GMARGB |--->| R2Y |--->| YCRV |--+
++ *       +-----+    +--------+    +-----+    +------+  |
++ *                                                     |
++ *  +--------------------------------------------------+
++ *  |
++ *  |    +-------+    +-------+    +-----+    +----+
++ *  +--->| SHARP |--->| DNYUV |--->| SAT |--->| SC |
++ *       +-------+    +-------+    +-----+    +----+
++ *
++ */
++
++/* Auto White Balance */
++#define JH7110_ISP_MODULE_WB_SETTING			(1U << 0)
++/* Color Artifact Removal */
++#define JH7110_ISP_MODULE_CAR_SETTING			(1U << 1)
++/* Color Correction Matrix */
++#define JH7110_ISP_MODULE_CCM_SETTING			(1U << 2)
++/* Color Filter Arrays */
++#define JH7110_ISP_MODULE_CFA_SETTING			(1U << 3)
++/* Crosstalk Correction */
++#define JH7110_ISP_MODULE_CTC_SETTING			(1U << 4)
++/* Defect Bad Pixel Correction */
++#define JH7110_ISP_MODULE_DBC_SETTING			(1U << 5)
++/* Denoise YUV */
++#define JH7110_ISP_MODULE_DNYUV_SETTING			(1U << 6)
++/* RGB Gamma */
++#define JH7110_ISP_MODULE_GMARGB_SETTING		(1U << 7)
++/* Lens Correction Cosine Fourth */
++#define JH7110_ISP_MODULE_LCCF_SETTING			(1U << 8)
++/* Optical Black Correction */
++#define JH7110_ISP_MODULE_OBC_SETTING			(1U << 9)
++/* Opto-Electric Conversion Function */
++#define JH7110_ISP_MODULE_OECF_SETTING			(1U << 10)
++/* RGB To YUV */
++#define JH7110_ISP_MODULE_R2Y_SETTING			(1U << 11)
++/* Saturation */
++#define JH7110_ISP_MODULE_SAT_SETTING			(1U << 12)
++/* Sharpen */
++#define JH7110_ISP_MODULE_SHARP_SETTING			(1U << 13)
++/* Y Curve */
++#define JH7110_ISP_MODULE_YCRV_SETTING			(1U << 14)
++/* Statistics Collection */
++#define JH7110_ISP_MODULE_SC_SETTING			(1U << 15)
++
++/**
++ * struct jh7110_isp_wb_gain - auto white balance gain
++ *
++ * @gain_r: gain value for red component.
++ * @gain_g: gain value for green component.
++ * @gain_b: gain value for blue component.
++ */
++struct jh7110_isp_wb_gain {
++	__u16 gain_r;
++	__u16 gain_g;
++	__u16 gain_b;
++};
++
++/**
++ * struct jh7110_isp_wb_setting - Configuration used by auto white balance gain
++ *
++ * @enabled: enabled setting flag.
++ * @gains: auto white balance gain setting.
++ */
++struct jh7110_isp_wb_setting {
++	__u32 enabled;
++	struct jh7110_isp_wb_gain gains;
++};
++
++/**
++ * struct jh7110_isp_car_setting - Configuration used by color artifact removal
++ *
++ * @enabled: enabled setting flag.
++ */
++struct jh7110_isp_car_setting {
++	__u32 enabled;
++};
++
++/**
++ * struct jh7110_isp_ccm_smlow - Color correction matrix
++ *
++ * @ccm: color transform matrix with size 3 by 3.
++ * @offsets: the offsets of R, G, B after the transform by the ccm.
++ */
++struct jh7110_isp_ccm_smlow {
++	__s32 ccm[3][3];
++	__s32 offsets[3];
++};
++
++/**
++ * struct jh7110_isp_ccm_setting - Configuration used by color correction matrix
++ *
++ * @enabled: enabled setting flag.
++ * @ccm_smlow: Color correction matrix.
++ */
++struct jh7110_isp_ccm_setting {
++	__u32 enabled;
++	struct jh7110_isp_ccm_smlow ccm_smlow;
++};
++
++/**
++ * struct jh7110_isp_cfa_params - demosaic parameters
++ *
++ * @hv_width: detail smooth factor
++ * @cross_cov: Cross covariance weighting.
++ */
++struct jh7110_isp_cfa_params {
++	__s32 hv_width;
++	__s32 cross_cov;
++};
++
++/**
++ * struct jh7110_isp_cfa_params - Configuration used by demosaic module
++ *
++ * @enabled: enabled setting flag.
++ * @settings: demosaic parameters.
++ */
++struct jh7110_isp_cfa_setting {
++	__u32 enabled;
++	struct jh7110_isp_cfa_params settings;
++};
++
++/**
++ * struct jh7110_isp_ctc_params - crosstalk remove parameters
++ *
++ * @saf_mode: smooth area filter mode.
++ * @daf_mode: detail area filter mode.
++ * @max_gt: the threshold for imbalance detection when pixel intensity is close to maximum.
++ * @min_gt: the threshold for imbalance detection when pixel intensity is close to 0.
++ */
++struct jh7110_isp_ctc_params {
++	__u8 saf_mode;
++	__u8 daf_mode;
++	__s32 max_gt;
++	__s32 min_gt;
++};
++
++/**
++ * struct jh7110_isp_ctc_params - Configuration used by crosstalk remove
++ *
++ * @enabled: enabled setting flag.
++ * @settings: corsstalk remove parameters.
++ */
++struct jh7110_isp_ctc_setting {
++	__u32 enabled;
++	struct jh7110_isp_ctc_params settings;
++};
++
++/**
++ * struct jh7110_isp_dbc_params - defect pixels correction parameters
++ *
++ * @bad_gt: bad pixel threshold for the green channel.
++ * @bad_xt: bad pixel threshold for the red and blue channels.
++ */
++struct jh7110_isp_dbc_params {
++	__s32 bad_gt;
++	__s32 bad_xt;
++};
++
++/**
++ * struct jh7110_isp_dbc_params - Configuration used by defect bad pixels correction
++ *
++ * @enabled: enabled setting flag.
++ * @settings: defect pixels correction parameters.
++ */
++struct jh7110_isp_dbc_setting {
++	__u32 enabled;
++	struct jh7110_isp_dbc_params settings;
++};
++
++/**
++ * struct jh7110_isp_dnyuv_params - yuv domain denoise parameters
++ *
++ * @y_sweight: ten coefficients of 7x7 spatial filter for Y channel.
++ * @y_curve: intensity difference (similarity) weight lookup table for Y channel.
++ * @uv_sweight: ten coefficients of 7x7 spatial filter for U and V channel.
++ * @uv_curve: intensity difference (similarity) weight lookup table for U and V channel.
++ */
++struct jh7110_isp_dnyuv_params {
++	__u8 y_sweight[10];
++	__u16 y_curve[7];
++	__u8 uv_sweight[10];
++	__u16 uv_curve[7];
++};
++
++/**
++ * struct jh7110_isp_dnyuv_params - Configuration used by yuv domain denoise
++ *
++ * @enabled: enabled setting flag.
++ * @settings: yuv domain denoise parameters.
++ */
++struct jh7110_isp_dnyuv_setting {
++	__u32 enabled;
++	struct jh7110_isp_dnyuv_params settings;
++};
++
++/**
++ * struct jh7110_isp_gmargb_point - RGB Gamma point
++ *
++ * @g_val: RGB gamma value.
++ * @sg_val: RGB gamma slope value.
++ */
++struct jh7110_isp_gmargb_point {
++	__u16 g_val;
++	__u16 sg_val;
++};
++
++/**
++ * struct jh7110_isp_gmargb_setting - Configuration used by RGB gamma
++ *
++ * @enabled: enabled setting flag.
++ * @curve: RGB Gamma point table.
++ */
++struct jh7110_isp_gmargb_setting {
++	__u32 enabled;
++	struct jh7110_isp_gmargb_point curve[15];
++};
++
++/**
++ * struct jh7110_isp_lccf_circle - len circle
++ *
++ * @center_x: center X distance from capture window.
++ * @center_y: center Y distance from capture window.
++ * @radius: len circle radius.
++ */
++struct jh7110_isp_lccf_circle {
++	__s16 center_x;
++	__s16 center_y;
++	__u8 radius;
++};
++
++/**
++ * struct jh7110_isp_lccf_curve_param - lens correction cosine fourth curve param
++ *
++ * @f1: F1 parameter.
++ * @f2: F2 parameter.
++ */
++struct jh7110_isp_lccf_curve_param {
++	__s16 f1;
++	__s16 f2;
++};
++
++/**
++ * struct jh7110_isp_lccf_setting - Configuration used by lens correction cosine fourth
++ *
++ * @enabled: enabled setting flag.
++ * @circle: len circle.
++ * @r_param: lens correction cosine fourth curve param for Bayer pattern R.
++ * @gr_param: lens correction cosine fourth curve param for Bayer pattern Gr.
++ * @gb_param: lens correction cosine fourth curve param for Bayer pattern Gb.
++ * @b_param: lens correction cosine fourth curve param for Bayer pattern B.
++ */
++struct jh7110_isp_lccf_setting {
++	__u32 enabled;
++	struct jh7110_isp_lccf_circle circle;
++	struct jh7110_isp_lccf_curve_param r_param;
++	struct jh7110_isp_lccf_curve_param gr_param;
++	struct jh7110_isp_lccf_curve_param gb_param;
++	struct jh7110_isp_lccf_curve_param b_param;
++};
++
++/**
++ * struct jh7110_isp_obc_win_size - optical black correction window size
++ *
++ * @width: window width.
++ * @height: window height.
++ */
++struct jh7110_isp_obc_win_size {
++	__u32 width;
++	__u32 height;
++};
++
++/**
++ * struct jh7110_isp_obc_gain - optical black correction symbol gain
++ *
++ * @tl_gain: gain at point A for symbol.
++ * @tr_gain: gain at point B for symbol.
++ * @bl_gain: gain at point C for symbol.
++ * @br_gain: gain at point D for symbol.
++ */
++struct jh7110_isp_obc_gain {
++	__u8 tl_gain;
++	__u8 tr_gain;
++	__u8 bl_gain;
++	__u8 br_gain;
++};
++
++/**
++ * struct jh7110_isp_obc_offset - optical black correction symbol offset
++ *
++ * @tl_offset: offset at point A for symbol.
++ * @tr_offset: offset at point B for symbol.
++ * @bl_offset: offset at point C for symbol.
++ * @br_offset: offset at point D for symbol.
++ */
++struct jh7110_isp_obc_offset {
++	__u8 tl_offset;
++	__u8 tr_offset;
++	__u8 bl_offset;
++	__u8 br_offset;
++};
++
++/**
++ * struct jh7110_isp_obc_setting - Configuration used by optical black correction
++ *
++ * @enabled: enabled setting flag.
++ * @win_size: optical black correction window size.
++ * @gain: optical black correction symbol gain.
++ * @offset: optical black correction symbol offset.
++ */
++struct jh7110_isp_obc_setting {
++	__u32 enabled;
++	struct jh7110_isp_obc_win_size win_size;
++	struct jh7110_isp_obc_gain gain[4];
++	struct jh7110_isp_obc_offset offset[4];
++};
++
++/**
++ * struct jh7110_isp_oecf_point - oecf curve
++ *
++ * @x: x coordinate.
++ * @y: y coordinate.
++ * @slope: the slope between this point and the next point.
++ */
++struct jh7110_isp_oecf_point {
++	__u16 x;
++	__u16 y;
++	__s16 slope;
++};
++
++/**
++ * struct jh7110_isp_oecf_setting - Configuration used by opto-electric conversion function
++ *
++ * @enabled: enabled setting flag.
++ * @r_curve: red pixel oecf curve.
++ * @gr_curve: green pixel oecf curve in GR line.
++ * @gb_curve: green pixel oecf curve in GB line.
++ * @b_curve: blue pixel oecf curve.
++ */
++struct jh7110_isp_oecf_setting {
++	__u32 enabled;
++	struct jh7110_isp_oecf_point r_curve[16];
++	struct jh7110_isp_oecf_point gr_curve[16];
++	struct jh7110_isp_oecf_point gb_curve[16];
++	struct jh7110_isp_oecf_point b_curve[16];
++};
++
++/**
++ * struct jh7110_isp_r2y_matrix - RGB to YUV color conversion matrix
++ *
++ * @m: The 3x3 color conversion matrix coefficient.
++ */
++struct jh7110_isp_r2y_matrix {
++	__s16 m[9];
++};
++
++/**
++ * struct jh7110_isp_r2y_setting - Configuration used by RGB To YUV
++ *
++ * @enabled: enabled setting flag.
++ * @matrix: RGB to YUV color conversion matrix.
++ */
++struct jh7110_isp_r2y_setting {
++	__u32 enabled;
++	struct jh7110_isp_r2y_matrix matrix;
++};
++
++/**
++ * struct jh7110_isp_sat_curve - Saturation curve
++ *
++ * @yi_min: the minimum input Y value.
++ * @yo_ir: the ratio of Y output range to input range.
++ * @yo_min: the minimum output Y value.
++ * @yo_max: the maximum output Y value.
++ */
++struct jh7110_isp_sat_curve {
++	__s16 yi_min;
++	__s16 yo_ir;
++	__s16 yo_min;
++	__s16 yo_max;
++};
++
++/**
++ * struct jh7110_isp_sat_hue_info - Chroma Saturation Hue Factor
++ *
++ * @cos: COS hue factor.
++ * @sin: SIN hue factor.
++ */
++struct jh7110_isp_sat_hue_info {
++	__s16 cos;
++	__s16 sin;
++};
++
++/**
++ * struct jh7110_isp_sat_info - Saturation information
++ *
++ * @gain_cmab: Chroma saturation magnitude amplification base for gain.
++ * @gain_cmmd: Chroma saturation magnitude amplification delta for gain.
++ * @threshold_cmb: Chroma saturation magnitude base threshold.
++ * @threshold_cmd: Chroma saturation magnitude delta threshold.
++ * @offset_u: Chroma saturation U offset.
++ * @offset_v: Chroma saturation V offset.
++ * @cmsf: Chroma saturation magnitude scaling factor.
++ */
++struct jh7110_isp_sat_info {
++	__s16 gain_cmab;
++	__s16 gain_cmmd;
++	__s16 threshold_cmb;
++	__s16 threshold_cmd;
++	__s16 offset_u;
++	__s16 offset_v;
++	__s16 cmsf;
++};
++
++/**
++ * struct jh7110_isp_sat_setting - Configuration used by Saturation
++ *
++ * @enabled: enabled setting flag.
++ * @curve: Saturation curve.
++ * @hue_info: Chroma Saturation Hue Factor.
++ * @sat_info: Saturation information.s
++ */
++struct jh7110_isp_sat_setting {
++	__u32 enabled;
++	struct jh7110_isp_sat_curve curve;
++	struct jh7110_isp_sat_hue_info hue_info;
++	struct jh7110_isp_sat_info sat_info;
++};
++
++/**
++ * struct jh7110_isp_sharp_weight - Sharpe weight
++ *
++ * @weight: Sharpen filter weight.
++ * @recip_wei_sum: Sharpen amplification filter weight normalization factor.
++ */
++struct jh7110_isp_sharp_weight {
++	__u8 weight[15];
++	__u32 recip_wei_sum;
++};
++
++/**
++ * struct jh7110_isp_sharp_strength - Sharpen strength
++ *
++ * @diff: Sharpen Edge amplification delta level.
++ * @f: Sharpen Edge amplification factor.
++ * @s: Sharpen Edge amplification factor slope.
++ */
++struct jh7110_isp_sharp_strength {
++	__s16 diff[4];
++	__s16 f[3];
++	__s32 s[3];
++};
++
++/**
++ * struct jh7110_isp_sharp_setting - Configuration used by Sharpen
++ *
++ * @enabled: enabled setting flag.
++ * @weight: Sharpe weight.
++ * @strength: Sharpen strength.
++ * @pdirf: Positive Factor Multiplier.
++ * @ndirf: Negative Factor Multiplier.
++ */
++struct jh7110_isp_sharp_setting {
++	__u32 enabled;
++	struct jh7110_isp_sharp_weight weight;
++	struct jh7110_isp_sharp_strength strength;
++	__s8 pdirf;
++	__s8 ndirf;
++};
++
++/**
++ * struct jh7110_isp_ycrv_curve - Y Curve parameters table
++ *
++ * @y: Y curve L parameters value.
++ */
++struct jh7110_isp_ycrv_curve {
++	__s16 y[64];
++};
++
++/**
++ * struct jh7110_isp_ycrv_setting - Configuration used by Y Curve
++ *
++ * @enabled: enabled setting flag.
++ * @curve: Y Curve parameters table.
++ */
++struct jh7110_isp_ycrv_setting {
++	__u32 enabled;
++	struct jh7110_isp_ycrv_curve curve;
++};
++
++/**
++ * struct jh7110_isp_sc_config - statistics collection crop configure
++ *
++ * @h_start: Horizontal starting point for frame cropping.
++ * @v_start: Vertical starting point for frame cropping.
++ * @sw_width: Width of statistics collection sub-window.
++ * @sw_height: Height of statistics collection sub-window.
++ * @hperiod: Horizontal period.
++ * @hkeep: Horizontal keep.
++ * @vperiod: Vertical period.
++ * @vkeep: Vertical keep.
++ */
++struct jh7110_isp_sc_config {
++	__u16 h_start;
++	__u16 v_start;
++	__u8 sw_width;
++	__u8 sw_height;
++	__u8 hperiod;
++	__u8 hkeep;
++	__u8 vperiod;
++	__u8 vkeep;
++};
++
++/**
++ * struct jh7110_isp_sc_af_config - statistics collection auto focus configure
++ *
++ * @es_hor_mode: Horizontal mode.
++ * @es_sum_mode: sum mode.
++ * @hor_en: Horizontal enable.
++ * @ver_en: Vertical enable.
++ * @es_ver_thr: Vertical threshold.
++ * @es_hor_thr: Horizontal threshold.
++ */
++struct jh7110_isp_sc_af_config {
++	__u8 es_hor_mode;
++	__u8 es_sum_mode;
++	__u8 hor_en;
++	__u8 ver_en;
++	__u8 es_ver_thr;
++	__u16 es_hor_thr;
++};
++
++/**
++ * struct jh7110_isp_sc_awb_ps - statistics collection auto white balance pixel sum
++ *
++ * @awb_ps_rl: Lower boundary of R value for pixel sum.
++ * @awb_ps_ru: Upper boundary of R value for pixel sum.
++ * @awb_ps_gl: Lower boundary of G value for pixel sum.
++ * @awb_ps_gu: Upper boundary of G value for pixel sum.
++ * @awb_ps_bl: Lower boundary of B value for pixel sum.
++ * @awb_ps_bu: Upper boundary of B value for pixel sum.
++ * @awb_ps_yl: Lower boundary of Y value for pixel sum.
++ * @awb_ps_yu: Upper boundary of Y value for pixel sum.
++ * @awb_ps_grl: Lower boundary of G/R ratio for pixel sum.
++ * @awb_ps_gru: Upper boundary of G/R ratio for pixel sum.
++ * @awb_ps_gbl: Lower boundary of G/B ratio for pixel sum.
++ * @awb_ps_gbu: Upper boundary of G/B ratio for pixel sum.
++ * @awb_ps_grbl: Lower boundary of (Gr/R + b/a * Gb/B) for pixel sum.
++ * @awb_ps_grbu: Upper boundary of (Gr/R + b/a * Gb/B) for pixel sum.
++ */
++struct jh7110_isp_sc_awb_ps {
++	__u8 awb_ps_rl;
++	__u8 awb_ps_ru;
++	__u8 awb_ps_gl;
++	__u8 awb_ps_gu;
++	__u8 awb_ps_bl;
++	__u8 awb_ps_bu;
++	__u8 awb_ps_yl;
++	__u8 awb_ps_yu;
++	__u16 awb_ps_grl;
++	__u16 awb_ps_gru;
++	__u16 awb_ps_gbl;
++	__u16 awb_ps_gbu;
++	__u16 awb_ps_grbl;
++	__u16 awb_ps_grbu;
++};
++
++/**
++ * struct jh7110_isp_sc_awb_ws - statistics collection auto white balance weight sum
++ *
++ * @awb_ws_rl: Lower boundary of R value for weight sum.
++ * @awb_ws_ru: Upper boundary of R value for weight sum.
++ * @awb_ws_grl: Lower boundary of Gr value for weight sum.
++ * @awb_ws_gru: Upper boundary of Gr value for weight sum.
++ * @awb_ws_gbl: Lower boundary of Gb value for weight sum.
++ * @awb_ws_gbu: Upper boundary of Gb value for weight sum.
++ * @awb_ws_bl: Lower boundary of B value for weight sum.
++ * @awb_ws_bu: Upper boundary of B value for weight sum.
++ */
++struct jh7110_isp_sc_awb_ws {
++	__u8 awb_ws_rl;
++	__u8 awb_ws_ru;
++	__u8 awb_ws_grl;
++	__u8 awb_ws_gru;
++	__u8 awb_ws_gbl;
++	__u8 awb_ws_gbu;
++	__u8 awb_ws_bl;
++	__u8 awb_ws_bu;
++};
++
++/**
++ * struct jh7110_isp_sc_awb_point - statistics collection auto white balance point
++ *
++ * @weight: Weighting value at point.
++ */
++struct jh7110_isp_sc_awb_point {
++	__u8 weight;
++};
++
++/**
++ * struct jh7110_isp_sc_awb_config - statistics collection auto white balance configure
++ *
++ * @ps_config: statistics collection auto white balance pixel sum.
++ * @awb_ps_grb_ba: auto white balance b/a value.
++ * @sel: input mux for statistics collection auto white balance.
++ * @ws_config: statistics collection auto white balance weight sum.
++ * @awb_cw: Weighting value at 13x13 point.
++ * @pts: statistics collection auto white balance point.
++ */
++struct jh7110_isp_sc_awb_config {
++	struct jh7110_isp_sc_awb_ps ps_config;
++	__u8 awb_ps_grb_ba;
++	__u8 sel;
++	struct jh7110_isp_sc_awb_ws ws_config;
++	__u8 awb_cw[169];
++	struct jh7110_isp_sc_awb_point pts[17];
++};
++
++/**
++ * struct jh7110_isp_sc_setting - Configuration used by statistics collection
++ *
++ * @enabled: enabled setting flag.
++ * @crop_config: statistics collection crop configure.
++ * @af_config: statistics collection auto focus configure.
++ * @awb_config: statistics collection auto white balance configure.
++ */
++struct jh7110_isp_sc_setting {
++	__u32 enabled;
++	struct jh7110_isp_sc_config crop_config;
++	struct jh7110_isp_sc_af_config af_config;
++	struct jh7110_isp_sc_awb_config awb_config;
++};
++
++/**
++ * struct jh7110_isp_params_buffer - StarFive JH7110 ISP Parameters Meta Data
++ *
++ * @enable_setting: enabled setting module (JH7110_ISP_MODULE_* definitions).
++ * @wb_setting: Configuration used by auto white balance gain.
++ * @car_setting: Configuration used by color artifact removal.
++ * @ccm_setting: Configuration used by color correction matrix.
++ * @cfa_setting: Configuration used by demosaic module.
++ * @ctc_setting: Configuration used by crosstalk remove.
++ * @dbc_setting: Configuration used by defect bad pixels correction.
++ * @dnyuv_setting: Configuration used by yuv domain denoise.
++ * @gmargb_setting: Configuration used by RGB gamma.
++ * @lccf_setting: Configuration used by lens correction cosine fourth.
++ * @obc_setting: Configuration used by optical black compensation.
++ * @oecf_setting: Configuration used by opto-electric conversion function.
++ * @r2y_setting: Configuration used by RGB To YUV.
++ * @sat_setting: Configuration used by Saturation.
++ * @sharp_setting: Configuration used by Sharpen.
++ * @ycrv_setting: Configuration used by Y Curve.
++ * @sc_setting: Configuration used by statistics collection.
++ */
++struct jh7110_isp_params_buffer {
++	__u32 enable_setting;
++	struct jh7110_isp_wb_setting wb_setting;
++	struct jh7110_isp_car_setting car_setting;
++	struct jh7110_isp_ccm_setting ccm_setting;
++	struct jh7110_isp_cfa_setting cfa_setting;
++	struct jh7110_isp_ctc_setting ctc_setting;
++	struct jh7110_isp_dbc_setting dbc_setting;
++	struct jh7110_isp_dnyuv_setting dnyuv_setting;
++	struct jh7110_isp_gmargb_setting gmargb_setting;
++	struct jh7110_isp_lccf_setting lccf_setting;
++	struct jh7110_isp_obc_setting obc_setting;
++	struct jh7110_isp_oecf_setting oecf_setting;
++	struct jh7110_isp_r2y_setting r2y_setting;
++	struct jh7110_isp_sat_setting sat_setting;
++	struct jh7110_isp_sharp_setting sharp_setting;
++	struct jh7110_isp_ycrv_setting ycrv_setting;
++	struct jh7110_isp_sc_setting sc_setting;
++};
++
++/**
++ * Statistics Collection Meta Data Flag
++ */
++#define JH7110_ISP_SC_FLAG_AWB			0x0
++#define JH7110_ISP_SC_FLAG_AE_AF		0xffff
++
++#pragma pack(1)
++
++/**
++ * struct jh7110_isp_sc_buffer - StarFive JH7110 ISP Statistics Collection Meta Data
++ *
++ * @y_histogram: Y histogram data for saturation control.
++ * @reserv0: reserve byte.
++ * @bright_sc: bright statistic. If flag is JH7110_ISP_SC_FLAG_AE_AF, This field is
++ *             saved auto exposure and auto focus. If flag is JH7110_ISP_SC_FLAG_AWB,
++ *             This field is saved auto white balance.
++ * @reserv1: reserve byte.
++ * @ae_hist_y: Y histogram for auto exposure.
++ * @reserv2: reserve byte.
++ * @flag: Statistics Collection Meta Data Flag (JH7110_ISP_SC_FLAG_* definitions)
++ */
++struct jh7110_isp_sc_buffer {
++	__u32 y_histogram[64];
++	__u32 reserv0[33];
++	__u32 bright_sc[4096];
++	__u32 reserv1[96];
++	__u32 ae_hist_y[128];
++	__u32 reserv2[511];
++	__u16 flag;
++};
++
++#pragma pack()
++
++#endif
+-- 
 2.25.1
+
