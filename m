@@ -1,82 +1,180 @@
-Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00300601.pphosted.com (mx0a-00300601.pphosted.com [148.163.146.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8514513B7A3
-	for <linux-staging@lists.linux.dev>; Mon,  8 Jul 2024 15:41:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D96813213A;
+	Tue,  9 Jul 2024 06:48:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.146.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720453286; cv=none; b=ip5eHPb802+RhS6l/hN/dBaz3ejMVYVQORYQtL/5LHa6ec6oOLdC5BbAolXFrfl95XHnCYbC7Cniqb05o39HsG7tMCAiggDT9K3hT5h0hfuBmSWKainfbxBq9alWxDiJU/VRorIWFx8DuKrSdNZbpQiMHy4pdf6m1PcSp0TYf9M=
+	t=1720507690; cv=none; b=O7ZLy86QikSLjdU/ldkyoCkX0hP2X21ijg2BmO0518IurL3FP30attz/JHltfCRbW8J35XFIhAieIJnL26ys5/QI1En+rPxl7rJWXw0MfmurQkEgGbxz7aj67/PxwmvZbgEBYVXLYE2HLp8AsIsYRuzX+2FExCAv5xJ6Xd+ovHk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720453286; c=relaxed/simple;
-	bh=AvANucvrZ/fsPo2yOI31iWo1FDKNiABMfD22ldNz5dc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KvTxB0lCIYN1A+qjtJgg6At+M8F5rwjY2yI5nsEbg/PajcdS1yVtFm6lKnD3BXnv958aj4xIm/I9TG8REIOh+Slfe+cze8q6RrionFukadaPdR9RYG1ZYCA9ZFLoIwnV4lr9Y7rupI26N7aLU2ikp+aFYSn0OnutNQ118LDilf0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PrkLNcwj; arc=none smtp.client-ip=209.85.167.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PrkLNcwj"
-Received: by mail-oi1-f179.google.com with SMTP id 5614622812f47-3d9231a8dd6so901943b6e.1
-        for <linux-staging@lists.linux.dev>; Mon, 08 Jul 2024 08:41:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1720453283; x=1721058083; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=AvANucvrZ/fsPo2yOI31iWo1FDKNiABMfD22ldNz5dc=;
-        b=PrkLNcwjrsY+Vk7/2Z/BObzWUo236yn5VebO5fittyypRxj7ATmiTFICEI4NrORX0D
-         7HKHcTgLoJuVSMy2jjT/me/XeZh4PXnTQbHjdt/r6nfIklrvwgef77/+GL0pAST7ib87
-         fi9dg5VNrxIppjYEvkH70w77tNGuMqSu37toG6OZW3dD1xtIAzPB4xmaiZjgwdtcw5nm
-         Mg+G7Izp9YPIgT0PWJRKUtUX5bntKdbBDpp+esha1ArDSy0WTvKQJ0MAE1+mHXlcMBOb
-         c9s6PzWSmkt4fqnXiSa+fqqwWz4ihy0HPaJlqYA/us9eRn3l+tt0xDX2AVMT15n8wQu/
-         0AFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720453284; x=1721058084;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AvANucvrZ/fsPo2yOI31iWo1FDKNiABMfD22ldNz5dc=;
-        b=g5laJGnilMJaX3cA/5u2F8NEC2JfQ+eeBs8c6YlJ42rbZFxieQMUilrhXZ7ctE05f+
-         srHJkumxZLC7U1/TLr4NTceyVqx6XtKZSDRrOqeluw3pD0/4j7WkbBL7VU4LwFh+jEDC
-         6iGLhhkOVx9MzRqdAOwDV/3akze7YiCNhLNsPGJ26D8PyDeeuGWTgCza6DwS2Wel+x7M
-         giovzEJWAUOKlWzrhMeXXt7byyU+yDHkWZaOI01nPCh7906qzImT07g7P1BYgSxRBftw
-         0SKhSbjC0gZqmI8OjIU8stsctwuZUGaaDohJ3TMEJh1+TWS9m0zzKyhVN7BPmxqVIInq
-         eXEA==
-X-Forwarded-Encrypted: i=1; AJvYcCWRGSmwgJDWyVuEjk/Dx+mxWdhkff0ty9IWPxZ1kYx27RQpk6kLKe2CWKgfvSnYudU3XilqYiF4yrNomRcBEnkhKLuG7tHwQHVV3bDB3Q==
-X-Gm-Message-State: AOJu0Yxd8U1Xi3KMYY66kG746snXz0WTgaYtGWDMfQbTZnSteUJ5Jwve
-	cN+82GIsNLvJiNMrroqbjQWmZdD8ZhY2+jcymwcm8bAWy4WNUohJ64ld5UxYfIM=
-X-Google-Smtp-Source: AGHT+IE4fartsbVqJ1ZXTAUJYr3DKVogSxSpB+ivKX+k3fcl6RoAaf2u7l1kY5INfh9HbLRD0moHGg==
-X-Received: by 2002:a05:6808:13c7:b0:3d5:633b:3d8d with SMTP id 5614622812f47-3d914ea41fbmr11853349b6e.53.1720453283519;
-        Mon, 08 Jul 2024 08:41:23 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700:6fc:b7f5:4853:aff3])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-3d93ad2b3e5sm28150b6e.29.2024.07.08.08.41.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jul 2024 08:41:23 -0700 (PDT)
-Date: Mon, 8 Jul 2024 17:41:21 +0200
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: =?iso-8859-1?Q?=C1gatha?= Isabelle Chris Moreira Guedes <code@agatha.dev>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Luis Chamberlain <mcgrof@kernel.org>, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
-	patch-reply@agatha.dev
-Subject: Re: [PATCH v3] init: staging: Fix missing warning/taint on builtin
- code
-Message-ID: <11f00921-e8d5-488f-82e5-a22e68fc5748@suswa.mountain>
-References: <zsk54zosv6tht4j4nma4ix7lq2knxi3ylqadd2foznc72nkaa3@xbc7gpozx6ai>
+	s=arc-20240116; t=1720507690; c=relaxed/simple;
+	bh=OQvb9CZbdmX9E0d9iBJGKerkjF+Vly6dcszw03VebUo=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=PQaKAuzbAeX0VMCOkeb0hXEM+yD+6sTpaGqWcov2Ed4qayNqkFlPEzVvYcRXfdT8Oh8Ep6lS5yHGZBlCvcgvU4NlEqV1DIROG6fv/JLvlX43hSBusKi6fuyu5Aa4Z1ps0NFuFBfhdUSfRRmiAzjrh3HleM6Va4ED651PtkEBDUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=emerson.com; spf=pass smtp.mailfrom=emerson.com; arc=none smtp.client-ip=148.163.146.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=emerson.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=emerson.com
+Received: from pps.filterd (m0359308.ppops.net [127.0.0.1])
+	by mx0b-00300601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4692tkD2022971;
+	Tue, 9 Jul 2024 06:28:37 GMT
+Received: from usgdcecpmsgae02.extemr.org ([144.191.128.198])
+	by mx0b-00300601.pphosted.com (PPS) with ESMTPS id 408s364ewq-15
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 09 Jul 2024 06:28:37 +0000 (GMT)
+Received: from usgdcecpmsgap04.emrsn.org (10.16.75.145) by mail.emerson.com
+ (10.16.11.134) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Tue, 9 Jul
+ 2024 06:28:49 +0000
+Received: from usgdcecpmsgap05.emrsn.org (10.16.75.137) by
+ usgdcecpmsgap04.emrsn.org (10.16.75.145) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Tue, 9 Jul 2024 06:27:41 +0000
+Received: from aug-swlinux1c.aug (10.19.249.15) by Inetmail.emrsn.net
+ (10.16.75.137) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11 via Frontend
+ Transport; Tue, 9 Jul 2024 06:27:41 +0000
+Received: from Inetmail.emrsn.net (unknown [10.70.41.16])
+	by aug-swlinux1c.aug (Postfix) with ESMTP id 426EDB0B0017;
+	Tue,  9 Jul 2024 08:27:40 +0200 (CEST)
+From: Philipp Hortmann <philipp.hortmann@emerson.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+CC: Philipp Hortmann <philipp.hortmann@emerson.com>
+Subject: [PATCH] staging: rtl8723bs: Remove constant result function CheckNegative()
+Date: Tue, 9 Jul 2024 08:26:34 +0200
+Message-ID: <20240709062634.9454-1-philipp.hortmann@emerson.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <zsk54zosv6tht4j4nma4ix7lq2knxi3ylqadd2foznc72nkaa3@xbc7gpozx6ai>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: cFmUnU8ehzE1BMmzNw-kVnDvI_HUDQao
+X-Proofpoint-GUID: cFmUnU8ehzE1BMmzNw-kVnDvI_HUDQao
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-07-08_15,2024-07-08_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 mlxscore=0
+ bulkscore=0 clxscore=1011 priorityscore=1501 phishscore=0
+ lowpriorityscore=0 malwarescore=0 mlxlogscore=999 suspectscore=0
+ adultscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2406140001 definitions=main-2407090041
 
-Thanks!
+Remove function CheckNegative() that returns always true to shorten code.
 
-Acked-by: Dan Carpenter <dan.carpenter@linaro.org>
+Signed-off-by: Philipp Hortmann <philipp.hortmann@emerson.com>
+---
+Tested with rtl8723bs in ODYS Trendbook Next 14
+---
+ .../staging/rtl8723bs/hal/HalHWImg8723B_BB.c    | 17 ++---------------
+ .../staging/rtl8723bs/hal/HalHWImg8723B_MAC.c   | 12 +-----------
+ .../staging/rtl8723bs/hal/HalHWImg8723B_RF.c    | 12 +-----------
+ 3 files changed, 4 insertions(+), 37 deletions(-)
 
-regards,
-dan carpenter
+diff --git a/drivers/staging/rtl8723bs/hal/HalHWImg8723B_BB.c b/drivers/staging/rtl8723bs/hal/HalHWImg8723B_BB.c
+index dd0f74b0cf0d..4da2487f6750 100644
+--- a/drivers/staging/rtl8723bs/hal/HalHWImg8723B_BB.c
++++ b/drivers/staging/rtl8723bs/hal/HalHWImg8723B_BB.c
+@@ -70,13 +70,6 @@ static bool CheckPositive(
+ 	return false;
+ }
+ 
+-static bool CheckNegative(
+-	struct dm_odm_t *pDM_Odm, const u32  Condition1, const u32 Condition2
+-)
+-{
+-	return true;
+-}
+-
+ /******************************************************************************
+ *                           AGC_TAB.TXT
+ ******************************************************************************/
+@@ -244,10 +237,7 @@ void ODM_ReadAndConfig_MP_8723B_AGC_TAB(struct dm_odm_t *pDM_Odm)
+ 				READ_NEXT_PAIR(v1, v2, i);
+ 			} else {
+ 				READ_NEXT_PAIR(v1, v2, i);
+-				if (!CheckNegative(pDM_Odm, v1, v2))
+-					bMatched = false;
+-				else
+-					bMatched = true;
++				bMatched = true;
+ 				READ_NEXT_PAIR(v1, v2, i);
+ 			}
+ 
+@@ -506,10 +496,7 @@ void ODM_ReadAndConfig_MP_8723B_PHY_REG(struct dm_odm_t *pDM_Odm)
+ 				READ_NEXT_PAIR(v1, v2, i);
+ 			} else {
+ 				READ_NEXT_PAIR(v1, v2, i);
+-				if (!CheckNegative(pDM_Odm, v1, v2))
+-					bMatched = false;
+-				else
+-					bMatched = true;
++				bMatched = true;
+ 				READ_NEXT_PAIR(v1, v2, i);
+ 			}
+ 
+diff --git a/drivers/staging/rtl8723bs/hal/HalHWImg8723B_MAC.c b/drivers/staging/rtl8723bs/hal/HalHWImg8723B_MAC.c
+index 47e66f4ad9d1..1f0cc8d58df3 100644
+--- a/drivers/staging/rtl8723bs/hal/HalHWImg8723B_MAC.c
++++ b/drivers/staging/rtl8723bs/hal/HalHWImg8723B_MAC.c
+@@ -68,13 +68,6 @@ static bool CheckPositive(
+ 	return false;
+ }
+ 
+-static bool CheckNegative(
+-	struct dm_odm_t *pDM_Odm, const u32 Condition1, const u32 Condition2
+-)
+-{
+-	return true;
+-}
+-
+ /******************************************************************************
+ *                           MAC_REG.TXT
+ ******************************************************************************/
+@@ -214,10 +207,7 @@ void ODM_ReadAndConfig_MP_8723B_MAC_REG(struct dm_odm_t *pDM_Odm)
+ 				READ_NEXT_PAIR(v1, v2, i);
+ 			} else {
+ 				READ_NEXT_PAIR(v1, v2, i);
+-				if (!CheckNegative(pDM_Odm, v1, v2))
+-					bMatched = false;
+-				else
+-					bMatched = true;
++				bMatched = true;
+ 				READ_NEXT_PAIR(v1, v2, i);
+ 			}
+ 
+diff --git a/drivers/staging/rtl8723bs/hal/HalHWImg8723B_RF.c b/drivers/staging/rtl8723bs/hal/HalHWImg8723B_RF.c
+index efc68c17b126..155ec311a52e 100644
+--- a/drivers/staging/rtl8723bs/hal/HalHWImg8723B_RF.c
++++ b/drivers/staging/rtl8723bs/hal/HalHWImg8723B_RF.c
+@@ -78,13 +78,6 @@ static bool CheckPositive(
+ 	return false;
+ }
+ 
+-static bool CheckNegative(
+-	struct dm_odm_t *pDM_Odm, const u32  Condition1, const u32 Condition2
+-)
+-{
+-	return true;
+-}
+-
+ /******************************************************************************
+ *                           RadioA.TXT
+ ******************************************************************************/
+@@ -245,10 +238,7 @@ void ODM_ReadAndConfig_MP_8723B_RadioA(struct dm_odm_t *pDM_Odm)
+ 				READ_NEXT_PAIR(v1, v2, i);
+ 			} else {
+ 				READ_NEXT_PAIR(v1, v2, i);
+-				if (!CheckNegative(pDM_Odm, v1, v2))
+-					bMatched = false;
+-				else
+-					bMatched = true;
++				bMatched = true;
+ 				READ_NEXT_PAIR(v1, v2, i);
+ 			}
+ 
+-- 
+2.45.2
 
