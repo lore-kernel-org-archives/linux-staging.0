@@ -1,88 +1,49 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DB4846444
-	for <linux-staging@lists.linux.dev>; Wed, 10 Jul 2024 12:18:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A14421E4AF;
+	Wed, 10 Jul 2024 12:52:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720613898; cv=none; b=EvYtlhwNd8Y+RAjP0mlOvhzzlOspxbQdIBlaOV0hwanPSA5/xbKrksKe+8AlHYOv/fPk8Hib+X+A/Tx6h6vODKMjVfZQNwxngvoedwKIWFGjMk4qyVmjrLNQqP6VDTSb8Xv4rf+HYXDEH0s/O8EBEToCQjWsxX0/MeSGWE9OODw=
+	t=1720615967; cv=none; b=lk6og6os23zFwEJoOlpvpKfKqBJvnyM8IvuclVTEAxx7rrDP9ZRGkfPcy4566bYMcdynC/9VrAvQIH2foI7G5kQUOC4jarMcu5LF6jvT1QgCfgUYMsHzAPYPtaILwvQd0H6oej5CEmC99NboKY78Eo7R2uEdRs+Ep0y09wwtHMs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720613898; c=relaxed/simple;
-	bh=UaALKAhizkPi26oCPRRmhN5wnJTAan+Gn4CYyUmIUTI=;
+	s=arc-20240116; t=1720615967; c=relaxed/simple;
+	bh=p5q5TLsWHcIM6y8JrIJcnyuApQufaQ+cFxvzYcEXVvw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UrDgsrRNrVQHhy7iBZBvrTWFQ5xPNhtYxC+3ruD51KOf+UBeR51j6F2lOwUKf/EsGc+Xk4K3+Ocf9mIPdwMtVPsMHb6jvCZ3yZrVpsZoipc56/WA67jr0CuMdV0fi1jg1KcKr+Cex9yX6a32zUbD1C73TBAv45Quqj2wkG2mXSg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=OvdopPOV; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=qS7TraFig6ck0kOoF+J0kLknP30BRwuMKYRxavUPVHU1tDgeQGJVUR6WAYMoQHF7WEUVRxPXZwBA/Z0FvIP2fhmaG6RWBe+Zl/MI8Qf9uMDFv3HdAkAw6k7lZHDTgtEayaRtKMprKs7XYGzu8g3UHd5Iz82Mwb8Iw85d89J095Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=XVEugl14; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="OvdopPOV"
-Received: from ideasonboard.com (unknown [IPv6:2001:b07:5d2e:52c9:72c3:346:a663:c82d])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0C6A511D1;
-	Wed, 10 Jul 2024 14:17:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1720613862;
-	bh=UaALKAhizkPi26oCPRRmhN5wnJTAan+Gn4CYyUmIUTI=;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="XVEugl14"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF83AC32781;
+	Wed, 10 Jul 2024 12:52:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1720615967;
+	bh=p5q5TLsWHcIM6y8JrIJcnyuApQufaQ+cFxvzYcEXVvw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OvdopPOVqYPNLf5GpNHvOFJdiuLVH4ArNalyBS5JurHx7C0LGj4KCeJsn4GnlMH4B
-	 6BWfGOtibKqVyzWXPFGHeO4dthFnub+nThqAYSkjYdyfpst/d9GKp9rjjk8yteqOHU
-	 0x1+eEvimhdKVNyiG5O1StJOrGl0w2f218Mw0uS0=
-Date: Wed, 10 Jul 2024 14:18:11 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Changhuang Liang <changhuang.liang@starfivetech.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>, Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, Mingjia Zhang <mingjia.zhang@mediatek.com>, 
-	Jack Zhu <jack.zhu@starfivetech.com>, Keith Zhao <keith.zhao@starfivetech.com>, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v5 10/14] staging: media: starfive: Add V4L2_CAP_IO_MC
- capability
-Message-ID: <y4rmftogfbsvs76juvrs6px7qlyqjxesg6wqupnrxiys7droea@rrwnc3nsrohr>
-References: <20240709083824.430473-1-changhuang.liang@starfivetech.com>
- <20240709083824.430473-11-changhuang.liang@starfivetech.com>
+	b=XVEugl14Z5E3gEmEtdZjLR8QP38vInKvQ/Sj31RRAO355Hc5sAOuZHKFHctxgLJ3z
+	 w31TNMCkmYByNXQr2A3Uk3INxgCn2JX9qnrMtdvNL9XK9HGvX90qDZv4n0W9TqXR+1
+	 pYxB9/01Z1Z1LbUCTvI1OjOu6Fr25H1oINKMVoBc=
+Date: Wed, 10 Jul 2024 14:52:14 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/13] staging: rtl8723bs: Remove unused macros starting
+ with hal_com_h2c.h
+Message-ID: <2024071053-headdress-spiritual-4b23@gregkh>
+References: <cover.1720245061.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240709083824.430473-11-changhuang.liang@starfivetech.com>
+In-Reply-To: <cover.1720245061.git.philipp.g.hortmann@gmail.com>
 
-Hi Changhuang
+On Sun, Jul 07, 2024 at 08:51:54AM +0200, Philipp Hortmann wrote:
+>  12 files changed, 4 insertions(+), 2310 deletions(-)
 
-On Tue, Jul 09, 2024 at 01:38:20AM GMT, Changhuang Liang wrote:
-> Add V4L2_CAP_IO_MC capabality for video device. User space can enumerate
-> formats by mbus code.
->
-> Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
-> ---
->  drivers/staging/media/starfive/camss/stf-video.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/staging/media/starfive/camss/stf-video.c b/drivers/staging/media/starfive/camss/stf-video.c
-> index 2203605ec9c7..8c6c45d8b7a1 100644
-> --- a/drivers/staging/media/starfive/camss/stf-video.c
-> +++ b/drivers/staging/media/starfive/camss/stf-video.c
-> @@ -668,7 +668,7 @@ int stf_video_register(struct stfcamss_video *video,
->  	}
->
->  	vdev->fops = &stf_vid_fops;
-> -	vdev->device_caps |= V4L2_CAP_STREAMING;
-> +	vdev->device_caps |= V4L2_CAP_STREAMING | V4L2_CAP_IO_MC;
+That's always a nice diffstat to apply, great work!
 
-Does this set the flag for the stat node as well ? Not that it hurts
-but filtering on mbus code where only METADATA_FIXED is allowed
-doesn't make much sense ?
-
-Same for the parameters node
-
->  	vdev->entity.ops = &stf_media_ops;
->  	vdev->vfl_dir = VFL_DIR_RX;
->  	vdev->release = stf_video_release;
-> --
-> 2.25.1
->
->
+greg k-h
