@@ -1,61 +1,49 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 144B9144D29
-	for <linux-staging@lists.linux.dev>; Tue,  9 Jul 2024 19:15:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D33151B86FC
+	for <linux-staging@lists.linux.dev>; Wed, 10 Jul 2024 06:01:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720552530; cv=none; b=U96CGLlG87Durak+AfqLjFWZhrCZwAzEBCLF4TtxpPPWhpD+9L4Ws2ZhWIVKtJ5uiv7opuMDTjOHF6iuoXjO9uuOc4kswgVeW3oc0PkjKn5157C+GU+qLnIaevbKTP4cOwrQzVg9AXqIQ/RDJlNjWTEUdV4OkHVUei5v+FKLzrw=
+	t=1720591321; cv=none; b=Yh/Iy8mu8NkMn6WH783gBq364hnfl5pE3ggUW6ThVr2509yapoKEske1VZV/TjjUegiyHOuzMFUG2LkYLu587jk+6H2M1bKm9i24I/LSiF0d42d6B1slQMPeyvK+Pqk/4XvXLadbWmVdycLy2mSKZvum0tVx5eDVe4elMBmS2ZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720552530; c=relaxed/simple;
-	bh=l9YKWHNugysqRnclia1mnLEFda0Foyt6pZ1B9ssZsmA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cBkXquyUuNwBoRTk3CbcoIQjxWqqXDeDIqPzZmBOCwb9TE+CkusfE//yAZM5toh0pHUcRC5PHm6jdOYweLYNh1ArDKyjaiHME+1EiepNHpSMBA5KfLaj2te1XaiqqShj5LfVG2CdLRQsVyM8ON/2R2aE5S9iKliCXJ5+KCC9vG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jsoEU68e; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1720591321; c=relaxed/simple;
+	bh=QDFuKbY/lFGtlFiMEK/m0bauR/F2ScuWg1EF/31L9A4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oLu3KzkY7pPD7JCi7dg0xyoA5uVdyWOYY6nlwvx8ovqIf7nMqmDDec0B+eDAu8aagvQQuOTw1J8fcAXAix9ub849pMLKbfztef1hGFQ6NGCaLTFsUIvKFFAtjSbXuBlULIr+C+YLHlIyc4gCAFYW+G4vXB7WfzAu5EDB4he8Ee4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=1bGArdIE; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=aY765yiw; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jsoEU68e"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-70b0d0fefe3so2865300b3a.2
-        for <linux-staging@lists.linux.dev>; Tue, 09 Jul 2024 12:15:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720552528; x=1721157328; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=BVvD7435hpIemm43JrTkj0xQf9NKCpeT4z04Es1zZLk=;
-        b=jsoEU68eyhKimxIKFrLAUPVv4fd4yKOWELRv+/6YF5C3tc+Bq0XZwZgrTJI9uPXtwF
-         0iNg6yYcbrse1VbzYIaC4xsIEiAeJt2msbRtgPRkJATh1RqUJ2bIqUyzKFgqNjKqtOdB
-         D/akNl1JAQasJGg588W+euQ/Y58pWck4gVkBMb/o9K6FpFsBZGoxWthAWYF5ct0/xIAu
-         FJQVBaMfM+pEfQMGtn5APBi+/tjgMkPJDFVD24pR5+2fPZnN8JfGkNP8Q+XhB9MjM5Zq
-         3P789TpdyhfUC69eG6hkIrf7vQTVnrpx0PZ/w7j+No2XQ+gJ6CbsRXwCjA1FAQkxkXZ2
-         97YA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720552528; x=1721157328;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BVvD7435hpIemm43JrTkj0xQf9NKCpeT4z04Es1zZLk=;
-        b=QI1yYHXtPknZBfmxjVUoWTBM95QztAvnGN8whAS+ZqIu89er3/Nft0UPeRVKHMxRhN
-         a9DQqwU33+BrF5g1ca8lEZBWUqZSE9+IQLwWNzO/5IbJOORH21N5FC5otvmf/9LEDppX
-         wT6b7kUlBwbEXK4TbI/Rw9x5vYNyqXPHzCglAOunvrxyWlEKfhaOHBK8SeMR3dPBBko5
-         LM1lj4k90mFW/Oe8EIAFb/6cH9y/pX+UMMTnWgTf3e7TP91wUnhcXCBg+A4QKc7mpwqs
-         b0PlJHzAShNfSG+4b8krQP/HUeX8pTFIAoGicHv5yzf6MX4/q4wehmpm96/m31B2JQ5c
-         rcuw==
-X-Forwarded-Encrypted: i=1; AJvYcCUsvISQ4Em3zlBYEMqRra5rwcmRlhhjd+Yj0iaacilIVa+6lAmKz20Zx4+XuYMbdjlLjmR1yP1mvs7aMLbJjYJBDf4Y3iuYs6COEYUWYg==
-X-Gm-Message-State: AOJu0Yz+ZVHbh6h+2ITUGgPCJsJQqrCXfD5mEM07WQ+QfjS7/dH6o92f
-	caLOECp5KWGZNWoKkZ7KRa5LKL+3uyodNSWcBXFRN+sWxhcnSCLn
-X-Google-Smtp-Source: AGHT+IG/IkLwTpdYXOdTbDjXJysGuHHmuIQhCOFXnoI3QtXxIfRS9eyG5HH9ftXNI9ZKe6BDUeLbqQ==
-X-Received: by 2002:a05:6a20:7484:b0:1c2:8d0a:8e9d with SMTP id adf61e73a8af0-1c29820b872mr3856486637.7.1720552528256;
-        Tue, 09 Jul 2024 12:15:28 -0700 (PDT)
-Received: from localhost.localdomain ([50.39.170.203])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fbb6a2b6bcsm19658455ad.78.2024.07.09.12.15.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jul 2024 12:15:27 -0700 (PDT)
-Date: Tue, 9 Jul 2024 12:15:26 -0700
-From: Tyler Taormina <taormina.dev@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [PATCH] staging: vme_user: Remove redundant parentheses
-Message-ID: <Zo2MTjKCM_UaLIGx@localhost.localdomain>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="1bGArdIE";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="aY765yiw"
+Date: Wed, 10 Jul 2024 08:01:52 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1720591316;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VFpeUUACA6NTNu3LnOhh72MWRdsJCh6gQP5+7xWftQs=;
+	b=1bGArdIEO5lUJKNOScOJoD4pXU+iVhYkdcfsXtcKPLMjyfUWMjOTVRevnJ6G/FJQVvtd8F
+	vam/RPc041BMhsGnkmtODtwsvV/DvLPDVB2sFpQRT+4YZiCbgcVnxpdFwHkaGGzBP4BCVT
+	RCCqXMNA/9Whe2xuALb4XYTRcxuFxZC8oY9RnQu8vStJJexALO/xwudCl10O+UFIbHFcip
+	lCKW9MQpsQExjrMGVsZz9GPfhOng6+fIsvcQUXhJ5jel6r/x5Yf28rEee0jh5SayclF2d5
+	XZ5z2U9NkWw+9aRkIEqf3srE3JssJfMPGvskcV43irNTUrq3ymEDWdhQ32BSxw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1720591316;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VFpeUUACA6NTNu3LnOhh72MWRdsJCh6gQP5+7xWftQs=;
+	b=aY765yiwoBLANlpGh+lK48587cnzfDthp1PKt6+du8XnLwrHnOYzuc4+8cGfXPwqOKHbhc
+	+fI1qMYfT02nB0BA==
+From: Nam Cao <namcao@linutronix.de>
+To: Tyler Taormina <taormina.dev@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: vme_user: Remove redundant parentheses
+Message-ID: <20240710060152.Qu9miO0u@linutronix.de>
+References: <Zo2MTjKCM_UaLIGx@localhost.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -64,89 +52,21 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <Zo2MTjKCM_UaLIGx@localhost.localdomain>
 
-Adhere to Linux kernel coding style.
+On Tue, Jul 09, 2024 at 12:15:26PM -0700, Tyler Taormina wrote:
+> Adhere to Linux kernel coding style.
+> 
+> Reported by checkpatch:
+> 
+> CHECK: Unnecessary parentheses around (...)
+> 
+> Signed-off-by: Tyler Taormina <taormina.dev@gmail.com>
 
-Reported by checkpatch:
+Staging tree's maintainer (Greg) disagrees with checkpatch.pl on this one
+and prefers to keep these parentheses. So I would leave them be.
 
-CHECK: Unnecessary parentheses around (...)
+You can look up the staging mailing list for details.
 
-Signed-off-by: Tyler Taormina <taormina.dev@gmail.com>
----
- drivers/staging/vme_user/vme.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/staging/vme_user/vme.c b/drivers/staging/vme_user/vme.c
-index 0cd370ab1008..5c1d1c9b7b70 100644
---- a/drivers/staging/vme_user/vme.c
-+++ b/drivers/staging/vme_user/vme.c
-@@ -274,7 +274,7 @@ struct vme_resource *vme_slave_request(struct vme_dev *vdev, u32 address,
- 		mutex_lock(&slave_image->mtx);
- 		if (((slave_image->address_attr & address) == address) &&
- 		    ((slave_image->cycle_attr & cycle) == cycle) &&
--		    (slave_image->locked == 0)) {
-+		    slave_image->locked == 0) {
- 			slave_image->locked = 1;
- 			mutex_unlock(&slave_image->mtx);
- 			allocated_image = slave_image;
-@@ -473,7 +473,7 @@ struct vme_resource *vme_master_request(struct vme_dev *vdev, u32 address,
- 		if (((master_image->address_attr & address) == address) &&
- 		    ((master_image->cycle_attr & cycle) == cycle) &&
- 		    ((master_image->width_attr & dwidth) == dwidth) &&
--		    (master_image->locked == 0)) {
-+		    master_image->locked == 0) {
- 			master_image->locked = 1;
- 			spin_unlock(&master_image->lock);
- 			allocated_image = master_image;
-@@ -849,7 +849,7 @@ struct vme_resource *vme_dma_request(struct vme_dev *vdev, u32 route)
- 		/* Find an unlocked and compatible controller */
- 		mutex_lock(&dma_ctrlr->mtx);
- 		if (((dma_ctrlr->route_attr & route) == route) &&
--		    (dma_ctrlr->locked == 0)) {
-+		    dma_ctrlr->locked == 0) {
- 			dma_ctrlr->locked = 1;
- 			mutex_unlock(&dma_ctrlr->mtx);
- 			allocated_ctrlr = dma_ctrlr;
-@@ -1218,9 +1218,9 @@ void vme_bus_error_handler(struct vme_bridge *bridge,
- 	u32 aspace = vme_get_aspace(am);
- 
- 	list_for_each_entry(handler, &bridge->vme_error_handlers, list) {
--		if ((aspace == handler->aspace) &&
--		    (address >= handler->start) &&
--		    (address < handler->end)) {
-+		if (aspace == handler->aspace &&
-+		    address >= handler->start &&
-+		    address < handler->end) {
- 			if (!handler->num_errors)
- 				handler->first_error = address;
- 			if (handler->num_errors != UINT_MAX)
-@@ -1307,7 +1307,7 @@ int vme_irq_request(struct vme_dev *vdev, int level, int statid,
- 		return -EINVAL;
- 	}
- 
--	if ((level < 1) || (level > 7)) {
-+	if (level < 1 || level > 7) {
- 		dev_err(bridge->parent, "Invalid interrupt level\n");
- 		return -EINVAL;
- 	}
-@@ -1357,7 +1357,7 @@ void vme_irq_free(struct vme_dev *vdev, int level, int statid)
- 		return;
- 	}
- 
--	if ((level < 1) || (level > 7)) {
-+	if (level < 1 || level > 7) {
- 		dev_err(bridge->parent, "Invalid interrupt level\n");
- 		return;
- 	}
-@@ -1405,7 +1405,7 @@ int vme_irq_generate(struct vme_dev *vdev, int level, int statid)
- 		return -EINVAL;
- 	}
- 
--	if ((level < 1) || (level > 7)) {
-+	if (level < 1 || level > 7) {
- 		dev_warn(bridge->parent, "Invalid interrupt level\n");
- 		return -EINVAL;
- 	}
--- 
-2.39.2
-
+Best regards,
+Nam
