@@ -1,48 +1,34 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D33151B86FC
-	for <linux-staging@lists.linux.dev>; Wed, 10 Jul 2024 06:01:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3894129AB;
+	Wed, 10 Jul 2024 07:24:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720591321; cv=none; b=Yh/Iy8mu8NkMn6WH783gBq364hnfl5pE3ggUW6ThVr2509yapoKEske1VZV/TjjUegiyHOuzMFUG2LkYLu587jk+6H2M1bKm9i24I/LSiF0d42d6B1slQMPeyvK+Pqk/4XvXLadbWmVdycLy2mSKZvum0tVx5eDVe4elMBmS2ZI=
+	t=1720596283; cv=none; b=owYOECjNwaJWuRbwACogpUKMIkL9c8qHNPvkAloLTlQ6EnpqUEwkH1rc71AmLJKSzpXZrHarbJwv9Soju+VbFG1rDCbF7f1tsAelteDVIF6D9mxYvShtkYsohpJnzUmx5Y6WjmgPJdwreMMW2fsMHu/lpJRHQK+wStG3xLNQEmQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720591321; c=relaxed/simple;
-	bh=QDFuKbY/lFGtlFiMEK/m0bauR/F2ScuWg1EF/31L9A4=;
+	s=arc-20240116; t=1720596283; c=relaxed/simple;
+	bh=TUKbp393zKXDg0C9xynQbJ5WMtNpOy7+0fBYrg7+uwk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oLu3KzkY7pPD7JCi7dg0xyoA5uVdyWOYY6nlwvx8ovqIf7nMqmDDec0B+eDAu8aagvQQuOTw1J8fcAXAix9ub849pMLKbfztef1hGFQ6NGCaLTFsUIvKFFAtjSbXuBlULIr+C+YLHlIyc4gCAFYW+G4vXB7WfzAu5EDB4he8Ee4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=1bGArdIE; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=aY765yiw; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=JdxXn5w71nx1atW0sh/ZQgdEG0J0zpDhQKPgzYylOrP5ojJwcqgk/KYXyWIovgdMnS26Oog3xnWsiYYAuW/dc/XxA447zO6XLWXvanyo2MkiwCjbiI0sx7o34W4OWfjwutLCjeKCkgGZOrEdlOZcihyCZqAupLGxWkT27IvwJlY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=qu5nYKVG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="1bGArdIE";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="aY765yiw"
-Date: Wed, 10 Jul 2024 08:01:52 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1720591316;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VFpeUUACA6NTNu3LnOhh72MWRdsJCh6gQP5+7xWftQs=;
-	b=1bGArdIEO5lUJKNOScOJoD4pXU+iVhYkdcfsXtcKPLMjyfUWMjOTVRevnJ6G/FJQVvtd8F
-	vam/RPc041BMhsGnkmtODtwsvV/DvLPDVB2sFpQRT+4YZiCbgcVnxpdFwHkaGGzBP4BCVT
-	RCCqXMNA/9Whe2xuALb4XYTRcxuFxZC8oY9RnQu8vStJJexALO/xwudCl10O+UFIbHFcip
-	lCKW9MQpsQExjrMGVsZz9GPfhOng6+fIsvcQUXhJ5jel6r/x5Yf28rEee0jh5SayclF2d5
-	XZ5z2U9NkWw+9aRkIEqf3srE3JssJfMPGvskcV43irNTUrq3ymEDWdhQ32BSxw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1720591316;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VFpeUUACA6NTNu3LnOhh72MWRdsJCh6gQP5+7xWftQs=;
-	b=aY765yiwoBLANlpGh+lK48587cnzfDthp1PKt6+du8XnLwrHnOYzuc4+8cGfXPwqOKHbhc
-	+fI1qMYfT02nB0BA==
-From: Nam Cao <namcao@linutronix.de>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="qu5nYKVG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F2F4C32781;
+	Wed, 10 Jul 2024 07:24:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1720596282;
+	bh=TUKbp393zKXDg0C9xynQbJ5WMtNpOy7+0fBYrg7+uwk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qu5nYKVGGWqNZD4N0nidCbFeLW1UQHYBInc61br9mthg+FOrd8xpQxdsCmhwMQJOn
+	 OaEvoH4UmNX98X/sRWLM2HKnW30Q7KIG0l4IevpR1Yxw+2lWhTClnGnb4gV8391SDx
+	 D3wdNPwqGLum06rlC4r5eRfLBpYPlF8uWts4IKzI=
+Date: Wed, 10 Jul 2024 09:24:40 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
 To: Tyler Taormina <taormina.dev@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
 Subject: Re: [PATCH] staging: vme_user: Remove redundant parentheses
-Message-ID: <20240710060152.Qu9miO0u@linutronix.de>
+Message-ID: <2024071015-sash-flyaway-321c@gregkh>
 References: <Zo2MTjKCM_UaLIGx@localhost.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -62,11 +48,109 @@ On Tue, Jul 09, 2024 at 12:15:26PM -0700, Tyler Taormina wrote:
 > CHECK: Unnecessary parentheses around (...)
 > 
 > Signed-off-by: Tyler Taormina <taormina.dev@gmail.com>
+> ---
+>  drivers/staging/vme_user/vme.c | 18 +++++++++---------
+>  1 file changed, 9 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/staging/vme_user/vme.c b/drivers/staging/vme_user/vme.c
+> index 0cd370ab1008..5c1d1c9b7b70 100644
+> --- a/drivers/staging/vme_user/vme.c
+> +++ b/drivers/staging/vme_user/vme.c
+> @@ -274,7 +274,7 @@ struct vme_resource *vme_slave_request(struct vme_dev *vdev, u32 address,
+>  		mutex_lock(&slave_image->mtx);
+>  		if (((slave_image->address_attr & address) == address) &&
+>  		    ((slave_image->cycle_attr & cycle) == cycle) &&
+> -		    (slave_image->locked == 0)) {
+> +		    slave_image->locked == 0) {
+>  			slave_image->locked = 1;
+>  			mutex_unlock(&slave_image->mtx);
+>  			allocated_image = slave_image;
+> @@ -473,7 +473,7 @@ struct vme_resource *vme_master_request(struct vme_dev *vdev, u32 address,
+>  		if (((master_image->address_attr & address) == address) &&
+>  		    ((master_image->cycle_attr & cycle) == cycle) &&
+>  		    ((master_image->width_attr & dwidth) == dwidth) &&
+> -		    (master_image->locked == 0)) {
+> +		    master_image->locked == 0) {
+>  			master_image->locked = 1;
+>  			spin_unlock(&master_image->lock);
+>  			allocated_image = master_image;
+> @@ -849,7 +849,7 @@ struct vme_resource *vme_dma_request(struct vme_dev *vdev, u32 route)
+>  		/* Find an unlocked and compatible controller */
+>  		mutex_lock(&dma_ctrlr->mtx);
+>  		if (((dma_ctrlr->route_attr & route) == route) &&
+> -		    (dma_ctrlr->locked == 0)) {
+> +		    dma_ctrlr->locked == 0) {
+>  			dma_ctrlr->locked = 1;
+>  			mutex_unlock(&dma_ctrlr->mtx);
+>  			allocated_ctrlr = dma_ctrlr;
+> @@ -1218,9 +1218,9 @@ void vme_bus_error_handler(struct vme_bridge *bridge,
+>  	u32 aspace = vme_get_aspace(am);
+>  
+>  	list_for_each_entry(handler, &bridge->vme_error_handlers, list) {
+> -		if ((aspace == handler->aspace) &&
+> -		    (address >= handler->start) &&
+> -		    (address < handler->end)) {
+> +		if (aspace == handler->aspace &&
+> +		    address >= handler->start &&
+> +		    address < handler->end) {
+>  			if (!handler->num_errors)
+>  				handler->first_error = address;
+>  			if (handler->num_errors != UINT_MAX)
+> @@ -1307,7 +1307,7 @@ int vme_irq_request(struct vme_dev *vdev, int level, int statid,
+>  		return -EINVAL;
+>  	}
+>  
+> -	if ((level < 1) || (level > 7)) {
+> +	if (level < 1 || level > 7) {
+>  		dev_err(bridge->parent, "Invalid interrupt level\n");
+>  		return -EINVAL;
+>  	}
+> @@ -1357,7 +1357,7 @@ void vme_irq_free(struct vme_dev *vdev, int level, int statid)
+>  		return;
+>  	}
+>  
+> -	if ((level < 1) || (level > 7)) {
+> +	if (level < 1 || level > 7) {
+>  		dev_err(bridge->parent, "Invalid interrupt level\n");
+>  		return;
+>  	}
+> @@ -1405,7 +1405,7 @@ int vme_irq_generate(struct vme_dev *vdev, int level, int statid)
+>  		return -EINVAL;
+>  	}
+>  
+> -	if ((level < 1) || (level > 7)) {
+> +	if (level < 1 || level > 7) {
+>  		dev_warn(bridge->parent, "Invalid interrupt level\n");
+>  		return -EINVAL;
+>  	}
+> -- 
+> 2.39.2
+> 
+> 
 
-Staging tree's maintainer (Greg) disagrees with checkpatch.pl on this one
-and prefers to keep these parentheses. So I would leave them be.
+Hi,
 
-You can look up the staging mailing list for details.
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-Best regards,
-Nam
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- You sent a patch that has been sent multiple times in the past, and is
+  identical to ones that has been rejected.  Please always look at the
+  mailing list traffic to determine if you are duplicating other
+  people's work.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
