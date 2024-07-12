@@ -1,257 +1,482 @@
-Received: from CHN02-BJS-obe.outbound.protection.partner.outlook.cn (mail-bjschn02on2109.outbound.protection.partner.outlook.cn [139.219.17.109])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1376B1E49F
-	for <linux-staging@lists.linux.dev>; Fri, 12 Jul 2024 13:15:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.219.17.109
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720790114; cv=fail; b=ljlPSxeya5UNs1J0xeQBQ3bsWUUsegxUbsg/1xN+qH2qCQarek11fANgYGOCQMVkOknJX9GiTO7KbTqnIBjOgpcyeErBPdd2aAOLu0cIPSvx/r1HajYZgsd3JWR02TSkiJhsdoxRqzSjwylXXJSJFOS9mTyfpZsppVWw2251ZYI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720790114; c=relaxed/simple;
-	bh=aaVwkQaG3u7uR0qEHZxEZfwlBfhC46rZiLlvakoaxuw=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=NoNvIgu7WujXjv4dOnYeSoBzv/rHv6YqFmoQAona3dee2+paFsFNp8Nd1E4TAtarHBQzaLTrGzt3fQTjdfipZXpmkNVOrKnRs2EFx3d03LEmLvJ/uRH2eMPTkM9nkbaL8He+pnoCkOjzV0JOY2ZPKcfWhqxQiTKh6cvb2e9pmNU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com; spf=pass smtp.mailfrom=starfivetech.com; arc=fail smtp.client-ip=139.219.17.109
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=e/3+4kI9pYG/YZixDcsC8as5uI3gtnnX3SosZ3DIXtPMJ6IQ2kyBOM5Ed+WgFHG0Qu/9wZOqxhfmLyWd31BX6UH3SHVv6yvM1OT7EdO34iDx1ado0WecSUHP7hvOWaeS0m8sk8s4/UMvIM3+4r+CDuoq9nX6Yk4+N8avAtPnwdZCqzabT2axd1L/JNCLqom8J9ujre/pM15SQMlXC7BVy9XpCIb+YOTEC+QgdhcfL8pObur/QgfFlA9R/TlOC5A9fd5+3S60oRm9XHoO9i284Xc/n8A6974M62NB01E6ZNLPEo3SLbeAPfviHenXCSRZT8n4jEsbDDuPNSN2hH5w/g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aaVwkQaG3u7uR0qEHZxEZfwlBfhC46rZiLlvakoaxuw=;
- b=Y0f+AMld9A+Xwr2W9hyE4o6lNUPQpLKKdZpM98DHHPVPNTGTS1EDMTB6Cs+4Fx0lZH/1JddFhj7oX7mHXpc+4JIS1ALU+qZtVLhgWtmigYacB4pKyupzMI3O4t5SnXyzWG2fbCqUz3BY9JyLy1vrn8I2WlAkNn0RnHxERsbVWG0GpZNGED/+fvCLJF6XgNMqfBHUZbOk/C4CicnKqBP6W4HXxrPDI4ZRVovsA008JPdtwPRhm5FN/MBKUzvx20qcQH+7Cr0viG+IFmdU2/4AjfWJ60geS6iQDyWtiAKUwHiRqO0djKsE4grYej1WiUA6+QgJYZFVdayO4nL5kl7iBQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=starfivetech.com; dmarc=pass action=none
- header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
-Received: from ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c550:1b::9) by ZQ0PR01MB1111.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c550:e::7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.38; Fri, 12 Jul
- 2024 13:14:54 +0000
-Received: from ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
- ([fe80::64c5:50d8:4f2c:59aa]) by
- ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn ([fe80::64c5:50d8:4f2c:59aa%6])
- with mapi id 15.20.7741.033; Fri, 12 Jul 2024 13:14:54 +0000
-From: Changhuang Liang <changhuang.liang@starfivetech.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-CC: Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>, Laurent Pinchart
-	<laurent.pinchart@ideasonboard.com>, Jean-Michel Hautbois
-	<jeanmichel.hautbois@ideasonboard.com>, Benjamin Gaignard
-	<benjamin.gaignard@collabora.com>, Tomi Valkeinen
-	<tomi.valkeinen+renesas@ideasonboard.com>, Mingjia Zhang
-	<mingjia.zhang@mediatek.com>, Jack Zhu <jack.zhu@starfivetech.com>, Keith
- Zhao <keith.zhao@starfivetech.com>, "linux-media@vger.kernel.org"
-	<linux-media@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-staging@lists.linux.dev"
-	<linux-staging@lists.linux.dev>
-Subject:
- =?utf-8?B?5Zue5aSNOiBbUEFUQ0ggdjUgMTIvMTRdIHN0YWdpbmc6IG1lZGlhOiBzdGFy?=
- =?utf-8?Q?five:_Add_ISP_parameters_hardware_configure?=
-Thread-Topic: [PATCH v5 12/14] staging: media: starfive: Add ISP parameters
- hardware configure
-Thread-Index: AQHa0dtplzUCcBs1YUOpoZrQv6GKybHv82WAgAMhF9A=
-Date: Fri, 12 Jul 2024 13:14:54 +0000
-Message-ID:
- <ZQ0PR01MB130232FA373BB3C284D876A9F2A62@ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6F3D15CD75
+	for <linux-staging@lists.linux.dev>; Fri, 12 Jul 2024 13:27:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1720790873; cv=none; b=DKpekKecL7+pOcZWmw1dZiZroblXgAT1c0nujMd1zZ+bOflbEVlriWiHCMg9Qu/95EjkfspTrG6REjs7BtrLl+wwxZv6jcOGrO55pI7rW5b0TdaM12VmlpOLbL2+h0gy4ZBEUcM3sTUtOI4jRYKyXhxJgrBo9UL0dHMxK1yc/IE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1720790873; c=relaxed/simple;
+	bh=JiFQ49YSJIeBCBbKeNAC0u0Ed2oy8DlO9sau5jYqBYY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XLAwzfCQF2ZBJgD9UUrenH7N3WsHoDelbk5aJLHI1ZC2laYKbrWCfHXdLj1ZyOifcx1nGDzXfQRHC/DpdzedzhLDTqJY8EWaVWkEhMk3BKy6h5Fq3pIUl68XtnfexwK5RzD5jub/WKc30T517Z1tAp3OKDaMOn30vLfPfjIbz24=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=m/9oTzgz; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="m/9oTzgz"
+Received: from ideasonboard.com (mob-5-90-56-63.net.vodafone.it [5.90.56.63])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 15B1F5A5;
+	Fri, 12 Jul 2024 15:27:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1720790835;
+	bh=JiFQ49YSJIeBCBbKeNAC0u0Ed2oy8DlO9sau5jYqBYY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=m/9oTzgzqOUKLq2rl8zZT5qIYulgC+KTl439IrFTJ8ZbstebsimofhwcEQ8Te/UoA
+	 H0PZe8ksE0EIS3hs5TDsDkdICpY2rKVd3HZBUCySaS2l6OyI8x7CVzHJ+fAy3mciTZ
+	 WpRsdg+hJKM+ZmHHOo5BoWNgpv8keMjSTRo7tALI=
+Date: Fri, 12 Jul 2024 15:27:46 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Changhuang Liang <changhuang.liang@starfivetech.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+	Mingjia Zhang <mingjia.zhang@mediatek.com>, Jack Zhu <jack.zhu@starfivetech.com>, 
+	Keith Zhao <keith.zhao@starfivetech.com>, "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>
+Subject: Re: =?utf-8?B?5Zue5aSNOiDlm57lpI06IOWbnuWkjTogW1BBVENIIHY=?=
+ =?utf-8?Q?5?= 08/14] staging: media: starfive: Add for StarFive ISP 3A SC
+Message-ID: <nyuphmofpqrytwsvi2rnhqoqk5y2zy74ihume4fh7r2yfnwqtm@cb6hxibfuzwq>
 References: <20240709083824.430473-1-changhuang.liang@starfivetech.com>
- <20240709083824.430473-13-changhuang.liang@starfivetech.com>
- <rs5fegc5qdjwyyprlcbaruoapjdu6n6qrvlmj2s2hvhcfoypvi@3af2mr375fcp>
-In-Reply-To: <rs5fegc5qdjwyyprlcbaruoapjdu6n6qrvlmj2s2hvhcfoypvi@3af2mr375fcp>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=starfivetech.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: ZQ0PR01MB1302:EE_|ZQ0PR01MB1111:EE_
-x-ms-office365-filtering-correlation-id: 89e548fe-4c9c-4d36-b9cc-08dca2749edd
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam:
- BCL:0;ARA:13230040|7416014|41320700013|366016|1800799024|38070700018;
-x-microsoft-antispam-message-info:
- J2oVUfXWHkSlGZAJzmgJ5zYvpTjSmgt2bpELNPpVRlE17nTBG3U913ToTeIFmD2RvUE06SUjTMv32QqEbBQ+6XxWBVRMbnroEgO0UR+iEoFYVqY1D0EamzN+Gx8yuXkhXcgfTcFJG1phcVp1fbxOjUnwkCp3Hqh4tOoGZ6pZSenpJQEms+X8EPKlIW8TjmEok5B6RTHdW0c1Mw37aAhPOZ67HQf7qhSiVAz1M0KbkD3GvIMfbbwi6Phjr6XPTXwqYEkZ6/MgOilRUKGe0RaqMYUA3A9aDFYzbHLhpqjHV29PukJjF6vWRYZy+QD89Ag5BeCjj4rpCKUbO+zDEgNtiOAvUS76d/H6lD/wUpna9jm6GFVRVXgttODXbIi9vVjq5N7ybd22t9QkgbAZB1v5YOZqMKg0k+hFK+zSF6MGIIKEhmGwd/LJu1Q44nhR2MSUWrZRy5jynUrVVoAnhQDZl/add6WpR6M1IKlvp2kGz+aS2ZFb2Wyw6SL38vewge5tHDt0+WZY9vsGdPCnn82+uLZm8B/QbFXzyoaRR0mwvlpVaCcdUjutU4tecdUhSVfyefxfhHER4rS8+Nur+GfLYqum8hTZ5ZLo9ZbTst4CF672c7nyXbm6lcAMU3kLA+0I
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:zh-cn;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230040)(7416014)(41320700013)(366016)(1800799024)(38070700018);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?YVdJUFdnU01DZzY5TkljYzBWdkZmc2tkVTVqY0k1Q0x3dlljR285MGpjT1g4?=
- =?utf-8?B?SFFPSXp2akFmSVUybUo3dkNBSmNGRnpiSFJ0TlZKRWtuQmFsemZnYzZhZzhX?=
- =?utf-8?B?bkt6R0Y2dnJmaVZtN0tnVUVPWTVCYjR4anp5Q3lPRjJuRVNTQStKY1ovOHBm?=
- =?utf-8?B?TzZ2cTRSQk0vRnFOMVFzRkVhZEM5QmxkSDhIQ3hiTm05bTRFb01uMVNUTHlS?=
- =?utf-8?B?VldDY2ZKbmNEV1ByZXdYdHByU1NHYVI3T0d4RjhGNE9UTkpOQXR0RFJtTG00?=
- =?utf-8?B?ajAySTJPRUpQZWVFOUZ5QzRoYlBRaFMwR05MRHpML251WkhRQjI1S2djNm5M?=
- =?utf-8?B?QzMvRFY2Um5HYnNuTkdwT3A1NnVtS0owSTM1emQ5WDU5QXRqczBlYmVoNlVD?=
- =?utf-8?B?R1FvMEoybGdsMUxVS0Z5WmxXYlAvZXVJdmJCaDRWZU9kWlBvS3B3bk82M1JD?=
- =?utf-8?B?M0l2Zi9xZG45c0JWeTJwOWg4dEhMREM2ZWJnTHFMUTIwZTMyOUFrdVdkVU5h?=
- =?utf-8?B?M09xbVJKY0hDbjJ1ZjlqU01HVGQvbEVaTjQ2MTlZQUhVRjU3bm9lTlErRjVL?=
- =?utf-8?B?bGgzQnczVkd5dTB4bnUzUjFGVVkvaEI5NVdzdVdTYk9ZT1Y5S0V5OUtTaGZW?=
- =?utf-8?B?U3dDcmV5QnBTZEF4U1VIRS93Um9XMHFVMVV4UnAreEl1Ums5S0orZ083UGtB?=
- =?utf-8?B?UkVTemdWUTNVaFB1dVMwNmYyS1ljbkR3cTk1RnhuYnZwdFNnNFRYOWNiUEx3?=
- =?utf-8?B?Z1JNazBQelpGNmZvOUlaL1VuakNEWkgxYkpsa1lPNE14U215OGY5cGVSTzlM?=
- =?utf-8?B?OW5FWDJRaUxORU16RjhCS0FGdStleU9zZm83SWxaVTlaZVdiSVB5QkljcnpQ?=
- =?utf-8?B?aDlQeUxYQ0FLcHlZZVBXTi9OSitaT0hKVVozYTBqenc4bWRUYlY3N0tuc01I?=
- =?utf-8?B?V2pCRmxuMDVKRlVDM2Y0UTc4Q1M2eGk1TVhuZFVZT2pRNlFPZVFuOUU4VHls?=
- =?utf-8?B?Z2xkeGRFREJMKzFZUW80RGlTcmtZT3U3MWtWcEFuclhIUCtQa1F2ZzhES05N?=
- =?utf-8?B?dnpoMlZMY3UxZjBZb3pXSkxsaHhZcnl3VmdNMXNqdXJpMno3cExMRWlTeHNz?=
- =?utf-8?B?ZDNJUVJnY0N0V09rRG1NS2UyNExOZnpUdVZ1VU1NY096YzBxcnlxUHg2cWg2?=
- =?utf-8?B?T0RsRk5oYjZNSG9pVkxLUWMvckFaTFNXYWlpeUNMNE01NEVNOXJPOEUwc0d4?=
- =?utf-8?B?RGlGUVZYdU41KytwMFphNTEzUk1mamo0a1pPQjA5T1VMN2RleGJDZVpJbGdR?=
- =?utf-8?B?M1BGWERoRFZWZXh5emZ1REI2blllcUpnQmZpV3ZycWwrVnM5dDhSR1ZjU3RQ?=
- =?utf-8?B?WDl5OWtRVVJYVUNIWTM5cENLUWNQSFZtS0I4VnJid3gyUEJ5MVl6TXNZQm9z?=
- =?utf-8?B?bnJyTE5MMThXejdSc0EyNzMya1dYL1BDTGYycXNudC9KSHU1cVoxK2JtVHZp?=
- =?utf-8?B?YUVLa0RMV3FyNi9nQWp2Y2pITTFXQThiQTV0TU1adGk5M2NBYTRMZm9Hdk9D?=
- =?utf-8?B?d1FoUEd2OWxISnhvZGtmSHc1ODR1K0VsczFhQlVEWVc1d3lGeXhUczYydnpp?=
- =?utf-8?B?eWVuRXN1SjhLdXhZZHBrR1YrczlSZFBuWGdBbTRrNVZsNXlTZ1k1S3ZxZzNQ?=
- =?utf-8?B?dmtBV0hhTVY0VUFSc2F2djRlY2dMZzhTOUlYTnRCV1M1blVFZzRLRDB6Rkh2?=
- =?utf-8?B?R1MyQko0RjgzbGRaTnZUMzFOakxzYVlBNHpxN1hVcnlDMUN6MlIzMnprTGF1?=
- =?utf-8?B?dG4yd3NSYVd2dXh2NU1IWXNMalNDOGFHbDNqTTg2MDRINytOK0FYcytKRzh6?=
- =?utf-8?B?V21LR1IyS3RKbmhRSE52OFlnNFpKZTcwMkUyOU80MGRQbTZQQ2liYVVTMmhU?=
- =?utf-8?B?clpyRWViTHVUNEVta043aDZvdGRNU3NtRUllRStBb1l6L0pLQUxGdWhXSWs2?=
- =?utf-8?B?YUJZR0ljZTRpeXVNeGhzUjBIb1hZbGRGSVRtS2NLK3hDS056bHJXbmxTODhi?=
- =?utf-8?B?TTVxNVl5endUd0FRNFVJRmthVUFRMEZkZmJ4RUdsaForaU44cm5yMEcvbVI2?=
- =?utf-8?B?ZnZlZWd2OHlBeXNNZzlKN2JVM2l3UXdjUVVUOUE1RUlMdndVc2RJN1FKbWdq?=
- =?utf-8?B?SWc9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ <20240709083824.430473-9-changhuang.liang@starfivetech.com>
+ <hxv4l4t32a7il5zv2wk7btydlk6qokyborevbnrajpwziaalva@lly6nfkts2no>
+ <ZQ0PR01MB13024CFE2FCCF4D39E3FAEDEF2A52@ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn>
+ <b45mnwf4p4ygrvukzdmrvbffndmqg5fncyepg2yxize7wq3a75@v6doupiawwnt>
+ <ZQ0PR01MB1302A295EC18E19578026E0BF2A62@ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn>
+ <gppf6abnt3pjmaonnulszamnsusmnjreeygch7y3ty7sqzdbsl@xcxvrcaurkho>
+ <ZQ0PR01MB1302BD81B29FCC7B484AF68CF2A62@ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: starfivetech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
-X-MS-Exchange-CrossTenant-Network-Message-Id: 89e548fe-4c9c-4d36-b9cc-08dca2749edd
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Jul 2024 13:14:54.4907
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: dcL+ZrVdtjmwIFs1ovaCQsznNu7i58EonZTw7HtalpwAWawCO6FxLVW48pD9yiwKq5pMj4ceWj3sIdx3lcSlzVYSrvmUCYVWt0BnqW0iB5PyCMSBsLQ97hJkMBt/9a6t
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: ZQ0PR01MB1111
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ZQ0PR01MB1302BD81B29FCC7B484AF68CF2A62@ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn>
 
-SGkgSmFjb3BvDQoNClRoYW5rcyBmb3IgeW91ciBjb21tZW50cy4NCg0KPiBIaSBDaGFuZ2h1YW5n
-DQo+IA0KPiBPbiBUdWUsIEp1bCAwOSwgMjAyNCBhdCAwMTozODoyMkFNIEdNVCwgQ2hhbmdodWFu
-ZyBMaWFuZyB3cm90ZToNCj4gPiBBZGQgSVNQIHBhcmFtZXRlcnMgaGFyZHdhcmUgY29uZmlndXJl
-Lg0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogQ2hhbmdodWFuZyBMaWFuZyA8Y2hhbmdodWFuZy5s
-aWFuZ0BzdGFyZml2ZXRlY2guY29tPg0KPiA+IC0tLQ0KPiA+ICAuLi4vc3RhZ2luZy9tZWRpYS9z
-dGFyZml2ZS9jYW1zcy9zdGYtY2Ftc3MuaCAgfCAgIDggKw0KPiA+ICAuLi4vbWVkaWEvc3RhcmZp
-dmUvY2Ftc3Mvc3RmLWlzcC1ody1vcHMuYyAgICAgfCA1NzMNCj4gKysrKysrKysrKysrKysrKysr
-DQo+ID4gIC4uLi9zdGFnaW5nL21lZGlhL3N0YXJmaXZlL2NhbXNzL3N0Zi1pc3AuaCAgICB8IDEz
-NSArKysrKw0KPiA+ICAzIGZpbGVzIGNoYW5nZWQsIDcxNiBpbnNlcnRpb25zKCspDQo+ID4NCj4g
-PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9zdGFnaW5nL21lZGlhL3N0YXJmaXZlL2NhbXNzL3N0Zi1j
-YW1zcy5oDQo+ID4gYi9kcml2ZXJzL3N0YWdpbmcvbWVkaWEvc3RhcmZpdmUvY2Ftc3Mvc3RmLWNh
-bXNzLmgNCj4gPiBpbmRleCAzZjg0ZjFhMWU5OTcuLjMyODMxOGQ2MWM2YiAxMDA2NDQNCj4gPiAt
-LS0gYS9kcml2ZXJzL3N0YWdpbmcvbWVkaWEvc3RhcmZpdmUvY2Ftc3Mvc3RmLWNhbXNzLmgNCj4g
-PiArKysgYi9kcml2ZXJzL3N0YWdpbmcvbWVkaWEvc3RhcmZpdmUvY2Ftc3Mvc3RmLWNhbXNzLmgN
-Cj4gPiBAQCAtMTA2LDYgKzEwNiwxNCBAQCBzdGF0aWMgaW5saW5lIHZvaWQgc3RmX2lzcF9yZWdf
-c2V0KHN0cnVjdCBzdGZjYW1zcw0KPiAqc3RmY2Ftc3MsIHUzMiByZWcsIHUzMiBtYXNrKQ0KPiA+
-ICAJCSAgc3RmY2Ftc3MtPmlzcF9iYXNlICsgcmVnKTsNCj4gPiAgfQ0KPiA+DQo+ID4gK3N0YXRp
-YyBpbmxpbmUgdm9pZCBzdGZfaXNwX3JlZ19maWxsX3plcm8oc3RydWN0IHN0ZmNhbXNzICpzdGZj
-YW1zcywNCj4gPiArdTMyIHJlZywgdTMyIHNpemUpIHsNCj4gPiArCXUzMiBpOw0KPiA+ICsNCj4g
-PiArCWZvciAoaSA9IDA7IGkgPCBzaXplOyBpKyssIHJlZyArPSA0KQ0KPiA+ICsJCWlvd3JpdGUz
-MigwLCBzdGZjYW1zcy0+aXNwX2Jhc2UgKyByZWcpOyB9DQo+ID4gKw0KPiANCj4gV2h5IGluIHRo
-ZSBoZWFkZXIgZmlsZSA/IEFsc28gY291bGQgbWVtc2V0X2lvKCkgcmVwbGFjZSB0aGlzID8NCj4g
-DQoNCk9LLCBJIHdpbGwgdHJ5IHRoaXMuDQoNCj4gPiAgc3RhdGljIGlubGluZSB1MzIgc3RmX3N5
-c2Nvbl9yZWdfcmVhZChzdHJ1Y3Qgc3RmY2Ftc3MgKnN0ZmNhbXNzLCB1MzINCj4gPiByZWcpICB7
-DQo+ID4gIAlyZXR1cm4gaW9yZWFkMzIoc3RmY2Ftc3MtPnN5c2Nvbl9iYXNlICsgcmVnKTsgZGlm
-ZiAtLWdpdA0KPiA+IGEvZHJpdmVycy9zdGFnaW5nL21lZGlhL3N0YXJmaXZlL2NhbXNzL3N0Zi1p
-c3AtaHctb3BzLmMNCj4gPiBiL2RyaXZlcnMvc3RhZ2luZy9tZWRpYS9zdGFyZml2ZS9jYW1zcy9z
-dGYtaXNwLWh3LW9wcy5jDQo+ID4gaW5kZXggMGJjNWUzNmY5NTJlLi5lNTQzNjg5MTA5MDYgMTAw
-NjQ0DQo+ID4gLS0tIGEvZHJpdmVycy9zdGFnaW5nL21lZGlhL3N0YXJmaXZlL2NhbXNzL3N0Zi1p
-c3AtaHctb3BzLmMNCj4gPiArKysgYi9kcml2ZXJzL3N0YWdpbmcvbWVkaWEvc3RhcmZpdmUvY2Ft
-c3Mvc3RmLWlzcC1ody1vcHMuYw0KPiA+IEBAIC0xMCw2ICsxMCwyNSBAQA0KPiA+DQo+ID4gICNp
-bmNsdWRlICJzdGYtY2Ftc3MuaCINCj4gPg0KPiA+ICtzdGF0aWMgY29uc3Qgc3RydWN0IHN0Zl9p
-c3BfbW9kdWxlX2luZm8gbW9kX2luZm9bXSA9IHsNCj4gPiArCXsgSVNQX1JFR19DU0lfTU9EVUxF
-X0NGRywgMiB9LA0KPiA+ICsJeyBJU1BfUkVHX0NTSV9NT0RVTEVfQ0ZHLCA0IH0sDQo+ID4gKwl7
-IElTUF9SRUdfQ1NJX01PRFVMRV9DRkcsIDYgfSwNCj4gPiArCXsgSVNQX1JFR19DU0lfTU9EVUxF
-X0NGRywgNyB9LA0KPiA+ICsJeyBJU1BfUkVHX0NTSV9NT0RVTEVfQ0ZHLCAxNyB9LA0KPiA+ICsJ
-eyBJU1BfUkVHX0lTUF9DVFJMXzEsIDEgfSwNCj4gPiArCXsgSVNQX1JFR19JU1BfQ1RSTF8xLCAy
-IH0sDQo+ID4gKwl7IElTUF9SRUdfSVNQX0NUUkxfMSwgMyB9LA0KPiA+ICsJeyBJU1BfUkVHX0lT
-UF9DVFJMXzEsIDQgfSwNCj4gPiArCXsgSVNQX1JFR19JU1BfQ1RSTF8xLCA1IH0sDQo+ID4gKwl7
-IElTUF9SRUdfSVNQX0NUUkxfMSwgNyB9LA0KPiA+ICsJeyBJU1BfUkVHX0lTUF9DVFJMXzEsIDgg
-fSwNCj4gPiArCXsgSVNQX1JFR19JU1BfQ1RSTF8xLCAxNyB9LA0KPiA+ICsJeyBJU1BfUkVHX0lT
-UF9DVFJMXzEsIDE5IH0sDQo+ID4gKwl7IElTUF9SRUdfSVNQX0NUUkxfMSwgMjEgfSwNCj4gPiAr
-CXsgSVNQX1JFR19JU1BfQ1RSTF8xLCAyMiB9LA0KPiA+ICt9Ow0KPiA+ICsNCj4gPiAgc3RhdGlj
-IHZvaWQgc3RmX2lzcF9jb25maWdfb2JjKHN0cnVjdCBzdGZjYW1zcyAqc3RmY2Ftc3MpICB7DQo+
-ID4gIAl1MzIgcmVnX3ZhbCwgcmVnX2FkZDsNCj4gPiBAQCAtNTE3LDYgKzUzNiw1OSBAQCBzdGF0
-aWMgdm9pZCBzdGZfaXNwX2ZpbGxfZmxhZyhzdHJ1Y3Qgc3RmY2Ftc3MNCj4gKnN0ZmNhbXNzLCB2
-b2lkICp2YWRkciwNCj4gPiAgCX0NCj4gPiAgfQ0KPiA+DQo+ID4gK3N0YXRpYyB2b2lkIHN0Zl9p
-c3Bfc2V0X3BhcmFtcyhzdHJ1Y3Qgc3RmY2Ftc3MgKnN0ZmNhbXNzLCB2b2lkDQo+ID4gKyp2YWRk
-cikgew0KPiANCj4gU2hvdWxkbid0IGFsbCB0aGVzZSBvcGVyYXRpb25zIGJlIGluIHRoZSAtcGFy
-YW1zLmMgZmlsZSA/DQo+IA0KPiA+ICsJc3RydWN0IGpoNzExMF9pc3BfcGFyYW1zX2J1ZmZlciAq
-cGFyYW1zID0gKHN0cnVjdA0KPiA+ICtqaDcxMTBfaXNwX3BhcmFtc19idWZmZXIgKil2YWRkcjsN
-Cj4gPiArDQo+ID4gKwlpZiAocGFyYW1zLT5lbmFibGVfc2V0dGluZyAmIEpINzExMF9JU1BfTU9E
-VUxFX1dCX1NFVFRJTkcpDQo+ID4gKwkJaXNwX3NldF9jdHJsX3diKHN0ZmNhbXNzLCAmcGFyYW1z
-LT53Yl9zZXR0aW5nKTsNCj4gDQo+IEFsc28gdGhpcyBmdW5jdGlvbiBpcyBleHBvcnRlZCBpbiBz
-dGYtaXNwLmggYnV0IGFyZSBvbmx5IGNhbGxlZCBmcm9tIHdpdGhpbiB0aGlzDQo+IGZpbGUgPyBT
-YW1lIGZvciBhbGwgdGhlIG90aGVyIG9uZXMgSSBndWVzcyA/DQo+IA0KDQpZZXMsIGJ1dCB3ZSBo
-YXZlIGEgZmlsZSBzdGYtaXNwLWh3LW9wcy5jIHdoaWNoIHN0b3JlIHRoZSBJU1AgaGFyZHdhcmUg
-b3BlcmF0aW9ucy4NClNob3VsZCB0aGVzZSBvcGVyYXRpb25zIG1vdmUgaW50byAtcGFyYW1zLmM/
-DQoNCj4gPiArDQo+ID4gKwlpZiAocGFyYW1zLT5lbmFibGVfc2V0dGluZyAmIEpINzExMF9JU1Bf
-TU9EVUxFX0NBUl9TRVRUSU5HKQ0KPiA+ICsJCWlzcF9zZXRfY3RybF9jYXIoc3RmY2Ftc3MsICZw
-YXJhbXMtPmNhcl9zZXR0aW5nKTsNCj4gPiArDQo+ID4gKwlpZiAocGFyYW1zLT5lbmFibGVfc2V0
-dGluZyAmIEpINzExMF9JU1BfTU9EVUxFX0NDTV9TRVRUSU5HKQ0KPiA+ICsJCWlzcF9zZXRfY3Ry
-bF9jY20oc3RmY2Ftc3MsICZwYXJhbXMtPmNjbV9zZXR0aW5nKTsNCj4gPiArDQo+ID4gKwlpZiAo
-cGFyYW1zLT5lbmFibGVfc2V0dGluZyAmIEpINzExMF9JU1BfTU9EVUxFX0NGQV9TRVRUSU5HKQ0K
-PiA+ICsJCWlzcF9zZXRfY3RybF9jZmEoc3RmY2Ftc3MsICZwYXJhbXMtPmNmYV9zZXR0aW5nKTsN
-Cj4gPiArDQo+ID4gKwlpZiAocGFyYW1zLT5lbmFibGVfc2V0dGluZyAmIEpINzExMF9JU1BfTU9E
-VUxFX0NUQ19TRVRUSU5HKQ0KPiA+ICsJCWlzcF9zZXRfY3RybF9jdGMoc3RmY2Ftc3MsICZwYXJh
-bXMtPmN0Y19zZXR0aW5nKTsNCj4gPiArDQo+ID4gKwlpZiAocGFyYW1zLT5lbmFibGVfc2V0dGlu
-ZyAmIEpINzExMF9JU1BfTU9EVUxFX0RCQ19TRVRUSU5HKQ0KPiA+ICsJCWlzcF9zZXRfY3RybF9k
-YmMoc3RmY2Ftc3MsICZwYXJhbXMtPmRiY19zZXR0aW5nKTsNCj4gPiArDQo+ID4gKwlpZiAocGFy
-YW1zLT5lbmFibGVfc2V0dGluZyAmIEpINzExMF9JU1BfTU9EVUxFX0ROWVVWX1NFVFRJTkcpDQo+
-ID4gKwkJaXNwX3NldF9jdHJsX2RueXV2KHN0ZmNhbXNzLCAmcGFyYW1zLT5kbnl1dl9zZXR0aW5n
-KTsNCj4gPiArDQo+ID4gKwlpZiAocGFyYW1zLT5lbmFibGVfc2V0dGluZyAmIEpINzExMF9JU1Bf
-TU9EVUxFX0dNQVJHQl9TRVRUSU5HKQ0KPiA+ICsJCWlzcF9zZXRfY3RybF9nbWFyZ2Ioc3RmY2Ft
-c3MsICZwYXJhbXMtPmdtYXJnYl9zZXR0aW5nKTsNCj4gPiArDQo+ID4gKwlpZiAocGFyYW1zLT5l
-bmFibGVfc2V0dGluZyAmIEpINzExMF9JU1BfTU9EVUxFX0xDQ0ZfU0VUVElORykNCj4gPiArCQlp
-c3Bfc2V0X2N0cmxfbGNjZihzdGZjYW1zcywgJnBhcmFtcy0+bGNjZl9zZXR0aW5nKTsNCj4gPiAr
-DQo+ID4gKwlpZiAocGFyYW1zLT5lbmFibGVfc2V0dGluZyAmIEpINzExMF9JU1BfTU9EVUxFX09C
-Q19TRVRUSU5HKQ0KPiA+ICsJCWlzcF9zZXRfY3RybF9vYmMoc3RmY2Ftc3MsICZwYXJhbXMtPm9i
-Y19zZXR0aW5nKTsNCj4gPiArDQo+ID4gKwlpZiAocGFyYW1zLT5lbmFibGVfc2V0dGluZyAmIEpI
-NzExMF9JU1BfTU9EVUxFX09FQ0ZfU0VUVElORykNCj4gPiArCQlpc3Bfc2V0X2N0cmxfb2VjZihz
-dGZjYW1zcywgJnBhcmFtcy0+b2VjZl9zZXR0aW5nKTsNCj4gPiArDQo+ID4gKwlpZiAocGFyYW1z
-LT5lbmFibGVfc2V0dGluZyAmIEpINzExMF9JU1BfTU9EVUxFX1IyWV9TRVRUSU5HKQ0KPiA+ICsJ
-CWlzcF9zZXRfY3RybF9yMnkoc3RmY2Ftc3MsICZwYXJhbXMtPnIyeV9zZXR0aW5nKTsNCj4gPiAr
-DQo+ID4gKwlpZiAocGFyYW1zLT5lbmFibGVfc2V0dGluZyAmIEpINzExMF9JU1BfTU9EVUxFX1NB
-VF9TRVRUSU5HKQ0KPiA+ICsJCWlzcF9zZXRfY3RybF9zYXQoc3RmY2Ftc3MsICZwYXJhbXMtPnNh
-dF9zZXR0aW5nKTsNCj4gPiArDQo+ID4gKwlpZiAocGFyYW1zLT5lbmFibGVfc2V0dGluZyAmIEpI
-NzExMF9JU1BfTU9EVUxFX1NIQVJQX1NFVFRJTkcpDQo+ID4gKwkJaXNwX3NldF9jdHJsX3NoYXJw
-KHN0ZmNhbXNzLCAmcGFyYW1zLT5zaGFycF9zZXR0aW5nKTsNCj4gPiArDQo+ID4gKwlpZiAocGFy
-YW1zLT5lbmFibGVfc2V0dGluZyAmIEpINzExMF9JU1BfTU9EVUxFX1lDUlZfU0VUVElORykNCj4g
-PiArCQlpc3Bfc2V0X2N0cmxfeWNydihzdGZjYW1zcywgJnBhcmFtcy0+eWNydl9zZXR0aW5nKTsN
-Cj4gPiArDQo+ID4gKwlpZiAocGFyYW1zLT5lbmFibGVfc2V0dGluZyAmIEpINzExMF9JU1BfTU9E
-VUxFX1NDX1NFVFRJTkcpDQo+ID4gKwkJaXNwX3NldF9jdHJsX3NjKHN0ZmNhbXNzLCAmcGFyYW1z
-LT5zY19zZXR0aW5nKTsgfQ0KPiA+ICsNCj4gPiAgaXJxcmV0dXJuX3Qgc3RmX2xpbmVfaXJxX2hh
-bmRsZXIoaW50IGlycSwgdm9pZCAqcHJpdikgIHsNCj4gPiAgCXN0cnVjdCBzdGZjYW1zcyAqc3Rm
-Y2Ftc3MgPSBwcml2Ow0KPiA+IEBAIC01NjYsMTEgKzYzOCwyMCBAQCBpcnFyZXR1cm5fdCBzdGZf
-aXNwX2lycV9oYW5kbGVyKGludCBpcnEsIHZvaWQgKnByaXYpDQo+ID4gIAlzdHJ1Y3Qgc3RmY2Ft
-c3MgKnN0ZmNhbXNzID0gcHJpdjsNCj4gPiAgCXN0cnVjdCBzdGZfY2FwdHVyZSAqY2FwID0gJnN0
-ZmNhbXNzLT5jYXB0dXJlc1tTVEZfQ0FQVFVSRV9ZVVZdOw0KPiA+ICAJc3RydWN0IHN0Zl9jYXB0
-dXJlICpjYXBfc2NkID0gJnN0ZmNhbXNzLT5jYXB0dXJlc1tTVEZfQ0FQVFVSRV9TQ0RdOw0KPiA+
-ICsJc3RydWN0IHN0Zl9vdXRwdXQgKm91dHB1dCA9ICZzdGZjYW1zcy0+b3V0cHV0Ow0KPiA+ICAJ
-c3RydWN0IHN0ZmNhbXNzX2J1ZmZlciAqcmVhZHlfYnVmOw0KPiA+ICAJdTMyIHN0YXR1czsNCj4g
-Pg0KPiA+ICAJc3RhdHVzID0gc3RmX2lzcF9yZWdfcmVhZChzdGZjYW1zcywgSVNQX1JFR19JU1Bf
-Q1RSTF8wKTsNCj4gPiAgCWlmIChzdGF0dXMgJiBJU1BDX0lTUCkgew0KPiA+ICsJCXJlYWR5X2J1
-ZiA9IHN0Zl9idWZfZ2V0X3JlYWR5KCZvdXRwdXQtPmJ1ZmZlcnMpOw0KPiA+ICsJCWlmIChyZWFk
-eV9idWYpIHsNCj4gPiArCQkJc3RmX2lzcF9zZXRfcGFyYW1zKHN0ZmNhbXNzLCByZWFkeV9idWYt
-PnZhZGRyKTsNCj4gPiArCQkJcmVhZHlfYnVmLT52Yi52YjJfYnVmLnRpbWVzdGFtcCA9IGt0aW1l
-X2dldF9ucygpOw0KPiA+ICsJCQlyZWFkeV9idWYtPnZiLnNlcXVlbmNlID0gb3V0cHV0LT5idWZm
-ZXJzLnNlcXVlbmNlKys7DQo+ID4gKwkJCXZiMl9idWZmZXJfZG9uZSgmcmVhZHlfYnVmLT52Yi52
-YjJfYnVmLA0KPiBWQjJfQlVGX1NUQVRFX0RPTkUpOw0KPiA+ICsJCX0NCj4gPiArDQo+ID4gIAkJ
-aWYgKHN0YXR1cyAmIElTUENfRU5VTykgew0KPiA+ICAJCQlyZWFkeV9idWYgPSBzdGZfYnVmX2Rv
-bmUoJmNhcC0+YnVmZmVycyk7DQo+ID4gIAkJCWlmIChyZWFkeV9idWYpDQo+ID4gQEAgLTU5MSw0
-ICs2NzIsNDk2IEBAIGlycXJldHVybl90IHN0Zl9pc3BfaXJxX2hhbmRsZXIoaW50IGlycSwgdm9p
-ZCAqcHJpdikNCj4gPiAgCX0NCj4gPg0KPiA+ICAJcmV0dXJuIElSUV9IQU5ETEVEOw0KPiA+ICt9
-Ow0KPiA+ICsNCj4gPiAraW50IGlzcF9zZXRfY3RybF93YihzdHJ1Y3Qgc3RmY2Ftc3MgKnN0ZmNh
-bXNzLCBjb25zdCB2b2lkICp2YWx1ZSkNCj4gDQo+IFRoaXMgZnVuY3Rpb24gaXMgZ2VuZXJpYywg
-dGhlcmUncyBubyBuZWVkIHRvIHBhc3MgYSBjb25zdCB2b2lkICogaGVyZSBhbmQgY2FzdCBpdA0K
-PiBiZWxvdywgeW91IGNhbiB1c2UgY29uc3Qgc3RydWN0IGpoNzExMF9pc3Bfd2Jfc2V0dGluZyAq
-IGFzIHRoZSBzZWNvbmQNCj4gYXJndW1lbnQgdHlwZS4NCj4gDQoNCk9LDQoNClJlZ2FyZHMsDQpD
-aGFuZ2h1YW5nDQo=
+Hi Changhuang
+
+On Fri, Jul 12, 2024 at 01:00:03PM GMT, Changhuang Liang wrote:
+> Hi, Jacopo
+>
+> >
+> > Hi Changhuang
+> >
+> > On Fri, Jul 12, 2024 at 08:36:21AM GMT, Changhuang Liang wrote:
+> > > Hi, Jacopo
+> > >
+> > > [...]
+> > > > > > > +
+> > > > > > > +void stf_set_scd_addr(struct stfcamss *stfcamss,
+> > > > > > > +		      dma_addr_t yhist_addr, dma_addr_t scd_addr,
+> > > > > > > +		      enum stf_isp_type_scd type_scd) {
+> > > > > > > +	stf_isp_reg_set_bit(stfcamss, ISP_REG_SC_CFG_1,
+> > ISP_SC_SEL_MASK,
+> > > > > > > +			    SEL_TYPE(type_scd));
+> > > > > > > +	stf_isp_reg_write(stfcamss, ISP_REG_SCD_CFG_0, scd_addr);
+> > > > > > > +	stf_isp_reg_write(stfcamss, ISP_REG_YHIST_CFG_4,
+> > > > > > > +yhist_addr); }
+> > > > > > > +
+> > > > > > > +static void stf_isp_fill_yhist(struct stfcamss *stfcamss,
+> > > > > > > +void
+> > > > > > > +*vaddr) {
+> > > > > > > +	struct jh7110_isp_sc_buffer *sc = (struct
+> > > > > > > +jh7110_isp_sc_buffer
+> > > > *)vaddr;
+> > > > > > > +	u32 reg_addr = ISP_REG_YHIST_ACC_0;
+> > > > > > > +	u32 i;
+> > > > > > > +
+> > > > > > > +	for (i = 0; i < 64; i++, reg_addr += 4)
+> > > > > > > +		sc->y_histogram[i] = stf_isp_reg_read(stfcamss,
+> > reg_addr);
+> > > > > >
+> > > > > > If you have a contigous memory space to read, could
+> > > > > > memcpy_fromio() help instead of going through 64 reads ?
+> > > > > >
+> > > > >
+> > > > > I will try this function.
+> > > > >
+> > > > > > > +}
+> > > > > > > +
+> > > > > > > +static void stf_isp_fill_flag(struct stfcamss *stfcamss, void *vaddr,
+> > > > > > > +			      enum stf_isp_type_scd *type_scd) {
+> > > > > > > +	struct jh7110_isp_sc_buffer *sc = (struct
+> > > > > > > +jh7110_isp_sc_buffer *)vaddr;
+> > > > > > > +
+> > > > > > > +	*type_scd = stf_isp_get_scd_type(stfcamss);
+> > > > > > > +	if (*type_scd == TYPE_AWB) {
+> > > > > > > +		sc->flag = JH7110_ISP_SC_FLAG_AWB;
+> > > > > > > +		*type_scd = TYPE_OECF;
+> > > > > > > +	} else {
+> > > > > > > +		sc->flag = JH7110_ISP_SC_FLAG_AE_AF;
+> > > > > > > +		*type_scd = TYPE_AWB;
+> > > > > >
+> > > > > > Is this correct ? Why are you overwriting the value read from HW
+> > > > > > that indicates AE/AF stats with AWB ones ?
+> > > > >
+> > > > > The AWB frame and AE/AF frames will alternate, so the current
+> > > > > frame indicates the AE/AF, then set AWB type just for next AWB frame.
+> > > > >
+> > > >
+> > > > Ah! Shouldn't it be userspace configuring which type of statistics
+> > > > it wants to receive instead of the driver alternating the two ?
+> > > >
+> > >
+> > > No, this is determined by hardware, cannot be configured by userspace.
+> > >
+> >
+> >
+> > So this
+> > 	stf_isp_reg_set_bit(stfcamss, ISP_REG_SC_CFG_1, ISP_SC_SEL_MASK,
+> > 			    SEL_TYPE(type_scd));
+> >
+> > doesn't actually select which stats type you get from the HW
+> >
+>
+> You can understand it that way. But it still needs to be written to work with the hardware.
+>
+
+ack, maybe a comment here as well would help
+
+> > > > > >
+> > > > > > > +	}
+> > > > > > > +}
+> > > > > > > +
+> > > > > > >  irqreturn_t stf_line_irq_handler(int irq, void *priv)  {
+> > > > > > >  	struct stfcamss *stfcamss = priv;
+> > > > > > >  	struct stf_capture *cap =
+> > > > > > > &stfcamss->captures[STF_CAPTURE_YUV];
+> > > > > > > +	struct stf_capture *cap_scd =
+> > > > > > > +&stfcamss->captures[STF_CAPTURE_SCD];
+> > > > > > >  	struct stfcamss_buffer *change_buf;
+> > > > > > > +	enum stf_isp_type_scd type_scd;
+> > > > > > > +	u32 value;
+> > > > > > >  	u32 status;
+> > > > > > >
+> > > > > > >  	status = stf_isp_reg_read(stfcamss, ISP_REG_ISP_CTRL_0);
+> > @@
+> > > > > > > -467,6
+> > > > > > > +513,17 @@ irqreturn_t stf_line_irq_handler(int irq, void
+> > > > > > > +*priv)
+> > > > > > >  					stf_set_yuv_addr(stfcamss,
+> > change_buf->addr[0],
+> > > > > > >  							 change_buf->addr[1]);
+> > > > > > >  			}
+> > > > > > > +
+> > > > > > > +			value = stf_isp_reg_read(stfcamss,
+> > > > > > ISP_REG_CSI_MODULE_CFG);
+> > > > > > > +			if (value & CSI_SC_EN) {
+> > > > > > > +				change_buf =
+> > stf_change_buffer(&cap_scd->buffers);
+> > > > > > > +				if (change_buf) {
+> > > > > > > +					stf_isp_fill_flag(stfcamss,
+> > change_buf->vaddr,
+> > > > > > > +							  &type_scd);
+> > > > > > > +					stf_set_scd_addr(stfcamss,
+> > change_buf->addr[0],
+> > > > > > > +							 change_buf->addr[1], type_scd);
+> > > > > >
+> > > > > > Sorry if I'm un-familiar with the HW but this seems to be the
+> > line-interrupt.
+> > > > > > Are you swapping buffers every line or it's just that you have a
+> > > > > > single line irq for the stats ?
+> > > > > >
+> > > > >
+> > > > > Every frame triggers a line-interrupt, and we will swap buffers in it.
+> > > > >
+> > > >
+> > > > ah, frames completion triggers a line-interrupt ?
+> > > >
+> > >
+> > > Every frame will trigger line-interrupt and stf_isp_irq_handler.
+> > > We use line-interrupt changing buffer, the stf_isp_irq_handler will
+> > > indicate that image transfer to DDR is complete.
+> > >
+> > >
+> > > > > > > +				}
+> > > > > > > +			}
+> > > > > > >  		}
+> > > > > > >
+> > > > > > >  		stf_isp_reg_set_bit(stfcamss, ISP_REG_CSIINTS, @@
+> > -485,6
+> > > > +542,7
+> > > > > > @@
+> > > > > > > irqreturn_t stf_isp_irq_handler(int irq, void *priv)  {
+> > > > > > >  	struct stfcamss *stfcamss = priv;
+> > > > > > >  	struct stf_capture *cap =
+> > > > > > > &stfcamss->captures[STF_CAPTURE_YUV];
+> > > > > > > +	struct stf_capture *cap_scd =
+> > > > > > > +&stfcamss->captures[STF_CAPTURE_SCD];
+> > > > > > >  	struct stfcamss_buffer *ready_buf;
+> > > > > > >  	u32 status;
+> > > > > > >
+> > > > > > > @@ -496,6 +554,14 @@ irqreturn_t stf_isp_irq_handler(int irq, void
+> > *priv)
+> > > > > > >  				vb2_buffer_done(&ready_buf->vb.vb2_buf,
+> > > > > > VB2_BUF_STATE_DONE);
+> > > > > > >  		}
+> > > > > > >
+> > > > > > > +		if (status & ISPC_SC) {
+> > > > > > > +			ready_buf = stf_buf_done(&cap_scd->buffers);
+> > > > > > > +			if (ready_buf) {
+> > > > > > > +				stf_isp_fill_yhist(stfcamss, ready_buf->vaddr);
+> > > > > > > +				vb2_buffer_done(&ready_buf->vb.vb2_buf,
+> > > > > > VB2_BUF_STATE_DONE);
+> > > > > > > +			}
+> > > > > > > +		}
+> > > > > > > +
+> > > > > > >  		stf_isp_reg_write(stfcamss, ISP_REG_ISP_CTRL_0,
+> > > > > > >  				  (status & ~ISPC_INT_ALL_MASK) |
+> > > > > > >  				  ISPC_ISP | ISPC_CSI | ISPC_SC); diff --git
+> > > > > > > a/drivers/staging/media/starfive/camss/stf-isp.h
+> > > > > > > b/drivers/staging/media/starfive/camss/stf-isp.h
+> > > > > > > index fcda0502e3b0..0af7b367e57a 100644
+> > > > > > > --- a/drivers/staging/media/starfive/camss/stf-isp.h
+> > > > > > > +++ b/drivers/staging/media/starfive/camss/stf-isp.h
+> > > > > > > @@ -10,6 +10,7 @@
+> > > > > > >  #ifndef STF_ISP_H
+> > > > > > >  #define STF_ISP_H
+> > > > > > >
+> > > > > > > +#include <linux/jh7110-isp.h>
+> > > > > > >  #include <media/v4l2-subdev.h>
+> > > > > > >
+> > > > > > >  #include "stf-video.h"
+> > > > > > > @@ -107,6 +108,12 @@
+> > > > > > >  #define Y_COOR(y)				((y) << 16)
+> > > > > > >  #define X_COOR(x)				((x) << 0)
+> > > > > > >
+> > > > > > > +#define ISP_REG_SCD_CFG_0			0x098
+> > > > > > > +
+> > > > > > > +#define ISP_REG_SC_CFG_1			0x0bc
+> > > > > > > +#define ISP_SC_SEL_MASK				GENMASK(31, 30)
+> > > > > > > +#define SEL_TYPE(n)				((n) << 30)
+> > > > > > > +
+> > > > > > >  #define ISP_REG_LCCF_CFG_2			0x0e0
+> > > > > > >  #define ISP_REG_LCCF_CFG_3			0x0e4
+> > > > > > >  #define ISP_REG_LCCF_CFG_4			0x0e8
+> > > > > > > @@ -305,6 +312,10 @@
+> > > > > > >  #define DNRM_F(n)				((n) << 16)
+> > > > > > >  #define CCM_M_DAT(n)				((n) << 0)
+> > > > > > >
+> > > > > > > +#define ISP_REG_YHIST_CFG_4			0xcd8
+> > > > > > > +
+> > > > > > > +#define ISP_REG_YHIST_ACC_0			0xd00
+> > > > > > > +
+> > > > > > >  #define ISP_REG_GAMMA_VAL0			0xe00
+> > > > > > >  #define ISP_REG_GAMMA_VAL1			0xe04
+> > > > > > >  #define ISP_REG_GAMMA_VAL2			0xe08
+> > > > > > > @@ -389,6 +400,15 @@
+> > > > > > >  #define IMAGE_MAX_WIDTH				1920
+> > > > > > >  #define IMAGE_MAX_HEIGH				1080
+> > > > > > >
+> > > > > > > +#define ISP_YHIST_BUFFER_SIZE			(64 * sizeof(__u32))
+> > > > > >
+> > > > > > Should this be in the uAPI header as it is useful to userspace as well ?
+> > > > > >
+> > > > > > you could:
+> > > > > >
+> > > > > > struct jh7110_isp_sc_buffer {
+> > > > > > 	__u8 y_histogram[ISP_YHIST_BUFFER_SIZE];
+> > > > > > 	__u32 reserv0[33];
+> > > > > > 	__u32 bright_sc[4096];
+> > > > > > 	__u32 reserv1[96];
+> > > > > > 	__u32 ae_hist_y[128];
+> > > > > > 	__u32 reserv2[511];
+> > > > > > 	__u16 flag;
+> > > > > > };
+> > > > > >
+> > > > > > ofc if the size is made part of the uAPI you need a more proper
+> > > > > > name such as JH7110_ISP_YHIST_SIZE
+> > > > > >
+> > > > >
+> > > > > OK, I will try this.
+> > > > >
+> > > > > > > +
+> > > > > > > +enum stf_isp_type_scd {
+> > > > > > > +	TYPE_DEC = 0,
+> > > > > > > +	TYPE_OBC,
+> > > > > > > +	TYPE_OECF,
+> > > > > > > +	TYPE_AWB,
+> > > > > > > +};
+> > > > > > > +
+> > > > > > >  /* pad id for media framework */  enum stf_isp_pad_id {
+> > > > > > >  	STF_ISP_PAD_SINK = 0,
+> > > > > > > @@ -429,5 +449,8 @@ int stf_isp_unregister(struct stf_isp_dev
+> > > > > > > *isp_dev);
+> > > > > > >
+> > > > > > >  void stf_set_yuv_addr(struct stfcamss *stfcamss,
+> > > > > > >  		      dma_addr_t y_addr, dma_addr_t uv_addr);
+> > > > > > > +void stf_set_scd_addr(struct stfcamss *stfcamss,
+> > > > > > > +		      dma_addr_t yhist_addr, dma_addr_t scd_addr,
+> > > > > > > +		      enum stf_isp_type_scd type_scd);
+> > > > > > >
+> > > > > > >  #endif /* STF_ISP_H */
+> > > > > > > diff --git a/drivers/staging/media/starfive/camss/stf-video.c
+> > > > > > > b/drivers/staging/media/starfive/camss/stf-video.c
+> > > > > > > index 989b5e82bae9..2203605ec9c7 100644
+> > > > > > > --- a/drivers/staging/media/starfive/camss/stf-video.c
+> > > > > > > +++ b/drivers/staging/media/starfive/camss/stf-video.c
+> > > > > > > @@ -125,6 +125,14 @@ static int stf_video_init_format(struct
+> > > > > > stfcamss_video *video)
+> > > > > > >  	return 0;
+> > > > > > >  }
+> > > > > > >
+> > > > > > > +static int stf_video_scd_init_format(struct stfcamss_video
+> > > > > > > +*video)
+> > > > > >
+> > > > > > Make it void if it can't fail (see below)
+> > > > > >
+> > > > >
+> > > > > OK.
+> > > > >
+> > > > > > > +{
+> > > > > > > +	video->active_fmt.fmt.meta.dataformat =
+> > > > > > video->formats[0].pixelformat;
+> > > > > > > +	video->active_fmt.fmt.meta.buffersize = sizeof(struct
+> > > > > > > +jh7110_isp_sc_buffer);
+> > > > > > > +
+> > > > > > > +	return 0;
+> > > > > > > +}
+> > > > > > > +
+> > > > > > >  /* -----------------------------------------------------------------------------
+> > > > > > >   * Video queue operations
+> > > > > > >   */
+> > > > > > > @@ -330,6 +338,78 @@ static const struct vb2_ops
+> > > > > > > stf_video_vb2_q_ops =
+> > > > > > {
+> > > > > > >  	.stop_streaming  = video_stop_streaming,  };
+> > > > > > >
+> > > > > > > +static int video_scd_queue_setup(struct vb2_queue *q,
+> > > > > > > +				 unsigned int *num_buffers,
+> > > > > > > +				 unsigned int *num_planes,
+> > > > > > > +				 unsigned int sizes[],
+> > > > > > > +				 struct device *alloc_devs[]) {
+> > > > > > > +	if (*num_planes)
+> > > > > > > +		return sizes[0] < sizeof(struct jh7110_isp_sc_buffer) ?
+> > -EINVAL :
+> > > > > > > +0;
+> > > > > > > +
+> > > > > > > +	*num_planes = 1;
+> > > > > > > +	sizes[0] = sizeof(struct jh7110_isp_sc_buffer);
+> > > > > > > +
+> > > > > > > +	return 0;
+> > > > > > > +}
+> > > > > > > +
+> > > > > > > +static int video_scd_buf_init(struct vb2_buffer *vb) {
+> > > > > > > +	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+> > > > > > > +	struct stfcamss_buffer *buffer = to_stfcamss_buffer(vbuf);
+> > > > > > > +	dma_addr_t *paddr;
+> > > > > > > +
+> > > > > > > +	paddr = vb2_plane_cookie(vb, 0);
+> > > > > > > +	buffer->addr[0] = *paddr;
+> > > > > > > +	buffer->addr[1] = buffer->addr[0] + ISP_YHIST_BUFFER_SIZE;
+> > > > > >
+> > > > > > Interesting, I don't see many users of vb2_plane_cookie() in
+> > > > > > mainline and I'm not sure what this gives you as you use it to
+> > > > > > program the
+> > > > following registers:
+> > > > > >
+> > > > > > 	stf_isp_reg_write(stfcamss, ISP_REG_SCD_CFG_0, scd_addr);
+> > > > > > 	stf_isp_reg_write(stfcamss, ISP_REG_YHIST_CFG_4, yhist_addr);
+> > > > > >
+> > > > >
+> > > > > We set the value for ISP hardware, then ISP will transfer the
+> > > > > statistics to the
+> > > > buffer.
+> > > > > when the stf_isp_irq_handler interrupt is triggered, indicates
+> > > > > that the buffer fill is complete.
+> > > > >
+> > > >
+> > > > So I take this as
+> > > >
+> > > > 	paddr = vb2_plane_cookie(vb, 0);
+> > > > 	buffer->addr[0] = *paddr;
+> > > > 	buffer->addr[1] = buffer->addr[0] + ISP_YHIST_BUFFER_SIZE;
+> > > >
+> > > >         stf_set_scd_addr(stfcamss, change_buf->addr[0],
+> > > >                          change_buf->addr[1], type_scd);
+> > > >
+> > > > Makes the ISP transfer data directly to the memory areas in addr[0]
+> > > > and addr[1] (which explains why struct jh7110_isp_sc_buffer is
+> > > > packed, as it has to match the HW registers layout)
+> > > >
+> > > > If this is the case, why are you then manually copying the
+> > > > histograms and the flags to vaddr ?
+> > > >
+> > >
+> > > Yes, your are right.
+> > > But actually there is a problem with our ISP RTL.
+> > > We set this yhist_addr to ISP, but it actually not work.
+> > > 	stf_isp_reg_write(stfcamss, ISP_REG_YHIST_CFG_4, yhist_addr); or I
+> > > will drop this line in next version.
+> > >
+> > > So, in this structure
+> > > struct jh7110_isp_sc_buffer {
+> > > 	__u32 y_histogram[64];
+> > > 	__u32 reserv0[33];
+> > > 	__u32 bright_sc[4096];
+> > > 	__u32 reserv1[96];
+> > > 	__u32 ae_hist_y[128];
+> > > 	__u32 reserv2[511];
+> > > 	__u16 flag;
+> > > };
+> > >
+> > > Only
+> > >
+> > > 	__u32 reserv0[33];
+> > > 	__u32 bright_sc[4096];
+> > > 	__u32 reserv1[96];
+> > > 	__u32 ae_hist_y[128];
+> > > 	__u32 reserv2[511];
+> > >
+> > > transfer by ISP hardware.
+> > >
+> > > I need to fill
+> > > 	__u32 y_histogram[64];
+> > > 	__u16 flag;
+> > >
+> > > by vaddr.
+> >
+> > I see.
+> >
+> > Apart from the fact you can drop paddr and vb2_plane_cookie() and use vaddr
+> > for all (if I'm not mistaken), could you please record the above rationale for
+> > manually filling y_histogram and flag by hand in a comment to avoid future
+> > readers being confused by this as I was ?
+> >
+>
+> Still need to keep the paddr and vb2_plane_cookie() for
+
+If you were using the dma API to issue DMA transfers then I would understand
+you would have to use the dma_handles as set by dma_alloc_attrs(), but
+in the vb2 world buf->vaddr = buf->cookie.
+
+Anyway, I haven't run this part of the code, if you could verify the
+addresses of paddr and vaddr are different, then I'll be happy to shut
+up :)
+
+
+> 	__u32 reserv0[33];
+> 	__u32 bright_sc[4096];
+> 	__u32 reserv1[96];
+> 	__u32 ae_hist_y[128];
+>  	__u32 reserv2[511];
+>
+> Because this part is filled by the hardware.
+>
+> I will add more information for struct jh7110_isp_sc_buffer
+>
+
+Thanks, a comment in buf_init() to explain that part of the struct is
+filled by hw and part has to be manually filled would be enough. From
+an userspace API point of view 'struct jh7110_isp_sc_buffer' will just
+match the HW layout, regardless of how it is filled up.
+
+> Regards,
+> Changhuang
+>
+>
