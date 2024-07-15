@@ -1,102 +1,143 @@
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CHN02-SH0-obe.outbound.protection.partner.outlook.cn (mail-sh0chn02on2126.outbound.protection.partner.outlook.cn [139.219.146.126])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E8F613B586;
-	Sun, 14 Jul 2024 19:21:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.62.61
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720984896; cv=none; b=TWoBp0Fb7g/fMH/UQXGby9euACUqjg2cPPwJ/LYA/kHBH3RamWSs8zCwAAxpXzZtUQCSHaxIdO8frJmPkXKG6tVGq6otCtrEw+Cp76gsVKLQHaKCRHgTP80nW707Txr2jRV1oCfe9R5BUkkio9rLqHbe1sQDdPUYrlCtlszAueo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720984896; c=relaxed/simple;
-	bh=/QEZpahZdGarTT5Qi54SSPjtb0RnvweyATg4TPg1s38=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=QtBYK8hCvqQMgiwrJWVumhQJHuR4g7NS3VjhOvjCiToal/RAfY/CTitVZT2IwR1mtyj+UAC4N7A9rfPe+VvhrIKgL/IFav8+/GflcAA9Ns9f7bf/PH8fza1jsZ2qzOKfbIWNNfIFmG8HjGD7RDHyHw0MYfEOQAoGlnjsThZTiVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=CYtrLdtE; arc=none smtp.client-ip=85.214.62.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="CYtrLdtE"
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
-	(No client certificate requested)
-	(Authenticated sender: marex@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id E01F5880F9;
-	Sun, 14 Jul 2024 21:21:25 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1720984887;
-	bh=H+SsodIl5jXfJCziWhu868fAmzv0AAiz9dw7MXlL24w=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=CYtrLdtEC2q+TeiC/ki7M5f502x1keYS7w7GX4Yrcaf6VCesYzNzMwZbtRsluhSfd
-	 w1s96HavcolVAGkm53wSMjMmXRVg/+iT7UVGZjii19msHcn4c5BEk8yZ12VRDtclvj
-	 3lgoXWLy7ZBiXaJ3rHVo0Lr2+cUvb5dVOM+WA8cZ8sWN0gdQmywCwdTEGQqrQBsV6D
-	 wU2A9fqysgJF8bfZ/ZtqYmJMzKkzDT9JxFLFKDtzfeDiGVW4K6dnJm7kauUWt6Xo2y
-	 LfO+B7qysrw/DTmAUQTkRw62Xzh6F0MhiEYgsvobfqP6k/8cLWFK+pK08OiCipQgpl
-	 wxJknvwAhy7dg==
-Message-ID: <47e80ac7-7d5d-40c0-ae0d-f1102c935b7d@denx.de>
-Date: Sun, 14 Jul 2024 18:14:53 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBA714C84
+	for <linux-staging@lists.linux.dev>; Mon, 15 Jul 2024 02:07:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.219.146.126
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1721009270; cv=fail; b=XR3twjTyJ3WNCreZzAzI2nNaJA7ZAEUTjeUlKssr3pRgyD7il+nSzXnOi6BX2nz+loCAEaGqU+kbrfTckSfUDclJkbGi3rBJPfPD2RtRYqRTLEx5LAHRhzXvFSr+rCsTH1Zb1dt1mZQf5Do648TwuWb8x3KbYsyBYKfSRlV7Lms=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1721009270; c=relaxed/simple;
+	bh=QvKclbm1HMtFWlt3U1qZrfqf7I9qKEAMjBFaHNgJNd8=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=D5BoBV1S7aivwEouSMiWZZaOHpwwlGnXcy7KbQv04il0bi1N4whfzAI+e3YbNFF6IamqhhJw5gh2SKazQGxhiTgLqKj9fEIBVnMk5wQ9VGihmx25L4ddZitv2+qfpEMklsuess08SJGEEW4OpmOCk+Ga89jpaWVfJKUpppGzajo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com; spf=pass smtp.mailfrom=starfivetech.com; arc=fail smtp.client-ip=139.219.146.126
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VWfmt1fpq8IjWEshIudvP5X4D+yigtRkE2wxnR5e0+uMdQa/fzz534q7K+DgsaGQSq752JYs9Si16qkYWFUTOfZK1fQexXrjHKAcWqqcajcxA75hLR+khzrCQSIYcK0pCsBnJGAJchW3re6/d8sfxzbDpVWNEAVjYM0ptXDSmTjazfM2wzL3H7eMmDjJ3xZF6hbGbnyHgsxcwJKkju9hCn0A9LXUPPTH2WYTey4MJ7WNpLfR5OodfU/mQ+YdEwQK6H1wg1cP1rt7h/U2Abcboug/heoRKUzpzx7R+lQc74tFQP+eHd4dq3hmnPl/f1zMHs1Y6zKkyUhoUr7vAk8kFw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QvKclbm1HMtFWlt3U1qZrfqf7I9qKEAMjBFaHNgJNd8=;
+ b=f5m+3ZU62AgHkZOJO8EIU44GHdrc7vENf0a7jVe/afNVRaLsChNnaOdeY3vN97zleDwNKpOoqn8wwee7eaBl77ODIHLs/Sw805gAi1dffbdjaKYpr1NIYe9BMw0MGqBDc/a5OrC4HhzQjszVCjnrlK/M7cZ8dfFSXXECQcGUfi+nPxV1sizbNNM7WB5b1tYHwcssMtYrXuUOEKfyoF51CYHp7PTB2Jvd8cpJki4Md+yIg5Q5+ozohBvhhOH1is2QB4RgI5hvOOUYdVqcW/CqerAhD39NzvhbAmGe0bdhKbQSqAb6Z1QNwQg8VpsH4ObPl2X4U5Y3KoC7oS7PC5zPuA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=starfivetech.com; dmarc=pass action=none
+ header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
+Received: from ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c550:1b::9) by ZQ0PR01MB1109.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c550::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.29; Mon, 15 Jul
+ 2024 01:52:29 +0000
+Received: from ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
+ ([fe80::64c5:50d8:4f2c:59aa]) by
+ ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn ([fe80::64c5:50d8:4f2c:59aa%6])
+ with mapi id 15.20.7741.044; Mon, 15 Jul 2024 01:52:29 +0000
+From: Changhuang Liang <changhuang.liang@starfivetech.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+CC: Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>, Laurent Pinchart
+	<laurent.pinchart@ideasonboard.com>, Jean-Michel Hautbois
+	<jeanmichel.hautbois@ideasonboard.com>, Benjamin Gaignard
+	<benjamin.gaignard@collabora.com>, Tomi Valkeinen
+	<tomi.valkeinen+renesas@ideasonboard.com>, Mingjia Zhang
+	<mingjia.zhang@mediatek.com>, Jack Zhu <jack.zhu@starfivetech.com>, Keith
+ Zhao <keith.zhao@starfivetech.com>, "linux-media@vger.kernel.org"
+	<linux-media@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-staging@lists.linux.dev"
+	<linux-staging@lists.linux.dev>
+Subject:
+ =?utf-8?B?5Zue5aSNOiBbUEFUQ0ggdjUgMDgvMTRdIHN0YWdpbmc6IG1lZGlhOiBzdGFy?=
+ =?utf-8?Q?five:_Add_for_StarFive_ISP_3A_SC?=
+Thread-Topic: [PATCH v5 08/14] staging: media: starfive: Add for StarFive ISP
+ 3A SC
+Thread-Index: AQHa0dtmioQnCKEIuk25yDdxPISYvbHzTt0AgAPANsA=
+Date: Mon, 15 Jul 2024 01:52:29 +0000
+Message-ID:
+ <ZQ0PR01MB1302C63F9D88A3FE38244A77F2A12@ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn>
+References: <20240709083824.430473-1-changhuang.liang@starfivetech.com>
+ <20240709083824.430473-9-changhuang.liang@starfivetech.com>
+ <tia5sdwf7qyie42s7tll2tnghpdlmdhmtwodmgopsowumyse7h@ec6h4v5fnumr>
+In-Reply-To: <tia5sdwf7qyie42s7tll2tnghpdlmdhmtwodmgopsowumyse7h@ec6h4v5fnumr>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=starfivetech.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: ZQ0PR01MB1302:EE_|ZQ0PR01MB1109:EE_
+x-ms-office365-filtering-correlation-id: 896f7be6-db87-4700-8199-08dca470c8ec
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|1800799024|366016|41320700013|7416014|38070700018;
+x-microsoft-antispam-message-info:
+ bS9IO6PeBJiZ6ncur7Sr4ZmDvvyCmA3L0XhRhO3g26mVNUMRAxvzQNRHHRBG7Ck+164A/vEAuDRMKZrxFHjPnEywzcFT7RIVhXtQSs63qazOrRkD6e25A78gbZ+MOkHpjBNyIiG0GWJWHyxjdvzf+aoJ37fFJqHeZ5Iov5jvGXI0/J76fUzptosQuqTsMb6TCOYllLUszAJqiStmAszTK0j6sXNq5wsiViTkxPiIWA2oF3SYJlGXfVcvNEiws46DoI2Bp/O6NtDcC+Qk5oLKWAcN2/VE4yzqbTKxGRLUbZaaA64df+mmTiYMTY17D71SELUDXYGyjzmDdwozRaJ3/Sikoltj0yhRtGE5l4GYMmxvOA11B0pAtgXg6sdfCmTBodWakkNewrVPTBi+4fFWVZqGGS8pN5VGs6wB0ajw0jCy/imyht37Q7CjPtaX2rgU+54IzfmsuQAGhejeikaZPNUob0G9FkZisYCcWgxjkh1j48Rf4+dEIRIWDF2rdmhLwLaGsRxGLlXAV4FbQw4rxbe47tC3PvgkQSeuZcJ3o0/JIGBY/OAq0ZFsWxV3p+EsXhK8s5tIwmJEgDHVSQMmLI59Jw3vf0dtMkTa6FARR5FDzI5cgJzb8BRKO6rnFeE/
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:zh-cn;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(41320700013)(7416014)(38070700018);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?eS9JMDdFUTE0OXF1U2dJeHd3dlkwMmFpN3ZLSFJIbERzSUZNQ3NXZU10N0tr?=
+ =?utf-8?B?MjFqaFA4TVdRZlk5Sklmak82ajRUSVRVWjBIRjRuT2MxRSs2bUtRUmljdEhK?=
+ =?utf-8?B?cUpQejJCTHVHMlhydFA3UHg4R3B4dFg2b1l3Zm4wN1gyZWlMR3RNTEprbWJi?=
+ =?utf-8?B?Sk1SbE1SV3FwbzhqRi9jTzlzSFVZWHN4TWFJZm85VXhPTm1SRnRJUlh2Q1NP?=
+ =?utf-8?B?dll2Z1ZOOW5zVTZLbkJ2QmtnNkR6MStYNkxYeHpjakh2MjBNRGpBK0RJMlU3?=
+ =?utf-8?B?U3RrRnFkeDd4cDFkVkRzbllSQUVjYXQ0eFZROGNWcUtYeEhhL204UE9udkFJ?=
+ =?utf-8?B?bjVZdHNkNmw2NHIxbVFTZ29PRUZPRmVWZnlvTVRrK3R4VjIvSnkzQlludHpl?=
+ =?utf-8?B?a0UvNkJVUEJIdm5lVndJejl2TElnWkU1cHJkV1NTV3I4Y0ZJeTVFTG41SVg0?=
+ =?utf-8?B?ZnlrdXcvU2crTUJXVUkzNDcvQlpreW1UeVlGM2E5d01kRDZEaXc1TGd0M0w3?=
+ =?utf-8?B?MjNVaWE0Nk1MdTlVc1JVOWJoajhNeUdyT3g4dTJYcTA4eWJvcGZ6S1BuTUE5?=
+ =?utf-8?B?dkRyTWlxMFZBaU4wR1Z1cW1VZFNxL2pnQWZ2WFNDNklTVllhcWNGNWNUdjd1?=
+ =?utf-8?B?WmptbTQ0K0ZWT2s4Lzl5UUo1TndaRytyeGVpN1UxWTBtcUZlVktCNTYvNUtv?=
+ =?utf-8?B?R20waG0ram1EOGVLNW82Z3ArTGtXRFdYMnc1KzlBalNucmNFc09Yd0dMMzVx?=
+ =?utf-8?B?TitpdTVhNXBTWHNIOFlvMWttYm02NlZHTFZQUllJQmNEN2ZKSDFSTlNZdUZo?=
+ =?utf-8?B?Y0kvU0hubXAwTFYzQW1FNXJhVy9UczgvNzhBZWw2ZXM4OWh1ZmN5OUo3THp4?=
+ =?utf-8?B?QVdBSVB2YnBSWkRGbWR4UjdRMEE4bldLNDlQNnYyTkVuNHZrYXdDM08yTEN3?=
+ =?utf-8?B?Z01DaFJEWEoyS3dvcDBkZ0I0eCtKcjZabU5QWWJPNU1TQmtlZnhiL0JFNzhV?=
+ =?utf-8?B?RHkzQlhoZjNWandtVU9XcEozMS83OWM4eUxRNnFUZjA1bHNlSFp2M0JmVVNK?=
+ =?utf-8?B?OVlkYWJLSVpDak1hMm0zSDNwK0UyaUQ3UTgvM05YUFZ3bkRMNGNZcHlmRHRP?=
+ =?utf-8?B?WkJhRU5ERVVzdWJTc3BHa1RNbm0xME5HV3FzbTRBMnNzV2Y1cjMwV3RpQm16?=
+ =?utf-8?B?UXJ0U0t0ZytleG1uZ3p5MVRVaUFHdG5KQ0NRVTdueFU4b2J5TkJGODh5U1o0?=
+ =?utf-8?B?L1o4R0RtNFZhdjR4UG9RaFA5NUp3ejFGVEZYZXZKbStQWW14aDZ2MGY0RUtT?=
+ =?utf-8?B?eGN4c2x5Sm5YLzJOL003ZlpaVGxUeVBBWWw0ekQrZFpnZVErKy9jcEdYUkVN?=
+ =?utf-8?B?RzByT3ZhS0QxdDlnZTVnTzFFQUJzWU9UdUZ4NGRmNTFpcXpOWFNWMkhVUTky?=
+ =?utf-8?B?WUN3cWF6THdEYjJSTm5ma0hPMEpTMjNxMisxY3ZUUWtIaHVQaUFhWU1LZFYx?=
+ =?utf-8?B?L20vdzJIb2tGRHNoQWJvOG5QM3hhbEE0bGxBNDJQYndocDJ1VXlVS0R0WENs?=
+ =?utf-8?B?U3ZXK2twS2U4SE5PZ2ZJYXRNZlkybXVmWTZYeFJmSEVSVlRjWmt4R05Gemhx?=
+ =?utf-8?B?YzVpcnJNdkU2OUFHaXFOcmk1RmFyVUhWYU15WDIvcU44c25hdTVXTzh6Kzc0?=
+ =?utf-8?B?UEJnYzZpL25PN294bG0rUy9HQmZrSWVkOGFpdWtBbGJDTWtaTzg1ay91TU5F?=
+ =?utf-8?B?RHRINTlnclpTazcyWW9maG9panBPMnRiSS9yWjMrRUIwTXRNOFJpak1LWE9E?=
+ =?utf-8?B?MHdQTFN3dE9NeHNLMmxDS3JJekxjZmh1Mzc1NHIvSm9hK3UwR0FxWWs5cFpV?=
+ =?utf-8?B?dURibEl6KzlDc05TSDFrN01RcmJOZjZoZTFEWHNsT000ZFUrbHBuYXRCQXdk?=
+ =?utf-8?B?MEFMWGE0V2YwOElkdWNyMHFhYzVYSmxCS1NzN1MxVUZqMWtMRnk1NkkvVE9p?=
+ =?utf-8?B?QVhpT1JYMlI5cVZ2bVloYm8yOEdDWlFhRzVHd0VNTjRlZXFOczREamY3NzMz?=
+ =?utf-8?B?Z014clY4bTZBOUtJV1k1dEZMR2NHSzlUajVNNHRVTVhCdVdxSHEzaHQySEc1?=
+ =?utf-8?B?SmFoRWgxNUxmd0pYNHBlbjdmdS9TZVoxMHRKL2MwQ0lSK2tmUitVaFFuNTZZ?=
+ =?utf-8?B?OVE9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH 2/2] media: imx: vdic: Introduce mem2mem VDI deinterlacer
- driver
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: linux-media@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>, Fabio Estevam <festevam@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller
- <deller@gmx.de>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Philipp Zabel <p.zabel@pengutronix.de>, Sascha Hauer
- <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Steve Longerbeam <slongerbeam@gmail.com>, dri-devel@lists.freedesktop.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev
-References: <20240713154934.109318-1-marex@denx.de>
- <20240713154934.109318-2-marex@denx.de>
- <9f4cd132-6a4d-413a-badb-19e9f988c9a1@suswa.mountain>
-Content-Language: en-US
-In-Reply-To: <9f4cd132-6a4d-413a-badb-19e9f988c9a1@suswa.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
+X-OriginatorOrg: starfivetech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
+X-MS-Exchange-CrossTenant-Network-Message-Id: 896f7be6-db87-4700-8199-08dca470c8ec
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jul 2024 01:52:29.3417
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 0XncptUUEIbAPpzL2ez5rIxi4R9mOvMd43/RErDNDNbud14M50ln5r6PXAQp1nPqyAH4kKElHqUdGbAyyNBHDv3fGcp+LHDwlfClp6tCXeuY77wTjR7sm3mX4GJDyVWs
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: ZQ0PR01MB1109
 
-On 7/14/24 3:37 AM, Dan Carpenter wrote:
-
-[...]
-
->> +err_irq_nfb4eof:
->> +	ipu_idmac_put(priv->vdi_out_ch);
->> +err_out:
->> +	ipu_idmac_put(priv->vdi_in_ch_n);
->> +err_next:
->> +	ipu_idmac_put(priv->vdi_in_ch);
->> +err_curr:
->> +	ipu_idmac_put(priv->vdi_in_ch_p);
->> +err_prev:
->> +	ipu_ic_put(priv->ic);
->> +err_ic:
->> +	ipu_vdi_put(priv->vdi);
->> +err_vdi:
->> +	devm_kfree(priv->dev, eofname);
->          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> 
->> +err_eof:
->> +	devm_kfree(priv->dev, nfbname);
->          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> Any time we call devm_kfree() it's a red flag.  Sometimes it makes sense
-> but I haven't looked at it closely enough to see how it makes sense
-> here.  Is it an ordering issue where we had to do devm_free_irq() and
-> then we just freed oefname and nfbname for consistency and because why
-> not?
-
-I think in this case, the devm_*free() can be dropped, yes.
-
-The rest is addressed in V2. I'll wait a bit for more feedback before 
-sending it.
-
-Thanks !
+SGkgSmFjb3BvDQoNCj4gDQo+IEhpIENoYW5naHVhbmcNCj4gDQo+IFNvcnJ5LCBJIG1pc3NlZCB0
+aGlzOiB0aGUgc3ViamVjdA0KPiANCj4gICAgIHN0YWdpbmc6IG1lZGlhOiBzdGFyZml2ZTogQWRk
+IGZvciBTdGFyRml2ZSBJU1AgM0EgU0MNCj4gDQo+IFNlZW1zIHRvIGJlIG1pc3NpbmcgYSB3b3Jk
+Lg0KPiANCj4gICAgIHN0YWdpbmc6IG1lZGlhOiBzdGFyZml2ZTogQWRkIHN0YXRzIGZvciBTdGFy
+Rml2ZSBJU1AgM0ENCj4gDQo+IG1heWJlID8NCj4gDQoNClllcywgdGhhbmsgeW91IGZvciB5b3Vy
+IHJlbWluZGVyLg0KDQpSZWdhcmRzLA0KQ2hhbmdodWFuZw0K
