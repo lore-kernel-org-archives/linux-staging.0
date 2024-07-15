@@ -1,151 +1,120 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh6-smtp.messagingengine.com (fhigh6-smtp.messagingengine.com [103.168.172.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C33012E5B;
-	Mon, 15 Jul 2024 07:12:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A03E18E763
+	for <linux-staging@lists.linux.dev>; Mon, 15 Jul 2024 14:11:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721027531; cv=none; b=IM8iRvxrDxW2u2fBiYQU2A1NyZ42iKSHGn0qoP35e279zRxUYo+E2a8UdRa003omu4aa3OHDhC8kSPfQxdYjVcZFdJHcix7GF66RvKwF+vaK/+ttsFkQprqoQwFsRl2af2TrIY0Lq7mwaoyTpyNIEd1W7owIIVOyMiKSI3gxlJw=
+	t=1721052695; cv=none; b=LG99uWjWBgoDP/CKQuPB5x1zqVGySz/Yp5XHG4XUWmEhOAh5iS6iUdhHbXu9SL2ulu+6hrwwXyos6vR06ME1pt2OgcbvxbcKUB9cgcKQsW0IOdO4qm8Mi7t/acSI+iN9zqCxMh4++8tb34r4oDv3fYjUPy3+nPPd28iBjF1YU6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721027531; c=relaxed/simple;
-	bh=XA/nJ9t/sh2ld8SuHqe2YK685mclcnGTmmAoudTHXgE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LnU94R0mahx3i6Dnu2PGUOc3hXbn2Yd1mPkG6E/mRB8GIf84tfmZccunhbrcc+EvolEp3RoFNU8BItYskNWMeBR/2QFIqjwJp8YbP7ZblEixrvS0AvxdfQu/jvWd8iV6RyGjV0pTT26OQMtROO7Z/ar0GJnyzQjz9sILR4StKpg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FDAEC4AF0A;
-	Mon, 15 Jul 2024 07:12:07 +0000 (UTC)
-Message-ID: <217374f8-bad7-4dab-8a39-2226ea974d7d@xs4all.nl>
-Date: Mon, 15 Jul 2024 09:12:05 +0200
+	s=arc-20240116; t=1721052695; c=relaxed/simple;
+	bh=LfG1VDt4gSGv/VcekoGMoZlmptanf/PJL58P9rn7JUY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=I8C/FQoe4wzBvqhhg/F94ZlVfxJZKWkz5tlT95Wbou5Wo+IBvf1Hz+JAWXMaDao6nf7VW7Eam6R9RVgKkPk/2Hs5gJW20emDN/xdS+bTu8hHYae7E9gL7UnHNauHtFCwakkkxOctbdpISBIzESTGz+DthhjtRYbnkm8QRfN1WDU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=sV7MsJVK; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=lzr7+7Yg; arc=none smtp.client-ip=103.168.172.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="sV7MsJVK";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="lzr7+7Yg"
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailfhigh.nyi.internal (Postfix) with ESMTP id 3DF2E1147BAF;
+	Mon, 15 Jul 2024 10:11:31 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Mon, 15 Jul 2024 10:11:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
+	:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to; s=fm2; t=1721052691; x=1721139091; bh=uAPBkJz7cUB+jKW4K/YyB
+	GV9YVinq0tpJehNjAkb+Qs=; b=sV7MsJVKz7kjfZu7zMj0CkUZ1s2mTipmsHkPE
+	o3MJDQ5FWkDn9rvvW3cb9rxqVezP1SpSsw2PSRZmoyqEV9XZylr3QMRtOgpxsXXU
+	qdZji4E5POsdvwBD6VCXkfBJv0Lyz3zr4zDmP2fL6uWzswuviglJh1ptQruyDaJY
+	Zxop5oL0mi8xKDHjrhcHIpP81W4NL63lxDBVf5s7OmBaulsJ7ynVFkaUZwPiNoZD
+	bibVg6vvNMl4GsIX9ajPCl40r0ckncwvg5g0pdm/RZfd+PWiW7XttUEX7F6+xzdc
+	Xb0uckR0fL1kakhCIKw6SRNrN1KZmQMDhZAVmbc/kQT6rsndg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1721052691; x=1721139091; bh=uAPBkJz7cUB+jKW4K/YyBGV9YVin
+	q0tpJehNjAkb+Qs=; b=lzr7+7YgKDmIHS8fKwr+B7S1CTRRmDkkX3NQsUdEdVs4
+	29DgsFtofywI6gAYrOYoqP+F2bk15EJJ/vFMODZNosYjZBzZyYqzEnLmu0BBnpwV
+	+e7W4i1YaHL3+eGFEQ811Fsw4W5yssm9H6rtntmp54TTh2TCDWG8FSAxdjHJp/o4
+	rGzpd0j6Uvt40fSxUqWrJCCmL0t6D6tlS68Yw6PKJtwNQyWumhjy8ZRzFX6rdUSY
+	G99IO2r+CWFgR8tHp1oUjb3q/3RTM0wXfpuMGP2Cf6EbIy7XiC98bo2afWPXAwS3
+	Q7dyHut2bFFu5veCqExAW4xj65FBuC5AnbujreESTg==
+X-ME-Sender: <xms:Ei6VZpo1-WrfCRxMH6lou-GHg42AmKCKHF5XY_4xA2KgqqBjF60opg>
+    <xme:Ei6VZrpKMrBIEl6IOL42b-tOOoSZPd1flsrIOINUuJwgBbE8H8KRMaOlSFB9mhoh5
+    1G1Bbjv5pndd3I>
+X-ME-Received: <xmr:Ei6VZmNFZVtH3goCbbov5t2QKuDn-gtvIrRMHiS5wI21zEA8IEt0uwZLtyhnFTec_Q_n3YA8z-NYW59_pPsnsFEYrIT98y8n0okhDf7euHKwM_zv>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrgedvgdejfecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgggfestdekredtre
+    dttdenucfhrhhomhepifhrihhffhhinhcumfhrohgrhhdqjfgrrhhtmhgrnhcuoehgrhhi
+    fhhfihhnsehkrhhorghhrdgtohhmqeenucggtffrrghtthgvrhhnpeekvdfhkefgtdeugf
+    elueejffelueeludegieejtedtveekteetieehkedvkeevleenucevlhhushhtvghrufhi
+    iigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrhhifhhfihhnsehkrhhorghhrd
+    gtohhm
+X-ME-Proxy: <xmx:Ei6VZk7pnPyCwq8hCcm-h1y3EtJ_NF5X0iqCq3ATR0D-D-LXN7vZJQ>
+    <xmx:Ei6VZo4ul3wWOKgER-Fc06LSvD7aoNLIqaB3ucwA0JVqquKvtCuVjg>
+    <xmx:Ei6VZsgCAXAK47KCL3D1XLuBUIHPPtVfThln_LTlreboH8wGBh3cMQ>
+    <xmx:Ei6VZq5w6wvsK_Gh3391gFfnFqqFqs8XEB3S3HfrZxjt-Uag4YDykA>
+    <xmx:Ey6VZj0nbXSg2ZDIhmtkt8Rx0o3D_Nn1ZQaL9219HXPY1H_7NYfjrQLP>
+Feedback-ID: i1d2843be:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 15 Jul 2024 10:11:29 -0400 (EDT)
+From: Griffin Kroah-Hartman <griffin@kroah.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Griffin Kroah-Hartman <griffin@kroah.com>
+Subject: [PATCH] staging: vme_user: vme_tsi148.c: remove redundant newlines
+Date: Mon, 15 Jul 2024 16:11:02 +0200
+Message-ID: <20240715141102.142186-1-griffin@kroah.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 11/14] staging: media: starfive: Add ISP params video
- device
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Changhuang Liang <changhuang.liang@starfivetech.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- Mingjia Zhang <mingjia.zhang@mediatek.com>,
- Jack Zhu <jack.zhu@starfivetech.com>,
- Keith Zhao <keith.zhao@starfivetech.com>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-References: <20240709083824.430473-1-changhuang.liang@starfivetech.com>
- <20240709083824.430473-12-changhuang.liang@starfivetech.com>
- <kjrkmnmtw5rij6clxgtcfi525xydhy3njrp7vbjxs2wqjwvv72@3dertnkvlyie>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <kjrkmnmtw5rij6clxgtcfi525xydhy3njrp7vbjxs2wqjwvv72@3dertnkvlyie>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 10/07/2024 15:07, Jacopo Mondi wrote:
-> Hi Changhuang
-> 
->    + Hans for one question on the vb2 queue mem_ops to use.
-> 
-> On Tue, Jul 09, 2024 at 01:38:21AM GMT, Changhuang Liang wrote:
->> Add ISP params video device to write ISP parameters for 3A.
->>
->> Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
->> ---
->>  drivers/staging/media/starfive/camss/Makefile |   2 +
->>  .../staging/media/starfive/camss/stf-camss.c  |  23 +-
->>  .../staging/media/starfive/camss/stf-camss.h  |   3 +
->>  .../media/starfive/camss/stf-isp-params.c     | 240 ++++++++++++++++++
->>  .../staging/media/starfive/camss/stf-isp.h    |   4 +
->>  .../staging/media/starfive/camss/stf-output.c |  83 ++++++
->>  .../staging/media/starfive/camss/stf-output.h |  22 ++
->>  7 files changed, 376 insertions(+), 1 deletion(-)
->>  create mode 100644 drivers/staging/media/starfive/camss/stf-isp-params.c
->>  create mode 100644 drivers/staging/media/starfive/camss/stf-output.c
->>  create mode 100644 drivers/staging/media/starfive/camss/stf-output.h
->>
+Adhere to Linux kernel coding style.
 
-<snip>
+Reported by checkpatch:
 
->> +int stf_isp_params_register(struct stfcamss_video *video,
->> +			    struct v4l2_device *v4l2_dev,
->> +			    const char *name)
->> +{
->> +	struct video_device *vdev = &video->vdev;
->> +	struct vb2_queue *q;
->> +	struct media_pad *pad = &video->pad;
->> +	int ret;
->> +
->> +	mutex_init(&video->q_lock);
->> +	mutex_init(&video->lock);
-> 
-> are two mutexes required for the vb2 queue and the video node ? I see,
-> in example, rkisp1-params.c uses a single one
-> 
->> +
->> +	q = &video->vb2_q;
->> +	q->drv_priv = video;
->> +	q->mem_ops = &vb2_dma_contig_memops;
-> 
-> Now, I might be wrong, but unless you need to allocate memory from a
-> DMA-capable area, you shouldn't need to use vb2_dma_contig_memops.
-> 
-> Looking at the next patches you apply configuration parameters to the
-> ISP by inspecting the user supplied parameters one by one, not by
-> transfering the whole parameters buffer to a memory area. Hans what do
-> you think ?
+CHECK: Alignment should match open parenthesis
 
-Yes, if the data is not DMAed to the hardware, then use vb2_vmalloc_memops.
+Signed-off-by: Griffin Kroah-Hartman <griffin@kroah.com>
+---
+ drivers/staging/vme_user/vme_tsi148.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-Regards,
+diff --git a/drivers/staging/vme_user/vme_tsi148.c b/drivers/staging/vme_user/vme_tsi148.c
+index 2ec9c2904404..9066c53150ec 100644
+--- a/drivers/staging/vme_user/vme_tsi148.c
++++ b/drivers/staging/vme_user/vme_tsi148.c
+@@ -1653,8 +1653,7 @@ static int tsi148_dma_list_add(struct vme_dma_list *list,
+ 	case VME_DMA_PCI:
+ 		pci_attr = src->private;
+ 
+-		reg_split((unsigned long long)pci_attr->address, &address_high,
+-			&address_low);
++		reg_split((unsigned long long)pci_attr->address, &address_high, &address_low);
+ 		entry->descriptor.dsau = cpu_to_be32(address_high);
+ 		entry->descriptor.dsal = cpu_to_be32(address_low);
+ 		entry->descriptor.dsat = cpu_to_be32(TSI148_LCSR_DSAT_TYP_PCI);
+@@ -1662,8 +1661,7 @@ static int tsi148_dma_list_add(struct vme_dma_list *list,
+ 	case VME_DMA_VME:
+ 		vme_attr = src->private;
+ 
+-		reg_split((unsigned long long)vme_attr->address, &address_high,
+-			&address_low);
++		reg_split((unsigned long long)vme_attr->address, &address_high, &address_low);
+ 		entry->descriptor.dsau = cpu_to_be32(address_high);
+ 		entry->descriptor.dsal = cpu_to_be32(address_low);
+ 		entry->descriptor.dsat = cpu_to_be32(TSI148_LCSR_DSAT_TYP_VME);
+-- 
+2.45.2
 
-	Hans
