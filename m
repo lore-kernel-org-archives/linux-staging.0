@@ -1,143 +1,151 @@
-Received: from CHN02-SH0-obe.outbound.protection.partner.outlook.cn (mail-sh0chn02on2126.outbound.protection.partner.outlook.cn [139.219.146.126])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBA714C84
-	for <linux-staging@lists.linux.dev>; Mon, 15 Jul 2024 02:07:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.219.146.126
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721009270; cv=fail; b=XR3twjTyJ3WNCreZzAzI2nNaJA7ZAEUTjeUlKssr3pRgyD7il+nSzXnOi6BX2nz+loCAEaGqU+kbrfTckSfUDclJkbGi3rBJPfPD2RtRYqRTLEx5LAHRhzXvFSr+rCsTH1Zb1dt1mZQf5Do648TwuWb8x3KbYsyBYKfSRlV7Lms=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721009270; c=relaxed/simple;
-	bh=QvKclbm1HMtFWlt3U1qZrfqf7I9qKEAMjBFaHNgJNd8=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=D5BoBV1S7aivwEouSMiWZZaOHpwwlGnXcy7KbQv04il0bi1N4whfzAI+e3YbNFF6IamqhhJw5gh2SKazQGxhiTgLqKj9fEIBVnMk5wQ9VGihmx25L4ddZitv2+qfpEMklsuess08SJGEEW4OpmOCk+Ga89jpaWVfJKUpppGzajo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com; spf=pass smtp.mailfrom=starfivetech.com; arc=fail smtp.client-ip=139.219.146.126
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VWfmt1fpq8IjWEshIudvP5X4D+yigtRkE2wxnR5e0+uMdQa/fzz534q7K+DgsaGQSq752JYs9Si16qkYWFUTOfZK1fQexXrjHKAcWqqcajcxA75hLR+khzrCQSIYcK0pCsBnJGAJchW3re6/d8sfxzbDpVWNEAVjYM0ptXDSmTjazfM2wzL3H7eMmDjJ3xZF6hbGbnyHgsxcwJKkju9hCn0A9LXUPPTH2WYTey4MJ7WNpLfR5OodfU/mQ+YdEwQK6H1wg1cP1rt7h/U2Abcboug/heoRKUzpzx7R+lQc74tFQP+eHd4dq3hmnPl/f1zMHs1Y6zKkyUhoUr7vAk8kFw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QvKclbm1HMtFWlt3U1qZrfqf7I9qKEAMjBFaHNgJNd8=;
- b=f5m+3ZU62AgHkZOJO8EIU44GHdrc7vENf0a7jVe/afNVRaLsChNnaOdeY3vN97zleDwNKpOoqn8wwee7eaBl77ODIHLs/Sw805gAi1dffbdjaKYpr1NIYe9BMw0MGqBDc/a5OrC4HhzQjszVCjnrlK/M7cZ8dfFSXXECQcGUfi+nPxV1sizbNNM7WB5b1tYHwcssMtYrXuUOEKfyoF51CYHp7PTB2Jvd8cpJki4Md+yIg5Q5+ozohBvhhOH1is2QB4RgI5hvOOUYdVqcW/CqerAhD39NzvhbAmGe0bdhKbQSqAb6Z1QNwQg8VpsH4ObPl2X4U5Y3KoC7oS7PC5zPuA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=starfivetech.com; dmarc=pass action=none
- header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
-Received: from ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c550:1b::9) by ZQ0PR01MB1109.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c550::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.29; Mon, 15 Jul
- 2024 01:52:29 +0000
-Received: from ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
- ([fe80::64c5:50d8:4f2c:59aa]) by
- ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn ([fe80::64c5:50d8:4f2c:59aa%6])
- with mapi id 15.20.7741.044; Mon, 15 Jul 2024 01:52:29 +0000
-From: Changhuang Liang <changhuang.liang@starfivetech.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-CC: Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>, Laurent Pinchart
-	<laurent.pinchart@ideasonboard.com>, Jean-Michel Hautbois
-	<jeanmichel.hautbois@ideasonboard.com>, Benjamin Gaignard
-	<benjamin.gaignard@collabora.com>, Tomi Valkeinen
-	<tomi.valkeinen+renesas@ideasonboard.com>, Mingjia Zhang
-	<mingjia.zhang@mediatek.com>, Jack Zhu <jack.zhu@starfivetech.com>, Keith
- Zhao <keith.zhao@starfivetech.com>, "linux-media@vger.kernel.org"
-	<linux-media@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-staging@lists.linux.dev"
-	<linux-staging@lists.linux.dev>
-Subject:
- =?utf-8?B?5Zue5aSNOiBbUEFUQ0ggdjUgMDgvMTRdIHN0YWdpbmc6IG1lZGlhOiBzdGFy?=
- =?utf-8?Q?five:_Add_for_StarFive_ISP_3A_SC?=
-Thread-Topic: [PATCH v5 08/14] staging: media: starfive: Add for StarFive ISP
- 3A SC
-Thread-Index: AQHa0dtmioQnCKEIuk25yDdxPISYvbHzTt0AgAPANsA=
-Date: Mon, 15 Jul 2024 01:52:29 +0000
-Message-ID:
- <ZQ0PR01MB1302C63F9D88A3FE38244A77F2A12@ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn>
-References: <20240709083824.430473-1-changhuang.liang@starfivetech.com>
- <20240709083824.430473-9-changhuang.liang@starfivetech.com>
- <tia5sdwf7qyie42s7tll2tnghpdlmdhmtwodmgopsowumyse7h@ec6h4v5fnumr>
-In-Reply-To: <tia5sdwf7qyie42s7tll2tnghpdlmdhmtwodmgopsowumyse7h@ec6h4v5fnumr>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=starfivetech.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: ZQ0PR01MB1302:EE_|ZQ0PR01MB1109:EE_
-x-ms-office365-filtering-correlation-id: 896f7be6-db87-4700-8199-08dca470c8ec
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|366016|41320700013|7416014|38070700018;
-x-microsoft-antispam-message-info:
- bS9IO6PeBJiZ6ncur7Sr4ZmDvvyCmA3L0XhRhO3g26mVNUMRAxvzQNRHHRBG7Ck+164A/vEAuDRMKZrxFHjPnEywzcFT7RIVhXtQSs63qazOrRkD6e25A78gbZ+MOkHpjBNyIiG0GWJWHyxjdvzf+aoJ37fFJqHeZ5Iov5jvGXI0/J76fUzptosQuqTsMb6TCOYllLUszAJqiStmAszTK0j6sXNq5wsiViTkxPiIWA2oF3SYJlGXfVcvNEiws46DoI2Bp/O6NtDcC+Qk5oLKWAcN2/VE4yzqbTKxGRLUbZaaA64df+mmTiYMTY17D71SELUDXYGyjzmDdwozRaJ3/Sikoltj0yhRtGE5l4GYMmxvOA11B0pAtgXg6sdfCmTBodWakkNewrVPTBi+4fFWVZqGGS8pN5VGs6wB0ajw0jCy/imyht37Q7CjPtaX2rgU+54IzfmsuQAGhejeikaZPNUob0G9FkZisYCcWgxjkh1j48Rf4+dEIRIWDF2rdmhLwLaGsRxGLlXAV4FbQw4rxbe47tC3PvgkQSeuZcJ3o0/JIGBY/OAq0ZFsWxV3p+EsXhK8s5tIwmJEgDHVSQMmLI59Jw3vf0dtMkTa6FARR5FDzI5cgJzb8BRKO6rnFeE/
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:zh-cn;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(41320700013)(7416014)(38070700018);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?eS9JMDdFUTE0OXF1U2dJeHd3dlkwMmFpN3ZLSFJIbERzSUZNQ3NXZU10N0tr?=
- =?utf-8?B?MjFqaFA4TVdRZlk5Sklmak82ajRUSVRVWjBIRjRuT2MxRSs2bUtRUmljdEhK?=
- =?utf-8?B?cUpQejJCTHVHMlhydFA3UHg4R3B4dFg2b1l3Zm4wN1gyZWlMR3RNTEprbWJi?=
- =?utf-8?B?Sk1SbE1SV3FwbzhqRi9jTzlzSFVZWHN4TWFJZm85VXhPTm1SRnRJUlh2Q1NP?=
- =?utf-8?B?dll2Z1ZOOW5zVTZLbkJ2QmtnNkR6MStYNkxYeHpjakh2MjBNRGpBK0RJMlU3?=
- =?utf-8?B?U3RrRnFkeDd4cDFkVkRzbllSQUVjYXQ0eFZROGNWcUtYeEhhL204UE9udkFJ?=
- =?utf-8?B?bjVZdHNkNmw2NHIxbVFTZ29PRUZPRmVWZnlvTVRrK3R4VjIvSnkzQlludHpl?=
- =?utf-8?B?a0UvNkJVUEJIdm5lVndJejl2TElnWkU1cHJkV1NTV3I4Y0ZJeTVFTG41SVg0?=
- =?utf-8?B?ZnlrdXcvU2crTUJXVUkzNDcvQlpreW1UeVlGM2E5d01kRDZEaXc1TGd0M0w3?=
- =?utf-8?B?MjNVaWE0Nk1MdTlVc1JVOWJoajhNeUdyT3g4dTJYcTA4eWJvcGZ6S1BuTUE5?=
- =?utf-8?B?dkRyTWlxMFZBaU4wR1Z1cW1VZFNxL2pnQWZ2WFNDNklTVllhcWNGNWNUdjd1?=
- =?utf-8?B?WmptbTQ0K0ZWT2s4Lzl5UUo1TndaRytyeGVpN1UxWTBtcUZlVktCNTYvNUtv?=
- =?utf-8?B?R20waG0ram1EOGVLNW82Z3ArTGtXRFdYMnc1KzlBalNucmNFc09Yd0dMMzVx?=
- =?utf-8?B?TitpdTVhNXBTWHNIOFlvMWttYm02NlZHTFZQUllJQmNEN2ZKSDFSTlNZdUZo?=
- =?utf-8?B?Y0kvU0hubXAwTFYzQW1FNXJhVy9UczgvNzhBZWw2ZXM4OWh1ZmN5OUo3THp4?=
- =?utf-8?B?QVdBSVB2YnBSWkRGbWR4UjdRMEE4bldLNDlQNnYyTkVuNHZrYXdDM08yTEN3?=
- =?utf-8?B?Z01DaFJEWEoyS3dvcDBkZ0I0eCtKcjZabU5QWWJPNU1TQmtlZnhiL0JFNzhV?=
- =?utf-8?B?RHkzQlhoZjNWandtVU9XcEozMS83OWM4eUxRNnFUZjA1bHNlSFp2M0JmVVNK?=
- =?utf-8?B?OVlkYWJLSVpDak1hMm0zSDNwK0UyaUQ3UTgvM05YUFZ3bkRMNGNZcHlmRHRP?=
- =?utf-8?B?WkJhRU5ERVVzdWJTc3BHa1RNbm0xME5HV3FzbTRBMnNzV2Y1cjMwV3RpQm16?=
- =?utf-8?B?UXJ0U0t0ZytleG1uZ3p5MVRVaUFHdG5KQ0NRVTdueFU4b2J5TkJGODh5U1o0?=
- =?utf-8?B?L1o4R0RtNFZhdjR4UG9RaFA5NUp3ejFGVEZYZXZKbStQWW14aDZ2MGY0RUtT?=
- =?utf-8?B?eGN4c2x5Sm5YLzJOL003ZlpaVGxUeVBBWWw0ekQrZFpnZVErKy9jcEdYUkVN?=
- =?utf-8?B?RzByT3ZhS0QxdDlnZTVnTzFFQUJzWU9UdUZ4NGRmNTFpcXpOWFNWMkhVUTky?=
- =?utf-8?B?WUN3cWF6THdEYjJSTm5ma0hPMEpTMjNxMisxY3ZUUWtIaHVQaUFhWU1LZFYx?=
- =?utf-8?B?L20vdzJIb2tGRHNoQWJvOG5QM3hhbEE0bGxBNDJQYndocDJ1VXlVS0R0WENs?=
- =?utf-8?B?U3ZXK2twS2U4SE5PZ2ZJYXRNZlkybXVmWTZYeFJmSEVSVlRjWmt4R05Gemhx?=
- =?utf-8?B?YzVpcnJNdkU2OUFHaXFOcmk1RmFyVUhWYU15WDIvcU44c25hdTVXTzh6Kzc0?=
- =?utf-8?B?UEJnYzZpL25PN294bG0rUy9HQmZrSWVkOGFpdWtBbGJDTWtaTzg1ay91TU5F?=
- =?utf-8?B?RHRINTlnclpTazcyWW9maG9panBPMnRiSS9yWjMrRUIwTXRNOFJpak1LWE9E?=
- =?utf-8?B?MHdQTFN3dE9NeHNLMmxDS3JJekxjZmh1Mzc1NHIvSm9hK3UwR0FxWWs5cFpV?=
- =?utf-8?B?dURibEl6KzlDc05TSDFrN01RcmJOZjZoZTFEWHNsT000ZFUrbHBuYXRCQXdk?=
- =?utf-8?B?MEFMWGE0V2YwOElkdWNyMHFhYzVYSmxCS1NzN1MxVUZqMWtMRnk1NkkvVE9p?=
- =?utf-8?B?QVhpT1JYMlI5cVZ2bVloYm8yOEdDWlFhRzVHd0VNTjRlZXFOczREamY3NzMz?=
- =?utf-8?B?Z014clY4bTZBOUtJV1k1dEZMR2NHSzlUajVNNHRVTVhCdVdxSHEzaHQySEc1?=
- =?utf-8?B?SmFoRWgxNUxmd0pYNHBlbjdmdS9TZVoxMHRKL2MwQ0lSK2tmUitVaFFuNTZZ?=
- =?utf-8?B?OVE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C33012E5B;
+	Mon, 15 Jul 2024 07:12:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1721027531; cv=none; b=IM8iRvxrDxW2u2fBiYQU2A1NyZ42iKSHGn0qoP35e279zRxUYo+E2a8UdRa003omu4aa3OHDhC8kSPfQxdYjVcZFdJHcix7GF66RvKwF+vaK/+ttsFkQprqoQwFsRl2af2TrIY0Lq7mwaoyTpyNIEd1W7owIIVOyMiKSI3gxlJw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1721027531; c=relaxed/simple;
+	bh=XA/nJ9t/sh2ld8SuHqe2YK685mclcnGTmmAoudTHXgE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LnU94R0mahx3i6Dnu2PGUOc3hXbn2Yd1mPkG6E/mRB8GIf84tfmZccunhbrcc+EvolEp3RoFNU8BItYskNWMeBR/2QFIqjwJp8YbP7ZblEixrvS0AvxdfQu/jvWd8iV6RyGjV0pTT26OQMtROO7Z/ar0GJnyzQjz9sILR4StKpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FDAEC4AF0A;
+	Mon, 15 Jul 2024 07:12:07 +0000 (UTC)
+Message-ID: <217374f8-bad7-4dab-8a39-2226ea974d7d@xs4all.nl>
+Date: Mon, 15 Jul 2024 09:12:05 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: starfivetech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
-X-MS-Exchange-CrossTenant-Network-Message-Id: 896f7be6-db87-4700-8199-08dca470c8ec
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jul 2024 01:52:29.3417
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 0XncptUUEIbAPpzL2ez5rIxi4R9mOvMd43/RErDNDNbud14M50ln5r6PXAQp1nPqyAH4kKElHqUdGbAyyNBHDv3fGcp+LHDwlfClp6tCXeuY77wTjR7sm3mX4GJDyVWs
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: ZQ0PR01MB1109
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 11/14] staging: media: starfive: Add ISP params video
+ device
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Changhuang Liang <changhuang.liang@starfivetech.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ Mingjia Zhang <mingjia.zhang@mediatek.com>,
+ Jack Zhu <jack.zhu@starfivetech.com>,
+ Keith Zhao <keith.zhao@starfivetech.com>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+References: <20240709083824.430473-1-changhuang.liang@starfivetech.com>
+ <20240709083824.430473-12-changhuang.liang@starfivetech.com>
+ <kjrkmnmtw5rij6clxgtcfi525xydhy3njrp7vbjxs2wqjwvv72@3dertnkvlyie>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <kjrkmnmtw5rij6clxgtcfi525xydhy3njrp7vbjxs2wqjwvv72@3dertnkvlyie>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-SGkgSmFjb3BvDQoNCj4gDQo+IEhpIENoYW5naHVhbmcNCj4gDQo+IFNvcnJ5LCBJIG1pc3NlZCB0
-aGlzOiB0aGUgc3ViamVjdA0KPiANCj4gICAgIHN0YWdpbmc6IG1lZGlhOiBzdGFyZml2ZTogQWRk
-IGZvciBTdGFyRml2ZSBJU1AgM0EgU0MNCj4gDQo+IFNlZW1zIHRvIGJlIG1pc3NpbmcgYSB3b3Jk
-Lg0KPiANCj4gICAgIHN0YWdpbmc6IG1lZGlhOiBzdGFyZml2ZTogQWRkIHN0YXRzIGZvciBTdGFy
-Rml2ZSBJU1AgM0ENCj4gDQo+IG1heWJlID8NCj4gDQoNClllcywgdGhhbmsgeW91IGZvciB5b3Vy
-IHJlbWluZGVyLg0KDQpSZWdhcmRzLA0KQ2hhbmdodWFuZw0K
+On 10/07/2024 15:07, Jacopo Mondi wrote:
+> Hi Changhuang
+> 
+>    + Hans for one question on the vb2 queue mem_ops to use.
+> 
+> On Tue, Jul 09, 2024 at 01:38:21AM GMT, Changhuang Liang wrote:
+>> Add ISP params video device to write ISP parameters for 3A.
+>>
+>> Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
+>> ---
+>>  drivers/staging/media/starfive/camss/Makefile |   2 +
+>>  .../staging/media/starfive/camss/stf-camss.c  |  23 +-
+>>  .../staging/media/starfive/camss/stf-camss.h  |   3 +
+>>  .../media/starfive/camss/stf-isp-params.c     | 240 ++++++++++++++++++
+>>  .../staging/media/starfive/camss/stf-isp.h    |   4 +
+>>  .../staging/media/starfive/camss/stf-output.c |  83 ++++++
+>>  .../staging/media/starfive/camss/stf-output.h |  22 ++
+>>  7 files changed, 376 insertions(+), 1 deletion(-)
+>>  create mode 100644 drivers/staging/media/starfive/camss/stf-isp-params.c
+>>  create mode 100644 drivers/staging/media/starfive/camss/stf-output.c
+>>  create mode 100644 drivers/staging/media/starfive/camss/stf-output.h
+>>
+
+<snip>
+
+>> +int stf_isp_params_register(struct stfcamss_video *video,
+>> +			    struct v4l2_device *v4l2_dev,
+>> +			    const char *name)
+>> +{
+>> +	struct video_device *vdev = &video->vdev;
+>> +	struct vb2_queue *q;
+>> +	struct media_pad *pad = &video->pad;
+>> +	int ret;
+>> +
+>> +	mutex_init(&video->q_lock);
+>> +	mutex_init(&video->lock);
+> 
+> are two mutexes required for the vb2 queue and the video node ? I see,
+> in example, rkisp1-params.c uses a single one
+> 
+>> +
+>> +	q = &video->vb2_q;
+>> +	q->drv_priv = video;
+>> +	q->mem_ops = &vb2_dma_contig_memops;
+> 
+> Now, I might be wrong, but unless you need to allocate memory from a
+> DMA-capable area, you shouldn't need to use vb2_dma_contig_memops.
+> 
+> Looking at the next patches you apply configuration parameters to the
+> ISP by inspecting the user supplied parameters one by one, not by
+> transfering the whole parameters buffer to a memory area. Hans what do
+> you think ?
+
+Yes, if the data is not DMAed to the hardware, then use vb2_vmalloc_memops.
+
+Regards,
+
+	Hans
