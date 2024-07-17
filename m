@@ -1,100 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 077D8210EC
-	for <linux-staging@lists.linux.dev>; Wed, 17 Jul 2024 08:46:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72DAB1802B2
+	for <linux-staging@lists.linux.dev>; Wed, 17 Jul 2024 13:06:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721205963; cv=none; b=IcvIW0f8ixXeu9WsBMaCRuv4VK5IlGr10h1YPJGa3In07fPfzyjcN3El0Agp/9XwoRCUOOJygoWUi/o6IWSFh9w/QQK28kyor5dsxezQt5oCX2wtxvDXzkFgEc74h5Xfdg5J305cMTFoLkRJmAPs3RlSfLHE4Rrx+w+QkcMbLMU=
+	t=1721221608; cv=none; b=YbbC0VivN2kDa9OtarBjvxKs4cmT94pyhC5B9CzUWODtIVh7OcwqNK633FtW0/Gl0ni7QzUyrRn6vn8U8AknpIa0zgag6uMwMvqc6ALzP8w6g3w/3SjszIgcXpavtT/ZBPCK5M+B/YR9ODTaKVZcKhR6yy+PxWAG27A2VK/RrTA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721205963; c=relaxed/simple;
-	bh=CStO0mAdtwSErjeQnIFlbAPVyqbaLcPPt6Dyz9jjnBc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u8M9/NGNepivKt65g510v/byRwb1dGy9PhWcszezE7gjuJKIni+nltlW75Yil6FXjKUliO1kuC9/X95jtfT/iTHr8DR5Av0B3t7I0AzZmQSZFEvv2q+YFKHGmmpz+3HaIZpYZH7jpAAofvs56l1luGgHAyo6iy69zbLrsGrVXj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=EySruW8V; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1721221608; c=relaxed/simple;
+	bh=X6qUC7gVV4QIZGcID8RsIBmaMKamLJi8yiQ3oC0t8no=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eOrXBXjr0Nkg+7h73tUOC8JVwH4izoPHyIe/HPjRZOgaViuw9ZAvECQz9b3j+9GKzE+7QEwD17FLWdsoFvvT0edU/8Ydh4+G/D3eJWFDbi/CxxNbbBBM2O6NW+fGJrIEz1FtdABwW0q0i5chLfZbrv35M9RImLdWt4aBvEdixQI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S6OD7jng; arc=none smtp.client-ip=209.85.216.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="EySruW8V"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29322C32782;
-	Wed, 17 Jul 2024 08:46:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1721205962;
-	bh=CStO0mAdtwSErjeQnIFlbAPVyqbaLcPPt6Dyz9jjnBc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EySruW8VpxdzuTjivdsB2C6ch2FDE/+amFGWGARBRPx+XmbtOou93BSqt3OtdgvBO
-	 DUlaepuTq6YuBGBzBbL91ivornqAPoaHHysUkxBMtP55LVHcV7bLKI7YqZimsJlohR
-	 cAIQMhdIs6Xe/aRlUzIZne0KE/N6DyQ+EXyq6KRs=
-Date: Wed, 17 Jul 2024 10:45:59 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Juan =?iso-8859-1?Q?Jos=E9?= Arboleda <soyjuanarbol@gmail.com>
-Cc: pure.logic@nexus-software.ie, johan@kernel.org,
-	linux-staging@lists.linux.dev, trivial@kernel.org,
-	greybus-dev@lists.linaro.org
-Subject: Re: [PATCH] staging: greybus: Enclose multi-statement macro in
- do-while loop
-Message-ID: <2024071723-nurture-magical-7817@gregkh>
-References: <ZpdrmuzGgYDJ-Bb0@fedora>
- <2024071739-mollusk-uneaten-8dec@gregkh>
- <ZpeAsakTE0ZL90kt@fedora>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S6OD7jng"
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-2cb5789297eso280013a91.3
+        for <linux-staging@lists.linux.dev>; Wed, 17 Jul 2024 06:06:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1721221607; x=1721826407; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=6tariFUSXQkWtNNWfv2Tqu8LFewkJuGm7SNgNU+1Rok=;
+        b=S6OD7jngZ650EYo0ZIPF9RlAl0Xn4rfVQN1HW52vaNnrBUbxQSo93kCZR1v4+lgxBO
+         iPG4uMUEwlq9R+bMbhLqSmv8rp3ZgWV7eSysQpIxUuno7tpCVwT5CZjHtCUubLpTT+Nt
+         Pcl7IB27WS1+KyGJoKFPeNP6tBg7031UjB3r0p4h2vb3083vjQj4IeKxvgvTZ/98rzD4
+         2rFWVNWQiMpbbB7JUbS4gIxu65yr843Kc5mo2fQWWz7+Rt8cRjmAanSa1K6YzMSQbxAI
+         bp4KSebuPjaz0psZXgyRs5H3JpI/2GCCN4EIdv3LiaBwF536WkHy37LVg14Ye2lJxI+9
+         I02w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721221607; x=1721826407;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6tariFUSXQkWtNNWfv2Tqu8LFewkJuGm7SNgNU+1Rok=;
+        b=qsZ94fOxAIGFh5fNop/6GqHOfXvZkskwGYtsMfmV114bWpNoWi4OkhSGcroG/qJ+jN
+         wdHPcnIJoRdpTx91L/zv4cYj56+5S6rNM7BmIFqTtmcu310f+fd3Fs7+6ntjfgKQX3JN
+         xnYdezdG1TUW6Lz+cSSijKENwQtdTXoLKGDhM3IDh+2XaJ37VJJqf404S2yM5aHwTMRI
+         e5Ax+7RtlVnkF75iG2rq2BpLmOGw/PBkVOv9z7aaqtGNWUP8rV5ZGVxeFZgm8GpmJq2g
+         p9HHus/1ah4x5A7stDpIykLDjDXgIXh/fpQo36+C+GbWsMJXf+SHS6aRjvrI5fIu+Gmz
+         rttQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWFN7WH7yUJGgUiu1NyruJSnkhk3EPZrdL/eFlR/o3u01c7Nm7kMhkX+tO6fG9bUTOdtGolRuvFCztYB/YPK2vwatanjxRtGiKgz2H2xQ==
+X-Gm-Message-State: AOJu0YwYaOXnaWi+wlRuOndS0ECz520wmDVltvyPAa3v+IqFjQLOOGoP
+	D/mecWfAUn3RbgYzoVJvHbCWRepjAgR3BQ2qni6ttmAx2OvIUsC4
+X-Google-Smtp-Source: AGHT+IHk5G2dBMU9fUqgXya/ZBe6XkkFoOGRj0xvzES5zyJqox6/DrYiT/Co/JRus5UKuGCqQJv+qA==
+X-Received: by 2002:a17:90a:f315:b0:2ca:8684:401a with SMTP id 98e67ed59e1d1-2cb52930c14mr1134471a91.32.1721221606597;
+        Wed, 17 Jul 2024 06:06:46 -0700 (PDT)
+Received: from localhost.localdomain (7f.84.a880.ip4.static.sl-reverse.com. [128.168.132.127])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2cacd41a0casm10053941a91.33.2024.07.17.06.06.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Jul 2024 06:06:46 -0700 (PDT)
+From: Moon Yeounsu <yyyynoom@gmail.com>
+X-Google-Original-From: Moon Yeounsu <yyyynom@gmail.com>
+To: gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev
+Cc: Moon Yeounsu <yyyynom@gmail.com>
+Subject: [PATCH] staging: rtl8712: style fix multiple line dereference
+Date: Wed, 17 Jul 2024 09:06:36 -0400
+Message-ID: <20240717130636.2139-1-yyyynom@gmail.com>
+X-Mailer: git-send-email 2.43.5
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZpeAsakTE0ZL90kt@fedora>
 
-On Wed, Jul 17, 2024 at 03:28:33AM -0500, Juan José Arboleda wrote:
-> On Wed, Jul 17, 2024 at 09:50:52AM +0200, Greg KH wrote:
-> > On Wed, Jul 17, 2024 at 01:58:34AM -0500, Juan José Arboleda wrote:
-> > > The macro `gb_loopback_stats_attrs` in the Greybus loopback driver
-> > > contains multiple statements, which should be enclosed in a do-while
-> > > loop to ensure proper execution and adhere to coding standards.
-> > > 
-> > > This patch modifies the `gb_loopback_stats_attrs` macro to enclose
-> > > its statements in a do-while loop, addressing the style error flagged
-> > > by checkpatch.pl.
-> > > 
-> > > Signed-off-by: Juan José Arboleda <soyjuanarbol@gmail.com>
-> > > ---
-> > >  drivers/staging/greybus/loopback.c | 8 +++++---
-> > >  1 file changed, 5 insertions(+), 3 deletions(-)
-> > > 
-> > > diff --git a/drivers/staging/greybus/loopback.c b/drivers/staging/greybus/loopback.c
-> > > index 4313d3bbc23a..a97de86c67a5 100644
-> > > --- a/drivers/staging/greybus/loopback.c
-> > > +++ b/drivers/staging/greybus/loopback.c
-> > > @@ -163,9 +163,11 @@ static ssize_t name##_avg_show(struct device *dev,		\
-> > >  static DEVICE_ATTR_RO(name##_avg)
-> > >  
-> > >  #define gb_loopback_stats_attrs(field)				\
-> > > -	gb_loopback_ro_stats_attr(field, min, u);		\
-> > > -	gb_loopback_ro_stats_attr(field, max, u);		\
-> > > -	gb_loopback_ro_avg_attr(field)
-> > > +	do {							\
-> > > +		gb_loopback_ro_stats_attr(field, min, u);	\
-> > > +		gb_loopback_ro_stats_attr(field, max, u);	\
-> > > +		gb_loopback_ro_avg_attr(field);			\
-> > > +	} while (0)
-> > >  
-> > >  #define gb_loopback_attr(field, type)					\
-> > >  static ssize_t field##_show(struct device *dev,				\
-> > 
-> > Are you sure you test-built this change?
-> > 
-> > thanks,
-> > 
-> > greg k-h
-> 
-> Yes! I build and clean and build and clean and build again, everything seems
-> fine from the compiler side and posttest task as well. Everything seems ok.
+It fix the following checkpatch.pl warning:
+Avoid multiple line dereference - prefer %s
 
-You did not actually build this file that you modified :(
+Signed-off-by: Moon Yeounsu <yyyynom@gmail.com>
+---
+ drivers/staging/rtl8712/rtl871x_cmd.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Always test-build your changes.
+diff --git a/drivers/staging/rtl8712/rtl871x_cmd.c b/drivers/staging/rtl8712/rtl871x_cmd.c
+index bbd4a13c7bb9..c8a220e04776 100644
+--- a/drivers/staging/rtl8712/rtl871x_cmd.c
++++ b/drivers/staging/rtl8712/rtl871x_cmd.c
+@@ -528,8 +528,7 @@ void r8712_setstakey_cmd(struct _adapter *padapter, u8 *psta, u8 unicast_key)
+ 	if (unicast_key)
+ 		memcpy(&psetstakey_para->key, &sta->x_UncstKey, 16);
+ 	else
+-		memcpy(&psetstakey_para->key, &psecuritypriv->XGrpKey[psecuritypriv->XGrpKeyid - 1].
+-		       skey, 16);
++		memcpy(&psetstakey_para->key, &psecuritypriv->XGrpKey[psecuritypriv->XGrpKeyid - 1].skey, 16);
+ 	r8712_enqueue_cmd(pcmdpriv, ph2c);
+ }
+ 
+-- 
+2.43.5
 
-thanks,
-
-greg k-h
