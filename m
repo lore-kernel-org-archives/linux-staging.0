@@ -1,107 +1,155 @@
-Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D815517C64
-	for <linux-staging@lists.linux.dev>; Wed, 17 Jul 2024 06:58:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2A6E1862A
+	for <linux-staging@lists.linux.dev>; Wed, 17 Jul 2024 07:11:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721199520; cv=none; b=Ljrl5971hX/GOceJkd0IO2mWfLM0UjiYePd85vBZZnBMzZZs1nN6t6IOwCEjQiQhgGnVH9H7J+Fxju/eLwl+s5EOENgkDDydMuBtNIQ/Zh3a8ZHilIbs6EVef3DzTHbMQ+ZHXZCPG4vry6Z7BskRKg6Jbk/GmCzx1bcsPzICikA=
+	t=1721200293; cv=none; b=pBnBjds/LDNTiXaJHfnGC7e1JySheaTms8yPAaiQ6Q1Xwyc2POD9amS8R8V/YB4nAPYkoJtihmoOjGKBV5x1XhJnPzipIVD/yuGC9SKwh+se/f+M5Fxd2aAxjPXXJLfdONW965D5ZQQllAXyUwQ+gb5CPf+SAPZnMElrfV8OabY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721199520; c=relaxed/simple;
-	bh=tR/7I6a6NZphvz7GKgYPfRysiuvVAzCgnGmds/3ELnk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=l6kZUeKX6YNUuRhRGzjeESjL0VF1n22mWNP5sLfz0SY8ZLp3q7My46LlPi935F/FgX/U90P1HVf2rr1e5beby4nbzv4i1GQXPw8hWyJCtQghcQVoW7R96eN2050ihrKaYmdVJz+VbEe942PXdlBas+1vzWXfgWKmZGuzURJQRUg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ar55C6Ro; arc=none smtp.client-ip=209.85.222.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1721200293; c=relaxed/simple;
+	bh=tR3wJwyFdhNyJtUUxi/dkYFY2aD/hwTtjtR3hBxRKEE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=je6yvUger/tpzjtj7TsCB4t7rIIku314kLl1hPa7rIkT9x/0guJnVd3Uqmvqfto62UBE8rmiawOwdCDHuZXlxLyoipm70+Oshnhf/QZGus3NlQcer4VGgXcRX81z4HKIN8CKv2qBzmFwNbc97Duu/KU1KwvyRVqBl+X9fpPB99A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=n2HfgC7Y; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ar55C6Ro"
-Received: by mail-ua1-f43.google.com with SMTP id a1e0cc1a2514c-80fbfeecca1so314836241.1
-        for <linux-staging@lists.linux.dev>; Tue, 16 Jul 2024 23:58:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1721199518; x=1721804318; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=n5MI4wA4eNqCCeuCE33RMDqDRerDlDtTN/blIniiod4=;
-        b=ar55C6RoY7Rm049+U2eNTMjEAF1HDHLx+Vi6ZoTuUXumBSBpboqiT4/8VF2bj5zXyA
-         fmRh/7LxXzzgWU0xTA6rE153xggu1WSchPwIXo/k3mDXRe5f2U8ig5520UUOPEK95OBC
-         S/fmnBvInqlMTrLUwFEmXOKcuj+FBsh/lNpbWryBbrqw1c1eUpdVM33EUQ2k+NN2QUZW
-         cRcq8EXMB25RaP5+n4oZ/XYw6sL+bODBAL6xCclmT9aITk4unFg8SackYTWNuU1IiaR/
-         MjwNl5ybRZ/hyKoY5pATZUq6fmI3agEOSW0CROerI2aKjMFDNurgsEdo7oJ+FwiMLOmD
-         MyVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721199518; x=1721804318;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=n5MI4wA4eNqCCeuCE33RMDqDRerDlDtTN/blIniiod4=;
-        b=mP8b8Ak3hSLvZXjA84N+TfZgwE+b4CZboqZzoQxf2Bg+9Spa4WN1o3+AX4Nu8gtVyW
-         EkSOrbGdhek5jwc9bsGtUrQfzKfo1/xsGu6x6g5lMdCT2rf9yDuc32+s02bYDIH4rtsg
-         4AYH9h21enZf8ov3bcu4eHSXl5kJalBSueLcH90waq1Qiw1v0iSDLaOGKeTuqmjo2QvL
-         WlYHDBQwTeh4Gkw802LaGYQeYtFl2fntqcyETIEyNLYB9hAHNmY+Xv2ukrAMbonNqSfC
-         B6zsd5Y7vqk7YWjs/MnlbfnM3oueK/XCLaaN04++vyiZ/cIwfneMBD5KgkBbY8ICFx6R
-         XO+A==
-X-Gm-Message-State: AOJu0YztLLfStbMb8zD9UgczreVGwizpMIS5+1gnAYljBTrUqO78sP81
-	Z23O/tZ5GGjg8epXYYYOqEC0EztTbvlYT2EHyFWGvIAc8CQZ0/rhkpE5qL4vfRg=
-X-Google-Smtp-Source: AGHT+IFJFn/H55QzwVuNHPtKpm9rl7xAFOCWsmfpf0dujwwCbunCOsARF3xBr8Fh2JtdSo1QIpXWyA==
-X-Received: by 2002:a05:6102:80aa:b0:48f:e913:7f5b with SMTP id ada2fe7eead31-49159853aeamr817084137.19.1721199517752;
-        Tue, 16 Jul 2024 23:58:37 -0700 (PDT)
-Received: from fedora ([2800:e6:4000:47e:7c52:7bd4:cfe5:9874])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-491561c743fsm306949137.34.2024.07.16.23.58.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jul 2024 23:58:37 -0700 (PDT)
-Date: Wed, 17 Jul 2024 01:58:34 -0500
-From: Juan =?iso-8859-1?Q?Jos=E9?= Arboleda <soyjuanarbol@gmail.com>
-To: gregkh@linuxfoundation.org, pure.logic@nexus-software.ie,
-	johan@kernel.org
-Cc: linux-staging@lists.linux.dev, trivial@kernel.org,
-	greybus-dev@lists.linaro.org
-Subject: [PATCH] staging: greybus: Enclose multi-statement macro in do-while
- loop
-Message-ID: <ZpdrmuzGgYDJ-Bb0@fedora>
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="n2HfgC7Y"
+Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id BB5E266F;
+	Wed, 17 Jul 2024 09:10:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1721200250;
+	bh=tR3wJwyFdhNyJtUUxi/dkYFY2aD/hwTtjtR3hBxRKEE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=n2HfgC7Y4fwNtJyT/IiqZsDz3S/k2BwvnKR6aacF5WcqGEGBRjptTNMQdTcjUpCAQ
+	 uMdNbFv5q9tea4aZnExV2xsSHGTU0bVg9MDLCPctu278buxzKNql2tQ1HLNfr8hRSB
+	 oSbC3clkxq5wITD5rvznvOk04RmQU7ewTV1krYgU=
+Date: Wed, 17 Jul 2024 09:11:25 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Changhuang Liang <changhuang.liang@starfivetech.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+	Mingjia Zhang <mingjia.zhang@mediatek.com>, Jack Zhu <jack.zhu@starfivetech.com>, 
+	Keith Zhao <keith.zhao@starfivetech.com>, "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>
+Subject: Re: =?utf-8?B?5Zue5aSNOiDlm57lpI06IFtQQVRDSCB2NSAwMi8xNF0gbWVk?=
+ =?utf-8?Q?ia=3A_Documentation?= =?utf-8?Q?=3A?= Add description for StarFive
+ ISP metadata formats
+Message-ID: <vnxhxicsdke2jxtkexgpudjvuv2xzugsw4xjfmihrs4pa3yply@tva7yle3g2hb>
+References: <20240709083824.430473-1-changhuang.liang@starfivetech.com>
+ <20240709083824.430473-3-changhuang.liang@starfivetech.com>
+ <dncfjg7e7a2i6xin7kuwnxifcjpdjxcwkfcudxnqczi4lhwac7@u7jjunr7zqc6>
+ <ZQ0PR01MB1302CB1DB67D3A36022B94B5F2A22@ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn>
+ <v7eqp5opis3q327xgjvda37zrba32jyyfo2ny6u6i2ixq3ks2n@bp725fbn6gka>
+ <ZQ0PR01MB1302B4A728A02184C65AEF2EF2A32@ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZQ0PR01MB1302B4A728A02184C65AEF2EF2A32@ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn>
 
-The macro `gb_loopback_stats_attrs` in the Greybus loopback driver
-contains multiple statements, which should be enclosed in a do-while
-loop to ensure proper execution and adhere to coding standards.
+Hi Changhuang
 
-This patch modifies the `gb_loopback_stats_attrs` macro to enclose
-its statements in a do-while loop, addressing the style error flagged
-by checkpatch.pl.
+On Wed, Jul 17, 2024 at 02:37:00AM GMT, Changhuang Liang wrote:
+> Hi, Jacopo
+>
+> >
+> > Hi Changhuang
+> >
+> > On Tue, Jul 16, 2024 at 12:31:31PM GMT, Changhuang Liang wrote:
+> > > Hi, Jacopo
+> > >
+> > > >
+> > > > Hi Changhuang
+> > > >
+> > > > On Tue, Jul 09, 2024 at 01:38:12AM GMT, Changhuang Liang wrote:
+> > > > > Add description for V4L2_META_FMT_STF_ISP_PARAMS and
+> > > > > V4L2_META_FMT_STF_ISP_STAT_3A meta data formats.
+> > > > >
+> > > > > Signed-off-by: Changhuang Liang
+> > > > > <changhuang.liang@starfivetech.com>
+> > > >
+> > > > I get this warnings when compiling documentation
+> > > >
+> > >
+> > > Can you share the steps about compiling documentation?
+> > >
+> >
+> > From `make help`
+> >
+> > -------------------------------------------------------------------------------
+> > Documentation targets:
+> >  Linux kernel internal documentation in different formats from ReST:
+> >   htmldocs        - HTML
+> >   texinfodocs     - Texinfo
+> >   infodocs        - Info
+> >   latexdocs       - LaTeX
+> >   pdfdocs         - PDF
+> >   epubdocs        - EPUB
+> >   xmldocs         - XML
+> >   linkcheckdocs   - check for broken external links
+> >                     (will connect to external hosts)
+> >   refcheckdocs    - check for references to non-existing files under
+> >                     Documentation
+> >   cleandocs       - clean all generated files
+> >
+> >   make SPHINXDIRS="s1 s2" [target] Generate only docs of folder s1, s2
+> >   valid values for SPHINXDIRS are: PCI RCU accel accounting admin-guide
+> > arch block bpf cdrom core-api cpu-freq crypto dev-tools devicetree doc-guide
+> > driver-api fault-injection fb filesystems firmware-guide fpga gpu hid hwmon
+> > i2c iio infiniband input isdn kbuild kernel-hacking leds livepatch locking
+> > maintainer mhi misc-devices mm netlabel networking pcmcia peci power
+> > powerpc process riscv rust scheduler scsi security sound spi staging target tee
+> > timers tools trace translations usb userspace-api virt w1 watchdog wmi
+> > -------------------------------------------------------------------------------
+> >
+> > To compile, in example, the userspace documentation in html:
+> >
+> > `make $your-usual-args-here SPHINXDIRS="userspace-api" htmldocs`
+> >
+>
+> What should $your-usual-args-here fill? Can you share your specific commands?
 
-Signed-off-by: Juan José Arboleda <soyjuanarbol@gmail.com>
----
- drivers/staging/greybus/loopback.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+make -j24 ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- O=./linux-build SPHINXDIRS="userspace-api" htmldocs
 
-diff --git a/drivers/staging/greybus/loopback.c b/drivers/staging/greybus/loopback.c
-index 4313d3bbc23a..a97de86c67a5 100644
---- a/drivers/staging/greybus/loopback.c
-+++ b/drivers/staging/greybus/loopback.c
-@@ -163,9 +163,11 @@ static ssize_t name##_avg_show(struct device *dev,		\
- static DEVICE_ATTR_RO(name##_avg)
- 
- #define gb_loopback_stats_attrs(field)				\
--	gb_loopback_ro_stats_attr(field, min, u);		\
--	gb_loopback_ro_stats_attr(field, max, u);		\
--	gb_loopback_ro_avg_attr(field)
-+	do {							\
-+		gb_loopback_ro_stats_attr(field, min, u);	\
-+		gb_loopback_ro_stats_attr(field, max, u);	\
-+		gb_loopback_ro_avg_attr(field);			\
-+	} while (0)
- 
- #define gb_loopback_attr(field, type)					\
- static ssize_t field##_show(struct device *dev,				\
--- 
-2.45.2
+Make sure to adapt it to your environment
 
+>
+> This is the result of my side run here:
+>
+> # make SPHINXDIRS="userspace-api" htmldocs
+> /home/huang/workspace/upstream/linux/tools/net/ynl/ynl-gen-rst.py -i /home/huang/workspace/upstream/linux/Documentation/netlink/specs/rt_link.yaml -o /home/huang/workspace/upstream/linux/Documentation/networking/netlink_spec/rt_link.rst
+> /home/huang/workspace/upstream/linux/tools/net/ynl/ynl-gen-rst.py -i /home/huang/workspace/upstream/linux/Documentation/netlink/specs/netdev.yaml -o /home/huang/workspace/upstream/linux/Documentation/networking/netlink_spec/netdev.rst
+> /home/huang/workspace/upstream/linux/tools/net/ynl/ynl-gen-rst.py -i /home/huang/workspace/upstream/linux/Documentation/netlink/specs/ovs_vport.yaml -o /home/huang/workspace/upstream/linux/Documentation/networking/netlink_spec/ovs_vport.rst
+> /home/huang/workspace/upstream/linux/tools/net/ynl/ynl-gen-rst.py -i /home/huang/workspace/upstream/linux/Documentation/netlink/specs/handshake.yaml -o /home/huang/workspace/upstream/linux/Documentation/networking/netlink_spec/handshake.rst
+> /home/huang/workspace/upstream/linux/tools/net/ynl/ynl-gen-rst.py -i /home/huang/workspace/upstream/linux/Documentation/netlink/specs/fou.yaml -o /home/huang/workspace/upstream/linux/Documentation/networking/netlink_spec/fou.rst
+> /home/huang/workspace/upstream/linux/tools/net/ynl/ynl-gen-rst.py -i /home/huang/workspace/upstream/linux/Documentation/netlink/specs/nftables.yaml -o /home/huang/workspace/upstream/linux/Documentation/networking/netlink_spec/nftables.rst
+> /home/huang/workspace/upstream/linux/tools/net/ynl/ynl-gen-rst.py -i /home/huang/workspace/upstream/linux/Documentation/netlink/specs/ovs_datapath.yaml -o /home/huang/workspace/upstream/linux/Documentation/networking/netlink_spec/ovs_datapath.rst
+> /home/huang/workspace/upstream/linux/tools/net/ynl/ynl-gen-rst.py -i /home/huang/workspace/upstream/linux/Documentation/netlink/specs/nfsd.yaml -o /home/huang/workspace/upstream/linux/Documentation/networking/netlink_spec/nfsd.rst
+> /home/huang/workspace/upstream/linux/tools/net/ynl/ynl-gen-rst.py -i /home/huang/workspace/upstream/linux/Documentation/netlink/specs/dpll.yaml -o /home/huang/workspace/upstream/linux/Documentation/networking/netlink_spec/dpll.rst
+> /home/huang/workspace/upstream/linux/tools/net/ynl/ynl-gen-rst.py -i /home/huang/workspace/upstream/linux/Documentation/netlink/specs/nlctrl.yaml -o /home/huang/workspace/upstream/linux/Documentation/networking/netlink_spec/nlctrl.rst
+> /home/huang/workspace/upstream/linux/tools/net/ynl/ynl-gen-rst.py -i /home/huang/workspace/upstream/linux/Documentation/netlink/specs/ethtool.yaml -o /home/huang/workspace/upstream/linux/Documentation/networking/netlink_spec/ethtool.rst
+> /home/huang/workspace/upstream/linux/tools/net/ynl/ynl-gen-rst.py -i /home/huang/workspace/upstream/linux/Documentation/netlink/specs/mptcp_pm.yaml -o /home/huang/workspace/upstream/linux/Documentation/networking/netlink_spec/mptcp_pm.rst
+> /home/huang/workspace/upstream/linux/tools/net/ynl/ynl-gen-rst.py -i /home/huang/workspace/upstream/linux/Documentation/netlink/specs/rt_route.yaml -o /home/huang/workspace/upstream/linux/Documentation/networking/netlink_spec/rt_route.rst
+> /home/huang/workspace/upstream/linux/tools/net/ynl/ynl-gen-rst.py -i /home/huang/workspace/upstream/linux/Documentation/netlink/specs/team.yaml -o /home/huang/workspace/upstream/linux/Documentation/networking/netlink_spec/team.rst
+> /home/huang/workspace/upstream/linux/tools/net/ynl/ynl-gen-rst.py -i /home/huang/workspace/upstream/linux/Documentation/netlink/specs/devlink.yaml -o /home/huang/workspace/upstream/linux/Documentation/networking/netlink_spec/devlink.rst
+> /home/huang/workspace/upstream/linux/tools/net/ynl/ynl-gen-rst.py -i /home/huang/workspace/upstream/linux/Documentation/netlink/specs/rt_addr.yaml -o /home/huang/workspace/upstream/linux/Documentation/networking/netlink_spec/rt_addr.rst
+> /home/huang/workspace/upstream/linux/tools/net/ynl/ynl-gen-rst.py -i /home/huang/workspace/upstream/linux/Documentation/netlink/specs/ovs_flow.yaml -o /home/huang/workspace/upstream/linux/Documentation/networking/netlink_spec/ovs_flow.rst
+> /home/huang/workspace/upstream/linux/tools/net/ynl/ynl-gen-rst.py -i /home/huang/workspace/upstream/linux/Documentation/netlink/specs/tc.yaml -o /home/huang/workspace/upstream/linux/Documentation/networking/netlink_spec/tc.rst
+> /home/huang/workspace/upstream/linux/tools/net/ynl/ynl-gen-rst.py -o /home/huang/workspace/upstream/linux/Documentation/networking/netlink_spec/index.rst -x
+> make: *** empty variable name.  Stop.
+> make: *** [Makefile:122: htmldocs] Error 2
+>
+> Is there any special environment configuration present?
+>
+> Regards,
+> Changhuang
