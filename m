@@ -1,155 +1,192 @@
-Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com [209.85.221.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CHN02-SH0-obe.outbound.protection.partner.outlook.cn (mail-sh0chn02on2118.outbound.protection.partner.outlook.cn [139.219.146.118])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2734F1B86CE
-	for <linux-staging@lists.linux.dev>; Thu, 18 Jul 2024 03:32:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.171
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721273574; cv=none; b=RKZ+nVixIyI2lKnqw8zbkh4vkhKso9fu+gS7CH1P9sRU/3BrafI334CCsYvTwMiqTC5DEk/05JCfSe+DmvzJVYz5q843TUGZ2jQUAFxT9WKMf91PSp7JlSSFp4jftr/WHkDZn8fvcv9zpwylE54fRwvnCxT5BhpmTdEofrm+dm4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721273574; c=relaxed/simple;
-	bh=pn0XkbJ5xt8Lw87GVQU4S3dyqfCB13ZnuXjhfE2jv6I=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KoU/BL/sHJpSfTh1HyrRcaswXY5c/lFne1Csd1fJoV6nJsq+CRFXgQQxDmk91iZ7vEHge34Xl117t/jvHKAHCkhWatI19pBAZmboeqmatf/sDdjgyzEoTsJPTrtfes8F33P3Qy5ek3FxXE1D37OBcouCx/WNSSNRed1578DYm2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gMuBpNRq; arc=none smtp.client-ip=209.85.221.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gMuBpNRq"
-Received: by mail-vk1-f171.google.com with SMTP id 71dfb90a1353d-4f2faade55dso131078e0c.1
-        for <linux-staging@lists.linux.dev>; Wed, 17 Jul 2024 20:32:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1721273572; x=1721878372; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NwxJu27KxqSJJA/LPshmYXOW4rkUwmPyEJHd8O9VTg0=;
-        b=gMuBpNRqtBbAUDrdltUwjl6Dhy2LmmE1dPZ4zoerFflEekEakikQzF9zGSHSIsP+PW
-         bEuO8XuNbDG6ImciGTx7bMx02KM7813UtaydEvAqFCA5UU6AVuC648twJ1SV0/QGaj78
-         D0LfVB580YLERRLbBbthq7FAEt4P+iXU1zCXFL2VVufwSh+JkLLIOm/5AMoErEQL8trC
-         C/aB5m8Jb8hKytjkxXUpb0KyXhvvqjcQmdyQdbfeL3xyWXC7Y9qpON6h+6+OwMKs0FdJ
-         kYXUCFaGZIf3HIh7eI9y9toVBqq63avtdY7ttyjzzkRQLsiVJHzUaYL64Wy4uVDLzcPR
-         cK5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721273572; x=1721878372;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NwxJu27KxqSJJA/LPshmYXOW4rkUwmPyEJHd8O9VTg0=;
-        b=JDInUjShYwKqnN9r5c6lG0yfbCOo5eTee4Q2QjUFqEQPT7oskU2ieVXBjPgacbgps3
-         IK4LcH1dCizD3gPWSFepa2fFuBJpuIEz55rN3TXdoWo8Pc67Hfa/nky+BMO2/ip0vSxr
-         YDC4Xs1WwPi+fjKsB4Rhl+PLVjWth14JTcSzPF5NEAyy+ollqqG2/Ij0f1LdljGxFT2c
-         7X8/ef9mc257P+KJQm0DwiJCqqbiQb3MKnJasIaN3okkSylPbVWAvQOcQIzitjYSzNEB
-         Ur8zsRwyATg5N2wz694W4IpPld024Huk9QAqX0WnGQh2fK/0wRDYQAGCVSwl6UseLzlM
-         zrtw==
-X-Forwarded-Encrypted: i=1; AJvYcCVjsSCMWLxXBbdh3hRGsYITdQ6DW5sWTer/3l4jYR17jrtp/ZKKYhTBr64IV1/9vwNCCv0Z0fVRkAblu9ZKXh2k6NqzT7Rxn1joRtpBlA==
-X-Gm-Message-State: AOJu0YxHGHIJF7/XYrtWYKL2J5Bhs6NYLEt16ovY5Tel+6gga6302nqO
-	gJCSUJj+urIu6OMqKuevQGUuc4kavmp4ZgvdGxW3HQtbzPHIQC/9
-X-Google-Smtp-Source: AGHT+IEeKSQL1uTy69+TewRtzoQfxHTxK88+wkfnor583yF3CqLB+tjyij1cbo5XSfRexgBA2Sqj9A==
-X-Received: by 2002:a05:6122:3d06:b0:4ef:530b:9d56 with SMTP id 71dfb90a1353d-4f4df66e7ddmr5308652e0c.6.1721273571458;
-        Wed, 17 Jul 2024 20:32:51 -0700 (PDT)
-Received: from fedora.. ([2800:e6:4000:47e:7c52:7bd4:cfe5:9874])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-4f4ee9bfa27sm68582e0c.31.2024.07.17.20.32.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jul 2024 20:32:51 -0700 (PDT)
-From: =?UTF-8?q?Juan=20Jos=C3=A9=20Arboleda?= <soyjuanarbol@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: greybus-dev@lists.linaro.org,
-	johan@kernel.org,
-	linux-staging@lists.linux.dev,
-	pure.logic@nexus-software.ie,
-	soyjuanarbol@gmail.com,
-	trivial@kernel.org
-Subject: [PATCH v2] staging: greybus: break multi statement macro into multiple lines
-Date: Wed, 17 Jul 2024 22:32:07 -0500
-Message-ID: <20240718033207.333591-1-soyjuanarbol@gmail.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <2024071723-nurture-magical-7817@gregkh>
-References: <2024071723-nurture-magical-7817@gregkh>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B87091FA3
+	for <linux-staging@lists.linux.dev>; Thu, 18 Jul 2024 03:43:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.219.146.118
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1721274203; cv=fail; b=kTcLYeRlUtTT9gVg+FLEmTtQaE825Zmu732kEcQfQ/fu8EKGXc9gyXY4NvmqYblRhKKhOUDqLKNmyUKodpIutr/1mJrx772n9qF4upR+td7u7erPBzpD/77+Vhle/GolSI10IPjiyvFU6Ht9/heM9KFFVsQdhBsmiW4tkSG65PI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1721274203; c=relaxed/simple;
+	bh=2s1F7eZ8Q9lQopQGZP8ofOFFunuU+GbKf6rfeagap6c=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=DyFFH4AdVWR3vZnawsAfMuQwddyjLLsODkGUGsEK46ayxrzJkZ67JpEJ5gpyW3N65eyYPNH2ndz6MdVhAPZlEryc8DRMeCLInWj2PpRore2BeLxTMK2ymB+Rl7LYQDeSaeSKtX0rLV/ZbgFeAPNOis4z5qhILl4sCeYzcMp5rZ8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com; spf=pass smtp.mailfrom=starfivetech.com; arc=fail smtp.client-ip=139.219.146.118
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GODVCWjsyzJ66m4zhr5X0Fd3tARoai66g/Sr0eNIII6D9GBSpO/Zydf2iNT1s4JTeDYF1XdxwKn6WapXnVMkvdgCJX7zO4zxZ7oGpPdEJhqzdrBnkmw+5FHERCIX85YdMw5RPDDXDHsMdhVgq0vWB7V9dyYbi3L6/RFtwUXaq7hxlRJbFcFWHtB7kdouEFDb4XfEqhMjHOfFNSVSKh/07DkbK+ik+7IElE3u4gxW7mWeJUEdERQ/7YleLLytmZCw5wYniYTebgfF/bcp+mVvorxQuvHQTJ0E8ro9wB3XyDWGDv6o0xlnXwcFmZbqZiX1Prq2OxxOhoa99hdaKsPJNw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Rx1XDLmsNv+KjI1/LhlUqD/tXJ4Z7DH5SC9QgQ6CVRQ=;
+ b=L+xsNg+Q8y/8in7YGd0XBXq0SW7NMkgQEtGGckoZzI/HlvghX40BoVuibhwSQvw33WO/nv89TB0xxDdGVDhzwxDv/WU2PXg7M/Ky9dtxw5O+kC+Gk3Q6euCYlqYVEkZxrFhy8hvgERAY+9l7fPJuUPtwb2GY9+W5T6KCWF1T96x/lMiuGNy7li46KCgM4t7B8oMV/5N2TUWVIqfDjULrZ6dvZfqHal/NFH3pJB1XNkGgxdzlFVqjge6ZLviAiLT2PWhC0PsJmp/cp13rcU4oygSjAGoQrqTQ269opr/XOX027XyEADzyVt7+5qblrUcDECu3sX1J3DOxPBNZtneWBQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=starfivetech.com; dmarc=pass action=none
+ header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=starfivetech.com;
+Received: from ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c550:1b::9) by ZQ0PR01MB1046.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c550:e::5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.36; Thu, 18 Jul
+ 2024 03:28:45 +0000
+Received: from ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
+ ([fe80::64c5:50d8:4f2c:59aa]) by
+ ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn ([fe80::64c5:50d8:4f2c:59aa%6])
+ with mapi id 15.20.7741.044; Thu, 18 Jul 2024 03:28:45 +0000
+From: Changhuang Liang <changhuang.liang@starfivetech.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	Jack Zhu <jack.zhu@starfivetech.com>,
+	Keith Zhao <keith.zhao@starfivetech.com>,
+	Changhuang Liang <changhuang.liang@starfivetech.com>,
+	Jayshri Pawar <jpawar@cadence.com>,
+	Jai Luthra <j-luthra@ti.com>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH v2 3/5] staging: media: starfive: Extract the ISP stream on as a helper function
+Date: Wed, 17 Jul 2024 20:28:32 -0700
+Message-Id: <20240718032834.53876-4-changhuang.liang@starfivetech.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20240718032834.53876-1-changhuang.liang@starfivetech.com>
+References: <20240718032834.53876-1-changhuang.liang@starfivetech.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: NT0PR01CA0031.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c510:c::14) To ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c550:1b::9)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: ZQ0PR01MB1302:EE_|ZQ0PR01MB1046:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0d944c08-60ed-4d3f-433f-08dca6d9baa7
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|7416014|52116014|41320700013|366016|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	Fw84wif0y3Iny0kibhuiY3CYkBzRzP8rdGDKu4rezGcaZh9OZjXKbLMhs77LqIkwEhrPYmHnTWWhjYgcV7YuBpg1F0k9Ta6GPH8f71rN9znScHGv5OD7GPoi2IHJAPYtGY+OwqaEyHvBsc+VB2BMq9lfYV36QRA/2red5+2HkJgYaNsaBBXX/DaNANamV+hAlnh5RR+TwdqiEOqXJteeM8HYnS2b9Ty2kPZNDhkclrmFPeL/kPLAS3F5nTE9emqIUTLMSCqADek0rsvaLy1vH8bSFUGXyaYkBLo1BnTgIN4M6n8bffZ32jScPDlPYo5HQ2L9QiU7FfAdo5bGZiwTN5MnnCNBqm60BEvT8ZV/CyQFG1cgGBAzd89CEyGgJx8OX7ElHZrGQB8566Mbjhj+q8gg/nHTPHB+JM2cuNprBD+OaUfg0L3q5y8yjpKSk/xvOaBw8J1J4y6AewstJRpUT2V4FC9SVndgehzjieaYMGTGB9WYhg7g2aQ72TRtIqqN5fLkRLuqxQ55YnlXYkmb3NTFfs+L0vnfsizk+JaCsdIBU+tPi6prTmKqYA+sgRImBJnzlmBVQqB+UCHsijJFcQHvvw1EaH4gLdlOc9lWDiOm6FLwPybOJSPL9ebro+cV
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(52116014)(41320700013)(366016)(38350700014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?uygQNIOuFZ86SaRqpFwPiCOD/wAKjWflaUR0l4G5uS6aBPrvzeSihBAWQgbS?=
+ =?us-ascii?Q?jiQhRIJjyU9cwNwAjHZ/a1Yym/fLMOPHBlbRbSLpu7EgA4gMs3MqOe0NYnI3?=
+ =?us-ascii?Q?uyc/coh8XQFgWMfn0Vsd+8mvF86VZ2j/vYLT/8FU/WqpETSpgjQrlwLMwY/m?=
+ =?us-ascii?Q?h65Rl9dUazsmO/GeuEmJ3Fs5OR/fitHDXsS15crhSU//FdehVqReLR9+VzYc?=
+ =?us-ascii?Q?ea3z3SPpWSC0iWW74EqSmsRKc6X62hGmH/cs1FPYUXT0fC7W5Rx7wLCLLTCH?=
+ =?us-ascii?Q?/Z1XGjlNf9mo59TXGqlVN8jK2R/U1FX2q+OyfSC118W7N0MzKQNRXpVL5Hln?=
+ =?us-ascii?Q?V72c+oTGdMS60zbx3ikxT7BQ+49BFvsFXFg7saqOylfe7aGkz9Vwyhokm4C6?=
+ =?us-ascii?Q?4VnJasze6LCrovGgqn967Kjl68MiQwOM916UfKwl3Z3U4fniF+0+JklnKkty?=
+ =?us-ascii?Q?PPWeOM3w2lJWwZC/OvKcRPSOe7sEzSAsJY2sEUXfnw39J8MzJKj+a6pJLeQa?=
+ =?us-ascii?Q?FM+dM45YIo0PentNJmJyY9D1/2Nn31xBcvPWcakopfNhOqnyg4yRFtCED8Be?=
+ =?us-ascii?Q?uplcroqUPA3OG3EiZJ6DIv70s8QpncmRCcAT4dlaDTXAZXU4SpwRiM3pmj5R?=
+ =?us-ascii?Q?Dqq5OEScJiDWcfR6rZo516V7nDZPcyBiFyOxTBmcp1xcW5ubga2ffArjTSh5?=
+ =?us-ascii?Q?b1dUVSwpWk2DfNlQ286QT9lgzMW4S+fXMYqvAE6TGii+4+o/HBLRQYtr/U+N?=
+ =?us-ascii?Q?z4U0kzdM64Pogrp3uMbelqLhAq8USBqYLZjYtVLdoijEL4scO1KY1KO9bXeG?=
+ =?us-ascii?Q?6z+G+w/iZlKIx9Sa4d1o/fKhrn3iSmqsCp/GPzQL24lHvpLVbeoFE8jiMPT+?=
+ =?us-ascii?Q?SDFSJ2jQI+J/yk+OZE67vOJ/TX1bUXOauaYkYeJy3fjb08n4ukFg78lqRnma?=
+ =?us-ascii?Q?TOvSvY3n2OG+47kp/m4cJvWhdADfU+0la4zHlv/w5hPtH1D6zxvZJXyVOfba?=
+ =?us-ascii?Q?L7p4KMVbaqQmrXH+5FnnnoqGf2TLVL94vEReoQsQ8H7mdTIGnBQ5w49Uh6C1?=
+ =?us-ascii?Q?vG3XmA3lZfHBZ5heFLlSNIGrAV43mA1YRcCNsgDf4P4UQNWAUdYS0OqCxK7U?=
+ =?us-ascii?Q?hwIgYpvDTEwgdpzTO2xzHPL8euL7VEJXwd4hib9pWgRbzYayZcak86dbjs/Y?=
+ =?us-ascii?Q?TY6q8KfbnnxLWklRLBaJwdiKAVSBEyn8mjS1ut7geiPIozL5NfNSArEqSPxv?=
+ =?us-ascii?Q?xLpf13zNr1Z3dTG3RzeG123/ewvTs2gTNzDiT1CPzVN29AIzUctL8BoQQD5N?=
+ =?us-ascii?Q?BefhTJS84dlyX4r3uhhLDGVdKf2BLMlhIYvsnvhCP7GSs0YuhhwkbaZBkyq1?=
+ =?us-ascii?Q?FjirNOy1SdFEWwk0J2xdN7sv9P7end2t+BSAeQRlt0+S5YDj0VJ1e6cOwQC/?=
+ =?us-ascii?Q?6s20qYlIbl6bgQBB4c8B9tE1oD3qEzLCv2fhXaPfPPfIQhS+zGR9OwiXGEGH?=
+ =?us-ascii?Q?tYn0ugpiVUDX1iq6o7RdogRgKQou+yTG0sk2e6g4fODCtMmBZ3ZgSHBhKTdD?=
+ =?us-ascii?Q?GQx3OL4IW87diwoy4oVEsknn1edffnAvvnpP2zwWxHrTTmQOtACkWZqejUGv?=
+ =?us-ascii?Q?SI6z2RWMivR+7SoczeZ8VfI=3D?=
+X-OriginatorOrg: starfivetech.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0d944c08-60ed-4d3f-433f-08dca6d9baa7
+X-MS-Exchange-CrossTenant-AuthSource: ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jul 2024 03:28:45.0350
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: fFkDnph6ZOVO+pEUzRQ3ARs1n5Ep0GPVNR7njxGHU5bGbr5biC1zW6+b/oUWPSY4LH57g3eLjJxwQUzcylDU0KVdVepenFNZcBFIwXeuBoejpX4U8mP888C7wmwjgIs/
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: ZQ0PR01MB1046
 
-The macro `gb_loopback_stats_attrs` in the Greybus loopback driver
-contains multiple statements, which should be enclosed in a do-while
-loop to ensure proper execution and adhere to coding standards.
+Extract the ISP stream on as a helper function and open it, Let the
+other files can use it.
 
-The latter is not possible as the macro expansion will create invalid C
-syntax. Theres is not such thing like inner function definition inside a
-global scope do-while in C.
-
-This patch nukes the `gb_loopback_stats_attrs` macro to enclose,
-addressing the style error flagged by checkpatch.pl.
-
-Signed-off-by: Juan José Arboleda <soyjuanarbol@gmail.com>
+Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
 ---
-Notes:
+ .../staging/media/starfive/camss/stf-isp.c    | 27 ++++++++++++-------
+ .../staging/media/starfive/camss/stf-isp.h    |  2 ++
+ 2 files changed, 19 insertions(+), 10 deletions(-)
 
-This new version uses a bit different approach so the commit message
-will be a bit different as well.
-
-P.S: Thanks for being that patience and apologies for that false
-positive of building the non-included driver. Now it is tested-built.
-
- drivers/staging/greybus/loopback.c | 29 +++++++++++++++++++----------
- 1 file changed, 19 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/staging/greybus/loopback.c b/drivers/staging/greybus/loopback.c
-index 4313d3bbc23a..88d86b084f28 100644
---- a/drivers/staging/greybus/loopback.c
-+++ b/drivers/staging/greybus/loopback.c
-@@ -162,11 +162,6 @@ static ssize_t name##_avg_show(struct device *dev,		\
- }									\
- static DEVICE_ATTR_RO(name##_avg)
- 
--#define gb_loopback_stats_attrs(field)				\
--	gb_loopback_ro_stats_attr(field, min, u);		\
--	gb_loopback_ro_stats_attr(field, max, u);		\
--	gb_loopback_ro_avg_attr(field)
--
- #define gb_loopback_attr(field, type)					\
- static ssize_t field##_show(struct device *dev,				\
- 			    struct device_attribute *attr,		\
-@@ -268,15 +263,29 @@ static void gb_loopback_check_attr(struct gb_loopback *gb)
+diff --git a/drivers/staging/media/starfive/camss/stf-isp.c b/drivers/staging/media/starfive/camss/stf-isp.c
+index 4e6e26736852..8c6388edf049 100644
+--- a/drivers/staging/media/starfive/camss/stf-isp.c
++++ b/drivers/staging/media/starfive/camss/stf-isp.c
+@@ -55,23 +55,30 @@ int stf_isp_init(struct stfcamss *stfcamss)
+ 	return 0;
  }
  
- /* Time to send and receive one message */
--gb_loopback_stats_attrs(latency);
-+gb_loopback_ro_stats_attr(latency, min, u);
-+gb_loopback_ro_stats_attr(latency, max, u);
-+gb_loopback_ro_avg_attr(latency);
-+
- /* Number of requests sent per second on this cport */
--gb_loopback_stats_attrs(requests_per_second);
-+gb_loopback_ro_stats_attr(requests_per_second, min, u);
-+gb_loopback_ro_stats_attr(requests_per_second, max, u);
-+gb_loopback_ro_avg_attr(requests_per_second);
-+
- /* Quantity of data sent and received on this cport */
--gb_loopback_stats_attrs(throughput);
-+gb_loopback_ro_stats_attr(throughput, min, u);
-+gb_loopback_ro_stats_attr(throughput, max, u);
-+gb_loopback_ro_avg_attr(throughput);
-+
- /* Latency across the UniPro link from APBridge's perspective */
--gb_loopback_stats_attrs(apbridge_unipro_latency);
-+gb_loopback_ro_stats_attr(apbridge_unipro_latency, min, u);
-+gb_loopback_ro_stats_attr(apbridge_unipro_latency, max, u);
-+gb_loopback_ro_avg_attr(apbridge_unipro_latency);
-+
- /* Firmware induced overhead in the GPBridge */
--gb_loopback_stats_attrs(gbphy_firmware_latency);
-+gb_loopback_ro_stats_attr(gbphy_firmware_latency, min, u);
-+gb_loopback_ro_stats_attr(gbphy_firmware_latency, max, u);
-+gb_loopback_ro_avg_attr(gbphy_firmware_latency);
+-static int isp_set_stream(struct v4l2_subdev *sd, int enable)
++void stf_isp_stream_on(struct stf_isp_dev *isp_dev,
++		       struct v4l2_subdev_state *sd_state)
+ {
+-	struct stf_isp_dev *isp_dev = v4l2_get_subdevdata(sd);
+-	struct v4l2_subdev_state *sd_state;
+ 	struct v4l2_mbus_framefmt *fmt;
+ 	struct v4l2_rect *crop;
  
- /* Number of errors encountered during loop */
- gb_loopback_ro_attr(error);
+-	sd_state = v4l2_subdev_lock_and_get_active_state(sd);
+ 	fmt = v4l2_subdev_state_get_format(sd_state, STF_ISP_PAD_SINK);
+ 	crop = v4l2_subdev_state_get_crop(sd_state, STF_ISP_PAD_SRC);
+ 
+-	if (enable) {
+-		stf_isp_reset(isp_dev);
+-		stf_isp_init_cfg(isp_dev);
+-		stf_isp_settings(isp_dev, crop, fmt->code);
+-		stf_isp_stream_set(isp_dev);
+-	}
++	stf_isp_reset(isp_dev);
++	stf_isp_init_cfg(isp_dev);
++	stf_isp_settings(isp_dev, crop, fmt->code);
++	stf_isp_stream_set(isp_dev);
++}
++
++static int isp_set_stream(struct v4l2_subdev *sd, int enable)
++{
++	struct stf_isp_dev *isp_dev = v4l2_get_subdevdata(sd);
++	struct v4l2_subdev_state *sd_state;
++
++	sd_state = v4l2_subdev_lock_and_get_active_state(sd);
++
++	if (enable)
++		stf_isp_stream_on(isp_dev, sd_state);
+ 
+ 	v4l2_subdev_call(isp_dev->source_subdev, video, s_stream, enable);
+ 
+diff --git a/drivers/staging/media/starfive/camss/stf-isp.h b/drivers/staging/media/starfive/camss/stf-isp.h
+index 955cbb048363..1a3e8cf7859c 100644
+--- a/drivers/staging/media/starfive/camss/stf-isp.h
++++ b/drivers/staging/media/starfive/camss/stf-isp.h
+@@ -421,6 +421,8 @@ void stf_isp_init_cfg(struct stf_isp_dev *isp_dev);
+ void stf_isp_settings(struct stf_isp_dev *isp_dev,
+ 		      struct v4l2_rect *crop, u32 mcode);
+ void stf_isp_stream_set(struct stf_isp_dev *isp_dev);
++void stf_isp_stream_on(struct stf_isp_dev *isp_dev,
++		       struct v4l2_subdev_state *sd_state);
+ int stf_isp_init(struct stfcamss *stfcamss);
+ int stf_isp_register(struct stf_isp_dev *isp_dev, struct v4l2_device *v4l2_dev);
+ int stf_isp_unregister(struct stf_isp_dev *isp_dev);
 -- 
-2.45.2
+2.25.1
 
