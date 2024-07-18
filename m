@@ -1,100 +1,313 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 171E4746E
-	for <linux-staging@lists.linux.dev>; Thu, 18 Jul 2024 13:28:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 737B213E021
+	for <linux-staging@lists.linux.dev>; Thu, 18 Jul 2024 14:24:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721309297; cv=none; b=N+yhmgyc/6TZA9P30Tiw+tPvTVfRghGHlWGMGZugVmrt45w+Ia5K/Cukyf0BssgiyypBaEmxDfTWEykN/MS2e8tD9854yOe7VhWv9B7LMzyewAFuQlnVpZIWwQggJAs+QtsaTU+ORy0PwdwbE8H1BFhg4O0EJ5OLQiRwgpx3+p0=
+	t=1721312691; cv=none; b=hlgdod0u5LD65vKkSEA3XjsJqGVGnFZaUbH2R3lcX6IocjJ5WW4hMd6u1QmiJTfPrjgNQ1Sh0hJfY3xsjuwc4nkXiQZ9JkokfsPT6EjVd7P6p+xWf4omnGN7vEKwsCLjeDDxBjgavIQVczy3+YduDHnqOVp95t+tfxsUS2BicRs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721309297; c=relaxed/simple;
-	bh=5aucrI2gpt9vqlmLA2A0OE6HiRWxeBqoxfF2vqri46U=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BjcYrUq22RqWMuWw3GiY6jIL2ILpksih4U0ZwxUUElMy9Z6tSX+Tb0y6/yPsUyBzjNX9C/RqBo4nQxiIE64Ahc8w1OVq0GVpV9PtoVfvpTAoLE2/pP2LxRTf421C46bAO/KhjCi10tByt3P+s9zzhjePl49jEUnzOcS1JCCCVFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l4cTRcxZ; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1721312691; c=relaxed/simple;
+	bh=O7FXaGBiWPqHzYeOnlM/8Rm+nQSt/ekJVBYqHT0mREk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NQx/QgfAfiHoCdwWDjHq+QKvz5fd41mygIH5iVU/qyRDu+u3iJKiZp9Bm/l2JdJIeK7IykBD45QqzP/5eKOFYLQj92b0RHdgK7X+IDvDFb1fu1+ETCzAZbdKrc3T33zY8b2MyveOVtT15bBd41UkVq+hLd5xU67a8XBMl88GPcc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=a2pzK2hw; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l4cTRcxZ"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-70b0013cf33so558361b3a.2
-        for <linux-staging@lists.linux.dev>; Thu, 18 Jul 2024 06:28:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1721309295; x=1721914095; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+ZKjwOorWgq38XmjoGT3ScWW3Bxix9ilNbBQnzAJcG8=;
-        b=l4cTRcxZK41Bw58P9/PmsAdZhwnaw3OiUUQAcaY295T8owpbCqEy1bJs27QEvxiqXf
-         sFQoYLeeEimY8bYfDIT5b1hjasWQQjEhIU6cZWDGyQtWtaqQCFmUr/Cs63qI8KQY+l3T
-         ZSHuLzuKh/UHIEJi1PeA5gUbD+PTvPi+NLLq2kxxgX0ntyvGGbIl6qNXEK46YTgjx8y6
-         ljIELipszN8aVID4b7KrF00RC59BDR5nLLfJXKwh2PXNutF7UF6crFwWGic1DldJgBvF
-         nKkIn7j9t74+rBznFK5A8Z4xLYzPSR3PloRgEYaHm2BdQrK9mZO9sibXPatxG4CcWIuk
-         /vEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721309295; x=1721914095;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+ZKjwOorWgq38XmjoGT3ScWW3Bxix9ilNbBQnzAJcG8=;
-        b=q3W1bheXFaTucVxxfvoVvh6JXU/70kmNBwWH/e4lX/TW1I3POzApO0inaz0neQNRkK
-         9whuk504kC2gFuRR+AiZw3nPIwA9OU6vK+rHMibL7d6uyvWZnnAwPR3BzPy57KaSYi48
-         E8QbWt2sxLzPGhea/R8YNQPF0sM2sgdbUTZ6KDpD2kZ/NX2oi66TouB+RAB57FMKoeOh
-         1iG/bZdwJb/ROWGV6neBkveKk8M/RcUGFcOvajIDendHAN7RBG1LjYBX/JozR1iWwqZr
-         5NhMB/F4teoMGOMPu8BMrTP/j+vzShnq62ush/v7USV+qdIWpHKkckegJZopy4y8SlVF
-         xm0g==
-X-Forwarded-Encrypted: i=1; AJvYcCUr7/+tV+7fPGR509hnBEWkGMemr7HltGYaOLRmIki3sVhe7Tw2QoxKAkls/Om0AZXFaQ04lxM/tb0BZW+zzHsQE9Yq6fq1PTkGkgFu+w==
-X-Gm-Message-State: AOJu0Yzt7RypBkR5RXfUAb9EIertZAdasmJUvCb8laQLY0IpuprfMaT5
-	GXZsiNnG140WhC9PtbdF02XLqYCspyOv7AQIWv64VV90yvfSsIzF
-X-Google-Smtp-Source: AGHT+IG0CYzhI14tCdBdlkn7FhEKsfVLJTPx2yQs0AsktGWN3IMQiNhvkSUynrl3Xw21RuufEn9t9w==
-X-Received: by 2002:a05:6a00:1d9e:b0:70a:f65e:b143 with SMTP id d2e1a72fcca58-70ce50b5467mr4038389b3a.31.1721309295190;
-        Thu, 18 Jul 2024 06:28:15 -0700 (PDT)
-Received: from localhost.localdomain (7f.84.a880.ip4.static.sl-reverse.com. [128.168.132.127])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70b7ecb8935sm9992292b3a.183.2024.07.18.06.28.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jul 2024 06:28:13 -0700 (PDT)
-From: Moon Yeounsu <yyyynoom@gmail.com>
-To: gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev
-Cc: Moon Yeounsu <yyyynoom@gmail.com>
-Subject: [PATCH v2] staging: rtl8712: style fix multiple line dereference
-Date: Thu, 18 Jul 2024 09:26:07 -0400
-Message-ID: <20240718132607.13634-1-yyyynoom@gmail.com>
-X-Mailer: git-send-email 2.43.5
-In-Reply-To: <3a7af5ee-faec-43b0-9617-71fe37f22936@suswa.mountain>
-References: <3a7af5ee-faec-43b0-9617-71fe37f22936@suswa.mountain>
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="a2pzK2hw"
+Received: from ideasonboard.com (mob-5-91-158-41.net.vodafone.it [5.91.158.41])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DB22CC85;
+	Thu, 18 Jul 2024 16:24:02 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1721312643;
+	bh=O7FXaGBiWPqHzYeOnlM/8Rm+nQSt/ekJVBYqHT0mREk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=a2pzK2hw1lawaibwPlDda1KMZQH3Dt5nXUKomWlaXzoJudKaSNNs+zX1Uu5TaE74a
+	 HD2aahemjnkgBAF+P4v73gfziA+zDIgq4GRoSwt7G0nA8PgOgPbcgcCjGneOsHUBWR
+	 eQj5/uQjpmcAJJfiVAOUyMZwZyHJetAsc/Falqtw=
+Date: Thu, 18 Jul 2024 16:24:37 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Changhuang Liang <changhuang.liang@starfivetech.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Maxime Ripard <mripard@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+	Jack Zhu <jack.zhu@starfivetech.com>, Keith Zhao <keith.zhao@starfivetech.com>, 
+	Jayshri Pawar <jpawar@cadence.com>, Jai Luthra <j-luthra@ti.com>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v2 1/5] media: cadence: csi2rx: Support runtime PM
+Message-ID: <rpbe5ebzu7e536qrruseffklmtvfkp5bbenjtx7enipm6y5gbr@wsjvomihwmv6>
+References: <20240718032834.53876-1-changhuang.liang@starfivetech.com>
+ <20240718032834.53876-2-changhuang.liang@starfivetech.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240718032834.53876-2-changhuang.liang@starfivetech.com>
 
-It fix the following checkpatch.pl warning:
-Avoid multiple line dereference - prefer %s
+Hello Changhuang
 
-Signed-off-by: Moon Yeounsu <yyyynoom@gmail.com>
----
-v2: Fix email address and checkpatch.pl warning
----
- drivers/staging/rtl8712/rtl871x_cmd.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+On Wed, Jul 17, 2024 at 08:28:30PM GMT, Changhuang Liang wrote:
+> Use runtime power management hooks to save power when CSI-RX is not in
+> use.
+>
 
-diff --git a/drivers/staging/rtl8712/rtl871x_cmd.c b/drivers/staging/rtl8712/rtl871x_cmd.c
-index c8a220e04776..ffeb91dd28c4 100644
---- a/drivers/staging/rtl8712/rtl871x_cmd.c
-+++ b/drivers/staging/rtl8712/rtl871x_cmd.c
-@@ -528,7 +528,9 @@ void r8712_setstakey_cmd(struct _adapter *padapter, u8 *psta, u8 unicast_key)
- 	if (unicast_key)
- 		memcpy(&psetstakey_para->key, &sta->x_UncstKey, 16);
- 	else
--		memcpy(&psetstakey_para->key, &psecuritypriv->XGrpKey[psecuritypriv->XGrpKeyid - 1].skey, 16);
-+		memcpy(&psetstakey_para->key,
-+		       &psecuritypriv->XGrpKey[psecuritypriv->XGrpKeyid - 1].skey,
-+		       16);
- 	r8712_enqueue_cmd(pcmdpriv, ph2c);
- }
- 
--- 
-2.43.5
+The driver does not depend on PM afaict and the IP can be integrated in
+different SoCs and not all of them might select PM.
 
+Either make it depend on PM in Kconfig or manually enable the device during
+probe (see the many examples of drivers manually enabling the device
+in probe() then calling pm_runtime_set_active(), pm_runtime_enable()
+and pm_request_idle()).
+
+Also, you might want to consider autosuspend delay. Autosuspend delay
+avoids power cycling the interface by delaying suspend by a certain
+amout of time, in case it resumed immediately.
+
+> Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
+> ---
+>  drivers/media/platform/cadence/cdns-csi2rx.c | 121 ++++++++++++-------
+>  1 file changed, 80 insertions(+), 41 deletions(-)
+>
+> diff --git a/drivers/media/platform/cadence/cdns-csi2rx.c b/drivers/media/platform/cadence/cdns-csi2rx.c
+> index 6f7d27a48eff..981819adbb3a 100644
+> --- a/drivers/media/platform/cadence/cdns-csi2rx.c
+> +++ b/drivers/media/platform/cadence/cdns-csi2rx.c
+> @@ -211,11 +211,6 @@ static int csi2rx_start(struct csi2rx_priv *csi2rx)
+>  	u32 reg;
+>  	int ret;
+>
+> -	ret = clk_prepare_enable(csi2rx->p_clk);
+> -	if (ret)
+> -		return ret;
+> -
+> -	reset_control_deassert(csi2rx->p_rst);
+>  	csi2rx_reset(csi2rx);
+>
+>  	reg = csi2rx->num_lanes << 8;
+> @@ -253,7 +248,7 @@ static int csi2rx_start(struct csi2rx_priv *csi2rx)
+>  		if (ret) {
+>  			dev_err(csi2rx->dev,
+>  				"Failed to configure external DPHY: %d\n", ret);
+> -			goto err_disable_pclk;
+> +			return ret;
+>  		}
+>  	}
+>
+> @@ -268,11 +263,6 @@ static int csi2rx_start(struct csi2rx_priv *csi2rx)
+>  	 * hence the reference counting.
+>  	 */
+>  	for (i = 0; i < csi2rx->max_streams; i++) {
+> -		ret = clk_prepare_enable(csi2rx->pixel_clk[i]);
+> -		if (ret)
+> -			goto err_disable_pixclk;
+> -
+> -		reset_control_deassert(csi2rx->pixel_rst[i]);
+>
+>  		writel(CSI2RX_STREAM_CFG_FIFO_MODE_LARGE_BUF,
+>  		       csi2rx->base + CSI2RX_STREAM_CFG_REG(i));
+> @@ -288,34 +278,18 @@ static int csi2rx_start(struct csi2rx_priv *csi2rx)
+>  		       csi2rx->base + CSI2RX_STREAM_CTRL_REG(i));
+>  	}
+>
+> -	ret = clk_prepare_enable(csi2rx->sys_clk);
+> -	if (ret)
+> -		goto err_disable_pixclk;
+> -
+> -	reset_control_deassert(csi2rx->sys_rst);
+>
+>  	ret = v4l2_subdev_call(csi2rx->source_subdev, video, s_stream, true);
+>  	if (ret)
+> -		goto err_disable_sysclk;
+> -
+> -	clk_disable_unprepare(csi2rx->p_clk);
+> +		goto err_phy_power_off;
+>
+>  	return 0;
+>
+> -err_disable_sysclk:
+> -	clk_disable_unprepare(csi2rx->sys_clk);
+> -err_disable_pixclk:
+> -	for (; i > 0; i--) {
+> -		reset_control_assert(csi2rx->pixel_rst[i - 1]);
+> -		clk_disable_unprepare(csi2rx->pixel_clk[i - 1]);
+> -	}
+> -
+> +err_phy_power_off:
+>  	if (csi2rx->dphy) {
+>  		writel(0, csi2rx->base + CSI2RX_DPHY_LANE_CTRL_REG);
+>  		phy_power_off(csi2rx->dphy);
+>  	}
+> -err_disable_pclk:
+> -	clk_disable_unprepare(csi2rx->p_clk);
+>
+>  	return ret;
+>  }
+> @@ -326,10 +300,6 @@ static void csi2rx_stop(struct csi2rx_priv *csi2rx)
+>  	u32 val;
+>  	int ret;
+>
+> -	clk_prepare_enable(csi2rx->p_clk);
+> -	reset_control_assert(csi2rx->sys_rst);
+> -	clk_disable_unprepare(csi2rx->sys_clk);
+> -
+>  	for (i = 0; i < csi2rx->max_streams; i++) {
+>  		writel(CSI2RX_STREAM_CTRL_STOP,
+>  		       csi2rx->base + CSI2RX_STREAM_CTRL_REG(i));
+> @@ -342,14 +312,8 @@ static void csi2rx_stop(struct csi2rx_priv *csi2rx)
+>  		if (ret)
+>  			dev_warn(csi2rx->dev,
+>  				 "Failed to stop streaming on pad%u\n", i);
+> -
+> -		reset_control_assert(csi2rx->pixel_rst[i]);
+> -		clk_disable_unprepare(csi2rx->pixel_clk[i]);
+>  	}
+>
+> -	reset_control_assert(csi2rx->p_rst);
+> -	clk_disable_unprepare(csi2rx->p_clk);
+> -
+>  	if (v4l2_subdev_call(csi2rx->source_subdev, video, s_stream, false))
+>  		dev_warn(csi2rx->dev, "Couldn't disable our subdev\n");
+>
+> @@ -374,9 +338,15 @@ static int csi2rx_s_stream(struct v4l2_subdev *subdev, int enable)
+>  		 * enable the whole controller.
+>  		 */
+>  		if (!csi2rx->count) {
+> +			ret = pm_runtime_resume_and_get(csi2rx->dev);
+> +			if (ret < 0)
+> +				goto out;
+> +
+>  			ret = csi2rx_start(csi2rx);
+> -			if (ret)
+> +			if (ret) {
+> +				pm_runtime_put(csi2rx->dev);
+>  				goto out;
+> +			}
+>  		}
+>
+>  		csi2rx->count++;
+> @@ -386,8 +356,10 @@ static int csi2rx_s_stream(struct v4l2_subdev *subdev, int enable)
+>  		/*
+>  		 * Let the last user turn off the lights.
+>  		 */
+> -		if (!csi2rx->count)
+> +		if (!csi2rx->count) {
+>  			csi2rx_stop(csi2rx);
+> +			pm_runtime_put(csi2rx->dev);
+> +		}
+>  	}
+>
+>  out:
+> @@ -707,6 +679,7 @@ static int csi2rx_probe(struct platform_device *pdev)
+>  	if (ret)
+>  		goto err_cleanup;
+>
+> +	pm_runtime_enable(csi2rx->dev);
+>  	ret = v4l2_async_register_subdev(&csi2rx->subdev);
+>  	if (ret < 0)
+>  		goto err_free_state;
+> @@ -721,6 +694,7 @@ static int csi2rx_probe(struct platform_device *pdev)
+>
+>  err_free_state:
+>  	v4l2_subdev_cleanup(&csi2rx->subdev);
+> +	pm_runtime_disable(csi2rx->dev);
+>  err_cleanup:
+>  	v4l2_async_nf_unregister(&csi2rx->notifier);
+>  	v4l2_async_nf_cleanup(&csi2rx->notifier);
+> @@ -739,9 +713,73 @@ static void csi2rx_remove(struct platform_device *pdev)
+>  	v4l2_async_unregister_subdev(&csi2rx->subdev);
+>  	v4l2_subdev_cleanup(&csi2rx->subdev);
+>  	media_entity_cleanup(&csi2rx->subdev.entity);
+> +	pm_runtime_disable(csi2rx->dev);
+>  	kfree(csi2rx);
+>  }
+>
+> +static int csi2rx_runtime_suspend(struct device *dev)
+> +{
+> +	struct csi2rx_priv *csi2rx = dev_get_drvdata(dev);
+> +	unsigned int i;
+> +
+> +	reset_control_assert(csi2rx->sys_rst);
+> +	clk_disable_unprepare(csi2rx->sys_clk);
+> +
+> +	for (i = 0; i < csi2rx->max_streams; i++) {
+> +		reset_control_assert(csi2rx->pixel_rst[i]);
+> +		clk_disable_unprepare(csi2rx->pixel_clk[i]);
+> +	}
+> +
+> +	reset_control_assert(csi2rx->p_rst);
+> +	clk_disable_unprepare(csi2rx->p_clk);
+> +
+> +	return 0;
+> +}
+> +
+> +static int csi2rx_runtime_resume(struct device *dev)
+> +{
+> +	struct csi2rx_priv *csi2rx = dev_get_drvdata(dev);
+> +	unsigned int i;
+> +	int ret;
+> +
+> +	ret = clk_prepare_enable(csi2rx->p_clk);
+> +	if (ret)
+> +		return ret;
+> +
+> +	reset_control_deassert(csi2rx->p_rst);
+> +
+> +	for (i = 0; i < csi2rx->max_streams; i++) {
+> +		ret = clk_prepare_enable(csi2rx->pixel_clk[i]);
+> +		if (ret)
+> +			goto err_disable_pixclk;
+> +
+> +		reset_control_deassert(csi2rx->pixel_rst[i]);
+> +	}
+> +
+> +	ret = clk_prepare_enable(csi2rx->sys_clk);
+> +	if (ret)
+> +		goto err_disable_pixclk;
+> +
+> +	reset_control_deassert(csi2rx->sys_rst);
+> +
+> +	return ret;
+
+You can return 0 here
+
+Thanks
+   j
+
+> +
+> +err_disable_pixclk:
+> +	for (; i > 0; i--) {
+> +		reset_control_assert(csi2rx->pixel_rst[i - 1]);
+> +		clk_disable_unprepare(csi2rx->pixel_clk[i - 1]);
+> +	}
+> +
+> +	reset_control_assert(csi2rx->p_rst);
+> +	clk_disable_unprepare(csi2rx->p_clk);
+> +
+> +	return ret;
+> +}
+> +
+> +static const struct dev_pm_ops csi2rx_pm_ops = {
+> +	SET_RUNTIME_PM_OPS(csi2rx_runtime_suspend, csi2rx_runtime_resume, NULL)
+> +};
+> +
+>  static const struct of_device_id csi2rx_of_table[] = {
+>  	{ .compatible = "starfive,jh7110-csi2rx" },
+>  	{ .compatible = "cdns,csi2rx" },
+> @@ -756,6 +794,7 @@ static struct platform_driver csi2rx_driver = {
+>  	.driver	= {
+>  		.name		= "cdns-csi2rx",
+>  		.of_match_table	= csi2rx_of_table,
+> +		.pm		= &csi2rx_pm_ops,
+>  	},
+>  };
+>  module_platform_driver(csi2rx_driver);
+> --
+> 2.25.1
+>
+>
