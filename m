@@ -1,98 +1,178 @@
-Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CHN02-SH0-obe.outbound.protection.partner.outlook.cn (mail-sh0chn02on2130.outbound.protection.partner.outlook.cn [139.219.146.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF3B740848
-	for <linux-staging@lists.linux.dev>; Thu, 18 Jul 2024 04:47:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.179
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721278075; cv=none; b=t5U1UTMhtZ2+U7F50Uokq0lUh5eRIXaHu0GKLMa4njXFLwH7ptDsGUx3MXUhhHFcNucC/MJVhrFpJVyzBHYcqf1bIV2w4i3rBThjfqo3VWexG7u6sTjyIV25g75u2NLCb81Nm/AZHAW28lHj74hLpYQB6W2jEVDciI+7+OnleDI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721278075; c=relaxed/simple;
-	bh=dM9j5S96Ce7No6B8g6jKga8ne9oFjdCPIu/P472JdCo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KzHJjfmAeKsNhWePkUsTMKnpxNqs2PNy2KxDGW8IxAWYiit7aUzfzHKYxCce8L6oPZ+7OR8so9c1VrodWiUuZXcMgQWTwBJ331EQVC21C4CXAZv1/NRLLGzzgnJOv2wzPjuyO2LbJL53zyrE4ME2FOhtY86taGApvJfSqFtUxs4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=okT40GN7; arc=none smtp.client-ip=209.85.167.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="okT40GN7"
-Received: by mail-oi1-f179.google.com with SMTP id 5614622812f47-3d9c4887533so221718b6e.2
-        for <linux-staging@lists.linux.dev>; Wed, 17 Jul 2024 21:47:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1721278073; x=1721882873; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=YEjjR4pJru8BJeimkJst45rGQ1t7SyphlvqL5W4Aano=;
-        b=okT40GN7aKCabk7cdqAn5FdYIvqeNv7dtNYEFAenycSLlzXX+jSAF/m4XkOIHuHfO4
-         TKz0S8TO+Sm+x0EnRrA05bf7IQbhNKvoH7jAM4DnKqarv/4HYrmf1g71ok+BUzYoM30W
-         JakDIc0XJlyQ1KxVsS0JC/27l9qhCqBKZm/WezclNUdDE/GDnfcx23kstRSrOh/+KamT
-         nPoY6+kp4Sor41xgVoVbo3WYeDSxUdOUkEB0FiNQ7DUHxRhDXSiVxl5AGlCUEu/Y4bYT
-         x+DF4JygcV5MGs29gF33kBvg+6T7HItr53j9G/zY9HaxVEYv/QHZ9U5/QfKBaMXSRZut
-         W5yA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721278073; x=1721882873;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YEjjR4pJru8BJeimkJst45rGQ1t7SyphlvqL5W4Aano=;
-        b=aQOJDS+pwEd6aPrLnH0ksOZTuEHimQHWyTBLqar2HNTD5yDr8fmAeEJaFipQn3mze3
-         Et4yalRlB2ncvTPTqnLYV5UzufceVhjboJJcFH6cGHj5DIAEVsvtIoT53Ke8mps7i8eR
-         o3oGpStKxCw9ik7Lt+sELNLzJGwzu3MFSioflBzJJomiqV6f1EQCLMfrWKuJgKtp/Gi7
-         gsF4Z90n4oOxWe8eGaIp5QUXbeq1y7Bm6a2Zry3dEzKyrEbbdFe6zZhABJuOwVKyQQ0o
-         N7PoORRZ/3ut/r91/ZcDAD0mXSCflilwFQeUtOu3TcUdfYM+IDFXo6H9/LdB9UK+bFnq
-         ZOzg==
-X-Forwarded-Encrypted: i=1; AJvYcCU4o/eUv8ri0hjuOL9WjMrYtc1bVTJeVoeCphZa9Y9Hfr4hlDtur+5M7CWZlZ5+xYQJsR1Jo33b2Ct+mB4VDrEXCsMrnlkg0CnS2qzQ9w==
-X-Gm-Message-State: AOJu0YzHWJpU40IjqlvRQRcCihR2zU8NO0tv/hDncGU0AocLt2BODKWM
-	Gu8LWHIySDBXWj8zK56TqShvM3QvXVWzYeuH2S7eOLSYbUgjX0qSFAz+uoF4scc=
-X-Google-Smtp-Source: AGHT+IF7DJeOUaSHILHt8zGDWOZuZb99LEvSBbYC8BNRtyvtvlh/dKMmsUkVWsrC2KXScVmAfxsfIw==
-X-Received: by 2002:a05:6870:214c:b0:260:f50e:923e with SMTP id 586e51a60fabf-260f50e92e2mr530155fac.37.1721278072649;
-        Wed, 17 Jul 2024 21:47:52 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700:f90b:a43c:39d1:be63])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-260efc5a665sm206314fac.4.2024.07.17.21.47.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jul 2024 21:47:52 -0700 (PDT)
-Date: Wed, 17 Jul 2024 23:47:50 -0500
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Juan =?iso-8859-1?Q?Jos=E9?= Arboleda <soyjuanarbol@gmail.com>
-Cc: gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org,
-	johan@kernel.org, linux-staging@lists.linux.dev,
-	pure.logic@nexus-software.ie, trivial@kernel.org
-Subject: Re: [PATCH v2] staging: greybus: break multi statement macro into
- multiple lines
-Message-ID: <c9b9919e-f470-4120-8039-08dc791c58c3@suswa.mountain>
-References: <2024071723-nurture-magical-7817@gregkh>
- <20240718033207.333591-1-soyjuanarbol@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 746A6364AB
+	for <linux-staging@lists.linux.dev>; Thu, 18 Jul 2024 05:01:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.219.146.130
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1721278912; cv=fail; b=hnzY/bZrBxxxAju5e8qiWEIUGANf00FnXAFURpq9fNSaBU9Gq5io4eqLUgCVBE77iUcByHBKqX8U0G6NUFtMReTCXQllpVhBVy+dwfNrhb2HtKuUOEDoeUFiJl6DoYJ4nqGzLe/VP6I6AjPTe3KWWHhMqbJpas4XYhOi9RRTf+k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1721278912; c=relaxed/simple;
+	bh=HIciiOD7hp+BcewcEPvoUXiLMrTywFcCkDf5a9hIbB0=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=nVUP09uHqljgKj700lWP2l+zlYCHhswQfy4+yDyk+Iq85Tv9YNPfzShJt12hEilUnQRHIMtqoQ55wAuM65DePZz4q2fOw2z1VaSlc49mNsiw4tOImthjBhS1V3Hr2F1YSSty5sBBJur2DkKun/zF1ZuVtnwWtY6qM9BrUVLEUmY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com; spf=pass smtp.mailfrom=starfivetech.com; arc=fail smtp.client-ip=139.219.146.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MNJ86a/Jt/IuZn91ThTDLLz3dkLn6rWFvQS/DIhYvu0NACMsavb1YJL7iGUy1oQnvoxstbm77B/+EYf8EPgibpp/c+dlxdLijcyo3UCYHkJnQYhi9fWfALdVVSK6CuurtDXk6kWaPTCP8lRLyyiO5E/t2GezoZrU83eX7K6B69gSCxC9EjDGZCmdFDxuNin/iPEAF8Zur031tNy2FdnQGftb5d7A3lHuhgipQafKrakfmF6S8LM+6wlymPsz5QADguLA4gqvIkgqqwgevWgCPcAbRf1OQOsv82cAw+2CECb6PUog37IZHUwyuI07HAeO85hf0B4ayv4AlGHP3arTRw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ddjJ1l1tFX8PlnZ2moNGBlgsm9lxfZM595j++Kw0u+0=;
+ b=cl1PrjrbKCkQgbhxGAWbkjlT+q7AEMbyOMsaRyXOjx7VRwYWWVHlHCXYo1P0BUoMErnUuj5E3b9ycFrZpn7xGjOYQbV4WtXhOv0fMhqBp61VMkuaJOAue72EBalxbfGpxRIKr23yr8+NBQfwmHiAJZPy2TicxnstWweGfOj8Tnk9SaLK8f19SzHw/Cope8TSH8JJJr12a5eUeq3Axt1YwjKX6blZfN0UzKVBJ8PRO4nEvK5ZH5khco3q4ejHx2nHVHK9zIw56iFv9NRzMknN5TilfHPeZhRcn0oIm4Y32u4hSTCmpnksM2p3lJljcz55wiibuvdQFOAP65kz3iADvQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=starfivetech.com; dmarc=pass action=none
+ header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=starfivetech.com;
+Received: from ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c550:1b::9) by ZQ0PR01MB1046.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c550:e::5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.36; Thu, 18 Jul
+ 2024 03:28:43 +0000
+Received: from ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
+ ([fe80::64c5:50d8:4f2c:59aa]) by
+ ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn ([fe80::64c5:50d8:4f2c:59aa%6])
+ with mapi id 15.20.7741.044; Thu, 18 Jul 2024 03:28:43 +0000
+From: Changhuang Liang <changhuang.liang@starfivetech.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	Jack Zhu <jack.zhu@starfivetech.com>,
+	Keith Zhao <keith.zhao@starfivetech.com>,
+	Changhuang Liang <changhuang.liang@starfivetech.com>,
+	Jayshri Pawar <jpawar@cadence.com>,
+	Jai Luthra <j-luthra@ti.com>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH v2 2/5] media: cadence: csi2rx: Add system PM support
+Date: Wed, 17 Jul 2024 20:28:31 -0700
+Message-Id: <20240718032834.53876-3-changhuang.liang@starfivetech.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20240718032834.53876-1-changhuang.liang@starfivetech.com>
+References: <20240718032834.53876-1-changhuang.liang@starfivetech.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: NT0PR01CA0031.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c510:c::14) To ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c550:1b::9)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240718033207.333591-1-soyjuanarbol@gmail.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: ZQ0PR01MB1302:EE_|ZQ0PR01MB1046:EE_
+X-MS-Office365-Filtering-Correlation-Id: 663452da-dd46-45c4-2f21-08dca6d9b9ee
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|7416014|52116014|41320700013|366016|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	22rUrY8pge3un0ZLhD/DEC+rrotOWbE9Z7hBWCV1etkEDnH5M9L1Kwi2qbbQqcSpBSKnbGFkMjHyyyWvKwoseE09Ms23rOe6OgmT1x5KO9X/Odu5FN/zokFllX8YH1f1vNIhttf8TVRF4afFUE7qsmq/o4rwS9HQo9MY0c0QE+5bKgYpVmWsiTqI1ybljdYgV+P7Im/BhLIQVsvn1Qxjrrpa3upuLMv8uU6L/Bejnu/RVNwKJuFKTRn5aPKdkh9S+X1VCr80D1JYfCiM5MlFlLROrwCKOxgZ54BEOYIbHhr+0L91yAqKA+dmHNUfUYy8xQIv8pcZBE12n+dbOiOwni+0fnEtqHbmCriSXdQukgtx/5LWlpQKyz1W7eaq/dEw2d+lqBqfxqErWwq4mrvYysxMHQocik9W5fNqchn4FcrrLkEJheTh1YIRCnIZBkDxERgMuATuXe5gbuomXqkc6VRdEoBFmkIaokHkk3t4UxejQIHmMKvBdOm0dOVRRYySl7bDBRoeQxwLBBkAn0WS1c8NfF2ZS7fXBT3P0XwOxe+b1yNA/aR6uYSxr7FMO3tUQ0EIxytY4TGD9MnJPHI38Pf4hOP3Fybg22POKybL4pokn2VHwDgDuvZX4NqwddWT
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(52116014)(41320700013)(366016)(38350700014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?c1fLn69RH4ctQ2zN6ymZcr1KmXj+8BNld91YohbDwEnmeKpZZ+WF7GFp7wrc?=
+ =?us-ascii?Q?xImwR/HBMzyFslwiveO8wOb8ODtvHwzj3eT3eyQjNvWmDL7LFxtlwxf8v7LO?=
+ =?us-ascii?Q?r1QGTsw4+kCz6RvDa9tWV4hVKjUCX4IK13nOQOxoylJNzjP0xdlSf+mSBvIE?=
+ =?us-ascii?Q?tt9nHLcPuMYsso5YlXLb7E5sZZtbizhg4vobx60pbIwp6bOZoijuX9CaInRO?=
+ =?us-ascii?Q?6N+k4JIsEZgSHaPoEiBV2d0JctazPf0zS2d0cp2ORdEwqHt3x1xpJLJMZNdu?=
+ =?us-ascii?Q?I8ipF9NiDnhd8WAR3C0ygHOfcUwtk5NSwCxceDIEPI68WVY1QrwTxZx7hr3P?=
+ =?us-ascii?Q?em5qfgsiZ5ddvcsAN5BZObOFvEdRjfOainUKOiw5q+z1wFDl00GzEGl/bhIR?=
+ =?us-ascii?Q?sLg73UQelRYfuKzHvQnHQ7Sdvgh0IrViatpAAHx3LA5aR6DcajRMWXD2YBg0?=
+ =?us-ascii?Q?EoVNjKoDnnmUbwxc4VcBlW81qnkiFqm+lCz9NJ8o2guTxHT90ds5kYtdx3nb?=
+ =?us-ascii?Q?4L2vCgR5VJiM/ky44E6DlrAB78MrAOfQTyRS7kTPF8BERM2mY1Fg/sYeZuUD?=
+ =?us-ascii?Q?lq9NV9+EVHpru+zVBvVXD3DlbvNke1MIRLT2CtGWorzXk9zo5MO9KBqDSk1d?=
+ =?us-ascii?Q?Ex+HDz91/xRNXuUy81ROE093U/8LM+cc9TJ0npyTmsiDPY319ELHOndSDFBc?=
+ =?us-ascii?Q?BocQa9dQQYUXrYVvuN48WpM4RTBA07faO/HZzGiQkUptTVA6mN2ev0toFsnT?=
+ =?us-ascii?Q?UXTnRlOaufyNPUjbxa22rMBpLDoOa+HTGmJFBPuzilyYuaGXpad+ATTMwmlL?=
+ =?us-ascii?Q?rxYyFV9FP+5Aw52CFdjcsCEvHXQg3wbBkCZo9N2/tkabSYNh6P2RL5u9sL7A?=
+ =?us-ascii?Q?SfRcEi2UPbF5XnM65vjcpJEYW1QnCjamoNG5fRT0yDRnMutCrIux+/vVHEZf?=
+ =?us-ascii?Q?75uV7OnPsIetI5tq3TxvEtSy+gDNa3b4r/M8O0xsyedHMkCgC0XzdTNBr2/A?=
+ =?us-ascii?Q?r+5byDG69biDjCTiY/+iNQMcBOV18hW+9HRuZt+sPnQodNGLERc1tX8FLC81?=
+ =?us-ascii?Q?NtCCYxtqMVu11VVZLZ+dfKV9ASH1PuM5AIn37YAnABTPv95tGgOKObVNSwMt?=
+ =?us-ascii?Q?NfUI25OTleWLODGtT7l8ITAlLkF2WH/3n7VcstOnS2si+EDJo8pj6ZrqohpF?=
+ =?us-ascii?Q?kQwlIs+BVPQWG44u/+i4VITOYhPmY7axu/t6sZkuixoi35ZsfWScauAs7fty?=
+ =?us-ascii?Q?USGXw+jOwN/Z1u8esCEWr9/WsW9QWNGRh7lRYHRjcOnCNYlHjuuCyImpHB9C?=
+ =?us-ascii?Q?M4cSBu0S2WFUqGbz5RZfRQZrz6+wR6hY+fFcBujk8wLsl3s9IrXJ8eDNQW3h?=
+ =?us-ascii?Q?6obE8V0HcWNaswOrGbpv5egNl6M2UUQKwy0m+H9PBTGEOM6oLtk9sU/iIrsS?=
+ =?us-ascii?Q?pzVHnclUpjIcTLOSh+NduzODl7QSmRP7wxbHLZRm7IFkq3GA2qABPtiSLVKs?=
+ =?us-ascii?Q?P8c8UPWK9qIvqTSbzgxp8PNGsoE6zC01y+y2LBfuU06VcRv5PrnOC4kSFnsg?=
+ =?us-ascii?Q?xgQrU3gZso0icJW1KLGwS3G2k+8Dq9tRKIiGOVLevzKpmvqPq5MrhNx4aq+M?=
+ =?us-ascii?Q?FOhHmTiQDoNqgyHiTtWqCaU=3D?=
+X-OriginatorOrg: starfivetech.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 663452da-dd46-45c4-2f21-08dca6d9b9ee
+X-MS-Exchange-CrossTenant-AuthSource: ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jul 2024 03:28:43.8229
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: extmWOJYAqiEGvwmT9V7o0UfbyUNC2LG9kKdxj/l4FzhvuepXRZUiak251y23Pb432d7vxur/rF4jXuphQijLyUTSvXYbqqxwBVtr12uE5jdR0JfyTqK78f5YZECtzam
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: ZQ0PR01MB1046
 
-On Wed, Jul 17, 2024 at 10:32:07PM -0500, Juan José Arboleda wrote:
-> The macro `gb_loopback_stats_attrs` in the Greybus loopback driver
-> contains multiple statements, which should be enclosed in a do-while
-> loop to ensure proper execution and adhere to coding standards.
-> 
-> The latter is not possible as the macro expansion will create invalid C
-> syntax. Theres is not such thing like inner function definition inside a
-> global scope do-while in C.
-> 
-> This patch nukes the `gb_loopback_stats_attrs` macro to enclose,
-> addressing the style error flagged by checkpatch.pl.
-> 
-> Signed-off-by: Juan José Arboleda <soyjuanarbol@gmail.com>
-> ---
+Add system PM support make it stopping streaming at system suspend time,
+and restarting streaming at system resume time.
 
-Sorry, it's not really important to follow checkpatch.  Checkpatch is
-just a Perl script and sometimes it gets things wrong.  It's a tool not
-a king.
+Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
+---
+ drivers/media/platform/cadence/cdns-csi2rx.c | 32 ++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
 
-regards,
-dan carpenter
+diff --git a/drivers/media/platform/cadence/cdns-csi2rx.c b/drivers/media/platform/cadence/cdns-csi2rx.c
+index 981819adbb3a..81e90b31e9f8 100644
+--- a/drivers/media/platform/cadence/cdns-csi2rx.c
++++ b/drivers/media/platform/cadence/cdns-csi2rx.c
+@@ -776,8 +776,40 @@ static int csi2rx_runtime_resume(struct device *dev)
+ 	return ret;
+ }
+ 
++static int __maybe_unused csi2rx_suspend(struct device *dev)
++{
++	struct csi2rx_priv *csi2rx = dev_get_drvdata(dev);
++
++	mutex_lock(&csi2rx->lock);
++	if (csi2rx->count)
++		csi2rx_stop(csi2rx);
++	mutex_unlock(&csi2rx->lock);
++
++	pm_runtime_force_suspend(dev);
++
++	return 0;
++}
++
++static int __maybe_unused csi2rx_resume(struct device *dev)
++{
++	struct csi2rx_priv *csi2rx = dev_get_drvdata(dev);
++	int ret;
++
++	ret = pm_runtime_force_resume(dev);
++	if (ret < 0)
++		return ret;
++
++	mutex_lock(&csi2rx->lock);
++	if (csi2rx->count)
++		csi2rx_start(csi2rx);
++	mutex_unlock(&csi2rx->lock);
++
++	return 0;
++}
++
+ static const struct dev_pm_ops csi2rx_pm_ops = {
+ 	SET_RUNTIME_PM_OPS(csi2rx_runtime_suspend, csi2rx_runtime_resume, NULL)
++	SET_SYSTEM_SLEEP_PM_OPS(csi2rx_suspend, csi2rx_resume)
+ };
+ 
+ static const struct of_device_id csi2rx_of_table[] = {
+-- 
+2.25.1
 
