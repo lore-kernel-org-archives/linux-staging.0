@@ -1,122 +1,98 @@
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5C7D20E6
-	for <linux-staging@lists.linux.dev>; Sun, 21 Jul 2024 04:43:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97B5B1396
+	for <linux-staging@lists.linux.dev>; Sun, 21 Jul 2024 05:08:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721537031; cv=none; b=l1o6439CS2EKOY5q8SIcnW9u4zwcdj9/JOCqtO8pleLd+kYbg2K9gL7kzAeQ/wkVAIEs+dSe6hf4RQus9vSwke60gEg4on0xrNF3JEXg//83g+6Nedl6x4k3iV1CIq6PhUnGJsh90Mr5p7JHN1i+mHTsjCwaeihBYZ821mhl1o0=
+	t=1721538485; cv=none; b=hMYhgspzty6RmoDb9sLE3/GHlif37krtUdNPSZ4AK8DS6KXsdS+pM9DcuqMnByaEGXlJg99PS4pSfT45kLKncjQp0/8SCXnc6EBnQ0ffTxPqur3+qt/y8+4rPMJq4FmkT6ZnfsdMaF2mYZskobS/WA7t6pxeYDg1wspjqo/lFhg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721537031; c=relaxed/simple;
-	bh=71orTOzWg3XZlDyBElqxuxqZlopxFIzVZT31RLN6YRc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nSgx9RFKqNjSy5JzPRYi0M0/5eHkEGNd72FlK900JgIm0GsK1DR8iOu9v0pQqq15QEChmc5jipaNb/fkUk6qOza/ZzsaIUN5p+r85uwXjpPDeILffhgFSYCl0Um0GlvJ4uf2o/kPeN8MeSS/pGSl+nXujOvQNmY8D3zKy86kI2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XtPtjgEU; arc=none smtp.client-ip=209.85.219.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1721538485; c=relaxed/simple;
+	bh=/qfp6haoxAp+P7/rXPVQmI0NbGclWMRTGo2HusJhrNk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XtQc3bUOjFOFbvZn9f7OOhUEAkYn1KbVz8JFOguYonkdV+mwVbOGsfkM7WBODiT6xW/TnL+a31VPMWOuUOAxoPGHwaEPOXUYnKPPnS1safOuIY3+VU4BwmPPdbYav3MMD64jFjf/PzlnuB5ShftNYceNXMy04TnX5RU3uEdANsw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=dF+bAA+g; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=lSVpkj6q; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XtPtjgEU"
-Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-6b7a3e468a9so17958816d6.1
-        for <linux-staging@lists.linux.dev>; Sat, 20 Jul 2024 21:43:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1721537028; x=1722141828; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=z6XwsCeqrR8s45EskYwahPzpCyXtFs+T8vWc8Jo4nhU=;
-        b=XtPtjgEUrMaE9hM6cT1Ro6n+biTH9bHzEyFitnUo3am4jTsprUorqXKETQvXLGcNWh
-         DA5oWpb6KwnOFsoKSW+xO3tA6pD4Lq+Y3Y/NFm1CNS5GKaxQsuzHxaRRfXIj6nc6vGVd
-         GzY7ERMLlW38pTdof85O6voZCEdF1/4Vt+xEgHB/lYSLhaviFX/Ue/y1iBMijLor1hwD
-         tRTYn4IbzsD0po6I/jFgomL3eAT+/oWpudGFqbdV3taojG9OLmmv08QQe5bRo39NsgWu
-         xi07NSoNv7v7AxVle0ISjzvb0Rz3wnYx/AJDYlxQQm030zk2MBikgaxxmWS3lNqnKHx0
-         6V7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721537028; x=1722141828;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=z6XwsCeqrR8s45EskYwahPzpCyXtFs+T8vWc8Jo4nhU=;
-        b=Sf9PEV/0tPuVP20QLSJQ5zVva/PUlS1mqKLRWuGCvZIx7Va4dcWAdHvQmgTtvq9aTh
-         J/dSYn5vtjYWx1nGOM+xAJyvhGF6KOZ4dlZetimcmQPA9VWOpXp+aiPNRljKM6bf8mo/
-         z6sG14pWNMdxtSvSHAls3Pr6GDddADHKeo5jk42R+t5TfOD65TMyrgirmeohp5YpUpJv
-         m9OYzYmffhgPdPSCsczrvmk1utzwUo0uDKMc19iMAxrllpBFbVyVhHkJft/ZEU7Imnaf
-         pUPgp1RaDsT7fwzJ30VV3Q/BcVNFkuxhyNkH7WpyOI2s0PnK56CILvqWAvDXoJdAqoII
-         PR3Q==
-X-Gm-Message-State: AOJu0Yx/ZyCp/gQReg3SGCqz9I0foRw0GYNeGBNY+VXRfW8o04ex1jpQ
-	eHUIOYJXf0aBdhsWWF73Wbl8nBkmjvFgaSq51mq3GBRouVS+c+FXYws+uerOtvq2RfuBwlzDpyp
-	GPrQPgFh9248D63Ii+/bb0TulOaA=
-X-Google-Smtp-Source: AGHT+IG9WzMDEINSZdVEwZMtXI0WGWNF8bs4dN8/EmFppmJ/MjoqPz4QWv/ESaeqEOIq7PxYNbIvMxJikbZwDp/BxNo=
-X-Received: by 2002:ad4:5762:0:b0:6b5:d663:bb53 with SMTP id
- 6a1803df08f44-6b96102598amr49788226d6.5.1721537028510; Sat, 20 Jul 2024
- 21:43:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="dF+bAA+g";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="lSVpkj6q"
+Date: Sun, 21 Jul 2024 07:07:42 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1721538473;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rwIIFGkpInLoq4kIWlRrj8tQsUMA/+OSQAqT4PqbkmQ=;
+	b=dF+bAA+gADPkuECW3VJiPXHiRypSxFAs+y5ahF3Hz/SLx3QDFzprqo4jO7kfwSKk0/+xQf
+	+koQ9x+UNGyzrvKhpqicajL/1LdyrIpdYuhL4VYvIXz2ETuL8mSYuuGUe0aplNzjGIdW0t
+	6qHkkLz9tV/seBa9Z8RlEzsWZ24RR1QKdlaS42XoQ51hZp3ScwM3xF1NmTo5pIgb5VaJdO
+	f3wlAZfVn7w7HPvpErx49ceZ+wu/4ETn/NfdLhpYF/oN3GYj2DNzYpuniICehm4T+J9Hrc
+	A40yS7GWSgtYQzsxSjb5quV+MHbjwnVF9G1FHONFeRvmCe4yrgCjleg9XWyWkQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1721538473;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rwIIFGkpInLoq4kIWlRrj8tQsUMA/+OSQAqT4PqbkmQ=;
+	b=lSVpkj6qSY62AUlFJS/TgkGwff3boI1FpfMscZNnWqYBKzKqcfFTFGGVT/VxFA3QuA5iVa
+	BgM7uNlJiUlzJBDQ==
+From: Nam Cao <namcao@linutronix.de>
+To: =?utf-8?B?66y47Jew7IiY?= <yyyynoom@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	philipp.g.hortmann@gmail.com, dan.carpenter@linaro.org
+Subject: Re: [PATCH v3] staging: rtl8712: style fix multiple line dereference
+Message-ID: <20240721050717.dQ7Kwrkh@linutronix.de>
+References: <20240721040504.1483-1-yyyynoom@gmail.com>
+ <CAAjsZQzTMtsX4bVqadG1ZKDt+8XLUOHGt0bkoBS+M8vqw-X5Bw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240721040504.1483-1-yyyynoom@gmail.com>
-In-Reply-To: <20240721040504.1483-1-yyyynoom@gmail.com>
-From: =?UTF-8?B?66y47Jew7IiY?= <yyyynoom@gmail.com>
-Date: Sun, 21 Jul 2024 13:43:37 +0900
-Message-ID: <CAAjsZQzTMtsX4bVqadG1ZKDt+8XLUOHGt0bkoBS+M8vqw-X5Bw@mail.gmail.com>
-Subject: Re: [PATCH v3] staging: rtl8712: style fix multiple line dereference
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, philipp.g.hortmann@gmail.com, 
-	dan.carpenter@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAAjsZQzTMtsX4bVqadG1ZKDt+8XLUOHGt0bkoBS+M8vqw-X5Bw@mail.gmail.com>
 
-2024=EB=85=84 7=EC=9B=94 21=EC=9D=BC (=EC=9D=BC) =EC=98=A4=ED=9B=84 1:06, M=
-oon Yeounsu <yyyynoom@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
->
-> From: Moon Yeounsu <yyyynoom@gmail.com>
->
-> It fix the following checkpatch.pl warning:
-> Avoid multiple line dereference - prefer %s
->
-> Suggested-by: Dan Carpenter <dan.carpenter@linaro.org>
-> Signed-off-by: Moon Yeounsu <yyyynoom@gmail.com>
-> ---
-> v2: Fix email address and checkpatch.pl warning
-> v3: Fix incorrect commit index, start with new thread for new version of =
-patch,
->         place notes below the cutoff line, provide appropriate CC,
->         include 'Suggested-by' sign for those who gives good guideline.
->
->  drivers/staging/rtl8712/rtl871x_cmd.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/staging/rtl8712/rtl871x_cmd.c b/drivers/staging/rtl8=
-712/rtl871x_cmd.c
-> index bbd4a13c7bb9..ffeb91dd28c4 100644
-> --- a/drivers/staging/rtl8712/rtl871x_cmd.c
-> +++ b/drivers/staging/rtl8712/rtl871x_cmd.c
-> @@ -528,8 +528,9 @@ void r8712_setstakey_cmd(struct _adapter *padapter, u=
-8 *psta, u8 unicast_key)
->         if (unicast_key)
->                 memcpy(&psetstakey_para->key, &sta->x_UncstKey, 16);
->         else
-> -               memcpy(&psetstakey_para->key, &psecuritypriv->XGrpKey[pse=
-curitypriv->XGrpKeyid - 1].
-> -                      skey, 16);
-> +               memcpy(&psetstakey_para->key,
-> +                      &psecuritypriv->XGrpKey[psecuritypriv->XGrpKeyid -=
- 1].skey,
-> +                      16);
->         r8712_enqueue_cmd(pcmdpriv, ph2c);
->  }
-> --
-> 2.43.5
->
+On Sun, Jul 21, 2024 at 01:43:37PM +0900, 문연수 wrote:
+> 2024년 7월 21일 (일) 오후 1:06, Moon Yeounsu <yyyynoom@gmail.com>님이 작성:
+> > From: Moon Yeounsu <yyyynoom@gmail.com>
+> >
+> > It fix the following checkpatch.pl warning:
+> > Avoid multiple line dereference - prefer %s
+> >
+> > Suggested-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > Signed-off-by: Moon Yeounsu <yyyynoom@gmail.com>
+> > ---
+> > v2: Fix email address and checkpatch.pl warning
+> > v3: Fix incorrect commit index, start with new thread for new version of patch,
+> >         place notes below the cutoff line, provide appropriate CC,
+> >         include 'Suggested-by' sign for those who gives good guideline.
 
-Sorry and thank you to all of the reviewers and maintainers who take
-care of my patch.
-I make a new problem... I think I check my patch and email over and
-over and over.
-but, again, I sent the patch incorrectly. The body of the patch
-contains improper content,
-and also sends the email as my nickname, not a real name.
+The "Suggested-by:" thingy is for patch idea, not for "guideline". Have a
+look at Documentation/process/submitting-patches.rst.
 
-Sorry for making spam and taking your invaluable time.
-Next time, I'll send a right and valuable patch.
+...
+> Sorry and thank you to all of the reviewers and maintainers who take
+> care of my patch.
+> I make a new problem... I think I check my patch and email over and
+> over and over.
+> but, again, I sent the patch incorrectly. The body of the patch
+> contains improper content,
+> and also sends the email as my nickname, not a real name.
+> 
+> Sorry for making spam and taking your invaluable time.
+> Next time, I'll send a right and valuable patch.
+
+Oh no worry, I'm sure people are happy to help. Linux's email-based
+workflow is not the easiest to get right.
+
+If you worry about "making spam", you could send the patch to yourself and
+try "git am" the email. If it works then send it out for real.
+
+Good luck,
+Nam
