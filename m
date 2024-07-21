@@ -1,129 +1,161 @@
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B17635C96
-	for <linux-staging@lists.linux.dev>; Sun, 21 Jul 2024 06:44:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21579161320
+	for <linux-staging@lists.linux.dev>; Sun, 21 Jul 2024 15:38:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721544263; cv=none; b=HdlbpClXmkOEvhjTpDtTk7vJ/HuVx8+8f0vHD4MIyY2GSLRdIQypDH9uhaa9WOKyqQHLYcO3ve8W9k2eODvGgMDElAJuwXUzpg9cFENYfoN8vFddVA89Gb9gJFL6mdASO9P7DNUd2iUVivI5r0kfQLTNpnlCGu2UBxGr94R+GGY=
+	t=1721576340; cv=none; b=YbsoDg0mrNp5ZEjb7xOQl/FleoTZtpHJPtxR02c4r0oFYfz0VMAz6FpztGyWPqNeicXQFbtsBFC/vqd0atPEmBkcctQ4t/D2N6tN7ph3P8CT8YCZL0T330jPevTWTO32b8KZm13xjOnrzMRUpH3wMWslolv2wHtXNXHxB/lKmYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721544263; c=relaxed/simple;
-	bh=xBT8XUjqeEr6XSmVovuSLgaJqzpdgRHs3c+BSx9lS5U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bJpFHzTiPuPR/UjdE4k1W56WfXUuBMhidH1d0SvQxkRMFV+AShfnKrmZIV12aOLbsP3YD/HoE7U5oCqE6BYBtYNVCMkp8OnnyeuKWEsSF1/jzRTz48+aWmUlw9eMyvzP5DnuJPAyzyhbA4IwDsnpxCS0pI21E8akbxT9oboRypM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UzWk0PEW; arc=none smtp.client-ip=209.85.219.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1721576340; c=relaxed/simple;
+	bh=Pr7O132SEouT6vs/viVJWv1ZAnadnppWHL83ixCCUJk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=I2audLydfoizrljypdB+26oay86QDcdpvoRloJ7mWOkbvgRRKuVhm9Pd4aZNLjLiTquTtmukkOLPXYNmvxL7m0aeBQq0gg4hjpiukTh59Ly/yhfv3M5hbBZnYiGxy92eSVQ+z4ceamzDrF3SNNhfU234wvOAKbcvSF4q9keGdNM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=AmLJdvlQ; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UzWk0PEW"
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-6b7b28442f9so25933146d6.3
-        for <linux-staging@lists.linux.dev>; Sat, 20 Jul 2024 23:44:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1721544260; x=1722149060; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oPJcdigsO1E9iKRVwK2am/ZGdwpz/JQTnClQqyES+c0=;
-        b=UzWk0PEWSFUxjUAYY9bv7yNpN+bflYncHZC/72c3O586xtEE2dtIf5Naj+rM6Oq0WP
-         S0R4MFO7+gvcWSETTt0+iXU+NwUe1nUDNdqOY6+FGbDSv3l6ecVIStqmA11A0L0N0PYp
-         iZI61/Pehbrw2B6hXKve6tQHqBg3jWWcL9ulmLTSm44FS8scTngckEpmDO9NlUI7p3OM
-         ibtBacATc1Mn4WrhBVnVCeXZCpIPA+8obxLiLIHYqw1QpCkiCwHDs4WUJG0lY6gYlI0T
-         UJBGDD0QoMZBYA6yntbdinSRG90x4W+H12fovsZ/4GojDX/R5ZnWMaHChCh4g5e2EH3W
-         Q9dg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721544260; x=1722149060;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oPJcdigsO1E9iKRVwK2am/ZGdwpz/JQTnClQqyES+c0=;
-        b=lOTpl9zd2oDiqbiIUAsfHLVg9+VHdo9l3tUv8TnxBuM+EZwplSOfF9u4FQxPuKt9Nx
-         0FmemoCrgMgktcrSZMcPQN05ifUaiT2gwd04pLtYgwvaBSqAr4HjxjA2PmpfSsyznqsx
-         TB5BwBXyOd+HwDV1SouoLjL6QQtf2lnNmPIGzCGWo0sjgXyt1Jca4T0jy+kdUP1zcDmA
-         I7AGXwmbUhP7DsO4p05UHk7KcUXF0sG4+05ySreWxO3680GzYOaZ3efx9OkTvo4+RUtX
-         y+2bul8MXV7JolNlNdYDAUgV/DWFQMm4Lej/9MygetbFtqFdIqWAxmn6RMpg+l1V//pp
-         nxXA==
-X-Forwarded-Encrypted: i=1; AJvYcCXVP58a0pC15P23fxKFzC+KyyRr+YRtwmOrJfZpfJVCnI8oIxZtiqs02RpLJEnMO79g0HqORDHhIoO2dfTw6TjzxOdWaz16oIYtouV11Q==
-X-Gm-Message-State: AOJu0YwVzlpSJSmK0LlBaDD5sIe6fqSQlFkyVDvTJ3Dim/26GVFS9vLn
-	PqxHjFoBMDMHQIafJVqfdVEYuo3ZhaqMtKjnsu2IiLffsI82nGxPJhQwtm80QSfFD63tZFIDyw6
-	GU6Lw1ZlGFmh68cOWsd11+Mcz4a4=
-X-Google-Smtp-Source: AGHT+IGgyD9ti8wZmQwnF7V6YffgKuk/o7VlwLoT58lGnISXbmmswBLmXq5pxisIaB8ZG+Td13r7G+hG0Fmuvmpszws=
-X-Received: by 2002:a05:6214:767:b0:6b7:4398:594c with SMTP id
- 6a1803df08f44-6b9610efdecmr37501756d6.38.1721544260488; Sat, 20 Jul 2024
- 23:44:20 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="AmLJdvlQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1721576337;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=h+WIUySG3X8s8gHCDhDyFH9aRpd0ZesC03oonoawAOs=;
+	b=AmLJdvlQR2pBSsHM2+IpxB1xDZb6YON6Ti7DU7b3rV7ZL3mmDxEOYqXLIVw/uxyp5mwCqX
+	6lC//FpPovXjEgQsPm2eq/TaNTOz0dHQ/nGQmcx4wC0TjAFFJ9hjQ/H9NkwjhXddeUPM9h
+	om8PXMwPF3H/BjJi4HyUg47lUPtymHI=
+Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-56-iq8vFZicMUmipSz6xp7ZzA-1; Sun,
+ 21 Jul 2024 11:38:49 -0400
+X-MC-Unique: iq8vFZicMUmipSz6xp7ZzA-1
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 319CC19560A2;
+	Sun, 21 Jul 2024 15:38:47 +0000 (UTC)
+Received: from x1.localdomain (unknown [10.39.192.48])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 1695B19560AE;
+	Sun, 21 Jul 2024 15:38:41 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Tsuchiya Yuto <kitakar@gmail.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Yury Luneff <yury.lunev@gmail.com>,
+	Nable <nable.maininbox@googlemail.com>,
+	andrey.i.trufanov@gmail.com,
+	Fabio Aiuto <fabioaiuto83@gmail.com>,
+	Kate Hsuan <hpa@redhat.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	stable@vger.kernel.org
+Subject: [PATCH] media: atomisp: Fix streaming no longer working on BYT / ISP2400 devices
+Date: Sun, 21 Jul 2024 17:38:40 +0200
+Message-ID: <20240721153840.60617-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240721040504.1483-1-yyyynoom@gmail.com> <CAAjsZQzTMtsX4bVqadG1ZKDt+8XLUOHGt0bkoBS+M8vqw-X5Bw@mail.gmail.com>
- <20240721050717.dQ7Kwrkh@linutronix.de>
-In-Reply-To: <20240721050717.dQ7Kwrkh@linutronix.de>
-From: Moon Yeounsu <yyyynoom@gmail.com>
-Date: Sun, 21 Jul 2024 15:44:09 +0900
-Message-ID: <CAAjsZQw+QRyaUZKoRgevnL6Te_cjfFX8NBhoXR4SPmrL_RD=Pg@mail.gmail.com>
-Subject: Re: [PATCH v3] staging: rtl8712: style fix multiple line dereference
-To: Nam Cao <namcao@linutronix.de>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
-	philipp.g.hortmann@gmail.com, dan.carpenter@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-On Sun, Jul 21, 2024 at 2:07=E2=80=AFPM Nam Cao <namcao@linutronix.de> wrot=
-e:
->
-> On Sun, Jul 21, 2024 at 01:43:37PM +0900, =EB=AC=B8=EC=97=B0=EC=88=98 wro=
-te:
-> > 2024=EB=85=84 7=EC=9B=94 21=EC=9D=BC (=EC=9D=BC) =EC=98=A4=ED=9B=84 1:0=
-6, Moon Yeounsu <yyyynoom@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
-> > > From: Moon Yeounsu <yyyynoom@gmail.com>
-> > >
-> > > It fix the following checkpatch.pl warning:
-> > > Avoid multiple line dereference - prefer %s
-> > >
-> > > Suggested-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > > Signed-off-by: Moon Yeounsu <yyyynoom@gmail.com>
-> > > ---
-> > > v2: Fix email address and checkpatch.pl warning
-> > > v3: Fix incorrect commit index, start with new thread for new version=
- of patch,
-> > >         place notes below the cutoff line, provide appropriate CC,
-> > >         include 'Suggested-by' sign for those who gives good guidelin=
-e.
->
-> The "Suggested-by:" thingy is for patch idea, not for "guideline". Have a
-> look at Documentation/process/submitting-patches.rst.
+Commit a0821ca14bb8 ("media: atomisp: Remove test pattern generator (TPG)
+support") broke BYT support because it removed a seemingly unused field
+from struct sh_css_sp_config and a seemingly unused value from enum
+ia_css_input_mode.
 
-Then, I think "Suggested-by" have to be inserted.
-There are some misleading by my poor english skill.
-He literally gave me a "patch idea", not a "guideline".
-Reference: https://lore.kernel.org/linux-staging/20240718132607.13634-1-yyy=
-ynoom@gmail.com/T/#m631c138006ea7e834d6ab4c950cf00f1a0d0e3e3
+But these are part of the ABI between the kernel and firmware on ISP2400
+and this part of the TPG support removal changes broke ISP2400 support.
 
->
-> ...
-> > Sorry and thank you to all of the reviewers and maintainers who take
-> > care of my patch.
-> > I make a new problem... I think I check my patch and email over and
-> > over and over.
-> > but, again, I sent the patch incorrectly. The body of the patch
-> > contains improper content,
-> > and also sends the email as my nickname, not a real name.
-> >
-> > Sorry for making spam and taking your invaluable time.
-> > Next time, I'll send a right and valuable patch.
->
-> Oh no worry, I'm sure people are happy to help. Linux's email-based
-> workflow is not the easiest to get right.
->
-> If you worry about "making spam", you could send the patch to yourself an=
-d
-> try "git am" the email. If it works then send it out for real.
+ISP2401 support was not affected because on ISP2401 only a part of
+struct sh_css_sp_config is used.
 
-Why didn't I think of that? It is a brilliant idea in order to
-double-check patch and email.
-Thank you for your advice! I'll do so.
+Restore the removed field and enum value to fix this.
 
->
-> Good luck,
-> Nam
+Fixes: a0821ca14bb8 ("media: atomisp: Remove test pattern generator (TPG) support")
+Cc: stable@vger.kernel.org
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ .../media/atomisp/pci/ia_css_stream_public.h  |  8 ++++++--
+ .../media/atomisp/pci/sh_css_internal.h       | 19 ++++++++++++++++---
+ 2 files changed, 22 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/ia_css_stream_public.h b/drivers/staging/media/atomisp/pci/ia_css_stream_public.h
+index 961c61288083..aad860e54d3a 100644
+--- a/drivers/staging/media/atomisp/pci/ia_css_stream_public.h
++++ b/drivers/staging/media/atomisp/pci/ia_css_stream_public.h
+@@ -27,12 +27,16 @@
+ #include "ia_css_prbs.h"
+ #include "ia_css_input_port.h"
+ 
+-/* Input modes, these enumerate all supported input modes.
+- *  Note that not all ISP modes support all input modes.
++/*
++ * Input modes, these enumerate all supported input modes.
++ * This enum is part of the atomisp firmware ABI and must
++ * NOT be changed!
++ * Note that not all ISP modes support all input modes.
+  */
+ enum ia_css_input_mode {
+ 	IA_CSS_INPUT_MODE_SENSOR, /** data from sensor */
+ 	IA_CSS_INPUT_MODE_FIFO,   /** data from input-fifo */
++	IA_CSS_INPUT_MODE_TPG,    /** data from test-pattern generator */
+ 	IA_CSS_INPUT_MODE_PRBS,   /** data from pseudo-random bit stream */
+ 	IA_CSS_INPUT_MODE_MEMORY, /** data from a frame in memory */
+ 	IA_CSS_INPUT_MODE_BUFFERED_SENSOR /** data is sent through mipi buffer */
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_internal.h b/drivers/staging/media/atomisp/pci/sh_css_internal.h
+index a2d972ea3fa0..959e7f549641 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_internal.h
++++ b/drivers/staging/media/atomisp/pci/sh_css_internal.h
+@@ -344,7 +344,14 @@ struct sh_css_sp_input_formatter_set {
+ 
+ #define IA_CSS_MIPI_SIZE_CHECK_MAX_NOF_ENTRIES_PER_PORT (3)
+ 
+-/* SP configuration information */
++/*
++ * SP configuration information
++ *
++ * This struct is part of the atomisp firmware ABI and is directly copied
++ * to ISP DRAM by sh_css_store_sp_group_to_ddr()
++ *
++ * Do NOT change this struct's layout or remove seemingly unused fields!
++ */
+ struct sh_css_sp_config {
+ 	u8			no_isp_sync; /* Signal host immediately after start */
+ 	u8			enable_raw_pool_locking; /** Enable Raw Buffer Locking for HALv3 Support */
+@@ -354,6 +361,10 @@ struct sh_css_sp_config {
+ 	     host (true) or when they are passed to the preview/video pipe
+ 	     (false). */
+ 
++	 /*
++	  * Note the fields below are only used on the ISP2400 not on the ISP2401,
++	  * sh_css_store_sp_group_to_ddr() skip copying these when run on the ISP2401.
++	  */
+ 	struct {
+ 		u8					a_changed;
+ 		u8					b_changed;
+@@ -363,11 +374,13 @@ struct sh_css_sp_config {
+ 	} input_formatter;
+ 
+ 	sync_generator_cfg_t	sync_gen;
++	tpg_cfg_t		tpg;
+ 	prbs_cfg_t		prbs;
+ 	input_system_cfg_t	input_circuit;
+ 	u8			input_circuit_cfg_changed;
+-	u32		mipi_sizes_for_check[N_CSI_PORTS][IA_CSS_MIPI_SIZE_CHECK_MAX_NOF_ENTRIES_PER_PORT];
+-	u8                 enable_isys_event_queue;
++	u32			mipi_sizes_for_check[N_CSI_PORTS][IA_CSS_MIPI_SIZE_CHECK_MAX_NOF_ENTRIES_PER_PORT];
++	/* These last 2 fields are used on both the ISP2400 and the ISP2401 */
++	u8			enable_isys_event_queue;
+ 	u8			disable_cont_vf;
+ };
+ 
+-- 
+2.45.2
+
