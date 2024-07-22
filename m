@@ -1,88 +1,151 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11olkn2075.outbound.protection.outlook.com [40.92.19.75])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E93BC2907;
-	Mon, 22 Jul 2024 16:28:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721665738; cv=none; b=YkRnkuix0JGeylQ4+anvP1JJQchJBYEh+d9oLw6Lz6ZHwUC+rYn2hDQHYZkdxGxFs5/bKWKhKYbaG8J/KiIAXcSSQ7XPz423CFLZYMJv0Qz4557TSgzuYy5JskP7Vx9HBsXw1mdt2UlwIu5tPMQ9UzsJRdQtq8o1C89FYn03Lws=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721665738; c=relaxed/simple;
-	bh=aRxkrr1hchobGn5jkuGOn9aNROWqwxpHRv1LjvFX83k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iUh4qHLxhX7Pd3llI6Ehi328e0txyp6gfqf6ik6xU9b2bHW3xYEbxzunO3wFXPyQKfyqU9cl3ivAyz0GEvJxsSNknn6LQ3JXXZEOVuNqpToU+UIXt7hUUvAdNsj/yNe0nW+3nqYvpiCl9idI9KufOhl9mYGepkAZt2deCKrpF4w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=nJESXwDS; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA40716E894
+	for <linux-staging@lists.linux.dev>; Mon, 22 Jul 2024 17:00:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.19.75
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1721667608; cv=fail; b=QdsyTIE6Gjl8lae3zG2wo+tXWmIKRHWnfzYitpCjpw95FNnS7Q9Ky9+Hz6K6KDpzBKThXlgucdraO4cUfcJEs9E9HoIb+ZllCxRvMHyNywrzk5cJ1s25mLjJZc8Ay8qwrW8MvXg11rGm7cZ4GvPo196bIKmTSqMWafeEM7PPSgM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1721667608; c=relaxed/simple;
+	bh=nrytk0sh2Ubz8f5S4arvUuQiPcmVZV1fq5pk7i9LBzc=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=tzasTGx7JLeS7De+O9o5D5J+AYAXFrdB/eNEM8LgY8BZfGuI+SaR0tYdtWBr30y2BiuM7M5fb+++wK/k3tApYjm+78MBmX7oOcF8QlOQWcdki25T1oUtMxPeSDPqR8Jxyn611cwzvNiSmvofjTX0owIADKvD0GBwJtrw8VENsAA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=iAcxbCde; arc=fail smtp.client-ip=40.92.19.75
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="nJESXwDS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C10CC4AF0B;
-	Mon, 22 Jul 2024 16:28:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1721665737;
-	bh=aRxkrr1hchobGn5jkuGOn9aNROWqwxpHRv1LjvFX83k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nJESXwDS2LYppANglIUusnzlYoU3UmGIvBPd0fv5f4Xqm4Dpj+gsuqPIsFeZCBzjl
-	 3PgUQNsRV4edr+Fl0PakQcBiLcxIuybam8UxQ6f2BPpzIH48U7Xq0/TqMBN/97sYqy
-	 cS0tB1WqZMZdqVhXXyloOr2Tdiz6DIayDEdZq/+Y=
-Date: Mon, 22 Jul 2024 18:28:55 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Steven Davis <goldside000@outlook.com>
-Cc: christian.gromm@microchip.com, parthiban.veerasooran@microchip.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] Made the error messages a tad easier to read
-Message-ID: <2024072227-persecute-sweat-4534@gregkh>
-References: <SJ2P223MB1026A88F6556E5CCEAE52065F7A82@SJ2P223MB1026.NAMP223.PROD.OUTLOOK.COM>
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="iAcxbCde"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=cR2ezFZAUVc7alFuRVyXUGwxON2jOhzvhJRHNOEDeQOr/bDgpTGzVjBPuNRg3lrncVqP6KbULe9kUbud4q3uEq8HT3pb21PT9xp1HLMmggQHhZkO+1Om5qJCZPeEeU7KaB0r5DHaqJ9XarsdDuW1DlS3Z5xj2sAUPueJPvGkGFoYKVhpWqx6VfWC+7ntc/YtyFl4HM6AYjpWKBF6enSkN3oY3gdrSKc9yifEu7wyfC/ahfSv6s9t1LLQKsoDlRWpeYaNbz2zqUE0++wgwSx/XFMODYcsfXSOJ5+V524pORGgEdC+bpB3BQb1ZxWiT6wiGL/EqzUpiGwm4vf3OneWRg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tNZVcLU9xxo4zvrhjz2WqVI5+l+jt5DG+O4xSqwZ7po=;
+ b=uahDjCK4KUXDRCiXsU0rTkHgsHbT7toYKFc092A84Aei9cuVVgr56rH8WHDhLDtenHGi8zc2DeleyS+5Na4cnIxUo8V0tZVyCT+yxqlah3c743Qe449SujwhfiwX/3Gy+0JRAxVISe4tHFN1aPF98APLWAyTjv3tny9rAlVc3DW0nMEm5CWGUKX+oKrpV3syuAB4jNMcKLZi2Fcf/aEsW22uY/Uo0GWfVYDws1CGl+FPHuAb7gCh+hF0+vzaUwSDejwQ1pMHh03ABqR2SwOPXvvdNmjmWE1dN9aJE+CGHavt78J0SJY0yhYsYZECid6ksIuLFNyeG8JgKmx9OME/nw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tNZVcLU9xxo4zvrhjz2WqVI5+l+jt5DG+O4xSqwZ7po=;
+ b=iAcxbCdeq6/i/xWLn5lQa4JX2+P8p9GS0i/1sqpnQuXJuYPqFG3XmzdUy0mtHxiabG39eztKQumulnF3ZNxN6jrQzVzWDZdhLU8X38mdynczf1vENAzEjShf7MSWMILRO13K8yi4OkFMWI+cllJxpz/RZJ1YJ6O83+JarTJc9Bq2HNkWydOCetYItOkS3h2p86vWZlxgnXX9911IYteerlhiPc7DSilcZVNlXjFUY18DGeJyxGGct5a0ifGvrv9OTWD7wrQMp9TVyYNUH2kZQDmqYTElzRWNFdR+TQH9byO1L7dcbn4M88p8fulG1TL+ahDchmSN2wsr4ukHZqLakA==
+Received: from SJ2P223MB1026.NAMP223.PROD.OUTLOOK.COM (2603:10b6:a03:570::8)
+ by DS7P223MB0405.NAMP223.PROD.OUTLOOK.COM (2603:10b6:8:87::9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7762.30; Mon, 22 Jul 2024 17:00:03 +0000
+Received: from SJ2P223MB1026.NAMP223.PROD.OUTLOOK.COM
+ ([fe80::b5cd:c37a:bd3e:e3fd]) by SJ2P223MB1026.NAMP223.PROD.OUTLOOK.COM
+ ([fe80::b5cd:c37a:bd3e:e3fd%2]) with mapi id 15.20.7762.030; Mon, 22 Jul 2024
+ 17:00:00 +0000
+From: Steven Davis <goldside000@outlook.com>
+To: gregkh@linuxfoundation.org,
+	christian.gromm@microchip.com,
+	parthiban.veerasooran@microchip.com
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Steven Davis <goldside000@outlook.com>
+Subject: [PATCH v3] Capitalized "c" to "C" and changed "expect" to "expected"
+Date: Mon, 22 Jul 2024 12:59:44 -0400
+Message-ID:
+ <SJ2P223MB1026B72D6CED70A91E8E55CCF7A82@SJ2P223MB1026.NAMP223.PROD.OUTLOOK.COM>
+X-Mailer: git-send-email 2.45.2
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TMN: [No6sUwrEeAeQgqg9snumeww9qNcZBE4e]
+X-ClientProxiedBy: CH2PR17CA0023.namprd17.prod.outlook.com
+ (2603:10b6:610:53::33) To SJ2P223MB1026.NAMP223.PROD.OUTLOOK.COM
+ (2603:10b6:a03:570::8)
+X-Microsoft-Original-Message-ID:
+ <20240722165944.1840-1-goldside000@outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <SJ2P223MB1026A88F6556E5CCEAE52065F7A82@SJ2P223MB1026.NAMP223.PROD.OUTLOOK.COM>
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2P223MB1026:EE_|DS7P223MB0405:EE_
+X-MS-Office365-Filtering-Correlation-Id: e3c89f3c-507f-4e0f-49ba-08dcaa6fb909
+X-Microsoft-Antispam:
+	BCL:0;ARA:14566002|8060799006|19110799003|461199028|3412199025|440099028|1710799026;
+X-Microsoft-Antispam-Message-Info:
+	xd84p7Mj97vwub8A89ruRkDyGzJkxufw6zebkmDXKC5kY/8JL+pTtsjRy2PAx8a56I8myJg4gyg7TQrpnplKqZgRMwoY+0+Ek+wJUoto8wiQSKHRxK5zOvhwjlYzLFfsodp2a1yawx/gakdmml5vr+RK4oxHcH+/suKOgbcXlLXW+kP4Mf2yX5S3ExZLDK3BBTXy4K98QC7ujBI01OrjIhn87GBQN+J/I8GoD/rmq0+1GWkXw+kjwBn69vQlPObBWeQ7qVsQgWw9G25bXHGd+6MHk1mglOMEr0FEFDkIwlO905vaqGlAVDI3pUSohJF1tquAbeI2m4BMq5+oIhKq/HoRXQkI/Nm1aCrjeViKhQjxBTdDkJxqdrhuA/fRwUs7xX1H/x/m8iVRgnkxIZAPtGHpVzjd4nygkVIUzGYACgsnAo+IO6K5e6JeLRWjXohrFX95G1B9QC4oYmhGrTCyn0EORjMAr2mUr5bD+RfSLCEYjU/+l+qmSvmpuU7QwXaLu5A/Uk/2vL7/VdA98dzKqIa/uqDUZ7UvLihCYFlWj6nPxBck1zaACiRXAaUYgMQ+2ABxcB8MDF171qIYHzrvl9DKgCc8VXEyJzrE/Qg3REg5yU/zu18IQMHyo7OZ8g0RZ8SdclebkADTUAK8Blu2/d62QoLXOmJpGJJ8C1uK3uuRhFN0TI5UYnUUC5zWQ3y3
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?uyOpUopjUT5eXcRPdit0hnzLdgRYnqSyK5/x5UvF8GKniCWTzekAbzWo/TME?=
+ =?us-ascii?Q?ZZngoH7bGzGuyf6DPiK3QVbMCsKzPz3ewDTizkeafPZiYCJEHrmg+ef/N1bs?=
+ =?us-ascii?Q?oax90Z4uCt/M08Oid2X1v+QhWZGFNHsaacH4X2pi47pNDhn6PHMHXQPnbIwC?=
+ =?us-ascii?Q?v2i8jnajTuGPWPbPIBSxjYVw02OTwx7d/e9TKkGJ96q+88tZJdoTz9yu6BIm?=
+ =?us-ascii?Q?HZ2q3e6/wWSdKyJB6ahtF7oooZkT7ZaMif7KlV5w5tYqL/0FKMQBYmxeCjB5?=
+ =?us-ascii?Q?0T9gf5kihv6Nn+UZ1scrWWXpwJI76K3R83bID5lVIq6aX8UKcc/qLODamlH2?=
+ =?us-ascii?Q?NdAMiNx0+UpRuzxbbHPPqoqC5G9qppzNZyaDLnv9owwkBoZqedBzUDMz0AT7?=
+ =?us-ascii?Q?24ujCOW+XoyPqALRC0crJVraT2Uu8zODaPVfXtkQo5DoRwXndJcUtFBZQify?=
+ =?us-ascii?Q?5UJwxajQ7PvJTTy/Ssvh/mCsOpwIGn5BAhwNnGGgjoZyJJ5+HqqMU066oU+k?=
+ =?us-ascii?Q?oL3Wsh+IAQAaRZFnQHmW4GlNZ3z3wqFoFsdzq/a4XWC4amI8VIisFSqmKUQ/?=
+ =?us-ascii?Q?NfIDLQLW8F73PHZpYbcLe/gn4gJV3R+9rDMUr+Z3srymuyo12ti+u18oWWkW?=
+ =?us-ascii?Q?iV2Y47fFU/Xj1tElr2i6Zd56TRKfqeg+P3J99XH6SnI7xt2tmmfJEBCVR56K?=
+ =?us-ascii?Q?e0QgZGlhpJkmIuSR+l0ARNq6rlL78tlVneyMEmRJJ6ofBZTdIfoAuctlh0mY?=
+ =?us-ascii?Q?WdaP9RSZzQqSkvRXUs7sIP8VrEXZG+HxsduVaSJBZc7JSmPw5a0ryXcZGxWk?=
+ =?us-ascii?Q?Mwq2aZKNz5cvAP0zZL9RgI2IAtmcQvcJa9qxDc/CHVX9VF23Vs9Add9awbnn?=
+ =?us-ascii?Q?uV5nwFJ0e5meCzOOimHmac6vEOhGfFXMaifhaNYx3Lxb2YLeh081hEv/wqsj?=
+ =?us-ascii?Q?WMdoQYhdUVos17iBEZA57WPVZ3dihl/FqUQ7UT06hcPTSOK0SOf/b4F9LEgE?=
+ =?us-ascii?Q?LUVSASA+Z46wtoGjtFyMW2dGxF6J+uxil0ml+jwP5bSZE2L450us96qMYCB2?=
+ =?us-ascii?Q?weDDBWm9SXyMYbOnBji5ENcKObouoJDw886oS5oXIblw1459MC6iD4CzwiUh?=
+ =?us-ascii?Q?dm0Zu2nMIbhJZGJELyp7//thilZddSmfptYA3LCKUSmRPpfCHK71P9zzKaMo?=
+ =?us-ascii?Q?RHNqYf9ZzmLGJMhbZ4tI4H6o9Ejf7kz7elI2XP171TAfA5r8mMTOmm1kRS7U?=
+ =?us-ascii?Q?b77o78ZICUIj4jzlfWRN?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e3c89f3c-507f-4e0f-49ba-08dcaa6fb909
+X-MS-Exchange-CrossTenant-AuthSource: SJ2P223MB1026.NAMP223.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jul 2024 17:00:00.6486
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7P223MB0405
 
-On Mon, Jul 22, 2024 at 12:23:37PM -0400, Steven Davis wrote:
-> I realized I forgot to add a description in the previous version. Whoopsie!
-> Anyway, this patch makes three error messages in the driver easier to read by capitalizing the first letters properly.
-> For example, "channel already linked" became "Channel already linked".
-> In addition, "expect" becomes "expected", as you would typically find in an error message.
-> My hopes are that this patch makes the errors slightly clearer.
-> 
-> Signed-off-by: Steven Davis <goldside000@outlook.com>
-> ---
->  drivers/staging/most/video/video.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+This patch makes three error messages in the driver easier to read by capitalizing the first letters properly.
+For example, "channel already linked" became "Channel already linked".
+In addition, "expect" becomes "expected", as you would typically find in an error message.
+This patch is necessary for improving user experience and the kernel's quality.
 
-Hi,
+Signed-off-by: Steven Davis <goldside000@outlook.com>
+---
+V1 -> V2: Added a patch description
+V2 -> V3: Changed subject line, removed apology from patch description, added change log
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+ drivers/staging/most/video/video.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
+index 6254a5df2502..2b3cdb1ce140 100644
+--- a/drivers/staging/most/video/video.c
++++ b/drivers/staging/most/video/video.c
+@@ -454,18 +454,18 @@ static int comp_probe_channel(struct most_interface *iface, int channel_idx,
+ 	struct most_video_dev *mdev = get_comp_dev(iface, channel_idx);
+ 
+ 	if (mdev) {
+-		pr_err("channel already linked\n");
++		pr_err("Channel already linked\n");
+ 		return -EEXIST;
+ 	}
+ 
+ 	if (ccfg->direction != MOST_CH_RX) {
+-		pr_err("wrong direction, expect rx\n");
++		pr_err("Wrong direction, expected rx\n");
+ 		return -EINVAL;
+ 	}
+ 
+ 	if (ccfg->data_type != MOST_CH_SYNC &&
+ 	    ccfg->data_type != MOST_CH_ISOC) {
+-		pr_err("wrong channel type, expect sync or isoc\n");
++		pr_err("Wrong channel type, expected sync or isoc\n");
+ 		return -EINVAL;
+ 	}
+ 
+-- 
+2.45.2
 
-- You did not specify a description of why the patch is needed, or
-  possibly, any description at all, in the email body.  Please read the
-  section entitled "The canonical patch format" in the kernel file,
-  Documentation/process/submitting-patches.rst for what is needed in
-  order to properly describe the change.
-
-- You did not write a descriptive Subject: for the patch, allowing Greg,
-  and everyone else, to know what this patch is all about.  Please read
-  the section entitled "The canonical patch format" in the kernel file,
-  Documentation/process/submitting-patches.rst for what a proper
-  Subject: line should look like.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
