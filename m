@@ -1,37 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A715F3D6A;
-	Tue, 23 Jul 2024 07:48:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 306D2152196;
+	Tue, 23 Jul 2024 13:06:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721720886; cv=none; b=EoLv2o5N2SoefmR5MlxUgZLQU7/Z8yAgLvmylr1OxX7pMmhyucVY474MphltzdFNQbv4Tl5ZfH/DhCvl4XdxFHiamq5Day/SdoJeu+YjRPxG2fr0aw6UOdylTTX7evIHyUbijuYazcIvQACNmhFq0m1SA7G8qe62LE+J5rJvvgE=
+	t=1721739966; cv=none; b=ndpF3i42h5jI9EUfJBN+pTIs+Zqheuo42U5ZCLNe8b5yBW676dq55lwip9Vk0bspNlCvrolCbRUUsU2U6coPuXJu7CBiT32WfGK1y1EFb1hN4j70xpl3d9nwYQfdbWwYRf5HD0FRS3Sd6SPmxmDDmG5pxrOSKnOlnT85RMZtMFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721720886; c=relaxed/simple;
-	bh=lw5BRIxdZhgSbYdabgpVUzM7vRVd60aH0Xo/ulGphnc=;
+	s=arc-20240116; t=1721739966; c=relaxed/simple;
+	bh=4zf1JXvv0esj9HUFMk4EOsHlw0qJZffThWkBqIIdgpc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sAMif2kFE6pH7jd2FJWg6U9bR8OgciPc4eq2ou48D3BYyOMJlV7J/R1CzyT1gHfKUv0Hvu8+ZRxOKxA2pC8liugSP5yyuP/uls9IWMGXrmrnq5QT9SL+argz70BacFRjMF+lvZ/ytt52Fh9quljIgYMTqWNHwzzrSUCqRt68Xbw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=1j8CuDuL; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wrh4jTbppACtI5pW9Zk2DAv9na2S3+1s36K+jcHd+FUkM+3B68oF+FuB0a51Z4Fla3aT+FWll4yaENZ2VwrBoa0d6hS7kXkq8K7Pdmk6S5r0DnEHUfSywBmyz8kSEQk/3myvP9gTtUGEhesyguMAmXK6XijPZecVAiKJ77cMWDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Curd4mrX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="1j8CuDuL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDF8EC4AF0B;
-	Tue, 23 Jul 2024 07:48:05 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Curd4mrX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57570C4AF0A;
+	Tue, 23 Jul 2024 13:06:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1721720886;
-	bh=lw5BRIxdZhgSbYdabgpVUzM7vRVd60aH0Xo/ulGphnc=;
+	s=korg; t=1721739965;
+	bh=4zf1JXvv0esj9HUFMk4EOsHlw0qJZffThWkBqIIdgpc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=1j8CuDuLBCvrEKyKmZvbO6ICKZIPAUFOnZFt3yobWZ2bweTJqDRehoV44rt+n1YrN
-	 lQASGTkETcMNk1ip7Nx6HIw9KMDJ4SrKHcgYfN8J8T4odePto3vsOI1z+G+9vhdH9t
-	 nhFd4tNi+LnVi/uEzzsnrfDdQ2iriMFRmf1qts9k=
-Date: Tue, 23 Jul 2024 09:48:03 +0200
+	b=Curd4mrXxyTXwZWutnk/jTDuGUZOQ83CO59yDgiYhFYG9fvqkwOUTk9xzC9LSEGYD
+	 GxeAPOKoBc6WeW8AbJ8OAzER1/7+J2wKPVG0AKDasGx2m+05OWgndwa4y1pYdKI9sh
+	 Gv1KAk8r8n++EwPW5CR3xeZRZbBXsXkwI5yCsG8Q=
+Date: Tue, 23 Jul 2024 15:06:03 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Steven Davis <goldside000@outlook.com>
-Cc: christian.gromm@microchip.com, parthiban.veerasooran@microchip.com,
+To: Riyan Dhiman <riyandhiman14@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] Capitalized "c" to "C" and changed "expect" to
- "expected"
-Message-ID: <2024072344-ripeness-ablaze-43bf@gregkh>
-References: <SJ2P223MB1026B72D6CED70A91E8E55CCF7A82@SJ2P223MB1026.NAMP223.PROD.OUTLOOK.COM>
+Subject: Re: [PATCH] staging: fbtft: remove unnecessary braces in if
+ statements and space before close parenthesis in function call
+Message-ID: <2024072320-trimness-scribe-8055@gregkh>
+References: <20240723060311.32043-1-riyandhiman14@gmail.com>
+ <2024072339-elderly-charbroil-5d5d@gregkh>
+ <CAAjz0QbtK=c98QP5t76_=_Xrg4+3bHksXR=_QJfz0W0f_zZ=vA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,26 +42,23 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <SJ2P223MB1026B72D6CED70A91E8E55CCF7A82@SJ2P223MB1026.NAMP223.PROD.OUTLOOK.COM>
+In-Reply-To: <CAAjz0QbtK=c98QP5t76_=_Xrg4+3bHksXR=_QJfz0W0f_zZ=vA@mail.gmail.com>
 
-On Mon, Jul 22, 2024 at 12:59:44PM -0400, Steven Davis wrote:
-> This patch makes three error messages in the driver easier to read by capitalizing the first letters properly.
+On Tue, Jul 23, 2024 at 06:28:19PM +0530, Riyan Dhiman wrote:
+> Hi,
+> 
+> Thank you for your feedback on my patch submission.
+> I have reviewed the mailing list traffic and noted that the last patch
+> addressing the same coding style issue was submitted in April. Given this
+> timeframe, I believed it was appropriate to submit my patch to contribute
+> to the resolution of the ongoing issue.
+> As this is my first contribution to the Linux kernel, I want to ensure that
+> my submission aligns with the requirements. I would greatly appreciate your
+> guidance on how to improve my patch and avoid duplicating previous efforts.
 
-Please wrap your changelog text at 72 characters, checkpatch should have
-caught this, right?
-
-> For example, "channel already linked" became "Channel already linked".
-> In addition, "expect" becomes "expected", as you would typically find in an error message.
-
-When you have "in addition" that usually means you should split this up
-into different changes, rigth?
-
-> This patch is necessary for improving user experience and the kernel's quality.
-
-This isn't a quality thing, it's a "spelling fixes are nice" thing.
-
-Also, please fix up the subject line to match those that have been made
-to this file in the past with the correct prefix.
+The issue is that the checkpatch warning for too many () characters is
+just not right, and shouldn't be applied for staging fixes, sorry.  The
+code is fine as-is.
 
 thanks,
 
