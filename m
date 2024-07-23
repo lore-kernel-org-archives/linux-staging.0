@@ -1,151 +1,159 @@
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11olkn2075.outbound.protection.outlook.com [40.92.19.75])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA40716E894
-	for <linux-staging@lists.linux.dev>; Mon, 22 Jul 2024 17:00:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.19.75
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721667608; cv=fail; b=QdsyTIE6Gjl8lae3zG2wo+tXWmIKRHWnfzYitpCjpw95FNnS7Q9Ky9+Hz6K6KDpzBKThXlgucdraO4cUfcJEs9E9HoIb+ZllCxRvMHyNywrzk5cJ1s25mLjJZc8Ay8qwrW8MvXg11rGm7cZ4GvPo196bIKmTSqMWafeEM7PPSgM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721667608; c=relaxed/simple;
-	bh=nrytk0sh2Ubz8f5S4arvUuQiPcmVZV1fq5pk7i9LBzc=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=tzasTGx7JLeS7De+O9o5D5J+AYAXFrdB/eNEM8LgY8BZfGuI+SaR0tYdtWBr30y2BiuM7M5fb+++wK/k3tApYjm+78MBmX7oOcF8QlOQWcdki25T1oUtMxPeSDPqR8Jxyn611cwzvNiSmvofjTX0owIADKvD0GBwJtrw8VENsAA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=iAcxbCde; arc=fail smtp.client-ip=40.92.19.75
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD8F0632
+	for <linux-staging@lists.linux.dev>; Tue, 23 Jul 2024 06:03:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1721714628; cv=none; b=G9FL6z3pGUCA6DB7cY6IWoNk2RhEHoC/BJ1DlwLc1mQ3iWfk3Fx5payG38LP2dWPse0uQVt15zRiiMZG9n/4ohIDksl3VjthBjvt+Q+wVxq7fnoA8KHQ4NqkSCxXTjxURm9MDnrVIJLHWU7VpstRP187yRtHsvcUGxbqu0lup8I=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1721714628; c=relaxed/simple;
+	bh=gwGMfakMSmmXIu2SuQ7DD1aUV9egyzbxf33dyORpkcQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=lAMVwhxbLEMRwyBx+f/Me1kLE4miHZ571aFOXhl2fOZ9IQe3ZOMgHxxIPoEgHEN4VYyUY0suRKJbaQtbyykTu+V4dJmm6VBiPuUzCocdFvBJmXtra+Hb5QoZ7uftQfOTyRAKYndJTkee/pIXx7S9saNiWeTmiIvO1p0VT/Vaess=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aG5sFKEL; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="iAcxbCde"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cR2ezFZAUVc7alFuRVyXUGwxON2jOhzvhJRHNOEDeQOr/bDgpTGzVjBPuNRg3lrncVqP6KbULe9kUbud4q3uEq8HT3pb21PT9xp1HLMmggQHhZkO+1Om5qJCZPeEeU7KaB0r5DHaqJ9XarsdDuW1DlS3Z5xj2sAUPueJPvGkGFoYKVhpWqx6VfWC+7ntc/YtyFl4HM6AYjpWKBF6enSkN3oY3gdrSKc9yifEu7wyfC/ahfSv6s9t1LLQKsoDlRWpeYaNbz2zqUE0++wgwSx/XFMODYcsfXSOJ5+V524pORGgEdC+bpB3BQb1ZxWiT6wiGL/EqzUpiGwm4vf3OneWRg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tNZVcLU9xxo4zvrhjz2WqVI5+l+jt5DG+O4xSqwZ7po=;
- b=uahDjCK4KUXDRCiXsU0rTkHgsHbT7toYKFc092A84Aei9cuVVgr56rH8WHDhLDtenHGi8zc2DeleyS+5Na4cnIxUo8V0tZVyCT+yxqlah3c743Qe449SujwhfiwX/3Gy+0JRAxVISe4tHFN1aPF98APLWAyTjv3tny9rAlVc3DW0nMEm5CWGUKX+oKrpV3syuAB4jNMcKLZi2Fcf/aEsW22uY/Uo0GWfVYDws1CGl+FPHuAb7gCh+hF0+vzaUwSDejwQ1pMHh03ABqR2SwOPXvvdNmjmWE1dN9aJE+CGHavt78J0SJY0yhYsYZECid6ksIuLFNyeG8JgKmx9OME/nw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tNZVcLU9xxo4zvrhjz2WqVI5+l+jt5DG+O4xSqwZ7po=;
- b=iAcxbCdeq6/i/xWLn5lQa4JX2+P8p9GS0i/1sqpnQuXJuYPqFG3XmzdUy0mtHxiabG39eztKQumulnF3ZNxN6jrQzVzWDZdhLU8X38mdynczf1vENAzEjShf7MSWMILRO13K8yi4OkFMWI+cllJxpz/RZJ1YJ6O83+JarTJc9Bq2HNkWydOCetYItOkS3h2p86vWZlxgnXX9911IYteerlhiPc7DSilcZVNlXjFUY18DGeJyxGGct5a0ifGvrv9OTWD7wrQMp9TVyYNUH2kZQDmqYTElzRWNFdR+TQH9byO1L7dcbn4M88p8fulG1TL+ahDchmSN2wsr4ukHZqLakA==
-Received: from SJ2P223MB1026.NAMP223.PROD.OUTLOOK.COM (2603:10b6:a03:570::8)
- by DS7P223MB0405.NAMP223.PROD.OUTLOOK.COM (2603:10b6:8:87::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7762.30; Mon, 22 Jul 2024 17:00:03 +0000
-Received: from SJ2P223MB1026.NAMP223.PROD.OUTLOOK.COM
- ([fe80::b5cd:c37a:bd3e:e3fd]) by SJ2P223MB1026.NAMP223.PROD.OUTLOOK.COM
- ([fe80::b5cd:c37a:bd3e:e3fd%2]) with mapi id 15.20.7762.030; Mon, 22 Jul 2024
- 17:00:00 +0000
-From: Steven Davis <goldside000@outlook.com>
-To: gregkh@linuxfoundation.org,
-	christian.gromm@microchip.com,
-	parthiban.veerasooran@microchip.com
-Cc: linux-staging@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aG5sFKEL"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1fd69e44596so3487275ad.1
+        for <linux-staging@lists.linux.dev>; Mon, 22 Jul 2024 23:03:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1721714626; x=1722319426; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=54T/UrOSVnJ9rISsin1qHr+L1d8cmHOyygXczypoES8=;
+        b=aG5sFKELasidMLEpDNl8Ua/+tJsji1XHE1rhvlSbvhPjOcnDHMLT7dtIdtEMcreg56
+         XTmZ/xXwMOFF+2qpqsHXH4w+GNhi89SDFZL4ZShmwdw+Yyz+Y5VCvIEGxhHvACvNhZFy
+         MRBy/GKyGRfJW1cME4djF7zQ+AfMXd1lXbZhExFDO5tL50MsnkE6XkXIWTJ3ruICFI54
+         JxdNy3bPdpy2c//IV9Mwz2PuM8vn1ldXrUVmQnWlDZ7ocYJ+KWqC6qMmrskph++CVWG7
+         0K+e7IEUCRC41W5j3W9Ytm7y/BkJe3amBx+ZnNF3/L69Z69DJlF8VS3cfcMSqUDQ2VSc
+         2Ytg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721714626; x=1722319426;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=54T/UrOSVnJ9rISsin1qHr+L1d8cmHOyygXczypoES8=;
+        b=P7eul3Rr+jxI3AmAaUI+J0KD3AlwwPHF9qiONBnd1ir5Zu9AUcxTvb5wa4p07X2Gx0
+         NQL/ZOI0fmCDwKxqzoJwZEwl6iUIMdXQcgzIBksU8wgAiW6HvQ9Vs8De/Hwmck7upEGp
+         O8zDcxbchC9loMVzmCiuUE8Wv0nX1/6xvXBwLYhjdM1r/lNzzza545phU0Erv4KCn2ul
+         i09WWIjSkcgUqYG3qaboCaQCSFxWiBbr7shT2hsLhlsgFM1Wveoj6FjCo18KTHYZMrx/
+         8/oemVgk3iJlNEIGV41yakqPOsX9yDOOK1kXoAwAl73wnWjXRSHcQzt1EFbsdCskL2d3
+         hruw==
+X-Forwarded-Encrypted: i=1; AJvYcCW/ESv6uIgMajs7POlwH0pSyZLJUoP49mLp+C3YkTyhf/yl1Pkt58OoWFYCSXJTNFFXTJ8FXp3ko+JdZifsxtEhoj71xmhLNX4T1Hk2oA==
+X-Gm-Message-State: AOJu0Yz/2u7l/jSt+YZGRv2TMyVMzksyOFynEHOWOdN+bTtNotDpaNst
+	FU+j80ZcH+qoeKK/IoU5EuRabHavr31WxSIwqwhuExBiBYGzFFr2
+X-Google-Smtp-Source: AGHT+IF5N9Hpjd9u7ffX60R/GPm9+eBUewVTteCh1raMCU9msqL1QfiaSt035qpW/Ns8EXNEz8UJ/A==
+X-Received: by 2002:a17:903:2a83:b0:1fa:1a78:b5a9 with SMTP id d9443c01a7336-1fdb94d1692mr20402295ad.3.1721714625795;
+        Mon, 22 Jul 2024 23:03:45 -0700 (PDT)
+Received: from Riyan.inspiron ([122.176.198.184])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fd6f291f10sm65597795ad.103.2024.07.22.23.03.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Jul 2024 23:03:45 -0700 (PDT)
+From: Riyan Dhiman <riyandhiman14@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Steven Davis <goldside000@outlook.com>
-Subject: [PATCH v3] Capitalized "c" to "C" and changed "expect" to "expected"
-Date: Mon, 22 Jul 2024 12:59:44 -0400
-Message-ID:
- <SJ2P223MB1026B72D6CED70A91E8E55CCF7A82@SJ2P223MB1026.NAMP223.PROD.OUTLOOK.COM>
-X-Mailer: git-send-email 2.45.2
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TMN: [No6sUwrEeAeQgqg9snumeww9qNcZBE4e]
-X-ClientProxiedBy: CH2PR17CA0023.namprd17.prod.outlook.com
- (2603:10b6:610:53::33) To SJ2P223MB1026.NAMP223.PROD.OUTLOOK.COM
- (2603:10b6:a03:570::8)
-X-Microsoft-Original-Message-ID:
- <20240722165944.1840-1-goldside000@outlook.com>
+	Riyan Dhiman <riyandhiman14@gmail.com>
+Subject: [PATCH] staging: fbtft: remove unnecessary braces in if statements and space before close parenthesis in function call
+Date: Tue, 23 Jul 2024 11:33:11 +0530
+Message-Id: <20240723060311.32043-1-riyandhiman14@gmail.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2P223MB1026:EE_|DS7P223MB0405:EE_
-X-MS-Office365-Filtering-Correlation-Id: e3c89f3c-507f-4e0f-49ba-08dcaa6fb909
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|8060799006|19110799003|461199028|3412199025|440099028|1710799026;
-X-Microsoft-Antispam-Message-Info:
-	xd84p7Mj97vwub8A89ruRkDyGzJkxufw6zebkmDXKC5kY/8JL+pTtsjRy2PAx8a56I8myJg4gyg7TQrpnplKqZgRMwoY+0+Ek+wJUoto8wiQSKHRxK5zOvhwjlYzLFfsodp2a1yawx/gakdmml5vr+RK4oxHcH+/suKOgbcXlLXW+kP4Mf2yX5S3ExZLDK3BBTXy4K98QC7ujBI01OrjIhn87GBQN+J/I8GoD/rmq0+1GWkXw+kjwBn69vQlPObBWeQ7qVsQgWw9G25bXHGd+6MHk1mglOMEr0FEFDkIwlO905vaqGlAVDI3pUSohJF1tquAbeI2m4BMq5+oIhKq/HoRXQkI/Nm1aCrjeViKhQjxBTdDkJxqdrhuA/fRwUs7xX1H/x/m8iVRgnkxIZAPtGHpVzjd4nygkVIUzGYACgsnAo+IO6K5e6JeLRWjXohrFX95G1B9QC4oYmhGrTCyn0EORjMAr2mUr5bD+RfSLCEYjU/+l+qmSvmpuU7QwXaLu5A/Uk/2vL7/VdA98dzKqIa/uqDUZ7UvLihCYFlWj6nPxBck1zaACiRXAaUYgMQ+2ABxcB8MDF171qIYHzrvl9DKgCc8VXEyJzrE/Qg3REg5yU/zu18IQMHyo7OZ8g0RZ8SdclebkADTUAK8Blu2/d62QoLXOmJpGJJ8C1uK3uuRhFN0TI5UYnUUC5zWQ3y3
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?uyOpUopjUT5eXcRPdit0hnzLdgRYnqSyK5/x5UvF8GKniCWTzekAbzWo/TME?=
- =?us-ascii?Q?ZZngoH7bGzGuyf6DPiK3QVbMCsKzPz3ewDTizkeafPZiYCJEHrmg+ef/N1bs?=
- =?us-ascii?Q?oax90Z4uCt/M08Oid2X1v+QhWZGFNHsaacH4X2pi47pNDhn6PHMHXQPnbIwC?=
- =?us-ascii?Q?v2i8jnajTuGPWPbPIBSxjYVw02OTwx7d/e9TKkGJ96q+88tZJdoTz9yu6BIm?=
- =?us-ascii?Q?HZ2q3e6/wWSdKyJB6ahtF7oooZkT7ZaMif7KlV5w5tYqL/0FKMQBYmxeCjB5?=
- =?us-ascii?Q?0T9gf5kihv6Nn+UZ1scrWWXpwJI76K3R83bID5lVIq6aX8UKcc/qLODamlH2?=
- =?us-ascii?Q?NdAMiNx0+UpRuzxbbHPPqoqC5G9qppzNZyaDLnv9owwkBoZqedBzUDMz0AT7?=
- =?us-ascii?Q?24ujCOW+XoyPqALRC0crJVraT2Uu8zODaPVfXtkQo5DoRwXndJcUtFBZQify?=
- =?us-ascii?Q?5UJwxajQ7PvJTTy/Ssvh/mCsOpwIGn5BAhwNnGGgjoZyJJ5+HqqMU066oU+k?=
- =?us-ascii?Q?oL3Wsh+IAQAaRZFnQHmW4GlNZ3z3wqFoFsdzq/a4XWC4amI8VIisFSqmKUQ/?=
- =?us-ascii?Q?NfIDLQLW8F73PHZpYbcLe/gn4gJV3R+9rDMUr+Z3srymuyo12ti+u18oWWkW?=
- =?us-ascii?Q?iV2Y47fFU/Xj1tElr2i6Zd56TRKfqeg+P3J99XH6SnI7xt2tmmfJEBCVR56K?=
- =?us-ascii?Q?e0QgZGlhpJkmIuSR+l0ARNq6rlL78tlVneyMEmRJJ6ofBZTdIfoAuctlh0mY?=
- =?us-ascii?Q?WdaP9RSZzQqSkvRXUs7sIP8VrEXZG+HxsduVaSJBZc7JSmPw5a0ryXcZGxWk?=
- =?us-ascii?Q?Mwq2aZKNz5cvAP0zZL9RgI2IAtmcQvcJa9qxDc/CHVX9VF23Vs9Add9awbnn?=
- =?us-ascii?Q?uV5nwFJ0e5meCzOOimHmac6vEOhGfFXMaifhaNYx3Lxb2YLeh081hEv/wqsj?=
- =?us-ascii?Q?WMdoQYhdUVos17iBEZA57WPVZ3dihl/FqUQ7UT06hcPTSOK0SOf/b4F9LEgE?=
- =?us-ascii?Q?LUVSASA+Z46wtoGjtFyMW2dGxF6J+uxil0ml+jwP5bSZE2L450us96qMYCB2?=
- =?us-ascii?Q?weDDBWm9SXyMYbOnBji5ENcKObouoJDw886oS5oXIblw1459MC6iD4CzwiUh?=
- =?us-ascii?Q?dm0Zu2nMIbhJZGJELyp7//thilZddSmfptYA3LCKUSmRPpfCHK71P9zzKaMo?=
- =?us-ascii?Q?RHNqYf9ZzmLGJMhbZ4tI4H6o9Ejf7kz7elI2XP171TAfA5r8mMTOmm1kRS7U?=
- =?us-ascii?Q?b77o78ZICUIj4jzlfWRN?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e3c89f3c-507f-4e0f-49ba-08dcaa6fb909
-X-MS-Exchange-CrossTenant-AuthSource: SJ2P223MB1026.NAMP223.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jul 2024 17:00:00.6486
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7P223MB0405
+Content-Transfer-Encoding: 8bit
 
-This patch makes three error messages in the driver easier to read by capitalizing the first letters properly.
-For example, "channel already linked" became "Channel already linked".
-In addition, "expect" becomes "expected", as you would typically find in an error message.
-This patch is necessary for improving user experience and the kernel's quality.
+Adhere to Linux kernel coding style.
 
-Signed-off-by: Steven Davis <goldside000@outlook.com>
+Reported by checkpatch:
+
+CHECK: Unnecessary parentheses around 'devcode != 0x0000'
+CHECK: Unnecessary parentheses around 'devcode != 0x9320'
+CHECK: Unnecessary parentheses around 'par->info->var.xres == 320'
+CHECK: Unnecessary parentheses around 'par->info->var.yres == 240'
+CHECK: Unnecessary parentheses around 'par->spi->bits_per_word == 8'
+CHECK: Unnecessary parentheses around '!txbuflen'
+CHECK: Unnecessary parentheses around 'bpp > 8'
+ERROR: space prohibited before that close parenthesis ')'
+
+Signed-off-by: Riyan Dhiman <riyandhiman14@gmail.com>
 ---
-V1 -> V2: Added a patch description
-V2 -> V3: Changed subject line, removed apology from patch description, added change log
+ drivers/staging/fbtft/fb_ili9320.c | 2 +-
+ drivers/staging/fbtft/fb_ra8875.c  | 2 +-
+ drivers/staging/fbtft/fbtft-bus.c  | 6 +++---
+ drivers/staging/fbtft/fbtft-core.c | 2 +-
+ 4 files changed, 6 insertions(+), 6 deletions(-)
 
- drivers/staging/most/video/video.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
-index 6254a5df2502..2b3cdb1ce140 100644
---- a/drivers/staging/most/video/video.c
-+++ b/drivers/staging/most/video/video.c
-@@ -454,18 +454,18 @@ static int comp_probe_channel(struct most_interface *iface, int channel_idx,
- 	struct most_video_dev *mdev = get_comp_dev(iface, channel_idx);
+diff --git a/drivers/staging/fbtft/fb_ili9320.c b/drivers/staging/fbtft/fb_ili9320.c
+index 0be7c2d51548..409b54cc562e 100644
+--- a/drivers/staging/fbtft/fb_ili9320.c
++++ b/drivers/staging/fbtft/fb_ili9320.c
+@@ -37,7 +37,7 @@ static int init_display(struct fbtft_par *par)
+ 	devcode = read_devicecode(par);
+ 	fbtft_par_dbg(DEBUG_INIT_DISPLAY, par, "Device code: 0x%04X\n",
+ 		      devcode);
+-	if ((devcode != 0x0000) && (devcode != 0x9320))
++	if (devcode != 0x0000 && devcode != 0x9320)
+ 		dev_warn(par->info->device,
+ 			 "Unrecognized Device code: 0x%04X (expected 0x9320)\n",
+ 			devcode);
+diff --git a/drivers/staging/fbtft/fb_ra8875.c b/drivers/staging/fbtft/fb_ra8875.c
+index 398bdbf53c9a..ce305a0bea48 100644
+--- a/drivers/staging/fbtft/fb_ra8875.c
++++ b/drivers/staging/fbtft/fb_ra8875.c
+@@ -50,7 +50,7 @@ static int init_display(struct fbtft_par *par)
  
- 	if (mdev) {
--		pr_err("channel already linked\n");
-+		pr_err("Channel already linked\n");
- 		return -EEXIST;
- 	}
+ 	par->fbtftops.reset(par);
  
- 	if (ccfg->direction != MOST_CH_RX) {
--		pr_err("wrong direction, expect rx\n");
-+		pr_err("Wrong direction, expected rx\n");
- 		return -EINVAL;
- 	}
+-	if ((par->info->var.xres == 320) && (par->info->var.yres == 240)) {
++	if (par->info->var.xres == 320 && par->info->var.yres == 240) {
+ 		/* PLL clock frequency */
+ 		write_reg(par, 0x88, 0x0A);
+ 		write_reg(par, 0x89, 0x02);
+diff --git a/drivers/staging/fbtft/fbtft-bus.c b/drivers/staging/fbtft/fbtft-bus.c
+index 3d422bc11641..02d7dbd38678 100644
+--- a/drivers/staging/fbtft/fbtft-bus.c
++++ b/drivers/staging/fbtft/fbtft-bus.c
+@@ -62,9 +62,9 @@ out:									      \
+ }                                                                             \
+ EXPORT_SYMBOL(func);
  
- 	if (ccfg->data_type != MOST_CH_SYNC &&
- 	    ccfg->data_type != MOST_CH_ISOC) {
--		pr_err("wrong channel type, expect sync or isoc\n");
-+		pr_err("Wrong channel type, expected sync or isoc\n");
- 		return -EINVAL;
- 	}
+-define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8, )
++define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8,)
+ define_fbtft_write_reg(fbtft_write_reg16_bus8, __be16, u16, cpu_to_be16)
+-define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16, )
++define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16,)
+ 
+ void fbtft_write_reg8_bus9(struct fbtft_par *par, int len, ...)
+ {
+@@ -85,7 +85,7 @@ void fbtft_write_reg8_bus9(struct fbtft_par *par, int len, ...)
+ 	if (len <= 0)
+ 		return;
+ 
+-	if (par->spi && (par->spi->bits_per_word == 8)) {
++	if (par->spi && par->spi->bits_per_word == 8) {
+ 		/* we're emulating 9-bit, pad start of buffer with no-ops
+ 		 * (assuming here that zero is a no-op)
+ 		 */
+diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
+index 8e2fd0c0fee2..53b104559502 100644
+--- a/drivers/staging/fbtft/fbtft-core.c
++++ b/drivers/staging/fbtft/fbtft-core.c
+@@ -666,7 +666,7 @@ struct fb_info *fbtft_framebuffer_alloc(struct fbtft_display *display,
+ 		txbuflen = 0;
+ 
+ #ifdef __LITTLE_ENDIAN
+-	if ((!txbuflen) && (bpp > 8))
++	if (!txbuflen && bpp > 8)
+ 		txbuflen = PAGE_SIZE; /* need buffer for byteswapping */
+ #endif
  
 -- 
-2.45.2
+2.39.2
 
