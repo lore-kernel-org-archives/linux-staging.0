@@ -1,64 +1,65 @@
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
+Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E0873D55D
-	for <linux-staging@lists.linux.dev>; Tue, 23 Jul 2024 15:22:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25C5113B599
+	for <linux-staging@lists.linux.dev>; Tue, 23 Jul 2024 16:02:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721748158; cv=none; b=szBZuSUKfOPJnb/xX+KebYDT4enJeissjbi7l9uZ5aQFyeYYJ1ziNgmaNIUf7kUSc0n6M0u4/Kgbk0Kl9QIqj5vUE/rqEWoMaBK/1EpJCdgY0T9L84L9ZxrOLYB8FliRonaRJyWT6RP1XR/jyoO39VGKp0nxRsmMm1XFo7nQjq0=
+	t=1721750539; cv=none; b=VcsTcpQ96zaLo4o4TRsKNNjQrGiIjxYKx4Uaun8wIGkznFbeYj0z7SNYPJI0HtiFBnug7haWRvAh6lnBCKcMly3xDRvRRReHFwLT3zR4eaBugJployGWwbVnsLkPBw4t/z/XcANwGh2eeL1I/7c5JAcLuYFvs+SbGKPZz2Y8xhs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721748158; c=relaxed/simple;
-	bh=rAM0tOrdVr1oTVnDxoefadTEVvfD31aTLLg06Sx0Bpc=;
+	s=arc-20240116; t=1721750539; c=relaxed/simple;
+	bh=I2o6zpIhUZOrzY8dPi9oJYFDjQRzZnKfkykbXQdQCOc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZhozFrKHGWIW73rm+pJ7MkRpen9BCK4t0w/H9ZyjqeeTRziaY7a/6flF4OMYXtnjr9SIk/rqHSC01st2pI1jQYUU80tytMxdmx6GjxApwhdZNjQevTbCD0AtQdDC8CSB04gI4qnd4Zc6hNv8Bmtc1oYcgzqwFMkHLfDvByDYAdQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CY0bhmcm; arc=none smtp.client-ip=209.85.167.174
+	 Content-Type:Content-Disposition:In-Reply-To; b=s5SHRHtPHfQNQ3XT+V1dPK/L4Pbe21Te0jtt0YAF1a3kolH0tRJMbOZBC+b7UgPcYcOmH054be9IVC5ltchVGklFZUkxBjJ01EghczkFSameEIsh/YzBPTA/Oay4wS9FQMlbL51JbICHnZXEdoqNyzQeRh4e+8ZhJIybRHnQnUU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=L09SYoNp; arc=none smtp.client-ip=209.85.167.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CY0bhmcm"
-Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-3cabac56b38so3559123b6e.3
-        for <linux-staging@lists.linux.dev>; Tue, 23 Jul 2024 08:22:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="L09SYoNp"
+Received: by mail-oi1-f180.google.com with SMTP id 5614622812f47-3daf0e73a62so1707168b6e.0
+        for <linux-staging@lists.linux.dev>; Tue, 23 Jul 2024 09:02:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1721748155; x=1722352955; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1721750537; x=1722355337; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=LppTAIWu0SbteKnxPRFZ4M9rdwfxTFW7ej85RHldG1Q=;
-        b=CY0bhmcmT9ZRKJSREVmJx0dSMcCVOQ/Z0Jw0PXtzNpRrXelmocZMkyPpytGsViaZV9
-         J5WPvo1ORUcJPbtAKPTpLU4Q6yfAagnHIqtSbQPWI8/AA6I1wAuqKnibVK3/QAZL5Uij
-         wg3DoRp8FRrWHwt+4CSunE9r0IFcowyv3gHiztpND7gefrGuRKrHTNCfBzRwYxmtddmA
-         +5/+TG3KFPGOGMCiOMZ6GqD2nyDDNa+3G1ubtl8PRSOmwwGTNZr5/kURTP1sQs+Uw3nu
-         UcseQsqNfe3g+6Qe+SP1BHigvodUTgBaiKlvsX6dhhksOYovjq+iW4CV12SENaYIjYzK
-         +npg==
+        bh=yARX5xd5laXwhiOFI6NOkFFj4BQ9NNdQqrMRe/s6N2E=;
+        b=L09SYoNpeO485vFBrSVuegtkyYFpC31JnWu73MkZdEv3xwRoIxcpfwt/ylVjHPKEh9
+         EYuU78NDT1f0gtPsR8YpE1L0adAbMYeZPx/ym5poTiaiVKiYVoF7q9BZQ3jaNbR1Ulkz
+         rvQVPKrg5Y9xaeKAtlriSpsRQU/3E00joCs7pc61kn1Ecr4iBz5W41p33/pz2iVvHqwg
+         OiMKhBX9PhejZaZvySdh9r4srysIcLnw2aKZ1ayOBXGdxyCvyCk9EHpyoRF/2vtkWW4I
+         DAOXiloPMoTz4CCyHjCe1nSF0ff9T8xnYZkOd9WEw3Am5VINsQwsiP5kdl7BtBgt/dPr
+         R+fA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721748155; x=1722352955;
+        d=1e100.net; s=20230601; t=1721750537; x=1722355337;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LppTAIWu0SbteKnxPRFZ4M9rdwfxTFW7ej85RHldG1Q=;
-        b=ZM0RLuD27q96G7we7icszWk7UEZkJkPCFxvRYKVkckrLsp/l9hUnjrVyyHHNiyz6P7
-         Q94oVBYINQJHO5NKm/0k7VJcycMX6ilyVsMizuOSnDOhsjkfASHX2TtxTH5dywEGHfJM
-         n8xox/IeuixXPxLsSb4muE79My/JiHzFJX29JFVXQrKsnr03Ki/ZQEgNxBgFnmh5q/JF
-         0crgBso8squSM4msq3PsegpIgVu0I+JW5IArxIOZ9bIFgFy/dfHKfZ/H9ygeCgxPqsIk
-         UPlrAKCyfqAlRSFT02GzF4/MRvY53Qfsj6nkktOklcFTlHuLgc9PD40ddyD8GRuwgbYf
-         ndiA==
-X-Forwarded-Encrypted: i=1; AJvYcCX2LAmrpncaomLoM86bA9jRR1MQAlX9g9BYwnzdWSLj8Wlf8y6YUPv9OBaI8RPz1eXe8pGdGMY/EWW48LV4E4loXDnxlcjxw4DotpELrg==
-X-Gm-Message-State: AOJu0YzpCUIiurIc53M6MKOVSI+IKivuiHU7YUBJmnfPLRFiND/lnLJd
-	ppdNFA6ho4xk0yoTmc4piW1DqgEsJhUXtHwHdYL9RxQ6NaN01S2TJzq4OkAlEpg=
-X-Google-Smtp-Source: AGHT+IESon+tGt9HEPSFLIJ7d0cJjQslEakpeQe1qE1Y2C4sR/W6gbAxocKAYk0vwAUUakxYQrBj2Q==
-X-Received: by 2002:a05:6808:1985:b0:3d9:3a2f:959e with SMTP id 5614622812f47-3dafcde5c04mr3719600b6e.0.1721748155686;
-        Tue, 23 Jul 2024 08:22:35 -0700 (PDT)
+        bh=yARX5xd5laXwhiOFI6NOkFFj4BQ9NNdQqrMRe/s6N2E=;
+        b=PCb6xXbnlHSCLM4Aw7I8BMLUUTIWC4a9Ij4RzpDKP05RJbZyCxFdeLfHyX+xu4SxFn
+         WoQvGXtMCG2LpGTSFUNIIyvmBOtZpkqH84Q4pnNla3yHQN3uzJmiwDa9D8ctKTMH+Aw0
+         jOKu0jmz/tH53hzWFq1CZ72pEMv2tgOFLvPn+Ujtxf3fgp1p5RqtiujqTsl/C8RsS9jc
+         TNXJDmfj4ttaMGlJ94rDdLm4W4odWZ8LrBq6WyLg69o7fsMGlAZobNBTucgxyQ+ZML1h
+         rcux23utbvSq7TjxbcVN0SU+THfFvTOLhCjiL7OYa1NBVcRI/snlDJD/WIB+mm/Gb+Fg
+         e4zg==
+X-Forwarded-Encrypted: i=1; AJvYcCWG+ADKd6gJJ4CIjfdy8zXAMsF0xNlARgJW46fflVH5Ezjija5BQSaT8gax2jK9m/7rUe6zpeREOBdGqYw8l2RqAQYj3sHRCHej405k5A==
+X-Gm-Message-State: AOJu0YzRjA/lEllvcdVPlawa5KBPXAI8DTWPDuiFsYsUnRdJcnTzmbHt
+	wqFxjER1zMSehUOkKBLUV8VfKzU9RSNNOBkPbIohOeZXVC28MYd1xhBX7OzQdqI=
+X-Google-Smtp-Source: AGHT+IGLVP1QRk2iV2KPsMQJmzNjczIutXjBGb6VMMvmyHKU5M2FYbeuyN33usKWmc6KvQORnHuCag==
+X-Received: by 2002:a05:6808:1688:b0:3da:e2b1:10d2 with SMTP id 5614622812f47-3dafd0b93b8mr4167115b6e.2.1721750537235;
+        Tue, 23 Jul 2024 09:02:17 -0700 (PDT)
 Received: from localhost ([2603:8080:b800:f700:eca3:bb93:d28d:1005])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-3dae09ce887sm2002102b6e.38.2024.07.23.08.22.34
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-3dae0990cdesm2025235b6e.32.2024.07.23.09.02.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jul 2024 08:22:35 -0700 (PDT)
-Date: Tue, 23 Jul 2024 10:22:32 -0500
+        Tue, 23 Jul 2024 09:02:16 -0700 (PDT)
+Date: Tue, 23 Jul 2024 11:02:15 -0500
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Cruzer-S <yyyynoom@gmail.com>
 Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
 	philipp.g.hortmann@gmail.com
 Subject: Re: [PATCH v3] staging: rtl8712: style fix multiple line dereference
-Message-ID: <5005ffef-0ac1-4481-a139-fbf3b456069a@suswa.mountain>
+Message-ID: <1894df62-f632-4f7d-904b-65e7d517cf0c@suswa.mountain>
 References: <20240721040504.1483-1-yyyynoom@gmail.com>
+ <5005ffef-0ac1-4481-a139-fbf3b456069a@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -67,17 +68,23 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240721040504.1483-1-yyyynoom@gmail.com>
+In-Reply-To: <5005ffef-0ac1-4481-a139-fbf3b456069a@suswa.mountain>
 
-The patch still doesn't apply.  Sorry.
+On Tue, Jul 23, 2024 at 10:22:32AM -0500, Dan Carpenter wrote:
+> The patch still doesn't apply.  Sorry.
+> 
+> cat ~/tmp/yyyynoom | patch -p1
+> patching file drivers/staging/rtl8712/rtl871x_cmd.c
+> patch: **** malformed patch at line 132: 2.43.5
+> 
+> The 2.43.5 thing is the git version.  Not sure what went wrong there.
+> 
 
-cat ~/tmp/yyyynoom | patch -p1
-patching file drivers/staging/rtl8712/rtl871x_cmd.c
-patch: **** malformed patch at line 132: 2.43.5
-
-The 2.43.5 thing is the git version.  Not sure what went wrong there.
+It must have applied for Greg because he applied it.  I don't know why
+it didn't work for me.  I tried using patch to apply it and I tried
+git am as well and neither worked.  But it must be something on my end
+if it works for Greg.
 
 regards,
 dan carpenter
-
 
