@@ -1,175 +1,328 @@
-Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABBE82837F
-	for <linux-staging@lists.linux.dev>; Wed, 24 Jul 2024 16:16:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 782E513B5AD
+	for <linux-staging@lists.linux.dev>; Thu, 25 Jul 2024 13:04:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721837798; cv=none; b=uxKgnW018wimsvCPUXQdXIc6jCT4LceVYm+mZCD7AeYYkKJwFy1DmJtMksv1zaBkzwoC2SUJDJ8EYcJViVguiz68S/tXnWbwqfsyhKw4/fDlw5gI8SUaJQXE00KZiGW5WsvsOUpRN2n8Pj1sJAEs0FUPaqD/JiR5MEDD+UVXzr8=
+	t=1721912646; cv=none; b=lmIl1yCK6VtFrtnYK3KB+LxREoVvG318DFRyTAfwZDmKkl3WYvmSWL7u3NsL42eCG5q2lU8iepLA0OlQnsBbi4jjTit9XzKEz+r00e1tDiQ8wxjXtQVzqkN9g2wLLekMw7uBwWzqaOjMVbjsRgncl8hkh4DWLUsjOSPRLYZgLQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721837798; c=relaxed/simple;
-	bh=y7Zu/VsvUJKkKsJYtAY7jVUswzsmYdNVgKKzorX/Y3E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cDaEjNco+5UxW72OYxvC2jfijdhzUMy1WQkhFa1C5Iz7EI47r26GUb12dRD7gWNDuN9k2BWw+Gzf22bZqgepaE9iAPaqCiub/3VIXEepx/XCM3Tt2BeAc4h2NvOHIvuADHW9qlCeEw1trxr1WozJviOM2YFK9jHKmmhhBY2JUl8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ySzfPRIl; arc=none smtp.client-ip=209.85.167.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1721912646; c=relaxed/simple;
+	bh=0ux3gSZ0RwVHtg81k8EMXGBBrFxDRxwiJkb/a8kIDro=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=EwxgprXhV4c1wwaIkD0Qhlz9ApxoMYWKXy1O2leXKe5bsRRIu4WPXAWBYnkltDTBLHcefPGAOJawin5U90m7kx67UW3Y+zMCOXOiboi7wDniaki3RrAqIO0UXzVLvE5wrlreqrRYHv+SqIbFVrh4t/lUtfaDJXnXEjokAYMBm7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UhYJEU1U; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ySzfPRIl"
-Received: by mail-oi1-f179.google.com with SMTP id 5614622812f47-3daf0e73a62so2511786b6e.0
-        for <linux-staging@lists.linux.dev>; Wed, 24 Jul 2024 09:16:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UhYJEU1U"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1fd66cddd4dso8303335ad.2
+        for <linux-staging@lists.linux.dev>; Thu, 25 Jul 2024 06:04:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1721837795; x=1722442595; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=kKtTi6J8HEB5OCpZPgPDE9GsqwJqSTtYQpQ+3Zz5BCQ=;
-        b=ySzfPRIlbr9UAUO73rbzoy+cd8MwkGO3lFGZmjLbWuOLNI+0I+Q0lCttuQqjhwYObj
-         OmUAjPP8MlkkopjFo+KtYjq6MDd+92kkQMCxu5IBYnuPASgEmBtMMAIrx0KGQSsb5FE/
-         A33vU8f5UcUNjUfueUK5P5wq8FGgmHqbovjElZoFxJ/oVGSaE+C/ejuBbRweEc6xGCsf
-         /Plx5DgVdXkHeiSfKu1sgvB7C1SIJ7G52UiQYsIRSmxF0EdYVZf7jiUPhjYmFdoSLZLk
-         i0koQGgtl0WUTMf2ivLG3XvcEtQaxMjNMJtdo0zaZe1niFuEC6J7hzPlN21cDKCEkbaB
-         hZRQ==
+        d=gmail.com; s=20230601; t=1721912644; x=1722517444; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=htR/TjEega3Xdoyd2U7cTKVJo8sifGC+rB79lc342S0=;
+        b=UhYJEU1UZfMSTXaJO6c4XtLef/fGvhE7uB2HEWqtZhjzD3c/KvJzV3zJtQ5WG5qBw1
+         LuHvNErlTX+ERupA4USjmjc8ubs+fF+vxzuwiYn55D5YsryDQLYkA1yZSwlwfNlsvy82
+         3iIwfmqcF620ibJcO7O/qXFbgN9uANOdon0X+kBdVd90xrBglRvwZxumPFrHapLWVY9B
+         mq7JtSk8ezMQQOOQ2IpnF2SIbkpBeRqaPwfuylTTXMeKsj5JcxSfmpLfXB6K5NNhqm+4
+         4ZfL9TGy+KgULbI/xWvmIz29tbpUrIdZHtKsQKhptrjdwwHDCCM7vlTG41mVO/ZhFoxs
+         ym0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721837795; x=1722442595;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kKtTi6J8HEB5OCpZPgPDE9GsqwJqSTtYQpQ+3Zz5BCQ=;
-        b=ar5ry2j4bE4hPpEaC1KU6E8maokQjOC9ldMuBvlUzgsqYBl6z4lMRe8GLh0eo0wLOF
-         KQBZpFSv1V9CCTlE96KPnKPDzYOTVT1c4ogLSIqIsUfgUV87PbBEukOrALD7pT6Zywnr
-         /u3thTC77xcG85UdAkpMfKac5uoWGZbi0FoGJJXKwDeqmo1KfUyYoTtN0eo7pbgXw1V6
-         N7z9nbgCCwdZskCWsBMDvsA4QpILpDvjXzZDxnfDcNUsobVOy4bNOLeE9aaknEVtDc9z
-         zMIs7ksK1+3thrVtmzcBglva0siDZco/Nv/UugB95quJhg2LfZjnJJRBVepVFXXcGELi
-         Beiw==
-X-Forwarded-Encrypted: i=1; AJvYcCWV97qUetuz4iWuRIpuSJ9Yjh460vOiLHYK9qbOQl4ur9RSCCNMFLAa2r9ETtcMxhj3/YtqfCD45h6G5alJE5U0q4CJ8u+DbJowt42hyA==
-X-Gm-Message-State: AOJu0YxFnrf54Zyuvkcv4HDsIs4lIO+G35Zdl6Zl4I7H+slup5DnXisW
-	EatDsICX8cMXmU0qM7orv7bc1ATlcKWa2CriMcdVMjBdkOcO7c/UfOZZ48uRpD4=
-X-Google-Smtp-Source: AGHT+IGL4mtwKdB32MSZ63+5s36lNy2nWouLYk/6/hosNV4rfjK0ChpvX+4v525bHV4bv4C5KpXHyg==
-X-Received: by 2002:a05:6808:2002:b0:3d6:71d4:e90d with SMTP id 5614622812f47-3db110cb758mr36565b6e.50.1721837794749;
-        Wed, 24 Jul 2024 09:16:34 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700:c022:78f5:6e53:c844])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-3dae0990123sm2442748b6e.30.2024.07.24.09.16.34
+        d=1e100.net; s=20230601; t=1721912644; x=1722517444;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=htR/TjEega3Xdoyd2U7cTKVJo8sifGC+rB79lc342S0=;
+        b=S+s1whEDtckZen3vy5l52/G+UrkTQOr17EEe137xilpIF9qwKEPZwOobddPqkRQCtb
+         ASOqN4D2lhMBUW0PF6cGSnH1gPWi+nxLnHkVGJihxl9psfQcVz9En/BQC+K9koa0dL1b
+         mtjuoNy4H9Wlb51juzO0fptSuE+c54XEsVIHRSMp0zO/gbcWDMTAkm5qDAQdBs6rFIeo
+         5qt8Ww2E3Byc+fzyzCjJCtBuXq+H3LUum39bjNmio6SFJPIBjeOacAKb090J5olKAOwv
+         654Aa0c5MuaTjQpnuHJupY3AuOeEqCn+I21PxV/aMwzgfudk31mdKVOWDC2SiHn6gBom
+         xV0g==
+X-Forwarded-Encrypted: i=1; AJvYcCXzNqfBovo+PFJgww5lCb+BlWdSfszKEUSiuG8FKh0zIYD/g2HbESwYKvU7GDtQEkT7a9tMSWrwvLZwrz7Ntr5jyovtNbbqQDIkL80ksA==
+X-Gm-Message-State: AOJu0YwqYaN9OumuMWr3U5xf1Y56LnS35bURFqCVNYrH8W0g/cDsF3pl
+	7Oo4Dz8TIEru7RtMhhcg5pqpqtu/icazf4cFDu9AlRjyfMtG6UWn
+X-Google-Smtp-Source: AGHT+IFMmE+nocadv/NdjT7aJFWB1HBf8V3DC7AItFnPS0nDWB5PQLmaOSzRiNHRpf4bWxkkes37fw==
+X-Received: by 2002:a17:902:ea11:b0:1fb:6663:b647 with SMTP id d9443c01a7336-1fed3870ecbmr33764625ad.3.1721912643414;
+        Thu, 25 Jul 2024 06:04:03 -0700 (PDT)
+Received: from Riyan.inspiron ([122.176.205.255])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fed7fcc493sm13516995ad.282.2024.07.25.06.04.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Jul 2024 09:16:34 -0700 (PDT)
-Date: Wed, 24 Jul 2024 11:16:32 -0500
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Marek Vasut <marex@denx.de>
-Cc: linux-media@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
-	David Airlie <airlied@gmail.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Helge Deller <deller@gmx.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Steve Longerbeam <slongerbeam@gmail.com>,
-	dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 2/2] media: imx: vdic: Introduce mem2mem VDI
- deinterlacer driver
-Message-ID: <5aab2235-76cd-4fa6-8957-aed35e83a95e@suswa.mountain>
-References: <20240724002044.112544-1-marex@denx.de>
- <20240724002044.112544-2-marex@denx.de>
+        Thu, 25 Jul 2024 06:04:02 -0700 (PDT)
+From: Riyan Dhiman <riyandhiman14@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Riyan Dhiman <riyandhiman14@gmail.com>
+Subject: [PATCH] staging: fbtft: Remove ftrace-like logging
+Date: Thu, 25 Jul 2024 18:33:51 +0530
+Message-Id: <20240725130351.14877-1-riyandhiman14@gmail.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240724002044.112544-2-marex@denx.de>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jul 24, 2024 at 02:19:38AM +0200, Marek Vasut wrote:
-> diff --git a/drivers/staging/media/imx/imx-media-dev.c b/drivers/staging/media/imx/imx-media-dev.c
-> index be54dca11465d..a841fdb4c2394 100644
-> --- a/drivers/staging/media/imx/imx-media-dev.c
-> +++ b/drivers/staging/media/imx/imx-media-dev.c
-> @@ -57,7 +57,52 @@ static int imx6_media_probe_complete(struct v4l2_async_notifier *notifier)
->  		goto unlock;
->  	}
->  
-> +	imxmd->m2m_vdic[0] = imx_media_mem2mem_vdic_init(imxmd, 0);
-> +	if (IS_ERR(imxmd->m2m_vdic[0])) {
-> +		ret = PTR_ERR(imxmd->m2m_vdic[0]);
-> +		imxmd->m2m_vdic[0] = NULL;
-> +		goto unlock;
-> +	}
-> +
-> +	/* MX6S/DL has one IPUv3, init second VDI only on MX6Q/QP */
-> +	if (imxmd->ipu[1]) {
-> +		imxmd->m2m_vdic[1] = imx_media_mem2mem_vdic_init(imxmd, 1);
-> +		if (IS_ERR(imxmd->m2m_vdic[1])) {
-> +			ret = PTR_ERR(imxmd->m2m_vdic[1]);
-> +			imxmd->m2m_vdic[1] = NULL;
-> +			goto uninit_vdi0;
-> +		}
-> +	}
-> +
->  	ret = imx_media_csc_scaler_device_register(imxmd->m2m_vdev);
-> +	if (ret)
-> +		goto uninit_vdi1;
-> +
-> +	ret = imx_media_mem2mem_vdic_register(imxmd->m2m_vdic[0]);
-> +	if (ret)
-> +		goto unreg_csc;
-> +
-> +	/* MX6S/DL has one IPUv3, init second VDI only on MX6Q/QP */
-> +	if (imxmd->ipu[1]) {
-> +		ret = imx_media_mem2mem_vdic_register(imxmd->m2m_vdic[1]);
-> +		if (ret)
-> +			goto unreg_vdic;
-> +	}
-> +
-> +	mutex_unlock(&imxmd->mutex);
-> +	return ret;
+Adhere to Linux kernel coding style
 
-Since it looks like you're going to do another version of this, could
-you change this to return 0;
+Reported by checkpatch:
 
-> +
-> +unreg_vdic:
-> +	imx_media_mem2mem_vdic_unregister(imxmd->m2m_vdic[0]);
-> +	imxmd->m2m_vdic[0] = NULL;
-> +unreg_csc:
-> +	imx_media_csc_scaler_device_unregister(imxmd->m2m_vdev);
-> +	imxmd->m2m_vdev = NULL;
-> +uninit_vdi1:
-> +	if (imxmd->ipu[1])
-> +		imx_media_mem2mem_vdic_uninit(imxmd->m2m_vdic[1]);
-> +uninit_vdi0:
-> +	imx_media_mem2mem_vdic_uninit(imxmd->m2m_vdic[0]);
->  unlock:
->  	mutex_unlock(&imxmd->mutex);
->  	return ret;
+WARNING: Unnecessary ftrace-like logging - prefer using ftrace
 
-[ snip ]
+Signed-off-by: Riyan Dhiman <riyandhiman14@gmail.com>
+---
+ drivers/staging/fbtft/fb_ili9320.c  | 2 --
+ drivers/staging/fbtft/fb_ra8875.c   | 7 -------
+ drivers/staging/fbtft/fb_sh1106.c   | 3 ---
+ drivers/staging/fbtft/fb_ssd1289.c  | 3 ---
+ drivers/staging/fbtft/fb_ssd1306.c  | 3 ---
+ drivers/staging/fbtft/fb_ssd1325.c  | 9 ---------
+ drivers/staging/fbtft/fb_ssd1331.c  | 2 --
+ drivers/staging/fbtft/fb_ssd1351.c  | 3 ---
+ drivers/staging/fbtft/fb_uc1611.c   | 3 ---
+ drivers/staging/fbtft/fbtft-bus.c   | 9 ---------
+ drivers/staging/fbtft/fbtft-core.c  | 7 -------
+ drivers/staging/fbtft/fbtft-sysfs.c | 4 ----
+ 12 files changed, 55 deletions(-)
 
-> +static int ipu_mem2mem_vdic_querycap(struct file *file, void *priv,
-> +				     struct v4l2_capability *cap)
-> +{
-> +	strscpy(cap->driver, "imx-m2m-vdic", sizeof(cap->driver));
-> +	strscpy(cap->card, "imx-m2m-vdic", sizeof(cap->card));
-> +	strscpy(cap->bus_info, "platform:imx-m2m-vdic", sizeof(cap->bus_info));
-
-These days strscpy() is a magic function where the third parameter is
-optional.
-
-	strscpy(cap->driver, "imx-m2m-vdic");
-	strscpy(cap->card, "imx-m2m-vdic");
-	strscpy(cap->bus_info, "platform:imx-m2m-vdic");
-
-Shazaaam!  Magic!
-
-> +	cap->device_caps = V4L2_CAP_VIDEO_M2M | V4L2_CAP_STREAMING;
-> +	cap->capabilities = cap->device_caps | V4L2_CAP_DEVICE_CAPS;
-> +
-> +	return 0;
-> +}
-
-regards,
-dan carpenter
+diff --git a/drivers/staging/fbtft/fb_ili9320.c b/drivers/staging/fbtft/fb_ili9320.c
+index 0be7c2d51548..050fc2367c12 100644
+--- a/drivers/staging/fbtft/fb_ili9320.c
++++ b/drivers/staging/fbtft/fb_ili9320.c
+@@ -35,8 +35,6 @@ static int init_display(struct fbtft_par *par)
+ 	par->fbtftops.reset(par);
+ 
+ 	devcode = read_devicecode(par);
+-	fbtft_par_dbg(DEBUG_INIT_DISPLAY, par, "Device code: 0x%04X\n",
+-		      devcode);
+ 	if ((devcode != 0x0000) && (devcode != 0x9320))
+ 		dev_warn(par->info->device,
+ 			 "Unrecognized Device code: 0x%04X (expected 0x9320)\n",
+diff --git a/drivers/staging/fbtft/fb_ra8875.c b/drivers/staging/fbtft/fb_ra8875.c
+index 398bdbf53c9a..0ab1de6647d0 100644
+--- a/drivers/staging/fbtft/fb_ra8875.c
++++ b/drivers/staging/fbtft/fb_ra8875.c
+@@ -41,13 +41,6 @@ static int init_display(struct fbtft_par *par)
+ {
+ 	gpiod_set_value(par->gpio.dc, 1);
+ 
+-	fbtft_par_dbg(DEBUG_INIT_DISPLAY, par,
+-		      "%s()\n", __func__);
+-	fbtft_par_dbg(DEBUG_INIT_DISPLAY, par,
+-		      "display size %dx%d\n",
+-		par->info->var.xres,
+-		par->info->var.yres);
+-
+ 	par->fbtftops.reset(par);
+ 
+ 	if ((par->info->var.xres == 320) && (par->info->var.yres == 240)) {
+diff --git a/drivers/staging/fbtft/fb_sh1106.c b/drivers/staging/fbtft/fb_sh1106.c
+index 9685ca516a0e..e4c50c1ffed0 100644
+--- a/drivers/staging/fbtft/fb_sh1106.c
++++ b/drivers/staging/fbtft/fb_sh1106.c
+@@ -88,9 +88,6 @@ static void set_addr_win(struct fbtft_par *par, int xs, int ys, int xe, int ye)
+ 
+ static int blank(struct fbtft_par *par, bool on)
+ {
+-	fbtft_par_dbg(DEBUG_BLANK, par, "(%s=%s)\n",
+-		      __func__, on ? "true" : "false");
+-
+ 	write_reg(par, on ? 0xAE : 0xAF);
+ 
+ 	return 0;
+diff --git a/drivers/staging/fbtft/fb_ssd1289.c b/drivers/staging/fbtft/fb_ssd1289.c
+index f27bab38b3ec..255a6d21ca8e 100644
+--- a/drivers/staging/fbtft/fb_ssd1289.c
++++ b/drivers/staging/fbtft/fb_ssd1289.c
+@@ -93,9 +93,6 @@ static int set_var(struct fbtft_par *par)
+ {
+ 	if (par->fbtftops.init_display != init_display) {
+ 		/* don't risk messing up register 11h */
+-		fbtft_par_dbg(DEBUG_INIT_DISPLAY, par,
+-			      "%s: skipping since custom init_display() is used\n",
+-			      __func__);
+ 		return 0;
+ 	}
+ 
+diff --git a/drivers/staging/fbtft/fb_ssd1306.c b/drivers/staging/fbtft/fb_ssd1306.c
+index 6cf9df579e88..478d710469b9 100644
+--- a/drivers/staging/fbtft/fb_ssd1306.c
++++ b/drivers/staging/fbtft/fb_ssd1306.c
+@@ -148,9 +148,6 @@ static void set_addr_win(struct fbtft_par *par, int xs, int ys, int xe, int ye)
+ 
+ static int blank(struct fbtft_par *par, bool on)
+ {
+-	fbtft_par_dbg(DEBUG_BLANK, par, "(%s=%s)\n",
+-		      __func__, on ? "true" : "false");
+-
+ 	if (on)
+ 		write_reg(par, 0xAE);
+ 	else
+diff --git a/drivers/staging/fbtft/fb_ssd1325.c b/drivers/staging/fbtft/fb_ssd1325.c
+index 796a2ac3e194..256b0b87a930 100644
+--- a/drivers/staging/fbtft/fb_ssd1325.c
++++ b/drivers/staging/fbtft/fb_ssd1325.c
+@@ -72,10 +72,6 @@ static uint8_t rgb565_to_g16(u16 pixel)
+ 
+ static void set_addr_win(struct fbtft_par *par, int xs, int ys, int xe, int ye)
+ {
+-	fbtft_par_dbg(DEBUG_SET_ADDR_WIN, par,
+-		      "%s(xs=%d, ys=%d, xe=%d, ye=%d)\n", __func__, xs, ys, xe,
+-		      ye);
+-
+ 	write_reg(par, 0x75);
+ 	write_reg(par, 0x00);
+ 	write_reg(par, 0x3f);
+@@ -86,9 +82,6 @@ static void set_addr_win(struct fbtft_par *par, int xs, int ys, int xe, int ye)
+ 
+ static int blank(struct fbtft_par *par, bool on)
+ {
+-	fbtft_par_dbg(DEBUG_BLANK, par, "(%s=%s)\n",
+-		      __func__, on ? "true" : "false");
+-
+ 	if (on)
+ 		write_reg(par, 0xAE);
+ 	else
+@@ -109,8 +102,6 @@ static int set_gamma(struct fbtft_par *par, u32 *curves)
+ {
+ 	int i;
+ 
+-	fbtft_par_dbg(DEBUG_INIT_DISPLAY, par, "%s()\n", __func__);
+-
+ 	for (i = 0; i < GAMMA_LEN; i++) {
+ 		if (i > 0 && curves[i] < 1) {
+ 			dev_err(par->info->device,
+diff --git a/drivers/staging/fbtft/fb_ssd1331.c b/drivers/staging/fbtft/fb_ssd1331.c
+index ec5eced7f8cb..06b7056d6c71 100644
+--- a/drivers/staging/fbtft/fb_ssd1331.c
++++ b/drivers/staging/fbtft/fb_ssd1331.c
+@@ -167,8 +167,6 @@ static int set_gamma(struct fbtft_par *par, u32 *curves)
+ 
+ static int blank(struct fbtft_par *par, bool on)
+ {
+-	fbtft_par_dbg(DEBUG_BLANK, par, "(%s=%s)\n",
+-		      __func__, on ? "true" : "false");
+ 	if (on)
+ 		write_reg(par, 0xAE);
+ 	else
+diff --git a/drivers/staging/fbtft/fb_ssd1351.c b/drivers/staging/fbtft/fb_ssd1351.c
+index ca2cba2185ae..aa8c1ff2a13c 100644
+--- a/drivers/staging/fbtft/fb_ssd1351.c
++++ b/drivers/staging/fbtft/fb_ssd1351.c
+@@ -72,9 +72,6 @@ static int set_var(struct fbtft_par *par)
+ 
+ 	if (par->fbtftops.init_display != init_display) {
+ 		/* don't risk messing up register A0h */
+-		fbtft_par_dbg(DEBUG_INIT_DISPLAY, par,
+-			      "%s: skipping since custom init_display() is used\n",
+-			       __func__);
+ 		return 0;
+ 	}
+ 
+diff --git a/drivers/staging/fbtft/fb_uc1611.c b/drivers/staging/fbtft/fb_uc1611.c
+index f61e373c75e9..ca35b386a12d 100644
+--- a/drivers/staging/fbtft/fb_uc1611.c
++++ b/drivers/staging/fbtft/fb_uc1611.c
+@@ -135,9 +135,6 @@ static void set_addr_win(struct fbtft_par *par, int xs, int ys, int xe, int ye)
+ 
+ static int blank(struct fbtft_par *par, bool on)
+ {
+-	fbtft_par_dbg(DEBUG_BLANK, par, "(%s=%s)\n",
+-		      __func__, on ? "true" : "false");
+-
+ 	if (on)
+ 		write_reg(par, 0xA8 | 0x00);
+ 	else
+diff --git a/drivers/staging/fbtft/fbtft-bus.c b/drivers/staging/fbtft/fbtft-bus.c
+index 3d422bc11641..30e436ff19e4 100644
+--- a/drivers/staging/fbtft/fbtft-bus.c
++++ b/drivers/staging/fbtft/fbtft-bus.c
+@@ -129,9 +129,6 @@ int fbtft_write_vmem16_bus8(struct fbtft_par *par, size_t offset, size_t len)
+ 	int ret = 0;
+ 	size_t startbyte_size = 0;
+ 
+-	fbtft_par_dbg(DEBUG_WRITE_VMEM, par, "%s(offset=%zu, len=%zu)\n",
+-		      __func__, offset, len);
+-
+ 	remain = len / 2;
+ 	vmem16 = (u16 *)(par->info->screen_buffer + offset);
+ 
+@@ -182,9 +179,6 @@ int fbtft_write_vmem16_bus9(struct fbtft_par *par, size_t offset, size_t len)
+ 	int i;
+ 	int ret = 0;
+ 
+-	fbtft_par_dbg(DEBUG_WRITE_VMEM, par, "%s(offset=%zu, len=%zu)\n",
+-		      __func__, offset, len);
+-
+ 	if (!par->txbuf.buf) {
+ 		dev_err(par->info->device, "%s: txbuf.buf is NULL\n", __func__);
+ 		return -1;
+@@ -232,9 +226,6 @@ int fbtft_write_vmem16_bus16(struct fbtft_par *par, size_t offset, size_t len)
+ {
+ 	u16 *vmem16;
+ 
+-	fbtft_par_dbg(DEBUG_WRITE_VMEM, par, "%s(offset=%zu, len=%zu)\n",
+-		      __func__, offset, len);
+-
+ 	vmem16 = (u16 *)(par->info->screen_buffer + offset);
+ 
+ 	/* no need for buffered write with 16-bit bus */
+diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
+index 8e2fd0c0fee2..ffa524dc945e 100644
+--- a/drivers/staging/fbtft/fbtft-core.c
++++ b/drivers/staging/fbtft/fbtft-core.c
+@@ -215,8 +215,6 @@ static void fbtft_reset(struct fbtft_par *par)
+ 	if (!par->gpio.reset)
+ 		return;
+ 
+-	fbtft_par_dbg(DEBUG_RESET, par, "%s()\n", __func__);
+-
+ 	gpiod_set_value_cansleep(par->gpio.reset, 1);
+ 	usleep_range(20, 40);
+ 	gpiod_set_value_cansleep(par->gpio.reset, 0);
+@@ -1052,8 +1050,6 @@ static int fbtft_verify_gpios(struct fbtft_par *par)
+ 	struct fbtft_platform_data *pdata = par->pdata;
+ 	int i;
+ 
+-	fbtft_par_dbg(DEBUG_VERIFY_GPIOS, par, "%s()\n", __func__);
+-
+ 	if (pdata->display.buswidth != 9 &&  par->startbyte == 0 &&
+ 	    !par->gpio.dc) {
+ 		dev_err(par->info->device,
+@@ -1157,9 +1153,6 @@ int fbtft_probe_common(struct fbtft_display *display,
+ 	else
+ 		dev = &pdev->dev;
+ 
+-	if (unlikely(display->debug & DEBUG_DRIVER_INIT_FUNCTIONS))
+-		dev_info(dev, "%s()\n", __func__);
+-
+ 	pdata = dev->platform_data;
+ 	if (!pdata) {
+ 		pdata = fbtft_properties_read(dev);
+diff --git a/drivers/staging/fbtft/fbtft-sysfs.c b/drivers/staging/fbtft/fbtft-sysfs.c
+index 39e8d28066cb..e45c90a03a90 100644
+--- a/drivers/staging/fbtft/fbtft-sysfs.c
++++ b/drivers/staging/fbtft/fbtft-sysfs.c
+@@ -27,13 +27,9 @@ int fbtft_gamma_parse_str(struct fbtft_par *par, u32 *curves,
+ 	int curve_counter, value_counter;
+ 	int _count;
+ 
+-	fbtft_par_dbg(DEBUG_SYSFS, par, "%s() str=\n", __func__);
+-
+ 	if (!str || !curves)
+ 		return -EINVAL;
+ 
+-	fbtft_par_dbg(DEBUG_SYSFS, par, "%s\n", str);
+-
+ 	tmp = kmemdup(str, size + 1, GFP_KERNEL);
+ 	if (!tmp)
+ 		return -ENOMEM;
+-- 
+2.39.2
 
