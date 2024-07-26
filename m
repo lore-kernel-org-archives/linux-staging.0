@@ -1,72 +1,105 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDB7417625C;
-	Fri, 26 Jul 2024 07:49:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94C7042A8A;
+	Fri, 26 Jul 2024 08:23:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721980141; cv=none; b=Cl3asWk6A/FxPBCm7XdFSkB1ls5xm0xt38HEwb37cNXZMiE9J28V3+wUU6SIW6a/aKuDCs1F648qDpGosSfhHNIKlY32JQGvvozDE7UPgg3kjF2dJtJK5JeKPS9VR4sJwIDpj9IQuFxLj9JxjE0OfVchkwrSvhiLttmUwQSLuXQ=
+	t=1721982180; cv=none; b=MisDuQkkyjFr2/zGV9C1hxzoImed0IW5MvpgAVx1gUP0a9gJvBCbqMooBh7+2cNNbSqKrDvNZ3Jr3eURECC/W6Z215TSpbF59hPyn9GL3mPDM6NiKdhmyNxyZ6PT1nzKyotq63bo9XeRPrmkosOz/K6DQj1SS4C5YzVuo5DCuNE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721980141; c=relaxed/simple;
-	bh=2MfHuog33syRQOQk+cSfq53QFPYTOF5wtCPCig5gRCM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=stsxp/JlIRSf6DqS+f3oj+zKesIcpbG4BuZCTBh0r0MQonlgETxBBPc/ZYzsX3GXG7nu1KuUPN3wgUMy0hydawSAoFmunq+6Y+oR6hjCDQhkPCJUmDUrScSjM7MVqWRYSty55xC90Lmxy3E7FvEMfJssV2lE3oP5Qxm+x97TYQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=e20e/rbW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1721982180; c=relaxed/simple;
+	bh=LzvDFFB+TelTfSCAfgpCsKNARcocA43Ip7WAHqdgf2w=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=I/Wv24rkpEmnimaX4YrLWMn60HYIC/jSsF4/lJBfuvuDf9QyGkG++y9PtQAmNf81lypttsR7AjOmTQ5M4SuwdLNq18891wOzXReyQoWZvvnJpW6Wbi+iUxjH/bTr3oFTeSBQWUF/KXnOamiCg3tkbgGQsFpuYAHA1vpmm0mpZfI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qtqGdrzX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="e20e/rbW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0FB1C32782;
-	Fri, 26 Jul 2024 07:48:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1721980140;
-	bh=2MfHuog33syRQOQk+cSfq53QFPYTOF5wtCPCig5gRCM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=e20e/rbW/O/Ay2WfvvEeexBRJxlE5babK/W2K8sEXpinETGu9D2gT8nJOGAPcgj2B
-	 4iBgsIQkIX6i02HPL2pnvltHBYGeW/babtN7eP0fi1WCZyFe1AkZlT+Ks9OOJiPNnA
-	 PwQuHvQxf34hcRzYdK5nRHEgehH7Im+BGsd9Ut7c=
-Date: Fri, 26 Jul 2024 09:48:57 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Chen Ni <nichen@iscas.ac.cn>
-Cc: laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
-	sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: media: omap4iss: add check for
- media_pad_remote_pad_first
-Message-ID: <2024072625-stubborn-garlic-11ae@gregkh>
-References: <20240726072814.3534601-1-nichen@iscas.ac.cn>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qtqGdrzX"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 3FA88C4AF0A;
+	Fri, 26 Jul 2024 08:23:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1721982180;
+	bh=LzvDFFB+TelTfSCAfgpCsKNARcocA43Ip7WAHqdgf2w=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=qtqGdrzXIOH1iyZ2aH1z8tK08hnfZ0TCwyNJP/XZg85kvgf69iTwDeAPnHKa0NqCV
+	 lsP+E5wuFRXPeevETdxpi+iVzo6gOVVEZJ3OZleT5G+SV2O2Th4aUB8nhVAKJwbByA
+	 2woHqFA5Lb88TaMVuhIE05m2AENXvocq9SFQipOZULNiiLAkkhJSdD/mW7RPS1cqmt
+	 kidWTBynJDe2jCq30DL9PR5mDwIlVQpP5oSEzkb//0t1hJZ4Vgp3042SV+2oaONxAz
+	 wumCPvcfw8HAAqzAdlorEgcjrw5ZN068eZxWGbWaw+dPJkq7/Okvosu1sEAq7F6eBv
+	 xa+QjP3DFuv9w==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B435C3DA7F;
+	Fri, 26 Jul 2024 08:23:00 +0000 (UTC)
+From: Nuno Sa via B4 Relay <devnull+nuno.sa.analog.com@kernel.org>
+Date: Fri, 26 Jul 2024 10:22:53 +0200
+Subject: [PATCH 01/23] iio: accel: adxl380: make use of
+ iio_get_masklength()
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240726072814.3534601-1-nichen@iscas.ac.cn>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240726-dev-iio-masklength-private3-v1-1-82913fc0fb87@analog.com>
+References: <20240726-dev-iio-masklength-private3-v1-0-82913fc0fb87@analog.com>
+In-Reply-To: <20240726-dev-iio-masklength-private3-v1-0-82913fc0fb87@analog.com>
+To: linux-iio@vger.kernel.org, linux-staging@lists.linux.dev
+Cc: Lars-Peter Clausen <lars@metafoo.de>, 
+ Michael Hennerich <Michael.Hennerich@analog.com>, 
+ Ramona Gradinariu <ramona.gradinariu@analog.com>, 
+ Antoniu Miclaus <antoniu.miclaus@analog.com>, 
+ Jonathan Cameron <jic23@kernel.org>, 
+ Marcus Folkesson <marcus.folkesson@gmail.com>, 
+ Kent Gustavsson <kent@minoris.se>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Heiko Stuebner <heiko@sntech.de>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Francesco Dolcini <francesco@dolcini.it>, 
+ =?utf-8?q?Jo=C3=A3o_Paulo_Gon=C3=A7alves?= <jpaulo.silvagoncalves@gmail.com>, 
+ Haibo Chen <haibo.chen@nxp.com>, Michal Simek <michal.simek@amd.com>, 
+ Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+X-Mailer: b4 0.14.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1721982177; l=837;
+ i=nuno.sa@analog.com; s=20231116; h=from:subject:message-id;
+ bh=4H4gd1mTf71nKs//tKbiKvw51/pe/swi+OU/DwsYlO8=;
+ b=UhNwEc2LqguPS+kPVUDA3jFFCWJYp2ygQzUmLt4TUoc4j/3SCy796NjQe2DVNWwATHkADS92n
+ /ts7cNrtSGSDG6wZF7Jo7VJ+3xKUGw5HwS5ljjFkj5TFmWOq+0aNNl8
+X-Developer-Key: i=nuno.sa@analog.com; a=ed25519;
+ pk=3NQwYA013OUYZsmDFBf8rmyyr5iQlxV/9H4/Df83o1E=
+X-Endpoint-Received: by B4 Relay for nuno.sa@analog.com/20231116 with
+ auth_id=100
+X-Original-From: Nuno Sa <nuno.sa@analog.com>
+Reply-To: nuno.sa@analog.com
 
-On Fri, Jul 26, 2024 at 03:28:14PM +0800, Chen Ni wrote:
-> Add check for the return value of media_pad_remote_pad_first() and
-> return the error if it fails in order to avoid NULL pointer dereference.
-> 
-> Fixes: b2e44430b634 ("media: mc-entity: Rename media_entity_remote_pad() to media_pad_remote_pad_first()")
-> Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
-> ---
->  drivers/staging/media/omap4iss/iss_csi2.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/staging/media/omap4iss/iss_csi2.c b/drivers/staging/media/omap4iss/iss_csi2.c
-> index 0e6c5bd81930..43851bbd0cc3 100644
-> --- a/drivers/staging/media/omap4iss/iss_csi2.c
-> +++ b/drivers/staging/media/omap4iss/iss_csi2.c
-> @@ -539,6 +539,9 @@ static int csi2_configure(struct iss_csi2_device *csi2)
->  		return -EBUSY;
->  
->  	pad = media_pad_remote_pad_first(&csi2->pads[CSI2_PAD_SINK]);
-> +	if (!pad)
-> +		return -EPIPE;
+From: Nuno Sa <nuno.sa@analog.com>
 
-How was this found and tested?
+Use iio_get_masklength() to access '.masklength' so it can be annotated
+as __private when there are no more direct users of it.
 
-thanks,
+Signed-off-by: Nuno Sa <nuno.sa@analog.com>
+---
+ drivers/iio/accel/adxl380.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-greg k-h
+diff --git a/drivers/iio/accel/adxl380.c b/drivers/iio/accel/adxl380.c
+index 41b01792161c..98863e22bb6b 100644
+--- a/drivers/iio/accel/adxl380.c
++++ b/drivers/iio/accel/adxl380.c
+@@ -1110,7 +1110,7 @@ static int adxl380_buffer_postenable(struct iio_dev *indio_dev)
+ 	}
+ 
+ 	st->fifo_set_size = bitmap_weight(indio_dev->active_scan_mask,
+-					  indio_dev->masklength);
++					  iio_get_masklength(indio_dev));
+ 
+ 	if ((st->watermark * st->fifo_set_size) > ADXL380_FIFO_SAMPLES)
+ 		st->watermark = (ADXL380_FIFO_SAMPLES  / st->fifo_set_size);
+
+-- 
+2.45.2
+
+
