@@ -1,131 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9DF917838E;
-	Fri, 26 Jul 2024 08:23:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3903AA3D
+	for <linux-staging@lists.linux.dev>; Fri, 26 Jul 2024 12:14:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721982181; cv=none; b=q49eS38GJhd7oWhBvqM8noSpkiseEXuNQ0HSSfsc779esg3zL560yAXuZ67hCHRAVBXwuMj3qDUwnfuuwmlPdcb008w6S0OKqU26fIhdAkOIk81rpoCmNv+7rqH8zMc3XOlh1oU/D3gTlncDUphHwqeH3m8LhzPQthsyOoUDvj4=
+	t=1721996093; cv=none; b=IT4FHf738sujfyaI3qSVcwTx/ZFfTJIkly9anPaRmVv0Jxy7XmxLP1260ZxbJpKTOBSGFb8pYOi7yA8yHOapFIk15V8A+BSOhQ2BbGZHsko7vaPRETB/02OHiaJIhqp6anY14soOkso3uDT+Y/xcEM+VeW++R16ry9BJRQviwFw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721982181; c=relaxed/simple;
-	bh=e1JekgmyZG6de3n/s2PZl+MtdBPsp4Mjb0OhK+wmryo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ncWwOTkIfyI8win30NOxsvM/dtoBP4dl0CRCPFUMq+6NKINeFEbrbVhB2fVTsO3brt4lANx8e4vPpvSQOABEpuGnKSJanaBXklymI7SfCHZp6jx3oQR2MhnT7pi0TTOQ3gPyXH5J5wZTChHVyhcAuv91Y1aCqsM8W62i7wxNiTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bbRw6Amg; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1721996093; c=relaxed/simple;
+	bh=Ih1skgJfXjkAaCS/GgCj8XhbygFgoQKIHW26fy0AQlU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AvLuNR/PO4uSejNACtxqa1zhxebAQRTKIW+gSmGvxF2Ty1oyJBxoANlAkOm1U9B+cPDhJR3ioJx2+Pma2to0J2t45ABB+Sq+XutMHrP0yW1UmeHnr7Vf62ccM7jPQo3r9OeHyyPmvmrzc4aQOgaPaKnEtzJpTSGUKwRqxArzmQ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=KPVRfmde; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bbRw6Amg"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 9860BC4AF0C;
-	Fri, 26 Jul 2024 08:23:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721982181;
-	bh=e1JekgmyZG6de3n/s2PZl+MtdBPsp4Mjb0OhK+wmryo=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=bbRw6Amg2U2t72MfzD5xAXm4xycNjIOGj/I9TOGXpW4OWE2qIOClDHHVMehZWbApj
-	 icOu3CYJirK6mHGCzGGhXXjicb/3VSzSIJtZo6c8aj3ZUILId6khaNhuFqe6vxqWYZ
-	 5kSWXhvj/EvSnkRUG/aU+acr6mYFZpVaDagSMeKeHFIdYzZw4h6XvXs8f8iGAmBavv
-	 ogoE2n6KLBBa4zaQsW4h6xE6UVUtBfs8K+StLae0ghsCdmg9YsuTMBWXaRweJ2rI3U
-	 PD/wNlC0Ik0fXEY9KeeVqwU8ne1d2ReOAUFQlx97nAp48YrbjULOKA+5PJTMXE+PRq
-	 o9QxYydDKw41Q==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E81EC52CDA;
-	Fri, 26 Jul 2024 08:23:01 +0000 (UTC)
-From: Nuno Sa via B4 Relay <devnull+nuno.sa.analog.com@kernel.org>
-Date: Fri, 26 Jul 2024 10:23:15 +0200
-Subject: [PATCH 23/23] iio: core: annotate masklength as __private
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="KPVRfmde"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1721996090;
+	bh=Ih1skgJfXjkAaCS/GgCj8XhbygFgoQKIHW26fy0AQlU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=KPVRfmdeBFA0Sgs6oFIaghiuJ7WyrueJZRGqLydFr2PZQSq9GPdhPnXlK0esvDVba
+	 NP8BU46mI74/6NBuKyJP4dcqaTFdYA1WME8RLZesLDd3TnVnhf+etN7DQtpnE4k8PP
+	 xjgTHUPmNdAc89r2w+bioF/NphubLYnnjFf8VApXuua9v2YjRgHIM4A4OANzFdGt61
+	 F9Cbm176gFa6hn/f7qsDONN0SS8PldbyCqyBB/DOeorMPQixrYsaVOIHrXR9RU1/jf
+	 Zem3cKWxywbmqV9nrvBZBR1nIydDJSePLFheUlJ3RBN39XsAZakClDxRshSLVEHTjj
+	 IkEJ1Gn7Lj8BA==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id DF32C37804C6;
+	Fri, 26 Jul 2024 12:14:48 +0000 (UTC)
+Message-ID: <cc5d9bdb-445d-44f0-9ca9-76e8a5b1818c@collabora.com>
+Date: Fri, 26 Jul 2024 14:14:47 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240726-dev-iio-masklength-private3-v1-23-82913fc0fb87@analog.com>
-References: <20240726-dev-iio-masklength-private3-v1-0-82913fc0fb87@analog.com>
-In-Reply-To: <20240726-dev-iio-masklength-private3-v1-0-82913fc0fb87@analog.com>
-To: linux-iio@vger.kernel.org, linux-staging@lists.linux.dev
-Cc: Lars-Peter Clausen <lars@metafoo.de>, 
- Michael Hennerich <Michael.Hennerich@analog.com>, 
- Ramona Gradinariu <ramona.gradinariu@analog.com>, 
- Antoniu Miclaus <antoniu.miclaus@analog.com>, 
- Jonathan Cameron <jic23@kernel.org>, 
- Marcus Folkesson <marcus.folkesson@gmail.com>, 
- Kent Gustavsson <kent@minoris.se>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Heiko Stuebner <heiko@sntech.de>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Francesco Dolcini <francesco@dolcini.it>, 
- =?utf-8?q?Jo=C3=A3o_Paulo_Gon=C3=A7alves?= <jpaulo.silvagoncalves@gmail.com>, 
- Haibo Chen <haibo.chen@nxp.com>, Michal Simek <michal.simek@amd.com>, 
- Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 05/23] iio: adc: mt6360-adc: make use of
+ iio_for_each_active_channel()
+To: nuno.sa@analog.com, linux-iio@vger.kernel.org,
+ linux-staging@lists.linux.dev
+Cc: Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Ramona Gradinariu <ramona.gradinariu@analog.com>,
+ Antoniu Miclaus <antoniu.miclaus@analog.com>,
+ Jonathan Cameron <jic23@kernel.org>,
+ Marcus Folkesson <marcus.folkesson@gmail.com>,
+ Kent Gustavsson <kent@minoris.se>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Heiko Stuebner <heiko@sntech.de>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Francesco Dolcini <francesco@dolcini.it>,
+ =?UTF-8?Q?Jo=C3=A3o_Paulo_Gon=C3=A7alves?=
+ <jpaulo.silvagoncalves@gmail.com>, Haibo Chen <haibo.chen@nxp.com>,
+ Michal Simek <michal.simek@amd.com>, Benson Leung <bleung@chromium.org>,
+ Guenter Roeck <groeck@chromium.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1721982178; l=1709;
- i=nuno.sa@analog.com; s=20231116; h=from:subject:message-id;
- bh=j64bS8AlbPEaXDKOf/24fcP0//ABTNMV+H57fOfioL0=;
- b=SqZqmPuN3DkvmQIpd3N42mKg1nerY7jzP7iAtnBI7wcyiGwg8NfCTvLb+HIxSYWS2uqA7Xsk+
- GnOcDRGd0Y7DoHUHxvqRqJiMfulWw0FRfgtpb+Y10pKwol9SoVNnfI1
-X-Developer-Key: i=nuno.sa@analog.com; a=ed25519;
- pk=3NQwYA013OUYZsmDFBf8rmyyr5iQlxV/9H4/Df83o1E=
-X-Endpoint-Received: by B4 Relay for nuno.sa@analog.com/20231116 with
- auth_id=100
-X-Original-From: Nuno Sa <nuno.sa@analog.com>
-Reply-To: nuno.sa@analog.com
+References: <20240726-dev-iio-masklength-private3-v1-0-82913fc0fb87@analog.com>
+ <20240726-dev-iio-masklength-private3-v1-5-82913fc0fb87@analog.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20240726-dev-iio-masklength-private3-v1-5-82913fc0fb87@analog.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Nuno Sa <nuno.sa@analog.com>
+Il 26/07/24 10:22, Nuno Sa via B4 Relay ha scritto:
+> From: Nuno Sa <nuno.sa@analog.com>
+> 
+> Use iio_for_each_active_channel() to iterate over active channels
+> accessing '.masklength' so it can be annotated as __private when there are
+> no more direct users of it.
+> 
+> Signed-off-by: Nuno Sa <nuno.sa@analog.com>
 
-Now that all users are using the proper accessors, we can mark
-masklength as __private so that no one tries to write. We also get help
-from checkers in warning us in case someone does it.
-
-To access the private field from IIO core code, we need to use the
-ACCESS_PRIVATE() macro.
-
-Signed-off-by: Nuno Sa <nuno.sa@analog.com>
----
- drivers/iio/industrialio-buffer.c | 2 +-
- include/linux/iio/iio.h           | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/iio/industrialio-buffer.c b/drivers/iio/industrialio-buffer.c
-index 3d0b1d25fdd7..8104696cd475 100644
---- a/drivers/iio/industrialio-buffer.c
-+++ b/drivers/iio/industrialio-buffer.c
-@@ -2269,7 +2269,7 @@ int iio_buffers_alloc_sysfs_and_mask(struct iio_dev *indio_dev)
- 
- 		for (i = 0; i < indio_dev->num_channels; i++)
- 			ml = max(ml, channels[i].scan_index + 1);
--		indio_dev->masklength = ml;
-+		ACCESS_PRIVATE(indio_dev, masklength) = ml;
- 	}
- 
- 	if (!iio_dev_opaque->attached_buffers_cnt)
-diff --git a/include/linux/iio/iio.h b/include/linux/iio/iio.h
-index dd6bbc468283..f6c0499853bb 100644
---- a/include/linux/iio/iio.h
-+++ b/include/linux/iio/iio.h
-@@ -609,7 +609,7 @@ struct iio_dev {
- 	int				scan_bytes;
- 
- 	const unsigned long		*available_scan_masks;
--	unsigned			masklength;
-+	unsigned			__private masklength;
- 	const unsigned long		*active_scan_mask;
- 	bool				scan_timestamp;
- 	struct iio_trigger		*trig;
-@@ -861,7 +861,7 @@ static inline const struct iio_scan_type
-  */
- static inline unsigned int iio_get_masklength(const struct iio_dev *indio_dev)
- {
--	return indio_dev->masklength;
-+	return ACCESS_PRIVATE(indio_dev, masklength);
- }
- 
- /**
-
--- 
-2.45.2
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
 
