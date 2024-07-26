@@ -1,368 +1,318 @@
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [167.172.40.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E464D21364
-	for <linux-staging@lists.linux.dev>; Fri, 26 Jul 2024 19:56:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=167.172.40.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E1F6148848
+	for <linux-staging@lists.linux.dev>; Fri, 26 Jul 2024 23:46:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722023773; cv=none; b=Ue2bE71hxsluDBKIaIXGpIwk6hPe+XN8e67Lom1xJZvBL284DQcbBjaNBezTmnNE/iFnh3VJ5bMQRApPkHPTwGTlcV0Eyx+vVr9zHWbYwcOYXZm2HnEHC1hLl4VroaR09hVuDyyz4KM6XaxVncRU9WmW5K4uqKrB/fuH/RWKdlY=
+	t=1722037620; cv=none; b=EezDa6hj5Li0gpGfrm5vbVjK+aus7UDM3LILcplRdE3Q65fNmKTRAghEbVqpe5jn3HQcBXfhf3qgNpuTjA7biiIpPzoXWkVlJ5/jxhtkBKqg2YZLalRU0oeXyqX1YoN2XZDscwgfUTSg9NRmcVduZr4iEm/yOuAFPGGFmR8UceE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722023773; c=relaxed/simple;
-	bh=jUxzW/eISqOpiBVr30pQZVVtykzlvo8h4zWQeImEN0s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=o41KuXsOOz10EdzPjB0JmKNLlOVbz45QPkswNyegK5fTIvR5XsdfA6RGj1NmAfLxSSiyNWkSGIwJQOzdyE7icW0yJurQofQ0qHuxe8aJSkNCTpNGXeuHwAsCwYGvGFQ0Wvh3x1m1scsWkbokA+btXDKSmh9RzJtIE4xTXyjjWsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=BVw4wawU; arc=none smtp.client-ip=167.172.40.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
+	s=arc-20240116; t=1722037620; c=relaxed/simple;
+	bh=5/PzxMTpWkDUOdlnbdCr2Q9qJin2wpwqnTQrXy29FVM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=j/OShIhtz24M2dtYLBH8826hwrRX/vrFBrXDJiEwWDmqMFHkESD6zsk23EYeYeFFs22gX12e9ZQQKXVk7zPj7/MB1RDVz4YwNzxgYE759s1HzYvfbhlcceOZqVn4GYp0RSd99T66Onj3pgfvYGuSLkHgtb6VwXp5l4wv8lL9FOE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Z2glDitQ; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="BVw4wawU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
- h=Content-Transfer-Encoding: Content-Type: In-Reply-To: From: References:
- Cc: To: Subject: MIME-Version: Date: Message-ID; q=dns/txt;
- s=fe-e1b5cab7be; t=1722023716;
- bh=8Q1Sz4i2dNHc/6tQGm+set8ubAONMQllV0779TpuRX0=;
- b=BVw4wawUSz+IG9WCwJYQB9sbPZyyzROf5y1sbPxY9sTTbSL0lKK/gg0LsTS0WOtC6kPUR1m32
- lM/kHoYPrr6j7OqmM0Z8UbX3ueDi0U+zJtSciNo3IazzU4xgAd0XFu09ndpoMf40YLpslHggoGo
- bGR0pYnZ6f6NnPdWu4+ahd8Q1AHHUJbqTaQWO/KklRS4tw0GIW9qox/NyUDYn+Rn38QveNMFw0T
- i9fX2aHXXqoK75987PrPV4DNsNp/wTPF6dIMIDoc8LNDlu/OPKWqhz5nAE29lP+Io4zw+VuHWrK
- 92FV6go6mB6xPJFhbBdw8Z/SNIaDpX+mGGKE49NRPsow==
-Message-ID: <fd35532b-d69e-49bc-a46e-61a7b6a93971@kwiboo.se>
-Date: Fri, 26 Jul 2024 21:55:07 +0200
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Z2glDitQ"
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 209D463F;
+	Sat, 27 Jul 2024 01:46:10 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1722037570;
+	bh=5/PzxMTpWkDUOdlnbdCr2Q9qJin2wpwqnTQrXy29FVM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Z2glDitQm24E82tdUO2KMAw4YfF+SZVq4uw7ErFusQKacG5hq7MuUXjSV08aIQtuH
+	 uCFViKWFjC0dNCX1VwSRtslF36htfxopyCAW97nQkXvq6XmKBGYzYdEbey5lvVViPU
+	 WG6+4/rDITpo6g36rLaYBoU2G+LLfehrjlFZUR+8=
+Date: Sat, 27 Jul 2024 02:46:36 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Changhuang Liang <changhuang.liang@starfivetech.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	Mingjia Zhang <mingjia.zhang@mediatek.com>,
+	Jack Zhu <jack.zhu@starfivetech.com>,
+	Keith Zhao <keith.zhao@starfivetech.com>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>
+Subject: Re: =?utf-8?B?5Zue5aSNOiBbUEFUQw==?= =?utf-8?Q?H?= v5 01/14] media:
+ starfive: Add JH7110 ISP module definitions
+Message-ID: <20240726234636.GB300@pendragon.ideasonboard.com>
+References: <20240709083824.430473-1-changhuang.liang@starfivetech.com>
+ <20240709083824.430473-2-changhuang.liang@starfivetech.com>
+ <h52qw6ndset7h7rgbfs6jqbsweldgvc3ewforvzlhmacvmqzzl@u4ik6jeswswi>
+ <20240722142724.GG5732@pendragon.ideasonboard.com>
+ <ZQ0PR01MB13025E2A2CC848A5F82B66ABF2AA2@ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/4] arm64: dts: rockchip: Add rkvdec2 Video Decoder on
- rk3588(s)
-To: Detlev Casanova <detlev.casanova@collabora.com>, Alex Bee
- <knaerzche@gmail.com>
-Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner
- <heiko@sntech.de>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- Sebastian Reichel <sebastian.reichel@collabora.com>, Dragan Simic
- <dsimic@manjaro.org>, Diederik de Haas <didi.debian@cknow.org>, Andy Yan
- <andy.yan@rock-chips.com>, Boris Brezillon
- <boris.brezillon@collabora.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Daniel Almeida <daniel.almeida@collabora.com>, Paul Kocialkowski
- <paul.kocialkowski@bootlin.com>, Nicolas Dufresne
- <nicolas.dufresne@collabora.com>, Benjamin Gaignard
- <benjamin.gaignard@collabora.com>, linux-media@vger.kernel.org,
- linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20240619150029.59730-1-detlev.casanova@collabora.com>
- <4356151.ejJDZkT8p0@arisu> <689aec72-f777-4122-a332-02009fbf0b3b@kwiboo.se>
- <6070053.DvuYhMxLoT@arisu>
-Content-Language: en-US
-From: Jonas Karlman <jonas@kwiboo.se>
-In-Reply-To: <6070053.DvuYhMxLoT@arisu>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Report-Abuse-To: abuse@forwardemail.net
-X-Report-Abuse: abuse@forwardemail.net
-X-Complaints-To: abuse@forwardemail.net
-X-ForwardEmail-Version: 0.4.40
-X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
- 167.172.40.54
-X-ForwardEmail-ID: 66a3ff22df62d509e165a502
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZQ0PR01MB13025E2A2CC848A5F82B66ABF2AA2@ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn>
 
-Hi Detlev,
+Hello Changhuang,
 
-On 2024-07-26 17:26, Detlev Casanova wrote:
-> Hi Jonas !
+On Wed, Jul 24, 2024 at 02:20:17AM +0000, Changhuang Liang wrote:
+> > On Wed, Jul 10, 2024 at 11:11:57AM +0200, Jacopo Mondi wrote:
+> > > On Tue, Jul 09, 2024 at 01:38:11AM GMT, Changhuang Liang wrote:
+> > > > Add JH7110 ISP module definitions for user space.
+> > > >
+> > > > Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
+> > > > Signed-off-by: Zejian Su <zejian.su@starfivetech.com>
+> > > > ---
+> > > >  MAINTAINERS                     |   1 +
+> > > >  include/uapi/linux/jh7110-isp.h | 739 ++++++++++++++++++++++++++++++++
+> > >
+> > > With the recently merged support for the RaspberryPi PiSP BE we have
+> > > introduced include/uapi/linux/media/raspberry.
+> > >
+> > > Would you consider placing this in
+> > > include/uapi/linux/media/startfive/ ?
+> > 
+> > That sounds like a good idea.
+> > 
+> > > >  2 files changed, 740 insertions(+)
+> > > >  create mode 100644 include/uapi/linux/jh7110-isp.h
+> > > >
+> > > > diff --git a/MAINTAINERS b/MAINTAINERS index
+> > > > 507f04a80499..890604eb0d64 100644
+> > > > --- a/MAINTAINERS
+> > > > +++ b/MAINTAINERS
+> > > > @@ -21305,6 +21305,7 @@ S:	Maintained
+> > > >  F:	Documentation/admin-guide/media/starfive_camss.rst
+> > > >  F:
+> > 	Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml
+> > > >  F:	drivers/staging/media/starfive/camss
+> > > > +F:	include/uapi/linux/jh7110-isp.h
+> > > >
+> > > >  STARFIVE CRYPTO DRIVER
+> > > >  M:	Jia Jie Ho <jiajie.ho@starfivetech.com>
+> > > > diff --git a/include/uapi/linux/jh7110-isp.h
+> > > > b/include/uapi/linux/jh7110-isp.h new file mode 100644 index
+> > > > 000000000000..4939cd63e771
+> > > > --- /dev/null
+> > > > +++ b/include/uapi/linux/jh7110-isp.h
+> > > > @@ -0,0 +1,739 @@
+> > > > +/* SPDX-License-Identifier: ((GPL-2.0+ WITH Linux-syscall-note) OR
+> > > > +BSD-3-Clause) */
+> > > > +/*
+> > > > + * jh7110-isp.h
+> > > > + *
+> > > > + * JH7110 ISP driver - user space header file.
+> > > > + *
+> > > > + * Copyright © 2023 StarFive Technology Co., Ltd.
+> > > > + *
+> > > > + * Author: Zejian Su <zejian.su@starfivetech.com>
+> > > > + *
+> > > > + */
+> > > > +
+> > > > +#ifndef __JH7110_ISP_H_
+> > > > +#define __JH7110_ISP_H_
+> > > > +
+> > >
+> > > Do you need to include
+> > >
+> > > #include <linux/types.h>
+> > >
+> > > > +/**
+> > >
+> > > Is this kernel-doc or a single * would do ?
+> > >
+> > > > + * ISP Module Diagram
+> > > > + * ------------------
+> > > > + *
+> > > > + *  Raw  +-----+    +------+    +------+    +----+
+> > > > + *  ---->| OBC |--->| OECF |--->| LCCF |--->| WB |-----+
+> > > > + *       +-----+    +------+    +------+    +----+     |
+> > > > + *                                                     |
+> > > > + *  +--------------------------------------------------+
+> > > > + *  |
+> > > > + *  |    +-----+    +-----+    +-----+    +-----+
+> > > > + *  +--->| DBC |--->| CTC |--->| CFA |--->| CAR |------+
+> > > > + *       +-----+    +-----+    +-----+    +-----+      |
+> > > > + *                                                     |
+> > > > + *  +--------------------------------------------------+
+> > > > + *  |
+> > > > + *  |    +-----+    +--------+    +-----+    +------+
+> > > > + *  +--->| CCM |--->| GMARGB |--->| R2Y |--->| YCRV |--+
+> > > > + *       +-----+    +--------+    +-----+    +------+  |
+> > > > + *                                                     |
+> > > > + *  +--------------------------------------------------+
+> > > > + *  |
+> > > > + *  |    +-------+    +-------+    +-----+    +----+
+> > > > + *  +--->| SHARP |--->| DNYUV |--->| SAT |--->| SC |
+> > > > + *       +-------+    +-------+    +-----+    +----+
+> > > > + *
+> > 
+> > The diagram is useful, thank you. A glossary would also be nice, maybe as
+> > 
+> >  * - OBC: Optical Black Correction
+> >  * - OECF: Opto-Electric Conversion Function
+> >  * ...
+> > 
+> > I think that would be easier to read than the comments above each macro
+> > below. Up to you.
+> > 
+> > > > + */
+> > > > +
+> > > > +/* Auto White Balance */
+> > > > +#define JH7110_ISP_MODULE_WB_SETTING			(1U << 0)
+> > > > +/* Color Artifact Removal */
+> > > > +#define JH7110_ISP_MODULE_CAR_SETTING			(1U << 1)
+> > > > +/* Color Correction Matrix */
+> > > > +#define JH7110_ISP_MODULE_CCM_SETTING			(1U << 2)
+> > > > +/* Color Filter Arrays */
+> > > > +#define JH7110_ISP_MODULE_CFA_SETTING			(1U << 3)
+> > > > +/* Crosstalk Correction */
+> > > > +#define JH7110_ISP_MODULE_CTC_SETTING			(1U << 4)
+> > > > +/* Defect Bad Pixel Correction */
+> > > > +#define JH7110_ISP_MODULE_DBC_SETTING			(1U << 5)
+> > > > +/* Denoise YUV */
+> > > > +#define JH7110_ISP_MODULE_DNYUV_SETTING			(1U << 6)
+> > > > +/* RGB Gamma */
+> > > > +#define JH7110_ISP_MODULE_GMARGB_SETTING		(1U << 7)
+> > > > +/* Lens Correction Cosine Fourth */
+> > > > +#define JH7110_ISP_MODULE_LCCF_SETTING			(1U << 8)
+> > > > +/* Optical Black Correction */
+> > > > +#define JH7110_ISP_MODULE_OBC_SETTING			(1U << 9)
+> > > > +/* Opto-Electric Conversion Function */
+> > > > +#define JH7110_ISP_MODULE_OECF_SETTING			(1U << 10)
+> > > > +/* RGB To YUV */
+> > > > +#define JH7110_ISP_MODULE_R2Y_SETTING			(1U << 11)
+> > > > +/* Saturation */
+> > > > +#define JH7110_ISP_MODULE_SAT_SETTING			(1U << 12)
+> > > > +/* Sharpen */
+> > > > +#define JH7110_ISP_MODULE_SHARP_SETTING			(1U << 13)
+> > > > +/* Y Curve */
+> > > > +#define JH7110_ISP_MODULE_YCRV_SETTING			(1U << 14)
+> > > > +/* Statistics Collection */
+> > > > +#define JH7110_ISP_MODULE_SC_SETTING			(1U << 15)
+> > 
+> > Unless there's a specific reason to keep the current order, maybe you could
+> > sort those macros in the same order as in the module diagram ?
+> > 
+> > > > +
+> > > > +/**
+> > > > + * struct jh7110_isp_wb_gain - auto white balance gain
+> > > > + *
+> > > > + * @gain_r: gain value for red component.
+> > > > + * @gain_g: gain value for green component.
+> > > > + * @gain_b: gain value for blue component.
+> > 
+> > I suppose the gains are expressed as fixed-point integers. This needs more
+> > details, what are the limits, and how many bits of integer and fractional parts
+> > are there ?
+> > 
+> > Same comment for all the other values below.
+> > 
+> > > > + */
+> > > > +struct jh7110_isp_wb_gain {
+> > > > +	__u16 gain_r;
+> > > > +	__u16 gain_g;
+> > > > +	__u16 gain_b;
+> > > > +};
+> > > > +
+> > > > +/**
+> > > > + * struct jh7110_isp_wb_setting - Configuration used by auto white
+> > > > +balance gain
+> > > > + *
+> > > > + * @enabled: enabled setting flag.
+> > > > + * @gains: auto white balance gain setting.
+> > > > + */
+> > > > +struct jh7110_isp_wb_setting {
+> > > > +	__u32 enabled;
+> > > > +	struct jh7110_isp_wb_gain gains;
+> > > > +};
+> > > > +
+> > > > +/**
+> > > > + * struct jh7110_isp_car_setting - Configuration used by color
+> > > > +artifact removal
+> > > > + *
+> > > > + * @enabled: enabled setting flag.
+> > > > + */
+> > > > +struct jh7110_isp_car_setting {
+> > > > +	__u32 enabled;
+> > > > +};
+> > > > +
+> > > > +/**
+> > > > + * struct jh7110_isp_ccm_smlow - Color correction matrix
+> > > > + *
+> > > > + * @ccm: color transform matrix with size 3 by 3.
+> > > > + * @offsets: the offsets of R, G, B after the transform by the ccm.
+> > > > + */
+> > > > +struct jh7110_isp_ccm_smlow {
+> > > > +	__s32 ccm[3][3];
+> > > > +	__s32 offsets[3];
+> > > > +};
+> > > > +
+> > > > +/**
+> > > > + * struct jh7110_isp_ccm_setting - Configuration used by color
+> > > > +correction matrix
+> > > > + *
+> > > > + * @enabled: enabled setting flag.
+> > > > + * @ccm_smlow: Color correction matrix.
+> > > > + */
+> > > > +struct jh7110_isp_ccm_setting {
+> > > > +	__u32 enabled;
+> > > > +	struct jh7110_isp_ccm_smlow ccm_smlow; };
+> > > > +
+> > > > +/**
+> > > > + * struct jh7110_isp_cfa_params - demosaic parameters
+> > > > + *
+> > > > + * @hv_width: detail smooth factor
+> > > > + * @cross_cov: Cross covariance weighting.
+> > 
+> > This documentation doesn't tell how to use those paraemeters. This comment
+> > applies to many other parameters below. There are three main options to
+> > improve that:
+> > 
+> > - Expanding the documentation in this header file to clearly explain how
+> >   to compute the parameters values.
+> > 
+> > - Providing an open userspace implementation of ISP algorithms that
+> >   showcase how to calculate the values.
+> > 
+> > - Providing detailed hardware documentation for the ISP. This is usually
+> >   not favoured by ISP vendors, and we are not pushing for this, but I
+> >   wanted to mention it for completeness.
+> > 
 > 
-> On Thursday, June 27, 2024 6:39:36 P.M. EDT Jonas Karlman wrote:
->> Hi Datlev,
->>
->> On 2024-06-27 22:56, Detlev Casanova wrote:
->>> Hi Jonas,
->>>
->>> On Monday, June 24, 2024 5:16:33 A.M. EDT Jonas Karlman wrote:
->>>> Hi Detlev and Alex,
->>>>
->>>> On 2024-06-20 15:31, Detlev Casanova wrote:
->>>>> Hi Jonas, Alex,
->>>>>
->>>>> On Wednesday, June 19, 2024 2:06:40 P.M. EDT Jonas Karlman wrote:
->>>>>> Hi Alex,
->>>>>>
->>>>>> On 2024-06-19 19:19, Alex Bee wrote:
->>>>>>> Am 19.06.24 um 17:28 schrieb Jonas Karlman:
->>>>>>>> Hi Detlev,
->>>>>>>>
->>>>>>>> On 2024-06-19 16:57, Detlev Casanova wrote:
->>>>>>>>> Add the rkvdec2 Video Decoder to the RK3588s devicetree.
->>>>>>>>>
->>>>>>>>> Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
->>>>>>>>> ---
->>>>>>>>>
->>>>>>>>>   arch/arm64/boot/dts/rockchip/rk3588s.dtsi | 50
->>>>>>>>>   +++++++++++++++++++++++
->>>>>>>>>   1 file changed, 50 insertions(+)
->>>>>>>>>
->>>>>>>>> diff --git a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
->>>>>>>>> b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi index
->>>>>>>>> 6ac5ac8b48ab..7690632f57f1 100644
->>>>>>>>> --- a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
->>>>>>>>> +++ b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
->>>>>>>>> @@ -2596,6 +2596,16 @@ system_sram2: sram@ff001000 {
->>>>>>>>>
->>>>>>>>>   		ranges = <0x0 0x0 0xff001000 0xef000>;
->>>>>>>>>   		#address-cells = <1>;
->>>>>>>>>   		#size-cells = <1>;
->>>>>>>>>
->>>>>>>>> +
->>>>>>>>> +		vdec0_sram: rkvdec-sram@0 {
->>>>>>>>> +			reg = <0x0 0x78000>;
->>>>>>>>> +			pool;
->>>>>>>>> +		};
->>>>>>>>> +
->>>>>>>>> +		vdec1_sram: rkvdec-sram@1 {
->>>>>>>>> +			reg = <0x78000 0x77000>;
->>>>>>>>> +			pool;
->>>>>>>>> +		};
->>>>>>>>>
->>>>>>>>>   	};
->>>>>>>>>   	
->>>>>>>>>   	pinctrl: pinctrl {
->>>>>>>>>
->>>>>>>>> @@ -2665,6 +2675,46 @@ gpio4: gpio@fec50000 {
->>>>>>>>>
->>>>>>>>>   			#interrupt-cells = <2>;
->>>>>>>>>   		
->>>>>>>>>   		};
->>>>>>>>>   	
->>>>>>>>>   	};
->>>>>>>>>
->>>>>>>>> +
->>>>>>>>> +	vdec0: video-decoder@fdc38100 {
->>>>>>>>> +		compatible = "rockchip,rk3588-vdec";
->>>>>>>>> +		reg = <0x0 0xfdc38100 0x0 0x500>;
->>>>>>>>> +		interrupts = <GIC_SPI 95 IRQ_TYPE_LEVEL_HIGH 0>;
->>>>>>>>> +		clocks = <&cru ACLK_RKVDEC0>, <&cru HCLK_RKVDEC0>,
->>>>>
->>>>> <&cru
->>>>>
->>>>>>>>> CLK_RKVDEC0_CA>, +			 <&cru
->>>>>
->>>>> CLK_RKVDEC0_CORE>, <&cru
->>>>>
->>>>>>>>> CLK_RKVDEC0_HEVC_CA>;
->>>>>>>>> +		clock-names = "axi", "ahb", "cabac", "core",
->>>>>
->>>>> "hevc_cabac";
->>>>>
->>>>>>>>> +		assigned-clocks = <&cru ACLK_RKVDEC0>, <&cru
->>>>>
->>>>> CLK_RKVDEC0_CORE>,
->>>>>
->>>>>>>>> +				  <&cru CLK_RKVDEC0_CA>, <&cru
->>>>>
->>>>> CLK_RKVDEC0_HEVC_CA>;
->>>>>
->>>>>>>>> +		assigned-clock-rates = <800000000>, <600000000>,
->>>>>>>>> +				       <600000000>, <1000000000>;
->>>>>>>>> +		resets = <&cru SRST_A_RKVDEC0>, <&cru SRST_H_RKVDEC0>,
->>>>>
->>>>> <&cru
->>>>>
->>>>>>>>> SRST_RKVDEC0_CA>, +			 <&cru
->>>>>
->>>>> SRST_RKVDEC0_CORE>, <&cru
->>>>>
->>>>>>>>> SRST_RKVDEC0_HEVC_CA>;
->>>>>>>>> +		reset-names = "rst_axi", "rst_ahb", "rst_cabac",
->>>>>>>>> +			      "rst_core", "rst_hevc_cabac";
->>>>>>>>> +		power-domains = <&power RK3588_PD_RKVDEC0>;
->>>>>>>>> +		sram = <&vdec0_sram>;
->>>>>>>>> +		status = "okay";
->>>>>>>>> +	};
->>>>>>>>> +
->>>>>>>>> +	vdec1: video-decoder@fdc40100 {
->>>>>>>>> +		compatible = "rockchip,rk3588-vdec";
->>>>>>>>> +		reg = <0x0 0xfdc40100 0x0 0x500>;
->>>>>>>>> +		interrupts = <GIC_SPI 97 IRQ_TYPE_LEVEL_HIGH 0>;
->>>>>>>>> +		clocks = <&cru ACLK_RKVDEC1>, <&cru HCLK_RKVDEC1>,
->>>>>
->>>>> <&cru
->>>>>
->>>>>>>>> CLK_RKVDEC1_CA>, +			 <&cru
->>>>>
->>>>> CLK_RKVDEC1_CORE>, <&cru
->>>>>
->>>>>>>>> CLK_RKVDEC1_HEVC_CA>;
->>>>>>>>> +		clock-names = "axi", "ahb", "cabac", "core",
->>>>>
->>>>> "hevc_cabac";
->>>>>
->>>>>>>>> +		assigned-clocks = <&cru ACLK_RKVDEC1>, <&cru
->>>>>
->>>>> CLK_RKVDEC1_CORE>,
->>>>>
->>>>>>>>> +				  <&cru CLK_RKVDEC1_CA>, <&cru
->>>>>
->>>>> CLK_RKVDEC1_HEVC_CA>;
->>>>>
->>>>>>>>> +		assigned-clock-rates = <800000000>, <600000000>,
->>>>>>>>> +				       <600000000>, <1000000000>;
->>>>>>>>> +		resets = <&cru SRST_A_RKVDEC1>, <&cru SRST_H_RKVDEC1>,
->>>>>
->>>>> <&cru
->>>>>
->>>>>>>>> SRST_RKVDEC1_CA>, +			 <&cru
->>>>>
->>>>> SRST_RKVDEC1_CORE>, <&cru
->>>>>
->>>>>>>>> SRST_RKVDEC1_HEVC_CA>;
->>>>>>>>> +		reset-names = "rst_axi", "rst_ahb", "rst_cabac",
->>>>>>>>> +			      "rst_core", "rst_hevc_cabac";
->>>>>>>>> +		power-domains = <&power RK3588_PD_RKVDEC1>;
->>>>>>>>> +		sram = <&vdec1_sram>;
->>>>>>>>> +		status = "okay";
->>>>>>>>> +	};
->>>>>>>>
->>>>>>>> This is still missing the iommus, please add the iommus, they should
->>>>>>>> be
->>>>>>>>
->>>>>>>> supported/same as the one used for e.g. VOP2:
->>>>>>>>    compatible = "rockchip,rk3588-iommu", "rockchip,rk3568-iommu";
->>>>>>>>
->>>>>>>> The VOP2 MMUs does have one extra mmu_cfg_mode flag in AUTO_GATING,
->>>>>>>> compared to the VDPU381 MMUs, however only the AV1D MMU should be
->>>>>>>> special on RK3588.
->>>>>>>>
->>>>>>>> Please add the iommus :-)
->>>>>>>
->>>>>>> When looking add the vendor DT/iommu driver I'm seeing serval quirks
->>>>>>> applied for vdec's iommus. Since it's rightly frowned upon adding such
->>>>>>> boolean-quirk-properties to upstream devicetrees, we'd at least need
->>>>>>> additional (fallback-) compatibles, even if it works with the iommu
->>>>>>> driver
->>>>>>> as is (what I doubt, but haven't tested). We need to be able to apply
->>>>>>> those
->>>>>>> quirks later without changing the devicetree (as usual) and I'm sure
->>>>>>> RK
->>>>>>> devs haven't added these quirks for the personal amusement.
->>>>>>
->>>>>> Based on what I investigated the hw should work similar, and the quirks
->>>>>> mostly seem related to optimizations and sw quirks, like do not zap
->>>>>> each
->>>>>> line, keep it alive even when pm runtime say it is not in use and other
->>>>>> quirks that seem to be more of sw nature on how to best utilize the hw.
->>>>>
->>>>> I did some testing with the IOMMU but unfortunately, I'm only getting
->>>>> page
->>>>> fault errors. This may be something I'm doing wrong, but it clearly
->>>>> needs
->>>>> more investigation.
->>>>
->>>> I re-tested and the addition of sram seem to now cause page faults, the
->>>> sram also need to be mapped in the iommu.
->>>>
->>>> However, doing more testing revealed that use of iommu present the same
->>>> issue as seen with hevc on rk3399, after a fail fluster tests continue
->>>> to fail until a reset.
->>>>
->>>> Seeing how this issue was very similar I re-tested on rk3399 without
->>>> iommu and cma=1G and could observe that there was no longer any need to
->>>> reset after a failed test. Interestingly the score also went up from
->>>> 135 to 137/147.
->>>>
->>>> Digging some more revealed that the iommu also is reset during the
->>>> internal rkvdec soft reset on error, leaving the iommu with dte_addr=0
->>>> and paging in disabled state.
->>>>
->>>> Ensuring that the iommu was reconfigured after a failure fixed the issue
->>>> observed on rk3399 and I now also get 137/147 hevc fluster score using
->>>> the iommu.
->>>>
->>>> Will send out a rkvdec hevc v2 series after some more testing.
->>>>
->>>> Guessing there is a similar need to reconfigure iommu on rk3588, and my
->>>> initial tests also showed promising result, however more tests are
->>>> needed.
->>>
->>> I did some testing with the IOMMU. The good news is that it now works with
->>> the SRAM.
->>
->> Great, I did not look into SRAM at all, just replaced sram prop with iommus
->> for my tests, so great that you found a way to make it work with the iommu
->> :-)
->>> I am also able to hack the iommu driver to force a reset in case of an
->>> error in the decoder. I'm not sure how to implement that with the IOMMU
->>> kernel API though.
->>
->> I am planning on sending something along the way of this as an RFC:
->>
->> https://github.com/Kwiboo/linux-rockchip/compare/6da640232631...bf332524d880
->>
->> If we re-configure and re-enable the iommu just before next decoding run
->> after a decoding has failed seem to resolve any issue I have seen, have
->> mainly been tested with rkvdec and HEVC on RK3399/RK3328. On RK3588 this
->> also seemed to work, at least when I tested earlier this week.
->>
->>> Another issue is that resetting the iommu will drop all buffer addresses
->>> of
->>> other decoding contexts that may be running in parallel.
->>
->> I do not think we need/should reset the iommu, we just need to deal with
->> the fact that the rkvdec will reset and disable use of the mmu when it
->> reset itself.
->>
->>> I *think* that the downstream mpp remaps the buffers in the iommu for each
->>> frame, but I'm not sure about that either.
->>
->> As long as a frame can be decoded correctly, the mmu config seem to continue
->> to be valid and next frame can be decoded.
->>
->>> So running fluster with `-j 1` gives me the expected 129/135 passed tests,
->>> but `-j 8` will start failing all tests after the first fail (well, first
->>> fail because of decoder error).
->>
->> This was the main issue blocking rkvdec hevc, just re-confgure the mmu
->> after a frame fails to decode seem to resolve this issue.
->>
->> Biggest issue at the moment is how to properly signal iommu subsystem that
->> it should re-configure, I may have abused the flush_iotlb_all ops, since
->> that seemed closest existing hook.
->>
->> Will send an RFC to linux-iommu to collect input on how to best signal
->> iommu subsystem that the mmu has been reset by an external event and now
->> need to be re-configured.
-> 
-> Do you mind if I go ahead and send your iommu flush_iotlb_all patch upstream to 
-> start the discussion ? I'd love for this patch set to move along and that's 
-> kind of a blocker right now.
+> We prefer the first option. It will take a lot of time for us to
+> supplement the documentation.
 
-Sorry for the delay, will try to get something on list this weekend or
-early next week.
+That is fine. Very broadly speaking, the level of documentation we are
+aiming for should be enough for a third party developer to implement
+support for the ISP control algorithms in libcamera. Please let me know
+if you would like to discuss this in more details, to make sure there's
+no misunderstanding in the expectations.
 
-I have reworked our LibreELEC FFmpeg v4l2-request patches [1] to help
-test the iommu change for rkvdec1 hevc, and have now patches that should
-be more upstreamable.
+> > If you would prefer the second option, any open-source camera framework
+> > would be acceptable, but in practice the only real option is likely libcamera.
+> > 
+> > This does not mean that you have to open-source all your ISP control
+> > algorithms. Only the code needed to explain how ISP parameters are applied
+> > to the image and are computed is needed. Other parts, such as for instance
+> > AI-based computation of white balance gains, or complex AGC calculations,
+> > don't need to be open-source.
+> > 
+> > The explain this requirement different and perhaps more clearly, the goal is to
+> > make sure that developers who have access to only open-source code (ISP
+> > kernel driver, this header, any open-source userspace code,
+> > ...) will have enough information to configure and control the ISP.
 
-Testing the iommu flush with hevc on rkvdec1 has shown that the iommu
-change seem to work for most part, however there was still situations
-when parallel jobs and/or threads was used with fluster that some
-unrelated tests could fail, with a single job it improved hevc score to
-137 of 145, so it is an improvement but for perfect multi-stream
-decoding hard-reset handling may also be needed in future.
-
-Also running fluster VP9 test suite also cause my RK3399 board to freeze
-with a kernel panic in iommu irq handler, have not yet tried to dig any
-deeper, if it is an old issue or a new issue due to the new iommu flush.
-
-[1] https://github.com/FFmpeg/FFmpeg/compare/master...Kwiboo:FFmpeg:v4l2request-2024-v2
-
+-- 
 Regards,
-Jonas
 
-> 
-> Detlev.
-> 
-> 
-
+Laurent Pinchart
