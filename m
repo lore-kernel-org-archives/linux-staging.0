@@ -1,318 +1,106 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E1F6148848
-	for <linux-staging@lists.linux.dev>; Fri, 26 Jul 2024 23:46:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8C041CF90
+	for <linux-staging@lists.linux.dev>; Sat, 27 Jul 2024 09:31:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722037620; cv=none; b=EezDa6hj5Li0gpGfrm5vbVjK+aus7UDM3LILcplRdE3Q65fNmKTRAghEbVqpe5jn3HQcBXfhf3qgNpuTjA7biiIpPzoXWkVlJ5/jxhtkBKqg2YZLalRU0oeXyqX1YoN2XZDscwgfUTSg9NRmcVduZr4iEm/yOuAFPGGFmR8UceE=
+	t=1722072701; cv=none; b=N6Z4WUniq/LzkCGuV8BYYbqHc4d38AFSxggMEih8E7tC8+lcKzmeEw98Ve+PmyJq+TACdBMnT5NUM+advV7eOOkILJTtk6CNJj5AtlPWQuYHw4QiSPjaymKMWaJKOiT6UJ2mSkhi5N2b+wXVxUKFKnoQxqoCZqygVl7bX341tjY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722037620; c=relaxed/simple;
-	bh=5/PzxMTpWkDUOdlnbdCr2Q9qJin2wpwqnTQrXy29FVM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j/OShIhtz24M2dtYLBH8826hwrRX/vrFBrXDJiEwWDmqMFHkESD6zsk23EYeYeFFs22gX12e9ZQQKXVk7zPj7/MB1RDVz4YwNzxgYE759s1HzYvfbhlcceOZqVn4GYp0RSd99T66Onj3pgfvYGuSLkHgtb6VwXp5l4wv8lL9FOE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Z2glDitQ; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1722072701; c=relaxed/simple;
+	bh=/qFW5Ca5kgqHBPu15m59/5gnXX3T+j5zWhdd3LNCfmw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=XbMh/avU6Wnx+3AlHBnJmSmUSnc68QqSbW/yUmCxxN/NxOmkHIORVewwyS4TbbP2E6I9jAvoWx6IPXHPU34MyrNLye7lbqtTPBp36wEz/6g/KCVkGoE7PAwkJSJu+QuQR9tbSwo4lRM9vNO8ZfughJITKD6TLbUVLY3Fp85pte0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XG9D82YW; arc=none smtp.client-ip=209.85.210.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Z2glDitQ"
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 209D463F;
-	Sat, 27 Jul 2024 01:46:10 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1722037570;
-	bh=5/PzxMTpWkDUOdlnbdCr2Q9qJin2wpwqnTQrXy29FVM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Z2glDitQm24E82tdUO2KMAw4YfF+SZVq4uw7ErFusQKacG5hq7MuUXjSV08aIQtuH
-	 uCFViKWFjC0dNCX1VwSRtslF36htfxopyCAW97nQkXvq6XmKBGYzYdEbey5lvVViPU
-	 WG6+4/rDITpo6g36rLaYBoU2G+LLfehrjlFZUR+8=
-Date: Sat, 27 Jul 2024 02:46:36 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Changhuang Liang <changhuang.liang@starfivetech.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	Mingjia Zhang <mingjia.zhang@mediatek.com>,
-	Jack Zhu <jack.zhu@starfivetech.com>,
-	Keith Zhao <keith.zhao@starfivetech.com>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>
-Subject: Re: =?utf-8?B?5Zue5aSNOiBbUEFUQw==?= =?utf-8?Q?H?= v5 01/14] media:
- starfive: Add JH7110 ISP module definitions
-Message-ID: <20240726234636.GB300@pendragon.ideasonboard.com>
-References: <20240709083824.430473-1-changhuang.liang@starfivetech.com>
- <20240709083824.430473-2-changhuang.liang@starfivetech.com>
- <h52qw6ndset7h7rgbfs6jqbsweldgvc3ewforvzlhmacvmqzzl@u4ik6jeswswi>
- <20240722142724.GG5732@pendragon.ideasonboard.com>
- <ZQ0PR01MB13025E2A2CC848A5F82B66ABF2AA2@ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XG9D82YW"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-70d2ae44790so1268183b3a.2
+        for <linux-staging@lists.linux.dev>; Sat, 27 Jul 2024 02:31:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1722072699; x=1722677499; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=KZ6xbkKisMWheOb5DEgUNo89JS6VKyra5I1hoBscMO0=;
+        b=XG9D82YWjkAIOPEOTjXSycuusNYCqyE7cXtl61bM9ps4EpXYvWW7vhXUVgRk6iypTn
+         R1Mw58G3TF0mwwJvJTO9wr1M9kt8NVBjMS2M3QQmJ2JARzgltyMOajQayrfRCBv/r+71
+         8GKKgcTW1le4wN58eptgh/I2n1wpR+m1SocaTFRwW9P1BMnyQUdI8KA1b5+atfxTe/Ik
+         lrv3dZ/lkUXqfNAgmVV8XTj1ipJnTgAqRu3b2kpbae7RuK3rqhLwttkysq/aI9yIW5c6
+         kmHWVHupEe/uQBvd6kSTSWrlctfrKFCilL9EeX2qkCrOuJj5VM+uVBHTc2eH4+Fgo0eT
+         PTgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722072699; x=1722677499;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KZ6xbkKisMWheOb5DEgUNo89JS6VKyra5I1hoBscMO0=;
+        b=fP8VD2RLiWocV9XyxhLysLGS1BmpBr4bKJ4XI5f2pAflVUkQNUbqy1WGMm56kj5Nnx
+         Rjssdm5PlFwenMDsIvFUT+HFeJ4kJ0PPoUZsTq1E+NWoIJ4qqPNw5fhqAZzli6SOW+Mc
+         T2MkTTDXLxdaqZoEaWKhJgmF07SF3/rspgyBW3nCT8927ahjxhDkOhhY6ONQ5orJBswg
+         Q63Bza7BSqsDrwlyxHmaxdpLJeZXj6s4iwCABjKqY4JQ1U/5KqWsqiggXGboj9o5xpIg
+         ol7A2ek+TnoeKuSjLm/ftxlBTDGYKZci6nC4IKu7ANz4BuhtWJWzM+pU030BJ6SwL1Cd
+         YasA==
+X-Forwarded-Encrypted: i=1; AJvYcCVQrFKG0fYGT9wBSg1yEkdT+2wgJ0GSEy1s5rsyhXsoiubOKleHW7HCRYLbYqUmgbokKTUG1UFZVzRpjJc50Hfa1vE/vYOFBlO7TpLMlQ==
+X-Gm-Message-State: AOJu0YxfUHpvypU+R63jyEcn6AQvsXlu36kh+NQ/PfEmS+3YCR4KcggQ
+	4Us2A3h6rLEeXGxk4UkdpgURhOXJI+ChtEeSg3HETXtuYJp+7+Rw1MuYf+wkIn4=
+X-Google-Smtp-Source: AGHT+IGl8+M8s7vYPYnrmY+kyvUAZGBLMAvnuu5Uxvsd7sa9rLn8732cnUOfBx8BnCpGmzJ47DNlxA==
+X-Received: by 2002:a05:6a00:138e:b0:70d:37f4:2c73 with SMTP id d2e1a72fcca58-70ecea13e6amr2223477b3a.10.1722072698999;
+        Sat, 27 Jul 2024 02:31:38 -0700 (PDT)
+Received: from Riyan.inspiron ([122.176.193.50])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70ead8a2bebsm3880245b3a.212.2024.07.27.02.31.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 27 Jul 2024 02:31:38 -0700 (PDT)
+From: Riyan Dhiman <riyandhiman14@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Riyan Dhiman <riyandhiman14@gmail.com>
+Subject: [PATCH] staging: fbtft: Fix mutex and spinlock without comment warning
+Date: Sat, 27 Jul 2024 15:01:06 +0530
+Message-Id: <20240727093106.11214-1-riyandhiman14@gmail.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZQ0PR01MB13025E2A2CC848A5F82B66ABF2AA2@ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn>
 
-Hello Changhuang,
+Adhere to Linux kernel coding style
 
-On Wed, Jul 24, 2024 at 02:20:17AM +0000, Changhuang Liang wrote:
-> > On Wed, Jul 10, 2024 at 11:11:57AM +0200, Jacopo Mondi wrote:
-> > > On Tue, Jul 09, 2024 at 01:38:11AM GMT, Changhuang Liang wrote:
-> > > > Add JH7110 ISP module definitions for user space.
-> > > >
-> > > > Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
-> > > > Signed-off-by: Zejian Su <zejian.su@starfivetech.com>
-> > > > ---
-> > > >  MAINTAINERS                     |   1 +
-> > > >  include/uapi/linux/jh7110-isp.h | 739 ++++++++++++++++++++++++++++++++
-> > >
-> > > With the recently merged support for the RaspberryPi PiSP BE we have
-> > > introduced include/uapi/linux/media/raspberry.
-> > >
-> > > Would you consider placing this in
-> > > include/uapi/linux/media/startfive/ ?
-> > 
-> > That sounds like a good idea.
-> > 
-> > > >  2 files changed, 740 insertions(+)
-> > > >  create mode 100644 include/uapi/linux/jh7110-isp.h
-> > > >
-> > > > diff --git a/MAINTAINERS b/MAINTAINERS index
-> > > > 507f04a80499..890604eb0d64 100644
-> > > > --- a/MAINTAINERS
-> > > > +++ b/MAINTAINERS
-> > > > @@ -21305,6 +21305,7 @@ S:	Maintained
-> > > >  F:	Documentation/admin-guide/media/starfive_camss.rst
-> > > >  F:
-> > 	Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml
-> > > >  F:	drivers/staging/media/starfive/camss
-> > > > +F:	include/uapi/linux/jh7110-isp.h
-> > > >
-> > > >  STARFIVE CRYPTO DRIVER
-> > > >  M:	Jia Jie Ho <jiajie.ho@starfivetech.com>
-> > > > diff --git a/include/uapi/linux/jh7110-isp.h
-> > > > b/include/uapi/linux/jh7110-isp.h new file mode 100644 index
-> > > > 000000000000..4939cd63e771
-> > > > --- /dev/null
-> > > > +++ b/include/uapi/linux/jh7110-isp.h
-> > > > @@ -0,0 +1,739 @@
-> > > > +/* SPDX-License-Identifier: ((GPL-2.0+ WITH Linux-syscall-note) OR
-> > > > +BSD-3-Clause) */
-> > > > +/*
-> > > > + * jh7110-isp.h
-> > > > + *
-> > > > + * JH7110 ISP driver - user space header file.
-> > > > + *
-> > > > + * Copyright © 2023 StarFive Technology Co., Ltd.
-> > > > + *
-> > > > + * Author: Zejian Su <zejian.su@starfivetech.com>
-> > > > + *
-> > > > + */
-> > > > +
-> > > > +#ifndef __JH7110_ISP_H_
-> > > > +#define __JH7110_ISP_H_
-> > > > +
-> > >
-> > > Do you need to include
-> > >
-> > > #include <linux/types.h>
-> > >
-> > > > +/**
-> > >
-> > > Is this kernel-doc or a single * would do ?
-> > >
-> > > > + * ISP Module Diagram
-> > > > + * ------------------
-> > > > + *
-> > > > + *  Raw  +-----+    +------+    +------+    +----+
-> > > > + *  ---->| OBC |--->| OECF |--->| LCCF |--->| WB |-----+
-> > > > + *       +-----+    +------+    +------+    +----+     |
-> > > > + *                                                     |
-> > > > + *  +--------------------------------------------------+
-> > > > + *  |
-> > > > + *  |    +-----+    +-----+    +-----+    +-----+
-> > > > + *  +--->| DBC |--->| CTC |--->| CFA |--->| CAR |------+
-> > > > + *       +-----+    +-----+    +-----+    +-----+      |
-> > > > + *                                                     |
-> > > > + *  +--------------------------------------------------+
-> > > > + *  |
-> > > > + *  |    +-----+    +--------+    +-----+    +------+
-> > > > + *  +--->| CCM |--->| GMARGB |--->| R2Y |--->| YCRV |--+
-> > > > + *       +-----+    +--------+    +-----+    +------+  |
-> > > > + *                                                     |
-> > > > + *  +--------------------------------------------------+
-> > > > + *  |
-> > > > + *  |    +-------+    +-------+    +-----+    +----+
-> > > > + *  +--->| SHARP |--->| DNYUV |--->| SAT |--->| SC |
-> > > > + *       +-------+    +-------+    +-----+    +----+
-> > > > + *
-> > 
-> > The diagram is useful, thank you. A glossary would also be nice, maybe as
-> > 
-> >  * - OBC: Optical Black Correction
-> >  * - OECF: Opto-Electric Conversion Function
-> >  * ...
-> > 
-> > I think that would be easier to read than the comments above each macro
-> > below. Up to you.
-> > 
-> > > > + */
-> > > > +
-> > > > +/* Auto White Balance */
-> > > > +#define JH7110_ISP_MODULE_WB_SETTING			(1U << 0)
-> > > > +/* Color Artifact Removal */
-> > > > +#define JH7110_ISP_MODULE_CAR_SETTING			(1U << 1)
-> > > > +/* Color Correction Matrix */
-> > > > +#define JH7110_ISP_MODULE_CCM_SETTING			(1U << 2)
-> > > > +/* Color Filter Arrays */
-> > > > +#define JH7110_ISP_MODULE_CFA_SETTING			(1U << 3)
-> > > > +/* Crosstalk Correction */
-> > > > +#define JH7110_ISP_MODULE_CTC_SETTING			(1U << 4)
-> > > > +/* Defect Bad Pixel Correction */
-> > > > +#define JH7110_ISP_MODULE_DBC_SETTING			(1U << 5)
-> > > > +/* Denoise YUV */
-> > > > +#define JH7110_ISP_MODULE_DNYUV_SETTING			(1U << 6)
-> > > > +/* RGB Gamma */
-> > > > +#define JH7110_ISP_MODULE_GMARGB_SETTING		(1U << 7)
-> > > > +/* Lens Correction Cosine Fourth */
-> > > > +#define JH7110_ISP_MODULE_LCCF_SETTING			(1U << 8)
-> > > > +/* Optical Black Correction */
-> > > > +#define JH7110_ISP_MODULE_OBC_SETTING			(1U << 9)
-> > > > +/* Opto-Electric Conversion Function */
-> > > > +#define JH7110_ISP_MODULE_OECF_SETTING			(1U << 10)
-> > > > +/* RGB To YUV */
-> > > > +#define JH7110_ISP_MODULE_R2Y_SETTING			(1U << 11)
-> > > > +/* Saturation */
-> > > > +#define JH7110_ISP_MODULE_SAT_SETTING			(1U << 12)
-> > > > +/* Sharpen */
-> > > > +#define JH7110_ISP_MODULE_SHARP_SETTING			(1U << 13)
-> > > > +/* Y Curve */
-> > > > +#define JH7110_ISP_MODULE_YCRV_SETTING			(1U << 14)
-> > > > +/* Statistics Collection */
-> > > > +#define JH7110_ISP_MODULE_SC_SETTING			(1U << 15)
-> > 
-> > Unless there's a specific reason to keep the current order, maybe you could
-> > sort those macros in the same order as in the module diagram ?
-> > 
-> > > > +
-> > > > +/**
-> > > > + * struct jh7110_isp_wb_gain - auto white balance gain
-> > > > + *
-> > > > + * @gain_r: gain value for red component.
-> > > > + * @gain_g: gain value for green component.
-> > > > + * @gain_b: gain value for blue component.
-> > 
-> > I suppose the gains are expressed as fixed-point integers. This needs more
-> > details, what are the limits, and how many bits of integer and fractional parts
-> > are there ?
-> > 
-> > Same comment for all the other values below.
-> > 
-> > > > + */
-> > > > +struct jh7110_isp_wb_gain {
-> > > > +	__u16 gain_r;
-> > > > +	__u16 gain_g;
-> > > > +	__u16 gain_b;
-> > > > +};
-> > > > +
-> > > > +/**
-> > > > + * struct jh7110_isp_wb_setting - Configuration used by auto white
-> > > > +balance gain
-> > > > + *
-> > > > + * @enabled: enabled setting flag.
-> > > > + * @gains: auto white balance gain setting.
-> > > > + */
-> > > > +struct jh7110_isp_wb_setting {
-> > > > +	__u32 enabled;
-> > > > +	struct jh7110_isp_wb_gain gains;
-> > > > +};
-> > > > +
-> > > > +/**
-> > > > + * struct jh7110_isp_car_setting - Configuration used by color
-> > > > +artifact removal
-> > > > + *
-> > > > + * @enabled: enabled setting flag.
-> > > > + */
-> > > > +struct jh7110_isp_car_setting {
-> > > > +	__u32 enabled;
-> > > > +};
-> > > > +
-> > > > +/**
-> > > > + * struct jh7110_isp_ccm_smlow - Color correction matrix
-> > > > + *
-> > > > + * @ccm: color transform matrix with size 3 by 3.
-> > > > + * @offsets: the offsets of R, G, B after the transform by the ccm.
-> > > > + */
-> > > > +struct jh7110_isp_ccm_smlow {
-> > > > +	__s32 ccm[3][3];
-> > > > +	__s32 offsets[3];
-> > > > +};
-> > > > +
-> > > > +/**
-> > > > + * struct jh7110_isp_ccm_setting - Configuration used by color
-> > > > +correction matrix
-> > > > + *
-> > > > + * @enabled: enabled setting flag.
-> > > > + * @ccm_smlow: Color correction matrix.
-> > > > + */
-> > > > +struct jh7110_isp_ccm_setting {
-> > > > +	__u32 enabled;
-> > > > +	struct jh7110_isp_ccm_smlow ccm_smlow; };
-> > > > +
-> > > > +/**
-> > > > + * struct jh7110_isp_cfa_params - demosaic parameters
-> > > > + *
-> > > > + * @hv_width: detail smooth factor
-> > > > + * @cross_cov: Cross covariance weighting.
-> > 
-> > This documentation doesn't tell how to use those paraemeters. This comment
-> > applies to many other parameters below. There are three main options to
-> > improve that:
-> > 
-> > - Expanding the documentation in this header file to clearly explain how
-> >   to compute the parameters values.
-> > 
-> > - Providing an open userspace implementation of ISP algorithms that
-> >   showcase how to calculate the values.
-> > 
-> > - Providing detailed hardware documentation for the ISP. This is usually
-> >   not favoured by ISP vendors, and we are not pushing for this, but I
-> >   wanted to mention it for completeness.
-> > 
-> 
-> We prefer the first option. It will take a lot of time for us to
-> supplement the documentation.
+Reported by checkpatch:
 
-That is fine. Very broadly speaking, the level of documentation we are
-aiming for should be enough for a third party developer to implement
-support for the ISP control algorithms in libcamera. Please let me know
-if you would like to discuss this in more details, to make sure there's
-no misunderstanding in the expectations.
+CHECK: spinlock_t definition without comment
+CHECK: mutex definition without comment
 
-> > If you would prefer the second option, any open-source camera framework
-> > would be acceptable, but in practice the only real option is likely libcamera.
-> > 
-> > This does not mean that you have to open-source all your ISP control
-> > algorithms. Only the code needed to explain how ISP parameters are applied
-> > to the image and are computed is needed. Other parts, such as for instance
-> > AI-based computation of white balance gains, or complex AGC calculations,
-> > don't need to be open-source.
-> > 
-> > The explain this requirement different and perhaps more clearly, the goal is to
-> > make sure that developers who have access to only open-source code (ISP
-> > kernel driver, this header, any open-source userspace code,
-> > ...) will have enough information to configure and control the ISP.
+Signed-off-by: Riyan Dhiman <riyandhiman14@gmail.com>
+---
+ drivers/staging/fbtft/fbtft.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
+diff --git a/drivers/staging/fbtft/fbtft.h b/drivers/staging/fbtft/fbtft.h
+index f86ed9d470b8..3e00a26a29d5 100644
+--- a/drivers/staging/fbtft/fbtft.h
++++ b/drivers/staging/fbtft/fbtft.h
+@@ -202,6 +202,7 @@ struct fbtft_par {
+ 	u8 *buf;
+ 	u8 startbyte;
+ 	struct fbtft_ops fbtftops;
++	/* Spinlock to ensure thread-safe access to dirty_lines_start and dirty_lines_end */
+ 	spinlock_t dirty_lock;
+ 	unsigned int dirty_lines_start;
+ 	unsigned int dirty_lines_end;
+@@ -218,6 +219,7 @@ struct fbtft_par {
+ 	} gpio;
+ 	const s16 *init_sequence;
+ 	struct {
++		/* Mutex to synchronize access to gamma curve locking */
+ 		struct mutex lock;
+ 		u32 *curves;
+ 		int num_values;
 -- 
-Regards,
+2.39.2
 
-Laurent Pinchart
