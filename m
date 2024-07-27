@@ -1,66 +1,52 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+Received: from smtp.smtpout.orange.fr (smtp-22.smtpout.orange.fr [80.12.242.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8C041CF90
-	for <linux-staging@lists.linux.dev>; Sat, 27 Jul 2024 09:31:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 400B14D8BE
+	for <linux-staging@lists.linux.dev>; Sat, 27 Jul 2024 12:52:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722072701; cv=none; b=N6Z4WUniq/LzkCGuV8BYYbqHc4d38AFSxggMEih8E7tC8+lcKzmeEw98Ve+PmyJq+TACdBMnT5NUM+advV7eOOkILJTtk6CNJj5AtlPWQuYHw4QiSPjaymKMWaJKOiT6UJ2mSkhi5N2b+wXVxUKFKnoQxqoCZqygVl7bX341tjY=
+	t=1722084731; cv=none; b=b2CS6yk61xNqkrZ7pqQxjuUVxZJCh1FOBvFg4LaCkEFFGu/o7MamF9P31J7/RJ9wzsR8oZFhA4SS8POEenwYgW9boFAbISQiICPaNM+rCF+XIe213Fj/FJ4J9O4187zS4aUD7ftjHTTWV3CxGfSo9e5pLcXfmvxHibjpejbatuQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722072701; c=relaxed/simple;
-	bh=/qFW5Ca5kgqHBPu15m59/5gnXX3T+j5zWhdd3LNCfmw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=XbMh/avU6Wnx+3AlHBnJmSmUSnc68QqSbW/yUmCxxN/NxOmkHIORVewwyS4TbbP2E6I9jAvoWx6IPXHPU34MyrNLye7lbqtTPBp36wEz/6g/KCVkGoE7PAwkJSJu+QuQR9tbSwo4lRM9vNO8ZfughJITKD6TLbUVLY3Fp85pte0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XG9D82YW; arc=none smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1722084731; c=relaxed/simple;
+	bh=azMAeRKNJ4R0xJRk/zhdOIOPd4PfFprwObYbhjyyIG8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pWU4Gk36ZAnvsPELOVIRLts9xaKf/LIcBjEh8U565VuQowbcq9jLU6wZ54yugGF6o3/j4UBN/yh4Zkxso9iKJODy6G9ibLs/ah6S0/cN7QfMdo7Sezmhs4vlMvyMi1d14VWUs5qYJqy5vu4fXoIvPhDu6oHhv1IljyAC48zxaic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=gVacsQ2j; arc=none smtp.client-ip=80.12.242.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XG9D82YW"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-70d2ae44790so1268183b3a.2
-        for <linux-staging@lists.linux.dev>; Sat, 27 Jul 2024 02:31:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722072699; x=1722677499; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=KZ6xbkKisMWheOb5DEgUNo89JS6VKyra5I1hoBscMO0=;
-        b=XG9D82YWjkAIOPEOTjXSycuusNYCqyE7cXtl61bM9ps4EpXYvWW7vhXUVgRk6iypTn
-         R1Mw58G3TF0mwwJvJTO9wr1M9kt8NVBjMS2M3QQmJ2JARzgltyMOajQayrfRCBv/r+71
-         8GKKgcTW1le4wN58eptgh/I2n1wpR+m1SocaTFRwW9P1BMnyQUdI8KA1b5+atfxTe/Ik
-         lrv3dZ/lkUXqfNAgmVV8XTj1ipJnTgAqRu3b2kpbae7RuK3rqhLwttkysq/aI9yIW5c6
-         kmHWVHupEe/uQBvd6kSTSWrlctfrKFCilL9EeX2qkCrOuJj5VM+uVBHTc2eH4+Fgo0eT
-         PTgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722072699; x=1722677499;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KZ6xbkKisMWheOb5DEgUNo89JS6VKyra5I1hoBscMO0=;
-        b=fP8VD2RLiWocV9XyxhLysLGS1BmpBr4bKJ4XI5f2pAflVUkQNUbqy1WGMm56kj5Nnx
-         Rjssdm5PlFwenMDsIvFUT+HFeJ4kJ0PPoUZsTq1E+NWoIJ4qqPNw5fhqAZzli6SOW+Mc
-         T2MkTTDXLxdaqZoEaWKhJgmF07SF3/rspgyBW3nCT8927ahjxhDkOhhY6ONQ5orJBswg
-         Q63Bza7BSqsDrwlyxHmaxdpLJeZXj6s4iwCABjKqY4JQ1U/5KqWsqiggXGboj9o5xpIg
-         ol7A2ek+TnoeKuSjLm/ftxlBTDGYKZci6nC4IKu7ANz4BuhtWJWzM+pU030BJ6SwL1Cd
-         YasA==
-X-Forwarded-Encrypted: i=1; AJvYcCVQrFKG0fYGT9wBSg1yEkdT+2wgJ0GSEy1s5rsyhXsoiubOKleHW7HCRYLbYqUmgbokKTUG1UFZVzRpjJc50Hfa1vE/vYOFBlO7TpLMlQ==
-X-Gm-Message-State: AOJu0YxfUHpvypU+R63jyEcn6AQvsXlu36kh+NQ/PfEmS+3YCR4KcggQ
-	4Us2A3h6rLEeXGxk4UkdpgURhOXJI+ChtEeSg3HETXtuYJp+7+Rw1MuYf+wkIn4=
-X-Google-Smtp-Source: AGHT+IGl8+M8s7vYPYnrmY+kyvUAZGBLMAvnuu5Uxvsd7sa9rLn8732cnUOfBx8BnCpGmzJ47DNlxA==
-X-Received: by 2002:a05:6a00:138e:b0:70d:37f4:2c73 with SMTP id d2e1a72fcca58-70ecea13e6amr2223477b3a.10.1722072698999;
-        Sat, 27 Jul 2024 02:31:38 -0700 (PDT)
-Received: from Riyan.inspiron ([122.176.193.50])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70ead8a2bebsm3880245b3a.212.2024.07.27.02.31.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Jul 2024 02:31:38 -0700 (PDT)
-From: Riyan Dhiman <riyandhiman14@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Riyan Dhiman <riyandhiman14@gmail.com>
-Subject: [PATCH] staging: fbtft: Fix mutex and spinlock without comment warning
-Date: Sat, 27 Jul 2024 15:01:06 +0530
-Message-Id: <20240727093106.11214-1-riyandhiman14@gmail.com>
-X-Mailer: git-send-email 2.39.2
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="gVacsQ2j"
+Received: from fedora.home ([90.11.132.44])
+	by smtp.orange.fr with ESMTPA
+	id Xgu3sXNPV6bu3Xgu4si8AC; Sat, 27 Jul 2024 14:52:06 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1722084726;
+	bh=VoRgXRGb6x2pkA/kN42NiJ89KlfU0z16uyEo2pPo8H0=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=gVacsQ2j4LRxeBgxnvn4Hp1mc9QY2hk0hM6BD3aGsAO76DCVTNx/JpaFHewmStlAK
+	 sg+YH3wca5nU4d7WgVKogdTCcR9bvAvAUiXZduvXn0/q+VnI4tk/p+iOq3zweVgo7Q
+	 xqyqif08DeBRCSp+HM2eYDLMZF6dUpOB6g0Syjw43AjBz0gQIdehBGLI14zB4XfPQk
+	 7hJsSB2v0br2+weTUcKDGoKasdW2q/kIKzK9s7tL0JB3MaG+nyJkl+pbWbt8Ij7I4R
+	 efhY5GlY2zNA010hrd2ldeEUraAVm+Q+xgWgjK+xcDQY739dyjDIvdb1gZiXdh+QB9
+	 6RboTWNSlk5jw==
+X-ME-Helo: fedora.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sat, 27 Jul 2024 14:52:06 +0200
+X-ME-IP: 90.11.132.44
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: David.Laight@ACULAB.COM,
+	Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH] media: atomisp: Use clamp_t() in ia_css_eed1_8_vmem_encode()
+Date: Sat, 27 Jul 2024 14:51:56 +0200
+Message-ID: <155aba6ab759e98f66349e6bb4f69e2410486c09.1722084704.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -69,38 +55,64 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Adhere to Linux kernel coding style
+Using clamp_t() instead of min_t(max_t()) is easier to read.
 
-Reported by checkpatch:
+It also reduces the size of the preprocessed files by ~ 193 ko.
+(see [1] for a discussion about it)
 
-CHECK: spinlock_t definition without comment
-CHECK: mutex definition without comment
+$ ls -l ia_css_eed1_8.host*.i
+ 4829993 27 juil. 14:36 ia_css_eed1_8.host.old.i
+ 4636649 27 juil. 14:42 ia_css_eed1_8.host.new.i
 
-Signed-off-by: Riyan Dhiman <riyandhiman14@gmail.com>
+[1]: https://lore.kernel.org/all/23bdb6fc8d884ceebeb6e8b8653b8cfe@AcuMS.aculab.com/
+
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 ---
- drivers/staging/fbtft/fbtft.h | 2 ++
- 1 file changed, 2 insertions(+)
+ .../isp/kernels/eed1_8/ia_css_eed1_8.host.c   | 24 +++++++++----------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/staging/fbtft/fbtft.h b/drivers/staging/fbtft/fbtft.h
-index f86ed9d470b8..3e00a26a29d5 100644
---- a/drivers/staging/fbtft/fbtft.h
-+++ b/drivers/staging/fbtft/fbtft.h
-@@ -202,6 +202,7 @@ struct fbtft_par {
- 	u8 *buf;
- 	u8 startbyte;
- 	struct fbtft_ops fbtftops;
-+	/* Spinlock to ensure thread-safe access to dirty_lines_start and dirty_lines_end */
- 	spinlock_t dirty_lock;
- 	unsigned int dirty_lines_start;
- 	unsigned int dirty_lines_end;
-@@ -218,6 +219,7 @@ struct fbtft_par {
- 	} gpio;
- 	const s16 *init_sequence;
- 	struct {
-+		/* Mutex to synchronize access to gamma curve locking */
- 		struct mutex lock;
- 		u32 *curves;
- 		int num_values;
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c
+index e4fc90f88e24..96c13ebc4331 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c
+@@ -172,25 +172,25 @@ ia_css_eed1_8_vmem_encode(
+ 		base = shuffle_block * i;
+ 
+ 		for (j = 0; j < IA_CSS_NUMBER_OF_DEW_ENHANCE_SEGMENTS; j++) {
+-			to->e_dew_enh_x[0][base + j] = min_t(int, max_t(int,
+-							     from->dew_enhance_seg_x[j], 0),
+-							     8191);
+-			to->e_dew_enh_y[0][base + j] = min_t(int, max_t(int,
+-							     from->dew_enhance_seg_y[j], -8192),
+-							     8191);
++			to->e_dew_enh_x[0][base + j] = clamp_t(int,
++							       from->dew_enhance_seg_x[j],
++							       0, 8191);
++			to->e_dew_enh_y[0][base + j] = clamp_t(int,
++							       from->dew_enhance_seg_y[j],
++							       -8192, 8191);
+ 		}
+ 
+ 		for (j = 0; j < (IA_CSS_NUMBER_OF_DEW_ENHANCE_SEGMENTS - 1); j++) {
+-			to->e_dew_enh_a[0][base + j] = min_t(int, max_t(int,
+-							     from->dew_enhance_seg_slope[j],
+-							     -8192), 8191);
++			to->e_dew_enh_a[0][base + j] = clamp_t(int,
++							       from->dew_enhance_seg_slope[j],
++							       -8192, 8191);
+ 			/* Convert dew_enhance_seg_exp to flag:
+ 			 * 0 -> 0
+ 			 * 1...13 -> 1
+ 			 */
+-			to->e_dew_enh_f[0][base + j] = (min_t(int, max_t(int,
+-							      from->dew_enhance_seg_exp[j],
+-							      0), 13) > 0);
++			to->e_dew_enh_f[0][base + j] = (clamp_t(int,
++							        from->dew_enhance_seg_exp[j],
++							        0, 13) > 0);
+ 		}
+ 
+ 		/* Hard-coded to 0, in order to be able to handle out of
 -- 
-2.39.2
+2.45.2
 
