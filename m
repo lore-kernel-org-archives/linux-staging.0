@@ -1,142 +1,108 @@
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 855F63716D
-	for <linux-staging@lists.linux.dev>; Sun, 28 Jul 2024 11:10:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.58.85.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8A862C6BB
+	for <linux-staging@lists.linux.dev>; Sun, 28 Jul 2024 11:46:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722165006; cv=none; b=Vgi6mskEjD1oApP8E/6vxaaOuptD+tWBjkIhnrJZu6hTzRR+9wSqv+x2A5MkYlDkSe8Al30nu/+pbpPbdi/+nqBxevfXEiLe5N0tXmMZzv6Yi9Gjio7x47RZn0mu0SyKWtcTA3ABSXf6xssMQI2f2Hj6Hht85T+npz1SqD7a8Xs=
+	t=1722167182; cv=none; b=ReQ0Tz9Tg05yXbLONi6d5mEV2KIJd49ll+Kr9eRjnCFEXRfA/9DetErumZUH+Z0zJvp6NOzfI8Sdn3LGg6Mm79iEa54oZGtWj3rmkhwUFmznxOZMRZ722JY2ykNMsV0loCx+mM33ZvNrPSo8fJ/z0ycB19TrtPbnzB/ihGSQC4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722165006; c=relaxed/simple;
-	bh=Z2pr3hswnOxug8eRznQLN7nyeiNc94yVvI63upS2yxs=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 MIME-Version:Content-Type; b=F+OESZrQwvQv0Ee69XqkznTDvX4ye0KYE7FS1zWrDUdbcrJMqh1mDXmUu3A5kHfTLmQ9p+OzRPa1TmYYkttxrLc+nOnHWUBVrOwe20oUSUALTS3ovTUtIzf1CiFsspaE5f7hGMkgMtaA12AgknL0c9nD/nRY+754VN+DyCfHDRs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM; spf=pass smtp.mailfrom=aculab.com; arc=none smtp.client-ip=185.58.85.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aculab.com
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-34-sYAO-MeaOZ6O1kPukl5G1A-1; Sun, 28 Jul 2024 12:09:52 +0100
-X-MC-Unique: sYAO-MeaOZ6O1kPukl5G1A-1
-Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
- (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Sun, 28 Jul
- 2024 12:09:08 +0100
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.048; Sun, 28 Jul 2024 12:09:08 +0100
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Christophe JAILLET' <christophe.jaillet@wanadoo.fr>, Hans de Goede
-	<hdegoede@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, "Sakari
- Ailus" <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>
-CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>
-Subject: RE: [PATCH] media: atomisp: Use clamp_t() in
- ia_css_eed1_8_vmem_encode()
-Thread-Topic: [PATCH] media: atomisp: Use clamp_t() in
- ia_css_eed1_8_vmem_encode()
-Thread-Index: AQHa4COzK6M+vFHXWEyyKjE8PmiWvrIL/Fqg
-Date: Sun, 28 Jul 2024 11:09:07 +0000
-Message-ID: <cc34afdcb96444779f0ccae6d47ef5f4@AcuMS.aculab.com>
-References: <155aba6ab759e98f66349e6bb4f69e2410486c09.1722084704.git.christophe.jaillet@wanadoo.fr>
-In-Reply-To: <155aba6ab759e98f66349e6bb4f69e2410486c09.1722084704.git.christophe.jaillet@wanadoo.fr>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
+	s=arc-20240116; t=1722167182; c=relaxed/simple;
+	bh=+z87nA1Y00AL4sMT64kGifYWqtgmhO1S1figOc16cqE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ak3EQuSk7vDIzPPn1ypAHVY/tbqgb9fYPvffHocLjrYa22nG9k72R0mFLW/EDJQCYJTfWWOwitJ7P8D3adx/aVx1IGPWjoAC/l48ZzvlXzrqOpWcj7WuOj2X6t8tRRtnZMbMfzDR/dfFGEtFVMMqb0pbXiISwZn3KXUGTQV8cig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=WDP/o5Zc; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="WDP/o5Zc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=+z87
+	nA1Y00AL4sMT64kGifYWqtgmhO1S1figOc16cqE=; b=WDP/o5ZcRr1U3dhiLhkH
+	nrk6gQzo9F+t3A0ylOxEq/p9bmj+aJK7pjZ6X+VP/Qit8Nvkcdi3ClZQrJmSWIrA
+	tf+fkGtQN6AB8AuXKnkurJq2EDn3HjKtM0zOMD5SlH/+AWc59ykQn2/ehlFtvf9r
+	P4wT0KFTBVpSyDwCDdQJ/twnnAkwU3ECL0FIYZjKcWSCIQV8hDqAYAjIZe013JEh
+	UDcQ7n8KfY5/1a4MLyyiu4fuwJ74/UTNM6JoMnRVbScOSfW+2Ugb2QSrj83Xjk3X
+	S6ib1l3/eqk6i7zuC3Ini2/A+/XdG2gQ7VMKXQFqupHfPGXYRu7yjyMAFeibjQD9
+	3Q==
+Received: (qmail 3798994 invoked from network); 28 Jul 2024 13:46:08 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 28 Jul 2024 13:46:08 +0200
+X-UD-Smtp-Session: l3s3148p1@ul9RSk0e7ocujnsv
+Date: Sun, 28 Jul 2024 13:46:08 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Aleksandr Mishin <amishin@t-argos.ru>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Zhang Shurong <zhang_shurong@foxmail.com>,
+	lvc-project@linuxtesting.org
+Subject: Re: [PATCH] staging: ks7010: Remove unused driver
+Message-ID: <ZqYvgNHQSb638mQ3@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Philipp Hortmann <philipp.g.hortmann@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Aleksandr Mishin <amishin@t-argos.ru>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Zhang Shurong <zhang_shurong@foxmail.com>,
+	lvc-project@linuxtesting.org
+References: <20240728052552.GA8748@matrix-ESPRIMO-P710>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="QoiuYAprfMstUV9a"
+Content-Disposition: inline
+In-Reply-To: <20240728052552.GA8748@matrix-ESPRIMO-P710>
+
+
+--QoiuYAprfMstUV9a
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-From: Christophe JAILLET
-> Sent: 27 July 2024 13:52
+On Sun, Jul 28, 2024 at 07:25:52AM +0200, Philipp Hortmann wrote:
+> Wolfram contributed this driver in 2016. He is not using it anymore and
+> confirmed it to be removed.
 >=20
-> Using clamp_t() instead of min_t(max_t()) is easier to read.
+> It is hard to find hardware around the globe. When it is offered it is
+> expensive and performance is low.
 
-It shouldn't need to be clamp_t(), a plain clamp() looks to be ok.
-(dew_enhance_seg_x is s32).
-
-=09David
+=2E.. using interfaces which are long deprecated.
 
 >=20
-> It also reduces the size of the preprocessed files by ~ 193 ko.
-> (see [1] for a discussion about it)
+> Remove unused driver.
 >=20
-> $ ls -l ia_css_eed1_8.host*.i
->  4829993 27 juil. 14:36 ia_css_eed1_8.host.old.i
->  4636649 27 juil. 14:42 ia_css_eed1_8.host.new.i
->=20
-> [1]: https://lore.kernel.org/all/23bdb6fc8d884ceebeb6e8b8653b8cfe@AcuMS.a=
-culab.com/
->=20
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> ---
->  .../isp/kernels/eed1_8/ia_css_eed1_8.host.c   | 24 +++++++++----------
->  1 file changed, 12 insertions(+), 12 deletions(-)
->=20
-> diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_=
-eed1_8.host.c
-> b/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host=
-.c
-> index e4fc90f88e24..96c13ebc4331 100644
-> --- a/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.=
-host.c
-> +++ b/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.=
-host.c
-> @@ -172,25 +172,25 @@ ia_css_eed1_8_vmem_encode(
->  =09=09base =3D shuffle_block * i;
->=20
->  =09=09for (j =3D 0; j < IA_CSS_NUMBER_OF_DEW_ENHANCE_SEGMENTS; j++) {
-> -=09=09=09to->e_dew_enh_x[0][base + j] =3D min_t(int, max_t(int,
-> -=09=09=09=09=09=09=09     from->dew_enhance_seg_x[j], 0),
-> -=09=09=09=09=09=09=09     8191);
-> -=09=09=09to->e_dew_enh_y[0][base + j] =3D min_t(int, max_t(int,
-> -=09=09=09=09=09=09=09     from->dew_enhance_seg_y[j], -8192),
-> -=09=09=09=09=09=09=09     8191);
-> +=09=09=09to->e_dew_enh_x[0][base + j] =3D clamp_t(int,
-> +=09=09=09=09=09=09=09       from->dew_enhance_seg_x[j],
-> +=09=09=09=09=09=09=09       0, 8191);
-> +=09=09=09to->e_dew_enh_y[0][base + j] =3D clamp_t(int,
-> +=09=09=09=09=09=09=09       from->dew_enhance_seg_y[j],
-> +=09=09=09=09=09=09=09       -8192, 8191);
->  =09=09}
->=20
->  =09=09for (j =3D 0; j < (IA_CSS_NUMBER_OF_DEW_ENHANCE_SEGMENTS - 1); j++=
-) {
-> -=09=09=09to->e_dew_enh_a[0][base + j] =3D min_t(int, max_t(int,
-> -=09=09=09=09=09=09=09     from->dew_enhance_seg_slope[j],
-> -=09=09=09=09=09=09=09     -8192), 8191);
-> +=09=09=09to->e_dew_enh_a[0][base + j] =3D clamp_t(int,
-> +=09=09=09=09=09=09=09       from->dew_enhance_seg_slope[j],
-> +=09=09=09=09=09=09=09       -8192, 8191);
->  =09=09=09/* Convert dew_enhance_seg_exp to flag:
->  =09=09=09 * 0 -> 0
->  =09=09=09 * 1...13 -> 1
->  =09=09=09 */
-> -=09=09=09to->e_dew_enh_f[0][base + j] =3D (min_t(int, max_t(int,
-> -=09=09=09=09=09=09=09      from->dew_enhance_seg_exp[j],
-> -=09=09=09=09=09=09=09      0), 13) > 0);
-> +=09=09=09to->e_dew_enh_f[0][base + j] =3D (clamp_t(int,
-> +=09=09=09=09=09=09=09        from->dew_enhance_seg_exp[j],
-> +=09=09=09=09=09=09=09        0, 13) > 0);
->  =09=09}
->=20
->  =09=09/* Hard-coded to 0, in order to be able to handle out of
-> --
-> 2.45.2
+> Link: https://lore.kernel.org/linux-staging/igi27iwrzg3ovgj3sym4gsi45timp=
+kt4vkl5ss5dbftdzat6p4@ctxcjocvunpt/
+> Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
-PT, UK
-Registration No: 1397386 (Wales)
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
+
+--QoiuYAprfMstUV9a
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmamL3wACgkQFA3kzBSg
+KbbfhQ//XY7wcD/9Jb3I3oEcjLpo4SG1DZCLTtcmdwv9fOrS7oyXO+H8Z8gLsNOJ
+wxfJMt24UmDSNusOm4BstQGYRZSeETD3F6WmNgqunP/okjFEDAhjxpixrT3n7PNF
+FNVqyG/7Uc0VBz3T0sp8Z8K2jZ/1LHmlN3wm6eEcEB8MGTaHKnoAW4UPX/9f+mhw
+TkVqEzFUSpFf19fi4TEoWsvKo1EmX4gs5yNlXRrxLFUUyddG5ty8/3Y8pZ+lIXR8
+qYtW7V2ZqzzbDs3NPW1T6wlvwbQ5NV6TV/AQ8mlB07TO187uNZohJKMyeNUj5tHO
+jAg7jJw2RmamGYolGTN/Sy8H0DAjJ9h4tuwOwfXP87DiCHHfSgOtIzb7HbbYHooy
+8/VW4lnyraiJEwdb27OC0NjrPSkThqLx5lZlPpUQdqNX2wssTq6y0EIKb7j4IGRQ
+DvNnGfjwQSKW8m2x39DoCYGNHbko30nq10Ilqu+/kG4ui9eKGUn24VEEhi3mPUgb
+UJYfC+Occq/RcFCVxQ+28ftFop6K4loWss42Q0tREIBP51cgIBhBmfD5Z8QzlyZj
+n6cQt758kLnDeS4JHfrffaLZbE3XR8dayS0gGO+P84M72aurcXAZh5kr9brt1G19
+L/+OeFpvPvjtWvLiyAkLfFoBG6RUQ9UGpVmBo16We0JXRpeDCAQ=
+=Rnmf
+-----END PGP SIGNATURE-----
+
+--QoiuYAprfMstUV9a--
