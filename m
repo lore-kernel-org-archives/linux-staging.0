@@ -1,108 +1,135 @@
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8A862C6BB
-	for <linux-staging@lists.linux.dev>; Sun, 28 Jul 2024 11:46:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA98358203
+	for <linux-staging@lists.linux.dev>; Sun, 28 Jul 2024 19:55:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722167182; cv=none; b=ReQ0Tz9Tg05yXbLONi6d5mEV2KIJd49ll+Kr9eRjnCFEXRfA/9DetErumZUH+Z0zJvp6NOzfI8Sdn3LGg6Mm79iEa54oZGtWj3rmkhwUFmznxOZMRZ722JY2ykNMsV0loCx+mM33ZvNrPSo8fJ/z0ycB19TrtPbnzB/ihGSQC4A=
+	t=1722196561; cv=none; b=OV/QwxH86hqNxqTM1dnTo10yuXeJ4CPEf3K36JT27oDQFwa2hObvMdE85WxhJv37wZXyWlIfeaxvf4ULgl8EwKUSIrOKjUwLu/eGA6rS/bzuQTicBG43dQwk4T6nfMVAUCq+XOIHziGLAmduJIyv7epfxutjDsicrQZUx4y6JLo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722167182; c=relaxed/simple;
-	bh=+z87nA1Y00AL4sMT64kGifYWqtgmhO1S1figOc16cqE=;
+	s=arc-20240116; t=1722196561; c=relaxed/simple;
+	bh=22pWZ/TaV3wpWoMdbQ0VIkGMfKePfnDCHQ1Yktf0FEc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ak3EQuSk7vDIzPPn1ypAHVY/tbqgb9fYPvffHocLjrYa22nG9k72R0mFLW/EDJQCYJTfWWOwitJ7P8D3adx/aVx1IGPWjoAC/l48ZzvlXzrqOpWcj7WuOj2X6t8tRRtnZMbMfzDR/dfFGEtFVMMqb0pbXiISwZn3KXUGTQV8cig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=WDP/o5Zc; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=eWtS8aKZ1iBGDDXyhivJwRa9rw32hDoziDLZblOYfNOTX/YlfRRSDgWyn13bxjFKdK/qjug6hijruEzCDiaCzHvrwQmEZB/fLDuyzBsxr4Quv+5zmU/s0QuZLRGWuElp93Ucew0+XInPU8ay6DFaq7AX4fkjG9gWfqidW0DqyDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Dw6LzSzO; arc=none smtp.client-ip=209.85.210.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="WDP/o5Zc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=+z87
-	nA1Y00AL4sMT64kGifYWqtgmhO1S1figOc16cqE=; b=WDP/o5ZcRr1U3dhiLhkH
-	nrk6gQzo9F+t3A0ylOxEq/p9bmj+aJK7pjZ6X+VP/Qit8Nvkcdi3ClZQrJmSWIrA
-	tf+fkGtQN6AB8AuXKnkurJq2EDn3HjKtM0zOMD5SlH/+AWc59ykQn2/ehlFtvf9r
-	P4wT0KFTBVpSyDwCDdQJ/twnnAkwU3ECL0FIYZjKcWSCIQV8hDqAYAjIZe013JEh
-	UDcQ7n8KfY5/1a4MLyyiu4fuwJ74/UTNM6JoMnRVbScOSfW+2Ugb2QSrj83Xjk3X
-	S6ib1l3/eqk6i7zuC3Ini2/A+/XdG2gQ7VMKXQFqupHfPGXYRu7yjyMAFeibjQD9
-	3Q==
-Received: (qmail 3798994 invoked from network); 28 Jul 2024 13:46:08 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 28 Jul 2024 13:46:08 +0200
-X-UD-Smtp-Session: l3s3148p1@ul9RSk0e7ocujnsv
-Date: Sun, 28 Jul 2024 13:46:08 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Aleksandr Mishin <amishin@t-argos.ru>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	Zhang Shurong <zhang_shurong@foxmail.com>,
-	lvc-project@linuxtesting.org
-Subject: Re: [PATCH] staging: ks7010: Remove unused driver
-Message-ID: <ZqYvgNHQSb638mQ3@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Philipp Hortmann <philipp.g.hortmann@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Aleksandr Mishin <amishin@t-argos.ru>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	Zhang Shurong <zhang_shurong@foxmail.com>,
-	lvc-project@linuxtesting.org
-References: <20240728052552.GA8748@matrix-ESPRIMO-P710>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dw6LzSzO"
+Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-7093d565310so2067913a34.2
+        for <linux-staging@lists.linux.dev>; Sun, 28 Jul 2024 12:55:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1722196559; x=1722801359; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=lQELjj/ebXwfVulzjoY3Mdj90GTfwybyPt8ZIbx2dBo=;
+        b=Dw6LzSzOaDc3YCRrr0A/7u01WC4t058sjedpxvleA2gFY183xd4sXZk/yyMxHZF1Pm
+         dzE9i2cJc6lT32ewC2KZqxWeLyc0BPMH3WENOs+RQpmmmXMDM6X1XHs39aAXWwCB/+L8
+         33s/wg5j+ViqwV5K21BOGYqSREvng6lY3+ftFWhQbLI1SXycvNZ3bMnpbXFwXQKkZB9f
+         qkzRa5rpMm9eJFU+N4e4aG2HclKit0+2uCJ8eBu6sHrH1Pt20Mn4u9N9rumU/7BGvD4W
+         3pvEWDazD/79hCjc+1I7J4NW1SW5bVlFSecA2DnT+vuGxYkPZK1HndGOP8D8TDV3ehQK
+         ID7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722196559; x=1722801359;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lQELjj/ebXwfVulzjoY3Mdj90GTfwybyPt8ZIbx2dBo=;
+        b=fRHoqjPtP5aXCQcNtuYm8Hf/AfmEDyUsC9Nb7jVEmA/XyLg7K3rSBcvApJY6kriSSz
+         D5cXGIqpXgeNMZcUUF5SQTEKIKk5e+GTsRbHgMa+c8JXLzo/Xmk9fSv0U152vwG/k5kf
+         /0F15ummLZlrkJpx3ZN8VwMS9Y/UZBzUrpDAVanOrjJnRallMaK3Djh9pupYUtQ1o/bl
+         Yk7hNg0CIZigv7cxrz1Nbr204R6+YgtcKKWZ3LWlhcSHu++GzO/j25uGBKccYfdU22RH
+         aHHRgcUYBXAxEaeXGpeTj9UXdYMlLwPAJXLgw8pika1qi/Yka/wTr/V/5J+mNgWmtge4
+         htWQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVEDN/MU62l39TscQ005eoftN0Zb7qbMnNyY63IuR8k290N5Xh6XnsUBSTxL2FOpRcqYkKKW2ScU73yt+bSTfkHtG31XoOyXIqG1nEvAg==
+X-Gm-Message-State: AOJu0Yz5gU2ixMhqJjWD/1ZNhmCx2weVwnJUP1lluSY57l7Amf9g6rCV
+	Xclzt0uZIYyKVbTTcYxMm5olwmqdtnr6t7gRATVjKXMOzmDNnVkS
+X-Google-Smtp-Source: AGHT+IGN37hUcxL473FOIlK8k66DsTHmzqi6xtzIiVec6+/+1PpeCzyrj/uI8qAQ+TFaDHdBThmxHg==
+X-Received: by 2002:a05:6830:65c1:b0:709:4bc5:a016 with SMTP id 46e09a7af769-7094bc5a406mr3099581a34.25.1722196558894;
+        Sun, 28 Jul 2024 12:55:58 -0700 (PDT)
+Received: from joaog-nb (189-18-172-64.dsl.telesp.net.br. [189.18.172.64])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2cf28de71a1sm7003007a91.41.2024.07.28.12.55.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 28 Jul 2024 12:55:58 -0700 (PDT)
+Date: Sun, 28 Jul 2024 16:55:50 -0300
+From: =?utf-8?Q?Jo=C3=A3o_Paulo_Gon=C3=A7alves?= <jpaulo.silvagoncalves@gmail.com>
+To: nuno.sa@analog.com
+Cc: linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Ramona Gradinariu <ramona.gradinariu@analog.com>,
+	Antoniu Miclaus <antoniu.miclaus@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Marcus Folkesson <marcus.folkesson@gmail.com>,
+	Kent Gustavsson <kent@minoris.se>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Francesco Dolcini <francesco@dolcini.it>,
+	Haibo Chen <haibo.chen@nxp.com>,
+	Michal Simek <michal.simek@amd.com>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH 13/23] iio: adc: ti-ads1119: make use of
+ iio_get_masklength()
+Message-ID: <20240728195550.3iujiagxnmccybt5@joaog-nb>
+References: <20240726-dev-iio-masklength-private3-v1-0-82913fc0fb87@analog.com>
+ <20240726-dev-iio-masklength-private3-v1-13-82913fc0fb87@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="QoiuYAprfMstUV9a"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240728052552.GA8748@matrix-ESPRIMO-P710>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240726-dev-iio-masklength-private3-v1-13-82913fc0fb87@analog.com>
 
+On Fri, Jul 26, 2024 at 10:23:05AM +0200, Nuno Sa via B4 Relay wrote:
+> From: Nuno Sa <nuno.sa@analog.com>
+> 
+> Use iio_get_masklength() to access '.masklength' so it can be annotated
+> as __private when there are no more direct users of it.
+> 
+> Signed-off-by: Nuno Sa <nuno.sa@analog.com>
+> ---
+>  drivers/iio/adc/ti-ads1119.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/iio/adc/ti-ads1119.c b/drivers/iio/adc/ti-ads1119.c
+> index 630f5d5f9a60..44d9f69c9df3 100644
+> --- a/drivers/iio/adc/ti-ads1119.c
+> +++ b/drivers/iio/adc/ti-ads1119.c
+> @@ -435,7 +435,7 @@ static int ads1119_triggered_buffer_preenable(struct iio_dev *indio_dev)
+>  	int ret;
+>  
+>  	index = find_first_bit(indio_dev->active_scan_mask,
+> -			       indio_dev->masklength);
+> +			       iio_get_masklength(indio_dev));
+>  
+>  	ret = ads1119_set_conv_mode(st, true);
+>  	if (ret)
+> @@ -508,7 +508,7 @@ static irqreturn_t ads1119_trigger_handler(int irq, void *private)
+>  
+>  	if (!iio_trigger_using_own(indio_dev)) {
+>  		index = find_first_bit(indio_dev->active_scan_mask,
+> -				       indio_dev->masklength);
+> +				       iio_get_masklength(indio_dev));
+>  
+>  		ret = ads1119_poll_data_ready(st, &indio_dev->channels[index]);
+>  		if (ret) {
+> 
+> -- 
+> 2.45.2
+> 
+>
 
---QoiuYAprfMstUV9a
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: João Paulo Gonçalves <jpaulo.silvagoncalves@gmail.com>
 
-On Sun, Jul 28, 2024 at 07:25:52AM +0200, Philipp Hortmann wrote:
-> Wolfram contributed this driver in 2016. He is not using it anymore and
-> confirmed it to be removed.
->=20
-> It is hard to find hardware around the globe. When it is offered it is
-> expensive and performance is low.
-
-=2E.. using interfaces which are long deprecated.
-
->=20
-> Remove unused driver.
->=20
-> Link: https://lore.kernel.org/linux-staging/igi27iwrzg3ovgj3sym4gsi45timp=
-kt4vkl5ss5dbftdzat6p4@ctxcjocvunpt/
-> Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-
-
---QoiuYAprfMstUV9a
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmamL3wACgkQFA3kzBSg
-KbbfhQ//XY7wcD/9Jb3I3oEcjLpo4SG1DZCLTtcmdwv9fOrS7oyXO+H8Z8gLsNOJ
-wxfJMt24UmDSNusOm4BstQGYRZSeETD3F6WmNgqunP/okjFEDAhjxpixrT3n7PNF
-FNVqyG/7Uc0VBz3T0sp8Z8K2jZ/1LHmlN3wm6eEcEB8MGTaHKnoAW4UPX/9f+mhw
-TkVqEzFUSpFf19fi4TEoWsvKo1EmX4gs5yNlXRrxLFUUyddG5ty8/3Y8pZ+lIXR8
-qYtW7V2ZqzzbDs3NPW1T6wlvwbQ5NV6TV/AQ8mlB07TO187uNZohJKMyeNUj5tHO
-jAg7jJw2RmamGYolGTN/Sy8H0DAjJ9h4tuwOwfXP87DiCHHfSgOtIzb7HbbYHooy
-8/VW4lnyraiJEwdb27OC0NjrPSkThqLx5lZlPpUQdqNX2wssTq6y0EIKb7j4IGRQ
-DvNnGfjwQSKW8m2x39DoCYGNHbko30nq10Ilqu+/kG4ui9eKGUn24VEEhi3mPUgb
-UJYfC+Occq/RcFCVxQ+28ftFop6K4loWss42Q0tREIBP51cgIBhBmfD5Z8QzlyZj
-n6cQt758kLnDeS4JHfrffaLZbE3XR8dayS0gGO+P84M72aurcXAZh5kr9brt1G19
-L/+OeFpvPvjtWvLiyAkLfFoBG6RUQ9UGpVmBo16We0JXRpeDCAQ=
-=Rnmf
------END PGP SIGNATURE-----
-
---QoiuYAprfMstUV9a--
+Best Regards,
+João Paulo
