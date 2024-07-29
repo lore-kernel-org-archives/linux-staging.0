@@ -1,116 +1,120 @@
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout2-smtp.messagingengine.com (fout2-smtp.messagingengine.com [103.168.172.145])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9419C7A158;
-	Mon, 29 Jul 2024 02:22:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.62.61
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D3EE7406F
+	for <linux-staging@lists.linux.dev>; Mon, 29 Jul 2024 13:02:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722219750; cv=none; b=d9z957JsH2krz5Jks38SatpXs9mWQjha3T3hQr0M7kbKkgZwPjPT9LWAfeBPMBKoOv0n3WWq5iic8f+J88mugAlnaKjKm8QtkW3ZQEk5H5R1MnHs4AldL0eWYtsClHvobemstdWGR+EQrhA7AxETwlKhIVaA/a8ngxIDA7W0WIc=
+	t=1722258154; cv=none; b=okIqtowxZunY5BA1oUZY3RB4+OsqtpUubiciPL1W8247SlGkqci02EEqRdH7hdKkLE009x6PtpWW0ULEXa2D7bauBLlpnYSc9fRpfReG1GtQRlNeU1R7IxVlK7CETvYr26z57fESS2VYe72ZFalNVwoHdHgZvwyBQYPpDOrfkGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722219750; c=relaxed/simple;
-	bh=BgplJy2egXU2bkIhmYD9X9T05CozoXUeP2I/qvh+KI8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZV/VlXCSPiHHUBDgcE0eXM285ZT4jjwfFqwm58rJfvvM3akZlqP7P1wnH2BJRrr/ZIUDQpExY+HV7WpMZK5N0YF/9O+3LsEmH9XM7bdzChmAzEMe05z7VSIseFitAx4gEIgCL2wgAwww21dln7XHO7mrqZFwO4/EYoR0gBEDJkM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=gkxjxXav; arc=none smtp.client-ip=85.214.62.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
+	s=arc-20240116; t=1722258154; c=relaxed/simple;
+	bh=04q5bqqX+y25zavlP8QbkWiR+H/gzCvq8zQ4k7IsM8s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nWhqDvDJH+TCWrbi8d+G/my2hsVtXs4sy7Z92H6GH4WaPKo3NUiu7iWEUUUldPQuGHicyHOQy78Rx3/uDWjPiVIDEUlOhxJJE1nAsks6+pdTHdWPBJwOqmRgtray6ZOsKpjSgd7EcgDleoS+IwA4XAlu0aG33TPv3Mc5nhSi+4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=gWEudYUT; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=CM+xpBce; arc=none smtp.client-ip=103.168.172.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="gkxjxXav"
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
-	(No client certificate requested)
-	(Authenticated sender: marex@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id C067788744;
-	Mon, 29 Jul 2024 04:22:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1722219740;
-	bh=TiQXSHuhj77xOGQ6ofFRBUYmbcD+EjOgZW1sHSpkrIA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=gkxjxXavxdoYpkyNvEFFZ+povkb70OqqE/bpH3SiZxFvDBvuSjlM6oB2hIhCcyZdJ
-	 Pn1T20ijUouhAqxIpI3fFRDTlUCVNyfmebQc3i5WYfO1CaLjguMBHJ0y4A5ZxGyGxp
-	 QDK5mhp45IrxKgxVobLUK4Ofvt1+OWA8ECbO4ubROTBYXyTs1YSr/p9X7HKNkFB6R0
-	 G6QlVw5OVSsvi70OPwNWuGSePBeTWaofJQA9YdxVfmb3uvw3zXKG5uRu5T6uJ6XF7y
-	 YeiNVtPNcBeJvgKW0+MJqzNCMLHCKRkegK2MlP7Gl2RK+GeAyYCR+yzAhDnuCychHk
-	 enMmmKrIPFsaQ==
-Message-ID: <640db08d-0904-4451-8369-9f99e029777e@denx.de>
-Date: Mon, 29 Jul 2024 04:19:19 +0200
+	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="gWEudYUT";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="CM+xpBce"
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailfout.nyi.internal (Postfix) with ESMTP id 6053B138010E;
+	Mon, 29 Jul 2024 09:02:31 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Mon, 29 Jul 2024 09:02:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
+	:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to; s=fm3; t=1722258151; x=1722344551; bh=aeb3978Igkxko1nbjSnsq
+	uTkOB9Ewk8mId09iKGKN1E=; b=gWEudYUTSqNTtgF0RrEOytLCcKoXFD88LJ7qi
+	sC7ZL6rw0oDF7pnz9CbDrzeFwkQ9/oTDR8dlOchhf1k74ZhLY9/wAeJaU34ppDkY
+	fRi47rLnBX9elCg0XSKfgbsdudb/06tS+LpvluJn/xrxCY1hXT/R8aOPKPADGXkT
+	v9p79sZhTB4tDX22G/FWdyg7bCuL9demLC34fZN/lWTc7D1I7MwxomsuWxjhDExM
+	0JTlxga2Mp9RCmCgKQ03v4CMU3l9qsHef54TrnhHLIDxC1hjmNQtH7uHAGnqK4eY
+	wOr6+QV4JaThgPHXkb3F7+VTAen+1sW0Xu2wlOZ8uz7jqj0Dw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1722258151; x=1722344551; bh=aeb3978Igkxko1nbjSnsquTkOB9E
+	wk8mId09iKGKN1E=; b=CM+xpBce/KfKua7TQub/byOXuK8tjtHAu8JiUiiMm2q/
+	587NezuD7RuJ6XNmOHNYYf1Paz7OhF1mLwvYsNjRH2y+b8m/7b2HW/xtTEF7nvoo
+	uV3ZRW+rYYduQewajhntFOibas1ZITQ/ATsni61wY9he+vvGjbT5C+zrMrJk16p9
+	7LGxdhfV0sYJRxIYB895QV2WhDK2uENoiiAfcsbcqOzkUi7p2r3Gim+hK5cXWRL4
+	YRDPgn2l/YYJ79Le90GrN42h0E0WdfOwL0hg6/nr1rbgyrb1d+LghYIQRGSDAmAp
+	YUHA8eW8Olvm64tMNL+mZF+uzWlWpr4RDu/O9PafoQ==
+X-ME-Sender: <xms:55KnZjP9qakcFLgpCZbpU7EkqDEcjRvDaS_HbdJGA-0_JzmMXOjvLA>
+    <xme:55KnZt-81uOWU6XOeNHWEzIK4utcSfXRcN1FTnLbB5hKiH8ALvPzbh3Afo2OuognN
+    raszdvRZwD_6xY>
+X-ME-Received: <xmr:55KnZiQdE2flJ8mf2Ek4ViX7d6Qppy7UUZng4UXuQE9IAqleXBIk5GrtSkGYKXOZKoSWLC0L9H-eJ1dQgbMcPtE_QYtDqbwrKEcb4Ldm6QUpEvFR>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrjedvgdehlecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgggfestdekredtre
+    dttdenucfhrhhomhepifhrihhffhhinhcumfhrohgrhhdqjfgrrhhtmhgrnhcuoehgrhhi
+    fhhfihhnsehkrhhorghhrdgtohhmqeenucggtffrrghtthgvrhhnpeekvdfhkefgtdeugf
+    elueejffelueeludegieejtedtveekteetieehkedvkeevleenucevlhhushhtvghrufhi
+    iigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrhhifhhfihhnsehkrhhorghhrd
+    gtohhmpdhnsggprhgtphhtthhopedt
+X-ME-Proxy: <xmx:55KnZnssZWmF7VsxNu11Ijnh-49nBz0P6Y1YuHR4cscOZ5y8QFn6wQ>
+    <xmx:55KnZrc2sq0BA0DkL-J7P8qe9zOGkAIO4Y64QtIVomloljD3TxLPBg>
+    <xmx:55KnZj1SpLUA3lTMMvMgLtLfanBGkKGz4LYgQCzZ8zd8AH8jtCyjWA>
+    <xmx:55KnZn9jsyFyINzW8sbj1TBuyrcjzsXWqOz4B3KIJv7r2HLiU1fuNg>
+    <xmx:55KnZi5DOFoVBpnDFeDAMORWP34klVSmUNRqh1i6oBH-GhcrhqSc_jSD>
+Feedback-ID: i1d2843be:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 29 Jul 2024 09:02:29 -0400 (EDT)
+From: Griffin Kroah-Hartman <griffin@kroah.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Griffin Kroah-Hartman <griffin@kroah.com>
+Subject: [PATCH 1/2] staging: vme_user: vme_tsi148.C: remove redundant newlines
+Date: Mon, 29 Jul 2024 15:02:12 +0200
+Message-ID: <20240729130213.48941-1-griffin@kroah.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] media: imx: vdic: Introduce mem2mem VDI
- deinterlacer driver
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: linux-media@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>, Fabio Estevam <festevam@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller
- <deller@gmx.de>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Philipp Zabel <p.zabel@pengutronix.de>, Sascha Hauer
- <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Steve Longerbeam <slongerbeam@gmail.com>, dri-devel@lists.freedesktop.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev
-References: <20240724002044.112544-1-marex@denx.de>
- <20240724002044.112544-2-marex@denx.de>
- <5aab2235-76cd-4fa6-8957-aed35e83a95e@suswa.mountain>
-Content-Language: en-US
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <5aab2235-76cd-4fa6-8957-aed35e83a95e@suswa.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Transfer-Encoding: 8bit
 
-On 7/24/24 6:16 PM, Dan Carpenter wrote:
-> On Wed, Jul 24, 2024 at 02:19:38AM +0200, Marek Vasut wrote:
->> diff --git a/drivers/staging/media/imx/imx-media-dev.c b/drivers/staging/media/imx/imx-media-dev.c
->> index be54dca11465d..a841fdb4c2394 100644
->> --- a/drivers/staging/media/imx/imx-media-dev.c
->> +++ b/drivers/staging/media/imx/imx-media-dev.c
->> @@ -57,7 +57,52 @@ static int imx6_media_probe_complete(struct v4l2_async_notifier *notifier)
->>   		goto unlock;
->>   	}
->>   
->> +	imxmd->m2m_vdic[0] = imx_media_mem2mem_vdic_init(imxmd, 0);
->> +	if (IS_ERR(imxmd->m2m_vdic[0])) {
->> +		ret = PTR_ERR(imxmd->m2m_vdic[0]);
->> +		imxmd->m2m_vdic[0] = NULL;
->> +		goto unlock;
->> +	}
->> +
->> +	/* MX6S/DL has one IPUv3, init second VDI only on MX6Q/QP */
->> +	if (imxmd->ipu[1]) {
->> +		imxmd->m2m_vdic[1] = imx_media_mem2mem_vdic_init(imxmd, 1);
->> +		if (IS_ERR(imxmd->m2m_vdic[1])) {
->> +			ret = PTR_ERR(imxmd->m2m_vdic[1]);
->> +			imxmd->m2m_vdic[1] = NULL;
->> +			goto uninit_vdi0;
->> +		}
->> +	}
->> +
->>   	ret = imx_media_csc_scaler_device_register(imxmd->m2m_vdev);
->> +	if (ret)
->> +		goto uninit_vdi1;
->> +
->> +	ret = imx_media_mem2mem_vdic_register(imxmd->m2m_vdic[0]);
->> +	if (ret)
->> +		goto unreg_csc;
->> +
->> +	/* MX6S/DL has one IPUv3, init second VDI only on MX6Q/QP */
->> +	if (imxmd->ipu[1]) {
->> +		ret = imx_media_mem2mem_vdic_register(imxmd->m2m_vdic[1]);
->> +		if (ret)
->> +			goto unreg_vdic;
->> +	}
->> +
->> +	mutex_unlock(&imxmd->mutex);
->> +	return ret;
-> 
-> Since it looks like you're going to do another version of this, could
-> you change this to return 0;
+Adhere to Linux kernel coding style.
 
-Fixed up both for V3, thanks .
+Reported by checkpatch:
+
+CHECK: Alignment should match open parenthesis
+
+Signed-off-by: Griffin Kroah-Hartman <griffin@kroah.com>
+---
+ drivers/staging/vme_user/vme_tsi148.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/staging/vme_user/vme_tsi148.c b/drivers/staging/vme_user/vme_tsi148.c
+index 9066c53150ec..9b1e9fd9ff20 100644
+--- a/drivers/staging/vme_user/vme_tsi148.c
++++ b/drivers/staging/vme_user/vme_tsi148.c
+@@ -2505,8 +2505,7 @@ static int tsi148_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ err_master:
+ 	/* resources are stored in link list */
+ 	list_for_each_safe(pos, n, &tsi148_bridge->master_resources) {
+-		master_image = list_entry(pos, struct vme_master_resource,
+-			list);
++		master_image = list_entry(pos, struct vme_master_resource, list);
+ 		list_del(pos);
+ 		kfree(master_image);
+ 	}
+@@ -2603,8 +2602,7 @@ static void tsi148_remove(struct pci_dev *pdev)
+ 
+ 	/* resources are stored in link list */
+ 	list_for_each_safe(pos, tmplist, &tsi148_bridge->master_resources) {
+-		master_image = list_entry(pos, struct vme_master_resource,
+-			list);
++		master_image = list_entry(pos, struct vme_master_resource, list);
+ 		list_del(pos);
+ 		kfree(master_image);
+ 	}
+-- 
+2.45.2
+
