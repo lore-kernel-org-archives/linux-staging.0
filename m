@@ -1,58 +1,51 @@
-Received: from mail.archlinux.org (mail.archlinux.org [95.216.189.61])
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92521140363
-	for <linux-staging@lists.linux.dev>; Tue, 30 Jul 2024 06:46:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.216.189.61
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722321981; cv=none; b=A5xe5G/wmGiSP3q5jPDnIY/mcfwWDbG9ihLyeUa5MhJcyyLX2kEdxMKfsvC4r43dnw9BI0hElssBLYnj+d4qE8EPjM68qU1IlTBDHXuVbO61cYjI0lTUjMvDyM3w03AfftBOZjUCIhLJlEhqLjQFJMDrYLPyGR/YjyFn9x7T7uI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722321981; c=relaxed/simple;
-	bh=rKjoVvpxnUbLKUJLX8QKYA05GnfC5jwRs5LKU3wTK9o=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tLopKXLnsp4vb1Wd6b1wBLjvHi0fkHZDOB2CgzKGRmq11E4fWe40g8yOMp29XKLtkd9J7EPsMTAemSNA5C5CEUCQszTFjx1sK0Y4H8oaqpOVW6sxTZBrNbc8qhVml9cZEJIegAKK2e+1rPhcs3c2y+j/oHtF6gC/3MTmU7f2IBo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=archlinux.org; spf=pass smtp.mailfrom=archlinux.org; dkim=pass (4096-bit key) header.d=archlinux.org header.i=@archlinux.org header.b=B8Ze7q9C; dkim=permerror (0-bit key) header.d=archlinux.org header.i=@archlinux.org header.b=gRkkyAMK; arc=none smtp.client-ip=95.216.189.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=archlinux.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=archlinux.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE598241E7
+	for <linux-staging@lists.linux.dev>; Tue, 30 Jul 2024 06:48:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=136.143.188.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1722322108; cv=fail; b=smlLUUzOm9RRFXSVlSjQ6+VT4m+tjAHzfQXnA50UXt5db5AAQ98YGg9oYcqsDvK2v7aafAx0EEedAuX8s+Ftevax47PWOji8t8BXSAbMj2TsduTD0wzqvVinwFibjfTxoSZIzIlgiI/INiz+lBgeoNbqrzbqT/kC8fU86ITjHPM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1722322108; c=relaxed/simple;
+	bh=vN9SIByHzXwNm9whRVmNe/Woa/Y6SvNO2dFuhYWr5ZI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=emPHTvSVj0ni6rxNbMW/JiH48N8qC0FTD6WdTLg8fqNKW3+IhRfkHWiiSNRRL3OWbL2ay/RSq+B/Rzp/XtMwbDHRPyaouo9X8CZzlGDOFHM3Xa+onoORTiLcI15pAEekk9VqVrumb7SQP0kOma8J9jWTNdzdvhYooEkpgEdCacE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=puida.xyz; spf=pass smtp.mailfrom=puida.xyz; dkim=pass (1024-bit key) header.d=puida.xyz header.i=guilherme@puida.xyz header.b=ZKad0ZLw; arc=fail smtp.client-ip=136.143.188.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=puida.xyz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=puida.xyz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=archlinux.org header.i=@archlinux.org header.b="B8Ze7q9C";
-	dkim=permerror (0-bit key) header.d=archlinux.org header.i=@archlinux.org header.b="gRkkyAMK"
-From: Felix Yan <felixonmars@archlinux.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=archlinux.org;
-	s=dkim-rsa; t=1722321470;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=2E1NBOUaWLZiWkzrT91XszlHXGDEr8gUnIgRpGg+lWg=;
-	b=B8Ze7q9CechRWtPT7c0Jwn20m89XOZ9G/wKSECYTZodIkGyqSnGOA2A4DDD2lDgT8Jqvu1
-	Omry5TEGanl+8JOU9ac5Jmke/fOO5RDNUDP3tMAAHDAHyJmGQubP6u/yN00btlFcbCQihr
-	ZHFrXPw9AUcKkTBVaWCU8K3nTmS8wlw2n4RKDIruGGQrCcoJ4zcE+cVEedBraWVXoQIuk4
-	EEf5a2GZENDdIn5ieiv5k6QhR11wOFvR4KhxEefrawzbxWIQWvHTOpy6XWKBnrvWnBxpfE
-	2gmlZTtV36Jsa8dpIo7PDVabx35BZbHgYuNxR2uBcJajWupkIZ6aIcjSybEf7vogvIR8Bx
-	OdcrgPVXlFNI6k6JLVOZGM5FBxx7pHR4XXBl4RsvX6eTK/P4EA1PPF32lhu8A2F3R3VjOn
-	NJayeGjrw/Wu00/rdlgpPybyo85igIzUl3u8iPYnDEtho04cinOw1jae2DN7etNYeYj0d8
-	saEY5Uo2dOck35CrqzaZwYkR6G+gb17nFThqhxiql16scnnJbV3cRUQWO+bfmk9x7JTqWN
-	7CVlNqyeDgzB8OiyTeIwD3dOOHeNuxqWsmQ/XoCOvmLEZYZHfLQ4bQYJHpPGSrKcSVB4jP
-	UVnJKQrnmCNheEucTV7fSrMlkEfnIuO2u2zLslCOrCjuBCyYSRLMA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=archlinux.org;
-	s=dkim-ed25519; t=1722321470;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=2E1NBOUaWLZiWkzrT91XszlHXGDEr8gUnIgRpGg+lWg=;
-	b=gRkkyAMK5F6ZpsTbIDGFPTgQilx/PZUMEKvLQB5QnTheobFgwO8+6RtRObi2pJr4AIT9Cd
-	tkXuU8K32kfwMsDA==
-Authentication-Results: mail.archlinux.org;
-	auth=pass smtp.auth=felixonmars smtp.mailfrom=felixonmars@archlinux.org
-To: Florian Schilhabel <florian.c.schilhabel@googlemail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	dkim=pass (1024-bit key) header.d=puida.xyz header.i=guilherme@puida.xyz header.b="ZKad0ZLw"
+ARC-Seal: i=1; a=rsa-sha256; t=1722322100; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=Xsk62iHOBTAUjGEcT/OfX2gf/Q0kFydrh5Q5teo/lHT/iPypwg+Xy1K8r8YG+ssiBU3OQXWfhJ1vl4C7hSfzfPCU7v6MAmgu9j+1wSuBiKGKJlBRaqy+kdNpqHJ/cMlYh9o3SiDloeX74BDpmR1+a0lPtOadkOlTHxvv0EMGJoA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1722322100; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:Message-Id:Reply-To:To; 
+	bh=BfTSVbDgPto1zryF9/kfDoJnWPdqY+wIibqrxaSUyE8=; 
+	b=HNHgtstdZgSOaYd6v4DLW0tKWCIwi5kZv2BFrd3oIYjt45sQ37ivanFf5Q7OvD69EvO0j2xVxuqLGcAvsoTxy+ERHym0Ms5gBBJKojB6Th3DnpwcJWKAYhv7N7s5ySzkn0znXy9QZf9jKqQd4dQnGamkL4JTSv3zB4ygnjGpVVA=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=puida.xyz;
+	spf=pass  smtp.mailfrom=guilherme@puida.xyz;
+	dmarc=pass header.from=<guilherme@puida.xyz>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1722322100;
+	s=zmail; d=puida.xyz; i=guilherme@puida.xyz;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-Id:Message-Id:MIME-Version:Content-Transfer-Encoding:Reply-To;
+	bh=BfTSVbDgPto1zryF9/kfDoJnWPdqY+wIibqrxaSUyE8=;
+	b=ZKad0ZLwr1aKXSyg0ET/Yy9AwnTLKKERTBTaAngBkcWgl8YWpzBE+yITH2sYJ2F5
+	x8FYF8qbD5LxZRrEQ7dnNfm9qBWTzQKv2uKvrVFNrPyG19c10cNbb+q84ymGk8uunEB
+	QtsFHs1ZwZRl6m/B03RCzjdpbk0xtZw0nIl1aKbY=
+Received: by mx.zohomail.com with SMTPS id 172232209874270.12992549102853;
+	Mon, 29 Jul 2024 23:48:18 -0700 (PDT)
+From: Guilherme Puida Moreira <guilherme@puida.xyz>
+To: 
+Cc: ~lkcamp/patches@lists.sr.ht,
+	helen.koike@collabora.com,
+	gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Cc: ~lkcamp/patches@lists.sr.ht,
-	helen.koike@collabora.com
-Subject: [PATCH] staging: rtl8712: remove trailing whitespace
-Date: Tue, 30 Jul 2024 09:37:38 +0300
-Message-ID: <20240730063746.176245-1-felixonmars@archlinux.org>
-X-Mailer: git-send-email 2.46.0
+Subject: [PATCH] staging: rtl8723bs: place opening brace on previous line
+Date: Tue, 30 Jul 2024 06:48:12 +0000
+Message-Id: <20240730064812.1979-1-guilherme@puida.xyz>
+X-Mailer: git-send-email 2.20.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -60,29 +53,33 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-Fix the following checkpatch.pl error:
+Fix checkpatch diagnostic "ERROR: that open brace { should be on the
+previous line" in rtw_security.h:173
 
-ERROR: trailing whitespace
-
-Signed-off-by: Felix Yan <felixonmars@archlinux.org>
+Signed-off-by: Guilherme Puida Moreira <guilherme@puida.xyz>
 ---
- drivers/staging/rtl8712/rtl871x_cmd.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8712/rtl871x_cmd.h b/drivers/staging/rtl8712/rtl871x_cmd.h
-index 2613b3c2acfc..268844af57f0 100644
---- a/drivers/staging/rtl8712/rtl871x_cmd.h
-+++ b/drivers/staging/rtl8712/rtl871x_cmd.h
-@@ -736,7 +736,7 @@ void r8712_getbbrfreg_cmdrsp_callback(struct _adapter *padapter, struct cmd_obj
- void r8712_readtssi_cmdrsp_callback(struct _adapter *padapter, struct cmd_obj *pcmd);
- void r8712_setstaKey_cmdrsp_callback(struct _adapter  *padapter, struct cmd_obj *pcmd);
- void r8712_setassocsta_cmdrsp_callback(struct _adapter  *padapter, struct cmd_obj *pcmd);
--void r8712_disconnectCtrlEx_cmd(struct _adapter *adapter, u32 enableDrvCtrl, u32 tryPktCnt, 
-+void r8712_disconnectCtrlEx_cmd(struct _adapter *adapter, u32 enableDrvCtrl, u32 tryPktCnt,
- 				u32 tryPktInterval, u32 firstStageTO);
+Hello! This is my first patch, so go easy on me :^)
+
+ drivers/staging/rtl8723bs/include/rtw_security.h | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/include/rtw_security.h b/drivers/staging/rtl8723bs/include/rtw_security.h
+index 98afbd305..c3e47d526 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_security.h
++++ b/drivers/staging/rtl8723bs/include/rtw_security.h
+@@ -170,8 +170,7 @@ struct security_priv {
  
- struct _cmd_callback {
+ #define GET_ENCRY_ALGO(psecuritypriv, psta, encry_algo, bmcst)\
+ do {\
+-	switch (psecuritypriv->dot11AuthAlgrthm)\
+-	{\
++	switch (psecuritypriv->dot11AuthAlgrthm) {\
+ 		case dot11AuthAlgrthm_Open:\
+ 		case dot11AuthAlgrthm_Shared:\
+ 		case dot11AuthAlgrthm_Auto:\
 -- 
-2.46.0
+2.20.1
 
