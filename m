@@ -1,59 +1,59 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DADDB1A76C9
-	for <linux-staging@lists.linux.dev>; Tue, 30 Jul 2024 17:53:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3563018801C
+	for <linux-staging@lists.linux.dev>; Tue, 30 Jul 2024 18:02:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722361992; cv=none; b=bp56uPvUnhlJYJLcawYik6WwTAbdVwoKAednd7wW6PyRVsPWtupJiTsch26F3mPHi1V4urxoUHQE5nJMY7ZP7Qi/TtjdxgZzdEkKW/aUIQv0dGq1tnjqYPvOULxdpeJ0T1VjXaWOY7WjSa26sHddGikgC3EMaWGso2w6ajUMK+c=
+	t=1722362555; cv=none; b=sHzRHWjq0Xy7ziREu6nowX8fUemV5QXlwKEjXKWvqVz9YSkJ4yrBybA0+rXVqx63+VKLRIPTf5e/dq0UbACAV1wWsFBc99b1OkTJQ9qNXbIpaG0i8QBt7s81c5sgz20JNEMyLJBwEJUvnyf65+C2TC3BK23jaIOguzQ5Jm1ytqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722361992; c=relaxed/simple;
-	bh=Czf4YJE66OhV0uOYrMejAyjW4cbm5QqG+G5FrfW9+uQ=;
+	s=arc-20240116; t=1722362555; c=relaxed/simple;
+	bh=dGxHFcazl9CZ90JzERa3tmONCOwErs4hWGyTxMLGSew=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ida6p3FIzt6fMkXhwqGGQSJ3UxnXe8iDDcarJ/iDuv/T/dJB/PUXC5ya9VWIKnAKWMXsoKAJPlouCh3UkOs1eyx9C/u6y3wSe8zU/wqxNeY4cTstGzE24IJGOE2PFgSB6fKdoUea4Jsh6lx/o7Fl7a3c82jUGBBnvqCPp9/9FcI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fs0Mt1xr; arc=none smtp.client-ip=209.85.218.44
+	 In-Reply-To:Content-Type; b=nBRnQ8FViINVSYaxPAICrQNZ/fS7+sAC+jgYMv/10G6jBy5+zl5ebBrj74Yb5aqcIyZl5uZwuDZ+AOnTnA1qoAZWIDurL3tBRhrnTk9uVWh5YY1v1K29G7KwmDmhKF3dc5S96bFOb3Qgx24PHg1SiLbQcm8Ry9XwMzR34AHA+ak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BvuBZKxx; arc=none smtp.client-ip=209.85.218.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fs0Mt1xr"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a77ccec2810so47402366b.0
-        for <linux-staging@lists.linux.dev>; Tue, 30 Jul 2024 10:53:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BvuBZKxx"
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a7abaa983bcso69271066b.2
+        for <linux-staging@lists.linux.dev>; Tue, 30 Jul 2024 11:02:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722361989; x=1722966789; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1722362548; x=1722967348; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=X9vTm07aXTEkdNLGLjYuG1rQDZxP0zze4VZrn18Nt44=;
-        b=Fs0Mt1xrvGHlGyAtRFDfUgrMNVTO01kJlRNRe6xqq+V1a0T9gvrEqOuYDU6GnMMrMH
-         FCKQihkBV4vgkh+w0zqekprV6JfTImxKNFLHllq+i13ep1VVmyxp33qJYdMBtUnyYtBC
-         Mw+jE16ma6VK/EXPDh0nQskCdp99CNxgFKkhxRYtyrAm6GJAqahreJbWbk3v16o2zGTz
-         9plO5mf+OoyNtKBiGEfLCDah637V4F4D9csVzt47b8N/yRN7neN3S3UifHTxDXIuPlcp
-         Srli2BRAKFe1KhOW9+LOk85v+6cWHsUCx6j/q8iMAi4H9ezwinshjPjVCtE7zR8XFMqh
-         Un3A==
+        bh=v0BE6LG9AKH6KqSFQojwgZTXGggkIs90XPNvvVsB9SM=;
+        b=BvuBZKxxdbRQMmiqdNvDP/q5/i8OOB48NFTsCa9+9Aq3dnwJt9jo4KGualr0UHwoPW
+         x9skNCZbsU20HNV+POSque+O4f+dWMKrFiN3/7cCE6i61how27ldR49Or06dePGM46NR
+         WXnvoooVwJGgrW8kI5l8nIjrbQphgzabHqR5gzLi1OaVDMtpX89csVH1F+wjr5NQ1zJv
+         gfVHU9rp2wZW4uO/Xq8BT3CO/o7jSuHDyFQXDXqnG7jPh2L0qfteMnAFrsCBEs55+DJs
+         xjS5MtrE7EZXFsXEaPdCqFHY1lhuI4O4T/yjTZOpEaJeCZNRySrDN8ymT19Tb/NoUwWp
+         jMXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722361989; x=1722966789;
+        d=1e100.net; s=20230601; t=1722362548; x=1722967348;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=X9vTm07aXTEkdNLGLjYuG1rQDZxP0zze4VZrn18Nt44=;
-        b=awWKoeTP9ICFPSVaZSP64a2v1TBNGihERUNwnHSIIAeDXol+LQ547ttaqnKgzWUGv8
-         ucqUkUqgwwds82Yp+1uqrjIlAYmb/4gt/TAKXg9DZn5L0NFSXlUnsI7C6qp28PRoTo9Q
-         i5JAHJPPiFBoBFKxTXAm06KdFnF779ss7pIzoEt0z7m0ZXXByOLl+PGPqeNX0AUuBVk9
-         wFxE83BQn4LgUeNkfapNvyCLd/QUt5eA9Su74lH2GfHskWG9M512zriPwr/DVdElySvd
-         AN9HpszAkNx9FzUzlRFc7619tj/k9i5U2z4r55NZOvqdlSb1wHCtC2eIIj9cTf04wTsz
-         jVKQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXoDQlZcjGDV4/sfjP4GuAiP08zP3xcSPetOu2ZBdQvIBjcTBq9gRrRFh7aP0VXdJQ3VsT2wUNJuBQN50RWv1GqvYm8bfcg7vS5Ud0Q+Q==
-X-Gm-Message-State: AOJu0YzY5HnimH7aYIM+otkY9MF/N/aFwVgFfoCFosKTVYPJsCGRJeaP
-	7fi/Vix+CqqzFJpoxp6a/HewFc7dqFrUnhyKOAZzKfIcuy6TFEMC
-X-Google-Smtp-Source: AGHT+IGVTdXF6fa1R+7kdsDsyQK/aholuI/gOeBeg87pDLlYcbG9twe9QYTuW6T0bmdKDj+fMlaqOA==
-X-Received: by 2002:a17:907:7296:b0:a7a:a33e:47cd with SMTP id a640c23a62f3a-a7ac5b944bbmr879290666b.8.1722361988666;
-        Tue, 30 Jul 2024 10:53:08 -0700 (PDT)
+        bh=v0BE6LG9AKH6KqSFQojwgZTXGggkIs90XPNvvVsB9SM=;
+        b=sEnf5Vh59iOq6Tix88UwRIhnNadFUc+SAtJFxWbDK6eh+HHKkhqpUcsuPx09wYsqEI
+         R3RNlT6F6xAcdBhpM9SR9wS8n1xtNu3/cJmJ39IKhiXLmeQgX7T7inDXY+VRrnxkBKnB
+         WHlabSassxbwS2UgaUFKcZYtZ29lWaRAkf9K5oWyTPxc0xRg4Y4jLxiUvDs6Lh30NztY
+         +v29hA34hraaH9UEPlGPNuEgV+2S8xUGjd5V6CdPiHC2ebE2r/EkcYPmmsOMXMZDmaYj
+         K3OKxsARjss31QV1EdOYCE4Yap1jVqwwudhTyTs8i0d/DvrEGaeA9GXcXr6n87wxN+5z
+         VsVw==
+X-Forwarded-Encrypted: i=1; AJvYcCUDxPSJhAo+9q88OZ2Q9+1I84nZb6UICLeBq5VRDXMDbIxgVLFlECxK1+wZ8Ra07M9qBRStjLepAD3Lvou1j1H88jnsQxSTza2uj+bEOQ==
+X-Gm-Message-State: AOJu0YwGWAoRt3Ta3PbZqvKPL7Tv0GjtSIy67ZtfP3+wvu47OX6FLCym
+	5e/nwPgwSZpGZEHopT0no6V/53SGMeeW8Y4VoSjeboBMoV0txbBW
+X-Google-Smtp-Source: AGHT+IHuRvMNTK9iD08DZUMuYiwH4P9y0lJbYNv2H4zQwp4YCAnwg7/jLFtubFZcEVnK4YXmud6lnw==
+X-Received: by 2002:a17:906:6a1d:b0:a7a:a763:842a with SMTP id a640c23a62f3a-a7ac5a5b78emr797585166b.8.1722362548088;
+        Tue, 30 Jul 2024 11:02:28 -0700 (PDT)
 Received: from ?IPV6:2003:c7:8f2a:8552:f0f5:c00a:214:55c4? (p200300c78f2a8552f0f5c00a021455c4.dip0.t-ipconnect.de. [2003:c7:8f2a:8552:f0f5:c00a:214:55c4])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7acab233c0sm668263266b.44.2024.07.30.10.53.08
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7acad41027sm671648566b.122.2024.07.30.11.02.27
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Jul 2024 10:53:08 -0700 (PDT)
-Message-ID: <410c5072-ab3c-4651-a7f3-10f7f3337814@gmail.com>
-Date: Tue, 30 Jul 2024 19:53:07 +0200
+        Tue, 30 Jul 2024 11:02:27 -0700 (PDT)
+Message-ID: <d4eb021f-bb35-4f7b-8be8-319907bbff63@gmail.com>
+Date: Tue, 30 Jul 2024 20:02:27 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -98,49 +98,9 @@ On 7/30/24 08:37, Felix Yan wrote:
 >   
 >   struct _cmd_callback {
 
-
 Hi Felix,
 
-Please make your "Subject" line more unique. Consider that we may end up 
-with having dozen of commits like yours, all of them referring to 
-different removals and all without the necessary information to tell 
-what they differ in (except the driver/subsystem). So it would help if 
-you add the changed file or function to make it more unique.
-
-Please do not add extra empty lines in the description when not 
-required. Consider that we have a lot of commits and it is most wanted 
-that the description is short.
-
-It is not required to add the name of the tool who found this, but it 
-can be named. Much more important is a good description why this change 
-makes sense...
-For example:
-... to shorten code.
-... to improve readability.
-...
-
-I cannot apply your patch:
-Applying: staging: rtl8712: remove trailing whitespace
-error: patch failed: drivers/staging/rtl8712/rtl871x_cmd.h:736
-error: drivers/staging/rtl8712/rtl871x_cmd.h: patch does not apply
-Patch failed at 0001 staging: rtl8712: remove trailing whitespace
-
-Are you using the right git repo?
-
-git remote show origin
-* remote origin
-   Fetch URL: 
-git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git
-...
-git branch -a
-my branch: staging-testing
-
-If you send in a second version of this patch please use a change 
-history. Description from Dan under:
-https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
-
-In case of questions feel free to contact me directly.
-
-Thanks for your support.
+your patch was already accepted. May be you take the previous 
+information as a hint for the next patch.
 
 Bye Philipp
