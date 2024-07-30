@@ -1,127 +1,102 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F7091B29A7
-	for <linux-staging@lists.linux.dev>; Wed, 31 Jul 2024 13:01:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25A6E1B580D
+	for <linux-staging@lists.linux.dev>; Wed, 31 Jul 2024 16:05:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722430909; cv=none; b=cMajyfrAX0Ng5WkPxal8dLZVQdan5de0B0CzHMChZmjS0oKhUeWwZSeWr2miazyFKuZa26FzXbpCU84AKnZYeOcgM9hQqqcVueZJJ4bxBB77zEZTMeIkh8JTSjEpuJgx9GeIJj9RdNeR/AZ7shxhxipYSOwhFM0ScD5nZ6eNGKE=
+	t=1722441917; cv=none; b=PyIFfILpw4iSk1YlwbsjTkVxijPYxflqoIpa7p7TfaIG0VFPIxKAVjm3jmHYX1mvXTHACoivNbB+caZeHi6ilSwjIc8fD+eStNy9czo5kAfnTy+PQUK8P6vlbb6DfFlzk7A3OlbgcfbT5eS5eGjFcGxSrKMO/TIKR9X/NwQHQwY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722430909; c=relaxed/simple;
-	bh=htFulFtTFCvEQvVVDlKY3RWeKyLnQHshfyV0J+OtM2g=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dAlxlOXrpXO7qNHBsOZFzz4saEihliNOCZYaf/EAKGrG1YvNeqp9IkGnvdbw9Nj402SCmyy78U33bclFhU4H9llDz9p6sfk8lqhPFEVdmrsWkl1bYDoC2fK4nu+yvLyTx4gRkBRMvdcVKWumC1U0gmNb/b7PYBSmLWQt00J+FBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id BFE8B21B70;
-	Wed, 31 Jul 2024 13:01:35 +0000 (UTC)
-Authentication-Results: smtp-out1.suse.de;
-	none
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9135913AD8;
-	Wed, 31 Jul 2024 13:01:35 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id SMQ1Iq81qmYzWQAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Wed, 31 Jul 2024 13:01:35 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: gregkh@linuxfoundation.org,
-	deller@gmx.de
-Cc: dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 1/2] staging: fbtft: Use backlight power constants
-Date: Wed, 31 Jul 2024 14:58:51 +0200
-Message-ID: <20240731130130.1148153-2-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240731130130.1148153-1-tzimmermann@suse.de>
-References: <20240731130130.1148153-1-tzimmermann@suse.de>
+	s=arc-20240116; t=1722441917; c=relaxed/simple;
+	bh=a6TO/KMWRyZ62evV+V32rHbVhpWXfPPpsymd4oMdEK4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Rgn6STl4UphXG2+lHdUSwthYcvdTe2jfYw+55q+X1Rl7vscs652d0HkqNUoNezWgAmQiEhLk5DonPZdA/wF4HFM8PyMmVoY80b3k2K4Qgs0pispAtD9Mrfl9mPE5g5qXP99ZAz/E3hODz6CsxvqQQI7RzEo27CtPLYjoxOzBIyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=RJ53jlH6; arc=none smtp.client-ip=209.85.167.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RJ53jlH6"
+Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-3dab336717fso3978859b6e.0
+        for <linux-staging@lists.linux.dev>; Wed, 31 Jul 2024 09:05:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1722441915; x=1723046715; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=QXyhYvjtECustBaF35QTJ0n/1JR+w0RoGMaJ7n/9KQg=;
+        b=RJ53jlH64NT3JyAGnC3+5UMD2GtoakYYf2AEGk5WbzVdedfbiNeRPCqAxaVTfXduHf
+         g8s6oyIIiFg03Dkfabq4zfr+Z9NInXL9RkX/8LWU3JZsUPiOcfLoN3d52Pcbl6QXEVrz
+         eL5EhJhSPgp8V7BSPu3QAHW1S+l74YVZWVh2x9s3kwz0DZQ5c7mcN8p0bbbRLg2vIP6f
+         AVE0wcsNEeO5ik+8JJuuMpEu22n6HoHYSJgpqvcUldMbT6MRnZfYr5GVBFGhD/ijaYen
+         0Anl6CCM0rd0WyybrzwYJK68bN5FrasUKEHxLUgAiqzbDvB6JFYcCFW7krmIRCwUDFQz
+         /j9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722441915; x=1723046715;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=QXyhYvjtECustBaF35QTJ0n/1JR+w0RoGMaJ7n/9KQg=;
+        b=LJe4a2wXyq8OQqWTnB1gMz9uUI0JBUpXDRSzbDu3N4JPNH16OPRsChD5Nn7wK/+FiW
+         BCaUZ8I9qTFn1ZT2v17MMPQd1Zfg1yqLAH4K6bUidhuT7hEJNGEc5I1yCspabDSBTKaQ
+         9vC9GUxtgu+iNuaCxw44Nxk6XOUPQzn226L/UA4FuJ3xpM+EyDDFelckZOPFiQMH7EdM
+         QXOhuHrXPH/19hSKPHPvOncdjXg/y8cBbdjj1olGlIPTEaiyz4ZCKg8W2wSbQtO6nCTq
+         20qi0w6JBAX2nXs40LQRCjpHEmYAuv2CzSASi9eKdZtKtsWTJ00xIsr+9xWH1tI6VpBf
+         CKIw==
+X-Forwarded-Encrypted: i=1; AJvYcCVMVSJC+Cue0g2wMj57fCZx38LPygMAuAx3MYD1skl9oaNOr89w5grerCQBOHrrm3u+1/5hjbfB5jHMcsCC@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy1MRSgf/B7SC3WypVbI+/JEZik/iN30+2QgBILWZLZOFMQXmDH
+	upJ6XG46IQA6LB4UNd5i2dp4CuPkYCaYsVVWQIOh8YwmLHPMsherfShC/WJKFxs=
+X-Google-Smtp-Source: AGHT+IEWqqB12HAG5XXwGLWqO3LTdY1XVVq0hNmyNyCXnKeUBxbjaS+soaAUYehjzReJQa3OriYoHA==
+X-Received: by 2002:a05:6808:2029:b0:3db:215d:71f2 with SMTP id 5614622812f47-3db23a2f80amr17817651b6e.35.1722441915021;
+        Wed, 31 Jul 2024 09:05:15 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700:c572:4680:6997:45a1])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-3db46924878sm492607b6e.4.2024.07.31.09.05.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 31 Jul 2024 09:05:14 -0700 (PDT)
+Date: Tue, 30 Jul 2024 16:41:34 -0500
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Santiago Ruano =?iso-8859-1?Q?Rinc=F3n?= <santiagorr@riseup.net>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, helen.koike@collabora.com,
+	~lkcamp/patches@lists.sr.ht
+Subject: Re: [PATCH v3 2/2] staging: media: sdis: move open braces to the
+ previous line
+Message-ID: <3f885f2a-681c-42e8-bdd4-fd2e2c077f5e@suswa.mountain>
+References: <20240730212854.474708-1-santiagorr@riseup.net>
+ <20240730212854.474708-2-santiagorr@riseup.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Rspamd-Action: no action
-X-Spam-Score: -4.00
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: BFE8B21B70
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	REPLY(-4.00)[]
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
+In-Reply-To: <20240730212854.474708-2-santiagorr@riseup.net>
 
-Replace FB_BLANK_ constants with their counterparts from the
-backlight subsystem. The values are identical, so there's no
-change in functionality or semantics.
+On Wed, Jul 31, 2024 at 06:28:54AM +0900, Santiago Ruano Rincón wrote:
+> Fix checkpatch error "ERROR: that open brace { should be on the previous
+> line" in ia_css_sdis.host.c:253 and :258.
+> 
+> Signed-off-by: Santiago Ruano Rincón <santiagorr@riseup.net>
+> 
+> ---
+> This is one of my first patches. Could you please if is there anything
+> wrong with it? Thank you
+> 
+> V3: Insert the change history (including for V2)
+> 
+> V2: Remove spurious [PATCH] header from the Subject, inserted by mistake
+> ---
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/staging/fbtft/fb_ssd1351.c | 2 +-
- drivers/staging/fbtft/fbtft-core.c | 6 +++---
- 2 files changed, 4 insertions(+), 4 deletions(-)
+Thanks!
 
-diff --git a/drivers/staging/fbtft/fb_ssd1351.c b/drivers/staging/fbtft/fb_ssd1351.c
-index ca2cba2185ae..cee4cecb23a5 100644
---- a/drivers/staging/fbtft/fb_ssd1351.c
-+++ b/drivers/staging/fbtft/fb_ssd1351.c
-@@ -213,7 +213,7 @@ static void register_onboard_backlight(struct fbtft_par *par)
- 	struct backlight_properties bl_props = { 0, };
- 
- 	bl_props.type = BACKLIGHT_RAW;
--	bl_props.power = FB_BLANK_POWERDOWN;
-+	bl_props.power = BACKLIGHT_POWER_OFF;
- 
- 	bd = backlight_device_register(dev_driver_string(par->info->device),
- 				       par->info->device, par, &bl_ops,
-diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
-index 8e2fd0c0fee2..ab53698dae32 100644
---- a/drivers/staging/fbtft/fbtft-core.c
-+++ b/drivers/staging/fbtft/fbtft-core.c
-@@ -152,7 +152,7 @@ static int fbtft_backlight_get_brightness(struct backlight_device *bd)
- void fbtft_unregister_backlight(struct fbtft_par *par)
- {
- 	if (par->info->bl_dev) {
--		par->info->bl_dev->props.power = FB_BLANK_POWERDOWN;
-+		par->info->bl_dev->props.power = BACKLIGHT_POWER_OFF;
- 		backlight_update_status(par->info->bl_dev);
- 		backlight_device_unregister(par->info->bl_dev);
- 		par->info->bl_dev = NULL;
-@@ -178,7 +178,7 @@ void fbtft_register_backlight(struct fbtft_par *par)
- 
- 	bl_props.type = BACKLIGHT_RAW;
- 	/* Assume backlight is off, get polarity from current state of pin */
--	bl_props.power = FB_BLANK_POWERDOWN;
-+	bl_props.power = BACKLIGHT_POWER_OFF;
- 	if (!gpiod_get_value(par->gpio.led[0]))
- 		par->polarity = true;
- 
-@@ -801,7 +801,7 @@ int fbtft_register_framebuffer(struct fb_info *fb_info)
- 
- 	/* Turn on backlight if available */
- 	if (fb_info->bl_dev) {
--		fb_info->bl_dev->props.power = FB_BLANK_UNBLANK;
-+		fb_info->bl_dev->props.power = BACKLIGHT_POWER_ON;
- 		fb_info->bl_dev->ops->update_status(fb_info->bl_dev);
- 	}
- 
--- 
-2.45.2
+Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+
+regards,
+dan carpenter
 
