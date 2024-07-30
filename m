@@ -1,101 +1,81 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from carotte.tilapin.org (carotte.tilapin.org [80.67.176.234])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E34914A095;
-	Tue, 30 Jul 2024 06:53:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 999DB190479;
+	Tue, 30 Jul 2024 06:55:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.67.176.234
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722322414; cv=none; b=ihhtWagP+KMNjYYVQFPtapsLamSwzLiV5K63ZNX7dzb7bOLV8p084j9SyBJuT1woMuajAxsTzmTwkt1jSAUSXSI2xUWORHr8rEQsltk2dHlQG2luN5EczvdTPoJ68qQFM9u2HW9jvANlU7+rU9oHjqrxGGBMhU0Ni2AHy9XbUIA=
+	t=1722322516; cv=none; b=FaEdvKi3Vcf0e7/3fAjiz3IAcVDyv/xfu+fC2pULbRIjEYxXsEZkibH2WLArKYSsZEJEvprotGSqXWGyd90DOJaUUeXWLhbbfnkaptig8IdF9pi3nseKdQ2kGa8F8LZ9jrfe8o6Sgx3iF7yp/87POkqb7u2zgTB/lg1Whs8pC4w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722322414; c=relaxed/simple;
-	bh=OMSeiT5CWRwogJLVFcMQhXyFBPaGZpMCxgSrN3QGXzg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WKWSWHLkged4cI2VK4cytBgptzM4Q3/s0ai93ZU/NUs4X/oVTsDFByC9qKkAwdbnL5VunA8ajuvD6gdCP+UFC+ETzXpcIIcxFt5OkD5tl4u4IawyB3Wh8ZCaLhZ/M84rc5z4JqeBvjxCqYuDX0zIAARBqmnECpvT0GWmBE1GTxs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=fs6jAsJs; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1722322516; c=relaxed/simple;
+	bh=grl2JzMV7lSnkB8+s1ZBfa2Q/v7Qx0DD3xdWYehgEY0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=UpYjKHRurrZKpgFimrioL8R2vJ1y4tB2ckUart+e2qSXRWqd1V5zBka81x5LTkHY/Vb5ULHgudeh6cZLjwsw/leWCJnCXom9ELRw8hlaBzRLDYn3kvA5AmNNkII8PzAH1oBE5kuLkPSL6fuBQwEEGFA90BBoIDO5jKBrc/1pSSE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tilapin.org; spf=pass smtp.mailfrom=tilapin.org; dkim=pass (2048-bit key) header.d=tilapin.org header.i=@tilapin.org header.b=wgFkAPfH; arc=none smtp.client-ip=80.67.176.234
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tilapin.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tilapin.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="fs6jAsJs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7ED5C32782;
-	Tue, 30 Jul 2024 06:53:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1722322414;
-	bh=OMSeiT5CWRwogJLVFcMQhXyFBPaGZpMCxgSrN3QGXzg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fs6jAsJstEgqF0/NtSG/HuOeNhN9gvHMdj27mjCiO3JPXL6IUwzT5HLfvt3CkJHZ7
-	 /pr6mXlE0B3wLXzX3uE2Q/wq58vfWWRJOtn5LKsNQKHYc8cWZi5J16vCfVJ1EMAJqr
-	 8ZGm55AAw0j5ASlW57zyBvNtT8KbJZwP6HToOR88=
-Date: Tue, 30 Jul 2024 08:53:31 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Sai Sree Kartheek Adivi <sskartheekadivi@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	~lkcamp/patches@lists.sr.ht, helen.koike@collabora.com
-Subject: Re: [PATCH v2] staging: rtl8723bs: style fix open brace on new line
-Message-ID: <2024073021-unluckily-failing-1f60@gregkh>
-References: <20240730064828.35207-1-sskartheekadivi@gmail.com>
+	dkim=pass (2048-bit key) header.d=tilapin.org header.i=@tilapin.org header.b="wgFkAPfH"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tilapin.org
+	; s=20181003; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
+	Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=Tz2OFxBPk7BVnpANL2dPikezT8te41CN5a7QlW8xAx4=; b=wgFkAPfHaQRd3CIUK7v7dBTFM4
+	D4hM25A5xzPBHgA/hsD2AUGvLzUzlstpOqChg0aK4hEXKvyszwQxJ+z15Ql5fvZ9Y7hDbw5GtMLnZ
+	dN6MY2ik+RjYq7ybdzcidjiC7/BakMziOF3pKoqU+nQDStnJvl3xaRBqWc3iZKBreoclzHUOs4lyW
+	y+EuptiUiLI2GgsQQ7QyOiCmHuJa6X3cDtdjlVK1cyDHfp+CQGNbAJ7c10FlEAlhgdur7W4ITiDrN
+	pps9WhYE0nkgrGJzXmAOqYoAQyliY8jQnat2NTCMKB3piq8S4Pyy7pwNjDHNtrfKWEgYgueVFprKO
+	7aNQYAYg==;
+Received: from [116.89.172.29] (helo=ca74a6ee468b.debconf24.debconf.org)
+	by carotte.tilapin.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <david@tilapin.org>)
+	id 1sYgdd-001QLf-23;
+	Tue, 30 Jul 2024 08:47:14 +0200
+From: =?UTF-8?q?David=20Pr=C3=A9vot?= <david@tilapin.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: ~lkcamp/patches@lists.sr.ht,
+	helen.koike@collabora.com,
+	taffit@debian.org
+Subject: [PATCH] staging: rtl8192e: style fix - alignment to match parenthesis
+Date: Tue, 30 Jul 2024 06:47:07 +0000
+Message-Id: <20240730064707.914-1-david@tilapin.org>
+X-Mailer: git-send-email 2.20.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240730064828.35207-1-sskartheekadivi@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jul 30, 2024 at 06:48:28AM +0000, Sai Sree Kartheek Adivi wrote:
-> It fixes the following checkpatch.pl error
-> "ERROR: that open brace { should be on the previous line" and avoids the
-> warning "WARNING: braces {} are not necessary for single statement blocks".
-> 
-> Signed-off-by: Sai Sree Kartheek Adivi <sskartheekadivi@gmail.com>
-> ---
-> This is my first contribution. Hope I did everything right!
-> 
->  drivers/staging/rtl8723bs/include/osdep_service.h | 2 --
->  1 file changed, 2 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/include/osdep_service.h b/drivers/staging/rtl8723bs/include/osdep_service.h
-> index cf96b5f7a..5629123cd 100644
-> --- a/drivers/staging/rtl8723bs/include/osdep_service.h
-> +++ b/drivers/staging/rtl8723bs/include/osdep_service.h
-> @@ -81,9 +81,7 @@ static inline void thread_enter(char *name)
->  static inline void flush_signals_thread(void)
->  {
->  	if (signal_pending(current))
-> -	{
->  		flush_signals(current);
-> -	}
->  }
->  
->  #define rtw_warn_on(condition) WARN_ON(condition)
-> -- 
-> 2.20.1
-> 
-> 
+Fixed checkpath Alignment should match open parenthesis
 
-Hi,
+Signed-off-by: David Prévot <david@tilapin.org>
+---
+This is my first contribution to the kernel, thanks in advance for
+pointing me any mistake done so I can improve.
+---
+ drivers/staging/rtl8192e/rtl819x_HTProc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
+index e38cd0c9c..dfdb7a7dc 100644
+--- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
++++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
+@@ -188,7 +188,7 @@ static void ht_iot_peer_determine(struct rtllib_device *ieee)
+ }
+ 
+ static u8 ht_iot_act_is_mgnt_use_cck_6m(struct rtllib_device *ieee,
+-				 struct rtllib_network *network)
++					struct rtllib_network *network)
+ {
+ 	u8	retValue = 0;
+ 
+-- 
+2.20.1
 
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/process/submitting-patches.rst for what
-  needs to be done here to properly describe this.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
