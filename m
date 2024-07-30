@@ -1,89 +1,152 @@
-Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 007D81A2C02
-	for <linux-staging@lists.linux.dev>; Tue, 30 Jul 2024 15:43:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 577EF1B583A
+	for <linux-staging@lists.linux.dev>; Tue, 30 Jul 2024 15:52:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722354192; cv=none; b=cvoOyI9bYrgFkRkOKpDHcbdOMJ9t8p+YLHMinHbKPAf4Ds3LWvTVBA6TeQ3PFMb9HKzwgRbyDouHowi8bws1OyQDn9oUdFHQNlB+ge8pvCj8MxTn+nzmlPYCDp2dzauHai+B9uq3s98XWJ+0T3NR8lu/jM0bBLG7IBxIKQQO2E8=
+	t=1722354782; cv=none; b=B3wnoCa0oxGUfC92a3u2Ivs+qfaI/kQbIUcd+qKM3hzDJhVj+0nWH/hN/ChUR64eUK3ksbaqK+cGHsL/zxvZZVT3IPxAvw17N7m3F3VfMUIHF254M+C4FdB4qUrFNspsRL0Q7hr79J84u8WULypzpuE3ArAujC1Jg/w+YP8b5II=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722354192; c=relaxed/simple;
-	bh=rSvGfadipcs90Hv/YQ9X3+4TBeY+iyPipFcMLItNGww=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VvMF/geTjw4tPpA1shPBsXLvXK8cMm0Y7XLp7SMrL861FIVGdi2qpq2gZmvZABqnifqpoNq1Aap7neiBFhAH2b5WrXMpmEwT5HPVvbXAwRFvqJbk8hwUHvAto3Y2+ISXFkpOz+gj2jLbJLOW1GJ3oBmDkmPJRcq4Y5DfTdZ7NaY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qX2UtaIC; arc=none smtp.client-ip=209.85.160.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1722354782; c=relaxed/simple;
+	bh=57PoVLWWcLwWWsmbFJiDjFrqMnB792UmAI7+Kpkk9Hs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 References; b=YDNnN/K89ip2bEPTafUHbkYeVx8Cqk67P0pmZv+/eHlh+5az7//MFSsnbS4MJNyBR0XY10YZIb/Gdf/WM7SFXOUlJhEX/vb+3Q/2NbPoZ+0Dy6tZnHC8Zq9Em/BqE1wYUceM5yGCc1In25zBvJTPC3ZK2huQUS0HOqc0k7zuqoo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=O7C/2Fj8; arc=none smtp.client-ip=203.254.224.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qX2UtaIC"
-Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-25e3bc751daso3213480fac.3
-        for <linux-staging@lists.linux.dev>; Tue, 30 Jul 2024 08:43:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1722354190; x=1722958990; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=GZs3J/cTXLWFL7SSFr9tAI/IXhUTrybV87IR2TNiVLQ=;
-        b=qX2UtaICB52EKDUK6Vcykb1CmQg0qMlIP8SahjA6RYxVHkVhw7FuwgU71tprERv0r+
-         tRazh4UXf2FeXYDbXdG+4ZDyovf3hovcE8VQR6sygIpcTlAZfIh0Ph5RX9dAEiwsrIJ1
-         tyBUhIMHyKur1wNKdD5yYo1BEUYg69uCUzzbTla2X7JjUZvBn4ZYMDFiIiUFEy5y54vY
-         AUFqDNIZASKIbI931h1Bxyco7C9tCN3mQz/bHzdOpwFCqFqWGqWRJ/YAZg317e9BtfJN
-         KlVG4NAXogxHQqVXLORJXUiWhYw3Cji6B9ah6ymteFrIBw8lAmSKqYhMAly84xZqT9uI
-         Ms8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722354190; x=1722958990;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GZs3J/cTXLWFL7SSFr9tAI/IXhUTrybV87IR2TNiVLQ=;
-        b=gfFxCY2ghNYWlel54IBCaVfJHBI2rlH8AAAoMe2R4VuVGrMcNsL0c0JNCjPSQn591w
-         n2NmWEdoVO+1715896rzffffJ4gN9NpdnPZLZTwERmgdw+SdX611zJYRwBfP+zFlwSHO
-         NK9mqtV847aq3P5BLmNZ4OZEoAPCc2qkTllfSm+CjsrZJvfq1KkkshfSatpU1hS1JNGe
-         pbTsWyLprl0QK0pndIZs4VQqdfD6wC7PvU824ZRhageiLLZ+fptkBrXWIgqzhsN+zf5O
-         ZpoLb1YdpTjI28lXNRLoopj1Gx3hXeM+EOAXS2ORvdQItD7mAQvqu0syhRB/TXfTRyGi
-         cywA==
-X-Forwarded-Encrypted: i=1; AJvYcCXnB55jJPJ9TOvNXan0PPqhlIT94DzQOQHHmiPz5+t9Zw0HL+J41y/DVTDPQ2Qlu0Qp2I4lwFarqW+5l2kHnSn27xNnxp0Xu1gIsRdUjA==
-X-Gm-Message-State: AOJu0Yx2poSvKUVzFRaaAwbVVreXJrhMnffbWluI9dXNbd0xYkdkOeKB
-	oro7JaWjNOKzyRH5zf0bvvYpbCCfyX7XI9pR0MQSWWTrV/rc0nh07Ci2sCizKeE=
-X-Google-Smtp-Source: AGHT+IHyIFq/MJPHYNYxljNwR5PEhaFOsCTOZ+ANviYaWzIHF0QHtuX7rhJ3Yvr1fkY/b9wA7vbcGQ==
-X-Received: by 2002:a05:6870:330b:b0:258:3455:4b02 with SMTP id 586e51a60fabf-267d4f3b2c0mr12329491fac.51.1722354190145;
-        Tue, 30 Jul 2024 08:43:10 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700::17c0])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2657723ada8sm2269453fac.57.2024.07.30.08.43.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jul 2024 08:43:09 -0700 (PDT)
-Date: Tue, 30 Jul 2024 10:43:08 -0500
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Kartik Kulkarni <kartik.koolks@gmail.com>
-Cc: hdegoede@redhat.com, mchehab@kernel.org, akari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	~lkcamp/patches@lists.sr.ht, helen.koike@collabora.com
-Subject: Re: [PATCH] staging: atomisp: bnr: fix trailing statement
-Message-ID: <582189dd-48ee-4ca5-87ca-dd640b09f18b@suswa.mountain>
-References: <20240730123842.37487-1-kartik.koolks@gmail.com>
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="O7C/2Fj8"
+Received: from epcas1p2.samsung.com (unknown [182.195.41.46])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20240730155256epoutp038be3d489205bed4e04a0ca2920914781~nCItQyPGN2453724537epoutp03h
+	for <linux-staging@lists.linux.dev>; Tue, 30 Jul 2024 15:52:56 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20240730155256epoutp038be3d489205bed4e04a0ca2920914781~nCItQyPGN2453724537epoutp03h
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1722354776;
+	bh=j/tEllXsbu7xRFKqSrll3TR5x39lxdLlv0YDia1J/dc=;
+	h=From:To:Cc:Subject:Date:References:From;
+	b=O7C/2Fj8/cnKy5gd37KsmvVavcq/MrnZ/m37ucV+reOOlulcFZ27L8SKnl93GZNuh
+	 6tunP3u6Pk4cZFI/WJghdB7sDoZthlznQIjwQiQNLmkuPfYt35FjOXrKGrKY24aWIK
+	 JgzzRlcHdFCXrcZBIyx1w4yaGU95DTBD0P5HqP6A=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
+	epcas1p2.samsung.com (KnoxPortal) with ESMTP id
+	20240730155256epcas1p207ee6108c3d157fd0b6e94cdaff8c742~nCIssCN3s2345423454epcas1p2H;
+	Tue, 30 Jul 2024 15:52:56 +0000 (GMT)
+Received: from epsmgec1p1-new.samsung.com (unknown [182.195.36.222]) by
+	epsnrtp2.localdomain (Postfix) with ESMTP id 4WYKWC4qB0z4x9Pt; Tue, 30 Jul
+	2024 15:52:55 +0000 (GMT)
+Received: from epcas1p3.samsung.com ( [182.195.41.47]) by
+	epsmgec1p1-new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	05.9C.19509.75C09A66; Wed, 31 Jul 2024 00:52:55 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas1p4.samsung.com (KnoxPortal) with ESMTPA id
+	20240730155255epcas1p4ab3b5e88d400e2221aa1cf5cf234ea19~nCIrvgIw40681506815epcas1p47;
+	Tue, 30 Jul 2024 15:52:55 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20240730155255epsmtrp266eb7beb4421d909f2ee64f7338b54f8~nCIru5Kqf1946819468epsmtrp21;
+	Tue, 30 Jul 2024 15:52:55 +0000 (GMT)
+X-AuditID: b6c32a4c-10bff70000004c35-8a-66a90c57ab63
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	01.FC.08964.75C09A66; Wed, 31 Jul 2024 00:52:55 +0900 (KST)
+Received: from VDBS1327.vd.sec.samsung.net (unknown [168.219.243.39]) by
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20240730155255epsmtip274a3bb57d926bf29c507a7ddda6325e1~nCIrlJ0_u1316813168epsmtip2f;
+	Tue, 30 Jul 2024 15:52:55 +0000 (GMT)
+From: Manjae Cho <manjae.cho@samsung.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Manjae Cho
+	<manjae.cho@samsung.com>
+Subject: [PATCH] Improve MAR register definition and usage for rtl8723
+Date: Wed, 31 Jul 2024 00:50:54 +0900
+Message-Id: <20240730155054.411059-1-manjae.cho@samsung.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240730123842.37487-1-kartik.koolks@gmail.com>
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrAKsWRmVeSWpSXmKPExsWy7bCmvm44z8o0g58NihbNi9ezWVzeNYfN
+	4sjnVIvXx2+wObB47J+7ht3jxeaZjB59W1YxenzeJBfAEpVtk5GamJJapJCal5yfkpmXbqvk
+	HRzvHG9qZmCoa2hpYa6kkJeYm2qr5OIToOuWmQO0UUmhLDGnFCgUkFhcrKRvZ1OUX1qSqpCR
+	X1xiq5RakJJTYFagV5yYW1yal66Xl1piZWhgYGQKVJiQnbHz0BqWgma+ioPrHjM1MH7l7mLk
+	5JAQMJFouPmcpYuRi0NIYA+jxIUnf9khnE+MEh8n/IDKfGOUuDn1OxNMS/OUd0wQib2MEhN6
+	VrFCOL8YJa49u8/WxcjBwSagKTF9rR9Ig4iAnMST23+YQWxmgTSJVVdfs4HYwgJuEjP7HjOC
+	2CwCqhKzjv5gB7F5BWwkFp1eD7VMXmLmpe9QcUGJkzOfsEDMkZdo3jqbGWSvhMAmdomJuzax
+	QDS4SEy6uJ8VwhaWeHV8CzuELSXx+d1eNgi7WGLpH5j6GomnrTOgbGOJn+c+MYPczwx0//pd
+	+hC7+CTefe1hBQlLCPBKdLQJQVSrSJxftYEJIiwl0XDQECLsIXGi8x9YWEggVmLhvcwJjHKz
+	kNw/C8n9sxBWLWBkXsUolVpQnJuemmxYYKibl1oOj8rk/NxNjOCkpuWzg/H7+r96hxiZOBgP
+	MUpwMCuJ8MZfWZomxJuSWFmVWpQfX1Sak1p8iNEUGKoTmaVEk/OBaTWvJN7QxNLAxMzIxMLY
+	0thMSZz3zJWyVCGB9MSS1OzU1ILUIpg+Jg5OqQYmZ0lvpVsnDXztXho9PM1l/XNF1xvGlw1n
+	TN28JdLEV22adejjtBh1+yOB55f8eMj0dO2MSJEbGp7Bbap6ezdqbKpWOLa3+9vRx1eqxJbc
+	/Zl2j1H4oFl8yp4dDrwsC251aV8zMJBaW3v9itZh3o7C1cWCL44fDSm5GJ0w+5LdNbYjSV1z
+	NfIZ9J8tPJDpWusZJ5zPrGUfMZldxpr/o8KZrvOKPu8X3f7b6TN/0t2E3eLn6ixcf3++xVQR
+	/zAvcA739kXn3FcUXln7+Zx69qOOgJZur3rHyfwyX40XWGo7JXo0b58yk+HlpVgOrq7onKqz
+	JlfiZcWrKgMn6k3kvDj5VdwEqU09hz3evT6d+rZKiaU4I9FQi7moOBEAdl+vdPMDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprBLMWRmVeSWpSXmKPExsWy7bCSvG44z8o0g5alvBbNi9ezWVzeNYfN
+	4sjnVIvXx2+wObB47J+7ht3jxeaZjB59W1YxenzeJBfAEsVlk5Kak1mWWqRvl8CVsfPQGpaC
+	Zr6Kg+seMzUwfuXuYuTkkBAwkWie8o6pi5GLQ0hgN6PE1hktTBAJKYn7bU3MXYwcQLawxOHD
+	xRA1PxglGvY+ZgKJswloSkxf6wdSLiIgJ/Hk9h9mEJtZIEPi25czbCC2sICbxMy+x4wgNouA
+	qsSsoz/YQWxeARuJRafXQ62Sl5h56TtUXFDi5MwnLBBz5CWat85mnsDINwtJahaS1AJGplWM
+	kqkFxbnpucWGBYZ5qeV6xYm5xaV56XrJ+bmbGMGBp6W5g3H7qg96hxiZOBgPMUpwMCuJ8MZf
+	WZomxJuSWFmVWpQfX1Sak1p8iFGag0VJnFf8RW+KkEB6YklqdmpqQWoRTJaJg1OqganNcetS
+	CetjCw7Jc526Lau9qmlV2KNZFRXz7izcn/7kRdqy9IyeyICNBySfBSTkr/vD4tZoXGr8+Nta
+	9fUn7q09Nvmnz22/gFfW5wXNpt7W4t5rtUJw/1K96FWPVZaW7ogPaqr9c3feL41Pkybzec49
+	5R6j33888+7U85dr69kWrOHqlj38JIxH1lV0Ukt6nZx/WMme4/8Z2RJsTbf+uW7tP0lk3W3/
+	h8Y6VqpWG+V3PPZK+ZTy0LeUZ/ZnzT0T6jf7TpT9XnssrP01d1Vh9fyDTqslQjbc+iBVlpK3
+	/q7Rq6jsxdt5PD9Ivr1y/JOsdfbhWbcj58d+ZOGSSz2XvdHKp+DWPobHWjejJ82rXcKtxFKc
+	kWioxVxUnAgAi1rB36sCAAA=
+X-CMS-MailID: 20240730155255epcas1p4ab3b5e88d400e2221aa1cf5cf234ea19
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 101P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20240730155255epcas1p4ab3b5e88d400e2221aa1cf5cf234ea19
+References: <CGME20240730155255epcas1p4ab3b5e88d400e2221aa1cf5cf234ea19@epcas1p4.samsung.com>
 
-On Tue, Jul 30, 2024 at 12:38:42PM +0000, Kartik Kulkarni wrote:
-> Fix checkpatch error trailing statements should be on next line in
-> ia_css_bnr.host.c:48.
-> ---
-> Newbie to contributing to kernel code
-> ---
-> 
-> Signed-off-by: Kartik Kulkarni <kartik.koolks@gmail.com>
+This patch improves the usage of the MAR register by updating the
+relevant
+macro definitions and ensuring consistent usage across the codebase.
 
-This signed off by line needs to go above the --- line.
+Signed-off-by: Manjae Cho <manjae.cho@samsung.com>
 
-https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
+---
+ drivers/staging/rtl8723bs/hal/sdio_halinit.c    | 4 ++--
+ drivers/staging/rtl8723bs/include/hal_com_reg.h | 3 +++
+ 2 files changed, 5 insertions(+), 2 deletions(-)
 
-regards,
-dan carpenter
+diff --git a/drivers/staging/rtl8723bs/hal/sdio_halinit.c b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
+index c9cd6578f7f8..9493562c1619 100644
+--- a/drivers/staging/rtl8723bs/hal/sdio_halinit.c
++++ b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
+@@ -380,8 +380,8 @@ static void _InitWMACSetting(struct adapter *padapter)
+ 	rtw_write32(padapter, REG_RCR, pHalData->ReceiveConfig);
+ 
+ 	/*  Accept all multicast address */
+-	rtw_write32(padapter, REG_MAR, 0xFFFFFFFF);
+-	rtw_write32(padapter, REG_MAR + 4, 0xFFFFFFFF);
++	rtw_write32(padapter, MAR0, 0xFFFFFFFF);
++	rtw_write32(padapter, MAR4, 0xFFFFFFFF);
+ 
+ 	/*  Accept all data frames */
+ 	value16 = 0xFFFF;
+diff --git a/drivers/staging/rtl8723bs/include/hal_com_reg.h b/drivers/staging/rtl8723bs/include/hal_com_reg.h
+index 9a02ae69d7a4..baf326d53a46 100644
+--- a/drivers/staging/rtl8723bs/include/hal_com_reg.h
++++ b/drivers/staging/rtl8723bs/include/hal_com_reg.h
+@@ -151,6 +151,9 @@
+ #define REG_BSSID						0x0618
+ #define REG_MAR							0x0620
+ 
++#define MAR0						REG_MAR		/* Multicast Address Register, Offset 0x0620-0x0623 */
++#define MAR4						(REG_MAR + 4)	/* Multicast Address Register, Offset 0x0624-0x0627 */
++
+ #define REG_MAC_SPEC_SIFS				0x063A
+ /*  20100719 Joseph: Hardware register definition change. (HW datasheet v54) */
+ #define REG_RESP_SIFS_CCK				0x063C	/*  [15:8]SIFS_R2T_OFDM, [7:0]SIFS_R2T_CCK */
+-- 
+2.25.1
 
