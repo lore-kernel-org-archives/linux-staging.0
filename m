@@ -1,48 +1,64 @@
-Received: from carotte.tilapin.org (carotte.tilapin.org [80.67.176.234])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 999DB190479;
-	Tue, 30 Jul 2024 06:55:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.67.176.234
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F464168493
+	for <linux-staging@lists.linux.dev>; Tue, 30 Jul 2024 06:59:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722322516; cv=none; b=FaEdvKi3Vcf0e7/3fAjiz3IAcVDyv/xfu+fC2pULbRIjEYxXsEZkibH2WLArKYSsZEJEvprotGSqXWGyd90DOJaUUeXWLhbbfnkaptig8IdF9pi3nseKdQ2kGa8F8LZ9jrfe8o6Sgx3iF7yp/87POkqb7u2zgTB/lg1Whs8pC4w=
+	t=1722322755; cv=none; b=dPwWlIZgSoN2VhGpnaO8JKBo/pWuEuwKVPaLcqqOPUP/toTsKzxHbDR+CcZCy3bivG9nkVZG++7cyaCDDdA+0n+vHXa9NtqbbKULiCgAoahiDE044ttpN9Y24PYfQ8Vl7fKjQEoejNsbo/Fl5Cbbri7sEmKK3zfkl1pIGUKGQ64=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722322516; c=relaxed/simple;
-	bh=grl2JzMV7lSnkB8+s1ZBfa2Q/v7Qx0DD3xdWYehgEY0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=UpYjKHRurrZKpgFimrioL8R2vJ1y4tB2ckUart+e2qSXRWqd1V5zBka81x5LTkHY/Vb5ULHgudeh6cZLjwsw/leWCJnCXom9ELRw8hlaBzRLDYn3kvA5AmNNkII8PzAH1oBE5kuLkPSL6fuBQwEEGFA90BBoIDO5jKBrc/1pSSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tilapin.org; spf=pass smtp.mailfrom=tilapin.org; dkim=pass (2048-bit key) header.d=tilapin.org header.i=@tilapin.org header.b=wgFkAPfH; arc=none smtp.client-ip=80.67.176.234
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tilapin.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tilapin.org
+	s=arc-20240116; t=1722322755; c=relaxed/simple;
+	bh=aOINiKi8h9bi8olxYJIxv55XJ4wLBEoWJa6Rw/bhqIY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=twC0GLSwKuCjk+tBpsvKu5JjvA/C2Cs0hC5juAnuUI4M1dGt9qt84EdKUyw5VRP+aRkegUBUhbG/oyLXfwW4Ix+5sb+9PTLVVtoQpmbTuyrRm0zY9Ggg5aRGJBJyxKKXys1PhCgHBwsmt8lM0bxdFTkgtsAa02KvZVD3D4+dRYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AKPgdjJd; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tilapin.org header.i=@tilapin.org header.b="wgFkAPfH"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tilapin.org
-	; s=20181003; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
-	Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=Tz2OFxBPk7BVnpANL2dPikezT8te41CN5a7QlW8xAx4=; b=wgFkAPfHaQRd3CIUK7v7dBTFM4
-	D4hM25A5xzPBHgA/hsD2AUGvLzUzlstpOqChg0aK4hEXKvyszwQxJ+z15Ql5fvZ9Y7hDbw5GtMLnZ
-	dN6MY2ik+RjYq7ybdzcidjiC7/BakMziOF3pKoqU+nQDStnJvl3xaRBqWc3iZKBreoclzHUOs4lyW
-	y+EuptiUiLI2GgsQQ7QyOiCmHuJa6X3cDtdjlVK1cyDHfp+CQGNbAJ7c10FlEAlhgdur7W4ITiDrN
-	pps9WhYE0nkgrGJzXmAOqYoAQyliY8jQnat2NTCMKB3piq8S4Pyy7pwNjDHNtrfKWEgYgueVFprKO
-	7aNQYAYg==;
-Received: from [116.89.172.29] (helo=ca74a6ee468b.debconf24.debconf.org)
-	by carotte.tilapin.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <david@tilapin.org>)
-	id 1sYgdd-001QLf-23;
-	Tue, 30 Jul 2024 08:47:14 +0200
-From: =?UTF-8?q?David=20Pr=C3=A9vot?= <david@tilapin.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AKPgdjJd"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1fc5239faebso24855915ad.1
+        for <linux-staging@lists.linux.dev>; Mon, 29 Jul 2024 23:59:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1722322754; x=1722927554; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BRZxFFJxsWDQZRh+bmJi1OBc9hBJcJtDXXsB0kvWwMM=;
+        b=AKPgdjJd0Dis0lMsJ3o5cG+fpZdw12Rs9pz15JR7KOXlAVwm+pU/GLybECsmRPzlmI
+         7G7GoFy3cA3rv0opaxuFrYciEKzS1n0OivfDCjxDgeIZ3j5CJ3Vx6szt2p/j84F/1SJ+
+         yMjrFx7W+dku2P5/C9uYiieu8msV0EnkaNB1jiTd7ytoiCQK4gIW6PvfJWb8Bt0iAd57
+         tD38RDv6WHdYt5ar91BM0hYKm2aTIbMz6Wyc9DuQ/J/XMsqEbzxQJK9bh+t5R4eYSetK
+         7/cUf/and4ipPOoGyU9Sni6+TwQJM+uJzqB2mkoG+VsTyfDUH4vl815SmoUEHNU/Gtdo
+         kE0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722322754; x=1722927554;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BRZxFFJxsWDQZRh+bmJi1OBc9hBJcJtDXXsB0kvWwMM=;
+        b=Er6qDvHpBrGRAkR5O+c/cQp/qptdrM8pskPlN3GuoT76qQ9m8brW3T8why/zp1A0Ju
+         OfkVYLY/gqiqc+dwP+nLONNQq8S15aU+z23XqIL/4AuDHPiKJCeLSgsOpOpZVeLMlqWP
+         khQTKzug6lPlD081sfXY/kxYE1ieuD7xioA1ZM27as8VLM5vzac3mroO96RoIjmZm6eB
+         cyovAelU+AdHhsUP5ZAvnB460/kKdyi1Qm7h8yKLYEl8hWKsK0VIzEw88BIAWtOSyEQ5
+         Xvmofd5cb+pXIX4WoLhrUvGmbGxmGz+l128rGsy9wOkivJw2NykTEnMyS/e/jmhegfvC
+         RQBQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUNpQoiSIw26B6KAINZeLNBFLiVj3v9Y+q6xoOLhWcchlfaO5nHq1Hz2Sr08ZM1q2aylRXLituyaoivtLvBhvHf7JqdWc63CVpbVBxGtw==
+X-Gm-Message-State: AOJu0YyT8W7GT/q4SucMMHIpzf+kF4oriirUTfvmgFd59KeJ7973wwZi
+	TmwimoYjrafW4TON5nf6DXdx+Ue4wq/22sFkGwMR/d7aCZ5jY2SSaElZn5MHieA=
+X-Google-Smtp-Source: AGHT+IFlkzD18e53lfpx2YGQDksypAKMBrVfclfV1BiDSbW2j7Wy3xsFQ1mMR/7wvPWF2e0Fp4yNJw==
+X-Received: by 2002:a17:902:f681:b0:1fb:973f:87f with SMTP id d9443c01a7336-1ff048e1b5emr83515545ad.45.1722322753576;
+        Mon, 29 Jul 2024 23:59:13 -0700 (PDT)
+Received: from 3a25d514abef.debconf24.debconf.org ([116.89.172.30])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fed7fc9cc0sm94075425ad.279.2024.07.29.23.59.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jul 2024 23:59:13 -0700 (PDT)
+From: Sai Sree Kartheek Adivi <sskartheekadivi@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: ~lkcamp/patches@lists.sr.ht,
-	helen.koike@collabora.com,
-	taffit@debian.org
-Subject: [PATCH] staging: rtl8192e: style fix - alignment to match parenthesis
-Date: Tue, 30 Jul 2024 06:47:07 +0000
-Message-Id: <20240730064707.914-1-david@tilapin.org>
+	helen.koike@collabora.com
+Subject: [PATCH v2] staging: rtl8723bs: style fix open brace on new line
+Date: Tue, 30 Jul 2024 06:59:01 +0000
+Message-Id: <20240730065901.35254-1-sskartheekadivi@gmail.com>
 X-Mailer: git-send-email 2.20.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -50,32 +66,34 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Fixed checkpath Alignment should match open parenthesis
+It fixes the following checkpatch.pl error
+"ERROR: that open brace { should be on the previous line" and avoids the
+warning "WARNING: braces {} are not necessary for single statement blocks".
 
-Signed-off-by: David Prévot <david@tilapin.org>
+Signed-off-by: Sai Sree Kartheek Adivi <sskartheekadivi@gmail.com>
 ---
-This is my first contribution to the kernel, thanks in advance for
-pointing me any mistake done so I can improve.
----
- drivers/staging/rtl8192e/rtl819x_HTProc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Updated the commit message.
+This is my first contribution. Hope I did everything right!
 
-diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-index e38cd0c9c..dfdb7a7dc 100644
---- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-@@ -188,7 +188,7 @@ static void ht_iot_peer_determine(struct rtllib_device *ieee)
+ drivers/staging/rtl8723bs/include/osdep_service.h | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/include/osdep_service.h b/drivers/staging/rtl8723bs/include/osdep_service.h
+index cf96b5f7a..5629123cd 100644
+--- a/drivers/staging/rtl8723bs/include/osdep_service.h
++++ b/drivers/staging/rtl8723bs/include/osdep_service.h
+@@ -81,9 +81,7 @@ static inline void thread_enter(char *name)
+ static inline void flush_signals_thread(void)
+ {
+ 	if (signal_pending(current))
+-	{
+ 		flush_signals(current);
+-	}
  }
  
- static u8 ht_iot_act_is_mgnt_use_cck_6m(struct rtllib_device *ieee,
--				 struct rtllib_network *network)
-+					struct rtllib_network *network)
- {
- 	u8	retValue = 0;
- 
+ #define rtw_warn_on(condition) WARN_ON(condition)
 -- 
 2.20.1
 
