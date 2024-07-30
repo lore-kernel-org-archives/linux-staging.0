@@ -1,431 +1,146 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6437518E02F
-	for <linux-staging@lists.linux.dev>; Tue, 30 Jul 2024 17:08:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DADDB1A76C9
+	for <linux-staging@lists.linux.dev>; Tue, 30 Jul 2024 17:53:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722359335; cv=none; b=n8309DZolNdY83IXyAkUcGXH+6tm418ERtNUKcqLW3LRxrOJ8mMOqxkG8ET7dSj66F/4BujAFWsNZeuqL+3CPA5zCZO8WHB7kedxrIh9C2EPcrh6AnQ6jTKcMF8c0pn3Kt4loJVk5hg/izDnB2zK5qshTLfrhlXeFVUubaXBQ9k=
+	t=1722361992; cv=none; b=bp56uPvUnhlJYJLcawYik6WwTAbdVwoKAednd7wW6PyRVsPWtupJiTsch26F3mPHi1V4urxoUHQE5nJMY7ZP7Qi/TtjdxgZzdEkKW/aUIQv0dGq1tnjqYPvOULxdpeJ0T1VjXaWOY7WjSa26sHddGikgC3EMaWGso2w6ajUMK+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722359335; c=relaxed/simple;
-	bh=yx4rqUWItmn1vyFdwqB5nWkzZYpgxj1l70D0RG6zTY4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lT8AafXwjzhcfb25r2qv8ugsBCieS8wQolYR5Gbg+eDrOcgZsQygjDJDlEMB36i49Il+SsipzNS0Fwt/7NMtzyZzQMlmA+p8gZ2z0DJ5voSbmgjG0HO+QT3AYFW1+315eVXd3QaS5dQ303LLfbUbBdu63Amq65DEykqPiuUgM/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=GO3ovaGd; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1722361992; c=relaxed/simple;
+	bh=Czf4YJE66OhV0uOYrMejAyjW4cbm5QqG+G5FrfW9+uQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ida6p3FIzt6fMkXhwqGGQSJ3UxnXe8iDDcarJ/iDuv/T/dJB/PUXC5ya9VWIKnAKWMXsoKAJPlouCh3UkOs1eyx9C/u6y3wSe8zU/wqxNeY4cTstGzE24IJGOE2PFgSB6fKdoUea4Jsh6lx/o7Fl7a3c82jUGBBnvqCPp9/9FcI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fs0Mt1xr; arc=none smtp.client-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="GO3ovaGd"
-Received: from ATX.abc.com (unknown [IPv6:2405:201:2015:f873:55f8:639e:8e9f:12ec])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7BB8E268;
-	Tue, 30 Jul 2024 19:07:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1722359282;
-	bh=yx4rqUWItmn1vyFdwqB5nWkzZYpgxj1l70D0RG6zTY4=;
-	h=From:To:Cc:Subject:Date:From;
-	b=GO3ovaGdLSlkICMAqQseF2C5FUab8cTvzoEa4hfJY2Py83O5w9KDQFmFULol9qxRT
-	 Os8I/VHM83NX2vNqa39N0OBYavScLG34Qud+Fnt2RT7SIaSOAGb3Fj8YVb2upsF5aH
-	 VCTYZBTM6el1B4hpHWjfez53W4fC8sy3v0wl5cAo=
-From: Umang Jain <umang.jain@ideasonboard.com>
-To: linux-staging@lists.linux.dev
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>,
-	Scott Branden <sbranden@broadcom.com>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Stefan Wahren <wahrenst@gmx.net>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Yang Li <yang.lee@linux.alibaba.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Umang Jain <umang.jain@ideasonboard.com>
-Subject: [PATCH] staging: vchiq: Avoid mixing bulk_userdata kernel and userspace pointer
-Date: Tue, 30 Jul 2024 22:38:40 +0530
-Message-ID: <20240730170840.1603752-1-umang.jain@ideasonboard.com>
-X-Mailer: git-send-email 2.45.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fs0Mt1xr"
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a77ccec2810so47402366b.0
+        for <linux-staging@lists.linux.dev>; Tue, 30 Jul 2024 10:53:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1722361989; x=1722966789; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=X9vTm07aXTEkdNLGLjYuG1rQDZxP0zze4VZrn18Nt44=;
+        b=Fs0Mt1xrvGHlGyAtRFDfUgrMNVTO01kJlRNRe6xqq+V1a0T9gvrEqOuYDU6GnMMrMH
+         FCKQihkBV4vgkh+w0zqekprV6JfTImxKNFLHllq+i13ep1VVmyxp33qJYdMBtUnyYtBC
+         Mw+jE16ma6VK/EXPDh0nQskCdp99CNxgFKkhxRYtyrAm6GJAqahreJbWbk3v16o2zGTz
+         9plO5mf+OoyNtKBiGEfLCDah637V4F4D9csVzt47b8N/yRN7neN3S3UifHTxDXIuPlcp
+         Srli2BRAKFe1KhOW9+LOk85v+6cWHsUCx6j/q8iMAi4H9ezwinshjPjVCtE7zR8XFMqh
+         Un3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722361989; x=1722966789;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=X9vTm07aXTEkdNLGLjYuG1rQDZxP0zze4VZrn18Nt44=;
+        b=awWKoeTP9ICFPSVaZSP64a2v1TBNGihERUNwnHSIIAeDXol+LQ547ttaqnKgzWUGv8
+         ucqUkUqgwwds82Yp+1uqrjIlAYmb/4gt/TAKXg9DZn5L0NFSXlUnsI7C6qp28PRoTo9Q
+         i5JAHJPPiFBoBFKxTXAm06KdFnF779ss7pIzoEt0z7m0ZXXByOLl+PGPqeNX0AUuBVk9
+         wFxE83BQn4LgUeNkfapNvyCLd/QUt5eA9Su74lH2GfHskWG9M512zriPwr/DVdElySvd
+         AN9HpszAkNx9FzUzlRFc7619tj/k9i5U2z4r55NZOvqdlSb1wHCtC2eIIj9cTf04wTsz
+         jVKQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXoDQlZcjGDV4/sfjP4GuAiP08zP3xcSPetOu2ZBdQvIBjcTBq9gRrRFh7aP0VXdJQ3VsT2wUNJuBQN50RWv1GqvYm8bfcg7vS5Ud0Q+Q==
+X-Gm-Message-State: AOJu0YzY5HnimH7aYIM+otkY9MF/N/aFwVgFfoCFosKTVYPJsCGRJeaP
+	7fi/Vix+CqqzFJpoxp6a/HewFc7dqFrUnhyKOAZzKfIcuy6TFEMC
+X-Google-Smtp-Source: AGHT+IGVTdXF6fa1R+7kdsDsyQK/aholuI/gOeBeg87pDLlYcbG9twe9QYTuW6T0bmdKDj+fMlaqOA==
+X-Received: by 2002:a17:907:7296:b0:a7a:a33e:47cd with SMTP id a640c23a62f3a-a7ac5b944bbmr879290666b.8.1722361988666;
+        Tue, 30 Jul 2024 10:53:08 -0700 (PDT)
+Received: from ?IPV6:2003:c7:8f2a:8552:f0f5:c00a:214:55c4? (p200300c78f2a8552f0f5c00a021455c4.dip0.t-ipconnect.de. [2003:c7:8f2a:8552:f0f5:c00a:214:55c4])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7acab233c0sm668263266b.44.2024.07.30.10.53.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Jul 2024 10:53:08 -0700 (PDT)
+Message-ID: <410c5072-ab3c-4651-a7f3-10f7f3337814@gmail.com>
+Date: Tue, 30 Jul 2024 19:53:07 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: rtl8712: remove trailing whitespace
+To: Felix Yan <felixonmars@archlinux.org>,
+ Florian Schilhabel <florian.c.schilhabel@googlemail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: ~lkcamp/patches@lists.sr.ht, helen.koike@collabora.com
+References: <20240730063746.176245-1-felixonmars@archlinux.org>
+Content-Language: en-US
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <20240730063746.176245-1-felixonmars@archlinux.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-In vchiq_dev.c, there are two places where the __user bulk_userdata
-pointer to set to a kernel-space pointer which then gives relevant
-Sparse warnings as below:
+On 7/30/24 08:37, Felix Yan wrote:
+> Fix the following checkpatch.pl error:
+> 
+> ERROR: trailing whitespace
+> 
+> Signed-off-by: Felix Yan <felixonmars@archlinux.org>
+> ---
+>   drivers/staging/rtl8712/rtl871x_cmd.h | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/rtl8712/rtl871x_cmd.h b/drivers/staging/rtl8712/rtl871x_cmd.h
+> index 2613b3c2acfc..268844af57f0 100644
+> --- a/drivers/staging/rtl8712/rtl871x_cmd.h
+> +++ b/drivers/staging/rtl8712/rtl871x_cmd.h
+> @@ -736,7 +736,7 @@ void r8712_getbbrfreg_cmdrsp_callback(struct _adapter *padapter, struct cmd_obj
+>   void r8712_readtssi_cmdrsp_callback(struct _adapter *padapter, struct cmd_obj *pcmd);
+>   void r8712_setstaKey_cmdrsp_callback(struct _adapter  *padapter, struct cmd_obj *pcmd);
+>   void r8712_setassocsta_cmdrsp_callback(struct _adapter  *padapter, struct cmd_obj *pcmd);
+> -void r8712_disconnectCtrlEx_cmd(struct _adapter *adapter, u32 enableDrvCtrl, u32 tryPktCnt,
+> +void r8712_disconnectCtrlEx_cmd(struct _adapter *adapter, u32 enableDrvCtrl, u32 tryPktCnt,
+>   				u32 tryPktInterval, u32 firstStageTO);
+>   
+>   struct _cmd_callback {
 
-vchiq_dev.c:328:26: warning: incorrect type in assignment (different address spaces)
-vchiq_dev.c:328:26:    expected void *[assigned] userdata
-vchiq_dev.c:328:26:    got void [noderef] __user *userdata
-vchiq_dev.c:543:47: warning: incorrect type in assignment (different address spaces)
-vchiq_dev.c:543:47:    expected void [noderef] __user *[addressable] [assigned] bulk_userdata
-vchiq_dev.c:543:47:    got void *bulk_userdata
 
-This is solved by adding additional functional argument to track the
-userspace bulk_userdata separately and passing it accordingly to
-completion handlers.
+Hi Felix,
 
-This patch is inspired by commit
-1c954540c0eb ("staging: vchiq: avoid mixing kernel and user pointers").
+Please make your "Subject" line more unique. Consider that we may end up 
+with having dozen of commits like yours, all of them referring to 
+different removals and all without the necessary information to tell 
+what they differ in (except the driver/subsystem). So it would help if 
+you add the changed file or function to make it more unique.
 
-There are no Sparse warnings left to be fixed in vc04_services,
-hence drop the relevant TODO entry as well.
+Please do not add extra empty lines in the description when not 
+required. Consider that we have a lot of commits and it is most wanted 
+that the description is short.
 
-Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
----
- .../bcm2835-audio/bcm2835-vchiq.c             |  3 ++-
- .../include/linux/raspberrypi/vchiq.h         |  7 +++--
- drivers/staging/vc04_services/interface/TODO  |  4 ---
- .../interface/vchiq_arm/vchiq_arm.c           | 26 +++++++++++--------
- .../interface/vchiq_arm/vchiq_arm.h           |  3 ++-
- .../interface/vchiq_arm/vchiq_core.c          | 21 ++++++++-------
- .../interface/vchiq_arm/vchiq_core.h          |  5 ++--
- .../interface/vchiq_arm/vchiq_dev.c           | 10 ++-----
- .../vc04_services/vchiq-mmal/mmal-vchiq.c     |  2 +-
- 9 files changed, 42 insertions(+), 39 deletions(-)
+It is not required to add the name of the tool who found this, but it 
+can be named. Much more important is a good description why this change 
+makes sense...
+For example:
+... to shorten code.
+... to improve readability.
+...
 
-diff --git a/drivers/staging/vc04_services/bcm2835-audio/bcm2835-vchiq.c b/drivers/staging/vc04_services/bcm2835-audio/bcm2835-vchiq.c
-index 133ed15f3dbc..c44f3d5cca70 100644
---- a/drivers/staging/vc04_services/bcm2835-audio/bcm2835-vchiq.c
-+++ b/drivers/staging/vc04_services/bcm2835-audio/bcm2835-vchiq.c
-@@ -96,7 +96,8 @@ static int bcm2835_audio_send_simple(struct bcm2835_audio_instance *instance,
- static int audio_vchi_callback(struct vchiq_instance *vchiq_instance,
- 			       enum vchiq_reason reason,
- 			       struct vchiq_header *header,
--			       unsigned int handle, void *userdata)
-+			       unsigned int handle, void *userdata,
-+			       void __user *uuserdata)
- {
- 	struct bcm2835_audio_instance *instance = vchiq_get_service_userdata(vchiq_instance,
- 									     handle);
-diff --git a/drivers/staging/vc04_services/include/linux/raspberrypi/vchiq.h b/drivers/staging/vc04_services/include/linux/raspberrypi/vchiq.h
-index 6c40d8c1dde6..c777952dd9d9 100644
---- a/drivers/staging/vc04_services/include/linux/raspberrypi/vchiq.h
-+++ b/drivers/staging/vc04_services/include/linux/raspberrypi/vchiq.h
-@@ -56,7 +56,8 @@ struct vchiq_service_base {
- 			enum vchiq_reason reason,
- 			struct vchiq_header *header,
- 			unsigned int handle,
--			void *bulk_userdata);
-+			void *bulk_userdata,
-+			void __user *ubulk_userdata);
- 	void *userdata;
- };
- 
-@@ -65,6 +66,7 @@ struct vchiq_completion_data_kernel {
- 	struct vchiq_header *header;
- 	void *service_userdata;
- 	void *bulk_userdata;
-+	void __user *ubulk_userdata;
- };
- 
- struct vchiq_service_params_kernel {
-@@ -73,7 +75,8 @@ struct vchiq_service_params_kernel {
- 			enum vchiq_reason reason,
- 			struct vchiq_header *header,
- 			unsigned int handle,
--			void *bulk_userdata);
-+			void *bulk_userdata,
-+			void __user *ubulk_userdata);
- 	void *userdata;
- 	short version;       /* Increment for non-trivial changes */
- 	short version_min;   /* Update for incompatible changes */
-diff --git a/drivers/staging/vc04_services/interface/TODO b/drivers/staging/vc04_services/interface/TODO
-index dfb1ee49633f..2ae75362421b 100644
---- a/drivers/staging/vc04_services/interface/TODO
-+++ b/drivers/staging/vc04_services/interface/TODO
-@@ -27,10 +27,6 @@ The code follows the 80 characters limitation yet tends to go 3 or 4 levels of
- indentation deep making it very unpleasant to read. This is specially relevant
- in the character driver ioctl code and in the core thread functions.
- 
--* Clean up Sparse warnings from __user annotations. See
--vchiq_irq_queue_bulk_tx_rx(). Ensure that the address of "&waiter->bulk_waiter"
--is never disclosed to userspace.
--
- * Fix behavior of message handling
- 
- The polling behavior of vchiq_bulk_transmit(), vchiq_bulk_receive() and
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-index c4d97dbf6ba8..fae939f35642 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-@@ -859,7 +859,7 @@ vchiq_bulk_transmit(struct vchiq_instance *instance, unsigned int handle, const
- 		case VCHIQ_BULK_MODE_CALLBACK:
- 			ret = vchiq_bulk_transfer(instance, handle,
- 						  (void *)data, NULL,
--						  size, userdata, mode,
-+						  size, userdata, NULL, mode,
- 						  VCHIQ_BULK_TRANSMIT);
- 			break;
- 		case VCHIQ_BULK_MODE_BLOCKING:
-@@ -896,7 +896,7 @@ int vchiq_bulk_receive(struct vchiq_instance *instance, unsigned int handle,
- 		case VCHIQ_BULK_MODE_NOCALLBACK:
- 		case VCHIQ_BULK_MODE_CALLBACK:
- 			ret = vchiq_bulk_transfer(instance, handle, data, NULL,
--						  size, userdata,
-+						  size, userdata, NULL,
- 						  mode, VCHIQ_BULK_RECEIVE);
- 			break;
- 		case VCHIQ_BULK_MODE_BLOCKING:
-@@ -969,7 +969,7 @@ vchiq_blocking_bulk_transfer(struct vchiq_instance *instance, unsigned int handl
- 	}
- 
- 	ret = vchiq_bulk_transfer(instance, handle, data, NULL, size,
--				  &waiter->bulk_waiter,
-+				  &waiter->bulk_waiter, NULL,
- 				  VCHIQ_BULK_MODE_BLOCKING, dir);
- 	if ((ret != -EAGAIN) || fatal_signal_pending(current) || !waiter->bulk_waiter.bulk) {
- 		struct vchiq_bulk *bulk = waiter->bulk_waiter.bulk;
-@@ -996,7 +996,7 @@ vchiq_blocking_bulk_transfer(struct vchiq_instance *instance, unsigned int handl
- static int
- add_completion(struct vchiq_instance *instance, enum vchiq_reason reason,
- 	       struct vchiq_header *header, struct user_service *user_service,
--	       void *bulk_userdata)
-+	       void *bulk_userdata, void __user *ubulk_userdata)
- {
- 	struct vchiq_completion_data_kernel *completion;
- 	struct vchiq_drv_mgmt *mgmt = dev_get_drvdata(instance->state->dev);
-@@ -1027,6 +1027,7 @@ add_completion(struct vchiq_instance *instance, enum vchiq_reason reason,
- 	/* N.B. service_userdata is updated while processing AWAIT_COMPLETION */
- 	completion->service_userdata = user_service->service;
- 	completion->bulk_userdata = bulk_userdata;
-+	completion->ubulk_userdata = ubulk_userdata;
- 
- 	if (reason == VCHIQ_SERVICE_CLOSED) {
- 		/*
-@@ -1058,7 +1059,8 @@ add_completion(struct vchiq_instance *instance, enum vchiq_reason reason,
- static int
- service_single_message(struct vchiq_instance *instance,
- 		       enum vchiq_reason reason,
--		       struct vchiq_service *service, void *bulk_userdata)
-+		       struct vchiq_service *service,
-+		       void *bulk_userdata, void __user *ubulk_userdata)
- {
- 	struct user_service *user_service;
- 
-@@ -1076,7 +1078,7 @@ service_single_message(struct vchiq_instance *instance,
- 		dev_dbg(instance->state->dev,
- 			"arm: Inserting extra MESSAGE_AVAILABLE\n");
- 		ret = add_completion(instance, reason, NULL, user_service,
--				     bulk_userdata);
-+				     bulk_userdata, ubulk_userdata);
- 		if (ret)
- 			return ret;
- 	}
-@@ -1094,7 +1096,8 @@ service_single_message(struct vchiq_instance *instance,
- 
- int
- service_callback(struct vchiq_instance *instance, enum vchiq_reason reason,
--		 struct vchiq_header *header, unsigned int handle, void *bulk_userdata)
-+		 struct vchiq_header *header, unsigned int handle,
-+		 void *bulk_userdata, void __user *ubulk_userdata)
- {
- 	/*
- 	 * How do we ensure the callback goes to the right client?
-@@ -1147,8 +1150,8 @@ service_callback(struct vchiq_instance *instance, enum vchiq_reason reason,
- 			DEBUG_TRACE(SERVICE_CALLBACK_LINE);
- 			DEBUG_COUNT(MSG_QUEUE_FULL_COUNT);
- 
--			ret = service_single_message(instance, reason,
--						     service, bulk_userdata);
-+			ret = service_single_message(instance, reason, service,
-+						     bulk_userdata, ubulk_userdata);
- 			if (ret) {
- 				DEBUG_TRACE(SERVICE_CALLBACK_LINE);
- 				vchiq_service_put(service);
-@@ -1186,7 +1189,7 @@ service_callback(struct vchiq_instance *instance, enum vchiq_reason reason,
- 		return 0;
- 
- 	return add_completion(instance, reason, header, user_service,
--		bulk_userdata);
-+		bulk_userdata, ubulk_userdata);
- }
- 
- void vchiq_dump_platform_instances(struct vchiq_state *state, struct seq_file *f)
-@@ -1273,7 +1276,8 @@ static int
- vchiq_keepalive_vchiq_callback(struct vchiq_instance *instance,
- 			       enum vchiq_reason reason,
- 			       struct vchiq_header *header,
--			       unsigned int service_user, void *bulk_user)
-+			       unsigned int service_user,
-+			       void *bulk_userdata, void __user *ubulk_userdata)
- {
- 	dev_err(instance->state->dev, "suspend: %s: callback reason %d\n",
- 		__func__, reason);
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
-index b402aac333d9..43c73e986779 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
-@@ -155,7 +155,8 @@ static inline int vchiq_register_chrdev(struct device *parent) { return 0; }
- 
- extern int
- service_callback(struct vchiq_instance *vchiq_instance, enum vchiq_reason reason,
--		 struct vchiq_header *header, unsigned int handle, void *bulk_userdata);
-+		 struct vchiq_header *header, unsigned int handle,
-+		 void *bulk_userdata, void __user *ubulk_userdata);
- 
- extern void
- free_bulk_waiter(struct vchiq_instance *instance);
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-index 50af04b217f4..b24a27a46074 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-@@ -449,7 +449,8 @@ mark_service_closing(struct vchiq_service *service)
- 
- static inline int
- make_service_callback(struct vchiq_service *service, enum vchiq_reason reason,
--		      struct vchiq_header *header, void *bulk_userdata)
-+		      struct vchiq_header *header,
-+		      void *bulk_userdata, void __user *ubulk_userdata)
- {
- 	int status;
- 
-@@ -457,7 +458,7 @@ make_service_callback(struct vchiq_service *service, enum vchiq_reason reason,
- 		service->state->id, service->localport, reason_names[reason],
- 		header, bulk_userdata);
- 	status = service->base.callback(service->instance, reason, header, service->handle,
--					bulk_userdata);
-+					bulk_userdata, ubulk_userdata);
- 	if (status && (status != -EAGAIN)) {
- 		dev_warn(service->state->dev,
- 			 "core: %d: ignoring ERROR from callback to service %x\n",
-@@ -1339,7 +1340,7 @@ notify_bulks(struct vchiq_service *service, struct vchiq_bulk_queue *queue,
- 				enum vchiq_reason reason =
- 						get_bulk_reason(bulk);
- 				status = make_service_callback(service, reason,	NULL,
--							       bulk->userdata);
-+							       bulk->userdata, bulk->uuserdata);
- 				if (status == -EAGAIN)
- 					break;
- 			}
-@@ -1689,7 +1690,7 @@ parse_message(struct vchiq_state *state, struct vchiq_header *header)
- 			claim_slot(state->rx_info);
- 			DEBUG_TRACE(PARSE_LINE);
- 			if (make_service_callback(service, VCHIQ_MESSAGE_AVAILABLE, header,
--						  NULL) == -EAGAIN) {
-+						  NULL, NULL) == -EAGAIN) {
- 				DEBUG_TRACE(PARSE_LINE);
- 				goto bail_not_ready;
- 			}
-@@ -2072,7 +2073,7 @@ sync_func(void *v)
- 			if ((service->remoteport == remoteport) &&
- 			    (service->srvstate == VCHIQ_SRVSTATE_OPENSYNC)) {
- 				if (make_service_callback(service, VCHIQ_MESSAGE_AVAILABLE, header,
--							  NULL) == -EAGAIN)
-+							  NULL, NULL) == -EAGAIN)
- 					dev_err(state->dev,
- 						"sync: error: synchronous callback to service %d returns -EAGAIN\n",
- 						localport);
-@@ -2624,7 +2625,7 @@ close_service_complete(struct vchiq_service *service, int failstate)
- 		return -EINVAL;
- 	}
- 
--	status = make_service_callback(service, VCHIQ_SERVICE_CLOSED, NULL, NULL);
-+	status = make_service_callback(service, VCHIQ_SERVICE_CLOSED, NULL, NULL, NULL);
- 
- 	if (status != -EAGAIN) {
- 		int uc = service->service_use_count;
-@@ -2987,7 +2988,8 @@ vchiq_remove_service(struct vchiq_instance *instance, unsigned int handle)
-  * structure.
-  */
- int vchiq_bulk_transfer(struct vchiq_instance *instance, unsigned int handle,
--			void *offset, void __user *uoffset, int size, void *userdata,
-+			void *offset, void __user *uoffset, int size,
-+			void *userdata, void __user *uuserdata,
- 			enum vchiq_bulk_mode mode, enum vchiq_bulk_dir dir)
- {
- 	struct vchiq_service *service = find_service_by_handle(instance, handle);
-@@ -3062,6 +3064,7 @@ int vchiq_bulk_transfer(struct vchiq_instance *instance, unsigned int handle,
- 	bulk->mode = mode;
- 	bulk->dir = dir;
- 	bulk->userdata = userdata;
-+	bulk->uuserdata = uuserdata;
- 	bulk->size = size;
- 	bulk->actual = VCHIQ_BULK_ACTUAL_ABORTED;
- 
-@@ -3074,9 +3077,9 @@ int vchiq_bulk_transfer(struct vchiq_instance *instance, unsigned int handle,
- 	 */
- 	wmb();
- 
--	dev_dbg(state->dev, "core: %d: bt (%d->%d) %cx %x@%pad %pK\n",
-+	dev_dbg(state->dev, "core: %d: bt (%d->%d) %cx %x@%pad %pK %p\n",
- 		state->id, service->localport, service->remoteport,
--		dir_char, size, &bulk->data, userdata);
-+		dir_char, size, &bulk->data, userdata, uuserdata);
- 
- 	/*
- 	 * The slot mutex must be held when the service is being closed, so
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-index 77cc4d7ac077..6d915aeeae7f 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-@@ -114,6 +114,7 @@ struct vchiq_bulk {
- 	short mode;
- 	short dir;
- 	void *userdata;
-+	void __user *uuserdata;
- 	dma_addr_t data;
- 	int size;
- 	void *remote_data;
-@@ -472,8 +473,8 @@ remote_event_pollall(struct vchiq_state *state);
- 
- extern int
- vchiq_bulk_transfer(struct vchiq_instance *instance, unsigned int handle, void *offset,
--		    void __user *uoffset, int size, void *userdata, enum vchiq_bulk_mode mode,
--		    enum vchiq_bulk_dir dir);
-+		    void __user *uoffset, int size, void *userdata, void __user *uuserdata,
-+		    enum vchiq_bulk_mode mode, enum vchiq_bulk_dir dir);
- 
- extern void
- vchiq_dump_state(struct seq_file *f, struct vchiq_state *state);
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
-index 9cd2a64dce5e..3bb45342e89e 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
-@@ -324,12 +324,10 @@ static int vchiq_irq_queue_bulk_tx_rx(struct vchiq_instance *instance,
- 		dev_dbg(service->state->dev, "arm: found bulk_waiter %pK for pid %d\n",
- 			waiter, current->pid);
- 		userdata = &waiter->bulk_waiter;
--	} else {
--		userdata = args->userdata;
- 	}
- 
- 	status = vchiq_bulk_transfer(instance, args->handle, NULL, args->data, args->size,
--				     userdata, args->mode, dir);
-+				     userdata, args->userdata, args->mode, dir);
- 
- 	if (!waiter) {
- 		ret = 0;
-@@ -536,11 +534,7 @@ static int vchiq_ioc_await_completion(struct vchiq_instance *instance,
- 		    !instance->use_close_delivered)
- 			vchiq_service_put(service);
- 
--		/*
--		 * FIXME: address space mismatch, does bulk_userdata
--		 * actually point to user or kernel memory?
--		 */
--		user_completion.bulk_userdata = completion->bulk_userdata;
-+		user_completion.bulk_userdata = completion->ubulk_userdata;
- 
- 		if (vchiq_put_completion(args->buf, &user_completion, ret)) {
- 			if (ret == 0)
-diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
-index 67489c334f7b..24777e570ad5 100644
---- a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
-+++ b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
-@@ -551,7 +551,7 @@ static void bulk_abort_cb(struct vchiq_mmal_instance *instance,
- /* incoming event service callback */
- static int mmal_service_callback(struct vchiq_instance *vchiq_instance,
- 				 enum vchiq_reason reason, struct vchiq_header *header,
--				 unsigned int handle, void *bulk_ctx)
-+				 unsigned int handle, void *bulk_ctx, void __user *bulk_uctx)
- {
- 	struct vchiq_mmal_instance *instance = vchiq_get_service_userdata(vchiq_instance, handle);
- 	u32 msg_len;
--- 
-2.45.0
+I cannot apply your patch:
+Applying: staging: rtl8712: remove trailing whitespace
+error: patch failed: drivers/staging/rtl8712/rtl871x_cmd.h:736
+error: drivers/staging/rtl8712/rtl871x_cmd.h: patch does not apply
+Patch failed at 0001 staging: rtl8712: remove trailing whitespace
 
+Are you using the right git repo?
+
+git remote show origin
+* remote origin
+   Fetch URL: 
+git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git
+...
+git branch -a
+my branch: staging-testing
+
+If you send in a second version of this patch please use a change 
+history. Description from Dan under:
+https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
+
+In case of questions feel free to contact me directly.
+
+Thanks for your support.
+
+Bye Philipp
