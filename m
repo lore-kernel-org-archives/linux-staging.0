@@ -1,88 +1,80 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6ABF18A953;
-	Tue, 30 Jul 2024 06:28:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1BAF1662F4;
+	Tue, 30 Jul 2024 06:38:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722320938; cv=none; b=t5/KsvBl35cRrYQo+Lvf387O/FNEJ/V/mMPbdolOozG/1TL7R2zhjDB1wBSygCk4RGu/XyTMY0s8ijhQnF2v148JAt77f/eYliL3vLil96QrDPm+dZPiSwI1zmnzqXufA3b/QwPbnIoX3PwIsIBOKbNxITq/bf69sIoBTnuJQkA=
+	t=1722321536; cv=none; b=ibWmXuamFGsOQqla8rCpCiOnZ89pml3NiWWTxd+xv3BhzPdbYl8MXFH7f47U9/kE4wdUS1OTOhFzXbYvPr91GdOOHJOupBLq0ntDmTlUMGi2ITIM0KG0G37qXgwfAFW9+wfV67Vi8wT50X9L96kg0pgx9CyI/F2rINzlNQqkY4E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722320938; c=relaxed/simple;
-	bh=IqGHG0lNakwgEmdx4ckFdoSgTGrNLTCbxM8YVcfS1X0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GIk0lJL1e2pF/vsclnyUizJzYjo0Pa0x1Yonsw7K/fYZprTSWQiF6VJlkMC3ZCSj46EapF9+93ZOU4tOa5oLDPKR9fzxkpQIxKlBeEzMvfCcobm31tuUoU66dAYigVtHekoz9Nli53m0UWzusYS+Ozm3MBCFSbgcNLnOySXrRsY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=tGljWcSc; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
+	s=arc-20240116; t=1722321536; c=relaxed/simple;
+	bh=gt9cgNB6We7Ss9zxjvpz6ujv1fhZjUUStTI5lvNSIY8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ewQA5PxEBSRIZj5fx4mTCFz7Y7esAnfzdn8sBMEZUmNQp74NkXGzlPk0dw0nobQMrB2/p8VDIeLohbBJ7lIJKIJ5D4qLQqHjzJdHdDRumrP5dY3+2k3IqCLJwIZVPsL4CEor2ALgl0Qtjgfu7/6KzaNfv8N8m5GloL/lrK9b0DU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Xyb2uWMz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="tGljWcSc"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:Content-Transfer-Encoding:MIME-Version
-	:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:Content-ID:
-	Content-Description:In-Reply-To:References;
-	bh=6a9DMxdHHhMB6jGi+pCb47kwfaA/bgqO3mknSzAgzUA=; b=tGljWcSc9Y522Zj46x5QAprZI0
-	dj5QzP8Om9CFT9Nd2QgyBzJ1OqdLQ2DuBTFNB2buhIH7fpHlZee/V6eRNP6XDHfwUfx/WsBv5coRP
-	V9oS/nmpXF9MkOcHL66aXRy9CQAyMYcxXnTKlUPR/8xgnHZ1zh1OLVPBxAKtccfBML8OlKQFtc9uD
-	ig2GgYZmPOoZwRTmRT/KBNsjl5bl8TXpXEP4bWTZt02LMw/MkUkNh5vyYbIipwOuZliAm8vvnKgN0
-	Dgfu4nmPkgIx2jEKlvB8yCyE0r+qiTcSoyWx9MnTGkx256ZOWAlDJjFjXHcW7FJl/Lhi3NP9e8hGl
-	I1vykEyA==;
-Received: from authenticated user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.94.2)
-	(envelope-from <gagath@debian.org>)
-	id 1sYgLo-00Bngj-JL; Tue, 30 Jul 2024 06:28:48 +0000
-From: Agathe Porte <gagath@debian.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Cc: ~lkcamp/patches@lists.sr.ht,
-	helen.koike@collabora.com
-Subject: [PATCH] staging: vme_user: vme_irq_handler: name func ptr args
-Date: Tue, 30 Jul 2024 15:27:54 +0900
-Message-ID: <20240730062843.64977-1-gagath@debian.org>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Xyb2uWMz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9ECEFC32782;
+	Tue, 30 Jul 2024 06:38:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1722321535;
+	bh=gt9cgNB6We7Ss9zxjvpz6ujv1fhZjUUStTI5lvNSIY8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Xyb2uWMza7vktlaGfpPCyChRIHduXENKAW+d7OfZN+bmuBVlm+dJSIMXRCeb4tGa9
+	 7LrafFAH31oH0GFcWjLYZ2IdbLk3fyO2AdyYOcDXkWlZqu+HLRjp/6v5aoyzdTHus/
+	 0uXetVCZbHsTCGTbHGVhNfOitYhmr1EAIrTpuuZI=
+Date: Tue, 30 Jul 2024 08:38:51 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Sean Whitton <spwhitton@spwhitton.name>
+Cc: ~lkcamp/patches@lists.sr.ht, helen.koike@collabora.com,
+	Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: media: atomisp: Add parentheses around macro
+ definitions
+Message-ID: <2024073020-reload-vanquish-f937@gregkh>
+References: <20240730062348.46205-2-spwhitton@spwhitton.name>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Debian-User: gagath
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240730062348.46205-2-spwhitton@spwhitton.name>
 
-This commit fixes the following checkpatch.pl warnings:
+On Tue, Jul 30, 2024 at 03:23:45PM +0900, Sean Whitton wrote:
+> Fix checkpatch error
+> "ERROR: Macros with complex values should be enclosed in parentheses"
+> at hive_isp_css_include/sp.h:41, hive_isp_css_include/sp.h:42.
+> 
+> Signed-off-by: Sean Whitton <spwhitton@spwhitton.name>
+> ---
+>  drivers/staging/media/atomisp/pci/hive_isp_css_include/sp.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> This is my first Linux kernel patch, from Helen Koike's DebConf24 workshop.
+> Thanks!
+> 
+> diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_include/sp.h b/drivers/staging/media/atomisp/pci/hive_isp_css_include/sp.h
+> index a7d00c7bb8bc..128109afe842 100644
+> --- a/drivers/staging/media/atomisp/pci/hive_isp_css_include/sp.h
+> +++ b/drivers/staging/media/atomisp/pci/hive_isp_css_include/sp.h
+> @@ -38,8 +38,8 @@
+>  #define STORAGE_CLASS_SP_C
+>  #include "sp_public.h"
+>  #else  /* __INLINE_SP__ */
+> -#define STORAGE_CLASS_SP_H static inline
+> -#define STORAGE_CLASS_SP_C static inline
+> +#define STORAGE_CLASS_SP_H (static inline)
+> +#define STORAGE_CLASS_SP_C (static inline)
 
-WARNING: function definition argument 'int' should also have an identifier name
-+	void (*call)(int, int, void *);
+This isn't a "complex values", and really should just be removed
+entirely and use the correct "static inline" properly.
 
-WARNING: function definition argument 'int' should also have an identifier name
-+	void (*call)(int, int, void *);
+thanks,
 
-WARNING: function definition argument 'void *' should also have an identifier name
-+	void (*call)(int, int, void *);
-
-Signed-off-by: Agathe Porte <gagath@debian.org>
-
----
-
-This is my first contribution to staging to test if my setup works
-well and helping improve a staging driver while at it.
-
- drivers/staging/vme_user/vme.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/staging/vme_user/vme.c b/drivers/staging/vme_user/vme.c
-index 9a0914636..218b19db6 100644
---- a/drivers/staging/vme_user/vme.c
-+++ b/drivers/staging/vme_user/vme.c
-@@ -1265,7 +1265,7 @@ EXPORT_SYMBOL(vme_unregister_error_handler);
- 
- void vme_irq_handler(struct vme_bridge *bridge, int level, int statid)
- {
--	void (*call)(int, int, void *);
-+	void (*call)(int level, int statid, void *priv_data);
- 	void *priv_data;
- 
- 	call = bridge->irq[level - 1].callback[statid].func;
--- 
-2.43.0
-
+greg k-h
