@@ -1,65 +1,73 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AA13194ADF
-	for <linux-staging@lists.linux.dev>; Tue, 30 Jul 2024 08:29:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33C48156C4B
+	for <linux-staging@lists.linux.dev>; Tue, 30 Jul 2024 08:42:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722328198; cv=none; b=kuNOoEDA2WO1AbAxwpsG5teUsCe20ZV5FmIs+51+3pXiSKuczX5vXKaW9wIRdOIp7X1DDzmdHGzO8sZ7cInNoW0wsvQEQfbewnIzmOgkhNnglYz+oEmtu10JPCNVmnTInTtIF+tiuoe5DKYUKBMvV+xb8szdxnLZdyrKqE1JMb4=
+	t=1722328949; cv=none; b=k8Txs7mXc0sHSYTLiK19xQk56YSDU0gsk/7uf/CRcqQCtvSvIQhG7g7FCWPnY9vdtegSUA8DSoVNbBLsdqXxxC/8JH8WjI6g6FjZP4Er6cxMGKRviLxCSPoU1Ft/d7cZ922QEQVEAlcMLZ+aUH5Qf7mAf3nVVm+uZDr3Rsta7xE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722328198; c=relaxed/simple;
-	bh=Al7tsybQ8Ctv+Z5ysbndis3b5/TMJcWb/PrQJk3aAbs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dOMjXRt51886EsNTamTVJ2ECbPrj9T0KMo19piNB9Oe9+yXwJi1E9Zv2CL77d5RKkM06Xtbdr8x4UDKLN0fbKGunpFVNtbYPsq4QQ5W3qk6ndnve7rPVoarZVdV3nf9sZ973Za9Ji+nEfMfCz9iUlmJ9dMMzB/g+gu2r6qNP4oQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S5clcyRu; arc=none smtp.client-ip=209.85.218.51
+	s=arc-20240116; t=1722328949; c=relaxed/simple;
+	bh=9f99ZshAdpMzhQgkOB08+VcEn19vXElnV5/Jww6jgHg=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=NZixHfletxNNaZde25tu8ONnJHEjJTj6qc8W5Ai3eTYVYAJTBod0Zvcr1wkx8Kf/pLbJRqUT7GWwX53NUTgF6lLmRLAtws79N1qups9MvmPo/yjcpi40aRC1V0G/NRvnV3efKWitq96tstVcPxVDVJLX1ITX6kqAgVj+KDQ2C4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c6Kub672; arc=none smtp.client-ip=209.85.214.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S5clcyRu"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a7a94478a4eso889475966b.1
-        for <linux-staging@lists.linux.dev>; Tue, 30 Jul 2024 01:29:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c6Kub672"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1fc6a017abdso25115445ad.0
+        for <linux-staging@lists.linux.dev>; Tue, 30 Jul 2024 01:42:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722328195; x=1722932995; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=jSLp9jYDDTtURILO5YsFnWIzYyPB4gqC+JAko4lkDHw=;
-        b=S5clcyRux5XEcbuf6bD4itsq6P1CEfyxFJ2z4jzP234RgC/S9Jkh2OdMJI78/tkpum
-         FWddos2wthB+SDE5DbqszLOIIrQ+N9hBSA3YosDi+JHBWtVqtaEGd61qzu28x9rBc3fL
-         +Zo+zKgWzUeTwKyu/HLKoHw7WoRnKlcOBq/TjSKoiP0mDwoVPUkfWBtx7M9arvdc5yHh
-         ah6epGNt2x9v7lg9KIoMge+wUugeW7evY47kXTiqmYkb5GSQvjKc0/nDWT+vXbK4NI5o
-         tkfFbpV8oVOZD/IX88LEZ9qM6LNESAKjKsl1Uxa7ZgdhTEqagUcwyus5qM3orM49GP1S
-         cXvw==
+        d=gmail.com; s=20230601; t=1722328947; x=1722933747; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ktc+zByxGCpNSn/SuzIQLblDhojXKqXPkfeQRZpAx7s=;
+        b=c6Kub672qHnugj7d/2jqbllMjrM8ZxaSaWP37SvmG5vZuH8bQSOzsgNR40cMlq277N
+         iz3Z81t+SeXK1nZM19ojQ4bqBjx4pJiN3Ygrez7pPojpLx0tuAVGLEOe/M+hJo637Siz
+         /IeGHFOI2fo8lC1LY0GmBQxvutEb0KffgqZvhwGj11a+UNwK4Hm70REBF5u0M7WPv3A/
+         cWo8hZ6E819KzcyvA/5ADf6rUSgCQ7/ku/Qze/uVITbIda8Ee876dNv1QDMKaVyYTwU+
+         cd65lJRppB4ZRCnHlUpigMGu9+TiZatZgbP94Jc0TThcHkMCkICNmqpRGzjSFRBtwIkZ
+         +LGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722328195; x=1722932995;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jSLp9jYDDTtURILO5YsFnWIzYyPB4gqC+JAko4lkDHw=;
-        b=lxEd0JCbs0B4/7NAwk+EtTzIOT8tdwbBw3pZy3qLiExBu/9BXhqvkZxaDtY1qAdToe
-         xHDinOCkTeHRU+JGHeCAxHg4+hEH7/LJ+bQinvJIGRmNjKvGcWP+oPW6g/eQ7j83e6EV
-         EeEa+/orLXMe04F0DOdGiEIcOqWMnlO8ufoljZVRfTzFtTXo6YKiZGaf84QfJbRryY9g
-         LmBzq5t57//+ZR/xAazJwRZLLwS5IxDw0CFyMJ9MBTLy8e8pKwo1Sac3iDmoRbAHTRKT
-         U7GI+rd+jcjm9mURZFgSluR1kkTeqfHlBU1T6JGciEYCXh5Q3HycMP1+eioffzqGg6r2
-         UkrQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWM4Fl5tnBgHjS/Zy6xJGK3tW9J6ssUNhTA2bhM7x2MvYFyys26Fw43UqPaNxF5LEEuyf3kpiehyj3OCnzGZVMnUtIb4ARfdS5IORnEzg==
-X-Gm-Message-State: AOJu0YwmulfXkbRzxZ9/B/v2GW3DLwnttDkDlR7RZ9FgOReEarodkFxe
-	twhhWBYsf3CA79l7vjUXAsgs+aJ7GWZzNph3OXcbXUwda79FLRsZ
-X-Google-Smtp-Source: AGHT+IFYJFEV69ICKm3oEDcJ7wsBCqMqDn9jck+E/Er1ckAxB+rEFJtnkwVItn5U3MoSYij7MOs6Cg==
-X-Received: by 2002:a17:907:a809:b0:a72:5967:b34 with SMTP id a640c23a62f3a-a7d859eadecmr116807866b.22.1722328194887;
-        Tue, 30 Jul 2024 01:29:54 -0700 (PDT)
-Received: from localhost.localdomain (ip5f5aba2e.dynamic.kabel-deutschland.de. [95.90.186.46])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7acab4de06sm611231666b.71.2024.07.30.01.29.54
+        d=1e100.net; s=20230601; t=1722328947; x=1722933747;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Ktc+zByxGCpNSn/SuzIQLblDhojXKqXPkfeQRZpAx7s=;
+        b=EZXnIkTueWhKR5pqccxm7JqDAItI8alPrHfe4i8NxCSyMSCi5Mx3WhySu38CJ/euho
+         f99BUsNLV5SA5lZyPzDmyqqbDG3+80NnSxW99kjnFyR/PIMwx6piZZISp480Kbs0M1v4
+         PXQ/WvsHGYMbBHUgfIupNlCy7sXp6sHNDnmqzJmUJYnDvCHQfb7ayDwg9abgqZNgIRcH
+         5/PJGpd8W/Rnet22u+EReDTFJNxrICZ/LeGZotAfCfSYPU47OV5YQdMNX8woKo3ejJG0
+         BSUgTTUquPcr0ot1NJjnhRersOlqOzAMSsHT74ESG4mW4Vh9GR6FMyb2FD8yji4BmwGK
+         Uw6g==
+X-Forwarded-Encrypted: i=1; AJvYcCU1swQwdRuOKAP6w6FsLJWxTTCsBnOnqbhvJKga/tE11HPEVHOSQKEwOEajAWhepmXk94U1dFTtKj/fbVAgrr4v5HbpCXYiTmhoDC4oZQ==
+X-Gm-Message-State: AOJu0Yxa+AgTygPAUzOTDNUeEakP3m5ec3lR9hH+wiscFS9PM9Bbgy4j
+	Tya5vrJnTQpN6vTyMMWXCIlK4DOoPpSfR+osa/YR1YAwMsiA5TTQ
+X-Google-Smtp-Source: AGHT+IFS5roklR7pqnpjyRBbYHJ/0G3WGJQkAF/eeS2Vklr8/2pmTx6NEMdxypvFZ67euCGuzjVM1A==
+X-Received: by 2002:a17:902:f093:b0:1fd:8eaf:eaa9 with SMTP id d9443c01a7336-1ff04853333mr65520745ad.37.1722328947234;
+        Tue, 30 Jul 2024 01:42:27 -0700 (PDT)
+Received: from c4897d9ba637.debconf24.debconf.org ([210.110.131.56])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fed7ee889asm96193975ad.126.2024.07.30.01.42.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jul 2024 01:29:54 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: philipp.g.hortmann@gmail.com,
+        Tue, 30 Jul 2024 01:42:26 -0700 (PDT)
+From: Sakirnth Nagarasa <sakirnth@gmail.com>
+To: hdegoede@redhat.com,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH] staging: rtl8192e: remove duplicate macros from rtllib.h
-Date: Tue, 30 Jul 2024 10:29:28 +0200
-Message-ID: <20240730082928.62284-1-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.45.2
+	linux-kernel@vger.kernel.org
+Cc: ~lkcamp/patches@lists.sr.ht,
+	helen.koike@collabora.com
+Subject: [PATCH] media: atomisp: move trailing statement to next line.
+Date: Tue, 30 Jul 2024 08:42:20 +0000
+Message-Id: <20240730084220.38204-1-sakirnth@gmail.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <sakirnth@gmail.com>
+References: <sakirnth@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -68,38 +76,32 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-These macros just duplicate macros from include/linux/ieee80211.h.
-We can safely remove them from rtllib.h.
+Fix checkpath error "ERROR: trailing statements should be on next line"
+in ia_css_fpn.host.c:46.
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
+Signed-off-by: Sakirnth Nagarasa <sakirnth@gmail.com>
+
 ---
-compile-tested only
 
- drivers/staging/rtl8192e/rtllib.h | 11 -----------
- 1 file changed, 11 deletions(-)
+Hello, this is my first patch to the kernel.
+---
+ .../atomisp/pci/isp/kernels/fpn/fpn_1.0/ia_css_fpn.host.c      | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-index 022851b7f1a9..e87313a30741 100644
---- a/drivers/staging/rtl8192e/rtllib.h
-+++ b/drivers/staging/rtl8192e/rtllib.h
-@@ -414,17 +414,6 @@ enum _REG_PREAMBLE_MODE {
- #define WLAN_GET_SEQ_FRAG(seq) ((seq) & RTLLIB_SCTL_FRAG)
- #define WLAN_GET_SEQ_SEQ(seq)  (((seq) & RTLLIB_SCTL_SEQ) >> 4)
- 
--/* Authentication algorithms */
--#define WLAN_AUTH_OPEN 0
--#define WLAN_AUTH_SHARED_KEY 1
--#define WLAN_AUTH_LEAP 128
--
--#define WLAN_CAPABILITY_ESS (1<<0)
--#define WLAN_CAPABILITY_IBSS (1<<1)
--#define WLAN_CAPABILITY_PRIVACY (1<<4)
--#define WLAN_CAPABILITY_SHORT_PREAMBLE (1<<5)
--#define WLAN_CAPABILITY_SHORT_SLOT_TIME (1<<10)
--
- #define RTLLIB_STATMASK_SIGNAL (1<<0)
- #define RTLLIB_STATMASK_RSSI (1<<1)
- #define RTLLIB_STATMASK_NOISE (1<<2)
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/fpn/fpn_1.0/ia_css_fpn.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/fpn/fpn_1.0/ia_css_fpn.host.c
+index 57b5e11e1..8ccfa99c6 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/fpn/fpn_1.0/ia_css_fpn.host.c
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/fpn/fpn_1.0/ia_css_fpn.host.c
+@@ -43,7 +43,8 @@ ia_css_fpn_dump(
+     const struct sh_css_isp_fpn_params *fpn,
+     unsigned int level)
+ {
+-	if (!fpn) return;
++	if (!fpn)
++		return;
+ 	ia_css_debug_dtrace(level, "Fixed Pattern Noise Reduction:\n");
+ 	ia_css_debug_dtrace(level, "\t%-32s = %d\n",
+ 			    "fpn_shift", fpn->shift);
 -- 
-2.45.2
+2.20.1
 
