@@ -1,65 +1,45 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F464168493
-	for <linux-staging@lists.linux.dev>; Tue, 30 Jul 2024 06:59:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98FFF20326
+	for <linux-staging@lists.linux.dev>; Tue, 30 Jul 2024 07:01:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.252.153.129
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722322755; cv=none; b=dPwWlIZgSoN2VhGpnaO8JKBo/pWuEuwKVPaLcqqOPUP/toTsKzxHbDR+CcZCy3bivG9nkVZG++7cyaCDDdA+0n+vHXa9NtqbbKULiCgAoahiDE044ttpN9Y24PYfQ8Vl7fKjQEoejNsbo/Fl5Cbbri7sEmKK3zfkl1pIGUKGQ64=
+	t=1722322871; cv=none; b=Oo/vBD3TwDlEeVMtPYdrh+QteQFifMUShP+mLmueLH2/zaoPUC38mkstFlpkjdQwgwpjWAjKWSiXBuTYVMhS018Lphlu3d5K4uTV5fmIOsy5boK9S/XfoP6+OFj7WhuKxOah19F/VVKEVArX/Rfn5IBcbwQBZcKZURmzsXeaeiY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722322755; c=relaxed/simple;
-	bh=aOINiKi8h9bi8olxYJIxv55XJ4wLBEoWJa6Rw/bhqIY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=twC0GLSwKuCjk+tBpsvKu5JjvA/C2Cs0hC5juAnuUI4M1dGt9qt84EdKUyw5VRP+aRkegUBUhbG/oyLXfwW4Ix+5sb+9PTLVVtoQpmbTuyrRm0zY9Ggg5aRGJBJyxKKXys1PhCgHBwsmt8lM0bxdFTkgtsAa02KvZVD3D4+dRYM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AKPgdjJd; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1722322871; c=relaxed/simple;
+	bh=+Fg95AQU2XFNZXaOZIdHTqlcBPQdSIH6AWjhJ8ITK2I=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=L2znMSqoqZpd41OgkkJuoAic6ogI9RlMXSqvrPyL/M3JiAgMU3eA6xQSuTlUiW1hSKwmX3D9Is2pqZX+08R6OPxjyaa2CVPorCUMHUHgTr117Xki7NcrYr8xO1qFZVzOdfPQ3Rz+ie7Kn5FmNpy0SF7XxtYbVJwNvV9Ru+A8DhM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net; spf=pass smtp.mailfrom=riseup.net; dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b=TPhbawKs; arc=none smtp.client-ip=198.252.153.129
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riseup.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AKPgdjJd"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1fc5239faebso24855915ad.1
-        for <linux-staging@lists.linux.dev>; Mon, 29 Jul 2024 23:59:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722322754; x=1722927554; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=BRZxFFJxsWDQZRh+bmJi1OBc9hBJcJtDXXsB0kvWwMM=;
-        b=AKPgdjJd0Dis0lMsJ3o5cG+fpZdw12Rs9pz15JR7KOXlAVwm+pU/GLybECsmRPzlmI
-         7G7GoFy3cA3rv0opaxuFrYciEKzS1n0OivfDCjxDgeIZ3j5CJ3Vx6szt2p/j84F/1SJ+
-         yMjrFx7W+dku2P5/C9uYiieu8msV0EnkaNB1jiTd7ytoiCQK4gIW6PvfJWb8Bt0iAd57
-         tD38RDv6WHdYt5ar91BM0hYKm2aTIbMz6Wyc9DuQ/J/XMsqEbzxQJK9bh+t5R4eYSetK
-         7/cUf/and4ipPOoGyU9Sni6+TwQJM+uJzqB2mkoG+VsTyfDUH4vl815SmoUEHNU/Gtdo
-         kE0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722322754; x=1722927554;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BRZxFFJxsWDQZRh+bmJi1OBc9hBJcJtDXXsB0kvWwMM=;
-        b=Er6qDvHpBrGRAkR5O+c/cQp/qptdrM8pskPlN3GuoT76qQ9m8brW3T8why/zp1A0Ju
-         OfkVYLY/gqiqc+dwP+nLONNQq8S15aU+z23XqIL/4AuDHPiKJCeLSgsOpOpZVeLMlqWP
-         khQTKzug6lPlD081sfXY/kxYE1ieuD7xioA1ZM27as8VLM5vzac3mroO96RoIjmZm6eB
-         cyovAelU+AdHhsUP5ZAvnB460/kKdyi1Qm7h8yKLYEl8hWKsK0VIzEw88BIAWtOSyEQ5
-         Xvmofd5cb+pXIX4WoLhrUvGmbGxmGz+l128rGsy9wOkivJw2NykTEnMyS/e/jmhegfvC
-         RQBQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUNpQoiSIw26B6KAINZeLNBFLiVj3v9Y+q6xoOLhWcchlfaO5nHq1Hz2Sr08ZM1q2aylRXLituyaoivtLvBhvHf7JqdWc63CVpbVBxGtw==
-X-Gm-Message-State: AOJu0YyT8W7GT/q4SucMMHIpzf+kF4oriirUTfvmgFd59KeJ7973wwZi
-	TmwimoYjrafW4TON5nf6DXdx+Ue4wq/22sFkGwMR/d7aCZ5jY2SSaElZn5MHieA=
-X-Google-Smtp-Source: AGHT+IFlkzD18e53lfpx2YGQDksypAKMBrVfclfV1BiDSbW2j7Wy3xsFQ1mMR/7wvPWF2e0Fp4yNJw==
-X-Received: by 2002:a17:902:f681:b0:1fb:973f:87f with SMTP id d9443c01a7336-1ff048e1b5emr83515545ad.45.1722322753576;
-        Mon, 29 Jul 2024 23:59:13 -0700 (PDT)
-Received: from 3a25d514abef.debconf24.debconf.org ([116.89.172.30])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fed7fc9cc0sm94075425ad.279.2024.07.29.23.59.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jul 2024 23:59:13 -0700 (PDT)
-From: Sai Sree Kartheek Adivi <sskartheekadivi@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b="TPhbawKs"
+Received: from fews02-sea.riseup.net (fews02-sea-pn.riseup.net [10.0.1.112])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx1.riseup.net (Postfix) with ESMTPS id 4WY5jW1BFMzDqD7;
+	Tue, 30 Jul 2024 07:01:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+	t=1722322863; bh=+Fg95AQU2XFNZXaOZIdHTqlcBPQdSIH6AWjhJ8ITK2I=;
+	h=From:To:Cc:Subject:Date:From;
+	b=TPhbawKs1xVWPE2L/cSgX1q2K6YVgtryK4+FtFVFessOa3Xwaqu7e86m65b5fzuF4
+	 pjkBW2IBP07irg7j5EILohAvZo553vntOwtkPGPYrN3lLAXW1pBPt802sgfRnEN9oY
+	 fTIxvWrxlX921BQ8mmmsG7R3Pqy2bGHt95vmjezE=
+X-Riseup-User-ID: 139F3A5E64ECC82600FA85DA30FCB8E43FFC72F204D403D5D7236024C332F8DF
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	 by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4WY5jT4qVjzFrwt;
+	Tue, 30 Jul 2024 07:01:01 +0000 (UTC)
+From: Emmanuel Arias <eamanu@riseup.net>
+To: gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: ~lkcamp/patches@lists.sr.ht,
 	helen.koike@collabora.com
-Subject: [PATCH v2] staging: rtl8723bs: style fix open brace on new line
-Date: Tue, 30 Jul 2024 06:59:01 +0000
-Message-Id: <20240730065901.35254-1-sskartheekadivi@gmail.com>
-X-Mailer: git-send-email 2.20.1
+Subject: [PATCH] staging: rtl8723bs: replace indent space for tabs
+Date: Tue, 30 Jul 2024 07:00:59 +0000
+Message-Id: <20240730070059.33210-1-eamanu@riseup.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -68,32 +48,29 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-It fixes the following checkpatch.pl error
-"ERROR: that open brace { should be on the previous line" and avoids the
-warning "WARNING: braces {} are not necessary for single statement blocks".
+Fix checkpatch error code indent should use tabs in file
+hal_pwr_seq.h:104
 
-Signed-off-by: Sai Sree Kartheek Adivi <sskartheekadivi@gmail.com>
+Signed-off-by: Emmanuel Arias <eamanu@riseup.net>
 ---
-Updated the commit message.
-This is my first contribution. Hope I did everything right!
+H! I'm a newcomer, this is my first patch to the kernel :-)
+---
+ drivers/staging/rtl8723bs/include/hal_pwr_seq.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- drivers/staging/rtl8723bs/include/osdep_service.h | 2 --
- 1 file changed, 2 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/include/osdep_service.h b/drivers/staging/rtl8723bs/include/osdep_service.h
-index cf96b5f7a..5629123cd 100644
---- a/drivers/staging/rtl8723bs/include/osdep_service.h
-+++ b/drivers/staging/rtl8723bs/include/osdep_service.h
-@@ -81,9 +81,7 @@ static inline void thread_enter(char *name)
- static inline void flush_signals_thread(void)
- {
- 	if (signal_pending(current))
--	{
- 		flush_signals(current);
--	}
- }
- 
- #define rtw_warn_on(condition) WARN_ON(condition)
+diff --git a/drivers/staging/rtl8723bs/include/hal_pwr_seq.h b/drivers/staging/rtl8723bs/include/hal_pwr_seq.h
+index 5e43cc89f..b93d74a5b 100644
+--- a/drivers/staging/rtl8723bs/include/hal_pwr_seq.h
++++ b/drivers/staging/rtl8723bs/include/hal_pwr_seq.h
+@@ -101,7 +101,7 @@
+ 	{0x0007, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_SDIO_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, 0xFF, 0x20}, /*0x07 = 0x20 , SOP option to disable BG/MB*/	\
+ 	{0x0005, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_USB_MSK|PWR_INTF_SDIO_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT3|BIT4, BIT3}, /*0x04[12:11] = 2b'01 enable WL suspend*/	\
+ 	{0x0005, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_PCI_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT2, BIT2}, /*0x04[10] = 1, enable SW LPS*/	\
+-        {0x004A, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_USB_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT0, 1}, /*0x48[16] = 1 to enable GPIO9 as EXT WAKEUP*/   \
++	{0x004A, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_USB_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT0, 1}, /*0x48[16] = 1 to enable GPIO9 as EXT WAKEUP*/   \
+ 	{0x0023, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_SDIO_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT4, BIT4}, /*0x23[4] = 1b'1 12H LDO enter sleep mode*/   \
+ 	{0x0086, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_SDIO_MSK, PWR_BASEADDR_SDIO, PWR_CMD_WRITE, BIT0, BIT0}, /*Set SDIO suspend local register*/	\
+ 	{0x0086, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_SDIO_MSK, PWR_BASEADDR_SDIO, PWR_CMD_POLLING, BIT1, 0}, /*wait power state to suspend*/
 -- 
 2.20.1
 
