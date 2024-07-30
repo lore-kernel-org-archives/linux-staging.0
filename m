@@ -1,83 +1,88 @@
-Received: from sendmail.purelymail.com (sendmail.purelymail.com [34.202.193.197])
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5D4114B06A
-	for <linux-staging@lists.linux.dev>; Tue, 30 Jul 2024 06:24:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=34.202.193.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6ABF18A953;
+	Tue, 30 Jul 2024 06:28:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722320696; cv=none; b=Q9YWYlPHcNg96R/F4xu/VnoT8Yhhk7o9srudeI7IGTCbfR5B/9RMTFg3JkEmt+ZvptO9G4zduFnizIahodO/i/kI1X6PCh04izkkSEJEm/t/6Hh15UeaOGmcPBuLN8LaY5eV1FkjW5pQEGCuZobXf6EOMM9DDwBWpRAtoyhDmsA=
+	t=1722320938; cv=none; b=t5/KsvBl35cRrYQo+Lvf387O/FNEJ/V/mMPbdolOozG/1TL7R2zhjDB1wBSygCk4RGu/XyTMY0s8ijhQnF2v148JAt77f/eYliL3vLil96QrDPm+dZPiSwI1zmnzqXufA3b/QwPbnIoX3PwIsIBOKbNxITq/bf69sIoBTnuJQkA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722320696; c=relaxed/simple;
-	bh=dUyy9LcCFJTUHFoF7o/LnN7dB2UmsNlAkEA8N/x9jek=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Q8ViATZtQQZfPCzd7OBRSHwf+/yO4s85wYHC2ovuCkgSUQK7hkCRmn6dCkOYY27dZDObHEiNEbGzSfkcxds1P8QrdE85QN/ta3Nj30QAvbwzQlfl4J5G+uD9vfj7zwMv5HCq+tF6lTzBdqrs8DuNbthmfpNhvkgOgkHAv3fw/Xk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=spwhitton.name; spf=pass smtp.mailfrom=spwhitton.name; dkim=pass (2048-bit key) header.d=spwhitton.name header.i=@spwhitton.name header.b=SSBixUhb; dkim=pass (2048-bit key) header.d=purelymail.com header.i=@purelymail.com header.b=RWNx1rlH; arc=none smtp.client-ip=34.202.193.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=spwhitton.name
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=spwhitton.name
+	s=arc-20240116; t=1722320938; c=relaxed/simple;
+	bh=IqGHG0lNakwgEmdx4ckFdoSgTGrNLTCbxM8YVcfS1X0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GIk0lJL1e2pF/vsclnyUizJzYjo0Pa0x1Yonsw7K/fYZprTSWQiF6VJlkMC3ZCSj46EapF9+93ZOU4tOa5oLDPKR9fzxkpQIxKlBeEzMvfCcobm31tuUoU66dAYigVtHekoz9Nli53m0UWzusYS+Ozm3MBCFSbgcNLnOySXrRsY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=tGljWcSc; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=spwhitton.name header.i=@spwhitton.name header.b="SSBixUhb";
-	dkim=pass (2048-bit key) header.d=purelymail.com header.i=@purelymail.com header.b="RWNx1rlH"
-DKIM-Signature: a=rsa-sha256; b=SSBixUhb7S2CgiznJlvGrZVOycI+cIJkQHNByx4651Z/uAEXyw+Rq9THk/8fUMtbs5mb5sf5W6XTEz+TYliVH49qG1RTjNvtcQtzsbyh9K6RAaVVfZipon0NLGQ+CL+O8+KBwDJoN0eF2CrjwN09hBfPKFF3Lxe9vsN1ScPOb1Svsl10iOow82WKpzevf5SDPYyNeQ1kmlLhJj/adO9gkOVU0WCicQKGisl+G/BE6prZUuxjRaBP7mJ6zQ4q1zAMjc//Z84taBXoCrTs0klzy/QBQDSOzDeEZoh2LvmWT8hq3mqvIN79yb3x3q+jjxrEE6roCxg+bElK6DJtgHmg/Q==; s=purelymail2; d=spwhitton.name; v=1; bh=dUyy9LcCFJTUHFoF7o/LnN7dB2UmsNlAkEA8N/x9jek=; h=Received:Received:From:To:Subject:Date;
-DKIM-Signature: a=rsa-sha256; b=RWNx1rlHomrhXHPn7h4uw89thkp9gLp5yc7K3xster75q5LE0lBlPlJO56uX9PN1LZd3qkJe8bsN1c6AEtueNo9L9Y0IOrBE1SwgBkVyOV3SaO95t2MCgztKS2F3Q4+bGNjua0qoz9tcG5LP82SFJrReFBGLxPhgY4RgsT+VqJRSxhXYxwVhsqeUJDWFhsUdxiTvPuutUN8Oag/nChDpYBQtfKJbYwe6S69Uq2q2o5YpClplTF55lWzEjds9FaVk7QR3iC4b/53EjL6803dxgKiPrbQhKg3kJg9pSAWV65D0x1z/yshKrHKK3DGWU5TtVxzbfUhGP4Cn9qDc/hCn4A==; s=purelymail2; d=purelymail.com; v=1; bh=dUyy9LcCFJTUHFoF7o/LnN7dB2UmsNlAkEA8N/x9jek=; h=Feedback-ID:Received:Received:From:To:Subject:Date;
-Feedback-ID: 20115:3760:null:purelymail
-X-Pm-Original-To: linux-staging@lists.linux.dev
-Received: by smtp.purelymail.com (Purelymail SMTP) with ESMTPSA id -579794942;
-          (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
-          Tue, 30 Jul 2024 06:24:21 +0000 (UTC)
-Received: by melete.silentflame.com (Postfix, from userid 1000)
-	id 7FC1F7F30E5; Tue, 30 Jul 2024 15:24:18 +0900 (KST)
-From: Sean Whitton <spwhitton@spwhitton.name>
-To: 
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="tGljWcSc"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:Content-Transfer-Encoding:MIME-Version
+	:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=6a9DMxdHHhMB6jGi+pCb47kwfaA/bgqO3mknSzAgzUA=; b=tGljWcSc9Y522Zj46x5QAprZI0
+	dj5QzP8Om9CFT9Nd2QgyBzJ1OqdLQ2DuBTFNB2buhIH7fpHlZee/V6eRNP6XDHfwUfx/WsBv5coRP
+	V9oS/nmpXF9MkOcHL66aXRy9CQAyMYcxXnTKlUPR/8xgnHZ1zh1OLVPBxAKtccfBML8OlKQFtc9uD
+	ig2GgYZmPOoZwRTmRT/KBNsjl5bl8TXpXEP4bWTZt02LMw/MkUkNh5vyYbIipwOuZliAm8vvnKgN0
+	Dgfu4nmPkgIx2jEKlvB8yCyE0r+qiTcSoyWx9MnTGkx256ZOWAlDJjFjXHcW7FJl/Lhi3NP9e8hGl
+	I1vykEyA==;
+Received: from authenticated user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.94.2)
+	(envelope-from <gagath@debian.org>)
+	id 1sYgLo-00Bngj-JL; Tue, 30 Jul 2024 06:28:48 +0000
+From: Agathe Porte <gagath@debian.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
 Cc: ~lkcamp/patches@lists.sr.ht,
-	helen.koike@collabora.com,
-	Hans de Goede <hdegoede@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: media: atomisp: Add parentheses around macro definitions
-Date: Tue, 30 Jul 2024 15:23:45 +0900
-Message-ID: <20240730062348.46205-2-spwhitton@spwhitton.name>
-X-Mailer: git-send-email 2.45.2
+	helen.koike@collabora.com
+Subject: [PATCH] staging: vme_user: vme_irq_handler: name func ptr args
+Date: Tue, 30 Jul 2024 15:27:54 +0900
+Message-ID: <20240730062843.64977-1-gagath@debian.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by Purelymail
-Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Debian-User: gagath
 
-Fix checkpatch error
-"ERROR: Macros with complex values should be enclosed in parentheses"
-at hive_isp_css_include/sp.h:41, hive_isp_css_include/sp.h:42.
+This commit fixes the following checkpatch.pl warnings:
 
-Signed-off-by: Sean Whitton <spwhitton@spwhitton.name>
+WARNING: function definition argument 'int' should also have an identifier name
++	void (*call)(int, int, void *);
+
+WARNING: function definition argument 'int' should also have an identifier name
++	void (*call)(int, int, void *);
+
+WARNING: function definition argument 'void *' should also have an identifier name
++	void (*call)(int, int, void *);
+
+Signed-off-by: Agathe Porte <gagath@debian.org>
+
 ---
- drivers/staging/media/atomisp/pci/hive_isp_css_include/sp.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-This is my first Linux kernel patch, from Helen Koike's DebConf24 workshop.
-Thanks!
+This is my first contribution to staging to test if my setup works
+well and helping improve a staging driver while at it.
 
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_include/sp.h b/=
-drivers/staging/media/atomisp/pci/hive_isp_css_include/sp.h
-index a7d00c7bb8bc..128109afe842 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_include/sp.h
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_include/sp.h
-@@ -38,8 +38,8 @@
- #define STORAGE_CLASS_SP_C
- #include "sp_public.h"
- #else  /* __INLINE_SP__ */
--#define STORAGE_CLASS_SP_H static inline
--#define STORAGE_CLASS_SP_C static inline
-+#define STORAGE_CLASS_SP_H (static inline)
-+#define STORAGE_CLASS_SP_C (static inline)
- #include "sp_private.h"
- #endif /* __INLINE_SP__ */
-=20
---=20
-2.45.2
+ drivers/staging/vme_user/vme.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/staging/vme_user/vme.c b/drivers/staging/vme_user/vme.c
+index 9a0914636..218b19db6 100644
+--- a/drivers/staging/vme_user/vme.c
++++ b/drivers/staging/vme_user/vme.c
+@@ -1265,7 +1265,7 @@ EXPORT_SYMBOL(vme_unregister_error_handler);
+ 
+ void vme_irq_handler(struct vme_bridge *bridge, int level, int statid)
+ {
+-	void (*call)(int, int, void *);
++	void (*call)(int level, int statid, void *priv_data);
+ 	void *priv_data;
+ 
+ 	call = bridge->irq[level - 1].callback[statid].func;
+-- 
+2.43.0
 
