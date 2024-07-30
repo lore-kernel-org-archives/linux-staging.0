@@ -1,97 +1,138 @@
-Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
+Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54D0718E034
-	for <linux-staging@lists.linux.dev>; Tue, 30 Jul 2024 21:29:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.252.153.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF73E4A31
+	for <linux-staging@lists.linux.dev>; Wed, 31 Jul 2024 00:43:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722374957; cv=none; b=N1+kLqWNTf/vY0kbKCNNTdeDj9mNThXkYdoYm6NPUur3yQ2H5SvndT4WB4z9ETM0Dy+5NiIVT3ZobLX0LJRbnLshN08X3ft0MWZLNViPN5ZLM4rUCcZakDh/ena/yHYVVhLJxBo+3lF+gCsgXGJ05ZryJADxRVGGs0DamB0OHVM=
+	t=1722386623; cv=none; b=R9XNtp8FJX/1dlZTVkOYusSDw3mhdk4MOmX17m9e8LAzopO7OfT7hsGOi8nBqGdEXlaZ5LUVyJsw+GDWDcSZukWeMEEC6t5wNgnvmgi0gbYOlA4CTXiqZFp/pXLFMaAHF3f9LYib8OtluUYkiwWrjTPgH9ZZ/IqB1iKWA7XW/aI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722374957; c=relaxed/simple;
-	bh=C6VSGx8RupmJLdmFxZP9iZzz+DlZoP0RzAD1ZTJ0how=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Yf/dI0iwXn0w/J5vhidGNEv2SKqVc8r/tn29HUhkzkuTNKtKjpRCoeNqoD9s8D45tFizyTg7ssFXVOFyLaWxeosxNM93zAHpcCDL97r5VGln6DBkr8EEZ84ZYHG0pH8WT88YDEddrvo81A9CMVpxHK512y1IQhXg/UGPQeNrg0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net; spf=pass smtp.mailfrom=riseup.net; dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b=V5L7ipvg; arc=none smtp.client-ip=198.252.153.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riseup.net
+	s=arc-20240116; t=1722386623; c=relaxed/simple;
+	bh=B8nS+HrchXt/TOq7CuC6gM8fOzsr+yNKA1+6iyCftCI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 References; b=fYCvN2kj0H9qdXvkTx0lOVAOUxRyR5C3Jz8BHK5wR6lLsnQxBta92uov913muyFsgqck/UtJo5iD0MKSX+AEi87TGwjj3pF1rbhAb7Tu9lbkYAXbvJAaAJsh+EqtzHzCQhTdJDNo14BUV68OtZsSLYbDgQ19vOzAXH+eOF6Rx+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=hN9IFKrl; arc=none smtp.client-ip=203.254.224.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b="V5L7ipvg"
-Received: from fews02-sea.riseup.net (fews02-sea-pn.riseup.net [10.0.1.112])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx0.riseup.net (Postfix) with ESMTPS id 4WYSzG3Pp0z9wZt;
-	Tue, 30 Jul 2024 21:29:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
-	t=1722374954; bh=C6VSGx8RupmJLdmFxZP9iZzz+DlZoP0RzAD1ZTJ0how=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=V5L7ipvgVlzC91Pzne7nAADR7bQtYLQzbxxoAp1O7ESB5SeV3FyVCUBU3cyad1vtg
-	 ni/E3TkldiiLdrQnCxdXeS3hwwiFBMfNEeRl48LWXqxyX12SfmWdcHwC1/LtsxCei4
-	 t8/Gi2l7+LqzksIymXFx78BPkCWNxhtmFoZ9eDh0=
-X-Riseup-User-ID: BDB4D0B77CB8B1A37EA613107467F4BD0693762E86973698D43FFCD98055D728
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	 by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4WYSz20qdPzFvlN;
-	Tue, 30 Jul 2024 21:29:01 +0000 (UTC)
-From: =?UTF-8?q?Santiago=20Ruano=20Rinc=C3=B3n?= <santiagorr@riseup.net>
-To: Hans de Goede <hdegoede@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: helen.koike@collabora.com,
-	~lkcamp/patches@lists.sr.ht
-Subject: [PATCH v3 2/2] staging: media: sdis: move open braces to the previous line
-Date: Wed, 31 Jul 2024 06:28:54 +0900
-Message-Id: <20240730212854.474708-2-santiagorr@riseup.net>
-In-Reply-To: <20240730212854.474708-1-santiagorr@riseup.net>
-References: <20240730212854.474708-1-santiagorr@riseup.net>
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="hN9IFKrl"
+Received: from epcas1p4.samsung.com (unknown [182.195.41.48])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20240731004337epoutp0378d87077d4c0f0de3a0be1759648a9a9~nJYDSq8dH0213902139epoutp03S
+	for <linux-staging@lists.linux.dev>; Wed, 31 Jul 2024 00:43:37 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20240731004337epoutp0378d87077d4c0f0de3a0be1759648a9a9~nJYDSq8dH0213902139epoutp03S
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1722386617;
+	bh=a3IzWK5fitZJcQaGmkzyEQOcVdVpt6d41Zx8xDRd+Mg=;
+	h=From:To:Cc:Subject:Date:References:From;
+	b=hN9IFKrlYzE1hZNQ57E3RtPqI7Ug4i9vMNMr5CTJ0EJ4xQdfrVlBTEvv6MCUJNChD
+	 9pBddJPKQXQJXUtNbqD/g2dM4JYmrYygg7rfOB0Lwv+hTNKQ33hvLOXQ/WezHHG7SL
+	 Ac1DIBJqq0AuBhxzankhsniiDmmpUL0JVOtybUaM=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+	epcas1p3.samsung.com (KnoxPortal) with ESMTP id
+	20240731004337epcas1p3290553a74b02376cfed9220c20607cf3~nJYDBfu461919819198epcas1p3H;
+	Wed, 31 Jul 2024 00:43:37 +0000 (GMT)
+Received: from epsmgec1p1-new.samsung.com (unknown [182.195.36.227]) by
+	epsnrtp1.localdomain (Postfix) with ESMTP id 4WYYHX5qDfz4x9Q3; Wed, 31 Jul
+	2024 00:43:36 +0000 (GMT)
+Received: from epcas1p2.samsung.com ( [182.195.41.46]) by
+	epsmgec1p1-new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	DB.F9.19509.8B889A66; Wed, 31 Jul 2024 09:43:36 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas1p3.samsung.com (KnoxPortal) with ESMTPA id
+	20240731004335epcas1p382229e79bdaf3f2d48b0f3faa7414ea6~nJYBdGAZh2218522185epcas1p3d;
+	Wed, 31 Jul 2024 00:43:35 +0000 (GMT)
+Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20240731004335epsmtrp2372edfe6c42e4f748b0252ea939bdd9c~nJYBcfOB62816828168epsmtrp2M;
+	Wed, 31 Jul 2024 00:43:35 +0000 (GMT)
+X-AuditID: b6c32a4c-9ebcba8000004c35-1b-66a988b88e3a
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+	epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	65.31.08456.7B889A66; Wed, 31 Jul 2024 09:43:35 +0900 (KST)
+Received: from VDBS1327.vd.sec.samsung.net (unknown [168.219.243.39]) by
+	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20240731004335epsmtip129d22900c31bac57eaf2f21dc0c8616d~nJYBOktVm2059420594epsmtip1x;
+	Wed, 31 Jul 2024 00:43:35 +0000 (GMT)
+From: Manjae Cho <manjae.cho@samsung.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Manjae Cho
+	<manjae.cho@samsung.com>
+Subject: [PATCH v2] staging: rtl8723bs: Improve MAR register definition and
+ usage
+Date: Wed, 31 Jul 2024 08:10:48 +0900
+Message-Id: <20240730231046.412876-1-manjae.cho@samsung.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrPKsWRmVeSWpSXmKPExsWy7bCmnu6OjpVpBsva9SyaF69ns7i8aw6b
+	xZHPqRavj99gc2Dx2D93DbvHi80zGT36tqxi9Pi8SS6AJSrbJiM1MSW1SCE1Lzk/JTMv3VbJ
+	OzjeOd7UzMBQ19DSwlxJIS8xN9VWycUnQNctMwdoo5JCWWJOKVAoILG4WEnfzqYov7QkVSEj
+	v7jEVim1ICWnwKxArzgxt7g0L10vL7XEytDAwMgUqDAhO+PK6gaWgl7Oij2fW1gbGE+xdzFy
+	ckgImEhM3fqcqYuRi0NIYA+jxNmObVDOJ0aJP+3XoJxvjBJdt/awwLRM2L2QDSKxl1Fi8s6/
+	UFW/GCU+3t7K2MXIwcEmoCkxfa0fSIOIgJzEk9t/mEFsZoE0iVVXX7OB2MICwRIvdu5nBbFZ
+	BFQl/r5qYgZp5RWwkTh0Mg9il7zEzEvfwU7lFRCUODnzCQvEGHmJ5q2zmUHWSghsYpfoPfiR
+	CaLBRWLDnvVQhwpLvDq+BepPKYnP7/ayQdjFEkv/bIKqqZF42joDyjaW+HnuE9gNzEDnr9+l
+	D7GLT+Ld1x5WkLCEAK9ER5sQRLWKxPlVG5ggwlISDQcNIcIeEjeubgMLCwnESjw6HTGBUW4W
+	kvtnIbl/FsKqBYzMqxilUguKc9NTkw0LDHXzUsvhMZmcn7uJEZzStHx2MH5f/1fvECMTB+Mh
+	RgkOZiUR3vgrS9OEeFMSK6tSi/Lji0pzUosPMZoCA3Uis5Rocj4wqeaVxBuaWBqYmBmZWBhb
+	GpspifOeuVKWKiSQnliSmp2aWpBaBNPHxMEp1cC0+uGfCQ0ebz5n/1rBZHHq7uEjJ9y4IzTk
+	SznWhO+Ld8y9NvmEstB1b8m57G/anrTw8p7e+1xFz+SOyeIXXntk0865vtrEXjZrRm+9ZS2r
+	Ne+OvkPq9vHZUdPPXXgquHzHiboDDWe28H2X4ojco/4vZO/H9bfyRSV/tPvl7Fe2CJ4m+fpA
+	xrLcZdwXlj0MXvT//RWLybaT1df/2HX7rPjN79wq3Atmpv8WcN81cYOOb8nUO5tKjPauuc/l
+	EeaWPkfa0HdFhlLwtp7PsdLfleavlS88/OchA8e/RRKamm4z1ybrVJ9Kmp7R8/dK1ew3vKXR
+	C6Y2yrqfDXrt7zX1UaPEz8+fDaOtF89PW7DjS0xYmhJLcUaioRZzUXEiAA9kw6XyAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprOLMWRmVeSWpSXmKPExsWy7bCSnO72jpVpBn8uqVo0L17PZnF51xw2
+	iyOfUy1eH7/B5sDisX/uGnaPF5tnMnr0bVnF6PF5k1wASxSXTUpqTmZZapG+XQJXxpXVDSwF
+	vZwVez63sDYwnmLvYuTkkBAwkZiweyFbFyMXh5DAbkaJe3tPskAkpCTutzUxdzFyANnCEocP
+	F0PU/GCU+H9hIitInE1AU2L6Wj+QchEBOYknt/8wg9jMAhkS376cYQOxhQUCJe6sfs4KYrMI
+	qEr8fQUxklfARuLQyTyITfISMy99BzuHV0BQ4uTMJywQY+QlmrfOZp7AyDcLSWoWktQCRqZV
+	jJKpBcW56bnFhgVGeanlesWJucWleel6yfm5mxjBYaeltYNxz6oPeocYmTgYDzFKcDArifDG
+	X1maJsSbklhZlVqUH19UmpNafIhRmoNFSZz32+veFCGB9MSS1OzU1ILUIpgsEwenVAPT6bKb
+	OzNmJtnuCNpfsXb5qXdql94XGLpPiorUtpyeIPAvqlu/eOuHd3OjdrMGqIWmHN+xOaTm1Stm
+	Ne59UXXff8+vc5i/L/U4u/y+LYUR3gIMjVXeQmVmfD+WsZcz7nFOqz/WPfGsmpiVVcRlz8R1
+	K7/nlyYzzt0VsYjvx+Uzco5Vi57/XBQa/1RUOTx+6sMgfQmOZXEOBlxvorNYErd1/2OfLfpW
+	wLyaT6jr8NeNmiwFMsorVBjYnt9YraynGCZwOks7ymb/+YU+eW5/lwT9Z/skkZTOb/ZupRXP
+	RN9NTjqz8lY5bLGLVLyz8kUB15JZxSbH22w+GV/wkjL7J1OwTXBvWPYf/tAPU6/mPVViKc5I
+	NNRiLipOBAAKu6WEqgIAAA==
+X-CMS-MailID: 20240731004335epcas1p382229e79bdaf3f2d48b0f3faa7414ea6
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 101P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20240731004335epcas1p382229e79bdaf3f2d48b0f3faa7414ea6
+References: <CGME20240731004335epcas1p382229e79bdaf3f2d48b0f3faa7414ea6@epcas1p3.samsung.com>
 
-Fix checkpatch error "ERROR: that open brace { should be on the previous
-line" in ia_css_sdis.host.c:253 and :258.
+This patch improves the usage of the MAR register by updating the relevant
+macro definitions and ensuring consistent usage across the codebase.
 
-Signed-off-by: Santiago Ruano Rincón <santiagorr@riseup.net>
-
+Signed-off-by: Manjae Cho <manjae.cho@samsung.com>
 ---
-This is one of my first patches. Could you please if is there anything
-wrong with it? Thank you
+v2: Fix line length
 
-V3: Insert the change history (including for V2)
+ drivers/staging/rtl8723bs/include/hal_com_reg.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-V2: Remove spurious [PATCH] header from the Subject, inserted by mistake
----
- .../pci/isp/kernels/sdis/sdis_1.0/ia_css_sdis.host.c        | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/sdis/sdis_1.0/ia_css_sdis.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/sdis/sdis_1.0/ia_css_sdis.host.c
-index cabacfc84..467572d84 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/sdis/sdis_1.0/ia_css_sdis.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/sdis/sdis_1.0/ia_css_sdis.host.c
-@@ -250,13 +250,11 @@ ia_css_get_dvs_statistics(
- 	assert(isp_stats);
+diff --git a/drivers/staging/rtl8723bs/include/hal_com_reg.h b/drivers/staging/rtl8723bs/include/hal_com_reg.h
+index baf326d53a46..93aa391fa749 100644
+--- a/drivers/staging/rtl8723bs/include/hal_com_reg.h
++++ b/drivers/staging/rtl8723bs/include/hal_com_reg.h
+@@ -151,8 +151,8 @@
+ #define REG_BSSID						0x0618
+ #define REG_MAR							0x0620
  
- 	map = ia_css_isp_dvs_statistics_map_allocate(isp_stats, NULL);
--	if (map)
--	{
-+	if (map) {
- 		hmm_load(isp_stats->data_ptr, map->data_ptr, isp_stats->size);
- 		ia_css_translate_dvs_statistics(host_stats, map);
- 		ia_css_isp_dvs_statistics_map_free(map);
--	} else
--	{
-+	} else {
- 		IA_CSS_ERROR("out of memory");
- 		ret = -ENOMEM;
- 	}
+-#define MAR0						REG_MAR		/* Multicast Address Register, Offset 0x0620-0x0623 */
+-#define MAR4						(REG_MAR + 4)	/* Multicast Address Register, Offset 0x0624-0x0627 */
++#define MAR0		REG_MAR		/* Multicast Address Register, Offset 0x0620-0x0623 */
++#define MAR4		(REG_MAR + 4)	/* Multicast Address Register, Offset 0x0624-0x0627 */
+ 
+ #define REG_MAC_SPEC_SIFS				0x063A
+ /*  20100719 Joseph: Hardware register definition change. (HW datasheet v54) */
 -- 
-2.39.2
+2.25.1
 
