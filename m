@@ -1,152 +1,142 @@
-Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 577EF1B583A
-	for <linux-staging@lists.linux.dev>; Tue, 30 Jul 2024 15:52:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C2E118C926
+	for <linux-staging@lists.linux.dev>; Tue, 30 Jul 2024 16:05:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722354782; cv=none; b=B3wnoCa0oxGUfC92a3u2Ivs+qfaI/kQbIUcd+qKM3hzDJhVj+0nWH/hN/ChUR64eUK3ksbaqK+cGHsL/zxvZZVT3IPxAvw17N7m3F3VfMUIHF254M+C4FdB4qUrFNspsRL0Q7hr79J84u8WULypzpuE3ArAujC1Jg/w+YP8b5II=
+	t=1722355530; cv=none; b=tH/8pOymkpXQQvjHdbzUW/oyNjseCsC2Te1cibrxpL6J8DgtmooeXdquIzHjf3PSyM9iGAa98s0r3wKsigRke4gm6WTjSCv5CLgp9t0D3c1Fcs3n6ZDyedQUODbOeacGVW83WHXt3ghq/DMrcwpsh3uTmrEjdqXSX70auRbm5ZE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722354782; c=relaxed/simple;
-	bh=57PoVLWWcLwWWsmbFJiDjFrqMnB792UmAI7+Kpkk9Hs=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type:
-	 References; b=YDNnN/K89ip2bEPTafUHbkYeVx8Cqk67P0pmZv+/eHlh+5az7//MFSsnbS4MJNyBR0XY10YZIb/Gdf/WM7SFXOUlJhEX/vb+3Q/2NbPoZ+0Dy6tZnHC8Zq9Em/BqE1wYUceM5yGCc1In25zBvJTPC3ZK2huQUS0HOqc0k7zuqoo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=O7C/2Fj8; arc=none smtp.client-ip=203.254.224.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	s=arc-20240116; t=1722355530; c=relaxed/simple;
+	bh=ciJceeDlK4Y/meCsbSLF/LMnhpaQTDx0EUKSZhsR9W4=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=rcfyvrK71M7cGTZG93RlzCJdpjPEjAGtyH4CFLUEZWTjCtxfJjgPZlaYNmJTJWLXOfAXUlxzcxSRxsOvOETsPpzCOlUukkg7799vofbsJyGnF+VTdEiHjmDks/4igzRfmghZaiMzmkmtAP6wLb3u0wUUq3HIeS6zA6n20sT7Cdw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=S/GyJdL9; arc=none smtp.client-ip=209.85.222.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="O7C/2Fj8"
-Received: from epcas1p2.samsung.com (unknown [182.195.41.46])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20240730155256epoutp038be3d489205bed4e04a0ca2920914781~nCItQyPGN2453724537epoutp03h
-	for <linux-staging@lists.linux.dev>; Tue, 30 Jul 2024 15:52:56 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20240730155256epoutp038be3d489205bed4e04a0ca2920914781~nCItQyPGN2453724537epoutp03h
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1722354776;
-	bh=j/tEllXsbu7xRFKqSrll3TR5x39lxdLlv0YDia1J/dc=;
-	h=From:To:Cc:Subject:Date:References:From;
-	b=O7C/2Fj8/cnKy5gd37KsmvVavcq/MrnZ/m37ucV+reOOlulcFZ27L8SKnl93GZNuh
-	 6tunP3u6Pk4cZFI/WJghdB7sDoZthlznQIjwQiQNLmkuPfYt35FjOXrKGrKY24aWIK
-	 JgzzRlcHdFCXrcZBIyx1w4yaGU95DTBD0P5HqP6A=
-Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
-	epcas1p2.samsung.com (KnoxPortal) with ESMTP id
-	20240730155256epcas1p207ee6108c3d157fd0b6e94cdaff8c742~nCIssCN3s2345423454epcas1p2H;
-	Tue, 30 Jul 2024 15:52:56 +0000 (GMT)
-Received: from epsmgec1p1-new.samsung.com (unknown [182.195.36.222]) by
-	epsnrtp2.localdomain (Postfix) with ESMTP id 4WYKWC4qB0z4x9Pt; Tue, 30 Jul
-	2024 15:52:55 +0000 (GMT)
-Received: from epcas1p3.samsung.com ( [182.195.41.47]) by
-	epsmgec1p1-new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	05.9C.19509.75C09A66; Wed, 31 Jul 2024 00:52:55 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas1p4.samsung.com (KnoxPortal) with ESMTPA id
-	20240730155255epcas1p4ab3b5e88d400e2221aa1cf5cf234ea19~nCIrvgIw40681506815epcas1p47;
-	Tue, 30 Jul 2024 15:52:55 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20240730155255epsmtrp266eb7beb4421d909f2ee64f7338b54f8~nCIru5Kqf1946819468epsmtrp21;
-	Tue, 30 Jul 2024 15:52:55 +0000 (GMT)
-X-AuditID: b6c32a4c-10bff70000004c35-8a-66a90c57ab63
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	01.FC.08964.75C09A66; Wed, 31 Jul 2024 00:52:55 +0900 (KST)
-Received: from VDBS1327.vd.sec.samsung.net (unknown [168.219.243.39]) by
-	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20240730155255epsmtip274a3bb57d926bf29c507a7ddda6325e1~nCIrlJ0_u1316813168epsmtip2f;
-	Tue, 30 Jul 2024 15:52:55 +0000 (GMT)
-From: Manjae Cho <manjae.cho@samsung.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Manjae Cho
-	<manjae.cho@samsung.com>
-Subject: [PATCH] Improve MAR register definition and usage for rtl8723
-Date: Wed, 31 Jul 2024 00:50:54 +0900
-Message-Id: <20240730155054.411059-1-manjae.cho@samsung.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="S/GyJdL9"
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-79ef72bb8c8so194495185a.2
+        for <linux-staging@lists.linux.dev>; Tue, 30 Jul 2024 09:05:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1722355528; x=1722960328; darn=lists.linux.dev;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=ciJceeDlK4Y/meCsbSLF/LMnhpaQTDx0EUKSZhsR9W4=;
+        b=S/GyJdL9n0D1Z08eMtnCx+5bveMSRkNpRRg/N3CbdKMaDecP+QxnF3S7fB3wHSX4mo
+         LCLsPUR9pNmdIMpL4c7SbTq3AW6hW/rlWGwWn3PMDV/H78lRokNAJ262EDaI7Rdlx0T0
+         OuaXPlFmNwX7tJ+sHllmn1QAyffUPcJULQkDuITe4oqCStxNYfHAuHfFs1eQaEEpmPJZ
+         jRErEeVtLKWHLeCSHMPDuQX+uAikeYDh/9BjnYtWvYz2cMU2z5kU5YmDXvdax6Q/HZyE
+         hHtSswh57gV4Iov2ngDaED11pvk2naomdFbNCNYsMHql4F16HCwXXAh7rTscA8kz17F5
+         yQyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722355528; x=1722960328;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ciJceeDlK4Y/meCsbSLF/LMnhpaQTDx0EUKSZhsR9W4=;
+        b=O9jq+lLMuL2OYBexRkp+E6HOpWAeIv5KTQFVUVSDunXVxlgQG/To2tX7usDPp3LHqc
+         ehhu5y3Kb40a75wSUm+K/0ZnG4HzKNINTzLGoV0JFJzBP3C+5SHbD/BSnNwfA0DSb8DX
+         kNTccoQ8nEd3kKzA3ukKWKrcfQQdHTnfys8oIKpZC5E6ey97fqL7vMyIqaBq45zPB3Tn
+         1K0qEUFiSK6RKjseWloKfo0WpVnur6yWEN8h+u/nx+mr65J346FMUMU+oPmiqI+XXjvy
+         K2cmQ2dv8fw5G1Apba6Gposp4I8JxutF6v2RqTAV4rHNE5AD4aBry+AZBFtr09f9n08z
+         v5SQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVxvXB1SY72iHt083jRx61tGOzvuAYUGqyP/9dyBsKgpHjuQi0xz+MmndJbkVtV8h3Kdupe/SMB/NmqKfJxBJPN/kZUorjc9S95+kgmWA==
+X-Gm-Message-State: AOJu0YyU1N9S6h55VjCFGKtq+/zH6KiEYRiKTvtTlQt/tHfmWOGtZjBm
+	8LbVuh0/Y7lDKWJkwk6EY/BO6Qj73SFpZ3cz9gZN95FoRCGviiiKAx5tBUepa4c=
+X-Google-Smtp-Source: AGHT+IEqLv3C2h4BQ+3fI7pKVhff0eutIQIkZ2jsV14fbu5lHsoFKAnZxlGiOhZ4pHufize9xVS64Q==
+X-Received: by 2002:a05:620a:4090:b0:79b:efe1:1222 with SMTP id af79cd13be357-7a1e52fbb32mr1673543485a.63.1722355528312;
+        Tue, 30 Jul 2024 09:05:28 -0700 (PDT)
+Received: from nicolas-tpx395.lan ([2606:6d00:15:820c::580])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7a1d745f06asm644089685a.134.2024.07.30.09.05.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Jul 2024 09:05:28 -0700 (PDT)
+Message-ID: <2229769f3a9baf58fbeeed93fa4b0373a02055e3.camel@ndufresne.ca>
+Subject: Re: [PATCH v2 2/2] media: imx: vdic: Introduce mem2mem VDI
+ deinterlacer driver
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Marek Vasut <marex@denx.de>, linux-media@vger.kernel.org
+Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, Fabio
+ Estevam <festevam@gmail.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>, Mauro Carvalho
+ Chehab <mchehab@kernel.org>, Pengutronix Kernel Team
+ <kernel@pengutronix.de>, Philipp Zabel <p.zabel@pengutronix.de>, Sascha
+ Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, Steve
+ Longerbeam <slongerbeam@gmail.com>, dri-devel@lists.freedesktop.org,
+ imx@lists.linux.dev,  linux-arm-kernel@lists.infradead.org,
+ linux-fbdev@vger.kernel.org,  linux-staging@lists.linux.dev
+Date: Tue, 30 Jul 2024 12:05:26 -0400
+In-Reply-To: <8aea6cc0-10bf-48b8-add9-eb3f1caa2d66@denx.de>
+References: <20240724002044.112544-1-marex@denx.de>
+	 <20240724002044.112544-2-marex@denx.de>
+	 <5e5fba4fd6c3c0c9df23697bd328367e5fdfa923.camel@ndufresne.ca>
+	 <8aea6cc0-10bf-48b8-add9-eb3f1caa2d66@denx.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.2 (3.52.2-1.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrAKsWRmVeSWpSXmKPExsWy7bCmvm44z8o0g58NihbNi9ezWVzeNYfN
-	4sjnVIvXx2+wObB47J+7ht3jxeaZjB59W1YxenzeJBfAEpVtk5GamJJapJCal5yfkpmXbqvk
-	HRzvHG9qZmCoa2hpYa6kkJeYm2qr5OIToOuWmQO0UUmhLDGnFCgUkFhcrKRvZ1OUX1qSqpCR
-	X1xiq5RakJJTYFagV5yYW1yal66Xl1piZWhgYGQKVJiQnbHz0BqWgma+ioPrHjM1MH7l7mLk
-	5JAQMJFouPmcpYuRi0NIYA+jxIUnf9khnE+MEh8n/IDKfGOUuDn1OxNMS/OUd0wQib2MEhN6
-	VrFCOL8YJa49u8/WxcjBwSagKTF9rR9Ig4iAnMST23+YQWxmgTSJVVdfs4HYwgJuEjP7HjOC
-	2CwCqhKzjv5gB7F5BWwkFp1eD7VMXmLmpe9QcUGJkzOfsEDMkZdo3jqbGWSvhMAmdomJuzax
-	QDS4SEy6uJ8VwhaWeHV8CzuELSXx+d1eNgi7WGLpH5j6GomnrTOgbGOJn+c+MYPczwx0//pd
-	+hC7+CTefe1hBQlLCPBKdLQJQVSrSJxftYEJIiwl0XDQECLsIXGi8x9YWEggVmLhvcwJjHKz
-	kNw/C8n9sxBWLWBkXsUolVpQnJuemmxYYKibl1oOj8rk/NxNjOCkpuWzg/H7+r96hxiZOBgP
-	MUpwMCuJ8MZfWZomxJuSWFmVWpQfX1Sak1p8iNEUGKoTmaVEk/OBaTWvJN7QxNLAxMzIxMLY
-	0thMSZz3zJWyVCGB9MSS1OzU1ILUIpg+Jg5OqQYmZ0lvpVsnDXztXho9PM1l/XNF1xvGlw1n
-	TN28JdLEV22adejjtBh1+yOB55f8eMj0dO2MSJEbGp7Bbap6ezdqbKpWOLa3+9vRx1eqxJbc
-	/Zl2j1H4oFl8yp4dDrwsC251aV8zMJBaW3v9itZh3o7C1cWCL44fDSm5GJ0w+5LdNbYjSV1z
-	NfIZ9J8tPJDpWusZJ5zPrGUfMZldxpr/o8KZrvOKPu8X3f7b6TN/0t2E3eLn6ixcf3++xVQR
-	/zAvcA739kXn3FcUXln7+Zx69qOOgJZur3rHyfwyX40XWGo7JXo0b58yk+HlpVgOrq7onKqz
-	JlfiZcWrKgMn6k3kvDj5VdwEqU09hz3evT6d+rZKiaU4I9FQi7moOBEAdl+vdPMDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprBLMWRmVeSWpSXmKPExsWy7bCSvG44z8o0g5alvBbNi9ezWVzeNYfN
-	4sjnVIvXx2+wObB47J+7ht3jxeaZjB59W1YxenzeJBfAEsVlk5Kak1mWWqRvl8CVsfPQGpaC
-	Zr6Kg+seMzUwfuXuYuTkkBAwkWie8o6pi5GLQ0hgN6PE1hktTBAJKYn7bU3MXYwcQLawxOHD
-	xRA1PxglGvY+ZgKJswloSkxf6wdSLiIgJ/Hk9h9mEJtZIEPi25czbCC2sICbxMy+x4wgNouA
-	qsSsoz/YQWxeARuJRafXQ62Sl5h56TtUXFDi5MwnLBBz5CWat85mnsDINwtJahaS1AJGplWM
-	kqkFxbnpucWGBYZ5qeV6xYm5xaV56XrJ+bmbGMGBp6W5g3H7qg96hxiZOBgPMUpwMCuJ8MZf
-	WZomxJuSWFmVWpQfX1Sak1p8iFGag0VJnFf8RW+KkEB6YklqdmpqQWoRTJaJg1OqganNcetS
-	CetjCw7Jc526Lau9qmlV2KNZFRXz7izcn/7kRdqy9IyeyICNBySfBSTkr/vD4tZoXGr8+Nta
-	9fUn7q09Nvmnz22/gFfW5wXNpt7W4t5rtUJw/1K96FWPVZaW7ogPaqr9c3feL41Pkybzec49
-	5R6j33888+7U85dr69kWrOHqlj38JIxH1lV0Ukt6nZx/WMme4/8Z2RJsTbf+uW7tP0lk3W3/
-	h8Y6VqpWG+V3PPZK+ZTy0LeUZ/ZnzT0T6jf7TpT9XnssrP01d1Vh9fyDTqslQjbc+iBVlpK3
-	/q7Rq6jsxdt5PD9Ivr1y/JOsdfbhWbcj58d+ZOGSSz2XvdHKp+DWPobHWjejJ82rXcKtxFKc
-	kWioxVxUnAgAi1rB36sCAAA=
-X-CMS-MailID: 20240730155255epcas1p4ab3b5e88d400e2221aa1cf5cf234ea19
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20240730155255epcas1p4ab3b5e88d400e2221aa1cf5cf234ea19
-References: <CGME20240730155255epcas1p4ab3b5e88d400e2221aa1cf5cf234ea19@epcas1p4.samsung.com>
 
-This patch improves the usage of the MAR register by updating the
-relevant
-macro definitions and ensuring consistent usage across the codebase.
+Le lundi 29 juillet 2024 =C3=A0 04:16 +0200, Marek Vasut a =C3=A9crit=C2=A0=
+:
+> On 7/24/24 6:08 PM, Nicolas Dufresne wrote:
+> > Hi Marek,
+>=20
+> Hi,
+>=20
+> > Le mercredi 24 juillet 2024 =C3=A0 02:19 +0200, Marek Vasut a =C3=A9cri=
+t=C2=A0:
+> > > Introduce dedicated memory-to-memory IPUv3 VDI deinterlacer driver.
+> > > Currently the IPUv3 can operate VDI in DIRECT mode, from sensor to
+> > > memory. This only works for single stream, that is, one input from
+> > > one camera is deinterlaced on the fly with a helper buffer in DRAM
+> > > and the result is written into memory.
+> > >=20
+> > > The i.MX6Q/QP does support up to four analog cameras via two IPUv3
+> > > instances, each containing one VDI deinterlacer block. In order to
+> > > deinterlace all four streams from all four analog cameras live, it
+> > > is necessary to operate VDI in INDIRECT mode, where the interlaced
+> > > streams are written to buffers in memory, and then deinterlaced in
+> > > memory using VDI in INDIRECT memory-to-memory mode.
+> >=20
+> > Just a quick design question. Is it possible to chain the deinterlacer =
+and the
+> > csc-scaler ?
+>=20
+> I think you could do that.
+>=20
+> > If so, it would be much more efficient if all this could be
+> > combined into the existing m2m driver, since you could save a memory ro=
+untrip
+> > when needing to deinterlace, change the colorspace and possibly scale t=
+oo.
+>=20
+> The existing PRP/IC driver is similar to what this driver does, yes, but=
+=20
+> it uses a different DMA path , I believe it is IDMAC->PRP->IC->IDMAC .=
+=20
+> This driver uses IDMAC->VDI->IC->IDMAC . I am not convinced mixing the=
+=20
+> two paths into a single driver would be beneficial, but I am reasonably=
+=20
+> sure it would be very convoluted. Instead, this driver could be extended=
+=20
+> to do deinterlacing and scaling using the IC if that was needed. I think=
+=20
+> that would be the cleaner approach.
 
-Signed-off-by: Manjae Cho <manjae.cho@samsung.com>
+Not that I only meant to ask if there was a path to combine
+CSC/Scaling/Deinterlacing without a memory rountrip. If a rountrip is neede=
+d
+anyway, I would rather make separate video nodes, and leave it to userspace=
+ to
+deal with. Though, if we can avoid it, a combined driver should be highly
+beneficial.
 
----
- drivers/staging/rtl8723bs/hal/sdio_halinit.c    | 4 ++--
- drivers/staging/rtl8723bs/include/hal_com_reg.h | 3 +++
- 2 files changed, 5 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/hal/sdio_halinit.c b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-index c9cd6578f7f8..9493562c1619 100644
---- a/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-+++ b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-@@ -380,8 +380,8 @@ static void _InitWMACSetting(struct adapter *padapter)
- 	rtw_write32(padapter, REG_RCR, pHalData->ReceiveConfig);
- 
- 	/*  Accept all multicast address */
--	rtw_write32(padapter, REG_MAR, 0xFFFFFFFF);
--	rtw_write32(padapter, REG_MAR + 4, 0xFFFFFFFF);
-+	rtw_write32(padapter, MAR0, 0xFFFFFFFF);
-+	rtw_write32(padapter, MAR4, 0xFFFFFFFF);
- 
- 	/*  Accept all data frames */
- 	value16 = 0xFFFF;
-diff --git a/drivers/staging/rtl8723bs/include/hal_com_reg.h b/drivers/staging/rtl8723bs/include/hal_com_reg.h
-index 9a02ae69d7a4..baf326d53a46 100644
---- a/drivers/staging/rtl8723bs/include/hal_com_reg.h
-+++ b/drivers/staging/rtl8723bs/include/hal_com_reg.h
-@@ -151,6 +151,9 @@
- #define REG_BSSID						0x0618
- #define REG_MAR							0x0620
- 
-+#define MAR0						REG_MAR		/* Multicast Address Register, Offset 0x0620-0x0623 */
-+#define MAR4						(REG_MAR + 4)	/* Multicast Address Register, Offset 0x0624-0x0627 */
-+
- #define REG_MAC_SPEC_SIFS				0x063A
- /*  20100719 Joseph: Hardware register definition change. (HW datasheet v54) */
- #define REG_RESP_SIFS_CCK				0x063C	/*  [15:8]SIFS_R2T_OFDM, [7:0]SIFS_R2T_CCK */
--- 
-2.25.1
-
+cheers,
+Nicolas
