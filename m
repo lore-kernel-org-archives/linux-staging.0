@@ -1,141 +1,130 @@
-Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DE4A16CD03
-	for <linux-staging@lists.linux.dev>; Wed, 31 Jul 2024 07:05:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17FA41A4F0A;
+	Wed, 31 Jul 2024 07:26:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722409519; cv=none; b=Ut53d+N8tRN6A6gX2WU+WscR5izVDhrMwld+FF4OzHyl715Q5om9KofRW/w9jlV5VV3qK/JS56zcJPAVScJAPh20skEWcTiI2f62TrLaIEuUT9BtniHq4hIkrXvmxy8ukCWiy5OxrQSv7TYh/k2Q19UMMMhHwolK4JGZDfYbQPI=
+	t=1722410816; cv=none; b=H9/dGrCXX40DuJkOg6MaB5ZPewyWz8QVzjpARU22qai2Ik9pcZwBNnNg/3H+q1pANqnmhNIsDVpPtcUDywm5+B9Hgw3CJPFui6NVSzCuZMTBe/jiC+uZWqYpMen5q93N/dktpj044OCt1k96RmjZbphfYCUyglzHzw3pN8t2kkU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722409519; c=relaxed/simple;
-	bh=FonBXi+Q3MfNSZ+aBoUgss5VhQKs37vqijFK12+g2IY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=beWYpddB8um1jwV9VBikwscHcFbzQgSZQtMrJ21u8RQ8toYjG8ehq8irqq4pwoaWTeRHonXwumwfhmY3/asFw680gJA8M3/0WvZ61do6v5AX6Ld4NYCqoXSTSjmtLryfQ8AutSXErCv70SwX0plxVm1q+9iz8EdvKeZXBXuOo9g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TqYUBBxY; arc=none smtp.client-ip=209.85.161.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1722410816; c=relaxed/simple;
+	bh=5XRWduDhYWavZxNmKK0wX/Kee6NU5sU1gTa+6T+740Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NE9ZxLWZhsL2Ap9jXIY13HCvyUXGawSEAJW6FMJEQrQKRkycSJjus1Vn7ThTU010YMJvjmVSC5VRhAuL/6+ZM+NQyHLTlraeSZf4qivdc8LZrnwgcHziMM5cCN8XAcAFKRmQ65kn90XiGWJq6TkTbHl6WCkRRKc1DgdU0ke+ujQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=DApxMoqz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TqYUBBxY"
-Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-5d5b850d969so3331947eaf.0
-        for <linux-staging@lists.linux.dev>; Wed, 31 Jul 2024 00:05:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722409517; x=1723014317; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=mrCAXXCSMmjbL6R33sl32ct6gbQlsIym8nsT33zM3Rc=;
-        b=TqYUBBxYB04WiRdtMDsUaEpDbciA2Vud5KqRG9y9VzYU9zuUvqyVdvUgH+xPKO6ijQ
-         awHcRAUstq51avmU0GbT6+GMcBYWkvakDxHWtKt51RkP1PjrGvogFXeNvn4ebkeQx8T9
-         fgFXnIYYEpDBuw5Ceu/rOKoZT6JLJALF9ZHNVOgcCqVgCwyuLAHND60VdUE6Ai5Omssg
-         PaWZAiqa/O+Zh+nAAVMdb9d15uy/KI9t1lYUKQKi78rrr3A1GmrXeuIPrZccW9vCUzr7
-         q3Y67eqYcGKPT6WxOoFw4giw0jlIWPjQDj2Vq+8HEfcezKu1sKJc6njlOncJLgzA5FQR
-         9JXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722409517; x=1723014317;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mrCAXXCSMmjbL6R33sl32ct6gbQlsIym8nsT33zM3Rc=;
-        b=IIClziDi6J7ngvss3Scx4g5pwDp425URJ6ZqWsGx9+iJyXrJvY1Sh3b4MxnX3mr3xt
-         OgaIPu2eWgK7rhc3ScwhdB36EIz06sCGIIGaHQr3apTnwVvOnWsGFkOFtYNN1JPTsz7Y
-         /eLaLYDtQZOTaAhEda0pXGpKd8MVoUVFyVG+lndVoVLyAh7dEbnvXdeFs/o+UDcighet
-         egmhySeZleJ+uj48dRttLLL7Drj2JL9SZm7FQzrbO9pn/jZgySpNENhkyMP8BByL35ud
-         gwbIJzhNjk3TzJEdObWp1zpNgvrB6zECa8SwHBzmGQf5ltVtO/ikcgnozgeyl0alrlxQ
-         16xg==
-X-Forwarded-Encrypted: i=1; AJvYcCWZfRhRyPeR8rG7+SaD1R5oM71Kdn0BoTtIW12YHzFTbQcf+uuqFi28Z3zXDtuIFI9nPozCzNiNBYUpTcBPVY7C2PcfxfTDVT+xXp/OgA==
-X-Gm-Message-State: AOJu0YwviFeo/8nW+v5AI06GyZC/7GrVUdGjaz5h9ztTc9higERJtuvk
-	cQvLW74LY+gFOAT/+qmcKn6IbgZFVyMAt+LyEO4yWHsYk1hfeOaw
-X-Google-Smtp-Source: AGHT+IGr572fiibvBQPX2H/P2UU6sDQCN8guL81ZBr4lGrTb8rxtV2x6+RVC46jqxQD7x55AYK4KPA==
-X-Received: by 2002:a05:6870:2d4:b0:261:198f:13cd with SMTP id 586e51a60fabf-267d4ef04e5mr16428624fac.32.1722409516886;
-        Wed, 31 Jul 2024 00:05:16 -0700 (PDT)
-Received: from Riyan.inspiron ([122.176.203.252])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70ead7120f6sm9447234b3a.50.2024.07.31.00.05.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Jul 2024 00:05:16 -0700 (PDT)
-From: Riyan Dhiman <riyandhiman14@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Riyan Dhiman <riyandhiman14@gmail.com>
-Subject: [PATCH] staging: vme_user: vme.h: alignment of closing parenthesis should match open parenthesis in function declaration
-Date: Wed, 31 Jul 2024 12:35:07 +0530
-Message-Id: <20240731070507.6290-1-riyandhiman14@gmail.com>
-X-Mailer: git-send-email 2.39.2
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="DApxMoqz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BD37C116B1;
+	Wed, 31 Jul 2024 07:26:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1722410815;
+	bh=5XRWduDhYWavZxNmKK0wX/Kee6NU5sU1gTa+6T+740Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DApxMoqzqIUwmpA7OVHdZEU2hFmQn0bT7xPaJbSsuVPmawslH5ResYmMqGv42RGYq
+	 VU2l7nqHAAu1nx3FETt94UReW7X6hYLDWWwza6cgcLwqlgznWdcuxJMI2IpTFY6HQt
+	 L76w8x9YKzGAXdxUNfgudVk3w9qu9bdYje0G/nsw=
+Date: Wed, 31 Jul 2024 09:26:51 +0200
+From: 'Greg KH' <gregkh@linuxfoundation.org>
+To: Manjae Cho <manjae.cho@samsung.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Improve MAR register definition and usage for rtl8723
+Message-ID: <2024073112-securely-usage-0d8e@gregkh>
+References: <CGME20240730155255epcas1p4ab3b5e88d400e2221aa1cf5cf234ea19@epcas1p4.samsung.com>
+ <20240730155054.411059-1-manjae.cho@samsung.com>
+ <2024073109-abridge-yapping-3db3@gregkh>
+ <000001dae316$92e619b0$b8b24d10$@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <000001dae316$92e619b0$b8b24d10$@samsung.com>
 
-Adhere to Linux kernel coding style.
+On Wed, Jul 31, 2024 at 03:55:05PM +0900, Manjae Cho wrote:
+> > On Wed, Jul 31, 2024 at 12:50:54AM +0900, Manjae Cho wrote:
+> > > This patch improves the usage of the MAR register by updating the
+> > > relevant macro definitions and ensuring consistent usage across the
+> > > codebase.
+> > >
+> > > Signed-off-by: Manjae Cho <manjae.cho@samsung.com>
+> > >
+> > > ---
+> > >  drivers/staging/rtl8723bs/hal/sdio_halinit.c    | 4 ++--
+> > >  drivers/staging/rtl8723bs/include/hal_com_reg.h | 3 +++
+> > >  2 files changed, 5 insertions(+), 2 deletions(-)
+> > >
+> > > diff --git a/drivers/staging/rtl8723bs/hal/sdio_halinit.c
+> > > b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
+> > > index c9cd6578f7f8..9493562c1619 100644
+> > > --- a/drivers/staging/rtl8723bs/hal/sdio_halinit.c
+> > > +++ b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
+> > > @@ -380,8 +380,8 @@ static void _InitWMACSetting(struct adapter
+> > *padapter)
+> > >  	rtw_write32(padapter, REG_RCR, pHalData->ReceiveConfig);
+> > >
+> > >  	/*  Accept all multicast address */
+> > > -	rtw_write32(padapter, REG_MAR, 0xFFFFFFFF);
+> > > -	rtw_write32(padapter, REG_MAR + 4, 0xFFFFFFFF);
+> > > +	rtw_write32(padapter, MAR0, 0xFFFFFFFF);
+> > > +	rtw_write32(padapter, MAR4, 0xFFFFFFFF);
+> > >
+> > >  	/*  Accept all data frames */
+> > >  	value16 = 0xFFFF;
+> > > diff --git a/drivers/staging/rtl8723bs/include/hal_com_reg.h
+> > > b/drivers/staging/rtl8723bs/include/hal_com_reg.h
+> > > index 9a02ae69d7a4..baf326d53a46 100644
+> > > --- a/drivers/staging/rtl8723bs/include/hal_com_reg.h
+> > > +++ b/drivers/staging/rtl8723bs/include/hal_com_reg.h
+> > > @@ -151,6 +151,9 @@
+> > >  #define REG_BSSID						0x0618
+> > >  #define REG_MAR
+> 0x0620
+> > >
+> > > +#define MAR0						REG_MAR
+> > 	/* Multicast Address Register, Offset 0x0620-0x0623 */
+> > 
+> > Why redefine this value again?  What is wrong with using it as "REG_MAR"?
+> > Is this fixing anything or making anything more consistent somewhere?
+> > It's only used in one place that I can see.
+> > 
+> > thanks,
+> > 
+> > greg k-h
+> 
+> Dear Greg,
+> 
+> Thank you for your feedback. I appreciate your point about the current usage
+> of REG_MAR. While it's true that it's only used in one place currently, I
+> believe there's value in making this change for the following reasons:
+> 
+>  - Consistency: Other similar registers in the codebase use this pattern.
+> For example, we have IDR0 and IDR4 for MACID registers. Adding MAR0 and MAR4
+> brings consistency to our register naming convention.
+> 
+>  - Clarity: The +4 offset in "REG_MAR + 4" isn't immediately clear without
+> context. MAR4 makes it explicit that we're dealing with the next 4 bytes of
+> the Multicast Address Register.
+> 
+>  - If we need to use these registers elsewhere in the future, having clear,
+> specific names will make the code more readable.
 
-Reported by checkpatch:
+You aren't going to use them elsewhere, worry about this then, not now.
 
-CHECK: Alignment should match open parenthesis
+> However, I understand if you feel this change doesn't provide enough benefit
+> to justify inclusion. If you prefer, I could modify the patch to keep the
+> REG_MAR usage but add comments for clarity:
+> 
+>     /* Multicast Address Register */
+>     rtw_write32(padapter, REG_MAR, 0xFFFFFFFF);     /* Offset 0x0620-0x0623
+> */
+>     rtw_write32(padapter, REG_MAR + 4, 0xFFFFFFFF); /* Offset 0x0624-0x0627
+> */
 
-Signed-off-by: Riyan Dhiman <riyandhiman14@gmail.com>
----
- drivers/staging/vme_user/vme.h | 17 ++++++++---------
- 1 file changed, 8 insertions(+), 9 deletions(-)
+That seems a lot more sane and simpler.
 
-diff --git a/drivers/staging/vme_user/vme.h b/drivers/staging/vme_user/vme.h
-index 26aa40f78a74..7753e736f9fd 100644
---- a/drivers/staging/vme_user/vme.h
-+++ b/drivers/staging/vme_user/vme.h
-@@ -129,8 +129,7 @@ struct vme_driver {
- };
- 
- void *vme_alloc_consistent(struct vme_resource *, size_t, dma_addr_t *);
--void vme_free_consistent(struct vme_resource *, size_t,  void *,
--	dma_addr_t);
-+void vme_free_consistent(struct vme_resource *, size_t,  void *, dma_addr_t);
- 
- size_t vme_get_size(struct vme_resource *);
- int vme_check_window(struct vme_bridge *bridge, u32 aspace,
-@@ -138,20 +137,20 @@ int vme_check_window(struct vme_bridge *bridge, u32 aspace,
- 
- struct vme_resource *vme_slave_request(struct vme_dev *, u32, u32);
- int vme_slave_set(struct vme_resource *, int, unsigned long long,
--	unsigned long long, dma_addr_t, u32, u32);
-+		  unsigned long long, dma_addr_t, u32, u32);
- int vme_slave_get(struct vme_resource *, int *, unsigned long long *,
--	unsigned long long *, dma_addr_t *, u32 *, u32 *);
-+		  unsigned long long *, dma_addr_t *, u32 *, u32 *);
- void vme_slave_free(struct vme_resource *);
- 
- struct vme_resource *vme_master_request(struct vme_dev *, u32, u32, u32);
- int vme_master_set(struct vme_resource *, int, unsigned long long,
--	unsigned long long, u32, u32, u32);
-+		   unsigned long long, u32, u32, u32);
- int vme_master_get(struct vme_resource *, int *, unsigned long long *,
--	unsigned long long *, u32 *, u32 *, u32 *);
-+		   unsigned long long *, u32 *, u32 *, u32 *);
- ssize_t vme_master_read(struct vme_resource *, void *, size_t, loff_t);
- ssize_t vme_master_write(struct vme_resource *, void *, size_t, loff_t);
- unsigned int vme_master_rmw(struct vme_resource *, unsigned int, unsigned int,
--	unsigned int, loff_t);
-+			    unsigned int, loff_t);
- int vme_master_mmap(struct vme_resource *resource, struct vm_area_struct *vma);
- void vme_master_free(struct vme_resource *);
- 
-@@ -162,13 +161,13 @@ struct vme_dma_attr *vme_dma_pci_attribute(dma_addr_t);
- struct vme_dma_attr *vme_dma_vme_attribute(unsigned long long, u32, u32, u32);
- void vme_dma_free_attribute(struct vme_dma_attr *);
- int vme_dma_list_add(struct vme_dma_list *, struct vme_dma_attr *,
--	struct vme_dma_attr *, size_t);
-+		     struct vme_dma_attr *, size_t);
- int vme_dma_list_exec(struct vme_dma_list *);
- int vme_dma_list_free(struct vme_dma_list *);
- int vme_dma_free(struct vme_resource *);
- 
- int vme_irq_request(struct vme_dev *, int, int,
--	void (*callback)(int, int, void *), void *);
-+		    void (*callback)(int, int, void *), void *);
- void vme_irq_free(struct vme_dev *, int, int);
- int vme_irq_generate(struct vme_dev *, int, int);
- 
--- 
-2.39.2
+thanks,
 
+greg k-h
