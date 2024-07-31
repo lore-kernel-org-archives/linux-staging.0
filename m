@@ -1,130 +1,120 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17FA41A4F0A;
-	Wed, 31 Jul 2024 07:26:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 154F31A76CD
+	for <linux-staging@lists.linux.dev>; Wed, 31 Jul 2024 07:36:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722410816; cv=none; b=H9/dGrCXX40DuJkOg6MaB5ZPewyWz8QVzjpARU22qai2Ik9pcZwBNnNg/3H+q1pANqnmhNIsDVpPtcUDywm5+B9Hgw3CJPFui6NVSzCuZMTBe/jiC+uZWqYpMen5q93N/dktpj044OCt1k96RmjZbphfYCUyglzHzw3pN8t2kkU=
+	t=1722411380; cv=none; b=ChZ/rPGwA1uoAljBFx9nPDm0dh/M2D/mgc0g+k8STNtNUE6oWjU20vplHwM3bkcvfjVPTzM4vKHqOlUAeD8KZrIUZzrhRDR9Ngp18Lohz5xJLMCjOm+W2Io/4VhMs3APRY+5XJIGHmJ7nTd0yIFege9cyBbS/uf+bFUP+syO18E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722410816; c=relaxed/simple;
-	bh=5XRWduDhYWavZxNmKK0wX/Kee6NU5sU1gTa+6T+740Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NE9ZxLWZhsL2Ap9jXIY13HCvyUXGawSEAJW6FMJEQrQKRkycSJjus1Vn7ThTU010YMJvjmVSC5VRhAuL/6+ZM+NQyHLTlraeSZf4qivdc8LZrnwgcHziMM5cCN8XAcAFKRmQ65kn90XiGWJq6TkTbHl6WCkRRKc1DgdU0ke+ujQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=DApxMoqz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1722411380; c=relaxed/simple;
+	bh=Z0quf++gqajFpVICB5Q3/3pf9XLfHXdzDDlmECaMS0g=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=pz5QBg2g56yKeuPisw4/1vopYjDuw8/ywShcjeC8kAq3cAQkgsrMcYtfFe1TpH92RaeXJ1LmlF/RRtMmjytAmBpBE639IsA9Prrcd2HUPpBGgekRsEBWQdJxorYVxrKGm3J2FBjU10yO8ByKqBr2JPU9t20WaHmc0c26IKsY3XA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kwT4Xn9G; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="DApxMoqz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BD37C116B1;
-	Wed, 31 Jul 2024 07:26:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1722410815;
-	bh=5XRWduDhYWavZxNmKK0wX/Kee6NU5sU1gTa+6T+740Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DApxMoqzqIUwmpA7OVHdZEU2hFmQn0bT7xPaJbSsuVPmawslH5ResYmMqGv42RGYq
-	 VU2l7nqHAAu1nx3FETt94UReW7X6hYLDWWwza6cgcLwqlgznWdcuxJMI2IpTFY6HQt
-	 L76w8x9YKzGAXdxUNfgudVk3w9qu9bdYje0G/nsw=
-Date: Wed, 31 Jul 2024 09:26:51 +0200
-From: 'Greg KH' <gregkh@linuxfoundation.org>
-To: Manjae Cho <manjae.cho@samsung.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Improve MAR register definition and usage for rtl8723
-Message-ID: <2024073112-securely-usage-0d8e@gregkh>
-References: <CGME20240730155255epcas1p4ab3b5e88d400e2221aa1cf5cf234ea19@epcas1p4.samsung.com>
- <20240730155054.411059-1-manjae.cho@samsung.com>
- <2024073109-abridge-yapping-3db3@gregkh>
- <000001dae316$92e619b0$b8b24d10$@samsung.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kwT4Xn9G"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1fd9e70b592so36481675ad.3
+        for <linux-staging@lists.linux.dev>; Wed, 31 Jul 2024 00:36:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1722411378; x=1723016178; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=lRH4DV0DJDUFsL+oAneJ1eExEHHJriff1ENVzKjdwVA=;
+        b=kwT4Xn9GlMNhUiW9T/7rafPtNNYEkI+s/Jut2NMxgVDtd4CbeUcTSRunEhG5UzAqA5
+         PKrwp3JG602HvfIMlwnrAOTEf92LE0szlmMBbBL+6ggYdeRB+kaJSaW97rmjASkImwaD
+         Hw8dNaWt/aEjtVOmC8iWsgDTKvh6oi6oFA0R9WH8VScS9jxINmTqF15pIg0PvpgtTbt9
+         C141QCgWnmiXWCTL2g3DYa1mLF0fIHSsxxnJk6c6JrOriONd1NA6+K6ruPMKNQH1r8eo
+         3l+RV5O/97iOC37Ic4+jICYKTNU1sHcP65uLYq+5VmgR2r7Wd5SFBvtAhNTQqAEhH1KZ
+         /iQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722411378; x=1723016178;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lRH4DV0DJDUFsL+oAneJ1eExEHHJriff1ENVzKjdwVA=;
+        b=H1o0LQK6/v2oxJ6rO7xy6iMAqYJaCfF2dgnogReRxZld3hUK6Vt1+ebRZyuH3FAcZd
+         vOWp010HUblEp+9lLTqF7uKcr+a5rxGBsTJhCE1ZZaJ8gM4H+BtxlrY02nudC8VYjWWB
+         wKKhTDv0LMRtFkn3Zj9qBzs39747nEbDewitZ4URh5Kz+CAbW76WenwymtFzqJ/ZYInj
+         DSAMMd2Yr43wBKhGbe9eqyBY79BC7yyzXDJjJcCh8uaHwuGiM7GzkfE6GJijGbczRX+2
+         CEodg+aj+pGJlB8kHSU4ytHqnTPOnkSjBELBad0Mo5IMCfuLB+8V9jFwoZEgKsAbp5J/
+         wZ+A==
+X-Forwarded-Encrypted: i=1; AJvYcCXfYT1OmmXOvk4OoGdvE/k+8sJRTmCMMylQTmQyB7+XVAE3qrKEJoBDNEYnTEEuQ4vgSe3N+tGi5yxwwDyZRvzh4bukgS99eN2ovNe9bw==
+X-Gm-Message-State: AOJu0YyGwqaJH3VLu+Zjv9dG1re294yazDW5IRsY0Z+FHaneMTUr3jvE
+	b/vgVewncQHSwGsbpdgkBK8snHAUXy+D4PRvvpL/MdLVtEmlzfQ1
+X-Google-Smtp-Source: AGHT+IEceKTtYYEsOkXyN0s0CRHubuzO4J5r0XPfOvSvOHmtwtPrADzOS1FSoHURcWoeZWH3v5Mn1w==
+X-Received: by 2002:a17:902:cec3:b0:1fb:779e:4fca with SMTP id d9443c01a7336-1ff047a5335mr138685625ad.14.1722411378005;
+        Wed, 31 Jul 2024 00:36:18 -0700 (PDT)
+Received: from Riyan.inspiron ([2409:40d0:1028:df3:da0:ae29:34f8:4b4d])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fed7f1b7dfsm113401935ad.189.2024.07.31.00.36.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 31 Jul 2024 00:36:17 -0700 (PDT)
+From: Riyan Dhiman <riyandhiman14@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Riyan Dhiman <riyandhiman14@gmail.com>
+Subject: [PATCH] staging: vme_user: vme_bridge.h: Fix mutex without comment warning
+Date: Wed, 31 Jul 2024 13:06:05 +0530
+Message-Id: <20240731073605.9857-1-riyandhiman14@gmail.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <000001dae316$92e619b0$b8b24d10$@samsung.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jul 31, 2024 at 03:55:05PM +0900, Manjae Cho wrote:
-> > On Wed, Jul 31, 2024 at 12:50:54AM +0900, Manjae Cho wrote:
-> > > This patch improves the usage of the MAR register by updating the
-> > > relevant macro definitions and ensuring consistent usage across the
-> > > codebase.
-> > >
-> > > Signed-off-by: Manjae Cho <manjae.cho@samsung.com>
-> > >
-> > > ---
-> > >  drivers/staging/rtl8723bs/hal/sdio_halinit.c    | 4 ++--
-> > >  drivers/staging/rtl8723bs/include/hal_com_reg.h | 3 +++
-> > >  2 files changed, 5 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-> > > b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-> > > index c9cd6578f7f8..9493562c1619 100644
-> > > --- a/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-> > > +++ b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-> > > @@ -380,8 +380,8 @@ static void _InitWMACSetting(struct adapter
-> > *padapter)
-> > >  	rtw_write32(padapter, REG_RCR, pHalData->ReceiveConfig);
-> > >
-> > >  	/*  Accept all multicast address */
-> > > -	rtw_write32(padapter, REG_MAR, 0xFFFFFFFF);
-> > > -	rtw_write32(padapter, REG_MAR + 4, 0xFFFFFFFF);
-> > > +	rtw_write32(padapter, MAR0, 0xFFFFFFFF);
-> > > +	rtw_write32(padapter, MAR4, 0xFFFFFFFF);
-> > >
-> > >  	/*  Accept all data frames */
-> > >  	value16 = 0xFFFF;
-> > > diff --git a/drivers/staging/rtl8723bs/include/hal_com_reg.h
-> > > b/drivers/staging/rtl8723bs/include/hal_com_reg.h
-> > > index 9a02ae69d7a4..baf326d53a46 100644
-> > > --- a/drivers/staging/rtl8723bs/include/hal_com_reg.h
-> > > +++ b/drivers/staging/rtl8723bs/include/hal_com_reg.h
-> > > @@ -151,6 +151,9 @@
-> > >  #define REG_BSSID						0x0618
-> > >  #define REG_MAR
-> 0x0620
-> > >
-> > > +#define MAR0						REG_MAR
-> > 	/* Multicast Address Register, Offset 0x0620-0x0623 */
-> > 
-> > Why redefine this value again?  What is wrong with using it as "REG_MAR"?
-> > Is this fixing anything or making anything more consistent somewhere?
-> > It's only used in one place that I can see.
-> > 
-> > thanks,
-> > 
-> > greg k-h
-> 
-> Dear Greg,
-> 
-> Thank you for your feedback. I appreciate your point about the current usage
-> of REG_MAR. While it's true that it's only used in one place currently, I
-> believe there's value in making this change for the following reasons:
-> 
->  - Consistency: Other similar registers in the codebase use this pattern.
-> For example, we have IDR0 and IDR4 for MACID registers. Adding MAR0 and MAR4
-> brings consistency to our register naming convention.
-> 
->  - Clarity: The +4 offset in "REG_MAR + 4" isn't immediately clear without
-> context. MAR4 makes it explicit that we're dealing with the next 4 bytes of
-> the Multicast Address Register.
-> 
->  - If we need to use these registers elsewhere in the future, having clear,
-> specific names will make the code more readable.
+Adhere to Linux kernel coding style
 
-You aren't going to use them elsewhere, worry about this then, not now.
+Reported by checkpatch:
 
-> However, I understand if you feel this change doesn't provide enough benefit
-> to justify inclusion. If you prefer, I could modify the patch to keep the
-> REG_MAR usage but add comments for clarity:
-> 
->     /* Multicast Address Register */
->     rtw_write32(padapter, REG_MAR, 0xFFFFFFFF);     /* Offset 0x0620-0x0623
-> */
->     rtw_write32(padapter, REG_MAR + 4, 0xFFFFFFFF); /* Offset 0x0624-0x0627
-> */
+CHECK: mutex definition without comment
 
-That seems a lot more sane and simpler.
+Signed-off-by: Riyan Dhiman <riyandhiman14@gmail.com>
+---
+ drivers/staging/vme_user/vme_bridge.h | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-thanks,
+diff --git a/drivers/staging/vme_user/vme_bridge.h b/drivers/staging/vme_user/vme_bridge.h
+index 9bdc41bb6602..0b1f05944f0d 100644
+--- a/drivers/staging/vme_user/vme_bridge.h
++++ b/drivers/staging/vme_user/vme_bridge.h
+@@ -28,6 +28,7 @@ struct vme_master_resource {
+ struct vme_slave_resource {
+ 	struct list_head list;
+ 	struct vme_bridge *parent;
++	/* Locking for VME slave resources */
+ 	struct mutex mtx;
+ 	int locked;
+ 	int number;
+@@ -55,12 +56,14 @@ struct vme_dma_list {
+ 	struct list_head list;
+ 	struct vme_dma_resource *parent;
+ 	struct list_head entries;
++	/* Mutex to protect access to DMA list's entries */
+ 	struct mutex mtx;
+ };
+ 
+ struct vme_dma_resource {
+ 	struct list_head list;
+ 	struct vme_bridge *parent;
++	/* Mutex to protect DMA controller resources and ensure thread-safe operations */
+ 	struct mutex mtx;
+ 	int locked;
+ 	int number;
+@@ -72,6 +75,7 @@ struct vme_dma_resource {
+ struct vme_lm_resource {
+ 	struct list_head list;
+ 	struct vme_bridge *parent;
++	/* Mutex to protect LM Monitor resources and ensure thread-safe operations */
+ 	struct mutex mtx;
+ 	int locked;
+ 	int number;
+-- 
+2.39.2
 
-greg k-h
