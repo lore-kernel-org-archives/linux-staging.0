@@ -1,102 +1,69 @@
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpbgsg1.qq.com (smtpbgsg1.qq.com [54.254.200.92])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25A6E1B580D
-	for <linux-staging@lists.linux.dev>; Wed, 31 Jul 2024 16:05:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A469E171AF
+	for <linux-staging@lists.linux.dev>; Wed, 31 Jul 2024 16:09:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.254.200.92
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722441917; cv=none; b=PyIFfILpw4iSk1YlwbsjTkVxijPYxflqoIpa7p7TfaIG0VFPIxKAVjm3jmHYX1mvXTHACoivNbB+caZeHi6ilSwjIc8fD+eStNy9czo5kAfnTy+PQUK8P6vlbb6DfFlzk7A3OlbgcfbT5eS5eGjFcGxSrKMO/TIKR9X/NwQHQwY=
+	t=1722442149; cv=none; b=bNu7TJBa0BNRBpaZN3fxw1nOymIsHNC2o8XgB2zf3OEnXcANifaSQPwLhEqtWv9lQ3DtHgbWHxnMo0t2VcXWYC16IAs+EUfDXZYW7D4K3Pc78/kHFVs4ZS7fcqjrj8CQVqKdbo8Wi8kztVlypK6iptcIAbI6y6z60s2SMliUkw8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722441917; c=relaxed/simple;
-	bh=a6TO/KMWRyZ62evV+V32rHbVhpWXfPPpsymd4oMdEK4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Rgn6STl4UphXG2+lHdUSwthYcvdTe2jfYw+55q+X1Rl7vscs652d0HkqNUoNezWgAmQiEhLk5DonPZdA/wF4HFM8PyMmVoY80b3k2K4Qgs0pispAtD9Mrfl9mPE5g5qXP99ZAz/E3hODz6CsxvqQQI7RzEo27CtPLYjoxOzBIyM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=RJ53jlH6; arc=none smtp.client-ip=209.85.167.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RJ53jlH6"
-Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-3dab336717fso3978859b6e.0
-        for <linux-staging@lists.linux.dev>; Wed, 31 Jul 2024 09:05:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1722441915; x=1723046715; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=QXyhYvjtECustBaF35QTJ0n/1JR+w0RoGMaJ7n/9KQg=;
-        b=RJ53jlH64NT3JyAGnC3+5UMD2GtoakYYf2AEGk5WbzVdedfbiNeRPCqAxaVTfXduHf
-         g8s6oyIIiFg03Dkfabq4zfr+Z9NInXL9RkX/8LWU3JZsUPiOcfLoN3d52Pcbl6QXEVrz
-         eL5EhJhSPgp8V7BSPu3QAHW1S+l74YVZWVh2x9s3kwz0DZQ5c7mcN8p0bbbRLg2vIP6f
-         AVE0wcsNEeO5ik+8JJuuMpEu22n6HoHYSJgpqvcUldMbT6MRnZfYr5GVBFGhD/ijaYen
-         0Anl6CCM0rd0WyybrzwYJK68bN5FrasUKEHxLUgAiqzbDvB6JFYcCFW7krmIRCwUDFQz
-         /j9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722441915; x=1723046715;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QXyhYvjtECustBaF35QTJ0n/1JR+w0RoGMaJ7n/9KQg=;
-        b=LJe4a2wXyq8OQqWTnB1gMz9uUI0JBUpXDRSzbDu3N4JPNH16OPRsChD5Nn7wK/+FiW
-         BCaUZ8I9qTFn1ZT2v17MMPQd1Zfg1yqLAH4K6bUidhuT7hEJNGEc5I1yCspabDSBTKaQ
-         9vC9GUxtgu+iNuaCxw44Nxk6XOUPQzn226L/UA4FuJ3xpM+EyDDFelckZOPFiQMH7EdM
-         QXOhuHrXPH/19hSKPHPvOncdjXg/y8cBbdjj1olGlIPTEaiyz4ZCKg8W2wSbQtO6nCTq
-         20qi0w6JBAX2nXs40LQRCjpHEmYAuv2CzSASi9eKdZtKtsWTJ00xIsr+9xWH1tI6VpBf
-         CKIw==
-X-Forwarded-Encrypted: i=1; AJvYcCVMVSJC+Cue0g2wMj57fCZx38LPygMAuAx3MYD1skl9oaNOr89w5grerCQBOHrrm3u+1/5hjbfB5jHMcsCC@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy1MRSgf/B7SC3WypVbI+/JEZik/iN30+2QgBILWZLZOFMQXmDH
-	upJ6XG46IQA6LB4UNd5i2dp4CuPkYCaYsVVWQIOh8YwmLHPMsherfShC/WJKFxs=
-X-Google-Smtp-Source: AGHT+IEWqqB12HAG5XXwGLWqO3LTdY1XVVq0hNmyNyCXnKeUBxbjaS+soaAUYehjzReJQa3OriYoHA==
-X-Received: by 2002:a05:6808:2029:b0:3db:215d:71f2 with SMTP id 5614622812f47-3db23a2f80amr17817651b6e.35.1722441915021;
-        Wed, 31 Jul 2024 09:05:15 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700:c572:4680:6997:45a1])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-3db46924878sm492607b6e.4.2024.07.31.09.05.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Jul 2024 09:05:14 -0700 (PDT)
-Date: Tue, 30 Jul 2024 16:41:34 -0500
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Santiago Ruano =?iso-8859-1?Q?Rinc=F3n?= <santiagorr@riseup.net>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, helen.koike@collabora.com,
-	~lkcamp/patches@lists.sr.ht
-Subject: Re: [PATCH v3 2/2] staging: media: sdis: move open braces to the
- previous line
-Message-ID: <3f885f2a-681c-42e8-bdd4-fd2e2c077f5e@suswa.mountain>
-References: <20240730212854.474708-1-santiagorr@riseup.net>
- <20240730212854.474708-2-santiagorr@riseup.net>
+	s=arc-20240116; t=1722442149; c=relaxed/simple;
+	bh=K6dbgpXwLZIztDeHX29B4LgMK9GUn/muyr5rZ8zcBtQ=;
+	h=Message-ID:Subject:From:To:Cc:Date:Content-Type:MIME-Version; b=BIcvDJluPZUOFMMttW8V47zNRdbn1ndc9PR6FLwx1dYlDc5MFM0oAbqK6oTBPb8kBfyUVxcDWl8kOFJoByHL5BzpR4+ijTTi92nSPliTB+c3VbRcSFR9XnWajMay40nQsCXud/KK0M2m2wXKi0m66lcLbmRHZgQ32CFTfNPmvew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=eipi.fun; spf=pass smtp.mailfrom=eipi.fun; arc=none smtp.client-ip=54.254.200.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=eipi.fun
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=eipi.fun
+X-QQ-mid: bizesmtp87t1722442132t327ed28
+X-QQ-Originating-IP: jwUbDvYvGU1K4Kwur+CFHh6H+fgrSe4ZGyojye9zlVs=
+Received: from [192.168.0.9] ( [118.38.173.226])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Thu, 01 Aug 2024 00:08:50 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 4618790565118997799
+Message-ID: <D20EAB24BCB3973E+206e698e153d5379aa8183d9446ab545e758382c.camel@eipi.fun>
+Subject: [PATCH] code indent,
+ drivers/staging/rtl8723bs/include/rtw_security.h
+From: EiPiFun <me@eipi.fun>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging <linux-staging@lists.linux.dev>, linux-kernel
+	 <linux-kernel@vger.kernel.org>
+Date: Thu, 01 Aug 2024 01:08:49 +0900
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240730212854.474708-2-santiagorr@riseup.net>
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:eipi.fun:qybglogicsvrgz:qybglogicsvrgz5a-1
 
-On Wed, Jul 31, 2024 at 06:28:54AM +0900, Santiago Ruano Rincón wrote:
-> Fix checkpatch error "ERROR: that open brace { should be on the previous
-> line" in ia_css_sdis.host.c:253 and :258.
-> 
-> Signed-off-by: Santiago Ruano Rincón <santiagorr@riseup.net>
-> 
-> ---
-> This is one of my first patches. Could you please if is there anything
-> wrong with it? Thank you
-> 
-> V3: Insert the change history (including for V2)
-> 
-> V2: Remove spurious [PATCH] header from the Subject, inserted by mistake
-> ---
+From 816921cbfa76a1cfd0cb1ca93a9df0f2a429bc3a Mon Sep 17 00:00:00 2001
+From: EiPi Fun <me@eipi.fun>
+Date: Tue, 30 Jul 2024 07:28:38 +0000
+Subject: [PATCH] code indent should use tabs where possible
 
-Thanks!
+---
+=C2=A0drivers/staging/rtl8723bs/include/rtw_security.h | 4 ++--
+=C2=A01 file changed, 2 insertions(+), 2 deletions(-)
 
-Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
-
-regards,
-dan carpenter
+diff --git a/drivers/staging/rtl8723bs/include/rtw_security.h
+b/drivers/staging/rtl8723bs/include/rtw_security.h
+index c3e47d526..89c1d5ae1 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_security.h
++++ b/drivers/staging/rtl8723bs/include/rtw_security.h
+@@ -75,8 +75,8 @@ struct {
+=C2=A0};
+=C2=A0
+=C2=A0union Keytype {
+-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 u8=C2=A0=C2=A0 skey[16];
+-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 u32=C2=A0=C2=A0=C2=A0 lkey[4];
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0u8=C2=A0=C2=A0 skey[16];
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0u32=C2=A0=C2=A0=C2=A0 lkey[4];
+=C2=A0};
+=C2=A0
+=C2=A0
 
