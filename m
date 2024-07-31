@@ -1,108 +1,52 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B117949624
-	for <linux-staging@lists.linux.dev>; Wed, 31 Jul 2024 05:11:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 674073219F;
+	Wed, 31 Jul 2024 05:28:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722402675; cv=none; b=im5lBVh4OIw4zAtIgf5I0ZTc6xsJ1fBK1v2uSe1azuc2jlX018lcWgBEAFLpqFqQOFgGhabaQqjM2lFTBydW3tAZFjNveJfW3iPo1eykdGKrkcM9lz/uoxifYOjQODymCzuHrWjtrjivtZjCKCxhUFXxKuMP/nGBQcDszl5fl/s=
+	t=1722403724; cv=none; b=HjIg6zJNO2J+Ny+EQA7UU4h3bSkB0kSmmv3OQIyYmVk91u6vrCfr/0/KQ2FZCgQgRlRRemNyn91SgOwwHGiu+6P5TlvajiWwnOUs5VkcT1AVeHql0PMirgQnMJ2H2t0ruhQtOBm5siqN0gu1/TZi/2FxnxFy6wVI1tp9NnjmOWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722402675; c=relaxed/simple;
-	bh=8arqm9uivniBVrkX3K1+hWxUe6R6dbHXmuySzxkS+Rg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gJYp8atgfSTV2zp65NYuQpyBPH6bqYExZdRZFV4iCf3SIn126G4hUAsbZn37JokWRnCYf4olDT1f41de1yOdpro7c9jjVV+gOi5YtyGFQzufoJ4YxPcS6XPgn06Xp4lkjf0mVTet/OMKFz3Uc4sNYOjhl6cGvqENrnAq5LudC7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XLLkvHWp; arc=none smtp.client-ip=209.85.208.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1722403724; c=relaxed/simple;
+	bh=HPuywlvRMMs49n1oKFWIqI2nwrMsV7CxvqH3WvnigiM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FRrE4IjFm/gmW2kumb6UjLeRU/O8TZt1dWz2Lnl0b9R+nRLdyBhznQqmylpUM52CM6RMqUVayojxiRphSnltMn9NLCvWyusE3MlsM4eLQAYWgseEv1QZ1bz40gqmP+wHISX5/231vTWEopyO3MFt3EPfz27gsKET30rTfoWdDO0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=u5PPaDad; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XLLkvHWp"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5a2333c92ceso863196a12.0
-        for <linux-staging@lists.linux.dev>; Tue, 30 Jul 2024 22:11:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722402672; x=1723007472; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JyyJ0zpn0TPgwRfHAQUoo9coDlF7OiJbaymCzyth/ys=;
-        b=XLLkvHWpehHLYCo6RgVEuXyTiFCZSqxm2yCbMCBbPCWakqyOh2Kzy3M4legS+Q+oZP
-         l/iSDDhogyEEcnA3CKoybg+BFIndi7U7+st8ySOb4ulppLdpCK2lWS8qCCq6E2lrcaJn
-         1lpbAMfrxPVZee02AaCPFxEVu23ZlTLkBuGeRabtfpnuXYUOthO7WkYdTNRqShLr/XCp
-         4skz1Ga+lSKp/IR+49PcVd8ICNzbmEHvA2X5+uUxFLu7jBBbflHFzsY82yVGUKNeMOZA
-         zDwcgMQyKJWMgWiPzN9SOtKioOQQukbuaixktNIqPp7mi4cn6o9sf3q0Eidj8hsv1BD5
-         WM1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722402672; x=1723007472;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JyyJ0zpn0TPgwRfHAQUoo9coDlF7OiJbaymCzyth/ys=;
-        b=LCcWXztSNFWBOweMQJ3e0czNzI6Az4b5j3J+eP0kPlGDmMH49A4Wn1WVOMqrYRdKjs
-         KJqzZcJy9lQwqVOdsdbv4OD5/aopawad0WTxmy78eAFA5ydShJmHi0o2sHI7kZuZ7Svs
-         9YQzlg4Ex8IoJ4yfvl+P9V3DzsnXpkUWAWs6XV49YRV+gcUgVycSeIk44Mp7oQvqYmhG
-         Jicu/Gjh4u/GAXdagaoxm5byhzLmwxnZuK7v4L14BahQWNEPEPoMhLID4hDYQrKtiEyo
-         WoYN8W9XiSBuUm6CNz1GVou4jbz6l3OR21OWr0ztSWUel6K+R9SsQcNRYKp2vVjLOGRs
-         XM3Q==
-X-Gm-Message-State: AOJu0Yx3DrT/6dv/EmnhSQnuJTyaqplVEsdiCgSAgsBkVsdp+AfR70kH
-	P1PATiLz3OoKac1TZL/NFy2AF8qmwfb1oTvYctOYDpbTqYD9ohhX
-X-Google-Smtp-Source: AGHT+IEdU3f68hnYxvpVWBsO5cx8sYbe2/mhX6gs+rL6BbXVHhuO1biabC7Qb8I3ZOJ1IlwYyM0OAQ==
-X-Received: by 2002:a05:6402:34d5:b0:58b:e3b:c5de with SMTP id 4fb4d7f45d1cf-5ac2ce66a84mr8283061a12.4.1722402671821;
-        Tue, 30 Jul 2024 22:11:11 -0700 (PDT)
-Received: from [192.168.0.104] (p57ba2f9b.dip0.t-ipconnect.de. [87.186.47.155])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5ac64eb7c0fsm8169852a12.62.2024.07.30.22.11.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Jul 2024 22:11:11 -0700 (PDT)
-Message-ID: <b53178f1-1b52-4fea-9edf-092e6961c96d@gmail.com>
-Date: Wed, 31 Jul 2024 07:11:10 +0200
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="u5PPaDad"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AC1DC116B1;
+	Wed, 31 Jul 2024 05:28:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1722403723;
+	bh=HPuywlvRMMs49n1oKFWIqI2nwrMsV7CxvqH3WvnigiM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=u5PPaDadrzTVYDFeYwS2wsCgi5eiBTohNYSEgvffu3GCDC5lWlIh4Fb9Gm9e1PHsX
+	 ezYkHOs9X+CRC+666r9K93MHFm5EMbMC/rhQeFf1g1TmS2B6g9PNclU/u0URA8J6ts
+	 ZN5Q4+7yF6XwAfR8nbTrflBUPJsEZDYgJsypewHk=
+Date: Wed, 31 Jul 2024 07:28:40 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Cc: Manjae Cho <manjae.cho@samsung.com>, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Improve MAR register definition and usage for rtl8723
+Message-ID: <2024073116-unlucky-vacancy-b323@gregkh>
+References: <CGME20240730155255epcas1p4ab3b5e88d400e2221aa1cf5cf234ea19@epcas1p4.samsung.com>
+ <20240730155054.411059-1-manjae.cho@samsung.com>
+ <0812112f-a06d-4ef1-8ca2-468973191ca7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: rtl8192e: remove duplicate macros from rtllib.h
-To: Michael Straube <straube.linux@gmail.com>, gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20240730082928.62284-1-straube.linux@gmail.com>
-Content-Language: en-US
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20240730082928.62284-1-straube.linux@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0812112f-a06d-4ef1-8ca2-468973191ca7@gmail.com>
 
-On 7/30/24 10:29, Michael Straube wrote:
-> These macros just duplicate macros from include/linux/ieee80211.h.
-> We can safely remove them from rtllib.h.
-> 
-> Signed-off-by: Michael Straube <straube.linux@gmail.com>
-> ---
-> compile-tested only
-> 
->   drivers/staging/rtl8192e/rtllib.h | 11 -----------
->   1 file changed, 11 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-> index 022851b7f1a9..e87313a30741 100644
-> --- a/drivers/staging/rtl8192e/rtllib.h
-> +++ b/drivers/staging/rtl8192e/rtllib.h
-> @@ -414,17 +414,6 @@ enum _REG_PREAMBLE_MODE {
->   #define WLAN_GET_SEQ_FRAG(seq) ((seq) & RTLLIB_SCTL_FRAG)
->   #define WLAN_GET_SEQ_SEQ(seq)  (((seq) & RTLLIB_SCTL_SEQ) >> 4)
->   
-> -/* Authentication algorithms */
-> -#define WLAN_AUTH_OPEN 0
-> -#define WLAN_AUTH_SHARED_KEY 1
-> -#define WLAN_AUTH_LEAP 128
-> -
-> -#define WLAN_CAPABILITY_ESS (1<<0)
-> -#define WLAN_CAPABILITY_IBSS (1<<1)
-> -#define WLAN_CAPABILITY_PRIVACY (1<<4)
-> -#define WLAN_CAPABILITY_SHORT_PREAMBLE (1<<5)
-> -#define WLAN_CAPABILITY_SHORT_SLOT_TIME (1<<10)
-> -
->   #define RTLLIB_STATMASK_SIGNAL (1<<0)
->   #define RTLLIB_STATMASK_RSSI (1<<1)
->   #define RTLLIB_STATMASK_NOISE (1<<2)
+On Tue, Jul 30, 2024 at 08:55:22PM +0200, Philipp Hortmann wrote:
+> In case of questions feel free to contact me directly.
 
+No, please keep discussions and help on the mailing list, direct emails
+is not a good way to do kernel development, sorry.
 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+greg k-h
