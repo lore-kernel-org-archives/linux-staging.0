@@ -1,21 +1,21 @@
 Received: from luna.linkmauve.fr (luna.linkmauve.fr [82.65.109.163])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D034A1BD501;
-	Wed, 31 Jul 2024 16:53:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC7DD1BD01E;
+	Wed, 31 Jul 2024 16:53:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.65.109.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722444789; cv=none; b=CjXPzIUWWW0oOWfRUadLG9xjzg6xazfWczGMv8IThaTqy5NDbsmGd6Fo9oil04Eha0zG2SV1a95jyrwqbW2CS9Wb2vo17d0rNUqvr97VEyDxBNF/YYgLIcHO7InYg0C2YMzQJgE0XilBF1QQI7wAPJUoGxGfYVqZaXGmgBIftww=
+	t=1722444791; cv=none; b=m5UjNLwPnGohy/TsXvUIptK5tO/Ba8cgRyiiAJ4+LyR0ATPD5hABz6KFJu6g/jDNlHarnHWZJfR/y6SAe576s6BWYKcYlkpQ4Kf26Du0Nsqi++/VwDaKSUmFlNoPn/CKbl4vlPVx+IixfncuzhClccIi/TafGXPYCHmYOOvH+o0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722444789; c=relaxed/simple;
-	bh=mrZ3g7n1/oLXeu784YnUGJEyIyvmeTD3R96dJjFzqmI=;
+	s=arc-20240116; t=1722444791; c=relaxed/simple;
+	bh=4q8W9CDGm7kj2yaWbuIWp1ErRtQpGcJXde2YvXOADAA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nRY57R/fTn0jc3X3o66F6WjimkDy/k8xQ3vufqIB7Nwi6d+6t4+4XZB8rGiQkXSCHi5N1zkvhQjI0YDAtrdvlL6YavEdtnh1du+OMCAa4VgrG2/AQDWYnwx3uJXOwUDoIv2lhhLCw0swjDlM6UtWWCGFydGJW+KeJ0bA5x690Po=
+	 MIME-Version; b=bCCGQ80gooDgeZe8pxN0vTZb4FxU4M2ZPoOTTk5YErnVEnJevIevzqbwu703XemtN2YgkhXZBDDjbJ9Kjj07zIONZCWS+TOckx9QVQqpQSFxG1EGk9uirmsghRFBqXc/kY04i5DP4JGZlfqORkhZZumzC4+T5eBseHCkJoCYpxI=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linkmauve.fr; spf=pass smtp.mailfrom=linkmauve.fr; arc=none smtp.client-ip=82.65.109.163
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linkmauve.fr
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linkmauve.fr
 Received: by luna.linkmauve.fr (Postfix, from userid 1000)
-	id 9673914649D8; Wed, 31 Jul 2024 18:44:27 +0200 (CEST)
+	id 9279114649DD; Wed, 31 Jul 2024 18:44:28 +0200 (CEST)
 From: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
 To: linux-sunxi@lists.linux.dev
 Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
@@ -29,9 +29,9 @@ Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 1/4] media: cedrus: Setup secondary output formats
-Date: Wed, 31 Jul 2024 18:44:11 +0200
-Message-ID: <20240731164422.206503-2-linkmauve@linkmauve.fr>
+Subject: [PATCH 3/4] media: cedrus: Enable JPEG decoding in various variants
+Date: Wed, 31 Jul 2024 18:44:13 +0200
+Message-ID: <20240731164422.206503-4-linkmauve@linkmauve.fr>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20240731164422.206503-1-linkmauve@linkmauve.fr>
 References: <20240731164422.206503-1-linkmauve@linkmauve.fr>
@@ -45,71 +45,101 @@ Content-Transfer-Encoding: 8bit
 
 From: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-It's needed for JPEG codec, since engine outputs to it for some reason.
+As far as manuals go, only A10 and A13 don't have JPEG support
+mentioned, all others do.
+
+To be safe, enable it on all variants except A13, since it was tested to
+be functional on A10.
 
 Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 ---
- drivers/staging/media/sunxi/cedrus/cedrus_hw.c   | 12 +++++++++---
- drivers/staging/media/sunxi/cedrus/cedrus_regs.h |  9 +++++++--
- 2 files changed, 16 insertions(+), 5 deletions(-)
+ drivers/staging/media/sunxi/cedrus/cedrus.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-index 32af0e96e762..582b6cb796ea 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-@@ -88,15 +88,21 @@ void cedrus_dst_format_set(struct cedrus_dev *dev,
- 	case V4L2_PIX_FMT_NV12:
- 		chroma_size = ALIGN(width, 16) * ALIGN(height, 16) / 2;
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
+index f52df6836045..f586bd95c163 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+@@ -563,6 +563,7 @@ static void cedrus_remove(struct platform_device *pdev)
  
--		reg = VE_PRIMARY_OUT_FMT_NV12;
-+		reg = VE_PRIMARY_OUT_FMT_NV12 | VE_SECONDARY_OUT_FMT_EXT_NV12;
- 		cedrus_write(dev, VE_PRIMARY_OUT_FMT, reg);
+ static const struct cedrus_variant sun4i_a10_cedrus_variant = {
+ 	.capabilities	= CEDRUS_CAPABILITY_MPEG2_DEC |
++			  CEDRUS_CAPABILITY_JPEG_DEC |
+ 			  CEDRUS_CAPABILITY_H264_DEC |
+ 			  CEDRUS_CAPABILITY_VP8_DEC,
+ 	.mod_rate	= 320000000,
+@@ -577,6 +578,7 @@ static const struct cedrus_variant sun5i_a13_cedrus_variant = {
  
- 		reg = chroma_size / 2;
- 		cedrus_write(dev, VE_PRIMARY_CHROMA_BUF_LEN, reg);
+ static const struct cedrus_variant sun7i_a20_cedrus_variant = {
+ 	.capabilities	= CEDRUS_CAPABILITY_MPEG2_DEC |
++			  CEDRUS_CAPABILITY_JPEG_DEC |
+ 			  CEDRUS_CAPABILITY_H264_DEC |
+ 			  CEDRUS_CAPABILITY_VP8_DEC,
+ 	.mod_rate	= 320000000,
+@@ -585,6 +587,7 @@ static const struct cedrus_variant sun7i_a20_cedrus_variant = {
+ static const struct cedrus_variant sun8i_a33_cedrus_variant = {
+ 	.capabilities	= CEDRUS_CAPABILITY_UNTILED |
+ 			  CEDRUS_CAPABILITY_MPEG2_DEC |
++			  CEDRUS_CAPABILITY_JPEG_DEC |
+ 			  CEDRUS_CAPABILITY_H264_DEC |
+ 			  CEDRUS_CAPABILITY_VP8_DEC,
+ 	.mod_rate	= 320000000,
+@@ -593,6 +596,7 @@ static const struct cedrus_variant sun8i_a33_cedrus_variant = {
+ static const struct cedrus_variant sun8i_h3_cedrus_variant = {
+ 	.capabilities	= CEDRUS_CAPABILITY_UNTILED |
+ 			  CEDRUS_CAPABILITY_MPEG2_DEC |
++			  CEDRUS_CAPABILITY_JPEG_DEC |
+ 			  CEDRUS_CAPABILITY_H264_DEC |
+ 			  CEDRUS_CAPABILITY_H265_DEC |
+ 			  CEDRUS_CAPABILITY_VP8_DEC,
+@@ -601,6 +605,7 @@ static const struct cedrus_variant sun8i_h3_cedrus_variant = {
  
--		reg = VE_PRIMARY_FB_LINE_STRIDE_LUMA(ALIGN(width, 16)) |
--		      VE_PRIMARY_FB_LINE_STRIDE_CHROMA(ALIGN(width, 16) / 2);
-+		reg = VE_CHROMA_BUF_LEN_SDRT(chroma_size / 2) |
-+		      VE_CHROMA_WIDTH_ALIGN_8 |
-+		      VE_SECONDARY_OUT_FMT_EXT;
-+		cedrus_write(dev, VE_CHROMA_BUF_LEN, reg);
-+
-+		reg = VE_FB_LINE_STRIDE_LUMA(ALIGN(width, 16)) |
-+		      VE_FB_LINE_STRIDE_CHROMA(ALIGN(width, 16) / 2);
- 		cedrus_write(dev, VE_PRIMARY_FB_LINE_STRIDE, reg);
-+		cedrus_write(dev, VE_SECONDARY_FB_LINE_STRIDE, reg);
- 
- 		break;
- 	case V4L2_PIX_FMT_NV12_32L32:
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_regs.h b/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
-index 05e6cbc548ab..3acc05e0fb54 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
-@@ -59,9 +59,10 @@
- #define VE_INTRAPRED_DRAM_BUF_ADDR		0x58
- #define VE_PRIMARY_CHROMA_BUF_LEN		0xc4
- #define VE_PRIMARY_FB_LINE_STRIDE		0xc8
-+#define VE_SECONDARY_FB_LINE_STRIDE		0xcc
- 
--#define VE_PRIMARY_FB_LINE_STRIDE_CHROMA(s)	SHIFT_AND_MASK_BITS(s, 31, 16)
--#define VE_PRIMARY_FB_LINE_STRIDE_LUMA(s)	SHIFT_AND_MASK_BITS(s, 15, 0)
-+#define VE_FB_LINE_STRIDE_CHROMA(s)		SHIFT_AND_MASK_BITS(s, 31, 16)
-+#define VE_FB_LINE_STRIDE_LUMA(s)		SHIFT_AND_MASK_BITS(s, 15, 0)
- 
- #define VE_CHROMA_BUF_LEN			0xe8
- 
-@@ -69,6 +70,10 @@
- #define VE_SECONDARY_OUT_FMT_EXT		(0x01 << 30)
- #define VE_SECONDARY_OUT_FMT_YU12		(0x02 << 30)
- #define VE_SECONDARY_OUT_FMT_YV12		(0x03 << 30)
-+#define VE_CHROMA_WIDTH_ALIGN_16		(0x00 << 29)
-+#define VE_CHROMA_WIDTH_ALIGN_8			(0x01 << 29)
-+#define VE_LUMA_WIDTH_ALIGN_16			(0x00 << 28)
-+#define VE_LUMA_WIDTH_ALIGN_32			(0x01 << 28)
- #define VE_CHROMA_BUF_LEN_SDRT(l)		SHIFT_AND_MASK_BITS(l, 27, 0)
- 
- #define VE_PRIMARY_OUT_FMT			0xec
+ static const struct cedrus_variant sun8i_v3s_cedrus_variant = {
+ 	.capabilities	= CEDRUS_CAPABILITY_UNTILED |
++			  CEDRUS_CAPABILITY_JPEG_DEC |
+ 			  CEDRUS_CAPABILITY_H264_DEC,
+ 	.mod_rate	= 297000000,
+ };
+@@ -608,6 +613,7 @@ static const struct cedrus_variant sun8i_v3s_cedrus_variant = {
+ static const struct cedrus_variant sun8i_r40_cedrus_variant = {
+ 	.capabilities	= CEDRUS_CAPABILITY_UNTILED |
+ 			  CEDRUS_CAPABILITY_MPEG2_DEC |
++			  CEDRUS_CAPABILITY_JPEG_DEC |
+ 			  CEDRUS_CAPABILITY_H264_DEC |
+ 			  CEDRUS_CAPABILITY_VP8_DEC,
+ 	.mod_rate	= 297000000,
+@@ -616,6 +622,7 @@ static const struct cedrus_variant sun8i_r40_cedrus_variant = {
+ static const struct cedrus_variant sun20i_d1_cedrus_variant = {
+ 	.capabilities	= CEDRUS_CAPABILITY_UNTILED |
+ 			  CEDRUS_CAPABILITY_MPEG2_DEC |
++			  CEDRUS_CAPABILITY_JPEG_DEC |
+ 			  CEDRUS_CAPABILITY_H264_DEC |
+ 			  CEDRUS_CAPABILITY_H265_DEC,
+ 	.mod_rate	= 432000000,
+@@ -624,6 +631,7 @@ static const struct cedrus_variant sun20i_d1_cedrus_variant = {
+ static const struct cedrus_variant sun50i_a64_cedrus_variant = {
+ 	.capabilities	= CEDRUS_CAPABILITY_UNTILED |
+ 			  CEDRUS_CAPABILITY_MPEG2_DEC |
++			  CEDRUS_CAPABILITY_JPEG_DEC |
+ 			  CEDRUS_CAPABILITY_H264_DEC |
+ 			  CEDRUS_CAPABILITY_H265_DEC |
+ 			  CEDRUS_CAPABILITY_VP8_DEC,
+@@ -633,6 +641,7 @@ static const struct cedrus_variant sun50i_a64_cedrus_variant = {
+ static const struct cedrus_variant sun50i_h5_cedrus_variant = {
+ 	.capabilities	= CEDRUS_CAPABILITY_UNTILED |
+ 			  CEDRUS_CAPABILITY_MPEG2_DEC |
++			  CEDRUS_CAPABILITY_JPEG_DEC |
+ 			  CEDRUS_CAPABILITY_H264_DEC |
+ 			  CEDRUS_CAPABILITY_H265_DEC |
+ 			  CEDRUS_CAPABILITY_VP8_DEC,
+@@ -642,6 +651,7 @@ static const struct cedrus_variant sun50i_h5_cedrus_variant = {
+ static const struct cedrus_variant sun50i_h6_cedrus_variant = {
+ 	.capabilities	= CEDRUS_CAPABILITY_UNTILED |
+ 			  CEDRUS_CAPABILITY_MPEG2_DEC |
++			  CEDRUS_CAPABILITY_JPEG_DEC |
+ 			  CEDRUS_CAPABILITY_H264_DEC |
+ 			  CEDRUS_CAPABILITY_H265_DEC |
+ 			  CEDRUS_CAPABILITY_H265_10_DEC |
 -- 
 2.45.2
 
