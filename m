@@ -1,70 +1,80 @@
-Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 647A61A8C02
-	for <linux-staging@lists.linux.dev>; Wed, 31 Jul 2024 10:34:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C393C1B1511
+	for <linux-staging@lists.linux.dev>; Wed, 31 Jul 2024 13:01:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722422043; cv=none; b=lerFxz2kcuRaxa8vfiTF00zcq3gQY93kkvQ3sMaP6yw/OZbJn0/bSaTh+mb1RFCPRJRbCobzvQ8YOPBF8RKSqKYv2KEdqmPeRueORde064uZCxAU3Nft1xgVF0hG+V2HBmr9qJ2zIwcEiurPVxIx19g5k+4P0eBTvx32oxtKN6U=
+	t=1722430901; cv=none; b=SBep+t5ge8w0s3FzJNEKpPqr0WzNHsL/2yunib3CVDxZDWH8xZWF6jNmOkVKSnuVAfIy+bgEwdpU7yg+uwIRpMKOuCCJG9321NXJqW47/gyF1xRmCEZZKheSedTPXJKiwPSTCu5sl3EunAUOR9HDk/O1r8pUrY6RP1kuFqtm4ho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722422043; c=relaxed/simple;
-	bh=dOa8hT4xWqQ2AnDtQygL24wv+0L76YIYrzot6K+GRtw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=o0yja5SCdznpeBC+MjsUh6rI35LfWnTcm4eonpDPQJcX8kYBDKbmYxnnvMofp2EG6c8LZBR2GU1iw4h38MWGktLxkTPKAigs6qe48weUzCbmrt8n4Ckhdxrn6LzrRi1tp2hdmbeFLgF78GynWlq5Y9rxi+I+REGb1OkSdcaMYzs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RBgBAMBI; arc=none smtp.client-ip=209.85.160.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1722430901; c=relaxed/simple;
+	bh=FjpIk3xiJ31l9hYfhfRpI40Sns4j36XhdcdYpe/2jeg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Fy9Otlnxc0Ml/vigVSqJasx/RyNi7KiDz9N4TbiOASPBGOdR1uRkfA7yhpue2Rq4bUSNRctPp5IVL7ezmKoDEEBZPkvAMbAwZRjBuy0NdzuUlc/tC2KmJ9kiJAhxQCjP2sj7ey486Jd5ZVyfprDlu0yPjh+HIEQaLCZ61ZTasZ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uECZyFUN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=EJIhO+Ir; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uECZyFUN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=EJIhO+Ir; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RBgBAMBI"
-Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-260f81f7fb5so3591669fac.0
-        for <linux-staging@lists.linux.dev>; Wed, 31 Jul 2024 03:34:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722422041; x=1723026841; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=CLpJAlwrYnKpG4yNN+f5PTDXi5Vm9RWGLixCvfhYZ0w=;
-        b=RBgBAMBIPpnpnPuPa220KP0ZUloP5v/L24W2ZbeGigKrk9IERxYbH+J0fZeSlRwUA7
-         9JDKc7BWYlgwcnkqZNKKUBCNFXNWRUFJy7umM5tEP6FN4psEyBn0yhQFlsGCAyVqdZEE
-         MjWuFmIfE8GFys7Dpixry3CH9ajtXqeSmHn3DwdhpnCH+Rpj+gdn0aCTixVxj9W3SJuI
-         CB8Mlk9mqBqklZsaTzyoVftdA/+vVbWMsjcq4DHSkLHcTr7Z/kVY5tVbbEfSZXuV9mPG
-         iAc4ZQxmGcHvMOBD+XtK9d9Gb0TwNgQHEUfVsQDd+MhBwZZ+Xqyg6S9jdv1Tz+v64mwE
-         bkwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722422041; x=1723026841;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=CLpJAlwrYnKpG4yNN+f5PTDXi5Vm9RWGLixCvfhYZ0w=;
-        b=PiGfFGtAXOH4yjw1zMmoho2QU50Bi9XlYGZFiY00EI+lrNLciLE0FBZSod7hVBJLyA
-         Un9FkX3ghJVZdmz7DK93TyQnN0JzepsjK8YJPCio/iGTEdMFcQjVn0sQfS50/3KkQLMF
-         3Z6SYrbJAreWOn2OZOR6+l34xgwIP/rcdqcrBjBFsg+Pj4vU27R+XpJET+bNWVu/OacZ
-         sikBztCO5RV+vd33N000/xDGSFhXGtUougrjxLfpZfDeLvJRDccdzD5eDYZJY5U6+0TF
-         s9t2wLj7Nm320mo4iUOw6Ki2gDwi7flq8kUQlEi5f1++l5RjRTcOR3CB1djVaaOpwP+m
-         YE0A==
-X-Forwarded-Encrypted: i=1; AJvYcCU56u6naxDQX5jiDj5XFcP22j33R0DjbjGCaxs8v5pMTVtdltsrMgKoaYpUIEoEp1H+XjR5fl/CoVFK2vFtHngJS4zmQaB0qbkkLpICIA==
-X-Gm-Message-State: AOJu0Yw2PF+VrRdBeXe7QfsLpNYs2eIh17KtfnxfOp0LD4YijcC9G9zo
-	CT7tkolUGQNiQ4H3w8y7Oqd4cbDjkFf/oONUlcGT4byJe04P4aRv
-X-Google-Smtp-Source: AGHT+IG0a80aavBWEprMsVQIzBNeMtP25uSHl/X9jrMtPKSQsZSgH8vwwvHyW892+ooHawHz5yMqIw==
-X-Received: by 2002:a05:6870:6488:b0:260:faa1:4453 with SMTP id 586e51a60fabf-267d4cfc02dmr16644539fac.8.1722422041368;
-        Wed, 31 Jul 2024 03:34:01 -0700 (PDT)
-Received: from localhost.localdomain ([211.171.34.11])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70ead6e1a89sm9734940b3a.30.2024.07.31.03.33.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Jul 2024 03:34:00 -0700 (PDT)
-From: Kartik Kulkarni <kartik.koolks@gmail.com>
-To: hdegoede@redhat.com,
-	mchehab@kernel.org,
-	akari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uECZyFUN";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="EJIhO+Ir";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uECZyFUN";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="EJIhO+Ir"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 8B19C1F810;
+	Wed, 31 Jul 2024 13:01:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1722430895; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=JWi881wIWCASDtdn189f9cwNudmQttGuGLr5bDSNrBQ=;
+	b=uECZyFUNLyQbdkKTUMqwC284KayfhCJyiRNeptAMYLeooJja28TSJlc38u27KlIpIJgmNQ
+	h5A5C1i+kEz/SoKnvq/8qzHAn7TPKFQLwIsg5oZgUvNVKrwg0oaDz0CgIIJQ5KF4Llj65x
+	xpHzfssfXMBaTVTwOEpMczg3PYPaNSI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1722430895;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=JWi881wIWCASDtdn189f9cwNudmQttGuGLr5bDSNrBQ=;
+	b=EJIhO+IrwLLDmBk8Xb1d93TamTh1wI3jHrkLNG9NtLmJQstIcm2uETPja+cStk5UQLJYEo
+	FqDhlog6lCYdPOAw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1722430895; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=JWi881wIWCASDtdn189f9cwNudmQttGuGLr5bDSNrBQ=;
+	b=uECZyFUNLyQbdkKTUMqwC284KayfhCJyiRNeptAMYLeooJja28TSJlc38u27KlIpIJgmNQ
+	h5A5C1i+kEz/SoKnvq/8qzHAn7TPKFQLwIsg5oZgUvNVKrwg0oaDz0CgIIJQ5KF4Llj65x
+	xpHzfssfXMBaTVTwOEpMczg3PYPaNSI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1722430895;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=JWi881wIWCASDtdn189f9cwNudmQttGuGLr5bDSNrBQ=;
+	b=EJIhO+IrwLLDmBk8Xb1d93TamTh1wI3jHrkLNG9NtLmJQstIcm2uETPja+cStk5UQLJYEo
+	FqDhlog6lCYdPOAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4D0EC13297;
+	Wed, 31 Jul 2024 13:01:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 7ZWMEa81qmYzWQAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Wed, 31 Jul 2024 13:01:35 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: gregkh@linuxfoundation.org,
+	deller@gmx.de
+Cc: dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: ~lkcamp/patches@lists.sr.ht,
-	helen.koike@collabora.com,
-	kartik.koolks@gmail.com
-Subject: [PATCH v2] staging: atomisp: bnr: fix trailing statement
-Date: Wed, 31 Jul 2024 10:33:53 +0000
-Message-Id: <20240731103353.39245-1-kartik.koolks@gmail.com>
-X-Mailer: git-send-email 2.20.1
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 0/2] staging: Use backlight power constants
+Date: Wed, 31 Jul 2024 14:58:50 +0200
+Message-ID: <20240731130130.1148153-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -72,31 +82,48 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-2.60 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	MIME_GOOD(-0.10)[text/plain];
+	FREEMAIL_TO(0.00)[linuxfoundation.org,gmx.de];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmx.de]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spam-Score: -2.60
 
-Fix checkpatch error trailing statements should be on next line in
-ia_css_bnr.host.c:48
+Commit a1cacb8a8e70 ("backlight: Add BACKLIGHT_POWER_ constants for
+power states") introduced dedicated constants for backlight power states.
+Convert staging drivers to the new constants.
 
-Signed-off-by: Kartik Kulkarni <kartik.koolks@gmail.com>
----
-v2: Move Signed-off-by line above the exclusion block
----
- .../atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c      | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+The new constants replace the fbdev constants. This is part of a larger
+effort to make kernel subsystems more independent from fbdev code and
+headers.
 
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c
-index 457a004e1..b75cfd309 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c
-@@ -45,7 +45,8 @@ ia_css_bnr_dump(
-     const struct sh_css_isp_bnr_params *bnr,
-     unsigned int level)
- {
--	if (!bnr) return;
-+	if (!bnr)
-+		return;
- 	ia_css_debug_dtrace(level, "Bayer Noise Reduction:\n");
- 	ia_css_debug_dtrace(level, "\t%-32s = %d\n",
- 			    "bnr_gain_all", bnr->gain_all);
+Thomas Zimmermann (2):
+  staging: fbtft: Use backlight power constants
+  staging: olpc_dcon: Use backlight power constants
+
+ drivers/staging/fbtft/fb_ssd1351.c    | 2 +-
+ drivers/staging/fbtft/fbtft-core.c    | 6 +++---
+ drivers/staging/olpc_dcon/olpc_dcon.c | 2 +-
+ 3 files changed, 5 insertions(+), 5 deletions(-)
+
 -- 
-2.20.1
+2.45.2
 
