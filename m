@@ -1,173 +1,174 @@
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com [209.85.166.200])
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2E1814EC53
-	for <linux-staging@lists.linux.dev>; Sat,  3 Aug 2024 14:35:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A53E5153BF9
+	for <linux-staging@lists.linux.dev>; Sat,  3 Aug 2024 15:11:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722695704; cv=none; b=QOiYtkpdJuEUhZFFizM3I7rKSLtXM9T90JJKZlLo0470qScJXmh3FYax1Hv91F80nOPHVA8tEqQug5KKmISuSo/rzG4IEqPPC8VO0Seki1CDzKDTHp468rTdP4ZgG131shPGpNDyqq8h7a/pXeJqYK6DfEWfVmwMCf559grEz0U=
+	t=1722697886; cv=none; b=FhVb1Ees9ZspNWiYyzneiHpSM/X+hHGP1PvELnquUWMs0XtWnW+TMBm8xdWPedJuwnnNk2DR7RJ3sKbr942fzNyaoeNa1kRQhRHG96570Dsq18fC8AdPdO1bMBETvbHzRXp3Rbqge+MbsMVGWvVFHQFrFKVBjtcJC9bw++euEwo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722695704; c=relaxed/simple;
-	bh=JdgWNwwiTe5pPyMF4mkDnhwO5n2QhFjDyFPKOvNQe2g=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=GMh05RF87tTrRm3gpGrYlpMqKe5y3+62ZigeSq8Mv9tDQrO7i2Vb0bOLZnTvhzJZADcgmvX0LuMbbh6MJofLP8slPODwxsU4MulYnFQlXXyN483Fbtgm7t9L07pcTTsc4uo3ZWifw6s4Lzqn6dYX5X1+2sSbF2fmSrCc6gdWxnU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f200.google.com with SMTP id e9e14a558f8ab-397a7f98808so181691815ab.0
-        for <linux-staging@lists.linux.dev>; Sat, 03 Aug 2024 07:35:02 -0700 (PDT)
+	s=arc-20240116; t=1722697886; c=relaxed/simple;
+	bh=JF/wE9u1Tne1H8W3KbB1SZ6Ig50I8A9lZKdEDGBY9Vc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=U8w3IFhAaPSAAu8CePx4amGE49egrMTwG4fqhyCq9o/E1qu+tARM1ZgRXwFQE6QfjGzNfCU198IE6bM/my40NBJH3YuemA2d9aC5k2i/1cWXBosogt0z1msnXvgNepFv9ZTyBB8uKLnfYcvVCC7b12oCioLLtc8sdvUFz8SIKNE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=pass smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=qiYIVM1q; arc=none smtp.client-ip=209.85.219.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=g.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="qiYIVM1q"
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-6bba6ced3d4so2168076d6.2
+        for <linux-staging@lists.linux.dev>; Sat, 03 Aug 2024 08:11:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1722697882; x=1723302682; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=0OeF63u+VwIGDySfVB+9wYuobTQrEUq+aYb7vEKyGAA=;
+        b=qiYIVM1qlOhzvU7MxwAnt6v5aHwu1bukjUAsbh3lZGf1j8oEZt9WoORclDzjgSX6gM
+         NRQqSorN+7FmcHJK0BfjUW01BdV72h+QD5IwLbEsg7GVHPUyM1S/zwHjP/jdAfc7/Y8p
+         2chNg5pWLCM5KZZc618f3kqu8BGeuW+DFIMXufoKz3D9K6PpxTTapuFS55VyBR+ErSis
+         Vi5KGx/I7laf3sY46BnsOG7xtSy/H8oGqPbD0EFR72JRwmKzxdm+qCvGzmYcYUSL6PMA
+         9BZ9Dh7b5Zw/BityRySXkeLtuGU1+rI3yMefTQpyIYn+r4+oA+XOxvLVGuEFmhSvW0ty
+         nSmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722695702; x=1723300502;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pOX7iDSsj97sBQqRzELz1L0sHB1XuQ4x6QXvQoIlTxs=;
-        b=cScWeong9A/Wm1OC4JFPOl+WaP/XgXDVXxUKm5AcfK11o+KPuxiCg784NuwFyYyfhv
-         d7T2Qj0weHujwZnrqmoJOtF/gJ5OjL+Mq4ZGgYnC/qkCEnXCD4T4dofHYUr00nRfNn9r
-         4/FMzkTbcalLG05f/wYfP8UzYcOocrhZZ607dhi8s+34CNaKQySOrpL7tlAmxifj53Vf
-         IHRR3QDcbyB/mHeU/oGcKul1mKDgeE6w5iRTsePvAGLdtVEJBB5xJ4GHMGXPspqxUxQz
-         y00EvrLlaSF0UOuLkR8Q5ArMiGTx/ihlHfJs4J+nxJ4EKyeNXCCQiv6shXHhRUAhPR8K
-         n85A==
-X-Forwarded-Encrypted: i=1; AJvYcCX2EhNM3KDt337gmfQts3W77MiTP4zGXeo8XIpygfKjyLpp75K3VBLrGjUirxnJgxqg1SjeknKXmBpuB2VtyWjg2IT1bqnF7o6yxtVpjw==
-X-Gm-Message-State: AOJu0Yz5ZdgSORRnPbeNZqKqOUva95Jr5Ky/sRXtvbx6tBHdcOtX+OQO
-	Kcv7bFEL1Z3n0F4UZrwE8KCAkCtJAhXTBpZQg57d4ggR1ItivqMjpoDWRn/rF9+NSqYYR8/qr45
-	ka1y1BhIBqnyHwKePFQRV7K/WZ0YHCbezEoY3ylEIjLGnHBFcJKsGrNA=
-X-Google-Smtp-Source: AGHT+IEk2tIEEFHEggOlrrgxjV9YPLsnZVfo3UKqoRwpR10rgQWMHhfYsP4sGAf0lYmYzNHK4O/0g5lyk2u3x5Peo5xHcLO358LD
+        d=1e100.net; s=20230601; t=1722697882; x=1723302682;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0OeF63u+VwIGDySfVB+9wYuobTQrEUq+aYb7vEKyGAA=;
+        b=pg9Z2xVn50mCtHiMoEi/l+8uX42K2QLCdPr5LA6rRV3reDl2j0DvQDNRoMVAcI43SD
+         sFn7jZkbhQEDfI0jDJkLKNC+56VvnSWkcA8ubgV05YBXoeIqa8aKgI0jqmOs3t+/iVXO
+         xj4d0EHMa4AJjNgs3NIpfUykU3NBWaX3MhHZF2MzEfV2rFgPfSn9218v+gtzwW80eCBP
+         mo59oLtUyMRM0p9FMTy44HKvnmrIl6F+YcRMYIwA18xVFU8kXU8L8bv1BYcNuKvp/nGu
+         IA3Yj1bOCav/5nCy/dFHpiRtWrSpovw9bFS3w3ViO3vUn6wljyMcOCsnU05T7lGT+ve5
+         FrPA==
+X-Forwarded-Encrypted: i=1; AJvYcCW1/ANd7gnoeB2IwnaGoX4hoj2wwLkYRpa3548WrSkoGOxFBjWRsjDwZICD8/Cu/6FMicRit1t9e5b0o7si0Spdmxf5ousZ+rcO5xMrbw==
+X-Gm-Message-State: AOJu0YwqlDbDrpDZh1FppnWUrSV3zpPKy4V2D61z2/eo5+68ViX22utq
+	UFg/kYKL/28akyddDNZX0Lr0IYM2Vcv3wufmv77qFVXVUKjVO+Wsws+6VODEEQ==
+X-Google-Smtp-Source: AGHT+IGX8cvXFMW7osz5blTG0egdvz+yOFiDhNeyBs4kvLQv00+Wtle7rEJFgl6vT+sxZ0Yr5tHSUA==
+X-Received: by 2002:a0c:fc4e:0:b0:6bb:9b66:f264 with SMTP id 6a1803df08f44-6bb9b66f77bmr59319746d6.0.1722697882581;
+        Sat, 03 Aug 2024 08:11:22 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:681:fd10::3ed1])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6bb9c839e04sm17443846d6.97.2024.08.03.08.11.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 03 Aug 2024 08:11:22 -0700 (PDT)
+Date: Sat, 3 Aug 2024 11:11:18 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Nam Cao <namcao@linutronix.de>
+Cc: syzbot <syzbot+ca2eaaadab55de6a5a42@syzkaller.appspotmail.com>,
+	florian.c.schilhabel@googlemail.com, gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-usb@vger.kernel.org,
+	syzkaller-bugs@googlegroups.com
+Subject: Re: [syzbot] [staging?] [usb?] WARNING in
+ r8712_usb_write_mem/usb_submit_urb (2)
+Message-ID: <ebce8d2c-4b9f-4c80-9d37-fa507e06b9ce@rowland.harvard.edu>
+References: <00000000000095a6be061ebea91f@google.com>
+ <20240803142426.d8uduX0h@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:1b0f:b0:382:6a83:f4fc with SMTP id
- e9e14a558f8ab-39b1fc65098mr5205775ab.5.1722695702131; Sat, 03 Aug 2024
- 07:35:02 -0700 (PDT)
-Date: Sat, 03 Aug 2024 07:35:02 -0700
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <20240803142426.d8uduX0h@linutronix.de>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000061c8a0061ec859b5@google.com>
-Subject: Re: [syzbot] [staging?] [usb?] WARNING in r8712_usb_write_mem/usb_submit_urb
- (2)
-From: syzbot <syzbot+ca2eaaadab55de6a5a42@syzkaller.appspotmail.com>
-To: florian.c.schilhabel@googlemail.com, gregkh@linuxfoundation.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-usb@vger.kernel.org, 
-	namcao@linutronix.de, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
 
-Hello,
+On Sat, Aug 03, 2024 at 04:24:26PM +0200, Nam Cao wrote:
+> On Fri, Aug 02, 2024 at 08:01:38PM -0700, syzbot wrote:
+> > usb 1-1: BOGUS urb xfer, pipe 3 != type 1
+> > WARNING: CPU: 0 PID: 2583 at drivers/usb/core/urb.c:503 usb_submit_urb+0xe4b/0x1730 drivers/usb/core/urb.c:503
+> ...
+> > Call Trace:
+> >  <TASK>
+> >  r8712_usb_write_mem+0x2e4/0x3f0 drivers/staging/rtl8712/usb_ops_linux.c:170
+> >  rtl8712_dl_fw+0x7ab/0xfe0 drivers/staging/rtl8712/hal_init.c:203
+> >  rtl8712_hal_init drivers/staging/rtl8712/hal_init.c:330 [inline]
+> >  rtl871x_hal_init+0xb3/0x190 drivers/staging/rtl8712/hal_init.c:394
+> >  netdev_open+0xea/0x800 drivers/staging/rtl8712/os_intfs.c:397
+> 
+> #syz test: https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git linux-6.6.y
+> 
+> diff --git a/drivers/staging/rtl8712/hal_init.c b/drivers/staging/rtl8712/hal_init.c
+> index 1148075f0cd6..80d8c462fafa 100644
+> --- a/drivers/staging/rtl8712/hal_init.c
+> +++ b/drivers/staging/rtl8712/hal_init.c
+> @@ -152,6 +152,10 @@ static u8 chk_fwhdr(struct fw_hdr *pfwhdr, u32 ulfilelength)
+>  	return _SUCCESS;
+>  }
+>  
+> +static const int pipetypes[4] = {
+> +	PIPE_CONTROL, PIPE_ISOCHRONOUS, PIPE_BULK, PIPE_INTERRUPT
+> +};
+> +
+>  static u8 rtl8712_dl_fw(struct _adapter *adapter)
+>  {
+>  	sint i;
+> @@ -167,6 +171,29 @@ static u8 rtl8712_dl_fw(struct _adapter *adapter)
+>  	u32 txdscp_sz = sizeof(struct tx_desc);
+>  	u8 ret = _FAIL;
+>  
+> +	struct intf_hdl *hdl = &adapter->pio_queue->intf;
+> +	struct intf_priv *pintfpriv = hdl->pintfpriv;
+> +	struct dvobj_priv *pdvobj = (struct dvobj_priv *)pintfpriv->intf_dev;
+> +	struct usb_device *pusbd = pdvobj->pusbdev;
+> +
+> +	for (int i = 0; i < 16; ++i) {
+> +		struct usb_host_endpoint *ep = pusbd->ep_in[i];
+> +		if (!ep)
+> +			continue;
+> +		int xfertype = usb_endpoint_type(&ep->desc);
+> +		int type = pipetypes[xfertype];
+> +		pr_err("ep_in[%d] type=%d\n", i, type);
+> +	}
+> +
+> +	for (int i = 0; i < 16; ++i) {
+> +		struct usb_host_endpoint *ep = pusbd->ep_out[i];
+> +		if (!ep)
+> +			continue;
+> +		int xfertype = usb_endpoint_type(&ep->desc);
+> +		int type = pipetypes[xfertype];
+> +		pr_err("ep_out[%d] type=%d\n", i, type);
+> +	}
+> +
+>  	ulfilelength = rtl871x_open_fw(adapter, &mappedfw);
+>  	if (mappedfw && (ulfilelength > 0)) {
+>  		update_fwhdr(&fwhdr, mappedfw);
+> @@ -200,6 +227,7 @@ static u8 rtl8712_dl_fw(struct _adapter *adapter)
+>  			txdesc->txdw0 |= cpu_to_le32(dump_imem_sz &
+>  						       0x0000ffff);
+>  			memcpy(payload, ptr, dump_imem_sz);
+> +			pr_err("%s:%d\n", __func__, __LINE__);
+>  			r8712_write_mem(adapter, RTL8712_DMA_VOQ,
+>  					dump_imem_sz + TXDESC_SIZE,
+>  					(u8 *)txdesc);
+> @@ -229,6 +257,7 @@ static u8 rtl8712_dl_fw(struct _adapter *adapter)
+>  			txdesc->txdw0 |= cpu_to_le32(dump_emem_sz &
+>  						       0x0000ffff);
+>  			memcpy(payload, ptr, dump_emem_sz);
+> +			pr_err("%s:%d\n", __func__, __LINE__);
+>  			r8712_write_mem(adapter, RTL8712_DMA_VOQ,
+>  					dump_emem_sz + TXDESC_SIZE,
+>  					(u8 *)txdesc);
+> @@ -282,6 +311,7 @@ static u8 rtl8712_dl_fw(struct _adapter *adapter)
+>  		txdesc->txdw0 |= cpu_to_le32(fwhdr.fw_priv_sz & 0x0000ffff);
+>  		txdesc->txdw0 |= cpu_to_le32(BIT(28));
+>  		memcpy(payload, &fwhdr.fwpriv, fwhdr.fw_priv_sz);
+> +		pr_err("%s:%d\n", __func__, __LINE__);
+>  		r8712_write_mem(adapter, RTL8712_DMA_VOQ,
+>  				fwhdr.fw_priv_sz + TXDESC_SIZE, (u8 *)txdesc);
 
-syzbot has tested the proposed patch but the reproducer is still triggering an issue:
-INFO: task hung in r871xu_dev_remove
+You don't have to run all these tests to figure out what the problem is; 
+I can tell you.
 
-INFO: task kworker/1:1:28 blocked for more than 143 seconds.
-      Not tainted 6.6.44-syzkaller-g721391060066-dirty #0
-"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-task:kworker/1:1     state:D stack:27456 pid:28    ppid:2      flags:0x00004000
-Workqueue: usb_hub_wq hub_event
-Call Trace:
- <TASK>
- context_switch kernel/sched/core.c:5380 [inline]
- __schedule+0xca5/0x30d0 kernel/sched/core.c:6698
- schedule+0xe7/0x1b0 kernel/sched/core.c:6772
- schedule_preempt_disabled+0x13/0x30 kernel/sched/core.c:6831
- __mutex_lock_common kernel/locking/mutex.c:679 [inline]
- __mutex_lock+0x5bd/0x9d0 kernel/locking/mutex.c:747
- unregister_netdev+0x12/0x30 net/core/dev.c:11102
- r871xu_dev_remove+0x291/0x480 drivers/staging/rtl8712/usb_intf.c:596
- usb_unbind_interface+0x1e0/0x8d0 drivers/usb/core/driver.c:458
- device_remove drivers/base/dd.c:569 [inline]
- device_remove+0x122/0x170 drivers/base/dd.c:561
- __device_release_driver drivers/base/dd.c:1272 [inline]
- device_release_driver_internal+0x44a/0x610 drivers/base/dd.c:1295
- bus_remove_device+0x22f/0x420 drivers/base/bus.c:574
- device_del+0x39d/0xa60 drivers/base/core.c:3838
- usb_disable_device+0x36c/0x7f0 drivers/usb/core/message.c:1416
- usb_disconnect+0x2e1/0x890 drivers/usb/core/hub.c:2276
- hub_port_connect drivers/usb/core/hub.c:5329 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5629 [inline]
- port_event drivers/usb/core/hub.c:5789 [inline]
- hub_event+0x1be4/0x4f50 drivers/usb/core/hub.c:5871
- process_one_work+0x889/0x15e0 kernel/workqueue.c:2631
- process_scheduled_works kernel/workqueue.c:2704 [inline]
- worker_thread+0x8b9/0x12a0 kernel/workqueue.c:2785
- kthread+0x2c6/0x3b0 kernel/kthread.c:388
- ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:147
- ret_from_fork_asm+0x1b/0x30 arch/x86/entry/entry_64.S:293
- </TASK>
+The bug is connected to ffaddr2piphd() in usb_ops_linux.c.  That routine 
+creates a bunch of Bulk pipe values with various endpoint numbers, based 
+on the addr argument passed by its caller.  But the driver doesn't check 
+to make sure that these endpoints actually exist in the device or that 
+they are actually Bulk endpoints.
 
-Showing all locks held in the system:
-3 locks held by kworker/0:1/9:
- #0: ffff888109ba9138 ((wq_completion)ipv6_addrconf){+.+.}-{0:0}, at: process_one_work+0x789/0x15e0 kernel/workqueue.c:2606
- #1: ffffc9000009fd80 ((work_completion)(&(&net->ipv6.addr_chk_work)->work)){+.+.}-{0:0}, at: process_one_work+0x7eb/0x15e0 kernel/workqueue.c:2607
- #2: ffffffff89ad6da8 (rtnl_mutex){+.+.}-{3:3}, at: addrconf_verify_work+0x12/0x30 net/ipv6/addrconf.c:4684
-6 locks held by kworker/1:1/28:
- #0: ffff88810a64fd38 ((wq_completion)usb_hub_wq){+.+.}-{0:0}, at: process_one_work+0x789/0x15e0 kernel/workqueue.c:2606
- #1: ffffc900001e7d80 ((work_completion)(&hub->events)){+.+.}-{0:0}, at: process_one_work+0x7eb/0x15e0 kernel/workqueue.c:2607
- #2: ffff888104f2b190 (&dev->mutex){....}-{3:3}, at: device_lock include/linux/device.h:992 [inline]
- #2: ffff888104f2b190 (&dev->mutex){....}-{3:3}, at: hub_event+0x1be/0x4f50 drivers/usb/core/hub.c:5817
- #3: ffff888114cd9190 (&dev->mutex){....}-{3:3}, at: device_lock include/linux/device.h:992 [inline]
- #3: ffff888114cd9190 (&dev->mutex){....}-{3:3}, at: usb_disconnect+0x10a/0x890 drivers/usb/core/hub.c:2267
- #4: ffff888100f5b160 (&dev->mutex){....}-{3:3}, at: device_lock include/linux/device.h:992 [inline]
- #4: ffff888100f5b160 (&dev->mutex){....}-{3:3}, at: __device_driver_lock drivers/base/dd.c:1095 [inline]
- #4: ffff888100f5b160 (&dev->mutex){....}-{3:3}, at: device_release_driver_internal+0xa4/0x610 drivers/base/dd.c:1292
- #5: ffffffff89ad6da8 (rtnl_mutex){+.+.}-{3:3}, at: unregister_netdev+0x12/0x30 net/core/dev.c:11102
-1 lock held by khungtaskd/29:
- #0: ffffffff888aece0 (rcu_read_lock){....}-{1:2}, at: rcu_lock_acquire include/linux/rcupdate.h:334 [inline]
- #0: ffffffff888aece0 (rcu_read_lock){....}-{1:2}, at: rcu_read_lock include/linux/rcupdate.h:786 [inline]
- #0: ffffffff888aece0 (rcu_read_lock){....}-{1:2}, at: debug_show_all_locks+0x75/0x340 kernel/locking/lockdep.c:6614
-1 lock held by kworker/u4:7/1043:
- #0: ffff8881f653b318 (&rq->__lock){-.-.}-{2:2}, at: raw_spin_rq_lock_nested kernel/sched/core.c:558 [inline]
- #0: ffff8881f653b318 (&rq->__lock){-.-.}-{2:2}, at: raw_spin_rq_lock kernel/sched/sched.h:1375 [inline]
- #0: ffff8881f653b318 (&rq->__lock){-.-.}-{2:2}, at: rq_lock kernel/sched/sched.h:1684 [inline]
- #0: ffff8881f653b318 (&rq->__lock){-.-.}-{2:2}, at: __schedule+0x290/0x30d0 kernel/sched/core.c:6613
-3 locks held by kworker/1:2/1939:
- #0: ffff888109ba9138 ((wq_completion)ipv6_addrconf){+.+.}-{0:0}, at: process_one_work+0x789/0x15e0 kernel/workqueue.c:2606
- #1: ffffc9000393fd80 ((work_completion)(&(&net->ipv6.addr_chk_work)->work)){+.+.}-{0:0}, at: process_one_work+0x7eb/0x15e0 kernel/workqueue.c:2607
- #2: ffffffff89ad6da8 (rtnl_mutex){+.+.}-{3:3}, at: addrconf_verify_work+0x12/0x30 net/ipv6/addrconf.c:4684
-1 lock held by klogd/2494:
- #0: ffff8881f653b318 (&rq->__lock){-.-.}-{2:2}, at: raw_spin_rq_lock_nested kernel/sched/core.c:558 [inline]
- #0: ffff8881f653b318 (&rq->__lock){-.-.}-{2:2}, at: raw_spin_rq_lock kernel/sched/sched.h:1375 [inline]
- #0: ffff8881f653b318 (&rq->__lock){-.-.}-{2:2}, at: rq_lock kernel/sched/sched.h:1684 [inline]
- #0: ffff8881f653b318 (&rq->__lock){-.-.}-{2:2}, at: __schedule+0x290/0x30d0 kernel/sched/core.c:6613
-2 locks held by dhcpcd/2543:
- #0: ffffffff89ad6da8 (rtnl_mutex){+.+.}-{3:3}, at: devinet_ioctl+0x1d3/0x1f10 net/ipv4/devinet.c:1091
- #1: ffff88811928cdb0 (&padapter->mutex_start){+.+.}-{3:3}, at: netdev_open+0x32/0x840 drivers/staging/rtl8712/os_intfs.c:392
-2 locks held by getty/2563:
- #0: ffff88810af530a0 (&tty->ldisc_sem){++++}-{0:0}, at: tty_ldisc_ref_wait+0x24/0x80 drivers/tty/tty_ldisc.c:243
- #1: ffffc900000432f0 (&ldata->atomic_read_lock){+.+.}-{3:3}, at: n_tty_read+0xfc9/0x1480 drivers/tty/n_tty.c:2216
+That's why the problem occurs.  In this syzbot test the endpoint in 
+question is really Interrupt, not Bulk.  That's why the warning message 
+appears about the pipe's type not matching the endpoint's type.
 
-=============================================
-
-NMI backtrace for cpu 0
-CPU: 0 PID: 29 Comm: khungtaskd Not tainted 6.6.44-syzkaller-g721391060066-dirty #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 06/27/2024
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0xd9/0x1b0 lib/dump_stack.c:106
- nmi_cpu_backtrace+0x27b/0x390 lib/nmi_backtrace.c:113
- nmi_trigger_cpumask_backtrace+0x29c/0x300 lib/nmi_backtrace.c:62
- trigger_all_cpu_backtrace include/linux/nmi.h:160 [inline]
- check_hung_uninterruptible_tasks kernel/hung_task.c:222 [inline]
- watchdog+0xf87/0x1210 kernel/hung_task.c:379
- kthread+0x2c6/0x3b0 kernel/kthread.c:388
- ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:147
- ret_from_fork_asm+0x1b/0x30 arch/x86/entry/entry_64.S:293
- </TASK>
-Sending NMI from CPU 0 to CPUs 1:
-NMI backtrace for cpu 1 skipped: idling at native_safe_halt arch/x86/include/asm/irqflags.h:48 [inline]
-NMI backtrace for cpu 1 skipped: idling at arch_safe_halt arch/x86/include/asm/irqflags.h:86 [inline]
-NMI backtrace for cpu 1 skipped: idling at acpi_safe_halt+0x1b/0x30 drivers/acpi/processor_idle.c:111
-
-
-Tested on:
-
-commit:         72139106 Linux 6.6.44
-git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git linux-6.6.y
-console output: https://syzkaller.appspot.com/x/log.txt?x=17be7b65980000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=cc2e57d9f035477b
-dashboard link: https://syzkaller.appspot.com/bug?extid=ca2eaaadab55de6a5a42
-compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
-patch:          https://syzkaller.appspot.com/x/patch.diff?x=11be7b65980000
-
+Alan Stern
