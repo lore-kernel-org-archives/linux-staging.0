@@ -1,73 +1,169 @@
-Received: from sendmail.purelymail.com (sendmail.purelymail.com [34.202.193.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18F75B67E
-	for <linux-staging@lists.linux.dev>; Sat,  3 Aug 2024 03:29:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=34.202.193.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BF2155C29
+	for <linux-staging@lists.linux.dev>; Sat,  3 Aug 2024 04:24:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722655751; cv=none; b=imj3I4DrQy/t65K0pSJq1NYXekEAqGclL5UcRgs410WRkodeBAfFaq/ZQQsgTynG46unbb72mn4r3lkSk0vMAEqXNQqnp0AhVOJcJnf+KcAf18slt6Hg52RsMuAsKPTW0HR4NKFtrWQDxAtDIYjF5p1qA4fWdJIH7hyuFJlMDY8=
+	t=1722659043; cv=none; b=SCKLfIgAeJV2BSN8KfOA9DWrEGbTHN8jjY3eTovx2NiZo7I5w2j7GRY3BGY8Zgwj+8f6NOrDU0FlPdZMxvvZefhfyXa6f3yxlE6K5w0OI8Cmb2fVa2FtYh2b5Aybu6+WAnYOFMf/s47voh1dW4q58K3J4zmILHPvPPWred5DIwA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722655751; c=relaxed/simple;
-	bh=V+5SWEhdUx/PT2rg1YC48hJQGvbxbFyZ/tQDnJq8Obw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=cgvsgPhpjibOvswrNu7d/S1VG9uT2HIa5o8uyvW+yQqNdfoIDtHaGk+izCxiWzOQB/V2Isg7whe+q4vEJyrhETqYHMusKaTItYKARGlEF/ISLWZIXCQ6Ob6sDLaWWVxK8D/9Tpiv7QofUOwxi6jXqUx1PPtHYEUF28s+HqrUwr4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=spwhitton.name; spf=pass smtp.mailfrom=spwhitton.name; dkim=pass (2048-bit key) header.d=spwhitton.name header.i=@spwhitton.name header.b=Bfv0J/Q9; dkim=pass (2048-bit key) header.d=purelymail.com header.i=@purelymail.com header.b=ShZyfamE; arc=none smtp.client-ip=34.202.193.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=spwhitton.name
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=spwhitton.name
+	s=arc-20240116; t=1722659043; c=relaxed/simple;
+	bh=Jp2OHDRssPjIQ+nSYXpj4QTUcyhYsJPhqr2EF2nlkHA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eu5xB/xdqi53++0Lz/88qokw2Jw/twIvx6JjBsrcZghTauXCeg6jH48RYnOKQKNTdWRxK5/aaGmb0nyYU5aqQKGXoSm5KwDR8TgAy8vzHLZh3/SUfpofxX0dKcgyWnCwj1pfBwIRyTxSfjS/XZR4ftpOl2Sx2J+dkGxQdREF1Lk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=R/cvNY3F; arc=none smtp.client-ip=209.85.161.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=spwhitton.name header.i=@spwhitton.name header.b="Bfv0J/Q9";
-	dkim=pass (2048-bit key) header.d=purelymail.com header.i=@purelymail.com header.b="ShZyfamE"
-DKIM-Signature: a=rsa-sha256; b=Bfv0J/Q9WL4LyPd3I1rutoDMULBvDM+o/PBBYDbFuxcemrvBRznLMCIdoARrimElSCWM1X4TQLg8qqrfJOQ9XwUwqtS6w4nTWoXiD+ks41MDdLJK5vLXuzchdtEwEVx872WzcUAoDObFb0ngOV8t72NuW+1/2e6YAoM495JryqPMUBK9Damhi5at+2Ij/xgm/mqzHvVRZErVI4E/25WmfqgoRYJO2IBWyqnwf09gLJv4BNf27ia1UxTHFvIhS3JAqnkYKQjcxoLIWJM5S8JYdxmRL8VT/+5XKMoejb8HvEG+kDtSP7Jw09gtSM3Nx3R3EQjJZf5c1fC8MayxF0PIEg==; s=purelymail2; d=spwhitton.name; v=1; bh=V+5SWEhdUx/PT2rg1YC48hJQGvbxbFyZ/tQDnJq8Obw=; h=Received:Received:From:To:Subject:Date;
-DKIM-Signature: a=rsa-sha256; b=ShZyfamEZKgbMLyaR0XxXN53u4rMxvxqDKxNWCZNrygurgwOCwmykbNriUPk+1GsynZ7DQQJmO27qry4R3yqt1ypDhRd8kyYuxwQdXwU2fM91gf+/+Z0aBnrylmCcn8XCdCvq758pJzfK8bi8tx20/bQ5mnRripXrrJUATFCf1EyoL5Ve6nAu8DglgIKVbU4MI/RBcj6QJqqKnic+v7DFTaxTZ/fZiY0L/n5JAt57oTEjwNNoPcNRRlnKGDAZXoGKn0RzkI0gwuSnsgto7Ko2BT5y74XQt3FWFwmJWUvOdM4JB6YyVezWO8FJv58Aj8iP6mtZKR8sJGY+1hKhZs7qA==; s=purelymail2; d=purelymail.com; v=1; bh=V+5SWEhdUx/PT2rg1YC48hJQGvbxbFyZ/tQDnJq8Obw=; h=Feedback-ID:Received:Received:From:To:Subject:Date;
-Feedback-ID: 20115:3760:null:purelymail
-X-Pm-Original-To: linux-staging@lists.linux.dev
-Received: by smtp.purelymail.com (Purelymail SMTP) with ESMTPSA id -868321867;
-          (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
-          Sat, 03 Aug 2024 03:28:06 +0000 (UTC)
-Received: by melete.silentflame.com (Postfix, from userid 1000)
-	id D47867E3D83; Sat,  3 Aug 2024 12:28:02 +0900 (KST)
-From: Sean Whitton <spwhitton@spwhitton.name>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: ~lkcamp/patches@lists.sr.ht,  helen.koike@collabora.com,  Hans de Goede
- <hdegoede@redhat.com>,  Mauro Carvalho Chehab <mchehab@kernel.org>,
-  Sakari Ailus <sakari.ailus@linux.intel.com>,
-  linux-media@vger.kernel.org,  linux-staging@lists.linux.dev,
-  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: media: atomisp: Add parentheses around macro
- definitions
-In-Reply-To: <2024073020-reload-vanquish-f937@gregkh> (Greg Kroah-Hartman's
-	message of "Tue, 30 Jul 2024 08:38:51 +0200")
-References: <20240730062348.46205-2-spwhitton@spwhitton.name>
-	<2024073020-reload-vanquish-f937@gregkh>
-Date: Sat, 03 Aug 2024 11:28:02 +0800
-Message-ID: <87v80i475p.fsf@melete.silentflame.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="R/cvNY3F"
+Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-5d80600994cso135636eaf.3
+        for <linux-staging@lists.linux.dev>; Fri, 02 Aug 2024 21:24:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1722659040; x=1723263840; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=XheisaESTEudpbi3rO/WWYBhJwYeNAh4Hr324gZmrNU=;
+        b=R/cvNY3FyM/r5vBCAGOPNBj9VrYpp5Pm6H4XrpHqGu3L7hH4Lnpsq4mHz5MhbH5eBl
+         4/EuBv5c1B6hmYAGz1/vesoY2s9PDIQ6Oionvl/73vY44zkLDGo0VgmrnQsSws2f7b5V
+         qh8aqs+xXiPkJk99eNwcCCxUhLTPiMFrfq75z3dncuhCqBR94FFzcHkv00kVpjgeG5hZ
+         3gV9zAf1M4C/f7qYG8KfM2EnFPpEao4nYZBIlHSIMY0Q8/5J1f8UlQClvW+v1oeSfKGB
+         Gt3qcU2UHQB3HnrwJtvKn9QmjfVihgsQetfNAFFvSJKTvuHC8uvgUrkLeOyrPDEFvdOu
+         23Sw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722659040; x=1723263840;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XheisaESTEudpbi3rO/WWYBhJwYeNAh4Hr324gZmrNU=;
+        b=RpYgrnF04vhgsH8aXPpdtcbU7jKVB06sWs0RAWVYRG2LUuGJexbPkjGLQpRDV7HcbL
+         0yC8kjSpYuNnuuOx/uH4YGbfCHxi/NBFFcsoYGE++r7FtvU2V87KhZUO/95jNLM/TnbF
+         3bBNQdOB5DI+nUl1cNbgZl3PTtx4ndBmR9bzPz7kM4UHvYpN0YkEN2P/NHb40Lr7Wgfx
+         y9/rw4MA+hil3DIP7r8t/yvtOiF6dc7WQxAQ4LjtaIGE9zCRPDUduSdM6sEjhGkbLorU
+         As+B0V59IZUFDCdJj5y6+4pUdEtK4mWCkX8EiK20sgZx5ZcYYPj3DiyG1oxtJZP8fEyq
+         ROjw==
+X-Forwarded-Encrypted: i=1; AJvYcCW4ohbEBAnjZYUojy1LgLg3YuUcD5lWKSrVtai+1KL9IIRxWOAJij+AU+hrbSlvw3H2REavFOH9LiM68HNqsPFxEnXJj51sJ6aHmq7ncg==
+X-Gm-Message-State: AOJu0YyShFbFwZyvReRZweDiG+FPyKNY8J0Qm94Vcmc445LiyrYc2t6j
+	9+ndcWkf20JEG8UlLUO7QMYO0Yj54BTqHYEdWOD8uPo+j3yIeWol4bRj8yTjX+0=
+X-Google-Smtp-Source: AGHT+IEhe7YsubngD93lp7hk+e4p2ONzcD+teDCo40j5gj0QLHG1gPkMMTeH6J6MEwjI5GGBN+DNRg==
+X-Received: by 2002:a05:6820:221e:b0:5d6:79a:c4d6 with SMTP id 006d021491bc7-5d6636d2bfamr7653033eaf.3.1722659040377;
+        Fri, 02 Aug 2024 21:24:00 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700::17c0])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5d7571789fesm707877eaf.1.2024.08.02.21.23.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Aug 2024 21:23:59 -0700 (PDT)
+Date: Fri, 2 Aug 2024 23:23:57 -0500
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Riyan Dhiman <riyandhiman14@gmail.com>
+Cc: gregkh@linuxfoundation.org, dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: vme_user: vme_bridge.h: Document mutex in
+ vme_dma_resource structure
+Message-ID: <1e74a5ef-7d15-451e-8cb8-2743ef95089a@suswa.mountain>
+References: <20240803001814.7752-1-riyandhiman14@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240803001814.7752-1-riyandhiman14@gmail.com>
 
-Hello,
+On Sat, Aug 03, 2024 at 05:48:14AM +0530, Riyan Dhiman wrote:
+> Adhere to Linux kernel coding style
+> 
+> Reported by checkpatch:
+> 
+> CHECK: mutex definition without comment
+> 
+> Proof for comment:
+> 
+> 1. The mutex is used to protect access to the 'running' list
+> (line 1798 tsi148_dma_list_exec function)
+> 	mutex_lock(&ctrlrl->mtx);
+> 	if (!list_empty(&ctrlr->running)) {
+> 		mutex_unlock(&ctrlr->mtx);
+> 		return -EBUSY;
+> 	}
 
-On Tue 30 Jul 2024 at 08:38am +02, Greg Kroah-Hartman wrote:
+Why did you chop out the "channel = ctrlr->number;" line?  That code
+looks like this:
 
-> This isn't a "complex values", and really should just be removed
-> entirely and use the correct "static inline" properly.
+drivers/staging/vme_user/vme_tsi148.c
+  1798          mutex_lock(&ctrlr->mtx);
+  1799  
+  1800          channel = ctrlr->number;
+  1801  
+  1802          if (!list_empty(&ctrlr->running)) {
+  1803                  /*
+  1804                   * XXX We have an active DMA transfer and currently haven't
+  1805                   *     sorted out the mechanism for "pending" DMA transfers.
+  1806                   *     Return busy.
+  1807                   */
+  1808                  /* Need to add to pending here */
+  1809                  mutex_unlock(&ctrlr->mtx);
+  1810                  return -EBUSY;
+  1811          }
+  1812  
+  1813          list_add(&list->list, &ctrlr->running);
 
-I found that there are several headers in
-atomisp/pci/hive_isp_css_include which have this pattern of defining an
-_INLINE_*_ preprocessor constant, and using it to choose between
-'extern' and 'static inline' in each file where the header is included.
 
-I don't know what the author's intention was.  Are you saying that you
-think this preprocessor mechanism should just be replaced with
-hardcoding 'extern' or 'static inline' in each file which includes one
-of these headers?
+The first line after we take a lock and the last line before we drop
+the lock are hopefully chosen because they need to be protected by the
+lock.
 
-Thanks!
+>   This prevents race conditions when multiple threads attempt to start DMA
+>   operations simultaneously.
+> 
+> 2. It's also used when removing DMA list from running list:
+> (line 1862 tsi148_dma_list_exec function)
+> 	mutex_lock(&ctrlr->mtx);
+> 	list_del(&list->list);
+> 	mutex_unlock(&ctrlr->mtx);
+>   Ensuring thread-safe modification of the controller's state.
+> 
+> Without this mutex, concurrent access to the DMA controller's state could
+> lead to data corruption or inconsistant state.
+>
 
--- 
-Sean Whitton
+It's also used in drivers/staging/vme_user/vme.c
+What you should do is rename the mutex from mtx to XXX_mtx and then
+rename all the places where it is used.  Keep renaming until the driver
+builds.
+
+XXX_mtx is obviously not the correct name.  But "mtx" is vague and
+useless.  There are 3 other locks in this header file which have the
+same name so not only is it useless as a descriptive name, it's also
+useless for searching.
+
+Since you say that it is "protect access to the 'running' list", then
+that means you need to check all the places where the running list is
+accessed and ensure that the lock is held.  Or if it's not, what makes
+that thread safe?
+
+These comments are supposed to help us understand the locking but it
+feels like we have a long way to go before it's fully understood.
+
+> Signed-off-by: Riyan Dhiman <riyandhiman14@gmail.com>
+> ---
+>  drivers/staging/vme_user/vme_bridge.h | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/staging/vme_user/vme_bridge.h b/drivers/staging/vme_user/vme_bridge.h
+> index 9bdc41bb6602..bb3750b40eb1 100644
+> --- a/drivers/staging/vme_user/vme_bridge.h
+> +++ b/drivers/staging/vme_user/vme_bridge.h
+> @@ -61,6 +61,7 @@ struct vme_dma_list {
+>  struct vme_dma_resource {
+>  	struct list_head list;
+>  	struct vme_bridge *parent;
+> +	/* Mutex to protect DMA controller resources and ensure thread-safe operations */
+
+"resources" is too vague.  "ensure thread-safe operations" is obvious
+and doesn't need to be said.
+
+regards,
+dan carpenter
+
