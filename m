@@ -1,79 +1,142 @@
-Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 567A728376
-	for <linux-staging@lists.linux.dev>; Sat,  3 Aug 2024 07:22:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.252.153.129
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B0D314EC5E
+	for <linux-staging@lists.linux.dev>; Sat,  3 Aug 2024 13:56:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722669775; cv=none; b=gtf1QPItu0E8zffGFg9W5pUvyw6njaS5QlEqIdXsLx+tWnvhalraqWZ/crpVXOOAH+GMeE+/nCJ5IwHSDP3v9kGx2irAh1t7sfsiAdU8xdh1ADu372oyYHsIF8PFcj8j1Bd2zmJm0U53CfmaIy+1sKtAzmtwlVqXbxWuBHVPd1I=
+	t=1722693366; cv=none; b=XnGXQ1oHhA3DJ3gLjsGbLhHdqGyooK2OdPcbeXEoFeQqqtHqFXnlxliPY48GF0it65TaRabs2z6vKKboIC7wxo2KSiBYqGZkDf+PDoG2bwjOXVWO5n8cpfF8igvsboQCxCqC71yuNUxSYOrSJiDz7LDYtjHPiaaOM/Dsnwfq33k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722669775; c=relaxed/simple;
-	bh=jUmfbzzcP0ZsExSKht7Ae1zzOEoGcNQ0sCLK5bsnQWw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Hywnd+7QB8m5YU8JZrW78ygqxgZs99CI7fOm9djaDy3vdlZSVRupIsQOePRLVWxnjd4R1xqf1InJ3CNi2WAr7binEVLWj9tVlzeStV7NyuE4oXXvY7chMJ/rvW1ZRxQlyKQH3G2mLFkAgZdVyigTqrs1NGKyL1X2b5HTBMrg93k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net; spf=pass smtp.mailfrom=riseup.net; dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b=AZD89qyq; arc=none smtp.client-ip=198.252.153.129
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riseup.net
+	s=arc-20240116; t=1722693366; c=relaxed/simple;
+	bh=sQNvDj66koO4Eh6ZdtymFhAZsCA0muFCyeA6lU/MHsA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y1ITuGSKlHDoqGDJAbmF9ctrvil3SdLc9lRpPhV+05yilDfWPhs703FghYhhKEoHgierCKZeH/sdMPYzUh77G9NyD0A3NAGQn2TKbtHrXgy5NBJ6TYvC6lUzjpcDg60GbRFQLhGMD1gxPeWqeo8e5UvIA/XaUjBcu6wgHy7JQbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=tl+Fj6uv; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=pOHyjtjN; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b="AZD89qyq"
-Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx1.riseup.net (Postfix) with ESMTPS id 4WbZ0l05VszDqBP;
-	Sat,  3 Aug 2024 07:22:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
-	t=1722669767; bh=jUmfbzzcP0ZsExSKht7Ae1zzOEoGcNQ0sCLK5bsnQWw=;
-	h=From:To:Cc:Subject:Date:From;
-	b=AZD89qyq2yqBN2RLDgtudLTXaNs3lG9f1XTqpC7a4WfAV3xIptgQ1qX8cE25xvcku
-	 yyUxyLEpd920gy0OCjfUyfznoGAnITQbxUmRnpMpQ6cdDBH7LL9bdIsGX5XoWDZp+w
-	 637hvmGN4nPWDbeWXgrwOXFA8vI7opu6l7LoPUcg=
-X-Riseup-User-ID: 141302B49154B1764CEAA4EA4310943641D6856302F7CBF382AB8A5167C32E79
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	 by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4WbZ0h2w75zJnBL;
-	Sat,  3 Aug 2024 07:22:43 +0000 (UTC)
-From: Thais-ra <thais_ra@riseup.net>
-To: linux-staging@lists.linux.dev
-Cc: ~lkcamp/patches@lists.sr.ht,
-	linux-kernel@vger.kernel.org,
-	greybus-dev@lists.linaro.org,
-	gregkh@linuxfoundation.org,
-	elder@kernel.org,
-	johan@kernel.org
-Subject: [PATCH] greybus: camera-gb: Fix a alignment bug on gb_camera_ops()
-Date: Sat,  3 Aug 2024 07:22:36 +0000
-Message-Id: <20240803072236.368-1-thais_ra@riseup.net>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="tl+Fj6uv";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="pOHyjtjN"
+Date: Sat, 3 Aug 2024 15:55:54 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1722693361;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WTqRgmwBooyFJ0l4CO4MsQ+u1B5cCeBn3LflPJpgLKA=;
+	b=tl+Fj6uv5skQ7Gk3COjTSNnSvqrm/M69Wx/4ldpVaFSD+Ely9S163m8W3N/Kof7hgTl+ej
+	VTpiPH/utIaICxHRGD7BIa7Myyx8T6rObBAPj3gMyahn5V200PIJ3zQtm8zfWfs08FNJgX
+	JxOXpOS0zcQgX1d0tuNvXh7Yu1a7oVyYlXmoUK1gnegUguEE3hk6Sz+cKkzWR64WhH6Wyn
+	sj7gDdo1t9uelqKgka0nhuiWw0agS8rTXGzi442LBBSWN4PZI7HsFTPMkqpzRg3QA2Av7d
+	P753ZA0xdeP1LkCRMQk1HJaDwf2U/jdzLXY2Sk9GPPNinsCJ/VqHFxRSpoccQA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1722693361;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WTqRgmwBooyFJ0l4CO4MsQ+u1B5cCeBn3LflPJpgLKA=;
+	b=pOHyjtjNI7M4iypHHTu3eM0lJakidHJnfTGWQNjl3C8IzmTR9HCupUDl8TAozv9lZUeKM1
+	mFNLqkIx15cykrBQ==
+From: Nam Cao <namcao@linutronix.de>
+To: syzbot <syzbot+ca2eaaadab55de6a5a42@syzkaller.appspotmail.com>
+Cc: florian.c.schilhabel@googlemail.com, gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-usb@vger.kernel.org,
+	syzkaller-bugs@googlegroups.com
+Subject: Re: [syzbot] [staging?] [usb?] WARNING in
+ r8712_usb_write_mem/usb_submit_urb (2)
+Message-ID: <20240803135554.DxjC41K7@linutronix.de>
+References: <00000000000095a6be061ebea91f@google.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <00000000000095a6be061ebea91f@google.com>
 
-Fix checkpatch message "CHECK: Alignment should match open parenthesis".
+On Fri, Aug 02, 2024 at 08:01:38PM -0700, syzbot wrote:
+> usb 1-1: BOGUS urb xfer, pipe 3 != type 1
+> WARNING: CPU: 0 PID: 2583 at drivers/usb/core/urb.c:503 usb_submit_urb+0xe4b/0x1730 drivers/usb/core/urb.c:503
+...
+> Call Trace:
+>  <TASK>
+>  r8712_usb_write_mem+0x2e4/0x3f0 drivers/staging/rtl8712/usb_ops_linux.c:170
+>  rtl8712_dl_fw+0x7ab/0xfe0 drivers/staging/rtl8712/hal_init.c:203
+>  rtl8712_hal_init drivers/staging/rtl8712/hal_init.c:330 [inline]
+>  rtl871x_hal_init+0xb3/0x190 drivers/staging/rtl8712/hal_init.c:394
+>  netdev_open+0xea/0x800 drivers/staging/rtl8712/os_intfs.c:397
 
-Signed-off-by: Thais-ra <thais_ra@riseup.net>
----
-Hi, this is my first patch.
----
- drivers/staging/greybus/gb-camera.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+#syz test: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git 1722389b0d86
 
-diff --git a/drivers/staging/greybus/gb-camera.h b/drivers/staging/greybus/gb-camera.h
-index 5fc469101..3e0914743 100644
---- a/drivers/staging/greybus/gb-camera.h
-+++ b/drivers/staging/greybus/gb-camera.h
-@@ -92,8 +92,8 @@ struct gb_camera_ops {
- 			unsigned int *flags, struct gb_camera_stream *streams,
- 			struct gb_camera_csi_params *csi_params);
- 	int (*capture)(void *priv, u32 request_id,
--			unsigned int streams, unsigned int num_frames,
--			size_t settings_size, const void *settings);
-+		       unsigned int streams, unsigned int num_frames,
-+		       size_t settings_size, const void *settings);
- 	int (*flush)(void *priv, u32 *request_id);
- };
+diff --git a/drivers/staging/rtl8712/hal_init.c b/drivers/staging/rtl8712/hal_init.c
+index 1148075f0cd6..80d8c462fafa 100644
+--- a/drivers/staging/rtl8712/hal_init.c
++++ b/drivers/staging/rtl8712/hal_init.c
+@@ -152,6 +152,10 @@ static u8 chk_fwhdr(struct fw_hdr *pfwhdr, u32 ulfilelength)
+ 	return _SUCCESS;
+ }
  
--- 
-2.20.1
-
++static const int pipetypes[4] = {
++	PIPE_CONTROL, PIPE_ISOCHRONOUS, PIPE_BULK, PIPE_INTERRUPT
++};
++
+ static u8 rtl8712_dl_fw(struct _adapter *adapter)
+ {
+ 	sint i;
+@@ -167,6 +171,29 @@ static u8 rtl8712_dl_fw(struct _adapter *adapter)
+ 	u32 txdscp_sz = sizeof(struct tx_desc);
+ 	u8 ret = _FAIL;
+ 
++	struct intf_hdl *hdl = &adapter->pio_queue->intf;
++	struct intf_priv *pintfpriv = hdl->pintfpriv;
++	struct dvobj_priv *pdvobj = (struct dvobj_priv *)pintfpriv->intf_dev;
++	struct usb_device *pusbd = pdvobj->pusbdev;
++
++	for (int i = 0; i < 16; ++i) {
++		struct usb_host_endpoint *ep = pusbd->ep_in[i];
++		if (!ep)
++			continue;
++		int xfertype = usb_endpoint_type(&ep->desc);
++		int type = pipetypes[xfertype];
++		pr_err("ep_in[%d] type=%d\n", i, type);
++	}
++
++	for (int i = 0; i < 16; ++i) {
++		struct usb_host_endpoint *ep = pusbd->ep_out[i];
++		if (!ep)
++			continue;
++		int xfertype = usb_endpoint_type(&ep->desc);
++		int type = pipetypes[xfertype];
++		pr_err("ep_out[%d] type=%d\n", i, type);
++	}
++
+ 	ulfilelength = rtl871x_open_fw(adapter, &mappedfw);
+ 	if (mappedfw && (ulfilelength > 0)) {
+ 		update_fwhdr(&fwhdr, mappedfw);
+@@ -200,6 +227,7 @@ static u8 rtl8712_dl_fw(struct _adapter *adapter)
+ 			txdesc->txdw0 |= cpu_to_le32(dump_imem_sz &
+ 						       0x0000ffff);
+ 			memcpy(payload, ptr, dump_imem_sz);
++			pr_err("%s:%d\n", __func__, __LINE__);
+ 			r8712_write_mem(adapter, RTL8712_DMA_VOQ,
+ 					dump_imem_sz + TXDESC_SIZE,
+ 					(u8 *)txdesc);
+@@ -229,6 +257,7 @@ static u8 rtl8712_dl_fw(struct _adapter *adapter)
+ 			txdesc->txdw0 |= cpu_to_le32(dump_emem_sz &
+ 						       0x0000ffff);
+ 			memcpy(payload, ptr, dump_emem_sz);
++			pr_err("%s:%d\n", __func__, __LINE__);
+ 			r8712_write_mem(adapter, RTL8712_DMA_VOQ,
+ 					dump_emem_sz + TXDESC_SIZE,
+ 					(u8 *)txdesc);
+@@ -282,6 +311,7 @@ static u8 rtl8712_dl_fw(struct _adapter *adapter)
+ 		txdesc->txdw0 |= cpu_to_le32(fwhdr.fw_priv_sz & 0x0000ffff);
+ 		txdesc->txdw0 |= cpu_to_le32(BIT(28));
+ 		memcpy(payload, &fwhdr.fwpriv, fwhdr.fw_priv_sz);
++		pr_err("%s:%d\n", __func__, __LINE__);
+ 		r8712_write_mem(adapter, RTL8712_DMA_VOQ,
+ 				fwhdr.fw_priv_sz + TXDESC_SIZE, (u8 *)txdesc);
+ 
