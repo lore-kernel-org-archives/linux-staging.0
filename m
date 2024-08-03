@@ -1,119 +1,151 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com [209.85.166.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A61664428
-	for <linux-staging@lists.linux.dev>; Sat,  3 Aug 2024 00:18:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EADC26FC6
+	for <linux-staging@lists.linux.dev>; Sat,  3 Aug 2024 03:01:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722644305; cv=none; b=IEe6kALt63zq2kWA4/VQm29/gG8EThHVCql0+k1YdKqF+gjuNjja58AeYF9/Q5p+1CjPFYIO/mEDo3ubckJ1UWUIBE24jz8NMlsy2VLJtdiosM84aABt+5uq63o4NY+l76atfysicYWRmY+nVBf4mzJd90GfJxe2V5kwVD9SDEA=
+	t=1722654100; cv=none; b=as5rakJURk7+c3/BwoJFATBdCplpQ1M+FFFH2iF3SzD8m7acqiPXGvRv7xR3Lxtmj27SvGzzQLk1/p8DZt7miVlC4AZLqAZYYOJ4qpizskk09NYi0hg2B5auoMRNEj3EcRWliEY9OqYa8QcdH+Lx3VaE4nexYMPLMFDpBzaH02Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722644305; c=relaxed/simple;
-	bh=pAQgIkSRZwjkpI5gO2BydLYmo5HlIqcCrZ9VS8V12yM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=TpXr33E/e8fZUJVI2rfqKLr19JlHHKyjpobe4CqgyRal01y80sCXu1JTJz0294BxQ3fFCkymRRtcFq52LVuaxgahsehZWfjUjcaReeI1iYViZ4KWTL5y4pjDjYsD/hsN+h3HXXJLPZ7UDmAh2/SvGAGh7LCbdeoypblOLy4SHXY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VOM4QAu+; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VOM4QAu+"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1fd69e44596so27821435ad.1
-        for <linux-staging@lists.linux.dev>; Fri, 02 Aug 2024 17:18:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722644303; x=1723249103; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QAWRuSmJKjlpvA4QhYPB4hwoTefNcdDnXSOAB90DYYc=;
-        b=VOM4QAu+qn6Z0Tt+HiKWJSEN3HM+p8kh09nIfBxEG6tFgwQeZjsP8XG0rvvtL8CK+J
-         1JNmCjamja5IjNbAhcbtHeiey4/rgW/ZUCO0Vk9zu5aHg9qClM7v5PJLqjjnIi7894TT
-         cwkCQvRNCQ1lJkA6iDa3wV5pbCRlZiKljhRzQCPkotxJmRmAFX5iGN38eK59yhfQLZXy
-         CFRNNJQMcgKy+r4ybvYvvDHJHvUwq99Dcpp4I1reSK47bzzQrTYS+II1CyvTdv0CXEjE
-         5H8z58baj4BSZM7sHLo795Tu7MC20znJ8n8jeN1YY3c7mPB+w5JF8twQ/8kLBewi4hO1
-         cs4A==
+	s=arc-20240116; t=1722654100; c=relaxed/simple;
+	bh=2PR3qhoGnm0AvRxZp87Me2ywbgB7BFV29r9IbAQsDNQ=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=nrE5syBCdbfvnHoBCSjbnKjasn0d9tqjGdjIC/aonVqyqGUGSCeD/TwhstbVgrgS74MUfZPF5QQBM+7R5+faML2rIxtJ3FQmscxr2+lPIEKDf2+8roEUd4BHhlaVJQbOQ4wktoSbdzLGgIuBzd7cGoQdwu0d3QDN4YiRhkrQ9RQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f200.google.com with SMTP id e9e14a558f8ab-39b28ea6f37so10712255ab.1
+        for <linux-staging@lists.linux.dev>; Fri, 02 Aug 2024 20:01:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722644303; x=1723249103;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QAWRuSmJKjlpvA4QhYPB4hwoTefNcdDnXSOAB90DYYc=;
-        b=cTak3ao3G9DtWh2vBgTlAFwwwg86U7STZh9Dp5lfVlgZ4rungak9y6bf+/Iw+JoWWp
-         TkSUZLwBbABzDG82VwF+J2zKwQtRzg7M2fm78OYrWN8od4hme8u3QyO8JkQFfxugWQKt
-         ZtdEHQCF/qDEJsOBG3jVrFyceFlzEVgEkuri/z6kT46tRVty3BO4dthmyeXUc0IJ3v+s
-         IB55RwxGHfIlIwignpWX7lsoS8RqWmANXHo8mIPz8ATkSywF5lN2Ztv2ozx3xzYdZ/ix
-         pDpLW6Ec56FK0pplCsduCAnh4e4Qz6TdRy1n2s/pEm8kgSVHdrsgV4c00y0PnP0sKoWS
-         TcHw==
-X-Forwarded-Encrypted: i=1; AJvYcCVwqJ1YRcvY2TudxSkVnuI1fAdQgXjHGFqoKeRpgJXP4bAMfLBO2R2p9Gu+++uW7bsFASOZj94Z4KMH3Wye4Tn13ISjiR1vbe0X7lQVbg==
-X-Gm-Message-State: AOJu0YxzpnfNqdjTGfeuaC6/AN02YVk924aZbKmCqa2jxM0VH3SQMtSH
-	t6/vpD+SUX9ZHvCkFuHC0XM4/d3V1He6o4eHYQD8nW/cTOf6OgNm
-X-Google-Smtp-Source: AGHT+IEXMJ/xDGW0/TPd6BplXEHx1lumggDv01n9rtt4EZzLr+h7VIsu0WAr2fg3YtCCKSnHroS3ZA==
-X-Received: by 2002:a17:903:41c8:b0:1fd:6ca4:f987 with SMTP id d9443c01a7336-1ff57bc504emr73575585ad.15.1722644302627;
-        Fri, 02 Aug 2024 17:18:22 -0700 (PDT)
-Received: from Riyan.inspiron ([122.176.204.21])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ff59178248sm23542255ad.202.2024.08.02.17.18.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Aug 2024 17:18:22 -0700 (PDT)
-From: Riyan Dhiman <riyandhiman14@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Riyan Dhiman <riyandhiman14@gmail.com>
-Subject: [PATCH] staging: vme_user: vme_bridge.h: Document mutex in vme_dma_resource structure
-Date: Sat,  3 Aug 2024 05:48:14 +0530
-Message-Id: <20240803001814.7752-1-riyandhiman14@gmail.com>
-X-Mailer: git-send-email 2.39.2
+        d=1e100.net; s=20230601; t=1722654098; x=1723258898;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=jj2i10BNQHB9xdBgUAAVaGeqNtO2gPAwUCggaU6qdFo=;
+        b=YYF6oN2+uN3pfa7BAA210AGNAikptaVpAG2x6i3ozI9htdz+VvJ3zLPtmE/+8ecJ6k
+         EyaYtcszZksXCxPl1iXN0pYNUx/P3/6eOa9XPwaP0YuMQ1GGNNsuRnOVqIlEaWAtghIa
+         58Wlpkvl1iwLjkb9TB2XDYuv+M+DPN7QF6G097nHnj0KwIHo3zNWimArfltDKXNSXvHe
+         zWPbsf48qh3bEauQPJGsw5hRDCS7oq8g7d+/ZOHzQEq5/cx5gKzk+BJP0oymej7FGaTM
+         6xrkNSyJ9HW6x/qj1eehk4NbhOXDb4b/Fh4AyoCQieASymgtjKK29wUjAv91G+cVPf1i
+         aNtg==
+X-Forwarded-Encrypted: i=1; AJvYcCW4238NtUTj1PoDr0WJeGem351pD/fDRtpwjPSJXbrxu5CgkRDsrMn15Hge6Po9NAX9rSMd3FlQxCwXapHjg9TTq5AlSdgGbKQoaKPlrg==
+X-Gm-Message-State: AOJu0YzngjZiorwxT2U1kaeJo+/AzWi2iR8OoRexZACD6TA2kg1EQNkx
+	WoWUdsgAqNEOc+dTGoHx3iI/rn5Mib8vS7lDBDz4JaXTs7fw3wkZuNhdcY1g0kosceBxgO6GX3f
+	GaKm3R97i4m9Lr2B2DhSz4NgYTpsqcoRJSjS472VnjaSkEhq/4bqiT2M=
+X-Google-Smtp-Source: AGHT+IF4CybsTRRvI97V0I9KVxBa4F3+6v5wAwVQKHhNvhBKmsqH2LovKVKr0n87gdPqSi9JHciE+a+3E3VCrhruMOsJYWZZ/T7a
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6e02:1d8a:b0:376:417e:c2ab with SMTP id
+ e9e14a558f8ab-39b1fc44fd0mr2719995ab.5.1722654098034; Fri, 02 Aug 2024
+ 20:01:38 -0700 (PDT)
+Date: Fri, 02 Aug 2024 20:01:38 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000095a6be061ebea91f@google.com>
+Subject: [syzbot] [staging?] [usb?] WARNING in r8712_usb_write_mem/usb_submit_urb
+ (2)
+From: syzbot <syzbot+ca2eaaadab55de6a5a42@syzkaller.appspotmail.com>
+To: florian.c.schilhabel@googlemail.com, gregkh@linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-usb@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Adhere to Linux kernel coding style
+Hello,
 
-Reported by checkpatch:
+syzbot found the following issue on:
 
-CHECK: mutex definition without comment
+HEAD commit:    1722389b0d86 Merge tag 'net-6.11-rc1' of git://git.kernel...
+git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+console output: https://syzkaller.appspot.com/x/log.txt?x=12d2a623980000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=e3044dca4d5f6dbe
+dashboard link: https://syzkaller.appspot.com/bug?extid=ca2eaaadab55de6a5a42
+compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=123da96d980000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1560c223980000
 
-Proof for comment:
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/78a5695ed7e2/disk-1722389b.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/1507b4c5000d/vmlinux-1722389b.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/449aa9e94d6b/bzImage-1722389b.xz
 
-1. The mutex is used to protect access to the 'running' list
-(line 1798 tsi148_dma_list_exec function)
-	mutex_lock(&ctrlrl->mtx);
-	if (!list_empty(&ctrlr->running)) {
-		mutex_unlock(&ctrlr->mtx);
-		return -EBUSY;
-	}
-  This prevents race conditions when multiple threads attempt to start DMA
-  operations simultaneously.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+ca2eaaadab55de6a5a42@syzkaller.appspotmail.com
 
-2. It's also used when removing DMA list from running list:
-(line 1862 tsi148_dma_list_exec function)
-	mutex_lock(&ctrlr->mtx);
-	list_del(&list->list);
-	mutex_unlock(&ctrlr->mtx);
-  Ensuring thread-safe modification of the controller's state.
+------------[ cut here ]------------
+usb 1-1: BOGUS urb xfer, pipe 3 != type 1
+WARNING: CPU: 0 PID: 2583 at drivers/usb/core/urb.c:503 usb_submit_urb+0xe4b/0x1730 drivers/usb/core/urb.c:503
+Modules linked in:
+CPU: 0 UID: 0 PID: 2583 Comm: dhcpcd Not tainted 6.10.0-syzkaller-g1722389b0d86 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 06/27/2024
+RIP: 0010:usb_submit_urb+0xe4b/0x1730 drivers/usb/core/urb.c:503
+Code: 84 3c 02 00 00 e8 a5 eb fe fc 4c 89 ef e8 2d 21 d7 fe 45 89 e0 89 e9 4c 89 f2 48 89 c6 48 c7 c7 e0 17 a0 87 e8 96 dc c4 fc 90 <0f> 0b 90 90 e9 e9 f8 ff ff e8 77 eb fe fc 49 81 c4 c0 05 00 00 e9
+RSP: 0018:ffffc900015b7678 EFLAGS: 00010282
+RAX: 0000000000000000 RBX: ffff888103e8ad00 RCX: ffffffff81194ce9
+RDX: ffff88810e70ba00 RSI: ffffffff81194cf6 RDI: 0000000000000001
+RBP: 0000000000000003 R08: 0000000000000001 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000001 R12: 0000000000000001
+R13: ffff888100fec0a8 R14: ffff888109f01e00 R15: ffff888103e8ad7c
+FS:  00007f3757320740(0000) GS:ffff8881f6200000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fd527ba8870 CR3: 000000010c766000 CR4: 00000000003506f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ r8712_usb_write_mem+0x2e4/0x3f0 drivers/staging/rtl8712/usb_ops_linux.c:170
+ rtl8712_dl_fw+0x7ab/0xfe0 drivers/staging/rtl8712/hal_init.c:203
+ rtl8712_hal_init drivers/staging/rtl8712/hal_init.c:330 [inline]
+ rtl871x_hal_init+0xb3/0x190 drivers/staging/rtl8712/hal_init.c:394
+ netdev_open+0xea/0x800 drivers/staging/rtl8712/os_intfs.c:397
+ __dev_open+0x2d4/0x4e0 net/core/dev.c:1474
+ __dev_change_flags+0x561/0x720 net/core/dev.c:8837
+ dev_change_flags+0x8f/0x160 net/core/dev.c:8909
+ devinet_ioctl+0x127a/0x1f10 net/ipv4/devinet.c:1177
+ inet_ioctl+0x3aa/0x3f0 net/ipv4/af_inet.c:1003
+ sock_do_ioctl+0x116/0x280 net/socket.c:1222
+ sock_ioctl+0x22e/0x6c0 net/socket.c:1341
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:907 [inline]
+ __se_sys_ioctl fs/ioctl.c:893 [inline]
+ __x64_sys_ioctl+0x193/0x220 fs/ioctl.c:893
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f37573eed49
+Code: 5c c3 48 8d 44 24 08 48 89 54 24 e0 48 89 44 24 c0 48 8d 44 24 d0 48 89 44 24 c8 b8 10 00 00 00 c7 44 24 b8 10 00 00 00 0f 05 <41> 89 c0 3d 00 f0 ff ff 76 10 48 8b 15 ae 60 0d 00 f7 d8 41 83 c8
+RSP: 002b:00007ffe0c834f48 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00007f37573206c0 RCX: 00007f37573eed49
+RDX: 00007ffe0c845138 RSI: 0000000000008914 RDI: 0000000000000005
+RBP: 00007ffe0c8552f8 R08: 00007ffe0c8450f8 R09: 00007ffe0c8450a8
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007ffe0c845138 R14: 0000000000000028 R15: 0000000000008914
+ </TASK>
 
-Without this mutex, concurrent access to the DMA controller's state could
-lead to data corruption or inconsistant state.
 
-Signed-off-by: Riyan Dhiman <riyandhiman14@gmail.com>
 ---
- drivers/staging/vme_user/vme_bridge.h | 1 +
- 1 file changed, 1 insertion(+)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/drivers/staging/vme_user/vme_bridge.h b/drivers/staging/vme_user/vme_bridge.h
-index 9bdc41bb6602..bb3750b40eb1 100644
---- a/drivers/staging/vme_user/vme_bridge.h
-+++ b/drivers/staging/vme_user/vme_bridge.h
-@@ -61,6 +61,7 @@ struct vme_dma_list {
- struct vme_dma_resource {
- 	struct list_head list;
- 	struct vme_bridge *parent;
-+	/* Mutex to protect DMA controller resources and ensure thread-safe operations */
- 	struct mutex mtx;
- 	int locked;
- 	int number;
--- 
-2.39.2
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
