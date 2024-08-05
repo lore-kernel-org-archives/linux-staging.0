@@ -1,97 +1,122 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail1.perex.cz (unknown [77.48.224.245])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94D6678297
-	for <linux-staging@lists.linux.dev>; Mon,  5 Aug 2024 13:56:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 640D555894
+	for <linux-staging@lists.linux.dev>; Mon,  5 Aug 2024 14:05:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722866193; cv=none; b=BwznGdFl/95fafZCdTBMsm1PClDtwAFTS9A6Cuf4xFoeRpLRnquc/0esEAhCNwwVzoTS8FhV0I++aljFC5G0GMjQVLHLU88XAfUkz+GU/rgcgC3YRaVHJJV82hTKfTWepGKrorHxa5PJRyz6UxK3nMCUxQys7SDGHUIVCLwGcbU=
+	t=1722866705; cv=none; b=YlUA8L2EZ2j8qXwjdGe11fF8Xt64DTQhKaWq26XHN+iVno9BWIWesihX9ugFNhwFaFfoVTCiqjvkgQDTKDJrdfvbs2Xi7YE0Z0F7Cr3p/YP9v9YttDVdR8pC0H7urcvBAUevUXvrws6+g4EtRHA4wHyFuIcKrrnw8Xy+YPRGvaI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722866193; c=relaxed/simple;
-	bh=OljTUfGwA90xVwkaazPlqm/klEykXw3pbmjz7iJfWNc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Gj4bBDZjMf5rIbqYLP9GV67jzFKwKWG4gt/yYtxPlMqvIKR5sVXhRyUJigLl2/VUl5MRXxv6FiXVxdsXMwMTqon0xkc8fgrK6OztyzptZnp1lcTK7664fYlQQltXYGejViMZ8zCj++xjD7C8AS38OYT8w0xVMb/YsBfABVgN/UU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fBHi4PO5; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1722866705; c=relaxed/simple;
+	bh=jQSd83NtI+h4XR0zcw4HG9S1VPCZQIlZqnad5m56H5s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=szvGeG4M6dw+WuurPbjUyVDkKNjWsmdlVCIMdPEsqdmvb3fCohLji6jj5XdXKBwRU8pKHYS3QUsH/KTsYWvg7T6wsiRX0DOYEW/I7az8aSsxJaPhWmCmiMT4sBa92V1jM8eWnAd1XiOWDX/Z/rV70NsnD6VhOKBYew/gag4MFOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=Mj35X3f9; arc=none smtp.client-ip=77.48.224.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fBHi4PO5"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1fd69e44596so40367105ad.1
-        for <linux-staging@lists.linux.dev>; Mon, 05 Aug 2024 06:56:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722866191; x=1723470991; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=XLBfswTvbMFwnT4wTWUCcUwfcddXXu4lc4bwZmWOOv0=;
-        b=fBHi4PO53E3wKLpHRROyNKk9a8gMqEqF7cgNCnVQBb2mYAaH6G/Rdf194gFzwp4jcG
-         eGqz8cNXFXGlImQsclutE8q63NgIV9cQinXq5QQXtQNQppxzAWiIJ9voR3hWwl1v/E5t
-         +xBxaLyrP1qGHFD5AH5JzkEmjvZbOxVWnLYf7xCHkCax5AC3vPMnmtUmNObxEdlpP/Fn
-         x+4u0xbUWqr6gtLYfwb0qdOj5fZedAvDxg6Vhmd5eXrKdQ/Y2KfhI4QJeA+zdXNFxeC3
-         HLEYgVKFYUyv60ZhwZekwXdFfR0lkh/QqRyRrhEcN2HMzX1ntstQxpfTXP8KHZh7FlRD
-         SsEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722866191; x=1723470991;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XLBfswTvbMFwnT4wTWUCcUwfcddXXu4lc4bwZmWOOv0=;
-        b=SZ3LOTN7D/rYdfAbCcmqciroaEGAQmp8xxRKfgRjMQJTQ2V6kCevKAblnrImkEdtBo
-         UEthrhQUibCsFct+C0k/ltLA7ELMmXwaLoG9/BsqI7fq9B+6m5M1NR0NQv0fOp5mdZEt
-         LoFx5caPmjgFUGcIxB3p1/M1YGtEyHK+FV4He4fOZEH6ab7LUf7S06nSNc3RAplgP0yD
-         CRdOjnB4Lwo2NTWkh4bdWNCHF6Gx1SlPtdOfP51qmLsgW0mONnpQDJSpK0b/hHv/ncM2
-         TAqjCPr8izoWrzUOYiMpHEsb5kUgl7bZTskVMUcwNKj6YNvSZmNfjrImkEOWHJbUzpsC
-         eh+g==
-X-Gm-Message-State: AOJu0YygMCF/pxsypAZyFFQuK+6TZ1JXY/0kPCNFOuKWuFu4/G8hkEeA
-	wNx7OlQ/fArk6a8vCBkaysI4kbvwMF0215VSYKo8lbZ+eklhmo89
-X-Google-Smtp-Source: AGHT+IGXmDZ2mlMh05F5BfNwBnZfnSpoMLulldjoltWc1fMBo2dURjbMQarr/2bglm2UDw4FBdLW1g==
-X-Received: by 2002:a17:903:246:b0:1f9:ad91:f8d0 with SMTP id d9443c01a7336-1ff5240a35bmr214467345ad.8.1722866190502;
-        Mon, 05 Aug 2024 06:56:30 -0700 (PDT)
-Received: from VSUS.11svbebsuybebf4lhlhk4eftnc.syx.internal.cloudapp.net ([20.39.190.147])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ff590600e4sm67950535ad.144.2024.08.05.06.56.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Aug 2024 06:56:30 -0700 (PDT)
-From: Jiwon Kim <jiwonaid0@gmail.com>
-To: gregkh@linuxfoundation.org,
-	philipp.g.hortmann@gmail.com
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	jiwonaid0@gmail.com
-Subject: [PATCH v3] staging: rtl8723bs: Delete unnecessary braces for single statement blocks in xmit_linux.c
-Date: Mon,  5 Aug 2024 13:56:23 +0000
-Message-ID: <20240805135623.2069-1-jiwonaid0@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="Mj35X3f9"
+Received: from mail1.perex.cz (localhost [127.0.0.1])
+	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id D52DB36295;
+	Mon,  5 Aug 2024 16:04:47 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz D52DB36295
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
+	t=1722866687; bh=kl/ezwyGYFOPLjcKIwcgXByeqhdFzZwVjfYh3c677CY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Mj35X3f94pqgwY28S2k1AN692PXhEhfcB9ST+HobTx4q5ycIVhCw9/JWvbClxEN6v
+	 xGHqWyzSNvqJWewJkjOFgDKLO0uMQFBaOKklfuRp1O6p+itptWXCIoi0C+Zk1fPKw8
+	 4EWhqK8kN/4RgRJU174mFTTrIXfV6CConu34rH2s=
+Received: from [192.168.100.98] (unknown [192.168.100.98])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: perex)
+	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
+	Mon,  5 Aug 2024 16:04:40 +0200 (CEST)
+Message-ID: <d6e47194-a708-4dfe-96c8-aba9391e4496@perex.cz>
+Date: Mon, 5 Aug 2024 16:04:39 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 000/113] ALSA: add snd_pcm_is_playback/capture() macro
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Mark Brown <broonie@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-usb@vger.kernel.org, linux-staging@lists.linux.dev,
+ Linux-ALSA <alsa-devel@alsa-project.org>
+References: <874j7z3j1a.wl-kuninori.morimoto.gx@renesas.com>
+From: Jaroslav Kysela <perex@perex.cz>
+Content-Language: en-US
+Autocrypt: addr=perex@perex.cz; keydata=
+ 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
+In-Reply-To: <874j7z3j1a.wl-kuninori.morimoto.gx@renesas.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Delete braces {} for single statement blocks to shorten code.
+On 05. 08. 24 2:33, Kuninori Morimoto wrote:
+> 
+> Hi ALSA-ML
+> Cc Staging-ML, USB-ML
+> 
+> Many drivers are using below code to know the Sound direction.
+> 
+> 	if (direction == SNDRV_PCM_STREAM_PLAYBACK)
+> 
+> This patch-set add snd_pcm_is_playback/capture() macro to handle it.
+> 
+> Thank you for your help !!
 
-Signed-off-by: Jiwon Kim <jiwonaid0@gmail.com>
----
-v3: Fix subject
-v2: Fix subject and description
----
- drivers/staging/rtl8723bs/os_dep/xmit_linux.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+NAK from my side (overdesign, no improved readability). The defines 
+(SNDRV_PCM_STREAM_*) are enough to check the stream type value correctly.
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
-index 1eeabfffd6d2..e0736707a211 100644
---- a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
-+++ b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
-@@ -144,9 +144,8 @@ static int rtw_mlcst2unicst(struct adapter *padapter, struct sk_buff *skb)
- 		psta = list_entry(plist, struct sta_info, asoc_list);
- 
- 		stainfo_offset = rtw_stainfo_offset(pstapriv, psta);
--		if (stainfo_offset_valid(stainfo_offset)) {
-+		if (stainfo_offset_valid(stainfo_offset))
- 			chk_alive_list[chk_alive_num++] = stainfo_offset;
--		}
- 	}
- 	spin_unlock_bh(&pstapriv->asoc_list_lock);
- 
+					Jaroslav
+
 -- 
-2.43.0
+Jaroslav Kysela <perex@perex.cz>
+Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
 
