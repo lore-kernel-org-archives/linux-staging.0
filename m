@@ -1,89 +1,72 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14FCB2AD13;
-	Mon,  5 Aug 2024 19:37:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E3C664A;
+	Tue,  6 Aug 2024 08:52:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722886665; cv=none; b=JF5igNqoPg+7NONz726TLZNcZo8a/IYLgq0/MECp45y+Qt7NN46p2FfvlyHUextWRqzj+B8F/7VAM9LpZLDwYC6gG4qYQV6DT0Xq9esu5Rl9dvcIYxUjt7oRjnJmLe4wJGSx3StGgwZ+NMcOe6H2ZvGNEfgyK6Dj4JM4AtOkJpI=
+	t=1722934379; cv=none; b=klPYgBT/e9AaHI3FaYZtgHledN44lRoOcYPNKqGeISDkO8qayLPBBhmaoMfEN68n9qtLiHqRXWzuB6F1tRhSY86tB/OkLIW7FficocW1mpP8vwKvTGpGiwbnKawGpbxZdpxUqeUTIPbIBYdnNy21BHqsJBLQZ3zfw8vf0GH7Hv8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722886665; c=relaxed/simple;
-	bh=lgchXb1bYk3WqJn/hE8TGf4cBjrsub46cUbjwhHDqF0=;
+	s=arc-20240116; t=1722934379; c=relaxed/simple;
+	bh=jLxtaqYwGejHVDr7TLr2wF+thWxAzyeocnesv8I+WjI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X1mXZbg8F1nG+fmhD4MBzIIRyexc97jdSX5q0ya0/OBBInLda561N5Z7b6gSftzf3DNhvNN4DQ9g8U7h1N7ELyF/B0WJqwsFQhbkxxW/oRa49PhtUzXS7BJSXlN5SXU5FN9Fh/uMvJDpluczKwZiMrR3Bs2BDMSTzzJoCvcBzzs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iQUiHNBL; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=VfsDKyHEnhnuKRutD/LPBo7QyfLfZQvaI8oF96rEiqlHUB6f94LBF54OkNyQBgWTctgFefqx6r/OoncIElb249PtNRS6O7yGLRsc4aM6iA/tJTR/A2q9SW+q+vbOxuBpQWjb4AsKfYnSYSY9b3NwD9K3QvGcCEZ7NPP7FqrfYqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t5qa+F+o; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iQUiHNBL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FCD3C32782;
-	Mon,  5 Aug 2024 19:37:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t5qa+F+o"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF260C32786;
+	Tue,  6 Aug 2024 08:52:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722886664;
-	bh=lgchXb1bYk3WqJn/hE8TGf4cBjrsub46cUbjwhHDqF0=;
+	s=k20201202; t=1722934379;
+	bh=jLxtaqYwGejHVDr7TLr2wF+thWxAzyeocnesv8I+WjI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iQUiHNBLxlcj9+R+gylDfzBrxlaSiK3D86x/c3B/28wl6fTNNsV3jQUB7SKrCj3ap
-	 +Mlx5J4ee3h5+DwaADPy3eAWp3Sjalo8yI7FC3nH3niYXr/RMjJyfxdgGCQLhWW8H3
-	 pIJFBvK2EFJoBo/qAChdP7OP0QMtTlhGmLNjTxmHK4W66yut/Vv6ruNkRfhmgkpNOO
-	 xlfJxlzg5f4oENlghLDWAz40c2u7v+g2G1TAPxzSSNjK0JKnvluQGKkIiz2JiPE82r
-	 mKrF4D3zPnWc2+8sMwRv1K3xejPvXtub+7M9iXf2no4Ck8J9sGmTbhbroHod9hCeow
-	 qiPVffrCVmdkg==
-Date: Mon, 5 Aug 2024 20:37:40 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Jaroslav Kysela <perex@perex.cz>
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, linux-staging@lists.linux.dev,
-	Linux-ALSA <alsa-devel@alsa-project.org>
-Subject: Re: [PATCH 000/113] ALSA: add snd_pcm_is_playback/capture() macro
-Message-ID: <46b37ef3-047c-4b1b-a79b-37187a46754a@sirena.org.uk>
-References: <874j7z3j1a.wl-kuninori.morimoto.gx@renesas.com>
- <d6e47194-a708-4dfe-96c8-aba9391e4496@perex.cz>
+	b=t5qa+F+o1iPppiI2xZ55esXGw/puFe5lAgM1SOXNIEuRgG5VJjXxGGKK8CehV7pER
+	 XzcxjP96ZL7mouz7XSa7gyRnzzZCXBzy/gfOrKYzjIxpeKG910tyqOb298Gk0AjHcF
+	 vTETQSiuIxmAxByPhlSmLTvbpbc95vCzTnIeYhEW4XWMt6uyRG0knTPjZqh1Dbhnf1
+	 4sZsUYE529IeeSD5SeP5VpybqeQrMEdj0xW1frWGSJgdkf+hGW0tPZocUKoS6ZKZ0o
+	 GL8R12u/YY9utt4aAhr4vpkysLv8PF6rV/ktNSSHq5iYdFzPO7tXtzBvrPcdHhUkJm
+	 mQIHqBByrxNCg==
+Date: Tue, 6 Aug 2024 09:52:54 +0100
+From: Simon Horman <horms@kernel.org>
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc: stas.yakovlev@gmail.com, kvalo@kernel.org, gregkh@linuxfoundation.org,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, johannes@sipsolutions.net,
+	linux-wireless@vger.kernel.org, linux-staging@lists.linux.dev,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] lib80211: Handle const struct lib80211_crypto_ops
+ in lib80211
+Message-ID: <20240806085254.GO2636630@kernel.org>
+References: <cover.1722839425.git.christophe.jaillet@wanadoo.fr>
+ <c74085e02f33a11327582b19c9f51c3236e85ae2.1722839425.git.christophe.jaillet@wanadoo.fr>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ZsODt8GP60oMXE9i"
-Content-Disposition: inline
-In-Reply-To: <d6e47194-a708-4dfe-96c8-aba9391e4496@perex.cz>
-X-Cookie: Goodbye, cool world.
-
-
---ZsODt8GP60oMXE9i
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <c74085e02f33a11327582b19c9f51c3236e85ae2.1722839425.git.christophe.jaillet@wanadoo.fr>
 
-On Mon, Aug 05, 2024 at 04:04:39PM +0200, Jaroslav Kysela wrote:
-> On 05. 08. 24 2:33, Kuninori Morimoto wrote:
+On Mon, Aug 05, 2024 at 08:40:37AM +0200, Christophe JAILLET wrote:
+> lib80211_register_crypto_ops() and lib80211_unregister_crypto_ops() don't
+> modify their "struct lib80211_crypto_ops *ops" argument. So, it can be
+> declared as const.
+> 
+> Doing so, some adjustments are needed to also constify some date in
+> "struct lib80211_crypt_data", "struct lib80211_crypto_alg" and the
+> return value of lib80211_get_crypto_ops().
+> 
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> ---
+> Compile tested only.
+> 
+> Changes in v2:
+>   - Update ipw2x00/libipw_wx.c as well   [Simon Horman]
+> 
+> v1: https://lore.kernel.org/all/d6306f7c76015653e9539ddbcd1ed74d1681a98f.1715443223.git.christophe.jaillet@wanadoo.fr/
 
-> > Many drivers are using below code to know the Sound direction.
+Reviewed-by: Simon Horman <horms@kernel.org>
 
-> > 	if (direction =3D=3D SNDRV_PCM_STREAM_PLAYBACK)
-
-> > This patch-set add snd_pcm_is_playback/capture() macro to handle it.
-
-> NAK from my side (overdesign, no improved readability). The defines
-> (SNDRV_PCM_STREAM_*) are enough to check the stream type value correctly.
-
-I have to say I do remember this being a little bit of a confusing idiom
-when I first stated looking at ALSA stuff, especially for capture only
-cases. =20
-
---ZsODt8GP60oMXE9i
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmaxKgMACgkQJNaLcl1U
-h9CziQf/YCOXh24b4OyjkhMmIzzP6QsbfEeLXSz4lHbdfho7lUcp/8ZcPcWTccjA
-8ME1VD4m03IG2W/Mo0zY056z4EMAeFRqgoUD+eHnueqxOIyHSkE/oDwmrA95LjJ7
-N7vfqUv1CwQql5bCO+4AvIRtL9w8QJM2PAfHlNc9lm0VG5/GgTbGaGDGEsYt9YFy
-PNBqA4bgGcynIHDIM4AB91uHUF2g6qPeHJO3QuuKflLmQDjrG96y2ni0Lz2wvuJP
-GwRcz2V90XQ9a9cTGG4pOAHE/0NR+fsM286wdszwfUCz++HA1viMBLJQs2wNDlSr
-gO8cdIikCG2sjXIqnS+ib0EteNuVfg==
-=Jlkt
------END PGP SIGNATURE-----
-
---ZsODt8GP60oMXE9i--
