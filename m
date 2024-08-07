@@ -1,63 +1,101 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 454CA165EE2;
-	Tue,  6 Aug 2024 08:54:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F790191495
+	for <linux-staging@lists.linux.dev>; Wed,  7 Aug 2024 04:50:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722934450; cv=none; b=cVPaRZ2kll/4DAtuqJsikLnDlDAIzu+T5U4bVtXYVbIIX6dZSuK6Re5tPIOaumHPo1p4+AlVosRZQ5SPP4jq6YUZk3nXZTwoe4lIdgMzM+KgDabzhvq4LbVP49sdOI2+i4euiRd7ktedLtmjFv19L6iIs6m9hxMZK6Lw8IQJLtU=
+	t=1723006208; cv=none; b=O7yXeMYhKLmXk9s50JtYbB66l6dBD8EjBqsJ1mafxEa07qV+S+TiCpcX3sqEV3fwf3s5ee1qMILM6nwKFsJJnL6apHukkjSMhpj/NrhLW9f/air9b/L1oZDzpe/Jq8CZAX71jFj9i4fyJWyLdbH40MxLPWB2KJOyDJFVr7emwXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722934450; c=relaxed/simple;
-	bh=E3AV3eX7Ux9UT3jrUISKJBTttSAn+nDf+KULm/qlh3Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WleYnuWLHYCetXVNslBtczZnV8MIyd3Gt5s/paMA+WgwPR2shHJbdZJeXjfL2RCl7d6Drcegt3R5IeoLXE7qP0Dq/RTf+2HBc5ikDjZY+2vMNEq4rT7+R80rrGRyPX9+mO6o2/1uQmOPhVxp+e0U/e2yTUtkJijchq/RkZi4C/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WsJl8uQ4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1723006208; c=relaxed/simple;
+	bh=KPAUxZqJrhsS4KCtmCVx+w7hmq3WMoxRxbv6d9nxS6c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=oBwA1dAPnYErtsXJGAS+BbWmtgNsf3frDyENtnBI4xG7jVOYHkSURg5rHsPKnE17O4iFQ1nezc21bTKfFOsl1oj96GyIzJNMKmc155KYixVsQC+e31i024hRO5bIOBmgD3T0gEOxmZsm9sGh1lsRIUHEo1JXMJcwCq8QVY1GNY8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S9L7c82l; arc=none smtp.client-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WsJl8uQ4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08418C32786;
-	Tue,  6 Aug 2024 08:54:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722934449;
-	bh=E3AV3eX7Ux9UT3jrUISKJBTttSAn+nDf+KULm/qlh3Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WsJl8uQ4zZNauJmzBHNss8dUIfzSHt+vlWQ2rsnthwUT0MolMYFTEP1nLGrxS8Qin
-	 yGzyoH5vwR3TB7zWduCuFdZEjG030wcUfO1Vi2ir/xnfLNQwJn0iaNvWWrHnXny16h
-	 7m9FwAd5ZVI0qtTZSHVvTuViAx4XWWWHI+i2Wgf30twsAN1VueSXYgghr4duOHyV8/
-	 frEdMDGIgAEEyWzP9TYEKA6/1pRe8XqGCyGcImhGIUZgmytyF1s5dCv+zs0/QuOXoo
-	 yBlRl6zpnbmh86isc5lfrvcAjgBk3l8K9cEH1bZe5fUZ4tCiG2YovHqoqB7rcIshjw
-	 qpqoyCWroRSSA==
-Date: Tue, 6 Aug 2024 09:54:04 +0100
-From: Simon Horman <horms@kernel.org>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: stas.yakovlev@gmail.com, kvalo@kernel.org, gregkh@linuxfoundation.org,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, johannes@sipsolutions.net,
-	linux-wireless@vger.kernel.org, linux-staging@lists.linux.dev,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] staging: rtl8192e: Constify struct
- lib80211_crypto_ops
-Message-ID: <20240806085404.GQ2636630@kernel.org>
-References: <cover.1722839425.git.christophe.jaillet@wanadoo.fr>
- <dfda6343781ae3d50cd2ec7bbdcf76a489b6922a.1722839425.git.christophe.jaillet@wanadoo.fr>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S9L7c82l"
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-52f015ea784so199133e87.1
+        for <linux-staging@lists.linux.dev>; Tue, 06 Aug 2024 21:50:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1723006205; x=1723611005; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=IxW/EOKuv2Ggq7C49WbAgTm8GRc4ALxx4EED6SiYzio=;
+        b=S9L7c82laiBeD6K4sYi/Dv/FqHOipNOumi8SZT97zbqBldnbzeSHLb1RE2xgWRDM22
+         0CLLj+ZSb/IJDKvbtKVflTO3R1xbVcIINso8ujVgBwmySGfN+hj55Wjf+u/KrF4HF3mj
+         3MMdetrt47yFp4T7vJdNivDRPSjJtTbxrX6ipfumWZYhEiXkQWrMv9rdPerQMI3OgRZi
+         1TiFKufz4XMJL7KF209vvmEaDTbCO1zrRHWjv1JDWOK/NbOuSxMeZK1nv27wUJo/YKUX
+         5qloqRkjS8r4jpSBA1eOkCQ2nfDSYjfAeJgq3PCfVld45WaS+k+0lnTbLHr0Ab0ePX2o
+         T3ig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723006205; x=1723611005;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=IxW/EOKuv2Ggq7C49WbAgTm8GRc4ALxx4EED6SiYzio=;
+        b=o+/25Ktp5HcN0v+EwhOWdib0CnC7a6iqhmFsmr8QnvrG+ufddiSXmxBU0lYd2b864X
+         IWxgLLE61WLZR0THGghTP5Ra9gdGvX70mt1hfRxsmcNGmZeTzkQtUkjN9rWwJHqHNAF3
+         wMDPzVbfEZRMVHGkgO590RCadWdq7jGvk4ZCjlTCNNv/dL87cqYDrLY0bbyXBaijgigQ
+         uMxorZi35B+NyRqAyH0mzAsrSpjkMsVyjpnZvYJ51jiav30SXm+h7SzL41vx4xxnITjX
+         uuxsrzyH7ZOglPrr0U+LmFTev/K3ts1wuVsW8tt/eJkV3+nijCVv6Eii1oAo3fQ7LOZj
+         0U5Q==
+X-Gm-Message-State: AOJu0YyscGvi31hmQWT5jSbX+f+XFYpnKDEZ0XpiGLg2BKLtkWjvyBj+
+	uFnoriRTH9jKeVvOFCZ3LR/qq9Sj3POaFEm4xIxLpKPIE1/AYCYe
+X-Google-Smtp-Source: AGHT+IE2FO8Po63soVEnx0OCYSC5d1Kb5hMUN7fMjnVorI03GJcKhRF+ANqXWTBm6AY6e++1NJMc+Q==
+X-Received: by 2002:a2e:9b88:0:b0:2ef:27fa:1fbe with SMTP id 38308e7fff4ca-2f15aa7f67emr62938041fa.2.1723006204617;
+        Tue, 06 Aug 2024 21:50:04 -0700 (PDT)
+Received: from ?IPV6:2003:c7:8f2a:8533:9f5e:f4:8922:a04c? (p200300c78f2a85339f5e00f48922a04c.dip0.t-ipconnect.de. [2003:c7:8f2a:8533:9f5e:f4:8922:a04c])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5b83a552984sm6597089a12.58.2024.08.06.21.50.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 06 Aug 2024 21:50:04 -0700 (PDT)
+Message-ID: <c1212c50-f571-4193-84e5-9c2c909f876e@gmail.com>
+Date: Wed, 7 Aug 2024 06:50:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <dfda6343781ae3d50cd2ec7bbdcf76a489b6922a.1722839425.git.christophe.jaillet@wanadoo.fr>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] staging: rtl8723bs: Delete unnecessary braces for
+ single statement blocks in xmit_linux.c
+To: Jiwon Kim <jiwonaid0@gmail.com>, gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20240805135623.2069-1-jiwonaid0@gmail.com>
+Content-Language: en-US
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <20240805135623.2069-1-jiwonaid0@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Aug 05, 2024 at 08:40:39AM +0200, Christophe JAILLET wrote:
-> Now that functions in lib80211 handle "const struct lib80211_crypto_ops",
-> some structure can be constified as well.
+On 8/5/24 15:56, Jiwon Kim wrote:
+> Delete braces {} for single statement blocks to shorten code.
 > 
-> Constifying these structures moves some data to a read-only section, so
-> increase overall security.
+> Signed-off-by: Jiwon Kim <jiwonaid0@gmail.com>
+> ---
+> v3: Fix subject
+> v2: Fix subject and description
+> ---
+>   drivers/staging/rtl8723bs/os_dep/xmit_linux.c | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
 > 
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> diff --git a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
+> index 1eeabfffd6d2..e0736707a211 100644
+> --- a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
+> +++ b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
+> @@ -144,9 +144,8 @@ static int rtw_mlcst2unicst(struct adapter *padapter, struct sk_buff *skb)
+>   		psta = list_entry(plist, struct sta_info, asoc_list);
+>   
+>   		stainfo_offset = rtw_stainfo_offset(pstapriv, psta);
+> -		if (stainfo_offset_valid(stainfo_offset)) {
+> +		if (stainfo_offset_valid(stainfo_offset))
+>   			chk_alive_list[chk_alive_num++] = stainfo_offset;
+> -		}
+>   	}
+>   	spin_unlock_bh(&pstapriv->asoc_list_lock);
+>   
 
-Reviewed-by: Simon Horman <horms@kernel.org>
-
+Reviewed-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
