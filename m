@@ -1,166 +1,106 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 568B913B797
-	for <linux-staging@lists.linux.dev>; Tue, 13 Aug 2024 08:56:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10FA01991C2
+	for <linux-staging@lists.linux.dev>; Tue, 13 Aug 2024 12:13:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723539381; cv=none; b=sN+PeGqUt909oW5jiIxvkZJtU0oleASiTlMXxmkA+sZBq9sWsXY2MXT0huF8FagW0ykOlTBimfpn5PNPw6DnH+iCp+qWOyjSHQY+0RbY7UZUux3qci5sJDgUyGNMV32yU8pLdtJvuZ5/hGOagNazOexLpYPq7gZznjhPxgaPKI8=
+	t=1723551232; cv=none; b=IHPUt/JqY2EvOhWRRNeSjDKyTcJMPazkW6FF092H0JjC1jAmMfxbrRsQIhqaIEKpkor7aQNmnMixuxs0JvRUPnJdFdTcx5t+tlktnx1ag0+UWj15tZ3gMEzBDBkfeUbTGLvXCm3zRlLEtPcK3jzMcVZH8IqzkSAPAyL9mqfxbUA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723539381; c=relaxed/simple;
-	bh=l+HSWa0Q04huECSVHAdrH0Y3m5k5eFpl+UFlrdTRl9U=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gk3jZMuZq3P9kA8bCrIVUxHugQivFZHwDe3cbGYc+hH0aTpK11kCxBmG9CP62KhhlIyqH8VZDpCUSeVvpY8nLT7Sjr5BegLy9GokVI6K1pNl6NUZeVjA/Oyta2Zuu4EeOdnl65gTexFjyIeyfBN0pptNf3o/VxbtDgdOrng6wbk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FWDjgHUD; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1723551232; c=relaxed/simple;
+	bh=AhtVc0eRB313SzivG95eO+fvDnddIaj+hD0gJVu5zyc=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Mrnr9k7XAkTxnEpuG1AATwj8aAD33/V0YzKQd+eCXBZXFA9fmt3TjaqyO0UFj0xopeUD5bAeqx4fcupm+MZJ8oAtpc5o8PkJjm9t/UEBjqO94spY8OXLQxgmeCkazI9fYn7dqiS9sTga5nB0mVberVu36HUnKZoxhv0pSaKjs9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=XUFUzqWF; arc=none smtp.client-ip=209.85.222.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FWDjgHUD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723539381; x=1755075381;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=l+HSWa0Q04huECSVHAdrH0Y3m5k5eFpl+UFlrdTRl9U=;
-  b=FWDjgHUDKciN1XYSQchJ7pxCva1+XAkJwxzcXgE9OosHBSNS9ygfmArY
-   Q8cR+jqPOPvLPnyAxIrapFfViAqLoN+sFfhZ+jbI6BOxf1ag7kk8RtHQQ
-   CTAuA1C2LTCRuiPZ26cSlcEci6Dhe/sucuUG0EpMDyySE8DyVeKdK5Sq8
-   ENgIfbZsOvfxxYKqmUcAXSH6q2jaLBEPoayMBaAYaZy6SMkUZYHxOnyCV
-   kb1ox6Tx8nqSh1zmVoMRa/s/esRsr3beOyW+kdPXugIuM3yPpJFaiJVJd
-   fJehT+8/ZMaOUm0CUrBKJAi9437kbQD9yGmhtniCNzVsg5w3qwkkdPnJn
-   w==;
-X-CSE-ConnectionGUID: Owgi/3yXS7isd3AEiT0wsA==
-X-CSE-MsgGUID: P2WVKecYQwSI5kdhJhGWAg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11162"; a="21856872"
-X-IronPort-AV: E=Sophos;i="6.09,285,1716274800"; 
-   d="scan'208";a="21856872"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2024 01:56:20 -0700
-X-CSE-ConnectionGUID: 12jI/QJCTAmEPSbGzokVSA==
-X-CSE-MsgGUID: kAqf42uQReeHRqDvZiJ0KQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,285,1716274800"; 
-   d="scan'208";a="58552176"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmviesa009.fm.intel.com with ESMTP; 13 Aug 2024 01:56:17 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id 529CB3B5; Tue, 13 Aug 2024 11:56:16 +0300 (EEST)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Hans de Goede <hdegoede@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Kate Hsuan <hpa@redhat.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v1 1/1] media: atomisp: Simplify ia_css_pipe_create_cas_scaler_desc_single_output()
-Date: Tue, 13 Aug 2024 11:56:15 +0300
-Message-ID: <20240813085615.1546111-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.43.0.rc1.1336.g36b5255a03ac
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="XUFUzqWF"
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-7a1d7bc07b7so360410385a.0
+        for <linux-staging@lists.linux.dev>; Tue, 13 Aug 2024 05:13:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1723551230; x=1724156030; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=exEVIAJZd/rYdUXslfft3lBWpWIRwR1McJc3b9INl9w=;
+        b=XUFUzqWF8dP3peQsnOpsxVnSvuP4ssbTOC3jeoH2MKhgEMLUHgLD2iGZZyOTnEukDD
+         eZG+eDp6UNGYqjuub7pQapwl8hB6M6bgBVg/hRi0SO+XbpqhK4dh0fMxbhiyFFd8fmH8
+         Vx+ZxeCexN35rezqr4J2cZFFCyM0SCRK+SYCE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723551230; x=1724156030;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=exEVIAJZd/rYdUXslfft3lBWpWIRwR1McJc3b9INl9w=;
+        b=cgnBUUe5WxZOji+EM5kfiwERGPwCAd3gejGQgHNSMmB01tmUIBUvWSKDGaL6yaKdOu
+         70wiAR+93zjT/8IOxOdRqIPPVZaPPxBhRCZYVqBPUDdVbUoJkQcJrz4aCtshyUgtOR9b
+         dcp/CiMJPvnr3/ZimB6ftidW/unEhXbLviXy+EmNimh3OuRcvYGzIkcVyc0ezcIWHB3/
+         ASMBCkktHNEqtbojvLpAmbaPWIT87tMcdiJa/ge2mUukmuSoTRV7sSdN1VPtBEQFl1Tu
+         lko9Yrhx42EqofCybVhOsORD3Z7O13x7SI+0lBmragm0LTbMrwttqC/VGXYU8JsUZJA4
+         DlBw==
+X-Forwarded-Encrypted: i=1; AJvYcCX4gp6ExRXdpBSRN1ofPcVlkhh5fBVGTNlvt39Am453Akre56CVHUiCinoBL2EurbQSKHvRq0kJUF70y+aq9mD22FPGekjzr3Ct7sRczg==
+X-Gm-Message-State: AOJu0YzNeAy9cK0kYjfn5izAaD4rorFU620vyuIU1y72eCtbWuUEHGSP
+	n+Uk5Tm3xhxzVMWs4lvup5CdfP3U6Mr/4WSHihaM8Btm2N4PVQscz2DTpYcSlw==
+X-Google-Smtp-Source: AGHT+IHEAC5qNhYBF14RuyiMsQL8IDhPP6lbNZuwJIZWarWyGBLPSFdo+w5w+ficdZzhLBjRgODR3A==
+X-Received: by 2002:a05:620a:460a:b0:7a2:db1:573d with SMTP id af79cd13be357-7a4e153e4femr367590785a.36.1723551229916;
+        Tue, 13 Aug 2024 05:13:49 -0700 (PDT)
+Received: from denia.c.googlers.com (123.178.145.34.bc.googleusercontent.com. [34.145.178.123])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7a4c7d71ca8sm331765485a.50.2024.08.13.05.13.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Aug 2024 05:13:49 -0700 (PDT)
+From: Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH 0/6] media: Fix last smatch warnings
+Date: Tue, 13 Aug 2024 12:13:47 +0000
+Message-Id: <20240813-smatch-clock-v1-0-664c84295b1c@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPtNu2YC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxMDC0Nj3eLcxJLkDN3knPzkbF2jtETjJENDcxMLU3MloJaCotS0zAqwcdG
+ xtbUAgffoXl4AAAA=
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ =?utf-8?q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Sylwester Nawrocki <s.nawrocki@samsung.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org, 
+ linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ Ricardo Ribalda <ribalda@chromium.org>
+X-Mailer: b4 0.13.0
 
-Make ia_css_pipe_create_cas_scaler_desc_single_output() easier to read by
-shortening parameter names.
+This series completes the smatch warning cleanout.
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/staging/media/atomisp/pci/sh_css.c | 44 ++++++++++------------
- 1 file changed, 20 insertions(+), 24 deletions(-)
+Ricardo Ribalda (6):
+      media: ar0521: Refactor ar0521_power_off()
+      media: i2c: ov5645: Refactor ov5645_set_power_off()
+      media: i2c: s5c73m3: Move clk_prepare to its own function
+      media: tc358746: Move clk_prepare to its own function
+      media: meson: vdec_1: Refactor vdec_1_stop()
+      media: meson: vdec: hevc: Refactor vdec_hevc_start and vdec_hevc_stop
 
-diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
-index 01f0b8a33c99..ca97ea082cf4 100644
---- a/drivers/staging/media/atomisp/pci/sh_css.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css.c
-@@ -5826,20 +5826,19 @@ need_yuv_scaler_stage(const struct ia_css_pipe *pipe)
-  * Later, merge this with ia_css_pipe_create_cas_scaler_desc
-  */
- static int ia_css_pipe_create_cas_scaler_desc_single_output(
--	    struct ia_css_frame_info *cas_scaler_in_info,
--	    struct ia_css_frame_info *cas_scaler_out_info,
--	    struct ia_css_frame_info *cas_scaler_vf_info,
-+	    struct ia_css_frame_info *in_info,
-+	    struct ia_css_frame_info *out_info,
-+	    struct ia_css_frame_info *vf_info,
- 	    struct ia_css_cas_binary_descr *descr)
- {
- 	unsigned int i;
- 	unsigned int hor_ds_factor = 0, ver_ds_factor = 0;
- 	int err = 0;
- 	struct ia_css_frame_info tmp_in_info;
--
- 	unsigned int max_scale_factor_per_stage = MAX_PREFERRED_YUV_DS_PER_STEP;
- 
--	assert(cas_scaler_in_info);
--	assert(cas_scaler_out_info);
-+	assert(in_info);
-+	assert(out_info);
- 
- 	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
- 			    "ia_css_pipe_create_cas_scaler_desc() enter:\n");
-@@ -5847,10 +5846,8 @@ static int ia_css_pipe_create_cas_scaler_desc_single_output(
- 	/* We assume that this function is used only for single output port case. */
- 	descr->num_output_stage = 1;
- 
--	hor_ds_factor = CEIL_DIV(cas_scaler_in_info->res.width,
--				 cas_scaler_out_info->res.width);
--	ver_ds_factor = CEIL_DIV(cas_scaler_in_info->res.height,
--				 cas_scaler_out_info->res.height);
-+	hor_ds_factor = CEIL_DIV(in_info->res.width, out_info->res.width);
-+	ver_ds_factor = CEIL_DIV(in_info->res.height, out_info->res.height);
- 	/* use the same horizontal and vertical downscaling factor for simplicity */
- 	assert(hor_ds_factor == ver_ds_factor);
- 
-@@ -5895,30 +5892,29 @@ static int ia_css_pipe_create_cas_scaler_desc_single_output(
- 		goto ERR;
- 	}
- 
--	tmp_in_info = *cas_scaler_in_info;
-+	tmp_in_info = *in_info;
- 	for (i = 0; i < descr->num_stage; i++) {
- 		descr->in_info[i] = tmp_in_info;
--		if ((tmp_in_info.res.width / max_scale_factor_per_stage) <=
--		    cas_scaler_out_info->res.width) {
-+		if ((tmp_in_info.res.width / max_scale_factor_per_stage) <= out_info->res.width) {
- 			descr->is_output_stage[i] = true;
- 			if ((descr->num_output_stage > 1) && (i != (descr->num_stage - 1))) {
--				descr->internal_out_info[i].res.width = cas_scaler_out_info->res.width;
--				descr->internal_out_info[i].res.height = cas_scaler_out_info->res.height;
--				descr->internal_out_info[i].padded_width = cas_scaler_out_info->padded_width;
-+				descr->internal_out_info[i].res.width = out_info->res.width;
-+				descr->internal_out_info[i].res.height = out_info->res.height;
-+				descr->internal_out_info[i].padded_width = out_info->padded_width;
- 				descr->internal_out_info[i].format = IA_CSS_FRAME_FORMAT_YUV420;
- 			} else {
- 				assert(i == (descr->num_stage - 1));
- 				descr->internal_out_info[i].res.width = 0;
- 				descr->internal_out_info[i].res.height = 0;
- 			}
--			descr->out_info[i].res.width = cas_scaler_out_info->res.width;
--			descr->out_info[i].res.height = cas_scaler_out_info->res.height;
--			descr->out_info[i].padded_width = cas_scaler_out_info->padded_width;
--			descr->out_info[i].format = cas_scaler_out_info->format;
--			if (cas_scaler_vf_info) {
--				descr->vf_info[i].res.width = cas_scaler_vf_info->res.width;
--				descr->vf_info[i].res.height = cas_scaler_vf_info->res.height;
--				descr->vf_info[i].padded_width = cas_scaler_vf_info->padded_width;
-+			descr->out_info[i].res.width = out_info->res.width;
-+			descr->out_info[i].res.height = out_info->res.height;
-+			descr->out_info[i].padded_width = out_info->padded_width;
-+			descr->out_info[i].format = out_info->format;
-+			if (vf_info) {
-+				descr->vf_info[i].res.width = vf_info->res.width;
-+				descr->vf_info[i].res.height = vf_info->res.height;
-+				descr->vf_info[i].padded_width = vf_info->padded_width;
- 				ia_css_frame_info_set_format(&descr->vf_info[i], IA_CSS_FRAME_FORMAT_YUV_LINE);
- 			} else {
- 				descr->vf_info[i].res.width = 0;
+ drivers/media/i2c/ar0521.c                   | 15 ++++++++--
+ drivers/media/i2c/ov5645.c                   | 15 ++++++++--
+ drivers/media/i2c/s5c73m3/s5c73m3-core.c     | 13 ++++++++-
+ drivers/media/i2c/tc358746.c                 | 12 +++++++-
+ drivers/staging/media/meson/vdec/vdec_1.c    | 16 ++++++++---
+ drivers/staging/media/meson/vdec/vdec_hevc.c | 43 +++++++++++++++++++++-------
+ 6 files changed, 92 insertions(+), 22 deletions(-)
+---
+base-commit: c80bfa4f9e0ebfce6ac909488d412347acbcb4f9
+change-id: 20240813-smatch-clock-2fa3b1174857
+
+Best regards,
 -- 
-2.43.0.rc1.1336.g36b5255a03ac
+Ricardo Ribalda <ribalda@chromium.org>
 
