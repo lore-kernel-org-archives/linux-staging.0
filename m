@@ -1,177 +1,218 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 857644C8C
-	for <linux-staging@lists.linux.dev>; Tue, 13 Aug 2024 13:01:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F337C19ADA8
+	for <linux-staging@lists.linux.dev>; Tue, 13 Aug 2024 13:12:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723554117; cv=none; b=tBLU1EUJYCpbFy+V+8pzd9eIqBDgiCmtuzOVKJaHnymTu2dsot/6RKTY10m5vCfOVB54afl0T/r/7KjkW62bV5O0DiKrge5T4Cgt7vYPVvqn/zcMnGFmW02SZ8TUujqsMGMs2q0dBPUS1vadpBeOlkfy/d1ODElyIMDj6sshEoU=
+	t=1723554757; cv=none; b=PTNWiRTkl1T3ozk69JjfqPaeCdACIE/dz1gWsQQAsIUt4qM01Oj+jAlImUKDhrsRE/3VYGPPS+B5EAf/aRRFeQERgYqSxuqKfGaH+ub6O/6pQDDqcj/FeU1T08hZVk47TaqACkLiOM8LXvzXEB2DtSA5bjGOUnWK2GxxN5yTnEY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723554117; c=relaxed/simple;
-	bh=OW9ZXqxEkr9RUH5IYYordISjGdWv1zhb8JCl6eodq94=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iB1TIz6KleT/uCnSP+F+EWMX7ZUqNVnSpCdURXV+PWGh6mt7NRG/GcHx0CT7xwipfnFNrZYlcllA+NjI5SB3JKHdv4at8SFt6bLjFbrBaSq9X00X0Gi9rv9W6vG4ICaEUXF+VEbEOvus7EX8hHI47v0KpZDcaZkm2sKAHNbcTYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=nUrLY6WZ; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1723554757; c=relaxed/simple;
+	bh=uoqDNeAJb5WryfWJBMETwWztM1l30CYsj7KasEM+Z9M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uwCuBrawagGzMFtHhcKvyAyb3anqpw9XQEguns5bVTCfej1LjkxLLKz5AcxuTxTdO441Ry1t5tEtlaQMWxVXD+WpbS8rpAvxrfosbHunGfrYnzaDqKpJi2W4AYf8DrR1QQvZDtA+dNf6j6iWA+YPfERT5gwaCl1itOr7dw8fHEs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fC9/7Smm; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="nUrLY6WZ"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a728f74c23dso593528966b.1
-        for <linux-staging@lists.linux.dev>; Tue, 13 Aug 2024 06:01:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1723554114; x=1724158914; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=zZ3qkhG6IpTE9k1+4JdfEiuc6iwsZmU2tud2hbQlnTM=;
-        b=nUrLY6WZu1HDSfmZqL7DZs9VBiQcHqtFrqGkMEe60AVEcQ65o/DQJ1IApeRw8XEcl+
-         JEop0Lqltjc2nyNJiWsrc3NrUssu/CayGTQu//ZBr7E9tOgN6ossMd09IVpAoGpmar97
-         fOLqfDtz3gSXJdFpIbl338bEr5tLUhATLWPEU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723554114; x=1724158914;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zZ3qkhG6IpTE9k1+4JdfEiuc6iwsZmU2tud2hbQlnTM=;
-        b=IeSu4JACGVY/ZQ0imumkGIHh8tL3ksFWvREIZkCtVD7KjIvRpJhRDQwKhoj2pKpcww
-         YdPeRNYQr0C+RPiagcGqfLlf59T73rsWSbqUJnphHOGX7cG2/uja6vzWJ1fe4B7tQvjs
-         dAPWk5bPa1IjGqXbtPOXLMRUuxX8TOnJowKTl/GaIg9NuCM/b9xP309Lyqk4G90oyQpN
-         7DtyNx1+T1Gb83rV10734dk4ojru1AD4mH6g15Vr+++Wa8BMzAtJZ99fK8URQ4Gr4L3w
-         HtFItNzKYoVgAaSdDU+ISDEPd6xB1GJejymRH16D6ey1h2qm4pXEkB4HBS6f60+qbG+g
-         eQNQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVPj9DsToWhbKkzF7xbRiW5ws3/EHojuzjf2jbl77zVZPvr6rmU2uRh83M4EmadJ2LEvCbEdUL3KrCh7S5zYb7HIPUAQeAMUMp1H8XfCA==
-X-Gm-Message-State: AOJu0YxSdzlsPeLt+GaqBAf7wzDIFa1cknAOU7wFvIo/xse+LattvvKb
-	CtV08+vjlmfCPboCyJlr22cw8z6w74sNkHNMQcBmAMvGRxF4lfU7XDQgy908yZjBLCNtUr50VUB
-	sxQ==
-X-Google-Smtp-Source: AGHT+IHIMdfjTjLw/GVj6fVlRSo6/bqAqGQDxCuUpxQbRfJyyNvYMSFSO8xtg1vVFba1RqgxTx/l+A==
-X-Received: by 2002:a17:907:7212:b0:a7a:9ca6:531 with SMTP id a640c23a62f3a-a80ed1b59ccmr233445166b.4.1723554113607;
-        Tue, 13 Aug 2024 06:01:53 -0700 (PDT)
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com. [209.85.218.45])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a80f3fa4646sm69505766b.54.2024.08.13.06.01.52
-        for <linux-staging@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Aug 2024 06:01:52 -0700 (PDT)
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a7a9e25008aso92040366b.0
-        for <linux-staging@lists.linux.dev>; Tue, 13 Aug 2024 06:01:52 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVsXHV9E8yRQGAyTXDrj2DS8mJsTzTq0yWDcsQPzFyQF+nHk1vK7e5VcOlugETH70S6y+Sgz1dVo3ejDmwnzFeHqjnRu073W3X3t1tCDw==
-X-Received: by 2002:a17:907:d2d9:b0:a7a:ae85:f245 with SMTP id
- a640c23a62f3a-a80ed258d19mr244135166b.38.1723554111718; Tue, 13 Aug 2024
- 06:01:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fC9/7Smm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1723554755; x=1755090755;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=uoqDNeAJb5WryfWJBMETwWztM1l30CYsj7KasEM+Z9M=;
+  b=fC9/7SmmK+8AuFZa0iNlVG/YdjMJWyoiYEW4FfIy/RvNw8/HN/WtWgx2
+   hX40sh1fZeP00BFkUJt6MH91hN2kQhoF7KkGzvKkKg/fxMVjSacBZOzOj
+   m2/MjWcNedbkryvKjhFx6lP/e02yiC0lVosfoajyt0ZrHU7+w/Md0pqz0
+   Dr8iZ96u/5lvW4MjjApBXJHwTcAk7bE7Sig0TIuloioryyUPW38JXqVvF
+   GSXyufLATeSz4UzkPCZ9hRsb9WZCp3e7TSuFz34kAyMig4KGD4jkUITPT
+   nuCn7q8WSERvDBrlZuHQlcA3HBtb66obayQlTKhOKXM0XRdaXSItlOHe8
+   A==;
+X-CSE-ConnectionGUID: Sx3Qk9MhSCyX+vAY/QfnKg==
+X-CSE-MsgGUID: RTf2OPiITQOsdMbrARYwqQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11163"; a="39225787"
+X-IronPort-AV: E=Sophos;i="6.09,285,1716274800"; 
+   d="scan'208";a="39225787"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2024 06:12:34 -0700
+X-CSE-ConnectionGUID: /1gIWA2uQG6JpkF1c4ltyA==
+X-CSE-MsgGUID: +sfTXrSuT56MHEjC6oHieA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,285,1716274800"; 
+   d="scan'208";a="58610132"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orviesa009.jf.intel.com with ESMTP; 13 Aug 2024 06:12:32 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+	id 9EE6F2CC; Tue, 13 Aug 2024 16:12:30 +0300 (EEST)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Kate Hsuan <hpa@redhat.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH v1 1/1] media: atomisp: Replace rarely used macro from math_support.h
+Date: Tue, 13 Aug 2024 16:12:25 +0300
+Message-ID: <20240813131225.2232817-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.43.0.rc1.1336.g36b5255a03ac
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240813-smatch-clock-v1-0-664c84295b1c@chromium.org>
- <20240813-smatch-clock-v1-1-664c84295b1c@chromium.org> <ce0ed949-5e57-4193-8190-9e4aa9cb62be@stanley.mountain>
-In-Reply-To: <ce0ed949-5e57-4193-8190-9e4aa9cb62be@stanley.mountain>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Tue, 13 Aug 2024 15:01:37 +0200
-X-Gmail-Original-Message-ID: <CANiDSCu6BUdJt1sjmbOq2s4KU1JUN9D+HfnvSG6OqMhD-dKekw@mail.gmail.com>
-Message-ID: <CANiDSCu6BUdJt1sjmbOq2s4KU1JUN9D+HfnvSG6OqMhD-dKekw@mail.gmail.com>
-Subject: Re: [PATCH 1/6] media: ar0521: Refactor ar0521_power_off()
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, =?UTF-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Sylwester Nawrocki <s.nawrocki@samsung.com>, 
-	Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Kevin Hilman <khilman@baylibre.com>, 
-	Jerome Brunet <jbrunet@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org, 
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Dan
+Replace rarely used macro by generic ones from Linux kernel headers.
 
-On Tue, 13 Aug 2024 at 14:54, Dan Carpenter <dan.carpenter@linaro.org> wrote:
->
-> On Tue, Aug 13, 2024 at 12:13:48PM +0000, Ricardo Ribalda wrote:
-> > Factor out all the power off logic, except the clk_disable_unprepare(),
-> > to a new function __ar0521_power_off().
-> >
-> > This allows ar0521_power_on() to explicitly clean-out the clock during
-> > the error-path.
-> >
-> > The following smatch warning is fixed:
-> > drivers/media/i2c/ar0521.c:912 ar0521_power_on() warn: 'sensor->extclk' from clk_prepare_enable() not released on lines: 912.
-> >
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > ---
->
-> It's better to just ignore false positives...  The problem here is that
-> Smatch can't track that to_ar0521_dev(dev_get_drvdata(dev))->sensor is the same
-> as sensor.  What I could do is say that "this frees *something* unknown" so
-> let's silence the warning."
->
-> The problem is that check_unwind.c is not very granular.  It just marks things
-> as allocated and freed.  I could make it more granular so the free and the
-> alloc have to match.  Or we could match based on the type.  This frees a
-> "struct ar0521_dev" so mark all those as freed in the caller.
->
-> >  drivers/media/i2c/ar0521.c | 15 +++++++++++++--
-> >  1 file changed, 13 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/media/i2c/ar0521.c b/drivers/media/i2c/ar0521.c
-> > index 09331cf95c62..2c528db31ba6 100644
-> > --- a/drivers/media/i2c/ar0521.c
-> > +++ b/drivers/media/i2c/ar0521.c
-> > @@ -835,7 +835,7 @@ static const struct initial_reg {
-> >            be(0x0707)), /* 3F44: couple k factor 2 */
-> >  };
-> >
-> > -static int ar0521_power_off(struct device *dev)
-> > +static void __ar0521_power_off(struct device *dev)
-> >  {
-> >       struct v4l2_subdev *sd = dev_get_drvdata(dev);
-> >       struct ar0521_dev *sensor = to_ar0521_dev(sd);
-> > @@ -850,6 +850,16 @@ static int ar0521_power_off(struct device *dev)
-> >               if (sensor->supplies[i])
-> >                       regulator_disable(sensor->supplies[i]);
-> >       }
-> > +}
-> > +
-> > +static int ar0521_power_off(struct device *dev)
-> > +{
-> > +     struct v4l2_subdev *sd = dev_get_drvdata(dev);
-> > +     struct ar0521_dev *sensor = to_ar0521_dev(sd);
-> > +
-> > +     clk_disable_unprepare(sensor->extclk);
-> > +     __ar0521_power_off(dev);
->
-> You had intended to remove the clk_disable_unprepare() from __ar0521_power_off()
-> but forgot so these are double unprepares.
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ .../atomisp/pci/hive_isp_css_include/math_support.h      | 6 ------
+ .../ipu2_io_ls/bayer_io_ls/ia_css_bayer_io.host.c        | 9 +++++----
+ .../ipu2_io_ls/yuv444_io_ls/ia_css_yuv444_io.host.c      | 9 +++++----
+ .../media/atomisp/pci/runtime/binary/src/binary.c        | 3 ++-
+ .../media/atomisp/pci/runtime/isys/src/virtual_isys.c    | 8 ++++----
+ 5 files changed, 16 insertions(+), 19 deletions(-)
 
-Ups, thanks for catching it :)
-
-Will send as v2, unless you fix it in smatch first ;P
-
-Regards!
-
->
-> regards,
-> dan carpenter
->
-> > +
-> >       return 0;
-> >  }
-> >
-> > @@ -908,7 +918,8 @@ static int ar0521_power_on(struct device *dev)
-> >
-> >       return 0;
-> >  off:
-> > -     ar0521_power_off(dev);
-> > +     clk_disable_unprepare(sensor->extclk);
-> > +     __ar0521_power_off(dev);
-> >       return ret;
-> >  }
-> >
-> >
-> > --
-> > 2.46.0.76.ge559c4bf1a-goog
-> >
-
-
-
+diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_include/math_support.h b/drivers/staging/media/atomisp/pci/hive_isp_css_include/math_support.h
+index 160c496784b7..907f9ebcc60d 100644
+--- a/drivers/staging/media/atomisp/pci/hive_isp_css_include/math_support.h
++++ b/drivers/staging/media/atomisp/pci/hive_isp_css_include/math_support.h
+@@ -28,12 +28,6 @@
+ #define CEIL_SHIFT(a, b)     (((a) + (1 << (b)) - 1) >> (b))
+ #define CEIL_SHIFT_MUL(a, b) (CEIL_SHIFT(a, b) << (b))
+ 
+-#if !defined(PIPE_GENERATION)
+-
+-#define ceil_div(a, b)		(CEIL_DIV(a, b))
+-
+-#endif /* !defined(PIPE_GENERATION) */
+-
+ /*
+  * For SP and ISP, SDK provides the definition of OP_std_modadd.
+  * We need it only for host
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/ipu2_io_ls/bayer_io_ls/ia_css_bayer_io.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/ipu2_io_ls/bayer_io_ls/ia_css_bayer_io.host.c
+index 0091e2a3da52..c32659894c29 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/ipu2_io_ls/bayer_io_ls/ia_css_bayer_io.host.c
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/ipu2_io_ls/bayer_io_ls/ia_css_bayer_io.host.c
+@@ -13,9 +13,11 @@
+  * more details.
+  */
+ 
++#include <linux/bitops.h>
++#include <linux/math.h>
++
+ #include "ia_css_bayer_io.host.h"
+ #include "dma.h"
+-#include "math_support.h"
+ #ifndef IA_CSS_NO_DEBUG
+ #include "ia_css_debug.h"
+ #endif
+@@ -29,9 +31,8 @@ int ia_css_bayer_io_config(const struct ia_css_binary      *binary,
+ 	const struct ia_css_frame **out_frames = (const struct ia_css_frame **)
+ 		&args->out_frame;
+ 	const struct ia_css_frame_info *in_frame_info = ia_css_frame_get_info(in_frame);
+-	const unsigned int ddr_bits_per_element = sizeof(short) * 8;
+-	const unsigned int ddr_elems_per_word = ceil_div(HIVE_ISP_DDR_WORD_BITS,
+-						ddr_bits_per_element);
++	const unsigned int ddr_elems_per_word =
++		DIV_ROUND_UP(HIVE_ISP_DDR_WORD_BITS, BITS_PER_TYPE(short));
+ 	unsigned int size_get = 0, size_put = 0;
+ 	unsigned int offset = 0;
+ 	int ret;
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/ipu2_io_ls/yuv444_io_ls/ia_css_yuv444_io.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/ipu2_io_ls/yuv444_io_ls/ia_css_yuv444_io.host.c
+index 32c504a950ce..5b2d5023b5ee 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/ipu2_io_ls/yuv444_io_ls/ia_css_yuv444_io.host.c
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/ipu2_io_ls/yuv444_io_ls/ia_css_yuv444_io.host.c
+@@ -13,9 +13,11 @@ FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+ more details.
+ */
+ 
++#include <linux/bitops.h>
++#include <linux/math.h>
++
+ #include "ia_css_yuv444_io.host.h"
+ #include "dma.h"
+-#include "math_support.h"
+ #ifndef IA_CSS_NO_DEBUG
+ #include "ia_css_debug.h"
+ #endif
+@@ -29,9 +31,8 @@ int ia_css_yuv444_io_config(const struct ia_css_binary      *binary,
+ 	const struct ia_css_frame **out_frames = (const struct ia_css_frame **)
+ 		&args->out_frame;
+ 	const struct ia_css_frame_info *in_frame_info = ia_css_frame_get_info(in_frame);
+-	const unsigned int ddr_bits_per_element = sizeof(short) * 8;
+-	const unsigned int ddr_elems_per_word = ceil_div(HIVE_ISP_DDR_WORD_BITS,
+-						ddr_bits_per_element);
++	const unsigned int ddr_elems_per_word =
++		DIV_ROUND_UP(HIVE_ISP_DDR_WORD_BITS, BITS_PER_TYPE(short));
+ 	unsigned int size_get = 0, size_put = 0;
+ 	unsigned int offset = 0;
+ 	int ret;
+diff --git a/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c b/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
+index b0f904a5e442..2ff522f7dec8 100644
+--- a/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
++++ b/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
+@@ -328,7 +328,8 @@ ia_css_binary_dvs_grid_info(const struct ia_css_binary *binary,
+ 
+ 	dvs_info = &info->dvs_grid.dvs_grid_info;
+ 
+-	/* for DIS, we use a division instead of a ceil_div. If this is smaller
++	/*
++	 * For DIS, we use a division instead of a DIV_ROUND_UP(). If this is smaller
+ 	 * than the 3a grid size, it indicates that the outer values are not
+ 	 * valid for DIS.
+ 	 */
+diff --git a/drivers/staging/media/atomisp/pci/runtime/isys/src/virtual_isys.c b/drivers/staging/media/atomisp/pci/runtime/isys/src/virtual_isys.c
+index 52483498239d..2e0193671f4b 100644
+--- a/drivers/staging/media/atomisp/pci/runtime/isys/src/virtual_isys.c
++++ b/drivers/staging/media/atomisp/pci/runtime/isys/src/virtual_isys.c
+@@ -13,6 +13,8 @@
+  * more details.
+  */
+ 
++#include <linux/bitops.h>
++#include <linux/math.h>
+ #include <linux/string.h> /* for memcpy() */
+ 
+ #include "system_global.h"
+@@ -20,7 +22,6 @@
+ 
+ #include "ia_css_isys.h"
+ #include "ia_css_debug.h"
+-#include "math_support.h"
+ #include "virtual_isys.h"
+ #include "isp.h"
+ #include "sh_css_defs.h"
+@@ -558,7 +559,7 @@ static int32_t calculate_stride(
+ 		bits_per_pixel = CEIL_MUL(bits_per_pixel, 8);
+ 
+ 	pixels_per_word = HIVE_ISP_DDR_WORD_BITS / bits_per_pixel;
+-	words_per_line  = ceil_div(pixels_per_line_padded, pixels_per_word);
++	words_per_line  = DIV_ROUND_UP(pixels_per_line_padded, pixels_per_word);
+ 	bytes_per_line  = HIVE_ISP_DDR_WORD_BYTES * words_per_line;
+ 
+ 	return bytes_per_line;
+@@ -690,7 +691,6 @@ static bool calculate_ibuf_ctrl_cfg(
+     const isp2401_input_system_cfg_t	*isys_cfg,
+     ibuf_ctrl_cfg_t			*cfg)
+ {
+-	const s32 bits_per_byte = 8;
+ 	s32 bits_per_pixel;
+ 	s32 bytes_per_pixel;
+ 	s32 left_padding;
+@@ -698,7 +698,7 @@ static bool calculate_ibuf_ctrl_cfg(
+ 	(void)input_port;
+ 
+ 	bits_per_pixel = isys_cfg->input_port_resolution.bits_per_pixel;
+-	bytes_per_pixel = ceil_div(bits_per_pixel, bits_per_byte);
++	bytes_per_pixel = BITS_TO_BYTES(bits_per_pixel);
+ 
+ 	left_padding = CEIL_MUL(isys_cfg->output_port_attr.left_padding, ISP_VEC_NELEMS)
+ 		       * bytes_per_pixel;
 -- 
-Ricardo Ribalda
+2.43.0.rc1.1336.g36b5255a03ac
+
