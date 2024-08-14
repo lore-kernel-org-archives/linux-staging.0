@@ -1,112 +1,97 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9FD4524B4
-	for <linux-staging@lists.linux.dev>; Wed, 14 Aug 2024 09:31:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 300881B010F
+	for <linux-staging@lists.linux.dev>; Wed, 14 Aug 2024 14:52:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723627866; cv=none; b=mBen1ffuiFecPeJA7Kc/BoBkxN8GAiQrCXfeoF16qfrgnmf8dFeW3e5zELQ823htspojj0leomdor1WK1nR+JOyiq+ZWhmT5IclbkiBCsVO7jvLnhlo3w8TC/wEtKXuL3OeARela5IMvh2q2YqtcgPL2hV+Vghy9arB/rCgLcf4=
+	t=1723647175; cv=none; b=U87P7dPOIIxmSERgHvyQzH23jsSsUOKM4aNXkKOqI9kOzGwdmcRXpo1eSfLvx7Hshe4BbCELE03Pr7BaLyHbh5IyLUWb54wdWbucA8GKDQKuCECsC0cL4iTdsF9q4uALZ3D+Y/1FixykYdPBKIrrOXaHgpUMsd7LafVCmZD7uRs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723627866; c=relaxed/simple;
-	bh=WsbPGLgwwh83fgroesz5EICrOmcuHuYiV+iKp6kCNGY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PzJfO6kqDWpl1M7PlaoM4ONrPnxIGguyk2DI5bwkioVVF/rytM3oCv9Ed1me0aO1ef1w+9L4btueMcwo8hs8CIRlhbGadbiEmIKhd3VpBUOEuj69PCrJCZDeqPVWg00b4mHNi7eal4dSRQGO/hLfTe9MrJgrRZNoHsNPUJ5PdYM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=nSgWfxZX; arc=none smtp.client-ip=209.85.167.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1723647175; c=relaxed/simple;
+	bh=fYleo0yX1fwh3D5yruey7QLTuaNklJFq8nDi7CBNU2k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QRoAd/JAcYapAHrQ72RwF/M1i2yzIlcJzGyXBYs5KYavS2vT0dP07FPnWwKncXNQxD0gcIExCINfKyUjMNNYJ9PM9H9v28fVtRSK0ZX32U0QUH+Q89I+Bb3TzBHUVOFoKCf4m1N9b1I3hS1EuCqjBLBh3CgZAe0rlF0UazBCdac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fNHSqTzV; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nSgWfxZX"
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-52efd530a4eso8946317e87.0
-        for <linux-staging@lists.linux.dev>; Wed, 14 Aug 2024 02:31:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fNHSqTzV"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4280b3a7efaso49932995e9.0
+        for <linux-staging@lists.linux.dev>; Wed, 14 Aug 2024 07:52:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1723627863; x=1724232663; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Y+KbS6E5jHMJIDLTLixLRMsMiOWTcgBIJLTFtv7w7UE=;
-        b=nSgWfxZXLnk3t2qsZV5I20HGbnlMvgvCViWIKxG74tpN/mgU5aYd3BUEwMPJsXmAbj
-         qbgkbs/Y5k2Y2bpssev0Z4ygz2tCRCzGMhIMNK+H18BnfaRyOL6DSgLcjOdx/adABBXv
-         6h4UwkLz6ytbx19pq0M/r5zjjztTCyiTgKdWvXgIyqm7AHh/HzvqU/brGnR0eY/q6pEL
-         ZOnt4SKtQOsde3EICFGeWlsdUDGvQ3B8dhZFb6ivpjbKWigOi58BO49yEpe8rCjTFK+t
-         FjSPv8oYqUDW1cPjto0LS9wqB/RtYUlP7ub+soIEFyfBNpi2IaVsFL7CczvWCTGpb3uQ
-         LWgw==
+        d=gmail.com; s=20230601; t=1723647172; x=1724251972; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9Nc/x4iX30JK5v/qKKee25/DYJBOi1gSnUVT9ldVntQ=;
+        b=fNHSqTzVNEFlnU+gpWeu3j3XXzYPM0+D43n0fonJjuo6m+cRwJixM9fwMb8KsTn3ps
+         zD0rX1poT4e1gYWO3Q2FdAVRBDefPIPw8bnN+RAuxw/PzVUW6WADevAF5+bDn9FCIaXJ
+         Tb8SCFlx6ErIUYEH0LHOWbbqEkhvf/1pRleXFw+U931tyk8Il6P4KzXw3NuLl7LND1RU
+         3fQa/8rOiNVhcae8WAEFjQ7TB+2NtzRm2jFplL/TFna6cNxHlA7sQRfFuI1SognBFUEG
+         tIG9nV2CcZl9w1FDwSkbbmSFQClZqn3Ufs3wgdR4GKwnHpo/D97AGy02Yu6HuC+FkBq8
+         +GLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723627863; x=1724232663;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Y+KbS6E5jHMJIDLTLixLRMsMiOWTcgBIJLTFtv7w7UE=;
-        b=guH6nNBMnzLas98i9iIdYchhh+l802Tadaf4XT5e9yd9CZwir9OoApvmg9Q1K88Zhq
-         3Dm+cjO5x+ApBvAdfDdK3j5i40TGfLUmRlFoHcv+KQ1Qp3+wgwYpQLzlhE4CTGfkqwi/
-         h/bXZjCzCXfZeT+qIabtUuJE9SeJ8j7yte/xi/NnTsSnYG+GoqC+TVEnjLqqNSSl20Gx
-         zS9bAOrz2+FkSqKQAw15FCg3rYLpmQa+RrOH4vgn1QyxxcVDyu1JaTussOWw8flVJlw1
-         Wc2xH2FBOKb1wgNtJDiIrnCYava9dX637gRqiN5qCbZp+3T1eUc7XIQudX4ESTd6YNC2
-         bLpA==
-X-Forwarded-Encrypted: i=1; AJvYcCXLzzWoBfoByTx2OVsAGEGKfhg4XdXFTP5Zg4ePFB+sBUDhFOotAxhg7xUl7fAmYTB6ncuqCqJEuQ/tP2rEhltFs5d4hnB3LYp8MuzlhA==
-X-Gm-Message-State: AOJu0Yx67TcULsHEk9Yc+BkLg9O76+LWqeCz6tKfSKYLIxC00LJR6Qtk
-	VLZ7sgcBFR1W9jvsvezGf5qmmW4KYO0eE4mCM1cCbRwQjCjx3CqnzPqPLshZSgE=
-X-Google-Smtp-Source: AGHT+IGLOjNiO2yF+uZM/WShxzq79zjBJ21zqgaSpWhugas9BKUwHG0KuNYWyEZ1yCqqo26VlQTFIg==
-X-Received: by 2002:a05:6512:1249:b0:530:c3e9:5bcf with SMTP id 2adb3069b0e04-532edc04875mr1103977e87.60.1723627862785;
-        Wed, 14 Aug 2024 02:31:02 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429ded32538sm14023275e9.16.2024.08.14.02.31.01
+        d=1e100.net; s=20230601; t=1723647172; x=1724251972;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9Nc/x4iX30JK5v/qKKee25/DYJBOi1gSnUVT9ldVntQ=;
+        b=gCER8yY5lJ8aTROdDqPXUvzcoW0h+x78WLzAtCsw9FR2DjeU9nKdHtnlW8vmqlgDjW
+         L2B9Pp32Ot/6ujPGDNVQCtUshmxymJKwjRncPeaOPlhXDXHrRKjb6OSmrG3Ni85KDNkz
+         4CNoi4rdJp5C1A57p4eo5yHFt0WqiZbHriwn0enegQKM+tNAiQzscFJZuo1/w34oZlSW
+         VQY3VQmIGJCEeVIiCRhT6aNaZ/nIg5YJWWh4w6yyD6s9alazq8OG2MAySR3aEV8dDTQK
+         wfuKCTVxpXaO+WXGLutpEIfnIZYR9pUpr5uZukHeeN6meScXShhfNBpwxrsMDjBlk7O4
+         VHow==
+X-Forwarded-Encrypted: i=1; AJvYcCVGSIvE9Wml00h9fm2vmXM5I52dP1ZygURUeitWndn5ScRmNNXIIkZX8YM6C/IVmoSjvQiwgL2vH6nRn76r@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz7FZbEWxF9rJEX2biAb/ddSkVcXqjt+jCNgS5bSZgk4OMh8P2q
+	24SdJsvqQMUgJcD/2E4EOYXoS05pTlszMj8qczNPwAVSFt00sL0Y
+X-Google-Smtp-Source: AGHT+IFdssqc+ivi3rGmJB2MBWFygqPvAJjej4yYB0FRObwT9P5jMm+9bsS3WoH5fHzxtHMD1uGEAQ==
+X-Received: by 2002:a05:600c:138f:b0:428:1846:4f0 with SMTP id 5b1f17b1804b1-429dd2374bamr21782835e9.16.1723647172112;
+        Wed, 14 Aug 2024 07:52:52 -0700 (PDT)
+Received: from morpheus.home.roving-it.com.com (8.c.1.0.0.0.0.0.0.0.0.0.0.0.0.0.1.8.6.2.1.1.b.f.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:fb11:2681::1c8])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-36e4c93833asm13125766f8f.41.2024.08.14.07.52.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Aug 2024 02:31:02 -0700 (PDT)
-Date: Wed, 14 Aug 2024 12:30:57 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Riyan Dhiman <riyandhiman14@gmail.com>
-Cc: gregkh@linuxfoundation.org, dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: vme_user: vme_bridge.h: Document mutex in
- vme_dma_resource structure
-Message-ID: <545da5b5-fe99-41c8-9cc2-a5861a04ba2b@stanley.mountain>
-References: <20240803001814.7752-1-riyandhiman14@gmail.com>
- <1e74a5ef-7d15-451e-8cb8-2743ef95089a@suswa.mountain>
- <CAAjz0QY9jDUx-URQTtdW3kO2mkfV4dhUsJhB9-k12SEt++Gp8g@mail.gmail.com>
+        Wed, 14 Aug 2024 07:52:51 -0700 (PDT)
+From: Peter Robinson <pbrobinson@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	linux-staging@lists.linux.dev
+Cc: Peter Robinson <pbrobinson@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: drop unnessary dep on CFG80211_WEXT
+Date: Wed, 14 Aug 2024 15:52:46 +0100
+Message-ID: <20240814145250.943457-1-pbrobinson@gmail.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAjz0QY9jDUx-URQTtdW3kO2mkfV4dhUsJhB9-k12SEt++Gp8g@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Aug 14, 2024 at 09:11:22AM +0530, Riyan Dhiman wrote:
-> Yes, I agree 'mt' is a vague name and doesn't convey much information.
-> In this patch, I have added only comments to address the checkpatch error.
-> Given your suggestion to change the variable name, I'd like to confirm,
-> Should I create a new patch that includes both the comment and the 'mtx'
-> variable name change?
-> Or should I leave this current patch with comments only and
-> create a separate patch for the variable name changes?
+In commit 174ac41a7aaf ("staging: rtl8723bs: remove obsolete wext
+support") a dep on CFG80211_WEXT was added to allow wext userspace
+calls to be managed via the compatibility support. This is an
+optional dependency which the driver has no dependency on and
+stops users/distros etc from dropping CFG80211_WEXT if they want
+to enable this driver. Drop this dependency as if users want this
+legacy feature they will be explicitly enabling it themselves.
 
-I feel like renaming the spinlock is more useful than adding a comment.  Plus
-you can't really understand the locking without at least doing a temporary
-rename to see what places break.
+Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
+---
+ drivers/staging/rtl8723bs/Kconfig | 1 -
+ 1 file changed, 1 deletion(-)
 
-To be honest, we don't merge a lot of "add locking comments" because it's
-probably one of the trickiest checkpatch warnings.  You need to understand
-the locking before you can add a useful comment.
-
-When you're writing the comment, your target audience is Greg.  Greg is
-obviously a very experienced kernel developer.  He works in USB, stable kernels,
-staging, tty, device models stuff, and a bunch of other things.  But, he doesn't
-know *this* driver in great depth.
-
-When Greg takes a look at this code, it doesn't take him long to make a very
-educated guess what the locking is for.  If the comment has less information
-than Greg can see on his own at a glance then it's just a waste of time.  If
-someone had questions about the locking would they be better off asking you or
-asking Greg?  Until you can answer questions better than Greg then it's not
-much point in it.  Again, Greg doesn't know this driver very deeply because he's
-focused on a million other things so it's not that hard.
-
-Trying to figure out the locking is a good exercise.  It wouldn't surprise me
-if there were some locking bugs in this code and you should try to fix those.
-But it's not super easy either.
-
-regards,
-dan carpenter
+diff --git a/drivers/staging/rtl8723bs/Kconfig b/drivers/staging/rtl8723bs/Kconfig
+index f23e29b679fb..8d48c61961a6 100644
+--- a/drivers/staging/rtl8723bs/Kconfig
++++ b/drivers/staging/rtl8723bs/Kconfig
+@@ -3,7 +3,6 @@ config RTL8723BS
+ 	tristate "Realtek RTL8723BS SDIO Wireless LAN NIC driver"
+ 	depends on WLAN && MMC && CFG80211
+ 	depends on m
+-	select CFG80211_WEXT
+ 	select CRYPTO
+ 	select CRYPTO_LIB_ARC4
+ 	help
+-- 
+2.46.0
 
