@@ -1,218 +1,112 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F337C19ADA8
-	for <linux-staging@lists.linux.dev>; Tue, 13 Aug 2024 13:12:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9FD4524B4
+	for <linux-staging@lists.linux.dev>; Wed, 14 Aug 2024 09:31:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723554757; cv=none; b=PTNWiRTkl1T3ozk69JjfqPaeCdACIE/dz1gWsQQAsIUt4qM01Oj+jAlImUKDhrsRE/3VYGPPS+B5EAf/aRRFeQERgYqSxuqKfGaH+ub6O/6pQDDqcj/FeU1T08hZVk47TaqACkLiOM8LXvzXEB2DtSA5bjGOUnWK2GxxN5yTnEY=
+	t=1723627866; cv=none; b=mBen1ffuiFecPeJA7Kc/BoBkxN8GAiQrCXfeoF16qfrgnmf8dFeW3e5zELQ823htspojj0leomdor1WK1nR+JOyiq+ZWhmT5IclbkiBCsVO7jvLnhlo3w8TC/wEtKXuL3OeARela5IMvh2q2YqtcgPL2hV+Vghy9arB/rCgLcf4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723554757; c=relaxed/simple;
-	bh=uoqDNeAJb5WryfWJBMETwWztM1l30CYsj7KasEM+Z9M=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uwCuBrawagGzMFtHhcKvyAyb3anqpw9XQEguns5bVTCfej1LjkxLLKz5AcxuTxTdO441Ry1t5tEtlaQMWxVXD+WpbS8rpAvxrfosbHunGfrYnzaDqKpJi2W4AYf8DrR1QQvZDtA+dNf6j6iWA+YPfERT5gwaCl1itOr7dw8fHEs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fC9/7Smm; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1723627866; c=relaxed/simple;
+	bh=WsbPGLgwwh83fgroesz5EICrOmcuHuYiV+iKp6kCNGY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PzJfO6kqDWpl1M7PlaoM4ONrPnxIGguyk2DI5bwkioVVF/rytM3oCv9Ed1me0aO1ef1w+9L4btueMcwo8hs8CIRlhbGadbiEmIKhd3VpBUOEuj69PCrJCZDeqPVWg00b4mHNi7eal4dSRQGO/hLfTe9MrJgrRZNoHsNPUJ5PdYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=nSgWfxZX; arc=none smtp.client-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fC9/7Smm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723554755; x=1755090755;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=uoqDNeAJb5WryfWJBMETwWztM1l30CYsj7KasEM+Z9M=;
-  b=fC9/7SmmK+8AuFZa0iNlVG/YdjMJWyoiYEW4FfIy/RvNw8/HN/WtWgx2
-   hX40sh1fZeP00BFkUJt6MH91hN2kQhoF7KkGzvKkKg/fxMVjSacBZOzOj
-   m2/MjWcNedbkryvKjhFx6lP/e02yiC0lVosfoajyt0ZrHU7+w/Md0pqz0
-   Dr8iZ96u/5lvW4MjjApBXJHwTcAk7bE7Sig0TIuloioryyUPW38JXqVvF
-   GSXyufLATeSz4UzkPCZ9hRsb9WZCp3e7TSuFz34kAyMig4KGD4jkUITPT
-   nuCn7q8WSERvDBrlZuHQlcA3HBtb66obayQlTKhOKXM0XRdaXSItlOHe8
-   A==;
-X-CSE-ConnectionGUID: Sx3Qk9MhSCyX+vAY/QfnKg==
-X-CSE-MsgGUID: RTf2OPiITQOsdMbrARYwqQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11163"; a="39225787"
-X-IronPort-AV: E=Sophos;i="6.09,285,1716274800"; 
-   d="scan'208";a="39225787"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2024 06:12:34 -0700
-X-CSE-ConnectionGUID: /1gIWA2uQG6JpkF1c4ltyA==
-X-CSE-MsgGUID: +sfTXrSuT56MHEjC6oHieA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,285,1716274800"; 
-   d="scan'208";a="58610132"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orviesa009.jf.intel.com with ESMTP; 13 Aug 2024 06:12:32 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id 9EE6F2CC; Tue, 13 Aug 2024 16:12:30 +0300 (EEST)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Kate Hsuan <hpa@redhat.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nSgWfxZX"
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-52efd530a4eso8946317e87.0
+        for <linux-staging@lists.linux.dev>; Wed, 14 Aug 2024 02:31:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1723627863; x=1724232663; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y+KbS6E5jHMJIDLTLixLRMsMiOWTcgBIJLTFtv7w7UE=;
+        b=nSgWfxZXLnk3t2qsZV5I20HGbnlMvgvCViWIKxG74tpN/mgU5aYd3BUEwMPJsXmAbj
+         qbgkbs/Y5k2Y2bpssev0Z4ygz2tCRCzGMhIMNK+H18BnfaRyOL6DSgLcjOdx/adABBXv
+         6h4UwkLz6ytbx19pq0M/r5zjjztTCyiTgKdWvXgIyqm7AHh/HzvqU/brGnR0eY/q6pEL
+         ZOnt4SKtQOsde3EICFGeWlsdUDGvQ3B8dhZFb6ivpjbKWigOi58BO49yEpe8rCjTFK+t
+         FjSPv8oYqUDW1cPjto0LS9wqB/RtYUlP7ub+soIEFyfBNpi2IaVsFL7CczvWCTGpb3uQ
+         LWgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723627863; x=1724232663;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Y+KbS6E5jHMJIDLTLixLRMsMiOWTcgBIJLTFtv7w7UE=;
+        b=guH6nNBMnzLas98i9iIdYchhh+l802Tadaf4XT5e9yd9CZwir9OoApvmg9Q1K88Zhq
+         3Dm+cjO5x+ApBvAdfDdK3j5i40TGfLUmRlFoHcv+KQ1Qp3+wgwYpQLzlhE4CTGfkqwi/
+         h/bXZjCzCXfZeT+qIabtUuJE9SeJ8j7yte/xi/NnTsSnYG+GoqC+TVEnjLqqNSSl20Gx
+         zS9bAOrz2+FkSqKQAw15FCg3rYLpmQa+RrOH4vgn1QyxxcVDyu1JaTussOWw8flVJlw1
+         Wc2xH2FBOKb1wgNtJDiIrnCYava9dX637gRqiN5qCbZp+3T1eUc7XIQudX4ESTd6YNC2
+         bLpA==
+X-Forwarded-Encrypted: i=1; AJvYcCXLzzWoBfoByTx2OVsAGEGKfhg4XdXFTP5Zg4ePFB+sBUDhFOotAxhg7xUl7fAmYTB6ncuqCqJEuQ/tP2rEhltFs5d4hnB3LYp8MuzlhA==
+X-Gm-Message-State: AOJu0Yx67TcULsHEk9Yc+BkLg9O76+LWqeCz6tKfSKYLIxC00LJR6Qtk
+	VLZ7sgcBFR1W9jvsvezGf5qmmW4KYO0eE4mCM1cCbRwQjCjx3CqnzPqPLshZSgE=
+X-Google-Smtp-Source: AGHT+IGLOjNiO2yF+uZM/WShxzq79zjBJ21zqgaSpWhugas9BKUwHG0KuNYWyEZ1yCqqo26VlQTFIg==
+X-Received: by 2002:a05:6512:1249:b0:530:c3e9:5bcf with SMTP id 2adb3069b0e04-532edc04875mr1103977e87.60.1723627862785;
+        Wed, 14 Aug 2024 02:31:02 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429ded32538sm14023275e9.16.2024.08.14.02.31.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Aug 2024 02:31:02 -0700 (PDT)
+Date: Wed, 14 Aug 2024 12:30:57 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Riyan Dhiman <riyandhiman14@gmail.com>
+Cc: gregkh@linuxfoundation.org, dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH v1 1/1] media: atomisp: Replace rarely used macro from math_support.h
-Date: Tue, 13 Aug 2024 16:12:25 +0300
-Message-ID: <20240813131225.2232817-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.43.0.rc1.1336.g36b5255a03ac
+Subject: Re: [PATCH] staging: vme_user: vme_bridge.h: Document mutex in
+ vme_dma_resource structure
+Message-ID: <545da5b5-fe99-41c8-9cc2-a5861a04ba2b@stanley.mountain>
+References: <20240803001814.7752-1-riyandhiman14@gmail.com>
+ <1e74a5ef-7d15-451e-8cb8-2743ef95089a@suswa.mountain>
+ <CAAjz0QY9jDUx-URQTtdW3kO2mkfV4dhUsJhB9-k12SEt++Gp8g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAAjz0QY9jDUx-URQTtdW3kO2mkfV4dhUsJhB9-k12SEt++Gp8g@mail.gmail.com>
 
-Replace rarely used macro by generic ones from Linux kernel headers.
+On Wed, Aug 14, 2024 at 09:11:22AM +0530, Riyan Dhiman wrote:
+> Yes, I agree 'mt' is a vague name and doesn't convey much information.
+> In this patch, I have added only comments to address the checkpatch error.
+> Given your suggestion to change the variable name, I'd like to confirm,
+> Should I create a new patch that includes both the comment and the 'mtx'
+> variable name change?
+> Or should I leave this current patch with comments only and
+> create a separate patch for the variable name changes?
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- .../atomisp/pci/hive_isp_css_include/math_support.h      | 6 ------
- .../ipu2_io_ls/bayer_io_ls/ia_css_bayer_io.host.c        | 9 +++++----
- .../ipu2_io_ls/yuv444_io_ls/ia_css_yuv444_io.host.c      | 9 +++++----
- .../media/atomisp/pci/runtime/binary/src/binary.c        | 3 ++-
- .../media/atomisp/pci/runtime/isys/src/virtual_isys.c    | 8 ++++----
- 5 files changed, 16 insertions(+), 19 deletions(-)
+I feel like renaming the spinlock is more useful than adding a comment.  Plus
+you can't really understand the locking without at least doing a temporary
+rename to see what places break.
 
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_include/math_support.h b/drivers/staging/media/atomisp/pci/hive_isp_css_include/math_support.h
-index 160c496784b7..907f9ebcc60d 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_include/math_support.h
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_include/math_support.h
-@@ -28,12 +28,6 @@
- #define CEIL_SHIFT(a, b)     (((a) + (1 << (b)) - 1) >> (b))
- #define CEIL_SHIFT_MUL(a, b) (CEIL_SHIFT(a, b) << (b))
- 
--#if !defined(PIPE_GENERATION)
--
--#define ceil_div(a, b)		(CEIL_DIV(a, b))
--
--#endif /* !defined(PIPE_GENERATION) */
--
- /*
-  * For SP and ISP, SDK provides the definition of OP_std_modadd.
-  * We need it only for host
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/ipu2_io_ls/bayer_io_ls/ia_css_bayer_io.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/ipu2_io_ls/bayer_io_ls/ia_css_bayer_io.host.c
-index 0091e2a3da52..c32659894c29 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/ipu2_io_ls/bayer_io_ls/ia_css_bayer_io.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/ipu2_io_ls/bayer_io_ls/ia_css_bayer_io.host.c
-@@ -13,9 +13,11 @@
-  * more details.
-  */
- 
-+#include <linux/bitops.h>
-+#include <linux/math.h>
-+
- #include "ia_css_bayer_io.host.h"
- #include "dma.h"
--#include "math_support.h"
- #ifndef IA_CSS_NO_DEBUG
- #include "ia_css_debug.h"
- #endif
-@@ -29,9 +31,8 @@ int ia_css_bayer_io_config(const struct ia_css_binary      *binary,
- 	const struct ia_css_frame **out_frames = (const struct ia_css_frame **)
- 		&args->out_frame;
- 	const struct ia_css_frame_info *in_frame_info = ia_css_frame_get_info(in_frame);
--	const unsigned int ddr_bits_per_element = sizeof(short) * 8;
--	const unsigned int ddr_elems_per_word = ceil_div(HIVE_ISP_DDR_WORD_BITS,
--						ddr_bits_per_element);
-+	const unsigned int ddr_elems_per_word =
-+		DIV_ROUND_UP(HIVE_ISP_DDR_WORD_BITS, BITS_PER_TYPE(short));
- 	unsigned int size_get = 0, size_put = 0;
- 	unsigned int offset = 0;
- 	int ret;
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/ipu2_io_ls/yuv444_io_ls/ia_css_yuv444_io.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/ipu2_io_ls/yuv444_io_ls/ia_css_yuv444_io.host.c
-index 32c504a950ce..5b2d5023b5ee 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/ipu2_io_ls/yuv444_io_ls/ia_css_yuv444_io.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/ipu2_io_ls/yuv444_io_ls/ia_css_yuv444_io.host.c
-@@ -13,9 +13,11 @@ FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
- more details.
- */
- 
-+#include <linux/bitops.h>
-+#include <linux/math.h>
-+
- #include "ia_css_yuv444_io.host.h"
- #include "dma.h"
--#include "math_support.h"
- #ifndef IA_CSS_NO_DEBUG
- #include "ia_css_debug.h"
- #endif
-@@ -29,9 +31,8 @@ int ia_css_yuv444_io_config(const struct ia_css_binary      *binary,
- 	const struct ia_css_frame **out_frames = (const struct ia_css_frame **)
- 		&args->out_frame;
- 	const struct ia_css_frame_info *in_frame_info = ia_css_frame_get_info(in_frame);
--	const unsigned int ddr_bits_per_element = sizeof(short) * 8;
--	const unsigned int ddr_elems_per_word = ceil_div(HIVE_ISP_DDR_WORD_BITS,
--						ddr_bits_per_element);
-+	const unsigned int ddr_elems_per_word =
-+		DIV_ROUND_UP(HIVE_ISP_DDR_WORD_BITS, BITS_PER_TYPE(short));
- 	unsigned int size_get = 0, size_put = 0;
- 	unsigned int offset = 0;
- 	int ret;
-diff --git a/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c b/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
-index b0f904a5e442..2ff522f7dec8 100644
---- a/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
-@@ -328,7 +328,8 @@ ia_css_binary_dvs_grid_info(const struct ia_css_binary *binary,
- 
- 	dvs_info = &info->dvs_grid.dvs_grid_info;
- 
--	/* for DIS, we use a division instead of a ceil_div. If this is smaller
-+	/*
-+	 * For DIS, we use a division instead of a DIV_ROUND_UP(). If this is smaller
- 	 * than the 3a grid size, it indicates that the outer values are not
- 	 * valid for DIS.
- 	 */
-diff --git a/drivers/staging/media/atomisp/pci/runtime/isys/src/virtual_isys.c b/drivers/staging/media/atomisp/pci/runtime/isys/src/virtual_isys.c
-index 52483498239d..2e0193671f4b 100644
---- a/drivers/staging/media/atomisp/pci/runtime/isys/src/virtual_isys.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/isys/src/virtual_isys.c
-@@ -13,6 +13,8 @@
-  * more details.
-  */
- 
-+#include <linux/bitops.h>
-+#include <linux/math.h>
- #include <linux/string.h> /* for memcpy() */
- 
- #include "system_global.h"
-@@ -20,7 +22,6 @@
- 
- #include "ia_css_isys.h"
- #include "ia_css_debug.h"
--#include "math_support.h"
- #include "virtual_isys.h"
- #include "isp.h"
- #include "sh_css_defs.h"
-@@ -558,7 +559,7 @@ static int32_t calculate_stride(
- 		bits_per_pixel = CEIL_MUL(bits_per_pixel, 8);
- 
- 	pixels_per_word = HIVE_ISP_DDR_WORD_BITS / bits_per_pixel;
--	words_per_line  = ceil_div(pixels_per_line_padded, pixels_per_word);
-+	words_per_line  = DIV_ROUND_UP(pixels_per_line_padded, pixels_per_word);
- 	bytes_per_line  = HIVE_ISP_DDR_WORD_BYTES * words_per_line;
- 
- 	return bytes_per_line;
-@@ -690,7 +691,6 @@ static bool calculate_ibuf_ctrl_cfg(
-     const isp2401_input_system_cfg_t	*isys_cfg,
-     ibuf_ctrl_cfg_t			*cfg)
- {
--	const s32 bits_per_byte = 8;
- 	s32 bits_per_pixel;
- 	s32 bytes_per_pixel;
- 	s32 left_padding;
-@@ -698,7 +698,7 @@ static bool calculate_ibuf_ctrl_cfg(
- 	(void)input_port;
- 
- 	bits_per_pixel = isys_cfg->input_port_resolution.bits_per_pixel;
--	bytes_per_pixel = ceil_div(bits_per_pixel, bits_per_byte);
-+	bytes_per_pixel = BITS_TO_BYTES(bits_per_pixel);
- 
- 	left_padding = CEIL_MUL(isys_cfg->output_port_attr.left_padding, ISP_VEC_NELEMS)
- 		       * bytes_per_pixel;
--- 
-2.43.0.rc1.1336.g36b5255a03ac
+To be honest, we don't merge a lot of "add locking comments" because it's
+probably one of the trickiest checkpatch warnings.  You need to understand
+the locking before you can add a useful comment.
+
+When you're writing the comment, your target audience is Greg.  Greg is
+obviously a very experienced kernel developer.  He works in USB, stable kernels,
+staging, tty, device models stuff, and a bunch of other things.  But, he doesn't
+know *this* driver in great depth.
+
+When Greg takes a look at this code, it doesn't take him long to make a very
+educated guess what the locking is for.  If the comment has less information
+than Greg can see on his own at a glance then it's just a waste of time.  If
+someone had questions about the locking would they be better off asking you or
+asking Greg?  Until you can answer questions better than Greg then it's not
+much point in it.  Again, Greg doesn't know this driver very deeply because he's
+focused on a million other things so it's not that hard.
+
+Trying to figure out the locking is a good exercise.  It wouldn't surprise me
+if there were some locking bugs in this code and you should try to fix those.
+But it's not super easy either.
+
+regards,
+dan carpenter
 
