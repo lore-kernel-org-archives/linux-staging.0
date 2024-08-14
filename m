@@ -1,97 +1,122 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 300881B010F
-	for <linux-staging@lists.linux.dev>; Wed, 14 Aug 2024 14:52:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8C181B4C44
+	for <linux-staging@lists.linux.dev>; Wed, 14 Aug 2024 15:13:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723647175; cv=none; b=U87P7dPOIIxmSERgHvyQzH23jsSsUOKM4aNXkKOqI9kOzGwdmcRXpo1eSfLvx7Hshe4BbCELE03Pr7BaLyHbh5IyLUWb54wdWbucA8GKDQKuCECsC0cL4iTdsF9q4uALZ3D+Y/1FixykYdPBKIrrOXaHgpUMsd7LafVCmZD7uRs=
+	t=1723648434; cv=none; b=K3gg/9RAVh+jYeAEdyUUOKCjEql0S4Xe32twnPQcg0gWT83vxTWwT81pWJTrluOTMmyUH8Xt02+ElH1Z7+TSttmNCa80qT9LzDLqzENRaPBgdC6CGCwG8qSye0Jo93F55bJcIoEvYdlrKuvZWcxMUi/W1ZzmWRbKSeP5l/OxhOo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723647175; c=relaxed/simple;
-	bh=fYleo0yX1fwh3D5yruey7QLTuaNklJFq8nDi7CBNU2k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QRoAd/JAcYapAHrQ72RwF/M1i2yzIlcJzGyXBYs5KYavS2vT0dP07FPnWwKncXNQxD0gcIExCINfKyUjMNNYJ9PM9H9v28fVtRSK0ZX32U0QUH+Q89I+Bb3TzBHUVOFoKCf4m1N9b1I3hS1EuCqjBLBh3CgZAe0rlF0UazBCdac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fNHSqTzV; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1723648434; c=relaxed/simple;
+	bh=oJsWFT+Jb5nHR9LlAIUcdeqHgVdMBklDQEMR8aFS2DY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=TN/M9M5JyblLHxoyTefhTaFFW0lHQU7JtU+lW74Bm2Lm9Z/zVSfHfafQHjaBgdvd8uHukEM2f1XE3HoQCU5EB2JF5+5+OC+peiluj2N4rzW0XZhSNkvNU8U6oLYrJWg2rsLqjYm9ap9V4rFKKpXfbOb18q+vskK8t2MvPtTO8WY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=iHafCQw4; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fNHSqTzV"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4280b3a7efaso49932995e9.0
-        for <linux-staging@lists.linux.dev>; Wed, 14 Aug 2024 07:52:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723647172; x=1724251972; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9Nc/x4iX30JK5v/qKKee25/DYJBOi1gSnUVT9ldVntQ=;
-        b=fNHSqTzVNEFlnU+gpWeu3j3XXzYPM0+D43n0fonJjuo6m+cRwJixM9fwMb8KsTn3ps
-         zD0rX1poT4e1gYWO3Q2FdAVRBDefPIPw8bnN+RAuxw/PzVUW6WADevAF5+bDn9FCIaXJ
-         Tb8SCFlx6ErIUYEH0LHOWbbqEkhvf/1pRleXFw+U931tyk8Il6P4KzXw3NuLl7LND1RU
-         3fQa/8rOiNVhcae8WAEFjQ7TB+2NtzRm2jFplL/TFna6cNxHlA7sQRfFuI1SognBFUEG
-         tIG9nV2CcZl9w1FDwSkbbmSFQClZqn3Ufs3wgdR4GKwnHpo/D97AGy02Yu6HuC+FkBq8
-         +GLQ==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="iHafCQw4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1723648431;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yKgzA14Y5NvcmEPfocb3E6ZcDIz/4u0/C8U8OAxVOdw=;
+	b=iHafCQw4VKHaoZC/G1JJ057LvXPjf4fPrvKlL/bHS11akqbVi9JHMu6GoXHgq+55c+JDmD
+	NTEo4m7KO7fxjkn7XcFODF4PI09VAUDmq1PLCXvFQN5Emu//2X6zddijFbTNond4prl4fN
+	QkPoZIUdQs1rinzmK8Bk/EAPl60D5kQ=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-441-kZyf-pruPMmRRjfEiTYaZQ-1; Wed, 14 Aug 2024 11:13:50 -0400
+X-MC-Unique: kZyf-pruPMmRRjfEiTYaZQ-1
+Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-a7abaf0aecdso445319366b.3
+        for <linux-staging@lists.linux.dev>; Wed, 14 Aug 2024 08:13:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723647172; x=1724251972;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9Nc/x4iX30JK5v/qKKee25/DYJBOi1gSnUVT9ldVntQ=;
-        b=gCER8yY5lJ8aTROdDqPXUvzcoW0h+x78WLzAtCsw9FR2DjeU9nKdHtnlW8vmqlgDjW
-         L2B9Pp32Ot/6ujPGDNVQCtUshmxymJKwjRncPeaOPlhXDXHrRKjb6OSmrG3Ni85KDNkz
-         4CNoi4rdJp5C1A57p4eo5yHFt0WqiZbHriwn0enegQKM+tNAiQzscFJZuo1/w34oZlSW
-         VQY3VQmIGJCEeVIiCRhT6aNaZ/nIg5YJWWh4w6yyD6s9alazq8OG2MAySR3aEV8dDTQK
-         wfuKCTVxpXaO+WXGLutpEIfnIZYR9pUpr5uZukHeeN6meScXShhfNBpwxrsMDjBlk7O4
-         VHow==
-X-Forwarded-Encrypted: i=1; AJvYcCVGSIvE9Wml00h9fm2vmXM5I52dP1ZygURUeitWndn5ScRmNNXIIkZX8YM6C/IVmoSjvQiwgL2vH6nRn76r@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz7FZbEWxF9rJEX2biAb/ddSkVcXqjt+jCNgS5bSZgk4OMh8P2q
-	24SdJsvqQMUgJcD/2E4EOYXoS05pTlszMj8qczNPwAVSFt00sL0Y
-X-Google-Smtp-Source: AGHT+IFdssqc+ivi3rGmJB2MBWFygqPvAJjej4yYB0FRObwT9P5jMm+9bsS3WoH5fHzxtHMD1uGEAQ==
-X-Received: by 2002:a05:600c:138f:b0:428:1846:4f0 with SMTP id 5b1f17b1804b1-429dd2374bamr21782835e9.16.1723647172112;
-        Wed, 14 Aug 2024 07:52:52 -0700 (PDT)
-Received: from morpheus.home.roving-it.com.com (8.c.1.0.0.0.0.0.0.0.0.0.0.0.0.0.1.8.6.2.1.1.b.f.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:fb11:2681::1c8])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-36e4c93833asm13125766f8f.41.2024.08.14.07.52.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Aug 2024 07:52:51 -0700 (PDT)
-From: Peter Robinson <pbrobinson@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	linux-staging@lists.linux.dev
-Cc: Peter Robinson <pbrobinson@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: drop unnessary dep on CFG80211_WEXT
-Date: Wed, 14 Aug 2024 15:52:46 +0100
-Message-ID: <20240814145250.943457-1-pbrobinson@gmail.com>
-X-Mailer: git-send-email 2.46.0
+        d=1e100.net; s=20230601; t=1723648428; x=1724253228;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yKgzA14Y5NvcmEPfocb3E6ZcDIz/4u0/C8U8OAxVOdw=;
+        b=dKp6Ok+qiuFmvPKGX2jfQDIkOOgXQz1LlJlE1guUN2XJV+9D7+36WMWUajR/YwfbKg
+         kqnkaiagpSOaUKCkUnxW6TzmldpPwYZjORPNR+mLFeRLRlEbPIzMS/SNiMk7VMuv68hu
+         Fc99rpC0qr5i+iVWtlYhxEyBM0VpAQ0djIjaZRfh8+wb0PvVzYOXdKIx2TWKVZVjr5CB
+         3pPqRSvMaIwsHxWCKYqNkxU3Ae8RnvR3pX7/BlbL+WdaJNtzuK7mGuMrKkOF3Afy6sCf
+         2iYw6bfoN01l5A6pEL4ssHrMlAUXbu0bP+0vCUmtMl9Z9QHGt54VLSBgmR0zitmoh0TU
+         tLkA==
+X-Forwarded-Encrypted: i=1; AJvYcCW8Ls7F5eK+IGeJ00+MNWfIBnnHX/IHwWycDhrzE7GPgFlFzaDudm8yztUmInV8/MkzwQUM4AVaF9P8Cjv4LkXEq0AopIFrIL6uWcXuxA==
+X-Gm-Message-State: AOJu0YwvT3CJ/ua6gJ3LGLPM8szEaLW9/QW2uDmKc/yfxNnrTfzR2oTv
+	mqKhYtwP/xAxYcA259/QJqF7rKKrEjzqAtozgrFg2w5fBgxPebj2PBwMrGsLQtQzf1oEOeNKw0v
+	EN6s0jwcjdidUM230VS3GRFLe6dPI5OjGd1BjQouXkjUgay96+ZAOdntL0Z88qkQwzqBlqwM=
+X-Received: by 2002:a17:907:efc3:b0:a72:af8e:15af with SMTP id a640c23a62f3a-a83670263admr208017166b.49.1723648428487;
+        Wed, 14 Aug 2024 08:13:48 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH7LPvDvuik+r2pNMfqU8pqHImI4Zew/pfxYsF+NKzWNK3YdxnTiStZPosqyJ0HUfyy1qz5uQ==
+X-Received: by 2002:a17:907:efc3:b0:a72:af8e:15af with SMTP id a640c23a62f3a-a83670263admr208015366b.49.1723648427975;
+        Wed, 14 Aug 2024 08:13:47 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a80f3fa8f64sm183298166b.69.2024.08.14.08.13.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 Aug 2024 08:13:47 -0700 (PDT)
+Message-ID: <b3eca851-5a13-40d5-8a9d-87de6862b63b@redhat.com>
+Date: Wed, 14 Aug 2024 17:13:45 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: rtl8723bs: drop unnessary dep on CFG80211_WEXT
+To: Peter Robinson <pbrobinson@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-staging@lists.linux.dev
+References: <20240814145250.943457-1-pbrobinson@gmail.com>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20240814145250.943457-1-pbrobinson@gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, nl
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-In commit 174ac41a7aaf ("staging: rtl8723bs: remove obsolete wext
-support") a dep on CFG80211_WEXT was added to allow wext userspace
-calls to be managed via the compatibility support. This is an
-optional dependency which the driver has no dependency on and
-stops users/distros etc from dropping CFG80211_WEXT if they want
-to enable this driver. Drop this dependency as if users want this
-legacy feature they will be explicitly enabling it themselves.
+Hi,
 
-Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
----
- drivers/staging/rtl8723bs/Kconfig | 1 -
- 1 file changed, 1 deletion(-)
+On 8/14/24 4:52 PM, Peter Robinson wrote:
+> In commit 174ac41a7aaf ("staging: rtl8723bs: remove obsolete wext
+> support") a dep on CFG80211_WEXT was added to allow wext userspace
+> calls to be managed via the compatibility support. This is an
+> optional dependency which the driver has no dependency on and
+> stops users/distros etc from dropping CFG80211_WEXT if they want
+> to enable this driver. Drop this dependency as if users want this
+> legacy feature they will be explicitly enabling it themselves.
+> 
+> Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
 
-diff --git a/drivers/staging/rtl8723bs/Kconfig b/drivers/staging/rtl8723bs/Kconfig
-index f23e29b679fb..8d48c61961a6 100644
---- a/drivers/staging/rtl8723bs/Kconfig
-+++ b/drivers/staging/rtl8723bs/Kconfig
-@@ -3,7 +3,6 @@ config RTL8723BS
- 	tristate "Realtek RTL8723BS SDIO Wireless LAN NIC driver"
- 	depends on WLAN && MMC && CFG80211
- 	depends on m
--	select CFG80211_WEXT
- 	select CRYPTO
- 	select CRYPTO_LIB_ARC4
- 	help
--- 
-2.46.0
+Thanks, patch looks good to me:
+
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+
+Regards,
+
+Hans
+
+
+
+> ---
+>  drivers/staging/rtl8723bs/Kconfig | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/Kconfig b/drivers/staging/rtl8723bs/Kconfig
+> index f23e29b679fb..8d48c61961a6 100644
+> --- a/drivers/staging/rtl8723bs/Kconfig
+> +++ b/drivers/staging/rtl8723bs/Kconfig
+> @@ -3,7 +3,6 @@ config RTL8723BS
+>  	tristate "Realtek RTL8723BS SDIO Wireless LAN NIC driver"
+>  	depends on WLAN && MMC && CFG80211
+>  	depends on m
+> -	select CFG80211_WEXT
+>  	select CRYPTO
+>  	select CRYPTO_LIB_ARC4
+>  	help
 
