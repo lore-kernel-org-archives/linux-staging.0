@@ -1,108 +1,204 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailo.com (msg-4.mailo.com [213.182.54.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 959001B86F8
-	for <linux-staging@lists.linux.dev>; Fri, 16 Aug 2024 13:09:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D09A37DA90
+	for <linux-staging@lists.linux.dev>; Fri, 16 Aug 2024 18:38:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.182.54.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723813752; cv=none; b=nQ8cwAbXWMiKWZ++UNFYl5Dl5z255rdD7my75P8mFUHsMoAGuV6qafInPgsaGxOWffnfZ3sihSgLQk2pnDzW2DiD+iGdzpzf7qRsDgChD8nb0ZW+Tb3vn0LhG8IQPGyY6bI3XyPG3Qw5LRQiJupog/mWruVsJcHNduVgG82VX5k=
+	t=1723833525; cv=none; b=YvcBpFYtOGPtqo3Us3npNBOx15kybmEdtGm9U0Oya2WP4IHHDaqfTa8J1ywkwTkg4Kdx61cxpBYgpS0jDIzjViLLcyUcQsFU1F/RRv83kJtvSMHptok8bJtvR8ZX6rgAMHFymViBqAiRvqjVKG4iCar+54F4lvK+wvsP1Wr7tyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723813752; c=relaxed/simple;
-	bh=hV61UEsZvxQXAH//23EBTg5Dfv0U9kPjQojStjFfjbA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JwDtrYh1vDKY7ZzqcVN21elSch6t7TLHoj2550ZwP9oOemzRvns+1Lm2ssU8sbneRSpGh1yUCirQqSDYIKnxLq+q/bsV+1Ddk6OGnc8AvijmuA9oXGt7pE14T8uFfcnUl0TKdar/0UR5ksJRIe/cinexZ7+elB2+PGwEx/PVyfs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=werAlJ/F; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1723833525; c=relaxed/simple;
+	bh=w2zNACUIGRSA2xy3BFISwYbfbac4NgwJSaNaM5z6h4Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=IeJo38bpRwUNgftRR+YoBQZIVuHsyIMRWUNDtkG/8NQ8y+HC/tOIJFKDXgPdDPXBBXWrGxECk+enQ7wZGlrf5TcJz0cmPXXaHNl+cmRTE8BbIpmGXhC19ylfK3GT0M/p6vbk5j+Xbow5Sca93TF6d7eV3eB/itxgOpqw2O+29tQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=netc.fr; spf=pass smtp.mailfrom=netc.fr; dkim=pass (1024-bit key) header.d=netc.fr header.i=@netc.fr header.b=dbZPqTeH; arc=none smtp.client-ip=213.182.54.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=netc.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netc.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="werAlJ/F"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-428243f928fso20058705e9.0
-        for <linux-staging@lists.linux.dev>; Fri, 16 Aug 2024 06:09:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1723813749; x=1724418549; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=I57ivJzE0S7Jyj+4EZvgDuynmnlEVJTzFHiR3Sj8E/Y=;
-        b=werAlJ/F/rF11jSdVliVV6BoRzYy50/lhnuBHnfhRoxjTefgK02NRg6RjIfjCjaHAL
-         vXQZIsOdhUscX41hcTU1btG3OO99k8pr512M9GXP4BojrFQ9gPXDxOqLfy7bpYwuoKLm
-         LqBUywDfEeVcytrABfAPwQYL6wUuQ5rVGbWX8SHaNNhz4tACOzWh/k9tgK+ztgpONeiv
-         DbyAFZdlsO7h4ULVWmTvGQZgFKiAatAdnzDTG2967h+TmxaVuMq2adJca+HwSiStBHR5
-         4uw4SqkBZbvyCQYg0XXa/MM8mKCc/sCWI5l5cJyWD0qExsT+EkdwTw/pYZkFYOAn+jFM
-         mkzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723813749; x=1724418549;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=I57ivJzE0S7Jyj+4EZvgDuynmnlEVJTzFHiR3Sj8E/Y=;
-        b=ZC/ytMdQvkHzBLIUDTLhJOf/SE/A4XhM53Wl+r1XTdJvuJm71xQMf0lUW98YkzPR4l
-         f/14hlY5ka6cYeGP9rTtupSrJplkaiEQSHs9TfqPzL6yV919rgO0Y9/mewJT7S7BMtCd
-         3vQSFgLB5GetPYGogxfJMygWDnct2NOEd2DR8Y576R4hReCuWDyOdP/XB4IZd69aEVK7
-         IlrcIVPxwJ5MGkkZlb36n5EfwgWFDwlnMVXkxpYIUHKId8b9YM4QAIXZjRSuKT//6S83
-         qTXwYND1DfOfGvovydzWZ+ckvgko/NGiG1A3w7ldLchZ3TkMhzrabUDSXN/UPhMLbT4l
-         TMAg==
-X-Forwarded-Encrypted: i=1; AJvYcCUS+jGZlbXdOirmBchYOlF4HcNW1gpi9OUpLldXwACSmMnnFV/EalWPRQWSBKvAIbO1xS8k3LWAdHwV+ZD0Fem+WpkQgg3VbzBdvPavTQ==
-X-Gm-Message-State: AOJu0YzZsYXAedqjqxVKksf4685plmKFscGZiaITjagZ0MpFij92+aTy
-	cb3vE7vu4xMnEv6Cm2gTRxOZhQ69fQ+2nbzPqK4cuEpjWfNBvK9zovDIb4B/n2M=
-X-Google-Smtp-Source: AGHT+IGnx6kas1tzOJHAhP+U85MHgXfoWOwHa4tNkKg9SyOtPuPTLGnQgFkIbtCooFiXuJnYxwkOOg==
-X-Received: by 2002:a05:600c:3ca4:b0:429:c674:d9de with SMTP id 5b1f17b1804b1-429ed78411cmr22492805e9.2.1723813748808;
-        Fri, 16 Aug 2024 06:09:08 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429ed648e76sm22683515e9.2.2024.08.16.06.09.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Aug 2024 06:09:07 -0700 (PDT)
-Date: Fri, 16 Aug 2024 16:09:03 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Changhuang Liang <changhuang.liang@starfivetech.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Jack Zhu <jack.zhu@starfivetech.com>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [v2] staging: media: starfive: Add the dynamic resolution support
-Message-ID: <90939451-4e26-4aec-bf69-d078d88fb5c2@stanley.mountain>
-References: <20240816125132.514488-1-changhuang.liang@starfivetech.com>
- <0680445d-1108-4400-b150-4804da63ddba@stanley.mountain>
+	dkim=pass (1024-bit key) header.d=netc.fr header.i=@netc.fr header.b="dbZPqTeH"
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=netc.fr; s=mailo;
+	t=1723833510; bh=w2zNACUIGRSA2xy3BFISwYbfbac4NgwJSaNaM5z6h4Q=;
+	h=X-EA-Auth:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	b=dbZPqTeHyWNL9zZ5ILjxdDaNj0aJg/56H1ZcdjHwaQv4RwIZDJ/rLpCIbWAkdDQK9
+	 T7lYAfsgS2BWStdGbd65AzfvWV5xMc1rcvsoNptQ6eUKfxJS/IW/LpqoEat9KxJLUL
+	 sd0z7ZkjVZXF0Rp9TiSelvBcEe8zFyQnslAb99ag=
+Received: by b-6.in.mailobj.net [192.168.90.16] with ESMTP
+	via ip-20.mailobj.net [213.182.54.20]
+	Fri, 16 Aug 2024 20:38:30 +0200 (CEST)
+X-EA-Auth: rFYSvjmkmKT6XOrqsjpK0F8VIEGSasceXmh6AWftftw6WYGlQHukrVVnXifgq9RxT1W3ruhPwgjP8xux6C1cAjqHKUSYRUf4VGRcbFMhcC5jKR7+JVc7kg==
+From: =?UTF-8?q?Guillaume=20Lef=C3=A8vre-Crim=C3=A9?= <guillaume.lefevre.crime@netc.fr>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	guillaume.lefevre.crime@netc.fr
+Subject: [PATCH] staging: rtl8723bs: add spaces arround operators
+Date: Fri, 16 Aug 2024 20:37:32 +0200
+Message-ID: <20240816183756.59250-1-guillaume.lefevre.crime@netc.fr>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0680445d-1108-4400-b150-4804da63ddba@stanley.mountain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, Aug 16, 2024 at 04:04:38PM +0300, Dan Carpenter wrote:
-> On Fri, Aug 16, 2024 at 05:51:32AM -0700, Changhuang Liang wrote:
-> > Add the dynamic resolution support for video "capture_raw" device.
-> > 
-> 
-> What does this change look like from a use perspective if a user is reading the
-> git log?
-> 
-> > Fixes: e080f339c80a ("media: staging: media: starfive: camss: Add capture driver")
-> > 
-> 
-> This looks like a new feature and not a bugfix.  Please describe the bug more
-> clearly if it's really a bugfix.
-> 
+Adhere to Linux kernel coding style.
+Reported by checkpath :
+CHECK: spaces preferred around that '&' (ctx:VxV)
 
-Actually the first version of the commit had a good description.  Just go back
-to that.
+Signed-off-by: Guillaume Lefèvre-Crimé <guillaume.lefevre.crime@netc.fr>
+---
+ drivers/staging/rtl8723bs/core/rtw_efuse.c | 54 +++++++++++-----------
+ 1 file changed, 27 insertions(+), 27 deletions(-)
 
-> Add multiple resolution support for video "capture_raw" device. Otherwise
-> it will capture the wrong image data if the width is not 1920.
+diff --git a/drivers/staging/rtl8723bs/core/rtw_efuse.c b/drivers/staging/rtl8723bs/core/rtw_efuse.c
+index eb848f9bbf2c..89acb6f290cc 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_efuse.c
++++ b/drivers/staging/rtl8723bs/core/rtw_efuse.c
+@@ -38,7 +38,7 @@ Efuse_Read1ByteFromFakeContent(u16 Offset, u8 *Value)
+ 	if (fakeEfuseBank == 0)
+ 		*Value = fakeEfuseContent[Offset];
+ 	else
+-		*Value = fakeBTEfuseContent[fakeEfuseBank-1][Offset];
++		*Value = fakeBTEfuseContent[fakeEfuseBank - 1][Offset];
+ 	return true;
+ }
+ 
+@@ -50,7 +50,7 @@ Efuse_Write1ByteToFakeContent(u16 Offset, u8 Value)
+ 	if (fakeEfuseBank == 0)
+ 		fakeEfuseContent[Offset] = Value;
+ 	else
+-		fakeBTEfuseContent[fakeEfuseBank-1][Offset] = Value;
++		fakeBTEfuseContent[fakeEfuseBank - 1][Offset] = Value;
+ 	return true;
+ }
+ 
+@@ -206,21 +206,21 @@ u16		Address)
+ 	if (Address < contentLen) {/* E-fuse 512Byte */
+ 		/* Write E-fuse Register address bit0~7 */
+ 		temp = Address & 0xFF;
+-		rtw_write8(Adapter, EFUSE_CTRL+1, temp);
+-		Bytetemp = rtw_read8(Adapter, EFUSE_CTRL+2);
++		rtw_write8(Adapter, EFUSE_CTRL + 1, temp);
++		Bytetemp = rtw_read8(Adapter, EFUSE_CTRL + 2);
+ 		/* Write E-fuse Register address bit8~9 */
+ 		temp = ((Address >> 8) & 0x03) | (Bytetemp & 0xFC);
+-		rtw_write8(Adapter, EFUSE_CTRL+2, temp);
++		rtw_write8(Adapter, EFUSE_CTRL + 2, temp);
+ 
+ 		/* Write 0x30[31]= 0 */
+-		Bytetemp = rtw_read8(Adapter, EFUSE_CTRL+3);
++		Bytetemp = rtw_read8(Adapter, EFUSE_CTRL + 3);
+ 		temp = Bytetemp & 0x7F;
+-		rtw_write8(Adapter, EFUSE_CTRL+3, temp);
++		rtw_write8(Adapter, EFUSE_CTRL + 3, temp);
+ 
+ 		/* Wait Write-ready (0x30[31]= 1) */
+-		Bytetemp = rtw_read8(Adapter, EFUSE_CTRL+3);
++		Bytetemp = rtw_read8(Adapter, EFUSE_CTRL + 3);
+ 		while (!(Bytetemp & 0x80)) {
+-			Bytetemp = rtw_read8(Adapter, EFUSE_CTRL+3);
++			Bytetemp = rtw_read8(Adapter, EFUSE_CTRL + 3);
+ 			k++;
+ 			if (k == 1000)
+ 				break;
+@@ -253,16 +253,16 @@ bool		bPseudoTest)
+ 
+ 	/*  -----------------e-fuse reg ctrl --------------------------------- */
+ 	/* address */
+-	rtw_write8(padapter, EFUSE_CTRL+1, (u8)(addr&0xff));
+-	rtw_write8(padapter, EFUSE_CTRL+2, ((u8)((addr>>8) & 0x03)) |
+-	(rtw_read8(padapter, EFUSE_CTRL+2)&0xFC));
++	rtw_write8(padapter, EFUSE_CTRL + 1, (u8)(addr & 0xff));
++	rtw_write8(padapter, EFUSE_CTRL + 2, ((u8)((addr >> 8) & 0x03)) |
++	(rtw_read8(padapter, EFUSE_CTRL + 2) & 0xFC));
+ 
+ 	/* rtw_write8(padapter, EFUSE_CTRL+3,  0x72); read cmd */
+ 	/* Write bit 32 0 */
+-	readbyte = rtw_read8(padapter, EFUSE_CTRL+3);
+-	rtw_write8(padapter, EFUSE_CTRL+3, (readbyte & 0x7f));
++	readbyte = rtw_read8(padapter, EFUSE_CTRL + 3);
++	rtw_write8(padapter, EFUSE_CTRL + 3, (readbyte & 0x7f));
+ 
+-	while (!(0x80 & rtw_read8(padapter, EFUSE_CTRL+3)) && (tmpidx < 1000)) {
++	while (!(0x80 & rtw_read8(padapter, EFUSE_CTRL + 3)) && (tmpidx < 1000)) {
+ 		mdelay(1);
+ 		tmpidx++;
+ 	}
+@@ -293,9 +293,9 @@ u8 efuse_OneByteWrite(struct adapter *padapter, u16 addr, u8 data, bool bPseudoT
+ 
+ 
+ 	efuseValue = rtw_read32(padapter, EFUSE_CTRL);
+-	efuseValue |= (BIT21|BIT31);
++	efuseValue |= (BIT21 | BIT31);
+ 	efuseValue &= ~(0x3FFFF);
+-	efuseValue |= ((addr<<8 | data) & 0x3FFFF);
++	efuseValue |= ((addr << 8 | data) & 0x3FFFF);
+ 
+ 
+ 	/*  <20130227, Kordan> 8192E MP chip A-cut had better not set 0x34[11] until B-Cut. */
+@@ -304,9 +304,9 @@ u8 efuse_OneByteWrite(struct adapter *padapter, u16 addr, u8 data, bool bPseudoT
+ 	/* 0x34[11]: SW force PGMEN input of efuse to high. (for the bank selected by 0x34[9:8]) */
+ 	/* PHY_SetMacReg(padapter, 0x34, BIT11, 1); */
+ 	rtw_write16(padapter, 0x34, rtw_read16(padapter, 0x34) | (BIT11));
+-	rtw_write32(padapter, EFUSE_CTRL, 0x90600000|((addr<<8 | data)));
++	rtw_write32(padapter, EFUSE_CTRL, 0x90600000 | ((addr << 8 | data)));
+ 
+-	while ((0x80 &  rtw_read8(padapter, EFUSE_CTRL+3)) && (tmpidx < 100)) {
++	while ((0x80 &  rtw_read8(padapter, EFUSE_CTRL + 3)) && (tmpidx < 100)) {
+ 		mdelay(1);
+ 		tmpidx++;
+ 	}
+@@ -365,19 +365,19 @@ efuse_WordEnableDataRead(u8 word_en,
+ 						u8 *sourdata,
+ 						u8 *targetdata)
+ {
+-	if (!(word_en&BIT(0))) {
++	if (!(word_en & BIT(0))) {
+ 		targetdata[0] = sourdata[0];
+ 		targetdata[1] = sourdata[1];
+ 	}
+-	if (!(word_en&BIT(1))) {
++	if (!(word_en & BIT(1))) {
+ 		targetdata[2] = sourdata[2];
+ 		targetdata[3] = sourdata[3];
+ 	}
+-	if (!(word_en&BIT(2))) {
++	if (!(word_en & BIT(2))) {
+ 		targetdata[4] = sourdata[4];
+ 		targetdata[5] = sourdata[5];
+ 	}
+-	if (!(word_en&BIT(3))) {
++	if (!(word_en & BIT(3))) {
+ 		targetdata[6] = sourdata[6];
+ 		targetdata[7] = sourdata[7];
+ 	}
+@@ -463,7 +463,7 @@ static void efuse_ShadowRead2Byte(struct adapter *padapter, u16 Offset, u16 *Val
+ 	struct eeprom_priv *pEEPROM = GET_EEPROM_EFUSE_PRIV(padapter);
+ 
+ 	*Value = pEEPROM->efuse_eeprom_data[Offset];
+-	*Value |= pEEPROM->efuse_eeprom_data[Offset+1]<<8;
++	*Value |= pEEPROM->efuse_eeprom_data[Offset + 1] << 8;
+ 
+ }	/*  EFUSE_ShadowRead2Byte */
+ 
+@@ -473,9 +473,9 @@ static void efuse_ShadowRead4Byte(struct adapter *padapter, u16 Offset, u32 *Val
+ 	struct eeprom_priv *pEEPROM = GET_EEPROM_EFUSE_PRIV(padapter);
+ 
+ 	*Value = pEEPROM->efuse_eeprom_data[Offset];
+-	*Value |= pEEPROM->efuse_eeprom_data[Offset+1]<<8;
+-	*Value |= pEEPROM->efuse_eeprom_data[Offset+2]<<16;
+-	*Value |= pEEPROM->efuse_eeprom_data[Offset+3]<<24;
++	*Value |= pEEPROM->efuse_eeprom_data[Offset + 1] << 8;
++	*Value |= pEEPROM->efuse_eeprom_data[Offset + 2] << 16;
++	*Value |= pEEPROM->efuse_eeprom_data[Offset + 3] << 24;
+ 
+ }	/*  efuse_ShadowRead4Byte */
+ 
+-- 
+2.46.0
 
-Btw:
-1) Don't put a blank line after the Fixes tag.
-2) Put a note under the --- cut off line that says what changed.
 
-https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
-
-Please send v3.
-
-regards,
-dan carpenter
 
