@@ -1,176 +1,111 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF738374FA;
-	Wed, 14 Aug 2024 18:46:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D68681B1427
+	for <linux-staging@lists.linux.dev>; Fri, 16 Aug 2024 12:32:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723661207; cv=none; b=EQb2g+cLdIIPjC3Zlhi8yW2CvS+P8OYw8/bcISc2GBV7dkGjOoCHfkQd5Z4tk1Y8T0+u92WBuBRCJHfXtt0H7CmK1Z2XfDmz849ezqKI6sllcmTwV+savcLrqiIw066MTEiP28gcSGx6/mTetLI9HulLT++N+aZfYX5jqbAYeAw=
+	t=1723811526; cv=none; b=TmQp5nlOzUWbQ/H9IQY/XPn/HS/tkoGXeTMo8SKqHabwaRNyqNZOx4AkVR/4iJEwSo11jqnnSXU2zT2aMZNVgeWwPxaL4F6Np0Lju7ISKYfOPl5XeTHiD9g4Fuom0bjnblxa81adwboWbGXIUoKlbWnrLfN7dlidjZA/ci9rKFY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723661207; c=relaxed/simple;
-	bh=Ve6qEbUDhSkkvpyPc07VYItMJCbBhMvu6CfuLrszOk0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aGJ+VfLQo5o9kKWGevwvto6m5xF9sLHTWVJ6VCGz4VjZ1KV0tGnX23SjFPr9MPpqE3XLy+/dt3RgYDxrwQklHJX7ZkQnkVnsKqx+Bc5b/xfJodvwqF0K08V0y1tVC9bASQIokahhmXZ7zmq/5Xwo9zt2kTK02TJvtbQ4WufezyU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a2QrOO5+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1723811526; c=relaxed/simple;
+	bh=cS96YejF1hyqXIfwcjLi+WpI7c6G/R69dAKBtvxD1pw=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=JRU03Qh3nTi2CHH0DnP7PFEvtsGASpyJEstMqRKKZAYFQq5XffQ4/4k2SAgPFdRc8yPzFvCB0gXn9fxBjb/BBuQ7vzo22sg6d9OfCiZUFTW/U+Dv/Kfmw88MivSt/xQdOp2mHsHqjtwK+bE7By+CqMf47WKycXX6oUqvN+F59i0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=WOhT8+FK; arc=none smtp.client-ip=209.85.219.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a2QrOO5+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 316E1C116B1;
-	Wed, 14 Aug 2024 18:46:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723661205;
-	bh=Ve6qEbUDhSkkvpyPc07VYItMJCbBhMvu6CfuLrszOk0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=a2QrOO5+s6/HTaBE3NQsT8fUAHWNGRBNK5wsfLBtjQYe5Gp6B9JNXe6T5MgcVOXtn
-	 nA0QfwbQwuITNychY7ANsVokY7XOA6Fg5fPD9wgX/Hvqh2sU6P48s5oVMi2fXhVBqu
-	 DAo2l3evOXPqWqzHaHcvDPZH/inxP43eq4A02kiKPFGN8TY0Ysh9nLNjfzVG2cAQxb
-	 5HOJoBldUD78P5+SukNAYrTXckqi/y7mIuBSms0pA5sdMzxbdQ4Nxg36l4ztSHqZfP
-	 7GbkAYnzneo5TH/wFQqg+1e1e6dpzClR+YEEEFJtKMfv2XRIOrEOE6kS00732QLaxH
-	 kiE7xK6UvavzA==
-Date: Wed, 14 Aug 2024 19:46:35 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Nuno Sa via B4 Relay <devnull+nuno.sa.analog.com@kernel.org>
-Cc: nuno.sa@analog.com, linux-iio@vger.kernel.org,
- linux-staging@lists.linux.dev, Lars-Peter Clausen <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>, Ramona Gradinariu
- <ramona.gradinariu@analog.com>, Antoniu Miclaus
- <antoniu.miclaus@analog.com>, Marcus Folkesson
- <marcus.folkesson@gmail.com>, Kent Gustavsson <kent@minoris.se>, Matthias
- Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, Heiko Stuebner
- <heiko@sntech.de>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre
- Torgue <alexandre.torgue@foss.st.com>, Francesco Dolcini
- <francesco@dolcini.it>, =?UTF-8?B?Sm/Do28=?= Paulo =?UTF-8?B?R29uw6dhbHZl?=
- =?UTF-8?B?cw==?= <jpaulo.silvagoncalves@gmail.com>, Haibo Chen
- <haibo.chen@nxp.com>, Michal Simek <michal.simek@amd.com>, Benson Leung
- <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH 00/23] iio: make masklength __private (final round)
-Message-ID: <20240814194635.439a9dd9@jic23-huawei>
-In-Reply-To: <20240726-dev-iio-masklength-private3-v1-0-82913fc0fb87@analog.com>
-References: <20240726-dev-iio-masklength-private3-v1-0-82913fc0fb87@analog.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="WOhT8+FK"
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-6b791cddfcbso10494526d6.0
+        for <linux-staging@lists.linux.dev>; Fri, 16 Aug 2024 05:32:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1723811523; x=1724416323; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=CCFoApgC3NvMeXYvVFjfg1wg+6p9sI3vxSueR9OSw4I=;
+        b=WOhT8+FKT1uRfm9rb1Qxh/AjX3IvRwkBALsReNi6VKKQXieuEXtjKvQvK4e4Gq9hAo
+         kn+hsB4qEjzx9q2uYOcKapP2fn+GtFfRQJq/fcru6vgQzKN22j54rJm4LHORm4SE8BFk
+         WezmCRKs4WeNfApYHQxk3Nogh++HNZgjbMe+Y=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723811523; x=1724416323;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CCFoApgC3NvMeXYvVFjfg1wg+6p9sI3vxSueR9OSw4I=;
+        b=KAaa9iXE8jfm7Vli1Gf7QW6O5c+jqy7Ihwf0mzLUnlkrngF2OAwjL2Xk1Y39H0dlg6
+         jsHMSZW9opSMmbSLWQp03I0AwOAqFHyl1qV4PnPM6ZdXFDa0b2WoCpOyg5aN+Zmg1aWF
+         +uEekmCTCJ1n7pA6UnBzajlZG6DnhSA5dYegydxPFSvBZ9/iHI3Apw4HDjft0Nvqz69d
+         OB/PPx5vM/1nrcFjbVaxGBzr6BDpdcdLZn8Jzb2R4ZrINIKaNCh6OsvYmsMgZaZjY9XU
+         i6QzmQdlU0x5tK3vFGqz7RQpU/AMyn/2ctgHx/M8KLYNNIc7EilHckuKm+BOpACczGb5
+         VnAQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVkKSCyy0CVnfaesrsuC3Uqq7CYzgcXI5RXX8lAqtG/yW9uZ0q62jbMJUe3PwPt/xo8TkbeM1CE2RwHlmOWd2gq6dJS8J7WTZEv3p1HjQ==
+X-Gm-Message-State: AOJu0YzA0vOoCxy5tMAxZbNRxmVus92tjk2SldSh0Wgx5q0i6cs3pBIU
+	VyNavEpxT/k0zQQUnne+q+VyfIK5N2WmGd/sojlBiF+a/40EKnb4Y3NoLsS7Jw==
+X-Google-Smtp-Source: AGHT+IFoKdLi76sGKTYFPYZCioyONlAB3ifLSzlc/E/kHAkYIvV8qgOxuFvA3vnNFKsn84Rla7Ntqg==
+X-Received: by 2002:a05:6214:4a93:b0:6bf:75f8:250b with SMTP id 6a1803df08f44-6bf7cd799b3mr33366816d6.10.1723811522620;
+        Fri, 16 Aug 2024 05:32:02 -0700 (PDT)
+Received: from denia.c.googlers.com (123.178.145.34.bc.googleusercontent.com. [34.145.178.123])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6bf6fef3107sm16881426d6.121.2024.08.16.05.32.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Aug 2024 05:32:02 -0700 (PDT)
+From: Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH v2 0/6] media: Fix last smatch warnings
+Date: Fri, 16 Aug 2024 12:31:58 +0000
+Message-Id: <20240816-smatch-clock-v2-0-c63105db07e8@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAL9Gv2YC/3XMQQ7CIBCF4as0sxYDlLboynuYLuhIy0RbDFSia
+ bi72L3L/yXv2yDaQDbCudog2ESR/FJCHipAZ5bJMrqVBsml4lrULM5mRcfw4fHO5GjqQYhO6aa
+ DcnkGO9J75659aUdx9eGz60n81j9QEoyztlWolTw1g8ALuuBnes1HHyboc85fp/U9f6sAAAA=
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ =?utf-8?q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Sylwester Nawrocki <s.nawrocki@samsung.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org, 
+ linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ Ricardo Ribalda <ribalda@chromium.org>
+X-Mailer: b4 0.13.0
 
-On Fri, 26 Jul 2024 10:22:52 +0200
-Nuno Sa via B4 Relay <devnull+nuno.sa.analog.com@kernel.org> wrote:
+This series completes the smatch warning cleanout.
 
-> Hi Jonathan,
->=20
-> Here it goes the final conversion round.  On the testing branch a git
-> grep:
->=20
-> git grep "\->masklength"
->=20
-> Gives no more users so hopefully I did it right :).
->=20
-> Not entirely related with this but I'll mention it anyways :). Looking
-> at the other [INTERN] fields, I see:
->=20
-> * active_scan_mask: which seems to be pretty similar to masklength;
-> * scan_timestamp: Has some apparently valid  users;
-> * scan_bytes: Also has a few users;
-> * trig: may need a bit more inspection.
->=20
-> The first 3 look like valid RO fields that drivers are allowed to
-> access. I mean, for scan_bytes I guess drivers could calculate that
-> based on the active_scan_mask but I think that's just not worth it given
-> the core already did it for us.
-> =20
-> So I wonder if a similar work would be valuable? scan_timestamp and
-> scan_bytes would be pretty trivial but for active_scan_mask we do have
-> lots of users (but also trivial I think).
->=20
-> For Trig, most of the writes are drivers doing
->=20
-> indio_dev->trig =3D iio_trigger_get(data->trig);
->=20
-> So we either assume it's public or remove that line from drivers. Though
-> that could break userland apps relying on some trigger to be
-> automatically set after device probe. We can anyways have another helper
-> to do that for drivers (not sure this field is accessed in some
-> fastpath).
->=20
-> Also need to better check if there are any readers for it.
->=20
-> Anyways, it would be nice to get your inputs on the last [INTERNAL] fields
-> in struct iio_dev
->=20
-> Also want to mention that I deliberately removed some mailing lists
-> given by get_maintainers as this is fairly simple and so I don't think
-> the "spam" is worth it :).=20
-I applied these about 10 days ago but for some reason didn't say that!
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+Changes in v2:
+- Fix double free in ar0251 patch. Thanks Dan!
+- Link to v1: https://lore.kernel.org/r/20240813-smatch-clock-v1-0-664c84295b1c@chromium.org
 
-So these are applied if anyone was wondering.
+---
+Ricardo Ribalda (6):
+      media: ar0521: Refactor ar0521_power_off()
+      media: i2c: ov5645: Refactor ov5645_set_power_off()
+      media: i2c: s5c73m3: Move clk_prepare to its own function
+      media: tc358746: Move clk_prepare to its own function
+      media: meson: vdec_1: Refactor vdec_1_stop()
+      media: meson: vdec: hevc: Refactor vdec_hevc_start and vdec_hevc_stop
 
-Jonathan
+ drivers/media/i2c/ar0521.c                   | 17 ++++++++---
+ drivers/media/i2c/ov5645.c                   | 15 ++++++++--
+ drivers/media/i2c/s5c73m3/s5c73m3-core.c     | 13 ++++++++-
+ drivers/media/i2c/tc358746.c                 | 12 +++++++-
+ drivers/staging/media/meson/vdec/vdec_1.c    | 16 ++++++++---
+ drivers/staging/media/meson/vdec/vdec_hevc.c | 43 +++++++++++++++++++++-------
+ 6 files changed, 92 insertions(+), 24 deletions(-)
+---
+base-commit: c80bfa4f9e0ebfce6ac909488d412347acbcb4f9
+change-id: 20240813-smatch-clock-2fa3b1174857
 
->=20
-> ---
-> Nuno Sa (23):
->       iio: accel: adxl380: make use of iio_get_masklength()
->       iio: adc: max1118: make use of iio_for_each_active_channel()
->       iio: adc: max1118: make use of iio_for_each_active_channel()
->       iio: adc: mcp3911: make use of iio_for_each_active_channel()
->       iio: adc: mt6360-adc: make use of iio_for_each_active_channel()
->       iio: adc: rockchip_saradc: make use of iio_for_each_active_channel()
->       iio: adc: rtq6056: make use of iio_for_each_active_channel()
->       iio: adc: stm32-adc: make use of iio_get_masklength()
->       iio: adc: stm32-dfsdm-adc: make use of iio_get_masklength()
->       iio: adc: ti-adc0832: make use of iio_for_each_active_channel()
->       iio: adc: ti-adc084s021: make use of iio_for_each_active_channel()
->       iio: adc: ti-ads1015: make use of iio_get_masklength()
->       iio: adc: ti-ads1119: make use of iio_get_masklength()
->       iio: adc: ti-ads1298: make use of iio_for_each_active_channel()
->       iio: adc: ti-adc12138: make use of iio_for_each_active_channel()
->       iio: adc: ti-ads124s08: make use of iio_for_each_active_channel()
->       iio: adc: ti-ads131e08: make use of iio_for_each_active_channel()
->       iio: adc: ti-ads8688: make use of iio_for_each_active_channel()
->       iio: adc: vf610_adc: make use of iio_get_masklength()
->       iio: adc: xilinx-xadc-core: use new '.masklength' accessors
->       iio: common: cros_ec_sensors_core: use new '.masklength' accessors
->       staging: iio: impedance-analyzer: ad5933: make use of iio_get_maskl=
-ength()
->       iio: core: annotate masklength as __private
->=20
->  drivers/iio/accel/adxl380.c                               | 2 +-
->  drivers/iio/adc/ina2xx-adc.c                              | 3 +--
->  drivers/iio/adc/max1118.c                                 | 3 +--
->  drivers/iio/adc/mcp3911.c                                 | 2 +-
->  drivers/iio/adc/mt6360-adc.c                              | 2 +-
->  drivers/iio/adc/rockchip_saradc.c                         | 2 +-
->  drivers/iio/adc/rtq6056.c                                 | 2 +-
->  drivers/iio/adc/stm32-adc.c                               | 4 ++--
->  drivers/iio/adc/stm32-dfsdm-adc.c                         | 2 +-
->  drivers/iio/adc/ti-adc0832.c                              | 3 +--
->  drivers/iio/adc/ti-adc084s021.c                           | 3 +--
->  drivers/iio/adc/ti-adc12138.c                             | 3 +--
->  drivers/iio/adc/ti-ads1015.c                              | 2 +-
->  drivers/iio/adc/ti-ads1119.c                              | 4 ++--
->  drivers/iio/adc/ti-ads124s08.c                            | 3 +--
->  drivers/iio/adc/ti-ads1298.c                              | 3 +--
->  drivers/iio/adc/ti-ads131e08.c                            | 2 +-
->  drivers/iio/adc/ti-ads8688.c                              | 4 +---
->  drivers/iio/adc/vf610_adc.c                               | 2 +-
->  drivers/iio/adc/xilinx-xadc-core.c                        | 5 ++---
->  drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c | 8 +++-----
->  drivers/iio/industrialio-buffer.c                         | 2 +-
->  drivers/staging/iio/impedance-analyzer/ad5933.c           | 5 +++--
->  include/linux/iio/iio.h                                   | 4 ++--
->  24 files changed, 32 insertions(+), 43 deletions(-)
-> ---
-> base-commit: 472438c7e0e2261c6737a8321f46ef176eef1c8f
-> change-id: 20240724-dev-iio-masklength-private3-7a2d819acc7d
-> --
->=20
-> Thanks!
-> - Nuno S=C3=A1
->=20
->=20
+Best regards,
+-- 
+Ricardo Ribalda <ribalda@chromium.org>
 
