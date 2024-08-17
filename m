@@ -1,204 +1,174 @@
-Received: from mailo.com (msg-4.mailo.com [213.182.54.15])
+Received: from mail-4322.protonmail.ch (mail-4322.protonmail.ch [185.70.43.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D09A37DA90
-	for <linux-staging@lists.linux.dev>; Fri, 16 Aug 2024 18:38:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.182.54.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E80614A4D9
+	for <linux-staging@lists.linux.dev>; Sat, 17 Aug 2024 10:07:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723833525; cv=none; b=YvcBpFYtOGPtqo3Us3npNBOx15kybmEdtGm9U0Oya2WP4IHHDaqfTa8J1ywkwTkg4Kdx61cxpBYgpS0jDIzjViLLcyUcQsFU1F/RRv83kJtvSMHptok8bJtvR8ZX6rgAMHFymViBqAiRvqjVKG4iCar+54F4lvK+wvsP1Wr7tyM=
+	t=1723889260; cv=none; b=BktUGUd+x9R3fcr1/ypi25FjJQnCPXoBYvN1kQhYX8l1FrTGYBom2veeMS9vzTJH2ibKMCbj63mpeMv1J+kPRM75CfN381Vgc+PoyQ/4usX/1Y7HSmBneKT9wofwhnd96h0byCALghXnYc4yD7qpmSAOxwkNsSeXutY99lBgd48=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723833525; c=relaxed/simple;
-	bh=w2zNACUIGRSA2xy3BFISwYbfbac4NgwJSaNaM5z6h4Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=IeJo38bpRwUNgftRR+YoBQZIVuHsyIMRWUNDtkG/8NQ8y+HC/tOIJFKDXgPdDPXBBXWrGxECk+enQ7wZGlrf5TcJz0cmPXXaHNl+cmRTE8BbIpmGXhC19ylfK3GT0M/p6vbk5j+Xbow5Sca93TF6d7eV3eB/itxgOpqw2O+29tQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=netc.fr; spf=pass smtp.mailfrom=netc.fr; dkim=pass (1024-bit key) header.d=netc.fr header.i=@netc.fr header.b=dbZPqTeH; arc=none smtp.client-ip=213.182.54.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=netc.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netc.fr
+	s=arc-20240116; t=1723889260; c=relaxed/simple;
+	bh=Jn9wdDW8U7nXahtKgzAhdBLR5Gusg2jiALCcsf0XAtE=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=DLJRfPKJ52/8HmgAv/kFb7wppFiQhrMPlj3Wh0LLav22sPy93V9uVxwNP97a63fW6EBfflONcuk1RwA+qGzaQklqXt7TtncGobC9NlddxwS1kDP9g2I9fvXIjE5+hTdYp+ePaUEYKpWAn81VVZrrECByle5aihCDXbkaR5x9MPA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=N8Dvz+IY; arc=none smtp.client-ip=185.70.43.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=netc.fr header.i=@netc.fr header.b="dbZPqTeH"
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=netc.fr; s=mailo;
-	t=1723833510; bh=w2zNACUIGRSA2xy3BFISwYbfbac4NgwJSaNaM5z6h4Q=;
-	h=X-EA-Auth:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	b=dbZPqTeHyWNL9zZ5ILjxdDaNj0aJg/56H1ZcdjHwaQv4RwIZDJ/rLpCIbWAkdDQK9
-	 T7lYAfsgS2BWStdGbd65AzfvWV5xMc1rcvsoNptQ6eUKfxJS/IW/LpqoEat9KxJLUL
-	 sd0z7ZkjVZXF0Rp9TiSelvBcEe8zFyQnslAb99ag=
-Received: by b-6.in.mailobj.net [192.168.90.16] with ESMTP
-	via ip-20.mailobj.net [213.182.54.20]
-	Fri, 16 Aug 2024 20:38:30 +0200 (CEST)
-X-EA-Auth: rFYSvjmkmKT6XOrqsjpK0F8VIEGSasceXmh6AWftftw6WYGlQHukrVVnXifgq9RxT1W3ruhPwgjP8xux6C1cAjqHKUSYRUf4VGRcbFMhcC5jKR7+JVc7kg==
-From: =?UTF-8?q?Guillaume=20Lef=C3=A8vre-Crim=C3=A9?= <guillaume.lefevre.crime@netc.fr>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	guillaume.lefevre.crime@netc.fr
-Subject: [PATCH] staging: rtl8723bs: add spaces arround operators
-Date: Fri, 16 Aug 2024 20:37:32 +0200
-Message-ID: <20240816183756.59250-1-guillaume.lefevre.crime@netc.fr>
-X-Mailer: git-send-email 2.46.0
+	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="N8Dvz+IY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+	s=protonmail3; t=1723889250; x=1724148450;
+	bh=TFYv1VRBNCN/E0qo/1YUyImx5ns3Zf75xpcEDQhjdeI=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=N8Dvz+IYkdHplgdoE9mWA/8JPkLRbVLuSG3Ewa4Gh74ESjdFn9Tn4vdJIgOaKnzuG
+	 EDFpWaHtzdq9FlX6qBUWkw5XF1qDS1ch0ABJRB4w2VcxTBoVgBPc6DuZrYWeG4SpPL
+	 DUPgyVSTNfDDNpFjSDj+Q7wmnPWFjw2Zrzj/bjYa13x/w0RrenvGQ8koXplvj9QvNi
+	 JCMPHLvz/tLmltHH2L2xPPdeN/D2tDBpI1/v+cwwmM1Jf02ybc6XcM3i5eRxf32B3F
+	 snQpb1lKgvZb2n0/i8EnrnrRvpKPqkuTEvRKUcZ1f7ayZAjgR5FS+Ay6K9it6mVDIR
+	 /qRzYbIfrePtg==
+Date: Sat, 17 Aug 2024 10:07:26 +0000
+To: gregkh@linuxfoundation.org, philipp.g.hortmann@gmail.com
+From: =?utf-8?Q?Dominik_Karol_Pi=C4=85tkowski?= <dominik.karol.piatkowski@protonmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, =?utf-8?Q?Dominik_Karol_Pi=C4=85tkowski?= <dominik.karol.piatkowski@protonmail.com>
+Subject: [PATCH] staging: vt6655: Fix alignment to open parentheses
+Message-ID: <20240817100559.33174-1-dominik.karol.piatkowski@protonmail.com>
+Feedback-ID: 117888567:user:proton
+X-Pm-Message-ID: 32076799cf8c93c638f126ab2e80ea0bbe144d1f
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Adhere to Linux kernel coding style.
-Reported by checkpath :
-CHECK: spaces preferred around that '&' (ctx:VxV)
+This patch fixes the "Alignment should match open parenthesis" checks
+detected by checkpatch.pl.
 
-Signed-off-by: Guillaume Lefèvre-Crimé <guillaume.lefevre.crime@netc.fr>
+Signed-off-by: Dominik Karol Pi=C4=85tkowski <dominik.karol.piatkowski@prot=
+onmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_efuse.c | 54 +++++++++++-----------
- 1 file changed, 27 insertions(+), 27 deletions(-)
+ drivers/staging/vt6655/card.h        |  4 ++--
+ drivers/staging/vt6655/device_main.c |  6 +++---
+ drivers/staging/vt6655/rxtx.c        | 14 +++++++-------
+ 3 files changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_efuse.c b/drivers/staging/rtl8723bs/core/rtw_efuse.c
-index eb848f9bbf2c..89acb6f290cc 100644
---- a/drivers/staging/rtl8723bs/core/rtw_efuse.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_efuse.c
-@@ -38,7 +38,7 @@ Efuse_Read1ByteFromFakeContent(u16 Offset, u8 *Value)
- 	if (fakeEfuseBank == 0)
- 		*Value = fakeEfuseContent[Offset];
- 	else
--		*Value = fakeBTEfuseContent[fakeEfuseBank-1][Offset];
-+		*Value = fakeBTEfuseContent[fakeEfuseBank - 1][Offset];
- 	return true;
- }
- 
-@@ -50,7 +50,7 @@ Efuse_Write1ByteToFakeContent(u16 Offset, u8 Value)
- 	if (fakeEfuseBank == 0)
- 		fakeEfuseContent[Offset] = Value;
- 	else
--		fakeBTEfuseContent[fakeEfuseBank-1][Offset] = Value;
-+		fakeBTEfuseContent[fakeEfuseBank - 1][Offset] = Value;
- 	return true;
- }
- 
-@@ -206,21 +206,21 @@ u16		Address)
- 	if (Address < contentLen) {/* E-fuse 512Byte */
- 		/* Write E-fuse Register address bit0~7 */
- 		temp = Address & 0xFF;
--		rtw_write8(Adapter, EFUSE_CTRL+1, temp);
--		Bytetemp = rtw_read8(Adapter, EFUSE_CTRL+2);
-+		rtw_write8(Adapter, EFUSE_CTRL + 1, temp);
-+		Bytetemp = rtw_read8(Adapter, EFUSE_CTRL + 2);
- 		/* Write E-fuse Register address bit8~9 */
- 		temp = ((Address >> 8) & 0x03) | (Bytetemp & 0xFC);
--		rtw_write8(Adapter, EFUSE_CTRL+2, temp);
-+		rtw_write8(Adapter, EFUSE_CTRL + 2, temp);
- 
- 		/* Write 0x30[31]= 0 */
--		Bytetemp = rtw_read8(Adapter, EFUSE_CTRL+3);
-+		Bytetemp = rtw_read8(Adapter, EFUSE_CTRL + 3);
- 		temp = Bytetemp & 0x7F;
--		rtw_write8(Adapter, EFUSE_CTRL+3, temp);
-+		rtw_write8(Adapter, EFUSE_CTRL + 3, temp);
- 
- 		/* Wait Write-ready (0x30[31]= 1) */
--		Bytetemp = rtw_read8(Adapter, EFUSE_CTRL+3);
-+		Bytetemp = rtw_read8(Adapter, EFUSE_CTRL + 3);
- 		while (!(Bytetemp & 0x80)) {
--			Bytetemp = rtw_read8(Adapter, EFUSE_CTRL+3);
-+			Bytetemp = rtw_read8(Adapter, EFUSE_CTRL + 3);
- 			k++;
- 			if (k == 1000)
- 				break;
-@@ -253,16 +253,16 @@ bool		bPseudoTest)
- 
- 	/*  -----------------e-fuse reg ctrl --------------------------------- */
- 	/* address */
--	rtw_write8(padapter, EFUSE_CTRL+1, (u8)(addr&0xff));
--	rtw_write8(padapter, EFUSE_CTRL+2, ((u8)((addr>>8) & 0x03)) |
--	(rtw_read8(padapter, EFUSE_CTRL+2)&0xFC));
-+	rtw_write8(padapter, EFUSE_CTRL + 1, (u8)(addr & 0xff));
-+	rtw_write8(padapter, EFUSE_CTRL + 2, ((u8)((addr >> 8) & 0x03)) |
-+	(rtw_read8(padapter, EFUSE_CTRL + 2) & 0xFC));
- 
- 	/* rtw_write8(padapter, EFUSE_CTRL+3,  0x72); read cmd */
- 	/* Write bit 32 0 */
--	readbyte = rtw_read8(padapter, EFUSE_CTRL+3);
--	rtw_write8(padapter, EFUSE_CTRL+3, (readbyte & 0x7f));
-+	readbyte = rtw_read8(padapter, EFUSE_CTRL + 3);
-+	rtw_write8(padapter, EFUSE_CTRL + 3, (readbyte & 0x7f));
- 
--	while (!(0x80 & rtw_read8(padapter, EFUSE_CTRL+3)) && (tmpidx < 1000)) {
-+	while (!(0x80 & rtw_read8(padapter, EFUSE_CTRL + 3)) && (tmpidx < 1000)) {
- 		mdelay(1);
- 		tmpidx++;
- 	}
-@@ -293,9 +293,9 @@ u8 efuse_OneByteWrite(struct adapter *padapter, u16 addr, u8 data, bool bPseudoT
- 
- 
- 	efuseValue = rtw_read32(padapter, EFUSE_CTRL);
--	efuseValue |= (BIT21|BIT31);
-+	efuseValue |= (BIT21 | BIT31);
- 	efuseValue &= ~(0x3FFFF);
--	efuseValue |= ((addr<<8 | data) & 0x3FFFF);
-+	efuseValue |= ((addr << 8 | data) & 0x3FFFF);
- 
- 
- 	/*  <20130227, Kordan> 8192E MP chip A-cut had better not set 0x34[11] until B-Cut. */
-@@ -304,9 +304,9 @@ u8 efuse_OneByteWrite(struct adapter *padapter, u16 addr, u8 data, bool bPseudoT
- 	/* 0x34[11]: SW force PGMEN input of efuse to high. (for the bank selected by 0x34[9:8]) */
- 	/* PHY_SetMacReg(padapter, 0x34, BIT11, 1); */
- 	rtw_write16(padapter, 0x34, rtw_read16(padapter, 0x34) | (BIT11));
--	rtw_write32(padapter, EFUSE_CTRL, 0x90600000|((addr<<8 | data)));
-+	rtw_write32(padapter, EFUSE_CTRL, 0x90600000 | ((addr << 8 | data)));
- 
--	while ((0x80 &  rtw_read8(padapter, EFUSE_CTRL+3)) && (tmpidx < 100)) {
-+	while ((0x80 &  rtw_read8(padapter, EFUSE_CTRL + 3)) && (tmpidx < 100)) {
- 		mdelay(1);
- 		tmpidx++;
- 	}
-@@ -365,19 +365,19 @@ efuse_WordEnableDataRead(u8 word_en,
- 						u8 *sourdata,
- 						u8 *targetdata)
- {
--	if (!(word_en&BIT(0))) {
-+	if (!(word_en & BIT(0))) {
- 		targetdata[0] = sourdata[0];
- 		targetdata[1] = sourdata[1];
- 	}
--	if (!(word_en&BIT(1))) {
-+	if (!(word_en & BIT(1))) {
- 		targetdata[2] = sourdata[2];
- 		targetdata[3] = sourdata[3];
- 	}
--	if (!(word_en&BIT(2))) {
-+	if (!(word_en & BIT(2))) {
- 		targetdata[4] = sourdata[4];
- 		targetdata[5] = sourdata[5];
- 	}
--	if (!(word_en&BIT(3))) {
-+	if (!(word_en & BIT(3))) {
- 		targetdata[6] = sourdata[6];
- 		targetdata[7] = sourdata[7];
- 	}
-@@ -463,7 +463,7 @@ static void efuse_ShadowRead2Byte(struct adapter *padapter, u16 Offset, u16 *Val
- 	struct eeprom_priv *pEEPROM = GET_EEPROM_EFUSE_PRIV(padapter);
- 
- 	*Value = pEEPROM->efuse_eeprom_data[Offset];
--	*Value |= pEEPROM->efuse_eeprom_data[Offset+1]<<8;
-+	*Value |= pEEPROM->efuse_eeprom_data[Offset + 1] << 8;
- 
- }	/*  EFUSE_ShadowRead2Byte */
- 
-@@ -473,9 +473,9 @@ static void efuse_ShadowRead4Byte(struct adapter *padapter, u16 Offset, u32 *Val
- 	struct eeprom_priv *pEEPROM = GET_EEPROM_EFUSE_PRIV(padapter);
- 
- 	*Value = pEEPROM->efuse_eeprom_data[Offset];
--	*Value |= pEEPROM->efuse_eeprom_data[Offset+1]<<8;
--	*Value |= pEEPROM->efuse_eeprom_data[Offset+2]<<16;
--	*Value |= pEEPROM->efuse_eeprom_data[Offset+3]<<24;
-+	*Value |= pEEPROM->efuse_eeprom_data[Offset + 1] << 8;
-+	*Value |= pEEPROM->efuse_eeprom_data[Offset + 2] << 16;
-+	*Value |= pEEPROM->efuse_eeprom_data[Offset + 3] << 24;
- 
- }	/*  efuse_ShadowRead4Byte */
- 
--- 
-2.46.0
-
+diff --git a/drivers/staging/vt6655/card.h b/drivers/staging/vt6655/card.h
+index f52e42564e81..f6b462ebca51 100644
+--- a/drivers/staging/vt6655/card.h
++++ b/drivers/staging/vt6655/card.h
+@@ -55,8 +55,8 @@ void CARDvSafeResetRx(struct vnt_private *priv);
+ void card_radio_power_off(struct vnt_private *priv);
+ bool card_set_phy_parameter(struct vnt_private *priv, u8 bb_type);
+ bool card_update_tsf(struct vnt_private *priv, unsigned char rx_rate,
+-=09=09    u64 bss_timestamp);
++=09=09     u64 bss_timestamp);
+ bool card_set_beacon_period(struct vnt_private *priv,
+-=09=09=09  unsigned short beacon_interval);
++=09=09=09    unsigned short beacon_interval);
+=20
+ #endif /* __CARD_H__ */
+diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/=
+device_main.c
+index 3ff8103366c1..9ea647aefd60 100644
+--- a/drivers/staging/vt6655/device_main.c
++++ b/drivers/staging/vt6655/device_main.c
+@@ -1140,7 +1140,7 @@ static void vnt_interrupt_process(struct vnt_private =
+*priv)
+ =09=09=09=09PSbIsNextTBTTWakeUp((void *)priv);
+=20
+ =09=09=09if ((priv->op_mode =3D=3D NL80211_IFTYPE_AP ||
+-=09=09=09    priv->op_mode =3D=3D NL80211_IFTYPE_ADHOC) &&
++=09=09=09     priv->op_mode =3D=3D NL80211_IFTYPE_ADHOC) &&
+ =09=09=09    priv->vif->bss_conf.enable_beacon)
+ =09=09=09=09MACvOneShotTimer1MicroSec(priv,
+ =09=09=09=09=09=09=09  (priv->vif->bss_conf.beacon_int -
+@@ -1535,7 +1535,7 @@ static void vnt_bss_info_changed(struct ieee80211_hw =
+*hw,
+ =09    priv->op_mode !=3D NL80211_IFTYPE_AP) {
+ =09=09if (vif->cfg.assoc && conf->beacon_rate) {
+ =09=09=09card_update_tsf(priv, conf->beacon_rate->hw_value,
+-=09=09=09=09       conf->sync_tsf);
++=09=09=09=09=09conf->sync_tsf);
+=20
+ =09=09=09card_set_beacon_period(priv, conf->beacon_int);
+=20
+@@ -1763,7 +1763,7 @@ vt6655_probe(struct pci_dev *pcid, const struct pci_d=
+evice_id *ent)
+ =09priv->memaddr =3D pci_resource_start(pcid, 0);
+ =09priv->ioaddr =3D pci_resource_start(pcid, 1);
+ =09priv->port_offset =3D ioremap(priv->memaddr & PCI_BASE_ADDRESS_MEM_MASK=
+,
+-=09=09=09=09   256);
++=09=09=09=09    256);
+ =09if (!priv->port_offset) {
+ =09=09dev_err(&pcid->dev, ": Failed to IO remapping ..\n");
+ =09=09device_free_info(priv);
+diff --git a/drivers/staging/vt6655/rxtx.c b/drivers/staging/vt6655/rxtx.c
+index 5e5ed582c35e..3705cb1e87b6 100644
+--- a/drivers/staging/vt6655/rxtx.c
++++ b/drivers/staging/vt6655/rxtx.c
+@@ -493,9 +493,9 @@ s_uFillDataHead(
+ =09=09buf->duration_a =3D cpu_to_le16((u16)s_uGetDataDuration(pDevice, DAT=
+ADUR_A, cbFrameLength, byPktType,
+ =09=09=09=09=09=09=09=09      wCurrentRate, bNeedAck, uFragIdx, cbLastFrag=
+mentSize, uMACfragNum, byFBOption));
+ =09=09buf->duration_b =3D cpu_to_le16((u16)s_uGetDataDuration(pDevice, DAT=
+ADUR_B, cbFrameLength, PK_TYPE_11B,
+-=09=09=09=09=09=09=09=09       pDevice->byTopCCKBasicRate, bNeedAck, uFrag=
+Idx, cbLastFragmentSize, uMACfragNum, byFBOption));
++=09=09=09=09=09=09=09=09      pDevice->byTopCCKBasicRate, bNeedAck, uFragI=
+dx, cbLastFragmentSize, uMACfragNum, byFBOption));
+ =09=09buf->duration_a_f0 =3D cpu_to_le16((u16)s_uGetDataDuration(pDevice, =
+DATADUR_A_F0, cbFrameLength, byPktType,
+-=09=09=09=09=09=09=09=09=09  wCurrentRate, bNeedAck, uFragIdx, cbLastFragm=
+entSize, uMACfragNum, byFBOption));
++=09=09=09=09=09=09=09=09=09 wCurrentRate, bNeedAck, uFragIdx, cbLastFragme=
+ntSize, uMACfragNum, byFBOption));
+ =09=09buf->duration_a_f1 =3D cpu_to_le16((u16)s_uGetDataDuration(pDevice, =
+DATADUR_A_F1, cbFrameLength, byPktType,
+ =09=09=09=09=09=09=09=09=09 wCurrentRate, bNeedAck, uFragIdx, cbLastFragme=
+ntSize, uMACfragNum, byFBOption));
+=20
+@@ -520,7 +520,7 @@ s_uFillDataHead(
+ =09=09=09buf->duration_f0 =3D cpu_to_le16((u16)s_uGetDataDuration(pDevice,=
+ DATADUR_A_F0, cbFrameLength, byPktType,
+ =09=09=09=09=09=09=09=09=09       wCurrentRate, bNeedAck, uFragIdx, cbLast=
+FragmentSize, uMACfragNum, byFBOption));
+ =09=09=09buf->duration_f1 =3D cpu_to_le16((u16)s_uGetDataDuration(pDevice,=
+ DATADUR_A_F1, cbFrameLength, byPktType,
+-=09=09=09=09=09=09=09=09=09=09wCurrentRate, bNeedAck, uFragIdx, cbLastFrag=
+mentSize, uMACfragNum, byFBOption));
++=09=09=09=09=09=09=09=09=09       wCurrentRate, bNeedAck, uFragIdx, cbLast=
+FragmentSize, uMACfragNum, byFBOption));
+ =09=09=09buf->time_stamp_off =3D vnt_time_stamp_off(pDevice, wCurrentRate)=
+;
+ =09=09=09return buf->duration;
+ =09=09}
+@@ -1375,8 +1375,8 @@ static int vnt_beacon_xmit(struct vnt_private *priv,
+ =09=09/* Get Duration and TimeStampOff */
+ =09=09short_head->duration =3D
+ =09=09=09cpu_to_le16((u16)s_uGetDataDuration(priv, DATADUR_B,
+-=09=09=09=09    frame_size, PK_TYPE_11A, current_rate,
+-=09=09=09=09    false, 0, 0, 1, AUTO_FB_NONE));
++=09=09=09=09=09=09=09    frame_size, PK_TYPE_11A, current_rate,
++=09=09=09=09=09=09=09    false, 0, 0, 1, AUTO_FB_NONE));
+=20
+ =09=09short_head->time_stamp_off =3D
+ =09=09=09=09vnt_time_stamp_off(priv, current_rate);
+@@ -1391,8 +1391,8 @@ static int vnt_beacon_xmit(struct vnt_private *priv,
+ =09=09/* Get Duration and TimeStampOff */
+ =09=09short_head->duration =3D
+ =09=09=09cpu_to_le16((u16)s_uGetDataDuration(priv, DATADUR_B,
+-=09=09=09=09    frame_size, PK_TYPE_11B, current_rate,
+-=09=09=09=09    false, 0, 0, 1, AUTO_FB_NONE));
++=09=09=09=09=09=09=09    frame_size, PK_TYPE_11B, current_rate,
++=09=09=09=09=09=09=09    false, 0, 0, 1, AUTO_FB_NONE));
+=20
+ =09=09short_head->time_stamp_off =3D
+ =09=09=09vnt_time_stamp_off(priv, current_rate);
+--=20
+2.34.1
 
 
