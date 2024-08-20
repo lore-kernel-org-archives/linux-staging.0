@@ -1,157 +1,98 @@
-Received: from CHN02-SH0-obe.outbound.protection.partner.outlook.cn (mail-sh0chn02on2132.outbound.protection.partner.outlook.cn [139.219.146.132])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D2C018DF93
-	for <linux-staging@lists.linux.dev>; Tue, 20 Aug 2024 11:20:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.219.146.132
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724152825; cv=fail; b=dm96nWw+ZDx3YrwucrbWQXj9QR9gcBN5TXrdGg0EAIEdVibHKwxJinRDcKA2jbdqewjUJRjKuv6vYzEAPUidpordNwR0vuQSFjHT8I/zAKK3B4U3aF/U7miSxHzaEhKVxVxKVTux5QZptMguOMonGNdgSUrJsQtGLvPKn/Lbrno=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724152825; c=relaxed/simple;
-	bh=md1ZiH41YjRoCvIDTOpyyAQicQCtgt7pbVGuWk+noVw=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=fQqp5Qc6xxAIk8X4bGA3H3PVyRpsJ7HNnuuJ+P97T2zKr7B6GKhmpqFNq6J33src7db+0NRuYhUCl1ZSRvwM6qhAsf2sL2twr4lf+GSsgv4fmDTpomOjnv/akAac/fXxoqdvNJ9a094lf9R6Qblj5dSWE++vlFrGmw2mqDv9CXo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com; spf=pass smtp.mailfrom=starfivetech.com; arc=fail smtp.client-ip=139.219.146.132
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=O9CEdevEVx92aO3Bn8S5JDF8FqGcA4pwF5RthxQe/uaVL3qbYYi5b9u8feN+YKjgDxy6rJB6kgIFb+yXXDL86SzUt1ED3HdWQjQrdY+9FqIvcwU6HblFs2hpLtm9Snm8qlQ2X5F1RtU3stoZ1Wmzh4DykkjoMRQEUjAYoXu5HYT4RZDgVdVIZZEEeNnzn037doHC1vwzFo/Hc90hkPiNUTxt2BPBlzbFYH0rvEqmtDzxcZ+Vk7ZSr+0KUeO9xIazO61WwhkFNL3ocgLRGi3DzfW/0IeKxA6GOtuEbVNpWrUmMHn2Q26uHMIOXhCDEcKAc/ey2jHT5bf+Q14tmPyWzQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ugAnj0BPZz5ykIJbMuSuXvCrYsjSsTf+AClzGKBFTZc=;
- b=HZuTqslHOplaQFk4BIzDdBW2iLJPrmkDQreQhHWBOMNLhZdm0I2Nm2hDSkGxMjFtbALweY/DYpfmNDcKKHxk2Jkf9WZxP3gsBK9w0upXyUDB0kCO/pu7bN2IfKgZwr6puiUDc66lG2+2kkUfIBGkwbhgxl6bJRd5CDh1rBIUalvm355Gis2cymmfF24po2nwad94mSLTF3CuYvRkpfDSZHg4hHfqZN6mMvjAmpLin+lSx5lfTWMRcBGwmde2LVmPFPX/t8q67sX4+pWu1eUlxFl1XfXh4wMW2J2zRMd74OoW34CjwfuHEHr3eWj2ebEh0g4/W6MXgWLp77eNstWkFA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=starfivetech.com; dmarc=pass action=none
- header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=starfivetech.com;
-Received: from ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c550:1b::9) by ZQ0PR01MB0998.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c550:1::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.19; Tue, 20 Aug
- 2024 11:20:09 +0000
-Received: from ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
- ([fe80::64c5:50d8:4f2c:59aa]) by
- ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn ([fe80::64c5:50d8:4f2c:59aa%3])
- with mapi id 15.20.7875.023; Tue, 20 Aug 2024 11:20:09 +0000
-From: Changhuang Liang <changhuang.liang@starfivetech.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Jack Zhu <jack.zhu@starfivetech.com>,
-	Keith Zhao <keith.zhao@starfivetech.com>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	Changhuang Liang <changhuang.liang@starfivetech.com>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [v3] staging: media: starfive: Add the dynamic resolution support
-Date: Tue, 20 Aug 2024 04:20:02 -0700
-Message-Id: <20240820112002.560432-1-changhuang.liang@starfivetech.com>
-X-Mailer: git-send-email 2.25.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: ZQ0PR01CA0006.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c550:5::16) To ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c550:1b::9)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30501146D6B
+	for <linux-staging@lists.linux.dev>; Tue, 20 Aug 2024 18:42:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724179354; cv=none; b=lJZXZLwHv5nZTqfTVRfMPw3fbgh/NzBBvNhruhq5hY0h7YPJ8Q+SeyYe971Vd4jFlWdEXVDUpRG7afMaiJFHsXnT765e9sd9rSakVK3heRe65YoKKkbHU6i2ZsYBqqK47cPqtqfTu9QWRPrWiW0cAZSW5mZajCDkUjQIU2Zbx/0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724179354; c=relaxed/simple;
+	bh=YPwnmjDLK+YVf0WyuqFgoPNXU4jhy1NiR/p0IqzQHyo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=pBRaCvw6nCZH6RHS87N44+L6dZvXDZT9mAGbcbxHHOD59RRKyPCyY9RtRE0AU9dU8wObnTzGyDQYjFr7duRG1KwaL590Gh2XW6x1kzdru8DacDd9CCOliLbZYRhaTGHuK/Vuo8HkVr0NKTPTsRT273Mw/ar1XgF3nbWJOF1OCWw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j7FQ1uqU; arc=none smtp.client-ip=209.85.215.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j7FQ1uqU"
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-7b8884631c4so2446807a12.2
+        for <linux-staging@lists.linux.dev>; Tue, 20 Aug 2024 11:42:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724179352; x=1724784152; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=d6qvU2I/kFY0fRRBFMo/OPhj2YEvUyZhHs3rYMJMfKI=;
+        b=j7FQ1uqUA9W+kxsOpzA+OIdxXrAWoc6rz7k/nnvXBz9MgEzWoJJus4lYExUzYvTdBF
+         Emr7MUYmPx+zYhciLOBR5WC0noCzBAg7CWcDO2tSiFcnY6ctTIu3ypitbLu9HsyOqTdn
+         UeXlp5nJpOKJzHFbPCkKkwzIlyrGXK6opNefo3zeysOCk5e73L0EMM260i/mQCz8Qqyr
+         kEZv1HwO3hYNTWf6dpo47Rm8hDPWVMBqPdyZ3WJAYL5KwdFrHGSoZDzblMDt0ilihelw
+         4ZCXXEvh/U1sEWrFmYZudfwNwJo8eygGUIzeZmy1MqFx48Ga6xe3RFAy3ZSbCU2KDUZk
+         CD4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724179352; x=1724784152;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=d6qvU2I/kFY0fRRBFMo/OPhj2YEvUyZhHs3rYMJMfKI=;
+        b=FUaHL0X70wz8B9qSfNUwRjCnVCgbIXc8PdEkGzL7VdRi+j13IkD+k4JeC0UI7eM4nT
+         X+GJfF8q5YXMYJnhICFmXrJ1seeM26TrTVDrttVr70OB8VvfjV8m1O0ESTR5odESX0iR
+         vL+OFl+9RRvgfEjWVRe4v+25/lRwXXfq7uhJ4AGgUyA/V7ZG4ks92Y8CWeHw5qzS/U2F
+         JzTR+8wigkJvBMrBqhLWzdKhbNc/EF6dqDTKdnAYU4HV8HfgaDeBTIXR+yH7DssjKZ5/
+         MyywQdbTmmh4/xJj2JrdK3RZnR+WDXWKt9sa9b/N/goFzt9+r1AIEL+WV0A9pkDbgPWI
+         rcGA==
+X-Forwarded-Encrypted: i=1; AJvYcCXs3n5JfIUAxnEHZTlMH5+ULHe2qYnbGzgG6oqoKnRFaLwyenKkwOXl+3rxl35/UqAW5/J/rlcz9Cvo8EG5@lists.linux.dev
+X-Gm-Message-State: AOJu0YzdCAisd8bSCpW0ITLbExUF8sEVRXt0ui6GDCVQoNXhNfdrAiCt
+	ldMvcNW5iaWNrJfACQyLkBDQM8Se/oN7ICa+wSRlNGenbsBlG8Yd
+X-Google-Smtp-Source: AGHT+IFxlJrjQAQKZg0A12JTqiKvjdykV//J1dgiLVqq1WbyaFiL56N6kPECxFc5tIIGDKmeX/UNoQ==
+X-Received: by 2002:a05:6a21:1788:b0:1c6:a57a:159c with SMTP id adf61e73a8af0-1cad81814e4mr388450637.52.1724179352220;
+        Tue, 20 Aug 2024 11:42:32 -0700 (PDT)
+Received: from embed-PC.. ([106.222.232.230])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7127ae0e246sm8541159b3a.70.2024.08.20.11.42.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Aug 2024 11:42:31 -0700 (PDT)
+From: Abhishek Tamboli <abhishektamboli9@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: tdavies@darkphysics.net,
+	philipp.g.hortmann@gmail.com,
+	garyrookard@fastmail.org,
+	linux-staging@lists.linux.dev,
+	skhan@linuxfoundation.org,
+	rbmarliere@gmail.com,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: rtl8192e: Replace strcpy with strscpy in rtl819x_translate_scan
+Date: Wed, 21 Aug 2024 00:12:16 +0530
+Message-Id: <20240820184216.45390-1-abhishektamboli9@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: ZQ0PR01MB1302:EE_|ZQ0PR01MB0998:EE_
-X-MS-Office365-Filtering-Correlation-Id: 770ef356-eb52-42e8-c82c-08dcc10a0d3b
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|41320700013|1800799024|52116014|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	C2HAD8SGM4EsclIt19/tHMH0p9SAuS8bxJHdowS+nrOSdTXSz5EUpIwnUvdZz9azlXvNimq5GOIn0mN61kU//tOoXXRNZoRNV+aQiHVBznF4I/E1o+3WQqQErzRcUxnJGUDfw9raDaT48DpEZQuqdhnLwY7H/UflJnk0lBFcLitbEHCpOb+Yd1QaZxCVHjgHrJsdb55MV8pMKIgJwH04Zm1+kgf9pBSsV96pfdtAP9zoad2LNXJRSlnOwYjy3ardCioDCYM0w9lb8Ke7ZNfGR7zhDN6fRvnWxjEtK4OiUqhGGe0Klr4DgNi86vGEhoO6wLm5VbtS+m2CjKSWR4qYFM5HGH6AJDaMsU2vQJ4+Jf0oOaSu9miGkHSuNE19/DxQh9820Ohxq3j8B/d0aY/3mQZJ74hvE4DFnNlh0T3yFjW3amKXoVB/HShx2jGgHkHFfCre4ghZodRtSmq6jdk5Kva+1vaRasyaZ4RNdqvh3Z8cdJ9Iao0BYNyz2d0mEBBz1fmlDq5LxDIN0YCXzdO556Xd8au3n0kwQoMmCYivcGaWuyJ5j8Kik0BRAAxX6fqfNoV4PdiaU2oI0N4BjgQ9VR/WnhsXpF6QIo3bbFIV2UQloRMRyPRLXclRppx46z0m
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230040)(366016)(41320700013)(1800799024)(52116014)(38350700014);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?x/5836mXriU5xlAZX86a/1QSWZdWV9fy6JDOywh+2izwpJxo5wSrQcJGL995?=
- =?us-ascii?Q?2z3NIPBJ5coOjcAP6sRKibjvzcs92Rxs0GOQIHAauXxqd6UFFocqkFOgqSrg?=
- =?us-ascii?Q?oaeasqw6Izq8ZVoBAozGlzGTw4cK3RRLwBPyKn3NCPME6dMLF3TitFIorD2f?=
- =?us-ascii?Q?ccM8iCD+3gtzZHuUC7Ema0d01Iu3OnKNtB4t6H3W8Jr+zVxNrZ1e+vKFcDQb?=
- =?us-ascii?Q?vXDzH4MrPX9SVy/ine8Z/83DYX3mldz5NWuY+i291c2FHgdJB9S6/lt0Hdvd?=
- =?us-ascii?Q?8RiF11YHMQiYKC6BYqBGdneFLxU4P7951nOGUfOAxm0Jl5W49IBoPOhisWss?=
- =?us-ascii?Q?Y4UcfjHVRymux+Ffp9TZhqG/emvqqymTaTuzZez/3c1fp4hyjFAIb4ZTx3pM?=
- =?us-ascii?Q?Y2Cs6dDbph+aHOcOpM6nIEsl2nd+YAa8ACj+JEjKCoo9Vq2JQ8Fyd0CtshDy?=
- =?us-ascii?Q?VgLO50z6HWUvbYYDBOKoxFQs7Dq5RUOKrU1AAq8HW8yclHH5O63LD6vZLFYt?=
- =?us-ascii?Q?KVUBpI0pvErumWYo+GbSPfxw/irG8QV0reMjdS+pu0vzaRnGQYUnMaxVyrcw?=
- =?us-ascii?Q?Lt3KUed2JszjsbPaTv9IRUxogoXvwz3+d+wTaVoB0/OQr6RNHXtdg8+OmolX?=
- =?us-ascii?Q?rdKAKpDKC8BUr2P6qm+/bVvwtUgWX6SazKdYkArz/qeJo7OUNch+fwvtUpjs?=
- =?us-ascii?Q?4vnZhKBxknWKYTItfpwJDfSEMUmtJKe3w5XEvPz0r2dqlslCQ+X/7hOxfj1B?=
- =?us-ascii?Q?P1TyRcjC1L7r+Hq+1J6l6JjI5HqlzbLV17KJxoNjNbyLH/Fpdz1DOWpGVfCP?=
- =?us-ascii?Q?ZP8O2dBs3awv07vrnlx+0kLm/cMorjWzyg0vPqlaQtwhI3gV37XRNvTp2AqE?=
- =?us-ascii?Q?8yOFZNLzD7V6qzIInk4N7Ml1riRkpbg1/ewh31EPAZdlcRWTdLbPw7mtyuSw?=
- =?us-ascii?Q?MCZm4zRk7poVcMRcQRRc90u4Ph+ftxEsweq9CMjL9rg7NsXXuPby8O2ItgFN?=
- =?us-ascii?Q?Nz7nLpWYKhynMCVOjEqTlsR4k560OffvCTmg53Q7SMnYOTxtWZLgAjZ9kax5?=
- =?us-ascii?Q?UxXQen6O4kFe4KH1rT8R7S8TCwPHZGy4N3Nx6x+WeFHFc2xVjDhE+UBuziUx?=
- =?us-ascii?Q?yyK5CkXSfLBd8etROjfzS59RI2ay2eq9dgNLUyeX7/JdzR0izmhoZQvXbWwC?=
- =?us-ascii?Q?BU9lXviCJcNoKyCDpzNtdym55xdr78Az47PryMyasUp01sApsJYjnODmH6y8?=
- =?us-ascii?Q?pq/onkZV43FtJGv+0Qx2ClxkTJeq724UH74t/aENcbpfyV70HmXrm3gw9Irs?=
- =?us-ascii?Q?dM8goG0WIlFyivlHucNWyRevicK0nsqVGA7HFfO6SBMOA5f6IykzZsf7TOIk?=
- =?us-ascii?Q?CwzzL2XeJaYqqg9K9eiw2nHuVi2lDVi8do91W+8r7qyqVyr1TGxEabdMZIww?=
- =?us-ascii?Q?1MJT3pUdCYocw57UAqHBvLmZyIUFMhAvhEfQ4ctid2dMoBIg0dETmQ7zgdVk?=
- =?us-ascii?Q?DyhjLCr/1rCuUhaTqmDTR1c0gyiTEQlNMX5dx9rXMxNj2tWzO/ki2IFH6rgP?=
- =?us-ascii?Q?Xjsa14/8QesqytOX0eZFInb+6YJ/TrxzN4LgXkBCIjneVD53ctyLFEZOrLUY?=
- =?us-ascii?Q?WtVc6T+TdiTFWmw+zm7luUU=3D?=
-X-OriginatorOrg: starfivetech.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 770ef356-eb52-42e8-c82c-08dcc10a0d3b
-X-MS-Exchange-CrossTenant-AuthSource: ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Aug 2024 11:20:09.6917
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JURwem/LgupypA8aAbmU4TukZUQ1LKClojhoDUxNSr/0FifW/BsaK1OeznFzgcfUbv81YmDzDneFeoqcka5XiY391+j4Ni9yag+ykoWqLqaZq972/7D9stc8JrHfRDN4
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: ZQ0PR01MB0998
+Content-Transfer-Encoding: 8bit
 
-Add the dynamic resolution support for video "capture_raw" device.
-Otherwise it will capture the wrong image data if the width is
-not 1920.
+Replace strcpy() with strscpy() in rtl819x_translate_scan() 
+function to ensure buffer safety.
 
-Fixes: e080f339c80a ("media: staging: media: starfive: camss: Add capture driver")
-Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
+Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
 ---
-Hi
+ drivers/staging/rtl8192e/rtllib_wx.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-v2 forgot to synchronous description with v1. Now send a new version 3.
-
-Best Regards
-Changhuang
----
- drivers/staging/media/starfive/camss/stf-capture.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/staging/media/starfive/camss/stf-capture.c b/drivers/staging/media/starfive/camss/stf-capture.c
-index ec5169e7b391..e15d2e97eb0b 100644
---- a/drivers/staging/media/starfive/camss/stf-capture.c
-+++ b/drivers/staging/media/starfive/camss/stf-capture.c
-@@ -180,6 +180,8 @@ static void stf_channel_set(struct stfcamss_video *video)
- 	u32 val;
- 
- 	if (cap->type == STF_CAPTURE_RAW) {
-+		const struct v4l2_pix_format *pix = &video->active_fmt.fmt.pix;
-+
- 		val = stf_syscon_reg_read(stfcamss, VIN_CHANNEL_SEL_EN);
- 		val &= ~U0_VIN_CHANNEL_SEL_MASK;
- 		val |= CHANNEL(0);
-@@ -193,7 +195,7 @@ static void stf_channel_set(struct stfcamss_video *video)
- 		val |= PIXEL_HEIGH_BIT_SEL(0);
- 
- 		val &= ~U0_VIN_PIX_CNT_END_MASK;
--		val |= PIX_CNT_END(IMAGE_MAX_WIDTH / 4 - 1);
-+		val |= PIX_CNT_END(pix->width / 4 - 1);
- 
- 		stf_syscon_reg_write(stfcamss, VIN_INRT_PIX_CFG, val);
- 	} else if (cap->type == STF_CAPTURE_YUV) {
--- 
-2.25.1
+diff --git a/drivers/staging/rtl8192e/rtllib_wx.c b/drivers/staging/rtl8192e/rtllib_wx.c
+index fbd4ec824084..970b7fcb3f7e 100644
+--- a/drivers/staging/rtl8192e/rtllib_wx.c
++++ b/drivers/staging/rtl8192e/rtllib_wx.c
+@@ -61,7 +61,7 @@ static inline char *rtl819x_translate_scan(struct rtllib_device *ieee,
+ 	iwe.cmd = SIOCGIWNAME;
+ 	for (i = 0; i < ARRAY_SIZE(rtllib_modes); i++) {
+ 		if (network->mode & BIT(i)) {
+-			strcpy(pname, rtllib_modes[i]);
++			strscpy(pname, rtllib_modes[i], sizeof(pname));
+ 			pname += strlen(rtllib_modes[i]);
+ 		}
+ 	}
+--
+2.34.1
 
