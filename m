@@ -1,77 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 798CD1C687;
-	Wed, 21 Aug 2024 15:42:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B6C5146D69
+	for <linux-staging@lists.linux.dev>; Wed, 21 Aug 2024 16:15:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724254977; cv=none; b=fOP6AHdDqjPozSCcUsN56Vl9GstRJAnAUMyCaBQWkl2u70hdksjf8ANE9ouK39yXnct1GsSFe1jIJKi6BfqgsqClABxTmT8FDA3u2dkqXjpPtqINzIeV0jCirq2JZwTfU9QTaNaqcMRs/3lNLYavjqW4/adEmC7GcVfMNtH6vKI=
+	t=1724256952; cv=none; b=LzxbsTWHTT2ULcq+UAtL4qSGzE3bpW9pr5nIXCJ5xRi0gKhNnQvVgjL3Zh+RhhXS7Kv/1xsYGl9yVFWpikKWQeio6PvNKz9Z6hKH9kLBhfp7YQi9v/4nmPXCeRx36/TiJlC1mBqx+ka/qR/PgFMwWGSY4BdIJ4CSX2oQaRxfJAk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724254977; c=relaxed/simple;
-	bh=tha8q4djsO71G2VO1EuBFgNNostKbeHe0o10iY5cylE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=MSONx3/xxnGADU9dzsWrWfUuWJ6XRp44YA/c+dhwBFFAmnpA6UqwIJqnUtJawkJ7XjulqZQiA/DRTxabC7NW6G+C7t9DthbaLY0yHGIA0UcXfnDkJ5e3tpLUZIXNn7r0y0KjbaozwtpqY3i0gOTV2WarZvLVevfQ7i4z/GGQoe0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n7pOv/fW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1724256952; c=relaxed/simple;
+	bh=ajQ927Pb0rRwjB0K7eVY42NiEVjiBVQnaXpL41206mQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=peFW9I7Fc8J774G2ZGjcnVtbAIqSXYc4SI5v/N3olGqWfPEPZtm4GPs4yZ7yMN1jx9S2CJBgy2qVxNXKT9140IEoY0yWBR3RuOqEZQTpKZidu+mQQBVnToYiyGusEWZPhcrsN8O0Ft38UNmueJ4RVE/6PWNqpCTxDzMJglehNXQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DIiE0R0n; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n7pOv/fW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6AA6C32781;
-	Wed, 21 Aug 2024 15:42:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724254977;
-	bh=tha8q4djsO71G2VO1EuBFgNNostKbeHe0o10iY5cylE=;
-	h=From:Date:Subject:To:Cc:From;
-	b=n7pOv/fWLIDFduFXmk77W0ztJ7Hi5M9t1bWm8Jev+99cijg8kmkCkVrQ3wp+c5o8k
-	 OsCvc+/9To5k2J5JlZQm3ikmuBZXMAZLvrby4ACWRCOE7GYbST7Fl5E1EPFkJ/xqkw
-	 ZsuuBQqIDQAgCsIujlvlIxzLuCVrojRfH5YwD10c5CrTiOK4kp0CX1mVy67DbmuCWQ
-	 BZTZXbhrBqOLgWiZOWlNHFGZhJntlHSy2t0AvbyqqgaMmRt3A5PUQc6vBxGV4mccQX
-	 ugU9XOYUanBQtvQ60Qwg4XtdEpKggOHcShyGeI/IUO3SbhJoVw98wdeAgsvd+Oizqe
-	 naeyguuUPJMMg==
-From: Simon Horman <horms@kernel.org>
-Date: Wed, 21 Aug 2024 16:42:50 +0100
-Subject: [PATCH] staging: rtl8192e: remove set but otherwise unused local
- variable iv32
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DIiE0R0n"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-7141d7b270dso1401543b3a.2
+        for <linux-staging@lists.linux.dev>; Wed, 21 Aug 2024 09:15:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724256950; x=1724861750; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Rr+fhns5nZq73IrYJsaPCOONeBzEFwA/rzWZTaQJx3I=;
+        b=DIiE0R0nAWY6CcPUqDViXUTnTXIo9wAOAyShSaLYTfDJQrf303j0on4p4Mebs5YCNJ
+         RRjO2VjVuA57q9v/MVV65wqlJGdtGT90NWUukishhAtNi59lYlM8qaKxXKdLcFlyYTYr
+         mzl+T7kF9HAuel5HVF1/hFMg8/byQ2I4CCjyU56ZSjwa3CDragrbR+uLWr7iQH+b+A4M
+         wdeiRXWjwvmXpdcTCBNZvHVQ5srOBA2/K6fMvsoshQi5d7gLXtMrpRrip5dCa1piTev6
+         n1E6F/jwXR/l9eYgq/xdakS2nE+mW5/sMnr7qfu12g2ow838x/Xmo3KECOFplqeXcKBl
+         DB+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724256950; x=1724861750;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Rr+fhns5nZq73IrYJsaPCOONeBzEFwA/rzWZTaQJx3I=;
+        b=jr4uFdBFfOhBz8YDcZwmvGGl4Qyk4K30ElDP4217EEPwpz05Ys0gUZhnSHeYcYDctv
+         SurAXkXJkcLHZGZeOuxamTs7uN3EvEYUY3ZdhCQLZ7J9sNJJRLt4R+RIrV3755fskkPg
+         lnKXJsEBDHUOwDvbJYOof4QiRucAsF1L9rfQyaw9RVM/m98Uz9slPGwh1tFz7MQwedgE
+         nTGzRbhND3SO1N8g9Fa9Z2iAzQOjtp8pGT8Q18GPWGv9uUQ54QrRsun8VEn1bGBCayp4
+         Y7hxdkyXxXb1mnR34a0tSzPBhXdSEZnqDjlj6Cdfk3aDmfqJy3eqvBX/fUtitPz3/dB1
+         8ZEg==
+X-Forwarded-Encrypted: i=1; AJvYcCWtZ5NjVtU6RIX7bxX/hE/s5ZNmGl9gxjkRg87xInJpf0chUdQUuiQRH3C7Zy597By+7CTWVrgL6IlOVfQ9@lists.linux.dev
+X-Gm-Message-State: AOJu0YwTXdfa4RR8etL0EelLur6MUgmb57NY50MnAk3yj2RQXXpWNmb+
+	XKdgTUbQMbGu+XYwfUJY25N99DfNIB4JGkLfoBy8CXZSokEOTAb2NPNSDHc5iB8=
+X-Google-Smtp-Source: AGHT+IFpSl0kSozJkaX1WSqpP7j+yZpHNRpsY89nwg8ap0SYYXTGBkRXrTQ8iddezaxO2fC9rgsHDQ==
+X-Received: by 2002:a05:6a21:386:b0:1c3:b234:d10f with SMTP id adf61e73a8af0-1cad82248demr3182045637.47.1724256949942;
+        Wed, 21 Aug 2024 09:15:49 -0700 (PDT)
+Received: from debian.tail629bbc.ts.net ([103.57.173.153])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7127add726esm10166213b3a.37.2024.08.21.09.15.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Aug 2024 09:15:49 -0700 (PDT)
+From: Sayyad Abid <sayyad.abid16@gmail.com>
+To: philipp.g.hortmann@gmail.com
+Cc: gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	abid-sayyad <sayyad.abid16@gmail.com>
+Subject: [PATCH]The patch fixes the following warning generated by running the
+Date: Wed, 21 Aug 2024 21:45:39 +0530
+Message-Id: <20240821161539.541062-1-sayyad.abid16@gmail.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240821-rtl8192e-unused-var-v1-1-08b9e869260e@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAPkKxmYC/x3MSwqAMAwA0atI1gaaIhK9irjwEzUgVVIVQby7x
- eVbzDwQxVQi1NkDJpdG3UIC5RkMSxdmQR2TwTtfOPaEdqxMlRc8wxllxKszpKp01AsVzAyp3E0
- mvf9r077vB6NXCpdlAAAA
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Nathan Chancellor <nathan@kernel.org>, 
- Nick Desaulniers <ndesaulniers@google.com>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
- linux-staging@lists.linux.dev, llvm@lists.linux.dev
-X-Mailer: b4 0.14.0
+Content-Transfer-Encoding: 8bit
 
-Remove iv32 from rtllib_tkip_get_key() as it is set but otherwise
-unused.
+From: abid-sayyad <sayyad.abid16@gmail.com>
 
-Flagged by allmodconfig W=1 builds with gcc-13 and clang-18.
-Compile tested only.
+drivers/staging/vt6656/Kconfig
 
-Signed-off-by: Simon Horman <horms@kernel.org>
+WARNING: please write a help paragraph that fully describes the config symbol
+2: FILE: drivers/staging/vt6656/Kconfig:2:
+config VT6656
+	tristate "VIA Technologies VT6656 support"
+	depends on MAC80211 && USB && WLAN && m
+	select FW_LOADER
+	help
+
+total: 0 errors, 1 warnings, 0 checks, 7 lines checked
+
+NOTE: For some of the reported defects, checkpatch may be able to
+   mechanically convert to the typical style using --fix or --fix-inplace.
+
+drivers/staging/vt6656/Kconfig has style problems, please review.
+
+
+Signed-off-by: abid-sayyad <sayyad.abid16@gmail.com>
 ---
- drivers/staging/rtl8192e/rtllib_crypt_tkip.c | 3 ---
- 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/rtllib_crypt_tkip.c b/drivers/staging/rtl8192e/rtllib_crypt_tkip.c
-index dc0917b03511..31eff306e8aa 100644
---- a/drivers/staging/rtl8192e/rtllib_crypt_tkip.c
-+++ b/drivers/staging/rtl8192e/rtllib_crypt_tkip.c
-@@ -638,10 +638,7 @@ static int rtllib_tkip_get_key(void *key, int len, u8 *seq, void *priv)
- 	if (seq) {
- 		/* Return the sequence number of the last transmitted frame. */
- 		u16 iv16 = tkey->tx_iv16;
--		u32 iv32 = tkey->tx_iv32;
- 
--		if (iv16 == 0)
--			iv32--;
- 		iv16--;
- 		seq[0] = tkey->tx_iv16;
- 		seq[1] = tkey->tx_iv16 >> 8;
+ drivers/staging/vt6656/Kconfig | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/staging/vt6656/Kconfig b/drivers/staging/vt6656/Kconfig
+index f52a3f1d9a2e..a37dc3c921ea 100644
+--- a/drivers/staging/vt6656/Kconfig
++++ b/drivers/staging/vt6656/Kconfig
+@@ -4,4 +4,10 @@ config VT6656
+ 	depends on MAC80211 && USB && WLAN && m
+ 	select FW_LOADER
+ 	help
+-	  This is a vendor-written driver for VIA VT6656.
++	  This is a vendor-written driver for VIA VT6656. VIA Technology VT6656
++	  is a wireless network controller that operates on the 2.4GHz band.
++
++	  If you have this hardware and wish to use it, set 'Y' or 'M' here to
++	  compile the driver either directly in the kernel or as a module
++	  respectively. If you are unsure, it is safe to set it to 'M'.
++	  If enabled it loads the firmware for the mentioned device.
+--
+2.39.2
 
