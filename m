@@ -1,64 +1,64 @@
 Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD93C13E022
-	for <linux-staging@lists.linux.dev>; Wed, 21 Aug 2024 16:57:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 160771B1D72
+	for <linux-staging@lists.linux.dev>; Wed, 21 Aug 2024 16:57:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724259424; cv=none; b=Ajbkk4r9uh6GxHbhiBy7DZqwRV23mROQX6aP+SJw7txFPmPS23amyuGe2yZ2sST/afdp/4W0dhGwn+Q/9pb2l4OW4jGZzg5ii27oWCxUo1xv35xIq/qMriu4pVb09Q+v8mDc2cuCyRrOeC3ygqj9wGZb+eynlUQzSa5ckUNrgM4=
+	t=1724259457; cv=none; b=hTxMbvsC0TUIUFjtL4Vd555C3ec6NaGedJW6xuoez4CdDpZpT57HyDZMUq+VVGEfI85TCYVFRwvaghbEQ390hIual39dSg0JGoF3gknwtcgY6d0Djwq0sCrDli24EWbuIB6KxPiAWTwsSQrmL3Ov2MOKT5tWgMTe8wCijTfX2ms=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724259424; c=relaxed/simple;
-	bh=nVndjd8LQ1lnWsWfRCEVnX6dxkXb4jf3fpRMWQEc6WI=;
+	s=arc-20240116; t=1724259457; c=relaxed/simple;
+	bh=8dxUiMbarxNSVN10VLkH2aAuHmJ9HwiMdn+T4yhOlRM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u5Z5lozDgFeoKilYPr5yQJPMnHokTO0l7kiNPRrOQwkxWVXTPOc6YYsx7h4PUZRr/L/1MWkc5xgwZbzDruZv6EiuDzNoXY3Rlj1ENqYAyA3C3T+XWJ28nBLIKzJB9BPzJ3ROfe/mXVG95wPee+4TDy+JyzSUmrwGoAk7Zfwher8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZMmYFiai; arc=none smtp.client-ip=209.85.218.44
+	 Content-Type:Content-Disposition:In-Reply-To; b=EU+e0HOVCFj45hdDv25oZbw6aOKlEO6D0txEjfdKAXmz7Pj+2XpcysU5soGvfeN9Xf9PMnnt/akwkN3sFG5QD85veoLiK77DZT7oMumS+bD9AmuLcSqNsIMSUU3F7ar0iU2Aqch2k7LWeGe6kzWY4iX3W14OXWAqgIUmKOF9jO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=p7fVb2s+; arc=none smtp.client-ip=209.85.218.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZMmYFiai"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a7aabb71bb2so762892566b.2
-        for <linux-staging@lists.linux.dev>; Wed, 21 Aug 2024 09:57:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="p7fVb2s+"
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a866cea40c4so136250566b.0
+        for <linux-staging@lists.linux.dev>; Wed, 21 Aug 2024 09:57:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1724259421; x=1724864221; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1724259454; x=1724864254; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gr3yCN8G50bMck2oSxMfeRcm87tCJcNUJM4Xxr3rrZQ=;
-        b=ZMmYFiaizMWLC4HYDZNbhDHc6689UMJhvxZ+ohd2IhRR8UPRaq8SD5p1P/yUXMA/pS
-         OSAV5KqpDKd+5OYwgyXcuUqhT/x6TXyO5Dtw3VswgbsqSIxX6Xmw7I0gl05i8sESZMVh
-         7f76BSUGWnfNRlLyGmhj6B8tk08IFCcjhel8gdwoIxuyE0cgiJcckH+75pEBTBM7u4AH
-         5/d9lRds/ArdgbnmFN3hnF9ZN9BTbFlSCNJP3YDgyc2RPfuI43eEqgIrccJuNZwvAeRn
-         rYKjJuqsRIIqvqFRvYFJi1BTaB4LKxxSFvd/N+5vPeimB2vBw3wSPnYiWh08JOkPfEPi
-         5cNg==
+        bh=8dxUiMbarxNSVN10VLkH2aAuHmJ9HwiMdn+T4yhOlRM=;
+        b=p7fVb2s+/MmFUNy7ArE4bogw90dUEFCoY2vGb/7U5OvWMVYWZHNqTkAda6UntHneI7
+         LsJMKaBlT07ZcTvKgfCUV+ZGQq+KrT6wiMFCJKSbZqO2aqW5fAfSSMjdT2FwIYc2+J9D
+         cpmV1XUuukporcRTdVHp9F4lfKzDmDh8NYsJU1hWtrglq2BLnfAydCztGcMkiSMUZBpP
+         7jTTmtz6Qfl4ciJjC7bY3isj3b1rVco5clhyZW4C7jqhBE0bKLJTr3TE1l8AchanPdrH
+         VLftSc5MwrxhLvbxXmBMr37Sztj2EIVSUHDtOiOAopugHZjpaY63FaZnhMcycBEJFcfU
+         ueFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724259421; x=1724864221;
+        d=1e100.net; s=20230601; t=1724259454; x=1724864254;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=gr3yCN8G50bMck2oSxMfeRcm87tCJcNUJM4Xxr3rrZQ=;
-        b=Znlq/yVgJm1kNTI6l0i6tTaFvRSOL+0Vv0mO32OwvExshhhcXiRxdLidbMNbDlh4lu
-         qcBgJkjYUpzsCcXqTct4uidZQHsalbKz0EceFSQD7MId3tXWhbzdEKaZ9hCiS5SJUJ1r
-         /9qyyBSoy3jXB6eV6gtXI9BJIbtfddoSMOH4DYxCz/6nFFPy2ocE4A0IoMzxGe8D9elV
-         5T8j253b2mjhGebOVfWhoMxsD9+/Wo/XZZA5IYF/7YTzU0nwkeRoPLyieUaQCJ/q73iX
-         cLPUmMyOjtfxry49lGy7qkfWAMvhuXS+NTTgoF7aKyG1F/Q+4Q63678LYipgXV2LjiP6
-         GRJw==
-X-Forwarded-Encrypted: i=1; AJvYcCXCQVhBLd0aaBeLtZZIgu6uE3AF4TewcRe0t/tpj8vZI+ssl1x2v4K4HYoQs3pneChVJph+UALQZX7jSnGC@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx8caL/t5/zKQ1DJTsRc0rC87NI0nF5pS8Mp73PmAk71ErokzRc
-	ULcM36lzgLbXRtgH8BFRgHw8F+m7mmzAfDWG8C/SPPiFIGZ+A81pc5lWiEZfi4Q=
-X-Google-Smtp-Source: AGHT+IERQnuazH854bi+rbAbn9vyI09ekH1cOuPFLwgcVkGcFMLdn18jBYjNuW6VBEvlRMuQiRd1Jg==
-X-Received: by 2002:a17:907:a4d:b0:a77:cacf:58b5 with SMTP id a640c23a62f3a-a866f1472d7mr204400466b.1.1724259420888;
-        Wed, 21 Aug 2024 09:57:00 -0700 (PDT)
+        bh=8dxUiMbarxNSVN10VLkH2aAuHmJ9HwiMdn+T4yhOlRM=;
+        b=FYXPhqLgynWiMH5stc+4Pq8fAxDv4/XO0n6aOrihz54B2xXc8cFh1DmEnIB4d9NROv
+         zesyqPpMTRzoarbXhbXqjO6Hiyx0umExcTZObI+GjWEAlwYxzvqvX07Jeb73f6IeyA10
+         GMhaSa5G6CXx4DwoxtRtAcguZ8PnU9jWd+m3E7gnOS0ZodCbPcwtNTXapZ4Fges2HNaX
+         vKWCwDIEMlhlILRIvuZBqytLerkvSu7HxFjIdATqiuJ/M0nIspzVcMl4RFAGnUBVLSQs
+         hd3fsmTq5BzK7Q8hE1LYfx8GZn9EVb3EI1EgCdGj+MDyzJeJq7FI27rpW3cYg2dWktLe
+         Qmlg==
+X-Forwarded-Encrypted: i=1; AJvYcCUl0GBFXalot/Rh0jLf8ibf/DG4ThC1QFo5PIQAM41B9kLG4dCZ3wic07j/8G1j7Z1cl3D/iOHS+7AVCtZr@lists.linux.dev
+X-Gm-Message-State: AOJu0YyRweWam/ztHSTuZWdTt9KWCXjGUwKXvenifRi8yVcMyivUuRDI
+	XOXOnkx7fjUd/4v2vuB5+DlwSK1QMJQ39JIZbns5DCuImmCjPL6BDSBSu9mBz8I=
+X-Google-Smtp-Source: AGHT+IEvEJ+EPt++NBzDRQ1STaWyB4ha5i5KFCyltbx7A+Qakg/N+wGXZU6wDYDHjsP0+lCshxd56g==
+X-Received: by 2002:a17:907:c7da:b0:a6f:1036:98cf with SMTP id a640c23a62f3a-a866f70379dmr227543066b.54.1724259454196;
+        Wed, 21 Aug 2024 09:57:34 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a86829ccb6bsm50814266b.144.2024.08.21.09.56.59
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a867babbe22sm92810466b.183.2024.08.21.09.57.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Aug 2024 09:57:00 -0700 (PDT)
-Date: Wed, 21 Aug 2024 19:56:55 +0300
+        Wed, 21 Aug 2024 09:57:34 -0700 (PDT)
+Date: Wed, 21 Aug 2024 19:57:30 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Sayyad Abid <sayyad.abid16@gmail.com>
 Cc: philipp.g.hortmann@gmail.com, gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH]The patch fixes the following warning generated by
  running the
-Message-ID: <dd5aaf11-60c3-4621-8278-16bddc1080e7@stanley.mountain>
+Message-ID: <df837873-f422-462b-8a88-25c02d4f8cf4@stanley.mountain>
 References: <20240821161539.541062-1-sayyad.abid16@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -70,31 +70,7 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <20240821161539.541062-1-sayyad.abid16@gmail.com>
 
-On Wed, Aug 21, 2024 at 09:45:39PM +0530, Sayyad Abid wrote:
-> From: abid-sayyad <sayyad.abid16@gmail.com>
-> 
-
-Your email from header is better than this From header.
-
-> diff --git a/drivers/staging/vt6656/Kconfig b/drivers/staging/vt6656/Kconfig
-> index f52a3f1d9a2e..a37dc3c921ea 100644
-> --- a/drivers/staging/vt6656/Kconfig
-> +++ b/drivers/staging/vt6656/Kconfig
-> @@ -4,4 +4,10 @@ config VT6656
->  	depends on MAC80211 && USB && WLAN && m
->  	select FW_LOADER
->  	help
-> -	  This is a vendor-written driver for VIA VT6656.
-> +	  This is a vendor-written driver for VIA VT6656. VIA Technology VT6656
-> +	  is a wireless network controller that operates on the 2.4GHz band.
-> +
-> +	  If you have this hardware and wish to use it, set 'Y' or 'M' here to
-> +	  compile the driver either directly in the kernel or as a module
-> +	  respectively. If you are unsure, it is safe to set it to 'M'.
-> +	  If enabled it loads the firmware for the mentioned device.
-
-I feel like this second paragraph doesn't add any value.  Just ignore checkpatch
-when it tells you to do stuff like this.
+Also the subject is not in the correct format.
 
 regards,
 dan carpenter
