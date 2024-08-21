@@ -1,115 +1,101 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B6C5146D69
-	for <linux-staging@lists.linux.dev>; Wed, 21 Aug 2024 16:15:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD93C13E022
+	for <linux-staging@lists.linux.dev>; Wed, 21 Aug 2024 16:57:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724256952; cv=none; b=LzxbsTWHTT2ULcq+UAtL4qSGzE3bpW9pr5nIXCJ5xRi0gKhNnQvVgjL3Zh+RhhXS7Kv/1xsYGl9yVFWpikKWQeio6PvNKz9Z6hKH9kLBhfp7YQi9v/4nmPXCeRx36/TiJlC1mBqx+ka/qR/PgFMwWGSY4BdIJ4CSX2oQaRxfJAk=
+	t=1724259424; cv=none; b=Ajbkk4r9uh6GxHbhiBy7DZqwRV23mROQX6aP+SJw7txFPmPS23amyuGe2yZ2sST/afdp/4W0dhGwn+Q/9pb2l4OW4jGZzg5ii27oWCxUo1xv35xIq/qMriu4pVb09Q+v8mDc2cuCyRrOeC3ygqj9wGZb+eynlUQzSa5ckUNrgM4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724256952; c=relaxed/simple;
-	bh=ajQ927Pb0rRwjB0K7eVY42NiEVjiBVQnaXpL41206mQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=peFW9I7Fc8J774G2ZGjcnVtbAIqSXYc4SI5v/N3olGqWfPEPZtm4GPs4yZ7yMN1jx9S2CJBgy2qVxNXKT9140IEoY0yWBR3RuOqEZQTpKZidu+mQQBVnToYiyGusEWZPhcrsN8O0Ft38UNmueJ4RVE/6PWNqpCTxDzMJglehNXQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DIiE0R0n; arc=none smtp.client-ip=209.85.210.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1724259424; c=relaxed/simple;
+	bh=nVndjd8LQ1lnWsWfRCEVnX6dxkXb4jf3fpRMWQEc6WI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=u5Z5lozDgFeoKilYPr5yQJPMnHokTO0l7kiNPRrOQwkxWVXTPOc6YYsx7h4PUZRr/L/1MWkc5xgwZbzDruZv6EiuDzNoXY3Rlj1ENqYAyA3C3T+XWJ28nBLIKzJB9BPzJ3ROfe/mXVG95wPee+4TDy+JyzSUmrwGoAk7Zfwher8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZMmYFiai; arc=none smtp.client-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DIiE0R0n"
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-7141d7b270dso1401543b3a.2
-        for <linux-staging@lists.linux.dev>; Wed, 21 Aug 2024 09:15:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZMmYFiai"
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a7aabb71bb2so762892566b.2
+        for <linux-staging@lists.linux.dev>; Wed, 21 Aug 2024 09:57:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724256950; x=1724861750; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Rr+fhns5nZq73IrYJsaPCOONeBzEFwA/rzWZTaQJx3I=;
-        b=DIiE0R0nAWY6CcPUqDViXUTnTXIo9wAOAyShSaLYTfDJQrf303j0on4p4Mebs5YCNJ
-         RRjO2VjVuA57q9v/MVV65wqlJGdtGT90NWUukishhAtNi59lYlM8qaKxXKdLcFlyYTYr
-         mzl+T7kF9HAuel5HVF1/hFMg8/byQ2I4CCjyU56ZSjwa3CDragrbR+uLWr7iQH+b+A4M
-         wdeiRXWjwvmXpdcTCBNZvHVQ5srOBA2/K6fMvsoshQi5d7gLXtMrpRrip5dCa1piTev6
-         n1E6F/jwXR/l9eYgq/xdakS2nE+mW5/sMnr7qfu12g2ow838x/Xmo3KECOFplqeXcKBl
-         DB+w==
+        d=linaro.org; s=google; t=1724259421; x=1724864221; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=gr3yCN8G50bMck2oSxMfeRcm87tCJcNUJM4Xxr3rrZQ=;
+        b=ZMmYFiaizMWLC4HYDZNbhDHc6689UMJhvxZ+ohd2IhRR8UPRaq8SD5p1P/yUXMA/pS
+         OSAV5KqpDKd+5OYwgyXcuUqhT/x6TXyO5Dtw3VswgbsqSIxX6Xmw7I0gl05i8sESZMVh
+         7f76BSUGWnfNRlLyGmhj6B8tk08IFCcjhel8gdwoIxuyE0cgiJcckH+75pEBTBM7u4AH
+         5/d9lRds/ArdgbnmFN3hnF9ZN9BTbFlSCNJP3YDgyc2RPfuI43eEqgIrccJuNZwvAeRn
+         rYKjJuqsRIIqvqFRvYFJi1BTaB4LKxxSFvd/N+5vPeimB2vBw3wSPnYiWh08JOkPfEPi
+         5cNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724256950; x=1724861750;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Rr+fhns5nZq73IrYJsaPCOONeBzEFwA/rzWZTaQJx3I=;
-        b=jr4uFdBFfOhBz8YDcZwmvGGl4Qyk4K30ElDP4217EEPwpz05Ys0gUZhnSHeYcYDctv
-         SurAXkXJkcLHZGZeOuxamTs7uN3EvEYUY3ZdhCQLZ7J9sNJJRLt4R+RIrV3755fskkPg
-         lnKXJsEBDHUOwDvbJYOof4QiRucAsF1L9rfQyaw9RVM/m98Uz9slPGwh1tFz7MQwedgE
-         nTGzRbhND3SO1N8g9Fa9Z2iAzQOjtp8pGT8Q18GPWGv9uUQ54QrRsun8VEn1bGBCayp4
-         Y7hxdkyXxXb1mnR34a0tSzPBhXdSEZnqDjlj6Cdfk3aDmfqJy3eqvBX/fUtitPz3/dB1
-         8ZEg==
-X-Forwarded-Encrypted: i=1; AJvYcCWtZ5NjVtU6RIX7bxX/hE/s5ZNmGl9gxjkRg87xInJpf0chUdQUuiQRH3C7Zy597By+7CTWVrgL6IlOVfQ9@lists.linux.dev
-X-Gm-Message-State: AOJu0YwTXdfa4RR8etL0EelLur6MUgmb57NY50MnAk3yj2RQXXpWNmb+
-	XKdgTUbQMbGu+XYwfUJY25N99DfNIB4JGkLfoBy8CXZSokEOTAb2NPNSDHc5iB8=
-X-Google-Smtp-Source: AGHT+IFpSl0kSozJkaX1WSqpP7j+yZpHNRpsY89nwg8ap0SYYXTGBkRXrTQ8iddezaxO2fC9rgsHDQ==
-X-Received: by 2002:a05:6a21:386:b0:1c3:b234:d10f with SMTP id adf61e73a8af0-1cad82248demr3182045637.47.1724256949942;
-        Wed, 21 Aug 2024 09:15:49 -0700 (PDT)
-Received: from debian.tail629bbc.ts.net ([103.57.173.153])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7127add726esm10166213b3a.37.2024.08.21.09.15.47
+        d=1e100.net; s=20230601; t=1724259421; x=1724864221;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gr3yCN8G50bMck2oSxMfeRcm87tCJcNUJM4Xxr3rrZQ=;
+        b=Znlq/yVgJm1kNTI6l0i6tTaFvRSOL+0Vv0mO32OwvExshhhcXiRxdLidbMNbDlh4lu
+         qcBgJkjYUpzsCcXqTct4uidZQHsalbKz0EceFSQD7MId3tXWhbzdEKaZ9hCiS5SJUJ1r
+         /9qyyBSoy3jXB6eV6gtXI9BJIbtfddoSMOH4DYxCz/6nFFPy2ocE4A0IoMzxGe8D9elV
+         5T8j253b2mjhGebOVfWhoMxsD9+/Wo/XZZA5IYF/7YTzU0nwkeRoPLyieUaQCJ/q73iX
+         cLPUmMyOjtfxry49lGy7qkfWAMvhuXS+NTTgoF7aKyG1F/Q+4Q63678LYipgXV2LjiP6
+         GRJw==
+X-Forwarded-Encrypted: i=1; AJvYcCXCQVhBLd0aaBeLtZZIgu6uE3AF4TewcRe0t/tpj8vZI+ssl1x2v4K4HYoQs3pneChVJph+UALQZX7jSnGC@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx8caL/t5/zKQ1DJTsRc0rC87NI0nF5pS8Mp73PmAk71ErokzRc
+	ULcM36lzgLbXRtgH8BFRgHw8F+m7mmzAfDWG8C/SPPiFIGZ+A81pc5lWiEZfi4Q=
+X-Google-Smtp-Source: AGHT+IERQnuazH854bi+rbAbn9vyI09ekH1cOuPFLwgcVkGcFMLdn18jBYjNuW6VBEvlRMuQiRd1Jg==
+X-Received: by 2002:a17:907:a4d:b0:a77:cacf:58b5 with SMTP id a640c23a62f3a-a866f1472d7mr204400466b.1.1724259420888;
+        Wed, 21 Aug 2024 09:57:00 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a86829ccb6bsm50814266b.144.2024.08.21.09.56.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Aug 2024 09:15:49 -0700 (PDT)
-From: Sayyad Abid <sayyad.abid16@gmail.com>
-To: philipp.g.hortmann@gmail.com
-Cc: gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	abid-sayyad <sayyad.abid16@gmail.com>
-Subject: [PATCH]The patch fixes the following warning generated by running the
-Date: Wed, 21 Aug 2024 21:45:39 +0530
-Message-Id: <20240821161539.541062-1-sayyad.abid16@gmail.com>
-X-Mailer: git-send-email 2.39.2
+        Wed, 21 Aug 2024 09:57:00 -0700 (PDT)
+Date: Wed, 21 Aug 2024 19:56:55 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Sayyad Abid <sayyad.abid16@gmail.com>
+Cc: philipp.g.hortmann@gmail.com, gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH]The patch fixes the following warning generated by
+ running the
+Message-ID: <dd5aaf11-60c3-4621-8278-16bddc1080e7@stanley.mountain>
+References: <20240821161539.541062-1-sayyad.abid16@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240821161539.541062-1-sayyad.abid16@gmail.com>
 
-From: abid-sayyad <sayyad.abid16@gmail.com>
+On Wed, Aug 21, 2024 at 09:45:39PM +0530, Sayyad Abid wrote:
+> From: abid-sayyad <sayyad.abid16@gmail.com>
+> 
 
-drivers/staging/vt6656/Kconfig
+Your email from header is better than this From header.
 
-WARNING: please write a help paragraph that fully describes the config symbol
-2: FILE: drivers/staging/vt6656/Kconfig:2:
-config VT6656
-	tristate "VIA Technologies VT6656 support"
-	depends on MAC80211 && USB && WLAN && m
-	select FW_LOADER
-	help
+> diff --git a/drivers/staging/vt6656/Kconfig b/drivers/staging/vt6656/Kconfig
+> index f52a3f1d9a2e..a37dc3c921ea 100644
+> --- a/drivers/staging/vt6656/Kconfig
+> +++ b/drivers/staging/vt6656/Kconfig
+> @@ -4,4 +4,10 @@ config VT6656
+>  	depends on MAC80211 && USB && WLAN && m
+>  	select FW_LOADER
+>  	help
+> -	  This is a vendor-written driver for VIA VT6656.
+> +	  This is a vendor-written driver for VIA VT6656. VIA Technology VT6656
+> +	  is a wireless network controller that operates on the 2.4GHz band.
+> +
+> +	  If you have this hardware and wish to use it, set 'Y' or 'M' here to
+> +	  compile the driver either directly in the kernel or as a module
+> +	  respectively. If you are unsure, it is safe to set it to 'M'.
+> +	  If enabled it loads the firmware for the mentioned device.
 
-total: 0 errors, 1 warnings, 0 checks, 7 lines checked
+I feel like this second paragraph doesn't add any value.  Just ignore checkpatch
+when it tells you to do stuff like this.
 
-NOTE: For some of the reported defects, checkpatch may be able to
-   mechanically convert to the typical style using --fix or --fix-inplace.
-
-drivers/staging/vt6656/Kconfig has style problems, please review.
-
-
-Signed-off-by: abid-sayyad <sayyad.abid16@gmail.com>
----
-
- drivers/staging/vt6656/Kconfig | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/staging/vt6656/Kconfig b/drivers/staging/vt6656/Kconfig
-index f52a3f1d9a2e..a37dc3c921ea 100644
---- a/drivers/staging/vt6656/Kconfig
-+++ b/drivers/staging/vt6656/Kconfig
-@@ -4,4 +4,10 @@ config VT6656
- 	depends on MAC80211 && USB && WLAN && m
- 	select FW_LOADER
- 	help
--	  This is a vendor-written driver for VIA VT6656.
-+	  This is a vendor-written driver for VIA VT6656. VIA Technology VT6656
-+	  is a wireless network controller that operates on the 2.4GHz band.
-+
-+	  If you have this hardware and wish to use it, set 'Y' or 'M' here to
-+	  compile the driver either directly in the kernel or as a module
-+	  respectively. If you are unsure, it is safe to set it to 'M'.
-+	  If enabled it loads the firmware for the mentioned device.
---
-2.39.2
+regards,
+dan carpenter
 
