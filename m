@@ -1,57 +1,56 @@
-Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A41414D428
-	for <linux-staging@lists.linux.dev>; Wed, 21 Aug 2024 03:09:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A896E1547E2
+	for <linux-staging@lists.linux.dev>; Wed, 21 Aug 2024 03:09:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724209744; cv=none; b=SJWsQ0bFU5krciO9D0oylVGOS2IkKvr5pBwteYlpqDRD/GHj5k1YcNcRNCUd2BK5ShSyat939kqL36U89QYDzzhL4PjNS7dUZNSryf8JnfEWlZABVvNe43clTIF/6/LG9Gqqn0T0USUHFro9CloZpwqju91hV5/VQyVcwjh8am4=
+	t=1724209745; cv=none; b=qixCCSl/Gp29tFmCJi94S4HMYTO94Hbo9cyFzJ0xoQC9WoWgh+CzTDK9YA2B4IYltFYU3I3FsV/AiKYsLRRNMWP3lxssmqPyWaFolI2wvq4ZkVfsPeCxdJ9JnEC+08W/ovhLjEJ3s0gZwjnKTi8VIcMir5indVFEcZHF8LVTLic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724209744; c=relaxed/simple;
-	bh=Y1Isi5tZMdBTmr44yIuWdZLDGGs1zRS8Rk3k3dRwLN8=;
+	s=arc-20240116; t=1724209745; c=relaxed/simple;
+	bh=1Av+PuZOoDYh2k4NZ6QZDE4Eke1SlZ91iumF9rXODRg=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=HaAl5GfxqoXz8gNaZSoCoYolpN452V298W/BwzOGmu9LZx2QFPrjIwcaaLQda5+LQkI0NChjjHsCkjlKC/+XGGPub9THiINs+ea3A9oHnssdIc1fBCnWKe6sm1WrU0F4KQmTX/GYFP87X/2ZwxoRX7JReqZO0yPG+MII17b2w0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net; spf=pass smtp.mailfrom=darkphysics.net; dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b=jkdXuTMg; arc=none smtp.client-ip=209.85.161.45
+	 MIME-Version; b=YMQFylwkXYPtn/5uc4fXyuDkSR2RL8jNxnAfnaJnGMelSJ2J5mtimIYOL23WQu1dakyohSmPBuVBWgETeUJvfV8dVJOxJQuaMMrYim0hkYDqrwwRHfue4pWnNUqnOpAeAoZdlmcbk9KlwuXJpNie/6USopFGKku4hT8OBHwol4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net; spf=pass smtp.mailfrom=darkphysics.net; dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b=mIA4Vrn/; arc=none smtp.client-ip=209.85.210.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=darkphysics.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="jkdXuTMg"
-Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-5dc93fa5639so805015eaf.1
-        for <linux-staging@lists.linux.dev>; Tue, 20 Aug 2024 20:09:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="mIA4Vrn/"
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-714263cb074so109104b3a.1
+        for <linux-staging@lists.linux.dev>; Tue, 20 Aug 2024 20:09:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=darkphysics.net; s=google; t=1724209742; x=1724814542; darn=lists.linux.dev;
+        d=darkphysics.net; s=google; t=1724209743; x=1724814543; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YUBD+hB9uTLEnGM3jp7igQB/VUtJFKRV9rFHokEeKCQ=;
-        b=jkdXuTMgFEa6xlxmLrQGpq4Jv0oOPhu7oNuy0+hUHObmCxDNOQvKKc1j1TyTglraqA
-         e0JNG1QhTqMX/HWHMy8luSOEuVfCLEGbep/Uekd6aJmYs7k9O7IZNkYhdS8AgfecuCO9
-         FFiBzPUVSednN7roa2mAz1KqBaed8lAr1+ZDvnVwv0SU4mmY4vxlP1m04Yrj7or3IFrW
-         tL71hHxYMvwJAdmUltgF9hQyERjJwt4H5KzHzjF1BQeMdFlwrwTR4UccWLlzYHzzCuH9
-         LnUrzcgtslPrnGLecp+/o2ICJU9yCgXHAUD/grXMwYBDSPDnsLfeYOBWSmAyTVqUB+Uh
-         Fz6A==
+        bh=e+piblWHiJyw3dOHLH5I47bMeAehXIK9gihiM+97PvQ=;
+        b=mIA4Vrn/qRDlLRJXHA0kGLh2GKoy1AkCUox2z3RqsrpbM4lcUVe3gzoyhPMYqSJL0u
+         66m3VHRg1Kd0suJJIc8Sk0yUVQzMvbxZVxFBEaXdGdhOixQdCmx33As+zZmWdx+DFaEZ
+         G5IerVr2cMoDxNwBZPNA6SQm1u5yxL9eYoZfmrnExe9mBiEaA000l/Mv+35zHmXrTSwz
+         RlM6o4V3RaPi0T0opfOTFZO9CgyCkTD36y5E0PHI2oiZk7baJjWeLRbnzlEZlezr20Au
+         /4qP9g7kMou6m6Rtv5d+IL888bVcCNyFS6TRXjGPzJeiifAt3Vhn9fD7KE2RwDpHiB3U
+         N/6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724209742; x=1724814542;
+        d=1e100.net; s=20230601; t=1724209743; x=1724814543;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=YUBD+hB9uTLEnGM3jp7igQB/VUtJFKRV9rFHokEeKCQ=;
-        b=GuGOAM0OUIGqr5Ohxi6/TtaovuVf8jvOERQoDLtAd+cWKuJlvLxeQS3OVcnoC4LUzp
-         TbPKgRTJ6WF5CERkVZQX7B0gOTSTvttx+RbU66q55wXSah7t0YMGzvinROPjbytRLG8i
-         DcOiqkjA2zGEHDL9vuTsHy9sYOVYZuV5MBpRtE6DH4tqapYzO79xe7BsrsU08ZTZtmb4
-         lMNDmdQeYgCfoXFS7yVOvWHh0z5jiljZ1DAdmAYLklSkpG3bUDAaS6+UVxZRuUMcIP3A
-         jnigZM7+v5C6SQMFCuHPXp9paZghEzJhdSjr6GlRW+ccH13T3C1c9yKSzItUJcjgYguc
-         khtQ==
-X-Gm-Message-State: AOJu0YxF6J7lJzilVjBfJ4411eAxCyAeaKwYvxSJedromq2X33eqHTIN
-	EZL1yMom/TKnkMsEMhXwERXwg24f7O6gc5ARmKFfabWjB5wLsSPAHwtwtbL43nf48/zqXoo2QoE
-	c4s8=
-X-Google-Smtp-Source: AGHT+IHMiFDWJHrUgwGHz1wp4yDgVI3OB2OBVcxAd3/LLlGuAdbgM3uU80ycc23R0d6mutCZQTfbtw==
-X-Received: by 2002:a05:6358:3b96:b0:1b5:a139:a24a with SMTP id e5c5f4694b2df-1b5a139b5e2mr131259555d.18.1724209742132;
+        bh=e+piblWHiJyw3dOHLH5I47bMeAehXIK9gihiM+97PvQ=;
+        b=lbCEvV1BD19Zp3Xwm35KcekoADmwZAQ7zysNsoeGqL1/scbmkkHN+lpIH4+MZVYjmd
+         uA8IoRj6P4Esd0kwZhvgJeW8haHBZGsOcYq3klpg154rMxLp3VEvMnHRowWrJvV4vwgl
+         xVSXeYEVbOatlX/gqxtrQ3JenxbdLPUfzSMgWT4Ep9XcoHXxK8nc3HrD/BokagZqKAnF
+         22LDox6+2OpCcz/bHiL/OitVO9VZixmqy3LEqWgbI0O55hRQQXpkApCTEPByTCzrBYdW
+         c2Nth13vbI6V/wNl5OLKlpsl3jEhXG4QMgLVHzLiJxb47RP3W0hK1LEJGAnTEdnK1d4b
+         N/lA==
+X-Gm-Message-State: AOJu0YyPpxxUdr6r4uw5fzkSseybDGj7drhlpdaxK267dhn/4Z1eMcUR
+	85EE735mL9NK6/G0lHV6ZRHOzDGzX4GM/6/3a+IKYI+SsgoB5a6bFBlt/dxbncc=
+X-Google-Smtp-Source: AGHT+IERATv4xTSL7nRdoVV4/H1PTZtwyK+OCOJ0PcafPc7TTidobAkmmCzgLuMsLDVSxSx7EP4pYQ==
+X-Received: by 2002:a05:6a00:91ce:b0:714:1c0e:1336 with SMTP id d2e1a72fcca58-7142344325emr1300505b3a.4.1724209742849;
         Tue, 20 Aug 2024 20:09:02 -0700 (PDT)
 Received: from lunchbox.darkphysics (c-73-83-183-190.hsd1.wa.comcast.net. [73.83.183.190])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7127add75dbsm8934404b3a.44.2024.08.20.20.09.01
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7127add75dbsm8934404b3a.44.2024.08.20.20.09.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Aug 2024 20:09:01 -0700 (PDT)
+        Tue, 20 Aug 2024 20:09:02 -0700 (PDT)
 From: Tree Davies <tdavies@darkphysics.net>
 To: gregkh@linuxfoundation.org,
 	philipp.g.hortmann@gmail.com,
@@ -59,9 +58,9 @@ To: gregkh@linuxfoundation.org,
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Tree Davies <tdavies@darkphysics.net>
-Subject: [PATCH 2/6] Staging: rtl8192e: Rename variable CmdID_SetTxPowerLevel
-Date: Tue, 20 Aug 2024 20:08:52 -0700
-Message-Id: <20240821030856.57423-3-tdavies@darkphysics.net>
+Subject: [PATCH 3/6] Staging: rtl8192e: Rename variable CmdID_BBRegWrite10
+Date: Tue, 20 Aug 2024 20:08:53 -0700
+Message-Id: <20240821030856.57423-4-tdavies@darkphysics.net>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20240821030856.57423-1-tdavies@darkphysics.net>
 References: <20240821030856.57423-1-tdavies@darkphysics.net>
@@ -73,51 +72,27 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rename variable CmdID_SetTxPowerLevel to
-cmd_id_set_tx_power_level to fix checkpatch warning Avoid
-CamelCase.
+Rename variable CmdID_BBRegWrite10 to cmd_id_bbreg_write10
+to fix checkpatch warning Avoid CamelCase.
 
 Signed-off-by: Tree Davies <tdavies@darkphysics.net>
 ---
- drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c | 4 ++--
- drivers/staging/rtl8192e/rtllib.h              | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ drivers/staging/rtl8192e/rtllib.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
-index e844f1b4913b..e82e992dd139 100644
---- a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
-@@ -552,7 +552,7 @@ static u8 _rtl92e_phy_switch_channel_step(struct net_device *dev, u8 channel,
- 		_rtl92e_phy_set_sw_chnl_cmd_array(dev, ieee->PreCommonCmd,
- 						  PreCommonCmdCnt++,
- 						  MAX_PRECMD_CNT,
--						  CmdID_SetTxPowerLevel,
-+						  cmd_id_set_tx_power_level,
- 						  0, 0, 0);
- 		_rtl92e_phy_set_sw_chnl_cmd_array(dev, ieee->PreCommonCmd,
- 						  PreCommonCmdCnt++,
-@@ -611,7 +611,7 @@ static u8 _rtl92e_phy_switch_channel_step(struct net_device *dev, u8 channel,
- 			if (!CurrentCmd)
- 				continue;
- 			switch (CurrentCmd->CmdID) {
--			case CmdID_SetTxPowerLevel:
-+			case cmd_id_set_tx_power_level:
- 				if (priv->ic_cut > VERSION_8190_BD)
- 					_rtl92e_set_tx_power_level(dev,
- 								   channel);
 diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-index 11408fadd1e7..19afb056520e 100644
+index 19afb056520e..0eaca4be4f15 100644
 --- a/drivers/staging/rtl8192e/rtllib.h
 +++ b/drivers/staging/rtl8192e/rtllib.h
-@@ -154,7 +154,7 @@ struct cb_desc {
- 
+@@ -155,7 +155,7 @@ struct cb_desc {
  enum sw_chnl_cmd_id {
  	cmd_id_end,
--	CmdID_SetTxPowerLevel,
-+	cmd_id_set_tx_power_level,
- 	CmdID_BBRegWrite10,
+ 	cmd_id_set_tx_power_level,
+-	CmdID_BBRegWrite10,
++	cmd_id_bbreg_write10,
  	CmdID_WritePortUlong,
  	CmdID_WritePortUshort,
+ 	CmdID_WritePortUchar,
 -- 
 2.30.2
 
