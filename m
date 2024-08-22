@@ -1,65 +1,66 @@
 Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B36316DECB
-	for <linux-staging@lists.linux.dev>; Thu, 22 Aug 2024 09:12:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B08513AF2
+	for <linux-staging@lists.linux.dev>; Thu, 22 Aug 2024 09:52:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724317954; cv=none; b=jY+wQVyexWdZI3J1ypHDgTNyzXZlHaG3GfCUJJQ4jTaQ4iBOTiBhOeZdPJiqQc2eAsaAo5I2fEugdDS9v+gddSbyXujvLXtMH9AlZ0AWUcZ0XbmPV6CkVD+4oWZ7CCsjsu7z+shZiT7/Zuw0muczqZh5xMsamh1dUcThRhmTvzI=
+	t=1724320357; cv=none; b=AZeIbAos/I13/emu3HX46BJjZ+WcueZXavfQLZPfTC7+5kuJFbN8rL4DnQYqqVp8+kz+M+ug5psOxgioAzv22Dk6XGSI9Gw9v4qbNb5T+aHwVOoubKJ4fjy3zPKpZbCpeQ5UFa7VrcyimPQaahcVzNISoJqjEKwk0AGRbM3zWcw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724317954; c=relaxed/simple;
-	bh=fFAvq+LiOUScZdK+iHMqO5f6qYOsvJSM5jiQ1E+GQK0=;
+	s=arc-20240116; t=1724320357; c=relaxed/simple;
+	bh=YQDoeRsr6q+u3voHfHxdWEDewqv24NSCdzIjQnnVtEM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nIWpXSGPGoPRBIugTT7P6+dXvEkeLQ/Ga3VOOFK9PfGOzzVAoum5B+cNnUqmRRHrB8PcOkprvKI0yn2I4s2rfJdIDf95WJ/+WZnA1kM0E42Uzf05AUXj9e2w3Piqt099Xifisnxz5EZ+qAv/sLxGJw09qUyclQVFx0uEwNsnhes=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KswLjmQq; arc=none smtp.client-ip=209.85.167.50
+	 Content-Type:Content-Disposition:In-Reply-To; b=DOHD+OKO3mC4UP9BTc2ysdibi8rz6RgNobryOgA5944VJavSbEC5/uBZEG5aH0lVqiLg1aidDBLzhCSA/c9p1CL0VoU5j2cf1OzBQTJdg5NgH4JZ7U7wUiPx9M/iaYLs3HvlsAO9S2ytOtwqWEmxKHGTf4M2yxjvcjmyvLazH14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dO01aRmd; arc=none smtp.client-ip=209.85.167.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KswLjmQq"
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-52f04b4abdcso668829e87.2
-        for <linux-staging@lists.linux.dev>; Thu, 22 Aug 2024 02:12:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dO01aRmd"
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5334c4d6829so749100e87.2
+        for <linux-staging@lists.linux.dev>; Thu, 22 Aug 2024 02:52:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1724317949; x=1724922749; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1724320354; x=1724925154; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=OUuSMzV2vIHp0C9+1vn9JoGjag8c0vylXc1L0rYzmIw=;
-        b=KswLjmQqWynDDsooIzseFBfte7gqEScwaTdN8Ie5KOSTQI85krNYm+HuS69qNhCuKn
-         w98Co+HYIb6dW0vqx1cI5cxfSyO8Um1BJWcA1WBaWkVLow8IG9KgZmE1mFUzHqhjTSuX
-         OGosvILGS//9CLuCJaEM3jbz/ngNIPLwtPsJYncNOXFpdMPqrOrqiUZCQj0VecYyf1lZ
-         /WK2hxSZesGpTImZ1yREMno4fw4RGw0c/e3hlEiQ9elLfBC6ukf3eq0gOrjav9jkyfes
-         oif3nL2AUdvMb4kufTuklxgpDszS9dPin1aEAeUK2SGL5yfjJM38GkcbaDGakFANHxe3
-         xq4w==
+        bh=6ioDL8+VV11S+Jkj2FT4N18seewzyeREKSup0+frDKw=;
+        b=dO01aRmdSM51IJYn1AskzxpDjYAvgdoR81n+vhTp++EG64upshCgAadsXUYtpkkAkg
+         YIU8QTMUxe0Gb/LtwZK7hXX8/F4kB0IHih4SptrKID2igXzVylIHblHNJgTLOk2F8y25
+         l+z97orVtZjT5EGmxeruMlc9AYJBqL2Zxnhvt8hgOtrPY/3UPRo4JlQulyaGrESnstMn
+         AveN/Q4KeEPdDyf7zkZtTBbZfmqziXbmD/1CEh+98tiClA+9tZhLWKM1xTSVW7ovi5aV
+         n0z8YUpYHRMJn5W5huf7b8oAMvFzyim0vnpMf6416tiw6sLu0wZFpspGQJg4NgVXynzH
+         se1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724317949; x=1724922749;
+        d=1e100.net; s=20230601; t=1724320354; x=1724925154;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=OUuSMzV2vIHp0C9+1vn9JoGjag8c0vylXc1L0rYzmIw=;
-        b=MQPwnPJMuSrNIbZJYMXreGXJr0xdLDw20a1zJ1p5QUthYycuHQeUmanEzEj5N2cEz5
-         gY9K1bnikp6MwuYV2+CnAZ+xaSO8ZWWwbpaNKNBufOCu8k7xcPVby2FIZXlf8bdnB2ip
-         eavAzOe2RNwDlcNVbFPmhu1oDB4EwSMEa4ZxosQghwvV9IdpP8VbfiSVlLlfZ3bVzEkQ
-         61QSOcQlbBQqZf7trSdearu2guBNeoSxvUc1Et53zMBsy4C/mCkXU4Eio4uoPCVrqTU/
-         a+I6x+Xh48d5p4hPaQzXJLhtiQkjYrZb8yRiIyILz0H6CD1se3dDds97IUEgjo0kpCrn
-         IZ+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUt80oyfBw0IeSpto4JMM5NOAHSnG+bLWW/ByTpMTA76ZgkPd7k8PZhlu+MXuBa3OCaaZANiL04pOHLIktm@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy086c34UKsmEfVfGtiZSqNY7HOkalcY5AJGz3N9VNvuEea828H
-	iL4FhPdiIt24OXV6KShfOzOj/NZfoet7e6T3UN0QyBCPBcKwWedh8p8vzebbH74=
-X-Google-Smtp-Source: AGHT+IGkixQ062iVw3SWBM3aPJAQvXobN0pXR0RX1oG3yd+dxTAgYJ187hfxrMqr4WvC9E7Fs9PkxA==
-X-Received: by 2002:a05:6512:b16:b0:52b:c27c:ea1f with SMTP id 2adb3069b0e04-5334fd59032mr775625e87.55.1724317949009;
-        Thu, 22 Aug 2024 02:12:29 -0700 (PDT)
+        bh=6ioDL8+VV11S+Jkj2FT4N18seewzyeREKSup0+frDKw=;
+        b=X3PZsBwiTyhYQoyqwX3zUBJ6XtPLyDCoWdsqV6QfY3KiHGgjW+U2Hd07ucg5Wy/c/s
+         SPzX+om1ghNDN3JQLzN5h36zdfGf0beogt4bHqErWABj9Wfva808TXFE2xvtNUhAqn2c
+         zq+fw5FaDeDcimWneE1h1CxxlcDjPZPNv5AmZHA3UnwiZzMvWNmJp+opd+MaqeB32kfs
+         VQvsjkGqLbrQVTfZjoSIbRXXYuGsX1wkJ3PAfXGZ5kUvSB/m7qkF5RqwG9b/mIUcP7Zm
+         E/ipKzj8pX+63bq9TimMOtiPoyyBeC3RbYngQNtfpuG0gnE5rzVg7kBomR4YE74vMrDl
+         HfcA==
+X-Forwarded-Encrypted: i=1; AJvYcCVNAl3E4KHvE1kIgYcNP2cFTFj7IqLjf/yz2+3iDjkWjLd5ixNukLKayGPvv5XCRDwuy1p4pgOL2jhnPm7k@lists.linux.dev
+X-Gm-Message-State: AOJu0YwMOa84aGfAIAA2MnWkGJhaVH3pehTKGUYW5IpyRBnY71fqCpa9
+	AQpeWU5D9d/fImZ6kL4ppGimzgJhqTd+Id0Cfy3DcrYSrjqAWGpbGtqEEhGMy70=
+X-Google-Smtp-Source: AGHT+IE6AR0cXAnZyVzfNmM6b2iJejrQlthgszJ9kbrDjazQQ+yfrh4+RvUHZrPu2x1o2MjsO6mC/w==
+X-Received: by 2002:a05:6512:114d:b0:52e:9ab9:da14 with SMTP id 2adb3069b0e04-53348575002mr3203521e87.31.1724320353542;
+        Thu, 22 Aug 2024 02:52:33 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a868f2205e1sm91732266b.12.2024.08.22.02.12.28
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c04a3ead33sm700430a12.47.2024.08.22.02.52.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Aug 2024 02:12:28 -0700 (PDT)
-Date: Thu, 22 Aug 2024 12:12:25 +0300
+        Thu, 22 Aug 2024 02:52:32 -0700 (PDT)
+Date: Thu, 22 Aug 2024 12:52:28 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Gustavo Montenari Pechta <mrpechta@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	~lkcamp/patches@lists.sr.ht
-Subject: Re: [PATCH] staging: rtl8192e: Fix camel case
-Message-ID: <6fc7a4ef-7a24-451e-8138-6cc4af033fc6@stanley.mountain>
-References: <20240822002733.27609-1-mrpechta@gmail.com>
+To: Yuesong Li <liyuesong@vivo.com>
+Cc: gregkh@linuxfoundation.org, soumya.negi97@gmail.com,
+	piroyangg@gmail.com, andi.shyti@linux.intel.com,
+	alexondunkan@gmail.com, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev, opensource.kernel@vivo.com
+Subject: Re: [PATCH v1] driver:staging:vme:Remove NULL check of list_entry()
+Message-ID: <3e6423eb-0845-4ab2-8d92-86da2c814569@stanley.mountain>
+References: <20240822025736.1208339-1-liyuesong@vivo.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -68,30 +69,57 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240822002733.27609-1-mrpechta@gmail.com>
+In-Reply-To: <20240822025736.1208339-1-liyuesong@vivo.com>
 
-On Wed, Aug 21, 2024 at 09:27:30PM -0300, Gustavo Montenari Pechta wrote:
-> Fix camel case on variable name to match style convention
-> 
-> Signed-off-by: Gustavo Montenari Pechta <mrpechta@gmail.com>
-> ---
->  .../staging/rtl8192e/rtl8192e/r8192E_dev.c    | 32 +++++++++----------
->  1 file changed, 16 insertions(+), 16 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-> index 6ef38f4ca17c..14e50acb40b5 100644
-> --- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-> +++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-> @@ -240,7 +240,7 @@ static void _rtl92e_read_eeprom_info(struct net_device *dev)
->  	const u8 bMac_Tmp_Addr[ETH_ALEN] = {0x00, 0xe0, 0x4c, 0x00, 0x00, 0x01};
->  	u8 tempval;
->  	u8 ICVer8192, ICVer8256;
-> -	u16 i, usValue, IC_Version;
-> +	u16 i, us_value, IC_Version;
+I think Greg may have already merged your commit, which I'm okay with
+because so far as I can see it's fine.  But there should normally be
+some additional analysis for this type of patch.
 
-The "us" stands for unsigned short.  We don't really want that kind of variable
-naming scheme in the kernel.  Just call it "value" or think of a better name.
+On Thu, Aug 22, 2024 at 10:57:36AM +0800, Yuesong Li wrote:
+> list_entry() will never return a NULL pointer, thus remove the
+> check.
+> 
+
+This is true.  But the other possibility here is that it could be that
+list_entry_or_null() was intended.
+
+In other words, sure, this patch doesn't introduce new crashing bugs, but it
+might going against the work that static checker developers do to find risky
+code.
+
+The first thing I would do would be to see which commit introduced this.
+git log -p --follow drivers/staging/vme_user/vme.c
+This issue was introduced in 2009.  Probably if the code has been this way for
+15 years and no one has complained then it's fine to remove the NULL check.
+
+To be honest, that's probably all the analysis you need.  :P  I did a little bit
+more analysis using Smatch.  These are the places where Smatch says that
+->entry is set.  You'd have to build the cross function database using
+~/smatch/smatch_scripts/build_kernel_data.sh and then run
+`smatch/smatch_data/db/smdb.py where vme_resource entry`.
+
+drivers/staging/vme_user/vme_user.c | vme_user_probe                 | (struct vme_resource)->entry | min-max
+drivers/staging/vme_user/vme_user.c | vme_user_remove                | (struct vme_resource)->entry | min-max
+drivers/staging/vme_user/vme.c | vme_slave_request              | (struct vme_resource)->entry | 0-u64max
+drivers/staging/vme_user/vme.c | vme_slave_free                 | (struct vme_resource)->entry | min-max
+drivers/staging/vme_user/vme.c | vme_master_request             | (struct vme_resource)->entry | 0-u64max
+drivers/staging/vme_user/vme.c | vme_master_free                | (struct vme_resource)->entry | min-max
+drivers/staging/vme_user/vme.c | vme_dma_request                | (struct vme_resource)->entry | 0-u64max
+drivers/staging/vme_user/vme.c | vme_dma_free                   | (struct vme_resource)->entry | min-max
+drivers/staging/vme_user/vme.c | vme_lm_request                 | (struct vme_resource)->entry | 0-u64max
+drivers/staging/vme_user/vme.c | vme_lm_free                    | (struct vme_resource)->entry | min-max
+
+When you look at the code, ->entry gets pointed to an entry in the list in the
+request function and never modified again.
+
+Which is slightly weird.  In other words, struct vme_resource)->entry is not
+used as a list at all so far as I can see.  It's unclear to me what's going on
+with vme, but I suspect we're going to remove it.  See 35ba63b8f6d0 ("vme: move
+back to staging").  Otherwise the temptation would be to ask that we set a
+pointer directly to slave_image and master_image instead of saving a pointer to
+entry.
 
 regards,
 dan carpenter
+
 
