@@ -1,36 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE8BB157A6B;
-	Thu, 22 Aug 2024 07:49:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 580EE1607A5;
+	Thu, 22 Aug 2024 07:50:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724312972; cv=none; b=nJaLdwYEEWDsXCQVAVGquge9AX2PUALy8ICjqiuytSxGyGDKvJw5kKhd1tMoiKI0B4fLR084/eqOum62jlAPsR+ebWIRxnLjJcErFA+8pkBdzbwuJTHgtT1xHT+AxBQAzT9d2KSrklehz9SyFz6fQXARmsPr1PHD40xSiNqGJfs=
+	t=1724313057; cv=none; b=aXO/bAeuv8+Gw6HMgWu67vSiHA912YXZN23lcSg1UOcKmC7DX8/gzFfbPo9TYurxl1YQQJBnanpkgQyziKKTzoHAIsLLQS0i7/DhZlIOWGueDGdKCn2iRrrDQM8EzcB+H46QKcDJQ54lvIMO6B/KYkxfAMF5HOB1+5ceRDE3gSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724312972; c=relaxed/simple;
-	bh=ra5Ua8K+PR+QUDhM5vj7FxNpsnhi8E7XUVyA+UHwEpE=;
+	s=arc-20240116; t=1724313057; c=relaxed/simple;
+	bh=KA6hQm0YgPj4GRFDVAXg8NfmueK02XGghRKHiTysFEk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=laD8/hGbxU7Jv/TLMkrdFZbDG7uvs0MlCu9NhFFgP7VIexcVLMuA/JfyL5NPw66bApHj9i9cWzr99Exo59CcrlKEpBh0dm8THONF/0S4nQ/dDdjHD1u6Tf4KhpUl2dwkgFqGt/Gd0wIq4BP3A596at9pHG7UUdkO6cQmHjpP65s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=U36xourh; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=JxJJDFXvwQYpWIKoGznTJ0NUm4KpypMyhDnW2IcfAYN4OwJacxWILYi3/T+1RRnEt2P4EjxaO17IdyM8GVXzP3x0uBUIH86e1qdjDX8NIex7otmY2pgVA1t+nlpAczH+1HBTzOn3z6KWc1mbdsWCv3I64GjVWKWTJThhVXd+yZs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=qyGwtGtM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="U36xourh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27956C4AF0B;
-	Thu, 22 Aug 2024 07:49:29 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="qyGwtGtM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 834DBC4AF09;
+	Thu, 22 Aug 2024 07:50:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1724312970;
-	bh=ra5Ua8K+PR+QUDhM5vj7FxNpsnhi8E7XUVyA+UHwEpE=;
+	s=korg; t=1724313056;
+	bh=KA6hQm0YgPj4GRFDVAXg8NfmueK02XGghRKHiTysFEk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=U36xourhuAVQB0tdaraNntO1E1TtZQh+P5P9SKH5Gt3IBECyhBQkGR0J4ftamcl/4
-	 G1OF2EQXRIGIgV+1k4cRMFmyatVZOeG0TE5bE4jUfDgJI+iItK4NTlgtxrUKqlcgb8
-	 Xz9MzFl5cvS9rHnUfZoNgh0bbVrjCjqLLW8ko6h8=
-Date: Thu, 22 Aug 2024 15:49:28 +0800
+	b=qyGwtGtMLGphi07QG0mEl2LDrVYVn1oLoMhNIuyIWmqLelLa9DcnUajP683HCvXch
+	 BAP0c190exFDy6mgFRJVjmJb3CrqLi+qOBSsKLqpky6PoI7K4zQmdmUzUmaUotf6Os
+	 wnQBo/gAdHHnNSO6NJHFERaQIcRR9g1M/OGKZM4U=
+Date: Thu, 22 Aug 2024 15:50:54 +0800
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Gabriel Maciel Raad <ffunctor@gmail.com>
+To: "Renan M. S. Florencio" <renanm.florencio@gmail.com>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
 	~lkcamp/patches@lists.sr.ht
-Subject: Re: [PATCH] Staging: rtl8192e: Fix parenthesis alignment
-Message-ID: <2024082253-duration-esteemed-a057@gregkh>
-References: <20240822002346.3555-1-ffunctor@gmail.com>
+Subject: Re: [PATCH] staging: rtl8192e: Fix indentation in r8192E_dev.c
+Message-ID: <2024082226-yin-tug-eca5@gregkh>
+References: <20240822002526.19757-1-renanm.florencio@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,20 +39,31 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240822002346.3555-1-ffunctor@gmail.com>
+In-Reply-To: <20240822002526.19757-1-renanm.florencio@gmail.com>
 
-On Wed, Aug 21, 2024 at 09:23:43PM -0300, Gabriel Maciel Raad wrote:
-> Fix parenthesis alignment and unnecessary blank line in
-> rtl92e_leisure_ps_enter to fix the following checkpatch.pl warnings:
+On Wed, Aug 21, 2024 at 09:25:26PM -0300, Renan M. S. Florencio wrote:
+> Fix indentation in r8192E_dev.c to silence checkpatch warnings:
 > 
 > CHECK: Alignment should match open parenthesis
-> CHECK: Blank lines aren't necessary after an open brace '{'
+> 
+> Signed-off-by: Renan M. S. Florencio <renanm.florencio@gmail.com>
+> ---
+>  drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+> index b3d4b3394284..ec867801bfbd 100644
+> --- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+> +++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+> @@ -1741,7 +1741,7 @@ void rtl92e_update_ratr_table(struct net_device *dev)
+>  	    ieee->ht_info->cur_short_gi_40mhz)
+>  		ratr_value |= 0x80000000;
+>  	else if (!ieee->ht_info->cur_tx_bw40mhz &&
+> -		  ieee->ht_info->cur_short_gi_20mhz)
+> +			ieee->ht_info->cur_short_gi_20mhz)
 
-You did two different things here (and one was not mentioned in the
-subject line.)
-
-Always do one "logical thing" per patch, this should be split up into 2
-different onces.
+But the alignment does not now match, are you sure you ran your change
+through checkpatch to verify it did what you thought it did?
 
 thanks,
 
