@@ -1,36 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A460381B8;
-	Thu, 22 Aug 2024 07:52:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7265716B75C;
+	Thu, 22 Aug 2024 07:53:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724313146; cv=none; b=OIJRvoHrcBjfnGwRo5p3eMG27IFun6xY9W/doGV5mvswuqdsMNkd+P/UOXoSzsJnbCva9ae66pCwaW5I/umr9XF++ad9lfNSezQf06wT3EUy3ZV0U7F1hy4BsGa3H7aHp1IVtFIGgMFmxkiiK0BTiN0g6l884WChpgw6zJPrsg4=
+	t=1724313222; cv=none; b=Vz+Kp8AitxRcHmF8oIFUw0/BqY6kqwpsRqdErEpDDW0rDhlrJSnqaGBYdpmjJDSYLoqJeJCx+5kYdRy7rq5DzGBPIczBIlMuVowvxuyOZ7i60thhUmvt0LYdkFzaGJ8nMPh5h8jOArfj+3uAY9e1D/2DRs+HiTQNnxBpi9oyVVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724313146; c=relaxed/simple;
-	bh=5p+AOW3PaNEHUKsXIMaRGD9UPBXBOJCfsgIk5Bzep30=;
+	s=arc-20240116; t=1724313222; c=relaxed/simple;
+	bh=/f3AIjt0onoBiYDKjxy9FIz5j3AuSqydza07ABAWslU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I9HaOmfjOUsy6CxsoJ9ewdcSfJcFkA3/l9pWocRLGlxt9rlrm/WQYkeZUcMFtT83a25U5i2bjtHMvr3T1VcgYHqK1qXE5ez4vg8KBAaetefywIWhKsNrZnrnvZG8zCJ2g6nyQLMxm0iSv9I6w/WnsXRcRNcVXUcHzBt1zcqC2jE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=iGll5xha; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=QeIKThVsF5thBlCQlVj69lcRdlbuKX2Fg5WrlmO9m+W/N8LFwbomHHLk0NmB3t2B1IL6Y++e/4hHLsKyI5K//BvCTS3d4fxAYfuDJ7jAkpXKeBmcXppHkDZESb9rJXoXN/vVliqMGwjz4eXVu9DaKoIRozc1L0ZRqMvgDtDwfYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=oipw9fCK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="iGll5xha"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72CEFC4AF09;
-	Thu, 22 Aug 2024 07:52:25 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="oipw9fCK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB7ADC4AF0C;
+	Thu, 22 Aug 2024 07:53:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1724313145;
-	bh=5p+AOW3PaNEHUKsXIMaRGD9UPBXBOJCfsgIk5Bzep30=;
+	s=korg; t=1724313222;
+	bh=/f3AIjt0onoBiYDKjxy9FIz5j3AuSqydza07ABAWslU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iGll5xha1GqSKSTqk46WEcMj3UW1EPwCzcwwdy64NY1NjSHEpmem1Dl5DvBie8IhU
-	 Hu0CANtOUz6G0T+t0wInxcJ1L16KADK8euKQg0xrA7E5zOtjHrBfRnYTbnN1+HjuuN
-	 d0wv18D4KSLJtuJeZI1OIyaomSdZyWD+LpgykqrU=
-Date: Thu, 22 Aug 2024 15:52:23 +0800
+	b=oipw9fCKeeV9SShVYb9kQAokG17/RuWwB2QqYmPWUkan+4VRety+vm4jPZCoGebh0
+	 m2ZojHHoX9pSIoNP0CnkGNOjo01Qp7gEY+5lI3Ulzi8BsBs7S7iGGxdCGqaYrxWaqh
+	 xbQuYpv09w/zNZZhR5K54GXUqr++LEzo5ydC1+7E=
+Date: Thu, 22 Aug 2024 15:53:39 +0800
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Nilo Alexandre <n1lux.comp@gmail.com>
+To: Ana Carolina Hernandes <anachan.01h@gmail.com>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
 	~lkcamp/patches@lists.sr.ht
-Subject: Re: [PATCH] staging: rtl8192e: Fix alignment parenthesis
-Message-ID: <2024082243-docile-buffing-b770@gregkh>
-References: <20240822002703.4183848-1-n1lux.comp@gmail.com>
+Subject: Re: [PATCH] Staging: rtl8192e: Fix arguments alignment
+Message-ID: <2024082207-enunciate-whacky-e1c4@gregkh>
+References: <20240822003043.10865-1-anachan.01h@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,32 +39,51 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240822002703.4183848-1-n1lux.comp@gmail.com>
+In-Reply-To: <20240822003043.10865-1-anachan.01h@gmail.com>
 
-On Wed, Aug 21, 2024 at 09:27:00PM -0300, Nilo Alexandre wrote:
-> Fix alignment parenthesis in _rtl92e_read_eeprom_info
+On Wed, Aug 21, 2024 at 09:30:43PM -0300, Ana Carolina Hernandes wrote:
+> Fix the alignment of arguments in function _rtl92e_query_rxphystatus in
+> order to silence the following checkpatch warning:
 > 
-> CHECK: Alignment should match open parenthesis
+> CHECK: Lines should not end with a '('
 > 
-> Signed-off-by: Nilo Alexandre <n1lux.comp@gmail.com>
+> Signed-off-by: Ana Carolina Hernandes <anachan.01h@gmail.com>
 > ---
->  drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  .../staging/rtl8192e/rtl8192e/r8192E_dev.c    | 19 +++++++++----------
+>  1 file changed, 9 insertions(+), 10 deletions(-)
 > 
 > diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-> index d95807ceed7a6..caaa79935d7da 100644
+> index b3d4b3394284..bca6e4f57bf2 100644
 > --- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
 > +++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-> @@ -322,7 +322,7 @@ static void _rtl92e_read_eeprom_info(struct net_device *dev)
->  		if (priv->epromtype == EEPROM_93C46) {
->  			if (!priv->autoload_fail_flag) {
->  				usValue = rtl92e_eeprom_read(dev,
-> -					                     EEPROM_TxPwDiff_CrystalCap >> 1);
-> +								EEPROM_TxPwDiff_CrystalCap >> 1);
+> @@ -1145,16 +1145,15 @@ static long _rtl92e_signal_scale_mapping(struct r8192_priv *priv, long currsig)
+>  			_pdrvinfo->RxRate == DESC90_RATE11M) &&\
+>  			!_pdrvinfo->RxHT)
+>  
+> -static void _rtl92e_query_rxphystatus(
+> -	struct r8192_priv *priv,
+> -	struct rtllib_rx_stats *pstats,
+> -	struct rx_desc  *pdesc,
+> -	struct rx_fwinfo   *pdrvinfo,
+> -	struct rtllib_rx_stats *precord_stats,
+> -	bool bpacket_match_bssid,
+> -	bool bpacket_toself,
+> -	bool bPacketBeacon,
+> -	bool bToSelfBA
+> +static void _rtl92e_query_rxphystatus(struct r8192_priv *priv,
+> +				      struct rtllib_rx_stats *pstats,
+> +				      struct rx_desc  *pdesc,
+> +				      struct rx_fwinfo   *pdrvinfo,
+> +				      struct rtllib_rx_stats *precord_stats,
+> +				      bool bpacket_match_bssid,
+> +				      bool bpacket_toself,
+> +				      bool bPacketBeacon,
+> +				      bool bToSelfBA
+>  	)
 
-The alignment DID match, you just need to use tabs instead of spaces.
-Did you run this change through checkpatch.pl after making it to verify
-it did what you are saying it did?
+So close, why leave the ")" on the line all by itself there?  It needs
+to go up one line, didn't checkpatch tell you that when you ran it on
+this change?
 
 thanks,
 
