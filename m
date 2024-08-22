@@ -1,36 +1,62 @@
-Received: from sendmail.purelymail.com (sendmail.purelymail.com [34.202.193.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com [209.85.216.67])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8AE479FD
-	for <linux-staging@lists.linux.dev>; Thu, 22 Aug 2024 00:23:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=34.202.193.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C91679FD
+	for <linux-staging@lists.linux.dev>; Thu, 22 Aug 2024 00:24:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.67
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724286239; cv=none; b=ryjef1nRrTG7JZAwLI7yNSyldpAvT734E0tVeQ3cmSBloAhoegn9AoV14QzTjHTSdgmX89zZK3F1lF1i4tGKpvnC9iVzJIPBAisXqP08rvnTQK9uisqnCISBVHCL9UlTp9g980w8cSaYXCgksqVM9MW3NtvnhERDQuhZA3Pc+oM=
+	t=1724286245; cv=none; b=XKXVYKjRt9UQgN9nzpjmxFweSpKjjW+6MXIFp3o1JkQBKDzT7orhhSJYW8cIFh26B0ZWNAYMWxXfBJpz7EA6brQ8S32wDix3grBxLc0KKMeDjeZvb3e22XooztL2XzcinilJdqsit+zFVkPy0n4sfukFdqwJuhewEioZXPXkbFA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724286239; c=relaxed/simple;
-	bh=rfQIt6yrRhb9t4G12CePLYsvrES22E9sLirarAwlNdM=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Y9zP9hWZbzUovt8TG+gTSLQ55Y7e8fEQmPLKuyqgWQeYAlUqvJdRmnL4y4qEMhBcaeCbtetCya2nmp6lW8YHmPzB3fKNFMLSNq/MnP2nHiArfV4WESd2kFRBDqrpEn3qgkUs+0OMfP8tP04ysUHkURNX+FTNDcgIKTWW0F6H8HA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lkcamp.dev; spf=pass smtp.mailfrom=lkcamp.dev; dkim=pass (2048-bit key) header.d=lkcamp.dev header.i=@lkcamp.dev header.b=Q89nzcDc; dkim=pass (2048-bit key) header.d=purelymail.com header.i=@purelymail.com header.b=r2GtIk26; arc=none smtp.client-ip=34.202.193.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lkcamp.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lkcamp.dev
+	s=arc-20240116; t=1724286245; c=relaxed/simple;
+	bh=E43a4QxGfWfleu4yve62uTS5HZZeuJ03AnjlfmpEJEI=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=TJFDLf8qV3RKCCVb/9AMEsoCMF/gtz2FaKuO66oiNniVRHaRAazUXiqOiY1rSaViwvLtvvQkOG9WyVBI2+G20Mw2ltRY4Xkz5UqMYXcKm+jAyg4xWw6oWTKxVm/na9L2bxcsR1dMN/A64cqmuTaN28L82SDsVWfGWfwoGHV38Eo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IsgvntUM; arc=none smtp.client-ip=209.85.216.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lkcamp.dev header.i=@lkcamp.dev header.b="Q89nzcDc";
-	dkim=pass (2048-bit key) header.d=purelymail.com header.i=@purelymail.com header.b="r2GtIk26"
-DKIM-Signature: a=rsa-sha256; b=Q89nzcDcEJWtbZt8P6NA8izuzaR4WhiWyAUsT0jnOm8wvbgXNW70UJDNvZhgYeYrc3mla+8bbKDDfYUr8S+qlYgBnTbYAxi58vtrxIdFi+mujA0gco+8DkfDUHJX32PHaIJGdoiN3mSBczwRIJnJSb09/Gjw/G+Phw72X2+X9pc3IyuZpcq+lqLRDvEAseNLSGjzDzKCf/25biQMutZTIBMEdKH3+9YEqX6f8+8J+yXOF56c2DWo6t3rjRrAaH/HwKkSZi+Z934kSep+jfT0OShN7MaS/hPtgomUdGeVtQsM9bIQvRCL73BRk0LX+4KvZhfoYfMAXeDVvCMdLhL/Cw==; s=purelymail2; d=lkcamp.dev; v=1; bh=rfQIt6yrRhb9t4G12CePLYsvrES22E9sLirarAwlNdM=; h=Received:From:To:Subject:Date;
-DKIM-Signature: a=rsa-sha256; b=r2GtIk26jrQWFXyEnNA1Q+h/mtC9Ev5W92tdHnCZkEswb0/F1ISN423v83I9HRdl04fc1Y5uUctRkB4x69pc+AGlchGots9HZTU+vvsc8PW62b+3Jp5jZMzoXntGLbmyLUrLLAsncy15G+emEgae8Z6r9YwXmcGrxZ3LlW6hylQk6NN9J4Qr9Vue7CnZylouw0+35Orn7SJdUDjiCE5vXDcsAZ8b92eGJxepAELNWUKyDskqXehAoY69PX2C69uxGFlUEazDTqI8Z4Vn0KQ2oYAhDTCF/9eLT8ziushT/BNn5KknTAPAA24mR3u77w/5J0swL7CGGpV3Nmw3km1QcQ==; s=purelymail2; d=purelymail.com; v=1; bh=rfQIt6yrRhb9t4G12CePLYsvrES22E9sLirarAwlNdM=; h=Feedback-ID:Received:From:To:Subject:Date;
-Feedback-ID: 40580:7130:null:purelymail
-X-Pm-Original-To: linux-staging@lists.linux.dev
-Received: by smtp.purelymail.com (Purelymail SMTP) with ESMTPSA id -2138234990;
-          (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
-          Thu, 22 Aug 2024 00:23:48 +0000 (UTC)
-From: Vinicius Peixoto <vpeixoto@lkcamp.dev>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IsgvntUM"
+Received: by mail-pj1-f67.google.com with SMTP id 98e67ed59e1d1-2d3da6d3f22so174000a91.0
+        for <linux-staging@lists.linux.dev>; Wed, 21 Aug 2024 17:24:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724286243; x=1724891043; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8BI/Cuoavg1EZmfqc6I+MaekM6R5ly8VDmqCakm/t8U=;
+        b=IsgvntUMJOawythJCHNSW3EC9Zuubt5mvYQ8kKsMKW1x4eE1269CKZ1qVWVdBfpFkc
+         5MkYKMYFAxyvGKReMCMox6ZqSd0UqxeNQ+4xkE3O8I4/kCz/G/ltRkF4dAmBWTRrFKea
+         zLZ0kn+G5KeCWXkw/WHjxlmk7hq8Tl7sTVLmM0FIBgaJXsNr80k0nPOGq4bQVmcAddqg
+         Gq4mpl07AjbKdxgLZ4q8IRtrAPsRLY7ed0GMCTLb6YVlWNj+hKQCWBjSh5t+uvwYnX2q
+         UEMg4aTczrCX4jIrQLdKpT8I0rO2pL8Dg4wEyVNOxay+UPkwbwqkXko9gvPBbgbH3Cys
+         hFhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724286243; x=1724891043;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8BI/Cuoavg1EZmfqc6I+MaekM6R5ly8VDmqCakm/t8U=;
+        b=l+GES7rddIr9mrTIvTbZ6rnqBIh+qvNjgIsXxVyFLvcqyYcKiCIL5tOg5XHSfQcQ8p
+         R2Dy8z9UsUusbJnFvxl23Ac3cu69wBkgRDqPMszeQFuL+dwiZHc1DYZHb0UTpWoqhVF0
+         CiHZvkn+u5zrphEZ5X7R3d2EezOi2GZ6VZ3YPrVOTC5aHwjMgq2vMGrOWDeZInHaaji7
+         yNGzcq5nqP+mjbkbtgYtmZOqEzE5MJlX6wIYFCV6NnTqg5WLXR1/5R6KmWOKIQZc8/65
+         SqMpiYNC+dsOsJ3kN6YlQwbDznhQL3bMbV3bns9iX7/X6wTQY7fSZf1LdxkF2en9qaJ2
+         fFnQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXlzGs9sJYd1bJcdq0a22vo2dNF8llE+cUYd4djktZlebCGT4jy2fCiosAVEKwXQARGLeAUcIkFkhiZPlFD@lists.linux.dev
+X-Gm-Message-State: AOJu0YwlDpOBoXD7/elkTu37HY1RVsZsMg8hjDFuwzv30WHAubgkPvae
+	POIs3XkDLLfY4M9XkJQdfMhXv1KTjVJXbjhn565InRSuBDS42M1v
+X-Google-Smtp-Source: AGHT+IEwilWiZTOg6ZITaUWHFGun0J3N4EgPXDiH1J4YUnbPthL/Jc/UdeHpFyvVCe0ImoO7+SYAhQ==
+X-Received: by 2002:a17:90b:1c84:b0:2c9:4c3:3128 with SMTP id 98e67ed59e1d1-2d5e98bcd51mr4459011a91.0.1724286243246;
+        Wed, 21 Aug 2024 17:24:03 -0700 (PDT)
+Received: from broom-closet.unicamp.br ([2801:8a:c811:1:92ae:ceb4:3338:3fb3])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2d5eb9049b0sm2559443a91.17.2024.08.21.17.23.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Aug 2024 17:24:03 -0700 (PDT)
+From: Gabriel Maciel Raad <ffunctor@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	~lkcamp/patches@lists.sr.ht
-Subject: [PATCH] staging: rtl8192e: Fix parenthesis alignment
+Subject: [PATCH] Staging: rtl8192e: Fix parenthesis alignment
 Date: Wed, 21 Aug 2024 21:23:43 -0300
-Message-ID: <20240822002346.94433-1-vpeixoto@lkcamp.dev>
+Message-ID: <20240822002346.3555-1-ffunctor@gmail.com>
 X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -38,52 +64,37 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by Purelymail
-Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Fix parenthesis alignment in rtl92e_init_gain in order to silence the
-following checkpatch warning:
+Fix parenthesis alignment and unnecessary blank line in
+rtl92e_leisure_ps_enter to fix the following checkpatch.pl warnings:
 
 CHECK: Alignment should match open parenthesis
+CHECK: Blank lines aren't necessary after an open brace '{'
 
-Signed-off-by: Vinicius Peixoto <vpeixoto@lkcamp.dev>
+Signed-off-by: Gabriel Maciel Raad <ffunctor@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ drivers/staging/rtl8192e/rtl8192e/rtl_ps.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c b/drivers/stagi=
-ng/rtl8192e/rtl8192e/r8192E_phy.c
-index 18b948d4d86d..ddb0004198cc 100644
---- a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
-@@ -944,19 +944,19 @@ void rtl92e_init_gain(struct net_device *dev, u8 Oper=
-ation)
- =09=09case IG_Restore:
- =09=09=09BitMask =3D 0x7f;
- =09=09=09rtl92e_set_bb_reg(dev, rOFDM0_XAAGCCore1, BitMask,
--=09=09=09=09=09 (u32)priv->initgain_backup.xaagccore1);
-+=09=09=09=09=09  (u32)priv->initgain_backup.xaagccore1);
- =09=09=09rtl92e_set_bb_reg(dev, rOFDM0_XBAGCCore1, BitMask,
--=09=09=09=09=09 (u32)priv->initgain_backup.xbagccore1);
-+=09=09=09=09=09  (u32)priv->initgain_backup.xbagccore1);
- =09=09=09rtl92e_set_bb_reg(dev, rOFDM0_XCAGCCore1, BitMask,
--=09=09=09=09=09 (u32)priv->initgain_backup.xcagccore1);
-+=09=09=09=09=09  (u32)priv->initgain_backup.xcagccore1);
- =09=09=09rtl92e_set_bb_reg(dev, rOFDM0_XDAGCCore1, BitMask,
--=09=09=09=09=09 (u32)priv->initgain_backup.xdagccore1);
-+=09=09=09=09=09  (u32)priv->initgain_backup.xdagccore1);
- =09=09=09BitMask  =3D bMaskByte2;
- =09=09=09rtl92e_set_bb_reg(dev, rCCK0_CCA, BitMask,
--=09=09=09=09=09 (u32)priv->initgain_backup.cca);
-+=09=09=09=09=09  (u32)priv->initgain_backup.cca);
-=20
- =09=09=09rtl92e_set_tx_power(dev,
--=09=09=09=09=09 priv->rtllib->current_network.channel);
-+=09=09=09=09=09    priv->rtllib->current_network.channel);
- =09=09=09break;
- =09=09}
- =09}
---=20
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_ps.c b/drivers/staging/rtl8192e/rtl8192e/rtl_ps.c
+index 5aac9110bff6..7b6247acf6f4 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_ps.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_ps.c
+@@ -204,12 +204,11 @@ void rtl92e_leisure_ps_enter(struct net_device *dev)
+ 					&priv->rtllib->pwr_save_ctrl;
+ 
+ 	if (!((priv->rtllib->iw_mode == IW_MODE_INFRA) &&
+-	    (priv->rtllib->link_state == MAC80211_LINKED)))
++	      (priv->rtllib->link_state == MAC80211_LINKED)))
+ 		return;
+ 
+ 	if (psc->bLeisurePs) {
+ 		if (psc->lps_idle_count >= RT_CHECK_FOR_HANG_PERIOD) {
+-
+ 			if (priv->rtllib->ps == RTLLIB_PS_DISABLED)
+ 				_rtl92e_ps_set_mode(dev, RTLLIB_PS_MBCAST | RTLLIB_PS_UNICAST);
+ 		} else {
+-- 
 2.46.0
 
