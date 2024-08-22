@@ -1,38 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAFE6502BE;
-	Thu, 22 Aug 2024 07:48:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE8BB157A6B;
+	Thu, 22 Aug 2024 07:49:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724312880; cv=none; b=dmFuxZPfT4QfjZRVMAa/EgCk2CVCHiat2RH1sSvfM22IIEzfL5aFI4/WYNc6ZUp0Ys90iohZYgoBASz0spLk8YmAW1CKMve3+st/yHtUb/ttaOcidzIdv6nG/qsVZziDPWA+uSrX7u8qwYmw519GS8zyQhHO+kCujloHTXjEtws=
+	t=1724312972; cv=none; b=nJaLdwYEEWDsXCQVAVGquge9AX2PUALy8ICjqiuytSxGyGDKvJw5kKhd1tMoiKI0B4fLR084/eqOum62jlAPsR+ebWIRxnLjJcErFA+8pkBdzbwuJTHgtT1xHT+AxBQAzT9d2KSrklehz9SyFz6fQXARmsPr1PHD40xSiNqGJfs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724312880; c=relaxed/simple;
-	bh=Xmhmp5O4S40x3xcJeqSVTAgrSVTbXmq2bDuYDOcB2Cg=;
+	s=arc-20240116; t=1724312972; c=relaxed/simple;
+	bh=ra5Ua8K+PR+QUDhM5vj7FxNpsnhi8E7XUVyA+UHwEpE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AhDX8OBleW7ojuVDBVP+fvxVed4/g9x9qyWr77jlLogbDVzgr0NHPN/UAaeJdUTWGlDP4W+3+NoT88f5uHvwkT+5ca1vPIWUKZf9c4nqE9a5cO5d+NpCxiaESG9zAW1VNIpJwxzd9rOx5VEq+xDQCHXA37DsFJVv+9cu+vymTWI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ShSNfZjx; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=laD8/hGbxU7Jv/TLMkrdFZbDG7uvs0MlCu9NhFFgP7VIexcVLMuA/JfyL5NPw66bApHj9i9cWzr99Exo59CcrlKEpBh0dm8THONF/0S4nQ/dDdjHD1u6Tf4KhpUl2dwkgFqGt/Gd0wIq4BP3A596at9pHG7UUdkO6cQmHjpP65s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=U36xourh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ShSNfZjx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04409C4AF09;
-	Thu, 22 Aug 2024 07:47:59 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="U36xourh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27956C4AF0B;
+	Thu, 22 Aug 2024 07:49:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1724312880;
-	bh=Xmhmp5O4S40x3xcJeqSVTAgrSVTbXmq2bDuYDOcB2Cg=;
+	s=korg; t=1724312970;
+	bh=ra5Ua8K+PR+QUDhM5vj7FxNpsnhi8E7XUVyA+UHwEpE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ShSNfZjxTulDnumzw7YOQens/mIzuS6ANdTuIl3DEdIf/eYMPGbNPyf3iC8CN8Sol
-	 AAgiO11LK6I9GSCgVgjlZKdOiC4b/rMcWIYq7QGf+GOEM6eYlV6nzrsvXZv6/G7OOX
-	 iU8v/fd0W1yXevLhWsorZVsrtHj+lPZJ8pU3C0Bw=
-Date: Thu, 22 Aug 2024 15:47:57 +0800
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Yuesong Li <liyuesong@vivo.com>
-Cc: soumya.negi97@gmail.com, piroyangg@gmail.com,
-	andi.shyti@linux.intel.com, alexondunkan@gmail.com,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-	opensource.kernel@vivo.com
-Subject: Re: [PATCH v1] driver:staging:vme:Remove NULL check of list_entry()
-Message-ID: <2024082234-nest-diabetes-f9a0@gregkh>
-References: <20240822025736.1208339-1-liyuesong@vivo.com>
+	b=U36xourhuAVQB0tdaraNntO1E1TtZQh+P5P9SKH5Gt3IBECyhBQkGR0J4ftamcl/4
+	 G1OF2EQXRIGIgV+1k4cRMFmyatVZOeG0TE5bE4jUfDgJI+iItK4NTlgtxrUKqlcgb8
+	 Xz9MzFl5cvS9rHnUfZoNgh0bbVrjCjqLLW8ko6h8=
+Date: Thu, 22 Aug 2024 15:49:28 +0800
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Gabriel Maciel Raad <ffunctor@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	~lkcamp/patches@lists.sr.ht
+Subject: Re: [PATCH] Staging: rtl8192e: Fix parenthesis alignment
+Message-ID: <2024082253-duration-esteemed-a057@gregkh>
+References: <20240822002346.3555-1-ffunctor@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -41,12 +39,21 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240822025736.1208339-1-liyuesong@vivo.com>
+In-Reply-To: <20240822002346.3555-1-ffunctor@gmail.com>
 
-On Thu, Aug 22, 2024 at 10:57:36AM +0800, Yuesong Li wrote:
-> list_entry() will never return a NULL pointer, thus remove the
-> check.
+On Wed, Aug 21, 2024 at 09:23:43PM -0300, Gabriel Maciel Raad wrote:
+> Fix parenthesis alignment and unnecessary blank line in
+> rtl92e_leisure_ps_enter to fix the following checkpatch.pl warnings:
+> 
+> CHECK: Alignment should match open parenthesis
+> CHECK: Blank lines aren't necessary after an open brace '{'
 
-Oh, nice catch!  I bet there are lots of other places this happens in
-the tree as well.
+You did two different things here (and one was not mentioned in the
+subject line.)
 
+Always do one "logical thing" per patch, this should be split up into 2
+different onces.
+
+thanks,
+
+greg k-h
