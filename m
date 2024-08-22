@@ -1,125 +1,98 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B08513AF2
-	for <linux-staging@lists.linux.dev>; Thu, 22 Aug 2024 09:52:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A2251CB316
+	for <linux-staging@lists.linux.dev>; Thu, 22 Aug 2024 14:00:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724320357; cv=none; b=AZeIbAos/I13/emu3HX46BJjZ+WcueZXavfQLZPfTC7+5kuJFbN8rL4DnQYqqVp8+kz+M+ug5psOxgioAzv22Dk6XGSI9Gw9v4qbNb5T+aHwVOoubKJ4fjy3zPKpZbCpeQ5UFa7VrcyimPQaahcVzNISoJqjEKwk0AGRbM3zWcw=
+	t=1724335237; cv=none; b=Lk+iuSmrRH9xunijaV3ZhUQcCEdVBfOPaKFURvwsCPPCOkourAVVVUJZraVFi756Me7TKEOJ1UK4XZOY+I+nCfHGm8O+9SAabs9n1WR0D5ZYU1+BjZstnKtnwwQUgk2ooQbSfinRPS+/fkuPuzFnonxjjxbA2Be3t3jznAWsZIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724320357; c=relaxed/simple;
-	bh=YQDoeRsr6q+u3voHfHxdWEDewqv24NSCdzIjQnnVtEM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DOHD+OKO3mC4UP9BTc2ysdibi8rz6RgNobryOgA5944VJavSbEC5/uBZEG5aH0lVqiLg1aidDBLzhCSA/c9p1CL0VoU5j2cf1OzBQTJdg5NgH4JZ7U7wUiPx9M/iaYLs3HvlsAO9S2ytOtwqWEmxKHGTf4M2yxjvcjmyvLazH14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dO01aRmd; arc=none smtp.client-ip=209.85.167.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1724335237; c=relaxed/simple;
+	bh=tGxySKSTO8qcGXrB893f4C6YFSw1eP0VHVb17wjt1OE=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=Oq/CVS3GwWRSzySKavUgTZU1fE3i6J7ecJg38QkpMb0Z7kBLHUodmWEST6GWoSYkRvGxLRJszfVtW0KVv2SUqG1IF8FUeKuV4xfmgPG3rQdbL0auXzgOpT88Y3ocDJJkWwi52p5hiVtQXRC14C9vIYoe++OZ1tHgbU7yH8hEYFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CXQRfvv/; arc=none smtp.client-ip=209.85.215.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dO01aRmd"
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5334c4d6829so749100e87.2
-        for <linux-staging@lists.linux.dev>; Thu, 22 Aug 2024 02:52:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CXQRfvv/"
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-7cb3db0932cso665767a12.1
+        for <linux-staging@lists.linux.dev>; Thu, 22 Aug 2024 07:00:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1724320354; x=1724925154; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6ioDL8+VV11S+Jkj2FT4N18seewzyeREKSup0+frDKw=;
-        b=dO01aRmdSM51IJYn1AskzxpDjYAvgdoR81n+vhTp++EG64upshCgAadsXUYtpkkAkg
-         YIU8QTMUxe0Gb/LtwZK7hXX8/F4kB0IHih4SptrKID2igXzVylIHblHNJgTLOk2F8y25
-         l+z97orVtZjT5EGmxeruMlc9AYJBqL2Zxnhvt8hgOtrPY/3UPRo4JlQulyaGrESnstMn
-         AveN/Q4KeEPdDyf7zkZtTBbZfmqziXbmD/1CEh+98tiClA+9tZhLWKM1xTSVW7ovi5aV
-         n0z8YUpYHRMJn5W5huf7b8oAMvFzyim0vnpMf6416tiw6sLu0wZFpspGQJg4NgVXynzH
-         se1A==
+        d=gmail.com; s=20230601; t=1724335235; x=1724940035; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hTLkljK79vIqNPsl6WF8G9Xx/q3y0p1QAtEGLt2aawo=;
+        b=CXQRfvv/1sMKMy68ANT2I8jOm24t0EIDyfwNCXY8OrDIwtgCWb678jE8oxCPBNkTIb
+         Xi1nt9edfDSxlnJeQhYc7ngYaMv88hATmYnWrNm77nxqtpqyUG+uQLay4crV2/wBEAjN
+         J4nwKVBQJBOjHB0E4PP+nlrqFw/MupON3AhzcVCfnInFdemzYCMvJ3Ev/6MvnKrTiyRO
+         S8ERd23dviqdr9X/2zS8TTpBcrSITJme2NieorQGcuy0QCRyl8hVNYNIndaJ5Xs3gvhb
+         Xbs5OfzuKBFfmjLk26PhGmJLj2/RWukQKLEVmF2dI3TfsQJvKmKtufU0OZPmsvxS2ge5
+         ZIFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724320354; x=1724925154;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6ioDL8+VV11S+Jkj2FT4N18seewzyeREKSup0+frDKw=;
-        b=X3PZsBwiTyhYQoyqwX3zUBJ6XtPLyDCoWdsqV6QfY3KiHGgjW+U2Hd07ucg5Wy/c/s
-         SPzX+om1ghNDN3JQLzN5h36zdfGf0beogt4bHqErWABj9Wfva808TXFE2xvtNUhAqn2c
-         zq+fw5FaDeDcimWneE1h1CxxlcDjPZPNv5AmZHA3UnwiZzMvWNmJp+opd+MaqeB32kfs
-         VQvsjkGqLbrQVTfZjoSIbRXXYuGsX1wkJ3PAfXGZ5kUvSB/m7qkF5RqwG9b/mIUcP7Zm
-         E/ipKzj8pX+63bq9TimMOtiPoyyBeC3RbYngQNtfpuG0gnE5rzVg7kBomR4YE74vMrDl
-         HfcA==
-X-Forwarded-Encrypted: i=1; AJvYcCVNAl3E4KHvE1kIgYcNP2cFTFj7IqLjf/yz2+3iDjkWjLd5ixNukLKayGPvv5XCRDwuy1p4pgOL2jhnPm7k@lists.linux.dev
-X-Gm-Message-State: AOJu0YwMOa84aGfAIAA2MnWkGJhaVH3pehTKGUYW5IpyRBnY71fqCpa9
-	AQpeWU5D9d/fImZ6kL4ppGimzgJhqTd+Id0Cfy3DcrYSrjqAWGpbGtqEEhGMy70=
-X-Google-Smtp-Source: AGHT+IE6AR0cXAnZyVzfNmM6b2iJejrQlthgszJ9kbrDjazQQ+yfrh4+RvUHZrPu2x1o2MjsO6mC/w==
-X-Received: by 2002:a05:6512:114d:b0:52e:9ab9:da14 with SMTP id 2adb3069b0e04-53348575002mr3203521e87.31.1724320353542;
-        Thu, 22 Aug 2024 02:52:33 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c04a3ead33sm700430a12.47.2024.08.22.02.52.32
+        d=1e100.net; s=20230601; t=1724335235; x=1724940035;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hTLkljK79vIqNPsl6WF8G9Xx/q3y0p1QAtEGLt2aawo=;
+        b=uCsfntB1bjIbgXakR2xxebhtb/azg+rGLJPW+ic5QbimlRyJ27q/y08xYeL8XA79yh
+         L3w/8tB+rDFNWAsJfaFbnUO+EHxQm0h3e/Vht4/cXmylvVc3bLgKbKCS+i141GEoDKZW
+         wY2iynjAEfEgi4uUhEch/2Qs8BLkqmdlEfY11EB3adZ9Awdajw8CqGFLq0eT8FF8/kr6
+         krBYDP2cIVN5yj5ZAJhKADXVLzSpoZH3CDbzx8JdD6Y3OZ1XX1dqtpxNNqVox1K36iTu
+         P08leOwgYkytiKnYlU6tusE/ji5EJf2VlpOGa5DHAu+AoIuTpGiyiU2MXjPlqVgGUAmh
+         Lxfg==
+X-Forwarded-Encrypted: i=1; AJvYcCXpU1rd92CiNdDipCji8kMV5q0KbMQR7zJJ9Ah6QbkVynYJINkMJoJT/0RQ+fZwdgHOLRvRZTAw2cGMN0Sp@lists.linux.dev
+X-Gm-Message-State: AOJu0YyMidgjrOy3cdSJqP61iuc34vDJxNPa1ZdjlqKdR5oqIkh5pcGM
+	VS33EP4GxBwUKM1ZiuewzgJxSjXgisbxygFB1J9zfd5UHZh5BF5+
+X-Google-Smtp-Source: AGHT+IFs4BQn9DIBeswayw4RZGkrbX0qCsLE6XAPC6PPsd/BR0n7wRyn6MVViOGUVsk6/6TaiBBCTA==
+X-Received: by 2002:a17:90b:4b10:b0:2c9:61f9:a141 with SMTP id 98e67ed59e1d1-2d5e9a74ac1mr6885074a91.16.1724335234407;
+        Thu, 22 Aug 2024 07:00:34 -0700 (PDT)
+Received: from localhost.localdomain ([2804:14d:baa2:9074::1002])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2d613af145dsm1830588a91.38.2024.08.22.07.00.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Aug 2024 02:52:32 -0700 (PDT)
-Date: Thu, 22 Aug 2024 12:52:28 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Yuesong Li <liyuesong@vivo.com>
-Cc: gregkh@linuxfoundation.org, soumya.negi97@gmail.com,
-	piroyangg@gmail.com, andi.shyti@linux.intel.com,
-	alexondunkan@gmail.com, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev, opensource.kernel@vivo.com
-Subject: Re: [PATCH v1] driver:staging:vme:Remove NULL check of list_entry()
-Message-ID: <3e6423eb-0845-4ab2-8d92-86da2c814569@stanley.mountain>
-References: <20240822025736.1208339-1-liyuesong@vivo.com>
+        Thu, 22 Aug 2024 07:00:33 -0700 (PDT)
+From: Hans Buss <hansbh123@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	~lkcamp/patches@lists.sr.ht
+Subject: [PATCH v2] staging: rtl8192e: Insert spaces around '|'
+Date: Thu, 22 Aug 2024 11:00:22 -0300
+Message-ID: <20240822140022.11197-1-hansbh123@gmail.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240822025736.1208339-1-liyuesong@vivo.com>
+Content-Transfer-Encoding: 8bit
 
-I think Greg may have already merged your commit, which I'm okay with
-because so far as I can see it's fine.  But there should normally be
-some additional analysis for this type of patch.
+From: Hans Buss <hans.buss@mailfence.com>
 
-On Thu, Aug 22, 2024 at 10:57:36AM +0800, Yuesong Li wrote:
-> list_entry() will never return a NULL pointer, thus remove the
-> check.
-> 
+Insert spaces around '|' to adhre to Linux kernel coding style.
 
-This is true.  But the other possibility here is that it could be that
-list_entry_or_null() was intended.
+CHECK: spaces preferred around that '|' (ctx:VxV)
 
-In other words, sure, this patch doesn't introduce new crashing bugs, but it
-might going against the work that static checker developers do to find risky
-code.
+Changes in v2:
+ - fixed typo in commit message
 
-The first thing I would do would be to see which commit introduced this.
-git log -p --follow drivers/staging/vme_user/vme.c
-This issue was introduced in 2009.  Probably if the code has been this way for
-15 years and no one has complained then it's fine to remove the NULL check.
+Signed-off-by: Hans Buss <hans.buss@mailfence.com>
+---
+ drivers/staging/rtl8192e/rtl8192e/r8192E_hw.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-To be honest, that's probably all the analysis you need.  :P  I did a little bit
-more analysis using Smatch.  These are the places where Smatch says that
-->entry is set.  You'd have to build the cross function database using
-~/smatch/smatch_scripts/build_kernel_data.sh and then run
-`smatch/smatch_data/db/smdb.py where vme_resource entry`.
-
-drivers/staging/vme_user/vme_user.c | vme_user_probe                 | (struct vme_resource)->entry | min-max
-drivers/staging/vme_user/vme_user.c | vme_user_remove                | (struct vme_resource)->entry | min-max
-drivers/staging/vme_user/vme.c | vme_slave_request              | (struct vme_resource)->entry | 0-u64max
-drivers/staging/vme_user/vme.c | vme_slave_free                 | (struct vme_resource)->entry | min-max
-drivers/staging/vme_user/vme.c | vme_master_request             | (struct vme_resource)->entry | 0-u64max
-drivers/staging/vme_user/vme.c | vme_master_free                | (struct vme_resource)->entry | min-max
-drivers/staging/vme_user/vme.c | vme_dma_request                | (struct vme_resource)->entry | 0-u64max
-drivers/staging/vme_user/vme.c | vme_dma_free                   | (struct vme_resource)->entry | min-max
-drivers/staging/vme_user/vme.c | vme_lm_request                 | (struct vme_resource)->entry | 0-u64max
-drivers/staging/vme_user/vme.c | vme_lm_free                    | (struct vme_resource)->entry | min-max
-
-When you look at the code, ->entry gets pointed to an entry in the list in the
-request function and never modified again.
-
-Which is slightly weird.  In other words, struct vme_resource)->entry is not
-used as a list at all so far as I can see.  It's unclear to me what's going on
-with vme, but I suspect we're going to remove it.  See 35ba63b8f6d0 ("vme: move
-back to staging").  Otherwise the temptation would be to ask that we set a
-pointer directly to slave_image and master_image instead of saving a pointer to
-entry.
-
-regards,
-dan carpenter
-
+diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_hw.h b/drivers/staging/rtl8192e/rtl8192e/r8192E_hw.h
+index 1b444529b59c..e507593b939c 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/r8192E_hw.h
++++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_hw.h
+@@ -229,7 +229,7 @@ enum _RTL8192PCI_HW {
+ 				RATR_MCS6 | RATR_MCS7)
+ #define RATE_ALL_OFDM_2SS	(RATR_MCS8 | RATR_MCS9 | RATR_MCS10 |	\
+ 				RATR_MCS11 | RATR_MCS12 | RATR_MCS13 |	\
+-				RATR_MCS14|RATR_MCS15)
++				RATR_MCS14 | RATR_MCS15)
+ 
+ 	DRIVER_RSSI		= 0x32c,
+ 	MCS_TXAGC		= 0x340,
+-- 
+2.46.0
 
