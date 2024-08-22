@@ -1,95 +1,102 @@
-Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05A1F3D69
-	for <linux-staging@lists.linux.dev>; Thu, 22 Aug 2024 00:46:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B994B101F7
+	for <linux-staging@lists.linux.dev>; Thu, 22 Aug 2024 00:49:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724287565; cv=none; b=UNurTYfgW3rZ+WZEBgFKjU2hj3AdYIYsYSt6B8k+4qNNkMn0p6iSY0ZAdDVizjZwkUElaUus2/BycXFqenZUgR2RFoxKPxN+L0cg5VWZA8isQ3vpO0EqZWGhWD3d8/uoAHgGvTFXmDBFnfGsVIoTX+J1wGuM5eDl9/9aJ7Akv/E=
+	t=1724287795; cv=none; b=NoL8+3ZfdNVCTvmuNhRO6kI3eKepB3IHylnTL6DSwwAG+dIvaEqJGfJCaB6RP++4gKTZLZbxy7xfpwZjyGu4TCJZ4vZTTEu6wYqRHsDJEWtB0DdUW5j+IZKZuU7hHQLts5LpE7Oq+VYrbX07x7vN0tvgjOorjzIdahMOVJoXf38=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724287565; c=relaxed/simple;
-	bh=xbhdrzXBXQGFHkBi7JVQQnh/qFFqzJW4jZK4RQf97gQ=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version:Content-Type; b=nvvymVCTf8xxBPWiY7GbTIr9pJk/w0UgWbvbw00jATcP7UGrUbYjG9CdI2wCEMFj0myl3EW2TMKE8xUUQi/rLP/6CZhXg6e7j5MYCA/aq1Zf2LJRBlE4ZcM5sMPT3KlsnJ1hKmo/mNBY31frCreSIF8r/8LMdIoP+vEbIv+YB0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mqE7kX5o; arc=none smtp.client-ip=209.85.160.54
+	s=arc-20240116; t=1724287795; c=relaxed/simple;
+	bh=AnIqKnh9ldoevdKJjoL24+oTb6ZiwTuOexuRPtIUMz4=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=W00YAeQALMlnOWIfpojP7FTPEQORK9H28pee1Bo52psNqhHATyzdccvTw4aUrSS83gWPkc2o87Ynam8hSJAojJN/HGzMeYWmY/KTvmV6TZKUbIEyuq/yi8YK/Rkzqj9pr56hbkI2+D/oDLNRr2GgYPJyg7oYuUfyu0OyUjQL83E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XtZ5KHNG; arc=none smtp.client-ip=209.85.215.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mqE7kX5o"
-Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-2689f749702so134286fac.3
-        for <linux-staging@lists.linux.dev>; Wed, 21 Aug 2024 17:46:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XtZ5KHNG"
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-7b594936e9bso206399a12.1
+        for <linux-staging@lists.linux.dev>; Wed, 21 Aug 2024 17:49:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724287563; x=1724892363; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1724287793; x=1724892593; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=iBNlowdOWSl10OVciaBXJoWLTKHB1MfSEqNmoSmAPy0=;
-        b=mqE7kX5oOlZQeOTZizkgjo8+z6tosrtc674SXbXIXAqay2K1tu9p6wjDgw6gGsMWbh
-         9SnNhYTa26yIDaS4fXiT2r7RC4dZiwPDplx9I5u5JITdhneT6iIGOQil+l0SkfcJCijG
-         rvGKOREr4PL/jxPI+tKPBE3WI42I2vMKsWPp7G5v2HuDi6koNXK2hqRvrP/JALalEnMP
-         RqiE917YGh2MgXzI1uMkqkuKMqufrHVq+pZroRaqqqPVFkvEhfMQi1VVZKsQuL1mI5rU
-         pGwOO6THvrlrrn5AWNPd7lNFWI62rIi+Dc6XlL91gwKi65b2LwUxzcE/OEYDLLvISH5j
-         PZyg==
+        bh=8tw5cLiO6wnytINGEVE6XWwraB+DzGxHZd6q+jRn0Qo=;
+        b=XtZ5KHNGIeBKz3mLQ8UprbmuscujRUlD92SCgTvKkb+COOCIqYNyW5gt/7VqHfiE4t
+         kwQx0PFVwECi/mbynVnKZPA8CGXpauV1Dizd9vD9r6kIbQUdyZqRRby2hoQYclcySLFp
+         rwjoCDfzOSnliaziB0viJg9c140o6yHdt+g90f3RDDnsfy3fEVOsEDZ/hqnv2h/ZSMTO
+         MEbLnSb4kxFeocrC0Lhma4nAqBi0YuhOKLVnZj/u/T9Brt1Z/Mm1dlnVqIcLT3slOPlU
+         n3e/1Qo1OVESqk8Mj2I5ufQhk2tPqgnL1Potq6zJEOCCY+mvojWKQTwHAPuTpk38yuJR
+         Th2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724287563; x=1724892363;
+        d=1e100.net; s=20230601; t=1724287793; x=1724892593;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=iBNlowdOWSl10OVciaBXJoWLTKHB1MfSEqNmoSmAPy0=;
-        b=oQKHxhYF/EkfyHF/8WvYgwIPgJw8aSPGPHZEPCVa090sZPNI2zsAHdTDKuSaecnRgd
-         cSQwh+XZ1d4tqjYuKbQBvLdiPsqZzPMjsYw4RL4i2dCELnPPbVSzNLBNdaEiLOJqnbEQ
-         /apj+TCOsgOr2jkYrs5NZLOVAwEHYjGT/ebG/NEfzqSsiFcIcre+n9iHCZD263rfTZfO
-         oeyruugL4D3iOKUzwyCN/tF8ekGoOugSlosLgixLCNH+yqCnXvjL9op5UiEU7m47D4LT
-         2IkW5MN60MohN0386DWmD8GYvxgb67ak3wLBtOuPy4RI1DQqSbFtVa386z1sdfCSipZB
-         j5YA==
-X-Forwarded-Encrypted: i=1; AJvYcCUt4JjpcYgLU6tdN74GEjWha5hA+CJ7WjFwva9mgWqQLAVzb6yK3aCE8HYQHxH7MEyAD5RyM0ryKYa5iwpY@lists.linux.dev
-X-Gm-Message-State: AOJu0YzRsCxtaaopDpDF/Y76RiAmSX7GhGRMsEWvhcwo8tNeM3mBeP9Q
-	l9YtNrxXvkQ2+qCxHiuhFlvmOLEI1BMV0u4IqaiC0CCW9B9dWg59
-X-Google-Smtp-Source: AGHT+IH/bjf1naOOqPi5C/0NuQzz4PHsm3FWeNxQhSdv0/HWm++aXaJE5hnZNAX492lNQZ6AiiZ1TA==
-X-Received: by 2002:a05:6870:80cb:b0:261:211:9d0d with SMTP id 586e51a60fabf-2738be524bfmr4580052fac.40.1724287562771;
-        Wed, 21 Aug 2024 17:46:02 -0700 (PDT)
-Received: from pop-os.. ([2804:14c:30:24b4:ab5f:4663:351d:b821])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-714342731acsm252928b3a.88.2024.08.21.17.46.01
+        bh=8tw5cLiO6wnytINGEVE6XWwraB+DzGxHZd6q+jRn0Qo=;
+        b=fjYqFiOEIDqu8zY4RHovA71AxaV62s/jT0cl98i49eubMybdhyQUUbuM3iNYWtD+g3
+         xaiLRGRyb/YH+8rE6njv4kiZucVVLUa5VJp1qWtx3H7BtM0OlxqohV6+1jCEmSlHNgWD
+         m+Gz5C9UlBRRbKVB4h8YwugApQFhwSHaNu0FasGYVHvIVWEmCwmM315nXXPAvQvf4tcb
+         TocqlB75z36726jCBiR1lihZcR0vvze380/kgjz/XnWJVke++QdSx26D2+Ex3sWAVEuk
+         924LwXQaxBmX7epA1ku5vMB56U/s5Vr00WPY4MPk4tcTFYXhGJq7UopMmaTrRVhAJIbC
+         7P5g==
+X-Forwarded-Encrypted: i=1; AJvYcCVxuf+273ojmcWL6LvVcX+uCznv0ddcjhT7shxsRZaNboye5h3qk1SZUxWITj+2Y6wtzYLWIIv04q8tQHgu@lists.linux.dev
+X-Gm-Message-State: AOJu0YzmoXSOvV0tLll5ClrPmfotibnQRw7DB/l8M4jjuh0OHlVGNtd0
+	WeUoBGHMT8WEucnT42mdKLlD1j/TR/t/tEBUdKoreUtAn+AY6MPU
+X-Google-Smtp-Source: AGHT+IECJLsEhyFo7Za/jVB5clI3+X86rnYOL6uziPIj9ErLnw1RmP2dNAX6v3lsVzauwnm0qHxvdw==
+X-Received: by 2002:a05:6a21:e85:b0:1c4:9f31:ac8f with SMTP id adf61e73a8af0-1cad81447c0mr3939501637.37.1724287792739;
+        Wed, 21 Aug 2024 17:49:52 -0700 (PDT)
+Received: from localhost.localdomain ([2804:14d:baa2:9074::1002])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2d613af14a1sm267398a91.45.2024.08.21.17.49.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Aug 2024 17:46:02 -0700 (PDT)
-From: =?UTF-8?q?T=C3=BAlio=20Fernandes?= <tuliomf09@gmail.com>
-To: gregkh@linuxfoundation.org,
+        Wed, 21 Aug 2024 17:49:52 -0700 (PDT)
+From: Hans Buss <hansbh123@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	~lkcamp/patches@lists.sr.ht
-Subject: [PATCH] staging: rtl8192e: Fix parenthesis alignment
-Date: Wed, 21 Aug 2024 21:45:58 -0300
-Message-Id: <20240822004558.14638-1-tuliomf09@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Subject: [PATCH] stagging: rtl8192e: fix alignment parenthesis
+Date: Wed, 21 Aug 2024 21:49:34 -0300
+Message-ID: <20240822004939.153517-1-hansbh123@gmail.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Fix parenthesis alignment in rtl92e_set_rf_state in order to rid
-the following warning:
+	Fix alignment parenthesis in _rtl92e_wx_set_encode_ext.
 
 CHECK: Alignment should match open parenthesis
 
-Signed-off-by: Túlio Fernandes <tuliomf09@gmail.com>
+Signed-off-by: Hans Buss <hansbh123@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/rtl8192e/rtl8192e/rtl_wx.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-index 9eeae01dc98d..ad21263e725f 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-@@ -173,7 +173,7 @@ bool rtl92e_set_rf_state(struct net_device *dev,
- 				else
- 					priv->blinked_ingpio = false;
- 				rtllib_mgnt_disconnect(priv->rtllib,
--						      WLAN_REASON_DISASSOC_STA_HAS_LEFT);
-+						       WLAN_REASON_DISASSOC_STA_HAS_LEFT);
- 			}
- 		}
- 		if ((change_source == RF_CHANGE_BY_HW) && !priv->hw_radio_off)
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c b/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
+index c21a0560410a..fc8e7f73b2a4 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
+@@ -675,7 +675,7 @@ static int _rtl92e_wx_set_encode_ext(struct net_device *dev,
+ 		u8 idx = 0, alg = 0, group = 0;
+ 
+ 		if ((encoding->flags & IW_ENCODE_DISABLED) ||
+-		     ext->alg == IW_ENCODE_ALG_NONE) {
++		    ext->alg == IW_ENCODE_ALG_NONE) {
+ 			ieee->pairwise_key_type = ieee->group_key_type
+ 						= KEY_TYPE_NA;
+ 			rtl92e_cam_reset(dev);
+@@ -710,7 +710,7 @@ static int _rtl92e_wx_set_encode_ext(struct net_device *dev,
+ 			rtl92e_set_swcam(dev, idx, idx, alg, broadcast_addr, key);
+ 		} else {
+ 			if ((ieee->pairwise_key_type == KEY_TYPE_CCMP) &&
+-			     ieee->ht_info->current_ht_support)
++			    ieee->ht_info->current_ht_support)
+ 				rtl92e_writeb(dev, 0x173, 1);
+ 			rtl92e_set_key(dev, 4, idx, alg,
+ 				       (u8 *)ieee->ap_mac_addr, 0, key);
 -- 
-2.34.1
+2.46.0
 
