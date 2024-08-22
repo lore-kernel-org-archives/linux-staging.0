@@ -1,98 +1,93 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 093401BC43
-	for <linux-staging@lists.linux.dev>; Thu, 22 Aug 2024 00:25:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00C3A4405
+	for <linux-staging@lists.linux.dev>; Thu, 22 Aug 2024 00:25:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724286310; cv=none; b=J4j9H4cV+L5LbuaEhEaaOsN9PkaKUiMahfQ4KFRw+Eb8fGzMvKJ+qZlWDYknnX9ISO6Qn9Bo9xgzci1WbcaQ8F3ZgvLBPTmPrSlbQwgjoQzC/FGILVzNRwhdO+QQ+nElrFsUYBe9t4zGfLcQJRH3FGSTCa+DWjEikwa0aTqf86w=
+	t=1724286333; cv=none; b=N5xAksYKboJWAoNaw1fNRFcjumye8klXiVKJMX3hN3+oSqS+8sX6YZ9T/NyRoRgsAlzXCHkkI0COzdnSLufnhdJEi+7cOCf8xOu6vRucXgpE/+Klb4evPdUTbXoBBJNh3KLLg9SBu7o9wG9ji1nUd45Bng7sU7sTu/Pn5MMbvwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724286310; c=relaxed/simple;
-	bh=aYWcy9/YcGAD0L5BqcJlxyeMVuh8DstfX11wptGrTBI=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=oJG4vgAEfRSORMWWih+SIh0h+9KuB3GibJqNDynHF7UXAkNJ0YUQIDhlfdWMOT97uxLxn+8hJx+ZuVR+QYWNPp4O7Q7+Kg4+PK6fpDxzlQ+3WOUGdSkNt9+8HzbjNvUOHT4pbdoP6ZsYRPUfh6/yiu4Y3+/wxKEMpf5KlfTXqe8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T2+B+X3d; arc=none smtp.client-ip=209.85.210.173
+	s=arc-20240116; t=1724286333; c=relaxed/simple;
+	bh=QzOtKAA0FeDdpIImmhCmZ1ahoJVp1wd6RSXq6J78zOY=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version; b=o2eqhqteY5K9kQp02PL/4Jo5vaJJiMgO0rf2LTNi/MgWB0s8Z14QJ5AaPbxFjdKYLuNeIWLky0ALW7KfJnDb0L6hCMIpvGh/ioCBzwooB6tslCxFLY2YH23bfwaHm1l7unR1c74L2DOGpZqlgA2G0nsez0lOVRJ6bNydiz6k4Vs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A7W/1t2E; arc=none smtp.client-ip=209.85.214.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T2+B+X3d"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-714262f1bb4so237372b3a.3
-        for <linux-staging@lists.linux.dev>; Wed, 21 Aug 2024 17:25:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A7W/1t2E"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1fec34f94abso2393185ad.2
+        for <linux-staging@lists.linux.dev>; Wed, 21 Aug 2024 17:25:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724286308; x=1724891108; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1724286331; x=1724891131; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=yvGSlWgR2YHI06x+1roFY5gCQ/Tq2p/PLpW4gKEXuQY=;
-        b=T2+B+X3driZ3FveNcNMlCz19iUIh2eP4bByLLKy3lBAym+JWHe/x/9kgvg3/roqIul
-         0KMRIAZOuYNQECKmX329dnIksT54EsPl+rt4IMS+xIrL+TZQCPDvYt72HM3XmfhA4Eow
-         8Ng4z3XbtSWx15RbUJU9wYKxToUkiUBcDOkHUIbSu4r9ROEw3PKGoyLwxqC/1AVKkOcG
-         2OwSbfxovW0OAWHqXSHK7WsFRbiYwpFGlU6qy5xnA4Hm+H7XZ5aZpOAI5IF19rwjlSDE
-         2hHsxeqRIXkGVc8xeBBdunh6Xopwf/JEs1UTz1RZvWOw1CvSxENkf8+Pc1e2TJJ8zHKL
-         PQEg==
+        bh=mvCQ5CqSkFA92AZgqJWLa2tJed5PdJScQ7an8WkJIkc=;
+        b=A7W/1t2E0HoAA+hVojgil7RjOvjLHKBViIVoUw0U1ZxImea2SVjy7QwEnO9wZRWnqU
+         C9DwlJ82V8uXtSsl4C1D70Pf+g7BQmHvZIr77mb1q242AQ7bUlAuHv9vlxPrtxzE1pNW
+         cIjHUbritk3w1gTVyhpLPUK+2J0N/Vi8EgJlNJQckntGl8EKyHampQZzH8nBrjuD38wV
+         BzYcprWPjUDMZud/fTN6hmmMqXRE4omzDHPetTmtZPnbANyovRndOIQtXKJNVv1StQSK
+         LhZq0jn8YsUjk21bwWCmDojqOMLQjDBGYVzQX9bYfXGmfFrftteIHrkb95v/CGcJQT8h
+         ouuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724286308; x=1724891108;
+        d=1e100.net; s=20230601; t=1724286331; x=1724891131;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yvGSlWgR2YHI06x+1roFY5gCQ/Tq2p/PLpW4gKEXuQY=;
-        b=qDaxwv5WGIMwnu9FNrXV8N5VU9zKPvqDIRRPnB8a9sST/MW3yNQK28C166WlRvsNcD
-         XOLNCCTvUiuzQuvJJhOT2fK3uFhfFyqF0VscyAc2HqV4wGNdera7VWXf/i46j7hYQTQg
-         KkmKwf/tL5FFuPk+3anJz60rKsUqR2/WHsA7n0HV4vaDa5pF7J6adzDUPGEVg7nKKIMt
-         aGEO2Hgw+kVYsa+CUDgXxT9ufxNId3ftIk1EX63x1S30LMJFL7xBbBUBV5dogC8xZrGG
-         MIsBFj0hIy3ZEoCjcQNEtl0lO0tEStdg92nmukQhB4UMjdIJW1rGfxuXgKjFd//C3B8n
-         3cOQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVnG+gQQfL2e8Jdhdc/Gof1s1C01wPaIHcHcZk3zD/MT23arMpaqmF/vucixJgy0It5moF4Q2B4H0u2zVBk@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywj2Dt8dm5Kqq2jFg7AdY2IA0/Kp++05pktFWZXY3KLbo6nqjCC
-	sK0IzmfdI7UJmw6SuULvCrvQ/tUdY63aox+ammMqQuuXoQbjlSS8
-X-Google-Smtp-Source: AGHT+IEH6iDa2lnrMavByxDDh1AHFBz+yklxGqZZiLR9qrjuSM7XznYXjztVOEEDvK8I12B8CbExJQ==
-X-Received: by 2002:a05:6a00:4fc9:b0:714:20a8:d79f with SMTP id d2e1a72fcca58-714364d3b95mr264426b3a.14.1724286308204;
-        Wed, 21 Aug 2024 17:25:08 -0700 (PDT)
-Received: from reitoria-Aspire-A515-54.unicamp.br ([2801:8a:c811:1:4f42:fbc7:16d8:e311])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7143433ac53sm229206b3a.212.2024.08.21.17.25.06
+        bh=mvCQ5CqSkFA92AZgqJWLa2tJed5PdJScQ7an8WkJIkc=;
+        b=VFQu5Dtt4hsXQUl2oRfkxBbNwCiQHH2x7nHWXnLmYULPPz8ts+7I/KW0olgR7WIKPp
+         jh0K47jRq5ioPg7gJj5L1A6XKoOVJMYIukkwH2P3xn+fOi4L35TjDaSuqbVmH1TH6Dhq
+         atSSjlhENRaF2JjsI4HPwJN/7uxc0wULi6sWx9cR8ww5IOLkHscBg+59WAKfix1QOdav
+         2Q8leFFrVj/sSRskJyT1ni2QltLZA/LLWEMyEHTQEtAMBye3VWQp3axLkV05/NQpgHA2
+         VtMHzcZS5SVXoyoeHBO2AT25iLQowkCgY+PtA1rh7nhwyLPhDtwwVcBq54+n6hL6WM0I
+         qdgw==
+X-Forwarded-Encrypted: i=1; AJvYcCVAR/ckD/cEC9ecrGxTE5+APIalUn3JAlWdE1L4adW8wNmpKqgzlyLTuM4FNBAo/NmvQBa5xjTfl6HtLd1R@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzi6EySwy06Q7HF9CFlN9GIKhQeW9EFVedSZh9ryAPevFviNI3r
+	rBmc7RXjLi405Jqxra5TVQgww7Lc94u0a5EMVaQpD530rD0Pz7PN
+X-Google-Smtp-Source: AGHT+IFDShBAU/E7lr/xr7RCWzt+ZoZy+QBiogwLBYPDN8gHFssHRboTikHVQo59I5ataVhSsdl+rg==
+X-Received: by 2002:a17:903:244d:b0:1fb:82f5:6641 with SMTP id d9443c01a7336-203882248femr4395965ad.23.1724286331116;
+        Wed, 21 Aug 2024 17:25:31 -0700 (PDT)
+Received: from RenanNotebook.unicamp.br ([2801:8a:c811:1:edc2:7c0d:751d:5088])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-203855dd2d7sm1675695ad.169.2024.08.21.17.25.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Aug 2024 17:25:07 -0700 (PDT)
-From: =?UTF-8?q?Jo=C3=A3o=20Pedro=20Le=C3=B4ncio?= <aljpleoncio@gmail.com>
+        Wed, 21 Aug 2024 17:25:30 -0700 (PDT)
+From: "Renan M. S. Florencio" <renanm.florencio@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	~lkcamp/patches@lists.sr.ht
-Subject: [PATCH] staging: rtl8192e: Fix line ended with '('
-Date: Wed, 21 Aug 2024 21:24:58 -0300
-Message-ID: <20240822002502.92583-1-aljpleoncio@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Subject: [PATCH] staging: rtl8192e: Fix indentation in r8192E_dev.c
+Date: Wed, 21 Aug 2024 21:25:26 -0300
+Message-Id: <20240822002526.19757-1-renanm.florencio@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Fix line ended with '(' in _rtl92e_update_received_rate_histogram_stats
-in order to silence the following checkpat warning:
+Fix indentation in r8192E_dev.c to silence checkpatch warnings:
 
-CHECK: Lines should not end with a '('
+CHECK: Alignment should match open parenthesis
 
-Signed-off-by: João Pedro Leôncio <aljpleoncio@gmail.com>
+Signed-off-by: Renan M. S. Florencio <renanm.florencio@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-index b3d4b3394284..1e765a1fee11 100644
+index b3d4b3394284..ec867801bfbd 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
 +++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-@@ -1521,9 +1521,8 @@ static void _rtl92e_translate_rx_signal_stats(struct net_device *dev,
- 	rtl92e_copy_mpdu_stats(pstats, &previous_stats);
- }
- 
--static void _rtl92e_update_received_rate_histogram_stats(
--					   struct net_device *dev,
--					   struct rtllib_rx_stats *pstats)
-+static void _rtl92e_update_received_rate_histogram_stats(struct net_device *dev,
-+							 struct rtllib_rx_stats *pstats)
- {
- 	struct r8192_priv *priv = (struct r8192_priv *)rtllib_priv(dev);
- 	u32 rcvType = 1;
+@@ -1741,7 +1741,7 @@ void rtl92e_update_ratr_table(struct net_device *dev)
+ 	    ieee->ht_info->cur_short_gi_40mhz)
+ 		ratr_value |= 0x80000000;
+ 	else if (!ieee->ht_info->cur_tx_bw40mhz &&
+-		  ieee->ht_info->cur_short_gi_20mhz)
++			ieee->ht_info->cur_short_gi_20mhz)
+ 		ratr_value |= 0x80000000;
+ 	rtl92e_writel(dev, RATR0 + rate_index * 4, ratr_value);
+ 	rtl92e_writeb(dev, UFWP, 1);
 -- 
-2.43.0
+2.34.1
 
