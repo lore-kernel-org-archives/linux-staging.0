@@ -1,36 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7265716B75C;
-	Thu, 22 Aug 2024 07:53:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01F201531D2;
+	Thu, 22 Aug 2024 07:54:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724313222; cv=none; b=Vz+Kp8AitxRcHmF8oIFUw0/BqY6kqwpsRqdErEpDDW0rDhlrJSnqaGBYdpmjJDSYLoqJeJCx+5kYdRy7rq5DzGBPIczBIlMuVowvxuyOZ7i60thhUmvt0LYdkFzaGJ8nMPh5h8jOArfj+3uAY9e1D/2DRs+HiTQNnxBpi9oyVVY=
+	t=1724313293; cv=none; b=SXSoPir4IlmI6WJwrHymidabhIEtyKKy7RaasLg3k/5EalUxwVsCN+p4v7PNYtSPVDhb0xB53FzwtwO4IFGa8DLxsceZvYwxiV7BnWeBI08yG7YiTCYtPEI7XgckndP9AJjqnPOt3phk9hTruFE1AMP9NGSV2VcWjAgTb68KHEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724313222; c=relaxed/simple;
-	bh=/f3AIjt0onoBiYDKjxy9FIz5j3AuSqydza07ABAWslU=;
+	s=arc-20240116; t=1724313293; c=relaxed/simple;
+	bh=IlqsuZ6hZibTkQ0QrRoDCjfhPE1xkMTE176u4XyjfD0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QeIKThVsF5thBlCQlVj69lcRdlbuKX2Fg5WrlmO9m+W/N8LFwbomHHLk0NmB3t2B1IL6Y++e/4hHLsKyI5K//BvCTS3d4fxAYfuDJ7jAkpXKeBmcXppHkDZESb9rJXoXN/vVliqMGwjz4eXVu9DaKoIRozc1L0ZRqMvgDtDwfYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=oipw9fCK; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=SRe7ErLcKtqb9TO86rz8GStCobHz2nh/PDfdPdXTKcyrfxp2zJ/E33BRNrQePJHNZXhKgl0BLv5MnGQ4FQzuLarn2XUAzkggz8Z0heTeIflCb4OruIydh1Qm3NfwywX4ZMEdz8R1Bc0j0DEz4gxZEUFRvBUBW4CxBAvXVIZh0KQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=fOyJ+Q1T; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="oipw9fCK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB7ADC4AF0C;
-	Thu, 22 Aug 2024 07:53:41 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="fOyJ+Q1T"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 260B4C4AF09;
+	Thu, 22 Aug 2024 07:54:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1724313222;
-	bh=/f3AIjt0onoBiYDKjxy9FIz5j3AuSqydza07ABAWslU=;
+	s=korg; t=1724313292;
+	bh=IlqsuZ6hZibTkQ0QrRoDCjfhPE1xkMTE176u4XyjfD0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oipw9fCKeeV9SShVYb9kQAokG17/RuWwB2QqYmPWUkan+4VRety+vm4jPZCoGebh0
-	 m2ZojHHoX9pSIoNP0CnkGNOjo01Qp7gEY+5lI3Ulzi8BsBs7S7iGGxdCGqaYrxWaqh
-	 xbQuYpv09w/zNZZhR5K54GXUqr++LEzo5ydC1+7E=
-Date: Thu, 22 Aug 2024 15:53:39 +0800
+	b=fOyJ+Q1TZsuePJhmNLeq6pJTFrmuYvALVdWM8POsIlBNS1DJO4JTmXyPFUtR+CIYd
+	 GlRAAAiAQM0OSX2a+6+kMG9ePTtQoQavtZlUXEuUTiVBzkFKaMiicr+2QE7OMCpjmG
+	 8x1qXCZN0AN5tff2SjBuiOaDjZm56cFaDwNmbWBc=
+Date: Thu, 22 Aug 2024 15:54:50 +0800
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Ana Carolina Hernandes <anachan.01h@gmail.com>
+To: Gustavo Montenari Pechta <mrpechta@gmail.com>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
 	~lkcamp/patches@lists.sr.ht
-Subject: Re: [PATCH] Staging: rtl8192e: Fix arguments alignment
-Message-ID: <2024082207-enunciate-whacky-e1c4@gregkh>
-References: <20240822003043.10865-1-anachan.01h@gmail.com>
+Subject: Re: [PATCH] staging: rtl8192e: Fix camel case
+Message-ID: <2024082207-backroom-botany-30ae@gregkh>
+References: <20240822002733.27609-1-mrpechta@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,51 +39,20 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240822003043.10865-1-anachan.01h@gmail.com>
+In-Reply-To: <20240822002733.27609-1-mrpechta@gmail.com>
 
-On Wed, Aug 21, 2024 at 09:30:43PM -0300, Ana Carolina Hernandes wrote:
-> Fix the alignment of arguments in function _rtl92e_query_rxphystatus in
-> order to silence the following checkpatch warning:
+On Wed, Aug 21, 2024 at 09:27:30PM -0300, Gustavo Montenari Pechta wrote:
+> Fix camel case on variable name to match style convention
 > 
-> CHECK: Lines should not end with a '('
-> 
-> Signed-off-by: Ana Carolina Hernandes <anachan.01h@gmail.com>
+> Signed-off-by: Gustavo Montenari Pechta <mrpechta@gmail.com>
 > ---
->  .../staging/rtl8192e/rtl8192e/r8192E_dev.c    | 19 +++++++++----------
->  1 file changed, 9 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-> index b3d4b3394284..bca6e4f57bf2 100644
-> --- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-> +++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-> @@ -1145,16 +1145,15 @@ static long _rtl92e_signal_scale_mapping(struct r8192_priv *priv, long currsig)
->  			_pdrvinfo->RxRate == DESC90_RATE11M) &&\
->  			!_pdrvinfo->RxHT)
->  
-> -static void _rtl92e_query_rxphystatus(
-> -	struct r8192_priv *priv,
-> -	struct rtllib_rx_stats *pstats,
-> -	struct rx_desc  *pdesc,
-> -	struct rx_fwinfo   *pdrvinfo,
-> -	struct rtllib_rx_stats *precord_stats,
-> -	bool bpacket_match_bssid,
-> -	bool bpacket_toself,
-> -	bool bPacketBeacon,
-> -	bool bToSelfBA
-> +static void _rtl92e_query_rxphystatus(struct r8192_priv *priv,
-> +				      struct rtllib_rx_stats *pstats,
-> +				      struct rx_desc  *pdesc,
-> +				      struct rx_fwinfo   *pdrvinfo,
-> +				      struct rtllib_rx_stats *precord_stats,
-> +				      bool bpacket_match_bssid,
-> +				      bool bpacket_toself,
-> +				      bool bPacketBeacon,
-> +				      bool bToSelfBA
->  	)
+>  .../staging/rtl8192e/rtl8192e/r8192E_dev.c    | 32 +++++++++----------
+>  1 file changed, 16 insertions(+), 16 deletions(-)
 
-So close, why leave the ")" on the line all by itself there?  It needs
-to go up one line, didn't checkpatch tell you that when you ran it on
-this change?
+This doesn't apply due to it conflicting with another change that
+someone else in this "group" just submitted for this file and function
+that came in before yours.  Please rebase your tree on the latest
+staging-next branch and resend it.
 
 thanks,
 
