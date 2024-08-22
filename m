@@ -1,36 +1,62 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01F201531D2;
-	Thu, 22 Aug 2024 07:54:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D086516DECB
+	for <linux-staging@lists.linux.dev>; Thu, 22 Aug 2024 09:10:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724313293; cv=none; b=SXSoPir4IlmI6WJwrHymidabhIEtyKKy7RaasLg3k/5EalUxwVsCN+p4v7PNYtSPVDhb0xB53FzwtwO4IFGa8DLxsceZvYwxiV7BnWeBI08yG7YiTCYtPEI7XgckndP9AJjqnPOt3phk9hTruFE1AMP9NGSV2VcWjAgTb68KHEg=
+	t=1724317816; cv=none; b=KYL50SGPS4VnQfZagM+g15YZmfUx9y98C24SxuLEOroO8X7HyU769Q73deQebLV3DsySN+mJOHef5C47eduIGAVgPiBqmiHsLYGDGMz1286u1zP2eDp/M/CH+W2s4T8ioW/MO0FGoIVpWf+1FgYG4b/MHDP2ARHooHC2LgW2qh8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724313293; c=relaxed/simple;
-	bh=IlqsuZ6hZibTkQ0QrRoDCjfhPE1xkMTE176u4XyjfD0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SRe7ErLcKtqb9TO86rz8GStCobHz2nh/PDfdPdXTKcyrfxp2zJ/E33BRNrQePJHNZXhKgl0BLv5MnGQ4FQzuLarn2XUAzkggz8Z0heTeIflCb4OruIydh1Qm3NfwywX4ZMEdz8R1Bc0j0DEz4gxZEUFRvBUBW4CxBAvXVIZh0KQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=fOyJ+Q1T; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1724317816; c=relaxed/simple;
+	bh=ybYsApgZOEJ6/pRfYb7q8UaGc2q2F6iYlqXG5jCYmBU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=h/gFNDiqvSuwFs4tPMaJ/szerTf0OqnAmMFzkjl2PAfEP7FwhOau+Iwgp/BOCGHWR4IMbbkbhVSnIjXG/WWXFQgaZeN3j8M4Zxi6rvG2w1d/UeXu76SBM1faduVbXce23aayYuWjK/fq3Z+mXJABQU5Pe0VIVucSJlLAG4BWd+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=e7VdmDqM; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="fOyJ+Q1T"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 260B4C4AF09;
-	Thu, 22 Aug 2024 07:54:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1724313292;
-	bh=IlqsuZ6hZibTkQ0QrRoDCjfhPE1xkMTE176u4XyjfD0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fOyJ+Q1TZsuePJhmNLeq6pJTFrmuYvALVdWM8POsIlBNS1DJO4JTmXyPFUtR+CIYd
-	 GlRAAAiAQM0OSX2a+6+kMG9ePTtQoQavtZlUXEuUTiVBzkFKaMiicr+2QE7OMCpjmG
-	 8x1qXCZN0AN5tff2SjBuiOaDjZm56cFaDwNmbWBc=
-Date: Thu, 22 Aug 2024 15:54:50 +0800
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Gustavo Montenari Pechta <mrpechta@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	~lkcamp/patches@lists.sr.ht
-Subject: Re: [PATCH] staging: rtl8192e: Fix camel case
-Message-ID: <2024082207-backroom-botany-30ae@gregkh>
-References: <20240822002733.27609-1-mrpechta@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="e7VdmDqM"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a7ab5fc975dso69245766b.1
+        for <linux-staging@lists.linux.dev>; Thu, 22 Aug 2024 02:10:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1724317813; x=1724922613; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=bVgTFyhpmaqbY35qFp/vECjvrQaEI0rbaPZeEBcTPdQ=;
+        b=e7VdmDqM4Fe2o20SUiZ3AKlQMRupcv4FtnaIgHFwVir7NQCEJz0USPQTyOL9HtdA9k
+         qxqsn0gZNG7+LRuAy+3ZBoexXbz/muwbDimM+1vouli2jk6sLbNMXnYRpF0hBvChbM+z
+         +bw++Mw5xklVjdhq4M7IhBGiYZqGjy4Gh7xHCtvwg1HWuKw5zoHOa0nudMrxJw+Nptp5
+         b8itBAc+uWvKbkfMLRFj4nC+gsMevDP9gnGOJAxoi2PvfxTwCRreQqPC1UlvW9EOnYvr
+         5lFZuNLdnKNpjbrDeYYZMAfGfMM5tN0prfyYqjJe1ZaBELuZF/uOJLfWAC7n9RtCYEba
+         3lPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724317813; x=1724922613;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=bVgTFyhpmaqbY35qFp/vECjvrQaEI0rbaPZeEBcTPdQ=;
+        b=AVaPowxFoldwjXn4zQtpc186ZBN6AsgedUMxNB+wvM9F5LR6HTt/F7fuYp62IQ13Xk
+         xiWDhhZegxm9R9YtGzglm2CgqoQ3scAWhKoIyM5ZKCz5iG5pmkMm0pmDrgYoTAe4qHsV
+         3Ez0TgAWHEAedGNYobjRx5FIkuP9zTey7X4MFsWBCwxu760tP1Ryob8ebm+BJoJ7jfAA
+         D+bQOdy7Qlg3AOEGlgOBoNP31S3fbwV92KE1k3dK4jPsBc6lL+JWZ3WGFLiublQeLpxC
+         TwpEJ3/GBSSxYYPRJqhG3e4I1qRT35c9UDgmz/spons2yjYNrmSdKvH9kPReU+MhTU+a
+         Tabw==
+X-Forwarded-Encrypted: i=1; AJvYcCXn9usSaqJ6dBnkpR6Xq5EJeyTP5umoVJs0Ff/ImQHbIa4LjvQ5BR/qx4xZZe538PdyFBn3b429hc4PRO7J@lists.linux.dev
+X-Gm-Message-State: AOJu0YyV3SSgEDcs51Bw8nFmymas4PU9ArU/YZAeR6nGqeJYO1gVMScC
+	5sUvkllWyj3OCval+TdnlhwDKkKnyy6K4jjaUsFEQQxwVVxctiCOVD2gYsKdU9Y=
+X-Google-Smtp-Source: AGHT+IFZpd8+DzI4eocGXYV3wUHZIouiGyT0tqq1w47dUnX5foSQWpVUu2xqvsqykfxZn/J6YbC4HQ==
+X-Received: by 2002:a17:907:1b21:b0:a80:f81c:fd75 with SMTP id a640c23a62f3a-a866ee6f3fdmr425070666b.0.1724317813051;
+        Thu, 22 Aug 2024 02:10:13 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a868f4360c0sm88330566b.108.2024.08.22.02.10.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Aug 2024 02:10:10 -0700 (PDT)
+Date: Thu, 22 Aug 2024 12:10:06 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: ~lkcamp/patches@lists.sr.ht
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: rtl8192e: Fix parenthesis alignment
+Message-ID: <263d9471-0bcf-404d-be14-9dcf9b55efdf@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,21 +65,11 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240822002733.27609-1-mrpechta@gmail.com>
 
-On Wed, Aug 21, 2024 at 09:27:30PM -0300, Gustavo Montenari Pechta wrote:
-> Fix camel case on variable name to match style convention
-> 
-> Signed-off-by: Gustavo Montenari Pechta <mrpechta@gmail.com>
-> ---
->  .../staging/rtl8192e/rtl8192e/r8192E_dev.c    | 32 +++++++++----------
->  1 file changed, 16 insertions(+), 16 deletions(-)
+Hi people,
 
-This doesn't apply due to it conflicting with another change that
-someone else in this "group" just submitted for this file and function
-that came in before yours.  Please rebase your tree on the latest
-staging-next branch and resend it.
+I didn't know who to email because about a hundred and fifty people sent a patch
+with the above subject.  The subjects need to be unique.  ;)
 
-thanks,
-
-greg k-h
+regards,
+dan carpenter
