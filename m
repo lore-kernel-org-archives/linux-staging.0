@@ -1,90 +1,76 @@
-Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+Received: from sendmail.purelymail.com (sendmail.purelymail.com [34.202.193.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF0111F95E
-	for <linux-staging@lists.linux.dev>; Thu, 22 Aug 2024 01:24:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.252.153.129
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24B711CD15
+	for <linux-staging@lists.linux.dev>; Thu, 22 Aug 2024 01:28:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=34.202.193.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724289852; cv=none; b=SsFSlqIF7J6UWh5uEL4+olIUqO661QMay9kCUHNKBYyRR/0cZj4FoShizn6f4UXfRMJDqMESZ/yP+LS2wAX7E2f2fww+GYgwlI604vuE8xJ7QGwLXaiPSgKkGGat0U+WPrtVdqocJwiKmZCmAh0ewlpIu8w5GnOQG7ER8u44iYc=
+	t=1724290106; cv=none; b=kC/u+A/b8X7i9PFr3wA80PfOsQQGhjf4JytKDAiSNaWDyftqXGXIs5Hy7MXH02NRaqZ0FHlab3kaEI+u3E7YoZJ1qr/mARvd833MP1p66JrDUXDRu9QN7zG6pv7UClZF2YqKRbWT3puXeuAb4JihvwCOML1UdMDWcmAGaxzZ4Lw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724289852; c=relaxed/simple;
-	bh=0ocl6vAjLUjMe85M4UYlMut9slATQNpCCmfh9xaJJrE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:Cc:From:
-	 In-Reply-To:Content-Type; b=na2pQI/k3TC/vTbyAI3hLFzEzbofycSrQvickLroTW4O/31P26/qzfoaoL6WTFV1P5n6wcKK+nLPBOJJy6la1cCK/igE6gDwefsjq3BeLidNrKaIRANdWZwwtupb9frIRMixs+LXz3pn2DcwUY/lC3H5pQEnJqTcMa/ajv2Tjgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net; spf=pass smtp.mailfrom=riseup.net; dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b=Ad+9D14T; arc=none smtp.client-ip=198.252.153.129
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riseup.net
+	s=arc-20240116; t=1724290106; c=relaxed/simple;
+	bh=xzfTTgldfq6EqhWfiyVE070QtZX8+IPYluuroBdLPpU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=OD0hgUDPrOsyy/36PXlzHkcgyK+OrY/sYYX7AHjZ5IWB9gu9ctXL2QdtUyeoeIFnqYXGjPUVcRgpHo89M8ttkdTrupxzQvoQZIwQ5DpW4vS0oc14ee1lHuVNsyjRxysAixIZqMtgc7h547IJOaok9FcQ6TF1v+IgxG4qWdZ+rBw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lkcamp.dev; spf=pass smtp.mailfrom=lkcamp.dev; dkim=pass (2048-bit key) header.d=lkcamp.dev header.i=@lkcamp.dev header.b=bfhAfKoN; dkim=pass (2048-bit key) header.d=purelymail.com header.i=@purelymail.com header.b=E1ZXsVDY; arc=none smtp.client-ip=34.202.193.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lkcamp.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lkcamp.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b="Ad+9D14T"
-Received: from mx0.riseup.net (mx0-pn.riseup.net [10.0.1.42])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx1.riseup.net (Postfix) with ESMTPS id 4Wq50M4MRgzDqXv
-	for <linux-staging@lists.linux.dev>; Thu, 22 Aug 2024 01:17:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
-	t=1724289443; bh=0ocl6vAjLUjMe85M4UYlMut9slATQNpCCmfh9xaJJrE=;
-	h=Date:Subject:To:References:Cc:From:In-Reply-To:From;
-	b=Ad+9D14THckjejkPvQ15Iesar/CNcSphMzNurEtjl5pfb0LYHp5dO0sOg/QZc82Cp
-	 EA//4LjzISuIg/vRCHV2f1yv468FuHjvgbVJ8wVe1NOt9/de3iCeEP+O+Txx8zVUIt
-	 pfwdK+VrQ47JUQa7PdG8Oil0xUk0Rx0DDpSq51yw=
-Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx0.riseup.net (Postfix) with ESMTPS id 4Wq50D5qbvz9tN3;
-	Thu, 22 Aug 2024 01:17:16 +0000 (UTC)
-X-Riseup-User-ID: 544F8F7C7C3A49EB88682F1EC5343E8C89F0D55A160541232EC9FAD805D6580D
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	 by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4Wq50C12Y3zJn1j;
-	Thu, 22 Aug 2024 01:17:14 +0000 (UTC)
-Message-ID: <d607cf0d-4de1-4a18-8075-d8f3fff98373@riseup.net>
-Date: Wed, 21 Aug 2024 22:17:12 -0300
+	dkim=pass (2048-bit key) header.d=lkcamp.dev header.i=@lkcamp.dev header.b="bfhAfKoN";
+	dkim=pass (2048-bit key) header.d=purelymail.com header.i=@purelymail.com header.b="E1ZXsVDY"
+DKIM-Signature: a=rsa-sha256; b=bfhAfKoNsjXXrf0jEFfm2KJ2qK8kxg3/bRNl9i/wvp3uLguK98v5tOCSLWvSOR+3Qs725D6JK8mad9WiT4ZMyN3SGBQb29k/4i5iuvdklly5FZBdSGnPYHh0WjIav+uttffr8vhb0dqL0XfcuVmNICotIDxxg/h5l8cZpK4jnrFE+xq0BzN3DzBnws5pIuD+xz3CHP/jJgsmdQfxOsueDuOwMRwtlPEPBh6sVLUmXu7LnkY7Wf79bOLKBxuxWGR/E3kGV/WXr5fxqu16uGg+URS78xBOa5mfkWT2eumoGQhPtrns82IsdpbvF23QaEBH8Wr0Y1YyXsE8UMoUQfnRag==; s=purelymail2; d=lkcamp.dev; v=1; bh=xzfTTgldfq6EqhWfiyVE070QtZX8+IPYluuroBdLPpU=; h=Received:Date:Subject:To:From;
+DKIM-Signature: a=rsa-sha256; b=E1ZXsVDYZDMDcUwPFUbGSckH5c+hcuhroQEbD4mSl5DJf43I2CN9Wa6fBti1amBMaVzoSV20I8HF8+dGzowMkTnhhfP3Ii3nyr+XkCzlnYbzpjoqYvjMZJ1/2kM2xjT1J9MGz+w07p8+HjOOnxPn2yikDsF3GkNa20ZW33tUGtaeIMH1OEGuGkUaZydvOVZNpt2KY8Oyv4L1/L3WkmN65KtfqSeXzkjJAS8nSflVvjqZjlEccnhYaqlBt/+HpAA6TMSou5N6ueXhLW/PsrTYTeprvmyYVJdGwW/XyjQ3cho/GqHiTWxFaepzPcn3a/X+4vvrKWKCosErjixzC83ksA==; s=purelymail2; d=purelymail.com; v=1; bh=xzfTTgldfq6EqhWfiyVE070QtZX8+IPYluuroBdLPpU=; h=Feedback-ID:Received:Date:Subject:To:From;
+Feedback-ID: 40598:7130:null:purelymail
+X-Pm-Original-To: linux-staging@lists.linux.dev
+Received: by smtp.purelymail.com (Purelymail SMTP) with ESMTPSA id -707946825;
+          (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+          Thu, 22 Aug 2024 01:28:18 +0000 (UTC)
+Message-ID: <781f552c-3f8e-4b70-b73e-3a23da8b329b@lkcamp.dev>
+Date: Wed, 21 Aug 2024 22:31:31 -0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH] stagging: rtl8192e: Insert spaces around '|'
-To: Hans Buss <hansbh123@gmail.com>
-References: <20240822003156.141717-1-hansbh123@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: rtl8192e: the alignment now matches the open
+ parenthesis
+To: Wallysson Oliveira <wallyssonryu@gmail.com>, gregkh@linuxfoundation.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ /home/sholum/Unicamp/LKCamp_Oficina/linux/~lkcamp/patches@lists.sr.ht
+References: <20240822002920.11753-1-wallyssonryu@gmail.com>
 Content-Language: en-US
-Cc: linux-staging@lists.linux.dev, ~lkcamp/patches@lists.sr.ht,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org
-From: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeida@riseup.net>
-In-Reply-To: <20240822003156.141717-1-hansbh123@gmail.com>
+From: Gabriela Bittencourt <gbittencourt@lkcamp.dev>
+In-Reply-To: <20240822002920.11753-1-wallyssonryu@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi Hans,
+Hi Wallysson,
 
-Em 21/08/2024 21:31, Hans Buss escreveu:
-> From: Hans Buss <hans.buss@mailfence.com>
+On 8/21/24 9:29 PM, Wallysson Oliveira wrote:
+> The line 994 in the file drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
+> was not alingned with the open parenthesis.
 > 
-> Insert spaces around '|' to adhre to Linux kernel coding style.
-> 
-> CHECK: spaces preferred around that '|' (ctx:VxV)
-> 
-> Signed-off-by: Hans Buss <hans.buss@mailfence.com>
+> Signed-off-by: Wallysson Oliveira <wallyssonryu@gmail.com>
 
-There's a small typo in your commit message, the correct name is 
-staging, not "stagging".
+There's a small typo in your commit message, in "aligned".
 
 > ---
->   drivers/staging/rtl8192e/rtl8192e/r8192E_hw.h | 2 +-
+>   drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c | 2 +-
 >   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_hw.h b/drivers/staging/rtl8192e/rtl8192e/r8192E_hw.h
-> index 1b444529b59c..e507593b939c 100644
-> --- a/drivers/staging/rtl8192e/rtl8192e/r8192E_hw.h
-> +++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_hw.h
-> @@ -229,7 +229,7 @@ enum _RTL8192PCI_HW {
->   				RATR_MCS6 | RATR_MCS7)
->   #define RATE_ALL_OFDM_2SS	(RATR_MCS8 | RATR_MCS9 | RATR_MCS10 |	\
->   				RATR_MCS11 | RATR_MCS12 | RATR_MCS13 |	\
-> -				RATR_MCS14|RATR_MCS15)
-> +				RATR_MCS14 | RATR_MCS15)
+> diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
+> index 18b948d4d86d..c7ee71c60a84 100644
+> --- a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
+> +++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
+> @@ -956,7 +956,7 @@ void rtl92e_init_gain(struct net_device *dev, u8 Operation)
+>   					 (u32)priv->initgain_backup.cca);
 >   
->   	DRIVER_RSSI		= 0x32c,
->   	MCS_TXAGC		= 0x340,
+>   			rtl92e_set_tx_power(dev,
+> -					 priv->rtllib->current_network.channel);
+> +					    priv->rtllib->current_network.channel);
+>   			break;
+>   		}
+>   	}
+
+Thanks. :)
