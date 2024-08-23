@@ -1,63 +1,68 @@
 Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com [209.85.214.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A51968469
-	for <linux-staging@lists.linux.dev>; Fri, 23 Aug 2024 00:09:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81E2823A6
+	for <linux-staging@lists.linux.dev>; Fri, 23 Aug 2024 00:09:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724371759; cv=none; b=H+IINEEkrEVyljmdUFXqMkFWMFP83sAiL4CSCkoiu0oN2UYkeHzx41d+tTWqp9u0dlr3Eu0/8+TP4H6qkUikVygPPjkQ/AWRiWf6xdY8Thx3sxNyxYK3ua5u3ybtZ08L3l3CHE+7p8NwfxKu3Lye9TRrTAYi62wITk3qJcK+2z0=
+	t=1724371764; cv=none; b=TcpXgpMihXgBzU0UwfjgBScluPO620eKBHetDUKn/q+zo/bjYmQrHqyx4zC/tx1Sas3VKtO99NLGE9cBu8CMf6pFRjW+sS11p3VCsuWTHoIPOg5InFId8fM2DsPy+W2NpTGBilyI8b/dOCtIyL6IeqDwf0DymOCW0lNFSo4zaP8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724371759; c=relaxed/simple;
-	bh=m+c/5MW45/tyWu35EmD+BgkxwEXyCv8Vzt7r3uTYj60=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=sX+g0bgDMm/Zl4aBHCbU/WKXtqNdAJEnQ8hIlDxGBZIdgMt4jX04QFXGO5S9BYz444lmeTCp9iWsKTLJ5JGlOYbfyj1D2BZCI+11jJ/+Nn02bPXvqIhfrKvaWaqiJbQ5seVDMK3DKuRAiTLCPzSHXlMg2n4qyjkZ+3DDepICXNo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Nf2Pptlb; arc=none smtp.client-ip=209.85.214.194
+	s=arc-20240116; t=1724371764; c=relaxed/simple;
+	bh=hA27Acavu2EyyJ2z4AyZaycmGEzHi0d+myJUi+8/jEU=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=G3Pnz1CX1YV991cty4+YC1p/mG/U2khUVX2/7WeI3fRmn3VCS91DBV0bpgk+2/ZgPrnXyCtzJfAvUdCdtakiDYv+BVZMYv8N7WAJ6z6G3auNt7fGdzdhfJnzF0Ku9CCKFlAtUAWamOqSCqTh/hUnEIjwOy/+0evtAaXLSC8Umh4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HOXsmGug; arc=none smtp.client-ip=209.85.214.194
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Nf2Pptlb"
-Received: by mail-pl1-f194.google.com with SMTP id d9443c01a7336-2020b730049so12190475ad.3
-        for <linux-staging@lists.linux.dev>; Thu, 22 Aug 2024 17:09:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HOXsmGug"
+Received: by mail-pl1-f194.google.com with SMTP id d9443c01a7336-1fc611a0f8cso12264765ad.2
+        for <linux-staging@lists.linux.dev>; Thu, 22 Aug 2024 17:09:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724371758; x=1724976558; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=uhCLT7fR2S11sGpguefXbB0hpgKF8eSfcW6dqtZgfug=;
-        b=Nf2PptlbG9L8Vr7mpovX8hwsFX108wF1ttPeIi8c8e7VEBk814Zg3sq7e+/VOgpzwu
-         XFUZ/mKFj1QtP4Dm0xaf76EulRiDvBUsBMuCL5rT429tY3mWxPA3ZsDJDSGtgsP8fCDD
-         lZVDLzcbM0CDwLjXGvr4n5a+O4DlGtOul8zfijzROItir1g8u/FnK+Lb9zpwapgBnpYY
-         ZM0L53mxlJ+D8Lvx7abnoF6zkBPbUGlDrcO6wGpM53C+pIPHjM1pL0Ej6/NuL5Z1WLk1
-         kJbojU6DLs5fIkMQKpGf7S9Ms66WBYb7bx52mmM9te9Gxe8T5zLtWajnvTk/IjbuD9OP
-         ue4w==
+        d=gmail.com; s=20230601; t=1724371763; x=1724976563; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Vvt0ex9BegEGtLMzUiCGOFHSA3hOaJJE3WEIXWRzp1k=;
+        b=HOXsmGugyt6qFAjihVdy58zPlKgoJh0mwhlPf11wyA2Yk8Vxnkgam8vyGR2WPfCZ5u
+         uaS+bTI5/NTjIKwmM+uMOJyg0Mp9dMrIw89qRVSCb2LOW/ynr3XJkTbAihcVePcgN38J
+         IfRH1FlJoUEmL7twywURacnAwYQy4S+ILVlyRj1HoV9+qxNG3HrejBPAneLJ76vD0Gvo
+         eH6ECKjXrmR6y6mc2hRYBjMBtVz18t1Ckl/zkaieF2yahMRVVJcuzZ+hSZ22AIJsIl0b
+         UZ9rsy5qmN95nyrN4hDNHzQ2+lW41t5LUJRXGSco7oJnmVu+aIxcmd47fmAtxLTzbbIB
+         39EQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724371758; x=1724976558;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uhCLT7fR2S11sGpguefXbB0hpgKF8eSfcW6dqtZgfug=;
-        b=NeaZmIsKJ8C3Lt3YGlkM6k7G+B2iSASRzIWhcvDjC+0hJXtq6HEV54Q2vEGX3FiAf6
-         k3WTgSzB/kQLIClle6VfayOThjR4t5+7CUsobcpDrEm4yT5Uwijm8mYzeDsfpJtIC4Bg
-         4N8Q2XYVmHVN8nPm0ZtIvGK1Dosq148uI1MwbP2ZCimR7O72kIIR92y8SRjszfVXSQgY
-         CJwZRsTuFaNSKlJAApUMMDnP7voJhzIJkTqtAdyhzx1XYRpnYY9Eo9oRFTYfn4jKVPIE
-         3TEknkmVFS67Jr3vgKaV45BPukZn5iP7N/xqICHX6TOhmcvRRU1v9oau1Y0nUEWqouzc
-         lc6g==
-X-Forwarded-Encrypted: i=1; AJvYcCX+TDocGA1wnmHohRfixocUvmjWaOkG3eURIaRtSKGNmL1soFMFJ6Ed86KTKDEyh7vT95meXrZI0/b4NrY+@lists.linux.dev
-X-Gm-Message-State: AOJu0YxBBd2o6AUrP7Av77iKzBX7PzdxIOVmFMZ2fP4AEwp0EZ8K0NIH
-	lu6zQpdPVW1rcqGIHn1Qp5EYs9gaF8WmJc00UczYZv/wiGFAOP9mKXkqlEYU
-X-Google-Smtp-Source: AGHT+IFVKP0+IFKpmm+pPMDqZRto/w6+b1WOU/Y0tqn8LIBH+hSIT45cGMirmc6aapcaVFhJ1lEtZQ==
-X-Received: by 2002:a17:902:e745:b0:201:f568:b8fd with SMTP id d9443c01a7336-2039e50c509mr5104785ad.42.1724371757550;
-        Thu, 22 Aug 2024 17:09:17 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1724371763; x=1724976563;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Vvt0ex9BegEGtLMzUiCGOFHSA3hOaJJE3WEIXWRzp1k=;
+        b=YLLRggstqTHkP60QvxhAutcH4GozU4yZBxVVOl2X4NaWU2p+HaK/WE+gufVOJbBgXe
+         Q9PyO054g05o8eW/IjUZ+eFCkHHkyYmZtiskzjFDZ0vPL5spLLZXMAXSipjo1XOCwKen
+         V3bbodhYlwxcqQzfeZD6llfUTzmVlgBvfO2mNevOPC9xgtSeFnDFnqMGV0BxANRDboLw
+         dhrnw1H3kqKXjB7YQ6EV4o/93IlDOE6gdZ16ewAMSrmIBV7H6z9PQ7rqkEaifkW/wHmF
+         rkQO9RujhUO60uVz9hPkbXhJ45W0D3x1QzMCXZdy7ptHBcxIpfl2/rq7qJGxoxUDcJSE
+         rElw==
+X-Forwarded-Encrypted: i=1; AJvYcCVKec96Ek8khLFmWy0vIrh7km8je0eMTFpUmnc7KBvJCCLgMv9d4K7bTWeGZNE3CX+1X9ztXIakH4DC81fj@lists.linux.dev
+X-Gm-Message-State: AOJu0YyG+sjjjrAFYThIABAMd1xEKHkjb5EMS5DV/uVEtZE0RgMlsmX4
+	q7EwZkyzB8MqtNdZ/TuDahDDg72f7T5Qri9m/nE86bpctYQQZAVX
+X-Google-Smtp-Source: AGHT+IFR3GD/p1xWhPkLV53qi9g6xLAFAvfUm95HTxI8mb9LaOVf9w8Eu+LR2bkAB8iJkium3I0K6w==
+X-Received: by 2002:a17:902:8541:b0:1fd:aa8d:ace5 with SMTP id d9443c01a7336-2039e4d7dd2mr5450775ad.23.1724371762670;
+        Thu, 22 Aug 2024 17:09:22 -0700 (PDT)
 Received: from localhost.localdomain (dhcp11819.ime.unicamp.br. [143.106.118.19])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20385608eb5sm17929185ad.188.2024.08.22.17.08.42
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20385608eb5sm17929185ad.188.2024.08.22.17.09.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Aug 2024 17:09:17 -0700 (PDT)
+        Thu, 22 Aug 2024 17:09:22 -0700 (PDT)
 From: Gabriel Maciel Raad <ffunctor@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	~lkcamp/patches@lists.sr.ht
-Subject: [PATCH v2 0/2] Staging: rtl8192e: Fix some code style issues
-Date: Thu, 22 Aug 2024 21:08:36 -0300
-Message-ID: <20240823000838.8207-1-ffunctor@gmail.com>
+Subject: [PATCH v2 1/2] Staging: rtl8192e: Fix parenthesis alignment
+Date: Thu, 22 Aug 2024 21:08:37 -0300
+Message-ID: <20240823000838.8207-2-ffunctor@gmail.com>
 X-Mailer: git-send-email 2.46.0
+In-Reply-To: <20240823000838.8207-1-ffunctor@gmail.com>
+References: <20240823000838.8207-1-ffunctor@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -66,15 +71,32 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix some code style issues in rtl_ps.c
+Fix parenthesis alingment in rtl92e_leisure_ps_enter to silence the
+following checkpatch.pl warning:
 
-Gabriel Maciel Raad (2):
-  Staging: rtl8192e: Fix parenthesis alignment
-  Staging: rtl8192e: Remove unnecessary blank line
+CHECK: Alignment should match open parenthesis
 
- drivers/staging/rtl8192e/rtl8192e/rtl_ps.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Signed-off-by: Gabriel Maciel Raad <ffunctor@gmail.com>
+---
+Changes in v2:
+- Split the changes in two patches
+---
+ drivers/staging/rtl8192e/rtl8192e/rtl_ps.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_ps.c b/drivers/staging/rtl8192e/rtl8192e/rtl_ps.c
+index 5aac9110bff6..1f881c27d4b4 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_ps.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_ps.c
+@@ -204,7 +204,7 @@ void rtl92e_leisure_ps_enter(struct net_device *dev)
+ 					&priv->rtllib->pwr_save_ctrl;
+ 
+ 	if (!((priv->rtllib->iw_mode == IW_MODE_INFRA) &&
+-	    (priv->rtllib->link_state == MAC80211_LINKED)))
++	      (priv->rtllib->link_state == MAC80211_LINKED)))
+ 		return;
+ 
+ 	if (psc->bLeisurePs) {
 -- 
 2.46.0
 
