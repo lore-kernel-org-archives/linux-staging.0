@@ -1,124 +1,75 @@
-Received: from fout3-smtp.messagingengine.com (fout3-smtp.messagingengine.com [103.168.172.146])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E1561885A0
-	for <linux-staging@lists.linux.dev>; Fri, 23 Aug 2024 15:41:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.146
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0091418594C
+	for <linux-staging@lists.linux.dev>; Fri, 23 Aug 2024 17:26:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724427715; cv=none; b=U3U9K9bRka9VGGsNk8LjOnNyE/lb+3/hElws796fpTgR9X8mGGDzYWrlb39JZ2O3WICx2KVhqzSKL9reSJwqjF5a6pqF+Tfm7gLJkMga7r//IuPh4z60QA1Jbj1V9lr7W417pFcl7/R9yFJSdZpTqbY/MuFbaltKe1/IuWHvGa0=
+	t=1724433992; cv=none; b=HQ8erY4K6jiK3yswCJHd2TE6meApNoU6EzU+AZYxX6VKnwLT60pOp9Eo9cIiHO4A63lcsi8JcuxCCQoJjdr0g3vR9WMXuY+q+ieBcgV5SItOv48fUWWU2qPId1tsuqV+yHioezr/U7WbCbLK1eav4Ss079i/kvIFg2kKC3Zi3fI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724427715; c=relaxed/simple;
-	bh=ShCzxAPvv69IrJzbrsojR6h/jXZL1X/sxX9qdaSRkEU=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=IJ2CJHCwV2aQGIpPtqsKqXtTL2zzsIbbRTc3PTXWMa13qpQTwir7myZX1IYaE/CjG7YZTvlszqHGfweTEXNN+lP7CbY4qFn4wYkFysgUHhpJF11hXqTNnCqx7RzTz+3fQvVFAFnnOBnbK1VMy2yE/nHiUEDBJvuE8AYT8Px96sM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=laETiYD7; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=p8s61STj; arc=none smtp.client-ip=103.168.172.146
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1724433992; c=relaxed/simple;
+	bh=9VrMWJ2lG0KpAo7exAdVB3mJa0Ufsh4v/DEgczhDsYU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=hHm9AZDc5I5xXmff/q9B4yhPc40rE+UeWi+0JyGsahPXdRbpYAxO6qclKMr9RVhMh07aeOKHkWZ3UPK5T5Y8gB/a1E0fcJuPdfq5sbag9yOxbXm2Pg6vjXVX5mR2YpRslzF2NskMMVoNTZZAEDh+n0G2oXPuvrvhEBrGmteoH2E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s+Vh0bn6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="laETiYD7";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="p8s61STj"
-Received: from phl-compute-04.internal (phl-compute-04.nyi.internal [10.202.2.44])
-	by mailfout.nyi.internal (Postfix) with ESMTP id 764161388210;
-	Fri, 23 Aug 2024 11:41:51 -0400 (EDT)
-Received: from phl-imap-11 ([10.202.2.101])
-  by phl-compute-04.internal (MEProxy); Fri, 23 Aug 2024 11:41:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1724427711;
-	 x=1724514111; bh=VqdQTKL42lz/bdHyCEoI0rDCux3HqzKaMK4cmOZsM4A=; b=
-	laETiYD72QUBUTGBj+R/8eRtK80/TjeR2u+XZVuDN/tOr+76Y2WsLETfgp4RKpgF
-	Ppzp0fBj3/mhZmnGDBk/Jpx8wOCiyggQA6n0foEd8IrCYZbQdwxY5TlmVMKikrQ6
-	teWCLg71Gdtcu8nXxZVctvMVgH5dnVLDAGhbu7EGwKjONsApChg8khEqueEulHNA
-	50Q6qwhgRDq35vrHesTkkdksyB6G5Y7F6SGA9Jn5RXLIFnia69Nh27tY33ChPR3Y
-	1gIcEVwKOXN342FX+4qd4YqwhFcepHnHWMSSHlkDc6lswmFZCfpuhw1aZNEIEN/j
-	g6KXIQ8rmbbpE0aG/ryWcA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1724427711; x=
-	1724514111; bh=VqdQTKL42lz/bdHyCEoI0rDCux3HqzKaMK4cmOZsM4A=; b=p
-	8s61STjV45dVWnIZjParhTj96scqch4hGM8IinJruSabn99B5kbwCJ8uL5tM5+se
-	DEyzXFdOiVRrpP+zP0t3ypNmon+QRXRbShwHTFlcwg1Rbt1Aq96xc5MhPVwSuCJT
-	y9Y3aik7Oj8gajgt3E6/3hlJPc4GARgjQcP5eZJYjkMnpoGH0pBi/I6fxdT6AIzi
-	QSOnGaYpdJh9S9v9ndSyb9svspwk/RrXUDwK1x8z4bZZwk1+ftm2sQ7pKvr2fljK
-	BXl3VNQ2Tpyv9M6fRBaYbqgeNy2qtIJ5fQUVCTcgjK7Mp+ANBXphlpx5i4FomdzG
-	xRkoKUljyfrSlXCaFQA+Q==
-X-ME-Sender: <xms:v63IZpdFto-WplIfOHKej4NvmTXXX_kklL_4HF330pyUFB9W5a0S7w>
-    <xme:v63IZnNnS1RUl54y2Rks_rQKSPXVLzc-Dh8vH1dHCytolmiZbkLnPGmxpUaPle9_W
-    j9VFHpRHANWmGMMUCc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddruddvvddgleduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
-    htshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddt
-    necuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrd
-    guvgeqnecuggftrfgrthhtvghrnhephfdthfdvtdefhedukeetgefggffhjeeggeetfefg
-    gfevudegudevledvkefhvdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
-    hmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepudeg
-    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegstghmqdhkvghrnhgvlhdqfhgvvg
-    gusggrtghkqdhlihhsthessghrohgruggtohhmrdgtohhmpdhrtghpthhtohepfhhlohhr
-    ihgrnhdrfhgrihhnvghllhhisegsrhhorggutghomhdrtghomhdprhgtphhtthhopeifrg
-    hhrhgvnhhsthesghhmgidrnhgvthdprhgtphhtthhopehkihgvrhgrnhdrsghinhhghhgr
-    mhesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtoheplhgruhhrvghnthdrph
-    hinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehumhgr
-    nhhgrdhjrghinhesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtohepuggrnh
-    drtggrrhhpvghnthgvrheslhhinhgrrhhordhorhhgpdhrtghpthhtohepghhrvghgkhhh
-    sehlihhnuhigfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtoheplhhinhhugidqrg
-    hrmhdqkhgvrhhnvghlsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhg
-X-ME-Proxy: <xmx:v63IZii2cLLuOPhNIoVSTiUgnlHnCUZni1znD49hQg5kHhZumwRQ3Q>
-    <xmx:v63IZi_raB_cr_81JekS9bxLCol_H3QpqjrFlgPxjlUdJz1-tEJEzQ>
-    <xmx:v63IZlshkHD7nr0R6kTWAuAs7ipuB-IFGEz0rzJW37ziDcjnqTdCeQ>
-    <xmx:v63IZhGSIJZaV5lsayvYC8F8RRVk0RrLxRDHwLxBIC3guSJBg-dUgA>
-    <xmx:v63IZmNU6efGpIhTHTAzqTr9zECDtfmQoREsPlEAqZzAocxAQs2XzZSJ>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 26F09222006F; Fri, 23 Aug 2024 11:41:51 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s+Vh0bn6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2672C32786;
+	Fri, 23 Aug 2024 17:26:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724433991;
+	bh=9VrMWJ2lG0KpAo7exAdVB3mJa0Ufsh4v/DEgczhDsYU=;
+	h=From:Date:Subject:To:Cc:From;
+	b=s+Vh0bn6vNvUCZPBXvsL+y8Np9Y3xwYoprtUYZSQILqbPDXv9S4+1oNxTSEa8RRAP
+	 NnP9gHzvUadNd9+xZ/eD6VwGO6XClKaBAmYUTlFQLsvmJa4WARTTtd+CAx14KWVhkF
+	 4A4BtDx0R/fPe1B5jl+tsxu93MX6wCH4U60+AXebCMg6ZaSLkDOuMKQFqneJAtKzYi
+	 m/mCakWMjQU2i0BdpWRj7GfuhugIVs963s7/9+hB8gaUmNeO+uyqv279fb7GeqCQ6T
+	 HN4Hi0QvfaTWaSjeqeWgFJXP8KmoRkCtw3MctYgD/uiJIWCGxnvZvz+fzVZJf8V0hK
+	 b+EY769arRsCQ==
+From: Simon Horman <horms@kernel.org>
+Date: Fri, 23 Aug 2024 18:26:27 +0100
+Subject: [PATCH] staging: rtl8192e: remove set but otherwise unused local
+ variable iv16
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Fri, 23 Aug 2024 15:41:00 +0000
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Umang Jain" <umang.jain@ideasonboard.com>,
- "Florian Fainelli" <florian.fainelli@broadcom.com>,
- "Broadcom internal kernel review list" <bcm-kernel-feedback-list@broadcom.com>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Cc: linux-rpi-kernel@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, "Dan Carpenter" <dan.carpenter@linaro.org>,
- "laurent.pinchart" <laurent.pinchart@ideasonboard.com>,
- "Kieran Bingham" <kieran.bingham@ideasonboard.com>,
- "Stefan Wahren" <wahrenst@gmx.net>,
- "Dave Stevenson" <dave.stevenson@raspberrypi.com>,
- "Phil Elwell" <phil@raspberrypi.com>
-Message-Id: <08aa277d-a966-4785-921e-6a63a2e5922b@app.fastmail.com>
-In-Reply-To: <20240823-to_sent2-v1-4-8bc182a0adaf@ideasonboard.com>
-References: <20240823-to_sent2-v1-0-8bc182a0adaf@ideasonboard.com>
- <20240823-to_sent2-v1-4-8bc182a0adaf@ideasonboard.com>
-Subject: Re: [PATCH 4/7] staging: vchiq_core: Factor out bulk transfer for
- (no/)callback mode
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20240823-rtl8192e-iv16-v1-1-000702673065@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAELGyGYC/x2MQQqAIBAAvyJ7TtC1wvpKdEjbaiEsNCII/550n
+ IGZFxJFpgS9eCHSzYmPUEBXAvw2hZUkz4UBFdbKopHx2q3usPhbtxKd9wqd0dR4KM0ZaeHn/w1
+ jzh+HdaysXwAAAA==
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, kernel test robot <lkp@intel.com>
+X-Mailer: b4 0.14.0
 
-On Fri, Aug 23, 2024, at 15:14, Umang Jain wrote:
+Since the commit 5f1a6826ea49 ("staging: rtl8192e: remove set but
+otherwise unused local variable iv32"), the local variable iv16 is set
+but otherwise unused. So remove it.
 
-> 
-> +int
-> +bulk_xfer_callback_interruptible(struct vchiq_instance *instance, 
-> unsigned int handle,
-> +				 void *offset, void __user *uoffset, int size,
-> +				 enum vchiq_bulk_mode mode, void *userdata,
-> +				 enum vchiq_bulk_dir dir)
+Compile tested only.
 
-It seems you can also tighten the argument types here a bit more:
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202408232049.UJef268y-lkp@intel.com/
+Signed-off-by: Simon Horman <horms@kernel.org>
+---
+ drivers/staging/rtl8192e/rtllib_crypt_tkip.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-- uoffset is always NULL and can be left out
-- userdata is either NULL or a struct mmal_msg_context, so you can use
-  that type directly.
+diff --git a/drivers/staging/rtl8192e/rtllib_crypt_tkip.c b/drivers/staging/rtl8192e/rtllib_crypt_tkip.c
+index 31eff306e8aa..fb80ae6c3f2f 100644
+--- a/drivers/staging/rtl8192e/rtllib_crypt_tkip.c
++++ b/drivers/staging/rtl8192e/rtllib_crypt_tkip.c
+@@ -637,9 +637,6 @@ static int rtllib_tkip_get_key(void *key, int len, u8 *seq, void *priv)
+ 
+ 	if (seq) {
+ 		/* Return the sequence number of the last transmitted frame. */
+-		u16 iv16 = tkey->tx_iv16;
+-
+-		iv16--;
+ 		seq[0] = tkey->tx_iv16;
+ 		seq[1] = tkey->tx_iv16 >> 8;
+ 		seq[2] = tkey->tx_iv32;
 
-     Arnd
