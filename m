@@ -1,212 +1,132 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B4D6187FFD
-	for <linux-staging@lists.linux.dev>; Fri, 23 Aug 2024 15:33:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FECB187FFD
+	for <linux-staging@lists.linux.dev>; Fri, 23 Aug 2024 15:34:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724427202; cv=none; b=qGVU7LJ0NrkqXn+IK2n/6ZY3AX7pnDsbdAi/lp44+tmuI4OyKMFiOXjFSq4biy7ZNbKIXsZsPoMePr8Z0lsEY0ckcPwOkY3rEqPI2hecqQuZTCEbs4dFXKHcdc9LG9hfdpQCXxM6bSgbNqgXeiFXeicCit4EvvWt+hKhxSOjj5o=
+	t=1724427263; cv=none; b=BR31rwrrzTVWZesIc3fa9JTHwI48cdZ/A5oHdvW880ritsRMl9teTRUsJ04gS7lEN6oGow+WVY4DSoS0EJNhP2SaUQkcgCDfunZEmpZwkR+d2yqUiLHM2krrCN2XGgtqwu30qKJ8FVRlVW9RKZCjiR4lhq6tnIu7X8VXwe7GaQ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724427202; c=relaxed/simple;
-	bh=AS2NxEZemsTzIzZeciU6KQmngp5HFihrC+Vbn+2p35A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XoO60z4BhwabjWvtpBmEohRA7hdgPJq8MxnQ6/WrJedBhnqttY8+OV+N3UtZVWu5vVNI3JyeTcFQwq4bO9h0MdM8pLWKALb21Ut4fZVKmF9lxXQCdnrZEpMNf14yATfWNgmFRkIQgx9QYsBXLxb8Je03NRroFN5XGAuBn3RyyaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=NXNGSSz7; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1724427263; c=relaxed/simple;
+	bh=9a2e+v3FT14bhuAj+QqfdFafJhUg0z4MjKBWadxqB0k=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=pwPFqOQRIBcbIU0FqkVuAr00VtDQ9aRL7jSVYs74rQIgEJLGay65lqWrVC/ma41Wax8DJ1GBum6yGN8oS9Ao+mclI/A0rhnBEmzw+URR678kNftrUuRChYnfckAYYJQ1ZjJ6tg/uZELK9Zs1sdRouLD6SRVlGhBysV0tGgDox+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gg+Vgdrg; arc=none smtp.client-ip=209.85.216.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="NXNGSSz7"
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 07F8F2D5;
-	Fri, 23 Aug 2024 17:32:13 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1724427134;
-	bh=AS2NxEZemsTzIzZeciU6KQmngp5HFihrC+Vbn+2p35A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NXNGSSz7xR1mL1/ZM5QCcqH07zUfhllx4BUtqENbfDxVkIqhVw6ASOw1SBdO9VqsF
-	 YDxiQGjT+CvOiGOshVP53uzcE9Gy//2G5e+Ezx5QQTpBBZfX3NO4HMcspu9QI/rt/X
-	 S0HfLn7aBVWQCfxox7QD/RDcwnllqdHVJ2DrBtNs=
-Date: Fri, 23 Aug 2024 18:33:15 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Umang Jain <umang.jain@ideasonboard.com>
-Cc: Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Arnd Bergmann <arnd@arndb.de>, Stefan Wahren <wahrenst@gmx.net>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Phil Elwell <phil@raspberrypi.com>
-Subject: Re: [PATCH 4/7] staging: vchiq_core: Factor out bulk transfer for
- (no/)callback mode
-Message-ID: <20240823153315.GA28317@pendragon.ideasonboard.com>
-References: <20240823-to_sent2-v1-0-8bc182a0adaf@ideasonboard.com>
- <20240823-to_sent2-v1-4-8bc182a0adaf@ideasonboard.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gg+Vgdrg"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-2d3c08541cdso1655652a91.2
+        for <linux-staging@lists.linux.dev>; Fri, 23 Aug 2024 08:34:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724427262; x=1725032062; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=IvYT3UWBCKLp8ogLPWqf/Z+jzZrJA9UrUg3fh9E7FtM=;
+        b=gg+Vgdrg10pwoQCNe6wLukwF6b73qxkvHi05H1OEOzKq2dZz2gGnxwQd86WIEjKkj+
+         I1LmT43+7K/bFoY3P0pThrGsALEmfr5MGGikTt9olUL5pua4Tbxmr66vbhY97JDdCj2F
+         oqoXlnWTU0aXsmZsPziIBj9yr+vgyXZWDYVzH/FYfZYLqnF+D1kSm+QQBF/XRNVcG54q
+         jbK6aQdmQ9wU2tUQYJuI1+Xli7YrPhwff30aIhnebJJu4oD0DI4FNsAP+8dPXOs+o4DY
+         T0CBJqcgiJoBGydnaC3TrkGRLEp7AXuV/chGxQNG6XjYXf+sPunUJx6+yZUxh72VJPD1
+         ThPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724427262; x=1725032062;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IvYT3UWBCKLp8ogLPWqf/Z+jzZrJA9UrUg3fh9E7FtM=;
+        b=gWxgaQHBtAKhcY+cOi1t2ksJsDFDVio/bHNdULw3Cg1bQJg9X+DYHy8hT+p1K4j4mC
+         PM+RHpYNFA70kGyLScGAhZmfLauOSbLxGIk9sP//xzBSbWT2HpYyrHwHGCj63o+ooUvP
+         pSBLkwFVS8Ub3zZAVTfssMeX3VFa5oSlaYmG4q82yeFWv/MMAEe5tpCFccoTxHUxKK5K
+         JegO3tSXa1GQpvQDDntbabQPtsSCLn8uLlUoG3wOYj1SKnPVIMsHMyWbLveWanSbh6PE
+         2G9ytnfLGwuJwtzJvxUzSrXXVWf7EVsX54s//+jBSvif0igW5uP6/YkTu/RSfQaZZRnK
+         BrwA==
+X-Forwarded-Encrypted: i=1; AJvYcCUtKAOjxh6Xh8c8p0KIWma7YKFrOrJUdvSstp59yUPxuJmLtkJsZ0BQUoJf0DPFdUHs1QKcQi0LkIV87ju2@lists.linux.dev
+X-Gm-Message-State: AOJu0YwU03uOBGOIV26PfjkS94AL+7VNDcCqk0p6KC5bwoJ739Zhddwp
+	sxnTE66qnXMZmcSxGjzjPk+qcvv11C4AmSEEyK653C/UvBO5J4p6
+X-Google-Smtp-Source: AGHT+IFd1+TQM65D80wpYcq/4gnpICwdY2KG3PE3VutyDwjVB0LL6tzDDULZQp/CxaGN9r8zIiKXjg==
+X-Received: by 2002:a17:90a:77c5:b0:2d0:d82:60ae with SMTP id 98e67ed59e1d1-2d646d6f656mr2630453a91.37.1724427261685;
+        Fri, 23 Aug 2024 08:34:21 -0700 (PDT)
+Received: from embed-PC.. ([106.222.233.87])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2d5eb913460sm6550531a91.21.2024.08.23.08.34.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Aug 2024 08:34:21 -0700 (PDT)
+From: Abhishek Tamboli <abhishektamboli9@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: tdavies@darkphysics.net,
+	philipp.g.hortmann@gmail.com,
+	garyrookard@fastmail.org,
+	linux-staging@lists.linux.dev,
+	skhan@linuxfoundation.org,
+	rbmarliere@gmail.com,
+	dan.carpenter@linaro.org,
+	christophe.jaillet@wanadoo.fr,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] staging: rtl8192e: Replace strcpy with strcat in rtl819x_translate_scan
+Date: Fri, 23 Aug 2024 21:04:11 +0530
+Message-Id: <20240823153411.74142-1-abhishektamboli9@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240823-to_sent2-v1-4-8bc182a0adaf@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Umang,
+Replace strcpy() with strcat() in rtl819x_translate_scan()
+Also Fix proto_name[] buffer size issue to accommodate all
+network modes.
 
-Thank you for the patch.
+Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
+---
+Changes in v2:
+- Revert the use of strscpy and replaced it with strcat.
+- Remove the 'pname' and replace it's usage with direct
+operations on 'proto_name' buffer.
 
-On Fri, Aug 23, 2024 at 08:44:24PM +0530, Umang Jain wrote:
-> Factor out bulk transfer for VCHIQ_BULK_MODE_NOCALLBACK and
-> VCHIQ_BULK_MODE_CALLBACK mode into a separate dedicated function
-> bulk_xfer_callback_interruptible(). It is suffixed by "_interruptible"
-> to denote that it can be interrupted and -EAGAIN can be returned. It
-> would be up to the users of the function to retry the call in those cases.
-> 
-> bulk_xfer_callback_interruptible() also takes in 'mode' parameter to
-> differentiate between VCHIQ_BULK_MODE_NOCALLBACK and
-> VCHIQ_BULK_MODE_CALLBACK, which then is directly passed to
-> vchiq_bulk_xfer_queue_msg_interruptible() inside the function.
-> 
-> Adjust the calls to vchiq-dev.c ioctl interface and vchiq_arm.c
-> for the respective bulk transfers.
-> 
-> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> ---
->  .../vc04_services/interface/vchiq_arm/vchiq_arm.c  | 15 ++++----
->  .../vc04_services/interface/vchiq_arm/vchiq_core.c | 40 ++++++++++++++++++++++
->  .../vc04_services/interface/vchiq_arm/vchiq_core.h |  6 ++++
->  .../vc04_services/interface/vchiq_arm/vchiq_dev.c  |  6 ++++
->  4 files changed, 60 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> index e9b9c76381dc..5210ce8d269e 100644
-> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> @@ -857,10 +857,10 @@ vchiq_bulk_transmit(struct vchiq_instance *instance, unsigned int handle, const
->  		switch (mode) {
->  		case VCHIQ_BULK_MODE_NOCALLBACK:
->  		case VCHIQ_BULK_MODE_CALLBACK:
-> -			ret = vchiq_bulk_transfer(instance, handle,
-> -						  (void *)data, NULL,
-> -						  size, userdata, mode,
-> -						  VCHIQ_BULK_TRANSMIT);
-> +			ret = bulk_xfer_callback_interruptible(instance, handle,
-> +							       (void *)data, NULL,
-> +							       size, mode, userdata,
-> +							       VCHIQ_BULK_TRANSMIT);
->  			break;
->  		case VCHIQ_BULK_MODE_BLOCKING:
->  			ret = vchiq_blocking_bulk_transfer(instance, handle, (void *)data, size,
-> @@ -895,9 +895,10 @@ int vchiq_bulk_receive(struct vchiq_instance *instance, unsigned int handle,
->  		switch (mode) {
->  		case VCHIQ_BULK_MODE_NOCALLBACK:
->  		case VCHIQ_BULK_MODE_CALLBACK:
-> -			ret = vchiq_bulk_transfer(instance, handle, data, NULL,
-> -						  size, userdata,
-> -						  mode, VCHIQ_BULK_RECEIVE);
-> +			ret = bulk_xfer_callback_interruptible(instance, handle,
-> +							       (void *)data, NULL,
-> +							       size, mode, userdata,
-> +							       VCHIQ_BULK_RECEIVE);
->  			break;
->  		case VCHIQ_BULK_MODE_BLOCKING:
->  			ret = vchiq_blocking_bulk_transfer(instance, handle, (void *)data, size,
-> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-> index 341a06997848..0606561fd3d0 100644
-> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-> @@ -3027,6 +3027,46 @@ bulk_xfer_blocking_interruptible(struct vchiq_instance *instance, unsigned int h
->  	return status;
->  }
->  
-> +int
-> +bulk_xfer_callback_interruptible(struct vchiq_instance *instance, unsigned int handle,
+ drivers/staging/rtl8192e/rtllib_wx.c | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
 
-Please prefix the name of all functions with an appropriate driver
-prefix, especially for functions that are not static.
+diff --git a/drivers/staging/rtl8192e/rtllib_wx.c b/drivers/staging/rtl8192e/rtllib_wx.c
+index fbd4ec824084..ec0c4c5bade7 100644
+--- a/drivers/staging/rtl8192e/rtllib_wx.c
++++ b/drivers/staging/rtl8192e/rtllib_wx.c
+@@ -23,14 +23,14 @@ static const char * const rtllib_modes[] = {
+ };
 
-> +				 void *offset, void __user *uoffset, int size,
-> +				 enum vchiq_bulk_mode mode, void *userdata,
-> +				 enum vchiq_bulk_dir dir)
-> +{
-> +	struct vchiq_service *service = find_service_by_handle(instance, handle);
-> +	int status = -EINVAL;
-> +
-> +	if (!service)
-> +		goto error_exit;
-> +
-> +	if (mode != VCHIQ_BULK_MODE_CALLBACK &&
-> +	    mode != VCHIQ_BULK_MODE_NOCALLBACK)
-> +		goto error_exit;
-> +
-> +	if (service->srvstate != VCHIQ_SRVSTATE_OPEN)
-> +		goto error_exit;
-> +
-> +	if (!offset && !uoffset)
-> +		goto error_exit;
-> +
-> +	if (vchiq_check_service(service))
-> +		goto error_exit;
-> +
-> +	status = vchiq_bulk_xfer_queue_msg_interruptible(service, offset, uoffset,
-> +							 size, userdata, mode, dir);
-> +	if (status)
-> +		goto error_exit;
-> +
-> +	vchiq_service_put(service);
-> +
-> +	return 0;
-> +
-> +error_exit:
-> +	if (service)
-> +		vchiq_service_put(service);
-> +	return status;
-> +}
-> +
->  /*
->   * This function may be called by kernel threads or user threads.
->   * User threads may receive -EAGAIN to indicate that a signal has been
-> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-> index ff3559c3d1ba..8aaf3c9d3dbe 100644
-> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-> @@ -479,6 +479,12 @@ bulk_xfer_blocking_interruptible(struct vchiq_instance *instance, unsigned int h
->  				 void *offset, void __user *uoffset, int size,
->  				 void __user *userdata, enum vchiq_bulk_dir dir);
->  
-> +extern int
-> +bulk_xfer_callback_interruptible(struct vchiq_instance *instance, unsigned int handle,
-> +				 void *offset, void __user *uoffset, int size,
-> +				 enum vchiq_bulk_mode mode, void *userdata,
-> +				 enum vchiq_bulk_dir dir);
-> +
->  extern int
->  vchiq_bulk_transfer(struct vchiq_instance *instance, unsigned int handle, void *offset,
->  		    void __user *uoffset, int size, void *userdata, enum vchiq_bulk_mode mode,
-> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
-> index 1bff97ad28fa..7ecfcaa85569 100644
-> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
-> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
-> @@ -336,6 +336,12 @@ static int vchiq_irq_queue_bulk_tx_rx(struct vchiq_instance *instance,
->  		goto bulk_transfer_handled;
->  	} else {
->  		userdata = args->userdata;
-> +
-> +		status = bulk_xfer_callback_interruptible(instance, args->handle,
-> +							  NULL, args->data, args->size,
-> +							  args->mode, userdata, dir);
-> +
-> +		goto bulk_transfer_handled;
->  	}
->  
->  	status = vchiq_bulk_transfer(instance, args->handle, NULL, args->data, args->size,
-> 
+ #define MAX_CUSTOM_LEN 64
++#define MAX_PROTO_NAME_LEN 10
+ static inline char *rtl819x_translate_scan(struct rtllib_device *ieee,
+ 					   char *start, char *stop,
+ 					   struct rtllib_network *network,
+ 					   struct iw_request_info *info)
+ {
+ 	char custom[MAX_CUSTOM_LEN];
+-	char proto_name[6];
+-	char *pname = proto_name;
++	char proto_name[MAX_PROTO_NAME_LEN];
+ 	char *p;
+ 	struct iw_event iwe;
+ 	int i, j;
+@@ -59,13 +59,12 @@ static inline char *rtl819x_translate_scan(struct rtllib_device *ieee,
+ 	}
+ 	/* Add the protocol name */
+ 	iwe.cmd = SIOCGIWNAME;
++	/* Initialise proto_name as an empty string*/
++	memset(proto_name, '\0', sizeof(proto_name));
+ 	for (i = 0; i < ARRAY_SIZE(rtllib_modes); i++) {
+-		if (network->mode & BIT(i)) {
+-			strcpy(pname, rtllib_modes[i]);
+-			pname += strlen(rtllib_modes[i]);
++		if (network->mode & BIT(i))
++			strcat(proto_name, rtllib_modes[i]);
+ 		}
+-	}
+-	*pname = '\0';
+ 	snprintf(iwe.u.name, IFNAMSIZ, "IEEE802.11%s", proto_name);
+ 	start = iwe_stream_add_event(info, start, stop, &iwe, IW_EV_CHAR_LEN);
+ 	/* Add mode */
+--
+2.34.1
 
--- 
-Regards,
-
-Laurent Pinchart
