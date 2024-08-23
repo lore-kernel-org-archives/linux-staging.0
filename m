@@ -1,132 +1,124 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout3-smtp.messagingengine.com (fout3-smtp.messagingengine.com [103.168.172.146])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FECB187FFD
-	for <linux-staging@lists.linux.dev>; Fri, 23 Aug 2024 15:34:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E1561885A0
+	for <linux-staging@lists.linux.dev>; Fri, 23 Aug 2024 15:41:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724427263; cv=none; b=BR31rwrrzTVWZesIc3fa9JTHwI48cdZ/A5oHdvW880ritsRMl9teTRUsJ04gS7lEN6oGow+WVY4DSoS0EJNhP2SaUQkcgCDfunZEmpZwkR+d2yqUiLHM2krrCN2XGgtqwu30qKJ8FVRlVW9RKZCjiR4lhq6tnIu7X8VXwe7GaQ8=
+	t=1724427715; cv=none; b=U3U9K9bRka9VGGsNk8LjOnNyE/lb+3/hElws796fpTgR9X8mGGDzYWrlb39JZ2O3WICx2KVhqzSKL9reSJwqjF5a6pqF+Tfm7gLJkMga7r//IuPh4z60QA1Jbj1V9lr7W417pFcl7/R9yFJSdZpTqbY/MuFbaltKe1/IuWHvGa0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724427263; c=relaxed/simple;
-	bh=9a2e+v3FT14bhuAj+QqfdFafJhUg0z4MjKBWadxqB0k=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=pwPFqOQRIBcbIU0FqkVuAr00VtDQ9aRL7jSVYs74rQIgEJLGay65lqWrVC/ma41Wax8DJ1GBum6yGN8oS9Ao+mclI/A0rhnBEmzw+URR678kNftrUuRChYnfckAYYJQ1ZjJ6tg/uZELK9Zs1sdRouLD6SRVlGhBysV0tGgDox+E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gg+Vgdrg; arc=none smtp.client-ip=209.85.216.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1724427715; c=relaxed/simple;
+	bh=ShCzxAPvv69IrJzbrsojR6h/jXZL1X/sxX9qdaSRkEU=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=IJ2CJHCwV2aQGIpPtqsKqXtTL2zzsIbbRTc3PTXWMa13qpQTwir7myZX1IYaE/CjG7YZTvlszqHGfweTEXNN+lP7CbY4qFn4wYkFysgUHhpJF11hXqTNnCqx7RzTz+3fQvVFAFnnOBnbK1VMy2yE/nHiUEDBJvuE8AYT8Px96sM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=laETiYD7; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=p8s61STj; arc=none smtp.client-ip=103.168.172.146
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gg+Vgdrg"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-2d3c08541cdso1655652a91.2
-        for <linux-staging@lists.linux.dev>; Fri, 23 Aug 2024 08:34:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724427262; x=1725032062; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=IvYT3UWBCKLp8ogLPWqf/Z+jzZrJA9UrUg3fh9E7FtM=;
-        b=gg+Vgdrg10pwoQCNe6wLukwF6b73qxkvHi05H1OEOzKq2dZz2gGnxwQd86WIEjKkj+
-         I1LmT43+7K/bFoY3P0pThrGsALEmfr5MGGikTt9olUL5pua4Tbxmr66vbhY97JDdCj2F
-         oqoXlnWTU0aXsmZsPziIBj9yr+vgyXZWDYVzH/FYfZYLqnF+D1kSm+QQBF/XRNVcG54q
-         jbK6aQdmQ9wU2tUQYJuI1+Xli7YrPhwff30aIhnebJJu4oD0DI4FNsAP+8dPXOs+o4DY
-         T0CBJqcgiJoBGydnaC3TrkGRLEp7AXuV/chGxQNG6XjYXf+sPunUJx6+yZUxh72VJPD1
-         ThPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724427262; x=1725032062;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IvYT3UWBCKLp8ogLPWqf/Z+jzZrJA9UrUg3fh9E7FtM=;
-        b=gWxgaQHBtAKhcY+cOi1t2ksJsDFDVio/bHNdULw3Cg1bQJg9X+DYHy8hT+p1K4j4mC
-         PM+RHpYNFA70kGyLScGAhZmfLauOSbLxGIk9sP//xzBSbWT2HpYyrHwHGCj63o+ooUvP
-         pSBLkwFVS8Ub3zZAVTfssMeX3VFa5oSlaYmG4q82yeFWv/MMAEe5tpCFccoTxHUxKK5K
-         JegO3tSXa1GQpvQDDntbabQPtsSCLn8uLlUoG3wOYj1SKnPVIMsHMyWbLveWanSbh6PE
-         2G9ytnfLGwuJwtzJvxUzSrXXVWf7EVsX54s//+jBSvif0igW5uP6/YkTu/RSfQaZZRnK
-         BrwA==
-X-Forwarded-Encrypted: i=1; AJvYcCUtKAOjxh6Xh8c8p0KIWma7YKFrOrJUdvSstp59yUPxuJmLtkJsZ0BQUoJf0DPFdUHs1QKcQi0LkIV87ju2@lists.linux.dev
-X-Gm-Message-State: AOJu0YwU03uOBGOIV26PfjkS94AL+7VNDcCqk0p6KC5bwoJ739Zhddwp
-	sxnTE66qnXMZmcSxGjzjPk+qcvv11C4AmSEEyK653C/UvBO5J4p6
-X-Google-Smtp-Source: AGHT+IFd1+TQM65D80wpYcq/4gnpICwdY2KG3PE3VutyDwjVB0LL6tzDDULZQp/CxaGN9r8zIiKXjg==
-X-Received: by 2002:a17:90a:77c5:b0:2d0:d82:60ae with SMTP id 98e67ed59e1d1-2d646d6f656mr2630453a91.37.1724427261685;
-        Fri, 23 Aug 2024 08:34:21 -0700 (PDT)
-Received: from embed-PC.. ([106.222.233.87])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2d5eb913460sm6550531a91.21.2024.08.23.08.34.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Aug 2024 08:34:21 -0700 (PDT)
-From: Abhishek Tamboli <abhishektamboli9@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: tdavies@darkphysics.net,
-	philipp.g.hortmann@gmail.com,
-	garyrookard@fastmail.org,
-	linux-staging@lists.linux.dev,
-	skhan@linuxfoundation.org,
-	rbmarliere@gmail.com,
-	dan.carpenter@linaro.org,
-	christophe.jaillet@wanadoo.fr,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] staging: rtl8192e: Replace strcpy with strcat in rtl819x_translate_scan
-Date: Fri, 23 Aug 2024 21:04:11 +0530
-Message-Id: <20240823153411.74142-1-abhishektamboli9@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="laETiYD7";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="p8s61STj"
+Received: from phl-compute-04.internal (phl-compute-04.nyi.internal [10.202.2.44])
+	by mailfout.nyi.internal (Postfix) with ESMTP id 764161388210;
+	Fri, 23 Aug 2024 11:41:51 -0400 (EDT)
+Received: from phl-imap-11 ([10.202.2.101])
+  by phl-compute-04.internal (MEProxy); Fri, 23 Aug 2024 11:41:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1724427711;
+	 x=1724514111; bh=VqdQTKL42lz/bdHyCEoI0rDCux3HqzKaMK4cmOZsM4A=; b=
+	laETiYD72QUBUTGBj+R/8eRtK80/TjeR2u+XZVuDN/tOr+76Y2WsLETfgp4RKpgF
+	Ppzp0fBj3/mhZmnGDBk/Jpx8wOCiyggQA6n0foEd8IrCYZbQdwxY5TlmVMKikrQ6
+	teWCLg71Gdtcu8nXxZVctvMVgH5dnVLDAGhbu7EGwKjONsApChg8khEqueEulHNA
+	50Q6qwhgRDq35vrHesTkkdksyB6G5Y7F6SGA9Jn5RXLIFnia69Nh27tY33ChPR3Y
+	1gIcEVwKOXN342FX+4qd4YqwhFcepHnHWMSSHlkDc6lswmFZCfpuhw1aZNEIEN/j
+	g6KXIQ8rmbbpE0aG/ryWcA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1724427711; x=
+	1724514111; bh=VqdQTKL42lz/bdHyCEoI0rDCux3HqzKaMK4cmOZsM4A=; b=p
+	8s61STjV45dVWnIZjParhTj96scqch4hGM8IinJruSabn99B5kbwCJ8uL5tM5+se
+	DEyzXFdOiVRrpP+zP0t3ypNmon+QRXRbShwHTFlcwg1Rbt1Aq96xc5MhPVwSuCJT
+	y9Y3aik7Oj8gajgt3E6/3hlJPc4GARgjQcP5eZJYjkMnpoGH0pBi/I6fxdT6AIzi
+	QSOnGaYpdJh9S9v9ndSyb9svspwk/RrXUDwK1x8z4bZZwk1+ftm2sQ7pKvr2fljK
+	BXl3VNQ2Tpyv9M6fRBaYbqgeNy2qtIJ5fQUVCTcgjK7Mp+ANBXphlpx5i4FomdzG
+	xRkoKUljyfrSlXCaFQA+Q==
+X-ME-Sender: <xms:v63IZpdFto-WplIfOHKej4NvmTXXX_kklL_4HF330pyUFB9W5a0S7w>
+    <xme:v63IZnNnS1RUl54y2Rks_rQKSPXVLzc-Dh8vH1dHCytolmiZbkLnPGmxpUaPle9_W
+    j9VFHpRHANWmGMMUCc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddruddvvddgleduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+    htshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddt
+    necuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrd
+    guvgeqnecuggftrfgrthhtvghrnhephfdthfdvtdefhedukeetgefggffhjeeggeetfefg
+    gfevudegudevledvkefhvdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
+    hmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepudeg
+    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegstghmqdhkvghrnhgvlhdqfhgvvg
+    gusggrtghkqdhlihhsthessghrohgruggtohhmrdgtohhmpdhrtghpthhtohepfhhlohhr
+    ihgrnhdrfhgrihhnvghllhhisegsrhhorggutghomhdrtghomhdprhgtphhtthhopeifrg
+    hhrhgvnhhsthesghhmgidrnhgvthdprhgtphhtthhopehkihgvrhgrnhdrsghinhhghhgr
+    mhesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtoheplhgruhhrvghnthdrph
+    hinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehumhgr
+    nhhgrdhjrghinhesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtohepuggrnh
+    drtggrrhhpvghnthgvrheslhhinhgrrhhordhorhhgpdhrtghpthhtohepghhrvghgkhhh
+    sehlihhnuhigfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtoheplhhinhhugidqrg
+    hrmhdqkhgvrhhnvghlsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhg
+X-ME-Proxy: <xmx:v63IZii2cLLuOPhNIoVSTiUgnlHnCUZni1znD49hQg5kHhZumwRQ3Q>
+    <xmx:v63IZi_raB_cr_81JekS9bxLCol_H3QpqjrFlgPxjlUdJz1-tEJEzQ>
+    <xmx:v63IZlshkHD7nr0R6kTWAuAs7ipuB-IFGEz0rzJW37ziDcjnqTdCeQ>
+    <xmx:v63IZhGSIJZaV5lsayvYC8F8RRVk0RrLxRDHwLxBIC3guSJBg-dUgA>
+    <xmx:v63IZmNU6efGpIhTHTAzqTr9zECDtfmQoREsPlEAqZzAocxAQs2XzZSJ>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 26F09222006F; Fri, 23 Aug 2024 11:41:51 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Date: Fri, 23 Aug 2024 15:41:00 +0000
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Umang Jain" <umang.jain@ideasonboard.com>,
+ "Florian Fainelli" <florian.fainelli@broadcom.com>,
+ "Broadcom internal kernel review list" <bcm-kernel-feedback-list@broadcom.com>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Cc: linux-rpi-kernel@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, "Dan Carpenter" <dan.carpenter@linaro.org>,
+ "laurent.pinchart" <laurent.pinchart@ideasonboard.com>,
+ "Kieran Bingham" <kieran.bingham@ideasonboard.com>,
+ "Stefan Wahren" <wahrenst@gmx.net>,
+ "Dave Stevenson" <dave.stevenson@raspberrypi.com>,
+ "Phil Elwell" <phil@raspberrypi.com>
+Message-Id: <08aa277d-a966-4785-921e-6a63a2e5922b@app.fastmail.com>
+In-Reply-To: <20240823-to_sent2-v1-4-8bc182a0adaf@ideasonboard.com>
+References: <20240823-to_sent2-v1-0-8bc182a0adaf@ideasonboard.com>
+ <20240823-to_sent2-v1-4-8bc182a0adaf@ideasonboard.com>
+Subject: Re: [PATCH 4/7] staging: vchiq_core: Factor out bulk transfer for
+ (no/)callback mode
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-Replace strcpy() with strcat() in rtl819x_translate_scan()
-Also Fix proto_name[] buffer size issue to accommodate all
-network modes.
+On Fri, Aug 23, 2024, at 15:14, Umang Jain wrote:
 
-Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
----
-Changes in v2:
-- Revert the use of strscpy and replaced it with strcat.
-- Remove the 'pname' and replace it's usage with direct
-operations on 'proto_name' buffer.
+> 
+> +int
+> +bulk_xfer_callback_interruptible(struct vchiq_instance *instance, 
+> unsigned int handle,
+> +				 void *offset, void __user *uoffset, int size,
+> +				 enum vchiq_bulk_mode mode, void *userdata,
+> +				 enum vchiq_bulk_dir dir)
 
- drivers/staging/rtl8192e/rtllib_wx.c | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
+It seems you can also tighten the argument types here a bit more:
 
-diff --git a/drivers/staging/rtl8192e/rtllib_wx.c b/drivers/staging/rtl8192e/rtllib_wx.c
-index fbd4ec824084..ec0c4c5bade7 100644
---- a/drivers/staging/rtl8192e/rtllib_wx.c
-+++ b/drivers/staging/rtl8192e/rtllib_wx.c
-@@ -23,14 +23,14 @@ static const char * const rtllib_modes[] = {
- };
+- uoffset is always NULL and can be left out
+- userdata is either NULL or a struct mmal_msg_context, so you can use
+  that type directly.
 
- #define MAX_CUSTOM_LEN 64
-+#define MAX_PROTO_NAME_LEN 10
- static inline char *rtl819x_translate_scan(struct rtllib_device *ieee,
- 					   char *start, char *stop,
- 					   struct rtllib_network *network,
- 					   struct iw_request_info *info)
- {
- 	char custom[MAX_CUSTOM_LEN];
--	char proto_name[6];
--	char *pname = proto_name;
-+	char proto_name[MAX_PROTO_NAME_LEN];
- 	char *p;
- 	struct iw_event iwe;
- 	int i, j;
-@@ -59,13 +59,12 @@ static inline char *rtl819x_translate_scan(struct rtllib_device *ieee,
- 	}
- 	/* Add the protocol name */
- 	iwe.cmd = SIOCGIWNAME;
-+	/* Initialise proto_name as an empty string*/
-+	memset(proto_name, '\0', sizeof(proto_name));
- 	for (i = 0; i < ARRAY_SIZE(rtllib_modes); i++) {
--		if (network->mode & BIT(i)) {
--			strcpy(pname, rtllib_modes[i]);
--			pname += strlen(rtllib_modes[i]);
-+		if (network->mode & BIT(i))
-+			strcat(proto_name, rtllib_modes[i]);
- 		}
--	}
--	*pname = '\0';
- 	snprintf(iwe.u.name, IFNAMSIZ, "IEEE802.11%s", proto_name);
- 	start = iwe_stream_add_event(info, start, stop, &iwe, IW_EV_CHAR_LEN);
- 	/* Add mode */
---
-2.34.1
-
+     Arnd
