@@ -1,117 +1,122 @@
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 340FA15688E
-	for <linux-staging@lists.linux.dev>; Sat, 24 Aug 2024 11:18:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DF72154434
+	for <linux-staging@lists.linux.dev>; Sat, 24 Aug 2024 11:21:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724498310; cv=none; b=cpJ7+Fk7O2OtSvauN0DcBxMMAO6JvkMwK6D7lZDgK5mDKZ1I7RbSs0At5n8piUrVMQaorqaxmxpGl3ijfbgYpVMD/2KN/245EOpjQtCZnDdJtHF5iervpiV3KGVt+INdF13W/7rIaoWSUjEHMoATsD5jzMeW5vq5CCWYv45hoTk=
+	t=1724498515; cv=none; b=e7Kc9ARJJVP0bkrDkXCPRyTikX/iBSF5iDZSw01zcr3DYJ2dR4K/XHGfcQp8IUtuF1zwcceHguU79DLoYDFmDtComLZqo5MIi7e4VsE4hB3MgQPrtsld08+UxkaK5R8aA6Kd8pG/2JTk0NlINaY7lTm6uq343jXbhnKwXW1KLAs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724498310; c=relaxed/simple;
-	bh=ArEqVk23aqUOcd1GpupV1li/luninoloc3UULGN4yrw=;
+	s=arc-20240116; t=1724498515; c=relaxed/simple;
+	bh=5zvM2KFJSLmf2j0o4lyODLjaUQNRb1ZGJX8epv/GGVM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H0FoPQhEdasFCza/RD9E+YO017x66fVOPs/vzxlvJncy26Xx/i1+hrxz45V+tKcDISREkY1r2RN8KG0dKniNqFdKtx+IKmedzC06SrHgRBU3+Ea1vxOJXoE0+kO48KYKuSAqnAltIsRPv9jwOexvdR8WALHFcgYOyXCZ/YZ9Jz0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lQBgWT34; arc=none smtp.client-ip=209.85.208.174
+	 Content-Type:Content-Disposition:In-Reply-To; b=e96Oy1nSkQt8LVPSKhPbqLy+H2M664d06PNcUSwdGSgS7u/I3xxWKAOOC62MIMuz0FXA9ZTk+kxLk7ZK3vadYbqqsHFYC1sjcm4HGOPc9jNDFnnFLqo0ZjEbb32qpF5RSTJAfRyZHCc2b3SxH8zd13V1Uu7nxS6lnLurrmGD4Ts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=g6gMfS2E; arc=none smtp.client-ip=209.85.167.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lQBgWT34"
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2f3f163e379so45871681fa.3
-        for <linux-staging@lists.linux.dev>; Sat, 24 Aug 2024 04:18:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="g6gMfS2E"
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5343eeb4973so978240e87.2
+        for <linux-staging@lists.linux.dev>; Sat, 24 Aug 2024 04:21:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1724498307; x=1725103107; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=gYbbaRAr9Ic3qjqTHNZx0zH/my3OprgnkZd3LOPXAv0=;
-        b=lQBgWT34+OzCjTxFK9xdtwsm/JBVq34RmrU8lzmLtOXXcczJeOJwVHs9kPCbNwAOMg
-         MaK37cYuH5nd7wAc5FfCh7OkBzJUKgyh33j1VHV7fdboJCQl8ZfAtqypnZbqBKIk1faL
-         AGMf8/gZGAKXDWE0yFB4pRmD1jT3BE4PXUnXRw56bMkzEkRRG57ugvPZDPKhk4a1kSr0
-         dimTricZwvj4SaxjSDXTiMc97cU53F3hpxhkMGBmoEL2GED9YJ0vKV6MwUGkZ/wqcYMq
-         bPX4pzQr70H2CQE5odWjaK8Nqm0GZrMmDe5tqjwa0szX6PeuUULFGpgfqDmex9sHxC7L
-         kpHQ==
+        d=linaro.org; s=google; t=1724498511; x=1725103311; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=KWtz5uoijD/6sdwyrDoZiDmd8tFNxLEA+zxzqd/1RmE=;
+        b=g6gMfS2EMz+HkI3vKHajzfNUcMzqrpy9w1UZI71AxK4BVe5Bs49JjnMulM+vMYLZhB
+         5YOG5X8XH9qrmng6qB8HBzKLFoFpm7DR4yl4jOwq/0IVKyaqPhZEN1qUxC5Eoxz5Cedf
+         0vB/O72DBsYNpZZLx5CbRBooDgaZ3IJUFH6cSi52LiV00hBQeMVL425VJNL9aIgfd4D7
+         2J/PDoY6fj+1qFmEvFxoiw+FFznc2iQWnJeP86RbNwgRjGtHk1T/GtvvS0obb95Wm7oJ
+         iF4rl5T9f3dTq1quZsV+iRQDzetATBbLahjh/bGBvH8qPYkN59S+fd5+Tn85zyfqJb7l
+         iRqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724498307; x=1725103107;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gYbbaRAr9Ic3qjqTHNZx0zH/my3OprgnkZd3LOPXAv0=;
-        b=FQ4uuSgRmfn8uHQc7gNwEeUYlIetW3Ads8GVYCmW9aINFsYin+SmDj8grNy/HwkB3i
-         cFXz6Vf6MfeXYy6doDDojsoLNIp8Vxeats+WFwkCpLGW6lT0r6fWkRwy1ocEQiEF6jWf
-         UHzVm7tQ8kYxAA3udmErFPetzsM9wydidNITN8WHOgGEbnGRguAWZvWktXeog31o07TW
-         VUdiCuEbMJ6tkLtIFXRNwGDJyzpw7w7aJgpJdMpKPWAm/NIL7X4MC35CY6ICBfaEFBFf
-         xTsY9gJ402B8rGCUwS1pecOzg67bC1dimq8lEvciiwkduaWBJ+PmqcqQPI7zxYX+433j
-         aC3w==
-X-Forwarded-Encrypted: i=1; AJvYcCW1/HEJJBG/BT381QhL+qwucz8sLY25GTBVQ6wHQzOtaBMGDGP9AP2q8l4ihXNOjepKCVHktAqSk34nU6HS@lists.linux.dev
-X-Gm-Message-State: AOJu0YwjA76hrhWeFYwMyroeuxAMC+lAO0mjVm+FNJ5usKTVy881PElM
-	OG61+CfCYsEsl2dueuYl2G/BVuYNmyVhpi2mcpIYcLP4SjHVlyEekig8r5PVlH8=
-X-Google-Smtp-Source: AGHT+IG88fGzP8xPqOhCEV3ZN8IhUmVcvCaclZzixTMUL4q23NOwvu12fStPyuQYpPZvkBVEIDbH2g==
-X-Received: by 2002:a2e:b892:0:b0:2f3:cf43:c2a8 with SMTP id 38308e7fff4ca-2f4f579e8eamr37332881fa.42.1724498306972;
-        Sat, 24 Aug 2024 04:18:26 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1724498511; x=1725103311;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KWtz5uoijD/6sdwyrDoZiDmd8tFNxLEA+zxzqd/1RmE=;
+        b=dvAYv0HNt1eUBd0+d4TPApPRLlZGTZnWiJUqd7zCiA15jnZVI4IAj0/NAIWtm5dTDF
+         vswLjKbN2UrFVgh04gx8UrALlcVFVXBR6AgyqHXclyjcawgO1EA/FJ+Yk+yNLN7CC9U3
+         +VprCjGQA8hoVLUD/munFOwFycWEU+/R2nbmWQDnYCnCPiX8SYxTaIyNxApzMA2yAOa2
+         uK8bHVhD/qv1/Y+1THAx5nJ8IT48L3oi/srFdE6aDlaRIEDF5XaYOKE2wn3enEh5hAOi
+         uiyZ/RLwyg02IOeUYw8hAcH5Gx5EEejMMesgRW0HQi+VnK5IcMm2JaheKhxOrGYTtuwa
+         5fNg==
+X-Forwarded-Encrypted: i=1; AJvYcCUK2XUHBgiA+hdIiy7DiTk/RuNZdDFtCH++9qC+eDGQpOLxZQA1AQ5/OT2+uCuiwpeumf+DkN4xk6mSYW4C@lists.linux.dev
+X-Gm-Message-State: AOJu0YwNxR0g5un+PETwu7XpsfcIqZ6gpp/9+M1Yr3WBfwCqk41uRbLG
+	TiUrPwwNSIBjIxANR+hu320rW36Di7KZfGXBJVBoeF0Pm32K1NKJnrUlHHKirSA=
+X-Google-Smtp-Source: AGHT+IGtUfvB4kMQlCuoYKzAcwIUuuNFxDcBEeAyNnD4OTfW/GqzvO7likpmTQdheQWzjpKz07iUyw==
+X-Received: by 2002:a05:6512:b86:b0:532:ec7d:9c67 with SMTP id 2adb3069b0e04-5343887e143mr4772670e87.47.1724498511343;
+        Sat, 24 Aug 2024 04:21:51 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a868f2adc84sm386803966b.81.2024.08.24.04.18.25
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a868f48a9b6sm393560466b.179.2024.08.24.04.21.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Aug 2024 04:18:26 -0700 (PDT)
-Date: Sat, 24 Aug 2024 14:18:22 +0300
+        Sat, 24 Aug 2024 04:21:50 -0700 (PDT)
+Date: Sat, 24 Aug 2024 14:21:47 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: Abhishek Tamboli <abhishektamboli9@gmail.com>,
-	gregkh@linuxfoundation.org, tdavies@darkphysics.net,
+To: Abhishek Tamboli <abhishektamboli9@gmail.com>
+Cc: gregkh@linuxfoundation.org, tdavies@darkphysics.net,
 	philipp.g.hortmann@gmail.com, garyrookard@fastmail.org,
 	linux-staging@lists.linux.dev, skhan@linuxfoundation.org,
-	rbmarliere@gmail.com,
+	rbmarliere@gmail.com, christophe.jaillet@wanadoo.fr,
 	linux-kernel-mentees@lists.linuxfoundation.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8192e: Replace strcpy with strscpy in
+Subject: Re: [PATCH v2] staging: rtl8192e: Replace strcpy with strcat in
  rtl819x_translate_scan
-Message-ID: <aa6c0c3e-43fc-4a50-a1ee-7afc20388ac6@stanley.mountain>
-References: <20240820184216.45390-1-abhishektamboli9@gmail.com>
- <2348e646-e1da-4deb-ab55-c438a42e25b3@wanadoo.fr>
- <510b12b8-91d5-43ce-a191-9ee0a6c91460@stanley.mountain>
- <77e4dd0b-2c82-4f00-92a3-069526a5f795@wanadoo.fr>
+Message-ID: <1c640c3d-c5db-4eb7-8a22-6d9886a1412a@stanley.mountain>
+References: <20240823153411.74142-1-abhishektamboli9@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <77e4dd0b-2c82-4f00-92a3-069526a5f795@wanadoo.fr>
+In-Reply-To: <20240823153411.74142-1-abhishektamboli9@gmail.com>
 
-On Sat, Aug 24, 2024 at 08:35:03AM +0200, Christophe JAILLET wrote:
-> Le 21/08/2024 à 20:23, Dan Carpenter a écrit :
-> > On Tue, Aug 20, 2024 at 09:38:22PM +0200, Christophe JAILLET wrote:
-> > >     - if a "mode" matches, do we need to iterate the whole rtllib_modes
-> > > array? (have a look at wireless_mode)
-> > > 
-> > 
-> > Can only one mode be set at a time?
-> > 
-> > regards,
-> > dan carpenter
-> > 
-> > 
-> > 
+On Fri, Aug 23, 2024 at 09:04:11PM +0530, Abhishek Tamboli wrote:
+> diff --git a/drivers/staging/rtl8192e/rtllib_wx.c b/drivers/staging/rtl8192e/rtllib_wx.c
+> index fbd4ec824084..ec0c4c5bade7 100644
+> --- a/drivers/staging/rtl8192e/rtllib_wx.c
+> +++ b/drivers/staging/rtl8192e/rtllib_wx.c
+> @@ -23,14 +23,14 @@ static const char * const rtllib_modes[] = {
+>  };
 > 
-> Hmm, apparently several can be set (see [1])
-> 
-> Base on a few lines below, it looks that WIRELESS_MODE_N_24G is exclusive
-> from the other ones.
-> 
-> So the 6 char array seems to be sized either for "N-24G", either for a
-> concatenation of a few other modes that won't exceed the size of the buffer.
-> 
+>  #define MAX_CUSTOM_LEN 64
+> +#define MAX_PROTO_NAME_LEN 10
+>  static inline char *rtl819x_translate_scan(struct rtllib_device *ieee,
+>  					   char *start, char *stop,
+>  					   struct rtllib_network *network,
+>  					   struct iw_request_info *info)
+>  {
+>  	char custom[MAX_CUSTOM_LEN];
+> -	char proto_name[6];
+> -	char *pname = proto_name;
+> +	char proto_name[MAX_PROTO_NAME_LEN];
 
-Yeah.  I started to review this patch and found the same thing but I never hit
-send on my review.  6 chars is enough.  If you look at the commit which changed
-the buffer size to 6, anything larger would cause a GCC checker warning about
-truncating strings.
+In the end I think we don't want to make this buffer larger.  But if we did
+this define is really vague and slightly confusing.  I assumed it was something
+else when I read it.  It hurts readability.  It would probably be better to just
+leave it as 6 instead and add a comment.  /* Large enough to hold "N-24G" */
 
-Still, it's kind of ugly that we need to do this much research to verify that
-the code isn't a memory corruption bug.  It doesn't feel future proof either.
-It would be nicer if this were obviously safe from just reviewing the function.
+>  	char *p;
+>  	struct iw_event iwe;
+>  	int i, j;
+> @@ -59,13 +59,12 @@ static inline char *rtl819x_translate_scan(struct rtllib_device *ieee,
+>  	}
+>  	/* Add the protocol name */
+>  	iwe.cmd = SIOCGIWNAME;
+> +	/* Initialise proto_name as an empty string*/
+
+This comment doesn't add any information.  Every kernel developer knows what
+memset() does.
+
+> +	memset(proto_name, '\0', sizeof(proto_name));
+
+Normally we would just say 0 instead of '\0'.  The other way to do this would
+be to initialize it at the start:
+
+	char proto_name[6] = "";
 
 regards,
 dan carpenter
