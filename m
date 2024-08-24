@@ -1,92 +1,115 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45AC01922E0;
-	Fri, 23 Aug 2024 21:50:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BABFB14F132;
+	Sat, 24 Aug 2024 05:45:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724449855; cv=none; b=UgOzfNt+Q8QI4vYuw8+FoXRX+nb3k6+hsddGqkfufD/+z6oDUbMnaeJ8Ir9mYp5DUFRfnwt69jUM0Rd8lkyt3mnadgzkbA7wPW38ckwW4/r5Zjlp82MJvzxwVOblRfiCyWOPfS+6gH0oKU1zB2kJ1INeFuDqTP7buzly+LSibq8=
+	t=1724478304; cv=none; b=mw/QLKx0tzIc5Rw0EDGlAPfdB8vlCWIy1/PVhmURkOw5s7Z6mruebmlf4uTFx1dYvb6wrt0xIRxpw8QLzasJ72yx0YQ6ovCNfhykpSlFJ7mDGGY4mMFb1FtiRniEkasfhPXU04O4XAJg+4JYsLoQ+I7NcdlhTMLu/bPu17KhcCs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724449855; c=relaxed/simple;
-	bh=Duob4DARHudu9UffvC2e4VH9jt+adZqFzJCl+uR0RHs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fy8U6MuKKPXA6mkja2In/Tf5gI8xbkdD4JnGqmYLUoTtchW9yvjQytF0LynD7ojfzwBZb+XfaQ5lJbpncpChnh+EZL43Vt4E7g7KTn6Z5VqHrF98poi63MtBDqKrX7MryFwVinRKmYDBeBmEDipyIbHCvmFm2LMovRYpQjaPrb0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=WUeLhkAr; arc=none smtp.client-ip=212.227.17.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
+	s=arc-20240116; t=1724478304; c=relaxed/simple;
+	bh=17296TZIkNThf8+jO89AL+ryDKa+Dvu6bh33utavEpE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TFoM4U/PrCVZgJ4677yimWSrc3nkGOJI6q1W1ONe3JKH1daWgspTK3nYt63yWVnOo/Gx3p+XIPvtTyBx+fUlM/cBLADV9prmKFySrzUABh+BljV0iinKci+UG9CIvXQez+66+nAcx7+lppfMz4RnsKOFaPR+D37gtan1TdEWZEw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=iIf+byh4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="WUeLhkAr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
-	s=s31663417; t=1724449842; x=1725054642; i=wahrenst@gmx.net;
-	bh=Duob4DARHudu9UffvC2e4VH9jt+adZqFzJCl+uR0RHs=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=WUeLhkAr/oB5PKZm94D9JGfGKRykPg9DZX0EhMwHFzcakrbKKjB73QI6c5EeWQtZ
-	 rIztmMaKyIeA2MnvcMCIdzeJfqX9TwKbLwPpedPS2ed0+JNXkFhnkTq/eRm8GZUaf
-	 T47kSJ6tB6BjAeW6D9wofNus/FoMtx1QHmH6Yj8Hn/k1KRuhB44xn3jxuPQ2nuzQC
-	 L3h5gYpB4kuAhfplmQNi5LaV/m/milU9aKjZvffTHKJnKc3UfqQyV1IYwn/HAY0mH
-	 Ajo4iGYj/y3knppTAR8+vrurACpiRS2c0e8umASmy0sNygqHjwRhQKIycRnuS6T0N
-	 M47V6aj+A3xoeiCYcw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.127] ([37.4.248.43]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1N2mBQ-1rylO225rI-011DOI; Fri, 23
- Aug 2024 23:50:42 +0200
-Message-ID: <0a32d686-80e3-4c59-b0d9-3bfd15964ecc@gmx.net>
-Date: Fri, 23 Aug 2024 23:50:41 +0200
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="iIf+byh4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8CA2C32781;
+	Sat, 24 Aug 2024 05:45:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1724478304;
+	bh=17296TZIkNThf8+jO89AL+ryDKa+Dvu6bh33utavEpE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=iIf+byh4C/FEh6AyXTjbsFjiXdOtcg6N34CYO3DtejP0WrkAPMTJfbT+2LlhRQ5sy
+	 fpW7V75/w5smkSqv6LdxdlA5VOU1xVLwwFYgW+nY1jYCkE8NV8fQGWgSSLIhy61d9u
+	 0MgmnJwFcRF51a/9KK97ARSJgGFfIRr/0RDHoFlM=
+Date: Sat, 24 Aug 2024 13:45:00 +0800
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Abhishek Tamboli <abhishektamboli9@gmail.com>
+Cc: tdavies@darkphysics.net, philipp.g.hortmann@gmail.com,
+	garyrookard@fastmail.org, linux-staging@lists.linux.dev,
+	skhan@linuxfoundation.org, rbmarliere@gmail.com,
+	dan.carpenter@linaro.org, christophe.jaillet@wanadoo.fr,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: rtl8192e: Replace strcpy with strcat in
+ rtl819x_translate_scan
+Message-ID: <2024082430-unlatch-antennae-0ea7@gregkh>
+References: <20240823153411.74142-1-abhishektamboli9@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 7/7] staging: vchiq_core: Pass enumerated flag instead of
- int
-To: Umang Jain <umang.jain@ideasonboard.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-rpi-kernel@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Arnd Bergmann <arnd@arndb.de>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Phil Elwell <phil@raspberrypi.com>
-References: <20240823-to_sent2-v1-0-8bc182a0adaf@ideasonboard.com>
- <20240823-to_sent2-v1-7-8bc182a0adaf@ideasonboard.com>
-Content-Language: en-US
-From: Stefan Wahren <wahrenst@gmx.net>
-In-Reply-To: <20240823-to_sent2-v1-7-8bc182a0adaf@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:uO6QyX2U4G+XdUvjQKDHLWdCtBQkwcLYOZEDGUP2vi4QPbmRgJx
- euP9vtDduE88bIRv9tWS13ptUS/yi2OOrt4SNINYPNLtDXpzs/VNy+0ksBqZiDC9/f7Ep36
- lYq97B/l4hXKgcFZh2yeYNdQsrVY2fMNvUvLUQ9QK2SZjlMytlLPa+Yzr6CuHgvvqChPiTu
- 5Ztdgzd6ZQWlfMWQ3zbuQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:hkQxNndVZYE=;4t5D+eqxrDN0nBpGbiQyYnVb7ne
- Xic4vGq7g2kSzt6syVkIMjw61DyC6Eqoiz4e0bbEx39rZc3P/+BOkIrqPb0dJJLPuz/IWoPjZ
- vPkEadh7433KdRQUYC7XH5bcgMNKAKSR2vc+iBFV46EWQQknKf/XVQK96lNKVdoO79cvBqDNJ
- ZucW/mdZOehazrjeX+SFB90H/CZnyxZWPLYxbKHIJ4P4v8uUUWTzqI11LhULM1/IV6FaR0Fye
- mj/pbhCz45oriMF7CwAMXW3eLetCzxEPmZHaYr5aUqZ8AQCWY9XcHR9gN0Nzg6A5rZpi4GLSO
- pJVbZPqP66PIgwP52CKvBlV/HxRNperIXGxJFQzBjVjQwm6fxkXOCrLzKTKIK7GykaFsLnpkd
- wAGmffXXjU2dXCSOcDWvSI2uSAGBdv6DgiZpJS8Ja/yUMSGHiBPnNhoG8ynse/YUW6s4MWzZB
- CalJHXRBkNXk4TMSnJZDQt0VLv0Bt6MXifgrZuBoy/cPmMDEbZtbfcwkD4pGlCKU/FRMSJhIs
- 5Qj8sYsgYGUC7ZCPaX/rkRsWMPYgIvR8d5mvFeFZ6DcLOD9v6NW7sYV/GTvz3s6/XvgTc7JtR
- 8fbhqFVSLHQbiimkDWVr5yxws2p/kO1OarMGSyU8mfiixCxbydlNzu9v+FgykCNk7aF4EhmN7
- LWyTAxLz5PPXYh4mTcxiPdH2cozbUhZlwTzlZk1ws/LBDzIKgbjYO2gB5AsipUuHU9fkZ3Q0z
- BNR0y1ziCDgOK+M36+EzsZDPuei+bLx4jbKTLNwlnMR4Pp2udWg1M3R1pebpiaLUQRuHcShog
- cMplX+M/onLr8JwMGvofXKyQ==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240823153411.74142-1-abhishektamboli9@gmail.com>
 
-Am 23.08.24 um 17:14 schrieb Umang Jain:
-> Pass proper enumerated flag which exists, instead of an integer while
-> calling queue_message(). It helps with readability of the code.
->
-> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-Reviewed-by: Stefan Wahren <wahrenst@gmx.net>
+On Fri, Aug 23, 2024 at 09:04:11PM +0530, Abhishek Tamboli wrote:
+> Replace strcpy() with strcat() in rtl819x_translate_scan()
+> Also Fix proto_name[] buffer size issue to accommodate all
+> network modes.
+
+When you say "also" in a changelog text, that's a huge hint that this
+should probably be split up into multiple changes.  Please do that here.
+
+More comments below.
+
+> Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
+> ---
+> Changes in v2:
+> - Revert the use of strscpy and replaced it with strcat.
+> - Remove the 'pname' and replace it's usage with direct
+> operations on 'proto_name' buffer.
+> 
+>  drivers/staging/rtl8192e/rtllib_wx.c | 13 ++++++-------
+>  1 file changed, 6 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8192e/rtllib_wx.c b/drivers/staging/rtl8192e/rtllib_wx.c
+> index fbd4ec824084..ec0c4c5bade7 100644
+> --- a/drivers/staging/rtl8192e/rtllib_wx.c
+> +++ b/drivers/staging/rtl8192e/rtllib_wx.c
+> @@ -23,14 +23,14 @@ static const char * const rtllib_modes[] = {
+>  };
+> 
+>  #define MAX_CUSTOM_LEN 64
+> +#define MAX_PROTO_NAME_LEN 10
+
+Where did this "10" come from?  What sets this limit?  Why not 100?
+1000?  2?  You get the idea :)
+
+
+>  static inline char *rtl819x_translate_scan(struct rtllib_device *ieee,
+>  					   char *start, char *stop,
+>  					   struct rtllib_network *network,
+>  					   struct iw_request_info *info)
+>  {
+>  	char custom[MAX_CUSTOM_LEN];
+> -	char proto_name[6];
+> -	char *pname = proto_name;
+> +	char proto_name[MAX_PROTO_NAME_LEN];
+>  	char *p;
+>  	struct iw_event iwe;
+>  	int i, j;
+> @@ -59,13 +59,12 @@ static inline char *rtl819x_translate_scan(struct rtllib_device *ieee,
+>  	}
+>  	/* Add the protocol name */
+>  	iwe.cmd = SIOCGIWNAME;
+> +	/* Initialise proto_name as an empty string*/
+> +	memset(proto_name, '\0', sizeof(proto_name));
+>  	for (i = 0; i < ARRAY_SIZE(rtllib_modes); i++) {
+> -		if (network->mode & BIT(i)) {
+> -			strcpy(pname, rtllib_modes[i]);
+> -			pname += strlen(rtllib_modes[i]);
+> +		if (network->mode & BIT(i))
+> +			strcat(proto_name, rtllib_modes[i]);
+>  		}
+> -	}
+
+I think the } placement is now incorrect, right?  Did you run checkpatch
+on this change?
+
+thanks,
+
+greg k-h
