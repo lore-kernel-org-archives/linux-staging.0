@@ -1,115 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.smtpout.orange.fr (smtp-14.smtpout.orange.fr [80.12.242.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BABFB14F132;
-	Sat, 24 Aug 2024 05:45:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B9CC41C72
+	for <linux-staging@lists.linux.dev>; Sat, 24 Aug 2024 06:35:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724478304; cv=none; b=mw/QLKx0tzIc5Rw0EDGlAPfdB8vlCWIy1/PVhmURkOw5s7Z6mruebmlf4uTFx1dYvb6wrt0xIRxpw8QLzasJ72yx0YQ6ovCNfhykpSlFJ7mDGGY4mMFb1FtiRniEkasfhPXU04O4XAJg+4JYsLoQ+I7NcdlhTMLu/bPu17KhcCs=
+	t=1724481312; cv=none; b=Sj6eZLzhFyaLwu6FBPAVtYTZm1qVLvH7PaxkzCrwtok1CEviuPkk3j/i/ShG0p9CedGz261hexRrUmuhPchMJLduALHXTqYT5bF/1xrcPUZB8VJFiBBYOBmKwjDgigbp6Y6mqUZnNMY2Kz+ZNiRDdqnAxZcomjAwjA3I0h7znec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724478304; c=relaxed/simple;
-	bh=17296TZIkNThf8+jO89AL+ryDKa+Dvu6bh33utavEpE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TFoM4U/PrCVZgJ4677yimWSrc3nkGOJI6q1W1ONe3JKH1daWgspTK3nYt63yWVnOo/Gx3p+XIPvtTyBx+fUlM/cBLADV9prmKFySrzUABh+BljV0iinKci+UG9CIvXQez+66+nAcx7+lppfMz4RnsKOFaPR+D37gtan1TdEWZEw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=iIf+byh4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1724481312; c=relaxed/simple;
+	bh=TMgOLqfm30b86e4ts78f85wexaylim5TyQN7MaiIe6w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kd4g6gqEdPZvWk6DMp0dlK1/MelIRLPwwESuDwf32tP1HiM+emNgVl3wCcmy/aMeZHR0GA86BDKzcAX6FuN4I/6lpw6kpnYadiELPP68G49kVi+aSUyQp3REaOcraphKlnJO759ZGTeo9G3MQ9Xa8UtU5C1YzIY2V1oEn6grVvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=FvkssMyK; arc=none smtp.client-ip=80.12.242.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="iIf+byh4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8CA2C32781;
-	Sat, 24 Aug 2024 05:45:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1724478304;
-	bh=17296TZIkNThf8+jO89AL+ryDKa+Dvu6bh33utavEpE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iIf+byh4C/FEh6AyXTjbsFjiXdOtcg6N34CYO3DtejP0WrkAPMTJfbT+2LlhRQ5sy
-	 fpW7V75/w5smkSqv6LdxdlA5VOU1xVLwwFYgW+nY1jYCkE8NV8fQGWgSSLIhy61d9u
-	 0MgmnJwFcRF51a/9KK97ARSJgGFfIRr/0RDHoFlM=
-Date: Sat, 24 Aug 2024 13:45:00 +0800
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Abhishek Tamboli <abhishektamboli9@gmail.com>
-Cc: tdavies@darkphysics.net, philipp.g.hortmann@gmail.com,
-	garyrookard@fastmail.org, linux-staging@lists.linux.dev,
-	skhan@linuxfoundation.org, rbmarliere@gmail.com,
-	dan.carpenter@linaro.org, christophe.jaillet@wanadoo.fr,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: rtl8192e: Replace strcpy with strcat in
- rtl819x_translate_scan
-Message-ID: <2024082430-unlatch-antennae-0ea7@gregkh>
-References: <20240823153411.74142-1-abhishektamboli9@gmail.com>
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="FvkssMyK"
+Received: from [192.168.1.37] ([90.11.132.44])
+	by smtp.orange.fr with ESMTPA
+	id hkMasExHFZ40ahkMasoNh6; Sat, 24 Aug 2024 08:35:06 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1724481306;
+	bh=IQiQE8ZAQ9sR54pSRg1laMkFOYw/GV3RVSf0chmw70Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From;
+	b=FvkssMyKKbtvTjFBaVy3HTS8GkfFynWH7jhyv0nUCxq4+Cy8a9bkg+bnysYnxnuC+
+	 0czd8gSL3fy1ukfiyFgvVTixm7V2dEbapg0Egi2/WeP3o+yYZozDZlIeCDuwZ94RS3
+	 qBFYCG58IarylkSwnP5Z6eReAtzDW6NQ1GUKvbsj7ehe0jfyberviSh+WqhUV2EPdF
+	 MZYzGlOBTQw1+sq8nFKJfCqtrfZGVoKBvbKc6LVMH253McVgnjKEPvUkjxCTCsOvTb
+	 zV9fu4DpW8hNBF3brwKK5QjLCV/y9dEu6E4sEkivkSara13O9dprMRpwbJmBm/brB1
+	 aEXRTXlIhlrBQ==
+X-ME-Helo: [192.168.1.37]
+X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
+X-ME-Date: Sat, 24 Aug 2024 08:35:06 +0200
+X-ME-IP: 90.11.132.44
+Message-ID: <77e4dd0b-2c82-4f00-92a3-069526a5f795@wanadoo.fr>
+Date: Sat, 24 Aug 2024 08:35:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240823153411.74142-1-abhishektamboli9@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: rtl8192e: Replace strcpy with strscpy in
+ rtl819x_translate_scan
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Abhishek Tamboli <abhishektamboli9@gmail.com>,
+ gregkh@linuxfoundation.org, tdavies@darkphysics.net,
+ philipp.g.hortmann@gmail.com, garyrookard@fastmail.org,
+ linux-staging@lists.linux.dev, skhan@linuxfoundation.org,
+ rbmarliere@gmail.com, linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org
+References: <20240820184216.45390-1-abhishektamboli9@gmail.com>
+ <2348e646-e1da-4deb-ab55-c438a42e25b3@wanadoo.fr>
+ <510b12b8-91d5-43ce-a191-9ee0a6c91460@stanley.mountain>
+Content-Language: en-US, fr-FR
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <510b12b8-91d5-43ce-a191-9ee0a6c91460@stanley.mountain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Fri, Aug 23, 2024 at 09:04:11PM +0530, Abhishek Tamboli wrote:
-> Replace strcpy() with strcat() in rtl819x_translate_scan()
-> Also Fix proto_name[] buffer size issue to accommodate all
-> network modes.
-
-When you say "also" in a changelog text, that's a huge hint that this
-should probably be split up into multiple changes.  Please do that here.
-
-More comments below.
-
-> Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
-> ---
-> Changes in v2:
-> - Revert the use of strscpy and replaced it with strcat.
-> - Remove the 'pname' and replace it's usage with direct
-> operations on 'proto_name' buffer.
+Le 21/08/2024 à 20:23, Dan Carpenter a écrit :
+> On Tue, Aug 20, 2024 at 09:38:22PM +0200, Christophe JAILLET wrote:
+>>     - if a "mode" matches, do we need to iterate the whole rtllib_modes
+>> array? (have a look at wireless_mode)
+>>
 > 
->  drivers/staging/rtl8192e/rtllib_wx.c | 13 ++++++-------
->  1 file changed, 6 insertions(+), 7 deletions(-)
+> Can only one mode be set at a time?
 > 
-> diff --git a/drivers/staging/rtl8192e/rtllib_wx.c b/drivers/staging/rtl8192e/rtllib_wx.c
-> index fbd4ec824084..ec0c4c5bade7 100644
-> --- a/drivers/staging/rtl8192e/rtllib_wx.c
-> +++ b/drivers/staging/rtl8192e/rtllib_wx.c
-> @@ -23,14 +23,14 @@ static const char * const rtllib_modes[] = {
->  };
+> regards,
+> dan carpenter
 > 
->  #define MAX_CUSTOM_LEN 64
-> +#define MAX_PROTO_NAME_LEN 10
+> 
+> 
 
-Where did this "10" come from?  What sets this limit?  Why not 100?
-1000?  2?  You get the idea :)
+Hmm, apparently several can be set (see [1])
+
+Base on a few lines below, it looks that WIRELESS_MODE_N_24G is 
+exclusive from the other ones.
+
+So the 6 char array seems to be sized either for "N-24G", either for a 
+concatenation of a few other modes that won't exceed the size of the buffer.
+
+CJ
 
 
->  static inline char *rtl819x_translate_scan(struct rtllib_device *ieee,
->  					   char *start, char *stop,
->  					   struct rtllib_network *network,
->  					   struct iw_request_info *info)
->  {
->  	char custom[MAX_CUSTOM_LEN];
-> -	char proto_name[6];
-> -	char *pname = proto_name;
-> +	char proto_name[MAX_PROTO_NAME_LEN];
->  	char *p;
->  	struct iw_event iwe;
->  	int i, j;
-> @@ -59,13 +59,12 @@ static inline char *rtl819x_translate_scan(struct rtllib_device *ieee,
->  	}
->  	/* Add the protocol name */
->  	iwe.cmd = SIOCGIWNAME;
-> +	/* Initialise proto_name as an empty string*/
-> +	memset(proto_name, '\0', sizeof(proto_name));
->  	for (i = 0; i < ARRAY_SIZE(rtllib_modes); i++) {
-> -		if (network->mode & BIT(i)) {
-> -			strcpy(pname, rtllib_modes[i]);
-> -			pname += strlen(rtllib_modes[i]);
-> +		if (network->mode & BIT(i))
-> +			strcat(proto_name, rtllib_modes[i]);
->  		}
-> -	}
-
-I think the } placement is now incorrect, right?  Did you run checkpatch
-on this change?
-
-thanks,
-
-greg k-h
+[1]: 
+https://elixir.bootlin.com/linux/v6.11-rc4/source/drivers/staging/rtl8192e/rtllib_rx.c#L2200
