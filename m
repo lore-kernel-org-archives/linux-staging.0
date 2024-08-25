@@ -1,100 +1,95 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0F6F4AEE5
-	for <linux-staging@lists.linux.dev>; Sun, 25 Aug 2024 09:40:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 991BE15667D
+	for <linux-staging@lists.linux.dev>; Sun, 25 Aug 2024 15:46:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724578825; cv=none; b=AxottoMxCfhxypVI1NZZY10GopRsSEJJcfCJ+qJW9MyISlpyOrMD09P9WEOzXOHwD+/uyKMLOlX6YsoNdEJ/TOz/f7DhJElDRK+0xt6gxyBK7hNuiXcUYB7yIUL9RUHfYwanHr68JPAwztsT3F7YRotC1OpGVzvvyDpAJrpQ6BE=
+	t=1724600765; cv=none; b=h65+IjXeoAk9f0J7f7GSLrCVBUQI2GKLLxlNrwHViiyeuq3q4u4OmPyljiZjIMUnW4L2P5n6KAyFt+qtexuJLJr/NwZCwcXG3RsLtEh17MfwyZQPS//DHbNv61l/lDAlI9B76uNWd6A/ceFx51OM5HUigsoS9P/ZJrskxIH8Na8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724578825; c=relaxed/simple;
-	bh=Y6lOVFeGkZEIul1ReUgf0vf760b/SZtjUkjqrPFWgkc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KdQLdzgjiPj6nZlOCw+bHGagnXhqIxlUmMYoNuqhIvGp/vk1CEgX7L5dl9Nt9LlHJeizRK2sTm/UNwFi/ComTDHM1g7o+ZQ7S9e8y8mbhNnobo3j8GNLhq+AWvEL2G4FmIncWZc1DI8nctwyLe63b3oXlrbQ+8YcsaFzl+n+LuY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ln/ntWGA; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ZeKhGV3O; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1724600765; c=relaxed/simple;
+	bh=qFAr3JB9cQcJzIL3tHGa1v82oa2xKnsbgnCcDYEJ+f8=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version; b=GaGaAYpFCMnuBR1eOaSxa+xmZflKEKsTV0D2mfYS8+UGpRUNW8BoMutIshgQ6SPg3byRvktmAMahkl0d2sPy4IVdvLDESqalndvUPAEXomitBfmKgtPpuQg42pHZ6gYWMCTdUVLfK68ZzA66Jbm5SKPqlzu290/QVouiL+Ev9bY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CNdxlbGt; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ln/ntWGA";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ZeKhGV3O"
-Date: Sun, 25 Aug 2024 11:40:18 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1724578821;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EuwXP+rnomcsRu2oRLSiPatAHOqbx2HejldrdgYTASg=;
-	b=ln/ntWGA+giDjya2mW6mxYjy78rWFPWGa8NJjF4BKz/OuS5rp55HVQJjGdobjM6Ohtbduz
-	Enul8mSDlMYm1Rv56q2cQHPNoIxJZApQHlI8UCJuk8Khg1lxMz6F8JSfHanW7M4tZlyhj6
-	YtuFFI0kJkPr7viwc5fFf6ieKJtIAmvHVEYcFDxpYUO59cVeYIiXLPPp0ArZ6GlykC9gzW
-	9kGCHLvu9mjYzs3MqQoJuUbvtex5vhGZB345gbDHPX0lHfKZs+wwVDRJN9Nzvf9C2V7c2f
-	vsoJ8BNR03uNXP2RqMK/LmeDyr0som1YpfZC2BkjnYSpcrJ1W0iwLIg773eiPA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1724578821;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EuwXP+rnomcsRu2oRLSiPatAHOqbx2HejldrdgYTASg=;
-	b=ZeKhGV3Ot0XCzxlAFI8ngO5Ui8JKSi2snzw6FjQ9JHHLxguB4aA0l2Ld50eKFk1+2m+Njw
-	5csVtdnj9m+ygUBA==
-From: Nam Cao <namcao@linutronix.de>
-To: Riyan Dhiman <riyandhiman14@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: vme_user: Change slot number type from int to
- u32
-Message-ID: <20240825094018.bm5yDW4g@linutronix.de>
-References: <20240825072955.120884-1-riyandhiman14@gmail.com>
- <20240825075017.WNpBd0l7@linutronix.de>
- <CAAjz0QbOVn-M2uDnWVsh1AJjdN5d-AYsMkx3DjgaXVmS+SzARA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CNdxlbGt"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2021aeee5e4so22565055ad.0
+        for <linux-staging@lists.linux.dev>; Sun, 25 Aug 2024 08:46:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724600764; x=1725205564; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TovjW3a+wi44sci9aoW3NvQpz+eAWFPeMHC0GadI33U=;
+        b=CNdxlbGtB8D50YwoCDHe18pVIhFO4ZqHJKU0pesNuNa+Ee1QtULTcRFxa3LOBY66z4
+         UfnwQrr7SikRTy752nrMgVPdHGmc5whbyKsJLBzoY+KIQgDvzN+Sp4ng7lLbtg9DkhjW
+         nGTslKBVxlpgR8ewTKQrjhyKn3F2f+7NpArLqR9l3wrgf8oKTNWZLggjs0sIZRLJ5Dbb
+         9CmkwOqBQOiisanI3vVAFeaMXtjr0eOy/azowGsik/9XMwPkorZS2MxIp0KUDi6wFGwr
+         iWyh1APf97miCrHiLXPohv1idnvkq6yKRGfFuLVYB0nA8eu1za5BSigEj1etjzLYVxgU
+         dVAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724600764; x=1725205564;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TovjW3a+wi44sci9aoW3NvQpz+eAWFPeMHC0GadI33U=;
+        b=qLxF2GEFc1VX4O0yZQjYssjYkgzZ7OOkhCpOeYNuULX8Jl3jAA/rMOYKaSsc9peKP0
+         +4/OFEtRisPjDLGBcDA9GQ7pBFcRV4Dh4FA3+jc5Qe4shGmB4Ndg3WTzukJMYCdPZojD
+         jOyrJEwzgbqGOKe8qQiUN6kRSTRoGEaHWL/cmxHu/BZ4mSMVCiBlDOHqGjgyu5NtC0Xn
+         CG6uW8BjzbwvPf3pU2vOzuGqi4DpA6QcDBSmbudz8MiYWnJykR6FGVkd91e3Efi3Y4Es
+         PXWWhpGqNwilbl2ceQjfEd6P4qoF6ospeXbv8dPwHo2Z1gtmvcfSTQmQ/7kF77r79HIf
+         NF9A==
+X-Forwarded-Encrypted: i=1; AJvYcCVyVLshd2mxcqDW9T17OzfXuS0ea0qEFJLgikZSf2fB7WYZ0LwwrVXqx6nIo48zgLBRWhZ32q1b1/k02kMm@lists.linux.dev
+X-Gm-Message-State: AOJu0YwUvOFRn2MgEdXnTNev4xH7/Shuh9334XCF5hFvLFbDnZ8UcgFK
+	qIn1nd517lvypoRpFRHjTnt2rSq2HjEJGU+o6tjVvRiUqsDJtXr5
+X-Google-Smtp-Source: AGHT+IHlEas4dSlHv2gTUSOkjdLdLADScUZdAxxRIGXpu3M9hFADuEnKHV7QD6DfyQIX9o+mhj6q+g==
+X-Received: by 2002:a17:902:f54c:b0:202:3a1d:a231 with SMTP id d9443c01a7336-2039e4aa902mr79215165ad.31.1724600763592;
+        Sun, 25 Aug 2024 08:46:03 -0700 (PDT)
+Received: from localhost.localdomain ([2804:868:d047:ced3:41fa:c7cf:e733:9f1d])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20385564dcasm55256055ad.14.2024.08.25.08.46.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 25 Aug 2024 08:46:02 -0700 (PDT)
+From: Alien Wesley <alienwesley51@gmail.com>
+To: gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	~lkcamp/patches@lists.sr.ht
+Subject: [PATCH] staging: rtl8192e: Fix multiple assignments in rtl_wx.c:529
+Date: Sun, 25 Aug 2024 12:45:57 -0300
+Message-Id: <20240825154557.17912-1-alienwesley51@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAjz0QbOVn-M2uDnWVsh1AJjdN5d-AYsMkx3DjgaXVmS+SzARA@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Sun, Aug 25, 2024 at 02:20:34PM +0530, Riyan Dhiman wrote:
-> > Are you sure none of the changed functions ever return a negative error
-> > code?
-> 
-> Yes, I have checked all the functions and variables for it.
-> the slot function is defined like this
+Separated assignments for pairwise_key_type and group_key_type
+in order to silence the following checkpatch warning.
 
-What about vme_slot_num()? It may return -EINVAL, right?
+CHECK: multiple assignments should be avoided.
 
-> static u32 tsi148_slot_get(struct vme_bridge *tsi148_bridge)
-> {
-> u32 slot = 0;
-> struct tsi148_driver *bridge;
-> 
-> bridge = tsi148_bridge->driver_priv;
-> 
-> if (!geoid) {
-> slot = ioread32be(bridge->base + TSI148_LCSR_VSTAT);
-> slot = slot & TSI148_LCSR_VSTAT_GA_M;
-> } else {
-> slot = geoid;
-> }
-> 
-> return slot;
-> }
-> 
-> Here, slot is defined as u32, and the value read from ioread32be is also
-> u32.
-> In the else case, it is assigned to geoid, which is an int global variable.
-> This global variable is a module parameter defined as follows:
-> 
-> MODULE_PARM_DESC(geoid, "Override geographical addressing");
-> module_param(geoid, int, 0);
-> 
-> which I assume will always be non-negative.
+Signed-off-by: Alien Wesley <alienwesley51@gmail.com>
+---
+ drivers/staging/rtl8192e/rtl8192e/rtl_wx.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-If this should always be non-negative, then perhaps we should prevent users
-from specifying negatives values. But that's a separate issue.
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c b/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
+index fc8e7f73b2a4..47f1adf30ab4 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
+@@ -526,7 +526,8 @@ static int _rtl92e_wx_set_enc(struct net_device *dev,
+ 	mutex_unlock(&priv->wx_mutex);
+ 
+ 	if (wrqu->encoding.flags & IW_ENCODE_DISABLED) {
+-		ieee->pairwise_key_type = ieee->group_key_type = KEY_TYPE_NA;
++		ieee->pairwise_key_type  = KEY_TYPE_NA;
++		ieee->group_key_type = KEY_TYPE_NA;
+ 		rtl92e_cam_reset(dev);
+ 		memset(priv->rtllib->swcamtable, 0,
+ 		       sizeof(struct sw_cam_table) * 32);
+-- 
+2.34.1
 
-Best regards,
-Nam
