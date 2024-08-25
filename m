@@ -1,127 +1,103 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6290F3A1CD
-	for <linux-staging@lists.linux.dev>; Sat, 24 Aug 2024 17:09:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81D072AD22
+	for <linux-staging@lists.linux.dev>; Sun, 25 Aug 2024 03:55:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724519397; cv=none; b=rGdtyyp/voInWmdj7/jwDLotp275A10sFubecGKXVpIWsY38DHWDpf/J9cfi9Tn/LcaHH3sPZjGGfoWLul4xguheJTx7vb8VcZqV9J+dg9CKDnBNdWx4q6jMOdIULx0IqIGoN7qWhdm9uOxkkNHtCBL/n/V6i9gLLJ5Rv28EqSw=
+	t=1724558128; cv=none; b=k+CyiUL4yAl6RkCCHTUh/wWnUiT8AEM54j9qDRgryAF6JtwBILHLOocPJIm5yCQX50jAgacBnmGDe8vb5b5xdhZTjXkN988CQbZtRmCJsxbCETUDZnbPojFLGN6MFojcq1WvUrg25MZ2KOa/xV/jaJ1UgJKYnExtoHuLkPyfhAs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724519397; c=relaxed/simple;
-	bh=La036WycZQy3mqYzLfhylb4KkfjLHAUpK50Cg8o1hp0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PqdMpUnNMW3Y4JM4J8uUeEwLj+J1efSy61gx4oEQpQcXxSxscQjZFbf+5IZtJ117M+rMBVWIDnK0waZKUb325OibUDtg/wCUNVzzNZ+rHHXZvSTAmtbahW/I/HzH5YSvS6gGpylwxvocJutfqSig+303zErZFAGtuL3rqSiw2ZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CBMNrf6N; arc=none smtp.client-ip=209.85.210.181
+	s=arc-20240116; t=1724558128; c=relaxed/simple;
+	bh=sZQOe7xHP3OjdupH2X9l9O+m1HSX2fWNk440f4gWAWE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=O/j8YoRmchcYUtnZOdRidu0pMNZjGk1UPbiwGG98DLEiYNqxK2sQSOtBBRAd+9g1EBmzT58l7ygOKVBaPisCtW5MsPRCOO/5/fhIuahjW8uoLny/cYvfzcxs2tJWFAT+l/Mlf4rMGkRbVLD4rUKa7rkLAbzch1XwVrYryBaAKIo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RzZveeM8; arc=none smtp.client-ip=209.85.210.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CBMNrf6N"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-7141e20e31cso2537439b3a.3
-        for <linux-staging@lists.linux.dev>; Sat, 24 Aug 2024 10:09:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RzZveeM8"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-7141e20e31cso2755136b3a.3
+        for <linux-staging@lists.linux.dev>; Sat, 24 Aug 2024 20:55:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724519395; x=1725124195; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZPJk8EyuuRtmKqUwvIeHzU/+eqZnjDPiW4lHYi002sw=;
-        b=CBMNrf6NnfVAnPMOka2DvWY0bld/1g/MpExhrMFMouNhaSw7AfheJ6Gg/YK/w4yZ/L
-         X3H1oDvr7RHQOzvpXZ++5208FRWt0UYBzgNPtV7o79pkPx9frcoyhYD+fVgjTa26dfcQ
-         rd0BG1flQ6hU7i47avhbHf06rDICoxQ6lTiBSFK0hkYzO7DgTmmck4vzUNY0c4/iE+oK
-         EFLsZcFrtlyNflSB1ylJMRqqsbqvanRyQCkfu9BXwpmCLh4mbpmRJv//dtmUnIKVegfI
-         fPt2TWs9cwfgT31XhZzFjhQWABKU3fC2zGxQDKGs8gPq4bkrZXZOnMn793iy70l1q2Sc
-         Duig==
+        d=gmail.com; s=20230601; t=1724558127; x=1725162927; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Im7+BhtxW89XIZEU/f57AqCNicfD4Wbey8FFMEh3HXA=;
+        b=RzZveeM8zH7GbyrxuB/9MhShr6zj1SRBliAK6j12NjmFbInYhTlLe+I6Vd4wLkRTTO
+         usdRxuM5hCy5cwZhmj1I6mi9rNW+KMXZS2u95LBFcjMg+DJIG+KofX70p81fdTcGKXGl
+         Uo5C4w9NqzWibKSptENkRa1siuE9wIx68Ca39IFlefwskP5hQSbdA/VzUfsmwO217tj9
+         NzTSt9e2yDew7JaKqNXEEyvrITD2nDPqV4xjO7NeFhUIgirg7bjLZEecNmezWMEsVSUe
+         1jXd5MkDGygp1QJZi+3TrXVztfHlLNTDVJF4Oi/J3dC0P2sO4gjG+V5bUBG9wc6rh733
+         mg5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724519395; x=1725124195;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZPJk8EyuuRtmKqUwvIeHzU/+eqZnjDPiW4lHYi002sw=;
-        b=LZEl/cSB1lnjfocS6D311Fv43LPxPSyo3tIu/rlJ59DX9/Dm+/RJFwKh9vsh8p+iYh
-         ekORZ4S3diDJ5NFPgYzyIny+CwOhLNiZ1KkHRjVkwzCOsqKDkMICyTGsa/U3u/QeeCrx
-         PZez623b9WQ3rzoULhmhjB/Iq8/kJLmtNL5iPBL+sEa5zpt2V/UX1NxzWVwyTVP4lpf9
-         YIHvPUXh3p+5VWxv6QaQ2UXw8m1Qm4gmN47TLYupwjgudKxXgO/dGUkBfFqMf7xZqQii
-         zfdfyTdx2ebuzSk0ewR02hLWothHbMX58VOp01kDzN+rHF5OGuPG4g/s5fzG2uYEtHn8
-         qAmQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV5/uRgUt0tWFRwWiweshXAMJwt9f8oAh5x7dAXRSDCbh7qHzm2iCRA6HuCjxo7xzpZdov//ukdBacy1Kj7@lists.linux.dev
-X-Gm-Message-State: AOJu0YwQTxwlNnhn0d95JhM7jossRnfVeLaLq+Vj9YyBtvmc4c4qySiv
-	ZkSv4EktByo0VFxx8ieYFkRxiWMhQKlcqICsrd8SpnQqi8x82J8K
-X-Google-Smtp-Source: AGHT+IGsTpC0pTthXoZnHjqhn53xX6WlH/J3bzT8ObofnPMW8MYz5akRV1EXCigvl6F1amd2VZsX9g==
-X-Received: by 2002:a05:6a00:3d10:b0:714:2069:d90e with SMTP id d2e1a72fcca58-7144588dea4mr7293669b3a.26.1724519395389;
-        Sat, 24 Aug 2024 10:09:55 -0700 (PDT)
-Received: from embed-PC.myguest.virtualbox.org ([106.222.233.87])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7143422ecedsm4714403b3a.25.2024.08.24.10.09.52
+        d=1e100.net; s=20230601; t=1724558127; x=1725162927;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Im7+BhtxW89XIZEU/f57AqCNicfD4Wbey8FFMEh3HXA=;
+        b=SRUnztMU0z1yl34QhSMNShGrvnJMoUUZxPrZV+61XGCMc3Q+V+nxU/Y6Q8bGn/iS51
+         jC4WO4noredlx57UgoNA+qjmU0QnfNJo0yNFfl/FLJSGlHq0lU6vkefkiWz2JX90mTan
+         0eK3VPa+34TppNs+zRvCYavLqWNLp7F09roUXWvbxFdkRI5nhZs5Dn7R40sr3KNYCU8Y
+         pYasegn2MbX4f+E0nfEO4mXcM5AdG2wD6GnNY75MEoOsL8DNxnb2FN6v3ELpMtAqbDEC
+         5wOajrKjaCf5qhtYjlp1uXGfPPPGurDEnkc9PUwacZv8AePW2fD3F1Eg2oZx8+BGhHYC
+         dXjg==
+X-Forwarded-Encrypted: i=1; AJvYcCUkVQ3xDWKuGwpWNFNwOHIFWYxN+i6ut9uhzTyzLmqlxFpRxsGrxaCoCPGIsUR9moYC63jpRww/tCZAO11K@lists.linux.dev
+X-Gm-Message-State: AOJu0YzOXcwupaR05Kt9YmSFH82aRe6fw7RGz1zXLsiXGCZJjBCzsSHJ
+	yLFrwLneWWlWTLYRZtxZIrzGHSeRv25u73bsKZMiipCDhn+Pwp2W
+X-Google-Smtp-Source: AGHT+IE22uT2L7oxZJxiJ0DzouctlKhGAxVyb4UuNjbPFENilt4LXT1f9PRGUJ9QzbJ+rZNUE/HBOA==
+X-Received: by 2002:a05:6a00:10cf:b0:714:380e:12b7 with SMTP id d2e1a72fcca58-7144576eeeemr9074641b3a.8.1724558126321;
+        Sat, 24 Aug 2024 20:55:26 -0700 (PDT)
+Received: from fedora.. ([122.180.191.78])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-714342750a0sm5260124b3a.95.2024.08.24.20.55.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Aug 2024 10:09:54 -0700 (PDT)
-Date: Sat, 24 Aug 2024 22:39:49 +0530
-From: Abhishek Tamboli <abhishektamboli9@gmail.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: gregkh@linuxfoundation.org, tdavies@darkphysics.net,
-	philipp.g.hortmann@gmail.com, garyrookard@fastmail.org,
-	linux-staging@lists.linux.dev, skhan@linuxfoundation.org,
-	rbmarliere@gmail.com, christophe.jaillet@wanadoo.fr,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: rtl8192e: Replace strcpy with strcat in
- rtl819x_translate_scan
-Message-ID: <ZsoT3eQq6muDPh5Z@embed-PC.myguest.virtualbox.org>
-References: <20240823153411.74142-1-abhishektamboli9@gmail.com>
- <1c640c3d-c5db-4eb7-8a22-6d9886a1412a@stanley.mountain>
+        Sat, 24 Aug 2024 20:55:25 -0700 (PDT)
+From: Riyan Dhiman <riyandhiman14@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Riyan Dhiman <riyandhiman14@gmail.com>
+Subject: [PATCH] staging: vme_user: Added static to image_desc and vme_user_vma_priv struct
+Date: Sun, 25 Aug 2024 09:25:14 +0530
+Message-ID: <20240825035514.40095-1-riyandhiman14@gmail.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1c640c3d-c5db-4eb7-8a22-6d9886a1412a@stanley.mountain>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Aug 24, 2024 at 02:21:47PM +0300, Dan Carpenter wrote:
-> On Fri, Aug 23, 2024 at 09:04:11PM +0530, Abhishek Tamboli wrote:
-> > diff --git a/drivers/staging/rtl8192e/rtllib_wx.c b/drivers/staging/rtl8192e/rtllib_wx.c
-> > index fbd4ec824084..ec0c4c5bade7 100644
-> > --- a/drivers/staging/rtl8192e/rtllib_wx.c
-> > +++ b/drivers/staging/rtl8192e/rtllib_wx.c
-> > @@ -23,14 +23,14 @@ static const char * const rtllib_modes[] = {
-> >  };
-> > 
-> >  #define MAX_CUSTOM_LEN 64
-> > +#define MAX_PROTO_NAME_LEN 10
-> >  static inline char *rtl819x_translate_scan(struct rtllib_device *ieee,
-> >  					   char *start, char *stop,
-> >  					   struct rtllib_network *network,
-> >  					   struct iw_request_info *info)
-> >  {
-> >  	char custom[MAX_CUSTOM_LEN];
-> > -	char proto_name[6];
-> > -	char *pname = proto_name;
-> > +	char proto_name[MAX_PROTO_NAME_LEN];
-> 
-> In the end I think we don't want to make this buffer larger.  But if we did
-> this define is really vague and slightly confusing.  I assumed it was something
-> else when I read it.  It hurts readability.  It would probably be better to just
-> leave it as 6 instead and add a comment.  /* Large enough to hold "N-24G" */
-Okay, I'll revert the buffer size to 6.
-> 
-> >  	char *p;
-> >  	struct iw_event iwe;
-> >  	int i, j;
-> > @@ -59,13 +59,12 @@ static inline char *rtl819x_translate_scan(struct rtllib_device *ieee,
-> >  	}
-> >  	/* Add the protocol name */
-> >  	iwe.cmd = SIOCGIWNAME;
-> > +	/* Initialise proto_name as an empty string*/
-> 
-> This comment doesn't add any information.  Every kernel developer knows what
-> memset() does.
-Sure, I'll remove it.
-> > +	memset(proto_name, '\0', sizeof(proto_name));
-> 
-> Normally we would just say 0 instead of '\0'.  The other way to do this would
-> be to initialize it at the start:
-> 
-> 	char proto_name[6] = "";
-> 
-Thanks, for the feedback. I'll do the changes.
+struct image_desc and vme_user_vma_priv are used only in vme_user.c file.
+Added keyword static to these struct definition to limit its scope and
+potentially allow for compiler optimizations.
 
-Regards,
-Abhishek
+Signed-off-by: Riyan Dhiman <riyandhiman14@gmail.com>
+---
+ drivers/staging/vme_user/vme_user.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/vme_user/vme_user.c b/drivers/staging/vme_user/vme_user.c
+index 5829a4141561..fe1026857710 100644
+--- a/drivers/staging/vme_user/vme_user.c
++++ b/drivers/staging/vme_user/vme_user.c
+@@ -88,7 +88,7 @@ static unsigned int bus_num;
+ /*
+  * Structure to handle image related parameters.
+  */
+-struct image_desc {
++static struct image_desc {
+ 	void *kern_buf;	/* Buffer address in kernel space */
+ 	dma_addr_t pci_buf;	/* Buffer address in PCI address space */
+ 	unsigned long long size_buf;	/* Buffer size */
+@@ -114,7 +114,7 @@ static const int type[VME_DEVS] = {	MASTER_MINOR,	MASTER_MINOR,
+ 					CONTROL_MINOR
+ 				};
+ 
+-struct vme_user_vma_priv {
++static struct vme_user_vma_priv {
+ 	unsigned int minor;
+ 	refcount_t refcnt;
+ };
+-- 
+2.46.0
+
