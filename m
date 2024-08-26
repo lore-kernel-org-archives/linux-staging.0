@@ -1,114 +1,79 @@
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1AF633D5
-	for <linux-staging@lists.linux.dev>; Mon, 26 Aug 2024 01:17:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD87D4A28
+	for <linux-staging@lists.linux.dev>; Mon, 26 Aug 2024 06:34:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724635065; cv=none; b=V7II99la6tht6UClUktCwYinXxL/D9VXXs4dB6yu+4y9jL1Ti3u+H/Y/5nsjRnzQtrA8HruC5+wYXnEOfDuwG5a+b0mnuiSC7qC3lSDNBwQi78/PcAtUTHnuTJhg335HxOsDUu4Mq4BRfdXClZcNz74YfVYIEKR+nrI7MmzR0Kw=
+	t=1724654048; cv=none; b=AaacVy8DskDz21+O6FnRksu7UHxNfQg8vR30GZs0TYiEsKPFo6WdjKALAEsEIZMayZGW40Ifuk2xn4XzPn9TGxauZyPjTCowjMpCKaD4NgCJl4nZmvnPQrFTajW5awefoxrKCLFFl7VECxLkR8dSvBYEuVS6XphthQ+KWZkoZUc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724635065; c=relaxed/simple;
-	bh=ezGCtAxcjcPK8pheEZEEdKvztkYND4uAspNgza6uDhM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=pE1eI5HnHMeqEnEoDgps8FdNL7s8KV/NvkFbj5H6V3ogantUU+UL/rtnU0oomFN13Ml6gqrV7NXqiSgPLLvDpw05PtbxZRM1u601kxEZqtm+toO/QkSBE56PMDSS76qsyZHeeXmUYjW4s9DHe6+FP7EdKHVmlKV37wplryX6N8E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Umk7BTxv; arc=none smtp.client-ip=209.85.208.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1724654048; c=relaxed/simple;
+	bh=79dMh3ozZ2lqnDINOcOVhNaezlAI70Ja2qWWVLvBDAw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Fo8BhiUGdKMMXQwzhwETZGpyLnqzBzc8J3U/f6pCC92eiuxwql3UpDcTPS08ZbOpn0B2lskXBMWRexHjoLIbIr/tzWPaeXhT586o2VGnBOtVGMFFuS8YsJ/vpdcGuFm2mPehC4SwGsTu2snSQm1UDjqB69wVZ2OPQKoG4zRU3SA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YPiN7s0p; arc=none smtp.client-ip=209.85.208.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Umk7BTxv"
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2f504652853so13946541fa.0
-        for <linux-staging@lists.linux.dev>; Sun, 25 Aug 2024 18:17:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YPiN7s0p"
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2f3f68dd44bso45193821fa.3
+        for <linux-staging@lists.linux.dev>; Sun, 25 Aug 2024 23:34:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724635062; x=1725239862; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=QxFDewXXFNunsztuQO0RvZBxeihd9YkWSHDT+saDUe4=;
-        b=Umk7BTxvlaydPd6YxvoLPiSzFEt74LKng4yXK15i14xo2MMDopoZ7OmIdwvwQVgzES
-         Jg/PlF1dp6ca+v3I822+dsk07PhqEu3vSJ1BBTeasYsoOkFTdxaMD+yvwoNKZi2DGGsx
-         TAUNJxQmUHBhoS7dmxe3cL73C7J73DtJyMy01AvoR00wIDLL1LW7r0xYmVANFAETOZh7
-         qavSc64lKmQMb31n12bXBedCtnSAeSb1rR1zXoY3G5Blr+1CTfH7cqEebJvAGSc6D0F/
-         ZiB4gnvJnuHgsjgoTi3X1kpGXqiJa8N3MBjQy/JGKdsq7XYuHxknEovEJtkUqWUmjhmf
-         mRBg==
+        d=linaro.org; s=google; t=1724654045; x=1725258845; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=PVKhJvWevINCBH2qBuQO224gk6DRTc+AR1O2dLVPxfk=;
+        b=YPiN7s0pflg6yPRttN6EXJA2jdHHQgIn41uxdMfcKuxiqz/3+ELl5JpY4ssE6WC0M7
+         evjj/34tyK2tR+p7ULc0xHeszx3SuyjMeZ/CB1aGbGp7r/IORWCB/YzxFLuVy0r95+Y/
+         37lMLwbjNa6UU1WX+Gyu/HI41eelCXW5ygB+mSTrTxvxXbRfmb2kFWYAeqcjXm0AA6ph
+         IzR6VPliMTjevw6Ul/VlcmxblfXxDSiimTe89wWVyDMhFGOxqh4Yh/ZmaP6FZLhLyi7o
+         RzrB2wP49109EbOIKMv9IUd7nrupJspPi4Zr9PZBuH8x8takajJkElBkoP9zkbe2NwqD
+         GvdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724635062; x=1725239862;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QxFDewXXFNunsztuQO0RvZBxeihd9YkWSHDT+saDUe4=;
-        b=lmNepHbL5TDFM5FYFYQjFnMkONEDvbjpXavSs2lDENZAKWw+g8BHVDqBG5vY+elihB
-         ffgSGArFl/UzuiVTNBj/nqLpbIA4icrvhOnCaG/TTggNC/1kNKwDgRsNEVDXp2rb4hp0
-         ja3vQqzaDfvqZnTeaYV03F8bK3Og6sDRPpOvCtj2IqMnvRur80zerXbg20LtTa5C7y8H
-         rc0wELEzqIMGwLP9ASYdivB8hFCdn9/XN/XMhP85c33PG9Rotqho+6lTXV0ZRWaOIjHl
-         fFyHQ3U5n13XnbnlX/F9bOO240Xb0Yn1r1WrVOdZgoj9COBLSth9I18qR+36nsh50iCv
-         ONhQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVSI89b2qxpbqt5/Fi07kCeompzp03c4NkWEoaZ93bqz66WigxVUyfKXNAFHbHf+rPERsZSdAdp3P4Oe/DY@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx/+ltSD2fCDwNdjQM3CkcqVtKmtjwrMHC4EXq5Cu5bpSXMiHGu
-	NzkDa/V0H0rXWDDW39slT+0lR3cqaVG80G+yf2ixvudpARO+CT2CHABRQw==
-X-Google-Smtp-Source: AGHT+IHnZ7IT3cdohBhWPZ6YTHGuayfRidXmP/WHsf/HBFEug8GF9wIz0d/MIfigFSY8K3BmYWnoNA==
-X-Received: by 2002:a05:6512:159e:b0:52f:d128:bd13 with SMTP id 2adb3069b0e04-534387bcf46mr5019071e87.39.1724635061452;
-        Sun, 25 Aug 2024 18:17:41 -0700 (PDT)
-Received: from [192.168.0.104] (p57ba2f9b.dip0.t-ipconnect.de. [87.186.47.155])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a868f4f39b5sm598277566b.193.2024.08.25.18.17.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 25 Aug 2024 18:17:41 -0700 (PDT)
-Message-ID: <7ab3f48d-841d-4d61-936c-9e5112a3aaef@gmail.com>
-Date: Mon, 26 Aug 2024 03:17:40 +0200
+        d=1e100.net; s=20230601; t=1724654045; x=1725258845;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PVKhJvWevINCBH2qBuQO224gk6DRTc+AR1O2dLVPxfk=;
+        b=hbrIK5PmJY3Re52LrV1q8RHrwx0FZkyj8yDBs/1BeNOnIN00zit9FXEfBkFn0E7vYl
+         wFYTO0+iZI4uJP+3SNdwB+QtqItP7DZt63S/+FbbBwd2fAnDTHMypgH1WezanfS8gVMI
+         J5yHsNnpQmXNUO25X9p8R0FxvTnl98951zAkyeVNEN8ivRng60OS22+ll5rn3EmnIAqp
+         hrBS3LC/TxKHDVLhsvoBkdgEoP519J0//AIzVyQacBVrtsjKdvEziod0ZPQrX7V75+q0
+         pmPvl8gGE2l71VSpg9gcKFmXT+A369OcA5LiPc9V5/unVX1lEjElTzO37zZvl93QhvBM
+         ZBPg==
+X-Forwarded-Encrypted: i=1; AJvYcCV5+L7v0n8TiS8VtuchqeFGgLTOcX1WQu/opWC8NkcfDsJ94utBcQFHrHoL6FW5o4oqRRya2PWLN43Mz/gM@lists.linux.dev
+X-Gm-Message-State: AOJu0YwODvsGnWXyvleFE6Enk+PtYP8hxpUeWPy+PH2Q0+1RDOYUs2D6
+	fJbRWXuJ+LT3TblqSuoCrV+NFX5FuyKo4hRpVBQUWhRWCNluBm4reZqW1Hsx4+U=
+X-Google-Smtp-Source: AGHT+IHoy8mTyOxGm8laDg2utdl6ZPS732jQpJxtvh9UZHiw5iSkQt4l5jJLs4LhlX4N8QgJo+tsrg==
+X-Received: by 2002:a05:651c:209:b0:2f3:ee5a:ab8b with SMTP id 38308e7fff4ca-2f4f494246fmr61411181fa.43.1724654044600;
+        Sun, 25 Aug 2024 23:34:04 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c0515a94e7sm5211639a12.89.2024.08.25.23.34.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 25 Aug 2024 23:34:04 -0700 (PDT)
+Date: Mon, 26 Aug 2024 09:34:00 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Riyan Dhiman <riyandhiman14@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: vme_user: Change slot number type from int to
+ u32
+Message-ID: <535bf435-5f50-418f-ab69-84178bc49d90@stanley.mountain>
+References: <20240825072955.120884-1-riyandhiman14@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: rtl8192e: Fix parenthesis alignment
-To: Gabriel Tassinari <gabrieldtassinari@gmail.com>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, ~lkcamp/patches@lists.sr.ht
-References: <20240824144345.8873-1-gabrieldtassinari@gmail.com>
-Content-Language: en-US
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20240824144345.8873-1-gabrieldtassinari@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240825072955.120884-1-riyandhiman14@gmail.com>
 
-On 8/24/24 16:43, Gabriel Tassinari wrote:
-> fix parenthesis alignment in _rtl92e_qos_handle_probe_response to
-> silence checkpatch warning:
-> 
-> CHECK: Alignment should match open parenthesis
-> 
-> Signed-off-by: Gabriel Tassinari <gabrieldtassinari@gmail.com>
-> ---
->   drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-> index ad21263e725f..18739583f579 100644
-> --- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-> +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-> @@ -322,7 +322,7 @@ static int _rtl92e_qos_handle_probe_response(struct r8192_priv *priv,
->   
->   	if (network->flags & NETWORK_HAS_QOS_MASK) {
->   		if (active_network &&
-> -				(network->flags & NETWORK_HAS_QOS_PARAMETERS))
-> +		   (network->flags & NETWORK_HAS_QOS_PARAMETERS))
->   			network->qos_data.active = network->qos_data.supported;
->   
->   		if ((network->qos_data.active == 1) && (active_network == 1) &&
+This patch introduces bugs.  I wrote a blog entry about how to choose data
+types.
+https://staticthinking.wordpress.com/2022/06/01/unsigned-int-i-is-stupid/
 
-Hi Gabriel,
+regards,
+dan carpenter
 
-Please make your "Subject" line more unique. Consider that we may end up 
-with having dozen of commits like yours, all of them referring to 
-different removals and all without the necessary information to tell 
-what they differ in (except the driver/subsystem). So it would help if 
-you add the changed file or function to make it more unique.
-
-If you send in a second version of this patch please use a change 
-history. Description from Dan under:
-https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
-
-Thanks for your support.
-
-Bye Philipp
