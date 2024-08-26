@@ -1,67 +1,68 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B22CB150981
-	for <linux-staging@lists.linux.dev>; Mon, 26 Aug 2024 12:31:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A206170A11
+	for <linux-staging@lists.linux.dev>; Mon, 26 Aug 2024 12:36:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724675485; cv=none; b=C86gwnbl4iU6da+OCMztKBXTS+lA0UG1zj9cwCrN9vJ9c6SDasET8zHS/PQ6PS4eP9SYh2pdRkkq8Jxh7R1lgGXSi4J721DUWcQA+b9iKtaGyTqHPNoV20Nv83lcU8CzDwMCE5sxlK3BE2np3ib6CZ5jLlMcZb7gm6LsLubrr00=
+	t=1724675782; cv=none; b=aZyHEh4smGlaImqsPPKZjaoTvjunctr2aU+yfxcun+Pv4VVqSm4KOGa+Qtli6OxusAOVGzwNjiijFxmDzj4LuQm1NRhvCciFotm/Rv4KIomDMgbpFq4aOLH00emnUyCCyFmjy8eBclHmeeVNjpF8Wiahe8PnHmdugklQIAlgS/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724675485; c=relaxed/simple;
-	bh=7VmbSA9BQ5Cg3vBjj2lP8CLaKDj5AmDkYaDy2sgx/+Q=;
+	s=arc-20240116; t=1724675782; c=relaxed/simple;
+	bh=m5u0IcAWdKx8hVb/V0BzHt9oAthDFFYZLNAiWLrrlAM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gWfnbl3sDpxr63tosac4qlRby1rW8ncY54zWus/T+9Lxh9YX38FkKUVW+Vw6B6+PRddgKG3tXpVWjcsF6sJahBvNfXGfhNi0nflpBWxAnOcaSYuNcBsV3qxpXQHR3BoWezGaHBcPpxlSGqtj4Kg99HJiYcPxmBKbB2Ox4FIhtbY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SWEzoMWW; arc=none smtp.client-ip=209.85.218.42
+	 Content-Type:Content-Disposition:In-Reply-To; b=JhLQ0KWTUW9aqeuNbBlW05XytzaDLYF9m5LkfiKRWDXjXBxZLdYJTHcLP6I+tcwC4wrkvYAM/bliWKaqpF+w5niudur5k4QWmLJu9q3l7QoXZxtmf7+6y0SaEqjrVOsXIOo5Py2vKDYNKeZOkg7BvJKkMEjQlVVdwO+zbBEfD1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zXPE5TCZ; arc=none smtp.client-ip=209.85.218.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SWEzoMWW"
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a8682bb5e79so555619166b.2
-        for <linux-staging@lists.linux.dev>; Mon, 26 Aug 2024 05:31:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zXPE5TCZ"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a868831216cso488199766b.3
+        for <linux-staging@lists.linux.dev>; Mon, 26 Aug 2024 05:36:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1724675482; x=1725280282; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1724675779; x=1725280579; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=wejgIUhOad6H+tsVw/4i6tuHGA9fJib/IK/aR/qRKMg=;
-        b=SWEzoMWWRyD5fiZWJrcUgp8BUgRyBTMgTiyG3skssDtOmZOoqKeLudrJz+YwqoPLkc
-         fiwS6LJfnSE5OldnVIZWKGOJURmbTAhoEH4cAJeNz8TmkDYi7u+yXUgGSTVitMT6HMvI
-         fhbfw3GQj787ImleMwvpdlQQ+y3SPxVTZrnqwqu7qjTfSHtWxdhDy2kS8JOi9adLMxAV
-         T+Jpjbk3hhkIXqru63bMn0rljPjQAziHj4y175qCaVF5ZZtEfKOIRwjJHE4PBwmXx/qA
-         GwA4B1YvuyW3Igc35+3mv5INvXAVCNnRKr0YyP09KY5DILbz7Eh84Z0Gt3q+Jc9/89vd
-         5+Pg==
+        bh=0AvcnZxCYKbbgBxM1hp568Q4PFo11xk7FRTLAQWiodk=;
+        b=zXPE5TCZ1I1+Swd82ndhYX6jj/yLDPkrz2jKil7ylM/Z6KztlDPtsukAGa9qIwzHZU
+         Ul2lWeszXHMdqSHGX6+N//GUGXdQWrqU8/15CvF3dsIeQeid6DqBbnGeBLPk7rah448X
+         oY6slAqsv1J0hKNgmhKAJaTHHG9hl918TNSOEQzQaXj/WOSmR7MQMtVhdKpUWPgzCTeV
+         COsOlqpsPiJnCtJnfOCW78udUaBXT+/tiK2HFeh2BXgaeG1OWP+gdPeMuKuMHzSs6fqN
+         qnXxQi1bUCjKfNZ7UHsAmDPsv8P+TSjqzh4yKJ0Ve/tBVsFwnLcuH+bmpjSO1nf+ZQ87
+         7jiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724675482; x=1725280282;
+        d=1e100.net; s=20230601; t=1724675779; x=1725280579;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wejgIUhOad6H+tsVw/4i6tuHGA9fJib/IK/aR/qRKMg=;
-        b=mBXT2vb9n8lHacJWXXqs1SCx0BeQb5gF2zytZNP+cFSKrD8WMGxWP0PVx9yqHhK/6E
-         5sL192rQAEfMqc3Ha9+iR3ST7VtNI95ApmgrB/c1KqjdUdOwwS9OocTHeKqXEefneowb
-         xYB2/c1vpA3Yme/KJG86HXeYLmD899nKtf7AbZbkZ7GZfQXzw12JQM0MV8bCCVCMZppR
-         8uXT3duy3jYUsj8QPDd92OTYTsOM7Uwx07fE8U1QqEeLREwIvFeurpAMlX3LxOzR00Bh
-         KSyRAfFQTHjNFr1HcGP8/Dhy4mZluCeCiWpscBfMO8AxGMa8xVWeY9giIzl28Hj+M+ZL
-         Xihw==
-X-Forwarded-Encrypted: i=1; AJvYcCWVOtVmLZwl5sSRpwimD+ctqZBHIH8b3fVikwWsDJffwUmHl5wGkV+W9AePz9NB+qyHsBSkkwvlnaFHixFn@lists.linux.dev
-X-Gm-Message-State: AOJu0YxZ5o8EMlkGRTD7mlcjvQTEDU/FI/ISg+om2ROwC02xtBnvBk3V
-	NRnmH7L5DObpzAG8Y/VVnnVX+OsbmlQILieQlmOGFfgfiu/QxWxjQnhVTwZarQc=
-X-Google-Smtp-Source: AGHT+IGY2X52ALROQjsflCObpv/1qCEB42cXIalRxExLB16O8GieTsfHBeN+ow88Yl9xS3ISqQHk5Q==
-X-Received: by 2002:a17:907:e646:b0:a86:89ea:ee6c with SMTP id a640c23a62f3a-a86a52de5d5mr747313066b.30.1724675481798;
-        Mon, 26 Aug 2024 05:31:21 -0700 (PDT)
+        bh=0AvcnZxCYKbbgBxM1hp568Q4PFo11xk7FRTLAQWiodk=;
+        b=Au+R3BOMeYB9ue5OgbPPfvrzhSr8LvO8JjJmKaC0VWIBaJ8wB22/aHygtDglCyxZtO
+         u/1ZWTG7XgUoVgNxmXxU89vcFK6ByQT2/mnY2691Tzfkzp9OnQnfIWigF0fYxsqKu7sT
+         ew3szUYOzjlx+CkBYDTubRYzfg7CqIX2j/ZiaMK1UJbh6ur3XNIj7Ct4yKLuJOa5Eg3j
+         d5dm9S5SXGov5mQJfdYJATCWSXxo/4Bvoldpd8OnZV0x8fuo+XpsElWkexvrdX5g4wlC
+         Sh0lJbDMYQJvoMeTYaE6SjLa6LrkcSJj4N4vNIAHlFWeV/qnPIPagN29lXsX4qnAwT/c
+         Czyw==
+X-Forwarded-Encrypted: i=1; AJvYcCVS9s/acc5X/HsIiqwz4KHzkr+m/7UZAsoL8dyMqIFixgkjRrWi7EBFUJPuWJpIKcUkdcuH75HF2Tknslo2@lists.linux.dev
+X-Gm-Message-State: AOJu0YzEZddq24W7qptagHZClfzbNW47TvWdZ6UxMvRbI6P91+UKxa+b
+	rbeTq/veOOUa/6Yym13NbXmFffdlQKFiAyRJweD8zAiwGFMJNffuaDXYfIGm57/ymzwSsaSpS4e
+	5ZDQ=
+X-Google-Smtp-Source: AGHT+IEE434rCq1S+EXj/6yMfR8MXyDOkg3EGd1S4Q3BopexMzuNDob8Ant3j5ZoiRS32d0H0gnMig==
+X-Received: by 2002:a17:907:f18e:b0:a86:851e:3a23 with SMTP id a640c23a62f3a-a86a51af30emr723539466b.27.1724675779333;
+        Mon, 26 Aug 2024 05:36:19 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a868f4f5d5asm655984766b.217.2024.08.26.05.31.19
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a868f43367fsm657906866b.115.2024.08.26.05.36.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Aug 2024 05:31:21 -0700 (PDT)
-Date: Mon, 26 Aug 2024 15:31:12 +0300
+        Mon, 26 Aug 2024 05:36:19 -0700 (PDT)
+Date: Mon, 26 Aug 2024 15:36:14 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Riyan Dhiman <riyandhiman14@gmail.com>
 Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
 Subject: Re: [PATCH] staging: vme_user: Change slot number type from int to
  u32
-Message-ID: <6ba02745-0a55-4f5e-a75a-a7dfbd7070a8@stanley.mountain>
+Message-ID: <98a8d85e-9967-40df-8327-2fc03790b18e@stanley.mountain>
 References: <20240825072955.120884-1-riyandhiman14@gmail.com>
  <0289149f-3880-4e20-a22b-8540f212f1b0@stanley.mountain>
- <CAAjz0QaWLcP=VGDd_1DzJiTZe3aX12spr_a4jWfo1pUTeZUtWQ@mail.gmail.com>
+ <CAAjz0QbrrPL73qz7OjZMi4banzZ+xE+WgOFHitRKtrsytQzD+Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -70,10 +71,9 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAAjz0QaWLcP=VGDd_1DzJiTZe3aX12spr_a4jWfo1pUTeZUtWQ@mail.gmail.com>
+In-Reply-To: <CAAjz0QbrrPL73qz7OjZMi4banzZ+xE+WgOFHitRKtrsytQzD+Q@mail.gmail.com>
 
-On Mon, Aug 26, 2024 at 05:13:25PM +0530, Riyan Dhiman wrote:
-> >
+On Mon, Aug 26, 2024 at 05:18:57PM +0530, Riyan Dhiman wrote:
 > >
 > > Of course, there is a place for unsigned types in C but it's so subtle and
 > > complicated to explain.  I think people wish that there was a way to make C
@@ -81,56 +81,42 @@ On Mon, Aug 26, 2024 at 05:13:25PM +0530, Riyan Dhiman wrote:
 > > everything as u32.  It's a false hope.
 > >
 > 
-> The reason I changed int to u32 is that the slot function was declared this
-> way.
+> There is a function in the vme_user driver (vme.c:L715)
 > 
-> static int tsi148_slot_get(struct vme_bridge *tsi148_bridge)
+> unsigned int vme_master_rmw(struct vme_resource *resource, unsigned int
+> mask,
+>    unsigned int compare, unsigned int swap, loff_t offset)
 > {
-> u32 slot = 0;
-> struct tsi148_driver *bridge;
+> struct vme_bridge *bridge = find_bridge(resource);
+> struct vme_master_resource *image;
 > 
-> bridge = tsi148_bridge->driver_priv;
-> 
-> if (!geoid) {
-> slot = ioread32be(bridge->base + TSI148_LCSR_VSTAT);
-> slot = slot & TSI148_LCSR_VSTAT_GA_M;
-> } else {
-> slot = geoid;
+> if (!bridge->master_rmw) {
+> dev_warn(bridge->parent, "Writing to resource not supported\n");
+> return -EINVAL;
 > }
 > 
-> return (int)slot;
+> if (resource->type != VME_MASTER) {
+> dev_err(bridge->parent, "Not a master resource\n");
+> return -EINVAL;
 > }
 > 
-> The slot is taken from the ioread32be function, which returns a u32.
-> However, it gets cast to an int on return.
-> If the value exceeds the int range, it could result in a strange large
-> value. I didn't realize the potential bugs
-> this could cause. How should cases like this be handled? Should we include
-> an if condition to check if the
-> slot is within the int range, something like this?
+> image = list_entry(resource->entry, struct vme_master_resource, list);
 > 
-> if (slot > INT_MAX) {
->     return -ERANGE;
+> return bridge->master_rmw(image, mask, compare, swap, offset);
 > }
-> return (int)slot;
+> EXPORT_SYMBOL(vme_master_rmw);
 > 
-> Also, since slot will always return u32 isn't it better to declare it as
-> u32 rather than int?
-> 
+> It is declared as unsigned everywhere but returns negative error codes.
+> This is an issue,
+>  right? How should it be fixed? Do we need to change all the function
+> declarations to int,
+> or just in this function, since bridge->master_rmw returns an unsigned int?
 
-slot is "slot = slot & TSI148_LCSR_VSTAT_GA_M;" which means it is in the 0-31
-range.  The "geoid" variable is a module parameter.  These days we frown on
-module parameters, and say it should be configured via sysfs instead.
-It doesn't make sense for geiod to be negative or >= VME_MAX_SLOTS.  We should
-check that in the probe() function.
+Easy answer: Just delete vme_master_rmw() because nothing uses it.
 
-I would declare geoid as u32, to communicate that negatives are not allowed.
-
-Remove the cast from tsi148_slot_get() but leave the function as returning int.
-No need to over engineer it.  Plus that way it matches the type of
-vme_slot_num() which returns negative error codes so int is the correct type.
+Complicated answer: So long as the caller is saving it to int then it will work
+okay.  If it saves it to any other type then it will cause problems.
 
 regards,
 dan carpenter
-
 
