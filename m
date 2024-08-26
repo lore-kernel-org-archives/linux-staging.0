@@ -1,65 +1,62 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE6D8129E93
-	for <linux-staging@lists.linux.dev>; Mon, 26 Aug 2024 21:56:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F70D811E2;
+	Mon, 26 Aug 2024 22:18:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724709381; cv=none; b=bt+OkTeeqnQOJ84A2CF58Mvm2bsiczjY0oew+uFnA14L/c07wz76W4YQ1y/IeTUxhM9oYKL7RozNwOT8akr5O1filBX9w0fLXskGo+bbHN8iafKV9dMkIJQNgRFouZ5VOI030bgm0gDaEANTkI4ontwNkpz9bBaaPFgJZXTt85E=
+	t=1724710716; cv=none; b=cv3QjVeFxzbh+p08WLPLXYC6t+0HzAxrqQrAZKaVbw4gxAh4j/ZOfXjtXoyoZ+a9QESKgKqPcPFFXV23mhq4PPBV5R3bdWUnn5PXYoF75cnLYVXzaB/bCFPYI2N1AXMhnRjPFA3N4p6YtHljbKZM+abqPbugWLQt2WnyAQGOqKQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724709381; c=relaxed/simple;
-	bh=z1V+5X4NGL8P1NP6M55Sd9QL6xANf8ThVPfSxOkr7z4=;
+	s=arc-20240116; t=1724710716; c=relaxed/simple;
+	bh=MVlCFsa8xCqY3Xhljjr7AMHm4zhlZHIzJB6hjmluN/o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k7mGYUJ/657VRcWrsJDDQpGA88uLUoCszIkOFhuQyBZLjLlUgINtbvIkRuhwJLAlmrWoi/xDAEHjR2av5TA+alELYncy3cZQWsiVJdgoHwyI3BXcx89MwrnPlIbQrWUmpB93SqIpoEKZu/2TSxgSXFI9YTyhRl4M77SxjKjQ0c4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DiGHfQWr; arc=none smtp.client-ip=209.85.208.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=t/Bue13jN1DWLIr8BCAZcT0alxY535TK3zvQSxVJcaI/+uGFdRSiLsi7m1HxkSebOZcWPCLq69aeQB+P5nhqTZ7FmMBHv6h5xJ3VmfhJtGnSLlNojVplhe8HkiIFX57UQ1LbaeZVy0uaHJcWEleEVhanHPKvRuHeTRZrYb1hR7A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SndredBN; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DiGHfQWr"
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-58ef19aa69dso5063491a12.3
-        for <linux-staging@lists.linux.dev>; Mon, 26 Aug 2024 14:56:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1724709378; x=1725314178; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=W6dUkFSd+S/BDDOrXrzqOyvghgGgxpTPpn+EU6Vf05k=;
-        b=DiGHfQWrWBwd8O5UfOQt2ABshh7y7/z7gMLFFXY0rVaFfEP1ymRfisTyaC4KpIvQYb
-         4N9xd+HTRq53mVCUuvWueh3U7tlU7VGJdYwt5tFn9vGMvvXR6y7yMBXhvyXU+jI9ce0E
-         EQ73jhxbszcfaibmExPs1ILJzdyoWjRvSTItSky85bxY6L2y+krTsOs+jhY+eHsCn0x1
-         FXgrE3rI5eGuIXhaA12Q/wPqn0eiJi4WHzrlHvxlapuJC3FzbdHTirvfWUsja3Iy5hsB
-         sAO143s/LauNWCodDDGSpPTdu/4BdA1azvVFVcnZRSEdSZDsHjgGp60o0dKXb+gwmZlD
-         NNuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724709378; x=1725314178;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=W6dUkFSd+S/BDDOrXrzqOyvghgGgxpTPpn+EU6Vf05k=;
-        b=Fn9lH/+vsCuCzz+0hyE+B7pndn4L8uZPdgbR0rTLJRXt5+01cYZaCAZbVxQtoJiLPo
-         Ud61fqVFLHAVrxMHuA+omZjDQ0CCNB7/PYsCTVo8cLSMD/KTvBbg1TxHO5jHnh+lvJWR
-         MuxQ20pFlL6k7+Ds21Bl+QoGykvID0CF2IyVg7LSeUAX5XwHS2RbhfMS6haI+Nc/wfQ8
-         9ls31qK15lqjxc1IT0TsECG3r/woC2e8Lwzd2ODwC/FfV/VpaUC0Swgllf9yhp9SSOAU
-         IYjGgxnP0QbrveibB1+qE3pHYFCjysvAsVsX2i+xkRl/iwzXo/6XnvyYSMCOThl0MCPs
-         b1rA==
-X-Forwarded-Encrypted: i=1; AJvYcCW3MCqXPPuYCCimVMkvd9TD9chCJL/cgJmh5TqwJgSo4xqXkcML0IXof1KBm0kgEPaJaE7GbnEyI8aAd0Bk@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzeo3ds1sefI3UsS3Av0Vo2aJRONBqLmBoVKEx/BLnn3UhCZZ3M
-	ZD50DtFyCueUxbBhRCeclHEXH96dXcAbiYk2Xgriz96YcTMKHN83Xl9m6N1JCy8=
-X-Google-Smtp-Source: AGHT+IH9lzOnn4XJQWgQEf0R30Ms8zeYbDabfY++XhhQRNHVljlbOHdyOf7a8ZpvfBq7LfL1HjNDYQ==
-X-Received: by 2002:a05:6402:1ecd:b0:5a1:c43:82ca with SMTP id 4fb4d7f45d1cf-5c0891a1ff0mr6491430a12.26.1724709378040;
-        Mon, 26 Aug 2024 14:56:18 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c0bb4722b0sm231354a12.69.2024.08.26.14.56.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Aug 2024 14:56:17 -0700 (PDT)
-Date: Tue, 27 Aug 2024 00:56:13 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Riyan Dhiman <riyandhiman14@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: vme_user: Remove unnecessary type casting and
- data type of geoid to u32
-Message-ID: <1e365b63-64da-4ad6-9fea-1026c55b88a3@stanley.mountain>
-References: <20240826144430.50488-1-riyandhiman14@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SndredBN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1724710715; x=1756246715;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=MVlCFsa8xCqY3Xhljjr7AMHm4zhlZHIzJB6hjmluN/o=;
+  b=SndredBN1MWVFT7q7hhnmFO7zrr3IT4ivJ7RECF4RgX19dfew1N960q0
+   SgmdJynnMy0Pyq7qAx1CLzNuGY2gYUZtSszDmVF/vHcCmAdffn6enIQvb
+   M6Zni187m8YpWP5ibKJFWFPtOVszSiF6A50bcqiQnzQujBUL7VJYdxHCY
+   OFiz3O8q27f5UUn2KUHSNEgwQwK598UolknxAUXb0w001HW+F5tZK2ARj
+   1VGAsWV3uRSD0FMkiH8o3+3OtRCVjEZ0q5g/ErGVMBfB6mQ73SWMe9kk2
+   tCGma0yqnHwP6bpJAFIaMXEKlLL+jjH8g2qR7E6h4ws0pR8ZKcj6RiCQq
+   A==;
+X-CSE-ConnectionGUID: WH4qKkrpTWmSxpA8t+Znlg==
+X-CSE-MsgGUID: ZZ9DB/QbQZm3HIHGn7fX5Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="40664835"
+X-IronPort-AV: E=Sophos;i="6.10,178,1719903600"; 
+   d="scan'208";a="40664835"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 15:18:34 -0700
+X-CSE-ConnectionGUID: Mnsg5zSNRGumjwdALwsruA==
+X-CSE-MsgGUID: zytyjoo3QH2G4lsEMjKcvQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,178,1719903600"; 
+   d="scan'208";a="62817568"
+Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 26 Aug 2024 15:18:31 -0700
+Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sii2f-000HeU-1h;
+	Mon, 26 Aug 2024 22:18:29 +0000
+Date: Tue, 27 Aug 2024 06:17:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: Riyan Dhiman <riyandhiman14@gmail.com>, gregkh@linuxfoundation.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	Riyan Dhiman <riyandhiman14@gmail.com>
+Subject: Re: [PATCH] staging: vme_user: Added static to image_desc and
+ vme_user_vma_priv struct
+Message-ID: <202408270621.ILLZ4jZN-lkp@intel.com>
+References: <20240825035514.40095-1-riyandhiman14@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -68,31 +65,148 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240826144430.50488-1-riyandhiman14@gmail.com>
+In-Reply-To: <20240825035514.40095-1-riyandhiman14@gmail.com>
 
-On Mon, Aug 26, 2024 at 08:14:30PM +0530, Riyan Dhiman wrote:
-> Removed unncessesary typecasting to int.
-> Changed geoid data type to u32 because it will always going to be positive.
-> 
+Hi Riyan,
 
-This does several things that aren't necessarily related.  But it really needs
-to add some bounds checking to the probe() function to ensure that geoid is < 31.
+kernel test robot noticed the following build warnings:
 
-Here is like a life hack: The one thing per patch rule is slightly ambiguous so
-when you're writing commit messages you really need to sell what the one thing
-is that you're fixing.  But in this case the changes to resource_to_user() are
-clearly unrelated.
+[auto build test WARNING on staging/staging-testing]
 
-I am going to give you the most conservative advice.  I don't necessarily like
-to split it up this way personally but it's the least common denominator path
-and we will merge it.
+url:    https://github.com/intel-lab-lkp/linux/commits/Riyan-Dhiman/staging-vme_user-Added-static-to-image_desc-and-vme_user_vma_priv-struct/20240826-142747
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20240825035514.40095-1-riyandhiman14%40gmail.com
+patch subject: [PATCH] staging: vme_user: Added static to image_desc and vme_user_vma_priv struct
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20240827/202408270621.ILLZ4jZN-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 08e5a1de8227512d4774a534b91cb2353cef6284)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240827/202408270621.ILLZ4jZN-lkp@intel.com/reproduce)
 
-patch 1: add bounds checking
-patch 2: change the type to u32 and remove the check for negatives that you
-         will add in patch 1.
-patch 3: remove the cast in tsi148_slot_get()
-patch 4: remove the cast in resource_to_user()
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408270621.ILLZ4jZN-lkp@intel.com/
 
-regards,
-dan carpenter
+All warnings (new ones prefixed by >>):
 
+   In file included from drivers/staging/vme_user/vme_user.c:16:
+   In file included from include/linux/cdev.h:8:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:181:
+   In file included from arch/s390/include/asm/mmu_context.h:11:
+   In file included from arch/s390/include/asm/pgalloc.h:18:
+   In file included from include/linux/mm.h:2228:
+   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     501 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     508 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     520 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     529 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/staging/vme_user/vme_user.c:19:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+         |                                                      ^
+   In file included from drivers/staging/vme_user/vme_user.c:19:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+         |                                                      ^
+   In file included from drivers/staging/vme_user/vme_user.c:19:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     693 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     701 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     709 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     718 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     727 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     736 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> drivers/staging/vme_user/vme_user.c:91:1: warning: 'static' ignored on this declaration [-Wmissing-declarations]
+      91 | static struct image_desc {
+         | ^
+   drivers/staging/vme_user/vme_user.c:117:1: warning: 'static' ignored on this declaration [-Wmissing-declarations]
+     117 | static struct vme_user_vma_priv {
+         | ^
+   19 warnings generated.
+
+
+vim +/static +91 drivers/staging/vme_user/vme_user.c
+
+    87	
+    88	/*
+    89	 * Structure to handle image related parameters.
+    90	 */
+  > 91	static struct image_desc {
+    92		void *kern_buf;	/* Buffer address in kernel space */
+    93		dma_addr_t pci_buf;	/* Buffer address in PCI address space */
+    94		unsigned long long size_buf;	/* Buffer size */
+    95		struct mutex mutex;	/* Mutex for locking image */
+    96		struct device *device;	/* Sysfs device */
+    97		struct vme_resource *resource;	/* VME resource */
+    98		int mmap_count;		/* Number of current mmap's */
+    99	};
+   100	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
