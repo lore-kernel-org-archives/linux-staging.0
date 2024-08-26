@@ -1,122 +1,148 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A206170A11
-	for <linux-staging@lists.linux.dev>; Mon, 26 Aug 2024 12:36:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FB7818FC85
+	for <linux-staging@lists.linux.dev>; Mon, 26 Aug 2024 14:44:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724675782; cv=none; b=aZyHEh4smGlaImqsPPKZjaoTvjunctr2aU+yfxcun+Pv4VVqSm4KOGa+Qtli6OxusAOVGzwNjiijFxmDzj4LuQm1NRhvCciFotm/Rv4KIomDMgbpFq4aOLH00emnUyCCyFmjy8eBclHmeeVNjpF8Wiahe8PnHmdugklQIAlgS/8=
+	t=1724683499; cv=none; b=sdWeKIQMJWe7SAEkCOu3QChrKRIs41vJiU8GYlIr5rKnKQ7iGTrkerUqSlu0tv21c2mH+HCE4HTMuZKUdY64hXkyOtJpL88NkZYHjV3mZMcGaQJwH1DQ6oH0syURSRpIy+4REmNhiv76Qcz+LSZjDYNMhuyE7SPAyMUqbaNj3VI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724675782; c=relaxed/simple;
-	bh=m5u0IcAWdKx8hVb/V0BzHt9oAthDFFYZLNAiWLrrlAM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JhLQ0KWTUW9aqeuNbBlW05XytzaDLYF9m5LkfiKRWDXjXBxZLdYJTHcLP6I+tcwC4wrkvYAM/bliWKaqpF+w5niudur5k4QWmLJu9q3l7QoXZxtmf7+6y0SaEqjrVOsXIOo5Py2vKDYNKeZOkg7BvJKkMEjQlVVdwO+zbBEfD1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zXPE5TCZ; arc=none smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1724683499; c=relaxed/simple;
+	bh=5atMg448e2EGeYdg2+Te67O/wq4PwN7quv95XWt3Jfg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=n5p9uD+0DMJtSatJ7Bf0XcAPspjFBNfpTozEfObS5fJzC5MKxX9nCxE46P0YUBRZTdE3BOs6dvnvKa4hfbcf3d3olt8zYqE83pcH7L9V+xdcvjU2Yck4zQKmasaOxP/LFz3slM+Ae5Knev/N5Wske+6ygqSSkPDDgPqiTESFtPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fC9YtRvV; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zXPE5TCZ"
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a868831216cso488199766b.3
-        for <linux-staging@lists.linux.dev>; Mon, 26 Aug 2024 05:36:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fC9YtRvV"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-20202df1c2fso34754445ad.1
+        for <linux-staging@lists.linux.dev>; Mon, 26 Aug 2024 07:44:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1724675779; x=1725280579; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=0AvcnZxCYKbbgBxM1hp568Q4PFo11xk7FRTLAQWiodk=;
-        b=zXPE5TCZ1I1+Swd82ndhYX6jj/yLDPkrz2jKil7ylM/Z6KztlDPtsukAGa9qIwzHZU
-         Ul2lWeszXHMdqSHGX6+N//GUGXdQWrqU8/15CvF3dsIeQeid6DqBbnGeBLPk7rah448X
-         oY6slAqsv1J0hKNgmhKAJaTHHG9hl918TNSOEQzQaXj/WOSmR7MQMtVhdKpUWPgzCTeV
-         COsOlqpsPiJnCtJnfOCW78udUaBXT+/tiK2HFeh2BXgaeG1OWP+gdPeMuKuMHzSs6fqN
-         qnXxQi1bUCjKfNZ7UHsAmDPsv8P+TSjqzh4yKJ0Ve/tBVsFwnLcuH+bmpjSO1nf+ZQ87
-         7jiQ==
+        d=gmail.com; s=20230601; t=1724683497; x=1725288297; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=5yUACQCvV96K8SrB4TqRyd+0MwkmzrdW10K/Vq/2NiM=;
+        b=fC9YtRvVLt4r8VltlsG4FRemM3kQarSl170MuAR5L1Cs2n2DyxOS41iuI0/YZKBQji
+         OwV1cLrHEKF47AJFr9OgEfQleduLn7GGYFbpHopfgru9BGNVIaEsYj/IxqXbVj9Ca2bj
+         q65fTbpndtLsRqPHCWSO3w8oW/CujH3ovHK/dePLnOxA492U9+Y6pKB4+mnipD0AKve7
+         6oQLhPk0udK9r3CveYm0PrJbQ0ocBAtiu34GUaS7NMlXaW75KNs/QV/B/y91hqeODGy6
+         vQ/MxU+RsnccdT6RswgS9VmnGnrg9uXVoHEoWEk2v4DrQBNxuT4ifDyxTPdzys+QeUgg
+         6+wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724675779; x=1725280579;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0AvcnZxCYKbbgBxM1hp568Q4PFo11xk7FRTLAQWiodk=;
-        b=Au+R3BOMeYB9ue5OgbPPfvrzhSr8LvO8JjJmKaC0VWIBaJ8wB22/aHygtDglCyxZtO
-         u/1ZWTG7XgUoVgNxmXxU89vcFK6ByQT2/mnY2691Tzfkzp9OnQnfIWigF0fYxsqKu7sT
-         ew3szUYOzjlx+CkBYDTubRYzfg7CqIX2j/ZiaMK1UJbh6ur3XNIj7Ct4yKLuJOa5Eg3j
-         d5dm9S5SXGov5mQJfdYJATCWSXxo/4Bvoldpd8OnZV0x8fuo+XpsElWkexvrdX5g4wlC
-         Sh0lJbDMYQJvoMeTYaE6SjLa6LrkcSJj4N4vNIAHlFWeV/qnPIPagN29lXsX4qnAwT/c
-         Czyw==
-X-Forwarded-Encrypted: i=1; AJvYcCVS9s/acc5X/HsIiqwz4KHzkr+m/7UZAsoL8dyMqIFixgkjRrWi7EBFUJPuWJpIKcUkdcuH75HF2Tknslo2@lists.linux.dev
-X-Gm-Message-State: AOJu0YzEZddq24W7qptagHZClfzbNW47TvWdZ6UxMvRbI6P91+UKxa+b
-	rbeTq/veOOUa/6Yym13NbXmFffdlQKFiAyRJweD8zAiwGFMJNffuaDXYfIGm57/ymzwSsaSpS4e
-	5ZDQ=
-X-Google-Smtp-Source: AGHT+IEE434rCq1S+EXj/6yMfR8MXyDOkg3EGd1S4Q3BopexMzuNDob8Ant3j5ZoiRS32d0H0gnMig==
-X-Received: by 2002:a17:907:f18e:b0:a86:851e:3a23 with SMTP id a640c23a62f3a-a86a51af30emr723539466b.27.1724675779333;
-        Mon, 26 Aug 2024 05:36:19 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a868f43367fsm657906866b.115.2024.08.26.05.36.18
+        d=1e100.net; s=20230601; t=1724683497; x=1725288297;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5yUACQCvV96K8SrB4TqRyd+0MwkmzrdW10K/Vq/2NiM=;
+        b=RhlkkzCeCNU6eaOFIUxSDbSAF63v26MwYJBAhpl6KNDtF62lEWUQeHTTanu+C5LtAN
+         +xPCAgyFfga20Qp32BY95aWbvIPBekv6/h4VZS1pbl1REGANySqrUP4ICA2eer8OQkOr
+         IO301S5tRkcywqosOATH8gOB6+eBzcZYI2OkhtfXf7o19xE99oFeCfMZyI5cp4OA/jEE
+         MxLS4tYLrq78MsFiBdIrtXgo3XSyh0KTB4xB4ojQYsjufsWr+JchZrMPr+5MMDxe8Ooh
+         ys8YOCk37sFi78/O1jMYIqx3UaYtqn6GXQ7gSu0eiHvjBOAFWinxDb6nX1Pb5iO1ePM3
+         j4NQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXVoFpbmBf0G9l7VvlWwapiyOGRxjIFcXH6VeRb1dpNELQDFYrVB7v3jvwcRAu6Yptyq5bttthuS+VUKfr+@lists.linux.dev
+X-Gm-Message-State: AOJu0YzJHZ0iZmmfmJ843gce9zx0hJYCLhgdpchcmvFGNyp9VEvshQbV
+	jLRIGI/rPl/X/YTSioSHY2unpNIhAEvREckigRdvjttN+ox286qO
+X-Google-Smtp-Source: AGHT+IED3w24Otal8KliDAIHPfYfSjFwab0AXqK51rsAXHujqmca71cIDpP7dNu8Z5W1U7N+2pR9Uw==
+X-Received: by 2002:a17:903:2343:b0:1fd:8f4d:2392 with SMTP id d9443c01a7336-2037ee063b5mr220812825ad.1.1724683497039;
+        Mon, 26 Aug 2024 07:44:57 -0700 (PDT)
+Received: from fedora.. ([122.180.189.45])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-203855dc28bsm68385415ad.133.2024.08.26.07.44.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Aug 2024 05:36:19 -0700 (PDT)
-Date: Mon, 26 Aug 2024 15:36:14 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Riyan Dhiman <riyandhiman14@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: vme_user: Change slot number type from int to
- u32
-Message-ID: <98a8d85e-9967-40df-8327-2fc03790b18e@stanley.mountain>
-References: <20240825072955.120884-1-riyandhiman14@gmail.com>
- <0289149f-3880-4e20-a22b-8540f212f1b0@stanley.mountain>
- <CAAjz0QbrrPL73qz7OjZMi4banzZ+xE+WgOFHitRKtrsytQzD+Q@mail.gmail.com>
+        Mon, 26 Aug 2024 07:44:56 -0700 (PDT)
+From: Riyan Dhiman <riyandhiman14@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Riyan Dhiman <riyandhiman14@gmail.com>
+Subject: [PATCH] staging: vme_user: Remove unnecessary type casting and data type of geoid to u32
+Date: Mon, 26 Aug 2024 20:14:30 +0530
+Message-ID: <20240826144430.50488-1-riyandhiman14@gmail.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAjz0QbrrPL73qz7OjZMi4banzZ+xE+WgOFHitRKtrsytQzD+Q@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Aug 26, 2024 at 05:18:57PM +0530, Riyan Dhiman wrote:
-> >
-> > Of course, there is a place for unsigned types in C but it's so subtle and
-> > complicated to explain.  I think people wish that there was a way to make C
-> > safer when there really isn't.  There is no easy answer like just declare
-> > everything as u32.  It's a false hope.
-> >
-> 
-> There is a function in the vme_user driver (vme.c:L715)
-> 
-> unsigned int vme_master_rmw(struct vme_resource *resource, unsigned int
-> mask,
->    unsigned int compare, unsigned int swap, loff_t offset)
-> {
-> struct vme_bridge *bridge = find_bridge(resource);
-> struct vme_master_resource *image;
-> 
-> if (!bridge->master_rmw) {
-> dev_warn(bridge->parent, "Writing to resource not supported\n");
-> return -EINVAL;
-> }
-> 
-> if (resource->type != VME_MASTER) {
-> dev_err(bridge->parent, "Not a master resource\n");
-> return -EINVAL;
-> }
-> 
-> image = list_entry(resource->entry, struct vme_master_resource, list);
-> 
-> return bridge->master_rmw(image, mask, compare, swap, offset);
-> }
-> EXPORT_SYMBOL(vme_master_rmw);
-> 
-> It is declared as unsigned everywhere but returns negative error codes.
-> This is an issue,
->  right? How should it be fixed? Do we need to change all the function
-> declarations to int,
-> or just in this function, since bridge->master_rmw returns an unsigned int?
+Removed unncessesary typecasting to int.
+Changed geoid data type to u32 because it will always going to be positive.
 
-Easy answer: Just delete vme_master_rmw() because nothing uses it.
+Signed-off-by: Riyan Dhiman <riyandhiman14@gmail.com>
+---
+ drivers/staging/vme_user/vme_fake.c   | 4 ++--
+ drivers/staging/vme_user/vme_tsi148.c | 6 +++---
+ drivers/staging/vme_user/vme_user.c   | 2 +-
+ 3 files changed, 6 insertions(+), 6 deletions(-)
 
-Complicated answer: So long as the caller is saving it to int then it will work
-okay.  If it saves it to any other type then it will cause problems.
-
-regards,
-dan carpenter
+diff --git a/drivers/staging/vme_user/vme_fake.c b/drivers/staging/vme_user/vme_fake.c
+index 7f84d1c86f29..8d4129c11e73 100644
+--- a/drivers/staging/vme_user/vme_fake.c
++++ b/drivers/staging/vme_user/vme_fake.c
+@@ -79,7 +79,7 @@ struct fake_driver {
+ };
+ 
+ /* Module parameter */
+-static int geoid;
++static u32 geoid;
+ 
+ static const char driver_name[] = "vme_fake";
+ 
+@@ -1283,7 +1283,7 @@ static void __exit fake_exit(void)
+ }
+ 
+ MODULE_PARM_DESC(geoid, "Set geographical addressing");
+-module_param(geoid, int, 0);
++module_param(geoid, uint, 0);
+ 
+ MODULE_DESCRIPTION("Fake VME bridge driver");
+ MODULE_LICENSE("GPL");
+diff --git a/drivers/staging/vme_user/vme_tsi148.c b/drivers/staging/vme_user/vme_tsi148.c
+index d81be8e4ceba..231eb17b6aa1 100644
+--- a/drivers/staging/vme_user/vme_tsi148.c
++++ b/drivers/staging/vme_user/vme_tsi148.c
+@@ -36,7 +36,7 @@ static void tsi148_remove(struct pci_dev *);
+ 
+ /* Module parameter */
+ static bool err_chk;
+-static int geoid;
++static u32 geoid;
+ 
+ static const char driver_name[] = "vme_tsi148";
+ 
+@@ -2123,7 +2123,7 @@ static int tsi148_slot_get(struct vme_bridge *tsi148_bridge)
+ 		slot = geoid;
+ 	}
+ 
+-	return (int)slot;
++	return slot;
+ }
+ 
+ static void *tsi148_alloc_consistent(struct device *parent, size_t size,
+@@ -2625,7 +2625,7 @@ MODULE_PARM_DESC(err_chk, "Check for VME errors on reads and writes");
+ module_param(err_chk, bool, 0);
+ 
+ MODULE_PARM_DESC(geoid, "Override geographical addressing");
+-module_param(geoid, int, 0);
++module_param(geoid, uint, 0);
+ 
+ MODULE_DESCRIPTION("VME driver for the Tundra Tempe VME bridge");
+ MODULE_LICENSE("GPL");
+diff --git a/drivers/staging/vme_user/vme_user.c b/drivers/staging/vme_user/vme_user.c
+index 5829a4141561..fe261eef9153 100644
+--- a/drivers/staging/vme_user/vme_user.c
++++ b/drivers/staging/vme_user/vme_user.c
+@@ -130,7 +130,7 @@ static ssize_t resource_to_user(int minor, char __user *buf, size_t count,
+ 	copied = vme_master_read(image[minor].resource, image[minor].kern_buf,
+ 				 count, *ppos);
+ 	if (copied < 0)
+-		return (int)copied;
++		return copied;
+ 
+ 	if (copy_to_user(buf, image[minor].kern_buf, (unsigned long)copied))
+ 		return -EFAULT;
+-- 
+2.46.0
 
