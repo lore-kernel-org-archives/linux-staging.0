@@ -1,105 +1,121 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79B09186A
-	for <linux-staging@lists.linux.dev>; Tue, 27 Aug 2024 20:29:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724790560; cv=none; b=cTBBI/Q8OiiOpOpzTytmU2iTx8rrowY0fOwofxLF+vBsyTdyJ9BgfuPTjPXaCTPRuPBmUxF44yNvX+FdRCqOSY1rW56COOUUBK3Ekqtqhw6kaBhZB69dRxRfl/zt2WX+KHDwDkhH+Yc5A8NJY7jaytBH3oE+qr4BwviYBd2OOYQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724790560; c=relaxed/simple;
-	bh=jpBEmBWxelW30kdJod71HrZHykpjpBD+VRwhk5peNas=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0540618755F
+	for <linux-staging@lists.linux.dev>; Tue, 27 Aug 2024 21:00:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724792416; cv=pass; b=HyTEPMOeVVYh/EloHZTZa9q/27s3vILtJanKoT4NG8EILUKWEnRIrxZNj2eZh5bPBMp5RvtRKJX5oXMRWHlahqhA4Qr5x6ANSB6M5oGBVrOVaQdC6sziTiIi80Z1Fz3NeJA3Lx2et6cuR2adGAEnQzPOEgu+Oq1wSUYqQjD1b9E=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724792416; c=relaxed/simple;
+	bh=3tmDa+ApxpjRgL2H90px7hBugPgj5TyRTNHhII8BCbo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Kan2RqTncT4TUZ+eVAgbRo3OjngEEPEJUvstw1rJ317raCUUHnUWSOq0JMNRGhtkFBYv0oECluMkl+OgY/q7iwGPH0xScVcW3GTBTqI3tkvErlbQlYbAMJaiYsjC/ejLbA5PwiFQIeh+kx6wAnNYxX4yyV3Ow+dTPBQ+lIs6Uro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=XqKF1+At; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=qCwDcW6Q; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=ggTaZhS9HNjedxGkmy9dLdjkE7ZqXSABtJB1EOUf9R0sBMURkDdW/yYJpKu6HwZoT7vmFf1Ns3nPmpvFReZGwQyncq/mJ2+reGT7CTdOtW9C7/HjBfqCPMjF0pgMH7ioiS5sVybn/OtlO4gVVSSrNE1BJ9qIc7OMytW1E4lubrI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=pyCuVy1r; arc=pass smtp.client-ip=185.185.170.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="XqKF1+At";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="qCwDcW6Q"
-Date: Tue, 27 Aug 2024 22:29:04 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1724790549;
+	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="pyCuVy1r"
+Received: from hillosipuli.retiisi.eu (80-248-247-191.cust.suomicom.net [80.248.247.191])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4Wtg0n4YMnz49Q02;
+	Wed, 28 Aug 2024 00:00:09 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+	t=1724792410;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=q5O8I6R+ZOt+8soub3TuoO9hBAOUMB/FUiDAn9N49VM=;
-	b=XqKF1+AtTO1/JZKAZi8bqWdqDFF/b7ZolkL3BIvCYxYIvxALqSDonmzYpjyropK9p9q+tx
-	C3yVXLgwVhcAhbNpcK9xn7xBcjLXs4hQ1bynIeLJFYF4+umFYzQAg6LvCLyeb3SiZmZge+
-	U6J6u8hIwUGeaRNqdCV4idzr08iKuwxP6wq3qDS0aMzamAPKgeg5X562efBCtpmVG74IHr
-	PlNYs7tgsWLChoU0j7nISJCaBoSFusrt2F+6tnFCYpscZKCUCuFg2fwCN7xuxS5qJ2YZuE
-	dVKmFTfvrDgYFQfkahpPHzMo8OhU7OL0RpVIasMyQC1vURCSYyk+Mw108a8iRQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1724790549;
+	bh=GfbL8MyofjzCdyK16tjATQ9HNfwXNF25derEKHzcUuQ=;
+	b=pyCuVy1rJH8XxzUpXSN4mtcajlztgB+66nhrYUM4PblAxTkxyvchBopdiA+MnRoK9Nivpq
+	Yk7VQHx5xYf0YMjB9Nf6ng46o/32f65FCQ87Nu0tvjsTe1u9NTLzrPC+u/GmXoHHo1sR4Y
+	sg5UTiOGdpsUp2QLJ8dyUX85yCQGD+UasXQmLgvB1w9kEAiTzy0LP4Ly0FAyjqRmMfo8i5
+	xqqbqxJXpjLWrzyGr7AgoFq+qmwAizhUhsA2tM8AkGgH1HC0syR7el+IdSeqqHnInW23uH
+	ALMc+rR7yBjzR9WxOGVd+pATzFzgyXC0F8BU0T4jJyO94CCrwBteBSpUcMimeA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=lahtoruutu; t=1724792410;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=q5O8I6R+ZOt+8soub3TuoO9hBAOUMB/FUiDAn9N49VM=;
-	b=qCwDcW6QfkV8L5F+MP4pjBaecphhkFs1TFJaTMYf1rizxRbs4O47zK2o8bKBwsIyC88oi2
-	QwCEy16HG1JwohCQ==
-From: Nam Cao <namcao@linutronix.de>
-To: Nilo Alexandre <n1lux.comp@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, ~lkcamp/patches@lists.sr.ht
-Subject: Re: [PATCH v3] staging: rtl8192e: Fix parenthesis alignment in
- r8192E_dev.c 325
-Message-ID: <20240827202904.vnRH1diD@linutronix.de>
-References: <20240827195619.34712-1-n1lux.comp@gmail.com>
+	bh=GfbL8MyofjzCdyK16tjATQ9HNfwXNF25derEKHzcUuQ=;
+	b=CndQjWSLQXTZn+GA+GaEcKyWPNUVz4yIpZcZyPXrh6w/kOnl+NA8d5A1xT5vJE0fTdkfgb
+	OglOcknhKYOWkMB+rVB3WEcWxWjeRdolI8L0rni6TgkV8OZo0HrMJBfhwNwPOjbdqFQBkj
+	2TtDgnje/k1+QBRkBSh5VPUMMNTWiSyqah5eVxrOcGeJLu3uHaiZoB0RdCtNKi1qdJjnmb
+	SevNGfBGdB5Pgwlu8Oij7VyB41gCfU2ehiRaoXdGcPCJZt1nRJQ0JLIGalt2EZ9XE/y23Q
+	yc2FfLob1vDK4O2Q1zsC/jIFe80dnQJ5vmx8adXkCpTDQ1sUIKOYmkdVXF/oZQ==
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1724792410; a=rsa-sha256;
+	cv=none;
+	b=CS2W89WRcs2QI0ZVh5pyVP+HRJ7qnBK4SyDQj/OQBKs5dkR0TZ3Lfeh8AJ6/U8BGwC39GZ
+	rWrK0J9VqvhW8sAXu3/aTZZZFzf5SzL/80Jit4IEqzmukEeFOU3drPyJolzIoBfLe9H8s4
+	fJ6BjwVnEFPANs01gxsNZxnOUmwlNv2Aa2In/cS8X5U66PigaRKnaRIO5a8N6Ee7TLty7O
+	l8ucUofp7s/yeQBWD00XfUAioEjyp3lWtpAiJgUDoj3SKegVU9PDgk7lcqGL3x1KNYRFte
+	sTsx+EQkKEFYIaicaL3jGs3WznjMXBqpWGlfKsbNA64rrmVehFh6TjBVyrU68g==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id C4D4E634C93;
+	Wed, 28 Aug 2024 00:00:08 +0300 (EEST)
+Date: Tue, 27 Aug 2024 21:00:08 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] media: staging: max96712: Add support for MAX96724
+Message-ID: <Zs4-WGZYt_QjgeXE@valkosipuli.retiisi.eu>
+References: <20240827131841.629920-1-niklas.soderlund+renesas@ragnatech.se>
+ <20240827131841.629920-3-niklas.soderlund+renesas@ragnatech.se>
+ <Zs3Vey0NEdGJAyTE@valkosipuli.retiisi.eu>
+ <20240827175735.GH2636928@fsdn.se>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20240827195619.34712-1-n1lux.comp@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240827175735.GH2636928@fsdn.se>
 
-On Tue, Aug 27, 2024 at 04:56:19PM -0300, Nilo Alexandre wrote:
-> Align parenthesis to improve readability.
+Hejssan!
+
+On Tue, Aug 27, 2024 at 07:57:35PM +0200, Niklas Söderlund wrote:
+> Hej Sakari,
 > 
-> CHECK: Alignment should match open parenthesis
+> Tack för feedback.
+
+Var så god!
+
+> > > @@ -181,7 +186,8 @@ static void max96712_pattern_enable(struct max96712_priv *priv, bool enable)
+> > >  	}
+> > >  
+> > >  	/* PCLK 75MHz. */
+> > > -	max96712_write(priv, 0x0009, 0x01);
+> > > +	if (!priv->max96724)
+> > > +		max96712_write(priv, 0x0009, 0x01);
+> > 
+> > It'd be nice to have a macro for this, espeically now that the driver
+> > supports more than one chip.
 > 
-> Signed-off-by: Nilo Alexandre <n1lux.comp@gmail.com>
-> ---
-> v3: Fix typo in commit message.
-> v2: Using tabs instead of spaces.
-> ---
->  drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-> index b767dc00100aa..2d17d8e8898e7 100644
-> --- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-> +++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-> @@ -322,7 +322,7 @@ static void _rtl92e_read_eeprom_info(struct net_device *dev)
->  		if (priv->epromtype == EEPROM_93C46) {
->  			if (!priv->autoload_fail_flag) {
->  				usValue = rtl92e_eeprom_read(dev,
-> -					                     EEPROM_TxPwDiff_CrystalCap >> 1);
-> +								EEPROM_TxPwDiff_CrystalCap >> 1);
+> What do you mean by macro? To test for priv->max96724, a define for the 
+> register name or something else?
 
-But it was aligned, your patch makes it misaligned, right?
+Ah, I meant 0x0009 and preferrably 0x01 as well.
 
-Also, I couldn't apply this patch. Are you sure this patch was made on top
-of Greg's staging tree?
+-- 
+Hälsningar,
 
-I suspect that there is a linebreak here because of Linux's historical 80
-columns limit. Now that the limit is raised to 100, perhaps it's better to
-just remove the linebreak:
-
-diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-index b25e83743956..a80efe6c7c20 100644
---- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-@@ -321,8 +321,7 @@ static void _rtl92e_read_eeprom_info(struct net_device *dev)
- 
- 		if (priv->epromtype == EEPROM_93C46) {
- 			if (!priv->autoload_fail_flag) {
--				usValue = rtl92e_eeprom_read(dev,
--					  EEPROM_TxPwDiff_CrystalCap >> 1);
-+				usValue = rtl92e_eeprom_read(dev, EEPROM_TxPwDiff_CrystalCap >> 1);
- 				priv->eeprom_ant_pwr_diff = usValue & 0x0fff;
- 				priv->eeprom_crystal_cap = (usValue & 0xf000)
- 							 >> 12;
-
+Sakari Ailus
