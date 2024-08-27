@@ -1,90 +1,128 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout5-smtp.messagingengine.com (fout5-smtp.messagingengine.com [103.168.172.148])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12BA11A0AFF
-	for <linux-staging@lists.linux.dev>; Tue, 27 Aug 2024 13:06:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2A3919DF60
+	for <linux-staging@lists.linux.dev>; Tue, 27 Aug 2024 13:20:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724763996; cv=none; b=YF6vxZiEgB+svq2s/8/Kzgg1EShoLr3cBKDzX9Qw+8Zl4sWFnGtpF66X29Ba36KgjjcpWcIHGS+LjtpYTh1vIlEPvCr2wH07Gvsn7MB0cPOmVrlEmdlB7OyFFbBSibHMM+3Bcb4YYK6uXbYx29EZj5E66pwoXhQOsOxDn882hAU=
+	t=1724764826; cv=none; b=agzRtM0xxf94jYvGHXMNtSLAgM168x1XL1ycEiGlFurMxvy827w1zipfgC5xfjU6k+FQUM6yU5+4JZqZlJRAXY9LFbtPuic0OweguLjdzTEHaJD2qLLSLPWvvL2Tku7XuQvgX6OWCorSvGF/3v2P/Uv4wv0DPpgcalB/kLuw8f0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724763996; c=relaxed/simple;
-	bh=I7QpzNgTozn0ypQN6lXdDMUyE5Ztc8z6lkFo/pacgsU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CeDz8ca6mlECEdNSDk+uQ6ukVoZ7T/M+QlvIUxNYaRH+WB72wIY9CVxRzDIsHRUEgapEdBE7rzjCG+fXEZqUk5SEQrDO+7Rbto6Jokq8H2cZsW/JjKIDl3ng8whUL4SwXYuwmaSE6GsiTjwE4eUfuwQYy4CjCsU2hGF///3KMrk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=t15ZfGSc; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1724764826; c=relaxed/simple;
+	bh=Go//wYSzFV+Lw49MZP1Kly3yNvZ5MoPb/x6j0CKHo6E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=eFEhIZVrvKl2gZ4+MrioWg66oHUKkclFSF1m9xqVqIR7ISrKXw0Y4Kl1gHGXQIzvuzGxt2vJynlZHfAy7JRTdjuAje/WlpMKXnpw8EdTn/OXaHqYvd2GmOOOQ4vB+iSVjRcj4L+WVKbT2oA/icvCtxGbopsIvyknADNBgiUl5ZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=mY7Qpe5s; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=KgqCuQ/K; arc=none smtp.client-ip=103.168.172.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="t15ZfGSc"
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a86e5e9ff05so103747066b.1
-        for <linux-staging@lists.linux.dev>; Tue, 27 Aug 2024 06:06:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1724763993; x=1725368793; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8nfq6eg/qBHA2qLWGmU88ECXRm0YOI1tfynwWiVtLqw=;
-        b=t15ZfGScQxFZRLyyPebgNi+LJB8eUO+A5+Fh/3GmwxXRnuZILqpt6QA1TNUJkP5NSi
-         JHAV8+XFameviA+Foe5/b4H+hRjT5p9VHhkvAUDmpJ40X379IM2GPAICQNjRDXK8YzLv
-         zKoqp/eyvcwZl6uTZ9erTJUL6WfzGbSzxS5LAJ9rzuWLD2ab5Fp1cBaY0j2IdBOhIXNt
-         GSEDCAP8paIZJ4r26No0xkQxBaIhLom7X2IFvOa1VLvPzms7r0UYOufkcPBf0TqkNrsK
-         btDxFJ3D/evlyB0TRCTevREJkiIKH0cu4Lxcak4yz9oOO0thtzV61b+TIyiHY9l1nlnk
-         GI3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724763993; x=1725368793;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8nfq6eg/qBHA2qLWGmU88ECXRm0YOI1tfynwWiVtLqw=;
-        b=WdIVOjdV7Ey2XrtUrAQzheQ0upxJMgjNKOFdsxMC1Kcg7hJoXcelEQxduTAP0dQRSE
-         P/l20jU9xA6AJfxw4EzzSUUBF1V4FWstKlFMMTX87H9B9OUAfCiZ15I5HL2s4WJKpN1b
-         nh+4821eGR4eFOCP4n4ol+aYRGTnhDbeytIG7o2IqoUDzmeJgIeI7r3mHPWXQxBDqDwu
-         taSRCM53v4hLLxsAJUJicPVE95RSyF3pTlBP2aVMHvGlhmgMkJ1FXdl9lbRi6MsEO8uj
-         cqGOHUC26lttaDqLT4HVPhcfXH3S6UpSNPMH4xYVs6Qe378qzowY4OqxX4MRQv88AqjN
-         tIew==
-X-Forwarded-Encrypted: i=1; AJvYcCVsTIDRuCjI6RSjX72nPAA0BAXLuYgeOqf6MgnyXIqJOWOcJQjTUeHJd5DaE09OVci3x1ab9YJTp3ObnGIL@lists.linux.dev
-X-Gm-Message-State: AOJu0YxDEsnOtnWssYCkwK1nPgGspI/hBQy6M0u2i30H3FQNkQBygP2I
-	r9egNfDhZ0d5KvOV7Qr95HOcyNVTIDWy39LKqFT4ePUNhCP+UT+ez7HgCIFMlvg=
-X-Google-Smtp-Source: AGHT+IExA0IXeN0DpI3sjIu5CKqv5XLwnffzuIUhud55a0AvlWAI0prPHTf6ueNt50V82PQLu1aLVQ==
-X-Received: by 2002:a17:907:72c7:b0:a86:9053:d93a with SMTP id a640c23a62f3a-a86e3a36950mr198914366b.31.1724763993148;
-        Tue, 27 Aug 2024 06:06:33 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a86e582d43dsm107637966b.115.2024.08.27.06.06.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Aug 2024 06:06:32 -0700 (PDT)
-Date: Tue, 27 Aug 2024 16:06:28 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Riyan Dhiman <riyandhiman14@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="mY7Qpe5s";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="KgqCuQ/K"
+Received: from phl-compute-02.internal (phl-compute-02.nyi.internal [10.202.2.42])
+	by mailfout.nyi.internal (Postfix) with ESMTP id CB633138FF62;
+	Tue, 27 Aug 2024 09:20:22 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-02.internal (MEProxy); Tue, 27 Aug 2024 09:20:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm3; t=1724764822; x=1724851222; bh=Ar
+	kfXKYtpIYiXVPyHYfB0RmNj4FTnpqN43lWMp5vGm8=; b=mY7Qpe5strnbsa6955
+	hKeLLucX2UE5GrOqrWM5BuaSPZ2SapsnivK/A4asSF45r7LelRVhk87XQ1d0CTcu
+	yxRMNFn9jPo5xQT+Y0Q8PSjMEoVYPy2oziCOaVRPA8jeNJr9G7BPGoxcN8bTpl4H
+	bOwrgbrbWWNnm/qcCzSJbgJ880nVp7+58/jyDG6fjY8mSVwV8uKF+AHAVa2lPWbH
+	EObk9ETOxdsf9FaHlKVCH1/cwIMXlkp4xUMevlZUSYanB0XzOvkkpM4s0uOtfZV6
+	5h94QAUCKmRqs5dT41z/GvnGHyMNxZj5R1GBC4PggIU+9ODjsG5QcrNrW1fB0djs
+	sznQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; t=1724764822; x=1724851222; bh=ArkfXKYtpIYiX
+	VPyHYfB0RmNj4FTnpqN43lWMp5vGm8=; b=KgqCuQ/KIPSgwohuGYXq3NLAQXTA3
+	LLMqY+HrbZ55vQ010Hzjnl44WqSR8N1g9fXlwLqwwGEbLV2DPl4Nyle9uU6zxkyr
+	JIcC0cHtMDozFtnqeJVkg6rlzzm+F0ussLRSBA9C/xW9NDNdi9QRT07dYogpUA4v
+	wsepBI6wCoLO+25xufYhg8ddp/HGn9i1yQIgum5I0PBx2lhOQ4dnPqbME6c9CmFp
+	kQdqi4zU2PfDnSY16aE1fkM/4buZ8SyiwxaxapeTHzrgRefNGsM8s63U4+8A3Zko
+	8uiAO3lKh44tP0FfeMAXQovXfTgTv4EIa2T+Yo6a3fpQzKf1EZiyR08ag==
+X-ME-Sender: <xms:ltLNZqQCqb-GB0wSb6LCyj-e6uEnPpOb5GICbwK1QUBogym7CGkqUA>
+    <xme:ltLNZvyTe2KzbkNNZR4sm0VNoN8B8HB0mjjoJY1eaVECZCNSkqFPDGROvztvjkNoR
+    j1LFlibGy_1p1hi7Z8>
+X-ME-Received: <xmr:ltLNZn3CQuH-yJop9lzHZ52s3sVoX6UuTEBLOif7FThZSmGO3yKAHcRdyiATMXmgzn-Xb-FHZngq-h9eFAnGoxUaZA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudeftddgiedvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+    htshculddquddttddmnecujfgurhephffvvefufffkofggtgfgsehtkeertdertdejnecu
+    hfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrh
+    hluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgv
+    rhhnpeehudelteetkefgffefudefuedvjeeivdekhfevieefgeffheeltddvvefhfeetge
+    enucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhk
+    lhgrshdrshhouggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtth
+    hopedutddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepmhgthhgvhhgrsgeskhgv
+    rhhnvghlrdhorhhgpdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdrohhrghdprhgtph
+    htthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtohhnohhr
+    odgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepghhrvghgkhhhsehlihhnuhigfh
+    houhhnuggrthhiohhnrdhorhhgpdhrtghpthhtoheplhhinhhugidqmhgvughirgesvhhg
+    vghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopeguvghvihgtvghtrhgvvgesvhhgvg
+    hrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhsthgrghhinhhgsehl
+    ihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoheplhhinhhugidqrhgvnhgvshgrsh
+    dqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:ltLNZmCJSNq-jPKlXzDdPJHDZXQWeeNPY7Vv_MCY5efUx_jTskVcEQ>
+    <xmx:ltLNZjiCEj1nHI6qbwlR6uQaM7uqfj9a_5X-_cJq31YSzU69R0Zl1g>
+    <xmx:ltLNZipeZr7Lg2UILROql1uTX_lHruoJMuOi3Hxy-H9WRAN4UZwLRA>
+    <xmx:ltLNZmhlhbcVvP_g7L6GLhgOKJy1gQLMVhM1EzT9kTkehzp3L88u2Q>
+    <xmx:ltLNZoYSfjhWzbcGLrticQkjX963AMqXe6jq0-P-YsyUL63bZUyIVvD2>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 27 Aug 2024 09:20:21 -0400 (EDT)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v3] staging: vme_user: added bound check to geoid
-Message-ID: <5cca227c-045d-4053-aed8-4ee020291e9a@stanley.mountain>
-References: <20240827125604.42771-2-riyandhiman14@gmail.com>
+Cc: linux-renesas-soc@vger.kernel.org,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v2 0/2] media: staging: max96712: Add support for MAX96724
+Date: Tue, 27 Aug 2024 15:18:39 +0200
+Message-ID: <20240827131841.629920-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240827125604.42771-2-riyandhiman14@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Aug 27, 2024 at 06:26:05PM +0530, Riyan Dhiman wrote:
-> The geoid is a module parameter that allows users to hardcode the slot number.
-> A bound check for geoid was added in the probe function because only values
-> between 0 and less than VME_MAX_SLOT are valid.
-> 
-> Signed-off-by: Riyan Dhiman <riyandhiman14@gmail.com>
-> ---
-> v3: Fix commit message and remove redundant comment.
-> v2: Removed unnecessary paranthesis and changed pr_err to dev_err.
-> v1: Added bound check to geoid
-> 
+Hello,
 
-Thanks!
+This small series extends the max96712 driver in staging to also support 
+the MAX96724 device.
 
-Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+The devices are similar but not identical. As the staging driver only 
+supports the video pattern generator the changes in the driver are 
+small, but needed, to generate a stable test pattern.
 
-regards,
-dan carpenter
+Patch 1/2 extends the bindings with a new compatible for MAX96724, while 
+patch 2/2 takes care of updating the driver to support generating a test 
+pattern without changing the test pattern clock (which is not supported 
+on MAX96724).
+
+These two patches where previously posted separately but have now been 
+collected together in a series. See individual patches for changelog.
+
+Niklas Söderlund (2):
+  dt-bindings: i2c: maxim,max96712: Add compatible for MAX96724
+  media: staging: max96712: Add support for MAX96724
+
+ .../bindings/media/i2c/maxim,max96712.yaml    |  5 +++-
+ drivers/staging/media/max96712/max96712.c     | 26 +++++++++++++++----
+ 2 files changed, 25 insertions(+), 6 deletions(-)
+
+-- 
+2.46.0
 
