@@ -1,117 +1,117 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D63D19644B
-	for <linux-staging@lists.linux.dev>; Tue, 27 Aug 2024 08:41:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C360194C62
+	for <linux-staging@lists.linux.dev>; Tue, 27 Aug 2024 09:10:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724748068; cv=none; b=C1pcjCHY1wCarhrd2sNgsW11VoBLdxl1FuABVVbdycV8RBcM1XgoXPCwwmCQNmAJJ2De+511UqhGFidCef+GQINnH4/d7JxacJFHLocfMXqkz3C8JujUUox3PMVYTo7s/lSFEKk/NvdLBe6nCEcUAN77hrCVtyQutBrzMG8Tfns=
+	t=1724749820; cv=none; b=UTI5g7dryfW5AOXqEg+UfAvktDDGIVrtpFHR1QgGkcY+LAkUDktXAaPUy6O/2WGzKxCNJUxBooqXxQcMv7FQ3VhdpU0xAVmE9P2uqtC/a5cBdEReFs5B+/ZHAnBEoErQUY4oK860EF7VQwSL7JbIWwlv9usX3eHRnx/UUP12dzs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724748068; c=relaxed/simple;
-	bh=0gqafYpFsfCbct7kk8S2BYP5nbyMWFsVauV6F5Nxq/4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gdK5UX5swBEfopxH4gnBqQkxUoowuHO85Z40FaMLahm4Q/lRHQm43d3nKPMxdF0jVfihtkz5uVysr2wXIK/pTyCZ3riDRPbpz9cyQHCkdoftsTk/CWp42IqgbYoc63vl64dQIDurokLBdxD/6CJSUg3namTmd9J7BlnSret63ak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mtAOS9V6; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1724749820; c=relaxed/simple;
+	bh=SjJOIJDonqyCbGBVsptkveUfW+eSL22SDCSdNNhBrzI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dINvtX2XI3OYE4UEV1Z3WaXRO+cYiMenZ+Pc7oseoRxh5WCRdUhvcNmlMCZHKxHRvv5q0+hjG6sYGXLNS3ByZtBhuqH2OHnQq/d1XfgHoM/OUHK+YZlIi69AAkDpHz58IIP/Oz7NoBCJPURcVTdMmSuSao/3MiK4msn2YdTbUOQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GhFUQ6Lq; arc=none smtp.client-ip=209.85.210.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mtAOS9V6"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-42819654737so44405685e9.1
-        for <linux-staging@lists.linux.dev>; Tue, 27 Aug 2024 01:41:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GhFUQ6Lq"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-715c160e231so607122b3a.0
+        for <linux-staging@lists.linux.dev>; Tue, 27 Aug 2024 02:10:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1724748065; x=1725352865; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=WLgLPlnbrmv4PGVaAQ6YPq+VN6mj8qeNpxeetEpH32c=;
-        b=mtAOS9V6nqhtZ2BPOrwB9xTJgozugsEClbb+uBxrasDgXumfj9gazOtOyggxumoqqM
-         mJQyRfb6aa9wn3QqCsbU8nJq1cDIkN/VCg4oPBgslKxyyYcl5cxZSEyo7Mvfpbpb296A
-         er+QJ+ZjImtQINjCT4fmJ/zt4/CRgHod8GKdZylewrODJVMTVBQD0qeGPoW30RuSJkHe
-         VUzkl016dlyEPxAk/QjLB4I5AwbhAbiqi6n9dzRURp2s4juj4vZtZUOREMWAIZOhcANg
-         7tMkIVHql6WzhZ0VAR/tOCTcuMiVzlyivPWV0cQMqTwp1eZx6q9r9kNImbDu9Do5jMdE
-         NR/w==
+        d=gmail.com; s=20230601; t=1724749818; x=1725354618; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NpgI7qvi8/v8UE8AR/QkH1xctnOGEtIqR82DIL0PGgY=;
+        b=GhFUQ6LqW5v74M4DSAnFKK/8XAwr0N4dVZ+pV8JeVTU0eSgHyBn/OjxvAMyo3huDMs
+         JMRfT+OuA2vMXm5nl+tY/TiS4qIF/vVqFvFIgd9uWGJXD3890h75xdbpcVcxtXYjmqsI
+         90HqxLJcLL32igdLJbSKBLSIiWZoisJKgggvcYs0FzjoLuZffoe+rDKHlBJRok5/ii5g
+         JUCyqOD+KRcl63aM4/C/eTERyIc9tTL7WYCjLGeOPJfojkTs4mMcGkRVZtDFDDKjvTpv
+         +W4BYARnemPyr82e3172kjTTaDQdz0aXCFUK0eleM5pxUR7F/tZvEq6d52A8JXWbXnTp
+         hXSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724748065; x=1725352865;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WLgLPlnbrmv4PGVaAQ6YPq+VN6mj8qeNpxeetEpH32c=;
-        b=ddt3MYyDXDA7jYmjypyN7ZM/RerkJsxhbMdgd3aHztWfDSHhaSlzf/WI6vnms0EpuT
-         c5XEPprlix/3VPiXNCf/t47M0xmHsrQOLJdgk+KFqxUBiNelzzhcRIDQL4yYwGk9AFna
-         BbAreNnVLD2UY/pcI/zaoqO/kTgMgYd6X1JuX8d4PfLqqycjt+EokD6LWKXg7Cm5UNc3
-         eJD20OlRIUpCQMoVL7Kmtnwgm8mlGt4BoRHIy/pzbIhdq4J+mMQI07ouhh7rjhDOBWH1
-         2eH+ou2y2m74SMcCnPL7wmUz4O6hIHFWHHVtt9H/HdDrOlIcpzV3/0PDRqIRpDeMcCwc
-         NmHQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWtSXNdqNSrMuIPnYY2jRgW7/PCBg3TctL7dmd7mKZHzyHOOrpbjKJlqBpnZKRsvwfnv61dIxCV0bNDtzo1@lists.linux.dev
-X-Gm-Message-State: AOJu0YyYOBvxJB6cZEQdWOtrgsrIGIxxAnfxqTIDwrwjfvPCKWLvzsBm
-	Y+ZyAgK/veOWill4UtEO6+DEKt6WXqw0xsdRuWGsTOhTJOOK6kUbOWKJtTiZc+E=
-X-Google-Smtp-Source: AGHT+IHD7U7oSMgJ9gZmwzeFhSQFaYKGfPgUODPIaCGYW/yRpAXBwWn9ZvxiQiZASTmx9Yv+oyqxPg==
-X-Received: by 2002:adf:b309:0:b0:367:4e05:bb7b with SMTP id ffacd0b85a97d-373118e3c8emr7193339f8f.53.1724748064612;
-        Tue, 27 Aug 2024 01:41:04 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42ac517a442sm179351675e9.36.2024.08.27.01.41.03
+        d=1e100.net; s=20230601; t=1724749818; x=1725354618;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NpgI7qvi8/v8UE8AR/QkH1xctnOGEtIqR82DIL0PGgY=;
+        b=VRRVqOV27kKIhQTgwq4ro2zHO4New+yhvCmRlyJnUCXwA0/Oq32QqwdzlahWgMfJfV
+         1gPuBmIigZvO2cXNHotkggMQ1rg1ZpPmbIVKhs97RhbbDf6p4yrxhjdHABaz8GiKT+uJ
+         LUBilOkGAtN6c8hDSyQ9g2SnDR2Zo/M31LtZLpNQ/bhxk4t+dXbWUXt9L/4sPRpF9MSb
+         WqTjXw6GVFbl/qQVSuV9oKAnoGbsWQmSwsA6WamxAk0XUF5cdSSjzkUbzg5GJE6gIeLz
+         lwgJvVMbDQn8kaR7xTHcaCWktVK8vMILBNRfdf/kIaVsSuu49PAeFQmToh6yROzMq6EH
+         e0Og==
+X-Forwarded-Encrypted: i=1; AJvYcCXINACGD6C4hsmwSYtTklmIK+nvi7W5axSMBi4ERpQQEUZLL/4B/gPSZ9LqW/I23z3ugEJnXThgMP7F8WI4@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxf3yrOt29h9fBq+qYNadud5A0AuXQkZX4OpTkdaV6ec85LXS+T
+	FfeGwWKSbVW5wmnFvP2EydXi7Az+hRfRxdkJHLcsvvDaac4nszJ9f3f04zMSTMg=
+X-Google-Smtp-Source: AGHT+IEp4F23A8FqnAiZiVhKzZdRj7Hw+WbU+hcF+rxcWDfP9CmhJ8mQv3vTlx26C7YOKtzlm4iQtA==
+X-Received: by 2002:a05:6a20:c709:b0:1c6:fbc8:670d with SMTP id adf61e73a8af0-1cc89ee58f0mr14191085637.43.1724749818030;
+        Tue, 27 Aug 2024 02:10:18 -0700 (PDT)
+Received: from fedora.. ([122.180.189.45])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71434333e61sm8195275b3a.192.2024.08.27.02.10.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Aug 2024 01:41:04 -0700 (PDT)
-Date: Tue, 27 Aug 2024 11:40:59 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Riyan Dhiman <riyandhiman14@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: vme_user: added bound check to geoid
-Message-ID: <8d62104c-ac1f-447a-8b53-cad4e66a6c8d@stanley.mountain>
-References: <20240827055555.65371-1-riyandhiman14@gmail.com>
+        Tue, 27 Aug 2024 02:10:17 -0700 (PDT)
+From: Riyan Dhiman <riyandhiman14@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Riyan Dhiman <riyandhiman14@gmail.com>
+Subject: [PATCH] staging: vme_user: added bound check to geoid
+Date: Tue, 27 Aug 2024 14:39:55 +0530
+Message-ID: <20240827090955.49339-1-riyandhiman14@gmail.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240827055555.65371-1-riyandhiman14@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Aug 27, 2024 at 11:25:55AM +0530, Riyan Dhiman wrote:
-> diff --git a/drivers/staging/vme_user/vme_fake.c b/drivers/staging/vme_user/vme_fake.c
-> index 7f84d1c86f29..d93a5d428ab9 100644
-> --- a/drivers/staging/vme_user/vme_fake.c
-> +++ b/drivers/staging/vme_user/vme_fake.c
-> @@ -1059,6 +1059,13 @@ static int __init fake_init(void)
->  	struct vme_slave_resource *slave_image;
->  	struct vme_lm_resource *lm;
->  
-> +	/* If geoid provided, validate it is positive and less than VME_MAX_SLOTS */
-> +	if ((geoid) && (geoid < 0 || geoid >= VME_MAX_SLOTS)) {
-            ^^^^^^^
-Too many parentheses, but really there is no need for this.  Just write:
+Added bound check for geoid in probe function because geoid will
+always be positive and less than VME_MAX_SLOT
 
-	if (geoid < 0 || geoid >= VME_MAX_SLOTS) {
+Signed-off-by: Riyan Dhiman <riyandhiman14@gmail.com>
+---
+ drivers/staging/vme_user/vme_fake.c   | 7 +++++++
+ drivers/staging/vme_user/vme_tsi148.c | 7 +++++++
+ 2 files changed, 14 insertions(+)
 
-> +		pr_err("VME geographical address must be between 0 and %d (exclusive), but got %d\n",
-> +			VME_MAX_SLOTS, geoid);
-> +		return -EINVAL;
-> +	}
-> +
->  	/* We need a fake parent device */
->  	vme_root = root_device_register("vme");
->  	if (IS_ERR(vme_root))
-> diff --git a/drivers/staging/vme_user/vme_tsi148.c b/drivers/staging/vme_user/vme_tsi148.c
-> index d81be8e4ceba..97323b5563e8 100644
-> --- a/drivers/staging/vme_user/vme_tsi148.c
-> +++ b/drivers/staging/vme_user/vme_tsi148.c
-> @@ -2252,6 +2252,13 @@ static int tsi148_probe(struct pci_dev *pdev, const struct pci_device_id *id)
->  	struct vme_dma_resource *dma_ctrlr;
->  	struct vme_lm_resource *lm;
->  
-> +	/* If geoid provided, validate it is positive and less than VME_MAX_SLOTS */
-> +	if ((geoid) && (geoid < 0 || geoid >= VME_MAX_SLOTS)) {
-> +		pr_err("VME geographical address must be between 0 and %d (exclusive), but got %d\n",
-> +			VME_MAX_SLOTS, geoid);
-
-Here you have a device pointer so can use dev_err(&pdev->dev, ... instead of
-pr_err().
-
-regards,
-dan carpenter
-
-> +		return -EINVAL;
-> +	}
+diff --git a/drivers/staging/vme_user/vme_fake.c b/drivers/staging/vme_user/vme_fake.c
+index 7f84d1c86f29..d8f4ba29da0e 100644
+--- a/drivers/staging/vme_user/vme_fake.c
++++ b/drivers/staging/vme_user/vme_fake.c
+@@ -1059,6 +1059,13 @@ static int __init fake_init(void)
+ 	struct vme_slave_resource *slave_image;
+ 	struct vme_lm_resource *lm;
+ 
++	/* If geoid provided, validate it is positive and less than VME_MAX_SLOTS */
++	if (geoid < 0 || geoid >= VME_MAX_SLOTS) {
++		pr_err("VME geographical address must be between 0 and %d (exclusive), but got %d\n",
++			VME_MAX_SLOTS, geoid);
++		return -EINVAL;
++	}
++
+ 	/* We need a fake parent device */
+ 	vme_root = root_device_register("vme");
+ 	if (IS_ERR(vme_root))
+diff --git a/drivers/staging/vme_user/vme_tsi148.c b/drivers/staging/vme_user/vme_tsi148.c
+index d81be8e4ceba..9ec981cd2009 100644
+--- a/drivers/staging/vme_user/vme_tsi148.c
++++ b/drivers/staging/vme_user/vme_tsi148.c
+@@ -2252,6 +2252,13 @@ static int tsi148_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	struct vme_dma_resource *dma_ctrlr;
+ 	struct vme_lm_resource *lm;
+ 
++	/* If geoid provided, validate it is positive and less than VME_MAX_SLOTS */
++	if (geoid < 0 || geoid >= VME_MAX_SLOTS) {
++		dev_err(&pdev->dev, "VME geographical address must be between 0 and %d (exclusive), but got %d\n",
++			VME_MAX_SLOTS, geoid);
++		return -EINVAL;
++	}
++
+ 	/* If we want to support more than one of each bridge, we need to
+ 	 * dynamically generate this so we get one per device
+ 	 */
+-- 
+2.46.0
 
