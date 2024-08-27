@@ -1,112 +1,121 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6431A199EA1
-	for <linux-staging@lists.linux.dev>; Tue, 27 Aug 2024 18:21:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BC4784D34
+	for <linux-staging@lists.linux.dev>; Tue, 27 Aug 2024 18:37:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724782894; cv=none; b=tpL7g7tgtbJ9eIv8Uf1G1sadWGNwVZbKddXDIKOti8JwanJAdK2y0vCyxT63Dv+7tpQjiHbKYLJiUOC95dCld6NMoJjFnyQIHDUuoIKj4CkD+3ob4UAMR+SE1GAGmjsl7rsu8NlKiYSqX9jD5dMsatvBFyEO09Ygh+8FI9sKjlw=
+	t=1724783852; cv=none; b=cdErYztNxLsc+h6cmJ2L2xtfux7kk7/ZiWIBfaxyzeI2hq+fF1pGxsGU7Mhh+6m1+Gc4+zvWMepZETt8RBxw1X5/YcNboUzmBQPvgE+tkIei+wBwb/SuwQm12yDrHaqpHHTneQBCvlVTIfHvKi9QI2WW0CwHm8lJo/lOzTEVc9I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724782894; c=relaxed/simple;
-	bh=MpceHBZuHH3o2CueqUk5GDOo7VtJrr197q01MLuthFA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GkB5FhGwSA+legwEhuaQ+IVRoZb0UsaUxS/YwXZli7Lt7MCOKwXCzHOtKktJWimrUqLD2fKdxJIdBN+qmu+JftW1ufNz51BIZ4KZKDphsH8O+bMhUCjjySpypYoIBNP2DdPiabvX5DWjxheDVGCMJjM9BY8OovenRizXx6oUgEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AeMrVRZ0; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1724783852; c=relaxed/simple;
+	bh=H8JC4zGBxm+uxM52UrU4l8SHxhWiPw69WAVC5vNwhWU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=rZuReD65+iQlTZEGYdbICi4NSRffRxyoPy5oVHAjaeRSlsq/oqXwlS8WyqDrNRRXqZSW6lTD27L7Kk9TIfVdfX/Yg/BnrZLgrGUXxNMxXHcmPVpq47o/iyGgnIrsKbT2F1pfBk+huBEX0ILjF2ozkyoMQi2wvwkWpjENQONpnFI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EWOhOq+Z; arc=none smtp.client-ip=209.85.167.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AeMrVRZ0"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-428e3129851so52457935e9.3
-        for <linux-staging@lists.linux.dev>; Tue, 27 Aug 2024 11:21:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EWOhOq+Z"
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-53349d3071eso7155856e87.2
+        for <linux-staging@lists.linux.dev>; Tue, 27 Aug 2024 11:37:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1724782891; x=1725387691; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=kqdvqJEmzWDPrKZyiAdNz0J2ROp2OO31etrcR1BLAWs=;
-        b=AeMrVRZ05c5iEgXJ0sOJ/Uyq9qOot7K4jjcnL9mQPGH9h4Jt1CbNIYzbQfF1grTLEp
-         hEKMuA0IVxKf5VuppVfgMGnvXGVHmIZ22fe91DN8KqeKbtRgyBWk4LtvcwIgfZ4//EX2
-         GNFD9uuNUmnbi+D7O7EmfRQ9QlKAqR6RBsV2J5e+c3FiJF4pkKa/K7d05UPwiiT7r4im
-         IyWwGsJ5IVBKnqQZMaVuvugwJkirr9lX1hPAsNtA0I2ujkCTfEqKQzQ0QoJzw9EtfIvq
-         ge6DRMdU0h8WRlg6smUJjFFwkqup4Y7SFDLfqCeu13oQiBJHEW6b+6J8XIrVZC3hAIf4
-         ZHBA==
+        d=gmail.com; s=20230601; t=1724783848; x=1725388648; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=+wei2YqmI+C13JiYiOFBXj7v+/g9gbGsLnKaP0aiRLc=;
+        b=EWOhOq+ZdCNYwiMChhq5rE3ZsyQCovcO0VqDjk25ly1qtNzF8OSiL5XEaMsEygFnHw
+         GeXINuYdb1IuY4nxtx3pfsHQE4pQmQmQN+PT/3p4Er8VTuV58MWTxJPR5YZu9XzjiyFp
+         xS1nlT+GAuNuX946h6S9m0qaBfoTD4AbH6hnA4yZvaQ1DZL4o0Djb8XEM2+5tpUzPxcT
+         Sr4iYw2YfDvg6LC0RLmCOYDYsOuzRtzmFYY3+ScmovPmQQL7O19HlWIXeSHXqY+zGbDa
+         Nf/WCQHa6Ce7ygHBFGyQYeoXuGkg+MwKan3yjieB+r8eMd/iVGtvNYWnm4JWKdlLucSE
+         NEag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724782891; x=1725387691;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
+        d=1e100.net; s=20230601; t=1724783848; x=1725388648;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kqdvqJEmzWDPrKZyiAdNz0J2ROp2OO31etrcR1BLAWs=;
-        b=LoDg/6gw7luDFPMALIJ3H2Li1X0C7v866Eq8UnS3xkR/MX8AEzDNpjTY2W68KC+0Q0
-         jaboeZIbRt9hPlkjnedFztCe5apNIimO+Pyk7C3ncMwZJpcju8WIfsa8LoAaMFmCR1nT
-         7pre2nnXXTjrbL2i7gkat4ZRkHwi+IOFB3fcqYFAGNB8tV/Kd1duA9bkMdqWPZc2bvj9
-         IfIuDnZrnPX2JhktJMst3TWpqZ3Bo02uHpOfEpqKJZzNnKTkx2F7cmfYsZw019opA6TW
-         vYn3aSNqhO214rzkjy3Mlm1xg3MWTrvj4W4eN8TrHOAdYM3W+dhyrLktbJ9vZ+dQj7qm
-         Lgmg==
-X-Forwarded-Encrypted: i=1; AJvYcCU515n52UpfsBj/5v6rA27VU4f2WX6VyO3IfV5oV4/xqe86+qh591NqUj+RWcpLnLuGpiIaEpZNJIJALaw+@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz9ql57zafNElNOIvj4869hckINbPkXquVTI5bYJPIwk9sKv3jZ
-	lbkaRnwnyx0JHxR7BdO5CgJzVg1eB1EnZApmEwglFCqNQbYpJ/un6rsfkt6vasA=
-X-Google-Smtp-Source: AGHT+IEn/urW2WYXErg3s6zWyW9m2P6dJY1Stz7H7aazJRw4zjfpDd/WN9qJrYv1mjZWFicmilsI7Q==
-X-Received: by 2002:a05:600c:45d1:b0:429:e637:959e with SMTP id 5b1f17b1804b1-42b9add4764mr27914815e9.10.1724782890655;
-        Tue, 27 Aug 2024 11:21:30 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42ac5180106sm198559695e9.41.2024.08.27.11.21.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Aug 2024 11:21:29 -0700 (PDT)
-Date: Tue, 27 Aug 2024 21:21:25 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] media: staging: max96712: Add support for MAX96724
-Message-ID: <44676cc2-a9e0-45b9-b08b-5280e8aa7a06@stanley.mountain>
-References: <20240827131841.629920-1-niklas.soderlund+renesas@ragnatech.se>
- <20240827131841.629920-3-niklas.soderlund+renesas@ragnatech.se>
+        bh=+wei2YqmI+C13JiYiOFBXj7v+/g9gbGsLnKaP0aiRLc=;
+        b=I6Liz2sH9oIoOjVrpOc2VHBZUMQnK3nfZSqi4Re9zS2KryQ0dpRgBwZEoh9oxcCSFb
+         l0nyE5sE3p6yQL+JOX2DFIOudBGIG7KVCUtINtkWQSzkfDmrs1u8CcI3ThQ8ZzUVwT/G
+         aCyn9k8xJMWyBQZq0PpK8+mPt1pet5gfTWrO0615c1Q6N3jQklPXWNcOmGHu3upMmO/q
+         hdKHM5i57ytuWKMO/Q+oggZvj642YiLce6wWUL4rpaQVCF8JVy8s/HvpWtlr2Mcoru43
+         KW6uU9WOgg5xVG/OEJ0IzErexI8cVIS2xrctP6Oel6faQSigvWTWmAUAHbsDCg0Navco
+         SHtQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXBvjmoxxPSIwm6/eOFdcjiGPJnd4WOblSctSNC0juIb41/hJ34zQfEa2kZkcKSNdwPYDa0bkcwPQXyFVUz@lists.linux.dev
+X-Gm-Message-State: AOJu0YzIdCy5E9s2a2/UobWRuopNM5lUM9WppeNuhiaKtG/Lqbtt2kk7
+	wmkdRazaphQAlVBL1XG+BNaYUIrFZEuRLPvzxpFfFRR2W164+TrC
+X-Google-Smtp-Source: AGHT+IGjTs1qBRmJssjl7qNqtqxO0v6xB7rTHw2xEE6XsBHUuOo7xKcZmnVQ4t+E0w8lWtlykvdd8g==
+X-Received: by 2002:a05:6512:401d:b0:52c:a7c8:ec43 with SMTP id 2adb3069b0e04-5343870bbf8mr10454113e87.0.1724783847885;
+        Tue, 27 Aug 2024 11:37:27 -0700 (PDT)
+Received: from ?IPV6:2003:c7:8f2a:8589:9a84:3869:ee20:88fd? (p200300c78f2a85899a843869ee2088fd.dip0.t-ipconnect.de. [2003:c7:8f2a:8589:9a84:3869:ee20:88fd])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a86e54851fesm142103066b.43.2024.08.27.11.37.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 27 Aug 2024 11:37:27 -0700 (PDT)
+Message-ID: <e1ab1e44-e5ed-4a6a-821f-859bf54816fb@gmail.com>
+Date: Tue, 27 Aug 2024 20:37:26 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240827131841.629920-3-niklas.soderlund+renesas@ragnatech.se>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] staging: rtl8192e: Fix alignment parenthesis
+To: Nilo Alexandre <n1lux.comp@gmail.com>, gregkh@linuxfoundation.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ ~lkcamp/patches@lists.sr.ht
+References: <20240827162910.15459-1-n1lux.comp@gmail.com>
+Content-Language: en-US
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <20240827162910.15459-1-n1lux.comp@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Aug 27, 2024 at 03:18:41PM +0200, Niklas Söderlund wrote:
-> @@ -181,7 +186,8 @@ static void max96712_pattern_enable(struct max96712_priv *priv, bool enable)
->  	}
->  
->  	/* PCLK 75MHz. */
-> -	max96712_write(priv, 0x0009, 0x01);
-> +	if (!priv->max96724)
-> +		max96712_write(priv, 0x0009, 0x01);
->  
+On 8/27/24 18:29, Nilo Alexandre wrote:
+> Fix alignment parenthesis in _rtl92e_read_eeprom_info
+> 
+> CHECK: Alignment should match open parenthesis
+> 
+> ---
+> Changes in v2:
+>      - Using tabs instead of spaces
+> 
+> Signed-off-by: Nilo Alexandre <n1lux.comp@gmail.com>
+> ---
+>   drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+> index b767dc00100aa..2d17d8e8898e7 100644
+> --- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+> +++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+> @@ -322,7 +322,7 @@ static void _rtl92e_read_eeprom_info(struct net_device *dev)
+>   		if (priv->epromtype == EEPROM_93C46) {
+>   			if (!priv->autoload_fail_flag) {
+>   				usValue = rtl92e_eeprom_read(dev,
+> -					                     EEPROM_TxPwDiff_CrystalCap >> 1);
+> +								EEPROM_TxPwDiff_CrystalCap >> 1);
+>   				priv->eeprom_ant_pwr_diff = usValue & 0x0fff;
+>   				priv->eeprom_crystal_cap = (usValue & 0xf000)
+>   							 >> 12;
 
-I don't like this either.  The comment should move.  I didn't see the ! the
-first couple times I read this.  I don't like the MAX96712_ID and
-MAX96724_ID defines because when humans read they only see the general shape of
-the words.
+Hi Nilo,
 
-https://www.dictionary.com/e/typoglycemia/
-https://en.wikipedia.org/wiki/Hamming_distance
+please make your "Subject" line more unique. Consider that we may end up 
+with having dozen of commits like yours, all of them referring to 
+different removals and all without the necessary information to tell 
+what they differ in (except the driver/subsystem). So it would help if 
+you add the changed file or function to make it more unique.
 
-I guess the best we can do is remove the _ID so at least the last characters are
-different.
+Please answer the why in the description and not so much what you did. 
+Why do we need an empty line? Please use a dot to end the sentences.
+I propose:
+Align parenthesis to improve readability.
 
-It should be something like:
+You can mention the tool which gave you the hint but you do not have to.
 
-	if (priv->id == MAX96712) {
-		/* PCLK 75MHz. */
-		max96712_write(priv, 0x0009, 0x01);
-	}
+Thanks for your support.
 
-Or maybe put in function.
-
-regards,
-dan carpenter
+Bye Philipp
 
