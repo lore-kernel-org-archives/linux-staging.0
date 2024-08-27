@@ -1,63 +1,59 @@
-Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E4201C4EE9
-	for <linux-staging@lists.linux.dev>; Tue, 27 Aug 2024 13:32:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724765578; cv=pass; b=FR9HXQGA/+/svrtp4l3tCgscl2uosgifoiVNllD3YQOFRP3gIva6y+ee7hDJywzCDsRetGY+MAsV/mrTDquj49Qgz8lAmLD7mpFleo4OsCQOPi72bbhnVI70+90oXUZIzscSpAwdySMT9o1eVxDT8G3VUvReQF9TXLYVbxt9J7Y=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724765578; c=relaxed/simple;
-	bh=2RXsdPsLWHOfXe2MiYULKvHWCxZ9JUN5zKbQe5Bzzmc=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C90CC1C2DBC
+	for <linux-staging@lists.linux.dev>; Tue, 27 Aug 2024 13:55:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724766934; cv=none; b=KRpLSElsP3l5MkKU8WHSZAd9G/LZck26sYjsCSyoJvanlPbclIfJ79Fk4mzgokU785wUuW3LXdt9iuwUfoDCec4RGwWilCPmEIlg+yG5Ij2cUw5EGPNGZzyEB6AH55uGr0VN7G1TydAVpmi4a0XPvSSNrN2K5Kr1YOzYMAbmysg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724766934; c=relaxed/simple;
+	bh=BQ59D5hX/sMmMwLtN1HvKH/ZppCnb8N6a4QrNUn1ez8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QXbwvVLuUgL33+NnSwufgcd5SOw6Tnvof8wqSb0we5MdmkQOQMMLvhnRs/0sOADkoKr/aNPcwram3qAN02yS3OD93ME+bnU5p7nuKBgOgN52ZuPAJCMNYeNMzR8f5TA/x1gBGksSvdfpwbiaGE3i8oc5cLBrqsKGwSTdV2pfCI0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=ZQHp6BwL; arc=pass smtp.client-ip=195.140.195.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+	 Content-Type:Content-Disposition:In-Reply-To; b=UYAN2oP1K69Q3GnTDurxUNLlAEiatewmnTuevIVgZJ2LBijcO7OclRv79xMl7xVxjxMkX9Q4+gcmG3RMfJT7ARorSnxGgZ1NrECO0K7k5j8naITMlh/Mbk0OmhfX+F3whRrj8EmbpoIkRDvTfJ7RCqfLxYutzisB9bJI1++KLGw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fJuXLTpg; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="ZQHp6BwL"
-Received: from hillosipuli.retiisi.eu (80-248-247-191.cust.suomicom.net [80.248.247.191])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by meesny.iki.fi (Postfix) with ESMTPSA id 4WtT4Y240LzySt;
-	Tue, 27 Aug 2024 16:32:44 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-	t=1724765566;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oE5nE4hsHCZlM2jqEFpjDxqfVKbEDl8kopxtlJUYWnc=;
-	b=ZQHp6BwL43dZJNh/Ab5Zj/zBXQSbohwlT6djjnpWVJTGV0iuUOCgNEaaB25+SC7nKqjrVR
-	xmnbqpKzP4Ta2SPQIxvscHZIeutn6ndke69rE2Qz/oQkolMb2YRU+y16wzjiiQMLy+Se1r
-	bNRzmZ2OyPWpkhFfKbu2OjjRaEwof0c=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=meesny; t=1724765566;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oE5nE4hsHCZlM2jqEFpjDxqfVKbEDl8kopxtlJUYWnc=;
-	b=JvbiXyB0oKoK3UDhKkkT8P8JS+N/Q179eqF8EIkLZNePbpHSfp6qZnV38f/htfQ6pckDiH
-	1XRRi+WB6h68Fu99pAsTy/tKIia6ivDKg4qoCyF+YBwLjSYGnU/O0Pkj/UXkNfDlyHZ1yp
-	XWahi1N/SMQrHuUbBlrU62z+md4iCGQ=
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1724765566; a=rsa-sha256; cv=none;
-	b=XuTyYrYo2K9hrgXjZcR1M5k4u+uqcHTsDC6MeHZGDkNx6chbpl2n8niQ2HLYnENRKlwhMg
-	HC8xdGQuaHCl27krMO9zE5tYHAKyF2lBUyT5CXCG44xc2gLFIFxIJb4deZrx4w+nN7HOlf
-	P3JjXxoKHpjLujJNbLBoOn0xzQSf4ew=
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 2AFE9634C93;
-	Tue, 27 Aug 2024 16:32:44 +0300 (EEST)
-Date: Tue, 27 Aug 2024 13:32:43 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fJuXLTpg"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-428fb103724so34983455e9.1
+        for <linux-staging@lists.linux.dev>; Tue, 27 Aug 2024 06:55:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724766931; x=1725371731; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=mGkXmJO7+ehJTc5gDtx5XxEE1THr9uwQmGYarHbXZ7Q=;
+        b=fJuXLTpg2LYG+qk9XreR6rFCM41ZcatO7bmOqR1EbVjFO9VvBaaG+wrFL3AhCtRBu+
+         7hcOC6K6hnekcm+NKHeUVqzhkIjeuNf9Dgjw47lS5TtcWGHQqhIpW47bTUt7MwFqw20Z
+         /+Z7QQcCNNObIxKcRj4An2Ja1mo2z2Ww0yIvjvarQM1mNWjvngVPMQpd08n69dA4B8QC
+         o+GUEOO66OWFL3sI9oVAKi5PnDMziwjjumchZ0hsb0xvPTqPpFH4a0nxpFYJX5RJC9Jz
+         TfiJsOil+6hSelZKI6Xjz75DrVjXsy2afzACfnixRV6o3jJsnXjgamswUaaDP2feEUnE
+         NSog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724766931; x=1725371731;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mGkXmJO7+ehJTc5gDtx5XxEE1THr9uwQmGYarHbXZ7Q=;
+        b=X8K7VCUi/YbLhpB9tK4xD/pG+SYtOjl0VdTIgeM2JWrNXqa1jzWU38kBgJqMbv3ro6
+         M3fx6iTiLdLbKA3pPPFWhHztIQyJG/N5mCQZao3U2P3AN+8keK6bW5nOqRuJ4UYnMAe2
+         pmv2klZUUG9456gLrLH01bz4MEL3IbMTdL5u1hgLinVBXyO5oj6LvOV42Btb488p+nVl
+         6hTBLJfMbjE5NiEMFOsYU3q2cZCW73nkp70am5RPIhPAouiIt68OMCzR6/1CBfJLUmOg
+         MV/LEa6k/mEwYjC9diFkxWgZzF0T++622PnsAPXmKYYut5+24TqIInX3kLG2uxGBjy7D
+         Q0Tg==
+X-Forwarded-Encrypted: i=1; AJvYcCVo0ThcIhbGczGbzHqql6KhPtpj1/F7MBnosrVJUiMAOTqj982Humu5KqtTPG8nkak2+G3mHdp2e3EAsooR@lists.linux.dev
+X-Gm-Message-State: AOJu0YxMTcbZxlPiXyo99fmbY3TnoobigBdFnxvpFBkQCOFUbA2SQU34
+	XRpAZsNUbRtAZFqFKLuVCPFMucwetPpsE7Nhn0fVjRbhioLih1ZI
+X-Google-Smtp-Source: AGHT+IGMlJfM4oTqypQRhPCQu5jbMTPV1df56N2ITKW6B/3nFmGl5sIHK66o3lyBNIs6QCOaeIK1eQ==
+X-Received: by 2002:adf:e7cd:0:b0:367:938f:550 with SMTP id ffacd0b85a97d-3748c89dca6mr1655410f8f.25.1724766930425;
+        Tue, 27 Aug 2024 06:55:30 -0700 (PDT)
+Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-188-217-48-58.cust.vodafonedsl.it. [188.217.48.58])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37308265518sm13087268f8f.108.2024.08.27.06.55.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Aug 2024 06:55:30 -0700 (PDT)
+Date: Tue, 27 Aug 2024 15:55:27 +0200
+From: Tommaso Merciai <tomm.merciai@gmail.com>
 To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Rob Herring <robh@kernel.org>,
@@ -65,9 +61,10 @@ Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-renesas-soc@vger.kernel.org
+	linux-staging@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
+	julien.massot@collabora.com
 Subject: Re: [PATCH v2 2/2] media: staging: max96712: Add support for MAX96724
-Message-ID: <Zs3Vey0NEdGJAyTE@valkosipuli.retiisi.eu>
+Message-ID: <Zs3az1G/e5y5lkf1@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
 References: <20240827131841.629920-1-niklas.soderlund+renesas@ragnatech.se>
  <20240827131841.629920-3-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
@@ -81,9 +78,14 @@ Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 In-Reply-To: <20240827131841.629920-3-niklas.soderlund+renesas@ragnatech.se>
 
-Hejssan,
+Hi Niklas,
+Thanks for your work.
 
-Tack för lappan!
+Hi Julien,
+I think we can adopt a similar approach for the max96716 deserializer using your work
+on max96714 driver. What do you think?
+
+Thanks in advance.
 
 On Tue, Aug 27, 2024 at 03:18:41PM +0200, Niklas Söderlund wrote:
 > The MAX96724 is almost identical to the MAX96712 and can be supported by
@@ -161,10 +163,6 @@ On Tue, Aug 27, 2024 at 03:18:41PM +0200, Niklas Söderlund wrote:
 > -	max96712_write(priv, 0x0009, 0x01);
 > +	if (!priv->max96724)
 > +		max96712_write(priv, 0x0009, 0x01);
-
-It'd be nice to have a macro for this, espeically now that the driver
-supports more than one chip.
-
 >  
 >  	/* Configure Video Timing Generator for 1920x1080 @ 30 fps. */
 >  	max96712_write_bulk_value(priv, 0x1052, 0, 3);
@@ -208,18 +206,14 @@ supports more than one chip.
 >  static const struct of_device_id max96712_of_table[] = {
 >  	{ .compatible = "maxim,max96712" },
 > +	{ .compatible = "maxim,max96724" },
-
-How about adding compatible specific data to convey the model, instead of a
-switch? See e.g. drivers/media/i2c/ccs/ccs-core.c for an example.
-
-You could store the DPLL frequency there, too.
-
 >  	{ /* sentinel */ },
 >  };
 >  MODULE_DEVICE_TABLE(of, max96712_of_table);
+
+Thanks & Regards,
+Tommaso
+
+> -- 
+> 2.46.0
 > 
-
--- 
-Trevliga hälsningar,
-
-Sakari Ailus
+> 
