@@ -1,170 +1,112 @@
-Received: from fout8-smtp.messagingengine.com (fout8-smtp.messagingengine.com [103.168.172.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CFFA1D27B7
-	for <linux-staging@lists.linux.dev>; Tue, 27 Aug 2024 18:03:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6431A199EA1
+	for <linux-staging@lists.linux.dev>; Tue, 27 Aug 2024 18:21:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724781822; cv=none; b=i/MfYR1xi4fEH2TGvcMKMyU/trWz2pztYrerk8Ba75XvNUFeSo+maXoMSohrb4PCv3XomzMCRguN8RJwWPKouo3G942bU2OuC9lmf8cNk+SKAft/blgACwqUJl7ae87J84NU4U0fNoMb5QlF2AXGSlMVQCV0fm2YN1eiDvWIESU=
+	t=1724782894; cv=none; b=tpL7g7tgtbJ9eIv8Uf1G1sadWGNwVZbKddXDIKOti8JwanJAdK2y0vCyxT63Dv+7tpQjiHbKYLJiUOC95dCld6NMoJjFnyQIHDUuoIKj4CkD+3ob4UAMR+SE1GAGmjsl7rsu8NlKiYSqX9jD5dMsatvBFyEO09Ygh+8FI9sKjlw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724781822; c=relaxed/simple;
-	bh=fi75CE9Dmnr402+Qru85rQJ+VU/jjpjocjDbI+llpcE=;
+	s=arc-20240116; t=1724782894; c=relaxed/simple;
+	bh=MpceHBZuHH3o2CueqUk5GDOo7VtJrr197q01MLuthFA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RDu0QCPSkOYnwgrJzXCVSk5N6biWfWmthbJl+8DRnwKbO615HFh8FOLNtSJZhQ4P4Vlk9Hfdi+Sw2aUcxSqe33ejGJZCngmpqnmG+olr3GG9miX0A1DtMOs1ryTTzIArVBgmyYAycYs4d5qzrr01Luq35rZHLj+OaatqAlF+Owg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=s34m8H/o; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Bh2Nl+zB; arc=none smtp.client-ip=103.168.172.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+	 Content-Type:Content-Disposition:In-Reply-To; b=GkB5FhGwSA+legwEhuaQ+IVRoZb0UsaUxS/YwXZli7Lt7MCOKwXCzHOtKktJWimrUqLD2fKdxJIdBN+qmu+JftW1ufNz51BIZ4KZKDphsH8O+bMhUCjjySpypYoIBNP2DdPiabvX5DWjxheDVGCMJjM9BY8OovenRizXx6oUgEk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AeMrVRZ0; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="s34m8H/o";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Bh2Nl+zB"
-Received: from phl-compute-05.internal (phl-compute-05.nyi.internal [10.202.2.45])
-	by mailfout.nyi.internal (Postfix) with ESMTP id 67C29138FC5C;
-	Tue, 27 Aug 2024 14:03:37 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Tue, 27 Aug 2024 14:03:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1724781817;
-	 x=1724868217; bh=cn4ZviJGDcdyhhzDBSryAJZ+KuZM5gRUrsULy8EG294=; b=
-	s34m8H/oz8CnQon+ffKodLcUuHJUaBAC32+Xcdjllz3kioVmUP334t/6k19M11zq
-	tHMV0y84iMEM2g9QAQ5BAEQUz6USfwFrEOc8KNP0sJQYAPAoJeOl+EvTpEWjfvlZ
-	jyLePSBKaUZdwEM6hdkGa+GthhFs0Yn4RqiDed37lF3jIWgfYBCha8TtjLCtuB5f
-	E9ktYL2Fa9dJ2uIYzVyln4panoqFwizWYiK/5PJ4+y9riZ1ON2awhRyzBPaazDab
-	on0J6W7lgfC+gVbGMIBIE3An5bunf2/4KJ/kmyeO5F6a28rqn6V0uJXUc/Pq8r4W
-	bSta/Jm2XQGpgDmIYZcq6w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1724781817; x=
-	1724868217; bh=cn4ZviJGDcdyhhzDBSryAJZ+KuZM5gRUrsULy8EG294=; b=B
-	h2Nl+zBZBZXHFeW49rUu2OhDiYiUQ+3OqHOCb7BHAOvGSVik0lS2tnx0Qyo5T5WT
-	OKTfC/xZoxXGYCTV7TyvfehFlGq3IYV/DpKrTU234pbnMbny/fMzXy+6ElmYua7o
-	D/3HyTtnaMeJfsoQAAVhbRRcigybxrBbwhc6L4dD8lX8fBW1uLFyrE0cb3xVT5YK
-	ARMBowHRCVP9yToO56YbzDXBp7nE7+QtPXdom5y8XDa5Sa4OEKUABXqcRVfe95KC
-	/sBTbMBewokaHZHer0qQSClqeRei9+ISb/0fuNeZm2ECyDWRbpIJ17FNNUG8PR0V
-	dP8h8FicwlhPXaDbW4hug==
-X-ME-Sender: <xms:-RTOZjZMnREAYueLgxbjuYc_8cuNJLqOmBIKmCa0ulF6HC5HFjtwyQ>
-    <xme:-RTOZiYTMDBqTK08p2f4yKs-1DHPFkmOl5g9UsGEZbpVar0iYyFbvMrOfYmeaqeU0
-    AubgsckOIUjHRNYMu4>
-X-ME-Received: <xmr:-RTOZl-jFEj2oKZRmkSAoTo_61ZTbQATUmezVwm9e1cQ3RubtIyuItu7ya38mIeJPuUn0J2qJpdTjPSMYORgiMFIMWV1Mdh5Hg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudeftddguddulecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddt
-    jeenucfhrhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsoh
-    guvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgr
-    thhtvghrnhepfefhleelhfffjefgfedugfegjeelhfevheeikefhueelgfdtfeeuhefftd
-    dvleeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhep
-    nhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrd
-    hsvgdpnhgspghrtghpthhtohepuddupdhmohguvgepshhmthhpohhuthdprhgtphhtthho
-    pehkrhiikheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhgthhgvhhgrsgeskhgvrh
-    hnvghlrdhorhhgpdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdrohhrghdprhgtphht
-    thhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtohhnohhrod
-    gutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepghhrvghgkhhhsehlihhnuhigfhho
-    uhhnuggrthhiohhnrdhorhhgpdhrtghpthhtoheplhhinhhugidqmhgvughirgesvhhgvg
-    hrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopeguvghvihgtvghtrhgvvgesvhhgvghr
-    rdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhsthgrghhinhhgsehlih
-    hsthhsrdhlihhnuhigrdguvghv
-X-ME-Proxy: <xmx:-RTOZppVCH7HxsyUmpT8DF67RJL_l0gPI5lMHhmPEoaynm3dY1Ihag>
-    <xmx:-RTOZuqSsNhGgd7rYY-XfjGsP2F6BpPbvzRHT8x1TfL4l7D7F6FJgw>
-    <xmx:-RTOZvRly8PwQG_qBO4NBsV9wh_6fdccvWt3Zh4RHFCO_CAYdgSrIA>
-    <xmx:-RTOZmoywSLz8k7jDklbWk0B0vbyVpvKFxFtWkay9xjUFCZQ3D1_YA>
-    <xmx:-RTOZrTdlj41cuq2t39m2__EBzNDVMZRWkb_MNolwm--W_z08XhYOeH2>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 27 Aug 2024 14:03:36 -0400 (EDT)
-Date: Tue, 27 Aug 2024 20:03:34 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Krzysztof Kozlowski <krzk@kernel.org>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AeMrVRZ0"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-428e3129851so52457935e9.3
+        for <linux-staging@lists.linux.dev>; Tue, 27 Aug 2024 11:21:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1724782891; x=1725387691; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=kqdvqJEmzWDPrKZyiAdNz0J2ROp2OO31etrcR1BLAWs=;
+        b=AeMrVRZ05c5iEgXJ0sOJ/Uyq9qOot7K4jjcnL9mQPGH9h4Jt1CbNIYzbQfF1grTLEp
+         hEKMuA0IVxKf5VuppVfgMGnvXGVHmIZ22fe91DN8KqeKbtRgyBWk4LtvcwIgfZ4//EX2
+         GNFD9uuNUmnbi+D7O7EmfRQ9QlKAqR6RBsV2J5e+c3FiJF4pkKa/K7d05UPwiiT7r4im
+         IyWwGsJ5IVBKnqQZMaVuvugwJkirr9lX1hPAsNtA0I2ujkCTfEqKQzQ0QoJzw9EtfIvq
+         ge6DRMdU0h8WRlg6smUJjFFwkqup4Y7SFDLfqCeu13oQiBJHEW6b+6J8XIrVZC3hAIf4
+         ZHBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724782891; x=1725387691;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=kqdvqJEmzWDPrKZyiAdNz0J2ROp2OO31etrcR1BLAWs=;
+        b=LoDg/6gw7luDFPMALIJ3H2Li1X0C7v866Eq8UnS3xkR/MX8AEzDNpjTY2W68KC+0Q0
+         jaboeZIbRt9hPlkjnedFztCe5apNIimO+Pyk7C3ncMwZJpcju8WIfsa8LoAaMFmCR1nT
+         7pre2nnXXTjrbL2i7gkat4ZRkHwi+IOFB3fcqYFAGNB8tV/Kd1duA9bkMdqWPZc2bvj9
+         IfIuDnZrnPX2JhktJMst3TWpqZ3Bo02uHpOfEpqKJZzNnKTkx2F7cmfYsZw019opA6TW
+         vYn3aSNqhO214rzkjy3Mlm1xg3MWTrvj4W4eN8TrHOAdYM3W+dhyrLktbJ9vZ+dQj7qm
+         Lgmg==
+X-Forwarded-Encrypted: i=1; AJvYcCU515n52UpfsBj/5v6rA27VU4f2WX6VyO3IfV5oV4/xqe86+qh591NqUj+RWcpLnLuGpiIaEpZNJIJALaw+@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz9ql57zafNElNOIvj4869hckINbPkXquVTI5bYJPIwk9sKv3jZ
+	lbkaRnwnyx0JHxR7BdO5CgJzVg1eB1EnZApmEwglFCqNQbYpJ/un6rsfkt6vasA=
+X-Google-Smtp-Source: AGHT+IEn/urW2WYXErg3s6zWyW9m2P6dJY1Stz7H7aazJRw4zjfpDd/WN9qJrYv1mjZWFicmilsI7Q==
+X-Received: by 2002:a05:600c:45d1:b0:429:e637:959e with SMTP id 5b1f17b1804b1-42b9add4764mr27914815e9.10.1724782890655;
+        Tue, 27 Aug 2024 11:21:30 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42ac5180106sm198559695e9.41.2024.08.27.11.21.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Aug 2024 11:21:29 -0700 (PDT)
+Date: Tue, 27 Aug 2024 21:21:25 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: Re: [PATCH v2 1/2] dt-bindings: i2c: maxim,max96712: Add compatible
- for MAX96724
-Message-ID: <20240827180334.GI2636928@fsdn.se>
+	linux-staging@lists.linux.dev, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] media: staging: max96712: Add support for MAX96724
+Message-ID: <44676cc2-a9e0-45b9-b08b-5280e8aa7a06@stanley.mountain>
 References: <20240827131841.629920-1-niklas.soderlund+renesas@ragnatech.se>
- <20240827131841.629920-2-niklas.soderlund+renesas@ragnatech.se>
- <7dadf8dd-ad54-4e4f-a336-adc3444df4b0@kernel.org>
+ <20240827131841.629920-3-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <7dadf8dd-ad54-4e4f-a336-adc3444df4b0@kernel.org>
+In-Reply-To: <20240827131841.629920-3-niklas.soderlund+renesas@ragnatech.se>
 
-Hi Krzysztof,
+On Tue, Aug 27, 2024 at 03:18:41PM +0200, Niklas S�derlund wrote:
+> @@ -181,7 +186,8 @@ static void max96712_pattern_enable(struct max96712_priv *priv, bool enable)
+>  	}
+>  
+>  	/* PCLK 75MHz. */
+> -	max96712_write(priv, 0x0009, 0x01);
+> +	if (!priv->max96724)
+> +		max96712_write(priv, 0x0009, 0x01);
+>  
 
-Thanks for your feedback.
+I don't like this either.  The comment should move.  I didn't see the ! the
+first couple times I read this.  I don't like the MAX96712_ID and
+MAX96724_ID defines because when humans read they only see the general shape of
+the words.
 
-On 2024-08-27 16:53:20 +0200, Krzysztof Kozlowski wrote:
-> On 27/08/2024 15:18, Niklas Söderlund wrote:
-> > The MAX96712 and MAX96724 are almost identical and can be supported by
-> > the same driver, add a compatible for MAX96724.
-> 
-> The driver statement in this context is meaningless. You did not make
-> them compatible so what does it matter?
+https://www.dictionary.com/e/typoglycemia/
+https://en.wikipedia.org/wiki/Hamming_distance
 
-Agreed, this commit message can be improved.
+I guess the best we can do is remove the _ID so at least the last characters are
+different.
 
-> 
-> > 
-> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > Acked-by: Conor Dooley <conor.dooley@microchip.com>
-> > ---
-> > * Changes since v1
-> > - Group in series together with driver change.
-> > ---
-> >  .../devicetree/bindings/media/i2c/maxim,max96712.yaml        | 5 ++++-
-> >  1 file changed, 4 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
-> > index 6c72e77b927c..26f85151afbd 100644
-> > --- a/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
-> > +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
-> > @@ -25,7 +25,10 @@ description: |
-> >  
-> >  properties:
-> >    compatible:
-> > -    const: maxim,max96712
-> > +    items:
-> > +      - enum:
-> > +          - maxim,max96712
-> > +          - maxim,max96724
-> 
-> Driver change tells these are compatible and version is detectable.
-> Express it in the binding with fallback or explain in commit msg why
-> they are not compatible.
+It should be something like:
 
-It is, and as you point out the commit message can be improved. It 
-should have made it clear that what is supported by the staging driver 
-(test pattern generator) is similar for the two devices, the full device 
-have larger differences.
+	if (priv->id == MAX96712) {
+		/* PCLK 75MHz. */
+		max96712_write(priv, 0x0009, 0x01);
+	}
 
-Before this driver can move out of staging the full GMSL side of things 
-needs to be added and there they differ more and will need different 
-bindings as one device have more PHYs then the other for example. Run 
-time detecting is not enough to be able to verify that in DTS files.
+Or maybe put in function.
 
-I will fix this for the next version.
+regards,
+dan carpenter
 
-> 
-> 
-> Best regards,
-> Krzysztof
-> 
-
--- 
-Kind Regards,
-Niklas Söderlund
