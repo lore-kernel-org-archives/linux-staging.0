@@ -1,118 +1,99 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A9C719B3D8;
-	Mon, 26 Aug 2024 22:38:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8D0D1361
+	for <linux-staging@lists.linux.dev>; Tue, 27 Aug 2024 00:11:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724711916; cv=none; b=RzVVAE2VOrawJ5zik3AejusMsaeA1Y6p+OMJ+nThoqe407wlAmiCya9jhql0SH2+XRzJDvsFrwKSt12KbMtVdLWhL5Pwl+qvviHBhRHbw2XOrmzs6NoC1STXZWRQgYbRI8X5AHWWClYxB9q0rJg/V7GIGJvHgQemNvLH+tXaVcg=
+	t=1724717475; cv=none; b=inAy25x83pB26Qu6lRfHOu3UI4ozn0Wse38wg+h0sln8vCt6UwwZREbyTB9M0HzqU6ORj1Fxh4VUVO6uf+wIcvcPY2KVy4hwovESQKum9VHpODOrE9v+ng2DkZ6p+WLs+GD7bC1far8KQ6gUiVF4dHORYIuiEPvHopPFycSXAIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724711916; c=relaxed/simple;
-	bh=IcfDBNU1XMYr6kUAKgn4NRrZgFHytBg+0l+87kEgNyE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ejYr1sWkQi+CT9hNhRey3pjMZAg0TGsW4YtnXxbPp4GJeT0JrhDzHSRVqV0bi9+sTPnHjCF6O/TrikH4AHr8PzbJ/PoiFwVzuPJ/so7PlTX2JDiiBcty2y/g8KuEzqyOxqey/8LiR+s14ndKCV64ZxBNlm2BjIT51/zDaY37OYM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bKzWni60; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1724717475; c=relaxed/simple;
+	bh=kXWyl0slUnO+a5sfYHnSJVT3blREh+IyY4fDehSco6g=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version; b=gf4YFitTXYv2IGx4Hs3NO1dIYpkQBbMd4Af7rKbNNrviS1vSdCcbga7UK3DialRJlpzjTCz2IEzGFtQaSQ7p67LTTR0ezOY+7ighKTD/7wjxNShg1sFeSsByjWBifRXjv2rYjbupJNmQ/O6sJXxyh4TZDMdGmi7+PFC342E6k5w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TWKR3Xn/; arc=none smtp.client-ip=209.85.216.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bKzWni60"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724711914; x=1756247914;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=IcfDBNU1XMYr6kUAKgn4NRrZgFHytBg+0l+87kEgNyE=;
-  b=bKzWni60CgE5CDjPSsIqxXz5ni5udZaMYUGFpBGBTc8ULs/+iE6qknlc
-   bSR6FwDn7cTKy4M61CrU0g0ESkf0oZYh3ukcz1HhaCmkNRm+QwWdi7Wrp
-   7XtqwLQ6E2Tr2gH/U/cplkiJSbPftnFtLtO21fEUHYgz7Xn4WHCtj+xS5
-   GDVWsQddZlgWbl2dHqQWUrnO4FkZIFfApR219lNBrqLdGHHB/GVv3/m1l
-   R4ArX+FvKugb7E78PVvL/IYsMsFQCV+UNe+EJfewSTMLd0aB1gwvObC1s
-   mZF8BgeM99hDm7+vSCGg9zVcSXXPzUnJq90JPOeYBzyxtSuvP8LA3/TBV
-   A==;
-X-CSE-ConnectionGUID: BgWqtlMgTxGRL1/ycgbm0Q==
-X-CSE-MsgGUID: geRh+W1QTb230EyGqkbBrQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="26956211"
-X-IronPort-AV: E=Sophos;i="6.10,178,1719903600"; 
-   d="scan'208";a="26956211"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 15:38:34 -0700
-X-CSE-ConnectionGUID: h1c1iO/IR4iTJCTa5+9muw==
-X-CSE-MsgGUID: 8C5xr0etTjOsB11IyaiXHQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,178,1719903600"; 
-   d="scan'208";a="63382603"
-Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 26 Aug 2024 15:38:32 -0700
-Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1siiM2-000HfM-04;
-	Mon, 26 Aug 2024 22:38:30 +0000
-Date: Tue, 27 Aug 2024 06:38:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: Riyan Dhiman <riyandhiman14@gmail.com>, gregkh@linuxfoundation.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TWKR3Xn/"
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-2d3e46ba5bcso3531877a91.0
+        for <linux-staging@lists.linux.dev>; Mon, 26 Aug 2024 17:11:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724717473; x=1725322273; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=k/5xpuZ3Z5HigZwmywx2n/8WWg9SbPfgJSYKo2cWfbo=;
+        b=TWKR3Xn/F+TdsWPBjWZM+ZjDlPBcTQ6YxScdDwYUjGsGMu+V29RrO4yWE8NS4azIGD
+         q5qdyDp/lfgnLsNUp7ogzsASNVQRTF0uKq3E4LNd9KHGsBxFoZg8dMnD5wtLnmdxbeS3
+         jYMvFnEcbCQsrfr8O8DxIXCeN8FF3NhqZgGkTaoj/hBioY5GUMHqhssuOnSPx6eqMY+1
+         VzOHXXemKuvNb3uW7Gvlogcc/Vez4GjpSuF25IS+DKXkHSac5XTGDbQTB+sz+2/UJuz8
+         896Iisd3hghGREIr1TlVOmKLgS5M6TbExpMLcbyG4M8Q8qZWiKHYWwV0si4zv/xpaPva
+         d2rA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724717473; x=1725322273;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=k/5xpuZ3Z5HigZwmywx2n/8WWg9SbPfgJSYKo2cWfbo=;
+        b=iiKckJf2QGTHQTW9/Phl/d6MrAp6mydWUSaCv7MgwcunTRS0unuRbC1GLLeuQ+ovJ6
+         12xCPKsPkOK193yNoWo/Wy/5vrMVliRyevtszrdllF9sxON1rS8KPCnPvN7McrC5wnsh
+         ZwXN3XUlb7N1auUNiLmh6UE9TEtSCH1pk+rtrd5k/QYGu52H0/0j8Zmv1+0+M10Ql9HU
+         I43RB3AYySZ3R2fMBjT6uOeuZI37lcmPasJ1ogCBsfutLlNV6NbUeVtdZm91K8hcxLoC
+         qnoyIz8X2/TG/F21wI4jPbBWW53hlROHtoLvNt/ZFmFcvXhWPaqMi3w+0coOExwkvU8Q
+         3/7w==
+X-Forwarded-Encrypted: i=1; AJvYcCXu3c//wu3OmJ9Y50sqD9/xlphITwFigEcHA4Q9LE9As4MpT76gTmPG0f5n8GE5Y1s5PzoawUo9ZaKVYqUY@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywc8nBx+wjlQo9jiUyRSW/vuOgkVUbxcJI7kcZ1n2jpG2RQ5p2L
+	JvnTSMXxbMc6wH69QtHuTVEOdS0Grnj9FE3AGdGxFYt4/fWlFXbs
+X-Google-Smtp-Source: AGHT+IGA7sBRy2eLjfiFC5yRgmq7NtE5n2KHyaVp7Vh+LqY+09lXe7pw53iNR7nlwPoeqgSygtmIIQ==
+X-Received: by 2002:a17:90a:514f:b0:2d3:b643:8386 with SMTP id 98e67ed59e1d1-2d8257cdd17mr1307070a91.9.1724717472775;
+        Mon, 26 Aug 2024 17:11:12 -0700 (PDT)
+Received: from BASE-20.home ([2804:868:d047:ced3:1cc4:9ed6:b242:b7e6])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2d613af14d6sm10457462a91.37.2024.08.26.17.11.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Aug 2024 17:11:12 -0700 (PDT)
+From: Alien Wesley <alienwesley51@gmail.com>
+To: gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev,
-	Riyan Dhiman <riyandhiman14@gmail.com>
-Subject: Re: [PATCH] staging: vme_user: Added static to image_desc and
- vme_user_vma_priv struct
-Message-ID: <202408270655.m9x8rJA5-lkp@intel.com>
-References: <20240825035514.40095-1-riyandhiman14@gmail.com>
+	linux-kernel@vger.kernel.org,
+	~lkcamp/patches@lists.sr.ht
+Subject: [PATCH v4] staging: rtl8192e: Fix multiple assignments in rtl_wx.c:529
+Date: Mon, 26 Aug 2024 21:11:07 -0300
+Message-Id: <20240827001107.10641-1-alienwesley51@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240825035514.40095-1-riyandhiman14@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Riyan,
+Separated assignments for pairwise_key_type and group_key_type
+in order to silence the following checkpatch warning.
 
-kernel test robot noticed the following build warnings:
+CHECK: multiple assignments should be avoided.
 
-[auto build test WARNING on staging/staging-testing]
+Signed-off-by: Alien Wesley <alienwesley51@gmail.com>
+---
+v4: Squash v1 and v3
+v3: Fix typo in commit message.
+v2: Removed two spaces in front of "=".
+---
+ drivers/staging/rtl8192e/rtl8192e/rtl_wx.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Riyan-Dhiman/staging-vme_user-Added-static-to-image_desc-and-vme_user_vma_priv-struct/20240826-142747
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20240825035514.40095-1-riyandhiman14%40gmail.com
-patch subject: [PATCH] staging: vme_user: Added static to image_desc and vme_user_vma_priv struct
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20240827/202408270655.m9x8rJA5-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240827/202408270655.m9x8rJA5-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408270655.m9x8rJA5-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/staging/vme_user/vme_user.c:99:1: warning: useless storage class specifier in empty declaration
-      99 | };
-         | ^
-   drivers/staging/vme_user/vme_user.c:120:1: warning: useless storage class specifier in empty declaration
-     120 | };
-         | ^
-
-
-vim +99 drivers/staging/vme_user/vme_user.c
-
-f00a86d98a1ec3 drivers/staging/vme/devices/vme_user.c Martyn Welch    2009-07-31   87  
-f00a86d98a1ec3 drivers/staging/vme/devices/vme_user.c Martyn Welch    2009-07-31   88  /*
-f00a86d98a1ec3 drivers/staging/vme/devices/vme_user.c Martyn Welch    2009-07-31   89   * Structure to handle image related parameters.
-f00a86d98a1ec3 drivers/staging/vme/devices/vme_user.c Martyn Welch    2009-07-31   90   */
-e2d30086b6cc13 drivers/staging/vme_user/vme_user.c    Riyan Dhiman    2024-08-25   91  static struct image_desc {
-0a81a0f768e5bb drivers/staging/vme/devices/vme_user.c Emilio G. Cota  2010-11-12   92  	void *kern_buf;	/* Buffer address in kernel space */
-f00a86d98a1ec3 drivers/staging/vme/devices/vme_user.c Martyn Welch    2009-07-31   93  	dma_addr_t pci_buf;	/* Buffer address in PCI address space */
-f00a86d98a1ec3 drivers/staging/vme/devices/vme_user.c Martyn Welch    2009-07-31   94  	unsigned long long size_buf;	/* Buffer size */
-ecb3b80ff968f1 drivers/staging/vme/devices/vme_user.c Santosh Nayak   2012-04-03   95  	struct mutex mutex;	/* Mutex for locking image */
-f00a86d98a1ec3 drivers/staging/vme/devices/vme_user.c Martyn Welch    2009-07-31   96  	struct device *device;	/* Sysfs device */
-f00a86d98a1ec3 drivers/staging/vme/devices/vme_user.c Martyn Welch    2009-07-31   97  	struct vme_resource *resource;	/* VME resource */
-c74a804f115bde drivers/staging/vme/devices/vme_user.c Dmitry Kalinkin 2015-02-26   98  	int mmap_count;		/* Number of current mmap's */
-584721cab2bdd2 drivers/staging/vme/devices/vme_user.c Vincent Bossier 2011-06-03  @99  };
-cd974d35ab784d drivers/staging/vme/devices/vme_user.c Dmitry Kalinkin 2015-06-26  100  
-
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c b/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
+index fc8e7f73b2a4..67c4793e0fc1 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
+@@ -526,7 +526,8 @@ static int _rtl92e_wx_set_enc(struct net_device *dev,
+ 	mutex_unlock(&priv->wx_mutex);
+ 
+ 	if (wrqu->encoding.flags & IW_ENCODE_DISABLED) {
+-		ieee->pairwise_key_type = ieee->group_key_type = KEY_TYPE_NA;
++		ieee->pairwise_key_type = KEY_TYPE_NA;
++		ieee->group_key_type = KEY_TYPE_NA;
+ 		rtl92e_cam_reset(dev);
+ 		memset(priv->rtllib->swcamtable, 0,
+ 		       sizeof(struct sw_cam_table) * 32);
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.34.1
+
