@@ -1,97 +1,262 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh3-smtp.messagingengine.com (fhigh3-smtp.messagingengine.com [103.168.172.154])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A7DD1C7B6F
-	for <linux-staging@lists.linux.dev>; Tue, 27 Aug 2024 16:29:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1D0F1D1F70
+	for <linux-staging@lists.linux.dev>; Tue, 27 Aug 2024 17:57:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724776157; cv=none; b=F+MmFPMNTXgPnGaKnUID6jvt8GI1lHqiGdA//NL7bi90f1Zx+kyppritsStozOe2cFGr7pRTEK4EXIDeFhb5Hp/gVsawbU3RZzqmmAQlAp28xLPiJdTuFGNNr3zmavtrd8zdJZmFAK7BWfS6ps/fqTVoVH2rE+ewbqjK1Y8YXCY=
+	t=1724781464; cv=none; b=TCT8b8H0gyIrCKKd9B5Sdurc+wh8Vs1JZkoCronbbHH+3xGuVOB5VSMR72B9VsH8zrqbV+A1peaJSB2l55ZHpI+s5dETY3VJsPtUDPm+SjLKUqwrl2oGOk1RyGjvsZ7T8TFK1Lj+Dg/27drSdvYKcxV07qs+6O3wPXLc9XqqhV0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724776157; c=relaxed/simple;
-	bh=6d068J4OaSCdSOeFPpLuLxMTQDuS4GBYgsQPHIGhxO8=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=DHYNkI+twK7wC7yDizPBsGA/nMNgYMKbRpyhVA9RQJ/42zT7LFUlF0UUVyZDiWB9TVr+jjrfQkszbQOKwYVw59oE9bQWYgxaV8dsFhgU9Xm+psDiobhhYUgnnjBnq+zOCyvs8YhtGVyw7LNHflz/STftmucrh9ZokJVijt3GFyM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X+HKW4hL; arc=none smtp.client-ip=209.85.216.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1724781464; c=relaxed/simple;
+	bh=K58de2dlXE9yYaLqqwxVDvi+/jp8jxEixn6x5nx0a/U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=S5Uq5G3ae0pzJci0CBVcld/Q1cQulGz4TAbzR3h5h8viLV4QYucM2OhIc3PNh8W5zCsXIgmKIzD9F5YqYRvjrboityuqYMaIYxnsw9p1/qRmnbUXiCgTDB6Ky7sjQwScwNvCK+3+dx3qdypKsdwwwlW+rxoPrcoUvvKMYqA5RR0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=qMBazXUk; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=cHCYZFTn; arc=none smtp.client-ip=103.168.172.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X+HKW4hL"
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-2d3e44b4613so4185243a91.3
-        for <linux-staging@lists.linux.dev>; Tue, 27 Aug 2024 09:29:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724776155; x=1725380955; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0LFAKdbhGymRn4n9Kj8H7SNpVd+huYYcGY/vR4eAu2Q=;
-        b=X+HKW4hLE/lFJAwCkBRMbt3bgpiSV10WUFcJt6q/2iJRYHz6/wmOQikaLZoYRUFVNz
-         WLVvemkC7dFtMglscNr0RB7Oe/R5GFaz59r/ttSzkhrj4f0E4bmX4WC3JQGLb34DSEBt
-         ur4X/tF5xci2zkP48OKsSzU7pi8CHrHU/NsBPxuTP/eD0WgIdTkeHb9kMY7OUijf73Fq
-         IVcN1PKzq5NszDPtBzykMOzf/GURvlubLMgl8UcL6nY+2bngzYq/c4dwjAx3AmKLEGu2
-         BHsi3uQ0lSA1GjN+/n65gRQUEEHVogeVPlOEPsYih0Y1m+1l8hTuoTHH9iJx/3bPQrz2
-         Fo3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724776155; x=1725380955;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0LFAKdbhGymRn4n9Kj8H7SNpVd+huYYcGY/vR4eAu2Q=;
-        b=aRQbTY7DU7kQ9AbnsuOkNPTVCmYSDWfQGZdfaf0TWiH1OXqdqHDg6bfxqqNwS2SBWm
-         kVttPY43E51B3Gh9bRTCCFDr9Zc7UNEDo0o311L0XOfY+9U7DzGGnuvYXn67cETVYl6l
-         Uvh3xPOwIcipF/TTByx7EVJlf6ZNF7FXf7TO2AMChJuL9iiGVTwjs1jCj1mcYWaJNJDo
-         vVf4tOnNaR5/FhYwcvOZe19jOKNu6NFXPgFVrmeDDIXF2jPgN3KGdastJZstbd1ByWS9
-         1vOfIGGEp4VjtBvuLrtkJrdZuYI4iMfctoqLKaaS30tM3Uc6T9h2a/FpkzpNc0kTY2LG
-         dXzA==
-X-Forwarded-Encrypted: i=1; AJvYcCXFcKR7h/vUIOYC0G6D4PuuQUMvPkBxE1/UJAD3Y5+jIbBdGn0T/oky9zo+FIoAiT3I/B5Mxx4zK5eY2lwQ@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz8fLZpdOs6bfeYE08XCHrPfm87e6XNS647oRXWLQQpRWA+vPrU
-	PeYflhZgHfzuDSV6rk5zV5QJKssHePtAvMhknrjsMjgGCr+XuGrI
-X-Google-Smtp-Source: AGHT+IE4k6E1T8Yb1Tym/BNPCZsdNWhG92Mcx/Y1eLA04sVUFeUXaEfXhlebiy0kbLo1JdeN79n6Hg==
-X-Received: by 2002:a17:90b:4f83:b0:2c9:80fd:a111 with SMTP id 98e67ed59e1d1-2d646bf2bd3mr13588417a91.18.1724776155246;
-        Tue, 27 Aug 2024 09:29:15 -0700 (PDT)
-Received: from localhost.localdomain ([2804:16d8:ec10:100:8c4e:d5a2:795b:a46e])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2d61391a783sm12535548a91.14.2024.08.27.09.29.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Aug 2024 09:29:14 -0700 (PDT)
-From: Nilo Alexandre <n1lux.comp@gmail.com>
-To: gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	~lkcamp/patches@lists.sr.ht
-Subject: [PATCH v2] staging: rtl8192e: Fix alignment parenthesis
-Date: Tue, 27 Aug 2024 13:29:10 -0300
-Message-ID: <20240827162910.15459-1-n1lux.comp@gmail.com>
-X-Mailer: git-send-email 2.46.0
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="qMBazXUk";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="cHCYZFTn"
+Received: from phl-compute-04.internal (phl-compute-04.nyi.internal [10.202.2.44])
+	by mailfhigh.nyi.internal (Postfix) with ESMTP id C20DB1151AFE;
+	Tue, 27 Aug 2024 13:57:38 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-04.internal (MEProxy); Tue, 27 Aug 2024 13:57:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1724781458;
+	 x=1724867858; bh=8Gj0A7820TOsyxUBr4fhFPqFN6vdl1FYpMIiADPsq7A=; b=
+	qMBazXUk42cnR14iqpWOGdidzB+2eJ5pcUfQKNzW845WEFsGHKVLgiATLAwK9jjc
+	GD8lsJXbBbA+vBFaWss6mgLpbtBIrcyu9pch/4DcrHvgp7uF1fX4UCOaRSBM++2Y
+	4fY0z/81jOwe7ZxigGlKZm+5FEqLJ8M0LjKvGONEfghBqJ5Cnjk5PO3WjO4834c7
+	MIUdyaIZgW74ZzM2/hd9tIxeV3nxgDiqk54yXi0mneLtPj4mb1BS3QyYq5EQbfjk
+	5G75DCMwDohI3LMUSLoCJ75NhR5M9TiRxpOFQNUPouS17OttBwkscVLHfyfX0peB
+	1Iup2QEUYMIOGlxjh2ZtgA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1724781458; x=
+	1724867858; bh=8Gj0A7820TOsyxUBr4fhFPqFN6vdl1FYpMIiADPsq7A=; b=c
+	HCYZFTnNfIpbyjvCAOkyFlU5A4qwA56QokUea6AIbjxyGFjcXAi53w9o8Frdw3rx
+	efvHTQKPafFi61W0Hni/em26EElzLG6BeIgiPqFDLXwyJ37b+LKWEXRF/JliXhnr
+	bQVCHWXayazKi8EBM9ZucUe+gHYGLHIwd0JtloRdw/R/yFAHaxPtuPzgO/aFCb8e
+	wWy8gvSmGm2Ce1RpQIpgzAERaDg2rimCMkuJXSO/yHPZlmc2TVJphf9sa5Qy7Bry
+	6J1SF7Z+Aq4846bDFXIyNxH6RZpquRIUt/HeEwEp2TXvpMG76fJ65GNu0HoBs36F
+	OnUVAl8Cg5In1gaUxu3OA==
+X-ME-Sender: <xms:khPOZrHSH6PN74QM8ryw3cI6ceoPYrgFeOlI8iwDvv3MZshX8SMLxQ>
+    <xme:khPOZoXX-Qyox8CJcDh3bsj2fKBwpEtgrMSCmxEio3Kzf-jODVXvS26yc68TxF5NL
+    Bqhj2DSpyzgVYKBQHg>
+X-ME-Received: <xmr:khPOZtKZ_vmZZUXf3o32DH128BB6IxVyNeCxe0f0FNtBpMbBbQ-z6vFCoWbG_PoaZK0QvJBrKWRusb7gCsh7Qi9Og8FFmS78iA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudeftddguddukecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddt
+    jeenucfhrhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsoh
+    guvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgr
+    thhtvghrnhepfefhleelhfffjefgfedugfegjeelhfevheeikefhueelgfdtfeeuhefftd
+    dvleeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhep
+    nhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrd
+    hsvgdpnhgspghrtghpthhtohepuddtpdhmohguvgepshhmthhpohhuthdprhgtphhtthho
+    pehsrghkrghrihdrrghilhhushesihhkihdrfhhipdhrtghpthhtohepmhgthhgvhhgrsg
+    eskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdrohhrghdp
+    rhgtphhtthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtoh
+    hnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepghhrvghgkhhhsehlihhn
+    uhigfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtoheplhhinhhugidqmhgvughirg
+    esvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopeguvghvihgtvghtrhgvvges
+    vhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhsthgrghhinh
+    hgsehlihhsthhsrdhlihhnuhigrdguvghv
+X-ME-Proxy: <xmx:khPOZpGWFV5RBCRCwpgBGHp2C6rBswI_fGb1LNDffLMygFzX0urU7A>
+    <xmx:khPOZhUmZzwpr1R9imC09niNOfcMVSp_PSyKX4K1juY4zMTFEdJvjA>
+    <xmx:khPOZkOxZDbPoCuubiKq9MitJlvGAqCxW-xVA6fLR1fmMTXCxyl1JQ>
+    <xmx:khPOZg09g5ZhGT4oooSD0QqA53VvX5Ij98vHctN8zcMyUmKrX4DFaA>
+    <xmx:khPOZqNnZ9b_-BXW9nPnOeVi2zWUCTHWkdv6XbYNRitIofz_5mvwUqug>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 27 Aug 2024 13:57:37 -0400 (EDT)
+Date: Tue, 27 Aug 2024 19:57:35 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Sakari Ailus <sakari.ailus@iki.fi>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] media: staging: max96712: Add support for MAX96724
+Message-ID: <20240827175735.GH2636928@fsdn.se>
+References: <20240827131841.629920-1-niklas.soderlund+renesas@ragnatech.se>
+ <20240827131841.629920-3-niklas.soderlund+renesas@ragnatech.se>
+ <Zs3Vey0NEdGJAyTE@valkosipuli.retiisi.eu>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <Zs3Vey0NEdGJAyTE@valkosipuli.retiisi.eu>
 
-Fix alignment parenthesis in _rtl92e_read_eeprom_info
+Hej Sakari,
 
-CHECK: Alignment should match open parenthesis
+Tack för feedback.
 
----
-Changes in v2:
-    - Using tabs instead of spaces
+On 2024-08-27 13:32:43 +0000, Sakari Ailus wrote:
+> Hejssan,
+> 
+> Tack för lappan!
+> 
+> On Tue, Aug 27, 2024 at 03:18:41PM +0200, Niklas Söderlund wrote:
+> > The MAX96724 is almost identical to the MAX96712 and can be supported by
+> > the same driver, add support for it.
+> > 
+> > For the staging driver which only supports patter generation the big
+> > difference is that the datasheet (rev 4) for MAX96724 do not describe
+> > the DEBUG_EXTRA register, which is at offset 0x0009 on MAX96712. It's
+> > not clear if this register is removed or moved to a different offset.
+> > What is known is writing to register 0x0009 have no effect on MAX96724.
+> > 
+> > This makes it impossible to increase the test pattern clock frequency
+> > from 25 MHz to 75Mhz on MAX96724. To be able to get a stable test
+> > pattern the DPLL frequency have to be increase instead to compensate for
+> > this. The frequency selected is found by experimentation as the MAX96724
+> > datasheet is much sparser then what's available for MAX96712.
+> > 
+> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > ---
+> > * Changes since v1
+> > - Group in series together with binding.
+> > ---
+> >  drivers/staging/media/max96712/max96712.c | 26 ++++++++++++++++++-----
+> >  1 file changed, 21 insertions(+), 5 deletions(-)
+> > 
+> > diff --git a/drivers/staging/media/max96712/max96712.c b/drivers/staging/media/max96712/max96712.c
+> > index 6bdbccbee05a..6bd02276c413 100644
+> > --- a/drivers/staging/media/max96712/max96712.c
+> > +++ b/drivers/staging/media/max96712/max96712.c
+> > @@ -17,8 +17,10 @@
+> >  #include <media/v4l2-subdev.h>
+> >  
+> >  #define MAX96712_ID 0x20
+> > +#define MAX96724_ID 0xA7
+> >  
+> >  #define MAX96712_DPLL_FREQ 1000
+> > +#define MAX96724_DPLL_FREQ 1200
+> >  
+> >  enum max96712_pattern {
+> >  	MAX96712_PATTERN_CHECKERBOARD = 0,
+> > @@ -31,6 +33,7 @@ struct max96712_priv {
+> >  	struct gpio_desc *gpiod_pwdn;
+> >  
+> >  	bool cphy;
+> > +	bool max96724;
+> >  	struct v4l2_mbus_config_mipi_csi2 mipi;
+> >  
+> >  	struct v4l2_subdev sd;
+> > @@ -120,6 +123,7 @@ static void max96712_mipi_enable(struct max96712_priv *priv, bool enable)
+> >  
+> >  static void max96712_mipi_configure(struct max96712_priv *priv)
+> >  {
+> > +	unsigned int dpll_freq;
+> >  	unsigned int i;
+> >  	u8 phy5 = 0;
+> >  
+> > @@ -152,10 +156,11 @@ static void max96712_mipi_configure(struct max96712_priv *priv)
+> >  	max96712_write(priv, 0x8a5, phy5);
+> >  
+> >  	/* Set link frequency for PHY0 and PHY1. */
+> > +	dpll_freq = priv->max96724 ? MAX96724_DPLL_FREQ : MAX96712_DPLL_FREQ;
+> >  	max96712_update_bits(priv, 0x415, 0x3f,
+> > -			     ((MAX96712_DPLL_FREQ / 100) & 0x1f) | BIT(5));
+> > +			     ((dpll_freq / 100) & 0x1f) | BIT(5));
+> >  	max96712_update_bits(priv, 0x418, 0x3f,
+> > -			     ((MAX96712_DPLL_FREQ / 100) & 0x1f) | BIT(5));
+> > +			     ((dpll_freq / 100) & 0x1f) | BIT(5));
+> >  
+> >  	/* Enable PHY0 and PHY1 */
+> >  	max96712_update_bits(priv, 0x8a2, 0xf0, 0x30);
+> > @@ -181,7 +186,8 @@ static void max96712_pattern_enable(struct max96712_priv *priv, bool enable)
+> >  	}
+> >  
+> >  	/* PCLK 75MHz. */
+> > -	max96712_write(priv, 0x0009, 0x01);
+> > +	if (!priv->max96724)
+> > +		max96712_write(priv, 0x0009, 0x01);
+> 
+> It'd be nice to have a macro for this, espeically now that the driver
+> supports more than one chip.
 
-Signed-off-by: Nilo Alexandre <n1lux.comp@gmail.com>
----
- drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+What do you mean by macro? To test for priv->max96724, a define for the 
+register name or something else?
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-index b767dc00100aa..2d17d8e8898e7 100644
---- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-@@ -322,7 +322,7 @@ static void _rtl92e_read_eeprom_info(struct net_device *dev)
- 		if (priv->epromtype == EEPROM_93C46) {
- 			if (!priv->autoload_fail_flag) {
- 				usValue = rtl92e_eeprom_read(dev,
--					                     EEPROM_TxPwDiff_CrystalCap >> 1);
-+								EEPROM_TxPwDiff_CrystalCap >> 1);
- 				priv->eeprom_ant_pwr_diff = usValue & 0x0fff;
- 				priv->eeprom_crystal_cap = (usValue & 0xf000)
- 							 >> 12;
+> 
+> >  
+> >  	/* Configure Video Timing Generator for 1920x1080 @ 30 fps. */
+> >  	max96712_write_bulk_value(priv, 0x1052, 0, 3);
+> > @@ -303,6 +309,7 @@ static const struct v4l2_ctrl_ops max96712_ctrl_ops = {
+> >  
+> >  static int max96712_v4l2_register(struct max96712_priv *priv)
+> >  {
+> > +	unsigned int dpll_freq;
+> >  	long pixel_rate;
+> >  	int ret;
+> >  
+> > @@ -317,7 +324,8 @@ static int max96712_v4l2_register(struct max96712_priv *priv)
+> >  	 * TODO: Once V4L2_CID_LINK_FREQ is changed from a menu control to an
+> >  	 * INT64 control it should be used here instead of V4L2_CID_PIXEL_RATE.
+> >  	 */
+> > -	pixel_rate = MAX96712_DPLL_FREQ / priv->mipi.num_data_lanes * 1000000;
+> > +	dpll_freq = priv->max96724 ? MAX96724_DPLL_FREQ : MAX96712_DPLL_FREQ;
+> > +	pixel_rate = dpll_freq / priv->mipi.num_data_lanes * 1000000;
+> >  	v4l2_ctrl_new_std(&priv->ctrl_handler, NULL, V4L2_CID_PIXEL_RATE,
+> >  			  pixel_rate, pixel_rate, 1, pixel_rate);
+> >  
+> > @@ -438,8 +446,15 @@ static int max96712_probe(struct i2c_client *client)
+> >  	if (priv->gpiod_pwdn)
+> >  		usleep_range(4000, 5000);
+> >  
+> > -	if (max96712_read(priv, 0x4a) != MAX96712_ID)
+> > +	switch (max96712_read(priv, 0x4a)) {
+> > +	case MAX96712_ID:
+> > +		break;
+> > +	case MAX96724_ID:
+> > +		priv->max96724 = true;
+> > +		break;
+> > +	default:
+> >  		return -ENODEV;
+> > +	}
+> >  
+> >  	max96712_reset(priv);
+> >  
+> > @@ -463,6 +478,7 @@ static void max96712_remove(struct i2c_client *client)
+> >  
+> >  static const struct of_device_id max96712_of_table[] = {
+> >  	{ .compatible = "maxim,max96712" },
+> > +	{ .compatible = "maxim,max96724" },
+> 
+> How about adding compatible specific data to convey the model, instead of a
+> switch? See e.g. drivers/media/i2c/ccs/ccs-core.c for an example.
+> 
+> You could store the DPLL frequency there, too.
+
+Good idea, will do so in next version.
+
+> 
+> >  	{ /* sentinel */ },
+> >  };
+> >  MODULE_DEVICE_TABLE(of, max96712_of_table);
+> > 
+> 
+> -- 
+> Trevliga hälsningar,
+> 
+> Sakari Ailus
+
 -- 
-2.46.0
-
+Kind Regards,
+Niklas Söderlund
