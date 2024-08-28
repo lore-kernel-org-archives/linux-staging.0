@@ -1,154 +1,70 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DDE1175D2C
-	for <linux-staging@lists.linux.dev>; Wed, 28 Aug 2024 12:21:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26A423B1BC
+	for <linux-staging@lists.linux.dev>; Wed, 28 Aug 2024 14:47:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724847669; cv=none; b=j5GDxzPNmOj99S9eGrsFSHC7ftXgmnjqNBKBXkgDD+VIrhKZCOFdWERaBFxuxxSt44qlhWywkMuITKRPJNJvpySNZUQfRQQXj1GdLlmxqI6JJwiKvTH1Fnrv47ReGa1dP0Yk8SWAVzeCnBsvLSrLmhI4pVJRScZZpFuVBbU5r3c=
+	t=1724856426; cv=none; b=AZYUAX++Drc2DTwt7t+cC75A30Dd8mwBlV01c+I6fsmfMrCwoauNMCIp2u0rtEjFn9S2fJzyjUMl1TBSwcnhVTBGViqFmnFYxpvmejM0D6REWGTq6BSQgH4xtNzPsbOTkjRf5Sud8mXxuRMTlb5O6zhLfUV3kG7l4Uf6bGNa8TQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724847669; c=relaxed/simple;
-	bh=u/GGavIYEqX7mrGveiWklk5oJ5JVVxYHnZ/LQ8zYQfk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=u4jykAtVeyLzh84rjvZ6H3Nl7ria8yIIw7JQQhNvcysEcNtEXqR78QNRupU7FUgw2kcOVlm/2REyOZyjYiiGiBbN8V2ozSGRnr7NR5U5bWt3jscKG5Id1OMpC/zXbd7IrrsDOzRVkvckGErAcBVDdnry944cICUyHtsXwlvOHlI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K/rn5Opm; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1724856426; c=relaxed/simple;
+	bh=eZO/kARPCirTZtVtx+L9XRGl0bLl8QfAxru2P/VZsHE=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=g4mGBHtDZNLsEH9bD19B+k0+FAPo0lqb+rrRVH2iWh6hWslHEub4L0TDkQPSpSKS4odVIBf4BBRXwoeSvpZNauKUHCoM0MfxzMtRl2l3mwy0775TX6eEALEZWNY8Kwp7oLOI/5XYLbkFk0djCVjv+6KCaNb4o2LXHRDfyNPHwf0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=Az+KiR/+; arc=none smtp.client-ip=185.70.43.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K/rn5Opm"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-201ed196debso59887435ad.1
-        for <linux-staging@lists.linux.dev>; Wed, 28 Aug 2024 05:21:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724847667; x=1725452467; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=fGi93qralUPl1hkuQ7DwE7sDUcYkj0+qWkjztC3U/qM=;
-        b=K/rn5OpmSCoXWB3kQoMu8/zBBWvugqef6eshQ7PM9pxFfuuag3ibOHTkazPHI7pzdL
-         TszmR6YCgBhIQ2cfaXmHI55iqCE8DR9Y8HZahgkMIZB9TRhX+gPIZaFLDh4N3H1cII2E
-         UVtgshBpQdWk/htPTdbzeJpTEoW2HPhB014dN+HI3c2s2vzhhjtXAvJjSQJIX3r0QMO2
-         UKgpQil0HwXxgymxV1FDf0FgYkFNNzKXUM8ePVim/hNUz+RAXaovQ4gUB0z7Y8nBh4Cx
-         eYO1xMjZ+rGf20zyvC1TzU6wRlNQ+8D31EUDKLc96DeuLUNawx8QeTH3SrUsAruXi4W2
-         vLYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724847667; x=1725452467;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fGi93qralUPl1hkuQ7DwE7sDUcYkj0+qWkjztC3U/qM=;
-        b=n4cxo73TfYqGf+J2W1g57N5VN709gCY9o5OkoYCQwYhEGf8aRVi9/EtVhaOGh3cDUU
-         ewblSsdpG7TwX0AJNvqpNHsoqXLi6ictgUXM9FnCteiuTxwhzxvCRaO85ng/glW3jVBY
-         GgeLB/TRO5s52h7rzCIDjcRKK8ghhXGn8TfAjAq37X+EeFX248L7yZ0MA20PX4ilIRF9
-         5FLn3GHfw3NVM/Uk/IKLyh2thP5tBnOvDteKtTohnRrtYGIsuQmmTtBlMrB9ds1ayWwF
-         dxc/x6T0SL1vkdrc+WvRFrd8wm29tTScBJ/Jo/+z2GOwUZPwScoN001rPGjaH21mPLok
-         ZObA==
-X-Forwarded-Encrypted: i=1; AJvYcCVoJEkDFqgkxWXnriNe5eAFoPJqpCBhir8GM4kOT2OUtAP2SmmIs7pqDSmC8820mbkGo/rE2ZFypc0VapqB@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx0yQ7J9HgtjVj4xMXSWPTkk58LnW+NrWAGsJLFWHwmRtmzlXOM
-	R3Znh+Ku1Gm99M5cLBpfxOzgm3inWuq0mCkv/KURKjkKVqXgrwhQ
-X-Google-Smtp-Source: AGHT+IGzzCQT12/LB8yEvY34gIYfqYYDIzA0cF/Udk5kGAnad3O95MKPiZ7yjzOwKM3DINqiwyyRQg==
-X-Received: by 2002:a17:902:e804:b0:202:3e32:5d3e with SMTP id d9443c01a7336-204f9bd27c9mr19838765ad.36.1724847667319;
-        Wed, 28 Aug 2024 05:21:07 -0700 (PDT)
-Received: from victor-IdeaPad-Gaming-3-16IAH7 ([116.68.77.85])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2038560975csm97405865ad.194.2024.08.28.05.21.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Aug 2024 05:21:07 -0700 (PDT)
-Date: Wed, 28 Aug 2024 17:51:02 +0530
-From: vivek t s <vivek6429.ts@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: dan.carpenter@linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] Staging: rtl8723bs: Rename function SelectChannel()
-Message-ID: <Zs8WLkzoZe3Z0DYF@victor-IdeaPad-Gaming-3-16IAH7>
+	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="Az+KiR/+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+	s=protonmail3; t=1724856422; x=1725115622;
+	bh=eZO/kARPCirTZtVtx+L9XRGl0bLl8QfAxru2P/VZsHE=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=Az+KiR/+vpQjrGpHc15J0018Dde49koHtW/u6tH2vGdDNho5xjjHjq/EPU+EAO4tw
+	 KGO2Kicv7mgyskULnDZ+OZMu32G0GsUxBQPY1dYt0qUQhAYgn7AqXt8WmoTK0qBFVi
+	 laDFYfbo5QKvLTbSSnoCl8lOWf2c7WzCDEm2f1ApX54cokH+9Q5anx7M//pMPTgkts
+	 4dDXt0Zb27YhPW/41p5dWhfijuzRyVYpxAIt4cRFA4b4Wqaw/oVIRWhMnp9gsSkWNj
+	 NFt7pv0MZAXjVIZaH2QEfNxYYjvDti3G/Ns9d9WlYeCjFqspI2o3w3ym7576O26mYS
+	 AD0oteh/MJgcQ==
+Date: Wed, 28 Aug 2024 14:46:56 +0000
+To: philipp.g.hortmann@gmail.com, gregkh@linuxfoundation.org
+From: =?utf-8?Q?Dominik_Karol_Pi=C4=85tkowski?= <dominik.karol.piatkowski@protonmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, =?utf-8?Q?Dominik_Karol_Pi=C4=85tkowski?= <dominik.karol.piatkowski@protonmail.com>
+Subject: [PATCH] staging: vt6655: Update maintainer in TODO
+Message-ID: <20240828144545.76022-1-dominik.karol.piatkowski@protonmail.com>
+Feedback-ID: 117888567:user:proton
+X-Pm-Message-ID: 1573afea486796004b2505f0265401162278c3ad
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Rename SelectChannel() to r8723bs_select_channel() to avoid CamelCase
-warning from checkpatch.
+Commit ed394dbf5371b03a5335a7ba1973ba124c0ced3d replaced Forest Bond
+with Philipp Hortmann as vt665X maintainer in MAINTAINERS, but
+drivers/staging/vt6655/TODO was not changed, rendering it stale. This
+patch fixes it.
 
-Signed-off-by: vivek t s <vivek6429.ts@gmail.com>
+Signed-off-by: Dominik Karol Pi=C4=85tkowski <dominik.karol.piatkowski@prot=
+onmail.com>
 ---
-compile tested.
+ drivers/staging/vt6655/TODO | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-V2: Prefix added for function as suggested by Greg Kroah-Hartman
-    <gregkh@linuxfoundation.org>.
-    Commit message corrections as suggested by Dan Carpenter
-    <dan.carpenter@linaro.org>.
+diff --git a/drivers/staging/vt6655/TODO b/drivers/staging/vt6655/TODO
+index 63607ef9c97e..529bc22cd608 100644
+--- a/drivers/staging/vt6655/TODO
++++ b/drivers/staging/vt6655/TODO
+@@ -18,4 +18,4 @@ TODO:
+ - integrate with drivers/net/wireless
+=20
+ Please send any patches to Greg Kroah-Hartman <greg@kroah.com>
+-and Forest Bond <forest@alittletooquiet.net>.
++and Philipp Hortmann <philipp.g.hortmann@gmail.com>.
+--=20
+2.34.1
 
- drivers/staging/rtl8723bs/core/rtw_ap.c          | 4 ++--
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c    | 4 ++--
- drivers/staging/rtl8723bs/core/rtw_wlan_util.c   | 2 +-
- drivers/staging/rtl8723bs/include/rtw_mlme_ext.h | 2 +-
- 4 files changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
-index e4063713fecc..23268ec502a7 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ap.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
-@@ -277,7 +277,7 @@ void expire_timeout_chk(struct adapter *padapter)
- 		/* switch to correct channel of current network  before issue keep-alive frames */
- 		if (rtw_get_oper_ch(padapter) != pmlmeext->cur_channel) {
- 			backup_oper_channel = rtw_get_oper_ch(padapter);
--			SelectChannel(padapter, pmlmeext->cur_channel);
-+			r8723bs_select_channel(padapter, pmlmeext->cur_channel);
- 		}
- 
- 		/* issue null data to check sta alive*/
-@@ -315,7 +315,7 @@ void expire_timeout_chk(struct adapter *padapter)
- 		}
- 
- 		if (backup_oper_channel > 0) /* back to the original operation channel */
--			SelectChannel(padapter, backup_oper_channel);
-+			r8723bs_select_channel(padapter, backup_oper_channel);
- 	}
- 
- 	associated_clients_update(padapter, updated);
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index 9ebf25a0ef9b..60861a480b3b 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -3831,10 +3831,10 @@ void site_survey(struct adapter *padapter)
- 		} else {
- #ifdef DBG_FIXED_CHAN
- 			if (pmlmeext->fixed_chan != 0xff)
--				SelectChannel(padapter, pmlmeext->fixed_chan);
-+				r8723bs_select_channel(padapter, pmlmeext->fixed_chan);
- 			else
- #endif
--				SelectChannel(padapter, survey_channel);
-+				r8723bs_select_channel(padapter, survey_channel);
- 		}
- 
- 		if (ScanType == SCAN_ACTIVE) { /* obey the channel plan setting... */
-diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-index 7fac9ca3e9a0..87ce4a9b3aad 100644
---- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-@@ -333,7 +333,7 @@ inline unsigned long rtw_get_on_cur_ch_time(struct adapter *adapter)
- 		return 0;
- }
- 
--void SelectChannel(struct adapter *padapter, unsigned char channel)
-+void r8723bs_select_channel(struct adapter *padapter, unsigned char channel)
- {
- 	if (mutex_lock_interruptible(&(adapter_to_dvobj(padapter)->setch_mutex)))
- 		return;
-diff --git a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
-index 720aeeb002b0..8315399b64fd 100644
---- a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
-@@ -455,7 +455,7 @@ u8 rtw_get_center_ch(u8 channel, u8 chnl_bw, u8 chnl_offset);
- unsigned long rtw_get_on_cur_ch_time(struct adapter *adapter);
- 
- void set_channel_bwmode(struct adapter *padapter, unsigned char channel, unsigned char channel_offset, unsigned short bwmode);
--void SelectChannel(struct adapter *padapter, unsigned char channel);
-+void r8723bs_select_channel(struct adapter *padapter, unsigned char channel);
- 
- unsigned int decide_wait_for_beacon_timeout(unsigned int bcn_interval);
- 
--- 
-2.43.0
 
