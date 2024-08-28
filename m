@@ -1,39 +1,39 @@
-Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
+Received: from mail-40133.protonmail.ch (mail-40133.protonmail.ch [185.70.40.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26A423B1BC
-	for <linux-staging@lists.linux.dev>; Wed, 28 Aug 2024 14:47:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62CC438DE9
+	for <linux-staging@lists.linux.dev>; Wed, 28 Aug 2024 15:00:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.40.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724856426; cv=none; b=AZYUAX++Drc2DTwt7t+cC75A30Dd8mwBlV01c+I6fsmfMrCwoauNMCIp2u0rtEjFn9S2fJzyjUMl1TBSwcnhVTBGViqFmnFYxpvmejM0D6REWGTq6BSQgH4xtNzPsbOTkjRf5Sud8mXxuRMTlb5O6zhLfUV3kG7l4Uf6bGNa8TQ=
+	t=1724857225; cv=none; b=Tf9fbeC4TgmugmU4tBaix/SNFsIUp4Y8AfhE2WLM0tulhMu/z1sfQxgi5QBIjWCD4jZ5vW0kjmLjQENpKgpkfgHxAX0QgKgomVa2eFTCkiTCfjdSumw8odFzcRgklCFdEB4eAlVCaAffTuFmfRgmTljAeof7qNDhRavhbX7UKVE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724856426; c=relaxed/simple;
-	bh=eZO/kARPCirTZtVtx+L9XRGl0bLl8QfAxru2P/VZsHE=;
-	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=g4mGBHtDZNLsEH9bD19B+k0+FAPo0lqb+rrRVH2iWh6hWslHEub4L0TDkQPSpSKS4odVIBf4BBRXwoeSvpZNauKUHCoM0MfxzMtRl2l3mwy0775TX6eEALEZWNY8Kwp7oLOI/5XYLbkFk0djCVjv+6KCaNb4o2LXHRDfyNPHwf0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=Az+KiR/+; arc=none smtp.client-ip=185.70.43.16
+	s=arc-20240116; t=1724857225; c=relaxed/simple;
+	bh=ZI3ok/Ft3dEPaxX4NiPk0idPDUuLGhOCw4LvZAl9vxs=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=KLceLPbNWtfftuUlELfYNAHsNpZoRKoErGlTUZRruUDukwcI92xqimaqikXFzwODXDWhQoajxC3rIDbMnxYSys0aFf7Q8HOzEWZjXFMxSgMZwBp4aAGHzsGxAcdeMN7u2i7L7kitQts/znYJPU963EjDgHxszbq7SWjbOFGR73Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=sTzl4voK; arc=none smtp.client-ip=185.70.40.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="Az+KiR/+"
+	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="sTzl4voK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1724856422; x=1725115622;
-	bh=eZO/kARPCirTZtVtx+L9XRGl0bLl8QfAxru2P/VZsHE=;
+	s=protonmail3; t=1724857215; x=1725116415;
+	bh=OYnRYZfiQGbZuUfggtTPiuuF9e2wOkKxuCADJii1nhU=;
 	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
 	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=Az+KiR/+vpQjrGpHc15J0018Dde49koHtW/u6tH2vGdDNho5xjjHjq/EPU+EAO4tw
-	 KGO2Kicv7mgyskULnDZ+OZMu32G0GsUxBQPY1dYt0qUQhAYgn7AqXt8WmoTK0qBFVi
-	 laDFYfbo5QKvLTbSSnoCl8lOWf2c7WzCDEm2f1ApX54cokH+9Q5anx7M//pMPTgkts
-	 4dDXt0Zb27YhPW/41p5dWhfijuzRyVYpxAIt4cRFA4b4Wqaw/oVIRWhMnp9gsSkWNj
-	 NFt7pv0MZAXjVIZaH2QEfNxYYjvDti3G/Ns9d9WlYeCjFqspI2o3w3ym7576O26mYS
-	 AD0oteh/MJgcQ==
-Date: Wed, 28 Aug 2024 14:46:56 +0000
+	b=sTzl4voKPxdPn9DkGFhyLsW6i+pMee+bOzBRwNf0ku6l+wOhQzkp4gyV97hrdAfCX
+	 ZBDHTwUmLv47iZevXxuO1rFpH8ziJpBoFN0Av/hU34AwQpwsgpaQPwZfBeAfSXJ19J
+	 O4SqEM+Lv01JWkNux09YT0g62ZavnLTmaolSQQKcDPvGK6jVuHMzBz3Hq6ZI7bLnv3
+	 l49LiDfztr10U7Om+PAWeflr8FlM5exs2FJA9JB8HVDyx2lZvuiMNMEzkzKXTiweB5
+	 lRCw75Z/z7q0M279Jm6Vpx7VlvU8Ne9L2z6ATmZxW3C/30R5vTsA8qHL0INr/E00kN
+	 Bdu+77wFRM7lQ==
+Date: Wed, 28 Aug 2024 15:00:09 +0000
 To: philipp.g.hortmann@gmail.com, gregkh@linuxfoundation.org
 From: =?utf-8?Q?Dominik_Karol_Pi=C4=85tkowski?= <dominik.karol.piatkowski@protonmail.com>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, =?utf-8?Q?Dominik_Karol_Pi=C4=85tkowski?= <dominik.karol.piatkowski@protonmail.com>
-Subject: [PATCH] staging: vt6655: Update maintainer in TODO
-Message-ID: <20240828144545.76022-1-dominik.karol.piatkowski@protonmail.com>
+Subject: [PATCH] staging: vt6655: Fix block comment alignment
+Message-ID: <20240828145923.78004-1-dominik.karol.piatkowski@protonmail.com>
 Feedback-ID: 117888567:user:proton
-X-Pm-Message-ID: 1573afea486796004b2505f0265401162278c3ad
+X-Pm-Message-ID: 5f187baa5fc401923a81fddce07d7aeaf7322c44
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -43,27 +43,35 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-Commit ed394dbf5371b03a5335a7ba1973ba124c0ced3d replaced Forest Bond
-with Philipp Hortmann as vt665X maintainer in MAINTAINERS, but
-drivers/staging/vt6655/TODO was not changed, rendering it stale. This
-patch fixes it.
+This patch fixes the "Block comments should align the * on each line"
+warning detected by checkpatch.pl.
 
 Signed-off-by: Dominik Karol Pi=C4=85tkowski <dominik.karol.piatkowski@prot=
 onmail.com>
 ---
- drivers/staging/vt6655/TODO | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/vt6655/device.h | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/vt6655/TODO b/drivers/staging/vt6655/TODO
-index 63607ef9c97e..529bc22cd608 100644
---- a/drivers/staging/vt6655/TODO
-+++ b/drivers/staging/vt6655/TODO
-@@ -18,4 +18,4 @@ TODO:
- - integrate with drivers/net/wireless
+diff --git a/drivers/staging/vt6655/device.h b/drivers/staging/vt6655/devic=
+e.h
+index 0212240ba23f..32d9cbd55222 100644
+--- a/drivers/staging/vt6655/device.h
++++ b/drivers/staging/vt6655/device.h
+@@ -189,10 +189,10 @@ struct vnt_private {
 =20
- Please send any patches to Greg Kroah-Hartman <greg@kroah.com>
--and Forest Bond <forest@alittletooquiet.net>.
-+and Philipp Hortmann <philipp.g.hortmann@gmail.com>.
+ =09u8=09=09byBBType; /* 0:11A, 1:11B, 2:11G */
+ =09u8=09=09packet_type; /*
+-=09=09=09=09       * 0:11a,1:11b,2:11gb (only CCK
+-=09=09=09=09       * in BasicRate), 3:11ga (OFDM in
+-=09=09=09=09       * Basic Rate)
+-=09=09=09=09       */
++=09=09=09=09      * 0:11a,1:11b,2:11gb (only CCK
++=09=09=09=09      * in BasicRate), 3:11ga (OFDM in
++=09=09=09=09      * Basic Rate)
++=09=09=09=09      */
+ =09unsigned short wBasicRate;
+ =09unsigned char byACKRate;
+ =09unsigned char byTopOFDMBasicRate;
 --=20
 2.34.1
 
