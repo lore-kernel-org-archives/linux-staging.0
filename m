@@ -1,101 +1,108 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F8791553BC
-	for <linux-staging@lists.linux.dev>; Wed, 28 Aug 2024 10:02:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724839356; cv=pass; b=sqTscA/OCwHG4O1ySd6davJqxnHy89B3Yky4a/mPmWtFkzB9or+1MNQV4HRytozxj0OHoUltKaz/kwISvoQ3DWCxHuECjmcZoacC+SnNIdYRjR2+nngpq7YrUTHwiKrTDAJzxqsDbRA60sGkR1a3DX9lltiolgFhgK4VuBs7D2I=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724839356; c=relaxed/simple;
-	bh=cVhdnGh1gtNtWJrnF9ZbO5IS+WmF+xa16YhB9Qx5chE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=US6V8N9+Lha6bBZIdYm/CZuksFSR9Q1WzxC31GmEG1Zw3eXEflZlTNNXc54gM2nWNNfsAXWMZAs8x/7iScfKXCRlKWGujznhKGb9SBm8pSnJI0u0SwE0/I3AO/TehtYrN419IJwRPWWG1YxOPSU/RzRitE+an5PlpFdKHx8cR2s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=julien.massot@collabora.com header.b=cSjo8wbN; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BFCC15852F
+	for <linux-staging@lists.linux.dev>; Wed, 28 Aug 2024 10:25:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724840718; cv=none; b=U30M1g/yLsIbSiAk43QrxZlm2SMZJEO8qu2o46VF9Ja5VbX/uODjB0Fj+MoqLxAQHSMeRgCjbUFAT0U75h4S8Cayj52mlwJmU7qlUopzOP2ESwgDXtrQmJuCG9NYzbQQCfL69Q6PkEvz4ZhAwt8xJ8SooHy4wr62CXpsbEXlgLo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724840718; c=relaxed/simple;
+	bh=v2U9Jvrzu8FM9RThS8YhoqSwZg/ytfc+nZ8NshoJWOk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SpjfNi6gYxg1g3KH4KJHSbH41wPgVIKYuAzS8OfKs49h2PKhHp7KH84fhSd6FYIN62hxkbhFFD2a4T2SE1fkD+xXaeEAbYclvDmsDgnxiR4ntROUyBPJf8ul1yNazTFyxqXaorxdEnaGov702jy0O07v1Nn4z8dyWxKyOFPoRck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MPwJXcde; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=julien.massot@collabora.com header.b="cSjo8wbN"
-ARC-Seal: i=1; a=rsa-sha256; t=1724839350; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=P9ItgZk4OFmZ3oZujLJajth3nyKBxbqHHC7XSxBB/YDUGnVX1kxeJYvObWVpPwFOl7HxitnIIkdVE+1oWZu6e2WY2XPr7u68vpBCqzVfRPj30FziypcdVsNxNojoSQtNQMxmw2TkZ/6BIz0xiD97DZ2Ge90KVbc/M8ZD9h0myRU=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1724839350; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=ZLM7oCag8bEqv46GHSaKZQveF6nYFv5zvA0CwiARDdg=; 
-	b=OMkxr3BYhuhmPXPMZ2GR8bgkjSU4bPZ/ZbqUVOMrwxD6LqIt5wekHRG05wEQJX5Q5PRel7pIe57K1RpZaE3jsjFUouqwPfdvujDriK4u0UFggRvVlIRwvVXFyFBfga/utegYOCdIHjcVyN6G3lhD0w1Wb3aPrmVRT6xQQXXIuaQ=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=julien.massot@collabora.com;
-	dmarc=pass header.from=<julien.massot@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1724839350;
-	s=zohomail; d=collabora.com; i=julien.massot@collabora.com;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=ZLM7oCag8bEqv46GHSaKZQveF6nYFv5zvA0CwiARDdg=;
-	b=cSjo8wbNH9XtnKMCb0bvgScrc5QDlcDTq3YTb3q7YMKaSVNpruDNaCusCG/xxjRg
-	PQN4466OjR/6rysuinfmNwDJEEswNbWHaaxEBaMOdTbMU6AtgeFMwD0jCSPeFFoB8oI
-	G2X4mazr3FQ6+LpepwETeezxK/gpO6q77uSJ7AB0=
-Received: by mx.zohomail.com with SMTPS id 1724839349104444.9895094581451;
-	Wed, 28 Aug 2024 03:02:29 -0700 (PDT)
-Message-ID: <dd566af6-9632-4768-b945-ec25db93814b@collabora.com>
-Date: Wed, 28 Aug 2024 12:02:24 +0200
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MPwJXcde"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-429e29933aaso54816895e9.0
+        for <linux-staging@lists.linux.dev>; Wed, 28 Aug 2024 03:25:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1724840715; x=1725445515; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=1Lzp4oHGEN8/PxMaUUHsZAh0vkNYG+xd0zc2zsHZgl4=;
+        b=MPwJXcdeOB/74sTfqMf8Xnf7S4FXDuC572mpf83MQ2GxLI3O3eWz1g/XI1ygFXUxXE
+         u7bVGT0JM5sB2cJcFQXMSVbZ0TIroGwg6DRAuYQutbjnJquWOmA4KFwOalTBMvN6IQvI
+         +4wGlLDSPwgg8g5EnoBBnFMOJcyxgJHDo7tgETDZQ8Q4Yb7y/YdAUn2F2IQ+jh97nNEA
+         4V6vdve3Iyw4YmsOoTHMIev+UEoydesensl9ozwIXcQitXO5lDCN/9JZ89hQQ5MwpnEF
+         QMCuU/qnSBzKlzsbD+EKqMbVhHyGLu3uuX+T/ucl3MuQDu+CAETiMFHsiAfg+C2W7cVA
+         rBEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724840715; x=1725445515;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1Lzp4oHGEN8/PxMaUUHsZAh0vkNYG+xd0zc2zsHZgl4=;
+        b=lcZGlX/5tP3V3DsxKjAZRx62k/JnFekpYqvKFUUU6LrS8DeLEfbIr32LveYCF9YcXz
+         HtbnBunfH4jXKOyZEbe1+TXlAeQG3CjdbQXCw8xf65X8oS7UqKK151PC8LBBXfCId/s/
+         S4qgEwJRlNdakIco5TyhK2i46BIOvK4wkfToE2TSF6rCeFgedPAXuro1BebaCANL9XKi
+         Y/YHVngrHRCYHosYiOv5t521SbTXpUzzOIhPmuyInELQIR1YWFDUgiokIrEJgMjt1nAy
+         CzUX33CIrLvqZGQTr4BRJSkpkuZRBsMo7PmiSYVxsBCUcV3ORVZ9e+GnLfukLa9RrjiR
+         +DQQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVYoH3SlBbVc+fhuUF2BDxP0jpyLlrA1XEkofdzxrHa+kGoKG7ruj7fc+/bkoLY2wJqya5p0Gi1FipLuM98@lists.linux.dev
+X-Gm-Message-State: AOJu0YyaxhKRg8dVHz+VlUWVLEuM8a/5wq4uC4zwCueEgs6KdvXcW4dQ
+	Ppj692ta6Wzh6zDl4zJn0wEOoIWJ9MjkbxmXIgX/kaWX7kYkxQBgWT593eTAs/dmYLJYz6JK4dK
+	a
+X-Google-Smtp-Source: AGHT+IEp4R0TyxUVAN/DCult+Gly4yNrgEo0qXCuWLCZ3cQk3nKdUAD4f8ccgCbvcdHUOkn0Xldt1A==
+X-Received: by 2002:a05:600c:1d0b:b0:426:593c:9351 with SMTP id 5b1f17b1804b1-42acd542a3cmr103707135e9.6.1724840715323;
+        Wed, 28 Aug 2024 03:25:15 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42ba6425a82sm17164015e9.44.2024.08.28.03.25.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Aug 2024 03:25:14 -0700 (PDT)
+Date: Wed, 28 Aug 2024 13:25:10 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: vivek t s <vivek6429.ts@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Staging: rtl8723bs: Rename function SelectChannel()
+Message-ID: <2092a3f1-e319-45c5-a33c-3f271e70785f@stanley.mountain>
+References: <Zs7vQXhcYRCxCDaH@victor-IdeaPad-Gaming-3-16IAH7>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] media: staging: max96712: Add support for MAX96724
-To: Tommaso Merciai <tomm.merciai@gmail.com>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-renesas-soc@vger.kernel.org
-References: <20240827131841.629920-1-niklas.soderlund+renesas@ragnatech.se>
- <20240827131841.629920-3-niklas.soderlund+renesas@ragnatech.se>
- <Zs3az1G/e5y5lkf1@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
-Content-Language: en-US
-From: Julien Massot <julien.massot@collabora.com>
-In-Reply-To: <Zs3az1G/e5y5lkf1@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Zs7vQXhcYRCxCDaH@victor-IdeaPad-Gaming-3-16IAH7>
 
-Hi Tommaso,
+On Wed, Aug 28, 2024 at 03:04:57PM +0530, vivek t s wrote:
+> Rename SelectChannel() to select_channel() to avoid
+> CamelCase warning from checkpatch.
 
-On 8/27/24 3:55 PM, Tommaso Merciai wrote:
-> Hi Niklas,
-> Thanks for your work.
+I wouldn't have commented on this except there are some other issues.
+Line wrap your commit message at 72-75 characters (similar to email).
+So "CamelCase warning" moves to the line before.
+
+Rename SelectChannel() to select_channel() to avoid CamelCase warning
+from checkpatch.
+
 > 
-> Hi Julien,
-> I think we can adopt a similar approach for the max96716 deserializer using your work
-> on max96714 driver. What do you think?
+> compile tested.
 > 
-> Thanks in advance.
 
+Put this under the --- cut off.  (This is the real reason why I'm responding to
+your patch)
 
-I don't think that supporting MAX96716 and MAX96714 in the same driver 
-is the best option
+> Signed-off-by: vivek t s <vivek6429.ts@gmail.com>
 
-MAX96714 is a very simple device with one input one output one video pipe.
+Your signed-off-by is like signing a legal document.  If you were buying a
+house, then would you write your name like this?  If so then that's fine.
 
-While the MAX96716 is a two inputs/outputs with four different pipes.
+> ---
+  ^^^
+Cut off line here.
 
-IMHO we should have one driver for the 1 port GMSL2 devices, another 
-driver for the dual deserializers which will introduce more complex 
-routing, and another one for the quad deserializers since the register 
-layout is too much different.
+regards,
+dan carpenter
 
-But that's only my opinion let's see when we will implement the dual 
-deserializer support.
-
-We can of course share some functions for those drivers like GPIO 
-handling or pattern generation.
-
-Regards,
-Julien
-
+>  drivers/staging/rtl8723bs/core/rtw_ap.c          | 4 ++--
+>  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c    | 4 ++--
+>  drivers/staging/rtl8723bs/core/rtw_wlan_util.c   | 2 +-
+>  drivers/staging/rtl8723bs/include/rtw_mlme_ext.h | 2 +-
+>  4 files changed, 6 insertions(+), 6 deletions(-)
 
