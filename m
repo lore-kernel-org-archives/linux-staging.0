@@ -1,92 +1,108 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10C0315749A
-	for <linux-staging@lists.linux.dev>; Wed, 28 Aug 2024 20:25:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22F711B29A6
+	for <linux-staging@lists.linux.dev>; Wed, 28 Aug 2024 20:46:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724876761; cv=none; b=jthBovMVGFnsJqwLRfsrdP0aMeoDpe0bswK0hg5MP3/937Yo5+93DT5O6dg4dQXRCcGOFWvCOzPm+wxv/xkEXJmTv+kVupvlBqYEpFuzl5Qy60/qXlWn5GJzgI8Zd2Fz9dcspiU4CtQ3Jwx6WlWYEi+cTfrnBsPArLKnC/7mp6w=
+	t=1724877988; cv=none; b=rcMza1fA5yP5wzLP24qi1j/OmIaDhXWFRrHgpJbSVJfEVqGwHBZJFFR4a2elMztiJ/4sV0Us45pAxWrGYf5jeNALnbvO6km3O3IzJkR+9BOManugFZTO+cYzGDpnnBOu5yZ0AcCJEI9SMcRckUcd3el8MEo0SjC3EoFgpX6XlN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724876761; c=relaxed/simple;
-	bh=D/sIXVXJLrF23RcnRezBLL+pH08yqfp+rpSoFKjbYc0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lxfFycpVHuR3uxNS8YtXW4Dpp5mnYXFcFziEkyso5S94ibJ1bn9LxhAGaWi4rIMykqA68FRfM0wzjZHUfrMIp6L3HeN5VBlj4L6twIP2C6lKaZhuRTvzJ3D7bmxI7LrNZCVpv2upeA2RWn6owlbAD4ZJcfCEn0evvfAQd1ahR5U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lRP9t5Ch; arc=none smtp.client-ip=209.85.218.52
+	s=arc-20240116; t=1724877988; c=relaxed/simple;
+	bh=t7MF9q9qQ1/BFft9PGBV+aPNqpvkHl+vf3Eq8jnJlio=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Lq7SBVyZWR8SLW2e/xNl5aqDs4iYe9JOph/SEat1a+JyBjMJmWVspxnXmRkLZYZ9ZeG9mf6dZP5JaHZ0LPNGGOlyiOrkiGjietVxR92Q1WurUR6TrDf4xka244EcHxjQZMxE7/Ve5Sa5qZ4dN11L+jbrSi6SuJ02E0WnDFgYWuk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P9VfebMm; arc=none smtp.client-ip=209.85.214.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lRP9t5Ch"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a868831216cso837211166b.3
-        for <linux-staging@lists.linux.dev>; Wed, 28 Aug 2024 13:25:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P9VfebMm"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-202146e93f6so73639185ad.3
+        for <linux-staging@lists.linux.dev>; Wed, 28 Aug 2024 13:46:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724876758; x=1725481558; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=uSQ66ksgYS2uRo5g5Q03xMDNlqv/GGqsh0pkWtnsyz8=;
-        b=lRP9t5ChcjRdfykinkcqBG/CsTHfr45c/EVnGnpgiY0s0hG+xH1SAj2Q/qmbM35iQu
-         KF4F71jQKsMmaPCa2gHDWwDY6P+3jOQ5cAgrDNW124z3YQ0+AswLk97LMSe2jgvXUQRi
-         QLgE+AgCDNOTrstZbmILdkENiDK5/mEPv5+f2UbL1H3L3iKCexnvXO0mqRvXSz4LcylH
-         trAF97d4bI1pnm5E83+P5gzcgsE/l24A+QulE0jXSrvMnHMbp/QVno1NseUCFBFvNSrZ
-         BnUSb7FPaDqk5i67RF2a+xqzbhfIyz1JnfMu6digQCaoI9ek19hsSuZ3svm8H02lEs9K
-         B/5Q==
+        d=gmail.com; s=20230601; t=1724877986; x=1725482786; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=j2NP7ED9yQeOL2K0nW20zcco+YfFdB0bQPpahpoJ62g=;
+        b=P9VfebMm4vuzYaTz2QOW125do6sxW3nuHjJDBDFoXOswtcZokrxCohsuVtHh89xXuH
+         BP7gZb47/RKnYJydEpxEw1TUWAkY8qrLA1fqeWFo1rVbfOBHp4zq4C9z7bM/LfmUa0ts
+         8qa8yIJh7OjgZ0JLD9pgd/HFsQr/M44RUH4Xt4CnZTSUxfQImcjpVdHZVeS6A0hkUg5S
+         Q4OzDHxKwr6wo1bVqTIIszwwmwTUdjaXljZPsK/P4NfV4dB9uFlkaziv1MY2fyInpkA7
+         63jYioYwfPG4HumevFKrpcB9yXDmZ3riGezo/rBYMMX5gKjaQUDDKri57W86Bbm23P4b
+         3+Zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724876758; x=1725481558;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uSQ66ksgYS2uRo5g5Q03xMDNlqv/GGqsh0pkWtnsyz8=;
-        b=DAYlsYGHjdYarW6aXas8gLtEKw3khySRD/mZH+vRA27LD8cSHiaaEBJLK9ROPpjnZJ
-         IuGtX97QXKlHvT8c6d1HTFvaB39UsI8umH1x7rMdt15T64BVEgbKctF8rj4dfLbjeFMZ
-         9LpUbBVLPWW+1Vy7fYIVl0DzhdZ2Z+VomlZvOeInGw4lRZYDAjd4wKK9rqkul9OQCwea
-         3x+yxqmSaOpQwBuW0ICva7i+MDwCitrmuNYLAbG+3r0JvNyut+jp9k4I28uONW2eGWYs
-         XKz3U6psFG8zKQfQskBWmmiDcSJdKPV/nnGckI6QfMvGbGAZLjmKw18xei6aBdlYfK9H
-         St6A==
-X-Forwarded-Encrypted: i=1; AJvYcCWBKA55/O9E1FUGDF5bBC4mG13/+B8rHSGt7H4i4kdYF/HVvbh1BKcVD5IC3DzP3FJlp2BbPAnkWefQJ8v0@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzyz0pg0UCYxWYYFhsRiSGzwzQ5xIJUcdDD4e2mFDFycWowh0rE
-	i6bFP0rXMymTduJNuC2bMFTdX2KIiRsKa7q4sE/POVCWsQynq9yA
-X-Google-Smtp-Source: AGHT+IG82KUcnRAXxO3dzLxKZyRHIC0IlpxkcChajNb3SBoIywPe9/Y4h3xjTPCg159NIQbxpHHPVw==
-X-Received: by 2002:a17:907:31c4:b0:a86:80ef:4fe5 with SMTP id a640c23a62f3a-a897fa7444amr43780666b.47.1724876758121;
-        Wed, 28 Aug 2024 13:25:58 -0700 (PDT)
-Received: from ?IPV6:2003:c7:8f2a:8553:4dd4:7649:c4c2:f4e3? (p200300c78f2a85534dd47649c4c2f4e3.dip0.t-ipconnect.de. [2003:c7:8f2a:8553:4dd4:7649:c4c2:f4e3])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a86e5878562sm282869966b.156.2024.08.28.13.25.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 Aug 2024 13:25:57 -0700 (PDT)
-Message-ID: <5cbf98cf-9b1a-455e-afcd-b0cdfcf1aaec@gmail.com>
-Date: Wed, 28 Aug 2024 22:25:56 +0200
+        d=1e100.net; s=20230601; t=1724877986; x=1725482786;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=j2NP7ED9yQeOL2K0nW20zcco+YfFdB0bQPpahpoJ62g=;
+        b=SkwzP5mTMZOXjlGjehNFMES/ocVWrtDVl/ArgzkOAJSmhCEc3HzpK83cO/Q3YmRo4l
+         me/5V3w3a2xtt/IeGTP693BmIMxIPK48c99TkrrOYoF+VwmXCAQ2ZZ4y+9mDQSa+Gt7r
+         Uaiq7vPleZslLuLvnD1gBxK8aXrFvJBtk6h7ulqgGZWi/yjrg/NcR+EjU1s4VZC/Rtpd
+         dkdq0rIeFDaWU58dp68pIZVlZeopsWcdUv15MqIFFDof6RhyGPFpH0zV48fz0lTJiz8L
+         rRYAnAo3hhcLtBBa+wF42WtbmEBSR+eLSlU2c0HGmoEnVeTzn0ATWtKyKar5u1lEd9QD
+         s/Yg==
+X-Forwarded-Encrypted: i=1; AJvYcCVL0h4JpRHy7/EAp/CJNTVOHcs+zAyS/KQhemzxGYoqembqqp1eUeyPr6mcmNdxXPyRQk9Z3kWLdj3IlPX5@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy/qya14JpokJPI8fsEtpG4w/+qV3lcNJqByGZrHVzl4xMhptMU
+	uVkyNN9GOuaB5UCBPbaySQiezLm0MI17QB8h4ZO4VhDgCOd1yHsIFEfO74lS
+X-Google-Smtp-Source: AGHT+IF1PJ9A+TITiNmvfXWDWKmuCksVnECrUQ69s8nJM+FRJbDAx090f53Kxf0EIeY4e03kSaWIXQ==
+X-Received: by 2002:a17:903:41cc:b0:202:1547:66b2 with SMTP id d9443c01a7336-2050c3ab754mr6212665ad.28.1724877986299;
+        Wed, 28 Aug 2024 13:46:26 -0700 (PDT)
+Received: from masingh-thinkpad.. ([49.207.54.176])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2038556667bsm103351525ad.7.2024.08.28.13.46.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Aug 2024 13:46:26 -0700 (PDT)
+From: Manisha Singh <masingh.linux@gmail.com>
+To: florian.c.schilhabel@googlemail.com,
+	gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: philipp.g.hortmann@gmail.com,
+	Manisha Singh <masingh.linux@gmail.com>
+Subject: [PATCH v2 1/2] staging: rtl8712: Fix style issues in rtl871x_io.c
+Date: Thu, 29 Aug 2024 02:15:52 +0530
+Message-ID: <20240828204552.26790-2-masingh.linux@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] Staging: rtl8723bs: Rename function SelectChannel()
-To: vivek t s <vivek6429.ts@gmail.com>, gregkh@linuxfoundation.org
-Cc: dan.carpenter@linaro.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <Zs8WLkzoZe3Z0DYF@victor-IdeaPad-Gaming-3-16IAH7>
-Content-Language: en-US
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <Zs8WLkzoZe3Z0DYF@victor-IdeaPad-Gaming-3-16IAH7>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 8/28/24 14:21, vivek t s wrote:
-> Rename SelectChannel() to r8723bs_select_channel() to avoid CamelCase
-> warning from checkpatch.
-> 
-> Signed-off-by: vivek t s<vivek6429.ts@gmail.com>
+Remove multiple assignments from a line
 
-Hi Vivek,
+CHECK: multiple assignments should be avoided
++	pintf_priv = pintf_hdl->pintfpriv = kmalloc(sizeof(struct intf_priv),
 
-the description can be improved. Please always consider that checkpatch 
-can be wrong. So checkpatch is not a justification.
+Refactor the _init_intf_hdl() function to avoid multiple
+assignments in a single statement. This change improves code readability
+and adheres to kernel coding style guidelines.
 
-I propose (feel free to improve):
-Rename function SelectChannel() to r8723bs_select_channel() to avoid
-CamelCase and to improve cleanliness of the global namespace.
+Signed-off-by: Manisha Singh <masingh.linux@gmail.com>
+---
+Changes Since V1:
+	Broke the patch into 2 different fixes
 
-Thanks for your support.
+ drivers/staging/rtl8712/rtl871x_io.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Bye Philipp
+diff --git a/drivers/staging/rtl8712/rtl871x_io.c b/drivers/staging/rtl8712/rtl871x_io.c
+index 6789a4c98564..6311ac15c581 100644
+--- a/drivers/staging/rtl8712/rtl871x_io.c
++++ b/drivers/staging/rtl8712/rtl871x_io.c
+@@ -48,10 +48,10 @@ static uint _init_intf_hdl(struct _adapter *padapter,
+ 	set_intf_funs = &(r8712_usb_set_intf_funs);
+ 	set_intf_ops = &r8712_usb_set_intf_ops;
+ 	init_intf_priv = &r8712_usb_init_intf_priv;
+-	pintf_priv = pintf_hdl->pintfpriv = kmalloc(sizeof(struct intf_priv),
+-						    GFP_ATOMIC);
++	pintf_priv = kmalloc(sizeof(struct intf_priv), GFP_ATOMIC);
+ 	if (!pintf_priv)
+ 		goto _init_intf_hdl_fail;
++	pintf_hdl->pintfpriv = pintf_priv;
+ 	pintf_hdl->adapter = (u8 *)padapter;
+ 	set_intf_option(&pintf_hdl->intf_option);
+ 	set_intf_funs(pintf_hdl);
+-- 
+2.43.0
+
