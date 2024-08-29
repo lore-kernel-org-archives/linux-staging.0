@@ -1,96 +1,98 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78AAD1922DD
-	for <linux-staging@lists.linux.dev>; Thu, 29 Aug 2024 11:43:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AD8B19882E
+	for <linux-staging@lists.linux.dev>; Thu, 29 Aug 2024 12:32:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724931807; cv=none; b=eso9M7HatAQzIOvjN1hbkaI1H31OH9wUPnwM/Wvnw1/F5FOD6+FN06B2bGvl37/uKeS25NcnlU4Whm3uwrL6Gb7wkNR2je+4kR3MLSQQpzZbrsnXqGo/7noAP4ynVpZWNr+qx1jCcKCZkRxztVJ68154GmAv9RIAH8HNs9FFEes=
+	t=1724934779; cv=none; b=lQR4Fgiy3L0vosRjIAiYQ7PKS9+kF7yJ8V7QJ4MkO/oMEx0RP44dWGD2qjjRdNqV9Xb6bK8LFOIobRbzA3aa8lPrGImZAmqQucBWAqwC4XAH/eSBAez04JlXo9R67T0+ohAir0K8NBs0lt/r0JMM7AGXCeygt0vhZq8QwHXZzrQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724931807; c=relaxed/simple;
-	bh=s63R0yEtD2lzGTkJnFSMLaCXpECL6SDh0c4ddUidQTQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VQEtCFPz3olrXKyoT2kgehnAxqD098TmlzdvY7fyVdHzog7iSvMoNo9j0t2ZhzTYKjO/dSBrg/+BAEmGJ5JWCE+r9OMhKwdS44iyO5vNXRZoa5VA1prumVUWV60MEdG9T761lvTtIIavyJHKLEV+6CqsqjuljJNzjJOLNEOsDDQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=F0GGcAzP; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1724934779; c=relaxed/simple;
+	bh=SRTXte8ancTXyFLBRoxU9ak3vwXJ2tIzSD3U9JJSDho=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version; b=Z1u535/YAy1yvdRxRJGkJFfHiq9qeHe78CzQQSQN//S3zJTLkscYyi23EQfiE3kNivrVUMb4LWvllLhsXXX05Otrt1xEyVUTDe8VfYkA5xzKTOweZAqoedjtmiBRKzZim4o+DeOO0vM7tTIXetqMEth3c4wYkNYDHi0ep50Pa5s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IABdhzhA; arc=none smtp.client-ip=209.85.216.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="F0GGcAzP"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-371893dd249so380760f8f.2
-        for <linux-staging@lists.linux.dev>; Thu, 29 Aug 2024 04:43:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IABdhzhA"
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-2d60f48a2ccso455816a91.3
+        for <linux-staging@lists.linux.dev>; Thu, 29 Aug 2024 05:32:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1724931804; x=1725536604; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=WKJ044DJ6shbS65781+Yi0H+JjJTteS86fL5N3lWl+k=;
-        b=F0GGcAzPIV2EgBgebBgiwHtmVG440XvAqL3NJnWunPoDyyzyoVCUz/eqoiVJ9YRDYr
-         VhYrdTMIWaM47LZTWJgzpFixJMcS0KIeJUVvx5GVlCuVho4Z/InzXAktKke/oONf2PYJ
-         fBVML0PbbXfygopDwcGVeAcRHaggXXhz1/bw5kc0G9+90ProC2Z40Fpfu4ekQI/zh7c6
-         1nIo2cOXoJLjDPvQKP447MYfxdqRrm8NW6Gnz8Pf8CHL5u5yw+NjkBruC+GPJvRSJ25h
-         sWDtv4FMvax7sjlu7SNPbFbpsJOLSVRAJrwrEgVYl9cGqK/arBz7viBImslTyeg20rC2
-         aD9g==
+        d=gmail.com; s=20230601; t=1724934777; x=1725539577; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=wpLhta1Onq53+bLklwgL+euTgLHAYQa9BqkAwN2sT7M=;
+        b=IABdhzhA4CBUWWno2zcUMoty0J2nBAg3Ewwcp5a1YiFBCOQI26VFTpfyqfOQ9mvuI5
+         ddJ2cHvwDX2yPYyx1ldpZqjuGJvAJtXb1Dc1jpY4JPopbC11oGWjK57iulzVbcPBWQ6/
+         S3FUeBCqaYFhrItDp99m2QbF4UhseZN6VI/1PGJdicGMEQvAWkCq0OEDiGJYn8oPyuF+
+         jgzC5bPNKbtuzv3Cm3yVirbQzHYjCaTAHtoJzWWForLb2fBMn3w8s1oMk1OClJUt3lU9
+         z33ICPZEy8m2ye2f2l7VgoOK5ExCwzCo1JrIlh+C9KogyaeVV782Wo6HwXk1rK6DLE5g
+         RuWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724931804; x=1725536604;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WKJ044DJ6shbS65781+Yi0H+JjJTteS86fL5N3lWl+k=;
-        b=OuWwp6cgOcfSQeTZ5l+Lgs++HmYsnMeGeUy9Az3MqKtrqwlnSz2vJa1pEgOHBtXZoD
-         AHFzvaqqNXOCrsStVb32rTXLrZ0bp6fL8lv8Q2qPAo3gSxRVwswtZR/CFm+rX0BQ/tAx
-         GeuG73opuK72ZBwIUC3DojV756+ururA3hGfIAAGzOYqvreyT4Kz9MJewHqSfchqkccx
-         6kjnpwAd/mVcB1iOtRxNt8A0NANdubl0KPGVpAKEfKctOu/PseH0pfqQGlJWhGXIISlu
-         rdFWISItzemaRdXrJcJ72D1vBv0j2ba+xIcE2RaW8HM4bMvNRIb30e+SmfhBtC99eHW2
-         Nf6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVo/mi1vz23PL9yXVIisXSatHsyA/xvwb23qIfEFZOOn1LGDq9+1cmOLR9xZxIoVMjjVKSBEhNrhDbM4cjU@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz2AIE2Tiw2hzpx8xZiGct5j1NFx+P/0udeskUZFeDjxaiYDKFl
-	aX46x34fCsBYuuNAyINoLKaTXMsHMiedtPr0QLwq1RW/mBjaxqLcQ7sMa0Pwiks=
-X-Google-Smtp-Source: AGHT+IFOdw9ujiuwiSBHFU9+4OjvZIDBUCRu48fmW/IwaVfF6faEydvSR/mrTCHm1bmjK7UKGK5Yfw==
-X-Received: by 2002:adf:e508:0:b0:368:7a04:7f5b with SMTP id ffacd0b85a97d-3749b581bd6mr1613589f8f.40.1724931803624;
-        Thu, 29 Aug 2024 04:43:23 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3749ee7171esm1202801f8f.37.2024.08.29.04.43.22
+        d=1e100.net; s=20230601; t=1724934777; x=1725539577;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wpLhta1Onq53+bLklwgL+euTgLHAYQa9BqkAwN2sT7M=;
+        b=hf/dkRci7+bryMCb+k297oTJGpyUaZRMlnn8/dXMjiTIRseYleLv9yqeAzDQo1JsNo
+         GYe+OigCisN+P+juekZeYR9doyVSGVrFG2ebSlUjU3TmBYiB9d5bVIg2mC09r7qbIVwO
+         KNW8/75/pP7BDoZZLKFAeYOJbA+dleCpehBt9B/axRC5f2ZULDGoDWZZscv6gU1QQU+j
+         HVVqualjbKzIKvSZznAB7vKDcT2qICTbLZtIf6hWmOiEV08lg+EATajx1v9LXGhzsSZG
+         uEHBW4R00rQg6mIoGEDhMFolLGX9xDPmgbiyal/dLJN1/6HHFu9t6XGalsVGqx+yqpIY
+         BxfQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWHyVqtIZs9E9IRKMkkGtZ5YAyl+OfkFHRMwBKY6Wf4vH6F2kpLY3DxwSQ21ucqhogzQeBhR4h8mvqI7fGu@lists.linux.dev
+X-Gm-Message-State: AOJu0YwsoQYsNHMBlRKFS7MqcTl5252sZre5cmxZYdxJxSomkYMealgU
+	xydGSsi9k1Amn8dLZNjDpkdF8iQ4LnNYiRLvWsIxAzui836EfcVw
+X-Google-Smtp-Source: AGHT+IFPdLOOyBet2Jy2mM6kcKOVaAQsrn9R4BWD5QxRsyht+GNlHw3NaHP4yGnS7m9+DDzubndddQ==
+X-Received: by 2002:a17:90a:6449:b0:2c9:7611:e15d with SMTP id 98e67ed59e1d1-2d8561d3ae1mr2760812a91.20.1724934776506;
+        Thu, 29 Aug 2024 05:32:56 -0700 (PDT)
+Received: from BASE-20.technicolor.net ([2804:14d:c098:8bf5:58c0:549d:d99a:c399])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2d8445e8010sm3971138a91.14.2024.08.29.05.32.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Aug 2024 04:43:23 -0700 (PDT)
-Date: Thu, 29 Aug 2024 14:43:17 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Alien Wesley <alienwesley51@gmail.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, ~lkcamp/patches@lists.sr.ht
-Subject: Re: [PATCH] staging: rtl8192e: Fix Assignment operator '=' in
- rtl_wx.c:681
-Message-ID: <9c1dc3e4-18fa-4a09-9be9-f0f3c9b4fb43@stanley.mountain>
-References: <20240825161335.21737-1-alienwesley51@gmail.com>
- <2024082916-savings-upstage-9606@gregkh>
- <8c1960d3-8f0b-4505-99aa-8af55685bbb3@gmail.com>
+        Thu, 29 Aug 2024 05:32:55 -0700 (PDT)
+From: Alien Wesley <alienwesley51@gmail.com>
+To: gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	~lkcamp/patches@lists.sr.ht
+Subject: [PATCH v2] staging: rtl8192e: Fix Assignment operator '=' in rtl_wx.c
+Date: Thu, 29 Aug 2024 09:32:51 -0300
+Message-Id: <20240829123251.83574-1-alienwesley51@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8c1960d3-8f0b-4505-99aa-8af55685bbb3@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Aug 29, 2024 at 08:33:41AM -0300, Alien Wesley wrote:
-> On 8/29/24 06:52, Greg KH wrote:
-> > On Sun, Aug 25, 2024 at 01:13:35PM -0300, Alien Wesley wrote:
-> > > Separated assignments for pairwise_key_type and group_key_type
-> > > in order to silence the following checkpatch warning.
-> > > 
-> > > CHECK: Assignment operator '=' should be on the previous line.
-> > > 
-> > > Signed-off-by: Alien Wesley <alienwesley51@gmail.com>
-> > Please do not put line numbers in the subject line.
-> > 
-> > thanks,
-> > 
-> > greg k-h
-> 
-> Should I fix up the subject and resend it as v2?
+Separated assignments for pairwise_key_type and group_key_type
+in order to silence the following checkpatch warning.
 
-Yes.
+CHECK: Assignment operator '=' should be on the previous line.
 
-regards,
-dan carpenter
+Signed-off-by: Alien Wesley <alienwesley51@gmail.com>
+---
+v2: Line number removed from subject
+---
+ drivers/staging/rtl8192e/rtl8192e/rtl_wx.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c b/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
+index 47f1adf30ab4..2d42e7a5bcdb 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
+@@ -677,8 +677,8 @@ static int _rtl92e_wx_set_encode_ext(struct net_device *dev,
+ 
+ 		if ((encoding->flags & IW_ENCODE_DISABLED) ||
+ 		    ext->alg == IW_ENCODE_ALG_NONE) {
+-			ieee->pairwise_key_type = ieee->group_key_type
+-						= KEY_TYPE_NA;
++			ieee->pairwise_key_type = KEY_TYPE_NA;
++			ieee->group_key_type = KEY_TYPE_NA;
+ 			rtl92e_cam_reset(dev);
+ 			memset(priv->rtllib->swcamtable, 0,
+ 			       sizeof(struct sw_cam_table) * 32);
+-- 
+2.34.1
 
