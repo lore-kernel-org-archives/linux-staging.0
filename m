@@ -1,102 +1,105 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 776BD1B4C2D
-	for <linux-staging@lists.linux.dev>; Fri, 30 Aug 2024 14:52:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A17051DA22
+	for <linux-staging@lists.linux.dev>; Fri, 30 Aug 2024 18:57:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725029557; cv=none; b=dddrsn124TSYs+bys12auHakI7Vg2ezSuIANZXXg9Xg978CUP4i1OJCe/Vb95Ptv120LbNgcKC4Sz/4a7lacPsacrqKlw7sjeDZmho21tJVxZM/mPVpGUWYa8V1JNBZAdxHuweaznFtClxUehQdtvx50kHqduMLX0OKXpgsY7IY=
+	t=1725044239; cv=none; b=qWlCRTh3U9G2s6RDLefI2s5dUm0+0wAKHbmXEPLbV0b+N/YHuKNURZZIMgEg7PA1A/dtoDbVmyL5PU2oRTLsLmsRtCZCrCcNl6g3KunWjQlV8snUBqAGOXqRnIQq+DTJ6+q3FoIgVtFw9yCHD2VL7Ss3ePCSEE0l4ftboSTer/k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725029557; c=relaxed/simple;
-	bh=FuDLCEncKPaeV9pVCsEMan8OdEXT5DPU7suVJu1eIzA=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UZc5lKyogrXx5IhBYf7McMkQKFAI9rmwGMdbya+S8wHLkCuPdQYwAkODAuL3W9/DUF0X8nFCQT9LeMGGZZ5d8GC83C2Uqru1pNWN6AyhyEf6Jm3rP6iA2h0p7KVmttM3U0eyvipstU2U4yYIWGXDsfdFCGf0dwqcaxGcPZXd/7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U6e7lmuA; arc=none smtp.client-ip=209.85.210.173
+	s=arc-20240116; t=1725044239; c=relaxed/simple;
+	bh=rvX/dDgBSvlVL0izU5WpcjGqdz9GGibZxL4sSXYenXY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=h26meI754aUKsPkmkIKxfHUs70lA5ShcPeZOCv3F0hI3SKHqAHYH8dg/7JksxlkURZAd3Jn90Cg5oT/HzFihypFgqdpt3faEVYnJoDLZzbn+cEYkHd6ojgG5weBzOiGIOYRGrhLnCVPx0z4HOxDfP+mACIuaG7r/o8Qbw3u1TuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lgkKg/4T; arc=none smtp.client-ip=209.85.208.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U6e7lmuA"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-7143ae1b560so1105371b3a.1
-        for <linux-staging@lists.linux.dev>; Fri, 30 Aug 2024 07:52:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lgkKg/4T"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5befd2f35bfso2114546a12.2
+        for <linux-staging@lists.linux.dev>; Fri, 30 Aug 2024 11:57:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725029556; x=1725634356; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=l43nUavHxnAn2/Q+7POfa5kpXTQFK1M94W4Oz0qeZQE=;
-        b=U6e7lmuAmmj9vKllGZh+Pmzk3h3sufLQjISCSNB6YvalAlAVrt1DcGmphJz2ifAVj6
-         vY/dyJ8wjv7ec5k8E4nmYWKUzDbkif4qYgWHnQucvlP8krxnsqFsQNQYS/2Yb6YHsIwz
-         06CiRzD9Qnr+oda2CB6tpfiC4LHfRyp9JTWf7YAG4FuBDn8SKaXTYYoIktUrL5ZPcLyZ
-         rdfm+ccW0lMhU1rzwti804UDvF3FbouBPVqrU4uFLqD6SUauReHbughXX47mhNjiIlsm
-         i8jd0WZEDARGbIxGMFrTzcMITPSVKPQMpft/opLVNnQXEQU11073VufPSf+s5ERajkF1
-         qDcw==
+        d=gmail.com; s=20230601; t=1725044236; x=1725649036; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=rypafLFMFg5+ACnGvncHfDlgMeufA++ocEnyXpczDK4=;
+        b=lgkKg/4Tm3yLNr91xxmyH6ChdB17MErGpvyQHDF40HiXpyPO/3SRe3iV9A4z6R7U/T
+         8aIxPGi9ZkSKPtETpnXegd5FvEPrq39mFc05ohm3UV+NkzNkvT+o9euTePMlddbE7SuM
+         Uk7i7sBBjH6AWP31CGJsVbriXAT+dVzEOK31zz8EZoIuvijQ2tJ7l98BSPxHJYnVb/HK
+         wfrGazNCSrFObp34ATYBZhJb9lTAxyVBNUQJqBRzQHxdeZm221c7yLJoZ35p9o5mHBHi
+         vn5l7rxp2tuEscJDvVvj/wfjUT/TScEqsAh9GkpQ5fXEVdUsqnkghzc/W2kgyh3K4AQM
+         t7SQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725029556; x=1725634356;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=l43nUavHxnAn2/Q+7POfa5kpXTQFK1M94W4Oz0qeZQE=;
-        b=cyTcPZOY8I2MtwrzCpTqjjif49AZdk6JBJtL5GIGUY8gKtYnCvxE2uSddpZQV0BhQD
-         YJWRwlE/Rdw3KIxfQZbcaHyL4y7g9dJWkX2+05IcITW0zzh9GMkCqavDPutyIpEXP3kf
-         BQ87RxRBTjyR/u70y/4FqiMN9NNmyJSYkTJnv/v34KDX3fIcKp/btPwosZjYvpNGyULo
-         lcB6GGzNfli2CQTVqQFw+LKoc+EdeHdk03HpHGgDj7m7vWz1yDtNBlbfoWMq3GKOlvA0
-         QmB4uPfruR8vnfxWjf0UV5iIacJHEH5c1BaApSthBQ2p5hrH8hXxSehhKBeVCKsk0kLB
-         1UiQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUxc55WHFcrc4XLpZrs5WPAfukC273Q2h3rVC2+4G7PmuTKC0s/9NpRVJUiFSdPc5GenxCR0vNuJTD961U5@lists.linux.dev
-X-Gm-Message-State: AOJu0YzdET0IcEY2uSy5NY9lfhBYXkIS/4dRePQMA3pIHcD1F3EP9hIh
-	ZQGX6mVEmFur3dYYXWUxy8+pcn/naSiS3r8bbjPLepZqC/us1leg
-X-Google-Smtp-Source: AGHT+IGxHY+6Jai4ZqwKefEHo2BiPfqhaC3jiXpWGV+/fyWdBXLOrdvc8VAZ3rrnNkBeBcUytqFPtw==
-X-Received: by 2002:a05:6a20:d70f:b0:1c4:bbb8:4d02 with SMTP id adf61e73a8af0-1cce10c4d57mr5637524637.37.1725029555625;
-        Fri, 30 Aug 2024 07:52:35 -0700 (PDT)
-Received: from victor-IdeaPad-Gaming-3-16IAH7 ([116.68.77.85])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-715e569e9bfsm2847966b3a.130.2024.08.30.07.52.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Aug 2024 07:52:35 -0700 (PDT)
-From: YOUR NAME <vivek6429.ts@gmail.com>
-X-Google-Original-From: YOUR NAME <username@gmail.com>
-Date: Fri, 30 Aug 2024 20:22:30 +0530
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Cc: gregkh@linuxfoundation.org, dan.carpenter@linaro.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] Staging: rtl8723bs: Rename function SelectChannel()
-Message-ID: <ZtHcrs3GoRZJiLjS@victor-IdeaPad-Gaming-3-16IAH7>
-References: <Zs8WLkzoZe3Z0DYF@victor-IdeaPad-Gaming-3-16IAH7>
- <5cbf98cf-9b1a-455e-afcd-b0cdfcf1aaec@gmail.com>
+        d=1e100.net; s=20230601; t=1725044236; x=1725649036;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=rypafLFMFg5+ACnGvncHfDlgMeufA++ocEnyXpczDK4=;
+        b=QqwICEQUfZaaC1uAVvbqE3vuw83aNIguhCjNnAkySrhGkCTlZ3ZNnjNx9Hu51P/8sv
+         CYT6q+lh/g/POGgWaV7zS4yquxIR03Y51CcwFWfZQXo2oMT0xnW3FDjxoD8VBuRtoVcN
+         QbtSK0nZRf9Nta7HxuP35whJ02QngDBmSwZkdNMzEZna+hJ7I+/ghRjCob79tVFQET04
+         CPl3MV2JDgiZKbQaINKsydoCnlvw++Tc43fkPtAjeDlMOs4CkAosqB1hcuJJV+VKWXjb
+         A28p1d3oOAx/HgIqYeLCIZ99g1YxoKlg2d63ewV3nIacF5aOilGzVighCFHoodbBtHmR
+         +LbA==
+X-Forwarded-Encrypted: i=1; AJvYcCUNhrZt7gY8mYh51M1U7sehbBqvEeIxuKDiLyLzzNbz10dO94ZidU/rs/6hzwnnVd14RvsAqwc9GlzUN3/H@lists.linux.dev
+X-Gm-Message-State: AOJu0YymfjJp+4k2+zWROfIqgF8G0N57pEKpb9a0bE6F2Kvtll14jwfY
+	l82bbZPyw6LC12DOZY0smjzVWMneu6gl/3TqMxNf8tkGvCIMF/Uk
+X-Google-Smtp-Source: AGHT+IEwzDsiIilTOBnxKPwDu4FaomR+DASGJ5X8afzwDXzpevmTO3JZzR6pzbAFc6AMu13BByD3uA==
+X-Received: by 2002:a17:907:94c2:b0:a86:993a:93db with SMTP id a640c23a62f3a-a897f92021fmr651788866b.39.1725044235521;
+        Fri, 30 Aug 2024 11:57:15 -0700 (PDT)
+Received: from [192.168.0.104] (p57ba2f9b.dip0.t-ipconnect.de. [87.186.47.155])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a89892333a0sm241142266b.220.2024.08.30.11.57.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 30 Aug 2024 11:57:15 -0700 (PDT)
+Message-ID: <2cb71c09-f64b-4ed3-9c0b-88c12d418a5f@gmail.com>
+Date: Fri, 30 Aug 2024 20:57:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5cbf98cf-9b1a-455e-afcd-b0cdfcf1aaec@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4] staging: rtl8192e: Fix parenthesis alignment in
+ rtl_core.c
+To: Gabriel Tassinari <gabrieldtassinari@gmail.com>,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, ~lkcamp/patches@lists.sr.ht
+References: <20240829214031.4893-1-gabrieldtassinari@gmail.com>
+Content-Language: en-US
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <20240829214031.4893-1-gabrieldtassinari@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Aug 28, 2024 at 10:25:56PM +0200, Philipp Hortmann wrote:
-> On 8/28/24 14:21, vivek t s wrote:
-> > Rename SelectChannel() to r8723bs_select_channel() to avoid CamelCase
-> > warning from checkpatch.
-> > 
-> > Signed-off-by: vivek t s<vivek6429.ts@gmail.com>
+On 8/29/24 23:40, Gabriel Tassinari wrote:
+> fix parenthesis alignment in _rtl92e_qos_handle_probe_response to
+> silence checkpatch warning:
 > 
-> Hi Vivek,
+> CHECK: Alignment should match open parenthesis
 > 
-> the description can be improved. Please always consider that checkpatch can
-> be wrong. So checkpatch is not a justification.
+> Signed-off-by: Gabriel Tassinari <gabrieldtassinari@gmail.com>
+> ---
+> v4: Remove line number from subject
+> v3: Adjust the indentation by adding one space
+> v2: Include the modified file in commit message
+> ---
+>   drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> I propose (feel free to improve):
-> Rename function SelectChannel() to r8723bs_select_channel() to avoid
-> CamelCase and to improve cleanliness of the global namespace.
-> 
-> Thanks for your support.
-> 
-> Bye Philipp
+> diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+> index ad21263e725f..75192041008d 100644
+> --- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+> +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+> @@ -322,7 +322,7 @@ static int _rtl92e_qos_handle_probe_response(struct r8192_priv *priv,
+>   
+>   	if (network->flags & NETWORK_HAS_QOS_MASK) {
+>   		if (active_network &&
+> -				(network->flags & NETWORK_HAS_QOS_PARAMETERS))
+> +		    (network->flags & NETWORK_HAS_QOS_PARAMETERS))
+>   			network->qos_data.active = network->qos_data.supported;
+>   
+>   		if ((network->qos_data.active == 1) && (active_network == 1) &&
 
-okay, understood.
-i shall change the description and send again.
-
-thanks,
-vivek
-
-
-
-
+Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
