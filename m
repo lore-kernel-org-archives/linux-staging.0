@@ -1,58 +1,58 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07A891BF319
-	for <linux-staging@lists.linux.dev>; Fri, 30 Aug 2024 19:11:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37F9D1BD50E
+	for <linux-staging@lists.linux.dev>; Fri, 30 Aug 2024 19:11:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725045084; cv=none; b=aNf6BONinjv6oPm/3X16W2+YC0JbEMg2EwMTi9fYrVQH5AB24laKSB0cQRR0kg5IcfOuH5DI8oRwjFEcHmIttnCJRohcdr9yGkenMFb6l7oXPRXSwMA6xtMKvpDgvjTRHROfE4DFKXZn+KwyqSr8icrOpTQN2++7+z2QNk/e37Q=
+	t=1725045119; cv=none; b=ZDhkjR4znZIyFj/F0NiMweNPSAoj1sbAaTbfcxn2OUzZVO/ykh0MOcYtUGg3e081P2+GY52by1ffBX8pzH2/eJ+zs7h6awr50hd5CJsOCcNVEJ7e5deHT4/MwjZq5Jjg513/SZxo/L0zKBCkI6RbVgJEYYeT1863yU/hrKuMgMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725045084; c=relaxed/simple;
-	bh=nTTilP3oVCZy0LaSd6ZTEG07Kd7VQsLiW26jY7giLqo=;
+	s=arc-20240116; t=1725045119; c=relaxed/simple;
+	bh=pB8CcaoFrh3B3HWYNqo0+lxlPHhtXzp/yBqGI7bLBv0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UuVQU3jC4tW50/PGFiMGHJc4i9DXAcolEnP/GuOU77h5AmXhUOc+yEUxM3WhJ6WFGiYBigG3/6hRqy0w9Olpyy3GT2eeYS8FE3vbocpcW9SnZlUxREajazYiTLZoyV+5XobOY0qoTbBVNnKp2j41eTCDKD6PHp9+23JVwAiuo+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NQ4OxVVx; arc=none smtp.client-ip=209.85.218.49
+	 In-Reply-To:Content-Type; b=AQggwFMJiod9kIlTUdUkAaVDhVUYjqOP39P8+QZIW6lYzsNUShMggRHqzKRD+VLrsZXG/GLbUOp7d8CFC25kc4meQFdHkv6fNrofU19pKPCzVVDDJm4LLWJ5E8urPds4en6+8hQuNKDdXm7H+PVnCV565GgkZHlsIQrldsXH5pY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MZiGV3Gn; arc=none smtp.client-ip=209.85.208.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NQ4OxVVx"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a868d7f92feso257929766b.2
-        for <linux-staging@lists.linux.dev>; Fri, 30 Aug 2024 12:11:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MZiGV3Gn"
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2f4f505118fso25379261fa.3
+        for <linux-staging@lists.linux.dev>; Fri, 30 Aug 2024 12:11:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725045081; x=1725649881; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1725045116; x=1725649916; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=OkZBG3rpBRmlfDuRPWhmuH7VSYrBmmDQec7CX2pdIpg=;
-        b=NQ4OxVVxX/qz+mGd//8b0mWyfz2hZxlVSOtFnul3CYQhffh0Lty95QsHpCkVqBFT/8
-         OECXqXNbRpVwESb4zl5uBEkAhG3hwOmE+O5/UvzBoCTlh42/tXCeIbV7F01v9Xu5bn+8
-         yX923b9mZbs22d3SxdSyGj559E9UpcPk4LDRIDBTsTqPQwFZs/hofxr2GmjPx+fzBPUR
-         Vl8un95kBJkC9jgymwU4AFDfHRYJUJytO4tq9227+RIDpTc+w0p8mo4/ELLwscFlDO5P
-         um7pJLylcGb4d4BLNSqhvfYWuBsnOo7J+aNWNwv6Sten84afPaP3XTvqfVyLtMlixiK9
-         Gw4A==
+        bh=NTbqm50ORZHDE0s9qtVidpp8vg7AYyeaBahTmM04iSE=;
+        b=MZiGV3GnGzZSvFjzbuHiIwQZuRjmkSuL1oOIWL4UoW4LHrujyeiDQyUEbwxJR9Fvx6
+         zFmpsixViumaDRFrr6L+huQ/iFdapIjaF9Yijz3BP3qOp3pvjty/PULP6+bzQs+GZa7S
+         a+yEwVZvikozVGCeCybRVcCKiNgopyK8SrIfigi6jmTU7tE8vLmYuZtX4NRzFgKNQce/
+         LXM8YSC+x6om6IBfHPCGH/gHav2fSBH30ou94eF/O7H/gApPKCe69tkxqLy1c3tYRUm6
+         XXnCKuHOFJlUCh+7DL57+bh+/MA6cwALkrZi3wPKnyC+12M5aK32NWrNYyLYXFFVY3O0
+         2deg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725045081; x=1725649881;
+        d=1e100.net; s=20230601; t=1725045116; x=1725649916;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OkZBG3rpBRmlfDuRPWhmuH7VSYrBmmDQec7CX2pdIpg=;
-        b=o1FrnFZQi17Cpo+V9vbejxs+FjfTP1QkeafW5Gv4R3YU6NlTfOWkWMMls5KjYa8aTk
-         hQzbzbY7pCoLZV705rDwD94d6DcyjDR/Sjdjp5vt4InJkhG6irqP34Cw/owUDv4d3Mza
-         vsY0GYj9Swutbm271WKxg3QO8yh5Pn6Noch9eDr+U29501k1zmrkxSgegSzIeBJafDW8
-         BcFa8h8Mlx16vCY7wxtgcUAXYa1ZdjrwDdBEi9uvfbmYAIeq9FVbrmC6CH11UntHbxLl
-         lSgNXCMNOjuIq/2MxuQmKDS4a1R0jTLytN8ZQmjLeY1raJ34REfH4UIRug+Sx8BuAYiF
-         VCRQ==
-X-Gm-Message-State: AOJu0YyG5+UYJocUZUda6mzOwAfd4U1K0Y9VpSu1eF8djEX/NwWhpjzp
-	HOKDipvUhSl0dnDusbhIeKp/IA8KLWaPoI2XnabGj6amzkWmykAm
-X-Google-Smtp-Source: AGHT+IH5pjZ9hybiZdbfPomfDdLM2BZXeH0wztRXDN3lR1j9bQ7w2wpl76IsnqRrFuNaYyZw+bZzKg==
-X-Received: by 2002:a17:907:d8c:b0:a86:8863:2bf0 with SMTP id a640c23a62f3a-a897fa74f73mr645436266b.48.1725045080837;
-        Fri, 30 Aug 2024 12:11:20 -0700 (PDT)
+        bh=NTbqm50ORZHDE0s9qtVidpp8vg7AYyeaBahTmM04iSE=;
+        b=FjBysssaHXH1ipDYJZoUW20mTTWF0cUcpXrwqVJJDrpC6dE0DiLmDjxsH6nNdzPbzS
+         89SjD5K+5bAM7shgDtCwtNzTC2BrO3kzaTmslZM2LuXSkOV9Nsqon1BvdCjek6J2TtHJ
+         mW0t41haLLQQn9c28/aGTs94+l90WUsb2njRuic+6rKrKDR4nMYLRmfmcfUXSyPxkoj8
+         bu/BKiC1/jcktiZSMiFANguO9H13V9ozheQAyAuWzXm9Ahem6OeofIPrxYjGre6E0fqW
+         Nk8DtEyMz1C4PVz8GJLxhlcEYBuQMlDsbhAN1sONuiXMrWExwKszqp431C+ER3irSMfY
+         +oSQ==
+X-Gm-Message-State: AOJu0YzNm5NQ8kJw0EMrG1NRzG07YGafljj7BmNmcNqzo5mdl19xQ5eh
+	luJhGM6+5zSOUT4NblghIFvmtFGOJIp//xPEOVgUc8CIeQdcd2MB
+X-Google-Smtp-Source: AGHT+IHPRfGnVJHiWKKlE2S/jXH6csPJ6/DSHhs7i1c+lIFxiuK5y1paSORrNoHhq8Ny4pvVchAIMQ==
+X-Received: by 2002:a05:651c:1991:b0:2f1:922f:874a with SMTP id 38308e7fff4ca-2f626564f62mr3601851fa.14.1725045116010;
+        Fri, 30 Aug 2024 12:11:56 -0700 (PDT)
 Received: from [192.168.0.104] (p57ba2f9b.dip0.t-ipconnect.de. [87.186.47.155])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8988fef4c3sm242445066b.32.2024.08.30.12.11.20
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c24435fcacsm79301a12.53.2024.08.30.12.11.55
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 30 Aug 2024 12:11:20 -0700 (PDT)
-Message-ID: <252c48f2-37f4-4a55-845f-8fa0a046a31a@gmail.com>
-Date: Fri, 30 Aug 2024 21:11:19 +0200
+        Fri, 30 Aug 2024 12:11:55 -0700 (PDT)
+Message-ID: <6885753f-d663-4e00-9007-60f8d659804f@gmail.com>
+Date: Fri, 30 Aug 2024 21:11:55 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -60,121 +60,70 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] Staging: rtl8192e: Rename variable pNetwork
+Subject: Re: [PATCH 2/3] Staging: rtl8192e: Rename variable bHwError
 To: Tree Davies <tdavies@darkphysics.net>, gregkh@linuxfoundation.org,
  anjan@momi.ca
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
 References: <20240830020508.532945-1-tdavies@darkphysics.net>
- <20240830020508.532945-2-tdavies@darkphysics.net>
+ <20240830020508.532945-3-tdavies@darkphysics.net>
 Content-Language: en-US
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20240830020508.532945-2-tdavies@darkphysics.net>
+In-Reply-To: <20240830020508.532945-3-tdavies@darkphysics.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 8/30/24 04:05, Tree Davies wrote:
-> Rename variable pNetwork to network
+> Rename variable bHwError to hw_error
 > to fix checkpatch warning Avoid CamelCase.
 > 
 > Signed-off-by: Tree Davies <tdavies@darkphysics.net>
 > ---
->   drivers/staging/rtl8192e/rtl819x_HTProc.c | 34 +++++++++++------------
->   drivers/staging/rtl8192e/rtllib.h         |  4 +--
->   2 files changed, 19 insertions(+), 19 deletions(-)
+>   drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c | 8 ++++----
+>   drivers/staging/rtl8192e/rtllib.h              | 2 +-
+>   2 files changed, 5 insertions(+), 5 deletions(-)
 > 
-> diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-> index dfdb7a7dc14f..188e1fd9554d 100644
-> --- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
-> +++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-> @@ -559,7 +559,7 @@ void ht_initialize_bss_desc(struct bss_ht *bss_ht)
->   }
+> diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+> index 519cad9e1106..15fda2d87da9 100644
+> --- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+> +++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+> @@ -1506,7 +1506,7 @@ static void _rtl92e_translate_rx_signal_stats(struct net_device *dev,
+>   				  (fc & IEEE80211_FCTL_TODS) ? hdr->addr1 :
+>   				  (fc & IEEE80211_FCTL_FROMDS) ? hdr->addr2 :
+>   				  hdr->addr3) &&
+> -		 (!pstats->bHwError) && (!pstats->bCRC) && (!pstats->bICV));
+> +		 (!pstats->hw_error) && (!pstats->bCRC) && (!pstats->bICV));
+>   	bpacket_toself = bpacket_match_bssid &&		/* check this */
+>   			 ether_addr_equal(praddr, priv->rtllib->dev->dev_addr);
+>   	if (ieee80211_is_beacon(hdr->frame_control))
+> @@ -1630,13 +1630,13 @@ bool rtl92e_get_rx_stats(struct net_device *dev, struct rtllib_rx_stats *stats,
 >   
->   void ht_reset_self_and_save_peer_setting(struct rtllib_device *ieee,
-> -				   struct rtllib_network *pNetwork)
-> +				   struct rtllib_network *network)
->   {
->   	struct rt_hi_throughput *ht_info = ieee->ht_info;
->   	u8	bIOTAction = 0;
-> @@ -567,32 +567,32 @@ void ht_reset_self_and_save_peer_setting(struct rtllib_device *ieee,
->   	/* unmark enable_ht flag here is the same reason why unmarked in
->   	 * function rtllib_softmac_new_net. WB 2008.09.10
->   	 */
-> -	if (pNetwork->bssht.bd_support_ht) {
-> +	if (network->bssht.bd_support_ht) {
->   		ht_info->current_ht_support = true;
-> -		ht_info->peer_ht_spec_ver = pNetwork->bssht.bd_ht_spec_ver;
-> +		ht_info->peer_ht_spec_ver = network->bssht.bd_ht_spec_ver;
+>   	stats->bICV = pdesc->ICV;
+>   	stats->bCRC = pdesc->CRC32;
+> -	stats->bHwError = pdesc->CRC32 | pdesc->ICV;
+> +	stats->hw_error = pdesc->CRC32 | pdesc->ICV;
 >   
-> -		if (pNetwork->bssht.bd_ht_cap_len > 0 &&
-> -		    pNetwork->bssht.bd_ht_cap_len <= sizeof(ht_info->peer_ht_cap_buf))
-> +		if (network->bssht.bd_ht_cap_len > 0 &&
-> +		    network->bssht.bd_ht_cap_len <= sizeof(ht_info->peer_ht_cap_buf))
->   			memcpy(ht_info->peer_ht_cap_buf,
-> -			       pNetwork->bssht.bd_ht_cap_buf,
-> -			       pNetwork->bssht.bd_ht_cap_len);
-> +			       network->bssht.bd_ht_cap_buf,
-> +			       network->bssht.bd_ht_cap_len);
+>   	stats->Length = pdesc->Length;
+>   	if (stats->Length < 24)
+> -		stats->bHwError |= 1;
+> +		stats->hw_error |= 1;
 >   
-> -		if (pNetwork->bssht.bd_ht_info_len > 0 &&
-> -		    pNetwork->bssht.bd_ht_info_len <=
-> +		if (network->bssht.bd_ht_info_len > 0 &&
-> +		    network->bssht.bd_ht_info_len <=
->   		    sizeof(ht_info->peer_ht_info_buf))
->   			memcpy(ht_info->peer_ht_info_buf,
-> -			       pNetwork->bssht.bd_ht_info_buf,
-> -			       pNetwork->bssht.bd_ht_info_len);
-> +			       network->bssht.bd_ht_info_buf,
-> +			       network->bssht.bd_ht_info_len);
+> -	if (stats->bHwError)
+> +	if (stats->hw_error)
+>   		return false;
 >   
->   		ht_info->current_rt2rt_aggregation =
-> -			 pNetwork->bssht.bd_rt2rt_aggregation;
-> +			 network->bssht.bd_rt2rt_aggregation;
->   		ht_info->current_rt2rt_long_slot_time =
-> -			 pNetwork->bssht.bd_rt2rt_long_slot_time;
-> +			 network->bssht.bd_rt2rt_long_slot_time;
->   
->   		ht_iot_peer_determine(ieee);
->   
->   		ht_info->iot_action = 0;
-> -		bIOTAction = ht_iot_act_is_mgnt_use_cck_6m(ieee, pNetwork);
-> +		bIOTAction = ht_iot_act_is_mgnt_use_cck_6m(ieee, network);
->   		if (bIOTAction)
->   			ht_info->iot_action |= HT_IOT_ACT_MGNT_USE_CCK_6M;
->   		bIOTAction = ht_iot_act_is_ccd_fsync(ieee);
-> @@ -609,14 +609,14 @@ void ht_reset_self_and_save_peer_setting(struct rtllib_device *ieee,
->   }
->   
->   void HT_update_self_and_peer_setting(struct rtllib_device *ieee,
-> -				     struct rtllib_network *pNetwork)
-> +				     struct rtllib_network *network)
->   {
->   	struct rt_hi_throughput *ht_info = ieee->ht_info;
->   	struct ht_info_ele *pPeerHTInfo =
-> -		 (struct ht_info_ele *)pNetwork->bssht.bd_ht_info_buf;
-> +		 (struct ht_info_ele *)network->bssht.bd_ht_info_buf;
->   
->   	if (ht_info->current_ht_support) {
-> -		if (pNetwork->bssht.bd_ht_info_len != 0)
-> +		if (network->bssht.bd_ht_info_len != 0)
->   			ht_info->current_op_mode = pPeerHTInfo->opt_mode;
->   	}
->   }
+>   	stats->RxDrvInfoSize = pdesc->RxDrvInfoSize;
 > diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-> index 7a1a68317a49..82fef04e5784 100644
+> index 82fef04e5784..76f53b797644 100644
 > --- a/drivers/staging/rtl8192e/rtllib.h
 > +++ b/drivers/staging/rtl8192e/rtllib.h
-> @@ -1733,9 +1733,9 @@ void ht_on_assoc_rsp(struct rtllib_device *ieee);
->   void ht_initialize_ht_info(struct rtllib_device *ieee);
->   void ht_initialize_bss_desc(struct bss_ht *bss_ht);
->   void ht_reset_self_and_save_peer_setting(struct rtllib_device *ieee,
-> -				   struct rtllib_network *pNetwork);
-> +				   struct rtllib_network *network);
->   void HT_update_self_and_peer_setting(struct rtllib_device *ieee,
-> -				     struct rtllib_network *pNetwork);
-> +				     struct rtllib_network *network);
->   u8 ht_get_highest_mcs_rate(struct rtllib_device *ieee, u8 *pMCSRateSet,
->   		       u8 *pMCSFilter);
->   extern u8 MCS_FILTER_ALL[];
+> @@ -467,7 +467,7 @@ struct rtllib_rx_stats {
+>   	u8  SignalQuality;
+>   	s32 RecvSignalPower;
+>   	u8  SignalStrength;
+> -	u16 bHwError:1;
+> +	u16 hw_error:1;
+>   	u16 bCRC:1;
+>   	u16 bICV:1;
+>   	u16 decrypted:1;
 
 Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-
