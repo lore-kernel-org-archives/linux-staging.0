@@ -1,83 +1,112 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09B0B14D294
-	for <linux-staging@lists.linux.dev>; Fri, 30 Aug 2024 06:01:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF16215F40D
+	for <linux-staging@lists.linux.dev>; Fri, 30 Aug 2024 08:16:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724997709; cv=none; b=Kjxwkfcpm1Mng/FbjlU2RWrCVGYH/EbxDhiFkqsWTWd7TSN267HlXI23sZ8b9F6zyzZnM1ReQbqXLdduXvASgKJK4a4uhtYyy3K05R+AboeZINkO9/G99tj7/nu1918Wp4BPcLj1r/3t7r/mQSaqjrgmg6GKbE8YzhWlAkmiC4Y=
+	t=1725005768; cv=none; b=eCKzUfwNfVtRedyvyMRE0x7NReGSz9SNg5jV6q/bZlTAeL33YZ4Fsp9++ZmHNEYYoSR3CTbyGk9MPJn+EK8Sidpa/LPBZI9ClTCPvJL9/tsnhgyJTUieC9RQpf9+DxkWRs1A25gjONvObPQU+w0tcNJAghk+VQlr4DhW2CqH9n0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724997709; c=relaxed/simple;
-	bh=9DNY3ZFRE7CHnMwm1XSpzP3vVjD0l1buQ4MAKMyTHeQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oOe0/bbx7PifRlvT0QARCFcIjjAEQYROkxLi3W+cjdMCFvQIFSgrz1CN/K8WSfhPd1QbHBxzi5frrIrfPo+JPfdOL9sleMj9pvC2hC5lMTdhO80IvsYoQJPveLWMWsxoyobs7VdLzXPiMDn303U4Ja8r5YMUcXETFJMVksmhGY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=EOiwzilc; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="EOiwzilc"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-42bbe809b06so100415e9.1
-        for <linux-staging@lists.linux.dev>; Thu, 29 Aug 2024 23:01:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1724997706; x=1725602506; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Warkqu/1C4P7VyOObJRODovHA5t9+AmBIFpWfc0vrEs=;
-        b=EOiwzilcmH3nz9Tn9hAcVhfDXBEFxyOKlRAvKuQKxspKl4USNcVe2YqjF5isjuzPeR
-         jncKJlJOetTF3uUnarJxbkK1Gps1SgEdmt3i7seoYCB8hR7+/XnASnEo2cRVcf20kX93
-         BiRiT3VyAxJK5kq8Z56dke9QTjzXHKB/nvLJscR6Z8H3+H6/gt7fCo9NPGYaguV6Y/kQ
-         Er1xclxS+diBikf1rhdZZmKst0xWCoguZ/rlEx+62WvJdC6+q1mK5tqsdFawKPSLXMf0
-         BCO3Ova2CFS5I8o/9Sl7DOWAmDjh6dkRE3AYD50K+//Eb3hiLbvZk/uABEcFRcXIRAgL
-         fgCQ==
+	s=arc-20240116; t=1725005768; c=relaxed/simple;
+	bh=Usj4NDMMSuTQv4/ZNF1nZLx1UwIIHViFNSe98IS9hVA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Q+lhpzPA599q6z1sybijYNISy5a7WSKJGlgNqh/BfbPBQ/2wjNRAmlInGzh+56ukvPp0ApyAK4keybaDGUZ0y4Cxb5yPhT+l/QVaxrLTlGuWNBHwy1H2VgzpFg1zTXTotQSEkVsKyvLJDnC1YSoVUnjGhMbFjZz95wLPOkkzeRE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-6d3c10af2efso6665537b3.0
+        for <linux-staging@lists.linux.dev>; Fri, 30 Aug 2024 01:16:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724997706; x=1725602506;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Warkqu/1C4P7VyOObJRODovHA5t9+AmBIFpWfc0vrEs=;
-        b=QbOE8QuAG+K5k0DIdv4QWigJwAnRCU1Upg2+QPzRgZ6LnF3lha8rX2w3K57z7CNNqh
-         7V94IfoTAN8Gnv7+R5RC0Ehkolt6oV8HzqvmrFkurTdlSQRk052r875fbsPD5u4BJZ3G
-         8P15xGfbVjn8Iv45zXwqwNi7AHN6GFgtkbXM7TRAPKJTeXFgZEVAHzxdviPi+XkztayL
-         SRWFQpJrVQ3b985EwAixccyq0mdmBdDeos3FOkfMmp6ec4miWezaRkMpGFxJvq+WPHcD
-         /l9Dbkis5Uw/cIQV8V7QCBsK5bzNJJZYgNHjRQcM4E71zM52dmHBuYFhOyltAPkueHbt
-         KoDg==
-X-Forwarded-Encrypted: i=1; AJvYcCU4HZ5q3kW6doswrKGrw7m5PysHwjdl3bF7LHti3YGi53BdNy/XlqkeYRsKZA5muQUIngzlazgE3d3vuHEp@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz3a8+LD2xqX3icrGx5dFkNYt8dokleoVKzDjrda60rC8Hd49Kk
-	DrKHrOIJATTUQSJcWRC4YLgoj+JibwRHLTA6Dvcm6XZv5fFRv2vPipnzFDOtH/o=
-X-Google-Smtp-Source: AGHT+IEnYCMR+9YoUxCyT15AEnLKuXgg+ZtwpgefE7r0jjZu+IE1hb8+dWprd3QISNhgKpkxSgiOVA==
-X-Received: by 2002:a05:600c:3c8e:b0:429:d0cb:950f with SMTP id 5b1f17b1804b1-42bb02c2031mr41008065e9.2.1724997706001;
-        Thu, 29 Aug 2024 23:01:46 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42ba6425a13sm70170665e9.42.2024.08.29.23.01.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Aug 2024 23:01:45 -0700 (PDT)
-Date: Fri, 30 Aug 2024 09:01:41 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sakari Ailus <sakari.ailus@iki.fi>,
-	Julien Massot <julien.massot@collabora.com>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3 0/5] media: staging: max96712: Add support for MAX96724
-Message-ID: <affa5481-b858-4f7c-9325-3bb56de4f538@stanley.mountain>
-References: <20240829165051.2498867-1-niklas.soderlund+renesas@ragnatech.se>
+        d=1e100.net; s=20230601; t=1725005765; x=1725610565;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=p4Ql5/in0ZIVOL75Q1qx4NaZGeDqu/Tw36Q8q0H0JF8=;
+        b=EtJW0ceQofQJBZFVLV4QdBH9cliYX/RdrpT0PA9QWFIj0uxoXYE+zn9y7ILK3o7FwA
+         cXRZnVwUHmxmaE5+CXM4N5QF9aP7sWwQ3wqGEIpOW/IFCWvSrHbcX0SujH8WJ/26lfkb
+         49NhB8Nqgqug7XpLAmUyiY0xBsUP/QtfGQ6Q6XsUFMx3mpPCiSh5eSY4R9IjUQMfkPMw
+         h8QBzXbuGyfcKeNL0Xv0tl1cgE2oodJcUHJCeCG93B5hFG3nlgXcVYL1hYGCkf7yGMFf
+         6cgMYWollw1esds/NeyMHR0qj5gGnSxk2SfBTS/s1J6HaFb/XxIfjjE4w2CperyQOJjG
+         48bA==
+X-Forwarded-Encrypted: i=1; AJvYcCXLbWGVIPlLLNx8DRtPOC+aJVj0JOcY2M6b9OARb+/gbobA6jY/M+QXxIxOC9JkjMW/2U6095oJxtOippt/@lists.linux.dev
+X-Gm-Message-State: AOJu0Yww9puUKZtYQ1j/uRq6ZefRrSpCt7is0g67I163IGwg4i7m6GCC
+	lPLubIVIm8wyREN9NuCUdIESPIOsulvKY4b98T4h9ftELc9BuGV+1+JXXsyz
+X-Google-Smtp-Source: AGHT+IFyiUdubor/tt/hDw8c4fLW/kgBfL/YvwurHmSZ86tufQULNKpdNI5msSvZLRprnu/Sc2S04A==
+X-Received: by 2002:a05:690c:5718:b0:6d3:e081:fc84 with SMTP id 00721157ae682-6d40ff0db5amr9410027b3.42.1725005764923;
+        Fri, 30 Aug 2024 01:16:04 -0700 (PDT)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6d2d3e9908bsm5490327b3.30.2024.08.30.01.16.04
+        for <linux-staging@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 30 Aug 2024 01:16:04 -0700 (PDT)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-6d3c10af2efso6665277b3.0
+        for <linux-staging@lists.linux.dev>; Fri, 30 Aug 2024 01:16:04 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUSSZR6vm57B/py0tNGN6oMxpgPXOqnRgfNXlqv7dUwZ11eEXh5IDfJPNOZv6ekw+q2EauZwiloFJK8A09v@lists.linux.dev
+X-Received: by 2002:a05:690c:6384:b0:664:4b9c:3de with SMTP id
+ 00721157ae682-6d40de67fbdmr12609087b3.13.1725005764298; Fri, 30 Aug 2024
+ 01:16:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240829165051.2498867-1-niklas.soderlund+renesas@ragnatech.se>
+References: <20240829165051.2498867-1-niklas.soderlund+renesas@ragnatech.se> <20240829165051.2498867-5-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20240829165051.2498867-5-niklas.soderlund+renesas@ragnatech.se>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 30 Aug 2024 10:15:52 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUGzK9EMneHzTJXPQiYRSpnTgP5A9_ZMeSc353ZwR4VKw@mail.gmail.com>
+Message-ID: <CAMuHMdUGzK9EMneHzTJXPQiYRSpnTgP5A9_ZMeSc353ZwR4VKw@mail.gmail.com>
+Subject: Re: [PATCH v3 4/5] media: staging: max96712: Document the DEBUG_EXTRA register
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Sakari Ailus <sakari.ailus@iki.fi>, 
+	Julien Massot <julien.massot@collabora.com>, linux-media@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I don't feel qualified to review this, but it's a lot prettier than v2.  Thanks!
+Hi Niklas,
 
-regards,
-dan carpenter
+On Thu, Aug 29, 2024 at 6:52=E2=80=AFPM Niklas S=C3=B6derlund
+<niklas.soderlund+renesas@ragnatech.se> wrote:
+> The DEBUG_EXTRA register is not part of soon to be added MAX96724
+> device. To make it easier to understand the differences when reading the
+> code prepare for the addition by creating named defines for the
+> register.
+>
+> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
+se>
+> ---
+> * Changes since v2
+> - New in v3.
 
+Thanks for your patch!
+
+> --- a/drivers/staging/media/max96712/max96712.c
+> +++ b/drivers/staging/media/max96712/max96712.c
+> @@ -16,6 +16,10 @@
+>  #include <media/v4l2-fwnode.h>
+>  #include <media/v4l2-subdev.h>
+>
+> +#define DEBUG_EXTRA_REG                        0x09
+> +#define DEBUG_EXTRE_PCLK_25MHZ         0x00
+> +#define DEBUG_EXTRE_PCLK_75MHZ         0x01
+
+s/EXTRE/EXTRA/
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
