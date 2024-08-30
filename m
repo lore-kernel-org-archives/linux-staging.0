@@ -1,24 +1,25 @@
-Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A6DF134AC
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 408387F6
 	for <linux-staging@lists.linux.dev>; Fri, 30 Aug 2024 01:09:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.191
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724980185; cv=none; b=nwNBbQ3DIfKiw+gmXpBJNMxnxZOWX5bMAYK5xG9WBjfbby/4+RjReB8kH30X0eyyBcKPTfSHVATQ/AOGdYz2x7Xd42IHYz6rpAWb7XuZpYy/NoqY3gDyitiMV01+Oe1SH8IkBK77MG0dpU1qdqili+FuDzPQHVcLPdR0Xr8zcy0=
+	t=1724980185; cv=none; b=BXxtyAg4Qzcoj7GlOimq7OcNoukXu85Fjm1uu7c3GWzN92k119kn03X0JH7/TO1qYS8+V1WCI/IY324pEyEPA7DRdsPJmH2o8iNPYipH0pAUV2KNl+qR3eLCE+DiZfiNsnowH599T6ozKrZAex3Xz8fuaqoggpwp5lTRW/Q0vpM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1724980185; c=relaxed/simple;
-	bh=U9ySVQGsF++hy5ffNcEiWRzACgeH/62OX2EKO+uZK+A=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=FVQXYwHuZuf0u+kTOm+twpwfkUHY2SZ3vP6eVTU9klDLmNUmxo76DZgZooRVLMU4nmI0IzRqNsoPIyqIZADamWMlvnd9K7f4PfN2b24U4HCyjF1bh4yGldOGBU5k/DuihdxwH5ndS6BjUiiITIFr4E8Zy926rm1qtFHZIHkWqiM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.191
+	bh=qqfxa+abl1Qnne9mq27G2RZsQkTwE1GaZhwOOiO51Y0=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=BaGy9AzIfvB/7/fEOoXv95x+RSCD/Rr/G/W9VQhUo7hBAzguX2PmFlfaDE8/xlK0s2oqHgh3GqahyeS80d+46HBrj1BvpfXETxPdpzXCy+lVL8/xRosVKSeEJiuv7cWs88GMLpshv1OMiqfCpxMjrdNtl7SCq60kFinEnsNz6mM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.187
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.88.234])
-	by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Ww0RV2q6Rz1j7ml;
-	Fri, 30 Aug 2024 09:09:26 +0800 (CST)
+Received: from mail.maildlp.com (unknown [172.19.162.254])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Ww0R76Qd5zyR6t;
+	Fri, 30 Aug 2024 09:09:07 +0800 (CST)
 Received: from kwepemd500012.china.huawei.com (unknown [7.221.188.25])
-	by mail.maildlp.com (Postfix) with ESMTPS id 924CE1402C6;
-	Fri, 30 Aug 2024 09:09:39 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTPS id 018C8180105;
+	Fri, 30 Aug 2024 09:09:40 +0800 (CST)
 Received: from huawei.com (10.90.53.73) by kwepemd500012.china.huawei.com
  (7.221.188.25) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.34; Fri, 30 Aug
@@ -30,10 +31,12 @@ To: <hdegoede@redhat.com>, <mchehab@kernel.org>,
 	<andriy.shevchenko@linux.intel.com>
 CC: <lizetao1@huawei.com>, <linux-media@vger.kernel.org>,
 	<linux-staging@lists.linux.dev>
-Subject: [PATCH -next 0/2] media: atomisp: use clamp() instead of min(max())
-Date: Fri, 30 Aug 2024 09:17:50 +0800
-Message-ID: <20240830011752.603433-1-lizetao1@huawei.com>
+Subject: [PATCH -next 1/2] media: atomisp: use clamp() in ia_css_eed1_8_encode()
+Date: Fri, 30 Aug 2024 09:17:51 +0800
+Message-ID: <20240830011752.603433-2-lizetao1@huawei.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240830011752.603433-1-lizetao1@huawei.com>
+References: <20240830011752.603433-1-lizetao1@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -45,21 +48,27 @@ Content-Type: text/plain
 X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
  kwepemd500012.china.huawei.com (7.221.188.25)
 
-Hi,
+When it needs to get a value within a certain interval, using clamp()
+makes the code easier to understand than min(max()).
 
-When it needs to get the value of a certain interval [min, max],
-it is easier to understand using clamp(x, min, max) instead of
-min(max(x, min), max). What needs to be determined is that min
-should be smaller than max.
+Signed-off-by: Li Zetao <lizetao1@huawei.com>
+---
+ .../media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c   | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Li Zetao (2):
-  media: atomisp: use clamp() in ia_css_eed1_8_encode()
-  media: atomisp: use clamp() in compute_coring()
-
- .../pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c      |  2 +-
- .../pci/isp/kernels/xnr/xnr_3.0/ia_css_xnr3.host.c   | 12 ++++++------
- 2 files changed, 7 insertions(+), 7 deletions(-)
-
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c
+index e4fc90f88e24..55d102b479ac 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c
+@@ -276,7 +276,7 @@ ia_css_eed1_8_encode(
+ 	for (i = 0; i < (IA_CSS_NUMBER_OF_DEW_ENHANCE_SEGMENTS - 1); i++) {
+ 		min_exp = max(min_exp, from->dew_enhance_seg_exp[i]);
+ 	}
+-	to->e_dew_enh_asr = 13 - min(max(min_exp, 0), 13);
++	to->e_dew_enh_asr = 13 - clamp(min_exp, 0, 13);
+ 
+ 	to->dedgew_max = from->dedgew_max;
+ }
 -- 
 2.34.1
 
