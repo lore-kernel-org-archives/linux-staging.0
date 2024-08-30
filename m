@@ -1,62 +1,42 @@
-Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0022918A933
-	for <linux-staging@lists.linux.dev>; Thu, 29 Aug 2024 21:40:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C87401758F
+	for <linux-staging@lists.linux.dev>; Fri, 30 Aug 2024 01:09:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724967640; cv=none; b=UQdLOdDvTuucX8A+LRLCHQ8q3vRQMrUF6cLm4fxf4rCIj0BtOiSsiuzpFUZ+ArbHivCLqYmu5KHHwKf02r2Z169Dbap00VLx9NoKc0aPwd6LIeofzGlEg4SckVcBjLrm5HzWe3dDyEmmigslAAMrx6TA7IxKsfKWFlUiBeCR41I=
+	t=1724980184; cv=none; b=LNU+uIj7qXSwHL/9zZaPXg01ztSM9NA1pPYcK6YzQ4ikn/wvxWI62693Yjr0LTORlTmUH2gtoJ9Z06L0KeYI9aJdVZ3vQU5KTfRM5NhwIEgHg2HQKa8GAUttsGsEKgngojKOey9WS3qgKgiAMLeZ3i/SOMl18m4sQjZ3zoXejkM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724967640; c=relaxed/simple;
-	bh=LieYg7NH1ZzCj7/f6QMWYqnUg0Vc/d1N3HRBdyagslY=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=hwKbNgu2zZNu7FoWqDyhbBdzRw+z30aOjFX0A21ezSCOzP8DLw6vBSXu3MmxI9am+/ljAQ3gwsg0vhpbcubWcBrNmDzCW8Avf0YN3yEn4QmorZbyNtOuHdm3RYEpe1YjTl5VoU7qa6VVKK5au4WyNBRpdzavXnVdDttutESwa/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VRpUICh/; arc=none smtp.client-ip=209.85.160.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VRpUICh/"
-Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-27020fca39aso753110fac.0
-        for <linux-staging@lists.linux.dev>; Thu, 29 Aug 2024 14:40:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724967637; x=1725572437; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Uz6Dy37VCv1sN/3hRrn/LM1TxSOkjRrN0Y/enN2q/vQ=;
-        b=VRpUICh/ODdaaHhe+oxVza/mFebSndealvJ2+qqeTWPnVTYWm/K/vystcgZjNM3gBb
-         +rmPYC3XtTHHVa3/YaahtbhDd5MLXNd8NbfMA0AV/pMsgVxGCRW+deOze4TbpdXnWmgT
-         eh/jRI9FTKNvr28g9vFzm9RParS8WX6XA5eKNUO3/XBw2GfRUGOpVr4m2eaDmXvqlNsD
-         9msc5Ohz40A+ed1+94NMHytKfd1gLWGM6SJORz6ehJwCXhIw3fowBoX32NYcEPo8NNb2
-         rExkJ4C3PdQ/JLt3WY3S8/VMQnR+4PrcCjENF99iIpf6yuB9u64fxSaAso//8daud4LP
-         C/Jg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724967637; x=1725572437;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Uz6Dy37VCv1sN/3hRrn/LM1TxSOkjRrN0Y/enN2q/vQ=;
-        b=ve82tAAJNfdngfDr6DYVlqP3EfDJdd3AwxGTiBN+GnlEsCBzPx5RceEctvFmYnwA7w
-         9hDLG3OaHr9hJ84DKYRBXTVqTD1yw5hpWpOCByifXO/sj0JCCC9DgUgG73V1OllBiyOU
-         qBcUWQd8K1u/DmQR69DxF2raN4Wbx3t/XW6ZVSGqNKKtU5RbdPIgUEkEmgGtn6bcW54X
-         N2xdDGJyh6vm3BsYOP9g9CsRWCTQe5vzY7/Bev7X4d3Si4rdMQl/WTg7U9jHIsIyK+tQ
-         eB3H+TQYBccZaHEaPe8dXF0oaxTBLN0ZnhzHPTzv2knxHHl+QNm7wkg7iPvK2uCo90Dh
-         ClCA==
-X-Gm-Message-State: AOJu0YympG83/Q9TnmhNaN8aAAFzua3lqFw4D6Rqz9veuMuIZocQ+bCT
-	u0+l52JAyXnNACyb6KN3og97LMvLhDQrg8fb71pnekl2qDgKkBFsZ2Xfpg==
-X-Google-Smtp-Source: AGHT+IHwNTYA1EbM185xeo3YV3aR7BQP15rLTFxPgrpH08ju+uTm5zEA3NlhSBPILdEG4y4/FqZBIQ==
-X-Received: by 2002:a05:6870:fba1:b0:254:b420:5ab with SMTP id 586e51a60fabf-2779007556cmr3808030fac.8.1724967637637;
-        Thu, 29 Aug 2024 14:40:37 -0700 (PDT)
-Received: from localhost.localdomain ([2804:4b0:1410:400:9408:c7b2:31:3])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7d22e742ca0sm1480841a12.7.2024.08.29.14.40.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Aug 2024 14:40:37 -0700 (PDT)
-From: Gabriel Tassinari <gabrieldtassinari@gmail.com>
-To: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	~lkcamp/patches@lists.sr.ht
-Subject: [PATCH v4] staging: rtl8192e: Fix parenthesis alignment in rtl_core.c
-Date: Thu, 29 Aug 2024 18:40:31 -0300
-Message-ID: <20240829214031.4893-1-gabrieldtassinari@gmail.com>
-X-Mailer: git-send-email 2.46.0
+	s=arc-20240116; t=1724980184; c=relaxed/simple;
+	bh=H9H3WUcsfbc6W3A7CWklkIegXpLk7srbziE63K+WdVk=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HyJS5n9+jKFqP0LgOJm2eiFWe1SLZgoFBRmN320yPqzxzQsJj/XW3CBgbSaUTeqOqKZcUvXF7l9aHel2iFMPxKPdfvEI8EBUaGb2BQ586DQQ6aGFzsiMLcwKW6JybmItuoNjSv4Cfs8+pvoV4vhuibYsDDLOx+Pc9jUdaEjWQ90=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.162.254])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Ww0PM5Nl3zLqxM;
+	Fri, 30 Aug 2024 09:07:35 +0800 (CST)
+Received: from kwepemd500012.china.huawei.com (unknown [7.221.188.25])
+	by mail.maildlp.com (Postfix) with ESMTPS id 6666C180105;
+	Fri, 30 Aug 2024 09:09:40 +0800 (CST)
+Received: from huawei.com (10.90.53.73) by kwepemd500012.china.huawei.com
+ (7.221.188.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.34; Fri, 30 Aug
+ 2024 09:09:39 +0800
+From: Li Zetao <lizetao1@huawei.com>
+To: <hdegoede@redhat.com>, <mchehab@kernel.org>,
+	<sakari.ailus@linux.intel.com>, <gregkh@linuxfoundation.org>,
+	<topofeverest8848@gmail.com>, <hverkuil-cisco@xs4all.nl>,
+	<andriy.shevchenko@linux.intel.com>
+CC: <lizetao1@huawei.com>, <linux-media@vger.kernel.org>,
+	<linux-staging@lists.linux.dev>
+Subject: [PATCH -next 2/2] media: atomisp: use clamp() in compute_coring()
+Date: Fri, 30 Aug 2024 09:17:52 +0800
+Message-ID: <20240830011752.603433-3-lizetao1@huawei.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240830011752.603433-1-lizetao1@huawei.com>
+References: <20240830011752.603433-1-lizetao1@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -64,34 +44,52 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ kwepemd500012.china.huawei.com (7.221.188.25)
 
-fix parenthesis alignment in _rtl92e_qos_handle_probe_response to
-silence checkpatch warning:
+When it needs to get a value within a certain interval, using clamp()
+makes the code easier to understand than min(max()).
 
-CHECK: Alignment should match open parenthesis
-
-Signed-off-by: Gabriel Tassinari <gabrieldtassinari@gmail.com>
+Signed-off-by: Li Zetao <lizetao1@huawei.com>
 ---
-v4: Remove line number from subject
-v3: Adjust the indentation by adding one space
-v2: Include the modified file in commit message
----
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../pci/isp/kernels/xnr/xnr_3.0/ia_css_xnr3.host.c   | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-index ad21263e725f..75192041008d 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-@@ -322,7 +322,7 @@ static int _rtl92e_qos_handle_probe_response(struct r8192_priv *priv,
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/xnr/xnr_3.0/ia_css_xnr3.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/xnr/xnr_3.0/ia_css_xnr3.host.c
+index 70132d955e9b..def2c8fb4b38 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/xnr/xnr_3.0/ia_css_xnr3.host.c
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/xnr/xnr_3.0/ia_css_xnr3.host.c
+@@ -108,7 +108,7 @@ compute_coring(int coring)
+ 	 * factor. Clip to [0, isp_scale-1).
+ 	 */
+ 	isp_coring = ((coring * isp_scale) + offset) / host_scale;
+-	return min(max(isp_coring, 0), isp_scale - 1);
++	return clamp(isp_coring, 0, isp_scale - 1);
+ }
  
- 	if (network->flags & NETWORK_HAS_QOS_MASK) {
- 		if (active_network &&
--				(network->flags & NETWORK_HAS_QOS_PARAMETERS))
-+		    (network->flags & NETWORK_HAS_QOS_PARAMETERS))
- 			network->qos_data.active = network->qos_data.supported;
+ /*
+@@ -168,15 +168,15 @@ ia_css_xnr3_encode(
+ 	to->alpha.y0 = alpha_y0;
+ 	to->alpha.u0 = alpha_u0;
+ 	to->alpha.v0 = alpha_v0;
+-	to->alpha.ydiff = min(max(alpha_ydiff, min_diff), max_diff);
+-	to->alpha.udiff = min(max(alpha_udiff, min_diff), max_diff);
+-	to->alpha.vdiff = min(max(alpha_vdiff, min_diff), max_diff);
++	to->alpha.ydiff = clamp(alpha_ydiff, min_diff, max_diff);
++	to->alpha.udiff = clamp(alpha_udiff, min_diff, max_diff);
++	to->alpha.vdiff = clamp(alpha_vdiff, min_diff, max_diff);
  
- 		if ((network->qos_data.active == 1) && (active_network == 1) &&
+ 	/* coring parameters are expressed in q1.NN format */
+ 	to->coring.u0 = coring_u0;
+ 	to->coring.v0 = coring_v0;
+-	to->coring.udiff = min(max(coring_udiff, min_diff), max_diff);
+-	to->coring.vdiff = min(max(coring_vdiff, min_diff), max_diff);
++	to->coring.udiff = clamp(coring_udiff, min_diff, max_diff);
++	to->coring.vdiff = clamp(coring_vdiff, min_diff, max_diff);
+ 
+ 	/* blending strength is expressed in q1.NN format */
+ 	to->blending.strength = blending;
 -- 
-2.46.0
+2.34.1
 
