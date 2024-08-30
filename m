@@ -1,144 +1,83 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A15C16CDBA
-	for <linux-staging@lists.linux.dev>; Fri, 30 Aug 2024 05:18:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09B0B14D294
+	for <linux-staging@lists.linux.dev>; Fri, 30 Aug 2024 06:01:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724995097; cv=none; b=TWUNhxTJ01HoF8LEsF+4luFE3ai4H2uDSLVvdgmwcYX5P7lQFQtgnoJ+YkXe+rWbNEotw4ltgg98a8uyX5zkfSpt2svfrX8Up6AHuE1M7dS/T7+jDYmFZbhKd7uU6RyicNms115XII/GvW0qmusuW5TyZNQ4uJ7wo2cngSsguag=
+	t=1724997709; cv=none; b=Kjxwkfcpm1Mng/FbjlU2RWrCVGYH/EbxDhiFkqsWTWd7TSN267HlXI23sZ8b9F6zyzZnM1ReQbqXLdduXvASgKJK4a4uhtYyy3K05R+AboeZINkO9/G99tj7/nu1918Wp4BPcLj1r/3t7r/mQSaqjrgmg6GKbE8YzhWlAkmiC4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724995097; c=relaxed/simple;
-	bh=t4kbdGAxtPguU+bAxcGS2rq6P+WLCvz4IOBMCY7MIKE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cpkYUDoo24ZumXXSB04CFCEw2/q9IfT9N8x+xpM+E+WPH/rhQ63unuDuO/68PZHC4DZDJA5KBZHAMeR/w2zPath9XgM6hj74HMHkDl+Rd+ecooCSzNua2H/VU9JBGwesF3IIQeghQK7dR5voIkQJ4jNFVZcE/+eHNKNoqu0WguM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lhg9oUqk; arc=none smtp.client-ip=209.85.210.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1724997709; c=relaxed/simple;
+	bh=9DNY3ZFRE7CHnMwm1XSpzP3vVjD0l1buQ4MAKMyTHeQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oOe0/bbx7PifRlvT0QARCFcIjjAEQYROkxLi3W+cjdMCFvQIFSgrz1CN/K8WSfhPd1QbHBxzi5frrIrfPo+JPfdOL9sleMj9pvC2hC5lMTdhO80IvsYoQJPveLWMWsxoyobs7VdLzXPiMDn303U4Ja8r5YMUcXETFJMVksmhGY4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=EOiwzilc; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lhg9oUqk"
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-714302e7285so1252041b3a.2
-        for <linux-staging@lists.linux.dev>; Thu, 29 Aug 2024 22:18:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="EOiwzilc"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-42bbe809b06so100415e9.1
+        for <linux-staging@lists.linux.dev>; Thu, 29 Aug 2024 23:01:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724995095; x=1725599895; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ssc6z58Q9ZpbGeFW4UOcRDaOLol5H9gcdkFINcBIMq0=;
-        b=lhg9oUqkaOB4Zh+vPmJZEMBcXxEFoYpoXUqP4x++v/ZNUbypDT50mZwyNqFCITsUFy
-         RhRp7GWDmAg4uGEr2v5LrUfdIMy9WKDYcVC9VV16UKycQo3/KaxSW1xo9kOxIjJkp6jW
-         J+u0qAjX2LHmT//jHEq9HZFzWhamrGnQUXx/+UZToey8ZELwpAYlssaEtm0C5JrUsPJ+
-         SFihSHovu6ka2BnCDCjyxzT7jFyXQjeJWnRQeO8rbFcQxvdDmyJ+yoAGfPXPUSWmrGum
-         OEt9XxxDIeC0yz4SqXp82T4RtAtEh8LQ0rLXYjMpIU7CeGrTnLWCOCbH1C3o0u9ey6XF
-         cdOQ==
+        d=linaro.org; s=google; t=1724997706; x=1725602506; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Warkqu/1C4P7VyOObJRODovHA5t9+AmBIFpWfc0vrEs=;
+        b=EOiwzilcmH3nz9Tn9hAcVhfDXBEFxyOKlRAvKuQKxspKl4USNcVe2YqjF5isjuzPeR
+         jncKJlJOetTF3uUnarJxbkK1Gps1SgEdmt3i7seoYCB8hR7+/XnASnEo2cRVcf20kX93
+         BiRiT3VyAxJK5kq8Z56dke9QTjzXHKB/nvLJscR6Z8H3+H6/gt7fCo9NPGYaguV6Y/kQ
+         Er1xclxS+diBikf1rhdZZmKst0xWCoguZ/rlEx+62WvJdC6+q1mK5tqsdFawKPSLXMf0
+         BCO3Ova2CFS5I8o/9Sl7DOWAmDjh6dkRE3AYD50K+//Eb3hiLbvZk/uABEcFRcXIRAgL
+         fgCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724995095; x=1725599895;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ssc6z58Q9ZpbGeFW4UOcRDaOLol5H9gcdkFINcBIMq0=;
-        b=A2sOlpIjc+4UffLyg1Y+I7F9s7BobGFYbiuR1OHtXgPtFXGSUr3WBJUGx6eij0dwcd
-         12bNV6a7t+zdUfWzXMSHjtth4S96xsNfQGV9iQ50E1JV4KGh+Bo3xf7dDZ4oh6Pjmioq
-         JAXQ30EJgQKct84iqIAPWLOkoqHc20R+43nK2ZXXpzIDRmwXCn4unRRbk53EjC4ct9wR
-         J/SGwfOYyRl/XvBoBQLIKhrfGZPcnD7ESuedNelj/t0E2DYne0hdcyiXasyTxiw74+Tc
-         FRhxan0viMUOC0TjgFsaRq+ghMxNR06dxQuBL6x74ZXeehMM1RsQtFwQax9NsAz60srQ
-         W+OQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVZcROP5TVxuSm0xZNQX+L4KtGkU7yfOlNj5SfZCFzF8fNfH903XQGnM/z6M0xm4m4+JJMtzya7xm/4P0dn@lists.linux.dev
-X-Gm-Message-State: AOJu0YwLXw+X5CM40WpjoiLln/7RLRLbY7455YqYQglsSR5Z/+bH2YU2
-	V1+PiegjZf5zEskLYd/9yG58Vs/b7qS0IAKazDn8Jaev0W6O5IWy
-X-Google-Smtp-Source: AGHT+IEPva632bmQqJBFKxEikCEAtW8zvLrbfVLcHcMd2B/A84V4ALPqbhoFVkZqv80iEMAfbk4CdQ==
-X-Received: by 2002:a05:6a00:3d0f:b0:714:24dd:b3ca with SMTP id d2e1a72fcca58-715dfccb2d1mr6894479b3a.24.1724995094788;
-        Thu, 29 Aug 2024 22:18:14 -0700 (PDT)
-Received: from fedora.. ([106.219.166.11])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-715e557b960sm1973127b3a.41.2024.08.29.22.18.12
+        d=1e100.net; s=20230601; t=1724997706; x=1725602506;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Warkqu/1C4P7VyOObJRODovHA5t9+AmBIFpWfc0vrEs=;
+        b=QbOE8QuAG+K5k0DIdv4QWigJwAnRCU1Upg2+QPzRgZ6LnF3lha8rX2w3K57z7CNNqh
+         7V94IfoTAN8Gnv7+R5RC0Ehkolt6oV8HzqvmrFkurTdlSQRk052r875fbsPD5u4BJZ3G
+         8P15xGfbVjn8Iv45zXwqwNi7AHN6GFgtkbXM7TRAPKJTeXFgZEVAHzxdviPi+XkztayL
+         SRWFQpJrVQ3b985EwAixccyq0mdmBdDeos3FOkfMmp6ec4miWezaRkMpGFxJvq+WPHcD
+         /l9Dbkis5Uw/cIQV8V7QCBsK5bzNJJZYgNHjRQcM4E71zM52dmHBuYFhOyltAPkueHbt
+         KoDg==
+X-Forwarded-Encrypted: i=1; AJvYcCU4HZ5q3kW6doswrKGrw7m5PysHwjdl3bF7LHti3YGi53BdNy/XlqkeYRsKZA5muQUIngzlazgE3d3vuHEp@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz3a8+LD2xqX3icrGx5dFkNYt8dokleoVKzDjrda60rC8Hd49Kk
+	DrKHrOIJATTUQSJcWRC4YLgoj+JibwRHLTA6Dvcm6XZv5fFRv2vPipnzFDOtH/o=
+X-Google-Smtp-Source: AGHT+IEnYCMR+9YoUxCyT15AEnLKuXgg+ZtwpgefE7r0jjZu+IE1hb8+dWprd3QISNhgKpkxSgiOVA==
+X-Received: by 2002:a05:600c:3c8e:b0:429:d0cb:950f with SMTP id 5b1f17b1804b1-42bb02c2031mr41008065e9.2.1724997706001;
+        Thu, 29 Aug 2024 23:01:46 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42ba6425a13sm70170665e9.42.2024.08.29.23.01.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Aug 2024 22:18:14 -0700 (PDT)
-From: Riyan Dhiman <riyandhiman14@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Riyan Dhiman <riyandhiman14@gmail.com>
-Subject: [PATCH] staging: vme_user: changed geoid data type from int to u32
-Date: Fri, 30 Aug 2024 10:48:07 +0530
-Message-ID: <20240830051807.4397-1-riyandhiman14@gmail.com>
-X-Mailer: git-send-email 2.46.0
+        Thu, 29 Aug 2024 23:01:45 -0700 (PDT)
+Date: Fri, 30 Aug 2024 09:01:41 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sakari Ailus <sakari.ailus@iki.fi>,
+	Julien Massot <julien.massot@collabora.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v3 0/5] media: staging: max96712: Add support for MAX96724
+Message-ID: <affa5481-b858-4f7c-9325-3bb56de4f538@stanley.mountain>
+References: <20240829165051.2498867-1-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240829165051.2498867-1-niklas.soderlund+renesas@ragnatech.se>
 
-Geoid is a module parameter which is set by root user.
-Its valid values are between 0 and VME_MAX_SLOTS. So, changing data type
-of geoid from int to u32 since it will always be positive.
+I don't feel qualified to review this, but it's a lot prettier than v2.  Thanks!
 
-Signed-off-by: Riyan Dhiman <riyandhiman14@gmail.com>
----
- drivers/staging/vme_user/vme_fake.c   | 6 +++---
- drivers/staging/vme_user/vme_tsi148.c | 6 +++---
- 2 files changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/staging/vme_user/vme_fake.c b/drivers/staging/vme_user/vme_fake.c
-index c4fb2b65154c..4a59c9069605 100644
---- a/drivers/staging/vme_user/vme_fake.c
-+++ b/drivers/staging/vme_user/vme_fake.c
-@@ -79,7 +79,7 @@ struct fake_driver {
- };
- 
- /* Module parameter */
--static int geoid;
-+static u32 geoid;
- 
- static const char driver_name[] = "vme_fake";
- 
-@@ -1059,7 +1059,7 @@ static int __init fake_init(void)
- 	struct vme_slave_resource *slave_image;
- 	struct vme_lm_resource *lm;
- 
--	if (geoid < 0 || geoid >= VME_MAX_SLOTS) {
-+	if (geoid >= VME_MAX_SLOTS) {
- 		pr_err("VME geographical address must be between 0 and %d (exclusive), but got %d\n",
- 			VME_MAX_SLOTS, geoid);
- 		return -EINVAL;
-@@ -1289,7 +1289,7 @@ static void __exit fake_exit(void)
- }
- 
- MODULE_PARM_DESC(geoid, "Set geographical addressing");
--module_param(geoid, int, 0);
-+module_param(geoid, uint, 0);
- 
- MODULE_DESCRIPTION("Fake VME bridge driver");
- MODULE_LICENSE("GPL");
-diff --git a/drivers/staging/vme_user/vme_tsi148.c b/drivers/staging/vme_user/vme_tsi148.c
-index 6b6ad781b966..31a44025e08f 100644
---- a/drivers/staging/vme_user/vme_tsi148.c
-+++ b/drivers/staging/vme_user/vme_tsi148.c
-@@ -36,7 +36,7 @@ static void tsi148_remove(struct pci_dev *);
- 
- /* Module parameter */
- static bool err_chk;
--static int geoid;
-+static u32 geoid;
- 
- static const char driver_name[] = "vme_tsi148";
- 
-@@ -2252,7 +2252,7 @@ static int tsi148_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 	struct vme_dma_resource *dma_ctrlr;
- 	struct vme_lm_resource *lm;
- 
--	if (geoid < 0 || geoid >= VME_MAX_SLOTS) {
-+	if (geoid >= VME_MAX_SLOTS) {
- 		dev_err(&pdev->dev, "VME geographical address must be between 0 and %d (exclusive), but got %d\n",
- 			VME_MAX_SLOTS, geoid);
- 		return -EINVAL;
-@@ -2631,7 +2631,7 @@ MODULE_PARM_DESC(err_chk, "Check for VME errors on reads and writes");
- module_param(err_chk, bool, 0);
- 
- MODULE_PARM_DESC(geoid, "Override geographical addressing");
--module_param(geoid, int, 0);
-+module_param(geoid, uint, 0);
- 
- MODULE_DESCRIPTION("VME driver for the Tundra Tempe VME bridge");
- MODULE_LICENSE("GPL");
--- 
-2.46.0
+regards,
+dan carpenter
 
