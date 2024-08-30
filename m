@@ -1,36 +1,66 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DB83170A30
-	for <linux-staging@lists.linux.dev>; Fri, 30 Aug 2024 09:52:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 776BD1B4C2D
+	for <linux-staging@lists.linux.dev>; Fri, 30 Aug 2024 14:52:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725011555; cv=none; b=aSyUTTdjSSOkgYxplOHloo1XTMW1r4w9QuJuX6CqcV9T1CQHFE+M2cn3Qac+oiiBEwI4enw/C0DzG4gyYeDFG6sVIA32i/beGTGQqcMUcqGhx6zHTGm5k26mzbIYv6RpGIWN2WfUFZ8jMV2hZYj9szSJZ6I5+EJMB4JKDYpfj9o=
+	t=1725029557; cv=none; b=dddrsn124TSYs+bys12auHakI7Vg2ezSuIANZXXg9Xg978CUP4i1OJCe/Vb95Ptv120LbNgcKC4Sz/4a7lacPsacrqKlw7sjeDZmho21tJVxZM/mPVpGUWYa8V1JNBZAdxHuweaznFtClxUehQdtvx50kHqduMLX0OKXpgsY7IY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725011555; c=relaxed/simple;
-	bh=fAz/Zn4a7drhJ5xBT/wNMpfnzPnWYO/tKJtPf8gGnuo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mMX+WE9WcRTrblvCPcfHoLN871XVechQbRcCR7V1XE4ffMKkjD3qMZfMx+fycth+eLa6Y9vNOESP/l0EMQBjWpPRtfEit0bRUJReSbzG2h5/yVAYpwo3JQn3bXpnbExpg+qYOi2uJPD/bKcwzM2ZWC2Xc1TpSmDrLQlAM7avVho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Ma/DM7E4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1725029557; c=relaxed/simple;
+	bh=FuDLCEncKPaeV9pVCsEMan8OdEXT5DPU7suVJu1eIzA=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UZc5lKyogrXx5IhBYf7McMkQKFAI9rmwGMdbya+S8wHLkCuPdQYwAkODAuL3W9/DUF0X8nFCQT9LeMGGZZ5d8GC83C2Uqru1pNWN6AyhyEf6Jm3rP6iA2h0p7KVmttM3U0eyvipstU2U4yYIWGXDsfdFCGf0dwqcaxGcPZXd/7M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U6e7lmuA; arc=none smtp.client-ip=209.85.210.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Ma/DM7E4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3531EC4CEC2;
-	Fri, 30 Aug 2024 09:52:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1725011554;
-	bh=fAz/Zn4a7drhJ5xBT/wNMpfnzPnWYO/tKJtPf8gGnuo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ma/DM7E4DRGKF1VN8bzqwH4KWBptFHrzumgNinino93aYN/sASuKR6srGi1u19WOn
-	 yka17Q7smZlev78nNjA3skyCr8aX+CWZ23gNE4dpA9WtVpgDi8qW9l+BHdXbsuZ2rS
-	 sibqzB/cuXDTN4JMFm5pdVTae8m7ldYD6GyW9zqI=
-Date: Fri, 30 Aug 2024 11:52:31 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Qianqiang Liu <qianqiang.liu@163.com>
-Cc: linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: fbtft: fb_ili9320: Fix 'Unnecessary parentheses
- around' issue
-Message-ID: <2024083005-applied-brink-6ca8@gregkh>
-References: <20240830085438.4299-1-qianqiang.liu@163.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U6e7lmuA"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-7143ae1b560so1105371b3a.1
+        for <linux-staging@lists.linux.dev>; Fri, 30 Aug 2024 07:52:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1725029556; x=1725634356; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=l43nUavHxnAn2/Q+7POfa5kpXTQFK1M94W4Oz0qeZQE=;
+        b=U6e7lmuAmmj9vKllGZh+Pmzk3h3sufLQjISCSNB6YvalAlAVrt1DcGmphJz2ifAVj6
+         vY/dyJ8wjv7ec5k8E4nmYWKUzDbkif4qYgWHnQucvlP8krxnsqFsQNQYS/2Yb6YHsIwz
+         06CiRzD9Qnr+oda2CB6tpfiC4LHfRyp9JTWf7YAG4FuBDn8SKaXTYYoIktUrL5ZPcLyZ
+         rdfm+ccW0lMhU1rzwti804UDvF3FbouBPVqrU4uFLqD6SUauReHbughXX47mhNjiIlsm
+         i8jd0WZEDARGbIxGMFrTzcMITPSVKPQMpft/opLVNnQXEQU11073VufPSf+s5ERajkF1
+         qDcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725029556; x=1725634356;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=l43nUavHxnAn2/Q+7POfa5kpXTQFK1M94W4Oz0qeZQE=;
+        b=cyTcPZOY8I2MtwrzCpTqjjif49AZdk6JBJtL5GIGUY8gKtYnCvxE2uSddpZQV0BhQD
+         YJWRwlE/Rdw3KIxfQZbcaHyL4y7g9dJWkX2+05IcITW0zzh9GMkCqavDPutyIpEXP3kf
+         BQ87RxRBTjyR/u70y/4FqiMN9NNmyJSYkTJnv/v34KDX3fIcKp/btPwosZjYvpNGyULo
+         lcB6GGzNfli2CQTVqQFw+LKoc+EdeHdk03HpHGgDj7m7vWz1yDtNBlbfoWMq3GKOlvA0
+         QmB4uPfruR8vnfxWjf0UV5iIacJHEH5c1BaApSthBQ2p5hrH8hXxSehhKBeVCKsk0kLB
+         1UiQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUxc55WHFcrc4XLpZrs5WPAfukC273Q2h3rVC2+4G7PmuTKC0s/9NpRVJUiFSdPc5GenxCR0vNuJTD961U5@lists.linux.dev
+X-Gm-Message-State: AOJu0YzdET0IcEY2uSy5NY9lfhBYXkIS/4dRePQMA3pIHcD1F3EP9hIh
+	ZQGX6mVEmFur3dYYXWUxy8+pcn/naSiS3r8bbjPLepZqC/us1leg
+X-Google-Smtp-Source: AGHT+IGxHY+6Jai4ZqwKefEHo2BiPfqhaC3jiXpWGV+/fyWdBXLOrdvc8VAZ3rrnNkBeBcUytqFPtw==
+X-Received: by 2002:a05:6a20:d70f:b0:1c4:bbb8:4d02 with SMTP id adf61e73a8af0-1cce10c4d57mr5637524637.37.1725029555625;
+        Fri, 30 Aug 2024 07:52:35 -0700 (PDT)
+Received: from victor-IdeaPad-Gaming-3-16IAH7 ([116.68.77.85])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-715e569e9bfsm2847966b3a.130.2024.08.30.07.52.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Aug 2024 07:52:35 -0700 (PDT)
+From: YOUR NAME <vivek6429.ts@gmail.com>
+X-Google-Original-From: YOUR NAME <username@gmail.com>
+Date: Fri, 30 Aug 2024 20:22:30 +0530
+To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Cc: gregkh@linuxfoundation.org, dan.carpenter@linaro.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] Staging: rtl8723bs: Rename function SelectChannel()
+Message-ID: <ZtHcrs3GoRZJiLjS@victor-IdeaPad-Gaming-3-16IAH7>
+References: <Zs8WLkzoZe3Z0DYF@victor-IdeaPad-Gaming-3-16IAH7>
+ <5cbf98cf-9b1a-455e-afcd-b0cdfcf1aaec@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,57 +69,34 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240830085438.4299-1-qianqiang.liu@163.com>
+In-Reply-To: <5cbf98cf-9b1a-455e-afcd-b0cdfcf1aaec@gmail.com>
 
-On Fri, Aug 30, 2024 at 04:54:38PM +0800, Qianqiang Liu wrote:
-> There is no need to add parentheses around 'devcode != 0x0000' and
-> 'devcode != 0x9320'
+On Wed, Aug 28, 2024 at 10:25:56PM +0200, Philipp Hortmann wrote:
+> On 8/28/24 14:21, vivek t s wrote:
+> > Rename SelectChannel() to r8723bs_select_channel() to avoid CamelCase
+> > warning from checkpatch.
+> > 
+> > Signed-off-by: vivek t s<vivek6429.ts@gmail.com>
 > 
-> Signed-off-by: Qianqiang Liu <qianqiang.liu@163.com>
-> ---
->  drivers/staging/fbtft/fb_ili9320.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Hi Vivek,
 > 
-> diff --git a/drivers/staging/fbtft/fb_ili9320.c b/drivers/staging/fbtft/fb_ili9320.c
-> index 0be7c2d51548..409b54cc562e 100644
-> --- a/drivers/staging/fbtft/fb_ili9320.c
-> +++ b/drivers/staging/fbtft/fb_ili9320.c
-> @@ -37,7 +37,7 @@ static int init_display(struct fbtft_par *par)
->  	devcode = read_devicecode(par);
->  	fbtft_par_dbg(DEBUG_INIT_DISPLAY, par, "Device code: 0x%04X\n",
->  		      devcode);
-> -	if ((devcode != 0x0000) && (devcode != 0x9320))
-> +	if (devcode != 0x0000 && devcode != 0x9320)
->  		dev_warn(par->info->device,
->  			 "Unrecognized Device code: 0x%04X (expected 0x9320)\n",
->  			devcode);
-> -- 
-> 2.39.2
+> the description can be improved. Please always consider that checkpatch can
+> be wrong. So checkpatch is not a justification.
 > 
+> I propose (feel free to improve):
+> Rename function SelectChannel() to r8723bs_select_channel() to avoid
+> CamelCase and to improve cleanliness of the global namespace.
+> 
+> Thanks for your support.
+> 
+> Bye Philipp
 
-Hi,
-
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
-
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- You sent a patch that has been sent multiple times in the past,
-  and is identical to ones that have been rejected.  Please always look
-  at the mailing list traffic to determine if you are duplicating other
-  people's work.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
+okay, understood.
+i shall change the description and send again.
 
 thanks,
+vivek
 
-greg k-h's patch email bot
+
+
+
