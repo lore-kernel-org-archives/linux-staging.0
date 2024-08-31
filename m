@@ -1,93 +1,100 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C48528468
-	for <linux-staging@lists.linux.dev>; Sat, 31 Aug 2024 15:05:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDF175661
+	for <linux-staging@lists.linux.dev>; Sat, 31 Aug 2024 15:14:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725116715; cv=none; b=dTZBbkreM0bFFPW2onAyuesCvKp2UCPQYpWA027dPkK7LvGlf//66FmeQe1PpEHDSpb1kLWg1+DsJh7ueEp5PQqo0WW/WMled7yyQBqi0YZyO2In6DTvCyy0YfYhscRO6mRaPP+SclSR26NdewVs6fyuB953IXH2H5obfprCu4w=
+	t=1725117299; cv=none; b=umvhe93HfJpkR9u9wWcc+KPFFdEPDVlSuXvcr1TnwKLSSvZ7ZAerZmef4vuAeCmmd2VTPjuVLR2/IvA05rCAvXiGKkkMRi7Or+bZQvpZolx7YZaZgWN5w4ZVkuuz/LJVg98d9s7PGtAQp0m622EBN3kkk85/toirwqJi2j+qikI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725116715; c=relaxed/simple;
-	bh=Z8zJrbUxDzawYA1Gq8ndnFwUwsRue4UwXp1NVeQ3c2Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mEIoYsTW4KnE+wYYwidrOemhr3qV+H/wiQPx+ak/4lusCnRPOPkXJacXijXGmlhEsBFbrIrSQh+4M5SyGQCjrP18kRnK9/uCcAKyKOeAcO+MJtI9xZociAQeqkIakQVk/fTrfwF552ROx5kyaVADXAyO8ozLARnv5oArKFCsLTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=lSWjjw+3; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1725117299; c=relaxed/simple;
+	bh=saKvXiognHN416c0tT5z+j8zjWYoZxcHW+xZ2aPmimY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tKJuEzeqeIeeWKKW8JKBQsBraTg09pm3Mbe7t5HQuJWB5hnnWhj+5W6weYWGVpRyiASDLv0o8V+X7P6VpCVegEnMvPnRnP8UJ6Uw/PFuVftVwJwf7nN7wvfOVb1aLnelC8xYExzEeogJf9Ql7zLN0aDfjvZBQHMBvfYUqfzpjH4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dslecvrm; arc=none smtp.client-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lSWjjw+3"
-Received: from [IPV6:2405:201:2033:3865:19c8:9110:3e7:4518] (unknown [IPv6:2405:201:2033:3865:19c8:9110:3e7:4518])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 81234735;
-	Sat, 31 Aug 2024 17:03:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1725116641;
-	bh=Z8zJrbUxDzawYA1Gq8ndnFwUwsRue4UwXp1NVeQ3c2Q=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=lSWjjw+3S5gxOAv8hyrNIkUjH2PFeMWdaH2YauJ2gZGQf1M20QE2rUOM0Q/eQjEBG
-	 L8B8UkOpFg0Ug3ePVmLzc27OLRYK5AwlyIhxKhVtGswvNJkwP3oCVoe/XOshFB0tvA
-	 tHer2yVwUjg15wFE3beIZWcVeUSoJL5ZUZJlbJ+s=
-Message-ID: <b0e51146-6f6c-46d7-bfea-277092cfbd7b@ideasonboard.com>
-Date: Sat, 31 Aug 2024 20:35:04 +0530
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dslecvrm"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5bef295a2b4so4760800a12.0
+        for <linux-staging@lists.linux.dev>; Sat, 31 Aug 2024 08:14:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1725117295; x=1725722095; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Qi3kzU3YDe4nX5yvSDNe+Qy0wXh+WxwhX/ktLbD9mng=;
+        b=dslecvrmWdlZcbWhmM04zKfLTfwa0CQqj18FhbVvHVSATYwMxMl3KAmS7GmGNicTJM
+         9F8enkJZQfd0jAVjPzKmL9T4D5rKfHcpo1k0eIKEGKialaALV/aafCFtjeXFEWo+LXwC
+         CqrSN+WKwrV7Rl43C67IxSEFNlt1uI9aT7aZeMsTP+zwJzX3NRDogEcBP50cbxp0M56D
+         Q14hlzKGdwUgfNms/ki92yERyZ/ayFUbvSV7glJp2duTtHz6iY9tDU7SbYVP8PdiLZt/
+         LW/rV9I45gvKI2WGFRxWkKsuWOc6Qsw0ijyN/Dsrj3PX4OCm6xiwj3OFYe4lPE1oLLDC
+         U8ZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725117295; x=1725722095;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Qi3kzU3YDe4nX5yvSDNe+Qy0wXh+WxwhX/ktLbD9mng=;
+        b=WWeaeJxCeeg1WAC5+DpvcS+myxlGxbPanmEpSD/9IbH9DvJ/viiyt+0/eO0mip2OoL
+         tm3t+f0rDYzU7t1rLly6pR9clYEAUbe0tW1ARUHu/iR24KFwQK9AHMvoT0SHr6wVX4XP
+         9EXp3gRAAH3TfFk7PgbIUYZz5/CdIgCx35npVagDjjK+0ttQBzrLCDuD04l5Z6XEtOdE
+         Tg9+V0TpEN8PUZWN+w5klqPpmi4XrJFg1mWK/h30SQao4RbLFO4vHOWEoEiIMqKgHzp0
+         Ccj8S0y8PcE+PTTD8ZvIRa9jYOri1NgO88CqsvA/a38HMsstSBPmwmE3pP+d8EMtAvMJ
+         pgbA==
+X-Forwarded-Encrypted: i=1; AJvYcCWk2HRK4L56YHK0LIbg764cjugZ+9SsoFgL8EB2CorfJJUjmok0rvlfH01jvDnbqzJv4xfaaO9BSynsKF/8@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyt9FtkhDBmFpxhQrVZjC7zn7CdUBZ682siitZ4OJAxlnggBEiV
+	GGtrJEzxqbaEVG8zxGnad5tzdqBAirTDZ6/iAwZLPOxTZm42TB9zWZXzrNREshrRVXQpTTX2cVW
+	p
+X-Google-Smtp-Source: AGHT+IE1k1GBPOl6jSTP3xbPCfYXvG3LbzPFeKFTrR4LnNzsitM75p3HhU1SYkyXZEAlrF0d+w7EFw==
+X-Received: by 2002:a05:6402:5290:b0:5bf:1974:2ba5 with SMTP id 4fb4d7f45d1cf-5c2201d25ecmr9220208a12.19.1725117295272;
+        Sat, 31 Aug 2024 08:14:55 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c2455908eesm874070a12.55.2024.08.31.08.14.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 31 Aug 2024 08:14:54 -0700 (PDT)
+Date: Sat, 31 Aug 2024 18:14:50 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Riyan Dhiman <riyandhiman14@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: rtl8192e: Rename variable eRFPath
+Message-ID: <225c7675-3526-40a3-ae9d-877ff8e4f250@stanley.mountain>
+References: <20240831145932.37744-1-riyandhiman14@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/7] staging: vchiq_core: Factor out bulk transfer for
- (no/)callback mode
-To: Arnd Bergmann <arnd@arndb.de>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-rpi-kernel@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>,
- "laurent.pinchart" <laurent.pinchart@ideasonboard.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Stefan Wahren <wahrenst@gmx.net>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Phil Elwell <phil@raspberrypi.com>
-References: <20240823-to_sent2-v1-0-8bc182a0adaf@ideasonboard.com>
- <20240823-to_sent2-v1-4-8bc182a0adaf@ideasonboard.com>
- <08aa277d-a966-4785-921e-6a63a2e5922b@app.fastmail.com>
-Content-Language: en-US
-From: Umang Jain <umang.jain@ideasonboard.com>
-In-Reply-To: <08aa277d-a966-4785-921e-6a63a2e5922b@app.fastmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240831145932.37744-1-riyandhiman14@gmail.com>
 
-Hi Arnd
+On Sat, Aug 31, 2024 at 08:29:32PM +0530, Riyan Dhiman wrote:
+> Rename variable eRFPath to erf_path to fix checkpatch
+> warning.
+> 
+> Issue reported in checkpatch:
+> -CHECK: Avoid CamelCase: <eRFPath>
+> 
+> Signed-off-by: Riyan Dhiman <riyandhiman14@gmail.com>
+> ---
+>  .../staging/rtl8192e/rtl8192e/r8190P_rtl8256.c   | 16 ++++++++--------
+>  1 file changed, 8 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8192e/rtl8192e/r8190P_rtl8256.c b/drivers/staging/rtl8192e/rtl8192e/r8190P_rtl8256.c
+> index 7061f1cf4d3a..256c19739ad1 100644
+> --- a/drivers/staging/rtl8192e/rtl8192e/r8190P_rtl8256.c
+> +++ b/drivers/staging/rtl8192e/rtl8192e/r8190P_rtl8256.c
+> @@ -12,7 +12,7 @@
+>  void rtl92e_set_bandwidth(struct net_device *dev,
+>  			  enum ht_channel_width bandwidth)
+>  {
+> -	u8	eRFPath;
+> +	u8	erf_path;
 
-On 23/08/24 9:11 pm, Arnd Bergmann wrote:
-> On Fri, Aug 23, 2024, at 15:14, Umang Jain wrote:
->
->> +int
->> +bulk_xfer_callback_interruptible(struct vchiq_instance *instance,
->> unsigned int handle,
->> +				 void *offset, void __user *uoffset, int size,
->> +				 enum vchiq_bulk_mode mode, void *userdata,
->> +				 enum vchiq_bulk_dir dir)
-> It seems you can also tighten the argument types here a bit more:
->
-> - uoffset is always NULL and can be left out
+e stands for enum.  We don't like this kind of name.  Just call it rf_path.
 
-Not true.
-
-in vchiq_dev.c. it is not NULL
-
-This should ideally be split off even more, for in-kernel usage (using 
-the kernel pointers only) and for ioctl interface (that uses __user pointer)
-> - userdata is either NULL or a struct mmal_msg_context, so you can use
->    that type directly.
-
-It can be NULL, struct mmal_msg_context or a integer pointer - if coming 
-through ioctl interface (vchiq_dev.c)
-
-(Checked via checking vchiq_test code)
-
->
->       Arnd
+regards,
+dan carpenter
 
