@@ -1,69 +1,64 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC3EA17BB2A
-	for <linux-staging@lists.linux.dev>; Sat, 31 Aug 2024 10:08:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA69121364
+	for <linux-staging@lists.linux.dev>; Sat, 31 Aug 2024 14:59:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725098927; cv=none; b=migwvXYCr604ETA6RTrzrvY9QbaIpZhmCOogDWfKpZ35rxJ9X1jhMhymJ4U1YupaalPW51vea26EO7+s92Imq3SPTBe8zpMj0mvowdMaiPqlciIcSCc7lcW7Fe+FL8bm2zmIipeXeJsVCQ5zBlBhcD+3vcE11JjR26Q42tYDRFo=
+	t=1725116384; cv=none; b=G4Rkt68dPM0Rt88zrS5DjygaM/nlxxr4ktIqtdQXcA1w8xzMTBMPGIS1dWU6Egsp45TS9HJJazTdgrK/lH04czVLrRHfKtWV0uEb4cHyQsUitY9IOEin1V7Zn6IUvk1bZJdXa4zylfZX1KnfqOkz8W8npsUGr3gNwGuyIk6Alfs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725098927; c=relaxed/simple;
-	bh=Nhe1Kkw/FoRg8Qwa9UBPSnis8dKevjpCGUA6qwa7k7E=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mRVhSk7OiZ+0XVbf0gGm16vk68/wGj3hNR3dohL8uFcXvIfhRHJIs1zZIG4hjfpRLsURbTnJxm0+szc4sbf0ysgAlHXeUblnGpzvrGsMSak+/J8KfiN8Gw+wd7pbs0h8FTENoI01Ncg2srkWJaVO3WDPFgKv/q6jxHa2gJT2TP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VdfC5Kve; arc=none smtp.client-ip=209.85.218.44
+	s=arc-20240116; t=1725116384; c=relaxed/simple;
+	bh=Pn8KwUv0DkKQ+7ZtjyoKep4bskoqW4L9AuBTQBa8zuM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aFhkQtXQr2CH4eSZf63/HzV8Ig9MQWQbPEHVbPQkNnJ4msXxikaNDcigdRtUqgDFZCzE101nmCwECXLWyOJnNMciVZrsXogCQHz/omogn8Lv0spxgqPAFj/GfhHBx32B1fhQ3m9vjjFq6A26ce9R+VB1DPDXaqlGi9IPzli7vEQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=drLS//Rz; arc=none smtp.client-ip=209.85.214.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VdfC5Kve"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a86910caf9cso641836166b.1
-        for <linux-staging@lists.linux.dev>; Sat, 31 Aug 2024 03:08:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="drLS//Rz"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-201fba05363so23060155ad.3
+        for <linux-staging@lists.linux.dev>; Sat, 31 Aug 2024 07:59:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725098923; x=1725703723; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iFqvD3mmrt1l890q+NAz0Rb4IBw7y1KfY5UglsMerHk=;
-        b=VdfC5Kve+jwPMpOl3oWzBFfpW4NFmm6LBlt9dLWqBIcefAGOEXwLwNWeSu+tik+Oz3
-         fNNq3w/oVDPboRdxrEMAvzfa6sF72aqpq/xTtd3Tncel6i6gMzDpxH3oRho77NaQyX3h
-         BbbQx8lsS3jndVOiZ+I6xDcnOayzMInWAIZVNCOb/xC3C2NlTqD6hZdzR6Ulsh99ixpz
-         HJuSEjYsL+0JPhd41VKhex3EKqLP/4504V7X5hbHcj8ajRQtKYs6SXBXkdmXnx5wUcQJ
-         WzCfMvZpuaEgz4DlNo0i8gMvR3fwZwjntxOOD3/6JoDnmhudjT2Q6VgvkjQYTg+rZx9w
-         Bqyw==
+        d=gmail.com; s=20230601; t=1725116382; x=1725721182; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=OyVG1AgOZE9WJVZe0FpJwMfaDm+MjzUmj8n+GYSoTc4=;
+        b=drLS//RzeHSDaDMVxR4v4h/mejQfvF1aNS2/VzLatvh42WxYbbq2Xrk+NO6DI9/sm0
+         +rvNW2Lbmp2RW65L1mvYM4IDRw5TtolU+I/AP5bervCWh3CV7R8ovNL31MQkNpr+F5Mb
+         jfjQn7r9JSX+e/1GvBSTb77lPunJZ6wNpjeL8FCCrVW6J93DggtIaPemQGT5kglB2x4P
+         8MKcnI7rrv/VYtOa24RzcNjzy+NGdr62wUvNZkQDUueZN61C4utUweazmDBCYR8t9clm
+         e7pL5I3PTwdF+b4V7RSkUpsbvHQU1xB5nTIbW61mHmxRidNFm9nBx8p7rBbVtdQncUAd
+         +FkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725098923; x=1725703723;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iFqvD3mmrt1l890q+NAz0Rb4IBw7y1KfY5UglsMerHk=;
-        b=PeBmtUad1RXXjypRN/qc5AoZnp202tdYCRDS8DX7J9dObw/Als1KOhz/PvWsnWbZeL
-         BJL/Lp+WC7ckzj5KBGohrX6nfjrq9/IXEH8xPbVd5XY5wXgafXu5NkukuzylJEjeQQ2f
-         lVMi6/FYYgKU0rSIgznA9rgIqF9yYS2eTBudxI9QwPTR31HCJ9mDEXwb7/lwPrGP0x4l
-         fP1fjYTLjgx9YIalAP9vQGgs5or14DH4ybpfy5YyVz12xS3EMCCEbi/7PhrwA22v6uS6
-         Xfdm3rMtXaOwhhrwbtG/nRNr6FbhgtHIeoQdAzAgt93SN019Iv5+oEcMqIRO58/R1Qls
-         sogA==
-X-Forwarded-Encrypted: i=1; AJvYcCVS72EiI7Ghw6xM5PfMX6BLXekiZM1/+kjbd2E9+M8/PDpbmXWUnIRTYil+Diud6LY0w4fGKZ54nYb1L/SG@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx+P/gObEGfTW+UsfIqDb3SaW6IejkQECy2oy2ISe419c58e5HB
-	Gi99DkUHs5Ff3JTfeqn/05UDhiwiDBJ23JmTVppycmJbN4XSFSC7
-X-Google-Smtp-Source: AGHT+IGx1jxgBTt3IZq0k6GwLhT0dUVGvzFmMQuOhijICW07q2vbOUcAPnY1FpS9e1o8j5ThvSVOYA==
-X-Received: by 2002:a17:907:3f20:b0:a6f:996f:23ea with SMTP id a640c23a62f3a-a89a2693566mr431760566b.15.1725098922583;
-        Sat, 31 Aug 2024 03:08:42 -0700 (PDT)
-Received: from localhost.localdomain (ip5f5aba11.dynamic.kabel-deutschland.de. [95.90.186.17])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8989021973sm307444966b.82.2024.08.31.03.08.42
+        d=1e100.net; s=20230601; t=1725116382; x=1725721182;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OyVG1AgOZE9WJVZe0FpJwMfaDm+MjzUmj8n+GYSoTc4=;
+        b=KAw62GW97kgZa2RUqvST4gw0q9qrEyr13I6JkLCcDahF/WzPHpJF21B75QUVSyWVWr
+         JtYYZ6keqXZHxnkyU4WOTANvHtDVyEoD4dnWeHBkTl4g72yyQQSdmm4GqUIv05DsfNyo
+         WBU00iPHAnvh8+1agLybaczCkyEfNmIk35hTAppoydEJMLMMBm+FQjCYCpV3BMCcQRdU
+         6FXH8IQIaTF/VF8jmhvd4QoUeHo7xdEnST+7pCKPnKpsea+E/SGxiyeU3qzEEGnCVxJ6
+         5UcSRc9eQSGoA/J+cxFeerXln6y9MQ0PxcUDGCyYfR4Qm8rXxDQkjiDF68qU5CpJGFF2
+         LZpQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVTn6VoyqGYIi1CazCgGxcSS2ji408UPeWaM6nvedYd+juz4o2M8ciY+fldt1jdZ+vuNOWzPm/u4yEAkiHU@lists.linux.dev
+X-Gm-Message-State: AOJu0YzOhF++AJokAcDsxXR7Mx7M0iZiuPDxoVkX1QsIV6FyuajPYoK5
+	kWxUzZkA+dVmguXks/Kpa/Gv0w0mRc6IEhIad8+RLt4Lo0Y5MKk8
+X-Google-Smtp-Source: AGHT+IFFBXtR4oC1CxsZUzXfcNqZjWooOa3vPuKcBV2xy77m/B/eASaxdy4YIUPTCK7rRWJO6GOCQw==
+X-Received: by 2002:a17:902:c94a:b0:202:3dcd:23ef with SMTP id d9443c01a7336-205447bc4c5mr20674015ad.61.1725116381799;
+        Sat, 31 Aug 2024 07:59:41 -0700 (PDT)
+Received: from fedora.. ([106.219.166.29])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-205456242fesm12548175ad.53.2024.08.31.07.59.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 31 Aug 2024 03:08:42 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
+        Sat, 31 Aug 2024 07:59:41 -0700 (PDT)
+From: Riyan Dhiman <riyandhiman14@gmail.com>
 To: gregkh@linuxfoundation.org
-Cc: philipp.g.hortmann@gmail.com,
+Cc: linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 5/5] staging: rtl8192e: adjust size of RxMIMOSignalStrength
-Date: Sat, 31 Aug 2024 12:08:09 +0200
-Message-ID: <20240831100809.29173-6-straube.linux@gmail.com>
+	Riyan Dhiman <riyandhiman14@gmail.com>
+Subject: [PATCH] staging: rtl8192e: Rename variable eRFPath
+Date: Sat, 31 Aug 2024 20:29:32 +0530
+Message-ID: <20240831145932.37744-1-riyandhiman14@gmail.com>
 X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20240831100809.29173-1-straube.linux@gmail.com>
-References: <20240831100809.29173-1-straube.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -72,27 +67,60 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The array RxMIMOSignalStrength in struct rtllib_rx_stats is always accessed
-with indices in the range i = 0; i < 2. We can reduce the size from 4 to 2.
+Rename variable eRFPath to erf_path to fix checkpatch
+warning.
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
+Issue reported in checkpatch:
+-CHECK: Avoid CamelCase: <eRFPath>
+
+Signed-off-by: Riyan Dhiman <riyandhiman14@gmail.com>
 ---
- drivers/staging/rtl8192e/rtllib.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../staging/rtl8192e/rtl8192e/r8190P_rtl8256.c   | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-index 7a1a68317a49..0eb987e999c5 100644
---- a/drivers/staging/rtl8192e/rtllib.h
-+++ b/drivers/staging/rtl8192e/rtllib.h
-@@ -480,7 +480,7 @@ struct rtllib_rx_stats {
- 	bool  bFirstMPDU;
- 	bool  contain_htc;
- 	u32   RxPWDBAll;
--	u8    RxMIMOSignalStrength[4];
-+	u8    RxMIMOSignalStrength[2];
- 	s8    RxMIMOSignalQuality[2];
- 	bool  bPacketMatchBSSID;
- 	bool  bIsCCK;
+diff --git a/drivers/staging/rtl8192e/rtl8192e/r8190P_rtl8256.c b/drivers/staging/rtl8192e/rtl8192e/r8190P_rtl8256.c
+index 7061f1cf4d3a..256c19739ad1 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/r8190P_rtl8256.c
++++ b/drivers/staging/rtl8192e/rtl8192e/r8190P_rtl8256.c
+@@ -12,7 +12,7 @@
+ void rtl92e_set_bandwidth(struct net_device *dev,
+ 			  enum ht_channel_width bandwidth)
+ {
+-	u8	eRFPath;
++	u8	erf_path;
+ 	struct r8192_priv *priv = rtllib_priv(dev);
+ 
+ 	if (priv->card_8192_version != VERSION_8190_BD &&
+@@ -21,22 +21,22 @@ void rtl92e_set_bandwidth(struct net_device *dev,
+ 		return;
+ 	}
+ 
+-	for (eRFPath = 0; eRFPath < priv->num_total_rf_path; eRFPath++) {
++	for (erf_path = 0; erf_path < priv->num_total_rf_path; erf_path++) {
+ 		switch (bandwidth) {
+ 		case HT_CHANNEL_WIDTH_20:
+-			rtl92e_set_rf_reg(dev, (enum rf90_radio_path)eRFPath,
++			rtl92e_set_rf_reg(dev, (enum rf90_radio_path)erf_path,
+ 					  0x0b, bMask12Bits, 0x100);
+-			rtl92e_set_rf_reg(dev, (enum rf90_radio_path)eRFPath,
++			rtl92e_set_rf_reg(dev, (enum rf90_radio_path)erf_path,
+ 					  0x2c, bMask12Bits, 0x3d7);
+-			rtl92e_set_rf_reg(dev, (enum rf90_radio_path)eRFPath,
++			rtl92e_set_rf_reg(dev, (enum rf90_radio_path)erf_path,
+ 					  0x0e, bMask12Bits, 0x021);
+ 			break;
+ 		case HT_CHANNEL_WIDTH_20_40:
+-			rtl92e_set_rf_reg(dev, (enum rf90_radio_path)eRFPath,
++			rtl92e_set_rf_reg(dev, (enum rf90_radio_path)erf_path,
+ 					  0x0b, bMask12Bits, 0x300);
+-			rtl92e_set_rf_reg(dev, (enum rf90_radio_path)eRFPath,
++			rtl92e_set_rf_reg(dev, (enum rf90_radio_path)erf_path,
+ 					  0x2c, bMask12Bits, 0x3ff);
+-			rtl92e_set_rf_reg(dev, (enum rf90_radio_path)eRFPath,
++			rtl92e_set_rf_reg(dev, (enum rf90_radio_path)erf_path,
+ 					  0x0e, bMask12Bits, 0x0e1);
+ 			break;
+ 		default:
 -- 
 2.46.0
 
