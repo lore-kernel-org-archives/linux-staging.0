@@ -1,96 +1,94 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A3351E87B
-	for <linux-staging@lists.linux.dev>; Sun,  1 Sep 2024 08:36:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B0E617E01C
+	for <linux-staging@lists.linux.dev>; Sun,  1 Sep 2024 16:15:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725179772; cv=none; b=oE/7G2osDjLorGrO4q5atoi2a1igLp3i5if0Ms4hS5bg2qREwmry3bXK3eIOl4QqT3XfOGjuIO7bOPSM060Hf4mEok97+EKn3fU5FdtOSSTnUbrfeY+0q9V5nj1Sz4IGWCuvhdO50zYldAlHYSPvmOOuxj7g/5xWHnFA1s4D0Ik=
+	t=1725207339; cv=none; b=l19/E9VJZtV+HoaHYsiH8M+54OkWjbq8VhYY8lf33TBzK9kCxet0jv0dDHDg/pSKs+yZsXQuQD5hmDk4fW6OUDUsPoUPCN/OQBpuHqDgOEqDCIIGq68dyethmmSz8f6fYlCxDQOriPC4LkdnifqhFL+Zwq0MxsklvF6aEXQKX5k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725179772; c=relaxed/simple;
-	bh=QbBEdKifS2tOI33APgnmB2ZcsdBfFO56TLOize1XCwc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=b4L43RL7PYllviIEMFI0IBuqqkUAIaVavFhDbOV2tYalbRf0Bnm4W3JvGRr8pAcbPO1bAIrgcYd1vTey83pdTT86o6QPVrjLlba9C+wc4eCb3gMv519rbK4EZ8O5lbbR/48YzK0HpDrUBC6Utzyp0Lj7rW/+zRlwPftaFnaVm3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Sm1ScS70; arc=none smtp.client-ip=209.85.210.173
+	s=arc-20240116; t=1725207339; c=relaxed/simple;
+	bh=R4VNz8BWmDGh8AOZOk4zNDKcYi+yiwkcZyfuIJceqXU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=dWB2tLH4EbDcMR6bVNaegCLLzGDdlFqJUpLFoQB021Cgu+4DcOpxiDeI0FwX3JtHNxjKMZorzNODuGxC3U8Ze8k7zItXuU31aDwmr7m9+khOEuZXBjCSk46ImDKtAbCzjLJg/LwD1z1ibjlaA+4we7sJ73n3PoaPpcGV1nYjoEY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j0hjIafY; arc=none smtp.client-ip=209.85.218.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Sm1ScS70"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-715c160e231so2813683b3a.0
-        for <linux-staging@lists.linux.dev>; Sun, 01 Sep 2024 01:36:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j0hjIafY"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a86a37208b2so388898666b.0
+        for <linux-staging@lists.linux.dev>; Sun, 01 Sep 2024 09:15:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725179770; x=1725784570; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Azs5s4P25m/mANSWWi6d6fQJ0c1WDqmoYZPZDMGlZO4=;
-        b=Sm1ScS70zV8SMnDkKbd1BQI0UFzjrcMY5jS7HjFRe0fmd0UEQKp/Bwomwz9mak0+Gr
-         Vi6HN9Q0ulGbY0n9qo+zmxpKf1roSOcUa1Adn9nCucbVxhFiMj61LbQ1U3sRHlof4ao4
-         FLiG3brf/Z2m0GU7PgnamGhol7VH9glY9kErG3qIg84CCkTybX0csZWmHNkbuvWN0zvk
-         reWbAnyyc3MAK2LNWPPEFNYpgMr88u/Ytn0EpmCXSHVauTgOz8XhNEJdvVwpyes5A5gZ
-         YcFM7qTTTk7Rf3uYsXPnyv9o9wUTObtWIoZ6b+Y7GtEpGI+EeSDUYldlIrJbRikhCV8V
-         aaaw==
+        d=gmail.com; s=20230601; t=1725207336; x=1725812136; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=FvHJ/0sFHcIi56+VT5QpPlQ5XneFMSu2E37DEhXuugg=;
+        b=j0hjIafYJCEu2FFXx6A8Le/PkPApgM3zMBjKCAiE8+IF0U8f2B75fl5jaTfE3V7GU/
+         B+3xx1dIDRnCwgECnz277RB67fJDPBeYY3jY51LUX/Grpk4KdrqUCPuI8Mp+wLXBuHYs
+         riR0xjsf2ugqGpvTCPPrU8fqgl59zvBFMzc1lZfZjDERj6HgXVLoXIB5MDC+H/M0XmuX
+         3DuBj+XbL0A3HG5pKJOMmcGQ2/4ThYXWq91obe0cmNTpbHj286cgVyIpzmLTzaRpJEsK
+         zchhzRRBVeaSPayuHUazI/T8rR8pxaiAanoITVij3Qqn5eRx2hXwci1TDhxgPFEN4Q2/
+         YOkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725179770; x=1725784570;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Azs5s4P25m/mANSWWi6d6fQJ0c1WDqmoYZPZDMGlZO4=;
-        b=i2qIbld+Zes4QUKwB2GRxQBvaftZBWCoxozUIjbiISMBEuhbDu6fenyX6NfsQhPg5T
-         jGOz8/SHxSkLL8Ax1Dml5Z7h/jVQ8xBy/7ZAEC/xgNIsjYILG/wLo5R4hmtba9g/LG/9
-         M7DhHuKjRSdh4+lKMlCqlDViFqgDRU3KcmQSRxE4Xbosgkt65AoH2T3xYco8L98/6kLG
-         E+fYT2QcaSoKoKkD0SoltkELTJ0LTilCRL3+05XOzpe8U2IAib5HnOcvo9n0w7FYjru7
-         s5dyqHwH9MwTSGinf3JuU8HXQxx5Tw2zio1LOFVubKB1nOU6ikbCy2pPCoXE1gAQw7Xy
-         IZtA==
-X-Forwarded-Encrypted: i=1; AJvYcCV62FvVN7JttHSE/4Tm3feOI+iUpE9YoqiEjVoCM/mWtWLjwWF8NiEjEd2XKmz3addHEB2sFcm8JjbqVP7A@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy6FpcnQjvMVdJGuzY8nNxx/HbfO2F6wG1HDkjsQK2bgyj8rx4E
-	v5wkDXzqKHftofDDWaXYSnU5Q4p21K8CsmS+2yUHVGSOj36cnzUx
-X-Google-Smtp-Source: AGHT+IFCabq3SaDSGwkEcIuRRxq+D+GB2U4aejlXDGAtojy5j031ba9+t5HzVNjZ5pxACQXwGMY+Fg==
-X-Received: by 2002:a05:6a00:9165:b0:705:6a0a:de14 with SMTP id d2e1a72fcca58-715dfbab54amr10851686b3a.1.1725179770112;
-        Sun, 01 Sep 2024 01:36:10 -0700 (PDT)
-Received: from [192.168.79.9] ([49.207.51.12])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-715e55b9d11sm5248804b3a.90.2024.09.01.01.36.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 01 Sep 2024 01:36:09 -0700 (PDT)
-Message-ID: <16d3e588-b092-47ff-99e2-ec943524d2d2@gmail.com>
-Date: Sun, 1 Sep 2024 14:06:01 +0530
+        d=1e100.net; s=20230601; t=1725207336; x=1725812136;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FvHJ/0sFHcIi56+VT5QpPlQ5XneFMSu2E37DEhXuugg=;
+        b=fPvtHsEjGkLSZQMvshMlZuzLOV2j+YavwrIVtoQ3TetXNF/PnW1C24AyMN6x/rXVaM
+         iUvFEuZU+n9jWqYHnOufaA3B0udSODpUzC6a1vFT6xyf6DquiNzp1T1hYfQzbiLDCzeJ
+         mgDMau7N6r9C8hLCZv6USBVPxgGxipV6dkoUTPEMjjje7zujzAD3cfjSTV4W0RxLIsRy
+         W9ftpLtrnru8yQe1PQAmeRjLyEGlYkzeyqu3GPCoWwB1x7wl5nlpxiTxa60n9ZAB8WIN
+         OoY9MpEpzOFt5PMr5W5HnEqKJiMOBv4E6i3BYIHmUdCDImbfA/5n4sB+svN4Ahe2v+6W
+         w11Q==
+X-Forwarded-Encrypted: i=1; AJvYcCV9GJfWEc0a246h35bUQBj1ZDASZMAXwSkH5QewnbA9exkhKS/xfi35yyi+ioXooM+5d13HFKD8Win7Mm7k@lists.linux.dev
+X-Gm-Message-State: AOJu0YwQ0dzoGXrpJRw8R6j2NWs4xDiOmEQtkR+xOZ3RXW5t8wdL2gd1
+	GT1uNg37yqgo9kGypj+rVkrz0xXl2Yx7hfFxqqzqnCw4gGSqHOypFkwRWA==
+X-Google-Smtp-Source: AGHT+IF46DT3j14xhDm2/bhky7JkzuBdMVV8iKwUpLkL+6PHWlDcG4bcSo778pkcrTmHtjfWGY3Q3A==
+X-Received: by 2002:a17:907:7256:b0:a7a:a30b:7b93 with SMTP id a640c23a62f3a-a897f77eed8mr1010865666b.2.1725207336312;
+        Sun, 01 Sep 2024 09:15:36 -0700 (PDT)
+Received: from localhost (craw-09-b2-v4wan-169726-cust2117.vm24.cable.virginm.net. [92.238.24.70])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a898922276asm450787366b.204.2024.09.01.09.15.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 01 Sep 2024 09:15:35 -0700 (PDT)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][next] staging: rtl8723bs: Remove trailing space after \n newline
+Date: Sun,  1 Sep 2024 17:15:34 +0100
+Message-Id: <20240901161534.143887-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] staging: rtl8712: Fix style issues in rtl871x_io.c
-To: Dan Carpenter <dan.carpenter@linaro.org>,
- Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Cc: florian.c.schilhabel@googlemail.com, gregkh@linuxfoundation.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20240828204552.26790-2-masingh.linux@gmail.com>
- <607b86cd-d89a-4072-af36-ce2ce5c1f7fe@gmail.com>
- <daecc634-4faf-4dcb-b03b-f57f24673a88@stanley.mountain>
- <01183b3b-b8af-4451-8b52-e7acd0b4a9a5@gmail.com>
- <497fbcd8-2984-4be5-b877-1dec6a8d7bba@stanley.mountain>
-Content-Language: en-US
-From: Manisha Singh <masingh.linux@gmail.com>
-In-Reply-To: <497fbcd8-2984-4be5-b877-1dec6a8d7bba@stanley.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Dan and Phillip,
+There is a extraneous space after a newline in a netdev_dbg message.
+Remove it.
 
-Thank you so much for your guidance; I really appreciate it, especially 
-as i am new to kernel development. I will make sure to consider all your 
-suggestions in the future.
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I apologize for the delayed response.
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+index 9ebf25a0ef9b..6c52a856c9e7 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+@@ -628,7 +628,7 @@ unsigned int OnBeacon(struct adapter *padapter, union recv_frame *precv_frame)
+ 				ret = rtw_check_bcn_info(padapter, pframe, len);
+ 				if (!ret) {
+ 					netdev_dbg(padapter->pnetdev,
+-						   "ap has changed, disconnect now\n ");
++						   "ap has changed, disconnect now\n");
+ 					receive_disconnect(padapter,
+ 							   pmlmeinfo->network.mac_address, 0);
+ 					return _SUCCESS;
+-- 
+2.39.2
 
-Thanks again,
-Manisha
-
-On 8/30/24 01:04, Dan Carpenter wrote:
-> No no.  The v3 is also fine.  Let's not stress too much about minor things.
->
-> regards,
-> dan carpenter
->
