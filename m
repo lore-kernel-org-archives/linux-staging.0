@@ -1,31 +1,31 @@
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 884AA143738
-	for <linux-staging@lists.linux.dev>; Sun,  1 Sep 2024 06:18:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1C6E143898
+	for <linux-staging@lists.linux.dev>; Sun,  1 Sep 2024 06:18:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725171508; cv=none; b=tQN+LIQKkb0VNm2p3QEG4RTrqGed7oSYEx1O5HW9/lx3Us1hJ9KT4ugh4r/ZcHN1mGsEfddlrUF00j827zCUxeuMmFA172aHULW128nku1/oJ6YZ4xbxvK7Aibg/tGJESs7cpBXMPWLH7MIicBArrjAyea3+IdmbjW5xVsncIAM=
+	t=1725171511; cv=none; b=tXMijS1ZTe0v16ii8xWri9fihQzq75g7B28U2eroUIyFiEA2IffYhPgFigQPiTxESUR50JqNyJCIA6i+K+z6nAzG7mLQTBfhOluOCsGLwtqxUz+q+lXWO0/I7Yah0q2SyV/Vae3ZV7T/Q2PP8UoHQXz1ROgCWkTXiQzfBz2PXjg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725171508; c=relaxed/simple;
-	bh=9KLk9Z5qa39ipqKoAM0MpW4IoUbbHxEuaeTdLcUDC9w=;
+	s=arc-20240116; t=1725171511; c=relaxed/simple;
+	bh=zn+Jxdj/y5r1FtKrH0dkOQMjWO/9rmeugEScZweFyoE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UqG3zBM4LAfuE/mGBPQVvGA7yclODvqGz0gorGjW+S9IV8xqezBfsBq2w9uHrEqLyxVDBvnV0+xWgTyDZrEtuXxQK2ckZkvsJGy9xLsC5FZsxk8XciDZrtcYFm7g/Elg92jINsI2l5lc+Xr/cqZBAsh61ULsZmwp5U5L72EivV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Zdw3zIue; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=eR55Bb4znAgcCOblMdAfuZgvG65RpspvnGvYBf/ZokPLjSplFRgy4hpPxLUnHhpJtrYzDslthusnURJSlEX0JZ0K7aQz4JtCo+0tBe2wZ3qGpcvZuJXiOkZT0dAP2MFB0YxM0eY0Am/CoX5nNL8OavJj5wbYkasZwov/h73OTwc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=dV/rujbY; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Zdw3zIue"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="dV/rujbY"
 Received: from umang.jain (unknown [IPv6:2405:201:2033:3865:19c8:9110:3e7:4518])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E9B644CF;
-	Sun,  1 Sep 2024 08:17:06 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6253E670;
+	Sun,  1 Sep 2024 08:17:12 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1725171429;
-	bh=9KLk9Z5qa39ipqKoAM0MpW4IoUbbHxEuaeTdLcUDC9w=;
+	s=mail; t=1725171434;
+	bh=zn+Jxdj/y5r1FtKrH0dkOQMjWO/9rmeugEScZweFyoE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Zdw3zIueAcyGrMYWDOg9ipFp5oA2T3dh7B0zsDVpkHwQA535xaOzinz7XRDVaXVYZ
-	 c2fI1V3duib0TV41boAh6TC3CCiBecr7QZYXnx5UdrOCrou9u5vXwK5w7F+DkxMxfJ
-	 vq6LBFEdDCiEtSuljYwC1rJN0qpKcFr5UtUj/n0c=
+	b=dV/rujbYtXOEMW8VCRC5LPQxoTJF9HA6vLWL9gz02Bvpp2pHEhNAPZdTSjs1YzXTq
+	 qoAIH/jBSAfzTOOG5HJp4m8ZMKmEwuoD1OyVa5TaopVnrpF1MAhMxiX9CFMNjGpcRx
+	 U0uxgPIs8wuRuGU44hkvCtL0fkL3I9FzhUqzoV9A=
 From: Umang Jain <umang.jain@ideasonboard.com>
 To: Florian Fainelli <florian.fainelli@broadcom.com>,
 	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
@@ -41,9 +41,9 @@ Cc: linux-rpi-kernel@lists.infradead.org,
 	Phil Elwell <phil@raspberrypi.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Umang Jain <umang.jain@ideasonboard.com>
-Subject: [PATCH v3 1/7] staging: vchiq: Factor out bulk transfer for VCHIQ_BULK_MODE_WAITING
-Date: Sun,  1 Sep 2024 11:48:02 +0530
-Message-ID: <20240901061808.187895-2-umang.jain@ideasonboard.com>
+Subject: [PATCH v3 3/7] staging: vchiq_core: Factor out bulk transfer for blocking mode
+Date: Sun,  1 Sep 2024 11:48:04 +0530
+Message-ID: <20240901061808.187895-4-umang.jain@ideasonboard.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240901061808.187895-1-umang.jain@ideasonboard.com>
 References: <20240901061808.187895-1-umang.jain@ideasonboard.com>
@@ -55,98 +55,76 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The bulk transfer is VCHIQ_BULK_MODE_WAITING is used by VCHIQ ioctl
-interface. It is factored out to a separate function from
-vchiq_bulk_transfer() to bulk_xfer_waiting_interruptible().
+Factor out bulk transfer for blocking mode into a separate dedicated
+function bulk_xfer_blocking_interruptible(). It is suffixed by
+"_interruptible" to denote that it can be interrupted and -EAGAIN
+can be returned. It would be up to the users of the function to retry
+the call in those cases.
 
-This is a part of vchiq_bulk_transfer refactoring. Each bulk mode
-will have their dedicated functions to execute bulk transfers.
-Each mode will be handled separately in subsequent patches.
-
-bulk_xfer_waiting_interruptible() is suffixed with "_interruptible"
-to denote that it can be interrupted when a signal is received.
--EAGAIN maybe returned in those cases, similar to what
-vchiq_bulk_transfer() does.
-
-Adjust the vchiq_irq_queue_bulk_tx_rx() in the vchiq-dev.c to call
-bulk_xfer_waiting_interruptible() for waiting mode. A temporary
-goto label has been introduced to jump the call execution over
-vchiq_bulk_transfer() for waiting mode only. When all dedicated bulk
-transfer calls are introduced, this label shall be dropped.
-
-No function changes intended in this patch.
+Adjust the calls to vchiq-dev.c ioctl interface and vchiq_arm.c
+for blocking bulk transfers.
 
 Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
 ---
- .../interface/vchiq_arm/vchiq_core.c          | 49 +++++++++++++++++--
- .../interface/vchiq_arm/vchiq_core.h          |  4 ++
- .../interface/vchiq_arm/vchiq_dev.c           |  5 ++
- 3 files changed, 53 insertions(+), 5 deletions(-)
+ .../interface/vchiq_arm/vchiq_arm.c           |  5 +--
+ .../interface/vchiq_arm/vchiq_core.c          | 44 ++++++++++++++++---
+ .../interface/vchiq_arm/vchiq_core.h          |  5 +++
+ .../interface/vchiq_arm/vchiq_dev.c           |  6 +++
+ 4 files changed, 50 insertions(+), 10 deletions(-)
 
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+index c4d97dbf6ba8..688c9b1be868 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+@@ -968,9 +968,8 @@ vchiq_blocking_bulk_transfer(struct vchiq_instance *instance, unsigned int handl
+ 			return -ENOMEM;
+ 	}
+ 
+-	ret = vchiq_bulk_transfer(instance, handle, data, NULL, size,
+-				  &waiter->bulk_waiter,
+-				  VCHIQ_BULK_MODE_BLOCKING, dir);
++	ret = vchiq_bulk_xfer_blocking_interruptible(instance, handle, data, NULL, size,
++						     &waiter->bulk_waiter, dir);
+ 	if ((ret != -EAGAIN) || fatal_signal_pending(current) || !waiter->bulk_waiter.bulk) {
+ 		struct vchiq_bulk *bulk = waiter->bulk_waiter.bulk;
+ 
 diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-index 50af04b217f4..914aa2766d57 100644
+index 6e3d24d4b720..c46634f39f4b 100644
 --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
 +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-@@ -3023,10 +3023,6 @@ int vchiq_bulk_transfer(struct vchiq_instance *instance, unsigned int handle,
- 		bulk_waiter->actual = 0;
- 		bulk_waiter->bulk = NULL;
- 		break;
--	case VCHIQ_BULK_MODE_WAITING:
--		bulk_waiter = userdata;
--		bulk = bulk_waiter->bulk;
--		goto waiting;
- 	default:
- 		goto error_exit;
- 	}
-@@ -3115,7 +3111,6 @@ int vchiq_bulk_transfer(struct vchiq_instance *instance, unsigned int handle,
- 		state->id, service->localport, dir_char, queue->local_insert,
- 		queue->remote_insert, queue->process);
- 
--waiting:
- 	vchiq_service_put(service);
- 
- 	status = 0;
-@@ -3143,6 +3138,50 @@ int vchiq_bulk_transfer(struct vchiq_instance *instance, unsigned int handle,
+@@ -2985,6 +2985,42 @@ vchiq_remove_service(struct vchiq_instance *instance, unsigned int handle)
  	return status;
  }
  
-+/*
-+ * This function is called by VCHIQ ioctl interface and is interruptible.
-+ * It may receive -EAGAIN to indicate that a signal has been received
-+ * and the call should be retried after being returned to user context.
-+ */
 +int
-+vchiq_bulk_xfer_waiting_interruptible(struct vchiq_instance *instance,
-+				      unsigned int handle, struct bulk_waiter *userdata)
++vchiq_bulk_xfer_blocking_interruptible(struct vchiq_instance *instance, unsigned int handle,
++				       void *offset, void __user *uoffset, int size,
++				       void __user *userdata, enum vchiq_bulk_dir dir)
 +{
 +	struct vchiq_service *service = find_service_by_handle(instance, handle);
-+	struct bulk_waiter *bulk_waiter;
++	struct bulk_waiter *bulk_waiter = NULL;
++	enum vchiq_bulk_mode mode = VCHIQ_BULK_MODE_BLOCKING;
 +	int status = -EINVAL;
 +
 +	if (!service)
 +		return -EINVAL;
 +
-+	if (!userdata)
++	if (service->srvstate != VCHIQ_SRVSTATE_OPEN)
 +		goto error_exit;
 +
-+	if (service->srvstate != VCHIQ_SRVSTATE_OPEN)
++	if (!offset && !uoffset)
 +		goto error_exit;
 +
 +	if (vchiq_check_service(service))
 +		goto error_exit;
 +
 +	bulk_waiter = userdata;
++	init_completion(&bulk_waiter->event);
++	bulk_waiter->actual = 0;
++	bulk_waiter->bulk = NULL;
 +
-+	vchiq_service_put(service);
-+
-+	status = 0;
-+
-+	if (wait_for_completion_interruptible(&bulk_waiter->event))
-+		return -EAGAIN;
-+	else if (bulk_waiter->actual == VCHIQ_BULK_ACTUAL_ABORTED)
-+		return -EINVAL;
-+
-+	return status;
++	status = vchiq_bulk_xfer_queue_msg_interruptible(service, offset, uoffset, size,
++							 userdata, mode, dir);
 +
 +error_exit:
 +	vchiq_service_put(service);
@@ -154,47 +132,64 @@ index 50af04b217f4..914aa2766d57 100644
 +	return status;
 +}
 +
- int
- vchiq_queue_message(struct vchiq_instance *instance, unsigned int handle,
- 		    ssize_t (*copy_callback)(void *context, void *dest,
+ /*
+  * This function may be called by kernel threads or user threads.
+  * User threads may receive -EAGAIN to indicate that a signal has been
+@@ -2998,7 +3034,7 @@ int vchiq_bulk_transfer(struct vchiq_instance *instance, unsigned int handle,
+ 			enum vchiq_bulk_mode mode, enum vchiq_bulk_dir dir)
+ {
+ 	struct vchiq_service *service = find_service_by_handle(instance, handle);
+-	struct bulk_waiter *bulk_waiter = NULL;
++	struct bulk_waiter *bulk_waiter;
+ 	struct vchiq_bulk *bulk;
+ 	int status = -EINVAL;
+ 
+@@ -3018,12 +3054,6 @@ int vchiq_bulk_transfer(struct vchiq_instance *instance, unsigned int handle,
+ 	case VCHIQ_BULK_MODE_NOCALLBACK:
+ 	case VCHIQ_BULK_MODE_CALLBACK:
+ 		break;
+-	case VCHIQ_BULK_MODE_BLOCKING:
+-		bulk_waiter = userdata;
+-		init_completion(&bulk_waiter->event);
+-		bulk_waiter->actual = 0;
+-		bulk_waiter->bulk = NULL;
+-		break;
+ 	default:
+ 		goto error_exit;
+ 	}
 diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-index 77cc4d7ac077..985d9ea3a06a 100644
+index 985d9ea3a06a..2dd89101c1c6 100644
 --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
 +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-@@ -470,6 +470,10 @@ vchiq_shutdown_internal(struct vchiq_state *state, struct vchiq_instance *instan
- extern void
- remote_event_pollall(struct vchiq_state *state);
+@@ -474,6 +474,11 @@ extern int
+ vchiq_bulk_xfer_waiting_interruptible(struct vchiq_instance *instance,
+ 				      unsigned int handle, struct bulk_waiter *userdata);
  
 +extern int
-+vchiq_bulk_xfer_waiting_interruptible(struct vchiq_instance *instance,
-+				      unsigned int handle, struct bulk_waiter *userdata);
++vchiq_bulk_xfer_blocking_interruptible(struct vchiq_instance *instance, unsigned int handle,
++				       void *offset, void __user *uoffset, int size,
++				       void __user *userdata, enum vchiq_bulk_dir dir);
 +
  extern int
  vchiq_bulk_transfer(struct vchiq_instance *instance, unsigned int handle, void *offset,
  		    void __user *uoffset, int size, void *userdata, enum vchiq_bulk_mode mode,
 diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
-index 9cd2a64dce5e..550838d2863b 100644
+index 550838d2863b..830633f2326b 100644
 --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
 +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
-@@ -324,6 +324,10 @@ static int vchiq_irq_queue_bulk_tx_rx(struct vchiq_instance *instance,
- 		dev_dbg(service->state->dev, "arm: found bulk_waiter %pK for pid %d\n",
- 			waiter, current->pid);
+@@ -304,6 +304,12 @@ static int vchiq_irq_queue_bulk_tx_rx(struct vchiq_instance *instance,
+ 		}
+ 
  		userdata = &waiter->bulk_waiter;
 +
-+		status = vchiq_bulk_xfer_waiting_interruptible(instance, args->handle, userdata);
++		status = vchiq_bulk_xfer_blocking_interruptible(instance, args->handle,
++								NULL, args->data, args->size,
++								userdata, dir);
 +
 +		goto bulk_transfer_handled;
- 	} else {
- 		userdata = args->userdata;
- 	}
-@@ -331,6 +335,7 @@ static int vchiq_irq_queue_bulk_tx_rx(struct vchiq_instance *instance,
- 	status = vchiq_bulk_transfer(instance, args->handle, NULL, args->data, args->size,
- 				     userdata, args->mode, dir);
- 
-+bulk_transfer_handled:
- 	if (!waiter) {
- 		ret = 0;
- 		goto out;
+ 	} else if (args->mode == VCHIQ_BULK_MODE_WAITING) {
+ 		mutex_lock(&instance->bulk_waiter_list_mutex);
+ 		list_for_each_entry(iter, &instance->bulk_waiter_list,
 -- 
 2.45.2
 
