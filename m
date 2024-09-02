@@ -1,162 +1,102 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2E171D619B
-	for <linux-staging@lists.linux.dev>; Mon,  2 Sep 2024 12:03:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A05901D6180
+	for <linux-staging@lists.linux.dev>; Mon,  2 Sep 2024 12:59:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725278613; cv=none; b=JcDD3wAqt3xwkFF3Rd5RhFV56iYwoHRW8q02Ovki6ITvoR2G4ClbJp1yVFNq7TIuSsw2CXZdY2eGwetTGhvX39G5z1C3f3h3lXZfjWsH1S0sD6csTYb3OmxAoeerPWjCecEXfuDu+OBQ4xHvanT/5DIQVJ+acfuvG+uVhqWQNQQ=
+	t=1725281998; cv=none; b=DHDvOu6bIZSG+x9yjpRdRERAMJ5HZX6XjJALFpvqz3ovvrHhUJffYyXjXUs8T/Zf/0DFtjS02oVzoynq0USNewMY/lN++Ydq68n64dFuKmHtFuGwA4IpJ+8yayxHFzTJukMLsjiNN9nWomAXAhvNeoR7GlZyvKx2vUJTkUomeTE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725278613; c=relaxed/simple;
-	bh=Taemrw4fqFCKk6qN18uIAV2L6vLMtx7FoBkqF8DXpl4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fIDDha0smLFWI+WA7qrjINl6nR7JUO/Du4sjHfkc/aDjrnMLzZCSJInA38DwLyAW5T1nTesxqtSDR46NZmSdVy3KnGk15gwtIZUo9HtQ9Nqkme34uUG9wd4ukeqX/zwutZnWzpPixQ0OIKE6KHCWfkWQsL8o/Gy3PYUEaCQMAqo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=fail smtp.mailfrom=kernel.org; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=kernel.org
-X-CSE-ConnectionGUID: kj1PdtlkRTeGP9P3wfrcCg==
-X-CSE-MsgGUID: tcpKxnl9Rn2x5zKVAWniUQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11182"; a="23730119"
-X-IronPort-AV: E=Sophos;i="6.10,195,1719903600"; 
-   d="scan'208";a="23730119"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2024 05:03:30 -0700
-X-CSE-ConnectionGUID: lwDwsCYtRou2U65E8RdkbQ==
-X-CSE-MsgGUID: k8tewiwwSMm+CJjbPZGSRw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,195,1719903600"; 
-   d="scan'208";a="64409227"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2024 05:03:27 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andy@kernel.org>)
-	id 1sl5mF-00000004Lor-1IwB;
-	Mon, 02 Sep 2024 15:03:23 +0300
-Date: Mon, 2 Sep 2024 15:03:23 +0300
-From: Andy Shevchenko <andy@kernel.org>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Tsuchiya Yuto <kitakar@gmail.com>,
-	Yury Luneff <yury.lunev@gmail.com>,
-	Nable <nable.maininbox@googlemail.com>, andrey.i.trufanov@gmail.com,
-	Fabio Aiuto <fabioaiuto83@gmail.com>, Kate Hsuan <hpa@redhat.com>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 3/3] media: atomisp: Improve binary finding debug logging
-Message-ID: <ZtWpi7_S5d7NZx61@smile.fi.intel.com>
-References: <20240902095229.59059-1-hdegoede@redhat.com>
- <20240902095229.59059-3-hdegoede@redhat.com>
+	s=arc-20240116; t=1725281998; c=relaxed/simple;
+	bh=VfL0rVvkqV7KN/5mT6XRH9xVHWl+tfxDMjV+Cf5ivas=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=kWr7vx8/Qmp6sLNmpq0PTJd1GxI10P0dCnZBgdf3gZK5xElNUnjcN25f6o+kLk/BQgUqdgItxyqSeC90jjKnrHj6U+rlagRzI0xsIUDpJWzPNxgQk0sjvTEIZ31uTdKeJ5X9RGZr9/BYHSIMezMgOqlPJTjokfZVORqVLKYVsjE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.235])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4Wy83f3QWTz4f3jsy
+	for <linux-staging@lists.linux.dev>; Mon,  2 Sep 2024 20:59:42 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id A95861A0568
+	for <linux-staging@lists.linux.dev>; Mon,  2 Sep 2024 20:59:52 +0800 (CST)
+Received: from huaweicloud.com (unknown [10.85.165.202])
+	by APP4 (Coremail) with SMTP id gCh0CgD3KsfEttVmOJPAAA--.25304S5;
+	Mon, 02 Sep 2024 20:59:52 +0800 (CST)
+From: Yang Yingliang <yangyingliang@huaweicloud.com>
+To: broonie@kernel.org,
+	mchehab@kernel.org,
+	Jonathan.Cameron@huawei.com,
+	rmfrfs@gmail.com,
+	vireshk@kernel.org,
+	gregkh@linuxfoundation.org,
+	deller@gmx.de,
+	corbet@lwn.net,
+	yangyingliang@huawei.com,
+	liwei391@huawei.com
+Cc: linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-spi@vger.kernel.org
+Subject: [PATCH -next 1/7] media: usb/msi2500: switch to use spi_alloc_host()
+Date: Mon,  2 Sep 2024 20:59:41 +0800
+Message-ID: <20240902125947.1368-2-yangyingliang@huaweicloud.com>
+X-Mailer: git-send-email 2.46.0.windows.1
+In-Reply-To: <20240902125947.1368-1-yangyingliang@huaweicloud.com>
+References: <20240902125947.1368-1-yangyingliang@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240902095229.59059-3-hdegoede@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:gCh0CgD3KsfEttVmOJPAAA--.25304S5
+X-Coremail-Antispam: 1UD129KBjvdXoWrtw17Gw17ZFyUJr4UXr1kXwb_yoWfJrXE93
+	Z3uw4xW34qkr1F9r1UK34Iv340krWxWF4kWa4Yyw13AF15W3WDJwnFkr18Zr1j9r4akFnx
+	tw1kXr429rnrCjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbDAYFVCjjxCrM7AC8VAFwI0_Wr0E3s1l1xkIjI8I6I8E6xAIw20E
+	Y4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l82xGYIkIc2x26280x7IE14v26r18M2
+	8IrcIa0xkI8VCY1x0267AKxVW8JVW5JwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK
+	021l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r
+	4UJVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
+	GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx
+	0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWU
+	JVW8JwACjcxG0xvY0x0EwIxGrwACI402YVCY1x02628vn2kIc2xKxwCY1x0262kKe7AKxV
+	WUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E
+	14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIx
+	kGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAF
+	wI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F
+	4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jnpnQU
+	UUUU=
+X-CM-SenderInfo: 51dqw5xlqjzxhdqjqx5xdzvxpfor3voofrz/
 
-On Mon, Sep 02, 2024 at 11:52:29AM +0200, Hans de Goede wrote:
-> The atomisp firmware contains a number of different pipeline binaries
-> inside its firmware file and the driver selects the right one depending
-> on the selected pipeline configuration.
-> 
-> Sometimes (e.g. when the selected output resolution is too big) it fails
-> to find a binary. This happens especially when adding support for new
-> sensors.
-> 
-> Improve the logging when this happens to make debugging easier:
-> 
-> 1. Replace ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE, ...) with standard
->    dev_dbg() calls so that the logs can be enabled with dyndbg
-> 
-> 2. Do not dump_stack() when this fails, doing so adds no useful extra
->    info
-> 
-> 3. With the dump_stack() call gone, remove the wrapper and rename
->    __ia_css_binary_find() to ia_css_binary_find()
-> 
-> 4. On error use dev_err() instead of dev_dbg() so that when things
->    fail it is clear why they fail without needing to enable dyndbg
-> 
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
-> Note the log messages could also do with a bit of rewording and
-> reflowing them to put more arguments on a single line to use less
-> lines. I consider that out of scope for this patch which already
-> enough (see the 1-4 enough) something like this should be done
-> in a follow-up patch IMHO.
+From: Yang Yingliang <yangyingliang@huawei.com>
 
-Yes, but...
+Switch to use modern name function spi_alloc_host().
 
-...
+No functional changed.
 
-> -static int __ia_css_binary_find(struct ia_css_binary_descr *descr,
-> -				struct ia_css_binary *binary) {
-> +int ia_css_binary_find(struct ia_css_binary_descr *descr,
-> +		       struct ia_css_binary *binary)
+Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+---
+ drivers/media/usb/msi2500/msi2500.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-...for example, in this case you touched both lines, so making them a single
-line just reduces the future churn.
-
-...
-
-> -	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE,
-> -			    "ia_css_binary_find() enter: descr=%p, (mode=%d), binary=%p\n",
-> -			    descr, descr->mode,
-> -			    binary);
-> +	dev_dbg(atomisp_dev,
-> +		"ia_css_binary_find() enter: descr=%p, (mode=%d), binary=%p\n",
-
-> +		descr, descr->mode,
-> +		binary);
-
-So does this.
-
-...
-
->  	/* print a map of the binary file */
-> -	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE,	"BINARY INFO:\n");
-> +	dev_dbg(atomisp_dev,	"BINARY INFO:\n");
-
-TAB instead of space.
-
-...
-
-> -			ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE,
-> -					    "ia_css_binary_find() [%d] continue: !%d && %d && (%d != %d)\n",
-> -					    __LINE__, candidate->enable.continuous,
-> -					    continuous, mode,
-> -					    IA_CSS_BINARY_MODE_COPY);
-> +			dev_dbg(atomisp_dev,
-> +				"ia_css_binary_find() [%d] continue: !%d && %d && (%d != %d)\n",
-> +				__LINE__, candidate->enable.continuous,
-
-> +				continuous, mode,
-> +				IA_CSS_BINARY_MODE_COPY);
-
-Now one line?
-
-...
-
-> -			ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE,
-> -					    "ia_css_binary_find() [%d] continue: binary is not striped\n",
-> -					    __LINE__);
-> +			dev_dbg(atomisp_dev,
-> +				"ia_css_binary_find() [%d] continue: binary is not striped\n",
-> +				__LINE__);
-
-Now the __LINE__ argument is redundant as one may run-time turn it on and off.
-So, trimming it while converting to dev_dbg() makes sense to me as a one
-logical change. Ditto for other __LINE__ cases.
-
-...
-
-Otherwise it's a good clean up!
-
+diff --git a/drivers/media/usb/msi2500/msi2500.c b/drivers/media/usb/msi2500/msi2500.c
+index 5138486abfa0..05b0550e840c 100644
+--- a/drivers/media/usb/msi2500/msi2500.c
++++ b/drivers/media/usb/msi2500/msi2500.c
+@@ -1219,8 +1219,8 @@ static int msi2500_probe(struct usb_interface *intf,
+ 		goto err_free_mem;
+ 	}
+ 
+-	/* SPI master adapter */
+-	ctlr = spi_alloc_master(dev->dev, 0);
++	/* SPI host adapter */
++	ctlr = spi_alloc_host(dev->dev, 0);
+ 	if (ctlr == NULL) {
+ 		ret = -ENOMEM;
+ 		goto err_unregister_v4l2_dev;
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.33.0
 
