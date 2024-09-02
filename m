@@ -1,58 +1,59 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FF201AB6E5
-	for <linux-staging@lists.linux.dev>; Mon,  2 Sep 2024 17:37:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21BEC1A3027
+	for <linux-staging@lists.linux.dev>; Mon,  2 Sep 2024 17:37:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725298648; cv=none; b=FDnlamIYs11kjMhQQ8DL5c9H661UY+5JnGMYm0bB/b/dUo86l4U1rjgKmBe5o5VZKRFf0a0pq95HjgbTMuh0c9QlSqpgourBoHLN4IIu67lFQvLrBDn/G+nWY5eclavEysSJUwHu3H9u1OWpuWn4WVW15gG+K3s768NVp8z0/og=
+	t=1725298680; cv=none; b=h16WqTVFMjTsIOR3H+N5vGzoIDkmZcOw7S06xoG33Uvkp8HIMpHzVCTZq8+tL3IgMjHUW1jHL7tr9wP9zKIW5YxawKBfQmYFfPtsVbPz4b+KlRbsXIXso/jI3XIfUiO9vvBbzIZIdeZze1waMhqsTojBxtl9Gydn548kMY22JEI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725298648; c=relaxed/simple;
-	bh=R8ofBeXTUxkXx1pjhLBpfeL7s4Dr/Qkwx/twKDs9v7g=;
+	s=arc-20240116; t=1725298680; c=relaxed/simple;
+	bh=2LyLJFBJOmpkyHgmBU0Wd4Kf38GorrwZA3ZkiceVJ80=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VZ0QU8bi+9CS1/DXwJQjSlAdSOmblPtt+B87atPGVWMJr8kUriTJ+2zTo8+WTsx3zTVhV8Ysn0u7NQsJGFiK4eKitOWs1pxeuHaanigkhxkRKNH2iCeaNVjqokuCqeRS7wA14VRCXa2qbTJCvkDuMVrvPTKnU0AN/hR3FlNdxGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cPRV2F6g; arc=none smtp.client-ip=209.85.167.41
+	 In-Reply-To:Content-Type; b=mVCLDfeM5KxJ6OS3r7/aJJsFXj9W54jDcZZ0URrAw/WzMMW5ycxpnUeYd7smM+dBNP0b6N6LFqicX7ZnLCiD9r8q97rV5rJi10FJmwLzbKl89Zw+SA7T6szZ1MctKShjpBrh0i3K8QdUYVYlDqWC9O2upRPcg0hPLW/w+v2aMrA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KjANC/GL; arc=none smtp.client-ip=209.85.218.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cPRV2F6g"
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-533496017f8so5997107e87.0
-        for <linux-staging@lists.linux.dev>; Mon, 02 Sep 2024 10:37:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KjANC/GL"
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a86e9db75b9so483481866b.1
+        for <linux-staging@lists.linux.dev>; Mon, 02 Sep 2024 10:37:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725298645; x=1725903445; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1725298677; x=1725903477; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=ibmpJbas6vW0Ls/BRv2OtSqexGSYnkIyXeM8JWd5d0k=;
-        b=cPRV2F6gzzGxatEvHOrIIRIIP2mZlTSD+U+sLSVW5T3/P0Mq2RNy0jTfDuxxPQfrSW
-         8N/HBf6dEXuERx+hcZoUiPHFzNT+ZBE1rrLi3k7GH2bei8TW1r+i8e5gO1cBjGLnq3TE
-         NDCDfBWsEY/crO4+nLkTiHuRrs2oi/RIhyYkG7f9PsykHS+3xlTT6iQpZbUeE7P7tfZh
-         VbzqfuVEU8Fclj629ahlIGrMcEk0xkMUoN40EnE0ZCJt+v3o69TsEvoktQ46RK5mJCf8
-         ir6mygQZWPm/CbZoMmCj8Eb8gND/L5pL4sEoldqx6iSPgGcX+8jViE/a8BWvR9tyMpdB
-         EuTg==
+        bh=LlYC5+UWRQW9485wkiPs3igaS2O+2Vwz4uQskFYOh6o=;
+        b=KjANC/GLNnOEdQT8/ueSUsbe3hoYUFAqwb95Iu60bvih21pCP1iGdXP/xuiDz8f55I
+         PWloz08VEXPJPMyGDUO1ErjV0ppcjLsX/e9XLRYzdkMhDGzRy7Z9MWAIwjuzAC/1Xqm9
+         bGl3Ha/fYN63MbyJcSx73uCmbp8IE+4wmUNkI+oKpk8iuuoWPG06nJkmXjJZdL9krhr9
+         hkzLmkQpFwHF3+zRnIfIzpYwJduCl+HX0/pE7nsp/pQvNKQEeOtxT2EejYriOYh/dA3X
+         Jd4Nsy6r3E6SgYj4y4iXFlNVAdsDNF+NXHzGBc2NHx52wDph7QgD+kY3tDn1xnjBRl4D
+         D+qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725298645; x=1725903445;
+        d=1e100.net; s=20230601; t=1725298677; x=1725903477;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ibmpJbas6vW0Ls/BRv2OtSqexGSYnkIyXeM8JWd5d0k=;
-        b=CuqAk09GzmL/g9dXoGV67mAXsuW52dObwxrv33+6esb1UyJaM0ZjhFyCMIUz7VSnJ+
-         nKWOHTk22svZ5ILxcI7FBY750wuOE8cvLyvKEBKlHVSWIM+2nVSLo0u3M8J6KxeCEBpg
-         f8pJNcqAS/SOfwR0ALYsUi6rYk3rSpZl9rkbQTG8+iDe+U+/JObOzU5nmnrDLQgzyvCZ
-         zJN0mOTQF6S9sJxpMjTu+lTni7OpTCKvEYFyGvryG1Ov5jF+bnmnTeNE657kGin4STgq
-         6L9UDsIQQFNZlYeZTBK7zCL6Mkfr0PONiZe3m2oqB8ueErJzUArZueZnrYU9b/d0WmXh
-         y4UQ==
-X-Gm-Message-State: AOJu0Yyc9eXFkUPvjkStlZlcKE+CIcScgk9NmZs9je60kekqOTBdkT52
-	+CoJyQrhCTxNi9gnaNgkFmrngyGgdbjwzuLTE40yrKbrOWbRjr8I
-X-Google-Smtp-Source: AGHT+IHAJ83XUAO0vx3AzvPzn9X3Z1pPwBgDfvvtixBuJpPeTVS7Wiey96LreMv45WtptTzA3a+inQ==
-X-Received: by 2002:ac2:4c4b:0:b0:52c:caa6:13b4 with SMTP id 2adb3069b0e04-53546af5056mr7946363e87.3.1725298644196;
-        Mon, 02 Sep 2024 10:37:24 -0700 (PDT)
+        bh=LlYC5+UWRQW9485wkiPs3igaS2O+2Vwz4uQskFYOh6o=;
+        b=KCPJ3nJY8KqdaE5m4/ZcDGv3o3uJNpF/k0ZrA9i+zLMSRqj+tJ/UxZuY0k5U4deEIx
+         FDmNQCcm9QeWUPd4uR+zj6ncjk6SsGgzaXzkCQU1Q9dn9mxlDjjhPjprXk4l3L25iC8r
+         MnXdWlPuGBjSNdWipYHvPgZw26vY72xzLCw2BBRvk/1gNvsfYKZkX0VlG6zl4DOaWuDm
+         hHaCvuWbplosZ9RR1KmkMlVcZ0pVGznOkyWL6VLn8drtMFTQd7m2pXrjnqhSexGK1SdV
+         16COjBjpdNaDP2PhKYU2wp71c+WySqVgJgzVb2QqU75IsY2i+HaZ9uV7MUs5n0sRStac
+         Da9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXQ/iQCUGOBZ0DK8CkfZCEobdtBbYGg1I84J6AZjN37DP/FV1qNcDqhBAmvUHZ+cV3tzKm+4CnI5/TcPRrt@lists.linux.dev
+X-Gm-Message-State: AOJu0YzRGkWXQivsZ2meACZqtlQFXoDJOWyaPZnN6TgNXj+UduowKpv/
+	ezdm98lStF1I486SpgzSasztGAhT11JBMqSe3iL7KN9vXzp5tPa/
+X-Google-Smtp-Source: AGHT+IE72WMG+NfpRJWbufPMuI0nhMrpl2JfY4rFg8iprwK9c4YxYynUgwNJPBlebwy8FnMGyuHzDA==
+X-Received: by 2002:a17:907:3fa6:b0:a86:b00a:7a27 with SMTP id a640c23a62f3a-a8a1d5708a2mr73755466b.60.1725298677132;
+        Mon, 02 Sep 2024 10:37:57 -0700 (PDT)
 Received: from [192.168.0.104] (p57ba2f9b.dip0.t-ipconnect.de. [87.186.47.155])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a89891a3dbdsm583280266b.131.2024.09.02.10.37.23
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8988feb0f0sm582173366b.20.2024.09.02.10.37.56
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Sep 2024 10:37:23 -0700 (PDT)
-Message-ID: <1a7aa388-0917-46bc-8c3d-b6219d472070@gmail.com>
-Date: Mon, 2 Sep 2024 19:37:22 +0200
+        Mon, 02 Sep 2024 10:37:56 -0700 (PDT)
+Message-ID: <cd97d2eb-25d9-423b-9037-c4cc3816a760@gmail.com>
+Date: Mon, 2 Sep 2024 19:37:56 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -60,37 +61,53 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/5] staging: rtl8192e: remove RF90_PATH_{C,D}
-To: Michael Straube <straube.linux@gmail.com>, gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20240831100809.29173-1-straube.linux@gmail.com>
+Subject: Re: [PATCH] staging: rtl8192e: Constify struct pci_device_id
+To: Riyan Dhiman <riyandhiman14@gmail.com>, gregkh@linuxfoundation.org
+Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+References: <20240831160831.121720-1-riyandhiman14@gmail.com>
 Content-Language: en-US
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20240831100809.29173-1-straube.linux@gmail.com>
+In-Reply-To: <20240831160831.121720-1-riyandhiman14@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 8/31/24 12:08, Michael Straube wrote:
-> This series removes the unsed RF90_PATH_C and RF90_PATH_D from the
-> enum rf90_radio_path and adjusts the size of arrays that are indexed
-> by values from rf90_radio_path.
+On 8/31/24 18:08, Riyan Dhiman wrote:
+> static variable struct pci_device_id rtl8192_pci_id_tbl is not modified
+> in file rtl_core.c.
 > 
-> Compile-tested only.
+> Constifying this structure moves some data to a read-only section, so
+> increase overall security.
 > 
-> Michael Straube (5):
->    staging: rtl8192e: remove RF90_PATH_{C,D} from enum rf90_radio_path
->    staging: rtl8192e: adjust size of rx_pwr for new RF90_PATH_MAX
->    staging: rtl8192e: adjust size of trsw_gain_X for new RF90_PATH_MAX
->    staging: rtl8192e: adjust size of brfpath_rxenable for new
->      RF90_PATH_MAX
->    staging: rtl8192e: adjust size of RxMIMOSignalStrength
+> Before
+> ======
+>     text	   data	    bss	    dec	    hex	filename
+>    17838	    893	      1	  18732	   492c	drivers/staging/rtl8192e/rtl8192e/rtl_core.o
 > 
->   drivers/staging/rtl8192e/rtl8192e/r8190P_def.h | 3 ++-
->   drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c | 2 +-
->   drivers/staging/rtl8192e/rtl8192e/r8192E_phy.h | 2 --
->   drivers/staging/rtl8192e/rtl8192e/rtl_core.h   | 2 +-
->   drivers/staging/rtl8192e/rtllib.h              | 2 +-
->   5 files changed, 5 insertions(+), 6 deletions(-)
+> After
+> =====
+>    text	   data	    bss	    dec	    hex	filename
+>    18006	    725	      1	  18732	   492c	drivers/staging/rtl8192e/rtl8192e/rtl_core.o
 > 
+> Signed-off-by: Riyan Dhiman <riyandhiman14@gmail.com>
+> ---
+> Compile tested only
+> --
+>   drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+> index ad21263e725f..22a203d01b8a 100644
+> --- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+> +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+> @@ -25,7 +25,7 @@
+>   int hwwep = 1;
+>   static char *ifname = "wlan%d";
+>   
+> -static struct pci_device_id rtl8192_pci_id_tbl[] = {
+> +static const struct pci_device_id rtl8192_pci_id_tbl[] = {
+>   	{PCI_DEVICE(0x10ec, 0x8192)},
+>   	{PCI_DEVICE(0x07aa, 0x0044)},
+>   	{PCI_DEVICE(0x07aa, 0x0047)},
+
 
 Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
