@@ -1,126 +1,71 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 953E617E919
-	for <linux-staging@lists.linux.dev>; Mon,  2 Sep 2024 10:37:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3B4E17C7C3
+	for <linux-staging@lists.linux.dev>; Mon,  2 Sep 2024 11:06:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725273434; cv=none; b=O52VqgN8Y/E7E13/Fdt8raxoKF0olz5W0n5FalMUnesFmW/ZnT3pAvYFjuQyrJruPdhmURPRD5G7TD+lHipta7+XYMK141789StCiItIZ5lx5LxygcGHHuGW1qMiiBag5qJwX60iSUtJjS4jFxPIgOPmesBykR/raRIjfK9uUiY=
+	t=1725275173; cv=none; b=rWOVj/XL54HqC8DWpYFqT+9rlxzM6ZnSex2I6HGvidtFhg04P9z4TkuHzFiTr5IFT/QLpu1eovaBEed9mBjoMndmCwHyXyQEzStNtYjy5fzsnTCTpx/YS3r7j3aQ/JYSVcVrTWPahjSNiNcbeVLzhVYUegiDpdFUkKqXX9i6+Ig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725273434; c=relaxed/simple;
-	bh=bZ0GRt9gffEULgAQGEaKdS/PlZJF+51Ayngat/bf9Og=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=p+q3urfMBITDV249HJO5rZQ/YSQ578z4Q6jYuUZtDkxI+hOSgqWSZsX7ZbHY4Vc02LRxoJ6dXbIRWUWaHhhh8EZH9ozOrk4doWSNB3qwOG4CLZ0r0LkZoG8ydsRmuYkpas236c0OlJ+J+33VMI9XzPe7LGSMkyRAR0BzIWadhQY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XdJdz2f4; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XdJdz2f4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1725273431;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=36MG2rcUu/28sbkdVnOBGEZ2E0JiySmry2OUMdPpre0=;
-	b=XdJdz2f4+HUDq2LuFFvREDPW99F9TPFBMlCdd65DbGqCcya4qdQ0C5t0dHcrdyvxMamXXK
-	3k07hfzjl6pm7YnVy4QpPr10CcC9RUKnuRydajOHOnmndnDTQpES4r4Nx86rbs5f7+ALlG
-	PBI9pDU+8oIqpyKpVvpvtOt82eKq5GM=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-180-fDWvGLdmPwu27a1IS13j_A-1; Mon, 02 Sep 2024 06:37:08 -0400
-X-MC-Unique: fDWvGLdmPwu27a1IS13j_A-1
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-a86884df270so291147566b.3
-        for <linux-staging@lists.linux.dev>; Mon, 02 Sep 2024 03:37:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725273427; x=1725878227;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=36MG2rcUu/28sbkdVnOBGEZ2E0JiySmry2OUMdPpre0=;
-        b=Bl75k+bh8I/ba0aSVYV6MM9qvFOfjGMeY43CA9AsBox5KtUEgIsa7J6iVKmI4hPjIb
-         Vg0qXncXsZm8MBtcJGTqWrevqq8PWfRTYOc1KWAgwKhFv4I0uKdHotw8SSGw0nyg/H07
-         AafZH1AC/Zu3dujapJ3w7AdQv2GO3WDtrto0SZC8jKfV9plCtvSFQzezYiC1rg0lwvkG
-         hElcWx9ebtRY/FJIaWp+V5ljsBwCIDgdw5YEgTp39roGtkL/jD8u87SwYHWegZBcWI9J
-         6EjwASdSFQ2AmA7skanZTIHerTFE6saN0vv3QNAymTPY11hTngDPGfDTqY4Em694g7F2
-         4gwA==
-X-Forwarded-Encrypted: i=1; AJvYcCWDa8XZar5ppkhZfLvRJkk2TLsJ9FZmLoHOeRRZUCErUko9D016GJmHYePe8NL7Gs0adOr1/ntEni7LM2aR@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx6jAZYtQMJsqxxv6L3r3OhMRcOmq2TXGA8aUBh/NIft9GZWvMJ
-	xh6BC0fKwKbEuvpiW0uN4WgDst0OZUrORFFMd7LfMyNXM72rT0nCYMAAzMzJI+Rzh3DT6YnpbUl
-	Wyux5pOc0NQocMIFEzaHbaND5Ae3PWmGFIBzvNheve2mavH2H8909J8mBDfbAcVU=
-X-Received: by 2002:a17:907:70d:b0:a7a:9f0f:ab2c with SMTP id a640c23a62f3a-a89d879b28dmr534577566b.29.1725273427062;
-        Mon, 02 Sep 2024 03:37:07 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHwBjyLwpvpR6bHVm6/uWoe1ZJ9CgDi5t66KDukjljfNKEH9Un8tWmMUMRCkMnYaRheSx2Pcw==
-X-Received: by 2002:a17:907:70d:b0:a7a:9f0f:ab2c with SMTP id a640c23a62f3a-a89d879b28dmr534574066b.29.1725273426499;
-        Mon, 02 Sep 2024 03:37:06 -0700 (PDT)
-Received: from [192.168.171.203] ([109.38.145.100])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8988feb2a3sm543911766b.3.2024.09.02.03.37.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Sep 2024 03:37:06 -0700 (PDT)
-Message-ID: <f90c8fb1-a339-4e68-978f-3339c5652e0a@redhat.com>
-Date: Mon, 2 Sep 2024 12:37:03 +0200
+	s=arc-20240116; t=1725275173; c=relaxed/simple;
+	bh=OqxNejW0+NDbK1dTS0ZIo/Yfvqpav+sVZBMeJ1w/FDE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KiSW0iwrve2xOEYUVOiJcx3DCrDN4+W04I+5/8U3mkrAzZ8QrkiY9HVlUMRlBtpv7zLueP5/kbilC7SIk89+ijKzWEUxMRN/K01pMpP/+IJPUBZfM4KrbFaSuTlFzRSDaaimASeGRbNVHw3sXFPef6BNPr45LIBjUM4sIYnRe7M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=fail smtp.mailfrom=kernel.org; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=kernel.org
+X-CSE-ConnectionGUID: J1/4OUSdTjisB5GVPxELdQ==
+X-CSE-MsgGUID: YSBFkMpqTyS/kbdvsLNacg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11182"; a="23983587"
+X-IronPort-AV: E=Sophos;i="6.10,195,1719903600"; 
+   d="scan'208";a="23983587"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2024 04:06:12 -0700
+X-CSE-ConnectionGUID: sp9GlmQ5Srm2DGLVnQpieA==
+X-CSE-MsgGUID: bjFI1V1+QPyH2wKyADT/rQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,195,1719903600"; 
+   d="scan'208";a="64548078"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2024 04:06:09 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andy@kernel.org>)
+	id 1sl4sn-00000004KqQ-3CXM;
+	Mon, 02 Sep 2024 14:06:05 +0300
+Date: Mon, 2 Sep 2024 14:06:05 +0300
+From: Andy Shevchenko <andy@kernel.org>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Tsuchiya Yuto <kitakar@gmail.com>,
+	Yury Luneff <yury.lunev@gmail.com>,
+	Nable <nable.maininbox@googlemail.com>, andrey.i.trufanov@gmail.com,
+	Fabio Aiuto <fabioaiuto83@gmail.com>, Kate Hsuan <hpa@redhat.com>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 1/3] media: atomisp: csi2-bridge: Add DMI quirk for t4ka3
+ on Xiaomi Mipad2
+Message-ID: <ZtWcHQSfpRMNo6TV@smile.fi.intel.com>
+References: <20240902095229.59059-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] media: atomisp: csi2-bridge: Add DMI quirk for t4ka3
- on Xiaomi Mipad2
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Tsuchiya Yuto <kitakar@gmail.com>, Andy Shevchenko <andy@kernel.org>,
- Yury Luneff <yury.lunev@gmail.com>, Nable <nable.maininbox@googlemail.com>,
- andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
- Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev
-References: <20240902095229.59059-1-hdegoede@redhat.com>
-From: Hans de Goede <hdegoede@redhat.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <20240902095229.59059-1-hdegoede@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Hi,
-
-On 9/2/24 11:52 AM, Hans de Goede wrote:
+On Mon, Sep 02, 2024 at 11:52:27AM +0200, Hans de Goede wrote:
 > The t4ka3 sensor on the Xiaomi Mipad2 is used as a back facing sensor,
 > it uses 4 CSI lanes, but the _DSM has CsiLanes set to 2. Extend
 > the existing Xiaomi Mipad2 DMI quirk to override the wrong _DSM setting.
-> 
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
-I have merged these 3 patches in my media-atomisp branch:
-https://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git/log/?h=media-atomisp
-now.
+Reviewed-by: Andy Shevchenko <andy@kernel.org>
 
-And this/these will be included in my next pull-request to
-Mauro (to media subsystem maintainer)
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Regards,
-
-Hans
-
-
-> ---
->  drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c b/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
-> index 31c9e05a1435..b2a3243ae2d4 100644
-> --- a/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
-> +++ b/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
-> @@ -109,6 +109,8 @@ static struct gmin_cfg_var lenovo_ideapad_miix_310_vars[] = {
->  static struct gmin_cfg_var xiaomi_mipad2_vars[] = {
->  	/* _DSM contains the wrong CsiPort for the front facing OV5693 sensor */
->  	{ "INT33BE:00", "CsiPort", "0" },
-> +	/* _DSM contains the wrong CsiLanes for the back facing T4KA3 sensor */
-> +	{ "XMCC0003:00", "CsiLanes", "4" },
->  	{}
->  };
->  
 
