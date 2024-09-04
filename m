@@ -1,41 +1,41 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFCC71E5014;
-	Wed,  4 Sep 2024 19:16:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED1AB40C03;
+	Wed,  4 Sep 2024 19:30:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725477374; cv=none; b=sY3ShuhqJF9zYAFXWvOtoaYBQ72yxBznTWWDNQA+AwM9T5nBfLEzBBMZFTmcFbAUCClr1ifysNbq3Wwcm8ZnuBz7TRUe28v5Hm4Ns8xY3Ix0JsehUH5LI+9j6piQtYelw0Pe4bub4EtzRUsHliaAn4Lsx9UPbsCcGMnxKSQAcSg=
+	t=1725478231; cv=none; b=f3Hr6HBWaGRQHwU/TWy1feNXmp1N7n7g8sui++ZGzMW+p+/+wdymoAnZ6fkVLvfORWE2RU9FylQloS/J7GV5Bjto5BsecR6Ej1YqfiSiMJxeAMMe4i9eZGecwO5EbldkDnYSYJ7/+/uPCGo4JbXFlFlDiGLHkUaXfl9Rem9ehGs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725477374; c=relaxed/simple;
-	bh=mQgoD/x6ljgkHZHvayrER/7PgBtsat98lfxItkCgWX8=;
+	s=arc-20240116; t=1725478231; c=relaxed/simple;
+	bh=xuWU4fNWuIMwcErWy1ouDNdrXHxOAwxWeFLxiPrwxt8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=j24OwC7X0NVXJapcRQRp1woQuwo4S38WTTl7u6SXizflirXbOcaoX7srw6ltP0sxqnstvf7geVysRyApIQpAGkBN460DgAx657R0DuqM4bNDI5sXGLfVKUDIIIW0dIgrcJEnlOeOZxBsS4tkkwhf5I3cl/Av3LfXK4dQiVkAo7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=K8r5Kg/5; arc=none smtp.client-ip=212.227.15.15
+	 In-Reply-To:Content-Type; b=LNcUwdPDGxzsnHaoZYmxQ76OFvp/j5u6DvzMf/+l5+6qOCi2AGSWeqH8zWMX4oUMSvgfihDPKqWetgYGv216K3SoKaBycqwFc4kC2ZZWqbKNX3hbFvWfAuwV4LLMugjIsrzKbKcBwQt8qTMPansNNOeyIpL9ueDUmcR1sBJoAmw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=apO17jy0; arc=none smtp.client-ip=212.227.15.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="K8r5Kg/5"
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="apO17jy0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
-	s=s31663417; t=1725477356; x=1726082156; i=wahrenst@gmx.net;
-	bh=z5z34O5Q8E3+SvWO5zBnKF6KASVGgdptrVQNxiqKgdE=;
+	s=s31663417; t=1725478216; x=1726083016; i=wahrenst@gmx.net;
+	bh=1pVy4z5VJnH23WU57VpJ/n65Q4tXoZAIuqpbRwgYadA=;
 	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
 	 References:From:In-Reply-To:Content-Type:
 	 Content-Transfer-Encoding:cc:content-transfer-encoding:
 	 content-type:date:from:message-id:mime-version:reply-to:subject:
 	 to;
-	b=K8r5Kg/5t+ZwFHLNzIQudWV8tBIfTjgUOq/xKqzB5Rut3KK9biZuzqD2O3zs8SqU
-	 kpw0bBe1eiOCUBqxX/TpJmJHalLUQ4wNKP45Evu1MRA4dH3MVBzc9EgZ4lgOxpd3r
-	 UDfCsH5SPZDE4S1ok1CBWDSbYGEX5RltlYXLJFnXsWWlqTpag5w0XJkCm5IdDR7pS
-	 /CMQjQGGWa6X8jIpEXo1bS0ZBDrsrvPal4YGPmZS+IwxtbZGJA74zMX9DdlcPp/S1
-	 OjzCsU2OefpeBrTxQ32Gr0IhwYkzZR8I2QPDprb2itBeoy9U78ummQJNoDUCImm04
-	 kSQpi/gi/vZtcywOfg==
+	b=apO17jy0UF7oCFITLMYv0l0uyCXROFwYdi2dhM18/j6aMqlaKfv9F7bspsEmbQt1
+	 UmTOWBjmnshmJuDDn9BPrleQfpsnj2bUtxvRNHeDVImXRcuP2KvSGHvUx1KcetYJC
+	 MmSFokn9RpQNNRRIBMOoQOg70xrIkhi18xujJktK+EZw9bGdacY3kPdDfEqoGiuX0
+	 JfkPkWFgTyREbo+n/s3pY5co3vTtejCnPoXRtCNFgfN7aTWPfevkvG+UFQhyn9eb2
+	 +/wumvxOeDOE+DhwuOW20UACMZra880xKTrwBtoiktmHJIR3qJbMGXJU38hJNROtR
+	 qgl7NeONuPq1kLyk1w==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.127] ([37.4.248.43]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1N8XPn-1rzgLN0KuH-00xbCX; Wed, 04
- Sep 2024 21:15:56 +0200
-Message-ID: <1a2e59c5-e987-4f3f-b50f-57207d0d6b17@gmx.net>
-Date: Wed, 4 Sep 2024 21:15:55 +0200
+Received: from [192.168.1.127] ([37.4.248.43]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MatVh-1sBEJI3tJj-00oXhK; Wed, 04
+ Sep 2024 21:30:16 +0200
+Message-ID: <17340b72-b0e4-47bc-ae8a-fcd11e36c99b@gmx.net>
+Date: Wed, 4 Sep 2024 21:30:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -43,8 +43,8 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/7] staging: vchiq: Factor out bulk transfer for
- VCHIQ_BULK_MODE_WAITING
+Subject: Re: [PATCH v3 3/7] staging: vchiq_core: Factor out bulk transfer for
+ blocking mode
 To: Umang Jain <umang.jain@ideasonboard.com>,
  Florian Fainelli <florian.fainelli@broadcom.com>,
  Broadcom internal kernel review list
@@ -59,133 +59,114 @@ Cc: linux-rpi-kernel@lists.infradead.org,
  Phil Elwell <phil@raspberrypi.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 References: <20240901061808.187895-1-umang.jain@ideasonboard.com>
- <20240901061808.187895-2-umang.jain@ideasonboard.com>
+ <20240901061808.187895-4-umang.jain@ideasonboard.com>
 Content-Language: en-US
 From: Stefan Wahren <wahrenst@gmx.net>
-In-Reply-To: <20240901061808.187895-2-umang.jain@ideasonboard.com>
+In-Reply-To: <20240901061808.187895-4-umang.jain@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:pUdyErNVmXPgsvl/Hmw2M17neC3QsKHDKhvk3wmOnzvmhB7A2Mj
- 288U9luI/G8qAsX4RG1GUBeQ85Q33NYmqzvssMVeZUV5MtfnFOC2IM3ZYiwyalyKpUEr1BL
- U5P7r9LBYVciCrb8ywqSmWsV18M4hxRP5lUDo72OOklL7lNXi4/WxOH2XtMsjSfGEWlUYbT
- iXW4wLdxL1YRmv+b/t+uA==
+X-Provags-ID: V03:K1:N2f8xGOWdRD+al7hwuvP2dUqZ4dNhh/ABOi5xiZNGsN6ePY2fyk
+ 5Tb/bCLD18NwA1vOcqCSj7HvgE2s7Q1X2Ple0WEFuKe3D+5D79xHoa6bs45gc5YW+0Z5tLH
+ JqHYRCR+aaq73SGVA8hG6wGpdMm0JnutwkcndNeP+OkLAvulwLJu+IlsDrk2AAVDQmtb1Pn
+ 22O30HBbPi3JYN++PGdTg==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:c0ozLs5c75A=;BgTY741Gom7T/wkuUgaA9IG1oQ+
- uvqx09TYY0dmlxoJ2pJfrm+ZTO1nESWLpxBKs3ARPYrGuI6sQk/qXlF6EucvQBumHFyY5lg0u
- j1KPVBiWuSZwpcy/bGr6i+edSzbboJMvauPRzQ2KDjJyg9IKxg720xk2x2LttsKLEMW/yAYnU
- qaOKIW8zW3W+XOeYQWa+c5PjWmgMcL94mg4yY8GotAeOOvOF3lU6h7MBwzUxPR6hrtFGF+J8v
- 4NjRS6OyzWdb5gBQ8isJGZHEc+DE28YaIZfFnJB0Ofgj6g4fiWgrfJxidJRLX4w/500+U+24L
- pBe0b5pueD/6EvZIzIpOuGjDTkv8qtJIPCzk/5iGKr86exFVUFuOoirw6Tf5FHZWNGZ8bRl3T
- 3MGf1gUG3jYon0mHtOiMKwXjrY3n6rWeeq5NXsGQR8sxlOuhzEbr4t13z6slXJ9c+5/YRZ7yI
- 9kPB4VfSoklV5oMwF2URQ1AsTakKpAHvn6sRSBAwVyCFrtgUA1whQDTDfXQrTJWw8g+shOsok
- k6Dm6YIuoJmnxYNFZT4QENVyjUdGRR6roabmkOgtoRvMBe0SZNH0Hl0rJUa7qJsep/5j0n8Al
- 0nz5E16ldI+Is/a+BUPjorIuajpcIrlwoGgsubePoPPndfXp0oRQOUjaDCAXIe3BgrCwXm60+
- y8AuPJIRfmo7RCPb2vKcJxBxojaZqNUbW1YRAs/ImGnB2tyTC1oYJAljgm+O6aySZoa0v8rpZ
- cVCfjC8tY/r5wDlc8Ccmb29Fp+x1zKEOC8yJK0+5s5ycX0Xmw5cICq85NdE7GBusE0z5sJT2M
- UhBBcZ0mOKxengB7n9QLrWog==
+UI-OutboundReport: notjunk:1;M01:P0:3AQL0F35Z1w=;1zDT8yYOc0+RcCgLaOPWGuIgASq
+ zqk/R49DG0uyihCvFvGt8vfgdhLhoED19jll4nHs4YC1lBpY3gzxXKnd7qtGGxKnQlN3Zw5GU
+ t9qnEcduCPACd2g1HDfwHsPEUEzJgA8qiptLwHfV+xQv3QaCa1opubCB9fLDQIJmnE23hlJSt
+ f67ybmnBNAJrNNb4jP+1O2CwNzP0rXMkvXzRkcY4Hqbj8SK9/W2gZyy1s/Eldg++PnaqjikSB
+ P0kv11Fdzjpci4XkiacNVvqMR5Xmbjb7i2jb6m0g9/8wOTGWhbsXrcPeFRiFXVt6d4Arh2nAy
+ YTUd0f363Pxb3/FSJvQ33yqlq6txNGi3pgj/fu4/2AwL50hjrfyqOZUg7E959MOoEs3kgVKCx
+ nHHvVdaM5QIZrg0A18krmuCtLnKva3BcwUUDkWQzt/PtQTWR9h4s9hkpo3+mpYprNlQ9DTgo+
+ 4/9JN2gSFMKIwsEpFYx2gl8Bad/fVNQ4eRjnr9YNPaRGEdYp6uCLfOFEs3ejRNitQXNJmRudP
+ ixFZ1ONqO5fqJL8J/FmfW0chNgQ+JuZppy4iBG7TbDYFJoVExAzSZZgejKjwtjQDWIHXJhA2Z
+ u1AX6wM09zGo/kTtEo1DFt2KuCSLPoXa8fbtSwk9MioVoLli+36CQNQ3Cjevhf2NCwKv5fWUV
+ n9or5DLJfcphnCwb+gOLq657DE8/8LRavlixNWxGQRFVZfL0lj8IPeKj7p/EPSqj8Jp12+OnU
+ 3KrEapUigFVrLx7aUyuXMZBdkyKg7+8ybQQ6YdkXaF3f/0i9BzS9dr6VENAdlLGVKtHVUkAcR
+ RV6IUslPIeZfPQEQ4lzCq4mQ==
 
 Hi Umang,
 
 Am 01.09.24 um 08:18 schrieb Umang Jain:
-> The bulk transfer is VCHIQ_BULK_MODE_WAITING is used by VCHIQ ioctl
-> interface. It is factored out to a separate function from
-> vchiq_bulk_transfer() to bulk_xfer_waiting_interruptible().
+> Factor out bulk transfer for blocking mode into a separate dedicated
+> function bulk_xfer_blocking_interruptible(). It is suffixed by
+> "_interruptible" to denote that it can be interrupted and -EAGAIN
+> can be returned. It would be up to the users of the function to retry
+> the call in those cases.
 >
-> This is a part of vchiq_bulk_transfer refactoring. Each bulk mode
-> will have their dedicated functions to execute bulk transfers.
-> Each mode will be handled separately in subsequent patches.
->
-> bulk_xfer_waiting_interruptible() is suffixed with "_interruptible"
-> to denote that it can be interrupted when a signal is received.
-> -EAGAIN maybe returned in those cases, similar to what
-> vchiq_bulk_transfer() does.
->
-> Adjust the vchiq_irq_queue_bulk_tx_rx() in the vchiq-dev.c to call
-> bulk_xfer_waiting_interruptible() for waiting mode. A temporary
-> goto label has been introduced to jump the call execution over
-> vchiq_bulk_transfer() for waiting mode only. When all dedicated bulk
-> transfer calls are introduced, this label shall be dropped.
->
-> No function changes intended in this patch.
+> Adjust the calls to vchiq-dev.c ioctl interface and vchiq_arm.c
+> for blocking bulk transfers.
 >
 > Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
 > ---
->   .../interface/vchiq_arm/vchiq_core.c          | 49 +++++++++++++++++--
->   .../interface/vchiq_arm/vchiq_core.h          |  4 ++
->   .../interface/vchiq_arm/vchiq_dev.c           |  5 ++
->   3 files changed, 53 insertions(+), 5 deletions(-)
+>   .../interface/vchiq_arm/vchiq_arm.c           |  5 +--
+>   .../interface/vchiq_arm/vchiq_core.c          | 44 ++++++++++++++++---
+>   .../interface/vchiq_arm/vchiq_core.h          |  5 +++
+>   .../interface/vchiq_arm/vchiq_dev.c           |  6 +++
+>   4 files changed, 50 insertions(+), 10 deletions(-)
+>
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm=
+.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> index c4d97dbf6ba8..688c9b1be868 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> @@ -968,9 +968,8 @@ vchiq_blocking_bulk_transfer(struct vchiq_instance *=
+instance, unsigned int handl
+>   			return -ENOMEM;
+>   	}
+>
+> -	ret =3D vchiq_bulk_transfer(instance, handle, data, NULL, size,
+> -				  &waiter->bulk_waiter,
+> -				  VCHIQ_BULK_MODE_BLOCKING, dir);
+> +	ret =3D vchiq_bulk_xfer_blocking_interruptible(instance, handle, data,=
+ NULL, size,
+> +						     &waiter->bulk_waiter, dir);
+>   	if ((ret !=3D -EAGAIN) || fatal_signal_pending(current) || !waiter->b=
+ulk_waiter.bulk) {
+>   		struct vchiq_bulk *bulk =3D waiter->bulk_waiter.bulk;
 >
 > diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_cor=
 e.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-> index 50af04b217f4..914aa2766d57 100644
+> index 6e3d24d4b720..c46634f39f4b 100644
 > --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
 > +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-> @@ -3023,10 +3023,6 @@ int vchiq_bulk_transfer(struct vchiq_instance *in=
-stance, unsigned int handle,
->   		bulk_waiter->actual =3D 0;
->   		bulk_waiter->bulk =3D NULL;
->   		break;
-> -	case VCHIQ_BULK_MODE_WAITING:
-> -		bulk_waiter =3D userdata;
-> -		bulk =3D bulk_waiter->bulk;
-> -		goto waiting;
->   	default:
->   		goto error_exit;
->   	}
-> @@ -3115,7 +3111,6 @@ int vchiq_bulk_transfer(struct vchiq_instance *ins=
-tance, unsigned int handle,
->   		state->id, service->localport, dir_char, queue->local_insert,
->   		queue->remote_insert, queue->process);
->
-> -waiting:
->   	vchiq_service_put(service);
->
->   	status =3D 0;
-> @@ -3143,6 +3138,50 @@ int vchiq_bulk_transfer(struct vchiq_instance *in=
-stance, unsigned int handle,
+> @@ -2985,6 +2985,42 @@ vchiq_remove_service(struct vchiq_instance *insta=
+nce, unsigned int handle)
 >   	return status;
 >   }
 >
-> +/*
-> + * This function is called by VCHIQ ioctl interface and is interruptibl=
-e.
-> + * It may receive -EAGAIN to indicate that a signal has been received
-> + * and the call should be retried after being returned to user context.
-> + */
 > +int
-> +vchiq_bulk_xfer_waiting_interruptible(struct vchiq_instance *instance,
-> +				      unsigned int handle, struct bulk_waiter *userdata)
+> +vchiq_bulk_xfer_blocking_interruptible(struct vchiq_instance *instance,=
+ unsigned int handle,
+> +				       void *offset, void __user *uoffset, int size,
+> +				       void __user *userdata, enum vchiq_bulk_dir dir)
 > +{
 > +	struct vchiq_service *service =3D find_service_by_handle(instance, han=
 dle);
-> +	struct bulk_waiter *bulk_waiter;
+> +	struct bulk_waiter *bulk_waiter =3D NULL;
+my comment in v1 about init of bulk_waiter applied to this one ...
+> +	enum vchiq_bulk_mode mode =3D VCHIQ_BULK_MODE_BLOCKING;
 > +	int status =3D -EINVAL;
 > +
 > +	if (!service)
 > +		return -EINVAL;
 > +
-> +	if (!userdata)
+> +	if (service->srvstate !=3D VCHIQ_SRVSTATE_OPEN)
 > +		goto error_exit;
 > +
-> +	if (service->srvstate !=3D VCHIQ_SRVSTATE_OPEN)
+> +	if (!offset && !uoffset)
 > +		goto error_exit;
 > +
 > +	if (vchiq_check_service(service))
 > +		goto error_exit;
 > +
 > +	bulk_waiter =3D userdata;
+> +	init_completion(&bulk_waiter->event);
+> +	bulk_waiter->actual =3D 0;
+> +	bulk_waiter->bulk =3D NULL;
 > +
-> +	vchiq_service_put(service);
-> +
-> +	status =3D 0;
-> +
-> +	if (wait_for_completion_interruptible(&bulk_waiter->event))
-> +		return -EAGAIN;
-> +	else if (bulk_waiter->actual =3D=3D VCHIQ_BULK_ACTUAL_ABORTED)
-> +		return -EINVAL;
-> +
-> +	return status;
-return 0 and drop the assignment above?
+> +	status =3D vchiq_bulk_xfer_queue_msg_interruptible(service, offset, uo=
+ffset, size,
+> +							 userdata, mode, dir);
 > +
 > +error_exit:
 > +	vchiq_service_put(service);
@@ -193,23 +174,50 @@ return 0 and drop the assignment above?
 > +	return status;
 > +}
 > +
->   int
->   vchiq_queue_message(struct vchiq_instance *instance, unsigned int hand=
-le,
->   		    ssize_t (*copy_callback)(void *context, void *dest,
+>   /*
+>    * This function may be called by kernel threads or user threads.
+>    * User threads may receive -EAGAIN to indicate that a signal has been
+> @@ -2998,7 +3034,7 @@ int vchiq_bulk_transfer(struct vchiq_instance *ins=
+tance, unsigned int handle,
+>   			enum vchiq_bulk_mode mode, enum vchiq_bulk_dir dir)
+>   {
+>   	struct vchiq_service *service =3D find_service_by_handle(instance, ha=
+ndle);
+> -	struct bulk_waiter *bulk_waiter =3D NULL;
+> +	struct bulk_waiter *bulk_waiter;
+and not to this one. I think this one here should be kept at least in
+this patch.
+>   	struct vchiq_bulk *bulk;
+>   	int status =3D -EINVAL;
+>
+> @@ -3018,12 +3054,6 @@ int vchiq_bulk_transfer(struct vchiq_instance *in=
+stance, unsigned int handle,
+>   	case VCHIQ_BULK_MODE_NOCALLBACK:
+>   	case VCHIQ_BULK_MODE_CALLBACK:
+>   		break;
+> -	case VCHIQ_BULK_MODE_BLOCKING:
+> -		bulk_waiter =3D userdata;
+> -		init_completion(&bulk_waiter->event);
+> -		bulk_waiter->actual =3D 0;
+> -		bulk_waiter->bulk =3D NULL;
+> -		break;
+>   	default:
+>   		goto error_exit;
+>   	}
 > diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_cor=
 e.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-> index 77cc4d7ac077..985d9ea3a06a 100644
+> index 985d9ea3a06a..2dd89101c1c6 100644
 > --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
 > +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-> @@ -470,6 +470,10 @@ vchiq_shutdown_internal(struct vchiq_state *state, =
-struct vchiq_instance *instan
->   extern void
->   remote_event_pollall(struct vchiq_state *state);
+> @@ -474,6 +474,11 @@ extern int
+>   vchiq_bulk_xfer_waiting_interruptible(struct vchiq_instance *instance,
+>   				      unsigned int handle, struct bulk_waiter *userdata);
 >
 > +extern int
-> +vchiq_bulk_xfer_waiting_interruptible(struct vchiq_instance *instance,
-> +				      unsigned int handle, struct bulk_waiter *userdata);
+> +vchiq_bulk_xfer_blocking_interruptible(struct vchiq_instance *instance,=
+ unsigned int handle,
+> +				       void *offset, void __user *uoffset, int size,
+> +				       void __user *userdata, enum vchiq_bulk_dir dir);
 > +
 >   extern int
 >   vchiq_bulk_transfer(struct vchiq_instance *instance, unsigned int hand=
@@ -218,31 +226,22 @@ le, void *offset,
 mode mode,
 > diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev=
 .c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
-> index 9cd2a64dce5e..550838d2863b 100644
+> index 550838d2863b..830633f2326b 100644
 > --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
 > +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
-> @@ -324,6 +324,10 @@ static int vchiq_irq_queue_bulk_tx_rx(struct vchiq_=
+> @@ -304,6 +304,12 @@ static int vchiq_irq_queue_bulk_tx_rx(struct vchiq_=
 instance *instance,
->   		dev_dbg(service->state->dev, "arm: found bulk_waiter %pK for pid %d\=
-n",
->   			waiter, current->pid);
+>   		}
+>
 >   		userdata =3D &waiter->bulk_waiter;
 > +
-> +		status =3D vchiq_bulk_xfer_waiting_interruptible(instance, args->hand=
-le, userdata);
+> +		status =3D vchiq_bulk_xfer_blocking_interruptible(instance, args->han=
+dle,
+> +								NULL, args->data, args->size,
+> +								userdata, dir);
 > +
 > +		goto bulk_transfer_handled;
->   	} else {
->   		userdata =3D args->userdata;
->   	}
-> @@ -331,6 +335,7 @@ static int vchiq_irq_queue_bulk_tx_rx(struct vchiq_i=
-nstance *instance,
->   	status =3D vchiq_bulk_transfer(instance, args->handle, NULL, args->da=
-ta, args->size,
->   				     userdata, args->mode, dir);
->
-> +bulk_transfer_handled:
->   	if (!waiter) {
->   		ret =3D 0;
->   		goto out;
+>   	} else if (args->mode =3D=3D VCHIQ_BULK_MODE_WAITING) {
+>   		mutex_lock(&instance->bulk_waiter_list_mutex);
+>   		list_for_each_entry(iter, &instance->bulk_waiter_list,
 
