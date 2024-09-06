@@ -1,102 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F74512EBDB;
-	Fri,  6 Sep 2024 06:15:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E9EB14B090
+	for <linux-staging@lists.linux.dev>; Fri,  6 Sep 2024 07:25:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725603348; cv=none; b=RvBTB7YoHmSWGAsPT16/7/H4+3jerK29rJsFvRfh22HWeXG6Wap9pLDSXxiw0KvSykU4HSqUCUOHLbN1Vybzgec5YPV0C8ZjLhlBx13BTH+kT2oBr2l8bm19hNUoDRJFzTiOaDn6TxB6Pfc2pQcQgUxW/dM3UUEqpFky//Frzvk=
+	t=1725607529; cv=none; b=f+xS4P0wswQSSLhGEBdWNFvXbRBbXYU9wy2amv/w/pQbP6e5eV1+p3WC/qC9qhjODnJv/7Hh0sfLfA5pDzh4NOCVzksPGD7QEDuzZ2uuDj0ZviFo+ZxNJXvpjfZu3A2VCxFneyPyiKgWLmApx1+7l+KVAmtmEjwA9wt1C2htnXQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725603348; c=relaxed/simple;
-	bh=uKrZh1jdPMoORV9fa/jntxXR+oVK/tJHtgjFJMvQhDM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rgfD5FhmNMk9PxlJ/L81OrP1AOlMGQhlwDazaOXn15sz5qJ4yZAcCE9OF5T7mm7dfwHnqNTz6lb2vpVwwALbnueqIy3DRgwjtAO9Xs8hXk164A1KV7G4t8pPAc5eHo3jqfcc5a/ckL6f36WCsUvrqhXNxC6tfDjl0h14mzlBbqA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ps6pc50W; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1725607529; c=relaxed/simple;
+	bh=K1WcmrcLbEELBSkrxY1A3Spx7Lfdyu+4/yUq696iEAg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Z6Q3PlYzuB3sYPqpYnJDuPQ35D3j5XGXx8P5yq6T6fqM5C84sUIq/5kdz6H+fj+FVENw7PbogMba4koFnqg9mUYfL8XM2jskpD/tWNrYgchScU1SZnSFbxyViuoY4vipn/JQGoyLii4xO6xDXQ08+9v7hFFMTjtNQMzo0u7umvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=jbqABgOB; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ps6pc50W"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6921BC4CEC4;
-	Fri,  6 Sep 2024 06:15:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725603347;
-	bh=uKrZh1jdPMoORV9fa/jntxXR+oVK/tJHtgjFJMvQhDM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Ps6pc50WPRj+gGrrhcCgI1vqj3/y19/szxyR5TX9GQNLi47ORzP+tceC7Ds9VzCU+
-	 rHF8pDfOh5gHhI/+rfK68w9u3sfA7nJfB3Vv3Js54B6y7s+pcKyuvpdZN3aJWPT3m8
-	 2lMvhV9tpgldf2peTp2RTG0kTR4Y2CIoIWsMLKyg1KEYawD6S64A2gdwBgTZP94p7t
-	 Nd4Sy+GCCjExEuW3++SpElM5qTlkqjjTmucqge9gDB54ijG2uaEgqNQG7hq/LobZlo
-	 vIHnR7BTeucWKPSU1qBbJqG2A8yYsGAsIFGGobZXlbQjjawcay5ychqy2amTcaxDL3
-	 orRoyuEetyTJQ==
-Date: Fri, 6 Sep 2024 08:15:42 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Hans de Goede
- <hdegoede@redhat.com>
-Cc: David.Laight@ACULAB.COM, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev
-Subject: Re: [PATCH] media: atomisp: Use clamp_t() in
- ia_css_eed1_8_vmem_encode()
-Message-ID: <20240906081542.5cb0c142@foz.lan>
-In-Reply-To: <155aba6ab759e98f66349e6bb4f69e2410486c09.1722084704.git.christophe.jaillet@wanadoo.fr>
-References: <155aba6ab759e98f66349e6bb4f69e2410486c09.1722084704.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="jbqABgOB"
+Received: from umang.jain (unknown [IPv6:2405:201:2015:f873:c173:4b:4a04:3a21])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A018FEF3;
+	Fri,  6 Sep 2024 09:24:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1725607444;
+	bh=K1WcmrcLbEELBSkrxY1A3Spx7Lfdyu+4/yUq696iEAg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=jbqABgOBBaoWeQRIINe/jW9ME8XGFVSmDB017NiuuUsKkMUC30vo/iA35Gahf9YMr
+	 1CFD/fb6PkuFwEghTLK9Z09UciEqyVwsIAijaYClZQIDGfqokZiS84tcPSn2gUjZ/x
+	 C8gqsY0J6UJT0BR4X1TpKaA6Q4h1uNvgLNItku5w=
+From: Umang Jain <umang.jain@ideasonboard.com>
+To: Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Stefan Wahren <wahrenst@gmx.net>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Phil Elwell <phil@raspberrypi.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Umang Jain <umang.jain@ideasonboard.com>
+Subject: [PATCH v4 0/7] staging: vchiq_core: Refactor vchiq_bulk_transfer() logic
+Date: Fri,  6 Sep 2024 12:54:59 +0530
+Message-ID: <20240906072506.174026-1-umang.jain@ideasonboard.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Em Sat, 27 Jul 2024 14:51:56 +0200
-Christophe JAILLET <christophe.jaillet@wanadoo.fr> escreveu:
+Series mostly refactors vchiq_bulk_transfer() code according
+to Arnd's review comment from [1]:
 
-> Using clamp_t() instead of min_t(max_t()) is easier to read.
-> 
-> It also reduces the size of the preprocessed files by ~ 193 ko.
-> (see [1] for a discussion about it)
-> 
-> $ ls -l ia_css_eed1_8.host*.i
->  4829993 27 juil. 14:36 ia_css_eed1_8.host.old.i
->  4636649 27 juil. 14:42 ia_css_eed1_8.host.new.i
-> 
-> [1]: https://lore.kernel.org/all/23bdb6fc8d884ceebeb6e8b8653b8cfe@AcuMS.aculab.com/
-> 
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> ---
->  .../isp/kernels/eed1_8/ia_css_eed1_8.host.c   | 24 +++++++++----------
->  1 file changed, 12 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c
-> index e4fc90f88e24..96c13ebc4331 100644
-> --- a/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c
-> +++ b/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c
-> @@ -172,25 +172,25 @@ ia_css_eed1_8_vmem_encode(
->  		base = shuffle_block * i;
->  
->  		for (j = 0; j < IA_CSS_NUMBER_OF_DEW_ENHANCE_SEGMENTS; j++) {
-> -			to->e_dew_enh_x[0][base + j] = min_t(int, max_t(int,
-> -							     from->dew_enhance_seg_x[j], 0),
-> -							     8191);
-> -			to->e_dew_enh_y[0][base + j] = min_t(int, max_t(int,
-> -							     from->dew_enhance_seg_y[j], -8192),
-> -							     8191);
-> +			to->e_dew_enh_x[0][base + j] = clamp_t(int,
-> +							       from->dew_enhance_seg_x[j],
-> +							       0, 8191);
-> +			to->e_dew_enh_y[0][base + j] = clamp_t(int,
-> +							       from->dew_enhance_seg_y[j],
-> +							       -8192, 8191);
+> You can also wrap vchiq_bulk_transfer() in order to have
+> four separate functions based on the different 'mode'
+> values and have them only take the arguments they actually
+> need.
 
-Such change introduces two warnings on smatch:
+I didn't wrap vchiq_bulk_transfer(), instead created four
+differnet function, one for each mode.
+This will pave the way to address his second comment:
 
-drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c: drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c:177 ia_css_eed1_8_vmem_encode() warn: assigning (-8192) to unsigned variable 'to->e_dew_enh_y[0][base + j]'
-drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c: drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c:182 ia_css_eed1_8_vmem_encode() warn: assigning (-8192) to unsigned variable 'to->e_dew_enh_a[0][base + j]'
+> Ideally this should be cleaned up in a way that completely
+> avoids passing both user and kernel data at the same time.
 
-Should dew_enhance_seg_x and dew_enhance_seg_y be converted to signed?
+which is not part of this series and will be done on top as
+arguments shuffling will have to fix the sparse warnings
+that exists currently.
+
+Patch 1/7 first moves the VCHIQ_BULK_MODE_WAITING logic out
+of vchiq_bulk_transfer
+
+Patch 2/7 then moves the core logic to vchiq_bulk_transfer()
+which can be shared in subsequent patches
+
+Patch 3/7 and 4/7 refactors remaining bulk transfer modes
+
+Patch 5/7 finally drops the vchiq_bulk_transfer() as not needed
+
+patch 6/7 and 7/7 are drive by patches, noticed during development.
+
+[1]: https://lore.kernel.org/linux-staging/3d3b7368-93b2-4c0d-845e-4099c2de9dc1@app.fastmail.com/
+
+Changes in v4:
+- In 1/7 return 0 direcly instead of assigning status = 0
+- In 3/7, fix null assignment of bulk waiter 
+
+CHanges in v3:
+- Directly return if service == NULL in 1/7 and 4/7
+- Drop set-but-unused variable from 1/7
+
+Changes in v2:
+- Directly return if service == NULL in 3/7
+- Prefix non-static functions with "vchiq_" (appropriate driver prefix)
+- Use typed argument for 'userdata' in 1/7
 
 
-Thanks,
-Mauro
+Umang Jain (7):
+  staging: vchiq: Factor out bulk transfer for VCHIQ_BULK_MODE_WAITING
+  staging: vchiq_core: Simplify vchiq_bulk_transfer()
+  staging: vchiq_core: Factor out bulk transfer for blocking mode
+  staging: vchiq_core: Factor out bulk transfer for (no/)callback mode
+  staging: vchiq_core: Drop vchiq_bulk_transfer()
+  staging: vchiq_core: Remove unused function argument
+  staging: vchiq_core: Pass enumerated flag instead of int
+
+ .../interface/vchiq_arm/vchiq_arm.c           |  20 +-
+ .../interface/vchiq_arm/vchiq_core.c          | 319 +++++++++++-------
+ .../interface/vchiq_arm/vchiq_core.h          |  16 +-
+ .../interface/vchiq_arm/vchiq_dev.c           |  15 +-
+ 4 files changed, 228 insertions(+), 142 deletions(-)
+
+-- 
+2.45.2
+
