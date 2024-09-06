@@ -1,243 +1,94 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37F731CE6FF
-	for <linux-staging@lists.linux.dev>; Fri,  6 Sep 2024 13:27:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D3C713AA38
+	for <linux-staging@lists.linux.dev>; Fri,  6 Sep 2024 14:10:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725629250; cv=none; b=GF/eZq1CJ16ZXDGA0oBvxyx5p7W0NgrVclAcfLS1gTCt/06RBmBgy2DslKQ3EtAZlpA0r6+kXaWcDHMeFeQIrARxrVI14hnF/GY3fQdHVdxYix572J5JSoLawVs1Vsc9Wb98T6FBENovHrQAtDmqU5QmE8tSHM3szRm7i9r1lr4=
+	t=1725631840; cv=none; b=UM1H++MeVoi7iVnoLB5L26koqF1qy9FWKYtBR46a0BM9iu8A4MKRCn3/4NNXagF03KqjI/SbE+65OqW/M9PnqtgBQNTM3LiH9IDLaN3X/s5F/A1mVJxs+DZTl5nRHAsuTIeZqMiRZzBogpOGwGiZSh9+nL1mnVJ24wup+FzXI/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725629250; c=relaxed/simple;
-	bh=PNl5VaLScIOW7HEGpUxB5WvNQhPrASGN9iNkVb0l/GQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rDiNV/CoRLsKAOHpccySfxOHXx5a+Ndt05Wr1WL2a6/Ew2xPKEXUCaWEtgAnClXoChbcVVz1aIYeRZjdZhL3w6+kpfQiFElqGJXNdCyVE2BtJitvUD+IjBFY6PhLMtE8PtrbhbwBKQcpSe1/rjpKILGqP39fDizg4lRLCtwBIMg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=iaAS/ABb; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1725631840; c=relaxed/simple;
+	bh=Jkg3+i0mTY4FdI4toZ9e/r/mwam+fDR7fNlJ60pKIDQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=D1T5V57ieyFcG5UAWiSQ1l7d/7YgYJ3ghB1OvwFAVDRj/dW2j0PgNOSgDCUfZSoQxcDv1d6HdUJKdIdsuXNZ8iT2a5ZWkpkQ46OVVWQ/LjwkoyYUXzH9mqCIwIBVptTaDKshusGkzgK0OuPKcEGcOJrlCkFPmr9EQwHw8GaRDkM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NouNAMGN; arc=none smtp.client-ip=209.85.210.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="iaAS/ABb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1725629247;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IjPNr022xYLhGolVIu2SsQehzxUqDqWe4EUz1zQe2/Q=;
-	b=iaAS/ABb7LTBHWdnfU5KQ8kAbsgprCm+C7UAR4C1TyJRW+wQ5LEhUY5KocQgtJXf4Kdfo6
-	+dGeRkKZXZzVzI4lVZ2B29MRu7qcGWCP38KUK25aTPs6znXHLIMdWpG+JAMWk/+fNNhDqL
-	1XnxUTwgHWjzLPoAdlYZgLeSjf1Y0R8=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-295-doFOi4tKMQKLVcQopANJDQ-1; Fri, 06 Sep 2024 09:27:25 -0400
-X-MC-Unique: doFOi4tKMQKLVcQopANJDQ-1
-Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-a86824d2d12so180614866b.2
-        for <linux-staging@lists.linux.dev>; Fri, 06 Sep 2024 06:27:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NouNAMGN"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-71829963767so116857b3a.1
+        for <linux-staging@lists.linux.dev>; Fri, 06 Sep 2024 07:10:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1725631838; x=1726236638; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=tpwGePaDBp0uVaEd/rbAQsUfTJ3bw9Qu1GLMpYo60uQ=;
+        b=NouNAMGNzhAiHGm21huBGoNyBVa3V7+OaePbZr5qygDtjswgz4nWOkVS1dNm8+cayv
+         TAmhjvjtB7W55dnmV5ad0MCZnf/7CUzgS+Ppq+QNdnU5pE/Ga4WyNVYod9Ch0a86YJx7
+         t2p83eTQzeSXJs79cX5/lujVgR/k+RQA4kEW7i5lbJQoxOox/DaL87gqpHZZHbLWQUOs
+         3TVfqTL5HuIZa0ekhFUzB2lf2602X9itiksGOXH0sQ+ORbPRJiQRnEhQvABet30e6xoz
+         R2ggSiR/WceQq9d1RfwdlM2JC8HiWWBbfy3Zc7UsGJCdv7vpNZ+PCV32zq4z5LPRLEpK
+         59Qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725629244; x=1726234044;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IjPNr022xYLhGolVIu2SsQehzxUqDqWe4EUz1zQe2/Q=;
-        b=qLaKJRv9qiLHVshCPeJ0jvAwRen8qARfP0SItvNqvVm25CwLDsUIAioMPSAx0La5wM
-         b8ILFwp+kbx8zYZ0JrI8gfVpvtwf9K1N8v4DHoZdhJ6yBycJ7dPpDdXLKFxFjHUW0mKP
-         mcysO0SoKfHMPf+XviTEwiiKVYxy8xUcwjSADx1hKZTP1jiC2mSvtu/dBG/FGZUQvAJk
-         +YRYg8oZOA8mn5+824r0a+hyYRFhCQsZg/Dpaz6RCPZpMRj4Y3ZHgdBF5nfHChWgexjA
-         l8TENAfOmrAb5ZVKB2Dc5vmI4ZakTAaUOfoTwI9I7Zu/oyCRchkyQ7VyfrJy5xauXwGg
-         LMTA==
-X-Forwarded-Encrypted: i=1; AJvYcCWEF8r2i2hi5Rpzio9jYZ4BX8KpigLbOPNILR6ewQzOiDXEyXPUkoxL+Mj9GUKfvtIr/hcW2rvaFLsPMERZ@lists.linux.dev
-X-Gm-Message-State: AOJu0YzR0Ch8gFnPW7uTDWNU4cx9UCp8UQC/UstYXc+OKu6IMVWG9BGz
-	IsD8MA/y5bA1aF/nvynyQf4h7dZh7FfhbgPFZ8E2miU/PGoHUxN4XOenso9P6MdQhnh1S5/Mrv3
-	xqR8uLTyU1anhOKirLKj9DZ0/SNPldgPTXoAbZUnD+nHKtf630XTyGJEi8L38biA=
-X-Received: by 2002:a17:907:987:b0:a80:f6a9:c311 with SMTP id a640c23a62f3a-a8a88273565mr211888866b.0.1725629244492;
-        Fri, 06 Sep 2024 06:27:24 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGcB3QQBR2uDx98v2VQckrBWO4C7RMR8S/lKeukGfKtD9JofnNPZhsq+M/SfqWpA92TtDIsYg==
-X-Received: by 2002:a17:907:987:b0:a80:f6a9:c311 with SMTP id a640c23a62f3a-a8a88273565mr211885866b.0.1725629243894;
-        Fri, 06 Sep 2024 06:27:23 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8a6da35496sm226328666b.67.2024.09.06.06.27.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 06 Sep 2024 06:27:23 -0700 (PDT)
-Message-ID: <8fc721e5-74e4-4150-897e-ca203a8d1309@redhat.com>
-Date: Fri, 6 Sep 2024 15:27:22 +0200
+        d=1e100.net; s=20230601; t=1725631838; x=1726236638;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tpwGePaDBp0uVaEd/rbAQsUfTJ3bw9Qu1GLMpYo60uQ=;
+        b=J4QhvYGRO0ri5Rn5cLX35ulGcpo4MYmqCQhske1Eg6cQe2LqMdz2i0ZTe02ig3O0NA
+         l3x+1rYlJlaSdNJEcUg+UrwjVRhSaHgBp0jhRtnlJSSWX4RPhlnAf1+WfiNGwoudIOyL
+         OnxcHj98rHXsaecH4Wkpa04CwuPRi162yMA7tuHsfcPMqtnKLtZilFBhb8tUjMtyFGcY
+         zsO9Umz0lMWVcrATyCLWTZp/EtefrwbwK5isugeQ2Gh2AiMkFf+I2EPmcZcebzeYFQDw
+         Rbtn0AC/SIWEeG/PC/jNUO2P6bGSq6Qs7fpf4gjNuzu/QulBAZa732TU3t4rKb6Teu2W
+         EKew==
+X-Forwarded-Encrypted: i=1; AJvYcCXuXzXuCEg0mHoEJwarfa9PV8JJYxL50apMg4b61WpwbT42m90JUf2i3WwCBgkl8LOohHkqVPKLcQExdUCP@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy0Mgw0PM9UZndh8VoRQD/bKisS08KBFcIvyA5GoXXB2OqQgJeA
+	uFehPNfqszXB7xJ6y9uxIm3QF/+KgUDUQHVsNNTA3+MqSPTC7L7z
+X-Google-Smtp-Source: AGHT+IHJQZY0Niird7SJgtEDlzL9MuvLmJBzy22Ncjys8umvt8oEcLcJzQ7d9ALDctEaLcf4kz+xmw==
+X-Received: by 2002:a05:6a20:158b:b0:1c4:bb9f:c564 with SMTP id adf61e73a8af0-1cf1ceefa59mr1490912637.0.1725631838339;
+        Fri, 06 Sep 2024 07:10:38 -0700 (PDT)
+Received: from ubuntukernelserver.. ([49.236.212.182])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-718d6e78801sm1289976b3a.133.2024.09.06.07.10.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Sep 2024 07:10:38 -0700 (PDT)
+From: Roshan Khatri <topofeverest8848@gmail.com>
+To: gregkh@linuxfoundation.org,
+	philipp.g.hortmann@gmail.com
+Cc: Roshan Khatri <topofeverest8848@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: rtl8723bs: include: Fix spelling mistake in rtw_xmit.h
+Date: Fri,  6 Sep 2024 19:55:24 +0545
+Message-Id: <20240906141024.10021-1-topofeverest8848@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: atomisp: Use clamp_t() in
- ia_css_eed1_8_vmem_encode()
-To: David Laight <David.Laight@ACULAB.COM>,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>
-References: <155aba6ab759e98f66349e6bb4f69e2410486c09.1722084704.git.christophe.jaillet@wanadoo.fr>
- <20240906081542.5cb0c142@foz.lan>
- <b37a0c60-55aa-44ec-b96c-68cdaabdc110@redhat.com>
- <a9bc91f35f494fb1971229a2df419706@AcuMS.aculab.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <a9bc91f35f494fb1971229a2df419706@AcuMS.aculab.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, nl
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi,
+This patch fixes spelling mistake to increase code readability
+and searching.
 
-On 9/6/24 10:05 AM, David Laight wrote:
-> From: Hans de Goede
->> Sent: 06 September 2024 08:53
->>
->> Hi Mauro,
->>
->> On 9/6/24 8:15 AM, Mauro Carvalho Chehab wrote:
->>> Em Sat, 27 Jul 2024 14:51:56 +0200
->>> Christophe JAILLET <christophe.jaillet@wanadoo.fr> escreveu:
->>>
->>>> Using clamp_t() instead of min_t(max_t()) is easier to read.
->>>>
->>>> It also reduces the size of the preprocessed files by ~ 193 ko.
->>>> (see [1] for a discussion about it)
->>>>
->>>> $ ls -l ia_css_eed1_8.host*.i
->>>>  4829993 27 juil. 14:36 ia_css_eed1_8.host.old.i
->>>>  4636649 27 juil. 14:42 ia_css_eed1_8.host.new.i
->>>>
->>>> [1]: https://lore.kernel.org/all/23bdb6fc8d884ceebeb6e8b8653b8cfe@AcuMS.aculab.com/
->>>>
->>>> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
->>>> ---
->>>>  .../isp/kernels/eed1_8/ia_css_eed1_8.host.c   | 24 +++++++++----------
->>>>  1 file changed, 12 insertions(+), 12 deletions(-)
->>>>
->>>> diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c
->> b/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c
->>>> index e4fc90f88e24..96c13ebc4331 100644
->>>> --- a/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c
->>>> +++ b/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c
->>>> @@ -172,25 +172,25 @@ ia_css_eed1_8_vmem_encode(
->>>>  		base = shuffle_block * i;
->>>>
->>>>  		for (j = 0; j < IA_CSS_NUMBER_OF_DEW_ENHANCE_SEGMENTS; j++) {
->>>> -			to->e_dew_enh_x[0][base + j] = min_t(int, max_t(int,
->>>> -							     from->dew_enhance_seg_x[j], 0),
->>>> -							     8191);
->>>> -			to->e_dew_enh_y[0][base + j] = min_t(int, max_t(int,
->>>> -							     from->dew_enhance_seg_y[j], -8192),
->>>> -							     8191);
->>>> +			to->e_dew_enh_x[0][base + j] = clamp_t(int,
->>>> +							       from->dew_enhance_seg_x[j],
->>>> +							       0, 8191);
->>>> +			to->e_dew_enh_y[0][base + j] = clamp_t(int,
->>>> +							       from->dew_enhance_seg_y[j],
->>>> +							       -8192, 8191);
->>>
->>> Such change introduces two warnings on smatch:
->>>
->>> drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c:
->> drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c:177
->> ia_css_eed1_8_vmem_encode() warn: assigning (-8192) to unsigned variable 'to->e_dew_enh_y[0][base +
->> j]'
->>> drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c:
->> drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c:182
->> ia_css_eed1_8_vmem_encode() warn: assigning (-8192) to unsigned variable 'to->e_dew_enh_a[0][base +
->> j]'
->>>
->>> Should dew_enhance_seg_x and dew_enhance_seg_y be converted to signed?
->>
->> These already are s32, the problem is that e_dew_enh_a is of type t_vmem_elem which is:
->>
->> typedef u16 t_vmem_elem;
-> 
-> Ugg... :-)
-> 
->>
->> And that type is used in a lot of places, so we cannot
->> just change that.
->>
->> I guess we could add a t_signed_vmem_elem (s16) and use that for these vmem-arrays ?
->>
->> I tried fixing it like this:
+Signed-off-by: Roshan Khatri <topofeverest8848@gmail.com>
+---
+ drivers/staging/rtl8723bs/include/rtw_xmit.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-<snip>
-
->>  		/* enable group hold */
->> -		ret = cci_multi_reg_write(sensor->regmap, t4ka3_param_hold,
->> -					  ARRAY_SIZE(t4ka3_param_hold), NULL);
->> -		if (ret)
->> -			goto error_powerdown;
->> -
->> -		ret = cci_multi_reg_write(sensor->regmap, sensor->res->regs, sensor->res->regs_len, NULL);
->> +		cci_multi_reg_write(sensor->regmap, t4ka3_param_hold,
->> +				    ARRAY_SIZE(t4ka3_param_hold), &ret);
->> +		cci_multi_reg_write(sensor->regmap, sensor->res->regs,
->> +				    sensor->res->regs_len, &ret);
->>  		if (ret)
->>  			goto error_powerdown;
-> 
-> Isn't that unrelated?
-
-Yes my bad.
-
->> diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c
->> b/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c
->> index b79d78e5b77f..c9043d516192 100644
->> --- a/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c
->> +++ b/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c
->> @@ -172,21 +172,21 @@ ia_css_eed1_8_vmem_encode(
->>  		base = shuffle_block * i;
->>
->>  		for (j = 0; j < IA_CSS_NUMBER_OF_DEW_ENHANCE_SEGMENTS; j++) {
->> -			to->e_dew_enh_x[0][base + j] = clamp(from->dew_enhance_seg_x[j],
->> -							     0, 8191);
->> -			to->e_dew_enh_y[0][base + j] = clamp(from->dew_enhance_seg_y[j],
->> -							     -8192, 8191);
->> +			to->e_dew_enh_x[0][base + j] = (u16)clamp(from->dew_enhance_seg_x[j],
->> +								  0, 8191);
->> +			to->e_dew_enh_y[0][base + j] = (u16)clamp(from->dew_enhance_seg_y[j],
->> +								  -8192, 8191);
-> 
-> How about an explicit clamp(...) & 0xffffu?
-
-Yes that should work, I tihnk.  I actually have changed the type of e_dew_enh_y
-and e_dew_enh_f to s16 now and that does the trick of silencing smatch and seems
-like a nicer fix.
-
-I need to go and test the fix on actual hw to make sure nothing breaks and then
-I'll submit it.
-
-> 
->>
->>  		for (j = 0; j < (IA_CSS_NUMBER_OF_DEW_ENHANCE_SEGMENTS - 1); j++) {
->> -			to->e_dew_enh_a[0][base + j] = clamp(from->dew_enhance_seg_slope[j],
->> -							     -8192, 8191);
->> +			to->e_dew_enh_a[0][base + j] = (u16)clamp(from->dew_enhance_seg_slope[j],
->> +								  -8192, 8191);
->>  			/* Convert dew_enhance_seg_exp to flag:
->>  			 * 0 -> 0
->>  			 * 1...13 -> 1
->>  			 */
->> -			to->e_dew_enh_f[0][base + j] = clamp(from->dew_enhance_seg_exp[j],
->> -							     0, 13) > 0;
->> +			to->e_dew_enh_f[0][base + j] = (u16)clamp(from->dew_enhance_seg_exp[j],
->> +								  0, 13) > 0;
-> 
-> Isn't the RHS just from->dew_enhance_seg_exp[j] > 0 ?
-> That shouldn't be generating any kind of warning anyway.
-
-It indeed does not generate a warning I changed all the clamp() calls here
-to keep things consistent.
-
-Regards,
-
-Hans
+diff --git a/drivers/staging/rtl8723bs/include/rtw_xmit.h b/drivers/staging/rtl8723bs/include/rtw_xmit.h
+index a3b4310caddf..544468f57692 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_xmit.h
++++ b/drivers/staging/rtl8723bs/include/rtw_xmit.h
+@@ -15,7 +15,7 @@
+ 
+ #define XMITBUF_ALIGN_SZ 512
+ 
+-/*  xmit extension buff defination */
++/*  xmit extension buff definition */
+ #define MAX_XMIT_EXTBUF_SZ	(1536)
+ #define NR_XMIT_EXTBUFF	(32)
+ 
+-- 
+2.34.1
 
