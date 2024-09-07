@@ -1,108 +1,114 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 309FF3BBCC
-	for <linux-staging@lists.linux.dev>; Sat,  7 Sep 2024 05:34:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1CAB127E01
+	for <linux-staging@lists.linux.dev>; Sat,  7 Sep 2024 11:17:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725687252; cv=none; b=JgUeyJSh7WTCd+p+4ahQEmAG5qbaYkABVfQ/IdEfR7KzZsZlw0FbDitdAKq0XTuwblf91GMwtfzlnT8yUM/XaqaZsolAWj6B+TdEyySvqYhscoexiKCMxCQ5bBhtwJTkFxesSVqC1lFVRGIRi+8XuoQKRJZD+R9DzMW8ozmceYs=
+	t=1725707832; cv=none; b=cnlRas9Rkv/VBZUFbYXr29MNVMLk9Mu+5PQEXon4DDwc0I00dNA3xK9Sx2YY32aJ7a1TEdkm35Iv9lsmvXjoh5KD7g98KBF7oWSaOpjMBfvHCDyiwZosGczob/C2T+eqga6lMbbqK6uZkvDICBqtaaR1OQEeQOM1mafN9rPInk8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725687252; c=relaxed/simple;
-	bh=5XyzXAL91oQWCEuilHowuUynFqW63PgqG/uzFnyZeFY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Hul7zXGn7EB0PjqK622LUUjCmpYQ1+oinQXQQ/VMIHMF4I9PT/eE/AR2s71S8rDp114Z8sNt46Be71zdYchENh7+EsYmbTSQuJbPLZsb/78VQYt+5zuerpqQCxNm/cuHqiR6/1QduSX/OEDAeTbaAYDiOuW5WoNjfVj3h6vGOEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YJZ5J/jG; arc=none smtp.client-ip=209.85.167.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1725707832; c=relaxed/simple;
+	bh=jsDLd/y3bPmdHYBWWLTb3pUm/Nm9Vnp3KztmmZBpl1Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uI49e23+FNEh37kyeyO+FsIRQdL/lb+tBlkfqUDlxy8jO6VqzYb6EVMPFeAzYeC0p1jeWTworKhUkDlsP8IXJuuGbMUCQmA0xl6J3fOTcJrnNUK2vdWZqT1bqUQxrB7aMQCwT50I0Sz6DCiF2UjbFpN6yVFDnYrxK4xpQOBzBE4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=RjsJJJ6O; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YJZ5J/jG"
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-53653682246so3121912e87.1
-        for <linux-staging@lists.linux.dev>; Fri, 06 Sep 2024 22:34:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725687249; x=1726292049; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=gvBY4LoX3N4dasraPrjziJHHMR0N8my9Ke+wGInAkl4=;
-        b=YJZ5J/jGOBFo7C2S3PhV5Zg+CLFUtL6LblXSXCgyUrKdnIR5goSLOl0v53FKHW4tBC
-         YB8PQV93MYB097GaQKFjC+g2+sf8tn4wFUCWkyOXoiPYsRf8mpZmOxkf4HraqdBy+EDD
-         48Z6GKOKW/ndIa4+MHYqo3V6jPldu8TZXQ/a1FfjoHk+zwqwlBHApeKF3/MqGdLt0p20
-         sF8zGICl7rhBIMYogoDFuGsRGr0waSnpqfNcDeLgJACEnDcDlGHFrL6Et7FcaUee+Zhm
-         mIHREZ0cnDh6cKG+K/kWPfNJVAnya1D4D/81QmNJgjhmejlnbkv7Qa3flG4Qq+cGCVOQ
-         tHxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725687249; x=1726292049;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gvBY4LoX3N4dasraPrjziJHHMR0N8my9Ke+wGInAkl4=;
-        b=CAlDS8/bTY0Y4o5AxOYMEiRxjrWJ47YdYAdsIDwdlQp8VYBVRC5Qvx2LNh4p91abw5
-         YTLBrFOzj8cx6utCwx5VyATiqTFPrctqCzn4e9jlIdJsEXYWNifj7Ewf/BK3s0aA6n7U
-         3B3Q+NAFS1FZp4PaGDMHn4iFtj6PYFTXQLAnZXD+M2CqzmE7tWln8yvvE5sLEIK9dIvg
-         QyV445JFNbjRbphHVTd4hGmiHHHxbcfuOHTD4s/0+QxpmEjsqCS7UI2Tyr6kOvNoxoqa
-         GWKsCx2LDdwBVjk/LPojAQKGAiZ58z4mIxe6BhNo21vAE1XZAa1U+t78T9fYWZ3oRr4G
-         5N8A==
-X-Gm-Message-State: AOJu0YzP7tFiqDGKUgkgp1U3eJZzo3yqs/OexTNCuFKZoGeIjIQysRA9
-	6wLokN4qrEgfUKTwQeqvRZ9kIXwctonKu9tDlDyp8iKsbXB0jeyS
-X-Google-Smtp-Source: AGHT+IEvrJiGoTMnZxJ6cW5it3SdV4gboRdovc6g7VqrZBdxngTy08Xy6zRi0F7EOiPUJF7kEZHvKg==
-X-Received: by 2002:a05:6512:3d1b:b0:52e:999b:7c01 with SMTP id 2adb3069b0e04-536587fcf4dmr3121011e87.48.1725687249078;
-        Fri, 06 Sep 2024 22:34:09 -0700 (PDT)
-Received: from ?IPV6:2003:c7:8f2a:8554:83ef:b48b:9bd4:f165? (p200300c78f2a855483efb48b9bd4f165.dip0.t-ipconnect.de. [2003:c7:8f2a:8554:83ef:b48b:9bd4:f165])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8d2595122asm30431966b.65.2024.09.06.22.34.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 06 Sep 2024 22:34:08 -0700 (PDT)
-Message-ID: <272d72a3-85f7-47cd-bebc-cf0f0160a84f@gmail.com>
-Date: Sat, 7 Sep 2024 07:34:08 +0200
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="RjsJJJ6O"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1725707829;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=F+/3l4ZOp+/26sc73GXRleP7DOmLQcWfOfSN9trgwVs=;
+	b=RjsJJJ6Osn41MpEyT8I21oHmYYBHMRIds3XBx7uTuNNiyV1jZQwda27Bc7f4VbB0XZaqqM
+	1EjNxuaggxussWdJccst0mEJH8biQ7qCyqI+2/iCnPDklchH2iAOXC3jD+dmLayt9Ssjwz
+	6gOeSZFtLfycN9XHx7ae7uxAXMUjaqw=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-477-i3AGA1GBOe6mO_OqWK_kWg-1; Sat,
+ 07 Sep 2024 07:17:06 -0400
+X-MC-Unique: i3AGA1GBOe6mO_OqWK_kWg-1
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id BD588195608A;
+	Sat,  7 Sep 2024 11:17:04 +0000 (UTC)
+Received: from shalem.redhat.com (unknown [10.39.192.32])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 542F41956048;
+	Sat,  7 Sep 2024 11:17:02 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH] media: atomisp: Fix eed1_8 code assigning signed values to an unsigned variable
+Date: Sat,  7 Sep 2024 13:17:01 +0200
+Message-ID: <20240907111701.8493-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: rtl8723bs: core: Fix spelling mistake in
- rtw_xmit.c
-To: Roshan Khatri <topofeverest8848@gmail.com>, gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20240906141157.10167-1-topofeverest8848@gmail.com>
-Content-Language: en-US
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20240906141157.10167-1-topofeverest8848@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-On 9/6/24 16:11, Roshan Khatri wrote:
-> This patch fixes spelling mistake to increase code readability
-> and searching.
-> 
-> Signed-off-by: Roshan Khatri <topofeverest8848@gmail.com>
-> ---
->   drivers/staging/rtl8723bs/core/rtw_xmit.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-> index b1965ec0181f..755c1bc86a74 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-> @@ -45,7 +45,7 @@ s32 _rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
->   	init_completion(&pxmitpriv->terminate_xmitthread_comp);
->   
->   	/*
-> -	 * Please insert all the queue initializaiton using _rtw_init_queue below
-> +	 * Please insert all the queue initialization using _rtw_init_queue below
->   	 */
->   
->   	pxmitpriv->adapter = padapter;
+ia_css_eed1_8_vmem_encode() is assigning values with a range of -8192 -
+8191 to e_dew_enh_y and e_dew_enh_a both of which are of the VMEM_ARRAY
+type which maps to u16.
 
-Hi Roshan,
+This causes the following smatch warnings:
 
-please make a patch series out of this 4 emails. This makes handling 
-easier for the maintainer and the reviewers.
+drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c: drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c:177 ia_css_eed1_8_vmem_encode() warn: assigning (-8192) to unsigned variable 'to->e_dew_enh_y[0][base + j]'
+drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c: drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c:182 ia_css_eed1_8_vmem_encode() warn: assigning (-8192) to unsigned variable 'to->e_dew_enh_a[0][base + j]'
 
-If you send in a second version of this patch please use a change 
-history. Description from Dan under:
-https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
+Convert the e_dew_enh_y and e_dew_enh_a arrays to a new SVMEM_ARRAY type
+which maps to s16 to fix this.
 
-Thanks for your support.
+Reported-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+Closes: https://lore.kernel.org/linux-media/20240906081542.5cb0c142@foz.lan/
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ .../media/atomisp/pci/hive_isp_css_common/host/vmem_local.h   | 4 +++-
+ .../atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8_param.h      | 4 ++--
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
-Bye Philipp
+diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/vmem_local.h b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/vmem_local.h
+index d0ba59cedc92..6f0a8fe868bd 100644
+--- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/vmem_local.h
++++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/vmem_local.h
+@@ -20,8 +20,10 @@
+ #include "vmem_global.h"
+ 
+ typedef u16 t_vmem_elem;
++typedef s16 t_svmem_elem;
+ 
+-#define VMEM_ARRAY(x, s)    t_vmem_elem x[s / ISP_NWAY][ISP_NWAY]
++#define VMEM_ARRAY(x, s)	t_vmem_elem x[(s) / ISP_NWAY][ISP_NWAY]
++#define SVMEM_ARRAY(x, s)	t_svmem_elem x[(s) / ISP_NWAY][ISP_NWAY]
+ 
+ void isp_vmem_load(
+     const isp_ID_t		ID,
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8_param.h b/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8_param.h
+index 6fb3b38f49e7..b9eeeb592ec8 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8_param.h
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8_param.h
+@@ -94,8 +94,8 @@
+ 
+ struct eed1_8_vmem_params {
+ 	VMEM_ARRAY(e_dew_enh_x, ISP_VEC_NELEMS);
+-	VMEM_ARRAY(e_dew_enh_y, ISP_VEC_NELEMS);
+-	VMEM_ARRAY(e_dew_enh_a, ISP_VEC_NELEMS);
++	SVMEM_ARRAY(e_dew_enh_y, ISP_VEC_NELEMS);
++	SVMEM_ARRAY(e_dew_enh_a, ISP_VEC_NELEMS);
+ 	VMEM_ARRAY(e_dew_enh_f, ISP_VEC_NELEMS);
+ 	VMEM_ARRAY(chgrinv_x, ISP_VEC_NELEMS);
+ 	VMEM_ARRAY(chgrinv_a, ISP_VEC_NELEMS);
+-- 
+2.46.0
+
