@@ -1,58 +1,58 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2BF0AD23
-	for <linux-staging@lists.linux.dev>; Sat,  7 Sep 2024 05:33:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B13532C8E
+	for <linux-staging@lists.linux.dev>; Sat,  7 Sep 2024 05:33:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725687216; cv=none; b=rYO/VQhpHEoSNgFwEVl6nKolfYzNLxHV+oJfmj5EmViDncfvuSMsWs6/dSxT/HhklsGer2A75vDmzUk354OYBx8IsARREKo6O6TXWIU3WtuIo3sird58h9S6oc4mZPcGfZvYRDWSbiF7XvDnH/k3jCwOPLao4uNKebsDoJa830A=
+	t=1725687232; cv=none; b=XCMm2Jb9X6ce2N5PDOEUoXT8jasYWNPViVD1J4XUigkhHUmRj7BMdu6E1VRwwcGxoLCoTxvTadUYyNEw06psEwAwFnzDrmdnY3LREQJEwHeH2l8YjEspwqb3nN1i82PaO8QDnUWkUVc5KdsCjhWQt7beWvq4hYze8O2Z6fA+3FI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725687216; c=relaxed/simple;
-	bh=zantoeM69tUQKQTq7QtVcfoqoVWwS6/m4Cby2VdJdlE=;
+	s=arc-20240116; t=1725687232; c=relaxed/simple;
+	bh=+H/I7whN0NNpqToF+5fYnih+o16BXEJ7heTUY/b5+T0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qZ8rnrEWQSJ+3CU6X7ypaua1t+v7G6WToWkb2v6UfF7vKSax027LV2TsGbFm1tu3qvsFArQz5ww+kG5Vw7J3pISkuGb3xGuGPGZz/W3y5XLRXW0or3n7/svb221XWSk3ADYiEnQLum7k2WpG+U0M0pk+apxP8qyKwU4aOckLHZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YUw9hMdi; arc=none smtp.client-ip=209.85.167.43
+	 In-Reply-To:Content-Type; b=Nre8WShQwU1m4hW0vxVwavHvykWJGgZgLr4R4SLir2Zx9pnbqoa21dlCNgeX9tJAA7oyQVMKTXKQHG/182DZKt9s5Oz5RcCOIHeme+A3VHg9vJYU2jfyPy2mtdfx7afSAUp7xqPyy+lEIe9lAdho9iB8EfU1STr2nMPLlDfUlNI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M3ltPe1m; arc=none smtp.client-ip=209.85.208.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YUw9hMdi"
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-53568ffc525so3635150e87.0
-        for <linux-staging@lists.linux.dev>; Fri, 06 Sep 2024 22:33:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M3ltPe1m"
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5c245c62362so3487600a12.0
+        for <linux-staging@lists.linux.dev>; Fri, 06 Sep 2024 22:33:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725687213; x=1726292013; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1725687229; x=1726292029; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=EMdYzbyGz4WlAzyMlzXjH9QYo1m21KCeU40Swdjo/50=;
-        b=YUw9hMdiy7qdhpiHyxhGq0QP11r6F19fIYa/3npMAtgRqEZ3ZIC5U8QodOE/4eaCbe
-         +g66JjR6+WCFSnTryEoMU+RLiuMNF68tLDuOZR0h/3Mje9tjDvRU1h8qD91rLws6n9i3
-         9XwITvuI21cXqULH5PraEyju7Q3EmIrjSk+zC9hLdOG0SKWho+4hMYUWNSuft2mx2ZN6
-         +lDpI9DVneuv2coa+bD3USZ4YY9H8cWQb485wDSnI79eX7a/+K3M79HK5/qWAqvWtCB0
-         yqLVcx6DTxdMuh9EjSwSZU/A/0BbyZIMPLfQyJ+uPgvJnbJ1FRgKtQU3ak0l/A9uHrDe
-         dLxQ==
+        bh=ZM2s1Cg/60GKM8GyEK8yuEznjDVkHGQO4WsXgAoE8Tk=;
+        b=M3ltPe1mHAYolXF0oDE1EoDODbq0cm5zxpnByyTT3iPgXIjdg7LyB1LtfunNHIN2ge
+         SXACwr/AqZ3l0mHaAPkMbmAeHDLdQUfFoDoICA5/r9O3lo5odO0CzWq9vnfUMDhIN8Fx
+         PhTVZndH/XCrCwPUyZdwMOsbUBREBvYTZKcM9r9B9/8/xY3l3iFz2tY80tfQpvmY7hgC
+         3uUS5Yp3YIi2ZsP5nygdw6NhddLraE7XKWJiqPHV9JV9vxV4PpOo+5D8hnOGRUJgfJ+I
+         Cx1c4tHmL7GVj4K+RdhqbfcpcRSzu9+A/rYeHJU7siiDv/MN0JctqteUgzxFP/CltFIC
+         6Y/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725687213; x=1726292013;
+        d=1e100.net; s=20230601; t=1725687229; x=1726292029;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=EMdYzbyGz4WlAzyMlzXjH9QYo1m21KCeU40Swdjo/50=;
-        b=MKiU/rNf1jJBLLcb/UZzIO3P+IGGDARVhuR96wLovrqTvFxyNn3gtgpkXOqNUSFCE0
-         h06xZYv+ZBAhrI4Sh77PDUO7l5YE2hhyC/9fGq3cGc1QEJ74g6b7/yvUu0dFQj3YybV0
-         FVhSVo53MEoB631XfcOsj3IY6Rgv52w+GK9xiiYJJib6v8uN9Q18BYLhDaO4fRyoRYN6
-         xBjX6kCHFt/1V2OSKCH2jV61znfFH9d6ADk8aDHjmeu5TZWjEw6qV1XKPv5n5tap5rC2
-         HW27G4ZnLBqvYwNjqU0J/mPLIZLuq+pihSbI/Kft+FS7EhmxIsfgrJkjOFDS9y4bpJ0K
-         tKAA==
-X-Gm-Message-State: AOJu0YwvFukDvOvichWqrNeoJI7PhxBVPvDwP3jZLE0LkHlyxqyHeyDC
-	scSnNKbN+ksnn3uu3lvkhrmrU/iLYVtp2gYsvhLzbkZIATV/0DGH
-X-Google-Smtp-Source: AGHT+IG/jPYS5sRhAiOU1Ut2nosRbh1hUF6KcwbKLKt1k83KOZgeNvrJElJS48a61Zs79yLrzLokxg==
-X-Received: by 2002:a05:6512:3ba1:b0:530:ae4a:58d0 with SMTP id 2adb3069b0e04-536587a40c6mr3414143e87.8.1725687212339;
-        Fri, 06 Sep 2024 22:33:32 -0700 (PDT)
+        bh=ZM2s1Cg/60GKM8GyEK8yuEznjDVkHGQO4WsXgAoE8Tk=;
+        b=wCeSk58eBfusWZs2mMmIqmoKlgstkuz8lNRGys1iiVTToFMUIpGfblJwdZnSW9+XP6
+         5pbeRoObEB56nhZxxnWBlepI+qaAlKfryBXpQ/6ubDbFrvZpi0FYjircAU/LVnqJqUFP
+         WqqcPrHLGFhkryAAZEEZp+Zv+4lWiUcHdLPSWjm3N4VzORYqAxXp7kgIR5MGzSZQipa4
+         5xKXubTtYrV8p/mdqb6DzUQknkzjzYHmaDuoOVYcseT3l38ft5TXY4gysVoi+SRf8vHi
+         3sQ80m7thqiqcl+pC53zD14EkYAR6Fw1ZXAleWHjt/FHuDerdRwVbB5l8HeEVVhb0Ltu
+         Ms2g==
+X-Gm-Message-State: AOJu0YxGOGby1JS7b7ziSbZC121zUjrCo/c+fCHJYgImiZmxgdd8rqkE
+	oJwLMaVUTBKy0fxp0AhGqiZJkb9GfDccnIfOwGfPoLVfXSMrVWAR/geUJ4R5
+X-Google-Smtp-Source: AGHT+IG7GzWFmsfvVo1AaQt75WN4uxIiwobekgFNnbMDqyvyn1poRmtdtfnUTPFBzy/UFNfiQCgljQ==
+X-Received: by 2002:a05:6402:43ce:b0:5bf:2577:4346 with SMTP id 4fb4d7f45d1cf-5c3dc79a821mr3416162a12.15.1725687228698;
+        Fri, 06 Sep 2024 22:33:48 -0700 (PDT)
 Received: from ?IPV6:2003:c7:8f2a:8554:83ef:b48b:9bd4:f165? (p200300c78f2a855483efb48b9bd4f165.dip0.t-ipconnect.de. [2003:c7:8f2a:8554:83ef:b48b:9bd4:f165])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8d25952761sm30294066b.59.2024.09.06.22.33.31
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c3ebd76f8bsm257776a12.76.2024.09.06.22.33.48
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 06 Sep 2024 22:33:32 -0700 (PDT)
-Message-ID: <34c89f36-915f-49da-bea1-c9b9ffaab905@gmail.com>
-Date: Sat, 7 Sep 2024 07:33:31 +0200
+        Fri, 06 Sep 2024 22:33:48 -0700 (PDT)
+Message-ID: <5aeb10e7-bf33-431b-9669-133cda54d5d3@gmail.com>
+Date: Sat, 7 Sep 2024 07:33:47 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -61,38 +61,38 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] staging: rtl8723bs: include: Fix spelling mistake in
- rtw_xmit.h
+ rtw_io.h
 To: Roshan Khatri <topofeverest8848@gmail.com>, gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20240906141024.10021-1-topofeverest8848@gmail.com>
+References: <20240906141104.10076-1-topofeverest8848@gmail.com>
 Content-Language: en-US
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20240906141024.10021-1-topofeverest8848@gmail.com>
+In-Reply-To: <20240906141104.10076-1-topofeverest8848@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 9/6/24 16:10, Roshan Khatri wrote:
+On 9/6/24 16:11, Roshan Khatri wrote:
 > This patch fixes spelling mistake to increase code readability
 > and searching.
 > 
 > Signed-off-by: Roshan Khatri <topofeverest8848@gmail.com>
 > ---
->   drivers/staging/rtl8723bs/include/rtw_xmit.h | 2 +-
+>   drivers/staging/rtl8723bs/include/rtw_io.h | 2 +-
 >   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/staging/rtl8723bs/include/rtw_xmit.h b/drivers/staging/rtl8723bs/include/rtw_xmit.h
-> index a3b4310caddf..544468f57692 100644
-> --- a/drivers/staging/rtl8723bs/include/rtw_xmit.h
-> +++ b/drivers/staging/rtl8723bs/include/rtw_xmit.h
-> @@ -15,7 +15,7 @@
+> diff --git a/drivers/staging/rtl8723bs/include/rtw_io.h b/drivers/staging/rtl8723bs/include/rtw_io.h
+> index be9741a056e5..0ee87be6dc4f 100644
+> --- a/drivers/staging/rtl8723bs/include/rtw_io.h
+> +++ b/drivers/staging/rtl8723bs/include/rtw_io.h
+> @@ -13,7 +13,7 @@
+>   	Otherwise, io_handler will free io_req
+>   */
 >   
->   #define XMITBUF_ALIGN_SZ 512
+> -/* below is for the intf_option bit defition... */
+> +/* below is for the intf_option bit definition... */
 >   
-> -/*  xmit extension buff defination */
-> +/*  xmit extension buff definition */
->   #define MAX_XMIT_EXTBUF_SZ	(1536)
->   #define NR_XMIT_EXTBUFF	(32)
->   
+>   struct intf_priv;
+>   struct intf_hdl;
 
 Hi Roshan,
 
