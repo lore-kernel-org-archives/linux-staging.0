@@ -1,56 +1,56 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DED7817C98E
-	for <linux-staging@lists.linux.dev>; Sun,  8 Sep 2024 19:26:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8869C17A586
+	for <linux-staging@lists.linux.dev>; Sun,  8 Sep 2024 19:26:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725823608; cv=none; b=MsfOKOiVFl9MpB286+INL6i867TvzvPDj8zVJlYpU9rrWL8Yn3hNJd4vrJABVLDHZlTZ9w2r+bLWpm6iu5gpl7jYmHSXtxhePiR9orGGkBPnsScYiMu/JiVXTu+l6uiroLZ5R8OZsvYIB1HM0u1tdApd2eo1ekiMLqcYBhpu1gE=
+	t=1725823609; cv=none; b=X1h3vqY6GOHOrkJEcFlgiJAWW8cY9fvWzbqxxR2ykTSDGSiYYEUMAJhWNklOK6rElr5N6fHdxMCJCHhh5U3lTgHQi5YG++9WSCPKMCJPkBT+xQDEjJ+v5X56dP5vmPbwgCSIJzxXgUTnkoFVQSSO1xjO0t6i+DomLw6W4mwhlVQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725823608; c=relaxed/simple;
-	bh=LTYeFszybk7UogGptFrkCYxtXAHySb6fBAYEP3TvpU0=;
+	s=arc-20240116; t=1725823609; c=relaxed/simple;
+	bh=JzkYesItRdPywlcTwoNQUMjC7AQGa+S9Iz69eRwz31Q=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=rTdanFP2OYZEAqfUzneM6eZs+8sHL6r5gzNO+RmCygSLXf2e5c2QTjpEZNnS1K6DpzI2KuVSni/bFdzEVkkwoRS/AXsVOyIVww6S/y6PbB4xjumjavDBv8CXTUlcWOsw5wnEejx++TS2osxglrWdRo3pkfhww99tmTCA+zdxw04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net; spf=pass smtp.mailfrom=darkphysics.net; dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b=fGytg8tO; arc=none smtp.client-ip=209.85.214.173
+	 MIME-Version; b=sPU4DIaLkGoI8I2ciqwD8zRtUWRdFEt/z62hHPGHY43LusyS9Ax5qSR1FNsXEovuLaDuT24nrmNe65bSXOrZ+6nb9FD0kX+jkKOM0zeqNKdH+is46B27ef8GC7gROppvZuTpTbe6pCgrc5sbSCHqKk+QY37hFoApIMelkVdY1AE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net; spf=pass smtp.mailfrom=darkphysics.net; dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b=iNIyowzJ; arc=none smtp.client-ip=209.85.214.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=darkphysics.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="fGytg8tO"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-20543fdb7acso25380165ad.1
-        for <linux-staging@lists.linux.dev>; Sun, 08 Sep 2024 12:26:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="iNIyowzJ"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2068bee21d8so35573225ad.2
+        for <linux-staging@lists.linux.dev>; Sun, 08 Sep 2024 12:26:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=darkphysics.net; s=google; t=1725823605; x=1726428405; darn=lists.linux.dev;
+        d=darkphysics.net; s=google; t=1725823607; x=1726428407; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=CokQS4kXNUYPMSO/bhNH26UTp/Z0p345ebJ88SlkfZg=;
-        b=fGytg8tOwqVeSVEuosvJWt0tcA4iUlz5waC3vdiSsmLiwjB4lQsvzIzdEYRSGo4Qw+
-         4uWKSoS1DS/jZSqGitgfBKpkclGOMKnLmdBacwq187vRxoMXHehBQHR4V95+lUEQ8xbE
-         Rmxw+yINSXAmjRNYg0DSU+ScFp5dA3FSHun8PkmxfbbTy1C2rpvRQYf2hJJb9xGZ2FOf
-         tHrbZMNTj74m2U7x4QmcvSkBnMlFn8zFxnbRJJ1caw8Of941n3g0NtRyvnKZppUsZpwj
-         GzkgMdbbctAVC4oo2HxkOyGHtGlOs6A92fnSj6ii6/kXtInQXnY2ygiEDEV0X9a8C56y
-         Jptg==
+        bh=3b2uQ0KLJAAtQJ2wmUi2c9S1xBAjjzTRADBi7POwrfY=;
+        b=iNIyowzJ2lGnsanoMbXhoPgAfkYiB4/aszRcHriiSdWk5LDsT/YgykTxEj5yJltI5x
+         fOjdKkBWlZpMLzzwIxBAXAS+PznEI5FmPIUQnZ8OB3W9+1+AJ6sBOxEceAGQr1HTeFmc
+         jRLEcygPfuz+p0Nzt+Hl4jK1WYakP4E1REnwQIXVsp/i289TTgXCLtMkQlaujZlsRL8q
+         PzDIpORXQKsi+jDuET2BIcMP5CSMcFj7TMWVnIuXSTVi4Gogq9QQYn9h+9F+q8TvLWdA
+         r75pcYYMXurl++8tMvF2GQFm+smBVD+j8QrlZZreSBBOCQEbFk9REx/wjVvKuCRedsep
+         /B/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725823605; x=1726428405;
+        d=1e100.net; s=20230601; t=1725823607; x=1726428407;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=CokQS4kXNUYPMSO/bhNH26UTp/Z0p345ebJ88SlkfZg=;
-        b=ojbaWdttJ8dV9z9Ome2xk9z8Fnnb7Q2/xQ0s1GMN5YX+6CvROX/a4pAkERibNF86Mf
-         wo7uq7LX0KjsK8R0LJTx3p4IRq+uqs2cnGhEBZ0jk3xluWBR/pqVMDzcYA9jOn1ev1Rm
-         EgMlgdyJUNfhNG+X3Te8kt+pL5Yb+lQBMVZ/QvQFJJ1Paz5FM68FLDXcPbgaaPHOcfSe
-         FynWwWyOux/iaLm5wsSnUqdmiw9A0MbzE9Yubl8/xeAtHa0C1JPyKZdVUGKdPsnRcnTI
-         0PJ9tr8Mjpy5ADV9HiIE5jcppGMqxHmzb2ZfEWzXftiaNGTTqzjGdbggHuqYFttrSLGG
-         aWQA==
-X-Gm-Message-State: AOJu0Yz64m6jVLOi4lLtMDwkybEZrWLBk1JwTEtwTk0OfOrubmSLzY0r
-	IZaHvBbcLHKkvthmhEA2UZqABf4Vrd2lsf9XI5BQCIJHR6e/zx+SPtUeoiXRTDU=
-X-Google-Smtp-Source: AGHT+IG2dsp94gPihKGFg5H5haq3c+EPQj+JUdDhx0pe14/DtjqT3zFZ1C+fHjy51BvMA1Shdl5g6g==
-X-Received: by 2002:a17:903:2412:b0:202:4b99:fd27 with SMTP id d9443c01a7336-206f0620834mr84000685ad.51.1725823605335;
-        Sun, 08 Sep 2024 12:26:45 -0700 (PDT)
+        bh=3b2uQ0KLJAAtQJ2wmUi2c9S1xBAjjzTRADBi7POwrfY=;
+        b=Dugf0KAQeVHEEXegSYYfM1nzrsxj+4QzkntZOl8Ck0v76ZGOIqugJT+ZY1WNKdxgcq
+         Jf5XETWXWnpngqnNp61Nt9gA3IUEvRShkH7O2+zzj9VMkDgPBrubgwb2XWHW6mHvqZU3
+         Qh+WEm04j85+BFlsLJ6t6c/6Majvp3vP+KmR32swydrbwsSSkWCfZu1H1UimYjNkxabl
+         lSK5bRcG2DHtL8pVB5w7lOkSL619ptDy7EXQyG5G43OgMYdrp5iLiYOYqUI0LPruJ0kJ
+         gNffwILgR5IYlPMRG7TvqaOE7rluOSxi1/Uyva4mK0Ye66W5X/0Bkcjlg/HxXheE4u9J
+         6eJg==
+X-Gm-Message-State: AOJu0YzrrrCEwKytMmj7CcibpXe2KpDePntPxsGo2TGiIphEUmhxIfU/
+	wOLlFyRO2V5JBVxJVZBQrO9ASgkYUoXn8fHKrVeEqOkxWX8oSar0huYztP9ma7Y=
+X-Google-Smtp-Source: AGHT+IHDxtbQnGaGi1juqUlvIl0ykr1sv4pKQVI8yozX2KId5ji/h6/YeJ0OSduDeyLYMC7fvWQDkw==
+X-Received: by 2002:a17:902:e847:b0:205:755c:dde6 with SMTP id d9443c01a7336-2070c0d83b2mr72644015ad.30.1725823606904;
+        Sun, 08 Sep 2024 12:26:46 -0700 (PDT)
 Received: from lunchbox.darkphysics (c-73-83-183-190.hsd1.wa.comcast.net. [73.83.183.190])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20710e1b085sm22703305ad.36.2024.09.08.12.26.44
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20710e1b085sm22703305ad.36.2024.09.08.12.26.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Sep 2024 12:26:44 -0700 (PDT)
+        Sun, 08 Sep 2024 12:26:46 -0700 (PDT)
 From: Tree Davies <tdavies@darkphysics.net>
 To: gregkh@linuxfoundation.org,
 	philipp.g.hortmann@gmail.com,
@@ -58,9 +58,9 @@ To: gregkh@linuxfoundation.org,
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Tree Davies <tdavies@darkphysics.net>
-Subject: [PATCH 11/16] Staging: rtl8192e: Rename variable SignalQuality
-Date: Sun,  8 Sep 2024 12:26:28 -0700
-Message-Id: <20240908192633.94144-12-tdavies@darkphysics.net>
+Subject: [PATCH 13/16] Staging: rtl8192e: Rename variable nStuckCount
+Date: Sun,  8 Sep 2024 12:26:30 -0700
+Message-Id: <20240908192633.94144-14-tdavies@darkphysics.net>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20240908192633.94144-1-tdavies@darkphysics.net>
 References: <20240908192633.94144-1-tdavies@darkphysics.net>
@@ -72,76 +72,50 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rename variable SignalQuality to signal_quality
+Rename variable nStuckCount to stuck_count
 to fix checkpatch warning Avoid CamelCase.
 
 Signed-off-by: Tree Davies <tdavies@darkphysics.net>
 ---
- drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c | 14 +++++++-------
- drivers/staging/rtl8192e/rtllib.h              |  2 +-
- 2 files changed, 8 insertions(+), 8 deletions(-)
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 8 ++++----
+ drivers/staging/rtl8192e/rtllib.h            | 2 +-
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-index 078e36962197..eab6bbf9f3bf 100644
---- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-@@ -1264,8 +1264,8 @@ static void _rtl92e_query_rxphystatus(struct r8192_priv *priv,
- 				else
- 					sq = ((64 - sq) * 100) / 44;
- 			}
--			pstats->SignalQuality = sq;
--			precord_stats->SignalQuality = sq;
-+			pstats->signal_quality = sq;
-+			precord_stats->signal_quality = sq;
- 			pstats->RxMIMOSignalQuality[0] = sq;
- 			precord_stats->RxMIMOSignalQuality[0] = sq;
- 			pstats->RxMIMOSignalQuality[1] = -1;
-@@ -1309,8 +1309,8 @@ static void _rtl92e_query_rxphystatus(struct r8192_priv *priv,
- 			evm = rtl92e_evm_db_to_percent(rx_evmX);
- 			if (bpacket_match_bssid) {
- 				if (i == 0) {
--					pstats->SignalQuality = evm & 0xff;
--					precord_stats->SignalQuality = evm & 0xff;
-+					pstats->signal_quality = evm & 0xff;
-+					precord_stats->signal_quality = evm & 0xff;
- 				}
- 				pstats->RxMIMOSignalQuality[i] = evm & 0xff;
- 				precord_stats->RxMIMOSignalQuality[i] = evm & 0xff;
-@@ -1436,7 +1436,7 @@ static void _rtl92e_process_phyinfo(struct r8192_priv *priv, u8 *buffer,
- 		rtl92e_update_rx_statistics(priv, prev_st);
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+index a5980253183e..5a4113c97b1c 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+@@ -860,13 +860,13 @@ static enum reset_type _rtl92e_tx_check_stuck(struct net_device *dev)
+ 			skb = __skb_peek(&ring->queue);
+ 			tcb_desc = (struct cb_desc *)(skb->cb +
+ 				    MAX_DEV_ADDR_SIZE);
+-			tcb_desc->nStuckCount++;
++			tcb_desc->stuck_count++;
+ 			bCheckFwTxCnt = true;
+-			if (tcb_desc->nStuckCount > 1)
++			if (tcb_desc->stuck_count > 1)
+ 				netdev_info(dev,
+-					    "%s: QueueID=%d tcb_desc->nStuckCount=%d\n",
++					    "%s: QueueID=%d tcb_desc->stuck_count=%d\n",
+ 					    __func__, QueueID,
+-					    tcb_desc->nStuckCount);
++					    tcb_desc->stuck_count);
+ 		}
  	}
- 
--	if (prev_st->SignalQuality != 0) {
-+	if (prev_st->signal_quality != 0) {
- 		if (prev_st->packet_to_self || prev_st->bPacketBeacon ||
- 		    prev_st->bToSelfBA) {
- 			if (slide_evm_statistics++ >= PHY_RSSI_SLID_WIN_MAX) {
-@@ -1446,10 +1446,10 @@ static void _rtl92e_process_phyinfo(struct r8192_priv *priv, u8 *buffer,
- 				priv->stats.slide_evm_total -= last_evm;
- 			}
- 
--			priv->stats.slide_evm_total += prev_st->SignalQuality;
-+			priv->stats.slide_evm_total += prev_st->signal_quality;
- 
- 			priv->stats.slide_evm[slide_evm_index++] =
--						 prev_st->SignalQuality;
-+						 prev_st->signal_quality;
- 			if (slide_evm_index >= PHY_RSSI_SLID_WIN_MAX)
- 				slide_evm_index = 0;
- 
+ 	spin_unlock_irqrestore(&priv->irq_th_lock, flags);
 diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-index b599309b70ff..76792268629d 100644
+index 5ff3fab72589..540ab4e34e70 100644
 --- a/drivers/staging/rtl8192e/rtllib.h
 +++ b/drivers/staging/rtl8192e/rtllib.h
-@@ -464,7 +464,7 @@ struct rtllib_rx_stats {
- 	u8  mask;
- 	u16 len;
- 	u16 Length;
--	u8  SignalQuality;
-+	u8  signal_quality;
- 	s32 RecvSignalPower;
- 	u8  signal_strength;
- 	u16 hw_error:1;
+@@ -107,7 +107,7 @@ struct cb_desc {
+ 	u8 tx_use_drv_assinged_rate:1;
+ 	u8 hw_sec:1;
+ 
+-	u8 nStuckCount;
++	u8 stuck_count;
+ 
+ 	/* Tx Firmware Related flags (10-11)*/
+ 	u8 cts_enable:1;
 -- 
 2.30.2
 
