@@ -1,241 +1,88 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E3E32E634
-	for <linux-staging@lists.linux.dev>; Sat,  7 Sep 2024 18:26:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E51A314B978
+	for <linux-staging@lists.linux.dev>; Sun,  8 Sep 2024 10:11:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725733607; cv=none; b=VxSA2HFDOQH7zwz7cRBYdl6C0wNFxch0eX+lAukDau2OPCadKOO6CuNX3dD7Ungx1oH/B+x4st2Exrnkn9rXgXkw8slsbyLiL0qCazg/0zOMS2Rv8pbvreL0GXR61yDz52uvm6EPp9O9GxeB/nFfQYXfmx/pNAK+kAQwQoNBMi8=
+	t=1725790282; cv=none; b=C3s2oYS8vY4VgPpaWooKR/hGTYlaMgaMnhYOM69suMdh3gvPqMnZZ6hRPwSdzGP4q9XqugwuDLhZw0z76ZRgpM3mLefW/eJwUlccuMu24fsaK/sWryt9AujyLAGgKXRgM0pxerRiNWkanWyOwBiAizUH4ZlS+YPWtqN5SX5m4pk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725733607; c=relaxed/simple;
-	bh=+bBNzUOGCWh7ue7Ni11kvgCYA/GRTWFBSh6VyM9mF4s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bo5tsTz8rAXFPqGDx8huySSeKCwLGbcmO5xEVPT7r1nLWNXpTIP88IzNYECeeorfiNvl0CQfd9GU9qWCWX35NXzWFSNjyiZhSqbAWIOSmelBNIkp/2s3J16gMi/uYF7YGr8GPhGzdH5JX3DkWuGle98hw0hFrhD+gq9+7wbTSHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=DqswWrsy; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1725790282; c=relaxed/simple;
+	bh=avGcyUF4moSstecPBUHUlVU4X6Gn9wgfwbWgPoyt0Zo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ofNDsxL7NV8xoR5TtmWb+S1u14MyjnI6yL/q4bCH8KqrkOpjfttWwDuvPtY2umLaijdnZUIobKHuy+vrd0NFOjyTW97fKDobqoc8TzseYjKO9X47VcCcT1ZoodhFwjdUEteLSk4BV96Ui6xUxAmQ5mwR5SvNzKUEiXQvDbsCIlE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hBk6RUde; arc=none smtp.client-ip=209.85.215.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="DqswWrsy"
-Received: from [IPV6:2405:201:2015:f873:55d7:c02e:b2eb:ee3f] (unknown [IPv6:2405:201:2015:f873:55d7:c02e:b2eb:ee3f])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A7623593;
-	Sat,  7 Sep 2024 20:25:25 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1725733527;
-	bh=+bBNzUOGCWh7ue7Ni11kvgCYA/GRTWFBSh6VyM9mF4s=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=DqswWrsysj0Dsi2ZnSuf3qHUyy2T/BMmUYchiQBlaD3AOLk86/ycZfA7HNS6pfPtF
-	 yzMabs164LqskKZQ244Sb+fzHXpCoP+oxlXLLEiGMGcJYRg0lZiBlugre9NtEPJEsv
-	 sxDybLizt3erWcXa6LrAG8EC+kaoanRJCxRXd9YU=
-Message-ID: <2f5af934-de4a-4548-ac59-f23c3ae0f54e@ideasonboard.com>
-Date: Sat, 7 Sep 2024 23:56:36 +0530
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hBk6RUde"
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-7d4fa972cbeso2782819a12.2
+        for <linux-staging@lists.linux.dev>; Sun, 08 Sep 2024 03:11:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1725790280; x=1726395080; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=biYfC5HUlpa0qqeVAFPV4kB9CvhBlwCgTvPQrrf8Rs0=;
+        b=hBk6RUded2bWw88cIsqKv4Hw6xdczr8SsAQD2L2780Z5UCWnuGGsQ5oE9hsVt3cDE6
+         P694Vs0Bt1G+eb+6Gati4iNuOhKQiDIFZuchTx8XlqOaYYN+I1tjsVqn9hS8b97qblx0
+         Vg3hWCBHEQY4cw3OiNKitfYuvwhlk5JnXD9MMw2Ob0/u+f0I+rngLB6ZLZT2GdOSWvGe
+         NgF1cJ2qirukCThQEV8QNmJAldeFPZvW8DRf+HjxLEhknScdG9p/oHpU0xrCpkDB71Ul
+         nLrdOrZOXrI3E5PKrhP3X10Jfe/G34eiPhxDXvw0Dbf7KRiTtH1IK68DUY/El2OkDu8I
+         qUEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725790280; x=1726395080;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=biYfC5HUlpa0qqeVAFPV4kB9CvhBlwCgTvPQrrf8Rs0=;
+        b=vOzathPPp7jOWRlBdMJfkXLHG0grky3Mg9VcRdOQTkp3mMWclzNYLXnkSpfcB2GMav
+         ilMFFJAw7zwgCpa0Z0g/erICxuXR4DddZwbjf3r+TSw2Z6Kp+7ZAvvVP35uvzwSQwfB2
+         6OFJuQe6oC/qiHx/NJShDtwGLUS2Q5potSy3cpgKANhYYg30DNYpRhUMmrHsuoxUxgOf
+         7djVi6sil9fKQmVPhMara6e815dPYlQoBqQ42bZCo3mvB5TffZmwSe+8BZmQZC3w/OGN
+         kCvki0+CO72geZmslYqlVZTkThb8VIdHMkPl/cmo4r8Rf18Qfct5a4up+6BTTuPR0nRh
+         FF3A==
+X-Gm-Message-State: AOJu0YyZv8QndFQ6SXHZdwyAPMxNKuxGpKqu52M6Mu0f6vnz4jTjsz0J
+	G64zfDLItdsfoVUsGEvKrRSJxvNykfAjbm0BhEu7H4+XCvqzBLDPzI6RagBw0Fw=
+X-Google-Smtp-Source: AGHT+IFC0W//oMWfh8aTsrMzXObPPAsI2g8sKwq1wCoYvHc5wJmv6zLbt2HKdL6Gb4kbk2GC/oQy+w==
+X-Received: by 2002:a17:90b:4c88:b0:2c8:f3b4:421 with SMTP id 98e67ed59e1d1-2dad4de18f6mr10139212a91.4.1725790279885;
+        Sun, 08 Sep 2024 03:11:19 -0700 (PDT)
+Received: from debian.tail629bbc.ts.net ([103.57.172.39])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2dadc0782dfsm4589379a91.34.2024.09.08.03.11.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Sep 2024 03:11:19 -0700 (PDT)
+From: Sayyad Abid <sayyad.abid16@gmail.com>
+To: linux-staging@lists.linux.dev
+Cc: philipp.g.hortmann@gmail.com,
+	gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
+	sayyad.abid16@gmail.com
+Subject: [PATCH 0/6] staging: rtl8723bs: Fix various coding style issues
+Date: Sun,  8 Sep 2024 15:41:04 +0530
+Message-Id: <20240908101110.1028931-1-sayyad.abid16@gmail.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 3/7] staging: vchiq_core: Factor out bulk transfer for
- blocking mode
-To: Stefan Wahren <wahrenst@gmx.net>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-rpi-kernel@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Arnd Bergmann <arnd@arndb.de>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Phil Elwell <phil@raspberrypi.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20240906072506.174026-1-umang.jain@ideasonboard.com>
- <20240906072506.174026-4-umang.jain@ideasonboard.com>
- <5e3f9758-e392-44af-83c4-e60714046708@gmx.net>
-Content-Language: en-US
-From: Umang Jain <umang.jain@ideasonboard.com>
-In-Reply-To: <5e3f9758-e392-44af-83c4-e60714046708@gmx.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Hi Stefan
+This patch series fixes various coding style issues in the
+rtl8723bs/include/rtw_security.h
 
-On 07/09/24 5:19 pm, Stefan Wahren wrote:
-> Hi Umang,
->
-> Am 06.09.24 um 09:25 schrieb Umang Jain:
->> Factor out bulk transfer for blocking mode into a separate dedicated
->> function bulk_xfer_blocking_interruptible(). It is suffixed by
->> "_interruptible" to denote that it can be interrupted and -EAGAIN
->> can be returned. It would be up to the users of the function to retry
->> the call in those cases.
->>
->> Adjust the calls to vchiq-dev.c ioctl interface and vchiq_arm.c
->> for blocking bulk transfers.
->>
->> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> i applied this series on top of recent linux-next and the vchiq ping
-> test on Raspberry Pi 3 B Plus (multi_v7_defconfig) crashes or hanges
-> strangly.
+Patches :
+  Patch 1/6: fix use of tab wherever possible
+  Patch 2/6: fix position of opening braces
+  Patch 3/6: fix space before tabs
+  Patch 4/6: fix comment with a trailing */ on a separate line
+  Patch 5/6: fix switch and case to be at same indent
+  Patch 6/6: fix no space before tab and statement start on tabstop
 
-This is really annoying. The behavior is non-deterministic
+All these patches address minor coding style issues in the file.
 
-I tested this repeatedly and I see the hang on my 3rd ping test.
-The first 2 ping tests completed successfully.
+ .../staging/rtl8723bs/include/rtw_security.h  | 95 +++++++++----------
+ 1 file changed, 47 insertions(+), 48 deletions(-)
 
-Here is the output for all 3 tries:
-
-https://paste.debian.net/plain/1328739
-
-I'll take a look and fix it in next version.
-
->
-> I bisected the issue to this patch, but it's possible the root cause
-> might be introduced before.
->
-> But i'm pretty sure that the series introduced the regression.
->
-> Sorry, i don't have the time analyse this issue deeper.
->
-> Best regards
->> ---
->>   .../interface/vchiq_arm/vchiq_arm.c           |  5 +--
->>   .../interface/vchiq_arm/vchiq_core.c          | 42 ++++++++++++++++---
->>   .../interface/vchiq_arm/vchiq_core.h          |  5 +++
->>   .../interface/vchiq_arm/vchiq_dev.c           |  6 +++
->>   4 files changed, 49 insertions(+), 9 deletions(-)
->>
->> diff --git 
->> a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c 
->> b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
->> index c4d97dbf6ba8..688c9b1be868 100644
->> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
->> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
->> @@ -968,9 +968,8 @@ vchiq_blocking_bulk_transfer(struct 
->> vchiq_instance *instance, unsigned int handl
->>               return -ENOMEM;
->>       }
->>
->> -    ret = vchiq_bulk_transfer(instance, handle, data, NULL, size,
->> -                  &waiter->bulk_waiter,
->> -                  VCHIQ_BULK_MODE_BLOCKING, dir);
->> +    ret = vchiq_bulk_xfer_blocking_interruptible(instance, handle, 
->> data, NULL, size,
->> +                             &waiter->bulk_waiter, dir);
->>       if ((ret != -EAGAIN) || fatal_signal_pending(current) || 
->> !waiter->bulk_waiter.bulk) {
->>           struct vchiq_bulk *bulk = waiter->bulk_waiter.bulk;
->>
->> diff --git 
->> a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c 
->> b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
->> index f36044bab194..43f951fa4b89 100644
->> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
->> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
->> @@ -2985,6 +2985,42 @@ vchiq_remove_service(struct vchiq_instance 
->> *instance, unsigned int handle)
->>       return status;
->>   }
->>
->> +int
->> +vchiq_bulk_xfer_blocking_interruptible(struct vchiq_instance 
->> *instance, unsigned int handle,
->> +                       void *offset, void __user *uoffset, int size,
->> +                       void __user *userdata, enum vchiq_bulk_dir dir)
->> +{
->> +    struct vchiq_service *service = find_service_by_handle(instance, 
->> handle);
->> +    struct bulk_waiter *bulk_waiter;
->> +    enum vchiq_bulk_mode mode = VCHIQ_BULK_MODE_BLOCKING;
->> +    int status = -EINVAL;
->> +
->> +    if (!service)
->> +        return -EINVAL;
->> +
->> +    if (service->srvstate != VCHIQ_SRVSTATE_OPEN)
->> +        goto error_exit;
->> +
->> +    if (!offset && !uoffset)
->> +        goto error_exit;
->> +
->> +    if (vchiq_check_service(service))
->> +        goto error_exit;
->> +
->> +    bulk_waiter = userdata;
->> +    init_completion(&bulk_waiter->event);
->> +    bulk_waiter->actual = 0;
->> +    bulk_waiter->bulk = NULL;
->> +
->> +    status = vchiq_bulk_xfer_queue_msg_interruptible(service, 
->> offset, uoffset, size,
->> +                             userdata, mode, dir);
->> +
->> +error_exit:
->> +    vchiq_service_put(service);
->> +
->> +    return status;
->> +}
->> +
->>   /*
->>    * This function may be called by kernel threads or user threads.
->>    * User threads may receive -EAGAIN to indicate that a signal has been
->> @@ -3018,12 +3054,6 @@ int vchiq_bulk_transfer(struct vchiq_instance 
->> *instance, unsigned int handle,
->>       case VCHIQ_BULK_MODE_NOCALLBACK:
->>       case VCHIQ_BULK_MODE_CALLBACK:
->>           break;
->> -    case VCHIQ_BULK_MODE_BLOCKING:
->> -        bulk_waiter = userdata;
->> -        init_completion(&bulk_waiter->event);
->> -        bulk_waiter->actual = 0;
->> -        bulk_waiter->bulk = NULL;
->> -        break;
->>       default:
->>           goto error_exit;
->>       }
->> diff --git 
->> a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h 
->> b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
->> index 985d9ea3a06a..2dd89101c1c6 100644
->> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
->> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
->> @@ -474,6 +474,11 @@ extern int
->>   vchiq_bulk_xfer_waiting_interruptible(struct vchiq_instance *instance,
->>                         unsigned int handle, struct bulk_waiter 
->> *userdata);
->>
->> +extern int
->> +vchiq_bulk_xfer_blocking_interruptible(struct vchiq_instance 
->> *instance, unsigned int handle,
->> +                       void *offset, void __user *uoffset, int size,
->> +                       void __user *userdata, enum vchiq_bulk_dir dir);
->> +
->>   extern int
->>   vchiq_bulk_transfer(struct vchiq_instance *instance, unsigned int 
->> handle, void *offset,
->>               void __user *uoffset, int size, void *userdata, enum 
->> vchiq_bulk_mode mode,
->> diff --git 
->> a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c 
->> b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
->> index 550838d2863b..830633f2326b 100644
->> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
->> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
->> @@ -304,6 +304,12 @@ static int vchiq_irq_queue_bulk_tx_rx(struct 
->> vchiq_instance *instance,
->>           }
->>
->>           userdata = &waiter->bulk_waiter;
->> +
->> +        status = vchiq_bulk_xfer_blocking_interruptible(instance, 
->> args->handle,
->> +                                NULL, args->data, args->size,
->> +                                userdata, dir);
->> +
->> +        goto bulk_transfer_handled;
->>       } else if (args->mode == VCHIQ_BULK_MODE_WAITING) {
->>           mutex_lock(&instance->bulk_waiter_list_mutex);
->>           list_for_each_entry(iter, &instance->bulk_waiter_list,
->
+-- 
+2.39.2
 
