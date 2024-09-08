@@ -1,59 +1,59 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25876178CD9
-	for <linux-staging@lists.linux.dev>; Sun,  8 Sep 2024 20:33:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8839E175D4C
+	for <linux-staging@lists.linux.dev>; Sun,  8 Sep 2024 20:34:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725827623; cv=none; b=d0AoswVMjB7vsQXneDSL78ZGTYk8vHYIJnErSlZDDOqRe+jerAq91bTWx0WRsFkvk+77dKrwWMIJRIMHVmHTMvqcahriouDVMdgQ9ho9xl+BjbF4xK/GU6nMmUPcI9cngGVTc6NcsmY2KRMhJosCSR+OhelRfUn8dGmcrIZgGP0=
+	t=1725827701; cv=none; b=LAyGvzdUxn5ZLdJHk+1sISglqEzABPEr7IUdCshTL/+fg0c9ca9zRFd2wRcPV6CRA3heKXU1SJ4BXJyaKizp00gXzYzZoxMQKLyaCacdEET1rCjrr5IuHfutA7L80NHBy2XheonwO7I7DjccJ5q9+SUN5TSdCqXzh0GX8f8cK+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725827623; c=relaxed/simple;
-	bh=xwD4m181/ghlyX16sIsZDzu4zhFafGG1cb7UM3VEeS0=;
+	s=arc-20240116; t=1725827701; c=relaxed/simple;
+	bh=+pMLN04S56lAq85RIxX9RiClF8fhTbYZoEsWW028IxA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IbDlWQ2KPeqy4WAwvaVC5zweVvWIoI/BtMz/o0TjNEWy1bsR8b/nkNgMe2ieS916KlvIDD+KghIgYCUJVQwEDJ+V2YtRf4akAJGRNhpxkGG28w4jFttoxNaoBl+aW4w2gPKcFRG1RUJ0gz7cLm32CoNPE6I411riPMG9kB3hQyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J66C8tsE; arc=none smtp.client-ip=209.85.208.41
+	 In-Reply-To:Content-Type; b=RrcUWfpZenR8ISzotjOhgBeOuJanTMAlW8clfvknsdFbQ0aM9vZWNZTQH9AWqzZJnFIAoe+DtC91Euwtet3VquPQdkYxHdP4KJ8zaX2CpDAARfVkID/D4K6uYnsjf9pzylwsk+TLO8Tkt9sF4IfVi56R/BVEpbKo7cLZATySSaQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f7orP3uO; arc=none smtp.client-ip=209.85.208.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J66C8tsE"
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5c3c3b63135so3863525a12.3
-        for <linux-staging@lists.linux.dev>; Sun, 08 Sep 2024 13:33:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f7orP3uO"
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2f75428b9f8so16206171fa.3
+        for <linux-staging@lists.linux.dev>; Sun, 08 Sep 2024 13:34:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725827620; x=1726432420; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1725827698; x=1726432498; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=kF2uO3WLFmIzAKWxOZE3qObArcTQBZD6pgoNP5m+nYs=;
-        b=J66C8tsE1KtOi5InDsYUKRN7C/Fjz1+gA0T3F6ZIKnsadNCRu/ia8mBXl+kePgCGEQ
-         4fZyG8TNaEVrO0isAYvxaOnm//WiQITtFfUeoo5M8fGlMElbYEMz1As+H1IqAuilycfE
-         ZoA8ZtnPUqC1gFJd9JGpbo6py3UggG1zi92hk2pBkBwrvtYxemC1HwgYWoenGC5N960m
-         c5Z1z9nke7oSEs1rZ9RsnxUcc3bH1CuUFJDjovy+waR/JxG0SsmezzRm6qLvuM4T5zcd
-         D/8Jr6osLbsDqSVkmHOHHr+a62MhRwKWc3xrTfXsi6VsO9CDAyom6Wz36wLN6DDmbliR
-         Qs9w==
+        bh=wwAgKG3MjNdWJJ46a6f9nMyHqkocgTVWsSRI47bgPvI=;
+        b=f7orP3uO4mxSmWN8Dph3uYYC/TBVUcdldIJqgskwy56Bm6EQOCBrfjBmcbYnGtCt6N
+         gnRpxWSb69x6/1y+1ifKqozagKA2q6NRnopLfXfyLdhr8FsxpXkgRsBU5kDwHCZGHEBe
+         lpsK2KmMS1NjSXEioDkuwhrRhENz3Zn7cK523fz6AfnaCGkX87a/uEQV2ZeRJhojH4Fe
+         0CFNlnokV3372GiJ1TNh0vjxXDGi4azSUycqWgCY6SrYY5jyd/eDpn54sxJQfpO343Qg
+         Bv+FyvaQpthIFEBVupcxYRRWTJ2tm74eDfzW0buTcx38q3aM8OiOVYg39/6NA02UT9pM
+         hYuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725827620; x=1726432420;
+        d=1e100.net; s=20230601; t=1725827698; x=1726432498;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kF2uO3WLFmIzAKWxOZE3qObArcTQBZD6pgoNP5m+nYs=;
-        b=jtMu7FfCCQvwby3ZnAeQSmIBzlBWJqFCDMlMZpmMHba9Db1CI5h77iP+StVugavW3i
-         MXKwthfe1L1nXFSUIpTk6S9PvwD6f9VDrCYbGjZ6doFq4YKTHIHEgNsb/9RIZm4IaRa1
-         qU5aX3kn931Pni9k6kTeNkmUstW26lUVU5ahhXrOVVmATjO/aOPsfcoGKFt3r9LcTWau
-         K/glCgA6SOza7sBeDQ4rz1BMpd4KjkhUYJgeXdxCg+E6Er5hPt46AtCkIJWmdbTSqWiS
-         ub7MoAFf9ROpDEKekKrNOmBzoh6A/FOcNa5ME3HFj9gCSy7gvCctOGo+TY7mAWmt2/Cu
-         K0CA==
-X-Forwarded-Encrypted: i=1; AJvYcCXkHWXtf2HJav7FPRbsKSrvoiq1YqgBuSWZ+hBs7agQQptNyF4ZnZf5i5BuW7dTacTBRRTaoeCtZp/5idA4@lists.linux.dev
-X-Gm-Message-State: AOJu0YypqPHN+WbmNmhYivErf84f+k4kAU4McPHHZxUOhl3MDlSGkvZk
-	Hf1cnX+1dlHEhxZvrZryd8d7OngUkpPpg5Q+koK0e2TyB0Mxn5noQurUrv7y
-X-Google-Smtp-Source: AGHT+IHkhLuRJsXaIsWySKb1wYWCss338DDk4msZoEw3vDmi8KE+93iuiZd4yfSMTfIOpsAjfe1ewQ==
-X-Received: by 2002:a17:907:2daa:b0:a8d:489a:d23 with SMTP id a640c23a62f3a-a8d489a0f42mr361532566b.25.1725827620292;
-        Sun, 08 Sep 2024 13:33:40 -0700 (PDT)
+        bh=wwAgKG3MjNdWJJ46a6f9nMyHqkocgTVWsSRI47bgPvI=;
+        b=Gk+uLLUoRe70HMiirdEArfjkYTfULB6bUisliOWuVDZk2l5IiasTnsOwRY//+JN3VQ
+         ZFO+WDcAWt++pTe8VlEL0Y7eeV5QlM1iK3LeiPOvpZL2tphlASrkTpOMvMQeqxHJrMi/
+         +aBShy5GE4JaoiLHygaoPtz/mQ7wJDucBL4UuGjB+hkuWFG9dZQ4r2FqTt/yMfHB3cwl
+         5xiM6dfLyGU1BZCuiMtKRf4jPGUpMsULFUhBX7F7LeQfyckon/rXzOgW+iNZ1D1J3oen
+         Wg+rNG6N3y5ktAgiQlbWSIc2S5tUtqT1DR97BVzdIcGAvOn9H47gyg3WQKJSC/jMhXYT
+         pQ+w==
+X-Forwarded-Encrypted: i=1; AJvYcCUXzBzKf81+TQKfHZSetRmZOSW8bPZ0CqinrYwNmS3xLpQs4rP7uQPNg1U2875wtb6qP+Ydc4qqDiV+gUp8@lists.linux.dev
+X-Gm-Message-State: AOJu0YwWFCq+TqYjRpgbdR9PiP35UOgv5d5hWPCNpRNFnhvAUGG2GNDd
+	dXNxDtqyEQLJhF8afR4Q2cHJyPEUgicR3Nev4MRQzmRHkvI/fqWE
+X-Google-Smtp-Source: AGHT+IHdu8DeRAFkv5dqkoi3zd2OuN0xB+xEPifmnIJZZ1OhX+mQue/HtypaNmzl1gSCxIYcLgOmOg==
+X-Received: by 2002:a2e:750:0:b0:2f6:4a89:9afa with SMTP id 38308e7fff4ca-2f75a992205mr36381251fa.22.1725827697172;
+        Sun, 08 Sep 2024 13:34:57 -0700 (PDT)
 Received: from ?IPV6:2003:c7:8f2a:8576:4416:5fef:fc17:c89e? (p200300c78f2a857644165feffc17c89e.dip0.t-ipconnect.de. [2003:c7:8f2a:8576:4416:5fef:fc17:c89e])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8d2595117dsm246784566b.63.2024.09.08.13.33.39
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8d25d3eef7sm245296666b.192.2024.09.08.13.34.56
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 08 Sep 2024 13:33:40 -0700 (PDT)
-Message-ID: <b335b3dc-61b4-4e39-8627-76bd4acc82c2@gmail.com>
-Date: Sun, 8 Sep 2024 22:33:39 +0200
+        Sun, 08 Sep 2024 13:34:56 -0700 (PDT)
+Message-ID: <ca1908f3-74aa-45e7-a389-3995aba2660c@gmail.com>
+Date: Sun, 8 Sep 2024 22:34:56 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -61,56 +61,27 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/6] staging: rtl8723bs: fix position of opening braces
+Subject: Re: [PATCH] staging: rtl8723bs: Fix tabs for indent and + in comment
+ blocks
 To: Sayyad Abid <sayyad.abid16@gmail.com>, linux-staging@lists.linux.dev
 Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org
-References: <20240908101110.1028931-1-sayyad.abid16@gmail.com>
- <20240908101110.1028931-3-sayyad.abid16@gmail.com>
+References: <20240908180902.3196764-1-sayyad.abid16@gmail.com>
 Content-Language: en-US
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20240908101110.1028931-3-sayyad.abid16@gmail.com>
+In-Reply-To: <20240908180902.3196764-1-sayyad.abid16@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 9/8/24 12:11, Sayyad Abid wrote:
-> This patch fixes the coding style issue of opening bracket "{" being on
-> the next line.
+On 9/8/24 20:09, Sayyad Abid wrote:
+> This patch fixes the use of space instead of tabs,
+> removes trailing space and adds "+" each line in a comment block.
 > 
-> Signed-off-by: Sayyad Abid <sayyad.abid16@gmail.com>
-> 
+> Signed-off-by: Sayyad Abid<sayyad.abid16@gmail.com>
 > ---
->   drivers/staging/rtl8723bs/include/rtw_security.h | 6 ++----
->   1 file changed, 2 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/include/rtw_security.h b/drivers/staging/rtl8723bs/include/rtw_security.h
-> index 487d69460cec..3ccbccf92417 100644
-> --- a/drivers/staging/rtl8723bs/include/rtw_security.h
-> +++ b/drivers/staging/rtl8723bs/include/rtw_security.h
-> @@ -170,8 +170,7 @@ struct security_priv {
->   
->   #define GET_ENCRY_ALGO(psecuritypriv, psta, encry_algo, bmcst)\
->   do {\
-> -	switch (psecuritypriv->dot11AuthAlgrthm)\
-> -	{\
-> +	switch (psecuritypriv->dot11AuthAlgrthm) {\
->   		case dot11AuthAlgrthm_Open:\
->   		case dot11AuthAlgrthm_Shared:\
->   		case dot11AuthAlgrthm_Auto:\
-> @@ -191,8 +190,7 @@ do {\
->   
->   #define SET_ICE_IV_LEN(iv_len, icv_len, encrypt)\
->   do {\
-> -	switch (encrypt)\
-> -	{\
-> +	switch (encrypt) {\
->   		case _WEP40_:\
->   		case _WEP104_:\
->   			iv_len = 4;\
-
 
 Hi Sayyad,
 
-I cannot apply this patch. Please rebase.
+please apply previous send emails to this patch as well.
 
 Thanks for your support.
 
