@@ -1,56 +1,56 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69D68178CDE
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57EA9178CF2
 	for <linux-staging@lists.linux.dev>; Sun,  8 Sep 2024 19:26:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725823601; cv=none; b=BdQGhoN5QqDJR2DBlQ9n4lbkY+Sxtl0HJVKAoAwwGDAbZTmTH5LEWpeXzTh1Ru19SdScIMI8ZVx8tWOKXQw5U7fqrMoqSfErpsZL1AMQ3KwPNdByzDmWF6+kshrGgoDYfn/wv7Luut6xjOp6PotlSg3f7QRyvy//LpPc7Z6HDkA=
+	t=1725823601; cv=none; b=fOfyidPhCsNa6CsCGTugzgBYYy98WvOJpfRJBHZCQK8l3EqGpVv7UVG+4M7zmPZAlBV1OMdYJhtjCaXu5/xHYnflueAHpQkSUKURIsqxtlSIHZnRAMg3KGV0QOOSduCMXT+MYcKCkyLC//7ou0eOLeQaouEq9Je6GmdFk+nm1Z8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1725823601; c=relaxed/simple;
-	bh=nnxSeJG1du5Z643YEwdX5f5Vtc1/2IdyblEz7jkp4yc=;
+	bh=zbNIVZ0EAkXjfEs2RH4lfSau8YChUlUuLtWGlnaS4k8=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=osKZTvVw5Y2PcqiMvo7qoM4KCFO1QbCGKLXrRq5WbOEv4EgVnh7/TRRtLxXgYxQZ5dQLH5IvEBWN4WPlviyktK3YHobFoVr+pY+DB0IOojbGutBM9HZ/6Gfgx560paqlB58Sh4BVDe0lAAxTCMjwxGZIcg7ArND91IjHMJeVH3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net; spf=pass smtp.mailfrom=darkphysics.net; dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b=KgvbIEVY; arc=none smtp.client-ip=209.85.215.180
+	 MIME-Version; b=PMHcxO/M21jABRY3AwrMXoWwCPPCRT+CChS3SuFbO36oAxZuvTd24jJjYzUsYRzGVQoTyf4f8mJgChiHtw6ou9iWd/b7pbVE16VTHcqICKGrWjzA0rPdCrMP6AGxZrnww30jsO1a8wKfanrBeuBRqoEiknpuERtU8rtnGtdDk4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net; spf=pass smtp.mailfrom=darkphysics.net; dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b=MvAI+X6B; arc=none smtp.client-ip=209.85.214.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=darkphysics.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="KgvbIEVY"
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-7d4ed6158bcso2582003a12.1
+	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="MvAI+X6B"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-201d5af11a4so36846895ad.3
         for <linux-staging@lists.linux.dev>; Sun, 08 Sep 2024 12:26:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=darkphysics.net; s=google; t=1725823599; x=1726428399; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2KFmE8ZulfeBSFNzpno4ob0I7YnPxB69tGPDL4yyv3E=;
-        b=KgvbIEVYFfENBBUDS4tYZ3Sv7kUGEROSOiFxP/pD2Oz5tdiGjfabIs68xMe92D3AxR
-         FOalE0/rgw0CCK85jz9KZhXebUNqWwENRtSyKk8Mvpwo6igEoPru239fv7jRR5/rbLsu
-         A1Aeb/P7FawSdmxBq0gR3glC2HnRolQvqHdkRuDkiuw8OYrb61nFcDNfmzfweFsUYAC1
-         eHYMmk5QPyy/tLuZM+0p3om3iE8e5NoOrxd41TTfIO5So9TMCxDm9tSfoBxQ4pBOvCrd
-         1tcR1Cx0NAR3z65kEwNiD5uu+wTELgGFwWQfzQ2czZFBx8OkcwZqXOFGJWj/5TowvGT/
-         o+vQ==
+        bh=ZwzpOQ/aAEGoHuaN2ZwbC1rSJVDkP7/Zcai6c3SwE5E=;
+        b=MvAI+X6B+L0YmU6dn7tIfmPQZjR7/g2+zAe8c7USOZXXoDQXDxdz4lBsFFoO7bzzgG
+         /NTzPEpeIKUKgeGoRunVCacuPTP+D46KSlRFHbt6xCKh63G2/+RkhiPLtmotisRrN6A3
+         cd5QLLvhKMAjp5GwC6pYI4VelypZ5p3qGdGFqgoTynHQJjQeZf1V7csEDWCCb0pVXfce
+         NRn51o8qldeBcfBp6T/+JJ82HmIHg06xuhF01BEQPCsg+kHmzR7l31BYIqCy5/fgKgZ/
+         eLH6+fqxd99Dtrw/s2cwK72dwpcLkKu33N0D8mfC/Qk0DiqvQp+MeWoZIUJRIqM5e4PT
+         TzYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1725823599; x=1726428399;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=2KFmE8ZulfeBSFNzpno4ob0I7YnPxB69tGPDL4yyv3E=;
-        b=HzW1S1ZWzdXYFaGw+nLqEFpYTDPxkKjQpEVl5IiPwLvpHpg+IKTRU7OC4bdEYtJIZ/
-         FFAIPq9pRLc5+j0NXJ6SNCsCHdj/k0NaHn19G627ubaE+utGcTtfhwImy4q2bpJJT/Qu
-         8/hDTb5cWfGtJv3V2fsmKfTHmOCrXOPBBNymUo6tCzqzZznIs2cP9G3s6Zmg0R+8NKR5
-         OyGmbssaIXlhk5+jQyxaE1pEu5WCfGCxHfQkceGjRY5Bes10nZhz+Gg+VzZurHBPbZj9
-         WeeI70w/rgvl0d4SwfsK2nbrykwzrYNUaRw4R1ymvc2Q4P5SuVeYXfr1Mx2ACzI4cqmw
-         xdsw==
-X-Gm-Message-State: AOJu0YwBQbS5T201YpEBUq9SutZDsMI+GTU8leU5QC9pfzZnVZ011OKu
-	XoYklgH2T/o5i3m9mFSd3njEvaJL2kxZ6C1lnhem6OuKyYFi4LnHZ2USXwDc69o=
-X-Google-Smtp-Source: AGHT+IFvS1aEBHwmx8e4GGbJhqwm4CP0mEI0CwkXQ6mMnwELs5iJUf/tFOkWbnuJ9pDWYSn3VV8rag==
-X-Received: by 2002:a17:902:dacc:b0:206:8c4a:7bbb with SMTP id d9443c01a7336-206f065bddbmr87077335ad.58.1725823598394;
-        Sun, 08 Sep 2024 12:26:38 -0700 (PDT)
+        bh=ZwzpOQ/aAEGoHuaN2ZwbC1rSJVDkP7/Zcai6c3SwE5E=;
+        b=ryudRUTkjXfuSkISxqvQvLKeRhXZj1vNxD6zMAoZ9hG8GYEfSuTRTd6xFOtwP2rNwV
+         /ocToJr1yIbvIo2ezIsaDHbopJkjCczCudP5CaEcIgMaLZ6Ie0YQQzvJIrrwXHrcFekz
+         gvtbRdBS6lGTIankScELEwJXK9RKXS3pkQzKgH5kwM8XT39UyhdRYA5CHnfDVlx9vLgU
+         zU+q69Rc/nB4tzOtpravJc5DBalxQQXzxR+NxyPSAjALt9ybtUIhiOm+kYtV1+luA4b3
+         kYK/UtEfFoUA6TizUvPb988sDOlHRP4b9HMHLR7xzGreao8O6Cv7mFG4rNjGgXIb50dD
+         3law==
+X-Gm-Message-State: AOJu0YwFLL7r3/S4dMYb7ZRpOxyt4NuNdTh4SaYA86gDM91NpK3t5BmB
+	6+cQn4YJnNEIvIL47KodNYwdsW9/6B20xQe/WH/kWN7zFrWmmK90j5Ju8dBFyQI=
+X-Google-Smtp-Source: AGHT+IG8TETov1t4f/DlwsU0CtYcnIJ0Wy1ttjyQCelK2ApFt+/VfhEz16eA0j6St9aZ1UIi7e2t6Q==
+X-Received: by 2002:a17:902:ea01:b0:206:cfb3:7232 with SMTP id d9443c01a7336-206f05e7eafmr145690675ad.48.1725823599059;
+        Sun, 08 Sep 2024 12:26:39 -0700 (PDT)
 Received: from lunchbox.darkphysics (c-73-83-183-190.hsd1.wa.comcast.net. [73.83.183.190])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20710e1b085sm22703305ad.36.2024.09.08.12.26.37
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20710e1b085sm22703305ad.36.2024.09.08.12.26.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Sep 2024 12:26:37 -0700 (PDT)
+        Sun, 08 Sep 2024 12:26:38 -0700 (PDT)
 From: Tree Davies <tdavies@darkphysics.net>
 To: gregkh@linuxfoundation.org,
 	philipp.g.hortmann@gmail.com,
@@ -58,9 +58,9 @@ To: gregkh@linuxfoundation.org,
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Tree Davies <tdavies@darkphysics.net>
-Subject: [PATCH 02/16] Staging: rtl8192e: Rename variable SeqNum
-Date: Sun,  8 Sep 2024 12:26:19 -0700
-Message-Id: <20240908192633.94144-3-tdavies@darkphysics.net>
+Subject: [PATCH 03/16] Staging: rtl8192e: Rename variable SignalStrength
+Date: Sun,  8 Sep 2024 12:26:20 -0700
+Message-Id: <20240908192633.94144-4-tdavies@darkphysics.net>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20240908192633.94144-1-tdavies@darkphysics.net>
 References: <20240908192633.94144-1-tdavies@darkphysics.net>
@@ -72,297 +72,102 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rename variable SeqNum to seq_num
+Rename variable SignalStrength to signal_strength
 to fix checkpatch warning Avoid CamelCase.
 
 Signed-off-by: Tree Davies <tdavies@darkphysics.net>
 ---
- drivers/staging/rtl8192e/rtl819x_TSProc.c | 16 ++---
- drivers/staging/rtl8192e/rtllib.h         |  2 +-
- drivers/staging/rtl8192e/rtllib_rx.c      | 78 +++++++++++------------
- 3 files changed, 48 insertions(+), 48 deletions(-)
+ drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c | 8 ++++----
+ drivers/staging/rtl8192e/rtllib.h              | 4 ++--
+ drivers/staging/rtl8192e/rtllib_rx.c           | 8 ++++----
+ 3 files changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/rtl819x_TSProc.c b/drivers/staging/rtl8192e/rtl819x_TSProc.c
-index abdae7e36588..18b717a7409c 100644
---- a/drivers/staging/rtl8192e/rtl819x_TSProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_TSProc.c
-@@ -27,22 +27,22 @@ static void RxPktPendingTimeout(struct timer_list *t)
- 					list_entry(ts->rx_pending_pkt_list.prev,
- 					struct rx_reorder_entry, list);
- 			if (index == 0)
--				ts->rx_indicate_seq = reorder_entry->SeqNum;
-+				ts->rx_indicate_seq = reorder_entry->seq_num;
+diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+index f5a46754d65f..a8bb2d3f7e9d 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
++++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+@@ -1319,12 +1319,12 @@ static void _rtl92e_query_rxphystatus(struct r8192_priv *priv,
+ 	}
  
--			if (SN_LESS(reorder_entry->SeqNum,
-+			if (SN_LESS(reorder_entry->seq_num,
- 				    ts->rx_indicate_seq) ||
--			    SN_EQUAL(reorder_entry->SeqNum,
-+			    SN_EQUAL(reorder_entry->seq_num,
- 				     ts->rx_indicate_seq)) {
- 				list_del_init(&reorder_entry->list);
+ 	if (is_cck_rate) {
+-		pstats->SignalStrength = precord_stats->SignalStrength =
++		pstats->signal_strength = precord_stats->signal_strength =
+ 					 _rtl92e_signal_scale_mapping(priv, (long)pwdb_all);
  
--				if (SN_EQUAL(reorder_entry->SeqNum,
-+				if (SN_EQUAL(reorder_entry->seq_num,
- 				    ts->rx_indicate_seq))
- 					ts->rx_indicate_seq =
- 					      (ts->rx_indicate_seq + 1) % 4096;
+ 	} else {
+ 		if (rf_rx_num != 0)
+-			pstats->SignalStrength = precord_stats->SignalStrength =
++			pstats->signal_strength = precord_stats->signal_strength =
+ 					 _rtl92e_signal_scale_mapping(priv,
+ 					 (long)(total_rssi /= rf_rx_num));
+ 	}
+@@ -1352,10 +1352,10 @@ static void _rtl92e_process_phyinfo(struct r8192_priv *priv, u8 *buffer,
+ 		last_rssi = priv->stats.slide_signal_strength[slide_rssi_index];
+ 		priv->stats.slide_rssi_total -= last_rssi;
+ 	}
+-	priv->stats.slide_rssi_total += prev_st->SignalStrength;
++	priv->stats.slide_rssi_total += prev_st->signal_strength;
  
- 				netdev_dbg(ieee->dev,
--					   "%s(): Indicate SeqNum: %d\n",
--					   __func__, reorder_entry->SeqNum);
-+					   "%s(): Indicate seq_num: %d\n",
-+					   __func__, reorder_entry->seq_num);
- 				ieee->stats_IndicateArray[index] =
- 							 reorder_entry->prxb;
- 				index++;
-@@ -336,8 +336,8 @@ static void RemoveTsEntry(struct rtllib_device *ieee,
- 			pRxReorderEntry = (struct rx_reorder_entry *)
- 					list_entry(ts->rx_pending_pkt_list.prev,
- 					struct rx_reorder_entry, list);
--			netdev_dbg(ieee->dev,  "%s(): Delete SeqNum %d!\n",
--				   __func__, pRxReorderEntry->SeqNum);
-+			netdev_dbg(ieee->dev,  "%s(): Delete seq_num %d!\n",
-+				   __func__, pRxReorderEntry->seq_num);
- 			list_del_init(&pRxReorderEntry->list);
- 			{
- 				int i = 0;
+ 	priv->stats.slide_signal_strength[slide_rssi_index++] =
+-					 prev_st->SignalStrength;
++					 prev_st->signal_strength;
+ 	if (slide_rssi_index >= PHY_RSSI_SLID_WIN_MAX)
+ 		slide_rssi_index = 0;
+ 
 diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-index 4762cb52261a..b033e8345b0a 100644
+index b033e8345b0a..9f812cedd1b3 100644
 --- a/drivers/staging/rtl8192e/rtllib.h
 +++ b/drivers/staging/rtl8192e/rtllib.h
-@@ -1015,7 +1015,7 @@ struct bandwidth_autoswitch {
- #define REORDER_ENTRY_NUM	128
- struct rx_reorder_entry {
- 	struct list_head	list;
--	u16			SeqNum;
-+	u16			seq_num;
- 	struct rtllib_rxb *prxb;
+@@ -466,7 +466,7 @@ struct rtllib_rx_stats {
+ 	u16 Length;
+ 	u8  SignalQuality;
+ 	s32 RecvSignalPower;
+-	u8  SignalStrength;
++	u8  signal_strength;
+ 	u16 hw_error:1;
+ 	u16 bCRC:1;
+ 	u16 bICV:1;
+@@ -951,7 +951,7 @@ struct rtllib_network {
+ 	bool unknown_cap_exist;
+ 	bool	berp_info_valid;
+ 	bool buseprotection;
+-	u8 SignalStrength;
++	u8 signal_strength;
+ 	u8 RSSI;
+ 	struct list_head list;
  };
- 
 diff --git a/drivers/staging/rtl8192e/rtllib_rx.c b/drivers/staging/rtl8192e/rtllib_rx.c
-index cba4b244f808..86beac9dd3a5 100644
+index 86beac9dd3a5..8fe224a83dd6 100644
 --- a/drivers/staging/rtl8192e/rtllib_rx.c
 +++ b/drivers/staging/rtl8192e/rtllib_rx.c
-@@ -408,13 +408,13 @@ static bool add_reorder_entry(struct rx_ts_record *ts,
- 	struct list_head *list = &ts->rx_pending_pkt_list;
- 
- 	while (list->next != &ts->rx_pending_pkt_list) {
--		if (SN_LESS(reorder_entry->SeqNum, ((struct rx_reorder_entry *)
-+		if (SN_LESS(reorder_entry->seq_num, ((struct rx_reorder_entry *)
- 		    list_entry(list->next, struct rx_reorder_entry,
--		    list))->SeqNum))
-+		    list))->seq_num))
- 			list = list->next;
--		else if (SN_EQUAL(reorder_entry->SeqNum,
-+		else if (SN_EQUAL(reorder_entry->seq_num,
- 			((struct rx_reorder_entry *)list_entry(list->next,
--			struct rx_reorder_entry, list))->SeqNum))
-+			struct rx_reorder_entry, list))->seq_num))
- 			return false;
- 		else
- 			break;
-@@ -504,8 +504,8 @@ void rtllib_flush_rx_ts_pending_pkts(struct rtllib_device *ieee,
- 		pRxReorderEntry = (struct rx_reorder_entry *)
- 				  list_entry(ts->rx_pending_pkt_list.prev,
- 					     struct rx_reorder_entry, list);
--		netdev_dbg(ieee->dev, "%s(): Indicate SeqNum %d!\n", __func__,
--			   pRxReorderEntry->SeqNum);
-+		netdev_dbg(ieee->dev, "%s(): Indicate seq_num %d!\n", __func__,
-+			   pRxReorderEntry->seq_num);
- 		list_del_init(&pRxReorderEntry->list);
- 
- 		ieee->rfd_array[rfd_cnt] = pRxReorderEntry->prxb;
-@@ -521,7 +521,7 @@ void rtllib_flush_rx_ts_pending_pkts(struct rtllib_device *ieee,
- 
- static void rx_reorder_indicate_packet(struct rtllib_device *ieee,
- 				       struct rtllib_rxb *prxb,
--				       struct rx_ts_record *ts, u16 SeqNum)
-+				       struct rx_ts_record *ts, u16 seq_num)
- {
- 	struct rt_hi_throughput *ht_info = ieee->ht_info;
- 	struct rx_reorder_entry *reorder_entry = NULL;
-@@ -533,20 +533,20 @@ static void rx_reorder_indicate_packet(struct rtllib_device *ieee,
- 
- 	netdev_dbg(ieee->dev,
- 		   "%s(): Seq is %d, ts->rx_indicate_seq is %d, win_size is %d\n",
--		   __func__, SeqNum, ts->rx_indicate_seq, win_size);
-+		   __func__, seq_num, ts->rx_indicate_seq, win_size);
- 
- 	spin_lock_irqsave(&(ieee->reorder_spinlock), flags);
- 
- 	win_end = (ts->rx_indicate_seq + win_size - 1) % 4096;
- 	/* Rx Reorder initialize condition.*/
- 	if (ts->rx_indicate_seq == 0xffff)
--		ts->rx_indicate_seq = SeqNum;
-+		ts->rx_indicate_seq = seq_num;
- 
--	/* Drop out the packet which SeqNum is smaller than WinStart */
--	if (SN_LESS(SeqNum, ts->rx_indicate_seq)) {
-+	/* Drop out the packet which seq_num is smaller than WinStart */
-+	if (SN_LESS(seq_num, ts->rx_indicate_seq)) {
- 		netdev_dbg(ieee->dev,
- 			   "Packet Drop! IndicateSeq: %d, NewSeq: %d\n",
--			   ts->rx_indicate_seq, SeqNum);
-+			   ts->rx_indicate_seq, seq_num);
- 		ht_info->rx_reorder_drop_counter++;
- 		{
- 			int i;
-@@ -561,38 +561,38 @@ static void rx_reorder_indicate_packet(struct rtllib_device *ieee,
+@@ -2177,8 +2177,8 @@ static inline int rtllib_network_init(
+ 	network->marvell_cap_exist = false;
+ 	network->airgo_cap_exist = false;
+ 	network->turbo_enable = 0;
+-	network->SignalStrength = stats->SignalStrength;
+-	network->RSSI = stats->SignalStrength;
++	network->signal_strength = stats->signal_strength;
++	network->RSSI = stats->signal_strength;
+ 	network->country_ie_len = 0;
+ 	memset(network->country_ie_buf, 0, MAX_IE_LEN);
+ 	ht_initialize_bss_desc(&network->bssht);
+@@ -2215,7 +2215,7 @@ static inline int rtllib_network_init(
  	}
+ 	if (rtllib_is_empty_essid(network->ssid, network->ssid_len))
+ 		network->flags |= NETWORK_EMPTY_ESSID;
+-	stats->signal = 30 + (stats->SignalStrength * 70) / 100;
++	stats->signal = 30 + (stats->signal_strength * 70) / 100;
+ 	stats->noise = rtllib_translate_todbm((u8)(100 - stats->signal)) - 25;
  
- 	/* Sliding window manipulation. Conditions includes:
--	 * 1. Incoming SeqNum is equal to WinStart =>Window shift 1
--	 * 2. Incoming SeqNum is larger than the win_end => Window shift N
-+	 * 1. Incoming seq_num is equal to WinStart =>Window shift 1
-+	 * 2. Incoming seq_num is larger than the win_end => Window shift N
- 	 */
--	if (SN_EQUAL(SeqNum, ts->rx_indicate_seq)) {
-+	if (SN_EQUAL(seq_num, ts->rx_indicate_seq)) {
- 		ts->rx_indicate_seq = (ts->rx_indicate_seq + 1) % 4096;
- 		match_win_start = true;
--	} else if (SN_LESS(win_end, SeqNum)) {
--		if (SeqNum >= (win_size - 1))
--			ts->rx_indicate_seq = SeqNum + 1 - win_size;
-+	} else if (SN_LESS(win_end, seq_num)) {
-+		if (seq_num >= (win_size - 1))
-+			ts->rx_indicate_seq = seq_num + 1 - win_size;
- 		else
- 			ts->rx_indicate_seq = 4095 -
--					     (win_size - (SeqNum + 1)) + 1;
-+					     (win_size - (seq_num + 1)) + 1;
- 		netdev_dbg(ieee->dev,
- 			   "Window Shift! IndicateSeq: %d, NewSeq: %d\n",
--			   ts->rx_indicate_seq, SeqNum);
-+			   ts->rx_indicate_seq, seq_num);
- 	}
+ 	memcpy(&network->stats, stats, sizeof(network->stats));
+@@ -2334,7 +2334,7 @@ static inline void update_network(struct rtllib_device *ieee,
+ 	   src->wmm_param[3].ac_aci_acm_aifsn)
+ 		memcpy(dst->wmm_param, src->wmm_param, WME_AC_PRAM_LEN);
  
- 	/* Indication process.
- 	 * After Packet dropping and Sliding Window shifting as above, we can
--	 * now just indicate the packets with the SeqNum smaller than latest
-+	 * now just indicate the packets with the seq_num smaller than latest
- 	 * WinStart and struct buffer other packets.
- 	 *
- 	 * For Rx Reorder condition:
--	 * 1. All packets with SeqNum smaller than WinStart => Indicate
--	 * 2. All packets with SeqNum larger than or equal to
-+	 * 1. All packets with seq_num smaller than WinStart => Indicate
-+	 * 2. All packets with seq_num larger than or equal to
- 	 *	 WinStart => Buffer it.
- 	 */
- 	if (match_win_start) {
- 		/* Current packet is going to be indicated.*/
- 		netdev_dbg(ieee->dev,
- 			   "Packets indication! IndicateSeq: %d, NewSeq: %d\n",
--			   ts->rx_indicate_seq, SeqNum);
-+			   ts->rx_indicate_seq, seq_num);
- 		ieee->prxb_indicate_array[0] = prxb;
- 		index = 1;
- 	} else {
-@@ -606,7 +606,7 @@ static void rx_reorder_indicate_packet(struct rtllib_device *ieee,
- 			/* Make a reorder entry and insert
- 			 * into a the packet list.
- 			 */
--			reorder_entry->SeqNum = SeqNum;
-+			reorder_entry->seq_num = seq_num;
- 			reorder_entry->prxb = prxb;
- 
- 			if (!add_reorder_entry(ts, reorder_entry)) {
-@@ -615,7 +615,7 @@ static void rx_reorder_indicate_packet(struct rtllib_device *ieee,
- 				netdev_dbg(ieee->dev,
- 					   "%s(): Duplicate packet is dropped. IndicateSeq: %d, NewSeq: %d\n",
- 					   __func__, ts->rx_indicate_seq,
--					   SeqNum);
-+					   seq_num);
- 				list_add_tail(&reorder_entry->list,
- 					      &ieee->RxReorder_Unused_List);
- 
-@@ -626,7 +626,7 @@ static void rx_reorder_indicate_packet(struct rtllib_device *ieee,
- 			} else {
- 				netdev_dbg(ieee->dev,
- 					   "Pkt insert into struct buffer. IndicateSeq: %d, NewSeq: %d\n",
--					   ts->rx_indicate_seq, SeqNum);
-+					   ts->rx_indicate_seq, seq_num);
- 			}
- 		} else {
- 			/* Packets are dropped if there are not enough reorder
-@@ -657,8 +657,8 @@ static void rx_reorder_indicate_packet(struct rtllib_device *ieee,
- 					list_entry(ts->rx_pending_pkt_list.prev,
- 						   struct rx_reorder_entry,
- 						   list);
--		if (SN_LESS(reorder_entry->SeqNum, ts->rx_indicate_seq) ||
--		    SN_EQUAL(reorder_entry->SeqNum, ts->rx_indicate_seq)) {
-+		if (SN_LESS(reorder_entry->seq_num, ts->rx_indicate_seq) ||
-+		    SN_EQUAL(reorder_entry->seq_num, ts->rx_indicate_seq)) {
- 			/* This protect struct buffer from overflow. */
- 			if (index >= REORDER_WIN_SIZE) {
- 				netdev_err(ieee->dev,
-@@ -670,13 +670,13 @@ static void rx_reorder_indicate_packet(struct rtllib_device *ieee,
- 
- 			list_del_init(&reorder_entry->list);
- 
--			if (SN_EQUAL(reorder_entry->SeqNum, ts->rx_indicate_seq))
-+			if (SN_EQUAL(reorder_entry->seq_num, ts->rx_indicate_seq))
- 				ts->rx_indicate_seq = (ts->rx_indicate_seq + 1) %
- 						     4096;
- 
- 			ieee->prxb_indicate_array[index] = reorder_entry->prxb;
--			netdev_dbg(ieee->dev, "%s(): Indicate SeqNum %d!\n",
--				   __func__, reorder_entry->SeqNum);
-+			netdev_dbg(ieee->dev, "%s(): Indicate seq_num %d!\n",
-+				   __func__, reorder_entry->seq_num);
- 			index++;
- 
- 			list_add_tail(&reorder_entry->list,
-@@ -731,10 +731,10 @@ static u8 parse_subframe(struct rtllib_device *ieee, struct sk_buff *skb,
- 	bool		is_aggregate_frame = false;
- 	u16		subframe_len;
- 	u8		pad_len = 0;
--	u16		SeqNum = 0;
-+	u16		seq_num = 0;
- 	struct sk_buff *sub_skb;
- 	/* just for debug purpose */
--	SeqNum = WLAN_GET_SEQ_SEQ(le16_to_cpu(hdr->seq_ctrl));
-+	seq_num = WLAN_GET_SEQ_SEQ(le16_to_cpu(hdr->seq_ctrl));
- 	if ((RTLLIB_QOS_HAS_SEQ(fc)) &&
- 	   (((union frameqos *)(skb->data + RTLLIB_3ADDR_LEN))->field.reserved))
- 		is_aggregate_frame = true;
-@@ -796,8 +796,8 @@ static u8 parse_subframe(struct rtllib_device *ieee, struct sk_buff *skb,
- 				    "nRemain_Length is %d and subframe_len is : %d\n",
- 				    skb->len, subframe_len);
- 			netdev_info(ieee->dev,
--				    "The Packet SeqNum is %d\n",
--				    SeqNum);
-+				    "The Packet seq_num is %d\n",
-+				    seq_num);
- 			return 0;
- 		}
- 
-@@ -1227,7 +1227,7 @@ static int rtllib_rx_infra_adhoc(struct rtllib_device *ieee, struct sk_buff *skb
- 	struct lib80211_crypt_data *crypt = NULL;
- 	struct rtllib_rxb *rxb = NULL;
- 	struct rx_ts_record *ts = NULL;
--	u16 fc, sc, SeqNum = 0;
-+	u16 fc, sc, seq_num = 0;
- 	u8 type, stype, multicast = 0, unicast = 0, nr_subframes = 0, TID = 0;
- 	u8 dst[ETH_ALEN];
- 	u8 src[ETH_ALEN];
-@@ -1321,7 +1321,7 @@ static int rtllib_rx_infra_adhoc(struct rtllib_device *ieee, struct sk_buff *skb
- 	if (ieee->current_network.qos_data.active && is_qos_data_frame(skb->data)
- 		&& !is_multicast_ether_addr(hdr->addr1)) {
- 		TID = frame_qos_tid(skb->data);
--		SeqNum = WLAN_GET_SEQ_SEQ(sc);
-+		seq_num = WLAN_GET_SEQ_SEQ(sc);
- 		rtllib_get_ts(ieee, (struct ts_common_info **)&ts, hdr->addr2, TID,
- 		      RX_DIR, true);
- 		if (TID != 0 && TID != 3)
-@@ -1362,7 +1362,7 @@ static int rtllib_rx_infra_adhoc(struct rtllib_device *ieee, struct sk_buff *skb
- 	if (!ieee->ht_info->cur_rx_reorder_enable || !ts)
- 		rtllib_rx_indicate_pkt_legacy(ieee, rx_stats, rxb, dst, src);
- 	else
--		rx_reorder_indicate_packet(ieee, rxb, ts, SeqNum);
-+		rx_reorder_indicate_packet(ieee, rxb, ts, seq_num);
- 
- 	dev_kfree_skb(skb);
+-	dst->SignalStrength = src->SignalStrength;
++	dst->signal_strength = src->signal_strength;
+ 	dst->RSSI = src->RSSI;
+ 	dst->turbo_enable = src->turbo_enable;
  
 -- 
 2.30.2
