@@ -1,54 +1,54 @@
-Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A74341B013F
-	for <linux-staging@lists.linux.dev>; Mon,  9 Sep 2024 07:59:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C24C4A1D
+	for <linux-staging@lists.linux.dev>; Mon,  9 Sep 2024 08:00:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725868774; cv=none; b=aRW2LsIdfeKUs44IH/gpq6rJWkktbeOso/3LvatjjbAAFhjnaOG1ykqdXFam+75ELBXH7/+lc3HfwlPxZMoyzk7QM+/T6W/A0oEh343dPfkraghVxpNTRWExYBNmHTvUzBaANSrOGlcaNigV9QhK6ihP8Ghx5eA3LlMOJ7GNu8E=
+	t=1725868815; cv=none; b=CtKf/MaB1iJACMRgNIXADJcvdDmLh4cbswEQcDvwqAkWfiJdT3dNNatx42S4AjULYVOpbDntk6z9wSvNKrz2ofoVqX0Vjrs0v9sGhE01/qi9bCOsnnrUpZ2ChHKJm5MDmT2FmENPfS3pZFHDv+VfNh9YBaGcQvurqUro2nt6EJQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725868774; c=relaxed/simple;
-	bh=4wsk85TBpy5BbtUqTzPL/QeUfy4tD/VA5ngs7D4xXkA=;
+	s=arc-20240116; t=1725868815; c=relaxed/simple;
+	bh=DCY7no0mv2jCQtkrDrEVtkKE4sUg4xh36za+NR/Bv2c=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uNeQEQY57OrO/gok+I4xIxNmOvE2juddyqc5uCFz0o2lhm89gqTDjJgN0bVwMf2szI2mrYcrJvWgt45F4ydho8You2aK9sS7RWBkjl8oI81ehAW0YsVur92mczPsYP8FtHDqc6Sb3DDaAkmN9WCMOHo8UWTnsG/4lNetOcMRMpM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OFRrRVwC; arc=none smtp.client-ip=209.85.160.47
+	 To:Cc:Content-Type; b=hGUQIIDti6I9U7syA6m5n6x5r9ruWhNymuogR2eCZAGt1EOFclgRWGGej39uuWTLBLSlXctLpnqy8GqI7NQ3fAHjibZsLBVqsJlCF3AJFeBd9rfuiY7hiqZWX0NxgKGRqjklaS5mkRFUJT1DOJBJTG4vyFvH51n5ui8g6dFhtoU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SGplA1r4; arc=none smtp.client-ip=209.85.210.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OFRrRVwC"
-Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-2780827dbafso2255599fac.1
-        for <linux-staging@lists.linux.dev>; Mon, 09 Sep 2024 00:59:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SGplA1r4"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-718d704704aso2330585b3a.3
+        for <linux-staging@lists.linux.dev>; Mon, 09 Sep 2024 01:00:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725868771; x=1726473571; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1725868813; x=1726473613; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zMzKeyE28KgaABYxV90qLu2+vknssj4YYRJcYPydeZU=;
-        b=OFRrRVwCGB83sRodQxRRHk63FLx2pUb3vZzCrPJxO5XAUBGZ8oAaM8YUio55NHAzxD
-         1ZYQein1gWsSx9pPHWQdCaHsyAfrp/lI1nnE2r9+w2Pz7cwlqWalwKFmTVFKzg8TMTWx
-         vH7V9ZF7wf2ehftAA7nQqAn1JvYt85/Pye8MCA/fHf5SC7PxK++VxxIYk95sr1islpec
-         kjro1l63GXVmbUkKy6RaTB2ANBchTPsLeqFzfOMJdrl9wiHSK3kkk8FxQWGCivIU6gK9
-         GH313Ye+81RKi1whiqwCf66vTSXh5zK36e+YA1lpoce7Dr/18GjUbJPy+N5BtS/WZpIy
-         hvLQ==
+        bh=Q6hWMpBb44cMivpgFiSL2Yqa6TbfWk2CxNFS7WDJW1Q=;
+        b=SGplA1r4evbTnf3z3v96xkkxViBechLAoa1/R7OFrdPXKNafLgSoe3as26ajxPmI60
+         8hcw1SG7uHr3bm8QCupiEQBt7Iv/UJ3Qx5lrXbffJpL4fZEys6hjnJ7wsU8MTyv8W+vQ
+         QfjGbkDKQXSp+V/YlC2o8vziVc6p3KR0XN/o1CO/sIRb6naJ4yQmJpMrI+YnnQ4mvOEM
+         8dlwgrKyvYw5Z558B8Z/6W8Y+FZoAHFjDkZrVrpimzJVvy/yjg4pqqnxaATruDmAvkOP
+         sCc3oCpk1+9jka6M8fAaEiw0dxTMid2LfQPTivOhR4/f6CThd0VLDdDha7FUXqoTw4X/
+         Kowg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725868771; x=1726473571;
+        d=1e100.net; s=20230601; t=1725868813; x=1726473613;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=zMzKeyE28KgaABYxV90qLu2+vknssj4YYRJcYPydeZU=;
-        b=KjcdEoKFJvt5C9h2t2ZZn1/bKIW8rhBcD/2fe+fk7O9DpUzruOfUxPcAKi+/AoeI4I
-         uRvWBhI7imRqCuAIio9PkChdZnnG11v68VYu6sMoGeMnY6/qMWn4hM2Brei7+CnDMKHs
-         4tuqhl/LceEw8fbmT2Pqf0rzMkpbXNXGWBCIJm9aQ9k4E6HLp6pEsW3d0yypbFNRLaZL
-         ZwX4JjUNKJM9nRqnha5kezsXr9Hr7UK4WUHkPSQ9XzTcxwi6gwNdjLXsQyVS82no79Kr
-         p2nTcOvGjOxTncQSiaVkC2T5MVf4vfq/Vfe4grmEI8XpMltdhsLBZawFWf3DFrqdbPhL
-         Z5ZA==
-X-Gm-Message-State: AOJu0YwfiDTVO2JlK5I0Lbpr5ba7b9bIymskjh6vYK9Q/i0hnAyBANUN
-	MPTfwBuYLDcrIHXzlNdB55PdvmTQqwL4FP99zm+hEYBF4yDepcg5UNfnLlsYNKDbotZkj1S9IUI
-	NZxy+upUAYcjBVNbZufs7Dsu8Sw+DzwmkAAM=
-X-Google-Smtp-Source: AGHT+IHsaq8RNSsCYrWFo71sF14XOuhx/NDs7XQwGzWq5ZwbYLuDAvZetCA/zvlME2UZ2SDrIqdIW+IlgwJLXt8EmTY=
-X-Received: by 2002:a05:6358:3426:b0:1b5:fde1:d00c with SMTP id
- e5c5f4694b2df-1b8386fd0d8mr1217821055d.25.1725868771331; Mon, 09 Sep 2024
- 00:59:31 -0700 (PDT)
+        bh=Q6hWMpBb44cMivpgFiSL2Yqa6TbfWk2CxNFS7WDJW1Q=;
+        b=BqV4ER9UkgdlaHe+xQ8PJ7g/t11EsXTDd6c4tqfQfFdoZs+hOT0ar4FOFbYhpG6pzR
+         H8wAu1G/1AQ3BFpWz+y0lOyN7kkeUg+Bh9e5j46xsB+RML0jM8c9jN07BRbuhGjHJrSb
+         3OddBd/1xzCM4ckg6D5D3dISPzTwmaZ+TvpCCEnfyarp4hSerMs/kwDxc0FEPPg30lFx
+         tEYy+GCK+27xxFOPBl7IksRQGC3l1lb7N2ykfC0JTYHhuj+N4S+PK+TnOF8pJLlK8gVP
+         aqtiHlDQ96aR0ODq/OyBuEXMXNkA+hvvpi3fFhPwec+8UGAAILPXw4bwxsf5oZVRr8XL
+         YBeQ==
+X-Gm-Message-State: AOJu0YymkABSC526gnn5Hl/gBabPfBpeY8DTlepIeWj8M67NiLdXxJ2d
+	zATujY1/MOl4HsNmQO1pGjgszTHpODO92ouIBYIs/pvARMwTegOinNarvKTkymH9/YpYVCPAnxy
+	MNTeu4eUsObwo/qqPtPMEnqbbQs4=
+X-Google-Smtp-Source: AGHT+IEzvol2Cx1dncYrA7xViTbl8c5+gva0/9Gk+m54uyYkqTTwTct8kdYp+1zW6Nb+LPWf9GHM9oEx66uWXchYKVE=
+X-Received: by 2002:a05:6a00:1825:b0:714:2198:26a1 with SMTP id
+ d2e1a72fcca58-718e349294bmr8282235b3a.27.1725868813456; Mon, 09 Sep 2024
+ 01:00:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -56,62 +56,68 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20240908101110.1028931-1-sayyad.abid16@gmail.com>
- <20240908101110.1028931-5-sayyad.abid16@gmail.com> <4bc6cfea-ecf4-40ad-a3f6-c32bb411949a@gmail.com>
-In-Reply-To: <4bc6cfea-ecf4-40ad-a3f6-c32bb411949a@gmail.com>
+ <20240908101110.1028931-3-sayyad.abid16@gmail.com> <b335b3dc-61b4-4e39-8627-76bd4acc82c2@gmail.com>
+In-Reply-To: <b335b3dc-61b4-4e39-8627-76bd4acc82c2@gmail.com>
 From: Sayyad Abid <sayyad.abid16@gmail.com>
-Date: Mon, 9 Sep 2024 13:28:56 +0530
-Message-ID: <CACVUEBnsHZT_Csmqak3ecg=jBMhAUDvODTF8YiCi6C_8seGJRA@mail.gmail.com>
-Subject: Re: [PATCH 4/6] staging: rtl8723bs: fix comment with a trailing */ on
- a separate line
+Date: Mon, 9 Sep 2024 13:29:38 +0530
+Message-ID: <CACVUEBneRuc=n9aHFoBZW7QJ6NsYP5txN7Kx-mc8hay115fHzQ@mail.gmail.com>
+Subject: Re: [PATCH 2/6] staging: rtl8723bs: fix position of opening braces
 To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 Cc: linux-staging@lists.linux.dev, gregkh@linuxfoundation.org, 
 	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Sep 9, 2024 at 1:56=E2=80=AFAM Philipp Hortmann
+On Mon, Sep 9, 2024 at 2:03=E2=80=AFAM Philipp Hortmann
 <philipp.g.hortmann@gmail.com> wrote:
 >
 > On 9/8/24 12:11, Sayyad Abid wrote:
-> > This patch fixes the trailing "*/" on a comment block.
->
-> Hi Sayyad,
->
-> important is to describe why this patch makes the code better. You
-> described in the description just what you did. But that can be seen in
-> the changed lines blow.
->
-Note, I'll add a descriptive summary of the "why" for the patches.
-> Thanks
->
-> Bye Philipp
->
+> > This patch fixes the coding style issue of opening bracket "{" being on
+> > the next line.
 > >
 > > Signed-off-by: Sayyad Abid <sayyad.abid16@gmail.com>
 > >
 > > ---
-> >   drivers/staging/rtl8723bs/include/rtw_security.h | 3 ++-
-> >   1 file changed, 2 insertions(+), 1 deletion(-)
+> >   drivers/staging/rtl8723bs/include/rtw_security.h | 6 ++----
+> >   1 file changed, 2 insertions(+), 4 deletions(-)
 > >
 > > diff --git a/drivers/staging/rtl8723bs/include/rtw_security.h b/drivers=
 /staging/rtl8723bs/include/rtw_security.h
-> > index 4efa2d258ebf..1e5e7f52f8da 100644
+> > index 487d69460cec..3ccbccf92417 100644
 > > --- a/drivers/staging/rtl8723bs/include/rtw_security.h
 > > +++ b/drivers/staging/rtl8723bs/include/rtw_security.h
-> > @@ -240,7 +240,8 @@ struct mic_data {
-> >   /* =3D=3D=3D=3D=3D start - public domain SHA256 implementation =3D=3D=
-=3D=3D=3D */
+> > @@ -170,8 +170,7 @@ struct security_priv {
 > >
-> >   /* This is based on SHA256 implementation in LibTomCrypt that was rel=
-eased into
-> > - * public domain by Tom St Denis. */
-> > + * public domain by Tom St Denis.
-> > + */
+> >   #define GET_ENCRY_ALGO(psecuritypriv, psta, encry_algo, bmcst)\
+> >   do {\
+> > -     switch (psecuritypriv->dot11AuthAlgrthm)\
+> > -     {\
+> > +     switch (psecuritypriv->dot11AuthAlgrthm) {\
+> >               case dot11AuthAlgrthm_Open:\
+> >               case dot11AuthAlgrthm_Shared:\
+> >               case dot11AuthAlgrthm_Auto:\
+> > @@ -191,8 +190,7 @@ do {\
 > >
-> >   int omac1_aes_128(u8 *key, u8 *data, size_t data_len, u8 *mac);
-> >   void rtw_secmicsetkey(struct mic_data *pmicdata, u8 *key);
+> >   #define SET_ICE_IV_LEN(iv_len, icv_len, encrypt)\
+> >   do {\
+> > -     switch (encrypt)\
+> > -     {\
+> > +     switch (encrypt) {\
+> >               case _WEP40_:\
+> >               case _WEP104_:\
+> >                       iv_len =3D 4;\
 >
-Thank you!
+>
+> Hi Sayyad,
+>
+> I cannot apply this patch. Please rebase.
+>
+Okay, will do this.
+> Thanks for your support.
+>
+> Bye Philipp
+Thank You!
+
 
 --=20
 Abid
