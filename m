@@ -1,79 +1,115 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E500F17623C
-	for <linux-staging@lists.linux.dev>; Mon,  9 Sep 2024 06:15:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94ECA2AF06
+	for <linux-staging@lists.linux.dev>; Mon,  9 Sep 2024 07:36:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725862530; cv=none; b=M/tr8fcmyWqalXJkaD8loyKlMpaxR3jYPKw1ZdXjDP/+sRV/19+z0CBxWk0NJJJYOM/Vq/QoONM0rdPAUwgqRhiIZ+glBBpEC73AyKkxa2ABxznez6V2/EILtrUX9OVQrvUVr7mIMj6vWfKfvpbTJ4GUaqeYEfT1rIyKPjxAD7I=
+	t=1725867381; cv=none; b=e9/wEX/yy93X8GjGwVDAjxatb9mnHFRcnG0+buc5Q5zzX6yC7q5B0XVu7Oo5aBqSdfcMeODilCTkXkBnwKQdnX27IRtvtXzFLoVD8hgVZ5dwfUSAS4GhfQiycCZznUkcRuZdY0q6ojhYEPlvKqPpsh5qoGGiBUGhop0f/GHaZW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725862530; c=relaxed/simple;
-	bh=ujNT/+9sjUT3Wg0kRSIVEZGaFnbYwTMPEIpDs6npcnM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qaBMV/AvkwnYDTLpkBrs+HwagJ5p6LCwTXZUMXoTZaYJSEYPTgn4enAdfkx5AU71NoIuOGR0hKB2Ku0gUNoGUMPJrQnSYhEHjCsdZ34vEY0H4g6eNcvS2wSwqYD9eukWy803FyJFgE17UEnLu1jfH0/X6CX7dC15Lbb+eXWWM/Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=lgtuorkV; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1725867381; c=relaxed/simple;
+	bh=oBYkJrIB4DfMlu8HfETKfJzT9U/InpISMzhesI2aIvM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Content-Type; b=Kdhcr1gYY24UrdZ660KJEsrBtMCXb/YKAUGyE7pMcnZ/pVrhYHb4in7v1YtV0H0opJioX0cAFRuQzQhGCiMm9Oo8/UVtU4LyhVSMbddXWA0Onp1IH7eVtRK0Kbff0Sg9FWYaE8KEyPFN3XSwal2miXVxQaXhHq+AcqS4MgLMQLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MW0IpoIT; arc=none smtp.client-ip=209.85.161.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lgtuorkV"
-Received: from localhost.localdomain (unknown [IPv6:2405:201:2015:f873:55f8:639e:8e9f:12ec])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 107F2890;
-	Mon,  9 Sep 2024 08:14:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1725862451;
-	bh=ujNT/+9sjUT3Wg0kRSIVEZGaFnbYwTMPEIpDs6npcnM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=lgtuorkVEVvDPc0/hMUoq9gz5q25cJpx9423sVI1xOmvF64GMzJN+FjEyxa82ku4c
-	 jClzQZtBJKNYpZIQxqMnTY+cf2Uw6pu4FeCX31OOST1LeHeg6TdeCnCv/j3R9CuCW8
-	 2472WMJR281WJqrqyyctgdaL9T99t9vIJVpA98b0=
-From: Umang Jain <umang.jain@ideasonboard.com>
-To: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-staging@lists.linux.dev,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Stefan Wahren <wahrenst@gmx.net>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Umang Jain <umang.jain@ideasonboard.com>
-Subject: [PATCH v5 7/7] staging: vchiq_core: Pass enumerated flag instead of int
-Date: Mon,  9 Sep 2024 11:44:57 +0530
-Message-ID: <20240909061457.255452-8-umang.jain@ideasonboard.com>
-X-Mailer: git-send-email 2.45.0
-In-Reply-To: <20240909061457.255452-1-umang.jain@ideasonboard.com>
-References: <20240909061457.255452-1-umang.jain@ideasonboard.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MW0IpoIT"
+Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-5e1b55346c0so1471336eaf.3
+        for <linux-staging@lists.linux.dev>; Mon, 09 Sep 2024 00:36:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1725867378; x=1726472178; darn=lists.linux.dev;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=U1ZBifs2OnOGSFnNW7eBfuw5hq3WBNWRDA3rjsHm7IM=;
+        b=MW0IpoIT7awwe00X9zJyjL22dXg+whQSBA5ZnVHXqpoisD69eMK3F8QnOPGTmU3/3t
+         6uUVc0Y3m/RhsY6677QXQbMcniJhzwynLLeucLFj8CosQ3Jwcxg8TFTZofz4jPMKs+SW
+         zc8zlyfDXgAjRQQ9uTNL3EV9QkVG3gSfvYjJntewD79xQLu1swUeW5CrzmUVS/BYmg1L
+         u7bJvM6nGB/+AOA07GKSnpipyLXLEdVh6tWOnCSB8WxBEp33bLzfv1ACHPlMIGm0+gEE
+         oFi5OZe96Gae2O1npCmC1uTtpJzRu1a5SbssF9Xkb51zR5cGGAuPSbnIGKuKgzyQkYEO
+         iTmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725867378; x=1726472178;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=U1ZBifs2OnOGSFnNW7eBfuw5hq3WBNWRDA3rjsHm7IM=;
+        b=k1LdZN07cc+p/QXNInCJyPQq8LZd/CLQ+BptPx4UVkdOmx9MP8OJwgYfoMDuKm/Vsq
+         hyweBcjhswaU7FpOBQ8UemDMglIWB9aChYc7ZRYJSLXlP/lzoXgvSshEgOLJ7xHT3jfa
+         OivaYIk0f5Qm5BQr36bchVM4VS3Gb3tdkgHTvEC4HmxIV/nPWoeIEebto9JQx4bpuKHr
+         4Nj6PJqhfa6ABdbMFryjM8M+rzakPXx9w8BvxN6u25KzcEJSt3yIhXsyc6yG3vrCujG5
+         3AURKd1eOeWBH8DacA43JwiaT0DjJvSJCMow0GZuVQFV7BZYnvpSGlgmQMZf8DiCPy0d
+         Laog==
+X-Gm-Message-State: AOJu0YwHgNvbnHXVOoDBidNsZZRLLLBp8wOvHfGamDqINhGmLdQafCRZ
+	fFD9a8BnSZP79EWCb7Nx61eOy8HEJ7daAxsJqu1U4xCLYe4wAiCyitjRaAvqdxrW1d/YAbph/95
+	Jh4JQRQUXHbeZs3LE9LwfgFTwRUMn6qKTpYc=
+X-Google-Smtp-Source: AGHT+IE6Egd0kmjakA1Oc4ImsMFPobCl7NvVfA8doP8hlJbf1MsE1z/6EbbMywsJNX5oFVivWj9tRw2Rk6LhRLyaKRc=
+X-Received: by 2002:a05:6358:432a:b0:1b1:a845:34d4 with SMTP id
+ e5c5f4694b2df-1b838812083mr1243314355d.27.1725867378116; Mon, 09 Sep 2024
+ 00:36:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240908101110.1028931-1-sayyad.abid16@gmail.com> <20240908101110.1028931-7-sayyad.abid16@gmail.com>
+In-Reply-To: <20240908101110.1028931-7-sayyad.abid16@gmail.com>
+From: Sayyad Abid <sayyad.abid16@gmail.com>
+Date: Mon, 9 Sep 2024 13:05:42 +0530
+Message-ID: <CACVUEBnU-XYn0b4WZ5qbeKEgfEbHoM3jAkOvAgLQtcpYDJEfnQ@mail.gmail.com>
+Subject: Re: [PATCH 6/6] staging: rtl8723bs: fix no space before tab and
+ statement start on tabstop
+To: linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Pass proper enumerated flag which exists, instead of an integer while
-calling queue_message(). It helps with readability of the code.
+it this working?
 
-Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-Reviewed-by: Stefan Wahren <wahrenst@gmx.net>
----
- drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+On Sun, Sep 8, 2024 at 3:41=E2=80=AFPM Sayyad Abid <sayyad.abid16@gmail.com=
+> wrote:
+>
+> This patch fixes the space before tabs and also makes the sentences
+> start on a tabstop instead of spaces.
+>
+> Signed-off-by: Sayyad Abid <sayyad.abid16@gmail.com>
+>
+> ---
+>  drivers/staging/rtl8723bs/include/rtw_security.h | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/staging/rtl8723bs/include/rtw_security.h b/drivers/s=
+taging/rtl8723bs/include/rtw_security.h
+> index 740c8504cba7..f005ec88d00a 100644
+> --- a/drivers/staging/rtl8723bs/include/rtw_security.h
+> +++ b/drivers/staging/rtl8723bs/include/rtw_security.h
+> @@ -162,7 +162,7 @@ struct security_priv {
+>
+>         /*  For WPA2 Pre-Authentication. */
+>         struct rt_pmkid_list            PMKIDList[NUM_PMKID_CACHE];     /=
+*  Renamed from PreAuthKey[NUM_PRE_AUTH_KEY]. Annie, 2006-10-13. */
+> -       u8              PMKIDIndex;
+> +       u8              PMKIDIndex;
+>
+>         u8 bWepDefaultKeyIdxSet;
+>
+> @@ -183,8 +183,8 @@ do {\
+>                         encry_algo =3D (u8)psta->dot118021XPrivacy;\
+>                 break;\
+>         case dot11AuthAlgrthm_WAPI:\
+> -            encry_algo =3D (u8)psecuritypriv->dot11PrivacyAlgrthm;\
+> -            break;\
+> +               encry_algo =3D (u8)psecuritypriv->dot11PrivacyAlgrthm;\
+> +               break;\
+>         } \
+>  } while (0)
+>
+> --
+> 2.39.2
+>
 
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-index 85b6f413d3e4..b3b0f8235670 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-@@ -3126,7 +3126,8 @@ vchiq_queue_message(struct vchiq_instance *instance, unsigned int handle,
- 	switch (service->srvstate) {
- 	case VCHIQ_SRVSTATE_OPEN:
- 		status = queue_message(service->state, service, data_id,
--				       copy_callback, context, size, 1);
-+				       copy_callback, context, size,
-+				       QMFLAGS_IS_BLOCKING);
- 		break;
- 	case VCHIQ_SRVSTATE_OPENSYNC:
- 		status = queue_message_sync(service->state, service, data_id,
--- 
-2.45.0
 
+--=20
+Abid
