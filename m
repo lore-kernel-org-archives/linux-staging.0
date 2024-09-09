@@ -1,65 +1,45 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0574737160
-	for <linux-staging@lists.linux.dev>; Mon,  9 Sep 2024 04:15:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15791101F7
+	for <linux-staging@lists.linux.dev>; Mon,  9 Sep 2024 06:15:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725855359; cv=none; b=pEfSUzJRJ0jgTzmVm8uzuND4i8HEnIqcK8eEo9pyhRNj3Ns7piUoV7Dn2nUFp65Ksqpct2CHYiro7o+Lz/z3+FAYNjFAK/06G414+3IY6lQM/hHUtRJ54rsleeQrtb6fs0rSNc/3Rz0c7t23y4LLXwn6SPLB2uJa0tEZJWTMVmY=
+	t=1725862515; cv=none; b=cdzM0sWV4+dtzUk5a6sl7TybjN0MiWHjsujl4zE0bz2hZqrHOYFCbiH5DzRTcXhuC/blUMfT0KqgnEFiuG5T4btzm1mdqJER9u7Pt2wMoNMOrzIIG0aSkotr8DdpJFUf5JcOLHHu/xOIxoWJSiqZ3M25Nug5ecXbXGLmqLvr0io=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725855359; c=relaxed/simple;
-	bh=MBlBxn3t1h4ykxy71xe2ccc5K5aI1pv0S5R9Dojvn6o=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=uE/s7Wu512wIFTJLgDs1VhgZ1g5FbQYQQc5K0mozykARXVAec9gPfAtSRaxRgO0isj7ANOPSyaPtyVciZyQr13HtgsXui30LwhNIF/MJF1ldpdFueZjaFp0/L1Ravj2MeI8WyoxgBqQZKTrvDRKEn1pbAYuDu6N/Xz3Hc7SYSU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EwSjmWSp; arc=none smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1725862515; c=relaxed/simple;
+	bh=A2rObrp0MBKP+bTZ+KGvyWu2AnfcTnyVZ/IYdlbhSL8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XfrRzrgA/fb+ETOb7I71qOJEmfkXqiUhfop4yp5v1PrAyRAXKt72AcahDHnvd8z/CvkK2q3QJjaAKOq4mQ60pRt1OeLI/VDtbaGaFXnBiCLoJuc7Oc+Bz+fbKx+t6b8XorsTjFwSPzKWBU34i9qHqOGY9LpsHGIgo36GOPGzQFA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=AJYcFsC1; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EwSjmWSp"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-717880daae7so324988b3a.0
-        for <linux-staging@lists.linux.dev>; Sun, 08 Sep 2024 21:15:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725855356; x=1726460156; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3akMNQABCnRWtQy+W1zIMIz/6+9MRKicWpteLSTpJok=;
-        b=EwSjmWSpC9daZ9xbW1KJhsBivZ0Ap5qunFhWnI/3POb5wuj+qCAouQnP7EfFA5cdP+
-         ectmhy7UoUOxilTB2aMtcWjI4afTQKb9k1+9OQMk/Uo+t7hO7AJjGpcGsENNPCzqhjA3
-         feLuTL/8BstYkRXmTjeYSOlQ+eD9Sod0+KMWm0XK7lwFDnRk2RsjWLuNJ10t0ZZwSNoM
-         oOlje4KfqJbIucoeMx+9vKLOqn6a/Oc0YbmNl5sylG4PVfqHAc7OGCeTaqTMD2R+Wy4c
-         M1QxKhI98TXjdSgJpa7KiH87gY5V3cFGdHXJ4rzQ8vATmUHrG0sQ6//vihDBMSkcEBrD
-         hMiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725855356; x=1726460156;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3akMNQABCnRWtQy+W1zIMIz/6+9MRKicWpteLSTpJok=;
-        b=ttCXgjY3Z2iZfvkeMHoFOkmktgIup3R8vGS3x/gpld2p2d9DdTPby90VdJ58L32laU
-         HzXeQ+4H4W9Vybyej5QBpZQN+ypWjib5wLh+Lpyl/LUvv13J7UNtus5URPm2sS+cNP9E
-         IpAuEpqnp6n7otOlLfdwgS2mVrbKfUwu6/wJOocVvwPd6iNvY6EG1g4xNviAES9eE6x5
-         IY2bwp7ceOicRcgkRnH8iuQ3ElilZOzjztylJYV3FEIwSMbAVHcAs8Zwn52su7xObxsq
-         v/cnVXd6BXIuyJEVGbszEkuxl28O4622fmjd0kFLXpY3o7QbKdE73ce33rm10DnV90SW
-         qAbg==
-X-Forwarded-Encrypted: i=1; AJvYcCXR0byTeB33LyNsPMIqS3AT4Xq205gl6AdElVbYOm4Fk1UPmsIPYg2I0cuyIbZxUleEa1rJp7OzrBA00fnY@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw1uilPjQMZkJ68k/PYdfysyexDxysyD75us3/5xBy94VscpB8U
-	P0tDGQzs45Ro01nDp6wirSFNfrSwGiXpwFa0rATuTzBBsS3mhxKq
-X-Google-Smtp-Source: AGHT+IGpH/cQTxEBRwQSzysm7mSH4RoHBLBkFKfJnnYP8Nm+zEPk0mHyyngxSBAPbeQT5TASle2bvg==
-X-Received: by 2002:a05:6a00:14d6:b0:718:e49f:4185 with SMTP id d2e1a72fcca58-718e49f4202mr2794372b3a.7.1725855356158;
-        Sun, 08 Sep 2024 21:15:56 -0700 (PDT)
-Received: from ubuntukernelserver.. ([110.44.116.44])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-718e58bd227sm2669605b3a.64.2024.09.08.21.15.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Sep 2024 21:15:55 -0700 (PDT)
-From: Roshan Khatri <topofeverest8848@gmail.com>
-To: gregkh@linuxfoundation.org,
-	philipp.g.hortmann@gmail.com
-Cc: Roshan Khatri <topofeverest8848@gmail.com>,
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="AJYcFsC1"
+Received: from localhost.localdomain (unknown [IPv6:2405:201:2015:f873:55f8:639e:8e9f:12ec])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E429E5A4;
+	Mon,  9 Sep 2024 08:13:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1725862435;
+	bh=A2rObrp0MBKP+bTZ+KGvyWu2AnfcTnyVZ/IYdlbhSL8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=AJYcFsC1V1h0AWpxdZ3DOItXF0eTTo4+PIkJEsQF4AsY2Rk3vBGU2Ns+iVl+1WSWX
+	 T2ha1+Dh5kItlb5WyRAH/g54sk0S/1DJbEmtRzt9rE2h/UwtCNWeZvqYJzCd8X6/vi
+	 DpZ6SbHzx1YVzAwj1Ng0IKwug4bFduvVAPYU60xE=
+From: Umang Jain <umang.jain@ideasonboard.com>
+To: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 4/4] staging: rtl8723bs: core: Fix spelling mistake in rtw_xmit.c
-Date: Mon,  9 Sep 2024 10:00:49 +0545
-Message-Id: <20240909041549.2449-1-topofeverest8848@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Stefan Wahren <wahrenst@gmx.net>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Umang Jain <umang.jain@ideasonboard.com>
+Subject: [PATCH v5 0/7] staging: vchiq_core: Refactor vchiq_bulk_transfer() logic
+Date: Mon,  9 Sep 2024 11:44:50 +0530
+Message-ID: <20240909061457.255452-1-umang.jain@ideasonboard.com>
+X-Mailer: git-send-email 2.45.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -68,30 +48,72 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch fixes spelling mistake to increase code readability
-and searching.
+Series mostly refactors vchiq_bulk_transfer() code according
+to Arnd's review comment from [1]:
 
-Signed-off-by: Roshan Khatri <topofeverest8848@gmail.com>
----
-v2: Created patch series as suggested by Phillip
-v1: https://lore.kernel.org/all/20240906141157.10167-1-topofeverest8848@gmail.com/
+> You can also wrap vchiq_bulk_transfer() in order to have
+> four separate functions based on the different 'mode'
+> values and have them only take the arguments they actually
+> need.
 
- drivers/staging/rtl8723bs/core/rtw_xmit.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I didn't wrap vchiq_bulk_transfer(), instead created four
+differnet function, one for each mode.
+This will pave the way to address his second comment:
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-index b1965ec0181f..755c1bc86a74 100644
---- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-@@ -45,7 +45,7 @@ s32 _rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
- 	init_completion(&pxmitpriv->terminate_xmitthread_comp);
- 
- 	/*
--	 * Please insert all the queue initializaiton using _rtw_init_queue below
-+	 * Please insert all the queue initialization using _rtw_init_queue below
- 	 */
- 
- 	pxmitpriv->adapter = padapter;
+> Ideally this should be cleaned up in a way that completely
+> avoids passing both user and kernel data at the same time.
+
+which is not part of this series and will be done on top as
+arguments shuffling will have to fix the sparse warnings
+that exists currently.
+
+Patch 1/7 first moves the VCHIQ_BULK_MODE_WAITING logic out
+of vchiq_bulk_transfer
+
+Patch 2/7 then moves the core logic to vchiq_bulk_transfer()
+which can be shared in subsequent patches
+
+Patch 3/7 and 4/7 refactors remaining bulk transfer modes
+
+Patch 5/7 finally drops the vchiq_bulk_transfer() as not needed
+
+patch 6/7 and 7/7 are drive by patches, noticed during development.
+
+[1]: https://lore.kernel.org/linux-staging/3d3b7368-93b2-4c0d-845e-4099c2de9dc1@app.fastmail.com/
+
+changes in v5:
+- Fix regression for VCHIQ_BULK_MODE_BLOCKING in 3/7
+  (Fixes strange hang from v4 with 'vchiq_test -p')
+
+Changes in v4:
+- In 1/7 return 0 direcly instead of assigning status = 0
+- In 3/7, fix null assignment of bulk waiter 
+
+CHanges in v3:
+- Directly return if service == NULL in 1/7 and 4/7
+- Drop set-but-unused variable from 1/7
+
+Changes in v2:
+- Directly return if service == NULL in 3/7
+- Prefix non-static functions with "vchiq_" (appropriate driver prefix)
+- Use typed argument for 'userdata' in 1/7
+
+
+Umang Jain (7):
+  staging: vchiq: Factor out bulk transfer for VCHIQ_BULK_MODE_WAITING
+  staging: vchiq_core: Simplify vchiq_bulk_transfer()
+  staging: vchiq_core: Factor out bulk transfer for blocking mode
+  staging: vchiq_core: Factor out bulk transfer for (no/)callback mode
+  staging: vchiq_core: Drop vchiq_bulk_transfer()
+  staging: vchiq_core: Remove unused function argument
+  staging: vchiq_core: Pass enumerated flag instead of int
+
+ .../interface/vchiq_arm/vchiq_arm.c           |  20 +-
+ .../interface/vchiq_arm/vchiq_core.c          | 330 +++++++++++-------
+ .../interface/vchiq_arm/vchiq_core.h          |  16 +-
+ .../interface/vchiq_arm/vchiq_dev.c           |  15 +-
+ 4 files changed, 239 insertions(+), 142 deletions(-)
+
 -- 
-2.34.1
+2.45.0
 
