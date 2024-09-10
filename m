@@ -1,54 +1,65 @@
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [207.246.76.47])
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CE9718A947
-	for <linux-staging@lists.linux.dev>; Mon,  9 Sep 2024 19:26:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.246.76.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C00228E37
+	for <linux-staging@lists.linux.dev>; Tue, 10 Sep 2024 04:04:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725910013; cv=none; b=LTmW8Okm0/4neKNwz5QCAQE8MgFGh7MCN6+u+FPOppn4VQOyHv7XyCjYRtIb9ynQs5g15eb8ASgiQZV4YVnCpj2E4/Fvj2FbyAeVXsLI/77ro8Aql87mu1lEwtY6yV1lAR89ICFod0hLkephJ/x1vj/v0w/JeW7Ar4Dt/U/YNyw=
+	t=1725941048; cv=none; b=Byr4kaHxeQ+J8HpqiSRyaFLGLP22pkWRNlVHZqzFKnhQIuIeNGbgbthWiVDIpPTUVICh60RBQwKyWgJHfFLksOhKpW7yrXL5v7ujDgADgctGA08u5lciYNiZamFWaL82NFVMywhOjtWqBvo5mU03Dac91lMxLr2gTumlAKxKokI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725910013; c=relaxed/simple;
-	bh=Uu832Uk5b4LaQN5ScMnX63a/5a+C3Dkjxd06KyW/bfE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Q3ITH6p/QwA73UbuIJSUeNEnnctDX+76EODfj76rDuzz+vmezi0ldcxf1JebSNwCH5sCPzkQEa87lEyCaAraB3GIjaehjIwxjJJgZQdX3mNQmFcFWpOMBbMTG/t1RB2fsHQJ8xd4a8MuCmBsPM5smVkrtSTf5PSmAnG6E+pJeu0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=BkI6+NS0; arc=none smtp.client-ip=207.246.76.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
+	s=arc-20240116; t=1725941048; c=relaxed/simple;
+	bh=/gJAksFgmw0XJca2LxIhCdD460NHpee6rWYJ2Mx9jq4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ujXPQYd4FaoMPld8u7tFFHP1BJAeHnN+WdxhNSUQF0CtXgpfjHssFthkaZET4oTktHdBCvJ9izXZomcWeuTCz54X/Vouuk2OJnPOCFTYA95uAC9dlKC0tHSfiLPwbkPTp0FFd6Ja57lFA5mes3Yqym9HV9chx1FbbcYKyjuFdu8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cu2AD8x2; arc=none smtp.client-ip=209.85.210.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="BkI6+NS0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
- h=Content-Transfer-Encoding: MIME-Version: References: In-Reply-To:
- Message-ID: Date: Subject: Cc: To: From; q=dns/txt; s=fe-e1b5cab7be;
- t=1725909996; bh=MqUj8A8o8xViBmolQgigKvVukl8yo9wbPYV1IfunL50=;
- b=BkI6+NS0Cv+Q4HJESeMcK2GKj8uSaSQlI+BZUklvGzn6xy0bjIaMvaWK+UEV3kyLw/wSyIRK6
- o0LQC1TZgocH9jGzYrjMNJ2CaJxM5mEsMjNFgFBHFJnl8IEKkVMups63wxBAgRZNT4N46dmEM6c
- hcoiZBOQRYfrnu/yjDp3eDcqv5V1WHudpcysncazfnJl2qLYbxgg701fA80ujV2Rw3Ae7kFpstJ
- YWKdpPlHufvhfZ9VSNLwozdgLuUymFzznUqv38wCuqe4Rahv6O38x68j47wK+VMlq6SE4BpO+kU
- VU7AZJekqHxEDwKYV8BswFm8uxI3gEKwwXGS92aWL8fw==
-From: Jonas Karlman <jonas@kwiboo.se>
-To: Sebastian Fricke <sebastian.fricke@collabora.com>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Alex Bee <knaerzche@gmail.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Detlev Casanova <detlev.casanova@collabora.com>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cu2AD8x2"
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-70d19bfdabbso401905b3a.2
+        for <linux-staging@lists.linux.dev>; Mon, 09 Sep 2024 21:04:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1725941046; x=1726545846; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=wedlIa7uUfPhH/VbGYP8ZCH9iPIQwhmTlK3bFiNPCr4=;
+        b=cu2AD8x2WbFdmykj7sz1MtAKPABKa8biIre0f2vucMGsq5KG5rXqbK+94IRfSH/qnf
+         a95gybtrWAtT1bmGsbECUvqO3dmgdBMJK2RVW2E1PawX41Hld+F4wIZO77FhWeB/ATmD
+         TleKHk36/EE2ECtPgxcB/aWt3Fmq9v4wI30VJSheVZaYsHk12ajjGJGfKIik2qTflRFm
+         bY62WDsMx3RhCvNdQafqTcUcQHXOo2Qz8KzA6gqMC5R25EYVDu6t3vOHDAU2BUZPQIyf
+         9/rdxmHlfZubalYh+OLci4WbGlcS0srlWMF4jPdrSkZeSH81L9GLk10MN1LsCWoebPAZ
+         LS5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725941046; x=1726545846;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wedlIa7uUfPhH/VbGYP8ZCH9iPIQwhmTlK3bFiNPCr4=;
+        b=t4B+y83RUVHrKU8Q6HcqmE/DDLDUXDSNC6Pdx7Q5SP4NYbK6m/cizQyZQ4h6K8RzFw
+         BCnIUv47Uuz7W4Ldo/6tfIVrPR7Dy4gcmF+XW5f1hJj6CuFk3Sckz/qwv7ZTUImulR2V
+         X3clZvz/w46VBjwEAY3oUqfedzVZqG3UINnHCQdWIXY0/OJ8UgLvk12BVg/dm81PbYf/
+         CWQk5RyNGmQpNfOniksvBhyMj7S6p65expQtNQ9JvwW6Dk8FUqINqfzbeJH47xy/kTPY
+         MwkfVwdq24/g5xMbcXebIfdan7CCHCCl/rLLr77RxZbz1o6wuuMAc/vfBlBj2DkEES8I
+         hD5Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWj211V9UxwVI+jPwWPAXf5leNbVw/EIhOjFfFdi8GDGdCfueumxLhjPJXNAU7nS637YO0QnGjBBzmVgeBJ@lists.linux.dev
+X-Gm-Message-State: AOJu0YzxCA+AjSRUpwCtBP7e36Ea/49gpsE/kfCtPs4SEG/GYj3tC/+S
+	zO5eYRoWpTgeKslyFWo4OYaBOqIvWYxn189fOaDqRcFA4Z4fTeQQ
+X-Google-Smtp-Source: AGHT+IGRuF82h+ayxgwhBkurm64jexmcAas2NnpDXYe4MXsPsNlz3EwcHAteMIGLIA64it+lErPW4w==
+X-Received: by 2002:a05:6a21:9992:b0:1c6:bed1:bbd0 with SMTP id adf61e73a8af0-1cf1cefb853mr7113079637.0.1725941046359;
+        Mon, 09 Sep 2024 21:04:06 -0700 (PDT)
+Received: from ubuntukernelserver.. ([49.236.212.182])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71909095275sm471902b3a.129.2024.09.09.21.04.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Sep 2024 21:04:05 -0700 (PDT)
+From: Roshan Khatri <topofeverest8848@gmail.com>
+To: gregkh@linuxfoundation.org,
+	philipp.g.hortmann@gmail.com
+Cc: Roshan Khatri <topofeverest8848@gmail.com>,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Subject: [PATCH v6 11/11] media: rkvdec: Fix enumerate frame sizes
-Date: Mon,  9 Sep 2024 19:25:09 +0000
-Message-ID: <20240909192522.1076704-12-jonas@kwiboo.se>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20240909192522.1076704-1-jonas@kwiboo.se>
-References: <20240909192522.1076704-1-jonas@kwiboo.se>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/4] staging: rtl8723bs: Fix spelling mistakes
+Date: Tue, 10 Sep 2024 09:48:45 +0545
+Message-Id: <cover.1725933169.git.topofeverest8848@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -56,59 +67,25 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Report-Abuse-To: abuse@forwardemail.net
-X-Report-Abuse: abuse@forwardemail.net
-X-Complaints-To: abuse@forwardemail.net
-X-ForwardEmail-Version: 0.4.40
-X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
- 207.246.76.47
-X-ForwardEmail-ID: 66df4beac680cb8b7d2dc270
 
-The VIDIOC_ENUM_FRAMESIZES ioctl should return all frame sizes (i. e.
-width and height in pixels) that the device supports for the given pixel
-format.
+This patch series fixes various spelling mistakes in the
+rtl8723bs/include/rtw_xmit.h, rtl8723bs/include/rtw_io.h,
+rtl8723bs/include/rtw_mlme.h and rtl8723bs/core/rtw_xmit.h files.
+This patch series is created after receiving feedback on 
+individual patches.
 
-For coded format returning the frame size used to enforce HW alignment
-requirements for CAPTURE buffers does not make fully sense.
+Roshan Khatri (4):
+  staging: rtl8723bs: include: Fix spelling mistake in rtw_xmit.h
+  staging: rtl8723bs: include: Fix spelling mistake in rtw_io.h
+  staging: rtl8723bs: include: Fix spelling mistake in rtw_mlme.h
+  staging: rtl8723bs: core: Fix spelling mistake in rtw_xmit.c
 
-Instead, signal applications what the maximum frame size that is
-supported by the HW decoder using a frame size of continuous type.
+ drivers/staging/rtl8723bs/core/rtw_xmit.c    | 2 +-
+ drivers/staging/rtl8723bs/include/rtw_io.h   | 2 +-
+ drivers/staging/rtl8723bs/include/rtw_mlme.h | 2 +-
+ drivers/staging/rtl8723bs/include/rtw_xmit.h | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
 
-Fixes: cd33c830448b ("media: rkvdec: Add the rkvdec driver")
-Suggested-by: Alex Bee <knaerzche@gmail.com>
-Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
----
-v6:
-- New patch
-
-With this change FFmpeg V4L2 Request API hwaccels can implement a strict
-check if frame size is supported by the video device:
-https://ffmpeg.org/pipermail/ffmpeg-devel/2024-August/332037.html
----
- drivers/staging/media/rkvdec/rkvdec.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
-index c8c14f35ac44..9002eb3a59e5 100644
---- a/drivers/staging/media/rkvdec/rkvdec.c
-+++ b/drivers/staging/media/rkvdec/rkvdec.c
-@@ -334,8 +334,14 @@ static int rkvdec_enum_framesizes(struct file *file, void *priv,
- 	if (!fmt)
- 		return -EINVAL;
- 
--	fsize->type = V4L2_FRMSIZE_TYPE_STEPWISE;
--	fsize->stepwise = fmt->frmsize;
-+	fsize->type = V4L2_FRMSIZE_TYPE_CONTINUOUS;
-+	fsize->stepwise.min_width = 1;
-+	fsize->stepwise.max_width = fmt->frmsize.max_width;
-+	fsize->stepwise.step_width = 1;
-+	fsize->stepwise.min_height = 1;
-+	fsize->stepwise.max_height = fmt->frmsize.max_height;
-+	fsize->stepwise.step_height = 1;
-+
- 	return 0;
- }
- 
 -- 
-2.46.0
+2.34.1
 
