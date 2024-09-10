@@ -1,221 +1,154 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0E961AB526
-	for <linux-staging@lists.linux.dev>; Tue, 10 Sep 2024 19:07:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 192F91AAE24
+	for <linux-staging@lists.linux.dev>; Tue, 10 Sep 2024 21:05:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725995230; cv=none; b=aZcgFpA2xZJjsdPXk3V9KSKSXDhOibtJ8eGmwmb9N7TjTBSQng4RRMHNhxRE2tAMtMu3SrN0l0+2gRrvp3CCIFSn2kyJAvPnHQeJtfERpBsuoccCequW1GqUDGxzCH3ahiMV5u/fsHDfHsHkMXZjwnskdnPWN2cLVeXKBcqPfR0=
+	t=1726002317; cv=none; b=nS6GdB551avtdxuPIi9tYMTAE3qbRE6eEt5PCL/l/DNpP4Ib5wLx0NeVoiufIE1sKZFcxPsRTOpZl6lZrYDxwoDqXEl1YSSkooXCNdT7PqLxjouUJtveT3QEhc8yudwU0yaaEWakGOyUQyDB7NZx0rI9DOrZk9G4eIxwPEi7MWE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725995230; c=relaxed/simple;
-	bh=/fPvS6tHaPYkd+ieklVpLMDzeZI3SXacgyA3mGQdBfY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DrZsvkP2c+A6PZwBllClmkEk3SRGn92dWX3jPKhbKzEdPLzMEyRxqF7DsLpYMC+OZmaVQSafUeYiWcvhHt/nbmo46QVboLUCZ/OLgfdAEQ+Vs/NSRtS4ABPdBLczyzepbQDY0dYGg6V8wh+/bX3C4kf2BZIgmqxUbpUpMqeWL5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Vkp1hjSS; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1726002317; c=relaxed/simple;
+	bh=0mIWHubNFp5R0R+MS85zdpzK9flIImlyi1RzZV7yFn8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=oZ5D11Q6mzg08GhRZGfYJGp3Eo2OBVUE2/uQQeV2yqhvF3TAwaBzRwamOeyBHcLa7UIueKzlbBgth5gOXJRpuDNG/eFdSD60ZjEuHcfRasa4VLfDdsuRV22uyznCi7tIvbkgLHi7T00TRRbjDyk9saGWxZbSCN9wESbgMpVm1Lg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=GB6HqcJc; arc=none smtp.client-ip=212.227.15.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vkp1hjSS"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-20551e2f1f8so59303675ad.2
-        for <linux-staging@lists.linux.dev>; Tue, 10 Sep 2024 12:07:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725995228; x=1726600028; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6lOiIJ4Mc69h2PNQojh4dfRelmJgPkTSzYXUp3tv+n8=;
-        b=Vkp1hjSSJgPxhL6MixzOzhhveQcRDdXf2l6xUiog9otfkRC51mans6HbB/AZN32SYF
-         hAwqbjILVa5yl3PVW9nnqtXl2nNloD2YqWp7qbbBSctwgi3iVrKtcVNKsppKwulLOrEU
-         B/J25/DNEyWJlcCXqmIwhSckf4kPRpNVO+O8/utgVraZ2L3IiCIJDYdxV+tnzm6VoYpa
-         SJkPqvkMZgwe8LouLmf0bFEKX69uVl40/S8cNUid98iOH4YXvdMnGD6Ocd665oSg5KZP
-         PY98JXKyBByLEI0YLOAl9OQFI9KmbYPhB//usQCbm++uY65+KJzNOwCf2+/jnPRtMMUZ
-         j3Vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725995228; x=1726600028;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6lOiIJ4Mc69h2PNQojh4dfRelmJgPkTSzYXUp3tv+n8=;
-        b=ZkKhETcBmlW4gO73aS/Ma7A+uUp8shCeTYUkd5inibLOReZUekI8+T0e6iT2Z/os4O
-         0MpY7S2WEcfTOx9QJyqM2JEuAZeshhCHi+IVv484Foa7P+GEHJ0xYULOvQaEKA39LKaB
-         +cgKqZmETSqIjLQ3pigA2JZ6b8vZhhHfRrh7a/4zDB3/7Vx7AM3JNwOSClCjLFu9XGsy
-         d0jJ1iWbrvapAV2uDgSP8oU0E7H1lxdqq6NiGQMeD9j2BP1gM95vV7tQlUqE6kDHVDy1
-         2+E8w4r3+gHlvy79T+uQo9SU112bs5fGyMnpnb3QDNW1lCZ1HKT0sftxgHsQnt+C2743
-         HbFA==
-X-Gm-Message-State: AOJu0Yzpy45nBRFbx1PWMWjHkBmvc2gt+NsB32sEWedZfHniyl0PzWr8
-	10XU4FGRnfez+kj87N+zdSuTYZ1t7alETxeVvyaNJQWSF6WAzGAiifYHZFUFst4=
-X-Google-Smtp-Source: AGHT+IFh7ypVlg+pkVmteXSfq34hnWWEiP32lthCK2Pt8J4txP0R/BlbvzOq3InKFv3MpF58XUjruQ==
-X-Received: by 2002:a17:902:ec8e:b0:205:4885:235e with SMTP id d9443c01a7336-2074c70dac2mr18657265ad.39.1725995227605;
-        Tue, 10 Sep 2024 12:07:07 -0700 (PDT)
-Received: from debian ([103.57.174.190])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20710f1e29asm51657045ad.214.2024.09.10.12.07.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Sep 2024 12:07:07 -0700 (PDT)
-Date: Wed, 11 Sep 2024 00:37:01 +0530
-From: Sayyad Abid <sayyad.abid16@gmail.com>
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Cc: linux-staging@lists.linux.dev, gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org, sayyad.abid16@gmail.com
-Subject: Re: [PATCH v2] staging: rtl8723bs: Fix coding style issues in the
- hal_pwr_seq.h
-Message-ID: <ZuCY1Tuog1sFHLBQ@debian>
-References: <20240910121144.635348-1-sayyad.abid16@gmail.com>
- <89893a22-5018-4ae0-b4f9-e473a36f09b6@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="GB6HqcJc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
+	s=s31663417; t=1726002301; x=1726607101; i=wahrenst@gmx.net;
+	bh=nKi6Zs5itMuZj0R7ssE/Y46CTiFv+ahJwUU8i1AL+uI=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=GB6HqcJcXHgUMP8A3nH4aeyZK6onWLINrBqbQGQggJukiK0jjSMhMdIBfnkzzRzw
+	 O16+34/GvDoBczhNKSfRmcgyH+KCzbcyIuYz4gQ5BXLT6T1e/ZZ9Fncq/nOR+2vbY
+	 5LlZ+/k7MnwyTjvvN+GMQgQMZhgICUoxLxiUSfEpOiTsPyxs61VwtmsIDgP+4aLgt
+	 19dpjA6pGHTe/+Xnwn3J55dw8UEl3ls80VT6Yqhz71slBccTk3gAdt5ALxdWctDMu
+	 t0l/EdzIcIOVVQLlL9HgxLQih6X97Ru7i6CXafYEVlBDM4jWik0OVqJdBemio1SXF
+	 unITNAcdLJrWVuB39g==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.128] ([37.4.248.43]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MbivM-1sIeNG402o-00k88J; Tue, 10
+ Sep 2024 23:05:01 +0200
+Message-ID: <170ed65e-8701-422a-9e68-6f262fb673b3@gmx.net>
+Date: Tue, 10 Sep 2024 23:04:59 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <89893a22-5018-4ae0-b4f9-e473a36f09b6@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 0/7] staging: vchiq_core: Remove unused function
+ argument
+To: Umang Jain <umang.jain@ideasonboard.com>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-rpi-kernel@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20240910051007.297227-1-umang.jain@ideasonboard.com>
+Content-Language: en-US
+From: Stefan Wahren <wahrenst@gmx.net>
+In-Reply-To: <20240910051007.297227-1-umang.jain@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:3KO2Q4MUiKISxf3F6jxuLncTtmCijItaYKwydgwshQYhzLtnO2z
+ 2UXHAMDbQGwZvdClWeY+uID5GC4zlsx2egf3pJvgT4hkyRB0sfucs2TY/p/CJLN7hjKGtT7
+ ZLIvqnFZcNLHg/ffYmp1sTmaLxdk+MzQY8dGk48zaNozYRtjeaX/qlpjqb1L/8gfZMYLkJW
+ xoyWwRjCEcDQV7LF0Ax2w==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:PJdw/oLfUAc=;HjjFQcUn+0QG6fpdiqwnXy6B+hD
+ CF2vOGU9r+Hoo8nxf+JiRS8eRnFYQcV0vqPn3lN5m9WVbeZrpFm3xZBm6RxyBT8Z5WndIgiHI
+ VubvT+P8g8OKtPNxsYQdfPLqVjhlir+FogZi5KCG4NJREXiK3DkT4PRQUuIdrxvFm9FZwL4mN
+ Jpm8ATvjX7yxzgaXxZtcm+kUzcRbIO8GRUbkHLtwZNyUD0KmQJKH2c07HlLihE/NEi+x/CqcH
+ Nl3sZpZaiUa8gJDg1F7o+PYNMmqO/v31cjUrYSIvatLACMTg0xd1VeOBD3UDJg95pMrLSXHbh
+ GYW9uVYwJs9j6Gqfa/xVgDUI1lyNR8NxOV3SWpTwwBbZIHWnGRI/qv+iR48ojvkw9yXcM+2hU
+ yWJwGp/MjbDDaT1N5AncxfnfMA4g7M4YHEzJhTVXpy4iXay52iDGJOCseypJY9WtI2oof8EBS
+ z06zAFrGpJauGq2JkgJtizs7r1Gd78SBbk+BqlaxuN1EgXbVxaXdHTRK1TfjeMDkk/MnssL4e
+ TKjX8NO4B/g+zRFPQ/b8ulQd2PtVWRbGVO7HRiJ/kqfzo/lXoro6XRmI7Roc+guLLhBj+EKi0
+ cfQpEFqdKqbWumHcBrx00+dANapZCJ99A6OPpOG3jDFQlTlpoz8Ib8L4fLexg+tNt75RlaUAw
+ DDsBk5PuDH/NnD0bkUq0c4kC3bgxy7ONcggBpGoREyOgYBQjIuIwQW8XHy/urnubP34nquHoA
+ iTozfdQ3oHzoCOn+XwdJ+p3pujiHn5aQDDojJmTiZywmlmzKvqyYo53Aa4OAjHYq1w4zttlMV
+ F53sfkKqrkQGosSdcf0eT08w==
 
-On Tue, Sep 10, 2024 at 08:47:54PM +0200, Philipp Hortmann wrote:
-> On 9/10/24 14:11, abid-sayyad wrote:
-> > Improving the code readability and coding style compliance of the code.
-> > Running checkpatch.pl on the file raised coding style warnings:
-> > -The comment block needs "*" on all lines of the block
-> > from line 8 to 26
-> > -Use tabs for indent
-> > on line 103 and 115
-> >
-> > Applying the patch fixes these coding style issues and makes the code more
-> > readable/developer friendly.
-> >
-> > Signed-off-by: abid-sayyad <sayyad.abid16@gmail.com>
-> > ---
+Am 10.09.24 um 07:10 schrieb Umang Jain:
+> Series mostly refactors vchiq_bulk_transfer() code according
+> to Arnd's review comment from [1]:
 >
-> Hi Abid,
+>> You can also wrap vchiq_bulk_transfer() in order to have
+>> four separate functions based on the different 'mode'
+>> values and have them only take the arguments they actually
+>> need.
+> I didn't wrap vchiq_bulk_transfer(), instead created four
+> differnet function, one for each mode.
+> This will pave the way to address his second comment:
 >
-> I cannot apply your patch. Are you using the right git repo?
+>> Ideally this should be cleaned up in a way that completely
+>> avoids passing both user and kernel data at the same time.
+> which is not part of this series and will be done on top as
+> arguments shuffling will have to fix the sparse warnings
+> that exists currently.
 >
-> git remote show origin
-> * remote origin
->   Fetch URL:
-> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git
-> ...
-> git branch -a
-> my branch: staging-testing
+> Patch 1/7 first moves the VCHIQ_BULK_MODE_WAITING logic out
+> of vchiq_bulk_transfer
 >
+> Patch 2/7 then moves the core logic to vchiq_bulk_transfer()
+> which can be shared in subsequent patches
 >
-> kernel@matrix-ESPRIMO-P710:~/Documents/git/kernels/staging$ mutt
-> Applying: staging: rtl8723bs: Fix coding style issues in the hal_pwr_seq.h
-> error: patch failed: drivers/staging/rtl8723bs/include/hal_pwr_seq.h:101
-> error: drivers/staging/rtl8723bs/include/hal_pwr_seq.h: patch does not apply
-> Patch failed at 0001 staging: rtl8723bs: Fix coding style issues in the
-> hal_pwr_seq.h
+> Patch 3/7 and 4/7 refactors remaining bulk transfer modes
 >
-I found the issue, I have been amending these changes on the mainline repo,
-  $ git remote show origin
-* remote origin
-  Fetch URL: git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+> Patch 5/7 finally drops the vchiq_bulk_transfer() as not needed
+>
+> patch 6/7 and 7/7 are drive by patches, noticed during development.
+>
+> [1]: https://lore.kernel.org/linux-staging/3d3b7368-93b2-4c0d-845e-4099c2de9dc1@app.fastmail.com/
+The whole series is
 
-  I need to clone the staging branch.
-> Please also change your Description. Concentrate on why this patch makes
-> sense. Do not describe the patch. What is changed can be seen below. Please
-> also use the correct time.
+Tested-by: Stefan Wahren <wahrenst@gmx.net>
 >
-I did not understand the correct time here. could you please
-elaborate a little on this please.
-> You can find accepted examples in the git repo.
+> Changes in v6:
+> - Drop forward declaration vchiq_bulk_xfer_queue_msg_interruptible()
+>    in 2/7
 >
-I'll look into the accepted patches right now. Meanwhile I have this question
-, descriptions addressing only the coding style issue fixes are acceptable or
-it needs to be having somethingelse too? (apologies in advance for
-this illy question)
-> Thanks for your support.
+> changes in v5:
+> - Fix regression for VCHIQ_BULK_MODE_BLOCKING in 3/7
+>    (Fixes strange hang from v4 with 'vchiq_test -p')
 >
-> Bye Philipp
+> Changes in v4:
+> - In 1/7 return 0 direcly instead of assigning status = 0
+> - In 3/7, fix null assignment of bulk waiter
 >
-Thank Youy for your feedbacks
+> CHanges in v3:
+> - Directly return if service == NULL in 1/7 and 4/7
+> - Drop set-but-unused variable from 1/7
+>
+> Changes in v2:
+> - Directly return if service == NULL in 3/7
+> - Prefix non-static functions with "vchiq_" (appropriate driver prefix)
+> - Use typed argument for 'userdata' in 1/7
 >
 >
-> > changes since v1:
-> > v2: Fix the email body, amke it more informative
-> > link to v1:
-> > https://lore.kernel.org/all/ca1908f3-74aa-45e7-a389-3995aba2660c@gmail.com/
-> >   .../staging/rtl8723bs/include/hal_pwr_seq.h   | 46 +++++++++----------
-> >   1 file changed, 23 insertions(+), 23 deletions(-)
-> >
-> > diff --git a/drivers/staging/rtl8723bs/include/hal_pwr_seq.h b/drivers/staging/rtl8723bs/include/hal_pwr_seq.h
-> > index 5e43cc89f535..10fef1b3f393 100644
-> > --- a/drivers/staging/rtl8723bs/include/hal_pwr_seq.h
-> > +++ b/drivers/staging/rtl8723bs/include/hal_pwr_seq.h
-> > @@ -5,26 +5,26 @@
-> >   #include "HalPwrSeqCmd.h"
-> >
-> >   /*
-> > -	Check document WM-20130815-JackieLau-RTL8723B_Power_Architecture v08.vsd
-> > -	There are 6 HW Power States:
-> > -	0: POFF--Power Off
-> > -	1: PDN--Power Down
-> > -	2: CARDEMU--Card Emulation
-> > -	3: ACT--Active Mode
-> > -	4: LPS--Low Power State
-> > -	5: SUS--Suspend
-> > -
-> > -	The transition from different states are defined below
-> > -	TRANS_CARDEMU_TO_ACT
-> > -	TRANS_ACT_TO_CARDEMU
-> > -	TRANS_CARDEMU_TO_SUS
-> > -	TRANS_SUS_TO_CARDEMU
-> > -	TRANS_CARDEMU_TO_PDN
-> > -	TRANS_ACT_TO_LPS
-> > -	TRANS_LPS_TO_ACT
-> > -
-> > -	TRANS_END
-> > -*/
-> > + *	Check document WM-20130815-JackieLau-RTL8723B_Power_Architecture v08.vsd
-> > + *	There are 6 HW Power States:
-> > + *	0: POFF--Power Off
-> > + *	1: PDN--Power Down
-> > + *	2: CARDEMU--Card Emulation
-> > + *	3: ACT--Active Mode
-> > + *	4: LPS--Low Power State
-> > + *	5: SUS--Suspend
-> > + *
-> > + *	The transition from different states are defined below
-> > + *	TRANS_CARDEMU_TO_ACT
-> > + *	TRANS_ACT_TO_CARDEMU
-> > + *	TRANS_CARDEMU_TO_SUS
-> > + *	TRANS_SUS_TO_CARDEMU
-> > + *	TRANS_CARDEMU_TO_PDN
-> > + *	TRANS_ACT_TO_LPS
-> > + *	TRANS_LPS_TO_ACT
-> > + *
-> > + *	TRANS_END
-> > + */
-> >   #define	RTL8723B_TRANS_CARDEMU_TO_ACT_STEPS	26
-> >   #define	RTL8723B_TRANS_ACT_TO_CARDEMU_STEPS	15
-> >   #define	RTL8723B_TRANS_CARDEMU_TO_SUS_STEPS	15
-> > @@ -101,7 +101,7 @@
-> >   	{0x0007, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_SDIO_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, 0xFF, 0x20}, /*0x07 = 0x20 , SOP option to disable BG/MB*/	\
-> >   	{0x0005, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_USB_MSK|PWR_INTF_SDIO_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT3|BIT4, BIT3}, /*0x04[12:11] = 2b'01 enable WL suspend*/	\
-> >   	{0x0005, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_PCI_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT2, BIT2}, /*0x04[10] = 1, enable SW LPS*/	\
-> > -        {0x004A, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_USB_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT0, 1}, /*0x48[16] = 1 to enable GPIO9 as EXT WAKEUP*/   \
-> > +	{0x004A, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_USB_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT0, 1}, /*0x48[16] = 1 to enable GPIO9 as EXT WAKEUP*/   \
-> >   	{0x0023, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_SDIO_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT4, BIT4}, /*0x23[4] = 1b'1 12H LDO enter sleep mode*/   \
-> >   	{0x0086, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_SDIO_MSK, PWR_BASEADDR_SDIO, PWR_CMD_WRITE, BIT0, BIT0}, /*Set SDIO suspend local register*/	\
-> >   	{0x0086, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_SDIO_MSK, PWR_BASEADDR_SDIO, PWR_CMD_POLLING, BIT1, 0}, /*wait power state to suspend*/
-> > @@ -112,7 +112,7 @@
-> >   	{0x0005, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT3 | BIT7, 0}, /*clear suspend enable and power down enable*/	\
-> >   	{0x0086, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_SDIO_MSK, PWR_BASEADDR_SDIO, PWR_CMD_WRITE, BIT0, 0}, /*Set SDIO suspend local register*/	\
-> >   	{0x0086, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_SDIO_MSK, PWR_BASEADDR_SDIO, PWR_CMD_POLLING, BIT1, BIT1}, /*wait power state to suspend*/\
-> > -        {0x004A, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_USB_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT0, 0}, /*0x48[16] = 0 to disable GPIO9 as EXT WAKEUP*/   \
-> > +	{0x004A, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_USB_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT0, 0}, /*0x48[16] = 0 to disable GPIO9 as EXT WAKEUP*/   \
-> >   	{0x0005, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT3|BIT4, 0}, /*0x04[12:11] = 2b'01enable WL suspend*/\
-> >   	{0x0023, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_SDIO_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT4, 0}, /*0x23[4] = 1b'0 12H LDO enter normal mode*/   \
-> >   	{0x0301, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_PCI_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, 0xFF, 0},/*PCIe DMA start*/
-> > @@ -209,7 +209,7 @@
-> >   #define RTL8723B_TRANS_END															\
-> >   	/* format */																\
-> >   	/* { offset, cut_msk, fab_msk|interface_msk, base|cmd, msk, value }, comments here*/								\
-> > -	{0xFFFF, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, 0, PWR_CMD_END, 0, 0},
-> > +	{0xFFFF, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, 0, PWR_CMD_END, 0, 0},
-> >
-> >
-> >   extern struct wlan_pwr_cfg rtl8723B_power_on_flow[RTL8723B_TRANS_CARDEMU_TO_ACT_STEPS+RTL8723B_TRANS_END_STEPS];
-> > --
-> > 2.39.2
-> >
+> Umang Jain (7):
+>    staging: vchiq: Factor out bulk transfer for VCHIQ_BULK_MODE_WAITING
+>    staging: vchiq_core: Simplify vchiq_bulk_transfer()
+>    staging: vchiq_core: Factor out bulk transfer for blocking mode
+>    staging: vchiq_core: Factor out bulk transfer for (no/)callback mode
+>    staging: vchiq_core: Drop vchiq_bulk_transfer()
+>    staging: vchiq_core: Remove unused function argument
+>    staging: vchiq_core: Pass enumerated flag instead of int
 >
+>   .../interface/vchiq_arm/vchiq_arm.c           |  20 +-
+>   .../interface/vchiq_arm/vchiq_core.c          | 323 +++++++++++-------
+>   .../interface/vchiq_arm/vchiq_core.h          |  16 +-
+>   .../interface/vchiq_arm/vchiq_dev.c           |  15 +-
+>   4 files changed, 232 insertions(+), 142 deletions(-)
+>
+
