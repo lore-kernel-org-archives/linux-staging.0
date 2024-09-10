@@ -1,104 +1,104 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E39D61459EA
-	for <linux-staging@lists.linux.dev>; Tue, 10 Sep 2024 04:05:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B72FA12E48
+	for <linux-staging@lists.linux.dev>; Tue, 10 Sep 2024 05:04:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725941136; cv=none; b=uelaaH0047RWtawFbiTzanUdjYuYq6CDnsOpOwLrqWbLpUMyUXFoyyC9wiyRmtgXJtgZGkLOTks/70VcYngIxOUs16aa/dPVZQsZlxtjmnRo02JqDt/KuDP6d2M/XbM1fKMbgwICLkJeOKTlA2GaUGGNHEbmAH+8aU8c2/OlP9c=
+	t=1725944702; cv=none; b=tEEj4MAjhTHunz2cIbId9CkfGYJht0JHvSQXVA15OAyZ3ncYdL8MEgLuHksPA6C8VwdxVbTzLjATMNesdpIBrpWuINn3DJq371jiOzeKvYsBJkVeyUTDoNty2Y1LCNgS7lRvrfqPPkMUH/xgp2TVu4KhQ9RQhgXz5XyIySRIhGs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725941136; c=relaxed/simple;
-	bh=1ziOisrsaKx9mcLmEMAB+eShXK3KN3vwItbdAjnlqNA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=levP0VkQVFR8Q46HfOVsPX0ityo+Mf/ntNvsKdX9edH/xYmmzN4b4jFjiOEWEemftCqBAquOczcBfPM3O5o6XuGXONgdgKy1b738uHLhWbf+kBg3TJ/hLTv0UvhT7sCiTPQoPSEIjfuzjdj52KJ3bWiTjH4J7FoR3g2E5fPV+Qs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X2103YDV; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1725944702; c=relaxed/simple;
+	bh=Suc20FRgOMNXHNNiIchSC+TwSIUu481t0POauYFBTww=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PUJ/bZ0PwcU6Z+/dIT6P7RmynLwWqcA8mCT9nyKmf/sXEcdg83VWhPyRHxohk4oHtk/2FJUb2/ibVjI0hfLC/KS1YF4Ag9OiUFv30ah42c6ZjFOXosd+CjPjhGfLOta/DNThyrtQroso0U40zr5TXyauN6a0fxOnzRPw0ux3VyQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=imenmLSp; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X2103YDV"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-718ef6a26dbso369934b3a.1
-        for <linux-staging@lists.linux.dev>; Mon, 09 Sep 2024 21:05:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725941134; x=1726545934; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=57j6dC4h677FMz51Re5oWsR6lG/2ScumpzqstrCEmAI=;
-        b=X2103YDVGteHWSp6yjtzryKf7nOagd/iGn/6JkXGryo/oohLaYneVu+ZuUSCiC7DWd
-         NHS3lWuRENo3pZBHV1dsWyyy+udGzfyOig+4/PeEF6/BvVmU2cU2y8YLxJn5fLi+fP9j
-         6OvBS4BD2wAXJK0wBVWY9bybHNyKboeVePhJeMMhCNPBLvzCQ7uKTomaFQJV9S3z0v1s
-         yS6VtBE7lbcpGVdfmvRCx7YP3oxutsRVK/01BG6dFgX6tVgFGHeLM1PT8V09eoMthG5C
-         s7WMuE/Y0J/n+55AwNE7f+lkVk6CiDce/wO+8WKJTC2cQNO2GFaCrC3upfQ+HFUWG9KB
-         308w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725941134; x=1726545934;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=57j6dC4h677FMz51Re5oWsR6lG/2ScumpzqstrCEmAI=;
-        b=L47f/gQj2UAwnMvdBvU1dPZu0Q+OQQ44XiAkaLoKNKYTp/FjDR9Fc6QtZIN1jFW4FZ
-         +wRLZxsxS7/rmS/qCtyeaQ7RGcoS002M77lT8SdCp4W39lAMYGVtwmE07itRw9naOoM/
-         7mrfNQqf0DcINAORzppG61YGjeXAahRPALhCrS90X1P8TXQWaWHbH9d4FAne4USikz38
-         JZJPOzeq/jQYYR48GYXF1r7XWhdzzLYIXXkJpP/mZKCpGtZVqetkKpKLx3+twtGm0Hki
-         Xb534bWwy1E/M1kqUku/rCgHqapCO6DOSawP96GAZ5oyoTymzxH3sPXT5r2Tw1yKXLQb
-         649g==
-X-Forwarded-Encrypted: i=1; AJvYcCU+6v4SkZYqPawV+cuxF9Xz8jaPyA+lGr4m7iyhWVhEpO4eJreXfTSXdpXTn1PirhzwlnRwL+rqFyxc8hPq@lists.linux.dev
-X-Gm-Message-State: AOJu0YwpbLhfP7+t5D6TEM1+4E4ouRN32FbVCjqyIlLGuvkKCREXKetr
-	XKZTYp7lyoNxmItCFA6nL8u4d0VBTrxm0bAddBdTcy2EP2m6RB5g0S0z3hGm
-X-Google-Smtp-Source: AGHT+IFuCKt+97i4M+2mrhF3+ODNKOXG9EUEen87AEDnk1K9pGTHYhWqhp++DOhd92pCS/rNrpFuew==
-X-Received: by 2002:a17:903:1d1:b0:202:2af7:b50b with SMTP id d9443c01a7336-206f054055cmr69842275ad.5.1725941134116;
-        Mon, 09 Sep 2024 21:05:34 -0700 (PDT)
-Received: from ubuntukernelserver.. ([49.236.212.182])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20710f5245bsm40610785ad.303.2024.09.09.21.05.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Sep 2024 21:05:33 -0700 (PDT)
-From: Roshan Khatri <topofeverest8848@gmail.com>
-To: gregkh@linuxfoundation.org,
-	philipp.g.hortmann@gmail.com
-Cc: Roshan Khatri <topofeverest8848@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 4/4] staging: rtl8723bs: core: Fix spelling mistake in rtw_xmit.c
-Date: Tue, 10 Sep 2024 09:50:24 +0545
-Message-Id: <90f26f7bce03d80848e3c0fc166c5ab584b83446.1725933169.git.topofeverest8848@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1725933169.git.topofeverest8848@gmail.com>
-References: <cover.1725933169.git.topofeverest8848@gmail.com>
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="imenmLSp"
+Received: from [IPV6:2405:201:2015:f873:55d7:c02e:b2eb:ee3f] (unknown [IPv6:2405:201:2015:f873:55d7:c02e:b2eb:ee3f])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 12A6C63D;
+	Tue, 10 Sep 2024 07:03:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1725944607;
+	bh=Suc20FRgOMNXHNNiIchSC+TwSIUu481t0POauYFBTww=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=imenmLSpUxeShNY8Oq3HHaAHAbOnmzWrX8E1C/dgdpYF8t59M9z70VOrWZ6y4zBSK
+	 irrPZ9pXE85zX4BhcPxBKlGy2annAYpaLZJbaFpbB+/PjV0IHB2WrWFV6HGZuPrv6W
+	 ToFRXfftS2v99zKk/ogf00iNfCcxE80ETDEHaJ3k=
+Message-ID: <32c47d9a-523a-4a17-9aa6-a9f5a36a1e60@ideasonboard.com>
+Date: Tue, 10 Sep 2024 10:34:39 +0530
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 0/7] staging: vchiq_core: Refactor
+ vchiq_bulk_transfer() logic
+To: Stefan Wahren <wahrenst@gmx.net>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-rpi-kernel@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20240909061457.255452-1-umang.jain@ideasonboard.com>
+ <58767847-e2d9-4e9f-8d8a-7c6f14d270fc@gmx.net>
+Content-Language: en-US
+From: Umang Jain <umang.jain@ideasonboard.com>
+In-Reply-To: <58767847-e2d9-4e9f-8d8a-7c6f14d270fc@gmx.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-This patch fixes spelling mistake to increase code readability
-and searching.
 
-Signed-off-by: Roshan Khatri <topofeverest8848@gmail.com>
----
-v3: Created patch series with cover letter as suggested in the feeback
-v2:
- - Created patch series as suggested in the feedback
- - https://lore.kernel.org/all/20240909041549.2449-1-topofeverest8848@gmail.com/
-v1: https://lore.kernel.org/all/20240906141157.10167-1-topofeverest8848@gmail.com/
 
- drivers/staging/rtl8723bs/core/rtw_xmit.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 09/09/24 11:38 pm, Stefan Wahren wrote:
+> Am 09.09.24 um 08:14 schrieb Umang Jain:
+>> Series mostly refactors vchiq_bulk_transfer() code according
+>> to Arnd's review comment from [1]:
+>>
+>>> You can also wrap vchiq_bulk_transfer() in order to have
+>>> four separate functions based on the different 'mode'
+>>> values and have them only take the arguments they actually
+>>> need.
+>> I didn't wrap vchiq_bulk_transfer(), instead created four
+>> differnet function, one for each mode.
+>> This will pave the way to address his second comment:
+>>
+>>> Ideally this should be cleaned up in a way that completely
+>>> avoids passing both user and kernel data at the same time.
+>> which is not part of this series and will be done on top as
+>> arguments shuffling will have to fix the sparse warnings
+>> that exists currently.
+>>
+>> Patch 1/7 first moves the VCHIQ_BULK_MODE_WAITING logic out
+>> of vchiq_bulk_transfer
+>>
+>> Patch 2/7 then moves the core logic to vchiq_bulk_transfer()
+>> which can be shared in subsequent patches
+>>
+>> Patch 3/7 and 4/7 refactors remaining bulk transfer modes
+>>
+>> Patch 5/7 finally drops the vchiq_bulk_transfer() as not needed
+>>
+>> patch 6/7 and 7/7 are drive by patches, noticed during development.
+>>
+>> [1]: 
+>> https://lore.kernel.org/linux-staging/3d3b7368-93b2-4c0d-845e-4099c2de9dc1@app.fastmail.com/
+>>
+>> changes in v5:
+>> - Fix regression for VCHIQ_BULK_MODE_BLOCKING in 3/7
+>>    (Fixes strange hang from v4 with 'vchiq_test -p')
+>
+> The whole series is
+>
+> Tested-by: Stefan Wahren <wahrenst@gmx.net>
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-index b1965ec0181f..755c1bc86a74 100644
---- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-@@ -45,7 +45,7 @@ s32 _rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
- 	init_completion(&pxmitpriv->terminate_xmitthread_comp);
- 
- 	/*
--	 * Please insert all the queue initializaiton using _rtw_init_queue below
-+	 * Please insert all the queue initialization using _rtw_init_queue below
- 	 */
- 
- 	pxmitpriv->adapter = padapter;
--- 
-2.34.1
+Thanks for testing and especially catching the strange hang!
+
+The 2/7 review comment will be addressed in v6 (shortly)
 
