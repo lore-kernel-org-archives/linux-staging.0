@@ -1,66 +1,66 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA7C316DEB4
-	for <linux-staging@lists.linux.dev>; Tue, 10 Sep 2024 04:04:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B045B1459EA
+	for <linux-staging@lists.linux.dev>; Tue, 10 Sep 2024 04:05:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725941091; cv=none; b=hrmScUwSq9topM+ZGcaYaZel49WD0KifvhEFwMii1j31MVSHdMr+elaiZ6WCr6CJtMlZNjoDO7OXMhVWOoQTcUfDI9b+ctpQKOLsbZqBp55jWzCvrGSOsrYyksZgAUi3VqMLTKGkZR4p3MBNGOox10DuV9/v5qk7HMJf8Kei+kE=
+	t=1725941111; cv=none; b=pAQovCAL1ct9odP9RDEnz+uuHFkwvBAW2S3cxAHNhSh1hxphoFO6pM91SPeZ0jDf6fKu4dUL2dcbzhzNs/aKA73BFSyaO8R5611zVc6uqaddk8UgluS4ShL+vAuUXZtTrybm2lh79jhPIC5HvQqAi62V2z9z0dmikv4hKntYFgk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725941091; c=relaxed/simple;
-	bh=yLjbFI/E6WMKbyPscD4uiGdHMIhrp2uBsRwwZrl1ipU=;
+	s=arc-20240116; t=1725941111; c=relaxed/simple;
+	bh=ZGtWmC6isHMopRoqC9d8yE1P6elCllzkgS1uslrz6Sk=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=snRc0Yhn55fzhUxSwETCGXkRqeTUNtPM07So0PKv8Gb2XCs1qZzaW+N2t2bSH3IpQNr5qVvKGDHnXjtRtujZ5Qiz8o01PCRiwOuVWlE/vBDe3eNq1zmgHLqQL5K7haqKVdxUhbots2DRPrqdReMcU6i29gk9cWgqSM6Y+mUGD1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HbQNMuwt; arc=none smtp.client-ip=209.85.216.50
+	 MIME-Version; b=jdoBAl73iIurP68lfdeT2s1EqoDfbWOdGEU1sh1Mfo4NnS2wx9s9EI72TdbS3q1ekHUgTJnhZx8oQn37tWQW8/BoSyDzPreSOetUBqbC+UOMdbOhaLlcf2X+bE82QI8kb2eyMScu8Vn7PD+M3wF2zsp85COCGw3hbnKBilgvSZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nKAIR/tj; arc=none smtp.client-ip=209.85.210.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HbQNMuwt"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-2d88a8c66b7so361740a91.1
-        for <linux-staging@lists.linux.dev>; Mon, 09 Sep 2024 21:04:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nKAIR/tj"
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-717839f9eb6so780909b3a.3
+        for <linux-staging@lists.linux.dev>; Mon, 09 Sep 2024 21:05:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725941089; x=1726545889; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1725941109; x=1726545909; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=sFv96eIyjX/Rm1g6rrh4ImmOzw08mdxo0Bz0ACVugwk=;
-        b=HbQNMuwtjiuTwbfrC38+3lIqR9myfI3m6XS+dMI+lozGLN7eUKFHB3SaBydV9jMZZY
-         xGFWN3xIhLUted94SAzN7iIQWyJHNDAuC7hSof/AbQT4mDPgZsiuAWdscCvM6yGnVVdX
-         araDMJI3rFIy8Xim2oXD3KNM1JyJUqH0BoHcKL8I4BhohrRhcTM64zmD6KieBWrGqZzh
-         G1e4DiN3WcSCwpbjzKiLTAmByCNyBUZ5bW2moZzgL+zpdWkd+vIix4sJ++2D5o4P7eAM
-         ZwNn6JIgD1g6ZM//Z+SppNAkPzLqVFFR1hqGuRBP4dLSBU3rbyO4CdH5/sLFBmOyThCi
-         0bXw==
+        bh=RSF+JNJPT0XCzK0Is0o/8qewAVtX7tARlqlY9lwV7uc=;
+        b=nKAIR/tjR5O0i2Zp5vM3itY236TDeJ/B5hVV1oNSog8Cz3yc3piqA6WW3KVGVPHyZv
+         YFl/oLMM06SWQGzJh47nCmlnU40Sn6kQOu01pGAXiuPV5llFSqu6M6VRqtMGpQY0MloY
+         GwHDgTRtJ2znAUGnA4oAsJM5qM2Br59EwuJ7XwPZC6gx6wwXofrZbEa/QboBNilq2i/9
+         arWoh9TI6y8yoyIJql686tUYbGY84Jj6sSrMFq4x3fqt792mxgN8yjtxL9qv8X3pMZFS
+         yH1aUKG8ReQ5Ajn3RYt0AhEBEnbaEbXl9U4wjA6taXpWM7raZ+H1j8phN51isfFj5Nb7
+         NCyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725941089; x=1726545889;
+        d=1e100.net; s=20230601; t=1725941109; x=1726545909;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=sFv96eIyjX/Rm1g6rrh4ImmOzw08mdxo0Bz0ACVugwk=;
-        b=db+70Sm+9dCw/qVT7QnYC7Lx+yRRYKwpbKBz+VB+R76LiA8dHgVewOQy1pvczZJhJL
-         MeLEsWukfKHXGXFC7UEM3GBo2OWwAqO/c0a5IhPMcHNJ5kFfvKl6z5dwmB/y9O0m9yow
-         rqiZ/NsIA/pEV5DNOVbEPdCcOrQNsXkbiJ0yDALo2exjaKkxAcgKPdY29KpSqTW4kcU8
-         T7svrlRkQDy9FG7oWRdD7rwrKjwXB1rSz4Aw1EMr2rbS3YKtwdTMN7DVQ764BvFko2Q+
-         88T9kEG0zbeiE5nLyTjiEQcT11kkzZvCorqV2TpBxifexoWH6HsZXnVZUnXeSvHXsOF4
-         VcRA==
-X-Forwarded-Encrypted: i=1; AJvYcCURw4vkpSeQxSRtANwfP3/gPLbF6TEQ6D8B+050CeUSktvY5hRjPnWHgMKo+8Vp4G6kK8Ro0hl9bF8ItbPT@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy/zp5GVscFn5aWGmGZPAJw3gZ8qdlOKiBP2hE2TjKGVIrrnmyR
-	wJyNyqHTlYlQ6qHEIJlR8qrvp9r+7GxnI+EF+i7WP201Uh5g4O9b
-X-Google-Smtp-Source: AGHT+IF1+1KlgcjMjgBVIqQ2FMr7ZD1aQaaqg4HWeFp2nehpCNdlivmvWtHrkMxP5WvGnR+yNP0cSg==
-X-Received: by 2002:a17:90b:3793:b0:2db:60b:eed with SMTP id 98e67ed59e1d1-2db060b0f11mr4002816a91.8.1725941089060;
-        Mon, 09 Sep 2024 21:04:49 -0700 (PDT)
+        bh=RSF+JNJPT0XCzK0Is0o/8qewAVtX7tARlqlY9lwV7uc=;
+        b=o8fWcs5WgZT4n6KMljFGJ8pBb+mgPiIj/ZSXcr9j5NlrQAGdyTa33DTI6TNZHcR7p+
+         VSbrGcYEktf3F1gEYqT6rQ92bPJUNvK+sfY296Zlo2yJpCh4uIT8HNIOMXIyMzuingkH
+         HDb3KmXdYlR8cQor/wmJbmj/oSnVlAvRzBMEAi6fOfbC50/a8hNz0+fa/BLEGJwNYf8/
+         VzaJVrjoHrcepmFI+Y56MP8M1JtR8rKtZe9uSIBo0SzNT4uUdA+TmflPsRt8jhF8dcU1
+         62UDN1qe5mdcMPBik6WgxpJnYrUIbMIt1N4FkMtlLQeEHuwwAkH3e4bBx+EB5Hgqbtnp
+         lQVg==
+X-Forwarded-Encrypted: i=1; AJvYcCX4eE1aKH+NTNpob71zrWfR7glEQ+4bb6VYvZqdXvlgV3a0GQ28kmn7IlNFH7vNp324fHiehWHZ/y+qfG1s@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw7vRWOtalruV2rhe6SrfmobqPTls8ikeCf4sDmPflBI9T1nRjp
+	CGgA7xr7o+fTilNLf7mAaNygKtySQkEGHVeKVSoB/hrcwsdDaawaL5by9BkG
+X-Google-Smtp-Source: AGHT+IGPsUCz9jDKrZQpfPAcaU5EzuOdjxIgcI7BKDP7vk3MEfa2dTR8ldd+pyfyJYYWP70tfksjBQ==
+X-Received: by 2002:a05:6a21:3395:b0:1cf:5471:bbe1 with SMTP id adf61e73a8af0-1cf5471bdcamr564575637.8.1725941108872;
+        Mon, 09 Sep 2024 21:05:08 -0700 (PDT)
 Received: from ubuntukernelserver.. ([49.236.212.182])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2dadbffd992sm7456194a91.14.2024.09.09.21.04.46
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7d8259bccbcsm4779172a12.79.2024.09.09.21.05.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Sep 2024 21:04:48 -0700 (PDT)
+        Mon, 09 Sep 2024 21:05:08 -0700 (PDT)
 From: Roshan Khatri <topofeverest8848@gmail.com>
 To: gregkh@linuxfoundation.org,
 	philipp.g.hortmann@gmail.com
 Cc: Roshan Khatri <topofeverest8848@gmail.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 2/4] staging: rtl8723bs: include: Fix spelling mistake in rtw_io.h
-Date: Tue, 10 Sep 2024 09:49:41 +0545
-Message-Id: <f77f1155d07de7780726562d628e8ed3a3ce4b4f.1725933169.git.topofeverest8848@gmail.com>
+Subject: [PATCH v3 3/4] staging: rtl8723bs: include: Fix spelling mistake in rtw_mlme.h
+Date: Tue, 10 Sep 2024 09:50:01 +0545
+Message-Id: <8b9184ba4e489d7eec389389ae435fa4d9232113.1725933169.git.topofeverest8848@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1725933169.git.topofeverest8848@gmail.com>
 References: <cover.1725933169.git.topofeverest8848@gmail.com>
@@ -77,28 +77,28 @@ and searching.
 
 Signed-off-by: Roshan Khatri <topofeverest8848@gmail.com>
 ---
-v3: Created patch series with cover letter as suggested in the feedback 
+v3: Created patch series with cover letter as suggested in the feedback
 v2: 
  - Created patch series as suggested in the feedback
- - https://lore.kernel.org/all/20240909041508.2412-1-topofeverest8848@gmail.com/
-v1: https://lore.kernel.org/all/20240906141104.10076-1-topofeverest8848@gmail.com/
+ - https://lore.kernel.org/all/20240909041530.2431-1-topofeverest8848@gmail.com/
+v1: https://lore.kernel.org/all/20240906141134.10118-1-topofeverest8848@gmail.com/
 
- drivers/staging/rtl8723bs/include/rtw_io.h | 2 +-
+ drivers/staging/rtl8723bs/include/rtw_mlme.h | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8723bs/include/rtw_io.h b/drivers/staging/rtl8723bs/include/rtw_io.h
-index be9741a056e5..0ee87be6dc4f 100644
---- a/drivers/staging/rtl8723bs/include/rtw_io.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_io.h
-@@ -13,7 +13,7 @@
- 	Otherwise, io_handler will free io_req
- */
+diff --git a/drivers/staging/rtl8723bs/include/rtw_mlme.h b/drivers/staging/rtl8723bs/include/rtw_mlme.h
+index e103c4a15d1a..e665479babc2 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_mlme.h
++++ b/drivers/staging/rtl8723bs/include/rtw_mlme.h
+@@ -131,7 +131,7 @@ struct mlme_priv {
+ 	u8 roam_rssi_diff_th; /* rssi difference threshold for active scan candidate selection */
+ 	u32 roam_scan_int_ms; /* scan interval for active roam */
+ 	u32 roam_scanr_exp_ms; /* scan result expire time in ms  for roam */
+-	u8 roam_tgt_addr[ETH_ALEN]; /* request to roam to speicific target without other consideration */
++	u8 roam_tgt_addr[ETH_ALEN]; /* request to roam to specific target without other consideration */
  
--/* below is for the intf_option bit defition... */
-+/* below is for the intf_option bit definition... */
+ 	u8 *nic_hdl;
  
- struct intf_priv;
- struct intf_hdl;
 -- 
 2.34.1
 
