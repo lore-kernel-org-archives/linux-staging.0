@@ -1,65 +1,69 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C00228E37
-	for <linux-staging@lists.linux.dev>; Tue, 10 Sep 2024 04:04:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B39C13C9D9
+	for <linux-staging@lists.linux.dev>; Tue, 10 Sep 2024 04:04:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725941048; cv=none; b=Byr4kaHxeQ+J8HpqiSRyaFLGLP22pkWRNlVHZqzFKnhQIuIeNGbgbthWiVDIpPTUVICh60RBQwKyWgJHfFLksOhKpW7yrXL5v7ujDgADgctGA08u5lciYNiZamFWaL82NFVMywhOjtWqBvo5mU03Dac91lMxLr2gTumlAKxKokI=
+	t=1725941064; cv=none; b=b4KUGAee+wbnOjNGbfrbj77At0VX+w4lWFCPoe5aHx9+KIFuQ6oSWdaGclkppDFgVTqvqA9LTQZvJnyjaWDdbEeyIt9ZJghFnOdf35eHfc3ACoo2j6F6Bi6QrMcOCo4Dl+CW0haPf2DZgQ6Z4Ajod1l8ez0CwS14ZPMN6dIb6Q0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725941048; c=relaxed/simple;
-	bh=/gJAksFgmw0XJca2LxIhCdD460NHpee6rWYJ2Mx9jq4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ujXPQYd4FaoMPld8u7tFFHP1BJAeHnN+WdxhNSUQF0CtXgpfjHssFthkaZET4oTktHdBCvJ9izXZomcWeuTCz54X/Vouuk2OJnPOCFTYA95uAC9dlKC0tHSfiLPwbkPTp0FFd6Ja57lFA5mes3Yqym9HV9chx1FbbcYKyjuFdu8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cu2AD8x2; arc=none smtp.client-ip=209.85.210.177
+	s=arc-20240116; t=1725941064; c=relaxed/simple;
+	bh=OJGgjae4i2NI37TZdwennJqCG02aTYJg/qyFEdtAYIU=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=HCwsGU3FGqIgUCgacGys9S6IqVG0qbpo/xdo9GfAGC7nqdcmY7HpVHTm/e8FRByVumtuDqS8QnhfaAb8CGiBAYNYSkikBar3B3sqAxXeEb3uoItovgx05HQZxP0a1O6LHXl9yv0BkkUR28W3T15N0ASym565yI9TFvASXAi5/2I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UKXSsr+P; arc=none smtp.client-ip=209.85.216.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cu2AD8x2"
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-70d19bfdabbso401905b3a.2
-        for <linux-staging@lists.linux.dev>; Mon, 09 Sep 2024 21:04:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UKXSsr+P"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-2d87182874fso361064a91.3
+        for <linux-staging@lists.linux.dev>; Mon, 09 Sep 2024 21:04:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725941046; x=1726545846; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=wedlIa7uUfPhH/VbGYP8ZCH9iPIQwhmTlK3bFiNPCr4=;
-        b=cu2AD8x2WbFdmykj7sz1MtAKPABKa8biIre0f2vucMGsq5KG5rXqbK+94IRfSH/qnf
-         a95gybtrWAtT1bmGsbECUvqO3dmgdBMJK2RVW2E1PawX41Hld+F4wIZO77FhWeB/ATmD
-         TleKHk36/EE2ECtPgxcB/aWt3Fmq9v4wI30VJSheVZaYsHk12ajjGJGfKIik2qTflRFm
-         bY62WDsMx3RhCvNdQafqTcUcQHXOo2Qz8KzA6gqMC5R25EYVDu6t3vOHDAU2BUZPQIyf
-         9/rdxmHlfZubalYh+OLci4WbGlcS0srlWMF4jPdrSkZeSH81L9GLk10MN1LsCWoebPAZ
-         LS5Q==
+        d=gmail.com; s=20230601; t=1725941063; x=1726545863; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=s5nzOGnXyk+q+cUZVUm2V+/bvqTXupwNNQKYLxllMLI=;
+        b=UKXSsr+PDGTYP7JUIgC3bj8d/YiimsHBQydSd9WNNdwxWhoDCkAKjgL0jyjviYwPf7
+         maUflVmMmAYtLbiToZ6YFX9+cxaE1w2Z207g2vEczllOEKNXJpSmk5x5dKZtHGJ9VNDK
+         Q9+0BYZDJtXWi8gTGm6uLWfZjbiHUenbVOc5VDYx/ajmbqxy5L1PAb1L4wyehUjTDu67
+         HuMaXV7Pp0MvBKsA/g9MPEuv1VtYmaTegx1QOtfpOwcI1tyaG1MeeaRiDsZ5hWD11b49
+         iCw1ZJxbv+Fy3v4Zb/991SjZg9LrCRBY3kR2VmQJ4bTZ4WzfBwRtLvYex3kdNAMxavqr
+         5Bgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725941046; x=1726545846;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wedlIa7uUfPhH/VbGYP8ZCH9iPIQwhmTlK3bFiNPCr4=;
-        b=t4B+y83RUVHrKU8Q6HcqmE/DDLDUXDSNC6Pdx7Q5SP4NYbK6m/cizQyZQ4h6K8RzFw
-         BCnIUv47Uuz7W4Ldo/6tfIVrPR7Dy4gcmF+XW5f1hJj6CuFk3Sckz/qwv7ZTUImulR2V
-         X3clZvz/w46VBjwEAY3oUqfedzVZqG3UINnHCQdWIXY0/OJ8UgLvk12BVg/dm81PbYf/
-         CWQk5RyNGmQpNfOniksvBhyMj7S6p65expQtNQ9JvwW6Dk8FUqINqfzbeJH47xy/kTPY
-         MwkfVwdq24/g5xMbcXebIfdan7CCHCCl/rLLr77RxZbz1o6wuuMAc/vfBlBj2DkEES8I
-         hD5Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWj211V9UxwVI+jPwWPAXf5leNbVw/EIhOjFfFdi8GDGdCfueumxLhjPJXNAU7nS637YO0QnGjBBzmVgeBJ@lists.linux.dev
-X-Gm-Message-State: AOJu0YzxCA+AjSRUpwCtBP7e36Ea/49gpsE/kfCtPs4SEG/GYj3tC/+S
-	zO5eYRoWpTgeKslyFWo4OYaBOqIvWYxn189fOaDqRcFA4Z4fTeQQ
-X-Google-Smtp-Source: AGHT+IGRuF82h+ayxgwhBkurm64jexmcAas2NnpDXYe4MXsPsNlz3EwcHAteMIGLIA64it+lErPW4w==
-X-Received: by 2002:a05:6a21:9992:b0:1c6:bed1:bbd0 with SMTP id adf61e73a8af0-1cf1cefb853mr7113079637.0.1725941046359;
-        Mon, 09 Sep 2024 21:04:06 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1725941063; x=1726545863;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=s5nzOGnXyk+q+cUZVUm2V+/bvqTXupwNNQKYLxllMLI=;
+        b=PjLhTYOVBsbn64skxALTI8PsKGowkeSex5WK/WLgHIf475CeJScOu9/wxsRc8yQn8S
+         WxVHARRR5OrhBCHL93Tx7fGjHdJ5TAkl6T8q6jF4QqDNsPe23bKd8tXeHsbU250akR6f
+         m1mqNRsYR/wKaeKFW75e+oLNNuJ1RSIi4uYe3m19tBoRNJMRa1lJNBgjsmEQrt+i5iSo
+         L9PcCAnD1wG+LWMQbUc//WuoWKd3zj+YmfE4aZvIklhq0SrW0MddOk2EB/vwHKG3Zmx+
+         OrIo/0E+NzEIGLwfnKCM80/xUBBLasBds1oSKZfzMBFR/Sa4X43Fx6d4frYH02aHGaqS
+         bB4Q==
+X-Forwarded-Encrypted: i=1; AJvYcCV9dr4JsLYu0rnZ8suX0LTa18dYB7rZ2FXMTeG44B5T5oXBWFmzRNUVUNBB8l8Rv+2OPNYjIqC5Dq9rDC2+@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxl5mPP3TjVvhj1w0YgB8oDvStSuM6h6piFcfw3aUGGvoP8Ss5f
+	Sj/Aqvp+uaJd6Hk+ujy83JgWffwMpDm0yU1DDpbHZoxm64ahK42F
+X-Google-Smtp-Source: AGHT+IGUuNnN1C12bsHnZBL4w0NXhQOMtv/wUCpSD2FO8MFDlHP/KTluDkaBbymh4N88LQNYHy61Kw==
+X-Received: by 2002:a17:90a:fe97:b0:2db:60b:eee with SMTP id 98e67ed59e1d1-2db060b0f27mr4050263a91.9.1725941062832;
+        Mon, 09 Sep 2024 21:04:22 -0700 (PDT)
 Received: from ubuntukernelserver.. ([49.236.212.182])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71909095275sm471902b3a.129.2024.09.09.21.04.03
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2db04136902sm5316950a91.6.2024.09.09.21.04.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Sep 2024 21:04:05 -0700 (PDT)
+        Mon, 09 Sep 2024 21:04:22 -0700 (PDT)
 From: Roshan Khatri <topofeverest8848@gmail.com>
 To: gregkh@linuxfoundation.org,
 	philipp.g.hortmann@gmail.com
 Cc: Roshan Khatri <topofeverest8848@gmail.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 0/4] staging: rtl8723bs: Fix spelling mistakes
-Date: Tue, 10 Sep 2024 09:48:45 +0545
-Message-Id: <cover.1725933169.git.topofeverest8848@gmail.com>
+Subject: [PATCH v3 1/4] staging: rtl8723bs: include: Fix spelling mistake in rtw_xmit.h
+Date: Tue, 10 Sep 2024 09:49:15 +0545
+Message-Id: <93a1b568ec96dea13dfc75232a08bbf42e270599.1725933169.git.topofeverest8848@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1725933169.git.topofeverest8848@gmail.com>
+References: <cover.1725933169.git.topofeverest8848@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -68,24 +72,33 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch series fixes various spelling mistakes in the
-rtl8723bs/include/rtw_xmit.h, rtl8723bs/include/rtw_io.h,
-rtl8723bs/include/rtw_mlme.h and rtl8723bs/core/rtw_xmit.h files.
-This patch series is created after receiving feedback on 
-individual patches.
+This patch fixes spelling mistake to increase code readability
+and searching.
 
-Roshan Khatri (4):
-  staging: rtl8723bs: include: Fix spelling mistake in rtw_xmit.h
-  staging: rtl8723bs: include: Fix spelling mistake in rtw_io.h
-  staging: rtl8723bs: include: Fix spelling mistake in rtw_mlme.h
-  staging: rtl8723bs: core: Fix spelling mistake in rtw_xmit.c
+Signed-off-by: Roshan Khatri <topofeverest8848@gmail.com>
+---
+v3: Created patch series with cover letter as suggested in the feedback
+v2: 
+ - Created patch series as suggested in the feedback
+ - https://lore.kernel.org/all/20240909041352.2392-1-topofeverest8848@gmail.com/
+v1: https://lore.kernel.org/all/20240906141024.10021-1-topofeverest8848@gmail.com/
 
- drivers/staging/rtl8723bs/core/rtw_xmit.c    | 2 +-
- drivers/staging/rtl8723bs/include/rtw_io.h   | 2 +-
- drivers/staging/rtl8723bs/include/rtw_mlme.h | 2 +-
  drivers/staging/rtl8723bs/include/rtw_xmit.h | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/staging/rtl8723bs/include/rtw_xmit.h b/drivers/staging/rtl8723bs/include/rtw_xmit.h
+index a3b4310caddf..544468f57692 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_xmit.h
++++ b/drivers/staging/rtl8723bs/include/rtw_xmit.h
+@@ -15,7 +15,7 @@
+ 
+ #define XMITBUF_ALIGN_SZ 512
+ 
+-/*  xmit extension buff defination */
++/*  xmit extension buff definition */
+ #define MAX_XMIT_EXTBUF_SZ	(1536)
+ #define NR_XMIT_EXTBUFF	(32)
+ 
 -- 
 2.34.1
 
