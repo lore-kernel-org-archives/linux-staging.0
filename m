@@ -1,37 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A81961885B0;
-	Wed, 11 Sep 2024 13:48:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DF93156C6C;
+	Wed, 11 Sep 2024 13:55:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726062507; cv=none; b=eJi4VPBlDYhUOeZSSBGFleNur4diriNQKoPSj/ToKFjcsp2DPfxpbnlA9+VCgWc6kiJiSiz7ANyyj490csJ73ehRxQ/JQqDl82lv72lDTf/chL95Cyiwx/98bJM33twgdaGl0yNiAW2bfKx+oIB0sPRRJgFFpAGkSTDAZ5kb/zU=
+	t=1726062955; cv=none; b=o4iaet3BFhW6QZVhREevCY1SmTgjAeEyOw3bVhVoLPPz7YjARpgyPPqEyk7fufjTPJTNaIhMxSFMxFB0O5WgMnPJEr6q+DS2c4pyDBXjnKebkGYZ27MHDzdmPrN6QoR9PIkYYGbpxFmo6paoOtSmIkQSSv3WRZHzX85kJowCobo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726062507; c=relaxed/simple;
-	bh=uh6LHxig3a+PGw/odr//OTWW44M+/SfCRW//EmzuxDQ=;
+	s=arc-20240116; t=1726062955; c=relaxed/simple;
+	bh=UwC8kaCVcmXjbd6pLkYBElYcedPsNinPtJpQLxzsBX4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cchk0b6QUs74GNo0lgblwwRYpWacRMtkwsd5M8CVX6+nFbE6yd++qTmWuyz7A3yR4UYA4I5YC1tbbRTKNGpZNnS4gQn7jJvgJmLyGm/+4KhcjsGqlzW22NQ++g3mDaDKUglaEUesMzxSfQhT+V8OJkQMha0g0ipiKMwKeEhNDWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=CU0JyAfR; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=qbmxiOy2+VIgJaP4TzrjRUJAwJGt9bavg1qoBbhbxuB80bJtwRqcQr/wylc466aZPXIfJqd015VZyx0AiOZHTBuBwAqexx0VKm2i9B0Tjvm+PguRayc8WA6aRmaF0peMGOdOxu/sNGJleqkVU+19wdEeSg68awPe1HW0fcmhmLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=u7vhr9Px; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="CU0JyAfR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB497C4CEC0;
-	Wed, 11 Sep 2024 13:48:25 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="u7vhr9Px"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC673C4CEC0;
+	Wed, 11 Sep 2024 13:55:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1726062506;
-	bh=uh6LHxig3a+PGw/odr//OTWW44M+/SfCRW//EmzuxDQ=;
+	s=korg; t=1726062955;
+	bh=UwC8kaCVcmXjbd6pLkYBElYcedPsNinPtJpQLxzsBX4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CU0JyAfRvLslWOXmzg5A9fs3ICIj4mLMLr6UO9Q0QiAzTizPcOTceYXHADkBc631x
-	 doJ5CEUbiX029D54ECpH1sQDVm1ixA1x5/j+kJs1dCgAl7BwPLL2mlM7i70QJ5nK9D
-	 E9cbZCiFWrv6YQ6iAcA659/+QsQH4PJ1GMnheke4=
-Date: Wed, 11 Sep 2024 15:48:23 +0200
+	b=u7vhr9PxvvlJ4OgB5Fdz/YCFWw1qZUI4wDj5+FuwALYIhmXu3TUfzoOL+7pTGN/Zz
+	 0PRZTQ135sJjOmY1s//90G3SQbByUio+0jK/LasLe0O0JPR658IHMySswjYNBlde1Y
+	 g57nZH3tmAPC4ohBZX/U5pQC86Hxm7J5b6ob6+lE=
+Date: Wed, 11 Sep 2024 15:55:52 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: abid-sayyad <sayyad.abid16@gmail.com>
-Cc: linux-staging@lists.linux.dev, philipp.g.hortmann@gmail.com,
-	guilherme@puida.xyz, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs:  Fix indenation and coding style
- issues in rtw_securtiy.h
-Message-ID: <2024091111-cheese-refuse-9b8b@gregkh>
-References: <20240911133549.2664372-1-sayyad.abid16@gmail.com>
+To: Johan Hovold <johan@kernel.org>
+Cc: Steven Davis <goldside000@outlook.com>, hvaibhav.linux@gmail.com,
+	elder@kernel.org, vireshk@kernel.org, rmfrfs@gmail.com,
+	dtwlin@gmail.com, greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: greybus: Fix capitalization and punctuation
+ inconsistencies
+Message-ID: <2024091142-quill-tableful-3c3e@gregkh>
+References: <SJ2P223MB102660087EA9382BE5287FDBF7912@SJ2P223MB1026.NAMP223.PROD.OUTLOOK.COM>
+ <Zt7vVaxF2XP-_ZMA@hovoldconsulting.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,16 +43,35 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240911133549.2664372-1-sayyad.abid16@gmail.com>
+In-Reply-To: <Zt7vVaxF2XP-_ZMA@hovoldconsulting.com>
 
-On Wed, Sep 11, 2024 at 07:05:50PM +0530, abid-sayyad wrote:
-> This patch improves the code readability and improves the presentation
-> makes it look less scattered.
+On Mon, Sep 09, 2024 at 02:51:33PM +0200, Johan Hovold wrote:
+> On Sun, Sep 01, 2024 at 05:18:59PM -0400, Steven Davis wrote:
+> > There were a lot of inconsistencies in outputs and
+> > comments, some were properly formatted and
+> > capitalized, and some weren't. This patch resolves
+> > this by properly formatting the inconsistent comments
+> > and outputs.
+> > 
+> > Signed-off-by: Steven Davis <goldside000@outlook.com>
+> > ---
+> >  drivers/staging/greybus/arche-platform.c | 38 ++++++++++++------------
+> >  drivers/staging/greybus/authentication.c |  6 ++--
+> >  drivers/staging/greybus/bootrom.c        | 16 +++++-----
+> >  drivers/staging/greybus/light.c          | 26 ++++++++--------
+> >  drivers/staging/greybus/log.c            | 10 +++----
+> >  5 files changed, 48 insertions(+), 48 deletions(-)
 > 
-> Signed-off-by: abid-sayyad <sayyad.abid16@gmail.com>
+> I didn't have time to reply here before Greg picked this one up, but I'm
+> gonna ask for this one to be reverted.
+> 
+> The (core) greybus code uses lower case error messages so this patch is
+> introducing an inconsistency instead of addressing one.
+> 
+> I just sent a revert here:
+> 
+> 	https://lore.kernel.org/20240909124853.9213-1-johan@kernel.org
 
-Please use your name, not your email alias.
-
-thanks,
+Thanks for that, sorry about missing that.
 
 greg k-h
