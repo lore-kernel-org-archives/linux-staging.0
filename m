@@ -1,154 +1,128 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 192F91AAE24
-	for <linux-staging@lists.linux.dev>; Tue, 10 Sep 2024 21:05:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FED0199948
+	for <linux-staging@lists.linux.dev>; Wed, 11 Sep 2024 13:36:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726002317; cv=none; b=nS6GdB551avtdxuPIi9tYMTAE3qbRE6eEt5PCL/l/DNpP4Ib5wLx0NeVoiufIE1sKZFcxPsRTOpZl6lZrYDxwoDqXEl1YSSkooXCNdT7PqLxjouUJtveT3QEhc8yudwU0yaaEWakGOyUQyDB7NZx0rI9DOrZk9G4eIxwPEi7MWE=
+	t=1726061778; cv=none; b=f9sjUNWfyBbSh8OiX+9KDWd58YEDooWlwGPsZLRCU0f0hNoYm443eyy104yQLsRp7WjztXZUHaCrbnlOgLNwBHViOylzqNi+5ehI86h8Inf+J9hyb2dg5UGirxYTLCFt2IIWBfKcgCyGwbiBOc1ZxamdngG/yqYRqys+4zpS7fo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726002317; c=relaxed/simple;
-	bh=0mIWHubNFp5R0R+MS85zdpzK9flIImlyi1RzZV7yFn8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oZ5D11Q6mzg08GhRZGfYJGp3Eo2OBVUE2/uQQeV2yqhvF3TAwaBzRwamOeyBHcLa7UIueKzlbBgth5gOXJRpuDNG/eFdSD60ZjEuHcfRasa4VLfDdsuRV22uyznCi7tIvbkgLHi7T00TRRbjDyk9saGWxZbSCN9wESbgMpVm1Lg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=GB6HqcJc; arc=none smtp.client-ip=212.227.15.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
+	s=arc-20240116; t=1726061778; c=relaxed/simple;
+	bh=PStcQrlv8JfPnizprRfybH51i7asfOXO53n0nTRArS4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Zn0h+akpPAOvDwyz1XdhTd3CD1Gx+2ZYaFfQPMsoT+u7c5iQQ4OXYzVzIiy6p8V7CsPNEepOvn7SdUUJDCyTL9NaZU5ycLvaSQMuNEqmuOYdwGSZeoYBnQQVVsTbzqHxtz8a1NKEWk8Xgo3TGR1HqOcRIWu6iHJocVDmfB9z0f0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kas3ioTD; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="GB6HqcJc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
-	s=s31663417; t=1726002301; x=1726607101; i=wahrenst@gmx.net;
-	bh=nKi6Zs5itMuZj0R7ssE/Y46CTiFv+ahJwUU8i1AL+uI=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=GB6HqcJcXHgUMP8A3nH4aeyZK6onWLINrBqbQGQggJukiK0jjSMhMdIBfnkzzRzw
-	 O16+34/GvDoBczhNKSfRmcgyH+KCzbcyIuYz4gQ5BXLT6T1e/ZZ9Fncq/nOR+2vbY
-	 5LlZ+/k7MnwyTjvvN+GMQgQMZhgICUoxLxiUSfEpOiTsPyxs61VwtmsIDgP+4aLgt
-	 19dpjA6pGHTe/+Xnwn3J55dw8UEl3ls80VT6Yqhz71slBccTk3gAdt5ALxdWctDMu
-	 t0l/EdzIcIOVVQLlL9HgxLQih6X97Ru7i6CXafYEVlBDM4jWik0OVqJdBemio1SXF
-	 unITNAcdLJrWVuB39g==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.128] ([37.4.248.43]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MbivM-1sIeNG402o-00k88J; Tue, 10
- Sep 2024 23:05:01 +0200
-Message-ID: <170ed65e-8701-422a-9e68-6f262fb673b3@gmx.net>
-Date: Tue, 10 Sep 2024 23:04:59 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kas3ioTD"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2053525bd90so58348225ad.0
+        for <linux-staging@lists.linux.dev>; Wed, 11 Sep 2024 06:36:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1726061776; x=1726666576; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=lpicHg1/zCLLbxQoUHGVhbruccC5DYxv+chpuNuxfaM=;
+        b=kas3ioTDA3T/wDmrEuo48P1pAd43tqOOkOfKsoKq0lxhriJ43imMe08nMBz7buLphD
+         BbqszXYSiGULeXpbhqyb7cbr0wyRcWL4Q/qulrtU56NNspvMhoE9OZBh9J0/9zS49bR5
+         qxWx8sUf6kjBmxPfrhlZ4N6Nb8lMQ+M5A+JGY3UQpAgGZRl80sAWN9cdfI0mTVrZPTvu
+         mFtA3xGgK6vWgSs8IDwIFz8uyKGroGqLTxCPQ+5epJTRig4fKYq/EgykN1ohWrMLGR4+
+         0lLbQ07HfsR+1jOhIT8+Gb6xnHjE/PJx/dgctz4tc65UnIC64pK+A4xJRTtwYEfzRQET
+         R0ig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726061776; x=1726666576;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lpicHg1/zCLLbxQoUHGVhbruccC5DYxv+chpuNuxfaM=;
+        b=kK16lj46zj2dp8RYMlnrDc+xzr85cRQIrhsaBX6GvY4OEAoOUkV/7PdJ8u1WVh+HDR
+         XfWn3jYq4Bcl1uUd2qWAAu026CF14Pe9YqXFIUTh43rEryFvghShNTEY3XmYF0dYsSSf
+         ieg/qyRjZe8U1VNwswdt89gWKnV9Icp7aat1kgxvYhH6TQ9P8Qmj1eLtsCgMqTaSS8L8
+         HQ6XkSp41AmgS11Y3PnyK6LphPQpklXO+LSPBXhWssi0VP2ee9DsannRn8oDOKDl47HV
+         Jv3/a+44LOqxihEaIs9onsRq3h0YVaiycipyPxGaTlgxTQDUkF5sDAWHjyuuY/CYaOB/
+         RBuA==
+X-Gm-Message-State: AOJu0YxUCJ6W6NVfqX5EE8MaukCFvYXzxK6sBCz4gEtHPlG3a4CUd70X
+	gDTigSo+/6T2W3f6SJ7OH+8pliedzRW0/xSmuqLNEZgJvc3pvGMWN0FYq3Jnuzc=
+X-Google-Smtp-Source: AGHT+IEo6QjHJ9h8E5tqRMAucgzRiTnaFZ7WtK6IlMAAUNx5y+Xr8J251ZD16i+BOG9QbOJxje2X1w==
+X-Received: by 2002:a17:903:190:b0:207:625:cf04 with SMTP id d9443c01a7336-2074c761a5amr64555445ad.52.1726061775890;
+        Wed, 11 Sep 2024 06:36:15 -0700 (PDT)
+Received: from debian.tail629bbc.ts.net ([2409:40c2:2f:2714:6f11:a421:14f1:4006])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20710f20e28sm63246105ad.231.2024.09.11.06.36.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Sep 2024 06:36:15 -0700 (PDT)
+From: abid-sayyad <sayyad.abid16@gmail.com>
+To: linux-staging@lists.linux.dev
+Cc: gregkh@linuxfoundation.org,
+	philipp.g.hortmann@gmail.com,
+	guilherme@puida.xyz,
+	sayyad.abid16@gmail.com,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: rtl8723bs:  Fix indenation and coding style issues in rtw_securtiy.h
+Date: Wed, 11 Sep 2024 19:05:50 +0530
+Message-Id: <20240911133549.2664372-1-sayyad.abid16@gmail.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 0/7] staging: vchiq_core: Remove unused function
- argument
-To: Umang Jain <umang.jain@ideasonboard.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-rpi-kernel@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Arnd Bergmann <arnd@arndb.de>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20240910051007.297227-1-umang.jain@ideasonboard.com>
-Content-Language: en-US
-From: Stefan Wahren <wahrenst@gmx.net>
-In-Reply-To: <20240910051007.297227-1-umang.jain@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:3KO2Q4MUiKISxf3F6jxuLncTtmCijItaYKwydgwshQYhzLtnO2z
- 2UXHAMDbQGwZvdClWeY+uID5GC4zlsx2egf3pJvgT4hkyRB0sfucs2TY/p/CJLN7hjKGtT7
- ZLIvqnFZcNLHg/ffYmp1sTmaLxdk+MzQY8dGk48zaNozYRtjeaX/qlpjqb1L/8gfZMYLkJW
- xoyWwRjCEcDQV7LF0Ax2w==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:PJdw/oLfUAc=;HjjFQcUn+0QG6fpdiqwnXy6B+hD
- CF2vOGU9r+Hoo8nxf+JiRS8eRnFYQcV0vqPn3lN5m9WVbeZrpFm3xZBm6RxyBT8Z5WndIgiHI
- VubvT+P8g8OKtPNxsYQdfPLqVjhlir+FogZi5KCG4NJREXiK3DkT4PRQUuIdrxvFm9FZwL4mN
- Jpm8ATvjX7yxzgaXxZtcm+kUzcRbIO8GRUbkHLtwZNyUD0KmQJKH2c07HlLihE/NEi+x/CqcH
- Nl3sZpZaiUa8gJDg1F7o+PYNMmqO/v31cjUrYSIvatLACMTg0xd1VeOBD3UDJg95pMrLSXHbh
- GYW9uVYwJs9j6Gqfa/xVgDUI1lyNR8NxOV3SWpTwwBbZIHWnGRI/qv+iR48ojvkw9yXcM+2hU
- yWJwGp/MjbDDaT1N5AncxfnfMA4g7M4YHEzJhTVXpy4iXay52iDGJOCseypJY9WtI2oof8EBS
- z06zAFrGpJauGq2JkgJtizs7r1Gd78SBbk+BqlaxuN1EgXbVxaXdHTRK1TfjeMDkk/MnssL4e
- TKjX8NO4B/g+zRFPQ/b8ulQd2PtVWRbGVO7HRiJ/kqfzo/lXoro6XRmI7Roc+guLLhBj+EKi0
- cfQpEFqdKqbWumHcBrx00+dANapZCJ99A6OPpOG3jDFQlTlpoz8Ib8L4fLexg+tNt75RlaUAw
- DDsBk5PuDH/NnD0bkUq0c4kC3bgxy7ONcggBpGoREyOgYBQjIuIwQW8XHy/urnubP34nquHoA
- iTozfdQ3oHzoCOn+XwdJ+p3pujiHn5aQDDojJmTiZywmlmzKvqyYo53Aa4OAjHYq1w4zttlMV
- F53sfkKqrkQGosSdcf0eT08w==
+Content-Transfer-Encoding: 8bit
 
-Am 10.09.24 um 07:10 schrieb Umang Jain:
-> Series mostly refactors vchiq_bulk_transfer() code according
-> to Arnd's review comment from [1]:
->
->> You can also wrap vchiq_bulk_transfer() in order to have
->> four separate functions based on the different 'mode'
->> values and have them only take the arguments they actually
->> need.
-> I didn't wrap vchiq_bulk_transfer(), instead created four
-> differnet function, one for each mode.
-> This will pave the way to address his second comment:
->
->> Ideally this should be cleaned up in a way that completely
->> avoids passing both user and kernel data at the same time.
-> which is not part of this series and will be done on top as
-> arguments shuffling will have to fix the sparse warnings
-> that exists currently.
->
-> Patch 1/7 first moves the VCHIQ_BULK_MODE_WAITING logic out
-> of vchiq_bulk_transfer
->
-> Patch 2/7 then moves the core logic to vchiq_bulk_transfer()
-> which can be shared in subsequent patches
->
-> Patch 3/7 and 4/7 refactors remaining bulk transfer modes
->
-> Patch 5/7 finally drops the vchiq_bulk_transfer() as not needed
->
-> patch 6/7 and 7/7 are drive by patches, noticed during development.
->
-> [1]: https://lore.kernel.org/linux-staging/3d3b7368-93b2-4c0d-845e-4099c2de9dc1@app.fastmail.com/
-The whole series is
+This patch improves the code readability and improves the presentation
+makes it look less scattered.
 
-Tested-by: Stefan Wahren <wahrenst@gmx.net>
->
-> Changes in v6:
-> - Drop forward declaration vchiq_bulk_xfer_queue_msg_interruptible()
->    in 2/7
->
-> changes in v5:
-> - Fix regression for VCHIQ_BULK_MODE_BLOCKING in 3/7
->    (Fixes strange hang from v4 with 'vchiq_test -p')
->
-> Changes in v4:
-> - In 1/7 return 0 direcly instead of assigning status = 0
-> - In 3/7, fix null assignment of bulk waiter
->
-> CHanges in v3:
-> - Directly return if service == NULL in 1/7 and 4/7
-> - Drop set-but-unused variable from 1/7
->
-> Changes in v2:
-> - Directly return if service == NULL in 3/7
-> - Prefix non-static functions with "vchiq_" (appropriate driver prefix)
-> - Use typed argument for 'userdata' in 1/7
->
->
-> Umang Jain (7):
->    staging: vchiq: Factor out bulk transfer for VCHIQ_BULK_MODE_WAITING
->    staging: vchiq_core: Simplify vchiq_bulk_transfer()
->    staging: vchiq_core: Factor out bulk transfer for blocking mode
->    staging: vchiq_core: Factor out bulk transfer for (no/)callback mode
->    staging: vchiq_core: Drop vchiq_bulk_transfer()
->    staging: vchiq_core: Remove unused function argument
->    staging: vchiq_core: Pass enumerated flag instead of int
->
->   .../interface/vchiq_arm/vchiq_arm.c           |  20 +-
->   .../interface/vchiq_arm/vchiq_core.c          | 323 +++++++++++-------
->   .../interface/vchiq_arm/vchiq_core.h          |  16 +-
->   .../interface/vchiq_arm/vchiq_dev.c           |  15 +-
->   4 files changed, 232 insertions(+), 142 deletions(-)
->
+Signed-off-by: abid-sayyad <sayyad.abid16@gmail.com>
+---
+ .../staging/rtl8723bs/include/rtw_security.h  | 31 +++++++++----------
+ 1 file changed, 15 insertions(+), 16 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/include/rtw_security.h b/drivers/staging/rtl8723bs/include/rtw_security.h
+index c3e47d52687f..ae65d684a26d 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_security.h
++++ b/drivers/staging/rtl8723bs/include/rtw_security.h
+@@ -171,27 +171,26 @@ struct security_priv {
+ #define GET_ENCRY_ALGO(psecuritypriv, psta, encry_algo, bmcst)\
+ do {\
+ 	switch (psecuritypriv->dot11AuthAlgrthm) {\
+-		case dot11AuthAlgrthm_Open:\
+-		case dot11AuthAlgrthm_Shared:\
+-		case dot11AuthAlgrthm_Auto:\
+-			encry_algo = (u8)psecuritypriv->dot11PrivacyAlgrthm;\
+-			break;\
+-		case dot11AuthAlgrthm_8021X:\
+-			if (bmcst)\
+-				encry_algo = (u8)psecuritypriv->dot118021XGrpPrivacy;\
+-			else\
+-				encry_algo = (u8)psta->dot118021XPrivacy;\
+-			break;\
+-	     case dot11AuthAlgrthm_WAPI:\
+-		     encry_algo = (u8)psecuritypriv->dot11PrivacyAlgrthm;\
+-		     break;\
++	case dot11AuthAlgrthm_Open:\
++	case dot11AuthAlgrthm_Shared:\
++	case dot11AuthAlgrthm_Auto:\
++		encry_algo = (u8)psecuritypriv->dot11PrivacyAlgrthm;\
++		break;\
++	case dot11AuthAlgrthm_8021X:\
++		if (bmcst)\
++			encry_algo = (u8)psecuritypriv->dot118021XGrpPrivacy;\
++		else\
++			encry_algo = (u8)psta->dot118021XPrivacy;\
++		break;\
++	case dot11AuthAlgrthm_WAPI:\
++	     encry_algo = (u8)psecuritypriv->dot11PrivacyAlgrthm;\
++	     break;\
+ 	} \
+ } while (0)
+
+ #define SET_ICE_IV_LEN(iv_len, icv_len, encrypt)\
+ do {\
+-	switch (encrypt)\
+-	{\
++	switch (encrypt) {\
+ 		case _WEP40_:\
+ 		case _WEP104_:\
+ 			iv_len = 4;\
+--
+2.39.2
 
