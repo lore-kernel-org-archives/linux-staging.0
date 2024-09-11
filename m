@@ -1,36 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 698D819C55F;
-	Wed, 11 Sep 2024 13:43:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A81961885B0;
+	Wed, 11 Sep 2024 13:48:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726062201; cv=none; b=FgSODtAXZT19iz+qM6j1Zd3nJltg5A5Bq0u+Tvbh3UR4qOA+60TNnZfgnZvXy72GryU/ijY7BRn5Op/WqoAsxXe+SwpSIK5FaMCb5mwQYuhmX7tKlwtCFsiQp8orvTS+oxGHtMfjruhlJjnlFWG52l7GCoCDd4qB4ZLdqN+Zids=
+	t=1726062507; cv=none; b=eJi4VPBlDYhUOeZSSBGFleNur4diriNQKoPSj/ToKFjcsp2DPfxpbnlA9+VCgWc6kiJiSiz7ANyyj490csJ73ehRxQ/JQqDl82lv72lDTf/chL95Cyiwx/98bJM33twgdaGl0yNiAW2bfKx+oIB0sPRRJgFFpAGkSTDAZ5kb/zU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726062201; c=relaxed/simple;
-	bh=OqWPGh95lrZt+H7bNu4+WatZYOsbgVu5vamzm2Y3fRc=;
+	s=arc-20240116; t=1726062507; c=relaxed/simple;
+	bh=uh6LHxig3a+PGw/odr//OTWW44M+/SfCRW//EmzuxDQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SpqNsqtwV0OlT+CoWZmXYG4waTSzLpPR3epl+b8kbUQ4NjwUmdHcsR5Lz6CzwFjt0wE+Sy3pVnIAH24sSGt6/Fbgs+YmZe9IGGTXAsLG8LP/zgrCdexR9xAD337ucEm2Gw65Sfuz5+kLo5f4tSV8C/juvXtbHWgrHy2Gtl+3wbo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=zHKZHhmX; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=cchk0b6QUs74GNo0lgblwwRYpWacRMtkwsd5M8CVX6+nFbE6yd++qTmWuyz7A3yR4UYA4I5YC1tbbRTKNGpZNnS4gQn7jJvgJmLyGm/+4KhcjsGqlzW22NQ++g3mDaDKUglaEUesMzxSfQhT+V8OJkQMha0g0ipiKMwKeEhNDWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=CU0JyAfR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="zHKZHhmX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D918CC4CEC7;
-	Wed, 11 Sep 2024 13:43:20 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="CU0JyAfR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB497C4CEC0;
+	Wed, 11 Sep 2024 13:48:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1726062201;
-	bh=OqWPGh95lrZt+H7bNu4+WatZYOsbgVu5vamzm2Y3fRc=;
+	s=korg; t=1726062506;
+	bh=uh6LHxig3a+PGw/odr//OTWW44M+/SfCRW//EmzuxDQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=zHKZHhmXs+OkYEJALnjzjeo60P+p1EOMS1uAHtZHw20KyY8a1hCfJjmsZ4QHQy5zz
-	 LnQ00Ym2ElBupanA0TQQa4xh/JubT5ihd23pOiRlEg65s4pGoKukTbT+kOYUFrp9QF
-	 akZHLw8e0HcOntoXFoAb23FEgdjE7kFKsEM6+D04=
-Date: Wed, 11 Sep 2024 15:43:18 +0200
+	b=CU0JyAfRvLslWOXmzg5A9fs3ICIj4mLMLr6UO9Q0QiAzTizPcOTceYXHADkBc631x
+	 doJ5CEUbiX029D54ECpH1sQDVm1ixA1x5/j+kJs1dCgAl7BwPLL2mlM7i70QJ5nK9D
+	 E9cbZCiFWrv6YQ6iAcA659/+QsQH4PJ1GMnheke4=
+Date: Wed, 11 Sep 2024 15:48:23 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
 To: abid-sayyad <sayyad.abid16@gmail.com>
 Cc: linux-staging@lists.linux.dev, philipp.g.hortmann@gmail.com,
 	guilherme@puida.xyz, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] staging: rtl8723bs:  Fix indenation and coding style
  issues in rtw_securtiy.h
-Message-ID: <2024091157-appointee-faceted-5ffe@gregkh>
+Message-ID: <2024091111-cheese-refuse-9b8b@gregkh>
 References: <20240911133549.2664372-1-sayyad.abid16@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -47,99 +47,9 @@ On Wed, Sep 11, 2024 at 07:05:50PM +0530, abid-sayyad wrote:
 > makes it look less scattered.
 > 
 > Signed-off-by: abid-sayyad <sayyad.abid16@gmail.com>
-> ---
->  .../staging/rtl8723bs/include/rtw_security.h  | 31 +++++++++----------
->  1 file changed, 15 insertions(+), 16 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/include/rtw_security.h b/drivers/staging/rtl8723bs/include/rtw_security.h
-> index c3e47d52687f..ae65d684a26d 100644
-> --- a/drivers/staging/rtl8723bs/include/rtw_security.h
-> +++ b/drivers/staging/rtl8723bs/include/rtw_security.h
-> @@ -171,27 +171,26 @@ struct security_priv {
->  #define GET_ENCRY_ALGO(psecuritypriv, psta, encry_algo, bmcst)\
->  do {\
->  	switch (psecuritypriv->dot11AuthAlgrthm) {\
-> -		case dot11AuthAlgrthm_Open:\
-> -		case dot11AuthAlgrthm_Shared:\
-> -		case dot11AuthAlgrthm_Auto:\
-> -			encry_algo = (u8)psecuritypriv->dot11PrivacyAlgrthm;\
-> -			break;\
-> -		case dot11AuthAlgrthm_8021X:\
-> -			if (bmcst)\
-> -				encry_algo = (u8)psecuritypriv->dot118021XGrpPrivacy;\
-> -			else\
-> -				encry_algo = (u8)psta->dot118021XPrivacy;\
-> -			break;\
-> -	     case dot11AuthAlgrthm_WAPI:\
-> -		     encry_algo = (u8)psecuritypriv->dot11PrivacyAlgrthm;\
-> -		     break;\
-> +	case dot11AuthAlgrthm_Open:\
-> +	case dot11AuthAlgrthm_Shared:\
-> +	case dot11AuthAlgrthm_Auto:\
-> +		encry_algo = (u8)psecuritypriv->dot11PrivacyAlgrthm;\
-> +		break;\
-> +	case dot11AuthAlgrthm_8021X:\
-> +		if (bmcst)\
-> +			encry_algo = (u8)psecuritypriv->dot118021XGrpPrivacy;\
-> +		else\
-> +			encry_algo = (u8)psta->dot118021XPrivacy;\
-> +		break;\
-> +	case dot11AuthAlgrthm_WAPI:\
-> +	     encry_algo = (u8)psecuritypriv->dot11PrivacyAlgrthm;\
-> +	     break;\
->  	} \
->  } while (0)
-> 
->  #define SET_ICE_IV_LEN(iv_len, icv_len, encrypt)\
->  do {\
-> -	switch (encrypt)\
-> -	{\
-> +	switch (encrypt) {\
->  		case _WEP40_:\
->  		case _WEP104_:\
->  			iv_len = 4;\
-> --
-> 2.39.2
-> 
 
-Hi,
-
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
-
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- Your patch did many different things all at once, making it difficult
-  to review.  All Linux kernel patches need to only do one thing at a
-  time.  If you need to do multiple things (such as clean up all coding
-  style issues in a file/driver), do it in a sequence of patches, each
-  one doing only one thing.  This will make it easier to review the
-  patches to ensure that they are correct, and to help alleviate any
-  merge issues that larger patches can cause.
-
-- You did not specify a description of why the patch is needed, or
-  possibly, any description at all, in the email body.  Please read the
-  section entitled "The canonical patch format" in the kernel file,
-  Documentation/process/submitting-patches.rst for what is needed in
-  order to properly describe the change.
-
-- You did not write a descriptive Subject: for the patch, allowing Greg,
-  and everyone else, to know what this patch is all about.  Please read
-  the section entitled "The canonical patch format" in the kernel file,
-  Documentation/process/submitting-patches.rst for what a proper
-  Subject: line should look like.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
+Please use your name, not your email alias.
 
 thanks,
 
-greg k-h's patch email bot
+greg k-h
