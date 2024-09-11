@@ -1,65 +1,58 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD00F1AE865
-	for <linux-staging@lists.linux.dev>; Wed, 11 Sep 2024 16:25:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58A271ABED6
+	for <linux-staging@lists.linux.dev>; Wed, 11 Sep 2024 16:36:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726071902; cv=none; b=TBAVBONts3Iisqp/2d78OQdVFQXDCjhjn1crMVaxlDtnzjBGDvuRrRxzfu505IoPnxrw8Khglnlr306AXG2ktYZLNhp4+EwSSX8uAzkhdDrQLDJ7bMiS22FzYdBTXBKoLf1ajskYGAB3+XzYGlxvZJgYsb+wy5JEtJQakotHK5E=
+	t=1726072610; cv=none; b=GgV35xtEJw5NkgEZ6QkKo53Ju86WZ32posVjMcdOcRQvGYRh4iHmZCWy0fWZNL9ij++NgWrkRdRMlvU7F/DCXws0ClfqGW5n03TD6UYyIijpDWTKq1iWWmI5Lhlj8V1G3v0wjftiyY9mgaeIrrJUvjj2IsGxmC8GVbFf0f4itjc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726071902; c=relaxed/simple;
-	bh=1bcQW7c1jxdlfBunQ6YWyGYMwuwT68C1Dp4B2rFeirs=;
+	s=arc-20240116; t=1726072610; c=relaxed/simple;
+	bh=Y0B40j+6XfhANv86hO/y2jfsZpiCElizXindBwzyRU8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nw8wtQXN2bP2bCFdvuKl/PnIRgEgxK7OiIF1XYqohjMigZTZeMWebhVwVzEq6z+7tQXxF8Cq2cUhxOrUl9w08dZlhcCvwqi74plMIJrAdbeFtIqGOzGaMTzzAclHOoWON55BH8vOLYWMEo5jExLu+/jg1bmne66ut/GT0gSVASQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=gthX9SkU; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 In-Reply-To:Content-Type; b=EOH4aS5tRzvbtOoffbZoq5zqmHAYQSMhZlBxBq+bo2QXjmn4acTp5a0f7jeAmcKSPOBlpj5zHQQP4P4ngPJEmJNn+vd74XnV1iWNBvc9di8+oAdffXUyow5+Qt+/T0Xfs0VowY3rXE1eelRoQtB/Y/xrtCbUM78e2SdnpB9WZRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kIpgZ7mA; arc=none smtp.client-ip=209.85.208.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gthX9SkU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1726071899;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NPuIsJ7LH/NryQa0KHKubTcC5NBQjBwl3HztcdDab5w=;
-	b=gthX9SkUmZro8ywGxdoZx4F9NITnHqo5jkrSLuD5ic6qSdJ8kmg6YL27duGI0Wl3QbICop
-	wEu9WpF1+oZuSiJ8U0aUfI2nuaq/VVYxyaQmE/xhWaxVt3xzXSWImO5nNXPWXHGK01KDJ2
-	5ubHCNUDXaI0fopJ0t1UzmPwTtAZCnY=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-450-YZMkNKUBN1OxqVqZKfuxiw-1; Wed, 11 Sep 2024 12:24:57 -0400
-X-MC-Unique: YZMkNKUBN1OxqVqZKfuxiw-1
-Received: by mail-lf1-f69.google.com with SMTP id 2adb3069b0e04-53661a13121so2364e87.0
-        for <linux-staging@lists.linux.dev>; Wed, 11 Sep 2024 09:24:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kIpgZ7mA"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5c245c62362so8724763a12.0
+        for <linux-staging@lists.linux.dev>; Wed, 11 Sep 2024 09:36:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1726072606; x=1726677406; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=vGFSZxbGGSwXr4tsYBH87dhImbiPRckhT6s8NPepfIw=;
+        b=kIpgZ7mA69LXUBD6tD/eRtWIhiyv1Tud2tYQQ1jnX66b8Aho/ojgrC6ldO9P1J+QvL
+         eOLg29AtuoiQT8F1DsHG3/r51zHRXLSK4ze3cYI2SQgQXXt8iRht7uGMDQEiNzqVOlYP
+         BVk9nbNKikzEKgj5tUj1Cw178r7UrJ/T6keyt/vMNM/G2CmP6ni06v/wHw/7qiWgLoiv
+         7p/dvuTra88AiMDPVXCg3dJ+PmENXe067zUasZOcwnJ7T4HkR7TSmB+R245wJLJt0SNk
+         Ad3SBQvfr2xLa/KBttIXC2nlCOmv0tnE1WzsusCMv2yZ+6Sj8jy9K+OvQaFk2+oYEg99
+         oIUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726071896; x=1726676696;
+        d=1e100.net; s=20230601; t=1726072606; x=1726677406;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NPuIsJ7LH/NryQa0KHKubTcC5NBQjBwl3HztcdDab5w=;
-        b=MuepY7dPzrucXeFz2l905bs/ln0C8Aac5R1WxAGR6fA74a0UqCt1GGCOlpryEughgy
-         gYQYf5+M4FV4qozoftOXv/ede3UlGKhMukeARIjNaUa/5LDhf2EISCwtkOloEtX5Ae/P
-         we7OETDqGAziCXMWkC+PxjDfl1jI/ipC5WSL+Tz9VGLO3nQnkqRZF4NChaaeszgMNIwM
-         xXd76mQ3VGPrGLu2XfaGonCjiZ3KQfri5VzQ9GkZywOG9VHga4c6zd1Kly7i5IuBZLxV
-         wn6UB3m6IJ8/eLR1yPz4gqUMHDssGnmr5Nn3Myr8/dNs/8ido2sFY4f+ObIMP7BNTVBB
-         Oqgw==
-X-Forwarded-Encrypted: i=1; AJvYcCVZZTbORi4BKVnswTyHbW9/Ke7frg684Pq8e5itSinib0DkZCN3b9CBRrYDC4tbOj5PMRmjg29Ug7byGPZF@lists.linux.dev
-X-Gm-Message-State: AOJu0YxY0wBQxv8LyyLSMOPLIKTnXFADn8pWInNoj5Logr6xyRxz/Xr0
-	7ieQ94dse97m3wd9bft5yLy3U4ATtx+HaPZTCLtF9LZJOw8Tal4IXD3FYwOSOz/bwefq6HIF6x0
-	JTdu/Vy8tSC4Fkdb1jlFX+oh9kyP2P+ivez2VJMVFAloH+kqtf5ytCH3LoAuVjiQ=
-X-Received: by 2002:a05:6512:1283:b0:52c:e0fb:92c0 with SMTP id 2adb3069b0e04-536587c8177mr12892266e87.34.1726071895996;
-        Wed, 11 Sep 2024 09:24:55 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHG/2rhUxgQSM96b6JP5Itt5QRcGCTl4PERNI00A/LttGPDuJaR7APim2eBySdgsSLLCiwQCw==
-X-Received: by 2002:a05:6512:1283:b0:52c:e0fb:92c0 with SMTP id 2adb3069b0e04-536587c8177mr12892232e87.34.1726071895341;
-        Wed, 11 Sep 2024 09:24:55 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8d25d3597asm629355766b.186.2024.09.11.09.24.54
+        bh=vGFSZxbGGSwXr4tsYBH87dhImbiPRckhT6s8NPepfIw=;
+        b=iZvHhxH1qXQ/rRpQof5/rDWcBSiD8ff3RrY+IGXUi8bIqxUDVf0ZmDnSjxTbGTaIwV
+         ADxGWPRLGD4RpymNVBBPmpxt0r86uh2FXoJz1peYEYYdd8OCfsWIvG4TG0BAH9ZAFvrF
+         nt3iFn3oRqERfjBEiQaZ+CJsRL9jSupSc2VPtBX9cAuITlUuLlS/D6suUeW+TtByycLx
+         D6b5+Gb6qXX2+8GZ4DFATzxoToRj9Lzjo4gMgLd+cmxltZyvMOV2ex5MaOchsIM3vCqO
+         9K0VubqQTbjAz/TUHEVgdTeJU6i617LPhJ2BGBJyC5GfI3Z9sndB/qXS9tolMndWdbKt
+         ZnXw==
+X-Gm-Message-State: AOJu0YyuOCvokgFFU3tbKH7Ipc2GQLjg/Y29V6sYvBAb/PHhiMuw+qb6
+	/T6cRUmt3/6Hxkl/2SRTD4u2YfKPa53KDu3s6UWZvT2wes+RFQIA
+X-Google-Smtp-Source: AGHT+IFB8LrmoJ77KXeUcOqmvYDxZrxZCXblK6guiGjjrd9zznVwaL7hH6w33YQENm1mdPtPPoNcbw==
+X-Received: by 2002:a05:6402:3092:b0:5c0:8c5a:f4f3 with SMTP id 4fb4d7f45d1cf-5c413e4fb87mr33032a12.26.1726072605230;
+        Wed, 11 Sep 2024 09:36:45 -0700 (PDT)
+Received: from ?IPV6:2003:c7:8f2a:8584:fadb:465e:486a:4871? (p200300c78f2a8584fadb465e486a4871.dip0.t-ipconnect.de. [2003:c7:8f2a:8584:fadb:465e:486a:4871])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c3ebd4680esm5565368a12.21.2024.09.11.09.36.44
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Sep 2024 09:24:54 -0700 (PDT)
-Message-ID: <181dec64-5906-4cdd-bb29-40bc7c02d63e@redhat.com>
-Date: Wed, 11 Sep 2024 18:24:54 +0200
+        Wed, 11 Sep 2024 09:36:44 -0700 (PDT)
+Message-ID: <93afc2fd-7aa2-41d5-bd08-2afc72540abb@gmail.com>
+Date: Wed, 11 Sep 2024 18:36:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -67,179 +60,183 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH hotfix 6.11] minmax: reduce egregious min/max macro
- expansion
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: Richard Narron <richard@aaazen.com>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Marcin Wojtas <marcin.s.wojtas@gmail.com>,
- Russell King <linux@armlinux.org.uk>, "David S . Miller"
- <davem@davemloft.net>, Arnd Bergmann <arnd@kernel.org>,
- Linus Torvalds <torvalds@linuxfoundation.org>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-mm@kvack.org, stable@vger.kernel.org
-References: <20240911153457.1005227-1-lorenzo.stoakes@oracle.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20240911153457.1005227-1-lorenzo.stoakes@oracle.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, nl
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH v2] staging: rtl8723bs: Fix coding style issues in the
+ hal_pwr_seq.h
+To: Sayyad Abid <sayyad.abid16@gmail.com>
+Cc: linux-staging@lists.linux.dev, gregkh@linuxfoundation.org,
+ linux-kernel@vger.kernel.org
+References: <20240910121144.635348-1-sayyad.abid16@gmail.com>
+ <89893a22-5018-4ae0-b4f9-e473a36f09b6@gmail.com> <ZuCY1Tuog1sFHLBQ@debian>
+Content-Language: en-US
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <ZuCY1Tuog1sFHLBQ@debian>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi Lorenzo,
-
-On 9/11/24 5:34 PM, Lorenzo Stoakes wrote:
-> Avoid nested min()/max() which results in egregious macro expansion.
+On 9/10/24 21:07, Sayyad Abid wrote:
+> On Tue, Sep 10, 2024 at 08:47:54PM +0200, Philipp Hortmann wrote:
+>> On 9/10/24 14:11, abid-sayyad wrote:
+>>> Improving the code readability and coding style compliance of the code.
+>>> Running checkpatch.pl on the file raised coding style warnings:
+>>> -The comment block needs "*" on all lines of the block
+>>> from line 8 to 26
+>>> -Use tabs for indent
+>>> on line 103 and 115
+>>>
+>>> Applying the patch fixes these coding style issues and makes the code more
+>>> readable/developer friendly.
+>>>
+>>> Signed-off-by: abid-sayyad <sayyad.abid16@gmail.com>
+>>> ---
+>>
+>> Hi Abid,
+>>
+>> I cannot apply your patch. Are you using the right git repo?
+>>
+>> git remote show origin
+>> * remote origin
+>>    Fetch URL:
+>> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git
+>> ...
+>> git branch -a
+>> my branch: staging-testing
+>>
+>>
+>> kernel@matrix-ESPRIMO-P710:~/Documents/git/kernels/staging$ mutt
+>> Applying: staging: rtl8723bs: Fix coding style issues in the hal_pwr_seq.h
+>> error: patch failed: drivers/staging/rtl8723bs/include/hal_pwr_seq.h:101
+>> error: drivers/staging/rtl8723bs/include/hal_pwr_seq.h: patch does not apply
+>> Patch failed at 0001 staging: rtl8723bs: Fix coding style issues in the
+>> hal_pwr_seq.h
+>>
+> I found the issue, I have been amending these changes on the mainline repo,
+>    $ git remote show origin
+> * remote origin
+>    Fetch URL: git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
 > 
-> This issue was introduced by commit 867046cc7027 ("minmax: relax check to
-> allow comparison between unsigned arguments and signed constants") [2].
-> 
-> Work has been done to address the issue of egregious min()/max() macro
-> expansion in commit 22f546873149 ("minmax: improve macro expansion and type
-> checking") and related, however it appears that some issues remain on more
-> tightly constrained systems.
-> 
-> Adjust a few known-bad cases of deeply nested macros to avoid doing so to
-> mitigate this. Porting the patch first proposed in [1] to Linus's tree.
-> 
-> Running an allmodconfig build using the methodology described in [2] we
-> observe a 35 MiB reduction in generated code.
-> 
-> The difference is much more significant prior to recent minmax fixes which
-> were not backported. As per [1] prior these the reduction is more like 200
-> MiB.
-> 
-> This resolves an issue with slackware 15.0 32-bit compilation as reported
-> by Richard Narron.
-> 
-> Presumably the min/max fixups would be difficult to backport, this patch
-> should be easier and fix's Richard's problem in 5.15.
-> 
-> [0]:https://lore.kernel.org/all/b97faef60ad24922b530241c5d7c933c@AcuMS.aculab.com/
-> [1]:https://lore.kernel.org/lkml/5882b96e-1287-4390-8174-3316d39038ef@lucifer.local/
-> [2]:https://lore.kernel.org/linux-mm/36aa2cad-1db1-4abf-8dd2-fb20484aabc3@lucifer.local/
-> 
-> Reported-by: Richard Narron <richard@aaazen.com>
-> Closes: https://lore.kernel.org/all/4a5321bd-b1f-1832-f0c-cea8694dc5aa@aaazen.com/
-> Fixes: 867046cc7027 ("minmax: relax check to allow comparison between unsigned arguments and signed constants")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+>    I need to clone the staging branch.
+>> Please also change your Description. Concentrate on why this patch makes
+>> sense. Do not describe the patch. What is changed can be seen below. Please
+>> also use the correct time.
+>>
+> I did not understand the correct time here. could you please
+> elaborate a little on this please.
 
-Thank you for your patch.
+Hi Abid,
 
-I must say that I'm not a fan of that this is patching 3 totally
-unrelated files here in a single patch.
+please visit:
 
-This is e.g. going to be a problem if we need to revert one of
-the changes because of regressions...
+https://kernelnewbies.org/PatchPhilosophy#Patch_description_format_for_checkpatch_fixes
 
-So I would prefer this to be split into 3 patches.
+Look for this clause:
+"In patch descriptions and in the subject, it is common and preferable 
+to use present-tense, imperative language. Write as if you are telling 
+git what to do with your patch. For example, instead of:"
 
-One review comment for the atomisp bits inline / below.
+This is about the time that should be used in patches.
 
-> ---
->  drivers/net/ethernet/marvell/mvpp2/mvpp2.h    |  2 +-
->  .../staging/media/atomisp/pci/sh_css_frac.h   | 26 ++++++++++++++-----
->  include/linux/skbuff.h                        |  6 ++++-
->  3 files changed, 25 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/net/ethernet/marvell/mvpp2/mvpp2.h b/drivers/net/ethernet/marvell/mvpp2/mvpp2.h
-> index e809f91c08fb..8b431f90efc3 100644
-> --- a/drivers/net/ethernet/marvell/mvpp2/mvpp2.h
-> +++ b/drivers/net/ethernet/marvell/mvpp2/mvpp2.h
-> @@ -23,7 +23,7 @@
->  /* The PacketOffset field is measured in units of 32 bytes and is 3 bits wide,
->   * so the maximum offset is 7 * 32 = 224
->   */
-> -#define MVPP2_SKB_HEADROOM	min(max(XDP_PACKET_HEADROOM, NET_SKB_PAD), 224)
-> +#define MVPP2_SKB_HEADROOM	clamp_t(int, XDP_PACKET_HEADROOM, NET_SKB_PAD, 224)
-> 
->  #define MVPP2_XDP_PASS		0
->  #define MVPP2_XDP_DROPPED	BIT(0)
-> diff --git a/drivers/staging/media/atomisp/pci/sh_css_frac.h b/drivers/staging/media/atomisp/pci/sh_css_frac.h
-> index b90b5b330dfa..a973394c5bc0 100644
-> --- a/drivers/staging/media/atomisp/pci/sh_css_frac.h
-> +++ b/drivers/staging/media/atomisp/pci/sh_css_frac.h
-> @@ -32,12 +32,24 @@
->  #define uISP_VAL_MAX		      ((unsigned int)((1 << uISP_REG_BIT) - 1))
-> 
->  /* a:fraction bits for 16bit precision, b:fraction bits for ISP precision */
-> -#define sDIGIT_FITTING(v, a, b) \
-> -	min_t(int, max_t(int, (((v) >> sSHIFT) >> max(sFRACTION_BITS_FITTING(a) - (b), 0)), \
-> -	  sISP_VAL_MIN), sISP_VAL_MAX)
-> -#define uDIGIT_FITTING(v, a, b) \
-> -	min((unsigned int)max((unsigned)(((v) >> uSHIFT) \
-> -	>> max((int)(uFRACTION_BITS_FITTING(a) - (b)), 0)), \
-> -	  uISP_VAL_MIN), uISP_VAL_MAX)
-> +static inline int sDIGIT_FITTING(short v, int a, int b)
-> +{
+Bye Philipp
 
-drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c
-
-calls this with ia_css_3a_config.af_fir1_coef / .af_fir2_coef
-as first argument those are of the ia_css_s0_15 type which is:
-
-/* Signed fixed point value, 0 integer bits, 15 fractional bits */
-typedef s32 ia_css_s0_15;
-
-please replace the "short v" with "int v" 
-
-I think that you can then also replace clamp_t() with clamp()
-
-
-> +	int fit_shift = sFRACTION_BITS_FITTING(a) - b;
-> +
-> +	v >>= sSHIFT;
-> +	v >>= fit_shift > 0 ? fit_shift : 0;
-> +
-> +	return clamp_t(int, v, sISP_VAL_MIN, sISP_VAL_MAX);
-> +}
-> +
-> +static inline unsigned int uDIGIT_FITTING(unsigned int v, int a, int b)
-> +{
-> +	int fit_shift = uFRACTION_BITS_FITTING(a) - b;
-> +
-> +	v >>= uSHIFT;
-> +	v >>= fit_shift > 0 ? fit_shift : 0;
-> +
-> +	return clamp_t(unsigned int, v, uISP_VAL_MIN, uISP_VAL_MAX);
-> +}
-
-Regular clamp() should work here ? all parameters are already
-unsigned ints.
-
-Regards,
-
-Hans
-
-
-
-
-> 
->  #endif /* __SH_CSS_FRAC_H */
-> diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
-> index 29c3ea5b6e93..d53b296df504 100644
-> --- a/include/linux/skbuff.h
-> +++ b/include/linux/skbuff.h
-> @@ -3164,7 +3164,11 @@ static inline int pskb_network_may_pull(struct sk_buff *skb, unsigned int len)
->   * NET_IP_ALIGN(2) + ethernet_header(14) + IP_header(20/40) + ports(8)
->   */
->  #ifndef NET_SKB_PAD
-> -#define NET_SKB_PAD	max(32, L1_CACHE_BYTES)
-> +#if L1_CACHE_BYTES < 32
-> +#define NET_SKB_PAD	32
-> +#else
-> +#define NET_SKB_PAD	L1_CACHE_BYTES
-> +#endif
->  #endif
-> 
->  int ___pskb_trim(struct sk_buff *skb, unsigned int len);
-> --
-> 2.46.0
-> 
+>> You can find accepted examples in the git repo.
+>>
+> I'll look into the accepted patches right now. Meanwhile I have this question
+> , descriptions addressing only the coding style issue fixes are acceptable or
+> it needs to be having somethingelse too? (apologies in advance for
+> this illy question)
+>> Thanks for your support.
+>>
+>> Bye Philipp
+>>
+> Thank Youy for your feedbacks
+>>
+>>
+>>> changes since v1:
+>>> v2: Fix the email body, amke it more informative
+>>> link to v1:
+>>> https://lore.kernel.org/all/ca1908f3-74aa-45e7-a389-3995aba2660c@gmail.com/
+>>>    .../staging/rtl8723bs/include/hal_pwr_seq.h   | 46 +++++++++----------
+>>>    1 file changed, 23 insertions(+), 23 deletions(-)
+>>>
+>>> diff --git a/drivers/staging/rtl8723bs/include/hal_pwr_seq.h b/drivers/staging/rtl8723bs/include/hal_pwr_seq.h
+>>> index 5e43cc89f535..10fef1b3f393 100644
+>>> --- a/drivers/staging/rtl8723bs/include/hal_pwr_seq.h
+>>> +++ b/drivers/staging/rtl8723bs/include/hal_pwr_seq.h
+>>> @@ -5,26 +5,26 @@
+>>>    #include "HalPwrSeqCmd.h"
+>>>
+>>>    /*
+>>> -	Check document WM-20130815-JackieLau-RTL8723B_Power_Architecture v08.vsd
+>>> -	There are 6 HW Power States:
+>>> -	0: POFF--Power Off
+>>> -	1: PDN--Power Down
+>>> -	2: CARDEMU--Card Emulation
+>>> -	3: ACT--Active Mode
+>>> -	4: LPS--Low Power State
+>>> -	5: SUS--Suspend
+>>> -
+>>> -	The transition from different states are defined below
+>>> -	TRANS_CARDEMU_TO_ACT
+>>> -	TRANS_ACT_TO_CARDEMU
+>>> -	TRANS_CARDEMU_TO_SUS
+>>> -	TRANS_SUS_TO_CARDEMU
+>>> -	TRANS_CARDEMU_TO_PDN
+>>> -	TRANS_ACT_TO_LPS
+>>> -	TRANS_LPS_TO_ACT
+>>> -
+>>> -	TRANS_END
+>>> -*/
+>>> + *	Check document WM-20130815-JackieLau-RTL8723B_Power_Architecture v08.vsd
+>>> + *	There are 6 HW Power States:
+>>> + *	0: POFF--Power Off
+>>> + *	1: PDN--Power Down
+>>> + *	2: CARDEMU--Card Emulation
+>>> + *	3: ACT--Active Mode
+>>> + *	4: LPS--Low Power State
+>>> + *	5: SUS--Suspend
+>>> + *
+>>> + *	The transition from different states are defined below
+>>> + *	TRANS_CARDEMU_TO_ACT
+>>> + *	TRANS_ACT_TO_CARDEMU
+>>> + *	TRANS_CARDEMU_TO_SUS
+>>> + *	TRANS_SUS_TO_CARDEMU
+>>> + *	TRANS_CARDEMU_TO_PDN
+>>> + *	TRANS_ACT_TO_LPS
+>>> + *	TRANS_LPS_TO_ACT
+>>> + *
+>>> + *	TRANS_END
+>>> + */
+>>>    #define	RTL8723B_TRANS_CARDEMU_TO_ACT_STEPS	26
+>>>    #define	RTL8723B_TRANS_ACT_TO_CARDEMU_STEPS	15
+>>>    #define	RTL8723B_TRANS_CARDEMU_TO_SUS_STEPS	15
+>>> @@ -101,7 +101,7 @@
+>>>    	{0x0007, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_SDIO_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, 0xFF, 0x20}, /*0x07 = 0x20 , SOP option to disable BG/MB*/	\
+>>>    	{0x0005, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_USB_MSK|PWR_INTF_SDIO_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT3|BIT4, BIT3}, /*0x04[12:11] = 2b'01 enable WL suspend*/	\
+>>>    	{0x0005, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_PCI_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT2, BIT2}, /*0x04[10] = 1, enable SW LPS*/	\
+>>> -        {0x004A, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_USB_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT0, 1}, /*0x48[16] = 1 to enable GPIO9 as EXT WAKEUP*/   \
+>>> +	{0x004A, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_USB_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT0, 1}, /*0x48[16] = 1 to enable GPIO9 as EXT WAKEUP*/   \
+>>>    	{0x0023, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_SDIO_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT4, BIT4}, /*0x23[4] = 1b'1 12H LDO enter sleep mode*/   \
+>>>    	{0x0086, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_SDIO_MSK, PWR_BASEADDR_SDIO, PWR_CMD_WRITE, BIT0, BIT0}, /*Set SDIO suspend local register*/	\
+>>>    	{0x0086, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_SDIO_MSK, PWR_BASEADDR_SDIO, PWR_CMD_POLLING, BIT1, 0}, /*wait power state to suspend*/
+>>> @@ -112,7 +112,7 @@
+>>>    	{0x0005, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT3 | BIT7, 0}, /*clear suspend enable and power down enable*/	\
+>>>    	{0x0086, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_SDIO_MSK, PWR_BASEADDR_SDIO, PWR_CMD_WRITE, BIT0, 0}, /*Set SDIO suspend local register*/	\
+>>>    	{0x0086, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_SDIO_MSK, PWR_BASEADDR_SDIO, PWR_CMD_POLLING, BIT1, BIT1}, /*wait power state to suspend*/\
+>>> -        {0x004A, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_USB_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT0, 0}, /*0x48[16] = 0 to disable GPIO9 as EXT WAKEUP*/   \
+>>> +	{0x004A, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_USB_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT0, 0}, /*0x48[16] = 0 to disable GPIO9 as EXT WAKEUP*/   \
+>>>    	{0x0005, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT3|BIT4, 0}, /*0x04[12:11] = 2b'01enable WL suspend*/\
+>>>    	{0x0023, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_SDIO_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT4, 0}, /*0x23[4] = 1b'0 12H LDO enter normal mode*/   \
+>>>    	{0x0301, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_PCI_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, 0xFF, 0},/*PCIe DMA start*/
+>>> @@ -209,7 +209,7 @@
+>>>    #define RTL8723B_TRANS_END															\
+>>>    	/* format */																\
+>>>    	/* { offset, cut_msk, fab_msk|interface_msk, base|cmd, msk, value }, comments here*/								\
+>>> -	{0xFFFF, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, 0, PWR_CMD_END, 0, 0},
+>>> +	{0xFFFF, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, 0, PWR_CMD_END, 0, 0},
+>>>
+>>>
+>>>    extern struct wlan_pwr_cfg rtl8723B_power_on_flow[RTL8723B_TRANS_CARDEMU_TO_ACT_STEPS+RTL8723B_TRANS_END_STEPS];
+>>> --
+>>> 2.39.2
+>>>
+>>
 
