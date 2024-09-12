@@ -1,69 +1,41 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3205318891D
-	for <linux-staging@lists.linux.dev>; Thu, 12 Sep 2024 04:04:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E18111AD276
+	for <linux-staging@lists.linux.dev>; Thu, 12 Sep 2024 14:44:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726113888; cv=none; b=NdRbfyEz7Z2U5bEKE12MvN6YUgUrUETFg7dKcZixDFLauwXkQmdYGyO142IU7sUHkNA7Rlg912evQFbWdJRT+tO+aac5kYdHlcr44IcgRfoigujL/7saq+5Bj2p+WMpeEGRm4WhMs4rknAtnxxiEgIrv0PAkf/3Q0ZobYJoB0Bw=
+	t=1726152276; cv=none; b=hQp4H82KjSwPgWGzFNUB+2le+iFCpCWMKPlxFiAWaxDKbqtS0wVfUBeypzmhYEJP0ryPkHqJqv+KfJclTfr5ABW2YfsgDyh/MQdFEmIr4Hq1JvjLy41nLvzclCvsgqqt9woeNJsrYogj98DUdeGYYAYeT3HzJxJOhuj2Jd8SiiY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726113888; c=relaxed/simple;
-	bh=1xoHqAHfyWBPaCqgVEeynTfGrsLp/kPMfAmcN2bELyQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=IGcfGyjjW9J4XOQmyJT+a4jJ+Jh2spfDMSNB/QtBnpLmb5znUFOV8GU87WiG5RZ9EEdl1LzEjP7TmLhQlOookUVZKc3HiCj9aBUxPp3hyBhzbtnPY1okHpibjCnvpmH9jYj5yHXPLueAGr8UJ4tzt7J8IU/OK2WRFKiwvI3io0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UUDKU5D2; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1726152276; c=relaxed/simple;
+	bh=ZDnGDsgiQdqsKaaIMXk3CdAkLoVBQ6ulYHiyP61ZtT8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Xg2FMwF5J0fU91NZHLxMTR/33+wa1sJ7tnCDvDjCaJGGu2AsX8gC2hQNnFYRhCDWiJHesINN1tjGBYF7lsMwDXYufy+ZXMF1aFDkIZuQ9ngLCoeesSM9j3dEwWDfnKzZyNJJ2AMwBkGjwgs8NUUhYf7MSGd3LpuaCvBYf5S0SQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=b1n.io; spf=pass smtp.mailfrom=b1n.io; dkim=pass (2048-bit key) header.d=b1n.io header.i=@b1n.io header.b=qoiTykH9; arc=none smtp.client-ip=91.218.175.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=b1n.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=b1n.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UUDKU5D2"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-207115e3056so5359125ad.2
-        for <linux-staging@lists.linux.dev>; Wed, 11 Sep 2024 21:04:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726113886; x=1726718686; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ThvSFW7vmATU3IrvCKmeBsRE8HH7xmkKY2e+o0JIjds=;
-        b=UUDKU5D2DMfReVwbe9/WXOpUvDZg5hum1UFzrUkWKmqPGm1D5FpzYjXVXJDdjk14bb
-         9UKNvF1jOake6+gjYKU3OxXdTRfVaqvQ5Uz7T/wG3JVYZg3wDSeNh4fo06M40l/byMlL
-         6HXxq6IxN6kOcXrKxaFfdQBczyRWrN6aXjy0HlxlE/PkcY3z7caCmXsXQbAsZGtNmNNg
-         mu9SSw/S7rcYjnzpzhsy3DsD8pNWhbI8WQ8c/RMzyTFq4lplx+gUE1mQlRM1KN+mrAeZ
-         ToqQbUFVrl932VRIgKNq4fzmtm7ymTc5VA1R50g2z4T2i2V03cIoPOloq9hcPcL0v6YZ
-         5ETA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726113886; x=1726718686;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ThvSFW7vmATU3IrvCKmeBsRE8HH7xmkKY2e+o0JIjds=;
-        b=AZFvo4jmwz8M5tiXbABYlhiQqrW8t34l0FtG+mORqss0HxGbni1o9ujh5802IKw1FE
-         AM7bH+Y72DqC9cyLv5D1vOmrbEEXaYEzeZupQkPbiS3D6an+3jHJiG8VADwQsSyrb1rM
-         11ggpMC55Dp3OZQd2eZjDPtgmXzHFGKIetZn8XMrp0kEcrEu0LyOrzLfWqQkQV2uNHtp
-         XLNs54dHHtf2JzS9MPRtgGniBLfjfrKBlB3MD04hdJjaQs89ZJ72i2u2VoqPXWkltLSe
-         kdb98dKiIspEe+DpzRmYSpFgY1irNhzJ+HApGqLs9FshyyWUp7CEMgxRtT0Q8Ipw40ON
-         KGFA==
-X-Gm-Message-State: AOJu0YzcvgD/ipkQ/7TxAnIRMDv6U8dHjPgMMp08BdNzYf6rsWHNoyHg
-	P8HQeBrVEux3cYKppdIemlCfdCyed0/Y4QK2+bv6TbZW/EDs5fKCbWDjGKY4a3Q=
-X-Google-Smtp-Source: AGHT+IFNFRu7l+HraQU6DJHAWwbySTGcg/HyrUZN0ku3fYnYj4nLDdazVhQ77+wjjm0IOsfYtwyAsA==
-X-Received: by 2002:a17:902:e74f:b0:202:2e81:27c7 with SMTP id d9443c01a7336-2076e3f77f9mr23236475ad.35.1726113886161;
-        Wed, 11 Sep 2024 21:04:46 -0700 (PDT)
-Received: from debian.tail629bbc.ts.net ([2409:40c2:12a7:616d:eca9:534f:4e49:7c41])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7db1fba469fsm768359a12.11.2024.09.11.21.04.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Sep 2024 21:04:45 -0700 (PDT)
-From: Sayyad Abid <sayyad.abid16@gmail.com>
-To: linux-staging@lists.linux.dev
-Cc: gregkh@linuxfoundation.org,
-	guilherme@puida.xyz,
-	philipp.g.hortmann@gmail.com,
-	linux-kernel@vger.kernel.org,
-	Sayyad Abid <sayyad.abid16@gmail.com>
-Subject: [PATCH v2 8/8] staging: rtl8723bs: include: Remove spaces before tabs in rtw_security.h
-Date: Thu, 12 Sep 2024 09:34:09 +0530
-Message-Id: <20240912040409.3315067-9-sayyad.abid16@gmail.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240912040409.3315067-1-sayyad.abid16@gmail.com>
-References: <20240912040409.3315067-1-sayyad.abid16@gmail.com>
+	dkim=pass (2048-bit key) header.d=b1n.io header.i=@b1n.io header.b="qoiTykH9"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=b1n.io; s=key1;
+	t=1726152271;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=BVnp3JLR4wewbGfHCbCYjkO7ys/eYGy/6dEiArxWd3A=;
+	b=qoiTykH9KVr1fvnSZzA0yU8rvNu6W+bstEaadOqjGVHJwaOp6La+kN0SmC18OZBJJYvSfk
+	82E+dxkXsYvs0/lh9CYRubHJ7SFQ1iy+G4stTbDtbvcWFZ7TTlsKUvKl+IYysG8hoI4Wha
+	HYZizZ9aNAmDwHLeCcbDGquE+WL3mHTGSfxJUSrnBAPWupmnl3OrkAyN+SOcw2be61TIYI
+	mvFD496iWYd1ICXVh9GkJIbzABhjJdBlU2LF9NbVRVkMpK2fXLIgXxWKvbau0Ydts8sfgn
+	pStk4eHoiWotgMwtEvdDFzcqfzgyU7/Xr9NZzy2RUDMa6/yu8Wij+nO7eCJckQ==
+From: b1n@b1n.io
+To: Philipp Hortmann <philipp.g.hortmann@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: b1n <b1n@b1n.io>
+Subject: [PATCH] staging: vt6655: Rename variable apTD0Rings
+Date: Thu, 12 Sep 2024 22:44:20 +0800
+Message-Id: <20240912144420.71609-1-b1n@b1n.io>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -71,48 +43,113 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-This change improves code readability and ensures consistent indentation.
+From: b1n <b1n@b1n.io>
 
-Reported by `checkpatch.pl`:
-WARNING: spaces should not be used before a tab for indentation.
+Rename variable apTD0Rings to ap_td0_rings
+to fix checkpatch warning Avoid CamelCase.
 
-Signed-off-by: Sayyad Abid <sayyad.abid16@gmail.com>
+Signed-off-by: b1n <b1n@b1n.io>
 ---
- drivers/staging/rtl8723bs/include/rtw_security.h | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ drivers/staging/vt6655/card.c        |  6 +++---
+ drivers/staging/vt6655/device.h      |  2 +-
+ drivers/staging/vt6655/device_main.c | 14 +++++++-------
+ 3 files changed, 11 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/include/rtw_security.h b/drivers/staging/rtl8723bs/include/rtw_security.h
-index 09ed298782a6..32f6d3a5e309 100644
---- a/drivers/staging/rtl8723bs/include/rtw_security.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_security.h
-@@ -81,12 +81,12 @@ union Keytype {
-
-
- struct rt_pmkid_list {
--	u8 				bUsed;
--	u8 				Bssid[6];
--	u8 				PMKID[16];
--	u8 				SsidBuf[33];
-+	u8				bUsed;
-+	u8				Bssid[6];
-+	u8				PMKID[16];
-+	u8				SsidBuf[33];
- 	u8 *ssid_octet;
--	u16 					ssid_length;
-+	u16					ssid_length;
- };
-
-
-@@ -162,7 +162,7 @@ struct security_priv {
-
- 	/*  For WPA2 Pre-Authentication. */
- 	struct rt_pmkid_list		PMKIDList[NUM_PMKID_CACHE];	/*  Renamed from PreAuthKey[NUM_PRE_AUTH_KEY]. Annie, 2006-10-13. */
--	u8 		PMKIDIndex;
-+	u8		PMKIDIndex;
-
- 	u8 bWepDefaultKeyIdxSet;
-
---
-2.39.2
+diff --git a/drivers/staging/vt6655/card.c b/drivers/staging/vt6655/card.c
+index 688c870d89bc..36bf8cde2e08 100644
+--- a/drivers/staging/vt6655/card.c
++++ b/drivers/staging/vt6655/card.c
+@@ -388,8 +388,8 @@ void card_safe_reset_tx(struct vnt_private *priv)
+ 	struct vnt_tx_desc *curr_td;
+ 
+ 	/* initialize TD index */
+-	priv->tail_td[0] = &priv->apTD0Rings[0];
+-	priv->apCurrTD[0] = &priv->apTD0Rings[0];
++	priv->tail_td[0] = &priv->ap_td0_rings[0];
++	priv->apCurrTD[0] = &priv->ap_td0_rings[0];
+ 
+ 	priv->tail_td[1] = &priv->apTD1Rings[0];
+ 	priv->apCurrTD[1] = &priv->apTD1Rings[0];
+@@ -398,7 +398,7 @@ void card_safe_reset_tx(struct vnt_private *priv)
+ 		priv->iTDUsed[uu] = 0;
+ 
+ 	for (uu = 0; uu < priv->opts.tx_descs[0]; uu++) {
+-		curr_td = &priv->apTD0Rings[uu];
++		curr_td = &priv->ap_td0_rings[uu];
+ 		curr_td->td0.owner = OWNED_BY_HOST;
+ 		/* init all Tx Packet pointer to NULL */
+ 	}
+diff --git a/drivers/staging/vt6655/device.h b/drivers/staging/vt6655/device.h
+index 32d9cbd55222..32c51d794264 100644
+--- a/drivers/staging/vt6655/device.h
++++ b/drivers/staging/vt6655/device.h
+@@ -135,7 +135,7 @@ struct vnt_private {
+ 	struct vnt_tx_desc *apCurrTD[TYPE_MAXTD];
+ 	struct vnt_tx_desc *tail_td[TYPE_MAXTD];
+ 
+-	struct vnt_tx_desc *apTD0Rings;
++	struct vnt_tx_desc *ap_td0_rings;
+ 	struct vnt_tx_desc *apTD1Rings;
+ 
+ 	struct vnt_rx_desc *aRD0Ring;
+diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
+index 9ea647aefd60..a8dcd8ad3945 100644
+--- a/drivers/staging/vt6655/device_main.c
++++ b/drivers/staging/vt6655/device_main.c
+@@ -550,7 +550,7 @@ static bool device_init_rings(struct vnt_private *priv)
+ 		priv->opts.tx_descs[0] * sizeof(struct vnt_tx_desc);
+ 
+ 	/* vir_pool: pvoid type */
+-	priv->apTD0Rings = vir_pool
++	priv->ap_td0_rings = vir_pool
+ 		+ priv->opts.rx_descs0 * sizeof(struct vnt_rx_desc)
+ 		+ priv->opts.rx_descs1 * sizeof(struct vnt_rx_desc);
+ 
+@@ -720,7 +720,7 @@ static int device_init_td0_ring(struct vnt_private *priv)
+ 	curr = priv->td0_pool_dma;
+ 	for (i = 0; i < priv->opts.tx_descs[0];
+ 	     i++, curr += sizeof(struct vnt_tx_desc)) {
+-		desc = &priv->apTD0Rings[i];
++		desc = &priv->ap_td0_rings[i];
+ 		desc->td_info = kzalloc(sizeof(*desc->td_info), GFP_KERNEL);
+ 		if (!desc->td_info) {
+ 			ret = -ENOMEM;
+@@ -730,20 +730,20 @@ static int device_init_td0_ring(struct vnt_private *priv)
+ 		desc->td_info->buf = priv->tx0_bufs + i * PKT_BUF_SZ;
+ 		desc->td_info->buf_dma = priv->tx_bufs_dma0 + i * PKT_BUF_SZ;
+ 
+-		desc->next = &(priv->apTD0Rings[(i + 1) % priv->opts.tx_descs[0]]);
++		desc->next = &(priv->ap_td0_rings[(i + 1) % priv->opts.tx_descs[0]]);
+ 		desc->next_desc = cpu_to_le32(curr +
+ 					      sizeof(struct vnt_tx_desc));
+ 	}
+ 
+ 	if (i > 0)
+-		priv->apTD0Rings[i - 1].next_desc = cpu_to_le32(priv->td0_pool_dma);
+-	priv->tail_td[0] = priv->apCurrTD[0] = &priv->apTD0Rings[0];
++		priv->ap_td0_rings[i - 1].next_desc = cpu_to_le32(priv->td0_pool_dma);
++	priv->tail_td[0] = priv->apCurrTD[0] = &priv->ap_td0_rings[0];
+ 
+ 	return 0;
+ 
+ err_free_desc:
+ 	while (i--) {
+-		desc = &priv->apTD0Rings[i];
++		desc = &priv->ap_td0_rings[i];
+ 		kfree(desc->td_info);
+ 	}
+ 
+@@ -795,7 +795,7 @@ static void device_free_td0_ring(struct vnt_private *priv)
+ 	int i;
+ 
+ 	for (i = 0; i < priv->opts.tx_descs[0]; i++) {
+-		struct vnt_tx_desc *desc = &priv->apTD0Rings[i];
++		struct vnt_tx_desc *desc = &priv->ap_td0_rings[i];
+ 		struct vnt_td_info *td_info = desc->td_info;
+ 
+ 		dev_kfree_skb(td_info->skb);
+-- 
+b1n
 
