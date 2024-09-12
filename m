@@ -1,56 +1,56 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BB0A189B8F
-	for <linux-staging@lists.linux.dev>; Thu, 12 Sep 2024 04:04:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 948ED18A6C7
+	for <linux-staging@lists.linux.dev>; Thu, 12 Sep 2024 04:04:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726113878; cv=none; b=luwFJ4zGm1clqJtwgtr3G6WN0ivFMZe2ZbzyveQZh4RHwyXMaaqlOh0I2FOOYyNgxC+uEe1SSRgPjxe95rFRATykYtxA5SJYMa3Zk1ZhdqKQlWMln/TCFR8fu5vLX5raJqsb6aKZLtOwnWqbQqtcH1Ts3UQyeFUXd41kPbnTF/k=
+	t=1726113881; cv=none; b=PIGmirNu8f8R4AySY0reJPEnXE39dw+iBKZoVLwecleMRh164c4GaENOyunZq5T5m/YkVSWNnRR+UCqw9H/bPUHDgptiRuvxSnnEUjOyQzJSguG6QQFGwv1gKO7IpzFgGaOEYji3oQXX8GSOISZni/V9qMMN3pVK99dh1mcBZ80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726113878; c=relaxed/simple;
-	bh=bdIGBU+mN34bLbOLajFGFB6iyFx+5wKylOR3Xogz2ZM=;
+	s=arc-20240116; t=1726113881; c=relaxed/simple;
+	bh=zyyawO/uW7xUYBto29DhygmEN66WLE+uMJwCMx/YU9A=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=CUEaqd7EOOgHYBc/FyENeuz1ehyKvItl3Q973dTef2CiDQ2+nDK7PGD/UQMvYcPA6UhIMKfvmB/w4uQTD5ZS9gzXJLq2fIi6zKciw0Skz34EbKJloWrvwLUSZt/AHUa77Y4vJycTPK2ZOm+Id0bTJdaEwCop5zO2vjpziZeGYkg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mju0J2wB; arc=none smtp.client-ip=209.85.210.172
+	 MIME-Version; b=AGbDly7vVILrhuwPdNIq3pBheWbEQGQT5nYqmWal2F56YWEY9+833s+I2AtWVGtuQnIq2xb9m544FVIkfW94SR3BxlqDecMlWUWOG9mJZDScNQOBpFC5XEk/bOrNOgb4RTqS/IICEo0LG7z7pzP8QkoFlbLc+Szc1nc8dLE8gqg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f8ALTff4; arc=none smtp.client-ip=209.85.215.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mju0J2wB"
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-71911585911so388337b3a.3
-        for <linux-staging@lists.linux.dev>; Wed, 11 Sep 2024 21:04:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f8ALTff4"
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-70b2421471aso392518a12.0
+        for <linux-staging@lists.linux.dev>; Wed, 11 Sep 2024 21:04:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726113876; x=1726718676; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1726113880; x=1726718680; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1jyB7App+A0wL+Wf0fFusO+M//VVEnQeF5FHyKNWVAA=;
-        b=mju0J2wBBskJCa5loRYWATaewR1P7Jatnoeo0eaclZc/GMpq0XQG55iJmaCGvGO8ll
-         N4cwdYhayUN+/af6Nc3BjGBYbecPHFJqJgjnNzjwy59uOOGNE9VVb2cCZuRSiEY1e1ub
-         aVdY+wLxfmrf9sEAjkcINH6aVr/pIM7ZmPMmWwEQhwxUqkzOXLgfWWCFpIa8NR+NsRmU
-         B0FvfWmDFnKHcyCg15GSNQMji/ieEJwO0HpgTzgybt105679gJqfjRgII2WIkGEV7rVv
-         Ar9OIYcHQxP9iA2R+65PGSSVZlB+STB9ZehBF+y58CCb96K/OpJuYwT8k3oPgUxoLnaQ
-         l6CA==
+        bh=dc0/4aLhAOlQgNkq7UXPdLlR9BwhyToHh2UX75c0BdE=;
+        b=f8ALTff4bhDu2JPbs4YjkmCa3pWJpjF2/Iy0goZbIuAPEik1vE4xF8EjNzM+dRYsjN
+         yZ3NvAQzPBLb6iH3rqGBjB4P242SlcEs/0R/MqrbZGRYlt1/cCn+ekLO2kdvCELYsTit
+         JDtywrTahqbiBi98J4fv8utB+POaXg0lFGQlGX3vYGC2UPZiyIwn9yIFtFbi4Gra31jv
+         UdcPeyjhNtsemsVQxFd8uzM/fY5YlXFoa/VgS2FI53yI4t4qLkJ21hmPoKB6ixXfuBgk
+         UVrWqb4uzVfq/PYzDujX4m/zRzeT12GwCuY8Fak4dSz/9w1x9hC1WlNw8VLcjC/McpEa
+         MyVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726113876; x=1726718676;
+        d=1e100.net; s=20230601; t=1726113880; x=1726718680;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=1jyB7App+A0wL+Wf0fFusO+M//VVEnQeF5FHyKNWVAA=;
-        b=b7mb0xoBVW6TtK6F5v7hOYXTgLJAc9x8S3KP59ZlgnSPU7kIjkfzxk5sawfqwlCXr2
-         jag7SnqY46QUipMo154Wf+PGYF2xQuHlCoESSKSKf/R783o6kR+EecRpfgL6dfefAxnv
-         l9AYQhk37MYiafuLUWtgZQoJvAaeUrHrk7M7n7tLqICGu9LSn+3gt5LQcauby7gkNXey
-         fIiWd9N3DXBu2MxFLLgWhkMO0+ZUbUgQADl36eOnvXdHe2+EEBSDEl6BM3K4PWUwQNG5
-         XmivKFmOI7j/Crt9EaMHLzAlAOCkjz2+PUhG82Ry3mqWKdZnBlMi8zhaoG5ZZ2DPBhSB
-         3nwQ==
-X-Gm-Message-State: AOJu0YyuKKF0uJR6ZVY0tX2vh/+hGvXjOAN6ZWKvqI8n54gicW0SOd1V
-	ngevEHL7DzEipt1ZELvA0TjZ3kaM7pIU9qgRWzUjbNV1YlDh6W0cUlf4yIA3r+E=
-X-Google-Smtp-Source: AGHT+IHoAJwpGouIkghtKvkT+FudpoXg3/xOSYGChcm5MDvyNE4oN7rlrza/YeB4qkv+l0DSFMJJ2w==
-X-Received: by 2002:a05:6a00:228a:b0:717:87af:fca0 with SMTP id d2e1a72fcca58-71925f9de4emr2599012b3a.0.1726113876396;
-        Wed, 11 Sep 2024 21:04:36 -0700 (PDT)
+        bh=dc0/4aLhAOlQgNkq7UXPdLlR9BwhyToHh2UX75c0BdE=;
+        b=U4J2wqL5LZVrV0+W48oJrYtW6xEOBZ8VvL+HXWlfZ2TdFmEkDvieW0QfAMBAJA0aew
+         qEsZcSaOlAVFryMhmjgEpSFh/UEcKLEADPkuBOHd3PTjYhuJ8qls7/eI9kpNGc6bfkTr
+         +gcKGZhxQahFVuA8YKTCAQDEu/531WvqgPjj9ZsIk+wVI0JO05eZE6cY+1lYih6uV8m4
+         PjYUhYpMyW6vdu6kUiokxoYz+PjFJ1XeyylCua82r7XFIDpz57R+548ettqXoMiVrtOl
+         BKAY7sRR+wa3BGGnpbAaYAEaDzRAA36v0p0qqUeq5qTsQcuH6OxddqeVw37Rcm7PSljQ
+         dWeA==
+X-Gm-Message-State: AOJu0YyoDH+mSHWPt5IAAu+5tQuneA7rn9lo2WWmV8eiJ8TZYu0liOb7
+	bjbXvWgbVq3zPcutOEgE6zeViko4HP9RIIHiu2QaR88ihCPaNQrt9CiTNz4dv28=
+X-Google-Smtp-Source: AGHT+IFIwqIPMdCXEORiJbR0FOWqpn9jQVC+F87+u3NtDpFEsSTH9/30FsN8vv5xzf9GpcTMHy2ZJQ==
+X-Received: by 2002:a05:6a21:4a4b:b0:1cc:ea18:27d with SMTP id adf61e73a8af0-1cf764c1253mr1923547637.45.1726113879605;
+        Wed, 11 Sep 2024 21:04:39 -0700 (PDT)
 Received: from debian.tail629bbc.ts.net ([2409:40c2:12a7:616d:eca9:534f:4e49:7c41])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7db1fba469fsm768359a12.11.2024.09.11.21.04.33
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7db1fba469fsm768359a12.11.2024.09.11.21.04.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Sep 2024 21:04:36 -0700 (PDT)
+        Wed, 11 Sep 2024 21:04:39 -0700 (PDT)
 From: Sayyad Abid <sayyad.abid16@gmail.com>
 To: linux-staging@lists.linux.dev
 Cc: gregkh@linuxfoundation.org,
@@ -58,9 +58,9 @@ Cc: gregkh@linuxfoundation.org,
 	philipp.g.hortmann@gmail.com,
 	linux-kernel@vger.kernel.org,
 	Sayyad Abid <sayyad.abid16@gmail.com>
-Subject: [PATCH v2 5/8] staging: rtl8723bs: include: Fix indent for struct _byte_ in rtw_security.h
-Date: Thu, 12 Sep 2024 09:34:06 +0530
-Message-Id: <20240912040409.3315067-6-sayyad.abid16@gmail.com>
+Subject: [PATCH v2 6/8] staging: rtl8723bs: include: Fix indent for else block struct in rtw_security.h
+Date: Thu, 12 Sep 2024 09:34:07 +0530
+Message-Id: <20240912040409.3315067-7-sayyad.abid16@gmail.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240912040409.3315067-1-sayyad.abid16@gmail.com>
 References: <20240912040409.3315067-1-sayyad.abid16@gmail.com>
@@ -72,8 +72,8 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This change ensures consistent formatting of the struct declaration.
-Improves code readability.
+This change improves code readability and maintains consistency with the
+kernel's coding guidelines.
 
 Reported by `checkpatch.pl`:
 WARNING: please, no spaces at the start of a line
@@ -84,32 +84,32 @@ Signed-off-by: Sayyad Abid <sayyad.abid16@gmail.com>
  1 file changed, 8 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/include/rtw_security.h b/drivers/staging/rtl8723bs/include/rtw_security.h
-index 0c3271fb7e9d..7901cce76443 100644
+index 7901cce76443..6124f2ea2431 100644
 --- a/drivers/staging/rtl8723bs/include/rtw_security.h
 +++ b/drivers/staging/rtl8723bs/include/rtw_security.h
-@@ -50,14 +50,14 @@ union pn48	{
- #ifdef __LITTLE_ENDIAN
-
- struct {
--  u8 TSC0;
--  u8 TSC1;
--  u8 TSC2;
--  u8 TSC3;
--  u8 TSC4;
--  u8 TSC5;
--  u8 TSC6;
--  u8 TSC7;
-+	u8 TSC0;
-+	u8 TSC1;
-+	u8 TSC2;
-+	u8 TSC3;
-+	u8 TSC4;
-+	u8 TSC5;
-+	u8 TSC6;
-+	u8 TSC7;
+@@ -61,14 +61,14 @@ struct {
  } _byte_;
  #else
  struct {
+-  u8 TSC7;
+-  u8 TSC6;
+-  u8 TSC5;
+-  u8 TSC4;
+-  u8 TSC3;
+-  u8 TSC2;
+-  u8 TSC1;
+-  u8 TSC0;
++	u8 TSC7;
++	u8 TSC6;
++	u8 TSC5;
++	u8 TSC4;
++	u8 TSC3;
++	u8 TSC2;
++	u8 TSC1;
++	u8 TSC0;
+ } _byte_;
+ #endif
+
 --
 2.39.2
 
