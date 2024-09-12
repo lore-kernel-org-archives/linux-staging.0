@@ -1,107 +1,97 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46BF61BF7F2
-	for <linux-staging@lists.linux.dev>; Thu, 12 Sep 2024 17:22:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C04901C2DC5
+	for <linux-staging@lists.linux.dev>; Thu, 12 Sep 2024 19:09:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726161762; cv=none; b=Jg7vvCjo9MWs2GEBtadGRTXkcUd7uA/nBf18dlxvNWNrsDnEpoAvO9puC02gv0eBNdMJOcI81QgoRhEiOsbzYicFO7u9jNj2R0Tum+J7/IycBo5vrhCL49Ej8Zbp9jTaw4rscnL6g4hVvH1BhEC3IjxH14sdC/dSOgIrAg9Pa3Y=
+	t=1726168169; cv=none; b=JPLzPOq9r13tihnlPDyiAFerO0/AVjwZ12qo3u1v8aCbCvcAJBazaq7S7BeKbm+s4bdZICQE1AXqSVkjM+3n/jORq56ChD0qtwgQ9kSzCYtmqbt3g2L7DWSTNGAUOo/Pl4gQsAanqJNnkmsF9sqMDDLNHVTMdgQG/Wq5C8JFuFk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726161762; c=relaxed/simple;
-	bh=pxNvmEq5QlTet3+8Ka3sAa3aczDBESjV67G5PvmWMUg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=mpmt0h7IuFBdtWUYPw2waHOtA+Qx4ckWh4RnSTujVsptDdDFiCYUAd01pnyt8+NICHoBHLlMimzmcLxk3N+XSJtOfVLyXnRj7jF1stVM2V8JT6hfQJ8pViCTHgAlS9qyd5bL8YIMhm6VpvqdP5BOHTDK4oJ0moPxYgJFIXFmUeE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HKdJ/Pam; arc=none smtp.client-ip=209.85.215.178
+	s=arc-20240116; t=1726168169; c=relaxed/simple;
+	bh=RIZ6UHMWXZJemRm/+dKzRuGaErQaocw672nPCSORCRo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=TiqmbtZ6BUAVGKWJfS3Fbez1Y0nS30hw3PAMBcNeptR25Hy2Cm5f/tH289Do+21xSUJMDVkd4KTKTqsQ+6BH1JcLDKFV8nD/849uuQPTJj8MChQGmHb7rzhOlW7cSbHStqCHShEPcFBvGf593kGQUlBHywa1ZN1csZChgsJ6HXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lIPuCQNj; arc=none smtp.client-ip=209.85.208.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HKdJ/Pam"
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-7d50e865b7aso1168563a12.0
-        for <linux-staging@lists.linux.dev>; Thu, 12 Sep 2024 10:22:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lIPuCQNj"
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2f761cfa5e6so2808991fa.0
+        for <linux-staging@lists.linux.dev>; Thu, 12 Sep 2024 12:09:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726161760; x=1726766560; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=fDOX5j9BpxBbwPDKPBgnjgeJFyPPtDXmwFa02m5fEQk=;
-        b=HKdJ/PamrnaLEKUiFFSRYdkQ9L5kTTyPOJmaQzw0M7vhhPgzJM8EIuaX+SHxnnoVti
-         eyfdxNnIjMmIltwgIxZNHjAv66108vSBmq14hecjXM0iKWuLJvclu3eIZ7Svf8mK60tp
-         Foxjgkon9yGhEwurWEeW5RVWWoWXI58MrAnaG3qLUzW8m7QtKzBj3dpY7t43akUktO3E
-         w8wfD1GH3kullm+rsZvZQsa/S/FVmD67Ko+4UKRR/k8JB0YEpTPUCwLfe59uHCEjE0Do
-         Nyb8H0t+qFDUbMAo4/bZW4Ccp1C80NLQrXNMz99clvgWdh7fXAhBbHA749QBm5NW2FBv
-         i7fw==
+        d=gmail.com; s=20230601; t=1726168165; x=1726772965; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=gA1EZdK+FIlhj8yx6CB1xUSnqvOWPyr9g86P+6dBE6o=;
+        b=lIPuCQNjqhysZS9A4/0Uf+G3sBIXsGBsTWYaLcGWnB3DK9LdNlX1QbxbYrns+q+JmY
+         R/0ZrFm6exfionqYiNKAZaqglXsTUbVc2P5huWOv1SaNuRPM0f3cx1ItXkx96ifwMYkF
+         61u4NEIEDsJoOVqYrT5N//EQNya/hWyTDUNtrj3fg26sYqAcmSiFLqLy6JvFuaCIADcW
+         Fw/sJGy78LXWCGU2ecvpjrAia5jcMELHNYnrSie3KZCaaXkAKJ7Iqfhwjb5APFgaK7GN
+         dO/QzaLqZviS7LRmAbVM0OvZpp4GxtBJFt74hZzkDRyDhU3k91E99U4P1cpaiHyBdted
+         BCQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726161760; x=1726766560;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fDOX5j9BpxBbwPDKPBgnjgeJFyPPtDXmwFa02m5fEQk=;
-        b=ZfSaSZF67f3lcMnMhmuAcU3Yvu+lYdu6sXyKKLWHbO0MB2t3wq8zcmdZZEjnEVCm6F
-         UL4fHAwCFVOJrN+gKnJ02oI+Cg0b7SOQJnHgyDf++Cf78F22Ec+bIcAZ9Ax7g9szjlWx
-         Ya11ziv0D3cRJqOxZnFqbIWGvp3IQF7ziP0PMhDMirWYvASSJSKuaycgJfUtezx25teD
-         q+7eZah7vIUQ/jnSfn9dUx9WcryOixmC098lAGJ+VSzK3a/7XlkvKgZOnZC84ZUwvsNP
-         fMSj5bAV93BOQDOKfT2BWguk8jqpycSzPca1gbYnCH/32jQEkIP9W11vW9JsGIlm/OGF
-         WbxA==
-X-Forwarded-Encrypted: i=1; AJvYcCU0Gj/sGxSvcOmPEtXbbM/iyk4554EDqpzdiErugr7QnY0s61kgdNhRaFD3CJ1Pnko9zzVZG365litJ0yWT@lists.linux.dev
-X-Gm-Message-State: AOJu0YyGa2PbMhmLpNmqVpaBd2V14Po168p1EhlEuSzKDrvik2Y7uAq5
-	q6xMxSmP/JZTdrEnBFGToCF3mjzyLrFoBfd8rrCQzCCP7gwBao9a
-X-Google-Smtp-Source: AGHT+IHOONd5GoqrCv28UoIPTOzPATOJf1fEQXU3Q8j5mHBTE7M6ofoDdgrilpG5VHlsshxFm5tMKw==
-X-Received: by 2002:a17:903:2b04:b0:203:a22f:6b09 with SMTP id d9443c01a7336-2076e334c05mr55343525ad.13.1726161760382;
-        Thu, 12 Sep 2024 10:22:40 -0700 (PDT)
-Received: from embed-PC.. ([106.222.232.184])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2076af2745bsm16567035ad.60.2024.09.12.10.22.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Sep 2024 10:22:39 -0700 (PDT)
-From: Abhishek Tamboli <abhishektamboli9@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: skhan@linuxfoundation.org,
-	rbmarliere@gmail.com,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: octeon: Use new initialization api for tasklet
-Date: Thu, 12 Sep 2024 22:52:31 +0530
-Message-Id: <20240912172231.369566-1-abhishektamboli9@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20230601; t=1726168165; x=1726772965;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=gA1EZdK+FIlhj8yx6CB1xUSnqvOWPyr9g86P+6dBE6o=;
+        b=amkQiNH4fXkhLXTjNH7lb5+OsICV7UFUobIYX/3Yjj+PqabSuyIb0Falo2aw32CPPi
+         dDXjurQ1NlCue6sDZ86EamqblAdvVSi8NxOb7eEzQh3+RcxWhuUVOOlg2JezyKjpAHzL
+         WuQBB9feMEBKMazpxWpfAc3+UDvvU9oSElm9E9INBIaAzr7+grL3VKo8DTr6NNpfKFDm
+         42hwjr9L9864NjDYA0RrHkkFcVMm/JLT8YCHEqHHT0Ve9JbXgm3EMZTP2P/hLyW1Cc1E
+         L/jI+CYXCnLjHbYWhprm+0hSkUhpIqV1DnVW39vO9SnIghtxSctmT48z0LiaY3ZYt3OM
+         fPUA==
+X-Forwarded-Encrypted: i=1; AJvYcCXRVg2i2fTaZ7A1880GJSwHg9EedDYL9sbCoHX/RFwuTsBaiuWTTyxz6EOpim01tv61iSWZDWCxxQtDZBAC@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw0QmvX/VaFWSxZyj4eTAeKAznNWrMhwxakXpY6MTZQ5j9mzKcc
+	ria7ZeYmy7xJY+TMc8/PwQIQkHJeRQ/ark1+7kK42x5BpFzv3A3o
+X-Google-Smtp-Source: AGHT+IHLbqMRSyfw7vNBoZ2CJ+MAXkLxljrCR57eGq3uZHtcHPjP2eILjkvD9eIW2nNJ7KE8spebDw==
+X-Received: by 2002:a2e:e09:0:b0:2f6:4f17:aead with SMTP id 38308e7fff4ca-2f791a02290mr1702631fa.21.1726168164175;
+        Thu, 12 Sep 2024 12:09:24 -0700 (PDT)
+Received: from ?IPV6:2003:c7:8f2a:8557:476b:8cfa:99ee:514e? (p200300c78f2a8557476b8cfa99ee514e.dip0.t-ipconnect.de. [2003:c7:8f2a:8557:476b:8cfa:99ee:514e])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c3ebd76edasm6859788a12.77.2024.09.12.12.09.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Sep 2024 12:09:23 -0700 (PDT)
+Message-ID: <65c67cb1-59d5-45dd-9e05-6b82a0f0181f@gmail.com>
+Date: Thu, 12 Sep 2024 21:09:22 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] staging: vt6655: Rename variable apTD0Rings
+To: Xingquan Liu <b1n@b1n.io>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20240912162609.21517-1-b1n@b1n.io>
+Content-Language: en-US
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <20240912162609.21517-1-b1n@b1n.io>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Use the new api DECLARE_TASKLET instead of DECLARE_TASKLET_OLD
-introduced in commit 12cc923f1ccc ("tasklet: Introduce new
-initialization API").
+On 9/12/24 18:26, Xingquan Liu wrote:
+> Rename variable apTD0Rings to ap_td0_rings
+> to fix checkpatch warning Avoid CamelCase.
+> 
+> Signed-off-by: Xingquan Liu<b1n@b1n.io>
+> ---
+>   drivers/staging/vt6655/card.c        |  6 +++---
+>   drivers/staging/vt6655/device.h      |  2 +-
+>   drivers/staging/vt6655/device_main.c | 14 +++++++-------
+>   3 files changed, 11 insertions(+), 11 deletions(-)
 
-Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
----
- drivers/staging/octeon/ethernet-tx.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Hi Xingquan,
 
-diff --git a/drivers/staging/octeon/ethernet-tx.c b/drivers/staging/octeon/ethernet-tx.c
-index bbf33b88bb7c..ae1bac99b461 100644
---- a/drivers/staging/octeon/ethernet-tx.c
-+++ b/drivers/staging/octeon/ethernet-tx.c
-@@ -40,8 +40,8 @@
- #define GET_SKBUFF_QOS(skb) 0
- #endif
- 
--static void cvm_oct_tx_do_cleanup(unsigned long arg);
--static DECLARE_TASKLET_OLD(cvm_oct_tx_cleanup_tasklet, cvm_oct_tx_do_cleanup);
-+static void cvm_oct_tx_do_cleanup(struct tasklet_struct clean);
-+static DECLARE_TASKLET(cvm_oct_tx_cleanup_tasklet, cvm_oct_tx_do_cleanup);
- 
- /* Maximum number of SKBs to try to free per xmit packet. */
- #define MAX_SKB_TO_FREE (MAX_OUT_QUEUE_DEPTH * 2)
-@@ -670,7 +670,7 @@ void cvm_oct_tx_shutdown_dev(struct net_device *dev)
- 	}
- }
- 
--static void cvm_oct_tx_do_cleanup(unsigned long arg)
-+static void cvm_oct_tx_do_cleanup(struct tasklet_struct clean)
- {
- 	int port;
- 
--- 
-2.34.1
+Please use a change history. Description from Dan under:
+https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
+So your next patch is v3.
 
+Please do not break lines of the description to early. Up to 75 
+characters can be used.
+
+Thanks for your support.
+
+Bye Philipp
