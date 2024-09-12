@@ -1,37 +1,65 @@
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71AAD3C092
-	for <linux-staging@lists.linux.dev>; Thu, 12 Sep 2024 03:08:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0450F1CD35
+	for <linux-staging@lists.linux.dev>; Thu, 12 Sep 2024 04:04:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726110507; cv=none; b=NMfsbXY/TI+HBWOb/lH4bnnozn1d3M/VZ1ziPnja9+bmACzebi25noxmaQRT894Yc3IKMmBhPWw8ysfGg05XLKlguBEP+EpP59mVdSqOFm7401TWUh24ie4oaxxId/Z4xbHSH6rK0RSxWIYDnt3xrGA88PBsEVYRvUZ/bcZqUU0=
+	t=1726113862; cv=none; b=SQAJhVmIeuKxc4FDTpWxX0BGgf9WJeCWoF8X3QjAMY9ttJfObCQZ6bclnduGPk5DeRtjjTWiuLV8ACKvFi2D8tJWA/jElIz7sSpben9msrpWzFTehvmCcuXezFART0MHGgBB1N4wgcHNskUD/khy5ELpXNmJdLof+WcwC9iW0KY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726110507; c=relaxed/simple;
-	bh=gcxZru+4SoD0Cl4wt7+JVYrOzI++pZ2WGtgLb9mB44c=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=hupkpnhYBgT9hc+fmdd/M8tO7KUJdBjs2GEmdl7RRm16GL5k3hrhsWdb9YyGfHjFoBJobTYRLJLXuNwx8vBthKx7UGuSytBr3A5xcEXfjXv1xVnbg+dtu6leoaGhljjWpTnV87RPrmTiqFln0k1Nq9nQ4Pt5BJj212pFfaXaKRM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.88.105])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4X42QL6D1fzmYyL;
-	Thu, 12 Sep 2024 11:06:18 +0800 (CST)
-Received: from kwepemh500013.china.huawei.com (unknown [7.202.181.146])
-	by mail.maildlp.com (Postfix) with ESMTPS id 2B15C140453;
-	Thu, 12 Sep 2024 11:08:23 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by kwepemh500013.china.huawei.com
- (7.202.181.146) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 12 Sep
- 2024 11:08:22 +0800
-From: Jinjie Ruan <ruanjinjie@huawei.com>
-To: <marvin24@gmx.de>, <gregkh@linuxfoundation.org>,
-	<ac100@lists.launchpad.net>, <linux-tegra@vger.kernel.org>,
-	<linux-staging@lists.linux.dev>
-CC: <ruanjinjie@huawei.com>
-Subject: [PATCH] staging: nvec: Use IRQF_NO_AUTOEN flag in request_irq()
-Date: Thu, 12 Sep 2024 11:17:31 +0800
-Message-ID: <20240912031731.2211698-1-ruanjinjie@huawei.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1726113862; c=relaxed/simple;
+	bh=rvgwcp/eTAA5z5+ij//l668f8coWk03WO1JklLR9bBo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=MeRtl6FEau1avY09d9DvwxaAs5ROGTy+YzK4ppolQdkoAFyYohX2wz3b6CSBe2DaCgKwDg+BTUUbsYmwIqZqJyU1VL0pkrc1nyv0nBGKM1cJMYJ74HPrk45YM/wP0j3XCko64jQxls7PrF3DPgKMz+EnSB5aEU0kEN9VzXOEhbo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TxrCVvGw; arc=none smtp.client-ip=209.85.215.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TxrCVvGw"
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-7db233cef22so245855a12.0
+        for <linux-staging@lists.linux.dev>; Wed, 11 Sep 2024 21:04:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1726113860; x=1726718660; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/cHqETZ5NjFfQQNWosTHBXQ+NEN6DfS799USGbbThKo=;
+        b=TxrCVvGw9EFx9vQ1hbi/L7m7c0kPTtnezbHEURsZevpYAOYqEx5O8fj0bCQlkxThMS
+         nAWrsZ5qE3nf6iIJcrYe5l+nHhHgxYBfcJVD4sTnnrBzfA4iELEq7CNU3qS4TfBCKo00
+         1MVR+8/FKUQnUg/7QhHgRuqBYjkjJfeMFsDFOuMHHH+muBrbo2luaUCMJvaB6GiUaFza
+         ijFlSkhmwWaHXOMBJW3L+YieohQ/j14uPqTSC6/TGzGfhhAlgGORVrPxAOE3NTx5a3D8
+         eqaeB4pdogNhERrjDoX+hrgYt4d/ebHUG9D8U5KsZh8QnbfkZv08kHvPOlvcO7CjTMme
+         CM8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726113860; x=1726718660;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/cHqETZ5NjFfQQNWosTHBXQ+NEN6DfS799USGbbThKo=;
+        b=H78TtDqBERpx17qeLsbIOyMNR9bdWFfoYJpax5knEeLlYvKfkKmp/+YS6rnO6tbvIr
+         Oasoi0fmKFYOX2euWuuHGxTMrdSFaI/ett3Q4hjhROmZBv5Gx2AKd8KiheSqDnlsyX7j
+         HeRquiTq67L8Oj++B1D45jEF7qXJNDFOY8nDXnKC5QAH4b94x1izy1j1zJi31S+YqSP6
+         bSo35u/ghkJUwoHojAFAFB+4FTh3ji3SCmza7vu9PEMOXhNNUmymB0HLIzLb/TA70IEt
+         dUoipbjhsJXTgM65Wx1A1jJK26M5KaFWyGRRQxgy7cCdOTCIYNsl8RISfti/Oq2HoHZN
+         0DNQ==
+X-Gm-Message-State: AOJu0Yy1FCoYmWqkUgYjI74EVDSuoB8USQ/ySDDsdE0d04nun38m7RDY
+	43rYx/cVdaBREUCh6bGuTMBID4Dq+BoKcZEvevruUKYU3qVvh+C3aCHw+iCjuXQ=
+X-Google-Smtp-Source: AGHT+IHYz9pQioarPC8/WmpETgcV4hy8gxi3dHvJMmwQmHcsnHP9LgehLn1GBtEe+0YXwyqbOM9/Yg==
+X-Received: by 2002:a05:6a21:b8b:b0:1c8:92ed:7c5c with SMTP id adf61e73a8af0-1cf7620cc0cmr2196808637.35.1726113859881;
+        Wed, 11 Sep 2024 21:04:19 -0700 (PDT)
+Received: from debian.tail629bbc.ts.net ([2409:40c2:12a7:616d:eca9:534f:4e49:7c41])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7db1fba469fsm768359a12.11.2024.09.11.21.04.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Sep 2024 21:04:19 -0700 (PDT)
+From: Sayyad Abid <sayyad.abid16@gmail.com>
+To: linux-staging@lists.linux.dev
+Cc: gregkh@linuxfoundation.org,
+	guilherme@puida.xyz,
+	philipp.g.hortmann@gmail.com,
+	linux-kernel@vger.kernel.org,
+	Sayyad Abid <sayyad.abid16@gmail.com>
+Subject: [PATCH v2 0/8] staging: rtl8723bs: Fix coding style incosistencies in rtw_security.h
+Date: Thu, 12 Sep 2024 09:34:01 +0530
+Message-Id: <20240912040409.3315067-1-sayyad.abid16@gmail.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,38 +67,46 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- kwepemh500013.china.huawei.com (7.202.181.146)
 
-disable_irq() after request_irq() still has a time gap in which
-interrupts can come. request_irq() with IRQF_NO_AUTOEN flag will
-disable IRQ auto-enable when request IRQ.
+This patch series improves code readability by addressing coding style
+issues in `rtw_security.h`. These changes aim to enhance the
+maintainability and clarity of the codebase by ensuring compliance with
+the Linux kernel's coding standards.
 
-Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
----
- drivers/staging/nvec/nvec.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+The coding style violations were identified using
+`scripts/checkpatch.pl` on `rtw_security.h`.
 
-diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
-index d09211589d1c..a4396d9caf45 100644
---- a/drivers/staging/nvec/nvec.c
-+++ b/drivers/staging/nvec/nvec.c
-@@ -845,13 +845,12 @@ static int tegra_nvec_probe(struct platform_device *pdev)
- 		return PTR_ERR(nvec->gpiod);
- 	}
- 
--	err = devm_request_irq(dev, nvec->irq, nvec_interrupt, 0,
-+	err = devm_request_irq(dev, nvec->irq, nvec_interrupt, IRQF_NO_AUTOEN,
- 			       "nvec", nvec);
- 	if (err) {
- 		dev_err(dev, "couldn't request irq\n");
- 		return -ENODEV;
- 	}
--	disable_irq(nvec->irq);
- 
- 	tegra_init_i2c_slave(nvec);
- 
--- 
-2.34.1
+### Changes in v2:
+- Split the original patch into a series of 8 smaller patches, each
+  addressing a distinct coding style issue as suggested by Greg's bot.
+- Fixed indentation issues, placement of braces, and removal of spaces
+  before tabs.
+- Improved commit messages with detailed explanations for each change.
+
+For reference, here is the `v1` submission:
+https://lore.kernel.org/all/20240911133549.2664372-1-sayyad.abid16@gmail.com/
+
+
+Sayyad Abid (8):
+  staging: rtl8723bs: include: Fix open brace position in rtw_security.h
+  staging: rtl8723bs: include: Fix indent for switch case in
+    rtw_security.h
+  staging: rtl8723bs: include: Fix indent for switch block in
+    rtw_security.h
+  staging: rtl8723bs: include: Fix use of tabs for indent in
+    rtw_security.h
+  staging: rtl8723bs: include: Fix indent for struct _byte_ in
+    rtw_security.h
+  staging: rtl8723bs: include: Fix indent for else block struct in
+    rtw_security.h
+  staging: rtl8723bs: include: Fix trailing */ position in
+    rtw_security.h
+  staging: rtl8723bs: include: Remove spaces before tabs in
+    rtw_security.h
+
+ .../staging/rtl8723bs/include/rtw_security.h  | 124 +++++++++---------
+ 1 file changed, 62 insertions(+), 62 deletions(-)
+
+--
+2.39.2
 
