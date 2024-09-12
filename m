@@ -1,122 +1,154 @@
-Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55A591BF7EC
-	for <linux-staging@lists.linux.dev>; Thu, 12 Sep 2024 20:18:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 161A21BF80E
+	for <linux-staging@lists.linux.dev>; Thu, 12 Sep 2024 20:48:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726172307; cv=none; b=IKISFfTI3MjRKAvz612Qtr0OzN/J99E477i/jbYij9DyFdv3tsC3FIZCugClNt7G3qoa5Ci0AEiDGdKCrY7ELdbTvihapBP37UYxeNEkMF/tUqVSjwT1tXueCN3yO4wYyUYAHRWgu+TUKvHwU6e/6hwar71RjxhIN8LvW6rdhj0=
+	t=1726174082; cv=none; b=DryENCpftxhqUxSG78zmVd3TEGrb1XfcHDVSRBb3Jd0Tz3fsSLf13OnVpnu3BYCChik9stDXN5p6TkjDK4yzSVw8VVBtfI82q97QwilfmxSH/SCVp2/zrWKtPgzXIaT/x06MJmPZelYOx0vKJ5w2Z9QRbk4xtCyhxBgxKbWjdQc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726172307; c=relaxed/simple;
-	bh=sqEGLsiVe1px2T7K/5jR6/t8UKmJUdNGHqzq6qUMBDo=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MYFxqfewCyt7WXLAfMAzfh84yxEF9+2AMr9BXtTWC7WtKYJHSOnYL5o5FrWzS7TyOm03YpYpB4MbjwdEOcSj5NQQPhdgmQmVakECgB5KCoRjM/W82eds2pTCxq/+7FCrTwt4WeiY46sNwkrBOZ1DGYvX/LntRTfcHnU2jj+eiEQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=R8+YILA+; arc=none smtp.client-ip=185.70.43.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
+	s=arc-20240116; t=1726174082; c=relaxed/simple;
+	bh=fFGd0nbcu1F8PntbunsMOTAoXiViOoBV+7xVFt/6B/4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ta1raT5TNWI26qF/xNoeDIWoWe3DOwFd73deJOag1kVYJ6KwITWWV3peY04a7KACixMpSSht/zJjIYDslam90PVtirywpYgk193PjTZWvC4VxMHmDffa/j6zHVSJRPqX4RvtFowwHQB9efKFSK2pnsPQwpOoCvjxifaITglmEhQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FlfDvMhv; arc=none smtp.client-ip=209.85.167.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="R8+YILA+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1726172303; x=1726431503;
-	bh=sqEGLsiVe1px2T7K/5jR6/t8UKmJUdNGHqzq6qUMBDo=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=R8+YILA+dKmb1Ok6pCZCJXvNQJMqwlQRmIip7KIIsQJ6LuxP0rU4HUqHGnxXd5aRn
-	 msytPCvs2JN0+0FOVqtv335B9s8uXkScF91IERSHWNy7clg/vVoZF94GPnSfJfCM7L
-	 I9O1+aKpbgTnYEzA/4EGNsA/18M5VQp54li3wYsep74kYH31vVHjpb9WTvRoPH9NfB
-	 dFpyygy6MuC9yruJseELMP6tCpqF5d9HRnB0TVoY1HZs26is4oRtRW+F0QKT2iAMYe
-	 9ziCLqaIiGozewN3lwXjikpKKVneH0Gi+r7xtpIS7j325R9AvsNHOZcALExpv+ByJj
-	 BvmYkoi1kDDRA==
-Date: Thu, 12 Sep 2024 20:18:18 +0000
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-From: =?utf-8?Q?Dominik_Karol_Pi=C4=85tkowski?= <dominik.karol.piatkowski@protonmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: vt6655: mac.h: Fix possible precedence issue in macros
-Message-ID: <ILhrP61gFh-bKmnqG1DTIWCjW8yXNVEI1mGa2Fm-y_yhZ4kV-WCxXoid_Yuy7w4-kyH4QVT7B3h-OUUBH0rAtjCM8P5tMQxG_zLjKrq4NEM=@protonmail.com>
-In-Reply-To: <f4e58090-0229-4a72-9bb6-d57757eb708c@gmail.com>
-References: <20240911180149.14474-1-dominik.karol.piatkowski@protonmail.com> <f4e58090-0229-4a72-9bb6-d57757eb708c@gmail.com>
-Feedback-ID: 117888567:user:proton
-X-Pm-Message-ID: 27318e477fc62929080976404587b24280042317
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FlfDvMhv"
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5367ae52a01so313036e87.3
+        for <linux-staging@lists.linux.dev>; Thu, 12 Sep 2024 13:48:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1726174079; x=1726778879; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=YkjthmIF2fQCuoFWxdVNQGVlLGFryPfHPsH+MeuiVys=;
+        b=FlfDvMhv4ggUPJa2sD1Mh9U2qGhTvRsWDhqi0iaDfK6DoCsXvuAHl16YClgcYmqjyO
+         R62ixs9JIbbA9QIyzcmfVNNpF+cfemba8ZkfxPCYZy+FIlFWcQcf/KEKNPT+760zyydz
+         i6jUtFTl3uEkAF9jq7FtAOMw+x5C2D0Sx2UncxscRIwOnUg8e/RRaVnVB6weskpAcKYG
+         mGriJlH2/h2MXmqow5oltZkz5XaXjCHWY4qLOdxtSK0WMFjCzxW1A+Q6Hwv4JPZMkRpg
+         HJcNxvutJspJJ7Z4v36i8Kmz2g6ROchRBrP2kCb02gPjyg5NIf6yIr8TR3W89yttZ1Op
+         NFSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726174079; x=1726778879;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YkjthmIF2fQCuoFWxdVNQGVlLGFryPfHPsH+MeuiVys=;
+        b=pP5/PJjR1aIfrZ8oJaCk1snTBRf3Kfi1T0i9Lg++ehWCmrTUErZALgsnxYzZEHBJ0k
+         1iGkPE/RWPBaXVlwVX4GZP5cNGXlCS95DraNdY7lfDLA6gFqorj3OXPwa90aXMLU5TPY
+         TQqegy67LvqS0WsE9oKyToSguJcWkplgZFW7BFz3+FMf6qVBhth3/B/YZB4QYoMyCvRI
+         AyemxtY+58X3R+SFwdxPdkhABGWqBIla8+EKTJ4u4PtG9UfIaV2cyqNbtId2PvQEvNxy
+         QSIRbdH6ggOtEckvJ75I52mye8sArTzFLLd7wOIO66GFV/UNaCW6ogwtCIRTh9wu85Jf
+         9Pvw==
+X-Forwarded-Encrypted: i=1; AJvYcCU4/bnjN+kJyxyzsG14Bsf9FZSB6/ckvYliVrXbsR4FlFRdQaHJdV3SbGwdkPVpv3WyIVxPlXYb2CJlPFEy@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz2VpSII0AtRSFAmsdeFXJBgndQZSdaAQJOrwMVKf9d27SwwV6R
+	mvHI+hqtYneLcgIOjKIBWsi+xGHSCK4IT+h1iz4kBgxY0vis72XC
+X-Google-Smtp-Source: AGHT+IEJ3divZG1giZLk4zL0xR+Zgkb9nKkzNvfUXc9d1wNJItRtam0P+33/fr0+sYxqjutD2DBQFw==
+X-Received: by 2002:a05:6512:a91:b0:535:3d08:5844 with SMTP id 2adb3069b0e04-5367feb964fmr331262e87.6.1726174078682;
+        Thu, 12 Sep 2024 13:47:58 -0700 (PDT)
+Received: from ?IPV6:2003:c7:8f2a:8557:476b:8cfa:99ee:514e? (p200300c78f2a8557476b8cfa99ee514e.dip0.t-ipconnect.de. [2003:c7:8f2a:8557:476b:8cfa:99ee:514e])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8d25ced20csm795531666b.172.2024.09.12.13.47.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Sep 2024 13:47:58 -0700 (PDT)
+Message-ID: <6180dbde-16a7-48e2-8926-b17a13dc0c57@gmail.com>
+Date: Thu, 12 Sep 2024 22:47:57 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: vt6655: mac.h: Fix possible precedence issue in
+ macros
+To: =?UTF-8?Q?Dominik_Karol_Pi=C4=85tkowski?=
+ <dominik.karol.piatkowski@protonmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20240911180149.14474-1-dominik.karol.piatkowski@protonmail.com>
+ <f4e58090-0229-4a72-9bb6-d57757eb708c@gmail.com>
+ <ILhrP61gFh-bKmnqG1DTIWCjW8yXNVEI1mGa2Fm-y_yhZ4kV-WCxXoid_Yuy7w4-kyH4QVT7B3h-OUUBH0rAtjCM8P5tMQxG_zLjKrq4NEM=@protonmail.com>
+Content-Language: en-US
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <ILhrP61gFh-bKmnqG1DTIWCjW8yXNVEI1mGa2Fm-y_yhZ4kV-WCxXoid_Yuy7w4-kyH4QVT7B3h-OUUBH0rAtjCM8P5tMQxG_zLjKrq4NEM=@protonmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Thursday, September 12th, 2024 at 21:29, Philipp Hortmann <philipp.g.hor=
-tmann@gmail.com> wrote:
+On 9/12/24 22:18, Dominik Karol Piątkowski wrote:
+> On Thursday, September 12th, 2024 at 21:29, Philipp Hortmann <philipp.g.hortmann@gmail.com> wrote:
+> 
+>>
+>>
+>> On 9/11/24 20:02, Dominik Karol Piątkowski wrote:
+>>
+>>> It is safer to put macro arguments in parentheses. This way, accidental
+>>> operator precedence issues can be avoided.
+>>>
+>>> Signed-off-by: Dominik Karol Piątkowski dominik.karol.piatkowski@protonmail.com
+>>> ---
+>>> drivers/staging/vt6655/mac.h | 4 ++--
+>>> 1 file changed, 2 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/staging/vt6655/mac.h b/drivers/staging/vt6655/mac.h
+>>> index acf931c3f5fd..a33af2852227 100644
+>>> --- a/drivers/staging/vt6655/mac.h
+>>> +++ b/drivers/staging/vt6655/mac.h
+>>> @@ -537,9 +537,9 @@
+>>>
+>>> /--------------------- Export Macros ------------------------------/
+>>>
+>>> -#define VT6655_MAC_SELECT_PAGE0(iobase) iowrite8(0, iobase + MAC_REG_PAGE1SEL)
+>>> +#define VT6655_MAC_SELECT_PAGE0(iobase) iowrite8(0, (iobase) + MAC_REG_PAGE1SEL)
+>>>
+>>> -#define VT6655_MAC_SELECT_PAGE1(iobase) iowrite8(1, iobase + MAC_REG_PAGE1SEL)
+>>> +#define VT6655_MAC_SELECT_PAGE1(iobase) iowrite8(1, (iobase) + MAC_REG_PAGE1SEL)
+>>>
+>>> #define MAKEWORD(lb, hb) \
+>>> ((unsigned short)(((unsigned char)(lb)) | (((unsigned short)((unsigned char)(hb))) << 8)))
+>>
+>>
+>>
+>> Hi Dominik,
+>>
+>> git shows your name with the following characters:
+>>
+>> Author: Dominik Karol Pi^Etkowski dominik.karol.piatkowski@protonmail.com
+>>
+>>
+>> I think it is better to change your name to only english letters.
+>>
+>> If you send in a second version of this patch please use a change
+>> history. Description from Dan under:
+>> https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
+>>
+>> Thanks for your support.
+>>
+>> Bye Philipp
+> 
+> Hi Philipp,
+> 
+> Thanks for testing my patch.
+> 
+> About the mangled author field - it was sent as
+> "From: =?UTF-8?q?Dominik=20Karol=20Pi=C4=85tkowski?= <dominik.karol.piatkowski@protonmail.com>"
+> and =C4=85 in UTF-8 is indeed 'ą' character. When looking at linux-next tree,
+> previously accepted patches also seem to have 'ą' as intended. I am not sure
+> why you are seeing "^E" instead.
+> 
+> Thanks,
+> Dominik Karol
 
->=20
->=20
-> On 9/11/24 20:02, Dominik Karol Pi=C4=85tkowski wrote:
->=20
-> > It is safer to put macro arguments in parentheses. This way, accidental
-> > operator precedence issues can be avoided.
-> >=20
-> > Signed-off-by: Dominik Karol Pi=C4=85tkowski dominik.karol.piatkowski@p=
-rotonmail.com
-> > ---
-> > drivers/staging/vt6655/mac.h | 4 ++--
-> > 1 file changed, 2 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/drivers/staging/vt6655/mac.h b/drivers/staging/vt6655/mac.=
-h
-> > index acf931c3f5fd..a33af2852227 100644
-> > --- a/drivers/staging/vt6655/mac.h
-> > +++ b/drivers/staging/vt6655/mac.h
-> > @@ -537,9 +537,9 @@
-> >=20
-> > /--------------------- Export Macros ------------------------------/
-> >=20
-> > -#define VT6655_MAC_SELECT_PAGE0(iobase) iowrite8(0, iobase + MAC_REG_P=
-AGE1SEL)
-> > +#define VT6655_MAC_SELECT_PAGE0(iobase) iowrite8(0, (iobase) + MAC_REG=
-_PAGE1SEL)
-> >=20
-> > -#define VT6655_MAC_SELECT_PAGE1(iobase) iowrite8(1, iobase + MAC_REG_P=
-AGE1SEL)
-> > +#define VT6655_MAC_SELECT_PAGE1(iobase) iowrite8(1, (iobase) + MAC_REG=
-_PAGE1SEL)
-> >=20
-> > #define MAKEWORD(lb, hb) \
-> > ((unsigned short)(((unsigned char)(lb)) | (((unsigned short)((unsigned =
-char)(hb))) << 8)))
->=20
->=20
->=20
-> Hi Dominik,
->=20
-> git shows your name with the following characters:
->=20
-> Author: Dominik Karol Pi^Etkowski dominik.karol.piatkowski@protonmail.com
->=20
->=20
-> I think it is better to change your name to only english letters.
->=20
-> If you send in a second version of this patch please use a change
-> history. Description from Dan under:
-> https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
->=20
-> Thanks for your support.
->=20
-> Bye Philipp
 
-Hi Philipp,
+Hi Dominik Karol,
 
-Thanks for testing my patch.
+you are right. On the from Greg accepted patches the 'ą' is as intended.
 
-About the mangled author field - it was sent as
-"From: =3D?UTF-8?q?Dominik=3D20Karol=3D20Pi=3DC4=3D85tkowski?=3D <dominik.k=
-arol.piatkowski@protonmail.com>"
-and =3DC4=3D85 in UTF-8 is indeed '=C4=85' character. When looking at linux=
--next tree,
-previously accepted patches also seem to have '=C4=85' as intended. I am no=
-t sure
-why you are seeing "^E" instead.
+Then everything is all right. Sorry for the noise.
 
-Thanks,
-Dominik Karol
+Thanks for your support.
+
+Bye Philipp
+
+
