@@ -1,58 +1,58 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76FE7186E46
-	for <linux-staging@lists.linux.dev>; Thu, 12 Sep 2024 19:29:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F393918BC20
+	for <linux-staging@lists.linux.dev>; Thu, 12 Sep 2024 19:37:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726169348; cv=none; b=uxqEO9c3GbAJRD/P5A9bbKl+yRZJaoMRXl9EVhS87a1rd95RoVbsiKi/Nrfqb9/ONFXA1pNOAwMbANAq/u/NZnmHZT++e34V/y2ITRjg9MzT0eak+2epgIy6ZnnjACEqkjdu+TNKaWeHEHAzGsstoKBP9t9uBUQATsdu8Vyan78=
+	t=1726169845; cv=none; b=uovzOAceTx/CK+OjsOGaVGJ5P2uE+NdCckqqy709M14sAYNYb6Q3tLsGEV1dukQcfUADPZxPWay231nc4UWMhlkf5+kEIlT9NJw2ZZwq8jpKzhzxVh8WghQ1nKedsAIPRgcBN3i17EZiEhTLrdbzYHAZD91klQBYFEqPoraI7Ak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726169348; c=relaxed/simple;
-	bh=mY8kmFlJmauWSs4RBZciRQXsogkFRL/xcmlYJazACdQ=;
+	s=arc-20240116; t=1726169845; c=relaxed/simple;
+	bh=xWQSXs1ZOLZ+4E/deszpoAA/782TXwTXNDMJ/einzp0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UURa++q0fFl7abDROkKzx91LuOJC5MnycQRLmdlGDjEb5QS7uTszcAaVxO/L2J8u1NzBRps2K4GzvVIjG/1pjoMiwCpGHsaUXSIKVfuqZljUq9WeJ6R3s/ZjuqhqrDzZsqkrwJliyctUJsHnDZYal5eE/qtMeoio2U8/XF8702g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IAakLwDe; arc=none smtp.client-ip=209.85.128.44
+	 In-Reply-To:Content-Type; b=WoqY2Yqe+qq3unw9qTrWFVYOIjlieHLalATetFa30tYubdMl6ZylGNxkaFwVW2MgoN5802Jh0od/bldtGGtPGS1P1hAunttQKsjGpsaHVbixAsC3i1vVEOi5HNvalw8d8thRGVtOftr9/asQfxHFXL8ZaZ6FkgQ4oJv5f65MplU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JkW6gWD+; arc=none smtp.client-ip=209.85.221.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IAakLwDe"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-42cacabd2e0so12033305e9.3
-        for <linux-staging@lists.linux.dev>; Thu, 12 Sep 2024 12:29:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JkW6gWD+"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-374ba78f192so1069065f8f.3
+        for <linux-staging@lists.linux.dev>; Thu, 12 Sep 2024 12:37:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726169345; x=1726774145; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1726169842; x=1726774642; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=qLazog7s8K1rTrWlaTrxf9Z8RgSArRCMR7o9K2wdNHQ=;
-        b=IAakLwDevpehbNTeMJFuTYUZK5QO8UJJsKGMUh9U3AOKIvg9uACiko+hZaNSgbEFvU
-         2jnpgo9xlX6xnPwMDE9SD1EhQvXVs5AXyEonZBgpzkU4KHnvFdijPXdVQjMW5cTdOEQ0
-         +ZbW99mWKg3TwaMtRVAieyYv/UiZiOgVTWGEvt9zfqBGFW1s1v6fVCbwFJMA2f6qklgW
-         6OWZMoPoBd9Bt5GPd5qA9FvN/L8Xwu47FZIjVlpEKxaJCSVl287iOc+grbt0ePSfCC7g
-         UKwpZW/Um4ZOsAwLrOy/OLCAHtyjUBQO1TTphDs6Mo1AdGZ1JJ9sPgBTySBidTCBaWmU
-         GvdA==
+        bh=4uDVigO3nlkqfYUQJbFeCA8m5w5p/bsZsuyFqdDT7dw=;
+        b=JkW6gWD+OwuwP6oELZxT5aLFzpM1HdROqe29tv5MfNP9lAB/Uwyk1dgj7Ie7NxDJ4/
+         SCs+1nx0R/+KPqg3wtmQSvbLnfLgjGZnzHeqR0uYoejip3AKd5KdfAp4HDYemdq5i5Pw
+         ZMMAKFy/6VhGmYOE3Fbc3B85F+3WjW+RH8mP03a0LCAD0HkMnkhZpLUHwzAHNHDgkq9V
+         11bEwnbC+vgvULVWWmvDtHvhAilN1qsx3zMUBPhTjLfJj1OJnaJv6ilTqJhRc9XQmqIq
+         BDSJVyNH+d4jOpkSa5xBscdOaEmJInFdam/J7Ec3yzjwE2gA3xDKNaug9YfqRKfpjUBg
+         emxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726169345; x=1726774145;
+        d=1e100.net; s=20230601; t=1726169842; x=1726774642;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qLazog7s8K1rTrWlaTrxf9Z8RgSArRCMR7o9K2wdNHQ=;
-        b=b3ekZgwbFOVnCMf9WjnQn89rGMqfJ8YAbbAZOQBUF+kcl9BM60es2b6IZJrlswM2G2
-         dWF/6HHv+vHMbId0wNy3juvp+/hrsFQ5O6dhVrkbq6tmfn7nhi7D7sO+NjYPY3DIkODD
-         yPuUTyz+oXCQYTOY1npC9+aa55qdMUIQPmEMS3ofPxoPcv3dRMV2yIzcru8/KH/Hk9eE
-         9tflvhLdL6HrtPyjUaP4ohtZdMJpMrrDz427iTwdWqZwSb1ENWd4OulnBJWxaaoysvVw
-         amZgETXTbS4V3WmBebtyYFBldWf5kGrsXli0t1DQvSpmrnHIY4xbYifU9+xmHXXk/Lb2
-         7ZEg==
-X-Gm-Message-State: AOJu0Yxq+2+Of2e8Tr93OhPoTztPTlBsCnyIcDTa24O/TtP/6xdTEWjT
-	0bKnacYJZWMm2cY9R92gfcTNztkFIWs2xH5lj55PHEXPYsFM7HSc
-X-Google-Smtp-Source: AGHT+IHGmmw9ddltXtCOaDOAvfUtOh/3b7g5A5OOuBz883Lm7wj/eh6DdPBaE0Yqlwi6rckUTlFllQ==
-X-Received: by 2002:a05:6000:c86:b0:374:b3a3:3f83 with SMTP id ffacd0b85a97d-378c2d617cemr2256594f8f.53.1726169344445;
-        Thu, 12 Sep 2024 12:29:04 -0700 (PDT)
+        bh=4uDVigO3nlkqfYUQJbFeCA8m5w5p/bsZsuyFqdDT7dw=;
+        b=MG7LMiHNseWWqNKtwBBLrr8STL3wgnjbMLSqetSjcvXmJVPWu7Zb9xlpPgeTBTEJjt
+         wNuFQSMk3oLrbXQaTxG/bbrfncM6X9+i24Q5RFJMOS5V+zVCWtjFa27xDb9/lJnguOc+
+         wHnnV18bjZerFWYuezH6O/D7KnI7kXDTfUaGu3SRCfgRuMA2T8/Tf/5yiwPATrujE/2Y
+         Nq13J+x4QLqwn2ibk9Fqm7Y/ljD9GKkb1jaKc4f+O/EmSAaW4WRADuvQJwIDNHM018i/
+         yKV2xFc94NvRTX1NU2StMhBOWBIhRqyNhWF8uc+SZfWzOPdPOUVADLuOKU6xNGfZreJl
+         DLmw==
+X-Gm-Message-State: AOJu0YzIFoaGnhlczB29ISwz1Dqw7iPO475JrOF+ILQT5ftnKomxS3T4
+	jpoCabzYxD4dr66Sv4L5ugw3E8MkAlXYcUkNt1B7gtbyrE1rVFvk
+X-Google-Smtp-Source: AGHT+IE63JRqRfOKMao9Pu1r29Qu+gc4azMXKcLseMC3NCdjvPUt9P9CVXWY5AakafWezdn2wI3u4w==
+X-Received: by 2002:a05:6000:401f:b0:371:7e3f:6cc with SMTP id ffacd0b85a97d-378c2cfec94mr2672463f8f.9.1726169842157;
+        Thu, 12 Sep 2024 12:37:22 -0700 (PDT)
 Received: from ?IPV6:2003:c7:8f2a:8557:476b:8cfa:99ee:514e? (p200300c78f2a8557476b8cfa99ee514e.dip0.t-ipconnect.de. [2003:c7:8f2a:8557:476b:8cfa:99ee:514e])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c3ebd424dasm6917806a12.9.2024.09.12.12.29.03
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c3ebd76ee5sm6930549a12.71.2024.09.12.12.37.21
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Sep 2024 12:29:04 -0700 (PDT)
-Message-ID: <f4e58090-0229-4a72-9bb6-d57757eb708c@gmail.com>
-Date: Thu, 12 Sep 2024 21:29:03 +0200
+        Thu, 12 Sep 2024 12:37:21 -0700 (PDT)
+Message-ID: <6ca0e9b3-108a-4c1c-bfd6-1307bfe31e24@gmail.com>
+Date: Thu, 12 Sep 2024 21:37:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -60,56 +60,40 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: vt6655: mac.h: Fix possible precedence issue in
- macros
-To: =?UTF-8?Q?Dominik_Karol_Pi=C4=85tkowski?=
- <dominik.karol.piatkowski@protonmail.com>, gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20240911180149.14474-1-dominik.karol.piatkowski@protonmail.com>
+Subject: Re: [PATCH 0/4] staging: fix warning of -Wunused-but-set-variable
+ reported by clang
+To: Ping-Ke Shih <pkshih@realtek.com>, gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev
+References: <20240912022522.10715-1-pkshih@realtek.com>
 Content-Language: en-US
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20240911180149.14474-1-dominik.karol.piatkowski@protonmail.com>
+In-Reply-To: <20240912022522.10715-1-pkshih@realtek.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 9/11/24 20:02, Dominik Karol Piątkowski wrote:
-> It is safer to put macro arguments in parentheses. This way, accidental
-> operator precedence issues can be avoided.
+On 9/12/24 04:25, Ping-Ke Shih wrote:
+> The build of wireless-next pull-request using clang report warnings [1].
+> Fix them accordingly.
 > 
-> Signed-off-by: Dominik Karol Piątkowski <dominik.karol.piatkowski@protonmail.com>
-> ---
->   drivers/staging/vt6655/mac.h | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+> [1] https://lore.kernel.org/linux-wireless/172609384625.1065358.6518424528532813444.git-patchwork-notify@kernel.org/T/#m405a10ad637bfc5f337127bab81336d8569e49cd
 > 
-> diff --git a/drivers/staging/vt6655/mac.h b/drivers/staging/vt6655/mac.h
-> index acf931c3f5fd..a33af2852227 100644
-> --- a/drivers/staging/vt6655/mac.h
-> +++ b/drivers/staging/vt6655/mac.h
-> @@ -537,9 +537,9 @@
->   
->   /*---------------------  Export Macros ------------------------------*/
->   
-> -#define VT6655_MAC_SELECT_PAGE0(iobase) iowrite8(0, iobase + MAC_REG_PAGE1SEL)
-> +#define VT6655_MAC_SELECT_PAGE0(iobase) iowrite8(0, (iobase) + MAC_REG_PAGE1SEL)
->   
-> -#define VT6655_MAC_SELECT_PAGE1(iobase) iowrite8(1, iobase + MAC_REG_PAGE1SEL)
-> +#define VT6655_MAC_SELECT_PAGE1(iobase) iowrite8(1, (iobase) + MAC_REG_PAGE1SEL)
->   
->   #define MAKEWORD(lb, hb) \
->   	((unsigned short)(((unsigned char)(lb)) | (((unsigned short)((unsigned char)(hb))) << 8)))
+> Ping-Ke Shih (4):
+>    staging: rtl8712: remove unused drvinfo_sz from
+>      update_recvframe_attrib
+>    staging: rtl8723bs: remove unused efuseValue from efuse_OneByteWrite()
+>    staging: rtl8723bs: remove unused cnt from recv_func()
+>    staging: rtl8723bs: remove unused 'poll_cnt' from rtw_set_rpwm()
+> 
+>   drivers/staging/rtl8712/rtl8712_recv.c       | 4 ----
+>   drivers/staging/rtl8723bs/core/rtw_efuse.c   | 9 ---------
+>   drivers/staging/rtl8723bs/core/rtw_pwrctrl.c | 2 --
+>   drivers/staging/rtl8723bs/core/rtw_recv.c    | 5 +----
+>   4 files changed, 1 insertion(+), 19 deletions(-)
+> 
 
+Hi Ping-Ke,
 
-Hi Dominik,
-
-git shows your name with the following characters:
-
-Author: Dominik Karol Pi^Etkowski <dominik.karol.piatkowski@protonmail.com>
-
-I think it is better to change your name to only english letters.
-
-If you send in a second version of this patch please use a change 
-history. Description from Dan under:
-https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
+I cannot apply your 2nd patch. Please consider to rebase.
 
 Thanks for your support.
 
