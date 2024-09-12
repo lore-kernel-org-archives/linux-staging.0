@@ -1,53 +1,37 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 047113CF58
-	for <linux-staging@lists.linux.dev>; Thu, 12 Sep 2024 02:27:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71AAD3C092
+	for <linux-staging@lists.linux.dev>; Thu, 12 Sep 2024 03:08:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726108065; cv=none; b=sAIlaDWJnJkpR0P65BYMK2m/33+dernLtp9j2Qh8aFDWjndxJOIXzlQ4hUNSMynyc9NLuAliAkKoiJf2G5aytwVDZGDoUpYZN1iuqs24AzE9ojLpl2FaARoEr7mzn7OP5Hd00U2AKWzhO8gL9Slftu0WqnQU2GAMaAJgFIVfZSQ=
+	t=1726110507; cv=none; b=NMfsbXY/TI+HBWOb/lH4bnnozn1d3M/VZ1ziPnja9+bmACzebi25noxmaQRT894Yc3IKMmBhPWw8ysfGg05XLKlguBEP+EpP59mVdSqOFm7401TWUh24ie4oaxxId/Z4xbHSH6rK0RSxWIYDnt3xrGA88PBsEVYRvUZ/bcZqUU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726108065; c=relaxed/simple;
-	bh=BzE9rpHZ3AtIMdF37M0D4NilrAeOtwrfIGflu9Kw9YU=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JFKmxx2zjU3orRAH44I5GS34jpA00DFdKVHxhhdSahTJ9fCqmhsinl+o474ATiq+AjQ+ygXUGQAHft5VxaMLQJnCCcvabLl0bOdMtId8/I95fgcBmilRyXHVQ+JBRcBqUg/QvsPrJW1PTQ05tgcmKZepNeBouIDD1kWSusE5dzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b=pDHBho2a; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b="pDHBho2a"
-X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 48C2ReAK2521285, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=realtek.com; s=dkim;
-	t=1726108060; bh=BzE9rpHZ3AtIMdF37M0D4NilrAeOtwrfIGflu9Kw9YU=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding:Content-Type;
-	b=pDHBho2aPGgvdHl7yScU7cJDmkR95y3tFtvZbivLy4p0mO5vgXlznU8GUnXao5p54
-	 OeTSyUjM1v9Ckvuha1O0+bqrJY7Be4XL53rF060Ijez9ku4XN62eXhJvTnCzp2voC2
-	 z+BB558uokLwTHGTHbLEU7C89CMs2mecX1fA/2x+lVDlPuHrY4glSX0YcSV40SuvCR
-	 6U6Bf7qhT490cDJ96UGhthM1AYqBPABXuawTtbn72FabpPLwSP32tPaXaDPspJpeLi
-	 964P8sOpkoxyetIuCxbgm5Ws5ZCN55NOBm994xqpWhfWflI8h+glmAN/4GjGS/pKzA
-	 gSDT1W9KaqFPQ==
-Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
-	by rtits2.realtek.com.tw (8.15.2/3.05/5.92) with ESMTPS id 48C2ReAK2521285
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 12 Sep 2024 10:27:40 +0800
-Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
- RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Thu, 12 Sep 2024 10:27:39 +0800
-Received: from [127.0.1.1] (172.21.69.94) by RTEXMBS04.realtek.com.tw
- (172.21.6.97) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.35; Thu, 12 Sep
- 2024 10:27:39 +0800
-From: Ping-Ke Shih <pkshih@realtek.com>
-To: <gregkh@linuxfoundation.org>
-CC: <linux-staging@lists.linux.dev>
-Subject: [PATCH 4/4] staging: rtl8723bs: remove unused 'poll_cnt' from rtw_set_rpwm()
-Date: Thu, 12 Sep 2024 10:25:22 +0800
-Message-ID: <20240912022522.10715-5-pkshih@realtek.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240912022522.10715-1-pkshih@realtek.com>
-References: <20240912022522.10715-1-pkshih@realtek.com>
+	s=arc-20240116; t=1726110507; c=relaxed/simple;
+	bh=gcxZru+4SoD0Cl4wt7+JVYrOzI++pZ2WGtgLb9mB44c=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=hupkpnhYBgT9hc+fmdd/M8tO7KUJdBjs2GEmdl7RRm16GL5k3hrhsWdb9YyGfHjFoBJobTYRLJLXuNwx8vBthKx7UGuSytBr3A5xcEXfjXv1xVnbg+dtu6leoaGhljjWpTnV87RPrmTiqFln0k1Nq9nQ4Pt5BJj212pFfaXaKRM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.88.105])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4X42QL6D1fzmYyL;
+	Thu, 12 Sep 2024 11:06:18 +0800 (CST)
+Received: from kwepemh500013.china.huawei.com (unknown [7.202.181.146])
+	by mail.maildlp.com (Postfix) with ESMTPS id 2B15C140453;
+	Thu, 12 Sep 2024 11:08:23 +0800 (CST)
+Received: from huawei.com (10.90.53.73) by kwepemh500013.china.huawei.com
+ (7.202.181.146) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 12 Sep
+ 2024 11:08:22 +0800
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+To: <marvin24@gmx.de>, <gregkh@linuxfoundation.org>,
+	<ac100@lists.launchpad.net>, <linux-tegra@vger.kernel.org>,
+	<linux-staging@lists.linux.dev>
+CC: <ruanjinjie@huawei.com>
+Subject: [PATCH] staging: nvec: Use IRQF_NO_AUTOEN flag in request_irq()
+Date: Thu, 12 Sep 2024 11:17:31 +0800
+Message-ID: <20240912031731.2211698-1-ruanjinjie@huawei.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -56,43 +40,37 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: RTEXMBS02.realtek.com.tw (172.21.6.95) To
- RTEXMBS04.realtek.com.tw (172.21.6.97)
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ kwepemh500013.china.huawei.com (7.202.181.146)
 
-The 'poll_cnt' is used to assist in polling hardware state. Current code
-uses jiffies to determine timeout, so removing this value is safe.
+disable_irq() after request_irq() still has a time gap in which
+interrupts can come. request_irq() with IRQF_NO_AUTOEN flag will
+disable IRQ auto-enable when request IRQ.
 
-Otherwise, clang warns:
-
-core/rtw_pwrctrl.c:288:6: warning:
-	 variable 'poll_cnt' set but not used [-Wunused-but-set-variable]
-  288 |                 u8 poll_cnt = 0;
-      |                    ^
-
-Signed-off-by: Ping-Ke Shih <pkshih@realtek.com>
+Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_pwrctrl.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/staging/nvec/nvec.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-index e9763eab16f6..82f6a63226bc 100644
---- a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-@@ -285,14 +285,12 @@ void rtw_set_rpwm(struct adapter *padapter, u8 pslv)
- 	if (rpwm & PS_ACK) {
- 		unsigned long start_time;
- 		u8 cpwm_now;
--		u8 poll_cnt = 0;
+diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
+index d09211589d1c..a4396d9caf45 100644
+--- a/drivers/staging/nvec/nvec.c
++++ b/drivers/staging/nvec/nvec.c
+@@ -845,13 +845,12 @@ static int tegra_nvec_probe(struct platform_device *pdev)
+ 		return PTR_ERR(nvec->gpiod);
+ 	}
  
- 		start_time = jiffies;
+-	err = devm_request_irq(dev, nvec->irq, nvec_interrupt, 0,
++	err = devm_request_irq(dev, nvec->irq, nvec_interrupt, IRQF_NO_AUTOEN,
+ 			       "nvec", nvec);
+ 	if (err) {
+ 		dev_err(dev, "couldn't request irq\n");
+ 		return -ENODEV;
+ 	}
+-	disable_irq(nvec->irq);
  
- 		/*  polling cpwm */
- 		do {
- 			mdelay(1);
--			poll_cnt++;
- 			rtw_hal_get_hwreg(padapter, HW_VAR_CPWM, &cpwm_now);
- 			if ((cpwm_orig ^ cpwm_now) & 0x80) {
- 				pwrpriv->cpwm = PS_STATE_S4;
+ 	tegra_init_i2c_slave(nvec);
+ 
 -- 
-2.25.1
+2.34.1
 
