@@ -1,182 +1,151 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E37ED126BE2
-	for <linux-staging@lists.linux.dev>; Fri, 13 Sep 2024 05:09:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F4601A2561
+	for <linux-staging@lists.linux.dev>; Fri, 13 Sep 2024 07:13:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726204199; cv=none; b=rRHtMB7yVvfJ6Uy5WLcn4F1eWkSaMjEM7HiSaHHP8GTwfaz7qmpmJZ0bGC41CP9dELh35MU6eCYo3eJ1p6CDkk1See7dnj745TDfqonNnnZeKr2vu5jqpaBpEFvETwH5i7MG+5nStwgi25wxp9p5x1Th/4C2Lc68TWHO+89j31w=
+	t=1726211622; cv=none; b=Zbgk84ZTvMYyPt19zW/XnbQmBR0x6VPkpNdqDMl7lri/98CGENSrBTJIa2fZ7MdLUgB5S/d6zLX99RQsbnMWnq88E2hy1RD5aF43Iaw4M6xPji+whMbkYOKWfkP/O894k151Jvr1JA6As06Axr1A1DdOWdeBv+XW/DXHivomZFY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726204199; c=relaxed/simple;
-	bh=xZO+JJ+6t7vTv6ehk+F1DwlchIxfpCJIlPjAlY718yo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=XXEEfOM4nXoaifYSk4SJiqDEGt6i9gKKpL5RepKNy1s7EfDd7oi2Os6E5LjKMeyUVvnxAzn6SmgyARYuzbb09dedstZS8CJ0PdOavp2wOM3wZKFRFvLX+eESBa4PL+z6ppajvkyCcxIeE7E15clTmHo4/xxV27U5DdvsTtj5g+E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FN5gzzYa; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1726211622; c=relaxed/simple;
+	bh=nmAZJOs4/YfAaOhJG+M49fu8a38aloU1FmK3w4Rqal8=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=K3m01/A171NNGkj1lT0wPcRjWUE9orWKvaG9lZcIQNvlzUaFdr/BhW+c8upRdnXUAJNJlTcoXto4ygKzWtdksYzWwGTp4kix/fhp8CrwHbGf0Qp7FcoP9aIFGChCD6nSPmk5VAUC/xLO80gxsbDdqX3GEL2Yy6SiSMalR2kaN8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=NEG2wpMg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hZWGsOvU; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=NEG2wpMg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hZWGsOvU; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FN5gzzYa"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-374ca65cafdso315117f8f.2
-        for <linux-staging@lists.linux.dev>; Thu, 12 Sep 2024 22:09:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726204196; x=1726808996; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=exTotxHenSQwkElfAEe2OsEV62fUb4tfT8KB0X5uUlY=;
-        b=FN5gzzYaGSKF+FcJOqyQBFkr5GW1vk/4Yq5iEDZB3d4SqaE+RhEc8WxSaf9X8waDwh
-         DfbU5bxmhnKI13Goe6+8KM33JV19S6dAvedCGorw5biVDpXxuvgyCQ7w68BZrhE1Ysue
-         n6kCnN/5z+Rdzwt/nnX0eyWgTrkPEn39l3ejwsaE7gCOXDVZWrOkSAJhEGKu2dBuSITv
-         1+q7PrNgGw/GUpeStNJwML7nVJCucfp5KpzG9DTWL93mOvwtDptDaxFCZsxwK9qQM87C
-         A9tO7lcx9QtJnmFXb/mDH+0Orit2kMMAUwP5thQb1plBf01b8mL2m/xmwpC2iDWxEI3C
-         rO3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726204196; x=1726808996;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=exTotxHenSQwkElfAEe2OsEV62fUb4tfT8KB0X5uUlY=;
-        b=ndXKhr2fP7IyFWXT3+xXLUWqEZGbc53UE3F2BCvXscoh2yW3C1BLKncdWnpiNx99v7
-         J8d/KtoKt0cJO9mJ7JJooKoDeTw+4X103tfeApnTFG6qJFK5gC/bzRY3zxbvZvQtp9eb
-         qknOWXrAdlIi9IzldcExPQeD4T5W4PcP3HO4CBmEzxlPFKgsBJzFy8+zu82pxMJkNsZ9
-         JjQ6K2tAROylYct5MvJ7yqlrDY3p4EHAa60JAhqs0DcgtH3chMSZlhhAaT4EItPy60MJ
-         XKJHEtC9/QWjeEnu73mSUNIg7JSI6sQPvzyh+0D4mmIpgAsTS30b7q6GV3r9sywmMt6w
-         py0A==
-X-Forwarded-Encrypted: i=1; AJvYcCW5+T5yhS0sxaaovPoYxZPFGfyqd8YZgcaxA8OTCdVUrpSGgKJgEJRDK37Rgt+J+BgB3AT0UAofwBCYxWv8@lists.linux.dev
-X-Gm-Message-State: AOJu0YxQAxwWsclyCVRt6kUc+0JaPbWlzw9PmxRlF7RtBWW1/nlt1ZC6
-	azHJMZ4XRvf/e1mb/GhTevDnT2OHAyFHgfTrif0U/ZcJd+8JSAY6
-X-Google-Smtp-Source: AGHT+IHAxUO+iLRdZX+tUP6Kyz2Jv0MMr+KT5V/wKZA0XAp3t86HNdhPZbyHqnoTgTe/ndTJF26MZA==
-X-Received: by 2002:a5d:5103:0:b0:374:cb3e:3472 with SMTP id ffacd0b85a97d-378d625363fmr583383f8f.49.1726204196089;
-        Thu, 12 Sep 2024 22:09:56 -0700 (PDT)
-Received: from [192.168.0.100] (p57ba2f9b.dip0.t-ipconnect.de. [87.186.47.155])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8d25c72ef7sm828872266b.106.2024.09.12.22.09.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Sep 2024 22:09:55 -0700 (PDT)
-Message-ID: <20abd18c-8afc-4ea3-afc1-3c48ed87307e@gmail.com>
-Date: Fri, 13 Sep 2024 07:09:55 +0200
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NEG2wpMg";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hZWGsOvU";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NEG2wpMg";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hZWGsOvU"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id BE947219E5;
+	Fri, 13 Sep 2024 07:13:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1726211618; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=v+Xpcc2JM6j8Pae6K6gMiCTE8w6aCep62s/t0UF2vKk=;
+	b=NEG2wpMgpEgxzAIjz1/2Dl97scV6fQSQodF7prAZ2Z1M3MVlJRHsJDWqtFOFYCmkjfnAcP
+	jmRlFDZetfjWZohnJDuJPBT8Ujo6x3qDQcdK9jtyenxOID9IlogaMedmZa1+LpNnitnCSu
+	x4fHUta4qBsP4qySaizJeIJN78i3EVM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1726211618;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=v+Xpcc2JM6j8Pae6K6gMiCTE8w6aCep62s/t0UF2vKk=;
+	b=hZWGsOvUVg70G6Nriy360HtR6B5FExsmXyUrP9DT+PflX4WbddTW2zDiw3/WUf1hfumVNr
+	HuV27Gr7ew6kBdDw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1726211618; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=v+Xpcc2JM6j8Pae6K6gMiCTE8w6aCep62s/t0UF2vKk=;
+	b=NEG2wpMgpEgxzAIjz1/2Dl97scV6fQSQodF7prAZ2Z1M3MVlJRHsJDWqtFOFYCmkjfnAcP
+	jmRlFDZetfjWZohnJDuJPBT8Ujo6x3qDQcdK9jtyenxOID9IlogaMedmZa1+LpNnitnCSu
+	x4fHUta4qBsP4qySaizJeIJN78i3EVM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1726211618;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=v+Xpcc2JM6j8Pae6K6gMiCTE8w6aCep62s/t0UF2vKk=;
+	b=hZWGsOvUVg70G6Nriy360HtR6B5FExsmXyUrP9DT+PflX4WbddTW2zDiw3/WUf1hfumVNr
+	HuV27Gr7ew6kBdDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7EB8F13A73;
+	Fri, 13 Sep 2024 07:13:38 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id eRlPHSLm42ZrJQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 13 Sep 2024 07:13:38 +0000
+Date: Fri, 13 Sep 2024 09:14:27 +0200
+Message-ID: <87wmjgdnzg.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Mark Brown <broonie@kernel.org>,
+	Linux-USB <linux-usb@vger.kernel.org>,
+	Linux-ALSA <alsa-devel@alsa-project.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Greg KH <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH 000/113] ALSA: add snd_pcm_is_playback/capture() macro
+In-Reply-To: <87ed5o8hen.wl-kuninori.morimoto.gx@renesas.com>
+References: <874j7z3j1a.wl-kuninori.morimoto.gx@renesas.com>
+	<d6e47194-a708-4dfe-96c8-aba9391e4496@perex.cz>
+	<46b37ef3-047c-4b1b-a79b-37187a46754a@sirena.org.uk>
+	<87ed5o8hen.wl-kuninori.morimoto.gx@renesas.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/2] staging: vt6655: Rename variable apTD1Rings
-To: Xingquan Liu <b1n@b1n.io>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20240913012343.42579-1-b1n@b1n.io>
- <20240913012343.42579-2-b1n@b1n.io>
-Content-Language: en-US
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20240913012343.42579-2-b1n@b1n.io>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -3.30
+X-Spam-Flag: NO
 
-On 9/13/24 03:23, Xingquan Liu wrote:
-> Rename variable apTD1Rings to ap_td1_rings to fix checkpatch warning
-> Avoid CamelCase.
+On Fri, 13 Sep 2024 03:35:28 +0200,
+Kuninori Morimoto wrote:
 > 
-> Signed-off-by: Xingquan Liu <b1n@b1n.io>
-> ---
-> v3: Add change history
-> v2: Rename variable apTD1Rings
 > 
->   drivers/staging/vt6655/card.c        |  6 +++---
->   drivers/staging/vt6655/device.h      |  2 +-
->   drivers/staging/vt6655/device_main.c | 14 +++++++-------
->   3 files changed, 11 insertions(+), 11 deletions(-)
+> Hi Takashi, Mark, Jaroslav
 > 
-> diff --git a/drivers/staging/vt6655/card.c b/drivers/staging/vt6655/card.c
-> index 36bf8cde2e08..6a2e390e9493 100644
-> --- a/drivers/staging/vt6655/card.c
-> +++ b/drivers/staging/vt6655/card.c
-> @@ -391,8 +391,8 @@ void card_safe_reset_tx(struct vnt_private *priv)
->   	priv->tail_td[0] = &priv->ap_td0_rings[0];
->   	priv->apCurrTD[0] = &priv->ap_td0_rings[0];
->   
-> -	priv->tail_td[1] = &priv->apTD1Rings[0];
-> -	priv->apCurrTD[1] = &priv->apTD1Rings[0];
-> +	priv->tail_td[1] = &priv->ap_td1_rings[0];
-> +	priv->apCurrTD[1] = &priv->ap_td1_rings[0];
->   
->   	for (uu = 0; uu < TYPE_MAXTD; uu++)
->   		priv->iTDUsed[uu] = 0;
-> @@ -403,7 +403,7 @@ void card_safe_reset_tx(struct vnt_private *priv)
->   		/* init all Tx Packet pointer to NULL */
->   	}
->   	for (uu = 0; uu < priv->opts.tx_descs[1]; uu++) {
-> -		curr_td = &priv->apTD1Rings[uu];
-> +		curr_td = &priv->ap_td1_rings[uu];
->   		curr_td->td0.owner = OWNED_BY_HOST;
->   		/* init all Tx Packet pointer to NULL */
->   	}
-> diff --git a/drivers/staging/vt6655/device.h b/drivers/staging/vt6655/device.h
-> index 32c51d794264..5eaab6b172d3 100644
-> --- a/drivers/staging/vt6655/device.h
-> +++ b/drivers/staging/vt6655/device.h
-> @@ -136,7 +136,7 @@ struct vnt_private {
->   	struct vnt_tx_desc *tail_td[TYPE_MAXTD];
->   
->   	struct vnt_tx_desc *ap_td0_rings;
-> -	struct vnt_tx_desc *apTD1Rings;
-> +	struct vnt_tx_desc *ap_td1_rings;
->   
->   	struct vnt_rx_desc *aRD0Ring;
->   	struct vnt_rx_desc *aRD1Ring;
-> diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
-> index a8dcd8ad3945..bf3ecf720206 100644
-> --- a/drivers/staging/vt6655/device_main.c
-> +++ b/drivers/staging/vt6655/device_main.c
-> @@ -554,7 +554,7 @@ static bool device_init_rings(struct vnt_private *priv)
->   		+ priv->opts.rx_descs0 * sizeof(struct vnt_rx_desc)
->   		+ priv->opts.rx_descs1 * sizeof(struct vnt_rx_desc);
->   
-> -	priv->apTD1Rings = vir_pool
-> +	priv->ap_td1_rings = vir_pool
->   		+ priv->opts.rx_descs0 * sizeof(struct vnt_rx_desc)
->   		+ priv->opts.rx_descs1 * sizeof(struct vnt_rx_desc)
->   		+ priv->opts.tx_descs[0] * sizeof(struct vnt_tx_desc);
-> @@ -761,7 +761,7 @@ static int device_init_td1_ring(struct vnt_private *priv)
->   	curr = priv->td1_pool_dma;
->   	for (i = 0; i < priv->opts.tx_descs[1];
->   	     i++, curr += sizeof(struct vnt_tx_desc)) {
-> -		desc = &priv->apTD1Rings[i];
-> +		desc = &priv->ap_td1_rings[i];
->   		desc->td_info = kzalloc(sizeof(*desc->td_info), GFP_KERNEL);
->   		if (!desc->td_info) {
->   			ret = -ENOMEM;
-> @@ -771,19 +771,19 @@ static int device_init_td1_ring(struct vnt_private *priv)
->   		desc->td_info->buf = priv->tx1_bufs + i * PKT_BUF_SZ;
->   		desc->td_info->buf_dma = priv->tx_bufs_dma1 + i * PKT_BUF_SZ;
->   
-> -		desc->next = &(priv->apTD1Rings[(i + 1) % priv->opts.tx_descs[1]]);
-> +		desc->next = &(priv->ap_td1_rings[(i + 1) % priv->opts.tx_descs[1]]);
->   		desc->next_desc = cpu_to_le32(curr + sizeof(struct vnt_tx_desc));
->   	}
->   
->   	if (i > 0)
-> -		priv->apTD1Rings[i - 1].next_desc = cpu_to_le32(priv->td1_pool_dma);
-> -	priv->tail_td[1] = priv->apCurrTD[1] = &priv->apTD1Rings[0];
-> +		priv->ap_td1_rings[i - 1].next_desc = cpu_to_le32(priv->td1_pool_dma);
-> +	priv->tail_td[1] = priv->apCurrTD[1] = &priv->ap_td1_rings[0];
->   
->   	return 0;
->   
->   err_free_desc:
->   	while (i--) {
-> -		desc = &priv->apTD1Rings[i];
-> +		desc = &priv->ap_td1_rings[i];
->   		kfree(desc->td_info);
->   	}
->   
-> @@ -808,7 +808,7 @@ static void device_free_td1_ring(struct vnt_private *priv)
->   	int i;
->   
->   	for (i = 0; i < priv->opts.tx_descs[1]; i++) {
-> -		struct vnt_tx_desc *desc = &priv->apTD1Rings[i];
-> +		struct vnt_tx_desc *desc = &priv->ap_td1_rings[i];
->   		struct vnt_td_info *td_info = desc->td_info;
->   
->   		dev_kfree_skb(td_info->skb);
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+> This is the reply for very old patch (almost 2 month ago).
+> 
+> > > > Many drivers are using below code to know the Sound direction.
+> > 
+> > > > 	if (direction == SNDRV_PCM_STREAM_PLAYBACK)
+> > 
+> > > > This patch-set add snd_pcm_is_playback/capture() macro to handle it.
+> > 
+> > > NAK from my side (overdesign, no improved readability). The defines
+> > > (SNDRV_PCM_STREAM_*) are enough to check the stream type value correctly.
+> > 
+> > I have to say I do remember this being a little bit of a confusing idiom
+> > when I first stated looking at ALSA stuff, especially for capture only
+> > cases.
+> 
+> This patch-set got both Ack and Nack.
+> I wonder can I re-post this after merge-window again ?
+> I'm asking because this is very huge patch-set.
+
+If we get a NACK for this kind of cleanups, it's rather negative.
+Unless its' a mandatory preliminary change for other upcoming stuff,
+I don't think it's worth to work on this further. 
+
+
+thanks,
+
+Takashi
