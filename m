@@ -1,91 +1,111 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D1EE7A15A;
-	Fri, 13 Sep 2024 16:48:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B07E146581
+	for <linux-staging@lists.linux.dev>; Fri, 13 Sep 2024 19:17:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726246085; cv=none; b=QbZvpspozM8bKLdNUlUFF5KOXJZElUaaJv57So8dRotJg1cJapl42Rq0ssBleeec7h2MEPCwkW91L/+SQvgbj+oddii8LHaZgxKcZCjwXh1mkuLCYEPGqzqPgVOqtjmtIINoiA7UiExZfv66Q5XweX8CVYrzQCgt8xp1MGKjISw=
+	t=1726255063; cv=none; b=JQkjv0sjdEpRYu3Hrh0bW+ANYYFyMXwK8LJXuAa5a46tZhAx3dmZPPzZLZtgF+GPyL0K/9hZcqBxediOj/KCtswl053OUWEOlj2PTmkHkfKtRTzyPbiPXdwRQ8cAQQFDweNGvJuFSy5nzSN/PJT14xpo1EVPEVd+qg6uDhSI3xw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726246085; c=relaxed/simple;
-	bh=TC4nHFRLA8eECDLTbY7KqYrdwzmF4RwqGAix/PG6lko=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qudF4hUeUykGDDIMYef5XpK4XMbFOGepGIwtYLdCBLuq3nPsa0dhoRHnR1c2N0rSq6U6ym2GofczSPz26F0W4sRQDbjxGGKDAXe29nRssdtpaOVpWLp75NhbpGzDmeFmvr3FvfmGaiPLcFbrCS5mcqHqOwdh31Q3kAsCFb9qqmc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ts7mG/+C; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1726255063; c=relaxed/simple;
+	bh=yWuHN4hOrAHckEToIrtlx40+ngK2VaRLBRCYDXTOO+Y=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=X4lB+nGktpMygAxYHFyM4RKSHP1r004Q8UJVsFLZbeagrobG+gd1RWfQy71UDSgb0T+jmO6aH/KE+tsyV7NOqvtoVAlTGZIyBhWiad2sv4SjSCaR8bn+8tAx3WSIOqPdVepnuaZ8Nfqij54qnzxAZ/xPfwRl42+PJk1IUweQna4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=guxdnpKv; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ts7mG/+C"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DEB8C4CEC0;
-	Fri, 13 Sep 2024 16:48:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726246085;
-	bh=TC4nHFRLA8eECDLTbY7KqYrdwzmF4RwqGAix/PG6lko=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ts7mG/+Cne9PraIsDXfjGAjbutIC/bnNHbaxbTx87Q29UOBN97xtf/WM3mijSGIVR
-	 ODaDSLD04yVzUWIOKrcgZ9IAkBFFsneuaJY131+pTl60HT1bzzxZK/9K3m/XRXKl+J
-	 Jr3sU2EiL8vQ4UGTNJ5I2dsfuSHGdP1gVn4ZIgQxkYhcnxlTn8PD1QhR7JkI87Ii16
-	 FwLkNTqlQLXMJNX/1mtK2PSXYsIqaHP7XQVLOxz1dowaoYFoN4Cn8Rz0Gng1qq1ZO+
-	 K5D6oqVw79attVgCZTIWKfGuRaaaQQLc0UdCKU9nCTBHnLwW+uyPhMd89zxyVuDpoV
-	 ke5aecnYNxVcw==
-Date: Fri, 13 Sep 2024 17:47:59 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Yang Yingliang <yangyingliang@huaweicloud.com>
-Cc: mchehab@kernel.org, Jonathan.Cameron@huawei.com, rmfrfs@gmail.com,
-	vireshk@kernel.org, gregkh@linuxfoundation.org, deller@gmx.de,
-	corbet@lwn.net, yangyingliang@huawei.com, liwei391@huawei.com,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-spi@vger.kernel.org
-Subject: Re: [PATCH -next 0/7] spi: replace and remove
- {devm_}spi_alloc_master/slave()
-Message-ID: <0155d213-479f-42f4-ac32-dab3796eb47c@sirena.org.uk>
-References: <20240902125947.1368-1-yangyingliang@huaweicloud.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="guxdnpKv"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2053a0bd0a6so26170585ad.3
+        for <linux-staging@lists.linux.dev>; Fri, 13 Sep 2024 12:17:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1726255061; x=1726859861; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9jcIHqWkgAfixknzcAhPYZoyDkQ52gLcOsIWSku0RSo=;
+        b=guxdnpKvjOQ2b9lnB+4D2FlnHfqBBd0hnLGcbruu/rVAxYasHh9rDgKIA2AIR67/BJ
+         PMs118YqsnBhTqgMqPpeQlfVXjfj0UX/wgFjFbr3LpDt7PHX7NqANIUTRttXNuMdIAP7
+         YJkTZKazBqNaASeSlyhOMZXhuZfM5OnfJ4TqlRXcODmvNzY6dzVRm6bVXcOyCKv61O3j
+         VUMPnZOD2lZs1kgYB4V0dTJjJvjE+kMlh7uWctqRfZiobDZoIPsiKx0AOE/MBzlK5E60
+         lPGaHVlZl+R+6gRxvK0c+F5DCiXGRUVJyDqbkI42GlIi9HQbidW7O40GdKte1wptFa9W
+         qe1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726255061; x=1726859861;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9jcIHqWkgAfixknzcAhPYZoyDkQ52gLcOsIWSku0RSo=;
+        b=eMUEZFUUbNeTZj2Hl2FN8ox570LRqoujTHYw21aDqsbV9cT5ItAhjfdIjzJHT1B1Ky
+         HZBrqh4Suctr0C8sxg4hl6xGyNhwon1jX3hzqb1VsUWf801eGeY+uH3plQGfZ7OmKv5G
+         KgKYPnLPm1g3eFACGzd8DNIxgKwjxWYMws9UdQXGUph7UucxlNakSEQ4mAQdBV17HdNz
+         ymJr4qDKyGwzyq4G5iPfgJ/Qeo9OSvPfkwCddz+z8xNhkhRPC7vZRtE9IECWKGIdB526
+         0NWdlfmbHCYBFedIj0xo/uUuhVgkRLAwHAqD4/uNOOHOv6LBMB2F8PmUeUpCfJAok9Ef
+         hUgA==
+X-Forwarded-Encrypted: i=1; AJvYcCX3R9nc1T438FY1nk+91TzHlXp0nXSiRE5RbAeCO7TRwmOEwzsjk++CqNDzoHopE9DvIMgTNsxkVOeZWbko@lists.linux.dev
+X-Gm-Message-State: AOJu0YxVsNDJvA4yewiJ/NYyDJ56vltnVFx2XdprHfKl2d2uw2AbKjgo
+	o3SMtNskm9Q8+TvwAIf96u4Q2HnhJ8jBM4j8uMV6gi6wqUOgxYRk
+X-Google-Smtp-Source: AGHT+IEefJq989ae2HFQTbfTrintN5mE/N+S5NGfHELvPZ6eTmyNQifeCKgcEqlVYLZymntY9GVheg==
+X-Received: by 2002:a17:902:e802:b0:202:2cd5:2095 with SMTP id d9443c01a7336-2076e33e92amr108363275ad.18.1726255061405;
+        Fri, 13 Sep 2024 12:17:41 -0700 (PDT)
+Received: from embed-PC.. ([106.222.228.214])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2076b01b4d7sm30899105ad.295.2024.09.13.12.17.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Sep 2024 12:17:41 -0700 (PDT)
+From: Abhishek Tamboli <abhishektamboli9@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: skhan@linuxfoundation.org,
+	rbmarliere@gmail.com,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] staging: octeon: Use new initialization api for tasklet
+Date: Sat, 14 Sep 2024 00:47:34 +0530
+Message-Id: <20240913191734.805815-1-abhishektamboli9@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="7y+9/EfmGewzbeWu"
-Content-Disposition: inline
-In-Reply-To: <20240902125947.1368-1-yangyingliang@huaweicloud.com>
-X-Cookie: In space, no one can hear you fart.
+Content-Transfer-Encoding: 8bit
 
+Use the new api DECLARE_TASKLET instead of DECLARE_TASKLET_OLD
+introduced in commit 12cc923f1ccc ("tasklet: Introduce new
+initialization API").
 
---7y+9/EfmGewzbeWu
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
+---
+Changes in v2:
+- Fix the build errors
+[v1]: https://lore.kernel.org/all/20240912172231.369566-1-abhishektamboli9@gmail.com/
 
-On Mon, Sep 02, 2024 at 08:59:40PM +0800, Yang Yingliang wrote:
-> From: Yang Yingliang <yangyingliang@huawei.com>
->=20
-> Switch to use {devm_}spi_alloc_host/target() in drivers and remove
-> {devm_}spi_alloc_master/slave() in spi driver.
->=20
-> Yang Yingliang (7):
->   media: usb/msi2500: switch to use spi_alloc_host()
->   media: netup_unidvb: switch to use devm_spi_alloc_host()
->   spi: ch341: switch to use devm_spi_alloc_host()
->   spi: slave-mt27xx: switch to use spi_alloc_target()
->   video: fbdev: mmp: switch to use spi_alloc_host()
->   staging: greybus: spi: switch to use spi_alloc_host()
->   spi: remove {devm_}spi_alloc_master/slave()
+ drivers/staging/octeon/ethernet-tx.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Unless someone shouts about this I intend to apply it at -rc1.
+diff --git a/drivers/staging/octeon/ethernet-tx.c b/drivers/staging/octeon/ethernet-tx.c
+index bbf33b88bb7c..261f8dbdc382 100644
+--- a/drivers/staging/octeon/ethernet-tx.c
++++ b/drivers/staging/octeon/ethernet-tx.c
+@@ -40,8 +40,8 @@
+ #define GET_SKBUFF_QOS(skb) 0
+ #endif
 
---7y+9/EfmGewzbeWu
-Content-Type: application/pgp-signature; name="signature.asc"
+-static void cvm_oct_tx_do_cleanup(unsigned long arg);
+-static DECLARE_TASKLET_OLD(cvm_oct_tx_cleanup_tasklet, cvm_oct_tx_do_cleanup);
++static void cvm_oct_tx_do_cleanup(struct tasklet_struct *clean);
++static DECLARE_TASKLET(cvm_oct_tx_cleanup_tasklet, cvm_oct_tx_do_cleanup);
 
------BEGIN PGP SIGNATURE-----
+ /* Maximum number of SKBs to try to free per xmit packet. */
+ #define MAX_SKB_TO_FREE (MAX_OUT_QUEUE_DEPTH * 2)
+@@ -670,7 +670,7 @@ void cvm_oct_tx_shutdown_dev(struct net_device *dev)
+ 	}
+ }
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbkbL4ACgkQJNaLcl1U
-h9ACHAf/V+tig0AJ8wJ/Dgs3qTnfDL7oHEbnzCZLYf3r/rGL9w/kv96ock0/jodh
-SPokoZs08HKXZj4ftY8EcjksNzVE/T9UJCvQ5aHTMvNUikctnuh5HlyWr6WlLl8h
-TZqZpruOSoOJ8S34NkAJLPrt/m8z+VsE1Y2tM+uJcbv5rK+3zdKD6VnyyrC135XG
-5lcQYVqg+1KvnYL1ETqcuqEnl1KExekzlhhfyZLwGMuQzDfMnfSmDeryaRNy6OwT
-HPQJrlnIRqTFGISadGAPZICNURvy3+u3IK9NlZEv1j/DJ9jJOBsBcL81/giVAWy2
-INSW+X8/fddyN9C0lLm5bfJ2vFznNw==
-=6zNx
------END PGP SIGNATURE-----
+-static void cvm_oct_tx_do_cleanup(unsigned long arg)
++static void cvm_oct_tx_do_cleanup(struct tasklet_struct *clean)
+ {
+ 	int port;
 
---7y+9/EfmGewzbeWu--
+--
+2.34.1
+
