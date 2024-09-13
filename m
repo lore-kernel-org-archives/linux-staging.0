@@ -1,180 +1,91 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9C72481C0;
-	Fri, 13 Sep 2024 15:37:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D1EE7A15A;
+	Fri, 13 Sep 2024 16:48:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726241838; cv=none; b=AqUT7q0DobqsVw52tbgipFw4VdOlQipaV++KT65uaqtVlOYKhFHoU/UpHxE2/w2YAlX3XCdqT25qGHwODqfjRdfDjlzHsSkBGa0CofDipQRUpfdYloPguXrTo79456JB88dTcCvcLC6KhWX3BgpkqDxRC+Q0rRKdozYtC5ZvL7Q=
+	t=1726246085; cv=none; b=QbZvpspozM8bKLdNUlUFF5KOXJZElUaaJv57So8dRotJg1cJapl42Rq0ssBleeec7h2MEPCwkW91L/+SQvgbj+oddii8LHaZgxKcZCjwXh1mkuLCYEPGqzqPgVOqtjmtIINoiA7UiExZfv66Q5XweX8CVYrzQCgt8xp1MGKjISw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726241838; c=relaxed/simple;
-	bh=qKZS7gKFbdbvYJNw0orhcxfy64ecTPi7YhsqUN3BZc8=;
+	s=arc-20240116; t=1726246085; c=relaxed/simple;
+	bh=TC4nHFRLA8eECDLTbY7KqYrdwzmF4RwqGAix/PG6lko=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ezx4EWTXWvP/PTRO9GNu8Lj0u11qmFBBqfM98HoQUxgEpLLiCq1zPECM8LtciU1Y5RWa+L/bIVasrIcB7DzJtg4MQF+ekYSxazte+VfMt1ZSLUfgsWhEE5u9GXajBlZnsxqlr/HhRQqYo4TWtKQ9LwVXa7X7fCggfneia8p/A1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iBk/V5dZ; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=qudF4hUeUykGDDIMYef5XpK4XMbFOGepGIwtYLdCBLuq3nPsa0dhoRHnR1c2N0rSq6U6ym2GofczSPz26F0W4sRQDbjxGGKDAXe29nRssdtpaOVpWLp75NhbpGzDmeFmvr3FvfmGaiPLcFbrCS5mcqHqOwdh31Q3kAsCFb9qqmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ts7mG/+C; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iBk/V5dZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726241837; x=1757777837;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=qKZS7gKFbdbvYJNw0orhcxfy64ecTPi7YhsqUN3BZc8=;
-  b=iBk/V5dZnl+AxGpscY2iVS0enm86BaPQzTlFVfJU9wBZbZgJd+ezue/5
-   A7NE12TBbiA/J2Yxtq8LTyMu0opeu9znxFMRRR1X6R6GyRsl6dKq3xseI
-   nTYuNWhJsfmOW5bqcq6uJ6vAfHoGJJjpzF9j5E5dyag+BlD52r/Lf/QBG
-   79jE60jGGUQzWuNNJ8NAHZ0MuEzahXscy+9YF6kTyvUl486GdbpLHJEZn
-   ZRTcJKt7jXVFVVuw2RwEQCqbh09ea2rKRG87hEoccRl+/dijl4seMHVhb
-   RYz9C7teJ3tlbLfMETuDIDasjacplxQK95OwjUQQlobIb6IRLeMbl87Z2
-   w==;
-X-CSE-ConnectionGUID: aL5yJPCFS2+RUzN9VSTlcw==
-X-CSE-MsgGUID: DPen2xD5TTO7eW1P1j2SgA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="25345521"
-X-IronPort-AV: E=Sophos;i="6.10,226,1719903600"; 
-   d="scan'208";a="25345521"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2024 08:37:03 -0700
-X-CSE-ConnectionGUID: SuvMplaFTvarrWZvHyvm7A==
-X-CSE-MsgGUID: HHxLgRdXQE+eJID1d0c2hQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,226,1719903600"; 
-   d="scan'208";a="91352230"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 13 Sep 2024 08:37:00 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sp8Ly-0006d7-0c;
-	Fri, 13 Sep 2024 15:36:58 +0000
-Date: Fri, 13 Sep 2024 23:36:02 +0800
-From: kernel test robot <lkp@intel.com>
-To: Abhishek Tamboli <abhishektamboli9@gmail.com>,
-	gregkh@linuxfoundation.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	skhan@linuxfoundation.org, rbmarliere@gmail.com,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: octeon: Use new initialization api for tasklet
-Message-ID: <202409132323.MbFMwNBU-lkp@intel.com>
-References: <20240912172231.369566-1-abhishektamboli9@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ts7mG/+C"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DEB8C4CEC0;
+	Fri, 13 Sep 2024 16:48:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1726246085;
+	bh=TC4nHFRLA8eECDLTbY7KqYrdwzmF4RwqGAix/PG6lko=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ts7mG/+Cne9PraIsDXfjGAjbutIC/bnNHbaxbTx87Q29UOBN97xtf/WM3mijSGIVR
+	 ODaDSLD04yVzUWIOKrcgZ9IAkBFFsneuaJY131+pTl60HT1bzzxZK/9K3m/XRXKl+J
+	 Jr3sU2EiL8vQ4UGTNJ5I2dsfuSHGdP1gVn4ZIgQxkYhcnxlTn8PD1QhR7JkI87Ii16
+	 FwLkNTqlQLXMJNX/1mtK2PSXYsIqaHP7XQVLOxz1dowaoYFoN4Cn8Rz0Gng1qq1ZO+
+	 K5D6oqVw79attVgCZTIWKfGuRaaaQQLc0UdCKU9nCTBHnLwW+uyPhMd89zxyVuDpoV
+	 ke5aecnYNxVcw==
+Date: Fri, 13 Sep 2024 17:47:59 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Yang Yingliang <yangyingliang@huaweicloud.com>
+Cc: mchehab@kernel.org, Jonathan.Cameron@huawei.com, rmfrfs@gmail.com,
+	vireshk@kernel.org, gregkh@linuxfoundation.org, deller@gmx.de,
+	corbet@lwn.net, yangyingliang@huawei.com, liwei391@huawei.com,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-spi@vger.kernel.org
+Subject: Re: [PATCH -next 0/7] spi: replace and remove
+ {devm_}spi_alloc_master/slave()
+Message-ID: <0155d213-479f-42f4-ac32-dab3796eb47c@sirena.org.uk>
+References: <20240902125947.1368-1-yangyingliang@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="7y+9/EfmGewzbeWu"
+Content-Disposition: inline
+In-Reply-To: <20240902125947.1368-1-yangyingliang@huaweicloud.com>
+X-Cookie: In space, no one can hear you fart.
+
+
+--7y+9/EfmGewzbeWu
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240912172231.369566-1-abhishektamboli9@gmail.com>
+Content-Transfer-Encoding: quoted-printable
 
-Hi Abhishek,
+On Mon, Sep 02, 2024 at 08:59:40PM +0800, Yang Yingliang wrote:
+> From: Yang Yingliang <yangyingliang@huawei.com>
+>=20
+> Switch to use {devm_}spi_alloc_host/target() in drivers and remove
+> {devm_}spi_alloc_master/slave() in spi driver.
+>=20
+> Yang Yingliang (7):
+>   media: usb/msi2500: switch to use spi_alloc_host()
+>   media: netup_unidvb: switch to use devm_spi_alloc_host()
+>   spi: ch341: switch to use devm_spi_alloc_host()
+>   spi: slave-mt27xx: switch to use spi_alloc_target()
+>   video: fbdev: mmp: switch to use spi_alloc_host()
+>   staging: greybus: spi: switch to use spi_alloc_host()
+>   spi: remove {devm_}spi_alloc_master/slave()
 
-kernel test robot noticed the following build errors:
+Unless someone shouts about this I intend to apply it at -rc1.
 
-[auto build test ERROR on staging/staging-testing]
+--7y+9/EfmGewzbeWu
+Content-Type: application/pgp-signature; name="signature.asc"
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Abhishek-Tamboli/staging-octeon-Use-new-initialization-api-for-tasklet/20240913-012448
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20240912172231.369566-1-abhishektamboli9%40gmail.com
-patch subject: [PATCH] staging: octeon: Use new initialization api for tasklet
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240913/202409132323.MbFMwNBU-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project bf684034844c660b778f0eba103582f582b710c9)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240913/202409132323.MbFMwNBU-lkp@intel.com/reproduce)
+-----BEGIN PGP SIGNATURE-----
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409132323.MbFMwNBU-lkp@intel.com/
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmbkbL4ACgkQJNaLcl1U
+h9ACHAf/V+tig0AJ8wJ/Dgs3qTnfDL7oHEbnzCZLYf3r/rGL9w/kv96ock0/jodh
+SPokoZs08HKXZj4ftY8EcjksNzVE/T9UJCvQ5aHTMvNUikctnuh5HlyWr6WlLl8h
+TZqZpruOSoOJ8S34NkAJLPrt/m8z+VsE1Y2tM+uJcbv5rK+3zdKD6VnyyrC135XG
+5lcQYVqg+1KvnYL1ETqcuqEnl1KExekzlhhfyZLwGMuQzDfMnfSmDeryaRNy6OwT
+HPQJrlnIRqTFGISadGAPZICNURvy3+u3IK9NlZEv1j/DJ9jJOBsBcL81/giVAWy2
+INSW+X8/fddyN9C0lLm5bfJ2vFznNw==
+=6zNx
+-----END PGP SIGNATURE-----
 
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/staging/octeon/ethernet-tx.c:10:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:10:
-   In file included from include/linux/mm.h:2228:
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from drivers/staging/octeon/ethernet-tx.c:10:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/staging/octeon/ethernet-tx.c:10:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/staging/octeon/ethernet-tx.c:10:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
->> drivers/staging/octeon/ethernet-tx.c:44:52: error: incompatible function pointer types initializing 'void (*)(struct tasklet_struct *)' with an expression of type 'void (struct tasklet_struct)' [-Wincompatible-function-pointer-types]
-      44 | static DECLARE_TASKLET(cvm_oct_tx_cleanup_tasklet, cvm_oct_tx_do_cleanup);
-         |                                                    ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/interrupt.h:665:14: note: expanded from macro 'DECLARE_TASKLET'
-     665 |         .callback = _callback,                          \
-         |                     ^~~~~~~~~
-   7 warnings and 1 error generated.
-
-
-vim +44 drivers/staging/octeon/ethernet-tx.c
-
-    42	
-    43	static void cvm_oct_tx_do_cleanup(struct tasklet_struct clean);
-  > 44	static DECLARE_TASKLET(cvm_oct_tx_cleanup_tasklet, cvm_oct_tx_do_cleanup);
-    45	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--7y+9/EfmGewzbeWu--
