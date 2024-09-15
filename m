@@ -1,55 +1,55 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E581A288D1
-	for <linux-staging@lists.linux.dev>; Sun, 15 Sep 2024 06:41:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D48E1B969
+	for <linux-staging@lists.linux.dev>; Sun, 15 Sep 2024 06:41:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726382464; cv=none; b=fLe3oP0xGAMS9wo4XxEVNfwwAQX8ZKO+6ZIT11DxCZJf2M/sFz2yGq9r/9ofy4HBz3KLGca6lDiVdWDlXqUBm2UCHmy7ucXt0Kuax+/z5dlpu7cWypbFb6I2lZ9UqPkUTKsE3HTq9EJNzsSjhoLTu7iUDkze7JTmfjOnUSrfMhA=
+	t=1726382465; cv=none; b=uTDhcsvcO1sr2ibqMGX10UiWzz69vWHNvXJKHWhKzOD4ZeKdcII2npi/nUpmpYlgENQmJAdA/b4onMkMSNUukHbjMsWUC8DemJo2iVKERtqY7zL1H3Zhw/0HhJLDp5pY5cDXBxtjmGGTdIeohyAEvrlGE9Sfey2H8jhqvg5x/Yg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726382464; c=relaxed/simple;
-	bh=pFBLKa7eakDbJQvDx5GAJvRveZklRB0mvRHkGxKzFik=;
+	s=arc-20240116; t=1726382465; c=relaxed/simple;
+	bh=98wEUhIQg0oe7cqCfXtb9PvhfHYoR+LzgTdsHvJWDYI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YypMQNNwPEVqiDhAdi9UXkE+bbkYcKdSBOafvSaCxkC/NZrAlUMKoR4x0EtRqRAYbs6GdM9R8Px5wv901X1t153hGSb0SQRrDuHJNk3ZfonVVgD1Z8TsWls9zQLO98j8qsdV0Oca70gNlgTf4UPz11/d0dVcVXNgDEEmrr972bI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O3ChG9yf; arc=none smtp.client-ip=209.85.218.42
+	 MIME-Version; b=ZGwSoEYtcknM3A3ShVLpc3Thj8QpEJs11M5Hrvvh+12vHDL/GYZwpr6t7rzjW8AAxb5U6rHEYyDxYY3XUmLzWTL8xn/Mpt8jjPr68KGE3tk83boXzUNsPWhK5fFLkCCUkeluWu18MbT4WUzqD0eyPvcNHs6i/iJY/cb9wQOi8NA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QMJXRWG3; arc=none smtp.client-ip=209.85.208.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O3ChG9yf"
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a8d0d82e76aso545726566b.3
-        for <linux-staging@lists.linux.dev>; Sat, 14 Sep 2024 23:41:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QMJXRWG3"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5c26a52cf82so1266758a12.2
+        for <linux-staging@lists.linux.dev>; Sat, 14 Sep 2024 23:41:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726382461; x=1726987261; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1726382460; x=1726987260; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=P3O7884USr5rmr1eBEbAXs5vHrzE6NgETmRQZwaRy8Y=;
-        b=O3ChG9yfpezuxuJSGsfa4fQGor8MPWDy9ZWHGtouNfMnerN7EgKnYvsOmo+lJiMKv9
-         0dWDWspvKq/F0yVvQcy5hPhfgotubMRnzXU58IActGt6zn0NLxyu5vd69nCimlpcAkWB
-         rPVWwtIqy1BwNfmUsF2ZiDe5mf9N5KRdM8qmXoiL48+qbnKnl4BqWRw6jgfU4er5HPQ3
-         sObh8F4K2ms6aUwpDl6YUBLLn1tZxDmYA1mc2UaUYxAlFptpUYHhDqgSWU0IaOftxcgN
-         QPOfBcGci8rUZIXgf+AzmSg488p88EP1Vid1WvxTyyELov+h0TVJD4o60a+I0CUiSDxo
-         Dnjg==
+        bh=mytdCWz4Iuztl7wUallrWXgXAVacZn2drTPgnY2iPjQ=;
+        b=QMJXRWG3rijURjqxCrG+1OctkKLiNiQk+1/Lq0A6C84zc8fYJAzUj4wLGzXWlJMg8H
+         DJBnVcakeE40tRsEp+tX5tZcJQc2onNh8DliPNzy1WVPx5TBYBOAav5r/OXHF88JQhXa
+         msaYZLjm8kEZmIG9jksfUTRn40VbTHnsBVWCTdZntUh2gzNUAl3vrZhXqOX4vCBWkW/7
+         5tnK7bchF5MexKeS0Yh1cmjFbae7fmOC74+vX5UqvoIQ18LhJVuOROqaxfyekM4/awee
+         K66PB8TIgOFMp+Nj6CdZ+oyEUt5JEC67VQExZdWnQYLt8NAAuWkyRSqqYBVU+kyNTK3r
+         R8Iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726382461; x=1726987261;
+        d=1e100.net; s=20230601; t=1726382460; x=1726987260;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=P3O7884USr5rmr1eBEbAXs5vHrzE6NgETmRQZwaRy8Y=;
-        b=mwzzjyyWteCPzLnp0aoKRIRzAxzJwY97sOQ+SydL7X1ee6caN7LNqGSYba9ST/Tn0g
-         rJG9Ovw+NpGG/lkevhgo3qhSO5+/fCap/70PiGejUCEnYsPEr3KgOd0Ar2dKSNgkyXTG
-         F3Qtrw/Gstk1msJ1iElip+vj6uZS4zO31CbPVk7f5sNaoJZnhrx52z1XklNkCOxlYbxz
-         /9ULi1Aqic3xsi8aWWfLEqZRNXCn4T3vd3Vxs20Mr5q9jAyP1q6JqMLpxwEn78XZyRd3
-         4BEPm+Z5mVvq4E0c0NGH4YiUV4Ovacnr6cWs24JNCEr0UqiWmX2E1JDfCEVGZ/PxKRzC
-         nTIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXnUc7MyYf+NzyOJE/7KOssmwc2L4ld2zNteM2Oj509VkA8sxm1Fx5le1DqR2yWcVCRBlWRzSDdNTOz2AIM@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz4FPW0TE5mhD69f45YmCY47SuX6SXjYGMACNsHwPHIoOy8r6Hd
-	G3WFQnaGqpRDvIRuxXebqkG70o9W9HZec5NcsWVR1f7l1Sh1gvNLGyg/vw==
-X-Google-Smtp-Source: AGHT+IGh+yadhr3UkyNRuLvLdwbD/v4caveq+WJuFsXtJJ6X9ZV6hphCFtdTRejkbk9v8+tNXBexKg==
-X-Received: by 2002:a17:907:f71b:b0:a7a:a892:8e05 with SMTP id a640c23a62f3a-a902949ac77mr1180375466b.33.1726382460935;
+        bh=mytdCWz4Iuztl7wUallrWXgXAVacZn2drTPgnY2iPjQ=;
+        b=SuXuUzVL0pmF/qEHbSfDTRojZHWO5xHXyOIAPXDXSknlM+aNGWDhqaANhxULnLbiZ3
+         nGnWAL2nIuaFnd38e81ELQb7pLTYSe5p1cd+TjOL5iyfNX9T7LdZHeHKJYhyyeahyJRi
+         +u+iiK8CRC58TRKpsEpxq/yOEex0seKGkhidNFpu41nJiJD8LoQQtPLh/vSrxPwXEWU6
+         PLikpOZYjSqjFZz+nlcz8dmBSsC3aluLPbwSZBqv9qN/sAPeBRAEuhaEDqp3yYYQSVOo
+         0riS6x5WiTqq0727/ZD7aTmXKF1Q3++YCfUFUVAjSimjIkCcPY/o1lnCPFMJUTsUiIzn
+         uLCw==
+X-Forwarded-Encrypted: i=1; AJvYcCVnluTy68O9o8uK/y7EeEtr9yTczuH5mliqcYWtrI1mVBWYMOdA4THcWq5iMDp+/DzshJQSyTOf0GUGdCS7@lists.linux.dev
+X-Gm-Message-State: AOJu0YwGwkq592kE4gxrNTIWY+6XEsw8FuoAgeL20gtgIqq7PCWGaHk6
+	6RShMy+b79zt2tFOrw4/KTB53WN5S4BJIRlwOTMhFC4SvGGhBQIm
+X-Google-Smtp-Source: AGHT+IHo9z81VjnaVgB+Goew5pVeM34br4ujYIIrCTB5Q4Wqd/Wut7NSV6Wcd+sQfylyH8FwfQX9LA==
+X-Received: by 2002:a05:6402:2687:b0:5c4:2448:87e9 with SMTP id 4fb4d7f45d1cf-5c424488a68mr12228752a12.0.1726382460360;
         Sat, 14 Sep 2024 23:41:00 -0700 (PDT)
 Received: from kernel-710.speedport.ip (p57ba2f9b.dip0.t-ipconnect.de. [87.186.47.155])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a90610967bbsm160201066b.8.2024.09.14.23.41.00
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a90610967bbsm160201066b.8.2024.09.14.23.40.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Sat, 14 Sep 2024 23:41:00 -0700 (PDT)
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
@@ -57,9 +57,9 @@ To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Subject: [PATCH 06/17] staging: rtl8723bs: Remove unused function _ReadCAM
-Date: Sun, 15 Sep 2024 08:38:20 +0200
-Message-ID: <f8ce4d176c2aa1d312183263658c4683a23a1e4c.1726339782.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 05/17] staging: rtl8723bs: Remove unused function rtw_get_oper_bw
+Date: Sun, 15 Sep 2024 08:38:19 +0200
+Message-ID: <5918320008abc9a14c00fd61f00b40f35f1a5bef.1726339782.git.philipp.g.hortmann@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1726339782.git.philipp.g.hortmann@gmail.com>
 References: <cover.1726339782.git.philipp.g.hortmann@gmail.com>
@@ -71,39 +71,42 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove unused function _ReadCAM.
+Remove unused function rtw_get_oper_bw.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_wlan_util.c | 15 ---------------
- 1 file changed, 15 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_wlan_util.c   | 5 -----
+ drivers/staging/rtl8723bs/include/rtw_mlme_ext.h | 1 -
+ 2 files changed, 6 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-index 4eee324385a3..9bef4b9e2aca 100644
+index a4cc48989445..4eee324385a3 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-@@ -435,21 +435,6 @@ void invalidate_cam_all(struct adapter *padapter)
- 	spin_unlock_bh(&cam_ctl->lock);
+@@ -290,11 +290,6 @@ inline void rtw_set_oper_ch(struct adapter *adapter, u8 ch)
+ 	dvobj->oper_channel = ch;
  }
  
--static u32 _ReadCAM(struct adapter *padapter, u32 addr)
+-inline u8 rtw_get_oper_bw(struct adapter *adapter)
 -{
--	u32 count = 0, cmd;
--
--	cmd = CAM_POLLINIG | addr;
--	rtw_write32(padapter, RWCAM, cmd);
--
--	do {
--		if (0 == (rtw_read32(padapter, REG_CAMCMD) & CAM_POLLINIG))
--			break;
--	} while (count++ < 100);
--
--	return rtw_read32(padapter, REG_CAMREAD);
+-	return adapter_to_dvobj(adapter)->oper_bwmode;
 -}
 -
- void _write_cam(struct adapter *padapter, u8 entry, u16 ctrl, u8 *mac, u8 *key)
+ inline void rtw_set_oper_bw(struct adapter *adapter, u8 bw)
  {
- 	unsigned int i, val, addr;
+ 	adapter_to_dvobj(adapter)->oper_bwmode = bw;
+diff --git a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
+index 479e90ff336c..2080408743ef 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
++++ b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
+@@ -447,7 +447,6 @@ void Set_MSR(struct adapter *padapter, u8 type);
+ 
+ u8 rtw_get_oper_ch(struct adapter *adapter);
+ void rtw_set_oper_ch(struct adapter *adapter, u8 ch);
+-u8 rtw_get_oper_bw(struct adapter *adapter);
+ void rtw_set_oper_bw(struct adapter *adapter, u8 bw);
+ void rtw_set_oper_choffset(struct adapter *adapter, u8 offset);
+ u8 rtw_get_center_ch(u8 channel, u8 chnl_bw, u8 chnl_offset);
 -- 
 2.43.0
 
