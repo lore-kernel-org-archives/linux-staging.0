@@ -1,65 +1,64 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C1D61D0DE9
-	for <linux-staging@lists.linux.dev>; Sat, 14 Sep 2024 18:49:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4CAA17BBE
+	for <linux-staging@lists.linux.dev>; Sun, 15 Sep 2024 06:40:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726339788; cv=none; b=uZNL9aNYJPE5QM+k+Ztu9mASyBn7Irxf6DEC5q3T5KVjohzWbQh9HhMMUgv4lDTeag3mMJ5uJPOhJvikFnHKCh0ZiPX1zL3mi09vcXvqrlAcAys1R0UGvxxNyQEZtIGrzRQIEulA0IQo532IXafC2Y3RrSSmA9qyBzTv92ku8k8=
+	t=1726382452; cv=none; b=R4cs1gsZ8zEHVmD1QKCzcH8HMlv/PAbW3VOgDxf3MAE9lT8Qy1Z83tQQxKmXv6ygNPiDib3DhcZEdF/3WQeUWLpovPzrLmTVbrWjgpGbMDL6MHklWdSdPT5NgJcJkl7PnfAZGOsUN3IUj0WTzkNSYASpu3sgmOZN7xYzcQOxuPk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726339788; c=relaxed/simple;
-	bh=e70E5Y91Jsny0whAyhew+r/g5VGp2qLMl59bQCj571w=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=nqw1vM8ha1r09pt1pxWYUqjT6jDa+hEjU3ZAbwzQP/ExzkcbSUUeXtBOQOTOu3F6un4E4Q5DZgkrOt33n8xbBpklG0H0DTBvx78SfUj0NcoLzi+aCmOQ+o3S8yfIM9zayqKnDMRWO8h59YSPB42hkYzYTdzJwFI+9PpruTMnyik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gpgsMiP/; arc=none smtp.client-ip=209.85.216.51
+	s=arc-20240116; t=1726382452; c=relaxed/simple;
+	bh=map9OqAqlhHdp3AyeG30zmc8rrWcD32kRYETJOholq0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kAjdqjbf/4kJrIqWohVNfJq4HM3oh1xblFVRZpJ070p3ux+PWsaEDPsSnS84tqbRqRamkGTHAlds7/fiFJ2DR8R29vwMoTzcx/1daGkXC8o6sVA3VUvvCe9/GejAja0PB0Wbbmzf5UFQL0wLufQ1xB88tLolBPbArzq1WGADE+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FWTpDbED; arc=none smtp.client-ip=209.85.218.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gpgsMiP/"
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-2d87a0bfaa7so1738867a91.2
-        for <linux-staging@lists.linux.dev>; Sat, 14 Sep 2024 11:49:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FWTpDbED"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a8d56155f51so438082066b.2
+        for <linux-staging@lists.linux.dev>; Sat, 14 Sep 2024 23:40:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726339786; x=1726944586; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1726382449; x=1726987249; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=TRV/D2yysUbqRudO1eZM7UervZe3Msap6RU661L548E=;
-        b=gpgsMiP/58V95YAQEsILyMpvBDUhsVmdQz1KfHdqM7FeFoMuZ+gat4cZAeInhLLPl5
-         FRIinhikmRMm/yRHjmf/A/fkshJ7KItzmW99QiusQBVn5DBC0eGSOwYzZ8vA97XouqxQ
-         FyrFLbdWvfnDNCw2GhC3oOrazgQGF1jlKhf/g1jeOYOsRFd6J58v5gzDDphJ9XdiWTXK
-         c0tO+hRTiK4X8FfGXuU0ERuVRITQVeH4lQlfKTbs6+7LeQqDtpb+zA2UuNJ9J4Ku8CY6
-         jec6BcvG92GyBq6b6U2t62xpNkaAvld0heF3/P3665R56+37DqKArIJJzAOWOAXOvmYH
-         7InQ==
+        bh=lJWrJsnaH56i3Ai65QAPyR9wjb9ssl4jYtrKSQ32fSk=;
+        b=FWTpDbEDE71w+zxG43TSmh7+GMkaOwxnvxWNj2fAF8Ok65TZ+8NueEOM154HKTyGPK
+         QBxB40kHKWTwbIsUKMkcyOdgSDyNzAnoTpPi77W5JJzAQIVCdP97FRcfNu4zxTLbdS+C
+         KQvSN9nV/9jPA7WOJQdUGoHXLWA6vvSiSsBvKyPS2gPgt7z8suDnVK6k/P5BnmJzPHEu
+         oWZjGOQZr6/S0YE89rejDnbZO8cAp8Mym0jwst+7WG2RcFNpmXc38uVi0GQBiXVVaFYz
+         dxPKHPnDQP+7Ctp48THOO9QXKRsOopaA5LZ/xNFQzvspwo6ilkG/pFnkEaIa6O+4/foB
+         4tHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726339786; x=1726944586;
+        d=1e100.net; s=20230601; t=1726382449; x=1726987249;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=TRV/D2yysUbqRudO1eZM7UervZe3Msap6RU661L548E=;
-        b=Z3U5NxqSqN/eP2DeH8cNsWOM/HK/LN0yBWJOVCKYgpMemOJB9g3kij9i67rHB9yQ18
-         iqa1+6G82cdEoxk/mE2zOnXoR/N7JLDf094vMEEadlSQY+B9KSNL9FpRXmcOu3eXUZOr
-         UOIEOj438Y7yqx0Q5qPYJMFFZLqwQY5W59LS59snOObGlgXxM4xANN+s30YkT2hjA2xt
-         gR/nYF19vZ08NXOQadl1gplJktiYS/wCi39HotNYTwlEj+Sf/UXFjX25UQNR3D7Jy6u6
-         SqFxrrO95nHDevnP4yZ9IJXaRmk/PXopxOwl42gTLxn9MyxWiPN/3EGduSqXr8tKkz0x
-         zw+Q==
-X-Gm-Message-State: AOJu0YyHtH0kHPNdKw313FrLkEh4fp990h2RicSB84tvd1MD87zjJ3c+
-	kBmY2+IgSq1Lodp56r+4w0znLzYJvyFk1XrdOEcSRfwMtWroZXnzl/WccCv5F4w=
-X-Google-Smtp-Source: AGHT+IGG089sKirYuMOIPyg9jQWpJLf2jAJ1DKymjs53A5OLIf65r9pHbmzVbYI/wDkgKwg6PEo74A==
-X-Received: by 2002:a17:90b:1c06:b0:2c9:1012:b323 with SMTP id 98e67ed59e1d1-2dbb9f3c96amr8589484a91.27.1726339786061;
-        Sat, 14 Sep 2024 11:49:46 -0700 (PDT)
-Received: from embed-PC.. ([106.222.229.152])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2dbb9d5c9dcsm3998170a91.43.2024.09.14.11.49.41
+        bh=lJWrJsnaH56i3Ai65QAPyR9wjb9ssl4jYtrKSQ32fSk=;
+        b=nLKZoQVXaj58WPr4iAaGtCmxYeaTYCnWZO+TMwC6oz4R4NxA/6UDcJmcmaC3B2RzXP
+         bnRX4FRfwjVJBdDKH16AUjlfszV739gm2TKfDIfr4eaWr/Vnkp7XLHDi6pm7FfUfzSBf
+         gjplv8DfQ+6J43BopPh+J3IhLaTNl0WvSSsa5D7BMUZX08/MzK1jbbRBoMhkd48Y7z00
+         25XAa56AqvXst+mwZLgdpwK+NvDzacDOaCx1b9uC2yzLAesFLt83nQF1A6rWARc4fKqp
+         A/M+4K5rirTKwLTBOGpMdVtJ54dkZtAl8dyLa06X84UDFVnOAGrartPT2tzIOIsu+2Ie
+         AKmA==
+X-Forwarded-Encrypted: i=1; AJvYcCURcHFCfNHHEnHk4fpstFJNAyLX+3zlg9ZwY1Vv2Sk3UnZPPDMZJmpz/OE7lp/FSJtrB2YTzY9yLFs9WlVQ@lists.linux.dev
+X-Gm-Message-State: AOJu0YyjAXVCyBOWEEumOPS7KrAE4kihjWFgQ9WKnBbSCoie/RynpERN
+	WzNSDdYfqkWvaLW04t0fMIb3y4jdzzxPc6+1sq+ZEqH/ewR2J1iq
+X-Google-Smtp-Source: AGHT+IHkiIYQJMF61aW8pW6xiR50hEB5C33k3GbqB75AhLB2g8jrrvySSA5ogj8eQgPtcxjEyQSlNA==
+X-Received: by 2002:a17:907:6d26:b0:a7a:9fe9:99e7 with SMTP id a640c23a62f3a-a90296174a7mr1163444066b.41.1726382448911;
+        Sat, 14 Sep 2024 23:40:48 -0700 (PDT)
+Received: from kernel-710.speedport.ip (p57ba2f9b.dip0.t-ipconnect.de. [87.186.47.155])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a90610967bbsm160201066b.8.2024.09.14.23.40.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Sep 2024 11:49:45 -0700 (PDT)
-From: Abhishek Tamboli <abhishektamboli9@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	rbmarliere@gmail.com,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH v3] staging: octeon: Use new initialization api for tasklet
-Date: Sun, 15 Sep 2024 00:19:35 +0530
-Message-Id: <20240914184935.848999-1-abhishektamboli9@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Sat, 14 Sep 2024 23:40:48 -0700 (PDT)
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Subject: [PATCH 00/17] staging: rtl8723bs: Remove unused functions including read_cam
+Date: Sun, 15 Sep 2024 08:38:14 +0200
+Message-ID: <cover.1726339782.git.philipp.g.hortmann@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -68,52 +67,47 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use the new api DECLARE_TASKLET instead of DECLARE_TASKLET_OLD
-introduced in commit 12cc923f1ccc ("tasklet: Introduce new
-initialization API").
+Remove unused functions, macros and one enum.
 
-This change updates the tasklet initialization
-process without introducing any functional changes,
-ensuring the code aligns with the new API.
+Tested with rtl8723bs in ODYS Trendbook Next 14
 
-Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
----
-Changes in v3:
-- Rephrased the commit message with the reason for the change.
-Changes in v2:
-- Fix build errors caused by initial[v1] patch submission.
-- Update the cvm_oct_tx_do_cleanup function to accept a
-  struct tasklet_struct * argument, required by the new API.
-[v1]: https://lore.kernel.org/all/20240912172231.369566-1-abhishektamboli9@gmail.com/
-[v2]: https://lore.kernel.org/all/20240913191734.805815-1-abhishektamboli9@gmail.com/
+Philipp Hortmann (17):
+  staging: rtl8723bs: Remove unused function dvobj_get_port0_adapter
+  staging: rtl8723bs: Remove unused function rtw_search_max_mac_id
+  staging: rtl8723bs: Remove unused function read_cam
+  staging: rtl8723bs: Remove unused function rtw_get_oper_choffset
+  staging: rtl8723bs: Remove unused function rtw_get_oper_bw
+  staging: rtl8723bs: Remove unused function _ReadCAM
+  staging: rtl8723bs: Remove unused entries from struct hal_ops
+  staging: rtl8723bs: Remove unused function PHY_SetBWMode8723B
+  staging: rtl8723bs: Remove unused function PHY_GetTxPowerLevel8723B
+  staging: rtl8723bs: Remove unused function Hal_BT_EfusePowerSwitch
+  staging: rtl8723bs: Remove unused function rtl8723b_GetHalODMVar
+  staging: rtl8723bs: Remove unused function GetHalODMVar
+  staging: rtl8723bs: Remove unused function rtl8723bs_inirp_init
+  staging: rtl8723bs: Remove unused function rtl8723bs_inirp_deinit
+  staging: rtl8723bs: Remove constant result macro is_primary_adapter
+  staging: rtl8723bs: Remove constant result macro get_iface_type
+  staging: rtl8723bs: Remove unused enum with first entry IFACE_PORT0
 
- drivers/staging/octeon/ethernet-tx.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_cmd.c      |  3 +-
+ drivers/staging/rtl8723bs/core/rtw_mlme.c     |  6 +-
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c |  3 +-
+ drivers/staging/rtl8723bs/core/rtw_pwrctrl.c  |  7 --
+ .../staging/rtl8723bs/core/rtw_wlan_util.c    | 64 -------------------
+ drivers/staging/rtl8723bs/hal/hal_com.c       | 34 +++-------
+ drivers/staging/rtl8723bs/hal/hal_intf.c      | 20 +++---
+ .../staging/rtl8723bs/hal/rtl8723b_hal_init.c | 53 ---------------
+ .../staging/rtl8723bs/hal/rtl8723b_phycfg.c   | 15 -----
+ drivers/staging/rtl8723bs/hal/sdio_halinit.c  | 13 ----
+ drivers/staging/rtl8723bs/include/drv_types.h | 10 ---
+ drivers/staging/rtl8723bs/include/hal_com.h   |  4 --
+ drivers/staging/rtl8723bs/include/hal_intf.h  | 14 ----
+ .../staging/rtl8723bs/include/hal_phy_cfg.h   |  5 --
+ .../staging/rtl8723bs/include/rtw_mlme_ext.h  |  5 --
+ drivers/staging/rtl8723bs/os_dep/os_intfs.c   |  3 +-
+ 16 files changed, 22 insertions(+), 237 deletions(-)
 
-diff --git a/drivers/staging/octeon/ethernet-tx.c b/drivers/staging/octeon/ethernet-tx.c
-index bbf33b88bb7c..261f8dbdc382 100644
---- a/drivers/staging/octeon/ethernet-tx.c
-+++ b/drivers/staging/octeon/ethernet-tx.c
-@@ -40,8 +40,8 @@
- #define GET_SKBUFF_QOS(skb) 0
- #endif
-
--static void cvm_oct_tx_do_cleanup(unsigned long arg);
--static DECLARE_TASKLET_OLD(cvm_oct_tx_cleanup_tasklet, cvm_oct_tx_do_cleanup);
-+static void cvm_oct_tx_do_cleanup(struct tasklet_struct *clean);
-+static DECLARE_TASKLET(cvm_oct_tx_cleanup_tasklet, cvm_oct_tx_do_cleanup);
-
- /* Maximum number of SKBs to try to free per xmit packet. */
- #define MAX_SKB_TO_FREE (MAX_OUT_QUEUE_DEPTH * 2)
-@@ -670,7 +670,7 @@ void cvm_oct_tx_shutdown_dev(struct net_device *dev)
- 	}
- }
-
--static void cvm_oct_tx_do_cleanup(unsigned long arg)
-+static void cvm_oct_tx_do_cleanup(struct tasklet_struct *clean)
- {
- 	int port;
-
---
-2.34.1
+-- 
+2.43.0
 
