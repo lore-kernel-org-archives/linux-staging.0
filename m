@@ -1,55 +1,55 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 393CD481B7
-	for <linux-staging@lists.linux.dev>; Sun, 15 Sep 2024 06:41:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C02DC4DA00
+	for <linux-staging@lists.linux.dev>; Sun, 15 Sep 2024 06:41:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726382467; cv=none; b=H1zjM1nYAJtiAINU3pG1Z20TcZQb3EsafIaPTu8eCq26J+2a+8EA5fsrepkJ8++5y6JWlIiUsB7QIIq1Zxj9KgcJe3AgX8J3ZbUG7v9Di6Hs2QXMlSnDAVo1uE9gFks8Ph/UNm+wF654bSwoApQCjC7dt2A1GKMIBTh2stM40nI=
+	t=1726382467; cv=none; b=VIL0CZ1xYGudmwRhaGYowiv8j/CvdD3+vpASmuiK+EJ/R3r1kKQ+GfkdOGF+zEC6hpvsbcz8FhtYtCyqePSlVPCyUBwRVBUkcxg8yM7gfnEwLno/JKYtPqEYHZCcm2ngI9ktRpo7Pi26RmobX3yPs7QD2p/rsYaxD5gFdjjxxig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1726382467; c=relaxed/simple;
-	bh=a5crjG6Jddq5TLGHeq1dA3OJ6KtrrV01yt8198+rP3Q=;
+	bh=H/5C/7Pq0/4r9GEExQHKfhf+aom5wH/AOubWvKBdP9U=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dvs8W5BPNzv0J+U80PYHCCGW1RYTMIL0qDdx6I+taVzRfdU2/aR0cak7oqmuDxjad8Fdi6OP3XdiwETMPxWhw8+CSj+LhLLpu31j8ee9MWtshCDr30We1CD7lY+fgCSaZkAvBNekUb5IPAewWuWY3EEz0Az0eDui3xPJ/JIGKTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KCXp6CO/; arc=none smtp.client-ip=209.85.208.43
+	 MIME-Version; b=T653RHBHZqlTIwM4zPia+jRg0gFAPqTPqKyupFw9iEhwcjIjzQWlEDJ3/SEksRwycpQbmERjIP+yQiOlme4hQElgzDZ9Qz7alGJFi1y13Dor81rMMygStv1bW6nvf+Npc/7VonuLayMRZ2ULmm3llKdBitTGiQ6EIWEex2uwlnE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=deF1rCGk; arc=none smtp.client-ip=209.85.218.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KCXp6CO/"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5c423d496abso1356973a12.3
-        for <linux-staging@lists.linux.dev>; Sat, 14 Sep 2024 23:41:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="deF1rCGk"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a8a6d1766a7so436947166b.3
+        for <linux-staging@lists.linux.dev>; Sat, 14 Sep 2024 23:41:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726382463; x=1726987263; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1726382464; x=1726987264; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=lCKQznBlAnQUXLCvKwjvLEzsYMysS1pH5alHdQhZ4ts=;
-        b=KCXp6CO/bjTV/mDz0MZxV2TFldHhIGWRhr+5Qn28Kb2p9QpEdjAkoHFOG4qw30p4Kd
-         6MbOOc+E2keg2x8tnEQDxNu/snWKjFcGT32/+dAGfWashzSc7AVYvZUe4KKCFlzyUMw7
-         IrOe014edM48koECBe3qq1TwjCiCXtowlv3sNyvlXCcoyqS6yA3N4CHHbdK2bYcF92LE
-         xUah0CCIm4pXxuXnWw+rw2dRzBtSUAgKUcEzQqxa9Ef+E7j5APnGWNnrfnafttVAp2sK
-         tF522SSCWGuzEbZiKpnhRaIKSzcubcWr7YGMTp2rVF13tZw5NvuSLgSa8YrGb0r3zfmc
-         iUgw==
+        bh=EDNe2JeoZZgOZzlo+ZuSEo9w+uQCIRKUr+z91NOOW5g=;
+        b=deF1rCGkZKFRJN9NJpekO+Ev+XEPmsBUAPXdwhIp68YlEEEmJZAS1IlEIiJ+ONQyV5
+         gkfzW2EyjuPjBb6eBBlwLlKezrcvviFk+3LCEy8HV6W69Tspani3+wiNohHO2KsdwcQ8
+         QDOUb4HP12WvNpr+/+o2pstC4Z/5P36NMfYqSn0IyXV8md2c6wSaMoA4Ybfmk5f8aMz0
+         q5QqGtyxSyyVI2eFGk/rPwpik/qDUUhTMMNJNHCMBxWh4/+XmJ0owPr79UidT9UnRa6k
+         hJQcJur40VHp+Wl3IB29MNP5sCDEcx/Any38KcbZdRQtgWSyj3IhaASHZTC1MS5fvFib
+         4EJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726382463; x=1726987263;
+        d=1e100.net; s=20230601; t=1726382464; x=1726987264;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=lCKQznBlAnQUXLCvKwjvLEzsYMysS1pH5alHdQhZ4ts=;
-        b=KesWiqJl2pKZuSYwym1+ZvF/KE+zQEpzpMcAdZJWI/bYG/Y4D3qm9O/0wi5qmfMc9A
-         aoRLbCPWyQoRfMJHuTZdwZV7g7BhIy1T1J8w5qSJ7M72iFfcQytsUGygRHdgvAYA+02c
-         co5bKzRHV2YDWQwkvRkTSW1A4retTPIoNdLiyOM3DzGowcYJxBn9CxOXICllh1Bf3omv
-         lgu1W3Xi3dlqu1u9cDpwLrA4nieUn2tMLYT44PoFsFwU/mYFdK4gf11x7A/x+0U7ixnU
-         Lm7zxWg9lzy3OfSHGniRuStubir3P4NDOeGvsD0LBp5+FQWfu4NJ7sLly7hfj3bDqkRU
-         MfiA==
-X-Forwarded-Encrypted: i=1; AJvYcCUoBw5nBZlPcBuw0LeMx/iLPPmL6Nym2kFOXdyEJfdSyeiL0+092GYo6UAgQljcRql66nNrY8QnqFDKAQAj@lists.linux.dev
-X-Gm-Message-State: AOJu0YyxaTpgbhHmhcwPp0IzarOzH13xemoKSxy7VV+UiqlEGH2ffWHH
-	KB9sl8ck9gsbMQnjSEU+1JbLROTCUss3eEUBNS4907TaGpdZyQ1b
-X-Google-Smtp-Source: AGHT+IH3Qo3qoVwhy6W6PMQl3cATDFIfgQ+BNIpVB4bG98+aLYnxMKvbrqDUl6pSFw5dnIXDX+YVaw==
-X-Received: by 2002:a05:6402:3596:b0:5c4:2e8e:782f with SMTP id 4fb4d7f45d1cf-5c42e8e99f6mr6524506a12.17.1726382463481;
-        Sat, 14 Sep 2024 23:41:03 -0700 (PDT)
+        bh=EDNe2JeoZZgOZzlo+ZuSEo9w+uQCIRKUr+z91NOOW5g=;
+        b=jVErWVZlrIPafCu4P7/R5J7cDsUHq5R8vQY9dAHF9bEnxmY12x8JGERyqwXJuYRsI8
+         d3jostjbFV5aTzZalsd+LcOr5VOFW2c1VRdcITJB+9Kxwup5aEWunfv/yubBMMdhYgFI
+         wnSSr083Zk66/AgXKfggrxVhdp7I/vJ8Ppr2Sw9Q5dwiwQ6QIHZbdxQYsICef+uhLwvi
+         7VJOIQ/42Bm2Sg5xrNAu7b230uFefiHaKQ8s4FwpbUvb71ejW0TOlnpvGlhNC9FZjZeU
+         VCj6YObvChT39q+UmVp+/J3ukN2FVAqi2ubZn45BdDczlD65uO2JV9PfcSFqxGwFf/tv
+         uL2w==
+X-Forwarded-Encrypted: i=1; AJvYcCXLOMpiHL6yE8KicfEBMk0DllxTMJbaBTVY41B9RnGr0Dy18g6u7QZfmXqLN5zvV9EIHOo9GC98o1EQedD8@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz6BXAyaM+EVX5aXrSVJeE0erRMCKwmHlmXqJZs7q4AYYrONze/
+	mqXUyYi/IiWes8Wd+UNdX3qfI1UrXyQ+FsLMrnTUWMLR6GN21rCNz6t5pw==
+X-Google-Smtp-Source: AGHT+IE9US5RPXllkXRUFCp55JqjWjrH62fOS+qtz8JPFE/cglfP6G+solJ9l7DIQZ2Aum5hIcsKAw==
+X-Received: by 2002:a17:907:f1a2:b0:a8d:250a:52b2 with SMTP id a640c23a62f3a-a90293c543emr983350166b.6.1726382464054;
+        Sat, 14 Sep 2024 23:41:04 -0700 (PDT)
 Received: from kernel-710.speedport.ip (p57ba2f9b.dip0.t-ipconnect.de. [87.186.47.155])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a90610967bbsm160201066b.8.2024.09.14.23.41.02
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a90610967bbsm160201066b.8.2024.09.14.23.41.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Sat, 14 Sep 2024 23:41:03 -0700 (PDT)
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
@@ -57,9 +57,9 @@ To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Subject: [PATCH 10/17] staging: rtl8723bs: Remove unused function Hal_BT_EfusePowerSwitch
-Date: Sun, 15 Sep 2024 08:38:24 +0200
-Message-ID: <2768736f969eaf935df1492ffd5afd98b05db11e.1726339782.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 11/17] staging: rtl8723bs: Remove unused function rtl8723b_GetHalODMVar
+Date: Sun, 15 Sep 2024 08:38:25 +0200
+Message-ID: <3837617badf7c81b2914074b56c5064276eb1946.1726339782.git.philipp.g.hortmann@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1726339782.git.philipp.g.hortmann@gmail.com>
 References: <cover.1726339782.git.philipp.g.hortmann@gmail.com>
@@ -71,85 +71,56 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove unused function Hal_BT_EfusePowerSwitch and belonging unused
-function pointer in struct hal_ops BTEfusePowerSwitch.
+Remove unused function rtl8723b_GetHalODMVar and belonging unused
+function pointer in struct hal_ops GetHalODMVarHandler.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- .../staging/rtl8723bs/hal/rtl8723b_hal_init.c | 40 -------------------
- drivers/staging/rtl8723bs/include/hal_intf.h  |  1 -
- 2 files changed, 41 deletions(-)
+ drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 11 -----------
+ drivers/staging/rtl8723bs/include/hal_intf.h      |  1 -
+ 2 files changed, 12 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-index ea0a9849d28b..4c6d9f1fa895 100644
+index 4c6d9f1fa895..33ae1ae51a30 100644
 --- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
 +++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-@@ -604,45 +604,6 @@ static void Hal_GetEfuseDefinition(
- #define EFUSE_ACCESS_ON_8723			0x69	/*  For RTL8723 only. */
- #define REG_EFUSE_ACCESS_8723			0x00CF	/*  Efuse access protection for RTL8723 */
+@@ -1769,16 +1769,6 @@ static void rtl8723b_SetBeaconRelatedRegisters(struct adapter *padapter)
+ 	rtw_write8(padapter, bcn_ctrl_reg, val8);
+ }
  
--/*  */
--static void Hal_BT_EfusePowerSwitch(
--	struct adapter *padapter, u8 bWrite, u8 PwrState
+-static void rtl8723b_GetHalODMVar(
+-	struct adapter *Adapter,
+-	enum hal_odm_variable eVariable,
+-	void *pValue1,
+-	void *pValue2
 -)
 -{
--	u8 tempval;
--	if (PwrState) {
--		/*  enable BT power cut */
--		/*  0x6A[14] = 1 */
--		tempval = rtw_read8(padapter, 0x6B);
--		tempval |= BIT(6);
--		rtw_write8(padapter, 0x6B, tempval);
--
--		/*  Attention!! Between 0x6A[14] and 0x6A[15] setting need 100us delay */
--		/*  So don't write 0x6A[14]= 1 and 0x6A[15]= 0 together! */
--		msleep(1);
--		/*  disable BT output isolation */
--		/*  0x6A[15] = 0 */
--		tempval = rtw_read8(padapter, 0x6B);
--		tempval &= ~BIT(7);
--		rtw_write8(padapter, 0x6B, tempval);
--	} else {
--		/*  enable BT output isolation */
--		/*  0x6A[15] = 1 */
--		tempval = rtw_read8(padapter, 0x6B);
--		tempval |= BIT(7);
--		rtw_write8(padapter, 0x6B, tempval);
--
--		/*  Attention!! Between 0x6A[14] and 0x6A[15] setting need 100us delay */
--		/*  So don't write 0x6A[14]= 1 and 0x6A[15]= 0 together! */
--
--		/*  disable BT power cut */
--		/*  0x6A[14] = 1 */
--		tempval = rtw_read8(padapter, 0x6B);
--		tempval &= ~BIT(6);
--		rtw_write8(padapter, 0x6B, tempval);
--	}
--
+-	GetHalODMVar(Adapter, eVariable, pValue1, pValue2);
 -}
- static void Hal_EfusePowerSwitch(
- 	struct adapter *padapter, u8 bWrite, u8 PwrState
- )
-@@ -1906,7 +1867,6 @@ void rtl8723b_set_hal_ops(struct hal_ops *pHalFunc)
- 	pHalFunc->write_rfreg = &PHY_SetRFReg_8723B;
+-
+ static void rtl8723b_SetHalODMVar(
+ 	struct adapter *Adapter,
+ 	enum hal_odm_variable eVariable,
+@@ -1876,7 +1866,6 @@ void rtl8723b_set_hal_ops(struct hal_ops *pHalFunc)
+ 	pHalFunc->Efuse_WordEnableDataWrite = &Hal_EfuseWordEnableDataWrite;
+ 	pHalFunc->Efuse_PgPacketWrite_BT = &Hal_EfusePgPacketWrite_BT;
  
- 	/*  Efuse related function */
--	pHalFunc->BTEfusePowerSwitch = &Hal_BT_EfusePowerSwitch;
- 	pHalFunc->EfusePowerSwitch = &Hal_EfusePowerSwitch;
- 	pHalFunc->ReadEFuse = &Hal_ReadEFuse;
- 	pHalFunc->EFUSEGetEfuseDefinition = &Hal_GetEfuseDefinition;
+-	pHalFunc->GetHalODMVarHandler = &rtl8723b_GetHalODMVar;
+ 	pHalFunc->SetHalODMVarHandler = &rtl8723b_SetHalODMVar;
+ 
+ 	pHalFunc->xmit_thread_handler = &hal_xmit_handler;
 diff --git a/drivers/staging/rtl8723bs/include/hal_intf.h b/drivers/staging/rtl8723bs/include/hal_intf.h
-index be52288a2f1a..d41f458d117e 100644
+index d41f458d117e..73b6c4d199c3 100644
 --- a/drivers/staging/rtl8723bs/include/hal_intf.h
 +++ b/drivers/staging/rtl8723bs/include/hal_intf.h
-@@ -230,7 +230,6 @@ struct hal_ops {
- 	void (*write_rfreg)(struct adapter *padapter, u8 eRFPath, u32 RegAddr, u32 BitMask, u32 Data);
+@@ -206,7 +206,6 @@ struct hal_ops {
+ 	u8 (*GetHalDefVarHandler)(struct adapter *padapter, enum hal_def_variable eVariable, void *pValue);
+ 	u8 (*SetHalDefVarHandler)(struct adapter *padapter, enum hal_def_variable eVariable, void *pValue);
  
- 	void (*EfusePowerSwitch)(struct adapter *padapter, u8 bWrite, u8 PwrState);
--	void (*BTEfusePowerSwitch)(struct adapter *padapter, u8 bWrite, u8 PwrState);
- 	void (*ReadEFuse)(struct adapter *padapter, u8 efuseType, u16 _offset, u16 _size_byte, u8 *pbuf, bool bPseudoTest);
- 	void (*EFUSEGetEfuseDefinition)(struct adapter *padapter, u8 efuseType, u8 type, void *pOut, bool bPseudoTest);
- 	u16 (*EfuseGetCurrentSize)(struct adapter *padapter, u8 efuseType, bool bPseudoTest);
+-	void (*GetHalODMVarHandler)(struct adapter *padapter, enum hal_odm_variable eVariable, void *pValue1, void *pValue2);
+ 	void (*SetHalODMVarHandler)(struct adapter *padapter, enum hal_odm_variable eVariable, void *pValue1, bool bSet);
+ 
+ 	void (*UpdateRAMaskHandler)(struct adapter *padapter, u32 mac_id, u8 rssi_level);
 -- 
 2.43.0
 
