@@ -1,65 +1,65 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81B3921340
-	for <linux-staging@lists.linux.dev>; Sun, 15 Sep 2024 06:40:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EE9821A1C
+	for <linux-staging@lists.linux.dev>; Sun, 15 Sep 2024 06:41:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726382461; cv=none; b=Rxq5qdABnjeR1BBApIHg3l9iXQkXOD5LnHTdpDGxYpdMBV9Vyg20SpOGDF6n3JSflTWLjmlR93ss2IxgsDBxaTzKORWmuwYvTaoe3tTPELH29Ap0lFnBKVDvpNMGQ2vpNI7jcDxj6vAE5Kq8duEkulAiBvXbevzWVBJ3ELaKy9c=
+	t=1726382461; cv=none; b=RN5SZhImpvnK3LlCdmTbjtJLdt1myUDZWwbhfmG0VgrG7vB4HoUArYDRfiLqqvkWKBmilzzQClzlVBuYNgI0hZQdfZnEzxirzwyOIqFFaGqmAAjKlKPCq/G/tMRRw5sGThlT1A58pYAqgaTM+04F/G4yoqNdsMbKiF/uc7J/sQk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1726382461; c=relaxed/simple;
-	bh=j2O6drT/yEaimEwcfCew5PpZKxEWLADmXSUd7fDuNnw=;
+	bh=pvldl6v2DFlIl2vFANnRg4XBzOOXrXQyVsi9Mo6ORJQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KsgJFsR2IJOn2Dsd6L0hsGBtXFc4CMsuSD9SN1pvKcYvUcBAHnvQKV9Oto1DrnpYEq47NFW3F2cFHysHC0CGnixvgfPaZbLZHoDPBwxCPxFPKlgW+oUjBo/D2+eafOdGqjf+8x2CAF1/inoSc3CnrpGRi0O/gvbTH+GqPUA76+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HPjxUWq2; arc=none smtp.client-ip=209.85.218.53
+	 MIME-Version; b=NHRS3ZLplq4FV7uB6cC3j8ymQ4TCjkWzJElOlhq9jT2EIkaZB2pvp4behzdPQOcCwTp2iU/SHCmH716LClSJ0HiF5GYjeTfwgbDhiqS/3HZmoH+LsfPL4iJbbjpHofCVI77JB6m3VI4FLkOLZNVs/cZ9ojsJ7gAr/ovd7XQl5ok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IGSLp+6n; arc=none smtp.client-ip=209.85.208.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HPjxUWq2"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a8d13b83511so412662666b.2
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IGSLp+6n"
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5c4226a5af8so2545669a12.1
         for <linux-staging@lists.linux.dev>; Sat, 14 Sep 2024 23:40:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1726382458; x=1726987258; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=oWDI5048snuoXs6IvpY8OD2FxJJ3IZXVvUC8J5ar7tY=;
-        b=HPjxUWq2ansQgrxapZULScA6VhM6mhVuu+1wDUWc9zY+0HWn8ho8JMlJz0Mqc1978R
-         dA9dh3JCdpWRfCcANgOpAMWL+eq3D+nF2Vyc8mNBRCn4ef1M2dT80+dYQ8/mQw7Nq4c7
-         bCsiv+stJfWCS2HrCy3cFXacwstwylKXqOZ1LsV1SS6gxkD+2UZxLOS64LDQYT3OuRiZ
-         vlGLooQv0ihSDMhmGjNAupSRNyGgt+grISUjYI7rNGnOdhVtf/k5DBNtD6WwOEHwKa1d
-         DT5reh6/AwmIOWFe/mS+omfthd1qqYTZOe+LLadnq1FKCzycqQO6qbVyi7zFCYijkwe/
-         bfvw==
+        bh=eC/kfw8fP/MikLolFMSvfN+YF3ONZgmkBG/9V4Tu3L4=;
+        b=IGSLp+6ne4oot4O3OZyZBnR26jCX74npJHU0tCLMChe93zIMgos1Ark9lHas1F4VHy
+         8JJYbqfmDX5Zq8p2wjb59RtsQRxsoKTx89AM1jpvoo4mAfpa31AnUtKp1W3NsNNW8dJc
+         5YPOXROon8eCMFWYye2vt0KPwHogBYwEH84LRChJXS0t/PZbC6CqOA6OUK7PxaD1uge+
+         DjWhNoAmMtkzv8WtYy++u3bp74cvXOlnd8mdVdHc3gHaDDArrxLRW19j5MQ8QuDHtADW
+         JtHG0vNoAeJYLboae0BdOjWfXpuCUeSi7VL08iB0syQz5vlpKRLiIg0FXS+TNFWu+lQu
+         ogAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1726382458; x=1726987258;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=oWDI5048snuoXs6IvpY8OD2FxJJ3IZXVvUC8J5ar7tY=;
-        b=fgm17uz5pEc+meBbhGZIm6INxagSM7HihrBx2olo+ZPZsmjEbKjf6k+1YCUmPrKwMw
-         dawUgShvYMiovR4W0K9kv8T0acD4jKKDftU8NNqTWXPmXIOxu7HAsfC0/MUAdd6Byxix
-         BHyzPgLDZMLpX0L3xeNo0gy2SAq2lvEuAWUPASDIpHIaDottLaee/4S1TLZcfhwPN/+G
-         18eMu0OQVrZNcyug52Yevo7XIV4gRsIuzkTW0ePm9MKXawvUZ9pMXz1xbrkGX4+sUZNr
-         H33TDD7cn2SaQFcBpyCBzGb8jrTu2qk8lxwEjeuLoWJbVGnLPfplFhVy4jAYF7vgApuj
-         +HAA==
-X-Forwarded-Encrypted: i=1; AJvYcCXskYW9ECM9jxxX3yVOSeYCLB+bhMLUaclp/EO7hjrtJ8ARoasJF3wRJXSMqzXHd9lQdOwisN3MTOECKAqp@lists.linux.dev
-X-Gm-Message-State: AOJu0YwU3srD0/irEThwk7Gnh1gewov6zjWRjznVt7BUjK71PRP2hWUS
-	29nh6yzTn2UKcwqbFFQYN0IciYg6sJGzYzB7YZh01ioWoM48+v+vA0riCg==
-X-Google-Smtp-Source: AGHT+IEt7MPkHW+ZL5OLRwFItxC7DdTzX7eqPc/VeXHarcujLoUO+0sL0ZjcE08o/LTo3wnGzQmseQ==
-X-Received: by 2002:a17:907:f18c:b0:a8d:3998:2de with SMTP id a640c23a62f3a-a90293fbcb8mr1072337466b.12.1726382457958;
-        Sat, 14 Sep 2024 23:40:57 -0700 (PDT)
+        bh=eC/kfw8fP/MikLolFMSvfN+YF3ONZgmkBG/9V4Tu3L4=;
+        b=BbNFSOIugy8ssWaN3JP4F8GsmmawHcfFlQZyeCbd0vuJUQW3yTrJDVdAuQfbpHxDmz
+         CAYpEUkZFo7mdtLzIz1rWCnuZhBBC6vtpl/+Vq/fwoi3MqOIKsHg1ozH/nEN2eAF5oI2
+         R6PD1g9wHZRRX1g8CpI41bF8xMDPa5f5O4TYCysoUtHazp904l4nAixsr7u4Pm7PuHog
+         EWRF6j51T1HokTwgCicw+Pw6Mg6KPssLzl9LuH7hFbUfmzRg+NggaDzieoanGwNPcR4n
+         /RX+CuyAyYqfwPoYpLR1cR2/posRXddv7dZQwLR575Efu5GVSGHhWexQiZ0vaFnTXeTO
+         5cmw==
+X-Forwarded-Encrypted: i=1; AJvYcCWyp8kzE9yYEppqNbPNlpIvFdtzImbgo4FOPXBuF+Ad4f+coGd/CsAN7wzngTAZh1tm7jtWAWRmkIWk/eOg@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzvle5JTELHIuwUGy0k+SE5GNBHc5Rq5RlWZ1L49eKiambyT73z
+	nUtLBKYJ62uPe5q26T3TxByDFlQOwchI6Az0e1yNehnl76aiofW0
+X-Google-Smtp-Source: AGHT+IGQquk2jTrGNJ5jXz0fryYGBvUsxfpAEhOJeups2teTSbS1S/xyCYdIHw9wkzaCLdiTIX7+lQ==
+X-Received: by 2002:a17:907:e28f:b0:a8d:2ab2:c99e with SMTP id a640c23a62f3a-a9029730615mr1184068266b.55.1726382458576;
+        Sat, 14 Sep 2024 23:40:58 -0700 (PDT)
 Received: from kernel-710.speedport.ip (p57ba2f9b.dip0.t-ipconnect.de. [87.186.47.155])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a90610967bbsm160201066b.8.2024.09.14.23.40.57
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a90610967bbsm160201066b.8.2024.09.14.23.40.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Sep 2024 23:40:57 -0700 (PDT)
+        Sat, 14 Sep 2024 23:40:58 -0700 (PDT)
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Subject: [PATCH 01/17] staging: rtl8723bs: Remove unused function dvobj_get_port0_adapter
-Date: Sun, 15 Sep 2024 08:38:15 +0200
-Message-ID: <11091c00a57600a79a623f92ca8435034f0dfb3c.1726339782.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 02/17] staging: rtl8723bs: Remove unused function rtw_search_max_mac_id
+Date: Sun, 15 Sep 2024 08:38:16 +0200
+Message-ID: <34c5f2ef44641c5151dde12b161d3f0aa963de5c.1726339782.git.philipp.g.hortmann@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1726339782.git.philipp.g.hortmann@gmail.com>
 References: <cover.1726339782.git.philipp.g.hortmann@gmail.com>
@@ -71,43 +71,52 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove unused function dvobj_get_port0_adapter.
+Remove unused function rtw_search_max_mac_id.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_wlan_util.c | 8 --------
- drivers/staging/rtl8723bs/include/drv_types.h  | 2 --
- 2 files changed, 10 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_wlan_util.c | 18 ------------------
+ .../staging/rtl8723bs/include/rtw_mlme_ext.h   |  1 -
+ 2 files changed, 19 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-index f37fec1efaf9..2fb14f4ff1af 100644
+index 2fb14f4ff1af..cd62ea47577c 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-@@ -1840,11 +1840,3 @@ u8 rtw_search_max_mac_id(struct adapter *padapter)
- 
- 	return max_mac_id;
+@@ -1822,21 +1822,3 @@ void rtw_release_macid(struct adapter *padapter, struct sta_info *psta)
+ 	}
+ 	spin_unlock_bh(&pdvobj->lock);
  }
 -
--struct adapter *dvobj_get_port0_adapter(struct dvobj_priv *dvobj)
+-/* For 8188E RA */
+-u8 rtw_search_max_mac_id(struct adapter *padapter)
 -{
--	if (get_iface_type(dvobj->padapters[i]) != IFACE_PORT0)
--		return NULL;
+-	u8 max_mac_id = 0;
+-	struct dvobj_priv *pdvobj = adapter_to_dvobj(padapter);
+-	int i;
 -
--	return dvobj->padapters;
+-	spin_lock_bh(&pdvobj->lock);
+-	for (i = (NUM_STA-1); i >= 0 ; i--) {
+-		if (pdvobj->macid[i] == true)
+-			break;
+-	}
+-	max_mac_id = i;
+-	spin_unlock_bh(&pdvobj->lock);
+-
+-	return max_mac_id;
 -}
-diff --git a/drivers/staging/rtl8723bs/include/drv_types.h b/drivers/staging/rtl8723bs/include/drv_types.h
-index 0b35c97843cc..0094eed6c32d 100644
---- a/drivers/staging/rtl8723bs/include/drv_types.h
-+++ b/drivers/staging/rtl8723bs/include/drv_types.h
-@@ -320,8 +320,6 @@ static inline struct device *dvobj_to_dev(struct dvobj_priv *dvobj)
- 	return &dvobj->intf_data.func->dev;
- }
+diff --git a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
+index 8315399b64fd..82709ffc7bad 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
++++ b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
+@@ -528,7 +528,6 @@ void rtw_camid_free(struct adapter *adapter, u8 cam_id);
  
--struct adapter *dvobj_get_port0_adapter(struct dvobj_priv *dvobj);
--
- enum {
- 	IFACE_PORT0, /* mapping to port0 for C/D series chips */
- 	IFACE_PORT1, /* mapping to port1 for C/D series chip */
+ extern void rtw_alloc_macid(struct adapter *padapter, struct sta_info *psta);
+ extern void rtw_release_macid(struct adapter *padapter, struct sta_info *psta);
+-extern u8 rtw_search_max_mac_id(struct adapter *padapter);
+ 
+ void report_join_res(struct adapter *padapter, int res);
+ void report_survey_event(struct adapter *padapter, union recv_frame *precv_frame);
 -- 
 2.43.0
 
