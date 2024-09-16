@@ -1,126 +1,361 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38CCD1CF93
-	for <linux-staging@lists.linux.dev>; Mon, 16 Sep 2024 04:12:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9311214AD03
+	for <linux-staging@lists.linux.dev>; Mon, 16 Sep 2024 09:15:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726459949; cv=none; b=WMJ+TYJPquayby+py1mcNQs9Efzm5qAqtwxgm7GtaRNUFV2ywHEv0rE2DqykqJoKRrBoxZp0paBFUFWwSkWI6/+wShZqFsIl6wVKjmILFCIuLpOrvULTEQiU5VWeJ7RjeiApdz5DL/7ov3q57/jJMsC7hs3bl6JNvBJc+qIU+gE=
+	t=1726478130; cv=none; b=sG0dUvWugxdfbuqXxLHqAh32Qw77sq3YUkVzZpSOGD65bthNuMOEuq+1FLqeZXnh+x9fY31r5fyoukZHkifaQYuDjcRxuauoATyyg3PvZxF4N3aeI29V+K1SYFo2fdr8f5ei9TBjM9Sjv7Y7BG9muEfU3H8ZY9AU4RQYibZQGNA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726459949; c=relaxed/simple;
-	bh=fOMZ4jnR3B94Pxfaw5hxV/eTHiQuE4qMCdekMEAcFNg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ef1caNT4alyZ4srwjxKnkBBen6XY6t/G2af3zchLfa+hVLEJL98ZS1ZTFTdovxj3rN/fCcSJlvuSRSzBOyMsyjLODIAOSQfkQM1dCuGjXv9JyrHPRbjDtO61jSpaAChj3DxTn5T9x9+kvcCuNfz7FBH4P8PR7jqUV5L9cCMxaI8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d0XeFcUN; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1726478130; c=relaxed/simple;
+	bh=no9FMBuciGwSEje/9dpr55+BjLrckOkZm1WWlWkH9+U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OwlwmZejeEJY52dHx/57nVYfdX9iQKeN7uB/c6z642ZGuY6IcQWowYAR1MvrRf+I9/TBehnvflVcM6Buq8YG6uuhykzBvnIdT9RgycSm5W/dojOmcGCAL5YXWDpzuLTfJ7zwsqwEmYoVjZAHQQWRbfx2DzABTRnXAG/jgN6RNZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=IgQ1/3n0; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d0XeFcUN"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-42cde6b5094so31176855e9.3
-        for <linux-staging@lists.linux.dev>; Sun, 15 Sep 2024 21:12:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726459945; x=1727064745; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=CBYcp0cztEoi8SXhYg4j4NHc7gka1ii3pCNxKSCW8DU=;
-        b=d0XeFcUNBJaK1KX31+vGoR3AXq5vxo9cxHaHcHL8Ft9Nd2SE+x7wCz3VrTWDPhtWYI
-         bMuQkB5VRSxkxCFn4k7R1qMROAA1sS6agRQl8+0cRIeT6GhRkuxsZlgjqoUKPTzjN5DJ
-         FHxkdXMNKecMKdHaxDf6hcZFieaN0WndGwTWzmvZXVw6TkhzDRsDAh7XFmr5dJRtDF9T
-         vuZrPjhq1oJXMbPR0Lgl8Gkv6j0BUvtYfFjb2GvTSFijzpHwue6Wc4Yht06Hpgjx/fov
-         ObYfETF7CII5GLLj1b36krbZn31yfBkVuKb6nko9w162rGarFoszosj4Jy6iFnhhPxWO
-         RLbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726459945; x=1727064745;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CBYcp0cztEoi8SXhYg4j4NHc7gka1ii3pCNxKSCW8DU=;
-        b=t9idkdPLeRFk/wFQdc1/e/a3jIBalF5ZzK1O7b+bW84bpazWZnO8ZOAsPCxYvhn2m3
-         qHVSaOThquqYj1f1h0NuGYyrqcZY+QwlE5ADaulDqYCGsTEvbOebglRJXHvvHCvuqbQb
-         fUuSOoMNftxvX0LbRzDFsDvzHZncfSKqRfCeAR5TPhNWnflTKWO1AZ0uobkh18ljWjhv
-         5Rek84X/bX5vM4nDxSrz9dgwULXES5wFDKzSgswUmfxC3A1I+oRkWE/mPI7/s9xhhh6D
-         C3t4vXptytbuVknjrah3fKb5ZKngOSMrOrCeiKCjXt23dIze0sFpB2JY2EYMHYudHukz
-         uSTQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW37kFusqY84Gqz9d1w1dV+jrltBEI2OGZ/XpEQeCB7Z1dzPurjzPnVyBER8LMow3S3XJ54TY1+i2mpD4Ps@lists.linux.dev
-X-Gm-Message-State: AOJu0YzAfgY7j31tW7kj0MyEHZItvYginVFgVhrVBEMvFdjHp1EWhYUL
-	wwRd7KIj8KGE9nH81E1JOvrrLVu3CfO4NOzbbDgEdtYqu9OSAarLlHhCdg==
-X-Google-Smtp-Source: AGHT+IGw2Cr8O3Jjyn++nhqEvbDdwkM92HBwOKyJafeySg1rKPB4mVnwQisqmu1Jh9X4Tq1scUFDCA==
-X-Received: by 2002:a05:600c:3b15:b0:42c:bb41:a079 with SMTP id 5b1f17b1804b1-42cdb531bd4mr104724425e9.1.1726459945129;
-        Sun, 15 Sep 2024 21:12:25 -0700 (PDT)
-Received: from kernel-710 (p57ba2f9b.dip0.t-ipconnect.de. [87.186.47.155])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42da22d8b15sm63738155e9.18.2024.09.15.21.12.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Sep 2024 21:12:24 -0700 (PDT)
-Date: Mon, 16 Sep 2024 06:12:23 +0200
-From: philipp hortmann <philipp.g.hortmann@gmail.com>
-To: Mikhail Arkhipov <m.arhipov@rosa.ru>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Lynn Lei <lynnl.yet@gmail.com>, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org
-Subject: Re: [PATCH] staging: wlan-ng: Fix potential double free in
- skb_ether_to_p80211
-Message-ID: <ZuewJ3ZvWdrCFZVt@kernel-710>
-References: <20240915185804.83811-1-m.arhipov@rosa.ru>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IgQ1/3n0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1726478124;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=B1gwvJSddKllxmMaNvhBCJQlcWxxNGHOlsR5vJis1rk=;
+	b=IgQ1/3n0uVrAy3JPbniiP4E4e5GdMDYTauznN6fLniSpMFzcPtsQ26MdN/R+BGRTlCkgBU
+	RFLJBDc1Ul0zQbhw/O1z0ScouQHIi0bMYbeqtynXyuwYdYXAI3zVmJ7NRvuNS0rmrU2mAb
+	6AtM5Mz8MYPUUCSdBaOgi5snvKxE208=
+Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-564-sWmAEzWHNda6rthRBUV1nw-1; Mon,
+ 16 Sep 2024 05:15:21 -0400
+X-MC-Unique: sWmAEzWHNda6rthRBUV1nw-1
+Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E048519560A2;
+	Mon, 16 Sep 2024 09:15:19 +0000 (UTC)
+Received: from x1.localdomain.com (unknown [10.39.194.139])
+	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 02E571956088;
+	Mon, 16 Sep 2024 09:15:15 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Kate Hsuan <hpa@redhat.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	"Dr. David Alan Gilbert" <linux@treblig.org>
+Subject: [PATCH] media: atomisp: Remove unused libmsrlisthelper
+Date: Mon, 16 Sep 2024 11:15:11 +0200
+Message-ID: <20240916091512.81859-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240915185804.83811-1-m.arhipov@rosa.ru>
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
 
-On Sun, Sep 15, 2024 at 09:58:04PM +0300, Mikhail Arkhipov wrote:
-> Fix a potential double free of the p80211_wep->data pointer in the
-> skb_ether_to_p80211 function. When encryption fails, the function frees
-> p80211_wep->data but does not set the pointer to NULL, leading to the
-> possibility of double freeing the memory if the caller attempts to
-> free it again (calling function in p80211netdev.c (line 385) attempts
-> to free this memory again using kfree_sensitive at line 432)
-> 
-> Set p80211_wep->data to NULL after freeing it to ensure that further
-> attempts to free this pointer are safely handled, preventing a
-> double free error.
-> 
-> Found by Linux Verification Center (linuxtesting.org) with SVACE.
-> 
-> Fixes: b5956dd26f84 ("drivers/staging/wlan-ng/p80211conv.c: fixed a
->  potential memory leak")
-> Signed-off-by: Mikhail Arkhipov <m.arhipov@rosa.ru>
-> ---
->  drivers/staging/wlan-ng/p80211conv.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/staging/wlan-ng/p80211conv.c b/drivers/staging/wlan-ng/p80211conv.c
-> index 0ff5fda81b05..b2e224e1e33f 100644
-> --- a/drivers/staging/wlan-ng/p80211conv.c
-> +++ b/drivers/staging/wlan-ng/p80211conv.c
-> @@ -215,6 +215,7 @@ int skb_ether_to_p80211(struct wlandevice *wlandev, u32 ethconv,
->  				    "Host en-WEP failed, dropping frame (%d).\n",
->  				    foo);
->  			kfree(p80211_wep->data);
-> +			p80211_wep->data = NULL;
->  			return 2;
->  		}
->  		fc |= cpu_to_le16(WLAN_SET_FC_ISWEP(1));
-> -- 
-> 2.39.3 (Apple Git-146)
-> 
-Hi Mikhail,
+Since commit 3a81c7660f80 ("media: staging: atomisp: Remove IMX sensor
+support") the libmsrlisthelper code is no longer used, remove it.
 
-I cannot apply your patch. Reason is that wlan-ng was removed some month
-ago.
+Suggested-by: Dr. David Alan Gilbert <linux@treblig.org>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/staging/media/atomisp/i2c/Kconfig     |  10 -
+ drivers/staging/media/atomisp/i2c/Makefile    |   2 -
+ .../atomisp/i2c/atomisp-libmsrlisthelper.c    | 211 ------------------
+ .../atomisp/include/linux/libmsrlisthelper.h  |  28 ---
+ 4 files changed, 251 deletions(-)
+ delete mode 100644 drivers/staging/media/atomisp/i2c/atomisp-libmsrlisthelper.c
+ delete mode 100644 drivers/staging/media/atomisp/include/linux/libmsrlisthelper.h
 
-Are you using the right git repo?
+diff --git a/drivers/staging/media/atomisp/i2c/Kconfig b/drivers/staging/media/atomisp/i2c/Kconfig
+index 8710c483015c..f5ab23592f29 100644
+--- a/drivers/staging/media/atomisp/i2c/Kconfig
++++ b/drivers/staging/media/atomisp/i2c/Kconfig
+@@ -27,16 +27,6 @@ config VIDEO_ATOMISP_GC2235
+ 
+ 	  It currently only works with the atomisp driver.
+ 
+-config VIDEO_ATOMISP_MSRLIST_HELPER
+-	tristate "Helper library to load, parse and apply large register lists."
+-	depends on I2C
+-	help
+-	  This is a helper library to be used from a sensor driver to load, parse
+-	  and apply large register lists.
+-
+-	  To compile this driver as a module, choose M here: the
+-	  module will be called libmsrlisthelper.
+-
+ config VIDEO_ATOMISP_MT9M114
+ 	tristate "Aptina mt9m114 sensor support"
+ 	depends on ACPI
+diff --git a/drivers/staging/media/atomisp/i2c/Makefile b/drivers/staging/media/atomisp/i2c/Makefile
+index 3073cfa75ecf..021a7ea0a075 100644
+--- a/drivers/staging/media/atomisp/i2c/Makefile
++++ b/drivers/staging/media/atomisp/i2c/Makefile
+@@ -7,5 +7,3 @@ obj-$(CONFIG_VIDEO_ATOMISP_MT9M114)    += atomisp-mt9m114.o
+ obj-$(CONFIG_VIDEO_ATOMISP_GC2235)     += atomisp-gc2235.o
+ obj-$(CONFIG_VIDEO_ATOMISP_OV2722)     += atomisp-ov2722.o
+ obj-$(CONFIG_VIDEO_ATOMISP_GC0310)     += atomisp-gc0310.o
+-
+-obj-$(CONFIG_VIDEO_ATOMISP_MSRLIST_HELPER) += atomisp-libmsrlisthelper.o
+diff --git a/drivers/staging/media/atomisp/i2c/atomisp-libmsrlisthelper.c b/drivers/staging/media/atomisp/i2c/atomisp-libmsrlisthelper.c
+deleted file mode 100644
+index 3499353f8ea5..000000000000
+--- a/drivers/staging/media/atomisp/i2c/atomisp-libmsrlisthelper.c
++++ /dev/null
+@@ -1,211 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-/*
+- * Copyright (c) 2013 Intel Corporation. All Rights Reserved.
+- *
+- * This program is free software; you can redistribute it and/or
+- * modify it under the terms of the GNU General Public License version
+- * 2 as published by the Free Software Foundation.
+- *
+- * This program is distributed in the hope that it will be useful,
+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- * GNU General Public License for more details.
+- *
+- *
+- */
+-#include <linux/i2c.h>
+-#include <linux/firmware.h>
+-#include <linux/device.h>
+-#include <linux/export.h>
+-#include "../include/linux/libmsrlisthelper.h"
+-#include <linux/module.h>
+-#include <linux/slab.h>
+-
+-/* Tagged binary data container structure definitions. */
+-struct tbd_header {
+-	u32 tag;          /*!< Tag identifier, also checks endianness */
+-	u32 size;         /*!< Container size including this header */
+-	u32 version;      /*!< Version, format 0xYYMMDDVV */
+-	u32 revision;     /*!< Revision, format 0xYYMMDDVV */
+-	u32 config_bits;  /*!< Configuration flag bits set */
+-	u32 checksum;     /*!< Global checksum, header included */
+-} __packed;
+-
+-struct tbd_record_header {
+-	u32 size;        /*!< Size of record including header */
+-	u8 format_id;    /*!< tbd_format_t enumeration values used */
+-	u8 packing_key;  /*!< Packing method; 0 = no packing */
+-	u16 class_id;    /*!< tbd_class_t enumeration values used */
+-} __packed;
+-
+-struct tbd_data_record_header {
+-	u16 next_offset;
+-	u16 flags;
+-	u16 data_offset;
+-	u16 data_size;
+-} __packed;
+-
+-#define TBD_CLASS_DRV_ID 2
+-
+-static int set_msr_configuration(struct i2c_client *client, uint8_t *bufptr,
+-				 unsigned int size)
+-{
+-	/*
+-	 * The configuration data contains any number of sequences where
+-	 * the first byte (that is, uint8_t) that marks the number of bytes
+-	 * in the sequence to follow, is indeed followed by the indicated
+-	 * number of bytes of actual data to be written to sensor.
+-	 * By convention, the first two bytes of actual data should be
+-	 * understood as an address in the sensor address space (hibyte
+-	 * followed by lobyte) where the remaining data in the sequence
+-	 * will be written.
+-	 */
+-
+-	u8 *ptr = bufptr;
+-
+-	while (ptr < bufptr + size) {
+-		struct i2c_msg msg = {
+-			.addr = client->addr,
+-			.flags = 0,
+-		};
+-		int ret;
+-
+-		/* How many bytes */
+-		msg.len = *ptr++;
+-		/* Where the bytes are located */
+-		msg.buf = ptr;
+-		ptr += msg.len;
+-
+-		if (ptr > bufptr + size)
+-			/* Accessing data beyond bounds is not tolerated */
+-			return -EINVAL;
+-
+-		ret = i2c_transfer(client->adapter, &msg, 1);
+-		if (ret < 0) {
+-			dev_err(&client->dev, "i2c write error: %d", ret);
+-			return ret;
+-		}
+-	}
+-	return 0;
+-}
+-
+-static int parse_and_apply(struct i2c_client *client, uint8_t *buffer,
+-			   unsigned int size)
+-{
+-	u8 *endptr8 = buffer + size;
+-	struct tbd_data_record_header *header =
+-	    (struct tbd_data_record_header *)buffer;
+-
+-	/* There may be any number of datasets present */
+-	unsigned int dataset = 0;
+-
+-	do {
+-		/* In below, four variables are read from buffer */
+-		if ((uint8_t *)header + sizeof(*header) > endptr8)
+-			return -EINVAL;
+-
+-		/* All data should be located within given buffer */
+-		if ((uint8_t *)header + header->data_offset +
+-		    header->data_size > endptr8)
+-			return -EINVAL;
+-
+-		/* We have a new valid dataset */
+-		dataset++;
+-		/* See whether there is MSR data */
+-		/* If yes, update the reg info */
+-		if (header->data_size && (header->flags & 1)) {
+-			int ret;
+-
+-			dev_info(&client->dev,
+-				 "New MSR data for sensor driver (dataset %02d) size:%d\n",
+-				 dataset, header->data_size);
+-			ret = set_msr_configuration(client,
+-						    buffer + header->data_offset,
+-						    header->data_size);
+-			if (ret)
+-				return ret;
+-		}
+-		header = (struct tbd_data_record_header *)(buffer +
+-			 header->next_offset);
+-	} while (header->next_offset);
+-
+-	return 0;
+-}
+-
+-int apply_msr_data(struct i2c_client *client, const struct firmware *fw)
+-{
+-	struct tbd_header *header;
+-	struct tbd_record_header *record;
+-
+-	if (!fw) {
+-		dev_warn(&client->dev, "Drv data is not loaded.\n");
+-		return -EINVAL;
+-	}
+-
+-	if (sizeof(*header) > fw->size)
+-		return -EINVAL;
+-
+-	header = (struct tbd_header *)fw->data;
+-	/* Check that we have drvb block. */
+-	if (memcmp(&header->tag, "DRVB", 4))
+-		return -EINVAL;
+-
+-	/* Check the size */
+-	if (header->size != fw->size)
+-		return -EINVAL;
+-
+-	if (sizeof(*header) + sizeof(*record) > fw->size)
+-		return -EINVAL;
+-
+-	record = (struct tbd_record_header *)(header + 1);
+-	/* Check that class id mathes tbd's drv id. */
+-	if (record->class_id != TBD_CLASS_DRV_ID)
+-		return -EINVAL;
+-
+-	/* Size 0 shall not be treated as an error */
+-	if (!record->size)
+-		return 0;
+-
+-	return parse_and_apply(client, (uint8_t *)(record + 1), record->size);
+-}
+-EXPORT_SYMBOL_GPL(apply_msr_data);
+-
+-int load_msr_list(struct i2c_client *client, char *name,
+-		  const struct firmware **fw)
+-{
+-	int ret = request_firmware(fw, name, &client->dev);
+-
+-	if (ret) {
+-		dev_err(&client->dev,
+-			"Error %d while requesting firmware %s\n",
+-			ret, name);
+-		return ret;
+-	}
+-	dev_info(&client->dev, "Received %lu bytes drv data\n",
+-		 (unsigned long)(*fw)->size);
+-
+-	return 0;
+-}
+-EXPORT_SYMBOL_GPL(load_msr_list);
+-
+-void release_msr_list(struct i2c_client *client, const struct firmware *fw)
+-{
+-	release_firmware(fw);
+-}
+-EXPORT_SYMBOL_GPL(release_msr_list);
+-
+-static int init_msrlisthelper(void)
+-{
+-	return 0;
+-}
+-
+-static void exit_msrlisthelper(void)
+-{
+-}
+-
+-module_init(init_msrlisthelper);
+-module_exit(exit_msrlisthelper);
+-
+-MODULE_AUTHOR("Jukka Kaartinen <jukka.o.kaartinen@intel.com>");
+-MODULE_DESCRIPTION("Helper library to load, parse and apply large register lists");
+-MODULE_LICENSE("GPL");
+diff --git a/drivers/staging/media/atomisp/include/linux/libmsrlisthelper.h b/drivers/staging/media/atomisp/include/linux/libmsrlisthelper.h
+deleted file mode 100644
+index abc8fa809bce..000000000000
+--- a/drivers/staging/media/atomisp/include/linux/libmsrlisthelper.h
++++ /dev/null
+@@ -1,28 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 */
+-/*
+- * Copyright (c) 2013 Intel Corporation. All Rights Reserved.
+- *
+- * This program is free software; you can redistribute it and/or
+- * modify it under the terms of the GNU General Public License version
+- * 2 as published by the Free Software Foundation.
+- *
+- * This program is distributed in the hope that it will be useful,
+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- * GNU General Public License for more details.
+- *
+- *
+- */
+-#ifndef __LIBMSRLISTHELPER_H__
+-#define __LIBMSRLISTHELPER_H__
+-
+-struct i2c_client;
+-struct firmware;
+-
+-int load_msr_list(struct i2c_client *client, char *path,
+-		  const struct firmware **fw);
+-int apply_msr_data(struct i2c_client *client, const struct firmware *fw);
+-void release_msr_list(struct i2c_client *client,
+-		      const struct firmware *fw);
+-
+-#endif /* ifndef __LIBMSRLISTHELPER_H__ */
+-- 
+2.46.0
 
-git remote show origin
-* remote origin
-  Fetch URL: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git
-...
-git branch -a
-my branch: staging-testing
-
-Thanks for your support.
-
-Bye Philipp
