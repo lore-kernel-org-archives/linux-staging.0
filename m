@@ -1,56 +1,56 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCA4C15098E
-	for <linux-staging@lists.linux.dev>; Tue, 17 Sep 2024 05:32:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FCF7149C42
+	for <linux-staging@lists.linux.dev>; Tue, 17 Sep 2024 05:32:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726551124; cv=none; b=nlU/e1e9p6FivxD4Ylfy3NneEGMOEo8YaQlpK/O2JBg9623bU5qCDpd4wCGPfMA1l4HbRFYA0VaZPDHoN0OjDmX3n2B0sZi26PZmhtrGiXemyFpK4g+2Zdn0D8c4eL0Dlgh+ojc0hmpqu1mIc+qDNBVaJpUovAUERqVXC+kSyYw=
+	t=1726551125; cv=none; b=r8L54tnKR/ZKAUZh1ruiVdaSEelgoFinKawioDP8kLKZYBQIgT8vC9A0m+sIU0rA4cn3/eZ9WQwUEP3y+4XDDunWyX/RsQfmrbbiphg9EGZrqMIh97ALAflQG77e5E9xz0hi52GaWzDNs9OKqDO+/I9rpEjYGQnkIhLZDD1t9Is=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726551124; c=relaxed/simple;
-	bh=Gpn2H8LHNdXdTOmFy7tNJ6iSxJpv8TCjLYoJz1IYxB0=;
+	s=arc-20240116; t=1726551125; c=relaxed/simple;
+	bh=Uo6WuL25MMLjivW5vo5RhhYC1vhyvzMtpyxTXfSsK2E=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=nyicKLvGHXPgq/s4R73+Xhf20+JYQ2dfpg+I8UHH+xEPXWA09ZjZ71a19ZbLhgopM+ttnvBClsZZ/arZACKXSwrh7Vcv7dqnpXxWGzHVlgNb0dShtxWxUv2RYF3HTkO+HrdmdyY4TtRAwuINlighEtxaj6uB7ntT0Rhb8dTW3eU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net; spf=pass smtp.mailfrom=darkphysics.net; dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b=V7dfbsWD; arc=none smtp.client-ip=209.85.210.182
+	 MIME-Version; b=SLuNDo3kpkHcaMkzTkz80Q1ypd1nqx34+Mtw8wynMIR5g1rmHv5xlLYEAAeeG9TiZXrElj0tlI1hOcqBs6RIHf5oxZdwWsJOXOq4XG1T5rhFgY1Jigb96ct50m5fykVa7PIKud1nPTi2VtdgqqaBABumAcN7QgbHN09Gc48TghA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net; spf=pass smtp.mailfrom=darkphysics.net; dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b=D9Lif4em; arc=none smtp.client-ip=209.85.214.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=darkphysics.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="V7dfbsWD"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-718e9c8bd83so4398890b3a.1
-        for <linux-staging@lists.linux.dev>; Mon, 16 Sep 2024 22:32:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="D9Lif4em"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-206b9455460so39834765ad.0
+        for <linux-staging@lists.linux.dev>; Mon, 16 Sep 2024 22:32:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=darkphysics.net; s=google; t=1726551122; x=1727155922; darn=lists.linux.dev;
+        d=darkphysics.net; s=google; t=1726551123; x=1727155923; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=X/aNmWGHy2dB2dhTqpwQodFKxIg7+IWGmSsCtZxhNag=;
-        b=V7dfbsWDaqMxT+7okUOQpLAAFcN1BMmkYrBvVLOJyi0J3jU9fYbj+Hq9TrTMnXVkWc
-         VsRFHda7jSxzpHkod6f0xFkfKmCKfi13FPJrRBICilxLr/XNq/D0JkPoVB2HOIgdIF73
-         zPAzcb9R6b9c7veCxcXjW8INVXpKoh+UfMqu0jCL+weebYDxIt5lunhC6YzAxNaeWaly
-         nrmSVETLoUt7YP7FW42nzrargV3JnVD8WN6o7IQWL9HQyiMvlLr+ogkKiP7SVPXEDHMs
-         dHidLrutt0ih8CgazytmfYF9PsIhZM0gpE6uo2Cb3y0j2Hry5/kurpyDkDHbpJxD4SVf
-         CIpg==
+        bh=8YSnWD5yZrBHR1oCufU8J5mydWGTq5g5s/eKz55Tg6E=;
+        b=D9Lif4emWTevfO/6tzBqDAG62e2xv3QBoPzfzZYM+d4jzrREP2zwY4awFvm3fLEHSU
+         S8oXBfHJAglQHVDadOFNnN30j0ESazoeh3dlODCjvYBgJu6wWN8ucIQP6k6UCKnUYxWK
+         7XvOf50lUVnaSJ0buQrvafHYmpcWGzp/jNOPidWFbWZjPwpRb2Ci2OcCDxuT4gJEITWr
+         z1fWWIAH0i+TPyW5ClohTfuNv/Rk8313885i9k1YDwWtMR/hL0XGlF94h0eQr9DAG24s
+         x5VAKJ1NihJZJJT6Zpa4yxivnbOo/Vmj6RrxaedyjrneRYF42eRdjlFc/dcN/h8YASF3
+         sIAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726551122; x=1727155922;
+        d=1e100.net; s=20230601; t=1726551123; x=1727155923;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=X/aNmWGHy2dB2dhTqpwQodFKxIg7+IWGmSsCtZxhNag=;
-        b=I+q+0OUfktf8BBCZv0w9lpeyiiJoemug2otNVkfJLHc4NmtRTmxnU64+4to2a9GqtM
-         0qGdANkIzgFqr8HEz798meCMWqGa5zphM3QXMDE66nO9eoPc6/e6cLvSrd0qheehvni8
-         HXdKKCvAlCGerOnhiWUzruiShgDcKU7/TvJK7KpSx/G3HUwaOobb61+vHGMVxA5cYWTb
-         9WbsmVLujLX7BWX4nAw0PbNnWoYflhfHo0W4XaeSaTzvr7QCuBf86EqdJPGTM4VMwASb
-         bwqsjKfndq6G2MKHPKipjWPbdsHE5ExT9lYr20SutCZmZmY5SOzFmhHTfT3kemPVkeaW
-         5GIw==
-X-Gm-Message-State: AOJu0Yymb4Hv7eXghtD9wVtMGhochkk+dwZAilJyuiWcMNoQ9ZHHPBpO
-	kPaOEjwWDEUimRLZx/Mn89PrH8j9kH+Y+7EkbHL8YtU6PLIYnzA3FnlU/iggFMg=
-X-Google-Smtp-Source: AGHT+IHG4o+lsuxq37psiM1fmskoMo4VtXlyrhsBp2Q1ne+m8rOJmTs7umneHzv9t9X+7R9ETx6FXg==
-X-Received: by 2002:a05:6a00:b011:b0:717:83bc:6df3 with SMTP id d2e1a72fcca58-71907f55c44mr34251595b3a.11.1726551122001;
+        bh=8YSnWD5yZrBHR1oCufU8J5mydWGTq5g5s/eKz55Tg6E=;
+        b=xLWCkPT2/uHtlpkPejKn0AdCmRghKZgYLqu0PjGwDZbMNVC8ZXoxJolHePKxuzJnUB
+         3t9JIb9EvHKGknOsNh2JFW6e8p5gR76EkZZkbXiI0GmLDMjnsvP/NM269Y2cVCGgosCh
+         E7YDgh+lIOJiCvIJvRw/L5x1sW6c5AlwR2AHFTjrAiUBNsZVyydVfBZPAYqOnm8ftxid
+         JH2xPG8NhU4I/PYoJ5oZK4BNyob9mq8I22Nhip0ChbOBwYD+9ZW4N9n2JSJzXKiUZYxR
+         3nAxAaQ1A3PAL1BJN/dF/QCmWmyBmO8+nSCeQEbw5sDIg4I4mOTKkDu93ZopwCwpdf2v
+         Dn/Q==
+X-Gm-Message-State: AOJu0YzY9klh56AKLDOw9lCh1P3pmnZ3HL9h8QeGQx8FQqjaf0dMAEFd
+	toXK0fAL/ZtnF8I1ZUrnwMQaRSmfQFJM85Bq4Mua6VzZXy0heLmAU9Nkq8XUkvc=
+X-Google-Smtp-Source: AGHT+IFFrlWGY9a1utCnaH2Uv9do7wUI3ZntHgsek+0Mqfp/OZJlTdaoFeuckOpOYkQ22G47EJWfHw==
+X-Received: by 2002:a17:903:1cf:b0:204:e471:8f06 with SMTP id d9443c01a7336-2074c65aa70mr328457905ad.17.1726551122827;
         Mon, 16 Sep 2024 22:32:02 -0700 (PDT)
 Received: from lunchbox.darkphysics (c-73-83-183-190.hsd1.wa.comcast.net. [73.83.183.190])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7db498e0607sm4392328a12.8.2024.09.16.22.32.01
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7db498e0607sm4392328a12.8.2024.09.16.22.32.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Sep 2024 22:32:01 -0700 (PDT)
+        Mon, 16 Sep 2024 22:32:02 -0700 (PDT)
 From: Tree Davies <tdavies@darkphysics.net>
 To: gregkh@linuxfoundation.org,
 	philipp.g.hortmann@gmail.com,
@@ -58,9 +58,9 @@ To: gregkh@linuxfoundation.org,
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Tree Davies <tdavies@darkphysics.net>
-Subject: [PATCH 09/18] Staging: rtl8192e: Rename variable bFirstMPDU
-Date: Mon, 16 Sep 2024 22:31:43 -0700
-Message-Id: <20240917053152.575553-10-tdavies@darkphysics.net>
+Subject: [PATCH 10/18] Staging: rtl8192e: Rename variable bPacketBeacon
+Date: Mon, 16 Sep 2024 22:31:44 -0700
+Message-Id: <20240917053152.575553-11-tdavies@darkphysics.net>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20240917053152.575553-1-tdavies@darkphysics.net>
 References: <20240917053152.575553-1-tdavies@darkphysics.net>
@@ -72,55 +72,109 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rename variable bFirstMPDU to first_mpdu
+Rename variable bPacketBeacon to packet_beacon
 to fix checkpatch warning Avoid CamelCase.
 
 Signed-off-by: Tree Davies <tdavies@darkphysics.net>
 ---
- drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c | 2 +-
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c   | 2 +-
- drivers/staging/rtl8192e/rtllib.h              | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c | 18 +++++++++---------
+ drivers/staging/rtl8192e/rtllib.h              |  2 +-
+ 2 files changed, 10 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-index 003343e75f0c..87a370a4b2db 100644
+index 87a370a4b2db..75ca921c8aff 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
 +++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-@@ -1651,7 +1651,7 @@ bool rtl92e_get_rx_stats(struct net_device *dev, struct rtllib_rx_stats *stats,
- 	_rtl92e_update_received_rate_histogram_stats(dev, stats);
- 
- 	stats->bIsAMPDU = (pDrvInfo->PartAggr == 1);
--	stats->bFirstMPDU = (pDrvInfo->PartAggr == 1) &&
-+	stats->first_mpdu = (pDrvInfo->PartAggr == 1) &&
- 			    (pDrvInfo->FirstAGGR == 1);
- 
- 	stats->time_stamp_low = pDrvInfo->TSFL;
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-index 32dcccd58b9a..64be0415fe0e 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-@@ -1483,7 +1483,7 @@ void rtl92e_copy_mpdu_stats(struct rtllib_rx_stats *psrc_stats,
- 			    struct rtllib_rx_stats *ptarget_stats)
+@@ -1152,7 +1152,7 @@ static void _rtl92e_query_rxphystatus(struct r8192_priv *priv,
+ 				      struct rtllib_rx_stats *precord_stats,
+ 				      bool bpacket_match_bssid,
+ 				      bool bpacket_toself,
+-				      bool bPacketBeacon,
++				      bool packet_beacon,
+ 				      bool bToSelfBA)
  {
- 	ptarget_stats->bIsAMPDU = psrc_stats->bIsAMPDU;
--	ptarget_stats->bFirstMPDU = psrc_stats->bFirstMPDU;
-+	ptarget_stats->first_mpdu = psrc_stats->first_mpdu;
+ 	struct phy_sts_ofdm_819xpci *pofdm_buf;
+@@ -1174,7 +1174,7 @@ static void _rtl92e_query_rxphystatus(struct r8192_priv *priv,
+ 				    bpacket_match_bssid;
+ 	pstats->packet_to_self = precord_stats->packet_to_self = bpacket_toself;
+ 	pstats->is_cck = precord_stats->is_cck = is_cck_rate;
+-	pstats->bPacketBeacon = precord_stats->bPacketBeacon = bPacketBeacon;
++	pstats->packet_beacon = precord_stats->packet_beacon = packet_beacon;
+ 	pstats->bToSelfBA = precord_stats->bToSelfBA = bToSelfBA;
+ 	if (check_reg824 == 0) {
+ 		reg824_bit9 = rtl92e_get_bb_reg(priv->rtllib->dev,
+@@ -1396,7 +1396,7 @@ static void _rtl92e_process_phyinfo(struct r8192_priv *priv, u8 *buffer,
+ 		}
+ 	}
+ 
+-	if (prev_st->bPacketBeacon) {
++	if (prev_st->packet_beacon) {
+ 		if (slide_beacon_adc_pwdb_statistics++ >=
+ 		    PHY_Beacon_RSSI_SLID_WIN_MAX) {
+ 			slide_beacon_adc_pwdb_statistics =
+@@ -1416,7 +1416,7 @@ static void _rtl92e_process_phyinfo(struct r8192_priv *priv, u8 *buffer,
+ 		if (prev_st->RxPWDBAll >= 3)
+ 			prev_st->RxPWDBAll -= 3;
+ 	}
+-	if (prev_st->packet_to_self || prev_st->bPacketBeacon ||
++	if (prev_st->packet_to_self || prev_st->packet_beacon ||
+ 	    prev_st->bToSelfBA) {
+ 		if (priv->undecorated_smoothed_pwdb < 0)
+ 			priv->undecorated_smoothed_pwdb = prev_st->RxPWDBAll;
+@@ -1437,7 +1437,7 @@ static void _rtl92e_process_phyinfo(struct r8192_priv *priv, u8 *buffer,
+ 	}
+ 
+ 	if (prev_st->signal_quality != 0) {
+-		if (prev_st->packet_to_self || prev_st->bPacketBeacon ||
++		if (prev_st->packet_to_self || prev_st->packet_beacon ||
+ 		    prev_st->bToSelfBA) {
+ 			if (slide_evm_statistics++ >= PHY_RSSI_SLID_WIN_MAX) {
+ 				slide_evm_statistics = PHY_RSSI_SLID_WIN_MAX;
+@@ -1459,7 +1459,7 @@ static void _rtl92e_process_phyinfo(struct r8192_priv *priv, u8 *buffer,
+ 		}
+ 
+ 		if (prev_st->packet_to_self ||
+-		    prev_st->bPacketBeacon ||
++		    prev_st->packet_beacon ||
+ 		    prev_st->bToSelfBA) {
+ 			for (ij = 0; ij < 2; ij++) {
+ 				if (prev_st->RxMIMOSignalQuality[ij] != -1) {
+@@ -1485,7 +1485,7 @@ static void _rtl92e_translate_rx_signal_stats(struct net_device *dev,
+ {
+ 	struct r8192_priv *priv = (struct r8192_priv *)rtllib_priv(dev);
+ 	bool bpacket_match_bssid, bpacket_toself;
+-	bool bPacketBeacon = false;
++	bool packet_beacon = false;
+ 	struct ieee80211_hdr_3addr *hdr;
+ 	bool bToSelfBA = false;
+ 	static struct rtllib_rx_stats  previous_stats;
+@@ -1510,11 +1510,11 @@ static void _rtl92e_translate_rx_signal_stats(struct net_device *dev,
+ 	bpacket_toself = bpacket_match_bssid &&		/* check this */
+ 			 ether_addr_equal(praddr, priv->rtllib->dev->dev_addr);
+ 	if (ieee80211_is_beacon(hdr->frame_control))
+-		bPacketBeacon = true;
++		packet_beacon = true;
+ 	_rtl92e_process_phyinfo(priv, tmp_buf, &previous_stats, pstats);
+ 	_rtl92e_query_rxphystatus(priv, pstats, pdesc, pdrvinfo,
+ 				  &previous_stats, bpacket_match_bssid,
+-				  bpacket_toself, bPacketBeacon, bToSelfBA);
++				  bpacket_toself, packet_beacon, bToSelfBA);
+ 	rtl92e_copy_mpdu_stats(pstats, &previous_stats);
  }
  
- static void _rtl92e_rx_normal(struct net_device *dev)
 diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-index 5db03fe9269d..ca8f39f8e9ea 100644
+index ca8f39f8e9ea..b0f01d940efa 100644
 --- a/drivers/staging/rtl8192e/rtllib.h
 +++ b/drivers/staging/rtl8192e/rtllib.h
-@@ -477,7 +477,7 @@ struct rtllib_rx_stats {
- 	u8    rx_drv_info_size;
- 	u8    rx_buf_shift;
- 	bool  bIsAMPDU;
--	bool  bFirstMPDU;
-+	bool  first_mpdu;
- 	bool  contain_htc;
- 	u32   RxPWDBAll;
- 	u8    RxMIMOSignalStrength[2];
+@@ -485,7 +485,7 @@ struct rtllib_rx_stats {
+ 	bool  bPacketMatchBSSID;
+ 	bool  is_cck;
+ 	bool  packet_to_self;
+-	bool   bPacketBeacon;
++	bool   packet_beacon;
+ 	bool   bToSelfBA;
+ };
+ 
 -- 
 2.30.2
 
