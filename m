@@ -1,65 +1,65 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6554618BC21
-	for <linux-staging@lists.linux.dev>; Tue, 17 Sep 2024 20:00:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12424152176
+	for <linux-staging@lists.linux.dev>; Tue, 17 Sep 2024 20:05:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726603207; cv=none; b=NxPd4q0D2WnwKdxgr0IQtojhUrK1jmOA3qoqApVrot7oD8hMZlXS3ZSgQ3I1+XZun08HcUIbXaajVYm5E4V4xyp3seMX/Xqh3J0kzOOEulUAUc7rKrCnJHyRLF/NHHFZXoCQqPdXCGJ4GI6JZ2NQfUAaH1zOIn1uAYH/IhwlIlk=
+	t=1726603523; cv=none; b=r70SEKtX7zBTfaQsq2pHW3eqmwTvYYCtqDuwRCGywV9w34G/3ETy36M72hhl6w1iMwVuvL7xNa9cQBxT8XH04tMR7pFVS1c8iqhkqF8Zn5OiOyHE/no59ckgVppv6ujladoC+q06/S8O8s3N5tQooF4dFrEsODubwZhDX4NCaMM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726603207; c=relaxed/simple;
-	bh=T6+ksvjJAgEfbOT1MxSkSrCK6wQ8i5k62TxE2B1lUYc=;
+	s=arc-20240116; t=1726603523; c=relaxed/simple;
+	bh=SfodZ/rtM2jhxXtzGw81B5mYu4eTU4CKiUf1fOOsm7w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nOAzMajEWDfQARCWI/Nw/g20nO4QjHWLqDDeHs3M20xXo+JuROaL+7oy3M9PVcm11K98dSBTlikZk5V329WPJ66OBJ5KdxvTJcukMhtFf3LU9eaB6reYxx3p7yCeH7PBikVsY1mRzB7KiLfv1gqQA0xEPx4v9AxrDtAeFSqa/LE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TeoElfmJ; arc=none smtp.client-ip=209.85.208.53
+	 Content-Type:Content-Disposition:In-Reply-To; b=MrXVRdsYJlloiQcG/C2tOBK5j03xPKE11uwjS7iRElC3UINX4nnZNxMYLTtc8+3ffQpQzZSPpaXjl6WUWaBq1s8ihpJ8XEgQduhmgS2pbSscpwSd9pPQRffGD2rC04pxe16C7Jb3RCpXtosin4lZImAf1Gsd30/vIG+dLHKJ7Mo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SSeSmfEY; arc=none smtp.client-ip=209.85.167.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TeoElfmJ"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5c42bcf35fbso5276252a12.1
-        for <linux-staging@lists.linux.dev>; Tue, 17 Sep 2024 13:00:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SSeSmfEY"
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-535be093a43so7502876e87.3
+        for <linux-staging@lists.linux.dev>; Tue, 17 Sep 2024 13:05:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726603204; x=1727208004; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1726603518; x=1727208318; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=CWRkmkcHV6T5Y2PauQSOh2UO3ThXb5nvn/hPmxzMqMo=;
-        b=TeoElfmJUosj5Pw01+ZXbaWCI4J0V5n6fntr55kCDYKYs5ItGxdc65tzHLUkSC91fA
-         WUiM9fPGFzD9nf1VvKqOQwEONiT4DxaEevqbW1XFDG3ZJJ2iUAeP/mJcfmhUiz8lk18h
-         VW3HyOQv/PKEUqLS9lx040A4ayKUJ++NZX3aP1SMXaOdHDQwYcujQRflMuEpm+fI8cRR
-         CaXfiIhts5Pe1oklzdkWWIPUayQsrTKShRu22rcQZGysy0YsqDAhYWDdbNkvcRJm+cQK
-         l3YsHJOhqkJie7CcvpdwmqcxmH0gut5SlPOfCk1/SvrniAmNBTWh5wwmrzUQDHrMTTRk
-         t2uA==
+        bh=+BAqZEURXqmfkfN7P6xqojM68KIepLhSNWCqaR0uo9I=;
+        b=SSeSmfEYa1FCwz0zhq4pZBAf9b80eESdc9b3ZpT8oMZcpSvvWVLD14CScyfyElLBQ1
+         wZChgtFb8StJOE3p6j175Qh0wN5GdT2QSLZrD9dGfxuF020mxq2tUKRaX36QHRIfVi5h
+         JBiNo8zYEHC+ssaZGcNn+ptAGJVX9ftE4K8w2PC2FVHT6AW1xxeaQnz+NpBuz1bEFhRK
+         kEKFiKfQyqJE7yGqO/JvUDVbFqotJR1HiVk44b7ZiTG/lVeF+Qjvos2ml6s1pXnFMPsa
+         5+T38uGFGA39grwYAqs2TZKl+bI9qIa8RTxByRWJyoWAZaWKvbF422by4ny9TcSlH44Z
+         1+aA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726603204; x=1727208004;
+        d=1e100.net; s=20230601; t=1726603518; x=1727208318;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=CWRkmkcHV6T5Y2PauQSOh2UO3ThXb5nvn/hPmxzMqMo=;
-        b=D7I9TAydKSICOvhNYITLPZ4Gd78K+xFRHZmwqZWNhs8f0WV65rAHt8/xPMnKbrJ2wS
-         fvTaTFShca9zIRm4pTz5L/ilhCRO2GIvSlHABXugHoskn6rE3vWD+bn0ybFxcFTLsntx
-         IYTZA/ku+K+EAmuF/ZXmn6HucCfBpmN6Z/SqQyk/hA9FUZ/eNivc3z8gIJJH81SKCPJq
-         So+n4ZxXSDLeI58tA9wM0VSCrMtPvTxEcjIbSnHc79DSfyuXwkmTvozU23s/mYQxVgaG
-         k7CSN2H0Ew+NwHErlrh7UsMhqjudm9S5nl2+7UgcHZzDxQnru+sybyX36+kc38mdF/qP
-         5lIg==
-X-Forwarded-Encrypted: i=1; AJvYcCWXv2d/wJACAlLet51fmzZu9b1axD9iSynBHeyyY5Qnp6S59g/wjaXP6Rb8TrHZImYFaWseVIH3Scamo1H3@lists.linux.dev
-X-Gm-Message-State: AOJu0YzVqIYVJvrHpsxvukNVdIXMrA5b2N0P8LaH0j4tnLhvHPabm6KA
-	m/qC79+01M+MMntQPfOuiVOEeISkaTedGmQ5AnDHcobkuCYDRWZ1yzOQOQ==
-X-Google-Smtp-Source: AGHT+IFOZOPB7iZrytCgA62IbvBoZ3+/IRT6fleNN+BEzgikPjA4c7Vevoz7sU3Qm2/ApHMVHr7nnw==
-X-Received: by 2002:a05:6402:34ca:b0:5c2:439e:d6cb with SMTP id 4fb4d7f45d1cf-5c41e18e466mr13907513a12.12.1726603203398;
-        Tue, 17 Sep 2024 13:00:03 -0700 (PDT)
+        bh=+BAqZEURXqmfkfN7P6xqojM68KIepLhSNWCqaR0uo9I=;
+        b=RNgE8bQn4kPrG3SVypxacj4b8IPzowCevNRWbNmya1cD+k5dIJlSF55tpQ4oDlGihr
+         bp8eZAY6FwsG+VMqVxt3j7rKA7UXfoETiR995oocY9uhaYYYg1eurJfinMdOsK9BoNFp
+         wYBZKybBQeHkNm4xbl5QrAYuFcxwu3euhesLLqv0fEfup6axf5W0mi4MQ4x3aNT5mGA4
+         kIydWJEnrJQf4oHWMJ8yhbxNGEceKmsOryVec04gHlIpmEMuIVm+Gy3T+X20nOMW1gFX
+         Jgf1mxbfh7ppwhSu7cVk9OZjAGG8jDFkCF4AYak3PdWz5e5WnRkJfufWPeMEYu4Ikr24
+         7WAQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW/iZilImW3yg3zyybvW/n87mnOggybsdgUgdnwelnoE6zDtXwDcicjW4iiOzFTLGMuI1+A1Hvy1tsMdXU0@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxk7Nf+/PVA8MSqlW9vY1iC1uV6fUySbol05GNzlfSjQb8Ywigr
+	+gbTuYjo5Xa2eIIKiIYelQlFWSfKsZ0Jamm9nQ7rvZID1x9yNATg
+X-Google-Smtp-Source: AGHT+IGMIxuzqNUJOUvGmb59uVLTBMVAOejxcAU/dsF1JxJY/nZGiZtZ/Vngc3Cz2bCT6Kw24apbGg==
+X-Received: by 2002:a05:6512:ac8:b0:52c:c032:538d with SMTP id 2adb3069b0e04-53678fc857bmr9707003e87.27.1726603517664;
+        Tue, 17 Sep 2024 13:05:17 -0700 (PDT)
 Received: from kernel-710 (p57ba2f9b.dip0.t-ipconnect.de. [87.186.47.155])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c42bb94a0csm4019629a12.79.2024.09.17.13.00.02
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a90610f4358sm484154466b.71.2024.09.17.13.05.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Sep 2024 13:00:02 -0700 (PDT)
-Date: Tue, 17 Sep 2024 22:00:01 +0200
+        Tue, 17 Sep 2024 13:05:17 -0700 (PDT)
+Date: Tue, 17 Sep 2024 22:05:15 +0200
 From: philipp hortmann <philipp.g.hortmann@gmail.com>
 To: Tree Davies <tdavies@darkphysics.net>
 Cc: gregkh@linuxfoundation.org, anjan@momi.ca,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 01/18] Staging: rtl8192e: Rename variable nDataRate
-Message-ID: <ZunfwVt2f5DsAqlb@kernel-710>
+Subject: Re: [PATCH 00/18] Staging: rtl8192e: 18 more Style guide variable
+ renames
+Message-ID: <Zung-0ClV_527-_e@kernel-710>
 References: <20240917053152.575553-1-tdavies@darkphysics.net>
- <20240917053152.575553-2-tdavies@darkphysics.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -68,47 +68,46 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240917053152.575553-2-tdavies@darkphysics.net>
+In-Reply-To: <20240917053152.575553-1-tdavies@darkphysics.net>
 
-On Mon, Sep 16, 2024 at 10:31:35PM -0700, Tree Davies wrote:
-> Rename variable nDataRate to data_rate
-> to fix checkpatch warning Avoid CamelCase.
+On Mon, Sep 16, 2024 at 10:31:34PM -0700, Tree Davies wrote:
+> This series fixes camelCase variable names
+> Thank you to all reviewers.
+> ~Tree
 > 
-> Signed-off-by: Tree Davies <tdavies@darkphysics.net>
-> ---
->  drivers/staging/rtl8192e/rtllib.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Tree Davies (18):
+>   Staging: rtl8192e: Rename variable nDataRate
+>   Staging: rtl8192e: Rename variable bIsCCK
+>   Staging: rtl8192e: Rename variable bCRC
+>   Staging: rtl8192e: Rename variable pMCSRateSet
+>   Staging: rtl8192e: Rename variable PreCommonCmd
+>   Staging: rtl8192e: Rename variable PostCommonCmd
+>   Staging: rtl8192e: Rename variable RxDataNum
+>   Staging: rtl8192e: Rename variable FwRWRF
+>   Staging: rtl8192e: Rename variable bFirstMPDU
+>   Staging: rtl8192e: Rename variable bPacketBeacon
+>   Staging: rtl8192e: Rename variable Rx_TS_Pending_List
+>   Staging: rtl8192e: Rename variable bPacketMatchBSSID
+>   Staging: rtl8192e: Rename variable bToSelfBA
+>   Staging: rtl8192e: Rename variable Tx_TS_Admit_List
+>   Staging: rtl8192e: Rename variable Tx_TS_Pending_List
+>   Staging: rtl8192e: Rename variable Tx_TS_Unused_List
+>   Staging: rtl8192e: Rename variable Sbox
+>   Staging: rtl8192e: Rename variable pMCSFilter
 > 
-> diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-> index d6615f787d53..21d8ea153368 100644
-> --- a/drivers/staging/rtl8192e/rtllib.h
-> +++ b/drivers/staging/rtl8192e/rtllib.h
-> @@ -1743,7 +1743,7 @@ extern u16 MCS_DATA_RATE[2][2][77];
->  u8 ht_c_check(struct rtllib_device *ieee, u8 *frame);
->  void ht_reset_iot_setting(struct rt_hi_throughput *ht_info);
->  bool is_ht_half_nmode_aps(struct rtllib_device *ieee);
-> -u16  tx_count_to_data_rate(struct rtllib_device *ieee, u8 nDataRate);
-> +u16  tx_count_to_data_rate(struct rtllib_device *ieee, u8 data_rate);
->  int rtllib_rx_add_ba_req(struct rtllib_device *ieee, struct sk_buff *skb);
->  int rtllib_rx_add_ba_rsp(struct rtllib_device *ieee, struct sk_buff *skb);
->  int rtllib_rx_DELBA(struct rtllib_device *ieee, struct sk_buff *skb);
+>  .../staging/rtl8192e/rtl8192e/r8192E_dev.c    | 50 +++++++++----------
+>  .../staging/rtl8192e/rtl8192e/r8192E_phy.c    | 10 ++--
+>  drivers/staging/rtl8192e/rtl8192e/rtl_core.c  |  6 +--
+>  drivers/staging/rtl8192e/rtl8192e/rtl_dm.c    |  2 +-
+>  drivers/staging/rtl8192e/rtl819x_HTProc.c     | 10 ++--
+>  drivers/staging/rtl8192e/rtl819x_TSProc.c     | 36 ++++++-------
+>  drivers/staging/rtl8192e/rtllib.h             | 34 ++++++-------
+>  drivers/staging/rtl8192e/rtllib_crypt_tkip.c  |  6 +--
+>  8 files changed, 77 insertions(+), 77 deletions(-)
+> 
 > -- 
 > 2.30.2
 >
-Hi Tree,
 
-forget the former email.
+Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 
-so in this commit:
-commit ad96610acc0eb81f0342fa688e6d42fd530c328b
-Author: Gary Rookard <garyrookard@fastmail.org>
-Date:   Tue Nov 28 13:17:27 2023 -0500
-the variable was changed. But he missed to change the declaration of the function tx_count_to_data_rate().
-
-So you change the variable accordingly in the declaration of the functiont tx_count_to_data_rate()
-
-I assume that Greg would want you to use a fixes tag.
-
-Thanks.
-
-Bye Philipp
