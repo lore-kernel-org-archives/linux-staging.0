@@ -1,63 +1,63 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54A024D8CC
-	for <linux-staging@lists.linux.dev>; Tue, 17 Sep 2024 19:32:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6554618BC21
+	for <linux-staging@lists.linux.dev>; Tue, 17 Sep 2024 20:00:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726601535; cv=none; b=Nf+9VxKYnXAjk0J1YYQBG2CtynTsKM4lOPV3YiFMhhWXSKmgrVvV21ODJCaWSdH59NYn7qGuSAZ4qeFrLSj7zwOnfUkUm8o8/DX2MwBn9GOtvzSrUP88ofyQYNrHe8aYhbLzHgUNRpa3ZeZIxfAum6RUZgYXisrvew7NEwhuYfs=
+	t=1726603207; cv=none; b=NxPd4q0D2WnwKdxgr0IQtojhUrK1jmOA3qoqApVrot7oD8hMZlXS3ZSgQ3I1+XZun08HcUIbXaajVYm5E4V4xyp3seMX/Xqh3J0kzOOEulUAUc7rKrCnJHyRLF/NHHFZXoCQqPdXCGJ4GI6JZ2NQfUAaH1zOIn1uAYH/IhwlIlk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726601535; c=relaxed/simple;
-	bh=fh0reOq4EMpswxJsKKqpsiw6Czuf9g0WTzNlxS7UO+I=;
+	s=arc-20240116; t=1726603207; c=relaxed/simple;
+	bh=T6+ksvjJAgEfbOT1MxSkSrCK6wQ8i5k62TxE2B1lUYc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E4uCqYIQTrj0UYa+q0S0HR5qHCMukdIgwz+XaD3ppByTCnmwQdCmm4rwx8m/a7LP4m075FNwPtz0wuY0v9uucZPixhtzdYgKLIYA1ktRESd0u9uPytEpBxkI6uygmODHAV2zjOfUBEnYyYIqUvBirsCcvUzDAMCfb9lg+VX64MY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FMD0e7Pe; arc=none smtp.client-ip=209.85.208.50
+	 Content-Type:Content-Disposition:In-Reply-To; b=nOAzMajEWDfQARCWI/Nw/g20nO4QjHWLqDDeHs3M20xXo+JuROaL+7oy3M9PVcm11K98dSBTlikZk5V329WPJ66OBJ5KdxvTJcukMhtFf3LU9eaB6reYxx3p7yCeH7PBikVsY1mRzB7KiLfv1gqQA0xEPx4v9AxrDtAeFSqa/LE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TeoElfmJ; arc=none smtp.client-ip=209.85.208.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FMD0e7Pe"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5c24ebaa427so75848a12.1
-        for <linux-staging@lists.linux.dev>; Tue, 17 Sep 2024 12:32:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TeoElfmJ"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5c42bcf35fbso5276252a12.1
+        for <linux-staging@lists.linux.dev>; Tue, 17 Sep 2024 13:00:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726601533; x=1727206333; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1726603204; x=1727208004; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=hkmmdj8+A5vEF10W6axwToELtCxiF54w4XBSo8dtkiI=;
-        b=FMD0e7PejcvpJbsOeOIEIPeaNViShULN1kX7UCJZH9wKnyeRAcEEVjviUrhhrfWryD
-         JNoX1U86+yq108T9s6uY8Qs0WQ8Ptd3qDrubEunhhr7A+iO1YB1aArCNiFXzQbdVVKsc
-         lS+d9dixNdXTbfOmEVVgjnsWuM+TCOn4qC3XmdZbHMRb29KX+RJPEcs7/asvZapXf+z8
-         4RL7Q1lUP0AAS+njsv+g42/g7VPxP7Cr6M1ieb5me7yjjIcZlhmb1tihBe/7VlybHGsM
-         vtHv1kNzGKPDSl+Oh1jDOcoCU/LfzawleRdJi2v1egYV8+eWwyCrOfTjOm94EAkd2zX8
-         /geQ==
+        bh=CWRkmkcHV6T5Y2PauQSOh2UO3ThXb5nvn/hPmxzMqMo=;
+        b=TeoElfmJUosj5Pw01+ZXbaWCI4J0V5n6fntr55kCDYKYs5ItGxdc65tzHLUkSC91fA
+         WUiM9fPGFzD9nf1VvKqOQwEONiT4DxaEevqbW1XFDG3ZJJ2iUAeP/mJcfmhUiz8lk18h
+         VW3HyOQv/PKEUqLS9lx040A4ayKUJ++NZX3aP1SMXaOdHDQwYcujQRflMuEpm+fI8cRR
+         CaXfiIhts5Pe1oklzdkWWIPUayQsrTKShRu22rcQZGysy0YsqDAhYWDdbNkvcRJm+cQK
+         l3YsHJOhqkJie7CcvpdwmqcxmH0gut5SlPOfCk1/SvrniAmNBTWh5wwmrzUQDHrMTTRk
+         t2uA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726601533; x=1727206333;
+        d=1e100.net; s=20230601; t=1726603204; x=1727208004;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hkmmdj8+A5vEF10W6axwToELtCxiF54w4XBSo8dtkiI=;
-        b=SJ+5PbT058yGqrXE7XZ9n02HxUjSGsZb5IXWx8Xv6Z1nZLexxKFgTFxLGESPrm4sdU
-         PKuEqdGghLgcWO0GqjwjwVlJVjJ52K3/Q+9o58sfNnqZZxvdnPozRl0x7I2bhH9ixx3O
-         q5WcDyD4qUj6dXpPmheKcBFSHy4TJqpcKGOGlojVGiH1Shc6u3wStpwOpBoibSjX4BbG
-         9zOTIr3cVjEGg4NftmnbwPW81atBD1BcYE5ozFNIT4CzgKshyTNWw+U1NzaK/iWLwv+0
-         07TH4+UqIVt8OajmUXg0fjEPHtgYg9Xbj5NGkYaBb/VPaemEs8ISet+hALNjOegkZltl
-         eVMg==
-X-Forwarded-Encrypted: i=1; AJvYcCVuiwkBlQ4iay5CcOVhNRnp74zL+GFVLwqoYPd6pcW7leyqx2cWoW9SCwW0meGwA2bp9j50jsW2Xe4Ewwaf@lists.linux.dev
-X-Gm-Message-State: AOJu0YyJd9+RPpuxJYKFcbFjLfP7YQVr7YFD13KHCKl4oF6WxYSwACDZ
-	25530oRPufo2Bz7wBjWA6/MiRgsQ5zRQJnyM4cOGWJg17QdHfRv5
-X-Google-Smtp-Source: AGHT+IHjViEgRqChvdDDupCbfhMxeWHkVe8bOAjS1ZJMdYIRVrgzeYd+dQEAUUKVjV5exB5Ga0t1lA==
-X-Received: by 2002:a05:6402:d06:b0:5c3:d8fb:df6a with SMTP id 4fb4d7f45d1cf-5c414383763mr22757109a12.14.1726601532369;
-        Tue, 17 Sep 2024 12:32:12 -0700 (PDT)
+        bh=CWRkmkcHV6T5Y2PauQSOh2UO3ThXb5nvn/hPmxzMqMo=;
+        b=D7I9TAydKSICOvhNYITLPZ4Gd78K+xFRHZmwqZWNhs8f0WV65rAHt8/xPMnKbrJ2wS
+         fvTaTFShca9zIRm4pTz5L/ilhCRO2GIvSlHABXugHoskn6rE3vWD+bn0ybFxcFTLsntx
+         IYTZA/ku+K+EAmuF/ZXmn6HucCfBpmN6Z/SqQyk/hA9FUZ/eNivc3z8gIJJH81SKCPJq
+         So+n4ZxXSDLeI58tA9wM0VSCrMtPvTxEcjIbSnHc79DSfyuXwkmTvozU23s/mYQxVgaG
+         k7CSN2H0Ew+NwHErlrh7UsMhqjudm9S5nl2+7UgcHZzDxQnru+sybyX36+kc38mdF/qP
+         5lIg==
+X-Forwarded-Encrypted: i=1; AJvYcCWXv2d/wJACAlLet51fmzZu9b1axD9iSynBHeyyY5Qnp6S59g/wjaXP6Rb8TrHZImYFaWseVIH3Scamo1H3@lists.linux.dev
+X-Gm-Message-State: AOJu0YzVqIYVJvrHpsxvukNVdIXMrA5b2N0P8LaH0j4tnLhvHPabm6KA
+	m/qC79+01M+MMntQPfOuiVOEeISkaTedGmQ5AnDHcobkuCYDRWZ1yzOQOQ==
+X-Google-Smtp-Source: AGHT+IFOZOPB7iZrytCgA62IbvBoZ3+/IRT6fleNN+BEzgikPjA4c7Vevoz7sU3Qm2/ApHMVHr7nnw==
+X-Received: by 2002:a05:6402:34ca:b0:5c2:439e:d6cb with SMTP id 4fb4d7f45d1cf-5c41e18e466mr13907513a12.12.1726603203398;
+        Tue, 17 Sep 2024 13:00:03 -0700 (PDT)
 Received: from kernel-710 (p57ba2f9b.dip0.t-ipconnect.de. [87.186.47.155])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c42bc88d02sm3989780a12.80.2024.09.17.12.32.11
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c42bb94a0csm4019629a12.79.2024.09.17.13.00.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Sep 2024 12:32:11 -0700 (PDT)
-Date: Tue, 17 Sep 2024 21:32:10 +0200
+        Tue, 17 Sep 2024 13:00:02 -0700 (PDT)
+Date: Tue, 17 Sep 2024 22:00:01 +0200
 From: philipp hortmann <philipp.g.hortmann@gmail.com>
 To: Tree Davies <tdavies@darkphysics.net>
 Cc: gregkh@linuxfoundation.org, anjan@momi.ca,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH 01/18] Staging: rtl8192e: Rename variable nDataRate
-Message-ID: <ZunZOjL0E3bU7Oht@kernel-710>
+Message-ID: <ZunfwVt2f5DsAqlb@kernel-710>
 References: <20240917053152.575553-1-tdavies@darkphysics.net>
  <20240917053152.575553-2-tdavies@darkphysics.net>
 Precedence: bulk
@@ -95,13 +95,20 @@ On Mon, Sep 16, 2024 at 10:31:35PM -0700, Tree Davies wrote:
 > -- 
 > 2.30.2
 >
-
 Hi Tree,
 
-we also need to change the following line:
-u16  tx_count_to_data_rate(struct rtllib_device *ieee, u8 nDataRate);
+forget the former email.
 
-Thanks for your support.
+so in this commit:
+commit ad96610acc0eb81f0342fa688e6d42fd530c328b
+Author: Gary Rookard <garyrookard@fastmail.org>
+Date:   Tue Nov 28 13:17:27 2023 -0500
+the variable was changed. But he missed to change the declaration of the function tx_count_to_data_rate().
+
+So you change the variable accordingly in the declaration of the functiont tx_count_to_data_rate()
+
+I assume that Greg would want you to use a fixes tag.
+
+Thanks.
 
 Bye Philipp
-
