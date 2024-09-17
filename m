@@ -1,166 +1,99 @@
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010022.outbound.protection.outlook.com [52.101.229.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74BF914A4D6
-	for <linux-staging@lists.linux.dev>; Mon, 16 Sep 2024 23:41:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.22
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726530095; cv=fail; b=d0Y/SbMUwRlpv64pvL5OZ//XXAMbbzm/JRYeFJL1vV7tCHzUYGhKULHmEojYZgEU02zZ0sEGbEGieq5szIJsYiPLcZkXIRuKFYKTNKxE2qFkOGT4SAsf/KVFKKUwoqiEPLZI/XUY+DRZTUA616An/QdguEEQIuMSB3USbhQh3iA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726530095; c=relaxed/simple;
-	bh=DrB9F8HBaGMGdvo9xjLSd7KiKgAS9ZsSABefwWiGrm0=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=DpeIjsCYDpOhrgZ+1T7JsmT9ITDQBpO0VkWX46RdYQkGDLyaI9QD1DA9vZl33HhtTdrv7TSS32wfzxcwti05cYGtn4K0GCDx9bDgkpsfEsIdr2kZt/4qii0ctE0Q+H89oUhAQ3HNVwaxE81SS0Kk2BcykMqUoxVx7Uam6CTiWgU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=ZQfRq29O; arc=fail smtp.client-ip=52.101.229.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DA19364BE
+	for <linux-staging@lists.linux.dev>; Tue, 17 Sep 2024 05:31:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1726551118; cv=none; b=kQUZkxxdInRMOMz4nINIab56jN/gzVoIPUVR/REPqXgh1EcgRGiFFPdR9OzRR7f1O/wjt466o0pUc89HojHJQyVQSBS4rrsnVp7qQ4uuS03B/JddR6Gk1w42H5deQubr1y2sX8sJ4E6XyXe4+b9kDylSWysQngBigyTaIQqHODA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1726551118; c=relaxed/simple;
+	bh=val/67N2SfFDFC/347H5PlPgIQr7gfh3hr689hL3QsY=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=Ur1OY6zeGV2WuCZY1tkvYmDOWZT0CNNZV6CUL/BkLdjLy1/mRltN7YsEP2l1zC/aASd5WowKQ3X/4YdnH++0ouNEhsLzpn8pmeHoQ2De6i7QAdJOXjspquF4dwKl+spgdCzhDTq5nTTPl+TCVQdr9e1tThRlfo1vzDXsGHRbgQk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net; spf=pass smtp.mailfrom=darkphysics.net; dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b=RonnNAtL; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=darkphysics.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=darkphysics.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="ZQfRq29O"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=X/T/VLe/N62zI48AOrr4NezPfEpRqXnwfFCGCoMYCgX6Awq2hgULrGEcZVISQ4UtmZ6KtixUDH2k+76uhnLg2jewO1INucvpzl0tFDy9UaUZu4XDiIio+BGJIFMqL9Q7bX8rM9zID97VVWmA9QOXP5OMVvTNYK/IOgmlR7Q0a7dUAcvOwmOwDZe361VKjwWUbdze6TFOHDgrmj9oDy7L1OnWP4xXPZGVYYdfT+2cebtSdobm6cvqnhZ6QNM/qtnsdwpca96Hsz+CsMqp7aDXbkh5X69IJIgW/xIiQEI3nFXSRtvOAWXbb/PwJK9Vf7DRfS7qq5MK2vZ+HU6Ct6sYdA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0F/iaryenQylaG1ZwS1j0nWoPOT7zc5uiaQa0oF53es=;
- b=Eu2CkQS22x0uSrCg55HurMYoVcH5VNtNJz3JXTeqeVWODgu8pboSd+jyrt6b5pcLKbJfBsiML18C0OOczsbB2mMTx5Y/6+k0apZKnevBt38MMpzPB3o/lB//Zrg5XWjjizWWOZV2+auZeh2o/C96kxZ9bQr/99ujlPr7Tu1snzHGt5K1xF9kL4WZOs7oP/gTuRgw8gLAgutf3U1uyD3nEhu7qsX0DDNUUp2BUfEaUB7dn6WcGg85+ry7cwxcsaNCTf6sHeJsGYcmbNl30VOS1HXcR+oUE2aBepK8hNPyfXuPw6fi3denpaTnEABZVU34omnLLKVdB3dnQJmaA0GU0w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0F/iaryenQylaG1ZwS1j0nWoPOT7zc5uiaQa0oF53es=;
- b=ZQfRq29OzyIey4VBoleXmWfqxeIjvs7FZp0isr1o67fnG/MmkofNHiGwNq74qhyRsfAlMPyp5WubMze8vI5QnaC99LzAObdTXqTioSfuUC9NJsRJ+KjYd2TtbwCJTT3SfRpggcTAZyRv+5WgQslR1TPtM7m08WI+/fQ16GG3GY4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by TYCPR01MB8238.jpnprd01.prod.outlook.com
- (2603:1096:400:103::10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7962.24; Mon, 16 Sep
- 2024 23:41:28 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11%5]) with mapi id 15.20.7962.022; Mon, 16 Sep 2024
- 23:41:28 +0000
-Message-ID: <87setz6uag.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Mark Brown <broonie@kernel.org>,
-	Linux-USB <linux-usb@vger.kernel.org>,
-	Linux-ALSA <alsa-devel@alsa-project.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Greg KH <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH 000/113] ALSA: add snd_pcm_is_playback/capture() macro
-In-Reply-To: <87wmjgdnzg.wl-tiwai@suse.de>
-References: <874j7z3j1a.wl-kuninori.morimoto.gx@renesas.com>
-	<d6e47194-a708-4dfe-96c8-aba9391e4496@perex.cz>
-	<46b37ef3-047c-4b1b-a79b-37187a46754a@sirena.org.uk>
-	<87ed5o8hen.wl-kuninori.morimoto.gx@renesas.com>
-	<87wmjgdnzg.wl-tiwai@suse.de>
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Mon, 16 Sep 2024 23:41:28 +0000
-X-ClientProxiedBy: TYWP286CA0013.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:178::9) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+	dkim=pass (2048-bit key) header.d=darkphysics.net header.i=@darkphysics.net header.b="RonnNAtL"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-718e2855479so3818832b3a.1
+        for <linux-staging@lists.linux.dev>; Mon, 16 Sep 2024 22:31:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=darkphysics.net; s=google; t=1726551116; x=1727155916; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=z8L727yW6y5K4Vj79MsP8Gb8oiWwFd0Isk+Dc5DKpe8=;
+        b=RonnNAtLEkDwLKUOvegZZtNpYEXgi2qBlklZhNQ6gxGksyXgjU8tPNJ7lEcrGQjyB7
+         crkuA+v9lE69t0Sovaq17NP23rpOjCbp+eynxmMSWJ5QMaFK7OukIfaa6SFg51VdLtUI
+         mQy+U/dk2qSej7DR+qGH2dYUUCS50mpXAEUq2HKdPfoFZncRktz0oxGAylGkVRDX5on4
+         cDAETiYDYfS5uKfKa4XP0MHj6kHziCVV6K+u1Beo0G7UwhN0GfnLfC+kZOkOerL/91aF
+         OLs7Noy3EF/3JIJCUyZ+Pqgn6occOjEoc7qzpMu+cnv1kLZR5LziJcSAb5tHiUlkE0YL
+         rftQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726551116; x=1727155916;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=z8L727yW6y5K4Vj79MsP8Gb8oiWwFd0Isk+Dc5DKpe8=;
+        b=tNhRRE6gcs7orBOCJQSAobgJWnZqZc/nRyzXxWGr0LIenJMTEFbbChngr97LXUyYY1
+         nV1nEtqWtV5nDyCSwshLq9iZkqa6pd5LpWTqNXYFIsPtr5S2SKDvB3O3oK6c6+fH5pKg
+         1v8z5/TIYGNlNrkMXZziMDo8qF8A9yTzXx8UBUnjgAYK/pRr+4+nCIcRsEPNmIkHXzB7
+         DUzy9vpVmpieXgc0sVhUCZivsyQBRZYjg8xiOssn54RZ4won4fhSA1t7BlJsOyHbLwA9
+         J2qsfKnhr3V04J/azF9nRWKZCdWuxjgyETnIo0KX7477jvWmJXJrGyezPygcSfYPok51
+         WPCg==
+X-Gm-Message-State: AOJu0Yxs9gWSUWjoyVeTfSbZhlAFZnT3IVyosEL+YLAgAhHSflMuva9s
+	K10EZL7rn4uSBBlRK2UHAveBeyI6mevfx/o8YXwD39ouNym12+WT/J6h+AS8k1n7Qlg5a8BNnUd
+	a
+X-Google-Smtp-Source: AGHT+IF/wKmKVvxO0PS4z5h/szghGGC8+5ScEmeewviyzau+urGptDF8+G+q8iJvn6Lv08VAHYPI8g==
+X-Received: by 2002:a05:6a20:b2a8:b0:1cf:3677:1c4a with SMTP id adf61e73a8af0-1cf75eb94cfmr20928305637.16.1726551116306;
+        Mon, 16 Sep 2024 22:31:56 -0700 (PDT)
+Received: from lunchbox.darkphysics (c-73-83-183-190.hsd1.wa.comcast.net. [73.83.183.190])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7db498e0607sm4392328a12.8.2024.09.16.22.31.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Sep 2024 22:31:55 -0700 (PDT)
+From: Tree Davies <tdavies@darkphysics.net>
+To: gregkh@linuxfoundation.org,
+	philipp.g.hortmann@gmail.com,
+	anjan@momi.ca
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Tree Davies <tdavies@darkphysics.net>
+Subject: [PATCH 01/18] Staging: rtl8192e: Rename variable nDataRate
+Date: Mon, 16 Sep 2024 22:31:35 -0700
+Message-Id: <20240917053152.575553-2-tdavies@darkphysics.net>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20240917053152.575553-1-tdavies@darkphysics.net>
+References: <20240917053152.575553-1-tdavies@darkphysics.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYCPR01MB8238:EE_
-X-MS-Office365-Filtering-Correlation-Id: 48f1f869-803f-4e02-5535-08dcd6a915ef
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|52116014|376014|366016|1800799024|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?ivPkZquN8lN8o1EBqZulpvqj3K5zgPBTuqX+PvPIjonNvzIwGqzThxybIxId?=
- =?us-ascii?Q?rIxS95ez1ETpuD1gtdZWnWNGkhhm03+7hIsSkIbQE0Clp7xf2yrzp9Kq6+MI?=
- =?us-ascii?Q?CwamnaZl1j2mAAmQfVHjcz7/Xj1olgutPmAWidxABywJCnVuTeVa6xqWMYdL?=
- =?us-ascii?Q?CDfha3XuybX+tWxwE236MxuUsg0YWE3sKhiMQBZ7mrpMbasv2dvWbaqqpbG6?=
- =?us-ascii?Q?o5+/LtM5EnJsgQkrOyRzq4r1aeyrq2xEUsdtM0JE60CuOKw22glgjZ+uBkGJ?=
- =?us-ascii?Q?6gE3KHUNzT+pYapqcI350vogJdzjF/omdkRB+tfIcHJBqriOgKo9pozXvOn4?=
- =?us-ascii?Q?7bhRV7ijz4pIcP0EyBGvwwht35zcjmcF/RIVpguWgAxDRd10lVSz6pkLVf2Y?=
- =?us-ascii?Q?Mo/32LBxR4UqfpgVG3Oc7yvVXIhI0E8UDlQH2xAnVLv4whdm3g9+gNKpr1HV?=
- =?us-ascii?Q?t1dedMqydqjQfVnmVBmEJuAJEp6IY3jw5NBobo/utE7GA0hi9aMGLul9blxd?=
- =?us-ascii?Q?dFCNiBTXWdz4iINTvSo0oRsoy/MM9bVF9dI4V/gcKmeEHHg5WrkfCgze7d1u?=
- =?us-ascii?Q?JBXdXBggiY7S1n965GGUe7P8eSSdT/jVDMcHDBNHL5gJ/ngd/F7uf+TR2uq9?=
- =?us-ascii?Q?hCpa9jnUg/7YXA0A0nfX1VJNAF1JCzmnSjcR1mIffYNdkf45YPeCS0pIs7gY?=
- =?us-ascii?Q?BfDlLWfzrkBSVwCRxuLRwqJJrKwrpvWQzN7NN/b8ojtGzHQ7gG1xD46EIOkF?=
- =?us-ascii?Q?3+8zWlwg3KvlwY0X2gs67GwR01xr+SapAinU/uACTZHzQSaA2r7O0IHI6nvO?=
- =?us-ascii?Q?Xw1mrmcOig/BLdB9pm3TdwmsfLNZQ0TRRsenujRL3WbU5eAjkBIFXZm6vONL?=
- =?us-ascii?Q?RXoJ9NbFgKO1SGoNb20I94ZtMtuWbLFNVXDjmx02EFe6f88s7IE++8cBFWT1?=
- =?us-ascii?Q?hD0BBC6O0Z1qxqAI2lMhYpIKfRfsyWyP2L1zDRvqfudX/cKpkQi+uNsvUlEF?=
- =?us-ascii?Q?23w+Ypiy1Upkh3nWnGeIxzwAVUDzzVUrSHjdeg3/FBHjn9GAjXezDmwCJNjg?=
- =?us-ascii?Q?QmneZTSsPWm7x/krC60NgTMwlIoHOWyR4QuWNFmfqRuGY6x4WbF1PkAWMpxc?=
- =?us-ascii?Q?nILKA+kZY+ztuc0Y8W4Oxt2SNOCg35eFio4uRHyoUpXkEwOmGMHrn4/Z6vIH?=
- =?us-ascii?Q?f6OvUnOLPblPHsbese6NMzTBanzVqy1a6HspcPZaPRIuqp2U9egm4oVjLYaM?=
- =?us-ascii?Q?la58gTfKZTqqCcQIaXKhO8Tmmd8NTSzP+nVFrdzc37JS78qL2fD42LQd44en?=
- =?us-ascii?Q?D3RxtK4F7kTKrrsPAsdpktqfZHtXWYMhlX8ji+fmRvSF4HhGjXDX8I/29+LB?=
- =?us-ascii?Q?tfaGPQNhUsnBCbLR5Q/1Zo8ELTllH5vUsVKfSZZtaMPXsD9qsg=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(366016)(1800799024)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?3o0hS0suT+rVTrPmvZ5swgliCpoc/W/lprtZZdnY5IKpZJd3kAvaese8YTXw?=
- =?us-ascii?Q?DyL8N4RFHXx0uzRO+MzVfJIZapuIQpluJXd52STf+GFtssufTcKTnC/Vu3AQ?=
- =?us-ascii?Q?th3bYfsXUARp1U0BKUsGliPe/cro28Se+8bqjBlW1dl0Tm/bOYd56EOeCLd9?=
- =?us-ascii?Q?gBQTKbhGjMuJjfOtn0ZqLaFwI1zone20OuoFpWI7YbMuhDIrT7Z2xk2sbYCv?=
- =?us-ascii?Q?N0zUje2gVr0Ns8y7iSUeSLYZbRH9YZ0qYXUEZ+j+n7v1G/GBwob0Bs3leAJ0?=
- =?us-ascii?Q?P4yZFCq8EKzxj9T4IoM7g1ZulJXZAJX43VJ270+TJilii26YWRd+Ma2PXndq?=
- =?us-ascii?Q?9OnjiLdAg8Pf82qGj9qNZ9aaowKDnlFpKyY6OXHxs249WKarT0G+a998ToCZ?=
- =?us-ascii?Q?cjvSmY6WLQnocGQCnXT7to2998ci93KO6UwCFDMPBGVS10NwhZCeRbuyaKg2?=
- =?us-ascii?Q?iQOOyZi4kTF98d1QYcNBr/Giwqk39x5pwIJicJ6qzSW8xTXHM9uis/eGQoTj?=
- =?us-ascii?Q?c/UZcF0RZdoz7L97phcsbDOkrzevCrKaF8AF0xkftFWE1eM1C5lZ8XYkba55?=
- =?us-ascii?Q?Olg4Wp9ONQMRCBNqHhISANFo64Qy0+Jt0LtPPVOBtUmj6Bk2mYxdHkA6j/oN?=
- =?us-ascii?Q?hdX+CsMhOSgzz+hqo5OeLYDZSNGxMuFRl2g49q+km4kgm2az0nxQ2rkcXyOG?=
- =?us-ascii?Q?xp0JjvxCl7i307C3Ou01BsX75yxgGjtINKzVhg5VgsLr5KkIKAY4fQhxGdov?=
- =?us-ascii?Q?Vjn2m1vS7E4b5dOBo9Y07bhDc53v+KsSJoGulHIHchKY3Iq6S1Y6GkrTsO1O?=
- =?us-ascii?Q?+j9AfbUZvkUZfMGmmMB9T2CfRTjw/ZaryuM9FjbMPlJd++i2d0GhIcgj4ftb?=
- =?us-ascii?Q?INz8pPjCsGJTGCige4EBhiUpxvPx9UUmydDF+yWDZW8fng96TkIXvDWUrsdf?=
- =?us-ascii?Q?cwX3MDhfFF80aNCorO9YYjWTOouxyzp1EWvBR1wDVRS4WzkIPzMe4DVn9tWO?=
- =?us-ascii?Q?yROmgYSwdpIBX6/NZIhXmcNp9mgYIY8tcTed92JuNlhOUTb1jk80KF8Eja4l?=
- =?us-ascii?Q?eLj/is4wngZRDS68Fo57QRx2mAcU1MjlT/l78r/k2sILiFORW0q9FBUBexKy?=
- =?us-ascii?Q?rEL9oH3jBrvv3M6t7b0kfUGJHx6CQ3p4TZDr/d2j4ZN+GSBfKdvJZ60ZhCnB?=
- =?us-ascii?Q?hoPtbv/38jHQMsTmhf5ROQw1zjUZw0Tg/NyDnjNDcqYZQTUyQ06Gd1jDyLWi?=
- =?us-ascii?Q?9HIj+iUNoFVsN5D6uCWRpEsyuKjadJz2AbI49ofpNAxpb4sX1YnF7ezr2oMp?=
- =?us-ascii?Q?q/Oyaoeb0bbT4HopApNlwcwLB6s9txZwdPQapHhLwthzHQiO+79WBHu/T3qd?=
- =?us-ascii?Q?dZ4a0URNOTptWLAx99Oa/atup74Fn9tgzJo3reKl9/MSG143mus+1oIOq8u+?=
- =?us-ascii?Q?rL13Bb5jjYObJXdmrSFdt3CnLnl8hAqwOLg4TJuzzGQRHHzwbVIkhiU+f9Kz?=
- =?us-ascii?Q?+7Dsq6YMsp3s2AU9YvxOcbIYRq/4nphoUlqIn+6Vb3p0/6PrKKGgCDrQMYOc?=
- =?us-ascii?Q?JGF/KBQ0hS5QhYxAv5o6QtTtQU1035ttinLuu2U3OBkZV/fmHV2ZhY5HGMdH?=
- =?us-ascii?Q?Z1k4X2x5vX+oQA1sdnOgi3Q=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 48f1f869-803f-4e02-5535-08dcd6a915ef
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2024 23:41:28.6481
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Xo5X7YhrZSk4X4rwjGO5PxrDuffduSjzD1IGDB70euSZRpZxdjEGN+QR0zoQ5F8Ez8cvTZgZ7WVV1fVZnk9ZsRvkHIzpY1A9R69B1S515INTqnH1+/6EgM7R9hwheMZm
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB8238
+Content-Transfer-Encoding: 8bit
 
+Rename variable nDataRate to data_rate
+to fix checkpatch warning Avoid CamelCase.
 
-Hi Takashi
-
-> > This patch-set got both Ack and Nack.
-> > I wonder can I re-post this after merge-window again ?
-> > I'm asking because this is very huge patch-set.
-> 
-> If we get a NACK for this kind of cleanups, it's rather negative.
-> Unless its' a mandatory preliminary change for other upcoming stuff,
-> I don't think it's worth to work on this further. 
-
-Hmm...
-
-Thank you for your help !!
-
-Best regards
+Signed-off-by: Tree Davies <tdavies@darkphysics.net>
 ---
-Kuninori Morimoto
+ drivers/staging/rtl8192e/rtllib.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
+index d6615f787d53..21d8ea153368 100644
+--- a/drivers/staging/rtl8192e/rtllib.h
++++ b/drivers/staging/rtl8192e/rtllib.h
+@@ -1743,7 +1743,7 @@ extern u16 MCS_DATA_RATE[2][2][77];
+ u8 ht_c_check(struct rtllib_device *ieee, u8 *frame);
+ void ht_reset_iot_setting(struct rt_hi_throughput *ht_info);
+ bool is_ht_half_nmode_aps(struct rtllib_device *ieee);
+-u16  tx_count_to_data_rate(struct rtllib_device *ieee, u8 nDataRate);
++u16  tx_count_to_data_rate(struct rtllib_device *ieee, u8 data_rate);
+ int rtllib_rx_add_ba_req(struct rtllib_device *ieee, struct sk_buff *skb);
+ int rtllib_rx_add_ba_rsp(struct rtllib_device *ieee, struct sk_buff *skb);
+ int rtllib_rx_DELBA(struct rtllib_device *ieee, struct sk_buff *skb);
+-- 
+2.30.2
+
