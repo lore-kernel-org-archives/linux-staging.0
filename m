@@ -1,144 +1,161 @@
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11olkn2046.outbound.protection.outlook.com [40.92.20.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2F2B45027
-	for <linux-staging@lists.linux.dev>; Wed, 18 Sep 2024 19:43:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.20.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726688606; cv=fail; b=mKVZ8hUJj9uaBlBRsf4zlTke5Kg1nf4oTetnHUUhXw7ignq9f74ENKkCXuSoAPvaR3UpAQL/vJLNwlFKatRR2LeH/eA/p9wKpXDfS+Cfv9OAn1+Y4AfSXp1Rvd5xpXVd8G7N7xdMyxDuc17XoWcUpa7fGCMdHEUR3YEl6dhCTCQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726688606; c=relaxed/simple;
-	bh=7q3uP7M4+GcRjRFYhwQPwv0bX9sa+Vb5DxcNXE0MImQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=n2QxPW6YQqZdGIgjiOotkMZiU2srusWZBoH+jFYCpxPOnwkuSzfO1pVPQOLBWWxFfO8S22L9z9Iiksg0h4+hpAiEyy7SG1lmhwcipHoacxW+8ir/ZuwJhaP5qnOTAQoU00Lr4WyNJzMf8FOIyFzfgdmQ+Yk/EFUF3r8mGnAoWtA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=E9qkssJX; arc=fail smtp.client-ip=40.92.20.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D9D71CA68A
+	for <linux-staging@lists.linux.dev>; Wed, 18 Sep 2024 21:08:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1726693706; cv=none; b=OJ2KmyRBwQ+p7suJGRM5Op/8k44Zlq9nFe03oQ/CzboOUypSi4aMKx67vhY53vRkIzHFM9QJl4quIeB9feYm+EZRkvxjaAbzueZUrE4cjO75rPK2sQVKDFRSpzntfVh60bIHzWFK0upP0E7W7lWHIqxIdDT9BwZ+WrVo3Fkmqk4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1726693706; c=relaxed/simple;
+	bh=ouui963+aICLxgwY9/zA41gtArKIiNf4aHjyfrJLHAY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uiBAzUALQEdaoRsKNNyQve3ceK5uNloemuZCVJqSDY2PhBIQgf1Xgde6XPkODiZTByQtbr8cIYXSkX6kxJ5Cm53998g5Z3CQrg27gzkVmXs3Pgg0Vgn1uyrkgcLmRR2v5I9kEK9S6w0ZJzsBXP4zox7L9NmjNbzytLClmF5nhVw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AmiHvuuL; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="E9qkssJX"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tlSJZuHzB3M9TWR7o0V07uIlYntU1D9BHWioGb5dwovGNa4fBhSe4B57FhHDpo4Of1rp0i3Za93Sj7k3ktjm610eIMoOS4bEVXMM7vH1ZFIn0L266vJMTlTwerBYwGKheL59dsBJ15XkJeaWbhyi+AfgwFw0Z1EKjfqBtXbyw+OnWXZXequKisX7PanCGxrlsHRxZBrWI5R3OxU3zR/vClLR7q7KORJexbZ9f3MiCvULLHfabiUXAj1YcJS/wUvDqqPWRQ5hJnjL9ZXDQ7KJA5i0HDHxTIcR3LdUaL20UGysXMWXWgA/7W72BhhK1aLfogOg2d4XRfagE5xKXGMpNA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=q54PS6dahtf4AwCWlI975l6S5A2jftfqMFnFXmGcZIs=;
- b=yflq03Q4YsS5VfANwK4VZo7BV0o8CthXSm6E1hQAq4WTwW3maCKNWgabNDJiXgmQZdPwQv4Ka2cvUshAQY5qErlIEcjLbj2G2lvvopITsRo12Kv65N5PsA/Ep04En+DEToppEseamwR4WYAYXNnW6B6SOW2sbnsYcOuEGAK6JdDhNwSS9LrA8qkvQALql4AN2nvtw3prxN7489pnmmOZ+PVCgiJpe+4Iqii6Sn4sS+QOj53txTz2Tqy/wdp09iUpPVlxLpXIoH89Ynu6wQdpPWU3z7W43nSf8tzdo1lhcCd0kUNme87T7YMMQtdC1LpgrYZw6fuD9xLQt3s3HJVneA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=q54PS6dahtf4AwCWlI975l6S5A2jftfqMFnFXmGcZIs=;
- b=E9qkssJXtD0G99C8HzeBr+dd3OyMyZwQHKtqGbwZf0UP0auswxCRpaCmDhd3t0MXlIKMHo9ouAS5tUzLs9uH+Wq0HbqC67MzKya1DDRiMVTcDpUG3+m+b10c1cYYxd31lBuZOtP+yJxDFdTpNbzxFrUeegn3Q/f0Xfy2GB19CD+u5icjY6GikgtB31F+lxGBBDrESO1TnR7f0sb0//IZyPVokO85IbtaJln1oxLLPRfDVlfGprHVk6QioiqkJvp/maRuMQE0BPILkQHNNmeMkD0h+xAW6S5xI9lNve0Zs31EbAwMJP7AH0nq/yx5I5TwGMk8VAKp7Lv9EwDIsMlEqQ==
-Received: from SJ2P223MB1026.NAMP223.PROD.OUTLOOK.COM (2603:10b6:a03:570::8)
- by SJ2P223MB1150.NAMP223.PROD.OUTLOOK.COM (2603:10b6:a03:584::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7962.25; Wed, 18 Sep
- 2024 19:43:22 +0000
-Received: from SJ2P223MB1026.NAMP223.PROD.OUTLOOK.COM
- ([fe80::b5cd:c37a:bd3e:e3fd]) by SJ2P223MB1026.NAMP223.PROD.OUTLOOK.COM
- ([fe80::b5cd:c37a:bd3e:e3fd%5]) with mapi id 15.20.7982.012; Wed, 18 Sep 2024
- 19:43:22 +0000
-From: Steven Davis <goldside000@outlook.com>
-To: hridesh699@gmail.com
-Cc: Michael.Hennerich@analog.com,
-	gregkh@linuxfoundation.org,
-	jic23@kernel.org,
-	lars@metafoo.de,
-	linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: iio: Fix alignment warning
-Date: Wed, 18 Sep 2024 15:42:56 -0400
-Message-ID:
- <SJ2P223MB102630DA926C5006D12E5132F7622@SJ2P223MB1026.NAMP223.PROD.OUTLOOK.COM>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20240918174320.614642-1-hridesh699@gmail.com>
-References: <20240918174320.614642-1-hridesh699@gmail.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: CH0PR03CA0374.namprd03.prod.outlook.com
- (2603:10b6:610:119::34) To SJ2P223MB1026.NAMP223.PROD.OUTLOOK.COM
- (2603:10b6:a03:570::8)
-X-Microsoft-Original-Message-ID:
- <20240918194256.13431-1-goldside000@outlook.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AmiHvuuL"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-42cb5b3c57eso708255e9.2
+        for <linux-staging@lists.linux.dev>; Wed, 18 Sep 2024 14:08:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1726693703; x=1727298503; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MVe1RHJ36TdPZ0MCm1xGfLwPh1KD8ExatGy+oVbAu6I=;
+        b=AmiHvuuL9il46Ci4v8VcYzB+SwHBt9nPsPjNvYx/vCyvx663VSOIcOlkYKELe2O69L
+         GDaOT8NhXJeiHa+Yw8XbCotLtSk5GTV/cxVF4yM7/atOH2KtObEFsaFe4gXLXbQ/7vRr
+         4cWPRXWV/BZ3N0p8Q27l3Qb8K7bYdCEwTVNs5Is42E+sHkm80cbFP7zosS9mXBzZOyjX
+         33GihDVuT63rr8w5oJwEAK+UOA9uAqGE/qAPmE/KD6WprO2vkG3TfnWrDftpcFlNEsdl
+         meRJxjbZw5VNunRYlSS2AFo/0A47+MObyVw5U3rNIy1g+26gdSkJlEM2ZWsYDz9NyKOq
+         25LA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726693703; x=1727298503;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MVe1RHJ36TdPZ0MCm1xGfLwPh1KD8ExatGy+oVbAu6I=;
+        b=szWOOZLMEtVz0YYoMDDvmv9vk/wmumJYzOOixPnObZJ9UZfPhiXx/PZbFP6JIrQeBu
+         2NswwLuAD0M5PcoVqi/J7PtMrepqU9IRXl30NXAjvAx9qjryQ8/gKGwKwpow1QxZx2Xm
+         HX/rJUhmo1TVJIX7QaNOUakTBcUB915RwVf+EwFmNxSG/N2ry2cYcJxV2Dtmek/9UYVy
+         vngFP0Jv6+/tjeOVnt8KXQnrlKgqHAwldomQ3WuFOXfEZFWkVmt2yHOVGB+t2SBCJHKj
+         ummD1E1QJgpizcg8ci/9zKiEmU4GndX87iXgiFw4roHQWRbi5xXswYlUVx5EiGNHGa6X
+         k/Gg==
+X-Gm-Message-State: AOJu0YxuqErh557jQxQQtz/zFgeKaL8MgK/1UJCwE39K38C2w1SGIAB8
+	+DK/lNTkf2itPxx5432FripPJ8Cl5fb1gm7mXnFIce3hrv9iRg3d
+X-Google-Smtp-Source: AGHT+IEj07TGOzKUNv0vYVV7Wj31JNqmb6g5rnW2gUBrVO1CBVS0JrGUlrsQUTvBD8Ze7CtesBb98Q==
+X-Received: by 2002:a05:600c:4709:b0:426:647b:1bfc with SMTP id 5b1f17b1804b1-42cdb59148emr180118345e9.30.1726693702418;
+        Wed, 18 Sep 2024 14:08:22 -0700 (PDT)
+Received: from [192.168.2.100] (p57ba2f9b.dip0.t-ipconnect.de. [87.186.47.155])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42e75468790sm3074335e9.46.2024.09.18.14.08.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 18 Sep 2024 14:08:21 -0700 (PDT)
+Message-ID: <34860faf-b4c5-45ff-bbed-370a12c88187@gmail.com>
+Date: Wed, 18 Sep 2024 23:08:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2P223MB1026:EE_|SJ2P223MB1150:EE_
-X-MS-Office365-Filtering-Correlation-Id: 75e3c9ab-0bab-414c-22db-08dcd81a26e8
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|7042599003|15080799006|5072599009|8060799006|461199028|19110799003|440099028|3412199025;
-X-Microsoft-Antispam-Message-Info:
-	nNn2MXwawVGaGPeIK5sbrD1c+UBcvWR+BVwAkArv8fIY9K43oqKc6NTWP9oUhlM/+HdbgTFCJM0kjsrV8gO8e5+MH8ISjaSlgcTgCzdU9nLt91SZ0fFSqSjxOr7p/lT3dcC6SIEQ/wu3IZFbdLi1Kp21l1Al3r3aNeZ2NCz4Bu7HZLtNBQ2PmE78xRH0M7zefWqx34ihqVEmcQVvrLVCj+Ldt3QU1qNLrv2rpP8ntLlCdQxMCxvYTbHtI2+LVxLNX9UCwuJIx3EfyoW4Lu5DuipcWzxf7QHWuHg6Ks82CZurA9yEXfr7Qxu89REm93oyW+H5fCbfxQ1gXnQ3mCXT6Db4KSrGhm1dFYOVKGrflgaKcxLpH2jlr1a01/W2sFDH7vcVNr6BIQWsEL4gsOCR4NDyL8LUx7Hkpr5wRg8l8MG9jv03txc2Yr7bAzOEa4t9moafMC3hr0BrOhKPDbLBKPU3Qvii5Cfyix9FcdDgbcLyFrO9dQs7FM5iua8gnNrFagtytwbXxSisbFlpStjXbQDuMK0SMesaSjDUAEabXlFizOyzvGmMmnHYnsxVN9Uy1/A/aMk50HF336BWTWgo1H+4xIVCMC6pfP6zHilRNzdZ71zsbboEsNxRNVQ5eVnpwXzFO8E1kRLeDhReE+M430GMqX09rgNOZsH+hpr06mptOY8fwcd2+ebBMcErWkZjb61S0eTqw5vFm1zugZ+GPtt3PFd17xPbyiLarKzMaJY=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?lkdkQt3dNIhx+jU3eIKAuk/1t+BAU2UO9xWphyFMcMi/fJo7I1KH/8u2qgLL?=
- =?us-ascii?Q?b+7MVbkKkIUi9QXrZg6TAshCQLdNI409mIlij47B+abCBC9N/tw87UP1a1jR?=
- =?us-ascii?Q?MfYoGIQwbxf5cMg144riPkpODTYike8jeyu/bhjj/1tsgZLjK0XAUNJP7xDs?=
- =?us-ascii?Q?izfUqmrylxchmnaXqL1L9mQn+BCFyR2ZGHRZdKbSK0bNyGMFa/8Gyh8zgic8?=
- =?us-ascii?Q?OaKQrhQYLY9xGUZz/E6vX5VjPfmQpvONrdQkB3L8DA6Q3XhcDO9HT43S8laq?=
- =?us-ascii?Q?wala5lVMWiO9ovAHKJFoNZIGxrFg4ZdWT/WxiTZUerhZdMVsoGScyRsC9hJQ?=
- =?us-ascii?Q?nZXxtxmx3Cc0x6sVbGoSHa1Qbn1jp0Vd8EtWerWxCifLAWZ9qSxgwbO+R2Oj?=
- =?us-ascii?Q?acDeEzkcEb1fJ+K40VENfd/+vdZRkpKfuN8khDR6D7VgmBhcYMQi47oe8G4m?=
- =?us-ascii?Q?FP33ibVxIUIA6840Z2oY2vWJTRlgxnngUPi6MMk5Mp3J2vMk8o9ySOH4TtXQ?=
- =?us-ascii?Q?qKDva8DCNALyXPVPSR8jew/b7JXoUSeh1ZY5WyQD/vI9DMowtTMExlkv/4sy?=
- =?us-ascii?Q?hhKqWA7B6ticnubGUNfXYKy57wF4dS0TDDO7S7QGB+ZWxoCK6pwx+l5wommW?=
- =?us-ascii?Q?UbarpirQgaKt2lTMUNaMALAtAYMOMrJjLfOEMh2cnYzeUAelDbPLnDy3o8QF?=
- =?us-ascii?Q?eUsrIAtjKp1rIiTAi2gR3lOnFbXJkSKP6jMucApqmUZ8v24qd4/GlY7jRADn?=
- =?us-ascii?Q?ClhVIge+UPYIH0BL++og950QoJbrDEJd1q2f2ED5yS/qRPIjI6TNnw/7PKp3?=
- =?us-ascii?Q?9rjWxlh0CdWP7nSx/K6nveiaUSbxjfP8YaFx50ueqWtKP+sZjayU/Dfp1CLg?=
- =?us-ascii?Q?kYhjLko5dqdFChD1vP5IM4dmSmAhJy496pxK+9k3SIEjazylSGwLn5VEsAxp?=
- =?us-ascii?Q?yEO8k6zA3KteDQVFjDOFMVMCiNtwsfsyS2lLrLsHkc8ugcrekcecbQyPZt4X?=
- =?us-ascii?Q?ea6aZWhtE3cYWNXNn8LM4y9gVpenJ3HM6D97yBBzc9A+RZwWcgBQSJ/LP6Ci?=
- =?us-ascii?Q?mHFvaQLJyeaLPKu23huY9UASfZLJ3+dtVrSKnwvTCM9f7lCV4a35gHLBlIjC?=
- =?us-ascii?Q?J1d3BJ9aMoX9l1cIIT98bHrlnQV17ewREoDcEkNWKc6aqVsRMvFHgWJwXpaA?=
- =?us-ascii?Q?r7mojLok+q7tk7PxCfhYa2enMY9d6RayxyeyenDBwQl/3RvDxYFIUnKgUNx4?=
- =?us-ascii?Q?+TbrfGHDEQEufoSTFnuT?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 75e3c9ab-0bab-414c-22db-08dcd81a26e8
-X-MS-Exchange-CrossTenant-AuthSource: SJ2P223MB1026.NAMP223.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2024 19:43:21.9694
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2P223MB1150
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/14] staging: vt6655: Tidy up s_uGetDataDuration
+ function
+To: =?UTF-8?Q?Dominik_Karol_Pi=C4=85tkowski?=
+ <dominik.karol.piatkowski@protonmail.com>, gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20240918191959.51539-1-dominik.karol.piatkowski@protonmail.com>
+Content-Language: en-US
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <20240918191959.51539-1-dominik.karol.piatkowski@protonmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed, 18 Sep 2024 at 23:13:19 +0530, Hridesh MG wrote:
-> Reported by checkpatch:
->
-> CHECK: Alignment should match open parenthesis
->
-> Signed-off-by: Hridesh MG <hridesh699@gmail.com>
-  Acked-by: Steven Davis <goldside000@outlook.com>
-> ---
-> drivers/staging/iio/impedance-analyzer/ad5933.c | 6 +++---
-> 1 file changed, 3 insertions(+), 3 deletions(-)
-
-> diff --git a/drivers/staging/iio/impedance-analyzer/ad5933.c b/drivers/staging/iio/impedance-analyzer/ad5933.c
-> index 4ae1a7039418..d5544fc2fe98 100644
-> --- a/drivers/staging/iio/impedance-analyzer/ad5933.c
-> +++ b/drivers/staging/iio/impedance-analyzer/ad5933.c
-> @@ -628,9 +628,9 @@ static void ad5933_work(struct work_struct *work)
-> 		int scan_count = bitmap_weight(indio_dev->active_scan_mask,
-> 					       iio_get_masklength(indio_dev));
-> 		ret = ad5933_i2c_read(st->client,
-> -				test_bit(1, indio_dev->active_scan_mask) ?
-> -				AD5933_REG_REAL_DATA : AD5933_REG_IMAG_DATA,
-> -				scan_count * 2, (u8 *)buf);
-> +				      test_bit(1, indio_dev->active_scan_mask) ?
-> +				      AD5933_REG_REAL_DATA : AD5933_REG_IMAG_DATA,
-> +				      scan_count * 2, (u8 *)buf);
-> 		if (ret)
-> 			return;
+On 9/18/24 21:20, Dominik Karol Piątkowski wrote:
+> This series tidies up s_uGetDataDuration function by renaming its parameters and
+> variables from camel case (including Hungarian notation) to snake case, and
+> fixing its declaration formatting.
 > 
-> -- 
-> 2.46.0
+> Signed-off-by: Dominik Karol Piątkowski <dominik.karol.piatkowski@protonmail.com>
+> 
+> Dominik Karol Piątkowski (14):
+>    staging: vt6655: s_uGetDataDuration: Rename pDevice parameter
+>    staging: vt6655: s_uGetDataDuration: Rename byDurType parameter
+>    staging: vt6655: s_uGetDataDuration: Rename cbFrameLength parameter
+>    staging: vt6655: s_uGetDataDuration: Rename byPktType parameter
+>    staging: vt6655: s_uGetDataDuration: Rename wRate parameter
+>    staging: vt6655: s_uGetDataDuration: Rename bNeedAck parameter
+>    staging: vt6655: s_uGetDataDuration: Rename uFragIdx parameter
+>    staging: vt6655: s_uGetDataDuration: Rename cbLastFragmentSize
+>      parameter
+>    staging: vt6655: s_uGetDataDuration: Rename uMACfragNum parameter
+>    staging: vt6655: s_uGetDataDuration: Rename byFBOption parameter
+>    staging: vt6655: s_uGetDataDuration: Rename bLastFrag variable
+>    staging: vt6655: s_uGetDataDuration: Rename uAckTime variable
+>    staging: vt6655: s_uGetDataDuration: Rename uNextPktTime variable
+>    staging: vt6655: s_uGetDataDuration: Fix declaration formatting
+> 
+>   drivers/staging/vt6655/rxtx.c | 110 ++++++++++++++++------------------
+>   1 file changed, 53 insertions(+), 57 deletions(-)
+> 
+
+Hi Dominik,
+
+now you have put quit some afford into this patch series. Thank you.
+
+If we change the camel case variables this way we need thousands of 
+patches to fix this driver. Therefore we typically change always one 
+variable for the entire driver and not for one function.
+
+The following is just my personal opinion:
+You can keep working on this driver and your patches will remain in the 
+git. But I think I will propose to delete this driver. Reason is that it 
+supports maximum 54MBit/s and the connection is always weak. Its form 
+factor is mini PCI that is really old. I use an adapter from mini PCI to 
+PCI to get it into my Desktop PC. It furthermore is not buyable anymore.
+
+I like to focus on the hardware that is really well useable and on the 
+market available:
+
+rtl8192e
+150MBit/s -> 12,5MByte/s real steady transfer.
+buyable for some bugs as miniPCIe Card.
+
+
+rtl8723bs
+150MBit/s -> >3MByte/s can be reached with the Notebook:
+Odys Trendbook Next 14
+(Fedora with xfce) (I would prefer the one with 4GB RAM but I have only 2GB)
+buyable for not to much money.
+We can catch this devices because they run on Windows 10 which will not 
+be supported after fall 2025
+The Driver has 146 Files with 70000 Lines. I think we can remove a lot 
+because the bluetooth part is not used anymore...
+
+There are more device drivers which need our attention...
+
+Thanks
+
+Bye Philipp
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
