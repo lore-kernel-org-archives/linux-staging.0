@@ -1,43 +1,43 @@
-Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
+Received: from mail-4322.protonmail.ch (mail-4322.protonmail.ch [185.70.43.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E18E61CA691
-	for <linux-staging@lists.linux.dev>; Wed, 18 Sep 2024 19:21:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A7721CC14F
+	for <linux-staging@lists.linux.dev>; Wed, 18 Sep 2024 19:21:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726687308; cv=none; b=awMJ8N9I9qU9Sls1d3SC2ieH1FFJwklnuSV57H8eR6c7RRrs1wHuXeTjq9uNd2dquiU1CtL7zNpPNID+BHE9TndZp3h8/yFnE4Ht6Y4NU+GC6qmJ6cvJdqmjwPOhufPI/o67gp0+5o/FvR/sNfyWtUzkT8zdaNuXL/jOWD44cNI=
+	t=1726687313; cv=none; b=Xv7NwjHPURC7kmcHjE8+wKGOiMf9gjEpOMNUlX8siNyY5AwH1eu2rNXEDo45BzcF5oTPPtooWX+uKB0qIWXuFz6U6kkiVYyMjECTazPzNdG3rrBwH5wn8gbntTwsGLrlETQNnr/cpkFo7LIw4LOi/pewYPEQB5+Ne/Y4bTmK2sw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726687308; c=relaxed/simple;
-	bh=/dImOGan3ZkKVRH8rDVlWttV/k205lKet7c6uyWYv40=;
+	s=arc-20240116; t=1726687313; c=relaxed/simple;
+	bh=NlYdSX0ZLHGzHMCiEyfUrhQGEJFpeAvzAIAlUdb+q6Y=;
 	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PbYVupKuuM58YAeQS9gN8ZS3djsK9d3DOqsc2LKaq6b1csRnpVbYtmxj3xEGwYOi9V3lVkPXCqFccs9U9XQFs58AJ4f03/909imMbFSIy7WzcRW5l6QfcHgeAlettIVfuG7k0dgDPP/ALwjHcQyYk8IamOZPXwB19raPLLMG/AY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=OETp15rv; arc=none smtp.client-ip=185.70.43.16
+	 MIME-Version:Content-Type; b=cqZg+NDTFUBozLH66EspanmdVSqhIAKmZGJGhqUi0g/neI9qWs52VvZvlHL4XHj1CtERVP08cvFADaO8n599QtQfZXRTUdc5muXyHcIPsZrC6j/5wP40wQ7I5BfAYgNp9fqzJbGbhg0gFNCUxfO9Jd3/hStXDzrUUDNWdVRL2Qs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=muxobcGo; arc=none smtp.client-ip=185.70.43.22
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="OETp15rv"
+	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="muxobcGo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1726687304; x=1726946504;
-	bh=/dImOGan3ZkKVRH8rDVlWttV/k205lKet7c6uyWYv40=;
+	s=protonmail3; t=1726687310; x=1726946510;
+	bh=HegoWXI8OKwexilR7FQ1pUEBHBJNMHHtpkObBeTwxDQ=;
 	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
 	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
 	 Message-ID:BIMI-Selector;
-	b=OETp15rv2DHf1qu++VcMkwVew8e3t8eg3EIACcqf9NOa3sHtbQXpLGsdVktn0GI4Z
-	 wYrZUyfOxctn6KPAseveCcdCUHvJlvdX66NLMeBJrKDhYyqnneMMty9WkDvUciA8Rz
-	 RAmPczYCPTBXmkhEvTsIl/6HtyZTDi5QPqd00S5b5oJGJ4l3KgVyN5pcgX5/OeH/w2
-	 WNJW4YD+3k2YbV3eAnRkRtqyEAs7yCW1kzRkg963Wkmm7Lp/XM0v250Eq0qYbjOMzj
-	 zgIP00/L7BUH97TsQFigJwvJRAjCZndShTNDTn7J5s7d/cTmRtJSl1i6PJdp1eDQZI
-	 ck4wpo6gEIPPQ==
-Date: Wed, 18 Sep 2024 19:21:38 +0000
+	b=muxobcGo74bAt4GU6vH6wc8Eik7F2P9a18LyYpx5NJzzpQQZSbOHWgSRfd5K7LP0l
+	 0Gbilu7+OQYynbnVpGpWGD27414uUGFlIvNs68UangVrYCbPMgSLNyzTW/cpg8Hs14
+	 Mkugb7+kt6iO/4rLv8ItPKIH+XhzHbo4FEJWx/d8d6wQDreTUnTizR/SlEChAhf6v1
+	 tMGfRGv/qUdXilrW1aiGkZL36hKkbbIpZunYpwXgx8tdtUprVKn0eikcyU4fKhONWA
+	 LEQRQjuhnaxWsZ8pUnAZcoxzSDgpoBs/u8TXkzXrGEsu/aT7+ZnwVq57su8kqYg9pX
+	 r1qwRpsaLDQYQ==
+Date: Wed, 18 Sep 2024 19:21:44 +0000
 To: philipp.g.hortmann@gmail.com, gregkh@linuxfoundation.org
 From: =?utf-8?Q?Dominik_Karol_Pi=C4=85tkowski?= <dominik.karol.piatkowski@protonmail.com>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, =?utf-8?Q?Dominik_Karol_Pi=C4=85tkowski?= <dominik.karol.piatkowski@protonmail.com>
-Subject: [PATCH 10/14] staging: vt6655: s_uGetDataDuration: Rename byFBOption parameter
-Message-ID: <20240918191959.51539-11-dominik.karol.piatkowski@protonmail.com>
+Subject: [PATCH 11/14] staging: vt6655: s_uGetDataDuration: Rename bLastFrag variable
+Message-ID: <20240918191959.51539-12-dominik.karol.piatkowski@protonmail.com>
 In-Reply-To: <20240918191959.51539-1-dominik.karol.piatkowski@protonmail.com>
 References: <20240918191959.51539-1-dominik.karol.piatkowski@protonmail.com>
 Feedback-ID: 117888567:user:proton
-X-Pm-Message-ID: 13e8f8f72d716206a32143f633ae48bf64a380da
+X-Pm-Message-ID: ff8944be3be853cbaa6c69a38186ab4ba472b9eb
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -47,37 +47,60 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-This patch renames byFBOption to fb_option in s_uGetDataDuration
-function in order to avoid using camel case.
+This patch renames bLastFrag to last_frag in s_uGetDataDuration function
+in order to avoid using camel case.
 
 Signed-off-by: Dominik Karol Pi=C4=85tkowski <dominik.karol.piatkowski@prot=
 onmail.com>
 ---
- drivers/staging/vt6655/rxtx.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/vt6655/rxtx.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/staging/vt6655/rxtx.c b/drivers/staging/vt6655/rxtx.c
-index ca92dd72cb72..58446eba82cc 100644
+index 58446eba82cc..4b0a768cf77b 100644
 --- a/drivers/staging/vt6655/rxtx.c
 +++ b/drivers/staging/vt6655/rxtx.c
-@@ -238,7 +238,7 @@ s_uGetDataDuration(
- =09unsigned int frag_idx,
- =09unsigned int last_fragment_size,
- =09unsigned int mac_frag_num,
--=09unsigned char byFBOption
-+=09unsigned char fb_option
+@@ -241,11 +241,11 @@ s_uGetDataDuration(
+ =09unsigned char fb_option
  )
  {
- =09bool bLastFrag =3D false;
-@@ -309,7 +309,7 @@ s_uGetDataDuration(
+-=09bool bLastFrag =3D false;
++=09bool last_frag =3D false;
+ =09unsigned int uAckTime =3D 0, uNextPktTime =3D 0, len;
 =20
- =09=09=09rate -=3D RATE_18M;
+ =09if (frag_idx =3D=3D (mac_frag_num - 1))
+-=09=09bLastFrag =3D true;
++=09=09last_frag =3D true;
 =20
--=09=09=09if (byFBOption =3D=3D AUTO_FB_0)
-+=09=09=09if (fb_option =3D=3D AUTO_FB_0)
- =09=09=09=09rate =3D fb_opt0[FB_RATE0][rate];
- =09=09=09else
- =09=09=09=09rate =3D fb_opt1[FB_RATE0][rate];
+ =09if (frag_idx =3D=3D (mac_frag_num - 2))
+ =09=09len =3D last_fragment_size;
+@@ -260,7 +260,7 @@ s_uGetDataDuration(
+ =09=09=09=09=09=09     priv->byTopCCKBasicRate);
+ =09=09}
+ =09=09/* Non Frag or Last Frag */
+-=09=09if ((mac_frag_num =3D=3D 1) || bLastFrag) {
++=09=09if ((mac_frag_num =3D=3D 1) || last_frag) {
+ =09=09=09if (!need_ack)
+ =09=09=09=09return 0;
+ =09=09} else {
+@@ -278,7 +278,7 @@ s_uGetDataDuration(
+ =09=09=09=09=09=09     priv->byTopOFDMBasicRate);
+ =09=09}
+ =09=09/* Non Frag or Last Frag */
+-=09=09if ((mac_frag_num =3D=3D 1) || bLastFrag) {
++=09=09if ((mac_frag_num =3D=3D 1) || last_frag) {
+ =09=09=09if (!need_ack)
+ =09=09=09=09return 0;
+ =09=09} else {
+@@ -297,7 +297,7 @@ s_uGetDataDuration(
+ =09=09=09=09=09=09     priv->byTopOFDMBasicRate);
+ =09=09}
+ =09=09/* Non Frag or Last Frag */
+-=09=09if ((mac_frag_num =3D=3D 1) || bLastFrag) {
++=09=09if ((mac_frag_num =3D=3D 1) || last_frag) {
+ =09=09=09if (!need_ack)
+ =09=09=09=09return 0;
+ =09=09} else {
 --=20
 2.34.1
 
