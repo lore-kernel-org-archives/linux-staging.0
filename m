@@ -1,43 +1,43 @@
-Received: from mail-4322.protonmail.ch (mail-4322.protonmail.ch [185.70.43.22])
+Received: from mail-40134.protonmail.ch (mail-40134.protonmail.ch [185.70.40.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D4411CBE82
-	for <linux-staging@lists.linux.dev>; Wed, 18 Sep 2024 19:21:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7540B1CB327
+	for <linux-staging@lists.linux.dev>; Wed, 18 Sep 2024 19:21:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.40.134
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726687286; cv=none; b=Tyor9x7y7U0+2tTGJa6XOIKAqgiMBEhOjaIHinIX+LUUl5d02kGUccbSdw/NCIYJq4sR85tqZoe2yrLoFwYhjWANG9JvDGzj/YceQAyeK/TnEjKYkODL1a0dzgxGzUJF8ldf+ioqkb7gA0dkZtc/hnOJN0OfMWRQkJsPNsEnfJw=
+	t=1726687295; cv=none; b=RxC9gkb5N4lyr7FHgpzRdwkNKxUaTAbr+oc067WFJUzYkM72eMzgxj24kZOgIGsQldWfUS+X64QLvIs4rXP93L6EwUq76rtyCR3VYgrljeQTX2hNodBK0cIdjGKKLtZSH5ErYIPXNZXFf1C2d7AjvcYcuVO+PhASwdWlSoJ6rEA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726687286; c=relaxed/simple;
-	bh=tmxJZ1iDzC5bj4dGB4TSqrMB1l5mCGut4F+5SZsXvuM=;
+	s=arc-20240116; t=1726687295; c=relaxed/simple;
+	bh=W+zVSXjAOcG0MACVhz4X7u9EOeuZwAb+lVR6/aAjToE=;
 	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=c84coDzkT0X3oGMZwuFtBVzj88zQOsxOdJdZsJOWvKGZ41bzwQ5QE9/n/UkUxx3XovtAib1tKLDLx6kuekVZU8DD1hLmO/Hpk1ryTtOc3JxnZLIBVpIjLJQ9rL0kN+2OflgbnfA98pQjhcUdSiS7DfZ36jBkIXM7Sj3fnNizbC4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=OUE+zpnc; arc=none smtp.client-ip=185.70.43.22
+	 MIME-Version:Content-Type; b=OgtwVO1CDVL0wNCn1C79hQ8KMdyB80/Rbw+Gt/LC+H2M4UleYmEp0m0NJ3AW+I+MYdTPo6FqwK13cgsiuGeI4UsQqnLNf7QBaHvb1f3c8IsHeXv9LulVXhNT1djQQEGgHluDWdH+MQcd3EQinj5EdwaDbdFJzSlNZiCyRjrU+10=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=e4uarnh1; arc=none smtp.client-ip=185.70.40.134
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="OUE+zpnc"
+	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="e4uarnh1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1726687283; x=1726946483;
-	bh=tmxJZ1iDzC5bj4dGB4TSqrMB1l5mCGut4F+5SZsXvuM=;
+	s=protonmail3; t=1726687291; x=1726946491;
+	bh=W+zVSXjAOcG0MACVhz4X7u9EOeuZwAb+lVR6/aAjToE=;
 	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
 	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
 	 Message-ID:BIMI-Selector;
-	b=OUE+zpncVs2reNBa14Kj+E7fhw/ed9JCRYG5G3EfgBk9QkmEa/+/Nj7wcPuxdVZ6r
-	 Gos56PFKXiLp5zrDSHunWJaK1vT6YodnStBHLhnHK9XFkc5xvLwqVpZf4+8Wc1BHC/
-	 i43KA0QDLzbBH+znD8Kn0NU0Qbp4uqRJhk8pFIovZt+RUlP6Ddscncok6SfXn8CZPL
-	 mZ5cUhKwTBWQfGJxnyZRwhRUOWeF1QO+SQglrWtkUDvcAGOIvMuCeV979sYPNNfGsh
-	 oRiUh7jbQ+wZU7uLQUtZsZO6dynQ95Knr4mL2M/suY3rQKCh/wteEBk+oq5bxi4SG4
-	 SH2GtG6qqevrQ==
-Date: Wed, 18 Sep 2024 19:21:20 +0000
+	b=e4uarnh1+gM504UIcJ2A4OoyVkMJPqdlb58OHbU4SPc8TBpWqTdJHNyrjfHRbYzhy
+	 yeO6iLv5X3BdFQeo5Q05vIepoT67NixJ14aWYzKnDeipJ2VxT48QIcs09ArFzgwbAL
+	 hwWnhJ9YFpAXAKCBUIvXskY5N0diraDXKfy8Jc77mzMpKJ1vyRL4QmQiz4khI7z88v
+	 VpxbZO2U8BardbevgnXkLMZIZS0aXcJC5i7u+maCeJ/c3zMlc6KscQssVras2hxjkV
+	 B1paWCHhYvHkhcZbBOkMZ7BKdpMi+OUdXt0S6xLGKQVUBjM9ByUTBVqMcZ1AHYdDNe
+	 6CfGgnvZx/z/g==
+Date: Wed, 18 Sep 2024 19:21:26 +0000
 To: philipp.g.hortmann@gmail.com, gregkh@linuxfoundation.org
 From: =?utf-8?Q?Dominik_Karol_Pi=C4=85tkowski?= <dominik.karol.piatkowski@protonmail.com>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, =?utf-8?Q?Dominik_Karol_Pi=C4=85tkowski?= <dominik.karol.piatkowski@protonmail.com>
-Subject: [PATCH 07/14] staging: vt6655: s_uGetDataDuration: Rename uFragIdx parameter
-Message-ID: <20240918191959.51539-8-dominik.karol.piatkowski@protonmail.com>
+Subject: [PATCH 08/14] staging: vt6655: s_uGetDataDuration: Rename cbLastFragmentSize parameter
+Message-ID: <20240918191959.51539-9-dominik.karol.piatkowski@protonmail.com>
 In-Reply-To: <20240918191959.51539-1-dominik.karol.piatkowski@protonmail.com>
 References: <20240918191959.51539-1-dominik.karol.piatkowski@protonmail.com>
 Feedback-ID: 117888567:user:proton
-X-Pm-Message-ID: fe23c06e11d02b388475037091821da9bf092843
+X-Pm-Message-ID: d295879f42ca70281d623ebce352966a90f441fc
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -47,41 +47,37 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-This patch renames uFragIdx to frag_idx in s_uGetDataDuration function in
-order to avoid using camel case.
+This patch renames cbLastFragmentSize to last_fragment_size in
+s_uGetDataDuration function in order to avoid using camel case.
 
 Signed-off-by: Dominik Karol Pi=C4=85tkowski <dominik.karol.piatkowski@prot=
 onmail.com>
 ---
- drivers/staging/vt6655/rxtx.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/staging/vt6655/rxtx.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/staging/vt6655/rxtx.c b/drivers/staging/vt6655/rxtx.c
-index 72837898ea29..3d7bdcba83a9 100644
+index 3d7bdcba83a9..1d0b5b8f09c2 100644
 --- a/drivers/staging/vt6655/rxtx.c
 +++ b/drivers/staging/vt6655/rxtx.c
-@@ -235,7 +235,7 @@ s_uGetDataDuration(
- =09unsigned char pkt_type,
+@@ -236,7 +236,7 @@ s_uGetDataDuration(
  =09unsigned short rate,
  =09bool need_ack,
--=09unsigned int uFragIdx,
-+=09unsigned int frag_idx,
- =09unsigned int cbLastFragmentSize,
+ =09unsigned int frag_idx,
+-=09unsigned int cbLastFragmentSize,
++=09unsigned int last_fragment_size,
  =09unsigned int uMACfragNum,
  =09unsigned char byFBOption
-@@ -244,10 +244,10 @@ s_uGetDataDuration(
- =09bool bLastFrag =3D false;
- =09unsigned int uAckTime =3D 0, uNextPktTime =3D 0, len;
-=20
--=09if (uFragIdx =3D=3D (uMACfragNum - 1))
-+=09if (frag_idx =3D=3D (uMACfragNum - 1))
+ )
+@@ -248,7 +248,7 @@ s_uGetDataDuration(
  =09=09bLastFrag =3D true;
 =20
--=09if (uFragIdx =3D=3D (uMACfragNum - 2))
-+=09if (frag_idx =3D=3D (uMACfragNum - 2))
- =09=09len =3D cbLastFragmentSize;
+ =09if (frag_idx =3D=3D (uMACfragNum - 2))
+-=09=09len =3D cbLastFragmentSize;
++=09=09len =3D last_fragment_size;
  =09else
  =09=09len =3D frame_length;
+=20
 --=20
 2.34.1
 
