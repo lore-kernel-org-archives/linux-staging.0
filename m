@@ -1,102 +1,128 @@
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD3FD17A586
-	for <linux-staging@lists.linux.dev>; Wed, 18 Sep 2024 17:43:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85D811AD410
+	for <linux-staging@lists.linux.dev>; Wed, 18 Sep 2024 19:12:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726681417; cv=none; b=iVD1npCq111REMkPfBUybGIEwh7CFOGzXddSPjAvniWo72dpiGgke3ZTR+5xAu61f81ntpiF4pUFDQxetv5m3eG1NXBCHY7w5JoffEFe9E/dPrcwWcfW9X1N+7X7YR2xUYU/22ThDeDvpX1nsTswQKfCI8Z7vwqUo3Twyn2n1CU=
+	t=1726686768; cv=none; b=LuatoQxOx2ZJuWMBgziBpR3Z/bsEtQF5vRxYEynbBtaDhbiK4CNN9wwAow96VFQhGER9Vqux+3s3W56MUGky7Iwo65RK7sH7sTe1P8Lq/H7NMu+RbIUoW5utojNqLGfc+RYmI5eszW7S5o5kJtRJKDKT2emkBbasRW4l4vcuJB8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726681417; c=relaxed/simple;
-	bh=HZWIUGqAdp5opNvUgcJZvRCFDfEnKj8ueoB3pKFPLrM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EBavdWrVtcz2hbA1/y8eV9lPqmBSoViw82L7Lt4b684EiVFTn/FO2VFnXQk4dNtpQFKgszfHlKo5Fv2/00Xa6+bywTn/68PGx0wDxBc3F3IiTEZqkjVGl92IZO+Ah4jVYupg8iP67mJ6GACLO77mUnYU7w9QP0mYgaLs2L73it4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UHlsqGTl; arc=none smtp.client-ip=209.85.215.181
+	s=arc-20240116; t=1726686768; c=relaxed/simple;
+	bh=UqEGQlrhAKMaTVYXRHkKz4RHnw67nO+dOwEvga7bsRc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NhGUsHKNuRcWsfD7/CsAlXefzn40hi9ue8dmw1tecFwoFa4JN8QBKA/SBfD6mp7MqF7XFAFn5pi8Y/CF7pwecFxDeDv2z6hZiABpbDX0Nc/OKf0/G5r9Ms0V+t6L4wwa/gRRfvQjT+hgaKLfZzY7TUFDN41gqNVirFQlkiYzQk8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ehIkaQ1a; arc=none smtp.client-ip=209.85.218.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UHlsqGTl"
-Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-7db0fb03df5so5249481a12.3
-        for <linux-staging@lists.linux.dev>; Wed, 18 Sep 2024 10:43:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ehIkaQ1a"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a8d4093722bso2962966b.0
+        for <linux-staging@lists.linux.dev>; Wed, 18 Sep 2024 12:12:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726681415; x=1727286215; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=NewsmfFD9SNzAw5qXDFX6JZyu6pAwHI8ruQIxxu5ZnI=;
-        b=UHlsqGTlfquRwKK3vVtWiK6Spj9P923BXddaPfVNqUPiplnUp329haXXmrdGp7KNZi
-         ARRq2OmwldAS1K+DER7+I5Esrax04Tjgz2kQPlewgzgkTEzCx4SO593nsO9Khf6mpcBt
-         ELHsz5gn3dp9nUb8OK3QAaaB+OWrzo9687ptuS7cMbWZRz2wAF21Xpm7w4KuesLeiFGy
-         Kk4f/cHWHv188PGTpIyrSkUuMzra2D57s/EhQcGw4O6LjaO8FSoHiQz0Kxa0tMEa3v4W
-         pyKJKKE9rbvONPvPNEJ0P3+YhC05koARiLDm6+YZGjv2yPoQAr9Gw6J9IbeVduQyFJGC
-         ttHQ==
+        d=gmail.com; s=20230601; t=1726686765; x=1727291565; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=u3Xn3OJOyNbtekRi4Pk798R2NjV0eBNwlc4vGJafrlo=;
+        b=ehIkaQ1aoPG3c20ShTM48ygeOeaZeFi6s0MtnCvg1tVPT9andyH3DcrWyg+JusZ/DC
+         j8RUvDvMMsn1JoJr1LU1C3waM2d5XJ77nADMaP5z9faUq9XbrZf4tlYmYPwXjtcFmfi/
+         XMvVzMK3XCfaQ27S7I4PWzvJV9m+RniqiN7P27BYbrAxVg+EXSGJB2Ik/tQDc2p9n7Bd
+         Mo/M91w4/0roNU3xKOe4KBXqdguSzb37GSkEyeBJwLIEH/UMy0WKUgc7Y9IRPFNP9wla
+         sD5jJzgNdgABTHbDs7pGGdIMuor79S20wn+QhkNZ9aAjQj+K5VIv7bYieea7RxHGd734
+         Mb1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726681415; x=1727286215;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NewsmfFD9SNzAw5qXDFX6JZyu6pAwHI8ruQIxxu5ZnI=;
-        b=H9AsNKF3Sq7TyuBpZ4TlU6Kg9YJCsmBnvxr1jcLY13EBiJG80Ut4oMLZqhYhYBDzt5
-         6TQCeW10Fc2u0WLK3E8quVpbx2WHD4oHc5meo4Vk5Q8IfWjznLQfU4Dl45TuAt7s/PC5
-         YcOYN+FFe9zYFysO5gi8Eao9icCXJbWqn58z+iOQSP/hMt5tU1ntgO/qo0svdN35cimt
-         tIpCclnH1M3Y+dvwVjjKDUXWJvhy3Xa2C0Mx2FoT0Sp5JEPhOPAglhTPzKmbHY14gv71
-         yxQsM5BRmBfT7D/GrZLaSRHca6AaA5E3jri1NoPHFw0hTPQ2fg1NnNhN5pLL6MAgthRA
-         wtLw==
-X-Forwarded-Encrypted: i=1; AJvYcCXa8ZcvK/Nlqrs4NfeMB6aSk6HlHl5QG4zfZlVmFGlmfZV8gc0yq7y2vLXzuteeglNZtkoFvPUvQX+N1lIX@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzs2M7jKLHD5MxzGKsXvsAMFrnm1F7KvQP5eqJvXb207+D6nk7L
-	tW6LqiVCrPU8lRwQjVjEatNAG4393dIghz1iPbhIoqtl/eHcn/Jk
-X-Google-Smtp-Source: AGHT+IECRx7460qtzCoGfGmJhASYc+z4HYaeEbdspR9sv/W2BaLtyUS1Y5CgEfGw8H9Agg+4qLz95g==
-X-Received: by 2002:a05:6a21:3a85:b0:1cf:2a35:6d21 with SMTP id adf61e73a8af0-1cf764ae838mr36572984637.45.1726681414691;
-        Wed, 18 Sep 2024 10:43:34 -0700 (PDT)
-Received: from Hridesh-ArchLinux.domain.name ([59.92.195.210])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7db4fc846a4sm6286178a12.39.2024.09.18.10.43.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Sep 2024 10:43:34 -0700 (PDT)
-From: Hridesh MG <hridesh699@gmail.com>
-To: linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Hridesh MG <hridesh699@gmail.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH] staging: iio: Fix alignment warning
-Date: Wed, 18 Sep 2024 23:13:19 +0530
-Message-ID: <20240918174320.614642-1-hridesh699@gmail.com>
-X-Mailer: git-send-email 2.46.0
+        d=1e100.net; s=20230601; t=1726686765; x=1727291565;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=u3Xn3OJOyNbtekRi4Pk798R2NjV0eBNwlc4vGJafrlo=;
+        b=h2tMl2hbyMnzypnSFeWaGTr007U7ujdD/tYAyuqkTVmaLbxnjSg5vu7mhFZJgO6Od9
+         7kL5KgcoNwm9H/1bPIUBsdg65Ve8xAr+4twF/CowuEimTz8CpeyDBW7M7ErbI1OdnMVu
+         ArXY2TEHC0MkiCIRPzrVkrA0zzv3+dcTvkk4jmEi8sOL4zyxWEeENj++wxIxjm6R3fM+
+         knSiUwTxqaRWHlSebVb+QdWD97FnyO/1L3tWZPkOQodAjzYvbdTacc3nffew6QCkjwTO
+         VrlUqZCX5B7SHrE2FdzyiQ76cSmu+hYgjx+ww7LM2l/yuxqICzVRd2IZRUf2ZmSFFDZc
+         ZKLw==
+X-Gm-Message-State: AOJu0Yxn/2VjfksqqUpldBcsZWK/7CdCi7Cf3n/uKO43Gu9FVdfx8ndj
+	ErBb1pXp/dnTahhx+xade2Y5dRI8W9nOTTwT1IVkLJMQg6TZ28ssUWyROw==
+X-Google-Smtp-Source: AGHT+IHKUneLxo4fzRCV8XQ/DIJf9ok53JMFlYNox+EnndkhFO5fNxb+Gn9qOvNgzuIxUOELME3ScQ==
+X-Received: by 2002:a17:907:e619:b0:a86:96f5:fa81 with SMTP id a640c23a62f3a-a902949a158mr2344756266b.32.1726686764469;
+        Wed, 18 Sep 2024 12:12:44 -0700 (PDT)
+Received: from [192.168.2.100] (p57ba2f9b.dip0.t-ipconnect.de. [87.186.47.155])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a90612dfdcfsm619165366b.150.2024.09.18.12.12.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 18 Sep 2024 12:12:44 -0700 (PDT)
+Message-ID: <8faf5f05-8651-4601-a70f-7d417bbdee22@gmail.com>
+Date: Wed, 18 Sep 2024 21:12:43 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: vt6655: rxtx.c: Fix too long lines in
+ get_rtscts_time
+To: =?UTF-8?Q?Dominik_Karol_Pi=C4=85tkowski?=
+ <dominik.karol.piatkowski@protonmail.com>, gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20240918165052.30386-1-dominik.karol.piatkowski@protonmail.com>
+Content-Language: en-US
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <20240918165052.30386-1-dominik.karol.piatkowski@protonmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Reported by checkpatch:
+On 9/18/24 18:51, Dominik Karol Piątkowski wrote:
+> This patch fixes the lines exceeding 100 columns in get_rtscts_time
+> function.
+> 
+> Signed-off-by: Dominik Karol Piątkowski <dominik.karol.piatkowski@protonmail.com>
+> ---
+>   drivers/staging/vt6655/rxtx.c | 27 ++++++++++++++++++---------
+>   1 file changed, 18 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/staging/vt6655/rxtx.c b/drivers/staging/vt6655/rxtx.c
+> index 3705cb1e87b6..1ea17e86e3ee 100644
+> --- a/drivers/staging/vt6655/rxtx.c
+> +++ b/drivers/staging/vt6655/rxtx.c
+> @@ -202,20 +202,29 @@ static __le16 get_rtscts_time(struct vnt_private *priv,
+>   
+>   	data_time = bb_get_frame_time(priv->preamble_type, pkt_type, frame_length, current_rate);
+>   	if (rts_rsvtype == 0) { /* RTSTxRrvTime_bb */
+> -		rts_time = bb_get_frame_time(priv->preamble_type, pkt_type, 20, priv->byTopCCKBasicRate);
+> -		ack_time = bb_get_frame_time(priv->preamble_type, pkt_type, 14, priv->byTopCCKBasicRate);
+> +		rts_time = bb_get_frame_time(priv->preamble_type, pkt_type, 20,
+> +					     priv->byTopCCKBasicRate);
+> +		ack_time = bb_get_frame_time(priv->preamble_type, pkt_type, 14,
+> +					     priv->byTopCCKBasicRate);
+>   		cts_time = ack_time;
+>   	} else if (rts_rsvtype == 1) { /* RTSTxRrvTime_ba, only in 2.4GHZ */
+> -		rts_time = bb_get_frame_time(priv->preamble_type, pkt_type, 20, priv->byTopCCKBasicRate);
+> -		cts_time = bb_get_frame_time(priv->preamble_type, pkt_type, 14, priv->byTopCCKBasicRate);
+> -		ack_time = bb_get_frame_time(priv->preamble_type, pkt_type, 14, priv->byTopOFDMBasicRate);
+> +		rts_time = bb_get_frame_time(priv->preamble_type, pkt_type, 20,
+> +					     priv->byTopCCKBasicRate);
+> +		cts_time = bb_get_frame_time(priv->preamble_type, pkt_type, 14,
+> +					     priv->byTopCCKBasicRate);
+> +		ack_time = bb_get_frame_time(priv->preamble_type, pkt_type, 14,
+> +					     priv->byTopOFDMBasicRate);
+>   	} else if (rts_rsvtype == 2) { /* RTSTxRrvTime_aa */
+> -		rts_time = bb_get_frame_time(priv->preamble_type, pkt_type, 20, priv->byTopOFDMBasicRate);
+> -		ack_time = bb_get_frame_time(priv->preamble_type, pkt_type, 14, priv->byTopOFDMBasicRate);
+> +		rts_time = bb_get_frame_time(priv->preamble_type, pkt_type, 20,
+> +					     priv->byTopOFDMBasicRate);
+> +		ack_time = bb_get_frame_time(priv->preamble_type, pkt_type, 14,
+> +					     priv->byTopOFDMBasicRate);
+>   		cts_time = ack_time;
+>   	} else if (rts_rsvtype == 3) { /* CTSTxRrvTime_ba, only in 2.4GHZ */
+> -		cts_time = bb_get_frame_time(priv->preamble_type, pkt_type, 14, priv->byTopCCKBasicRate);
+> -		ack_time = bb_get_frame_time(priv->preamble_type, pkt_type, 14, priv->byTopOFDMBasicRate);
+> +		cts_time = bb_get_frame_time(priv->preamble_type, pkt_type, 14,
+> +					     priv->byTopCCKBasicRate);
+> +		ack_time = bb_get_frame_time(priv->preamble_type, pkt_type, 14,
+> +					     priv->byTopOFDMBasicRate);
+>   		rrv_time = cts_time + ack_time + data_time + 2 * priv->uSIFS;
+>   		return cpu_to_le16((u16)rrv_time);
+>   	}
 
-CHECK: Alignment should match open parenthesis
-
-Signed-off-by: Hridesh MG <hridesh699@gmail.com>
----
- drivers/staging/iio/impedance-analyzer/ad5933.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/staging/iio/impedance-analyzer/ad5933.c b/drivers/staging/iio/impedance-analyzer/ad5933.c
-index 4ae1a7039418..d5544fc2fe98 100644
---- a/drivers/staging/iio/impedance-analyzer/ad5933.c
-+++ b/drivers/staging/iio/impedance-analyzer/ad5933.c
-@@ -628,9 +628,9 @@ static void ad5933_work(struct work_struct *work)
- 		int scan_count = bitmap_weight(indio_dev->active_scan_mask,
- 					       iio_get_masklength(indio_dev));
- 		ret = ad5933_i2c_read(st->client,
--				test_bit(1, indio_dev->active_scan_mask) ?
--				AD5933_REG_REAL_DATA : AD5933_REG_IMAG_DATA,
--				scan_count * 2, (u8 *)buf);
-+				      test_bit(1, indio_dev->active_scan_mask) ?
-+				      AD5933_REG_REAL_DATA : AD5933_REG_IMAG_DATA,
-+				      scan_count * 2, (u8 *)buf);
- 		if (ret)
- 			return;
- 
--- 
-2.46.0
-
+Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
