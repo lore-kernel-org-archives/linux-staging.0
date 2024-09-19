@@ -1,84 +1,116 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mail-40134.protonmail.ch (mail-40134.protonmail.ch [185.70.40.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B7F519B59D
-	for <linux-staging@lists.linux.dev>; Thu, 19 Sep 2024 14:26:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13F4C19B59D
+	for <linux-staging@lists.linux.dev>; Thu, 19 Sep 2024 14:49:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.40.134
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726756008; cv=none; b=OgYvBvJUfPXWtKNGKsL8qohdDkhlP2OHrCdYxdws+QtNPPAxp/lSljr3OmL1BqDbj3r7/QnH5SFzTBFRTlevUZb0/oI2BTaGmvn+FfUZtFzym+PTqo/aLgBuZGjSGSaKpzhYVqrEROKTyV+KJp9obymKo2sP8Uyvu+StKDXQ3r4=
+	t=1726757375; cv=none; b=koPt8Rqd3kg7FfrTsjebeUG7uRTBsu+OwM5MtVnLjwjOKI09OuDTmuqOGLZ5kcmc+K6QX9Bdviood8Bn199OdkQXFZZxM8DJZcJnR0VpJXjJMF75gxV7leSTWy77z6D4IRckBWkSakb47sP3584+sxVbH+anMRmjeUHAeAg9shw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726756008; c=relaxed/simple;
-	bh=s1FeyuPuKAIkLxdmr7dFkDqlUjqdMhFEPRBAKufHSN4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lgJ+sG+J8FIE4MJNr0/hwT/UBjrW5DMj7NTZPKOEyh31jTe96/gfeJqIL9GpaSpSC8tlJGYZBF9qo3eb4vNum9F13eitJHzXPYUDqmmgWxgcnTCcQO9QgD1aH6zhXGmXMXqqs2BV1/9WJ7ekNmtWqO7XV5oYUT659GdwFxXVWzg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=bVQnp6MN; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1726757375; c=relaxed/simple;
+	bh=aRZBcg5PTf32BVEVo663kw28ZaquL2AOfa1lep2smEQ=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=O6gK9CgziaS3Gt74iXW2Q/qKO54V0qq1hDBFpfq6agVClSNmWrQCXbn4EKfcyjGb4cWT+De1yEwy/hOVnwhV7X5xaL7rwRGUCKQuM6ubYynadu2JQKEWcGBaS4yoqB+xrH61NzwNk1x8d0nzHcWoh1iZpWzkdj6mKB4QE3y0FK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=vb4w78wO; arc=none smtp.client-ip=185.70.40.134
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="bVQnp6MN"
-Received: from [IPV6:2405:201:2015:f873:55d7:c02e:b2eb:ee3f] (unknown [IPv6:2405:201:2015:f873:55d7:c02e:b2eb:ee3f])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 21BCE220;
-	Thu, 19 Sep 2024 16:25:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1726755922;
-	bh=s1FeyuPuKAIkLxdmr7dFkDqlUjqdMhFEPRBAKufHSN4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=bVQnp6MN+PMKmgP6Duaony/7IgS93qcalJy/OluC/T6k9ONrcrNZhqF7C/vIvare3
-	 51+IBI2df3qDIyhFrpF82Z0xOm2KzL3cL3L7xzcOhUH3d37qpioaNHaUHEgXOwYFzr
-	 30Mf0S7Ml2jBmX+dgIN4Hb8jrGjeZVcjlTKupAXI=
-Message-ID: <19b477a1-635c-4197-b63a-14d10d0d0a34@ideasonboard.com>
-Date: Thu, 19 Sep 2024 19:56:40 +0530
+	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="vb4w78wO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+	s=protonmail3; t=1726757372; x=1727016572;
+	bh=aRZBcg5PTf32BVEVo663kw28ZaquL2AOfa1lep2smEQ=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=vb4w78wODwaw3/KkAkuGSUwl7K8RuLFIGpmnk5vXosSIYMYjoY6jTa6ABSRE7uYmb
+	 NNl1V6kO1KyXBOuVzJkqqtYfXGkfwrjWcJDwc6s9mbxopbX+iOcxrs4LZk0ZSgmna4
+	 NqFAGF8pvxm/D1bx3Wx7Z3c0SiQappjn9xNnjngwAx5p+xQYnF8REcPTJCORq6rFk3
+	 ftYfHc+zxQew6TgVo4d/+Ylmx07u4CbtUM4Cr747mJpiQ0t26UB+jwU1gW2P4HjzAO
+	 7z/PKWlgEDcFPZ6HOZNzBmfrZnpY+38ZMJcZYO2ipxfCsA5FVTtEmRJkIys9uPAqUG
+	 nJ7yEHYOWG3jQ==
+Date: Thu, 19 Sep 2024 14:49:28 +0000
+To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+From: =?utf-8?Q?Dominik_Karol_Pi=C4=85tkowski?= <dominik.karol.piatkowski@protonmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/14] staging: vt6655: Tidy up s_uGetDataDuration function
+Message-ID: <51-n2bqKybKvd7B3wXyKmqbcPe6_OX9KQWYmJ2N1o4PCdcFnVSbxrD9nSWombi2U-RMz6d2mRzvgAm8cVcHKQqZOxq_cs6QpHamI3UadBjU=@protonmail.com>
+In-Reply-To: <34860faf-b4c5-45ff-bbed-370a12c88187@gmail.com>
+References: <20240918191959.51539-1-dominik.karol.piatkowski@protonmail.com> <34860faf-b4c5-45ff-bbed-370a12c88187@gmail.com>
+Feedback-ID: 117888567:user:proton
+X-Pm-Message-ID: a784ad7bbd10346bf4bcbe4ca9a9fd5048a88fb1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] staging: vchiq_core: Consolidate bulk xfer helper
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
-Cc: linux-rpi-kernel@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Stefan Wahren <wahrenst@gmx.net>
-References: <20240919142130.1331495-1-umang.jain@ideasonboard.com>
-Content-Language: en-US
-From: Umang Jain <umang.jain@ideasonboard.com>
-In-Reply-To: <20240919142130.1331495-1-umang.jain@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Hi Philipp,
 
-forgot to mention, series to is built and tested on top of
+On Wednesday, September 18th, 2024 at 23:08, Philipp Hortmann <philipp.g.ho=
+rtmann@gmail.com> wrote:
+<cut>
+>=20
+> Hi Dominik,
+>=20
+> now you have put quit some afford into this patch series. Thank you.
+>=20
+> If we change the camel case variables this way we need thousands of
+> patches to fix this driver. Therefore we typically change always one
+> variable for the entire driver and not for one function.
 
-"[PATCH 0/6] staging: vchiq_core: bulk xfer killable() completions"
+Thank you for the insight. Indeed, this way of changing variables can
+result in high number of patches in the long run. I can either rework
+this series in order to clean up the variables in driver scope instead of
+function scope, or apply it in future contributions.
 
-https://lore.kernel.org/linux-staging/20240918163100.870596-1-umang.jain@ideasonboard.com/T/#t
+>=20
+> The following is just my personal opinion:
+> You can keep working on this driver and your patches will remain in the
+> git. But I think I will propose to delete this driver. Reason is that it
+> supports maximum 54MBit/s and the connection is always weak. Its form
+> factor is mini PCI that is really old. I use an adapter from mini PCI to
+> PCI to get it into my Desktop PC. It furthermore is not buyable anymore.
 
-On 19/09/24 7:51 pm, Umang Jain wrote:
-> Few functions were identified were their declaration, definition
-> and usage were spread (incorrectly) across vchiq_core and vchiq_arm.
->
-> These are being consolidated into vchiq_core in this series.
-> Please look at individual patches for details.
->
-> 2/3 is in particular a big one. The code is just a move, but
-> seems big - as it was diffcult to split it into smaller, compilable
-> hunks of individual patches.
->
-> Umang Jain (3):
->    staging: vchiq_core: Move remote_event_signal() vchiq_core
->    staging: vchiq_core: Move bulk data functions in vchiq_core
->    staging: vchiq_core: Drop vchiq_pagelist.h
->
->   .../interface/vchiq_arm/vchiq_arm.c           | 356 ------------------
->   .../interface/vchiq_arm/vchiq_core.c          | 350 +++++++++++++++++
->   .../interface/vchiq_arm/vchiq_core.h          |  30 +-
->   .../interface/vchiq_arm/vchiq_pagelist.h      |  21 --
->   4 files changed, 373 insertions(+), 384 deletions(-)
->   delete mode 100644 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_pagelist.h
->
+Oh, I see. I was not aware of the fact it is not buyable anymore.
 
+Can I ask to be added to CC in your proposition? It is a discussion
+I would like to follow.
+
+>=20
+> I like to focus on the hardware that is really well useable and on the
+> market available:
+>=20
+> rtl8192e
+> 150MBit/s -> 12,5MByte/s real steady transfer.
+>=20
+> buyable for some bugs as miniPCIe Card.
+>=20
+>=20
+> rtl8723bs
+> 150MBit/s -> >3MByte/s can be reached with the Notebook:
+>=20
+> Odys Trendbook Next 14
+> (Fedora with xfce) (I would prefer the one with 4GB RAM but I have only 2=
+GB)
+> buyable for not to much money.
+> We can catch this devices because they run on Windows 10 which will not
+> be supported after fall 2025
+> The Driver has 146 Files with 70000 Lines. I think we can remove a lot
+> because the bluetooth part is not used anymore...
+
+Thank you for your suggestion, I will look into them.
+
+
+Thanks,
+
+Dominik Karol
+
+>=20
+> There are more device drivers which need our attention...
+>=20
+> Thanks
+>=20
+> Bye Philipp
