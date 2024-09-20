@@ -1,169 +1,225 @@
-Received: from HK3PR03CU002.outbound.protection.outlook.com (mail-eastasiaazon11011044.outbound.protection.outlook.com [52.101.129.44])
+Received: from mail-40131.protonmail.ch (mail-40131.protonmail.ch [185.70.40.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 551E7382
-	for <linux-staging@lists.linux.dev>; Fri, 20 Sep 2024 02:18:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.129.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726798688; cv=fail; b=oWIgKmvetXp0C4vf0fnXL23j6IwpnJcmdWJq4VYXYVfYjb6kKE2fHYbjGnY55WEE2ZREKTRy612JTVVlXp9OXFM3i2UGwT5hoADfOjjrYLmZLRqoZ8fICJehcF30104R1KO+ImuYhk7y9kiIuLTlIdPpplKV8wzZQiSNOM6fQTg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726798688; c=relaxed/simple;
-	bh=jJJnAjn0z7YQddBImj49VmGlkePv3uNMuLvxm3lu2e0=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=lrONaVss39+ezuFOjvD50fGUkp1ApDjg8ulZLoSmLC08WjM1Pb9vwlMtp3gygROyZgmWy5BHJhFGtRYmT4zxtl83TUaj26SCH8+M/TOs22KuIgLWuTzNJwkHG7CALfN5wgRoAYeAVGmNodDY+QP5jdceSP2oyVp8DvzuJFar/Sc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=MrAVwOZn; arc=fail smtp.client-ip=52.101.129.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7377B16DEA7
+	for <linux-staging@lists.linux.dev>; Fri, 20 Sep 2024 13:37:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.40.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1726839451; cv=none; b=HTS6mwFUGcO4kyu24IMeI3o2uTu2lGqQarrGZaAzFfQLUA8INUxsMnVwJ78IXuvgJcRX2P2ImLolKtc5zG005ZOrMfjRrRSHHhPmxX1RcFPWayjVT5s2WiO+VTfE0bYcdBK6CIP98h9GQj6JAGt1NWKWmRibBUmZDaPM7Qm0/a0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1726839451; c=relaxed/simple;
+	bh=hOqLiThOivw6BibqdtT8D1c8R7QqDuIsn0z9ej131Tc=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=GUcDvfpa68W/0DmnQgQ+elyZAD0SYIG+V8ID3k1/OvmmirSMdQVy+1h+A58EZEK210poaLnbf5p9qsPkDHaOPJf2/RrNsozXk+P7NQdoqljw6b9p7rrWaSL4PzcO0iiWnxsk5NTr6Q8tTRay+xSa/Nn0pWNyuz0YP96CyUVWXc0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=sdlchPv7; arc=none smtp.client-ip=185.70.40.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="MrAVwOZn"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DRcRwJzZ3xZU3QgRRJp1XHsEPQf0wSEsUWyK6D1JhrhmPo2HsQdEhRutcfBaKR8Lea8d/m9v6UXshq+46M3TrSbNhxauxK9nBJzEkO/q9ovzrrStyMuwtYqB/mAoOPysnUWFb2YC86vFaTxxwTguK4YnvPAigpV1sa4vDzAaCzlFG535nBF277Zod0jRvSrcIB1lQcW3FCUFHM0/Vdunl7eOPYfnL6AIBfuwQ7AD3mNgsmTI0+bBPmNd8FuLLEP36JsXNGnlapbwQZ/DC0CUdk+S/ef0fVPLRAgyZxo+xJZ8F075E6ek7AmwAOc0Iv50QrRIp+cHBMj1sQ68x7/cKw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3By1JMRf4ojw5RNDqUCGcnfXaTaJqP5X2f7GknIbHGQ=;
- b=HXunM1boLvmtERej49KVFT3K308wltyO4G8ezn3zsibY9SPrIopNkhCumVYeagrLIe8/fiDhe7DnOjCWhHwgs4kat5n6LgWwnY1o51O/wNr0VtDMmpZ+pCoXX7GeSiVKOfh/tYE/Ve0puIIm0dW6o14oT9LSCVosrGMruhRGqpwYgBalqMIVmBXVSCW6iIqe2o1EH6WC8ArbuXq5Oetl0ND5PJGStgiSFPRFq3JmHhOg2i5eBMh4yS5n7DyZ+aGdDPYpqUKqyDeqRSUahd9Pq6WlslAK/LAjoYd5EjiRbGPl6RrU0c14CIP5BLHadWh9Lq3HjB++Zbsgf117qkgEwg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3By1JMRf4ojw5RNDqUCGcnfXaTaJqP5X2f7GknIbHGQ=;
- b=MrAVwOZnfhA7RwpZWyLKjnupI8dhnfizDeFq3ji1fNU6v9FhjlfcAZfCgTYRglGylZAy94qtTQf5gTx4n1phR09kAMEEeXsU04g/wes8QUwWRU8dM++myog3z/6+Ktdrp8P+OI1wqXJQcbfYFW2YRbAMZrjr0WbyQYNazn5B8vzJ/JWIXKwA0P+Vds6oQ1UX579ZBfwRMzlTJBMEiKH4TcIsWUsik0yHQvCv37tQbNLOejNYAmo7unUkBf1vu+PqMqCS7Tj+TjnKxNAF5FuMzSPVChp8FSMZD8F0mGyIM4KYjFrOLaEdIm06roJZ7tvct2ZNQMtuqlryJlJ8AqQBVA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from SEZPR06MB5899.apcprd06.prod.outlook.com (2603:1096:101:e3::16)
- by TY0PR06MB5845.apcprd06.prod.outlook.com (2603:1096:400:278::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.16; Fri, 20 Sep
- 2024 02:18:01 +0000
-Received: from SEZPR06MB5899.apcprd06.prod.outlook.com
- ([fe80::8bfc:f1ee:8923:77ce]) by SEZPR06MB5899.apcprd06.prod.outlook.com
- ([fe80::8bfc:f1ee:8923:77ce%3]) with mapi id 15.20.7982.018; Fri, 20 Sep 2024
- 02:18:01 +0000
-From: Shen Lichuan <shenlichuan@vivo.com>
-To: sakari.ailus@linux.intel.com,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: bingbu.cao@intel.com,
-	tian.shu.qiu@intel.com,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	opensource.kernel@vivo.com,
-	Shen Lichuan <shenlichuan@vivo.com>
-Subject: [PATCH v1] media: staging/intel-ipu3: css: Convert comma to semicolon
-Date: Fri, 20 Sep 2024 10:17:16 +0800
-Message-Id: <20240920021716.4920-1-shenlichuan@vivo.com>
-X-Mailer: git-send-email 2.17.1
-Content-Type: text/plain
-X-ClientProxiedBy: SG2PR06CA0234.apcprd06.prod.outlook.com
- (2603:1096:4:ac::18) To SEZPR06MB5899.apcprd06.prod.outlook.com
- (2603:1096:101:e3::16)
+	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="sdlchPv7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+	s=protonmail3; t=1726839447; x=1727098647;
+	bh=hOqLiThOivw6BibqdtT8D1c8R7QqDuIsn0z9ej131Tc=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=sdlchPv7e6N4qFv5XAkj2FB2X3y7TBwdrWhDYsAoPUCvsWcV4mgFDBCK0UI1tBmf0
+	 EulVgO3vLTDBUEa4zBqU5iclWw13MYhg/6wxwF8tXJmr9EegCsQgep3WAkX23noEn6
+	 U/K3BRUP+2PurVpOAojxTvFjzrrLspg/YqY4cZ0HdkIjRQk3N9hbqDqcwA4zllmJGt
+	 ACoR2tTh3lmRvNEZ5O0oSXMax18UkWy96ixfUWOKkCpZU4nOp9hJIFlvLEuAgIomwx
+	 ECrkE1HW8qmQ+uoWmCu+W+c7z0MWU29khzNourC7R7YsGS+tLPVAY4GZQAgmzeHI26
+	 6Kj3bZHla1NdA==
+Date: Fri, 20 Sep 2024 13:37:23 +0000
+To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+From: =?utf-8?Q?Dominik_Karol_Pi=C4=85tkowski?= <dominik.karol.piatkowski@protonmail.com>
+Cc: gregkh@linuxfoundation.org, tdavies@darkphysics.net, dan.carpenter@linaro.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8192e: Fix alignment to open parentheses
+Message-ID: <qdwaM7uxN2Sm0zSi_JF5cMYkIhlMFdluiUK6bLU1XqiHDMaSnMcVpCOseEfvdJKu-3uRr_iAuEBMJPn6Qbix-FaNG0EF8n82K3E7lQ5Zg5M=@protonmail.com>
+In-Reply-To: <e3c09066-3a40-4145-b5b4-4ccf5b755982@gmail.com>
+References: <20240919185445.119969-1-dominik.karol.piatkowski@protonmail.com> <e3c09066-3a40-4145-b5b4-4ccf5b755982@gmail.com>
+Feedback-ID: 117888567:user:proton
+X-Pm-Message-ID: 95c3030774a9faddad1a95c7b02c61b34e53d56a
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SEZPR06MB5899:EE_|TY0PR06MB5845:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9b9d1f65-3c35-4a88-a1ba-08dcd91a73cd
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|52116014|376014|1800799024|366016|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?RzHwNs91tvxuD7s45WAkT+hMvAkRGSCfbJkS3KGAVhpfwaP9JtKk70UHQh5q?=
- =?us-ascii?Q?cDplaxQWSwHSe1tULGEAeoBOyggypU0fqiYx349GKhWefURNuR8lv3tBYac6?=
- =?us-ascii?Q?Nz8V0//2WHCyxre3EmaeCGmPYSu3yps5wLljiNzn7DbzNgqvGfX3499uThwB?=
- =?us-ascii?Q?JE/RnJyr8mdJvxuRQavRbScvkqYbU6WGbYkZB5qgpSTZg9wfH3NxoaC4jha7?=
- =?us-ascii?Q?ezuRESAvuBOCkUGK4Hn9xzk2OU4OuDpR6aySj3oVd2w5euBWKGCP1uumUV5F?=
- =?us-ascii?Q?wGFlmn6/Nhm+l2QtQM4Do2FBBxvqedHmRoHlOxoZUvs6Zs3g/14jA4bGR1rX?=
- =?us-ascii?Q?Dgyjt5iHCKDuom3JAcq2aph0qp5HJtyz5nW3BshnxDkvTghW1yk/jT5SwNjS?=
- =?us-ascii?Q?SS1nk54dUYszUH9ESgUd2I8PikST5y7FN4w64lwWiy03twRFJ78URVSqd1oH?=
- =?us-ascii?Q?yl18mGtMtq1HvO27gKcTrnbJ61TkAe7AJXWDbww5j05Za/kDblU9DOYxQNlg?=
- =?us-ascii?Q?T7exF5sFXTNHUGqMkqecocDlMIwMzVNMPFTzhW0zp5lCr8q/KL6NRluMrj5z?=
- =?us-ascii?Q?OSMTG2h4IHXTR55rxVonB1P+xPQhvZrbhPTTc589FoizRaA790RmP8pt43Vh?=
- =?us-ascii?Q?zzNGx6YKLmgcSry8cbAHY40EcE0nGuAzv3dL6iJvrtYJR321pmhzsgAcxxd+?=
- =?us-ascii?Q?JqG0eECyDclEmz61fkQPgWZznytAyzss8CTy5Vd+p2oiz7UI+wi6DRBvNaq2?=
- =?us-ascii?Q?aCIRctz+gUeNSS72enyEt0LGUeizwJdhKb2WSu6IpmlHvRBl7RK7ASqdLRLE?=
- =?us-ascii?Q?lBx4n0JnjfH9JzAkLreeG1O6X7jjyNPZK+r8eseZYkj6ThtsLPTq5xYX5/y4?=
- =?us-ascii?Q?Lhdf/w64XbmqTjFbHdQJQDfaqgjXAFrOdRYSzZLLvrYJSRxD1UDHppRr1d86?=
- =?us-ascii?Q?jcshdkwVNJCtwMZuoo7a1RuUYYb/XFalyOShl4PUTaX7/gEksBZfFrArCf6P?=
- =?us-ascii?Q?7ec74XceCv7giwbpGM4CaWaSoa8zuGI4u8J49Q9sah0Bg7I25xJUzhHEhd9a?=
- =?us-ascii?Q?YjAQXGh76QPqefSMSIS0tYrS/ISc5hNsylSQcCW/Xx7fzzkFO+uSE5U9UWzJ?=
- =?us-ascii?Q?vQUZoMMooL6+4oHZwZn85Fv+Istcm/yspqgfMgoWQiYC3OeM+rSBSiCp2ahU?=
- =?us-ascii?Q?r8hgs9zsf9pIDPQ992ZAKvJbTPBUpsgdjy12vgfsVaFRiBgkNFSOKZxGTk6o?=
- =?us-ascii?Q?1fFbhtzUMOX7NrGx8yK6wCW5E9rXLLKrU69kc6ZBsbAhaiMTOtkPTPI4Eawm?=
- =?us-ascii?Q?qNo+JKxWUmN8pfaWR832gzP1xK+eWDYKPwcwVt70UQ78SD2JOU1pD4shxYcA?=
- =?us-ascii?Q?JYYa8cl2qeZqkr/UUiv37xk+9sBI0ZUgL5B8QEbyjqHwleKKeQ=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEZPR06MB5899.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?ByLPri/wEFMx67rB3opbtqq9IfAGxDWaH57Kf97nGX1QBHfsmMYMMLsyEs0u?=
- =?us-ascii?Q?T97Gr/wYs5xWejzexV0l+arS/1FaJDfQH19civpUTTRViMR29AxEJnpoLu8j?=
- =?us-ascii?Q?2yPHJGmYnRYxOigs6SKHTLO/Qh/t9GQ3zccAl/hOHs6X4mg0VhWbyvz+df3m?=
- =?us-ascii?Q?5kXUnV5dipZ4zdaPROk/RdcuPdH+iE3EbT0gJKvsc7gb5T/jMsskkHaNHUCq?=
- =?us-ascii?Q?nYwufGQoiOT0FmmGJI7kWQv5SHYZebNMkYxMVECg6IaE+wlc7LbAUGMTrw/d?=
- =?us-ascii?Q?00rqqmOe1iIHVYqndtNU+lSG2xtc09trLDzejgAI2b5424gyhPJAPQkH53Pk?=
- =?us-ascii?Q?o3JDWjXBXRd5EMHDa80TZXUT27s/t9pIqELZTcmzaK65t7OrLyUz9jNCsvi3?=
- =?us-ascii?Q?dXDFmlA3CEeaiwQnI56j4OK3iwaaw3yXLt9ZYd2liwjOwy0wOVEeCiPRzrbU?=
- =?us-ascii?Q?+6AXvLmjZR0HygKcRjgWzYNWo8Px7hxDM40bqqusuY9SfGvW4PkvslHJLLNP?=
- =?us-ascii?Q?1ezT+G95EcxokSEk98JJddG8hmb/YsAVYcr8CiKFETpBlEzdEK/kgXeOsTwG?=
- =?us-ascii?Q?S1SMbBTo2mKabkqk7QYDaPQWMphNO58mlA0d2UkHN2Pi1dlfYB6jJbP0FSWc?=
- =?us-ascii?Q?AqygG+MXVgrV8AUvC66DJKCgKDT3iolD20KoVchE6saGqs3LdRLChTBW0AUX?=
- =?us-ascii?Q?9kCiQWgogLHS99oSzyYNGcyMoW5GzlKBku3NPXSy2S14rwjOjL2wuYhja2uV?=
- =?us-ascii?Q?4mRmpPDMvxO3O0badmBQSG26KQCiwsT6sAKCY+sn3gZOIIn4jdRKmWEpcGok?=
- =?us-ascii?Q?Qu7Re/GpHnGsZJzhuF8rRLF+iNuQCiz9qIS2TMjJHXxWqsnOf/pZo0CipvK2?=
- =?us-ascii?Q?ppkHKwrcq12loBmlC13bvYPGJF2jdYp00Aq/5uOXB5ceCLgSo0KaD7vJEps+?=
- =?us-ascii?Q?7gu65p/GlarOaXaPbVHl8Fq+YxbgGLVAcAawRJmlk+hj+jbaqKobkzuaxIwW?=
- =?us-ascii?Q?o7D8q+YfAYLWnsfIMQ6CxUHKe4ibwgYECDiq7nNn/N8KuezoPB+coreA2KDq?=
- =?us-ascii?Q?ekAwbZDrS9J4/JEA8kUGqiKx2RwQDoolx+mn8xha3fkiGM0Nj9YMbsyFZnnC?=
- =?us-ascii?Q?y3s3EbILP+8ZrKDDdcqduTTs+YGo2t6OjNvGnZQthnB61qA10x31CCUQ/6OW?=
- =?us-ascii?Q?DmrYaWCqgEOM89+VeaURk2YTsfFrpCG9vmFrW3zjTcgYtjCqVy7IHHkUh4tE?=
- =?us-ascii?Q?NeKLRsBDb4lQHyw6vC6WHpQGWzZwSSemQabggOdFqcixE0aitj6ao8C8DZ5+?=
- =?us-ascii?Q?AR/JA1onv0KdUE4wTFgYuy4E/jMui6m+CncG+RD5OKjb4Bn9FJ377WTUqkyb?=
- =?us-ascii?Q?+StM3lb8lgN8cjhtire4A1KMT9aCu07iMtiAju4hz1UboA6pz49d7LJ2k0zt?=
- =?us-ascii?Q?oWgQPUYRgWfefUsIsxe6a7h/T3YO+J/N73B4Jrt4b7YNTWhgT2yGWeWPAVJI?=
- =?us-ascii?Q?uObkiVfGYW0u7BKfiyQAtmPRYFiDxiU8KFdf9JiYparz0G0sjR8YFTWg+Glf?=
- =?us-ascii?Q?wDiUdY4Db3XHBfKHx+TmJYWMEiFaNaXtaz+Vdz5d?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9b9d1f65-3c35-4a88-a1ba-08dcd91a73cd
-X-MS-Exchange-CrossTenant-AuthSource: SEZPR06MB5899.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Sep 2024 02:18:01.7507
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tHJ5gBSACwnTMu5JE3cCf4kBQ/gcZSGpQJ4mDi9Gr/VKCyg/A0eGaZosp72NymilCQY+7yInamO3Khvf46UIxw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY0PR06MB5845
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-The return of function imgu_css_grid_end_calc is void.
+Hi Philipp,
 
-To ensure code clarity and prevent potential errors, it's advisable
-to employ the ';' as a statement separator, except when ',' are
-intentionally used for specific purposes.
+On Thursday, September 19th, 2024 at 22:15, Philipp Hortmann <philipp.g.hor=
+tmann@gmail.com> wrote:
+<cut>
+> > diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/s=
+taging/rtl8192e/rtl8192e/r8192E_dev.c
+> > index 2672b1ddf88e..cf1231fe5319 100644
+> > --- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+> > +++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+<cut>
+> > @@ -335,8 +334,9 @@ static void _rtl92e_read_eeprom_info(struct net_dev=
+ice *dev)
+> >=20
+> > for (i =3D 0; i < 14; i +=3D 2) {
+> > if (!priv->autoload_fail_flag)
+> > - usValue =3D rtl92e_eeprom_read(dev,
+> > - (EEPROM_TxPwIndex_CCK + i) >> 1);
+> > + usValue =3D
+> > + rtl92e_eeprom_read(dev,
+> > + (EEPROM_TxPwIndex_CCK + i) >> 1);
+>=20
+>=20
+> Sorry this is not really increasing readability.
 
-Signed-off-by: Shen Lichuan <shenlichuan@vivo.com>
----
- drivers/staging/media/ipu3/ipu3-css-params.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+You are right. The problem with this line is that it has 5 levels of nestin=
+g,
+and this makes it hard to fix the readability without having too long lines=
+.
 
-diff --git a/drivers/staging/media/ipu3/ipu3-css-params.c b/drivers/staging/media/ipu3/ipu3-css-params.c
-index 34f574b0b521..69e00f493288 100644
---- a/drivers/staging/media/ipu3/ipu3-css-params.c
-+++ b/drivers/staging/media/ipu3/ipu3-css-params.c
-@@ -2626,7 +2626,7 @@ int imgu_css_cfg_acc(struct imgu_css *css, unsigned int pipe,
- 		return -EINVAL;
- 
- 	acc->awb.config.grid.height_per_slice =
--		IMGU_ABI_AWB_MAX_CELLS_PER_SET / acc->awb.config.grid.width,
-+		IMGU_ABI_AWB_MAX_CELLS_PER_SET / acc->awb.config.grid.width;
- 	imgu_css_grid_end_calc(&acc->awb.config.grid);
- 
- 	for (i = 0; i < stripes; i++)
--- 
-2.17.1
+A some kind of rewrite could be helpful in the future, moving the deeply
+nested code into its own functions. For now, I think it is not sanely fixab=
+le.
 
+>=20
+> > else
+> > usValue =3D EEPROM_Default_TxPower;
+> > *((u16 *)(&priv->eeprom_tx_pwr_level_cck[i])) =3D
+> > @@ -345,7 +345,8 @@ static void _rtl92e_read_eeprom_info(struct net_dev=
+ice *dev)
+> > for (i =3D 0; i < 14; i +=3D 2) {
+> > if (!priv->autoload_fail_flag)
+> > usValue =3D rtl92e_eeprom_read(dev,
+> > - (EEPROM_TxPwIndex_OFDM_24G + i) >> 1);
+> > + (EEPROM_TxPwIndex_OFDM_24G + i)
+> > + >> 1);
+>=20
+>=20
+> Sorry this is not really increasing readability. The >> 1 in the next
+>=20
+> line is net nice.
+
+I agree, this was a bad idea. This line is a similar case to the previous o=
+ne,
+with it also having 5 levels of nesting. For now, I think it is also not sa=
+nely
+fixable.
+
+>=20
+> > else
+> > usValue =3D EEPROM_Default_TxPower;
+> > *((u16 *)(&priv->eeprom_tx_pwr_level_ofdm24g[i]))
+> > @@ -1325,8 +1326,8 @@ static void _rtl92e_query_rxphystatus(struct r819=
+2_priv *priv,
+> > } else {
+> > if (rf_rx_num !=3D 0)
+> > pstats->signal_strength =3D precord_stats->signal_strength =3D
+> > - _rtl92e_signal_scale_mapping(priv,
+> > - (long)(total_rssi /=3D rf_rx_num));
+> > + _rtl92e_signal_scale_mapping(priv, (long)
+> > + (total_rssi /=3D rf_rx_num));
+>=20
+>=20
+> I am not happy with this either. There are two =3D in the same line...
+
+Right. The double assignment could be split into separate line, improving
+readability, and probably allowing for nicer formatting.
+
+<cut>
+> > diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/sta=
+ging/rtl8192e/rtl8192e/rtl_core.c
+> > index dc1301f1a0c1..82a1b19fa1b3 100644
+> > --- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+> > +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+<cut>
+> > @@ -406,8 +405,8 @@ static int _rtl92e_qos_assoc_resp(struct r8192_priv=
+ *priv,
+> > }
+> >=20
+> > static int _rtl92e_handle_assoc_response(struct net_device *dev,
+> > - struct rtllib_assoc_response_frame *resp,
+> > - struct rtllib_network *network)
+> > + struct rtllib_assoc_response_frame *resp,
+> > + struct rtllib_network *network)
+>=20
+>=20
+> one space missing...
+
+Is it missing? In my editor it looks okay.
+
+<cut>
+> > diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/stagin=
+g/rtl8192e/rtl819x_HTProc.c
+> > index 9c9c0bc0cfde..ec43b5fda06e 100644
+> > --- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
+> > +++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
+<cut>
+> > @@ -418,8 +416,8 @@ static u8 ht_filter_mcs_rate(struct rtllib_device *=
+ieee, u8 *pSupportMCS,
+> > }
+> >=20
+> > void ht_set_connect_bw_mode(struct rtllib_device *ieee,
+> > - enum ht_channel_width bandwidth,
+> > - enum ht_extchnl_offset Offset);
+> > + enum ht_channel_width bandwidth,
+> > + enum ht_extchnl_offset Offset);
+>=20
+>=20
+> This one is not correct.
+
+Is it incorrect? In my editor it looks okay.
+
+>=20
+>=20
+> Hi Dominik,
+>=20
+> this patch is to long. 1200 Lines are long for a patch. It might work
+> out when it can be checked automatically. But in this case I need go
+> through it line by line.
+
+Fair point - I will keep that in mind and try to keep the patches short in
+the future.
+
+>=20
+> Another issue is that I cannot apply it on top of the following patch
+> series that I see likely to be accepted.
+> https://lore.kernel.org/linux-staging/Zung-0ClV_527-_e@kernel-710/T/#t
+>=20
+> Here a trick to ensure this is not happening. I would look into the
+> coverletter of above mentioned patch series. There are only 8 files
+> changed so there are plenty left untouched. You can work on them.
+
+Thank you for making me aware of this. I will prepare a v2 fixing the files
+that are untouched by the mentioned series.
+
+>=20
+> My opinion is that people who are knew to the kernel community should
+> start with simple patches and then evolve.
+>=20
+> I propose to look for unused macros in:
+>=20
+> r8192E_hw.h
+>=20
+> This is the output of a program I wrote. You need to carefully check if
+> they are really good for removal.
+>=20
+> BCN_TCFG_CW_SHIFT
+> BCN_TCFG_IFS
+> IMR_BcnInt
+> MSR_LINK_ADHOC
+> MSR_LINK_MASTER
+> RRSR_SHORT_OFFSET
+>=20
+> You can find patches in git about the removal of the macros as an example=
+.
+
+Thank you, I will look into these macros.
+
+Thanks,
+
+Dominik Karol
+
+>=20
+> Thanks for your support.
+>=20
+> Bye Philipp
