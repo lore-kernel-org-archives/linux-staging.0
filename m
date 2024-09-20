@@ -1,102 +1,130 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-173.mta0.migadu.com (out-173.mta0.migadu.com [91.218.175.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD1AA17CA12
-	for <linux-staging@lists.linux.dev>; Fri, 20 Sep 2024 15:35:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7989C148
+	for <linux-staging@lists.linux.dev>; Fri, 20 Sep 2024 16:20:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726846520; cv=none; b=vDFN1BI57QDRoIhKf7AlwhdgsMc/nitS998qrGhZ/1Roy0/FdsYzTCWH0ATGHULD5yMCg4O/jzXddpSSMW8DJEBcH1mnz3wZzuMEW3vjknmzCaFo3w2bx1HXW6WWLt3GS3WTvQepp20VAlA1t6awCpWTuThluJ1YOADF0+mEvjk=
+	t=1726849251; cv=none; b=jeGciAsjbWteGfRCBET8RBTIu1gqNDW8Ukq6BkYeIyqEg/CDtub2sCF8iHyUfUPi+CFvyVaEfwAeH0Sz6fztSeu0KDMmgTBn6/hxn1dXFV62tl6SpURLrnQ7lwJ0skjnGTj+BQimIYKG0YmlLGHyoNwjiingeZXDYqPPjqFnYho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726846520; c=relaxed/simple;
-	bh=29J06FnENKSRhNiEzsaOawnMU8S1XN6nGjpRf+49cD8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=rqtV5mdm9eYaBu6lSjmQiFzJIedwi07EOg2MMehpzmzXjuEL/hQ6QFwig9eGJV7CO8EzWmbgFfvBjR+GOF81RfbCDmfphnViZmUufNvSyIuRevDmi+rJp2MbuCHM/1Q0wec5qdPlVFCQc8P9ueHPtEXc1qyb4WICZSZ1hQEManY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=N6zMYrm7; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1726849251; c=relaxed/simple;
+	bh=KbffuDWtaDaDyNW5iznCSswDCRp9Uv6aNg57bWYIYZo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=vDt+jL7AlvEmFLfu/BBdqZmbpoE8wd6pgU7ueNJ9V22RiRD8xdWKzx40g/H6VI9ffky93ZAl28nR+oFf7gahArxGfurIJB8aUMQlq7HIHlKP7KGtREvhTBpCAvFwVMYBTI/IbHpdYKZtrSmjB9VPm/VXIIhqxmAVXgxZ9uXjOfE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=b1n.io; spf=pass smtp.mailfrom=b1n.io; dkim=pass (2048-bit key) header.d=b1n.io header.i=@b1n.io header.b=hstKdxjx; arc=none smtp.client-ip=91.218.175.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=b1n.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=b1n.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="N6zMYrm7"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-374c8cef906so1577824f8f.2
-        for <linux-staging@lists.linux.dev>; Fri, 20 Sep 2024 08:35:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1726846517; x=1727451317; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Bbk8RS4D7GTQ6O1mhGJvRN0DDSg3VpGUnFRpab1Lu+M=;
-        b=N6zMYrm7XcnX37jJKxSmIV1iarDhHZENXqonkC3Ba00SKIg/zM+pdx4jdP3N3eT6v8
-         8lof/VsSymR2kbqIa2Js14v80K16YU+CvpBPQjE9u+8YMGMoMtYKb0u74ua3ioEzdXef
-         A34hK1wiBHFP6dvoOE3HQmPnNAHpcmO4IF0oHLvdLrFj3TDxCgW0vEGYI4RaNVV6ieWL
-         YoUU33biWDB9zmuoyB5FLNWatXjBlzzJc8YBPHVONQOjzJ59+JwyjjcavSUtPpXXF1jO
-         iU7niWeLcueNtzlwFOXiyYJnFnycVT8t3g5TYOb5Twr1qDDfJBEi2wCuK1vgGsNmW1Ch
-         qUaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726846517; x=1727451317;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Bbk8RS4D7GTQ6O1mhGJvRN0DDSg3VpGUnFRpab1Lu+M=;
-        b=p/l4tdYkriYRGI88oV27KfD9MMN6vP3O9GiAQOVuOjzNYWc5AOWumSQ3qhl1ansKqb
-         5HxKFSDyge+hTbmcxFyyDfvoe8qI6ZqUi/AOtwN+1LO/OTBKlQaq5TgP/41MzhZqHz9D
-         7LlG0J34+k/XeYxBNVS/VX2PmLPv/qndlMBLQDhl7iLsl790lQnTMoGp7q6ujPBzPAHy
-         vIut12bucuZU1lOZtainjcPDH1W9vgD1Nfk9R8j+fRw+10tSFn4FK8c+pkBYlKjUEW7U
-         SUiBTn37yVNxpHSgv9cRi8ekrOhAdG+iUvaFu2hIHvhjHEIzHEfUHqG82LgkNrfVWphn
-         oGFA==
-X-Forwarded-Encrypted: i=1; AJvYcCVbmvPwpnwgFQgTXGqXM1x+v8cV8GOys0t3WRxezTZpsTj3tp9Q5k32Gl3BZg31eVvYvIPQlhw5mxNlclGG@lists.linux.dev
-X-Gm-Message-State: AOJu0YwR9YTSBy7ynDXMaa5Q3pg97iqIaLoP9izhiG2jKd8W3jGW3TRf
-	U9cb33W0kW2ADQHuRtzutJFDxHVV0qma+cKMZE4mIhQMWc2QvTosO4IeVfB5UXA=
-X-Google-Smtp-Source: AGHT+IHyLuwMSx6W+yszfdL68bXFA9lI3CmMPHR5iPsgGCfUpF/p+QS+bhSctVxW0rqFbxBI3s2kNg==
-X-Received: by 2002:adf:e84b:0:b0:374:cd36:8533 with SMTP id ffacd0b85a97d-37a43197db1mr1920965f8f.54.1726846517173;
-        Fri, 20 Sep 2024 08:35:17 -0700 (PDT)
-Received: from localhost (p5dc68d3d.dip0.t-ipconnect.de. [93.198.141.61])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42e7540e464sm53095045e9.4.2024.09.20.08.35.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Sep 2024 08:35:16 -0700 (PDT)
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Jens Frederich <jfrederich@gmail.com>,
-	Jon Nettleton <jon.nettleton@gmail.com>,
-	linux-staging@lists.linux.dev
-Subject: [PATCH] staging: olpc_dcon: Drop explicit initialization of struct i2c_device_id::driver_data to 0
-Date: Fri, 20 Sep 2024 17:34:34 +0200
-Message-ID: <20240920153430.503212-16-u.kleine-koenig@baylibre.com>
-X-Mailer: git-send-email 2.45.2
+	dkim=pass (2048-bit key) header.d=b1n.io header.i=@b1n.io header.b="hstKdxjx"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=b1n.io; s=key1;
+	t=1726849246;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=+3FciQk28R59Ar460zvDDhuQNYfCrj4RJAVz18nhP7A=;
+	b=hstKdxjxdykAxyXGNKDNUXDwfaAznATj5vB2DnqocsowPzROnBdaV5kpwUNP26kSRylo6J
+	rmQGsw7rKTREtJI1goa6T8ED4dyu+Cd6sjm8L/y4aWtSkwWv2yTzzbh9jonYTVAcfqTtFT
+	kjUpzKZ6ON6bu0Wkl/pG9b6Smsw2DLrOyK1+DjS2s+0/klQzq2X6APzM74RxPSai2YiRYJ
+	hv0vdo6YkfVNtjfKgEVZNk1DEeOyJgFvBFg1I6zAiP2qsD1J/PNncsI5nybx3M14CvqnQE
+	vwO3n2jPFmk2sHGBPR+aOyMqiRUS+oQqYaA1+AbHoggzJ3BYc4hoIJ5F+oRPEg==
+From: Xingquan Liu <b1n@b1n.io>
+To: Philipp Hortmann <philipp.g.hortmann@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Xingquan Liu <b1n@b1n.io>
+Subject: [PATCH 1/7] staging: vt6655: Rename variable apCurrTD
+Date: Sat, 21 Sep 2024 00:20:19 +0800
+Message-Id: <20240920162025.31465-1-b1n@b1n.io>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=973; i=u.kleine-koenig@baylibre.com; h=from:subject; bh=29J06FnENKSRhNiEzsaOawnMU8S1XN6nGjpRf+49cD8=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBm7ZYWHQjuTz3izuQvurR1icR6utinao6kVDX0G C7QDlvH6X2JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZu2WFgAKCRCPgPtYfRL+ TtWgB/9ADmkeRVIKLJuhjWQdhIcZ/A3D2gLQRHy2aMaoVUTcryQy13Dl7IzSjSHiaRhiKO/KgOg K3714yXK57IH5Z4et9dw591yIrmTguSGXdeGPMlPw9A+CbEtvF8vleaBzFU+BgXF53rI6pYt/n9 2Kqbyt/dD4/l35KbMHSf5w7q0V8X2XMDLeWmt/WwqT8rgUywgF1Ql+jEOINYCV0uUtd2hUnhGfm q6GHTx1HPeWhID62H+BqIdY0DP7tIT2Ap3aBOR/ZiZzjKw/HxeQQy9pV0vH5pXmkC/CMCpliwJi n9nRumUKiLbIhbIhSLBkyXw2hf6evC2xhjq0HQsDryXCgTC5
-X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-These drivers don't use the driver_data member of struct i2c_device_id,
-so don't explicitly initialize this member.
+Rename variable apCurrTD to ap_curr_td to fix checkpatch warning
+Avoid CamelCase.
 
-This prepares putting driver_data in an anonymous union which requires
-either no initialization or named designators. But it's also a nice
-cleanup on its own.
-
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
+Signed-off-by: Xingquan Liu <b1n@b1n.io>
 ---
- drivers/staging/olpc_dcon/olpc_dcon.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/vt6655/card.c        | 4 ++--
+ drivers/staging/vt6655/device.h      | 2 +-
+ drivers/staging/vt6655/device_main.c | 8 ++++----
+ 3 files changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/staging/olpc_dcon/olpc_dcon.c b/drivers/staging/olpc_dcon/olpc_dcon.c
-index 4cb904a5f8f4..75809f9fa108 100644
---- a/drivers/staging/olpc_dcon/olpc_dcon.c
-+++ b/drivers/staging/olpc_dcon/olpc_dcon.c
-@@ -767,7 +767,7 @@ static const struct dev_pm_ops dcon_pm_ops = {
- };
+diff --git a/drivers/staging/vt6655/card.c b/drivers/staging/vt6655/card.c
+index 6a2e390e9493..3b7284a23479 100644
+--- a/drivers/staging/vt6655/card.c
++++ b/drivers/staging/vt6655/card.c
+@@ -389,10 +389,10 @@ void card_safe_reset_tx(struct vnt_private *priv)
  
- static const struct i2c_device_id dcon_idtable[] = {
--	{ "olpc_dcon",  0 },
-+	{ "olpc_dcon" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, dcon_idtable);
-
-base-commit: 62f92d634458a1e308bb699986b9147a6d670457
+ 	/* initialize TD index */
+ 	priv->tail_td[0] = &priv->ap_td0_rings[0];
+-	priv->apCurrTD[0] = &priv->ap_td0_rings[0];
++	priv->ap_curr_td[0] = &priv->ap_td0_rings[0];
+ 
+ 	priv->tail_td[1] = &priv->ap_td1_rings[0];
+-	priv->apCurrTD[1] = &priv->ap_td1_rings[0];
++	priv->ap_curr_td[1] = &priv->ap_td1_rings[0];
+ 
+ 	for (uu = 0; uu < TYPE_MAXTD; uu++)
+ 		priv->iTDUsed[uu] = 0;
+diff --git a/drivers/staging/vt6655/device.h b/drivers/staging/vt6655/device.h
+index 5eaab6b172d3..f4e14c65b1a8 100644
+--- a/drivers/staging/vt6655/device.h
++++ b/drivers/staging/vt6655/device.h
+@@ -132,7 +132,7 @@ struct vnt_private {
+ 
+ 	volatile int                iTDUsed[TYPE_MAXTD];
+ 
+-	struct vnt_tx_desc *apCurrTD[TYPE_MAXTD];
++	struct vnt_tx_desc *ap_curr_td[TYPE_MAXTD];
+ 	struct vnt_tx_desc *tail_td[TYPE_MAXTD];
+ 
+ 	struct vnt_tx_desc *ap_td0_rings;
+diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
+index bf3ecf720206..052ebe0095a5 100644
+--- a/drivers/staging/vt6655/device_main.c
++++ b/drivers/staging/vt6655/device_main.c
+@@ -737,7 +737,7 @@ static int device_init_td0_ring(struct vnt_private *priv)
+ 
+ 	if (i > 0)
+ 		priv->ap_td0_rings[i - 1].next_desc = cpu_to_le32(priv->td0_pool_dma);
+-	priv->tail_td[0] = priv->apCurrTD[0] = &priv->ap_td0_rings[0];
++	priv->tail_td[0] = priv->ap_curr_td[0] = &priv->ap_td0_rings[0];
+ 
+ 	return 0;
+ 
+@@ -777,7 +777,7 @@ static int device_init_td1_ring(struct vnt_private *priv)
+ 
+ 	if (i > 0)
+ 		priv->ap_td1_rings[i - 1].next_desc = cpu_to_le32(priv->td1_pool_dma);
+-	priv->tail_td[1] = priv->apCurrTD[1] = &priv->ap_td1_rings[0];
++	priv->tail_td[1] = priv->ap_curr_td[1] = &priv->ap_td1_rings[0];
+ 
+ 	return 0;
+ 
+@@ -1235,7 +1235,7 @@ static int vnt_tx_packet(struct vnt_private *priv, struct sk_buff *skb)
+ 		return -ENOMEM;
+ 	}
+ 
+-	head_td = priv->apCurrTD[dma_idx];
++	head_td = priv->ap_curr_td[dma_idx];
+ 
+ 	head_td->td1.tcr = 0;
+ 
+@@ -1244,7 +1244,7 @@ static int vnt_tx_packet(struct vnt_private *priv, struct sk_buff *skb)
+ 	if (dma_idx == TYPE_AC0DMA)
+ 		head_td->td_info->flags = TD_FLAGS_NETIF_SKB;
+ 
+-	priv->apCurrTD[dma_idx] = head_td->next;
++	priv->ap_curr_td[dma_idx] = head_td->next;
+ 
+ 	spin_unlock_irqrestore(&priv->lock, flags);
+ 
 -- 
-2.45.2
+Xingquan Liu
 
