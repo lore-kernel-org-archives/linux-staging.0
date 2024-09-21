@@ -1,80 +1,106 @@
-Received: from sendmail.purelymail.com (sendmail.purelymail.com [34.202.193.197])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AE3D364AE
-	for <linux-staging@lists.linux.dev>; Sat, 21 Sep 2024 18:06:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=34.202.193.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F3123F9EC;
+	Sat, 21 Sep 2024 23:50:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726941992; cv=none; b=RpakGgUPuFOjbGlDmI3kSt6wYXusK/Cg27TJOgk5SDaR0PwwOfMy7mFuBSgYIsjz4Kd4tbx25ekf2FYoheBwG661aunnkQVr5LpAqTIjunMd0xhniUikAJpbZ6jV82z1J0eB8/W61DZPtoDS+ChANoeBphm2/q4IfqHuBKTsMjw=
+	t=1726962615; cv=none; b=BqKF5sk6h4RsSegRe7cuKlneXabZP47v+6fi6TLOkjdoz5g/NShINwK8zj9UBq2quRFeCECyFvX+X1+BvEflcbJrWarPygtJOF8JAiE5KAzTIHjLVXbs1OaL+M6utEyi9NvawpgR9lbRWy/m6wOs4/ypjUkZIXhZdjQoFcLEAV8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726941992; c=relaxed/simple;
-	bh=xV7IefKZSXiYmu7IBZd5OBYJgnAsclhZjkME++M84kU=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=L+QOExMmaJotszYMQwDS1HcoGOe4oTqnTH/NoW0bzDW2c3FIbjZco6J0q3bcLitrxfVzk2E8NFv0fca/GLKtjaktgDzPyNAqWIaYTq2yv2PEVP1tEU7F2iWbABvE44XSwcD2Yyu4CcbTedbsqj47+rwF6hNchMC5hRtQhv3Lam8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lkcamp.dev; spf=pass smtp.mailfrom=lkcamp.dev; dkim=pass (2048-bit key) header.d=lkcamp.dev header.i=@lkcamp.dev header.b=AWAmYNxr; dkim=pass (2048-bit key) header.d=purelymail.com header.i=@purelymail.com header.b=UUoGBLR2; arc=none smtp.client-ip=34.202.193.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lkcamp.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lkcamp.dev
+	s=arc-20240116; t=1726962615; c=relaxed/simple;
+	bh=Tot4drm5qTnCFQzRPkGAWUK9uG5MeaXdN7y1JGa8fEk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DyRURq9R4WE2vUkQ8wFjgF0eugAGM0yEhwXEntkjSCW8gb3GXBdzJz8zgrqU0cLA8JFC4INd44U2UtoM93qQtqZxT7VIku1FBxKI+svjx9wiUV2Dn4IdHPATX2bUNDwF/Ro+v7Qy4bfU2JBJu8ebDegbqTyTgcgKKGjonJa56RM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Glmel5/F; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lkcamp.dev header.i=@lkcamp.dev header.b="AWAmYNxr";
-	dkim=pass (2048-bit key) header.d=purelymail.com header.i=@purelymail.com header.b="UUoGBLR2"
-DKIM-Signature: a=rsa-sha256; b=AWAmYNxrd5xKkljEmErX5IK+FIzPTTqeha7MMEL3V7Lru9paS7VbsiReA+VtgqGm5qQo1RSaPNpFByDZlmL7HVhWmN5nV8wNjol8qEdqMxChj0gw7aENIgfpkCMVbTKRApuSzG6Ohq7qUvE3DYLnlm2VvviQWQvAqxSK7/8ysmladI05J4Z/+dSBSIi6cM5Eb6QIkXw/CCKJ2ik1lfvMyNHw5/r8jnz6Y15QGEzX1SE2H7Feltocm1gaUwhzZd9hjiLfMQ0Flj02vGMvJihYBO6iOdVZ5GqNYqRhmnzU1aGviSE9JVZUwOLm0LVBWx6ogMWuIuzfqQw8/4/nYGRmgQ==; s=purelymail3; d=lkcamp.dev; v=1; bh=xV7IefKZSXiYmu7IBZd5OBYJgnAsclhZjkME++M84kU=; h=Received:From:To:Subject:Date;
-DKIM-Signature: a=rsa-sha256; b=UUoGBLR2WFVbwKksfFaAOMj068oXWUk1BLHRU0xHUcCawr4HSS3EdRvEm+91j6LbR80zuszZruLKCs4RlB3apInmxrzY+pq1/kHwq4D0wWCTnxiPVV5WXUG7qZD9/hgc+GPvbaWVa7latUOQmhlm7Lwj27ywGEpIkyGJIvAt1HJG2SG1tawLTFqq0skNf1E3CrdF6136FeTmCyeTpGVdQe6Hn23RMx0Ntrm6TWCYlM3c+6hQzPYDPUELwzbCDMDcsVLGzsWeomvw7GKOcb7j35XKw3RevC014hf4prZrGf5mh1VVlumBANyiPIUPVwVJR49vwMKyIiH2wuPXKnnqGQ==; s=purelymail3; d=purelymail.com; v=1; bh=xV7IefKZSXiYmu7IBZd5OBYJgnAsclhZjkME++M84kU=; h=Feedback-ID:Received:From:To:Subject:Date;
-Feedback-ID: 48547:7130:null:purelymail
-X-Pm-Original-To: linux-staging@lists.linux.dev
-Received: by smtp.purelymail.com (Purelymail SMTP) with ESMTPSA id 278810204;
-          (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
-          Sat, 21 Sep 2024 18:06:19 +0000 (UTC)
-From: Fabricio Gasperin <fgasperin@lkcamp.dev>
-To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Glmel5/F"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1726962612; x=1758498612;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Tot4drm5qTnCFQzRPkGAWUK9uG5MeaXdN7y1JGa8fEk=;
+  b=Glmel5/FHEqj8umXmdYKGUVrIvJH7rlY3WeILKBsys9wNY/PqJn7JPR2
+   PfnVubtqz8eRkrcXp8jjBLOpiXvRKyDZbZsB6P5Qr/pZdIC3m1+SVMCww
+   QwJzsiwshVqkqyyuPiq2jqT6Pdj7fSDKbHhQiMeXTepRyPnLShzngkF3d
+   z/7aCYSBpN1bTGz4EA6TjVbVnFC1bgK8WAg/BLLrxBd0YIsoFnTMfMtV3
+   ba1JfG+xgCB8WcgiFxSCi2kQNCqmn8/CtpmuP4tm6PKFXWFduIzjsrc0t
+   rVddtsgQw5RajHDKpF//R+4lAufXXM8p2yMJ8GxYlIp/zRl1yHmOnmk4G
+   w==;
+X-CSE-ConnectionGUID: De9Hf19cTKy/VRHAD10X/w==
+X-CSE-MsgGUID: W79dFPJqTdC1jd4WyVjTJA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="43409365"
+X-IronPort-AV: E=Sophos;i="6.10,248,1719903600"; 
+   d="scan'208";a="43409365"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2024 16:50:12 -0700
+X-CSE-ConnectionGUID: khLwQGLARwq7p964KjTuZA==
+X-CSE-MsgGUID: KS7lRIMcThaWW/rPPsS2NQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,248,1719903600"; 
+   d="scan'208";a="70558343"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 21 Sep 2024 16:50:10 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ss9rb-000Ft0-1l;
+	Sat, 21 Sep 2024 23:50:07 +0000
+Date: Sun, 22 Sep 2024 07:49:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: Fabricio Gasperin <fgasperin@lkcamp.dev>,
+	Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
 	Teddy Wang <teddy.wang@siliconmotion.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	~lkcamp/patches@lists.sr.ht
-Subject: [PATCH] staging: sm750: Fix missing config in Kconfig
-Date: Sat, 21 Sep 2024 15:06:09 -0300
-Message-ID: <20240921180612.57657-2-fgasperin@lkcamp.dev>
-X-Mailer: git-send-email 2.46.1
-In-Reply-To: <20240921180612.57657-1-fgasperin@lkcamp.dev>
-References: <20240921180612.57657-1-fgasperin@lkcamp.dev>
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, ~lkcamp/patches@lists.sr.ht
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] staging: sm750fb: Rename variable
+ sm750_hw_cursor_setData2
+Message-ID: <202409220704.MXWsOMfL-lkp@intel.com>
+References: <20240921152124.11560-1-fgasperin@lkcamp.dev>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by Purelymail
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240921152124.11560-1-fgasperin@lkcamp.dev>
 
-Fixes the following compilation error:
+Hi Fabricio,
 
-ERROR: modpost: "fb_io_read" [drivers/staging/sm750fb/sm750fb.ko] undefined=
-!
-ERROR: modpost: "fb_io_write" [drivers/staging/sm750fb/sm750fb.ko] undefine=
-d!
-ERROR: modpost: "fb_io_mmap" [drivers/staging/sm750fb/sm750fb.ko] undefined=
-!
+kernel test robot noticed the following build warnings:
 
-Signed-off-by: Fabricio Gasperin <fgasperin@lkcamp.dev>
----
- drivers/staging/sm750fb/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+[auto build test WARNING on staging/staging-testing]
 
-diff --git a/drivers/staging/sm750fb/Kconfig b/drivers/staging/sm750fb/Kcon=
-fig
-index 08bcccdd0f1c..eca1aa43d725 100644
---- a/drivers/staging/sm750fb/Kconfig
-+++ b/drivers/staging/sm750fb/Kconfig
-@@ -3,6 +3,7 @@ config FB_SM750
- =09tristate "Silicon Motion SM750 framebuffer support"
- =09depends on FB && PCI && HAS_IOPORT
- =09select FB_MODE_HELPERS
-+=09select FB_IOMEM_FOPS
- =09select FB_CFB_FILLRECT
- =09select FB_CFB_COPYAREA
- =09select FB_CFB_IMAGEBLIT
---=20
-2.46.1
+url:    https://github.com/intel-lab-lkp/linux/commits/Fabricio-Gasperin/staging-sm750fb-Rename-variable-sm750_hw_cursor_setData2/20240921-232248
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20240921152124.11560-1-fgasperin%40lkcamp.dev
+patch subject: [PATCH] staging: sm750fb: Rename variable sm750_hw_cursor_setData2
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20240922/202409220704.MXWsOMfL-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240922/202409220704.MXWsOMfL-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409220704.MXWsOMfL-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/staging/sm750fb/sm750_cursor.c:134:6: warning: no previous prototype for 'sm750_hw_cursor_setdata2' [-Wmissing-prototypes]
+     134 | void sm750_hw_cursor_setdata2(struct lynx_cursor *cursor, u16 rop,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/sm750_hw_cursor_setdata2 +134 drivers/staging/sm750fb/sm750_cursor.c
+
+   133	
+ > 134	void sm750_hw_cursor_setdata2(struct lynx_cursor *cursor, u16 rop,
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
