@@ -1,58 +1,59 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 913FB14B960
-	for <linux-staging@lists.linux.dev>; Sat, 21 Sep 2024 13:51:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61D7716DED5
+	for <linux-staging@lists.linux.dev>; Sat, 21 Sep 2024 14:10:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726926706; cv=none; b=fsYhCOlHH8Dsm5gqIFDTtAn9sfcFBnXD5RSHGxlgQ8sDcefxkbYv5OdLL1hr2D4VkqVagEFxOBI0myOIERfpPuV7IaC2Jt4ScfoHiIr+ZuIokRaq6uJnfc93hMX0ufrSUAtpI4bAE40L3BQxgaqFjuF/SFJynD4W3LEHKnYCllw=
+	t=1726927813; cv=none; b=lsqUei3w+n5biMzVDSxNCbmwdz9W0WZHnqQpT0GnLy/azgFI+ycKnGZd7uHHxCsT4FaZIMLUKrigLPnu7zzkxRC+vdibbqDNWH8pBXSt1ZRWDJTks8bxVA29OFt5eDUOE2fDQdlE0TJ2ZWXcT15BfsldsDBpzdSiuw23lUGLDHQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726926706; c=relaxed/simple;
-	bh=6nI3Dz3gIFEVc72j50dXce4137Z5MixftS/Z5i0v970=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JNx5BgUaOR5Q8ofQeM1MHxchh75c1TCr9j7C6sBDHngorTnw2LFHbajQXse3B4p3NW86yXDfZ39x6ab2qaMHp575tY1ooN4I+yoAO1I4egn2h8nWFOAokUaZfZs18QoqA8lHflLtAep1n46IiURp2pooAGD0AP4H67LjdqX8ZBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RbZoRkj6; arc=none smtp.client-ip=209.85.208.48
+	s=arc-20240116; t=1726927813; c=relaxed/simple;
+	bh=hnDiBGQpDXACiUc5CzaBwn1G+dXC9IgeleoQOKeOVq8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=k7/ML4SolKMpt2++IeXymdTOpsjwBCFJe84amu1f8cDxivoDdfCdMKzIWYIos7EW6rVw2h4B00Y8YkmecbU+6ibDsR67/Is13P65hkp0VllSy7ET23BEGSwAuwP3xlJHhhkDAwAHEeYTO5HStK1K6fuY1c6P4w4Hs3q3+5JF6Gk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aHASNs0C; arc=none smtp.client-ip=209.85.208.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RbZoRkj6"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5c3ed267a7bso3352540a12.3
-        for <linux-staging@lists.linux.dev>; Sat, 21 Sep 2024 06:51:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aHASNs0C"
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5c50ea4419dso1384864a12.0
+        for <linux-staging@lists.linux.dev>; Sat, 21 Sep 2024 07:10:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726926703; x=1727531503; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1726927811; x=1727532611; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=0MFL6BailCJB3061a8fsY3OzkrReKVjvVUW19uyfz2E=;
-        b=RbZoRkj6p4Bj5JaAdIbsaKSVIs6GY8OhahdZlmtE3XUeNWUPNqHkfMOypKDzr8FN8B
-         ZS2XkHf7LLtSddc3MX3DGpttpqO03n5ouRBMoqV8oob1J3UDGlp/RNC4DNsyxEodiwek
-         DD7SSgUnXBn8cUKLxOIm7RGnJBHrdzHGIiPRY9JzQJpNmPG4r65PUKJZGh0cVCgmtUU4
-         WhGNU39JUQTKFikjbFWt5BT0Q96wv2NRs+6ttAjCuPNUSDh7wO2b9WbI6pJ+5RHtMDOS
-         mVGOeW95IRsBoGLlp6pLYsBYfuaMwHBWjQqnA8JcbuMmwUrypGu1EYYBNJq+0Gu+Xmyl
-         CUNA==
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Va2GHCSVvbFzqlLy4/Z3bbc+8WuiNPLRTpZiEC7ifO0=;
+        b=aHASNs0Cv4Yx8VOz1+/fJkVqJIz2UPge0JwHsabKqfgYdxvTtoNbyfs52PnQ1Ag+3D
+         Lm4zPhRhhTXKd4BLn6cAx52OoQhnDIJbfcQw7ruoNdWJAg03EenuLr7o4UPrVQwCVgBL
+         5aW1KYvAUa+lBNpEDyv/QJbzarsf+PXSA4DesbdE7ED353AjU0v2ECt/PXInBct7GCkP
+         V1fub4i8cVm87nXwokwpKC1tXwQhVFYsO1xtOPzx02f51aAWnjvHnMNiFyMAZFiJIsWa
+         JRnnKki0saoEATfHQ0Odu4llAeIIGE4AR6WSuOt9g5Q+5A7KOZcYeoJpGYTlO18OD4Tn
+         2Vmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726926703; x=1727531503;
+        d=1e100.net; s=20230601; t=1726927811; x=1727532611;
         h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :references:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0MFL6BailCJB3061a8fsY3OzkrReKVjvVUW19uyfz2E=;
-        b=H9szpnMRjxTP7M5pZm6zP60YDOfNMlgN5usAEQw/GkZvDiVgrAZaLlOExw63jfL5Ko
-         aP0gdCQPNjJ4yTTmQNkBdlIsLsL5ea/dpqZGFj2Q493XL6Ehy3e/uJfHiGSRPV0zYNk8
-         DgirjlqHNXZ3v4X7TUD62mBY1jwGv+D3SaPIeLvQiT0yFbSNi6LwEDX/qyX5pJK8kXRW
-         iuGjmSxkBYGB8v1YiF5cmcsWUH7ninV1pgtcJMzix23d2vLB7lCcRw6MpnEl+G0FLORu
-         hdFECeanYJTyVXXVKSMXQQmr1Fs9oio2aPKQFzEw+tovNdrAgXRxE7BYWJVRTkx+Ep9K
-         e3VA==
-X-Gm-Message-State: AOJu0YyQyHWsqsd7vd6xVaFgbiIUgIH68jWYV/9ytx26Z3NwQA5ZYoFy
-	eVPgIARhkSBmoHsjLG8g4EoFQlpV6kETUo9Z7XDtY7S7rNf6ph55
-X-Google-Smtp-Source: AGHT+IGTNIq/QmYS7w8UykA2MiPqJw15goy+S/ZQArhH1a3LM7SDHLzMd8LYMunf7YgDHCp+EOPgrQ==
-X-Received: by 2002:a17:907:e20b:b0:a86:7b01:7dcc with SMTP id a640c23a62f3a-a90d4fe6f35mr525311566b.18.1726926702514;
-        Sat, 21 Sep 2024 06:51:42 -0700 (PDT)
-Received: from [192.168.0.105] (p54a0712c.dip0.t-ipconnect.de. [84.160.113.44])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a906109676esm976883366b.33.2024.09.21.06.51.41
+        bh=Va2GHCSVvbFzqlLy4/Z3bbc+8WuiNPLRTpZiEC7ifO0=;
+        b=mU7zyAJYlnFO2OfE7Ei5b3i8ipUzZtqN2ePNRQKeiGf83MF3+cxmONa38d+NZ/bCSC
+         UwrBqfdzLSmqE1IZXW7J/Up+I+HtW3O0JXRcM2j/30Knv9iznqoNTJMM9f9S9xlxeJpR
+         gMeNq6/j0IGNBlCZAbuZ+ZkKNVXP0t6QM8DygzBn3HONtJAtGtH/qwme1UXhQXzt3V0c
+         Cy63h6KZhXoo1MDvEnSY8YNvE7U9As/96hRNwcJMJsbXR/EILFrstfl4LeL1RCtX7bkZ
+         r7skZLCCtc6yM39WaOY4w+d9KAARxUB1aMMmXTFariASSU5jOLSje87A1EM9cKLHicgc
+         jbBg==
+X-Forwarded-Encrypted: i=1; AJvYcCUvE4bHy3h3pzLTyiUVIDMO6xkf/m/pn10jLYy+kAX2j2pYIcWWud6fkjvI9XUG5fs2vdQZzwnUOAUz83Yu@lists.linux.dev
+X-Gm-Message-State: AOJu0YyvYIVC3TCdm2UDJ442LhkeujkE+4UhTjNwyQMnknNMXUeF/DJ5
+	UiwZb2t8PQiDTzyz8I90ItKlfmDlqD0CLjo+eEqWKXigGHMu8Ft9
+X-Google-Smtp-Source: AGHT+IFb1M9LxkWZ2/EmDrefgELhOU6BduH8I8jNkpu0X+c9J4EoZTvBwXbskS6PuxHA5esCHJvoJQ==
+X-Received: by 2002:a05:6402:1f8a:b0:5be:d7d8:49ad with SMTP id 4fb4d7f45d1cf-5c464dea3fcmr4858174a12.22.1726927810333;
+        Sat, 21 Sep 2024 07:10:10 -0700 (PDT)
+Received: from [192.168.2.100] (p54a0712c.dip0.t-ipconnect.de. [84.160.113.44])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c42bb94a0csm8328281a12.79.2024.09.21.07.10.09
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 21 Sep 2024 06:51:42 -0700 (PDT)
-Message-ID: <3fc0202a-d0b7-479f-8528-fed30e0e458c@gmail.com>
-Date: Sat, 21 Sep 2024 15:51:41 +0200
+        Sat, 21 Sep 2024 07:10:10 -0700 (PDT)
+Message-ID: <e7bfce0c-74a4-4c0a-9930-a3fe9d5ea5fb@gmail.com>
+Date: Sat, 21 Sep 2024 16:10:09 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -60,109 +61,33 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/6] staging: rtl8192e: rtllib_rx.c: Fix alignment to
- open parentheses
-To: =?UTF-8?Q?Dominik_Karol_Pi=C4=85tkowski?=
- <dominik.karol.piatkowski@protonmail.com>, gregkh@linuxfoundation.org,
- tdavies@darkphysics.net, dan.carpenter@linaro.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20240920193356.32156-1-dominik.karol.piatkowski@protonmail.com>
- <20240920193356.32156-4-dominik.karol.piatkowski@protonmail.com>
+Subject: Re: [PATCH 2/7] staging: vt6655: Rename variable iTDUsed
+To: Xingquan Liu <b1n@b1n.io>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20240920162025.31465-1-b1n@b1n.io>
+ <20240920162025.31465-2-b1n@b1n.io>
 Content-Language: en-US
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20240920193356.32156-4-dominik.karol.piatkowski@protonmail.com>
+In-Reply-To: <20240920162025.31465-2-b1n@b1n.io>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 9/20/24 21:36, Dominik Karol Piątkowski wrote:
-> This patch aligns the code to open parentheses to improve readability.
-> 
-> Signed-off-by: Dominik Karol Piątkowski <dominik.karol.piatkowski@protonmail.com>
-> ---
->   drivers/staging/rtl8192e/rtllib_rx.c | 91 +++++++++++++---------------
->   1 file changed, 42 insertions(+), 49 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8192e/rtllib_rx.c b/drivers/staging/rtl8192e/rtllib_rx.c
-> index 8fe224a83dd6..e58be8e07917 100644
-> --- a/drivers/staging/rtl8192e/rtllib_rx.c
-> +++ b/drivers/staging/rtl8192e/rtllib_rx.c
-> @@ -409,12 +409,10 @@ static bool add_reorder_entry(struct rx_ts_record *ts,
->   
->   	while (list->next != &ts->rx_pending_pkt_list) {
->   		if (SN_LESS(reorder_entry->seq_num, ((struct rx_reorder_entry *)
-> -		    list_entry(list->next, struct rx_reorder_entry,
-> -		    list))->seq_num))
-> +		    list_entry(list->next, struct rx_reorder_entry, list))->seq_num))
->   			list = list->next;
-> -		else if (SN_EQUAL(reorder_entry->seq_num,
-> -			((struct rx_reorder_entry *)list_entry(list->next,
-> -			struct rx_reorder_entry, list))->seq_num))
-> +		else if (SN_EQUAL(reorder_entry->seq_num, ((struct rx_reorder_entry *)
-> +			 list_entry(list->next, struct rx_reorder_entry, list))->seq_num))
->   			return false;
+On 9/20/24 18:20, Xingquan Liu wrote:
+> Rename variable iTDUsed to i_td_used to fix checkpatch warning
+> Avoid CamelCase.
 
 
-Hi Domenik,
+Hi Xingquan,
 
-I hope to not stress you beyond limits.
+please do not take the first letter when it is "hungarian notation". On 
+a first look it seems that the p is for pointer, i is for integer, a is 
+for array.
 
-Thanks for deviding the patch. I can apply it now to my repo.
-First two patches are looking good.
+If you send in a second version of this patch please use a change 
+history. Description from Dan under:
+https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
 
-I prefer to have a comma at the end of the line. This line does not 
-increase readablility to me.
-
-((struct rx_reorder_entry *)
-list_entry(list->next, struct rx_reorder_entry, list))->seq_num))
-
-Sometimes it is better to change less.
-
-The change does not perfectly fit to the description: There you say 
-...aligns the code to open parentheses... but you do not need to remove 
-line breaks or shorten code to achieve this.
-
-Smaller patches lead to an earlier acceptance. This typically leads to 
-more confidence at the beginning for newbies. There is no question about 
-that you know what you are doing. But there are some corners where the 
-kernel is special.
-
-Find more below.
-
-
-> ...
-> @@ -876,9 +874,9 @@ static int rtllib_rx_check_duplicate(struct rtllib_device *ieee,
->   	frag = WLAN_GET_SEQ_FRAG(sc);
->   
->   	if (!ieee->ht_info->cur_rx_reorder_enable ||
-> -		!ieee->current_network.qos_data.active ||
-> -		!is_data_frame(skb->data) ||
-> -		is_legacy_data_frame(skb->data)) {
-> +	    !ieee->current_network.qos_data.active ||
-> +	    !is_data_frame(skb->data) ||
-> +	    is_legacy_data_frame(skb->data)) {
->   		if (!ieee80211_is_beacon(hdr->frame_control)) {
->   			if (is_duplicate_packet(ieee, hdr))
->   				return -1;
-> @@ -887,7 +885,7 @@ static int rtllib_rx_check_duplicate(struct rtllib_device *ieee,
->   		struct rx_ts_record *ts = NULL;
->   
->   		if (rtllib_get_ts(ieee, (struct ts_common_info **)&ts, hdr->addr2,
-> -			(u8)frame_qos_tid((u8 *)(skb->data)), RX_DIR, true)) {
-> +				  (u8)frame_qos_tid((u8 *)(skb->data)), RX_DIR, true)) {
-
-I am understanding the logic behind this but I cannot really say that 
-this increases the readability. It increases the readability of the if 
-condition but I am losing readability of the overall code and it 
-increases the issue with the too long lines.
-
-I have not looked into the remaining patches.
-
-I need some support from another reviewer.
-
-Your patches are working fine on hardware.
+Thanks for your support.
 
 Bye Philipp
-
->   			if ((fc & (1 << 11)) && (frag == ts->rx_last_frag_num) &&
->   			    (WLAN_GET_SEQ_SEQ(sc) == ts->rx_last_seq_num))
->   				return -1;
