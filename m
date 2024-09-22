@@ -1,109 +1,97 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1167E6F2FD
-	for <linux-staging@lists.linux.dev>; Sun, 22 Sep 2024 20:46:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2091EEEC5
+	for <linux-staging@lists.linux.dev>; Sun, 22 Sep 2024 21:59:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727037996; cv=none; b=AMLLyiUpCWGh7hVbG/el5uFHRrmLtSYEeiOBL11JDautLa+v5ysPpKDavHVzfEKbbxyes9XQqIy5xitH2+TNTJT/ASVND3iP+cEnWllKjaEdSky7Z+MQXjU5a8m6G4w4CFO9K2dA4X+q/SXlaMexp+NR9Tkr5EbbC2CbSe3CuHc=
+	t=1727042390; cv=none; b=Lc1s+XfnjCa9GK6VZXDNi7+JNyZKYWPlNvoLmMxC7FcT2VxyLWL33GVUqyoW96exIZebToBpmmQyTwg64/V6Tj4HETkOkoGpQ15NyYlg0NywKcdQnGDNwqGx6ORg/PElD6+rufBih+K1mzDZSr9JGjGOVpqRKklIcOSZmcAy6dA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727037996; c=relaxed/simple;
-	bh=Y6o6Nvhk4MbbquwR3LkuwUeh4kcXCCAG6hiXOu9TYG4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Q+FlXxVV8F2b8VPH3U9it0xM54yg4XkYMBcdw/EVIPl4q03LpQyjN118+rwPmSRh2n6QfhiWNdMEMmE3rPxjiGq+laA+tQ+BGn08gWT44IJWRLxfdY6jZeC477plxBFa7mYOIzeDqt7I3MAMFIiXrcpHXjZzL9yukGc92w+UXLg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ahvOlSpM; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1727042390; c=relaxed/simple;
+	bh=pq5A2NDoeOt1YXcP9ftj1k+uxY8bnjvyqYKT6Ye6ov4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mkL4bpKJEYVIxrOJIpnNIH1hCf9HmV9Qgs5Cv7hiSt0JI0QBmv9MX91zXB2aDSW/eeihIoQJSkG2i6gqGC75XdrbBnmgMcH5gO+wiGv8sAFUO5/2D6TkNEkR8aWsIF/PtlnUwxucqMqbSuVFVeBc5D4J0crNlWcbkuggNjCvZ3Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=FCmkTmTM; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=krBTyNcL; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ahvOlSpM"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-37a33e55d01so2734553f8f.3
-        for <linux-staging@lists.linux.dev>; Sun, 22 Sep 2024 13:46:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727037993; x=1727642793; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=qylzz3Fel6izYnniiK3d6HMSKBRm/fSHsAY/NJaK+aQ=;
-        b=ahvOlSpMQKeA31CyAFEHd4hToPhWSbQ8f5gV/u1rZyHXhvbNR1o4bCRBIrCw4+HgrK
-         DbpkXH8htK8YADy1Fa0sLinSZVdp7WhaUyG6PmNmYtb0/SO2F1soDgMvJXfalctGi3b1
-         EjHuBwGKvDCjIIHkHQIafinM0Fz1UyaBiE57ImacN8D1qaAorTI4mFYtTPlr8RnftrZZ
-         jUuUQqXFX/GLNb4nSFmNQyR4Gv7KFdXqiKdGMqmA6WY0QDYzQnP63GjTac26uU1HFEhL
-         QfqMthaN4eKk+j6uUFpYMwHZ2tbkW+PVGve0QozY00u/siKmcyyKKHslYF5es+Kxi1NT
-         LM1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727037993; x=1727642793;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qylzz3Fel6izYnniiK3d6HMSKBRm/fSHsAY/NJaK+aQ=;
-        b=ff8PUgVZlCikkyhnMdizObRMPsy8pguN3ztF/r/BiyBh83yR4GXvNaW49nXTJXNb0A
-         5XSkADUkRUlFUb0F71QjbLljULShPhROVkUq4/G3PDsuZHOklrGopWyEE+dG6VIBiPxH
-         8ezmOmVawqQYp5+hKppO0lqKdTHf12Wbi6C4lyqkTXk1XEeO29uW1MHEO7046eVy+C//
-         yN759D0Ja8+Z6m/6xcm2gq/cRNPPG6jWaWT2Bj58/eCYOmGAVflYy8ppqYtNOby1hh11
-         QTLJdPeixXqXsQai/Msv3ixqDq2J7ZnD7tsHXI1s227o6puCNTqeHa776QylwI9OcWgG
-         2bmA==
-X-Forwarded-Encrypted: i=1; AJvYcCVxvNmB+5g0NTbbYYFCdcYCGSLJuKqSA9heUiX9E3a45ZwId1Fa7o8sl8yrQPGq4+cJfwx1hOPhT1L5cAgz@lists.linux.dev
-X-Gm-Message-State: AOJu0YzPk4cdKQ+4bKwC1uLw7GV7hnzxAW9UoXVTt0ka4AJ11rOceopO
-	Zg0whiW1UX0LUJf+e4b9Zh1A58Uwmg1U9syr7Wb9API4cKRTYgMb
-X-Google-Smtp-Source: AGHT+IFV/qufi5eb2P54dV2Z7QOxKzi5EVqRb7g+f6+3RUKkrEe6nXiEjZ8fwqTAfUHF0E6TZ3cctA==
-X-Received: by 2002:a05:6000:1fa4:b0:374:cd32:f84e with SMTP id ffacd0b85a97d-37a43160b5amr6020141f8f.29.1727037993176;
-        Sun, 22 Sep 2024 13:46:33 -0700 (PDT)
-Received: from [10.188.212.131] (cust-west-par-46-193-35-178.cust.wifirst.net. [46.193.35.178])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42e754c5c78sm109226595e9.42.2024.09.22.13.46.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 22 Sep 2024 13:46:32 -0700 (PDT)
-Message-ID: <525a7e43-d8d8-4973-8e3a-ac6b53785d6d@gmail.com>
-Date: Sun, 22 Sep 2024 22:46:32 +0200
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="FCmkTmTM";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="krBTyNcL"
+Date: Sun, 22 Sep 2024 23:59:14 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1727042381;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=T8CzBtSpmKY0LITH8CnwZJd9nllEbE1TmmkKW21npGE=;
+	b=FCmkTmTMnJphEXNgPa0rAUar1zqXJXb/qg/w+BBklSYP5CIx5ISc0634MFHeSV4NVyb9gO
+	JuPvPMEmvtZlya29Ugo1AHp5wjowBslJalGqGB+lE5hxCHHHpz/a7k7yqyTqQKkCS+sTFN
+	avI+vuPjp38GnmS1ZoQmbcwCpKZZlxxDK4DAwZovd6WvCu28WP7sMxxgHNyZEY+0wUlRIm
+	sF+QKR1FCTkIRyRlqfIt9WPyqLqmTmfwvhYtpIHK0c6Z03faFrSD3IKPHT5n3ZF0dSqNGJ
+	jhWXSIRhChe5i6wiw1uzyMA1P3ZmRGKgVarFFKYQkoWLLErO3A7o0JFQWesDkQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1727042381;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=T8CzBtSpmKY0LITH8CnwZJd9nllEbE1TmmkKW21npGE=;
+	b=krBTyNcLkt7xieiSiS4soCD9ln6A6nCjQuYL2IZyhi3e5/0oNflcMyIZQLFQAK31fZYOMe
+	MT9twMOwBDondnDw==
+From: Nam Cao <namcao@linutronix.de>
+To: Fabio <joakobar2000@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	gregkh@linuxfoundation.org
+Subject: Re: [PATCH] staging: fbtft: Changed calls to udelays() functions for
+ usleep_range()
+Message-ID: <20240922215914.uK2pDGCw@linutronix.de>
+References: <20240922121213.4260-1-joakobar2000@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] staging: rtl8712: use kmalloc_array
-To: Tudor Gheorghiu <tudor.reda@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
- Florian Schilhabel <florian.c.schilhabel@googlemail.com>,
- Linux Driver Project Developer List
- <driverdev-devel@linuxdriverproject.org>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <ZvBy2lB_ok_OCmVI@redaops>
-Content-Language: en-US
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <ZvBy2lB_ok_OCmVI@redaops>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240922121213.4260-1-joakobar2000@gmail.com>
 
-On 9/22/24 9:41 PM, Tudor Gheorghiu wrote:
-> Adhere to Linux kernel coding style.
+On Sun, Sep 22, 2024 at 09:12:13AM -0300, Fabio wrote:
+> Replaced two lines of calling  udelays by usleep_range() functions, adding
+> more efficiency due to the need of long-lasting delays of more than 10us.
 > 
-> Reported by checkpatch:
-> 
-> WARNING: Prefer kmalloc_array over kmalloc with multiply
-> +       pxmitpriv->pxmitbuf = kmalloc(NR_XMITBUFF * sizeof(struct xmit_buf), GFP_ATOMIC);
-> 
-> Signed-off-by: Tudor Gheorghiu <tudor.reda@gmail.com>
+> Signed-off-by: Fabio Bareiro <joakobar2000@gmail.com>
 > ---
-> v2: Update patch description
-> ---
->   drivers/staging/rtl8712/rtl871x_xmit.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/staging/fbtft/fb_ra8875.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/staging/rtl8712/rtl871x_xmit.c b/drivers/staging/rtl8712/rtl871x_xmit.c
-> index 408616e9afcf..a0f29fab3dce 100644
-> --- a/drivers/staging/rtl8712/rtl871x_xmit.c
-> +++ b/drivers/staging/rtl8712/rtl871x_xmit.c
-> @@ -117,7 +117,7 @@ int _r8712_init_xmit_priv(struct xmit_priv *pxmitpriv,
->   	/*init xmit_buf*/
->   	_init_queue(&pxmitpriv->free_xmitbuf_queue);
->   	_init_queue(&pxmitpriv->pending_xmitbuf_queue);
-> -	pxmitpriv->pxmitbuf = kmalloc(NR_XMITBUFF * sizeof(struct xmit_buf), GFP_ATOMIC);
-> +	pxmitpriv->pxmitbuf = kmalloc_array(NR_XMITBUFF, sizeof(struct xmit_buf), GFP_ATOMIC);
->   	if (!pxmitpriv->pxmitbuf)
->   		goto clean_up_frame_buf;
->   	pxmitbuf = (struct xmit_buf *)pxmitpriv->pxmitbuf;
+> diff --git a/drivers/staging/fbtft/fb_ra8875.c b/drivers/staging/fbtft/fb_ra8875.c
+> index 0ab1de6647d0..edd467c6bf1a 100644
+> --- a/drivers/staging/fbtft/fb_ra8875.c
+> +++ b/drivers/staging/fbtft/fb_ra8875.c
+> @@ -210,7 +210,7 @@ static void write_reg8_bus8(struct fbtft_par *par, int len, ...)
+>  	}
+>  	len--;
+>  
+> -	udelay(100);
+> +	usleep_range(100, 150);
+>  
+>  	if (len) {
+>  		buf = (u8 *)par->buf;
+> @@ -231,7 +231,7 @@ static void write_reg8_bus8(struct fbtft_par *par, int len, ...)
+>  
+>  	/* restore user spi-speed */
+>  	par->fbtftops.write = fbtft_write_spi;
+> -	udelay(100);
+> +	usleep_range(100, 150);
+>  }
 
-Reviewed-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Are you sure that these changes are safe to make? If this write_reg8_bus8()
+function is ever called in atomic context, this patch would break the
+driver.
 
+Unless it can be verified with hardware, I wouldn't make this kind of
+changes.
+
+Best regards,
+Nam
