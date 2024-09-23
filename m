@@ -1,106 +1,84 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from out-177.mta0.migadu.com (out-177.mta0.migadu.com [91.218.175.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C9F0194ACF
-	for <linux-staging@lists.linux.dev>; Mon, 23 Sep 2024 11:08:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA5BF1957F9
+	for <linux-staging@lists.linux.dev>; Mon, 23 Sep 2024 12:09:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727089695; cv=none; b=Yqm2v52Uh9PwF0vQS2a45BQ7sBVEDvK6RPncmbgq9pPf3lMqfLnutrBmejGY8Wfpw805MZUnZEHj8eSjdc8GqTkmz5DnssR2GRTipJdw8NYUDZVz2lDmEOpWjBXzYkBS73PIuus7hFdg0mc4642jS6ZOwGov9Cuggol+BuhHf94=
+	t=1727093396; cv=none; b=ToZkDvC4psjr267PKzmMJiJ1r1U2+8zERevIxjStl+BQ1m+Hp++Q/bny0v1YPUvxunbIBH7UXwnUAbPbk/t/p6byX3HG+Om6XqTLQzHKEUjyauXPG4yocuR1SMQyqERjaiZ8TVUQusrF3/BicW/nJ+1mwqojlFSQVhWP2wGVKso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727089695; c=relaxed/simple;
-	bh=P4OR9JP7067PpaiwXorXk0AJomemI4RJy5r+c7AD9ps=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iED2bLrpf5ZX0948qj6Za4WK/LEbCQ2tgLOANuwt6fw1TKgFvKSrGzjLDIGyYy7msglOJ/HK+PMKECXcLQDMrNZy4MS89a9U+QYrvG0WV702ZDR3c57/NhJF6oR34oFJl25KAMd5LJfnt4VZJqaUolAGacuCnjjKhM0KHkP840g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K6jHW0n9; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1727093396; c=relaxed/simple;
+	bh=Ufv/Nhv+LwbWnDfKtNThvrjt5Ags8GFJ5qk0h+5FfB0=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:
+	 References:In-Reply-To; b=RngS+mW9Yoo0nlgQiu7QJZ7VrLCJ20oWHfPD2CY1PVGYEEqYiKUJB4AXcpAF5sCSovCM4kBn0RCN6rHV7kEzXkVBCxVlldvcPfl+ae0VYvh4f4ycftxTJe9+wuo9TRUs+GKLuYqQmWxVzJoHHKM37Q2g1aFh3kxfyYmq4usTH6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=b1n.io; spf=pass smtp.mailfrom=b1n.io; dkim=pass (2048-bit key) header.d=b1n.io header.i=@b1n.io header.b=GpkcaGWl; arc=none smtp.client-ip=91.218.175.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=b1n.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=b1n.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K6jHW0n9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727089694; x=1758625694;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=P4OR9JP7067PpaiwXorXk0AJomemI4RJy5r+c7AD9ps=;
-  b=K6jHW0n9AESTXzEizC0sd8u8YD3VL0b5sGaKDsRxbj0KSSm0oF48OPtO
-   bTZNUbfA+Zi0iL0DQbR1jv5izPNjRbaqi+qVusOEtKowblA4mb4zxpj1Q
-   fyphOS4vkMhWhvYPY9/ugqxOgQu+2hYTLZoNpZuKbuRKhcl/bGxzQi3PZ
-   ELgO0ZmzZbYh4Zh/eyA0Xg0y+FtZMHYacBkrfreTQPRtI60cCPBaj53TY
-   MDlYGRXObwGQg6VBvU13GoIqwhfLR3VmDNWvXfJbFBEmYy4ZlLO+PWyBR
-   HmD1Zhb6fQXCRwJoSME3MUXdPg6/xliSM7miTu/DS66mSKeE5vylSkB7f
-   g==;
-X-CSE-ConnectionGUID: t1UGh2/sQEOw2JYHOExojQ==
-X-CSE-MsgGUID: evqA+q+eSEGfFDpp2jso/A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="29755121"
-X-IronPort-AV: E=Sophos;i="6.10,251,1719903600"; 
-   d="scan'208";a="29755121"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2024 04:08:13 -0700
-X-CSE-ConnectionGUID: Yyp27Pp0SDy9EiC9TLONfA==
-X-CSE-MsgGUID: YYmtfhHKTNqErHl+7e75Ow==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,251,1719903600"; 
-   d="scan'208";a="75805265"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2024 04:08:09 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1ssgvF-0000000BxoA-0UyB;
-	Mon, 23 Sep 2024 14:08:05 +0300
-Date: Mon, 23 Sep 2024 14:08:04 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Jeff Johnson <quic_jjohnson@quicinc.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Jonathan Bergh <bergh.jonathan@gmail.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Roshan Khatri <topofeverest8848@gmail.com>,
-	Dipendra Khadka <kdipendra88@gmail.com>,
-	Sergio de Almeida Cipriano Junior <sergiosacj@riseup.net>,
-	Kent Overstreet <kent.overstreet@linux.dev>,
-	Kartik Kulkarni <kartik.koolks@gmail.com>,
-	Kathara Sasikumar <katharasasikumar007@gmail.com>,
-	Tchadel Icard <hello@tchadelicard.fr>, Kate Hsuan <hpa@redhat.com>,
-	Colin Ian King <colin.i.king@gmail.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v1 1/1] media: atomisp: Remove License information
- boilerplate
-Message-ID: <ZvFMFO3EjmV0BFp5@smile.fi.intel.com>
-References: <20240923105539.3569110-1-andriy.shevchenko@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=b1n.io header.i=@b1n.io header.b="GpkcaGWl"
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240923105539.3569110-1-andriy.shevchenko@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=b1n.io; s=key1;
+	t=1727093391;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ixnMkAOJnswMRKlcax1/CWVcRrlmqkRdAgyF2JlyCck=;
+	b=GpkcaGWlmuLk/fAAO5o7NIQ1/8UtG/HmgImkOX5oaCrblVmIVdBrbLYBIlrmlnhzH2zk3K
+	2x99IraBsSebaP6HDYa09aUD1RUUUZvcZh0wGKjuUoSnERjpxWi6TcWir18gNCLZrBB5mX
+	Q/5uF+lYxvi5Q3wWe3W04TCwBNF/6Qpbas6S8ofrKxF7y34P1d02lTY5Ivp0xuZfn8SbYm
+	vZip/fmXXYuG7r7J4iMxEwol7nxahyiUuOWrJlo6jvOZm7XAHaoSfuNApNIaOCkTH8dyLv
+	OP4QB8piThcY4tbZFjrno00d7K3tBEQcmT1IoewWusDxT2qImSwdyZZoQnJgXQ==
+Content-Type: multipart/signed;
+ boundary=1fe467fbc4cdced47aea578ab9eaa1a2913fd6844acbb8ab283deb75ca30;
+ micalg=pgp-sha512; protocol="application/pgp-signature"
+Date: Mon, 23 Sep 2024 12:09:42 +0000
+Message-Id: <D4DNIARBI7Q0.13E9XY3QTDIW3@b1n.io>
+Subject: Re: [PATCH 2/7] staging: vt6655: Rename variable iTDUsed
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: "Xingquan Liu" <b1n@b1n.io>
+To: "Philipp Hortmann" <philipp.g.hortmann@gmail.com>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>, <linux-staging@lists.linux.dev>,
+ <linux-kernel@vger.kernel.org>
+References: <20240920162025.31465-1-b1n@b1n.io>
+ <20240920162025.31465-2-b1n@b1n.io>
+ <e7bfce0c-74a4-4c0a-9930-a3fe9d5ea5fb@gmail.com>
+In-Reply-To: <e7bfce0c-74a4-4c0a-9930-a3fe9d5ea5fb@gmail.com>
+X-Migadu-Flow: FLOW_OUT
 
-On Mon, Sep 23, 2024 at 01:53:06PM +0300, Andy Shevchenko wrote:
-> We have the respective SPDX identifiers that are already being applied
-> to the files in question. Remove the License information boilerplate.
-> 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
-> 
-> Here to fix one of the missed TODO item before moving from staging.
-> This depends on 20240923085652.3457117-1-andriy.shevchenko@linux.intel.com.
-> But can be applied before that (it's trivial to adjust).
+--1fe467fbc4cdced47aea578ab9eaa1a2913fd6844acbb8ab283deb75ca30
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8; format=Flowed
 
-Also worth to mention that this reduces a burden with all scripts running over
-the driver code base, besides the improving the build performance (when it
-makes files dropped by page size boundary, meaning one less page to map during
-compilation) and reduced all Git operations for the developers.
+Hi,
+
+I'm a bit confused. Should I rename struct vnt_tx_desc *apCurrTD[TYPE_MAXTD];
+to curr_td? 
+
+It looks like 'ap' means array pointer.
+
+For struct vnt_rx_desc *aRD0Ring;, where 'a' doesn't means array, should
+I rename it to rd0_ring?
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Xingquan Liu
 
 
+--1fe467fbc4cdced47aea578ab9eaa1a2913fd6844acbb8ab283deb75ca30
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iM4EABYKAHYWIQRK8k7aQ0rr/Uwki+E2I1LDHPWnXgUCZvFajlgYaHR0cHM6Ly9r
+ZXlzLm9wZW5wZ3Aub3JnL3Zrcy92MS9ieS1maW5nZXJwcmludC8zMEFGMUFDMDcz
+MDg5M0VEQzE0OUI3OTVCMDA3OUIxMkU2Qzk4RUE2AAoJEDYjUsMc9adetcMBAMM+
+ZPxq4MmFWLV+gDsy8jcU18j6UukKo22G6WAVFTopAQDI82P08QRvesIEaWU0mz41
+bL9udtKeCtiqZIdYSRBxBg==
+=57QM
+-----END PGP SIGNATURE-----
+
+--1fe467fbc4cdced47aea578ab9eaa1a2913fd6844acbb8ab283deb75ca30--
