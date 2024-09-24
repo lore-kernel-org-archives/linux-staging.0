@@ -1,93 +1,78 @@
-Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com [95.215.58.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BAD91A726C
-	for <linux-staging@lists.linux.dev>; Tue, 24 Sep 2024 13:09:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87E9C1A7040;
+	Tue, 24 Sep 2024 13:12:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.62.61
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727183358; cv=none; b=LEeTfLF21gUo4mcDrf01400f/bIhrInxbwLIeb2xINbrQL7VAJIrGx4mJ6Nom6T7T+/XaCTI26aODy+mGkbA2VccFok81ERandxLHbCpiGZEHi1djrggtY+weWeaGUq1Dc3LVRq1gdVvSGOxP8MYZgvdRf54C+9vmrCEYwfIJ78=
+	t=1727183543; cv=none; b=bcMvrn34BnWLewOyUI8jyrhfkBNKeW/xN0Fu2rgljo3JnMp8G3ndJeYaB167fqVt8C4+M0PQtJkTnVrzHyM+fXsd0ZRHL43lviyzSud6rCbA12WrnEUvbQf1JcLZvUaJgwZnqCdLjY8TRuLdheKE358MviIJgAmxvBJ5Nz/bxEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727183358; c=relaxed/simple;
-	bh=8vY3bKchTGUj1enX3mJ1uxQ9j9KooQtF6sEvhy2D0u4=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Subject:
-	 References:In-Reply-To; b=o98wnaUY1GDSNBZ9PMm/wnGI+zCbR8Uu8f3EYvhGiD4S6UztZyQl8cq+5TFfHwJ048ky7ykw6METbNIOUpbUJNJJ/Ft558swXZCm9GqNIEvslm5oI2tye/E376U1j4fXLMXersQgVw/nlqFtr41K5G/mGkUqDs7T1FrelzDBxg4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=b1n.io; spf=pass smtp.mailfrom=b1n.io; dkim=pass (2048-bit key) header.d=b1n.io header.i=@b1n.io header.b=UKuNAIdZ; arc=none smtp.client-ip=95.215.58.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=b1n.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=b1n.io
+	s=arc-20240116; t=1727183543; c=relaxed/simple;
+	bh=z1m4TZL5Mm0VylMjkh1Vw2oNwHroAVN/PG8TLGzmKww=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qryLOUuy759yvFwy2iIdjU5uEbJ+T2u93vhWgs5QZjaFhsnhszw2Z+KLlD8RwxtK/NVSe/IKbOjSw/TMRU3/Hw0kFZi3yGGuAea+2HpM9gnbLorwr3PHQcEnqoiXg3rls8gtmfRtasyFdXlj/NQ7n+v/ftfJakEjFeuvwsyW3VE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=vmjSPgmG; arc=none smtp.client-ip=85.214.62.61
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=b1n.io header.i=@b1n.io header.b="UKuNAIdZ"
+	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="vmjSPgmG"
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: marex@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id 2A5D488363;
+	Tue, 24 Sep 2024 15:12:13 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1727183534;
+	bh=DRU/cZ7ys2vNvnn5GxJewD+OdUTeyoFQ0VsBt7f/Egk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=vmjSPgmGRaFAnOrry+S9EpbnEpf7b+ZOCIPwTv/RFwc8cIt1rTFbuPlgtu7KAdx05
+	 eQXRI+Ln85yYO2bJULn2PIxKSpNDJr1QFK1yqFVVtpVCuBNrJHCu+7TOUtaSQuTokm
+	 zu1XdW9oy+iI5bYVKZZu4rpuChn9MIU/gQvaympYvjoz2JCcOESEEx34O1B8kzGhHk
+	 IH4Otwz12Jk6dhGtMLAWLSNHTWrkB0VbXEcYlLCewTur9TlRkfyZET2N+SP7ikIMy1
+	 ROoliO29kbKLl4naoBX7YHf+NtA2fdqB28lVNQ2t6isLe4cQRH5Wdpklg8FJytwf1y
+	 yhizP3oGT17zQ==
+Message-ID: <546c9dac-39ab-4abe-a495-ab54d6ee925d@denx.de>
+Date: Tue, 24 Sep 2024 12:47:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=b1n.io; s=key1;
-	t=1727183354;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iuKw4rgw1LWlutVzOZZn8tqJFI5aJehVM05I1O7443s=;
-	b=UKuNAIdZDzR5UhVdJah7RWqmzZTNHi35hBYVKhPyp4mc5NbuGkYHi5MdoRCCQUY7padplV
-	mzzlSGG1fqw2UXPqBT0iDqdX5zhMck/jnIEAplvF7PV9/hvKyLQDoSfJNUJF9QGLaOS8GP
-	+h0dSTK0wHtnKrfiXu8SXQqDRsfUsKfl0smqN4/TLzuwS45m1vfP4lw3u6ZKO1jJCq9QsF
-	zmXDYpdLyoOBdv6753MOC+Syf3W52C0N4c8McW8jZfMvLuYXzTVFqTDr6YqQDVA73QBHWv
-	crgoSnEXacoQ6CGUPp42gun9VLj+/L38SO9d7y1a6WOyzecUYGexpbKJGtAm9A==
-Content-Type: multipart/signed;
- boundary=5b9416032f3b1648a5b9fdebd51c1ce201f2bcc573241a38627275740479;
- micalg=pgp-sha512; protocol="application/pgp-signature"
-Date: Tue, 24 Sep 2024 13:09:06 +0000
-Message-Id: <D4EJEBJEGR9K.786CM798YI9N@b1n.io>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Xingquan Liu" <b1n@b1n.io>
-To: "Philipp Hortmann" <philipp.g.hortmann@gmail.com>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>, <linux-staging@lists.linux.dev>,
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 2/7] staging: vt6655: Rename variable iTDUsed
-References: <20240920162025.31465-1-b1n@b1n.io>
- <20240920162025.31465-2-b1n@b1n.io>
- <e7bfce0c-74a4-4c0a-9930-a3fe9d5ea5fb@gmail.com>
- <D4DNIARBI7Q0.13E9XY3QTDIW3@b1n.io>
- <c20e4935-faca-41ef-ab66-09199b38a6d2@gmail.com>
-In-Reply-To: <c20e4935-faca-41ef-ab66-09199b38a6d2@gmail.com>
-X-Migadu-Flow: FLOW_OUT
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] gpu: ipu-v3: vdic: Simplify ipu_vdi_setup()
+To: Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org
+Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Fabio Estevam <festevam@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller
+ <deller@gmx.de>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Steve Longerbeam <slongerbeam@gmail.com>, dri-devel@lists.freedesktop.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev
+References: <20240724002044.112544-1-marex@denx.de>
+ <95efd6b6491069d04b4bfae6616d9a43ba8467a6.camel@pengutronix.de>
+Content-Language: en-US
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <95efd6b6491069d04b4bfae6616d9a43ba8467a6.camel@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 
---5b9416032f3b1648a5b9fdebd51c1ce201f2bcc573241a38627275740479
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8; format=Flowed
+On 9/4/24 11:05 AM, Philipp Zabel wrote:
+> On Mi, 2024-07-24 at 02:19 +0200, Marek Vasut wrote:
+>> The 'code' parameter only ever selects between YUV 4:2:0 and 4:2:2
+>> subsampling, turn it into boolean to select exactly that and update
+>> related code accordingly.
+>>
+>> Signed-off-by: Marek Vasut <marex@denx.de>
+> 
+> I'd prefer this to be an enum ipu_chroma_subsampling or similar,
+> instead of a boolean. Otherwise,
 
-On Tue Sep 24, 2024 at 3:29 PM CST, Philipp Hortmann wrote:
-> The following is just my personal opinion:
-> You can keep working on this driver and your patches will remain in the 
-> git. But I think I will propose to delete this driver. Reason is that it 
-> supports maximum 54MBit/s and the connection is always weak. Its form 
-> factor is mini PCI that is really old. I use an adapter from mini PCI to 
-> PCI to get it into my Desktop PC. It furthermore is not buyable anymore.
->
-> I like to focus on the hardware that is really well useable and on the 
-> market available:
->
-> For example:
-> rtl8712  (r8712u)
-> Backard Bell: AW-NU120
-
-I agree. I'll take my time to learn and make more practical contributions.
-
--- 
-Xingquan Liu
-
-
---5b9416032f3b1648a5b9fdebd51c1ce201f2bcc573241a38627275740479
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iM4EABYKAHYWIQRK8k7aQ0rr/Uwki+E2I1LDHPWnXgUCZvK5+VgYaHR0cHM6Ly9r
-ZXlzLm9wZW5wZ3Aub3JnL3Zrcy92MS9ieS1maW5nZXJwcmludC8zMEFGMUFDMDcz
-MDg5M0VEQzE0OUI3OTVCMDA3OUIxMkU2Qzk4RUE2AAoJEDYjUsMc9adeZg4A/2xp
-9GUGEFxkCQayPxDyjbWBid+Da1wDmBrfc+IGwqTOAP0eBOuErJfHjcoxuf7/DKUV
-6vF8tVxLC0yEOicIM/MCAQ==
-=yhkb
------END PGP SIGNATURE-----
-
---5b9416032f3b1648a5b9fdebd51c1ce201f2bcc573241a38627275740479--
+I'm afraid this introduces unnecessary back and forth conversions 
+between the boolean and either of the two enum ipu_chroma_subsampling 
+values in the code.
