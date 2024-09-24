@@ -1,39 +1,39 @@
 Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87E9C1A7040;
-	Tue, 24 Sep 2024 13:12:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B1911AC441;
+	Tue, 24 Sep 2024 16:45:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.62.61
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727183543; cv=none; b=bcMvrn34BnWLewOyUI8jyrhfkBNKeW/xN0Fu2rgljo3JnMp8G3ndJeYaB167fqVt8C4+M0PQtJkTnVrzHyM+fXsd0ZRHL43lviyzSud6rCbA12WrnEUvbQf1JcLZvUaJgwZnqCdLjY8TRuLdheKE358MviIJgAmxvBJ5Nz/bxEg=
+	t=1727196326; cv=none; b=gfKUrbjOezhaZZgTJ9n2LQoLUUgdevXE4+wxwRRd6gzlnwoQkVH9HJmID1wBsrpmHGz+H4qNZ2UJYRlYbmht+rCKndSxw1YtEIWb+T4Pm4Shtz3C63Tr3eddIjwbFoOUUTtR/QV3GZURXtJt+tcrRW5dGi9unUyLnpiJ+TE80fM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727183543; c=relaxed/simple;
-	bh=z1m4TZL5Mm0VylMjkh1Vw2oNwHroAVN/PG8TLGzmKww=;
+	s=arc-20240116; t=1727196326; c=relaxed/simple;
+	bh=InCCWoG3adxGtYBl1KJ1A0wtIntYs6J8nTlU5jG90Yo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qryLOUuy759yvFwy2iIdjU5uEbJ+T2u93vhWgs5QZjaFhsnhszw2Z+KLlD8RwxtK/NVSe/IKbOjSw/TMRU3/Hw0kFZi3yGGuAea+2HpM9gnbLorwr3PHQcEnqoiXg3rls8gtmfRtasyFdXlj/NQ7n+v/ftfJakEjFeuvwsyW3VE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=vmjSPgmG; arc=none smtp.client-ip=85.214.62.61
+	 In-Reply-To:Content-Type; b=KP5vgGWw6BrPwCMXpZ6fp3yHcZJTClijpmIyL1pQUMgtMzL0OLZkKTuxp59bEapfy5ZX4Ahb/JLrRYJUHW0ikvkxkbX9jgBzmG6aPMlC4CZz/00GwWijTLx8wtVWa7XiWQzqcHoVPianYJ+YGqaugFGiyCbaIyP1dGF8cacZZtA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=OsInmcF9; arc=none smtp.client-ip=85.214.62.61
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="vmjSPgmG"
+	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="OsInmcF9"
 Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
 	(No client certificate requested)
 	(Authenticated sender: marex@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id 2A5D488363;
-	Tue, 24 Sep 2024 15:12:13 +0200 (CEST)
+	by phobos.denx.de (Postfix) with ESMTPSA id B6FFB88599;
+	Tue, 24 Sep 2024 18:45:19 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1727183534;
-	bh=DRU/cZ7ys2vNvnn5GxJewD+OdUTeyoFQ0VsBt7f/Egk=;
+	s=phobos-20191101; t=1727196320;
+	bh=bWwrE328F7Z+63CI6eWDJIHlvUQra1+8FULnnYG6ROQ=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=vmjSPgmGRaFAnOrry+S9EpbnEpf7b+ZOCIPwTv/RFwc8cIt1rTFbuPlgtu7KAdx05
-	 eQXRI+Ln85yYO2bJULn2PIxKSpNDJr1QFK1yqFVVtpVCuBNrJHCu+7TOUtaSQuTokm
-	 zu1XdW9oy+iI5bYVKZZu4rpuChn9MIU/gQvaympYvjoz2JCcOESEEx34O1B8kzGhHk
-	 IH4Otwz12Jk6dhGtMLAWLSNHTWrkB0VbXEcYlLCewTur9TlRkfyZET2N+SP7ikIMy1
-	 ROoliO29kbKLl4naoBX7YHf+NtA2fdqB28lVNQ2t6isLe4cQRH5Wdpklg8FJytwf1y
-	 yhizP3oGT17zQ==
-Message-ID: <546c9dac-39ab-4abe-a495-ab54d6ee925d@denx.de>
-Date: Tue, 24 Sep 2024 12:47:12 +0200
+	b=OsInmcF9MnpWRstLF1yZsIScU3ErKXqFbp7byMIsYMHRpRDmP5qw9rVnNVStMkIf2
+	 fKwGGuykws/4A6HnsPiZZQg4oUUm33udBmtt/BuG6bOMI7ajhVr4Bi+4w5NHkSZTsN
+	 oi8VlUC+K12JOtnmdiRmAKHtq91v7TYcmEz+0FZt+BlR4KNK/QnKHGfe2SAn1Om427
+	 AonOHwCV/HACE3csIk3ZRYqgvadLA5sVu+hDQ7Ntq1Mhf7c7mwdD06YyF7cWVFwEu4
+	 6uTTrLXMHR3A8NrD5PB9VgGbf3dLk+q+xtrYzh6I0aGuTQfKMl82Mn0dWH3XIUWL8N
+	 zk5rP6G14Z/eA==
+Message-ID: <0db95012-3ff6-41bf-85c8-ab0cdffdfc74@denx.de>
+Date: Tue, 24 Sep 2024 17:42:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -41,38 +41,84 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] gpu: ipu-v3: vdic: Simplify ipu_vdi_setup()
-To: Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] media: imx: vdic: Introduce mem2mem VDI
+ deinterlacer driver
+To: Nicolas Dufresne <nicolas@ndufresne.ca>, linux-media@vger.kernel.org
 Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
  Fabio Estevam <festevam@gmail.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller
  <deller@gmx.de>, Mauro Carvalho Chehab <mchehab@kernel.org>,
  Pengutronix Kernel Team <kernel@pengutronix.de>,
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
  Steve Longerbeam <slongerbeam@gmail.com>, dri-devel@lists.freedesktop.org,
  imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev
 References: <20240724002044.112544-1-marex@denx.de>
- <95efd6b6491069d04b4bfae6616d9a43ba8467a6.camel@pengutronix.de>
+ <20240724002044.112544-2-marex@denx.de>
+ <5e5fba4fd6c3c0c9df23697bd328367e5fdfa923.camel@ndufresne.ca>
+ <8aea6cc0-10bf-48b8-add9-eb3f1caa2d66@denx.de>
+ <2229769f3a9baf58fbeeed93fa4b0373a02055e3.camel@ndufresne.ca>
 Content-Language: en-US
 From: Marek Vasut <marex@denx.de>
-In-Reply-To: <95efd6b6491069d04b4bfae6616d9a43ba8467a6.camel@pengutronix.de>
+In-Reply-To: <2229769f3a9baf58fbeeed93fa4b0373a02055e3.camel@ndufresne.ca>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
 X-Virus-Status: Clean
 
-On 9/4/24 11:05 AM, Philipp Zabel wrote:
-> On Mi, 2024-07-24 at 02:19 +0200, Marek Vasut wrote:
->> The 'code' parameter only ever selects between YUV 4:2:0 and 4:2:2
->> subsampling, turn it into boolean to select exactly that and update
->> related code accordingly.
->>
->> Signed-off-by: Marek Vasut <marex@denx.de>
-> 
-> I'd prefer this to be an enum ipu_chroma_subsampling or similar,
-> instead of a boolean. Otherwise,
+On 7/30/24 6:05 PM, Nicolas Dufresne wrote:
 
-I'm afraid this introduces unnecessary back and forth conversions 
-between the boolean and either of the two enum ipu_chroma_subsampling 
-values in the code.
+Hi,
+
+sorry for the abysmal delay.
+
+>>> Le mercredi 24 juillet 2024 à 02:19 +0200, Marek Vasut a écrit :
+>>>> Introduce dedicated memory-to-memory IPUv3 VDI deinterlacer driver.
+>>>> Currently the IPUv3 can operate VDI in DIRECT mode, from sensor to
+>>>> memory. This only works for single stream, that is, one input from
+>>>> one camera is deinterlaced on the fly with a helper buffer in DRAM
+>>>> and the result is written into memory.
+>>>>
+>>>> The i.MX6Q/QP does support up to four analog cameras via two IPUv3
+>>>> instances, each containing one VDI deinterlacer block. In order to
+>>>> deinterlace all four streams from all four analog cameras live, it
+>>>> is necessary to operate VDI in INDIRECT mode, where the interlaced
+>>>> streams are written to buffers in memory, and then deinterlaced in
+>>>> memory using VDI in INDIRECT memory-to-memory mode.
+>>>
+>>> Just a quick design question. Is it possible to chain the deinterlacer and the
+>>> csc-scaler ?
+>>
+>> I think you could do that.
+>>
+>>> If so, it would be much more efficient if all this could be
+>>> combined into the existing m2m driver, since you could save a memory rountrip
+>>> when needing to deinterlace, change the colorspace and possibly scale too.
+>>
+>> The existing PRP/IC driver is similar to what this driver does, yes, but
+>> it uses a different DMA path , I believe it is IDMAC->PRP->IC->IDMAC .
+>> This driver uses IDMAC->VDI->IC->IDMAC . I am not convinced mixing the
+>> two paths into a single driver would be beneficial, but I am reasonably
+>> sure it would be very convoluted. Instead, this driver could be extended
+>> to do deinterlacing and scaling using the IC if that was needed. I think
+>> that would be the cleaner approach.
+> 
+> Not that I only meant to ask if there was a path to combine
+> CSC/Scaling/Deinterlacing without a memory rountrip. If a rountrip is needed
+> anyway, I would rather make separate video nodes, and leave it to userspace to
+> deal with. Though, if we can avoid it, a combined driver should be highly
+> beneficial.
+The VDI mem2mem driver already uses the IC as an output path from the 
+deinterlacer, IC is capable of scaling and it could be configured to do 
+scaling. The IC configuration in the VDI mem2mem driver is some 10 lines 
+of code (select input and output colorspace, and input and output image 
+resolution), the rest of the VDI mem2mem driver is interaction with the 
+VDI itself.
+
+Since the IC configuration (i.e. color space conversion and scaling) is 
+already well factored out, I think mixing the VDI and CSC drivers 
+wouldn't bring any real benefit, it would only make the code more 
+complicated.
+
+[...]
