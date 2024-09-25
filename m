@@ -1,83 +1,255 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41F1A13DDAE
-	for <linux-staging@lists.linux.dev>; Wed, 25 Sep 2024 12:55:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3388A18661D
+	for <linux-staging@lists.linux.dev>; Wed, 25 Sep 2024 15:07:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727268910; cv=none; b=roRoO7gAg8OunqMv4huo4JZ2BJxZiDV4oyK8FB+ji6RF6CVaWXs0WTEGfJh2Jl6MtuF4QXxkCxpZ+Zp+L9rNozWl+SdY+nniqiYUZ1jjOg9QC66C59gTqFo62eDPeKP03hzRyk7XxVAeWXkp7fJer4Iep+FkwoszUODd/xefFbw=
+	t=1727276868; cv=none; b=Jo7XbIghygAohc+KulI4z66uvSzxFqAsxq/yWHMq2bYjXw3BncVtfHhAroheyJwHxZMCupGIjXz/CZ/fVJFr1xsbVeXh1sxa74Q6LBH4HZfKlXO2V/9GQzQySt8+KjMST+6FwmlKgGfJorhPDIVm/ebWP+DbJ+rloYKzm/d03W8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727268910; c=relaxed/simple;
-	bh=q+75GZfgqCTSngT1o86/FOgcbVTQ54B8Ve4TR4ZuSP0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s//S9oEOyKyew7DQJrbX0kFeZhVmZ98TC5Duvlk7VlJB5zyvJJqJf6DeFxx8sTkxDagtQmLhkhFhqGJvEaO6Bo10bfGZmdpMS+DwZAb0WXFg+A1gYw38won4HqTJE3PT52CjyLPwW/YhQb869v5guaDuoZcdx/VZfBE4Qa9rOz4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GP6mPqOY; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GP6mPqOY"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-374c180d123so3987188f8f.3
-        for <linux-staging@lists.linux.dev>; Wed, 25 Sep 2024 05:55:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1727268907; x=1727873707; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=q+75GZfgqCTSngT1o86/FOgcbVTQ54B8Ve4TR4ZuSP0=;
-        b=GP6mPqOYfOITGMk1VFcBF+W+MqNM0sFOSAAwgbcGE52UiVsr4kEMMouwbMMc+Eta8J
-         LjkJeuUfDRPWJSYHxndeLxJNdBP/fyFf6Xu1Hn4oywAw23uTa9iaJJbOUzPyOyqO0dlW
-         GIzmnfjaWWBGPi055EFEYh03R7kBMTpVkxnbSS+7Vl8DDnM/yjelIix5UY6CjHf6tf2S
-         Zx8fWq4Zw3hBbLO/z0gxN95ul8zgUFSLWkZb7YZ34MLVQdXRl5HutXyyWtiSqTB48/4l
-         u3PSBPRAgTuTatVcHwTIabGw7XzwkTHxwXTzEfDxgce/NmV6NnC+AntJEiN94pWsDa7l
-         vLkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727268907; x=1727873707;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=q+75GZfgqCTSngT1o86/FOgcbVTQ54B8Ve4TR4ZuSP0=;
-        b=VrzhmlWIg66JSHd3a3dcXQYQZFOfksw+RaQdKhVTRpxPvuZzvO8LIRUI9W9SPeePXZ
-         pGxc9yH2ZMcJYLgs6cSy1wIyBsPNrHEqa0kO8uSpdikYXMiPx0STfjkxMrTmQ4VzKXws
-         iYrFuUpiV3265Ib2wVqq5CLF84a4IL3YtQoo0IcxNEzj/ZVsXFxWvFMLbnKaSp59h7ih
-         hx8CNZ7EGq2kaLaJCub1MIjMfbq3OybnuI6Y2mOTNkbe8QXWQ3OUyMDOgMhq929PCfEl
-         Y8D4fx13btksV3pPnvzz0yx9c1ZuNp2meW0hxGES6MKRBAbOk1/0UB9v3KyARYlIvVFB
-         LBWQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUjqfmvKwX8jkPghgn1slAFuq5MNEUfX0+FO4ZDt4ELk2B0mmtN/qgc/ZBknhhriIa0mctbfIjR4t+2Uyhw@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx/s+mnPhYi5t12e31BYgyg5B5ZkI3wnfCXQ2WFwMHDkZKwrZxj
-	J+vlB7bVKyCBeR70qRpozc3dz14pgfy/8zH4LGBewZYm9m/HvtjXqWAF/kTk1FU=
-X-Google-Smtp-Source: AGHT+IEM7lvuJYo2POgpko0eNfYw3ydlD44EH8OZRmciXwckV0VJOwVx+RrAiTfSKQE2gsGVX2bLVQ==
-X-Received: by 2002:a5d:5508:0:b0:374:baeb:2fb with SMTP id ffacd0b85a97d-37cc248542cmr1519632f8f.35.1727268907458;
-        Wed, 25 Sep 2024 05:55:07 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37cbc31f77esm3972482f8f.108.2024.09.25.05.55.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Sep 2024 05:55:06 -0700 (PDT)
-Date: Wed, 25 Sep 2024 15:55:02 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-	Andy Shevchenko <andy@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [rft, PATCH v1 1/1] media: atomisp: Replace macros from
- math_support.h
-Message-ID: <67964712-81ec-4ce8-b5c1-1f050c7502fc@stanley.mountain>
-References: <20240923085652.3457117-1-andriy.shevchenko@linux.intel.com>
+	s=arc-20240116; t=1727276868; c=relaxed/simple;
+	bh=8GfBUdOg/QSvr9uhZROpCY6GPCwtP46GQFOUZHOoOrc=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=H6zwBwb6odqaiNxVPsArdSVam1Z9qwIz8AEk5KgcvY6yLwrh5gaqV/wsChXkO8lvw1zrphXten4H0yW+g+aH1yrP3wTLNJNmUFlRCU1CixYM2zhyo608rzUIW1nc/OU1Hfujh6eaDPFLp7W2TRNH9/kdQNFTOl8YpZyTc5M6s68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1stTbx-0005WS-Gp; Wed, 25 Sep 2024 17:07:25 +0200
+Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1stTbw-001Tgc-Qq; Wed, 25 Sep 2024 17:07:24 +0200
+Received: from pza by lupine with local (Exim 4.96)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1stTbw-000MKv-2P;
+	Wed, 25 Sep 2024 17:07:24 +0200
+Message-ID: <f894eb3fd132a214ddbf2fa3ed405d065e629398.camel@pengutronix.de>
+Subject: Re: [PATCH v2 2/2] media: imx: vdic: Introduce mem2mem VDI
+ deinterlacer driver
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Marek Vasut <marex@denx.de>, linux-media@vger.kernel.org
+Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, Fabio
+ Estevam <festevam@gmail.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>, Mauro Carvalho
+ Chehab <mchehab@kernel.org>, Pengutronix Kernel Team
+ <kernel@pengutronix.de>, Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo
+ <shawnguo@kernel.org>,  Steve Longerbeam <slongerbeam@gmail.com>,
+ dri-devel@lists.freedesktop.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org, 
+ linux-staging@lists.linux.dev
+Date: Wed, 25 Sep 2024 17:07:24 +0200
+In-Reply-To: <3e850259-9349-4215-947a-ce192fa95f14@denx.de>
+References: <20240724002044.112544-1-marex@denx.de>
+	 <20240724002044.112544-2-marex@denx.de>
+	 <a66a2eaf30e21ff7c87f140e97ed4639640121ba.camel@pengutronix.de>
+	 <3e850259-9349-4215-947a-ce192fa95f14@denx.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240923085652.3457117-1-andriy.shevchenko@linux.intel.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-staging@lists.linux.dev
 
-LGTM.
+Hi,
 
-Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+On Di, 2024-09-24 at 17:28 +0200, Marek Vasut wrote:
+> On 9/6/24 11:01 AM, Philipp Zabel wrote:
+[...]
+> > Instead of presenting two devices to userspace, it would be better to
+> > have a single video device that can distribute work to both IPUs.
+>=20
+> Why do you think so ?
 
-regards,
-dan carpenter
+The scaler/colorspace converter supports frames larger than the
+1024x1024 hardware by splitting each frame into multiple tiles. It
+currently does so sequentially on a single IC. Speed could be improved
+by distributing the tiles to both ICs. This is not an option anymore if
+there are two video devices that are fixed to one IC each.
+
+The same would be possible for the deinterlacer, e.g. to support 720i
+frames split into two tiles each sent to one of the two VDICs.
+
+> I think it is better to keep the kernel code as simple as possible, i.e.=
+=20
+> provide the device node for each m2m device to userspace and handle the=
+=20
+> m2m device hardware interaction in the kernel driver, but let userspace=
+=20
+> take care of policy like job scheduling, access permissions assignment=
+=20
+> to each device (e.g. if different user accounts should have access to=20
+> different VDICs), or other such topics.
+
+I both agree and disagree with you at the same time.
+
+If the programming model were more similar to DRM, I'd agree in a
+heartbeat. If the kernel driver just had to do memory/fence handling
+and command submission (and parameter sanitization, because there is no
+MMU), and there was some userspace API on top, it would make sense to
+me to handle parameter calculation and job scheduling in a hardware
+specific userspace driver that can just open one device for each IPU.
+
+With the rigid V4L2 model though, where memory handling, parameter
+calculation, and job scheduling of tiles in a single frame all have to
+be hidden behind the V4L2 API, I don't think requiring userspace to
+combine multiple mem2mem video devices to work together on a single
+frame is feasible.
+
+Is limiting different users to the different deinterlacer hardware
+units a real usecase? I saw the two ICs, when used as mem2mem devices,
+as interchangeable resources.
+
+> > To be fair, we never implemented that for the CSC/scaler mem2mem device
+> > either.
+>=20
+> I don't think that is actually a good idea. Instead, it would be better=
+=20
+> to have two scaler nodes in userspace.
+
+See above, that would make it impossible (or rather unreasonably
+complicated) to distribute work on a single frame to both IPUs.
+
+[...]
+> > > +	ipu_cpmem_set_buffer(priv->vdi_out_ch,  0, out_phys);
+> > > +	ipu_cpmem_set_buffer(priv->vdi_in_ch_p, 0, prev_phys + phys_offset)=
+;
+> > > +	ipu_cpmem_set_buffer(priv->vdi_in_ch,   0, curr_phys);
+> > > +	ipu_cpmem_set_buffer(priv->vdi_in_ch_n, 0, curr_phys + phys_offset)=
+;
+> >=20
+> > This always outputs at a frame rate of half the field rate, and only
+> > top fields are ever used as current field, and bottom fields as
+> > previous/next fields, right?
+>=20
+> Yes, currently the driver extracts 1 frame from two consecutive incoming=
+=20
+> fields (previous Bottom, and current Top and Bottom):
+>=20
+> (frame 1 and 3 below is omitted)
+>=20
+>      1  2  3  4
+> ...|T |T |T |T |...
+> ...| B| B| B| B|...
+>       | ||  | ||
+>       '-''  '-''
+>        ||    ||
+>        ||    \/
+>        \/  Frame#4
+>      Frame#2
+>=20
+> As far as I understand it, this is how the current VDI implementation=20
+> behaves too, right ?
+
+Yes, that is a hardware limitation when using the direct CSI->VDIC
+direct path. As far as I understand, for each frame (two fields) the
+CSI only sends the first ("PREV") field directly to the VDIC, which
+therefor can only be run in full motion mode (use the filter to add in
+the missing lines).
+The second ("CUR") field is just ignored. It could be written to RAM
+via IDMAC output channel 13 (IPUV3_CHANNEL_VDI_MEM_RECENT), which can
+not be used by the VDIC in direct mode. So this is not implemented.
+
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/d=
+rivers/staging/media/imx/imx-media-vdic.c#n207
+
+That code is unused. The direct hardware path doesn't use
+IPUV3_CHANNEL_MEM_VDI_PREV/CUR/NEXT, but is has a similar effect, half
+of the incoming fields are dropped. The setup is vdic_setup_direct().
+
+> > I think it would be good to add a mode that doesn't drop the
+> >=20
+> > 	ipu_cpmem_set_buffer(priv->vdi_in_ch_p, 0, prev_phys);
+> > 	ipu_cpmem_set_buffer(priv->vdi_in_ch,   0, prev_phys + phys_offset);
+> > 	ipu_cpmem_set_buffer(priv->vdi_in_ch_n, 0, curr_phys);
+> >=20
+> > output frames, right from the start.
+>=20
+> This would make the VDI act as a frame-rate doubler, which would spend a=
+=20
+> lot more memory bandwidth, which is limited on MX6, so I would also like=
+=20
+> to have a frame-drop mode (i.e. current behavior).
+>
+> Can we make that behavior configurable ? Since this is a mem2mem device,=
+=20
+> we do not really have any notion of input and output frame-rate, so I=20
+> suspect this would need some VIDIOC_* ioctl ?
+
+That would be good. The situation I'd like to avoid is that this device
+becomes available without the full frame-rate mode, userspace then
+assumes this is a 1:1 frame converter device, and then we can't add the
+full frame-rate later without breaking userspace.
+
+> > If we don't start with that supported, I fear userspace will make
+> > assumptions and be surprised when a full rate mode is added later.
+>=20
+> I'm afraid that since the current VDI already does retain input frame=20
+> rate instead of doubling it, the userspace already makes an assumption,=
+=20
+> so that ship has sailed.
+
+No, this is about the deinterlacer mem2mem device, which doesn't exist
+before this series.
+
+The CSI capture path already has configurable framedrops (in the CSI).
+
+> But I think we can make the frame doubling configurable ?
+
+That would be good. Specifically, there must be no guarantee that one
+input frame with two fields only produces one deinterlaced output
+frame, and userspace should somehow be able to understand this.
+
+This would be an argument against Nicolas' suggestion of including this
+in the csc/scaler device, which always must produce one output frame
+per input frame.
+
+[...]
+> > This maps to VDI_C_MOT_SEL_FULL aka VDI_MOT_SEL=3D2, which is documente=
+d
+> > as "full motion, only vertical filter is used". Doesn't this completely
+> > ignore the previous/next fields and only use the output of the di_vfilt
+> > four tap vertical filter block to fill in missing lines from the
+> > surrounding pixels (above and below) of the current field?
+>=20
+> Is there a suitable knob for this or shall I introduce a device specific=
+=20
+> one, like the vdic_ctrl_motion_menu for the current VDIC direct driver ?
+>=20
+> If we introduce such a knob, then it is all the more reason to provide=
+=20
+> one device node per one VDIC hardware instance, since each can be=20
+> configured for different motion settings.
+
+As far as I know, there is no such control yet. I don't think this
+should be per-device, but per-stream (or even per-frame).
+
+> > I think this should at least be configurable, and probably default to
+> > MED_MOTION.
+>=20
+> I think to be compatible with the current VDI behavior and to reduce=20
+> memory bandwidth usage, let's default to the HIGH/full mode. That one=20
+> produces reasonably good results without spending too much memory=20
+> bandwidth which is constrained already on the MX6, and if the user needs=
+=20
+> better image quality, they can configure another mode using the V4L2=20
+> control.
+
+I'd rather not default to the setting that throws away half of the
+input data. Not using frame doubling by default is sensible, but now
+that using all three input fields to calculate the output frame is
+possible, why not make that the default.
+
+regards
+Philipp
