@@ -1,96 +1,117 @@
-Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E87219E987
-	for <linux-staging@lists.linux.dev>; Fri, 27 Sep 2024 15:36:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E481113699B
+	for <linux-staging@lists.linux.dev>; Fri, 27 Sep 2024 15:46:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727451414; cv=none; b=ad474cu11Qq8TndDMgoZ1NpxiAbOtkTRgXFZd9V4J4lLod+MhvzuoJaBznkkJV+C7BTnNefmO4qmanJKhYDs5bwkPAgIH1xOLic+OaWC4qihcuqF31itvXmXniz3m1VNbDWW6ZftgKEPkp3Zu7Uz3OUZM+gSOUrLc/yxLobR1xc=
+	t=1727451966; cv=none; b=jD2Uz/ehOFTS7wsmOGc2SY87/nRu42B3/xMlwYiLvv9ymr+rORTZJl44gx5GXQzWtZA/LyWbKePa2Ahlge0oFtHebKIloQcqlKRnigB38Hx8zUx44dO/ECc819NQRsVBpFErdo+FIcDF5NHmAykob3ZH3sOYoKUx/3VR16PRKps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727451414; c=relaxed/simple;
-	bh=2XzSmEIxMqOQJGajVpkx1LKfnmWIqcrtVNjWVSFDLNQ=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=OwTfjHIpRjKa2YpDHyTePk4Xl4wFPXsZ0Va0xOEWLFSGo02NJLWl6UKyDswaDIkgnBi+X3NRTlyrlA6QKzTozZdshmkLJf6s09eBy9FzMayaD1yhqxE45Ks64eauFW3bOpNTUvqCxexwcOsiEvzWsEwsQZlwn6R1/MXKHEDX15M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=b1n.io; spf=pass smtp.mailfrom=b1n.io; dkim=pass (2048-bit key) header.d=b1n.io header.i=@b1n.io header.b=GX5uzrKp; arc=none smtp.client-ip=95.215.58.189
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=b1n.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=b1n.io
+	s=arc-20240116; t=1727451966; c=relaxed/simple;
+	bh=AgyJyFGOgZH64q64HKY97dB03AkZI1CBZpgFYlnxgz8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uBi1pQM8xvMEXDHLYXOT9gdPSZAh6syKnsFjcgpYH0q3j5pkrvGIBLchPUHMeTmscZYfIoukUcC1qj80oS8fKkVFV0Mi46xoIJ7LCbqrB5ewScQNm4g6UEbQVhWnkMPwe2pdxvHkoyRQ1lcMXLB2IB3UsBBOk6EbtngdbacCEI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gBSshxGa; arc=none smtp.client-ip=209.85.208.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=b1n.io header.i=@b1n.io header.b="GX5uzrKp"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gBSshxGa"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5c4146c7b28so2589176a12.2
+        for <linux-staging@lists.linux.dev>; Fri, 27 Sep 2024 08:46:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1727451963; x=1728056763; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=k/WxW8gZW6eJDpQYWMQr0oHbrmDPE0iNGmBYL31OUvU=;
+        b=gBSshxGaJPRiGXLpwxX/5iLTAORz1EwBdDUic1eKkPgS5ySQku97yiUV8tV9NsETdY
+         h43DHGphVlUg8s9QfrMkjzpN9dY4mH24b6u5ocU3npX2+OnByAEjXpsxGb3+c11BQovv
+         QNaUFSh82T67vwS1cxbqWHJBHkwAeSteJ1LesUkdX7gykmq+mH+LuXJ1PzjftYRxEy44
+         /Hhp0OGZwVGjvwhXmtK2YoHM/ul2tQ8v26Rt4XOIuPzpgtHoXML3KB/rL0KyHLy4XTS0
+         k1OOMBPyEH8AKZxAaIvsDoD4x3nZsCQ43jdnl+SV0E70s6wBkN3qNe4wlm1tm/woaHFr
+         VEfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727451963; x=1728056763;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=k/WxW8gZW6eJDpQYWMQr0oHbrmDPE0iNGmBYL31OUvU=;
+        b=WqxLBqCl4eqNoYIJQ9JPWNkQbq0KdgdeA5kpDjErZM5t3h8sjSSvyxS+gV3T7NCgH/
+         vJg400MULAvXecu4hffe2v/lWg1LA9PcoyjXpAjIPufY+o30SQWF3uREFtQcais6KxBc
+         36xjtS7+lRMS+5kCKWnEvyl57WozPmuE34mURhwT4vAEDBAGd6+vDOks6lIGztrNkrkg
+         X24n5s5QqlPX6+SJwl1C5L9XBxajAwG7gKlKUO8xWMPUYTtVQGmpQUTaXh59jMDMQGox
+         JJU9d3fwyt0vXHu6Pri5De97LPNt09Ji70L5GM00xklhC696dEVQacJYkuF1vQMFhxTQ
+         +F3A==
+X-Forwarded-Encrypted: i=1; AJvYcCXC/8ZNCYEObM+GoeclJC0oHNd1rmRWNbqi0sdD1XZ1p7g0QfXcFtzWUw0uDystoYBDXVqYDN20VWtGPCqH@lists.linux.dev
+X-Gm-Message-State: AOJu0YyOt80Z+ga5QzZHXnGPi4i0SItCL4XCHqisMclmeLmU43Dhlie+
+	fG3+F81RDczfImgIvbyVvUhW9SW5uquMS+MWKvv49t1zNozBDAZbwwzLsNDMnAM=
+X-Google-Smtp-Source: AGHT+IFS8zAPgdbQYxtGlbbfShLRGKJ+Y1jDmj/muEsQvezrcrzsLgiLNr3FkrTisB6yxmTr8mVPyw==
+X-Received: by 2002:a5d:67ca:0:b0:374:c23a:2ce8 with SMTP id ffacd0b85a97d-37cd5b11da6mr2512494f8f.52.1727451963205;
+        Fri, 27 Sep 2024 08:46:03 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42f57dec169sm30953325e9.21.2024.09.27.08.46.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Sep 2024 08:46:02 -0700 (PDT)
+Date: Fri, 27 Sep 2024 18:45:58 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Xingquan Liu <b1n@b1n.io>
+Cc: Florian Schilhabel <florian.c.schilhabel@googlemail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8712: Fix unnecessary parentheses warnings
+Message-ID: <75267b21-f800-41a5-8a7a-ddbf0062ffcd@stanley.mountain>
+References: <20240927151637.82772-1-b1n@b1n.io>
+ <9bf11c06-85c7-4ef0-ba26-e4780a28f23c@stanley.mountain>
+ <D4H6EYM973NS.13D8BVWVTVO2D@b1n.io>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=b1n.io; s=key1;
-	t=1727451410;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CWOCtZNHvExTJWPl6zOcHCnalrg6dlIXoMXlsDqnC40=;
-	b=GX5uzrKp5jR6NC0HbC+LOiRUlHdU49YqYBb3pM8Xw2NtxhJEr7NX+Bdy8wJwiqa7nTepgC
-	4TEaBKlCbrX5Uq3aF2MJ15dKQqoGrVPzQm/Q5/KIYaebNgCsO6KNJoUC8a2LWDQQKZutKg
-	h5qdMa9nRKwqQI/UpMTdvB1s8QL0e6DUYYvu/1MHHrHVGjKH4jxz42BAVZ+y1kWMVcijDo
-	ahxSSemdPFXgwSEtzP662cj5gaouUSdGj2yJ6BdXtpLmoQOsuhpnnD8FgSmlRWMQfStcBL
-	fK87VNNqjbvcMLeHOTktdPiyB15CKJkl3xPIB/atpi4mxE2WvmjT0s/9dkOjyw==
-Content-Type: multipart/signed;
- boundary=fc626e4455c1f108b7a81f84b9816a2fb7e07555a83fb72b408f50b05b4f;
- micalg=pgp-sha512; protocol="application/pgp-signature"
-Date: Fri, 27 Sep 2024 15:36:42 +0000
-Message-Id: <D4H6EYM973NS.13D8BVWVTVO2D@b1n.io>
-Cc: "Florian Schilhabel" <florian.c.schilhabel@googlemail.com>, "Greg
- Kroah-Hartman" <gregkh@linuxfoundation.org>,
- <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] staging: rtl8712: Fix unnecessary parentheses warnings
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Xingquan Liu" <b1n@b1n.io>
-To: "Dan Carpenter" <dan.carpenter@linaro.org>
-References: <20240927151637.82772-1-b1n@b1n.io>
- <9bf11c06-85c7-4ef0-ba26-e4780a28f23c@stanley.mountain>
-In-Reply-To: <9bf11c06-85c7-4ef0-ba26-e4780a28f23c@stanley.mountain>
-X-Migadu-Flow: FLOW_OUT
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <D4H6EYM973NS.13D8BVWVTVO2D@b1n.io>
 
---fc626e4455c1f108b7a81f84b9816a2fb7e07555a83fb72b408f50b05b4f
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8; format=Flowed
-
-On Fri Sep 27, 2024 at 11:26 PM CST, Dan Carpenter wrote:
-> On Fri, Sep 27, 2024 at 11:16:36PM +0800, Xingquan Liu wrote:
-> > Fix all unnecessary parentheses warnings in checkpath.
+On Fri, Sep 27, 2024 at 03:36:42PM +0000, Xingquan Liu wrote:
+> On Fri Sep 27, 2024 at 11:26 PM CST, Dan Carpenter wrote:
+> > On Fri, Sep 27, 2024 at 11:16:36PM +0800, Xingquan Liu wrote:
+> > > Fix all unnecessary parentheses warnings in checkpath.
+> > >
+> > > Signed-off-by: Xingquan Liu <b1n@b1n.io>
+> > > ---
+> > > I ran clang-format additionally because I noticed the Linux community
+> > > recommends submitting code formatting patches along with other patches.
 > > 
-> > Signed-off-by: Xingquan Liu <b1n@b1n.io>
-> > ---
-> > I ran clang-format additionally because I noticed the Linux community
-> > recommends submitting code formatting patches along with other patches.
->
-> Probably avoid running clang-format.  If we wanted to do that, we could have
-> done it already.
-
-Ok.
-
+> > Probably avoid running clang-format.  If we wanted to do that, we could have
+> > done it already.
+> 
+> Ok.
+> 
+> > >
+> > > I'm not sure if there are any issues with this.
 > > 
-> > I'm not sure if there are any issues with this.
->
-> This patch does way too many things at once.  This is a long way away from being
-> something we would even look at.
+> > This patch does way too many things at once.  This is a long way away from being
+> > something we would even look at.
+> 
+> I wanna fix all unnecessary parentheses warnings in one patch, is it ok?
 
-I wanna fix all unnecessary parentheses warnings in one patch, is it ok?
+Greg doesn't agree with checkpatch about unnecessary parentheses.  If the code
+looks like this:
 
--- 
-Xingquan Liu
+	if ((a == b) || (b == c)) {
 
+then just ignore checkpatch.  However if the code looks like:
 
---fc626e4455c1f108b7a81f84b9816a2fb7e07555a83fb72b408f50b05b4f
-Content-Type: application/pgp-signature; name="signature.asc"
+	p = &(foo);
 
------BEGIN PGP SIGNATURE-----
+Then change it to:
 
-iM4EABYKAHYWIQRK8k7aQ0rr/Uwki+E2I1LDHPWnXgUCZvbREVgYaHR0cHM6Ly9r
-ZXlzLm9wZW5wZ3Aub3JnL3Zrcy92MS9ieS1maW5nZXJwcmludC8zMEFGMUFDMDcz
-MDg5M0VEQzE0OUI3OTVCMDA3OUIxMkU2Qzk4RUE2AAoJEDYjUsMc9adeydsBAPxJ
-DCRl/pmfskFaU9/lrbWXNc7HonDmcJXlEQqlDcDuAQD3u4d2p3Lclerhtz27Fa7s
-x72euY6lrOaaBh2AaHWVCw==
-=bM16
------END PGP SIGNATURE-----
+	p = &foo;
 
---fc626e4455c1f108b7a81f84b9816a2fb7e07555a83fb72b408f50b05b4f--
+This sort of change would need to be split up by driver instead of all of
+driver/staging.  So it would be a series of patches.  You don't need to split
+it up by file.  Split it by driver.
+
+regards,
+dan carpenter
+
