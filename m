@@ -1,87 +1,127 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1CAD1BC9F7
-	for <linux-staging@lists.linux.dev>; Fri, 27 Sep 2024 10:10:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21CD01779BD
+	for <linux-staging@lists.linux.dev>; Fri, 27 Sep 2024 10:16:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727431850; cv=none; b=YTHtqfmOIpRJgPKz5N1na3VmHSXNamBdkUjH+xC2v/sf4IYucDN7JppaHhO9xsUn1C5Jr2N2Z6BZKbmF9FRy0wQyFNZlWLNPN41w3RSB3S0KpR+SJnZlo85wUiC2cV5OtQdocbqJa1TBk15wi2b3fzGCPbsbcMr26X6cntB4+Eg=
+	t=1727432215; cv=none; b=bi6jsRUEfXiJJncUrjVy1TCUd0rnNHIYIIanrEl+qjpoa5YsetvU6TcGbFZhUMokss/FpHlzbzSj5JTmhCpPoJsEMEgd58VwSvFn9ZoucBw9Nz/9akStcsYZ1CeS7v8wwDIcySlRLefhfUkBEHamOmiTGhB+LgI8SbI+vcA8+pk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727431850; c=relaxed/simple;
-	bh=82V/weC2dG7OB/opVXdY0JQstq8r5ZG2HazKjLEYZz0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fKNGezzjzzyft9WmDDlB6aUXbZTTmdPjLwAps6hvCvR7gzSy1GNcOuPPAvrgM29vbxpDameBbluHuQR/+IeZtuG+UUYDVbB6uyYQ6NIgIAitOxVayAep0j5PG2FxC0/zyrp7Xziu+i+xz9+9ikhpwFmaQJSGXZZRAksWSDq9e+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Gi273xNl; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1727432215; c=relaxed/simple;
+	bh=cAxaVY79viWfr3dOL3dJjnZC0KcE579FMqX0FSoNdpg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=TOQJ69S3SwTzQL5LO5uPegoUuvSzBs1TvzHD+tZAapn3UDWpNGMuI+UxbUuOPSGH9/jQR+CfaedghMn++SJvXW+0OZyQq4vTNQ6FpcUJLWZjH7uUwW4lhxUn0DQ2DnDfZManQFznQrG2Kvc5LJ+yZBVMxPrTdWXLK94OEFz0jGg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=goAH8EE+; arc=none smtp.client-ip=209.85.210.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Gi273xNl"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-42cb58d810eso18979165e9.0
-        for <linux-staging@lists.linux.dev>; Fri, 27 Sep 2024 03:10:48 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="goAH8EE+"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-719b17b2da1so1489863b3a.0
+        for <linux-staging@lists.linux.dev>; Fri, 27 Sep 2024 03:16:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1727431847; x=1728036647; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=qihw7+w8108Risk6Cj7+yuN4HLwBR7iDJgyzm7bJIQ0=;
-        b=Gi273xNlmihY5ol54RTcUeRYs1HgixnXowu9EECkgqQ3VDS3AEHNTPnet06Lby15hq
-         EBPfTzBi3mqLVaY14Zhq2uswydy/yBYYmPBdzddZoHqjGVR+gLJ1ipZiBlzNIkfB/UZd
-         a9a8LeyZpSfclr4kmogyDhPKmGmzoudd/UiWwS3XFkJ/EmrmkpZXS+i3VulFhqAflMTd
-         XUVBkPR5qcEBJ0V0zT644rI5o6nPnI77pft+kp6fLFJy/2vVVxMwKf1iIPpttWWtU5wC
-         1mzeqpyImKI/ATUL8a7WLA9oDkuiRgebteCAwiYfpCPvqQsfa38+uyaICkVhm/HxOwMR
-         tMbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727431847; x=1728036647;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=chromium.org; s=google; t=1727432213; x=1728037013; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qihw7+w8108Risk6Cj7+yuN4HLwBR7iDJgyzm7bJIQ0=;
-        b=iNp7pYNvHtOxHP0fnEBjRXQSJiDKpJih6u29ZMamRcVK8C9qkJodsyW+uU6Jm/TiTI
-         uQsMw1/YUvYCPdUu6YxDHaErQ4b6TgWvGU84i6J1pYPdfEZXNrpjuhiiUc7Qyh6tLC6E
-         Sm9mEEdZOG3YNv1XyP9/jh+ooRsvDfTzoLL7jUss71tgABNnYC01P3ucjVv9+OvFC9YX
-         dG8dp8RH2EWSfPrMmHgzc1WpuDlPqzBs8Ide/g0sxm46eBRKXBL4ck702PCkpeU11Vyu
-         uukMMU0mN3SytnHQ3MvP4UMZAfDIX/xbEKYn/x9gFd8uVWwmSNzHdsxE6kdxCSTfrAit
-         otpg==
-X-Forwarded-Encrypted: i=1; AJvYcCXGPqb5sv4apL5u5lbkUwLbzit9a0peUOPS03d0ZZrGcdBILFk0OSmf2644WtVGXyHMC4mnTqBrBZpARdQO@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywv0sgakcFKCiDAynK0EvE4MfXQDhGTHSSzy9SNN7E1kjL8Rj48
-	oFkTXh5AGJsdhS7IiIWJyomPlSZM/ADZvvaGWuFY0OxfEIuAIgCEN0n5a37DhvU=
-X-Google-Smtp-Source: AGHT+IHcgcyQYD74PprfDGjdFD8bGNs61lZ/QrBpu1J/emsL5e6sSlWoWQavNAXIDSV+FDiS4Uirog==
-X-Received: by 2002:a05:600c:3550:b0:42c:b7ae:4c97 with SMTP id 5b1f17b1804b1-42f52200f17mr36164135e9.11.1727431847307;
-        Fri, 27 Sep 2024 03:10:47 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42f57e13a28sm21924985e9.29.2024.09.27.03.10.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Sep 2024 03:10:46 -0700 (PDT)
-Date: Fri, 27 Sep 2024 13:10:41 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Benoit Parrot <bparrot@ti.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 3/3] media: atomisp: Use max() macros
-Message-ID: <aad1bee3-594a-40db-b81e-f7917ab1a408@stanley.mountain>
-References: <20240927-cocci-6-12-v2-0-1c6ad931959b@chromium.org>
- <20240927-cocci-6-12-v2-3-1c6ad931959b@chromium.org>
+        bh=CwCiuRYsk936wm4u/HVOckfXG1k6CXzT+Xy0kwjFKfs=;
+        b=goAH8EE+WmFP3I6QZqsHqcIrGsvCoq8L7Q4gdVD6InLDk/AGuQPN6ylQIPm1KgVcdW
+         sF5qvEOISf8iFEpx63frgyycgcUWN+eMhc5mPR2T9dcufqKzaxsMgsO+FWHAh/m0tahy
+         nWcfPpic+X7DIao7nRfKsHAPqcraqpNfkrGpY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727432213; x=1728037013;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=CwCiuRYsk936wm4u/HVOckfXG1k6CXzT+Xy0kwjFKfs=;
+        b=aAEysHWTFcu7Zunr4acobsjGr8BRtZpUh2HN0fHYWheG/hgP3a1B8AxFsV3E9CiZE3
+         bWNyDL8XTe1kCLlakNCW6I5P4jcGE/xmJp73Z+2SeRqeA/K5l6/cJwbQuT1WhPZnm4i4
+         bBBsSUBtsj/8Fm7wexbcRWyK2SE5EqreurAad8ajcqt1kEuCjD2cgOUXcDZtvz+Iq5eh
+         ga9daVqOCZljTrrSle48cXbpWngcmXSnM234GJ8FEOmrWVl/5pK8ymoU+c0w5YALGgC4
+         av/h4PYNqkGqjoVMdqSFFW8dyn/y0iPPzpzj58HAn0Pf5opUI1WwgXra5Yj3/R6+UMhw
+         u/0g==
+X-Forwarded-Encrypted: i=1; AJvYcCUO1lDMqmv6hK7eJVkwCXtGbhKw6Qv5PWTYz8aYR0V/tlFGKgjE2YoF6qA4pRj8PhmvFGb6OGeMJjfWBAQi@lists.linux.dev
+X-Gm-Message-State: AOJu0YxTnv3Jdtz9EDxHCvlSAGOqls5gbAox2b8gb57CmUdScwzOMh6r
+	cb6H+lBAqI9RKk1NHEt1mFCmc21y9NruGm0m0DGjasRCBKzTOOaXtKRaTqQVpC7K65nn4hdzqLE
+	=
+X-Google-Smtp-Source: AGHT+IGQx0I61zkGBJ5Kof4Y8Uv1gyJf8bijeFhSbpj8/DDYcW7qaev0KF6v0h1G5KGmME1+167ACw==
+X-Received: by 2002:a05:6a00:99e:b0:713:f127:ad5c with SMTP id d2e1a72fcca58-71b260681abmr4457474b3a.28.1727432212958;
+        Fri, 27 Sep 2024 03:16:52 -0700 (PDT)
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com. [209.85.216.51])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71b2649c6a1sm1279286b3a.44.2024.09.27.03.16.51
+        for <linux-staging@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 27 Sep 2024 03:16:51 -0700 (PDT)
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-2e07d91f78aso1599181a91.1
+        for <linux-staging@lists.linux.dev>; Fri, 27 Sep 2024 03:16:51 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCW/FWy4Bb2g7MpW+OfTnY+JDHpf+SMZk/oFEFJSQ039i6zdXO2YVovH+hOmtZbvbbiduRJuCk1JHkFCZyv6@lists.linux.dev
+X-Received: by 2002:a17:90a:ba95:b0:2e0:b6f5:1884 with SMTP id
+ 98e67ed59e1d1-2e0b7b83739mr3267623a91.0.1727432210480; Fri, 27 Sep 2024
+ 03:16:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240927-cocci-6-12-v2-3-1c6ad931959b@chromium.org>
+References: <20240927-cocci-6-12-v2-0-1c6ad931959b@chromium.org>
+ <20240927-cocci-6-12-v2-1-1c6ad931959b@chromium.org> <CAHp75VeGAzU1BT5bE0BrVj4MR=TR2KEzjwhoFUnN5Q=fUanJZg@mail.gmail.com>
+In-Reply-To: <CAHp75VeGAzU1BT5bE0BrVj4MR=TR2KEzjwhoFUnN5Q=fUanJZg@mail.gmail.com>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Fri, 27 Sep 2024 12:16:34 +0200
+X-Gmail-Original-Message-ID: <CANiDSCvF4g7H77Tuy=YUfCG5xYxcb8R8oTsvCjSt65zPAsepog@mail.gmail.com>
+Message-ID: <CANiDSCvF4g7H77Tuy=YUfCG5xYxcb8R8oTsvCjSt65zPAsepog@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] media: ti: cal: Use str_up_down()
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Benoit Parrot <bparrot@ti.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Bingbu Cao <bingbu.cao@intel.com>, 
+	Tianshu Qiu <tian.shu.qiu@intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Hans de Goede <hdegoede@redhat.com>, Andy Shevchenko <andy@kernel.org>, 
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The commit message doesn't make sense.  Please, wait for a day before resending
-patches.  There is no rush.
+Hi Andy
 
-regards,
-dan carpenter
+On Fri, 27 Sept 2024 at 12:10, Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
+>
+> On Fri, Sep 27, 2024 at 1:02=E2=80=AFPM Ricardo Ribalda <ribalda@chromium=
+.org> wrote:
+> >
+> > The str_up_down() helper simplifies the code and fixes the following co=
+cci
+> > warning:
+> >
+> > drivers/media/platform/ti/cal/cal-camerarx.c:194:3-9: opportunity for s=
+tr_up_down(enable)
+>
+> ...
+>
+> >         if (i =3D=3D 10)
+> >                 phy_err(phy, "Failed to power %s complexio\n",
+> > -                       enable ? "up" : "down");
+> > +                       str_up_down(enable);
+>
+> You never tested this, do not bother to send untested material, please!
 
+Do you mean tested in real hardware or compile test it?
+
+I did test it:
+https://gitlab.freedesktop.org/linux-media/users/ribalda/-/commits/test-new=
+linus
+
+But obviously we are not building that file :S. Let me figure out why
+did this happened
+
+Sorry for the noise
+
+>
+> --
+> With Best Regards,
+> Andy Shevchenko
+
+
+
+--=20
+Ricardo Ribalda
