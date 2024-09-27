@@ -1,115 +1,92 @@
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D15E81BD023
-	for <linux-staging@lists.linux.dev>; Fri, 27 Sep 2024 10:02:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A3A81BC09F
+	for <linux-staging@lists.linux.dev>; Fri, 27 Sep 2024 10:09:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727431370; cv=none; b=f/fmn4P9PnOUBijdwZBtlecbEbJASQei+H/kQXKAj8JNGgp8Mae7PnZvKuyFrbzV534Ykq87oLffPo09EFc9eGBdjaZGyWS//jDeU0jTSXKdzHnFCEaVNq8lqo2ppt5ooOx8pA7UnxKE/LeeS5fsqgLmIYcmigVxYmGjDGG5Bkk=
+	t=1727431784; cv=none; b=cVyBig9tPhb2boPrEU0X9YLDhzsXu5v/SGgbWrNY1gLORSKA7A3qay1KGN0pSQksMiQxoiHPtt2ePN1noKndcLQL8Y/2bvOnv7EqCHN2AVEsQ8VciZUE74WGSHOjYou+AVhfSll7B0PKqiOdXL68Mj8KlBrEf3M7FWqgEJFShlY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727431370; c=relaxed/simple;
-	bh=uw0K97JV9fivxdnVN2cUQwyp6nbgfNRKN3h76jkLFYY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=lCULFzq55HSBWsGcK/j9qQI+CgS/GyQiJwXb+19E64Ep6wjoOHhZ7AuqL7kpoAxEVSDJn0sMUIUa6alanYDYKIfwJpEWRy7DHcRIXSLhLjzMqmWcaTRc84DnU+xHiOGbp/l6MRvLiA/1kjsx3+8LakmIrHWpt/VQAe+0mFWNsL0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=mFOb+aRT; arc=none smtp.client-ip=209.85.219.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1727431784; c=relaxed/simple;
+	bh=u1HYuzt3VcJ0Ke4gqg4Bcs27HCUdrkVdFqLZtu1O5Y0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hvhwO+7Oswcuyi18cRv/O+wqpLSKtqlcEZfdkXYIRZdx+uFMrzfmqUooSWTFmENJDVPGgqzWLu4oZGA7ioPB2DnCZGWLwcuS+Gv3S8n2orN0ThdAXn/y0uSKTgiy0RhQHEqiXV1qtB+0UOBkY7FTMWWvfjSEkr0zjAyC7akJejA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZgshzPHO; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="mFOb+aRT"
-Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-6cb29ff33c5so15746246d6.2
-        for <linux-staging@lists.linux.dev>; Fri, 27 Sep 2024 03:02:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZgshzPHO"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a86e9db75b9so313838466b.1
+        for <linux-staging@lists.linux.dev>; Fri, 27 Sep 2024 03:09:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1727431368; x=1728036168; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mSjw1khDQimJSSBzxeMp5r4khGbQqGrktSmSipAyKGM=;
-        b=mFOb+aRToCeyRX4YQKLNBsvPDpdhhFg9w0YHybg/BAVr4mDY/V3Y8ZQn5DpQcKpRZ8
-         EFP1m08dXJMLMe5Ef5oZSD63aq02V+HBYs69NYRnNBkreeupkxMA7uzH9y8zZDkkmuLQ
-         SOSyaf1YKRng3JyF/JmNeVIWOVCtpucxRVosA=
+        d=gmail.com; s=20230601; t=1727431781; x=1728036581; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=u1HYuzt3VcJ0Ke4gqg4Bcs27HCUdrkVdFqLZtu1O5Y0=;
+        b=ZgshzPHO5Mh13C7uLJ1+3ULlaIl4MGFWF8f2E7Ho2d46vm1iKaz39vKgFFm4Zrk33R
+         PMjCGIA2u+suTMBV+n/p/SE2HvFiuO3B2hqZYIzH0hqtVjwMVQu2ikC/9oFVMe2FV29I
+         BnQM6OrpjeJrkunIHXD7GI2M/lRbUA6ifnfrZGVKTiDOPYNBcEzh0spoiahbcnrUhhxd
+         sVv0a5i+omsq92Y413N82OikTErKlBqwQUDBk8QTTFf8QjMWKaB+6/NHx8+dWnCDO+5j
+         lh8zyelDoCjjLxYSvn+Y91j6ixdJ51tnCSqo5IFJJdal51nzJXMp4QtsXJ5YkmlR1oQg
+         iXoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727431368; x=1728036168;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1727431781; x=1728036581;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=mSjw1khDQimJSSBzxeMp5r4khGbQqGrktSmSipAyKGM=;
-        b=m8ZZFLsYNarHNazr73SEq5EXJcRpBHllo3CQL6th1rclPHSfa+0V2wZ67MVlU24//n
-         724mgBVI0xD7womaDlrTgR5+17KcTWpAHGcbueM954VYO5S/YmKbsHSeDoQ0+jLcuLvk
-         VyIIpNBKi0dxIXx32Ic9Kt3yX2iAcfLORIgi4Dm/e4f0lGCaNbTaJlqkadyM4QbGhhzX
-         N7+wZScif6izsJ6nniITH5DiFCeaBGLhX9MUYpimBhBjT42pkxT5Wwv8zKAB0SwrhxXo
-         5Bf7ev8f7CdZBIEXO6jt6SLybquNazPYqqFTpEHYD/E3gTzOdiaMDnO8lha53+Ih3wtT
-         sYfw==
-X-Forwarded-Encrypted: i=1; AJvYcCXHl3LTP2TUKdpPUhcAJ9XmgR/B3GWCcCeXw5oLUs1LG8ik059ZcmR7LdsBcHsGpmBee/hDrN4wTNjz/xAO@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw+7j498/7oCw2R6se7JJaPw02ZtOKNxbzNFkc2XjO+ZlkGJpwH
-	4OLIn9/1GCjZOB4BljquKjv9oE0WwNqry1LSGNJskvw1nbdjoRgpFLKG8sWFng==
-X-Google-Smtp-Source: AGHT+IGmj2VIw5fwcR7lMfdlhGfeKlUZ5ZB5sGNgsSChCVQ89YCG0Pdjs36ucyYbgh9Wu38SUEf4+Q==
-X-Received: by 2002:a05:6214:3d8a:b0:6c5:3123:4efd with SMTP id 6a1803df08f44-6cb3b5b663bmr52445036d6.1.1727431367752;
-        Fri, 27 Sep 2024 03:02:47 -0700 (PDT)
-Received: from denia.c.googlers.com (76.224.245.35.bc.googleusercontent.com. [35.245.224.76])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-45c9f353f08sm6341091cf.94.2024.09.27.03.02.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Sep 2024 03:02:46 -0700 (PDT)
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Fri, 27 Sep 2024 10:02:34 +0000
-Subject: [PATCH v2 3/3] media: atomisp: Use max() macros
+        bh=u1HYuzt3VcJ0Ke4gqg4Bcs27HCUdrkVdFqLZtu1O5Y0=;
+        b=wABWYD4GPl55p1hvj2Ux/yT6q389hjV3bVOIrG3vTf46H1CQGqTD9FajdsmbV2qCyT
+         BlYsEZayitk5ANME+BijIiySkJnrGMzAdZOJpZzb3yGZkLsJPMmsQK44wD1h+0rYQpTt
+         l6FBB+eupdZ/kEUij/mKIHnKOEc1jbMY3ArYd7m9tis4nJItF5u/x0DAkDMXW56nAGKg
+         wd0rxrhqZGi9j7NY/gUtcw7PiUQWoX9hpcu0dcpCXEAo9IHKt5k2s30xcjrmQa4QWCVT
+         090E6fCSnd9vaVMzo7sZoWkesJ04plQrgzSd+EOtt1oaQmx3d2v/HFGv5HBlsGn+H2eL
+         0JLw==
+X-Forwarded-Encrypted: i=1; AJvYcCX4spBPA7Xj9rXMKCdQjNVoXpyrVARGV/X5Yf4RPXMdtSzTb7rUKOFlWeJy9b5C77KvBqUUL2rr+QRs/liQ@lists.linux.dev
+X-Gm-Message-State: AOJu0YzPEs9aF/+ZNszZ0+ckCUTuPlVatEa8u52smYiESXbLUOiLXdPL
+	bguQ7Q/r6atG1rF3DIruhx3H2JiGUwamFHxRpV4guyfTrx3cwT16n1GP+/Jzz+Uu5JBjLeABqk+
+	dG48QXtjPpTSMsDL2MT/TRjToKHc=
+X-Google-Smtp-Source: AGHT+IFxKrVn+eN+8GsBOc9kEvDkWwEzAHy/d1V0TW1e6sbZfloJ1RQ+VeEYJjBsCrVj4lEvUHHOb0kRXZt1hATpgt0=
+X-Received: by 2002:a17:907:3e1c:b0:a88:b93b:cdcb with SMTP id
+ a640c23a62f3a-a93c4a68305mr210200466b.47.1727431781464; Fri, 27 Sep 2024
+ 03:09:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240927-cocci-6-12-v2-3-1c6ad931959b@chromium.org>
-References: <20240927-cocci-6-12-v2-0-1c6ad931959b@chromium.org>
-In-Reply-To: <20240927-cocci-6-12-v2-0-1c6ad931959b@chromium.org>
-To: Benoit Parrot <bparrot@ti.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Bingbu Cao <bingbu.cao@intel.com>, Tianshu Qiu <tian.shu.qiu@intel.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Hans de Goede <hdegoede@redhat.com>, Andy Shevchenko <andy@kernel.org>, 
- Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-staging@lists.linux.dev, Ricardo Ribalda <ribalda@chromium.org>
-X-Mailer: b4 0.13.0
+References: <20240927-cocci-6-12-v2-0-1c6ad931959b@chromium.org> <20240927-cocci-6-12-v2-3-1c6ad931959b@chromium.org>
+In-Reply-To: <20240927-cocci-6-12-v2-3-1c6ad931959b@chromium.org>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Fri, 27 Sep 2024 13:09:05 +0300
+Message-ID: <CAHp75VegFGC6DR0RJ5QPPOoTEvwDz08tJzWirOeJvzPWKxFE4w@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] media: atomisp: Use max() macros
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Benoit Parrot <bparrot@ti.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Bingbu Cao <bingbu.cao@intel.com>, 
+	Tianshu Qiu <tian.shu.qiu@intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Hans de Goede <hdegoede@redhat.com>, Andy Shevchenko <andy@kernel.org>, 
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The max() macro produce nicer code and also fixes the following cocci
-errors:
+On Fri, Sep 27, 2024 at 1:02=E2=80=AFPM Ricardo Ribalda <ribalda@chromium.o=
+rg> wrote:
+>
+> The max() macro produce nicer code
 
-drivers/staging/media/atomisp/pci/sh_css_frac.h:40:17-18: WARNING opportunity for max()
-drivers/staging/media/atomisp/pci/sh_css_frac.h:50:17-18: WARNING opportunity for max()
+You forgot to update the commit message.
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- drivers/staging/media/atomisp/pci/sh_css_frac.h | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+> and also fixes the following cocci
+> errors:
 
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_frac.h b/drivers/staging/media/atomisp/pci/sh_css_frac.h
-index 8ba65161f7a9..3191d2858f59 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_frac.h
-+++ b/drivers/staging/media/atomisp/pci/sh_css_frac.h
-@@ -37,7 +37,8 @@ static inline int sDIGIT_FITTING(int v, int a, int b)
- 	int fit_shift = sFRACTION_BITS_FITTING(a) - b;
- 
- 	v >>= sSHIFT;
--	v >>= fit_shift > 0 ? fit_shift : 0;
-+	if (fit_shift > 0)
-+		v >>= fit_shift;
- 
- 	return clamp_t(int, v, sISP_VAL_MIN, sISP_VAL_MAX);
- }
-@@ -47,7 +48,8 @@ static inline unsigned int uDIGIT_FITTING(unsigned int v, int a, int b)
- 	int fit_shift = uFRACTION_BITS_FITTING(a) - b;
- 
- 	v >>= uSHIFT;
--	v >>= fit_shift > 0 ? fit_shift : 0;
-+	if (fit_shift > 0)
-+		v >>= fit_shift;
- 
- 	return clamp_t(unsigned int, v, uISP_VAL_MIN, uISP_VAL_MAX);
- }
+> drivers/staging/media/atomisp/pci/sh_css_frac.h:40:17-18: WARNING opportu=
+nity for max()
+> drivers/staging/media/atomisp/pci/sh_css_frac.h:50:17-18: WARNING opportu=
+nity for max()
 
--- 
-2.46.1.824.gd892dcdcdd-goog
-
+--=20
+With Best Regards,
+Andy Shevchenko
