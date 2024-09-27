@@ -1,58 +1,57 @@
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A3721BB680
-	for <linux-staging@lists.linux.dev>; Fri, 27 Sep 2024 09:42:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B00DC1BB6AA
+	for <linux-staging@lists.linux.dev>; Fri, 27 Sep 2024 09:42:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727430143; cv=none; b=XgncNC+xSLI2jns+wxwcYSEW6Wo0ng3p8QYHY7NlNkbkbYHeE9etGGJ3ZvrpElRNnrMEpWLZBkRSGrgnbWn2t6vpnnxy4f3u48AItmOuJHN3Zklk0LCYldrK/ytRvNZwBocG1WU1KryFL+vFfE6m8fNcH4Q1KkQUBZ/Y3RE92Rk=
+	t=1727430144; cv=none; b=P+k5yCHDaCcidbANObOMcmF0NVJe5KTDRc1Yo7MJGB8F81Kf8WTCbfG2iAV8i3MZPA4T5O0UofdbdcDTQR3Vxoce65Au4/p31JjTcrBaQKGYr55RjJmtTSfFL52mxbqAcVPGZS4Q1/3WDYmEYZdEIrFXwRyF0Q8r0bTRiibqDbo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727430143; c=relaxed/simple;
-	bh=NzGO/n5w0inQUSk9Mrg2JWrHNdom3NBH7egriAh15og=;
+	s=arc-20240116; t=1727430144; c=relaxed/simple;
+	bh=kCl1YSqZuUUZDtGA+QAZtwsRUo5HY0IPZiSWxLVmfm4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=LMAGhBaJpC5Aq0ldRSueuDW1GIuxV5uOQzZMBzKCyNePkNl73W77Ub2QAJyXcLHrsWJyx69wK/U+EJxmjezjI7cqjgqDk/nqli8SjPui/9srmyvzoHVLdoFChNFpb2wOGijsuqfAwM9QMnqwnmRc05Vz4O5fbQuiP9n4OeZLPLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ATvYs968; arc=none smtp.client-ip=209.85.219.44
+	 In-Reply-To:To:Cc; b=qwAPCEhjfS7vcatM6wX3oE9fQEf8+3bm5pBjvVnteSGTA4LkAKBCKMvFkFHTajJzKBn8ldywYBHiF8svGhGHM4rYKX3nmMw2XVoR6je87yHhpxPhS9kJPTPu1+bpgCz17G2SkLsbQ0STgXjedraW6ALNzOniWt0ZxZqBKxl+17Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=hnLPzDg8; arc=none smtp.client-ip=209.85.219.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ATvYs968"
-Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-6cb22e9c6dbso11552646d6.1
-        for <linux-staging@lists.linux.dev>; Fri, 27 Sep 2024 02:42:20 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="hnLPzDg8"
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-6cb2f271043so17064176d6.0
+        for <linux-staging@lists.linux.dev>; Fri, 27 Sep 2024 02:42:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1727430139; x=1728034939; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1727430141; x=1728034941; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=YwJYpIvOPMah9ocVmXZ/vnejPzGmcFsHFsHmC+ou0no=;
-        b=ATvYs968oEOuNCe2tlZ36a4HotDRYDksidVhpCjfU0jIe/gRAzbF6AQHhuvoMcARJC
-         2evRa4+kbahpQpmiPFusJDrkmuknWeK9F7nF7f18EYAp9fT/s4kOxc4oAJzrlI9xw+wC
-         brhSjLpp8znnlqr3v5kHfLAe14WAgJssDrfBA=
+        bh=VINaQxL9vW722McPbfM1p2Q0+fZYKttm/dJVtWO/GI0=;
+        b=hnLPzDg8Q4h/ugdLN3Ob5xJMAHSreZaLQuUZbv2zeMS/2Q+9TOfkJ90GPJFK+4yu1/
+         rxFJaHoQtnoJG31kITwgIZCrr/274HyVRuQMi6OVN7zs7b7EqsK462P4sOq4uSu4dc/W
+         5qh8GHVOF0Aqhhk/TezYgU9YU5bCSvKL8my5g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727430139; x=1728034939;
+        d=1e100.net; s=20230601; t=1727430141; x=1728034941;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=YwJYpIvOPMah9ocVmXZ/vnejPzGmcFsHFsHmC+ou0no=;
-        b=UbwguhW+FxC7U56w6xNMhnGq71LlO1OdYjpMd1qa0SYza8PihKevSR2yDrXRjc76/g
-         QWkoW4XpzI3/Olh00dzCRbruFYLl7ar0zSVIb7dJSyoxiYcYAd0uUEWdXp89lHiolSmc
-         jXqp/fz2Ixc8r7AUng66LjHqrnU2/3qb4VjzqVl2Dqji+/Z//URkhEgRxNPum7SDYwFN
-         6c8XPOHa2tepwr2PmDpkSdlAEag9hpcp5FwhUCWobkVJBYoOQ7Mw4cl8mYYscHKdlogU
-         c8LDqu7o1tY+y+oe2/2MFAj3+c28WfplRWG2Pk/opNBGjwj4YzAjSyEHJyUPn5qRxjIc
-         b3ww==
-X-Forwarded-Encrypted: i=1; AJvYcCWB8aKPHOm1EobfeqB0ZQf7Jkp/btmVaJyk/GWxcFsChj55Mew2f1SEZg65zeTV8cI+XnI/vZKuckFw6KZe@lists.linux.dev
-X-Gm-Message-State: AOJu0YwnIN1npnXqO2EJXJHNgSTeY90fZTBhpQJdDm9zmQeyGIUlUZbs
-	gE+utNjR9n7Vo7c7ARB0X8L1phi3a2QTKgpMXKIqTZQwSwXN57aP5W6+7XQ8ZhHxzCrJcTB4ENg
-	=
-X-Google-Smtp-Source: AGHT+IEnh+IrKYShpTgUNIZMuZaNaBR2/h1owwwElW96gX0SdsoHqfJeYKcEmzOAdy8nirRvvS/+Hg==
-X-Received: by 2002:a05:6214:5789:b0:6c5:32a5:567a with SMTP id 6a1803df08f44-6cb3b5b93ddmr40210646d6.1.1727430139367;
-        Fri, 27 Sep 2024 02:42:19 -0700 (PDT)
+        bh=VINaQxL9vW722McPbfM1p2Q0+fZYKttm/dJVtWO/GI0=;
+        b=OeS1tUqG1swpHSVc2fFbmvogFb1GyycTGj3KUTVrM9a2FxKJe+KJ6wTeq4H/Faucpy
+         7nX/OnE6y1xNaIYyAjTT+eTx95J0ofF2II5pSlIqQ0jwQLjpIE/lBXS+XYx9psOLobmU
+         vbzy7DvKhHCW/9TYCkeMlrLscMypef196LFpToKle0ZJ8xXfU0dsPUVrT7eEnw2U9Ck/
+         NN/7Y2FySOsaczq/gUyG3daRO3cyH8MM4DDf2nAxMDFZWSPJ2N/kw/BckoKLSPUPt+IT
+         KjJcQ4T7n4Ygo3k0By7QclruCQS5ENi6xi0wkaWBklkYQ/E/CKJw8tjK6bgzinQtv9qW
+         11WA==
+X-Forwarded-Encrypted: i=1; AJvYcCXg3QuRcYRv71vjToRw/Ln6wAQUVC+LC/qt2d20+TOHvGET4b0uACZ7g3rcig3SxFaPHUOC+OczZvYiqkn9@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx4RnedlDh40uBGntl1oLnxVziD/oalpvvl0WgwlYptD6y2UDPN
+	SALxfu1JBxOO0kBjENTbSBT4WbW6fZItM5liVJqoJQGOvWb1iS0z0gv69VV5RQ==
+X-Google-Smtp-Source: AGHT+IGGsdMZl/i8EG8b5Z1JmOsFAyZ9WklfULMXZz5d7lRQYLgXR1nLV+QVTf216ds3TwRWII3bkw==
+X-Received: by 2002:a05:6214:320d:b0:6c3:5a89:9998 with SMTP id 6a1803df08f44-6cb3b60fa9cmr33792876d6.23.1727430141573;
+        Fri, 27 Sep 2024 02:42:21 -0700 (PDT)
 Received: from denia.c.googlers.com (76.224.245.35.bc.googleusercontent.com. [35.245.224.76])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cb3b5ff594sm7231606d6.14.2024.09.27.02.42.16
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cb3b5ff594sm7231606d6.14.2024.09.27.02.42.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Sep 2024 02:42:17 -0700 (PDT)
+        Fri, 27 Sep 2024 02:42:20 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Fri, 27 Sep 2024 09:42:13 +0000
-Subject: [PATCH 1/3] media: ti: cal: Use str_up_down()
+Date: Fri, 27 Sep 2024 09:42:14 +0000
+Subject: [PATCH 2/3] staging: media: ipu3:Use str_down_up()
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -61,7 +60,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240927-cocci-6-12-v1-1-a318d4e6a19d@chromium.org>
+Message-Id: <20240927-cocci-6-12-v1-2-a318d4e6a19d@chromium.org>
 References: <20240927-cocci-6-12-v1-0-a318d4e6a19d@chromium.org>
 In-Reply-To: <20240927-cocci-6-12-v1-0-a318d4e6a19d@chromium.org>
 To: Benoit Parrot <bparrot@ti.com>, 
@@ -75,29 +74,29 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-staging@lists.linux.dev, Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.13.0
 
-The str_up_down() helper simplifies the code and fixes the following cocci
+The str_down_up() helper simplifies the code and fixes the following cocci
 warning:
 
-drivers/media/platform/ti/cal/cal-camerarx.c:194:3-9: opportunity for str_up_down(enable)
+drivers/staging/media/ipu3/ipu3-css.c:229:18-47: opportunity for str_down_up(state & IMGU_STATE_POWER_DOWN)
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/platform/ti/cal/cal-camerarx.c | 2 +-
+ drivers/staging/media/ipu3/ipu3-css.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/ti/cal/cal-camerarx.c b/drivers/media/platform/ti/cal/cal-camerarx.c
-index 42dfe08b765f..ba8c4743f539 100644
---- a/drivers/media/platform/ti/cal/cal-camerarx.c
-+++ b/drivers/media/platform/ti/cal/cal-camerarx.c
-@@ -191,7 +191,7 @@ static void cal_camerarx_power(struct cal_camerarx *phy, bool enable)
+diff --git a/drivers/staging/media/ipu3/ipu3-css.c b/drivers/staging/media/ipu3/ipu3-css.c
+index 1b0a59b78949..bb22375481a0 100644
+--- a/drivers/staging/media/ipu3/ipu3-css.c
++++ b/drivers/staging/media/ipu3/ipu3-css.c
+@@ -226,7 +226,7 @@ int imgu_css_set_powerup(struct device *dev, void __iomem *base,
+ 	state = readl(base + IMGU_REG_STATE);
  
- 	if (i == 10)
- 		phy_err(phy, "Failed to power %s complexio\n",
--			enable ? "up" : "down");
-+			str_up_down(enable);
- }
+ 	dev_dbg(dev, "CSS pm_ctrl 0x%x state 0x%x (power %s)\n",
+-		pm_ctrl, state, state & IMGU_STATE_POWER_DOWN ? "down" : "up");
++		pm_ctrl, state, str_down_up(state & IMGU_STATE_POWER_DOWN));
  
- static void cal_camerarx_wait_reset(struct cal_camerarx *phy)
+ 	/* Power up CSS using wrapper */
+ 	if (state & IMGU_STATE_POWER_DOWN) {
 
 -- 
 2.46.1.824.gd892dcdcdd-goog
