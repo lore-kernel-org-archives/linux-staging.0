@@ -1,92 +1,109 @@
-Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com [95.215.58.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F60915B118
-	for <linux-staging@lists.linux.dev>; Fri, 27 Sep 2024 21:46:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9814168BD
+	for <linux-staging@lists.linux.dev>; Sat, 28 Sep 2024 02:53:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727473578; cv=none; b=dqvxNZIaFH2/ZWVupGmMlaUKuFEtaTuDPHTU1Hirsm0D5npvbYgiLEuFVDakUJb9nfaA8aC37L+lILBBtD+gYdh6uic6WL0tdO+TriyTH3azJF7YalDYlE28O+Hn+0wTcVfKwJgnUcdpZSRoKXrqGMIGh7j6EVss4dHN+pNDXJk=
+	t=1727492024; cv=none; b=BUbsgeTMLVGbobNfe22XRjqBFzaMp0GE6n26ucUpgHh0d3j5mVS0s7yTOwPCn9RO+u+8qHTsThe5r6SaSo2WdnpLmp6ybC7kX4PMQ84HM3HAoMywcvidRHvFjLLf7Hcc7QZwQGB4COY2vbKuEYk3XX96s1VqFK3rzVf2/Z9MQlI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727473578; c=relaxed/simple;
-	bh=rTv5qH+Bh4guUKv1K7UwpM599lu2aof5Wd391gXejeo=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
-	 References:In-Reply-To; b=k/us8Gn1Oio8BW3hrPo1TuziGp3U9D540tPzCx7Iq5Uhd+WbM4/vR3qMbIygbWLzqZp/TacLJcL0lDXe7ET0giBrCfqjIoklz/vMXjFv1StHNhk1Z08WW14+pCLaJzF2yraSTmDTF83mwaTJ0XRXjyzUezQzTRDuZu2SDpsFBho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=b1n.io; spf=pass smtp.mailfrom=b1n.io; dkim=pass (2048-bit key) header.d=b1n.io header.i=@b1n.io header.b=tN1aeluB; arc=none smtp.client-ip=95.215.58.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=b1n.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=b1n.io
+	s=arc-20240116; t=1727492024; c=relaxed/simple;
+	bh=1P5VSdEr6UYzDIu6A2snwQSfVUvFw0ftgr0LKwbktp4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ledil/p8tk0XZBU8zKxmj8sVFfRQ+PYY7rQ6rfqhh4Rc2r0sPwY7oKEDJu1K3i8+h93Zf0yqlhbonID7wOZE0IvECCfRx9ysaNJvVvSvISQehXe3HIbdwZVTPG/gyWjD/AFauJWaN26K8hP7flNAyyayHm7nvTPvCJhgiWjDSwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y8xh84bI; arc=none smtp.client-ip=209.85.210.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=b1n.io header.i=@b1n.io header.b="tN1aeluB"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y8xh84bI"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-718f4fd89e5so2471787b3a.0
+        for <linux-staging@lists.linux.dev>; Fri, 27 Sep 2024 19:53:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727492022; x=1728096822; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=AqbEnkFqMvfFF/pkDHaeuRRro8Yo1fTtXIG0am66j4A=;
+        b=Y8xh84bIWbyW17QWTo3fIAkGcR+2+ns2iNodBouSVYrBFOXXFQlFLuIGgolByQzit2
+         +gH1/xXtpQ0nLm89G+XF7UEl9G6dYaz6AupTjjF736h79Mky2S/WQ/m/5qJGXESiAorr
+         +VJEdn0ilYG5bQv8MB/vYFYufdff8oUVPZgmGzP75sPWOBFxeA7YsL9NmSoXm+JiXiip
+         FZ7tMvMWXuEAy83QRjWzp7VCdUbtwRPfJYPmGglaE+lIrlkxc/VdxGpkOjwAnMhudCx+
+         J2VyM+Xb9RjeBNlqABXE3KFbBXMV9YlsWvKOh3WkB0cZuKg1fZ4cn4A4JodSkexrEJgc
+         4ntg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727492022; x=1728096822;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=AqbEnkFqMvfFF/pkDHaeuRRro8Yo1fTtXIG0am66j4A=;
+        b=Fmg1XvrbIs87hjS21EOuQ5D4UWomoc8VSI8TAdJty9Oy0f+IQOEVkveoeMv7RPMRZh
+         Td5D3gH1a9pEIZbvX929tuevTGFw1GCZ73paRZ4ra4eIzhtgWdQPGrLfyG3tKZYizitg
+         lupKg0psvvu9Oa9mgNt3YPYGNwBlr5i/TaER1QCdjAAxURBWBFZ/eZaoqH+3lMedrhZI
+         kb0uZ+6r8WhDnYleLAEbVV5A7P4RCpbWpnwrX8IrqyHBrMffjw2zpB1c5aT5mJ1wUwcA
+         SMDNAp9mJkV0mfvSckJWZEDOimgMnqusw1Tyn0AvFMhD/nhG7WKLUPwZmRsTXX//i3Fz
+         KxzA==
+X-Gm-Message-State: AOJu0Yx1Fe1FZDvVi5EVr/hfRkAddKvchOzb7kKyrlLnGCOd2Vjbgwqz
+	ZkBeqPJCvdqOd4h69uSCqMPi/8J6HW0z5CjqYRWNuUx+Ps5o1Jvo
+X-Google-Smtp-Source: AGHT+IFDeXgCaD43BECwV8fDnjNu8ghhynmrO7e/H7s02hjuOyPlDmejr9Cx/OCKiMqZDsE4ncd/0w==
+X-Received: by 2002:a05:6a00:98c:b0:717:9191:8bfb with SMTP id d2e1a72fcca58-71b2604c2abmr7743159b3a.17.1727492021835;
+        Fri, 27 Sep 2024 19:53:41 -0700 (PDT)
+Received: from gyrocopter.. ([2603:8001:e00:4cd4:9999:1075:5963:7350])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71b2652589dsm2277388b3a.155.2024.09.27.19.53.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Sep 2024 19:53:41 -0700 (PDT)
+From: Michael Harris <michaelharriscode@gmail.com>
+To: gregkh@linuxfoundation.com
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] Staging: rtl8723bs: hal: odm: removed unnecessary braces
+Date: Fri, 27 Sep 2024 19:53:36 -0700
+Message-ID: <20240928025336.55940-1-michaelharriscode@gmail.com>
+X-Mailer: git-send-email 2.46.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=b1n.io; s=key1;
-	t=1727473572;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Koxx+HMI6BGO17L7q5OwR7Lh97f2cLA/hnmfVUq/8Ts=;
-	b=tN1aeluBNgPaBpQmbl0b2xNJtJ1ZxlwVIVdqCrVpEQ4wm6yTyI1P/1O98JyHsoLmwiaNAy
-	Me9fn99JvjgOKv4HfWJK/Zz2Q/x9az0RbSg8+TWpyI/Twi4yJhtuE470kPlAN7H9zEHTHV
-	mZla+BgnBRAw+4iQCWykI6QnqI4/gkJY3heU7BwbnkGRxuIFibtx0xA7PMULIMPJ5WCujo
-	+L1nnHlc5gf0GRzU4RWlStf6M1qgRDZUF91MBFuR+G9NcNCcu/rY/tYsiUMjDQ3736lFeX
-	VGEwEtYkNoj7go62HcWja/4HwwaF3/KkU+GG0PtW86EDzCKEsVj9i7PZnou7Hw==
-Content-Type: multipart/signed;
- boundary=38fc242aa460d1ec0979316fb3db603ebb8cc24bd3abec68c88481c151c7;
- micalg=pgp-sha512; protocol="application/pgp-signature"
-Date: Fri, 27 Sep 2024 21:46:04 +0000
-Message-Id: <D4HE9RRSW29S.2A9MR1WSWENZH@b1n.io>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Xingquan Liu" <b1n@b1n.io>
-To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Cc: "Florian Schilhabel" <florian.c.schilhabel@googlemail.com>,
- <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] staging: rtl8712: Fix unnecessary parentheses warnings
-References: <20240927151637.82772-1-b1n@b1n.io>
- <2024092735-domain-sharply-cfb2@gregkh>
-In-Reply-To: <2024092735-domain-sharply-cfb2@gregkh>
-X-Migadu-Flow: FLOW_OUT
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
---38fc242aa460d1ec0979316fb3db603ebb8cc24bd3abec68c88481c151c7
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8; format=Flowed
+Removed unnecessary braces.
 
-On Sat Sep 28, 2024 at 2:36 AM CST, Greg Kroah-Hartman wrote:
-> > Signed-off-by: Xingquan Liu <b1n@b1n.io>
-> > ---
-> > I ran clang-format additionally because I noticed the Linux community
-> > recommends submitting code formatting patches along with other patches.
->
-> No they do not at all, where was that written down, it needs to be
-> changed.
+Signed-off-by: Michael Harris <michaelharriscode@gmail.com>
+---
+ drivers/staging/rtl8723bs/hal/odm.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-I'm trying to find that documentation, but haven't found it yet,
-I'll keep that in mind.
-
-> > I'm not sure if there are any issues with this.
->
-> so many issues, would you take a patch that did this?  (hint, I will
-> not...)
-
-Haha, sorry.
-
+diff --git a/drivers/staging/rtl8723bs/hal/odm.c b/drivers/staging/rtl8723bs/hal/odm.c
+index ea3b4cd32360..5b5a2efbe5a3 100644
+--- a/drivers/staging/rtl8723bs/hal/odm.c
++++ b/drivers/staging/rtl8723bs/hal/odm.c
+@@ -417,13 +417,11 @@ static void odm_RefreshRateAdaptiveMaskCE(struct dm_odm_t *pDM_Odm)
+ 	u8 i;
+ 	struct adapter *padapter =  pDM_Odm->Adapter;
+ 
+-	if (padapter->bDriverStopped) {
++	if (padapter->bDriverStopped)
+ 		return;
+-	}
+ 
+-	if (!pDM_Odm->bUseRAMask) {
++	if (!pDM_Odm->bUseRAMask)
+ 		return;
+-	}
+ 
+ 	for (i = 0; i < ODM_ASSOCIATE_ENTRY_NUM; i++) {
+ 		PSTA_INFO_T pstat = pDM_Odm->pODM_StaInfo[i];
+@@ -461,9 +459,9 @@ static void odm_RefreshRateAdaptiveMaskCE(struct dm_odm_t *pDM_Odm)
+ static void odm_RefreshRateAdaptiveMask(struct dm_odm_t *pDM_Odm)
+ {
+ 
+-	if (!(pDM_Odm->SupportAbility & ODM_BB_RA_MASK)) {
++	if (!(pDM_Odm->SupportAbility & ODM_BB_RA_MASK))
+ 		return;
+-	}
++
+ 	odm_RefreshRateAdaptiveMaskCE(pDM_Odm);
+ }
+ 
 -- 
-Xingquan Liu
+2.46.1
 
-
---38fc242aa460d1ec0979316fb3db603ebb8cc24bd3abec68c88481c151c7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iM4EABYKAHYWIQRK8k7aQ0rr/Uwki+E2I1LDHPWnXgUCZvcno1gYaHR0cHM6Ly9r
-ZXlzLm9wZW5wZ3Aub3JnL3Zrcy92MS9ieS1maW5nZXJwcmludC8zMEFGMUFDMDcz
-MDg5M0VEQzE0OUI3OTVCMDA3OUIxMkU2Qzk4RUE2AAoJEDYjUsMc9adeDusBAL1K
-w9zXe9ddMBbugw2AgLYR7MFxZLWgjuf76eMSV+bnAQCkoQXgCXuLTk4g0R7gYhw9
-TOAUqU5PKp8rQN0y/cfWCw==
-=FA7B
------END PGP SIGNATURE-----
-
---38fc242aa460d1ec0979316fb3db603ebb8cc24bd3abec68c88481c151c7--
