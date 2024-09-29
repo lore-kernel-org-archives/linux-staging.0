@@ -1,115 +1,106 @@
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B68D16132A
-	for <linux-staging@lists.linux.dev>; Sat, 28 Sep 2024 17:24:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A1B517580
+	for <linux-staging@lists.linux.dev>; Sun, 29 Sep 2024 08:09:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727544260; cv=none; b=Kv3WMmgVEzZ3ijgS/5dJscc/2I4DbwBc+hLpFwZ3oGo9pkYf1Vd92Oc03aoRIMrP3IBI45P5HD1mwMz1xkJkp4MIOSwR4pBx5JbVVKqvUciMxI9KTar/oH2tR6ohUkeCyEuB89bugqUXRccRqsMzl1c/oUKwxF2ypPFpTkmbm5s=
+	t=1727597347; cv=none; b=X7XEM5WwXOlVMc4cdhfZmaLaH2CCyaYQQDBqoNq1EmBvMDuRo8yuqLjZeZYd5+MWmY8USSOH6Evq6Tko9hCnZppvIJ/zEaMp5GwBdZxQE5NBv8V1WRC2d880dPip8fY+PTyjFKw3hGwiBwKhWPE8OeektrCwu37XQTBotlZBzGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727544260; c=relaxed/simple;
-	bh=hgkkoJn8PRzdejp8I35gJaE8ZuE8GBz1RxcmW/6Wl+g=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=R59UL8kMVE4dT1kCag9HZ9zj0MMQqZmrG4vz3B+rt1pasEuhTM9mlJdu4yMZPhnfdm4c0z6LD+/DQFMhXvTcqjVu5kVTg8fqiGqxylKe672dK9+WjAgD/QG+QpOfOBvDbWMuiPWvTQB2eyUXu9qG6Z3vWyzpQbUzUtNnc9oAMGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=GKgg3wqu; arc=none smtp.client-ip=209.85.219.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1727597347; c=relaxed/simple;
+	bh=jzHY69lIb+9jsGbG8mxU7XqMRo9mUFjmUabiFwQ8Ka0=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=XH5PxgFjOzH4eDDnDTg8Xa1HHszq9YsMiTtc10Kra+alDRafscaY3VILxeWN8BnpMpOLgHdtpmxsbCx6XB/yXzd756qKlD2eRjiPEZqpam5Fx9sCy/IzquKtO5HrEj72DWB09dIjSHgNk+hY1nX+q7jOqdPqKyJZ6iUueE71KgQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RGSiAjL1; arc=none smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="GKgg3wqu"
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-6cb399056b4so20337996d6.0
-        for <linux-staging@lists.linux.dev>; Sat, 28 Sep 2024 10:24:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RGSiAjL1"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-5c88d7c8dbaso638897a12.2
+        for <linux-staging@lists.linux.dev>; Sun, 29 Sep 2024 01:09:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1727544258; x=1728149058; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0V4zAv66G9UTs98/sxGH5EUfTLy7Jj/aYXT4lmuMNEQ=;
-        b=GKgg3wquxd6NMsu3v2/vULuqYNCek9PdHh/Eyl3gvhJF0/6YOr6qe0oRSp46v4q14S
-         F+MofOTt4g59rD1C9YRmxJjTfdW5L2UiGuDEigSngKs7NbAIMT2p6k1PaJ/ng51qWMer
-         10u/uOB8ZNNmgDogIr29sMgkKCETLBbzPstZQ=
+        d=gmail.com; s=20230601; t=1727597344; x=1728202144; darn=lists.linux.dev;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ncTEfn/J3adg7zNOcwO7BXMI957A7O4ashcbmw3A9C8=;
+        b=RGSiAjL1CJ9AA6PigH0IZkHNUoSq6n2XMtzXz3AB0v4a5wJKg1+yK3GKRVUUhwkDTO
+         JwzR/zyP2hQtdWFVgVLcKSs/OoiZ0rKgKKF/K3YgMd2WS0TVTLfDMihKjSwbBB7BefdO
+         s869AWrDgfi2/lQMb6Tqi+ZDyyPs9XPn3kKX7QLPQiNU8cRxivv1d1Y8MaT8w2t2WblW
+         nT6IezB5EnGRG1xlGvow9KyJ2RTsLZpoqBf5Ehxf+o6WzXskC9GzDQL2/nmSZQKOQQ1x
+         uZdmrRN70BRt+cnmC4SZ6mQhpRjNr0N4IFoTA4NY5GhHQkVXp7rkZJR6zC30zquGaxo+
+         DMog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727544258; x=1728149058;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0V4zAv66G9UTs98/sxGH5EUfTLy7Jj/aYXT4lmuMNEQ=;
-        b=OZ7SR+FkK071tqKmr4a4p5M0W4lCW/KR8Nqay+a38A5tYg7VzB/XG/1DlBahqP4Nwu
-         EgGc9NF1wE8udP2siAV1Sm3aPaWhGNl35bU/hu2HH9Na8fsSpjcCB8iCp8IQt1wDqIee
-         Ssscloavr8FuRmtQU0Kdpd5Z6A2/+CCEL+RTDWvRG6VRrAO5WDOv+E1il35FDCfFJ7fN
-         Y6SnURG7VAvC7WWLlJAAmRf2moRMBjlOBZgfNVAOhzXUF82d6b/xoRmAObrRaTN3d68X
-         i/Ilh9BJxJex/1TVbNMXcM4CD+UZzXDWQsmUy8d8JJjHPTOs2U2GnyGZvVoP355eQAlT
-         uSYg==
-X-Forwarded-Encrypted: i=1; AJvYcCUHLAOlAxY2o2XceGdFMDxyxK3AITuR5geVnhgt+VHCECswsDoifkGz9hQ2iPhFVHtdY0fxbg01SoBrYuzG@lists.linux.dev
-X-Gm-Message-State: AOJu0YwVZbM3IJzcI87+SvHZ96p++ALLQlS96WbMNiB9wstrabmAee5s
-	v8K5HRlMVK6crdDjOBKYSth+cBjMhM+CaecJd3+4LYmos+ew0kdKkZ29uZ2jwQ==
-X-Google-Smtp-Source: AGHT+IH+tjSCRlTFxQ4PkHc9qIvV7UgaC6LscTYg12k3dh3Dx2AnhCdOqFqATrCtJLZthR1CXmZWqA==
-X-Received: by 2002:a05:6214:5d8f:b0:6c5:50be:dd74 with SMTP id 6a1803df08f44-6cb3b64cb65mr103688526d6.45.1727544257964;
-        Sat, 28 Sep 2024 10:24:17 -0700 (PDT)
-Received: from denia.c.googlers.com (76.224.245.35.bc.googleusercontent.com. [35.245.224.76])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cb3b68311dsm21437756d6.122.2024.09.28.10.24.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Sep 2024 10:24:16 -0700 (PDT)
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Sat, 28 Sep 2024 17:24:00 +0000
-Subject: [PATCH v3 3/3] media: atomisp: Replace ternary operator with if
+        d=1e100.net; s=20230601; t=1727597344; x=1728202144;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=ncTEfn/J3adg7zNOcwO7BXMI957A7O4ashcbmw3A9C8=;
+        b=YRA/zKxoMJlPEJ6tGzea1679y2tiXui8IJx5mVbuKdajoTvMXOPAm5LOIpuluTlkyk
+         JmLAT0HGPzjf2KrhNfkB4pypZbKmvda16ZegMbzdCPkFHMqpcx8JkRGnXckFroROWcL3
+         BAfHTexN87xsUcE/YiyOf8v91jl8Ga7hxyTXo5AxniZiI0dKsj8TZVrWMs+4jaMEORAz
+         SZxbbYREOC+DJwm7+AKyo3w4905YZH3PQY76nnqnNCc+Qm/bxgC3E+OPJZ6aKBksr0nn
+         aLl2Cg3sfjde2Ii9xlq7GJmQO+zDpAc290qGpg0UQdva9sRefnPq65PK90ntKb91xkYp
+         C1+Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWIHg4jFlqKtrhpC94cN/T6Vr2R8543SUu5Mu8dlkzUZCSuhhpxHKgHk7jeD/AB9soT/1XaAuvRIgb0LEkX@lists.linux.dev
+X-Gm-Message-State: AOJu0YwljGWJvE7vLjx63GtACwPb1SAhs7rHoZhn70amIAqba5UfQRxI
+	Mt3othy32tvrV75/XYjaA2kq9L6aHs3CBRyHFBzTDN/U6HG2WAkH
+X-Google-Smtp-Source: AGHT+IGA0Gk199O0Gp225ZmQIkJW6v8jjQwEmZbn/hsxycrGBq2sbN5GsdO8D1nuoUcuwNb24qe6IA==
+X-Received: by 2002:a05:6402:3813:b0:5c8:839c:734f with SMTP id 4fb4d7f45d1cf-5c8839c73c5mr9964380a12.18.1727597343558;
+        Sun, 29 Sep 2024 01:09:03 -0700 (PDT)
+Received: from [192.168.2.105] (p54a0712c.dip0.t-ipconnect.de. [84.160.113.44])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c882493b74sm2922927a12.79.2024.09.29.01.09.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 29 Sep 2024 01:09:03 -0700 (PDT)
+Message-ID: <718c0476-c4bc-4a72-a1e4-483697c7eff2@gmail.com>
+Date: Sun, 29 Sep 2024 10:09:02 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: Tommaso Merciai <tomm.merciai@gmail.com>,
+ Richard Meek <osl2008@googlemail.com>,
+ Larry Finger <Larry.Finger@lwfinger.net>, Xingquan Liu <b1n@b1n.io>,
+ =?UTF-8?Q?Dominik_Karol_Pi=C4=85tkowski?=
+ <dominik.karol.piatkowski@protonmail.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>,
+ Pavan Bobba <opensource206@gmail.com>, Malcolm Priestley
+ <tvboxspy@gmail.com>, Joe Perches <joe@perches.com>
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Subject: [RFC] staging: vt6655: Proposal to delete driver vt6655_stage
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240928-cocci-6-12-v3-3-53fc5ed20be0@chromium.org>
-References: <20240928-cocci-6-12-v3-0-53fc5ed20be0@chromium.org>
-In-Reply-To: <20240928-cocci-6-12-v3-0-53fc5ed20be0@chromium.org>
-To: Benoit Parrot <bparrot@ti.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Bingbu Cao <bingbu.cao@intel.com>, Tianshu Qiu <tian.shu.qiu@intel.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Hans de Goede <hdegoede@redhat.com>, Andy Shevchenko <andy@kernel.org>, 
- Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-staging@lists.linux.dev, Ricardo Ribalda <ribalda@chromium.org>
-X-Mailer: b4 0.13.0
 
-Replace the ternary operator with an if. In this case the code is more
-clear and also fixes the following cocci warnings:
+Dear Sirs,
 
-drivers/staging/media/atomisp/pci/sh_css_frac.h:40:17-18: WARNING opportunity for max()
-drivers/staging/media/atomisp/pci/sh_css_frac.h:50:17-18: WARNING opportunity for max()
+Forest Bond contributed this driver in 2009.
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- drivers/staging/media/atomisp/pci/sh_css_frac.h | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+The following points let me propose to delete the driver:
+- This driver generates maintenance workload
+- This driver has a maximum 54MBit/s as it supports only 802.11 b/g. 
+Peak throughput is 3MBytes/s but this lasts only for a second. Typically 
+throughput is 1.7MBytes/s.
+- Depending on the number of devices on the channel the device looses 
+connection and cannot reconnect for 5-60 seconds. Watching a youtube 
+video is OK because of the buffer. But surfing can then be really a pain.
+- Its form factor is mini PCI (not miniPCIe) that is really old and large.
+- Hardly not to buy. 
+(https://www.ebay.com/sch/i.html?_from=R40&_trksid=p4432023.m570.l1313&_nkw=vnt6655&_sacat=0) 
+only 70$ ;-) including shipment.
 
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_frac.h b/drivers/staging/media/atomisp/pci/sh_css_frac.h
-index 8ba65161f7a9..3191d2858f59 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_frac.h
-+++ b/drivers/staging/media/atomisp/pci/sh_css_frac.h
-@@ -37,7 +37,8 @@ static inline int sDIGIT_FITTING(int v, int a, int b)
- 	int fit_shift = sFRACTION_BITS_FITTING(a) - b;
- 
- 	v >>= sSHIFT;
--	v >>= fit_shift > 0 ? fit_shift : 0;
-+	if (fit_shift > 0)
-+		v >>= fit_shift;
- 
- 	return clamp_t(int, v, sISP_VAL_MIN, sISP_VAL_MAX);
- }
-@@ -47,7 +48,8 @@ static inline unsigned int uDIGIT_FITTING(unsigned int v, int a, int b)
- 	int fit_shift = uFRACTION_BITS_FITTING(a) - b;
- 
- 	v >>= uSHIFT;
--	v >>= fit_shift > 0 ? fit_shift : 0;
-+	if (fit_shift > 0)
-+		v >>= fit_shift;
- 
- 	return clamp_t(unsigned int, v, uISP_VAL_MIN, uISP_VAL_MAX);
- }
+Former Maintainer Forest Bond <forest@alittletooquiet.net> is unreachable.
 
--- 
-2.46.1.824.gd892dcdcdd-goog
+The staging subsystem needs to focus on drivers that support usable 
+hardware that is available. Newbies can then get the hardware for some 
+dollars and play around which is fun.
 
+Please consider that support will remain for years in the longterm kernels.
+
+Thanks for any response about your thoughts.
+
+Bye Philipp
