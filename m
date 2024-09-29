@@ -1,58 +1,58 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A1B517580
-	for <linux-staging@lists.linux.dev>; Sun, 29 Sep 2024 08:09:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA02213A268
+	for <linux-staging@lists.linux.dev>; Sun, 29 Sep 2024 12:37:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727597347; cv=none; b=X7XEM5WwXOlVMc4cdhfZmaLaH2CCyaYQQDBqoNq1EmBvMDuRo8yuqLjZeZYd5+MWmY8USSOH6Evq6Tko9hCnZppvIJ/zEaMp5GwBdZxQE5NBv8V1WRC2d880dPip8fY+PTyjFKw3hGwiBwKhWPE8OeektrCwu37XQTBotlZBzGk=
+	t=1727613441; cv=none; b=IZL/mQ7qsl3nsJcPSf+qhHaJEbQHXEHCXLouQoxWxvZ/KDKzb9D0oxTPXODbbiablj2BZ7hhprqigSjrO6WdHQraS0hq+pC15QkocOmqUiLAHNOvePZ+VT2+Quaz2MqlgL9tMfazJXRPQ5OzN3483b6pbjGapqmqWaFUdpU5ug4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727597347; c=relaxed/simple;
-	bh=jzHY69lIb+9jsGbG8mxU7XqMRo9mUFjmUabiFwQ8Ka0=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=XH5PxgFjOzH4eDDnDTg8Xa1HHszq9YsMiTtc10Kra+alDRafscaY3VILxeWN8BnpMpOLgHdtpmxsbCx6XB/yXzd756qKlD2eRjiPEZqpam5Fx9sCy/IzquKtO5HrEj72DWB09dIjSHgNk+hY1nX+q7jOqdPqKyJZ6iUueE71KgQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RGSiAjL1; arc=none smtp.client-ip=209.85.208.49
+	s=arc-20240116; t=1727613441; c=relaxed/simple;
+	bh=ITQmOq7pkgWvkALy74DqmWYWUa2uLdab72AZBmYWiSU=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=VhKL2JBGawbcLHzs1ET/+MEyk2nwI+3bkH2bEai4NdRrtfefhXCcruGaZgfe9xl+VK+3CdKoJBMPbNxFYENXN5ADTNIPXkQfk+XrI+jM47pDIPOrNWoU8aNOJ9xENGJLQPAwNFthYO8Lz7h6cbfOEXSihiDA8I7Yz2HraJIb0YU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AEaNf4+q; arc=none smtp.client-ip=209.85.128.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RGSiAjL1"
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-5c88d7c8dbaso638897a12.2
-        for <linux-staging@lists.linux.dev>; Sun, 29 Sep 2024 01:09:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AEaNf4+q"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-42cbface8d6so43361225e9.3
+        for <linux-staging@lists.linux.dev>; Sun, 29 Sep 2024 05:37:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727597344; x=1728202144; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1727613438; x=1728218238; darn=lists.linux.dev;
         h=content-transfer-encoding:subject:from:cc:to:content-language
          :user-agent:mime-version:date:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ncTEfn/J3adg7zNOcwO7BXMI957A7O4ashcbmw3A9C8=;
-        b=RGSiAjL1CJ9AA6PigH0IZkHNUoSq6n2XMtzXz3AB0v4a5wJKg1+yK3GKRVUUhwkDTO
-         JwzR/zyP2hQtdWFVgVLcKSs/OoiZ0rKgKKF/K3YgMd2WS0TVTLfDMihKjSwbBB7BefdO
-         s869AWrDgfi2/lQMb6Tqi+ZDyyPs9XPn3kKX7QLPQiNU8cRxivv1d1Y8MaT8w2t2WblW
-         nT6IezB5EnGRG1xlGvow9KyJ2RTsLZpoqBf5Ehxf+o6WzXskC9GzDQL2/nmSZQKOQQ1x
-         uZdmrRN70BRt+cnmC4SZ6mQhpRjNr0N4IFoTA4NY5GhHQkVXp7rkZJR6zC30zquGaxo+
-         DMog==
+        bh=NJn80TxfYTlmmnqMwhBhjRaqFPnqFxat8PYaGTsCMD0=;
+        b=AEaNf4+qqPYiXEjXV07sHLEt6ctzRdjs6Gq81anJlThBO/vwVy3bCLqivAkMCkgVAN
+         jVA6ZojxyT0GE89e6/x8mLR8J8nXTAWdaGjVgmH8lhYK3jLmRP6YBRBE+NFYitdfya+j
+         vOe8L2VnB4sVbXV3KsejmUzPkpj6hrFK8TUyBob2QH8x9ioNlrBD5zlJ1HBspRqkeY20
+         Ji51sMczZEpFzVWG4bgDis7SnWD6gfKQ5DWjECBATdiXDA3ltXui+ftCsZ1FeZBjYPS6
+         IPZk2Y9yyX8Bsl6Y9TZhR4gWbf69SzM5Du/iavS4nsow0F+pFnPCNw8Uo1tUvyt60vAU
+         vvPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727597344; x=1728202144;
+        d=1e100.net; s=20230601; t=1727613438; x=1728218238;
         h=content-transfer-encoding:subject:from:cc:to:content-language
          :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=ncTEfn/J3adg7zNOcwO7BXMI957A7O4ashcbmw3A9C8=;
-        b=YRA/zKxoMJlPEJ6tGzea1679y2tiXui8IJx5mVbuKdajoTvMXOPAm5LOIpuluTlkyk
-         JmLAT0HGPzjf2KrhNfkB4pypZbKmvda16ZegMbzdCPkFHMqpcx8JkRGnXckFroROWcL3
-         BAfHTexN87xsUcE/YiyOf8v91jl8Ga7hxyTXo5AxniZiI0dKsj8TZVrWMs+4jaMEORAz
-         SZxbbYREOC+DJwm7+AKyo3w4905YZH3PQY76nnqnNCc+Qm/bxgC3E+OPJZ6aKBksr0nn
-         aLl2Cg3sfjde2Ii9xlq7GJmQO+zDpAc290qGpg0UQdva9sRefnPq65PK90ntKb91xkYp
-         C1+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWIHg4jFlqKtrhpC94cN/T6Vr2R8543SUu5Mu8dlkzUZCSuhhpxHKgHk7jeD/AB9soT/1XaAuvRIgb0LEkX@lists.linux.dev
-X-Gm-Message-State: AOJu0YwljGWJvE7vLjx63GtACwPb1SAhs7rHoZhn70amIAqba5UfQRxI
-	Mt3othy32tvrV75/XYjaA2kq9L6aHs3CBRyHFBzTDN/U6HG2WAkH
-X-Google-Smtp-Source: AGHT+IGA0Gk199O0Gp225ZmQIkJW6v8jjQwEmZbn/hsxycrGBq2sbN5GsdO8D1nuoUcuwNb24qe6IA==
-X-Received: by 2002:a05:6402:3813:b0:5c8:839c:734f with SMTP id 4fb4d7f45d1cf-5c8839c73c5mr9964380a12.18.1727597343558;
-        Sun, 29 Sep 2024 01:09:03 -0700 (PDT)
+        bh=NJn80TxfYTlmmnqMwhBhjRaqFPnqFxat8PYaGTsCMD0=;
+        b=rYjqP2OHk7oj2hvqtDQpJRvisut+5P04udOvc+BmNITNOlbi1TZmKcgNPkm7iiIUSQ
+         4346e9xiI6pQ17AiN76us9MOC+gHJGWSR5KR9wgOklk1A+x+6Q0ff5oyJ6+n7GkW0C1l
+         nzDOlpBEMNGo6aJmX4DNMm+Bh9WcjE2uZHQYoGCVXON2u0SydrsCWEpkdR4k2/9YcCCk
+         Ll6kzef/3zOop3KMURbWdzXVU0umgHEAIJWHy6JUTWVQZq4uksHlLCD4RhbEdLCp9gcR
+         YU2wYpmn2Ay4MQKVwDcCIJ9p3QE9CClbczml+0IiBx2zPfdYsFewOmpejLlFXhjwkclX
+         gTRw==
+X-Forwarded-Encrypted: i=1; AJvYcCU/cPfNnFYDAwy/LyHUnTPeLaJeLWYx5sqxXR5xPfxxpIsdbZbCwVR07FFejZ3yoAcdq2j1dUWMu1rmhgwe@lists.linux.dev
+X-Gm-Message-State: AOJu0YwIEsnIt1PbDOd0fQmAZyuwjCWhHC+nMorIrHDHOG+hpTEwXqki
+	ih1Zuf6GNlfOmDPyi5OKTpON2UvItfB3R8rm0wh2OWouDd2bzCtJ
+X-Google-Smtp-Source: AGHT+IGA6vxOQMNnYoiuQMJIUo7Foxlfojd8CKK7eJWbt6HadvBz5WZPws0VDXL5y0PmtMaWD3509Q==
+X-Received: by 2002:a05:600c:4f14:b0:42c:b555:43dd with SMTP id 5b1f17b1804b1-42f5840e242mr88082765e9.3.1727613437966;
+        Sun, 29 Sep 2024 05:37:17 -0700 (PDT)
 Received: from [192.168.2.105] (p54a0712c.dip0.t-ipconnect.de. [84.160.113.44])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c882493b74sm2922927a12.79.2024.09.29.01.09.02
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42e96a54fdesm124666515e9.41.2024.09.29.05.37.17
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 29 Sep 2024 01:09:03 -0700 (PDT)
-Message-ID: <718c0476-c4bc-4a72-a1e4-483697c7eff2@gmail.com>
-Date: Sun, 29 Sep 2024 10:09:02 +0200
+        Sun, 29 Sep 2024 05:37:17 -0700 (PDT)
+Message-ID: <b7b646d2-6987-4557-94c1-5fcd8d3d5ebc@gmail.com>
+Date: Sun, 29 Sep 2024 14:37:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -63,37 +63,27 @@ User-Agent: Mozilla Thunderbird
 Content-Language: en-US
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: Tommaso Merciai <tomm.merciai@gmail.com>,
- Richard Meek <osl2008@googlemail.com>,
- Larry Finger <Larry.Finger@lwfinger.net>, Xingquan Liu <b1n@b1n.io>,
- =?UTF-8?Q?Dominik_Karol_Pi=C4=85tkowski?=
- <dominik.karol.piatkowski@protonmail.com>,
- Dan Carpenter <dan.carpenter@linaro.org>,
- Pavan Bobba <opensource206@gmail.com>, Malcolm Priestley
- <tvboxspy@gmail.com>, Joe Perches <joe@perches.com>
+Cc: Micky Ching <micky_ching@realsil.com.cn>, wwang
+ <wei_wang@realsil.com.cn>, Wei Yongjun <yongjun_wei@trendmicro.com.cn>,
+ Arnd Bergmann <arnd@arndb.de>, Dan Carpenter <dan.carpenter@linaro.org>,
+ Justin Stitt <justinstitt@google.com>, Julia Lawall <julia.lawall@inria.fr>,
+ Soumya Negi <soumya.negi97@gmail.com>
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Subject: [RFC] staging: vt6655: Proposal to delete driver vt6655_stage
+Subject: [RFC] staging: rts5208: Proposal to delete driver rts5208
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 Dear Sirs,
 
-Forest Bond contributed this driver in 2009.
+Wei Wang from Realsil contributed this driver in 2011.
 
 The following points let me propose to delete the driver:
 - This driver generates maintenance workload
-- This driver has a maximum 54MBit/s as it supports only 802.11 b/g. 
-Peak throughput is 3MBytes/s but this lasts only for a second. Typically 
-throughput is 1.7MBytes/s.
-- Depending on the number of devices on the channel the device looses 
-connection and cannot reconnect for 5-60 seconds. Watching a youtube 
-video is OK because of the buffer. But surfing can then be really a pain.
-- Its form factor is mini PCI (not miniPCIe) that is really old and large.
-- Hardly not to buy. 
-(https://www.ebay.com/sch/i.html?_from=R40&_trksid=p4432023.m570.l1313&_nkw=vnt6655&_sacat=0) 
-only 70$ ;-) including shipment.
-
-Former Maintainer Forest Bond <forest@alittletooquiet.net> is unreachable.
+- Did not find minimal documentation on the web.
+- No blog entries about anyone using the rts5208 and rts5288 during the 
+last years.
+- Did not find any device that may has it in and is still available on 
+the market: Dell Latitude 2120, Lenovo ThinkPad Edge 130, Lenovo x121e
 
 The staging subsystem needs to focus on drivers that support usable 
 hardware that is available. Newbies can then get the hardware for some 
