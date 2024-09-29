@@ -1,96 +1,98 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA02213A268
-	for <linux-staging@lists.linux.dev>; Sun, 29 Sep 2024 12:37:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9897C42ABD
+	for <linux-staging@lists.linux.dev>; Sun, 29 Sep 2024 21:35:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.58.86.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727613441; cv=none; b=IZL/mQ7qsl3nsJcPSf+qhHaJEbQHXEHCXLouQoxWxvZ/KDKzb9D0oxTPXODbbiablj2BZ7hhprqigSjrO6WdHQraS0hq+pC15QkocOmqUiLAHNOvePZ+VT2+Quaz2MqlgL9tMfazJXRPQ5OzN3483b6pbjGapqmqWaFUdpU5ug4=
+	t=1727645706; cv=none; b=Pgj4MXXNP89pRvSnPgDRJ6vB0jUa9a1CZ4vqoCjJe6+dpSMrnQaMbxk7uWxArrI+MqYETGDUYI6odwsn1i73gDgv4V5Zm6dgPj0Cgbqo9QLFUJUxxmCnXIkDfbeODVH0qUGStCJjq2N/3G8Rh04KWZy5AQgqq0llMoyerc6Ah74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727613441; c=relaxed/simple;
-	bh=ITQmOq7pkgWvkALy74DqmWYWUa2uLdab72AZBmYWiSU=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=VhKL2JBGawbcLHzs1ET/+MEyk2nwI+3bkH2bEai4NdRrtfefhXCcruGaZgfe9xl+VK+3CdKoJBMPbNxFYENXN5ADTNIPXkQfk+XrI+jM47pDIPOrNWoU8aNOJ9xENGJLQPAwNFthYO8Lz7h6cbfOEXSihiDA8I7Yz2HraJIb0YU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AEaNf4+q; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AEaNf4+q"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-42cbface8d6so43361225e9.3
-        for <linux-staging@lists.linux.dev>; Sun, 29 Sep 2024 05:37:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727613438; x=1728218238; darn=lists.linux.dev;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NJn80TxfYTlmmnqMwhBhjRaqFPnqFxat8PYaGTsCMD0=;
-        b=AEaNf4+qqPYiXEjXV07sHLEt6ctzRdjs6Gq81anJlThBO/vwVy3bCLqivAkMCkgVAN
-         jVA6ZojxyT0GE89e6/x8mLR8J8nXTAWdaGjVgmH8lhYK3jLmRP6YBRBE+NFYitdfya+j
-         vOe8L2VnB4sVbXV3KsejmUzPkpj6hrFK8TUyBob2QH8x9ioNlrBD5zlJ1HBspRqkeY20
-         Ji51sMczZEpFzVWG4bgDis7SnWD6gfKQ5DWjECBATdiXDA3ltXui+ftCsZ1FeZBjYPS6
-         IPZk2Y9yyX8Bsl6Y9TZhR4gWbf69SzM5Du/iavS4nsow0F+pFnPCNw8Uo1tUvyt60vAU
-         vvPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727613438; x=1728218238;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=NJn80TxfYTlmmnqMwhBhjRaqFPnqFxat8PYaGTsCMD0=;
-        b=rYjqP2OHk7oj2hvqtDQpJRvisut+5P04udOvc+BmNITNOlbi1TZmKcgNPkm7iiIUSQ
-         4346e9xiI6pQ17AiN76us9MOC+gHJGWSR5KR9wgOklk1A+x+6Q0ff5oyJ6+n7GkW0C1l
-         nzDOlpBEMNGo6aJmX4DNMm+Bh9WcjE2uZHQYoGCVXON2u0SydrsCWEpkdR4k2/9YcCCk
-         Ll6kzef/3zOop3KMURbWdzXVU0umgHEAIJWHy6JUTWVQZq4uksHlLCD4RhbEdLCp9gcR
-         YU2wYpmn2Ay4MQKVwDcCIJ9p3QE9CClbczml+0IiBx2zPfdYsFewOmpejLlFXhjwkclX
-         gTRw==
-X-Forwarded-Encrypted: i=1; AJvYcCU/cPfNnFYDAwy/LyHUnTPeLaJeLWYx5sqxXR5xPfxxpIsdbZbCwVR07FFejZ3yoAcdq2j1dUWMu1rmhgwe@lists.linux.dev
-X-Gm-Message-State: AOJu0YwIEsnIt1PbDOd0fQmAZyuwjCWhHC+nMorIrHDHOG+hpTEwXqki
-	ih1Zuf6GNlfOmDPyi5OKTpON2UvItfB3R8rm0wh2OWouDd2bzCtJ
-X-Google-Smtp-Source: AGHT+IGA6vxOQMNnYoiuQMJIUo7Foxlfojd8CKK7eJWbt6HadvBz5WZPws0VDXL5y0PmtMaWD3509Q==
-X-Received: by 2002:a05:600c:4f14:b0:42c:b555:43dd with SMTP id 5b1f17b1804b1-42f5840e242mr88082765e9.3.1727613437966;
-        Sun, 29 Sep 2024 05:37:17 -0700 (PDT)
-Received: from [192.168.2.105] (p54a0712c.dip0.t-ipconnect.de. [84.160.113.44])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42e96a54fdesm124666515e9.41.2024.09.29.05.37.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 29 Sep 2024 05:37:17 -0700 (PDT)
-Message-ID: <b7b646d2-6987-4557-94c1-5fcd8d3d5ebc@gmail.com>
-Date: Sun, 29 Sep 2024 14:37:16 +0200
+	s=arc-20240116; t=1727645706; c=relaxed/simple;
+	bh=J+h+d+8xPf2wvb4k5AvkKyxAi3bwsNIaIzgp8kYXeSA=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 MIME-Version:Content-Type; b=bV5GugiVWYsApdfuY1AuTc7bLBUGuIDCRbmiWdTa2Esjz8wRUk6sHTZIzEnqClQVOSUwv60Z0qcGVDHW8NFs1fJnN3tPsiRAbzk1cGYqLndDdS3p6+iIRIVKkYgpA8e84uazcAO30GtI5MEa8heC1k6BM1W6P818cYpWXIms3LI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM; spf=pass smtp.mailfrom=aculab.com; arc=none smtp.client-ip=185.58.86.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aculab.com
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-319-AjbKKCoXMA6_8vDN9HfDvg-1; Sun, 29 Sep 2024 22:34:59 +0100
+X-MC-Unique: AjbKKCoXMA6_8vDN9HfDvg-1
+Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
+ (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Sun, 29 Sep
+ 2024 22:34:06 +0100
+Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
+ id 15.00.1497.048; Sun, 29 Sep 2024 22:34:06 +0100
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Ricardo Ribalda' <ribalda@chromium.org>, Benoit Parrot <bparrot@ti.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus
+	<sakari.ailus@linux.intel.com>, Bingbu Cao <bingbu.cao@intel.com>, "Tianshu
+ Qiu" <tian.shu.qiu@intel.com>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, Hans de Goede <hdegoede@redhat.com>, "Andy
+ Shevchenko" <andy@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>
+CC: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>
+Subject: RE: [PATCH 3/3] media: atomisp: Use max() macros
+Thread-Topic: [PATCH 3/3] media: atomisp: Use max() macros
+Thread-Index: AQHbEMGvj02Y6GvUVk6fhB2EdPxdmrJvSzjA
+Date: Sun, 29 Sep 2024 21:34:05 +0000
+Message-ID: <c183afe8986d444a8e777ae0b9bb9189@AcuMS.aculab.com>
+References: <20240927-cocci-6-12-v1-0-a318d4e6a19d@chromium.org>
+ <20240927-cocci-6-12-v1-3-a318d4e6a19d@chromium.org>
+In-Reply-To: <20240927-cocci-6-12-v1-3-a318d4e6a19d@chromium.org>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
 Content-Language: en-US
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: Micky Ching <micky_ching@realsil.com.cn>, wwang
- <wei_wang@realsil.com.cn>, Wei Yongjun <yongjun_wei@trendmicro.com.cn>,
- Arnd Bergmann <arnd@arndb.de>, Dan Carpenter <dan.carpenter@linaro.org>,
- Justin Stitt <justinstitt@google.com>, Julia Lawall <julia.lawall@inria.fr>,
- Soumya Negi <soumya.negi97@gmail.com>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Subject: [RFC] staging: rts5208: Proposal to delete driver rts5208
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 
-Dear Sirs,
+RnJvbTogUmljYXJkbyBSaWJhbGRhDQo+IFNlbnQ6IDI3IFNlcHRlbWJlciAyMDI0IDEwOjQyDQo+
+IA0KPiBUaGUgbWF4KCkgbWFjcm8gcHJvZHVjZSBuaWNlciBjb2RlIGFuZCBhbHNvIGZpeGVzIHRo
+ZSBmb2xsb3dpbmcgY29jY2kNCj4gZXJyb3JzOg0KPiANCj4gZHJpdmVycy9zdGFnaW5nL21lZGlh
+L2F0b21pc3AvcGNpL3NoX2Nzc19mcmFjLmg6NDA6MTctMTg6IFdBUk5JTkcgb3Bwb3J0dW5pdHkg
+Zm9yIG1heCgpDQo+IGRyaXZlcnMvc3RhZ2luZy9tZWRpYS9hdG9taXNwL3BjaS9zaF9jc3NfZnJh
+Yy5oOjUwOjE3LTE4OiBXQVJOSU5HIG9wcG9ydHVuaXR5IGZvciBtYXgoKQ0KPiANCj4gU2lnbmVk
+LW9mZi1ieTogUmljYXJkbyBSaWJhbGRhIDxyaWJhbGRhQGNocm9taXVtLm9yZz4NCj4gLS0tDQo+
+ICBkcml2ZXJzL3N0YWdpbmcvbWVkaWEvYXRvbWlzcC9wY2kvc2hfY3NzX2ZyYWMuaCB8IDQgKyst
+LQ0KPiAgMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkNCj4g
+DQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3N0YWdpbmcvbWVkaWEvYXRvbWlzcC9wY2kvc2hfY3Nz
+X2ZyYWMuaA0KPiBiL2RyaXZlcnMvc3RhZ2luZy9tZWRpYS9hdG9taXNwL3BjaS9zaF9jc3NfZnJh
+Yy5oDQo+IGluZGV4IDhiYTY1MTYxZjdhOS4uOTY0MjUwNmQyMzg4IDEwMDY0NA0KPiAtLS0gYS9k
+cml2ZXJzL3N0YWdpbmcvbWVkaWEvYXRvbWlzcC9wY2kvc2hfY3NzX2ZyYWMuaA0KPiArKysgYi9k
+cml2ZXJzL3N0YWdpbmcvbWVkaWEvYXRvbWlzcC9wY2kvc2hfY3NzX2ZyYWMuaA0KPiBAQCAtMzcs
+NyArMzcsNyBAQCBzdGF0aWMgaW5saW5lIGludCBzRElHSVRfRklUVElORyhpbnQgdiwgaW50IGEs
+IGludCBiKQ0KPiAgCWludCBmaXRfc2hpZnQgPSBzRlJBQ1RJT05fQklUU19GSVRUSU5HKGEpIC0g
+YjsNCj4gDQo+ICAJdiA+Pj0gc1NISUZUOw0KDQpJSVJDIHJpZ2h0IHNoaWZ0cyBvZiBzaWduZWQg
+dmFsdWVzIGFyZSB1bmRlZmluZWQuDQooQyBkb2VzIG5vdCByZXF1aXJlIGEgY3B1IHRvIGhhdmUg
+YSByaWdodCBzaGlmdCB0aGF0IHJlcGxpY2F0ZXMgdGhlDQpzaWduIGJpdC4pDQoNCj4gLQl2ID4+
+PSBmaXRfc2hpZnQgPiAwID8gZml0X3NoaWZ0IDogMDsNCj4gKwl2ID4+PSBtYXgoZml0X3NoaWZ0
+LCAwKTsNCg0KSWYgdGhlIHNoaWZ0IGlzbid0IGRvbmUgdGhlIHJldHVybiB2YWx1ZSBpcyBnYXJi
+YWdlLg0KU28gdGhlIGNvZGUgYmV0dGVyIG5vdCBsZXQgaXQgaGFwcGVuLg0KSW4gd2hpY2ggY2Fz
+ZSB5b3UgbWlnaHQgYXMgd2VsbCBsZXQgdGhlIGNwdSBnZW5lcmF0ZSBhIChkaWZmZXJlbnQpDQpy
+YW5kb20gdmFsdWUgLSBzbyBkZWxldGUgdGhlIGNvbmRpdGlvbmFsLg0KDQo+IA0KPiAgCXJldHVy
+biBjbGFtcF90KGludCwgdiwgc0lTUF9WQUxfTUlOLCBzSVNQX1ZBTF9NQVgpOw0KDQphbGwgdGhy
+ZWUgdmFsdWVzIHNlZW0gdG8gYmUgJ2ludCcgLSBzbyBubyBuZWVkIGZvciB0aGUgX3QgdmFyaWFu
+dA0KYW5kIGFsbCB0aGUgYXNzb2NpYXRlZCBjYXN0cy4NCg0KPiAgfQ0KPiBAQCAtNDcsNyArNDcs
+NyBAQCBzdGF0aWMgaW5saW5lIHVuc2lnbmVkIGludCB1RElHSVRfRklUVElORyh1bnNpZ25lZCBp
+bnQgdiwgaW50IGEsIGludCBiKQ0KPiAgCWludCBmaXRfc2hpZnQgPSB1RlJBQ1RJT05fQklUU19G
+SVRUSU5HKGEpIC0gYjsNCj4gDQo+ICAJdiA+Pj0gdVNISUZUOw0KPiAtCXYgPj49IGZpdF9zaGlm
+dCA+IDAgPyBmaXRfc2hpZnQgOiAwOw0KPiArCXYgPj49IG1heChmaXRfc2hpZnQsIDApOw0KPiAN
+Cj4gIAlyZXR1cm4gY2xhbXBfdCh1bnNpZ25lZCBpbnQsIHYsIHVJU1BfVkFMX01JTiwgdUlTUF9W
+QUxfTUFYKTsNCg0KYXMgYWJvdmUsIGJ1dCBpdCBpcyBqdXN0IG1pbih2LCBpSVNQX1ZBTF9NQVgp
+DQoNCglEYXZpZA0KDQo+ICB9DQo+IA0KPiAtLQ0KPiAyLjQ2LjEuODI0LmdkODkyZGNkY2RkLWdv
+b2cNCj4gDQoNCi0NClJlZ2lzdGVyZWQgQWRkcmVzcyBMYWtlc2lkZSwgQnJhbWxleSBSb2FkLCBN
+b3VudCBGYXJtLCBNaWx0b24gS2V5bmVzLCBNSzEgMVBULCBVSw0KUmVnaXN0cmF0aW9uIE5vOiAx
+Mzk3Mzg2IChXYWxlcykNCg==
 
-Wei Wang from Realsil contributed this driver in 2011.
-
-The following points let me propose to delete the driver:
-- This driver generates maintenance workload
-- Did not find minimal documentation on the web.
-- No blog entries about anyone using the rts5208 and rts5288 during the 
-last years.
-- Did not find any device that may has it in and is still available on 
-the market: Dell Latitude 2120, Lenovo ThinkPad Edge 130, Lenovo x121e
-
-The staging subsystem needs to focus on drivers that support usable 
-hardware that is available. Newbies can then get the hardware for some 
-dollars and play around which is fun.
-
-Please consider that support will remain for years in the longterm kernels.
-
-Thanks for any response about your thoughts.
-
-Bye Philipp
