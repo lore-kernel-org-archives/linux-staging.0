@@ -1,57 +1,57 @@
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F2841A2540
-	for <linux-staging@lists.linux.dev>; Mon, 30 Sep 2024 12:05:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20C2B1A2639
+	for <linux-staging@lists.linux.dev>; Mon, 30 Sep 2024 12:05:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727697931; cv=none; b=WrSpDCgr12JBzV1gblQEb98pJHkCZt2ZGa01lZdKjolnffclgrV6fZj1q4zV8xedPI1sUX4dbPlBYGybd+fa9lsYnZ51UYCmbuyY0L3t+mcH9hWO3yIv56eZaNt2V4ViLeWaXqxSk2D0Zci2IxKtW8KgZ0T0ebA52e3K4vbq0So=
+	t=1727697933; cv=none; b=AuIS1wQ9OXoFnNsnQxwF4Y7YQmwoAv8hOh9SwMm3h0JEbRwtNnXCq8UjQsu8/XRdIBRVaCNy3WCJLItCz2pJnXKB02rks12BYDBYqnVPGVo1rqu3zqH6UFJeuzd91vI/bXkNkGJn0qkLWRDp2u4FjU2W2G5/779qHcaRhdGjU2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727697931; c=relaxed/simple;
-	bh=LEyRnQlk/VvUqFfADZuaXZpU9psw9Z1DNm9sbFANuMY=;
+	s=arc-20240116; t=1727697933; c=relaxed/simple;
+	bh=jY1WzcwZ9RpRPpmgPFLEyMqg1JCaHzSShjO6IWqlOD4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=uC2l0rxdT9uBba2grNxB/wq0177cE01m+fd/UbPGfOIiQakSSvvt5sL0xWqaz0PmxhvX1kGETHpvyjvT+s30vD2VjWzl3zCKpTdcTxKIN5PowStwZq2jKoXLhaySeN/KNWdK7eRhMcFTMmNASlq6QQTIVpOfNtB/a1MwL9Obul0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=HY3Pj7q2; arc=none smtp.client-ip=209.85.219.45
+	 In-Reply-To:To:Cc; b=obEJypVf+0YD/imvY0oe1uUitmnzC6TbkCf8+OY7SDVOY/UTIv6oj+psJaKqo6Q7m0o5JW8UrQ5iq/jXXYgNHD0Zydk7pUMisgFFfpK+VzWpu/KcsIbHmBkNBKQxRRk8h36K2vv4mHOgO+35jM/sCjSnQxjSzXEswVeOZdzADYo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=U+lpVBYY; arc=none smtp.client-ip=209.85.210.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="HY3Pj7q2"
-Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-6c548eb3354so35741066d6.2
-        for <linux-staging@lists.linux.dev>; Mon, 30 Sep 2024 05:05:30 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="U+lpVBYY"
+Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-709346604a7so2210832a34.1
+        for <linux-staging@lists.linux.dev>; Mon, 30 Sep 2024 05:05:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1727697929; x=1728302729; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1727697931; x=1728302731; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=NEpH3GW+zX127Rx2gWkJapzmZ8AtweIcRQ6dozRhT1Y=;
-        b=HY3Pj7q247LtamiRFBIWCj1Nf9JE39i/5TdVN/RcgmzbukzxiPQ9QNPKbTVzC3/aaT
-         ZILtm2TLp+MonEYHgv9RS5gpuBLpIF/PObtctop7vELzflKkSgvCArqD4IndAUT18Vgu
-         urL7qIaH0xLBh1NbaUJClJMCTARoo+Vtw4OII=
+        bh=y4CZBI+n6IjdrtDGuJsp4m8Z3nCdNkGXw0PtmNPGNzY=;
+        b=U+lpVBYYJuytLftGA/jsECgMA/TPtgf5B3qPcpM9r9DMpiPZmMcR3GqtjrAZ18PXkd
+         izwQyLtUiL1pDHPDefjs7SnVi+KoJBWFPJ/rnJvol06Nyri0nc0GHi8MK6R6DpmP8FbX
+         4QbAOwJG/m/uxF6NZPUHl9TWZ50URmIMW6Ayg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727697929; x=1728302729;
+        d=1e100.net; s=20230601; t=1727697931; x=1728302731;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=NEpH3GW+zX127Rx2gWkJapzmZ8AtweIcRQ6dozRhT1Y=;
-        b=jmgUPslijgzB1Oyh57Rcg5myhB1iS+bNv6M8p8jTx5HxaZsfLTewTE9Mx8jllpPGuY
-         rBnOmbqhc/BOWXbYRyYpXeVfnozmsq0Py+wsE1Hc3hCkX5WtmyaFMIXjXxjb1uYSs11S
-         e9oj5OPHUsXONRkukbozOrMV+cmValg4Yap4oq35oyj8fLA0p75Bdv+m2qLhR8anghwp
-         ah1x7xhy/MRslhs0S545hnHcP8ZFJr2KEfuCZK+B5y0PJFvEaB17yEsSoxsEllEkUm6X
-         Uf5WeFAnty9X10RI2PJwYZSM92WQtjQl2DbQ4tMmq9IU0KjKK8Y3jLsaPDxeNLusAoSk
-         6m6w==
-X-Forwarded-Encrypted: i=1; AJvYcCWplwZs1Zhg5W0LtNlZoYnctUkYH1dXCNgNgbzTemfx2uQbYul1ZNFDmdU7PuMUofGDeruH/ZBtguxaL+14@lists.linux.dev
-X-Gm-Message-State: AOJu0YyRNaql8HYEb4quPQUbeVwUOx6o0Gva41sny1JcuJ1oZ97HQXTa
-	QyR+xsK0J37QsiNZ2BSdXThj4QQUwv7YcX5iKn0FCa04ZGCKCbw8zQHVqDWS2g==
-X-Google-Smtp-Source: AGHT+IFPaIZM1NSUWS2N20Z229u6ehVGSu/pXbG6WOauy86M5vVJLdj9bB3eMmf2b81ROre6rRHWmQ==
-X-Received: by 2002:a05:6214:3207:b0:6c5:7446:4fdf with SMTP id 6a1803df08f44-6cb3b5e283dmr198571366d6.24.1727697929145;
-        Mon, 30 Sep 2024 05:05:29 -0700 (PDT)
+        bh=y4CZBI+n6IjdrtDGuJsp4m8Z3nCdNkGXw0PtmNPGNzY=;
+        b=pqaxQe1fDdTYS4Frm47uJFUovWdpc6q2wVinirhXNXM69iZaNOEaxSQXeFsNMZeSII
+         zNa/6xomZA7PxRHYP57cFPAJCGpvpSNEPvtXMhbZekt3heuwnNNTepOp6+NzuEEUv6ne
+         er485kIVIoTrbEgaPQNuLHWabsnonvEpQCpQrfkO7z4sJnt6Y3Hkl0MsdKfAqzaOHDIp
+         Mt/fwTqRwnzDoAmlEQikVwnlB6JDUR3ZzeNNIG4OswmfWx4jSrKFTDpZWA4QhhDOiWO2
+         vGJfVMcCEq8LF7QszWccpbkBnem75JBAHmQ02aBas/4Flwk4S1v8EE/dloSaWsez+3f4
+         +QCw==
+X-Forwarded-Encrypted: i=1; AJvYcCXK9dNg3IgzATEvuWj+DpM+1xGpERG8lLg8YjlzYhBRyRfXpt6mUC4MShZA8iLIrZhtGpmGoEU/RH2sVEEh@lists.linux.dev
+X-Gm-Message-State: AOJu0YxenyyQ1q11IKTwYDgHG9wBGBBl3R9yFAcME/gIEdyNS0gHHcQB
+	e34FOd9i8rjTgV5/cVgmbrqg17B0M+usYt00CnJ67XqxhsUKYDqXVIRu4Fn/tA==
+X-Google-Smtp-Source: AGHT+IF0K+EHYN7PignB/8NYu53YVj7j++O0mwk1W5RBN0+QHuQojpzGFveGrxjlPlRfoI1UafopSQ==
+X-Received: by 2002:a05:6358:2c8e:b0:1b5:c4f3:faec with SMTP id e5c5f4694b2df-1becbb585e8mr274204655d.4.1727697931042;
+        Mon, 30 Sep 2024 05:05:31 -0700 (PDT)
 Received: from denia.c.googlers.com (76.224.245.35.bc.googleusercontent.com. [35.245.224.76])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cb3b694369sm38822536d6.144.2024.09.30.05.05.27
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cb3b694369sm38822536d6.144.2024.09.30.05.05.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Sep 2024 05:05:28 -0700 (PDT)
+        Mon, 30 Sep 2024 05:05:30 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 30 Sep 2024 12:04:39 +0000
-Subject: [PATCH 44/45] media: i2c: adv76xx: Use string_choices helpers
+Date: Mon, 30 Sep 2024 12:04:40 +0000
+Subject: [PATCH 45/45] media: i2c: adv7511: Use string_choices helpers
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -60,7 +60,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240930-cocci-opportunity-v1-44-81e137456ce0@chromium.org>
+Message-Id: <20240930-cocci-opportunity-v1-45-81e137456ce0@chromium.org>
 References: <20240930-cocci-opportunity-v1-0-81e137456ce0@chromium.org>
 In-Reply-To: <20240930-cocci-opportunity-v1-0-81e137456ce0@chromium.org>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
@@ -100,90 +100,59 @@ Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
 X-Mailer: b4 0.13.0
 
 The following cocci warnings are fixed:
-drivers/media/i2c/adv7604.c:2641:3-31: opportunity for str_true_false(( hdmi_read ( sd , 0x05 ) & 0x40 ))
-drivers/media/i2c/adv7604.c:2595:34-48: opportunity for str_false_true(no_lock_cp ( sd ))
-drivers/media/i2c/adv7604.c:2593:36-52: opportunity for str_false_true(no_lock_sspd ( sd ))
-drivers/media/i2c/adv7604.c:2594:36-52: opportunity for str_false_true(no_lock_stdi ( sd ))
-drivers/media/i2c/adv7604.c:2592:3-19: opportunity for str_false_true(no_lock_tmds ( sd ))
-drivers/media/i2c/adv7604.c:2590:3-21: opportunity for str_false_true(no_signal_tmds ( sd ))
-drivers/media/i2c/adv7604.c:2568:28-51: opportunity for str_enabled_disabled(state -> cec_enabled_adap)
-drivers/media/i2c/adv7604.c:2630:3-23: opportunity for str_enabled_disabled(( reg_io_0x02 & 0x08 ))
-drivers/media/i2c/adv7604.c:2597:3-20: opportunity for str_on_off(( in_free_run ( sd ) ))
-drivers/media/i2c/adv7604.c:2664:33-61: opportunity for str_on_off(( hdmi_read ( sd , 0x04 ) & 0x40 ))
-drivers/media/i2c/adv7604.c:2643:3-31: opportunity for str_yes_no(( hdmi_read ( sd , 0x04 ) & 0x20 ))
+drivers/media/i2c/adv7511-v4l2.c:873:46-52: opportunity for str_enable_disable(enable)
+drivers/media/i2c/adv7511-v4l2.c:620:28-51: opportunity for str_enabled_disabled(state -> cec_enabled_adap)
+drivers/media/i2c/adv7511-v4l2.c:642:52-54: opportunity for str_on_off(on)
+drivers/media/i2c/adv7511-v4l2.c:568:29-44: opportunity for str_on_off(state -> power_on)
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/i2c/adv7604.c | 25 +++++++++++++------------
- 1 file changed, 13 insertions(+), 12 deletions(-)
+ drivers/media/i2c/adv7511-v4l2.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/media/i2c/adv7604.c b/drivers/media/i2c/adv7604.c
-index 48230d5109f0..fb74f2947413 100644
---- a/drivers/media/i2c/adv7604.c
-+++ b/drivers/media/i2c/adv7604.c
-@@ -2565,8 +2565,8 @@ static int adv76xx_log_status(struct v4l2_subdev *sd)
- 			((edid_enabled & 0x02) ? "Yes" : "No"),
- 			((edid_enabled & 0x04) ? "Yes" : "No"),
- 			((edid_enabled & 0x08) ? "Yes" : "No"));
+diff --git a/drivers/media/i2c/adv7511-v4l2.c b/drivers/media/i2c/adv7511-v4l2.c
+index e9406d552699..d9af81015e72 100644
+--- a/drivers/media/i2c/adv7511-v4l2.c
++++ b/drivers/media/i2c/adv7511-v4l2.c
+@@ -565,7 +565,7 @@ static int adv7511_log_status(struct v4l2_subdev *sd)
+ 		"9", "A", "B", "C", "D", "E", "F"
+ 	};
+ 
+-	v4l2_info(sd, "power %s\n", state->power_on ? "on" : "off");
++	v4l2_info(sd, "power %s\n", str_on_off(state->power_on));
+ 	v4l2_info(sd, "%s hotplug, %s Rx Sense, %s EDID (%d block(s))\n",
+ 		  (adv7511_rd(sd, 0x42) & MASK_ADV7511_HPD_DETECT) ? "detected" : "no",
+ 		  (adv7511_rd(sd, 0x42) & MASK_ADV7511_MSEN_DETECT) ? "detected" : "no",
+@@ -617,8 +617,8 @@ static int adv7511_log_status(struct v4l2_subdev *sd)
+ 
+ 	v4l2_info(sd, "i2c cec addr: 0x%x\n", state->i2c_cec_addr);
+ 
 -	v4l2_info(sd, "CEC: %s\n", state->cec_enabled_adap ?
 -			"enabled" : "disabled");
 +	v4l2_info(sd, "CEC: %s\n",
 +		  str_enabled_disabled(state->cec_enabled_adap));
  	if (state->cec_enabled_adap) {
- 		int i;
+ 		for (i = 0; i < ADV7511_MAX_ADDRS; i++) {
+ 			bool is_valid = state->cec_valid_addrs & (1 << i);
+@@ -639,7 +639,7 @@ static int adv7511_s_power(struct v4l2_subdev *sd, int on)
+ 	const int retries = 20;
+ 	int i;
  
-@@ -2587,14 +2587,14 @@ static int adv76xx_log_status(struct v4l2_subdev *sd)
- 			((cable_det & 0x04) ? "Yes" : "No"),
- 			((cable_det & 0x08) ? "Yes" : "No"));
- 	v4l2_info(sd, "TMDS signal detected: %s\n",
--			no_signal_tmds(sd) ? "false" : "true");
-+			str_false_true(no_signal_tmds(sd)));
- 	v4l2_info(sd, "TMDS signal locked: %s\n",
--			no_lock_tmds(sd) ? "false" : "true");
--	v4l2_info(sd, "SSPD locked: %s\n", no_lock_sspd(sd) ? "false" : "true");
--	v4l2_info(sd, "STDI locked: %s\n", no_lock_stdi(sd) ? "false" : "true");
--	v4l2_info(sd, "CP locked: %s\n", no_lock_cp(sd) ? "false" : "true");
-+			str_false_true(no_lock_tmds(sd)));
-+	v4l2_info(sd, "SSPD locked: %s\n", str_false_true(no_lock_sspd(sd)));
-+	v4l2_info(sd, "STDI locked: %s\n", str_false_true(no_lock_stdi(sd)));
-+	v4l2_info(sd, "CP locked: %s\n", str_false_true(no_lock_cp(sd)));
- 	v4l2_info(sd, "CP free run: %s\n",
--			(in_free_run(sd)) ? "on" : "off");
-+			str_on_off(in_free_run(sd)));
- 	v4l2_info(sd, "Prim-mode = 0x%x, video std = 0x%x, v_freq = 0x%x\n",
- 			io_read(sd, 0x01) & 0x0f, io_read(sd, 0x00) & 0x3f,
- 			(io_read(sd, 0x01) & 0x70) >> 4);
-@@ -2627,7 +2627,7 @@ static int adv76xx_log_status(struct v4l2_subdev *sd)
- 			(reg_io_0x02 & 0x02) ? "RGB" : "YCbCr",
- 			(((reg_io_0x02 >> 2) & 0x01) ^ (reg_io_0x02 & 0x01)) ?
- 				"(16-235)" : "(0-255)",
--			(reg_io_0x02 & 0x08) ? "enabled" : "disabled");
-+			str_enabled_disabled(reg_io_0x02 & 0x08));
- 	v4l2_info(sd, "Color space conversion: %s\n",
- 			csc_coeff_sel_rb[cp_read(sd, info->cp_csc) >> 4]);
+-	v4l2_dbg(1, debug, sd, "%s: power %s\n", __func__, on ? "on" : "off");
++	v4l2_dbg(1, debug, sd, "%s: power %s\n", __func__, str_on_off(on));
  
-@@ -2638,9 +2638,9 @@ static int adv76xx_log_status(struct v4l2_subdev *sd)
- 	v4l2_info(sd, "Digital video port selected: %c\n",
- 			(hdmi_read(sd, 0x00) & 0x03) + 'A');
- 	v4l2_info(sd, "HDCP encrypted content: %s\n",
--			(hdmi_read(sd, 0x05) & 0x40) ? "true" : "false");
-+			str_true_false(hdmi_read(sd, 0x05) & 0x40));
- 	v4l2_info(sd, "HDCP keys read: %s%s\n",
--			(hdmi_read(sd, 0x04) & 0x20) ? "yes" : "no",
-+			str_yes_no(hdmi_read(sd, 0x04) & 0x20),
- 			(hdmi_read(sd, 0x04) & 0x10) ? "ERROR" : "");
- 	if (is_hdmi(sd)) {
- 		bool audio_pll_locked = hdmi_read(sd, 0x04) & 0x01;
-@@ -2661,7 +2661,8 @@ static int adv76xx_log_status(struct v4l2_subdev *sd)
- 		v4l2_info(sd, "Audio N: %u\n", ((hdmi_read(sd, 0x5d) & 0x0f) << 16) +
- 				(hdmi_read(sd, 0x5e) << 8) +
- 				hdmi_read(sd, 0x5f));
--		v4l2_info(sd, "AV Mute: %s\n", (hdmi_read(sd, 0x04) & 0x40) ? "on" : "off");
-+		v4l2_info(sd, "AV Mute: %s\n",
-+			  str_on_off(hdmi_read(sd, 0x04) & 0x40));
+ 	state->power_on = on;
  
- 		v4l2_info(sd, "Deep color mode: %s\n", deep_color_mode_txt[(hdmi_read(sd, 0x0b) & 0x60) >> 5]);
- 		v4l2_info(sd, "HDMI colorspace: %s\n", hdmi_color_space_txt[hdmi_read(sd, 0x53) & 0xf]);
+@@ -870,7 +870,8 @@ static void adv7511_set_isr(struct v4l2_subdev *sd, bool enable)
+ 	u8 irqs_rd;
+ 	int retries = 100;
+ 
+-	v4l2_dbg(2, debug, sd, "%s: %s\n", __func__, enable ? "enable" : "disable");
++	v4l2_dbg(2, debug, sd, "%s: %s\n", __func__,
++		 str_enable_disable(enable));
+ 
+ 	if (state->enabled_irq == enable)
+ 		return;
 
 -- 
 2.46.1.824.gd892dcdcdd-goog
