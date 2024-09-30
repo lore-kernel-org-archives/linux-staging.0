@@ -1,57 +1,57 @@
-Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C05819B3C1
-	for <linux-staging@lists.linux.dev>; Mon, 30 Sep 2024 12:04:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4BD519CD1E
+	for <linux-staging@lists.linux.dev>; Mon, 30 Sep 2024 12:05:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727697906; cv=none; b=Z7/uQn/EuhLrU1J0lT/fu+opuSaV5JnRuU7kk978eLEO5xwo/xl/s9m6d7wtUbEWpA3WqC8sCL5hi27VEeXGHaFDkrRMoItrTqM8dCuxN3UopSHXC0cTu63SWbKxL9Zq7UkWvROsZtXrax7LNFUWxMIhmm42hg6qdlGMIoIsjTk=
+	t=1727697907; cv=none; b=IDpYYie1jrw3yebhgln43HXVZ/kBJX1F1925Z5h2uMOej3sfD7rqajd8yvLm7Dxeac3SFXAXPjgWpKVTVvQYu010cql4Hqev9Mv7Svp4iWFNezjhLFnX+AXJvbCA7twUrpUKIsehez18FpuAzzW/RMHQpjlU9ctIFjjd/EOwtuA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727697906; c=relaxed/simple;
-	bh=fSPAVO9ZDOlfM+yvKGofjzMlsnwmS7DOHpFwVZfy/5M=;
+	s=arc-20240116; t=1727697907; c=relaxed/simple;
+	bh=kKpr508Yau4A6DM1O58ZKid3P/LjCOEsyTEfHMo66Y0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=gifTaa6JLHs22dk1SqEgbYtDIzwpFF9+D2E8frhJVh7nC+P1j+gJTTmFoQiWdO+uK+EctaCVotuJZ5UYuCqrov2EcwZMoAZW6Ki4TWoLOBsnGyAkF1fkEn54EmRBUcbzs7Knu6dJgMgaG6GcTf5dbzmzNEG7cQVgpJc8vWMilso=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=R0tBfSng; arc=none smtp.client-ip=209.85.161.49
+	 In-Reply-To:To:Cc; b=kCZTUlHC0O/s/0qX0rnrolF9GaBqSTzTUa8AMk+PWH22t7EotRzTjX5pjjezJbk39KDtLERbPLPc9muN9//bITmCxqAxVZw5MOVnk5q5zFzEtks7SUsh+ibWYOHPF8hggbYM6QHFWg7StEWGls+MbqFnzBaxv1B8fxIrWiLv+F0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=TSvigwrp; arc=none smtp.client-ip=209.85.219.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="R0tBfSng"
-Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-5e5568f1baaso2414350eaf.2
-        for <linux-staging@lists.linux.dev>; Mon, 30 Sep 2024 05:04:59 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="TSvigwrp"
+Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-6cb2c5128d5so31325546d6.0
+        for <linux-staging@lists.linux.dev>; Mon, 30 Sep 2024 05:05:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1727697898; x=1728302698; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1727697903; x=1728302703; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=w+lDXyICIHcG+x83IY7Td9H+I+izyCveuIAoXyx8Crg=;
-        b=R0tBfSngL2dVzw2ovg0FHyZP3ya1DPIW8OfC5bBSc88g8DBUjgVG5uc227XKmcYDBD
-         hdwU+dEr45X0Z/3fcPRMM1HsW5dBhQ0tznVWZYFu5KXlOxEgg0rhGWBwzULw9f0l8Fde
-         1tjQJc+jiTwxjEy5JUF1iBOqnUPrNq3mh8L/M=
+        bh=pF9yJ7oppQKnmh5ZAzfDc5uXy0x2qr1GXsQ4Q40pH48=;
+        b=TSvigwrpqd1u8WrKop4jjmZ8KPP77si5j49pYeB7R3dcbC7By1rBdZBYUlQh7iwvHx
+         5IRvxZl+V0kVValIhHAVWxAqPdz46J3Iczo0g7ZMDvNs0Pa8y908jHQOl4XwAE5a+K4K
+         3ANM0WmstbZ37nXkF/JSxZq1cxsjigsjxvRa8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727697898; x=1728302698;
+        d=1e100.net; s=20230601; t=1727697903; x=1728302703;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=w+lDXyICIHcG+x83IY7Td9H+I+izyCveuIAoXyx8Crg=;
-        b=t4IVtH/xwIHmr4ANhNfyxZWLSqhZW5GK9q6SbnFJgVBUwH9GzRLdP9nVD2+1nYBWg1
-         Azi+yDTm4xizCm/LJTCO3L2mdWqsHGdbgJ01tQOWD/Qa7Z2U+2A3qsvK5w2RzKqcK0G4
-         bLu/SF5hmQzFUsIH9TT3tyXqnGzbBlWQ6dwzHuar7j/MXfk6KlYF33k50tWMXNmWpsiU
-         xBnjC5Moiv+fxsaiZaSoji89NpgqWyDbj2SDtE7Bf0NbTFuVI/CmeOZYTcgqhyz/ceFz
-         ijbHNnFtLf5Q2ZBSUiOGwXrLui9f2Rq0BPQDVkQPEoDDcjpdeOhEBdhK50GEsNbBuzgj
-         rE1Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXpa9eiF9++XUHibzXRurJ+GH8MqhVhhyab9Z9ZNV7cDR80CmyV0ak+9aMv9FKxWLfa3G/oUVushEgOOkRq@lists.linux.dev
-X-Gm-Message-State: AOJu0YyYiLTyS3mH6JW/UH1YuRTcEHp5qDJOq4L1At9BAaAs/JkLGGOG
-	0YdwffCDydfPx7+IOfKPZi3ascG6OkRMAWkyJys9nh+zG3OKAoOkqB9UoNpPWw==
-X-Google-Smtp-Source: AGHT+IHpSAOikj0Pw9qUy/ufav5/H94vhYgLdOZ5ZWws6VuRg45Il/9rM3D70mqQT4nS8RcavrRJ/g==
-X-Received: by 2002:a05:6358:7254:b0:1b8:322e:3db with SMTP id e5c5f4694b2df-1becbc887d8mr566945055d.14.1727697898629;
-        Mon, 30 Sep 2024 05:04:58 -0700 (PDT)
+        bh=pF9yJ7oppQKnmh5ZAzfDc5uXy0x2qr1GXsQ4Q40pH48=;
+        b=VDDiTJke2QiOiaDTtibgMltuvBFDAW1Dakol5jaVBoZZIkDoTZi3E2CurRil7RoyrR
+         8AlqbBRpAIkS7PRt6+DYInwNZ7fprvJutGvP42121hVNqiwLDLsLgPXIGg1fiQuFBfjm
+         7vyTnBLxL+RYyKxkqmK3XvAZQQuTwOkvzQFTB31KbNdzOLmVL2xcVkp31bYR1TfPd8ds
+         7f6+engga0ZnZsKRcNMMMwbdAK5f/CURG/TiOcMTYVj4xlITEz3vuBFbi2SpU4R5MCcR
+         TxICK2/l8rYDXj/WVrfNQq3pn9mpNbygMT0wJ7wTTBwpE+n3zTG9y/9KHoDXkC2Stbqg
+         O6XQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUV+QOl6/Eu5+oGEWJkCEwa4nT/fNHygTJHaXs8cSAP3hXwlcgEKka+ycqJtzDS0n5QRxCYyBkOyg7Q1w/i@lists.linux.dev
+X-Gm-Message-State: AOJu0YzkRlamGReF8i7SfgYJnyMUCtzCZ4Z83vqRf8XXRTeAcmvD0nd0
+	xhN3WRmaNNhluvjDzHxsQivQ3/w43nWVjWVaeK7dRC+iZ7q9aRRbpu/T+RMacg==
+X-Google-Smtp-Source: AGHT+IEAFwwRA71MkCRUwImfi9uBIeNCYwuxiEwHafmSSDdtTJviDnVg18iocWAWeF5m9aVEXLwnZA==
+X-Received: by 2002:a05:6214:5a08:b0:6c5:b709:55c6 with SMTP id 6a1803df08f44-6cb3b63b3aamr219594876d6.42.1727697902571;
+        Mon, 30 Sep 2024 05:05:02 -0700 (PDT)
 Received: from denia.c.googlers.com (76.224.245.35.bc.googleusercontent.com. [35.245.224.76])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cb3b694369sm38822536d6.144.2024.09.30.05.04.57
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cb3b694369sm38822536d6.144.2024.09.30.05.05.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Sep 2024 05:04:58 -0700 (PDT)
+        Mon, 30 Sep 2024 05:05:01 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 30 Sep 2024 12:04:22 +0000
-Subject: [PATCH 27/45] media: cec: Use string_choices helpers
+Date: Mon, 30 Sep 2024 12:04:24 +0000
+Subject: [PATCH 29/45] media: siano: Use string_choices helpers
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -60,7 +60,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240930-cocci-opportunity-v1-27-81e137456ce0@chromium.org>
+Message-Id: <20240930-cocci-opportunity-v1-29-81e137456ce0@chromium.org>
 References: <20240930-cocci-opportunity-v1-0-81e137456ce0@chromium.org>
 In-Reply-To: <20240930-cocci-opportunity-v1-0-81e137456ce0@chromium.org>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
@@ -99,56 +99,35 @@ Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
  linux-aspeed@lists.ozlabs.org, Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.13.0
 
-The following cocci warnings are fixed:
-drivers/media/cec/usb/pulse8/pulse8-cec.c:698:2-9: opportunity for str_on_off(data [ 0 ])
-drivers/media/cec/usb/pulse8/pulse8-cec.c:705:4-11: opportunity for str_on_off(data [ 0 ])
-drivers/media/cec/platform/cec-gpio/cec-gpio.c:138:6-22: opportunity for str_high_low(cec -> hpd_is_high)
-drivers/media/cec/platform/cec-gpio/cec-gpio.c:141:6-21: opportunity for str_high_low(cec -> v5_is_high)
+The following cocci warning is fixed:
+drivers/media/common/siano/sms-cards.c:329:36-41: opportunity for str_enabled_disabled(onoff)
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/cec/platform/cec-gpio/cec-gpio.c | 4 ++--
- drivers/media/cec/usb/pulse8/pulse8-cec.c      | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/media/common/siano/sms-cards.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/cec/platform/cec-gpio/cec-gpio.c b/drivers/media/cec/platform/cec-gpio/cec-gpio.c
-index 98dacb0919b6..49160a15272b 100644
---- a/drivers/media/cec/platform/cec-gpio/cec-gpio.c
-+++ b/drivers/media/cec/platform/cec-gpio/cec-gpio.c
-@@ -135,10 +135,10 @@ static void cec_gpio_status(struct cec_adapter *adap, struct seq_file *file)
- 	seq_printf(file, "using irq: %d\n", cec->cec_irq);
- 	if (cec->hpd_gpio)
- 		seq_printf(file, "hpd: %s\n",
--			   cec->hpd_is_high ? "high" : "low");
-+			   str_high_low(cec->hpd_is_high));
- 	if (cec->v5_gpio)
- 		seq_printf(file, "5V: %s\n",
--			   cec->v5_is_high ? "high" : "low");
-+			   str_high_low(cec->v5_is_high));
- }
+diff --git a/drivers/media/common/siano/sms-cards.c b/drivers/media/common/siano/sms-cards.c
+index d4a116ab6c88..e9aa95233ff1 100644
+--- a/drivers/media/common/siano/sms-cards.c
++++ b/drivers/media/common/siano/sms-cards.c
+@@ -8,6 +8,7 @@
+ #include "sms-cards.h"
+ #include "smsir.h"
+ #include <linux/module.h>
++#include <linux/string_choices.h>
  
- static int cec_gpio_read_hpd(struct cec_adapter *adap)
-diff --git a/drivers/media/cec/usb/pulse8/pulse8-cec.c b/drivers/media/cec/usb/pulse8/pulse8-cec.c
-index ba67587bd43e..0167f21cb116 100644
---- a/drivers/media/cec/usb/pulse8/pulse8-cec.c
-+++ b/drivers/media/cec/usb/pulse8/pulse8-cec.c
-@@ -695,14 +695,14 @@ static int pulse8_setup(struct pulse8 *pulse8, struct serio *serio,
- 		return err;
- 	pulse8->autonomous = data[0];
- 	dev_dbg(pulse8->dev, "Autonomous mode: %s",
--		data[0] ? "on" : "off");
-+		str_on_off(data[0]));
+ static struct sms_board sms_boards[] = {
+ 	[SMS_BOARD_UNKNOWN] = {
+@@ -326,7 +327,7 @@ int sms_board_lna_control(struct smscore_device_t *coredev, int onoff)
+ 	int board_id = smscore_get_board_id(coredev);
+ 	struct sms_board *board = sms_get_board(board_id);
  
- 	if (pulse8->vers >= 10) {
- 		cmd[0] = MSGCODE_GET_AUTO_POWER_ON;
- 		err = pulse8_send_and_wait(pulse8, cmd, 1, cmd[0], 1);
- 		if (!err)
- 			dev_dbg(pulse8->dev, "Auto Power On: %s",
--				data[0] ? "on" : "off");
-+				str_on_off(data[0]));
- 	}
+-	pr_debug("%s: LNA %s\n", __func__, onoff ? "enabled" : "disabled");
++	pr_debug("%s: LNA %s\n", __func__, str_enabled_disabled(onoff));
  
- 	cmd[0] = MSGCODE_GET_DEVICE_TYPE;
+ 	switch (board_id) {
+ 	case SMS1XXX_BOARD_HAUPPAUGE_TIGER_MINICARD_R2:
 
 -- 
 2.46.1.824.gd892dcdcdd-goog
