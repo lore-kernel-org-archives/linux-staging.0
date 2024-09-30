@@ -1,418 +1,472 @@
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from OUTBOUND1.ECHOLABS.NET (outbound1.echolabs.net [38.111.141.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0198918E346
-	for <linux-staging@lists.linux.dev>; Mon, 30 Sep 2024 13:00:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15E3118E77D;
+	Mon, 30 Sep 2024 13:00:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=38.111.141.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727701238; cv=none; b=lRFaEzbnMVDKs5hjCYGtIFC/FALKGIT7D7wdSkcBVZcyw7MnJw6ZNugKcbepymbRw4X7eIcYBUWQ6urKTJfRvxTBYd89HpMyxkL/AKPKrCi/RmivIW/o1Kw1SyVPxe8ewJpkPrFQptNEqiD81XSMMpyo0/SmJL0Ej3lxs1eTK+k=
+	t=1727701241; cv=none; b=bu7k7bxYLwJIOoEmlJ2RLM7dkD9zLnQBb6VoRLgvZwokYfx8HDoO3aEq7xc9bfXY2KcBqNb/ZpBcHt3Cf2g7mzwaF+LhHE5mkB3ojV9DrGkC0I0VJlSsY/EhZGnCp2dbag7emGKw6wyazGPqDYO5eaqSuC/T9M2A+1ZUWtNYSg0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727701238; c=relaxed/simple;
-	bh=rbrn1zZNUN+dma6zxlQ/8gGboczyx2JG8Z8jpc7/3jY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SHirEfNLxjB1wS32J/UM/YMtwuJqH5IVCr438ReMUlzO3PVHpH1+4GTF5ECamumWFmJW5mn3Icn21UGPWrYp6bkSEd3ZSvUclealfsngfXudg067izlpJmja+IX1X7sXCJpP/blrOdjcYgjALafxRfGx6r/adVuh+yTWYRAyXUU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=O3Nj/UVQ; arc=none smtp.client-ip=209.85.210.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1727701241; c=relaxed/simple;
+	bh=mqTjF6bgxH/70hG2qhkzTgkV3orE1DGyAGt5Fd2k5bc=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=nKsTIpXU0bSYObbz2jeQqkQtVdp2NrJdwtxe17EVSD8PmaXPo7d0KbaMBdRYmA5r1XHh2NIFMKGR5hChbb2WL3f+n7I+UXpcYkzo1BqcuYsoi6++eGab22ly1XH/UEbCazHlkvA2k0d91rao14cQ89e/EhgdmYHtTJLrynH8WxU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=md.metrocast.net; spf=pass smtp.mailfrom=md.metrocast.net; dkim=pass (1024-bit key) header.d=echolabs.net header.i=@echolabs.net header.b=EbX+HY5p; arc=none smtp.client-ip=38.111.141.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=md.metrocast.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=md.metrocast.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="O3Nj/UVQ"
-Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-710e489860bso2209134a34.1
-        for <linux-staging@lists.linux.dev>; Mon, 30 Sep 2024 06:00:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1727701235; x=1728306035; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=OyomVRBfAcvzClDktquWe/UEWV4HnJh+OziDdMmdJSM=;
-        b=O3Nj/UVQxkmUOf6o+xjk7RvwazVp1jjLwvbOn4sKg/5LJ4YiHo5LmOU9kg4H5ZpDib
-         /YRp2c5He+DEZHv+ouL3LkWg/i5OYg4wW13YOS6f9roCaTkQRv5wTo3CJZqWLQEXyGG+
-         ARChSHtwpJNkjXGuB38wdtp72DTnwNBzQBgRw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727701235; x=1728306035;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=OyomVRBfAcvzClDktquWe/UEWV4HnJh+OziDdMmdJSM=;
-        b=Ve2iw54Yc/H1BoPDmVa/U+karlv+0APJel107qeAj1iD7a/tK3Hcw1SlGskKn8Vk4V
-         a6FAFl+eGafboLchUIqcgrHYsXlnpLJbY+QWkxpDkj5CClfqjNgZWl5Bn48AeSgDNZiv
-         hn92+k3zXQN4TA2He8TMOK0kj3mk5NHzf/jdBOH5niIvYuzaQ6c9qfD3iwNa2OiGa4ER
-         Yp6R3RywmQxbn0OdTveFO+lXNjMoUBbACo6+u3EEhg4pm2qHY16gBjvea5wGOLjcONVp
-         VB3tc+SHEr8iabAk/tkRIUfpScJOBZgpzh3tGY+GE72uEjIYKu2smPrby8oy7B00LPnG
-         FS9A==
-X-Forwarded-Encrypted: i=1; AJvYcCWDEpsWllY6D5N9fYkASb8XZTsi6jZmNzwv//l3Dy3HSwgwRDQH58Fx+NAvccEzlws2xYILlMNZr1yjPbwt@lists.linux.dev
-X-Gm-Message-State: AOJu0YzAo5hHHsSCEaqc3IdGnZ4sVUtxs4xQRIs6mjkajfhEqC4Mu51t
-	qKnHaIOslqRoEVzTw4o3JWuMu2D6GuL9JxaSqq0cKz5eDCjKVpurw/4ky/gcU0wZwdOcjoC+56c
-	=
-X-Google-Smtp-Source: AGHT+IE0Eh2Rgd9CNBBG7TYLG2rh1TuAxk1O9IZ2Q4VEYi6JxFJzz9sNn7r0vEUpgSN4hd3Kx3ZxTA==
-X-Received: by 2002:a05:6830:6e14:b0:710:eb9a:f8d1 with SMTP id 46e09a7af769-714fbe908ecmr8914986a34.17.1727701232883;
-        Mon, 30 Sep 2024 06:00:32 -0700 (PDT)
-Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com. [209.85.210.42])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-714fb6665aesm2327421a34.17.2024.09.30.06.00.29
-        for <linux-staging@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 30 Sep 2024 06:00:31 -0700 (PDT)
-Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-7124395ca86so1703320a34.0
-        for <linux-staging@lists.linux.dev>; Mon, 30 Sep 2024 06:00:29 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXwhCeu5G1XRqx1W2keNdwgID/beVHZ69aJZVnKrGd16z4nRiy3/mFZWGNO1hzoz6jZHyC+TpjrT1mflCTK@lists.linux.dev
-X-Received: by 2002:a92:ca0c:0:b0:3a0:533e:3c0a with SMTP id
- e9e14a558f8ab-3a345165300mr109461905ab.7.1727700847952; Mon, 30 Sep 2024
- 05:54:07 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=echolabs.net header.i=@echolabs.net header.b="EbX+HY5p"
+Received: from cluster1.echolabs.net ([10.0.1.2])
+	by cmsmtp with ESMTP
+	id vFyZsPoghGwCmvFyasWxx0; Mon, 30 Sep 2024 08:58:08 -0400
+X-Scanner-Info: Cloudmark - http://www.cloudmark.com
+X-CNFS-Analysis: v=2.4 cv=cKRDsUeN c=1 sm=1 tr=0 ts=66faa0f5 cx=a_idp_x
+ a=deaM/syu8nPsmUxY89PwZA==:117 a=dHwet71K7hIblIhzQqIuGw==:17
+ a=IkcTkHD0fZMA:10 a=EaEq8P2WXUwA:10 a=xOd6jRPJAAAA:8 a=cm27Pg_UAAAA:8
+ a=s7bhVaM4XrlkExUdx14A:9 a=QEXdDO2ut3YA:10
+X-CMAE-Score: 0.00
+X-Scanned-by: CMAE - 27
+X-Scanner-Info: Cloudmark - http://www.cloudmark.com
+X-CNFS-Analysis: v=2.4 cv=cKRDsUeN c=1 sm=1 tr=0 ts=66faa0b1 cx=a_idp_x
+ a=deaM/syu8nPsmUxY89PwZA==:117 a=dHwet71K7hIblIhzQqIuGw==:17
+ a=IkcTkHD0fZMA:10 a=EaEq8P2WXUwA:10 a=xOd6jRPJAAAA:8 a=cm27Pg_UAAAA:8
+ a=s7bhVaM4XrlkExUdx14A:9 a=QEXdDO2ut3YA:10
+X-CMAE-Score: 0.00
+X-Scanned-by: CMAE - 29
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=echolabs.net;
+	s=outbound; t=1727701088;
+	bh=bEWivP59UFWIVOMOjtMkQZPQ7r7iFa1yFz2TiI1f3x0=; h=X-ELOB-ID:From;
+	b=EbX+HY5p0zC03r9wTu0DNgSU5Dx9kyQoIuktNuZjUgxQZlug8olFXzIpxJz1vJX3w
+	 n6yvXlPA0OP5TuKVt/qLc2uFx6sZMENLc0dyqk56Dyd4DahQ1eU8dSe+7kspYZoudh
+	 tvxB94+iX6wzwHOn5kqQ4AY/27u/ZRXMIpyeB55w=
+X-ELOB-ID: <20240930085808-vFyZsPoghGwCmvFyasWxx0-OUTBOUND1.ECHOLABS.NET@echolabs.net>
+X-Scanner-Info: Cloudmark - http://www.cloudmark.com
+X-CNFS-Analysis: v=2.4 cv=cKRDsUeN c=1 sm=1 tr=0 ts=66faa060 cx=a_idp_x
+ a=deaM/syu8nPsmUxY89PwZA==:117 a=dHwet71K7hIblIhzQqIuGw==:17
+ a=IkcTkHD0fZMA:10 a=EaEq8P2WXUwA:10 a=xOd6jRPJAAAA:8 a=cm27Pg_UAAAA:8
+ a=s7bhVaM4XrlkExUdx14A:9 a=QEXdDO2ut3YA:10
+X-CMAE-Score: 0.00
+X-Scanned-by: CMAE - 44
+Received: from [10.0.0.92] (HELO MX02.MAIL.ECHOLABS.NET)
+  by echolabs.net (CommuniGate Pro SMTP 7.0.2)
+  with ESMTP id 1443219072; Mon, 30 Sep 2024 08:58:07 -0400
+Received: from [127.0.0.1] ([74.214.59.219])
+	by Echo Labs with ESMTPA
+	id vFyCsUy1dVHiHvFyXsN8sw; Mon, 30 Sep 2024 08:58:07 -0400
+X-SS: 100
+X-GEO: US US
+X-Scanner-Info: Cloudmark - http://www.cloudmark.com
+X-CNFS-Analysis: v=2.4 cv=c+YIQg9l c=1 sm=1 tr=0 ts=66faa05f
+ a=dHwet71K7hIblIhzQqIuGw==:117 a=dHwet71K7hIblIhzQqIuGw==:17
+ a=IkcTkHD0fZMA:10 a=xOd6jRPJAAAA:8 a=cm27Pg_UAAAA:8 a=s7bhVaM4XrlkExUdx14A:9
+ a=QEXdDO2ut3YA:10
+X-CMAE-Score: 0.00
+X-Scanned-by: CMAE - 44
+X-AUTH-ID: awalls@md.metrocast.net
+Date: Mon, 30 Sep 2024 08:57:44 -0400
+From: Andy Walls <awalls@md.metrocast.net>
+To: Hans Verkuil <hverkuil@xs4all.nl>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Ricardo Ribalda <ribalda@chromium.org>
+CC: Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Bingbu Cao <bingbu.cao@intel.com>, Tianshu Qiu <tian.shu.qiu@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Hans de Goede <hdegoede@redhat.com>, Andy Shevchenko <andy@kernel.org>,
+ Mike Isely <isely@pobox.com>, Olli Salonen <olli.salonen@iki.fi>,
+ Maxim Levitsky <maximlevitsky@gmail.com>, Sean Young <sean@mess.org>,
+ Sergey Kozlov <serjk@netup.ru>, Abylay Ospan <aospan@netup.ru>,
+ Jemma Denson <jdenson@gmail.com>,
+ Patrick Boettcher <patrick.boettcher@posteo.de>,
+ Ming Qian <ming.qian@nxp.com>, Zhou Peng <eagle.zhou@nxp.com>,
+ Michal Simek <michal.simek@amd.com>,
+ Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Eddie James <eajames@linux.ibm.com>,
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Tomasz Figa <tfiga@chromium.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Tim Harvey <tharvey@gateworks.com>,
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+ Sylvain Petinot <sylvain.petinot@foss.st.com>,
+ Jacopo Mondi <jacopo+renesas@jmondi.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ =?ISO-8859-1?Q?Niklas_S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+ linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ imx@lists.linux.dev, openbmc@lists.ozlabs.org, linux-aspeed@lists.ozlabs.org
+Subject: Re: [PATCH 00/45] media: Use string_choice helpers
+User-Agent: K-9 Mail for Android
+In-Reply-To: <4873f3a0-bd82-4ace-a783-10ea137284d6@xs4all.nl>
+References: <20240930-cocci-opportunity-v1-0-81e137456ce0@chromium.org> <20240930122157.GF31662@pendragon.ideasonboard.com> <4873f3a0-bd82-4ace-a783-10ea137284d6@xs4all.nl>
+Message-ID: <7D358236-19F8-4F94-89A0-F379F193971F@md.metrocast.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240930-cocci-opportunity-v1-0-81e137456ce0@chromium.org>
- <20240930122157.GF31662@pendragon.ideasonboard.com> <4873f3a0-bd82-4ace-a783-10ea137284d6@xs4all.nl>
-In-Reply-To: <4873f3a0-bd82-4ace-a783-10ea137284d6@xs4all.nl>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 30 Sep 2024 14:53:51 +0200
-X-Gmail-Original-Message-ID: <CANiDSCt4Xh27WSosNPB8Y_OjHr787f31PpKZWf2ZLPjFw51uBA@mail.gmail.com>
-Message-ID: <CANiDSCt4Xh27WSosNPB8Y_OjHr787f31PpKZWf2ZLPjFw51uBA@mail.gmail.com>
-Subject: Re: [PATCH 00/45] media: Use string_choice helpers
-To: Hans Verkuil <hverkuil@xs4all.nl>, Julia Lawall <Julia.Lawall@inria.fr>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Bingbu Cao <bingbu.cao@intel.com>, 
-	Tianshu Qiu <tian.shu.qiu@intel.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans de Goede <hdegoede@redhat.com>, 
-	Andy Shevchenko <andy@kernel.org>, Mike Isely <isely@pobox.com>, Olli Salonen <olli.salonen@iki.fi>, 
-	Maxim Levitsky <maximlevitsky@gmail.com>, Sean Young <sean@mess.org>, Sergey Kozlov <serjk@netup.ru>, 
-	Abylay Ospan <aospan@netup.ru>, Jemma Denson <jdenson@gmail.com>, 
-	Patrick Boettcher <patrick.boettcher@posteo.de>, Ming Qian <ming.qian@nxp.com>, 
-	Zhou Peng <eagle.zhou@nxp.com>, Andy Walls <awalls@md.metrocast.net>, 
-	Michal Simek <michal.simek@amd.com>, 
-	Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Eddie James <eajames@linux.ibm.com>, Joel Stanley <joel@jms.id.au>, 
-	Andrew Jeffery <andrew@codeconstruct.com.au>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
-	Tomasz Figa <tfiga@chromium.org>, Marek Szyprowski <m.szyprowski@samsung.com>, 
-	Tim Harvey <tharvey@gateworks.com>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
-	Sylvain Petinot <sylvain.petinot@foss.st.com>, Jacopo Mondi <jacopo+renesas@jmondi.org>, 
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
-	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	imx@lists.linux.dev, openbmc@lists.ozlabs.org, linux-aspeed@lists.ozlabs.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-CMAE-Envelope: MS4xfANCAXVUv/JFQ6OLsqDOjOV5MDgIXDilrNiQJjxfyyxgT35/ve3hhnXT0MGbfteoIMFjfWouMNnuY4qHbGgcnzDRJysf4C3n7Z7e+sB7ifZNzTasg555
+ kkO6AbXprwUKPsxPfxJu8DfeDrBTSTS5qjqw/D4bWDfZsmFbZzHCO4SRNVk2xp34q8ZPDE1QEV9EMN2wm/gqdcFoLt6GFn080rdd/NMrFpgPz9RVIsbbTW5P
 
-On Mon, 30 Sept 2024 at 14:38, Hans Verkuil <hverkuil@xs4all.nl> wrote:
+On September 30, 2024 8:38:22 AM EDT, Hans Verkuil <hverkuil@xs4all=2Enl> w=
+rote:
+>On 30/09/2024 14:21, Laurent Pinchart wrote:
+>> Hi Ricardo,
+>>=20
+>> On Mon, Sep 30, 2024 at 12:03:55PM +0000, Ricardo Ribalda wrote:
+>>> include/linux/string_choices=2Eh contains a set of helpers that can be
+>>> used instead of hard coding some strings=2E
+>>>
+>>> Cocci has located some places where the helpers can be used=2E This
+>>> patchset uses the diff generated by cocci, plus these changes:
+>>=20
+>> Personally I think most of those helpers just hinder readability for no=
+t
+>> much added gain=2E String de-duplication is done by the linker already=
+=2E
+>> The only value I see in the helpers is ensuring that the strings are
+>> consistently written, and I think we can do so through other means=2E
 >
-> On 30/09/2024 14:21, Laurent Pinchart wrote:
-> > Hi Ricardo,
-> >
-> > On Mon, Sep 30, 2024 at 12:03:55PM +0000, Ricardo Ribalda wrote:
-> >> include/linux/string_choices.h contains a set of helpers that can be
-> >> used instead of hard coding some strings.
-> >>
-> >> Cocci has located some places where the helpers can be used. This
-> >> patchset uses the diff generated by cocci, plus these changes:
-> >
-> > Personally I think most of those helpers just hinder readability for not
-> > much added gain. String de-duplication is done by the linker already.
-> > The only value I see in the helpers is ensuring that the strings are
-> > consistently written, and I think we can do so through other means.
+>Just my opinion: I'm OK with these new helpers, but I am not too keen to =
+apply
+>all this to existing source code=2E I=2Ee=2E, for new code it is fine, bu=
+t if we have
+>to update all drivers every time a new cocci test is added, then that wil=
+l not
+>scale=2E
 >
-> Just my opinion: I'm OK with these new helpers, but I am not too keen to apply
-> all this to existing source code. I.e., for new code it is fine, but if we have
-> to update all drivers every time a new cocci test is added, then that will not
-> scale.
+>Note that I never ran cocci in my build scripts, so this is a new check t=
+hat
+>we haven't set rules for or have much experience with=2E
 >
-> Note that I never ran cocci in my build scripts, so this is a new check that
-> we haven't set rules for or have much experience with.
+>checkpatch just checks the patches, it doesn't force you to fix existing =
+code=2E
 >
-> checkpatch just checks the patches, it doesn't force you to fix existing code.
+>Some of the cocci tests are clearly checking for incorrect code, but othe=
+rs are
+>for code improvements (i=2Ee=2E the code was correct, it can just be done=
+ slightly
+>better)=2E It's the second category were I think that should only apply t=
+o new code,
+>and not existing code=2E
 >
-> Some of the cocci tests are clearly checking for incorrect code, but others are
-> for code improvements (i.e. the code was correct, it can just be done slightly
-> better). It's the second category were I think that should only apply to new code,
-> and not existing code.
+>Regards,
 >
-> Regards,
-
-Julia, correct me if I am wrong, but I believe that cocci does not
-have the ability to check only new code. It runs against files not
-diffs.
-
-I agree with you, a "improvement cocci" shall not force us to drop the
-pen and work full time to fix it :)
-When a new "improvement" cocci check is landed, we should update our
-"allowlist" immediately to ignore those warnings until we slowly
-improve our codebase to meet the standard.
-That way the CI is not affected.
-
-Regarding this patchset.... It is pretty big, but also pretty simple.
-I added my "extra changes" on the cover letter to ease the review.
-
-If you or someone else have time to review it... then it will be great
-if we land it. But if none has time for it, then it can be ignored.
-
-
-Regards!
-
+>	Hans
 >
->         Hans
->
-> >
-> >> diff --git a/drivers/media/dvb-frontends/ascot2e.c b/drivers/media/dvb-frontends/ascot2e.c
-> >> index 8c3eb5d69dda..ec7a718428fc 100644
-> >> --- a/drivers/media/dvb-frontends/ascot2e.c
-> >> +++ b/drivers/media/dvb-frontends/ascot2e.c
-> >> @@ -104,7 +104,7 @@ static void ascot2e_i2c_debug(struct ascot2e_priv *priv,
-> >>                               u8 reg, u8 write, const u8 *data, u32 len)
-> >>  {
-> >>         dev_dbg(&priv->i2c->dev, "ascot2e: I2C %s reg 0x%02x size %d\n",
-> >> -               str_read_write(write == 0), reg, len);
-> >> +               str_write_read(write), reg, len);
-> >>         print_hex_dump_bytes("ascot2e: I2C data: ",
-> >>                 DUMP_PREFIX_OFFSET, data, len);
-> >>  }
-> >> diff --git a/drivers/media/dvb-frontends/cxd2841er.c b/drivers/media/dvb-frontends/cxd2841er.c
-> >> index db684f314b47..d1b84cd9c510 100644
-> >> --- a/drivers/media/dvb-frontends/cxd2841er.c
-> >> +++ b/drivers/media/dvb-frontends/cxd2841er.c
-> >> @@ -206,7 +206,7 @@ static void cxd2841er_i2c_debug(struct cxd2841er_priv *priv,
-> >>  {
-> >>         dev_dbg(&priv->i2c->dev,
-> >>                 "cxd2841er: I2C %s addr %02x reg 0x%02x size %d data %*ph\n",
-> >> -               str_read_write(write == 0), addr, reg, len, len, data);
-> >> +               str_write_read(write), addr, reg, len, len, data);
-> >>  }
-> >>
-> >>  static int cxd2841er_write_regs(struct cxd2841er_priv *priv,
-> >> diff --git a/drivers/media/dvb-frontends/helene.c b/drivers/media/dvb-frontends/helene.c
-> >> index 52198cb49dba..b4527c141d9c 100644
-> >> --- a/drivers/media/dvb-frontends/helene.c
-> >> +++ b/drivers/media/dvb-frontends/helene.c
-> >> @@ -279,7 +279,7 @@ static void helene_i2c_debug(struct helene_priv *priv,
-> >>                 u8 reg, u8 write, const u8 *data, u32 len)
-> >>  {
-> >>         dev_dbg(&priv->i2c->dev, "helene: I2C %s reg 0x%02x size %d\n",
-> >> -                       str_read_write(write == 0), reg, len);
-> >> +                       str_write_read(write), reg, len);
-> >>         print_hex_dump_bytes("helene: I2C data: ",
-> >>                         DUMP_PREFIX_OFFSET, data, len);
-> >>  }
-> >> diff --git a/drivers/media/dvb-frontends/horus3a.c b/drivers/media/dvb-frontends/horus3a.c
-> >> index 84385079918c..10300ebf3ca0 100644
-> >> --- a/drivers/media/dvb-frontends/horus3a.c
-> >> +++ b/drivers/media/dvb-frontends/horus3a.c
-> >> @@ -38,7 +38,7 @@ static void horus3a_i2c_debug(struct horus3a_priv *priv,
-> >>                               u8 reg, u8 write, const u8 *data, u32 len)
-> >>  {
-> >>         dev_dbg(&priv->i2c->dev, "horus3a: I2C %s reg 0x%02x size %d\n",
-> >> -               str_read_write(write == 0), reg, len);
-> >> +               str_write_read(write), reg, len);
-> >>         print_hex_dump_bytes("horus3a: I2C data: ",
-> >>                 DUMP_PREFIX_OFFSET, data, len);
-> >>  }
-> >> diff --git a/drivers/media/i2c/adv7842.c b/drivers/media/i2c/adv7842.c
-> >> index ba174aa45afa..a43479c3ff03 100644
-> >> --- a/drivers/media/i2c/adv7842.c
-> >> +++ b/drivers/media/i2c/adv7842.c
-> >> @@ -2763,7 +2763,7 @@ static int adv7842_cp_log_status(struct v4l2_subdev *sd)
-> >>                           str_true_false(io_read(sd, 0x6a) & 0x10));
-> >>         }
-> >>         v4l2_info(sd, "CP free run: %s\n",
-> >> -                 str_on_off(!!(cp_read(sd, 0xff) & 0x10)));
-> >> +                 str_on_off(cp_read(sd, 0xff) & 0x10));
-> >>         v4l2_info(sd, "Prim-mode = 0x%x, video std = 0x%x, v_freq = 0x%x\n",
-> >>                   io_read(sd, 0x01) & 0x0f, io_read(sd, 0x00) & 0x3f,
-> >>                   (io_read(sd, 0x01) & 0x70) >> 4);
-> >> diff --git a/drivers/media/pci/saa7134/saa7134-cards.c b/drivers/media/pci/saa7134/saa7134-cards.c
-> >> index 301b89e799d8..79cd61fb0205 100644
-> >> --- a/drivers/media/pci/saa7134/saa7134-cards.c
-> >> +++ b/drivers/media/pci/saa7134/saa7134-cards.c
-> >> @@ -7981,7 +7981,7 @@ int saa7134_board_init2(struct saa7134_dev *dev)
-> >>                         rc = i2c_transfer(&dev->i2c_adap, &msg, 1);
-> >>                         pr_info("%s: probe IR chip @ i2c 0x%02x: %s\n",
-> >>                                    dev->name, msg.addr,
-> >> -                                  str_yes_no(1 == rc));
-> >> +                                  str_yes_no(rc == 1));
-> >>                         if (rc == 1)
-> >>                                 dev->has_remote = SAA7134_REMOTE_I2C;
-> >>                 }
-> >> diff --git a/drivers/media/pci/saa7134/saa7134-input.c b/drivers/media/pci/saa7134/saa7134-input.c
-> >> index 90837ec6e70f..239f0b9d080a 100644
-> >> --- a/drivers/media/pci/saa7134/saa7134-input.c
-> >> +++ b/drivers/media/pci/saa7134/saa7134-input.c
-> >> @@ -895,7 +895,7 @@ void saa7134_probe_i2c_ir(struct saa7134_dev *dev)
-> >>                 rc = i2c_transfer(&dev->i2c_adap, &msg_msi, 1);
-> >>                 input_dbg("probe 0x%02x @ %s: %s\n",
-> >>                         msg_msi.addr, dev->i2c_adap.name,
-> >> -                       str_yes_no(1 == rc));
-> >> +                       str_yes_no(rc == 1));
-> >>                 break;
-> >>         case SAA7134_BOARD_SNAZIO_TVPVR_PRO:
-> >>                 dev->init_data.name = "SnaZio* TVPVR PRO";
-> >> @@ -931,7 +931,7 @@ void saa7134_probe_i2c_ir(struct saa7134_dev *dev)
-> >>                 rc = i2c_transfer(&dev->i2c_adap, &msg_msi, 1);
-> >>                 input_dbg("probe 0x%02x @ %s: %s\n",
-> >>                         msg_msi.addr, dev->i2c_adap.name,
-> >> -                       str_yes_no(1 == rc));
-> >> +                       str_yes_no(rc == 1));
-> >>                 break;
-> >>         case SAA7134_BOARD_HAUPPAUGE_HVR1110:
-> >>                 dev->init_data.name = saa7134_boards[dev->board].name;
-> >> diff --git a/drivers/media/usb/pvrusb2/pvrusb2-ctrl.c b/drivers/media/usb/pvrusb2/pvrusb2-ctrl.c
-> >> index 448c40caf363..b6c9bda214c8 100644
-> >> --- a/drivers/media/usb/pvrusb2/pvrusb2-ctrl.c
-> >> +++ b/drivers/media/usb/pvrusb2/pvrusb2-ctrl.c
-> >> @@ -521,7 +521,7 @@ int pvr2_ctrl_value_to_sym_internal(struct pvr2_ctrl *cptr,
-> >>                 *len = scnprintf(buf,maxlen,"%d",val);
-> >>                 ret = 0;
-> >>         } else if (cptr->info->type == pvr2_ctl_bool) {
-> >> -               *len = scnprintf(buf,maxlen,"%s",str_true_false(val));
-> >> +               *len = scnprintf(buf, maxlen, "%s", str_true_false(val));
-> >>                 ret = 0;
-> >>         } else if (cptr->info->type == pvr2_ctl_enum) {
-> >>                 const char * const *names;
-> >> diff --git a/drivers/media/usb/pvrusb2/pvrusb2-hdw.c b/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
-> >> index 96d3a0045fac..761d718478ca 100644
-> >> --- a/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
-> >> +++ b/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
-> >> @@ -338,7 +338,7 @@ static void trace_stbit(const char *name,int val)
-> >>  {
-> >>         pvr2_trace(PVR2_TRACE_STBITS,
-> >>                    "State bit %s <-- %s",
-> >> -                  name,str_true_false(val));
-> >> +                  name, str_true_false(val));
-> >>  }
-> >>
-> >> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> >> ---
-> >> Ricardo Ribalda (45):
-> >>       media: staging: ipu3: Use string_choices helpers
-> >>       media: staging: atomisp: Use string_choices helpers
-> >>       media: core: Use string_choices helpers
-> >>       media: pwc-ctl: Use string_choices helpers
-> >>       media: pvrusb2:Use string_choices helpers
-> >>       media: em28xx: Use string_choices helpers
-> >>       media: dvb-usb: Use string_choices helpers
-> >>       media: dvb-usb-v2: Use string_choices helpers
-> >>       media: cx231xx: Use string_choices helpers
-> >>       media: tuners: Use string_choices helpers
-> >>       media: rc: Use string_choices helpers
-> >>       media: dvb-frontends: Use string_choices helpers
-> >>       media: pci: cx23885: Use string_choices helpers
-> >>       media: saa7134: Use string_choices helpers
-> >>       media: amphion: Use string_choices helpers
-> >>       media: pci: ivtv: Use string_choices helpers
-> >>       media: bttv: Use string_choices helpers
-> >>       media: xilinx: Use string_choices helpers
-> >>       media: platform: ti: Use string_choices helpers
-> >>       media: st: Use string_choices helpers
-> >>       media: coda: Use string_choices helpers
-> >>       media: aspeed: Use string_choices helpers
-> >>       media: ipu6: Use string_choices helpers
-> >>       media: cx18: Use string_choices helpers
-> >>       media: cobalt: Use string_choices helpers
-> >>       media: videobuf2: Use string_choices helpers
-> >>       media: cec: Use string_choices helpers
-> >>       media: b2c2: Use string_choices helpers
-> >>       media: siano: Use string_choices helpers
-> >>       media: i2c: cx25840: Use string_choices helpers
-> >>       media: i2c: vpx3220: Use string_choices helpers
-> >>       media: i2c: tvp7002: Use string_choices helpers
-> >>       media: i2c: ths8200: Use string_choices helpers
-> >>       media: i2c: tda1997x: Use string_choices helpers
-> >>       media: i2c: tc358743: Use string_choices helpers
-> >>       media: i2c: st-mipid02: Use string_choices helpers
-> >>       media: i2c: msp3400: Use string_choices helpers
-> >>       media: i2c: max9286: Use string_choices helpers
-> >>       media: i2c: saa717x: Use string_choices helpers
-> >>       media: i2c: saa7127: Use string_choices helpers
-> >>       media: i2c: saa7115: Use string_choices helpers
-> >>       media: i2c: saa7110: Use string_choices helpers
-> >>       media: i2c: adv7842: Use string_choices helpers
-> >>       media: i2c: adv76xx: Use string_choices helpers
-> >>       media: i2c: adv7511: Use string_choices helpers
-> >>
-> >>  drivers/media/cec/platform/cec-gpio/cec-gpio.c     |  4 +-
-> >>  drivers/media/cec/usb/pulse8/pulse8-cec.c          |  4 +-
-> >>  drivers/media/common/b2c2/flexcop-hw-filter.c      |  4 +-
-> >>  drivers/media/common/siano/sms-cards.c             |  3 +-
-> >>  drivers/media/common/videobuf2/videobuf2-core.c    |  5 ++-
-> >>  drivers/media/dvb-frontends/ascot2e.c              |  2 +-
-> >>  drivers/media/dvb-frontends/cx24120.c              |  4 +-
-> >>  drivers/media/dvb-frontends/cxd2841er.c            |  2 +-
-> >>  drivers/media/dvb-frontends/drxk_hard.c            |  4 +-
-> >>  drivers/media/dvb-frontends/helene.c               |  2 +-
-> >>  drivers/media/dvb-frontends/horus3a.c              |  2 +-
-> >>  drivers/media/dvb-frontends/sp2.c                  |  2 +-
-> >>  drivers/media/i2c/adv7511-v4l2.c                   | 11 +++---
-> >>  drivers/media/i2c/adv7604.c                        | 25 ++++++------
-> >>  drivers/media/i2c/adv7842.c                        | 40 ++++++++++----------
-> >>  drivers/media/i2c/cx25840/cx25840-core.c           |  4 +-
-> >>  drivers/media/i2c/cx25840/cx25840-ir.c             | 34 ++++++++---------
-> >>  drivers/media/i2c/max9286.c                        |  2 +-
-> >>  drivers/media/i2c/msp3400-driver.c                 |  4 +-
-> >>  drivers/media/i2c/saa7110.c                        |  2 +-
-> >>  drivers/media/i2c/saa7115.c                        |  2 +-
-> >>  drivers/media/i2c/saa7127.c                        | 15 +++++---
-> >>  drivers/media/i2c/saa717x.c                        |  2 +-
-> >>  drivers/media/i2c/st-mipid02.c                     |  2 +-
-> >>  drivers/media/i2c/tc358743.c                       | 44 ++++++++++------------
-> >>  drivers/media/i2c/tda1997x.c                       |  6 +--
-> >>  drivers/media/i2c/ths8200.c                        |  4 +-
-> >>  drivers/media/i2c/tvp7002.c                        |  2 +-
-> >>  drivers/media/i2c/vpx3220.c                        |  2 +-
-> >>  drivers/media/pci/bt8xx/bttv-cards.c               | 16 ++++----
-> >>  drivers/media/pci/bt8xx/bttv-driver.c              |  6 +--
-> >>  drivers/media/pci/cobalt/cobalt-driver.c           |  2 +-
-> >>  drivers/media/pci/cx18/cx18-av-core.c              |  4 +-
-> >>  drivers/media/pci/cx23885/altera-ci.c              |  2 +-
-> >>  drivers/media/pci/cx23885/cimax2.c                 |  2 +-
-> >>  drivers/media/pci/cx23885/cx23888-ir.c             | 36 +++++++++---------
-> >>  drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c      |  2 +-
-> >>  drivers/media/pci/ivtv/ivtvfb.c                    |  4 +-
-> >>  drivers/media/pci/saa7134/saa7134-cards.c          |  2 +-
-> >>  drivers/media/pci/saa7134/saa7134-dvb.c            |  2 +-
-> >>  drivers/media/pci/saa7134/saa7134-input.c          |  6 +--
-> >>  drivers/media/pci/saa7134/saa7134-video.c          |  2 +-
-> >>  drivers/media/platform/amphion/venc.c              |  2 +-
-> >>  drivers/media/platform/amphion/vpu_dbg.c           |  2 +-
-> >>  drivers/media/platform/aspeed/aspeed-video.c       |  4 +-
-> >>  drivers/media/platform/chips-media/coda/imx-vdoa.c |  3 +-
-> >>  drivers/media/platform/st/sti/hva/hva-debugfs.c    |  6 +--
-> >>  drivers/media/platform/ti/omap3isp/ispstat.c       |  2 +-
-> >>  drivers/media/platform/xilinx/xilinx-csi2rxss.c    | 18 ++++-----
-> >>  drivers/media/rc/ene_ir.c                          |  3 +-
-> >>  drivers/media/rc/mceusb.c                          |  3 +-
-> >>  drivers/media/rc/serial_ir.c                       |  5 ++-
-> >>  drivers/media/tuners/tda18250.c                    |  2 +-
-> >>  drivers/media/tuners/tda9887.c                     | 10 ++---
-> >>  drivers/media/usb/cx231xx/cx231xx-i2c.c            |  4 +-
-> >>  drivers/media/usb/cx231xx/cx231xx-video.c          |  2 +-
-> >>  drivers/media/usb/dvb-usb-v2/az6007.c              |  4 +-
-> >>  drivers/media/usb/dvb-usb-v2/dvb_usb_core.c        |  4 +-
-> >>  drivers/media/usb/dvb-usb/af9005-fe.c              |  4 +-
-> >>  drivers/media/usb/dvb-usb/dvb-usb-dvb.c            |  6 +--
-> >>  drivers/media/usb/dvb-usb/opera1.c                 |  8 ++--
-> >>  drivers/media/usb/em28xx/em28xx-i2c.c              |  4 +-
-> >>  drivers/media/usb/em28xx/em28xx-video.c            |  2 +-
-> >>  drivers/media/usb/pvrusb2/pvrusb2-ctrl.c           |  2 +-
-> >>  drivers/media/usb/pvrusb2/pvrusb2-debugifc.c       |  3 +-
-> >>  drivers/media/usb/pvrusb2/pvrusb2-encoder.c        |  5 +--
-> >>  drivers/media/usb/pvrusb2/pvrusb2-hdw.c            |  6 +--
-> >>  drivers/media/usb/pvrusb2/pvrusb2-i2c-core.c       |  3 +-
-> >>  drivers/media/usb/pwc/pwc-ctrl.c                   |  2 +-
-> >>  drivers/media/v4l2-core/v4l2-ctrls-core.c          |  3 +-
-> >>  drivers/media/v4l2-core/v4l2-fwnode.c              | 12 +++---
-> >>  .../media/atomisp/pci/atomisp_compat_css20.c       |  2 +-
-> >>  .../media/atomisp/pci/atomisp_csi2_bridge.c        |  2 +-
-> >>  .../media/atomisp/pci/atomisp_gmin_platform.c      |  4 +-
-> >>  drivers/staging/media/atomisp/pci/atomisp_v4l2.c   |  4 +-
-> >>  .../media/atomisp/pci/runtime/binary/src/binary.c  |  2 +-
-> >>  drivers/staging/media/atomisp/pci/sh_css.c         |  2 +-
-> >>  drivers/staging/media/ipu3/ipu3-v4l2.c             |  4 +-
-> >>  78 files changed, 240 insertions(+), 239 deletions(-)
-> >> ---
-> >> base-commit: 9852d85ec9d492ebef56dc5f229416c925758edc
-> >> change-id: 20240930-cocci-opportunity-40bca6a17c42
-> >
+>>=20
+>>> diff --git a/drivers/media/dvb-frontends/ascot2e=2Ec b/drivers/media/d=
+vb-frontends/ascot2e=2Ec
+>>> index 8c3eb5d69dda=2E=2Eec7a718428fc 100644
+>>> --- a/drivers/media/dvb-frontends/ascot2e=2Ec
+>>> +++ b/drivers/media/dvb-frontends/ascot2e=2Ec
+>>> @@ -104,7 +104,7 @@ static void ascot2e_i2c_debug(struct ascot2e_priv =
+*priv,
+>>>                               u8 reg, u8 write, const u8 *data, u32 le=
+n)
+>>>  {
+>>>         dev_dbg(&priv->i2c->dev, "ascot2e: I2C %s reg 0x%02x size %d\n=
+",
+>>> -               str_read_write(write =3D=3D 0), reg, len);
+>>> +               str_write_read(write), reg, len);
+>>>         print_hex_dump_bytes("ascot2e: I2C data: ",
+>>>                 DUMP_PREFIX_OFFSET, data, len);
+>>>  }
+>>> diff --git a/drivers/media/dvb-frontends/cxd2841er=2Ec b/drivers/media=
+/dvb-frontends/cxd2841er=2Ec
+>>> index db684f314b47=2E=2Ed1b84cd9c510 100644
+>>> --- a/drivers/media/dvb-frontends/cxd2841er=2Ec
+>>> +++ b/drivers/media/dvb-frontends/cxd2841er=2Ec
+>>> @@ -206,7 +206,7 @@ static void cxd2841er_i2c_debug(struct cxd2841er_p=
+riv *priv,
+>>>  {
+>>>         dev_dbg(&priv->i2c->dev,
+>>>                 "cxd2841er: I2C %s addr %02x reg 0x%02x size %d data %=
+*ph\n",
+>>> -               str_read_write(write =3D=3D 0), addr, reg, len, len, d=
+ata);
+>>> +               str_write_read(write), addr, reg, len, len, data);
+>>>  }
+>>> =20
+>>>  static int cxd2841er_write_regs(struct cxd2841er_priv *priv,
+>>> diff --git a/drivers/media/dvb-frontends/helene=2Ec b/drivers/media/dv=
+b-frontends/helene=2Ec
+>>> index 52198cb49dba=2E=2Eb4527c141d9c 100644
+>>> --- a/drivers/media/dvb-frontends/helene=2Ec
+>>> +++ b/drivers/media/dvb-frontends/helene=2Ec
+>>> @@ -279,7 +279,7 @@ static void helene_i2c_debug(struct helene_priv *p=
+riv,
+>>>                 u8 reg, u8 write, const u8 *data, u32 len)
+>>>  {
+>>>         dev_dbg(&priv->i2c->dev, "helene: I2C %s reg 0x%02x size %d\n"=
+,
+>>> -                       str_read_write(write =3D=3D 0), reg, len);
+>>> +                       str_write_read(write), reg, len);
+>>>         print_hex_dump_bytes("helene: I2C data: ",
+>>>                         DUMP_PREFIX_OFFSET, data, len);
+>>>  }
+>>> diff --git a/drivers/media/dvb-frontends/horus3a=2Ec b/drivers/media/d=
+vb-frontends/horus3a=2Ec
+>>> index 84385079918c=2E=2E10300ebf3ca0 100644
+>>> --- a/drivers/media/dvb-frontends/horus3a=2Ec
+>>> +++ b/drivers/media/dvb-frontends/horus3a=2Ec
+>>> @@ -38,7 +38,7 @@ static void horus3a_i2c_debug(struct horus3a_priv *p=
+riv,
+>>>                               u8 reg, u8 write, const u8 *data, u32 le=
+n)
+>>>  {
+>>>         dev_dbg(&priv->i2c->dev, "horus3a: I2C %s reg 0x%02x size %d\n=
+",
+>>> -               str_read_write(write =3D=3D 0), reg, len);
+>>> +               str_write_read(write), reg, len);
+>>>         print_hex_dump_bytes("horus3a: I2C data: ",
+>>>                 DUMP_PREFIX_OFFSET, data, len);
+>>>  }
+>>> diff --git a/drivers/media/i2c/adv7842=2Ec b/drivers/media/i2c/adv7842=
+=2Ec
+>>> index ba174aa45afa=2E=2Ea43479c3ff03 100644
+>>> --- a/drivers/media/i2c/adv7842=2Ec
+>>> +++ b/drivers/media/i2c/adv7842=2Ec
+>>> @@ -2763,7 +2763,7 @@ static int adv7842_cp_log_status(struct v4l2_sub=
+dev *sd)
+>>>                           str_true_false(io_read(sd, 0x6a) & 0x10));
+>>>         }
+>>>         v4l2_info(sd, "CP free run: %s\n",
+>>> -                 str_on_off(!!(cp_read(sd, 0xff) & 0x10)));
+>>> +                 str_on_off(cp_read(sd, 0xff) & 0x10));
+>>>         v4l2_info(sd, "Prim-mode =3D 0x%x, video std =3D 0x%x, v_freq =
+=3D 0x%x\n",
+>>>                   io_read(sd, 0x01) & 0x0f, io_read(sd, 0x00) & 0x3f,
+>>>                   (io_read(sd, 0x01) & 0x70) >> 4);
+>>> diff --git a/drivers/media/pci/saa7134/saa7134-cards=2Ec b/drivers/med=
+ia/pci/saa7134/saa7134-cards=2Ec
+>>> index 301b89e799d8=2E=2E79cd61fb0205 100644
+>>> --- a/drivers/media/pci/saa7134/saa7134-cards=2Ec
+>>> +++ b/drivers/media/pci/saa7134/saa7134-cards=2Ec
+>>> @@ -7981,7 +7981,7 @@ int saa7134_board_init2(struct saa7134_dev *dev)
+>>>                         rc =3D i2c_transfer(&dev->i2c_adap, &msg, 1);
+>>>                         pr_info("%s: probe IR chip @ i2c 0x%02x: %s\n"=
+,
+>>>                                    dev->name, msg=2Eaddr,
+>>> -                                  str_yes_no(1 =3D=3D rc));
+>>> +                                  str_yes_no(rc =3D=3D 1));
+>>>                         if (rc =3D=3D 1)
+>>>                                 dev->has_remote =3D SAA7134_REMOTE_I2C=
+;
+>>>                 }
+>>> diff --git a/drivers/media/pci/saa7134/saa7134-input=2Ec b/drivers/med=
+ia/pci/saa7134/saa7134-input=2Ec
+>>> index 90837ec6e70f=2E=2E239f0b9d080a 100644
+>>> --- a/drivers/media/pci/saa7134/saa7134-input=2Ec
+>>> +++ b/drivers/media/pci/saa7134/saa7134-input=2Ec
+>>> @@ -895,7 +895,7 @@ void saa7134_probe_i2c_ir(struct saa7134_dev *dev)
+>>>                 rc =3D i2c_transfer(&dev->i2c_adap, &msg_msi, 1);
+>>>                 input_dbg("probe 0x%02x @ %s: %s\n",
+>>>                         msg_msi=2Eaddr, dev->i2c_adap=2Ename,
+>>> -                       str_yes_no(1 =3D=3D rc));
+>>> +                       str_yes_no(rc =3D=3D 1));
+>>>                 break;
+>>>         case SAA7134_BOARD_SNAZIO_TVPVR_PRO:
+>>>                 dev->init_data=2Ename =3D "SnaZio* TVPVR PRO";
+>>> @@ -931,7 +931,7 @@ void saa7134_probe_i2c_ir(struct saa7134_dev *dev)
+>>>                 rc =3D i2c_transfer(&dev->i2c_adap, &msg_msi, 1);
+>>>                 input_dbg("probe 0x%02x @ %s: %s\n",
+>>>                         msg_msi=2Eaddr, dev->i2c_adap=2Ename,
+>>> -                       str_yes_no(1 =3D=3D rc));
+>>> +                       str_yes_no(rc =3D=3D 1));
+>>>                 break;
+>>>         case SAA7134_BOARD_HAUPPAUGE_HVR1110:
+>>>                 dev->init_data=2Ename =3D saa7134_boards[dev->board]=
+=2Ename;
+>>> diff --git a/drivers/media/usb/pvrusb2/pvrusb2-ctrl=2Ec b/drivers/medi=
+a/usb/pvrusb2/pvrusb2-ctrl=2Ec
+>>> index 448c40caf363=2E=2Eb6c9bda214c8 100644
+>>> --- a/drivers/media/usb/pvrusb2/pvrusb2-ctrl=2Ec
+>>> +++ b/drivers/media/usb/pvrusb2/pvrusb2-ctrl=2Ec
+>>> @@ -521,7 +521,7 @@ int pvr2_ctrl_value_to_sym_internal(struct pvr2_ct=
+rl *cptr,
+>>>                 *len =3D scnprintf(buf,maxlen,"%d",val);
+>>>                 ret =3D 0;
+>>>         } else if (cptr->info->type =3D=3D pvr2_ctl_bool) {
+>>> -               *len =3D scnprintf(buf,maxlen,"%s",str_true_false(val)=
+);
+>>> +               *len =3D scnprintf(buf, maxlen, "%s", str_true_false(v=
+al));
+>>>                 ret =3D 0;
+>>>         } else if (cptr->info->type =3D=3D pvr2_ctl_enum) {
+>>>                 const char * const *names;
+>>> diff --git a/drivers/media/usb/pvrusb2/pvrusb2-hdw=2Ec b/drivers/media=
+/usb/pvrusb2/pvrusb2-hdw=2Ec
+>>> index 96d3a0045fac=2E=2E761d718478ca 100644
+>>> --- a/drivers/media/usb/pvrusb2/pvrusb2-hdw=2Ec
+>>> +++ b/drivers/media/usb/pvrusb2/pvrusb2-hdw=2Ec
+>>> @@ -338,7 +338,7 @@ static void trace_stbit(const char *name,int val)
+>>>  {
+>>>         pvr2_trace(PVR2_TRACE_STBITS,
+>>>                    "State bit %s <-- %s",
+>>> -                  name,str_true_false(val));
+>>> +                  name, str_true_false(val));
+>>>  }
+>>>
+>>> Signed-off-by: Ricardo Ribalda <ribalda@chromium=2Eorg>
+>>> ---
+>>> Ricardo Ribalda (45):
+>>>       media: staging: ipu3: Use string_choices helpers
+>>>       media: staging: atomisp: Use string_choices helpers
+>>>       media: core: Use string_choices helpers
+>>>       media: pwc-ctl: Use string_choices helpers
+>>>       media: pvrusb2:Use string_choices helpers
+>>>       media: em28xx: Use string_choices helpers
+>>>       media: dvb-usb: Use string_choices helpers
+>>>       media: dvb-usb-v2: Use string_choices helpers
+>>>       media: cx231xx: Use string_choices helpers
+>>>       media: tuners: Use string_choices helpers
+>>>       media: rc: Use string_choices helpers
+>>>       media: dvb-frontends: Use string_choices helpers
+>>>       media: pci: cx23885: Use string_choices helpers
+>>>       media: saa7134: Use string_choices helpers
+>>>       media: amphion: Use string_choices helpers
+>>>       media: pci: ivtv: Use string_choices helpers
+>>>       media: bttv: Use string_choices helpers
+>>>       media: xilinx: Use string_choices helpers
+>>>       media: platform: ti: Use string_choices helpers
+>>>       media: st: Use string_choices helpers
+>>>       media: coda: Use string_choices helpers
+>>>       media: aspeed: Use string_choices helpers
+>>>       media: ipu6: Use string_choices helpers
+>>>       media: cx18: Use string_choices helpers
+>>>       media: cobalt: Use string_choices helpers
+>>>       media: videobuf2: Use string_choices helpers
+>>>       media: cec: Use string_choices helpers
+>>>       media: b2c2: Use string_choices helpers
+>>>       media: siano: Use string_choices helpers
+>>>       media: i2c: cx25840: Use string_choices helpers
+>>>       media: i2c: vpx3220: Use string_choices helpers
+>>>       media: i2c: tvp7002: Use string_choices helpers
+>>>       media: i2c: ths8200: Use string_choices helpers
+>>>       media: i2c: tda1997x: Use string_choices helpers
+>>>       media: i2c: tc358743: Use string_choices helpers
+>>>       media: i2c: st-mipid02: Use string_choices helpers
+>>>       media: i2c: msp3400: Use string_choices helpers
+>>>       media: i2c: max9286: Use string_choices helpers
+>>>       media: i2c: saa717x: Use string_choices helpers
+>>>       media: i2c: saa7127: Use string_choices helpers
+>>>       media: i2c: saa7115: Use string_choices helpers
+>>>       media: i2c: saa7110: Use string_choices helpers
+>>>       media: i2c: adv7842: Use string_choices helpers
+>>>       media: i2c: adv76xx: Use string_choices helpers
+>>>       media: i2c: adv7511: Use string_choices helpers
+>>>
+>>>  drivers/media/cec/platform/cec-gpio/cec-gpio=2Ec     |  4 +-
+>>>  drivers/media/cec/usb/pulse8/pulse8-cec=2Ec          |  4 +-
+>>>  drivers/media/common/b2c2/flexcop-hw-filter=2Ec      |  4 +-
+>>>  drivers/media/common/siano/sms-cards=2Ec             |  3 +-
+>>>  drivers/media/common/videobuf2/videobuf2-core=2Ec    |  5 ++-
+>>>  drivers/media/dvb-frontends/ascot2e=2Ec              |  2 +-
+>>>  drivers/media/dvb-frontends/cx24120=2Ec              |  4 +-
+>>>  drivers/media/dvb-frontends/cxd2841er=2Ec            |  2 +-
+>>>  drivers/media/dvb-frontends/drxk_hard=2Ec            |  4 +-
+>>>  drivers/media/dvb-frontends/helene=2Ec               |  2 +-
+>>>  drivers/media/dvb-frontends/horus3a=2Ec              |  2 +-
+>>>  drivers/media/dvb-frontends/sp2=2Ec                  |  2 +-
+>>>  drivers/media/i2c/adv7511-v4l2=2Ec                   | 11 +++---
+>>>  drivers/media/i2c/adv7604=2Ec                        | 25 ++++++-----=
+-
+>>>  drivers/media/i2c/adv7842=2Ec                        | 40 ++++++++++-=
+---------
+>>>  drivers/media/i2c/cx25840/cx25840-core=2Ec           |  4 +-
+>>>  drivers/media/i2c/cx25840/cx25840-ir=2Ec             | 34 ++++++++---=
+------
+>>>  drivers/media/i2c/max9286=2Ec                        |  2 +-
+>>>  drivers/media/i2c/msp3400-driver=2Ec                 |  4 +-
+>>>  drivers/media/i2c/saa7110=2Ec                        |  2 +-
+>>>  drivers/media/i2c/saa7115=2Ec                        |  2 +-
+>>>  drivers/media/i2c/saa7127=2Ec                        | 15 +++++---
+>>>  drivers/media/i2c/saa717x=2Ec                        |  2 +-
+>>>  drivers/media/i2c/st-mipid02=2Ec                     |  2 +-
+>>>  drivers/media/i2c/tc358743=2Ec                       | 44 ++++++++++-=
+-----------
+>>>  drivers/media/i2c/tda1997x=2Ec                       |  6 +--
+>>>  drivers/media/i2c/ths8200=2Ec                        |  4 +-
+>>>  drivers/media/i2c/tvp7002=2Ec                        |  2 +-
+>>>  drivers/media/i2c/vpx3220=2Ec                        |  2 +-
+>>>  drivers/media/pci/bt8xx/bttv-cards=2Ec               | 16 ++++----
+>>>  drivers/media/pci/bt8xx/bttv-driver=2Ec              |  6 +--
+>>>  drivers/media/pci/cobalt/cobalt-driver=2Ec           |  2 +-
+>>>  drivers/media/pci/cx18/cx18-av-core=2Ec              |  4 +-
+>>>  drivers/media/pci/cx23885/altera-ci=2Ec              |  2 +-
+>>>  drivers/media/pci/cx23885/cimax2=2Ec                 |  2 +-
+>>>  drivers/media/pci/cx23885/cx23888-ir=2Ec             | 36 +++++++++--=
+-------
+>>>  drivers/media/pci/intel/ipu6/ipu6-isys-csi2=2Ec      |  2 +-
+>>>  drivers/media/pci/ivtv/ivtvfb=2Ec                    |  4 +-
+>>>  drivers/media/pci/saa7134/saa7134-cards=2Ec          |  2 +-
+>>>  drivers/media/pci/saa7134/saa7134-dvb=2Ec            |  2 +-
+>>>  drivers/media/pci/saa7134/saa7134-input=2Ec          |  6 +--
+>>>  drivers/media/pci/saa7134/saa7134-video=2Ec          |  2 +-
+>>>  drivers/media/platform/amphion/venc=2Ec              |  2 +-
+>>>  drivers/media/platform/amphion/vpu_dbg=2Ec           |  2 +-
+>>>  drivers/media/platform/aspeed/aspeed-video=2Ec       |  4 +-
+>>>  drivers/media/platform/chips-media/coda/imx-vdoa=2Ec |  3 +-
+>>>  drivers/media/platform/st/sti/hva/hva-debugfs=2Ec    |  6 +--
+>>>  drivers/media/platform/ti/omap3isp/ispstat=2Ec       |  2 +-
+>>>  drivers/media/platform/xilinx/xilinx-csi2rxss=2Ec    | 18 ++++-----
+>>>  drivers/media/rc/ene_ir=2Ec                          |  3 +-
+>>>  drivers/media/rc/mceusb=2Ec                          |  3 +-
+>>>  drivers/media/rc/serial_ir=2Ec                       |  5 ++-
+>>>  drivers/media/tuners/tda18250=2Ec                    |  2 +-
+>>>  drivers/media/tuners/tda9887=2Ec                     | 10 ++---
+>>>  drivers/media/usb/cx231xx/cx231xx-i2c=2Ec            |  4 +-
+>>>  drivers/media/usb/cx231xx/cx231xx-video=2Ec          |  2 +-
+>>>  drivers/media/usb/dvb-usb-v2/az6007=2Ec              |  4 +-
+>>>  drivers/media/usb/dvb-usb-v2/dvb_usb_core=2Ec        |  4 +-
+>>>  drivers/media/usb/dvb-usb/af9005-fe=2Ec              |  4 +-
+>>>  drivers/media/usb/dvb-usb/dvb-usb-dvb=2Ec            |  6 +--
+>>>  drivers/media/usb/dvb-usb/opera1=2Ec                 |  8 ++--
+>>>  drivers/media/usb/em28xx/em28xx-i2c=2Ec              |  4 +-
+>>>  drivers/media/usb/em28xx/em28xx-video=2Ec            |  2 +-
+>>>  drivers/media/usb/pvrusb2/pvrusb2-ctrl=2Ec           |  2 +-
+>>>  drivers/media/usb/pvrusb2/pvrusb2-debugifc=2Ec       |  3 +-
+>>>  drivers/media/usb/pvrusb2/pvrusb2-encoder=2Ec        |  5 +--
+>>>  drivers/media/usb/pvrusb2/pvrusb2-hdw=2Ec            |  6 +--
+>>>  drivers/media/usb/pvrusb2/pvrusb2-i2c-core=2Ec       |  3 +-
+>>>  drivers/media/usb/pwc/pwc-ctrl=2Ec                   |  2 +-
+>>>  drivers/media/v4l2-core/v4l2-ctrls-core=2Ec          |  3 +-
+>>>  drivers/media/v4l2-core/v4l2-fwnode=2Ec              | 12 +++---
+>>>  =2E=2E=2E/media/atomisp/pci/atomisp_compat_css20=2Ec       |  2 +-
+>>>  =2E=2E=2E/media/atomisp/pci/atomisp_csi2_bridge=2Ec        |  2 +-
+>>>  =2E=2E=2E/media/atomisp/pci/atomisp_gmin_platform=2Ec      |  4 +-
+>>>  drivers/staging/media/atomisp/pci/atomisp_v4l2=2Ec   |  4 +-
+>>>  =2E=2E=2E/media/atomisp/pci/runtime/binary/src/binary=2Ec  |  2 +-
+>>>  drivers/staging/media/atomisp/pci/sh_css=2Ec         |  2 +-
+>>>  drivers/staging/media/ipu3/ipu3-v4l2=2Ec             |  4 +-
+>>>  78 files changed, 240 insertions(+), 239 deletions(-)
+>>> ---
+>>> base-commit: 9852d85ec9d492ebef56dc5f229416c925758edc
+>>> change-id: 20240930-cocci-opportunity-40bca6a17c42
+>>=20
 >
 
+Hi Ricardo,
 
--- 
-Ricardo Ribalda
+I'll go a little further than Hans and Laurent:
+
+I staunchly oppose what I call editorial changes:
+
+ 'sed s/happy/glad/g'
+
+in code that has been working for a long time for which many do not have t=
+ime or hardware to perform regression tests against=2E
+
+Please explain the return on investment for why this change should be appl=
+ied?  Help me to understand how that return outweighs the risk of introduci=
+ng a bug? (No human being really code reviews sweeping editorial change lik=
+e these thoroughly=2E)
+
+-Andy
