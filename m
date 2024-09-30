@@ -1,57 +1,57 @@
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2455219342E
-	for <linux-staging@lists.linux.dev>; Mon, 30 Sep 2024 12:04:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23215194ACA
+	for <linux-staging@lists.linux.dev>; Mon, 30 Sep 2024 12:04:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727697875; cv=none; b=gpoirEt7HfBCIWa10xY6yU9BokiAorDCD3bP2ET3j4h4zcaCba9GmU1Z+XtTjNpwT/6laI9Bb5+K4UYnSrRx9wFeOGiuDzi2qqgIEQBB6sD0UTlmIGAv3NaG9LPnNnpIh/GmJgS6fNxEoWEWyVUsNGnJnjir28p1/ZCvWPIbDUg=
+	t=1727697877; cv=none; b=fyRxn8eFCJc/fifSpuHun8+tteQCqRfJetN5J5pGBJadyVHDtvfIBmZrOL2s/JMyWkUjRCdEsZ4JMDmCDH5fpYRxIFRlRHGMNQLUJIXC5fBIZn28DYl7ArlLdPXHa5sY01M91AiD7q4jzzenwjzNeRdxgT8AdwLztpirI1LMRP8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727697875; c=relaxed/simple;
-	bh=SCFl1C9z2VTb+qQWM91xmVqiVRgT9zj6Mxth/Q7JwNY=;
+	s=arc-20240116; t=1727697877; c=relaxed/simple;
+	bh=27dEbLYS3PRjKxWaJp2KRsfAuUa8ZpRAboFGn7TSbcA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=afViCGIyG+o8FX8jIIqUJHtk88X2FZlhBBkSDDKAawP069uTZl8T6yFV0xurDLm0xkcxL6dVy6HdrcwrN+3k2DTcWzcCRt7pV17sfO9524sep7/4HMBOOOcFwBynAYI+avcLd7XEugF+MKhSj/VNHVrzBCwKNTyRfJKNK7V2NSI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ACa8NFAZ; arc=none smtp.client-ip=209.85.222.177
+	 In-Reply-To:To:Cc; b=c6TYGvj5UFAQpn201ZbchtEM8pCx0jzaJBN+RYnbFOtW8lv2IkiwGt9qapNeYLkRMSs8Ap09WcE9IP3YcwsRY2WRA7OFktDvxiOCLzTbDiULXlE5RirEkJXa2xsHLTXdMIZM6cDjwAkdpVnKQThq2oN3N563GIviGs2s6ekGs+c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=YfSIUuY9; arc=none smtp.client-ip=209.85.161.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ACa8NFAZ"
-Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-7a99e8d5df1so447808885a.2
-        for <linux-staging@lists.linux.dev>; Mon, 30 Sep 2024 05:04:33 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="YfSIUuY9"
+Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-5e1b55346c0so1791930eaf.3
+        for <linux-staging@lists.linux.dev>; Mon, 30 Sep 2024 05:04:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1727697873; x=1728302673; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1727697875; x=1728302675; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ROQ1HhB5eUHGQkR1Zb9xX876/ICgPqUa0J3DMNQ2iR0=;
-        b=ACa8NFAZNKqaQ7hdjGXVIbjCFVcLiJMbFYmNgSia/OhjLrGknLsZunL4PWKkI9g7ge
-         rDu+p6FqI2HqVtT2MhaC054hs6U71vyBHRqG+iVYRIQ2adC3/mmORlxRTZbHX4rBRpI+
-         6FxjqcbHTEpSo8gFYJCT3XjvUXevEEmvbnUMc=
+        bh=xpVUYLeo0hSTOfKt30J/ldl6oRGhulqCfi0QX1kLeY0=;
+        b=YfSIUuY9oKFuurooKY3kA0iBAWfctTNU7TDJW98s8N3QvGGfwm/xlWYYoZpF0lgM3y
+         5fbnEWDODeOKGFjY8rh98vN5oPGxmXzh8qJXgnyLEQxAgsK2AVjoeyH/VHHXKPuI9/gx
+         XcHm6V0N/wxblFGcqGylmmAKs7ppOHMubmHDE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727697873; x=1728302673;
+        d=1e100.net; s=20230601; t=1727697875; x=1728302675;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ROQ1HhB5eUHGQkR1Zb9xX876/ICgPqUa0J3DMNQ2iR0=;
-        b=K4iGtFiaEO22jPtML9p9ADsNLxzqQXkc7c7OL5kcUVRwhxZgl9M/+L377yKdKjG8TN
-         yezgFISx//d2goLkMMkqfSFFXVQqZxK7EAM1QhHhSxQYS0Q/rifuNPmhjtAnf9DE5HOx
-         adKPWVyu7gau3Ne8t57iJGG0XxsYaw1Np2d/P3yEkstl+Fcb5QXJp5xqusibg1xPqoz4
-         xbYGsPLNdmXsliURH9d7rnPrL6hZK9YDXKtaASCIvi80teSJ0UshYang56rFoLCBrCZ/
-         zhRHrklbVy/S/ZiCf84zsLLzmwH6HIqDGCBZjw8jeq8OLgu3PwNM3R7Wo9VGTVGnjKOM
-         giNQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV/ruS+UyepDRzvx3VX0R9R+gqc5q7pm1ua1IvWB/gguayGEqpH8R3YmxRkQrv95wnaFt9tADiho2pBlxZJ@lists.linux.dev
-X-Gm-Message-State: AOJu0YwPuoIa6BlKtXIySYqxkrCackyHkPDBjAqDlXa88Tr+b222jx32
-	EsUvWzZMzX2pTYa2LdwAjxTyYwNdZCZ60AMixHVDpv0O4HgrBO4ZeichQoelig==
-X-Google-Smtp-Source: AGHT+IGlpLvOiABRGPfPC5tWhysrrPiJ2yte8Y1JxuD34Gtndo3CQ3SWzVD7Qrk2mRRfbUS2vxDpnw==
-X-Received: by 2002:a05:6214:458d:b0:6c7:c63f:b414 with SMTP id 6a1803df08f44-6cb3b6407b6mr208576446d6.33.1727697872928;
-        Mon, 30 Sep 2024 05:04:32 -0700 (PDT)
+        bh=xpVUYLeo0hSTOfKt30J/ldl6oRGhulqCfi0QX1kLeY0=;
+        b=VI6A8c6N5ATNSmdEErsKUmaYn9L0+iZPY1XCWL1ZYYRsKsNdIsBzX8gDT8bZIt0Wdc
+         l7HANeHNKnsOqYxx69Vtf5QoGQTrsEe0FJubi3/V78Z2IEN8sJFdVWlCcvMuJbjoA+t6
+         7k3ejPGg24MY5fa267EEBd3qJGUtmUESesYcBkzIoBIWJI3kDgEJOLoTwOQes5QgVcOL
+         fTt3rSmoP5xlxqieOfZtLqAZstUOqfkgStDeAsi+hSyuh6R+XrcQwi3/7IfgibzAzExI
+         CkokvRo9ugw7Onz8FQRREBM5aLJ0IcoDvGSK9TLTtFOKWqT4XHx1veK/sH1R6/7KIHi+
+         M4Lg==
+X-Forwarded-Encrypted: i=1; AJvYcCUM7I3oaqcR6zkUpDPlMg/lCDE6Jk7YzuFVFVLyXUU3BkWT5Lnv6znfc5+rr4Sm8tQV2hZmJDN76lUzfOYV@lists.linux.dev
+X-Gm-Message-State: AOJu0YxKRxz0V4FPM6S9GcuRIshxeljURSFVp4/EnSSicPn9muorQXo/
+	5zMPDauxIvKgxWFhgKnwAOUXmKBmBN0HoaA5fMTIREeniPhTdIbZMxv66igI3Q==
+X-Google-Smtp-Source: AGHT+IGd3K8vbb6GyQdRKaZnKoS5TA6gIcUfCdqxCm9K5gJfl06dGrwyNT5yGfSWCEUO0kuvQMkCfQ==
+X-Received: by 2002:a05:6358:e4a9:b0:1b5:968f:e221 with SMTP id e5c5f4694b2df-1becbb39bb4mr326693155d.2.1727697875191;
+        Mon, 30 Sep 2024 05:04:35 -0700 (PDT)
 Received: from denia.c.googlers.com (76.224.245.35.bc.googleusercontent.com. [35.245.224.76])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cb3b694369sm38822536d6.144.2024.09.30.05.04.31
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cb3b694369sm38822536d6.144.2024.09.30.05.04.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Sep 2024 05:04:32 -0700 (PDT)
+        Mon, 30 Sep 2024 05:04:33 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 30 Sep 2024 12:04:09 +0000
-Subject: [PATCH 14/45] media: saa7134: Use string_choices helpers
+Date: Mon, 30 Sep 2024 12:04:10 +0000
+Subject: [PATCH 15/45] media: amphion: Use string_choices helpers
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -60,7 +60,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240930-cocci-opportunity-v1-14-81e137456ce0@chromium.org>
+Message-Id: <20240930-cocci-opportunity-v1-15-81e137456ce0@chromium.org>
 References: <20240930-cocci-opportunity-v1-0-81e137456ce0@chromium.org>
 In-Reply-To: <20240930-cocci-opportunity-v1-0-81e137456ce0@chromium.org>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
@@ -100,91 +100,41 @@ Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
 X-Mailer: b4 0.13.0
 
 The following cocci warnings are fixed:
-drivers/media/pci/saa7134/saa7134-cards.c:7984:7-16: opportunity for str_yes_no(( 1 == rc ))
-drivers/media/pci/saa7134/saa7134-dvb.c:93:31-33: opportunity for str_on_off(ok)
-drivers/media/pci/saa7134/saa7134-input.c:919:3-12: opportunity for str_yes_no(( rc == 1 ))
-drivers/media/pci/saa7134/saa7134-input.c:898:3-12: opportunity for str_yes_no(( 1 == rc ))
-drivers/media/pci/saa7134/saa7134-input.c:934:3-12: opportunity for str_yes_no(( 1 == rc ))
-drivers/media/pci/saa7134/saa7134-video.c:622:10-15: opportunity for str_enabled_disabled(flags)
+drivers/media/platform/amphion/venc.c:1206:4-26: opportunity for str_enable_disable(venc -> params . rc_enable)
+drivers/media/platform/amphion/vpu_dbg.c:259:3-34: opportunity for str_on_off(vpu_iface_get_power_state ( core ))
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/pci/saa7134/saa7134-cards.c | 2 +-
- drivers/media/pci/saa7134/saa7134-dvb.c   | 2 +-
- drivers/media/pci/saa7134/saa7134-input.c | 6 +++---
- drivers/media/pci/saa7134/saa7134-video.c | 2 +-
- 4 files changed, 6 insertions(+), 6 deletions(-)
+ drivers/media/platform/amphion/venc.c    | 2 +-
+ drivers/media/platform/amphion/vpu_dbg.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/pci/saa7134/saa7134-cards.c b/drivers/media/pci/saa7134/saa7134-cards.c
-index e80fb4ebfda6..79cd61fb0205 100644
---- a/drivers/media/pci/saa7134/saa7134-cards.c
-+++ b/drivers/media/pci/saa7134/saa7134-cards.c
-@@ -7981,7 +7981,7 @@ int saa7134_board_init2(struct saa7134_dev *dev)
- 			rc = i2c_transfer(&dev->i2c_adap, &msg, 1);
- 			pr_info("%s: probe IR chip @ i2c 0x%02x: %s\n",
- 				   dev->name, msg.addr,
--				   (1 == rc) ? "yes" : "no");
-+				   str_yes_no(rc == 1));
- 			if (rc == 1)
- 				dev->has_remote = SAA7134_REMOTE_I2C;
- 		}
-diff --git a/drivers/media/pci/saa7134/saa7134-dvb.c b/drivers/media/pci/saa7134/saa7134-dvb.c
-index 6de8a02314af..d0e58a0156f7 100644
---- a/drivers/media/pci/saa7134/saa7134-dvb.c
-+++ b/drivers/media/pci/saa7134/saa7134-dvb.c
-@@ -90,7 +90,7 @@ static int pinnacle_antenna_pwr(struct saa7134_dev *dev, int on)
- 	saa_setl(SAA7134_GPIO_GPSTATUS0 >> 2,   (1 << 28));
- 	udelay(10);
- 	ok = saa_readl(SAA7134_GPIO_GPSTATUS0) & (1 << 27);
--	pr_debug("%s %s\n", __func__, ok ? "on" : "off");
-+	pr_debug("%s %s\n", __func__, str_on_off(ok));
+diff --git a/drivers/media/platform/amphion/venc.c b/drivers/media/platform/amphion/venc.c
+index 351b4edc8742..789c8fca3d31 100644
+--- a/drivers/media/platform/amphion/venc.c
++++ b/drivers/media/platform/amphion/venc.c
+@@ -1203,7 +1203,7 @@ static int venc_get_debug_info(struct vpu_inst *inst, char *str, u32 size, u32 i
+ 		break;
+ 	case 8:
+ 		num = scnprintf(str, size, "rc: %s, mode = %d, bitrate = %d(%d), qp = %d\n",
+-				venc->params.rc_enable ? "enable" : "disable",
++				str_enable_disable(venc->params.rc_enable),
+ 				venc->params.rc_mode,
+ 				venc->params.bitrate,
+ 				venc->params.bitrate_max,
+diff --git a/drivers/media/platform/amphion/vpu_dbg.c b/drivers/media/platform/amphion/vpu_dbg.c
+index 940e5bda5fa3..2dbcef4e83ef 100644
+--- a/drivers/media/platform/amphion/vpu_dbg.c
++++ b/drivers/media/platform/amphion/vpu_dbg.c
+@@ -256,7 +256,7 @@ static int vpu_dbg_core(struct seq_file *s, void *data)
+ 		return 0;
  
- 	if (!ok)
- 		saa_clearl(SAA7134_GPIO_GPSTATUS0 >> 2,   (1 << 26));
-diff --git a/drivers/media/pci/saa7134/saa7134-input.c b/drivers/media/pci/saa7134/saa7134-input.c
-index 8610eb473b39..239f0b9d080a 100644
---- a/drivers/media/pci/saa7134/saa7134-input.c
-+++ b/drivers/media/pci/saa7134/saa7134-input.c
-@@ -895,7 +895,7 @@ void saa7134_probe_i2c_ir(struct saa7134_dev *dev)
- 		rc = i2c_transfer(&dev->i2c_adap, &msg_msi, 1);
- 		input_dbg("probe 0x%02x @ %s: %s\n",
- 			msg_msi.addr, dev->i2c_adap.name,
--			(1 == rc) ? "yes" : "no");
-+			str_yes_no(rc == 1));
- 		break;
- 	case SAA7134_BOARD_SNAZIO_TVPVR_PRO:
- 		dev->init_data.name = "SnaZio* TVPVR PRO";
-@@ -916,7 +916,7 @@ void saa7134_probe_i2c_ir(struct saa7134_dev *dev)
- 		rc = i2c_transfer(&dev->i2c_adap, &msg_msi, 1);
- 		input_dbg("probe 0x%02x @ %s: %s\n",
- 			msg_msi.addr, dev->i2c_adap.name,
--			(rc == 1) ? "yes" : "no");
-+			str_yes_no(rc == 1));
- 		break;
- 	case SAA7134_BOARD_KWORLD_PC150U:
- 		/* copied and modified from MSI TV@nywhere Plus */
-@@ -931,7 +931,7 @@ void saa7134_probe_i2c_ir(struct saa7134_dev *dev)
- 		rc = i2c_transfer(&dev->i2c_adap, &msg_msi, 1);
- 		input_dbg("probe 0x%02x @ %s: %s\n",
- 			msg_msi.addr, dev->i2c_adap.name,
--			(1 == rc) ? "yes" : "no");
-+			str_yes_no(rc == 1));
- 		break;
- 	case SAA7134_BOARD_HAUPPAUGE_HVR1110:
- 		dev->init_data.name = saa7134_boards[dev->board].name;
-diff --git a/drivers/media/pci/saa7134/saa7134-video.c b/drivers/media/pci/saa7134/saa7134-video.c
-index 56b4481a40e6..1c02fb04abdf 100644
---- a/drivers/media/pci/saa7134/saa7134-video.c
-+++ b/drivers/media/pci/saa7134/saa7134-video.c
-@@ -619,7 +619,7 @@ static int saa7134_enable_analog_tuner(struct saa7134_dev *dev)
- 		if (ret) {
- 			pr_err("Couldn't change link %s->%s to %s. Error %d\n",
- 			       source->name, sink->name,
--			       flags ? "enabled" : "disabled",
-+			       str_enabled_disabled(flags),
- 			       ret);
- 			return ret;
- 		}
+ 	num = scnprintf(str, sizeof(str), "power %s\n",
+-			vpu_iface_get_power_state(core) ? "on" : "off");
++			str_on_off(vpu_iface_get_power_state(core)));
+ 	if (seq_write(s, str, num))
+ 		return 0;
+ 	num = scnprintf(str, sizeof(str), "state = %d\n", core->state);
 
 -- 
 2.46.1.824.gd892dcdcdd-goog
