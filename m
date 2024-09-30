@@ -1,57 +1,57 @@
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4BD519CD1E
-	for <linux-staging@lists.linux.dev>; Mon, 30 Sep 2024 12:05:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC30C19D08F
+	for <linux-staging@lists.linux.dev>; Mon, 30 Sep 2024 12:05:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727697907; cv=none; b=IDpYYie1jrw3yebhgln43HXVZ/kBJX1F1925Z5h2uMOej3sfD7rqajd8yvLm7Dxeac3SFXAXPjgWpKVTVvQYu010cql4Hqev9Mv7Svp4iWFNezjhLFnX+AXJvbCA7twUrpUKIsehez18FpuAzzW/RMHQpjlU9ctIFjjd/EOwtuA=
+	t=1727697907; cv=none; b=D6KJgPRX1hgC9aTwPwoTyl0UkmFTgjCfAmCjlv4vMlgPoPRwY0H5xnkruD9LTzWtq+4aYhxBLrw9H9fZ9+ua10ZOkowfjfDNsK3elw4OyEmZlW+1VBSqHqyqFYMK72aK3XDnd6w3kr/oZekbzw6ryyunBIOxhCNJY7zA9RC1d5o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1727697907; c=relaxed/simple;
-	bh=kKpr508Yau4A6DM1O58ZKid3P/LjCOEsyTEfHMo66Y0=;
+	bh=87v9QUWrd9KJQVHdmwih7BqMWpDw/nyVGryHPM6oqVg=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=kCZTUlHC0O/s/0qX0rnrolF9GaBqSTzTUa8AMk+PWH22t7EotRzTjX5pjjezJbk39KDtLERbPLPc9muN9//bITmCxqAxVZw5MOVnk5q5zFzEtks7SUsh+ibWYOHPF8hggbYM6QHFWg7StEWGls+MbqFnzBaxv1B8fxIrWiLv+F0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=TSvigwrp; arc=none smtp.client-ip=209.85.219.53
+	 In-Reply-To:To:Cc; b=i5zVS+awwDYWWJIU3R+tDX8k8Gh0WK6lVo8SuDJMEss1fcrIwi2zYlYV3IM4nBsdQjxOrM9BwgcSLh4J5f64BzbpyJU2LxmBcNO4nkvx3VgqrfiNyGTFLhPefmv80EOOronwLcx4kpD/8AEXaU5eQJeZ0B9T7URE6ddrwQvUbH8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=YcrjuNJ3; arc=none smtp.client-ip=209.85.219.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="TSvigwrp"
-Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-6cb2c5128d5so31325546d6.0
-        for <linux-staging@lists.linux.dev>; Mon, 30 Sep 2024 05:05:04 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="YcrjuNJ3"
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-6cb2aaf4a73so45116086d6.2
+        for <linux-staging@lists.linux.dev>; Mon, 30 Sep 2024 05:05:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1727697903; x=1728302703; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1727697905; x=1728302705; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=pF9yJ7oppQKnmh5ZAzfDc5uXy0x2qr1GXsQ4Q40pH48=;
-        b=TSvigwrpqd1u8WrKop4jjmZ8KPP77si5j49pYeB7R3dcbC7By1rBdZBYUlQh7iwvHx
-         5IRvxZl+V0kVValIhHAVWxAqPdz46J3Iczo0g7ZMDvNs0Pa8y908jHQOl4XwAE5a+K4K
-         3ANM0WmstbZ37nXkF/JSxZq1cxsjigsjxvRa8=
+        bh=Ebt+1b/55aPXlqauBXJO18wSUl/XzTUjhH2wTMyzrFA=;
+        b=YcrjuNJ3uag0To/ZCkz24RG24lFx0V4nRouhwJj2HzWAFdafnWvR800RmYiGTopH+n
+         aI7mkec5beGXBQmFAySdQy+ZRwD4O/T+dPHxrb8GWyYabMdvWrcxDcAwods59uPFsbgm
+         jJqlGctijQAE0hg4gmRRYsv5AkVccyZdeU0Dw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727697903; x=1728302703;
+        d=1e100.net; s=20230601; t=1727697905; x=1728302705;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=pF9yJ7oppQKnmh5ZAzfDc5uXy0x2qr1GXsQ4Q40pH48=;
-        b=VDDiTJke2QiOiaDTtibgMltuvBFDAW1Dakol5jaVBoZZIkDoTZi3E2CurRil7RoyrR
-         8AlqbBRpAIkS7PRt6+DYInwNZ7fprvJutGvP42121hVNqiwLDLsLgPXIGg1fiQuFBfjm
-         7vyTnBLxL+RYyKxkqmK3XvAZQQuTwOkvzQFTB31KbNdzOLmVL2xcVkp31bYR1TfPd8ds
-         7f6+engga0ZnZsKRcNMMMwbdAK5f/CURG/TiOcMTYVj4xlITEz3vuBFbi2SpU4R5MCcR
-         TxICK2/l8rYDXj/WVrfNQq3pn9mpNbygMT0wJ7wTTBwpE+n3zTG9y/9KHoDXkC2Stbqg
-         O6XQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUV+QOl6/Eu5+oGEWJkCEwa4nT/fNHygTJHaXs8cSAP3hXwlcgEKka+ycqJtzDS0n5QRxCYyBkOyg7Q1w/i@lists.linux.dev
-X-Gm-Message-State: AOJu0YzkRlamGReF8i7SfgYJnyMUCtzCZ4Z83vqRf8XXRTeAcmvD0nd0
-	xhN3WRmaNNhluvjDzHxsQivQ3/w43nWVjWVaeK7dRC+iZ7q9aRRbpu/T+RMacg==
-X-Google-Smtp-Source: AGHT+IEAFwwRA71MkCRUwImfi9uBIeNCYwuxiEwHafmSSDdtTJviDnVg18iocWAWeF5m9aVEXLwnZA==
-X-Received: by 2002:a05:6214:5a08:b0:6c5:b709:55c6 with SMTP id 6a1803df08f44-6cb3b63b3aamr219594876d6.42.1727697902571;
-        Mon, 30 Sep 2024 05:05:02 -0700 (PDT)
+        bh=Ebt+1b/55aPXlqauBXJO18wSUl/XzTUjhH2wTMyzrFA=;
+        b=aZ8Jc8GMfY9jm5bu5LHEaDk4+iTeTNkRavAJZ1X24P1Kjk2I6svYdZ97dJs1ureCzH
+         ePeWy09gcCtfI3+besMJBdX8uNU6q7e7t/TzNccHN3ludNExupqMCWMFyUrQ844yziO3
+         oL5g1uLgb06M9e11YqCASKfnKKU0mmHUearpUyJ7ZF225Vo83AMsUT3HjITXacQbsZaJ
+         xxgh9d27nI1X+qP46TfuEgGW9ww3djWej00Hj2U/umiR2Mswu/RRGKGH19zo4Ev+JoJy
+         UVrCKPG4ahon6+VQmaxyyz6YvT1AnObtke7BPwChq2MnWZ6smioXz3Rv0Ffqn860QaHf
+         jayQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUSbych6D6nbcH3HzjlI6e4wfpnrDN/qtHjiqIX4w1V8XjxlZ07TPalB1ju9TK8hZGZ4vVR8sZ19jpCpMVc@lists.linux.dev
+X-Gm-Message-State: AOJu0YwAXqT/qDBZbOsnP1JvwmTQtgs83Ks/5+LDt0zkUlRpRh7DWc7A
+	fBECouE8ayzYDCbbxYbqPDuuPPs8xTAZJ6L0KFTi6x+VcxaliKWdAuCeOZlGTQ==
+X-Google-Smtp-Source: AGHT+IG7DxsLwmOc7mkRl/MFKW8HAXRHroSnhiAWX2HVxDFuz0PGg7dWtpjL7qcJseQqckH9Ha41Tg==
+X-Received: by 2002:a05:6214:448c:b0:6c1:8663:e8f0 with SMTP id 6a1803df08f44-6cb3b61465amr169180096d6.28.1727697904581;
+        Mon, 30 Sep 2024 05:05:04 -0700 (PDT)
 Received: from denia.c.googlers.com (76.224.245.35.bc.googleusercontent.com. [35.245.224.76])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cb3b694369sm38822536d6.144.2024.09.30.05.05.00
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cb3b694369sm38822536d6.144.2024.09.30.05.05.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Sep 2024 05:05:01 -0700 (PDT)
+        Mon, 30 Sep 2024 05:05:04 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 30 Sep 2024 12:04:24 +0000
-Subject: [PATCH 29/45] media: siano: Use string_choices helpers
+Date: Mon, 30 Sep 2024 12:04:25 +0000
+Subject: [PATCH 30/45] media: i2c: cx25840: Use string_choices helpers
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -60,7 +60,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240930-cocci-opportunity-v1-29-81e137456ce0@chromium.org>
+Message-Id: <20240930-cocci-opportunity-v1-30-81e137456ce0@chromium.org>
 References: <20240930-cocci-opportunity-v1-0-81e137456ce0@chromium.org>
 In-Reply-To: <20240930-cocci-opportunity-v1-0-81e137456ce0@chromium.org>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
@@ -99,35 +99,134 @@ Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
  linux-aspeed@lists.ozlabs.org, Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.13.0
 
-The following cocci warning is fixed:
-drivers/media/common/siano/sms-cards.c:329:36-41: opportunity for str_enabled_disabled(onoff)
+The following cocci warnings are fixed:
+drivers/media/i2c/cx25840/cx25840-ir.c:1089:4-9: opportunity for str_enabled_disabled(filtr)
+drivers/media/i2c/cx25840/cx25840-ir.c:1028:4-21: opportunity for str_enabled_disabled(cntrl & CNTRL_DMD)
+drivers/media/i2c/cx25840/cx25840-ir.c:1113:4-21: opportunity for str_enabled_disabled(cntrl & CNTRL_MOD)
+drivers/media/i2c/cx25840/cx25840-ir.c:1030:4-21: opportunity for str_enabled_disabled(cntrl & CNTRL_RFE)
+drivers/media/i2c/cx25840/cx25840-ir.c:1115:4-21: opportunity for str_enabled_disabled(cntrl & CNTRL_TFE)
+drivers/media/i2c/cx25840/cx25840-ir.c:1101:4-21: opportunity for str_enabled_disabled(irqen & IRQEN_ROE)
+drivers/media/i2c/cx25840/cx25840-ir.c:1107:4-21: opportunity for str_enabled_disabled(irqen & IRQEN_RSE)
+drivers/media/i2c/cx25840/cx25840-ir.c:1097:4-21: opportunity for str_enabled_disabled(irqen & IRQEN_RTE)
+drivers/media/i2c/cx25840/cx25840-ir.c:1135:4-21: opportunity for str_enabled_disabled(irqen & IRQEN_TSE)
+drivers/media/i2c/cx25840/cx25840-ir.c:1026:4-21: opportunity for str_yes_no(cntrl & CNTRL_RXE)
+drivers/media/i2c/cx25840/cx25840-ir.c:1111:4-21: opportunity for str_yes_no(cntrl & CNTRL_TXE)
+drivers/media/i2c/cx25840/cx25840-ir.c:1103:4-21: opportunity for str_yes_no(stats & STATS_RBY)
+drivers/media/i2c/cx25840/cx25840-ir.c:1099:4-21: opportunity for str_yes_no(stats & STATS_ROR)
+drivers/media/i2c/cx25840/cx25840-ir.c:1105:4-21: opportunity for str_yes_no(stats & STATS_RSR)
+drivers/media/i2c/cx25840/cx25840-ir.c:1095:4-21: opportunity for str_yes_no(stats & STATS_RTO)
+drivers/media/i2c/cx25840/cx25840-ir.c:1131:4-21: opportunity for str_yes_no(stats & STATS_TBY)
+drivers/media/i2c/cx25840/cx25840-ir.c:1133:4-21: opportunity for str_yes_no(stats & STATS_TSR)
+drivers/media/i2c/cx25840/cx25840-core.c:2369:2-8: opportunity for str_enable_disable(enable)
+drivers/media/i2c/cx25840/cx25840-core.c:2392:2-8: opportunity for str_enable_disable(enable)
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/common/siano/sms-cards.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/media/i2c/cx25840/cx25840-core.c |  4 ++--
+ drivers/media/i2c/cx25840/cx25840-ir.c   | 34 ++++++++++++++++----------------
+ 2 files changed, 19 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/media/common/siano/sms-cards.c b/drivers/media/common/siano/sms-cards.c
-index d4a116ab6c88..e9aa95233ff1 100644
---- a/drivers/media/common/siano/sms-cards.c
-+++ b/drivers/media/common/siano/sms-cards.c
-@@ -8,6 +8,7 @@
- #include "sms-cards.h"
- #include "smsir.h"
- #include <linux/module.h>
-+#include <linux/string_choices.h>
+diff --git a/drivers/media/i2c/cx25840/cx25840-core.c b/drivers/media/i2c/cx25840/cx25840-core.c
+index a90a9e5705a0..dd8474609092 100644
+--- a/drivers/media/i2c/cx25840/cx25840-core.c
++++ b/drivers/media/i2c/cx25840/cx25840-core.c
+@@ -2366,7 +2366,7 @@ static int cx25840_s_audio_stream(struct v4l2_subdev *sd, int enable)
+ 		return 0;
  
- static struct sms_board sms_boards[] = {
- 	[SMS_BOARD_UNKNOWN] = {
-@@ -326,7 +327,7 @@ int sms_board_lna_control(struct smscore_device_t *coredev, int onoff)
- 	int board_id = smscore_get_board_id(coredev);
- 	struct sms_board *board = sms_get_board(board_id);
+ 	v4l_dbg(1, cx25840_debug, client, "%s audio output\n",
+-		enable ? "enable" : "disable");
++		str_enable_disable(enable));
  
--	pr_debug("%s: LNA %s\n", __func__, onoff ? "enabled" : "disabled");
-+	pr_debug("%s: LNA %s\n", __func__, str_enabled_disabled(onoff));
+ 	if (enable) {
+ 		v = cx25840_read(client, 0x115) | 0x80;
+@@ -2389,7 +2389,7 @@ static int cx25840_s_stream(struct v4l2_subdev *sd, int enable)
+ 	u8 v;
  
- 	switch (board_id) {
- 	case SMS1XXX_BOARD_HAUPPAUGE_TIGER_MINICARD_R2:
+ 	v4l_dbg(1, cx25840_debug, client, "%s video output\n",
+-		enable ? "enable" : "disable");
++		str_enable_disable(enable));
+ 
+ 	/*
+ 	 * It's not clear what should be done for these devices.
+diff --git a/drivers/media/i2c/cx25840/cx25840-ir.c b/drivers/media/i2c/cx25840/cx25840-ir.c
+index 8cef9656c612..6f3978135178 100644
+--- a/drivers/media/i2c/cx25840/cx25840-ir.c
++++ b/drivers/media/i2c/cx25840/cx25840-ir.c
+@@ -1023,11 +1023,11 @@ int cx25840_ir_log_status(struct v4l2_subdev *sd)
+ 
+ 	v4l2_info(sd, "IR Receiver:\n");
+ 	v4l2_info(sd, "\tEnabled:                           %s\n",
+-		  cntrl & CNTRL_RXE ? "yes" : "no");
++		  str_yes_no(cntrl & CNTRL_RXE));
+ 	v4l2_info(sd, "\tDemodulation from a carrier:       %s\n",
+-		  cntrl & CNTRL_DMD ? "enabled" : "disabled");
++		  str_enabled_disabled(cntrl & CNTRL_DMD));
+ 	v4l2_info(sd, "\tFIFO:                              %s\n",
+-		  cntrl & CNTRL_RFE ? "enabled" : "disabled");
++		  str_enabled_disabled(cntrl & CNTRL_RFE));
+ 	switch (cntrl & CNTRL_EDG) {
+ 	case CNTRL_EDG_NONE:
+ 		s = "disabled";
+@@ -1086,33 +1086,33 @@ int cx25840_ir_log_status(struct v4l2_subdev *sd)
+ 		  pulse_width_count_to_us(FIFO_RXTX, rxclk),
+ 		  pulse_width_count_to_ns(FIFO_RXTX, rxclk));
+ 	v4l2_info(sd, "\tLow pass filter:                   %s\n",
+-		  filtr ? "enabled" : "disabled");
++		  str_enabled_disabled(filtr));
+ 	if (filtr)
+ 		v4l2_info(sd, "\tMin acceptable pulse width (LPF):  %u us, %u ns\n",
+ 			  lpf_count_to_us(filtr),
+ 			  lpf_count_to_ns(filtr));
+ 	v4l2_info(sd, "\tPulse width timer timed-out:       %s\n",
+-		  stats & STATS_RTO ? "yes" : "no");
++		  str_yes_no(stats & STATS_RTO));
+ 	v4l2_info(sd, "\tPulse width timer time-out intr:   %s\n",
+-		  irqen & IRQEN_RTE ? "enabled" : "disabled");
++		  str_enabled_disabled(irqen & IRQEN_RTE));
+ 	v4l2_info(sd, "\tFIFO overrun:                      %s\n",
+-		  stats & STATS_ROR ? "yes" : "no");
++		  str_yes_no(stats & STATS_ROR));
+ 	v4l2_info(sd, "\tFIFO overrun interrupt:            %s\n",
+-		  irqen & IRQEN_ROE ? "enabled" : "disabled");
++		  str_enabled_disabled(irqen & IRQEN_ROE));
+ 	v4l2_info(sd, "\tBusy:                              %s\n",
+-		  stats & STATS_RBY ? "yes" : "no");
++		  str_yes_no(stats & STATS_RBY));
+ 	v4l2_info(sd, "\tFIFO service requested:            %s\n",
+-		  stats & STATS_RSR ? "yes" : "no");
++		  str_yes_no(stats & STATS_RSR));
+ 	v4l2_info(sd, "\tFIFO service request interrupt:    %s\n",
+-		  irqen & IRQEN_RSE ? "enabled" : "disabled");
++		  str_enabled_disabled(irqen & IRQEN_RSE));
+ 
+ 	v4l2_info(sd, "IR Transmitter:\n");
+ 	v4l2_info(sd, "\tEnabled:                           %s\n",
+-		  cntrl & CNTRL_TXE ? "yes" : "no");
++		  str_yes_no(cntrl & CNTRL_TXE));
+ 	v4l2_info(sd, "\tModulation onto a carrier:         %s\n",
+-		  cntrl & CNTRL_MOD ? "enabled" : "disabled");
++		  str_enabled_disabled(cntrl & CNTRL_MOD));
+ 	v4l2_info(sd, "\tFIFO:                              %s\n",
+-		  cntrl & CNTRL_TFE ? "enabled" : "disabled");
++		  str_enabled_disabled(cntrl & CNTRL_TFE));
+ 	v4l2_info(sd, "\tFIFO interrupt watermark:          %s\n",
+ 		  cntrl & CNTRL_TIC ? "not empty" : "half full or less");
+ 	v4l2_info(sd, "\tCarrier polarity:                  %s\n",
+@@ -1128,11 +1128,11 @@ int cx25840_ir_log_status(struct v4l2_subdev *sd)
+ 		  pulse_width_count_to_us(FIFO_RXTX, txclk),
+ 		  pulse_width_count_to_ns(FIFO_RXTX, txclk));
+ 	v4l2_info(sd, "\tBusy:                              %s\n",
+-		  stats & STATS_TBY ? "yes" : "no");
++		  str_yes_no(stats & STATS_TBY));
+ 	v4l2_info(sd, "\tFIFO service requested:            %s\n",
+-		  stats & STATS_TSR ? "yes" : "no");
++		  str_yes_no(stats & STATS_TSR));
+ 	v4l2_info(sd, "\tFIFO service request interrupt:    %s\n",
+-		  irqen & IRQEN_TSE ? "enabled" : "disabled");
++		  str_enabled_disabled(irqen & IRQEN_TSE));
+ 
+ 	return 0;
+ }
 
 -- 
 2.46.1.824.gd892dcdcdd-goog
