@@ -1,57 +1,57 @@
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16DCB199FB4
-	for <linux-staging@lists.linux.dev>; Mon, 30 Sep 2024 12:04:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1488A199FDD
+	for <linux-staging@lists.linux.dev>; Mon, 30 Sep 2024 12:04:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727697894; cv=none; b=I1llcFMD3njjZPhhIuDeyHN7DPb8l2fLEhtYNp/J0zhqcEVcFYc2PE9fMT4Pe++sb5qUXnk3Q/xQiYXq795ybc2/8VzeMC1kOrR6PUiRBd1Il88I4/TO7MIl+zHt8gPk6NKtyI04Job4lvRbqyFgiuWljP+czBwGew1+Yvjbx3E=
+	t=1727697896; cv=none; b=bRRo7be8SwiY32ciaCa7WGY0ScE1IKGiBy6V1IX1ttVAJ+2qny7sAHLaU6Wk1jsyt4V5g+z0Mwqq7O2FVnnMtenwONMBiAIE0wjpNcC1RlfYSoT05NXWGuxA2I6Qv39RzF+vQ6aix9HXDGDR1uvzIFS91P1BgbsBJYF83xF6g4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727697894; c=relaxed/simple;
-	bh=gioH4bb8ZF2A2YJ3Gh5wVo7at/LilX8METihZcFwy7M=;
+	s=arc-20240116; t=1727697896; c=relaxed/simple;
+	bh=Wy7Skzwx1Of9aMKIpNRDdVVt/EfLoQQHwwrlTgvOSQs=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=PbcgfQAEjdeYH8751kRtT/J0ZNDPE7IokTTRDTpdTJ7shwY+DAQLTmzDjgYSelbKL0mJU7sK584BaLrf6SzHySfJSulBh+YBpqdngu8FIWCGDef9UEvLr4HO8YXJ6v9nmT8e5c2zssTZ1ILwlN2ptBeOL/NZWZziHcKknUx/lgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=gqcPSwfZ; arc=none smtp.client-ip=209.85.219.52
+	 In-Reply-To:To:Cc; b=m21ze9/1JyE1xLdRhTa6605Qvhq0awWml0wH7gYbgnaU1WDjTsnWUonItRP0Rw3feUjMGL38OSW1/aL1atBAdK7mdKcnT3Wkl1wuLctzj1tDUZ1GESL1pno3zSJEJdSJVgdKEU3lbf/YjXYs3/vjEpZ2zz1M8RezrolAharNofI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=OpJAkCBS; arc=none smtp.client-ip=209.85.219.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="gqcPSwfZ"
-Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-6cb2f344dbbso35005206d6.3
-        for <linux-staging@lists.linux.dev>; Mon, 30 Sep 2024 05:04:53 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="OpJAkCBS"
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-6cb2aac40faso38500516d6.1
+        for <linux-staging@lists.linux.dev>; Mon, 30 Sep 2024 05:04:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1727697892; x=1728302692; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1727697894; x=1728302694; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=fkGnsANo5NZRR329f/RKKIwKl1Ms+i/uz0ChSSNIXaI=;
-        b=gqcPSwfZl9PUltpjAnQbhF5i2f49H0YG82wHkwuGFKGEgvmPXN14LPc5OYQameneOf
-         W9+D0IzZczM2WsCbioUgrFZP3kFCgm05vMGXD06fue4CrNheC1B7Nf+e82o1KSoC01e4
-         sR7w/gO3b91RqWthypqtQehfLIiM+SMR3x3Ag=
+        bh=kc6yac9SyLlHs7WRhmQW1+HPAOFx8yEw2UfT0f5Qnn8=;
+        b=OpJAkCBSMgq9uJcdtOa/XAcfWcZ+dbye8e3ZpmTSTv8/JsVS+3GFSfdkvUdpW034is
+         HZ8K73JBEW4olwgIKnpjgrbLj05tremn6YGig4KHRxBLqt7ywJXfNiXHzG3atvZpyEP9
+         g50CG1T8dVQZ7iMoCYdv6OITl2B0Fh20dHt4E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727697892; x=1728302692;
+        d=1e100.net; s=20230601; t=1727697894; x=1728302694;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=fkGnsANo5NZRR329f/RKKIwKl1Ms+i/uz0ChSSNIXaI=;
-        b=CGcC9dXp1JEz5qNpn9w6n68e3B0B8oRYyFFDebPq4UsLVVRHvpHltdOMVtJDpYfAPN
-         EdvE/n4rnEK4jKi+U5FCnNwzhBDxT3M9Jrvzu8scA1uYapDsNJXDuEJgf/SPEeeMJ/wG
-         PA0bKJIwTHb9npNgECTp2Y8DDayKegddHwzGS9qq33HGUwf9peFuQm8bFrqSJu/2Bu3E
-         irevmfW35TYs/tDBIn+ERjZa0VXpJRLwfUGr0NFGpwFiKHe8VZxj4X9UVxVrM1UzLAtB
-         GvH8GTparm4guVvsp0Wa3anT67YC3lx5kg7hVNPgQKGmVksB0fpvFJG97J7ByROCNRP8
-         Km0Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVYoPjUtY4Z8rQCQrdU9LT0cNe8BaspzI01fmDhTaO+uZiRB+7NvqLdZ9zu5XYTA6jCvrckbQvgIgxaJfDp@lists.linux.dev
-X-Gm-Message-State: AOJu0YyXRDduzgAaW4yVYtGXLTpzsjRqTcbCidOBSFBgddk8GaNUXF+U
-	3fHU18aiGZcAJVuo5eMqTDeDbNVX/MZw3uZp4E494h+OHI6Y4zkYoNC3Ph9E7A==
-X-Google-Smtp-Source: AGHT+IHSrAGEQVH1G1zMvd/O9AA5MhvLH1UshVFh4gerMrNNX+7ODpeAcur/C3J29WO/FfgVZP2azA==
-X-Received: by 2002:a05:6214:33c5:b0:6cb:4def:4ce4 with SMTP id 6a1803df08f44-6cb4def4dd3mr121217066d6.32.1727697892043;
-        Mon, 30 Sep 2024 05:04:52 -0700 (PDT)
+        bh=kc6yac9SyLlHs7WRhmQW1+HPAOFx8yEw2UfT0f5Qnn8=;
+        b=hpRDs7WgD5SG48kAunqIDfgwHC/sbdVv3SNjGzqzz7bzX8MToBbO8ej9X0DbfPWUfo
+         eqQwfGG2Mmv6JjMyy0ZHYb+sMhosCKOTiQcszZFdTeehMAdByqMkottgZ0ZtRc22zaKJ
+         ePH155NOD1Kk9liGW3BW/2R259cbsJXNDAn4j56dc8nqtI2N9P/nBryu0b6ZItjVW/OR
+         KRlFGXUK+dfper9wtnNkoU0L6ZRaVHTsQeKiDdBaTMZCCDAtxABX6VxI/mVdiODgIR6i
+         DFUxfGgFrdsIJ49yE6gSQ8swA4N+YWgNDyjgKK7mr9dBbsr8g9sQTwbrm47BFcgy8Qpx
+         pZQw==
+X-Forwarded-Encrypted: i=1; AJvYcCWUlxVSNnu+AawuoUoWozgrG0qKlvN0Zg3dtDNJ4QwpwjhpiNqRqJ38gAR5KpDY05H03kcMjRJ8z7bMduEz@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw6nE9zbHHoyXPmDvQefkVVGpQRv/05hjlyKBzMHBFmFAmEdQDp
+	DC+MS6INb08BgqSa6zms0Qn2BLOqiw+Sqv3j5yIcEXrDOKA+qF/7v/71XAeLNw==
+X-Google-Smtp-Source: AGHT+IHvTtSCRFSBPeJou8A8lJWRExB8EwT4CA/+ss3rMSh3j0C8PX4s4DLpZYrCskrdUJWUEmVJfQ==
+X-Received: by 2002:a05:6214:489:b0:6cb:2de5:d7a1 with SMTP id 6a1803df08f44-6cb2f270becmr284661826d6.8.1727697893842;
+        Mon, 30 Sep 2024 05:04:53 -0700 (PDT)
 Received: from denia.c.googlers.com (76.224.245.35.bc.googleusercontent.com. [35.245.224.76])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cb3b694369sm38822536d6.144.2024.09.30.05.04.49
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cb3b694369sm38822536d6.144.2024.09.30.05.04.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Sep 2024 05:04:50 -0700 (PDT)
+        Mon, 30 Sep 2024 05:04:52 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 30 Sep 2024 12:04:18 +0000
-Subject: [PATCH 23/45] media: ipu6: Use string_choices helpers
+Date: Mon, 30 Sep 2024 12:04:19 +0000
+Subject: [PATCH 24/45] media: cx18: Use string_choices helpers
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -60,7 +60,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240930-cocci-opportunity-v1-23-81e137456ce0@chromium.org>
+Message-Id: <20240930-cocci-opportunity-v1-24-81e137456ce0@chromium.org>
 References: <20240930-cocci-opportunity-v1-0-81e137456ce0@chromium.org>
 In-Reply-To: <20240930-cocci-opportunity-v1-0-81e137456ce0@chromium.org>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
@@ -99,27 +99,37 @@ Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
  linux-aspeed@lists.ozlabs.org, Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.13.0
 
-The following cocci warning is fixed:
-drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:247:51-57: opportunity for str_on_off(enable)
+The following cocci warnings are fixed:
+drivers/media/pci/cx18/cx18-av-core.c:1013:40-46: opportunity for str_enable_disable(enable)
+drivers/media/pci/cx18/cx18-av-core.c:1118:8-24: opportunity for str_yes_no(( mute_ctl & 0x2 ))
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/pci/cx18/cx18-av-core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c b/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
-index 051898ce53f4..522dbf52c82b 100644
---- a/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
-+++ b/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
-@@ -244,7 +244,7 @@ static int ipu6_isys_csi2_set_stream(struct v4l2_subdev *sd,
- 	u32 mask = 0;
- 	u32 i;
+diff --git a/drivers/media/pci/cx18/cx18-av-core.c b/drivers/media/pci/cx18/cx18-av-core.c
+index ee6e71157786..5701abdf9427 100644
+--- a/drivers/media/pci/cx18/cx18-av-core.c
++++ b/drivers/media/pci/cx18/cx18-av-core.c
+@@ -1010,7 +1010,7 @@ static int cx18_av_s_stream(struct v4l2_subdev *sd, int enable)
+ {
+ 	struct cx18 *cx = v4l2_get_subdevdata(sd);
  
--	dev_dbg(dev, "stream %s CSI2-%u with %u lanes\n", enable ? "on" : "off",
-+	dev_dbg(dev, "stream %s CSI2-%u with %u lanes\n", str_on_off(enable),
- 		csi2->port, nlanes);
+-	CX18_DEBUG_INFO_DEV(sd, "%s output\n", enable ? "enable" : "disable");
++	CX18_DEBUG_INFO_DEV(sd, "%s output\n", str_enable_disable(enable));
+ 	if (enable) {
+ 		cx18_av_write(cx, 0x115, 0x8c);
+ 		cx18_av_write(cx, 0x116, 0x07);
+@@ -1115,7 +1115,7 @@ static void log_audio_status(struct cx18 *cx)
+ 	}
+ 	CX18_INFO_DEV(sd, "Detected audio standard:   %s\n", p);
+ 	CX18_INFO_DEV(sd, "Audio muted:               %s\n",
+-		      (mute_ctl & 0x2) ? "yes" : "no");
++		      str_yes_no(mute_ctl & 0x2));
+ 	CX18_INFO_DEV(sd, "Audio microcontroller:     %s\n",
+ 		      (download_ctl & 0x10) ? "running" : "stopped");
  
- 	cfg.port = csi2->port;
 
 -- 
 2.46.1.824.gd892dcdcdd-goog
