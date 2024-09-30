@@ -1,57 +1,57 @@
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D712F1991CE
-	for <linux-staging@lists.linux.dev>; Mon, 30 Sep 2024 12:04:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62BF7199230
+	for <linux-staging@lists.linux.dev>; Mon, 30 Sep 2024 12:04:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727697888; cv=none; b=SSWXXzw0PPRzUXVF7ar4zeMIfb3HovC36PkZuWw4loNaY7j4yg5uxyoAwZR8nPDqgTpxJ8zGatHkyd3wkvpUlZxSG3d5erM+6Bdz+jUT0kzbAsLxgWPjXn23R1A92TujWz0X9knZPPNDre1+0kaGzHL6bEi+HoCtHVUWcCqsvRg=
+	t=1727697889; cv=none; b=ApvbQ2rNTXcniQ30Hea78Ck0Mf5Qq15NgvtFyMjNf2O5Rq5lL95xB8DLxLd6KQaEaAneIVpiOege9QQwPwdMwavuoBW6/H08ZwhEOVTHPof+BcertMhyRf5QmfNIkX0iJFLszfy2mUSzdJQDgJJfK7xqqsZ0K6uyOkh9mJBS4Ng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727697888; c=relaxed/simple;
-	bh=a+FiLOH14SS6a3AubkD6ERw5Y7LANHZ0RAc6/umufBY=;
+	s=arc-20240116; t=1727697889; c=relaxed/simple;
+	bh=0dMrYdJQZDwFbZRFwFBopbceAxAW6UVmiIWzGdnbBBo=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Wv3dZesU46ESy01nzEVwD84y6SGTxsRLTifYn5/zUYOUufmRFli5R4b0oTOwDb6fVkDe0lRtZiYoX/LzsYk3EY49kKxWLFCQJ1Xhvp+JJz5i7p+fWSMEV5KN/QFVOcXFW72wUkgik4iVtQaVYT8cmwZeHmXCy422guSQroIgWyI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=hcgGrC+5; arc=none smtp.client-ip=209.85.222.169
+	 In-Reply-To:To:Cc; b=rUg3xJCZkCAM5RVKXZD6TYiVXadWVng9NVDQQ8XJFTRQUTBSyswFx7Q60F/h9nwKhx3Uo7q46RrC9BbTzcwFNBgs9Z4F3mBAWCffUz0Evr87XLuCVyiUr0lxpxcTUbrOtLOrFhueOTozogKo+Eeo72RlmWMUUYVeoLyHH0ed908=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ZdTb8zPn; arc=none smtp.client-ip=209.85.219.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="hcgGrC+5"
-Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-7a9acc6f22dso438442185a.0
-        for <linux-staging@lists.linux.dev>; Mon, 30 Sep 2024 05:04:46 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ZdTb8zPn"
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-6cb3cbc28deso36410736d6.3
+        for <linux-staging@lists.linux.dev>; Mon, 30 Sep 2024 05:04:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1727697886; x=1728302686; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1727697887; x=1728302687; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=h0yeJPaEcAnmgbtIHCIKdElv7f1NVvyLMutp/xQYAjQ=;
-        b=hcgGrC+5QTTC4Mwj9aoIb9VDwgaPDASKEtbjj7zJCIta+IQIlEgureWRez6N8DY4FD
-         UpWBnQ5sl83zVa6Tbm04JSE8Zc9i97+udcYZp235rEontXah27p+2xQf3vLkSduw9C46
-         beDhx3R0nsf/6PV9DzRM4YorR8CX6CqzCCyBQ=
+        bh=nZdkoyJRGbtYAtgWDyhzmqUrZ4ojuNTD42Wgr3aJHzg=;
+        b=ZdTb8zPnOrdqbAVOyMTleEYs7MpNKq3/CjGkfuHDFCyPJnVBg9UUYjzVVE5mMEIXFn
+         7nEeuI1zB+M7WAJE/Jvr7k9zkDStC7GhaTAOwGSgX/32U3/NB5JuBA333C3DnIQtAQ6A
+         ddKgNEE4GMl20QOQuhGck3ycQdjo0YvYl9//U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727697886; x=1728302686;
+        d=1e100.net; s=20230601; t=1727697887; x=1728302687;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=h0yeJPaEcAnmgbtIHCIKdElv7f1NVvyLMutp/xQYAjQ=;
-        b=jA2SQ+y8d2cSDDo3DC7o0jFj/hl9kZHfKwqiUkUc6RuIIWWi0r5CslBIIWsq3IhOQG
-         69Huwmi3ygoGl5jT20hSscXRHfaMiZTD/IwOpeVwJ9yR4caJa7i/xol/7b2HlOzPzh99
-         C0MYC8Q4zCY8rZlNgPTMuAxniVWYewwg/7eFk189R0PZDRmQhGrWZJdQNnxqJXhRIi3D
-         G2tse7xWt8n/uQmlpvQ54iB7MtnPZgDw36TtfCpLL0hAPGH48Qbuj7hWQU5dB33U1cS9
-         ipMBL3rwRpgUkWXuQX+PJnrCpnnW7sdAALaTl4fhEUhT8Pqgnbg0yVIeuGmAWg3McHX1
-         3HxQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVMir2M8rKYK2CvPJfh2nlooXDFcZ4KO/jD+8rWA5Z4LCh//M/NeQUcPT9Mfc44ZkmZ37nJueECsW3wNetU@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw+yY29HRwXwAWZW7S8VEB6LXf08zKtLbsYhLQ0lkZmNJ01j6ag
-	kcmTw8iWDJVDMGJ6A8+KwU9DbnZ9D9aFLJxF6YYRhWheXZ7QLGHmug+U68AmuA==
-X-Google-Smtp-Source: AGHT+IG21mP+tUHPXSvJJJTKpKcZKw04O9Ig9Voo1lmCCA0A43eFT06NNMj2BNffGbxEca0hhvGjiw==
-X-Received: by 2002:a05:6214:3a88:b0:6c5:b636:d737 with SMTP id 6a1803df08f44-6cb3b5b648amr195767466d6.2.1727697885829;
-        Mon, 30 Sep 2024 05:04:45 -0700 (PDT)
+        bh=nZdkoyJRGbtYAtgWDyhzmqUrZ4ojuNTD42Wgr3aJHzg=;
+        b=A7ybGtqbWG/RMm0s0irpg5xJ21m6g2Cjqob7pJx6Z8qDEt2WYQZgMs2/DoU9AqIiHu
+         AB8FEgf6BPxJbwy4/ojVm1TcQ1PWnp/Q9SyZp2j7XeoZMsKKYPfTu9JQgTcMbAByLOUf
+         6O0oIxHVaFwq20xvgZ3pVRiUPwUGjyJlqsu54wVjct0N9kzSjtslO7+/sXdAS+ex2NPJ
+         5vhGoYXiVX2esymL9KYsOjTo2aK7fpoLql9aemb1jBT6pGriWsOhVGUoCT+3W/3mAEvm
+         nlM8wY6TuJwyV+dD5qCjkuJggdRpgHoYBDvcLAGt5zA909BblniqrVISjfpMvWGzLMcF
+         PQVw==
+X-Forwarded-Encrypted: i=1; AJvYcCW4v+3WNKcerBgbY/2NU2TF5HyblvMHkgCKad2glYApVsvjQq7qFt3K+ZkXnVMp23/2xmRI/vBbQ96XW5Yb@lists.linux.dev
+X-Gm-Message-State: AOJu0YzJwEph8opzE6ifihE4g7r2M6dkbLb4A92vfK4fKQzIXrbuHms4
+	3iFeROEadX/K/Hl5j5DlN2LLzOn8lgKDo0WBTf5j3eeMceVUldGI2xOEERFgNg==
+X-Google-Smtp-Source: AGHT+IGDig2qhJHVIgkos7cydvwLVCYXpIPoGe1fBfPazyzsBzvK7ByCA43K6ayYB6dav+TXdoGUKw==
+X-Received: by 2002:a05:6214:4c03:b0:6cb:410a:ef5d with SMTP id 6a1803df08f44-6cb410af56bmr118016106d6.5.1727697887257;
+        Mon, 30 Sep 2024 05:04:47 -0700 (PDT)
 Received: from denia.c.googlers.com (76.224.245.35.bc.googleusercontent.com. [35.245.224.76])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cb3b694369sm38822536d6.144.2024.09.30.05.04.44
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cb3b694369sm38822536d6.144.2024.09.30.05.04.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Sep 2024 05:04:44 -0700 (PDT)
+        Mon, 30 Sep 2024 05:04:46 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 30 Sep 2024 12:04:15 +0000
-Subject: [PATCH 20/45] media: st: Use string_choices helpers
+Date: Mon, 30 Sep 2024 12:04:16 +0000
+Subject: [PATCH 21/45] media: coda: Use string_choices helpers
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -60,7 +60,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240930-cocci-opportunity-v1-20-81e137456ce0@chromium.org>
+Message-Id: <20240930-cocci-opportunity-v1-21-81e137456ce0@chromium.org>
 References: <20240930-cocci-opportunity-v1-0-81e137456ce0@chromium.org>
 In-Reply-To: <20240930-cocci-opportunity-v1-0-81e137456ce0@chromium.org>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
@@ -99,36 +99,35 @@ Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
  linux-aspeed@lists.ozlabs.org, Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.13.0
 
-The following cocci warnings are fixed:
-drivers/media/platform/st/sti/hva/hva-debugfs.c:74:9-22: opportunity for str_true_false(ctrls -> dct8x8)
-drivers/media/platform/st/sti/hva/hva-debugfs.c:79:9-22: opportunity for str_true_false(ctrls -> sei_fp)
-drivers/media/platform/st/sti/hva/hva-debugfs.c:77:9-23: opportunity for str_true_false(ctrls -> vui_sar)
+The following cocci warning is fixed:
+drivers/media/platform/chips-media/coda/imx-vdoa.c:120:39-42: opportunity for str_write_read(val)
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/platform/st/sti/hva/hva-debugfs.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/media/platform/chips-media/coda/imx-vdoa.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/st/sti/hva/hva-debugfs.c b/drivers/media/platform/st/sti/hva/hva-debugfs.c
-index a86a07b6fbc7..5e8c7dddbabf 100644
---- a/drivers/media/platform/st/sti/hva/hva-debugfs.c
-+++ b/drivers/media/platform/st/sti/hva/hva-debugfs.c
-@@ -71,12 +71,12 @@ static void format_ctx(struct seq_file *s, struct hva_ctx *ctx)
- 			      "  | |- SEI frame packing type=%s\n",
- 			      v4l2_ctrl_get_menu(entropy)[ctrls->entropy_mode],
- 			      ctrls->cpb_size,
--			      ctrls->dct8x8 ? "true" : "false",
-+			      str_true_false(ctrls->dct8x8),
- 			      ctrls->qpmin,
- 			      ctrls->qpmax,
--			      ctrls->vui_sar ? "true" : "false",
-+			      str_true_false(ctrls->vui_sar),
- 			      v4l2_ctrl_get_menu(vui_sar)[ctrls->vui_sar_idc],
--			      ctrls->sei_fp ? "true" : "false",
-+			      str_true_false(ctrls->sei_fp),
- 			      v4l2_ctrl_get_menu(sei_fp)[ctrls->sei_fp_type]);
- 	}
+diff --git a/drivers/media/platform/chips-media/coda/imx-vdoa.c b/drivers/media/platform/chips-media/coda/imx-vdoa.c
+index c3561fcecb98..abdff181d417 100644
+--- a/drivers/media/platform/chips-media/coda/imx-vdoa.c
++++ b/drivers/media/platform/chips-media/coda/imx-vdoa.c
+@@ -15,6 +15,7 @@
+ #include <linux/platform_device.h>
+ #include <linux/videodev2.h>
+ #include <linux/slab.h>
++#include <linux/string_choices.h>
  
+ #include "imx-vdoa.h"
+ 
+@@ -117,7 +118,7 @@ static irqreturn_t vdoa_irq_handler(int irq, void *data)
+ 	writel(val, vdoa->regs + VDOAIST);
+ 	if (val & VDOAIST_TERR) {
+ 		val = readl(vdoa->regs + VDOASR) & VDOASR_ERRW;
+-		dev_err(vdoa->dev, "AXI %s error\n", val ? "write" : "read");
++		dev_err(vdoa->dev, "AXI %s error\n", str_write_read(val));
+ 	} else if (!(val & VDOAIST_EOT)) {
+ 		dev_warn(vdoa->dev, "Spurious interrupt\n");
+ 	}
 
 -- 
 2.46.1.824.gd892dcdcdd-goog
