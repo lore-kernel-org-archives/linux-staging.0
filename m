@@ -1,57 +1,57 @@
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80BCF191F81
-	for <linux-staging@lists.linux.dev>; Mon, 30 Sep 2024 12:04:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 844D2192581
+	for <linux-staging@lists.linux.dev>; Mon, 30 Sep 2024 12:04:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727697864; cv=none; b=CkvUfl/ysliopzcEwy2sY6R92uWSkgmdrdoLmp6Lt+3o9I1n7x9TMfkVIqi+7qwTibcABCYgYetamrefQgibS1y8MJLH5WPmKF+Q8wBL6rt71lnmoEKQpk9ydShVp1qdAGnJ//8MKCCpY9y7l3IG5xao2POqJBRcWzpyi2Jx9Xc=
+	t=1727697866; cv=none; b=gcf/hv/O8bEcL9rjcJ7BzAUXzJ/x6x0R9azvHi6x03x946DUevAV7n7qUsHjWGi5pcrSAGa3wa8OyiA67XZJ2T3qvfCS9PVVY0sO554nkpD0e9/cggPhUe0EonW+hybt7s7phxD2d3eRmcAF1OPLNDifeWhD3/hXjICcta85Ssk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727697864; c=relaxed/simple;
-	bh=GRNRTE3KFYZCTqmHqSQFYdbDtQolStbwq9AxxoNYcUM=;
+	s=arc-20240116; t=1727697866; c=relaxed/simple;
+	bh=WfL92qRYRM/NN8550n/7vszyPNHtfWY3JGFtsXpdWIQ=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=tlLCBJHOTq5crtCdgVjTQtHYOCMrao1LOJ1Gss6KdxdPI7jMAYYodvGPB0/9ciOxzrgWMRltSIasYcNnbkn47wDs7wlyzz9BTtxGBphKnj5KXOTPbVjyWrNezZkjha/rIITfuUlUcPkSpqKbdMPfGqEfOLUow7PTO+EbbfhaEa4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=FwYyskmE; arc=none smtp.client-ip=209.85.219.52
+	 In-Reply-To:To:Cc; b=V9ktIXfO24HOz+ZMwK6gjHHASJQqd8yBSbfEDlSLDEFsAS8hV/H9AGoKH9XwtuQKmmFesQCnGktRikclfnR0V9Xgx1Jm8v6ao4GwiPBHTHO91DZRIj/wCWYQVEHYvSdjHz/DS/W7W3K3+jyY1gt2171lrs2hL6S/mzc15EggJF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=oRIbCOwh; arc=none smtp.client-ip=209.85.222.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="FwYyskmE"
-Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-6cb3062d9a6so36150886d6.0
-        for <linux-staging@lists.linux.dev>; Mon, 30 Sep 2024 05:04:22 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="oRIbCOwh"
+Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-7a9af813f6cso405577085a.3
+        for <linux-staging@lists.linux.dev>; Mon, 30 Sep 2024 05:04:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1727697861; x=1728302661; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1727697863; x=1728302663; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=o0DduMWqX0LlLrfJFzeOwfQDx0mBLtEZV9WrRhA8PwA=;
-        b=FwYyskmEE7n0nyFQn5vKKQ7xvvJfMweRl4Jj3eqq01hZXdzy3XKbc/4tZDjQGdoO9k
-         iTYz+XPfG8J/PJ/PXi+2Lqi+ajmUntgUaipP55fLrTqlNspjEIZvT61ImVySPpQDBBIH
-         yLWSd5h8XBr4zzhAqPE9KanwGpjxKFChcECck=
+        bh=42a4vpn3QTtS0EhgGJlcs62eAaEwJVXQ21s4ykHFIBI=;
+        b=oRIbCOwhZ/fjEIygtdfnWbDbZ3F1+Yo3iAKIPmOZ+F+ioROdMaZdGRnn51SLAMy1jd
+         VqZaspQwCHlmbUyDWem7cdOha7D9tIm3BQ8ZbrV2/kVXRX6sVQMuuGtnk/qgysdVHPne
+         JiYNEGyBXt0nejdC8GoTLJ4YPK4s/np8IAO/M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727697861; x=1728302661;
+        d=1e100.net; s=20230601; t=1727697863; x=1728302663;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=o0DduMWqX0LlLrfJFzeOwfQDx0mBLtEZV9WrRhA8PwA=;
-        b=JLoSza7Yt3nv2RI03iiPS6bF+2o/nwMM0lob3lRigTlngkhHMlznTdHrE0PNTmhwl7
-         Jd5S93A1rVGIK98F+NWR3fs5TDA9ba/8T03pDkEKgDwNdKrJTiBn9oisc1iP3FAJjgLs
-         zgs2Iekc5AP7aeWxADKk0YUBbKnNN2LYOzaLSidXXAMtNDM6mm/w+3364IoZC9Cnfa3+
-         Yk44GMu1vcv70MNwsD0qreIahg6BpTm4pqL0LZ8oLIeZmNQEocYb3EkbhmXKei9CzoJH
-         tcPeHu1j8K3bcuczkHRkpJIor+y3a//Lzi+DdkIlnwzVm1gLga3en5ARzjbLHERporFB
-         ax+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVi2D7PsQ2G7ONNBeANoRnQ04uOzto82lpsgUgiEsv8RvA8q6AU22Sdy5vtbQxUadIv5RUx0o8+1E7RRSrt@lists.linux.dev
-X-Gm-Message-State: AOJu0YyxxV03vXd8IhMM+5W+qvNCO2wKpByTVSFd62fHzynE1WkW7dYU
-	fFoi9MvII2q2I7Sg/o5WtZ+gvvrndAZOZO43hVW4BeMcAFDkOt2qXRkUNZa4EQ==
-X-Google-Smtp-Source: AGHT+IFW5o76WLto1m5OIr01yojLQTVPsUEplusVOtBKeM+zgF4Mr8Jjm4ekkrZvP/8oEpp3jj7xuA==
-X-Received: by 2002:a05:6214:3a88:b0:6cb:35ea:a343 with SMTP id 6a1803df08f44-6cb3b5b60c5mr157899696d6.5.1727697861311;
-        Mon, 30 Sep 2024 05:04:21 -0700 (PDT)
+        bh=42a4vpn3QTtS0EhgGJlcs62eAaEwJVXQ21s4ykHFIBI=;
+        b=v9YQ+stzQ2vauACT4/ApT0en/tn01ofaTuJg5lESMxvFllP3W8glfAF/UscMtZtF67
+         AVN/cXrzTG1evmZSuoaTZpEbUNVY2numdqZ8rUppbEMB0eEpInDRaXqlbypdcyPzGe7l
+         fVU5IESqCSR/QugZ89D4FrlAO6gErxv7xCwAwoOh5il6NaTx1lwX5l2cqpU+VJPk2WWa
+         li1gcyW65o8sQ4P976h/Qh732TR9egriGByZmVd+MI3u2HiZvYuGwXdgwSK81rHbAJl4
+         p+2gkQGbcl9j9c3yYuZCpH8rwQhzENtXKWNBXCJsU2Rf6Ast0W2YvoIb7Ra1QhzLB19P
+         a8Nw==
+X-Forwarded-Encrypted: i=1; AJvYcCVLnqcWyUF7DUCCfJ/Rez4LJz8Vd9V9W9IltC6Uro4l8JRPYqoiJUnnWxcHk+qsebJYIHlDMlfsfuIGW1dj@lists.linux.dev
+X-Gm-Message-State: AOJu0YyQwihTJPB+pZ4AD0BjvVvhstcRj2wuQRibCZFes7wUpUR75MaU
+	2rnKIKGmtnIEDfVl9aqQk3ddmvWEL94ljtcPHfTgo8Lni/BEOZff49dgCcJQ+g==
+X-Google-Smtp-Source: AGHT+IFlDabMazwXnqk+xIMlKgzFONIbVzdm9vY20CpqT4dLcojtxwjmPMueB5KKSCBhlfp1Ts2Ejw==
+X-Received: by 2002:a05:6214:460f:b0:6c3:5ebb:9526 with SMTP id 6a1803df08f44-6cb3b5f2d1bmr196194196d6.29.1727697863111;
+        Mon, 30 Sep 2024 05:04:23 -0700 (PDT)
 Received: from denia.c.googlers.com (76.224.245.35.bc.googleusercontent.com. [35.245.224.76])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cb3b694369sm38822536d6.144.2024.09.30.05.04.19
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cb3b694369sm38822536d6.144.2024.09.30.05.04.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Sep 2024 05:04:20 -0700 (PDT)
+        Mon, 30 Sep 2024 05:04:21 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 30 Sep 2024 12:04:04 +0000
-Subject: [PATCH 09/45] media: cx231xx: Use string_choices helpers
+Date: Mon, 30 Sep 2024 12:04:05 +0000
+Subject: [PATCH 10/45] media: tuners: Use string_choices helpers
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -60,7 +60,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240930-cocci-opportunity-v1-9-81e137456ce0@chromium.org>
+Message-Id: <20240930-cocci-opportunity-v1-10-81e137456ce0@chromium.org>
 References: <20240930-cocci-opportunity-v1-0-81e137456ce0@chromium.org>
 In-Reply-To: <20240930-cocci-opportunity-v1-0-81e137456ce0@chromium.org>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
@@ -100,51 +100,67 @@ Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
 X-Mailer: b4 0.13.0
 
 The following cocci warnings are fixed:
-drivers/media/usb/cx231xx/cx231xx-video.c:144:4-9: opportunity for str_enabled_disabled(flags)
-drivers/media/usb/cx231xx/cx231xx-i2c.c:373:4-30: opportunity for str_read_write(( msgs [ i ] . flags & I2C_M_RD ))
-drivers/media/usb/cx231xx/cx231xx-i2c.c:402:4-32: opportunity for str_read_write(( msgs [ i + 1 ] . flags & I2C_M_RD ))
+drivers/media/tuners/tda18250.c:110:3-12: opportunity for str_true_false(triggered)
+drivers/media/tuners/tda9887.c:296:39-54: opportunity for str_high_low(( buf [ 0 ] & 0x20 ))
+drivers/media/tuners/tda9887.c:298:39-54: opportunity for str_high_low(( buf [ 0 ] & 0x80 ))
+drivers/media/tuners/tda9887.c:294:39-54: opportunity for str_yes_no(( buf [ 0 ] & 0x01 ))
+drivers/media/tuners/tda9887.c:347:5-20: opportunity for str_yes_no(( buf [ 1 ] & 0x02 ))
+drivers/media/tuners/tda9887.c:353:5-20: opportunity for str_yes_no(( buf [ 1 ] & 0x20 ))
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/usb/cx231xx/cx231xx-i2c.c   | 4 ++--
- drivers/media/usb/cx231xx/cx231xx-video.c | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ drivers/media/tuners/tda18250.c |  2 +-
+ drivers/media/tuners/tda9887.c  | 10 +++++-----
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/media/usb/cx231xx/cx231xx-i2c.c b/drivers/media/usb/cx231xx/cx231xx-i2c.c
-index 6da8e7943d94..6d8b70562f6d 100644
---- a/drivers/media/usb/cx231xx/cx231xx-i2c.c
-+++ b/drivers/media/usb/cx231xx/cx231xx-i2c.c
-@@ -370,7 +370,7 @@ static int cx231xx_i2c_xfer(struct i2c_adapter *i2c_adap,
- 		addr = msgs[i].addr;
+diff --git a/drivers/media/tuners/tda18250.c b/drivers/media/tuners/tda18250.c
+index 68d0275f29e1..853600c80839 100644
+--- a/drivers/media/tuners/tda18250.c
++++ b/drivers/media/tuners/tda18250.c
+@@ -107,7 +107,7 @@ static int tda18250_wait_for_irq(struct dvb_frontend *fe,
+ 	dev_dbg(&client->dev, "waited IRQ (0x%02x) %d ms, triggered: %s", irq,
+ 			jiffies_to_msecs(jiffies) -
+ 			(jiffies_to_msecs(timeout) - maxwait),
+-			triggered ? "true" : "false");
++			str_true_false(triggered));
  
- 		dprintk2(2, "%s %s addr=0x%x len=%d:",
--			 (msgs[i].flags & I2C_M_RD) ? "read" : "write",
-+			 str_read_write(msgs[i].flags & I2C_M_RD),
- 			 i == num - 1 ? "stop" : "nonstop", addr, msgs[i].len);
- 		if (!msgs[i].len) {
- 			/* no len: check only for device presence */
-@@ -399,7 +399,7 @@ static int cx231xx_i2c_xfer(struct i2c_adapter *i2c_adap,
- 			}
- 			/* read bytes */
- 			dprintk2(2, "plus %s %s addr=0x%x len=%d:",
--				(msgs[i+1].flags & I2C_M_RD) ? "read" : "write",
-+				str_read_write(msgs[i + 1].flags & I2C_M_RD),
- 				i+1 == num - 1 ? "stop" : "nonstop", addr, msgs[i+1].len);
- 			rc = cx231xx_i2c_recv_bytes_with_saddr(i2c_adap,
- 							       &msgs[i],
-diff --git a/drivers/media/usb/cx231xx/cx231xx-video.c b/drivers/media/usb/cx231xx/cx231xx-video.c
-index 435eb0b32cb1..4cdcfe635ad7 100644
---- a/drivers/media/usb/cx231xx/cx231xx-video.c
-+++ b/drivers/media/usb/cx231xx/cx231xx-video.c
-@@ -141,7 +141,7 @@ static int cx231xx_enable_analog_tuner(struct cx231xx *dev)
- 			dev_err(dev->dev,
- 				"Couldn't change link %s->%s to %s. Error %d\n",
- 				source->name, sink->name,
--				flags ? "enabled" : "disabled",
-+				str_enabled_disabled(flags),
- 				ret);
- 			return ret;
- 		} else
+ 	if (!triggered)
+ 		return -ETIMEDOUT;
+diff --git a/drivers/media/tuners/tda9887.c b/drivers/media/tuners/tda9887.c
+index b2f7054c1832..f403dcf14aa0 100644
+--- a/drivers/media/tuners/tda9887.c
++++ b/drivers/media/tuners/tda9887.c
+@@ -291,11 +291,11 @@ static void dump_read_message(struct dvb_frontend *fe, unsigned char *buf)
+ 		"+ 12.5 kHz",
+ 	};
+ 	tuner_info("read: 0x%2x\n", buf[0]);
+-	tuner_info("  after power on : %s\n", (buf[0] & 0x01) ? "yes" : "no");
++	tuner_info("  after power on : %s\n", str_yes_no(buf[0] & 0x01));
+ 	tuner_info("  afc            : %s\n", afc[(buf[0] >> 1) & 0x0f]);
+-	tuner_info("  fmif level     : %s\n", (buf[0] & 0x20) ? "high" : "low");
++	tuner_info("  fmif level     : %s\n", str_high_low(buf[0] & 0x20));
+ 	tuner_info("  afc window     : %s\n", (buf[0] & 0x40) ? "in" : "out");
+-	tuner_info("  vfi level      : %s\n", (buf[0] & 0x80) ? "high" : "low");
++	tuner_info("  vfi level      : %s\n", str_high_low(buf[0] & 0x80));
+ }
+ 
+ static void dump_write_message(struct dvb_frontend *fe, unsigned char *buf)
+@@ -344,13 +344,13 @@ static void dump_write_message(struct dvb_frontend *fe, unsigned char *buf)
+ 	tuner_info("  B0   video mode      : %s\n",
+ 		   (buf[1] & 0x01) ? "video trap" : "sound trap");
+ 	tuner_info("  B1   auto mute fm    : %s\n",
+-		   (buf[1] & 0x02) ? "yes" : "no");
++		   str_yes_no(buf[1] & 0x02));
+ 	tuner_info("  B2   carrier mode    : %s\n",
+ 		   (buf[1] & 0x04) ? "QSS" : "Intercarrier");
+ 	tuner_info("  B3-4 tv sound/radio  : %s\n",
+ 		   sound[(buf[1] & 0x18) >> 3]);
+ 	tuner_info("  B5   force mute audio: %s\n",
+-		   (buf[1] & 0x20) ? "yes" : "no");
++		   str_yes_no(buf[1] & 0x20));
+ 	tuner_info("  B6   output port 1   : %s\n",
+ 		   (buf[1] & 0x40) ? "high (inactive)" : "low (active)");
+ 	tuner_info("  B7   output port 2   : %s\n",
 
 -- 
 2.46.1.824.gd892dcdcdd-goog
