@@ -1,110 +1,84 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F6901E6309
-	for <linux-staging@lists.linux.dev>; Wed,  2 Oct 2024 10:12:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B7EE195FE3
+	for <linux-staging@lists.linux.dev>; Wed,  2 Oct 2024 10:41:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727863967; cv=none; b=oM/XOuEtTQGK0rXYXnZ5x+j+zNcUs1+h8V7Rr7eMihczYx1+LODzi8NHPli8u90vvwg8UcXW+JTGgGEeFUDKiXypLnETk5cgUhZhCzJpLolHdJWg3GiyOXlxtvHOJxmNn4qxBfKcttK/LzMhVGXw/YyCsjMT9fMogmj2qYrLyVA=
+	t=1727865718; cv=none; b=AlFtpFdLdU9YP95Uj5vO7gBLJkWoyTQoZZ/X/zG5KDvA4RZtn2wdBM/xd9C0Q14gTVXu8heev3MaAVxoT+YpvESZ+JrVLvxOFgPBF4iEOw/HWJ78XuKcDUAegACDauVnZWQdzdgiOLg6lWzQ7WYt3C1ujzuU/8cjMGk2jD60D2g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727863967; c=relaxed/simple;
-	bh=l6pfO8PNDZ3zKbuX+zqM/si1/c5wypRZiCuqbM1gxGE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gPov6PZ7+cHRkeMTyyqDIxXBw+x+h2GtbzuDHmh7osL25xYaGGH2lDeXbfW/surJ2SI+VjVwAUW3adWJOHCy8B6lNNh9RMhfgfVt+48BpSoOTChOzESFPsGWjyWO0Q2i9eKhnnGSZ9NhIFnt3z+jOo1F4Xoy79Fr35r8633EabA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M2BgN/gS; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1727865718; c=relaxed/simple;
+	bh=0M4hzFNAI5PkYldwN+ROoV3co0gANIadwZX+5yLYlwc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LWcRtRCwamyWHb4EvoNezbruSJNAPrARNEaQ+La0X3JSlVXpqMwc9/GO6tyG3qoM79XkPlQ8eFJIZh+fmkgmbNSOz7l5OGzGXuSW94B9nbOaMVlWejsrWN33f+RphBT7vp4Zk43lwHln4aZmjuz1SAxssxtOw91o4EmxFXWiNGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JVLgQqZK; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M2BgN/gS"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-719b17b2da1so4738353b3a.0
-        for <linux-staging@lists.linux.dev>; Wed, 02 Oct 2024 03:12:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727863965; x=1728468765; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=4DFRmrs1aYDd2Uy/G88tFC9GJSWwmjg1iO70CGCj0pU=;
-        b=M2BgN/gSUzZibfhOuACGjRb3BuGbDAASV/0+MbwSFQYva1q/lg0wsI4UOKW619UxDK
-         DkjCc3D1qpX3We2cyatCSbm8hgh4sUfHyKSMdrBaaOzq6Hl2JCEq1mSUzfL6WlijrxE2
-         976paYbtupxfVjOgUb2Z8M/At6neCGlGxf/J8PrhNjCbrcPyic5PzbeM3FZkXv6Xh1Y2
-         KNb/CSXpHn2NexfI4lcM2yL1QaSRgdePJglfPizqNL8f14UMNP6nnUJ54+hb7vNnd+6t
-         3IUOyzavhw1whiGG95pDVOhi3N3Am1iJQTj56rrX9QcV0Ekuo0upqsKOld69kSlr1bwD
-         ZXiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727863965; x=1728468765;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4DFRmrs1aYDd2Uy/G88tFC9GJSWwmjg1iO70CGCj0pU=;
-        b=XPUiznPs+3UR17mrkb9TZ5I0uPGaLuCEtMAH7T92HQxigC5x35/bj7w6JrvW17ssUz
-         uiDfg6xF91Llly3evkWeUn6BaPoxDPU8uoFmRmSfZjLkuAHADINtPWC8p0KiVXzlcayM
-         degdajvp6X5fWsXMAa7vUoPATTvbhNnCFfeSS56x8wJXLIVZGznBbSb2wxtkrjeLimPR
-         tY6fap+ZLf/ZJuRsFZQHaeFKqcZdh1cMqEfeWITQAG4ZK7IlP+Fa+9WYczncWtL/QoYw
-         9kwkHPdTQvQ9gmPLkNkxI/2a2YvHykicTizrxeTn2KdiR7lNZBdw1PwVG0Ou2aCyDvYI
-         73fQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUZQI6/tmHbuiQM/bujfnMIEHIr/yNEhHCjf1U6bCYGMKrHpTWL6k9Qr+BEQtmybcIxzS7JegOBYcpbFQUL@lists.linux.dev
-X-Gm-Message-State: AOJu0YzgbUnZ+IxRfMzCvs+X+D+PkV+DzuL8zMfeeWhoetcT31jHyIp2
-	fYZqVDqV4FLZf1Fk93xMBteT+n+OoUz/B1PDOlTrJqkccfiU8iDI
-X-Google-Smtp-Source: AGHT+IETJv+93j6PLhhd0lX/cgjxRgQaaFEuFJs9Q8REaxETgNW9ls1g7JP4pBezYy2jReZf6nLRcA==
-X-Received: by 2002:a05:6a00:3c90:b0:714:1c0e:1336 with SMTP id d2e1a72fcca58-71dc5c4db9fmr4648162b3a.4.1727863965281;
-        Wed, 02 Oct 2024 03:12:45 -0700 (PDT)
-Received: from Hridesh-ArchLinux.mec.ac.in ([103.163.113.106])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71b26516189sm9742758b3a.97.2024.10.02.03.12.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Oct 2024 03:12:44 -0700 (PDT)
-From: Hridesh MG <hridesh699@gmail.com>
-To: linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Hridesh MG <hridesh699@gmail.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JVLgQqZK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1727865717; x=1759401717;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0M4hzFNAI5PkYldwN+ROoV3co0gANIadwZX+5yLYlwc=;
+  b=JVLgQqZK3YOE+MDI9EIuxQ+yjICX3NThDKPhL0hIS6I2buHJQC+ZDBgY
+   a0FFz8/36SAuR/JCUobxznMmY6o1ceuaOKkpkDeu8wz+IqoxjoNbFUL34
+   dR0ShCR49SMz9ONaHCPzKAqw1u5MYM3nWM4NZtbvoGM49EML/DPEfNQxI
+   PkuVAU9rhXGrUnm53shvSFyEwjGq7vDItXU6+6sBZqXeGdQI95EhQEfUv
+   YuvAy2uvr6DLELOQe4U6McT0hvf0/ofQPs0ld3BWCNNnUzIlWqryL0ETF
+   9iAilzJu/7oDvNarZikOxgyvr2Leh+/k/RBPADABxqkUPM1V/mUvGvqYW
+   Q==;
+X-CSE-ConnectionGUID: ZQN8MJHDR3WrGB9q9O1ciQ==
+X-CSE-MsgGUID: aakMClkESIu75omzbCMBAg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="27179072"
+X-IronPort-AV: E=Sophos;i="6.11,171,1725346800"; 
+   d="scan'208";a="27179072"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2024 03:41:56 -0700
+X-CSE-ConnectionGUID: 7p/ipJgfQHWnR+Kz9HM0lQ==
+X-CSE-MsgGUID: 4XJz04EUSQOMQ9THDZCGqA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,171,1725346800"; 
+   d="scan'208";a="104770355"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2024 03:41:54 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 1630011F802;
+	Wed,  2 Oct 2024 13:41:51 +0300 (EEST)
+Date: Wed, 2 Oct 2024 10:41:51 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Hridesh MG <hridesh699@gmail.com>
+Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Bingbu Cao <bingbu.cao@intel.com>,
 	Tianshu Qiu <tian.shu.qiu@intel.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Shuah Khan <skhan@linuxfoundation.org>
-Subject: [PATCH] staging: media: fix spelling mistakes
-Date: Wed,  2 Oct 2024 15:41:04 +0530
-Message-ID: <20241002101106.56658-1-hridesh699@gmail.com>
-X-Mailer: git-send-email 2.46.1
+Subject: Re: [PATCH] staging: media: fix spelling mistakes
+Message-ID: <Zv0jb4i_4wDxKJUn@kekkonen.localdomain>
+References: <20241002101106.56658-1-hridesh699@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241002101106.56658-1-hridesh699@gmail.com>
 
-fix two minor spelling/grammar issues
+Hi Hridesh,
 
-Signed-off-by: Hridesh MG <hridesh699@gmail.com>
----
-Fixes:
-	chunck -> chunk
-	procotol -> protocol
----
- drivers/staging/media/ipu3/ipu3-css-params.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On Wed, Oct 02, 2024 at 03:41:04PM +0530, Hridesh MG wrote:
+> fix two minor spelling/grammar issues
 
-diff --git a/drivers/staging/media/ipu3/ipu3-css-params.c b/drivers/staging/media/ipu3/ipu3-css-params.c
-index 34f574b0b521..af4205f4b038 100644
---- a/drivers/staging/media/ipu3/ipu3-css-params.c
-+++ b/drivers/staging/media/ipu3/ipu3-css-params.c
-@@ -639,7 +639,7 @@ static int imgu_css_osys_calc_frame_and_stripe_params(
- 				/*
- 				 * FW workaround for a HW bug: if the first
- 				 * chroma pixel is generated exactly at the end
--				 * of chunck scaler HW may not output the pixel
-+				 * of chunk scaler HW may not output the pixel
- 				 * for downscale factors smaller than 1.5
- 				 * (timing issue).
- 				 */
-@@ -1416,7 +1416,7 @@ imgu_css_shd_ops_calc(struct imgu_abi_shd_intra_frame_operations_data *ops,
- }
- 
- /*
-- * The follow handshake procotol is the same for AF, AWB and AWB FR.
-+ * The following handshake protocol is the same for AF, AWB and AWB FR.
-  *
-  * for n sets of meta-data, the flow is:
-  * --> init
+Sentences begin with a capital letter and end in a period (.).
+
+Looks fine otherwise. So please pay attention to the commit message.
+
 -- 
-2.46.1
+Kind regards,
+
+Sakari Ailus
