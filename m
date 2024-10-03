@@ -1,97 +1,138 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D485713C9C0
-	for <linux-staging@lists.linux.dev>; Thu,  3 Oct 2024 08:37:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9065215D5B7
+	for <linux-staging@lists.linux.dev>; Thu,  3 Oct 2024 12:23:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727944632; cv=none; b=lQA2g+/eUZWs6y1rP8gur3vvxhtXl1nWcdDCDAq4S8LaGBMrQITawUfgCwylkJ7+2sO7lWckB4+CdNEi0r1Gb422X4kF2t6C8h4YLBOzDWuwoEJ2N6o4tHcKnm5TB9IrA6uXRSzhIBy3sdpSyRYWQEk1TSevidbRCM9DzQ+Rnoc=
+	t=1727958233; cv=none; b=ThCsWAE215qsRVOMiCQ5K7Pru2lkvDWfNgg2yhDf4Ehu3ovZ8ZGFq1/zaVsyxV9zh7jiPwuICuP4KuQkWjMCPJ3bHAL9J3f2adU32FAhjpbTU2jFKf5xdmcJtZuuPA9+wsANkhn4Q96tIwImMK4AqIJvD+BB2XJwqIb9IBukQS8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727944632; c=relaxed/simple;
-	bh=/J1Mq3LUjuws8ZS8jbgSSX0fkiVGHMXLXkitxD54E9E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M3TW09eLqhgJ++3rbeTeAvIqTjTnTwXCQdjeKP14Ylj6nyP9O8mJaRnoPTgmn4r0ffXB9rGnUiata1zxTEaHNhqjxvO/6iiWjD78c2tipA4EYxfEe4CNNw+gRXdLEZaH+LwqkeceWHXaViGeFA7QlGFArZjTwkAIGRVmV6TE/Zs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WFoqQpwc; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1727958233; c=relaxed/simple;
+	bh=xu0Hjz19FaClSoUstPuOfAViW3LJdJMBb0N/iYDYdLA=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=GcdvYsJmv3TwvwFCgxUQgiIaEzw4ytXmczm5imTinYlchd3/+RbQG+je/veGEf+cujmn/4tQ7Ja8nw4aKZNUyfNRLYPCTjJ2rKFIh9o4lxURK+kwlK+BRXfihz2CwRld8uNSKX6sUKo4GGvW1bwpAOX9ojfX+M/NYHTN+thi86w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org; spf=pass smtp.mailfrom=cknow.org; dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b=YelPOsBE; arc=none smtp.client-ip=91.218.175.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cknow.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WFoqQpwc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727944631; x=1759480631;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/J1Mq3LUjuws8ZS8jbgSSX0fkiVGHMXLXkitxD54E9E=;
-  b=WFoqQpwcWZMDGlyzXtxzCwZXhkQB5btPBTVby9Bj32ynCzqo63iZ0Gzg
-   mPmXbJV72ZHjFKO8CmsDr+Wv8Qk/YpCwNlEwfwwgRnJ7MmUcx2kaT1TOx
-   McOePYjvWanF4p4/+0f5icaW8CEeuOvNoJBlGy7D6IsjgCNlU5/NObdjo
-   5fVmpKXW024IRYHIamaJY3zMsN6vRMXr33XOL5pKiTnTa8k1XK+Hq8jaP
-   0NzeNYdrYQpDmdUAksZWWpi3EX2Fou0d3f0DCUYOZ0zg8vSkfhmAeBqb7
-   trhhtIt3yEXy+p3JwgqIBmTHDyTpoE3cqpOh1ePd6HXlZB8DPUBKAfGR5
-   g==;
-X-CSE-ConnectionGUID: uvozJSLxQx+676WdErKQiQ==
-X-CSE-MsgGUID: nyJfey/4T7qezrzFRqEDmA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="44656915"
-X-IronPort-AV: E=Sophos;i="6.11,173,1725346800"; 
-   d="scan'208";a="44656915"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2024 01:37:10 -0700
-X-CSE-ConnectionGUID: p3hrlGxKRUqxgl9a8avMSQ==
-X-CSE-MsgGUID: gwEo7SiZTui3zH9FbnOqQA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,173,1725346800"; 
-   d="scan'208";a="73865629"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2024 01:37:07 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id A97FB11F83B;
-	Thu,  3 Oct 2024 11:37:04 +0300 (EEST)
-Date: Thu, 3 Oct 2024 08:37:04 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Hridesh MG <hridesh699@gmail.com>, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org, Bingbu Cao <bingbu.cao@intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH v2] staging: media: fix spelling mistakes
-Message-ID: <Zv5XsJd965xdNI3j@kekkonen.localdomain>
-References: <20241002152231.8828-1-hridesh699@gmail.com>
- <2163bf83-dd55-4f79-b0ea-834fa7b1f561@xs4all.nl>
+	dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b="YelPOsBE"
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2163bf83-dd55-4f79-b0ea-834fa7b1f561@xs4all.nl>
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
+	t=1727958227;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SIqwKiUhoG6a2uAv06BzwgNeY0A4xHveg1I2dddHC5k=;
+	b=YelPOsBERiXUuI0N7YkwoBcpn+pBfJJqmsv41Pd9al0ZuwRfDkAfeTYUlVW0B6nFTRJ6VB
+	jF2aVigkNKahQzjyQzabKPofXDNeb5fsSqSNhulSl7P51hNhVanTnagxXvS10Dy7vmrN0U
+	HFGb5hrax1x7MVFNHWXlWXI/0L1jnhYCFp/1GUQy5ER7yr0Gd20PbaLnAXoJQlr9wZtf74
+	UpkcvKfNvta4B8QnUn27mo6e3hFd909oawnP7abXcCsWXNkVWy16KEzY/IKoyJA/HFQdnS
+	GkR1se40qV8wEKKw9q8U8goyGj1XZqTCIR/6rLy0Jod5O+hqF7ip0u2xLasAdg==
+Content-Type: multipart/signed;
+ boundary=341152132e471a78ee9810b312ec357e29c650715afc234660476caf54da;
+ micalg=pgp-sha256; protocol="application/pgp-signature"
+Date: Thu, 03 Oct 2024 14:23:33 +0200
+Message-Id: <D4M62CEXA88M.2I1F9N6V18R3N@cknow.org>
+Cc: "Alex Bee" <knaerzche@gmail.com>, "Nicolas Dufresne"
+ <nicolas.dufresne@collabora.com>, "Benjamin Gaignard"
+ <benjamin.gaignard@collabora.com>, "Detlev Casanova"
+ <detlev.casanova@collabora.com>, "Dan Carpenter"
+ <dan.carpenter@linaro.org>, "Diederik de Haas" <didi.debian@cknow.org>,
+ <linux-media@vger.kernel.org>, <linux-rockchip@lists.infradead.org>,
+ <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v6 00/11] media: rkvdec: Add H.264 High 10 and 4:2:2
+ profile support
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: "Diederik de Haas" <didi.debian@cknow.org>
+To: "Jonas Karlman" <jonas@kwiboo.se>, "Sebastian Fricke"
+ <sebastian.fricke@collabora.com>, "Ezequiel Garcia"
+ <ezequiel@vanguardiasur.com.ar>, "Mauro Carvalho Chehab"
+ <mchehab@kernel.org>
+References: <20240909192522.1076704-1-jonas@kwiboo.se>
+In-Reply-To: <20240909192522.1076704-1-jonas@kwiboo.se>
+X-Migadu-Flow: FLOW_OUT
 
-On Thu, Oct 03, 2024 at 08:52:02AM +0200, Hans Verkuil wrote:
-> On 02/10/2024 17:22, Hridesh MG wrote:
-> > Fix three minor spelling/grammar issues:
-> > 	chunck -> chunk
-> > 	procotol -> protocol
-> > 	follow -> following
-> > 
-> > Signed-off-by: Hridesh MG <hridesh699@gmail.com>
-> 
-> Please always include the driver name in the Subject:
-> 
-> staging: media: ipu3:
-> 
-> That way the ipu3 maintainer will notice the patch.
+--341152132e471a78ee9810b312ec357e29c650715afc234660476caf54da
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-Well I was cc'd. ;)
+On Mon Sep 9, 2024 at 9:24 PM CEST, Jonas Karlman wrote:
+> This series add H.264 High 10 and 4:2:2 profile support to the Rockchip
+> Video Decoder driver.
+> ...
+> Tested on a ROCK Pi 4 (RK3399) and Rock64 (RK3328):
+> ...
+>
+> Link to v1: https://lore.kernel.org/linux-media/20200701215616.30874-1-jo=
+nas@kwiboo.se/
+>
+> To fully runtime test this series you may need FFmpeg patches from [1]
+> and fluster patches from [2], this series is also available at [3].
 
-I can fix that while applying, no need for v3...
+I have been using this patch set and earlier version stemming all the
+way back to 2023-10-29 and with a patched ffmpeg and mpv ([1] but
+earlier versions before that) I have been enjoying HW accelerated
+playback on my Rock64 (rk3328) :-)
 
-Hridesh: it's a good idea to check which subject prefix is used for a
-driver in the commit log, too.
+So for the series, feel free to add my
 
--- 
-Sakari Ailus
+Tested-by: Diederik de Haas <didi.debian@cknow.org>
+
+[1] https://github.com/mpv-player/mpv/pull/14690
+
+Cheers,
+  Diederik
+
+> [1] https://github.com/Kwiboo/FFmpeg/commits/v4l2request-2024-v2-rkvdec/
+> [2] https://github.com/Kwiboo/fluster/commits/ffmpeg-v4l2request-rkvdec/
+> [3] https://github.com/Kwiboo/linux-rockchip/commits/linuxtv-rkvdec-high-=
+10-v6/
+> [4] https://gist.github.com/Kwiboo/f4ac15576b2c72887ae2bc5d58b5c865
+> [5] https://gist.github.com/Kwiboo/459a1c8f1dcb56e45dc7a7a29cc28adf
+>
+> Regards,
+> Jonas
+>
+> Alex Bee (1):
+>   media: rkvdec: h264: Don't hardcode SPS/PPS parameters
+>
+> Jonas Karlman (10):
+>   media: v4l2-common: Add helpers to calculate bytesperline and
+>     sizeimage
+>   media: v4l2: Add NV15 and NV20 pixel formats
+>   media: rkvdec: h264: Use bytesperline and buffer height as virstride
+>   media: rkvdec: Extract rkvdec_fill_decoded_pixfmt into helper
+>   media: rkvdec: Move rkvdec_reset_decoded_fmt helper
+>   media: rkvdec: Extract decoded format enumeration into helper
+>   media: rkvdec: Add image format concept
+>   media: rkvdec: Add get_image_fmt ops
+>   media: rkvdec: h264: Support High 10 and 4:2:2 profiles
+>   media: rkvdec: Fix enumerate frame sizes
+>
+>  .../media/v4l/pixfmt-yuv-planar.rst           | 128 ++++++++++
+>  drivers/media/v4l2-core/v4l2-common.c         |  80 +++---
+>  drivers/media/v4l2-core/v4l2-ioctl.c          |   2 +
+>  drivers/staging/media/rkvdec/rkvdec-h264.c    |  64 +++--
+>  drivers/staging/media/rkvdec/rkvdec.c         | 239 +++++++++++++-----
+>  drivers/staging/media/rkvdec/rkvdec.h         |  18 +-
+>  include/uapi/linux/videodev2.h                |   2 +
+>  7 files changed, 410 insertions(+), 123 deletions(-)
+
+
+--341152132e471a78ee9810b312ec357e29c650715afc234660476caf54da
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCZv6MygAKCRDXblvOeH7b
+btePAP9ToufxZmhr2Lk3H7eoFfXNX6W5vCwP0nFLWmC9+8cVVQD9G8eUte6bu0b+
+A2j0SrvAl7VTKvbJcdcY6UFGpsaKLAk=
+=yXzH
+-----END PGP SIGNATURE-----
+
+--341152132e471a78ee9810b312ec357e29c650715afc234660476caf54da--
