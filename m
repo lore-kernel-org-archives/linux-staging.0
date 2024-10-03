@@ -1,152 +1,83 @@
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C39117ADE9;
-	Thu,  3 Oct 2024 12:28:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.62.61
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80E7042065
+	for <linux-staging@lists.linux.dev>; Thu,  3 Oct 2024 17:07:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727958508; cv=none; b=fQh3wFZ9+CZHz75hg/uvoyfE7Hv1HvNyXUZV0p0gjcccwxm/U6RFyoqCqecK+c403YkhbeUZKFgRjdMPt3CWpK/TJDFpiZGukKjfUvMQLQ3SIVxHNBxAD7PIsFT79M/6aAxNc/YhWoHQbJYcD7rhyV8rK2TzJTMF0D/rBwQaZkg=
+	t=1727975255; cv=none; b=Dped2bAkJ527Xp+dOuN1xi0mB5Iz42j4r2W8Pzek7cf83Vmut9/UxaoTB22Oh7QjAwUNOMZbjmtVV3/pYguf0hEjpg/IT5W4l0BSGwEp6zygHm7EDHgneTHwURQ2M+EiEB2HK1O1uxmkkk2z16dM0WYTpTmuKoBDbp8GvjXBx7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727958508; c=relaxed/simple;
-	bh=RCuPHUTcu5fp2dUKq693o0lcKV73plIhbtpzkEnTVo8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TdRCKxb/ya1RneA/u6R1LTJaM7yIVwMq+JWC3WyXTqk6B44owWMSRMzZp72bx6UXR9SDgFUJzF20l9Tgu9MhBidk9p3XulW/FF+vpCF3uuDAcUFyoqS/KjkoJwquGD4+KICI3nfs2gWWuP7J0EHVTXRpDSBFTYJuoCKMGYD/VAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=FP3tqZ5K; arc=none smtp.client-ip=85.214.62.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
+	s=arc-20240116; t=1727975255; c=relaxed/simple;
+	bh=dkfu7OpedYFMW4blTd8tKYx1+2gfV7GpFrrUeC40tik=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bed1QWaQD9v3AXPpwjmzrQPkCQVcf2vRLbw0byT+UgX4PGT8e9KShCQKGLfCrZ2RHI+5Q5t6koZPOzFjsXUS4I7/OJHtrXpXqSXvVgbRCQntfQ6BCA3pd2EUuJsr3BCQ9xO2GkU/579zHL6tXFmvfnb5ZZ3kbCoVtKBp1zxAUSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=caSLILA1; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="FP3tqZ5K"
-Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: marex@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id 6156E88B11;
-	Thu,  3 Oct 2024 14:28:24 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1727958504;
-	bh=zoIAJLEiK4YmLoPXQRr6ovZoiJ26IaJ89TksduxipBE=;
-	h=From:To:Cc:Subject:Date:From;
-	b=FP3tqZ5KKqK3sTPPMjdxCUyZl85xnj9/m+h21CpJOnhIOAe+fnoixlPji958R3JUl
-	 AGGnCgqTOKWrFEpJD5O0R/QNKnSJREMhv033IvijcGa/fYdoKj18ShcQpGiB5UhCUy
-	 zRSz6fbkJpbPPalHm1h0mxv+wkdLFboj2/dH1+X5PIoPHYoXk9T6SVYOCR6dPjqj1w
-	 yPWRjZJmbOIPTBGIKMNzHGmvwkQalPJNSC/QINJNaAKZ2n4xnA6nI2w964s+hGpYcx
-	 CiXwd+RjYhx4sm7yywjmON5/P4xtXjSqeG0w3axQrzZtNTRllXxX0265/lPhbu5NmQ
-	 9H//+hcDkGSkg==
-From: Marek Vasut <marex@denx.de>
-To: linux-media@vger.kernel.org
-Cc: Marek Vasut <marex@denx.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Steve Longerbeam <slongerbeam@gmail.com>,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH] gpu: ipu-v3: vdic: Drop unused prepare_vdi_in_buffers()
-Date: Thu,  3 Oct 2024 14:27:30 +0200
-Message-ID: <20241003122813.44746-1-marex@denx.de>
-X-Mailer: git-send-email 2.45.2
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="caSLILA1"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-20b78ee6298so7549515ad.2
+        for <linux-staging@lists.linux.dev>; Thu, 03 Oct 2024 10:07:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727975254; x=1728580054; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=dkfu7OpedYFMW4blTd8tKYx1+2gfV7GpFrrUeC40tik=;
+        b=caSLILA1qGlqfAKIF6GU9L/pMb9C7u7ayftazOHB8a+/y6AGP95j2vIHaLZU8wun7W
+         s6rDsP7JaGrOttgSMeTT11VvjbSOYjw6R9vJyjWzaRnJMAW0N9rrR3HNVn4FodLatRZv
+         kOzrfsflVr0KyBavnV/lLc1jj7nQ6AE43vASmS8dviaLx7U5OlUeX/tXoYCEXCZwf+pW
+         ovYEII6LPN5JWG68dgEG4ATT1YaMBeIRYIm3GSVzQwPgVXbcCew0xkuWd7uBrBrPe7uM
+         MVCdpkzxbNX0qxLn4qZcXewFtCK0AvvFt1bxtXy7dYFveXDN/BzF5UHmy2wZjshrkona
+         25WQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727975254; x=1728580054;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dkfu7OpedYFMW4blTd8tKYx1+2gfV7GpFrrUeC40tik=;
+        b=urqNqL2XV/LrXygjGTX2ZM1DdVBvmXbgrNqPCDAzbDPC6oZP4EqRML/MJy/r/FmFE5
+         hK/AcMfAb0SPcEU8YEWrKnZI8aPCPVlrnLiX/leD+sjkJKefyFr6pU3LOv+ayMN3YsJb
+         9/2ufNpMpLvtJjrCfWqTt5mMR1XXvcYeunbtEQmxCRQWP4nmZDq+DNNeOnwoZ/vOUYGs
+         NCaMA4nf+0uZRQwfOX3R5NwJVvQgbAyYHQtQFas/eKn/8wLVBXlOu6HkThZx1jklIbQL
+         TWo4qq/WrtQnaJRnHASs2bkuYvsoC5iHImPUuypDgWkMilKF+tGnnXIAhH+MWg+ya1Jx
+         oO1w==
+X-Forwarded-Encrypted: i=1; AJvYcCUSNY/cNsN5sLuCZSwyJSs2VjslhDkbLlodFV6Jz9Y15pZ/SNfKGaWfxWJ5/TOTkES4S8b+VKiul4+jkiXw@lists.linux.dev
+X-Gm-Message-State: AOJu0YyblQt/nx/PwjP4u8ZbPVM+CcLi2SxUYjVRnARxlJpli76HTk6q
+	sJ2F90SNruKueaQYMK22dk4tUacCn7IXEfX1VFcEow5uBeC6flo0
+X-Google-Smtp-Source: AGHT+IH+lcuitFr2y68/zPm6sfKZoMgOMMWy0G+pLPaWzpY6VYabxGZJbcedKcdXA6Lu5Ya866DR4w==
+X-Received: by 2002:a17:903:1c6:b0:206:9519:1821 with SMTP id d9443c01a7336-20bc5a0a184mr110302725ad.14.1727975253702;
+        Thu, 03 Oct 2024 10:07:33 -0700 (PDT)
+Received: from Hridesh-ArchLinux ([175.184.253.10])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20beead252esm11348835ad.43.2024.10.03.10.07.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Oct 2024 10:07:33 -0700 (PDT)
+Date: Thu, 3 Oct 2024 22:37:26 +0530
+From: Hridesh MG <hridesh699@gmail.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org, 
+	Bingbu Cao <bingbu.cao@intel.com>, Tianshu Qiu <tian.shu.qiu@intel.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [PATCH v2] staging: media: fix spelling mistakes
+Message-ID: <hd3n62efwrurrjrp7annnwufgiggmmszjmrqaryibf67dt53sr@mazbztoqrkdi>
+References: <20241002152231.8828-1-hridesh699@gmail.com>
+ <2163bf83-dd55-4f79-b0ea-834fa7b1f561@xs4all.nl>
+ <Zv5XsJd965xdNI3j@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <Zv5XsJd965xdNI3j@kekkonen.localdomain>
 
-This function is unused and unlikely to be used in the near future.
-Remove it.
+On 24/10/03 08:37AM, Sakari Ailus wrote:
+>I can fix that while applying, no need for v3...
+>
+>Hridesh: it's a good idea to check which subject prefix is used for a
+>driver in the commit log, too.
 
-Signed-off-by: Marek Vasut <marex@denx.de>
----
-Cc: Fabio Estevam <festevam@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Sascha Hauer <s.hauer@pengutronix.de>
-Cc: Shawn Guo <shawnguo@kernel.org>
-Cc: Steve Longerbeam <slongerbeam@gmail.com>
-Cc: imx@lists.linux.dev
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-media@vger.kernel.org
-Cc: linux-staging@lists.linux.dev
----
- drivers/staging/media/imx/imx-media-vdic.c | 54 ----------------------
- 1 file changed, 54 deletions(-)
-
-diff --git a/drivers/staging/media/imx/imx-media-vdic.c b/drivers/staging/media/imx/imx-media-vdic.c
-index 09da4103a8dbe..86f2b30cb06cb 100644
---- a/drivers/staging/media/imx/imx-media-vdic.c
-+++ b/drivers/staging/media/imx/imx-media-vdic.c
-@@ -180,60 +180,6 @@ static int vdic_get_ipu_resources(struct vdic_priv *priv)
- 	return ret;
- }
- 
--/*
-- * This function is currently unused, but will be called when the
-- * output/mem2mem device at the IDMAC input pad sends us a new
-- * buffer. It kicks off the IDMAC read channels to bring in the
-- * buffer fields from memory and begin the conversions.
-- */
--static void __maybe_unused prepare_vdi_in_buffers(struct vdic_priv *priv,
--						  struct imx_media_buffer *curr)
--{
--	dma_addr_t prev_phys, curr_phys, next_phys;
--	struct imx_media_buffer *prev;
--	struct vb2_buffer *curr_vb, *prev_vb;
--	u32 fs = priv->field_size;
--	u32 is = priv->in_stride;
--
--	/* current input buffer is now previous */
--	priv->prev_in_buf = priv->curr_in_buf;
--	priv->curr_in_buf = curr;
--	prev = priv->prev_in_buf ? priv->prev_in_buf : curr;
--
--	prev_vb = &prev->vbuf.vb2_buf;
--	curr_vb = &curr->vbuf.vb2_buf;
--
--	switch (priv->fieldtype) {
--	case V4L2_FIELD_SEQ_TB:
--	case V4L2_FIELD_SEQ_BT:
--		prev_phys = vb2_dma_contig_plane_dma_addr(prev_vb, 0) + fs;
--		curr_phys = vb2_dma_contig_plane_dma_addr(curr_vb, 0);
--		next_phys = vb2_dma_contig_plane_dma_addr(curr_vb, 0) + fs;
--		break;
--	case V4L2_FIELD_INTERLACED_TB:
--	case V4L2_FIELD_INTERLACED_BT:
--	case V4L2_FIELD_INTERLACED:
--		prev_phys = vb2_dma_contig_plane_dma_addr(prev_vb, 0) + is;
--		curr_phys = vb2_dma_contig_plane_dma_addr(curr_vb, 0);
--		next_phys = vb2_dma_contig_plane_dma_addr(curr_vb, 0) + is;
--		break;
--	default:
--		/*
--		 * can't get here, priv->fieldtype can only be one of
--		 * the above. This is to quiet smatch errors.
--		 */
--		return;
--	}
--
--	ipu_cpmem_set_buffer(priv->vdi_in_ch_p, 0, prev_phys);
--	ipu_cpmem_set_buffer(priv->vdi_in_ch,   0, curr_phys);
--	ipu_cpmem_set_buffer(priv->vdi_in_ch_n, 0, next_phys);
--
--	ipu_idmac_select_buffer(priv->vdi_in_ch_p, 0);
--	ipu_idmac_select_buffer(priv->vdi_in_ch, 0);
--	ipu_idmac_select_buffer(priv->vdi_in_ch_n, 0);
--}
--
- static int setup_vdi_channel(struct vdic_priv *priv,
- 			     struct ipuv3_channel *channel,
- 			     dma_addr_t phys0, dma_addr_t phys1)
--- 
-2.45.2
-
+Will do, thanks!
