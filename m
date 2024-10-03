@@ -1,133 +1,567 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com [95.215.58.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B6B8BA49;
-	Thu,  3 Oct 2024 06:52:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFD7584A3F
+	for <linux-staging@lists.linux.dev>; Thu,  3 Oct 2024 07:04:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727938327; cv=none; b=fMW+xJEbhDkgdSJZindPiu72UdE9zxu8hqr2Fq4I3XW3TyuFicroXTMbllcjD/8PcuySH0a3orowXEIB2GHDilta8oWJxvhDKwh6N8nntE84UOimrrN4QMtyaUnxqcchbBf3KVW83yBnNS8WIsPlBt9Snm7Wfx5Qzzh38uAAahA=
+	t=1727939050; cv=none; b=PFi4Gr7Fax/YE1/SfBXmkiJNQ7rya+UIzR37OkJzMkqR+hgu/G7GUnjYpgm+6VRFl36bPvHja6Ae6BNPrRh8jZPnREYRvr4IHtY3+I7dF7uda8GiuDu/EYnWsHS3HCWkzIP/U5u8XJlJMkX7T5ZTsJ9D+US+9Je06bIyQDXEdN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727938327; c=relaxed/simple;
-	bh=fZ77VAKouYMlmYebU5IpEx6QQ4WLigvMLqgzwBq6w90=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ah/qlIrgMdamNUgPOzUNqaRCOXjHx/XcfiGDESNDGV+adVTDl2kaAnS3RvQj5VLXpA10H1wcssRYu+00ExMl0Vm1Gb65Q8CCcHQSa1AueG5BM2JSYuST1fv7Du/2FdAKzc1xNrA6wkHE0Vj5BrTKWoXdtIQ2vqgjBJmZ4upwdNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B2E6C4CEC7;
-	Thu,  3 Oct 2024 06:52:04 +0000 (UTC)
-Message-ID: <2163bf83-dd55-4f79-b0ea-834fa7b1f561@xs4all.nl>
-Date: Thu, 3 Oct 2024 08:52:02 +0200
+	s=arc-20240116; t=1727939050; c=relaxed/simple;
+	bh=FT1dmSR/7HphGaCqeu0Bu4MPYzB0xAljnPfu2hcfees=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=FmQ/RMN0S0rAVNOLsHVPy71TlVyeyITxIAm7KSq2HxgpiJ19y1rsLE+uc1sj27vLD+8hG759kJsZsSaWfpY6Bi8y7hrB6aKGB3yv6VcPRhfAHcaLdxbuQzgslEhX81CvgGMOFL6GZfJD+p15dX8AeODMcRWlepX8wuaaySmeTdQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=b1n.io; spf=pass smtp.mailfrom=b1n.io; dkim=pass (2048-bit key) header.d=b1n.io header.i=@b1n.io header.b=MsSvtfax; arc=none smtp.client-ip=95.215.58.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=b1n.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=b1n.io
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=b1n.io header.i=@b1n.io header.b="MsSvtfax"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=b1n.io; s=key1;
+	t=1727939043;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Ks5kXRH2BTbpTCJlHFhMKYsjQkBC+Fxm53rc1k7x+kY=;
+	b=MsSvtfaxe7/k3/Q9YBhCyGJQX0sJdaVCEpd331r8GU9MbBwqGaRX5sAepe9sNJFM92UrhP
+	cAhw48xRCJlpUMakGCEa3bPuTRqCv7yGgf/q2VhbafaIqAY3SNU3tXY8mDXvwV4dg4n/zO
+	3Vf0IGxrTK8B35u7MpV4AIPVn6kE9lB8YN1p5vieW8ju+qTi6/UDiD0QrNvA57oqTNrUqG
+	MLCNy5kxoWCPTnr1Fppi/i2vlsSxZnUncBYtTFJ/tdeFt+h/o3EIHHBHe3K1Xvzxl9QGsV
+	2EchTRCTeKweMeRcPG0DaqE60V9ZhqkziD3rAqyoWrbCGqNf7v9uERMaMzu9qg==
+From: Xingquan Liu <b1n@b1n.io>
+To: Florian Schilhabel <florian.c.schilhabel@googlemail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Xingquan Liu <b1n@b1n.io>
+Subject: [PATCH] staging: rtl8712: remove parentheses after &
+Date: Thu,  3 Oct 2024 15:03:53 +0800
+Message-Id: <20241003070353.65998-1-b1n@b1n.io>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] staging: media: fix spelling mistakes
-To: Hridesh MG <hridesh699@gmail.com>, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
- Bingbu Cao <bingbu.cao@intel.com>, Tianshu Qiu <tian.shu.qiu@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Shuah Khan <skhan@linuxfoundation.org>
-References: <20241002152231.8828-1-hridesh699@gmail.com>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20241002152231.8828-1-hridesh699@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On 02/10/2024 17:22, Hridesh MG wrote:
-> Fix three minor spelling/grammar issues:
-> 	chunck -> chunk
-> 	procotol -> protocol
-> 	follow -> following
-> 
-> Signed-off-by: Hridesh MG <hridesh699@gmail.com>
+Remove parentheses after & to fix checkpatch warning
+Unnecessary parentheses.
 
-Please always include the driver name in the Subject:
+Signed-off-by: Xingquan Liu <b1n@b1n.io>
+---
+ drivers/staging/rtl8712/rtl871x_cmd.c         |  8 ++---
+ drivers/staging/rtl8712/rtl871x_ioctl_linux.c |  2 +-
+ drivers/staging/rtl8712/rtl871x_ioctl_rtl.c   |  2 +-
+ drivers/staging/rtl8712/rtl871x_ioctl_set.c   |  6 ++--
+ drivers/staging/rtl8712/rtl871x_mlme.c        | 34 +++++++++----------
+ drivers/staging/rtl8712/rtl871x_mp.c          |  6 ++--
+ drivers/staging/rtl8712/rtl871x_pwrctrl.c     |  6 ++--
+ drivers/staging/rtl8712/rtl871x_recv.c        |  8 ++---
+ drivers/staging/rtl8712/rtl871x_sta_mgt.c     | 34 +++++++++----------
+ drivers/staging/rtl8712/rtl871x_xmit.c        | 28 +++++++--------
+ drivers/staging/rtl8712/usb_halinit.c         |  2 +-
+ drivers/staging/rtl8712/usb_ops_linux.c       |  2 +-
+ drivers/staging/rtl8712/xmit_linux.c          |  2 +-
+ 13 files changed, 70 insertions(+), 70 deletions(-)
 
-staging: media: ipu3:
-
-That way the ipu3 maintainer will notice the patch.
-
-Regards,
-
-	Hans
-
-> ---
-> Changelog
-> 	v1 -> v2: Move the changes from meta notes to commit
-> 	message.
-> ---
->  drivers/staging/media/ipu3/ipu3-css-params.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/media/ipu3/ipu3-css-params.c b/drivers/staging/media/ipu3/ipu3-css-params.c
-> index 34f574b0b521..af4205f4b038 100644
-> --- a/drivers/staging/media/ipu3/ipu3-css-params.c
-> +++ b/drivers/staging/media/ipu3/ipu3-css-params.c
-> @@ -639,7 +639,7 @@ static int imgu_css_osys_calc_frame_and_stripe_params(
->  				/*
->  				 * FW workaround for a HW bug: if the first
->  				 * chroma pixel is generated exactly at the end
-> -				 * of chunck scaler HW may not output the pixel
-> +				 * of chunk scaler HW may not output the pixel
->  				 * for downscale factors smaller than 1.5
->  				 * (timing issue).
->  				 */
-> @@ -1416,7 +1416,7 @@ imgu_css_shd_ops_calc(struct imgu_abi_shd_intra_frame_operations_data *ops,
->  }
->  
->  /*
-> - * The follow handshake procotol is the same for AF, AWB and AWB FR.
-> + * The following handshake protocol is the same for AF, AWB and AWB FR.
->   *
->   * for n sets of meta-data, the flow is:
->   * --> init
+diff --git a/drivers/staging/rtl8712/rtl871x_cmd.c b/drivers/staging/rtl8712/rtl871x_cmd.c
+index ffeb91dd28c4..218836128e8f 100644
+--- a/drivers/staging/rtl8712/rtl871x_cmd.c
++++ b/drivers/staging/rtl8712/rtl871x_cmd.c
+@@ -48,7 +48,7 @@ int r8712_init_cmd_priv(struct cmd_priv *pcmdpriv)
+ 	init_completion(&pcmdpriv->cmd_queue_comp);
+ 	init_completion(&pcmdpriv->terminate_cmdthread_comp);
+ 
+-	_init_queue(&(pcmdpriv->cmd_queue));
++	_init_queue(&pcmdpriv->cmd_queue);
+ 
+ 	/* allocate DMA-able/Non-Page memory for cmd_buf and rsp_buf */
+ 	pcmdpriv->cmd_seq = 1;
+@@ -633,7 +633,7 @@ void r8712_createbss_cmd_callback(struct _adapter *padapter, struct cmd_obj *pcm
+ 	struct wlan_network *pwlan = NULL;
+ 	struct	mlme_priv *pmlmepriv = &padapter->mlmepriv;
+ 	struct wlan_bssid_ex *pnetwork = (struct wlan_bssid_ex *)pcmd->parmbuf;
+-	struct wlan_network *tgt_network = &(pmlmepriv->cur_network);
++	struct wlan_network *tgt_network = &pmlmepriv->cur_network;
+ 
+ 	if (pcmd->res != H2C_SUCCESS)
+ 		mod_timer(&pmlmepriv->assoc_timer, jiffies + msecs_to_jiffies(1));
+@@ -672,10 +672,10 @@ void r8712_createbss_cmd_callback(struct _adapter *padapter, struct cmd_obj *pcm
+ 				goto createbss_cmd_fail;
+ 			pwlan->last_scanned = jiffies;
+ 		} else {
+-			list_add_tail(&(pwlan->list), &pmlmepriv->scanned_queue.queue);
++			list_add_tail(&pwlan->list, &pmlmepriv->scanned_queue.queue);
+ 		}
+ 		pnetwork->Length = r8712_get_wlan_bssid_ex_sz(pnetwork);
+-		memcpy(&(pwlan->network), pnetwork, pnetwork->Length);
++		memcpy(&pwlan->network, pnetwork, pnetwork->Length);
+ 		pwlan->fixed = true;
+ 		memcpy(&tgt_network->network, pnetwork, (r8712_get_wlan_bssid_ex_sz(pnetwork)));
+ 		if (pmlmepriv->fw_state & _FW_UNDER_LINKING)
+diff --git a/drivers/staging/rtl8712/rtl871x_ioctl_linux.c b/drivers/staging/rtl8712/rtl871x_ioctl_linux.c
+index 0653aa27b1fa..ebfb1b2f1189 100644
+--- a/drivers/staging/rtl8712/rtl871x_ioctl_linux.c
++++ b/drivers/staging/rtl8712/rtl871x_ioctl_linux.c
+@@ -892,7 +892,7 @@ static int r871x_wx_set_priv(struct net_device *dev,
+ 		/*Return received signal strength indicator in -db for */
+ 		/* current AP */
+ 		/*<ssid> Rssi xx */
+-		struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
++		struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+ 		struct wlan_network *pcur_network = &pmlmepriv->cur_network;
+ 		/*static u8 xxxx; */
+ 		if (check_fwstate(pmlmepriv, _FW_LINKED)) {
+diff --git a/drivers/staging/rtl8712/rtl871x_ioctl_rtl.c b/drivers/staging/rtl8712/rtl871x_ioctl_rtl.c
+index 2b539335206a..f9b5588fe4d6 100644
+--- a/drivers/staging/rtl8712/rtl871x_ioctl_rtl.c
++++ b/drivers/staging/rtl8712/rtl871x_ioctl_rtl.c
+@@ -488,7 +488,7 @@ enum _CONNECT_STATE_ {
+ uint oid_rt_get_connect_state_hdl(struct oid_par_priv *poid_par_priv)
+ {
+ 	struct _adapter *padapter = poid_par_priv->adapter_context;
+-	struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
++	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+ 	u32 ulInfo;
+ 
+ 	if (poid_par_priv->type_of_oid != QUERY_OID)
+diff --git a/drivers/staging/rtl8712/rtl871x_ioctl_set.c b/drivers/staging/rtl8712/rtl871x_ioctl_set.c
+index 34c9a52b4c42..b335799b2ad5 100644
+--- a/drivers/staging/rtl8712/rtl871x_ioctl_set.c
++++ b/drivers/staging/rtl8712/rtl871x_ioctl_set.c
+@@ -40,8 +40,8 @@ static u8 do_join(struct _adapter *padapter)
+ {
+ 	struct list_head *plist, *phead;
+ 	u8 *pibss = NULL;
+-	struct	mlme_priv	*pmlmepriv = &(padapter->mlmepriv);
+-	struct  __queue	*queue	= &(pmlmepriv->scanned_queue);
++	struct	mlme_priv	*pmlmepriv = &padapter->mlmepriv;
++	struct  __queue	*queue	= &pmlmepriv->scanned_queue;
+ 	int ret;
+ 
+ 	phead = &queue->queue;
+@@ -228,7 +228,7 @@ void r8712_set_802_11_infrastructure_mode(struct _adapter *padapter,
+ 	struct mlme_priv	*pmlmepriv = &padapter->mlmepriv;
+ 	struct wlan_network	*cur_network = &pmlmepriv->cur_network;
+ 	enum NDIS_802_11_NETWORK_INFRASTRUCTURE *pold_state =
+-				&(cur_network->network.InfrastructureMode);
++				&cur_network->network.InfrastructureMode;
+ 
+ 	if (*pold_state != networktype) {
+ 		spin_lock_irqsave(&pmlmepriv->lock, irqL);
+diff --git a/drivers/staging/rtl8712/rtl871x_mlme.c b/drivers/staging/rtl8712/rtl871x_mlme.c
+index 70c295e97068..a80c99554273 100644
+--- a/drivers/staging/rtl8712/rtl871x_mlme.c
++++ b/drivers/staging/rtl8712/rtl871x_mlme.c
+@@ -44,10 +44,10 @@ int r8712_init_mlme_priv(struct _adapter *padapter)
+ 				 Ndis802_11AutoUnknown;
+ 	/* Maybe someday we should rename this variable to "active_mode"(Jeff)*/
+ 	pmlmepriv->passive_mode = 1; /* 1: active, 0: passive. */
+-	spin_lock_init(&(pmlmepriv->lock));
+-	spin_lock_init(&(pmlmepriv->lock2));
+-	_init_queue(&(pmlmepriv->free_bss_pool));
+-	_init_queue(&(pmlmepriv->scanned_queue));
++	spin_lock_init(&pmlmepriv->lock);
++	spin_lock_init(&pmlmepriv->lock2);
++	_init_queue(&pmlmepriv->free_bss_pool);
++	_init_queue(&pmlmepriv->scanned_queue);
+ 	set_scanned_network_val(pmlmepriv, 0);
+ 	memset(&pmlmepriv->assoc_ssid, 0, sizeof(struct ndis_802_11_ssid));
+ 	pbuf = kmalloc_array(MAX_BSS_CNT, sizeof(struct wlan_network),
+@@ -57,9 +57,9 @@ int r8712_init_mlme_priv(struct _adapter *padapter)
+ 	pmlmepriv->free_bss_buf = pbuf;
+ 	pnetwork = (struct wlan_network *)pbuf;
+ 	for (i = 0; i < MAX_BSS_CNT; i++) {
+-		INIT_LIST_HEAD(&(pnetwork->list));
+-		list_add_tail(&(pnetwork->list),
+-				 &(pmlmepriv->free_bss_pool.queue));
++		INIT_LIST_HEAD(&pnetwork->list);
++		list_add_tail(&pnetwork->list,
++				 &pmlmepriv->free_bss_pool.queue);
+ 		pnetwork++;
+ 	}
+ 	pmlmepriv->sitesurveyctrl.last_rx_pkts = 0;
+@@ -93,7 +93,7 @@ static void _free_network(struct mlme_priv *pmlmepriv,
+ {
+ 	u32 curr_time, delta_time;
+ 	unsigned long irqL;
+-	struct  __queue *free_queue = &(pmlmepriv->free_bss_pool);
++	struct  __queue *free_queue = &pmlmepriv->free_bss_pool;
+ 
+ 	if (!pnetwork)
+ 		return;
+@@ -285,7 +285,7 @@ static void update_network(struct wlan_bssid_ex *dst,
+ 	struct smooth_rssi_data *sqd = &padapter->recvpriv.signal_qual_data;
+ 
+ 	if (check_fwstate(&padapter->mlmepriv, _FW_LINKED) &&
+-	    is_same_network(&(padapter->mlmepriv.cur_network.network), src)) {
++	    is_same_network(&padapter->mlmepriv.cur_network.network, src)) {
+ 		if (padapter->recvpriv.signal_qual_data.total_num++ >=
+ 		    PHY_LINKQUALITY_SLID_WIN_MAX) {
+ 			padapter->recvpriv.signal_qual_data.total_num =
+@@ -317,8 +317,8 @@ static void update_current_network(struct _adapter *adapter,
+ {
+ 	struct mlme_priv *pmlmepriv = &adapter->mlmepriv;
+ 
+-	if (is_same_network(&(pmlmepriv->cur_network.network), pnetwork)) {
+-		update_network(&(pmlmepriv->cur_network.network),
++	if (is_same_network(&pmlmepriv->cur_network.network, pnetwork)) {
++		update_network(&pmlmepriv->cur_network.network,
+ 			       pnetwork, adapter);
+ 		r8712_update_protection(adapter,
+ 			       (pmlmepriv->cur_network.network.IEs) +
+@@ -483,7 +483,7 @@ void r8712_survey_event_callback(struct _adapter *adapter, u8 *pbuf)
+ 	spin_lock_irqsave(&pmlmepriv->lock2, flags);
+ 	/* update IBSS_network 's timestamp */
+ 	if (check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE)) {
+-		if (!memcmp(&(pmlmepriv->cur_network.network.MacAddress),
++		if (!memcmp(&pmlmepriv->cur_network.network.MacAddress,
+ 		    pnetwork->MacAddress, ETH_ALEN)) {
+ 			struct wlan_network *ibss_wlan = NULL;
+ 
+@@ -536,7 +536,7 @@ void r8712_surveydone_event_callback(struct _adapter *adapter, u8 *pbuf)
+ 						  msecs_to_jiffies(MAX_JOIN_TIMEOUT));
+ 				} else {
+ 					struct wlan_bssid_ex *pdev_network =
+-					  &(adapter->registrypriv.dev_network);
++					  &adapter->registrypriv.dev_network;
+ 					u8 *pibss =
+ 						 adapter->registrypriv.dev_network.MacAddress;
+ 					pmlmepriv->fw_state ^= _FW_UNDER_SURVEY;
+@@ -726,7 +726,7 @@ void r8712_joinbss_event_callback(struct _adapter *adapter, u8 *pbuf)
+ 						cur_network->network.MacAddress);
+ 					spin_lock_irqsave(&pstapriv->sta_hash_lock, irqL2);
+ 					r8712_free_stainfo(adapter, pcur_sta);
+-					spin_unlock_irqrestore(&(pstapriv->sta_hash_lock), irqL2);
++					spin_unlock_irqrestore(&pstapriv->sta_hash_lock, irqL2);
+ 
+ 					ptarget_wlan =
+ 						r8712_find_network(&pmlmepriv->scanned_queue,
+@@ -846,7 +846,7 @@ void r8712_stassoc_event_callback(struct _adapter *adapter, u8 *pbuf)
+ {
+ 	unsigned long irqL;
+ 	struct sta_info *psta;
+-	struct mlme_priv *pmlmepriv = &(adapter->mlmepriv);
++	struct mlme_priv *pmlmepriv = &adapter->mlmepriv;
+ 	struct stassoc_event *pstassoc	= (struct stassoc_event *)pbuf;
+ 
+ 	/* to do: */
+@@ -915,7 +915,7 @@ void r8712_stadel_event_callback(struct _adapter *adapter, u8 *pbuf)
+ 				free_network_nolock(pmlmepriv, pwlan);
+ 			}
+ 			/*re-create ibss*/
+-			pdev_network = &(adapter->registrypriv.dev_network);
++			pdev_network = &adapter->registrypriv.dev_network;
+ 			pibss = adapter->registrypriv.dev_network.MacAddress;
+ 			memcpy(pdev_network, &tgt_network->network,
+ 				r8712_get_wlan_bssid_ex_sz(&tgt_network->network));
+@@ -1646,7 +1646,7 @@ static void update_ht_cap(struct _adapter *padapter, u8 *pie, uint ie_len)
+ 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+ 	struct ht_priv *phtpriv = &pmlmepriv->htpriv;
+ 	struct registry_priv *pregistrypriv = &padapter->registrypriv;
+-	struct wlan_network *pcur_network = &(pmlmepriv->cur_network);
++	struct wlan_network *pcur_network = &pmlmepriv->cur_network;
+ 
+ 	if (!phtpriv->ht_option)
+ 		return;
+diff --git a/drivers/staging/rtl8712/rtl871x_mp.c b/drivers/staging/rtl8712/rtl871x_mp.c
+index 099c512c8519..c6bc7b546166 100644
+--- a/drivers/staging/rtl8712/rtl871x_mp.c
++++ b/drivers/staging/rtl8712/rtl871x_mp.c
+@@ -52,9 +52,9 @@ static int init_mp_priv(struct mp_priv *pmp_priv)
+ 			 ((addr_t)(pmp_priv->pallocated_mp_xmitframe_buf) & 3);
+ 	pmp_xmitframe = (struct mp_xmit_frame *)pmp_priv->pmp_xmtframe_buf;
+ 	for (i = 0; i < NR_MP_XMITFRAME; i++) {
+-		INIT_LIST_HEAD(&(pmp_xmitframe->list));
+-		list_add_tail(&(pmp_xmitframe->list),
+-				 &(pmp_priv->free_mp_xmitqueue.queue));
++		INIT_LIST_HEAD(&pmp_xmitframe->list);
++		list_add_tail(&pmp_xmitframe->list,
++				 &pmp_priv->free_mp_xmitqueue.queue);
+ 		pmp_xmitframe->pkt = NULL;
+ 		pmp_xmitframe->frame_tag = MP_FRAMETAG;
+ 		pmp_xmitframe->padapter = pmp_priv->papdater;
+diff --git a/drivers/staging/rtl8712/rtl871x_pwrctrl.c b/drivers/staging/rtl8712/rtl871x_pwrctrl.c
+index cd6d9ff0bebc..b22129f5d4f9 100644
+--- a/drivers/staging/rtl8712/rtl871x_pwrctrl.c
++++ b/drivers/staging/rtl8712/rtl871x_pwrctrl.c
+@@ -86,8 +86,8 @@ void r8712_set_ps_mode(struct _adapter *padapter, uint ps_mode, uint smart_ps)
+ void r8712_cpwm_int_hdl(struct _adapter *padapter,
+ 			struct reportpwrstate_parm *preportpwrstate)
+ {
+-	struct pwrctrl_priv *pwrpriv = &(padapter->pwrctrlpriv);
+-	struct cmd_priv	*pcmdpriv = &(padapter->cmdpriv);
++	struct pwrctrl_priv *pwrpriv = &padapter->pwrctrlpriv;
++	struct cmd_priv	*pcmdpriv = &padapter->cmdpriv;
+ 
+ 	if (pwrpriv->cpwm_tog == ((preportpwrstate->state) & 0x80))
+ 		return;
+@@ -96,7 +96,7 @@ void r8712_cpwm_int_hdl(struct _adapter *padapter,
+ 	pwrpriv->cpwm = (preportpwrstate->state) & 0xf;
+ 	if (pwrpriv->cpwm >= PS_STATE_S2) {
+ 		if (pwrpriv->alives & CMD_ALIVE)
+-			complete(&(pcmdpriv->cmd_queue_comp));
++			complete(&pcmdpriv->cmd_queue_comp);
+ 	}
+ 	pwrpriv->cpwm_tog = (preportpwrstate->state) & 0x80;
+ 	mutex_unlock(&pwrpriv->mutex_lock);
+diff --git a/drivers/staging/rtl8712/rtl871x_recv.c b/drivers/staging/rtl8712/rtl871x_recv.c
+index 8a3566214af7..0c305bd19693 100644
+--- a/drivers/staging/rtl8712/rtl871x_recv.c
++++ b/drivers/staging/rtl8712/rtl871x_recv.c
+@@ -66,9 +66,9 @@ int _r8712_init_recv_priv(struct recv_priv *precvpriv,
+ 				    (RXFRAME_ALIGN_SZ - 1));
+ 	precvframe = (union recv_frame *)precvpriv->precv_frame_buf;
+ 	for (i = 0; i < NR_RECVFRAME; i++) {
+-		INIT_LIST_HEAD(&(precvframe->u.list));
+-		list_add_tail(&(precvframe->u.list),
+-			      &(precvpriv->free_recv_queue.queue));
++		INIT_LIST_HEAD(&precvframe->u.list);
++		list_add_tail(&precvframe->u.list,
++			      &precvpriv->free_recv_queue.queue);
+ 		r8712_os_recv_resource_alloc(padapter, precvframe);
+ 		precvframe->u.hdr.adapter = padapter;
+ 		precvframe++;
+@@ -654,7 +654,7 @@ void r8712_recv_entry(union recv_frame *precvframe)
+ 	s32 ret = _SUCCESS;
+ 
+ 	padapter = precvframe->u.hdr.adapter;
+-	precvpriv = &(padapter->recvpriv);
++	precvpriv = &padapter->recvpriv;
+ 
+ 	padapter->ledpriv.LedControlHandler(padapter, LED_CTL_RX);
+ 
+diff --git a/drivers/staging/rtl8712/rtl871x_sta_mgt.c b/drivers/staging/rtl8712/rtl871x_sta_mgt.c
+index 2c806a0105bf..41b8a24e2f33 100644
+--- a/drivers/staging/rtl8712/rtl871x_sta_mgt.c
++++ b/drivers/staging/rtl8712/rtl871x_sta_mgt.c
+@@ -53,7 +53,7 @@ int _r8712_init_sta_priv(struct	sta_priv *pstapriv)
+ 	psta = (struct sta_info *)(pstapriv->pstainfo_buf);
+ 	for (i = 0; i < NUM_STA; i++) {
+ 		_init_stainfo(psta);
+-		INIT_LIST_HEAD(&(pstapriv->sta_hash[i]));
++		INIT_LIST_HEAD(&pstapriv->sta_hash[i]);
+ 		list_add_tail(&psta->list, &pstapriv->free_sta_queue.queue);
+ 		psta++;
+ 	}
+@@ -153,22 +153,22 @@ void r8712_free_stainfo(struct _adapter *padapter, struct sta_info *psta)
+ 		return;
+ 	pfree_sta_queue = &pstapriv->free_sta_queue;
+ 	pstaxmitpriv = &psta->sta_xmitpriv;
+-	spin_lock_irqsave(&(pxmitpriv->vo_pending.lock), irqL0);
++	spin_lock_irqsave(&pxmitpriv->vo_pending.lock, irqL0);
+ 	r8712_free_xmitframe_queue(pxmitpriv, &pstaxmitpriv->vo_q.sta_pending);
+-	list_del_init(&(pstaxmitpriv->vo_q.tx_pending));
+-	spin_unlock_irqrestore(&(pxmitpriv->vo_pending.lock), irqL0);
+-	spin_lock_irqsave(&(pxmitpriv->vi_pending.lock), irqL0);
++	list_del_init(&pstaxmitpriv->vo_q.tx_pending);
++	spin_unlock_irqrestore(&pxmitpriv->vo_pending.lock, irqL0);
++	spin_lock_irqsave(&pxmitpriv->vi_pending.lock, irqL0);
+ 	r8712_free_xmitframe_queue(pxmitpriv, &pstaxmitpriv->vi_q.sta_pending);
+-	list_del_init(&(pstaxmitpriv->vi_q.tx_pending));
+-	spin_unlock_irqrestore(&(pxmitpriv->vi_pending.lock), irqL0);
+-	spin_lock_irqsave(&(pxmitpriv->bk_pending.lock), irqL0);
++	list_del_init(&pstaxmitpriv->vi_q.tx_pending);
++	spin_unlock_irqrestore(&pxmitpriv->vi_pending.lock, irqL0);
++	spin_lock_irqsave(&pxmitpriv->bk_pending.lock, irqL0);
+ 	r8712_free_xmitframe_queue(pxmitpriv, &pstaxmitpriv->bk_q.sta_pending);
+-	list_del_init(&(pstaxmitpriv->bk_q.tx_pending));
+-	spin_unlock_irqrestore(&(pxmitpriv->bk_pending.lock), irqL0);
+-	spin_lock_irqsave(&(pxmitpriv->be_pending.lock), irqL0);
++	list_del_init(&pstaxmitpriv->bk_q.tx_pending);
++	spin_unlock_irqrestore(&pxmitpriv->bk_pending.lock, irqL0);
++	spin_lock_irqsave(&pxmitpriv->be_pending.lock, irqL0);
+ 	r8712_free_xmitframe_queue(pxmitpriv, &pstaxmitpriv->be_q.sta_pending);
+-	list_del_init(&(pstaxmitpriv->be_q.tx_pending));
+-	spin_unlock_irqrestore(&(pxmitpriv->be_pending.lock), irqL0);
++	list_del_init(&pstaxmitpriv->be_q.tx_pending);
++	spin_unlock_irqrestore(&pxmitpriv->be_pending.lock, irqL0);
+ 	list_del_init(&psta->hash_list);
+ 	pstapriv->asoc_sta_count--;
+ 	/* re-init sta_info; 20061114 */
+@@ -181,10 +181,10 @@ void r8712_free_stainfo(struct _adapter *padapter, struct sta_info *psta)
+ 		preorder_ctrl = &psta->recvreorder_ctrl[i];
+ 		del_timer(&preorder_ctrl->reordering_ctrl_timer);
+ 	}
+-	spin_lock(&(pfree_sta_queue->lock));
++	spin_lock(&pfree_sta_queue->lock);
+ 	/* insert into free_sta_queue; 20061114 */
+ 	list_add_tail(&psta->list, &pfree_sta_queue->queue);
+-	spin_unlock(&(pfree_sta_queue->lock));
++	spin_unlock(&pfree_sta_queue->lock);
+ }
+ 
+ /* free all stainfo which in sta_hash[all] */
+@@ -201,7 +201,7 @@ void r8712_free_all_stainfo(struct _adapter *padapter)
+ 		return;
+ 	spin_lock_irqsave(&pstapriv->sta_hash_lock, irqL);
+ 	for (index = 0; index < NUM_STA; index++) {
+-		phead = &(pstapriv->sta_hash[index]);
++		phead = &pstapriv->sta_hash[index];
+ 		plist = phead->next;
+ 		while (!end_of_queue_search(phead, plist)) {
+ 			psta = container_of(plist,
+@@ -226,7 +226,7 @@ struct sta_info *r8712_get_stainfo(struct sta_priv *pstapriv, u8 *hwaddr)
+ 		return NULL;
+ 	index = wifi_mac_hash(hwaddr);
+ 	spin_lock_irqsave(&pstapriv->sta_hash_lock, irqL);
+-	phead = &(pstapriv->sta_hash[index]);
++	phead = &pstapriv->sta_hash[index];
+ 	plist = phead->next;
+ 	while (!end_of_queue_search(phead, plist)) {
+ 		psta = container_of(plist, struct sta_info, hash_list);
+diff --git a/drivers/staging/rtl8712/rtl871x_xmit.c b/drivers/staging/rtl8712/rtl871x_xmit.c
+index 408616e9afcf..78cffd233902 100644
+--- a/drivers/staging/rtl8712/rtl871x_xmit.c
++++ b/drivers/staging/rtl8712/rtl871x_xmit.c
+@@ -88,14 +88,14 @@ int _r8712_init_xmit_priv(struct xmit_priv *pxmitpriv,
+ 			((addr_t) (pxmitpriv->pallocated_frame_buf) & 3);
+ 	pxframe = (struct xmit_frame *) pxmitpriv->pxmit_frame_buf;
+ 	for (i = 0; i < NR_XMITFRAME; i++) {
+-		INIT_LIST_HEAD(&(pxframe->list));
++		INIT_LIST_HEAD(&pxframe->list);
+ 		pxframe->padapter = padapter;
+ 		pxframe->frame_tag = DATA_FRAMETAG;
+ 		pxframe->pkt = NULL;
+ 		pxframe->buf_addr = NULL;
+ 		pxframe->pxmitbuf = NULL;
+-		list_add_tail(&(pxframe->list),
+-				 &(pxmitpriv->free_xmit_queue.queue));
++		list_add_tail(&pxframe->list,
++				 &pxmitpriv->free_xmit_queue.queue);
+ 		pxframe++;
+ 	}
+ 	pxmitpriv->free_xmitframe_cnt = NR_XMITFRAME;
+@@ -137,7 +137,7 @@ int _r8712_init_xmit_priv(struct xmit_priv *pxmitpriv,
+ 			goto clean_up_alloc_buf;
+ 		}
+ 		list_add_tail(&pxmitbuf->list,
+-				 &(pxmitpriv->free_xmitbuf_queue.queue));
++				 &pxmitpriv->free_xmitbuf_queue.queue);
+ 		pxmitbuf++;
+ 	}
+ 	pxmitpriv->free_xmitbuf_cnt = NR_XMITBUFF;
+@@ -370,7 +370,7 @@ static int xmitframe_addmic(struct _adapter *padapter,
+ 	u8	*pframe, *payload, mic[8];
+ 	struct	mic_data micdata;
+ 	struct	sta_info *stainfo;
+-	struct	qos_priv *pqospriv = &(padapter->mlmepriv.qospriv);
++	struct	qos_priv *pqospriv = &padapter->mlmepriv.qospriv;
+ 	struct	pkt_attrib  *pattrib = &pxmitframe->attrib;
+ 	struct	security_priv *psecpriv = &padapter->securitypriv;
+ 	struct	xmit_priv *pxmitpriv = &padapter->xmitpriv;
+@@ -452,11 +452,11 @@ static int xmitframe_addmic(struct _adapter *padapter,
+ 						  pattrib->icv_len;
+ 				}
+ 			}
+-			r8712_secgetmic(&micdata, &(mic[0]));
++			r8712_secgetmic(&micdata, &mic[0]);
+ 			/* add mic code  and add the mic code length in
+ 			 * last_txcmdsz
+ 			 */
+-			memcpy(payload, &(mic[0]), 8);
++			memcpy(payload, &mic[0], 8);
+ 			pattrib->last_txcmdsz += 8;
+ 			payload = payload - pattrib->last_txcmdsz + 8;
+ 		}
+@@ -775,7 +775,7 @@ void r8712_free_xmitbuf(struct xmit_priv *pxmitpriv, struct xmit_buf *pxmitbuf)
+ 		return;
+ 	spin_lock_irqsave(&pfree_xmitbuf_queue->lock, irqL);
+ 	list_del_init(&pxmitbuf->list);
+-	list_add_tail(&(pxmitbuf->list), &pfree_xmitbuf_queue->queue);
++	list_add_tail(&pxmitbuf->list, &pfree_xmitbuf_queue->queue);
+ 	pxmitpriv->free_xmitbuf_cnt++;
+ 	spin_unlock_irqrestore(&pfree_xmitbuf_queue->lock, irqL);
+ }
+@@ -853,7 +853,7 @@ void r8712_free_xmitframe_queue(struct xmit_priv *pxmitpriv,
+ 	struct list_head *plist, *phead;
+ 	struct	xmit_frame	*pxmitframe;
+ 
+-	spin_lock_irqsave(&(pframequeue->lock), irqL);
++	spin_lock_irqsave(&pframequeue->lock, irqL);
+ 	phead = &pframequeue->queue;
+ 	plist = phead->next;
+ 	while (!end_of_queue_search(phead, plist)) {
+@@ -861,7 +861,7 @@ void r8712_free_xmitframe_queue(struct xmit_priv *pxmitpriv,
+ 		plist = plist->next;
+ 		r8712_free_xmitframe(pxmitpriv, pxmitframe);
+ 	}
+-	spin_unlock_irqrestore(&(pframequeue->lock), irqL);
++	spin_unlock_irqrestore(&pframequeue->lock, irqL);
+ }
+ 
+ static inline struct tx_servq *get_sta_pending(struct _adapter *padapter,
+@@ -874,26 +874,26 @@ static inline struct tx_servq *get_sta_pending(struct _adapter *padapter,
+ 	switch (up) {
+ 	case 1:
+ 	case 2:
+-		ptxservq = &(psta->sta_xmitpriv.bk_q);
++		ptxservq = &psta->sta_xmitpriv.bk_q;
+ 		*ppstapending = &padapter->xmitpriv.bk_pending;
+ 		(phwxmits + 3)->accnt++;
+ 		break;
+ 	case 4:
+ 	case 5:
+-		ptxservq = &(psta->sta_xmitpriv.vi_q);
++		ptxservq = &psta->sta_xmitpriv.vi_q;
+ 		*ppstapending = &padapter->xmitpriv.vi_pending;
+ 		(phwxmits + 1)->accnt++;
+ 		break;
+ 	case 6:
+ 	case 7:
+-		ptxservq = &(psta->sta_xmitpriv.vo_q);
++		ptxservq = &psta->sta_xmitpriv.vo_q;
+ 		*ppstapending = &padapter->xmitpriv.vo_pending;
+ 		(phwxmits + 0)->accnt++;
+ 		break;
+ 	case 0:
+ 	case 3:
+ 	default:
+-		ptxservq = &(psta->sta_xmitpriv.be_q);
++		ptxservq = &psta->sta_xmitpriv.be_q;
+ 		*ppstapending = &padapter->xmitpriv.be_pending;
+ 		(phwxmits + 2)->accnt++;
+ 		break;
+diff --git a/drivers/staging/rtl8712/usb_halinit.c b/drivers/staging/rtl8712/usb_halinit.c
+index 313c569748e9..b3cd59b9830c 100644
+--- a/drivers/staging/rtl8712/usb_halinit.c
++++ b/drivers/staging/rtl8712/usb_halinit.c
+@@ -285,7 +285,7 @@ unsigned int r8712_usb_inirp_init(struct _adapter *adapter)
+ 	u8 i;
+ 	struct recv_buf *recvbuf;
+ 	struct intf_hdl *intfhdl = &adapter->pio_queue->intf;
+-	struct recv_priv *recvpriv = &(adapter->recvpriv);
++	struct recv_priv *recvpriv = &adapter->recvpriv;
+ 
+ 	recvpriv->ff_hwaddr = RTL8712_DMA_RX0FF; /* mapping rx fifo address */
+ 	/* issue Rx irp to receive data */
+diff --git a/drivers/staging/rtl8712/usb_ops_linux.c b/drivers/staging/rtl8712/usb_ops_linux.c
+index 4a34824830e3..0c953298d42d 100644
+--- a/drivers/staging/rtl8712/usb_ops_linux.c
++++ b/drivers/staging/rtl8712/usb_ops_linux.c
+@@ -134,7 +134,7 @@ static unsigned int ffaddr2pipehdl(struct dvobj_priv *pdvobj, u32 addr)
+ static void usb_write_mem_complete(struct urb *purb)
+ {
+ 	struct io_queue *pio_q = (struct io_queue *)purb->context;
+-	struct intf_hdl *pintf = &(pio_q->intf);
++	struct intf_hdl *pintf = &pio_q->intf;
+ 	struct intf_priv *pintfpriv = pintf->pintfpriv;
+ 	struct _adapter *padapter = (struct _adapter *)pintf->adapter;
+ 
+diff --git a/drivers/staging/rtl8712/xmit_linux.c b/drivers/staging/rtl8712/xmit_linux.c
+index ceb6b590b310..fb7eadafe73a 100644
+--- a/drivers/staging/rtl8712/xmit_linux.c
++++ b/drivers/staging/rtl8712/xmit_linux.c
+@@ -150,7 +150,7 @@ netdev_tx_t r8712_xmit_entry(_pkt *pkt, struct  net_device *netdev)
+ {
+ 	struct xmit_frame *xmitframe = NULL;
+ 	struct _adapter *adapter = netdev_priv(netdev);
+-	struct xmit_priv *xmitpriv = &(adapter->xmitpriv);
++	struct xmit_priv *xmitpriv = &adapter->xmitpriv;
+ 
+ 	if (!r8712_if_up(adapter))
+ 		goto _xmit_entry_drop;
+-- 
+Xingquan Liu
 
