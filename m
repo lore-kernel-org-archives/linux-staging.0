@@ -1,83 +1,83 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80E7042065
-	for <linux-staging@lists.linux.dev>; Thu,  3 Oct 2024 17:07:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA2BA1A76CD;
+	Thu,  3 Oct 2024 18:28:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.62.61
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727975255; cv=none; b=Dped2bAkJ527Xp+dOuN1xi0mB5Iz42j4r2W8Pzek7cf83Vmut9/UxaoTB22Oh7QjAwUNOMZbjmtVV3/pYguf0hEjpg/IT5W4l0BSGwEp6zygHm7EDHgneTHwURQ2M+EiEB2HK1O1uxmkkk2z16dM0WYTpTmuKoBDbp8GvjXBx7A=
+	t=1727980089; cv=none; b=RfQv/ENIljvkY0gkfhp0Eus1F6n6RifrMMxvXFziMx688i+ar3vsQsqVndWQUyRtad3YiKw2bfgZvTXB8PBU1hesk5qQxCFMN9Ii9ceC9KuVVnSQhy2DZV0xIvtPiwhQrDB9kF2CzfvrLyPx+6T6A+twWRZBtuSzkYzSdMr8YEo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727975255; c=relaxed/simple;
-	bh=dkfu7OpedYFMW4blTd8tKYx1+2gfV7GpFrrUeC40tik=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bed1QWaQD9v3AXPpwjmzrQPkCQVcf2vRLbw0byT+UgX4PGT8e9KShCQKGLfCrZ2RHI+5Q5t6koZPOzFjsXUS4I7/OJHtrXpXqSXvVgbRCQntfQ6BCA3pd2EUuJsr3BCQ9xO2GkU/579zHL6tXFmvfnb5ZZ3kbCoVtKBp1zxAUSQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=caSLILA1; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1727980089; c=relaxed/simple;
+	bh=JPFfrm5TCK0fq72BARgiABGD+QS5l69BVBsNNfAad+0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=k4V8C5VEZ2bSWYs9nKCBY+xaA9y78uddFYCKf6AfUVxYTHeKLJXCHq7N/rYCYvue3NN0vtooLt6COf3twMjh+dNdG4xWomWNBjAr18BW/FDprwDuvnfyCBopvqd3PDF3s0xhsHadcSU8HSXjaDP/gnx84B+E8v8OBp6xHErnuyY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=L/kKNvS+; arc=none smtp.client-ip=85.214.62.61
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="caSLILA1"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-20b78ee6298so7549515ad.2
-        for <linux-staging@lists.linux.dev>; Thu, 03 Oct 2024 10:07:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727975254; x=1728580054; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=dkfu7OpedYFMW4blTd8tKYx1+2gfV7GpFrrUeC40tik=;
-        b=caSLILA1qGlqfAKIF6GU9L/pMb9C7u7ayftazOHB8a+/y6AGP95j2vIHaLZU8wun7W
-         s6rDsP7JaGrOttgSMeTT11VvjbSOYjw6R9vJyjWzaRnJMAW0N9rrR3HNVn4FodLatRZv
-         kOzrfsflVr0KyBavnV/lLc1jj7nQ6AE43vASmS8dviaLx7U5OlUeX/tXoYCEXCZwf+pW
-         ovYEII6LPN5JWG68dgEG4ATT1YaMBeIRYIm3GSVzQwPgVXbcCew0xkuWd7uBrBrPe7uM
-         MVCdpkzxbNX0qxLn4qZcXewFtCK0AvvFt1bxtXy7dYFveXDN/BzF5UHmy2wZjshrkona
-         25WQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727975254; x=1728580054;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dkfu7OpedYFMW4blTd8tKYx1+2gfV7GpFrrUeC40tik=;
-        b=urqNqL2XV/LrXygjGTX2ZM1DdVBvmXbgrNqPCDAzbDPC6oZP4EqRML/MJy/r/FmFE5
-         hK/AcMfAb0SPcEU8YEWrKnZI8aPCPVlrnLiX/leD+sjkJKefyFr6pU3LOv+ayMN3YsJb
-         9/2ufNpMpLvtJjrCfWqTt5mMR1XXvcYeunbtEQmxCRQWP4nmZDq+DNNeOnwoZ/vOUYGs
-         NCaMA4nf+0uZRQwfOX3R5NwJVvQgbAyYHQtQFas/eKn/8wLVBXlOu6HkThZx1jklIbQL
-         TWo4qq/WrtQnaJRnHASs2bkuYvsoC5iHImPUuypDgWkMilKF+tGnnXIAhH+MWg+ya1Jx
-         oO1w==
-X-Forwarded-Encrypted: i=1; AJvYcCUSNY/cNsN5sLuCZSwyJSs2VjslhDkbLlodFV6Jz9Y15pZ/SNfKGaWfxWJ5/TOTkES4S8b+VKiul4+jkiXw@lists.linux.dev
-X-Gm-Message-State: AOJu0YyblQt/nx/PwjP4u8ZbPVM+CcLi2SxUYjVRnARxlJpli76HTk6q
-	sJ2F90SNruKueaQYMK22dk4tUacCn7IXEfX1VFcEow5uBeC6flo0
-X-Google-Smtp-Source: AGHT+IH+lcuitFr2y68/zPm6sfKZoMgOMMWy0G+pLPaWzpY6VYabxGZJbcedKcdXA6Lu5Ya866DR4w==
-X-Received: by 2002:a17:903:1c6:b0:206:9519:1821 with SMTP id d9443c01a7336-20bc5a0a184mr110302725ad.14.1727975253702;
-        Thu, 03 Oct 2024 10:07:33 -0700 (PDT)
-Received: from Hridesh-ArchLinux ([175.184.253.10])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20beead252esm11348835ad.43.2024.10.03.10.07.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Oct 2024 10:07:33 -0700 (PDT)
-Date: Thu, 3 Oct 2024 22:37:26 +0530
-From: Hridesh MG <hridesh699@gmail.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org, 
-	Bingbu Cao <bingbu.cao@intel.com>, Tianshu Qiu <tian.shu.qiu@intel.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH v2] staging: media: fix spelling mistakes
-Message-ID: <hd3n62efwrurrjrp7annnwufgiggmmszjmrqaryibf67dt53sr@mazbztoqrkdi>
-References: <20241002152231.8828-1-hridesh699@gmail.com>
- <2163bf83-dd55-4f79-b0ea-834fa7b1f561@xs4all.nl>
- <Zv5XsJd965xdNI3j@kekkonen.localdomain>
+	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="L/kKNvS+"
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: marex@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id AE46F88B2D;
+	Thu,  3 Oct 2024 20:28:04 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1727980086;
+	bh=ax+YSfah25tyK/JjghkM5D3PN+FaQ2LN7+9fpgbGOp4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=L/kKNvS+4yCK56luGT+lyUPbt8ghACjmSn8WmyyBeD/LikXk1ZtQ0L4jLLH4m5Fl+
+	 q+z1GViYqHhpg9bIEnOxow66wUfAFaXoKngolI18tIbkbn5vSMuBXysdSDWjRcm6eC
+	 +pGBUyCgjoCzlXwzkdv4tcbVbRqdvC4Z1oDIgFaEIHm5g2kGL/GnRPO5Fkr4GRt87K
+	 RXjEmrxi3I/kj3h2OLheR6Uc7HtIlqxeStHT76Vo5rYLGPf8ReHRlBdlC65bkJswT8
+	 ZkyNtVgEZ+oamxlQwh6BZm5wJKA1/ljXc4h2xXjx28AczgIuD3MYu2mP1ljnYf/hiD
+	 ktZ5p28RnV2gg==
+Message-ID: <0da39b8f-4cca-438f-9a39-40da7c34c895@denx.de>
+Date: Thu, 3 Oct 2024 16:57:55 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <Zv5XsJd965xdNI3j@kekkonen.localdomain>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/2] media: imx: vdic: Introduce mem2mem VDI
+ deinterlacer driver
+To: Philipp Zabel <p.zabel@pengutronix.de>,
+ Nicolas Dufresne <nicolas@ndufresne.ca>, linux-media@vger.kernel.org
+Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Fabio Estevam <festevam@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller
+ <deller@gmx.de>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Steve Longerbeam <slongerbeam@gmail.com>, dri-devel@lists.freedesktop.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev
+References: <20240724002044.112544-1-marex@denx.de>
+ <20240724002044.112544-2-marex@denx.de>
+ <85a5a42667e5867bc45da31baf045d4c9557f5f1.camel@ndufresne.ca>
+ <6b45e30c-b215-4f7a-91a4-fde05d78f737@denx.de>
+ <b1c5fb155c77355ef2889b6e054a5c0696481ebd.camel@pengutronix.de>
+Content-Language: en-US
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <b1c5fb155c77355ef2889b6e054a5c0696481ebd.camel@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 
-On 24/10/03 08:37AM, Sakari Ailus wrote:
->I can fix that while applying, no need for v3...
->
->Hridesh: it's a good idea to check which subject prefix is used for a
->driver in the commit log, too.
-
-Will do, thanks!
+On 9/26/24 1:16 PM, Philipp Zabel wrote:
+> On Mi, 2024-09-25 at 22:45 +0200, Marek Vasut wrote:
+> [...]
+>>> The driver is not taking ownership of prev_buf, only curr_buf is guaranteed to
+>>> exist until v4l2_m2m_job_finish() is called. Usespace could streamoff, allocate
+>>> new buffers, and then an old freed buffer may endup being used.
+>>
+>> So, what should I do about this ? Is there some way to ref the buffer to
+>> keep it around ?
+> 
+> Have a look how other deinterlacers with temporal filtering do it.
+> sunxi/sun8i-di or ti/vpe look like candidates.
+I don't see exactly what those drivers are doing differently to protect 
+the prev buffer during deinterlacing . Can you be more specific ?
