@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D634A1DD9C8;
-	Fri,  4 Oct 2024 18:23:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9648A20ADCD;
+	Fri,  4 Oct 2024 18:26:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728066232; cv=none; b=SNojXzKXBdWomnNKbMGrL2G3eybMGwZOb+05pW5dvModJmoT42jMZpWxpE3m99jyW+6r9yHSm3QerK7JQrKHgbMf7EkUjrtgAqXMJQgISDQPlzquOlIm7vAqHYBKhfuYw6jlIIsnuxD5hK2/HzgCAa+x/XPcE9Sad1bIfcHALb8=
+	t=1728066396; cv=none; b=CQ3lo9pshYEtdEtB7bzXVUGAK32EzuJllOPC0ldy8fBtQAWAtsXf5dIZ8osRZJUydzyyO/CI3wOXXhwyl6/Q4XtM263OUf5t3zprZ5JGC1e6cJWSz/KusjEVmG3CQo59Dh2UCGrXzXNfciFuDrSIwuw464HLB0l601Oj6wDxOZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728066232; c=relaxed/simple;
-	bh=I43N8VamydTRQfZg02WHwUJugou2zgn+e1JtOSyuupA=;
+	s=arc-20240116; t=1728066396; c=relaxed/simple;
+	bh=pKZoZdmY2tkfYCNOS7nlPY/aa+228cmcj4WiUxlEgdQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=c6vIWClHZ6RHDVnn3mavfT0q2jKQy+qg6sQ+fesWVMY+6tubDsbNqeSLU+kDjnsrisQlkCBsT7WwUw0KQB0bRO5e+JBa6kghfJj2vmPGAx0Y7Jo8xMEkfdls050AMvxh+bzYO5ikLYN7puMUyqe8HmuxqrXBpe6Wrxr5A3/0OD0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sp9RKLor; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=VowcUZna905mkI1MtO9kWJ9+g87Bz6zXNeUGiEdyFu/Js1+BTKilhsOc5TflH923w7lk4n+Ol/3JmEh3o6NXPSNlnBiIYBV3dRgoeWw7oGtYt+jHe+Lb7wYSO3M3SBowgFwSn/wYP25+Xz0FoRDTK6Gsndza/ctOSpxK5o6xWI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=juZEAtAI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sp9RKLor"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E898C4CEC6;
-	Fri,  4 Oct 2024 18:23:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="juZEAtAI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F906C4CEC6;
+	Fri,  4 Oct 2024 18:26:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728066232;
-	bh=I43N8VamydTRQfZg02WHwUJugou2zgn+e1JtOSyuupA=;
+	s=k20201202; t=1728066396;
+	bh=pKZoZdmY2tkfYCNOS7nlPY/aa+228cmcj4WiUxlEgdQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=sp9RKLorTWZx5/5ZhjF60KZup3rQpPQlD+9Qo/OFfyDE07PnRiQo/cOeddNXsVLAe
-	 KWAVbsCD7c3pyRLhOtw/T9mST6IIAN9OGMLUTHeY9TKFExuFr5kjOp39nkv/6Ekzks
-	 DwMRN+DyxbWSSQrnFt7bIhSX3X7xoKec6oOq83r+PKwL1ckCPZnLAsd68LiXnAKSrs
-	 LCLFPEbT82DqS/9g1IPIl8H8oTw1XbF9dkHy0Bc9p6ygjzAGdGzznIkj4iQ0dYBMsh
-	 V4NTs+fhH3uHT9Ek+Jv5cz8dMR/xFPrFYsf3GAspRcMVVKMLcjBKZa8JUzBhfD/CAE
-	 gyl70YENVCShA==
+	b=juZEAtAIuDqAXEeWkM7UWp04zTEGnoQ/Rr7fRWGaq35zON3Tshcn2Aaosw1j5Pdr/
+	 ljXPDzq87WLk7HJLpiQmYL0pj85ZeM92N45OfX64T1Ew9v3iz3hgjXEERdZmB32yti
+	 dkfIBU6uBUMzjkIsK7BxNV5R2MijB8kXi6j5Vx2SzIybURIlqJzuJTxBm6QQq1jU7n
+	 3fRoAwoJllK17bb4khOhI8fyTyzAe1xk3af8STzwVV5F5eiaNYlWRQBwdJvBsn4fN8
+	 s9NvY5B3hZ8DpFSxl2b6ae5eUV32lOJEty7T0A2QJC2wewIYrtX2ZWxlizPx5Cqcds
+	 ScNmv6dQRuGHw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -34,15 +34,15 @@ Cc: Riyan Dhiman <riyandhiman14@gmail.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Sasha Levin <sashal@kernel.org>,
 	calvncce@gmail.com,
-	straube.linux@gmail.com,
 	soumya.negi97@gmail.com,
+	straube.linux@gmail.com,
 	linux-staging@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.10 57/70] staging: vme_user: added bound check to geoid
-Date: Fri,  4 Oct 2024 14:20:55 -0400
-Message-ID: <20241004182200.3670903-57-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 50/58] staging: vme_user: added bound check to geoid
+Date: Fri,  4 Oct 2024 14:24:23 -0400
+Message-ID: <20241004182503.3672477-50-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241004182200.3670903-1-sashal@kernel.org>
-References: <20241004182200.3670903-1-sashal@kernel.org>
+In-Reply-To: <20241004182503.3672477-1-sashal@kernel.org>
+References: <20241004182503.3672477-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -51,7 +51,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.10.13
+X-stable-base: Linux 6.6.54
 Content-Transfer-Encoding: 8bit
 
 From: Riyan Dhiman <riyandhiman14@gmail.com>
@@ -73,10 +73,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 12 insertions(+)
 
 diff --git a/drivers/staging/vme_user/vme_fake.c b/drivers/staging/vme_user/vme_fake.c
-index 7f84d1c86f291..c4fb2b65154c7 100644
+index 7c53a8a7b79b8..95730d1270af8 100644
 --- a/drivers/staging/vme_user/vme_fake.c
 +++ b/drivers/staging/vme_user/vme_fake.c
-@@ -1059,6 +1059,12 @@ static int __init fake_init(void)
+@@ -1064,6 +1064,12 @@ static int __init fake_init(void)
  	struct vme_slave_resource *slave_image;
  	struct vme_lm_resource *lm;
  
@@ -90,10 +90,10 @@ index 7f84d1c86f291..c4fb2b65154c7 100644
  	vme_root = root_device_register("vme");
  	if (IS_ERR(vme_root))
 diff --git a/drivers/staging/vme_user/vme_tsi148.c b/drivers/staging/vme_user/vme_tsi148.c
-index 2ec9c29044041..e40ca4870d704 100644
+index 2f5eafd509340..4566e391d913f 100644
 --- a/drivers/staging/vme_user/vme_tsi148.c
 +++ b/drivers/staging/vme_user/vme_tsi148.c
-@@ -2253,6 +2253,12 @@ static int tsi148_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+@@ -2252,6 +2252,12 @@ static int tsi148_probe(struct pci_dev *pdev, const struct pci_device_id *id)
  	struct vme_dma_resource *dma_ctrlr;
  	struct vme_lm_resource *lm;
  
