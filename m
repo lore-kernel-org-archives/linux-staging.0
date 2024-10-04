@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9648A20ADCD;
-	Fri,  4 Oct 2024 18:26:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42584216451;
+	Fri,  4 Oct 2024 18:28:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728066396; cv=none; b=CQ3lo9pshYEtdEtB7bzXVUGAK32EzuJllOPC0ldy8fBtQAWAtsXf5dIZ8osRZJUydzyyO/CI3wOXXhwyl6/Q4XtM263OUf5t3zprZ5JGC1e6cJWSz/KusjEVmG3CQo59Dh2UCGrXzXNfciFuDrSIwuw464HLB0l601Oj6wDxOZY=
+	t=1728066505; cv=none; b=PUKdIP5txQY5IlCV9jer+9Chn366yOF0NZ5ZJgxJ52d9Ap1htLoZ+IBsyisusYhn5sQowarmwlgdJ85sOIpyPav23wap3+zCKadCxmLy/pCDQRwleMSRFtnYyhzdhax2zwyVOBs7lbXJVXMTW7wQc+Dv7igb5xe/9fTt4u/gdFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728066396; c=relaxed/simple;
-	bh=pKZoZdmY2tkfYCNOS7nlPY/aa+228cmcj4WiUxlEgdQ=;
+	s=arc-20240116; t=1728066505; c=relaxed/simple;
+	bh=DWQabWJKDitGI6DPVVEbNb0mAI+6IODNNJT/UWWEGbk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VowcUZna905mkI1MtO9kWJ9+g87Bz6zXNeUGiEdyFu/Js1+BTKilhsOc5TflH923w7lk4n+Ol/3JmEh3o6NXPSNlnBiIYBV3dRgoeWw7oGtYt+jHe+Lb7wYSO3M3SBowgFwSn/wYP25+Xz0FoRDTK6Gsndza/ctOSpxK5o6xWI4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=juZEAtAI; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=qQASKfnBk3I532u+Q60y1idfih1UcHr0Yzb20hMtPJC9sBmVxR4/uhNyYwVUI66mcbpYUW3YFQOYp7QNITzmkRUyloKW0n0+qqh5rJX/mNAhEhL0gUGZ9bETiQi4RjE7sayQ0riLWxKVrGl4zBtbG0yCzG0JwP0QrYlSPhx+5IM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q3JSKRY+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="juZEAtAI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F906C4CEC6;
-	Fri,  4 Oct 2024 18:26:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q3JSKRY+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAA95C4CEC6;
+	Fri,  4 Oct 2024 18:28:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728066396;
-	bh=pKZoZdmY2tkfYCNOS7nlPY/aa+228cmcj4WiUxlEgdQ=;
+	s=k20201202; t=1728066504;
+	bh=DWQabWJKDitGI6DPVVEbNb0mAI+6IODNNJT/UWWEGbk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=juZEAtAIuDqAXEeWkM7UWp04zTEGnoQ/Rr7fRWGaq35zON3Tshcn2Aaosw1j5Pdr/
-	 ljXPDzq87WLk7HJLpiQmYL0pj85ZeM92N45OfX64T1Ew9v3iz3hgjXEERdZmB32yti
-	 dkfIBU6uBUMzjkIsK7BxNV5R2MijB8kXi6j5Vx2SzIybURIlqJzuJTxBm6QQq1jU7n
-	 3fRoAwoJllK17bb4khOhI8fyTyzAe1xk3af8STzwVV5F5eiaNYlWRQBwdJvBsn4fN8
-	 s9NvY5B3hZ8DpFSxl2b6ae5eUV32lOJEty7T0A2QJC2wewIYrtX2ZWxlizPx5Cqcds
-	 ScNmv6dQRuGHw==
+	b=q3JSKRY+zVJsBrdTVlXnhlqN2FZlUKPJJaAxQIqGCbESrzqT5Z8GvXCoQVd80TbRh
+	 OEgu507cP20xtc1t73PZxsIbI2djWwGEM81NXsgyDp8SUJuM4w8DKBgHo85O2ChZEy
+	 AIaJ7rx1QNdArn0M4eUkbuG0cNBgDf7JfvSK4i4lu0/olCy3BWWnlFWuFZ4wfSL/ai
+	 GzHm8p6HyH/E+KEedPMy6jX1CYmc0/zx50rnzz3yOkdqD5oLVNaTDvE7KHJymFyfxh
+	 p7qxsQ3S42+27drOOTiaacM+yHoRbJRJWCkHHpAJuONTgNLlX4BDycyXbn1i5pVXFU
+	 BYGZAqJcptVVA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -34,15 +34,15 @@ Cc: Riyan Dhiman <riyandhiman14@gmail.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Sasha Levin <sashal@kernel.org>,
 	calvncce@gmail.com,
-	soumya.negi97@gmail.com,
 	straube.linux@gmail.com,
+	soumya.negi97@gmail.com,
 	linux-staging@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.6 50/58] staging: vme_user: added bound check to geoid
-Date: Fri,  4 Oct 2024 14:24:23 -0400
-Message-ID: <20241004182503.3672477-50-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 36/42] staging: vme_user: added bound check to geoid
+Date: Fri,  4 Oct 2024 14:26:47 -0400
+Message-ID: <20241004182718.3673735-36-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241004182503.3672477-1-sashal@kernel.org>
-References: <20241004182503.3672477-1-sashal@kernel.org>
+In-Reply-To: <20241004182718.3673735-1-sashal@kernel.org>
+References: <20241004182718.3673735-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -51,7 +51,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.54
+X-stable-base: Linux 6.1.112
 Content-Transfer-Encoding: 8bit
 
 From: Riyan Dhiman <riyandhiman14@gmail.com>
@@ -73,10 +73,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 12 insertions(+)
 
 diff --git a/drivers/staging/vme_user/vme_fake.c b/drivers/staging/vme_user/vme_fake.c
-index 7c53a8a7b79b8..95730d1270af8 100644
+index 1ee432c223e2b..0c4d60aa00ab2 100644
 --- a/drivers/staging/vme_user/vme_fake.c
 +++ b/drivers/staging/vme_user/vme_fake.c
-@@ -1064,6 +1064,12 @@ static int __init fake_init(void)
+@@ -1071,6 +1071,12 @@ static int __init fake_init(void)
  	struct vme_slave_resource *slave_image;
  	struct vme_lm_resource *lm;
  
@@ -87,13 +87,13 @@ index 7c53a8a7b79b8..95730d1270af8 100644
 +	}
 +
  	/* We need a fake parent device */
- 	vme_root = root_device_register("vme");
+ 	vme_root = __root_device_register("vme", THIS_MODULE);
  	if (IS_ERR(vme_root))
 diff --git a/drivers/staging/vme_user/vme_tsi148.c b/drivers/staging/vme_user/vme_tsi148.c
-index 2f5eafd509340..4566e391d913f 100644
+index 0171f46d1848f..0e649c8b259d1 100644
 --- a/drivers/staging/vme_user/vme_tsi148.c
 +++ b/drivers/staging/vme_user/vme_tsi148.c
-@@ -2252,6 +2252,12 @@ static int tsi148_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+@@ -2261,6 +2261,12 @@ static int tsi148_probe(struct pci_dev *pdev, const struct pci_device_id *id)
  	struct vme_dma_resource *dma_ctrlr;
  	struct vme_lm_resource *lm;
  
