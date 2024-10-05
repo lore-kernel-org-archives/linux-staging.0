@@ -1,55 +1,55 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BC3415AAC1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20C3915DBAB
 	for <linux-staging@lists.linux.dev>; Sat,  5 Oct 2024 20:34:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728160492; cv=none; b=scl337VqTdjxxis2N0qGJWQm5yUsYENW7Ba5wJgygMwX5lVc/7qDVZP/3rniTAFleH/X3PSXZWVINmXuXbDqVDHckdQHF0HzCHRF5iOWnI2h8aVV8p1moXUFIT8RMgmsA1M27dZwJVdtiCHiorMwosKGFjYyGVYfuA4eQvng+qw=
+	t=1728160492; cv=none; b=rSWHcouAyWTq7NxOZL2RDEjkDIueugMwQWqZgBkuWfvB7Rk2yyfd8wcDZkO6q3XgxsaVQiXId32GwWPGgWFI/PeXI8FMDLiT97sKd5OSunOi4cvlYuWPA8LXcYG4Y3VoWHymTyoiGX2Kt5MHpvL7/09rvZXUjYqoDD8GbJOBE2M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1728160492; c=relaxed/simple;
-	bh=q5jkccRulWr/FM9cDWZHBbIPLgsceK1p3SYDkLvSpgE=;
+	bh=Xlmrw1ICSZSLpyppc3P1wO9DsXKMAXudZrtMHiaVX5c=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kgqqfvNn+5pqRjEVJoxjpR8AA62vkCSK0+d2FinbXqBsHpsbNRgs0K5LJCb+1rxjExubxr5KJywvdsDA5KG/e/4wvNPGp5CYdmz9ez1V92QhAOhrQ6zFP6m61befYHikiIV9RuVqro2Ui4+PATW2q8yk09iVSHdIHzQzNt1nCHA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DDFPQ1Cl; arc=none smtp.client-ip=209.85.128.54
+	 MIME-Version; b=UOUoXgSvhXfF7OP4WcOfKGUGxy7OrMcBdmbXGcSZkE7pt5oItxrNbqxuei8/nouEUdIwF8eO4/JtAQcg1iBsmCOLf7VIGimiQRN0AKeIFDNQVeHtj95Hgj6PrRCaFiYTt3bXEBrrLHO+fiBiRRPiNVDT5+AzZSBoP1OlZnfbbQ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HXlXbbiF; arc=none smtp.client-ip=209.85.128.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DDFPQ1Cl"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-42cb7a2e4d6so32112955e9.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HXlXbbiF"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-42cde6b5094so31920855e9.3
         for <linux-staging@lists.linux.dev>; Sat, 05 Oct 2024 13:34:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1728160489; x=1728765289; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=EGS5wmBGdEuYs+XoDSYSCpWyPDlISJFCe+zrt7w9w7w=;
-        b=DDFPQ1ClkM4tNNMlQiurhL3aMtSI6ghzxIdC189fkb3l7sWtL67xiWP9235Ka+/+F6
-         UEFOVbalhNIvDAJGoHu7l6iyZ042fDS6bvEaZuqmddq9dvCBFdyk21i5HYb2fgkCoO5I
-         /Z6C2ywnG99RQuuK/iLF0zPZI3nl0UvMpAhe5GHF/zO1UCT+109MjBm1Lnp1nJPQpGGE
-         jj+XNFc3CR2NBY253iVYc3ZXhBInxquh1vrUUQUcNoVUuukwf/V1Jv9MxJ6lHN4yLJjh
-         S6WFpExQV0f5Yvlkv9tGvtaKSopoS3hHoH5YacbgMmNJXRO5b/WG2t3IQWN0fCkzFPfe
-         OueA==
+        bh=GqRwvqn5MMZIilIwb7m5L2Gv05WHBymSS5m9I5855dI=;
+        b=HXlXbbiFdNfRvyhcFWunGf80q+eU8c8pTZf3xhoYCnNsZyz2PLnPua7RvmZoVKNwTS
+         Pp2AQt2Zn48y0t1tZhpcfEiMesn8tGn3VREt5bEcjYmexvcvFHEzzdLWnCMCFqdst57/
+         Sn6LHeuiyRd2K+yNJtIlXZo3JWhoBLOtLlwYdzp+D/LSNEZihzbWBXWnsjLDBlnROkNd
+         7OzY1cmOBDH6Rzmk7niYEz1SQZyunxzsPA2k8WhoHwmUK5cHPwYjDboXNgz1sDaDphvW
+         3yfwIQNdOHo3+1ab2bLbg6vLKA7mZbwWiux98ZUdaSc1YmRoeXFjhG6KlkpZiDuGeEKE
+         danw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1728160489; x=1728765289;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=EGS5wmBGdEuYs+XoDSYSCpWyPDlISJFCe+zrt7w9w7w=;
-        b=KF7ngHoZqVBI7eS1A0zcAywK/h/czdh3ozgCa2gY0h1UgDQ1D4q/oUTuwFNnT9t1H1
-         NLxDiKGeJesM6351DsUtwjTwBu0ZzVj8GlIT0linxlyOGh/KZCvqX2a1ViXryHRvdbSg
-         h4GDIMOmP18aSAr0dyL4c9wEEc6xLAJUPwM5ACZYGpNiXKelbe62hFSNmevw8TgPiC+L
-         HfR6283ixiOVeyljiB6DVDD66M8ukcLB9mNdNBFpK6s4WqeOhx3eaY3r0+qXfRToKHeP
-         zGkpv0Dmbjtwb7Bdgb+nINJG4Ujh0enShUb+sL7pD2T75W0eNnLLIZVJJYm+DF68gykO
-         o5sw==
-X-Forwarded-Encrypted: i=1; AJvYcCUvfsr9QHh7fF6EGZ1IUo2ISGvf7oSS52o+x6auC+Ei2vKeBjsT1kYb5fvNWWmtt1/HeEJacyyq9pjd15gF@lists.linux.dev
-X-Gm-Message-State: AOJu0YxrlLcXybJh9p0yItiPfQlVxQQKTp4c7kufdB/xAEdH5brvErY6
-	sKRLt1L1Xkg1Bt+0GKvVqzzG3BIVlehlyNTCOxQJGyQyM2ZMHem9YdeV9eM2
-X-Google-Smtp-Source: AGHT+IGitESMSPkFKM4+mm5oFRXBO9avimVzsrnOI1EzNSkPcMlWtmDxXldk+gy5mKpCNwM13iWSKw==
-X-Received: by 2002:a05:600c:1da7:b0:42f:8d36:855e with SMTP id 5b1f17b1804b1-42f8d368710mr15580855e9.5.1728160488394;
-        Sat, 05 Oct 2024 13:34:48 -0700 (PDT)
+        bh=GqRwvqn5MMZIilIwb7m5L2Gv05WHBymSS5m9I5855dI=;
+        b=M4qY6yVwyPXrN2r7Uej9e1UMfW6z+QYL9ezBQTyHl5QHXHCY7SqsbHprJB2F/xn6DM
+         hy6YA3iqWNa3BXftq4ybaQfu76lBPsEmxItg2hjep/YEnAunBNVvNrCdT4F0GBQo+2yH
+         2dQTo+uE1AedZ1c4jh8FFW88FSg8S8gjZx2qIZwOFOtqQikoJ/aT/Bd0s1+LVxE3rCsv
+         yqN7h2nB3JsWTZO3cY8M5zEzrwNYZ2i5U5TMAX0ytPqht0Q7VLsXQQQfJOLq71HG7njL
+         jFajduAoR6nkD6HKWzMqfM6vQ0vJWZzGlrJZnmcP73gQZpT6ik6idQalYnqsLv0xGVh3
+         5EoA==
+X-Forwarded-Encrypted: i=1; AJvYcCW4oo5No+v8w3vXBIF5HJaU/m/XfPhhzsM+TDRmkMQzXfVd/A9J/2wugiy3l7p4u+vpzkzjWQvE1Gw2MDAm@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy6DfUArEGR+MJGloCYSaUb5PMDtaEiCYvzANIOgDDEk6+zY8v5
+	on6S8UmjN/6I3t61ukMKt9xYtW9xQTx+N0QYYBUDEVXfMglSDjeH
+X-Google-Smtp-Source: AGHT+IE9xG3NaWlIuTacg005sDJLyBO3bfMPTr7DCrgTYFT5Ui7ARWgCZ3y9M0L7BfUgJEzvAjwmbA==
+X-Received: by 2002:a05:600c:5116:b0:42c:b80e:5e50 with SMTP id 5b1f17b1804b1-42f859ac1ccmr58124885e9.0.1728160489047;
+        Sat, 05 Oct 2024 13:34:49 -0700 (PDT)
 Received: from kernel-710.speedport.ip (p54a0712c.dip0.t-ipconnect.de. [84.160.113.44])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42f85995932sm41824805e9.0.2024.10.05.13.34.47
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42f85995932sm41824805e9.0.2024.10.05.13.34.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Sat, 05 Oct 2024 13:34:48 -0700 (PDT)
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
@@ -57,9 +57,9 @@ To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Subject: [PATCH 02/15] staging: rtl8723bs: Remove function pointer hal_deinit
-Date: Sat,  5 Oct 2024 22:33:45 +0200
-Message-ID: <b0acbbdc372e01baabd1d98f824bc2a3c6c4c600.1727966761.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 03/15] staging: rtl8723bs: Remove function pointer free_hal_data
+Date: Sat,  5 Oct 2024 22:33:46 +0200
+Message-ID: <455b7a4645e6652815020635a7b34e56c2b96423.1727966761.git.philipp.g.hortmann@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1727966761.git.philipp.g.hortmann@gmail.com>
 References: <cover.1727966761.git.philipp.g.hortmann@gmail.com>
@@ -71,77 +71,67 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove function pointer hal_deinit and use rtl8723bs_hal_deinit directly
-to increase readability.
+Remove function pointer free_hal_data and function rtl8723b_free_hal_data
+as it is dead code.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8723bs/hal/hal_intf.c          | 2 +-
- drivers/staging/rtl8723bs/hal/sdio_halinit.c      | 4 +---
+ drivers/staging/rtl8723bs/hal/hal_intf.c          | 3 ---
+ drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 6 ------
  drivers/staging/rtl8723bs/include/hal_intf.h      | 2 --
- drivers/staging/rtl8723bs/include/rtl8723b_xmit.h | 1 +
- 4 files changed, 3 insertions(+), 6 deletions(-)
+ 3 files changed, 11 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/hal/hal_intf.c b/drivers/staging/rtl8723bs/hal/hal_intf.c
-index 684d31360f4b..d9121e13fe69 100644
+index d9121e13fe69..983218cdbfec 100644
 --- a/drivers/staging/rtl8723bs/hal/hal_intf.c
 +++ b/drivers/staging/rtl8723bs/hal/hal_intf.c
-@@ -107,7 +107,7 @@ uint rtw_hal_deinit(struct adapter *padapter)
- 	uint status = _SUCCESS;
- 	struct dvobj_priv *dvobj = adapter_to_dvobj(padapter);
- 
--	status = padapter->HalFunc.hal_deinit(padapter);
-+	status = rtl8723bs_hal_deinit(padapter);
- 
- 	if (status == _SUCCESS) {
- 		padapter = dvobj->padapters;
-diff --git a/drivers/staging/rtl8723bs/hal/sdio_halinit.c b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-index b4819ff2928f..d7941fdf42e1 100644
---- a/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-+++ b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-@@ -884,7 +884,7 @@ static void CardDisableRTL8723BSdio(struct adapter *padapter)
- 	HalPwrSeqCmdParsing(padapter, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_SDIO_MSK, rtl8723B_card_disable_flow);
+@@ -35,9 +35,6 @@ void rtw_hal_free_data(struct adapter *padapter)
+ {
+ 	/* free HAL Data */
+ 	rtw_hal_data_deinit(padapter);
+-
+-	if (padapter->HalFunc.free_hal_data)
+-		padapter->HalFunc.free_hal_data(padapter);
  }
  
--static u32 rtl8723bs_hal_deinit(struct adapter *padapter)
-+u32 rtl8723bs_hal_deinit(struct adapter *padapter)
- {
- 	struct dvobj_priv *psdpriv = padapter->dvobj;
- 	struct debug_priv *pdbgpriv = &psdpriv->drv_dbg;
-@@ -1259,8 +1259,6 @@ void rtl8723bs_set_hal_ops(struct adapter *padapter)
+ void rtw_hal_dm_init(struct adapter *padapter)
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+index 33ae1ae51a30..867021ed31bf 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+@@ -439,10 +439,6 @@ void rtl8723b_InitializeFirmwareVars(struct adapter *padapter)
+ /* pHalData->H2CStopInsertQueue = false; */
+ }
  
- 	rtl8723b_set_hal_ops(pHalFunc);
- 
--	pHalFunc->hal_deinit = &rtl8723bs_hal_deinit;
+-static void rtl8723b_free_hal_data(struct adapter *padapter)
+-{
+-}
 -
- 	pHalFunc->init_xmit_priv = &rtl8723bs_init_xmit_priv;
- 	pHalFunc->free_xmit_priv = &rtl8723bs_free_xmit_priv;
+ /*  */
+ /* 				Efuse related code */
+ /*  */
+@@ -1827,8 +1823,6 @@ static void UpdateHalRAMask8723B(struct adapter *padapter, u32 mac_id, u8 rssi_l
  
+ void rtl8723b_set_hal_ops(struct hal_ops *pHalFunc)
+ {
+-	pHalFunc->free_hal_data = &rtl8723b_free_hal_data;
+-
+ 	pHalFunc->dm_init = &rtl8723b_init_dm_priv;
+ 
+ 	pHalFunc->read_chip_version = &rtl8723b_read_chip_version;
 diff --git a/drivers/staging/rtl8723bs/include/hal_intf.h b/drivers/staging/rtl8723bs/include/hal_intf.h
-index fc3a94e40721..40383d3cdcef 100644
+index 40383d3cdcef..bc2696f23085 100644
 --- a/drivers/staging/rtl8723bs/include/hal_intf.h
 +++ b/drivers/staging/rtl8723bs/include/hal_intf.h
 @@ -162,8 +162,6 @@ enum hal_intf_ps_func {
  typedef s32 (*c2h_id_filter)(u8 *c2h_evt);
  
  struct hal_ops {
--	u32 (*hal_deinit)(struct adapter *padapter);
+-	void (*free_hal_data)(struct adapter *padapter);
 -
- 	void (*free_hal_data)(struct adapter *padapter);
- 
  	s32	(*init_xmit_priv)(struct adapter *padapter);
-diff --git a/drivers/staging/rtl8723bs/include/rtl8723b_xmit.h b/drivers/staging/rtl8723bs/include/rtl8723b_xmit.h
-index 5e3483cb22db..ac4ca7e05b9b 100644
---- a/drivers/staging/rtl8723bs/include/rtl8723b_xmit.h
-+++ b/drivers/staging/rtl8723bs/include/rtl8723b_xmit.h
-@@ -406,6 +406,7 @@ void rtl8723b_update_txdesc(struct xmit_frame *pxmitframe, u8 *pmem);
- void rtl8723b_fill_fake_txdesc(struct adapter *padapter, u8 *pDesc, u32 BufferLen, u8 IsPsPoll, u8 IsBTQosNull, u8 bDataFrame);
+ 	void (*free_xmit_priv)(struct adapter *padapter);
  
- u32 rtl8723bs_hal_init(struct adapter *padapter);
-+u32 rtl8723bs_hal_deinit(struct adapter *padapter);
- s32 rtl8723bs_init_xmit_priv(struct adapter *padapter);
- void rtl8723bs_free_xmit_priv(struct adapter *padapter);
- s32 rtl8723bs_hal_xmit(struct adapter *padapter, struct xmit_frame *pxmitframe);
 -- 
 2.43.0
 
