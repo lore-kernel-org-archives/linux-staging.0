@@ -1,73 +1,71 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77A951D7E3D
-	for <linux-staging@lists.linux.dev>; Mon,  7 Oct 2024 15:43:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12B3A1D6DBE
+	for <linux-staging@lists.linux.dev>; Mon,  7 Oct 2024 15:46:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728315802; cv=none; b=QZOIAo+Zo+k0QW8fED0vdiCP7pZzVzIsjcQpOnTDt/74jvugl8NbQ5K/D86+L+eeHeBX9S5cvHr63Z/R9+22ZsangTfs6QCkeT9BES3gQdYYyvOH8zbEuaELC7mOausD5LbG3M4VfMlGxBQVMcgeLqXnIvUy0HPqPmBHpAZFlR8=
+	t=1728315971; cv=none; b=phAURemDy/ZUztDRM7C6Y8DlG6zIyZkxX6H9K+IiGDlz3MsOCjiJM6MfAzAo219xG/vj/37zS/uJly9Xyusj9TI7KVAMO/JK2IMSGjn9Nq0g2prw2tE3SJRVX0wA8taETqr3bgk3cjcrcNCXHtiTh+pXoryI9AHokrvwCRTuYlo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728315802; c=relaxed/simple;
-	bh=kSkSqHhmhDBjaBptoqL2+wVR6+Rxvbf4cBcn8HyCGwg=;
+	s=arc-20240116; t=1728315971; c=relaxed/simple;
+	bh=IPz+aGl2hpLhDFrX5GfJESiSDX1f4cE9gll6GUH7TJY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iNhbS63+eHdHwsMdOgPTgbXqws3j00/UlcmHfeVHRNsroSoIJpMd9jJWgnVRW8IAb+JUUhJl/YYt/5EXEwDSsw7vFwLdTMyPRLDvxPFGNXV24Rshmw6KJqGKYqTLq5I5oBfjYrphkzAPGRw36RnvK23USyF/6KtKhcldm4aHAtw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=k1EwHPFt; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=YlA6v6UukloKWGf0MO4saVwsrQ7zfJcev5qiqw/f+hWBhbqTNPAzZYN0CzLXKGzbLfACwChLtS+BYHVAfv5bpVZ0Z3+Gax9DXKi1NCB+Y7y02OwUDzQvb90Wh5t7AjLwvoS5at6r9Ay2/qC7bRVgVSA2dPms5qJOItRj+w5HY2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QJZZ5bx8; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="k1EwHPFt"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-37ccd50faafso3114841f8f.3
-        for <linux-staging@lists.linux.dev>; Mon, 07 Oct 2024 08:43:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QJZZ5bx8"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-37ccdc0d7f6so2989111f8f.0
+        for <linux-staging@lists.linux.dev>; Mon, 07 Oct 2024 08:46:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1728315798; x=1728920598; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1728315968; x=1728920768; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=WSvmE8n5QuavFu63BnKGQtIIFsakEPc33Q76Ua00ugw=;
-        b=k1EwHPFtCjDm92gJD5W+EIGK8G95OC4XfDMOANZsJPqeWC40fbnN9dI+fqU2MlbzyI
-         Xzm8kD4K9u8zAdryh/uCJ1GTdGaXkbar/2a+LqJ6mnbCySd3GCToMo4NoXh0TgaO1MNI
-         lrdO3sPKIZ4NggPfGhRHWE5WIa7MX2/hUM0MrWxtRdqq7vTt1vVvFvS81tmDUKC6Yo+b
-         oFXaxMcSTKk6ocU6YDiFbZRkLaKDVdwVQoNbK7oLIGJ1JBx6gkkQ+0xYKXZ39XAZabs3
-         bq9XM6g/Q8EA/gEFJsUDoN61mc1LGVKlHHT8PWMb7lK/JyPaA4eX03kPklU2YZsLBUyb
-         YEAw==
+        bh=n6dprjm0PLZjMBeHgDbl3Q6+Sj+1Lh0wF19FbiiI9Hs=;
+        b=QJZZ5bx8OZO8n+6xQdMrFUBDvB4uY2XWNeZ3xe5CqZDu6WsKi22VBDdm1ssFaC9jRW
+         vKnS2EgXkpvfEsMxRFn8woRhuxjInkJw8yOmRn+Hx+6eXXgUKFvtn2F0oOVBsUccB2Yp
+         KAsUXAS2+Ol9s5olpxK/lkME6xfum4bdNB9wswjkG2eZ6mcRc4aUAEKY5H7R7QoaA6GL
+         SGmBpyi2gGQkU7DrLp1NxXu72ugoW4k5vWVIg3J/V4ZF9B9fJbMMYQL0+FwGpTVc+7RE
+         dVUq+ESRBV37dTpcekot4/sI1EtlQi8IGOwkX6KKQzZzOkJeG0FcmtQ61iP8MoKJvm73
+         BqRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728315798; x=1728920598;
+        d=1e100.net; s=20230601; t=1728315968; x=1728920768;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WSvmE8n5QuavFu63BnKGQtIIFsakEPc33Q76Ua00ugw=;
-        b=uM4sJ7DyFuO0Y7EB+GsJGTXvhIf4OI84WPLnTb1D4X4yzYnFJWtpDjGHQbr7AUneUb
-         ucgvHiI6YfrhwkjycyplAtveSOedyfvgm6Ti+vTJiy3R2QclhmkG3YYCyPilnwbfBlPz
-         dMbkCHjh0zaniu+u6d6SQ4+sCdmCdwh7OkVvaRUkb0YLFmww39E+8PYiXkgr/4L62r5J
-         JCUfCR+abguAhewAauTS5zosRDH4BFdFJr63yt4OwvcGN0kc7O4F7bnFoIFPbuappdiB
-         YId+yzIKiQIC2nXqSz99lzAUZz2Y0pupvhqTi0ZG+hkj34K/5tVVMDxKkmOblbuZyqYm
-         efeg==
-X-Forwarded-Encrypted: i=1; AJvYcCULdNPHf1OdLLvDtUx/UJBxWLAnQRtAc0wXr0LAeshS5BzlqAb8qGOPIu8xycOpmE6Ic4OC/bzOh2lFnSjg@lists.linux.dev
-X-Gm-Message-State: AOJu0YwJb6uRxYh6b0bDcobHaK90hfVUKReEFXoocNMQ90nFASy7Oi3L
-	E4ARZO/ORP0Rn+u37S5rpWLI6IrbDZi/XENueYIt4B8ZHyAmneq1io9QmT+u6gwb7gKSjyqeYyB
-	j
-X-Google-Smtp-Source: AGHT+IGjHRwsGmvROZcACos6DIixkRGOFRJsUfnF/uGhv9Kl6uH4bJ3AmZ7oBHWLx6CZhF59ANd3Vg==
-X-Received: by 2002:a5d:5f4e:0:b0:374:c1a9:b97b with SMTP id ffacd0b85a97d-37d0e6bbab9mr8562598f8f.8.1728315797735;
-        Mon, 07 Oct 2024 08:43:17 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d1690f79bsm6011795f8f.18.2024.10.07.08.43.16
+        bh=n6dprjm0PLZjMBeHgDbl3Q6+Sj+1Lh0wF19FbiiI9Hs=;
+        b=TJouD2U+P4LvPBnCfqd/n71PvMwwH3h6/2ImJgIQGWn4PQWxHADm6o6xuvrktzi8Tm
+         vKx62hr37CX2+EqVnn5z1cHMY4ouWt+H4wy2NiqDJehrITkF257kVz0HV48VDZA3HG9n
+         mdGj7LPOKs2ExZKRUIJQPOf3+0vikV1Ore3Q4QDd5YiVyT11ApKn/UpDjTqgwW1pPJSr
+         XplenVaJEZWku4bZ30mulwDQFvKpI+AdTTBTWz545LI8bNN8cDRC5fr7ieh9QDuGrZN1
+         9T0BFZ0QDTeFVyHcH9Ucp8HfCj9VNRR71Qmcg3g3Ce+Tp1GJhPCdgCI5hSPl0VBkUba5
+         roNA==
+X-Forwarded-Encrypted: i=1; AJvYcCWrVqkU8Qodf9PRCWgE6li5Eu7iAxBzC7ESAJTzIGK8vS08WQK91zcy/J2sIFVyvRcSEdsOQeXLHN0sUJdS@lists.linux.dev
+X-Gm-Message-State: AOJu0YyYAhKVJB06sH/CzHWNdwxf7Z1C7TqfYsZpHIJM7uAYIwXnvuQ5
+	Qvvn7V7WMslJuhkaYSzlUPWuPOJqE5omrCCcoUmsiZ2SqG48mzpJ
+X-Google-Smtp-Source: AGHT+IF+8sfGIn0BZv8JEm8l7fv06gDZuaryeZmXzbmOn6DC8csfkugDv/BvinOfUhgQEn85h8XL9g==
+X-Received: by 2002:a5d:63cc:0:b0:374:c31e:9721 with SMTP id ffacd0b85a97d-37d0e7d40aemr7238976f8f.42.1728315968206;
+        Mon, 07 Oct 2024 08:46:08 -0700 (PDT)
+Received: from redaops ([146.70.124.157])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42f89e89b42sm77975205e9.13.2024.10.07.08.46.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Oct 2024 08:43:17 -0700 (PDT)
-Date: Mon, 7 Oct 2024 18:43:13 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Hridesh MG <hridesh699@gmail.com>
-Cc: linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+        Mon, 07 Oct 2024 08:46:07 -0700 (PDT)
+Date: Mon, 7 Oct 2024 18:46:05 +0300
+From: Tudor Gheorghiu <tudor.reda@gmail.com>
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: Nam Cao <namcao@linutronix.de>, Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	Stefan Wahren <wahrenst@gmx.net>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [PATCH] staging: vchiq_core: Fix code indent errors
-Message-ID: <6c860738-07b2-4c72-9c99-1b394482a186@stanley.mountain>
-References: <20241007152214.23240-1-hridesh699@gmail.com>
+	linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>
+Subject: Re: [PATCH] staging: iio: frequency: rename macros
+Message-ID: <ZwQCPY7tmMg7ciVZ@redaops>
+References: <20241001202430.15874-2-tudor.reda@gmail.com>
+ <20241001225426.wUBOFdMi@linutronix.de>
+ <Zvy0qyQJP1S17SFv@redaops>
+ <20241006122712.2cff065c@jic23-huawei>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -76,22 +74,37 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241007152214.23240-1-hridesh699@gmail.com>
+In-Reply-To: <20241006122712.2cff065c@jic23-huawei>
 
-On Mon, Oct 07, 2024 at 08:52:12PM +0530, Hridesh MG wrote:
-> Replace spaces with tabs to adhere to kernel coding style.
+On Sun, Oct 06, 2024 at 12:27:12PM +0100, Jonathan Cameron wrote:
+
 > 
-> Reported by checkpatch:
+> Hmm. If you really want to clean this up, then these macros shouldn't
+> exist at all.  They are legacy of ancient IIO code style and some slightly
+> ropey code even then (which is why it's in staging!)
 > 
-> ERROR: code indent should use tabs where possible
+> Right option is to use the read_raw callbacks in conjunction with the
+> info_mask_* bitmaps that indicate which attributes the IIO core should create.
+> There are some corners in here such as PHASESYMBOL for which we've
+> never fixed on an ABI and that might need custom attributes, but even
+> then these macros probably wouldn't be involved.
 > 
-> Signed-off-by: Hridesh MG <hridesh699@gmail.com>
-> ---
 
-Thanks.
+Hi Jonathan!
+Thank you so much for your input!
 
-Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+I understand, so this is not as simple as just renaming the macros,
+there is actually a lot more to modify in order to make this driver up
+to date with modern standards. I will leave this for the original driver
+developers.
 
-regards,
-dan carpenter
+> So I'd don't mind 'fixing' checkpatch or the code, but I'd
+> rather we fixed the drivers up properly.
 
+As for this, it is somewhat unrelated to the actual driver (I didn't
+even consider this initially). That is why I submitted a different patch:
+
+https://lore.kernel.org/all/20241002133418.7924-2-tudor.reda@gmail.com/
+
+Thanks again,
+Tudor
