@@ -1,103 +1,183 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4537212638
-	for <linux-staging@lists.linux.dev>; Tue,  8 Oct 2024 18:12:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3D8F20ADFB;
+	Tue,  8 Oct 2024 18:25:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728411171; cv=none; b=ZwNt1agA+sCIvnZHzSQimqZrJxYBir/MP0yOhGj9Wnlp40MGjYjPQ1/qeYM1mBfefpDrRELWa0oc9TOC1rdxDh3BebFNwCOZppfDXZvVsNELDIyKCDgxw2p53e9i+cLlQYbmYo4Rpi/G7Jfb2B42nEWXJv+i1TfkCKgUrqkc2+4=
+	t=1728411907; cv=none; b=XtjreJyoYXfr1/9eiT0MfBB58rDqy85NIfHAkPgauLj2BkHplSaf7d2/wAaobP+WxxSEyoqOrfNuzXCHf3oSfyY/4XV5kuue3dAS0wvLMmW3GocWV7S5MiTcp9Hj0bad2V4vQSf8AXv0u750F/KgzTDAdky7b7R5BS6IgGETQv8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728411171; c=relaxed/simple;
-	bh=q1B98cCZ67Fnkh/XQ2VC6+w5nCSr6WHrprubAeMB/5k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kH+q05Ywcg1jhdoPJAhtXuz6eWam/V9Mo7ejAEPn1iQ7iE4NYLHYjiP1tvDxp1kN6X5bvC15+qEikVOUSAIDUbwIzVq2ef4JYRmtdStFLNL2zBZG0LRwpPWUDbJtq+jshcPTzDI3/jZBzPj8hsTfbExenH53m4/uEI+V9lRYc/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PP9+MP5H; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1728411907; c=relaxed/simple;
+	bh=gbTLwyB5anW/NVNa27O4GYEgcT7Zt8zwGlDOBl4w9X4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=iKn1cBg6wAf5/asBt6gAc5/gkyUddWK+Q7H/JslFRAbkOl32zyhHqbI6mgVPXfzIFkJWweY+sc6VZDAYpvKYIY6hIKUEhGNSG6YRpVgFyNYjThMEMcKKZqc8RJos+0ggnHfoc7FgwUoPHH5ZdVQVemrsXdthgai3Ih07I8I/W/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QWv3+c7h; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PP9+MP5H"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-42cd46f3a26so52511335e9.2
-        for <linux-staging@lists.linux.dev>; Tue, 08 Oct 2024 11:12:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728411168; x=1729015968; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=BuFA5j3K6m3lSSbRwdOiQAd6W6LANH+t9PO0kqru65Y=;
-        b=PP9+MP5H4fPz8EOb+jdPRxOZFlYsWIdbLvWsiIJMHCCzkk7Fddraz8a5qqwrp+l7Et
-         gALvAQ/kuGtKJ2lRt+1optDQU2dY+Chxt0hG4ANN8E+Q2V/Zi7LrYMo0LJiQEO7D5Vu1
-         OGqp5UbnJbb1jyRwXD47dP9P8X7jK8XJ0j9bmmITgZ9Wn0L61u6vDNsjyEjcX0Vu+JVF
-         reU0gYD0JKGV8pTkj1kTVCABcd3Ogh7o82/vUcx7mLhErdT2bhD0Bl2L57v6b1/Tx6mT
-         /csJG0W5aF4lbOJqBVnmjP7V6UtLIH5jrPM/+/y/LCU3NGCYC0E1YOqK+/V28fafdGrT
-         sr0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728411168; x=1729015968;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BuFA5j3K6m3lSSbRwdOiQAd6W6LANH+t9PO0kqru65Y=;
-        b=DMvA6xeyymIrUxWuUsNeF2moG9RJozGnGHof7SWHMql4U3zLDT5Hh5nHrisL/EoIFf
-         vDLr5d1ohMGJmCL4v23ri9t3JBMP/l6uJ2Ntm2sGALuRfoKKkNYycUlSg82prJMmHRIL
-         Cf1KL4LVcHZyOS1Ca0IqfAaekhbbIjPs3cxWe+oYw72wjGCwsnm1AIWmUEbewm9uOd/B
-         QSXQHeoo5mbq8xNBkST41bKb87+Y7D75Hp4IsqYtfuttI66A1YDD+VNGPC8+s1bYwksE
-         y62KIj6X59NIO3jqcqWK7NOcTnNjRBkcM8ELZ4rF4NOZo9fLzMeo1trV1JhD1pct38bo
-         xB0A==
-X-Forwarded-Encrypted: i=1; AJvYcCWy0WfvKPNrMP7yQzrO8F+BkLlv2cPDqXKh8nZQ6OpOeG94g75UxAVqcTvISf/Q1QHoc/dpXGMAw7PeGpJG@lists.linux.dev
-X-Gm-Message-State: AOJu0YxiXKGdKuGKjjxTQ3v4lMT4C4lDOwGKzEPYigb+yfx4ITkl56im
-	Q1aYyAvoqUiQsCWeEuzslV/s2ezAL6/AA36NWpOSVUpcH8gatVI6
-X-Google-Smtp-Source: AGHT+IHAhQsN8E22JqPe31C5J5hHO4ciK1+XEy/v2gYO5OeltEasJGb6wY0dvfpOFiUkyuoIWRFOkw==
-X-Received: by 2002:a05:600c:4711:b0:42c:d7da:737b with SMTP id 5b1f17b1804b1-42f85ab3accmr125546075e9.9.1728411167824;
-        Tue, 08 Oct 2024 11:12:47 -0700 (PDT)
-Received: from [192.168.2.105] (p54a0712c.dip0.t-ipconnect.de. [84.160.113.44])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42f89ed952asm116343845e9.45.2024.10.08.11.12.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Oct 2024 11:12:47 -0700 (PDT)
-Message-ID: <7855de70-1942-4cbf-bafd-d19e148b7e8b@gmail.com>
-Date: Tue, 8 Oct 2024 20:12:46 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QWv3+c7h"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47127C4AF09;
+	Tue,  8 Oct 2024 18:25:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728411907;
+	bh=gbTLwyB5anW/NVNa27O4GYEgcT7Zt8zwGlDOBl4w9X4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=QWv3+c7hgheNar52dT93kuaRJqQGwrTlm+2qt+dJoGyQzAHIgU0jubrC8ThWhyZIZ
+	 RS8ECJijkXPnKWXZt/DHYo4oNlel2cdA7QmeMfgDuBLkCfLLpl6vQcl4DNTcV5EyFH
+	 5h8XYKukhwE21LUBMtMTij4WxRmO6XhWfjQaEwayPWgg9ncS5s6vbgtpgFKR2d4Ze1
+	 U8RaeSIFzvB8vNoypQgBEdP43kZiPZVbc5vt/+kjhif0hCbio5j23Z7Fbcd2MdU+Eu
+	 u4mqS8NwdiP912BRPYfCL4ckK1zD9U7UpC3cflIOLH9kTp0r9qM6ScGNZWHbmYuBvP
+	 5BPH6goJRp7XQ==
+Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-5e5d0a80db4so3217624eaf.3;
+        Tue, 08 Oct 2024 11:25:07 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU80eXlOO5kixUyE9F/u/y68e2e9ltZgJSxGZT0iwH5GDFNb2uA5wqe5QZEjKBzEAMGJTM+@lists.linux.dev, AJvYcCV+dS6FkNtq7yCRExmS4+FC+UThA2NfaaFKvjSxjRSN3nRLutiQucRQRhrSmYre0s4d7p8DW14=@lists.linux.dev, AJvYcCXJZNIGOPEvunz6HDar2Zo/PxYabaZ4p9d/lWYF2np3KtG6kfyM0CLEIGORt5MYQmUi+NEbYw==@lists.linux.dev, AJvYcCXoCQCBY24aZTpwO6EWr6BGkjVQHO2H77jxX+hpqzZ8ShgXFVei7j9nZOBLPhYDL347Tcv4CMttLZkRCIPGlA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy75QQqiJIi0eaxYwzJVvbNTxM0+zjdD7b4Z50hXO5XVmapveBP
+	AjPEGAuNzyBhDXxcbrWtSxz8Kwr5yz41j/XSTPPGU99zQoLByhgWTaxVoYMTwH5VdJlP+ADIr4C
+	uXPkcYK6V4fsKMrYKXlZqx8DuzTg=
+X-Google-Smtp-Source: AGHT+IE8/UzrmOfg0dgL+a7sFpnmZmTmVZlVfZVXeH9h9sR6Zbx0f+k3/XHDUWx/NQFfJo1odWsZ7gtN5j50xL2u+GA=
+X-Received: by 2002:a05:6820:228e:b0:5e1:d741:6f04 with SMTP id
+ 006d021491bc7-5e7cc079979mr12626737eaf.3.1728411906564; Tue, 08 Oct 2024
+ 11:25:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/6] staging: rtl8192e: delete the driver
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Johannes Berg <johannes@sipsolutions.net>
-Cc: linux-wireless@vger.kernel.org, linux-staging@lists.linux.dev,
- Johannes Berg <johannes.berg@intel.com>
-References: <20241007182706.66888-8-johannes@sipsolutions.net>
- <20241007202707.d0e59cdd2cdc.I8e4d74a6e1d09eefe1f5e2e208735ba2ccef1d4f@changeid>
- <2024100825-badly-smartness-cf1b@gregkh>
-Content-Language: en-US
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <2024100825-badly-smartness-cf1b@gregkh>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20241004094101.113349-1-sakari.ailus@linux.intel.com>
+ <CAPDyKFp0N6UJhnHS164Tdf=xkWB0jzq65L9TdvYazeBQ-6WjeQ@mail.gmail.com>
+ <20241007184924.GH14766@pendragon.ideasonboard.com> <CAPDyKFpQVnF7eQv3dup8k-3EijnMjuveCG9sZ=Rpey1Y6MBJEg@mail.gmail.com>
+ <20241007222502.GG30699@pendragon.ideasonboard.com> <CAPDyKFrGNwna6Y2pqSRaBbRYHKRaD2ayqQHLtoqLPOu9Et7qTg@mail.gmail.com>
+In-Reply-To: <CAPDyKFrGNwna6Y2pqSRaBbRYHKRaD2ayqQHLtoqLPOu9Et7qTg@mail.gmail.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Tue, 8 Oct 2024 20:24:55 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0jvJyS7D5-wURi2kyWN-rmNa+YqupeQJ000pQRVd9VBcQ@mail.gmail.com>
+Message-ID: <CAJZ5v0jvJyS7D5-wURi2kyWN-rmNa+YqupeQJ000pQRVd9VBcQ@mail.gmail.com>
+Subject: Re: [PATCH 00/51] treewide: Switch to __pm_runtime_put_autosuspend()
+To: Ulf Hansson <ulf.hansson@linaro.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	linux-bluetooth@vger.kernel.org, linux-clk@vger.kernel.org, 
+	linux-crypto@vger.kernel.org, dmaengine@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
+	nouveau@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org, 
+	linux-i3c@lists.infradead.org, linux-iio@vger.kernel.org, 
+	linux-input@vger.kernel.org, patches@opensource.cirrus.com, 
+	iommu@lists.linux.dev, imx@lists.linux.dev, 
+	linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org, 
+	linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org, 
+	netdev@vger.kernel.org, linux-wireless@vger.kernel.org, 
+	linux-pci@vger.kernel.org, linux-phy@lists.infradead.org, 
+	linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org, 
+	linux-sound@vger.kernel.org, linux-spi@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-usb@vger.kernel.org, 
+	linux-serial@vger.kernel.org, greybus-dev@lists.linaro.org, 
+	asahi@lists.linux.dev, Andy Shevchenko <andy.shevchenko@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 10/8/24 08:42, Greg Kroah-Hartman wrote:
-> On Mon, Oct 07, 2024 at 08:26:54PM +0200, Johannes Berg wrote:
->> From: Johannes Berg <johannes.berg@intel.com>
->>
->> This driver is using lib80211 and any driver that plans to ever
->> leave staging should never have done that, so remove the driver
->> to enable cleaning up lib80211 into libipw inside the old Intel
->> drivers.
->>
->> Signed-off-by: Johannes Berg <johannes.berg@intel.com>
-> 
-> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> 
+On Tue, Oct 8, 2024 at 12:35=E2=80=AFAM Ulf Hansson <ulf.hansson@linaro.org=
+> wrote:
+>
+> On Tue, 8 Oct 2024 at 00:25, Laurent Pinchart
+> <laurent.pinchart@ideasonboard.com> wrote:
+> >
+> > Hi Ulf,
+> >
+> > On Tue, Oct 08, 2024 at 12:08:24AM +0200, Ulf Hansson wrote:
+> > > On Mon, 7 Oct 2024 at 20:49, Laurent Pinchart wrote:
+> > > > On Fri, Oct 04, 2024 at 04:38:36PM +0200, Ulf Hansson wrote:
+> > > > > On Fri, 4 Oct 2024 at 11:41, Sakari Ailus wrote:
+> > > > > >
+> > > > > > Hello everyone,
+> > > > > >
+> > > > > > This set will switch the users of pm_runtime_put_autosuspend() =
+to
+> > > > > > __pm_runtime_put_autosuspend() while the former will soon be re=
+-purposed
+> > > > > > to include a call to pm_runtime_mark_last_busy(). The two are a=
+lmost
+> > > > > > always used together, apart from bugs which are likely common. =
+Going
+> > > > > > forward, most new users should be using pm_runtime_put_autosusp=
+end().
+> > > > > >
+> > > > > > Once this conversion is done and pm_runtime_put_autosuspend() r=
+e-purposed,
+> > > > > > I'll post another set to merge the calls to __pm_runtime_put_au=
+tosuspend()
+> > > > > > and pm_runtime_mark_last_busy().
+> > > > >
+> > > > > That sounds like it could cause a lot of churns.
+> > > > >
+> > > > > Why not add a new helper function that does the
+> > > > > pm_runtime_put_autosuspend() and the pm_runtime_mark_last_busy()
+> > > > > things? Then we can start moving users over to this new interface=
+,
+> > > > > rather than having this intermediate step?
+> > > >
+> > > > I think the API would be nicer if we used the shortest and simplest
+> > > > function names for the most common use cases. Following
+> > > > pm_runtime_put_autosuspend() with pm_runtime_mark_last_busy() is th=
+at
+> > > > most common use case. That's why I like Sakari's approach of repurp=
+osing
+> > > > pm_runtime_put_autosuspend(), and introducing
+> > > > __pm_runtime_put_autosuspend() for the odd cases where
+> > > > pm_runtime_mark_last_busy() shouldn't be called.
+> > >
+> > > Okay, so the reason for this approach is because we couldn't find a
+> > > short and descriptive name that could be used in favor of
+> > > pm_runtime_put_autosuspend(). Let me throw some ideas at it and maybe
+> > > you like it - or not. :-)
+> >
+> > I like the idea at least :-)
+> >
+> > > I don't know what options you guys discussed, but to me the entire
+> > > "autosuspend"-suffix isn't really that necessary in my opinion. There
+> > > are more ways than calling pm_runtime_put_autosuspend() that triggers
+> > > us to use the RPM_AUTO flag for rpm_suspend(). For example, just
+> > > calling pm_runtime_put() has the similar effect.
+> >
+> > To be honest, I'm lost there. pm_runtime_put() calls
+> > __pm_runtime_idle(RPM_GET_PUT | RPM_ASYNC), while
+> > pm_runtime_put_autosuspend() calls __pm_runtime_suspend(RPM_GET_PUT |
+> > RPM_ASYNC | RPM_AUTO).
+>
+> __pm_runtime_idle() ends up calling rpm_idle(), which may call
+> rpm_suspend() - if it succeeds to idle the device. In that case, it
+> tags on the RPM_AUTO flag in the call to rpm_suspend(). Quite similar
+> to what is happening when calling pm_runtime_put_autosuspend().
 
-Hi,
+Right.
 
-thanks for the explanations. I am fine to remove the driver.
+For almost everybody, except for a small bunch of drivers that
+actually have a .runtime_idle() callback, pm_runtime_put() is
+literally equivalent to pm_runtime_put_autosuspend().
 
-It would be good if the maintainer would find the time to update the 
-git, so that we see which patches are accepted and who has to rebase or 
-change his patches. Due to merge window 3,5 weeks have passed and I have 
-lost overview.
+So really the question is why anyone who doesn't provide a
+.runtime_idle() callback bothers with using this special
+pm_runtime_put_autosuspend() thing, which really means "do a
+runtime_put(), but skip my .runtime_idle() callback".
 
-Thanks for your support.
+> >
+> > >
+> > > Moreover, it's similar for pm_runtime_mark_last_busy(), it's called
+> > > during rpm_resume() too, for example. So why bother about having
+> > > "mark_last_busy" in the new name too.
+> > >
+> > > That said, my suggestion is simply "pm_runtime_put_suspend".
+> >
+> > Can we do even better, and make pm_runtime_put() to handle autosuspend
+> > automatically when autosuspend is enabled ?
+>
+> As stated above, this is already the case.
 
-Bye Philipp
+What really is needed appears to be a combination of
+pm_runtime_mark_last_busy() with pm_runtime_put().
+
+Granted, pm_runtime_put() could do the pm_runtime_mark_last_busy()
+thing automatically if autosuspend is enabled and the only consequence
+of it might be delaying a suspend of the device until its autosuspend
+timer expires, which should not be a problem in the vast majority of
+cases.
