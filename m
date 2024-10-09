@@ -1,77 +1,81 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8CE618E35B;
-	Wed,  9 Oct 2024 09:53:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCED718FC83;
+	Wed,  9 Oct 2024 09:56:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728467635; cv=none; b=eAHSaUrZwXNQSpfDAPQ6vAR9F7ECIMgITTcKO4l2ORHb9eAs5RvPbMY7EVH/RYnC3hqo3Q1oQ46TP2PM8YRX1UAClDTPzFU82LtpGDt2AO43krhVSMF1XHJ+xPA3z7SpugSMwEsxNnKvo5ntApBKJvJVCfOiVo0qwN6Kiydks7k=
+	t=1728467809; cv=none; b=pALKL2jQXIBAhzSaN8J4tTZbB8RzF/UkivOClFMkVgySathm861CujIzgDvLYL36+uaHzzrbhEcaDdpZENCQRb8/3MQ+1olNEhZRlIVfOF4TQrIrWwXZS/pW8rAaABlDkUryRyO4JWNgiRI1KPlEyX8UEh4N1AntLVsJzQpm124=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728467635; c=relaxed/simple;
-	bh=wWY/kBHBtGx7dSflkfMGklu+KpxJfc4bWMZJCrBuCoE=;
+	s=arc-20240116; t=1728467809; c=relaxed/simple;
+	bh=j5fmnOTZrI6z6nGVKtHkqEcaFglJeVxTewMiVD15cj8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=icDFU+Umq0JgDGiMxWiHThtIhfMuEXdiumNOnX+nlEfVL1iyCxQD5Fu8saR0F8nZLz+ZOFh2ytU42Dk9kRTn5PsO7mbVdQjQ4qSaTnBez2vH41/fqC29BKNRbXvtsk40T/tsFZMuWgqgCKBNhgLC/rF2tX9PW4UPKTjshTvdaE8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=jmgV7pnJ; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=FK5l/BtwmFO09vMq2bgKBvWsM/nbjEasQXbIFjW0KGqqT3Xvdd/TBmhGZssog1CWDowduzIWXXucPgJdYUl6znLLgLAQhXEmhtEVfJ1VDb6eAlfH56TvidORk8qIUIggFAcyNpF0b8fD2OlUfJfW65CFEwI5Eln1g32ClSngtrA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=jrIfKxWZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="jmgV7pnJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81152C4CED1;
-	Wed,  9 Oct 2024 09:53:54 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="jrIfKxWZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C25DDC4CEC5;
+	Wed,  9 Oct 2024 09:56:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1728467635;
-	bh=wWY/kBHBtGx7dSflkfMGklu+KpxJfc4bWMZJCrBuCoE=;
+	s=korg; t=1728467809;
+	bh=j5fmnOTZrI6z6nGVKtHkqEcaFglJeVxTewMiVD15cj8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jmgV7pnJWU5qlvVnGLrGm14zAet+kbdyrsyQqwxJ9Wun9WrSdPD2sn7JACNDU6nIg
-	 Pf6b1EPfErURXQUiYXno0Pc691Nbo7SHqwD+goC1vhapahN5LpIo/nLxNb4gVAZiFI
-	 tB0bjcr19wClwPm76U1LmgVUtkpLZgrItnLwWbMc=
-Date: Wed, 9 Oct 2024 11:53:51 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Cc: Dominik Karol =?utf-8?Q?Pi=C4=85tkowski?= <dominik.karol.piatkowski@protonmail.com>,
-	tdavies@darkphysics.net, dan.carpenter@linaro.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] staging: rtl8192e: Use MSR_LINK_* macros
-Message-ID: <2024100944-baton-manger-3768@gregkh>
-References: <20240921122113.30009-1-dominik.karol.piatkowski@protonmail.com>
- <9bb46e16-eb37-4d76-a917-e0f1e738fd04@gmail.com>
+	b=jrIfKxWZaA28ltDqdRHz5TLKKVxeB8BHOA4ZPFeZtn6PznvMx9SbA6zsnpfq12Spf
+	 UXrG/rGcOH90F7cqujsRmT5f3S/SasX3uxmYzGAAT5tUfdSJsVXWeGiBonwHFiURxb
+	 5NfI4Hz1IrmMlnPfMF4rRST5B6w7JzAZup2R68bQ=
+Date: Wed, 9 Oct 2024 11:56:46 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Fabricio Gasperin <fgasperin@lkcamp.dev>
+Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Teddy Wang <teddy.wang@siliconmotion.com>,
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, ~lkcamp/patches@lists.sr.ht
+Subject: Re: [PATCH] staging: sm750: Fix missing config in Kconfig
+Message-ID: <2024100925-lend-aging-2ff3@gregkh>
+References: <20240921180612.57657-1-fgasperin@lkcamp.dev>
+ <20240921180612.57657-2-fgasperin@lkcamp.dev>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <9bb46e16-eb37-4d76-a917-e0f1e738fd04@gmail.com>
+In-Reply-To: <20240921180612.57657-2-fgasperin@lkcamp.dev>
 
-On Sun, Sep 22, 2024 at 09:01:09PM +0200, Philipp Hortmann wrote:
-> On 9/21/24 2:22 PM, Dominik Karol Piątkowski wrote:
-> > There were two seemingly not used macros defined in r8192E_hw.h:
-> > MSR_LINK_ADHOC and MSR_LINK_MASTER.
-> > 
-> > There is one function explicitly updating MSR (Media Status Register):
-> > _rtl92e_update_msr - only MSR_LINK_MASK and MSR_LINK_MANAGED are used
-> > there. However, in rtl92e_set_reg, inside HW_VAR_MEDIA_STATUS section,
-> > MSR is also updated - covering more than MSR_LINK_MANAGED case.
-> > 
-> > This series makes use of appropriate MSR_LINK_* macros in rtl92e_set_reg
-> > and removes duplicated MSR_* macros. While at it, fix camel case variable
-> > in rtl92e_set_reg function.
-> > 
-> > Signed-off-by: Dominik Karol Piątkowski <dominik.karol.piatkowski@protonmail.com>
-> > 
-> > Dominik Karol Piątkowski (2):
-> >    staging: rtl8192e: Use MSR_LINK_* macros
-> >    staging: rtl8192e: r8192E_dev.c: Rename btMsr variable
-> > 
-> >   drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c | 14 +++++++-------
-> >   drivers/staging/rtl8192e/rtl8192e/r8192E_hw.h  |  6 +-----
-> >   2 files changed, 8 insertions(+), 12 deletions(-)
-> > 
+On Sat, Sep 21, 2024 at 03:06:09PM -0300, Fabricio Gasperin wrote:
+> Fixes the following compilation error:
 > 
-> Reviewed-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+> ERROR: modpost: "fb_io_read" [drivers/staging/sm750fb/sm750fb.ko] undefined!
+> ERROR: modpost: "fb_io_write" [drivers/staging/sm750fb/sm750fb.ko] undefined!
+> ERROR: modpost: "fb_io_mmap" [drivers/staging/sm750fb/sm750fb.ko] undefined!
+> 
+> Signed-off-by: Fabricio Gasperin <fgasperin@lkcamp.dev>
+> ---
+>  drivers/staging/sm750fb/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/staging/sm750fb/Kconfig b/drivers/staging/sm750fb/Kconfig
+> index 08bcccdd0f1c..eca1aa43d725 100644
+> --- a/drivers/staging/sm750fb/Kconfig
+> +++ b/drivers/staging/sm750fb/Kconfig
+> @@ -3,6 +3,7 @@ config FB_SM750
+>  	tristate "Silicon Motion SM750 framebuffer support"
+>  	depends on FB && PCI && HAS_IOPORT
+>  	select FB_MODE_HELPERS
+> +	select FB_IOMEM_FOPS
+>  	select FB_CFB_FILLRECT
+>  	select FB_CFB_COPYAREA
+>  	select FB_CFB_IMAGEBLIT
+> -- 
+> 2.46.1
+> 
 > 
 
-This driver is now deleted from the tree, sorry.
+What is causing this error?  What commit created the problem, and why
+has no one reported it yet?
+
+confused,
 
 greg k-h
