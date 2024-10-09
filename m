@@ -1,215 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sendmail.purelymail.com (sendmail.purelymail.com [34.202.193.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96A50190462;
-	Wed,  9 Oct 2024 13:34:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9210A1991A1
+	for <linux-staging@lists.linux.dev>; Wed,  9 Oct 2024 13:45:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=34.202.193.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728480886; cv=none; b=EcaAcIJROihmQPJK+4FGHuM+3ElyhPL9CJESrAP1/QYeadVANgQh8sk94sYBQzSlvatd3NQ+5crNCQLKjlZFnafdWlpzCVpllVEAby0F5rq9A/lDt9NrvnX4vefsyb0NHjbyxzTsr73o8LNJVWaao8hBejCpUS6OQmfcUm1FhU8=
+	t=1728481503; cv=none; b=CB60TSvU/ZBCLo5I/4bdPtmaF6roc7gv4oMrJKaLAP54+4eTwdPS/WzmOH7jjtlTytSVTiDUP6TYSGNguc/uInnk58cxjIFfNYfZDNtsQ0L4FAkrwizFp/97EsEi1ckfzPuf269gYpUr9tfOtPfSZC55y+82W1HUaFjnAdsa014=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728480886; c=relaxed/simple;
-	bh=e0gqHlZkDT5WvXlJLxiiH51AUvpJH6OopoCW36UMFTI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tMoqq1TTZ8r2UKuWiDDWQ3nNiEVaP2gOONB9g2hzsgKRVUYUWmLFQxQIVTTsJ6NT2s1VP8Zd7IZY5Xl7PvqS0Yk8Umxe9jGZIEfUB+Yt5EhU3vjbImtmJSZC9QMK6Tvz529A5p406b1DyqPs5UAPVgigkOPSK+yGxtH7cEvkkIQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U3neOl0y; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728481503; c=relaxed/simple;
+	bh=5r+GMHSj63RYi/J4H0h7uqDa4DrIu6yTU3ihuErU0pg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jsdBBn7TiwqkB7y68ziFZOq8lvK2+d6sfIgLcIeswfKtRfLU02QZF2aT65+82ZgUXPoFmDNPoaLrZTEwIYj3+4Lv8EhU5Az9aAW5kKtYj65SdBdbNBdmYAmXGRhmHaHTNVWi0GjppIlmSVZ7rb7iPv0ZI5fGxcfwdd5Ex5cpW2o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lkcamp.dev; spf=pass smtp.mailfrom=lkcamp.dev; dkim=pass (2048-bit key) header.d=lkcamp.dev header.i=@lkcamp.dev header.b=qdNUZd/n; dkim=pass (2048-bit key) header.d=purelymail.com header.i=@purelymail.com header.b=hB4hSmKR; arc=none smtp.client-ip=34.202.193.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lkcamp.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lkcamp.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U3neOl0y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A983C4CED6;
-	Wed,  9 Oct 2024 13:34:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728480886;
-	bh=e0gqHlZkDT5WvXlJLxiiH51AUvpJH6OopoCW36UMFTI=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=U3neOl0ybb4Ab65jgWhp3xT7HcEy4YMuUgGV+fe0qorbYgOtJiVf4vdBC8aSbF+zk
-	 VaSzmlKJr1Td+ZlEfUnqPwPvP3ItSIxZE3mhiSqTU0Y+ILn1z2LAcj5l0mNd964u9E
-	 IJiiL6vn/nZ84NJqFn6bT+eDEGpN/zUWDJjiTS1Nw44OfqVQU1G+/BklpTTM5qjnQt
-	 qFWcWXBTn592t1uwoUFl7fAOhoRDLvjep0N3/TGk+zJy9Qodx9ZM9pOn4mlQ+m1tjB
-	 +zz3ljVHlk8StJ6aovxl3cW8GcQDcp3o2MYDG6IpoR0lwS4CMa0F2Pi7cYkeI0mOAq
-	 BM9t8zEhFY8Sg==
-Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-5e7ff3c8bbcso751457eaf.0;
-        Wed, 09 Oct 2024 06:34:46 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUjAuIzth9STp94B5NN5SSdHbg3iXJHeOQgVy8H6sSWhxv9xjehryH6vorS4+Vu2qwgD1MYH2A=@lists.linux.dev, AJvYcCVIVLG27VoVwlRRlw92tUDMVBqHja9mZ97B8rGAgPG0tpba2LyVQG8/jNaKfJEtTNOuRaPy@lists.linux.dev, AJvYcCVrkpaUmYT34x90lXaEYIP730pdZoa/phwGl/gKMXgjJiGrB01G5GwGqlDVveqXuxJ054fP7HPypS414mJjKw==@lists.linux.dev, AJvYcCVuUgU6oQpeVqhZzpLqw2PgoVrQvAZvAp29PKTZEb0XtBzsWt5BKBdeT5R9F9y73WYkw3eQfg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YybdBzRQmfTfmAHHxNnhJZAH/9UXKGkBgMm7bKSms3Ph7WQ4hAZ
-	o3Ru6u9QeKOseoZBFhigv4RGIjd4lOHAsUzhBE5dPep7t99k3oVdH/kfiyCAyp+1faTaEsPtp8L
-	G5/lPmhMgAbGHUeV/woBx41cJE5M=
-X-Google-Smtp-Source: AGHT+IGPvjQmX3zbZk+/LQ5kxG4XslEJ8m7y5iETpKVOpmsBmOdZ4tET2kRXnqT/piSrFy5yYrBa2CfwSNatwWXgz3s=
-X-Received: by 2002:a05:6820:270f:b0:5e5:c489:6f3c with SMTP id
- 006d021491bc7-5e987bc9df9mr1249377eaf.5.1728480885551; Wed, 09 Oct 2024
- 06:34:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=lkcamp.dev header.i=@lkcamp.dev header.b="qdNUZd/n";
+	dkim=pass (2048-bit key) header.d=purelymail.com header.i=@purelymail.com header.b="hB4hSmKR"
+Authentication-Results: purelymail.com; auth=pass
+DKIM-Signature: a=rsa-sha256; b=qdNUZd/nVEljgYp/f1vPbtQdck4IsprrIYzmCPogI7HPF8YJB3Ox/1Pzf4NtNOqTFsjB2GuGHxRuUchJK3h5Q2mGRJg8UyrIZTbKU5dDap/1PkGkwQCs1lFcGVfnxehbODlCd4E3nKXzfO14Q/xCsAEUv/1V12Bw+JX9V4T/DBE8yUHubZwvXFJFLKWcoo+QEMJAfq/BoTK7AcgQzDU6qtq7QdJ1mihYTSEVYrUhkB5UJJaPhKzQcsEYCmRx42Q/9DEtgbk0Ci03QW3h6pR9tdLd+xxeydhBS1jlSv2M9Hja3YFOcrsY+5GkXXc2QTjcL6T1ytfVjr0xuTpbG4iJVw==; s=purelymail3; d=lkcamp.dev; v=1; bh=5r+GMHSj63RYi/J4H0h7uqDa4DrIu6yTU3ihuErU0pg=; h=Received:Date:Subject:To:From;
+DKIM-Signature: a=rsa-sha256; b=hB4hSmKRysELw5XqyuU07J/N0tgIHTlecw0aZ2JllPh3cmBXzxDWTdORnlsNdx75sv0/wjGRN2G9kuQsAujHw2JGGvNioQbJ94ULyRDYGtIfPuY/gkY5yJ1WKXOhezWF0EqmrDVM3kuSthFV7vhQ+5hrH2pm+1uU/F35X9NGsawSY4zNtYcM3k0zfy/rryLNLFqH2e4LZFyRqJiYddAbbfsgf1lANsKgEhiixl5jGblx7nJLKbytAhQFQpohibM+1zbNRIs5F9UFoDVEw8sIEiZMyGRrXS0nSNY/opJmJvMphArpaFisvr+slszhGPXx4FZqG0yGk6ZSDAtdIyDG1w==; s=purelymail3; d=purelymail.com; v=1; bh=5r+GMHSj63RYi/J4H0h7uqDa4DrIu6yTU3ihuErU0pg=; h=Feedback-ID:Received:Date:Subject:To:From;
+Feedback-ID: 40580:7130:null:purelymail
+X-Pm-Original-To: linux-staging@lists.linux.dev
+Received: by smtp.purelymail.com (Purelymail SMTP) with ESMTPSA id 875396785;
+          (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+          Wed, 09 Oct 2024 13:44:41 +0000 (UTC)
+Message-ID: <b8c3c51e-375f-4139-8336-76b6df56e8ea@lkcamp.dev>
+Date: Wed, 9 Oct 2024 10:44:38 -0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241004094101.113349-1-sakari.ailus@linux.intel.com>
- <CAPDyKFp0N6UJhnHS164Tdf=xkWB0jzq65L9TdvYazeBQ-6WjeQ@mail.gmail.com>
- <20241007184924.GH14766@pendragon.ideasonboard.com> <CAPDyKFpQVnF7eQv3dup8k-3EijnMjuveCG9sZ=Rpey1Y6MBJEg@mail.gmail.com>
- <20241007222502.GG30699@pendragon.ideasonboard.com> <CAPDyKFrGNwna6Y2pqSRaBbRYHKRaD2ayqQHLtoqLPOu9Et7qTg@mail.gmail.com>
- <CAJZ5v0jvJyS7D5-wURi2kyWN-rmNa+YqupeQJ000pQRVd9VBcQ@mail.gmail.com> <41a0ad69-912b-4eb3-84f7-fb385433c056@opensource.cirrus.com>
-In-Reply-To: <41a0ad69-912b-4eb3-84f7-fb385433c056@opensource.cirrus.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Wed, 9 Oct 2024 15:34:33 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0gbrhMpPT0fHYSC+ES5WS5kv7XkM2hj9M4vpNwFFs6xsQ@mail.gmail.com>
-Message-ID: <CAJZ5v0gbrhMpPT0fHYSC+ES5WS5kv7XkM2hj9M4vpNwFFs6xsQ@mail.gmail.com>
-Subject: Re: [PATCH 00/51] treewide: Switch to __pm_runtime_put_autosuspend()
-To: Richard Fitzgerald <rf@opensource.cirrus.com>, Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, linux-bluetooth@vger.kernel.org, 
-	linux-clk@vger.kernel.org, linux-crypto@vger.kernel.org, 
-	dmaengine@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	amd-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
-	linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org, 
-	linux-i3c@lists.infradead.org, linux-iio@vger.kernel.org, 
-	linux-input@vger.kernel.org, patches@opensource.cirrus.com, 
-	iommu@lists.linux.dev, imx@lists.linux.dev, 
-	linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org, 
-	linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org, 
-	netdev@vger.kernel.org, linux-wireless@vger.kernel.org, 
-	linux-pci@vger.kernel.org, linux-phy@lists.infradead.org, 
-	linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org, 
-	linux-sound@vger.kernel.org, linux-spi@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-usb@vger.kernel.org, 
-	linux-serial@vger.kernel.org, greybus-dev@lists.linaro.org, 
-	asahi@lists.linux.dev, Andy Shevchenko <andy.shevchenko@gmail.com>, 
-	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: sm750: Fix missing config in Kconfig
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Fabricio Gasperin <fgasperin@lkcamp.dev>
+Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+ Teddy Wang <teddy.wang@siliconmotion.com>, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ ~lkcamp/patches@lists.sr.ht
+References: <20240921180612.57657-1-fgasperin@lkcamp.dev>
+ <20240921180612.57657-2-fgasperin@lkcamp.dev>
+ <2024100925-lend-aging-2ff3@gregkh>
+Content-Language: en-US
+From: Vinicius Peixoto <vpeixoto@lkcamp.dev>
+In-Reply-To: <2024100925-lend-aging-2ff3@gregkh>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Oct 9, 2024 at 2:48=E2=80=AFPM Richard Fitzgerald
-<rf@opensource.cirrus.com> wrote:
->
-> On 08/10/2024 7:24 pm, Rafael J. Wysocki wrote:
-> > On Tue, Oct 8, 2024 at 12:35=E2=80=AFAM Ulf Hansson <ulf.hansson@linaro=
-.org> wrote:
-> >>
-> >> On Tue, 8 Oct 2024 at 00:25, Laurent Pinchart
-> >> <laurent.pinchart@ideasonboard.com> wrote:
-> >>>
-> >>> Hi Ulf,
-> >>>
-> >>> On Tue, Oct 08, 2024 at 12:08:24AM +0200, Ulf Hansson wrote:
-> >>>> On Mon, 7 Oct 2024 at 20:49, Laurent Pinchart wrote:
-> >>>>> On Fri, Oct 04, 2024 at 04:38:36PM +0200, Ulf Hansson wrote:
-> >>>>>> On Fri, 4 Oct 2024 at 11:41, Sakari Ailus wrote:
-> >>>>>>>
-> >>>>>>> Hello everyone,
-> >>>>>>>
-> >>>>>>> This set will switch the users of pm_runtime_put_autosuspend() to
-> >>>>>>> __pm_runtime_put_autosuspend() while the former will soon be re-p=
-urposed
-> >>>>>>> to include a call to pm_runtime_mark_last_busy(). The two are alm=
-ost
-> >>>>>>> always used together, apart from bugs which are likely common. Go=
-ing
-> >>>>>>> forward, most new users should be using pm_runtime_put_autosuspen=
-d().
-> >>>>>>>
-> >>>>>>> Once this conversion is done and pm_runtime_put_autosuspend() re-=
-purposed,
-> >>>>>>> I'll post another set to merge the calls to __pm_runtime_put_auto=
-suspend()
-> >>>>>>> and pm_runtime_mark_last_busy().
-> >>>>>>
-> >>>>>> That sounds like it could cause a lot of churns.
-> >>>>>>
-> >>>>>> Why not add a new helper function that does the
-> >>>>>> pm_runtime_put_autosuspend() and the pm_runtime_mark_last_busy()
-> >>>>>> things? Then we can start moving users over to this new interface,
-> >>>>>> rather than having this intermediate step?
-> >>>>>
-> >>>>> I think the API would be nicer if we used the shortest and simplest
-> >>>>> function names for the most common use cases. Following
-> >>>>> pm_runtime_put_autosuspend() with pm_runtime_mark_last_busy() is th=
-at
-> >>>>> most common use case. That's why I like Sakari's approach of repurp=
-osing
-> >>>>> pm_runtime_put_autosuspend(), and introducing
-> >>>>> __pm_runtime_put_autosuspend() for the odd cases where
-> >>>>> pm_runtime_mark_last_busy() shouldn't be called.
-> >>>>
-> >>>> Okay, so the reason for this approach is because we couldn't find a
-> >>>> short and descriptive name that could be used in favor of
-> >>>> pm_runtime_put_autosuspend(). Let me throw some ideas at it and mayb=
-e
-> >>>> you like it - or not. :-)
-> >>>
-> >>> I like the idea at least :-)
-> >>>
-> >>>> I don't know what options you guys discussed, but to me the entire
-> >>>> "autosuspend"-suffix isn't really that necessary in my opinion. Ther=
-e
-> >>>> are more ways than calling pm_runtime_put_autosuspend() that trigger=
-s
-> >>>> us to use the RPM_AUTO flag for rpm_suspend(). For example, just
-> >>>> calling pm_runtime_put() has the similar effect.
-> >>>
-> >>> To be honest, I'm lost there. pm_runtime_put() calls
-> >>> __pm_runtime_idle(RPM_GET_PUT | RPM_ASYNC), while
-> >>> pm_runtime_put_autosuspend() calls __pm_runtime_suspend(RPM_GET_PUT |
-> >>> RPM_ASYNC | RPM_AUTO).
-> >>
-> >> __pm_runtime_idle() ends up calling rpm_idle(), which may call
-> >> rpm_suspend() - if it succeeds to idle the device. In that case, it
-> >> tags on the RPM_AUTO flag in the call to rpm_suspend(). Quite similar
-> >> to what is happening when calling pm_runtime_put_autosuspend().
-> >
-> > Right.
-> >
-> > For almost everybody, except for a small bunch of drivers that
-> > actually have a .runtime_idle() callback, pm_runtime_put() is
-> > literally equivalent to pm_runtime_put_autosuspend().
-> >
-> > So really the question is why anyone who doesn't provide a
-> > .runtime_idle() callback bothers with using this special
-> > pm_runtime_put_autosuspend() thing,
->
-> Because they are following the documentation? It says:
->
-> "Drivers should call pm_runtime_mark_last_busy() to update this field
-> after carrying out I/O, typically just before calling
-> pm_runtime_put_autosuspend()."
->
-> and
->
-> "In order to use autosuspend, subsystems or drivers must call
-> pm_runtime_use_autosuspend() (...), and thereafter they should use the
-> various `*_autosuspend()` helper functions instead of the non#
-> autosuspend counterparts"
->
-> So the documentation says I should be using pm_runtime_put_autosuspend()
-> instead of pm_runtime_put().
->
-> Seems unfair to criticise people for following the documentation.
+Hi Greg,
 
-I'm not criticising anyone, just wondering why they do what they do.
+On 10/9/24 06:56, Greg Kroah-Hartman wrote:
+> On Sat, Sep 21, 2024 at 03:06:09PM -0300, Fabricio Gasperin wrote:
+>> Fixes the following compilation error:
+>>
+>> ERROR: modpost: "fb_io_read" [drivers/staging/sm750fb/sm750fb.ko] undefined!
+>> ERROR: modpost: "fb_io_write" [drivers/staging/sm750fb/sm750fb.ko] undefined!
+>> ERROR: modpost: "fb_io_mmap" [drivers/staging/sm750fb/sm750fb.ko] undefined!
+>>
+>> Signed-off-by: Fabricio Gasperin <fgasperin@lkcamp.dev>
+>> ---
+>>   drivers/staging/sm750fb/Kconfig | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/drivers/staging/sm750fb/Kconfig b/drivers/staging/sm750fb/Kconfig
+>> index 08bcccdd0f1c..eca1aa43d725 100644
+>> --- a/drivers/staging/sm750fb/Kconfig
+>> +++ b/drivers/staging/sm750fb/Kconfig
+>> @@ -3,6 +3,7 @@ config FB_SM750
+>>   	tristate "Silicon Motion SM750 framebuffer support"
+>>   	depends on FB && PCI && HAS_IOPORT
+>>   	select FB_MODE_HELPERS
+>> +	select FB_IOMEM_FOPS
+>>   	select FB_CFB_FILLRECT
+>>   	select FB_CFB_COPYAREA
+>>   	select FB_CFB_IMAGEBLIT
+>> -- 
+>> 2.46.1
+>>
+>>
+> 
+> What is causing this error? What commit created the problem, and why
+> has no one reported it yet?
 
-"Because it is documented this way" is a fair answer, but it doesn't
-invalidate the observation that the difference between
-pm_runtime_put_autosuspend() and pm_runtime_put() boils down to the
-cases when the .runtime_idle() callback is present (which are few and
-far between so to speak).  Moreover, there are call sites using
-pm_runtime_*() functions even though they may not know whether or not
-autosuspend is enabled for the target devices, so the advice given in
-the documentation cannot be universally followed regardless.
+This happens because drivers/staging/sm750fb/sm750.c, defines an fb_ops 
+structure:
 
-This thread is about the way to go, generally speaking, and what I'm
-saying is effectively that replacing pm_runtime_put_autosuspend() with
-pm_runtime_put() almost everywhere (if not just everywhere) would be
-fine with me.
+static const struct fb_ops lynxfb_ops = {
+	.owner = THIS_MODULE,
+	FB_DEFAULT_IOMEM_OPS,
+	...
+};
 
-I also think that the current users of pm_runtime_put_autosuspend()
-that is not immediately preceded by pm_runtime_mark_last_busy() can be
-readily switched over to using pm_runtime_put() instead of it and then
-pm_runtime_put_autosuspend() can be made call
-pm_runtime_mark_last_busy(), so the latter can be removed from the
-code using the former.  Note that this last step does not require
-tree-wide changes, because calling pm_runtime_mark_last_busy() twice
-in a row for the same device is not a problem.
+FB_DEFAULT_IOMEM_OPS expands to the fb_io_* helpers declared in 
+include/linux/fb.h and defined in drivers/video/fbdev/core/fb_io_fops.c; 
+however, the latter is gated by FB_IOMEM_FOPS, so when compiling a 
+kernel with CONFIG_STAGING=y + CONFIG_FB=m + CONFIG_FB_SM750=m, you get 
+the following error:
 
-Of course, the documentation needs to be updated in accordance with
-the code changes, which didn't happen when previous changes were made
-to pm_runtime_put() and that likely is why it does not reflect the
-current code.
+ERROR: modpost: "fb_io_read" [drivers/staging/sm750fb/sm750fb.ko] undefined!
+ERROR: modpost: "fb_io_write" [drivers/staging/sm750fb/sm750fb.ko] 
+undefined!
+ERROR: modpost: "fb_io_mmap" [drivers/staging/sm750fb/sm750fb.ko] undefined!
+make[2]: *** [scripts/Makefile.modpost:145: Module.symvers] Error 1
+
+So in order to solve it we select FB_IOMEM_FOPS, much like the other 
+FB_* drivers do in drivers/video/fbdev/Kconfig.
+
+Not entirely sure why this wasn't caught before, but the commit that 
+broke the build for sm750fb is 6b180f66c0dd ("fbdev: Provide I/O-memory 
+helpers as module"), which made the fb_io_* helpers be built as a 
+separate module instead of being bundled in fb.o (which is what sm750fb 
+was relying on). I think Fabricio can add a "Fixes:" tag in v2.
+
+Thanks,
+Vinicius
+
+> 
+> confused,
+> 
+> greg k-h
+
