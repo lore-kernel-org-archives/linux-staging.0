@@ -1,41 +1,55 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E462215382F;
-	Wed,  9 Oct 2024 10:20:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1133D18E749
+	for <linux-staging@lists.linux.dev>; Wed,  9 Oct 2024 10:28:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728469230; cv=none; b=En8kxkFTI1iN4fMB2IWKZtR53jXGMJUjF6VDggxbfh9PZO7ZLESvtKzVHF/wbhRh0JXkqsqDvKG4NHLY6HuGi2TIqRRPbv/wqmF3/vYLz+kxoDzRKl5C44dsIJis3S34z40LaOQYK+HDEnHwNldEg1rxQ88uGdi4s07xsd3V130=
+	t=1728469705; cv=none; b=tgnDZKXbnLuWxpSsIj1mLLcSDzo+vdNzODZLjRvqs1xfTsRC+ZyxWyFODi4VROFznJsK6yjqy9ngGzMnaQlULiDJwm2jtHvlrYu3cfDN2ChisFOAioyBbywyGT94or4St42/e8y9LzQdTRbSga3M5uEiYl/eXqFL6mrLjckfqdM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728469230; c=relaxed/simple;
-	bh=ImAK0CpUwm+JPbTzbW7azTUBVNfLGbvl7aS7sfbdp0E=;
+	s=arc-20240116; t=1728469705; c=relaxed/simple;
+	bh=/fIjIpUdHAzWUFceihGJMz4qHHzjyT7pvRboVHLIXt8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EFU4Eg0EVpfIPO32qoWIZJJiYtqmAbbq5v8BUboN4WK4Eh0I5SR4RjkU3G4wKbmh6MRr+L2zQBvcPzN0OOKD7tkdLbfAOyyiQ+wPoNLcIgdtP7o64QXcGMdo/S4kErcaA8qgPLEeeNIiwO8rTCrzi1p2WcZKu30z5IKI9uOhYPg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Sypaa8E4; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=fZNmncSppgmuBMPavI9D/gPFjr68L2tjQf5ePe5rKVw2AQiAixUeAp70EKSiIBGs8tYO6xAzVrWQcUBc67FgzHvqOj/z+JsoqKxzIzqaW7KCQEKmzwKh830uW8XoNTNbFpWgTFj27G2EN3q3tK0N2WYraZD+ttKaZ8qD/wLJxwk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HVAGdekM; arc=none smtp.client-ip=209.85.219.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Sypaa8E4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68D84C4CECC;
-	Wed,  9 Oct 2024 10:20:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728469229;
-	bh=ImAK0CpUwm+JPbTzbW7azTUBVNfLGbvl7aS7sfbdp0E=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Sypaa8E4XTR2h+6vO973S9djHACjIXek0KLq783ADF8tNtOe1bMZrJFf0zlt8+zSs
-	 OLRAtppFEIb5Ic0mWDNDYNRaI6e9/Z7vBQGyOQ8guZklNp3J6lYVvOJPY0Nte+XhtF
-	 xT1b91GGI33rYAt7gxwLcB1d3y1SBKs6bb4MxTTF1y6tGBweQi8zO12oDVI1/KpONI
-	 bOJQtQv0XV690wHla57wDR2aHvoM6Up16kaIYdw6AVyfMWDvtpnERh2dLqJ6WBvkYw
-	 EhkKXnH7yqObLqkMathJ5jYncRSwZXMHxI2dTYJuZPN1g66Yyks/L1YgZFWJ7ipDTo
-	 JPDgtbBAM36Bg==
-Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-5e800d4e462so797600eaf.1;
-        Wed, 09 Oct 2024 03:20:29 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVinlevMCzEulCL0IYfyggObbgICMRWXHoAxpN1gKe4PV0cWQLMyMS2QhioL+8vY/srO1Au@lists.linux.dev, AJvYcCWPEM6yN4WtxsWMbyLTvKxULxAZ1LYzHvE6+Fg9NoZGciJkv5SfRQ1L2MTTZL6Fmr6wCLUvJnU=@lists.linux.dev, AJvYcCX7mM3n3tTxynnDXwyD5AjhOostTGv6eIOKwrMzsU2kmfFf9aHf8xfRJ2vUV+Ir6eKYboluHA==@lists.linux.dev, AJvYcCXZAWsMUP2mUQHyD8OG08ScapfM1WTRbX/E/oL+eK+A+mVpLWaL0drh0aAxfOCM5k0Mk+jUH7vxfZoRB4LUZg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywga73iomWKvwpUs2I9nK/1zcFsAVP3n3PpMp4HGJGO6M11Iee2
-	wWLoKO/BYXealQzKa7UmdIk9lOqRGWSjzElc029fVCXVl0dryI1WoEmdg2O113Vs62FxN59XNrU
-	ObrOpGvgoENpKCedXeIYXyEC46Xo=
-X-Google-Smtp-Source: AGHT+IF28e1A9mtOEy4wCWwLUrfMAFq/4+DT8Vi41Eljnp8AjlauSlJofg4NJprxAH2sFsPScvE36aWo6OHCPjXQ49c=
-X-Received: by 2002:a05:6820:270f:b0:5e7:c925:b05 with SMTP id
- 006d021491bc7-5e987aadf58mr1212364eaf.2.1728469228716; Wed, 09 Oct 2024
- 03:20:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HVAGdekM"
+Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-e2904ce7e14so325192276.0
+        for <linux-staging@lists.linux.dev>; Wed, 09 Oct 2024 03:28:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1728469702; x=1729074502; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/fIjIpUdHAzWUFceihGJMz4qHHzjyT7pvRboVHLIXt8=;
+        b=HVAGdekMttHTfGxtSPqpoDZQioDjG6uWuhiHoSYSFtkzrB6Bx7ueB5tRua0gw5dAhH
+         FTAtvm1hfQhNviPYXT0hcpWLDsr637tS1N7n5Ly1jiu0pqHuvHHJOVGzBV6V/ukROps8
+         R0uIcITzco57LMnM3iXtHWcFtQJowuX2hNKihb4IJd2TVlPcJYQN0BVNXiwB7ASTG/EO
+         oPVfrbK5R/eE4mAY9zvHzU4P+BthArXufBgYxm9JMIIA40zovZSAnBGMt8fzHG3DvSbi
+         0XaEoSaj+I9b/L3CsCR/qYInxrEiWFanDSKrj6MLMasNNQv60Lj34aAP/VNWX7uz6vE4
+         k3rA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728469702; x=1729074502;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/fIjIpUdHAzWUFceihGJMz4qHHzjyT7pvRboVHLIXt8=;
+        b=Z2voYFL8JB5RlP7brBoRKroieqJGrb+gbAJfEY0y6VWkdvkk1xzn+UTD2G+FAkSnZv
+         RJviNkMa1MOI+cizgPEusS1bXT1a1BQ+OAvlCpnQZ5DsSP/YW0YSrl+TlAvd3XSI/OVh
+         mkxaYdj1FB/TY5PJmGDq42Bv3YiW1HnovtAobyLT3R0bo0NP8mRBTBVIAW/iP8u3gXRX
+         qAJg/jA0Ihj0CHrPrGSG+jsJcMXkanF0U8dDoNp2ogs/hgAx7igm635a68CIoWovSQ4h
+         Z3gpuYqPSLYQwpoEF2Mdzy113jqVppZ345LRkTYg+dxVGiqWRwBeBND1pZXPE737COOo
+         CGLg==
+X-Forwarded-Encrypted: i=1; AJvYcCUup1BziF2nKKbWmLUYKqm98PbOF9SYo0XlJvxhvX2+6FxbuKvSotUMpaCuLqkCirva1YtPkTmztAFTo9Q3@lists.linux.dev
+X-Gm-Message-State: AOJu0YwCQYwM/jwGGuMvJqR9+pyG1gTB598tA7e2Zo7ammZkS5jJ6vf/
+	cUTh5vJSjdycTc2XvHrjH3QfRT/ssK0oNBIk1iB+4l2nbS7IGmVID8QOlR+z5I8Cemroi0NZQQk
+	qNecq5TgpB+FsQDCn0QqSw97i6OWLVUbsx97krw==
+X-Google-Smtp-Source: AGHT+IHNaU3Z3+DDKTWwqyhccdWy6KGvX0jRFFJtFda2WTvGLlJcpHA53hhWZp12VBznxD4kUpVSZMoh/Lgesk7avnk=
+X-Received: by 2002:a25:eb02:0:b0:e25:96a4:1706 with SMTP id
+ 3f1490d57ef6-e28fe43f3d1mr1744852276.19.1728469701975; Wed, 09 Oct 2024
+ 03:28:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -48,19 +62,18 @@ References: <20241004094101.113349-1-sakari.ailus@linux.intel.com>
  <20241007222502.GG30699@pendragon.ideasonboard.com> <CAPDyKFrGNwna6Y2pqSRaBbRYHKRaD2ayqQHLtoqLPOu9Et7qTg@mail.gmail.com>
  <CAJZ5v0jvJyS7D5-wURi2kyWN-rmNa+YqupeQJ000pQRVd9VBcQ@mail.gmail.com>
 In-Reply-To: <CAJZ5v0jvJyS7D5-wURi2kyWN-rmNa+YqupeQJ000pQRVd9VBcQ@mail.gmail.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Wed, 9 Oct 2024 12:20:16 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0htLbrFeby43Ycqpaihqd4x56MokC9sTVRBmTTQSX7vmQ@mail.gmail.com>
-Message-ID: <CAJZ5v0htLbrFeby43Ycqpaihqd4x56MokC9sTVRBmTTQSX7vmQ@mail.gmail.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Wed, 9 Oct 2024 12:27:45 +0200
+Message-ID: <CAPDyKFqh_BS=6eN4tQzZ20sWCHL3kdnrY=1Mgd7B9gfBamm8bw@mail.gmail.com>
 Subject: Re: [PATCH 00/51] treewide: Switch to __pm_runtime_put_autosuspend()
-To: Ulf Hansson <ulf.hansson@linaro.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	linux-bluetooth@vger.kernel.org, linux-clk@vger.kernel.org, 
-	linux-crypto@vger.kernel.org, dmaengine@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
-	nouveau@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com, 
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, linux-bluetooth@vger.kernel.org, 
+	linux-clk@vger.kernel.org, linux-crypto@vger.kernel.org, 
+	dmaengine@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	amd-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
+	linux-stm32@st-md-mailman.stormreply.com, 
 	linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org, 
 	linux-i3c@lists.infradead.org, linux-iio@vger.kernel.org, 
 	linux-input@vger.kernel.org, patches@opensource.cirrus.com, 
@@ -77,8 +90,7 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 8, 2024 at 8:24=E2=80=AFPM Rafael J. Wysocki <rafael@kernel.org=
-> wrote:
+On Tue, 8 Oct 2024 at 20:25, Rafael J. Wysocki <rafael@kernel.org> wrote:
 >
 > On Tue, Oct 8, 2024 at 12:35=E2=80=AFAM Ulf Hansson <ulf.hansson@linaro.o=
 rg> wrote:
@@ -168,6 +180,15 @@ rs
 > .runtime_idle() callback bothers with using this special
 > pm_runtime_put_autosuspend() thing, which really means "do a
 > runtime_put(), but skip my .runtime_idle() callback".
+
+My guess is that it's in most cases a legacy pattern that is being
+followed. Also note that rpm_idle() didn't "always" tag on the
+RPM_AUTO flag, even if it's quite a while ago (2013) since we added
+it.
+
+Unless there is some actual optimization involved, as it also allows
+us to skip calling rpm_idle() and go directly for rpm_suspend().
+
 >
 > > >
 > > > >
@@ -185,6 +206,13 @@ d
 >
 > What really is needed appears to be a combination of
 > pm_runtime_mark_last_busy() with pm_runtime_put().
+
+This makes sense to me too, but I don't think we should limit it to this.
+
+Making pm_runtime_put_autosuspend (or if the name
+"pm_runtime_put_suspend" is better?) to do the similar thing, is
+probably a good idea too. At least in my opinion.
+
 >
 > Granted, pm_runtime_put() could do the pm_runtime_mark_last_busy()
 > thing automatically if autosuspend is enabled and the only consequence
@@ -192,11 +220,10 @@ d
 > timer expires, which should not be a problem in the vast majority of
 > cases.
 
-That said, it is likely better to avoid surprising the current users
-of pm_runtime_put() and define something like
+Right.
 
-static inline void pm_runtime_touch_and_put(struct device *dev)
-{
-        pm_runtime_mark_last_busy(dev);
-        pm_runtime_put(dev);
-}
+I guess we should expect the *sync* variants to be used, if the timer
+really needs to be overridden.
+
+Kind regards
+Uffe
