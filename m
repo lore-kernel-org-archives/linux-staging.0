@@ -1,229 +1,154 @@
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1133D18E749
-	for <linux-staging@lists.linux.dev>; Wed,  9 Oct 2024 10:28:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E262918FDAF
+	for <linux-staging@lists.linux.dev>; Wed,  9 Oct 2024 10:50:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728469705; cv=none; b=tgnDZKXbnLuWxpSsIj1mLLcSDzo+vdNzODZLjRvqs1xfTsRC+ZyxWyFODi4VROFznJsK6yjqy9ngGzMnaQlULiDJwm2jtHvlrYu3cfDN2ChisFOAioyBbywyGT94or4St42/e8y9LzQdTRbSga3M5uEiYl/eXqFL6mrLjckfqdM=
+	t=1728471024; cv=none; b=PK2MG2aJjJto9Ust8/a17630j3sibHgkG7DzInJ5VZ+QbNVY5pKqN/XExeQdAyVjh0QiWZqAliYZjby8UyhxCDoboBk2G2cnim9tIs/NilamMBxvS7EbeA3t/lV5pWbaL6N57hEHSUcd/SFDdW0oG1fV5J783xL9BrJWjW2BY9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728469705; c=relaxed/simple;
-	bh=/fIjIpUdHAzWUFceihGJMz4qHHzjyT7pvRboVHLIXt8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fZNmncSppgmuBMPavI9D/gPFjr68L2tjQf5ePe5rKVw2AQiAixUeAp70EKSiIBGs8tYO6xAzVrWQcUBc67FgzHvqOj/z+JsoqKxzIzqaW7KCQEKmzwKh830uW8XoNTNbFpWgTFj27G2EN3q3tK0N2WYraZD+ttKaZ8qD/wLJxwk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HVAGdekM; arc=none smtp.client-ip=209.85.219.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1728471024; c=relaxed/simple;
+	bh=DSgm22aJFfiNtDR5PH9COXLN1T3/sjP+t9mUNwfGUwc=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=c/WAf9F2zlxQXJT1FX7J7sfAquLcojg2jkzswNBb/zgea9dcw4qtgpvZY50AntybxBRyD2VCMDzeUbznBmZXh8kKHnk2K+/cU/HzeiRP2sXdQCZrM8VpTAe2TU1v92PbujwCithLshPMJWOTDbMooH1gAJ3zSGt5qcs+8d9wjdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=aD17HEW2; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HVAGdekM"
-Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-e2904ce7e14so325192276.0
-        for <linux-staging@lists.linux.dev>; Wed, 09 Oct 2024 03:28:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1728469702; x=1729074502; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/fIjIpUdHAzWUFceihGJMz4qHHzjyT7pvRboVHLIXt8=;
-        b=HVAGdekMttHTfGxtSPqpoDZQioDjG6uWuhiHoSYSFtkzrB6Bx7ueB5tRua0gw5dAhH
-         FTAtvm1hfQhNviPYXT0hcpWLDsr637tS1N7n5Ly1jiu0pqHuvHHJOVGzBV6V/ukROps8
-         R0uIcITzco57LMnM3iXtHWcFtQJowuX2hNKihb4IJd2TVlPcJYQN0BVNXiwB7ASTG/EO
-         oPVfrbK5R/eE4mAY9zvHzU4P+BthArXufBgYxm9JMIIA40zovZSAnBGMt8fzHG3DvSbi
-         0XaEoSaj+I9b/L3CsCR/qYInxrEiWFanDSKrj6MLMasNNQv60Lj34aAP/VNWX7uz6vE4
-         k3rA==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="aD17HEW2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1728471021;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DSgm22aJFfiNtDR5PH9COXLN1T3/sjP+t9mUNwfGUwc=;
+	b=aD17HEW292abkeVr6K/27cxhGRHtEYgOoCbfpawI/fxMAFpxr22H8uXOLEEKV6m9aTOdML
+	fVolMHzdYN+9aqGWalGEuVDdlTxkmQd1Dwxpe9c1h9tJzbGNdXSLvSvDquvh9Lz4buMKp2
+	Hevq/JUeyiUHItaqJ2kHx1qvxFAHPhU=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-451-y64eUk1COUWuEff6B4H_3w-1; Wed, 09 Oct 2024 06:50:19 -0400
+X-MC-Unique: y64eUk1COUWuEff6B4H_3w-1
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-42cb857fc7dso57277635e9.0
+        for <linux-staging@lists.linux.dev>; Wed, 09 Oct 2024 03:50:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728469702; x=1729074502;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/fIjIpUdHAzWUFceihGJMz4qHHzjyT7pvRboVHLIXt8=;
-        b=Z2voYFL8JB5RlP7brBoRKroieqJGrb+gbAJfEY0y6VWkdvkk1xzn+UTD2G+FAkSnZv
-         RJviNkMa1MOI+cizgPEusS1bXT1a1BQ+OAvlCpnQZ5DsSP/YW0YSrl+TlAvd3XSI/OVh
-         mkxaYdj1FB/TY5PJmGDq42Bv3YiW1HnovtAobyLT3R0bo0NP8mRBTBVIAW/iP8u3gXRX
-         qAJg/jA0Ihj0CHrPrGSG+jsJcMXkanF0U8dDoNp2ogs/hgAx7igm635a68CIoWovSQ4h
-         Z3gpuYqPSLYQwpoEF2Mdzy113jqVppZ345LRkTYg+dxVGiqWRwBeBND1pZXPE737COOo
-         CGLg==
-X-Forwarded-Encrypted: i=1; AJvYcCUup1BziF2nKKbWmLUYKqm98PbOF9SYo0XlJvxhvX2+6FxbuKvSotUMpaCuLqkCirva1YtPkTmztAFTo9Q3@lists.linux.dev
-X-Gm-Message-State: AOJu0YwCQYwM/jwGGuMvJqR9+pyG1gTB598tA7e2Zo7ammZkS5jJ6vf/
-	cUTh5vJSjdycTc2XvHrjH3QfRT/ssK0oNBIk1iB+4l2nbS7IGmVID8QOlR+z5I8Cemroi0NZQQk
-	qNecq5TgpB+FsQDCn0QqSw97i6OWLVUbsx97krw==
-X-Google-Smtp-Source: AGHT+IHNaU3Z3+DDKTWwqyhccdWy6KGvX0jRFFJtFda2WTvGLlJcpHA53hhWZp12VBznxD4kUpVSZMoh/Lgesk7avnk=
-X-Received: by 2002:a25:eb02:0:b0:e25:96a4:1706 with SMTP id
- 3f1490d57ef6-e28fe43f3d1mr1744852276.19.1728469701975; Wed, 09 Oct 2024
- 03:28:21 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1728471018; x=1729075818;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=DSgm22aJFfiNtDR5PH9COXLN1T3/sjP+t9mUNwfGUwc=;
+        b=EOVou1xCAbQIw1rB0l4zJy2hKeAKbljRpgjoxXWmmvCEvlhGYRCEn6VBlgFC26dkcr
+         Wzo+EPvyRSnZ6Jt+eEU+mudYtBSjYfhZYFhaEQwq+BdXN2s0BWrGC/ibvI54Os+Iposh
+         AH5CyeiDvCF3bKedsYRk8Ed5WzTFCNxIYdgbi2aehldPJjfgIN2zy6zgv33v38BA8yf5
+         iS0sApvOTh13vl+b5SyUJkjxvmMVG/Bt30rA636cfvZ/qI4bfsqlAdI1oCiadKDKCx+d
+         x6X6lvQw8Yd8Ex/oNZ9fW8s47jK2whqTMWs35PMNTV7RUiRQUnS3osqkX/g2UtKsrgNn
+         MLRA==
+X-Forwarded-Encrypted: i=1; AJvYcCXIBjTjRLJ1pyikPZD0L30yodW72DDR9h///bzzu2MpmOxvn8e2HSyumYMt9SjCDqza/XE57alKbb0+hA4d@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxat8yp1w83Ws97TDUqmdUN+BjZe0kNjWXsEv3EZ4OilLQiGSki
+	INm+yyaK6vSGbkAxiHO8+JvRppx2bQPLvAXOEHZbR9l0ZxFJ/GYltu7NQ3f3TYn//86SFGrWuYf
+	0u/xVzNcLjsxi88ciNZS8E4LwZYx6ttEOewl+QA6RvE/7vSj8PkfMMuKUWlkYng4=
+X-Received: by 2002:a05:600c:154e:b0:42c:bf94:f9ad with SMTP id 5b1f17b1804b1-430d748c5demr14384245e9.34.1728471018520;
+        Wed, 09 Oct 2024 03:50:18 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHApNTrtsbft1V7n10B4IIxH4JucbHmoQkQ4Jkaz+as7iAf1Sn6WqJVUcb29pY2MStHfTeBSg==
+X-Received: by 2002:a05:600c:154e:b0:42c:bf94:f9ad with SMTP id 5b1f17b1804b1-430d748c5demr14383375e9.34.1728471017985;
+        Wed, 09 Oct 2024 03:50:17 -0700 (PDT)
+Received: from dhcp-64-16.muc.redhat.com (nat-pool-muc-t.redhat.com. [149.14.88.26])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d1695e62bsm10108645f8f.81.2024.10.09.03.50.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Oct 2024 03:50:17 -0700 (PDT)
+Message-ID: <6f54425072b008481a0511fc140bab2590cd1c06.camel@redhat.com>
+Subject: Re: [RFC PATCH 03/13] drivers/xen: Use never-managed version of
+ pci_intx()
+From: Philipp Stanner <pstanner@redhat.com>
+To: Juergen Gross <jgross@suse.com>, Damien Le Moal <dlemoal@kernel.org>, 
+ Niklas Cassel <cassel@kernel.org>, Sergey Shtylyov <s.shtylyov@omp.ru>,
+ Basavaraj Natikar <basavaraj.natikar@amd.com>, Jiri Kosina
+ <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, Arnd Bergmann
+ <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Alex
+ Dubov <oakad@yahoo.com>, Sudarsana Kalluru <skalluru@marvell.com>, Manish
+ Chopra <manishc@marvell.com>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>, Rasesh Mody <rmody@marvell.com>,
+ GR-Linux-NIC-Dev@marvell.com, Igor Mitsyanko <imitsyanko@quantenna.com>,
+ Sergey Matyukevich <geomatsi@gmail.com>, Kalle Valo <kvalo@kernel.org>,
+ Sanjay R Mehta <sanju.mehta@amd.com>, Shyam Sundar S K
+ <Shyam-sundar.S-k@amd.com>, Jon Mason <jdmason@kudzu.us>, Dave Jiang
+ <dave.jiang@intel.com>, Allen Hubbe <allenbh@gmail.com>, Bjorn Helgaas
+ <bhelgaas@google.com>, Alex Williamson <alex.williamson@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, Oleksandr Tyshchenko
+ <oleksandr_tyshchenko@epam.com>, Jaroslav Kysela <perex@perex.cz>, Takashi
+ Iwai <tiwai@suse.com>, Mario Limonciello <mario.limonciello@amd.com>, Chen
+ Ni <nichen@iscas.ac.cn>, Ricky Wu <ricky_wu@realtek.com>, Al Viro
+ <viro@zeniv.linux.org.uk>, Breno Leitao <leitao@debian.org>, Kevin Tian
+ <kevin.tian@intel.com>, Thomas Gleixner <tglx@linutronix.de>, Ilpo
+ =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>, Mostafa Saleh
+ <smostafa@google.com>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Hannes Reinecke <hare@suse.de>, John Garry <john.g.garry@oracle.com>,
+ Soumya Negi <soumya.negi97@gmail.com>, Jason Gunthorpe <jgg@ziepe.ca>, Yi
+ Liu <yi.l.liu@intel.com>, "Dr. David Alan Gilbert" <linux@treblig.org>, 
+ Christian Brauner <brauner@kernel.org>, Ankit Agrawal <ankita@nvidia.com>,
+ Reinette Chatre <reinette.chatre@intel.com>, Eric Auger
+ <eric.auger@redhat.com>, Ye Bin <yebin10@huawei.com>, Marek
+ =?ISO-8859-1?Q?Marczykowski-G=F3recki?= <marmarek@invisiblethingslab.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Kai Vehmanen
+ <kai.vehmanen@linux.intel.com>,  Peter Ujfalusi
+ <peter.ujfalusi@linux.intel.com>, Rui Salvaterra <rsalvaterra@gmail.com>,
+ Marc Zyngier <maz@kernel.org>
+Cc: linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-input@vger.kernel.org, netdev@vger.kernel.org, 
+ linux-wireless@vger.kernel.org, ntb@lists.linux.dev,
+ linux-pci@vger.kernel.org,  linux-staging@lists.linux.dev,
+ kvm@vger.kernel.org,  xen-devel@lists.xenproject.org,
+ linux-sound@vger.kernel.org
+Date: Wed, 09 Oct 2024 12:50:14 +0200
+In-Reply-To: <3874c932-71c4-4253-9dcf-a9c302e6bc7e@suse.com>
+References: <20241009083519.10088-1-pstanner@redhat.com>
+	 <20241009083519.10088-4-pstanner@redhat.com>
+	 <3874c932-71c4-4253-9dcf-a9c302e6bc7e@suse.com>
+User-Agent: Evolution 3.52.4 (3.52.4-1.fc40)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241004094101.113349-1-sakari.ailus@linux.intel.com>
- <CAPDyKFp0N6UJhnHS164Tdf=xkWB0jzq65L9TdvYazeBQ-6WjeQ@mail.gmail.com>
- <20241007184924.GH14766@pendragon.ideasonboard.com> <CAPDyKFpQVnF7eQv3dup8k-3EijnMjuveCG9sZ=Rpey1Y6MBJEg@mail.gmail.com>
- <20241007222502.GG30699@pendragon.ideasonboard.com> <CAPDyKFrGNwna6Y2pqSRaBbRYHKRaD2ayqQHLtoqLPOu9Et7qTg@mail.gmail.com>
- <CAJZ5v0jvJyS7D5-wURi2kyWN-rmNa+YqupeQJ000pQRVd9VBcQ@mail.gmail.com>
-In-Reply-To: <CAJZ5v0jvJyS7D5-wURi2kyWN-rmNa+YqupeQJ000pQRVd9VBcQ@mail.gmail.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Wed, 9 Oct 2024 12:27:45 +0200
-Message-ID: <CAPDyKFqh_BS=6eN4tQzZ20sWCHL3kdnrY=1Mgd7B9gfBamm8bw@mail.gmail.com>
-Subject: Re: [PATCH 00/51] treewide: Switch to __pm_runtime_put_autosuspend()
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, linux-bluetooth@vger.kernel.org, 
-	linux-clk@vger.kernel.org, linux-crypto@vger.kernel.org, 
-	dmaengine@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	amd-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
-	linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org, 
-	linux-i3c@lists.infradead.org, linux-iio@vger.kernel.org, 
-	linux-input@vger.kernel.org, patches@opensource.cirrus.com, 
-	iommu@lists.linux.dev, imx@lists.linux.dev, 
-	linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org, 
-	linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org, 
-	netdev@vger.kernel.org, linux-wireless@vger.kernel.org, 
-	linux-pci@vger.kernel.org, linux-phy@lists.infradead.org, 
-	linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org, 
-	linux-sound@vger.kernel.org, linux-spi@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-usb@vger.kernel.org, 
-	linux-serial@vger.kernel.org, greybus-dev@lists.linaro.org, 
-	asahi@lists.linux.dev, Andy Shevchenko <andy.shevchenko@gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, 8 Oct 2024 at 20:25, Rafael J. Wysocki <rafael@kernel.org> wrote:
->
-> On Tue, Oct 8, 2024 at 12:35=E2=80=AFAM Ulf Hansson <ulf.hansson@linaro.o=
-rg> wrote:
-> >
-> > On Tue, 8 Oct 2024 at 00:25, Laurent Pinchart
-> > <laurent.pinchart@ideasonboard.com> wrote:
-> > >
-> > > Hi Ulf,
-> > >
-> > > On Tue, Oct 08, 2024 at 12:08:24AM +0200, Ulf Hansson wrote:
-> > > > On Mon, 7 Oct 2024 at 20:49, Laurent Pinchart wrote:
-> > > > > On Fri, Oct 04, 2024 at 04:38:36PM +0200, Ulf Hansson wrote:
-> > > > > > On Fri, 4 Oct 2024 at 11:41, Sakari Ailus wrote:
-> > > > > > >
-> > > > > > > Hello everyone,
-> > > > > > >
-> > > > > > > This set will switch the users of pm_runtime_put_autosuspend(=
-) to
-> > > > > > > __pm_runtime_put_autosuspend() while the former will soon be =
-re-purposed
-> > > > > > > to include a call to pm_runtime_mark_last_busy(). The two are=
- almost
-> > > > > > > always used together, apart from bugs which are likely common=
-. Going
-> > > > > > > forward, most new users should be using pm_runtime_put_autosu=
-spend().
-> > > > > > >
-> > > > > > > Once this conversion is done and pm_runtime_put_autosuspend()=
- re-purposed,
-> > > > > > > I'll post another set to merge the calls to __pm_runtime_put_=
-autosuspend()
-> > > > > > > and pm_runtime_mark_last_busy().
-> > > > > >
-> > > > > > That sounds like it could cause a lot of churns.
-> > > > > >
-> > > > > > Why not add a new helper function that does the
-> > > > > > pm_runtime_put_autosuspend() and the pm_runtime_mark_last_busy(=
-)
-> > > > > > things? Then we can start moving users over to this new interfa=
-ce,
-> > > > > > rather than having this intermediate step?
-> > > > >
-> > > > > I think the API would be nicer if we used the shortest and simple=
-st
-> > > > > function names for the most common use cases. Following
-> > > > > pm_runtime_put_autosuspend() with pm_runtime_mark_last_busy() is =
-that
-> > > > > most common use case. That's why I like Sakari's approach of repu=
-rposing
-> > > > > pm_runtime_put_autosuspend(), and introducing
-> > > > > __pm_runtime_put_autosuspend() for the odd cases where
-> > > > > pm_runtime_mark_last_busy() shouldn't be called.
-> > > >
-> > > > Okay, so the reason for this approach is because we couldn't find a
-> > > > short and descriptive name that could be used in favor of
-> > > > pm_runtime_put_autosuspend(). Let me throw some ideas at it and may=
-be
-> > > > you like it - or not. :-)
-> > >
-> > > I like the idea at least :-)
-> > >
-> > > > I don't know what options you guys discussed, but to me the entire
-> > > > "autosuspend"-suffix isn't really that necessary in my opinion. The=
-re
-> > > > are more ways than calling pm_runtime_put_autosuspend() that trigge=
-rs
-> > > > us to use the RPM_AUTO flag for rpm_suspend(). For example, just
-> > > > calling pm_runtime_put() has the similar effect.
-> > >
-> > > To be honest, I'm lost there. pm_runtime_put() calls
-> > > __pm_runtime_idle(RPM_GET_PUT | RPM_ASYNC), while
-> > > pm_runtime_put_autosuspend() calls __pm_runtime_suspend(RPM_GET_PUT |
-> > > RPM_ASYNC | RPM_AUTO).
-> >
-> > __pm_runtime_idle() ends up calling rpm_idle(), which may call
-> > rpm_suspend() - if it succeeds to idle the device. In that case, it
-> > tags on the RPM_AUTO flag in the call to rpm_suspend(). Quite similar
-> > to what is happening when calling pm_runtime_put_autosuspend().
->
-> Right.
->
-> For almost everybody, except for a small bunch of drivers that
-> actually have a .runtime_idle() callback, pm_runtime_put() is
-> literally equivalent to pm_runtime_put_autosuspend().
->
-> So really the question is why anyone who doesn't provide a
-> .runtime_idle() callback bothers with using this special
-> pm_runtime_put_autosuspend() thing, which really means "do a
-> runtime_put(), but skip my .runtime_idle() callback".
+On Wed, 2024-10-09 at 10:51 +0200, Juergen Gross wrote:
+> On 09.10.24 10:35, Philipp Stanner wrote:
+> > pci_intx() is a hybrid function which can sometimes be managed
+> > through
+> > devres. To remove this hybrid nature from pci_intx(), it is
+> > necessary to
+> > port users to either an always-managed or a never-managed version.
+> >=20
+> > xen enables its PCI-Device with pci_enable_device(). Thus, it
+> > needs the never-managed version.
+> >=20
+> > Replace pci_intx() with pci_intx_unmanaged().
+> >=20
+> > Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+>=20
+> Acked-by: Juergen Gross <jgross@suse.com>
+>=20
+> BTW, the diffstat in the [PATCH 00/13] mail is missing some files,
+> e.g. the changes of this patch.
 
-My guess is that it's in most cases a legacy pattern that is being
-followed. Also note that rpm_idle() didn't "always" tag on the
-RPM_AUTO flag, even if it's quite a while ago (2013) since we added
-it.
+Ooops, probably something exploded when I copied the backed-up cover-
+letter after regenerating the patches. Will fix.
 
-Unless there is some actual optimization involved, as it also allows
-us to skip calling rpm_idle() and go directly for rpm_suspend().
+But good to see that someone actually reads cover letters :p
 
->
-> > >
-> > > >
-> > > > Moreover, it's similar for pm_runtime_mark_last_busy(), it's called
-> > > > during rpm_resume() too, for example. So why bother about having
-> > > > "mark_last_busy" in the new name too.
-> > > >
-> > > > That said, my suggestion is simply "pm_runtime_put_suspend".
-> > >
-> > > Can we do even better, and make pm_runtime_put() to handle autosuspen=
-d
-> > > automatically when autosuspend is enabled ?
-> >
-> > As stated above, this is already the case.
->
-> What really is needed appears to be a combination of
-> pm_runtime_mark_last_busy() with pm_runtime_put().
+P.
 
-This makes sense to me too, but I don't think we should limit it to this.
+>=20
+>=20
+> Juergen
+>=20
 
-Making pm_runtime_put_autosuspend (or if the name
-"pm_runtime_put_suspend" is better?) to do the similar thing, is
-probably a good idea too. At least in my opinion.
-
->
-> Granted, pm_runtime_put() could do the pm_runtime_mark_last_busy()
-> thing automatically if autosuspend is enabled and the only consequence
-> of it might be delaying a suspend of the device until its autosuspend
-> timer expires, which should not be a problem in the vast majority of
-> cases.
-
-Right.
-
-I guess we should expect the *sync* variants to be used, if the timer
-really needs to be overridden.
-
-Kind regards
-Uffe
