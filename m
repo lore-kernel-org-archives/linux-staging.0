@@ -1,121 +1,79 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB77F1BC061;
-	Thu, 10 Oct 2024 09:42:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21AA81BDAB8
+	for <linux-staging@lists.linux.dev>; Thu, 10 Oct 2024 10:23:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728553324; cv=none; b=EMadXTwgb6FvIUG9M3Hy2G3wSfkXxv6JIp9wcIED7P/NZOOQ3FrHSJFKqSKgsggLOehUu/nEQw0M5XmWKn211r7m19lFM50XkV/DhALrZwU+txL5mUrNrb1ejugVWtoUyqLFmvTcBIueVycnM8yCB17j3SG1rbSLIYyMyR7IP6U=
+	t=1728555806; cv=none; b=GZAxOvZrWaYezTOvAHv63f8zkEIxWl0/9rz/6W69DAGZFvcKkzVH1VKR8U7Pxq/iraV1aqbbWe9oapc73QCIfvMAn6U8gJYGY3Hyg9OIodwBct7oOzDQ3GhKP1TmJ5fbWxfsMSILDgb/mEzBXozIWcIWBhjz1M+VTRi7++TTdf4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728553324; c=relaxed/simple;
-	bh=GIEhwdto29dTIdh5H2EYdZNpFROtC3k9we0ptMpXhdo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QNVprvdOfBahhq50qunOvCDF92oJeWNzpbEowRc2KDLV0D+3R90t4fY7NeExG6z4tvBcUNpULTdRy455nsskURpmEu/tFejS7jfNLjLIeffuQs7Qu3szHGjkh0eh3CAgkiu0O5GiW98ivL/6Et0lyQdJ0CUBUfqo5fuv4NAOMGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=zX9p2aZ6; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728555806; c=relaxed/simple;
+	bh=BTBxOvVuTM6WsUy711z6oEamya74MHIMHKK3ovmyR4U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=T7XdBzKRt4HuTkspW+tSIXtpssFI8diR6n8kiM+NFQ9ld6x0mEnM5ip612RHQAgP3rLvTxcVxfmU2542D4mLrOjCZuN/gUHanznCCdkqS0HRCo1MF1qM90LKNw83GwAyVhSfu8CL5sRKRNakwqcIZbgk5JTpJaouZAPOb0OF+uo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ijTxbKUf; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="zX9p2aZ6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B372C4CEC5;
-	Thu, 10 Oct 2024 09:42:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1728553323;
-	bh=GIEhwdto29dTIdh5H2EYdZNpFROtC3k9we0ptMpXhdo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=zX9p2aZ6jrztUDxeBO52da8z69ZkOWyH9pv6vxWg6T7tWCsGzR0z72bv9P0pmiQIw
-	 wQYWZUvXzov9vBTtqAQcR3bdMZoum4WLSwGjC5STMy7KZsiCr6oH31B3SkXL+x3HOS
-	 AMpytUXLPJUQ+HvEJoX3uYanfLA+F572B+sKu0Oo=
-Date: Thu, 10 Oct 2024 11:41:59 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Vinicius Peixoto <vpeixoto@lkcamp.dev>
-Cc: Fabricio Gasperin <fgasperin@lkcamp.dev>,
-	Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-	Teddy Wang <teddy.wang@siliconmotion.com>,
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, ~lkcamp/patches@lists.sr.ht
-Subject: Re: [PATCH] staging: sm750: Fix missing config in Kconfig
-Message-ID: <2024101036-footboard-stinger-9c03@gregkh>
-References: <20240921180612.57657-1-fgasperin@lkcamp.dev>
- <20240921180612.57657-2-fgasperin@lkcamp.dev>
- <2024100925-lend-aging-2ff3@gregkh>
- <b8c3c51e-375f-4139-8336-76b6df56e8ea@lkcamp.dev>
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ijTxbKUf"
+Received: from umang.jain (unknown [IPv6:2405:201:2015:f873:55d7:c02e:b2eb:ee3f])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6D6BF4D4;
+	Thu, 10 Oct 2024 12:21:36 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1728555698;
+	bh=BTBxOvVuTM6WsUy711z6oEamya74MHIMHKK3ovmyR4U=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ijTxbKUfolk9+TdYDRxKJfqsraL6NR9T44Q50tG6RBqO90JJXEG8oqaVAXlyqE4hH
+	 5N0hbGmXngsuaNBkppBnVrD+obRaIAGNExoJrS8QFgTTgqBVnJIkAcAFWqS41QzxLe
+	 0dD7I3zz6R7F5NcR/MFysQGwemEbROBxSILsI3Tg=
+From: Umang Jain <umang.jain@ideasonboard.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+Cc: linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Stefan Wahren <wahrenst@gmx.net>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Umang Jain <umang.jain@ideasonboard.com>
+Subject: [PATCH 0/5] staging: vchiq_core: Improve indentation
+Date: Thu, 10 Oct 2024 15:52:44 +0530
+Message-ID: <20241010102250.236545-1-umang.jain@ideasonboard.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b8c3c51e-375f-4139-8336-76b6df56e8ea@lkcamp.dev>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Oct 09, 2024 at 10:44:38AM -0300, Vinicius Peixoto wrote:
-> Hi Greg,
-> 
-> On 10/9/24 06:56, Greg Kroah-Hartman wrote:
-> > On Sat, Sep 21, 2024 at 03:06:09PM -0300, Fabricio Gasperin wrote:
-> > > Fixes the following compilation error:
-> > > 
-> > > ERROR: modpost: "fb_io_read" [drivers/staging/sm750fb/sm750fb.ko] undefined!
-> > > ERROR: modpost: "fb_io_write" [drivers/staging/sm750fb/sm750fb.ko] undefined!
-> > > ERROR: modpost: "fb_io_mmap" [drivers/staging/sm750fb/sm750fb.ko] undefined!
-> > > 
-> > > Signed-off-by: Fabricio Gasperin <fgasperin@lkcamp.dev>
-> > > ---
-> > >   drivers/staging/sm750fb/Kconfig | 1 +
-> > >   1 file changed, 1 insertion(+)
-> > > 
-> > > diff --git a/drivers/staging/sm750fb/Kconfig b/drivers/staging/sm750fb/Kconfig
-> > > index 08bcccdd0f1c..eca1aa43d725 100644
-> > > --- a/drivers/staging/sm750fb/Kconfig
-> > > +++ b/drivers/staging/sm750fb/Kconfig
-> > > @@ -3,6 +3,7 @@ config FB_SM750
-> > >   	tristate "Silicon Motion SM750 framebuffer support"
-> > >   	depends on FB && PCI && HAS_IOPORT
-> > >   	select FB_MODE_HELPERS
-> > > +	select FB_IOMEM_FOPS
-> > >   	select FB_CFB_FILLRECT
-> > >   	select FB_CFB_COPYAREA
-> > >   	select FB_CFB_IMAGEBLIT
-> > > -- 
-> > > 2.46.1
-> > > 
-> > > 
-> > 
-> > What is causing this error? What commit created the problem, and why
-> > has no one reported it yet?
-> 
-> This happens because drivers/staging/sm750fb/sm750.c, defines an fb_ops
-> structure:
-> 
-> static const struct fb_ops lynxfb_ops = {
-> 	.owner = THIS_MODULE,
-> 	FB_DEFAULT_IOMEM_OPS,
-> 	...
-> };
-> 
-> FB_DEFAULT_IOMEM_OPS expands to the fb_io_* helpers declared in
-> include/linux/fb.h and defined in drivers/video/fbdev/core/fb_io_fops.c;
-> however, the latter is gated by FB_IOMEM_FOPS, so when compiling a kernel
-> with CONFIG_STAGING=y + CONFIG_FB=m + CONFIG_FB_SM750=m, you get the
-> following error:
-> 
-> ERROR: modpost: "fb_io_read" [drivers/staging/sm750fb/sm750fb.ko] undefined!
-> ERROR: modpost: "fb_io_write" [drivers/staging/sm750fb/sm750fb.ko]
-> undefined!
-> ERROR: modpost: "fb_io_mmap" [drivers/staging/sm750fb/sm750fb.ko] undefined!
-> make[2]: *** [scripts/Makefile.modpost:145: Module.symvers] Error 1
-> 
-> So in order to solve it we select FB_IOMEM_FOPS, much like the other FB_*
-> drivers do in drivers/video/fbdev/Kconfig.
-> 
-> Not entirely sure why this wasn't caught before, but the commit that broke
-> the build for sm750fb is 6b180f66c0dd ("fbdev: Provide I/O-memory helpers as
-> module"), which made the fb_io_* helpers be built as a separate module
-> instead of being bundled in fb.o (which is what sm750fb was relying on). I
-> think Fabricio can add a "Fixes:" tag in v2.
+Small self-contained series to improve indentation on vchiq_core.c.
+Mostly addressed by reflowing code long lines under 80 columns to adhere
+to coding style guidelines.
 
-Ok, thanks for the explaination.  All of this should go into the
-changelog text, and yes, a Fixes: tag is also required.
+The dev_dbg() statements are left untouched. Followed the principle
+mentioned in the guidelines as:
 
-thanks,
+```
+However, never break user-visible strings such as printk messages,
+because that breaks the ability to grep for them.
+```
 
-greg k-h
+
+Hridesh MG (1):
+  staging: vchiq_core: Fix white space indentation error
+
+Umang Jain (4):
+  staging: vchiq_core: Indent static_assert on single line
+  staging: vchiq_core: Reflow long lines to 80 columns
+  staging: vchiq_core: Macros indentation fix
+  staging: vchiq_core: Locally cache cache_line_size information
+
+ .../interface/vchiq_arm/vchiq_core.c          | 317 +++++++++++-------
+ 1 file changed, 194 insertions(+), 123 deletions(-)
+
+-- 
+2.45.2
+
