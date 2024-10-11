@@ -1,33 +1,41 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A201320C462
-	for <linux-staging@lists.linux.dev>; Fri, 11 Oct 2024 10:02:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD475210C3B;
+	Fri, 11 Oct 2024 10:45:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728640967; cv=none; b=myteOBZ0d0MDKnqddqkoe45leA679X8xFa4iS89OxCcYCl2u+MIz23rx5suYqUNdAHNORRzc2UU0hM+v6HQUNUhnTl0+CjxuwemyRJ71sqqwaTaBa9CnHAJGdQHhOTHk/FMqr2vR9C5b97V2IwLupmhbr4JjeQwqUH1+XA+sVI0=
+	t=1728643540; cv=none; b=az7e2xVX8PLiqJPF3N1jFxlsFPPlcbJKNxkLYxw/oSHpWgqE9lc7bl+i8Moc7HHUqfIsMq6Wn9skElnX8H2emrPJXNGJAV3r+jIH+ny8oo/AIjxLPNJ7uve85Ctpt9g/CQVeevs2/1TAP9zz3JjbzU29tbMlVTwT3hzWWPSZUf0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728640967; c=relaxed/simple;
-	bh=PhSzPI71z5xBw6VKt088FYkStG5cJS044JgrjKk5v+k=;
+	s=arc-20240116; t=1728643540; c=relaxed/simple;
+	bh=BeI2iALYbJAB5Qp8zFyL+V/LTnFHtUxuX3olrp6jT+s=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cNvQdjJxlWb12hKM7kN8jqt2ATttUutKm7no6QVqLoTFE19p0NgMd1LmfF7JrmWqikljvJgygAACLa8q3DDP5mUgrVcRctpTFdN0/TfNvufSM28kiVTf+uFexNuoIKujbji8eLXRzIsrMLZXC5l5uIJWR1tgBo0UVmYkhnVUbKE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=qBk4FnDm; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	 In-Reply-To:Content-Type; b=SslZdM4giEmiuoa5JLUSmXMi7CO31KWSjXaEI1cgcgmt7w/xZ+MagkywNa9Ed6OCCMFm6FmPwoyS8fiwjFWQOVC77VjCTXkmxvOBBRj2Jkl0TE7NYuWgxTrQCEtZndE/srH5A0Eme1In6FvrLuYST3VrRw24N5LGDQaPPlospac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=sWAOpsU8; arc=none smtp.client-ip=212.227.17.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qBk4FnDm"
-Received: from [IPV6:2405:201:2015:f873:55d7:c02e:b2eb:ee3f] (unknown [IPv6:2405:201:2015:f873:55d7:c02e:b2eb:ee3f])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1E74DD8B;
-	Fri, 11 Oct 2024 12:01:02 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1728640864;
-	bh=PhSzPI71z5xBw6VKt088FYkStG5cJS044JgrjKk5v+k=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=qBk4FnDmgugDjwzjbJpCcCVpjp2/g1NjsdXQ2g1ZBVrdNRpN7ikMCfibG6iMq4PMa
-	 GYs61lK7jqHVgjKwblPp8tAoYM7rKzI0WqjXEivQOPkEdwNVOociS3WQv9sDWm+dbR
-	 P8oJVKI+oUFKLa+vP+qbsTSyk7pt4duxnPTF/rWM=
-Message-ID: <628861ca-6cda-4f2a-983d-98150e547674@ideasonboard.com>
-Date: Fri, 11 Oct 2024 15:32:37 +0530
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="sWAOpsU8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
+	s=s31663417; t=1728643528; x=1729248328; i=wahrenst@gmx.net;
+	bh=8G26fOBQEgPqcyaPrnsd6OlzR2T5vuKSB+uJ8Zlg/kI=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=sWAOpsU8K0OArXpFBmjumG3Fn6EFf1F9T7PsqlQWRGtR/tUZLyGRX9UGn7rBMMKe
+	 ADcSIEzDuBJHEgyBVG8BoxTNdIECGTtRXOclLsHd3IFxycum8bNS74VI9Hmk1CPhh
+	 hthbOeFMr5Z1BBRq7bAzGpxnlG7kxy4+jFDP6ijgPK8Y8idHqYVF3hlQp8Fv48hbU
+	 1HzZ1JIv43irgUjt9JlfMC6sOMUYDdLWXRC9fGB0RBbTkI0k0nNLTZUcNZT4hn+zb
+	 XfdrjI33icjA5rdbL3swGeCb/Qu83472pQhshByGyD9zPddUWBAT5jT1Vtsdj/I2V
+	 +dWmGHyVR6lf6SyBoQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.104] ([37.4.248.43]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MbRjt-1tW4vJ21Af-00gNrP; Fri, 11
+ Oct 2024 12:45:28 +0200
+Message-ID: <b0074647-f730-4d94-a11c-ebec7f48b928@gmx.net>
+Date: Fri, 11 Oct 2024 12:45:25 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -35,57 +43,87 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: vc04_services: TESTING: Adjust ping test
-To: Stefan Wahren <wahrenst@gmx.net>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: bcm-kernel-feedback-list@broadcom.com,
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-staging@lists.linux.dev
-References: <20241011100119.111399-1-wahrenst@gmx.net>
+Subject: Re: [PATCH 2/8] staging: vchiq_core: Properly log dev_err()
+To: Umang Jain <umang.jain@ideasonboard.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+Cc: linux-rpi-kernel@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ kernel-list@raspberrypi.com
+References: <20241011072210.494672-1-umang.jain@ideasonboard.com>
+ <20241011072210.494672-3-umang.jain@ideasonboard.com>
 Content-Language: en-US
-From: Umang Jain <umang.jain@ideasonboard.com>
-In-Reply-To: <20241011100119.111399-1-wahrenst@gmx.net>
+From: Stefan Wahren <wahrenst@gmx.net>
+In-Reply-To: <20241011072210.494672-3-umang.jain@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:2tgjIbVmOZLooP4GBWwuecmgc/nUokZrNRELbIAabf9jnqwHGtz
+ hyXiLe+CT71pmzUlLTI2/GZpzPNB0cx4G+iwRvtIfxC601vd/ltlSMFv1H05d+aXcGvl9vT
+ dvLAy3mh+/CSnjvHrJCTtfGYiAECW1Knnh7+k5wKjWrMsj7PXyZMPs/Gp32fCuH3qSvUua3
+ FyGoYjWS9ckkjuDwMJgbw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:p5A02gBJbZk=;RiAQQi+rC6N56Ce42fGhrDQ65zr
+ AvejWXTVyVleG9FNoIK5/GDC3rVr1Zg3r+fWLTM4dYDvlagGVl1RIdJOD7mzvfkLM6NLh9HTn
+ +6iWOq2NFDq5odpJXIncxs3QQHGsLrx2nSIk9+rzRzylqBhdBiz1Evp1FmsclNTdsS1G7JxQF
+ bV2xQVcmu2pQqcWpvnwYZd4dMegVx2PRfNiEuttYAFSxHK8ElZ8T/fuGwjDJ7MPTjXyUu7GQK
+ EyzpPz48S/VvTrSLYPVJtHRQszEdpUkLbLQIXyzQRePJbpvIarvFE42eiIkcH5eEllEEZcSze
+ t76lfqZU9sjPPoT1TrRAaS1gIXnsMxfbHsr5Ns2Z3zX+L8QSb+HleAmlejTwg3VAHyvmEiBaX
+ G6f3O5xILqccK92yCWbqNIVBK8/dO8kdWYFWbr8T07KR0QlUvLx2apCNIrxQHZxegsuwSTiN9
+ sVcD37QLgZnpAFw01vEwR3nxRGYnfrLXbmy1RZwg6ygPVqV/th0RZBXCy9P5xaR1QPycJKubA
+ EcBnzqCiyFNoSdrbD3owtDa6ju7HU5fAA0Nvugxz+5g1ZTYgK/sGWU7W0KqrtSAB9eb28yGks
+ PUxkdhztaZn/6jVu82mPfA8DKcIMrffgDSpftwdUlxxb/gXpJ46B9wQtg40o9mhYD5LfNFUbW
+ BQ8kyjDMvmU0aQVbXtgK8pJY+9nCtVWClbv+BBoOm+F/+lFsCq8AdgHE5Wy3Hexncs/ZSUV3i
+ ejjO1v39x8UebfR+4tCfI1b7Hg/ObFT9tl0tvNILBj//Q8AClU5fVeVBPgz90/X5EjK/HywSd
+ btcoIS2pdrqrsGpm+sE03Ygg==
 
-Hi Stefan,
+Hi Umang,
 
-Thank you for the patch
+[add Raspberry Pi guys to the loop]
 
-On 11/10/24 3:31 pm, Stefan Wahren wrote:
-> Recent tests on Raspberry Pi 3 B Plus have shown that one
-> iteration is not enough to discover issues reliable. So
-> switch back to the defaults (1000 iterations).
+Am 11.10.24 um 09:22 schrieb Umang Jain:
+> Properly log a dev_err() message when the msgid is not of
+> VCHIQ_MSG_PADDING type. Drop 'oldmsgid' scoped variable and improve
+> on the error string as well.
 >
-> Link: https://lore.kernel.org/linux-staging/c7e302b6-fc62-4754-ab1d-7c2771cccf60@gmx.net/
-> Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
-
-I've been using this for all my testing for recent patches.
-
-Reviewed-by: Umang Jain <umang.jain@ideasonboard.com>
+> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
 > ---
->   drivers/staging/vc04_services/interface/TESTING | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>   .../vc04_services/interface/vchiq_arm/vchiq_core.c    | 11 ++++-------
+>   1 file changed, 4 insertions(+), 7 deletions(-)
 >
-> diff --git a/drivers/staging/vc04_services/interface/TESTING b/drivers/staging/vc04_services/interface/TESTING
-> index 273952dc9d85..c98f688b07e0 100644
-> --- a/drivers/staging/vc04_services/interface/TESTING
-> +++ b/drivers/staging/vc04_services/interface/TESTING
-> @@ -52,10 +52,10 @@ Here are the most common kernel configurations:
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_cor=
+e.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> index e9b60dd8d419..1dca676186b6 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> @@ -1188,13 +1188,10 @@ queue_message_sync(struct vchiq_state *state, st=
+ruct vchiq_service *service,
+>   	header =3D (struct vchiq_header *)SLOT_DATA_FROM_INDEX(state,
+>   		local->slot_sync);
 >
->    * Ping test
+> -	{
+> -		int oldmsgid =3D header->msgid;
+> -
+> -		if (oldmsgid !=3D VCHIQ_MSGID_PADDING)
+> -			dev_err(state->dev, "core: %d: qms - msgid %x, not PADDING\n",
+> -				state->id, oldmsgid);
+> -	}
+> +	if (header->msgid !=3D VCHIQ_MSGID_PADDING)
+> +		dev_err(state->dev,
+> +			"core: %d: qms - msgid %x, is not a PADDING message\n",
+> +			state->id, header->msgid);
+I'm fine with this change, but the behavior looks strange to me.
+
+Either this is a real error, I would expect the function would return
+with something like EINVAL here or this should be a warning?
+
+Sorry, no idea what's correct here.
+
+Best regards
 >
-> -   Command: vchiq_test -p 1
-> +   Command: vchiq_test -p
->
->      Expected output:
-> -   Ping test - service:echo, iters:1, version 3
-> +   Ping test - service:echo, iters:1000, version 3
->      vchi ping (size 0) -> 57.000000us
->      vchi ping (size 0, 0 async, 0 oneway) -> 122.000000us
->      vchi bulk (size 0, 0 async, 0 oneway) -> 546.000000us
-> --
-> 2.34.1
->
+>   	dev_dbg(state->dev, "sync: %d: qms %s@%pK,%x (%d->%d)\n",
+>   		state->id, msg_type_str(VCHIQ_MSG_TYPE(msgid)), header, size,
 
