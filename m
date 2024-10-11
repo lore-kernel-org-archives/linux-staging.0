@@ -1,128 +1,288 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C302D804
-	for <linux-staging@lists.linux.dev>; Fri, 11 Oct 2024 11:17:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEF07216A3E
+	for <linux-staging@lists.linux.dev>; Fri, 11 Oct 2024 12:03:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728645451; cv=none; b=TFVfJqenk8lajMzqSO/eeob2Oy4UsPirFOJQJXkBbo7C0am5PdL7My8tsqPTqf4eor8CfhLPY4R1V/6FCr5qJs6jHvfRXBqHi/w+k1FtIK8BzoFmBFMGu5w42NGwAGQGYYiLlkRiQITJIui2Jb8zhF2pHINm3ju58Ap07WlFLqk=
+	t=1728648230; cv=none; b=Ivn125ewZb/g7OsE88X+kalFHSWATbBKnKHotcWNQZsub5xY6SEfKa6XiKxvi/wCT7a85Ke2qi1L9egzyI42BoF11mC2w9rZDJ7gqapReC5Rq/zx9ZZis4bgbHQ9p3KeJ5I3fBXbDZNqj7FZ+E/jT1oKzNop6qxwd3iVannauJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728645451; c=relaxed/simple;
-	bh=RHr6yDEw8/1qc1o/DsJp16snVytM8QEtWm0ra09XPRM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MAH/VNL2SrqjiSsUyRbfC9UDowyYNmJzR/ampm8FRSqPN+G52nbp+0s7en9KhZ6CMTvWAuhPHsHwNXuNMubfbSANwHmPxruOdFwABxHFkCtR3wzXaW5oC8s5a9v9N8BTLizCyJDNu0LAzhzALBhW0VDq394EYTarFZSF3wtGLqI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=VbJV91sM; arc=none smtp.client-ip=212.227.17.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
+	s=arc-20240116; t=1728648230; c=relaxed/simple;
+	bh=Hm1o99Wl0wYT15lGSFJLg7EgiqA98EURXKjTmwFk1nY=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=uM1OhDiOjtPWa2AYc/idEmPAzagvxjczdwid8rH+nGRi32AeOC/KxIRpEWvP6kaKEZl6NJC6/IfaTj+I9CHf3ozRZy0brb6fIDO5wm8zzpQbGC1sWbk4coWuWc9lQZCewS5OS2q2xcCn04CGs+nvmdAzWVgRNYnz9wi+EqMPF9A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=RHMHNCRX; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="VbJV91sM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
-	s=s31663417; t=1728645440; x=1729250240; i=wahrenst@gmx.net;
-	bh=RHr6yDEw8/1qc1o/DsJp16snVytM8QEtWm0ra09XPRM=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=VbJV91sMbVlg/nWOlmp2v32L2VMrGeOdjM3YH8YnaR+W/0cDUhV44bITpzP66sQJ
-	 /d4P0/TJGtb78GBQTcEqZNzf79heozwLlO1VyxxD7M7Q5vnMqTuQsh3+q6N+Ct6Pd
-	 /w528YU6J8UQ1XJ7kpra5ztpl348Nr4SQVpjkDyCY0vqbkkJcI7G5E2/eZo6Y0AG/
-	 MBVfEQxfklrzoy7dPRFaV/DuhUgQVKTVNO8dH/YtJ9uNd/woVHLTR/KNjG0b+8CSI
-	 ugo3HD4EYfwwgvtl4aIYKkteF8blR+D60WWrnTemaArsMslJD+XJ5T1p7D8nQP/i6
-	 9veG/+L27DF/8lk3Xw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.104] ([37.4.248.43]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MEFzx-1t8shJ2gEf-00Ezhv; Fri, 11
- Oct 2024 13:17:20 +0200
-Message-ID: <6ed9b6ae-e59c-4b22-9320-75c1a5ed83bd@gmx.net>
-Date: Fri, 11 Oct 2024 13:17:19 +0200
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="RHMHNCRX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1728648227;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Hm1o99Wl0wYT15lGSFJLg7EgiqA98EURXKjTmwFk1nY=;
+	b=RHMHNCRXibfjdjku8WxHAcQt9oS6sqUj4RBj3LmMcK3S/0m4jaKztfZL16z1Unn1IVMLiI
+	aHSLg8RuVD0+wIVkKg1q7/JchsRGPGSItTAjyqmo0LTbpOgqi4L9LtmGjYZhJtrsMB8M2U
+	Cdx3rmVCnH/raOvLU8EDSg8HFZ9VD9Y=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-26-K5BxldPVP4mpQfjgWTQFAg-1; Fri, 11 Oct 2024 08:03:44 -0400
+X-MC-Unique: K5BxldPVP4mpQfjgWTQFAg-1
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-42cb857fc7dso11848545e9.0
+        for <linux-staging@lists.linux.dev>; Fri, 11 Oct 2024 05:03:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728648223; x=1729253023;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=3I5lHL6mHTQWMds6pJC4dZUawdNZoxrsfeR6hWpkDqM=;
+        b=aq/JcCn13Lt+Vlxuonfq+Q1msEi2JQFH080m2b1+F0Zga1HT0jIoy3XUlpxMRWeBf2
+         fQRk2UDA9f9lrc04lFeuAf1PmemwiR6XZtsYQZJizB7FmQh3v4uHb7xxjsw9mOr0OOxB
+         8g1WQ+M2GsjHs0FbJiR1ral+FN3X5vmqqJS+2BSkUgl7ndFktwjkfu9rwsIhSqzVOyqq
+         YmndqkFB72Tnq/AVkf6TXLjqlDWslE4JAD5JJGOP5yn8RWtspDNtF4nIwhK1T3aEqi1j
+         VbpEVa+QJid4ycUks75JmX2Hgw1TX13Z+qgs+m5/oeJpOfwQ5ZfuUOo5ZjiM/+luip+B
+         8J9A==
+X-Forwarded-Encrypted: i=1; AJvYcCV2WSbUuMH5evO8B4+VRFZzA4tAlVPolaovTyufv9zsPqipcd6hJ+cLIfhKGfPCmL6Nqy+8rf+5ApcMx33t@lists.linux.dev
+X-Gm-Message-State: AOJu0YxgiG4O6yEcqcYQtO9vB41qSyX0wk3XAAuBngZonVleTLtE8qzZ
+	WzyvG67/gmtvpFJNqaqP4aOY/CxicyIZPkjVERQ+UhzT5sGt76tXgCvGN7eSMEybiBbvTJS7TgG
+	7+Q4H72NEWxDlKFfnS5syEEocLQAqb3dQKDuX41C/jmc+etX1ThGT7lpe6oh/7Hs=
+X-Received: by 2002:a05:600c:1d1c:b0:42c:c003:edd1 with SMTP id 5b1f17b1804b1-4311decaa48mr19191775e9.10.1728648222786;
+        Fri, 11 Oct 2024 05:03:42 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IExbuVJr4JGcXjTZsUgf0Q1cJGFJf/2hMvz1Z5drCky7hS/DrFylID4EQn0lZzCFTWpUUq6Zw==
+X-Received: by 2002:a05:600c:1d1c:b0:42c:c003:edd1 with SMTP id 5b1f17b1804b1-4311decaa48mr19191405e9.10.1728648222253;
+        Fri, 11 Oct 2024 05:03:42 -0700 (PDT)
+Received: from eisenberg.fritz.box ([2001:16b8:3d05:4700:3e59:7d70:cabd:144b])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-430ccf51770sm73523925e9.22.2024.10.11.05.03.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Oct 2024 05:03:41 -0700 (PDT)
+Message-ID: <914de38f0b6b3d2ddf98c16e427085732bebfd4a.camel@redhat.com>
+Subject: Re: [RFC PATCH 01/13] PCI: Prepare removing devres from pci_intx()
+From: Philipp Stanner <pstanner@redhat.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+Cc: Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>, 
+ Sergey Shtylyov <s.shtylyov@omp.ru>, Basavaraj Natikar
+ <basavaraj.natikar@amd.com>, Jiri Kosina <jikos@kernel.org>,  Benjamin
+ Tissoires <bentiss@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Alex Dubov <oakad@yahoo.com>,
+ Sudarsana Kalluru <skalluru@marvell.com>, Manish Chopra
+ <manishc@marvell.com>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>, Rasesh Mody <rmody@marvell.com>,
+ GR-Linux-NIC-Dev@marvell.com, Igor Mitsyanko <imitsyanko@quantenna.com>,
+ Sergey Matyukevich <geomatsi@gmail.com>, Kalle Valo <kvalo@kernel.org>,
+ Sanjay R Mehta <sanju.mehta@amd.com>, Shyam Sundar S K
+ <Shyam-sundar.S-k@amd.com>, Jon Mason <jdmason@kudzu.us>, Dave Jiang
+ <dave.jiang@intel.com>, Allen Hubbe <allenbh@gmail.com>, Bjorn Helgaas
+ <bhelgaas@google.com>, Juergen Gross <jgross@suse.com>, Stefano Stabellini
+ <sstabellini@kernel.org>, Oleksandr Tyshchenko
+ <oleksandr_tyshchenko@epam.com>,  Jaroslav Kysela <perex@perex.cz>, Takashi
+ Iwai <tiwai@suse.com>, Mario Limonciello <mario.limonciello@amd.com>, Chen
+ Ni <nichen@iscas.ac.cn>, Ricky Wu <ricky_wu@realtek.com>, Al Viro
+ <viro@zeniv.linux.org.uk>, Breno Leitao <leitao@debian.org>, Kevin Tian
+ <kevin.tian@intel.com>, Thomas Gleixner <tglx@linutronix.de>, Ilpo
+ =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>, Mostafa Saleh
+ <smostafa@google.com>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Hannes Reinecke <hare@suse.de>, John Garry <john.g.garry@oracle.com>,
+ Soumya Negi <soumya.negi97@gmail.com>, Jason Gunthorpe <jgg@ziepe.ca>, Yi
+ Liu <yi.l.liu@intel.com>, "Dr. David Alan Gilbert" <linux@treblig.org>, 
+ Christian Brauner <brauner@kernel.org>, Ankit Agrawal <ankita@nvidia.com>,
+ Reinette Chatre <reinette.chatre@intel.com>, Eric Auger
+ <eric.auger@redhat.com>, Ye Bin <yebin10@huawei.com>, Marek
+ =?ISO-8859-1?Q?Marczykowski-G=F3recki?= <marmarek@invisiblethingslab.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Kai Vehmanen
+ <kai.vehmanen@linux.intel.com>,  Peter Ujfalusi
+ <peter.ujfalusi@linux.intel.com>, Rui Salvaterra <rsalvaterra@gmail.com>,
+ Marc Zyngier <maz@kernel.org>, linux-ide@vger.kernel.org,
+ linux-kernel@vger.kernel.org,  linux-input@vger.kernel.org,
+ netdev@vger.kernel.org,  linux-wireless@vger.kernel.org,
+ ntb@lists.linux.dev, linux-pci@vger.kernel.org, 
+ linux-staging@lists.linux.dev, kvm@vger.kernel.org, 
+ xen-devel@lists.xenproject.org, linux-sound@vger.kernel.org
+Date: Fri, 11 Oct 2024 14:03:39 +0200
+In-Reply-To: <20241010114304.064f5d3d.alex.williamson@redhat.com>
+References: <20241009083519.10088-1-pstanner@redhat.com>
+	 <20241009083519.10088-2-pstanner@redhat.com>
+	 <20241010114304.064f5d3d.alex.williamson@redhat.com>
+User-Agent: Evolution 3.52.4 (3.52.4-1.fc40)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: vc04_services: TESTING: Adjust ping test
-To: Umang Jain <umang.jain@ideasonboard.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: bcm-kernel-feedback-list@broadcom.com,
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-staging@lists.linux.dev
-References: <20241011100119.111399-1-wahrenst@gmx.net>
- <628861ca-6cda-4f2a-983d-98150e547674@ideasonboard.com>
-Content-Language: en-US
-From: Stefan Wahren <wahrenst@gmx.net>
-In-Reply-To: <628861ca-6cda-4f2a-983d-98150e547674@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:a43sR6vIC+YsgAjS3f6lJrbN1VwgJRLFLILMOV/NFjy5yY21ibC
- hC8lwwLYDAHU0VrrqC2BYeRgNyl1ciO9l9yIEn6NMWAhM40CfDjbGBDHYQwbXrGUPMQ7AAo
- QPwW53qdgxFgj9GIhCzPLJDHitaR2rQv732ex6T9AFrZmQ6mHwED8M+I+s8mHirjoz3o200
- T7f4YMxi97ptfyrCYyDpg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:FxWYhxVkefQ=;ZkLt2n7P6y+Q3MfAIDraoLSoAmi
- G8b9W0pPrtBr98yJMgF22fRK9qv3rwA00lKYm6tiDIl71I8OiivJkiknyVfMZR6Yb4n3RvjMk
- LYXQ7E4NSqI8FK071Wv2HgteTCoMkF/bG+kEFAc5V9XXFlO0LQ8aMAemovWsURnwR5AfOJvFl
- gmaXGbU43jmWxQoeivHchoKQBTzkN/PeWpP1skACBkOuINLRjuOqqoxaY9FhE2cYjA0T+mD/S
- KobdGgugESc1WsiDGyNlix/3AZjpmD6wMHwMEJDKQ4oCL/EUr+X+l3cfaEMt0eihISvBvFF2I
- g+2ZDbGoLIMisLWDibAyWV2HY0Chkh0jFCFx3P3M52l9cgX6yTP0hk2DeB5/JA0QzS2Iw76sR
- q+Vdr2KZI7DpC5x/S96aCBVGtUQCQSnwmWGxpPn0jIUq2jIAbBPyCPn5m18xPB46LMguKT0kI
- q/+JslttvIaD9bJEYEbkPQqN/luNx76xTH+a9tF+3TgclqtT50MCutwz2Qd1QY5SIq6yKDDfs
- ifId1VjBtXPUsPeUTc3+Hz3F9/og3SNDT8SblK9t76uRgw6w/aLB3gB5ymnpLDN2dnVW7Goww
- 4BLgPHM11r7+BcgrakXALWzdyPm7cEuszI8smvWOPH3CIYBZYF43kMcf6+dC8I+QPGpO0cjF0
- Zd53PQU86dGTTJcZyLPB255PgnufdBQTok7DAth/yZyFhGMhhf2cfdnYGpEhBYr/lm8PU7x6p
- pZ+mYAU9PVve85xAmsQCuoGaXTQysxVUlCWD5bd5R5asNVVejZIXd2oQaTf1WGkDDz1qqpJE6
- 9SQHcCtWqlEIJoSldf7VKErA==
 
-Am 11.10.24 um 12:02 schrieb Umang Jain:
-> Hi Stefan,
->
-> Thank you for the patch
->
-> On 11/10/24 3:31 pm, Stefan Wahren wrote:
->> Recent tests on Raspberry Pi 3 B Plus have shown that one
->> iteration is not enough to discover issues reliable. So
->> switch back to the defaults (1000 iterations).
->>
->> Link:
->> https://lore.kernel.org/linux-staging/c7e302b6-fc62-4754-ab1d-7c2771ccc=
-f60@gmx.net/
->> Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
->
-> I've been using this for all my testing for recent patches.
-Thanks, I still have the hope we are not the only one working on this
-driver :-D
->
-> Reviewed-by: Umang Jain <umang.jain@ideasonboard.com>
->> ---
->> =C2=A0 drivers/staging/vc04_services/interface/TESTING | 4 ++--
->> =C2=A0 1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/staging/vc04_services/interface/TESTING
->> b/drivers/staging/vc04_services/interface/TESTING
->> index 273952dc9d85..c98f688b07e0 100644
->> --- a/drivers/staging/vc04_services/interface/TESTING
->> +++ b/drivers/staging/vc04_services/interface/TESTING
->> @@ -52,10 +52,10 @@ Here are the most common kernel configurations:
->>
->> =C2=A0=C2=A0 * Ping test
->>
->> -=C2=A0=C2=A0 Command: vchiq_test -p 1
->> +=C2=A0=C2=A0 Command: vchiq_test -p
->>
->> =C2=A0=C2=A0=C2=A0=C2=A0 Expected output:
->> -=C2=A0=C2=A0 Ping test - service:echo, iters:1, version 3
->> +=C2=A0=C2=A0 Ping test - service:echo, iters:1000, version 3
->> =C2=A0=C2=A0=C2=A0=C2=A0 vchi ping (size 0) -> 57.000000us
->> =C2=A0=C2=A0=C2=A0=C2=A0 vchi ping (size 0, 0 async, 0 oneway) -> 122.0=
-00000us
->> =C2=A0=C2=A0=C2=A0=C2=A0 vchi bulk (size 0, 0 async, 0 oneway) -> 546.0=
-00000us
->> --
->> 2.34.1
->>
->
->
+On Thu, 2024-10-10 at 11:43 -0600, Alex Williamson wrote:
+> On Wed,=C2=A0 9 Oct 2024 10:35:07 +0200
+> Philipp Stanner <pstanner@redhat.com> wrote:
+>=20
+> > pci_intx() is a hybrid function which sometimes performs devres
+> > operations, depending on whether pcim_enable_device() has been used
+> > to
+> > enable the pci_dev. This sometimes-managed nature of the function
+> > is
+> > problematic. Notably, it causes the function to allocate under some
+> > circumstances which makes it unusable from interrupt context.
+> >=20
+> > To, ultimately, remove the hybrid nature from pci_intx(), it is
+> > first
+> > necessary to provide an always-managed and a never-managed version
+> > of that function. Then, all callers of pci_intx() can be ported to
+> > the
+> > version they need, depending whether they use pci_enable_device()
+> > or
+> > pcim_enable_device().
+> >=20
+> > An always-managed function exists, namely pcim_intx(), for which
+> > __pcim_intx(), a never-managed version of pci_intx() had been
+> > implemented.
+> >=20
+> > Make __pcim_intx() a public function under the name
+> > pci_intx_unmanaged(). Make pcim_intx() a public function.
+> >=20
+> > Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+> > ---
+> > =C2=A0drivers/pci/devres.c | 24 +++---------------------
+> > =C2=A0drivers/pci/pci.c=C2=A0=C2=A0=C2=A0 | 26 ++++++++++++++++++++++++=
+++
+> > =C2=A0include/linux/pci.h=C2=A0 |=C2=A0 2 ++
+> > =C2=A03 files changed, 31 insertions(+), 21 deletions(-)
+> >=20
+> > diff --git a/drivers/pci/devres.c b/drivers/pci/devres.c
+> > index b133967faef8..475a3ae5c33f 100644
+> > --- a/drivers/pci/devres.c
+> > +++ b/drivers/pci/devres.c
+> > @@ -411,31 +411,12 @@ static inline bool mask_contains_bar(int
+> > mask, int bar)
+> > =C2=A0=09return mask & BIT(bar);
+> > =C2=A0}
+> > =C2=A0
+> > -/*
+> > - * This is a copy of pci_intx() used to bypass the problem of
+> > recursive
+> > - * function calls due to the hybrid nature of pci_intx().
+> > - */
+> > -static void __pcim_intx(struct pci_dev *pdev, int enable)
+> > -{
+> > -=09u16 pci_command, new;
+> > -
+> > -=09pci_read_config_word(pdev, PCI_COMMAND, &pci_command);
+> > -
+> > -=09if (enable)
+> > -=09=09new =3D pci_command & ~PCI_COMMAND_INTX_DISABLE;
+> > -=09else
+> > -=09=09new =3D pci_command | PCI_COMMAND_INTX_DISABLE;
+> > -
+> > -=09if (new !=3D pci_command)
+> > -=09=09pci_write_config_word(pdev, PCI_COMMAND, new);
+> > -}
+> > -
+> > =C2=A0static void pcim_intx_restore(struct device *dev, void *data)
+> > =C2=A0{
+> > =C2=A0=09struct pci_dev *pdev =3D to_pci_dev(dev);
+> > =C2=A0=09struct pcim_intx_devres *res =3D data;
+> > =C2=A0
+> > -=09__pcim_intx(pdev, res->orig_intx);
+> > +=09pci_intx_unmanaged(pdev, res->orig_intx);
+> > =C2=A0}
+> > =C2=A0
+> > =C2=A0static struct pcim_intx_devres *get_or_create_intx_devres(struct
+> > device *dev)
+> > @@ -472,10 +453,11 @@ int pcim_intx(struct pci_dev *pdev, int
+> > enable)
+> > =C2=A0=09=09return -ENOMEM;
+> > =C2=A0
+> > =C2=A0=09res->orig_intx =3D !enable;
+> > -=09__pcim_intx(pdev, enable);
+> > +=09pci_intx_unmanaged(pdev, enable);
+> > =C2=A0
+> > =C2=A0=09return 0;
+> > =C2=A0}
+> > +EXPORT_SYMBOL(pcim_intx);
+>=20
+> What precludes this from _GPL?=C2=A0 Also note that this is now calling a
+> GPL symbol, so by default I'd assume it should also be GPL.=C2=A0 Thanks,
+
+Ah right, I overlooked that pci_intx() also has the _GPL version.
+Will make consistent.
+
+Thx,
+P.
+
+>=20
+> Alex
+>=20
+> > =C2=A0
+> > =C2=A0static void pcim_disable_device(void *pdev_raw)
+> > =C2=A0{
+> > diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+> > index 7d85c04fbba2..318cfb5b5e15 100644
+> > --- a/drivers/pci/pci.c
+> > +++ b/drivers/pci/pci.c
+> > @@ -4476,6 +4476,32 @@ void pci_disable_parity(struct pci_dev *dev)
+> > =C2=A0=09}
+> > =C2=A0}
+> > =C2=A0
+> > +/**
+> > + * pci_intx - enables/disables PCI INTx for device dev, unmanaged
+> > version
+> > + * @pdev: the PCI device to operate on
+> > + * @enable: boolean: whether to enable or disable PCI INTx
+> > + *
+> > + * Enables/disables PCI INTx for device @pdev
+> > + *
+> > + * This function behavios identically to pci_intx(), but is never
+> > managed with
+> > + * devres.
+> > + */
+> > +void pci_intx_unmanaged(struct pci_dev *pdev, int enable)
+> > +{
+> > +=09u16 pci_command, new;
+> > +
+> > +=09pci_read_config_word(pdev, PCI_COMMAND, &pci_command);
+> > +
+> > +=09if (enable)
+> > +=09=09new =3D pci_command & ~PCI_COMMAND_INTX_DISABLE;
+> > +=09else
+> > +=09=09new =3D pci_command | PCI_COMMAND_INTX_DISABLE;
+> > +
+> > +=09if (new !=3D pci_command)
+> > +=09=09pci_write_config_word(pdev, PCI_COMMAND, new);
+> > +}
+> > +EXPORT_SYMBOL_GPL(pci_intx_unmanaged);
+> > +
+> > =C2=A0/**
+> > =C2=A0 * pci_intx - enables/disables PCI INTx for device dev
+> > =C2=A0 * @pdev: the PCI device to operate on
+> > diff --git a/include/linux/pci.h b/include/linux/pci.h
+> > index 573b4c4c2be6..6b8cde76d564 100644
+> > --- a/include/linux/pci.h
+> > +++ b/include/linux/pci.h
+> > @@ -1353,6 +1353,7 @@ int __must_check pcim_set_mwi(struct pci_dev
+> > *dev);
+> > =C2=A0int pci_try_set_mwi(struct pci_dev *dev);
+> > =C2=A0void pci_clear_mwi(struct pci_dev *dev);
+> > =C2=A0void pci_disable_parity(struct pci_dev *dev);
+> > +void pci_intx_unmanaged(struct pci_dev *pdev, int enable);
+> > =C2=A0void pci_intx(struct pci_dev *dev, int enable);
+> > =C2=A0bool pci_check_and_mask_intx(struct pci_dev *dev);
+> > =C2=A0bool pci_check_and_unmask_intx(struct pci_dev *dev);
+> > @@ -2293,6 +2294,7 @@ static inline void pci_fixup_device(enum
+> > pci_fixup_pass pass,
+> > =C2=A0=09=09=09=09=C2=A0=C2=A0=C2=A0 struct pci_dev *dev) { }
+> > =C2=A0#endif
+> > =C2=A0
+> > +int pcim_intx(struct pci_dev *pdev, int enabled);
+> > =C2=A0void __iomem *pcim_iomap(struct pci_dev *pdev, int bar, unsigned
+> > long maxlen);
+> > =C2=A0void __iomem *pcim_iomap_region(struct pci_dev *pdev, int bar,
+> > =C2=A0=09=09=09=09const char *name);
+>=20
 
