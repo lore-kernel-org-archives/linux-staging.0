@@ -1,41 +1,41 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74BE7215009;
-	Fri, 11 Oct 2024 11:05:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AE7F19F110;
+	Fri, 11 Oct 2024 11:08:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728644749; cv=none; b=iE70RirZZ6anUx0JFBx3JbXh6XnrOCCCBdhBs9ZArTTzYJPE3Q4gJlic5Jt+7FBzTpLjSe3zHRaLUsnh8LxkVnO+PysL9AGYVyoDXGqhqNE6NamdrsdQJaNDurZCOE5W7ZFRJCE8sRpgRuYHMNIFRZKveKZ5u6w/kMuLtvg+nzU=
+	t=1728644884; cv=none; b=RKy1JU6HONE9Rrt4sNhwbHubqopIp6/tyvafjSm6k7LW34vBFBX2spOSZsPnX21D6ekn3/GWFBRV0LVIsCvBqnwiG4HVyrCX1MJKhu3yeHErQZsp3hvcgfjh9atqagNOPK4Rv8zxKaZYzZD6wn9mBoEw2vAIaG01Ck/voCJty+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728644749; c=relaxed/simple;
-	bh=6D37WDeB/DH8wJD3vRLW50kinLc/15xw0HCbvv/Chmg=;
+	s=arc-20240116; t=1728644884; c=relaxed/simple;
+	bh=oWSw+wKUbit3CmaNAU5GuI1z72G7uE5sGpOnxC+YQEs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MJE25QeDhocz+f4h0J5B41cjDqpd7sGgK8itz+ArogoDbWdFyjB6qXk/QRQkobCi3uJ2ZoPTHqTRwFF5h+AlRI0d4U1OB/RMDla99Rig7e68b57yCkPGFRdEbQ5iSMOs8oJlbuGkdT38ljATKQBwjbRPsf7ewx4T7V6aEU2mEFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=RRPBowiU; arc=none smtp.client-ip=212.227.17.20
+	 In-Reply-To:Content-Type; b=FbAb6O1A5kh/qi5ojXc+7oqyGfl+AnwkXcuoOqvBP7Ex0U3R3bCdnVA5DlLhEYt3kryipjlmn+xE7PTIdFJBP8+iSm15iMGI7NItC/znt7/TRXLgWNxOoX+fnc9EFHdnIic2uXkRJLPXnrQ9VOs+kBVUuoOPkNHPXPszg6O5zLo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=UDiJDVgA; arc=none smtp.client-ip=212.227.17.22
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="RRPBowiU"
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="UDiJDVgA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
-	s=s31663417; t=1728644737; x=1729249537; i=wahrenst@gmx.net;
-	bh=YrZ9LfEnyaou5WYzeSPJTD4kfXnwi/ikkYywgRF7yOc=;
+	s=s31663417; t=1728644872; x=1729249672; i=wahrenst@gmx.net;
+	bh=Z4nVWdimm296LbZbrWBO63D2qrXcdso6zag9Pk1TLqY=;
 	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
 	 References:From:In-Reply-To:Content-Type:
 	 Content-Transfer-Encoding:cc:content-transfer-encoding:
 	 content-type:date:from:message-id:mime-version:reply-to:subject:
 	 to;
-	b=RRPBowiU8GCpvc7aa60vdTGp1g/T3JUyh6EWrOSNM38retbCCDCmsQfM8219ri29
-	 39AzuJfkMH19ZFc0wZcGwaFW194N49EuTz/T9xFr4ncs8e6yJHBawt8LQXcXL3rln
-	 Cl1Q8vfDv6iw/i96wfOFBZSAm5v78/NAJKIQbA9862U6lsvw0NiQeaCI/FBAiTBjw
-	 24AEuwq0vU7KgzKef4MZr2tLXdOTcvckaCdVsk19gXTC6u6pnSHUg3VjIOhV62l5i
-	 9TdG2bcTOo4uOrX3n3PEOUlMYzXfJUzKcUgOwDksWEsVkz1M1n7+rIr+P3LehKc9U
-	 dXkkb69asvIP3mZo9Q==
+	b=UDiJDVgAMG2UeHaNcKWXYrH3A1gkERVSXMfaS0LyHaDM/MMdGaVpzzNN/QaqSWad
+	 ++ci0LZ3pspc//B56bfUuuCl8owLUCCSsGEUjGgn96mX+ibV23iFrpC+38H2c6+EU
+	 y9HwsynK4wajJ4Sxymt70vsqhLq1/eDr7mdfH+O3OHV3SKolz25VuERIUJDKDyOpX
+	 IcFylUu39EGFml9WEI79aoGdEbwBigGVZ54QTCWQ+Ihfhsqixko7cwt9YEDy+0SLj
+	 iNxafgpBk6kHfs0p2pljT1e7jZnHghzbdVnmcz4QfCsvX86t/+F5RvEAGYNzqpKNR
+	 AB3YEBhy0+fp117Y0Q==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.104] ([37.4.248.43]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1M3DNt-1sxqYO0541-008QRK; Fri, 11
- Oct 2024 13:05:37 +0200
-Message-ID: <3822dfe4-6ea0-4934-8c7d-85a2433adff0@gmx.net>
-Date: Fri, 11 Oct 2024 13:05:36 +0200
+Received: from [192.168.1.104] ([37.4.248.43]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MD9T7-1t7m5R2y13-00Ey0o; Fri, 11
+ Oct 2024 13:07:52 +0200
+Message-ID: <6e57a187-acf1-40fc-a81b-5f90a12b9658@gmx.net>
+Date: Fri, 11 Oct 2024 13:07:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -43,8 +43,8 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/8] staging: vchiq_arm: Lower indentation of a
- conditional block
+Subject: Re: [PATCH 7/8] staging: vchiq_core: Lower indentation in
+ parse_open()
 To: Umang Jain <umang.jain@ideasonboard.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
@@ -55,106 +55,42 @@ Cc: linux-rpi-kernel@lists.infradead.org,
  Dan Carpenter <dan.carpenter@linaro.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 References: <20241011072210.494672-1-umang.jain@ideasonboard.com>
- <20241011072210.494672-7-umang.jain@ideasonboard.com>
+ <20241011072210.494672-8-umang.jain@ideasonboard.com>
 Content-Language: en-US
 From: Stefan Wahren <wahrenst@gmx.net>
-In-Reply-To: <20241011072210.494672-7-umang.jain@ideasonboard.com>
+In-Reply-To: <20241011072210.494672-8-umang.jain@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:vjcGG8L9TmRPsXePVp23Y+W14RQC9VY1bmVX6LpFl0bKPaTX1gy
- wdcMGgual033VzsewYZHdZbuT5rrZWZcQN79BWluYSNdDo7bf7TWpG6AKhf7cEUkWaxm17V
- X81rcFdITfFhw3hcgS1Zwn6n9/SwJMiCjUZrlT5I0/VHSWafkg8jwxzS/BZattKjSmccndN
- lmcRMRkOsubcOVbG545iw==
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:qiQ+jC0jvAWUfcEhweTUAU5bR9M/1DlrovEtBgyC7HFIftPwoSC
+ bpbpLcIMYWGnfaP0ZmYtyu8khDMJYYB6u0iayGX99xC+YbsyY+qAShf5aWt07EEtWdsfaQe
+ uxyBq1Z4DnfmX45k2ubkCoFYTiv9mpqnU5oNSTKXl9trv0ABK/n6Wdl7KSDAIv/aLOeCIcn
+ 4gKFOWUHVBYkOyRO0VXWg==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:M0/kSwbpfJU=;U6J2KrqhRNs1GfWY4gNlAHpzq43
- F6h4hELw4Vl5aJ7Nc8LKH38nfRx8r7yzVm+pHBN5KH9NLgQ7VdmoUdLZBjnIwjxS+hcsINuaf
- SQcWxQlHkKdG47lRw0MZpf2OdVbOWMeU7JWLoOuYdO15kWeSKZqQbAgehTJfP5TaTI5zyz3R/
- CrxF/Ek52PBnmc3z+Vfpbp0wNpXj14vC+PwOeP9/+4nZ7OgT6cwRhFrnyp9AtXvoRlmpbI8rq
- k803yltci0miQFsWtzjD68Xm0V2ds+HdTS3fPHg6qwcMYdFomhew8kW0WPI6MOhMG+YWKEBan
- wYfy9bms3LrqGq/E7SiEWhj2aWTdcp/1S5svsXTW412jJn1O60q6Xu3u98sYvhlxJYMpv8R5F
- Ix5u+msTxQsoOFscXqVxKbyMczrPL3+BXnofw6cjn5xqVQ8yEr/4ekjzjd/A8L6M27+xFzNgf
- RSLcb9TMis6vmNBwBloDisonveb6aLgDUk3Usvf5B1ehJdk3tFrEuZ1nHbXHop0YYBn+Bdseg
- 8sw0HR+ML8viWBeaP9X4GyhNz+y3UBdfTAbof7e1judKvJwq347JQJYNz3g0A3ZhIDLOeRnhA
- u8+cNbgNoEhJRTayVYg856yi4JzOUUF5vSCJvkSPwZSfPv6OXXgOHXr1za7chOPRIVOHkJaZ/
- nbQgP0YkJhtf1YXYqz/knB2Lb00Swl/y81V5zBbZUmQxM59JIJklRkE5sBVXY6q+g5XCc7kN4
- cu/g8v8Su6kMhsSrYvSFtza9SeQwInUHjTVuP896jVm+axfm16c1Of9FAknfKYUNPFLk7SUqw
- ECWboUobgtELPJ9Cp12HutvQ==
-
-Hi Umang,
+UI-OutboundReport: notjunk:1;M01:P0:S8Jp8p5bm3A=;4rEMfo+fUVlraaC0LCLmLWGWghr
+ pthzjqZIp3Crc+tsla+Dq6QeG4OHD7fP6Kc8xY7L26zrW0lzuIKKbL+++BhqlLwlkRxkuTjz8
+ ArpvvUfszw2pSoXc5S2mwXKasDu/XQ5dxdErGSrgyMFZkPg41DdTwK99XpsBTOpfz+88s+Ivh
+ L97XVn1YKJYoQn9+6r78JmXtL9Xql9Z+tK0b8k4b0fK3SDTBVBjcQUjjPohLlb/472lnOsc6b
+ QlOWOakjDuQoNB+aV7hvvm3H0PPuj7g59hwGhLBjiXXmALDWDVyv+RwJk9qX5/tWFxDTfeYvI
+ xDBxZdBAGmeDUJihVr9db0q8d3Op8Sag1lVVleQh8dZcOTE4Btef+t8vGnnEDcIZ1v6hxlciF
+ SoeG1py8x7K9DbTHEcDQYVW4CNP3S6T5jMM+a9yZbdbMbQ7tAcyLPZwDwnGRfeOH0iiZVLMSk
+ IYQHZj5FQa/kvnPGgcLMEwjat32FYcjdqG7l1urPI9VW4OuD86gkfVYDjOSOTBY6cqAg58KXU
+ n6NDSl/JJ7oZSf+Rp1F7yJFm0i/F71747kUXDZhtjHWki9qdLxGUw5LJgh3KE4PQPYSrYLJtY
+ qhQcnGtittjJw2s0JQajjRcHzO3rUIVRT567UDV18PgmkAQe246MPMt7+vm3e0NeNW0hyHG2Z
+ j9B5mWKFQZzsaE3UMnNjDxHHZDfS1AIW4yHC/d/PoXJY4DrrTypz5w/CdnviEkPtNiepOZ9tP
+ 3NTbqJDN52FE5HgCexgjrg6g2zRO+HYQwQyO/bK/xfxs7o2VyxCjfDpRInz0NEFQ/wLCxY7G9
+ YSUlxdYQd6YS+6fs+ojmqWUQ==
 
 Am 11.10.24 um 09:22 schrieb Umang Jain:
-> Check early if we need to allocate the bulk waiter. This helps to
-> improve readability and reduces the indentation of the 'if (waiter)'
-> conditional block.
+> If the service is not in VCHIQ_SRVSTATE_LISTENING state, it is
+> implied that the message is dealt with and parse_open() should return.
+> If this is the case, simply jump the code flow to return site using
+> 'goto done;' statement.
+>
+> This helps to lower the indentation of
+> 	if (service->srvstate == VCHIQ_SRVSTATE_LISTENING)
+> conditional branch.
 >
 > No functional changes intended in this patch.
 >
 > Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> ---
->   .../interface/vchiq_arm/vchiq_arm.c           | 34 +++++++++----------
->   1 file changed, 17 insertions(+), 17 deletions(-)
->
-> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm=
-.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> index 27ceaac8f6cc..a4a7f31b124a 100644
-> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> @@ -564,28 +564,28 @@ vchiq_blocking_bulk_transfer(struct vchiq_instance=
- *instance, unsigned int handl
->   	}
->   	mutex_unlock(&instance->bulk_waiter_list_mutex);
->
-> -	if (waiter) {
-> -		struct vchiq_bulk *bulk =3D waiter->bulk_waiter.bulk;
-> -
-> -		if (bulk) {
-> -			/* This thread has an outstanding bulk transfer. */
-> -			/* FIXME: why compare a dma address to a pointer? */
-> -			if ((bulk->data !=3D (dma_addr_t)(uintptr_t)data) || (bulk->size !=
-=3D size)) {
-> -				/*
-> -				 * This is not a retry of the previous one.
-> -				 * Cancel the signal when the transfer completes.
-> -				 */
-> -				spin_lock(&service->state->bulk_waiter_spinlock);
-> -				bulk->userdata =3D NULL;
-> -				spin_unlock(&service->state->bulk_waiter_spinlock);
-> -			}
-> -		}
-> -	} else {
-> +	if (!waiter) {
->   		waiter =3D kzalloc(sizeof(*waiter), GFP_KERNEL);
->   		if (!waiter)
->   			return -ENOMEM;
->   	}
->
-> +	struct vchiq_bulk *bulk =3D waiter->bulk_waiter.bulk;
-I think this is a behavior change, which might lead to a null pointer
-dereference in case waiter is freshly allocated.
-
-Tbh I don't think indentation prevent us from unstaging this driver.
-There are more important issues (e.g. resource leaks in probe error
-paths or excessive usage of WARN) in this driver.
-
-Regards
-> +
-> +	if (bulk) {
-> +		/* This thread has an outstanding bulk transfer. */
-> +		/* FIXME: why compare a dma address to a pointer? */
-> +		if ((bulk->data !=3D (dma_addr_t)(uintptr_t)data) || (bulk->size !=3D=
- size)) {
-> +			/*
-> +			 * This is not a retry of the previous one.
-> +			 * Cancel the signal when the transfer completes.
-> +			 */
-> +			spin_lock(&service->state->bulk_waiter_spinlock);
-> +			bulk->userdata =3D NULL;
-> +			spin_unlock(&service->state->bulk_waiter_spinlock);
-> +		}
-> +	}
-> +
->   	ret =3D vchiq_bulk_xfer_blocking(instance, handle, data, NULL, size,
->   				       &waiter->bulk_waiter, dir);
->   	if ((ret !=3D -EAGAIN) || fatal_signal_pending(current) || !waiter->b=
-ulk_waiter.bulk) {
-
+Reviewed-by: Stefan Wahren <wahrenst@gmx.net>
