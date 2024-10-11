@@ -1,63 +1,64 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEADD1EABA2
-	for <linux-staging@lists.linux.dev>; Fri, 11 Oct 2024 05:55:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F79CBA2D
+	for <linux-staging@lists.linux.dev>; Fri, 11 Oct 2024 07:08:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728626162; cv=none; b=LA99W1vJhEunPWBEUrUJKgUuhEcaOSpnIMHJwb72LuVmqqWVoD8F/pJivCooeoAegqvNR1GTY+GFEhjjaWJ1jryB/As4kX+MxJLHSZVLOo1XsxPhKpcivV73z6z4h5KNTMKhOiuQaw8MLX06xR4KurhMh8+mSypJK16pQNUcR4I=
+	t=1728630522; cv=none; b=b3D5HkvLl4vXiNvA6m47Qb/RIPbl+Gdsqbu+698eeywiNfJKvNCOcPACfe9ugoSFZn+qAMbjWB17i6miwyzqDtw/IZmbHalAceIl3skkxv7vT28o0sqXjrWEDwNBFx7BblkOvAuOPxIO4JzpybU/RbAICeSKeQJUyD72ilXK1MA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728626162; c=relaxed/simple;
-	bh=LeWzSZEeZjlm/S6LcUfN9/Bv1NriOHcYq2cOKsOY8vE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Krv1obuDGNFHMOA/BOgLlah56Y0ollV5onsfWdcjQR/Hhl7elgBylN9mxvaoOJUXnpPqazhRuQ1SIGb9sG5XIuf2RPtXPcZnespJVEbk124xHHysrfzRiOq94Fh8+WzMuraJrB8otYEuC9ZlV6VPkAnZjUUgvhBDxpiTnuLBqkk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=mU+vW4IX; arc=none smtp.client-ip=209.85.218.47
+	s=arc-20240116; t=1728630522; c=relaxed/simple;
+	bh=40wYFZBcZ/Te1mbbzlNsq6UqMGnE/MY0olWXqzd3wUI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=lrwGFRV2W3liURspbNhxG2ka5rzhT9b2PBr90PKvfwBmRb43FCPAkSB4fEUwg7rQxtFGPts0QhgWtfXS+duM3pitwwUJFO/efdrEOUj0FWnph6hLD/Up7CVqFhYGBynt3cmfwbLT/9Lyx4QZS/GfMcubRXm/nLhehmRt37E8RSw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=3bdn8VAF; arc=none smtp.client-ip=209.85.218.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="mU+vW4IX"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a99543ab209so231548866b.2
-        for <linux-staging@lists.linux.dev>; Thu, 10 Oct 2024 22:55:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="3bdn8VAF"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a9977360f9fso225905666b.0
+        for <linux-staging@lists.linux.dev>; Fri, 11 Oct 2024 00:08:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1728626156; x=1729230956; darn=lists.linux.dev;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1728630517; x=1729235317; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZcbXWctLpVp7P2qmHeK8dg5RdflNt+vzsJAGCrHjVZw=;
-        b=mU+vW4IXIs1piztcUDO9bMnPvx585BrgesPnsAx/LzyKn2fUKWqjwGmPbsZrzvSXEz
-         T5y3rxKotFH2M4pJjmin90SCNIB0eWb+vMB5QghcFRfhXL5nhf/knFGxTCyTdyvNH4u9
-         rtXH9OhjxYH5esz76+1eGKiULRvCK674hkm8tCZ17C1uqfrZweRdbdpUjzXuyFAPhaCe
-         F4NJpapPIhsenAk58n+g/12coo58d8EPZNC4PohxT/SIEGMQ77oT8I5j9Jw1VyLklY1F
-         26Jwd4Agl/BBBUD7ND/At9/+hukjU869HbCFIBWUd+aU4xdpge4kWgB8Yq/HvkfyJclk
-         X8LA==
+        bh=7VI4KHP9U51D6NEqmqYWaYC/FRMc55B2SsfTAfcfm8g=;
+        b=3bdn8VAFCTeCFADiSuddfq2QvbLdwj8f09auJ7zlLw7zGAivQ4A1KwGtCheVZkI5UA
+         hDN7THOusrgHDUyYGXVHBg3LMtDc6h6FPnDTRyw0ayNDE/577LqB6+fwfjxWx1wJivcs
+         T1lhk/zcQH6H/rVV15YlJ4+9n6du7HOFXD6So2vt7tSxxHbUY/msue3nJRVZEThVhqrc
+         gtpeekHDdPY/1+jc5zKQNuALFSg4xDwWcH9YzgjdWtZ1V8gXEoHUeYD/wUPPoTXqt4xY
+         llhHOi5UJHu7HT+y5mjx/bjzTREOmXAiZjl2k03NsjI5BFErCyihvm95nA6uyozBlXxQ
+         2JWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728626156; x=1729230956;
+        d=1e100.net; s=20230601; t=1728630517; x=1729235317;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ZcbXWctLpVp7P2qmHeK8dg5RdflNt+vzsJAGCrHjVZw=;
-        b=xPVr37TDoyO5rc60A5tXH1aH3iHqVC8iTfJYWX5PKgiVoaiiL13l3OFCU3eZFvmBl8
-         U9CRdUAaVcOncPoQnRhZR4qiD13OL8NGYbRijte74ohQICVFNMPNvyRCQhXmyYOvixya
-         m0fJLAciWF1bc/4uQhg5SDFr2V3ggMBI1+IKzRZj7knrrlfWwfXiC5P5lfJFFEX+PoE6
-         c7C4OP5XQKer0sIH1nrssae5Qjr5KAA/e8j6ymUVtZZsLI0R2l50PmnuuSeZdhu5sg2C
-         /NBZ6JmEJV7NNUnc4AwMZAGCoAzZuqEcGQpbzz3/sI+z3OVXkRmYYUi4x49LeKq0wIC5
-         Hh2w==
-X-Forwarded-Encrypted: i=1; AJvYcCULeKKbXkrX4y7lLShD/MEzq8N3dE2t45YnZ1OkvWetyubCOLxFu+4VDXlpI2Dcelrh/pOKYJ1nSd1ogRSi@lists.linux.dev
-X-Gm-Message-State: AOJu0YzJRb5iGZuZHwnrOnydQpX83ma7k4atZxb+yAhPyHJZa8Gd4UGe
-	eqOcp+RKvp+uRBEPCP6y3WjtXp4ZvlIRPaqn652LaKtBtN9cTWOCKGWwEvMtnPs=
-X-Google-Smtp-Source: AGHT+IGrPFWRL3tN9YvrGFAVq+cmFKNBfuT1nuPH/ScAc+J+3wG1/9R1MW09wB1vmQ6XZelh2lxoug==
-X-Received: by 2002:a17:907:948b:b0:a99:8378:b939 with SMTP id a640c23a62f3a-a99b931457amr121623466b.2.1728626155914;
-        Thu, 10 Oct 2024 22:55:55 -0700 (PDT)
-Received: from localhost ([2a02:8071:b783:6940:fe55:1e35:8b9:5043])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a99a7ec54c1sm175208566b.10.2024.10.10.22.55.55
+        bh=7VI4KHP9U51D6NEqmqYWaYC/FRMc55B2SsfTAfcfm8g=;
+        b=ffJ63QgthGcKpjbg0s/R8KrM2zcgCsVF+VrqojxkvEnaPnEGkkhxt5DSOl4Nsf5w1J
+         FnIhbhIZdeM8LR41BxwgJiCn/jsPyDVQQs2zmsQ3Y9cZUzXulghoQl1p6yzHGZrGn1Ot
+         ucevQCODz3ol5m1yCRrzOvRSGoUEY3hQnKkMZ/y31iGYa7Sc89F7omlqT14MIkScT+0f
+         Je46vFv+/4kNxahui6xkTJvr5APj9aZzSSS3wTygzxsm5mI/p+3X+4wqw/otd/9tfhoq
+         XsAtrDYJOqiMc6iyEXjrH9xorvZ8JvgKh7nr8kEU+h6S+Sbqmymk+6wzrQmCCo74cPn7
+         p0bA==
+X-Forwarded-Encrypted: i=1; AJvYcCW71dt58D6uawTQsWiK3sfWjxSCKXsF3PP8ulJzWIRxwwXz7m/5NZ6ifKvRf/tBJg13z7FGT7J2aOvHC26E@lists.linux.dev
+X-Gm-Message-State: AOJu0YxUn9rg+He36ivxAS7iXmRn+PT1bAMf1jVuMgLyA3IE8QErSHpG
+	TGuAig/BBblXHfX6Q5IuSH0c6YNJKK5vbingKfDcTCQy17UMb5H7S9u7vjEwBgw4dH0YJmxUY3o
+	B
+X-Google-Smtp-Source: AGHT+IEZslF3NGC0nGSGq7OftwMgboriVGVfT4Scg1kbCqjVL4BDUS6eSKayekjyYeoVF55yyenE6Q==
+X-Received: by 2002:a17:907:d847:b0:a99:4b63:f810 with SMTP id a640c23a62f3a-a99b9604801mr131333066b.46.1728630516586;
+        Fri, 11 Oct 2024 00:08:36 -0700 (PDT)
+Received: from localhost ([2a02:8071:b783:6940:36f3:9aff:fec2:7e46])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a99a7ec5747sm179759566b.37.2024.10.11.00.08.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Oct 2024 22:55:55 -0700 (PDT)
+        Fri, 11 Oct 2024 00:08:36 -0700 (PDT)
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH] staging: media: Switch back to struct platform_driver::remove()
-Date: Fri, 11 Oct 2024 07:55:39 +0200
-Message-ID: <20241011055540.844629-2-u.kleine-koenig@baylibre.com>
+Subject: [PATCH v2] staging: media: Switch back to struct platform_driver::remove()
+Date: Fri, 11 Oct 2024 09:08:29 +0200
+Message-ID: <20241011070828.851449-2-u.kleine-koenig@baylibre.com>
 X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -66,7 +67,7 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=9475; i=u.kleine-koenig@baylibre.com; h=from:subject; bh=LeWzSZEeZjlm/S6LcUfN9/Bv1NriOHcYq2cOKsOY8vE=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBnCL3dbiP3vm/112Se/kMZPmr/iMAQZfI+jfaZl A2KXnhdipyJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZwi93QAKCRCPgPtYfRL+ TiPbB/9SWwMMg8rdaNO8yMi6/vyQuxU1GQP24e/Tz92Gi479gzO3dbMhSPVrNeqgCKBvb2E+jba PwPB37AhIQTZukGfdluxJWXrZhRp9SQfFSs4DjDriuQrEKmgn4yoy6alWQfZCtjAjAY/R8G25M8 4gJXeyqU/smt97DGmROPIM1XfOKsIdwi4HxA53mJbht8w1dUMRlYdVCo9uVRlsBh+bcYBcwdSfL hID24NiG5/AXJ93+ok2UuUUEq28+Y7dobYYgKaLQ9Db3ptc04c5plRM47Pry0wQ37Jy0CWXf4V3 uRI2ooWU6C+nCI0BODqOdgVLsvu35PEhy7xgIRJiPS5fUSE6
+X-Developer-Signature: v=1; a=openpgp-sha256; l=8777; i=u.kleine-koenig@baylibre.com; h=from:subject; bh=40wYFZBcZ/Te1mbbzlNsq6UqMGnE/MY0olWXqzd3wUI=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBnCM7sVOl8GsJ83/sU5zXAr5GICuKp3zpN6YIrb 5SQJS7DYjCJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZwjO7AAKCRCPgPtYfRL+ TstDB/wJcZvOdbNHYarXkzj3sSNxuMD6MUY4puG5Nyctoc1/ZMZAgOcZZMWFfiY4b9E8UG+IWs2 tLpcIu0QaSINnn7irLeVU60bGCaVpuVJIul8x4pmBjveRnQ8PDMLN26YqtXfBvf0FAxPahW5X+C iWghz3Ptsf2o6K1WZMt/FWwsaXViJj9uOzolBJrDAXpEGY7Y5ZCAUbVgXYDl93hHfK4666xzuew uhKG6sEg7qi6lPkJDLAW+nwl4bmYFVQlZEE8uqu5qvdmp8fWrSf+nl9XZY7g3OY6Vx95tixzlmN a3vZZTwsf+A4nV7lP6z/2TUIJK1WajuiZD8Nr9fKtEMWrpuB
 X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 
@@ -84,20 +85,16 @@ Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
 ---
 Hello,
 
-given the simplicity of the individual changes I do this all in a single
-patch. I you don't agree, please tell and I will happily split it.
+just rebase to
+https://gitlab.freedesktop.org/linux-media/media-committers.git next
+to make the CI happy. The only change is that the adaption for
+drivers/staging/media/omap4iss/iss.c is dropped from v2 as this file was
+deleted in above branch (since yesterday's next).
 
-It's based on yesterdays's next, feel free to drop changes that result
-in a conflict when you come around to apply this. I'll care for the
-fallout at a later time then. (Having said that, if you use b4 am -3 and
-git am -3, there should be hardly any conflict.)
-
-Note I didn't Cc: all the individual driver maintainers to not trigger
-sending limits and spam filters.
+v1 available at https://lore.kernel.org/linux-media/20241011055540.844629-2-u.kleine-koenig@baylibre.com
 
 Best regards
 Uwe
-
 
  drivers/staging/media/deprecated/atmel/atmel-sama5d2-isc.c | 2 +-
  drivers/staging/media/deprecated/atmel/atmel-sama7g5-isc.c | 2 +-
@@ -105,7 +102,6 @@ Uwe
  drivers/staging/media/imx/imx-media-dev.c                  | 2 +-
  drivers/staging/media/imx/imx6-mipi-csi2.c                 | 2 +-
  drivers/staging/media/meson/vdec/vdec.c                    | 2 +-
- drivers/staging/media/omap4iss/iss.c                       | 2 +-
  drivers/staging/media/rkvdec/rkvdec.c                      | 2 +-
  drivers/staging/media/starfive/camss/stf-camss.c           | 2 +-
  drivers/staging/media/sunxi/cedrus/cedrus.c                | 2 +-
@@ -113,7 +109,7 @@ Uwe
  drivers/staging/media/tegra-video/csi.c                    | 2 +-
  drivers/staging/media/tegra-video/vi.c                     | 2 +-
  drivers/staging/media/tegra-video/vip.c                    | 2 +-
- 14 files changed, 14 insertions(+), 14 deletions(-)
+ 13 files changed, 13 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/staging/media/deprecated/atmel/atmel-sama5d2-isc.c b/drivers/staging/media/deprecated/atmel/atmel-sama5d2-isc.c
 index 712f916f0935..bc360875516c 100644
@@ -193,19 +189,6 @@ index 5e5b296f93ba..6bf7ade0c6a1 100644
  	.driver = {
  		.name = "meson-vdec",
  		.of_match_table = vdec_dt_match,
-diff --git a/drivers/staging/media/omap4iss/iss.c b/drivers/staging/media/omap4iss/iss.c
-index 0c4283bb48ad..61cea89c042b 100644
---- a/drivers/staging/media/omap4iss/iss.c
-+++ b/drivers/staging/media/omap4iss/iss.c
-@@ -1340,7 +1340,7 @@ MODULE_DEVICE_TABLE(platform, omap4iss_id_table);
- 
- static struct platform_driver iss_driver = {
- 	.probe		= iss_probe,
--	.remove_new	= iss_remove,
-+	.remove		= iss_remove,
- 	.id_table	= omap4iss_id_table,
- 	.driver = {
- 		.name	= "omap4iss",
 diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
 index ac398b5a9736..433df4778c95 100644
 --- a/drivers/staging/media/rkvdec/rkvdec.c
@@ -292,7 +275,7 @@ index 8504b9ea9cea..5ec717f3afd5 100644
 +	.remove			= tegra_vip_remove,
  };
 
-base-commit: 0cca97bf23640ff68a6e8a74e9b6659fdc27f48c
+base-commit: 4115edeff98f2ce9f821a8bddcd7a646cfdde77a
 -- 
 2.45.2
 
