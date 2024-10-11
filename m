@@ -1,135 +1,309 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F4217209689
-	for <linux-staging@lists.linux.dev>; Fri, 11 Oct 2024 07:30:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13CB21CDA19
+	for <linux-staging@lists.linux.dev>; Fri, 11 Oct 2024 07:39:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728631824; cv=none; b=Y/9JzDruaCaK1wgOOVBeW8jjz0XyWMsxPfxNYw9ITHcUIAz2R7CEVKZBVNfNl/wUq5+sVMcGIbe7R1k1x2tYd1rEEARomqwZyU12W0AJkXLAPTQnif7986PU4F32xo1wbZXfsjpI7KN2C/SViPXIDJb00hG959ImDRLNblAavuU=
+	t=1728632365; cv=none; b=TNyDkQm5HXkJf+UC6wWpMWj/q0W8yqpRqeJbhwas0G8qh5NbvmntQ7IzsNo85vChORUvpL4LyHhCoF6J3NQkD4qyVVL06aegpUrY+az9uMbE27yMfNluAEb93nCohaOg/qypmymvx9vJyjPQV3Y/jT/R3r/AlLDdiG2XeGxW6tY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728631824; c=relaxed/simple;
-	bh=HPzlE9sh1djReKfpWW1YtSaIElNq0n+B+WspYQFZr6Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mBwAKcAZI1tIb3XuGeXvdH45df0EzFC+wZE5EQ7xeXEMEKdAuv+MGHW1wj6DzWi+ByBAGRqu0C4xMEwfdBslxXQelqX5O22AIDhcoCHiJ1n29IfMpgNl6NFcEsZD3W2lMOZeGFPEITBahYiRR9CgFfqAmSTQkk8ZEdqOKjwqAa8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=klixmQzz; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1728632365; c=relaxed/simple;
+	bh=N9s6vNcBLYhsQ9mk13y5mdF6jh9wzSBntT55M4D5yGQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JAmWuBn4L1Emj81yKRfbLRhb9qyv+TRMAAJm73Sy9c81Y9ttx8MOz6g0WwU1bJWGjJLFXqq3zAuvw6j4k2mkjeOqZo6A/UmhvJQYdRBgLGIn1pCUTfeMcfrge3XPBg9Z38VxEu1dULsNgddRVb4z7FIhROqOPnH6jxgx5FhR76c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QxIMWKp3; arc=none smtp.client-ip=209.85.160.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="klixmQzz"
-Received: from umang.jain (unknown [IPv6:2405:201:2015:f873:55d7:c02e:b2eb:ee3f])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 06579229;
-	Fri, 11 Oct 2024 09:20:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1728631261;
-	bh=HPzlE9sh1djReKfpWW1YtSaIElNq0n+B+WspYQFZr6Q=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=klixmQzzl9HPXqPwQIprJNgmnwZ64HPpgEmp43Uk+l4IuZkFRaIWlgh7rv0TJoNWo
-	 Tv+t6Jju1NVBQRdeq6O0TJroMeiu0C3jlc608DL9wl1spH425UGr5IXB5dfmRPdwqy
-	 8xtNDXfIaAWWoVxTsDYC99Qwf49UoqY2YmfiqQpQ=
-From: Umang Jain <umang.jain@ideasonboard.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
-Cc: linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	Stefan Wahren <wahrenst@gmx.net>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Umang Jain <umang.jain@ideasonboard.com>
-Subject: [PATCH 1/8] staging: vchiq_core: Locally cache cache_line_size information
-Date: Fri, 11 Oct 2024 12:52:03 +0530
-Message-ID: <20241011072210.494672-2-umang.jain@ideasonboard.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20241011072210.494672-1-umang.jain@ideasonboard.com>
-References: <20241011072210.494672-1-umang.jain@ideasonboard.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QxIMWKp3"
+Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-2883e3f5419so709484fac.1
+        for <linux-staging@lists.linux.dev>; Fri, 11 Oct 2024 00:39:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1728632363; x=1729237163; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3QGK0KqvaLrNRtQBZUwM76VFtn49u1FVoQQ16dvotBs=;
+        b=QxIMWKp3S81LJP+Ch2uRdynuu4UGe7LoHs0gAQ7BbGjHJsjZad08QdykGwmuTQfyKV
+         S+rIlumZ4V4v9Tt8hF/r4nv9PxA4QADMWZRf3R3nymL1smB91LPgYo1W4t0QBxQoNd9B
+         2cveADIiCbBKsv3JwtJG4K1Ln9JQPT++Vm3NjOl60e2Ovg0kFKpCVdGynK/Uig6P+m37
+         /5fZQ0sCxbsf9zm2iw+w/s60XUH2Ihs2dgNgbN8CqQDfPnSEH99eYMglTXH4F8cdYFqk
+         0aOr9g6YEFc4iusQy1tqatlmHheRAIQsnLZGT0XJY3SAZu+yNL9xS7y7Xc4P81xj8Y9n
+         CHqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728632363; x=1729237163;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3QGK0KqvaLrNRtQBZUwM76VFtn49u1FVoQQ16dvotBs=;
+        b=rvHjkk+/cQD6hAEZIBM9xfWvzQNXJw/nbYeN7jLyPtz6pWoierZQ2JVuX5BgJcEWZY
+         SxQJKRMwQA1NsIZRU+oglfTS7ue4ncPnf+9w+S8hA6H2hyjesb2qkSDOkkhQoiqy9MYO
+         kNFsRQxh1c5a7VRrn0634g/58lY+JnId87td2MIMS8ljn5yQOGeTiQGqd7Lt2RsgdQ47
+         e5n4PE+3vk8rOPrZr2ynLVJlTVQHrxfpUA2UOd+ehWPUNYZ/p3TI8DN+6EWqAr2WpPrB
+         KxyYPfFhHOzZ5edTNdfkwruLTG/7T69vIslpkOJN1wzKACiD2zbkB+U6KLKe7lu6tH+6
+         cfUg==
+X-Forwarded-Encrypted: i=1; AJvYcCXJRYYLKcMkDEi8QgJTbdnjfF66OtUZvqgOCP1kFg3jvQpgT8z68y/228/Wy1XIgtZihIex9leLJ6Y7QPnR@lists.linux.dev
+X-Gm-Message-State: AOJu0YyWXpZHzBJN42DYUde0PO/VqEloQna7fTLxofmcyXEnQlcn68gt
+	4q/4gdW5bD5lw835TMZ10jy7yKntLK8XTOp0ss/VRqq6fmKCjgff2holL5fLVxarIdOTJ4TGXRv
+	YaIu9bCkrIocbZ9GZOveMBN60RIc=
+X-Google-Smtp-Source: AGHT+IE1t9Ei50hg/i1YSMReXAgWgf7hQjjDupnWYLI7NNv3Yj5U/S4pr2SF7rL6OPhMmyYf4p+sqOtZ7rgdX4OOLCI=
+X-Received: by 2002:a05:6870:700e:b0:277:caf7:3631 with SMTP id
+ 586e51a60fabf-2886dced4a6mr1502321fac.5.1728632363000; Fri, 11 Oct 2024
+ 00:39:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20241011070828.851449-2-u.kleine-koenig@baylibre.com>
+In-Reply-To: <20241011070828.851449-2-u.kleine-koenig@baylibre.com>
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Date: Fri, 11 Oct 2024 09:39:09 +0200
+Message-ID: <CAMhs-H8-8wmg_OqxQrO93ZV1Mrh-2GKowoWpvdk5qkvQbQ-F=A@mail.gmail.com>
+Subject: Re: [PATCH v2] staging: media: Switch back to struct platform_driver::remove()
+To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Locally cache 'cache_line_size' information in a variable instead of
-repeatedly accessing it from drv_mgmt->info. This helps to reflow lines
-under 80 columns.
+Hi Uwe,
 
-No functional change intended in this patch.
+On Fri, Oct 11, 2024 at 9:09=E2=80=AFAM Uwe Kleine-K=C3=B6nig
+<u.kleine-koenig@baylibre.com> wrote:
+>
+> After commit 0edb555a65d1 ("platform: Make platform_driver::remove()
+> return void") .remove() is (again) the right callback to implement for
+> platform drivers.
+>
+> Convert all platform drivers below drivers/staging/media/ to use
+> .remove(), with the eventual goal to drop struct
+> platform_driver::remove_new(). As .remove() and .remove_new() have the
+> same prototypes, conversion is done by just changing the structure
+> member name in the driver initializer.
+>
+> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@baylibre.com>
+> ---
+> Hello,
+>
+> just rebase to
+> https://gitlab.freedesktop.org/linux-media/media-committers.git next
+> to make the CI happy. The only change is that the adaption for
+> drivers/staging/media/omap4iss/iss.c is dropped from v2 as this file was
+> deleted in above branch (since yesterday's next).
+>
+> v1 available at https://lore.kernel.org/linux-media/20241011055540.844629=
+-2-u.kleine-koenig@baylibre.com
+>
+> Best regards
+> Uwe
+>
+>  drivers/staging/media/deprecated/atmel/atmel-sama5d2-isc.c | 2 +-
+>  drivers/staging/media/deprecated/atmel/atmel-sama7g5-isc.c | 2 +-
+>  drivers/staging/media/imx/imx-media-csi.c                  | 2 +-
+>  drivers/staging/media/imx/imx-media-dev.c                  | 2 +-
+>  drivers/staging/media/imx/imx6-mipi-csi2.c                 | 2 +-
+>  drivers/staging/media/meson/vdec/vdec.c                    | 2 +-
+>  drivers/staging/media/rkvdec/rkvdec.c                      | 2 +-
+>  drivers/staging/media/starfive/camss/stf-camss.c           | 2 +-
+>  drivers/staging/media/sunxi/cedrus/cedrus.c                | 2 +-
+>  drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c          | 2 +-
+>  drivers/staging/media/tegra-video/csi.c                    | 2 +-
+>  drivers/staging/media/tegra-video/vi.c                     | 2 +-
+>  drivers/staging/media/tegra-video/vip.c                    | 2 +-
+>  13 files changed, 13 insertions(+), 13 deletions(-)
+>
+> diff --git a/drivers/staging/media/deprecated/atmel/atmel-sama5d2-isc.c b=
+/drivers/staging/media/deprecated/atmel/atmel-sama5d2-isc.c
+> index 712f916f0935..bc360875516c 100644
+> --- a/drivers/staging/media/deprecated/atmel/atmel-sama5d2-isc.c
+> +++ b/drivers/staging/media/deprecated/atmel/atmel-sama5d2-isc.c
+> @@ -629,7 +629,7 @@ MODULE_DEVICE_TABLE(of, atmel_isc_of_match);
+>
+>  static struct platform_driver atmel_isc_driver =3D {
+>         .probe  =3D atmel_isc_probe,
+> -       .remove_new =3D atmel_isc_remove,
+> +       .remove =3D atmel_isc_remove,
+>         .driver =3D {
+>                 .name           =3D "atmel-sama5d2-isc",
+>                 .pm             =3D &atmel_isc_dev_pm_ops,
+> diff --git a/drivers/staging/media/deprecated/atmel/atmel-sama7g5-isc.c b=
+/drivers/staging/media/deprecated/atmel/atmel-sama7g5-isc.c
+> index 9485167d5b7d..c62985e502e4 100644
+> --- a/drivers/staging/media/deprecated/atmel/atmel-sama7g5-isc.c
+> +++ b/drivers/staging/media/deprecated/atmel/atmel-sama7g5-isc.c
+> @@ -592,7 +592,7 @@ MODULE_DEVICE_TABLE(of, microchip_xisc_of_match);
+>
+>  static struct platform_driver microchip_xisc_driver =3D {
+>         .probe  =3D microchip_xisc_probe,
+> -       .remove_new =3D microchip_xisc_remove,
+> +       .remove =3D microchip_xisc_remove,
+>         .driver =3D {
+>                 .name           =3D "microchip-sama7g5-xisc",
+>                 .pm             =3D &microchip_xisc_dev_pm_ops,
+> diff --git a/drivers/staging/media/imx/imx-media-csi.c b/drivers/staging/=
+media/imx/imx-media-csi.c
+> index 785aac881922..3edbc57be2ca 100644
+> --- a/drivers/staging/media/imx/imx-media-csi.c
+> +++ b/drivers/staging/media/imx/imx-media-csi.c
+> @@ -2076,7 +2076,7 @@ MODULE_DEVICE_TABLE(platform, imx_csi_ids);
+>
+>  static struct platform_driver imx_csi_driver =3D {
+>         .probe =3D imx_csi_probe,
+> -       .remove_new =3D imx_csi_remove,
+> +       .remove =3D imx_csi_remove,
+>         .id_table =3D imx_csi_ids,
+>         .driver =3D {
+>                 .name =3D "imx-ipuv3-csi",
+> diff --git a/drivers/staging/media/imx/imx-media-dev.c b/drivers/staging/=
+media/imx/imx-media-dev.c
+> index be54dca11465..a08389b99d14 100644
+> --- a/drivers/staging/media/imx/imx-media-dev.c
+> +++ b/drivers/staging/media/imx/imx-media-dev.c
+> @@ -129,7 +129,7 @@ MODULE_DEVICE_TABLE(of, imx_media_dt_ids);
+>
+>  static struct platform_driver imx_media_pdrv =3D {
+>         .probe          =3D imx_media_probe,
+> -       .remove_new     =3D imx_media_remove,
+> +       .remove         =3D imx_media_remove,
+>         .driver         =3D {
+>                 .name   =3D "imx-media",
+>                 .of_match_table =3D imx_media_dt_ids,
+> diff --git a/drivers/staging/media/imx/imx6-mipi-csi2.c b/drivers/staging=
+/media/imx/imx6-mipi-csi2.c
+> index 0d8b42061623..dd8c7b3233bc 100644
+> --- a/drivers/staging/media/imx/imx6-mipi-csi2.c
+> +++ b/drivers/staging/media/imx/imx6-mipi-csi2.c
+> @@ -836,7 +836,7 @@ static struct platform_driver csi2_driver =3D {
+>                 .of_match_table =3D csi2_dt_ids,
+>         },
+>         .probe =3D csi2_probe,
+> -       .remove_new =3D csi2_remove,
+> +       .remove =3D csi2_remove,
+>  };
+>
+>  module_platform_driver(csi2_driver);
+> diff --git a/drivers/staging/media/meson/vdec/vdec.c b/drivers/staging/me=
+dia/meson/vdec/vdec.c
+> index 5e5b296f93ba..6bf7ade0c6a1 100644
+> --- a/drivers/staging/media/meson/vdec/vdec.c
+> +++ b/drivers/staging/media/meson/vdec/vdec.c
+> @@ -1119,7 +1119,7 @@ static void vdec_remove(struct platform_device *pde=
+v)
+>
+>  static struct platform_driver meson_vdec_driver =3D {
+>         .probe =3D vdec_probe,
+> -       .remove_new =3D vdec_remove,
+> +       .remove =3D vdec_remove,
+>         .driver =3D {
+>                 .name =3D "meson-vdec",
+>                 .of_match_table =3D vdec_dt_match,
+> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/medi=
+a/rkvdec/rkvdec.c
+> index ac398b5a9736..433df4778c95 100644
+> --- a/drivers/staging/media/rkvdec/rkvdec.c
+> +++ b/drivers/staging/media/rkvdec/rkvdec.c
+> @@ -1103,7 +1103,7 @@ static const struct dev_pm_ops rkvdec_pm_ops =3D {
+>
+>  static struct platform_driver rkvdec_driver =3D {
+>         .probe =3D rkvdec_probe,
+> -       .remove_new =3D rkvdec_remove,
+> +       .remove =3D rkvdec_remove,
+>         .driver =3D {
+>                    .name =3D "rkvdec",
+>                    .of_match_table =3D of_rkvdec_match,
+> diff --git a/drivers/staging/media/starfive/camss/stf-camss.c b/drivers/s=
+taging/media/starfive/camss/stf-camss.c
+> index b6d34145bc19..259aaad010d2 100644
+> --- a/drivers/staging/media/starfive/camss/stf-camss.c
+> +++ b/drivers/staging/media/starfive/camss/stf-camss.c
+> @@ -422,7 +422,7 @@ static const struct dev_pm_ops stfcamss_pm_ops =3D {
+>
+>  static struct platform_driver stfcamss_driver =3D {
+>         .probe =3D stfcamss_probe,
+> -       .remove_new =3D stfcamss_remove,
+> +       .remove =3D stfcamss_remove,
+>         .driver =3D {
+>                 .name =3D "starfive-camss",
+>                 .pm =3D &stfcamss_pm_ops,
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/stagin=
+g/media/sunxi/cedrus/cedrus.c
+> index f52df6836045..52a9588462ce 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+> @@ -705,7 +705,7 @@ static const struct dev_pm_ops cedrus_dev_pm_ops =3D =
+{
+>
+>  static struct platform_driver cedrus_driver =3D {
+>         .probe          =3D cedrus_probe,
+> -       .remove_new     =3D cedrus_remove,
+> +       .remove         =3D cedrus_remove,
+>         .driver         =3D {
+>                 .name           =3D CEDRUS_NAME,
+>                 .of_match_table =3D cedrus_dt_match,
+> diff --git a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c b/drivers/=
+staging/media/sunxi/sun6i-isp/sun6i_isp.c
+> index 58f8ae92320d..f087643ea2cb 100644
+> --- a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
+> +++ b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
+> @@ -536,7 +536,7 @@ MODULE_DEVICE_TABLE(of, sun6i_isp_of_match);
+>
+>  static struct platform_driver sun6i_isp_platform_driver =3D {
+>         .probe  =3D sun6i_isp_probe,
+> -       .remove_new =3D sun6i_isp_remove,
+> +       .remove =3D sun6i_isp_remove,
+>         .driver =3D {
+>                 .name           =3D SUN6I_ISP_NAME,
+>                 .of_match_table =3D sun6i_isp_of_match,
+> diff --git a/drivers/staging/media/tegra-video/csi.c b/drivers/staging/me=
+dia/tegra-video/csi.c
+> index 255cccd0c5fd..604185c00a1a 100644
+> --- a/drivers/staging/media/tegra-video/csi.c
+> +++ b/drivers/staging/media/tegra-video/csi.c
+> @@ -858,5 +858,5 @@ struct platform_driver tegra_csi_driver =3D {
+>                 .pm             =3D &tegra_csi_pm_ops,
+>         },
+>         .probe                  =3D tegra_csi_probe,
+> -       .remove_new             =3D tegra_csi_remove,
+> +       .remove                 =3D tegra_csi_remove,
+>  };
+> diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/med=
+ia/tegra-video/vi.c
+> index 57a856a21e90..c068dfedd97a 100644
+> --- a/drivers/staging/media/tegra-video/vi.c
+> +++ b/drivers/staging/media/tegra-video/vi.c
+> @@ -1979,5 +1979,5 @@ struct platform_driver tegra_vi_driver =3D {
+>                 .pm =3D &tegra_vi_pm_ops,
+>         },
+>         .probe =3D tegra_vi_probe,
+> -       .remove_new =3D tegra_vi_remove,
+> +       .remove =3D tegra_vi_remove,
+>  };
+> diff --git a/drivers/staging/media/tegra-video/vip.c b/drivers/staging/me=
+dia/tegra-video/vip.c
+> index 8504b9ea9cea..5ec717f3afd5 100644
+> --- a/drivers/staging/media/tegra-video/vip.c
+> +++ b/drivers/staging/media/tegra-video/vip.c
+> @@ -281,5 +281,5 @@ struct platform_driver tegra_vip_driver =3D {
+>                 .of_match_table =3D tegra_vip_of_id_table,
+>         },
+>         .probe                  =3D tegra_vip_probe,
+> -       .remove_new             =3D tegra_vip_remove,
+> +       .remove                 =3D tegra_vip_remove,
+>  };
+>
+> base-commit: 4115edeff98f2ce9f821a8bddcd7a646cfdde77a
+> --
+> 2.45.2
+>
+>
 
-Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-Reviewed-by: Stefan Wahren <wahrenst@gmx.net>
----
- .../interface/vchiq_arm/vchiq_core.c          | 19 +++++++++++--------
- 1 file changed, 11 insertions(+), 8 deletions(-)
+I sent a patch the other day to convert all staging drivers to use
+remove which was applied yesterday.
 
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-index 1e4b2978c186..e9b60dd8d419 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-@@ -1490,6 +1490,7 @@ create_pagelist(struct vchiq_instance *instance, char *buf, char __user *ubuf,
- 	size_t pagelist_size;
- 	struct scatterlist *scatterlist, *sg;
- 	int dma_buffers;
-+	unsigned int cache_line_size;
- 	dma_addr_t dma_addr;
- 
- 	if (count >= INT_MAX - PAGE_SIZE)
-@@ -1638,10 +1639,10 @@ create_pagelist(struct vchiq_instance *instance, char *buf, char __user *ubuf,
- 	}
- 
- 	/* Partial cache lines (fragments) require special measures */
-+	cache_line_size = drv_mgmt->info->cache_line_size;
- 	if ((type == PAGELIST_READ) &&
--	    ((pagelist->offset & (drv_mgmt->info->cache_line_size - 1)) ||
--	    ((pagelist->offset + pagelist->length) &
--	    (drv_mgmt->info->cache_line_size - 1)))) {
-+	    ((pagelist->offset & (cache_line_size - 1)) ||
-+	    ((pagelist->offset + pagelist->length) & (cache_line_size - 1)))) {
- 		char *fragments;
- 
- 		if (down_interruptible(&drv_mgmt->free_fragments_sema)) {
-@@ -1671,6 +1672,7 @@ free_pagelist(struct vchiq_instance *instance, struct vchiq_pagelist_info *pagel
- 	struct pagelist *pagelist = pagelistinfo->pagelist;
- 	struct page **pages = pagelistinfo->pages;
- 	unsigned int num_pages = pagelistinfo->num_pages;
-+	unsigned int cache_line_size;
- 
- 	dev_dbg(instance->state->dev, "arm: %pK, %d\n", pagelistinfo->pagelist, actual);
- 
-@@ -1685,16 +1687,17 @@ free_pagelist(struct vchiq_instance *instance, struct vchiq_pagelist_info *pagel
- 	pagelistinfo->scatterlist_mapped = 0;
- 
- 	/* Deal with any partial cache lines (fragments) */
-+	cache_line_size = drv_mgmt->info->cache_line_size;
- 	if (pagelist->type >= PAGELIST_READ_WITH_FRAGMENTS && drv_mgmt->fragments_base) {
- 		char *fragments = drv_mgmt->fragments_base +
- 			(pagelist->type - PAGELIST_READ_WITH_FRAGMENTS) *
- 			drv_mgmt->fragments_size;
- 		int head_bytes, tail_bytes;
- 
--		head_bytes = (drv_mgmt->info->cache_line_size - pagelist->offset) &
--			(drv_mgmt->info->cache_line_size - 1);
-+		head_bytes = (cache_line_size - pagelist->offset) &
-+			     (cache_line_size - 1);
- 		tail_bytes = (pagelist->offset + actual) &
--			(drv_mgmt->info->cache_line_size - 1);
-+			     (cache_line_size - 1);
- 
- 		if ((actual >= 0) && (head_bytes != 0)) {
- 			if (head_bytes > actual)
-@@ -1707,8 +1710,8 @@ free_pagelist(struct vchiq_instance *instance, struct vchiq_pagelist_info *pagel
- 		    (tail_bytes != 0))
- 			memcpy_to_page(pages[num_pages - 1],
- 				       (pagelist->offset + actual) &
--				       (PAGE_SIZE - 1) & ~(drv_mgmt->info->cache_line_size - 1),
--				       fragments + drv_mgmt->info->cache_line_size,
-+				       (PAGE_SIZE - 1) & ~(cache_line_size - 1),
-+				       fragments + cache_line_size,
- 				       tail_bytes);
- 
- 		down(&drv_mgmt->free_fragments_mutex);
--- 
-2.45.2
+See: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git/com=
+mit/?h=3Dstaging-next&id=3Dc1a5060ec80020ce879fa5b2a16875bd9a5ab930
 
+Thanks,
+    Sergio Paracuellos
