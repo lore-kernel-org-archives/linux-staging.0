@@ -1,39 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA7A71F1318;
-	Fri, 11 Oct 2024 03:22:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1A5A1F8F1A;
+	Fri, 11 Oct 2024 04:40:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728616922; cv=none; b=R4SH4946fJqdnnSF8vMOmKAPWsnotagw8IYTt3RQJjcFUazjtnBd4QzGbEViTqcjEfYuaszVckMjt5DDPI+A52FOcCKM11AQAhlJzKd2cGipEjSTYt0nsBcg1R5+KmeEvRE0LnBGO7tAsZ8AQp4Wcnuoo2OWQiirxGQ9HXwcGv8=
+	t=1728621642; cv=none; b=qJmquUIjr8SeHKi5+gRIFDSio6tgf9qnsUp+UIFwdpve2L0/IpnxvStROkRTxvkES1FSWs9jp0qymkzBV/UxbgxO3h3z3ylglv0q4bChnQEUMZ92dME2/7FwQPY7zdukRKGGAG4Mj4bn0GavQMfyaIHw5TBqS9bCadbo6VhqTas=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728616922; c=relaxed/simple;
-	bh=ZQ8DM+JUT1bUaulL25fpBSlUeHowNZGfXhGOIofbxLE=;
+	s=arc-20240116; t=1728621642; c=relaxed/simple;
+	bh=hess8hjBuAArOoeZuREZa5dewg+dYVaafsMxx2IXsF4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UsoBD+vjkxQm5XUtvRhInr24zGy8MOnLPyewkIwPnUxHtUYYTzMiTmw73Rrq0lVOZuYo24DE193fTq+QtoL7h6Tu9b8GA4uv1HFfa8P1grbvO7Q8NGApOO3clMqqD8N4L6aVPY6tlxeR/oZtgcPPa87Qt8Z6stDrfJ/MnmoU/Qk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=QIfp7FGq; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=j8R/vomy7fVnxyHNlQSwcLZ5SBOjVLvi68I5FDZ3PfVOv4Zr7+h9igTvCEN9md6/nz93GN8IILnehSYT8EqMo7u1q47DNYHTwtEvwEjPcpqo7FVNdkwTQfPIe0LkysJwUOriq/+IZYMjZqFtbTwKjtuVA4nNd8R7OhdU2gti2p4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=rDyWyMxu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="QIfp7FGq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13E80C4CEC3;
-	Fri, 11 Oct 2024 03:22:00 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="rDyWyMxu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCFC7C4CEC3;
+	Fri, 11 Oct 2024 04:40:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1728616921;
-	bh=ZQ8DM+JUT1bUaulL25fpBSlUeHowNZGfXhGOIofbxLE=;
+	s=korg; t=1728621641;
+	bh=hess8hjBuAArOoeZuREZa5dewg+dYVaafsMxx2IXsF4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QIfp7FGq+T/UZC4UKtRMTrNazHr7WkTC/VKKUF+KKHL3NHfELJnJIhXwrGcI2/pfQ
-	 v32RpiVZNALKqn1zEN1uA/MvukXy7UjPXuLN0zDE96JvF7DIJ70bkvMZIH+JkLEQay
-	 MNXyazO94dXK0vXDZ8Urxm273sE3Uptq5SA7CXzo=
-Date: Fri, 11 Oct 2024 05:21:57 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Tree Davies <tdavies@darkphysics.net>
-Cc: philipp.g.hortmann@gmail.com, anjan@momi.ca,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/18] Staging: rtl8192e: 18 more Style guide variable
- renames
-Message-ID: <2024101129-relive-dandruff-d976@gregkh>
-References: <20240917053152.575553-1-tdavies@darkphysics.net>
- <2024100902-jurist-outward-a6a4@gregkh>
- <e0cdfdd3-eebb-40c5-a845-fbc5e52364d5@darkphysics.net>
+	b=rDyWyMxuImy7FR+/mvysT0+jmelfS9KoV47RwSS+Fnhl/ODzxAeumbKF2pP6fEmMj
+	 36tBQw4ETbyEyJmC3ScM1qAkMgxPze1y+mBngwXGu3tRYHKNeFclrn9SFG1COS5WR+
+	 pcLSwBPigEKyoiCDLX+2TPBz2v4JXZL9//zKrROM=
+Date: Fri, 11 Oct 2024 06:36:09 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Stefan Wahren <wahrenst@gmx.net>
+Cc: Umang Jain <umang.jain@ideasonboard.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH 4/5] staging: vchiq_core: Macros indentation fix
+Message-ID: <2024101103-dizziness-occultist-b6ed@gregkh>
+References: <20241010102250.236545-1-umang.jain@ideasonboard.com>
+ <20241010102250.236545-5-umang.jain@ideasonboard.com>
+ <890c234b-6d68-4a43-8bea-208e5d1a115c@gmx.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -42,15 +47,15 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e0cdfdd3-eebb-40c5-a845-fbc5e52364d5@darkphysics.net>
+In-Reply-To: <890c234b-6d68-4a43-8bea-208e5d1a115c@gmx.net>
 
-On Thu, Oct 10, 2024 at 04:17:52PM -0700, Tree Davies wrote:
-> Awww, that makes me sad...
-> I'll have to find something else to work on.
+On Thu, Oct 10, 2024 at 06:50:24PM +0200, Stefan Wahren wrote:
+> Hi Umang,
+> 
+> Am 10.10.24 um 12:22 schrieb Umang Jain:
+> > Make sure that MAKE_* macros fit within 80 columns instead of spanning
+> > in a single line.
+> honestly i'm not a fan of this change, because it just silence
+> checkpatch but doesn't improve readability.
 
-We have just added a bunch of new drivers to the staging tree, so
-there's lots of new stuff to work on if you want :)
-
-thanks,
-
-greg k-h
+Agreed, this shouldn't be needed.
