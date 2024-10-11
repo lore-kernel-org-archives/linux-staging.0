@@ -1,33 +1,41 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54822198A3F
-	for <linux-staging@lists.linux.dev>; Fri, 11 Oct 2024 10:48:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B27F41D0E15;
+	Fri, 11 Oct 2024 10:54:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728643704; cv=none; b=Pex4bIqqoIFJmP9YE62L5Yn1o2yWfYbr6XA/XLx19X9gH56WcvwdhRO+jPa8AcwMFdgEdfWXNs/Mfr86ow98+rZ2XBqeaSptfyYgt/t4mLZ1qf8ah4uqiukyC2Es+nHjG8f4MF72oyE7VBWeJwKhDTZTVi4lbtvVMrvRT0oM+zY=
+	t=1728644087; cv=none; b=K+6ECd0pKm+KrQtyeGOyirH5jrzSy2QGAMj+1BWi5dRnItKNYMQ0ckjjoj8R92yjMX1rn65gYpzydpv73qzbYjVUQvUQ30aKehnxKJuPcHKcjHRKyRCJRQ6/eslHo2h5aYLCIlxHRSwLhltNnRyMOuZ8YI1XmVZ9vdWMXLwSxNs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728643704; c=relaxed/simple;
-	bh=0mIpcsnmmc7WlMwsdZ44vbuzOFQ4E6EE40hIStwDpHw=;
+	s=arc-20240116; t=1728644087; c=relaxed/simple;
+	bh=BJhX/lmW/LILX88W3qn5ZKczb0DptbBEdZjDz6RxflU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iW3L9P4RIItLVp/eER9w7aE0n2MQYzkVU5ZWlP5lIA53txJ5ZC6c/JZi76TxsFWG4deLKHvS2OjM0ps4WbQzccax6tToa3vWIkCvh3B4Qjf/dTGBdwkH4u/e61V367LjGU1Pz9RaM5cjfkNO+YROraK+sQkw39VenttU6UxfESY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=D/SJF3ZM; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	 In-Reply-To:Content-Type; b=bexcN19AuVi9+0dhewLZXpSgSk59unzQuCktdZp0QTa+pcN5kwmrkGmRbnUGJ30c8dLWeSUSfI8R0MgBYPRttus7ctB+vd7lLckBMVTittSKsiJWmgCZj3SsU07Z+DNMyhYZMzNM1uuJG+2UA6VoNrJqI94uEKGr/oi6Ex0eRwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=pE34G824; arc=none smtp.client-ip=212.227.17.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="D/SJF3ZM"
-Received: from [IPV6:2405:201:2015:f873:55d7:c02e:b2eb:ee3f] (unknown [IPv6:2405:201:2015:f873:55d7:c02e:b2eb:ee3f])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2605A220;
-	Fri, 11 Oct 2024 12:46:33 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1728643594;
-	bh=0mIpcsnmmc7WlMwsdZ44vbuzOFQ4E6EE40hIStwDpHw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=D/SJF3ZMiTpu2m8jbzWQ/rTZgSjKBvwNpJIv0/Beg2IjIwoYP6atdBpdjsOegxnTn
-	 QO8I/BaHCb/ygwzCQa6ggZkcOBEZ8Lp+8J9E+gdYdBUhpevNLNda/VF2ESGhcte+/t
-	 O0GLPlIPkw7oC+6wybnnIxvDxqwXyB05eLMjG/2M=
-Message-ID: <9ed1ca9d-a17e-46b7-ae08-81c3d44a6063@ideasonboard.com>
-Date: Fri, 11 Oct 2024 16:18:08 +0530
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="pE34G824"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
+	s=s31663417; t=1728644076; x=1729248876; i=wahrenst@gmx.net;
+	bh=B0nqQTWmbX/DXBru/TDDCruKEolLwzT5aKjKNmMn0p4=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=pE34G824TsaI03+4EbgVmM4hxuWSOmuTvlN5XwOFYLEzmFXWoLXslEpjahLwIZjE
+	 HyQF+aWIxruRFTKexMLPFzm/MpfI8N1LWkfatdrcEbsvdK+qUIK6I291uzuIkHjln
+	 lAuoQEAz5x2qHPP91lpwtKyQ8wI9FnUPeBrFQVu4DaYKo92MsPF+EXr1SpNLUcqCV
+	 Z9d+FfOEzfslSsjXj++nOtIRYaC57Vz5WYh+WjTb05IQFVj1P84XIjYSVE3UvS17l
+	 zhPjhBlrFB48olYPsnEaLZ3Lhj+mChZUl+diyhKNazDUgegUR2eAkbdzc50xgNZEg
+	 R8ffFGRvf7kozx2ELQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.104] ([37.4.248.43]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1N49hB-1tylzR2lwf-015pDe; Fri, 11
+ Oct 2024 12:54:36 +0200
+Message-ID: <eb4713e3-ccc5-4848-800e-dbf30158b8af@gmx.net>
+Date: Fri, 11 Oct 2024 12:54:35 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -35,8 +43,9 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/8] staging: vchiq_core: Properly log dev_err()
-To: Stefan Wahren <wahrenst@gmx.net>,
+Subject: Re: [PATCH 4/8] staging: vchiq_core: Lower indentation of a
+ conditional block
+To: Umang Jain <umang.jain@ideasonboard.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
 Cc: linux-rpi-kernel@lists.infradead.org,
@@ -44,74 +53,133 @@ Cc: linux-rpi-kernel@lists.infradead.org,
  linux-kernel@vger.kernel.org,
  Kieran Bingham <kieran.bingham@ideasonboard.com>,
  Dan Carpenter <dan.carpenter@linaro.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- kernel-list@raspberrypi.com
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 References: <20241011072210.494672-1-umang.jain@ideasonboard.com>
- <20241011072210.494672-3-umang.jain@ideasonboard.com>
- <b0074647-f730-4d94-a11c-ebec7f48b928@gmx.net>
+ <20241011072210.494672-5-umang.jain@ideasonboard.com>
 Content-Language: en-US
-From: Umang Jain <umang.jain@ideasonboard.com>
-In-Reply-To: <b0074647-f730-4d94-a11c-ebec7f48b928@gmx.net>
+From: Stefan Wahren <wahrenst@gmx.net>
+In-Reply-To: <20241011072210.494672-5-umang.jain@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:5HvJFIaJdVlUI3BICXc22twfJyPqXfvSQiy8GgciEliiSrCE9+N
+ ywPwflgFjfYjGLwPCxCdXpuYEFbzjx5o5eeRn2CsFncP5RxBEQIcWpx2bWXQGmZfYpmDi31
+ 3UWYtxtLF9UGKaKHTLvAQFYgDV1ucKEEPBz1xf2MPee0Ub+iMfO7UJ1t5TWpCXzs5qt5ST1
+ IW6KFZpbkrzeVx75uB3FA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:WCGfBiwOFhw=;TWWCgkAaDvSNbOtqLyEFvUepvg0
+ MH/WQDOlZKc7g0TzgP4J1+emuk6b7nTLEdzMTSbLOySmQZPDjPSVHFRPSOUM71GvlR+iew+4j
+ Lg2Ro8y9xBTGFRqiMJ4A2IYWVmJQDvcOAmhrpspqHbvdLWfBpEuyBbOHUXd6g6N6RxkfUmmxN
+ nBEnSgv9rkNdv/IqWCAqWxJotk1kPPlr9DrWHTxNk7W/IO4CKOgxA236t3KzHLbbfv0cMok1S
+ 9/FW5RqFG1ftIAq3FQ4SMeaT1b1usjL4ntbbQ3R182eXH/Lop0mb6uwADtFFmHP1v7IeRftDN
+ bhCsVK870IM9vu5WQStYo/YcqW/aNYbI47pcmP2GX0/FMb2wmAtbnAxOGATfXgp5B5YTdiK3p
+ s5Uk+qx4qp4Xryf1E//xhUp/non4q0mk2NHoMeGCiz3NkvHAfSpZcX7GKEQW7nqJuwkW+wAh+
+ z43c63MMDCF+u662bxo70eSoXj7IeDHS9V8KxE33pFD7S+8SFuLcgV0Kx/syViSh5/djGivQ7
+ tLEaUTpNufGop2O7qVs8vTfTWdhMgL8nptT944LRiupIFk5n+R6DDWgHux5NaRU8CJq8vmgmU
+ M27P/Z38PRiOBTVK5VjPGKHHT92TkELjBivAKUshnqhXhMB1OZPapPmlv7A9N9vqnAbeCjvti
+ YyaED5tBP9eVe4wUJ9t+90fXkonlo4Usg7aHb6ZupHIo6P9ay/8IYlwWCzmEg/jmnNo669sPP
+ NwiJKRDzcRNDUJta0RD4bCJ80HyqV64QPNav9Tjw6ZNCkvs+nPAOJCEXHZK/Y0Yq9+6wUBh/v
+ T09DqVXrfHsWDys9iA3wdR5g==
 
-Hi Stefan
+Hi Umang,
 
-On 11/10/24 4:15 pm, Stefan Wahren wrote:
-> Hi Umang,
+Am 11.10.24 um 09:22 schrieb Umang Jain:
+> Lower indentation of 'if (bulk->data && service->instance)'
+> conditional block. This is achieved introducing a early check for
+> (!bulk->data || !service->instance) and using a goto label 'complete'
+> if it evaluates to true.
 >
-> [add Raspberry Pi guys to the loop]
+> No functional changes intended in this patch.
 >
-> Am 11.10.24 um 09:22 schrieb Umang Jain:
->> Properly log a dev_err() message when the msgid is not of
->> VCHIQ_MSG_PADDING type. Drop 'oldmsgid' scoped variable and improve
->> on the error string as well.
->>
->> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
->> ---
->>   .../vc04_services/interface/vchiq_arm/vchiq_core.c    | 11 ++++-------
->>   1 file changed, 4 insertions(+), 7 deletions(-)
->>
->> diff --git 
->> a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c 
->> b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
->> index e9b60dd8d419..1dca676186b6 100644
->> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
->> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
->> @@ -1188,13 +1188,10 @@ queue_message_sync(struct vchiq_state *state, 
->> struct vchiq_service *service,
->>       header = (struct vchiq_header *)SLOT_DATA_FROM_INDEX(state,
->>           local->slot_sync);
->>
->> -    {
->> -        int oldmsgid = header->msgid;
->> -
->> -        if (oldmsgid != VCHIQ_MSGID_PADDING)
->> -            dev_err(state->dev, "core: %d: qms - msgid %x, not 
->> PADDING\n",
->> -                state->id, oldmsgid);
->> -    }
->> +    if (header->msgid != VCHIQ_MSGID_PADDING)
->> +        dev_err(state->dev,
->> +            "core: %d: qms - msgid %x, is not a PADDING message\n",
->> +            state->id, header->msgid);
-> I'm fine with this change, but the behavior looks strange to me.
+> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> ---
+>   .../interface/vchiq_arm/vchiq_core.c          | 61 ++++++++++---------
+>   1 file changed, 31 insertions(+), 30 deletions(-)
 >
-> Either this is a real error, I would expect the function would return
-> with something like EINVAL here or this should be a warning?
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_cor=
+e.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> index 15257cf66fa4..b95443043c27 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> @@ -1326,44 +1326,45 @@ notify_bulks(struct vchiq_service *service, stru=
+ct vchiq_bulk_queue *queue,
+>   		struct vchiq_bulk *bulk =3D
+>   			&queue->bulks[BULK_INDEX(queue->remove)];
 >
-> Sorry, no idea what's correct here.
+> +		if (!bulk->data || !service->instance)
+> +			goto complete;
+> +
+>   		/*
+>   		 * Only generate callbacks for non-dummy bulk
+>   		 * requests, and non-terminated services
+>   		 */
+> -		if (bulk->data && service->instance) {
+> -			if (bulk->actual !=3D VCHIQ_BULK_ACTUAL_ABORTED) {
+> -				if (bulk->dir =3D=3D VCHIQ_BULK_TRANSMIT) {
+> -					VCHIQ_SERVICE_STATS_INC(service, bulk_tx_count);
+> -					VCHIQ_SERVICE_STATS_ADD(service, bulk_tx_bytes,
+> -								bulk->actual);
+> -				} else {
+> -					VCHIQ_SERVICE_STATS_INC(service, bulk_rx_count);
+> -					VCHIQ_SERVICE_STATS_ADD(service, bulk_rx_bytes,
+> -								bulk->actual);
+> -				}
+> +		if (bulk->actual !=3D VCHIQ_BULK_ACTUAL_ABORTED) {
+> +			if (bulk->dir =3D=3D VCHIQ_BULK_TRANSMIT) {
+> +				VCHIQ_SERVICE_STATS_INC(service, bulk_tx_count);
+> +				VCHIQ_SERVICE_STATS_ADD(service, bulk_tx_bytes,
+> +							bulk->actual);
+>   			} else {
+> -				VCHIQ_SERVICE_STATS_INC(service, bulk_aborted_count);
+> -			}
+> -			if (bulk->mode =3D=3D VCHIQ_BULK_MODE_BLOCKING) {
+> -				struct bulk_waiter *waiter;
+> -
+> -				spin_lock(&service->state->bulk_waiter_spinlock);
+> -				waiter =3D bulk->userdata;
+> -				if (waiter) {
+> -					waiter->actual =3D bulk->actual;
+> -					complete(&waiter->event);
+> -				}
+> -				spin_unlock(&service->state->bulk_waiter_spinlock);
+> -			} else if (bulk->mode =3D=3D VCHIQ_BULK_MODE_CALLBACK) {
+> -				enum vchiq_reason reason =3D
+> -						get_bulk_reason(bulk);
+> -				status =3D make_service_callback(service, reason,	NULL,
+> -							       bulk->userdata);
+> -				if (status =3D=3D -EAGAIN)
+> -					break;
+> +				VCHIQ_SERVICE_STATS_INC(service, bulk_rx_count);
+> +				VCHIQ_SERVICE_STATS_ADD(service, bulk_rx_bytes,
+> +							bulk->actual);
+>   			}
+> +		} else {
+> +			VCHIQ_SERVICE_STATS_INC(service, bulk_aborted_count);
+>   		}
+> +		if (bulk->mode =3D=3D VCHIQ_BULK_MODE_BLOCKING) {
+> +			struct bulk_waiter *waiter;
+>
+> +			spin_lock(&service->state->bulk_waiter_spinlock);
+> +			waiter =3D bulk->userdata;
+> +			if (waiter) {
+> +				waiter->actual =3D bulk->actual;
+> +				complete(&waiter->event);
+> +			}
+> +			spin_unlock(&service->state->bulk_waiter_spinlock);
+> +		} else if (bulk->mode =3D=3D VCHIQ_BULK_MODE_CALLBACK) {
+> +			enum vchiq_reason reason =3D
+> +					get_bulk_reason(bulk);
+> +			status =3D make_service_callback(service, reason,	NULL,
+> +						       bulk->userdata);
+> +			if (status =3D=3D -EAGAIN)
+> +				break;
+> +		}
+> +complete:
+I would consider goto labels within a while loop as error prone and
+ugly. Maybe moving the enclosing code into a separate function would be
+a nicer approach?
 
-indeed, I'll check the code path and see how it is used.
-
-However, I will propose the change (if any) on top of this series/patch. 
-Since it would be functional change ... so need to document it 
-appropriately.
-
->
-> Best regards
->>
->>       dev_dbg(state->dev, "sync: %d: qms %s@%pK,%x (%d->%d)\n",
->>           state->id, msg_type_str(VCHIQ_MSG_TYPE(msgid)), header, size,
->
+Regards
+>   		queue->remove++;
+>   		complete(&service->bulk_remove_event);
+>   	}
 
