@@ -1,31 +1,31 @@
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D528B209F37
-	for <linux-staging@lists.linux.dev>; Fri, 11 Oct 2024 07:22:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0208209F37
+	for <linux-staging@lists.linux.dev>; Fri, 11 Oct 2024 07:22:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728631367; cv=none; b=Wn/uUNVBJsbGvzyD8MkO71KgzkIqz+LjFKIAKgqrXxoMmQofv5yuBV482nohyYX4BS2c9+/9lykQS9tRUpZ8htqCLHVLuuMqW4k//L8DzSTi8nc9HiQXI34hAGlpwV6ohWvwO1Zfr7j5AmL9pNGUv5HNmmaJoR/RlK7vQFbVJ8g=
+	t=1728631369; cv=none; b=MWznEYvUetFDdPh1vWUh+K6WdwHhFu03MDv7Q8Jo9iEeM22rXEg+ipJl2jNQ259dHGARqI7TSZ+P/EDEJyau3pkmqGYxGQ8zEVegP8cOc26zbrfMjJWO+vPj57chIMgi/NumHA1TfU5Ucz7LBpBKGTpCjhxZ/q+jnWsL1mhcm+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728631367; c=relaxed/simple;
-	bh=2r8iDPbU33zt3eyRnDjAEsNRDwFTo3MDsTAsUAMhUPk=;
+	s=arc-20240116; t=1728631369; c=relaxed/simple;
+	bh=aq1G9v7QkkDHMgWxaXZsBIyzSkrAQpuXZGFVJXUhnZ0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=g+/brG+cVA36/cLag4UR1wjnCLelKRDyx2sO6TV6KQuTmBROa2yqz9kt64joNctKhuIHinUCBxoYyKCGKxaEyRjNB30AuWoHGzTGYH051wGHlVWa4Xu/mfbTeIpFT0v6/zIyJzeJnh8kD09CyunD0PCOA2wlP4OPrkmvbWyLSWw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=hwZeJGMN; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=GlYPi9njfqyg81ko0M4eliIKkr2QhfUlGqsnlW8cFbq6KlZE7l266hmKhqm/9Pb7U7hU+bgYeB7wm8izk9ehSOvpSexLG2W3lou+9TuT2ekt4/eSpFHZdz2LqMLBz82yU/6sGwD7Xv7t3+dvmwpRjqNxWdF/esMopqZ3YsJPyf4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=XwXRAuV9; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="hwZeJGMN"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="XwXRAuV9"
 Received: from umang.jain (unknown [IPv6:2405:201:2015:f873:55d7:c02e:b2eb:ee3f])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 379931659;
-	Fri, 11 Oct 2024 09:21:04 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5570F1A6F;
+	Fri, 11 Oct 2024 09:21:06 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1728631266;
-	bh=2r8iDPbU33zt3eyRnDjAEsNRDwFTo3MDsTAsUAMhUPk=;
+	s=mail; t=1728631268;
+	bh=aq1G9v7QkkDHMgWxaXZsBIyzSkrAQpuXZGFVJXUhnZ0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=hwZeJGMNYQeb58MTevyGN9pnCW3RkDcTGvRNQ2CXVRbFU4+oNqk1PCIxed2v0S4Pe
-	 2K28W2ikC29pWZd5vNenvXN4uPgzJgsLnky+0B8/FuyiTRBJfyBOGnwf/tB/mEV4Bq
-	 V49E4eIkxw/iqNC1rDXspc6dNUfJu8b9xSagFoo4=
+	b=XwXRAuV9zzPqheho81zUAQd38jqjNnPHHbjzJZuIGPaHphGqb38tGrF58x9GhT+EE
+	 qTThT8jl21AWqwjdbh/vTjjcGSoy+9t3N8A2gp9UrJMEDUQ/Km9zboFQ467jVudzjb
+	 HW6gquQKG9/++2QWBGPnJaEYH9jJdlHMEEKg3KS4=
 From: Umang Jain <umang.jain@ideasonboard.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
@@ -38,9 +38,9 @@ Cc: linux-rpi-kernel@lists.infradead.org,
 	Stefan Wahren <wahrenst@gmx.net>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Umang Jain <umang.jain@ideasonboard.com>
-Subject: [PATCH 3/8] staging: vchiq_core: Do not log debug in a separate scope
-Date: Fri, 11 Oct 2024 12:52:05 +0530
-Message-ID: <20241011072210.494672-4-umang.jain@ideasonboard.com>
+Subject: [PATCH 4/8] staging: vchiq_core: Lower indentation of a conditional block
+Date: Fri, 11 Oct 2024 12:52:06 +0530
+Message-ID: <20241011072210.494672-5-umang.jain@ideasonboard.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20241011072210.494672-1-umang.jain@ideasonboard.com>
 References: <20241011072210.494672-1-umang.jain@ideasonboard.com>
@@ -52,52 +52,98 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Do not log a dev_dbg() with a separate scope. Drop the {..}
-scope and align the dev_dbg() to make it more readable.
+Lower indentation of 'if (bulk->data && service->instance)'
+conditional block. This is achieved introducing a early check for
+(!bulk->data || !service->instance) and using a goto label 'complete'
+if it evaluates to true.
 
 No functional changes intended in this patch.
 
 Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
 ---
- .../interface/vchiq_arm/vchiq_core.c            | 17 +++++++----------
- 1 file changed, 7 insertions(+), 10 deletions(-)
+ .../interface/vchiq_arm/vchiq_core.c          | 61 ++++++++++---------
+ 1 file changed, 31 insertions(+), 30 deletions(-)
 
 diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-index 1dca676186b6..15257cf66fa4 100644
+index 15257cf66fa4..b95443043c27 100644
 --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
 +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-@@ -936,6 +936,7 @@ queue_message(struct vchiq_state *state, struct vchiq_service *service,
- 	struct vchiq_service_quota *quota = NULL;
- 	struct vchiq_header *header;
- 	int type = VCHIQ_MSG_TYPE(msgid);
-+	int svc_fourcc;
+@@ -1326,44 +1326,45 @@ notify_bulks(struct vchiq_service *service, struct vchiq_bulk_queue *queue,
+ 		struct vchiq_bulk *bulk =
+ 			&queue->bulks[BULK_INDEX(queue->remove)];
  
- 	size_t stride;
- 
-@@ -1128,17 +1129,13 @@ queue_message(struct vchiq_state *state, struct vchiq_service *service,
- 	header->msgid = msgid;
- 	header->size = size;
- 
--	{
--		int svc_fourcc;
++		if (!bulk->data || !service->instance)
++			goto complete;
++
+ 		/*
+ 		 * Only generate callbacks for non-dummy bulk
+ 		 * requests, and non-terminated services
+ 		 */
+-		if (bulk->data && service->instance) {
+-			if (bulk->actual != VCHIQ_BULK_ACTUAL_ABORTED) {
+-				if (bulk->dir == VCHIQ_BULK_TRANSMIT) {
+-					VCHIQ_SERVICE_STATS_INC(service, bulk_tx_count);
+-					VCHIQ_SERVICE_STATS_ADD(service, bulk_tx_bytes,
+-								bulk->actual);
+-				} else {
+-					VCHIQ_SERVICE_STATS_INC(service, bulk_rx_count);
+-					VCHIQ_SERVICE_STATS_ADD(service, bulk_rx_bytes,
+-								bulk->actual);
+-				}
++		if (bulk->actual != VCHIQ_BULK_ACTUAL_ABORTED) {
++			if (bulk->dir == VCHIQ_BULK_TRANSMIT) {
++				VCHIQ_SERVICE_STATS_INC(service, bulk_tx_count);
++				VCHIQ_SERVICE_STATS_ADD(service, bulk_tx_bytes,
++							bulk->actual);
+ 			} else {
+-				VCHIQ_SERVICE_STATS_INC(service, bulk_aborted_count);
+-			}
+-			if (bulk->mode == VCHIQ_BULK_MODE_BLOCKING) {
+-				struct bulk_waiter *waiter;
 -
--		svc_fourcc = service
--			? service->base.fourcc
--			: VCHIQ_MAKE_FOURCC('?', '?', '?', '?');
-+	svc_fourcc = service ? service->base.fourcc
-+			     : VCHIQ_MAKE_FOURCC('?', '?', '?', '?');
+-				spin_lock(&service->state->bulk_waiter_spinlock);
+-				waiter = bulk->userdata;
+-				if (waiter) {
+-					waiter->actual = bulk->actual;
+-					complete(&waiter->event);
+-				}
+-				spin_unlock(&service->state->bulk_waiter_spinlock);
+-			} else if (bulk->mode == VCHIQ_BULK_MODE_CALLBACK) {
+-				enum vchiq_reason reason =
+-						get_bulk_reason(bulk);
+-				status = make_service_callback(service, reason,	NULL,
+-							       bulk->userdata);
+-				if (status == -EAGAIN)
+-					break;
++				VCHIQ_SERVICE_STATS_INC(service, bulk_rx_count);
++				VCHIQ_SERVICE_STATS_ADD(service, bulk_rx_bytes,
++							bulk->actual);
+ 			}
++		} else {
++			VCHIQ_SERVICE_STATS_INC(service, bulk_aborted_count);
+ 		}
++		if (bulk->mode == VCHIQ_BULK_MODE_BLOCKING) {
++			struct bulk_waiter *waiter;
  
--		dev_dbg(state->dev, "core_msg: Sent Msg %s(%u) to %p4cc s:%u d:%d len:%zu\n",
--			msg_type_str(VCHIQ_MSG_TYPE(msgid)), VCHIQ_MSG_TYPE(msgid),
--			&svc_fourcc, VCHIQ_MSG_SRCPORT(msgid), VCHIQ_MSG_DSTPORT(msgid), size);
--	}
-+	dev_dbg(state->dev, "core_msg: Sent Msg %s(%u) to %p4cc s:%u d:%d len:%zu\n",
-+		msg_type_str(VCHIQ_MSG_TYPE(msgid)),
-+		VCHIQ_MSG_TYPE(msgid), &svc_fourcc,
-+		VCHIQ_MSG_SRCPORT(msgid), VCHIQ_MSG_DSTPORT(msgid), size);
- 
- 	/* Make sure the new header is visible to the peer. */
- 	wmb();
++			spin_lock(&service->state->bulk_waiter_spinlock);
++			waiter = bulk->userdata;
++			if (waiter) {
++				waiter->actual = bulk->actual;
++				complete(&waiter->event);
++			}
++			spin_unlock(&service->state->bulk_waiter_spinlock);
++		} else if (bulk->mode == VCHIQ_BULK_MODE_CALLBACK) {
++			enum vchiq_reason reason =
++					get_bulk_reason(bulk);
++			status = make_service_callback(service, reason,	NULL,
++						       bulk->userdata);
++			if (status == -EAGAIN)
++				break;
++		}
++complete:
+ 		queue->remove++;
+ 		complete(&service->bulk_remove_event);
+ 	}
 -- 
 2.45.2
 
