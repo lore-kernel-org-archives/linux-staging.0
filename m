@@ -1,41 +1,41 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD475210C3B;
-	Fri, 11 Oct 2024 10:45:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85C1A20B1E9;
+	Fri, 11 Oct 2024 10:47:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728643540; cv=none; b=az7e2xVX8PLiqJPF3N1jFxlsFPPlcbJKNxkLYxw/oSHpWgqE9lc7bl+i8Moc7HHUqfIsMq6Wn9skElnX8H2emrPJXNGJAV3r+jIH+ny8oo/AIjxLPNJ7uve85Ctpt9g/CQVeevs2/1TAP9zz3JjbzU29tbMlVTwT3hzWWPSZUf0=
+	t=1728643635; cv=none; b=LcbTL50VUGl/5AvFnyKRC5XLxV6VjdgeEOY+aXBrjcI6ughL12ecKA4pXT1ak1DZNLa+riOUASd5985n/ty//150BFIVnbCDz7Gs3q/MWf0SrREDOEO0V4r0fUu+u36DilmlfUrSS52Y5CLEsFIotXlTitzedex3nIAhxHHIGYQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728643540; c=relaxed/simple;
-	bh=BeI2iALYbJAB5Qp8zFyL+V/LTnFHtUxuX3olrp6jT+s=;
+	s=arc-20240116; t=1728643635; c=relaxed/simple;
+	bh=e4ng021xGTHS1X1b3UQjGH4+V7Gq8ouwcuISOdxjeDU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SslZdM4giEmiuoa5JLUSmXMi7CO31KWSjXaEI1cgcgmt7w/xZ+MagkywNa9Ed6OCCMFm6FmPwoyS8fiwjFWQOVC77VjCTXkmxvOBBRj2Jkl0TE7NYuWgxTrQCEtZndE/srH5A0Eme1In6FvrLuYST3VrRw24N5LGDQaPPlospac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=sWAOpsU8; arc=none smtp.client-ip=212.227.17.21
+	 In-Reply-To:Content-Type; b=ZwqLqFprCUvm9NnAuuQFp1tXOyGoRzSsz9exIEiTYqeP5R96QOKN17oGbX43BLhAiiHFnD22pbSKoM/DNsgDqEwMXy47DLtfMRnS/IeHZmVBMmhInNoNyKX0KdAP93J36EJw8wMXKD2MAMXKjL7ZIktbxaXEXITlm4WPA4UlhmI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=oALMfKyY; arc=none smtp.client-ip=212.227.17.22
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="sWAOpsU8"
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="oALMfKyY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
-	s=s31663417; t=1728643528; x=1729248328; i=wahrenst@gmx.net;
-	bh=8G26fOBQEgPqcyaPrnsd6OlzR2T5vuKSB+uJ8Zlg/kI=;
+	s=s31663417; t=1728643621; x=1729248421; i=wahrenst@gmx.net;
+	bh=e4ng021xGTHS1X1b3UQjGH4+V7Gq8ouwcuISOdxjeDU=;
 	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
 	 References:From:In-Reply-To:Content-Type:
 	 Content-Transfer-Encoding:cc:content-transfer-encoding:
 	 content-type:date:from:message-id:mime-version:reply-to:subject:
 	 to;
-	b=sWAOpsU8K0OArXpFBmjumG3Fn6EFf1F9T7PsqlQWRGtR/tUZLyGRX9UGn7rBMMKe
-	 ADcSIEzDuBJHEgyBVG8BoxTNdIECGTtRXOclLsHd3IFxycum8bNS74VI9Hmk1CPhh
-	 hthbOeFMr5Z1BBRq7bAzGpxnlG7kxy4+jFDP6ijgPK8Y8idHqYVF3hlQp8Fv48hbU
-	 1HzZ1JIv43irgUjt9JlfMC6sOMUYDdLWXRC9fGB0RBbTkI0k0nNLTZUcNZT4hn+zb
-	 XfdrjI33icjA5rdbL3swGeCb/Qu83472pQhshByGyD9zPddUWBAT5jT1Vtsdj/I2V
-	 +dWmGHyVR6lf6SyBoQ==
+	b=oALMfKyYHmOpqrD/UwIW+7/JP9wlq78+ZvTpp1jbnhVu/ioD0rD8jl89enIoU4Mf
+	 IqsuJlwfINvq9zAaO95h3NVO18p/Cofw//gQzOgFH5K0EbVZQr10eq/eXye9o7/IC
+	 kI3ALa67r9ONMW47D5L378yPDs5dy3/dBmzcHTqA1xJwmEIZVR9cOQYNVYZpb5RMh
+	 AfCnpPuWcStQd30wwJP7J7K96HmJz4WemV6SU0yJJw0hFMaSUd5/fmnvgxnOXV5FL
+	 Qup6t+4ZzUtcgYvYa43Q2euXY3W16sJ2/9JFpCh3sDWr5atvnoeOG/+INwtA/io8R
+	 8BVC6n6iVGkwPXTsJw==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.104] ([37.4.248.43]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MbRjt-1tW4vJ21Af-00gNrP; Fri, 11
- Oct 2024 12:45:28 +0200
-Message-ID: <b0074647-f730-4d94-a11c-ebec7f48b928@gmx.net>
-Date: Fri, 11 Oct 2024 12:45:25 +0200
+Received: from [192.168.1.104] ([37.4.248.43]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1Mel3t-1tZNT62mSD-00eNK9; Fri, 11
+ Oct 2024 12:47:01 +0200
+Message-ID: <84f5a045-de3b-48f6-8c20-f04c7f818844@gmx.net>
+Date: Fri, 11 Oct 2024 12:47:00 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -43,7 +43,8 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/8] staging: vchiq_core: Properly log dev_err()
+Subject: Re: [PATCH 3/8] staging: vchiq_core: Do not log debug in a separate
+ scope
 To: Umang Jain <umang.jain@ideasonboard.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
@@ -52,78 +53,38 @@ Cc: linux-rpi-kernel@lists.infradead.org,
  linux-kernel@vger.kernel.org,
  Kieran Bingham <kieran.bingham@ideasonboard.com>,
  Dan Carpenter <dan.carpenter@linaro.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- kernel-list@raspberrypi.com
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 References: <20241011072210.494672-1-umang.jain@ideasonboard.com>
- <20241011072210.494672-3-umang.jain@ideasonboard.com>
+ <20241011072210.494672-4-umang.jain@ideasonboard.com>
 Content-Language: en-US
 From: Stefan Wahren <wahrenst@gmx.net>
-In-Reply-To: <20241011072210.494672-3-umang.jain@ideasonboard.com>
+In-Reply-To: <20241011072210.494672-4-umang.jain@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:2tgjIbVmOZLooP4GBWwuecmgc/nUokZrNRELbIAabf9jnqwHGtz
- hyXiLe+CT71pmzUlLTI2/GZpzPNB0cx4G+iwRvtIfxC601vd/ltlSMFv1H05d+aXcGvl9vT
- dvLAy3mh+/CSnjvHrJCTtfGYiAECW1Knnh7+k5wKjWrMsj7PXyZMPs/Gp32fCuH3qSvUua3
- FyGoYjWS9ckkjuDwMJgbw==
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:pwx38uK1X7HbvZkvkdF4TtdxfaCwr6hOdlfpMKsNG+2KaOdSMIK
+ rc5u1oRccxWAdVLvNiAY+AWYlpQcENn/eMdHWcgeX+hsCSHhrAxgkcjsulvPkCSIQJ6FS5m
+ ZToIe/jGz57MF4fs6BdviB0rpG9ygqqtaXzsai0RKy4wTWljB2CltjnQvOlQL7UCrxqJ5sP
+ 5zNIM8/M3XR3hrpH0wO/Q==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:p5A02gBJbZk=;RiAQQi+rC6N56Ce42fGhrDQ65zr
- AvejWXTVyVleG9FNoIK5/GDC3rVr1Zg3r+fWLTM4dYDvlagGVl1RIdJOD7mzvfkLM6NLh9HTn
- +6iWOq2NFDq5odpJXIncxs3QQHGsLrx2nSIk9+rzRzylqBhdBiz1Evp1FmsclNTdsS1G7JxQF
- bV2xQVcmu2pQqcWpvnwYZd4dMegVx2PRfNiEuttYAFSxHK8ElZ8T/fuGwjDJ7MPTjXyUu7GQK
- EyzpPz48S/VvTrSLYPVJtHRQszEdpUkLbLQIXyzQRePJbpvIarvFE42eiIkcH5eEllEEZcSze
- t76lfqZU9sjPPoT1TrRAaS1gIXnsMxfbHsr5Ns2Z3zX+L8QSb+HleAmlejTwg3VAHyvmEiBaX
- G6f3O5xILqccK92yCWbqNIVBK8/dO8kdWYFWbr8T07KR0QlUvLx2apCNIrxQHZxegsuwSTiN9
- sVcD37QLgZnpAFw01vEwR3nxRGYnfrLXbmy1RZwg6ygPVqV/th0RZBXCy9P5xaR1QPycJKubA
- EcBnzqCiyFNoSdrbD3owtDa6ju7HU5fAA0Nvugxz+5g1ZTYgK/sGWU7W0KqrtSAB9eb28yGks
- PUxkdhztaZn/6jVu82mPfA8DKcIMrffgDSpftwdUlxxb/gXpJ46B9wQtg40o9mhYD5LfNFUbW
- BQ8kyjDMvmU0aQVbXtgK8pJY+9nCtVWClbv+BBoOm+F/+lFsCq8AdgHE5Wy3Hexncs/ZSUV3i
- ejjO1v39x8UebfR+4tCfI1b7Hg/ObFT9tl0tvNILBj//Q8AClU5fVeVBPgz90/X5EjK/HywSd
- btcoIS2pdrqrsGpm+sE03Ygg==
-
-Hi Umang,
-
-[add Raspberry Pi guys to the loop]
+UI-OutboundReport: notjunk:1;M01:P0:2EeTUd2qz6o=;e4NQsPGuDRQBvDzIgvJmQq9Yyhp
+ AaCTNqtE/kfMTBAxCRShjJY/w0G2vgw7Zdv/KypE1BCqeHKgGrsb2cthzjvqqFOMPY71GeMPr
+ CsQWqP5o/aVg+fm1zDOqZXOynGha5IBCsXeF9kR7V7LReqyCR+rdpIbcXoX29p22PRJVIGD1p
+ z3kN726Ehy0msydS2RoxdQNyofT9f0Gz+mo+unSSzXLKB3Mm5+ESn3q192Adv43iUeFGGfSE2
+ cLiXA/hHHCQfcuO2k8cRIesfohJZ81gVLQ7j/0TzBLppJghkmsmnPOSrVzIpeaPBcXtIcFVoD
+ t3/XP+pRe/G6F+lxFSDBD0vtSz3WBBgQtdz5Cx2Uxn5w08ga0KEkemZrIK8t9Jq64oIZ4/qnx
+ KfBL5D0F51SnqEu304l82DpqPEks0dOAdREaFa6HNMr4x7P6j4O98/uX3itmb4sYaPDpfnucn
+ qu4g/v5HWlUQMB0SMXAD0/7HYHHTuvI2pd/UWjP3OlAqIvh5s2nNmFyUPo9CBEP9ccGLZdA02
+ yd6DxfxK4yaGMwz646SUsiYWpbtKyRWxwIRIPDJ5D/Mt2b0OohZYvTVpqioU5/VVFQ3No++qQ
+ JvDDjUU0P1aPRgfNvj+zaeg7LoymRqsbNawN0HkSJTwuxQX/NF7BBJsE9ucwlDyItbG2AZowr
+ imVMM68D4JfJ8lgdfhw4c0t+xPhUTsS3tBdF2jh1c2LTQdDabAEbfaCCN7QRi9ZknWVHyhg/N
+ XiKx8sENiE91ipSpxl+kXpvAdSttL51FC/HwUj23E3BLp13HdPQXWPcNCfr+5cfSnqsaihMgK
+ WMehLLY+A/uC3agmGU9MFrfQ==
 
 Am 11.10.24 um 09:22 schrieb Umang Jain:
-> Properly log a dev_err() message when the msgid is not of
-> VCHIQ_MSG_PADDING type. Drop 'oldmsgid' scoped variable and improve
-> on the error string as well.
+> Do not log a dev_dbg() with a separate scope. Drop the {..}
+> scope and align the dev_dbg() to make it more readable.
+>
+> No functional changes intended in this patch.
 >
 > Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> ---
->   .../vc04_services/interface/vchiq_arm/vchiq_core.c    | 11 ++++-------
->   1 file changed, 4 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_cor=
-e.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-> index e9b60dd8d419..1dca676186b6 100644
-> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-> @@ -1188,13 +1188,10 @@ queue_message_sync(struct vchiq_state *state, st=
-ruct vchiq_service *service,
->   	header =3D (struct vchiq_header *)SLOT_DATA_FROM_INDEX(state,
->   		local->slot_sync);
->
-> -	{
-> -		int oldmsgid =3D header->msgid;
-> -
-> -		if (oldmsgid !=3D VCHIQ_MSGID_PADDING)
-> -			dev_err(state->dev, "core: %d: qms - msgid %x, not PADDING\n",
-> -				state->id, oldmsgid);
-> -	}
-> +	if (header->msgid !=3D VCHIQ_MSGID_PADDING)
-> +		dev_err(state->dev,
-> +			"core: %d: qms - msgid %x, is not a PADDING message\n",
-> +			state->id, header->msgid);
-I'm fine with this change, but the behavior looks strange to me.
-
-Either this is a real error, I would expect the function would return
-with something like EINVAL here or this should be a warning?
-
-Sorry, no idea what's correct here.
-
-Best regards
->
->   	dev_dbg(state->dev, "sync: %d: qms %s@%pK,%x (%d->%d)\n",
->   		state->id, msg_type_str(VCHIQ_MSG_TYPE(msgid)), header, size,
-
+Reviewed-by: Stefan Wahren <wahrenst@gmx.net>
