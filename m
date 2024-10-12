@@ -1,43 +1,43 @@
-Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
+Received: from mail-40131.protonmail.ch (mail-40131.protonmail.ch [185.70.40.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03B1517BCE
-	for <linux-staging@lists.linux.dev>; Sat, 12 Oct 2024 16:18:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B83B7316E
+	for <linux-staging@lists.linux.dev>; Sat, 12 Oct 2024 16:18:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.40.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728749882; cv=none; b=TvUj0ab1N9IYy2GZq2BWAFEWs9CgX/yTz62XxZtGNFoad7OsMhLXQwdVV9jC/3wuRppcDRoqnP/PbKiXj8DMGeCsQJahWP2OEPQtmjHgshVsHfxew8q1jLcp2kRALx1iB4EfPbK4fmeBqIFtNyCbiy4EyCb3GPqnC3DFgqYCUTk=
+	t=1728749885; cv=none; b=SzN8Z9j0XDZqNQ9UKygYfLQhy67AnNXLrLto0jRTrY/b5pXNH1eAXmr201dEEy4JwAv5UQ02XC88VhszOroRyjzaixd5+uOp83fFSDAKVqnq0bbX7Mgncz6bJFR29zpGjlAd9RACz46/Ep6M2VKV54I5jB3VkQNIUr/3lM5nzUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728749882; c=relaxed/simple;
-	bh=J73VI66jlEHQkdw/SEk5v894zqFxKYyw9Pi4Yk1ohkw=;
+	s=arc-20240116; t=1728749885; c=relaxed/simple;
+	bh=F/Nl8SmmBe+I1r5HyZd6V2ThoIvMxT4kzinQ6SmDZWI=;
 	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bYVTkMkFLYZof7VSiNkFbeZwo4NELZQTVH+FUi50ojQYCXbpQR71cLYy50YK01MHeMC9/Hitly71ios+YkHYgGuRHZX7D+y+1JqetlN9aIf7i9MnhvcX0GlkWr8Ntv7msam+PaOqn+WE2QfhEB24lgQGA9iAl1du5sEwpKx8lmM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=vMZIYedK; arc=none smtp.client-ip=185.70.43.16
+	 MIME-Version:Content-Type; b=fFymIkyx5/zFjPomBndJll8QsQ/C9Pud8arkZmu7VQsarFWE0kwjjwKYRNY8qJHAQGEGGWx+NEl7CCKHN2UaBkO5bwzeVf+LRwSPslQQqunJV+YFwJRjjCEDNdswe7AKVc1zceWMBUctlNPNwXIem5BuzrVlkU+WldQGF7A66Jc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=TWYxiun6; arc=none smtp.client-ip=185.70.40.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="vMZIYedK"
+	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="TWYxiun6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1728749879; x=1729009079;
-	bh=77Ape9Xb6Q3g6e6nDVCqziVhef5VruLIYSH0AB8UTZY=;
+	s=protonmail3; t=1728749874; x=1729009074;
+	bh=fl5nW5Fm7DWsks+7jgrW29hy56ja579BSq6oxwGLuUs=;
 	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
 	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
 	 Message-ID:BIMI-Selector;
-	b=vMZIYedKwY/dEtxPapHup3sqgF0kgHa0GWH4ICz3BkNHUAMF9NDSYCUIbocKvkcqv
-	 +KTqFzsZV+l3BA8WISR4rCJi/QXRCFM1BrLkw6dyIkbstftqMCjsUsu3HJ/z4eQBDJ
-	 CGYlP10DwsLeziQ3SS1Hca0bfyc1PxYU6Q/PmPIU/Nz1leLduDyghVWVkPBHlLbgj6
-	 KAynY5qVoRvw1222ZF2NNGNtjbhUcvMiZJED9FljKko7oKPgwL00AhuibivvqnnwvO
-	 T8ZnB07mdAOkoSM2x8TubawPtqjuVZe1XFFBNGf1JkNoQ1dSoM+ccNEFbu02heagzI
-	 4/OjSqPk6iO+Q==
-Date: Sat, 12 Oct 2024 16:17:55 +0000
+	b=TWYxiun6LS3xc/Y4gu/fF92PRTI2Ccjn29RMWL0hzPQc0EOCFMqsx2eGuxmuAt88t
+	 PITslLylbTCI1dgxR4Ij9nHHQePBJOBWyCgiz5iB80AAZ18CME7E6u2tkjVLTew9jP
+	 3aqmp6tezXDqEegeroUEhAMOkGpnZ8DDXBzHGeRcxbp10JErmu756k61oSCuiAbkGm
+	 gpAPN4ui/19yyVbDN3cNLy1yCvFMr8Sw9U2SzP4JO29f/5EH2DkkS+6apXUeyhuqwy
+	 cCMjLLRHkbnFjkZeCNx5w4IK7i6c+NIkwTyV9F0cVTkS4yDdnjZ8Y7GVMkEJPcuU8W
+	 isSXqOzaHdrNA==
+Date: Sat, 12 Oct 2024 16:17:51 +0000
 To: florian.c.schilhabel@googlemail.com, gregkh@linuxfoundation.org, ayushtiw0110@gmail.com, dan.carpenter@linaro.org
 From: =?utf-8?Q?Dominik_Karol_Pi=C4=85tkowski?= <dominik.karol.piatkowski@protonmail.com>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, =?utf-8?Q?Dominik_Karol_Pi=C4=85tkowski?= <dominik.karol.piatkowski@protonmail.com>
-Subject: [PATCH 3/3] staging: rtl8712: Introduce auth_algorithm macros
-Message-ID: <20241012161638.67030-4-dominik.karol.piatkowski@protonmail.com>
+Subject: [PATCH 2/3] staging: rtl8712: Rename PrivacyAlgrthm variable
+Message-ID: <20241012161638.67030-3-dominik.karol.piatkowski@protonmail.com>
 In-Reply-To: <20241012161638.67030-1-dominik.karol.piatkowski@protonmail.com>
 References: <20241012161638.67030-1-dominik.karol.piatkowski@protonmail.com>
 Feedback-ID: 117888567:user:proton
-X-Pm-Message-ID: 2d14e7b65101fff78c6faa3d16032d7ffd93ee08
+X-Pm-Message-ID: 91c1208ee6d21a26337b3dfc6373f1685024ea26
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -47,256 +47,330 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-Currently, auth_algorithm is assigned/compared to using hardcoded
-numbers. Some of the lines are commented, some of them are not.
-
-This patch introduces macros that replace numeric assignments and
-comparisons of auth_algorithm, increasing readability.
+This patch renames PrivacyAlgrthm to privacy_algorithm in order to avoid
+using camel case.
 
 Signed-off-by: Dominik Karol Pi=C4=85tkowski <dominik.karol.piatkowski@prot=
 onmail.com>
 ---
- drivers/staging/rtl8712/mlme_linux.c          |  5 ++--
- drivers/staging/rtl8712/rtl871x_ioctl_linux.c | 25 ++++++++++---------
- drivers/staging/rtl8712/rtl871x_ioctl_set.c   |  3 ++-
- drivers/staging/rtl8712/rtl871x_mlme.c        |  7 +++---
- drivers/staging/rtl8712/rtl871x_security.h    |  5 ++++
- 5 files changed, 27 insertions(+), 18 deletions(-)
+ drivers/staging/rtl8712/mlme_linux.c          |  2 +-
+ drivers/staging/rtl8712/rtl871x_cmd.c         |  6 ++--
+ drivers/staging/rtl8712/rtl871x_ioctl_linux.c | 36 +++++++++----------
+ drivers/staging/rtl8712/rtl871x_ioctl_set.c   |  6 ++--
+ drivers/staging/rtl8712/rtl871x_mlme.c        | 14 ++++----
+ drivers/staging/rtl8712/rtl871x_security.h    |  4 +--
+ 6 files changed, 34 insertions(+), 34 deletions(-)
 
 diff --git a/drivers/staging/rtl8712/mlme_linux.c b/drivers/staging/rtl8712=
 /mlme_linux.c
-index fa6b0adec746..fcd2e0a9487a 100644
+index 041768d46def..fa6b0adec746 100644
 --- a/drivers/staging/rtl8712/mlme_linux.c
 +++ b/drivers/staging/rtl8712/mlme_linux.c
-@@ -19,6 +19,7 @@
- #include "osdep_service.h"
- #include "drv_types.h"
- #include "mlme_osdep.h"
-+#include "rtl871x_security.h"
-=20
- static void sitesurvey_ctrl_handler(struct timer_list *t)
- {
-@@ -92,7 +93,7 @@ void r8712_os_indicate_disconnect(struct _adapter *adapte=
-r)
-=20
- =09r8712_indicate_wx_disassoc_event(adapter);
- =09netif_carrier_off(adapter->pnetdev);
--=09if (adapter->securitypriv.auth_algorithm =3D=3D 2) { /*/802.1x*/
-+=09if (adapter->securitypriv.auth_algorithm =3D=3D _AUTH_8021x_) {
- =09=09/* We have to backup the PMK information for WiFi PMK Caching
- =09=09 * test item. Backup the btkip_countermeasure information.
- =09=09 * When the countermeasure is trigger, the driver have to
-@@ -121,7 +122,7 @@ void r8712_os_indicate_disconnect(struct _adapter *adap=
+@@ -122,7 +122,7 @@ void r8712_os_indicate_disconnect(struct _adapter *adap=
 ter)
- =09} else { /*reset values in securitypriv*/
  =09=09struct security_priv *sec_priv =3D &adapter->securitypriv;
 =20
--=09=09sec_priv->auth_algorithm =3D 0; /*open system*/
-+=09=09sec_priv->auth_algorithm =3D _AUTH_OPEN_SYSTEM_;
- =09=09sec_priv->privacy_algorithm =3D _NO_PRIVACY_;
+ =09=09sec_priv->auth_algorithm =3D 0; /*open system*/
+-=09=09sec_priv->PrivacyAlgrthm =3D _NO_PRIVACY_;
++=09=09sec_priv->privacy_algorithm =3D _NO_PRIVACY_;
  =09=09sec_priv->PrivacyKeyIndex =3D 0;
  =09=09sec_priv->XGrpPrivacy =3D _NO_PRIVACY_;
+ =09=09sec_priv->XGrpKeyid =3D 1;
+diff --git a/drivers/staging/rtl8712/rtl871x_cmd.c b/drivers/staging/rtl871=
+2/rtl871x_cmd.c
+index 218836128e8f..21e00ec83a19 100644
+--- a/drivers/staging/rtl8712/rtl871x_cmd.c
++++ b/drivers/staging/rtl8712/rtl871x_cmd.c
+@@ -407,8 +407,8 @@ int r8712_joinbss_cmd(struct _adapter  *padapter, struc=
+t wlan_network *pnetwork)
+ =09=09 * to avoid some IOT issues, especially for Realtek 8192u
+ =09=09 * SoftAP.
+ =09=09 */
+-=09=09if ((padapter->securitypriv.PrivacyAlgrthm !=3D _WEP40_) &&
+-=09=09    (padapter->securitypriv.PrivacyAlgrthm !=3D _WEP104_)) {
++=09=09if ((padapter->securitypriv.privacy_algorithm !=3D _WEP40_) &&
++=09=09    (padapter->securitypriv.privacy_algorithm !=3D _WEP104_)) {
+ =09=09=09/* restructure_ht_ie */
+ =09=09=09r8712_restructure_ht_ie(padapter,
+ =09=09=09=09=09=09&pnetwork->network.IEs[0],
+@@ -522,7 +522,7 @@ void r8712_setstakey_cmd(struct _adapter *padapter, u8 =
+*psta, u8 unicast_key)
+ =09ether_addr_copy(psetstakey_para->addr, sta->hwaddr);
+ =09if (check_fwstate(pmlmepriv, WIFI_STATION_STATE))
+ =09=09psetstakey_para->algorithm =3D (unsigned char)
+-=09=09=09=09=09    psecuritypriv->PrivacyAlgrthm;
++=09=09=09=09=09    psecuritypriv->privacy_algorithm;
+ =09else
+ =09=09GET_ENCRY_ALGO(psecuritypriv, sta, psetstakey_para->algorithm, false=
+);
+ =09if (unicast_key)
 diff --git a/drivers/staging/rtl8712/rtl871x_ioctl_linux.c b/drivers/stagin=
 g/rtl8712/rtl871x_ioctl_linux.c
-index f832501cc196..832c6c64aa68 100644
+index eca6175e232c..f832501cc196 100644
 --- a/drivers/staging/rtl8712/rtl871x_ioctl_linux.c
 +++ b/drivers/staging/rtl8712/rtl871x_ioctl_linux.c
-@@ -26,6 +26,7 @@
- #include "rtl871x_ioctl.h"
- #include "rtl871x_ioctl_set.h"
- #include "rtl871x_mp_ioctl.h"
-+#include "rtl871x_security.h"
- #include "mlme_osdep.h"
- #include <linux/wireless.h>
- #include <linux/module.h>
-@@ -325,18 +326,18 @@ static int wpa_set_auth_algs(struct net_device *dev, =
-u32 value)
- =09=09=09=09=09=09 Ndis802_11Encryption1Enabled;
- =09=09padapter->securitypriv.ndisauthtype =3D
- =09=09=09=09=09=09 Ndis802_11AuthModeAutoSwitch;
--=09=09padapter->securitypriv.auth_algorithm =3D 3;
-+=09=09padapter->securitypriv.auth_algorithm =3D _AUTH_AUTHSWITCH_;
- =09} else if (value & AUTH_ALG_SHARED_KEY) {
- =09=09padapter->securitypriv.ndisencryptstatus =3D
- =09=09=09=09=09=09 Ndis802_11Encryption1Enabled;
- =09=09padapter->securitypriv.ndisauthtype =3D Ndis802_11AuthModeShared;
--=09=09padapter->securitypriv.auth_algorithm =3D 1;
-+=09=09padapter->securitypriv.auth_algorithm =3D _AUTH_SHARED_SYSTEM_;
- =09} else if (value & AUTH_ALG_OPEN_SYSTEM) {
- =09=09if (padapter->securitypriv.ndisauthtype <
- =09=09=09=09=09=09 Ndis802_11AuthModeWPAPSK) {
- =09=09=09padapter->securitypriv.ndisauthtype =3D
- =09=09=09=09=09=09 Ndis802_11AuthModeOpen;
--=09=09=09padapter->securitypriv.auth_algorithm =3D 0;
-+=09=09=09padapter->securitypriv.auth_algorithm =3D _AUTH_OPEN_SYSTEM_;
- =09=09}
- =09} else {
- =09=09ret =3D -EINVAL;
-@@ -414,7 +415,7 @@ static int wpa_set_encryption(struct net_device *dev, s=
+@@ -370,7 +370,7 @@ static int wpa_set_encryption(struct net_device *dev, s=
 truct ieee_param *param,
+ =09=09netdev_info(dev, "r8712u: %s: crypt.alg =3D WEP\n", __func__);
+ =09=09padapter->securitypriv.ndisencryptstatus =3D
+ =09=09=09     Ndis802_11Encryption1Enabled;
+-=09=09padapter->securitypriv.PrivacyAlgrthm =3D _WEP40_;
++=09=09padapter->securitypriv.privacy_algorithm =3D _WEP40_;
+ =09=09padapter->securitypriv.XGrpPrivacy =3D _WEP40_;
+ =09=09wep_key_idx =3D param->u.crypt.idx;
+ =09=09wep_key_len =3D param->u.crypt.key_len;
+@@ -387,7 +387,7 @@ static int wpa_set_encryption(struct net_device *dev, s=
+truct ieee_param *param,
+ =09=09pwep->Length =3D wep_key_len +
+ =09=09=09offsetof(struct NDIS_802_11_WEP, KeyMaterial);
+ =09=09if (wep_key_len =3D=3D 13) {
+-=09=09=09padapter->securitypriv.PrivacyAlgrthm =3D _WEP104_;
++=09=09=09padapter->securitypriv.privacy_algorithm =3D _WEP104_;
+ =09=09=09padapter->securitypriv.XGrpPrivacy =3D _WEP104_;
  =09=09}
- =09=09goto exit;
+ =09=09pwep->KeyIndex =3D wep_key_idx;
+@@ -397,7 +397,7 @@ static int wpa_set_encryption(struct net_device *dev, s=
+truct ieee_param *param,
+ =09=09=09if (r8712_set_802_11_add_wep(padapter, pwep))
+ =09=09=09=09ret =3D -EOPNOTSUPP;
+ =09=09} else {
+-=09=09=09/* don't update "psecuritypriv->PrivacyAlgrthm" and
++=09=09=09/* don't update "psecuritypriv->privacy_algorithm" and
+ =09=09=09 * "psecuritypriv->PrivacyKeyIndex=3Dkeyid", but can
+ =09=09=09 * r8712_set_key to fw/cam
+ =09=09=09 */
+@@ -429,7 +429,7 @@ static int wpa_set_encryption(struct net_device *dev, s=
+truct ieee_param *param,
+ =09=09=09=09    Ndis802_11Encryption2Enabled ||
+ =09=09=09=09    spriv->ndisencryptstatus =3D=3D
+ =09=09=09=09    Ndis802_11Encryption3Enabled)
+-=09=09=09=09=09psta->XPrivacy =3D spriv->PrivacyAlgrthm;
++=09=09=09=09=09psta->XPrivacy =3D spriv->privacy_algorithm;
+ =09=09=09=09if (param->u.crypt.set_tx =3D=3D 1)
+ =09=09=09=09=09handle_pairwise_key(psta, param,
+ =09=09=09=09=09=09=09    padapter);
+@@ -444,7 +444,7 @@ static int wpa_set_encryption(struct net_device *dev, s=
+truct ieee_param *param,
+ =09=09=09=09    spriv->ndisencryptstatus =3D=3D
+ =09=09=09=09    Ndis802_11Encryption3Enabled)
+ =09=09=09=09=09pbcmc_sta->XPrivacy =3D
+-=09=09=09=09=09=09spriv->PrivacyAlgrthm;
++=09=09=09=09=09=09spriv->privacy_algorithm;
+ =09=09=09}
+ =09=09}
  =09}
--=09if (padapter->securitypriv.auth_algorithm =3D=3D 2) { /* 802_1x */
-+=09if (padapter->securitypriv.auth_algorithm =3D=3D _AUTH_8021x_) {
- =09=09struct sta_info *psta, *pbcmc_sta;
- =09=09struct sta_priv *pstapriv =3D &padapter->stapriv;
- =09=09struct security_priv *spriv =3D &padapter->securitypriv;
-@@ -472,13 +473,13 @@ static int r871x_set_wpa_ie(struct _adapter *padapter=
+@@ -506,23 +506,23 @@ static int r871x_set_wpa_ie(struct _adapter *padapter=
 , char *pie,
  =09=09}
- =09=09if (r8712_parse_wpa_ie(buf, ielen, &group_cipher,
- =09=09=09=09       &pairwise_cipher) =3D=3D 0) {
--=09=09=09padapter->securitypriv.auth_algorithm =3D 2;
-+=09=09=09padapter->securitypriv.auth_algorithm =3D _AUTH_8021x_;
- =09=09=09padapter->securitypriv.ndisauthtype =3D
- =09=09=09=09  Ndis802_11AuthModeWPAPSK;
+ =09=09switch (pairwise_cipher) {
+ =09=09case WPA_CIPHER_NONE:
+-=09=09=09padapter->securitypriv.PrivacyAlgrthm =3D _NO_PRIVACY_;
++=09=09=09padapter->securitypriv.privacy_algorithm =3D _NO_PRIVACY_;
+ =09=09=09padapter->securitypriv.ndisencryptstatus =3D Ndis802_11Encryption=
+Disabled;
+ =09=09=09break;
+ =09=09case WPA_CIPHER_WEP40:
+-=09=09=09padapter->securitypriv.PrivacyAlgrthm =3D _WEP40_;
++=09=09=09padapter->securitypriv.privacy_algorithm =3D _WEP40_;
+ =09=09=09padapter->securitypriv.ndisencryptstatus =3D Ndis802_11Encryption=
+1Enabled;
+ =09=09=09break;
+ =09=09case WPA_CIPHER_TKIP:
+-=09=09=09padapter->securitypriv.PrivacyAlgrthm =3D _TKIP_;
++=09=09=09padapter->securitypriv.privacy_algorithm =3D _TKIP_;
+ =09=09=09padapter->securitypriv.ndisencryptstatus =3D Ndis802_11Encryption=
+2Enabled;
+ =09=09=09break;
+ =09=09case WPA_CIPHER_CCMP:
+-=09=09=09padapter->securitypriv.PrivacyAlgrthm =3D _AES_;
++=09=09=09padapter->securitypriv.privacy_algorithm =3D _AES_;
+ =09=09=09padapter->securitypriv.ndisencryptstatus =3D Ndis802_11Encryption=
+3Enabled;
+ =09=09=09break;
+ =09=09case WPA_CIPHER_WEP104:
+-=09=09=09padapter->securitypriv.PrivacyAlgrthm =3D _WEP104_;
++=09=09=09padapter->securitypriv.privacy_algorithm =3D _WEP104_;
+ =09=09=09padapter->securitypriv.ndisencryptstatus =3D Ndis802_11Encryption=
+1Enabled;
+ =09=09=09break;
  =09=09}
- =09=09if (r8712_parse_wpa2_ie(buf, ielen, &group_cipher,
- =09=09=09=09=09&pairwise_cipher) =3D=3D 0) {
--=09=09=09padapter->securitypriv.auth_algorithm =3D 2;
-+=09=09=09padapter->securitypriv.auth_algorithm =3D _AUTH_8021x_;
- =09=09=09padapter->securitypriv.ndisauthtype =3D
- =09=09=09=09  Ndis802_11AuthModeWPA2PSK;
- =09=09}
-@@ -1450,7 +1451,7 @@ static int r8711_wx_set_enc(struct net_device *dev,
+@@ -1448,7 +1448,7 @@ static int r8711_wx_set_enc(struct net_device *dev,
+ =09=09netdev_info(dev, "r8712u: %s: EncryptionDisabled\n", __func__);
+ =09=09padapter->securitypriv.ndisencryptstatus =3D
  =09=09=09=09 Ndis802_11EncryptionDisabled;
- =09=09padapter->securitypriv.privacy_algorithm =3D _NO_PRIVACY_;
+-=09=09padapter->securitypriv.PrivacyAlgrthm =3D _NO_PRIVACY_;
++=09=09padapter->securitypriv.privacy_algorithm =3D _NO_PRIVACY_;
  =09=09padapter->securitypriv.XGrpPrivacy =3D _NO_PRIVACY_;
--=09=09padapter->securitypriv.auth_algorithm =3D 0; /* open system */
-+=09=09padapter->securitypriv.auth_algorithm =3D _AUTH_OPEN_SYSTEM_;
+ =09=09padapter->securitypriv.auth_algorithm =3D 0; /* open system */
+ =09=09authmode =3D Ndis802_11AuthModeOpen;
+@@ -1470,7 +1470,7 @@ static int r8711_wx_set_enc(struct net_device *dev,
+ =09=09padapter->securitypriv.ndisencryptstatus =3D
+ =09=09=09=09 Ndis802_11Encryption1Enabled;
+ =09=09padapter->securitypriv.auth_algorithm =3D 0; /* open system */
+-=09=09padapter->securitypriv.PrivacyAlgrthm =3D _NO_PRIVACY_;
++=09=09padapter->securitypriv.privacy_algorithm =3D _NO_PRIVACY_;
+ =09=09padapter->securitypriv.XGrpPrivacy =3D _NO_PRIVACY_;
  =09=09authmode =3D Ndis802_11AuthModeOpen;
  =09=09padapter->securitypriv.ndisauthtype =3D authmode;
- =09=09return 0;
-@@ -1469,7 +1470,7 @@ static int r8711_wx_set_enc(struct net_device *dev,
- =09=09netdev_info(dev, "r8712u: %s: IW_ENCODE_OPEN\n", __func__);
+@@ -1480,7 +1480,7 @@ static int r8711_wx_set_enc(struct net_device *dev,
  =09=09padapter->securitypriv.ndisencryptstatus =3D
  =09=09=09=09 Ndis802_11Encryption1Enabled;
--=09=09padapter->securitypriv.auth_algorithm =3D 0; /* open system */
-+=09=09padapter->securitypriv.auth_algorithm =3D _AUTH_OPEN_SYSTEM_;
- =09=09padapter->securitypriv.privacy_algorithm =3D _NO_PRIVACY_;
- =09=09padapter->securitypriv.XGrpPrivacy =3D _NO_PRIVACY_;
- =09=09authmode =3D Ndis802_11AuthModeOpen;
-@@ -1479,7 +1480,7 @@ static int r8711_wx_set_enc(struct net_device *dev,
- =09=09=09=09"r8712u: %s: IW_ENCODE_RESTRICTED\n", __func__);
- =09=09padapter->securitypriv.ndisencryptstatus =3D
- =09=09=09=09 Ndis802_11Encryption1Enabled;
--=09=09padapter->securitypriv.auth_algorithm =3D 1; /* shared system */
-+=09=09padapter->securitypriv.auth_algorithm =3D _AUTH_SHARED_SYSTEM_;
- =09=09padapter->securitypriv.privacy_algorithm =3D _WEP40_;
+ =09=09padapter->securitypriv.auth_algorithm =3D 1; /* shared system */
+-=09=09padapter->securitypriv.PrivacyAlgrthm =3D _WEP40_;
++=09=09padapter->securitypriv.privacy_algorithm =3D _WEP40_;
  =09=09padapter->securitypriv.XGrpPrivacy =3D _WEP40_;
  =09=09authmode =3D Ndis802_11AuthModeShared;
-@@ -1487,7 +1488,7 @@ static int r8711_wx_set_enc(struct net_device *dev,
- =09} else {
+ =09=09padapter->securitypriv.ndisauthtype =3D authmode;
+@@ -1488,7 +1488,7 @@ static int r8711_wx_set_enc(struct net_device *dev,
  =09=09padapter->securitypriv.ndisencryptstatus =3D
  =09=09=09=09 Ndis802_11Encryption1Enabled;
--=09=09padapter->securitypriv.auth_algorithm =3D 0; /* open system */
-+=09=09padapter->securitypriv.auth_algorithm =3D _AUTH_OPEN_SYSTEM_;
- =09=09padapter->securitypriv.privacy_algorithm =3D _NO_PRIVACY_;
+ =09=09padapter->securitypriv.auth_algorithm =3D 0; /* open system */
+-=09=09padapter->securitypriv.PrivacyAlgrthm =3D _NO_PRIVACY_;
++=09=09padapter->securitypriv.privacy_algorithm =3D _NO_PRIVACY_;
  =09=09padapter->securitypriv.XGrpPrivacy =3D _NO_PRIVACY_;
  =09=09authmode =3D Ndis802_11AuthModeOpen;
-@@ -1672,7 +1673,7 @@ static int r871x_wx_set_auth(struct net_device *dev,
+ =09=09padapter->securitypriv.ndisauthtype =3D authmode;
+@@ -1506,15 +1506,15 @@ static int r8711_wx_set_enc(struct net_device *dev,
+ =09=09=09padapter->securitypriv.PrivacyKeyIndex =3D key;
+ =09=09=09switch (padapter->securitypriv.DefKeylen[key]) {
+ =09=09=09case 5:
+-=09=09=09=09padapter->securitypriv.PrivacyAlgrthm =3D
++=09=09=09=09padapter->securitypriv.privacy_algorithm =3D
+ =09=09=09=09=09=09 _WEP40_;
+ =09=09=09=09break;
+ =09=09=09case 13:
+-=09=09=09=09padapter->securitypriv.PrivacyAlgrthm =3D
++=09=09=09=09padapter->securitypriv.privacy_algorithm =3D
+ =09=09=09=09=09=09 _WEP104_;
+ =09=09=09=09break;
+ =09=09=09default:
+-=09=09=09=09padapter->securitypriv.PrivacyAlgrthm =3D
++=09=09=09=09padapter->securitypriv.privacy_algorithm =3D
+ =09=09=09=09=09=09 _NO_PRIVACY_;
+ =09=09=09=09break;
+ =09=09=09}
+@@ -1668,7 +1668,7 @@ static int r871x_wx_set_auth(struct net_device *dev,
+ =09=09if (paramval) {
+ =09=09=09padapter->securitypriv.ndisencryptstatus =3D
+ =09=09=09=09   Ndis802_11EncryptionDisabled;
+-=09=09=09padapter->securitypriv.PrivacyAlgrthm =3D
++=09=09=09padapter->securitypriv.privacy_algorithm =3D
  =09=09=09=09  _NO_PRIVACY_;
  =09=09=09padapter->securitypriv.XGrpPrivacy =3D
  =09=09=09=09  _NO_PRIVACY_;
--=09=09=09padapter->securitypriv.auth_algorithm =3D 0;
-+=09=09=09padapter->securitypriv.auth_algorithm =3D _AUTH_OPEN_SYSTEM_;
- =09=09=09padapter->securitypriv.ndisauthtype =3D
- =09=09=09=09  Ndis802_11AuthModeOpen;
- =09=09}
-@@ -2017,7 +2018,7 @@ static int wpa_set_param(struct net_device *dev, u8 n=
-ame, u32 value)
-=20
- =09switch (name) {
- =09case IEEE_PARAM_WPA_ENABLED:
--=09=09padapter->securitypriv.auth_algorithm =3D 2; /* 802.1x */
-+=09=09padapter->securitypriv.auth_algorithm =3D _AUTH_8021x_;
- =09=09switch ((value) & 0xff) {
- =09=09case 1: /* WPA */
- =09=09=09padapter->securitypriv.ndisauthtype =3D
 diff --git a/drivers/staging/rtl8712/rtl871x_ioctl_set.c b/drivers/staging/=
 rtl8712/rtl871x_ioctl_set.c
-index 569d26425250..9ddfe7a1d715 100644
+index 9eb67db36ecb..569d26425250 100644
 --- a/drivers/staging/rtl8712/rtl871x_ioctl_set.c
 +++ b/drivers/staging/rtl8712/rtl871x_ioctl_set.c
-@@ -19,6 +19,7 @@
- #include "osdep_service.h"
- #include "drv_types.h"
- #include "rtl871x_ioctl_set.h"
-+#include "rtl871x_security.h"
- #include "usb_osintf.h"
- #include "usb_ops.h"
-=20
-@@ -318,7 +319,7 @@ u8 r8712_set_802_11_authentication_mode(struct _adapter=
- *padapter,
-=20
- =09psecuritypriv->ndisauthtype =3D authmode;
- =09if (psecuritypriv->ndisauthtype > 3)
--=09=09psecuritypriv->auth_algorithm =3D 2; /* 802.1x */
-+=09=09psecuritypriv->auth_algorithm =3D _AUTH_8021x_;
- =09if (r8712_set_auth(padapter, psecuritypriv))
- =09=09ret =3D false;
- =09else
+@@ -337,13 +337,13 @@ int r8712_set_802_11_add_wep(struct _adapter *padapte=
+r,
+ =09=09return -EINVAL;
+ =09switch (wep->KeyLength) {
+ =09case 5:
+-=09=09psecuritypriv->PrivacyAlgrthm =3D _WEP40_;
++=09=09psecuritypriv->privacy_algorithm =3D _WEP40_;
+ =09=09break;
+ =09case 13:
+-=09=09psecuritypriv->PrivacyAlgrthm =3D _WEP104_;
++=09=09psecuritypriv->privacy_algorithm =3D _WEP104_;
+ =09=09break;
+ =09default:
+-=09=09psecuritypriv->PrivacyAlgrthm =3D _NO_PRIVACY_;
++=09=09psecuritypriv->privacy_algorithm =3D _NO_PRIVACY_;
+ =09=09break;
+ =09}
+ =09memcpy(psecuritypriv->DefKey[keyid].skey, &wep->KeyMaterial,
 diff --git a/drivers/staging/rtl8712/rtl871x_mlme.c b/drivers/staging/rtl87=
 12/rtl871x_mlme.c
-index 66f9fc51c147..1ca94e90dfe6 100644
+index 876788b80953..66f9fc51c147 100644
 --- a/drivers/staging/rtl8712/rtl871x_mlme.c
 +++ b/drivers/staging/rtl8712/rtl871x_mlme.c
-@@ -23,6 +23,7 @@
- #include "recv_osdep.h"
- #include "xmit_osdep.h"
- #include "mlme_osdep.h"
-+#include "rtl871x_security.h"
- #include "sta_info.h"
- #include "wifi.h"
- #include "wlan_bssdef.h"
-@@ -768,7 +769,7 @@ void r8712_joinbss_event_callback(struct _adapter *adap=
+@@ -219,10 +219,10 @@ int r8712_is_same_ibss(struct _adapter *adapter, stru=
+ct wlan_network *pnetwork)
+ =09int ret =3D true;
+ =09struct security_priv *psecuritypriv =3D &adapter->securitypriv;
+=20
+-=09if ((psecuritypriv->PrivacyAlgrthm !=3D _NO_PRIVACY_) &&
++=09if ((psecuritypriv->privacy_algorithm !=3D _NO_PRIVACY_) &&
+ =09=09    (pnetwork->network.Privacy =3D=3D cpu_to_le32(0)))
+ =09=09ret =3D false;
+-=09else if ((psecuritypriv->PrivacyAlgrthm =3D=3D _NO_PRIVACY_) &&
++=09else if ((psecuritypriv->privacy_algorithm =3D=3D _NO_PRIVACY_) &&
+ =09=09 (pnetwork->network.Privacy =3D=3D cpu_to_le32(1)))
+ =09=09ret =3D false;
+ =09else
+@@ -426,7 +426,7 @@ static int is_desired_network(struct _adapter *adapter,
+ =09=09=09return true;
+ =09=09return false;
+ =09}
+-=09if ((psecuritypriv->PrivacyAlgrthm !=3D _NO_PRIVACY_) &&
++=09if ((psecuritypriv->privacy_algorithm !=3D _NO_PRIVACY_) &&
+ =09=09    (pnetwork->network.Privacy =3D=3D 0))
+ =09=09bselected =3D false;
+ =09if (check_fwstate(&adapter->mlmepriv, WIFI_ADHOC_STATE)) {
+@@ -774,7 +774,7 @@ void r8712_joinbss_event_callback(struct _adapter *adap=
 ter, u8 *pbuf)
- =09=09=09=09=09ptarget_sta->aid =3D pnetwork->join_res;
- =09=09=09=09=09ptarget_sta->qos_option =3D 1;
- =09=09=09=09=09ptarget_sta->mac_id =3D 5;
--=09=09=09=09=09if (adapter->securitypriv.auth_algorithm =3D=3D 2) {
-+=09=09=09=09=09if (adapter->securitypriv.auth_algorithm =3D=3D _AUTH_8021x=
-_) {
- =09=09=09=09=09=09adapter->securitypriv.binstallGrpkey =3D false;
- =09=09=09=09=09=09adapter->securitypriv.busetkipkey =3D false;
  =09=09=09=09=09=09adapter->securitypriv.bgrpkey_handshake =3D false;
-@@ -869,7 +870,7 @@ void r8712_stassoc_event_callback(struct _adapter *adap=
+ =09=09=09=09=09=09ptarget_sta->ieee8021x_blocked =3D true;
+ =09=09=09=09=09=09ptarget_sta->XPrivacy =3D
+-=09=09=09=09=09=09=09adapter->securitypriv.PrivacyAlgrthm;
++=09=09=09=09=09=09=09adapter->securitypriv.privacy_algorithm;
+ =09=09=09=09=09=09memset((u8 *)&ptarget_sta->x_UncstKey,
+ =09=09=09=09=09=09=090,
+ =09=09=09=09=09=09=09sizeof(union Keytype));
+@@ -870,7 +870,7 @@ void r8712_stassoc_event_callback(struct _adapter *adap=
 ter, u8 *pbuf)
- =09psta->mac_id =3D le32_to_cpu(pstassoc->cam_id);
  =09/* psta->aid =3D (uint)pstassoc->cam_id; */
 =20
--=09if (adapter->securitypriv.auth_algorithm =3D=3D 2)
-+=09if (adapter->securitypriv.auth_algorithm =3D=3D _AUTH_8021x_)
- =09=09psta->XPrivacy =3D adapter->securitypriv.privacy_algorithm;
+ =09if (adapter->securitypriv.auth_algorithm =3D=3D 2)
+-=09=09psta->XPrivacy =3D adapter->securitypriv.PrivacyAlgrthm;
++=09=09psta->XPrivacy =3D adapter->securitypriv.privacy_algorithm;
  =09psta->ieee8021x_blocked =3D false;
  =09spin_lock_irqsave(&pmlmepriv->lock, irqL);
-@@ -1160,7 +1161,7 @@ int r8712_set_key(struct _adapter *adapter,
- =09=09ret =3D -ENOMEM;
- =09=09goto err_free_cmd;
- =09}
--=09if (psecuritypriv->auth_algorithm =3D=3D 2) { /* 802.1X */
-+=09if (psecuritypriv->auth_algorithm =3D=3D _AUTH_8021x_) {
- =09=09psetkeyparm->algorithm =3D
+ =09if (check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE) ||
+@@ -1165,7 +1165,7 @@ int r8712_set_key(struct _adapter *adapter,
  =09=09=09 (u8)psecuritypriv->XGrpPrivacy;
  =09} else { /* WEP */
+ =09=09psetkeyparm->algorithm =3D
+-=09=09=09 (u8)psecuritypriv->PrivacyAlgrthm;
++=09=09=09 (u8)psecuritypriv->privacy_algorithm;
+ =09}
+ =09psetkeyparm->keyid =3D (u8)keyid;
+=20
+@@ -1542,7 +1542,7 @@ void r8712_update_registrypriv_dev_network(struct _ad=
+apter *adapter)
+ =09struct security_priv=09*psecuritypriv =3D &adapter->securitypriv;
+ =09struct wlan_network=09*cur_network =3D &adapter->mlmepriv.cur_network;
+=20
+-=09pdev_network->Privacy =3D cpu_to_le32(psecuritypriv->PrivacyAlgrthm
++=09pdev_network->Privacy =3D cpu_to_le32(psecuritypriv->privacy_algorithm
+ =09=09=09=09=09    > 0 ? 1 : 0); /* adhoc no 802.1x */
+ =09pdev_network->Rssi =3D 0;
+ =09switch (pregistrypriv->wireless_mode) {
 diff --git a/drivers/staging/rtl8712/rtl871x_security.h b/drivers/staging/r=
 tl8712/rtl871x_security.h
-index 5727a84838d3..34e5aecf92ae 100644
+index b498ce4ddd34..5727a84838d3 100644
 --- a/drivers/staging/rtl8712/rtl871x_security.h
 +++ b/drivers/staging/rtl8712/rtl871x_security.h
-@@ -24,6 +24,11 @@
- #define _AES_=09=090x4
- #define _WEP104_=090x5
-=20
-+#define _AUTH_OPEN_SYSTEM_=090x0
-+#define _AUTH_SHARED_SYSTEM_=090x1
-+#define _AUTH_8021x_=09=090x2
-+#define _AUTH_AUTHSWITCH_=090x3
-+
- #define _WPA_IE_ID_=090xdd
- #define _WPA2_IE_ID_=090x30
-=20
+@@ -80,7 +80,7 @@ struct security_priv {
+ =09u32 auth_algorithm;=09=09/* 802.11 auth, could be open, shared,
+ =09=09=09=09=09 * 8021x and authswitch
+ =09=09=09=09=09 */
+-=09u32 PrivacyAlgrthm;=09=09/* This specify the privacy for shared
++=09u32 privacy_algorithm;=09=09/* This specify the privacy for shared
+ =09=09=09=09=09 * auth. algorithm.
+ =09=09=09=09=09 */
+ =09u32 PrivacyKeyIndex;=09=09/* this is only valid for legendary
+@@ -143,7 +143,7 @@ do { \
+ =09case 0: \
+ =09case 1: \
+ =09case 3: \
+-=09=09encry_algo =3D (u8)psecuritypriv->PrivacyAlgrthm; \
++=09=09encry_algo =3D (u8)psecuritypriv->privacy_algorithm; \
+ =09=09break; \
+ =09case 2: \
+ =09=09if (bmcst) \
 --=20
 2.34.1
 
