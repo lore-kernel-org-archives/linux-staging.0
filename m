@@ -1,101 +1,112 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com [209.85.161.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11CDE1E481
-	for <linux-staging@lists.linux.dev>; Sat, 12 Oct 2024 14:14:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BE881802B
+	for <linux-staging@lists.linux.dev>; Sat, 12 Oct 2024 15:27:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728742449; cv=none; b=hqBnBou4vJNKa/zbkQEfgCIg+LKMzsnX6/ltLzG5z2WlPrN9j7aI24U8z5yzxUn9zuOgq1gk06sBeWIPSew04GcYj43oiVEg4v87FT2F3WrjNyCrs+PdHP128BBEsEFZjZ5F+8F/qKrh10rmk1zGtTckrTOAMyacQdR5vc7uD7M=
+	t=1728746852; cv=none; b=Zozipn0wCMO7RrVxL1D1mEJ98/zXMj6GJRkF3T78s+YPoNWQBnyYdD+RrAN19KWYpH1RHqsm99HJRqPVS5BPagni++qZwFh1TBjqYy3S2frBC06FDV56PPaRrGx9O8J+rEpw47tUQgHF8sScLRMkD1gqBghgkofAMlEtKu5E++g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728742449; c=relaxed/simple;
-	bh=QpvuA0tXrIusrPG8LAQQ4pQs4s+4SgLc+0UwE7FI/E4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=XjNJ8oG9OWH2XNNtiU38P64aaAtsxYGqVRaZjUvaQsvbUZWBY9UjJiMl+L3p72C6xkX3RYkIMTzJ9fgu7Ry0wGR8fhau+QdoB+h1apOs41D0k3R1TpTQoftnfI/rA8OMDiNz+1lHiOdM7dQ+uiwsY+SnRk03ke5VZjNS4vlI5Xs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GN0UJxnG; arc=none smtp.client-ip=209.85.218.54
+	s=arc-20240116; t=1728746852; c=relaxed/simple;
+	bh=kNKvb0rNVp6vzyaGUwTGZygx9ZxekG8yqQEp4jqXF1k=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=N8h8T2XkCKIUpDIzbgNcVXB9Itdgu9ZiWX6nkXoyt0onJxunKZbYfQ0gIRTmFNm3+w/jzX4k0b39Em4djOTwNe7a4FnS3cLHX7L4ZXLFFfOHSPfihzkF4Z5XGxA53MMmHnFaT76nKp3MLtO1VEoMVeeF6ZgxnEjwfRZfegnu+SM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d8TOWVTJ; arc=none smtp.client-ip=209.85.161.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GN0UJxnG"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a994cd82a3bso410764666b.2
-        for <linux-staging@lists.linux.dev>; Sat, 12 Oct 2024 07:14:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d8TOWVTJ"
+Received: by mail-oo1-f43.google.com with SMTP id 006d021491bc7-5e98a16e81dso1311841eaf.0
+        for <linux-staging@lists.linux.dev>; Sat, 12 Oct 2024 08:27:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728742446; x=1729347246; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Tuv25M7qfPhkVq2rdwgDLlN4egguVJCUL8w07O0WP/s=;
-        b=GN0UJxnGAmFC6o6dM2yK9vIZYjxpOEZquolN3qzUVKP+KVdBdSmhvcuyfgY3lBCRYe
-         WaJEBBq4q4xKQ1+buX3YUS2THewaAD2gsG8qcxQ6DJICWY2qZvYiQjdocVjWCRRWIKn0
-         HQqgRQfuOYUQPYrLBLObPUoGbnswbMmfylLy7F0I8pOeBrNn2c4c5HagJgi38i7Y+nU2
-         UHrEz1iSpuIPDQD9pAeErB8205++CsIaf/uaTnXY4TN4EbpHZlLV/ktNPiMpVQl6OmnM
-         pUA9xjltgyqaRzNyFhu9cDjvkd2h6qYddGqr6/tgqfmirsdkxkBtMyz6yHqxm3QEsAuA
-         Z26w==
+        d=gmail.com; s=20230601; t=1728746850; x=1729351650; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jrZ2z4OAc7My1Ph9G3EUZe1keZZllltflrTof5pqzsk=;
+        b=d8TOWVTJxpumlvA0SH6Fso5GazTp8GaaC6+thcyq7+XiPVGqmDYooIQi971CL6qWd7
+         cHafESvDRlMxIYm1bWeFfDROKluMvJcesF84ZxszuU1F3iepYjTpmy6wLtjfGGB2ZcOb
+         NF9ZPEWCMlT/PMtt20tqskCFXqtbaj8dCh3dPspeJ8mhBF3lOVfsURTBE4EoeUd4joBb
+         7mggY/N2aFrq6k0RDO4S8tCmquJaW9AiWnqEjE7MMm9wRFIhvu65MOw5UYMn7mRAM+UQ
+         y1aFjWb59Oiann9GpxvqDTvonklQJDldCucZSWoLbKfRR3MC2F+5CpxW+TkrecYrShHy
+         ymZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728742446; x=1729347246;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Tuv25M7qfPhkVq2rdwgDLlN4egguVJCUL8w07O0WP/s=;
-        b=dpjU3N0sMfDGZwz/Ju3rb3/dhaBQj8qY0eDR9Kpzl2ZPULzxRx7QGflAFK1zzN5Y3/
-         DEiO8Ka7iGQE0GNzILSENmxNEiZFMeJ9Nzr7e61DeA0kSjNlwnyvxuHv01FUsdnORZ+A
-         12E0/HWEr0nWfOSY0UzydzM5o7kuiRZ99cyn5mqe5iaGtKSW1bfs59kI9JInV6SIVQOc
-         Soc3EeIwBb5TWTQOCH1CPc0bIx0wliyKmkJPPpeP0lU1iNJLdPcUJYngKoC+oqQw7oav
-         FUe4rP/0Gecm7uSft8W+ljI46/TngrD3TuNVfia81uzuS5zd07OIbw6RZyUKKOqpX0Dp
-         VD5g==
-X-Forwarded-Encrypted: i=1; AJvYcCUIYJBKvjRCXMsPxJAyb7fwGByPTxpMEizJeyhAbsuJpyWTlh3aHPmctn3AS9AueJo/K7Yn+AuwoFZJ9eyn@lists.linux.dev
-X-Gm-Message-State: AOJu0YyVd3wyCAdQxGUNGF9HYm5lNLSn4MVKLB0bhMuHOKGmNyARKDnl
-	mZ24JyKhVK8xH1SqR/SQzE2BPTZlUkL7fc0qDMIFOsLY8EkEPrVlO1b9Jg==
-X-Google-Smtp-Source: AGHT+IG0B8W6nRGV5gDheoL2qJhnCrgP/hIARfPGbcFt0uINpwOjZ3efVzmhEbB+wWW7eVXLEVLSMg==
-X-Received: by 2002:a17:907:7ea1:b0:a8d:250a:52a8 with SMTP id a640c23a62f3a-a99b93a8506mr426443966b.3.1728742446066;
-        Sat, 12 Oct 2024 07:14:06 -0700 (PDT)
-Received: from localhost (craw-09-b2-v4wan-169726-cust2117.vm24.cable.virginm.net. [92.238.24.70])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a99fa0cc7d4sm12707566b.104.2024.10.12.07.14.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Oct 2024 07:14:04 -0700 (PDT)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Hans de Goede <hdegoede@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: kernel-janitors@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH] media: atomisp: remove redundant re-checking of err
-Date: Sat, 12 Oct 2024 15:14:03 +0100
-Message-Id: <20241012141403.1558513-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.39.5
+        d=1e100.net; s=20230601; t=1728746850; x=1729351650;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jrZ2z4OAc7My1Ph9G3EUZe1keZZllltflrTof5pqzsk=;
+        b=QOrLzowTkX6fxeYlREz4Vc/h7+x4JEoqpg8D06PbZHEwtuTdF8rM0ud1bcVGqxqvLT
+         qlMhPMdzZOfvsEnwjwJHGLshcYFvFuqC0v/dGHYmwT5Oh3LNY07AIMlvpDn/70v2YjK8
+         7+28TAC1e4x23SWCZ4+QL1YGG4e75y5LcwKZ3+RWE17DdP8MvVjZugzrti8rfVKP+cTg
+         QtuyzHPxJH8j1dMgc1jKj47axdxEBHP8XFeliL97jn7HgmxA0zPbJDwpEdMJ0aykVShf
+         zBTpVOcphezfjvKzcQyxoNtBenmLWEBvBB7E7n3vykbhRD3LwpEE57TJp2MIa91/UqGL
+         mkxA==
+X-Forwarded-Encrypted: i=1; AJvYcCV84Sk1pqIdEfG49AjRHuANljxGhkLwGBz8Yz+SQKefHWrDZ67tGqZoEgU4GLGr6aPSg6mEmqG/sXM1CuEK@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy5+aN82TZ1kSfyVOaQ6kYIa392IreFthe0BzARiYlLKU27PaG6
+	ojWR1JLz97FnxTAWmtXMmqssDpfk6bBkonB/OtfI5EjS4ujD4X3DeO23Ju6jhmn9lEnxET7PbUW
+	r3B0ZUoRusO1Y7cykycBdRi+zUHQ=
+X-Google-Smtp-Source: AGHT+IH3neqkdOpTr7uWA4n6mK3DF46/N7yEwf/kYso7EVeWqFHV1bhL0Dh+3fdbylsFLcWiO/O4Cnuhjp3DRDrCGdA=
+X-Received: by 2002:a05:6870:9f85:b0:27b:583b:bfc2 with SMTP id
+ 586e51a60fabf-2886d9e7649mr4973605fac.0.1728746849998; Sat, 12 Oct 2024
+ 08:27:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+References: <20241011070828.851449-2-u.kleine-koenig@baylibre.com>
+ <CAMhs-H8-8wmg_OqxQrO93ZV1Mrh-2GKowoWpvdk5qkvQbQ-F=A@mail.gmail.com> <m5ezhgxp5kwup65cieicws5fviwdapqmwm6ldiojic53pgs5tj@iu5u4wf74fzk>
+In-Reply-To: <m5ezhgxp5kwup65cieicws5fviwdapqmwm6ldiojic53pgs5tj@iu5u4wf74fzk>
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Date: Sat, 12 Oct 2024 17:27:19 +0200
+Message-ID: <CAMhs-H8ziPqHPSyk0Hfjy9DWvMTHH035jeoanqxCW9K22rY9fA@mail.gmail.com>
+Subject: Re: [PATCH v2] staging: media: Switch back to struct platform_driver::remove()
+To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The check to see if err is non-zero is always false because err has
-been previously checked on whenever err has been assigned in previous
-code paths. The check is redundant and can be removed.
+On Fri, Oct 11, 2024 at 11:46=E2=80=AFPM Uwe Kleine-K=C3=B6nig
+<u.kleine-koenig@baylibre.com> wrote:
+>
+> Hello Sergio,
+>
+> On Fri, Oct 11, 2024 at 09:39:09AM +0200, Sergio Paracuellos wrote:
+> > On Fri, Oct 11, 2024 at 9:09=E2=80=AFAM Uwe Kleine-K=C3=B6nig
+> > <u.kleine-koenig@baylibre.com> wrote:
+> > >
+> > > After commit 0edb555a65d1 ("platform: Make platform_driver::remove()
+> > > return void") .remove() is (again) the right callback to implement fo=
+r
+> > > platform drivers.
+> > >
+> > > Convert all platform drivers below drivers/staging/media/ to use
+> > > .remove(), with the eventual goal to drop struct
+> > > platform_driver::remove_new(). As .remove() and .remove_new() have th=
+e
+> > > same prototypes, conversion is done by just changing the structure
+> > > member name in the driver initializer.
+> > >
+> > > Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@baylibre.com>
+> >
+> > I sent a patch the other day to convert all staging drivers to use
+> > remove which was applied yesterday.
+> >
+> > See: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git=
+/commit/?h=3Dstaging-next&id=3Dc1a5060ec80020ce879fa5b2a16875bd9a5ab930
+>
+> If you really must grab this quest from me, please coordinate, or at
+> least Cc: me on your patches.
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- drivers/staging/media/atomisp/pci/sh_css.c | 3 ---
- 1 file changed, 3 deletions(-)
+I did not know you already have patches for staging and only sent this
+to the staging list itself. Sorry for that. If you already have
+patches for remaining stuff I stop sending patches about this. Sorry
+for the inconvenience and let me know if you need my help in any way.
 
-diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
-index ca97ea082cf4..7cee4dc35427 100644
---- a/drivers/staging/media/atomisp/pci/sh_css.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css.c
-@@ -6308,9 +6308,6 @@ load_yuvpp_binaries(struct ia_css_pipe *pipe)
- 		}
- 	}
- 
--	if (err)
--		goto ERR;
--
- ERR:
- 	if (need_scaler)
- 		ia_css_pipe_destroy_cas_scaler_desc(&cas_scaler_descr);
--- 
-2.39.5
-
+Best regards,
+    Sergio Paracuellos
+>
+> Uwe
