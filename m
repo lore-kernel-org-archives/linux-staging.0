@@ -1,41 +1,32 @@
-Received: from sendmail.purelymail.com (sendmail.purelymail.com [34.202.193.197])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9362579B8E
-	for <linux-staging@lists.linux.dev>; Sat, 12 Oct 2024 23:39:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=34.202.193.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C80F66EB5C
+	for <linux-staging@lists.linux.dev>; Sun, 13 Oct 2024 07:22:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728776392; cv=none; b=IauPVBaMwn5FI8OmGHDKhhymqeC4NNUZKGQYxQvjTW56ce025J/WmAwJhogwgjD+f8F4DD9yQkH1LTJ0MaBjqqtw/KLHhdpafNJWsGI4eeToVhx3Q/OjdhmK+HgYoiY7mAm4NXrBUDd3nSx7hq7V08ADyraUEGoBFx8NPsGpKEM=
+	t=1728804151; cv=none; b=n4f5HY3c+BlO8UMhoaIZjonBeegFEsH0ZhuQWn8pD3V/Lm/dj7VfVpb1pAaFs3PPVs6thZhfNqgrvZDdMDJLuB8cAc1vw7TwYLDq0G4cQcO0+kFjwN0yVra4SsbFxLUfdSxUSHtDlW70kgDUkHB4ltOT9bzmyN4a4ZT98QFQ2Xc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728776392; c=relaxed/simple;
-	bh=H3Lnaupza36I+QrDmwZmdZ7PyjVQkmDtBgaPmv+H5XE=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=FSDAfZcq6Xqx9tiImVdR8+lPnu63qB4agQMPk+12IeF8MXUnM5qkUtai0hDm6McSyE9xBvGhwwD5n5BZloiOrdvJ9RZQ8jLvoaeruUoH42uzy6CpTbVk90Pzhv3w5PDkTtpDH8yKL0dnIawv9vv/R5AitsoQcphmZO2a1WcEa30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lkcamp.dev; spf=pass smtp.mailfrom=lkcamp.dev; dkim=pass (2048-bit key) header.d=lkcamp.dev header.i=@lkcamp.dev header.b=NZJBPV7m; dkim=pass (2048-bit key) header.d=purelymail.com header.i=@purelymail.com header.b=HtOgpLiW; arc=none smtp.client-ip=34.202.193.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lkcamp.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lkcamp.dev
+	s=arc-20240116; t=1728804151; c=relaxed/simple;
+	bh=iRwyhDS9GmtUdJlbMLme1ZNGyUQWpIwxKlQXAlgrrmI=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=O143s8C1Xqc3CamuZaRj7O9fix2wUStlmhAbfCr7+1JA1oBrIMqgky1yatMl9uhYVtmv3/HhoJI4NvpOFUJV9mKV7L6eALmj3u2Z4AMJKE8eEiV9r07C4wlOQSPGtnm6Diu5r73McFVIYEg3rBe6CgCB1zcbMkkUb5LXvQnFr94=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=qc2y8drD; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lkcamp.dev header.i=@lkcamp.dev header.b="NZJBPV7m";
-	dkim=pass (2048-bit key) header.d=purelymail.com header.i=@purelymail.com header.b="HtOgpLiW"
-DKIM-Signature: a=rsa-sha256; b=NZJBPV7mg5dWPLyPo/SHMdk0+1Md7AIAD3+r29gMzQweWzMKobuj8bS+xWdMJCx6FeShwqYg47ohQe4/wvyjoYwubduM17IB22g7nsofz+Yn2Es0Lf+ChwKq57aY0w5Xv+7jiOjrRWYaTM45AP7y6+Fk2d2Wrtr+HbmHuuZLZzUMcsnkEMCMcfZEHIB958S+dEaZnKPoMN+DM5PMbS7dMwfsZB9TvVlp+NNlkJXsVQXoL+/dGlj2AqR8Hpy3/DlRxw5bzDKsE1FTESofWPvV42v5delgeZ7LscrdA1YSZ7R+TUwgOaYVxX6+4XG5V9NFAE7VJXKGzhmTTD3wid2qPQ==; s=purelymail3; d=lkcamp.dev; v=1; bh=H3Lnaupza36I+QrDmwZmdZ7PyjVQkmDtBgaPmv+H5XE=; h=Received:From:To:Subject:Date;
-DKIM-Signature: a=rsa-sha256; b=HtOgpLiWlg84lG1QxedJu4uDAtqqMkov8TU6AQb4m13ojkZpKThNInARI1QOdkc84ilkwym02kt7oTD3/IDr18izLZqeSsc/p4P9hqkURvywnpZlW+lm7eXLOO0nMN5foT1JLPsOirM5QyHjz5axjv22xFmCO+vI3vIztOI2wDBNlqEGA25FOZJuZS4YgK1fSeqWnVCXHfUWv5tl8FVxsVh2VHj4EvP5FpIRPNyLPWaNW7Yk9GHZr7769q75wtHaIwh1Rb8chtd6S+ViEeS9W3506Wv4UvGtK1Ldzj5e1inA1HYs/23UIT4h1fcWilshDHKAYIZaMtjNgTLsLWpiFQ==; s=purelymail3; d=purelymail.com; v=1; bh=H3Lnaupza36I+QrDmwZmdZ7PyjVQkmDtBgaPmv+H5XE=; h=Feedback-ID:Received:From:To:Subject:Date;
-Feedback-ID: 48567:7130:null:purelymail
-X-Pm-Original-To: linux-staging@lists.linux.dev
-Received: by smtp.purelymail.com (Purelymail SMTP) with ESMTPSA id 413486811;
-          (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
-          Sat, 12 Oct 2024 23:39:37 +0000 (UTC)
-From: Danilo Pereira <dpereira@lkcamp.dev>
-To: florian.fainelli@broadcom.com,
-	bcm-kernel-feedback-list@broadcom.com,
-	gregkh@linuxfoundation.org,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	~lkcamp/patches@lists.sr.ht
-Subject: [PATCH] staging: vchiq_arm: removes multiple blank lines
-Date: Sat, 12 Oct 2024 19:37:40 -0400
-Message-ID: <20241012233931.30720-1-dpereira@lkcamp.dev>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qc2y8drD"
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 698C582E;
+	Sun, 13 Oct 2024 09:20:47 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1728804047;
+	bh=iRwyhDS9GmtUdJlbMLme1ZNGyUQWpIwxKlQXAlgrrmI=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=qc2y8drDsQ5BGQj+yeEtmWfPNGu34SpCjKFJminAXTMed2ZiN3Bo80qJgZHfk7cZR
+	 9Ww14Gc1FUeao8oLRh8Tw5w4bj5WEL4aadRHQzYnVCe+ufmbZx8xsumYAj8rsS83/T
+	 Ca3WLWAWmpCUsyy58ZA96XAR51lztuUe2YtW26js=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -43,42 +34,183 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by Purelymail
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20241012185652.316172-5-umang.jain@ideasonboard.com>
+References: <20241012185652.316172-1-umang.jain@ideasonboard.com> <20241012185652.316172-5-umang.jain@ideasonboard.com>
+Subject: Re: [PATCH v3 4/6] staging: vchiq_core: Refactor notify_bulks()
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, kernel-list@raspberrypi.com, Stefan Wahren <wahrenst@gmx.net>, Umang Jain <umang.jain@ideasonboard.com>
+To: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Umang Jain <umang.jain@ideasonboard.com>
+Date: Sun, 13 Oct 2024 08:22:25 +0100
+Message-ID: <172880414537.1925926.9488617715642757683@ping.linuxembedded.co.uk>
+User-Agent: alot/0.10
 
-Removes multiple blank lines to adhere to kernel coding
-style. No functional changes intended in this patch.
+Quoting Umang Jain (2024-10-12 19:56:50)
+> Move the statistics and bulk completion events handling  to a separate
+> function. This helps to improve readability for notify_bulks().
+>=20
+> No functional changes intended in this patch.
+>=20
+> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> ---
+>  .../interface/vchiq_arm/vchiq_core.c          | 77 +++++++++++--------
+>  1 file changed, 46 insertions(+), 31 deletions(-)
+>=20
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core=
+.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> index e9cd012e2b5f..19dfcd98dcde 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> @@ -1309,6 +1309,49 @@ get_bulk_reason(struct vchiq_bulk *bulk)
+>         return VCHIQ_BULK_RECEIVE_DONE;
+>  }
+> =20
+> +static int service_notify_bulk(struct vchiq_service *service,
+> +                              struct vchiq_bulk *bulk)
+> +{
+> +       int status =3D -EINVAL;
+> +
+> +       if (!service || !bulk)
+> +               return status;
 
-Signed-off-by: Danilo Pereira <dpereira@lkcamp.dev>
----
- drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 4 ----
- 1 file changed, 4 deletions(-)
+Both of these are guaranteed by the (only) caller so I'm not sure they're
+needed ?
 
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c =
-b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-index 27ceaac8f6cc..29e78700463f 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-@@ -106,7 +106,6 @@ struct vchiq_arm_state {
- =09int first_connect;
- };
-=20
--
- static int
- vchiq_blocking_bulk_transfer(struct vchiq_instance *instance, unsigned int=
- handle, void *data,
- =09=09=09     unsigned int size, enum vchiq_bulk_dir dir);
-@@ -309,9 +308,6 @@ static struct vchiq_arm_state *vchiq_platform_get_arm_s=
-tate(struct vchiq_state *
- =09return (struct vchiq_arm_state *)state->platform_state;
- }
-=20
--
--
--
- void vchiq_dump_platform_state(struct seq_file *f)
+But maybe it would be used elsewhere later?
+
+If these checks were kept, and the int status removed as mentioned below
+this would just be ' return -EINVAL;' of course.
+
+Or just drop them if it's easier and guaranteed.
+
+> +
+> +       if (bulk->actual !=3D VCHIQ_BULK_ACTUAL_ABORTED) {
+> +               if (bulk->dir =3D=3D VCHIQ_BULK_TRANSMIT) {
+> +                       VCHIQ_SERVICE_STATS_INC(service, bulk_tx_count);
+> +                       VCHIQ_SERVICE_STATS_ADD(service, bulk_tx_bytes,
+> +                                               bulk->actual);
+> +               } else {
+> +                       VCHIQ_SERVICE_STATS_INC(service, bulk_rx_count);
+> +                       VCHIQ_SERVICE_STATS_ADD(service, bulk_rx_bytes,
+> +                                               bulk->actual);
+> +                               }
+
+I think the indentation on this } has gone wrong here.
+
+> +       } else {
+> +               VCHIQ_SERVICE_STATS_INC(service, bulk_aborted_count);
+> +       }
+> +
+> +       if (bulk->mode =3D=3D VCHIQ_BULK_MODE_BLOCKING) {
+> +               struct bulk_waiter *waiter;
+> +
+> +               spin_lock(&service->state->bulk_waiter_spinlock);
+> +               waiter =3D bulk->userdata;
+> +               if (waiter) {
+> +                       waiter->actual =3D bulk->actual;
+> +                       complete(&waiter->event);
+> +               }
+> +               spin_unlock(&service->state->bulk_waiter_spinlock);
+> +
+> +               status =3D 0;
+
+This just looks odd here. If it weren't for this I'd have probably been
+fine with the initialisation of status
+
+> +       } else if (bulk->mode =3D=3D VCHIQ_BULK_MODE_CALLBACK) {
+> +               enum vchiq_reason reason =3D get_bulk_reason(bulk);
+> +               status =3D make_service_callback(service, reason, NULL,
+> +                                              bulk->userdata);
+
+I think I would probably just drop the int status altogether and make this
+
+		return make_service_callback(service, reason, NULL,
+					     bulk->userdata);
+
+> +       }
+> +
+> +       return status;
+
+And return 0 here. Then we get rid of the awkward initialisation and
+usages above.
+
+> +}
+> +
+>  /* Called by the slot handler - don't hold the bulk mutex */
+>  static int
+>  notify_bulks(struct vchiq_service *service, struct vchiq_bulk_queue *que=
+ue,
+> @@ -1333,37 +1376,9 @@ notify_bulks(struct vchiq_service *service, struct=
+ vchiq_bulk_queue *queue,
+>                  * requests, and non-terminated services
+>                  */
+>                 if (bulk->data && service->instance) {
+> -                       if (bulk->actual !=3D VCHIQ_BULK_ACTUAL_ABORTED) {
+> -                               if (bulk->dir =3D=3D VCHIQ_BULK_TRANSMIT)=
  {
- =09seq_puts(f, "  Platform: 2835 (VC master)\n");
---=20
-2.43.0
+> -                                       VCHIQ_SERVICE_STATS_INC(service, =
+bulk_tx_count);
+> -                                       VCHIQ_SERVICE_STATS_ADD(service, =
+bulk_tx_bytes,
+> -                                                               bulk->act=
+ual);
+> -                               } else {
+> -                                       VCHIQ_SERVICE_STATS_INC(service, =
+bulk_rx_count);
+> -                                       VCHIQ_SERVICE_STATS_ADD(service, =
+bulk_rx_bytes,
+> -                                                               bulk->act=
+ual);
+> -                               }
+> -                       } else {
+> -                               VCHIQ_SERVICE_STATS_INC(service, bulk_abo=
+rted_count);
+> -                       }
+> -                       if (bulk->mode =3D=3D VCHIQ_BULK_MODE_BLOCKING) {
+> -                               struct bulk_waiter *waiter;
+> -
+> -                               spin_lock(&service->state->bulk_waiter_sp=
+inlock);
+> -                               waiter =3D bulk->userdata;
+> -                               if (waiter) {
+> -                                       waiter->actual =3D bulk->actual;
+> -                                       complete(&waiter->event);
+> -                               }
+> -                               spin_unlock(&service->state->bulk_waiter_=
+spinlock);
+> -                       } else if (bulk->mode =3D=3D VCHIQ_BULK_MODE_CALL=
+BACK) {
+> -                               enum vchiq_reason reason =3D
+> -                                               get_bulk_reason(bulk);
+> -                               status =3D make_service_callback(service,=
+ reason, NULL,
+> -                                                              bulk->user=
+data);
+> -                               if (status =3D=3D -EAGAIN)
+> -                                       break;
+> -                       }
+> +                       status =3D service_notify_bulk(service, bulk);
+> +                       if (status =3D=3D -EAGAIN)
+> +                               break;
 
+This now reads as=20
+                 if (bulk->data && service->instance) {
+                         status =3D service_notify_bulk(service, bulk);
+                         if (status =3D=3D -EAGAIN)
+                                 break;
+		}
+
+which is much nicer.
+
+With the updates above handled, then I think we're more accurately at no
+functional changes:
+
+Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+
+
+
+>                 }
+> =20
+>                 queue->remove++;
+> --=20
+> 2.45.2
+>
