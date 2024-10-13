@@ -1,44 +1,46 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04E1F1DFFC
-	for <linux-staging@lists.linux.dev>; Sun, 13 Oct 2024 15:41:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82658146D6A
+	for <linux-staging@lists.linux.dev>; Sun, 13 Oct 2024 15:41:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728834068; cv=none; b=ACLAFzdb4x4OnQoVG7BpTz5odb/RG0cn6MtVN4y2t60ELBgoheMEqOpA3gpfgBnqaXLkcX9EsJvQoAOsdQd2sAal8kBl6dr/XHZJrumcfa9Iiof90RPiDQipiFFJ7eXBIEkO6lt6TGvmSKJwcMIPnlBa7ZY3BUfN34V2FbA3Vvg=
+	t=1728834071; cv=none; b=b/rZC+FJow+wA7QmuK2bbMBVVOekBnS/0Sol3QdHcsnFEaCrhs/XSdEmjkX4TS2WW5BvVYgTn0iTUnSyq/UaUVsAZ9F/D7sKRF0iAWZ+PGs+x6hULJTRdlp/5XVjWBTVLLLHPDShbhZF7P17RmhqH7fPYvbQRSi8ALXjwLIlF+E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728834068; c=relaxed/simple;
-	bh=zVTuHMZQP3KbQj4Ww3QguRrmp2kgziWgJKdaJ4MFaIM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rW97MUP9mm2PFpVEXGEbMLL62LkA1ojkIDPHQ/yPKRF5bSQ3FWPN72DA5bKYyrXkQQis2mYErVTGPIidzaaZNsUCAeRBKe9QCBN1NYEb3sLKL6Gy7BBc+W6x65CwPnrCumbxwri5j+B+vGDp/v8H4SCYDp8nRXLlOUkQfGVKxU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UVQsTkgp; arc=none smtp.client-ip=170.10.129.124
+	s=arc-20240116; t=1728834071; c=relaxed/simple;
+	bh=3cazwMJtsoHsgyTdJwUQjHhmVBKMX8oJ8sMHpXzyn6Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=hNaQAfe72xWpDpzEdUp1t2fk4nPMu8R67QI2DmYCt4NPJzuq2v1ae82032VNDJfYc9gI2gX3ODXeVcqbbhPKb/+MEjG5hOZf1PHvz+cnitizP2eXUYxFzSHPQzl4ceqMmI8l1uRBrk4rGT7rnlagwmNBEwH4MsZ66duACDQQpdY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dIw/1JRW; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UVQsTkgp"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dIw/1JRW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1728834065;
+	s=mimecast20190719; t=1728834068;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=oZIaPCQtLGHZndrLTFUOA2Mc9Rom1ioAkSUU56owIRQ=;
-	b=UVQsTkgpAo1DT3ecJLwg4oqAX/lGDeqEgiHcz6CUiew44cKVoYemIfr7aKgQW6jLh8+Rb0
-	bVzcUNORa3atYnkXErHVFmrZ/BbaPfuPC2IvozEsdUIGte4ywxssJqf4Z5/bQzRVuPMvKH
-	Es9+MBtm2bLFZnuHur39EoZXIBJkS8I=
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=myIZloc/IR0tcmVaTEShSRjZ134QHehFws73ciXiCZw=;
+	b=dIw/1JRWRMayaslEIySJ2tf1zYMKHOlM/87djIfrXb7xjHT5WZwDhciN6oF54Yas2P0OB6
+	+nDm7ldUolZSp3AzaKFD0VNOmNERmOy3UjLnD+WaA/8l2/5tdWHz1iewMaPIq16h4d5DZP
+	eTcR7F736+clQdhjInHme1lE8RyFPLU=
 Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-151-xgIj2i2BOmWFDK_F8ZKecA-1; Sun,
- 13 Oct 2024 11:41:02 -0400
-X-MC-Unique: xgIj2i2BOmWFDK_F8ZKecA-1
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-33-uyWBOKFOPcm0eE8GjQ4FfQ-1; Sun,
+ 13 Oct 2024 11:41:05 -0400
+X-MC-Unique: uyWBOKFOPcm0eE8GjQ4FfQ-1
 Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B47DB19560A2;
-	Sun, 13 Oct 2024 15:41:00 +0000 (UTC)
+	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 98B6219560A2;
+	Sun, 13 Oct 2024 15:41:03 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.192.70])
-	by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 82EAE19560AA;
-	Sun, 13 Oct 2024 15:40:57 +0000 (UTC)
+	by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 10B3219560AE;
+	Sun, 13 Oct 2024 15:41:00 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Andy Shevchenko <andy@kernel.org>
@@ -48,9 +50,11 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Robert Mast <rn.mast@zonnet.nl>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 0/4] media: atomisp: mt9m114: Make it work on Asus T100TA
-Date: Sun, 13 Oct 2024 17:40:52 +0200
-Message-ID: <20241013154056.12532-1-hdegoede@redhat.com>
+Subject: [PATCH 1/4] media: atomisp: Fix WARN_ON() in vb2_start_streaming() triggering
+Date: Sun, 13 Oct 2024 17:40:53 +0200
+Message-ID: <20241013154056.12532-2-hdegoede@redhat.com>
+In-Reply-To: <20241013154056.12532-1-hdegoede@redhat.com>
+References: <20241013154056.12532-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -60,71 +64,42 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
 
-Hi All,
+If atomisp fails to start the stream the buffers must be returned to
+the VB2_BUF_STATE_QUEUED state before returning an error from
+atomisp_start_streaming().
 
-Since there is some interest in getting the mt9m114 camera to work on
-the Asus T100TA:
+This fixes the following WARN_ON():
+[  250.313554] WARNING: CPU: 3 PID: 2178 at drivers/media/common/videobuf2/videobuf2-core.c:1801 vb2_start_streaming+0xcb/0x150 [videobuf2_common]
 
-https://github.com/jfwells/linux-asus-t100ta/issues/4
-https://lore.kernel.org/platform-driver-x86/e0c8c98f-64ec-4297-bbc8-de489414515c@zonnet.nl/
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-I have spend some time this weekend poking at this resulting in this
-series which makes things work somewhat.
-
-Note that for now this will only work if you modify the BIOS settings
-to change the ISP to be listed as a PCI device in lspci:
-
-00:03.0 Multimedia controller: Intel Corporation Atom Processor Z36xxx/Z37xxx Series Camera ISP (rev 09)
-
-If you do not have this in lspci then things will not work. The BIOS
-does not allow changing this setting from its menu, so we need to
-use the grub setup_var_3 command form a patched grub.
-
-Note this requires your Asus T100TA to be at the latest v314 BIOS version,
-this has not been tested with other versions!
-
-Download grubia32.efi from here:
-
-https://fedorapeople.org/~jwrdegoede/grub-efi-setup_var/grubia32.efi
-
-Boot this once and then run:
-
-setup_var_3 6f
-
-If the ISP is not visible in lspci this should show 01 as value
-for the 0x6f offset.
-
-Now change this to 2:
-
-setup_var_3 6f 02
-
-and then reboot. After this the ISP should be visible in lspci.
-
-For more details on how this works see:
-https://hansdegoede.dreamwidth.org/25589.html
-
-Note this series is just a quick hack, the proper fix would be to get
-the new drivers/media/i2c/mt9m114 standard v4l2 driver to work and
-atomisp does support standard v4l2 drivers for a while now.
-
-I plan to take a shot at this as time permits, hopefully sometime
-within a month but no promises.
-
-Regards,
-
-Hans
-
-
-Hans de Goede (4):
-  media: atomisp: Fix WARN_ON() in vb2_start_streaming() triggering
-  media: atomisp: mt9m114: Disable V4L2_CID_3A_LOCK control
-  media: atomisp: mt9m114: Add missing mutex_init() call
-  media: atomisp: mt9m114: Fix fmt->code not getting set on try_fmt
-
- drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c | 13 +++++++++----
- drivers/staging/media/atomisp/pci/atomisp_ioctl.c   |  5 ++++-
- 2 files changed, 13 insertions(+), 5 deletions(-)
-
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+index d7e8a9871522..47d8a17379b0 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+@@ -881,8 +881,10 @@ int atomisp_start_streaming(struct vb2_queue *vq, unsigned int count)
+ 	mutex_lock(&isp->mutex);
+ 
+ 	ret = atomisp_pipe_check(pipe, false);
+-	if (ret)
++	if (ret) {
++		atomisp_flush_video_pipe(pipe, VB2_BUF_STATE_QUEUED, true);
+ 		goto out_unlock;
++	}
+ 
+ 	/*
+ 	 * When running a classic v4l2 app after a media-controller aware
+@@ -895,6 +897,7 @@ int atomisp_start_streaming(struct vb2_queue *vq, unsigned int count)
+ 	mutex_unlock(&isp->media_dev.graph_mutex);
+ 	if (ret) {
+ 		dev_err(isp->dev, "Error starting mc pipeline: %d\n", ret);
++		atomisp_flush_video_pipe(pipe, VB2_BUF_STATE_QUEUED, true);
+ 		goto out_unlock;
+ 	}
+ 
 -- 
 2.47.0
 
