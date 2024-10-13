@@ -1,41 +1,58 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF7CB12CD88;
-	Sun, 13 Oct 2024 09:09:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D49F613B58E
+	for <linux-staging@lists.linux.dev>; Sun, 13 Oct 2024 09:09:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728810547; cv=none; b=AAv+xcO/jI9KjlyVMUuwD1rRb4h7LEbLqOJ2xKpKHplHJfPkmLp+wCSIQPc9mWqvHm49L5eBSWRbjJTqDsygd97DcY5KLPlBEt18YD85odMa7LQ4oG/LkIVTjgqqYanPycPuG83rdS3QGP/YDkBmxzEZVVNtV8GvR+cVJCcgIbA=
+	t=1728810550; cv=none; b=G4p2edymSYnOcgWN/LJEvV2oO0Y/UwYsA6msB6yeh5htRIAcbZmQKhe4PPT9sgFQ4kic2bvSWn3JVVY9zGCbV01DymWZBDlFBn6Kzs1VBmDvZSNA1kikusjZJDlaJFSucpYCsb18SH0n3i2udT0uGT+WicsH4/6XkvjD8JSJg0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728810547; c=relaxed/simple;
-	bh=bk1Cmpp8hfSOZ8cDEqEfiHXDRPHWrqf+C5g/tx1Cc+s=;
+	s=arc-20240116; t=1728810550; c=relaxed/simple;
+	bh=2QFwAmINshp3nFb9f4R52q/8DsxqhGyQw+G+fI/kXEY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fCt+9CHisMuYKDQNlF7UaL7GRiQarA/jdH6oKTfhkaC2QaOvkqV6K94kof51HeqQ9fHEzTwCzbCM5gMCav1Isgtpk3EFeUfQgM+mO1flJ6IaBLEYkxZE0rAltDuwPaMahBUBZAr3yox/4oUrsk0bI/vW5L3tkHlIhPF8pQqEd6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=ufsDYMRk; arc=none smtp.client-ip=212.227.15.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
+	 In-Reply-To:Content-Type; b=baPjqP4Re63XW+58tvb9hY3B5kcKjFfbwNd68ZhXKe/XwItsN+MGTuA1GiVBCjxOx1rkLINhmidgB6HaQXaaD9a3bI3Yq4gG1fNrz0Q+o1vcZCpF5L2X2eb5QeVROtx25NCCdkmJ6GNQtUlWTNLhV18+qtG8L3VsFc4f4HSqKBw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S2tY/eoh; arc=none smtp.client-ip=209.85.218.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="ufsDYMRk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
-	s=s31663417; t=1728810532; x=1729415332; i=wahrenst@gmx.net;
-	bh=UsAIdWe5potvvua1FVV0w8R2E6NW4K544p9dIWK0Ggc=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=ufsDYMRkcHPiORHNiZ97uStt4t4voQoks4nci7YgOA9zry7VpRTVgx+f8hWMGtdb
-	 OIf8yF+KflG6qUaQVZM6mLGARFrEDv+W0Ul0UZDBA/CYq8w+DaiWbmoaF+yUKddax
-	 jxOh4tSZNsejXLLpImDdEN11EWKqsdkN0er7xD0Z3UdzwuevrTsU2cNb5G13Rn4K8
-	 cM01To1+zXBOMn4r8Klw3JfLIshnBdKq7V29gFMYqt5iSVfiDxH9CymDfr9nFdqun
-	 GIY/rFxi4ET4m+mfB1zJmNd3SrpjZOAax0TqXmyUDh6GkqArehGHOuOR9NLJ5Req+
-	 ZTMb73fH4q/Lk+3cZw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.104] ([37.4.248.43]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MiJZE-1tdvuc2ijG-00aKr6; Sun, 13
- Oct 2024 11:08:52 +0200
-Message-ID: <43abc7cd-89ca-4129-8f0b-f46c26e43510@gmx.net>
-Date: Sun, 13 Oct 2024 11:08:49 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S2tY/eoh"
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a99d1b7b5f5so201825566b.0
+        for <linux-staging@lists.linux.dev>; Sun, 13 Oct 2024 02:09:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1728810547; x=1729415347; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=7BfrRcVJ20ZnXl/B+pe9Sl7RD9b+bmhTOEzMh+q3RBY=;
+        b=S2tY/eohnQVYySrmUCR49F+iqLu4a45fhDuCVhEoIyC58eAEKivN3yBkQYWTXvjZHy
+         1mfCX1Kd8T9A4nW4aGs9e/HLFz2p/8GJgATWl5pH93j/LIy5A9dDEmDnhxIog77liPOj
+         9Kimb26VK5QiZfL61RWF1d+l8MIwyj3OmPUF8d53HsP/7bRBIzvbhO1i0+wd4JZm+2rr
+         mwfIMyEr9OZbDUQKGhngM5vsnbc0Lv5z54WAYLbr6+DHbdOocP44cD3xeDknJOfZQ7X1
+         09OYVbHdw3vrDI9BL4bcSQRG6/jv3fT2UhiFVj3VkSuSB+f3Uhx4Ur9DbDXhsvfb9ier
+         hN6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728810547; x=1729415347;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7BfrRcVJ20ZnXl/B+pe9Sl7RD9b+bmhTOEzMh+q3RBY=;
+        b=IP9VHvD56e/oiM+R4YsQYKEZRXLP5iK+KrEXNASLTutyYbVsrzzV45tW+nFld8ugvh
+         Rz7XnHeEVqBBJ3Osl0ek3TVR0+KSPD3pFhDmKLYFPleoGE7Wc0uzCrUTBZOGG+OR1STf
+         1gMBHZLdrG2KQqLrXio/vG2Qf79bqMKuVpc1qilDdLuPH8xjn8mdKwLIrp+GtMnxZhIH
+         WfbYgcCLL415A1xJNDCLrz2GagqDFcQ3TqbgS3m1J3QqjghiopDKOseigbM24qSXfMvW
+         TLyWRFGHUgHlanaYzp6mXawD6FCS+nNhpfWfgen9dJRyp48tw6dap7f7Y1xalsb2dHvE
+         oLeQ==
+X-Gm-Message-State: AOJu0YytgOHF+osxXTZ5y5h1YeNPYxgJ6//09hlFLDaNgpuUkJZaC7t4
+	hPL/qc4BX8kiAjVNzcYyJuecs9PWRCHYqW7uSgPHJHCGIRHVjHed
+X-Google-Smtp-Source: AGHT+IE6t+rDwJ/A3tHo7fWNZk2kIEa7LKUPQ86QgstwCWEnG9Zsqz3YDiE7FPIjIUYpxT6q8MCUrg==
+X-Received: by 2002:a17:907:2da4:b0:a99:ffb5:1db6 with SMTP id a640c23a62f3a-a99ffb55507mr161462666b.24.1728810546894;
+        Sun, 13 Oct 2024 02:09:06 -0700 (PDT)
+Received: from [192.168.0.103] (p54a0712c.dip0.t-ipconnect.de. [84.160.113.44])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a99f86fa986sm117128466b.92.2024.10.13.02.09.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 13 Oct 2024 02:09:06 -0700 (PDT)
+Message-ID: <0afd7977-ccee-4d03-9d26-f55822adcbf8@gmail.com>
+Date: Sun, 13 Oct 2024 11:09:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -43,75 +60,40 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] staging: vchiq_arm: Drop blank lines
-To: Umang Jain <umang.jain@ideasonboard.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
-Cc: linux-rpi-kernel@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Dan Carpenter <dan.carpenter@linaro.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- kernel-list@raspberrypi.com
-References: <20241013084529.377488-1-umang.jain@ideasonboard.com>
- <20241013084529.377488-2-umang.jain@ideasonboard.com>
+Subject: Re: [PATCH 0/3] staging: rtl8712: Tidy-up *Algrthm variables
+To: =?UTF-8?Q?Dominik_Karol_Pi=C4=85tkowski?=
+ <dominik.karol.piatkowski@protonmail.com>,
+ florian.c.schilhabel@googlemail.com, gregkh@linuxfoundation.org,
+ ayushtiw0110@gmail.com, dan.carpenter@linaro.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20241012161638.67030-1-dominik.karol.piatkowski@protonmail.com>
 Content-Language: en-US
-From: Stefan Wahren <wahrenst@gmx.net>
-In-Reply-To: <20241013084529.377488-2-umang.jain@ideasonboard.com>
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <20241012161638.67030-1-dominik.karol.piatkowski@protonmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:pK1zUEGVKR7Z1EZLbRnzRHlXym1WTMruNtQCWtnHGQT7DE8uElW
- e42eMnfChgCGKwO74vheivFfj35lt585vI/b4iadJwU06dwCPCbWlGNbEnYbzsy6x148Akx
- iNa8Vt832MtrSCg2c6YHEWhAdubSIuARmTlQ65yhmN2iClnEuSMZxpAuzm//qwgFnEhsRmp
- N85GLH3qHPTY/WhmbxWFw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:mQ7Bjz7PYuw=;5WNqnyOkuI5Eu2XYGNfeoYvZLQw
- BipwRxyxdz9L6h8LXASjABRnidWhnuH/gkWDuMqflxbxTX442pAOOfnNl6THDAVoWOvp5lFta
- pLvsyEa6j2F9C1AeMekoys0fKDx1MckuOSJuuWeCUMwBQv0LNSrAzwyAAn6+ZWzP6HdEKswAi
- BUJWcGiHr57Ky7bmU8yXSNcR1QRYstGp2FSv7SodiaFrQLmSlaYL5CTPELjVxi2vI06rfbMG+
- eNDo0KtfMgEsGjifXWQLBZo6Fp+6RX03woHFbk/c4K1EiIbHJ+pd5ZBM5xAqKRE4gX1cpptwF
- TN4wPeNeIzma8A2XG/jhz1QefVHNXnzVYEksCQgxNdHvZDUP/uuvCWSwtyPMaS3ybc/Ew6s+u
- bFMATC1HmSoVdGMWOBTpriGUhwBAIFSOsHr66yYEvdgp7YRl4vn6XbuUzADPLRBfFfu7BZQOe
- 1I6uAN3g30fyPcO1N4xn6U5pM1NnaxrRyaXPRKkh6YSHIND1TyqLGEqAyrUpN62Ep8Ex64TtY
- 3VKkviobElSHzVO8ggvGroWSlm2oZb2HJ5Eg3akZH3k9E/U4FBd5+B6xjOuHIVyM3oUZhg71K
- fJNz8B+eMGSC2JNt+Hh9LzuBzXNvr20ZI8K00sE+veCdSN3wlAMx+QNFMhraLWy1Lq43AUW/v
- 65rhMAt5ytJX0l1o7VODuSCPI4c3cZRP8suXcVC/p7+OL4d+nNk4pbOopB0ukSyng764IMM0j
- MVu1sRKpDHF96oeGElUw9bmGMeDAH5GHfn5/LLd2MOn22fPfgjbE1A6UZraS0Xk89AJq4/in0
- rwX51qMTfib/C9KIvG7+Fp/w==
+Content-Transfer-Encoding: 8bit
 
-Hi Umang,
+On 12.10.24 18:17, Dominik Karol Piątkowski wrote:
+> This series renames *Algrthm variables in order to avoid using camel case.
+> 
+> While at it, introduce auth_algorithm macros to increase readability by
+> replacing hardcoded numbers in assignments and comparisons.
+> 
+> Signed-off-by: Dominik Karol Piątkowski <dominik.karol.piatkowski@protonmail.com>
+> 
+> Dominik Karol Piątkowski (3):
+>    staging: rtl8712: Rename AuthAlgrthm variable
+>    staging: rtl8712: Rename PrivacyAlgrthm variable
+>    staging: rtl8712: Introduce auth_algorithm macros
+> 
+>   drivers/staging/rtl8712/mlme_linux.c          |  7 ++-
+>   drivers/staging/rtl8712/rtl871x_cmd.c         |  6 +-
+>   drivers/staging/rtl8712/rtl871x_ioctl_linux.c | 61 ++++++++++---------
+>   drivers/staging/rtl8712/rtl871x_ioctl_set.c   |  9 +--
+>   drivers/staging/rtl8712/rtl871x_mlme.c        | 23 +++----
+>   drivers/staging/rtl8712/rtl871x_recv.c        |  2 +-
+>   drivers/staging/rtl8712/rtl871x_security.h    | 13 ++--
+>   7 files changed, 65 insertions(+), 56 deletions(-)
+> 
 
-Am 13.10.24 um 10:45 schrieb Umang Jain:
-> Drop unnecessary blank lines from vchiq_arm.c.
->
-> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-Danilo was a little bit faster [1], so I think you shouldn't care about
-this.
-
-Regards
-
-[1] -
-https://lore.kernel.org/linux-staging/20241012233931.30720-1-dpereira@lkca=
-mp.dev/T/#u
-> ---
->   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 3 ---
->   1 file changed, 3 deletions(-)
->
-> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm=
-.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> index 27ceaac8f6cc..e780ed714a14 100644
-> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> @@ -309,9 +309,6 @@ static struct vchiq_arm_state *vchiq_platform_get_ar=
-m_state(struct vchiq_state *
->   	return (struct vchiq_arm_state *)state->platform_state;
->   }
->
-> -
-> -
-> -
->   void vchiq_dump_platform_state(struct seq_file *f)
->   {
->   	seq_puts(f, "  Platform: 2835 (VC master)\n");
-
+Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> AW-NU120
