@@ -1,58 +1,41 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D49F613B58E
-	for <linux-staging@lists.linux.dev>; Sun, 13 Oct 2024 09:09:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DD95139E;
+	Sun, 13 Oct 2024 09:14:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728810550; cv=none; b=G4p2edymSYnOcgWN/LJEvV2oO0Y/UwYsA6msB6yeh5htRIAcbZmQKhe4PPT9sgFQ4kic2bvSWn3JVVY9zGCbV01DymWZBDlFBn6Kzs1VBmDvZSNA1kikusjZJDlaJFSucpYCsb18SH0n3i2udT0uGT+WicsH4/6XkvjD8JSJg0M=
+	t=1728810846; cv=none; b=Go280DJZEsahm6Zf8fLUtQwRRq6Y2zZdU8SU7tzLa17oAGfpCGo4cHdi19oAOv46UlX9x2U+rR2p/kpDSKVJiYOUYhMhCytczTLLuXgKSpkrjWeXXK+GHl4prZHXapwqEHVOg8FgyNYXhuHCZCD74PJL1+OGuebugsn4tFcoxdM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728810550; c=relaxed/simple;
-	bh=2QFwAmINshp3nFb9f4R52q/8DsxqhGyQw+G+fI/kXEY=;
+	s=arc-20240116; t=1728810846; c=relaxed/simple;
+	bh=1o7iMamMCrsZrEcXMcRKASpSB4EQTsxME4lcLBIFuSQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=baPjqP4Re63XW+58tvb9hY3B5kcKjFfbwNd68ZhXKe/XwItsN+MGTuA1GiVBCjxOx1rkLINhmidgB6HaQXaaD9a3bI3Yq4gG1fNrz0Q+o1vcZCpF5L2X2eb5QeVROtx25NCCdkmJ6GNQtUlWTNLhV18+qtG8L3VsFc4f4HSqKBw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S2tY/eoh; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=g+9gokwFggo8/pOF9Gy0Ug3WMi5geQ0rTfyA3/qzEs6wqP2VB9QLZS3/HMupSnwlIESi8VU3u8mikVcKYOXswDKecqCtYgT2ljrtTLiOWqpQDSBEyAazBVV6CfpvddIVNt+e246wEBA37fuNApUPMEbIrGvvb8z6RzXXnAsRug0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=d+6+9evX; arc=none smtp.client-ip=212.227.15.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S2tY/eoh"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a99d1b7b5f5so201825566b.0
-        for <linux-staging@lists.linux.dev>; Sun, 13 Oct 2024 02:09:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728810547; x=1729415347; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=7BfrRcVJ20ZnXl/B+pe9Sl7RD9b+bmhTOEzMh+q3RBY=;
-        b=S2tY/eohnQVYySrmUCR49F+iqLu4a45fhDuCVhEoIyC58eAEKivN3yBkQYWTXvjZHy
-         1mfCX1Kd8T9A4nW4aGs9e/HLFz2p/8GJgATWl5pH93j/LIy5A9dDEmDnhxIog77liPOj
-         9Kimb26VK5QiZfL61RWF1d+l8MIwyj3OmPUF8d53HsP/7bRBIzvbhO1i0+wd4JZm+2rr
-         mwfIMyEr9OZbDUQKGhngM5vsnbc0Lv5z54WAYLbr6+DHbdOocP44cD3xeDknJOfZQ7X1
-         09OYVbHdw3vrDI9BL4bcSQRG6/jv3fT2UhiFVj3VkSuSB+f3Uhx4Ur9DbDXhsvfb9ier
-         hN6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728810547; x=1729415347;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7BfrRcVJ20ZnXl/B+pe9Sl7RD9b+bmhTOEzMh+q3RBY=;
-        b=IP9VHvD56e/oiM+R4YsQYKEZRXLP5iK+KrEXNASLTutyYbVsrzzV45tW+nFld8ugvh
-         Rz7XnHeEVqBBJ3Osl0ek3TVR0+KSPD3pFhDmKLYFPleoGE7Wc0uzCrUTBZOGG+OR1STf
-         1gMBHZLdrG2KQqLrXio/vG2Qf79bqMKuVpc1qilDdLuPH8xjn8mdKwLIrp+GtMnxZhIH
-         WfbYgcCLL415A1xJNDCLrz2GagqDFcQ3TqbgS3m1J3QqjghiopDKOseigbM24qSXfMvW
-         TLyWRFGHUgHlanaYzp6mXawD6FCS+nNhpfWfgen9dJRyp48tw6dap7f7Y1xalsb2dHvE
-         oLeQ==
-X-Gm-Message-State: AOJu0YytgOHF+osxXTZ5y5h1YeNPYxgJ6//09hlFLDaNgpuUkJZaC7t4
-	hPL/qc4BX8kiAjVNzcYyJuecs9PWRCHYqW7uSgPHJHCGIRHVjHed
-X-Google-Smtp-Source: AGHT+IE6t+rDwJ/A3tHo7fWNZk2kIEa7LKUPQ86QgstwCWEnG9Zsqz3YDiE7FPIjIUYpxT6q8MCUrg==
-X-Received: by 2002:a17:907:2da4:b0:a99:ffb5:1db6 with SMTP id a640c23a62f3a-a99ffb55507mr161462666b.24.1728810546894;
-        Sun, 13 Oct 2024 02:09:06 -0700 (PDT)
-Received: from [192.168.0.103] (p54a0712c.dip0.t-ipconnect.de. [84.160.113.44])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a99f86fa986sm117128466b.92.2024.10.13.02.09.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 13 Oct 2024 02:09:06 -0700 (PDT)
-Message-ID: <0afd7977-ccee-4d03-9d26-f55822adcbf8@gmail.com>
-Date: Sun, 13 Oct 2024 11:09:04 +0200
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="d+6+9evX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
+	s=s31663417; t=1728810835; x=1729415635; i=wahrenst@gmx.net;
+	bh=3f5st3SI8g7riNop+IV34A1PUOHxIKWQrT/BtOSwtH8=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=d+6+9evXf7Rg7xFwTEpC7i39O/UGb4rF/NFD3wDOQxFUk5+ohqfEydfluvjTVIMu
+	 LK1WQ85bcGoef/OYPzko9xhfPOBcKLi4UAgJyvEMRw3pE9xWGZLOY0Wz9F4JcD1cE
+	 6q4fjp16d9MVWNtm2MVm2N/YSynR2/izmnvlDF6YRCgIIZm0EA1UDQFOHIF9/zYDb
+	 HBuDsBmQlkcntCk+YoVd8Wpbgxo9owSOorx/KiYwodaUzlugXzTTvguTLm6zv6trZ
+	 b3vHNyk4f4blEioQbVigZfwjAKV1KErRVyXrPr0WVQdbAFCkpwdH2m/iMiuoNbvUm
+	 3eGLOfw2u8ZFhRgpEQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.104] ([37.4.248.43]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MLi8g-1tHa311M3s-00Llin; Sun, 13
+ Oct 2024 11:13:55 +0200
+Message-ID: <50425e82-2a41-4a3b-a983-2560ab0ccab2@gmx.net>
+Date: Sun, 13 Oct 2024 11:13:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -60,40 +43,81 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] staging: rtl8712: Tidy-up *Algrthm variables
-To: =?UTF-8?Q?Dominik_Karol_Pi=C4=85tkowski?=
- <dominik.karol.piatkowski@protonmail.com>,
- florian.c.schilhabel@googlemail.com, gregkh@linuxfoundation.org,
- ayushtiw0110@gmail.com, dan.carpenter@linaro.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20241012161638.67030-1-dominik.karol.piatkowski@protonmail.com>
+Subject: Re: [PATCH 2/2] staging: vchiq_arm: Use devm_kzalloc for mgmt
+To: Umang Jain <umang.jain@ideasonboard.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+Cc: linux-rpi-kernel@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ kernel-list@raspberrypi.com
+References: <20241013084529.377488-1-umang.jain@ideasonboard.com>
+ <20241013084529.377488-3-umang.jain@ideasonboard.com>
 Content-Language: en-US
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20241012161638.67030-1-dominik.karol.piatkowski@protonmail.com>
+From: Stefan Wahren <wahrenst@gmx.net>
+In-Reply-To: <20241013084529.377488-3-umang.jain@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:mSxpv6OUZVJICGtqE2ZRqmKOeGyL014blcjFiWj3/0YWUEeoOdE
+ +AnssgLEFaY2nB0Ul7+3v0OlrmK+S0MN0GLyl5NUbQEVbDoTjPj5ZmpeK75yjEIOZt9gSMJ
+ XnOPFZ4yNeKEMi7/ycf60vxYEWnOt8mlpYPJnebsC8NFoqytPGwfFevPglTtRnWRuaXABQq
+ lbB1gqpa0pIPPmSV1qpCQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:oLRW5sPinvw=;HuMOyxa8dwLEXLUuJaRtmfhkWP1
+ hSqcTo8qtDohQyfEBQHaNA9KaJ7//gZokvPkxHR1Q14nmwB2VZt2jIQOQAhxHTc9xlMvoQxgg
+ cJt2AQyG3abrwtX3O5+lmAJVXHAq1sqnLf/qRUGJYz53Hcp8elhcXrvNI1gbAjEbF2OJOwPBq
+ CDCFTAHPsMye3UcjOlQCYnR1JR9GKYC3VrDnkLmxzVjZA7Kg0DJMi/96LpLRYSCvzW43O4sBc
+ NCKOcZEiFAJsgkDGrCywKXtvi0+bs+UjMCK2YIunY9tc4rkMV8a8Slo20CLp2xjWOS+ZrzNpj
+ FrT5jDX7OJ5tr0pEQF34rRNyzNz8t7rYLTGeEOa4PTmf6Z/RSLIG6Vm0YlOH5dQjGsxj3mPDC
+ AQB0HLHXtyWbp3XkbLPrXlH+zuF3YxhIS9Bu/9vIw9IjsuGD4/th9AdpV5g/en2b1S7KgGjzs
+ jZerwEoxPIIWL/EKm9lrU+Qz7rIxuGytICslWyGhVXYN9B9lJ4haslKM/8X2bO8/EKCA07JKL
+ kQZSl6+cy14Aa5D64nTmt2tmkjh9XEOWgxB++0RNjkNPrddRwmw13e2a01xNAlcm/9444SyMo
+ RKdlu5bLOvFwLDW6yP7AhFmEUco69RxZ4vaNkA1InDHRE94fTp8iNR0Wbw47Xtt2siZM+9ZZ5
+ cX/CvgD384MWi5ofGuXFtMAds5Z7X5w2c5a8J0vACIjsufHFW+iHgHwDtgFdvKo1QGuUpDjEp
+ MRBN7D9OcWK8DOFfwvwKrMxJSLpVtFoDpYoW1hhKCYQropQLqr6l1lNA8htKLzuGLXlhfpsk9
+ /f2zlxfJgnzuo6usANAeEx/w==
 
-On 12.10.24 18:17, Dominik Karol Piątkowski wrote:
-> This series renames *Algrthm variables in order to avoid using camel case.
-> 
-> While at it, introduce auth_algorithm macros to increase readability by
-> replacing hardcoded numbers in assignments and comparisons.
-> 
-> Signed-off-by: Dominik Karol Piątkowski <dominik.karol.piatkowski@protonmail.com>
-> 
-> Dominik Karol Piątkowski (3):
->    staging: rtl8712: Rename AuthAlgrthm variable
->    staging: rtl8712: Rename PrivacyAlgrthm variable
->    staging: rtl8712: Introduce auth_algorithm macros
-> 
->   drivers/staging/rtl8712/mlme_linux.c          |  7 ++-
->   drivers/staging/rtl8712/rtl871x_cmd.c         |  6 +-
->   drivers/staging/rtl8712/rtl871x_ioctl_linux.c | 61 ++++++++++---------
->   drivers/staging/rtl8712/rtl871x_ioctl_set.c   |  9 +--
->   drivers/staging/rtl8712/rtl871x_mlme.c        | 23 +++----
->   drivers/staging/rtl8712/rtl871x_recv.c        |  2 +-
->   drivers/staging/rtl8712/rtl871x_security.h    | 13 ++--
->   7 files changed, 65 insertions(+), 56 deletions(-)
-> 
+Hi Umang,
 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> AW-NU120
+Am 13.10.24 um 10:45 schrieb Umang Jain:
+> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+except of the missing commit message, this patch looks good to me. I
+understand the concerns about devm_kzalloc, but I think this doesn't
+apply in this case.
+
+Since this should be treated as RFC, is it already tested?
+
+Regards
+> ---
+>   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 4 +---
+>   1 file changed, 1 insertion(+), 3 deletions(-)
+>
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm=
+.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> index e780ed714a14..334fb7037766 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> @@ -1345,7 +1345,7 @@ static int vchiq_probe(struct platform_device *pde=
+v)
+>   		return -ENOENT;
+>   	}
+>
+> -	mgmt =3D kzalloc(sizeof(*mgmt), GFP_KERNEL);
+> +	mgmt =3D devm_kzalloc(&pdev->dev, sizeof(*mgmt), GFP_KERNEL);
+>   	if (!mgmt)
+>   		return -ENOMEM;
+>
+> @@ -1403,8 +1403,6 @@ static void vchiq_remove(struct platform_device *p=
+dev)
+>
+>   	arm_state =3D vchiq_platform_get_arm_state(&mgmt->state);
+>   	kthread_stop(arm_state->ka_thread);
+> -
+> -	kfree(mgmt);
+>   }
+>
+>   static struct platform_driver vchiq_driver =3D {
+
