@@ -1,126 +1,114 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15DA413A3F4
-	for <linux-staging@lists.linux.dev>; Sun, 13 Oct 2024 11:36:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 208CD13D8A3
+	for <linux-staging@lists.linux.dev>; Sun, 13 Oct 2024 11:59:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728819371; cv=none; b=PmIRqan459JjNMWhrouyn7wCm1AbZPjURuqYRgyt7sbX09Es4xkrGONYs418wJ32Mun/nRTz2ToSLzHk9Dv3VSgQjhrB64rRDuby541xVl4A0uUrueeNwa72O6FK/Do00884cZAxI9j1ff6lCzsd7P5sR25w0t5hjvxHTY8LAak=
+	t=1728820794; cv=none; b=Pb6VnfOawfH5lT2XS0U264JLVtvPeZGpKl3gPluCWLQ/sHbO0kn/N4Rbt5novbG6ksv6NOJg4gxqWVX9vWs+BjwJG+2ip4+dVBjEDaF/+kKOH/nUOQOV/CzEuZ7/e1M9AXrUri2+UxRbkxjvJS+Orkcwa/ZRzfsyx43nmYx0IyA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728819371; c=relaxed/simple;
-	bh=2MtX1u7PVUKx3luNKp/nNbTbnOd06T6BXf2SHZVwZME=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Js3eFUs52AyLlsleU51z7fpmctkbN68leuJtY+n9oZH1GhNzBoYS07vdYUU+JCy29tNsTOf+lBJ0pBY8SahKsNYIiBYhryilnZP6j7cu/qFQ7Dm/yNEPNWOFsJ/kRxw0tMW6l6VvRVJ1MdkT1Wmy0qlCtUf7gZE03zt46tPdOyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Yk9kdM+6; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1728820794; c=relaxed/simple;
+	bh=dBqHoJCLZRA1I6ILaOk1lEkDfPZsCfUEqNQP5Nbk14E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nQzkGLlRIYkL5dC2G4u1BIsDQuBrorPGc/Z9OCnOgEdG+PZlddwEK8KzGGFu2+v0kfuYDyp6DNRFQSq11KY9Pp9m2gfGT3MSlFi+aRQHXFF8H6MP+DQGpudwrOS/D397KAsJOo6sfy1yB6szCd3GEfyhAZmOdeCGPhSzXE9flDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=aUiYdVmA; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Yk9kdM+6"
-Received: from [IPV6:2405:201:2015:f873:55d7:c02e:b2eb:ee3f] (unknown [IPv6:2405:201:2015:f873:55d7:c02e:b2eb:ee3f])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id AD47B82E;
-	Sun, 13 Oct 2024 13:34:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1728819268;
-	bh=2MtX1u7PVUKx3luNKp/nNbTbnOd06T6BXf2SHZVwZME=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Yk9kdM+6CAdEWorO9f1lXmQ5gOpNFdcGHcLR2hP/kNAkXEcUtseBuKdfVM8PmnHKb
-	 OB71huGtHIqN+Opr2jg67AwGeAitQE9P4qYcfvV6nXhzYQVr9byOjGvE2NM2T5bB9G
-	 XHedPr4QNPphGEaWJMAebknObYtvVMy37iSX21cw=
-Message-ID: <e88e5faf-d88a-4ce9-948a-c976c2969cad@ideasonboard.com>
-Date: Sun, 13 Oct 2024 17:06:02 +0530
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aUiYdVmA"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4305724c12eso24985515e9.1
+        for <linux-staging@lists.linux.dev>; Sun, 13 Oct 2024 04:59:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1728820791; x=1729425591; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=mHkkyDKC9jM/ugAi4FO1PJaa+9PRYsrHLgdKnQxGMbU=;
+        b=aUiYdVmAdRTB7aERFUQHL02op2nOfEM+sFTE+Bdwb2PXeDyaFoPwGp29hSGBkB5ALy
+         wmqSLx0uBCuWcwnLOgzcVntx858fM9r9AURNI8eu9dZH/H57EFQgVS/SseCPP1JqkYyr
+         xoBqCVXoVXlXCB9B2vdRg4/3ulcXFEB02uFlT4oiagLW0vdlh/bl2rB3cSKM6RBejTL0
+         jWp5Qu6NAC1j0ZXJbmmPVu3CvWHj3eP5xaH6XaAiobtxpQ9tKAbfln7gKRdByjbszfvN
+         vmMDJuQjxyC8u3tBFfaTp6MHFS24If+50uPoCKtSVhfwVlieeyBhIOYgajnpv6nV81Mk
+         GGRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728820791; x=1729425591;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mHkkyDKC9jM/ugAi4FO1PJaa+9PRYsrHLgdKnQxGMbU=;
+        b=wsAnJF8hjJMF1XRbyPM0rj3a1EXvmYXQX36RrnOzmqgQXecLdy3Fs89tT0WXQnMhBT
+         y5+NC5/INDBIfZU38Ac5u4Kf3iz7aa320PGamSBWG/lcAQ6exX2GAb/4S6UP/H6b2msY
+         VwEB79z4egaeevWiWVSuxhkHyFEedvrwUzp43/RERAPMKFDSE9d7TQT+QRzd4oZILCp/
+         vYYPdcoMjnfy7JrwruiCmpTMKRn/CYvi7aGB27R9JWgwN/WfE3ypU8AIIeM396e5yNPU
+         A3rJuyCsTCc9dR6gT6ZYR1PVZcq2MYs6XbAKWhBSXhGwvj3nsqNo/ART1i9mZlNSYLbR
+         VRIQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVh7C8kK7KdtkRtMSx54h1Ovpwc862MzmuS5GGAnR+ZjS/vpTuRlpq5WogHY0SyqVtG23LyLw+e4WEIn2y0@lists.linux.dev
+X-Gm-Message-State: AOJu0YzIRn+wJ4rx2ZtNV3J75QP+LXmVRQ2w1bzNHDVMfgxyjl31P45Y
+	3S8wdoRXDXBTtsI2I1PdfHYlmf5/SSXE0+iCxeWH1pl1dfJnTPvBnhDR3KgF2oc=
+X-Google-Smtp-Source: AGHT+IGTHTWoEetbHJHhk+MuiM1p3gpUVQ6kSkHyeXY9xdSvulussmgA6QK40F90KB/JXPu8nE1bCA==
+X-Received: by 2002:a05:600c:1c9c:b0:426:6f27:379a with SMTP id 5b1f17b1804b1-431255dcb1dmr48705055e9.13.1728820791285;
+        Sun, 13 Oct 2024 04:59:51 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4311835696esm91419745e9.37.2024.10.13.04.59.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 13 Oct 2024 04:59:50 -0700 (PDT)
+Date: Sun, 13 Oct 2024 14:59:46 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Umang Jain <umang.jain@ideasonboard.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	kernel-list@raspberrypi.com, Stefan Wahren <wahrenst@gmx.net>
+Subject: Re: [PATCH v3 4/6] staging: vchiq_core: Refactor notify_bulks()
+Message-ID: <bfe6dc7b-d34a-444b-98dd-a4b63e0bb751@stanley.mountain>
+References: <20241012185652.316172-1-umang.jain@ideasonboard.com>
+ <20241012185652.316172-5-umang.jain@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: vchiq_arm: Fix missing refcount decrement in
- error path for fw_node
-To: Javier Carrasco <javier.carrasco.cruz@gmail.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Stefan Wahren <wahrenst@gmx.net>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-rpi-kernel@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <20241013-vchiq_arm-of_node_put-v1-1-f72b2a6e47d0@gmail.com>
-Content-Language: en-US
-From: Umang Jain <umang.jain@ideasonboard.com>
-In-Reply-To: <20241013-vchiq_arm-of_node_put-v1-1-f72b2a6e47d0@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241012185652.316172-5-umang.jain@ideasonboard.com>
 
-Hi Javier,
+On Sun, Oct 13, 2024 at 12:26:50AM +0530, Umang Jain wrote:
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> index e9cd012e2b5f..19dfcd98dcde 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> @@ -1309,6 +1309,49 @@ get_bulk_reason(struct vchiq_bulk *bulk)
+>  	return VCHIQ_BULK_RECEIVE_DONE;
+>  }
+>  
+> +static int service_notify_bulk(struct vchiq_service *service,
+> +			       struct vchiq_bulk *bulk)
+> +{
+> +	int status = -EINVAL;
+> +
+> +	if (!service || !bulk)
+> +		return status;
 
-Thank you for the patch.
+I mean, I still wish you would return -EINVAL directly here.  :/
 
-On 13/10/24 4:12 pm, Javier Carrasco wrote:
-> An error path was introduced without including the required call to
-> of_node_put() to decrement the node's refcount and avoid leaking memory.
-> If the call to kzalloc() for 'mgmt' fails, the probe returns without
-> decrementing the refcount.
->
-> Use the automatic cleanup facility to fix the bug and protect the code
-> against new error paths where the call to of_node_put() might be missing
-> again.
->
-> Cc: stable@vger.kernel.org
-> Fixes: 1c9e16b73166 ("staging: vc04_services: vchiq_arm: Split driver static and runtime data")
-> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-> ---
->   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 6 ++----
->   1 file changed, 2 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> index 27ceaac8f6cc..792cf3a807e1 100644
-> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> @@ -1332,7 +1332,8 @@ MODULE_DEVICE_TABLE(of, vchiq_of_match);
->   
->   static int vchiq_probe(struct platform_device *pdev)
->   {
-> -	struct device_node *fw_node;
-> +	struct device_node *fw_node __free(device_node) =
-> +		of_find_compatible_node(NULL, NULL, "raspberrypi,bcm2835-firmware");
+> +
+> +	if (bulk->actual != VCHIQ_BULK_ACTUAL_ABORTED) {
+> +		if (bulk->dir == VCHIQ_BULK_TRANSMIT) {
+> +			VCHIQ_SERVICE_STATS_INC(service, bulk_tx_count);
+> +			VCHIQ_SERVICE_STATS_ADD(service, bulk_tx_bytes,
+> +						bulk->actual);
+> +		} else {
+> +			VCHIQ_SERVICE_STATS_INC(service, bulk_rx_count);
+> +			VCHIQ_SERVICE_STATS_ADD(service, bulk_rx_bytes,
+> +						bulk->actual);
+> +				}
+                                ^
+Indented too far.
 
-How about :
-
-+	struct device_node *fw_node __free(device_node) = NULL;
-
->   	const struct vchiq_platform_info *info;
->   	struct vchiq_drv_mgmt *mgmt;
->   	int ret;
-> @@ -1341,8 +1342,6 @@ static int vchiq_probe(struct platform_device *pdev)
->   	if (!info)
->   		return -EINVAL;
->   
-> -	fw_node = of_find_compatible_node(NULL, NULL,
-> -					  "raspberrypi,bcm2835-firmware");
-
-And undo this (i.e. keep the of_find_compatible_node() call here
-
-This helps with readability as there is a NULL check just after this.
->   	if (!fw_node) {
->   		dev_err(&pdev->dev, "Missing firmware node\n");
->   		return -ENOENT;
-> @@ -1353,7 +1352,6 @@ static int vchiq_probe(struct platform_device *pdev)
->   		return -ENOMEM;
->   
->   	mgmt->fw = devm_rpi_firmware_get(&pdev->dev, fw_node);
-> -	of_node_put(fw_node);
-
-And this change remains the same.
->   	if (!mgmt->fw)
->   		return -EPROBE_DEFER;
->   
->
-> ---
-> base-commit: d61a00525464bfc5fe92c6ad713350988e492b88
-> change-id: 20241013-vchiq_arm-of_node_put-60a5eaaafd70
->
-> Best regards,
+regards,
+dan carpenter
 
