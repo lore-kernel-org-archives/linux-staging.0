@@ -1,60 +1,49 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53A7A1474CC
-	for <linux-staging@lists.linux.dev>; Sun, 13 Oct 2024 15:41:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAEFA142E83
+	for <linux-staging@lists.linux.dev>; Sun, 13 Oct 2024 17:16:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728834079; cv=none; b=VEYGGiUpMYN/FKS9CR/6sSwOrBTJCgtlkQVwxT+G6fcUMdhtsz8rYxKyENH6GgIsrVBV+/F+pIe5RwWtQN2mxrDJe6jfwsijfKOilFMFGJNYvqJXwefuS4dMxIxzj0x9nndv8aNOtWfAOjFe+xTt6trZ2wh7Ufe7al6ok5yEKvQ=
+	t=1728839792; cv=none; b=CQ0enHX8t02Dmljlxgsl1msqvvd02aVUrKKubW1AQ4FvU+FnJA78OvXJCKXi6R+vxeDzsQZhBNqhtWzZ7KVb5JWfcrs5/lPFY+tFQr3wH4uJsl0BAzTgrJrCImT8qlSL9S0c7SCK4ZQcWqhZW66KvDNrYCcMDOK+v+3vp3Je3mc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728834079; c=relaxed/simple;
-	bh=xG9LCXw1pL/9MIbtVaMsg8Kj1UVI+uhqwJaGwmF9m7w=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Rqz6A7oT6BL5oRABlgk9RqTBc5XRzWy1MmMaCrjs1iw5KS9zCYKkMO18ac49o+j6ef6vuOuQTh+8Z0kRRviGPfY+NUSUbcxcxld0vTaGGN0q7CgjqQkhfzj81XRKgZWZL0zVPKWWTzJMqssjNI+kSxjuyfjEa65l0UDRoS8/Zm4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UCrddo/Y; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1728839792; c=relaxed/simple;
+	bh=lszqkzooi/14FP99VptZF43wt7uBIMlNx7+MBmNiqIc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OMnyMlKh0Sfw8whLWesyxMQs2v/oMQjlwNDP+FWQfeCXyf28Qnuib/qTDoX7PUrhVqEnnS07kZmgCNa4wxpnEKdf1/hwLBWiI4gKc+8wwp1Nq2B3ykyr5mj5x94lckSgUQe4/eIL+oXsB5WDNAIH1DiHRy2dyQqM3j4DVwekEZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=PuU6+da+; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UCrddo/Y"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1728834076;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uhUkJYLDXF80tVlJU0WIahMtJ/wu9t7rdx3rs8/W9Nc=;
-	b=UCrddo/Y4RAq2C/ROqvOV223Rbf25toooD5XZsVGS+fbKKT/i6hGlL/GAtK5VAj6iiv1OM
-	xqNjxUOmuBUW5vXyjIM6pVS5wlXXtXD2E2zRcvtaVM4IC0kG8USJq5BV978UEM9y1Nzkkp
-	ohNdRegroxBkY8rwgsT7X4DQkseuGZA=
-Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-47-mmuebRVsPxiEn5xgrdExKw-1; Sun,
- 13 Oct 2024 11:41:13 -0400
-X-MC-Unique: mmuebRVsPxiEn5xgrdExKw-1
-Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E258819560A2;
-	Sun, 13 Oct 2024 15:41:11 +0000 (UTC)
-Received: from shalem.redhat.com (unknown [10.39.192.70])
-	by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 71A5819560AA;
-	Sun, 13 Oct 2024 15:41:09 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Kate Hsuan <hpa@redhat.com>,
-	Robert Mast <rn.mast@zonnet.nl>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH 4/4] media: atomisp: mt9m114: Fix fmt->code not getting set on try_fmt
-Date: Sun, 13 Oct 2024 17:40:56 +0200
-Message-ID: <20241013154056.12532-5-hdegoede@redhat.com>
-In-Reply-To: <20241013154056.12532-1-hdegoede@redhat.com>
-References: <20241013154056.12532-1-hdegoede@redhat.com>
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="PuU6+da+"
+Received: from umang.jain (unknown [IPv6:2405:201:2015:f873:55d7:c02e:b2eb:ee3f])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1AE774CE;
+	Sun, 13 Oct 2024 19:14:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1728839688;
+	bh=lszqkzooi/14FP99VptZF43wt7uBIMlNx7+MBmNiqIc=;
+	h=From:To:Cc:Subject:Date:From;
+	b=PuU6+da+27o+EnRc06HCMOStCI3/M8zn4fintv8jUqifpgxnZxZlSW9rzf2tB+Rr9
+	 C1X/Lm9pRUi9Pd0t9ThnIorPoH1JkLkGjJyH0P92i+nFcRdGRhtMq4tWMeboW7AoLH
+	 vCcylIg3Nyg6jqry69sobrpi+ajoTTPeCpFa4/1w=
+From: Umang Jain <umang.jain@ideasonboard.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+Cc: linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	kernel-list@raspberrypi.com,
+	Stefan Wahren <wahrenst@gmx.net>,
+	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] staging: vchiq_arm: Utilize devm_kzalloc in the probe() function
+Date: Sun, 13 Oct 2024 22:46:13 +0530
+Message-ID: <20241013171613.457070-1-umang.jain@ideasonboard.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -62,31 +51,52 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
 
-Fix mt9m114_set_fmt() not setting format.format.code when called with
-format.which == V4L2_SUBDEV_FORMAT_TRY.
+The two resources, 'mgmt' and 'platform_state' are currently allocated
+dynamically using kzalloc(). Unfortunately, both are subject to memory
+leaks in the error handling paths of the probe() function.
 
-This fixes atomisp failing to start streaming with the mt9m114 on
-an Asus T100TA because of __media_pipeline_start() returning -EPIPE.
+To address this issue, use device resource management helper devm_kzalloc()
+for proper cleanup during allocation.
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Cc: stable@vger.kernel.org
+Fixes: 1c9e16b73166 ("staging: vc04_services: vchiq_arm: Split driver static and runtime data")
+Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
 ---
- drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c | 1 +
- 1 file changed, 1 insertion(+)
+ .../staging/vc04_services/interface/vchiq_arm/vchiq_arm.c   | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-index 1a67f93a53d7..7cf543986b91 100644
---- a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-+++ b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-@@ -665,6 +665,7 @@ static int mt9m114_set_fmt(struct v4l2_subdev *sd,
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+index 29e78700463f..373cfdd5b020 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+@@ -285,7 +285,7 @@ vchiq_platform_init_state(struct vchiq_state *state)
+ {
+ 	struct vchiq_arm_state *platform_state;
  
- 	fmt->width = res->width;
- 	fmt->height = res->height;
-+	fmt->code = MEDIA_BUS_FMT_SGRBG10_1X10;
+-	platform_state = kzalloc(sizeof(*platform_state), GFP_KERNEL);
++	platform_state = devm_kzalloc(state->dev, sizeof(*platform_state), GFP_KERNEL);
+ 	if (!platform_state)
+ 		return -ENOMEM;
  
- 	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
- 		*v4l2_subdev_state_get_format(sd_state, 0) = *fmt;
+@@ -1344,7 +1344,7 @@ static int vchiq_probe(struct platform_device *pdev)
+ 		return -ENOENT;
+ 	}
+ 
+-	mgmt = kzalloc(sizeof(*mgmt), GFP_KERNEL);
++	mgmt = devm_kzalloc(&pdev->dev, sizeof(*mgmt), GFP_KERNEL);
+ 	if (!mgmt)
+ 		return -ENOMEM;
+ 
+@@ -1402,8 +1402,6 @@ static void vchiq_remove(struct platform_device *pdev)
+ 
+ 	arm_state = vchiq_platform_get_arm_state(&mgmt->state);
+ 	kthread_stop(arm_state->ka_thread);
+-
+-	kfree(mgmt);
+ }
+ 
+ static struct platform_driver vchiq_driver = {
 -- 
-2.47.0
+2.45.2
 
