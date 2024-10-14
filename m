@@ -1,65 +1,48 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 373FF762F7
-	for <linux-staging@lists.linux.dev>; Mon, 14 Oct 2024 06:04:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72D7213D52C
+	for <linux-staging@lists.linux.dev>; Mon, 14 Oct 2024 06:13:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728885900; cv=none; b=WXVpwfEQLllZvOwwN2ZsUBDnt7W9k65SkHB4OsCuTb8VHFo+hzy714VMiZ9vQgIo38R4L4eBtttIaaR5TETwZjkVZyNnhqfTFg7Tp2zCkhP76bd4x/i9L0aI07m9FMLAOm/Fy/BNzEFBzxgXSGxE8R9q3tNvm4tC4pAwwKw0Gko=
+	t=1728886393; cv=none; b=UioEhatTKov6Ie0Aj5IE38XcQNOTWRYkWRLqIYhvVerwhrHclzbmGoqbPKKJ5oZQL+fN75cScEp2+Ap71MW9kGsj6Bt6xP0oSAcjqyX137kENDvvWpLpZKZ9n3EGOobnsx4EFtmzR0ZMNcxkuUG+44azgtNo9JGVvlLF1MRPlaU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728885900; c=relaxed/simple;
-	bh=znU59uJgP8/aTBB3ZXAKZBYoSiO4aYtb8EgLLo83IsA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=nDfW37aDl27b2k56w1tuQADBmL3iVn1lyyCIZi+AXr+rNzu8KAM5zs7iFt1AtMcz3SkocLAaOT1zuWx/INXWBp5cuJ4Rr6C1qL2ck1mtiiGieX9/VfpEQaSmyDBXZCFNvLllnJBPKez3R99PINLLDeBnBDyO3GTfsB5QOhaO5GE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z3+gR+Kw; arc=none smtp.client-ip=209.85.216.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1728886393; c=relaxed/simple;
+	bh=ib/zqlp3I1R02nEi+3/evWIldRvuKIHCVnH0oVdwMn0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=An8KgnAqd4TgMINX+b0N+ZMGQazVNI83wjIrXXHbGzdxzZ/3xPtzG/0BwDqyWLPDQ0wZf7jafsnFjTu1Vjk8osGq3gmYisYga98TZvcS5N08fRJnjuDOK6OXR6L+OMiw7zMSxLP4bQ82mZNhRwqnBO5iwiaD3da5iPJXv8XgOgg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Z4xa+sbr; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z3+gR+Kw"
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-2e2a97c2681so2797525a91.2
-        for <linux-staging@lists.linux.dev>; Sun, 13 Oct 2024 23:04:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728885898; x=1729490698; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=hj7nzagu+uMKvRlSwKyqT4g1m+IqUs/iPZmR2zWRGQE=;
-        b=Z3+gR+KwdPBj0EXhXl7Fh9t54MA5vMHNz1OrPqcr3yANZ774RrJdK87Vjz69sup5UC
-         UllWZ8k/dEpBAB/8Cvd4iQP5gicjo/u0uooDwWdW5fYyuC55Trp6RgjYXLsoZppspJ5l
-         6i3//SeljJ2kpHWWgnywOJ7bfpGdaemwJDCYIdGx30y+sOB1/HOAwgB2LckLzP2ioRlU
-         FgngjHfzB4gLNE80+r6q7S5CQRI5oUtXT125WQiUs87wrFYTldNtrvvkTi2RK41AhxSs
-         O8/tuiqWQjPZxvhjLf6VkBgorbcTRgM4dIadvSnYk1tdvqj5Bwuw5Kfd+dT/a7hqXzsW
-         XDiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728885898; x=1729490698;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hj7nzagu+uMKvRlSwKyqT4g1m+IqUs/iPZmR2zWRGQE=;
-        b=H9NTeH/AKLVRXKmpSwX4YZBHNgT9jvYHdAOLnaEvgKrjKdAlFx4CeTx4kf70ywqNHA
-         TbNiEVpHL8GfU4vD/pMUpF70cmTKgU3M6SgdO4X4lOqTsagA6V4xQlKtHb2fvpT92bl5
-         qZxB1fVu/hZMb8D6QgSRVp1l3sr+b4vgvEik4pRXCZAVzReF/PG+9Uc93SBhgJg6w9Hj
-         fS64+VsZUIQoqy/bmmgqOmkLdYcYDxJZx9is3tzVJt/I+enX96OzakG8wNQMy5ceXJFd
-         9ry6YskaSP4N36Ev22hluV6vzpd/hzSlaYUW8RA/iwVRACke3yfPrTZNNvjV99gNdjVS
-         PmPQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU7GzxLpb2Gkc7bK2ZbynOvaxjvSnIpMm7I43ZoYZoS+w346mcGxG9CPjKlarb025VjutRwh28937NwL9Ii@lists.linux.dev
-X-Gm-Message-State: AOJu0YzwReV0MxwiuWbYmR9dalxHe2EE3wGT8Dynn57qwloVyYCD3lrw
-	k+TAEU9X8MeaKlb3N4W3Q7AksYg1SzhgI7OrnbpEh7tykdMUdpRn
-X-Google-Smtp-Source: AGHT+IHImB8RQ3XxIX1T6+ZDB20H4WiJeIMtsn6kc5w65W/a9/0ivGhYYBGWkIecouWP/DPTbwITBg==
-X-Received: by 2002:a17:90b:1843:b0:2e2:991c:d790 with SMTP id 98e67ed59e1d1-2e2f0a36567mr11475511a91.8.1728885898532;
-        Sun, 13 Oct 2024 23:04:58 -0700 (PDT)
-Received: from dev.. ([129.41.59.4])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e2d5fcc759sm7915156a91.57.2024.10.13.23.04.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Oct 2024 23:04:58 -0700 (PDT)
-From: Rohit Chavan <roheetchavan@gmail.com>
-To: Dave Penkler <dpenkler@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Z4xa+sbr"
+Received: from umang.jain (unknown [IPv6:2405:201:2015:f873:55d7:c02e:b2eb:ee3f])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D08248BE;
+	Mon, 14 Oct 2024 08:11:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1728886282;
+	bh=ib/zqlp3I1R02nEi+3/evWIldRvuKIHCVnH0oVdwMn0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Z4xa+sbrYvIobPkh0viGsFcpdJjpTouuBty4Vv/5VqrYkrmO4HKhVBYba/Qg2a8i4
+	 e1W9qDBZRbZQLk4Uy1Klbmew4fYs8W5MDSrdpax5nuuAhh1QVaVOy6sfCt4ZI1pX6M
+	 eBhqaNNplnuAHM6p+9LN8MwvmVQpDlI+lqgLc1qg=
+From: Umang Jain <umang.jain@ideasonboard.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+Cc: linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Rohit Chavan <roheetchavan@gmail.com>
-Subject: [PATCH] staging: gpib: Replace kmalloc + memset with kzalloc for zero initialization.
-Date: Mon, 14 Oct 2024 11:34:30 +0530
-Message-Id: <20241014060430.1533329-1-roheetchavan@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	linux-kernel@vger.kernel.org,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	kernel-list@raspberrypi.com,
+	Stefan Wahren <wahrenst@gmx.net>,
+	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+	Umang Jain <umang.jain@ideasonboard.com>
+Subject: [PATCH v2 0/2] staging: vchiq_arm: Two memory leak fixes
+Date: Mon, 14 Oct 2024 11:42:54 +0530
+Message-ID: <20241014061256.21858-1-umang.jain@ideasonboard.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -68,34 +51,21 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This change simplifies memory allocation by using `kzalloc`
-for zero-initialization, improving readability and reducing
-uninitialized memory errors.
+Two memory leaks were identified and this series addresses those leaks.
 
+changes in v2:
+- Split patches into two
 
-Signed-off-by: Rohit Chavan <roheetchavan@gmail.com>
----
- drivers/staging/gpib/tnt4882/mite.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+v1:
+- https://lore.kernel.org/linux-staging/b176520b-5578-40b0-9d68-b1051810c5bb@gmx.net/T/#t
 
-diff --git a/drivers/staging/gpib/tnt4882/mite.c b/drivers/staging/gpib/tnt4882/mite.c
-index adb656a5eb2c..54d80f89195f 100644
---- a/drivers/staging/gpib/tnt4882/mite.c
-+++ b/drivers/staging/gpib/tnt4882/mite.c
-@@ -57,12 +57,10 @@ void mite_init(void)
- 	for (pcidev = pci_get_device(PCI_VENDOR_ID_NATINST, PCI_ANY_ID, NULL);
- 		pcidev;
- 		pcidev = pci_get_device(PCI_VENDOR_ID_NATINST, PCI_ANY_ID, pcidev)) {
--		mite = kmalloc(sizeof(*mite), GFP_KERNEL);
-+		mite = kzalloc(sizeof(*mite), GFP_KERNEL);
- 		if (!mite)
- 			return;
- 
--		memset(mite, 0, sizeof(*mite));
--
- 		mite->pcidev = pcidev;
- 		pci_dev_get(mite->pcidev);
- 		mite->next = mite_devices;
+Umang Jain (2):
+  staging: vchiq_arm: Utilise devm_kzalloc() for allocation
+  staging: vchiq_arm: Utilize devm_kzalloc() for allocation
+
+ .../staging/vc04_services/interface/vchiq_arm/vchiq_arm.c   | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+
 -- 
-2.34.1
+2.45.2
 
