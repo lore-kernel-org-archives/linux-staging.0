@@ -1,99 +1,138 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 903EE146D65
-	for <linux-staging@lists.linux.dev>; Mon, 14 Oct 2024 09:31:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C25F13DDAA;
+	Mon, 14 Oct 2024 09:32:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728898268; cv=none; b=IMQ7WDMXuWVhZ+n1u9O3jLSEgksanc147XV6ZpnBJJNyzgjDltqET098h4Z4UrCN6eWi/pA6bJXLJTLGuLe5aKe3FFuBfSP+cZnW7H0DRVaWR0fG/Lm9RPw7hSsuPk+fj+5UrHwKgq5cdCPHDk2SuF8azrh5qX/9oHUpMZnq5uM=
+	t=1728898331; cv=none; b=OwRS+WDjWiPbEKUQ5cIhjOT9IezJosRbXytBUc1K5E5t34FJGTmpZN3IdBMLSXe6bmrFj3S4Gp+45aTbPVCTdcNRmNBMZ5rkQife5r/Y3BBWCL4O54NFv5X0vuwMnqXNwUr1ek7jdXaFXlX9wnieyatNIzKRnjxI5caOwBhSeyc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728898268; c=relaxed/simple;
-	bh=10Vh/KXdRgda34P24+FCpQSF7tDiI5LjonUGB1ERa3Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V1gEQElV98x6E0Jz4+4xPxtWr6udZNdmgVXby8bo0KtQKL7tb5YnvzVA937KeW/MZN4lX9wXzg/BsuIavvVy2aYi0IjwhHqSTrWY16FCSUEBBckCG09eflAoG4z9zEkkSeIIEtdVnm5pdYH6AD5hAvwkV/4RrPfY7XzcgHSsvQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fpWFaOXX; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1728898331; c=relaxed/simple;
+	bh=H6iAE2LegkHNp+32/yt3whqw8Zq05OwWueCyBd7K+Hw=;
+	h=From:To:Cc:Subject:References:Date:In-Reply-To:Message-ID:
+	 MIME-Version:Content-Type; b=FAgRVPb2n8RjZ0H/v8ZbFhOwr/SuIdEyx1iUtrwYXWDJBvrSkchZC07WML0LIf9kw7mmCqs+id5yQItn46fnz5O9YFmjLlXHD1Skt6x+6zgYIhQGtLQLxk9yHf/8Ba0HhAmKAsuErotXOW79HP2+xRqSfTKCvgNszwzNzrM5Zic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M6Zq3N3P; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fpWFaOXX"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4305724c12eso30452525e9.1
-        for <linux-staging@lists.linux.dev>; Mon, 14 Oct 2024 02:31:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1728898265; x=1729503065; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=tPxfM3/+LHt+EmVnzhLr9Fip6ZGfwtZ5p/tUW2SXXpI=;
-        b=fpWFaOXXb1i9+fklD+d5aWEsm3RyweXC7SJmK76fmmktM2xUyguyi5D40Fi12ZtcSA
-         IQnzzKMLTcJFB2ZJHyuwVcwNXfLRQcC5EDhYDNEAoPmshOAc5fqfbsAZyULNFaD7IfRW
-         0W8hK7mJhIYjbIDZe+M1WMe5fZutDY+sNp0+dFXYHQsuB/7McvlRmeLkyR84M0SHRLXE
-         IuPDTei187apaXlf9favWM+IvzoRyjDTQ1sEbrDWBR3BcCLY1s6MkLaToKIgI8d7+utA
-         7JgOj2m/2AoflJ1XPuy0fXu9yIumUwpsohDkIAOCPgLwdGdys4krRcjOgr4b2UaTshDM
-         IxxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728898265; x=1729503065;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tPxfM3/+LHt+EmVnzhLr9Fip6ZGfwtZ5p/tUW2SXXpI=;
-        b=Px0HWfSM2egEUxpzF8B2TTy2qQ8bkDponyL056MLw/TSWv6ADHQO73zknbOKoyQevf
-         fKnHF0Z1C9XZrVVa3SC9xYJs9vIYpCOGe0nQVBRB4snIubi1Ckol0tKwZRVoXP5KhDyp
-         kdYG7qV8eD2s1y1rvnXGTx0HExupOdnM8mgxDtQjIRRa4HJUINN8kGfY8XqjHYxyqDcq
-         1Oe1b+zluOpF91uvHynCz174vKRDhqTn26Xiv+8LukoOb81C2vIBMk7AHAj54O8ISGSx
-         VFc7Lh067+5o8rOdmCNcxC1yKWaOuxJjDZY1HuWnt4nkZwBPIb34joMNaJtn1x5lhMy0
-         6tfg==
-X-Forwarded-Encrypted: i=1; AJvYcCUdadqv7O2TJNRZ49qAhow0mpIs+UwUDWj0tFRJXPAekSXxZCXl6a/kkmVIjYP+KCB/9yyvWX7FHpfsnk74@lists.linux.dev
-X-Gm-Message-State: AOJu0YzvnwO/rklhAasQrDrnhS3Jjcyt2bh7CCtBw+tctBkEix5BoTxa
-	H2vMPSJqKCkVaopAo7YfcOJm8VMHEvT42zGiGf/OlXGi/aT7SPh4y1B+RzsDtjg=
-X-Google-Smtp-Source: AGHT+IGJAZ2abLY3A+ePxucwhIPOIPVNEZwYUtaSndGiYueX+Z9ySXWSN9wDAthowcyl1n/MoONv3w==
-X-Received: by 2002:a05:600c:190f:b0:430:53f8:38bc with SMTP id 5b1f17b1804b1-431255dcb76mr61160315e9.12.1728898264921;
-        Mon, 14 Oct 2024 02:31:04 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43127a6ae71sm63892235e9.47.2024.10.14.02.31.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Oct 2024 02:31:04 -0700 (PDT)
-Date: Mon, 14 Oct 2024 12:31:00 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Cc: Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Stefan Wahren <wahrenst@gmx.net>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v2 0/2] staging: vchiq_arm: Fix missing refcount
- decrement in error path for fw_node
-Message-ID: <e9ccca49-c609-4d65-8609-a5ca3264ede7@stanley.mountain>
-References: <20241014-vchiq_arm-of_node_put-v2-0-cafe0a4c2666@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M6Zq3N3P"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01007C4CEC3;
+	Mon, 14 Oct 2024 09:32:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728898330;
+	bh=H6iAE2LegkHNp+32/yt3whqw8Zq05OwWueCyBd7K+Hw=;
+	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
+	b=M6Zq3N3PCiStt2G83cEgWx8o4bKzMfBezq8TBjf4oGBUTNEwompWn+LQ/C+ofFioi
+	 y7WQ13MM0GVVi0W3B6Hym4d+I3V5V8ZBR2kr+f4jNWmP8gmCgbg/zh815ABruto0MV
+	 VmL6/GEUM7HCmgVVgArGynSv8rRhxFCFyrFyEKYc6rMQjbUSA/zvCZ9t3rmqNOFYve
+	 1HjWL/E+cqCRztuiQXTISR5Dlhj3NfdkZ4qW+GeNqOuaVyTHPMP2oAdjT5MUpJoCC9
+	 EWbTAkigiQZvikWPgvJrMC8qDRSBC/tAEfk22ek16SHNc6FehtMIBFD5/z1eVv1xOo
+	 zUixQub5fHfuA==
+From: Kalle Valo <kvalo@kernel.org>
+To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Cc: linux-kernel@vger.kernel.org,  "David S . Miller" <davem@davemloft.net>,
+  Alexandre Belloni <alexandre.belloni@bootlin.com>,  Claudiu Beznea
+ <claudiu.beznea@tuxon.dev>,  Geert Uytterhoeven <geert@linux-m68k.org>,
+  Geoff Levand <geoff@infradead.org>,  Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>,  Jakub Kicinski <kuba@kernel.org>,  Jeff
+ Johnson <quic_jjohnson@quicinc.com>,  Johannes Berg
+ <johannes@sipsolutions.net>,  Larry Finger <Larry.Finger@lwfinger.net>,
+  Nicolas Ferre <nicolas.ferre@microchip.com>,  Pavel Machek
+ <pavel@ucw.cz>,  Stanislaw Gruszka <stf_xl@wp.pl>,  Gregory Greenman
+ <gregory.greenman@intel.com>,  linuxppc-dev
+ <linuxppc-dev@lists.ozlabs.org>,  linux-arm-kernel@lists.infradead.org,
+  linux-staging@lists.linux.dev,  linux-wireless@vger.kernel.org,  Arnd
+ Bergmann <arnd@arndb.de>,  Stefan Lippers-Hollmann <s.l-h@gmx.de>
+Subject: Re: [RFC] ipw2100 ipw2200 ps3_gelic rtl8712 --- Are we ready for
+ wext cleanup?
+References: <a7eb3db4-ad0d-451a-9106-90d481bd3231@gmail.com>
+Date: Mon, 14 Oct 2024 12:32:04 +0300
+In-Reply-To: <a7eb3db4-ad0d-451a-9106-90d481bd3231@gmail.com> (Philipp
+	Hortmann's message of "Sun, 13 Oct 2024 22:28:48 +0200")
+Message-ID: <87iktv58tn.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241014-vchiq_arm-of_node_put-v2-0-cafe0a4c2666@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 14, 2024 at 10:56:35AM +0200, Javier Carrasco wrote:
-> This series refactors some useless goto instructions as a preparation
-> for the fix of a missing of_node_put() by means of the cleanup
-> attribute.
-> 
-> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-> ---
-> Changes in v2:
-> - Refactor vchiq_probe() to remove goto instructions.
-> - Declare and initialize the node right before its first usage.
-> - Link to v1: https://lore.kernel.org/r/20241013-vchiq_arm-of_node_put-v1-1-f72b2a6e47d0@gmail.com
-> 
+Philipp Hortmann <philipp.g.hortmann@gmail.com> writes:
 
-Thanks!
+> origin of this question was the following patch series from Arnd Bergmann
+> [PATCH 00/10] Remove obsolete and orphaned wifi drivers
+> https://lore.kernel.org/linux-staging/20231023131953.2876682-1-arnd@kerne=
+l.org/
+>
+> Here the remaining files that use iw_handler_def:
+> drivers/net/ethernet/toshiba/ps3_gelic_wireless.c:static const struct
+> iw_handler_def gelic_wl_wext_handler_def =3D {
+> drivers/net/wireless/intel/ipw2x00/ipw2100.c:static const struct
+> iw_handler_def ipw2100_wx_handler_def;
+> drivers/net/wireless/intel/ipw2x00/ipw2100.c:static const struct
+> iw_handler_def ipw2100_wx_handler_def =3D {
+> drivers/net/wireless/intel/ipw2x00/ipw2200.c:static const struct
+> iw_handler_def ipw_wx_handler_def =3D {
+> drivers/staging/rtl8712/os_intfs.c:     pnetdev->wireless_handlers =3D
+> (struct iw_handler_def *)
+> drivers/staging/rtl8712/rtl871x_ioctl.h:extern struct iw_handler_def
+> r871x_handlers_def;
+> drivers/staging/rtl8712/rtl871x_ioctl_linux.c:struct iw_handler_def
+> r871x_handlers_def =3D {
+>
+>
+> In this Email Greg writes over rtl8192e:
+> https://lore.kernel.org/linux-staging/2024100810-payback-suds-8c15@gregkh/
+> "...
+> No staging driver should ever get in the way of api changes elsewhere in
+> the kernel, that's one of the rules of this part of the tree.  So from
+> my opinion, it's fine to delete it now.  It can always come back in a
+> new way later on.
+> ..."
+>
+> So it should not be an issue to remove rtl8712.
+>
+> Stefan Lippers-Hollmann was one year ago still using the ipw2200.
+> https://lore.kernel.org/linux-staging/20231024014302.0a0b79b0@mir/
+>
+> Here my opinion why I think we should reconsider this:
+>
+> I really like to use old hardware. One of my computers is from trash
+> and the other one is bought for 50=E2=82=AC three years ago. But non of my
+> hardware is from before 2012. Do we as a community really need to
+> support hardware from 2003 in kernel 6.13 for WLAN that evolved so
+> rapidly? I do not think so.
+>
+> People around me are complaining that the 2,4GHz WLAN is difficult to
+> use because so many devices are using it. Such slow devices consume a
+> lot of time to send and receive the data and block therefore other
+> devices.
+>
+> The longterm kernels will still support this hardware for years.
+>
+> Please explain to our very high value resources (Maintainers,
+> Developers with wext and mac80211 expierience) that you cannot find
+> any other solution that is within technical possibility and budget
+> (USB WLAN Stick or exchange of WLAN module) and that they need to
+> invest their time for maintenance.
+> Here the example of invested time from Johannes Berg:
+> https://lore.kernel.org/all/20241007213525.8b2d52b60531.I6a27aaf30bded9a0=
+977f07f47fba2bd31a3b3330@changeid/
+>
+> I cannot ask the Linux kernel community to support my test hardware
+> just because I bought it some time ago. Rather, I have to show that I
+> use it for private or business purposes on a regular basis and that I
+> cannot easily change.
+>
+> Using this hardware is security wise not state of the art as WPA3 is
+> not supported. We put so much effort into security. Why not here?
 
-Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+I didn't quite get what you are saying here, are you proposing that we
+should remove ancient drivers faster?
 
-regards,
-dan carpenter
+--=20
+https://patchwork.kernel.org/project/linux-wireless/list/
 
+https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatc=
+hes
