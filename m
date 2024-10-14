@@ -1,138 +1,107 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51E02156676
-	for <linux-staging@lists.linux.dev>; Mon, 14 Oct 2024 08:56:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D31851DDEA
+	for <linux-staging@lists.linux.dev>; Mon, 14 Oct 2024 09:02:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728896218; cv=none; b=n8fQmVf2Io1Yuv5dWnp1Iiaf0nNoHa3RTOzeXWJ7Qru+jbtwcK3M1lo/MXVd8YA/WuCJpy4aMPhOZDtSkt9BU+uPnKWKIxw7/QgmSAmoXllXkBQ1xma7ChnvcjPrD1KPib1N/hH7YVHNTLpf3MDhsZx4DjcXPt5jfueuoyn2Aao=
+	t=1728896528; cv=none; b=GrS0rmqvUJadqgMESGgE/c0KL2XMNCtAqDk4+iUrcGYPtgFb+ZnmoeJGv3+5X+Z+tm4UWMEvrXcDz0+fNUW5n65ofElqbweIOmuKnSNeRmlSVAd6YMyamhylUdYMmNyp+qmReFlzjbxhI9Lih9jwUBEnbhN5dJymrqedosJ4+tE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728896218; c=relaxed/simple;
-	bh=cgQO1UwCPIWBof6xKNlDEdY6kW2vr7t1iwZgCtqmWls=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=GSyc71/TRRmVeqhiUT/q3LTzSTPLauQTilwmGZq84I4BfO832JW0b1rOWE9Iv6rlQ2NpYXs0eMGdHWroRKk6OUKPLmCE6BR40JvDhmRHSUvA1xa4BYhMAofgbGBjbJ4pfdNu+ptOj6ZrDzbk2WQMMK5avzl/xwgQJCpWSH/NyrY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dxvI4HRg; arc=none smtp.client-ip=209.85.208.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1728896528; c=relaxed/simple;
+	bh=JgJDxOULzDFw5oh7EJQ3xB9a5PJCmNZst+zlHiUa3Ew=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AuOI4oSZZGpxSZtSGc+TJFx2671lr9crJm0w2gFPmTEJ7QMqHWq2VVSVfaWaUia7qDvCChoM5Qy/QKYuRhPkOi0O3ZmeRZj702Y3slpwtfDqNYxngapmEO4EK/D9Amj49kRs5b4/HisDMb5+1IT1JfQcODD+yHOlhpT7JbPKulM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=gKkpWWXi; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dxvI4HRg"
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5c984352742so369916a12.1
-        for <linux-staging@lists.linux.dev>; Mon, 14 Oct 2024 01:56:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728896215; x=1729501015; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IZtKiNo2Id4aizdmJ3+JWafU0x2IXYEJ4ykrMWfdUD4=;
-        b=dxvI4HRgbkt8G+yX+UQlyEYwOpG0iHecIU6RKzVxl0gSRsn0dp59wyehTtd79rUwrM
-         1y7lT+zVnJdRZkWeq0TF5Cy/CrY0K7KWIF2QKeEj0TG9szmbwLPba8v3w/8mqjRzSjPX
-         DX51wbhQ+8nrYL7aqntHNBm7pylROMgGG5sorr9MkFJ8xnV3OxMjc6JihIPUDsUHHIQL
-         3cpf3FLpwmtvdFBF7aguTxyidS0yz9mbRkLdH0ufSqY2YeOAdShxH57IvPTOqkeKNfJH
-         F5yYi+VkX4nFJnup6MagVmM8T2bde/zuh3LVq+KRxEF3QGBb3KUwhUKayCWSn4dav9Yy
-         8+eQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728896215; x=1729501015;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IZtKiNo2Id4aizdmJ3+JWafU0x2IXYEJ4ykrMWfdUD4=;
-        b=wEorU9Q/Gmv4nOTQ34Qxjh0HIYpNbqNGpiVCW53ocGRfVdTvzeevz5ukStM3+ME4Az
-         o6rjXlvYOAgYN1CwQOv5K6Nb8VR9CTwqFOIjtm+ToENWrwF3arYg8U2MLBZgZUj9Ppxb
-         cI7jN0taFkW6z7+ahCqZWn9jbn/XmXJ0k6zEJUOdbkX6C8EFsVkZSpdJLNtW0SDgMnM2
-         137SGGDq4BUom1u6efASMQNuVANWR/M/CWYv4q5lnYW+cNRYSD4JL9hqi4xrJWiz+uWC
-         osEB35YvAl1DaJb6SS0/vBfPMl8Wog5OKoqeDZpqSJuho/6FDtg++oJWwOzjsAQ/dxn5
-         HdmA==
-X-Forwarded-Encrypted: i=1; AJvYcCVyBTJX6ii7FsOvzxzg7bjzfSTMWpWG1Dsv6D/OWHzSUeee7rUCurcegy874YS6qt4dCpKgvjPjwj5E7qi6@lists.linux.dev
-X-Gm-Message-State: AOJu0YxhR7wmO0tCdF8FLjg1xPzuU3PhKqMCAYk1kLrsokxkTWCjfSg7
-	ZI8EqXZn8MmoaSF3DjASxx7D9VkaQrQzfk5HarHSyyAytWD6uM7Q
-X-Google-Smtp-Source: AGHT+IE4Tebx2zedc1mf+9ffSBCm5CEIg+axVw0KgnFRYtSFdJGxxHajwNWdgYanJ3YncO+DPc1FjA==
-X-Received: by 2002:a05:6402:42d1:b0:5c4:14fe:971e with SMTP id 4fb4d7f45d1cf-5c948d58e4bmr8108654a12.23.1728896214496;
-        Mon, 14 Oct 2024 01:56:54 -0700 (PDT)
-Received: from [127.0.1.1] (91-118-163-37.static.upcbusiness.at. [91.118.163.37])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c9370d2296sm4635091a12.15.2024.10.14.01.56.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Oct 2024 01:56:54 -0700 (PDT)
-From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Date: Mon, 14 Oct 2024 10:56:37 +0200
-Subject: [PATCH v2 2/2] staging: vchiq_arm: Fix missing refcount decrement
- in error path for fw_node
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="gKkpWWXi"
+Received: from [IPV6:2405:201:2015:f873:55d7:c02e:b2eb:ee3f] (unknown [IPv6:2405:201:2015:f873:55d7:c02e:b2eb:ee3f])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5AAC7667;
+	Mon, 14 Oct 2024 11:00:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1728896422;
+	bh=JgJDxOULzDFw5oh7EJQ3xB9a5PJCmNZst+zlHiUa3Ew=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=gKkpWWXiN61Cf+nKWd88mVQYbuMZxYcYLBJQ++kdieC+c4xqIuSE++l5GmA1T9z4A
+	 VS4CBnB+I3E6tcSI/Y2R0Ydw2BReqNIfG4yFs8h8cuHRaxX24Q/G68fxWzuZ/2KMBe
+	 NyAqBODnFFJDMJ5X1HgxxiBSi70Oi6tQjuEj66pU=
+Message-ID: <a1588e43-2cb9-4356-ac73-b09593d0218c@ideasonboard.com>
+Date: Mon, 14 Oct 2024 14:31:56 +0530
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241014-vchiq_arm-of_node_put-v2-2-cafe0a4c2666@gmail.com>
-References: <20241014-vchiq_arm-of_node_put-v2-0-cafe0a4c2666@gmail.com>
-In-Reply-To: <20241014-vchiq_arm-of_node_put-v2-0-cafe0a4c2666@gmail.com>
-To: Florian Fainelli <florian.fainelli@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Stefan Wahren <wahrenst@gmx.net>, Umang Jain <umang.jain@ideasonboard.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-rpi-kernel@lists.infradead.org, 
- linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev, 
- linux-kernel@vger.kernel.org, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: vchiq_arm: Utilize devm_kzalloc in the probe()
+ function
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+Cc: linux-rpi-kernel@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ kernel-list@raspberrypi.com, Stefan Wahren <wahrenst@gmx.net>,
  Javier Carrasco <javier.carrasco.cruz@gmail.com>, stable@vger.kernel.org
-X-Mailer: b4 0.14-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1728896207; l=1950;
- i=javier.carrasco.cruz@gmail.com; s=20240312; h=from:subject:message-id;
- bh=cgQO1UwCPIWBof6xKNlDEdY6kW2vr7t1iwZgCtqmWls=;
- b=z8dlOAj/8FIYM9IbUkY70cYe7S9l19ri5R7gxEkCqRIXIL34pJkUIGwLA8NJtm6fID+dxXhB9
- l+cV2UsHREeCPEOwnnztwEcLzm2lYoVDIPK3cOQXJLAOnaP4gIN5z+0
-X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
- pk=lzSIvIzMz0JhJrzLXI0HAdPwsNPSSmEn6RbS+PTS9aQ=
+References: <20241014075900.86537-1-umang.jain@ideasonboard.com>
+Content-Language: en-US
+From: Umang Jain <umang.jain@ideasonboard.com>
+In-Reply-To: <20241014075900.86537-1-umang.jain@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-An error path was introduced without including the required call to
-of_node_put() to decrement the node's refcount and avoid leaking memory.
-If the call to kzalloc() for 'mgmt' fails, the probe returns without
-decrementing the refcount.
+Hi all,
 
-Use the automatic cleanup facility to fix the bug and protect the code
-against new error paths where the call to of_node_put() might be missing
-again.
+Please ignore this patch, it was a wrong-send (older version)
 
-Cc: stable@vger.kernel.org
-Fixes: 1c9e16b73166 ("staging: vc04_services: vchiq_arm: Split driver static and runtime data")
-Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
----
- drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-index 81b2887d1ae0..bf2024929d07 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-@@ -1332,7 +1332,6 @@ MODULE_DEVICE_TABLE(of, vchiq_of_match);
- 
- static int vchiq_probe(struct platform_device *pdev)
- {
--	struct device_node *fw_node;
- 	const struct vchiq_platform_info *info;
- 	struct vchiq_drv_mgmt *mgmt;
- 	int ret;
-@@ -1341,8 +1340,8 @@ static int vchiq_probe(struct platform_device *pdev)
- 	if (!info)
- 		return -EINVAL;
- 
--	fw_node = of_find_compatible_node(NULL, NULL,
--					  "raspberrypi,bcm2835-firmware");
-+	struct device_node *fw_node __free(device_node) =
-+		of_find_compatible_node(NULL, NULL, "raspberrypi,bcm2835-firmware");
- 	if (!fw_node) {
- 		dev_err(&pdev->dev, "Missing firmware node\n");
- 		return -ENOENT;
-@@ -1353,7 +1352,6 @@ static int vchiq_probe(struct platform_device *pdev)
- 		return -ENOMEM;
- 
- 	mgmt->fw = devm_rpi_firmware_get(&pdev->dev, fw_node);
--	of_node_put(fw_node);
- 	if (!mgmt->fw)
- 		return -EPROBE_DEFER;
- 
-
--- 
-2.43.0
+On 14/10/24 1:29 pm, Umang Jain wrote:
+> The two resources, 'mgmt' and 'platform_state' are currently allocated
+> dynamically using kzalloc(). Unfortunately, both are subject to memory
+> leaks in the error handling paths of the probe() function.
+>
+> To address this issue, use device resource management helper devm_kzalloc()
+> for proper cleanup during allocation.
+>
+> Cc: stable@vger.kernel.org
+> Fixes: 1c9e16b73166 ("staging: vc04_services: vchiq_arm: Split driver static and runtime data")
+> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> ---
+>   .../staging/vc04_services/interface/vchiq_arm/vchiq_arm.c   | 6 ++----
+>   1 file changed, 2 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> index 29e78700463f..373cfdd5b020 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> @@ -285,7 +285,7 @@ vchiq_platform_init_state(struct vchiq_state *state)
+>   {
+>   	struct vchiq_arm_state *platform_state;
+>   
+> -	platform_state = kzalloc(sizeof(*platform_state), GFP_KERNEL);
+> +	platform_state = devm_kzalloc(state->dev, sizeof(*platform_state), GFP_KERNEL);
+>   	if (!platform_state)
+>   		return -ENOMEM;
+>   
+> @@ -1344,7 +1344,7 @@ static int vchiq_probe(struct platform_device *pdev)
+>   		return -ENOENT;
+>   	}
+>   
+> -	mgmt = kzalloc(sizeof(*mgmt), GFP_KERNEL);
+> +	mgmt = devm_kzalloc(&pdev->dev, sizeof(*mgmt), GFP_KERNEL);
+>   	if (!mgmt)
+>   		return -ENOMEM;
+>   
+> @@ -1402,8 +1402,6 @@ static void vchiq_remove(struct platform_device *pdev)
+>   
+>   	arm_state = vchiq_platform_get_arm_state(&mgmt->state);
+>   	kthread_stop(arm_state->ka_thread);
+> -
+> -	kfree(mgmt);
+>   }
+>   
+>   static struct platform_driver vchiq_driver = {
 
