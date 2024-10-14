@@ -1,61 +1,61 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D595612CD96
-	for <linux-staging@lists.linux.dev>; Mon, 14 Oct 2024 08:56:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51E02156676
+	for <linux-staging@lists.linux.dev>; Mon, 14 Oct 2024 08:56:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728896215; cv=none; b=IKaURzcdjAuGRWHaesB8KFk7oHttz926yjSi7Cjb8OT3fpN3z4kcwTw70nyVRYQ8wBDZ/ICSHrMlWpmN0So2BVt6nFuzN/0lrhH0MssYxSoxTCKqNOLnkkTXQCyZnIikec3hHrAODxeI8i2vdQnUtO3K0gB1Hmu7qjeskHgdp50=
+	t=1728896218; cv=none; b=n8fQmVf2Io1Yuv5dWnp1Iiaf0nNoHa3RTOzeXWJ7Qru+jbtwcK3M1lo/MXVd8YA/WuCJpy4aMPhOZDtSkt9BU+uPnKWKIxw7/QgmSAmoXllXkBQ1xma7ChnvcjPrD1KPib1N/hH7YVHNTLpf3MDhsZx4DjcXPt5jfueuoyn2Aao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728896215; c=relaxed/simple;
-	bh=xGtdnRt3Vj5TJFE+xPUs3ODpILN2e8JGFrFZ5HwFyn8=;
+	s=arc-20240116; t=1728896218; c=relaxed/simple;
+	bh=cgQO1UwCPIWBof6xKNlDEdY6kW2vr7t1iwZgCtqmWls=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=H08VK8b39Os0Ayuyb9lt7BdMHXOdwUF6HTH5xKQ/tTFQblyhNbl+b+PBb7zUZbe11ThyMjk/eqv0yssozPasTx+4SwMCQwB84/qrt63cnXlW4F/BsWpz/zHBCDbjbjoyWNefPayMCkUriR74bLPCEkeDHUKR710bOmm8peRtpug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fis20nIm; arc=none smtp.client-ip=209.85.208.46
+	 In-Reply-To:To:Cc; b=GSyc71/TRRmVeqhiUT/q3LTzSTPLauQTilwmGZq84I4BfO832JW0b1rOWE9Iv6rlQ2NpYXs0eMGdHWroRKk6OUKPLmCE6BR40JvDhmRHSUvA1xa4BYhMAofgbGBjbJ4pfdNu+ptOj6ZrDzbk2WQMMK5avzl/xwgQJCpWSH/NyrY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dxvI4HRg; arc=none smtp.client-ip=209.85.208.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fis20nIm"
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5c9552d02e6so2943320a12.2
-        for <linux-staging@lists.linux.dev>; Mon, 14 Oct 2024 01:56:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dxvI4HRg"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5c984352742so369916a12.1
+        for <linux-staging@lists.linux.dev>; Mon, 14 Oct 2024 01:56:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728896212; x=1729501012; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1728896215; x=1729501015; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Y/JEhqoZl4E0cyUUh/uV9OIb6kXsx02RuLl2MX4iZIs=;
-        b=Fis20nImoQM5oz2Hqwhhx2dbJsPXc0QUel9vGckS9KjEwmgMvWOwoUXvT2h43BGsxN
-         1aBx8oXSQnQnb8FLQbpW2wltZMJ73IWLg1obSvDaDcDFeJdp9ccKRZMEF+yBYLvRU0ox
-         YvAKm6ezNFhfIUPUIzblWCPZwHJ5hW6oYJQxM8EsGakPo+wztNK+6qXOLk4MTB7p+Yy6
-         fq6TxDHLoW5XDwd/iW6VY2lCSlu688v671+FGe7eSknVV5Gw+0q1ywXaBZ/kF5Oz9y/a
-         cabYO8XjjAafT4Qz/KKxCzYAmFBBdcsBwmbc9d9z1CO6msx6ERR+VlMqm65HagbKPqiV
-         q9VQ==
+        bh=IZtKiNo2Id4aizdmJ3+JWafU0x2IXYEJ4ykrMWfdUD4=;
+        b=dxvI4HRgbkt8G+yX+UQlyEYwOpG0iHecIU6RKzVxl0gSRsn0dp59wyehTtd79rUwrM
+         1y7lT+zVnJdRZkWeq0TF5Cy/CrY0K7KWIF2QKeEj0TG9szmbwLPba8v3w/8mqjRzSjPX
+         DX51wbhQ+8nrYL7aqntHNBm7pylROMgGG5sorr9MkFJ8xnV3OxMjc6JihIPUDsUHHIQL
+         3cpf3FLpwmtvdFBF7aguTxyidS0yz9mbRkLdH0ufSqY2YeOAdShxH57IvPTOqkeKNfJH
+         F5yYi+VkX4nFJnup6MagVmM8T2bde/zuh3LVq+KRxEF3QGBb3KUwhUKayCWSn4dav9Yy
+         8+eQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728896212; x=1729501012;
+        d=1e100.net; s=20230601; t=1728896215; x=1729501015;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Y/JEhqoZl4E0cyUUh/uV9OIb6kXsx02RuLl2MX4iZIs=;
-        b=NXaeU+LlfluawfUi4aCGr36lwx3km3YEpNc4c7JSt2hE+FSBaQA8y2kCwHSYLOdnBy
-         j7esd2hkhm737KTR80vDRBgzQjTTpFDw+nMzGtoyEAOUTooi2KOGkIKROcZx2ebhUOaK
-         lxm0sMcKRZ+7fHej5yTEIby55kmQ/sVZ7rgmc9IX9aR9uN/n2ro5pZeRo48riE2mWuAk
-         eVvaw+9GEpDK7eIvs0MgYXHfzidnvSSYXkN7xNnKLSyFFGVejbMXRltqmVbVBm9Lgaua
-         Ps+GHXU8MWbkaQSCIpdvLm/sLN/78Db6oZW7stksXbnRde1rcy6F3Hp9xAli0iBC68Nr
-         /ZcQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXNyQdMlOhkbbbtoGAUkEIejtdLO5J1xuxdF9o0/O/GfahLhorKtH8jzXT8wwe7G3yil6C7a80ZTF8+mKHF@lists.linux.dev
-X-Gm-Message-State: AOJu0YwpDpkeMn9z+YL6rOUt4RxYTC6HL2j9bJGrsVkuZGOUc7teOC7P
-	U+l1BytypSN0re3TyT923N2XPGwSXuCMGQZTS9fLDZp5w6HrCtIv
-X-Google-Smtp-Source: AGHT+IEFn6QtuxV2uIFTjjx/8oPht9aHKpTC7u9qcL44bqP67ILGm5a+ZBNPq+GHrpBB1J5epP0+nA==
-X-Received: by 2002:a05:6402:34ca:b0:5c9:68f9:8af3 with SMTP id 4fb4d7f45d1cf-5c968f9a259mr4404776a12.17.1728896212102;
-        Mon, 14 Oct 2024 01:56:52 -0700 (PDT)
+        bh=IZtKiNo2Id4aizdmJ3+JWafU0x2IXYEJ4ykrMWfdUD4=;
+        b=wEorU9Q/Gmv4nOTQ34Qxjh0HIYpNbqNGpiVCW53ocGRfVdTvzeevz5ukStM3+ME4Az
+         o6rjXlvYOAgYN1CwQOv5K6Nb8VR9CTwqFOIjtm+ToENWrwF3arYg8U2MLBZgZUj9Ppxb
+         cI7jN0taFkW6z7+ahCqZWn9jbn/XmXJ0k6zEJUOdbkX6C8EFsVkZSpdJLNtW0SDgMnM2
+         137SGGDq4BUom1u6efASMQNuVANWR/M/CWYv4q5lnYW+cNRYSD4JL9hqi4xrJWiz+uWC
+         osEB35YvAl1DaJb6SS0/vBfPMl8Wog5OKoqeDZpqSJuho/6FDtg++oJWwOzjsAQ/dxn5
+         HdmA==
+X-Forwarded-Encrypted: i=1; AJvYcCVyBTJX6ii7FsOvzxzg7bjzfSTMWpWG1Dsv6D/OWHzSUeee7rUCurcegy874YS6qt4dCpKgvjPjwj5E7qi6@lists.linux.dev
+X-Gm-Message-State: AOJu0YxhR7wmO0tCdF8FLjg1xPzuU3PhKqMCAYk1kLrsokxkTWCjfSg7
+	ZI8EqXZn8MmoaSF3DjASxx7D9VkaQrQzfk5HarHSyyAytWD6uM7Q
+X-Google-Smtp-Source: AGHT+IE4Tebx2zedc1mf+9ffSBCm5CEIg+axVw0KgnFRYtSFdJGxxHajwNWdgYanJ3YncO+DPc1FjA==
+X-Received: by 2002:a05:6402:42d1:b0:5c4:14fe:971e with SMTP id 4fb4d7f45d1cf-5c948d58e4bmr8108654a12.23.1728896214496;
+        Mon, 14 Oct 2024 01:56:54 -0700 (PDT)
 Received: from [127.0.1.1] (91-118-163-37.static.upcbusiness.at. [91.118.163.37])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c9370d2296sm4635091a12.15.2024.10.14.01.56.50
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c9370d2296sm4635091a12.15.2024.10.14.01.56.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Oct 2024 01:56:51 -0700 (PDT)
+        Mon, 14 Oct 2024 01:56:54 -0700 (PDT)
 From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Date: Mon, 14 Oct 2024 10:56:36 +0200
-Subject: [PATCH v2 1/2] staging: vchiq_arm: refactor goto instructions in
- vchiq_probe()
+Date: Mon, 14 Oct 2024 10:56:37 +0200
+Subject: [PATCH v2 2/2] staging: vchiq_arm: Fix missing refcount decrement
+ in error path for fw_node
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -64,7 +64,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241014-vchiq_arm-of_node_put-v2-1-cafe0a4c2666@gmail.com>
+Message-Id: <20241014-vchiq_arm-of_node_put-v2-2-cafe0a4c2666@gmail.com>
 References: <20241014-vchiq_arm-of_node_put-v2-0-cafe0a4c2666@gmail.com>
 In-Reply-To: <20241014-vchiq_arm-of_node_put-v2-0-cafe0a4c2666@gmail.com>
 To: Florian Fainelli <florian.fainelli@broadcom.com>, 
@@ -75,62 +75,63 @@ To: Florian Fainelli <florian.fainelli@broadcom.com>,
 Cc: linux-rpi-kernel@lists.infradead.org, 
  linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev, 
  linux-kernel@vger.kernel.org, 
- Javier Carrasco <javier.carrasco.cruz@gmail.com>
+ Javier Carrasco <javier.carrasco.cruz@gmail.com>, stable@vger.kernel.org
 X-Mailer: b4 0.14-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1728896207; l=1704;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1728896207; l=1950;
  i=javier.carrasco.cruz@gmail.com; s=20240312; h=from:subject:message-id;
- bh=xGtdnRt3Vj5TJFE+xPUs3ODpILN2e8JGFrFZ5HwFyn8=;
- b=qS4TvGWBJCdTNKcjEj/E2YkKBXpwxQCEeub3CsxnCOFRi2PGAsVjTmZNKf7cV1VqYhMDxnDHi
- aZvTdlM8d5+DTAOddmqFmYTCjnf7qZtGg7jjKKm1cJ57YkZ8DO55+/t
+ bh=cgQO1UwCPIWBof6xKNlDEdY6kW2vr7t1iwZgCtqmWls=;
+ b=z8dlOAj/8FIYM9IbUkY70cYe7S9l19ri5R7gxEkCqRIXIL34pJkUIGwLA8NJtm6fID+dxXhB9
+ l+cV2UsHREeCPEOwnnztwEcLzm2lYoVDIPK3cOQXJLAOnaP4gIN5z+0
 X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
  pk=lzSIvIzMz0JhJrzLXI0HAdPwsNPSSmEn6RbS+PTS9aQ=
 
-The 'failed_platform_init' and 'error_exit' labels do not simplify the
-code, there is a single jump to them in the code, and the actions taken
-from then on can be easily carried out where the goto occurs.
+An error path was introduced without including the required call to
+of_node_put() to decrement the node's refcount and avoid leaking memory.
+If the call to kzalloc() for 'mgmt' fails, the probe returns without
+decrementing the refcount.
 
+Use the automatic cleanup facility to fix the bug and protect the code
+against new error paths where the call to of_node_put() might be missing
+again.
+
+Cc: stable@vger.kernel.org
+Fixes: 1c9e16b73166 ("staging: vc04_services: vchiq_arm: Split driver static and runtime data")
 Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
 ---
- .../staging/vc04_services/interface/vchiq_arm/vchiq_arm.c   | 13 +++++--------
- 1 file changed, 5 insertions(+), 8 deletions(-)
+ drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-index 27ceaac8f6cc..81b2887d1ae0 100644
+index 81b2887d1ae0..bf2024929d07 100644
 --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
 +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-@@ -1361,8 +1361,10 @@ static int vchiq_probe(struct platform_device *pdev)
- 	platform_set_drvdata(pdev, mgmt);
+@@ -1332,7 +1332,6 @@ MODULE_DEVICE_TABLE(of, vchiq_of_match);
  
- 	ret = vchiq_platform_init(pdev, &mgmt->state);
--	if (ret)
--		goto failed_platform_init;
-+	if (ret) {
-+		dev_err(&pdev->dev, "arm: Could not initialize vchiq platform\n");
-+		return ret;
-+	}
+ static int vchiq_probe(struct platform_device *pdev)
+ {
+-	struct device_node *fw_node;
+ 	const struct vchiq_platform_info *info;
+ 	struct vchiq_drv_mgmt *mgmt;
+ 	int ret;
+@@ -1341,8 +1340,8 @@ static int vchiq_probe(struct platform_device *pdev)
+ 	if (!info)
+ 		return -EINVAL;
  
- 	vchiq_debugfs_init(&mgmt->state);
+-	fw_node = of_find_compatible_node(NULL, NULL,
+-					  "raspberrypi,bcm2835-firmware");
++	struct device_node *fw_node __free(device_node) =
++		of_find_compatible_node(NULL, NULL, "raspberrypi,bcm2835-firmware");
+ 	if (!fw_node) {
+ 		dev_err(&pdev->dev, "Missing firmware node\n");
+ 		return -ENOENT;
+@@ -1353,7 +1352,6 @@ static int vchiq_probe(struct platform_device *pdev)
+ 		return -ENOMEM;
  
-@@ -1376,18 +1378,13 @@ static int vchiq_probe(struct platform_device *pdev)
- 	ret = vchiq_register_chrdev(&pdev->dev);
- 	if (ret) {
- 		dev_err(&pdev->dev, "arm: Failed to initialize vchiq cdev\n");
--		goto error_exit;
-+		return ret;
- 	}
+ 	mgmt->fw = devm_rpi_firmware_get(&pdev->dev, fw_node);
+-	of_node_put(fw_node);
+ 	if (!mgmt->fw)
+ 		return -EPROBE_DEFER;
  
- 	bcm2835_audio = vchiq_device_register(&pdev->dev, "bcm2835-audio");
- 	bcm2835_camera = vchiq_device_register(&pdev->dev, "bcm2835-camera");
- 
- 	return 0;
--
--failed_platform_init:
--	dev_err(&pdev->dev, "arm: Could not initialize vchiq platform\n");
--error_exit:
--	return ret;
- }
- 
- static void vchiq_remove(struct platform_device *pdev)
 
 -- 
 2.43.0
