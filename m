@@ -1,131 +1,74 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 016CD154BFB;
-	Mon, 14 Oct 2024 08:51:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B8B11531C2;
+	Mon, 14 Oct 2024 08:54:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728895896; cv=none; b=Wjmv9gnuhh4ctB5b2eu6HRWB9y0TXoxZyfQasYb4zmB6g85FAvddAXE0psl0oUg6iUvzN4Uev09Y7KZqfWatGLUktQb7Ny5ksOFz6VSwACgkPrtBVtWvnLqT96bbOE5cPZs0Jz5G+1wrn9t9jQE92d1t1jwcHnC+up9qdlN9kqM=
+	t=1728896062; cv=none; b=FPp/lOAXW7lqpcqhc7BtXQZijgJkBPil4VtokNy9xwk1V1nW0fVDQ71NKc5uD9A9mCNXip0ckU59iabq9DyHmJbf5/E9GKZWCQQC4EDj4vSVC+bqZ/14pGSfhpA7jsQRD6H7EXmgn12h1x+PWipqZeQZxOi5rcUSGRKNokV3z10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728895896; c=relaxed/simple;
-	bh=4hcP/x3fAzVQhFkDBiUme9mzWAr2o0rZJpMEeAgZ7ok=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eat3hCQOK9aOsKty1MKqvEGdHXV7nc3I2waGJoEEPqq+SLlL2NZWZ5H7eSNikKh8uduvL40ogpNsgrZ0MWHSuia9sB69R0j/uU1dpIEb3Kj8uXMhBq48cacTvTLHEp4+FUIJXSSo4tmBt148gEm4CTEe5A4RWkMQCTtVU5mZuk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jmaTdHlJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728896062; c=relaxed/simple;
+	bh=5fBgKpjbNCNaPjdtKKYViNGpeWKKViSdGxYY+QTp5zQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uj8eH8HtXnSnO5giNEOtvho34iZvcjY5hregTM9M7An2cs8Qqsvm3TIfhjsT3MUqef+TQ4BKmGMLiINcqbS5mDi/fXUCVv45TwXbj3tqYkjcVM64J9NuYbZjiVbXE2m1/V8PC9xNnmYS3tBzaEjyGgo+CtiXUsA3pwjt+CBGRUM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=pWZ2f8id; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jmaTdHlJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F35AC4CEC3;
-	Mon, 14 Oct 2024 08:51:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728895895;
-	bh=4hcP/x3fAzVQhFkDBiUme9mzWAr2o0rZJpMEeAgZ7ok=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=jmaTdHlJGLdT70w+tRHmzdBTESBBs9uzAq72yOME8xYrnPDSlJcNuKIMvmM2Nzpis
-	 JN/rSlqjbM23hxQux0FWBoK76Mr8NGLnBaxGZEiD3dJPtjjKQONX9F6QUdVwv9moXQ
-	 kftOW06BrklPD2FGYlRUOYcsBBT1KNWnFO7yM8KIZSIixYol0e1Gco5xsxdFWcO+FH
-	 hidweBEqWabuJ5B3hFcTsVBldlrWGc8AeHLHP6VmuyPqDkeL/zft7WjwlIZxPdHPMS
-	 p9khtAaJ2LBSjA5gmD/GeIF1hreZD9qiS+wA35qOw9LMt3U5nCWxgu2A2og+f3DRAH
-	 xVO7qzKlgrE6w==
-Message-ID: <a406ef56-bcb7-4d12-9666-2f354bdba3dd@kernel.org>
-Date: Mon, 14 Oct 2024 10:51:30 +0200
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="pWZ2f8id"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E6A3C4CED0;
+	Mon, 14 Oct 2024 08:54:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1728896062;
+	bh=5fBgKpjbNCNaPjdtKKYViNGpeWKKViSdGxYY+QTp5zQ=;
+	h=From:To:Cc:Subject:Date:From;
+	b=pWZ2f8idaROXVMwY8bwG8o1nbaWe53XWITpJ0EtNQ86a2Rrx+rPx+jVMhAYI4wAOL
+	 2rCB6jy17BxUhHJOrMFvPbnGKfs1ZOUDH4T/y+OCQu6yJNHiCAsTi5FJ3Nn1h8zjqC
+	 cLUChLpbhvmyPWnJi/tlJRBfYfPk6B5LEiPRFLFw=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: linux-staging@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Stephen Rothwell <sfr@canb.auug.org.au>,
+	Dave Penkler <dpenkler@gmail.com>
+Subject: [PATCH] staging: gpib: mark HP82341 driver as broken
+Date: Mon, 14 Oct 2024 10:54:13 +0200
+Message-ID: <2024101412-outsider-icing-052e@gregkh>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: vchiq_arm: Fix missing refcount decrement in
- error path for fw_node
-To: Dan Carpenter <dan.carpenter@linaro.org>,
- Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Cc: Florian Fainelli <florian.fainelli@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Stefan Wahren <wahrenst@gmx.net>, Umang Jain <umang.jain@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-References: <20241013-vchiq_arm-of_node_put-v1-1-f72b2a6e47d0@gmail.com>
- <a4283afc-f869-4048-90b4-1775acb9adda@stanley.mountain>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <a4283afc-f869-4048-90b4-1775acb9adda@stanley.mountain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1040; i=gregkh@linuxfoundation.org; h=from:subject:message-id; bh=5fBgKpjbNCNaPjdtKKYViNGpeWKKViSdGxYY+QTp5zQ=; b=owGbwMvMwCRo6H6F97bub03G02pJDOk8d0zz721lNP4RfuPkLWnDE28Zguau2P/94Yln0t0Lv CQEOC+v74hlYRBkYpAVU2T5so3n6P6KQ4pehranYeawMoEMYeDiFICJdF9jmMXktbP8tI/6mmt1 6zcX5C79y3Iz8w7DHI4e5nOTbzEXm2krvfkZrTF9u8VfNQA=
+X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
+Content-Transfer-Encoding: 8bit
 
-On 14/10/2024 09:22, Dan Carpenter wrote:
->> @@ -1341,8 +1342,6 @@ static int vchiq_probe(struct platform_device *pdev)
->>  	if (!info)
->>  		return -EINVAL;
->>  
->> -	fw_node = of_find_compatible_node(NULL, NULL,
->> -					  "raspberrypi,bcm2835-firmware");
-> 
-> Perhaps it's better to declare the variable here so that the function and the
-> error handling are next to each other.
-> 
-> 	if (!info)
-> 		return -EINVAL;
-> 
-> 	struct device_node *fw_node __free(device_node) =
-> 		of_find_compatible_node(NULL, NULL, "raspberrypi,bcm2835-firmware");
-> 	if (!fw_node) {
-> 
-> 	...
-> 
-> This is why we lifted the rule that variables had to be declared at the start
-> of a function.
-> 
+The hp82341 driver uses the isapnp_read_byte() call, but it's not
+exported for modules at this point in time:
 
+ERROR: modpost: "isapnp_read_byte" [drivers/staging/gpib/hp_82341/hp_82341.ko] undefined!
 
-Ack, this is how this should look like.
+So mark it as broken for now, it can be fixed and cleaned up later.
 
-Best regards,
-Krzysztof
+Link: https://lore.kernel.org/r/20241014162054.2b91b5af@canb.auug.org.au
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Cc: Dave Penkler <dpenkler@gmail.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/staging/gpib/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/staging/gpib/Kconfig b/drivers/staging/gpib/Kconfig
+index a628bc5240a3..9f337d57ce87 100644
+--- a/drivers/staging/gpib/Kconfig
++++ b/drivers/staging/gpib/Kconfig
+@@ -161,6 +161,7 @@ config GPIB_HP82341
+        tristate "HP82341x"
+        select GPIB_COMMON
+        select GPIB_TMS9914
++       depends on BROKEN
+        depends on ISA_BUS || EISA
+        help
+          GPIB driver for HP82341 A/B/C/D boards
+-- 
+2.47.0
 
