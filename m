@@ -1,202 +1,158 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23CA41531DB
-	for <linux-staging@lists.linux.dev>; Mon, 14 Oct 2024 07:59:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A26241487DD
+	for <linux-staging@lists.linux.dev>; Mon, 14 Oct 2024 07:59:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728892763; cv=none; b=QZdvDtAqzRoEKwEfh/exvkJQmzrjjKDLvKnj/wF/izkNWH5+Kg97nz3jqSUNNagXnGNdFs3S4s8BKRehCwgCsKPBNqZbs7qDw3o0ieYXR5230AP2NuDOuTwznZ34VA+sf/LOpi+58ndfKTSG0L98RDkQo1v+jhhiWaGoMEVU6sg=
+	t=1728892795; cv=none; b=KGjUd5LtkZBPZc+ZD3YyPIwFGmpmXjop5/cU0UijO0eAwdYhrv048/NBktiq6ryM5BUQOuhbVBwPC3jXMZudwgEvomcfHBtNupbk6xX4XQpStnP09MxkV9HXUkwsgIsny3mfHFqPKsy57lb5bqJRvHDKh1Rqtno8wBXkZuXlL0I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728892763; c=relaxed/simple;
-	bh=upgrwTvo7xO8WX12+oZnlIX+0zS10YgOPfhzCNsxdL4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=JysP9vDU4V7WlewwxbqSRu12L1DfQmETjYOs07LiRpK1ewOvZ097tuhc97pAyReShw9iv+uLQeDSHCDauf9ydXSWL390rRwrJZIH4uN0znqbQjIWvzu4F8nAsHBxsv50x3rvvqE81qHkV7nrmgnEf68o65pemHS7tdfmWtN1Ld8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GnPSDf0f; arc=none smtp.client-ip=209.85.214.174
+	s=arc-20240116; t=1728892795; c=relaxed/simple;
+	bh=9b57sG45FvuDPhVm5+UXFXwSv59mmf+8A6h+o090QbE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uJUNWiaVvWOAZiN0lJmcWNcA4cl+wmKsQnXi+DfFFrEAAo+Fvugo0mfBslEGbHtp6SBvXPY6BiXUdIa5My2svuIXuJPs3jZLSby2heTJu1WoHu6NaY3oXsPes5tT8ResksA9sIXPjObaKkK4OUu5xVF5+C04TT6QHlObMNkOtiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AO8+muZv; arc=none smtp.client-ip=209.85.208.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GnPSDf0f"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-20c714cd9c8so29772905ad.0
-        for <linux-staging@lists.linux.dev>; Mon, 14 Oct 2024 00:59:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AO8+muZv"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5c948c41edeso3407389a12.1
+        for <linux-staging@lists.linux.dev>; Mon, 14 Oct 2024 00:59:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728892760; x=1729497560; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=rITiXOpgMIOgb0l4pa06zrGp6TC0ZBdEjqCWpggTjmc=;
-        b=GnPSDf0fuUZ8BU5cktIEsMFVYukrlaKbw2fRPd/6m6Nj6JGAqQ8ANDTprUqSnYmd3/
-         qpyhbrrnK+HZGeJUi7wJY+wFa2cgfmB5HQjuBrHWtE4RI/Sqz9zz7U4pg3z/AaF66IVd
-         0CzgnHLql1KjKknS4ZFbyp82AFxgaHAFaHs+BI6HAIh3rND/2vXYgUPaSE/dFQbHrHE8
-         0rY5Mo1qqfjnDPhyOhihUVsZQvjx4n3KIt56BWb8AcPP0x+8OqAh2ZJ4GtmTkZS1Kmea
-         5MSaJlrEDXR6H8Dvk9Qh2jFQQW6fXmSzvWOFkBND+Ey/9/M8YtjGCKrOhNeVtvDC6Yz4
-         HOFw==
+        d=gmail.com; s=20230601; t=1728892792; x=1729497592; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=UwDgJJBgVI+rKYRnl0lco2RnJ2B058QDa6wjhyx1u48=;
+        b=AO8+muZvW2HCBSsD5ZoJfZ/ljANThf8tL7UsU6N0t7lf1lQoaWpnKBRi+wEU8g35ed
+         ICKi3VeZ2qptj5BeDBLDl6Aw2bV5Hy7K3qiZBcqdtFBAbIpZkLFeGBiN7sYrR7avfHVj
+         YAlrUPO2yR/97w0EW9+grbK8QeItpelA/kn3RAKS4h4OEZg6M2V5MqsnIlEAXsT9YkYW
+         CDItw3dZFqL1DbPcCwyNxg/1WDqKAOOSbLJn7lE9C2EAoy9fmePgAsM7AN9Hsa7KaQMI
+         cCJs4vQGWksiGs9dX7cayPOEjf1SDpda5xRF03YoEAcaDM4KQeKE8d3nSjb+eNogTXlR
+         Oa+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728892760; x=1729497560;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rITiXOpgMIOgb0l4pa06zrGp6TC0ZBdEjqCWpggTjmc=;
-        b=NzBBMp/y+7GUbOk2lbJuSzZ6DB+lcUipuRKAKfUZMSPfc85WwXNjZHNkR/syiZ01SV
-         nvQNKdcDQZuWzkbqMJz1e/X+G98g/q4BY2dR9SCXc0B+hPa82DsdbddMsnL9OHETEazs
-         Le0BbRXUgWzeatjYSjG+nmBKGEFRE9h80x5Ld1he+SPtvSrpPK3DNGFireBetVM7H1EU
-         ud36RvCdttR+jNfEtkErpBChNIZhv8D0FBD1+dikBUPPLs+vYga9CEQ34GcenU4CnPJC
-         OzVtZvoBIPyUHQe1TcmCM2v3mbtTEE4Ki23KUH9k5k+b5prgA/97Aj9ZfnRunoUye0IO
-         rSUA==
-X-Forwarded-Encrypted: i=1; AJvYcCXr9EoJJkUCK5J6IQ8NdSU9HaLOzrEpDT1KFGgTZBWN84NXkg0vcalKPzpDIY3iCH7hERbfAWmpV9tVrz58@lists.linux.dev
-X-Gm-Message-State: AOJu0YzzAPI9jWdmgXZ83ixKRaaeMmwmSzFwKz7Q2fEKcp0xtv4JXmTZ
-	q0CM+xFStUyDVavUkm6Po+jhkJLrNzuN+f8IKrwZutTnNzQF5hpA
-X-Google-Smtp-Source: AGHT+IEqRspu7jOjsn6zm0jDrQMHpP/fh42hMbjigYXyF2deDDOlnLbWLfey54h1ShErqj1Bp8UU8g==
-X-Received: by 2002:a17:902:ccca:b0:20c:5c13:732e with SMTP id d9443c01a7336-20cbb22ee88mr134925725ad.38.1728892760196;
-        Mon, 14 Oct 2024 00:59:20 -0700 (PDT)
-Received: from dev.. ([129.41.59.4])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20c8c31c3acsm60738035ad.236.2024.10.14.00.59.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Oct 2024 00:59:19 -0700 (PDT)
-From: Rohit Chavan <roheetchavan@gmail.com>
-To: Dave Penkler <dpenkler@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Rohit Chavan <roheetchavan@gmail.com>
-Subject: [PATCH] staging: gpib: Replace kmalloc/memset with kzalloc for zero initialization.
-Date: Mon, 14 Oct 2024 13:29:07 +0530
-Message-Id: <20241014075907.1571439-1-roheetchavan@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20230601; t=1728892792; x=1729497592;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=UwDgJJBgVI+rKYRnl0lco2RnJ2B058QDa6wjhyx1u48=;
+        b=QVtWixFL7MhZpTR+DV+Yuc0fIVMDAcIkSJD90rfSgoy1qVLWxNhYAB1/xZXrCi3Y1Y
+         Y8fDXEeO/YRKypmtH9ed6nhM4eNAu0BBIopRG9nCpux7yqYxaZ6onWI3SlW54ON1FNTX
+         jsKs1HTm8wlhXaldhZn3oDzoUQHlG1fCXKJBy55mL0m7JZF5Ur70SVNWOKJBblY8v+q2
+         hx6lFjtTuQWeYw/zAsQsM5XhyW+SixwOyO+3MFN7h1KtnQNrNdbcuw/iC8FQujY1q9Lo
+         ZgqMqyvKolMBXR+buz8IIMA5FYnX7NZ+bC3tC+fStJOC/uvAgInSTzxzGKkIAv9botmg
+         msYQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWtIeYambg762fdKyhWn300GzMFWa36hVy7NUyambIMfYd/E1D7diMoVegKztpE0LnDCknoXfnI0gNHvWpo@lists.linux.dev
+X-Gm-Message-State: AOJu0YyKZQN/3Os4gp+STeHFQd1dD+tKfM5R2ib0I0S4IrMetuygsD22
+	9rf8CsFHIR8UGR35FlBJ9T+6Mttg09ecLY6JVH8Jbrc7673pA822
+X-Google-Smtp-Source: AGHT+IH6dcjsU6AoshAvJ06MVXKH4KbDBqAVpjet4uHtQ/Iw9N+qN6q/+bdSl3OLiTRxh6au3cNtFg==
+X-Received: by 2002:a17:907:3ea2:b0:a99:e4db:4909 with SMTP id a640c23a62f3a-a99e4db4aa7mr780638866b.15.1728892791740;
+        Mon, 14 Oct 2024 00:59:51 -0700 (PDT)
+Received: from [10.10.12.27] (91-118-163-37.static.upcbusiness.at. [91.118.163.37])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a99f86fa986sm244025066b.92.2024.10.14.00.59.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 14 Oct 2024 00:59:51 -0700 (PDT)
+Message-ID: <47c7694c-25e1-4fe1-ae3c-855178d3d065@gmail.com>
+Date: Mon, 14 Oct 2024 09:59:49 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: vchiq_arm: Fix missing refcount decrement in
+ error path for fw_node
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Florian Fainelli <florian.fainelli@broadcom.com>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Stefan Wahren <wahrenst@gmx.net>, Umang Jain <umang.jain@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+References: <20241013-vchiq_arm-of_node_put-v1-1-f72b2a6e47d0@gmail.com>
+ <a4283afc-f869-4048-90b4-1775acb9adda@stanley.mountain>
+Content-Language: en-US, de-AT
+From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+In-Reply-To: <a4283afc-f869-4048-90b4-1775acb9adda@stanley.mountain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-This patch updates the GPIB driver code by replacing the use of kmalloc
-followed by memset with kzalloc. This change simplifies the memory
-allocation process by ensuring that the allocated memory is zero-initialized
-in a single call, improving code readability and reducing the potential for
-errors related to uninitialized memory.
+On 14/10/2024 09:22, Dan Carpenter wrote:
+> On Sun, Oct 13, 2024 at 12:42:32PM +0200, Javier Carrasco wrote:
+>> An error path was introduced without including the required call to
+>> of_node_put() to decrement the node's refcount and avoid leaking memory.
+>> If the call to kzalloc() for 'mgmt' fails, the probe returns without
+>> decrementing the refcount.
+>>
+>> Use the automatic cleanup facility to fix the bug and protect the code
+>> against new error paths where the call to of_node_put() might be missing
+>> again.
+>>
+>> Cc: stable@vger.kernel.org
+>> Fixes: 1c9e16b73166 ("staging: vc04_services: vchiq_arm: Split driver static and runtime data")
+>> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+>> ---
+>>  drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 6 ++----
+>>  1 file changed, 2 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+>> index 27ceaac8f6cc..792cf3a807e1 100644
+>> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+>> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+>> @@ -1332,7 +1332,8 @@ MODULE_DEVICE_TABLE(of, vchiq_of_match);
+>>  
+>>  static int vchiq_probe(struct platform_device *pdev)
+>>  {
+>> -	struct device_node *fw_node;
+>> +	struct device_node *fw_node __free(device_node) =
+>> +		of_find_compatible_node(NULL, NULL, "raspberrypi,bcm2835-firmware");
+>>  	const struct vchiq_platform_info *info;
+>>  	struct vchiq_drv_mgmt *mgmt;
+>>  	int ret;
+>> @@ -1341,8 +1342,6 @@ static int vchiq_probe(struct platform_device *pdev)
+>>  	if (!info)
+>>  		return -EINVAL;
+>>  
+>> -	fw_node = of_find_compatible_node(NULL, NULL,
+>> -					  "raspberrypi,bcm2835-firmware");
+> 
+> Perhaps it's better to declare the variable here so that the function and the
+> error handling are next to each other.
+> 
+> 	if (!info)
+> 		return -EINVAL;
+> 
+> 	struct device_node *fw_node __free(device_node) =
+> 		of_find_compatible_node(NULL, NULL, "raspberrypi,bcm2835-firmware");
+> 	if (!fw_node) {
+> 
+> 	...
+> 
+> This is why we lifted the rule that variables had to be declared at the start
+> of a function.
+> 
+> regards,
+> dan carpenter
+> 
 
-Signed-off-by: Rohit Chavan <roheetchavan@gmail.com>
----
- drivers/staging/gpib/agilent_82350b/agilent_82350b.c | 3 +--
- drivers/staging/gpib/cb7210/cb7210.c                 | 3 +--
- drivers/staging/gpib/gpio/gpib_bitbang.c             | 3 +--
- drivers/staging/gpib/hp_82335/hp82335.c              | 3 +--
- drivers/staging/gpib/hp_82341/hp_82341.c             | 3 +--
- drivers/staging/gpib/ines/ines_gpib.c                | 3 +--
- drivers/staging/gpib/tnt4882/tnt4882_gpib.c          | 3 +--
- 7 files changed, 7 insertions(+), 14 deletions(-)
+This approach is great as long as the maintainer accepts mid-scope
+variable declaration and the goto instructions get refactored, as stated
+in cleanup.h.
 
-diff --git a/drivers/staging/gpib/agilent_82350b/agilent_82350b.c b/drivers/staging/gpib/agilent_82350b/agilent_82350b.c
-index 1296db4d47c6..cff555447ee9 100644
---- a/drivers/staging/gpib/agilent_82350b/agilent_82350b.c
-+++ b/drivers/staging/gpib/agilent_82350b/agilent_82350b.c
-@@ -518,10 +518,9 @@ void agilent_82350b_return_to_local(gpib_board_t *board)
- int agilent_82350b_allocate_private(gpib_board_t *board)
- 
- {
--	board->private_data = kmalloc(sizeof(struct agilent_82350b_priv), GFP_KERNEL);
-+	board->private_data = kzalloc(sizeof(struct agilent_82350b_priv), GFP_KERNEL);
- 	if (!board->private_data)
- 		return -ENOMEM;
--	memset(board->private_data, 0, sizeof(struct agilent_82350b_priv));
- 	return 0;
- }
- 
-diff --git a/drivers/staging/gpib/cb7210/cb7210.c b/drivers/staging/gpib/cb7210/cb7210.c
-index 59f6dde3d966..d32576c21988 100644
---- a/drivers/staging/gpib/cb7210/cb7210.c
-+++ b/drivers/staging/gpib/cb7210/cb7210.c
-@@ -1199,10 +1199,9 @@ static int cb_gpib_probe(struct pcmcia_device *link)
- 	DEBUG(0, "%s(0x%p)\n", __func__, link);
- 
- 	/* Allocate space for private device-specific data */
--	info = kmalloc(sizeof(*info), GFP_KERNEL);
-+	info = kzalloc(sizeof(*info), GFP_KERNEL);
- 	if (!info)
- 		return -ENOMEM;
--	memset(info, 0, sizeof(*info));
- 
- 	info->p_dev = link;
- 	link->priv = info;
-diff --git a/drivers/staging/gpib/gpio/gpib_bitbang.c b/drivers/staging/gpib/gpio/gpib_bitbang.c
-index 81a952beee0d..847e4bea2cb1 100644
---- a/drivers/staging/gpib/gpio/gpib_bitbang.c
-+++ b/drivers/staging/gpib/gpio/gpib_bitbang.c
-@@ -1105,10 +1105,9 @@ static int bb_line_status(const gpib_board_t *board)
- 
- static int allocate_private(gpib_board_t *board)
- {
--	board->private_data = kmalloc(sizeof(struct bb_priv), GFP_KERNEL);
-+	board->private_data = kzalloc(sizeof(struct bb_priv), GFP_KERNEL);
- 	if (!board->private_data)
- 		return -1;
--	memset(board->private_data, 0, sizeof(struct bb_priv));
- 	return 0;
- }
- 
-diff --git a/drivers/staging/gpib/hp_82335/hp82335.c b/drivers/staging/gpib/hp_82335/hp82335.c
-index 4e277997684b..cf92fc0b3337 100644
---- a/drivers/staging/gpib/hp_82335/hp82335.c
-+++ b/drivers/staging/gpib/hp_82335/hp82335.c
-@@ -201,10 +201,9 @@ return_to_local : hp82335_return_to_local,
- 
- int hp82335_allocate_private(gpib_board_t *board)
- {
--	board->private_data = kmalloc(sizeof(struct hp82335_priv), GFP_KERNEL);
-+	board->private_data = kzalloc(sizeof(struct hp82335_priv), GFP_KERNEL);
- 	if (!board->private_data)
- 		return -1;
--	memset(board->private_data, 0, sizeof(struct hp82335_priv));
- 	return 0;
- }
- 
-diff --git a/drivers/staging/gpib/hp_82341/hp_82341.c b/drivers/staging/gpib/hp_82341/hp_82341.c
-index d37dd8335523..8ad1c885a9fb 100644
---- a/drivers/staging/gpib/hp_82341/hp_82341.c
-+++ b/drivers/staging/gpib/hp_82341/hp_82341.c
-@@ -459,10 +459,9 @@ return_to_local : hp_82341_return_to_local,
- 
- int hp_82341_allocate_private(gpib_board_t *board)
- {
--	board->private_data = kmalloc(sizeof(struct hp_82341_priv), GFP_KERNEL);
-+	board->private_data = kzalloc(sizeof(struct hp_82341_priv), GFP_KERNEL);
- 	if (!board->private_data)
- 		return -ENOMEM;
--	memset(board->private_data, 0, sizeof(struct hp_82341_priv));
- 	return 0;
- }
- 
-diff --git a/drivers/staging/gpib/ines/ines_gpib.c b/drivers/staging/gpib/ines/ines_gpib.c
-index 9dbbdb048b9f..87f9d3789c5f 100644
---- a/drivers/staging/gpib/ines/ines_gpib.c
-+++ b/drivers/staging/gpib/ines/ines_gpib.c
-@@ -1063,10 +1063,9 @@ static int ines_gpib_probe(struct pcmcia_device *link)
- 	DEBUG(0, "%s(0x%p)\n", __func__ link);
- 
- 	/* Allocate space for private device-specific data */
--	info = kmalloc(sizeof(*info), GFP_KERNEL);
-+	info = kzalloc(sizeof(*info), GFP_KERNEL);
- 	if (!info)
- 		return -ENOMEM;
--	memset(info, 0, sizeof(*info));
- 
- 	info->p_dev = link;
- 	link->priv = info;
-diff --git a/drivers/staging/gpib/tnt4882/tnt4882_gpib.c b/drivers/staging/gpib/tnt4882/tnt4882_gpib.c
-index ef4b9ce36741..0a850926c118 100644
---- a/drivers/staging/gpib/tnt4882/tnt4882_gpib.c
-+++ b/drivers/staging/gpib/tnt4882/tnt4882_gpib.c
-@@ -1644,10 +1644,9 @@ static int ni_gpib_probe(struct pcmcia_device *link)
- 	DEBUG(0, "%s(0x%p)\n", __func__, link);
- 
- 	/* Allocate space for private device-specific data */
--	info = kmalloc(sizeof(*info), GFP_KERNEL);
-+	info = kzalloc(sizeof(*info), GFP_KERNEL);
- 	if (!info)
- 		return -ENOMEM;
--	memset(info, 0, sizeof(*info));
- 
- 	info->p_dev = link;
- 	link->priv = info;
--- 
-2.34.1
+The first point is not being that problematic so far, but the second one
+is trickier, and we all have to take special care to avoid such issues,
+even if they don't look dangerous in the current code, because adding a
+goto where there cleanup attribute is already used can be overlooked as
+well.
 
+Actually there are goto instructions in the function, but at least in
+their current form they are as harmless as useless. I will refactor them
+anyway in another patch to stick to the recommendations, and declare the
+device_node right before its first usage for v2.
+
+Thanks and best regards,
+Javier Carrasco
