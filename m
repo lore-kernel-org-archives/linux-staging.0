@@ -1,108 +1,160 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA4D013B5B4
-	for <linux-staging@lists.linux.dev>; Mon, 14 Oct 2024 06:39:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67ACD13A24D;
+	Mon, 14 Oct 2024 06:50:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728887990; cv=none; b=kRHt4YAH96YmtB1YjT8QmUgnA6rZ4Abn1rkdw1Km7OXhtBEExj4lSeiyE/+7vp86QZ88aTZgf910V/gqXzc3zpkB6Br8Ow5uLEmLCpcNr2UuLeCB6jLOsMuKELT5+xYNwp38p448elQQBXil5Npp3c1j4hgyTAwHb2E9jRcvRJA=
+	t=1728888657; cv=none; b=VX0IlYKMdjVtyLlQPvIWYfEoiNFeQUaGOweF47Bb/EHqtQQukWS87EdEiF8FHJcOE1rG+spbLNnY3MKKJhP221cHda6AePGG9xofDXkjuN59SXtnUizQo6CJhD3W09oXlT4/347YBZL9jg9Yd1418PfuhCCKd4BSMyjxse0zhh0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728887990; c=relaxed/simple;
-	bh=FQphEFLBshXmaOE3JlV8b4bsc8E8MCSy4Ag9EHta9/c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V9fR1s0wc1xOEh0oL1aLOUMlXglzqvtJyCU9a/7FFeCU0HQxTNcjvQXWy85SOIOnai7hJLoEQJ1/NFRDtV8Wc85ira4wo/YLQeSN1IQnPS2qXmOgwP2YXVxxikHay3MhkW8F9OX30N2YTICSquwyjPrAcnCPuue9tyi2FQy8wqQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pX1ZyK4Y; arc=none smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1728888657; c=relaxed/simple;
+	bh=5fwQDtuZJ/Bi5IWJSnGY6namt6pSnRXtrjudA9qIXhQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Q6AIYsiw8+JuzfpC1CcTc6xSbCdlLqzwdyAGxWX5AWZeAfrJIrY81RYIybHLuRLEp9BJWULOV9BTud8MBxskJJPrPIyGbP2rApdb1HvBDVSZqlY9fpgZ5c8mlfv9zamY/3PGinZH4VRPpO4NsXvJuw6dAyUSfU+rBBYgwI1S3ys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OikLSEgx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pX1ZyK4Y"
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a994ecf79e7so620853866b.0
-        for <linux-staging@lists.linux.dev>; Sun, 13 Oct 2024 23:39:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1728887987; x=1729492787; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=TRglJQJqC3kB/kH32ye3qji7yvxN38IgBxBdJmfg+rI=;
-        b=pX1ZyK4Ysr0JMs8u/M3z2AusKR2DQ3sA0QGIPr+tY0QWPZG+tAkaVSia7uKsLEkmkD
-         hD3ZnA628+u3z0vKTcCU8T2Ask3gurKZ/iIRTxEEiEdKgDFF2uEQDdwS0DUT+/2RKVcK
-         b3i9jB2Q6nm8KZ4iLSXuHt31H8unvjPJsppgN5xvOxCWtBxJV9Fbth5SN7Dc3lhyGa4q
-         iokIexAjFecBXHdO6QGSXXsgPyzc5JSllwbNh8NsmThuXqhoXPpgV+ZHzJrD+pXlHQSd
-         yZijtp8yCrdrL70hd7+K1E4Xkg5QjYWzn5RnVj+K+JN3YO4WMCQhcWA9ER6iOV92dxDN
-         nRWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728887987; x=1729492787;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TRglJQJqC3kB/kH32ye3qji7yvxN38IgBxBdJmfg+rI=;
-        b=p2JrWOUjlhvuvUTeKbtTs/Q1+Uj/qWlPAayAoBGxqN+LE+N0FbTmqa1xsR+EKPpvzU
-         wZM3rKFWnYAhiLmE2bDvV5ksCAxOhQUbIfCTtM2Aqs+Jw6eZKIrTxP+gZHgjSeiUi/Zz
-         NKFFYMXScT9tVavwSRudDhKeJPcpzBbco+C7HISvq+AbbKJ8FsUeswMkOTJfu0B994kB
-         Yb3Xvhnmp5RFgMi7HExcjNrpwTtDFDsgOzCq38khJJToW4pk2cIOUM2b+Z7oKAgYcS/E
-         kxrKwACcdqt19m8CZV9OXAPDX/5FPSKoghlylNc4cAG4FivCSgy+x9ksVXy+KRUijraF
-         wLUw==
-X-Forwarded-Encrypted: i=1; AJvYcCXjoJ2q3Bo4GVTj77gLU3TKXVC+mCcGOBAqAuMhSGjpZuszVHnq1yb22oz0oTs3z30PQRc/a7mpbahqGNkJ@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz6CaInMf0uEA0iWjx66Ls13EXSh5HdDtByzDOT1Ec4+0C1IctT
-	HUxJY1Daa69T59N/5yUtLOync8cJhcfj9p/tWhJZMBI8jPIey3Ja9KYopLmiouo=
-X-Google-Smtp-Source: AGHT+IGEOBmGpibQOzzCmzYJ/UdGfI18YNbVf3R8nb5+9YuL5TW0UD8qfNB6tNPfAZALkQ3UkrXf3A==
-X-Received: by 2002:a17:907:3f99:b0:a99:f4fd:31c8 with SMTP id a640c23a62f3a-a99f4fd33b7mr460434866b.22.1728887987168;
-        Sun, 13 Oct 2024 23:39:47 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a99e97b13b6sm294033366b.151.2024.10.13.23.39.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Oct 2024 23:39:46 -0700 (PDT)
-Date: Mon, 14 Oct 2024 09:39:42 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Umang Jain <umang.jain@ideasonboard.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	kernel-list@raspberrypi.com, Stefan Wahren <wahrenst@gmx.net>,
-	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] staging: vchiq_arm: Utilise devm_kzalloc() for
- allocation
-Message-ID: <43471db1-f34b-4e4c-af58-4fc0f45248bd@stanley.mountain>
-References: <20241014061256.21858-1-umang.jain@ideasonboard.com>
- <20241014061256.21858-2-umang.jain@ideasonboard.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OikLSEgx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10E4BC4CECE;
+	Mon, 14 Oct 2024 06:50:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728888656;
+	bh=5fwQDtuZJ/Bi5IWJSnGY6namt6pSnRXtrjudA9qIXhQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=OikLSEgxvQ/fcEAxUnjoMJaWuQcyDjzgHvleJaYTLT1RavHgsL3i0/Yzy0wNeJrQQ
+	 eTEhsKcI3zUd7snnF2VraEuaCezkG5TpwnMA+8VM1eB5QUmjvNugJutc7JG3Ynp3oZ
+	 abFprHe8KBSibQM71ElL/fMdt6iYMGBXhYFqMxBzdbfNH1mqUs8wfU4nNbKfo1V5sB
+	 9yOapvIO+Bdkk6AkaDpE6FE6Any7H6oaqogkDm30mwQmJhu3oIG680Kj7eFdNmmvMD
+	 xknVzMO2qml7hhuj8oMYZCn6BZMrp4rK3BcZzA8SZx6dQKWHG17xMdSuFm4U6QgQGX
+	 YNmHPIIOMAXng==
+Message-ID: <52ce41b7-72e1-48ad-86e4-5cfac67f8174@kernel.org>
+Date: Mon, 14 Oct 2024 08:50:50 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241014061256.21858-2-umang.jain@ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: vchiq_arm: Fix missing refcount decrement in
+ error path for fw_node
+To: Umang Jain <umang.jain@ideasonboard.com>,
+ Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Stefan Wahren <wahrenst@gmx.net>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-rpi-kernel@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <20241013-vchiq_arm-of_node_put-v1-1-f72b2a6e47d0@gmail.com>
+ <e88e5faf-d88a-4ce9-948a-c976c2969cad@ideasonboard.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <e88e5faf-d88a-4ce9-948a-c976c2969cad@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Oct 14, 2024 at 11:42:55AM +0530, Umang Jain wrote:
-> The struct vchiq_arm_state 'platform_state' is currently allocated
-> dynamically using kzalloc(). Unfortunately, it is never freed and is
-> subjected to memory leaks in the error handling paths of the probe()
-> function.
+On 13/10/2024 13:36, Umang Jain wrote:
+> Hi Javier,
 > 
-> To address the issue, use device resource management helper
-> devm_kzalloc(), to ensure cleanup after its allocation.
+> Thank you for the patch.
 > 
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> ---
+> On 13/10/24 4:12 pm, Javier Carrasco wrote:
+>> An error path was introduced without including the required call to
+>> of_node_put() to decrement the node's refcount and avoid leaking memory.
+>> If the call to kzalloc() for 'mgmt' fails, the probe returns without
+>> decrementing the refcount.
+>>
+>> Use the automatic cleanup facility to fix the bug and protect the code
+>> against new error paths where the call to of_node_put() might be missing
+>> again.
+>>
+>> Cc: stable@vger.kernel.org
+>> Fixes: 1c9e16b73166 ("staging: vc04_services: vchiq_arm: Split driver static and runtime data")
+>> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+>> ---
+>>   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 6 ++----
+>>   1 file changed, 2 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+>> index 27ceaac8f6cc..792cf3a807e1 100644
+>> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+>> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+>> @@ -1332,7 +1332,8 @@ MODULE_DEVICE_TABLE(of, vchiq_of_match);
+>>   
+>>   static int vchiq_probe(struct platform_device *pdev)
+>>   {
+>> -	struct device_node *fw_node;
+>> +	struct device_node *fw_node __free(device_node) =
+>> +		of_find_compatible_node(NULL, NULL, "raspberrypi,bcm2835-firmware");
+> 
+> How about :
+> 
+> +	struct device_node *fw_node __free(device_node) = NULL;
+> 
+>>   	const struct vchiq_platform_info *info;
+>>   	struct vchiq_drv_mgmt *mgmt;
+>>   	int ret;
+>> @@ -1341,8 +1342,6 @@ static int vchiq_probe(struct platform_device *pdev)
+>>   	if (!info)
+>>   		return -EINVAL;
+>>   
+>> -	fw_node = of_find_compatible_node(NULL, NULL,
+>> -					  "raspberrypi,bcm2835-firmware");
+> 
+> And undo this (i.e. keep the of_find_compatible_node() call here
 
-Checkpatch warns that:
+The point of using cleanup is to have constructor and destructor in one
+place, not split. This is not in the spirit of cleanup. Linus also
+commented on this and cleanup.h *explicitly* recommends not doing so. It
+also lead to real bugs from time to time, so no, please do not insist on
+such weird way.
 
-WARNING: The commit message has 'stable@', perhaps it also needs a 'Fixes:' tag?
-
-(I'm the person who created this checkpatch warning.)  Fixes tags aren't just
-for regressions they're for any bug fixes.  So the Fixes tag here should point
-to when the driver was introduced.
-
-Even if the Fixes tag points to the first git commit, it's useful information
-so, please, always include it.
-
-regards,
-dan carpenter
+Best regards,
+Krzysztof
 
