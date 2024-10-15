@@ -1,71 +1,66 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BC511FAF1B
-	for <linux-staging@lists.linux.dev>; Tue, 15 Oct 2024 21:38:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E16B21E3AB
+	for <linux-staging@lists.linux.dev>; Tue, 15 Oct 2024 21:53:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729028309; cv=none; b=a1CJKKFy+d74uM7FBPSy0f2ez7P7TLIBVtteUO0886k/0bbToYEBalmqFu0wnCAA9D0goyE4sdwRF41UkKv6rAQaUHDiFUzzQSSlq4MBSGAmAq63fhH9+4EBz5DNmpg1CtcQvc/fu/RCHJmXO/5zYrrS9USRtz213/au23LTRyM=
+	t=1729029196; cv=none; b=qVvR9M7jjIux1xtLNmEd60HIdilgZgB95AGVtm3wcTnnTfPUakvWIKLCRT8z9i7KKLUHaq1ywtGyd2w4vJ1RkKUQdddfarWbMGvyME13+cv52p7ddIljiE/UDU7XkhGUaGNzHJqGHlmasPsTKCYsH4Y+9DGfcB87d60tZjtECA0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729028309; c=relaxed/simple;
-	bh=HzjDQzMj04wkguHCoDjg6H7HxJYdJ2jX1/fBnJipXRE=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=j0LdUce0h/sovV1yQ090miAD/d7Tg1dFOLoH8mC1PBhz7RwYiDoZ3jFd6FRtJifoj3gcERLe7LsyS313Gjll2Arr8Ks+rufxMGzz6t/5Y0p992mkEJInOa5Diu0TShf8lvXG2XqwhZE1924gjiBfZO/sAHjezdzRLS0WFC24H8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PYe1n9vs; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1729029196; c=relaxed/simple;
+	bh=33zh+FNJ8Pdz2z5fFtLbuLnDgMJRzb/PKTlMZr5vzNE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ehu7mGNCGIA5bUVGp18NmIrRvS0eF6GE82JUHcohoUEq3z+KfsN7MTsqwm+7BDHXCx+ZZYMUTLcs9hXVp2KQSHi3AbQn511Ds5sZy3SyV/6JIoPlKNNiMa4R+y3KEa01SEo3M/Ine+EVpRnV587mTKWBV3E9v0hXmql06623cgQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=everestkc.com.np; spf=pass smtp.mailfrom=everestkc.com.np; dkim=pass (2048-bit key) header.d=everestkc-com-np.20230601.gappssmtp.com header.i=@everestkc-com-np.20230601.gappssmtp.com header.b=m4GC1s0y; arc=none smtp.client-ip=209.85.210.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=everestkc.com.np
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everestkc.com.np
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PYe1n9vs"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-20cbcd71012so33940545ad.3
-        for <linux-staging@lists.linux.dev>; Tue, 15 Oct 2024 14:38:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=everestkc-com-np.20230601.gappssmtp.com header.i=@everestkc-com-np.20230601.gappssmtp.com header.b="m4GC1s0y"
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-71e79f73aaeso683679b3a.3
+        for <linux-staging@lists.linux.dev>; Tue, 15 Oct 2024 14:53:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729028308; x=1729633108; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2AhpjpBe61RNEZbJYjD51EaXDTChOz8XDZqFL5apPYE=;
-        b=PYe1n9vskjDEdzS3GJDU1rRuNPZfo9ZguvFURQDkheP3YXcYMc5OzditPDkG2TJTLN
-         FltAgpdDdHR+T7UMV4soQTAh7owFJo2/qRqnTQp4b5fYqfGsIgF9SPKgmCzWhCJXrFdP
-         ixZXxqMJZymfta5tseGe2rN/Ew0qsWc0s9vBJ0rMkseiFnf0fvVhbPHuwd8l89Lz24cv
-         a96nPj7K2SipVfDjbt3CFZ/B1HXPK6mYRT0GOu6OW4OGNy02rnchU+U4GLqhXLTMHmLM
-         VsyJAlFFRNn1KoZKTZaq3uf0ZKidh9zHxlrRTVMXKLmUYM7HbX5/CIaBpS91KnZaTI+1
-         4V5A==
+        d=everestkc-com-np.20230601.gappssmtp.com; s=20230601; t=1729029193; x=1729633993; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=tgYy6Bm6ST3WMLvvW5zbLbX+E8lzENv9uLpgUUiRQbE=;
+        b=m4GC1s0y+9faDvUckt80hod0xSkpVN/LFrt+IbH4IrtvG/mW0FXrxERPwF/pgRq/uC
+         xDcVYFugt9MmhS2TD/8WfKHrGUmpOXevOXVhGfPuZNQqoXrzhN+bASNETLTi5BQX+4D8
+         uUAnPY/IVu05M/Z+zwE+Rp0HudltNipkzROKyGDA4uPCNx/2GA9xjEmI8zgRjlQwiWd0
+         q+OnBC10KPf6LWeua04mq8PJQPRcVuYTs5H1MM2+7lxPN6zRYTqbo59cUrg13BmutIP+
+         8ItQxmBGfa2EaXIUPECeQDctPGV8wPxQDlT81LGUruw5Xc/u75xhc+5q7P7NfJfWZOhJ
+         LOJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729028308; x=1729633108;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2AhpjpBe61RNEZbJYjD51EaXDTChOz8XDZqFL5apPYE=;
-        b=X/0PvHRSkvUEfab3DPH/GzeR5MTLRCGPxdxkwo7ZcOPlHjkB1x/UGe6cVlB8Xjmsyd
-         NLdvHEalP7uonPzWLx5oOrzkaQV7oFS41f8Wh6XZyRUCbZtl4wO3ZYXIgmGhINb0jF6y
-         f51z3M94+kPNdSo7QtFpGmoTeNKfg3r4fMn9SQW2UmN6MUEFLsvNriy6lEqU6Sqv4xgf
-         +/zG42tpNi2vBMypnUtn4hALk9UlPAH3cJswXeKLBOuGJZMHC+ZWX3OswmmGUMbbtHQS
-         pnzOMScEo0MojgkMPZHaOq/i/Lnzma6YFT8YyskXFnWQV33JtxSLlhdHUPxBzRrwftps
-         oS8g==
-X-Forwarded-Encrypted: i=1; AJvYcCWl/gQEnJ6/UXvD5YGUxQ+oyX+jYPbpaDsOH40jgHpziVYtAlzSijxv1PPkQfu6F+d1cm7ulj5oNI46YsnH@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz9OwwS4owYN4oLqxvoTYBOzWFMJVGMEYPXY/mhCVe8mhzEm7PZ
-	whYBkrS0/yzb1GHJBxxHRfluLpDqpupCqDZQYd8ma5nfJQ9nAdvb
-X-Google-Smtp-Source: AGHT+IEQs6xsl2HEoYJ2NqDLcqPih/PJJ526xSta+EqFTRGnPxi5jq4xSbKGnW3sYhPcJGUPnlU/mg==
-X-Received: by 2002:a17:902:e5cd:b0:20c:8dff:b4ed with SMTP id d9443c01a7336-20cbb1bb3a4mr203705755ad.16.1729028307690;
-        Tue, 15 Oct 2024 14:38:27 -0700 (PDT)
-Received: from localhost.localdomain ([2804:14d:4c64:81ec:934d:dff7:4914:60fd])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20d17f844d5sm16947325ad.31.2024.10.15.14.38.25
+        d=1e100.net; s=20230601; t=1729029193; x=1729633993;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tgYy6Bm6ST3WMLvvW5zbLbX+E8lzENv9uLpgUUiRQbE=;
+        b=cKE6mbm6YtUIN0PaT1SODzYlcCbAztc3Bh2nfyxWVmGdH4Il8jDZaw8dKpeGtPZeWV
+         kToJzL6JJeJ2ZRjdrwtE+jV5YF4/fl38XuO/qo68s5NBDnN5w6K5vsaNjuMFXkClqCig
+         MBJsrDsUunSdvOkk2uY4FC0yKXJahH8WnUqWu/TewRJ0kJRHpPeMf0Vl7nPPwUBrM9So
+         x6LIsJ2gdi5wtrqJKpVg/ug5aNdyULOJN4nXOrCdw0uCCUMKgR7EQAsopZF0zgCNFwae
+         LsiOVmAKTn/+RsT1bId4eKAymM+CBMTrDXS0QYDDe87xEpDrioycmvfkJhLbMoqBo+G+
+         GyCg==
+X-Forwarded-Encrypted: i=1; AJvYcCU+R1Llr0sNtkYI+p/zR7z+ZZzRmPuWS2MsXFbsS0vlTfGtw+eVE20DwW18YLndPSSVdZ1ae58JLuUFs50e@lists.linux.dev
+X-Gm-Message-State: AOJu0YwUR/VQVX0v0bwAl1DwirsfF8eaZWvgffZQkMH2rHt4i+FTEywt
+	9t2FmZ0Ntl37B0E80vhwpNypMW1+Uk3lMk0BSwziHHF3KqHd0kHTka4r7NXB5u8=
+X-Google-Smtp-Source: AGHT+IHKRWB3I+w3ryMfWgsL3J2DCrxRJgLiiR2QKNjK8+DYFibDfVRHnxZR4m7tvrx4sHkzUbzeUQ==
+X-Received: by 2002:a05:6a00:9159:b0:71e:cf8:d6fa with SMTP id d2e1a72fcca58-71e7da61f1amr2296785b3a.15.1729029192757;
+        Tue, 15 Oct 2024 14:53:12 -0700 (PDT)
+Received: from localhost.localdomain ([81.17.122.160])
+        by smtp.googlemail.com with ESMTPSA id d2e1a72fcca58-71e7750a74csm1789969b3a.212.2024.10.15.14.53.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Oct 2024 14:38:27 -0700 (PDT)
-From: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
-To: dan.carpenter@linaro.org
-Cc: gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
+        Tue, 15 Oct 2024 14:53:12 -0700 (PDT)
+From: "Everest K.C." <everestkc@everestkc.com.np>
+To: dpenkler@gmail.com,
+	gregkh@linuxfoundation.org
+Cc: "Everest K.C." <everestkc@everestkc.com.np>,
+	skhan@linuxfoundation.org,
 	linux-staging@lists.linux.dev,
-	philipp.g.hortmann@gmail.com,
-	rodrigo.gobbi.7@gmail.com,
-	~lkcamp/patches@lists.sr.ht
-Subject: [PATCH 1/2] staging: rtl8723bs: change remaining printk to proper api
-Date: Tue, 15 Oct 2024 18:38:22 -0300
-Message-Id: <20241015213822.8070-1-rodrigo.gobbi.7@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <d20087fc-586e-4a52-99e6-6a09b33ed00e@stanley.mountain>
-References: <d20087fc-586e-4a52-99e6-6a09b33ed00e@stanley.mountain>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: gpib: Move free after the variable use has been completed
+Date: Tue, 15 Oct 2024 15:51:55 -0600
+Message-ID: <20241015215157.18571-1-everestkc@everestkc.com.np>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -74,15 +69,40 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-> No, this isn't right.  You'd need to use a mix of dev_dbg() and pr_cont().
-> Basically in drivers it should always be dev_ printks except for pr_cont().
+The variable `in_data` is freed, but used later in the code.
+Fix it by moving the freeing the memory after it use has been
+completed.
 
-Tks, Dan, for the answer and suggestion. In this case, rather the dev_xxx(),
-do you think we can go with netdev_dbg() since this is a network driver and around
-the rtw_mlme_ext.c is already being used? (actually, I don't see a direct reference for struct device).
-If yes, I would mix the netdev_dbg() and pr_cont().
+This issue was reported by Coverity Scan.
+Report:
+CID 1600783: (#1 of 1): Use after free (USE_AFTER_FREE)
+19. pass_freed_arg: Passing freed pointer in_data as an argument to
+ni_usb_dump_raw_block.
 
-About [2], it is acceptable to remove the statements like I'm proposing?
-Tks and regards.
+Fixes: 4e127de14fa7 ("staging: gpib: Add National Instruments USB GPIB driver")
+Signed-off-by: Everest K.C. <everestkc@everestkc.com.np>
+---
+ drivers/staging/gpib/ni_usb/ni_usb_gpib.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-[2] https://lore.kernel.org/linux-staging/20241015014738.41685-1-rodrigo.gobbi.7@gmail.com/T/#m85d88af4dd8158a8e62ccb6c7257478b7de46d95
+diff --git a/drivers/staging/gpib/ni_usb/ni_usb_gpib.c b/drivers/staging/gpib/ni_usb/ni_usb_gpib.c
+index 1da263676f2a..75f39e1f3ed1 100644
+--- a/drivers/staging/gpib/ni_usb/ni_usb_gpib.c
++++ b/drivers/staging/gpib/ni_usb/ni_usb_gpib.c
+@@ -690,12 +690,12 @@ static int ni_usb_read(gpib_board_t *board, uint8_t *buffer, size_t length,
+ 		kfree(in_data);
+ 		return parse_retval;
+ 	}
+-	kfree(in_data);
+ 	if (actual_length != length - status.count) {
+ 		pr_err("%s: actual_length=%i expected=%li\n",
+ 		       __func__, actual_length, (long)(length - status.count));
+ 		ni_usb_dump_raw_block(in_data, usb_bytes_read);
+ 	}
++	kfree(in_data);
+ 	switch (status.error_code) {
+ 	case NIUSB_NO_ERROR:
+ 		retval = 0;
+-- 
+2.43.0
+
