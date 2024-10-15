@@ -1,83 +1,90 @@
 Received: from bout3.ijzerbout.nl (bout3.ijzerbout.nl [136.144.140.114])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D6D0192D7D
-	for <linux-staging@lists.linux.dev>; Mon,  4 Nov 2024 19:35:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98F8B192D7D
+	for <linux-staging@lists.linux.dev>; Mon,  4 Nov 2024 19:40:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=136.144.140.114
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730748936; cv=none; b=lkvTRwQXAAWcKlE9A3dBlUJxIZeC4Po/CijtJ5I9h9wAGrPEUkOCY2rR9zFk7DsYdq5V93NKIzCm2BocNW0+wVIlppfpojgjEkUkUrI735cMCXJPpeo8Q3uliITnvuPbfv7JtiYhhAnQ8ho7uN7vLG0G/qqBy0meNydgzaIZAL0=
+	t=1730749239; cv=none; b=kHdqpJf13LkEmF6jG9FXeTfQtaMf8+kCNA8MX6RaTYg9HSbqkacWcQ/UZTf8uYcGEMIkQMm90llUSQTERUkuwchWb+1YUddTsdRp8Q+CLEc1FKG1+WjhMOnSKXSMdcbemc6LCr+HTOjB2wSF44NJJ3g1THV/d7/1wCcXJh5Dg/k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730748936; c=relaxed/simple;
-	bh=ZFtbJL/+20zYzI89JpHWPB7xwrBkjkgmWk/C1M/FO3E=;
-	h=From:Date:Subject:To:Cc:Message-Id; b=HY+8CTLjKvj0tCrpaAby+066EKjDdWVG8pN+yQSAard4Pb58avKGkLC2n5hsH3pJi2ZGKnpfTCbhy1Dbwi5443p8+RfOGiG6SWzEKlHCWyvBBDOGb7TClJm2QP5fcWaZahFzCyM6YMqVmm/vlkWc+ZHTvwezmP1ra3tZt/CcbCI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ijzerbout.nl; spf=none smtp.mailfrom=bout3.ijzerbout.nl; dkim=pass (4096-bit key) header.d=ijzerbout.nl header.i=@ijzerbout.nl header.b=S4KL5FCc; arc=none smtp.client-ip=136.144.140.114
+	s=arc-20240116; t=1730749239; c=relaxed/simple;
+	bh=wduOPLqo1PgPH4ZCh7jh0rk85MoTwCkMuwZwZElLMjs=;
+	h=From:Date:Subject:To:Cc:Message-Id; b=YNPS+MHBo3rzsjdkNk36x4mW1RqCsiX7fv4dbYrUZqpTsSyhKGJQbCxrF6BPs3sCil4deBEqT2lUKWMvVVsrceT7J4ZcBTfbMDi9qZZ03EtRj/tVQsoRfQwzATPKmeMhF0f57uai8j9YkD1R1RZl6oV+U4FAdlL/OQmAMJwFoNI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ijzerbout.nl; spf=none smtp.mailfrom=bout3.ijzerbout.nl; dkim=pass (4096-bit key) header.d=ijzerbout.nl header.i=@ijzerbout.nl header.b=TV3hJjFG; arc=none smtp.client-ip=136.144.140.114
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ijzerbout.nl
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bout3.ijzerbout.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=ijzerbout.nl header.i=@ijzerbout.nl header.b="S4KL5FCc"
+	dkim=pass (4096-bit key) header.d=ijzerbout.nl header.i=@ijzerbout.nl header.b="TV3hJjFG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ijzerbout.nl; s=key;
-	t=1730748930; bh=ZFtbJL/+20zYzI89JpHWPB7xwrBkjkgmWk/C1M/FO3E=;
+	t=1730748827; bh=wduOPLqo1PgPH4ZCh7jh0rk85MoTwCkMuwZwZElLMjs=;
 	h=From:Date:Subject:To:Cc:From;
-	b=S4KL5FCcFr/gex0q+lbnPDhM2rdz22yMRBfR+5iUcU+91DpI/ps08uraldQUmE9z7
-	 hhv3k4edvYVfBRaxKq8rA1LFWIe5iRw4hIkabIqPSjH3+8umjhpYOMKYhFEkIPgarE
-	 RnJ/Akp+Kocq2o2il5MHLFXqOJrJGP8lHe+0GycHG4ezZh7LkrW5ilNM6tokJ6+bxv
-	 mf8bZ+yI+rSGjy1IJvsrLJBjcogtwtKIaBrkpbp+LW9OykPG2cbcElzmqwyAinKa6q
-	 LfRbWv8OtGfl1biKpAEnOkjkJokJX7mGoWA5ksFJr1PirCsdYlj4Uh/byzrd5KbqcH
-	 ebSlQoVHxa56PcS/Va4gi6i+FISYKMTgWQY5gR00HJLjdxd4AQYGTJP1ibEk9/xy5h
-	 us6ibTxkmmMrdkfYvgJ6h0leVf/YI80JzCOy2XY0Gkwb1oao4OpQ+fkvPV7QBcbt7O
-	 8bh0dB5kgKqQf5mM5UWaSclVMWuCdn6NH1/okgcvhdhy37DUAYoRDXSZUifg+2vCkl
-	 CSWq8jwcijt861vU6NPQunEDP/HQvBRa1GdDgVX+29GVBZgf05j4TV63WUsgSjcy4Q
-	 g22UHA8W8Ig5ces+Zd2Ve1/GS4/Ffuidr6x+P12akZDbnJkHnr8ABHz19CtA8muX8u
-	 H4uVrT0efe1jb+UF9D3pWztA=
+	b=TV3hJjFG8rhI+l9d8jgGKAmzn+b8AEJ+UhPoGyx90vMtXOtqCBayim+GSpTwZvm5+
+	 sQ6Fk6suUpax7RUzTHsYRzfWGTVVYlQtrGdQosP56UlfdoBfRdkgqJMCq8hNtEvruH
+	 GRClcJybGpPU0SFAWKCd1PrEXEubb5eigU2GlVChXIALhwJ/lLN1ZE68cFQ1HAoicd
+	 NNiVxrUp3vhhqQQXdHQS27lMDDxSN62ruObbEFfdUoiKULXg0npcHU0eyNfy0Uy1XJ
+	 SZpIkbkUmXYJiNScbGX/iklWHEUsyZPe0maXj4867n9MPBxnWhw0QVmWN1wWAKRXZx
+	 xBpPsy9W1OQOxrkvB8WywW5loueOb3Wg99rmf6ercErXmT4Tm4Itdl33dGpo90taJZ
+	 Y/d2uKc+9Kexh2R0Dx7Q2qE9c8/i8dX4cDErMjYLf2NfNKL2CcG/g0U9qcsC9oGNXg
+	 aYspAusriDtDGNHrNXvrmcUH9U2jhSOBdKCw+yowMjsGcX78kQS48a5gAjVFmxnOzA
+	 7EMMJ93F1v3qWWWQ6gaa6u16q2VOahcS4ZePUZAOLhxTbi/aQIatynw1h1BZ8U8WHd
+	 8SK6+zej2jk3Eq2VpwUJyhcOmZ1yWMHN36tI78/1Zh4MwT+Hz5/ZP8n3WKWhVXS4k4
+	 BnIJZluHJvQYEP8kN7dL68HI=
 Received: by bout3.ijzerbout.nl (Postfix, from userid 1000)
-	id 4AA8A18DD38; Mon,  4 Nov 2024 20:35:30 +0100 (CET)
+	id A0B5A18DD37; Mon,  4 Nov 2024 20:33:47 +0100 (CET)
 From: Kees Bakker <kees@ijzerbout.nl>
-Date: Thu, 17 Oct 2024 21:54:47 +0200
-Subject: [PATCH V3] staging: gpib: avoid unintended sign extension
+Date: Tue, 15 Oct 2024 22:33:30 +0200
+Subject: [PATCH v3] staging: gpib: Change return type of fluke_get_dma_residue
 To: Dave Penkler <dpenkler@gmail.com>
 Cc: Linux Staging <linux-staging@lists.linux.dev>
-Message-Id: <20241104193530.4AA8A18DD38@bout3.ijzerbout.nl>
+Message-Id: <20241104193347.A0B5A18DD37@bout3.ijzerbout.nl>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 
-The code was basically like this (assuming size_t can be u64)
-    var_u64 |= var_u8 << 24
-var_u8 is first promoted to i32 and then the shift is done. Next, it is
-promoted to u64 by first signextending to 64 bits. This is very unlikely
-what was intended. So now it is first forced to u32.
-    var_u64 |= (u32)var_u8 << 24
+The function fluke_get_dma_residue returns an error as a negative value.
+So the return type must not be unsigned.
 
-This was detected by Coverity, CID 1600792.
+This was detected by Coverity, CID 1600782
 
-Fixes: 4c41fe886a56 ("staging: gpib: Add Agilent/Keysight 82357x USB GPIB driver")
 Signed-off-by: Kees Bakker <kees@ijzerbout.nl>
 ---
- V1 -> V2: Changed commit message, added Fixes: tag and a reference to the Coverity CID
- V2 -> V3: add version in the subject (sorry Greg)
+ v1 -> v2: change type of `residue` var; add note about Coverity CID in commit message
+ v2 -> v3: add version in the subject (sorry Greg)
 
- drivers/staging/gpib/agilent_82357a/agilent_82357a.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/staging/gpib/eastwood/fluke_gpib.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/gpib/agilent_82357a/agilent_82357a.c b/drivers/staging/gpib/agilent_82357a/agilent_82357a.c
-index bbc7e8866872..f3a1b81be22d 100644
---- a/drivers/staging/gpib/agilent_82357a/agilent_82357a.c
-+++ b/drivers/staging/gpib/agilent_82357a/agilent_82357a.c
-@@ -679,10 +679,10 @@ static ssize_t agilent_82357a_generic_write(gpib_board_t *board, uint8_t *buffer
- 		kfree(status_data);
- 		return -EIO;
- 	}
--	*bytes_written	= status_data[2];
--	*bytes_written |= status_data[3] << 8;
--	*bytes_written |= status_data[4] << 16;
--	*bytes_written |= status_data[5] << 24;
-+	*bytes_written	= (u32)status_data[2];
-+	*bytes_written |= (u32)status_data[3] << 8;
-+	*bytes_written |= (u32)status_data[4] << 16;
-+	*bytes_written |= (u32)status_data[5] << 24;
+diff --git a/drivers/staging/gpib/eastwood/fluke_gpib.c b/drivers/staging/gpib/eastwood/fluke_gpib.c
+index f9f149db222d..3843e986f104 100644
+--- a/drivers/staging/gpib/eastwood/fluke_gpib.c
++++ b/drivers/staging/gpib/eastwood/fluke_gpib.c
+@@ -536,7 +536,7 @@ static int fluke_accel_write(gpib_board_t *board, uint8_t *buffer, size_t length
+ 	return 0;
+ }
  
- 	kfree(status_data);
- 	//printk("%s: write completed, bytes_written=%i\n", __func__, (int)*bytes_written);
+-static unsigned int fluke_get_dma_residue(struct dma_chan *chan, dma_cookie_t cookie)
++static int fluke_get_dma_residue(struct dma_chan *chan, dma_cookie_t cookie)
+ {
+ 	struct dma_tx_state state;
+ 	int result;
+@@ -549,7 +549,7 @@ static unsigned int fluke_get_dma_residue(struct dma_chan *chan, dma_cookie_t co
+ 	dmaengine_tx_status(chan, cookie, &state);
+ 	// hardware doesn't support resume, so dont call this
+ 	// method unless the dma transfer is done.
+-	return state.residue;
++	return (int)state.residue;
+ }
+ 
+ static int fluke_dma_read(gpib_board_t *board, uint8_t *buffer,
+@@ -559,7 +559,7 @@ static int fluke_dma_read(gpib_board_t *board, uint8_t *buffer,
+ 	struct nec7210_priv *nec_priv = &e_priv->nec7210_priv;
+ 	int retval = 0;
+ 	unsigned long flags;
+-	unsigned int residue;
++	int residue;
+ 	dma_addr_t bus_address;
+ 	struct dma_async_tx_descriptor *tx_desc;
+ 	dma_cookie_t dma_cookie;
 -- 
 2.47.0
 
