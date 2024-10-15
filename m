@@ -1,105 +1,118 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD6751F5820
-	for <linux-staging@lists.linux.dev>; Tue, 15 Oct 2024 20:08:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 670411B3936;
+	Tue, 15 Oct 2024 20:09:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729022894; cv=none; b=cJvFRk6KTsa8BaZuisln9EQHsQSG8kxhSSazwDn2BKvBHWi4hGTy719IgiJVpzp+vyR6C4W+Z7TpsSyUqBhV+9ccAEgd3+3fykEImlJKKaXx8JlqaX8V0xb5g2VehhzEEUL2gYXMYwvEUMvLrNanvxBf0dYaDVFt15i8ylJ5oUQ=
+	t=1729022947; cv=none; b=bxO1Jxh5Abuyr1Jh57qRLg6LUaKKkH1d9qFI/Ofu4SxDhqOYSNpajkqdptImIMd3pF0r3YPFrjbTpR8UjHWK63faU9Mngul5B0ArdEHcasHsPM8gwXTn01L4vxRVAdlvtc/IughPiyTuxCC6vgOU3JjGYhPNWSsrvNqRouoxdOs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729022894; c=relaxed/simple;
-	bh=lcjxFfK9x7TEO3MuO7OThKx6V5XEevvEBNkBmc5yX3A=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FPLXZeLfTf2V+FDgW0/KYCJWbreAQKoomkSW25oOZp9xqexfM4S31tDxHoyxAyx2TzUoj5hzp2Fo70a5FKsa2TEtlIcr7fynoXdABNxzDLTFwow1wKvkitOH1NHMOKv+1wUm58CAbXFjoGZFtZ2dY5GPBQbAL5IyfUxybWaNLdM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=everestkc.com.np; spf=pass smtp.mailfrom=everestkc.com.np; dkim=pass (2048-bit key) header.d=everestkc-com-np.20230601.gappssmtp.com header.i=@everestkc-com-np.20230601.gappssmtp.com header.b=cYii8JvY; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=everestkc.com.np
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everestkc.com.np
+	s=arc-20240116; t=1729022947; c=relaxed/simple;
+	bh=yOK+c3AkDCJtLcWfWWwZThk3SidCyjv2F09akPi0dDQ=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Q3my4vwwqeENAjw7Oaklp7/RbMFe8CEbMJqgfQEMyeQhvfmw18hQ7EknuElaQbXZLNpzrdWokmRF4osM2g1b8mg2Db+DwkapznTnD5PxxXqGVRN7eItB2XLr/LCrTJxueasTwPfFLM/tloI5AqFW5AQ5KpRIu8V2ERSGIV/CGUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AO6KPsrV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=everestkc-com-np.20230601.gappssmtp.com header.i=@everestkc-com-np.20230601.gappssmtp.com header.b="cYii8JvY"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-20c8c50fdd9so1566745ad.0
-        for <linux-staging@lists.linux.dev>; Tue, 15 Oct 2024 13:08:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=everestkc-com-np.20230601.gappssmtp.com; s=20230601; t=1729022892; x=1729627692; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=4OYafRWJBDNDlerw9Bp0TVpkeaRmGTgXMU5o+kqNXA4=;
-        b=cYii8JvYYtu09OpMHNiKIw9dOWFtt1T0Pb/jxz3eiH7Jl/c6Kuh1X+N9ENb8+vbTRg
-         MfJ+ogTby05RQswh5bnRFcZ7yfEXRuc6JfXVr3YRcF7+l21/vZRaaMF0+KJ9W97qDHUk
-         3Y7S4gJQeADZcLMRDQfzevRKbsvKTygZ/hqCc5kwUxCmAj+3vweUWm7vHDKTKV2ddgZ5
-         gDLgs9tQx7e+1dNoYh5ckqKCQa2UJntwUONG6PpP7Dr81G5zn9/f4vzcWcZq31oaCNOZ
-         IJurXGeWBdl+DXy+TKISuTmkkalYoMugtWRk6MYGRUqWP0+Y5Qh6ur5RB1RtKXjowxuj
-         Co2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729022892; x=1729627692;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4OYafRWJBDNDlerw9Bp0TVpkeaRmGTgXMU5o+kqNXA4=;
-        b=hRF8J7zleJmNvgNnn/Hogw5Cs0GR3C5npwhCI3LMOLI1uLP7svhPu4stoS/05NulTW
-         wiuOYLRu9Jnmeg0TDJwl3aQsfFr2QECE2+faYiRigD60wNT7A5urdJFAMSWiTBJH8V1P
-         SYv2r4sWIDzjqZBx64Y2F8ypAK84aO77acEQxFYiqg6mMadSgzj57h7FHwNlkgkQ++Je
-         vAfsnV244GEZZKg2szDX8MlGFz009/nb5sR1Ku+YyxADFzkyHAOKF8rI8gKoR1jDvItK
-         jQiO9WE7f61XYomzXX+Sq36AH9bsyg4TE1hsh+FrGRhBtUdaR9OSGlrSexHwpDizPPG9
-         iKig==
-X-Forwarded-Encrypted: i=1; AJvYcCUtAWmt7Usx9OMnM/OA/843NT53RzleIGAEwWtXW1Ek9qft+Y3pTmJdInALA3UxDvEUuDQnOBCkfI3iHII+@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxb5/iVPdMNBbu+3TtJb8CbafPOCXD/W6+XI0PntsoFYm9Vtx6p
-	NuK4nxlv+2ujgBIXwFQJve3I7c9+oE9GqL4aYukEm8KDwHqEOSgSZ8MSti5jcBU=
-X-Google-Smtp-Source: AGHT+IGPwub86v3SfluDcfN06wwLN9PL4+BcDBaaARe4qa8pfg7TiFdoeIbN6d9voDA/VPRC2aJJMA==
-X-Received: by 2002:a17:902:e1c3:b0:207:1845:bc48 with SMTP id d9443c01a7336-20ca0426cb0mr178146065ad.30.1729022892036;
-        Tue, 15 Oct 2024 13:08:12 -0700 (PDT)
-Received: from localhost.localdomain ([81.17.122.160])
-        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-20d1806c72asm15852375ad.305.2024.10.15.13.08.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Oct 2024 13:08:11 -0700 (PDT)
-From: "Everest K.C." <everestkc@everestkc.com.np>
-To: dpenkler@gmail.com,
-	gregkh@linuxfoundation.org
-Cc: "Everest K.C." <everestkc@everestkc.com.np>,
-	skhan@linuxfoundation.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: gpib: Remove a dead condition in if statement
-Date: Tue, 15 Oct 2024 14:06:47 -0600
-Message-ID: <20241015200655.17444-1-everestkc@everestkc.com.np>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AO6KPsrV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92492C4CEC6;
+	Tue, 15 Oct 2024 20:09:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729022946;
+	bh=yOK+c3AkDCJtLcWfWWwZThk3SidCyjv2F09akPi0dDQ=;
+	h=From:Date:Subject:To:Cc:From;
+	b=AO6KPsrVhhx372QCXY93AxJSBx5E+Ql2F+YLwWAwVb6Lhrfy5bVT6FsGutt3avCos
+	 KcPYnb7bO2dY52KTkntP/W5oLnY43rhPwoXtoMA/Y7oKvIsJznlxsbNPXaRNUWubXn
+	 RuLAPUpQjejEYhH7K4tZtq8HVkFlUek3YaPEcDzG6cjfxBy9Y2oMYdkQosjbfYqYAC
+	 sw/PWGrEeEyFaZs/RLhVUOCIFr/U1N29DN/1viFD3M5lRBp44KEudr3EEOWObVaxw7
+	 WoDoyWaWt/Jl8/6w67npxvRBSizEIq8XmgBVIdARGlYAWEoVzIv5X1HzbPRBlabHHf
+	 Oa/0poeEziKAA==
+From: Nathan Chancellor <nathan@kernel.org>
+Date: Tue, 15 Oct 2024 13:09:02 -0700
+Subject: [PATCH] staging: gpid: fmh: Drop residue from
+ fmh_gpid_fifo_read_countable()
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20241015-staging-gpib-fmh-fix-residue-used-uninitialized-v1-1-23ef05b099da@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAN3LDmcC/x3NwQrCMBCE4Vcpe3ahCVrUVxEPSbNJBzSWbFOkp
+ e9u8Pgd/pmdVApE6d7tVGSF4pMbzKmjcXI5CSM0k+3t2fTmwrq4hJw4zfAc3xNHfLmIIlThqhK
+ 4ZmQscC9sTf7qozXhZodBqK3ORVrxf3w8j+MH4Tgn/4EAAAA=
+X-Change-ID: 20241015-staging-gpib-fmh-fix-residue-used-uninitialized-b8bf21d9266e
+To: Dave Penkler <dpenkler@gmail.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, llvm@lists.linux.dev, 
+ patches@lists.linux.dev, Nathan Chancellor <nathan@kernel.org>
+X-Mailer: b4 0.15-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2652; i=nathan@kernel.org;
+ h=from:subject:message-id; bh=yOK+c3AkDCJtLcWfWWwZThk3SidCyjv2F09akPi0dDQ=;
+ b=owGbwMvMwCUmm602sfCA1DTG02pJDOl8px894J9oUb27nO1mR8u5X/8easqtnDi9fZXpZ90vp
+ w5dmFoo2lHKwiDGxSArpshS/Vj1uKHhnLOMN05NgpnDygQyhIGLUwAmwsbFyHDmdOb9Q7ce5vbI
+ LQmz58pYm880t+XY88/pdjYPP5lp3HnM8Feo97H9l4iDubM4/p5fuMzg5qV5hxe+LBX0qjtm/sL
+ T+gUzAA==
+X-Developer-Key: i=nathan@kernel.org; a=openpgp;
+ fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
 
-The variable `residue` is an unsigned int, also the function
-`fluke_get_dma_residue` returns an unsigned int. The value of
-an unsigned int can only be 0 at minimum.
-The less-than-zero comparision can never be true.
-Fix it by removing the dead condition in the if statement.
+Clang warns (or errors with CONFIG_WERROR=y):
 
-This issue was reported by Coverity Scan.
-Report:
-CID 1600782: (#1 of 1): Macro compares unsigned to 0 (NO_EFFECT)
-unsigned_compare: This less-than-zero comparison of an unsigned value
-is never true. residue < 0U.
+  drivers/staging/gpib/fmh_gpib/fmh_gpib.c:970:43: error: variable 'residue' is uninitialized when used here [-Werror,-Wuninitialized]
+    970 |                                 (int)(*bytes_read), (int)length, (int)residue);
+        |                                                                       ^~~~~~~
 
-Fixes: 55936779f496 ("staging: gpib: Add Fluke cda based cards GPIB driver")
-Signed-off-by: Everest K.C. <everestkc@everestkc.com.np>
+residue is never initialized in this function and it is not used outside
+of an error print. Just remove it altogether, as it is likely not
+necessary in this function, as this same exact statement in present in
+fmh_gpib_dma_read().
+
+Fixes: 8e4841a0888c ("staging: gpib: Add Frank Mori Hess FPGA PCI GPIB driver")
+Signed-off-by: Nathan Chancellor <nathan@kernel.org>
 ---
- drivers/staging/gpib/eastwood/fluke_gpib.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/gpib/fmh_gpib/fmh_gpib.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/staging/gpib/eastwood/fluke_gpib.c b/drivers/staging/gpib/eastwood/fluke_gpib.c
-index f9f149db222d..51b4f9891a34 100644
---- a/drivers/staging/gpib/eastwood/fluke_gpib.c
-+++ b/drivers/staging/gpib/eastwood/fluke_gpib.c
-@@ -644,7 +644,7 @@ static int fluke_dma_read(gpib_board_t *board, uint8_t *buffer,
- 	 */
- 	usleep_range(10, 15);
- 	residue = fluke_get_dma_residue(e_priv->dma_channel, dma_cookie);
--	if (WARN_ON_ONCE(residue > length || residue < 0))
-+	if (WARN_ON_ONCE(residue > length))
- 		return -EFAULT;
- 	*bytes_read += length - residue;
- 	dmaengine_terminate_all(e_priv->dma_channel);
+diff --git a/drivers/staging/gpib/fmh_gpib/fmh_gpib.c b/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
+index 07c75ba8df7c53041e3cf013bb769677ac205381..0e27b3ef1a1df217b05de710412a683d5d381a25 100644
+--- a/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
++++ b/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
+@@ -922,7 +922,6 @@ static int fmh_gpib_fifo_read_countable(gpib_board_t *board, uint8_t *buffer,
+ 	struct fmh_priv *e_priv = board->private_data;
+ 	struct nec7210_priv *nec_priv = &e_priv->nec7210_priv;
+ 	int retval = 0;
+-	unsigned int residue;
+ 
+ 	//	printk("%s: enter, bus_address=0x%x, length=%i\n", __FUNCTION__,
+ 	// (unsigned)bus_address,
+@@ -966,8 +965,8 @@ static int fmh_gpib_fifo_read_countable(gpib_board_t *board, uint8_t *buffer,
+ 		unsigned int data_value;
+ 
+ 		if ((*bytes_read) >= length) {
+-			dev_err(board->dev, "unexpected extra bytes in rx fifo, discarding!  bytes_read=%d length=%d residue=%d\n",
+-				(int)(*bytes_read), (int)length, (int)residue);
++			dev_err(board->dev, "unexpected extra bytes in rx fifo, discarding!  bytes_read=%d length=%d\n",
++				(int)(*bytes_read), (int)length);
+ 			break;
+ 		}
+ 		data_value = fifos_read(e_priv, FIFO_DATA_REG);
+@@ -976,8 +975,8 @@ static int fmh_gpib_fifo_read_countable(gpib_board_t *board, uint8_t *buffer,
+ 			*end = 1;
+ 	}
+ 
+-//	printk("\tbytes_read=%i, residue=%i, end=%i, retval=%i, wait_retval=%i\n",
+-//		   *bytes_read, residue, *end, retval, wait_retval);
++//	printk("\tbytes_read=%i, end=%i, retval=%i, wait_retval=%i\n",
++//		   *bytes_read, *end, retval, wait_retval);
+ 
+ 	return retval;
+ }
+
+---
+base-commit: e0eb7cc4d70d672cf9344916aba58136fd6e495e
+change-id: 20241015-staging-gpib-fmh-fix-residue-used-uninitialized-b8bf21d9266e
+
+Best regards,
 -- 
-2.43.0
+Nathan Chancellor <nathan@kernel.org>
 
