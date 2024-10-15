@@ -1,120 +1,120 @@
-Received: from mail-io1-f43.google.com (mail-io1-f43.google.com [209.85.166.43])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F4BE21E3D1
-	for <linux-staging@lists.linux.dev>; Tue, 15 Oct 2024 22:47:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5109F1F76B2
+	for <linux-staging@lists.linux.dev>; Tue, 15 Oct 2024 22:48:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729032466; cv=none; b=EhlFyJ1nS7AgOmqFEuxPC74CpQIsYu8VK5z4hiCQAaWMm8fdfNLuNLfzcuHE4KwCAffltS3y4UpgK0SsvspVHm85+BKXz/nE7TNoRZrObRTVNfXFEERhgoi/FTLjTCogy+QcF926NcdhHoOBloUyKGhAmeT8fKuJ5QedYHaFUW8=
+	t=1729032515; cv=none; b=p8DB2VaNnYLzFOY5fvfQTLFT40JJ2XjQ7ihZQuzAKxpRIiiEJjTNkTwdm8rSCz46TSX/JODu04PCoIzadAH0LYbpLbDhhXxk9FNRk1UQHs60atiMSlDFEeJ4r/mG6E60EG3FqsY8h6YZUprkc43Y6pEV1CUBVnbXqOyCw4kDY80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729032466; c=relaxed/simple;
-	bh=9/yMpBDQ4MgXG2JF/M1DyXAd4P4K7E/pFGhOwQo8lLY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JdT2UfIXEIZsr4bS55OjLEPag9UqJRPoBYucOt5BnnQ4/fxoPGbAqDF+Xmxf7QigK4P2aNuj4VlVWZmq/sQ8iHyZwykXAJpuqejj0WG+CUa6eXWoXqL/Yd8UP3Uerqqg5QCN+0IjLDu7v3ZuOKLFRcYRWbwFEPMHLo5Jzp+NYxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Ah7uMOqN; arc=none smtp.client-ip=209.85.166.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1729032515; c=relaxed/simple;
+	bh=MilXVF0Pl7zreQTOpN2ffuJKLXQVDsOWlshtxvK8NbA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bD7N262SfwHbLydh9mg6N4xMlV1jXxKKLJxo9f1nkHvrfE09C4e/FUGYwvlheDr7DsrNdRqX3K95LrHtmmdAL+nY4jrgL3v1hAsyRvHtehiWiIUZY9yVznc/qVVlRtlHrqoCa+aou2f6lhtXEOgf0wjKrROZiAkqTtMZfpxOdNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=everestkc.com.np; spf=pass smtp.mailfrom=everestkc.com.np; dkim=pass (2048-bit key) header.d=everestkc-com-np.20230601.gappssmtp.com header.i=@everestkc-com-np.20230601.gappssmtp.com header.b=o8AHUqql; arc=none smtp.client-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=everestkc.com.np
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everestkc.com.np
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Ah7uMOqN"
-Received: by mail-io1-f43.google.com with SMTP id ca18e2360f4ac-8354955f115so245214539f.1
-        for <linux-staging@lists.linux.dev>; Tue, 15 Oct 2024 15:47:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=everestkc-com-np.20230601.gappssmtp.com header.i=@everestkc-com-np.20230601.gappssmtp.com header.b="o8AHUqql"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a99ea294480so341575966b.2
+        for <linux-staging@lists.linux.dev>; Tue, 15 Oct 2024 15:48:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1729032464; x=1729637264; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=DI+wbwBHXGEyEuVIdZAIUUyrgbXUSc33fVGVN+YkPw4=;
-        b=Ah7uMOqNCn1iqSq5qMO7EipYQpgDgSWZPeVMxEOSw0KJryRSN3trM4UqE01oJgrSeQ
-         NJbvHSMYsFp0sSncbCgX/GKoyp2DFhGL1HMUt3pB6rLup5nFQNeWOYF1SY2Q4K38wrdo
-         djZNB2p82OlPgvvwUshAF+uhsfhQzje3sWVX4=
+        d=everestkc-com-np.20230601.gappssmtp.com; s=20230601; t=1729032510; x=1729637310; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=miq9FmtmjdBD0hWpSYeZA2klh/HZsIKy05pk3Zx+Afg=;
+        b=o8AHUqqlQ+EEvFIBevNbTTMbnxhABISlOTNxKsSdqPFBcVX1oOfCItej2DoXupiWNK
+         kG4aApHNjMvmKC9sZMn++aS3TgUtYK7B+p4f5J0jBSSErNajLPOW+NPPMeAbe1Jj7cZ/
+         tsxB6L2rgqXT0uDcnEv48ZEL2oa7/rKmv6DUZyp5EGybKoqg0iy+l8amsH6rMkl5gr0+
+         /cquuPqDWc5Sgb7rbVnZ6Y5Xr1lEu1Ney/5Ea056++2m54eUdpQ4M9SGa1ewaXlNZFMp
+         dqPjNz9U5wypBXqytjG3zdJo5LLmrj+dBd2dKKVF55udfhBV7JYphzsCgho7nNT7s9ek
+         6V3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729032464; x=1729637264;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DI+wbwBHXGEyEuVIdZAIUUyrgbXUSc33fVGVN+YkPw4=;
-        b=m5RyffasF0sPzrR3soljsU9oeIwoAKLpQw4kYzIU3mhHTw8O9J6vpuiwBuVe1lx9hz
-         LN0/+YT9/MZ48AI5pQl3CwOxrGpjvrr+bS2E8vRZ6AvmHW1EkFWzmhrBVIh7LQl0KX/9
-         4m3N6X7+a4ZKzP+Qxd+iodG8B4mqYG8cQDPETsO08wU3HChD8TzaFT7BH/4aWHBVEy1S
-         HOP1lDSBXKMV5C7QKihpa535DLE4sAnmGuBd8ruzsCAcealPZDSnRPtSF5tfPtTVf+EZ
-         toFe1/eFUj9V2Y/+8waedmHt/KDaBBvd9nWHDMtPu7p+/DeXVyrLbuq1C9SU1munerlx
-         G9lQ==
-X-Gm-Message-State: AOJu0YzQ8m+0deFnA0X9ONeit8G5RA/IlJ0dyCc3Ai61S9lv1U94C4pu
-	ku3DkNRP6fIilbCLBL1VqtFiVlhRsGu6aehWpZkmBqcf1cgpUyzsCDHdCM8hW3pY2bC7sV1ps+a
-	L
-X-Google-Smtp-Source: AGHT+IHJV0rzbHJHrUk9jakRVl53VDfEC+90zTQZ/dU8ydWTUn7uTDUdVw+xqFWw3ZDBaqvrD73k9A==
-X-Received: by 2002:a05:6602:60c9:b0:837:6dae:207b with SMTP id ca18e2360f4ac-837956f9631mr1436289139f.16.1729032463609;
-        Tue, 15 Oct 2024 15:47:43 -0700 (PDT)
-Received: from [192.168.1.128] ([38.175.170.29])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4dbecb38deasm531415173.106.2024.10.15.15.47.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Oct 2024 15:47:43 -0700 (PDT)
-Message-ID: <59521671-db23-42ba-8db3-ed48cef53c05@linuxfoundation.org>
-Date: Tue, 15 Oct 2024 16:47:42 -0600
+        d=1e100.net; s=20230601; t=1729032510; x=1729637310;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=miq9FmtmjdBD0hWpSYeZA2klh/HZsIKy05pk3Zx+Afg=;
+        b=uMeehFciTiFMJBA3LWXsEkFlcvjnB5W4czMeMV9ysR0VakfiVxnylUNneIGEKthDZz
+         k7iO2+3+2rsTDodA7oBfsmJMU34CIsVMlX98QFVZu7Xlsfi2sRDMefFSzIveSCE4xAV2
+         d6GA9+7o6Dk0G2GM2wOf/kWRIm47zThiMaouG1ksZrzeoej+dt9zrDz7pCi2LCK2czNK
+         iwS3oPeR1Zekr+xEzAPBd1k0/LOvKnLJJBxRQf8qXWC5XZYKe+IPYKoeiQmzSMNPP058
+         tz3WZLOLaqydNvbloZgk908+OmGJMEdPbE6BYLSJjztPNLYoUCUq6MnX8HjSWCOAGZEM
+         bU/A==
+X-Forwarded-Encrypted: i=1; AJvYcCXCtM/c7LEONNKVgYNuK3NbXzlh1AmmFjV9U5U5dAjER7Q1USlTUy58OqJ+jlkSk4pZub5Hwjq1FRVqXgCE@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw7rUtM/DYVnp5j0frViuC19a4lskmd2JJygGBG9Cc4weEoP0Yq
+	+gmFD9y63gxy34umuoON7L71DlzyB0H6xbhBToFoNAxFHWDehyCvRgll9bWT6ZML7S5+0FIJj5+
+	Z01JfLwGZz+QlrlFerOgAOiVFr3Aj1MZlNHB+UQ==
+X-Google-Smtp-Source: AGHT+IEwOi3xOaRekA3PPJMkq6HAJdzViRwYCHfUYxVkjaE6to7N2i/cYZrGYTe0N4xvD1sOPBjtZAPxgpVW4Xl0qFM=
+X-Received: by 2002:a05:6402:c41:b0:5c5:b7fd:170a with SMTP id
+ 4fb4d7f45d1cf-5c95ac50794mr18001007a12.28.1729032510392; Tue, 15 Oct 2024
+ 15:48:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: gpib: Remove a dead condition in if statement
-To: "Everest K.C." <everestkc@everestkc.com.np>, dpenkler@gmail.com,
- gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- Shuah Khan <skhan@linuxfoundation.org>
-References: <20241015200655.17444-1-everestkc@everestkc.com.np>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <20241015200655.17444-1-everestkc@everestkc.com.np>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20241015215157.18571-1-everestkc@everestkc.com.np> <99056bd3-748f-42e8-a25a-131f7b194f55@linuxfoundation.org>
+In-Reply-To: <99056bd3-748f-42e8-a25a-131f7b194f55@linuxfoundation.org>
+From: "Everest K.C." <everestkc@everestkc.com.np>
+Date: Tue, 15 Oct 2024 16:48:18 -0600
+Message-ID: <CAEO-vhEwkQKnPprdw_r=mg6KRbadY6B4A3R_sOsyH0ds78wb2g@mail.gmail.com>
+Subject: Re: [PATCH] staging: gpib: Move free after the variable use has been completed
+To: Shuah Khan <skhan@linuxfoundation.org>
+Cc: dpenkler@gmail.com, gregkh@linuxfoundation.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 10/15/24 14:06, Everest K.C. wrote:
-> The variable `residue` is an unsigned int, also the function
-> `fluke_get_dma_residue` returns an unsigned int. The value of
-> an unsigned int can only be 0 at minimum.
-> The less-than-zero comparision can never be true.
-> Fix it by removing the dead condition in the if statement.
-> 
-> This issue was reported by Coverity Scan.
-> Report:
-> CID 1600782: (#1 of 1): Macro compares unsigned to 0 (NO_EFFECT)
-> unsigned_compare: This less-than-zero comparison of an unsigned value
-> is never true. residue < 0U.
-> 
-> Fixes: 55936779f496 ("staging: gpib: Add Fluke cda based cards GPIB driver")
-> Signed-off-by: Everest K.C. <everestkc@everestkc.com.np>
-> ---
->   drivers/staging/gpib/eastwood/fluke_gpib.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/gpib/eastwood/fluke_gpib.c b/drivers/staging/gpib/eastwood/fluke_gpib.c
-> index f9f149db222d..51b4f9891a34 100644
-> --- a/drivers/staging/gpib/eastwood/fluke_gpib.c
-> +++ b/drivers/staging/gpib/eastwood/fluke_gpib.c
-> @@ -644,7 +644,7 @@ static int fluke_dma_read(gpib_board_t *board, uint8_t *buffer,
->   	 */
->   	usleep_range(10, 15);
->   	residue = fluke_get_dma_residue(e_priv->dma_channel, dma_cookie);
-> -	if (WARN_ON_ONCE(residue > length || residue < 0))
-> +	if (WARN_ON_ONCE(residue > length))
-
-Are you sure this is the right fix? length is size_t
-fluke_get_dma_residue() returns unsigned int - yes
-the coverity report is correct, but should fluke_get_dma_residue()
-return size_t?
-
->   		return -EFAULT;
->   	*bytes_read += length - residue;
-
-bytes_read is also size_t
-
->   	dmaengine_terminate_all(e_priv->dma_channel);
-
-The patch should indicate it is against next. [PATCH next].
-
-thanks,
--- Shuah
-
-
+On Tue, Oct 15, 2024 at 4:35=E2=80=AFPM Shuah Khan <skhan@linuxfoundation.o=
+rg> wrote:
+>
+> On 10/15/24 15:51, Everest K.C. wrote:
+> > The variable `in_data` is freed, but used later in the code.
+> > Fix it by moving the freeing the memory after it use has been
+> > completed.
+> >
+> > This issue was reported by Coverity Scan.
+> > Report:
+> > CID 1600783: (#1 of 1): Use after free (USE_AFTER_FREE)
+> > 19. pass_freed_arg: Passing freed pointer in_data as an argument to
+> > ni_usb_dump_raw_block.
+> >
+> > Fixes: 4e127de14fa7 ("staging: gpib: Add National Instruments USB GPIB =
+driver")
+> > Signed-off-by: Everest K.C. <everestkc@everestkc.com.np>
+> > ---
+> >   drivers/staging/gpib/ni_usb/ni_usb_gpib.c | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/staging/gpib/ni_usb/ni_usb_gpib.c b/drivers/stagin=
+g/gpib/ni_usb/ni_usb_gpib.c
+> > index 1da263676f2a..75f39e1f3ed1 100644
+> > --- a/drivers/staging/gpib/ni_usb/ni_usb_gpib.c
+> > +++ b/drivers/staging/gpib/ni_usb/ni_usb_gpib.c
+> > @@ -690,12 +690,12 @@ static int ni_usb_read(gpib_board_t *board, uint8=
+_t *buffer, size_t length,
+> >               kfree(in_data);
+> >               return parse_retval;
+> >       }
+> > -     kfree(in_data);
+> >       if (actual_length !=3D length - status.count) {
+> >               pr_err("%s: actual_length=3D%i expected=3D%li\n",
+> >                      __func__, actual_length, (long)(length - status.co=
+unt));
+> >               ni_usb_dump_raw_block(in_data, usb_bytes_read);
+> >       }
+> > +     kfree(in_data);
+> >       switch (status.error_code) {
+> >       case NIUSB_NO_ERROR:
+> >               retval =3D 0;
+>
+> Looks good to me. Isn't this on next though. Don't forget to
+> indicate it is against next.
+No, it was fixed in the linux-staging repo.
+> Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
+>
+> thanks,
+> -- Shuah
