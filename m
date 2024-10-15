@@ -1,66 +1,76 @@
 Received: from bout3.ijzerbout.nl (bout3.ijzerbout.nl [136.144.140.114])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B21D51E00A8
-	for <linux-staging@lists.linux.dev>; Thu, 17 Oct 2024 18:14:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 844A81E0DFF
+	for <linux-staging@lists.linux.dev>; Thu, 17 Oct 2024 18:15:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=136.144.140.114
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729188883; cv=none; b=ePZCnE1X5aHaIO5VpmPtMlz6606RZCCCZ+WFse9XhkhcOyzHYZPTaSnvG9Weizaaaq3gy+SWv7U+KUvVJXxXIEftPYHQg7FBqcuVdVMAS0ZPPTTmdRruyRHz0P4tNqHPI/UV4iqtcREjJrh+OZyn8SNhGS02D9WFH3/a7itAxO0=
+	t=1729188911; cv=none; b=Pcx6mA5pRRx0zfQx9LhgmHs/kuCJZqr+tVFQSGT6raP5aNCmuyEMRnh/HYV1uJ9978JQ+4eu/w3DB3BCiberjFQXAG2g5KXTnC0MXv1m6+B7XN6kPe0/sYMFnhh5j7bLjTV50nrX+PD7ZJL/xadtFjZ+0JfbLCc5EaUFbwAf5Ac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729188883; c=relaxed/simple;
-	bh=LRz7jjq2tgqpYw5SboGGBZ9WqD0BfyfdwH2XhJ6kj2o=;
-	h=From:Date:Subject:To:To:Message-Id; b=fLHn/qdvakv2ZjNKmKjfauWveMX9AS8qa4utEDesQZL41NQqYI1u4xOa02Qa8QxpipVaji5UBmVxtfqgppigER5tVvWO7l51ZBjsxojv0n79xJMvcx+HZa2Suq0nC5T9IErBYhk64Gu+x489b5ynxqTGmjxCNafBagMYmmxAlx0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ijzerbout.nl; spf=none smtp.mailfrom=bout3.ijzerbout.nl; dkim=pass (4096-bit key) header.d=ijzerbout.nl header.i=@ijzerbout.nl header.b=FevBbXjR; arc=none smtp.client-ip=136.144.140.114
+	s=arc-20240116; t=1729188911; c=relaxed/simple;
+	bh=ZRBVMuf3iS06874jBQgZMTEyL7J5rBorbHboD1GR5y8=;
+	h=From:Date:Subject:To:To:Message-Id; b=kWkMF9GoIeQ94TljJF7vgIz+RGNXsuDbptaop7ZH9MSzjzEC1E/HnUadFSMraP5E9AqlWzyB0uPHicv+aql1lPlFPMnBc16o4BtCOLobrij4hN9rGfWPJD9VbHJMQpAwut/SGWwUtU7pObQfmkZQdThbuUvdNRUvFX90G0SNxJ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ijzerbout.nl; spf=none smtp.mailfrom=bout3.ijzerbout.nl; dkim=pass (4096-bit key) header.d=ijzerbout.nl header.i=@ijzerbout.nl header.b=Ik6MvB3Q; arc=none smtp.client-ip=136.144.140.114
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ijzerbout.nl
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bout3.ijzerbout.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=ijzerbout.nl header.i=@ijzerbout.nl header.b="FevBbXjR"
+	dkim=pass (4096-bit key) header.d=ijzerbout.nl header.i=@ijzerbout.nl header.b="Ik6MvB3Q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ijzerbout.nl; s=key;
-	t=1729188875; bh=LRz7jjq2tgqpYw5SboGGBZ9WqD0BfyfdwH2XhJ6kj2o=;
+	t=1729188904; bh=ZRBVMuf3iS06874jBQgZMTEyL7J5rBorbHboD1GR5y8=;
 	h=From:Date:Subject:To:To:From;
-	b=FevBbXjR1+eh+V9gysEUo9ubl5GxrKXoy2vTlhYkmAq/m2wbSTYhaD2onbA9F4bNY
-	 /4TCf24UOleTtGyYOr9zvN/Z0kjPP/LghJwhAXkpc6sq0Citvhnt8o+SeEjFUo92Id
-	 v0hMjAq3pI2YEQme6H/8mUAJhCb0SmVGxcWMymFEPUpFVMDoZG176Tr7Oxp7CTa0ad
-	 75Zm9jQzSj4jZ98GoAuW/qgIbodA5HkYZAnjItRMbcLzYMv4Y4JIkiFofkrrsALRyW
-	 PLTZFt/RgXgB6GPJ+pnUZXqwAGfHyYNvq2MFN14yiZkrsdpwtj+iXFWl17RyyHrjc+
-	 zx+Ep5ux0Eat5JO+C+V3M3OCJtIEvuPgFGr1pw5TSwNGKR1IsOcg3PZIPuxvLAfpeh
-	 XTAvCiMl4c480V6uTUOzw7jNa567c95hgRHOwva7hXdwLGn+V+NWjpExFO35wBD5Nh
-	 cD7fx+8bij019dwMlQouUmhIU0HRDkZ5M2zTSW3hFOtKcnyD4NWoZLIALXQ9NXd6uN
-	 SZjB/PDkD/znYMUBH0ktahZ/CL43lh75kkZNV0lXsqEscXJjaOTBJt/kXyGNPM1Z4R
-	 QoPdIsaUv57UZ4MSccXbsfglMCGbh3eqOXpaz+iGSa2ZkQn6NiRAxnCn0ZSPldZ4Tk
-	 rztz2ARqS7/CZnEKLcPkNFFQ=
+	b=Ik6MvB3Qn9+bmefMrG5zZIEUzlX/u3CABqTNZ5Zc5wtZHi0VB4ilbTgry4gsBBazq
+	 mW7hM3DTVng3dmCpw6GSSQ2fgVvuG8G/YLdGfyuXwbJaJkcRKDkkRGHxYbxeY3SxHY
+	 6SrVQHwRqRKW/UEv8EGlh7YQFT2nbNPZHZiZ5v9yGebfmn9axkKdxgbH43seBa6Wgi
+	 r1yCVb7+rLb+hmkpwpHiuvISlE5tW5eGi182A/NovV3+jHw28SR4c0PghTlNhSG8Cg
+	 WkhWb0Fj1GowDc+z+W94fovThdWom9z1ONClgfOJQ40oq8UYRuW5ttdszl16/Z6o89
+	 uW/BL1hP43xLvQeUkSkRrlqZx/OIB27CyA7PH29NLziuI9IhsPEZYck6RP2ZqVhdiO
+	 kqovExvae/DqGcEjjyqxVoQvu4fh2nsSSE2wdZlW6UlpjRPKU9vVNdCjUzI2X2VvQa
+	 zjrPqXlwWXh27/AHk0rP8nk9xv84UO96IZsLmw/+GVDEKFLLm3UZgbFgXmvQs69vYh
+	 iTSr6ZkwhN0iQBw+eiqD7A1EknftRD/ghGOkkLun6R35iauCk4/F8rRrx5hyYlc6WR
+	 ciMaq11OaqBIwncS1QZMSTZPk24KLggXkSAHeoPZXurCGoOw8OFv42xXVUAfuJoc+z
+	 yXnkJrE+D5H5WO0uDQWDzs9c=
 Received: by bout3.ijzerbout.nl (Postfix, from userid 1000)
-	id 70D2B18DAF2; Thu, 17 Oct 2024 20:14:35 +0200 (CEST)
+	id 1346F18DAF2; Thu, 17 Oct 2024 20:15:04 +0200 (CEST)
 From: Kees Bakker <kees@ijzerbout.nl>
-Date: Tue, 15 Oct 2024 20:38:13 +0200
-Subject: [PATCH] staging: gpib: avoid buffer overflow
+Date: Tue, 15 Oct 2024 22:33:30 +0200
+Subject: [PATCH] staging: gpib: Change return type of fluke_get_dma_residue
 To: Dave Penkler <dpenkler@gmail.com>
 To: Linux Staging <linux-staging@lists.linux.dev>
-Message-Id: <20241017181435.70D2B18DAF2@bout3.ijzerbout.nl>
+Message-Id: <20241017181504.1346F18DAF2@bout3.ijzerbout.nl>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 
-The remaining buffer size for snprintf also depends on `pos`.
+The function fluke_get_dma_residue returns an error as a negative value.
+So the return type must not be unsigned.
 
 Signed-off-by: Kees Bakker <kees@ijzerbout.nl>
 ---
- drivers/staging/gpib/ni_usb/ni_usb_gpib.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/gpib/eastwood/fluke_gpib.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/gpib/ni_usb/ni_usb_gpib.c b/drivers/staging/gpib/ni_usb/ni_usb_gpib.c
-index 1da263676f2a..4df1ceaa138f 100644
---- a/drivers/staging/gpib/ni_usb/ni_usb_gpib.c
-+++ b/drivers/staging/gpib/ni_usb/ni_usb_gpib.c
-@@ -364,7 +364,7 @@ static void ni_usb_dump_raw_block(const u8 *raw_data, int length)
- 			pr_info("%s\n", print_buf);
- 			pos = 0;
- 		}
--		pos += snprintf(&print_buf[pos], RAW_BUF_SIZE, " %02x", raw_data[i]);
-+		pos += snprintf(&print_buf[pos], RAW_BUF_SIZE - pos, " %02x", raw_data[i]);
- 	}
- 	if (pos)
- 		pr_info("%s\n", print_buf);
+diff --git a/drivers/staging/gpib/eastwood/fluke_gpib.c b/drivers/staging/gpib/eastwood/fluke_gpib.c
+index f9f149db222d..77bbe2b587b1 100644
+--- a/drivers/staging/gpib/eastwood/fluke_gpib.c
++++ b/drivers/staging/gpib/eastwood/fluke_gpib.c
+@@ -536,7 +536,7 @@ static int fluke_accel_write(gpib_board_t *board, uint8_t *buffer, size_t length
+ 	return 0;
+ }
+ 
+-static unsigned int fluke_get_dma_residue(struct dma_chan *chan, dma_cookie_t cookie)
++static int fluke_get_dma_residue(struct dma_chan *chan, dma_cookie_t cookie)
+ {
+ 	struct dma_tx_state state;
+ 	int result;
+@@ -549,7 +549,7 @@ static unsigned int fluke_get_dma_residue(struct dma_chan *chan, dma_cookie_t co
+ 	dmaengine_tx_status(chan, cookie, &state);
+ 	// hardware doesn't support resume, so dont call this
+ 	// method unless the dma transfer is done.
+-	return state.residue;
++	return (int)state.residue;
+ }
+ 
+ static int fluke_dma_read(gpib_board_t *board, uint8_t *buffer,
 -- 
 2.47.0
 
