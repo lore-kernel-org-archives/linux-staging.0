@@ -1,65 +1,69 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50A391E4A9
-	for <linux-staging@lists.linux.dev>; Tue, 15 Oct 2024 01:47:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C26DD16191B
+	for <linux-staging@lists.linux.dev>; Tue, 15 Oct 2024 01:47:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728956870; cv=none; b=iE5OTtf0NK1Cio8aHBAg4gYa/NVH7M/T9L4POrUSDwsYoCIkxOf/gvxmu/sw7nby6nIoy0xsJ+q+x2kNTsoV6dDaljP4SDU66o4qNUY20GEeenpyqGwrQfc25ZOGcnIfDS0mSWdVgbDCbrB0GEeZs6AMuYP+XZI2DZOJw2WZrx0=
+	t=1728956872; cv=none; b=HApqbwLuRMt/fzexnY24Gr+Lx7S5JhRuae6CUpWi4NPk6m1GwPMdy0yhE5GScjlhtnpZ8HGTSOBEfi+qAQ2qK6/1oL6dbG8JJIJZAFkKU1ovM1FO+rTMirbnQaIOSPwBbuxSVLwjqfwS1fkHki/yfKfF8ghim4+w0sr1k0hAIPc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728956870; c=relaxed/simple;
-	bh=Nleey2H6mpjLNRUgj8eAZtflmLtxNMDUuYpvN4avZ+4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=f+aLOm0nsfAA3duL5NgJAhor+8RgMR1TVPFnqDejT7K2SqHQs2hPwgrs5z51V7p0VVgp5JqtPz/IwuEvjDpwtRuxXzBwdt5bv3cFwlAFDXMfy0Z6cgWyN79IL1v6moaWl6koA9Klf3//9sCvW4o8JvrUBHcqe+uFPM19GBihtxA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YvsBAH57; arc=none smtp.client-ip=209.85.214.178
+	s=arc-20240116; t=1728956872; c=relaxed/simple;
+	bh=N5KvQyAWasw2pHtA50YzKW1XZmGuj+tV+JDsgre7160=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=abIA58uPwrrpZdvOD7r+eell609MmzWDa/W5cBGWkYOtJFvPHvDxE26pgjSrJJewAmXTka5IKG7O7xOD7sgh1cN+iV+73M2yy/ekoWscX89PrhtXml6h0KHzpd/7N2kJ0hbmw+lABkslAJMtL/14heGps6HBfH2fMWRV8FgNSs4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kLsCEaH6; arc=none smtp.client-ip=209.85.214.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YvsBAH57"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-20b5affde14so28610145ad.3
-        for <linux-staging@lists.linux.dev>; Mon, 14 Oct 2024 18:47:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kLsCEaH6"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-20cb7139d9dso22507235ad.1
+        for <linux-staging@lists.linux.dev>; Mon, 14 Oct 2024 18:47:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728956865; x=1729561665; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Od9PPiJWSfzSS2iYi922gDR8xeqfA8wbKIX9K4tpGbk=;
-        b=YvsBAH57G1cuUePHxB4Zam9joS9WypzXoKL/OXKcoA84nP6Tra1gr3JZoHSrfzVg0p
-         tobU8tV1mY96n0srfuH437EpGiWhMxWEWv3OEfc8zbqyPAurWWXouA/8pqsgjk5FBLXU
-         +5WvRgPMhFS7qPQgiFvPCsGPakQMdILsKhM8VPXMyzRRzXXq18CEISuH0CG+3FLSLD8L
-         X8U/lRp5TiZPni43rUiAAc5jJBgn9FpI/sDm83IVmlq3L6RQT0MuT+nppvDfQQtGFQiZ
-         cPSppcp7WzelimCWSQJ9PLsHyXVDh4v0fOPZkKLRxDUgHJ78bB7nxgC5+EwCypuJf23k
-         /tUA==
+        d=gmail.com; s=20230601; t=1728956870; x=1729561670; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WU/+PDQEVns2ZoSRDquh2VHXFYZzqQ8KNkMRDlpc89g=;
+        b=kLsCEaH6amqnqj0en8QF158XYhBffho/m5u8p2uooIfkujShoDdQ4iRGs05iY0c4KR
+         w7WdQp5xHN/wZzXrC0qRwMPNBIlztFoWeLxE1Pad1thOLbwFsT00d0q0rk0waqCBRThd
+         aaOBf7+8+89BSKlLGCvRuWPclPuEDB7xPLK1mmmhj4gkHAvRInQhEA+58jSGPOoJhH75
+         1lGI7yyuT85CgasOrRViYcb5coUR7S1Q4fqNC7rnRZqe7ZOckzRb2+kKBfFLiyhJAIB9
+         iKewHUhE18TYqjvni0OV1MWCcVQLiHOTeNsI/S35yfOm6EUUSzam7BAPJT0Vk1DwPsNa
+         cIWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728956865; x=1729561665;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Od9PPiJWSfzSS2iYi922gDR8xeqfA8wbKIX9K4tpGbk=;
-        b=T52OLGhtdjp4vssyWT+8mMtbjw5znvpEGxRpJZ5PEjhm782jgJ3nmidfzirrWI/qYv
-         iByoS4k5GlfS82XeOTjg1OjBxNFK8O9+3A3bzQSKTUtUUm2YuwoRT9OIkYxtnLAxOiyz
-         mmGW3kGBVHqHTqcsLlyuWbaaQsYZdCdzpX6LUH8YpvnnFn81sZmD87ClYiDRjxlqy1oz
-         m4fR7ksrxEcZzosBb/N2F3qEfdt8tOeXg8i3z0T2pKO7Ih6qTLUO3CkRvFtrIeZnfW/t
-         LUjyPEup6IaX26M584toZquWG+gme6c0V4J22Lh+9Fs5mrGfx0F8tjrHDuAjW3EDPiXu
-         Ib2g==
-X-Forwarded-Encrypted: i=1; AJvYcCWLpwvkreJLQeWYwCGgjN/2i69ww1jb+bqffdfnZm/8HJLHK1A88JlkQiyb41klvalzThepPYUHpBEBGNlK@lists.linux.dev
-X-Gm-Message-State: AOJu0YzEpFVKEu1MaPMWcqes/kPiSIEiKJ5GXfknBHnRwGM5ZZEB1VGf
-	Yu3DZu3VW+3nYMuxpDBJ88ywWV7jfRbxVaDOhgm1ruPWEuYTJ8ph
-X-Google-Smtp-Source: AGHT+IHmLfukJ81rh9Cyrtb7n1QpMwoWASLTTRibUWM/QLDeXu8Mku5SQfH4k/iQGyt80c9xdY2PTA==
-X-Received: by 2002:a17:902:d4cf:b0:20c:f39e:4c15 with SMTP id d9443c01a7336-20cf39e4eb3mr70058815ad.22.1728956865495;
-        Mon, 14 Oct 2024 18:47:45 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1728956870; x=1729561670;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=WU/+PDQEVns2ZoSRDquh2VHXFYZzqQ8KNkMRDlpc89g=;
+        b=S1hHyOeV0hzK6TAQW84Rr0JPCfFreFIIMdn/KOST3tUahnUaMaRScxfL68GcGY0nNV
+         OD7xImBZGZnOrMsqofYRKoBZn6RrHbB/iLj4tO6SS/0CR7ZQyuRgATieoWovdOXn/SUH
+         qJqImAPv/TU7BHUHXSYdns8HhmabcBdI9kJdN6LX+Nsan4cE/8nu1dySHNyuyCQg0yK1
+         +QQmD/YwejCT43S4c9n/wjeqYGiRYSUsQ9nrbNSFw9J6tmPiyaAFmSZtr7VCeRQNVmay
+         62pq5PVMGuqlwTI5QAIKkh0iQPToFuNFOfxL7OCY8rZevkLjQS2FUk2CfdiKTmJcEouE
+         UI8A==
+X-Forwarded-Encrypted: i=1; AJvYcCUSdpV/X8M0p3t5vjGBhdqCHROpEhAbkvUKyw1T39lgGvAshj7hhhBrZ4HIrSno69NgYcOwhMPxGMyPXwS6@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx8WvTEVdaVip30rtQol5A+x6Dzs2NCSpOoteY0wGTp0TYJvEEb
+	Xd8RhRxG9ywwTnqNSnzJ8W8hC89ZFRebyD8+s6n9Lmy6B198rjn1QX4uRw==
+X-Google-Smtp-Source: AGHT+IFhn1nqUQMa0NBua1Qu1EX3Ct5NxTLCuaW8EaPCYEgH/5N7WIi9EvNzDgvtUfk/+tmzO9irmw==
+X-Received: by 2002:a17:902:f543:b0:20c:c01d:54a8 with SMTP id d9443c01a7336-20cc01d5d28mr112046805ad.16.1728956870050;
+        Mon, 14 Oct 2024 18:47:50 -0700 (PDT)
 Received: from localhost.localdomain ([2804:14d:4c64:81ec:4e84:7ad0:3bea:5c55])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20d18036251sm1863615ad.172.2024.10.14.18.47.42
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20d18036251sm1863615ad.172.2024.10.14.18.47.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Oct 2024 18:47:44 -0700 (PDT)
+        Mon, 14 Oct 2024 18:47:49 -0700 (PDT)
 From: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
 To: gregkh@linuxfoundation.org,
 	philipp.g.hortmann@gmail.com
 Cc: ~lkcamp/patches@lists.sr.ht,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 0/2] staging: rtl8723bs: change remaining printk to proper api and remove commented code
-Date: Mon, 14 Oct 2024 22:47:36 -0300
-Message-Id: <20241015014738.41685-1-rodrigo.gobbi.7@gmail.com>
+Subject: [PATCH 2/2] staging: rtl8723bs: remove unused debug statements
+Date: Mon, 14 Oct 2024 22:47:38 -0300
+Message-Id: <20241015014738.41685-3-rodrigo.gobbi.7@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20241015014738.41685-1-rodrigo.gobbi.7@gmail.com>
+References: <20241015014738.41685-1-rodrigo.gobbi.7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -68,34 +72,202 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-I noticed that recently some debug sources were removed at [1],
-but some commented code were left inside some files, which I think 
-was used at development stage. 
+Remove both commented printk() and commented DEBUG_ERR()
+statements around the driver.
 
-[1] https://lore.kernel.org/all/ab3d501e2ef0bb3980d8d271fb667ce20ed8dca5.1725826273.git.philipp.g.hortmann@gmail.com/
-
-The change to pr_debug over hal/hal_com.c, function rtw_dump_raw_rssi_info(),
-doesn't impact the user since is reported as 'debug only' on
-the original caller: _linked_info_dump()
-
-I don't have the hw, just loaded the module inside qemu after those changes.
-Also, I'm suggesting in the series to remove the commented statements rather 
-than changing them to pr_xxx() but I would like to ask an opinion about this.
-Tks and regards.
-
-Rodrigo Gobbi (2):
-  staging: rtl8723bs: change remaining printk to proper api
-  staging: rtl8723bs: remove unused debug statements
-
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c   |  6 +++---
- drivers/staging/rtl8723bs/hal/hal_com.c         |  8 ++++----
+Signed-off-by: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
+---
+ drivers/staging/rtl8723bs/hal/hal_com.c         |  1 -
  drivers/staging/rtl8723bs/hal/odm.c             |  4 ----
- .../staging/rtl8723bs/hal/rtl8723b_hal_init.c   | 12 ++++++------
+ .../staging/rtl8723bs/hal/rtl8723b_hal_init.c   |  2 --
  .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c   | 12 +-----------
  drivers/staging/rtl8723bs/os_dep/ioctl_linux.c  | 17 ++---------------
- drivers/staging/rtl8723bs/os_dep/sdio_intf.c    |  2 +-
- 7 files changed, 17 insertions(+), 44 deletions(-)
+ 5 files changed, 3 insertions(+), 33 deletions(-)
 
+diff --git a/drivers/staging/rtl8723bs/hal/hal_com.c b/drivers/staging/rtl8723bs/hal/hal_com.c
+index 484e0b4e489f..5994e574ae99 100644
+--- a/drivers/staging/rtl8723bs/hal/hal_com.c
++++ b/drivers/staging/rtl8723bs/hal/hal_com.c
+@@ -883,7 +883,6 @@ void rtw_hal_check_rxfifo_full(struct adapter *adapter)
+ 	int save_cnt = false;
+ 
+ 	/* switch counter to RX fifo */
+-	/* printk("8723b or 8192e , MAC_667 set 0xf0\n"); */
+ 	rtw_write8(adapter, REG_RXERR_RPT+3, rtw_read8(adapter, REG_RXERR_RPT+3)|0xf0);
+ 	save_cnt = true;
+ 	/* todo: other chips */
+diff --git a/drivers/staging/rtl8723bs/hal/odm.c b/drivers/staging/rtl8723bs/hal/odm.c
+index ea3b4cd32360..2cec8d8aeaef 100644
+--- a/drivers/staging/rtl8723bs/hal/odm.c
++++ b/drivers/staging/rtl8723bs/hal/odm.c
+@@ -433,7 +433,6 @@ static void odm_RefreshRateAdaptiveMaskCE(struct dm_odm_t *pDM_Odm)
+ 				continue;
+ 
+ 			if (true == ODM_RAStateCheck(pDM_Odm, pstat->rssi_stat.UndecoratedSmoothedPWDB, false, &pstat->rssi_level)) {
+-				/* printk("RSSI:%d, RSSI_LEVEL:%d\n", pstat->rssi_stat.UndecoratedSmoothedPWDB, pstat->rssi_level); */
+ 				rtw_hal_update_ra_mask(pstat, pstat->rssi_level);
+ 			}
+ 
+@@ -512,7 +511,6 @@ bool ODM_RAStateCheck(
+ 		RATRState = DM_RATR_STA_MIDDLE;
+ 	else
+ 		RATRState = DM_RATR_STA_LOW;
+-	/* printk("==>%s, RATRState:0x%02x , RSSI:%d\n", __func__, RATRState, RSSI); */
+ 
+ 	if (*pRATRState != RATRState || bForceUpdate) {
+ 		*pRATRState = RATRState;
+@@ -593,8 +591,6 @@ static void odm_RSSIMonitorCheckCE(struct dm_odm_t *pDM_Odm)
+ 			}
+ 		}
+ 
+-		/* printk("%s ==> sta_cnt(%d)\n", __func__, sta_cnt); */
+-
+ 		for (i = 0; i < sta_cnt; i++) {
+ 			if (PWDB_rssi[i] != (0)) {
+ 				if (pHalData->fw_ractrl == true)/*  Report every sta's RSSI to FW */
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+index b9c6cd1f80d6..1b1929061083 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+@@ -53,8 +53,6 @@ static int _BlockWrite(struct adapter *padapter, void *buffer, u32 buffSize)
+ 	u8 *bufferPtr = buffer;
+ 	u32 i = 0, offset = 0;
+ 
+-/* 	printk("====>%s %d\n", __func__, __LINE__); */
+-
+ 	/* 3 Phase #1 */
+ 	blockCount_p1 = buffSize / blockSize_p1;
+ 	remainSize_p1 = buffSize % blockSize_p1;
+diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+index b63a74e669bc..c053ee9c1361 100644
+--- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
++++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+@@ -581,7 +581,6 @@ static int rtw_cfg80211_ap_set_encryption(struct net_device *dev, struct ieee_pa
+ 
+ 				memcpy(grpkey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
+ 
+-				/* DEBUG_ERR("set key length :param->u.crypt.key_len =%d\n", param->u.crypt.key_len); */
+ 				/* set mic key */
+ 				memcpy(txkey, &(param->u.crypt.key[16]), 8);
+ 				memcpy(rxkey, &(param->u.crypt.key[24]), 8);
+@@ -626,7 +625,6 @@ static int rtw_cfg80211_ap_set_encryption(struct net_device *dev, struct ieee_pa
+ 				} else if (strcmp(param->u.crypt.alg, "TKIP") == 0) {
+ 					psta->dot118021XPrivacy = _TKIP_;
+ 
+-					/* DEBUG_ERR("set key length :param->u.crypt.key_len =%d\n", param->u.crypt.key_len); */
+ 					/* set mic key */
+ 					memcpy(psta->dot11tkiptxmickey.skey, &(param->u.crypt.key[16]), 8);
+ 					memcpy(psta->dot11tkiprxmickey.skey, &(param->u.crypt.key[24]), 8);
+@@ -657,7 +655,6 @@ static int rtw_cfg80211_ap_set_encryption(struct net_device *dev, struct ieee_pa
+ 
+ 					memcpy(grpkey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
+ 
+-					/* DEBUG_ERR("set key length :param->u.crypt.key_len =%d\n", param->u.crypt.key_len); */
+ 					/* set mic key */
+ 					memcpy(txkey, &(param->u.crypt.key[16]), 8);
+ 					memcpy(rxkey, &(param->u.crypt.key[24]), 8);
+@@ -785,7 +782,6 @@ static int rtw_cfg80211_set_encryption(struct net_device *dev, struct ieee_param
+ 					memcpy(psta->dot118021x_UncstKey.skey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
+ 
+ 					if (strcmp(param->u.crypt.alg, "TKIP") == 0) { /* set mic key */
+-						/* DEBUG_ERR(("\nset key length :param->u.crypt.key_len =%d\n", param->u.crypt.key_len)); */
+ 						memcpy(psta->dot11tkiptxmickey.skey, &(param->u.crypt.key[16]), 8);
+ 						memcpy(psta->dot11tkiprxmickey.skey, &(param->u.crypt.key[24]), 8);
+ 
+@@ -806,10 +802,6 @@ static int rtw_cfg80211_set_encryption(struct net_device *dev, struct ieee_param
+ 					} else if (strcmp(param->u.crypt.alg, "BIP") == 0) {
+ 						/* save the IGTK key, length 16 bytes */
+ 						memcpy(padapter->securitypriv.dot11wBIPKey[param->u.crypt.idx].skey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
+-						/*
+-						for (no = 0;no<16;no++)
+-							printk(" %02x ", padapter->securitypriv.dot11wBIPKey[param->u.crypt.idx].skey[no]);
+-						*/
+ 						padapter->securitypriv.dot11wBIPKeyid = param->u.crypt.idx;
+ 						padapter->securitypriv.binstallBIPkey = true;
+ 					}
+@@ -817,9 +809,7 @@ static int rtw_cfg80211_set_encryption(struct net_device *dev, struct ieee_param
+ 			}
+ 
+ 			pbcmc_sta = rtw_get_bcmc_stainfo(padapter);
+-			if (!pbcmc_sta) {
+-				/* DEBUG_ERR(("Set OID_802_11_ADD_KEY: bcmc stainfo is null\n")); */
+-			} else {
++			if (pbcmc_sta) {
+ 				/* Jeff: don't disable ieee8021x_blocked while clearing key */
+ 				if (strcmp(param->u.crypt.alg, "none") != 0)
+ 					pbcmc_sta->ieee8021x_blocked = false;
+diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c b/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
+index a9e481e182ad..793b051536f3 100644
+--- a/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
++++ b/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
+@@ -138,9 +138,7 @@ static int wpa_set_encryption(struct net_device *dev, struct ieee_param *param,
+ 
+ 		if (check_fwstate(pmlmepriv, WIFI_STATION_STATE | WIFI_MP_STATE) == true) { /* sta mode */
+ 			psta = rtw_get_stainfo(pstapriv, get_bssid(pmlmepriv));
+-			if (!psta) {
+-				/* DEBUG_ERR(("Set wpa_set_encryption: Obtain Sta_info fail\n")); */
+-			} else {
++			if (psta) {
+ 				/* Jeff: don't disable ieee8021x_blocked while clearing key */
+ 				if (strcmp(param->u.crypt.alg, "none") != 0)
+ 					psta->ieee8021x_blocked = false;
+@@ -154,7 +152,6 @@ static int wpa_set_encryption(struct net_device *dev, struct ieee_param *param,
+ 					memcpy(psta->dot118021x_UncstKey.skey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
+ 
+ 					if (strcmp(param->u.crypt.alg, "TKIP") == 0) { /* set mic key */
+-						/* DEBUG_ERR(("\nset key length :param->u.crypt.key_len =%d\n", param->u.crypt.key_len)); */
+ 						memcpy(psta->dot11tkiptxmickey.skey, &param->u.crypt.key[16], 8);
+ 						memcpy(psta->dot11tkiprxmickey.skey, &param->u.crypt.key[24], 8);
+ 
+@@ -177,13 +174,8 @@ static int wpa_set_encryption(struct net_device *dev, struct ieee_param *param,
+ 
+ 						rtw_set_key(padapter, &padapter->securitypriv, param->u.crypt.idx, 1, true);
+ 					} else if (strcmp(param->u.crypt.alg, "BIP") == 0) {
+-						/* printk("BIP key_len =%d , index =%d @@@@@@@@@@@@@@@@@@\n", param->u.crypt.key_len, param->u.crypt.idx); */
+ 						/* save the IGTK key, length 16 bytes */
+ 						memcpy(padapter->securitypriv.dot11wBIPKey[param->u.crypt.idx].skey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
+-						/*printk("IGTK key below:\n");
+-						for (no = 0;no<16;no++)
+-							printk(" %02x ", padapter->securitypriv.dot11wBIPKey[param->u.crypt.idx].skey[no]);
+-						printk("\n");*/
+ 						padapter->securitypriv.dot11wBIPKeyid = param->u.crypt.idx;
+ 						padapter->securitypriv.binstallBIPkey = true;
+ 					}
+@@ -191,9 +183,7 @@ static int wpa_set_encryption(struct net_device *dev, struct ieee_param *param,
+ 			}
+ 
+ 			pbcmc_sta = rtw_get_bcmc_stainfo(padapter);
+-			if (!pbcmc_sta) {
+-				/* DEBUG_ERR(("Set OID_802_11_ADD_KEY: bcmc stainfo is null\n")); */
+-			} else {
++			if (pbcmc_sta) {
+ 				/* Jeff: don't disable ieee8021x_blocked while clearing key */
+ 				if (strcmp(param->u.crypt.alg, "none") != 0)
+ 					pbcmc_sta->ieee8021x_blocked = false;
+@@ -629,7 +619,6 @@ static int rtw_set_encryption(struct net_device *dev, struct ieee_param *param,
+ 
+ 				memcpy(grpkey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
+ 
+-				/* DEBUG_ERR("set key length :param->u.crypt.key_len =%d\n", param->u.crypt.key_len); */
+ 				/* set mic key */
+ 				memcpy(txkey, &param->u.crypt.key[16], 8);
+ 				memcpy(psecuritypriv->dot118021XGrprxmickey[param->u.crypt.idx].skey, &param->u.crypt.key[24], 8);
+@@ -674,7 +663,6 @@ static int rtw_set_encryption(struct net_device *dev, struct ieee_param *param,
+ 				} else if (strcmp(param->u.crypt.alg, "TKIP") == 0) {
+ 					psta->dot118021XPrivacy = _TKIP_;
+ 
+-					/* DEBUG_ERR("set key length :param->u.crypt.key_len =%d\n", param->u.crypt.key_len); */
+ 					/* set mic key */
+ 					memcpy(psta->dot11tkiptxmickey.skey, &param->u.crypt.key[16], 8);
+ 					memcpy(psta->dot11tkiprxmickey.skey, &param->u.crypt.key[24], 8);
+@@ -703,7 +691,6 @@ static int rtw_set_encryption(struct net_device *dev, struct ieee_param *param,
+ 
+ 					memcpy(grpkey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
+ 
+-					/* DEBUG_ERR("set key length :param->u.crypt.key_len =%d\n", param->u.crypt.key_len); */
+ 					/* set mic key */
+ 					memcpy(txkey, &param->u.crypt.key[16], 8);
+ 					memcpy(rxkey, &param->u.crypt.key[24], 8);
 -- 
 2.34.1
 
