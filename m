@@ -1,160 +1,69 @@
-Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-40131.protonmail.ch (mail-40131.protonmail.ch [185.70.40.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA34338DC7
-	for <linux-staging@lists.linux.dev>; Tue, 15 Oct 2024 18:13:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EC171F80B1
+	for <linux-staging@lists.linux.dev>; Tue, 15 Oct 2024 19:16:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.40.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729015991; cv=none; b=sDAWIU2sKQRiEHICjZnZSsjT4Dkqu/ScEuROtMY1KSv1wux5JAddsNPTKSZQFUwQOO+WLVpdFb9JeY/tKAMokrn4bAcEEWpUWiyt5um6eJbXna6PGYjdb43Wq3a1MW/gymx+NmAHWzzfDe2aPFlMN0mDqZgTy7LlKZF+UjucbDg=
+	t=1729019794; cv=none; b=j5lBq85C/a5P9y4yW2DZEG14wHfducTtVkiM9xWd2YDFSIWh5tfIvYTE2sCa8XPd4QZCLzWD72djS3EMdlMm9aAXPT7p8VwJE8n+nFo3m7/8BN7FaGf7I1zpS90yuw3vwD7UnMLSySy4KCy8HACCFgygs9/R89WrL/vVQhdta6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729015991; c=relaxed/simple;
-	bh=2AaojpKnjmW9HaHN+cfhOlEiwUr+JwKrOUeuBkUAitY=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=kf7YQqISwxszDcvojrwYhPcGCYAvYm4GrIQz7eJTFcVj5hDGqkSBeWX/j8kIsa1EgSXLQQTsIGZg7V7yTD7PeHdTyjpkLsughEdxtfdrv6gQeTgiNNOnU0L2B6hiQfTO7F3aIcRuZuYnhGItRIuTHHI3TnqeBSipSCxv70gdYLs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=AZACrz1I; arc=none smtp.client-ip=209.85.161.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
+	s=arc-20240116; t=1729019794; c=relaxed/simple;
+	bh=6P1lIeVHvgYk8kglhv6+91KzxfIvaZhTA9OGkFzQjB4=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=VVW3zJV5GZ2wR/S07TL9vaZ3+y3OS1QBAj+kHLEV56tZdM7G/XZ/Jr9yLpS74gLMfJZ1PMTzm/Io9fKlLRaDovfGh94FsiccMug+/EeoFdFQ3+T2vwOp2HBAhhjj1QA4v2TYr4bMkGM2whX0avYbzRcidvtnlt5ndpLuS6qYfMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=iOMP+YC5; arc=none smtp.client-ip=185.70.40.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="AZACrz1I"
-Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-5e5a0519d00so2321141eaf.3
-        for <linux-staging@lists.linux.dev>; Tue, 15 Oct 2024 11:13:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1729015989; x=1729620789; darn=lists.linux.dev;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=5oxml2lN+ntX74kObb20hwl1g01p5AhViL60OxChXmk=;
-        b=AZACrz1I9MOTJb1pWjKCbnp5WEGug4t6GSyLuygrdcxzkK4ljWDMv/wLij7F4LCv/t
-         lmuSfv/AcXjPw2X0nPkXCQyAKGnTHzG/aNIhkdeZkzZK82Poxe8qOocAaLLPEUrybV7I
-         koMozTqfANcRL8AsQBl0NKpBHfVRMLAzTZhUkC+l5jgSadwtxYIxS+0VxIKDt8aqkE56
-         HHSojyOOXh7kVB9WZvEMo3OKxd64ILtR5r/CFU8RDq8b9nwsRndyssmR9fkkNnx0MpvA
-         rOHDrJfI9LfAOPgDjhYTBft7Z9gP1gGiKv9aJwPg8rtKm0waJhwb3qdbV7rhhVrgYspF
-         yFcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729015989; x=1729620789;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5oxml2lN+ntX74kObb20hwl1g01p5AhViL60OxChXmk=;
-        b=c0KYUi8pXfiCAqvoa206e4FltEURaMCyT/6323ixW113rvNnTsguRaMWpf2TO/lMKq
-         prlOHisFmPefer/8b8f03C+WGODbeyPMLyimkArMwMdUiYRZmHkjTiKNna3CoxzhMlrI
-         5TKZwge7V/wJ6nPCYvAPpvodCOpTYrX/mAy0ZaugraqtBSlidhnCTlDa6OtdA+oUgqSW
-         Mz5VUGfHZbjkiAaOGhcRjbwsD5thQBf4Fq5rm4rdcu8ulEqx3C764+Pxvj5AfYqVRg/u
-         iaPPDoaMYkxj6+oubvIzE1qzxalD/fNJvkvwNZyBZXcBhV8KFnIbya1/uKTWB6Mre9+j
-         DVDg==
-X-Forwarded-Encrypted: i=1; AJvYcCXFL9kOeHWZ/yyKA8FCmdFCfyTtpB244sMkT3qOa14mWR/DEY6fst+5rz8EPkFld8y1eB5AyzuA3suZUWJX@lists.linux.dev
-X-Gm-Message-State: AOJu0YyV7i78N3/XanAfjg59Gny8x+4gXo4vVcDOMfguZxPiSgmQNTcl
-	0JL4L2aSK6yWkjvmHghj9inlzanmk5fkqineeLdpX9BRMDAgzLq+2ntecVY3QEg=
-X-Google-Smtp-Source: AGHT+IE/1zf76YUX911aLGIJHXfaOZW556q/vVashhOD3oqJyrmYteHGq4kOCjf4Niews2uJm4FHLQ==
-X-Received: by 2002:a05:6358:248e:b0:1b8:f18:3e6e with SMTP id e5c5f4694b2df-1c340d1aef5mr251119055d.12.1729015988990;
-        Tue, 15 Oct 2024 11:13:08 -0700 (PDT)
-Received: from nicolas-tpx395.lan ([2606:6d00:15:862e::7a9])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cc22959b42sm9345366d6.76.2024.10.15.11.13.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Oct 2024 11:13:08 -0700 (PDT)
-Message-ID: <5be2dbb2a0a3a7964a064013a5271f585247ec22.camel@ndufresne.ca>
-Subject: Re: [PATCH v2 2/2] media: imx: vdic: Introduce mem2mem VDI
- deinterlacer driver
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Marek Vasut <marex@denx.de>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	linux-media@vger.kernel.org
-Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, Fabio
- Estevam <festevam@gmail.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>, Mauro Carvalho
- Chehab <mchehab@kernel.org>, Pengutronix Kernel Team
- <kernel@pengutronix.de>, Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo
- <shawnguo@kernel.org>,  Steve Longerbeam <slongerbeam@gmail.com>,
- dri-devel@lists.freedesktop.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org, 
- linux-staging@lists.linux.dev
-Date: Tue, 15 Oct 2024 14:13:06 -0400
-In-Reply-To: <0da39b8f-4cca-438f-9a39-40da7c34c895@denx.de>
-References: <20240724002044.112544-1-marex@denx.de>
-	 <20240724002044.112544-2-marex@denx.de>
-	 <85a5a42667e5867bc45da31baf045d4c9557f5f1.camel@ndufresne.ca>
-	 <6b45e30c-b215-4f7a-91a4-fde05d78f737@denx.de>
-	 <b1c5fb155c77355ef2889b6e054a5c0696481ebd.camel@pengutronix.de>
-	 <0da39b8f-4cca-438f-9a39-40da7c34c895@denx.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.4 (3.52.4-1.fc40) 
+	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="iOMP+YC5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+	s=protonmail3; t=1729019785; x=1729278985;
+	bh=6P1lIeVHvgYk8kglhv6+91KzxfIvaZhTA9OGkFzQjB4=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=iOMP+YC5PVGLXZz+cvXfQuYZfC9JPFvDM8k0iSxVmgBp3Q+NVBGYYLuSCf6LNI9oe
+	 GR/lui8+0WXH2dz/RhltySNAjE1cM1O7xKs8U7r8PxwBTaEBAMqx+/hUpk55Vkvnpa
+	 zdYxI14zZBojqETl2YDBFXiDg76caBmD+vZ0O7eo9OmIFXZPg0Jza2/XmiZMvJnY+f
+	 IRT4S4xPYUD0ZnF2utjzJ6+AI75gfeV83qtJJzAcgShqTFO5+1wsLIhedMi+rfcf+Z
+	 IVZ3NS0hrcJjcUSoqZXnE55QFPcM6z3gm+PW/7gKcMYNXF5OuxUZVmM7W+LItCNRDS
+	 TFwgjCFj9fXwQ==
+Date: Tue, 15 Oct 2024 19:16:20 +0000
+To: dpenkler@gmail.com, gregkh@linuxfoundation.org
+From: =?utf-8?Q?Dominik_Karol_Pi=C4=85tkowski?= <dominik.karol.piatkowski@protonmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, =?utf-8?Q?Dominik_Karol_Pi=C4=85tkowski?= <dominik.karol.piatkowski@protonmail.com>
+Subject: [PATCH] staging: gpib: Add TODO file
+Message-ID: <20241015191522.14713-1-dominik.karol.piatkowski@protonmail.com>
+Feedback-ID: 117888567:user:proton
+X-Pm-Message-ID: 1bcc425850591257bd19a8b7cd581287ac04306c
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Le jeudi 03 octobre 2024 =C3=A0 16:57 +0200, Marek Vasut a =C3=A9crit=C2=A0=
-:
-> On 9/26/24 1:16 PM, Philipp Zabel wrote:
-> > On Mi, 2024-09-25 at 22:45 +0200, Marek Vasut wrote:
-> > [...]
-> > > > The driver is not taking ownership of prev_buf, only curr_buf is gu=
-aranteed to
-> > > > exist until v4l2_m2m_job_finish() is called. Usespace could streamo=
-ff, allocate
-> > > > new buffers, and then an old freed buffer may endup being used.
-> > >=20
-> > > So, what should I do about this ? Is there some way to ref the buffer=
- to
-> > > keep it around ?
-> >=20
-> > Have a look how other deinterlacers with temporal filtering do it.
-> > sunxi/sun8i-di or ti/vpe look like candidates.
-> I don't see exactly what those drivers are doing differently to protect=
-=20
-> the prev buffer during deinterlacing . Can you be more specific ?
+Add a TODO file stub for the gpib driver.
 
-drivers/media/platform/sunxi/sun8i-di/sun8i-di.c:
+Signed-off-by: Dominik Karol Pi=C4=85tkowski <dominik.karol.piatkowski@prot=
+onmail.com>
+---
+ drivers/staging/gpib/TODO | 5 +++++
+ 1 file changed, 5 insertions(+)
+ create mode 100644 drivers/staging/gpib/TODO
 
-                src =3D v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
-                if (ctx->prev)
-                        v4l2_m2m_buf_done(ctx->prev, state);
-                ctx->prev =3D src;
+diff --git a/drivers/staging/gpib/TODO b/drivers/staging/gpib/TODO
+new file mode 100644
+index 000000000000..734eab691924
+--- /dev/null
++++ b/drivers/staging/gpib/TODO
+@@ -0,0 +1,5 @@
++TODO:
++- checkpatch.pl fixes
++
++Please send any patches to Greg Kroah-Hartman <gregkh@linuxfoundation.org>
++and Dave Penkler <dpenkler@gmail.com>.
+--=20
+2.34.1
 
 
-What that does is that whenever a src buffer has been processed and needs t=
-o be
-kept has prev, it is removed from the m2m pending queue
-(v4l2_m2m_src_buf_remove()), but not marked done. At the VB2 level it means=
- that
-buffer will keep its ACTIVE/QUEUED state, meaning is currently under driver
-ownership. I also expect the driver to start producing frame on the second
-device run, but I didn't spend the extra time to check if that is the case =
-for
-sun8i-di driver.
-
-As for GStreamer wrapper, since it does not support deinterlaced, it does n=
-ot
-always allocate this one extra buffer for prev. If the driver implement the
-MIN_BUFFERS_FOR_OUTPUT CID though, it will allocate matching number of extr=
-as.
-Though, this has a side effect at driver level, since start streaming will =
-be
-delayed until 2 buffers has been queued and any way you need to queue 2 buf=
-fers
-before the driver will produces its first buffer.
-
-This comes to the next reason why the wrapper will fail, since for each buf=
-fer
-that is pushed, it synchronously wait for the output. So it systematically =
-stall
-on first frame. As the author of that wrapper, I'm well aware of that, but =
-never
-had a use case where I needed to fix it. I will be happy to accept support =
-for
-that, though in current mainline state, there is no generic way to actually
-know. One way is to thread the transform, but then GstBasetransform class c=
-an't
-be used, its a lot of work and adds complexity.
-
-We can certainly fix gstv4l2transform.c behaviour with adding
-MIN_BUFFERS_FOR_OUTPUT in upstream drivers. That would be easy to handle wi=
-th
-adding a matching buffering delay. These deinterlacers works for Kodi, sinc=
-e the
-userspace code they have is not generic and have internal knowledge of the
-hardware it is running on.
-
-Nicolas
