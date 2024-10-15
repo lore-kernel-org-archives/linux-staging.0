@@ -1,66 +1,71 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E8BD1F81AE
-	for <linux-staging@lists.linux.dev>; Tue, 15 Oct 2024 21:04:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BC511FAF1B
+	for <linux-staging@lists.linux.dev>; Tue, 15 Oct 2024 21:38:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729026259; cv=none; b=AZ+xjPai1IylrBrY0IIGGO57vjnhwIYpR+bwMS8FnPgifwEWSuATCoxikBTs1uKyStdm0OmguVmKVay5nedzR8zo1wFHi0MTmjhfnchTOotkirgJAIOGqc5xuS7ad+kCxhV3UrHYoZMMcLYQ3pF2RNEAfRCoNNjJCE9WDQ2t7io=
+	t=1729028309; cv=none; b=a1CJKKFy+d74uM7FBPSy0f2ez7P7TLIBVtteUO0886k/0bbToYEBalmqFu0wnCAA9D0goyE4sdwRF41UkKv6rAQaUHDiFUzzQSSlq4MBSGAmAq63fhH9+4EBz5DNmpg1CtcQvc/fu/RCHJmXO/5zYrrS9USRtz213/au23LTRyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729026259; c=relaxed/simple;
-	bh=Kkdd6ff+KpXBntfKkv85C/9BSpxOJGjkgUJDUsuh9wM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=B5NH3Zu5J8sXkAKEYpXmKtm+QatdHD3iuFCIKNE7lnBJ+eaBvM3Fge+9Hm19E1SxfTTZVMFizOTlwOz0Tcd5xyzqUPR92M7NQsT8Q8651M3ARFm9bkxz5rPgcBvN4Z110qVz3OI2MR9mctXYStDUjPSBSmUjTAdcy5ro5VSMCRE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=everestkc.com.np; spf=pass smtp.mailfrom=everestkc.com.np; dkim=pass (2048-bit key) header.d=everestkc-com-np.20230601.gappssmtp.com header.i=@everestkc-com-np.20230601.gappssmtp.com header.b=2kFuOa7W; arc=none smtp.client-ip=209.85.210.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=everestkc.com.np
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everestkc.com.np
+	s=arc-20240116; t=1729028309; c=relaxed/simple;
+	bh=HzjDQzMj04wkguHCoDjg6H7HxJYdJ2jX1/fBnJipXRE=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=j0LdUce0h/sovV1yQ090miAD/d7Tg1dFOLoH8mC1PBhz7RwYiDoZ3jFd6FRtJifoj3gcERLe7LsyS313Gjll2Arr8Ks+rufxMGzz6t/5Y0p992mkEJInOa5Diu0TShf8lvXG2XqwhZE1924gjiBfZO/sAHjezdzRLS0WFC24H8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PYe1n9vs; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=everestkc-com-np.20230601.gappssmtp.com header.i=@everestkc-com-np.20230601.gappssmtp.com header.b="2kFuOa7W"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-71e61b47c6cso2330771b3a.2
-        for <linux-staging@lists.linux.dev>; Tue, 15 Oct 2024 14:04:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PYe1n9vs"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-20cbcd71012so33940545ad.3
+        for <linux-staging@lists.linux.dev>; Tue, 15 Oct 2024 14:38:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=everestkc-com-np.20230601.gappssmtp.com; s=20230601; t=1729026257; x=1729631057; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9VyyCpmipSwY90kbSrIopf/4vKgm9p64A6xi8/YUkg8=;
-        b=2kFuOa7W89TNZh8Hah10f6A6ppVycS4ocQ1WyTnCggh7p8fJBlDkNEVcxvgMTbsqXM
-         gJ/WPKxF1kJBcYunL3Ege2+9l4+Cc15wj8A1ums8O95oOmFfFogW+hU9OnapucnrN6tV
-         N1eV1lEJBTUWq/I4qDixnXCcrOAdkmhofsJsJ3MnSm0i6sIAG9oBJDVU7fcf97u/7qsy
-         eOc4DO4TUIta+Th18YoC+8r1n+JGHh2LzPkt4MaDfKfT/DJWKVKBgHX58chpBckUUJjX
-         clIk1ZK3SNQHVkrEThsUBxExpQ/QAQAdrcN6nENhJJ0zmCxrzfZXht0CHLUpoWjqRHYa
-         VeCQ==
+        d=gmail.com; s=20230601; t=1729028308; x=1729633108; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2AhpjpBe61RNEZbJYjD51EaXDTChOz8XDZqFL5apPYE=;
+        b=PYe1n9vskjDEdzS3GJDU1rRuNPZfo9ZguvFURQDkheP3YXcYMc5OzditPDkG2TJTLN
+         FltAgpdDdHR+T7UMV4soQTAh7owFJo2/qRqnTQp4b5fYqfGsIgF9SPKgmCzWhCJXrFdP
+         ixZXxqMJZymfta5tseGe2rN/Ew0qsWc0s9vBJ0rMkseiFnf0fvVhbPHuwd8l89Lz24cv
+         a96nPj7K2SipVfDjbt3CFZ/B1HXPK6mYRT0GOu6OW4OGNy02rnchU+U4GLqhXLTMHmLM
+         VsyJAlFFRNn1KoZKTZaq3uf0ZKidh9zHxlrRTVMXKLmUYM7HbX5/CIaBpS91KnZaTI+1
+         4V5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729026257; x=1729631057;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9VyyCpmipSwY90kbSrIopf/4vKgm9p64A6xi8/YUkg8=;
-        b=GKcjwJO3BkMe39cqNo6Mq5sW0eI87YhMy+MSfQMayy7L1LQ2UyZELJsUG0xtLwNhv1
-         +rghODy7f9iQhYg+4inwaoxzbRReGkzBWIIv54b1ec7AtSTWEBpZnRS9tb7FRPUmP5F4
-         bW5pjjCRcbvzW5J1BnA7+Z16AzkF4g6ud3ebp4E0+Nwxat1JZIhn2ebi/ddeFXBXnm8R
-         pRTx7xQsHqkckxQ4itY0Opy37KrDA2mh4idUBM4txZBumryl2xnIWjUg9xhBz2MiWdj/
-         2CvGx4mOUlQ8xIK3ggMjaKyQyAYdwg0erjiTi1zR6vBpKcrZWKNCdZA3sWfEMDQ/T+t0
-         d5AQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU3miZ/Z0laKYqu0RJAL5lX0Ay3tNRYSGh9XHHuwxf0+WOtYlH1bMC+346wOzZeBTvUvtLMLrBbec3+pBuu@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywo/P/KS/lz2Ho93aDGtSr4K4kAPFXa/jg5ktwkvN5gXl1d/09l
-	20EHU80zOuyIaaOYc4NV7xBCo9X3SAYYi6n7+Flknfv8m6h0hTftsJLJjZpFhqk=
-X-Google-Smtp-Source: AGHT+IGfXJn4tGXJ7k9K3+eze+dIDh/mipxp6am0cLYFj+vHhfSQfPILSNXol1LEa/ieRQEpX4UoLA==
-X-Received: by 2002:a05:6a21:e93:b0:1d3:ba1:18f4 with SMTP id adf61e73a8af0-1d905f10178mr2320066637.26.1729026256833;
-        Tue, 15 Oct 2024 14:04:16 -0700 (PDT)
-Received: from localhost.localdomain ([81.17.122.160])
-        by smtp.googlemail.com with ESMTPSA id d2e1a72fcca58-71e774cf5b0sm1755646b3a.167.2024.10.15.14.04.12
+        d=1e100.net; s=20230601; t=1729028308; x=1729633108;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2AhpjpBe61RNEZbJYjD51EaXDTChOz8XDZqFL5apPYE=;
+        b=X/0PvHRSkvUEfab3DPH/GzeR5MTLRCGPxdxkwo7ZcOPlHjkB1x/UGe6cVlB8Xjmsyd
+         NLdvHEalP7uonPzWLx5oOrzkaQV7oFS41f8Wh6XZyRUCbZtl4wO3ZYXIgmGhINb0jF6y
+         f51z3M94+kPNdSo7QtFpGmoTeNKfg3r4fMn9SQW2UmN6MUEFLsvNriy6lEqU6Sqv4xgf
+         +/zG42tpNi2vBMypnUtn4hALk9UlPAH3cJswXeKLBOuGJZMHC+ZWX3OswmmGUMbbtHQS
+         pnzOMScEo0MojgkMPZHaOq/i/Lnzma6YFT8YyskXFnWQV33JtxSLlhdHUPxBzRrwftps
+         oS8g==
+X-Forwarded-Encrypted: i=1; AJvYcCWl/gQEnJ6/UXvD5YGUxQ+oyX+jYPbpaDsOH40jgHpziVYtAlzSijxv1PPkQfu6F+d1cm7ulj5oNI46YsnH@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz9OwwS4owYN4oLqxvoTYBOzWFMJVGMEYPXY/mhCVe8mhzEm7PZ
+	whYBkrS0/yzb1GHJBxxHRfluLpDqpupCqDZQYd8ma5nfJQ9nAdvb
+X-Google-Smtp-Source: AGHT+IEQs6xsl2HEoYJ2NqDLcqPih/PJJ526xSta+EqFTRGnPxi5jq4xSbKGnW3sYhPcJGUPnlU/mg==
+X-Received: by 2002:a17:902:e5cd:b0:20c:8dff:b4ed with SMTP id d9443c01a7336-20cbb1bb3a4mr203705755ad.16.1729028307690;
+        Tue, 15 Oct 2024 14:38:27 -0700 (PDT)
+Received: from localhost.localdomain ([2804:14d:4c64:81ec:934d:dff7:4914:60fd])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20d17f844d5sm16947325ad.31.2024.10.15.14.38.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Oct 2024 14:04:16 -0700 (PDT)
-From: "Everest K.C." <everestkc@everestkc.com.np>
-To: dpenkler@gmail.com,
-	gregkh@linuxfoundation.org
-Cc: "Everest K.C." <everestkc@everestkc.com.np>,
-	skhan@linuxfoundation.org,
+        Tue, 15 Oct 2024 14:38:27 -0700 (PDT)
+From: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
+To: dan.carpenter@linaro.org
+Cc: gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: gpib: Remove unused value
-Date: Tue, 15 Oct 2024 15:02:57 -0600
-Message-ID: <20241015210300.17941-1-everestkc@everestkc.com.np>
-X-Mailer: git-send-email 2.43.0
+	philipp.g.hortmann@gmail.com,
+	rodrigo.gobbi.7@gmail.com,
+	~lkcamp/patches@lists.sr.ht
+Subject: [PATCH 1/2] staging: rtl8723bs: change remaining printk to proper api
+Date: Tue, 15 Oct 2024 18:38:22 -0300
+Message-Id: <20241015213822.8070-1-rodrigo.gobbi.7@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <d20087fc-586e-4a52-99e6-6a09b33ed00e@stanley.mountain>
+References: <d20087fc-586e-4a52-99e6-6a09b33ed00e@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -69,34 +74,15 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The variable `complement_count` is assigned a value which is again
-overwritten in the next statement.
-Fix this by removing the first value assigning statement
+> No, this isn't right.  You'd need to use a mix of dev_dbg() and pr_cont().
+> Basically in drivers it should always be dev_ printks except for pr_cont().
 
-This issue was reported by Coverity Scan.
-Report:
-CID 1600790: (#1 of 1): Unused value (UNUSED_VALUE)
-assigned_value: Assigning value from length to complement_count here,
-but that stored value is overwritten before it can be used.
+Tks, Dan, for the answer and suggestion. In this case, rather the dev_xxx(),
+do you think we can go with netdev_dbg() since this is a network driver and around
+the rtw_mlme_ext.c is already being used? (actually, I don't see a direct reference for struct device).
+If yes, I would mix the netdev_dbg() and pr_cont().
 
-Fixes: 4e127de14fa7 ("staging: gpib: Add National Instruments USB GPIB driver")
-Signed-off-by: Everest K.C. <everestkc@everestkc.com.np>
----
- drivers/staging/gpib/ni_usb/ni_usb_gpib.c | 1 -
- 1 file changed, 1 deletion(-)
+About [2], it is acceptable to remove the statements like I'm proposing?
+Tks and regards.
 
-diff --git a/drivers/staging/gpib/ni_usb/ni_usb_gpib.c b/drivers/staging/gpib/ni_usb/ni_usb_gpib.c
-index 1da263676f2a..e19e18892468 100644
---- a/drivers/staging/gpib/ni_usb/ni_usb_gpib.c
-+++ b/drivers/staging/gpib/ni_usb/ni_usb_gpib.c
-@@ -759,7 +759,6 @@ static int ni_usb_write(gpib_board_t *board, uint8_t *buffer, size_t length,
- 	if (!out_data)
- 		return -ENOMEM;
- 	out_data[i++] = 0x0d;
--	complement_count = length;
- 	complement_count = length - 1;
- 	complement_count = ~complement_count;
- 	out_data[i++] = complement_count & 0xff;
--- 
-2.43.0
-
+[2] https://lore.kernel.org/linux-staging/20241015014738.41685-1-rodrigo.gobbi.7@gmail.com/T/#m85d88af4dd8158a8e62ccb6c7257478b7de46d95
