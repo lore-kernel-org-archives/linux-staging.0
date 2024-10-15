@@ -1,99 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6CE51B6CF6;
-	Tue, 15 Oct 2024 19:55:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD6751F5820
+	for <linux-staging@lists.linux.dev>; Tue, 15 Oct 2024 20:08:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729022139; cv=none; b=AAKr136apTMWJ7P6kLy9lBp9DZhxNuDMYHSnrKOwkwBWCdV47uTjZwIwkxkFO/Tn8LtBh3oSjQwGEGN47fmSb/TVustECUYwj5cWgsxzOsuF0HRaYw2lgS0Crm8/qzH8iVLru6brEx3kXNuc4CKvSQlAQCGDqQ4adtv0+EaDCMc=
+	t=1729022894; cv=none; b=cJvFRk6KTsa8BaZuisln9EQHsQSG8kxhSSazwDn2BKvBHWi4hGTy719IgiJVpzp+vyR6C4W+Z7TpsSyUqBhV+9ccAEgd3+3fykEImlJKKaXx8JlqaX8V0xb5g2VehhzEEUL2gYXMYwvEUMvLrNanvxBf0dYaDVFt15i8ylJ5oUQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729022139; c=relaxed/simple;
-	bh=bg9WrBjzLChnUbsEv2PJZbLfPRX/TrLVhWXYXN7aqXw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=IdmGvbR3iYX4s2bvUdfJBDUBCnx/QvrZ5WuWb2c5Fj8vRK+YHr3beK6r+0RwUQ9PQOjFOy+wceYeEy3qNeVwxDOrSCnCcMeLcDgO+olhAiNkdpD17h+tElQlakg8dUfpz3/WF9Ra9tWNafykivZ5tYZ0vpHeTQ94K1X8wJlT4lA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gMWFobD+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1729022894; c=relaxed/simple;
+	bh=lcjxFfK9x7TEO3MuO7OThKx6V5XEevvEBNkBmc5yX3A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FPLXZeLfTf2V+FDgW0/KYCJWbreAQKoomkSW25oOZp9xqexfM4S31tDxHoyxAyx2TzUoj5hzp2Fo70a5FKsa2TEtlIcr7fynoXdABNxzDLTFwow1wKvkitOH1NHMOKv+1wUm58CAbXFjoGZFtZ2dY5GPBQbAL5IyfUxybWaNLdM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=everestkc.com.np; spf=pass smtp.mailfrom=everestkc.com.np; dkim=pass (2048-bit key) header.d=everestkc-com-np.20230601.gappssmtp.com header.i=@everestkc-com-np.20230601.gappssmtp.com header.b=cYii8JvY; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=everestkc.com.np
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everestkc.com.np
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gMWFobD+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E685C4CEC6;
-	Tue, 15 Oct 2024 19:55:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729022138;
-	bh=bg9WrBjzLChnUbsEv2PJZbLfPRX/TrLVhWXYXN7aqXw=;
-	h=From:Date:Subject:To:Cc:From;
-	b=gMWFobD+NJjus4Fp2+iG3jTpZ4mVEbjUb5LhkCRf3UY9Js7uzWYS0x7OrDGJ/8jeG
-	 /ATj1OviE4gOLAAFeyPtEkNeaJKcxJXRWpaVMk2FKJQmcu9QZIJeT3OJHCCcqM3R6L
-	 /v5yxo6+1joZ6/ADvmK3hcOZuIGwQQdY3hBVNaMI6zCElzqv+DnD2QgAkbKQ/HzlER
-	 kI6ISu9m3dTIbnENuYVNAzJa81FslbFSLNrerkKIQ5vPiwdJUVdyp0gIsxbOn6p3vf
-	 ULoYmQ3StRHNPWOYB0EyJAo72J4EyIdArhC9D6YMMKesuU/v7efAPbDXC47KO5LkRM
-	 RtbcwrGqWzrpg==
-From: Nathan Chancellor <nathan@kernel.org>
-Date: Tue, 15 Oct 2024 12:55:33 -0700
-Subject: [PATCH] staging: gpib: Fix PCI header include guard
+	dkim=pass (2048-bit key) header.d=everestkc-com-np.20230601.gappssmtp.com header.i=@everestkc-com-np.20230601.gappssmtp.com header.b="cYii8JvY"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-20c8c50fdd9so1566745ad.0
+        for <linux-staging@lists.linux.dev>; Tue, 15 Oct 2024 13:08:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=everestkc-com-np.20230601.gappssmtp.com; s=20230601; t=1729022892; x=1729627692; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4OYafRWJBDNDlerw9Bp0TVpkeaRmGTgXMU5o+kqNXA4=;
+        b=cYii8JvYYtu09OpMHNiKIw9dOWFtt1T0Pb/jxz3eiH7Jl/c6Kuh1X+N9ENb8+vbTRg
+         MfJ+ogTby05RQswh5bnRFcZ7yfEXRuc6JfXVr3YRcF7+l21/vZRaaMF0+KJ9W97qDHUk
+         3Y7S4gJQeADZcLMRDQfzevRKbsvKTygZ/hqCc5kwUxCmAj+3vweUWm7vHDKTKV2ddgZ5
+         gDLgs9tQx7e+1dNoYh5ckqKCQa2UJntwUONG6PpP7Dr81G5zn9/f4vzcWcZq31oaCNOZ
+         IJurXGeWBdl+DXy+TKISuTmkkalYoMugtWRk6MYGRUqWP0+Y5Qh6ur5RB1RtKXjowxuj
+         Co2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729022892; x=1729627692;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4OYafRWJBDNDlerw9Bp0TVpkeaRmGTgXMU5o+kqNXA4=;
+        b=hRF8J7zleJmNvgNnn/Hogw5Cs0GR3C5npwhCI3LMOLI1uLP7svhPu4stoS/05NulTW
+         wiuOYLRu9Jnmeg0TDJwl3aQsfFr2QECE2+faYiRigD60wNT7A5urdJFAMSWiTBJH8V1P
+         SYv2r4sWIDzjqZBx64Y2F8ypAK84aO77acEQxFYiqg6mMadSgzj57h7FHwNlkgkQ++Je
+         vAfsnV244GEZZKg2szDX8MlGFz009/nb5sR1Ku+YyxADFzkyHAOKF8rI8gKoR1jDvItK
+         jQiO9WE7f61XYomzXX+Sq36AH9bsyg4TE1hsh+FrGRhBtUdaR9OSGlrSexHwpDizPPG9
+         iKig==
+X-Forwarded-Encrypted: i=1; AJvYcCUtAWmt7Usx9OMnM/OA/843NT53RzleIGAEwWtXW1Ek9qft+Y3pTmJdInALA3UxDvEUuDQnOBCkfI3iHII+@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxb5/iVPdMNBbu+3TtJb8CbafPOCXD/W6+XI0PntsoFYm9Vtx6p
+	NuK4nxlv+2ujgBIXwFQJve3I7c9+oE9GqL4aYukEm8KDwHqEOSgSZ8MSti5jcBU=
+X-Google-Smtp-Source: AGHT+IGPwub86v3SfluDcfN06wwLN9PL4+BcDBaaARe4qa8pfg7TiFdoeIbN6d9voDA/VPRC2aJJMA==
+X-Received: by 2002:a17:902:e1c3:b0:207:1845:bc48 with SMTP id d9443c01a7336-20ca0426cb0mr178146065ad.30.1729022892036;
+        Tue, 15 Oct 2024 13:08:12 -0700 (PDT)
+Received: from localhost.localdomain ([81.17.122.160])
+        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-20d1806c72asm15852375ad.305.2024.10.15.13.08.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Oct 2024 13:08:11 -0700 (PDT)
+From: "Everest K.C." <everestkc@everestkc.com.np>
+To: dpenkler@gmail.com,
+	gregkh@linuxfoundation.org
+Cc: "Everest K.C." <everestkc@everestkc.com.np>,
+	skhan@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: gpib: Remove a dead condition in if statement
+Date: Tue, 15 Oct 2024 14:06:47 -0600
+Message-ID: <20241015200655.17444-1-everestkc@everestkc.com.np>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241015-staging-gpib-fix-pci-header-guard-v1-1-dfa45fe8d63f@kernel.org>
-X-B4-Tracking: v=1; b=H4sIALTIDmcC/x2NywqDMBAAf0X27IKJlhp/RXrIY7vuJQ0bWwriv
- xs8DgwzB1RSoQpLd4DST6p8cgPTdxA3n5lQUmOwg53MYB5Yd8+SGblIwLf8sUTBjXwiRf56Tej
- cM4To7DibGVqnKDXvfqyv87wA7GSalnMAAAA=
-X-Change-ID: 20241015-staging-gpib-fix-pci-header-guard-997bbc923818
-To: Dave Penkler <dpenkler@gmail.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, llvm@lists.linux.dev, 
- patches@lists.linux.dev, Nathan Chancellor <nathan@kernel.org>
-X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1678; i=nathan@kernel.org;
- h=from:subject:message-id; bh=bg9WrBjzLChnUbsEv2PJZbLfPRX/TrLVhWXYXN7aqXw=;
- b=owGbwMvMwCUmm602sfCA1DTG02pJDOl8J3YeuyPYqsPCl3/d6NDb9LiTDA2X+sJa7nMsWGHsy
- FcQXCDdUcrCIMbFICumyFL9WPW4oeGcs4w3Tk2CmcPKBDKEgYtTACbCz87IMM0oXijc1TajxtNy
- pXTAV7+Q2eX1LQ5v32YfrnHdWMsyk+F/yv67tQ+1S3eL+L0weah2d10Tp/TeZPPyAvXDbjkdxQ1
- 8AA==
-X-Developer-Key: i=nathan@kernel.org; a=openpgp;
- fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
+Content-Transfer-Encoding: 8bit
 
-Clang warns (or errors with CONFIG_WERROR=y):
+The variable `residue` is an unsigned int, also the function
+`fluke_get_dma_residue` returns an unsigned int. The value of
+an unsigned int can only be 0 at minimum.
+The less-than-zero comparision can never be true.
+Fix it by removing the dead condition in the if statement.
 
-  In file included from drivers/staging/gpib/ines/ines_gpib.c:19:
-  drivers/staging/gpib/include/gpib_pci_ids.h:3:9: error: '__GPIB_PCI_IDS_H' is used as a header guard here, followed by #define of a different macro [-Werror,-Wheader-guard]
-      3 | #ifndef __GPIB_PCI_IDS_H
-        |         ^~~~~~~~~~~~~~~~
-  drivers/staging/gpib/include/gpib_pci_ids.h:4:9: note: '__GPIB_LINUX_PCI_IDS_H' is defined here; did you mean '__GPIB_PCI_IDS_H'?
-      4 | #define __GPIB_LINUX_PCI_IDS_H
-        |         ^~~~~~~~~~~~~~~~~~~~~~
-        |         __GPIB_PCI_IDS_H
+This issue was reported by Coverity Scan.
+Report:
+CID 1600782: (#1 of 1): Macro compares unsigned to 0 (NO_EFFECT)
+unsigned_compare: This less-than-zero comparison of an unsigned value
+is never true. residue < 0U.
 
-Fix the define to match the guard like the note suggests, as that is
-clearly what was intended here.
-
-Fixes: 6c52d5e3cde2 ("staging: gpib: Add common include files for GPIB drivers")
-Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+Fixes: 55936779f496 ("staging: gpib: Add Fluke cda based cards GPIB driver")
+Signed-off-by: Everest K.C. <everestkc@everestkc.com.np>
 ---
- drivers/staging/gpib/include/gpib_pci_ids.h | 2 +-
+ drivers/staging/gpib/eastwood/fluke_gpib.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/gpib/include/gpib_pci_ids.h b/drivers/staging/gpib/include/gpib_pci_ids.h
-index 162b02deb0ade7ede08ad81ebd41a79727374448..52dcab07a7d188925a4d696d6b658f397f3b0153 100644
---- a/drivers/staging/gpib/include/gpib_pci_ids.h
-+++ b/drivers/staging/gpib/include/gpib_pci_ids.h
-@@ -1,7 +1,7 @@
- /* SPDX-License-Identifier: GPL-2.0 */
- 
- #ifndef __GPIB_PCI_IDS_H
--#define __GPIB_LINUX_PCI_IDS_H
-+#define __GPIB_PCI_IDS_H
- 
- #ifndef PCI_VENDOR_ID_AMCC
- #define PCI_VENDOR_ID_AMCC	0x10e8
-
----
-base-commit: e0eb7cc4d70d672cf9344916aba58136fd6e495e
-change-id: 20241015-staging-gpib-fix-pci-header-guard-997bbc923818
-
-Best regards,
+diff --git a/drivers/staging/gpib/eastwood/fluke_gpib.c b/drivers/staging/gpib/eastwood/fluke_gpib.c
+index f9f149db222d..51b4f9891a34 100644
+--- a/drivers/staging/gpib/eastwood/fluke_gpib.c
++++ b/drivers/staging/gpib/eastwood/fluke_gpib.c
+@@ -644,7 +644,7 @@ static int fluke_dma_read(gpib_board_t *board, uint8_t *buffer,
+ 	 */
+ 	usleep_range(10, 15);
+ 	residue = fluke_get_dma_residue(e_priv->dma_channel, dma_cookie);
+-	if (WARN_ON_ONCE(residue > length || residue < 0))
++	if (WARN_ON_ONCE(residue > length))
+ 		return -EFAULT;
+ 	*bytes_read += length - residue;
+ 	dmaengine_terminate_all(e_priv->dma_channel);
 -- 
-Nathan Chancellor <nathan@kernel.org>
+2.43.0
 
