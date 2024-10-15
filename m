@@ -1,108 +1,148 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DF231D14FF
-	for <linux-staging@lists.linux.dev>; Tue, 15 Oct 2024 09:42:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 344621FAF09
+	for <linux-staging@lists.linux.dev>; Tue, 15 Oct 2024 17:31:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728985334; cv=none; b=fymr8nae8KC3y+HTg2xcdzQaBVdMU2foV9xSO0xkL5jWFMUtlFgyY1bo0dn4uYyGKbl3d/5leqo2sQsj2YsMxTQnaUm87h8QBHJfxiOkksYHbaLgHKNAbVdPM/vIwGwAVMhhd8Fo71Ls75O1UVjaUO8qT3Kc9fDKHGztvS3rb78=
+	t=1729013473; cv=none; b=kDqw0Pc7NChw8MjA2M2ksZHo2yP1fAjZMMiQMxm3QY+Ls1wSidSL2teCvhbueC8W9bP1wlWh7SzU8ypjIWGwYLEs0AcNXj76E/v5kTQIwICyXBdaOaBfzch8f0Y58h3E/6tVO6xs9DEPeCflWhAfaiLr9zCf6A8skfNBxgdBWX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728985334; c=relaxed/simple;
-	bh=AbjIZkV3DT6x8on/kaS4iPZ3QMQjL8NVI7YnkYT+rE8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qPCk1mdyYTPvE4yLL4SNYzwtgsLxp++q0cdKs3nU63KRcmM2ey8MRQCXFvePeLfrIy9APTKCUtRFJfW741CwqQ4+eZPPlSoLAqXmKmhPBtwxZHeBzvR1A9RZq+W4QEKxk7nT980vA0NLSTQbgpOu1nFDRnhq75qsVGgkUYNasvs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ukVjITlB; arc=none smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1729013473; c=relaxed/simple;
+	bh=Nlkt2Fthyuj+02wChbrIoEHBospBClzz0I96zymXtIg=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=fOjeNeg3/VsXMiolIMAFz8QU70JElvfn/xbgz4EFDFf6/3T7EG9DXEnZwkH75yRQ2hJbJ7RszEUsiZLg0Nlu7EmsDcsrnurY6isVdUI+1DerN+lXeb7b/T+yYXpPdEmFAefIW14++a5UmpstNsIRi2e4snCXiT4hEYomCmvERSU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=EUMmOnxw; arc=none smtp.client-ip=209.85.219.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ukVjITlB"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5c94dd7e1c0so5263211a12.0
-        for <linux-staging@lists.linux.dev>; Tue, 15 Oct 2024 02:42:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="EUMmOnxw"
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-6cbce8d830dso42852066d6.1
+        for <linux-staging@lists.linux.dev>; Tue, 15 Oct 2024 10:31:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1728985331; x=1729590131; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=BHp49d9/BhialKMrGvk56DMJ4Tuc0RIYZ8PmphUFmMs=;
-        b=ukVjITlBuNhwk3bhkgjGCXTnsy5oAFQRQgampGOwhyW18Od6JhIo3+xf1Xwa+Kzwlh
-         iIKusxzanXjKAAUQ0BDXpRzVAvOwidAKvTyrFIgSjyVOQG0s1qVkoT9YFfdnFBD05MY1
-         +psfzL7iDrvfVmsG4ZrU9Usc72qHks01QHiV0CcjYMB5z3UcRYCUatQG4NN0l1H/EF0V
-         ZOW8yQn1sJ/wgFU73v67DiPEHhfiXnRaSy1EafO+Gne9Y/V0T3kF4dteVdwz1PKjqrGy
-         C9ZSKsjGGUdM5LUVU/5OAHoPtN/dFr9M2wIkPcZZG47P32nwwoAdA+5fZ3Mg146hQjUn
-         pO8A==
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1729013471; x=1729618271; darn=lists.linux.dev;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Nlkt2Fthyuj+02wChbrIoEHBospBClzz0I96zymXtIg=;
+        b=EUMmOnxw6q1N1zT09/zDRe3R7Uaw6TmbNZMXkUVj6aZhKXCdi/k5+aTRHzNtjo+kNi
+         iaT6qkK9renLNTfjAr3hziRH9P8VG2tSDHmo8lTEN5FWDXrF5n0Yhdzx+GTWCdSz51Y+
+         BMfFa/zu51D5fSho3V+Jz99GXsnVXLYmMwwcTAl01LYtMk3y+VAVStIwhMtiQ5c7d8/x
+         WMj9K9Histpo3F6h4Wgz3+Bz/xS0SQDHD6aRZBgs+trzRxovdTKUmKPAckAsLUf86bSX
+         4NksN9Se/zhCyYincJEx7BgFu5f57uNKHHkG5Ufrifv400BkQ6xLivBHzvOCL0TKJRDM
+         ++lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728985331; x=1729590131;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BHp49d9/BhialKMrGvk56DMJ4Tuc0RIYZ8PmphUFmMs=;
-        b=lmZNPqG5F6xAxPZOuimvIKHofJOXrQrbUZxJh5d6oaWh8RlCTe+RxdA++PwPRs3Ug6
-         J0M6WEx5OKf3Z9thYL8gChBBzgHViA8+UrPRnZsxuAFzdYRyIjQas1pykgZ/9AFD/IN2
-         TI/Yqiw6VuoLibbJUFxHQ7VSmFzWoP20roGAAvA+n+MfeirVmRK1z3+VUPYK/5K8GLA3
-         kfhZpOFn9nlsAQjq0l/YUrexo+kmH71nptQ4+sRtqXYe1RIC+q7nnL4K2ENjskK7Ulsx
-         uJmq/YQNj7eXdmHGRMKdxesEnsZ3fH8zaXF/LnG44m66ZdAiPsPvQHqHsF8IR0CwO79b
-         v1xg==
-X-Forwarded-Encrypted: i=1; AJvYcCX8Un+p+eJpyoHvcOxg9b0U5lHEUcZVjY0cikhRN+gSuj43w23GFWCynWltOw59QSrgmrFKgL29Kd1Z1Drv@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw+7/bM1lFKuYopPynlgL1TMLVKvYATsnHuRZqGH9PYA0eqvPOX
-	y/fkM9I6spMnl4x/+QN2+PJbmLykRSXgxNdefsgTnfYF+fRnlSMD0RBMsGVEwJw=
-X-Google-Smtp-Source: AGHT+IEKNdUVyaZ0iX1mqaNC6+kTh2EIsu3a1wAZd1DrGPAVSOBFkqhXIa23pfvozbzQifTTRIthSw==
-X-Received: by 2002:a17:907:7d92:b0:a8d:3338:a48c with SMTP id a640c23a62f3a-a99e3b20e9bmr1117974566b.7.1728985330705;
-        Tue, 15 Oct 2024 02:42:10 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9a29844739sm49887966b.171.2024.10.15.02.42.09
+        d=1e100.net; s=20230601; t=1729013471; x=1729618271;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Nlkt2Fthyuj+02wChbrIoEHBospBClzz0I96zymXtIg=;
+        b=o8bu5AaQrRCOMVRe6VB/eDY9GbKKpGFG1joel08eDpBF9oRrRe1EKg1C/3UD/fa4hR
+         +Ko4po5kapIFBuBJdRf/JVz6svemfEX0Fxd1QIkYjT8rb1TlBiSAV67hqpaLJrXtvk+e
+         +s737eNSUx5ufM/6Me2SHhJvgl9JKGH/+URp1Y/I8Rnyj0lIZ8fN7SvJ53Krb0Cp0yl8
+         80Pae31/H6bURCsWRIiSczh7PHM6qSl1heLZ2vjt4HeuoAbPkoFdFBthqnYH7UyPp3Ck
+         OBDTp+v1N+hY2SUfNZD5ryRPqzBKABTy5vpS+Sqez9AgpKMGjgHiTkui0KOQ4eSOBQvq
+         xQQg==
+X-Forwarded-Encrypted: i=1; AJvYcCX4xFXfw3NaoJETZ+XGM4vBPbjq0ZmWgRFX89NnJsT+bYauVfc8fd/zC3k+4oh/FCmgTCb1WTV6Ow9W8GKU@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz3UMJpqFquEbmPvTUotqlxTmHuVNIZgb8XjcxdesujK25XhhZD
+	jcOgBIBj17c+RgUvtpGrOEQ9tWp8/Z0mS8rE2Sl8rW63v8Z6sXNUkV7YWoiad70=
+X-Google-Smtp-Source: AGHT+IHQTEqtyG1hqwhDEXmkug0vsLn7tK0TUCZGlPkVwJk5Fmx3FpOukVPbin+a6nZZiv9VlOtyKA==
+X-Received: by 2002:a05:6214:33c3:b0:6cc:1dd9:296 with SMTP id 6a1803df08f44-6cc1dd9048bmr55656576d6.0.1729013471113;
+        Tue, 15 Oct 2024 10:31:11 -0700 (PDT)
+Received: from nicolas-tpx395.lan ([2606:6d00:15:862e::7a9])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cc229245f1sm8990646d6.57.2024.10.15.10.31.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Oct 2024 02:42:10 -0700 (PDT)
-Date: Tue, 15 Oct 2024 12:42:06 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
-Cc: gregkh@linuxfoundation.org, philipp.g.hortmann@gmail.com,
-	~lkcamp/patches@lists.sr.ht, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] staging: rtl8723bs: change remaining printk to
- proper api
-Message-ID: <d20087fc-586e-4a52-99e6-6a09b33ed00e@stanley.mountain>
-References: <20241015014738.41685-1-rodrigo.gobbi.7@gmail.com>
- <20241015014738.41685-2-rodrigo.gobbi.7@gmail.com>
+        Tue, 15 Oct 2024 10:31:10 -0700 (PDT)
+Message-ID: <c31b33f9c4c0a42e66249e2a108f4eadaf105ce2.camel@ndufresne.ca>
+Subject: Re: [PATCH v2 2/2] media: imx: vdic: Introduce mem2mem VDI
+ deinterlacer driver
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Marek Vasut <marex@denx.de>, linux-media@vger.kernel.org
+Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, Fabio
+ Estevam <festevam@gmail.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>, Mauro Carvalho
+ Chehab <mchehab@kernel.org>, Pengutronix Kernel Team
+ <kernel@pengutronix.de>, Philipp Zabel <p.zabel@pengutronix.de>, Sascha
+ Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, Steve
+ Longerbeam <slongerbeam@gmail.com>, dri-devel@lists.freedesktop.org,
+ imx@lists.linux.dev,  linux-arm-kernel@lists.infradead.org,
+ linux-fbdev@vger.kernel.org,  linux-staging@lists.linux.dev
+Date: Tue, 15 Oct 2024 13:31:09 -0400
+In-Reply-To: <8aea6cc0-10bf-48b8-add9-eb3f1caa2d66@denx.de>
+References: <20240724002044.112544-1-marex@denx.de>
+	 <20240724002044.112544-2-marex@denx.de>
+	 <5e5fba4fd6c3c0c9df23697bd328367e5fdfa923.camel@ndufresne.ca>
+	 <8aea6cc0-10bf-48b8-add9-eb3f1caa2d66@denx.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.4 (3.52.4-1.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241015014738.41685-2-rodrigo.gobbi.7@gmail.com>
 
-On Mon, Oct 14, 2024 at 10:47:37PM -0300, Rodrigo Gobbi wrote:
-> As part of TODO file for future work, use dyn debug api for
-> remaining printk statements.
-> 
-> Signed-off-by: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
-> ---
->  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c     |  6 +++---
->  drivers/staging/rtl8723bs/hal/hal_com.c           |  7 ++++---
->  drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 10 ++++++----
->  drivers/staging/rtl8723bs/os_dep/sdio_intf.c      |  2 +-
->  4 files changed, 14 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> index bbdd5fce28a1..58da34f125db 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> @@ -1870,10 +1870,10 @@ unsigned int OnAction_sa_query(struct adapter *padapter, union recv_frame *precv
->  	if (0) {
->  		int pp;
->  
-> -		printk("pattrib->pktlen = %d =>", pattrib->pkt_len);
-> +		pr_debug("pattrib->pktlen = %d =>", pattrib->pkt_len);
->  		for (pp = 0; pp < pattrib->pkt_len; pp++)
-> -			printk(" %02x ", pframe[pp]);
-> -		printk("\n");
-> +			pr_debug(" %02x ", pframe[pp]);
-> +		pr_debug("\n");
+Le lundi 29 juillet 2024 =C3=A0 04:16 +0200, Marek Vasut a =C3=A9crit=C2=A0=
+:
+> On 7/24/24 6:08 PM, Nicolas Dufresne wrote:
+> > Hi Marek,
+>=20
+> Hi,
+>=20
+> > Le mercredi 24 juillet 2024 =C3=A0 02:19 +0200, Marek Vasut a =C3=A9cri=
+t=C2=A0:
+> > > Introduce dedicated memory-to-memory IPUv3 VDI deinterlacer driver.
+> > > Currently the IPUv3 can operate VDI in DIRECT mode, from sensor to
+> > > memory. This only works for single stream, that is, one input from
+> > > one camera is deinterlaced on the fly with a helper buffer in DRAM
+> > > and the result is written into memory.
+> > >=20
+> > > The i.MX6Q/QP does support up to four analog cameras via two IPUv3
+> > > instances, each containing one VDI deinterlacer block. In order to
+> > > deinterlace all four streams from all four analog cameras live, it
+> > > is necessary to operate VDI in INDIRECT mode, where the interlaced
+> > > streams are written to buffers in memory, and then deinterlaced in
+> > > memory using VDI in INDIRECT memory-to-memory mode.
+> >=20
+> > Just a quick design question. Is it possible to chain the deinterlacer =
+and the
+> > csc-scaler ?
+>=20
+> I think you could do that.
+>=20
+> > If so, it would be much more efficient if all this could be
+> > combined into the existing m2m driver, since you could save a memory ro=
+untrip
+> > when needing to deinterlace, change the colorspace and possibly scale t=
+oo.
+>=20
+> The existing PRP/IC driver is similar to what this driver does, yes, but=
+=20
+> it uses a different DMA path , I believe it is IDMAC->PRP->IC->IDMAC .=
+=20
+> This driver uses IDMAC->VDI->IC->IDMAC . I am not convinced mixing the=
+=20
+> two paths into a single driver would be beneficial, but I am reasonably=
+=20
+> sure it would be very convoluted. Instead, this driver could be extended=
+=20
+> to do deinterlacing and scaling using the IC if that was needed. I think=
+=20
+> that would be the cleaner approach.
 
-No, this isn't right.  You'd need to use a mix of dev_dbg() and pr_cont().
-Basically in drivers it should always be dev_ printks except for pr_cont().
+No strong opinion, in an ideal world all these hacks are removed and we do =
+a
+single multi-context / m2m media controller, that let user pick the path th=
+ey
+need for their task. When I look at the hardware documentation, you can do
+inline from VDI to IC, and having IC in both drivers duplicates the CSC
+handling. If you allow bypassing the VDI, then you have a duplicated driver=
+ and
+highly confused users. The fact the ipuv3 (internal) drm driver does not ha=
+ve
+the VDI already seems because the display controller driver is missing
+interlaced video support, but I could be wrong. Same if you want to support=
+ IRT
+(even though that is not inline, but using a custom memory protocol).
 
-regards,
-dan carpenter
-
+Nicolas
