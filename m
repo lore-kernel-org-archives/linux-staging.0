@@ -1,65 +1,65 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7786208D99
-	for <linux-staging@lists.linux.dev>; Wed, 16 Oct 2024 12:56:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC84C206945
+	for <linux-staging@lists.linux.dev>; Wed, 16 Oct 2024 12:56:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729083405; cv=none; b=VBUTscx3TK3okvvTfhrOnA3r6N+y+cpHMghPGb/yZ/KMcWbqJtmc4/D7+J96aRQPE5/8vNrFpvm0mMjmG3PeYSbJxmwxWw2BfSmRJ5yGEJE+MOjjZHTeWpiAXkMhTyXgTOivfmpLWATUJdIKiDGRkT9PVfgL58dooKuaOK5D8Jo=
+	t=1729083407; cv=none; b=YZGeCU2RK3uCg7bKaBEs9ZGCnqN9z2TH4YUHef0HYyqNDx33Qcse8aFlVSv2Toe6U2QhgYgaK1feR4Z7Unpvrhg6z+AFaQFHAg+t/KbWWSypFopCFZyviniAp2K2jUlb8VNL0ZjhCkJZr3Qc5JMcvFo2JE/rsSM3ZraAQN+ckpU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729083405; c=relaxed/simple;
-	bh=2iGGqAVBHJntRMHWX6jOevO8dBWQcGxKqwLVmWqYUmg=;
+	s=arc-20240116; t=1729083407; c=relaxed/simple;
+	bh=IySJiiHKQ9uzg8Y6/9egbralZWhforGpWViQ50tt5NQ=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Al2xN3EyOC0I5i4nq0gQ8wP6xm1bR2WwCPI6cKYCBhFE5IrRiUILCcHn1iI/w74QIGDxYLJ/L3OLy2DYkCN6k6tbvVlQ1j1L56nDa38DZjCQ9+7gcRSOjnzHxq8ohC0+8EfGYiTIW2NLgfIlwGGzYb7dJJrS4V8bFzL+uayuZ1s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jU80+TkT; arc=none smtp.client-ip=209.85.128.49
+	 MIME-Version; b=c2Gocxk+seHdvdsyMhEWHFjrrwyvEEaKLHcXVwAY2lTQguXGZCevCb2JX03MtF5sDNxV90ZwOzAKdxHJIlcCbcARcgAqxMKrpWQ1CnBFh0jv5LYIfsXxlbB+VsgIZwtslV2ZXIuSxUia+qiqTQ8w/bUenjz4wPU7YBDSnyN89Ts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MvOOPiF2; arc=none smtp.client-ip=209.85.221.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jU80+TkT"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4314b316495so11607895e9.2
-        for <linux-staging@lists.linux.dev>; Wed, 16 Oct 2024 05:56:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MvOOPiF2"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-37d70df0b1aso2729933f8f.3
+        for <linux-staging@lists.linux.dev>; Wed, 16 Oct 2024 05:56:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729083402; x=1729688202; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1729083404; x=1729688204; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1hmD6BPFZpejVOP036PkGm6Ii4/AqtCue8JTUJjawmM=;
-        b=jU80+TkTg2ZAg7I72PCIgWkbyrOnBKxOYRzuUIQ6E1K7GMqTq4A3V/7OF+YVF02OOs
-         8iI/LO2fH09jialeJ6vL6qDqi7jpVdpVLAXfFUvxTxR0xwa5Rzm96rjgNEaAIlbN3UF+
-         mgPkNas/RbNiIFSre2vICBwaUtZOfzz0XljqaSrOnqNOJH+eipdSu2W7p0Pr1ViEVEDa
-         P4AYX2KrN25yKwQqbCd2lkMZ5CrFrQHWr7GWcEX6h8upxrELJSPvkBKygRO7tmc5PfGc
-         UVVKT4Ns3GUYhXjbfcnANMBknN0gGCxDy3jb9P5N1A8Hpnn23k3yeqxZvE4d3Ff0KhpJ
-         AsIQ==
+        bh=pa6exbdx6NUoRdCrQdTchcVOej7ISzyDCTBB7HgeisE=;
+        b=MvOOPiF2Gh+MWGUNw/IGEZBGBYQZtFdjem81d1QiMFDDk2D8+6K29/lorDC46kWids
+         QPlAKfaIOpSgjAybB3exXXCkzE9NViR2paUqCTfK1K/X7agfl8yWN55MWLHcDSL+CMa1
+         axUFaMZ1EYYlpNJY/dRbHRhnc3RHBWJgUpRPHHlmMwrw4a/maWK9uSo3S23bNt94QRCW
+         v6rcoTS/pQ3SJX50LMJ2xnoITq/Mc3iRhEWWClJD0AFQu2Z64SG+jk+n0rDy2PpPbzH9
+         JC3Ob4OTwHKSicLgwhQzZNAB3mb+nyT78e2cDyuQIFjs/iNk2VEwstxpKry2BRU2SA9U
+         5gHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729083402; x=1729688202;
+        d=1e100.net; s=20230601; t=1729083404; x=1729688204;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=1hmD6BPFZpejVOP036PkGm6Ii4/AqtCue8JTUJjawmM=;
-        b=aPCrxW/cKTwpqTrSwz/0aglAicwlvGoc7mOKTAl705uRK9bdlXdGFtzhNUroriGDLc
-         bEhE5yMGZNeInmoMaowklBANHZ6GlRop/WCLtTIYcYO9ff0AXcYDojorNZn9eGYSG8uU
-         r47jvvv2LHAj7ROu2XmBUIKqKWYjdZHr8o/kX6axCi0glEAFfRqJo0tVIHTsQkWX9on3
-         Ptv/LTfVWANrrcWQewUEnF4K7HM5rPFTZBiXzjBknE6yDHh+6EegoA3oPFlTpedMUpll
-         dpS6/AwFRdWtuNfxxFxt4+lPNkM9KQKlm5B7QfV5UYuXn8OLvwq6Woap6QF6RmsY1vjM
-         xrkw==
-X-Gm-Message-State: AOJu0Yx5vc9S+NpDuvo5aTACroibf0uBOpE8coHeq67IKlob5nJNOWbG
-	0LaXMb8V1LYmQObu6SA8zG+gd5PAG8t8Gn7tzP01eTfALxdl3ZtQ
-X-Google-Smtp-Source: AGHT+IE385aZY0SfaapZkgqBzf+EOTe0SjbuDc918FIA9/YVpdZgs4p/05DgQlkQXyOvpC3adHX0Yg==
-X-Received: by 2002:a05:600c:3d88:b0:431:553f:ba7d with SMTP id 5b1f17b1804b1-431553fbbf7mr6508985e9.26.1729083401942;
-        Wed, 16 Oct 2024 05:56:41 -0700 (PDT)
+        bh=pa6exbdx6NUoRdCrQdTchcVOej7ISzyDCTBB7HgeisE=;
+        b=JErqpRaZsOqxCfwTa37wyFok4ONBjlJoALNpgVibXocKBRZUnBaREXQ7Gym1Z7w8W5
+         34NvVvr1UgX9iQBYoKvVGFR3xqFUY7Tj1BvhNbHO/3szIHfhujtyrcCBofab6Pf3IEAa
+         bInb1jBdSOM7qWgRmIhTVoXGOIfhe8hQAGi8+eZtVXjEEI5ZUXzwGhP8A4mj3niP/O5g
+         ETE4rbg3f2GJNFc/eMuF+dE09/mUPmPjH7ZORRO/mPxLbukQcJHfK92RiuqnQP5Q55t0
+         KrYftZhLBE+OAM4FhA5cg56oKLgRpJoQw6E/ygyTkly25ox5eZOuguayVGlk1Q/TgRxK
+         N9Sg==
+X-Gm-Message-State: AOJu0YxyW7KUXmnBxafEu4mjYiZ5KXqYv1iPTq5Y1aykn3asdKYkWu4r
+	qVUciH8kbS8H5WSSqCZBzNqNpRifMvWCZfc6JyyOPByebrpUkAGc9yGOWJgy
+X-Google-Smtp-Source: AGHT+IH78AKUk4Gz9iHhSvSIfFbQoL3QqtCbWoy/aXkqm/CRzXTNe7Grz37dLgMXqpo9zErbFK9UAg==
+X-Received: by 2002:a5d:444f:0:b0:37d:525d:5a60 with SMTP id ffacd0b85a97d-37d86bb6707mr2210100f8f.8.1729083404134;
+        Wed, 16 Oct 2024 05:56:44 -0700 (PDT)
 Received: from ARL1114-LINUX.. ([196.233.5.237])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d7fa7a13bsm4249405f8f.13.2024.10.16.05.56.40
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d7fa7a13bsm4249405f8f.13.2024.10.16.05.56.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Oct 2024 05:56:41 -0700 (PDT)
+        Wed, 16 Oct 2024 05:56:43 -0700 (PDT)
 From: Aymen Khalfa <a.khalfa.1012@gmail.com>
 To: gregkh@linuxfoundation.org,
 	hdegoede@redhat.com,
 	Larry.Finger@lwfinger.net
 Cc: linux-staging@lists.linux.dev,
 	Aymen Khalfa <a.khalfa.1012@gmail.com>
-Subject: [PATCH 3/4] drivers: staging: rtl8723bs: Fix missing blank line after declaration coding style issue.
-Date: Wed, 16 Oct 2024 14:56:29 +0200
-Message-Id: <20241016125630.2479807-4-a.khalfa.1012@gmail.com>
+Subject: [PATCH 4/4] drivers: staging: rtl8723bs: Fix comment alignment coding style issue.
+Date: Wed, 16 Oct 2024 14:56:30 +0200
+Message-Id: <20241016125630.2479807-5-a.khalfa.1012@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241016125630.2479807-1-a.khalfa.1012@gmail.com>
 References: <20241016125630.2479807-1-a.khalfa.1012@gmail.com>
@@ -71,25 +71,34 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-- Add a blank line after declaring struct.
+- Align * on block comment.
 
 Signed-off-by: Aymen Khalfa <a.khalfa.1012@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_pwrctrl.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/staging/rtl8723bs/core/rtw_pwrctrl.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-index 56a85174965c..cc4d08ce1d2e 100644
+index cc4d08ce1d2e..5566c01193fe 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-@@ -1011,6 +1011,7 @@ void rtw_free_pwrctrl_priv(struct adapter *adapter)
- inline void rtw_set_ips_deny(struct adapter *padapter, u32 ms)
- {
- 	struct pwrctrl_priv *pwrpriv = adapter_to_pwrctl(padapter);
-+
- 	pwrpriv->ips_deny_time = jiffies + msecs_to_jiffies(ms);
+@@ -1016,11 +1016,11 @@ inline void rtw_set_ips_deny(struct adapter *padapter, u32 ms)
  }
  
+ /*
+-* rtw_pwr_wakeup - Wake the NIC up from: 1)IPS. 2)USB autosuspend
+-* @adapter: pointer to struct adapter structure
+-* @ips_deffer_ms: the ms will prevent from falling into IPS after wakeup
+-* Return _SUCCESS or _FAIL
+-*/
++ * rtw_pwr_wakeup - Wake the NIC up from: 1)IPS. 2)USB autosuspend
++ * @adapter: pointer to struct adapter structure
++ * @ips_deffer_ms: the ms will prevent from falling into IPS after wakeup
++ * Return _SUCCESS or _FAIL
++ */
+ 
+ int _rtw_pwr_wakeup(struct adapter *padapter, u32 ips_deffer_ms, const char *caller)
+ {
 -- 
 2.34.1
 
