@@ -1,64 +1,69 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FD452076B3;
-	Wed, 16 Oct 2024 15:19:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EB6418CC11;
+	Wed, 16 Oct 2024 18:58:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729091986; cv=none; b=EMlTzUvFyvARd23kG6ZJuLbm4QcWQL9dfyQB1onN7daUBKHUBTuxyvmPlrHAmDFAdPOVEa6TuLw8MpknMTVvxpcvJKOwfzm07qwDEt4qmtYOS1TbsDb0TuSulzedQw00MGCthsNJITP3X3VDzu7j8ktiwWclxorYP925kce9gng=
+	t=1729105088; cv=none; b=dumrNzLuyFO2yk4XEXQvI711lyAv08sMvMflfA2KkUeRxpKiHmj6NU3zpl90G4jF56n6Jn0/PjvEAcoqp4TUc8g6qe+aJpU3mtJ8JVn85FXTlHAvzSiz90HI+wfiqrJlN58Ok+xJ8NNvZaW++lAxq3VvGLy+iadYgTjBVjVBAAM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729091986; c=relaxed/simple;
-	bh=9tawWsXOr7a9uNsOj09sklWZDzYGbRNHPnpkMUvRBeA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C569dkmbDBDsOYSbCvf5BYgeIzTSFUjqHNfFVNr2G6Xw7HXmaFC2bTLkxQuI9GmNkyxYYvMBeO4eyoEpZAzr6j6Hm5+oft5xkksah8CgXllTVBZSQ2Yvab5JqTloZIhN1mOUc2ZyKP33OGkDQktm7U+gnh8wR+UqYLZOToKutqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l59W5P20; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1729105088; c=relaxed/simple;
+	bh=q/5uBft7cHmg/92MiyrwwxZd96uqerW0mBxnjZkjY3c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EPjgCERDfBdMotVSJeSMBEZSnH2JMUtIvH2c5Uk4+hhk524ae1NNhDD8VW7WOFbeQ/44CxQZaRvh/byiquW6SQzo2Eez0UWz/XNUeWpsiOSmcK9GhVXAYIIEfKP3JmqUw1t6ZJIxVHAqNMHrfpIC3OJvDpTYGHqIKDB5KWbekxo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M95TLc08; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l59W5P20"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0F48C4CEC5;
-	Wed, 16 Oct 2024 15:19:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M95TLc08"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73E30C4CED0;
+	Wed, 16 Oct 2024 18:58:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729091986;
-	bh=9tawWsXOr7a9uNsOj09sklWZDzYGbRNHPnpkMUvRBeA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=l59W5P20smFSHFiu2vnnYkATCLiJrpvR4QXUZRCxI5lOXF5MG7ffJw4d/zA9fyBEF
-	 w/kD5szhUmuWjGgU0pZk+Y6QlH6JkoXWP8C5Vw0uKOnmN+nF78Nt4is4PBwyzAeFTI
-	 H3hXdltlHccbReFf3YeWBDrW7M3G3AkKzNdxaLmhb/7XtSZXM4VU1xpkB8d9/b09G+
-	 aX7zY4Vk7zwMXvIhEe0+nt3q5UAlGI6G1hMbPkNNVtugPLnTV6kjdpvhmRnp6XfWdd
-	 +3kEmKUiDjfWOkNofq8uo3Glr0BR//dhSEcWyXKMIsAyeL3jOx8f4yFWbEbK63PfNU
-	 KC0HI05AwjAFg==
-Date: Wed, 16 Oct 2024 08:19:44 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Dave Penkler <dpenkler@gmail.com>, linux-staging@lists.linux.dev,
-	llvm@lists.linux.dev, patches@lists.linux.dev
-Subject: Re: [PATCH] staging: gpid: fmh: Drop residue from
- fmh_gpid_fifo_read_countable()
-Message-ID: <20241016151944.GA3153413@thelio-3990X>
-References: <20241015-staging-gpib-fmh-fix-residue-used-uninitialized-v1-1-23ef05b099da@kernel.org>
- <2024101607-unmovable-serving-6a0d@gregkh>
+	s=k20201202; t=1729105088;
+	bh=q/5uBft7cHmg/92MiyrwwxZd96uqerW0mBxnjZkjY3c=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=M95TLc080VzfmTm7IKVktyVWfw5uNWTfWK7XT/dZ6ObeRDJ4tj8B/vprXD10ZChJC
+	 iVilSDriZzHA40VnqndR7j/Z40FFV1b2/ArW5JN7QPeOawtVH8RYsC8152QOzyASpD
+	 6nTHCM3jokJiESSv1Ue9W2v1mRkV/fDsXlGalFb5LHt/z6vYvM6kq9/LUScftjkPPI
+	 x/+jKo4Z0Z9aktbsNZ9B03fKzPDLzr9SRVcY1R6IHDJyKnP7rtGMq7CDAS0qcBYXwL
+	 O9+yo8lEqVuYIJJHalPSFwLMs/IAs1QCMy2SrZiucpvqIp2D/dvW6Rwg21/HWSWvUo
+	 N8ErtCJQ7a/3g==
+Message-ID: <86eb397d-5aee-479c-a021-49ce33b95dbc@kernel.org>
+Date: Wed, 16 Oct 2024 21:57:58 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2024101607-unmovable-serving-6a0d@gregkh>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next] net: ethernet: ti: am65-cpsw: Fix uninitialized
+ variable
+To: Dan Carpenter <dan.carpenter@linaro.org>, Simon Horman <horms@kernel.org>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Dave Penkler <dpenkler@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Julien Panis <jpanis@baylibre.com>, Chintan Vankar <c-vankar@ti.com>,
+ Nicolas Pitre <npitre@baylibre.com>,
+ Grygorii Strashko <grygorii.strashko@ti.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+ kernel-janitors@vger.kernel.org
+References: <b168d5c7-704b-4452-84f9-1c1762b1f4ce@stanley.mountain>
+Content-Language: en-US
+From: Roger Quadros <rogerq@kernel.org>
+In-Reply-To: <b168d5c7-704b-4452-84f9-1c1762b1f4ce@stanley.mountain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Oct 16, 2024 at 09:59:31AM +0200, Greg Kroah-Hartman wrote:
-> On Tue, Oct 15, 2024 at 01:09:02PM -0700, Nathan Chancellor wrote:
-> > Clang warns (or errors with CONFIG_WERROR=y):
+
+
+On 16/10/2024 17:41, Dan Carpenter wrote:
+> The *ndev pointer needs to be set or it leads to an uninitialized variable
+> bug in the caller.
 > 
-> <snip>
-> 
-> Nit, the subject should have had "gpib" not "gpid".  I've fixed it up
-> when applying, thanks for the fix!
+> Fixes: 4a7b2ba94a59 ("net: ethernet: ti: am65-cpsw: Use tstats instead of open coded version")
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 
-Thanks for doing that and not making me send a v2. Looks like I messed
-it up in the function name too :/ I was also putting gbip at one point
-but I caught that one, it's not a great abbreviation to try and remember
-heh.
+Thanks Dan for this fix!
 
-Cheers,
-Nathan
+Reviewed-by: Roger Quadros <rogerq@kernel.org>
