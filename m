@@ -1,64 +1,37 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F12A1C07F9
-	for <linux-staging@lists.linux.dev>; Wed, 16 Oct 2024 12:29:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62436207A2E
+	for <linux-staging@lists.linux.dev>; Wed, 16 Oct 2024 12:29:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729081746; cv=none; b=n2TAM/azlyKfbpgAVd52/28LhCFLkzbeh+FUsqikX9TbCYMXNdGCFzceab42aUwp98fCp7fHR92ahav5x05jYy4rounD8rIaszJ+qog9LfL4a/whICKMRxYGdduYe1aUqsazQ7Zi845aKDhgHux5b7xnnwdi0X9BdHeCtMhH/+U=
+	t=1729081777; cv=none; b=e66IKq8C5/Yeq/C4WdOilTNPYVzJv7KbOG7K+0pPs0bVKGNUv15NljVJGdUd4GHmWG98trWY8WPHuTKtjR6Cyo43dX0It9zsFfuu+tGJ+UWglBoLRZdJd07EYTMiAjfG2EsY6yuMVSNw2LBi/slYgmkRNMPppSG9ZVof1vCxqRM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729081746; c=relaxed/simple;
-	bh=KspREqt4KaeMO3yuVoFhoMugEprbEhTggHjXvlDeyWg=;
+	s=arc-20240116; t=1729081777; c=relaxed/simple;
+	bh=9JFJaOwyE78LFBtrvAEjzPmYBTuXRQE4mU5L7RAx0mY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t7h1nWmit2+oK8dJ98SDaXtBkSrRuVPZHVyksYGkXHItmx02SZwH67rNG0G9f0pyk2hUnVwZh/Z4qqiR2ImGnZQFrDVp3B1/hnbMKNSXmCL2FMTQ0cXtq2taxII11c5b3/Y5oCt+TVr8/Y93fZoGpt44L/wL1MVpkXYwzXl/nFs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bcggdCyI; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=mLDEpO9r/9l0j44Ld/4+WSyqIyJIPnvJVpfU4vLXP1VcrxZo8+eMhdOGVBKJ0QqlQZXNphcmriFcu0PjQJElewO4AddNySdxCqWl6PLvF3l/WoKth3QHqNPVFKVvuF8fhwuxP6L3gjwWiZ8ucQcoy+HUH17tAP2y7LJCX+dYjVc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=oYv4+CB2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bcggdCyI"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-37d808ae924so1293613f8f.0
-        for <linux-staging@lists.linux.dev>; Wed, 16 Oct 2024 05:29:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729081743; x=1729686543; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=jqRq8K4hvaYqPN23feyTC2SjJloWN6BY1l6v0lnE3aw=;
-        b=bcggdCyIYLDYptJM9pUYIZniEY6WN0hdcRbRVu0maM9cwPV57l0BSp39qRSGRkP49j
-         wdXzksVvqjc1iX+ugOgvAKj8PIHQhSBELcwAgEPxp3WSP9+wuIJcFyr+YKl+tzNCvxLj
-         tT9v/HFD6osmoHNmlGPPjtEDfRTIQtizEnABa/83Ua54ddoizgnLuTeb8vELFXxhZNW/
-         8iGgoTohITsw//G+0vmmtBYnkw/KvWZ3ALlBldHCd5jKNnlQrmMvzEYFNtfXITstVe2u
-         ndUm/YDgc2PgK1DX/o6MZ5Z1+2K++Op+PXUXNscjrXe1FbF2vwNsw+uB5EyZDinc89a+
-         2EDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729081743; x=1729686543;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jqRq8K4hvaYqPN23feyTC2SjJloWN6BY1l6v0lnE3aw=;
-        b=e5q5NuPElawLg8J80tKpMTwWGvMAnWHbwkbAuZnA8SdVv++svfTGeG79ecKpnlpYo5
-         Tyxcia1YJXjyiH+Bytre1AkkadUXuQVDFGWJbaIbgBNdeNiBgtLC3KUY3ws1Wp8qv7dH
-         KA41ID5HChtMT7ZY3T+ubYdGjLHq0GShWwFWRZ9zmGvJEhQ06NIVw3+6dpUgHVJ4Vf5J
-         qSjwpSUtn8eyJiOvOumFwlblUrsBUx12KkWUnIUdj0ZbKe51frY315oBVds2Rstx/bKL
-         xc+b7D++oS9ukNWk7LQmnPsM/5dPHbyLzdofGkidAOYnhIVvKTTf73CTibS4VFPzmuyY
-         loHg==
-X-Forwarded-Encrypted: i=1; AJvYcCVwkcT6MO0yYGBcCPfZgdTXwm4kDGlc74wrgLwUSMHZGWhWI5WuUJKZsQC7kjAmPFWPhZJ2m1z6qT9EQKVX@lists.linux.dev
-X-Gm-Message-State: AOJu0YwWDsHoDAL8ttqAb5/U0yUbzMVeKro272lyuFQrTdMedF/6UwcT
-	0sYiW5VDU/QpQwtGtoEE4B7sfdYf830q+8N0V+qra3eInIdPQfGP
-X-Google-Smtp-Source: AGHT+IEQPsc5ucfJIMAR1q44dVYgDTDvroc8uy/5hf3QHqKN1OwsH+h3z3mltyjwdebTtVq7U427Rw==
-X-Received: by 2002:a5d:4e0e:0:b0:374:c56e:1d44 with SMTP id ffacd0b85a97d-37d86d59a06mr2489037f8f.48.1729081742681;
-        Wed, 16 Oct 2024 05:29:02 -0700 (PDT)
-Received: from egonzo ([82.64.73.52])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d7fa90915sm4243400f8f.56.2024.10.16.05.29.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Oct 2024 05:29:01 -0700 (PDT)
-Date: Wed, 16 Oct 2024 14:28:58 +0200
-From: Dave Penkler <dpenkler@gmail.com>
-To: Rohit Chavan <roheetchavan@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: gpib: Remove unneeded semicolon.
-Message-ID: <Zw-xilwBCZoFea5x@egonzo>
-References: <20241016113010.1619275-1-roheetchavan@gmail.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="oYv4+CB2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B9F3C4CEC5;
+	Wed, 16 Oct 2024 12:29:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1729081776;
+	bh=9JFJaOwyE78LFBtrvAEjzPmYBTuXRQE4mU5L7RAx0mY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oYv4+CB2yP1AegeotQtTzNBcG1sXR5lfqWjYFSj1syYEwAuXMSvXvc6d7ksLRffF4
+	 xSKLRm1plzeeWF0zt4ySLgAF32YqL8daEQ8qvNG/QgOCJ9TP6yoMS1go+rGZcTNLr9
+	 rgsL27wMaWmrb02PuGukx6FmKz7d7n070yInNi78=
+Date: Wed, 16 Oct 2024 14:29:33 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Aymen Khalfa <a.khalfa.1012@gmail.com>
+Cc: hdegoede@redhat.com, Larry.Finger@lwfinger.net,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH] drivers: staging: rtl8723bs: Replace msleep() with
+ usleep_range().
+Message-ID: <2024101607-ditzy-magical-5683@gregkh>
+References: <20241016111210.2469193-1-a.khalfa.1012@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -67,19 +40,67 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241016113010.1619275-1-roheetchavan@gmail.com>
+In-Reply-To: <20241016111210.2469193-1-a.khalfa.1012@gmail.com>
 
-On Wed, Oct 16, 2024 at 05:00:10PM +0530, Rohit Chavan wrote:
-> This patch cleans up the GPIB driver by removing unneeded semicolons.
+On Wed, Oct 16, 2024 at 01:12:10PM +0200, Aymen Khalfa wrote:
+> -Fix checkpatch.pl warning by replacing msleep() with usleep_range() as
+> recommended in the documentation.
 > 
-> Signed-off-by: Rohit Chavan <roheetchavan@gmail.com>
+> Signed-off-by: Aymen Khalfa <a.khalfa.1012@gmail.com>
 > ---
-> Changes since v1:
->  - Make commit message concise
-> ---
->  drivers/staging/gpib/tms9914/tms9914.c | 4 ++--
->  drivers/staging/gpib/tnt4882/mite.c    | 2 +-
->  2 files changed, 3 insertions(+), 3 deletions(-)
+>  drivers/staging/rtl8723bs/core/rtw_pwrctrl.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+> index dbfcbac3d855..26e125f556e9 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+> @@ -429,7 +429,7 @@ s32 LPS_RF_ON_check(struct adapter *padapter, u32 delay_ms)
+>  			err = -1;
+>  			break;
+>  		}
+> -		msleep(1);
+> +		usleep_range(1000, 2000);
+>  	}
+>  
+>  	return err;
+> @@ -591,7 +591,7 @@ void LPS_Leave_check(struct adapter *padapter)
+>  		if (jiffies_to_msecs(jiffies - start_time) > 100)
+>  			break;
+>  
+> -		msleep(1);
+> +		usleep_range(1000, 2000);
+>  	}
+>  }
+>  
+> -- 
+> 2.34.1
 > 
 > 
-Reviewed-by: Dave Penkler <dpenkler@gmail.com>
+
+Hi,
+
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
+
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- You sent a patch that has been sent multiple times in the past, and is
+  identical to ones that have been rejected.  Please always look at the
+  mailing list traffic to determine if you are duplicating other
+  people's work.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
