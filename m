@@ -1,127 +1,88 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA9CA2076A9
-	for <linux-staging@lists.linux.dev>; Wed, 16 Oct 2024 11:13:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98D4E206944
+	for <linux-staging@lists.linux.dev>; Wed, 16 Oct 2024 11:15:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729077235; cv=none; b=TeQKXlqURpV9mA/561OhN6vBqLrwG5J7E2GacdSaE+fJztQ8svcUfpmzhhrxqy8TQE+1gYvI368ilNEcb5AHFLJkesB8tb2SjhxIbzGAcNHxGrIWbiVMb1YAl08jwxogut3EqTgcn/U6Nbq6Nj5MOyFLMcwKaN/8kJsjShIRsqU=
+	t=1729077329; cv=none; b=YAkGmgOKs2fqZ44jaDE/WDOwQo4PG3ozD2FJNWI+/uSp7kN9txHs8Quo/YTDyJ4F1tHUJzmvrB1DXb+3tlXv9sKTDD/P6yFtzjk6aBiG0lpqecueEDxPGj2jKcjGl61desDIvkHgX/gHqS/stmA89qcmvoBIVNxYuHU/LCtFgVk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729077235; c=relaxed/simple;
-	bh=Jgb2vXvtvTrjax6bzat1AGoOPsyxMpin/EEuLtOu0R4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eGFCyOsJsLNHRycRFKdQoST2sfZTKp1Htoxl6cr52DkCaQ2crFhbOVjQ90VZ2R5UddF3ucb0ngqw6thTMaTz3/BiHejc47f1vPYNkburIaOvLQT/oCN/tHgNNwSdD2e4KfsqyDssFMOfKKWDehB45vzewJNyZYEtBB+q3K8vQPY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=bwmLLzVJ; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1729077329; c=relaxed/simple;
+	bh=DEHSGwi9A3GIknJBjSkmfh89kVEe0AAscdiM/zazNF4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=cS7JNazO5NGpbRoUL9D+1SW1nIOdszDWIukwxo/eCig5NNVS2+oW8R54ru8ungMYKm8YiTlbyWytkBm6UZrXfV9PCtUPvrf97maQQuq0InqPD2qnrdvLf5EnO2YOTiSbrTk+2QZy1pU+f4aJMNPEJOhYZ92o+hwjO+YmB50mprw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nva4WOeD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bwmLLzVJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1729077232;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IemnLu1hWapO+xi2LzJ9xTJk8lHkwz8XBpQbihdlK3M=;
-	b=bwmLLzVJsocAgfYogWQFCTGeds5Gms2uL0qE0cKdlJKFrPLj+M4CiTI0TioixNFDz3+5sQ
-	SnCBC+EnKwtioNkBE/9+TF+ODZF7VwPVEJBxxMe0OUe2sDsPlJJtKTclRqi/eYHCgF38uH
-	/i0RCQpyVf2H7XXicvzmjIIGHodwwko=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-26-URvAH81NNuybfZqJSoR_4A-1; Wed, 16 Oct 2024 07:13:51 -0400
-X-MC-Unique: URvAH81NNuybfZqJSoR_4A-1
-Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-a99cb787d2cso299499066b.2
-        for <linux-staging@lists.linux.dev>; Wed, 16 Oct 2024 04:13:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729077230; x=1729682030;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IemnLu1hWapO+xi2LzJ9xTJk8lHkwz8XBpQbihdlK3M=;
-        b=FGLC5rYmRqUSk3vUVgGrrZX/KVTos9BGkqiihGTy1L29Rq+kN7OoSc6l9gEJa19KIV
-         Sdv1hyO4wtnTqKj2XCUc3sea3syw0zBFm/Wn6QSJqBtUhVHoPmvSQgh4Hv88Tj9f63x/
-         Jut+LQukvExczr/cfB6UJStbGPCyLyoRrGoaneO/Ypjm/T+xVU6u8LO/foo1YRESy5gq
-         QCozEkar9l+SyJ0lSFC0QvqBdbsoUSl5+7GcXjezOUFCkkfe07TaEopd87XkG7uFeL5d
-         huYp1xvTzmlNMg2JVsGeQx7KZC8OdgUFwCKgdbeOSmnIpOLhDUzdUg9ZwQYk2D7ZlXxF
-         Yr1Q==
-X-Gm-Message-State: AOJu0YwOXou4PWQLSUTZpkKdWCy+9N9tgQXZVoPjTeWQmwMkSmgI5QXN
-	4S7DAqOIjSOm0XLL7r36G+q5pE7HedltX+GCkPek2RiDChR44MxNJoIsjU3Kp16M3ACnGQkcByg
-	UDaNn2ccxhTOHNlHrpzk3iuC+wmswnEjS1etVI78EoOBGUg91VUWn8bt7c5ESZRU=
-X-Received: by 2002:a17:907:97cb:b0:a99:da6c:f607 with SMTP id a640c23a62f3a-a99da6cf789mr1456763966b.44.1729077230281;
-        Wed, 16 Oct 2024 04:13:50 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEnOLz05v1d/XDAdmh3+SntUIfivgO0e7SgG/fmCg09rvV1aXwMgbIevsUR+D2mwdmeWZx+eA==
-X-Received: by 2002:a17:907:97cb:b0:a99:da6c:f607 with SMTP id a640c23a62f3a-a99da6cf789mr1456761366b.44.1729077229905;
-        Wed, 16 Oct 2024 04:13:49 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9a29817599sm171844766b.98.2024.10.16.04.13.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Oct 2024 04:13:49 -0700 (PDT)
-Message-ID: <cbc6ee63-a364-492a-aded-afc690a924ec@redhat.com>
-Date: Wed, 16 Oct 2024 13:13:49 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nva4WOeD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3E38C4CEC5;
+	Wed, 16 Oct 2024 11:15:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729077329;
+	bh=DEHSGwi9A3GIknJBjSkmfh89kVEe0AAscdiM/zazNF4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=nva4WOeDFTSMewuZ+7gOF8pDzAru22rty/AXmhp9dZLXp2dGwLnk8cPowvAYLpjSc
+	 lJQmHkIdW1+P1pnjZig3ccv4Rbnifqh2CB0etUP2IoCF+EIaMUnneMfTqg68Pgdx+9
+	 dzO1kFNrPiipBnsFy9PIani79cRuHtGKANnTm/PppD24O4xI4/5QEhp4Rg1rcImkgN
+	 GCrFpIOHfs66l+5wm4T4mM7p7ISAPZ+SjEjGK5GdSbIiwgMpd1MXscz+SW6bUkoi85
+	 xOHHoSmIM0pdM3s1GL4sw1SbeptnizlvJeyf6tI0NQwYtDR2fjVy+Jr86+TozI8afz
+	 b8ypSD1/P3yuw==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dave Penkler <dpenkler@gmail.com>
+Cc: linux-staging@lists.linux.dev,
+	Arnd Bergmann <arnd@arndb.de>
+Subject: [PATCH 0/7] staging: gpib: randconfig build fixes
+Date: Wed, 16 Oct 2024 11:15:14 +0000
+Message-Id: <20241016111521.1143191-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drivers: staging: rtl8723bs: Replace msleep() with
- usleep_range().
-To: Aymen Khalfa <a.khalfa.1012@gmail.com>, gregkh@linuxfoundation.org,
- Larry.Finger@lwfinger.net
-Cc: linux-staging@lists.linux.dev
-References: <20241016111210.2469193-1-a.khalfa.1012@gmail.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20241016111210.2469193-1-a.khalfa.1012@gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, nl
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi,
+From: Arnd Bergmann <arnd@arndb.de>
 
-On 16-Oct-24 1:12 PM, Aymen Khalfa wrote:
-> -Fix checkpatch.pl warning by replacing msleep() with usleep_range() as
-> recommended in the documentation.
-> 
-> Signed-off-by: Aymen Khalfa <a.khalfa.1012@gmail.com>
+The newly added drivers added a few build failures on my randconfig
+setup. Some of these only happen with extra warnings enabled, or with
+the pending series to allow CONFIG_HAS_IOPORT to be disabled.
 
-Thanks, patch looks good to me:
+	Arnd
 
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+Arnd Bergmann (7):
+  staging: gpib: add module descriptions
+  staging: gpib: avoid unused const variables
+  staging: gpib: pc2: avoid calling undefined dma_free()
+  staging: gpib: make port I/O code conditional
+  staging: gpib: add bus specific Kconfig dependencies
+  staging: gpib: use proper format string in request_module
+  staging: gpib: cb7210: select NEC7210 library
 
-Regards,
+ drivers/staging/gpib/Kconfig                  | 18 ++++++++-
+ .../gpib/agilent_82350b/agilent_82350b.c      |  1 +
+ .../gpib/agilent_82357a/agilent_82357a.c      |  1 +
+ drivers/staging/gpib/cb7210/cb7210.c          |  1 +
+ drivers/staging/gpib/cec/cec_gpib.c           |  1 +
+ drivers/staging/gpib/common/gpib_os.c         |  9 +++--
+ drivers/staging/gpib/eastwood/fluke_gpib.c    |  1 +
+ drivers/staging/gpib/eastwood/fluke_gpib.h    |  8 ++--
+ drivers/staging/gpib/gpio/gpib_bitbang.c      |  1 +
+ drivers/staging/gpib/hp_82335/hp82335.c       |  1 +
+ .../staging/gpib/include/nec7210_registers.h  |  6 +--
+ drivers/staging/gpib/include/tms9914.h        |  4 +-
+ .../staging/gpib/include/tnt4882_registers.h  |  4 +-
+ drivers/staging/gpib/ines/ines.h              |  3 --
+ drivers/staging/gpib/ines/ines_gpib.c         |  7 +++-
+ .../gpib/lpvo_usb_gpib/lpvo_usb_gpib.c        |  1 +
+ drivers/staging/gpib/nec7210/nec7210.c        | 39 ++++++++++---------
+ drivers/staging/gpib/ni_usb/ni_usb_gpib.c     |  1 +
+ drivers/staging/gpib/pc2/pc2_gpib.c           |  5 +++
+ drivers/staging/gpib/tms9914/tms9914.c        |  6 +--
+ drivers/staging/gpib/tnt4882/tnt4882_gpib.c   |  4 +-
+ drivers/staging/gpib/uapi/gpib_user.h         | 20 +++++-----
+ 22 files changed, 93 insertions(+), 49 deletions(-)
 
-Hans
-
-
-
-> ---
->  drivers/staging/rtl8723bs/core/rtw_pwrctrl.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-> index dbfcbac3d855..26e125f556e9 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-> @@ -429,7 +429,7 @@ s32 LPS_RF_ON_check(struct adapter *padapter, u32 delay_ms)
->  			err = -1;
->  			break;
->  		}
-> -		msleep(1);
-> +		usleep_range(1000, 2000);
->  	}
->  
->  	return err;
-> @@ -591,7 +591,7 @@ void LPS_Leave_check(struct adapter *padapter)
->  		if (jiffies_to_msecs(jiffies - start_time) > 100)
->  			break;
->  
-> -		msleep(1);
-> +		usleep_range(1000, 2000);
->  	}
->  }
->  
+-- 
+2.39.5
 
