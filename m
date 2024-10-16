@@ -1,39 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BC10165F1A;
-	Wed, 16 Oct 2024 08:00:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F31E1D1E7A;
+	Wed, 16 Oct 2024 08:04:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729065626; cv=none; b=uYpEXJvobHXIH7vZcLuv5SXD1YcjmUbGpIyMM/N3AOQVQ4rMMpaHGHgBtR8oIusnYTiA76ZM6yNQ1s7+CqnyYHd7DVq4iFsNQY4oWD3otj8dfZUGfZdoSjZ/tB/AVDcAJur6ZpO1NdhqLMckxEg/N/S9nZokyCwM90Sa2taLyDQ=
+	t=1729065865; cv=none; b=MUnM8IR2LOt4KyKZfZz3SjXHXppeCB8EHSA6FDtL1t/2WWKGy2lptQe2RF/L0cDDb7KAUTPft4Fi7v4lCXB1rFfbjKl83BlHtIHVQWD3CLu8+imSIttyPnumswZ6/hTpTJR4BW2pbX4kNzDk+rmJXN80JWCbFG67T17sXxlQDog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729065626; c=relaxed/simple;
-	bh=+zWcV0Csss2iSqIzflJwBTZ3Csh643N3Xb+LobJZqm0=;
+	s=arc-20240116; t=1729065865; c=relaxed/simple;
+	bh=7EFMniMnM4vFAxl54q7U5HgmZAXyzue7bpEMYWTS2JI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Th4vzUPSYbx8IAsJH4GGzdkFGP9xskTUP81d62UJi8GsgyL9yWt3CLgzUvR6dj6yoHGAj+K8Y2QUHikIP4YL5zkXyV0i+oFncxoiP0AeF0YEamdlt8sjHFOtuNPjv43IRIi1otpvOvz+GK9pvuT/W1OhuVLdLB+yAvLpEff0rfE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=yHRkzFjS; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=khXdETrBBKnNYKwaJ17vDmh2ou0afOdw4aaenYmO0YitLCch9EQDTybWC1fStjoY1Z+FTzs1Dg+9OT8QlITBLhosGOfH8V/cDgbE2F+9jG+upL1OAEAYGniL8UwPOil3iBjfaTto5WNf2yyXO5jJrZ+oH2++TAV3cBlSKsmR5RI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=uljULS18; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="yHRkzFjS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE8F6C4CEC5;
-	Wed, 16 Oct 2024 08:00:25 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="uljULS18"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44ACCC4CEC5;
+	Wed, 16 Oct 2024 08:04:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1729065626;
-	bh=+zWcV0Csss2iSqIzflJwBTZ3Csh643N3Xb+LobJZqm0=;
+	s=korg; t=1729065864;
+	bh=7EFMniMnM4vFAxl54q7U5HgmZAXyzue7bpEMYWTS2JI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=yHRkzFjS8AhAmEPuG3FgkltCz18azFiIchAhUaWNDBJtMNy/2M1S34a4d5sj3dAri
-	 YQs8SNQsr3BYs0HBhmtVHKahgaCI9mgrtFcEhhufKWJBr06qt3T/VgyctALvluj9gb
-	 chUFTSb7pGMdpscT/wgdHwPNItNSgvxPLvBv4aL0=
-Date: Wed, 16 Oct 2024 10:00:22 +0200
+	b=uljULS18j1xz+2gy4x+uTXUw7Fr7Jd1k3cyKk9bTh4mntAGfIzlY5EdEXiFyeVvc0
+	 CY8RHHtlQibLoMG89mOdENWbAWlsgZv+56EgfZFD9GtzhSMxD3rcl2IBUINq4HIZcH
+	 UZkxF+mO4p+EkL10+GpVTM3BXzHzTHQVTPo7WPbI=
+Date: Wed, 16 Oct 2024 10:04:21 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
-Cc: dan.carpenter@linaro.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev, philipp.g.hortmann@gmail.com,
-	~lkcamp/patches@lists.sr.ht
-Subject: Re: [PATCH 1/2] staging: rtl8723bs: change remaining printk to
- proper api
-Message-ID: <2024101608-daycare-exterior-31fd@gregkh>
-References: <d20087fc-586e-4a52-99e6-6a09b33ed00e@stanley.mountain>
- <20241015213822.8070-1-rodrigo.gobbi.7@gmail.com>
+To: "Everest K.C." <everestkc@everestkc.com.np>
+Cc: dpenkler@gmail.com, skhan@linuxfoundation.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH V2] staging: gpib: Remove a dead condition in if statement
+Message-ID: <2024101654-jasmine-ransack-7190@gregkh>
+References: <20241016075319.4092-1-everestkc@everestkc.com.np>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -42,18 +39,44 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241015213822.8070-1-rodrigo.gobbi.7@gmail.com>
+In-Reply-To: <20241016075319.4092-1-everestkc@everestkc.com.np>
 
-On Tue, Oct 15, 2024 at 06:38:22PM -0300, Rodrigo Gobbi wrote:
-> > No, this isn't right.  You'd need to use a mix of dev_dbg() and pr_cont().
-> > Basically in drivers it should always be dev_ printks except for pr_cont().
+On Wed, Oct 16, 2024 at 01:53:18AM -0600, Everest K.C. wrote:
+> The variable `residue` is an unsigned int, also the function
+> `fluke_get_dma_residue` returns an unsigned int. The value of
+> an unsigned int can only be 0 at minimum.
+> The less-than-zero comparison can never be true.
+> Fix it by removing the dead condition in the if statement.
 > 
-> Tks, Dan, for the answer and suggestion. In this case, rather the dev_xxx(),
-> do you think we can go with netdev_dbg() since this is a network driver and around
-> the rtw_mlme_ext.c is already being used? (actually, I don't see a direct reference for struct device).
-> If yes, I would mix the netdev_dbg() and pr_cont().
+> This issue was reported by Coverity Scan.
+> Report:
+> CID 1600782: (#1 of 1): Macro compares unsigned to 0 (NO_EFFECT)
+> unsigned_compare: This less-than-zero comparison of an unsigned value
+> is never true. residue < 0U.
+> 
+> Signed-off-by: Everest K.C. <everestkc@everestkc.com.np>
+> ---
+> V1 -> V2: - Fixed typo of comparison in changelog
+>           - Removed Fixes tag 
+> 
+>  drivers/staging/gpib/eastwood/fluke_gpib.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/gpib/eastwood/fluke_gpib.c b/drivers/staging/gpib/eastwood/fluke_gpib.c
+> index f9f149db222d..51b4f9891a34 100644
+> --- a/drivers/staging/gpib/eastwood/fluke_gpib.c
+> +++ b/drivers/staging/gpib/eastwood/fluke_gpib.c
+> @@ -644,7 +644,7 @@ static int fluke_dma_read(gpib_board_t *board, uint8_t *buffer,
+>  	 */
+>  	usleep_range(10, 15);
+>  	residue = fluke_get_dma_residue(e_priv->dma_channel, dma_cookie);
+> -	if (WARN_ON_ONCE(residue > length || residue < 0))
+> +	if (WARN_ON_ONCE(residue > length))
 
-Please use netdev_dbg() for a networking driver.
+No, this is incorrect, now we never notice is the call to
+fluke_get_dma_residue() has failed.  Please fix that bug instead (hint,
+Covertity is giving you a pointer to where something might be wrong, but
+this change is NOT how to fix it.)
 
 thanks,
 
