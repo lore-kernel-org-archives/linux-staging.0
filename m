@@ -1,104 +1,73 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D2A8198856
-	for <linux-staging@lists.linux.dev>; Wed, 16 Oct 2024 07:56:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18373189F3F;
+	Wed, 16 Oct 2024 07:58:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729065415; cv=none; b=hJC9ijIZzQ2f1PTzVFh/11P85sFAUurxDHxQBvRR/sj0fegi+6z0kUtyBDhDaiaJQIN2jATw91fTsObQ8CtKc1C7WyLdRvfVHdoFcodmJrBg5PgeFmr5JHv/rJNvBa4jUjWpxFsTCrmYLS8/HIXh7Cr8FOYUsZGSEP4H78dZZw0=
+	t=1729065484; cv=none; b=R4FRpQcsqBMFPlfiwP/do2gt98EtnFu4Ab3/dcgyfXvvkS2ZjLJN1fU4gBwiYxn3t0HVfdwr+/BZROeVY4x/L6CWAdSWn2RaU2LUDGKOCKqErq0h5cVQg9+Ai0o6ldd8oN9bapBfHu5qN7PVQQnPBt9XxsYTmiQMp9yAsKQDjB4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729065415; c=relaxed/simple;
-	bh=O+5lJ5Ni7lFZp26xLN1oEhYuSX0s3Lqt4VrhJx8zBsY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YdHrPIEsVIMsjs+YlkxefS44mqV+Q9djbzieyl0M6FwMS7TMHUhF83xA+UgMB0LNC1va/QIGLhWrSJ6VDlYqLp95l2a7pLYuXWBgFggq59JB4egNpyzuZc3Qsq9HXTG9GzvITuQnBgpz24t4jxBBXCA9eBWjdbak8leIZW5DdBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=everestkc.com.np; spf=pass smtp.mailfrom=everestkc.com.np; dkim=pass (2048-bit key) header.d=everestkc-com-np.20230601.gappssmtp.com header.i=@everestkc-com-np.20230601.gappssmtp.com header.b=Io3M5PJ6; arc=none smtp.client-ip=209.85.210.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=everestkc.com.np
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everestkc.com.np
+	s=arc-20240116; t=1729065484; c=relaxed/simple;
+	bh=1D2jsBeYDEAhVuG4OQw+QbvOsFJzQL4YBaU7YvW1GHw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kzLpyuM708TgIvZKLzDRhcwlHMNOH+Mcc7/7YbzaBK0IudiPZ65cPnfthQWOzItHq7MmM//ig5VV6yuz/Ny0eXdfUKZhxy9me0bNDb4jiKFMMILpkZrjNz4ExIjkxAcd3six0QW4kPuvpdCkGoxzlBIbhNOHFsZYhpBA2ODtdNE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=i+snVq26; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=everestkc-com-np.20230601.gappssmtp.com header.i=@everestkc-com-np.20230601.gappssmtp.com header.b="Io3M5PJ6"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-71e6cec7227so2050935b3a.0
-        for <linux-staging@lists.linux.dev>; Wed, 16 Oct 2024 00:56:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=everestkc-com-np.20230601.gappssmtp.com; s=20230601; t=1729065413; x=1729670213; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cY1GwhXrLBAJECK/gKfBurYS+3BKFHmYqoD8mjoZOgA=;
-        b=Io3M5PJ6xTefrB1RyA0S9zcXf3DcZ/zyIoXC13X5Ao9Ltt8EWKq90amFGYY7OwkT7S
-         vtkW38TIM1h//Q5GIXNQCSNixUzHRAEtdCg9BR14y0ax6TnGEsp5QMyLqIfpyIwI7E//
-         RQgsejgg4OHxcW6xOCp4H5GLq85Erh2pWzlKjJ+QCsHRbA7ZbiM9EmzH1Xnc1WuBcaST
-         4Nu7dE2RzwLkq3vALOzc5GsMTom9exI6SeA6dsYHHHqWWfnP8a3rjsppRwGs2YLJ8CZB
-         8jrrwk7KJUUkhEIMZYnBRSQCQSk+V0Bg3EQUcltTqaSbzBM0zStNdyU4AoaF2lPe/TwU
-         +EFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729065413; x=1729670213;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cY1GwhXrLBAJECK/gKfBurYS+3BKFHmYqoD8mjoZOgA=;
-        b=UptKzQmi8X+pufUOeYcpV/xVRbfmRhD/i2xqPyrX+SnOGixE0f3A/75kHD5oBq6kRN
-         C0o48nn1K5oImmROJlOIMM+Pa+FUB4BGwEUQ/aUdpdf3fLam3wHhWE3G8Vju4a1epah4
-         3VQNE9NAHg/aE+4zE8YOVgL58f0xzJ1dMUBnXlCFVLMumK1HRLnYh81meAHe1bZo14Qa
-         X1kBvmbwlX5C8UU2hx1ckGqPXQh1RAv1GSWASL6hdpPMQh8+uMmBrygbgFAkv9/WTi4n
-         IzM1huIrndSCf1ZCSBlVaLAjhZAzkLCzzXpou+fTHsEZaEFYe/dQbZ711rAanRM7GANv
-         hjLA==
-X-Forwarded-Encrypted: i=1; AJvYcCWvr3ak14mKZq3tWjjUFJwJqS8Cmf7a9iNseeGBTBCjsaUS6SGqczMGJ9c/iCsS4vCLJdYLg00WC2UHPx3O@lists.linux.dev
-X-Gm-Message-State: AOJu0YxVbYqwA0OAceiZasmF2S3OWAgihqqAO0CiJjk69jvcSQIidQUT
-	mUc7dL+pRDlXfeHgcw4SW2wAeUOvyQyriuap36f4JwBhqcaAkuwFAwJFMv5xba0=
-X-Google-Smtp-Source: AGHT+IEdKtSTNNT7pPj/NNmW0H3kFE87LSlsdU5aTzKc2Bifh4Ju1KicfbqlfaUrAdSDAmYFllUY7g==
-X-Received: by 2002:a05:6a00:2da4:b0:71e:4c86:659a with SMTP id d2e1a72fcca58-71e7da48723mr5210472b3a.9.1729065412526;
-        Wed, 16 Oct 2024 00:56:52 -0700 (PDT)
-Received: from localhost.localdomain ([132.178.238.27])
-        by smtp.googlemail.com with ESMTPSA id d2e1a72fcca58-71e77371708sm2522972b3a.32.2024.10.16.00.56.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Oct 2024 00:56:52 -0700 (PDT)
-From: "Everest K.C." <everestkc@everestkc.com.np>
-To: dpenkler@gmail.com,
-	gregkh@linuxfoundation.org
-Cc: "Everest K.C." <everestkc@everestkc.com.np>,
-	skhan@linuxfoundation.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH V2] staging: gpib: Remove unused value
-Date: Wed, 16 Oct 2024 01:55:43 -0600
-Message-ID: <20241016075544.4125-1-everestkc@everestkc.com.np>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="i+snVq26"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24899C4CEC5;
+	Wed, 16 Oct 2024 07:58:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1729065483;
+	bh=1D2jsBeYDEAhVuG4OQw+QbvOsFJzQL4YBaU7YvW1GHw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=i+snVq26ARb2XZCxOsH86Xwnsj6YuDX95yNLxpfOyQNlBh2/bTDq25uhnj07JGqMo
+	 aHgy/AsZPsQmWtDA4goZJrcoGTnCi4NeCgrAfrGnOmJLZ5R542l2P8hXxtXO6ayqZd
+	 12ovVnD+LxA4CRzOYYpcOivG763NrSWDiHbZvNy8=
+Date: Wed, 16 Oct 2024 09:58:00 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Umang Jain <umang.jain@ideasonboard.com>
+Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	kernel-list@raspberrypi.com, Stefan Wahren <wahrenst@gmx.net>
+Subject: Re: [PATCH v3 0/2] staging: staging: vchiq_arm: Two memory leak fixes
+Message-ID: <2024101622-upgrade-grape-33c2@gregkh>
+References: <20241014100624.104987-1-umang.jain@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241014100624.104987-1-umang.jain@ideasonboard.com>
 
-The variable `complement_count` is assigned a value which is again
-overwritten in the next statement.
-Fix this by removing the first value assigning statement
+On Mon, Oct 14, 2024 at 03:36:22PM +0530, Umang Jain wrote:
+> Two memory leaks were identified and this series addresses those leaks.
+> 
+> Changes in v3:
+> - Add Fixes tag to 1/2 as well.
+>   (Suggestion by Dan Carpenter)
+> 
+> changes in v2:
+> - Split patches into two
+> 
+> v1:
+> - https://lore.kernel.org/linux-staging/b176520b-5578-40b0-9d68-b1051810c5bb@gmx.net/T/#t
+> 
+> Umang Jain (2):
+>   staging: vchiq_arm: Utilise devm_kzalloc() for allocation
+>   staging: vchiq_arm: Utilize devm_kzalloc() for allocation
 
-This issue was reported by Coverity Scan.
-Report:
-CID 1600790: (#1 of 1): Unused value (UNUSED_VALUE)
-assigned_value: Assigning value from length to complement_count here,
-but that stored value is overwritten before it can be used.
+You have two commits with almost identical commit messages (one with a
+spelling mistake.)  Please fix this up to have them be unique not in a
+way with a misspelling :)
 
-Signed-off-by: Everest K.C. <everestkc@everestkc.com.np>
-Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
----
-V1 -> V2: - Removed Fixes tag
+thanks,
 
- drivers/staging/gpib/ni_usb/ni_usb_gpib.c | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/drivers/staging/gpib/ni_usb/ni_usb_gpib.c b/drivers/staging/gpib/ni_usb/ni_usb_gpib.c
-index 1da263676f2a..e19e18892468 100644
---- a/drivers/staging/gpib/ni_usb/ni_usb_gpib.c
-+++ b/drivers/staging/gpib/ni_usb/ni_usb_gpib.c
-@@ -759,7 +759,6 @@ static int ni_usb_write(gpib_board_t *board, uint8_t *buffer, size_t length,
- 	if (!out_data)
- 		return -ENOMEM;
- 	out_data[i++] = 0x0d;
--	complement_count = length;
- 	complement_count = length - 1;
- 	complement_count = ~complement_count;
- 	out_data[i++] = complement_count & 0xff;
--- 
-2.43.0
-
+greg k-h
