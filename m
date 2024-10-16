@@ -1,96 +1,125 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mail-40134.protonmail.ch (mail-40134.protonmail.ch [185.70.40.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B199B208D8C
-	for <linux-staging@lists.linux.dev>; Wed, 16 Oct 2024 13:02:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33B383A8F0
+	for <linux-staging@lists.linux.dev>; Wed, 16 Oct 2024 13:34:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.40.134
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729083761; cv=none; b=CppprRZy7/V0eAlEPAnvDt2z3u6n8ss6LgEIdSz9WaOqxeRl4RcUb3+Tv2/DWP03MvrYdL4WkGRSw/HjSnateYP89LCgTIZ5LQu1xdhGlCf5pjr6KZD8SWBKfRXG7IwXsOHpnYrzWyGeSIExifu7b8nrnQaejznP2dWpp1pf4w8=
+	t=1729085653; cv=none; b=SWVkpRHUEMqqc/FtR1THqp4SY+cUcYbJ/trQnlX4we7DiXx+uUj39F4LQpra5d3MbpMZ7ejcyscbRVy0fbdDO+nkcMhHRgos2ccUk6Sg8GBYWca/3v7t78tvZ1Bw6Lr1kFV/GC9ANGMHgRc8pSVoRykbnwSH2BuQ8fTwJi6LI9Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729083761; c=relaxed/simple;
-	bh=eFZWbOo+TJEgq/Jip7gO5D6X+BXYGORK47hl/bD23Ec=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZhSlc4V9nkphL49BLtWOlJn0FcuuqlE8DUMP2YIj1NlupqrdpA1QwKb4NgOynmb0VpZvTR12pV/n1w7JD1QyC8PIGXQewp4xpKlOweBPnrx79lrbSRWUlBSLWjTVniG+W1vHiBA9CU4GVRNObkAkWYdXauM/OAnA00sn3MHpTzA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=cF4pGfVN; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1729085653; c=relaxed/simple;
+	bh=Wm6j0HHXHr6rZrgJv9XtSE7kyw4KMDFQKc6FGm2m+C0=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=s6S42ZnV22LaKB0Qlw1QgWa2W8IQi/teyrx4RQQnX2gyg3+pqgNxRxYHi1h1Z2hZq5OU6ww7eDUSPfRXNfszJhSCC8TgQHFksi1d+C/pXAMOlBl2Uj+KX4VzsDzRX/HhUPbtixxQlkEEARCBVZGcIYDHr80Iz4NZztbJUclYUt0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=H+4Bd0ah; arc=none smtp.client-ip=185.70.40.134
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="cF4pGfVN"
-Received: from umang.jain (unknown [IPv6:2405:201:2015:f873:55d7:c02e:b2eb:ee3f])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 21533F86;
-	Wed, 16 Oct 2024 15:00:54 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1729083656;
-	bh=eFZWbOo+TJEgq/Jip7gO5D6X+BXYGORK47hl/bD23Ec=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=cF4pGfVNL10E8IRO47Cp96CaNFhK5FCkk7fM0g1yOKYCHXKFpPa5lGY6POiXVJR8e
-	 j4Zj3qwMWy/keHdk9pWH8tUCQ8RCoSaCBdSm//8DQHrPvQFtBf1KVOLIv3n8siionG
-	 1bdxZnCsgj00p/pIOuQmxKlirjifL1h/E7g7ZHew=
-From: Umang Jain <umang.jain@ideasonboard.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
-Cc: linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Stefan Wahren <wahrenst@gmx.net>,
-	kernel-list@raspberrypi.com,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	stable@vger.kernel.org,
-	Dan Carpenter <dan.carpenter@linaro.org>
-Subject: [PATCH v4 2/2] staging: vchiq_arm: Use devm_kzalloc() for drv_mgmt allocation
-Date: Wed, 16 Oct 2024 18:32:25 +0530
-Message-ID: <20241016130225.61024-3-umang.jain@ideasonboard.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20241016130225.61024-1-umang.jain@ideasonboard.com>
-References: <20241016130225.61024-1-umang.jain@ideasonboard.com>
+	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="H+4Bd0ah"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+	s=protonmail3; t=1729085649; x=1729344849;
+	bh=Wm6j0HHXHr6rZrgJv9XtSE7kyw4KMDFQKc6FGm2m+C0=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=H+4Bd0ahESOKUsvwcjZf2E7HUqPfEvb+dzskyu50OGVSduieOznONkKb72qNivKZW
+	 Q8GcWbmqioajaH98BLz2tHhtOTOey50VIuRxjBdhUOqXc0DhbdBJasxDS/d82jKfeX
+	 254jBfhAHwvNvQg1wbeCFf80Md7l9MVnyiwA4T2WRbDqZl5QrFJVJ7p01XfGTHrGDu
+	 4Xw3UkEOh53QMsYnYB4rPDEmKn6vF+pSw11cAJ+L20KCu/rH6vjMIndrz6+lkCYWP8
+	 hTSRAnehXzleSsojRVjiseVNEdDBEgxELUM74haoLODapNNI6MPuujOQV8t+FI1Nq9
+	 jCSZ2oHvGwkkA==
+Date: Wed, 16 Oct 2024 13:34:07 +0000
+To: Greg KH <gregkh@linuxfoundation.org>
+From: =?utf-8?Q?Dominik_Karol_Pi=C4=85tkowski?= <dominik.karol.piatkowski@protonmail.com>
+Cc: dpenkler@gmail.com, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v2] staging: gpib: Add TODO file
+Message-ID: <B28HXaYBd4-AP7g9jMpXgQEcJIzAQUsaUqMerdy_Hk0tR2Q9RKTAmcYbtq3LR06X3yHj0R6D4bLJHEHCYsszgjvnfhgZ7K5QwOzx5JLNI_A=@protonmail.com>
+In-Reply-To: <2024101609-getaway-appendage-1f88@gregkh>
+References: <20241015192838.16740-1-dominik.karol.piatkowski@protonmail.com> <2024101609-getaway-appendage-1f88@gregkh>
+Feedback-ID: 117888567:user:proton
+X-Pm-Message-ID: 5c17d14c4951bdc73c9970c4d97f82f5b669eed7
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-The struct drv_mgmt 'mgmt' is currently allocated dynamically using
-kzalloc(). Unfortunately, it is subjected to memory leaks in the error
-handling paths of the probe() function.
+On Wednesday, October 16th, 2024 at 07:33, Greg KH <gregkh@linuxfoundation.=
+org> wrote:
 
-To address this issue, use device resource management
-helper devm_kzalloc(), to ensure cleanup after the allocation.
+>=20
+>=20
+> On Tue, Oct 15, 2024 at 07:28:57PM +0000, Dominik Karol Pi=C4=85tkowski w=
+rote:
+>=20
+> > Add a TODO file stub for the gpib driver.
+> >=20
+> > Signed-off-by: Dominik Karol Pi=C4=85tkowski dominik.karol.piatkowski@p=
+rotonmail.com
+> > ---
+> > v2: Remove maintainers from TODO, as they can be found in MAINTAINERS f=
+ile
+> > drivers/staging/gpib/TODO | 2 ++
+> > 1 file changed, 2 insertions(+)
+> > create mode 100644 drivers/staging/gpib/TODO
+> >=20
+> > diff --git a/drivers/staging/gpib/TODO b/drivers/staging/gpib/TODO
+> > new file mode 100644
+> > index 000000000000..850dc1102e54
+> > --- /dev/null
+> > +++ b/drivers/staging/gpib/TODO
+> > @@ -0,0 +1,2 @@
+> > +TODO:
+> > +- checkpatch.pl fixes
+> > --
+> > 2.34.1
+>=20
+>=20
+> Hi,
+>=20
+> This is the friendly patch-bot of Greg Kroah-Hartman. You have sent him
+> a patch that has triggered this response. He used to manually respond
+> to these common problems, but in order to save his sanity (he kept
+> writing the same thing over and over, yet to different people), I was
+> created. Hopefully you will not take offence and will fix the problem
+> in your patch and resubmit it so that it can be accepted into the Linux
+> kernel tree.
+>=20
+> You are receiving this message because of the following common error(s)
+> as indicated below:
+>=20
+> - This looks like a new version of a previously submitted patch, but you
+> did not list below the --- line any changes from the previous version.
+> Please read the section entitled "The canonical patch format" in the
+> kernel file, Documentation/process/submitting-patches.rst for what
+> needs to be done here to properly describe this.
+>=20
+> If you wish to discuss this problem further, or you have questions about
+> how to resolve this issue, please feel free to respond to this email and
+> Greg will reply once he has dug out from the pending patches received
+> from other developers.
+>=20
+> thanks,
+>=20
+> greg k-h's patch email bot
 
-Cc: stable@vger.kernel.org
-Fixes: 1c9e16b73166 ("staging: vc04_services: vchiq_arm: Split driver static and runtime data")
-Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
----
- drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+Hi Greg,
 
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-index 7ece82c361ee..8412be7183fc 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-@@ -1343,7 +1343,7 @@ static int vchiq_probe(struct platform_device *pdev)
- 		return -ENOENT;
- 	}
- 
--	mgmt = kzalloc(sizeof(*mgmt), GFP_KERNEL);
-+	mgmt = devm_kzalloc(&pdev->dev, sizeof(*mgmt), GFP_KERNEL);
- 	if (!mgmt)
- 		return -ENOMEM;
- 
-@@ -1397,8 +1397,6 @@ static void vchiq_remove(struct platform_device *pdev)
- 
- 	arm_state = vchiq_platform_get_arm_state(&mgmt->state);
- 	kthread_stop(arm_state->ka_thread);
--
--	kfree(mgmt);
- }
- 
- static struct platform_driver vchiq_driver = {
--- 
-2.45.2
+I listed the changes below the --- line. Probably I should have added extra
+newline, or maybe even another --- line below the changes in order to not
+trigger the patch-bot message and make it more readable. Maybe I should als=
+o
+explicitly use "V1 -> V2" instead of "v2" when listing changes? I am trying
+to understand the filtering rules that are in use, in order to avoid this
+situation in the future.
 
+I see that in Documentation/process/submitting-patches.rst there is an extr=
+a
+newline after listed changes, would it be enough?
+
+Thanks,
+
+Dominik Karol
