@@ -1,104 +1,88 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F32FD205E3C
-	for <linux-staging@lists.linux.dev>; Wed, 16 Oct 2024 13:38:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 549AE206971
+	for <linux-staging@lists.linux.dev>; Wed, 16 Oct 2024 14:20:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729085931; cv=none; b=YlEmoBF2MwPQhkCJ0JIIWxUJGjGxb8xZSG7YQh52AX5ZlSjgT6sLC6pa7hgyhEpd1T6a1HtgdkKJOmjTLNcJCNlqtrL7XWLDnl3XRDQfStGwYIUbo6pHxEJ35l52L8T+rBCIeFgkMpPijePha0X+XUZnNgZM88bOmdZ+2+ZoKLU=
+	t=1729088405; cv=none; b=kFLEGBfOzkFpfpfz6XTFjKRo9+9/Rqyd1dmhs6hft37pbzi2AlxH2lBjCU9DWzroSMKmT/ii00VqD9nwbhTZnf+kmGrd992izfu0o7jClqoYs/EUTNIL/Pl276W1yb61+U2epZMxfV5hSjrjOepi8SsyLBK41tDP7JPym2B0JbQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729085931; c=relaxed/simple;
-	bh=IySJiiHKQ9uzg8Y6/9egbralZWhforGpWViQ50tt5NQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=qFy10CjCCzdsPuCrxJQlveQsJNo9T5a2zarufCu/6fkN6BFVnaATDdpjcj6IsxQA+TTlowASSE1Vr8AxS0JsRAywoAK1ebaQlYf5AKWzwU13hD2te9qvy+bBEPdgL5KNXmEmeiSnY4ejrwtoSyROUK/T60kbOsB19sWgENIwCZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hYnP0yRH; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1729088405; c=relaxed/simple;
+	bh=pJUkxQtwyw746nk67DanPGVIfzvUtiNSIx6NJeAjoGk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=on9ktNDBpko45gOAFpBroQaAMORgNrMMrHaMewO0TNP1+9hnpd3+zPfxuLke2f83RuM+GFDyDTdc1YwyopnnMp+foREEMAybSYsjzI5ZFqfAnLmuF/fyLQ5XqtuDNVbf2ef2OL0pzspTc0zcvcSKb/5YK2xqF5reZgAOsvBVbH4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Jkh636R0; arc=none smtp.client-ip=209.85.208.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hYnP0yRH"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4305724c12eso50897115e9.1
-        for <linux-staging@lists.linux.dev>; Wed, 16 Oct 2024 06:38:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Jkh636R0"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5c9552d02e6so6449111a12.2
+        for <linux-staging@lists.linux.dev>; Wed, 16 Oct 2024 07:20:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729085928; x=1729690728; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pa6exbdx6NUoRdCrQdTchcVOej7ISzyDCTBB7HgeisE=;
-        b=hYnP0yRHcZbkJpVYOXsYc+KbMWG+nyznMQvYUeBDf1+GKnHXy1sCyb1RZEe+Ffj9SU
-         qI+y55a7VMJlRkI33vsJFj0r1avk30NvA303TIO35dTwAZm1E7xKvDQmlIdDEkOcNE8L
-         PQUIEbZB9ZnP1oWiuR7DmUQZqvkfBS2/2qPnTrvVLPPZa4WGjLS8FDmWLx0V7iqePfKp
-         Fto7cAYmLCYiqw5VjSd/b4uwJalMglzpELqCA9gD9La38piBiEPh8RcFWG6RBaO3YBV4
-         8c3Nvz/3mwoPjDkBrirMQtGTC2Q2RW85i5Z6IdZJ5xIJC0b/1BQDBMacg3gH1yD/wwn1
-         ob5g==
+        d=linaro.org; s=google; t=1729088402; x=1729693202; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=l6YX0eX++W7tAw6O3U3cWC8A1iR7EUNPF7MLoOd5k00=;
+        b=Jkh636R0v2KIeB3vH6+DuY3l0RD89Qo+d7pDMrS9kFqVpET/AdXFsb3yVcOeBpKhqW
+         rDgztQcxShDKiLqCotx0ZDCi/M4xvnpw2C4GklHB77KfLbPKrCWbj7bheK62f/y9PZLB
+         qH3N7IGRdzT9u3FLR272+x2BnGnlZl5cdEy//KuyeNaCZGIRhWD0WiGRKU6j/CtUZXTK
+         uhUYcnAVHoeUPNN4Da3Xe4nfJITvy5pdlvCFIPREb+fSJu1ubyRfez+1qIqmhG4oN8U6
+         D0YITpSfImkDNPtY3VbR3HTifnak7nVkKPgCV4A+TFexk0YAFeigh0X/3vrrkm5efXpP
+         FRbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729085928; x=1729690728;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pa6exbdx6NUoRdCrQdTchcVOej7ISzyDCTBB7HgeisE=;
-        b=s1VCo6uciUnif2rZtun51kGg1WWXHO/kAZH3DjgS62Ic49pqxtN5AAG5iuwQUVr2lY
-         1VNpBXgF6IpZV1sghj0+axvSqejrwclRfzQbkwD1bpu4Tldy3lKOWc8MIiFm+KfJodeF
-         PN45iXvr5ATsOdo5iI+1N8cB6NVxK52hUSHRnDt5/+Csev9pem2y0KohxaeqpT7J8STl
-         zziSlih/1mQAvkK7kgXNGC7IHa1zueHSFzxID4Bp5FT1zmwxuTvA5AsjDPqPeXFEE0TM
-         omLcvT8j4KO62LrC+kR/nqfiMCMHac56SWEKTyrI0u3UHuEOOmw6jvamb3ltBn4UHB7e
-         2Xdw==
-X-Gm-Message-State: AOJu0YzvfYqosxVQRBMXg0mrHFvMTT1prCr6bRP/4mLOJ1x0muuLb7O8
-	ZgS87FAFcFSszjJl06aAIFyHFob3GqCtBngSUBg2RVVZdBOGGfn+
-X-Google-Smtp-Source: AGHT+IGnyAjXZ2SqY/EYanBwc0FwNiQp0vIkX5O4qBPdC2FXz95uKq4Rg6uBxI1a299/BzzJCGh5EQ==
-X-Received: by 2002:a05:600c:4f43:b0:42a:a6d2:3270 with SMTP id 5b1f17b1804b1-431255e9df5mr132722185e9.21.1729085928173;
-        Wed, 16 Oct 2024 06:38:48 -0700 (PDT)
-Received: from ARL1114-LINUX.. ([196.233.5.237])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4313f6c5524sm49415035e9.44.2024.10.16.06.38.47
+        d=1e100.net; s=20230601; t=1729088402; x=1729693202;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=l6YX0eX++W7tAw6O3U3cWC8A1iR7EUNPF7MLoOd5k00=;
+        b=Filaa7BP8ZQ0CsR+qwwLllIsDco3c9zECTf/t9Ia/lxcw5vPL/KCBZTnHPPX8Z3cJ3
+         Al2y+jLOYnimVK3qjJzBvS/2c1O9usJ+lKLwla0jYM+lh49YGIKUDgcyY58LIQu7nCNu
+         2cmyLaOOmhJuGWvMIUPxjRLHINzqhcYOmNFQJZ6jtItqtKhaRRyZg3b9Cnlqbp6wbkfq
+         vEL6P9R0EPGwxNfC9q43iIPDYlBnBAdsB0WIhnyofB85XMhSj75ktHvAGRFRAtHiAXcd
+         NTQ5jNGIHsQ1CoTTUSGKpbyKiL3Nf21Kdfw9VIRxDPxN//QxP7OHGFa9ylJk+suzqhoJ
+         pOsA==
+X-Forwarded-Encrypted: i=1; AJvYcCUUeol4Y/yqrnJFXovQurSnmO+PobJxli91cqv8Xn63bm+lsAmhgrbjiFCKpLYw/A6jlmltTbrqYgHfsM7L@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx7/R3BQDqqto6d+A4at0ObGHllq7cheGIE41eUSCkyvbPLTn+X
+	eTWvgYD1yXHzX9jRUtYWVTxUaG5eDfev1hbHVtq3Veqiof46zMEAAzGYXAshjc8=
+X-Google-Smtp-Source: AGHT+IHZn1ughsOxXkjsi52tYdi0Vt+QgnG0sILlX8vmnAbEOr3JjvX4QEzTCq1ABBvJX69sd1x70g==
+X-Received: by 2002:a05:6402:5c9:b0:5c9:58a0:240a with SMTP id 4fb4d7f45d1cf-5c9950b9252mr3065086a12.14.1729088401552;
+        Wed, 16 Oct 2024 07:20:01 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c98d4d6297sm1769537a12.15.2024.10.16.07.19.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Oct 2024 06:38:47 -0700 (PDT)
-From: Aymen Khalfa <a.khalfa.1012@gmail.com>
-To: gregkh@linuxfoundation.org,
-	hdegoede@redhat.com,
-	Larry.Finger@lwfinger.net
-Cc: linux-staging@lists.linux.dev,
-	Aymen Khalfa <a.khalfa.1012@gmail.com>
-Subject: [PATCH v2 4/4] drivers: staging: rtl8723bs: Fix comment alignment coding style issue.
-Date: Wed, 16 Oct 2024 15:38:30 +0200
-Message-Id: <20241016133830.2485315-5-a.khalfa.1012@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241016133830.2485315-1-a.khalfa.1012@gmail.com>
-References: <20241016133830.2485315-1-a.khalfa.1012@gmail.com>
+        Wed, 16 Oct 2024 07:20:00 -0700 (PDT)
+Date: Wed, 16 Oct 2024 17:19:57 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: "Everest K.C." <everestkc@everestkc.com.np>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Cc: dpenkler@gmail.com, gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: other staging/gpib bugs completed
+Message-ID: <912561b9-e446-42e8-8922-9e8952355c79@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-- Align * on block comment.
+Keep up the good work, Everest.  Here are some other bugs you could fix if you
+want.
 
-Signed-off-by: Aymen Khalfa <a.khalfa.1012@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_pwrctrl.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+drivers/staging/gpib/agilent_82357a/agilent_82357a.c:1381 agilent_82357a_attach() warn: inconsistent returns '&agilent_82357a_hotplug_lock'.
+drivers/staging/gpib/common/gpib_os.c:889 board_type_ioctl() warn: maybe return -EFAULT instead of the bytes remaining?
+drivers/staging/gpib/common/iblib.c:242 ibonline() warn: assigning IS_ERR()
+drivers/staging/gpib/common/iblib.c:505 ibsad() warn: AAA no lower bound on 'addr' rl='s32min-30'
+drivers/staging/gpib/eastwood/fluke_gpib.c:592 fluke_dma_read() error: NULL dereference inside function 'dma_unmap_single_attrs((0), bus_address, length, 2, 0)()'. '0' '(0)' 17 9
+drivers/staging/gpib/eastwood/fluke_gpib.c:592 fluke_dma_read() error: NULL dereference inside function (pos=17)
+drivers/staging/gpib/eastwood/fluke_gpib.c:949 fluke_init() warn: was hexadecimal intended '10'
+(perhaps intentional?  Just leave it if so.)
+drivers/staging/gpib/ni_usb/ni_usb_gpib.c:837 ni_usb_write() warn: inconsistent returns '&ni_priv->addressed_transfer_lock'.
+drivers/staging/gpib/ni_usb/ni_usb_gpib.c:1103 ni_usb_request_system_control() error: uninitialized symbol 'ibsta'.
+(this last bug is tricky to spot.)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-index cc4d08ce1d2e..5566c01193fe 100644
---- a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-@@ -1016,11 +1016,11 @@ inline void rtw_set_ips_deny(struct adapter *padapter, u32 ms)
- }
- 
- /*
--* rtw_pwr_wakeup - Wake the NIC up from: 1)IPS. 2)USB autosuspend
--* @adapter: pointer to struct adapter structure
--* @ips_deffer_ms: the ms will prevent from falling into IPS after wakeup
--* Return _SUCCESS or _FAIL
--*/
-+ * rtw_pwr_wakeup - Wake the NIC up from: 1)IPS. 2)USB autosuspend
-+ * @adapter: pointer to struct adapter structure
-+ * @ips_deffer_ms: the ms will prevent from falling into IPS after wakeup
-+ * Return _SUCCESS or _FAIL
-+ */
- 
- int _rtw_pwr_wakeup(struct adapter *padapter, u32 ips_deffer_ms, const char *caller)
- {
--- 
-2.34.1
+regards,
+dan carpenter
+
 
