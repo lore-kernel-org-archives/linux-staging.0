@@ -1,95 +1,121 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F9B64CB5B;
-	Wed, 16 Oct 2024 05:33:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9328193409
+	for <linux-staging@lists.linux.dev>; Wed, 16 Oct 2024 07:19:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729056810; cv=none; b=i97mFSzcxrfcB6p+CwJaFhiBUsRqit9o1myphPzDlTeBlzRG7K48027QFmET0YvFJjuJdIUrKuv8h6Vux2/zVuE6s272yXeeNb5bDork5DqWOSrSFMlKyIg2m2GSKoi2dDKaPohY6feeg2NKVPl1f31WwAzfPvbweThFWfgUE20=
+	t=1729063195; cv=none; b=uD2Yh+v1xIHgJ/cVY+5ARgrBZ7O9165HXmOu4HW3/rU2LmFKNJmm4f9mMngm91roUlPxM9T+Otiiey4s8WpbXwioaUF1+C0k20WDRv/CprhLYikpc2u36r3T2uE26akzPaBD1ojWilkE+tuSMtFeZ8irIxBx4PAKEq88S4XRXR8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729056810; c=relaxed/simple;
-	bh=+e7T4hQZhKNwlhm9rLtAT+cyHx82aCspHPskjYq2sJE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cFsiH1MfkpIHKhDMmbWiyjnuvnnPqZfKdZIeSMuN/WjrkbSferX4D3KDR0O9yedJVtG8mc4KnvJXpVDLSCbhp77lOU25c/7Jh/ZMV1JbVmq9/+wI5c/LRWLjmM2CSNXSmyygXW3b441eUBDWM43PpTswDeMOIEUoFTitrfOCKZs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=gwy6j0CK; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1729063195; c=relaxed/simple;
+	bh=20bnFoPKDbLPVMTGyYK5V3qcRiT2PJ50MaAdGYRnu8E=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=piWukc7E4i3TsRgWhyayh8A+NofWi3GMFt61SgIw/hBL/s2DYGhStvg/YqrallQyYdLeJoVkmEUaqfabDQFboko/U1rD/GqwovjDAjY2TFs9JSodYYDzvI6kmAhyRnTRyBEW2oGvuWaSq1ax9iflV9B48zly5DZUwsskEuOLWBw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DzcxcyGc; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="gwy6j0CK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1B4EC4CED2;
-	Wed, 16 Oct 2024 05:33:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1729056810;
-	bh=+e7T4hQZhKNwlhm9rLtAT+cyHx82aCspHPskjYq2sJE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gwy6j0CKh6DZ+NbkaOTbvU9/fZ+ZmXpK0UP0hDj5S9jNfgvy6TjmEJyhXSXakHPSi
-	 ODd1XIH83PIjp1EEVxMIM+r8ogP3quUNZNig2byeKzK/wZE6hc2cnHNThNNqarZPdb
-	 Z1j6Xp1fOGt7/RylphZgrL67LNtS2oZxbwqL/cZ4=
-Date: Wed, 16 Oct 2024 07:33:23 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Dominik Karol =?utf-8?Q?Pi=C4=85tkowski?= <dominik.karol.piatkowski@protonmail.com>
-Cc: dpenkler@gmail.com, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2] staging: gpib: Add TODO file
-Message-ID: <2024101609-getaway-appendage-1f88@gregkh>
-References: <20241015192838.16740-1-dominik.karol.piatkowski@protonmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DzcxcyGc"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-20c693b68f5so64836645ad.1
+        for <linux-staging@lists.linux.dev>; Wed, 16 Oct 2024 00:19:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729063193; x=1729667993; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ORRdXeranIroI87MdpV/cKKqGxHy63/cqT3DlViNNmY=;
+        b=DzcxcyGcH7Z2szWmgmEYOLHJe7EvIQ+kvk3K+NcrRpAMU0ZNg1hzVMxoIIFejHO/Lx
+         bGSQ9924r4Ys//3QMk2fCDblDffqQXYaS3CK1aaf/ffO3PrtksRkp+APmXKKdOW7K0LO
+         hqJsQqdu2Fq2JQRYoNFb0pXeFjSaw99BkpmM2raJ4R2zKIOunsAkXIoNr81Mcrjv55M0
+         rZ3KTjH41avzaY9Ku1KFU8H+4fEFItfCp3XDN3Aix6hSSosqJhXzn1l6AtooT3opeTlE
+         ubqmaldPUc3azgLWHKknLhMyNBmhh3yoWQbvmUCyAcpgFj3Awo3ze2lJ4KPS84Nh9vFo
+         X/CA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729063193; x=1729667993;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ORRdXeranIroI87MdpV/cKKqGxHy63/cqT3DlViNNmY=;
+        b=ppLjHRL0teuCu4xL814fh91liFTbGwO9kEBWzDRQBhfb2ElkoDWseMiZ6z9l1yHnDl
+         c4Gg3NupMj4QyBUxQPgLjmGp5yBnYDXe8T/2c+nVbz/d5lSw22v0XFhTdZA08/wufT3O
+         6m3C/X2DQYPH6UE4CVQTZFYgxiEUV7FioixCWGQeLKBKHgpVkjOAykpj9nRy00TiiuNl
+         hcwv+9uH6ITY8fktMMwJqHt3FTDsvEjfbW2qfdRvTb2zTbZ+8t0GQyZSzkOGAUwi8xwD
+         On9DtyeK5IKqQPBWcLNvHw0B1gtbBm3IIuU1VcbtvgR5nWiYoULcrlpA2l9sLwpRKpcG
+         Y2KQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWiblt13WuoI00PUknf35Fut316ITzyQRl8nBufqTDmYVAovpAi9L0mgaAVHjEsOlRMbrcN04DyCdGG4Jzs@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz7yPPda9KRZnp+aw81UJL62E5DBuayaJAIl01WtTuwj6kGEMDx
+	4r0/D/9rOJ+d+SxCLuxd1S7ktns6vPiD07ZV7A+8a9w0DseucgYt
+X-Google-Smtp-Source: AGHT+IHVhO1haPkv3eqY6vBJ5eR16keLbXkNRgpzWheFvnqzrJrAhxR5Q/Kdzt/ENgq+UbGiIl29wg==
+X-Received: by 2002:a17:902:cf09:b0:207:4c7c:743b with SMTP id d9443c01a7336-20ca1315ec7mr227619165ad.0.1729063193134;
+        Wed, 16 Oct 2024 00:19:53 -0700 (PDT)
+Received: from dev.. ([129.41.59.4])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20d17f9d2ffsm23109415ad.100.2024.10.16.00.19.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Oct 2024 00:19:52 -0700 (PDT)
+From: Rohit Chavan <roheetchavan@gmail.com>
+To: Dave Penkler <dpenkler@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Rohit Chavan <roheetchavan@gmail.com>
+Subject: [PATCH] staging: gpib: Remove unneeded semicolon.
+Date: Wed, 16 Oct 2024 12:49:41 +0530
+Message-Id: <20241016071941.1615135-1-roheetchavan@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241015192838.16740-1-dominik.karol.piatkowski@protonmail.com>
 
-On Tue, Oct 15, 2024 at 07:28:57PM +0000, Dominik Karol Piątkowski wrote:
-> Add a TODO file stub for the gpib driver.
-> 
-> Signed-off-by: Dominik Karol Piątkowski <dominik.karol.piatkowski@protonmail.com>
-> ---
-> v2: Remove maintainers from TODO, as they can be found in MAINTAINERS file
->  drivers/staging/gpib/TODO | 2 ++
->  1 file changed, 2 insertions(+)
->  create mode 100644 drivers/staging/gpib/TODO
-> 
-> diff --git a/drivers/staging/gpib/TODO b/drivers/staging/gpib/TODO
-> new file mode 100644
-> index 000000000000..850dc1102e54
-> --- /dev/null
-> +++ b/drivers/staging/gpib/TODO
-> @@ -0,0 +1,2 @@
-> +TODO:
-> +- checkpatch.pl fixes
-> -- 
-> 2.34.1
-> 
-> 
-> 
+This patch cleans up the GPIB driver code by removing
+unneeded semicolons.
 
-Hi,
+Files modified:
+drivers/staging/gpib/tms9914/tms9914.c
+drivers/staging/gpib/tnt4882/mite.c
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+Signed-off-by: Rohit Chavan <roheetchavan@gmail.com>
+---
+ drivers/staging/gpib/tms9914/tms9914.c | 4 ++--
+ drivers/staging/gpib/tnt4882/mite.c    | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+diff --git a/drivers/staging/gpib/tms9914/tms9914.c b/drivers/staging/gpib/tms9914/tms9914.c
+index aa2308cf5477..6d75294412d8 100644
+--- a/drivers/staging/gpib/tms9914/tms9914.c
++++ b/drivers/staging/gpib/tms9914/tms9914.c
+@@ -439,7 +439,7 @@ static int wait_for_read_byte(gpib_board_t *board, struct tms9914_priv *priv)
+ 				     test_bit(TIMO_NUM, &board->status))) {
+ 		pr_debug("gpib: pio read wait interrupted\n");
+ 		return -ERESTARTSYS;
+-	};
++	}
+ 	if (test_bit(TIMO_NUM, &board->status))
+ 		return -ETIMEDOUT;
+ 
+@@ -473,7 +473,7 @@ static inline uint8_t tms9914_read_data_in(gpib_board_t *board, struct tms9914_p
+ 	default:
+ 		pr_err("%s: bug! bad holdoff mode %i\n", __func__, priv->holdoff_mode);
+ 		break;
+-	};
++	}
+ 	spin_unlock_irqrestore(&board->spinlock, flags);
+ 
+ 	return data;
+diff --git a/drivers/staging/gpib/tnt4882/mite.c b/drivers/staging/gpib/tnt4882/mite.c
+index adb656a5eb2c..882cc4bc122e 100644
+--- a/drivers/staging/gpib/tnt4882/mite.c
++++ b/drivers/staging/gpib/tnt4882/mite.c
+@@ -82,7 +82,7 @@ int mite_setup(struct mite_struct *mite)
+ 	if (pci_request_regions(mite->pcidev, "mite")) {
+ 		pr_err("mite: failed to request mite io regions.\n");
+ 		return -EIO;
+-	};
++	}
+ 	addr = pci_resource_start(mite->pcidev, 0);
+ 	mite->mite_phys_addr = addr;
+ 	mite->mite_io_addr = ioremap(addr, pci_resource_len(mite->pcidev, 0));
+-- 
+2.34.1
 
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/process/submitting-patches.rst for what
-  needs to be done here to properly describe this.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
