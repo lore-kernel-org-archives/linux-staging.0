@@ -1,70 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D65A18B478;
-	Wed, 16 Oct 2024 07:48:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB0191D47D7
+	for <linux-staging@lists.linux.dev>; Wed, 16 Oct 2024 07:54:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729064914; cv=none; b=o2aHVrIVdKD+jTEzVp8Jqr4Fh1k5/ZCYgPTAVjYCG7rfp+lSk2JxHoduY1HNcZcbTdXDW0fTTLa3ZjP4M/m5z+PyfsFX03TwjuXTHlSa92bipg0ESMWxrEUHxr3OAW6sntynTscI7mOUtA1HqKy5YT9pQvdPhv/Ka8kPBWXrElo=
+	t=1729065268; cv=none; b=gxy7R+709PME9QQ4XQh4S1BDT7QHh9XRaG5enxBqnwjHMOHAjkiLa7ZajLoUOo6sorrrfoBdejKsTzWZV5F73+XWvZNMHidok6/aJZsKR0XGjWjvBB34pHNMrNMi1H9+4ErO10c9fEOKG28uq2Z3rpE9YwvfddI/kFBX7mjWSYk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729064914; c=relaxed/simple;
-	bh=bGu+QvRxT9xe7HGIdDLZTCZZ6sTH0lhSLgemm4Sx6lk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iR3BPFXkAe/CoVglO7GjAyy+dlwodrIHpPThKxlqBtCDgF9tNsaFJMRhaHEViU/E+9ShxQBpYQ2fNUFJCsO1y9guKdGHV5IBK6TfLE+yekYTgeBoS1lwsGh2xu960z4u7wpabKkXxSaESL/YA7pDTI6sO4Krn2ufq2O7FoSft64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=rsDF+/j8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1729065268; c=relaxed/simple;
+	bh=pzemOVMWm3UmIYM1ZkUNL8i+q+D8kbSwIq6b2AW9isY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bdP1ybYfxiel+UVBi/wp28CaOCeMBHblcFoUQcFZXBOctqojMDe0OIoY4NKJkNXaJCFV7EdLbjSAoEnAEc8ujJypqjGtQV2ZVb+UAF9zq5ob3C/Hhii2tk/DBLdnnFmbdqaTbCorVWVlNXSd3V6Sj2LQWHN8e28IdohmH2itjcE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=everestkc.com.np; spf=pass smtp.mailfrom=everestkc.com.np; dkim=pass (2048-bit key) header.d=everestkc-com-np.20230601.gappssmtp.com header.i=@everestkc-com-np.20230601.gappssmtp.com header.b=oEPPRg2t; arc=none smtp.client-ip=209.85.216.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=everestkc.com.np
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everestkc.com.np
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="rsDF+/j8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8B1BC4CEC5;
-	Wed, 16 Oct 2024 07:48:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1729064914;
-	bh=bGu+QvRxT9xe7HGIdDLZTCZZ6sTH0lhSLgemm4Sx6lk=;
-	h=From:To:Cc:Subject:Date:From;
-	b=rsDF+/j8gDX8VmLrjSawOF3oaRmXxqI+Eo63H3tXKl58s2n1IYuNzy2k31bD7UKfy
-	 alddQF96WYkMfyDEpRb8d/F9Lb17hXVPMpwtCh6S4AMm7juMYTNd9BYj7RhbxNefKU
-	 LjKEyfVIhFRDoHHVJBs50zoBNE/1awCRqFh647Bs=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: linux-staging@lists.linux.dev
-Cc: linux-kernel@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dave Penkler <dpenkler@gmail.com>,
-	Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: [PATCH] staging: gpib: mark FMH driver as broken
-Date: Wed, 16 Oct 2024 09:48:28 +0200
-Message-ID: <2024101628-jazz-radial-3400@gregkh>
-X-Mailer: git-send-email 2.47.0
+	dkim=pass (2048-bit key) header.d=everestkc-com-np.20230601.gappssmtp.com header.i=@everestkc-com-np.20230601.gappssmtp.com header.b="oEPPRg2t"
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-2e2e87153a3so3754583a91.3
+        for <linux-staging@lists.linux.dev>; Wed, 16 Oct 2024 00:54:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=everestkc-com-np.20230601.gappssmtp.com; s=20230601; t=1729065266; x=1729670066; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BFR80fYrDpP6X7LmDbHOd9DE6LuBDDhguOyT+PK1VWU=;
+        b=oEPPRg2tWp1Z7mDlahhepj3o9/GOCl8irur7CLg1dzvYy9JdkYbUmRqe2km90M6uN7
+         14/YhMtRV3a9Bkxw2lKwIfWL5seRF9WT13D7ONXy1IJY1W9wVgTLytw3gwAtfwwAdbl8
+         TqVH8qRqp7PNdCssenjzOaFYWh1fORCNpaPrkOLDmlFqQ73Kss9DLCTE6KB9dIHiYhdw
+         NPCJkIWETT7K1Cdag0eZzlFeMbThR5Ne40/N9bleil4ctLWJ+IWhQxeTw/AMRM2Vs2VD
+         oOTIG3fUyEUt8z0EN0S2od7KtYSIBPO8JhwwvWITuZ8bKiYz5cS2/MnxkNeor/TxpmoW
+         X+2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729065266; x=1729670066;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BFR80fYrDpP6X7LmDbHOd9DE6LuBDDhguOyT+PK1VWU=;
+        b=hBk3bqEhvumXEbAWuIhUxU+rSy6bxnGQ6gg7V8LV3o5y1gAvAoieDEOALzslU3QdBv
+         z7LtlQJNilrrxDi0jMnOfI8KQUuj/gC9doape+pkfEka2s+WWX7CFjAtkPL2V7R34cgS
+         vbBiGXU6zs+2oCekaE37bOTxgZw/b2klpFBMSEQyBEH9/mY6eTxKItOc7A4ZLhH4O625
+         cOTR/nqvfI6KdLV/WHNNezK/Z4UvS89qkp96ACgMofUiU02734jY8OkSIsi9IxdSv0V3
+         JbWnVimBlodsN0rdjo9jRhTaNXvRpZM+MuyrRzG7JytLg6Qix9RBnMpJFQM4ARj+Ucis
+         nk+Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVxkA2pOvs7hARLoo6P7lAUg2rsaWQumNRz7RmyGF8ERVbSl7o7nz5ZR77TU4f7Ks0quXSa/o/ZSrugCW/4@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzshl0HXMWnquA7h0TKy7lSQQP0LJ2Pth0Agqs00OnbduBPmjAV
+	/5P8ifJspylcD4LtEcCSpJCTHyEI5yMJzGlUFx/G3XbaNSVtQoBLF8OgBDbeFvw=
+X-Google-Smtp-Source: AGHT+IEUZnnpNJ+yGIHniIzFYqXySalU3xZmq4Xh79xaZ5D3jOGyUYeoLywGBCVvrAftvG6Nuiwxvw==
+X-Received: by 2002:a17:90b:802:b0:2e1:ce7b:6069 with SMTP id 98e67ed59e1d1-2e31538f1camr17781211a91.33.1729065266295;
+        Wed, 16 Oct 2024 00:54:26 -0700 (PDT)
+Received: from localhost.localdomain ([132.178.238.27])
+        by smtp.googlemail.com with ESMTPSA id 98e67ed59e1d1-2e392f7605dsm3370980a91.54.2024.10.16.00.54.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Oct 2024 00:54:25 -0700 (PDT)
+From: "Everest K.C." <everestkc@everestkc.com.np>
+To: dpenkler@gmail.com,
+	gregkh@linuxfoundation.org
+Cc: "Everest K.C." <everestkc@everestkc.com.np>,
+	skhan@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH V2] staging: gpib: Remove a dead condition in if statement
+Date: Wed, 16 Oct 2024 01:53:18 -0600
+Message-ID: <20241016075319.4092-1-everestkc@everestkc.com.np>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=914; i=gregkh@linuxfoundation.org; h=from:subject:message-id; bh=bGu+QvRxT9xe7HGIdDLZTCZZ6sTH0lhSLgemm4Sx6lk=; b=owGbwMvMwCRo6H6F97bub03G02pJDOn8+WfezpOQ78655PhsT2NPm9KOdTrXWOoYCrdm96jte PMwYV5vRywLgyATg6yYIsuXbTxH91ccUvQytD0NM4eVCWQIAxenAEwkRJBhwbJarXXrXn1PzFm6 9Ep0uRn31BVF9xkWHAnftfJkyeUJ1RtPTty8qIr/xP6QqwA=
-X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
 Content-Transfer-Encoding: 8bit
 
-When doing a 'make allyesconfig' things break in this driver due to
-duplicate symbols, so mark it broken for now until that can be fixed up.
+The variable `residue` is an unsigned int, also the function
+`fluke_get_dma_residue` returns an unsigned int. The value of
+an unsigned int can only be 0 at minimum.
+The less-than-zero comparison can never be true.
+Fix it by removing the dead condition in the if statement.
 
-Cc: Dave Penkler <dpenkler@gmail.com>
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Link: https://lore.kernel.org/r/20241015165538.634707e5@canb.auug.org.au
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+This issue was reported by Coverity Scan.
+Report:
+CID 1600782: (#1 of 1): Macro compares unsigned to 0 (NO_EFFECT)
+unsigned_compare: This less-than-zero comparison of an unsigned value
+is never true. residue < 0U.
+
+Signed-off-by: Everest K.C. <everestkc@everestkc.com.np>
 ---
- drivers/staging/gpib/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+V1 -> V2: - Fixed typo of comparison in changelog
+          - Removed Fixes tag 
 
-diff --git a/drivers/staging/gpib/Kconfig b/drivers/staging/gpib/Kconfig
-index 9f337d57ce87..f41b56b66251 100644
---- a/drivers/staging/gpib/Kconfig
-+++ b/drivers/staging/gpib/Kconfig
-@@ -130,6 +130,7 @@ config GPIB_FMH
-        tristate "FMH FPGA based devices"
-        select GPIB_COMMON
-        select GPIB_NEC7210
-+       depends on BROKEN
-        depends on OF && PCI
-        help
-          GPIB driver for fmhess FPGA based devices
+ drivers/staging/gpib/eastwood/fluke_gpib.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/staging/gpib/eastwood/fluke_gpib.c b/drivers/staging/gpib/eastwood/fluke_gpib.c
+index f9f149db222d..51b4f9891a34 100644
+--- a/drivers/staging/gpib/eastwood/fluke_gpib.c
++++ b/drivers/staging/gpib/eastwood/fluke_gpib.c
+@@ -644,7 +644,7 @@ static int fluke_dma_read(gpib_board_t *board, uint8_t *buffer,
+ 	 */
+ 	usleep_range(10, 15);
+ 	residue = fluke_get_dma_residue(e_priv->dma_channel, dma_cookie);
+-	if (WARN_ON_ONCE(residue > length || residue < 0))
++	if (WARN_ON_ONCE(residue > length))
+ 		return -EFAULT;
+ 	*bytes_read += length - residue;
+ 	dmaengine_terminate_all(e_priv->dma_channel);
 -- 
-2.47.0
+2.43.0
 
