@@ -1,125 +1,88 @@
-Received: from mail-40134.protonmail.ch (mail-40134.protonmail.ch [185.70.40.134])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33B383A8F0
-	for <linux-staging@lists.linux.dev>; Wed, 16 Oct 2024 13:34:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.40.134
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEC30208D90
+	for <linux-staging@lists.linux.dev>; Wed, 16 Oct 2024 13:38:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729085653; cv=none; b=SWVkpRHUEMqqc/FtR1THqp4SY+cUcYbJ/trQnlX4we7DiXx+uUj39F4LQpra5d3MbpMZ7ejcyscbRVy0fbdDO+nkcMhHRgos2ccUk6Sg8GBYWca/3v7t78tvZ1Bw6Lr1kFV/GC9ANGMHgRc8pSVoRykbnwSH2BuQ8fTwJi6LI9Y=
+	t=1729085925; cv=none; b=YBKglTMkU2iH5PpozG8CgSDtcUTb3OOdXPT/7GMPcxVCYilsanfpqeSSrRdb/PBd+rg4g42im3lEcFxLa2rPWr5J5gF2nNQkQRwaiSHeLF7mxhNZjfZTdL7fbYx02oZjmDqYdll/SeMMnOOvlHGOc17LGQuIuLz6wHyWasmLK84=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729085653; c=relaxed/simple;
-	bh=Wm6j0HHXHr6rZrgJv9XtSE7kyw4KMDFQKc6FGm2m+C0=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=s6S42ZnV22LaKB0Qlw1QgWa2W8IQi/teyrx4RQQnX2gyg3+pqgNxRxYHi1h1Z2hZq5OU6ww7eDUSPfRXNfszJhSCC8TgQHFksi1d+C/pXAMOlBl2Uj+KX4VzsDzRX/HhUPbtixxQlkEEARCBVZGcIYDHr80Iz4NZztbJUclYUt0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=H+4Bd0ah; arc=none smtp.client-ip=185.70.40.134
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
+	s=arc-20240116; t=1729085925; c=relaxed/simple;
+	bh=tbHDQU7+FcD9GSsduwAZKIWRTOJD0XwgT6/mjSHgoyQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=m9nXrB27QtPVGL+39PGeupYMhZgW/QOhnJKmvBnGBf/pyjLypPudF3avYPmWqnfo13smAB35rIQyeJtIo1cginHkCvvgq7WsrtPTJxuAssbiqZ1ddiMLNUi6+PWPXcR0Z12oJwbmyHEEzbKm2euZHeH84Mt8CmnHkNN/vK57SsQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JJkCfsId; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="H+4Bd0ah"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1729085649; x=1729344849;
-	bh=Wm6j0HHXHr6rZrgJv9XtSE7kyw4KMDFQKc6FGm2m+C0=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=H+4Bd0ahESOKUsvwcjZf2E7HUqPfEvb+dzskyu50OGVSduieOznONkKb72qNivKZW
-	 Q8GcWbmqioajaH98BLz2tHhtOTOey50VIuRxjBdhUOqXc0DhbdBJasxDS/d82jKfeX
-	 254jBfhAHwvNvQg1wbeCFf80Md7l9MVnyiwA4T2WRbDqZl5QrFJVJ7p01XfGTHrGDu
-	 4Xw3UkEOh53QMsYnYB4rPDEmKn6vF+pSw11cAJ+L20KCu/rH6vjMIndrz6+lkCYWP8
-	 hTSRAnehXzleSsojRVjiseVNEdDBEgxELUM74haoLODapNNI6MPuujOQV8t+FI1Nq9
-	 jCSZ2oHvGwkkA==
-Date: Wed, 16 Oct 2024 13:34:07 +0000
-To: Greg KH <gregkh@linuxfoundation.org>
-From: =?utf-8?Q?Dominik_Karol_Pi=C4=85tkowski?= <dominik.karol.piatkowski@protonmail.com>
-Cc: dpenkler@gmail.com, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2] staging: gpib: Add TODO file
-Message-ID: <B28HXaYBd4-AP7g9jMpXgQEcJIzAQUsaUqMerdy_Hk0tR2Q9RKTAmcYbtq3LR06X3yHj0R6D4bLJHEHCYsszgjvnfhgZ7K5QwOzx5JLNI_A=@protonmail.com>
-In-Reply-To: <2024101609-getaway-appendage-1f88@gregkh>
-References: <20241015192838.16740-1-dominik.karol.piatkowski@protonmail.com> <2024101609-getaway-appendage-1f88@gregkh>
-Feedback-ID: 117888567:user:proton
-X-Pm-Message-ID: 5c17d14c4951bdc73c9970c4d97f82f5b669eed7
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JJkCfsId"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4311420b63fso50824415e9.2
+        for <linux-staging@lists.linux.dev>; Wed, 16 Oct 2024 06:38:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729085922; x=1729690722; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=w5FdBAFPkUzSuk/D1h9vZiNvh4jFMsL2H6ZGgQ1wWj8=;
+        b=JJkCfsIdhFXi0bwEleKl6yOSYr7hTl1sfQ6PcanxTn7DT+zxGLL1DyvT84fnYCLdAG
+         iQDz5VfYR2QuXj217CFxeUCwBM45M3hjYVB1anHKJRxSeMySbP0ouJChXE7rGzaGpfox
+         62fvS5YeVw9DztU3tt56p3Kg6c3llPx2tOYDMcArBMlqmOv4PSBFZkOTmsnMC0qB4htn
+         aUsHl+L33X4Ak0Tp3mQkaVsACVwpPEGr/4ZpkVtrzN0dPsMq4cVng1Ps/pbBe6v1UJD5
+         cNqJKgfzwsw4/anPTYllDMbRm7KNM5hI4ZFIuQRkffNuO1A6jJABxW6+VGo6wKz97qLN
+         X45g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729085922; x=1729690722;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=w5FdBAFPkUzSuk/D1h9vZiNvh4jFMsL2H6ZGgQ1wWj8=;
+        b=VzoxCj5HUmW5jJ5tVphJgjKCk2zLs56qDCK1f6QQ2b8N6ZKjLgODHpDwz+xrs7S4/j
+         ZE4niOKqSkqN/DbJ8sQ9aSUc5JJMoWrhlewlisLRzxFidX0xPwQc/glaV+48g/pNzj2k
+         5zNFZLTDa5BuLLAunwwykjf+W7XftiwqXRWAqyihDyG2xSOlBMP3fGTZp55WfPOWyV9R
+         wVqRcgpZma0CkvYnpnFjbjpihVM6Yzbc+HBakhXfyRhNnrolPqk54kTSxYAcRQ6/xTEt
+         Fk7zO+8oyeQRMeboF64puSTh76Jtbs+qOdiL3ZwBjy88cXWe6UfsX2tF1RoTGXu48/9g
+         zSIw==
+X-Gm-Message-State: AOJu0Yxzf5t1AdLBf5jsaxvcLIRUTvPkmP/iKuK19S9ipyc6C4Z7tz+2
+	GJCKHhVYSBPGF3q8txT3CCaLJM5nzFRpaHpRXLJZ7036yNSQdGum
+X-Google-Smtp-Source: AGHT+IF8OaYk/3F+YK8dAGSXilf72Y3bmvzWuT3U/oVNdbdqSUMcp5iMl7ktoZLPqZ2RzFKsDsqsYA==
+X-Received: by 2002:a05:600c:3d89:b0:426:5ef5:bcb1 with SMTP id 5b1f17b1804b1-431255d55edmr125565015e9.6.1729085922220;
+        Wed, 16 Oct 2024 06:38:42 -0700 (PDT)
+Received: from ARL1114-LINUX.. ([196.233.5.237])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4313f6c5524sm49415035e9.44.2024.10.16.06.38.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Oct 2024 06:38:41 -0700 (PDT)
+From: Aymen Khalfa <a.khalfa.1012@gmail.com>
+To: gregkh@linuxfoundation.org,
+	hdegoede@redhat.com,
+	Larry.Finger@lwfinger.net
+Cc: linux-staging@lists.linux.dev,
+	Aymen Khalfa <a.khalfa.1012@gmail.com>
+Subject: [PATCH v2 0/4] drivers: staging: rtl8723bs: Fix coding style
+Date: Wed, 16 Oct 2024 15:38:26 +0200
+Message-Id: <20241016133830.2485315-1-a.khalfa.1012@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wednesday, October 16th, 2024 at 07:33, Greg KH <gregkh@linuxfoundation.=
-org> wrote:
+Fix different coding style issues that generated warnings when running
+checkpatch.pl.
 
->=20
->=20
-> On Tue, Oct 15, 2024 at 07:28:57PM +0000, Dominik Karol Pi=C4=85tkowski w=
-rote:
->=20
-> > Add a TODO file stub for the gpib driver.
-> >=20
-> > Signed-off-by: Dominik Karol Pi=C4=85tkowski dominik.karol.piatkowski@p=
-rotonmail.com
-> > ---
-> > v2: Remove maintainers from TODO, as they can be found in MAINTAINERS f=
-ile
-> > drivers/staging/gpib/TODO | 2 ++
-> > 1 file changed, 2 insertions(+)
-> > create mode 100644 drivers/staging/gpib/TODO
-> >=20
-> > diff --git a/drivers/staging/gpib/TODO b/drivers/staging/gpib/TODO
-> > new file mode 100644
-> > index 000000000000..850dc1102e54
-> > --- /dev/null
-> > +++ b/drivers/staging/gpib/TODO
-> > @@ -0,0 +1,2 @@
-> > +TODO:
-> > +- checkpatch.pl fixes
-> > --
-> > 2.34.1
->=20
->=20
-> Hi,
->=20
-> This is the friendly patch-bot of Greg Kroah-Hartman. You have sent him
-> a patch that has triggered this response. He used to manually respond
-> to these common problems, but in order to save his sanity (he kept
-> writing the same thing over and over, yet to different people), I was
-> created. Hopefully you will not take offence and will fix the problem
-> in your patch and resubmit it so that it can be accepted into the Linux
-> kernel tree.
->=20
-> You are receiving this message because of the following common error(s)
-> as indicated below:
->=20
-> - This looks like a new version of a previously submitted patch, but you
-> did not list below the --- line any changes from the previous version.
-> Please read the section entitled "The canonical patch format" in the
-> kernel file, Documentation/process/submitting-patches.rst for what
-> needs to be done here to properly describe this.
->=20
-> If you wish to discuss this problem further, or you have questions about
-> how to resolve this issue, please feel free to respond to this email and
-> Greg will reply once he has dug out from the pending patches received
-> from other developers.
->=20
-> thanks,
->=20
-> greg k-h's patch email bot
+changes in v2:
+- Fix cover letter.
 
-Hi Greg,
+Aymen Khalfa (4):
+  drivers: staging: rtl8723bs: Fix braces coding style issue.
+  drivers: staging: rtl8723bs: Fix space coding style issue.
+  drivers: staging: rtl8723bs: Fix missing blank line after declaration
+    coding style issue.
+  drivers: staging: rtl8723bs: Fix comment alignment coding style issue.
 
-I listed the changes below the --- line. Probably I should have added extra
-newline, or maybe even another --- line below the changes in order to not
-trigger the patch-bot message and make it more readable. Maybe I should als=
-o
-explicitly use "V1 -> V2" instead of "v2" when listing changes? I am trying
-to understand the filtering rules that are in use, in order to avoid this
-situation in the future.
+ drivers/staging/rtl8723bs/core/rtw_pwrctrl.c | 27 ++++++++++----------
+ 1 file changed, 14 insertions(+), 13 deletions(-)
 
-I see that in Documentation/process/submitting-patches.rst there is an extr=
-a
-newline after listed changes, would it be enough?
+-- 
+2.34.1
 
-Thanks,
-
-Dominik Karol
