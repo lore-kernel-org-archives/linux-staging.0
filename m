@@ -1,30 +1,31 @@
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F405208D77
-	for <linux-staging@lists.linux.dev>; Wed, 16 Oct 2024 13:02:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37CF2208D77
+	for <linux-staging@lists.linux.dev>; Wed, 16 Oct 2024 13:02:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729083758; cv=none; b=fEmD90trjffV6yHY4md2reECu2m4PDWpjbQQsSASgA+cVGcW54+BCIqwsVc+yWUJtTj7h9EQ/cMd85++8wrlRXBEqeN/T+F/QnKteFT/XOwENY0JXHwurVnYfbpQMvehZ+/u/xRI4hzyLeH1VzwE+4r2OexxNeyQKGg5drqphxs=
+	t=1729083759; cv=none; b=GjP0Tu9NqV36RNGPeWT83cEtva8AxHV272H6hh//1d/mD1SI5vIYeyYLR2RmBSwffnkM0jFyoJ34frwIQdbmpav76MsYuwVtDxI69xNho2cyWc0WIcdbfAM7201gVTOofX/NYaRTGio3UrzSFT02fK3s0NFicrxfDwhKM/YgQww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729083758; c=relaxed/simple;
-	bh=9U+Pdo3QeHZ4CzgnlEsxiTkvWi3GjRDjQG+pAMqgyLs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FCaysrywzx7e8lsvexrv5FJXAAs9JF6/fzSkunF1tlbzy26FOiOMnnQjMMdp7qrnyB/PvItd2lEiqX1Uv6VtIkbpeSGwmNdKLvwJMvI2DNW5XC3UKaTcP7gos2Wq4NAcDBddz0L3+/WeMhPB3OFkxIiLwvml+q5aXCkOgWnTyFs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=BAoXMe6+; arc=none smtp.client-ip=213.167.242.64
+	s=arc-20240116; t=1729083759; c=relaxed/simple;
+	bh=bDAzz8rEagZA0Ehp3iX6ifhXsUe2CA1xnyoJA1RJ0iw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=RNYmY+6SNlR9gAU4BC1VAz33FB7ikickwB8RQ38P2lg97fSZXt9dYQSMjMRBjg/QEwo1CTk100FEjGHF0Lf9QCBfkSc0p4kDMLH2arVCQAfiVQdzXj6CfxfNVIWxzHYv3qMukfEC38klJcNxOyTVOl4o/VShygJljSxPQG5N0MQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=VL1qOkup; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="BAoXMe6+"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="VL1qOkup"
 Received: from umang.jain (unknown [IPv6:2405:201:2015:f873:55d7:c02e:b2eb:ee3f])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7CC9AA2F;
-	Wed, 16 Oct 2024 15:00:49 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B2444F50;
+	Wed, 16 Oct 2024 15:00:51 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1729083651;
-	bh=9U+Pdo3QeHZ4CzgnlEsxiTkvWi3GjRDjQG+pAMqgyLs=;
-	h=From:To:Cc:Subject:Date:From;
-	b=BAoXMe6+a4TsrrC4Mom95CmVfZGgLc/M1KOu4VCCodjP0PhgAb20Gcni6+GDh6G/U
-	 +/tKZ5MfvvUSpRdmNG6Ovc1WXdO2vUc79NyiN4chmKdBOulSEOSe7iVHih418Jer78
-	 wNfvCUZdEmkRqTt1lb+9JA4Uo3pktOgAINR7QHl8=
+	s=mail; t=1729083653;
+	bh=bDAzz8rEagZA0Ehp3iX6ifhXsUe2CA1xnyoJA1RJ0iw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=VL1qOkupAdXhqRkKe0reDiXstfkIcizMYur9p3i/iRH8ceZ1I8O13eefEBOaWzUOg
+	 ZZhI80xe2xScgbKeXShsR2buVSNPm1De8aLqaTYVTBB2cKt3TMqvqpby4D5FPwNpFI
+	 z/odzB2VRn93gRvJvCfZe4ItWpiKtHZbBdwr8+hQ=
 From: Umang Jain <umang.jain@ideasonboard.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
@@ -36,11 +37,15 @@ Cc: linux-rpi-kernel@lists.infradead.org,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Stefan Wahren <wahrenst@gmx.net>,
 	kernel-list@raspberrypi.com,
-	Umang Jain <umang.jain@ideasonboard.com>
-Subject: [PATCH v4 0/2] staging: vchiq_arm: Two memory leak fixes
-Date: Wed, 16 Oct 2024 18:32:23 +0530
-Message-ID: <20241016130225.61024-1-umang.jain@ideasonboard.com>
+	Umang Jain <umang.jain@ideasonboard.com>,
+	stable@vger.kernel.org,
+	Dan Carpenter <dan.carpenter@linaro.org>
+Subject: [PATCH v4 1/2] staging: vchiq_arm: Use devm_kzalloc() for vchiq_arm_state allocation
+Date: Wed, 16 Oct 2024 18:32:24 +0530
+Message-ID: <20241016130225.61024-2-umang.jain@ideasonboard.com>
 X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20241016130225.61024-1-umang.jain@ideasonboard.com>
+References: <20241016130225.61024-1-umang.jain@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -49,30 +54,35 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Two memory leaks were identified and this series addresses those leaks.
+The struct vchiq_arm_state 'platform_state' is currently allocated
+dynamically using kzalloc(). Unfortunately, it is never freed and is
+subjected to memory leaks in the error handling paths of the probe()
+function.
 
-Changes in v4:
-- Make commit message's subject un-identical
-- Fix a spell error in commit message
+To address the issue, use device resource management helper
+devm_kzalloc(), to ensure cleanup after its allocation.
 
-Changes in v3:
-- Add Fixes tag to 1/2 as well.
-  (Suggestion by Dan Carpenter)
+Fixes: 71bad7f08641 ("staging: add bcm2708 vchiq driver")
+Cc: stable@vger.kernel.org
+Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+ drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-changes in v2:
-- Split patches into two
-
-v1:
-- https://lore.kernel.org/linux-staging/b176520b-5578-40b0-9d68-b1051810c5bb@gmx.net/T/#t
-
-
-Umang Jain (2):
-  staging: vchiq_arm: Use devm_kzalloc() for vchiq_arm_state allocation
-  staging: vchiq_arm: Use devm_kzalloc() for drv_mgmt allocation
-
- .../staging/vc04_services/interface/vchiq_arm/vchiq_arm.c   | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
-
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+index af623ad87c15..7ece82c361ee 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+@@ -285,7 +285,7 @@ vchiq_platform_init_state(struct vchiq_state *state)
+ {
+ 	struct vchiq_arm_state *platform_state;
+ 
+-	platform_state = kzalloc(sizeof(*platform_state), GFP_KERNEL);
++	platform_state = devm_kzalloc(state->dev, sizeof(*platform_state), GFP_KERNEL);
+ 	if (!platform_state)
+ 		return -ENOMEM;
+ 
 -- 
 2.45.2
 
