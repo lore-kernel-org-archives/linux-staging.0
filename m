@@ -1,96 +1,70 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6BDB1C0DF0
-	for <linux-staging@lists.linux.dev>; Wed, 16 Oct 2024 07:40:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D65A18B478;
+	Wed, 16 Oct 2024 07:48:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729064461; cv=none; b=quCvnbZLCdXuliSMX+We7w67AAi84fLBq3Psiwq6WBCoeG1rbVRM7YGZFwa2H9fM//wefcUXK7gI/aUm9Hqcc5OLOBdNesIgOKeHKjQD8CubyDCMibcMqSgvXjtr4enOAb4FgtWxlttqA/25cN3O42PRMPJv+oyeD5oy7Y4fAlc=
+	t=1729064914; cv=none; b=o2aHVrIVdKD+jTEzVp8Jqr4Fh1k5/ZCYgPTAVjYCG7rfp+lSk2JxHoduY1HNcZcbTdXDW0fTTLa3ZjP4M/m5z+PyfsFX03TwjuXTHlSa92bipg0ESMWxrEUHxr3OAW6sntynTscI7mOUtA1HqKy5YT9pQvdPhv/Ka8kPBWXrElo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729064461; c=relaxed/simple;
-	bh=cJqezZ//VWL04ujmf8HWK5yYC5mIb/17KND/yhYfcug=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bDmo81zk9hIivjIiAidZjxtyJ8DAdQ+k6vEambenqh2Ovra1S2Sz4OQqtW/g2eJNxopGWAzkzzx2AYEFczfDzE38T32tSFSdptNaLqYRPVhXIi1qLQQp3oXWFfVjhILi/gWCCPnqceKGKKM/Xw9INHcJYQMl1AAvbpRDr8db4gU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=everestkc.com.np; spf=pass smtp.mailfrom=everestkc.com.np; dkim=pass (2048-bit key) header.d=everestkc-com-np.20230601.gappssmtp.com header.i=@everestkc-com-np.20230601.gappssmtp.com header.b=wWI3aYpo; arc=none smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=everestkc.com.np
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everestkc.com.np
+	s=arc-20240116; t=1729064914; c=relaxed/simple;
+	bh=bGu+QvRxT9xe7HGIdDLZTCZZ6sTH0lhSLgemm4Sx6lk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iR3BPFXkAe/CoVglO7GjAyy+dlwodrIHpPThKxlqBtCDgF9tNsaFJMRhaHEViU/E+9ShxQBpYQ2fNUFJCsO1y9guKdGHV5IBK6TfLE+yekYTgeBoS1lwsGh2xu960z4u7wpabKkXxSaESL/YA7pDTI6sO4Krn2ufq2O7FoSft64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=rsDF+/j8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=everestkc-com-np.20230601.gappssmtp.com header.i=@everestkc-com-np.20230601.gappssmtp.com header.b="wWI3aYpo"
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a9a3da96a8aso54333166b.0
-        for <linux-staging@lists.linux.dev>; Wed, 16 Oct 2024 00:40:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=everestkc-com-np.20230601.gappssmtp.com; s=20230601; t=1729064458; x=1729669258; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yMVFl2GTcBmobaI+bMD3OiVaYIUMWW+lDjeTxVFsk50=;
-        b=wWI3aYpoQoebENJQQMrXGE+i4wXbJyLMF5xzUmlt/N6XBvR/iGIBCSm+MkbHt2MU4L
-         5OER4bhXACXjpPYvmzVCcw7f41Ub1R6cy+EOblUk4HVdMGps6CGoG0hLJJQBCfzXZh7O
-         /yYobpZ28zUBP8osXRKkLZoLAuWQbVH/k14Z1m2TWXrl65Em15HIO75FSUZRUQjLV0I4
-         4YQxC5aMA6KkRCWpa8xG/krU5PVYBkBQrhlGqQjtlegfM3gUsDdkLCTSO/fEsJjHER7F
-         nnyOuwgNGTKxgrJBHU+LsiJOfKna5J9TNmxJvbFszNZFHSgls4VyRALOELI9o3b7wat6
-         q1DA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729064458; x=1729669258;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yMVFl2GTcBmobaI+bMD3OiVaYIUMWW+lDjeTxVFsk50=;
-        b=QLHFiFCmkMX1NCimkOToLbc78FgtbI+r9HQlxpHUKXhTuOqu4M6T4LoxmeBu/Sd9r3
-         sgMAWNyM+rPNvG7JoRUHI6I0MtB2WPbt6QIwtZnGBBDU1728/f9GDJ+IM89P70IUvxwd
-         zRbnnCVCTtXVDQPOxSwUZr0PDnPDEWj0PRUa37mV+W4Ir7+DLew3U+23vhHgQFoFO7ny
-         iu78g4T+fAHznQOeCawwO6qusNOf68xbPA06mwHv1zs+phg0gZW2OEv7sORqhYl/MJg9
-         h1R0BCbM1aQBKMeBEWF2W6ke2vgh/I+ZBRzjgcBQtKGpT04F1fqy7y1Zu/zh6SJ7UVbR
-         GELA==
-X-Forwarded-Encrypted: i=1; AJvYcCVTVUn9HMZRrljsGZmfUiDdymiQ+qNk8GFbWrxEkppN764PI0FIsEj+f6FVB9OeeULqG8w0ZTv8U3ahplGv@lists.linux.dev
-X-Gm-Message-State: AOJu0YzLTZcvIIwGWHeCz28UG5RGkP9nv30tUM+UkYxoLCTuj/N50o5C
-	vCRhT57d5sAB6Uukm8nSgJEslm+8SXuYzjcyAWAtfmZxHHNjv9RQDIDSe5XhL90V484teYugCfd
-	hSAR9s0l6rRS0ew8F/5rIDpMfRU82Y6AoqVJ2og==
-X-Google-Smtp-Source: AGHT+IHWv4dKp5kG/i7bSz1apYnsRrEAbrQx4o5iragJJJrMK8m5N8TwV7V7U2xGrwr0JUKngMV/CdjYcW62YtcG88Y=
-X-Received: by 2002:a17:907:6d21:b0:a99:ff33:9ba5 with SMTP id
- a640c23a62f3a-a9a336c5625mr270100066b.24.1729064457805; Wed, 16 Oct 2024
- 00:40:57 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="rsDF+/j8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8B1BC4CEC5;
+	Wed, 16 Oct 2024 07:48:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1729064914;
+	bh=bGu+QvRxT9xe7HGIdDLZTCZZ6sTH0lhSLgemm4Sx6lk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=rsDF+/j8gDX8VmLrjSawOF3oaRmXxqI+Eo63H3tXKl58s2n1IYuNzy2k31bD7UKfy
+	 alddQF96WYkMfyDEpRb8d/F9Lb17hXVPMpwtCh6S4AMm7juMYTNd9BYj7RhbxNefKU
+	 LjKEyfVIhFRDoHHVJBs50zoBNE/1awCRqFh647Bs=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: linux-staging@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dave Penkler <dpenkler@gmail.com>,
+	Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: [PATCH] staging: gpib: mark FMH driver as broken
+Date: Wed, 16 Oct 2024 09:48:28 +0200
+Message-ID: <2024101628-jazz-radial-3400@gregkh>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241015210300.17941-1-everestkc@everestkc.com.np> <2024101654-creole-palm-81d4@gregkh>
-In-Reply-To: <2024101654-creole-palm-81d4@gregkh>
-From: "Everest K.C." <everestkc@everestkc.com.np>
-Date: Wed, 16 Oct 2024 01:40:46 -0600
-Message-ID: <CAEO-vhEiMG+Zb0-FqPBcYANnpnntA-H_D76wbAehgXDAUTYKOg@mail.gmail.com>
-Subject: Re: [PATCH] staging: gpib: Remove unused value
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: dpenkler@gmail.com, skhan@linuxfoundation.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Developer-Signature: v=1; a=openpgp-sha256; l=914; i=gregkh@linuxfoundation.org; h=from:subject:message-id; bh=bGu+QvRxT9xe7HGIdDLZTCZZ6sTH0lhSLgemm4Sx6lk=; b=owGbwMvMwCRo6H6F97bub03G02pJDOn8+WfezpOQ78655PhsT2NPm9KOdTrXWOoYCrdm96jte PMwYV5vRywLgyATg6yYIsuXbTxH91ccUvQytD0NM4eVCWQIAxenAEwkRJBhwbJarXXrXn1PzFm6 9Ep0uRn31BVF9xkWHAnftfJkyeUJ1RtPTty8qIr/xP6QqwA=
+X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
+Content-Transfer-Encoding: 8bit
 
-On Wed, Oct 16, 2024 at 1:37=E2=80=AFAM Greg KH <gregkh@linuxfoundation.org=
-> wrote:
->
-> On Tue, Oct 15, 2024 at 03:02:57PM -0600, Everest K.C. wrote:
-> > The variable `complement_count` is assigned a value which is again
-> > overwritten in the next statement.
-> > Fix this by removing the first value assigning statement
-> >
-> > This issue was reported by Coverity Scan.
-> > Report:
-> > CID 1600790: (#1 of 1): Unused value (UNUSED_VALUE)
-> > assigned_value: Assigning value from length to complement_count here,
-> > but that stored value is overwritten before it can be used.
-> >
-> > Fixes: 4e127de14fa7 ("staging: gpib: Add National Instruments USB GPIB =
-driver")
->
-> Thre is no "fix" needed here.  It's not a bug, just a useless operation
-> (one tha tthe compiler probably just compiles away into nothing.)  So
-> there is no need for a Fixes: tag, sorry.
-Noted. Will remove the fixes tag and send V2.
-> thanks,
->
-> greg k-h
-Thanks,
-Everest K.C.
+When doing a 'make allyesconfig' things break in this driver due to
+duplicate symbols, so mark it broken for now until that can be fixed up.
+
+Cc: Dave Penkler <dpenkler@gmail.com>
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Link: https://lore.kernel.org/r/20241015165538.634707e5@canb.auug.org.au
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/staging/gpib/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/staging/gpib/Kconfig b/drivers/staging/gpib/Kconfig
+index 9f337d57ce87..f41b56b66251 100644
+--- a/drivers/staging/gpib/Kconfig
++++ b/drivers/staging/gpib/Kconfig
+@@ -130,6 +130,7 @@ config GPIB_FMH
+        tristate "FMH FPGA based devices"
+        select GPIB_COMMON
+        select GPIB_NEC7210
++       depends on BROKEN
+        depends on OF && PCI
+        help
+          GPIB driver for fmhess FPGA based devices
+-- 
+2.47.0
+
