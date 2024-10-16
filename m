@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A6B254F95;
-	Wed, 16 Oct 2024 15:11:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D49D20E038;
+	Wed, 16 Oct 2024 15:12:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729091463; cv=none; b=HEl3QWw31iM6+A88XUO7y+mGkxvQ3VbxBbFo4NhpitGGtDxdOisoxJSAm3FFQ8iNzRLNyHyjovMzFLGTiKveplbKEiAGLYcH49BSrr4uESHepE0/w2X4TEnEY9uH2TARJHaOggs6uB+k9eD9ygAZaf+d8ClTS+FO+r3edNLPlXI=
+	t=1729091544; cv=none; b=Hn5d6CEU87RH+vgqHtAupc1uMEVB3sjVjctKAwi4FXPqAzptshnkcrEHdVd+AZIEx9KMl84lDLhhvajdI4zOTcMcWaE6cO5LZH3L2ZymU94Arszr+CB8LODsbv6q+dcNAPFW3lPTaJcvMEynrAn89StogcWDYAYklQeMioq/lt8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729091463; c=relaxed/simple;
-	bh=v04/kYKtJQtrsjHsyGjBFxXxzpNdJt5YRVCbs60TOTk=;
+	s=arc-20240116; t=1729091544; c=relaxed/simple;
+	bh=WhUvBAc7LIh6JlDAA3ScEEn3YXsU7Z6zReEaX3jqZcc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QFlx86hgih5X0Y2WLgrNEsH+rXXjw4acHmxM5DjF7yLnkldiqXoSUGrmEKqHTu8uHGK3cjR90YN6t8VN75nwS2pc+NzZMWvHNb86WZRl6kb+3YCMF1eso5XUBWr34aD4BA7bZ7pVlh6md2RIvZZ87ZmiztHVy6wcQH8elXTfxd8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=RGcTtxZQ; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=C1F0P5kb0Si6+4H2byZDM5r/gbozaMVA8sQSQ8IZ7Gskg2nLAR9gd6AMQRS7MovvyKAZDkmxyFkMmN/2+0yplaK1QWYq6atXefrJfbsWYBc4o/KhS/yMFjSJLG9DeO+YDJ3vOpur4w13LH7F3MFmKQ6VBBPktQb6fz1N35h04v0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=WPqNsvBN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="RGcTtxZQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3EE5BC4CEC5;
-	Wed, 16 Oct 2024 15:11:02 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="WPqNsvBN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BAE4C4CED1;
+	Wed, 16 Oct 2024 15:12:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1729091462;
-	bh=v04/kYKtJQtrsjHsyGjBFxXxzpNdJt5YRVCbs60TOTk=;
+	s=korg; t=1729091543;
+	bh=WhUvBAc7LIh6JlDAA3ScEEn3YXsU7Z6zReEaX3jqZcc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RGcTtxZQ11J8tP78zZSR3N3v84XKOKYipcMIxMKKr3PuaAQ3OZ7WDb2amQcJmOGR9
-	 xTEL6lolQpkhWP1eK+wmZEH/NnxZq3S5FuKvzII5LeyEwFM79nZAHwXFz5qHsRjtAW
-	 aauU37htlsp8RyzqNP9ZSR4LW3M+UzMuGi2fkPfo=
-Date: Wed, 16 Oct 2024 17:10:59 +0200
+	b=WPqNsvBN3Yh7JIENJspTnsyy4l29MoJzbPR7t37lb6bUepc0LmUDdN7v2g5/3pm9x
+	 o0cvvMsUXs2QVRZoWPwnouECcdLzBl+5iN3Iu4HGlgGeZK9rpGwWA1wu1v6iSXYB58
+	 Y8Z5tAySPvqi82ExqYva3bOKhMWh/+Buy9f2uhPA=
+Date: Wed, 16 Oct 2024 17:12:20 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Dominik Karol =?utf-8?Q?Pi=C4=85tkowski?= <dominik.karol.piatkowski@protonmail.com>
-Cc: dpenkler@gmail.com, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2] staging: gpib: Add TODO file
-Message-ID: <2024101632-overreach-paradox-d31b@gregkh>
-References: <20241015192838.16740-1-dominik.karol.piatkowski@protonmail.com>
- <2024101609-getaway-appendage-1f88@gregkh>
- <B28HXaYBd4-AP7g9jMpXgQEcJIzAQUsaUqMerdy_Hk0tR2Q9RKTAmcYbtq3LR06X3yHj0R6D4bLJHEHCYsszgjvnfhgZ7K5QwOzx5JLNI_A=@protonmail.com>
+To: "Everest K.C." <everestkc@everestkc.com.np>
+Cc: dpenkler@gmail.com, skhan@linuxfoundation.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH V2] staging: gpib: Remove a dead condition in if statement
+Message-ID: <2024101625-activate-gluten-3547@gregkh>
+References: <20241016075319.4092-1-everestkc@everestkc.com.np>
+ <2024101654-jasmine-ransack-7190@gregkh>
+ <CAEO-vhGuJUdbBhchbga33TNWvZXTXHWbd4=M8xeWkHAi1rnw2g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -42,91 +42,65 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <B28HXaYBd4-AP7g9jMpXgQEcJIzAQUsaUqMerdy_Hk0tR2Q9RKTAmcYbtq3LR06X3yHj0R6D4bLJHEHCYsszgjvnfhgZ7K5QwOzx5JLNI_A=@protonmail.com>
+In-Reply-To: <CAEO-vhGuJUdbBhchbga33TNWvZXTXHWbd4=M8xeWkHAi1rnw2g@mail.gmail.com>
 
-On Wed, Oct 16, 2024 at 01:34:07PM +0000, Dominik Karol Piątkowski wrote:
-> On Wednesday, October 16th, 2024 at 07:33, Greg KH <gregkh@linuxfoundation.org> wrote:
-> 
-> > 
-> > 
-> > On Tue, Oct 15, 2024 at 07:28:57PM +0000, Dominik Karol Piątkowski wrote:
-> > 
-> > > Add a TODO file stub for the gpib driver.
-> > > 
-> > > Signed-off-by: Dominik Karol Piątkowski dominik.karol.piatkowski@protonmail.com
+On Wed, Oct 16, 2024 at 06:54:00AM -0600, Everest K.C. wrote:
+> On Wed, Oct 16, 2024 at 2:04 AM Greg KH <gregkh@linuxfoundation.org> wrote:
+> >
+> > On Wed, Oct 16, 2024 at 01:53:18AM -0600, Everest K.C. wrote:
+> > > The variable `residue` is an unsigned int, also the function
+> > > `fluke_get_dma_residue` returns an unsigned int. The value of
+> > > an unsigned int can only be 0 at minimum.
+> > > The less-than-zero comparison can never be true.
+> > > Fix it by removing the dead condition in the if statement.
+> > >
+> > > This issue was reported by Coverity Scan.
+> > > Report:
+> > > CID 1600782: (#1 of 1): Macro compares unsigned to 0 (NO_EFFECT)
+> > > unsigned_compare: This less-than-zero comparison of an unsigned value
+> > > is never true. residue < 0U.
+> > >
+> > > Signed-off-by: Everest K.C. <everestkc@everestkc.com.np>
 > > > ---
-> > > v2: Remove maintainers from TODO, as they can be found in MAINTAINERS file
-> > > drivers/staging/gpib/TODO | 2 ++
-> > > 1 file changed, 2 insertions(+)
-> > > create mode 100644 drivers/staging/gpib/TODO
-> > > 
-> > > diff --git a/drivers/staging/gpib/TODO b/drivers/staging/gpib/TODO
-> > > new file mode 100644
-> > > index 000000000000..850dc1102e54
-> > > --- /dev/null
-> > > +++ b/drivers/staging/gpib/TODO
-> > > @@ -0,0 +1,2 @@
-> > > +TODO:
-> > > +- checkpatch.pl fixes
-> > > --
-> > > 2.34.1
-> > 
-> > 
-> > Hi,
-> > 
-> > This is the friendly patch-bot of Greg Kroah-Hartman. You have sent him
-> > a patch that has triggered this response. He used to manually respond
-> > to these common problems, but in order to save his sanity (he kept
-> > writing the same thing over and over, yet to different people), I was
-> > created. Hopefully you will not take offence and will fix the problem
-> > in your patch and resubmit it so that it can be accepted into the Linux
-> > kernel tree.
-> > 
-> > You are receiving this message because of the following common error(s)
-> > as indicated below:
-> > 
-> > - This looks like a new version of a previously submitted patch, but you
-> > did not list below the --- line any changes from the previous version.
-> > Please read the section entitled "The canonical patch format" in the
-> > kernel file, Documentation/process/submitting-patches.rst for what
-> > needs to be done here to properly describe this.
-> > 
-> > If you wish to discuss this problem further, or you have questions about
-> > how to resolve this issue, please feel free to respond to this email and
-> > Greg will reply once he has dug out from the pending patches received
-> > from other developers.
-> > 
-> > thanks,
-> > 
-> > greg k-h's patch email bot
-> 
-> Hi Greg,
-> 
-> I listed the changes below the --- line. Probably I should have added extra
-> newline, or maybe even another --- line below the changes in order to not
-> trigger the patch-bot message and make it more readable.
+> > > V1 -> V2: - Fixed typo of comparison in changelog
+> > >           - Removed Fixes tag
+> > >
+> > >  drivers/staging/gpib/eastwood/fluke_gpib.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/staging/gpib/eastwood/fluke_gpib.c b/drivers/staging/gpib/eastwood/fluke_gpib.c
+> > > index f9f149db222d..51b4f9891a34 100644
+> > > --- a/drivers/staging/gpib/eastwood/fluke_gpib.c
+> > > +++ b/drivers/staging/gpib/eastwood/fluke_gpib.c
+> > > @@ -644,7 +644,7 @@ static int fluke_dma_read(gpib_board_t *board, uint8_t *buffer,
+> > >        */
+> > >       usleep_range(10, 15);
+> > >       residue = fluke_get_dma_residue(e_priv->dma_channel, dma_cookie);
+> > > -     if (WARN_ON_ONCE(residue > length || residue < 0))
+> > > +     if (WARN_ON_ONCE(residue > length))
+> >
+> > No, this is incorrect, now we never notice is the call to
+> > fluke_get_dma_residue() has failed.  Please fix that bug instead (hint,
+> > Covertity is giving you a pointer to where something might be wrong, but
+> > this change is NOT how to fix it.)
+> I need a little guidance here.
+> My best guess to fix the bug would be to make fluke_get_dma_residue()
+> return an int instead of unsigned int or size_t. But theoretically the
+> maximum value of residue can be UINT_MAX, and casting it to int will
+> result in a negative number, which in turn will cause  the error check
+> condition to evaluate to true.
 
-Ah, yes, that's why it missed it, sorry.
+Look at the code to see what it does.
 
-> Maybe I should also
-> explicitly use "V1 -> V2" instead of "v2" when listing changes? I am trying
-> to understand the filtering rules that are in use, in order to avoid this
-> situation in the future.
+> The best solution I see would be to make fluke_get_dma_residue() return
+> an int (-1 for error and 0 for success). Then pass the address of residue
+> reference to fluke_get_dma_residue() to be updated.
+> Am I on the right track ?
 
-Either is fine, but it was the blank line that caused this to be
-triggered.
+Close, yes.  "-1" is not a valid error, so that needs to be fixed at the
+least here, as it's obviously not returning an error that gets caught
+today :)
 
-> I see that in Documentation/process/submitting-patches.rst there is an extra
-> newline after listed changes, would it be enough?
-
-Yes.
-
-But before you resend this, you should come up with some more things
-other than checkpatch for the TODO file, as that's just the base-minimum
-here.  THere are other things that need to be done to get this out of
-staging, take some time to look at the code to get an idea of what needs
-to be done.
-
-thanks,
+good luck!
 
 greg k-h
