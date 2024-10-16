@@ -1,68 +1,46 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC84C206945
-	for <linux-staging@lists.linux.dev>; Wed, 16 Oct 2024 12:56:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F405208D77
+	for <linux-staging@lists.linux.dev>; Wed, 16 Oct 2024 13:02:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729083407; cv=none; b=YZGeCU2RK3uCg7bKaBEs9ZGCnqN9z2TH4YUHef0HYyqNDx33Qcse8aFlVSv2Toe6U2QhgYgaK1feR4Z7Unpvrhg6z+AFaQFHAg+t/KbWWSypFopCFZyviniAp2K2jUlb8VNL0ZjhCkJZr3Qc5JMcvFo2JE/rsSM3ZraAQN+ckpU=
+	t=1729083758; cv=none; b=fEmD90trjffV6yHY4md2reECu2m4PDWpjbQQsSASgA+cVGcW54+BCIqwsVc+yWUJtTj7h9EQ/cMd85++8wrlRXBEqeN/T+F/QnKteFT/XOwENY0JXHwurVnYfbpQMvehZ+/u/xRI4hzyLeH1VzwE+4r2OexxNeyQKGg5drqphxs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729083407; c=relaxed/simple;
-	bh=IySJiiHKQ9uzg8Y6/9egbralZWhforGpWViQ50tt5NQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=c2Gocxk+seHdvdsyMhEWHFjrrwyvEEaKLHcXVwAY2lTQguXGZCevCb2JX03MtF5sDNxV90ZwOzAKdxHJIlcCbcARcgAqxMKrpWQ1CnBFh0jv5LYIfsXxlbB+VsgIZwtslV2ZXIuSxUia+qiqTQ8w/bUenjz4wPU7YBDSnyN89Ts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MvOOPiF2; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1729083758; c=relaxed/simple;
+	bh=9U+Pdo3QeHZ4CzgnlEsxiTkvWi3GjRDjQG+pAMqgyLs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FCaysrywzx7e8lsvexrv5FJXAAs9JF6/fzSkunF1tlbzy26FOiOMnnQjMMdp7qrnyB/PvItd2lEiqX1Uv6VtIkbpeSGwmNdKLvwJMvI2DNW5XC3UKaTcP7gos2Wq4NAcDBddz0L3+/WeMhPB3OFkxIiLwvml+q5aXCkOgWnTyFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=BAoXMe6+; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MvOOPiF2"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-37d70df0b1aso2729933f8f.3
-        for <linux-staging@lists.linux.dev>; Wed, 16 Oct 2024 05:56:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729083404; x=1729688204; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pa6exbdx6NUoRdCrQdTchcVOej7ISzyDCTBB7HgeisE=;
-        b=MvOOPiF2Gh+MWGUNw/IGEZBGBYQZtFdjem81d1QiMFDDk2D8+6K29/lorDC46kWids
-         QPlAKfaIOpSgjAybB3exXXCkzE9NViR2paUqCTfK1K/X7agfl8yWN55MWLHcDSL+CMa1
-         axUFaMZ1EYYlpNJY/dRbHRhnc3RHBWJgUpRPHHlmMwrw4a/maWK9uSo3S23bNt94QRCW
-         v6rcoTS/pQ3SJX50LMJ2xnoITq/Mc3iRhEWWClJD0AFQu2Z64SG+jk+n0rDy2PpPbzH9
-         JC3Ob4OTwHKSicLgwhQzZNAB3mb+nyT78e2cDyuQIFjs/iNk2VEwstxpKry2BRU2SA9U
-         5gHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729083404; x=1729688204;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pa6exbdx6NUoRdCrQdTchcVOej7ISzyDCTBB7HgeisE=;
-        b=JErqpRaZsOqxCfwTa37wyFok4ONBjlJoALNpgVibXocKBRZUnBaREXQ7Gym1Z7w8W5
-         34NvVvr1UgX9iQBYoKvVGFR3xqFUY7Tj1BvhNbHO/3szIHfhujtyrcCBofab6Pf3IEAa
-         bInb1jBdSOM7qWgRmIhTVoXGOIfhe8hQAGi8+eZtVXjEEI5ZUXzwGhP8A4mj3niP/O5g
-         ETE4rbg3f2GJNFc/eMuF+dE09/mUPmPjH7ZORRO/mPxLbukQcJHfK92RiuqnQP5Q55t0
-         KrYftZhLBE+OAM4FhA5cg56oKLgRpJoQw6E/ygyTkly25ox5eZOuguayVGlk1Q/TgRxK
-         N9Sg==
-X-Gm-Message-State: AOJu0YxyW7KUXmnBxafEu4mjYiZ5KXqYv1iPTq5Y1aykn3asdKYkWu4r
-	qVUciH8kbS8H5WSSqCZBzNqNpRifMvWCZfc6JyyOPByebrpUkAGc9yGOWJgy
-X-Google-Smtp-Source: AGHT+IH78AKUk4Gz9iHhSvSIfFbQoL3QqtCbWoy/aXkqm/CRzXTNe7Grz37dLgMXqpo9zErbFK9UAg==
-X-Received: by 2002:a5d:444f:0:b0:37d:525d:5a60 with SMTP id ffacd0b85a97d-37d86bb6707mr2210100f8f.8.1729083404134;
-        Wed, 16 Oct 2024 05:56:44 -0700 (PDT)
-Received: from ARL1114-LINUX.. ([196.233.5.237])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d7fa7a13bsm4249405f8f.13.2024.10.16.05.56.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Oct 2024 05:56:43 -0700 (PDT)
-From: Aymen Khalfa <a.khalfa.1012@gmail.com>
-To: gregkh@linuxfoundation.org,
-	hdegoede@redhat.com,
-	Larry.Finger@lwfinger.net
-Cc: linux-staging@lists.linux.dev,
-	Aymen Khalfa <a.khalfa.1012@gmail.com>
-Subject: [PATCH 4/4] drivers: staging: rtl8723bs: Fix comment alignment coding style issue.
-Date: Wed, 16 Oct 2024 14:56:30 +0200
-Message-Id: <20241016125630.2479807-5-a.khalfa.1012@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241016125630.2479807-1-a.khalfa.1012@gmail.com>
-References: <20241016125630.2479807-1-a.khalfa.1012@gmail.com>
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="BAoXMe6+"
+Received: from umang.jain (unknown [IPv6:2405:201:2015:f873:55d7:c02e:b2eb:ee3f])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7CC9AA2F;
+	Wed, 16 Oct 2024 15:00:49 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1729083651;
+	bh=9U+Pdo3QeHZ4CzgnlEsxiTkvWi3GjRDjQG+pAMqgyLs=;
+	h=From:To:Cc:Subject:Date:From;
+	b=BAoXMe6+a4TsrrC4Mom95CmVfZGgLc/M1KOu4VCCodjP0PhgAb20Gcni6+GDh6G/U
+	 +/tKZ5MfvvUSpRdmNG6Ovc1WXdO2vUc79NyiN4chmKdBOulSEOSe7iVHih418Jer78
+	 wNfvCUZdEmkRqTt1lb+9JA4Uo3pktOgAINR7QHl8=
+From: Umang Jain <umang.jain@ideasonboard.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+Cc: linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Stefan Wahren <wahrenst@gmx.net>,
+	kernel-list@raspberrypi.com,
+	Umang Jain <umang.jain@ideasonboard.com>
+Subject: [PATCH v4 0/2] staging: vchiq_arm: Two memory leak fixes
+Date: Wed, 16 Oct 2024 18:32:23 +0530
+Message-ID: <20241016130225.61024-1-umang.jain@ideasonboard.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -71,34 +49,30 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-- Align * on block comment.
+Two memory leaks were identified and this series addresses those leaks.
 
-Signed-off-by: Aymen Khalfa <a.khalfa.1012@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_pwrctrl.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+Changes in v4:
+- Make commit message's subject un-identical
+- Fix a spell error in commit message
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-index cc4d08ce1d2e..5566c01193fe 100644
---- a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-@@ -1016,11 +1016,11 @@ inline void rtw_set_ips_deny(struct adapter *padapter, u32 ms)
- }
- 
- /*
--* rtw_pwr_wakeup - Wake the NIC up from: 1)IPS. 2)USB autosuspend
--* @adapter: pointer to struct adapter structure
--* @ips_deffer_ms: the ms will prevent from falling into IPS after wakeup
--* Return _SUCCESS or _FAIL
--*/
-+ * rtw_pwr_wakeup - Wake the NIC up from: 1)IPS. 2)USB autosuspend
-+ * @adapter: pointer to struct adapter structure
-+ * @ips_deffer_ms: the ms will prevent from falling into IPS after wakeup
-+ * Return _SUCCESS or _FAIL
-+ */
- 
- int _rtw_pwr_wakeup(struct adapter *padapter, u32 ips_deffer_ms, const char *caller)
- {
+Changes in v3:
+- Add Fixes tag to 1/2 as well.
+  (Suggestion by Dan Carpenter)
+
+changes in v2:
+- Split patches into two
+
+v1:
+- https://lore.kernel.org/linux-staging/b176520b-5578-40b0-9d68-b1051810c5bb@gmx.net/T/#t
+
+
+Umang Jain (2):
+  staging: vchiq_arm: Use devm_kzalloc() for vchiq_arm_state allocation
+  staging: vchiq_arm: Use devm_kzalloc() for drv_mgmt allocation
+
+ .../staging/vc04_services/interface/vchiq_arm/vchiq_arm.c   | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+
 -- 
-2.34.1
+2.45.2
 
