@@ -1,55 +1,55 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F28C4111AD
-	for <linux-staging@lists.linux.dev>; Thu, 17 Oct 2024 02:47:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D642D4C62B
+	for <linux-staging@lists.linux.dev>; Thu, 17 Oct 2024 02:50:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729133260; cv=none; b=FiXwihuILtuu9wiU9/taRTX2sasoJ95svbNbjZk6ishR+cCRFD04mbkl349NRlAtG1bCepzJgDQZwo6vqeU9ItsFA8dv277GzgXEvaode9BPxipm5B0Y2Jfdd7umR5BtG/MbJW+yWYCbWF5I/HDwlmqnzGb8QGPY9JgRlkMxbJo=
+	t=1729133457; cv=none; b=QlpEhTq8R/8p4bc1BvqKTBOHMnhdeQq4KzOlPPTCQRcjkxU/oPoq7V+ESy1P0LAhH/9gRW+B1uD3VUjNeQTcS5xdHhOug+Xl5s81/YrAvqSB9Rrj0IWQ2kCsxkrRUiZ9WC+0awfK9Q+RaGoNDd/lGIQR8JTQhAE8hj861f8zqPE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729133260; c=relaxed/simple;
-	bh=CQI8bmkxSA9JvIEYFak6LDBwpyVIW2iviPeQ89uleC0=;
+	s=arc-20240116; t=1729133457; c=relaxed/simple;
+	bh=Zdwf5BgnTpOZ84F4YflB1huMvcyKYRcc7W+IWgVAZ7M=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=h6IQDDiXVV4LWkR4MLp4ODXG0DDWchLqtzTMfooN3+slwQm+hjyU4oi9ioahKkZI6H0hXiGcEMwiROGwYGYZ10AdEsGVtX2/ZF8MyVsECDyHXwNY/mf0IxDXDUNOYAHRw9dkbWT8Msv9JAoOMwdIYRaRY9rAdJNomFvGLkjsZos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=everestkc.com.np; spf=pass smtp.mailfrom=everestkc.com.np; dkim=pass (2048-bit key) header.d=everestkc-com-np.20230601.gappssmtp.com header.i=@everestkc-com-np.20230601.gappssmtp.com header.b=03deS4MA; arc=none smtp.client-ip=209.85.208.50
+	 To:Cc:Content-Type; b=LLGqqeopnUsQelDUDDV90lpnEbw0cqmTmMXsNhOJNjAHFfxhzEbc6+heFliXTnU5AGavg6M7MMzPh9jp8l9baX3kll6A03+bPMFKy9MwybYlFiIxRVxjMRwrh9lqYht5mO6SE1+EInf19ExGebXbe5XuZ5fBe/nzglbHX/Ar86Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=everestkc.com.np; spf=pass smtp.mailfrom=everestkc.com.np; dkim=pass (2048-bit key) header.d=everestkc-com-np.20230601.gappssmtp.com header.i=@everestkc-com-np.20230601.gappssmtp.com header.b=IeHEPGbl; arc=none smtp.client-ip=209.85.208.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=everestkc.com.np
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everestkc.com.np
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=everestkc-com-np.20230601.gappssmtp.com header.i=@everestkc-com-np.20230601.gappssmtp.com header.b="03deS4MA"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5c94c4ad9d8so695250a12.2
-        for <linux-staging@lists.linux.dev>; Wed, 16 Oct 2024 19:47:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=everestkc-com-np.20230601.gappssmtp.com header.i=@everestkc-com-np.20230601.gappssmtp.com header.b="IeHEPGbl"
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5c9693dc739so629139a12.3
+        for <linux-staging@lists.linux.dev>; Wed, 16 Oct 2024 19:50:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=everestkc-com-np.20230601.gappssmtp.com; s=20230601; t=1729133253; x=1729738053; darn=lists.linux.dev;
+        d=everestkc-com-np.20230601.gappssmtp.com; s=20230601; t=1729133452; x=1729738252; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=61NRy7JLQSBc8GJNSzFFlgHXb8XOPpLuVXW5zR0xav0=;
-        b=03deS4MA2oQbB6SlHc3sy2iZW6w4+rNkYVY/L/sJ6SmwSz2qtMtI/n3R5tKK+NfJM0
-         lqEO6l2KTN0E/dDpP+wkxMoGa0S33Kz0EHQzSBsfoq0k0eS2e6ak5wMRvdrZSc1OB+B5
-         ZYBWF6y8G15L2IeYoIcAVS7lSUJY2bHgEKpz2wt0wu47CMTgH7XBD47P+Z0xN2FKFgUr
-         mRsLsZZrDnZG6ZteJhlC2+jwGaCodX+pHGQTIdC80qLZ3/gbHFvqmFlPc+rTACEZNxYN
-         ZLTfTer/5tH2Y28ImJGOCD+ZKqLrGnNW3VD23vHjAFAINGeue+v8YtgL+IAMmpJahTVd
-         SA0g==
+        bh=YIbDMl8gjW1pXQSxx+4reNTL+NZ/14g/xdSwZlsXFVE=;
+        b=IeHEPGblO/mYyqQgx94YqBY7bIUwIf5jjP/w+b9lwFx6hz2+2QsJ0qmMWGV9EZ8zfe
+         8ooeKK+BHW1BiEg7zL/qWwu+Tu7E/Wzib0ZY4U3WZHUAYhUkWvJC1cuia6Upwc1kki/F
+         SoFRNAo5PWmk9MPl5htvwU4uv4dwFiFPtGBqmAvLgETmUixazdu3ewymenPqd7auLn48
+         A/ZWT547ZeIMpVzUdUdcyFoItFh1ojGlcI5gqfKKu9nzRuDDtXO+uqQsoxUF+zQN7fof
+         zuw6Vd1Nwj9xKrE2jKHgVroBElkGh2Y/XkxdF7mVb6ZarR7+Q5pbfEp9rwHeaBr4lfcw
+         MHTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729133253; x=1729738053;
+        d=1e100.net; s=20230601; t=1729133452; x=1729738252;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=61NRy7JLQSBc8GJNSzFFlgHXb8XOPpLuVXW5zR0xav0=;
-        b=H56vJxOoLoQ3HAcR9agO89xXHrsgLDzun6sGomK7JTVMisbWXg/hmONp4hNUuwhS7F
-         yu2fmwa6xQl6JRe3+ajh+UHEbKj2QOjlnA5VVKjtNSL5/ZRd8tT+hedmDdZoeWg+rhwJ
-         qdb7aUqAZHyNtVmFEEyVw3+eTi7vA1S+3s4PY74g1hhaCw3PvaUW06C+h1qJAdUIuaIX
-         YOEBs3Cb5JTd1z0BK7K2ZIG83LFs3IWJ6NKvMrrhsx80lUdrHd+c10rFo04CM7PHD+Or
-         1mpCadU3dMqCDNNwf3a3/eo1xg1uX8WZ5Yj0PMdWQMSZfDvbtKG4xmBg3cXVS/8HZcnW
-         S44w==
-X-Forwarded-Encrypted: i=1; AJvYcCU6xcL/63slVZ5pVvusTZkAEjL2JGNGRyfg28wdXx1IMyIgZpyCNifLO7a+2cHhCMOA8qgebw7vSiLrkHf3@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzh7WolgXFnloB/gcNeyEFcF73BITD+tX60b6w7RheAy5CllvmP
-	ikEgp6Tkg2bGXY0d4S8Wk5lhRfwecMHZFuHAV5EMFcUlN0VzaeKnqYmZy3l906TmZ396nHwi/zP
-	NQb/Axvp/ZjLuehKy5DXS32zabIB86t9wwC1NkA==
-X-Google-Smtp-Source: AGHT+IG9CJZF+U0YZJ9TtWDocpngxRCnjAdYuq0lxGMzr2c/UE2pswOjcS9hrxQKpuQohovg+UuP+JxeeUwVLBtn6QQ=
-X-Received: by 2002:a05:6402:2804:b0:5c9:29f3:fba3 with SMTP id
- 4fb4d7f45d1cf-5c948cca98bmr17920735a12.20.1729133253025; Wed, 16 Oct 2024
- 19:47:33 -0700 (PDT)
+        bh=YIbDMl8gjW1pXQSxx+4reNTL+NZ/14g/xdSwZlsXFVE=;
+        b=osUTrvp/gYCaZbQ7sCccu4PnAWy5Hvlf5rRhzDN2znXCO9S/oxD4a1WvY+zguLexQ+
+         cSY/1FWFiF4oO3PPON56fVTBfqHO5tTMdqL3DYtI4Mn7UgccvUsWyimusmfP2z86ROxa
+         VsOui3PlZCzhgusfK+miLm8xwx2gcK25cla8SRYIv8mG8bMFg7EMvMvUpCpxtltjqM4O
+         iLz7fr56fiWg93L2n1rP5+7UAm1iJU4u9VtMj5IrReCGtOVZntDigH1A+0Jjl2Em3Owf
+         Agl2gedpgk52aso+wt6+/K8+rVtfHXKVbyIuZb0hGoLn4ZLQgp1nIdcEXsq/YW8eW+Qb
+         FrZA==
+X-Forwarded-Encrypted: i=1; AJvYcCU8ckZqqi/jdp+Yvvb0KzBtU6z/pdWZ3bd7mb+ZhbZ78ocqMCZ0Vvi1zVcVq7wBhtbKSjb+6x7cSGIv+l6Y@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw05QlvJ2PuBEIbJPkT9EoJdcSwcuZ/qWXErg8fvpmKxMynad2y
+	MfgggaRyvReBilloiwRnHxO78H0/nAYxqyjUuiLfc4M8/wKPvxUxvit4JfniMw8au/SXklR7jRw
+	M4H+Sko32nqZh0MtgabXOXY8wJjaSL2bIdNaEaw==
+X-Google-Smtp-Source: AGHT+IGZEg0rLJYeX//oZKYgP/RbQfMH2yo0BvVbMr1srtnJ+sdvJuPzjemXqjvKuUeHeLhINhFyM+fo0g3gBQ4Hc2M=
+X-Received: by 2002:a05:6402:13c3:b0:5c9:218d:7071 with SMTP id
+ 4fb4d7f45d1cf-5c95ac1776cmr13943290a12.20.1729133451937; Wed, 16 Oct 2024
+ 19:50:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -58,23 +58,47 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20241016075319.4092-1-everestkc@everestkc.com.np>
  <2024101654-jasmine-ransack-7190@gregkh> <CAEO-vhGuJUdbBhchbga33TNWvZXTXHWbd4=M8xeWkHAi1rnw2g@mail.gmail.com>
- <f3fdd6b8-53bb-4e9d-bb32-3816035d4d52@stanley.mountain>
-In-Reply-To: <f3fdd6b8-53bb-4e9d-bb32-3816035d4d52@stanley.mountain>
+ <2024101625-activate-gluten-3547@gregkh>
+In-Reply-To: <2024101625-activate-gluten-3547@gregkh>
 From: "Everest K.C." <everestkc@everestkc.com.np>
-Date: Wed, 16 Oct 2024 20:47:21 -0600
-Message-ID: <CAEO-vhFAb=xfc2sZiezW7Zn0dWNQ4axVxE6GErayKs76NtG1bg@mail.gmail.com>
+Date: Wed, 16 Oct 2024 20:50:40 -0600
+Message-ID: <CAEO-vhGM8_x4Teqt7D8d=3KJcLPAgd2rWpkEDsZw=h0cS_7BLQ@mail.gmail.com>
 Subject: Re: [PATCH V2] staging: gpib: Remove a dead condition in if statement
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Greg KH <gregkh@linuxfoundation.org>, dpenkler@gmail.com, 
-	skhan@linuxfoundation.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: dpenkler@gmail.com, skhan@linuxfoundation.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 16, 2024 at 9:00=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro=
-.org> wrote:
+On Wed, Oct 16, 2024 at 9:12=E2=80=AFAM Greg KH <gregkh@linuxfoundation.org=
+> wrote:
 >
 > On Wed, Oct 16, 2024 at 06:54:00AM -0600, Everest K.C. wrote:
+> > On Wed, Oct 16, 2024 at 2:04=E2=80=AFAM Greg KH <gregkh@linuxfoundation=
+.org> wrote:
+> > >
+> > > On Wed, Oct 16, 2024 at 01:53:18AM -0600, Everest K.C. wrote:
+> > > > The variable `residue` is an unsigned int, also the function
+> > > > `fluke_get_dma_residue` returns an unsigned int. The value of
+> > > > an unsigned int can only be 0 at minimum.
+> > > > The less-than-zero comparison can never be true.
+> > > > Fix it by removing the dead condition in the if statement.
+> > > >
+> > > > This issue was reported by Coverity Scan.
+> > > > Report:
+> > > > CID 1600782: (#1 of 1): Macro compares unsigned to 0 (NO_EFFECT)
+> > > > unsigned_compare: This less-than-zero comparison of an unsigned val=
+ue
+> > > > is never true. residue < 0U.
+> > > >
+> > > > Signed-off-by: Everest K.C. <everestkc@everestkc.com.np>
+> > > > ---
+> > > > V1 -> V2: - Fixed typo of comparison in changelog
+> > > >           - Removed Fixes tag
+> > > >
+> > > >  drivers/staging/gpib/eastwood/fluke_gpib.c | 2 +-
+> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > >
 > > > > diff --git a/drivers/staging/gpib/eastwood/fluke_gpib.c b/drivers/s=
 taging/gpib/eastwood/fluke_gpib.c
 > > > > index f9f149db222d..51b4f9891a34 100644
@@ -101,72 +125,27 @@ but
 > > maximum value of residue can be UINT_MAX, and casting it to int will
 > > result in a negative number, which in turn will cause  the error check
 > > condition to evaluate to true.
+>
+> Look at the code to see what it does.
+>
 > > The best solution I see would be to make fluke_get_dma_residue() return
 > > an int (-1 for error and 0 for success). Then pass the address of resid=
 ue
 > > reference to fluke_get_dma_residue() to be updated.
 > > Am I on the right track ?
 >
-> Functions shouldn't return -1 on error, they should return proper error c=
-odes.
-Noted.
-> >
-> > Also,I searched for the functions with names that match get_dma_residue
-> > in the kernel source code and found that they return unsigned int. I al=
-so
-> > noticed that no error checks have been made to check if get_dma_residue
-> > was successful.
+> Close, yes.  "-1" is not a valid error, so that needs to be fixed at the
+> least here, as it's obviously not returning an error that gets caught
+> today :)
+Noted. Thank you very much.
+I have a question though. Since, the file I had previously fixed (which
+was incorrect) and the file I now need to fix are different. Should I creat=
+e
+a new patch that would be of version 1, or should I send a V2 ?
+I went through the "Submitting patches" documentation but it does not
+clearly explain whether I need to send a new patch or the revision ?
+> good luck!
 >
-> $ git grep get_dma_residue | grep static | grep -v gpib
->
-> arch/alpha/include/asm/dma.h:static __inline__ int get_dma_residue(unsign=
-ed int dmanr)
-> arch/arm/mach-footbridge/dma-isa.c:static int isa_get_dma_residue(unsigne=
-d int chan, dma_t *dma)
-> arch/m68k/include/asm/floppy.h:static int vdma_get_dma_residue(unsigned i=
-nt dummy)
-> arch/mips/include/asm/dma.h:static __inline__ int get_dma_residue(unsigne=
-d int dmanr)
-> arch/mips/include/asm/mach-au1x00/au1000_dma.h:static inline int get_dma_=
-residue(unsigned int dmanr)
-> arch/mips/include/asm/mach-generic/floppy.h:static inline int fd_get_dma_=
-residue(void)
-> arch/mips/include/asm/mach-jazz/floppy.h:static inline int fd_get_dma_res=
-idue(void)
-> arch/parisc/include/asm/dma.h:static __inline__ int get_dma_residue(unsig=
-ned int dmanr)
-> arch/parisc/include/asm/floppy.h:static int vdma_get_dma_residue(unsigned=
- int dummy)
-> arch/powerpc/include/asm/dma.h:static __inline__ int get_dma_residue(unsi=
-gned int dmanr)
-> arch/powerpc/include/asm/floppy.h:static int vdma_get_dma_residue(unsigne=
-d int dummy)
-> arch/sh/drivers/dma/dma-pvr2.c:static int pvr2_get_dma_residue(struct dma=
-_channel *chan)
-> arch/sh/drivers/dma/dma-sh.c:static int sh_dmac_get_dma_residue(struct dm=
-a_channel *chan)
-> arch/sparc/include/asm/floppy_64.h:static unsigned int sun_get_dma_residu=
-e(void)
-> arch/sparc/include/asm/floppy_64.h:static unsigned int sun_pci_get_dma_re=
-sidue(void)
-> arch/sparc/include/asm/parport_64.h:static inline unsigned int get_dma_re=
-sidue(unsigned int dmanr)
-> arch/x86/include/asm/dma.h:static inline int get_dma_residue(unsigned int=
- dmanr)
-> arch/x86/include/asm/floppy.h:static int vdma_get_dma_residue(unsigned in=
-t dummy)
->
-> Only the Sparc functions return unsigned int.  The rest return int.
-Why is it so ? Are there any resources I could go through to
-understand it better?
-> The return value is going to be between 0 and priv->dma_buffer_size (0x7f=
-f).
-> It's set in fluke_allocate_private().
-Thank you for pointing it out.
-> Just make the return value an int.
-Noted.
-
-> regards,
-> dan carpenter
+> greg k-h
 Thanks,
 Everest K.C.
