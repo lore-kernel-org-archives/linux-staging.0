@@ -1,114 +1,120 @@
-Received: from omta34.uswest2.a.cloudfilter.net (omta34.uswest2.a.cloudfilter.net [35.89.44.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B2D91D5ABD
-	for <linux-staging@lists.linux.dev>; Thu, 17 Oct 2024 21:34:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.89.44.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CDD11D0E36
+	for <linux-staging@lists.linux.dev>; Thu, 17 Oct 2024 22:08:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729200888; cv=none; b=HOKBDqWGBcbm9cQn2xi6Ah6ltWkxwLJrxM1srab8RgpHn8PgQfT9FAP9QAmB9YwMdwK1XjCUKx0OtX4WklW99oP38iq1HZfKw9wWRXj2lvjn6a9Becf8Ns6FMXp9aWlbCpTTtxRlxMIeZuD2aaYK3WY/c0G5zZskBIXS8A8+81g=
+	t=1729202942; cv=none; b=b5SqSWy7mpxwyV6o6COLsFN6Tfg37DnT87LqHiWezGjZxLj8r6MgIQy4F9U82wUhJju7MqZW7Hew9CGXCoUaFCaWmTmitHk/oroSitFBscpIpLSLaFtJkVh7fAULGxAWwLD+sFPAXmTAgNPyO5ttuhH/dL8SyF2ZRr2YkJkevzU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729200888; c=relaxed/simple;
-	bh=Zf6DjL2Oqi5stebiREiVxK9KcJ50P6aC0CQSSOsMHME=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OXCgAh9hW0Lre12xB2OT07N3qSBv2CgbdpYOE+sT+NEKmFS4X/QWoPeh/LfBZ5VZsXMExWqe9S9FFRSnrBm6EHGPq+Z8ybI/8DM70EtoBEi8DbVnBbK1Y5B1mZeFJTWybKBqKm2uIJv1wdy6zM+ML7rOHXuN7I+TWcj7xby/PZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com; spf=pass smtp.mailfrom=embeddedor.com; dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b=s3cN6Gc+; arc=none smtp.client-ip=35.89.44.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=embeddedor.com
+	s=arc-20240116; t=1729202942; c=relaxed/simple;
+	bh=C1ettZhXIGpXrwWmjEv8ZGd6Xkvv0nVVh445vJUf5sk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oZ2e8LSeO4ZgZSPhih/srvP7EUM4Nt1IAD3Byj5swqVct808fixE3SaQJVQ++wEpYkU3KdCj+hB8mIalWmI8oLE1aaYcX9yy+ls4eoPHGmUbYwhSYNthtFvARqrmWtWd/sBYa2+pJDmbHCJ7nuXTwNXT/0vO+gPFdASpTqYyECA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=everestkc.com.np; spf=pass smtp.mailfrom=everestkc.com.np; dkim=pass (2048-bit key) header.d=everestkc-com-np.20230601.gappssmtp.com header.i=@everestkc-com-np.20230601.gappssmtp.com header.b=G5X1wS2a; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=everestkc.com.np
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everestkc.com.np
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b="s3cN6Gc+"
-Received: from eig-obgw-5004a.ext.cloudfilter.net ([10.0.29.221])
-	by cmsmtp with ESMTPS
-	id 1Td0tC19jVpzp1Y8otKVVi; Thu, 17 Oct 2024 21:34:42 +0000
-Received: from gator4166.hostgator.com ([108.167.133.22])
-	by cmsmtp with ESMTPS
-	id 1Y8ntE6lCWvXp1Y8ntFhbg; Thu, 17 Oct 2024 21:34:41 +0000
-X-Authority-Analysis: v=2.4 cv=LtdZyWdc c=1 sm=1 tr=0 ts=671182f1
- a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=OKg9RQrQ6+Y1xAlsUndU0w==:17
- a=IkcTkHD0fZMA:10 a=DAUX931o1VcA:10 a=7T7KSl7uo7wA:10 a=AkGtarxNAAAA:8
- a=aHQUVwZJVZeAj9SNTk0A:9 a=QEXdDO2ut3YA:10 a=L-2wMNMeb4n_4ejf4qEn:22
- a=Xt_RvD8W3m28Mn_h3AK8:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=aKFnCViuhROBXox7sQTEK4oddNhPwXqzUM4KXEHLyKw=; b=s3cN6Gc+1DncZKseg2AkDMwTB0
-	2V0LFOkxFSq9jqIqQGmDTqJPYM26ZmHgmcAC16NaxVlZuphPuqyjaaV4v/A8i9E4VwDajtiRlrEQ4
-	kqqpcCjPJWFJ6pjd0o6H189DWFelnHoysVIH75bvtR2QUrugzrqqEEb+tmsuOPgWBfmH4ZirZdDkY
-	bfFKMk28GQx1lHzmx7XqZL5tcWXy31miWzPnR7eVmzWM0zskS2Iyc6EP9QBvFL2C0mhGGcqkXPY+N
-	8rtmNHBPhPQYEovzceQEYD3GpkceD+lOmh11oBlExqK8bdGz0l1JxsMVMUfFuJ+qDoEJYvVFlnIph
-	ZIUeEmkQ==;
-Received: from [201.172.173.7] (port=32908 helo=[192.168.15.5])
-	by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.96.2)
-	(envelope-from <gustavo@embeddedor.com>)
-	id 1t1Y8m-003TXC-0t;
-	Thu, 17 Oct 2024 16:34:40 -0500
-Message-ID: <188cd230-4d22-4299-b10a-a2c307b23c35@embeddedor.com>
-Date: Thu, 17 Oct 2024 15:34:29 -0600
+	dkim=pass (2048-bit key) header.d=everestkc-com-np.20230601.gappssmtp.com header.i=@everestkc-com-np.20230601.gappssmtp.com header.b="G5X1wS2a"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-20c805a0753so12876655ad.0
+        for <linux-staging@lists.linux.dev>; Thu, 17 Oct 2024 15:08:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=everestkc-com-np.20230601.gappssmtp.com; s=20230601; t=1729202936; x=1729807736; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=UFsgI9iLkr6zyS/OFRJNfMmcc362Y5tywufpoyBtvb4=;
+        b=G5X1wS2a1OgiJlD7ooaDTb9KVA8dpu8IQzyMe0qO3LO0Rs7Bl13EKwJwXF4NVhNp9q
+         s7eq4F0/O1GoBvfAxIYe01D7jR3OD4fUk4dQlljvalMuPBd9za24Z21a8j77eehshaZy
+         SDA5DlDblaBwFcR6lUHGIfvuXR+KXu24uNfEWH9EP3srfpNwcgZ6LwnEYKNdVy3ClEKd
+         Q5roXc8FBd4MrmB3qmIbgRpUnneNSeUarucgLAYp18cBpdLncRgZrhPO8W6SL2SqRjMn
+         fSWmqXrPUiBTe602TsqHFGVSjirlCYcau0jG8HLtuS1frbVbmZz+Syh2fRCdM97ZELJR
+         cY5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729202936; x=1729807736;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UFsgI9iLkr6zyS/OFRJNfMmcc362Y5tywufpoyBtvb4=;
+        b=aXh9qbehyarMJPx36vI8ccUxGCgbMEx+vZtrOVLMVbRttQDaahgdhxdBN0HZzXsbKb
+         HVCrv7qfjWd8CWt677ptAIqYt/xXzI9XTYjl19nuQIEaLMWSI8zyvyIk8NwH73PXRZtE
+         3HdInj0LAOkcBVc75ATe+OHUEzz6XQ7F9zmrzMva4UgZEBrd/TLc0Mk7pWl2Z8erHjpy
+         T4hh/+TRURKeK4OYF8jFZU/9Ui3Q7U7qzAIicBadkzTSyME1LCqvIzpB/UsEdc/4WbgR
+         z6Xsb0AD/OfupHui2UhMgmn9ysxCkss9LgLeOl8Ef4IAH3k5lZyKtDExyoPRxgLv0Z1f
+         f5yA==
+X-Forwarded-Encrypted: i=1; AJvYcCXkMysXgsW4gI8/2KvtJZTaSiQtCswGj8HQp2dWkLOeU0xOLwjgsEz1zKzZHrmbGZwPtiEJsT0HfGxbdi+T@lists.linux.dev
+X-Gm-Message-State: AOJu0YyTzMZZVrwMwlWJ6lkACklq332p2U5EIkopbiHCD1iCJS6RXSI2
+	qqTHzoAAm6CL/g3hJQLwonJsw/ur7qBklVDniKxs3Uy4hM/09t8FBLBd0PavWrQPKCIc0yM58hb
+	ZzZOG6Dpj
+X-Google-Smtp-Source: AGHT+IHCVP3YjOBsb8yQ3gloeSYLh2v91BcMDPYOPuSD9t8hzKslsYpLanvNx3VoPuzhOWozWgRP4Q==
+X-Received: by 2002:a17:903:120e:b0:20b:8bf5:cd72 with SMTP id d9443c01a7336-20e5a91ac36mr4702555ad.49.1729202936501;
+        Thu, 17 Oct 2024 15:08:56 -0700 (PDT)
+Received: from localhost.localdomain ([81.17.122.147])
+        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-20e5a8f4c20sm1131545ad.221.2024.10.17.15.08.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Oct 2024 15:08:56 -0700 (PDT)
+From: "Everest K.C." <everestkc@everestkc.com.np>
+To: dpenkler@gmail.com,
+	gregkh@linuxfoundation.org,
+	nathan@kernel.org
+Cc: "Everest K.C." <everestkc@everestkc.com.np>,
+	skhan@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: gpib: Change return type and error code of fmh_gpib_get_dma_residue()
+Date: Thu, 17 Oct 2024 16:07:24 -0600
+Message-ID: <20241017220740.30370-1-everestkc@everestkc.com.np>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: gpib: avoid unintended sign extension
-To: Kees Bakker <kees@ijzerbout.nl>
-Cc: Dave Penkler <dpenkler@gmail.com>,
- Linux Staging <linux-staging@lists.linux.dev>,
- Dan Carpenter <dan.carpenter@linaro.org>
-References: <20241017195551.04E1D18DAFF@bout3.ijzerbout.nl>
- <7ae5cfc6-2298-4895-8016-eddf57bab245@stanley.mountain>
-Content-Language: en-US
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-In-Reply-To: <7ae5cfc6-2298-4895-8016-eddf57bab245@stanley.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - lists.linux.dev
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 201.172.173.7
-X-Source-L: No
-X-Exim-ID: 1t1Y8m-003TXC-0t
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: ([192.168.15.5]) [201.172.173.7]:32908
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 2
-X-Org: HG=hgshared;ORG=hostgator;
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfKEdGQJCVjzSWersLINbi77vaf1vAv5hnPrQwnB71ryTdxCQU9flPnGG73f3CZ7/6V83iT9qMQT51DVSjTb0WFOW6qtCmKTjkAEszHWE5/D7k17ooLaV
- TdH/rU2GXs0G0ukwCY4bDdfAzJ98SaP1i3jUVQt6azLEfgZ8eJq2Yyv0Fuib9WfEBnS3t54lyEAF47ktL9wOLMlAPZpr55S3Sk1cY+5YSmH7kgm7ply9NNKr
+Content-Transfer-Encoding: 8bit
 
+fmh_gpib_get_dma_residue() returns unsigned int with -1 as error code.
+This error cannot be caught.
+Fix this by changing the return type of the function to int and
+returning the error code, that was captured. Also, change the data
+type of variable residue to int in the function fmh_gpib_dma_read().
 
+Fixes: 8e4841a0888c ("staging: gpib: Add Frank Mori Hess FPGA PCI GPIB driver")
+Reported-by: Shuah Khan <skhan@linuxfoundation.org>
+Signed-off-by: Everest K.C. <everestkc@everestkc.com.np>
+---
+ drivers/staging/gpib/fmh_gpib/fmh_gpib.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-On 17/10/24 14:51, Dan Carpenter wrote:
-> On Thu, Oct 17, 2024 at 09:54:47PM +0200, Kees Bakker wrote:
->> The code was basically like this (assuming size_t can be u64)
->>      var_u64 |= var_u8 << 24
->> var_u8 is first promoted to i32 and then the shift is done. Next, it is
->> promoted to u64 by first signextending to 64 bits. This is very unlikely
->> what was intended. So now it is first forced to u32.
->>      var_u64 |= (u32)var_u8 << 24
->>
->> Signed-off-by: Kees Bakker <kees@ijzerbout.nl>
-> 
-> Very good.  I'm trying to figure out the impact of this bug.  We'd have to write
-> more than INT_MAX bytes to hit this.  And I think we're pretty screwed either
-> way if we manage to do that...  Still, it probably deserves a Fixes tag.  Could
-> you add a Fixes tag and resend?
-
-Plus, if this was "caught by Coverity", don't forget to briefly mention that in
-the changelog text.
-
-Thanks
---
-Gustavo
+diff --git a/drivers/staging/gpib/fmh_gpib/fmh_gpib.c b/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
+index 0e27b3ef1a1d..802043ffe684 100644
+--- a/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
++++ b/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
+@@ -547,7 +547,7 @@ static int fmh_gpib_accel_write(gpib_board_t *board, uint8_t *buffer,
+ 	return 0;
+ }
+ 
+-static unsigned int fmh_gpib_get_dma_residue(struct dma_chan *chan, dma_cookie_t cookie)
++static int fmh_gpib_get_dma_residue(struct dma_chan *chan, dma_cookie_t cookie)
+ {
+ 	struct dma_tx_state state;
+ 	int result;
+@@ -555,7 +555,7 @@ static unsigned int fmh_gpib_get_dma_residue(struct dma_chan *chan, dma_cookie_t
+ 	result = dmaengine_pause(chan);
+ 	if (result < 0)	{
+ 		pr_err("fmh_gpib_gpib: dma pause failed?\n");
+-		return -1;
++		return result;
+ 	}
+ 	dmaengine_tx_status(chan, cookie, &state);
+ 	// dma330 hardware doesn't support resume, so dont call this
+@@ -717,7 +717,7 @@ static int fmh_gpib_dma_read(gpib_board_t *board, uint8_t *buffer,
+ 	struct nec7210_priv *nec_priv = &e_priv->nec7210_priv;
+ 	int retval = 0;
+ 	unsigned long flags;
+-	unsigned int residue;
++	int residue;
+ 	int wait_retval;
+ 	dma_addr_t bus_address;
+ 	struct dma_async_tx_descriptor *tx_desc;
+-- 
+2.43.0
 
