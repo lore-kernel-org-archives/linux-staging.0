@@ -1,119 +1,80 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FB461428E0
-	for <linux-staging@lists.linux.dev>; Fri, 18 Oct 2024 06:32:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+Received: from bout3.ijzerbout.nl (bout3.ijzerbout.nl [136.144.140.114])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F436201271
+	for <linux-staging@lists.linux.dev>; Fri, 18 Oct 2024 19:39:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=136.144.140.114
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729233152; cv=none; b=b5kSHFeYhPT2iLqAxA1UyHiZfq0fW9dWTwCYV1uuMqHitmRaEQXWjG7D76mhbymj41l8OU96A4BgIPB6JP+XKl+WHXlT3UxLDuNQwR/fiqkaXscXA2y0u4WB/RJnEbFdYkE5DcUsHQaNedKNxD/7TooYWpmw3QmXW1Yt4FVuH9Q=
+	t=1729280376; cv=none; b=d05zvAdFCCBEcW6gaXo/CbMRoYMTP1qk5pbUtupI/CUH4PUUy4lkBXyjr1s5J4dcVBb/WTu4wu1CHaTSVX/m/qbx15xnKAEU9TUtH0usoNXxexR2z0jk0MBSxpIng/x/wOWrxBxfTYKVEFsNEBjhYeCp4UWOcJNj+0kU+fvCg4k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729233152; c=relaxed/simple;
-	bh=PKRI46aJCwkbfAHkWjgskykakteqHAdjxmRVbNHD7KM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OOc2ir0beteK4MWFnGjjePthyuhKbIOTciwRd3cFAnIxSjREgsHSJwYsfaSsBXo+76CFOnIaD92OoU5lpyGcymYRO0ohYV5fe7SlhE5a2Mb7Iqf9/o9kisIlST0ItwKaMzZ+qSt9XVXEb6k2EMmGrf7zT4jsLu6LBjHVM5RL5vc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gz4XvUDr; arc=none smtp.client-ip=209.85.218.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1729280376; c=relaxed/simple;
+	bh=nlXauVRJF3vaKluGQ+28NGRUV6/Ut8HyqyH9H2fE9oA=;
+	h=From:Date:Subject:To:Cc:Message-Id; b=rlpF40S+xaOEnrUEQttrsTHihQ1njLvK5H4xeGskQwlTJKw0YhRmeEnKYqH8seKfUqVhnrL7L3gIMKvTFuINu8QXpGXDNsbZqLQi704JgxLs5v6OPKFy+9IWJZfUUhIX1z7V4+g+FUvHpIoio7NXKEs8CTKy65wAIj799epG9og=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ijzerbout.nl; spf=none smtp.mailfrom=bout3.ijzerbout.nl; dkim=pass (4096-bit key) header.d=ijzerbout.nl header.i=@ijzerbout.nl header.b=fajJlMWE; arc=none smtp.client-ip=136.144.140.114
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ijzerbout.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bout3.ijzerbout.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gz4XvUDr"
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a99ebb390a5so535359566b.1
-        for <linux-staging@lists.linux.dev>; Thu, 17 Oct 2024 23:32:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1729233148; x=1729837948; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=XX7LxYQzNZzSuHrwyDkABVnoTWqmyq3oKjH3me2WrJ4=;
-        b=gz4XvUDrpIDDY0LLtpLkItlSvJbrqC22nV/xR3OJAGzYBP585jTzLQcvTlRP2NdYrr
-         rIBPSaz0fgARjxYZpoGDEj3uZtVT4CttIbCVHDPtcRVLFGetFLyYGUEaqv4lxLNfsJSP
-         5uO2BTVJZpdse7Qp01ZfavXYuVa5kuhps6LGYzszfO3x/JEPjMiXc3Gc60kALO4YOvhR
-         1oEo0NBZm9N937s2z9efQFNkAqFwHdVz6kYgmrltFFritkEKWcKTvsI95dYZ+xoeJ2cz
-         RgNXj/47/jZ9/kjzT66yp18ow28caBP+AGCLZnz3gwgOtjgQ92InGJXNAZCdOSPiOhFt
-         p8+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729233148; x=1729837948;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XX7LxYQzNZzSuHrwyDkABVnoTWqmyq3oKjH3me2WrJ4=;
-        b=QeFn5rpvaE/RNwr5z+IcKBiOhMU/Iyeh0Fh3bUhGHGBQ06N1AVBJ+TVPbdY1Z3XV9I
-         zXSqk8O6L9je7PbsSfYxevA2C+5Uyu0ywsZxZPsklK1IuHZ63nBYAh9TYiyXbLDxI2c/
-         tlnel7FcrC6bI66L6CmlKza6scCVULBYQnaF5YI1KjckujuyH9mQ0WRbovb5QqWvZE+d
-         Xd6lgyNfN86EaZ979PwgqFSN1N5Yf1yCwBy0HEfAd1duVwBcutJP5hFCZCevE/J6FI1T
-         ZLUCx8QjICzCiKX1vyLGvtBm1YPXb8FKyy6yWPCAzwhyQ1qqf5Kaf9MsF1Ndsat8R+We
-         Z0Kw==
-X-Gm-Message-State: AOJu0Yy6qFkoVhbPje10JEkVPsjpBJ+jgRpoyW86HbeI6bJlku2Va1m+
-	u1agJdFy4q5Ohf9ykxcePkRV+2MVUCZXSQtk33r7hdFqZmJqimke0/+lltzPro9SXk8yKlIjKJ1
-	Lcac=
-X-Google-Smtp-Source: AGHT+IFHasihfLGx38MezmhMp2LfB+lXXnj1s+QxG57eDOCyu3Bjpap8GKbsHvsIm1lvvwJtv7S5qw==
-X-Received: by 2002:a17:907:7250:b0:a9a:5b84:ac81 with SMTP id a640c23a62f3a-a9a6a5b1a5dmr103822966b.31.1729233148343;
-        Thu, 17 Oct 2024 23:32:28 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9a68ac3853sm50723166b.48.2024.10.17.23.32.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Oct 2024 23:32:27 -0700 (PDT)
-Date: Fri, 18 Oct 2024 09:32:22 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
+	dkim=pass (4096-bit key) header.d=ijzerbout.nl header.i=@ijzerbout.nl header.b="fajJlMWE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ijzerbout.nl; s=key;
+	t=1729280364; bh=nlXauVRJF3vaKluGQ+28NGRUV6/Ut8HyqyH9H2fE9oA=;
+	h=From:Date:Subject:To:Cc:From;
+	b=fajJlMWEKtRYtY+bLZsZUnvGQQaUq+WDkj9+UESeuldX+lrpYirAY43M42tOA2B5v
+	 LXS0vBOltgSBsegDcWLLd8dQ0wh0iVjaBvdwCAgtug02Ec44flu8SjNiewMa1MPyTj
+	 6UW1Iuf6XoC/i69fanmfXH/km+aarxp7qSAIWGiBQ2iTQ0SFQ2BUG6BdJy8vfvRZs/
+	 0Vi0AIlyDLluJYDl1Tay+Ep4eyYYTnwkCcrh/HaigrzAsYoMvyOlgUmrKdM/rpjk2X
+	 yukecw7Ze/XGGhIKh9oSHgJVRXB8ccwulHKOQb82nVu6igKnV2e4CKhj6i6U61W+0B
+	 0nez+WgPCl5tqE5cUkqEAobx461CKDQRM16wGd2CsIkf1WJYQLBMnNoAdhLspilypu
+	 Bc2BqOn1IlNX61MPrC6/kEy7L0sQIrIzorZWb8X3xLv1w5aGzYRkYIHE0GO184uMXE
+	 9pNmGFVsKNtkz3AG/k/w5788LZd7pG2uT0/uYc7HI1rkyPryGdsLprlK7ML1OMTsCC
+	 GZiN9Em/ZZQNx4qcMfvw2n4b4dJmAXpMuVPSFX0wtJyaIBWiXr4dAT6bAvQbyaefbn
+	 QvmSvupZ+YUsN1O1miqfUJhuafBG+M7doPeXkSh7qpDvMyNZL9A6SpBkBZ7bDnLiso
+	 00fsYca/cKo3lu2qM1FgVhAU=
+Received: by bout3.ijzerbout.nl (Postfix, from userid 1000)
+	id C90B818DA4C; Fri, 18 Oct 2024 21:39:24 +0200 (CEST)
+From: Kees Bakker <kees@ijzerbout.nl>
+Date: Thu, 17 Oct 2024 21:54:47 +0200
+Subject: [PATCH] staging: gpib: avoid unintended sign extension
 To: Dave Penkler <dpenkler@gmail.com>
-Cc: linux-staging@lists.linux.dev
-Subject: [bug report] staging: gpib: Add GPIB common core driver
-Message-ID: <4efd91f3-4259-4e95-a4e0-925853b98858@stanley.mountain>
+Cc: Linux Staging <linux-staging@lists.linux.dev>
+Message-Id: <20241018193924.C90B818DA4C@bout3.ijzerbout.nl>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-Hello Dave Penkler,
+The code was basically like this (assuming size_t can be u64)
+    var_u64 |= var_u8 << 24
+var_u8 is first promoted to i32 and then the shift is done. Next, it is
+promoted to u64 by first signextending to 64 bits. This is very unlikely
+what was intended. So now it is first forced to u32.
+    var_u64 |= (u32)var_u8 << 24
 
-Commit 9dde4559e939 ("staging: gpib: Add GPIB common core driver")
-from Sep 18, 2024 (linux-next), leads to the following Smatch static
-checker warning:
+This was detected by Coverity, CID 1600792.
 
-	drivers/staging/gpib/common/gpib_os.c:541 dvrsp()
-	warn: no lower bound on 'sad' rl='s32min-30'
+Fixes: 4c41fe886a56 ("staging: gpib: Add Agilent/Keysight 82357x USB GPIB driver")
+Signed-off-by: Kees Bakker <kees@ijzerbout.nl>
+---
+ drivers/staging/gpib/agilent_82357a/agilent_82357a.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-drivers/staging/gpib/common/gpib_os.c
-    525 int dvrsp(gpib_board_t *board, unsigned int pad, int sad,
-    526           unsigned int usec_timeout, uint8_t *result)
-    527 {
-    528         int status = ibstatus(board);
-    529         int retval;
-    530 
-    531         if ((status & CIC) == 0) {
-    532                 pr_err("gpib: not CIC during serial poll\n");
-    533                 return -1;
-    534         }
-    535 
-    536         if (pad > gpib_addr_max || sad > gpib_addr_max) {
+diff --git a/drivers/staging/gpib/agilent_82357a/agilent_82357a.c b/drivers/staging/gpib/agilent_82357a/agilent_82357a.c
+index bbc7e8866872..f3a1b81be22d 100644
+--- a/drivers/staging/gpib/agilent_82357a/agilent_82357a.c
++++ b/drivers/staging/gpib/agilent_82357a/agilent_82357a.c
+@@ -679,10 +679,10 @@ static ssize_t agilent_82357a_generic_write(gpib_board_t *board, uint8_t *buffer
+ 		kfree(status_data);
+ 		return -EIO;
+ 	}
+-	*bytes_written	= status_data[2];
+-	*bytes_written |= status_data[3] << 8;
+-	*bytes_written |= status_data[4] << 16;
+-	*bytes_written |= status_data[5] << 24;
++	*bytes_written	= (u32)status_data[2];
++	*bytes_written |= (u32)status_data[3] << 8;
++	*bytes_written |= (u32)status_data[4] << 16;
++	*bytes_written |= (u32)status_data[5] << 24;
+ 
+ 	kfree(status_data);
+ 	//printk("%s: write completed, bytes_written=%i\n", __func__, (int)*bytes_written);
+-- 
+2.47.0
 
-sad comes from the user in serial_poll_ioctl() and it can be any int.
-
-    537                 pr_err("gpib: bad address for serial poll");
-    538                 return -1;
-    539         }
-    540 
---> 541         retval = serial_poll_single(board, pad, sad, usec_timeout, result);
-
-Passing a negative doesn't do anything harmful and it looks like probably it's
-intentional to mean there is no "sad".  But instead of saying that "any negative
-is valid" it would be better to say that "-1" means there is no sad.
-
-	if (pad > gpib_addr_max ||
-	    (sad < -1 || sad > gpib_addr_max)) {
-		...
-
-Presumably the user space code is already passing -1 as the no sad value but I
-don't maybe it's passing INT_MIN or something weird.  This is an API change.
-We're allowed to change the API so long as we don't break userspace.  In
-staging, we have a bit more leeway to break userspace as well honestly.
-
-    542         if (io_timed_out(board))
-    543                 retval = -ETIMEDOUT;
-    544 
-    545         return retval;
-    546 }
-
-regards,
-dan carpenter
