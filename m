@@ -1,91 +1,93 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B860F1DED44
-	for <linux-staging@lists.linux.dev>; Thu, 17 Oct 2024 18:58:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D731821D180
+	for <linux-staging@lists.linux.dev>; Thu, 17 Oct 2024 19:02:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729191537; cv=none; b=qo9zQbALT0CGl3GR1zUaKgF1m/8JGbOfbU6WtK1Jzt//39C9b+p/CRaOHzdGD6FEdTAFwpmRJjzkcK6/wNfk9POjNp24jRpQtq0c1T2nn2+XokmuBouxyVUQV9tfkNUsFZjK5ETJhpT3/4/8f7fSaKVaquRyQH9MkjX4fTMByvQ=
+	t=1729191732; cv=none; b=m0w40F6OoLycGtODrD4dsieGC2IDzBb2aJSeA5tSr2C5hXlMH5NGLIhNKZRcL88fKk3NNVL0RBmAbKxq/pKlxVK7c30nn3WRRMb4zA/rLTM/dlGfpjZIOKd4HVOmf6vlI0YEWVJAazweYW2NqvstSbkTXqHKO5R0B7c1xF5iHuU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729191537; c=relaxed/simple;
-	bh=SNtE+TAjJ2JdWb/jlOvN0PEbD8g1WcfFzQ7DNQOC190=;
+	s=arc-20240116; t=1729191732; c=relaxed/simple;
+	bh=FGcr0cwAInpg10pH93HSLy8OkgluyazJE1YUDfSja2s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qiv5w4Z2wI3P0SILgfD2oqvh99lxc5ZXA6MpjSoBu+abzjWmB2JQs+4Hd/x9IsnDyMMUDANoKB11G5Z1NPMA2AEM7hrE5HX0MlFXY99HAN7N/JX4wQaiU1avhEgCExbZmmK6vL7DAF64vZ7LEl7oGI38UdX42N7u4/imWDPKEWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HP8JBUhJ; arc=none smtp.client-ip=209.85.221.42
+	 Content-Type:Content-Disposition:In-Reply-To; b=h4YBPuqv9S4ch8oOzYoLciHoQTvzVWglD2k7+rtWoPPfYdRRdbyBWyHT45NupBU0rJzqp+o7Se/vmBFF+jtRFoaAxZfkb/5hZCXLntCVjKap5gt+XL8uFR2Pq0xh2GgASjBDmlgkvxPtsZ8ECL2BWdIhf/P/8eDrcCb+871mmO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=JoO/cUC6; arc=none smtp.client-ip=209.85.208.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HP8JBUhJ"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-37d70df0b1aso971746f8f.3
-        for <linux-staging@lists.linux.dev>; Thu, 17 Oct 2024 11:58:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="JoO/cUC6"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-5c9693dc739so1733085a12.3
+        for <linux-staging@lists.linux.dev>; Thu, 17 Oct 2024 12:02:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1729191530; x=1729796330; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=0jNM0fKmT2OwKByfCojWNdXKNxzOOYUDB2waNLdpO7Q=;
-        b=HP8JBUhJSb5BztRnm6vccEpYk+bt/vjag17pkSi7J2C9s4DW22Wz11jIzMvTDWMGLo
-         pGtPnreYWI3ZN75aH27UQfZl1QAVxhTSTfcSvOeJaLLerR6emltNhfhGgLfbYJSfSxfr
-         yucIWsHr0rm0te13PXhG8oXDnWtGx6ez/QVpV3Kqji7SOLifojtyErE0TXk5Xb1hs6HM
-         MKhSgY/TQ06VAAznX0L7KfWfkzFzlHYcl+1Vh/vrCkPGcK7fbABd0NDJ50Zawv/VWjuU
-         E+gfxUoZQ4fcV3QQ3AJJ8He0CrLWa1xtoIAnho3+AQho3Ff/bgqd5Up6DibcEegdHUtZ
-         CTKQ==
+        d=linaro.org; s=google; t=1729191724; x=1729796524; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=yX7D72bYtA7nFMel8yCm1VLTz+d+DFr1g1il/QVdnM4=;
+        b=JoO/cUC6lOSiny9O61pZksIOIRks/tfBddMRPhnfQ9baUkLbyFRAKSQYGrYm+oUTNb
+         OleKN8cnEwl/jEzu9YmqlV7RhNoU4MvZ3xPtRCefwgl5COQ1MOfmR+hoBZ5p2DStuNdA
+         cG9cBbNzsUmS8Wz6eetQDgbRS9YlCIff7yyBEB4WHz92r7P45YdL2iBjSuEbUiIA4qsI
+         2s4DDypK1GIEC0nW4NbPDhguJcwne1K6wf87QZVmFexCaWnYodX4j1Ac9yNdrVhfZSCM
+         RlWlX0PZkXloRkg09zVSDVmk1dqeuFyxIHZ/jr+3c2CvMmA+I/f+N/NCJ1HlxoZSmY8S
+         g0iA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729191530; x=1729796330;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0jNM0fKmT2OwKByfCojWNdXKNxzOOYUDB2waNLdpO7Q=;
-        b=e1VX4IehR0b46zb6zIoRE0YLAajd0cwVCSMEwiBKGXSGJ93zNnGWXxBAjTltRYQhgG
-         kF37+r6Eo9zcZC6WEqDgo9wFc76NusvJSqhcJjhB5djNsbKvaScfqyO9c4Xx28Dvdew0
-         axmv8tx2OIMUCVlTK0ng3CE+r2uYpkP+qGZ1DXT7a9j++4lFTnnZWyfiB/HstD1fC2Bu
-         USZ1Se9WOA59/1bXbz2H12Wm1go0wcCQjPyBtoPo5kmt+vO47nvQwI56dN0aCqc5om09
-         SmEUO6TrHjehrhWhn4eVR3yhHSbOKQQw2Pqs32Q/A0Wsk7ftFR/3/RoHm0jmDZQ+Pgh9
-         tiew==
-X-Forwarded-Encrypted: i=1; AJvYcCV5QqbpQS/UuzRTXC2kADBTg4HB5W7gyO2mK9iPcglyn0FKJquJjrTcsLIOHWnZeAhQauC4DZxJw5xheKkx@lists.linux.dev
-X-Gm-Message-State: AOJu0YzJXtMbxv3xmEE49HOuldZvg+vnbzMmBtHoTKmswLkRQBWuRdsN
-	2VyUDlHrDTI3yBApEbWDr6dy0y+vQs9PUPE9CSHEqJa63a2pP2EZYlX2sri5LGQ=
-X-Google-Smtp-Source: AGHT+IF9kUUjfTLr6yM602q+fe8hCO6wIbB+sJWSe0YZkcfYdPlioijykg/CoyWhRs0AzdbysOwD0g==
-X-Received: by 2002:a5d:5192:0:b0:37d:5496:290c with SMTP id ffacd0b85a97d-37d86bb6740mr5003470f8f.7.1729191529891;
-        Thu, 17 Oct 2024 11:58:49 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1729191724; x=1729796524;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yX7D72bYtA7nFMel8yCm1VLTz+d+DFr1g1il/QVdnM4=;
+        b=TK4IgcD07jQ2BCP6Sm3jou5+Vn3Iif/0rMVZCFyum42KSfzqihQSGP9kTpWVmPGEJj
+         /LJPFNzRaDd2LUDNTsTiC/JY0FQV/pLS49scsT/gBNrDfuwNZiPBS5MRFOge5Aisv8km
+         3pAev+stiSw5DPtzhtz4mR6MUAeaHl5B9f58dr4M7/izZKVOZJzRtAN3v8ZE81aW3RJi
+         uzOd8FL4bNhW3ZK0nn1YFUyw0VoLxUvfVs4GraJ6TMUQV5LrGeeEVwfyzCkRTKDlhHya
+         OkguP28RS9+gBc8nEaXL4tPqXZ6QZtGrlhhxHOYg01V97EFXurG38K1KbIVUbQ5lZMCU
+         +GNg==
+X-Forwarded-Encrypted: i=1; AJvYcCW0HPy9Rqqz+wHALC57O86jl/+saFByjGgdNqNd/hbGXtqI2fSEWgwUSRHqP1vZb8q/Tbey75VBfvfh3bvw@lists.linux.dev
+X-Gm-Message-State: AOJu0YwO8PUR4s0/c3SlY+sB9szEZw/0soGSH1SOAOzQYkPg5gjiLB4E
+	mIkL76hHXe4Wet3JI+TR6iKyGNXzBO84Rj2Kt61GavySzdOThPeZTnWx6cbzqcM=
+X-Google-Smtp-Source: AGHT+IEJBN0gq8BBhf6ABCGKugevTMmyCj5PVHfkHmf7ahmoy9bjp/wSlLak2Plc9KTCjs74F9EVww==
+X-Received: by 2002:a05:6402:3512:b0:5c9:40e6:24e with SMTP id 4fb4d7f45d1cf-5c95ac4175emr14627651a12.28.1729191723962;
+        Thu, 17 Oct 2024 12:02:03 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c98d4d6586sm3037384a12.7.2024.10.17.11.58.48
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c98d779975sm2984259a12.67.2024.10.17.12.02.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Oct 2024 11:58:49 -0700 (PDT)
-Date: Thu, 17 Oct 2024 21:58:45 +0300
+        Thu, 17 Oct 2024 12:02:03 -0700 (PDT)
+Date: Thu, 17 Oct 2024 22:02:00 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: "Everest K.C." <everestkc@everestkc.com.np>
-Cc: Shuah Khan <skhan@linuxfoundation.org>, dpenkler@gmail.com,
-	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+Cc: dpenkler@gmail.com, gregkh@linuxfoundation.org,
+	skhan@linuxfoundation.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: other staging/gpib bugs completed
-Message-ID: <c5cdbc20-5d45-4054-99fc-062608168e1a@stanley.mountain>
-References: <912561b9-e446-42e8-8922-9e8952355c79@stanley.mountain>
- <CAEO-vhF0NWB4J+WFu_c7Nn9tu_kYzAvNeFgLrLKc_Lk5DD51hQ@mail.gmail.com>
+Subject: Re: [PATCH V2] staging: gpib: Change return type and error code of
+ fluke_get_dma_residue
+Message-ID: <5bdbffc5-068b-494a-a44b-f9586bf28f6c@stanley.mountain>
+References: <20241017092511.17621-1-everestkc@everestkc.com.np>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAEO-vhF0NWB4J+WFu_c7Nn9tu_kYzAvNeFgLrLKc_Lk5DD51hQ@mail.gmail.com>
+In-Reply-To: <20241017092511.17621-1-everestkc@everestkc.com.np>
 
-On Thu, Oct 17, 2024 at 03:29:21AM -0600, Everest K.C. wrote:
-> On Wed, Oct 16, 2024 at 8:20 AM Dan Carpenter <dan.carpenter@linaro.org> wrote:
-> >
-> > Keep up the good work, Everest.  Here are some other bugs you could fix if you
-> > want.
-> Thank you for all your feedback and help. I am learning a lot :)
-> I will look into these and try my best to fix them and send patches.
+On Thu, Oct 17, 2024 at 03:25:10AM -0600, Everest K.C. wrote:
+> fluke_get_dma_residue() returns unsigned int with -1 as error code.
+> This error cannot be caught.
+> Fix this by changing the return type of the function to int and 
+> returning the error code, that was captured. Also, change the data 
+> type of variable residue to int in the function fluke_dma_read().
+> 
+> Fixes: 55936779f496 ("staging: gpib: Add Fluke cda based cards GPIB driver")
+> Signed-off-by: Everest K.C. <everestkc@everestkc.com.np>
+> ---
+> V1 -> V2: - Fixed the caller
+> 	  - Updated the changelog
+> 
 
-Feel free to ask questions if there are any warning messages you don't
-understand.  :)
+Thanks!
 
-You also don't have to do fix any of these, of course.  But I didn't want you to
-run out of bugs.
+Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
 
 regards,
 dan carpenter
