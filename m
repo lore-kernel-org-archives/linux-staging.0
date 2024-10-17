@@ -1,107 +1,72 @@
-Received: from bout3.ijzerbout.nl (bout3.ijzerbout.nl [136.144.140.114])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12E3221BAE4
-	for <linux-staging@lists.linux.dev>; Thu, 17 Oct 2024 19:14:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=136.144.140.114
+Received: from mail-4322.protonmail.ch (mail-4322.protonmail.ch [185.70.43.22])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51E47227380
+	for <linux-staging@lists.linux.dev>; Thu, 17 Oct 2024 19:21:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729192486; cv=none; b=D/ysPOoLKtBtiwNB67L6TzWIj0WjIgVUqc7X+U49p/6mw+XymoFjafvK1A2er21KFccC8/zBxr/0C6oj5PriZVtp/FqGFJ/jrvN1pEKTR72s8ilsFu8g3SYw64BM/UMg9M0MAuoN2XzHi1tHnTTEA7GYwmsP7NbrijPUOx15DE0=
+	t=1729192922; cv=none; b=NAWkRd7l8T/p3d8R6yVbsUbVo3Y1DiaYbXo9nDWlWHgqQ+2n+ftqy1iEnt7NSrgC/1poes+FoVEa+3nVBibnybeC/wLvgXPPOJZWcyzgfy48XJHlKR+k442drFoXq1qCWoU/EQMj9Ju1Db1D8b+ZIN2tmQ5kXek3cCs8fv8nzEA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729192486; c=relaxed/simple;
-	bh=ynAGmr00/7aH/+ZbJQhLVyaqCtQCmSH3m+i/i65Qki0=;
-	h=From:Date:Subject:To:Cc:Message-Id; b=sBemNzXSn9OEDH0pq0taIguRJbCLuH2ec6NqZ7b5cxPLkzShRqWu5azLOuHx1bgqYT75lEToCyPszvcZHlp+HcGLT5NTb24UClBRXDKxxtxXqzPVUTB2NBee/Qs5Kc3hvBZGAYKaYoPjnZcFRnxjN4MUGDwtdO1BpMSuY+XSz9M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ijzerbout.nl; spf=none smtp.mailfrom=bout3.ijzerbout.nl; dkim=pass (4096-bit key) header.d=ijzerbout.nl header.i=@ijzerbout.nl header.b=S3V+2U3g; arc=none smtp.client-ip=136.144.140.114
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ijzerbout.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bout3.ijzerbout.nl
+	s=arc-20240116; t=1729192922; c=relaxed/simple;
+	bh=/z9HErCqbN6LERvLOh2Nm4UGnk95lCR5bbQzAQdrsEk=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=W+xI1B8+vPvj9Z7RxqKHRmInfKTliC0eXFUE5AK4ijQnNZRrl7B0uYTVdvG+MFv3QnPKdwWgsVZVB0fJOnau2yxI59kolmQknigrRelImRrcLhw+wUmhGyYuATVcZPYS4vTHHBD+Sk2iBM6PnZjqGPWTZgvXsTpFHdY5nfBN+cI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=SiuHkyWX; arc=none smtp.client-ip=185.70.43.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=ijzerbout.nl header.i=@ijzerbout.nl header.b="S3V+2U3g"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ijzerbout.nl; s=key;
-	t=1729192473; bh=ynAGmr00/7aH/+ZbJQhLVyaqCtQCmSH3m+i/i65Qki0=;
-	h=From:Date:Subject:To:Cc:From;
-	b=S3V+2U3gFkXU6dBnttNvJHFMWIvgkjSS0ifjpf+EUhUD73RKbYVzOeY+ffel8147q
-	 VRM2XiRQnQuuWqWz1/J70XkdPtZLiUCe1N3HbMp0QlG7IU3yuiM1KeL/pvVt1sV+WN
-	 IVeddy3u1SC7l1b7T7bICFtzeDLTZSXj8oHOMZahXY7bm0Eh5sklmUmO0TpR9/klxO
-	 cyFTCv5oybU6zzzxiJ6LIg4RjYWBqNfNutumXkZflm81x3WFn50SOaDokYY0ikma0S
-	 INjsn3e0JUQEXp7v7MQnVKILzydx1uvFTF5eTHV6NzM5CajmwELI5sy0/uY4/qUtab
-	 DqVVfsG2uLCXlHFZ5fFuq93xagQeSVIfNpVvhcKLQDZMsvwu+vaJcMguuLQlTurbrk
-	 HImBKayFVL6JOLCq08N0dYVLPfYa8D4Fwh3oNZQuJ1SwsyC4HgZkGtNFpBvdJ06Vo8
-	 WidpqvSIUe4OU+uvNg5uNmuweyy1oHKOcpq10E5O85acO/y4DaXHmcn8HSWPqIoTic
-	 althjJm1T4209aWusiPaPCm4ZBTYDOKjiaz5CohGUh4l/Q/mI/4zMquisyou5Y8wxR
-	 9MbTn+X/o4RZAn7mcCQ/ZRnjYEURCmxYiD0B+hKZNLoZdsWdX4budGbBFqPZ1Yt2Rc
-	 q2ZKWZV2FDnVPnMwGUgGl7gQ=
-Received: by bout3.ijzerbout.nl (Postfix, from userid 1000)
-	id 2E7BD18DAFE; Thu, 17 Oct 2024 21:14:33 +0200 (CEST)
-From: Kees Bakker <kees@ijzerbout.nl>
-Date: Thu, 17 Oct 2024 21:13:31 +0200
-Subject: [PATCH] staging: gpib: replace dump function by print_hex_dump
-To: Dave Penkler <dpenkler@gmail.com>
-Cc: Linux Staging <linux-staging@lists.linux.dev>
-Message-Id: <20241017191433.2E7BD18DAFE@bout3.ijzerbout.nl>
+	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="SiuHkyWX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+	s=protonmail3; t=1729192908; x=1729452108;
+	bh=H0InSCB+CfqK+rj6bDo24dP6Vi+PoMRT+qRrc39g6lw=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=SiuHkyWXTjzXnCO5WJSPY8YJYa/1+dfuZrRDKEy8sbPh0VuBqYnuP/tEuAeXleYlD
+	 qxdjt1IRSaiXMg1jnFPz5ruVu4ZL42P64/hjv5bflyHBUsTX+74TOxzzBZSCz1coR/
+	 aQSR2+UbEpK+N1Sxf1s6C2MQ84L6SPx1txxUDpj/ADsoRGhKbt1smvOlOFQm4yYWGx
+	 XoXa4SMWPmUCjFtrGcgZAkEoMnj5yy6mTXMsMX4+++tzdHpgaRinzkgTh0xOCVtYDK
+	 g1iyV/kTrU+OwV05TP67jLvEdMgCqkU79O4g3NoCktZ4GFgJmMQGfpEy9ep/Gnp8Gu
+	 AD4fkDjOwYnLA==
+Date: Thu, 17 Oct 2024 19:21:45 +0000
+To: dpenkler@gmail.com, gregkh@linuxfoundation.org
+From: =?utf-8?Q?Dominik_Karol_Pi=C4=85tkowski?= <dominik.karol.piatkowski@protonmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, =?utf-8?Q?Dominik_Karol_Pi=C4=85tkowski?= <dominik.karol.piatkowski@protonmail.com>
+Subject: [PATCH] staging: gpib: fmh_gpib: Fix typo
+Message-ID: <20241017192056.85570-1-dominik.karol.piatkowski@protonmail.com>
+Feedback-ID: 117888567:user:proton
+X-Pm-Message-ID: d44cd90e117c8557c9e6e329ed9c703b23a4562f
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-It is better to use a standard (proven in use) in-kernel function that does
-the same. This also solves two buffer overflow problems.
+This patch fixes a typo: scenerio -> scenario.
 
-Signed-off-by: Kees Bakker <kees@ijzerbout.nl>
+Signed-off-by: Dominik Karol Pi=C4=85tkowski <dominik.karol.piatkowski@prot=
+onmail.com>
 ---
- .../staging/gpib/agilent_82357a/agilent_82357a.c   | 14 +-------------
- drivers/staging/gpib/ni_usb/ni_usb_gpib.c          | 14 +-------------
- 2 files changed, 2 insertions(+), 26 deletions(-)
+ drivers/staging/gpib/fmh_gpib/fmh_gpib.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/gpib/agilent_82357a/agilent_82357a.c b/drivers/staging/gpib/agilent_82357a/agilent_82357a.c
-index bbc7e8866872..bb494eea0920 100644
---- a/drivers/staging/gpib/agilent_82357a/agilent_82357a.c
-+++ b/drivers/staging/gpib/agilent_82357a/agilent_82357a.c
-@@ -207,20 +207,8 @@ static int agilent_82357a_receive_control_msg(struct agilent_82357a_priv *a_priv
- 
- static void agilent_82357a_dump_raw_block(const u8 *raw_data, int length)
- {
--#define RAW_BUF_SIZE 256
--	int i, pos = 0;
--	char print_buf[RAW_BUF_SIZE];
--
- 	pr_info("hex block dump\n");
--	for (i = 0; i < length; ++i) {
--		if (i && (i % 8 == 0)) {
--			pr_info("%s\n", print_buf);
--			pos = 0;
--		}
--		pos += snprintf(&print_buf[pos], RAW_BUF_SIZE, " %02x", raw_data[i]);
--	}
--	if (pos)
--		pr_info("%s\n", print_buf);
-+	print_hex_dump(KERN_INFO, "", DUMP_PREFIX_NONE, 8, 1, raw_data, length, true);
- }
- 
- static int agilent_82357a_write_registers(struct agilent_82357a_priv *a_priv,
-diff --git a/drivers/staging/gpib/ni_usb/ni_usb_gpib.c b/drivers/staging/gpib/ni_usb/ni_usb_gpib.c
-index 1da263676f2a..d5b6d0932cd9 100644
---- a/drivers/staging/gpib/ni_usb/ni_usb_gpib.c
-+++ b/drivers/staging/gpib/ni_usb/ni_usb_gpib.c
-@@ -354,20 +354,8 @@ static int ni_usb_parse_status_block(const u8 *buffer, struct ni_usb_status_bloc
- 
- static void ni_usb_dump_raw_block(const u8 *raw_data, int length)
- {
--#define RAW_BUF_SIZE 256
--	int i, pos = 0;
--	char print_buf[RAW_BUF_SIZE];
--
- 	pr_info("hex block dump\n");
--	for (i = 0; i < length; ++i) {
--		if (i && (i % 8 == 0)) {
--			pr_info("%s\n", print_buf);
--			pos = 0;
--		}
--		pos += snprintf(&print_buf[pos], RAW_BUF_SIZE, " %02x", raw_data[i]);
--	}
--	if (pos)
--		pr_info("%s\n", print_buf);
-+	print_hex_dump(KERN_INFO, "", DUMP_PREFIX_NONE, 8, 1, raw_data, length, true);
- }
- 
- static int ni_usb_parse_register_read_block(const u8 *raw_data, unsigned int *results,
--- 
-2.47.0
+diff --git a/drivers/staging/gpib/fmh_gpib/fmh_gpib.c b/drivers/staging/gpi=
+b/fmh_gpib/fmh_gpib.c
+index 0e27b3ef1a1d..9a081aae913a 100644
+--- a/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
++++ b/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
+@@ -528,7 +528,7 @@ static int fmh_gpib_accel_write(gpib_board_t *board, ui=
+nt8_t *buffer,
+=20
+ =09=09/* wait until we are sure we will be able to write the data byte
+ =09=09 * into the chip before we send AUX_SEOI.  This prevents a timeout
+-=09=09 * scenerio where we send AUX_SEOI but then timeout without getting
++=09=09 * scenario where we send AUX_SEOI but then timeout without getting
+ =09=09 * any bytes into the gpib chip.  This will result in the first byte
+ =09=09 * of the next write having a spurious EOI set on the first byte.
+ =09=09 */
+--=20
+2.34.1
+
 
