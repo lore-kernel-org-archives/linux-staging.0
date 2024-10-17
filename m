@@ -1,107 +1,100 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 051FB1D88C2
-	for <linux-staging@lists.linux.dev>; Thu, 17 Oct 2024 09:29:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D05EC44C97
+	for <linux-staging@lists.linux.dev>; Thu, 17 Oct 2024 09:44:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729157377; cv=none; b=XjpAn7CtYl+NKsv+scpD8qOuY9xw/vPkqwwRRj4hCUlhpqm0qiKRkIiNOp3XOV6JVWaccaxKGv8UX37wg+AFbuUJZ3uSma8j7IB1tvXYdpqzbKf88k9whLyVZIHwhiXmYmccke9ZL6DLFjLqIF8c55wgXSNKgclcAKwFA6g4IkI=
+	t=1729158294; cv=none; b=LkBFODcDz/Lo56FlpW2WoKO1ClpZqtIUatrAQbj4EZdEG0gkRmL7+voRXka/3DcUnXSQimwST2cck6Gc7mM6Ndec7+m/E8q99m4f1uIGv7Wrp6PaIVNcx1d0c2Jnkns30TQB8Zc4f7W6uNOTMeYBMon9NjTjR4wwUZR5GitmOhQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729157377; c=relaxed/simple;
-	bh=2BwbOLLmrev0DEkdKU/J1Uf9cnFyU/EArcl5PfVyQqw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ddWtExtjvKVEEAY/T83HT7pUZTWMeHss5a4Z/hGkl0jJROlRN/6lCKJDdjrKHq7QB94RMF9ovS8ITyaO4A1b/kVUpJRNVkkqlWoToqmk1C7w1zdTs6curO1kAcGaVJTk9uFwfaksdF/QLAQkZTLrYmM5RuLruOEk8HEmkBq9bpE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=everestkc.com.np; spf=pass smtp.mailfrom=everestkc.com.np; dkim=pass (2048-bit key) header.d=everestkc-com-np.20230601.gappssmtp.com header.i=@everestkc-com-np.20230601.gappssmtp.com header.b=JP9sYS4E; arc=none smtp.client-ip=209.85.208.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=everestkc.com.np
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everestkc.com.np
+	s=arc-20240116; t=1729158294; c=relaxed/simple;
+	bh=JC1Zanmrvs8NQAJ+FsUwNyvBCroCRyGZRG7n4pSQX/g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VyYEH30Djc7vFIJe1yUW7FDTOJmOp8IoxFIDyaBAf9G7tF8OPTn7pn8y8nGyFkm0HzCHErtDejh+NwLnzRv6AW1Uc9xYerYDTEnQg3HdSrZUmelzum9TE7Ob8eoD1UsjiMobnAuIDWW57jnMaPPLuhCSu0CXtFAIPyf7btFB+ng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bvn2u9V+; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=everestkc-com-np.20230601.gappssmtp.com header.i=@everestkc-com-np.20230601.gappssmtp.com header.b="JP9sYS4E"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5c94b0b466cso859238a12.0
-        for <linux-staging@lists.linux.dev>; Thu, 17 Oct 2024 02:29:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bvn2u9V+"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4314fa33a35so7407025e9.1
+        for <linux-staging@lists.linux.dev>; Thu, 17 Oct 2024 02:44:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=everestkc-com-np.20230601.gappssmtp.com; s=20230601; t=1729157372; x=1729762172; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5qKzlhjU/lCm02BVIQEq56igyc/HvbAaIKSc/+Cfz6E=;
-        b=JP9sYS4EB5vy4wpNQZriNXoTbdoanh8Gj7yzaHsv8FXiMLw58IS25oMmhMharbJuaG
-         4DOIhDxu4b/l7RJWNj2hbpp/4wc1BRTMkUVw0Rh6WgicFux6rPl2i6jptqkHB47N4sTN
-         zriP+VPnzo3+tXdc4kz5UT5u3NYErVRe6HkNZFJ4v2c0PU7iaOsCqcsD3vyEH/AYw+6a
-         T1cLTHu/OARlTsdcrSQBDXWILTO56Uv3gDaCbQ1xFbNYCzE6Dodnx5pmuN+0m+WLxa+c
-         kbdWvRVwJcccjgr2yLYBgZzDKIayColIftsybMglFYbJA/agpKoMeKRcrhsn9R29CNxn
-         PIEw==
+        d=gmail.com; s=20230601; t=1729158289; x=1729763089; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=o+HE8p18F4JnOQRy+SOktGO0GlPEF2AUk2XJf7kCsIQ=;
+        b=Bvn2u9V+WzaegmdQTRMxEMKfDAbS2x4RTXBNqcNRgHdguGFTPvnYaXOpkW8NqK/8Gh
+         PO5UFGgcUGyfx967QtBllrKGEerbqeT6jQCr328ZsE5i+oPL63jWXXc6Ui8PAET0ngvr
+         c1ckg4Q+qFP0Y6CQuQGLnYgn1QMt4+cBB6MjYTqMS1AF9dd8Vy83BiMfwFPY46pHYXSw
+         2OG9n4ALyb9q+ypFHzTapTA7rbO/5xUCbsoPh9FHgwdha6WnRISIpxiYCnSXc9XzjAzB
+         O98U5WNSjsWmEJqjGChoVPW8zzHJc9p9iYW37wUO0SQiMu+4WZ7O52cDLK1BmJvLdLis
+         AH5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729157372; x=1729762172;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5qKzlhjU/lCm02BVIQEq56igyc/HvbAaIKSc/+Cfz6E=;
-        b=POxlUp5vFJ7zNS3ZTLZ3+8yq6gOudaU91nGRSkpt90KlLuUCsMczYf8xximVruX0S0
-         sChXcbgcGv4rfFuGOVwE0Jqz5oywh+zc5mYb/Z3SwSHE7fZxB9LjuiKgxtDLzRZ4Wtuk
-         LbdL5+KICCCBV6g/2k3VzNOElKz3HUaiIzyYdy7lKy+RpKp65ep54b3KXWSnbC20SOch
-         NiYS+ixL/+cgr6sO+NaGEsyLt4fXr7GhJ83uQQEwc6hsPxHTsflT6kSRRdcWJtBxqsth
-         yy1RE3W5+Inwf0LBpyMHiARO4wqms/MCr0WZzSCIMzHA8C4UVu8nM8LjFwiMNy+TFJnG
-         b6tg==
-X-Forwarded-Encrypted: i=1; AJvYcCVlpLKOBjz8dqV8zms9oZV57jTdEpyqJS4OP/qBa4G6iAnRfVZTYop9caXdY6cYeJZcwZhIsd92TtGUgnWz@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywrd/eT2WIaY5OUh6uGRBXSRjX9XjqpoZ9tt3dPM3URut/0I8HV
-	WjZAKuyggz52bnDU2a5m8WdYEDmiqXjt8odiH1sikcpS6NUH+xLKIcYKl5oJfnMM2owpYLqLoAK
-	fohgeNE/JHumi8+9TnT2DzSkvLQ8eemdGRGJUOQ==
-X-Google-Smtp-Source: AGHT+IHQuIrk6tkwFaRZW8HCE+De7KpmbbPUN1UvWoHF8GYLJXLjUh6P69bytRBvqyiyWXA8doMSnNZ99QI2wlrM+x4=
-X-Received: by 2002:a05:6402:321c:b0:5c9:9bed:a5cd with SMTP id
- 4fb4d7f45d1cf-5c99beda6d4mr3438038a12.34.1729157372138; Thu, 17 Oct 2024
- 02:29:32 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1729158289; x=1729763089;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=o+HE8p18F4JnOQRy+SOktGO0GlPEF2AUk2XJf7kCsIQ=;
+        b=a2BFGWwJNE0kpAMny6xYhm0ZRu7vctE5fIGltR9BxEMU60CyBGh++MVK4pwpT7i//o
+         mHXcjN0Aa7xb2jmhTgLi+YhzwTaPIAkcxII/vaa+ugaOB62gSTC9m7z9QRmUdhvUROfg
+         mOemevQuvFDjoidlHVY0vumvOyuWdQjOh8kGhNBjoFsCqVaqXDKvZEGfER/oi4WQNFON
+         EiWjs/pon3IPZy1M+Sjs+UL3IV9HPvc0jZt6iwL+N61i6DIsC5ZOYP3HYvj2A3Lj1WYh
+         iDOYu6+JzuQE7LYWcwVoH7uPwDUukUq8M2xSEgKOMJJEQE5xUBb1yK3zlu98k3X9bfQk
+         xj4Q==
+X-Forwarded-Encrypted: i=1; AJvYcCX9m4Ou1J+EUshC9CuDqN59iczVPXenig1df23Efvf/PeYTYgH5FZw5Rgt8lc+COctQiFuwyO/GFym8X8ne@lists.linux.dev
+X-Gm-Message-State: AOJu0YyBcyJ86NNRKxVZp5A67MzaMPGIleAPR50IhDU531o8fHBvD/5r
+	IvkYUt4UoIV7zMUqS2r7T1jHV7GVv/gYcpuJdh1Ehikb4csk2bLUZlYSXhxs
+X-Google-Smtp-Source: AGHT+IFtymMP2250BiaxUsDc2zMRZXBhJnKsIf+qEALgKlNQZGuadqD7nKmaLUB4TD2bxJqsWNjveg==
+X-Received: by 2002:a05:600c:1d82:b0:431:5e53:2dc4 with SMTP id 5b1f17b1804b1-4315e532f84mr3935095e9.6.1729158288708;
+        Thu, 17 Oct 2024 02:44:48 -0700 (PDT)
+Received: from egonzo ([82.64.73.52])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43158c61e82sm20444215e9.45.2024.10.17.02.44.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Oct 2024 02:44:47 -0700 (PDT)
+Date: Thu, 17 Oct 2024 11:44:44 +0200
+From: Dave Penkler <dpenkler@gmail.com>
+To: Kees Bakker <kees@ijzerbout.nl>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: gpib: avoid buffer overflow
+Message-ID: <ZxDcjDjJr_MTYTFV@egonzo>
+References: <20241015201629.4B97918DA87@bout3.ijzerbout.nl>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <912561b9-e446-42e8-8922-9e8952355c79@stanley.mountain>
-In-Reply-To: <912561b9-e446-42e8-8922-9e8952355c79@stanley.mountain>
-From: "Everest K.C." <everestkc@everestkc.com.np>
-Date: Thu, 17 Oct 2024 03:29:21 -0600
-Message-ID: <CAEO-vhF0NWB4J+WFu_c7Nn9tu_kYzAvNeFgLrLKc_Lk5DD51hQ@mail.gmail.com>
-Subject: Re: other staging/gpib bugs completed
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Shuah Khan <skhan@linuxfoundation.org>, dpenkler@gmail.com, 
-	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241015201629.4B97918DA87@bout3.ijzerbout.nl>
 
-On Wed, Oct 16, 2024 at 8:20=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro=
-.org> wrote:
->
-> Keep up the good work, Everest.  Here are some other bugs you could fix i=
-f you
-> want.
-Thank you for all your feedback and help. I am learning a lot :)
-I will look into these and try my best to fix them and send patches.
-> drivers/staging/gpib/agilent_82357a/agilent_82357a.c:1381 agilent_82357a_=
-attach() warn: inconsistent returns '&agilent_82357a_hotplug_lock'.
-> drivers/staging/gpib/common/gpib_os.c:889 board_type_ioctl() warn: maybe =
-return -EFAULT instead of the bytes remaining?
-> drivers/staging/gpib/common/iblib.c:242 ibonline() warn: assigning IS_ERR=
-()
-> drivers/staging/gpib/common/iblib.c:505 ibsad() warn: AAA no lower bound =
-on 'addr' rl=3D's32min-30'
-> drivers/staging/gpib/eastwood/fluke_gpib.c:592 fluke_dma_read() error: NU=
-LL dereference inside function 'dma_unmap_single_attrs((0), bus_address, le=
-ngth, 2, 0)()'. '0' '(0)' 17 9
-> drivers/staging/gpib/eastwood/fluke_gpib.c:592 fluke_dma_read() error: NU=
-LL dereference inside function (pos=3D17)
-> drivers/staging/gpib/eastwood/fluke_gpib.c:949 fluke_init() warn: was hex=
-adecimal intended '10'
-> (perhaps intentional?  Just leave it if so.)
-> drivers/staging/gpib/ni_usb/ni_usb_gpib.c:837 ni_usb_write() warn: incons=
-istent returns '&ni_priv->addressed_transfer_lock'.
-> drivers/staging/gpib/ni_usb/ni_usb_gpib.c:1103 ni_usb_request_system_cont=
-rol() error: uninitialized symbol 'ibsta'.
-> (this last bug is tricky to spot.)
->
-> regards,
-> dan carpenter
->
->
-Thanks,
-Everest K.C.
+Hi Kees,
+On Tue, Oct 15, 2024 at 08:38:13PM +0200, Kees Bakker wrote:
+> The remaining buffer size for snprintf also depends on `pos`.
+> 
+> Signed-off-by: Kees Bakker <kees@ijzerbout.nl>
+> ---
+>  drivers/staging/gpib/ni_usb/ni_usb_gpib.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/gpib/ni_usb/ni_usb_gpib.c b/drivers/staging/gpib/ni_usb/ni_usb_gpib.c
+> index 1da263676f2a..4df1ceaa138f 100644
+> --- a/drivers/staging/gpib/ni_usb/ni_usb_gpib.c
+> +++ b/drivers/staging/gpib/ni_usb/ni_usb_gpib.c
+> @@ -364,7 +364,7 @@ static void ni_usb_dump_raw_block(const u8 *raw_data, int length)
+>  			pr_info("%s\n", print_buf);
+>  			pos = 0;
+>  		}
+> -		pos += snprintf(&print_buf[pos], RAW_BUF_SIZE, " %02x", raw_data[i]);
+> +		pos += snprintf(&print_buf[pos], RAW_BUF_SIZE - pos, " %02x", raw_data[i]);
+>  	}
+>  	if (pos)
+>  		pr_info("%s\n", print_buf);
+> -- 
+> 2.47.0
+> 
+Thanks. 
+Please copy the <linux-staging@lists.linux.dev> mailing list.
+Can you do this also for agilent_82357a.c 
+-Dave
