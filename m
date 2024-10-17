@@ -1,92 +1,114 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from omta34.uswest2.a.cloudfilter.net (omta34.uswest2.a.cloudfilter.net [35.89.44.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E56E4168BD
-	for <linux-staging@lists.linux.dev>; Thu, 17 Oct 2024 20:51:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B2D91D5ABD
+	for <linux-staging@lists.linux.dev>; Thu, 17 Oct 2024 21:34:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.89.44.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729198274; cv=none; b=jUif3Gp6lR2ZqZzzo9NFFvDLVNuPdm2u5BEpbWTaNaa6GUIo0/MO6p5lWWJXNlW3hNLnN5j+blXBC6rEFDmUgT3GxFzFuZf7Gjo2N1zueNvtty4SAEXS31IsHnWKMVnRxa84QngECB3V8cwh6qUQfR05kv9btPrLZdYLHqU+ZXA=
+	t=1729200888; cv=none; b=HOKBDqWGBcbm9cQn2xi6Ah6ltWkxwLJrxM1srab8RgpHn8PgQfT9FAP9QAmB9YwMdwK1XjCUKx0OtX4WklW99oP38iq1HZfKw9wWRXj2lvjn6a9Becf8Ns6FMXp9aWlbCpTTtxRlxMIeZuD2aaYK3WY/c0G5zZskBIXS8A8+81g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729198274; c=relaxed/simple;
-	bh=jpmnscegPQtDg0R2appqZlVJPqRTVSaO2arOzvBgLCo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ewuXnBnodR/8x101tUb4N4J30Vsh2f6b873dVSN9TYu3qxcB4UKltKa+KL/+Ks5ADxMAB3FVJCMSLJtDpGAuMCS9WWhGVNmRDlvbJtlRWr0fV9zhFVt8eYfbZNzvXUJuNv8WmMcqXBw3uUh1PJiedRtxp7EtjvuwOG+7RA7xzBw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=IF4gTshz; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1729200888; c=relaxed/simple;
+	bh=Zf6DjL2Oqi5stebiREiVxK9KcJ50P6aC0CQSSOsMHME=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OXCgAh9hW0Lre12xB2OT07N3qSBv2CgbdpYOE+sT+NEKmFS4X/QWoPeh/LfBZ5VZsXMExWqe9S9FFRSnrBm6EHGPq+Z8ybI/8DM70EtoBEi8DbVnBbK1Y5B1mZeFJTWybKBqKm2uIJv1wdy6zM+ML7rOHXuN7I+TWcj7xby/PZw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com; spf=pass smtp.mailfrom=embeddedor.com; dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b=s3cN6Gc+; arc=none smtp.client-ip=35.89.44.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=embeddedor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IF4gTshz"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a93c1cc74fdso205600866b.3
-        for <linux-staging@lists.linux.dev>; Thu, 17 Oct 2024 13:51:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1729198267; x=1729803067; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=dtX6wKalCBdW5mafQzljMEnnSBZvthcLP8cNsIvBle4=;
-        b=IF4gTshzinxiMq+/wnfMUU1lgiiBXuIIIrxUSQPUPPBvUbZCez33qP5feCfuWEzp+y
-         JyBLiHDZm9pewpnVrT9ihS3nmVtLYLN7SppSrqTFKFFFmWtQszpUFyY/uvXbTXDOnOMI
-         1s9GRwfdedYIZAwIo9kKKMcnUJfkTw5GBQrA5Fgk9THDQ2Mk3mA0gzrgtKVRkDNV+YNK
-         pyD9pxi8eMJ2hlgqb6oZL8d8vbCIPOGm+YvmnL5wYLGXfgtQ1LlbqxxlgJ1tDolSqdmY
-         4hVGAhvIw80tDQBc/ULh8jIfDaqdRnRiencz+CWejeeQdM1TZveaoAU1pE38K97JmCZx
-         /6Eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729198267; x=1729803067;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dtX6wKalCBdW5mafQzljMEnnSBZvthcLP8cNsIvBle4=;
-        b=WaOgj4kCTVhiz912gBcND6P/vDHmlS+yjDqopqaW+7y4+y8HU0sTqjjRG2b4k358B3
-         /e0dv7iscu7abBX/FfpoI9QtikX4e0GOBfKE7+xczP0VOo7oWtsRX0GA/ub9T24CmjJu
-         qsTrUXE+QiTU8+9KFCc6/Z7WTiboUJvMd1Hwo5yygEVjat6If0+fJrLBPvZABP3j4GNr
-         yUcuV+cl4ZLw7P10JDawpGMqN1mXL6pZtWS6Bs0xsTd1ZyhFuqWydm68KRuCHOy2xopV
-         le1NDqx/ZsP1ksAB1/R0BqxZQ++kC2Ae2PnOgsH5WYJ1cn5RRzBSd0Uww6abhPVmLzbS
-         8t4A==
-X-Forwarded-Encrypted: i=1; AJvYcCXFcrA/YpCUDvnsDvA3hkpOU+fTOTil6Hm3aHSGMWOw8UmP4Tacbol34BCq1Df9vSkK0pjDtlw14eDrZA3r@lists.linux.dev
-X-Gm-Message-State: AOJu0YyGJxS8bhe4L1owb8fXusbErT24FReZvtYaLTYxu61i5Kd1Sa7Y
-	1823ZHIxIrEOXhbHxgVtp9Isi14n8iV8nC9SSs+rNLvoY4LMy9ockopJDA4kCdk=
-X-Google-Smtp-Source: AGHT+IER1e95HvPNAzwj1EoiLukPbaPwMqzzAZpeLA3lForvATFiPEw2WYNzZrr0zKWxl4YHSQhCMw==
-X-Received: by 2002:a17:907:96a1:b0:a9a:1165:1bb with SMTP id a640c23a62f3a-a9a69df5421mr6370466b.65.1729198267046;
-        Thu, 17 Oct 2024 13:51:07 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9a68bc46fcsm11875166b.111.2024.10.17.13.51.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Oct 2024 13:51:06 -0700 (PDT)
-Date: Thu, 17 Oct 2024 23:51:02 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Kees Bakker <kees@ijzerbout.nl>
-Cc: Dave Penkler <dpenkler@gmail.com>,
-	Linux Staging <linux-staging@lists.linux.dev>
-Subject: Re: [PATCH] staging: gpib: avoid unintended sign extension
-Message-ID: <7ae5cfc6-2298-4895-8016-eddf57bab245@stanley.mountain>
-References: <20241017195551.04E1D18DAFF@bout3.ijzerbout.nl>
+	dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b="s3cN6Gc+"
+Received: from eig-obgw-5004a.ext.cloudfilter.net ([10.0.29.221])
+	by cmsmtp with ESMTPS
+	id 1Td0tC19jVpzp1Y8otKVVi; Thu, 17 Oct 2024 21:34:42 +0000
+Received: from gator4166.hostgator.com ([108.167.133.22])
+	by cmsmtp with ESMTPS
+	id 1Y8ntE6lCWvXp1Y8ntFhbg; Thu, 17 Oct 2024 21:34:41 +0000
+X-Authority-Analysis: v=2.4 cv=LtdZyWdc c=1 sm=1 tr=0 ts=671182f1
+ a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=OKg9RQrQ6+Y1xAlsUndU0w==:17
+ a=IkcTkHD0fZMA:10 a=DAUX931o1VcA:10 a=7T7KSl7uo7wA:10 a=AkGtarxNAAAA:8
+ a=aHQUVwZJVZeAj9SNTk0A:9 a=QEXdDO2ut3YA:10 a=L-2wMNMeb4n_4ejf4qEn:22
+ a=Xt_RvD8W3m28Mn_h3AK8:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=aKFnCViuhROBXox7sQTEK4oddNhPwXqzUM4KXEHLyKw=; b=s3cN6Gc+1DncZKseg2AkDMwTB0
+	2V0LFOkxFSq9jqIqQGmDTqJPYM26ZmHgmcAC16NaxVlZuphPuqyjaaV4v/A8i9E4VwDajtiRlrEQ4
+	kqqpcCjPJWFJ6pjd0o6H189DWFelnHoysVIH75bvtR2QUrugzrqqEEb+tmsuOPgWBfmH4ZirZdDkY
+	bfFKMk28GQx1lHzmx7XqZL5tcWXy31miWzPnR7eVmzWM0zskS2Iyc6EP9QBvFL2C0mhGGcqkXPY+N
+	8rtmNHBPhPQYEovzceQEYD3GpkceD+lOmh11oBlExqK8bdGz0l1JxsMVMUfFuJ+qDoEJYvVFlnIph
+	ZIUeEmkQ==;
+Received: from [201.172.173.7] (port=32908 helo=[192.168.15.5])
+	by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.96.2)
+	(envelope-from <gustavo@embeddedor.com>)
+	id 1t1Y8m-003TXC-0t;
+	Thu, 17 Oct 2024 16:34:40 -0500
+Message-ID: <188cd230-4d22-4299-b10a-a2c307b23c35@embeddedor.com>
+Date: Thu, 17 Oct 2024 15:34:29 -0600
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241017195551.04E1D18DAFF@bout3.ijzerbout.nl>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: gpib: avoid unintended sign extension
+To: Kees Bakker <kees@ijzerbout.nl>
+Cc: Dave Penkler <dpenkler@gmail.com>,
+ Linux Staging <linux-staging@lists.linux.dev>,
+ Dan Carpenter <dan.carpenter@linaro.org>
+References: <20241017195551.04E1D18DAFF@bout3.ijzerbout.nl>
+ <7ae5cfc6-2298-4895-8016-eddf57bab245@stanley.mountain>
+Content-Language: en-US
+From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+In-Reply-To: <7ae5cfc6-2298-4895-8016-eddf57bab245@stanley.mountain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - lists.linux.dev
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 201.172.173.7
+X-Source-L: No
+X-Exim-ID: 1t1Y8m-003TXC-0t
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: ([192.168.15.5]) [201.172.173.7]:32908
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 2
+X-Org: HG=hgshared;ORG=hostgator;
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfKEdGQJCVjzSWersLINbi77vaf1vAv5hnPrQwnB71ryTdxCQU9flPnGG73f3CZ7/6V83iT9qMQT51DVSjTb0WFOW6qtCmKTjkAEszHWE5/D7k17ooLaV
+ TdH/rU2GXs0G0ukwCY4bDdfAzJ98SaP1i3jUVQt6azLEfgZ8eJq2Yyv0Fuib9WfEBnS3t54lyEAF47ktL9wOLMlAPZpr55S3Sk1cY+5YSmH7kgm7ply9NNKr
 
-On Thu, Oct 17, 2024 at 09:54:47PM +0200, Kees Bakker wrote:
-> The code was basically like this (assuming size_t can be u64)
->     var_u64 |= var_u8 << 24
-> var_u8 is first promoted to i32 and then the shift is done. Next, it is
-> promoted to u64 by first signextending to 64 bits. This is very unlikely
-> what was intended. So now it is first forced to u32.
->     var_u64 |= (u32)var_u8 << 24
+
+
+On 17/10/24 14:51, Dan Carpenter wrote:
+> On Thu, Oct 17, 2024 at 09:54:47PM +0200, Kees Bakker wrote:
+>> The code was basically like this (assuming size_t can be u64)
+>>      var_u64 |= var_u8 << 24
+>> var_u8 is first promoted to i32 and then the shift is done. Next, it is
+>> promoted to u64 by first signextending to 64 bits. This is very unlikely
+>> what was intended. So now it is first forced to u32.
+>>      var_u64 |= (u32)var_u8 << 24
+>>
+>> Signed-off-by: Kees Bakker <kees@ijzerbout.nl>
 > 
-> Signed-off-by: Kees Bakker <kees@ijzerbout.nl>
+> Very good.  I'm trying to figure out the impact of this bug.  We'd have to write
+> more than INT_MAX bytes to hit this.  And I think we're pretty screwed either
+> way if we manage to do that...  Still, it probably deserves a Fixes tag.  Could
+> you add a Fixes tag and resend?
 
-Very good.  I'm trying to figure out the impact of this bug.  We'd have to write
-more than INT_MAX bytes to hit this.  And I think we're pretty screwed either
-way if we manage to do that...  Still, it probably deserves a Fixes tag.  Could
-you add a Fixes tag and resend?
+Plus, if this was "caught by Coverity", don't forget to briefly mention that in
+the changelog text.
 
-Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
-
-regards,
-dan carpenter
-
+Thanks
+--
+Gustavo
 
