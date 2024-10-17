@@ -1,68 +1,35 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CDD11D0E36
-	for <linux-staging@lists.linux.dev>; Thu, 17 Oct 2024 22:08:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9F521F4286;
+	Thu, 17 Oct 2024 23:10:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729202942; cv=none; b=b5SqSWy7mpxwyV6o6COLsFN6Tfg37DnT87LqHiWezGjZxLj8r6MgIQy4F9U82wUhJju7MqZW7Hew9CGXCoUaFCaWmTmitHk/oroSitFBscpIpLSLaFtJkVh7fAULGxAWwLD+sFPAXmTAgNPyO5ttuhH/dL8SyF2ZRr2YkJkevzU=
+	t=1729206625; cv=none; b=Nr3XQmbSuRmOB72LONHTdh7Kd6zQDR3QT+Zh+cwM//YHTtzJcbyc4l4bR1zcT49TzYWQs0Lhy25u3+dMCcoMkNCRyM93rxydDfEoE6kbhTpsdhSyikwenO+YwN8EwN6sl/mg7T8PRn5ILwPioPpboL3tozTwYKZlneShPKzhGns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729202942; c=relaxed/simple;
-	bh=C1ettZhXIGpXrwWmjEv8ZGd6Xkvv0nVVh445vJUf5sk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oZ2e8LSeO4ZgZSPhih/srvP7EUM4Nt1IAD3Byj5swqVct808fixE3SaQJVQ++wEpYkU3KdCj+hB8mIalWmI8oLE1aaYcX9yy+ls4eoPHGmUbYwhSYNthtFvARqrmWtWd/sBYa2+pJDmbHCJ7nuXTwNXT/0vO+gPFdASpTqYyECA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=everestkc.com.np; spf=pass smtp.mailfrom=everestkc.com.np; dkim=pass (2048-bit key) header.d=everestkc-com-np.20230601.gappssmtp.com header.i=@everestkc-com-np.20230601.gappssmtp.com header.b=G5X1wS2a; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=everestkc.com.np
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everestkc.com.np
+	s=arc-20240116; t=1729206625; c=relaxed/simple;
+	bh=PUxUM+FNivZk+R5BUJR/P4OqjaInUKGEl74q8jkD/FU=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=sT7v9zM6up35K8TJE5oMckcRY8oQBDBCry9AT0QFG/msm+oU7NNNmZrNGCqVmxbJSiBuNCMda1oq6cuw7Oi1S07SznIieWcC1WZWLPZEE+4K1KhEMjFxQuJGkeUekwu5kwl6edlEeqhPZ2xs7xkKLnKLBxyihuYCHwOuHx7bGUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FjNlAGkQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=everestkc-com-np.20230601.gappssmtp.com header.i=@everestkc-com-np.20230601.gappssmtp.com header.b="G5X1wS2a"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-20c805a0753so12876655ad.0
-        for <linux-staging@lists.linux.dev>; Thu, 17 Oct 2024 15:08:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=everestkc-com-np.20230601.gappssmtp.com; s=20230601; t=1729202936; x=1729807736; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=UFsgI9iLkr6zyS/OFRJNfMmcc362Y5tywufpoyBtvb4=;
-        b=G5X1wS2a1OgiJlD7ooaDTb9KVA8dpu8IQzyMe0qO3LO0Rs7Bl13EKwJwXF4NVhNp9q
-         s7eq4F0/O1GoBvfAxIYe01D7jR3OD4fUk4dQlljvalMuPBd9za24Z21a8j77eehshaZy
-         SDA5DlDblaBwFcR6lUHGIfvuXR+KXu24uNfEWH9EP3srfpNwcgZ6LwnEYKNdVy3ClEKd
-         Q5roXc8FBd4MrmB3qmIbgRpUnneNSeUarucgLAYp18cBpdLncRgZrhPO8W6SL2SqRjMn
-         fSWmqXrPUiBTe602TsqHFGVSjirlCYcau0jG8HLtuS1frbVbmZz+Syh2fRCdM97ZELJR
-         cY5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729202936; x=1729807736;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UFsgI9iLkr6zyS/OFRJNfMmcc362Y5tywufpoyBtvb4=;
-        b=aXh9qbehyarMJPx36vI8ccUxGCgbMEx+vZtrOVLMVbRttQDaahgdhxdBN0HZzXsbKb
-         HVCrv7qfjWd8CWt677ptAIqYt/xXzI9XTYjl19nuQIEaLMWSI8zyvyIk8NwH73PXRZtE
-         3HdInj0LAOkcBVc75ATe+OHUEzz6XQ7F9zmrzMva4UgZEBrd/TLc0Mk7pWl2Z8erHjpy
-         T4hh/+TRURKeK4OYF8jFZU/9Ui3Q7U7qzAIicBadkzTSyME1LCqvIzpB/UsEdc/4WbgR
-         z6Xsb0AD/OfupHui2UhMgmn9ysxCkss9LgLeOl8Ef4IAH3k5lZyKtDExyoPRxgLv0Z1f
-         f5yA==
-X-Forwarded-Encrypted: i=1; AJvYcCXkMysXgsW4gI8/2KvtJZTaSiQtCswGj8HQp2dWkLOeU0xOLwjgsEz1zKzZHrmbGZwPtiEJsT0HfGxbdi+T@lists.linux.dev
-X-Gm-Message-State: AOJu0YyTzMZZVrwMwlWJ6lkACklq332p2U5EIkopbiHCD1iCJS6RXSI2
-	qqTHzoAAm6CL/g3hJQLwonJsw/ur7qBklVDniKxs3Uy4hM/09t8FBLBd0PavWrQPKCIc0yM58hb
-	ZzZOG6Dpj
-X-Google-Smtp-Source: AGHT+IHCVP3YjOBsb8yQ3gloeSYLh2v91BcMDPYOPuSD9t8hzKslsYpLanvNx3VoPuzhOWozWgRP4Q==
-X-Received: by 2002:a17:903:120e:b0:20b:8bf5:cd72 with SMTP id d9443c01a7336-20e5a91ac36mr4702555ad.49.1729202936501;
-        Thu, 17 Oct 2024 15:08:56 -0700 (PDT)
-Received: from localhost.localdomain ([81.17.122.147])
-        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-20e5a8f4c20sm1131545ad.221.2024.10.17.15.08.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Oct 2024 15:08:56 -0700 (PDT)
-From: "Everest K.C." <everestkc@everestkc.com.np>
-To: dpenkler@gmail.com,
-	gregkh@linuxfoundation.org,
-	nathan@kernel.org
-Cc: "Everest K.C." <everestkc@everestkc.com.np>,
-	skhan@linuxfoundation.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: gpib: Change return type and error code of fmh_gpib_get_dma_residue()
-Date: Thu, 17 Oct 2024 16:07:24 -0600
-Message-ID: <20241017220740.30370-1-everestkc@everestkc.com.np>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FjNlAGkQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 572A3C4CECE;
+	Thu, 17 Oct 2024 23:10:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729206625;
+	bh=PUxUM+FNivZk+R5BUJR/P4OqjaInUKGEl74q8jkD/FU=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=FjNlAGkQ6qyu4D2Yb8HlTm6JezuYdWSoLaDmS7t2bL6Y4dwSq6aknIffpgQjUURiK
+	 RBmfUVBkALfn1DAOjJg6id0wNpUO6y3UWuSMFGwgLUsrfJuTvdOR63l3WMC1Ehlebo
+	 yndhDWFUCrFPm+6z7/tuPm4tYUOgEyyQpxmrAYa1KtRyX6yQQ0XgMHIjKDk//FG87x
+	 42xDlqP+Nq6lBGyedVDHH3bYr5MTq1RYKf9Zio9lvhTWaTLRKN2f/bY5QLTPfJ5Rnv
+	 I4WVk5PijLJ/rMuZp7W7zuMZKzpL8sDBSZL9S0JApGWC4hPDGi1VX+1F0O3BMCcxK9
+	 togMS6pbZu6lQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id EB1BD3809A8B;
+	Thu, 17 Oct 2024 23:10:30 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -70,51 +37,44 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next] net: ethernet: ti: am65-cpsw: Fix uninitialized
+ variable
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <172920662978.2631458.11785441270567785071.git-patchwork-notify@kernel.org>
+Date: Thu, 17 Oct 2024 23:10:29 +0000
+References: <b168d5c7-704b-4452-84f9-1c1762b1f4ce@stanley.mountain>
+In-Reply-To: <b168d5c7-704b-4452-84f9-1c1762b1f4ce@stanley.mountain>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: horms@kernel.org, andrew+netdev@lunn.ch, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, dpenkler@gmail.com,
+ gregkh@linuxfoundation.org, rogerq@kernel.org, jpanis@baylibre.com,
+ c-vankar@ti.com, npitre@baylibre.com, grygorii.strashko@ti.com,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev, kernel-janitors@vger.kernel.org
 
-fmh_gpib_get_dma_residue() returns unsigned int with -1 as error code.
-This error cannot be caught.
-Fix this by changing the return type of the function to int and
-returning the error code, that was captured. Also, change the data
-type of variable residue to int in the function fmh_gpib_dma_read().
+Hello:
 
-Fixes: 8e4841a0888c ("staging: gpib: Add Frank Mori Hess FPGA PCI GPIB driver")
-Reported-by: Shuah Khan <skhan@linuxfoundation.org>
-Signed-off-by: Everest K.C. <everestkc@everestkc.com.np>
----
- drivers/staging/gpib/fmh_gpib/fmh_gpib.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+This patch was applied to netdev/net-next.git (main)
+by Andrew Lunn <andrew@lunn.ch>:
 
-diff --git a/drivers/staging/gpib/fmh_gpib/fmh_gpib.c b/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
-index 0e27b3ef1a1d..802043ffe684 100644
---- a/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
-+++ b/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
-@@ -547,7 +547,7 @@ static int fmh_gpib_accel_write(gpib_board_t *board, uint8_t *buffer,
- 	return 0;
- }
- 
--static unsigned int fmh_gpib_get_dma_residue(struct dma_chan *chan, dma_cookie_t cookie)
-+static int fmh_gpib_get_dma_residue(struct dma_chan *chan, dma_cookie_t cookie)
- {
- 	struct dma_tx_state state;
- 	int result;
-@@ -555,7 +555,7 @@ static unsigned int fmh_gpib_get_dma_residue(struct dma_chan *chan, dma_cookie_t
- 	result = dmaengine_pause(chan);
- 	if (result < 0)	{
- 		pr_err("fmh_gpib_gpib: dma pause failed?\n");
--		return -1;
-+		return result;
- 	}
- 	dmaengine_tx_status(chan, cookie, &state);
- 	// dma330 hardware doesn't support resume, so dont call this
-@@ -717,7 +717,7 @@ static int fmh_gpib_dma_read(gpib_board_t *board, uint8_t *buffer,
- 	struct nec7210_priv *nec_priv = &e_priv->nec7210_priv;
- 	int retval = 0;
- 	unsigned long flags;
--	unsigned int residue;
-+	int residue;
- 	int wait_retval;
- 	dma_addr_t bus_address;
- 	struct dma_async_tx_descriptor *tx_desc;
+On Wed, 16 Oct 2024 17:41:44 +0300 you wrote:
+> The *ndev pointer needs to be set or it leads to an uninitialized variable
+> bug in the caller.
+> 
+> Fixes: 4a7b2ba94a59 ("net: ethernet: ti: am65-cpsw: Use tstats instead of open coded version")
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> ---
+>  drivers/net/ethernet/ti/am65-cpsw-nuss.c | 1 +
+>  1 files changed, 1 insertion(+)
+
+Here is the summary with links:
+  - [net-next] net: ethernet: ti: am65-cpsw: Fix uninitialized variable
+    https://git.kernel.org/netdev/net-next/c/ff1d3484d6d2
+
+You are awesome, thank you!
 -- 
-2.43.0
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
