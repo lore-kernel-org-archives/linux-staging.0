@@ -1,157 +1,99 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2548B17CA03;
-	Fri, 18 Oct 2024 05:53:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 791D818785D;
+	Fri, 18 Oct 2024 05:53:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729230807; cv=none; b=LClohbfwixkf/b0rysoSsTs0xaVJ8RITy2snf8h80B/JgiYhg8v7rl/gwD0/35ZdvBSYiHyC+ssCFoZhUS6P0tYOV2sZHcG6kmP1FrRuxOwZfGR5bQfYP6zOJX56cVqCabj1mH9TWd8USmidg0+RsvyfQ2B0kq/DvJJgjNVpUog=
+	t=1729230807; cv=none; b=KyC2Fn8pGFYivFz9EvtLKl6KyCOtvijiuZ/kkaFG/Wbe2AMxh2xvgKmyE4/M9uzfsk79ApqjaTxaHsymkw7G4UjFzELKbd25gvLVK9WpP+yDlqPYWIT2byNkTwfqkticvpaHFw2YlLRWzKY8jTPJD1vn0qzs8CT8R+dhcHCu3Ks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1729230807; c=relaxed/simple;
-	bh=uwXxWFWVLKeBra7Pb/skSKfPY8KH3t9pzk1shDbiY6g=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dQcY23RqxPXav5AZdRhVHUmnlQm1RKQQ+SmdJgNG62pRGh1DnwLuY+HxHx6wilv0aBJ1XRXU/CDsuMG8RucgcoMmLh9olD+jPSkuoA4e9qbF0hlByL29C0xB8XeIocBxhe8rMC+xA0od3PmRaMfn2dzRamn6+d9Fys3+A8QJzPc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FJOGoIU2; arc=none smtp.client-ip=10.30.226.201
+	bh=aG6hoMo4uzmVEhnDz98AaAEGaoD34QTsOAO33KKqS9g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=XC1s1pgiwn3ZdcN2C2IH6D5BZxuqFj6yQvwDL0r+q28P/ddCmd4aBqLUaxrkuaO1AKGOZgXtg3FhGhc9Q90FJYrcZl8w8CmgCuCbKUBYYP19i4K8XDRJYgHtOCk2VjL9Rx9VYtU3BzRYWe9f8WE1rVBD2zyugcPk/v6IXh/s5k4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mr2euONv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FJOGoIU2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB5E3C4CEC3;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mr2euONv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFFCCC4CED4;
 	Fri, 18 Oct 2024 05:53:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1729230806;
-	bh=uwXxWFWVLKeBra7Pb/skSKfPY8KH3t9pzk1shDbiY6g=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=FJOGoIU2Q45yW0qt/8ilOvDJLoCye2VDr0j86pQ8A/A5UKO0rfBpLyksmQsXYUYNZ
-	 vHzw93zra8s62utOy1gHXsktkCvX2H/ACGVj2MC1934mZfVSVz6edB5WYLuaB9Ki72
-	 q9lt4vlODPaFAV2OS/SXk3+JoZ+9rkakrfKOsqrUfGVwQrGev05CnSNVxgh9zXDwtJ
-	 JwZHZfYQWIkWT5G/i7JRPSqsCrp+BmUL0xhGfsCxcArQ4jqU+WFh4/KKWsqFB6APKz
-	 2GP/dG17ficpIRkPIXnBVkREz47jpCLwT4B7+RovnObgOV0aHjkkndHhznAaIGQBGe
-	 a6bIXzTEM3MtQ==
+	bh=aG6hoMo4uzmVEhnDz98AaAEGaoD34QTsOAO33KKqS9g=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Mr2euONv4fUfZDP/s3EqyB2EvuHMXCn53FiDk83Ep31dnZX5NT9xksVhYGFJ9AZub
+	 WLiyV9o5/SGvI1a5R3mbU5b6Cc6jhPC8PLIp8AU2d1YzwVcVz7ug+uL3TkOVnLeJMH
+	 /45FX3+jmX8kQMtQ9OPF/cWVG7bfYCAJ+BYdSg+i9pPiO7aqUqalA70ohGe4/YhHKE
+	 Vpam9QFxLYw3tGa8feJ8endFQyjYQp2ss6AGczaSUYrPL89mkdh2EDmdCQFr0VDhHh
+	 DT8jU+y8BEZDjh5LJUeJtE1AHccZfzpIaWVtaSTpFki0Dmuh1kKAOy/jQwGeiwMgRA
+	 z+wXkxCJH2lvw==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1t1fvQ-00000005MeH-1nY0;
+	id 1t1fvQ-00000005Mdu-18To;
 	Fri, 18 Oct 2024 07:53:24 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: 
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	=?UTF-8?q?Krzysztof=20Ha=C5=82asa?= <khalasa@piap.pl>,
+	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
 	Hans Verkuil <hverkuil@xs4all.nl>,
+	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+	Martin Tuma <martin.tuma@digiteqautomotive.com>,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Stefan Herdler <herdler@nurfuerspam.de>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	stable@vger.kernel.org
-Subject: [PATCH v2 06/13] media: av7110: fix a spectre vulnerability
-Date: Fri, 18 Oct 2024 07:53:08 +0200
-Message-ID: <be72ed55123427ec9678695eb78501621d2c87d4.1729230718.git.mchehab+huawei@kernel.org>
+	linux-staging@lists.linux.dev
+Subject: [PATCH v2 00/13] Media: fix several issues on drivers
+Date: Fri, 18 Oct 2024 07:53:02 +0200
+Message-ID: <cover.1729230718.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.47.0
-In-Reply-To: <cover.1729230718.git.mchehab+huawei@kernel.org>
-References: <cover.1729230718.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-As warned by smatch:
-	drivers/staging/media/av7110/av7110_ca.c:270 dvb_ca_ioctl() warn: potential spectre issue 'av7110->ci_slot' [w] (local cap)
+There are a number of issues that aren't passing on smatch or Coverity.
 
-There is a spectre-related vulnerability at the code. Fix it.
+Address some of them.
 
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Cc: stable@vger.kernel.org
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- drivers/staging/media/av7110/av7110.h    |  4 +++-
- drivers/staging/media/av7110/av7110_ca.c | 25 ++++++++++++++++--------
- 2 files changed, 20 insertions(+), 9 deletions(-)
+Mauro Carvalho Chehab (13):
+  media: v4l2-ctrls-api: fix error handling for v4l2_g_ctrl()
+  media: v4l2-tpg: prevent the risk of a division by zero
+  media: dvbdev: prevent the risk of out of memory access
+  media: dvb_frontend: don't play tricks with underflow values
+  media: mgb4: protect driver against spectre
+  media: av7110: fix a spectre vulnerability
+  media: s5p-jpeg: prevent buffer overflows
+  media: ar0521: don't overflow when checking PLL values
+  media: cx24116: prevent overflows on SNR calculus
+  media: adv7604: prevent underflow condition when reporting colorspace
+  media: stb0899_algo: initialize cfr before using it
+  media: cec: extron-da-hd-4k-plus: don't use -1 as an error code
+  media: pulse8-cec: fix data timestamp at pulse8_setup()
 
-diff --git a/drivers/staging/media/av7110/av7110.h b/drivers/staging/media/av7110/av7110.h
-index ec461fd187af..b584754f4be0 100644
---- a/drivers/staging/media/av7110/av7110.h
-+++ b/drivers/staging/media/av7110/av7110.h
-@@ -88,6 +88,8 @@ struct infrared {
- 	u32			ir_config;
- };
- 
-+#define MAX_CI_SLOTS	2
-+
- /* place to store all the necessary device information */
- struct av7110 {
- 	/* devices */
-@@ -163,7 +165,7 @@ struct av7110 {
- 
- 	/* CA */
- 
--	struct ca_slot_info	ci_slot[2];
-+	struct ca_slot_info	ci_slot[MAX_CI_SLOTS];
- 
- 	enum av7110_video_mode	vidmode;
- 	struct dmxdev		dmxdev;
-diff --git a/drivers/staging/media/av7110/av7110_ca.c b/drivers/staging/media/av7110/av7110_ca.c
-index 6ce212c64e5d..fce4023c9dea 100644
---- a/drivers/staging/media/av7110/av7110_ca.c
-+++ b/drivers/staging/media/av7110/av7110_ca.c
-@@ -26,23 +26,28 @@
- 
- void CI_handle(struct av7110 *av7110, u8 *data, u16 len)
- {
-+	unsigned slot_num;
-+
- 	dprintk(8, "av7110:%p\n", av7110);
- 
- 	if (len < 3)
- 		return;
- 	switch (data[0]) {
- 	case CI_MSG_CI_INFO:
--		if (data[2] != 1 && data[2] != 2)
-+		if (data[2] != 1 && data[2] != MAX_CI_SLOTS)
- 			break;
-+
-+		slot_num = array_index_nospec(data[2] - 1, MAX_CI_SLOTS);
-+
- 		switch (data[1]) {
- 		case 0:
--			av7110->ci_slot[data[2] - 1].flags = 0;
-+			av7110->ci_slot[slot_num].flags = 0;
- 			break;
- 		case 1:
--			av7110->ci_slot[data[2] - 1].flags |= CA_CI_MODULE_PRESENT;
-+			av7110->ci_slot[slot_num].flags |= CA_CI_MODULE_PRESENT;
- 			break;
- 		case 2:
--			av7110->ci_slot[data[2] - 1].flags |= CA_CI_MODULE_READY;
-+			av7110->ci_slot[slot_num].flags |= CA_CI_MODULE_READY;
- 			break;
- 		}
- 		break;
-@@ -262,15 +267,19 @@ static int dvb_ca_ioctl(struct file *file, unsigned int cmd, void *parg)
- 	case CA_GET_SLOT_INFO:
- 	{
- 		struct ca_slot_info *info = (struct ca_slot_info *)parg;
-+		unsigned int slot_num;
- 
- 		if (info->num < 0 || info->num > 1) {
- 			mutex_unlock(&av7110->ioctl_mutex);
- 			return -EINVAL;
- 		}
--		av7110->ci_slot[info->num].num = info->num;
--		av7110->ci_slot[info->num].type = FW_CI_LL_SUPPORT(av7110->arm_app) ?
--							CA_CI_LINK : CA_CI;
--		memcpy(info, &av7110->ci_slot[info->num], sizeof(struct ca_slot_info));
-+		slot_num = array_index_nospec(info->num, MAX_CI_SLOTS);
-+
-+		av7110->ci_slot[slot_num].num = info->num;
-+		av7110->ci_slot[slot_num].type = FW_CI_LL_SUPPORT(av7110->arm_app) ?
-+						 CA_CI_LINK : CA_CI;
-+		memcpy(info, &av7110->ci_slot[slot_num],
-+		       sizeof(struct ca_slot_info));
- 		break;
- 	}
- 
+ .../extron-da-hd-4k-plus.c                    |  6 ++---
+ drivers/media/cec/usb/pulse8/pulse8-cec.c     |  2 +-
+ drivers/media/common/v4l2-tpg/v4l2-tpg-core.c |  3 +++
+ drivers/media/dvb-core/dvb_frontend.c         |  4 +--
+ drivers/media/dvb-core/dvbdev.c               | 17 ++++++++++--
+ drivers/media/dvb-frontends/cx24116.c         |  7 ++++-
+ drivers/media/dvb-frontends/stb0899_algo.c    |  2 +-
+ drivers/media/i2c/adv7604.c                   | 26 ++++++++++++-------
+ drivers/media/i2c/ar0521.c                    |  4 +--
+ drivers/media/pci/mgb4/mgb4_cmt.c             |  2 ++
+ .../platform/samsung/s5p-jpeg/jpeg-core.c     | 17 +++++++-----
+ drivers/media/v4l2-core/v4l2-ctrls-api.c      | 16 ++++++++----
+ drivers/staging/media/av7110/av7110.h         |  4 ++-
+ drivers/staging/media/av7110/av7110_ca.c      | 25 ++++++++++++------
+ 14 files changed, 94 insertions(+), 41 deletions(-)
+
 -- 
 2.47.0
+
 
