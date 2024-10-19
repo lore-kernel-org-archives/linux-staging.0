@@ -1,110 +1,78 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4CFB1CCB2D
-	for <linux-staging@lists.linux.dev>; Sat, 19 Oct 2024 06:45:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94DFE1D1E89
+	for <linux-staging@lists.linux.dev>; Sat, 19 Oct 2024 08:05:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729320343; cv=none; b=XUKsolBrOJTF75sP4xTLsidoXtMSTW2HN0ERXyln8v58ahha3dn+lrbzE1RYwwYHV7RyIjRHMfZ1HmzhBseQxrkFCD1wYg8xI7ZuPLzRITDgfUJzsSYoVDMdK/9XEXnWhE28J8XNnoepcRRvnydBiXMPzaGmck9mNtnpGAGMa1Y=
+	t=1729325109; cv=none; b=QuvaRqbokzi3jiZZzedAD8KW/4TqVgGka4Ez3iy6jxPonQMEDH19bvamhxQTxCYUn1P7NyrM+5n/N8ok/WH7xC+48usffhYpJ2m7Nne4pFCsEPErr4lPR8fcsyMk373vy1QxERvtQxVATo2fmfGvk5YBaxNYx47QSRgAZ8/c2IA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729320343; c=relaxed/simple;
-	bh=wTUixt+BbMqQ/Ysusg9cMMvxAyJMxvwCB9wzUw3vUIE=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=kE9Da/V5wr4oGbIaG7i3th90xpwa43XXbAzDOxYBopDSiWH2NAPQe3+wdXrlc4eGnYwuECVLIOfHn+chUYZrGtsjxqY7TnqZE4SuU3CmVBmohATqMDlhoGq50VlRp4gdEepQUYxRKUHZCV/ue1Cjs+bEXaB2K75QynVS44N2pgg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GYCdnY85; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1729325109; c=relaxed/simple;
+	bh=xvCZVsng+Rp6/XbjVKB49XgpG0iiDNl+KvgEBcirv18=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qE9vvM6/K1wrclzMsoQ7iTNDoiCOK2vThCMsRGHUOaqJ21zChz56M8htQ7Ym3S/38NTMPYGiPWt0rJsJPxv04aCk39lMw/vtSC4pWzM1UHs8WTyUi18Iob8RyIl81E1ZK4B+m6BA7coZ/MM38GA3iY6ZocOblgfOMGebFy3w4lI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=AgsShzxs; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GYCdnY85"
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-539e690479cso3158008e87.3
-        for <linux-staging@lists.linux.dev>; Fri, 18 Oct 2024 23:45:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729320340; x=1729925140; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:from:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=I/xBFEYk5+1PnZWk62QbDei5REpQoLrsRgMuFoSkY2M=;
-        b=GYCdnY85GNDWH208UK+iihLOz1D/XpTzX+u541YQnN4lVMGyrUxPpojx2GpeChUuFr
-         t17iaRGtNpVHhYF2vn2nRo0W83OrCQCRjx4ciu86hDzXvmwjemdRmVVjQCUvbbfHbAgG
-         qFYa2SRvj45Ak8n0L5sm4CngBAtgAyAs3DZKMks0pku4ZIliXQa4ylpruvu8vVM2je17
-         YI0M/m1tLUbh8KWsjXKW1yOJlvKKd7yr1lVLRNBZoA5mFuklgWRev+JH45zePTVm/jDp
-         IWp0/1ptmOalDVAzAkKlBi8SwFaDMCmiQzilxgkb75ZIhmSu0f8daNaYbqSCf2ZS7vou
-         XCew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729320340; x=1729925140;
-        h=content-transfer-encoding:cc:to:subject:from:content-language
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=I/xBFEYk5+1PnZWk62QbDei5REpQoLrsRgMuFoSkY2M=;
-        b=JWQTwwy04O/+XyZZbONC2pxQUghmi3rj3v3/ppirU+Kr+rIe7Crh/NyzDarv3lVNHj
-         gj6yAPTq73EJ0O68ZxY6d2whGbK3WgPgZm4iH1IxyW5W/2+KNnE3e/Hu4kXBVC9jhcwi
-         W21sDCe1pj/oqj/RHOVt+v8p4uHuGXt8b4ErcBlSyXm3s2/ldaKIxStqtlJ8YeilMBwP
-         v2QCnHPy5RiNaMAuNJMn+Re6G6LECKfAoQTzfEGJHyE7o23i6M/tbh/cecRw7rz3xTYJ
-         g9CItDBtQ31+xsg2hjZuea1T751pQYhT/MqlnIDu1WeYn7ZESMwf0Kg9mA6yDpyChURN
-         Tn/w==
-X-Forwarded-Encrypted: i=1; AJvYcCWjz/hK+1s+ZaGOA0roTLOcUd09KCgvk2acb7pIVi7bZYYbkV+80xfdybOJ6RuV7G1MRILNTdx1XUENTS4+@lists.linux.dev
-X-Gm-Message-State: AOJu0YwciJle0f0AAhCR6TvkVB6JW5htzAx903e4TiXSWHwh+irrxUHS
-	0mGmEUUePTBFfeIxY6s/M0wYttMR2HGxfiKKMsBZl+CMiw3qzcZe
-X-Google-Smtp-Source: AGHT+IGj+oVaKApjcHHkZ5rbaWGEk7pnvLlMQPmRLcjNNo1A92fJ0dMwx1gGK6vOZmivsNapG6RqWg==
-X-Received: by 2002:a05:6512:224e:b0:52e:9762:2ba4 with SMTP id 2adb3069b0e04-53a154a9eecmr3025761e87.25.1729320339483;
-        Fri, 18 Oct 2024 23:45:39 -0700 (PDT)
-Received: from [192.168.2.105] (p54a0712c.dip0.t-ipconnect.de. [84.160.113.44])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5ca0b076d7dsm1519593a12.14.2024.10.18.23.45.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Oct 2024 23:45:39 -0700 (PDT)
-Message-ID: <96ae2b42-c0ce-4d9a-8933-eb874dc5589b@gmail.com>
-Date: Sat, 19 Oct 2024 08:45:37 +0200
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="AgsShzxs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDBB5C4CEC5;
+	Sat, 19 Oct 2024 08:05:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1729325109;
+	bh=xvCZVsng+Rp6/XbjVKB49XgpG0iiDNl+KvgEBcirv18=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AgsShzxsQVo+bKToMhxeY+Slf9pO6wl90WY3KjKitwUXcxx/rZ60FJpZLLu6ruH2Z
+	 n+Q1m58t/J68GaOeu8KpMcWN1lBqtcdEEXDNJovbCtLUqZ6M6oNOZIxMYUrADdnb9F
+	 QVcRsAgnXqMsdXpCJlhqgyK83bKsoedgPOcUPEXg=
+Date: Sat, 19 Oct 2024 09:59:07 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Kees Bakker <kees@ijzerbout.nl>
+Cc: Dave Penkler <dpenkler@gmail.com>,
+	Linux Staging <linux-staging@lists.linux.dev>
+Subject: Re: [PATCH] staging: gpib: Change return type of
+ fluke_get_dma_residue
+Message-ID: <2024101940-elective-aviator-baf6@gregkh>
+References: <20241017181504.1346F18DAF2@bout3.ijzerbout.nl>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Subject: [RFC] staging: fieldbus: Proposal to delete driver
-To: Sven Van Asbroeck <TheSven73@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: "Ricardo B. Marliere" <ricardo@marliere.net>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- Ruan Jinjie <ruanjinjie@huawei.com>, Zhu Wang <wangzhu9@huawei.com>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Deepak R Varma <drv@mailo.com>, Ajith P V <ajithpv.linux@gmail.com>,
- Tian Tao <tiantao6@hisilicon.com>,
- Rikard Falkeborn <rikard.falkeborn@gmail.com>,
- Ding Xiang <dingxiang@cmss.chinamobile.com>,
- Jing Xiangfeng <jingxiangfeng@huawei.com>,
- Cristiane Naves <cristianenavescardoso09@gmail.com>,
- YueHaibing <yuehaibing@huawei.com>,
- Oscar Gomez Fuente <oscargomezf@gmail.com>,
- Nicholas Mc Guire <hofrat@osadl.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241017181504.1346F18DAF2@bout3.ijzerbout.nl>
 
-Dear Sirs,
+On Tue, Oct 15, 2024 at 10:33:30PM +0200, Kees Bakker wrote:
+> The function fluke_get_dma_residue returns an error as a negative value.
+> So the return type must not be unsigned.
+> 
+> Signed-off-by: Kees Bakker <kees@ijzerbout.nl>
+> ---
+>  drivers/staging/gpib/eastwood/fluke_gpib.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/gpib/eastwood/fluke_gpib.c b/drivers/staging/gpib/eastwood/fluke_gpib.c
+> index f9f149db222d..77bbe2b587b1 100644
+> --- a/drivers/staging/gpib/eastwood/fluke_gpib.c
+> +++ b/drivers/staging/gpib/eastwood/fluke_gpib.c
+> @@ -536,7 +536,7 @@ static int fluke_accel_write(gpib_board_t *board, uint8_t *buffer, size_t length
+>  	return 0;
+>  }
+>  
+> -static unsigned int fluke_get_dma_residue(struct dma_chan *chan, dma_cookie_t cookie)
+> +static int fluke_get_dma_residue(struct dma_chan *chan, dma_cookie_t cookie)
+>  {
+>  	struct dma_tx_state state;
+>  	int result;
+> @@ -549,7 +549,7 @@ static unsigned int fluke_get_dma_residue(struct dma_chan *chan, dma_cookie_t co
+>  	dmaengine_tx_status(chan, cookie, &state);
+>  	// hardware doesn't support resume, so dont call this
+>  	// method unless the dma transfer is done.
+> -	return state.residue;
+> +	return (int)state.residue;
 
-Sven Van Asbroeck contributed this driver in 2019.
+Then why isn't residue an int?  Shouldn't that be also changed?
 
-The following points let me propose to delete the driver:
-- This driver generates maintenance workload
-- only 11 patches during the last 3 years. Part of the patches seem to 
-be motivated because of maintenance (for example - remove deprecated 
-function)
-- Maintainer lost interest, last "Reviewed-by:" is May 2021
-- no blog about usage of this driver
+thanks,
 
-The staging subsystem is the way for drivers into the kernel - at 
-current speed and interest this is never going to happen.
-
-I think that fieldbus is an interesting topic. But when almost nobody 
-cares about this driver, it does not make sense to keep it.
-
-Please consider that support will remain for years in the longterm kernels.
-
-Thanks for any response about your thoughts.
-
-No response will result in a patch for removal in 14 days. This time can 
-be shorted or extended by appropriate comments.
-
-Bye Philipp
+greg k-h
