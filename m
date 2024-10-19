@@ -1,80 +1,110 @@
-Received: from bout3.ijzerbout.nl (bout3.ijzerbout.nl [136.144.140.114])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F436201271
-	for <linux-staging@lists.linux.dev>; Fri, 18 Oct 2024 19:39:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=136.144.140.114
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4CFB1CCB2D
+	for <linux-staging@lists.linux.dev>; Sat, 19 Oct 2024 06:45:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729280376; cv=none; b=d05zvAdFCCBEcW6gaXo/CbMRoYMTP1qk5pbUtupI/CUH4PUUy4lkBXyjr1s5J4dcVBb/WTu4wu1CHaTSVX/m/qbx15xnKAEU9TUtH0usoNXxexR2z0jk0MBSxpIng/x/wOWrxBxfTYKVEFsNEBjhYeCp4UWOcJNj+0kU+fvCg4k=
+	t=1729320343; cv=none; b=XUKsolBrOJTF75sP4xTLsidoXtMSTW2HN0ERXyln8v58ahha3dn+lrbzE1RYwwYHV7RyIjRHMfZ1HmzhBseQxrkFCD1wYg8xI7ZuPLzRITDgfUJzsSYoVDMdK/9XEXnWhE28J8XNnoepcRRvnydBiXMPzaGmck9mNtnpGAGMa1Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729280376; c=relaxed/simple;
-	bh=nlXauVRJF3vaKluGQ+28NGRUV6/Ut8HyqyH9H2fE9oA=;
-	h=From:Date:Subject:To:Cc:Message-Id; b=rlpF40S+xaOEnrUEQttrsTHihQ1njLvK5H4xeGskQwlTJKw0YhRmeEnKYqH8seKfUqVhnrL7L3gIMKvTFuINu8QXpGXDNsbZqLQi704JgxLs5v6OPKFy+9IWJZfUUhIX1z7V4+g+FUvHpIoio7NXKEs8CTKy65wAIj799epG9og=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ijzerbout.nl; spf=none smtp.mailfrom=bout3.ijzerbout.nl; dkim=pass (4096-bit key) header.d=ijzerbout.nl header.i=@ijzerbout.nl header.b=fajJlMWE; arc=none smtp.client-ip=136.144.140.114
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ijzerbout.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bout3.ijzerbout.nl
+	s=arc-20240116; t=1729320343; c=relaxed/simple;
+	bh=wTUixt+BbMqQ/Ysusg9cMMvxAyJMxvwCB9wzUw3vUIE=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=kE9Da/V5wr4oGbIaG7i3th90xpwa43XXbAzDOxYBopDSiWH2NAPQe3+wdXrlc4eGnYwuECVLIOfHn+chUYZrGtsjxqY7TnqZE4SuU3CmVBmohATqMDlhoGq50VlRp4gdEepQUYxRKUHZCV/ue1Cjs+bEXaB2K75QynVS44N2pgg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GYCdnY85; arc=none smtp.client-ip=209.85.167.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=ijzerbout.nl header.i=@ijzerbout.nl header.b="fajJlMWE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ijzerbout.nl; s=key;
-	t=1729280364; bh=nlXauVRJF3vaKluGQ+28NGRUV6/Ut8HyqyH9H2fE9oA=;
-	h=From:Date:Subject:To:Cc:From;
-	b=fajJlMWEKtRYtY+bLZsZUnvGQQaUq+WDkj9+UESeuldX+lrpYirAY43M42tOA2B5v
-	 LXS0vBOltgSBsegDcWLLd8dQ0wh0iVjaBvdwCAgtug02Ec44flu8SjNiewMa1MPyTj
-	 6UW1Iuf6XoC/i69fanmfXH/km+aarxp7qSAIWGiBQ2iTQ0SFQ2BUG6BdJy8vfvRZs/
-	 0Vi0AIlyDLluJYDl1Tay+Ep4eyYYTnwkCcrh/HaigrzAsYoMvyOlgUmrKdM/rpjk2X
-	 yukecw7Ze/XGGhIKh9oSHgJVRXB8ccwulHKOQb82nVu6igKnV2e4CKhj6i6U61W+0B
-	 0nez+WgPCl5tqE5cUkqEAobx461CKDQRM16wGd2CsIkf1WJYQLBMnNoAdhLspilypu
-	 Bc2BqOn1IlNX61MPrC6/kEy7L0sQIrIzorZWb8X3xLv1w5aGzYRkYIHE0GO184uMXE
-	 9pNmGFVsKNtkz3AG/k/w5788LZd7pG2uT0/uYc7HI1rkyPryGdsLprlK7ML1OMTsCC
-	 GZiN9Em/ZZQNx4qcMfvw2n4b4dJmAXpMuVPSFX0wtJyaIBWiXr4dAT6bAvQbyaefbn
-	 QvmSvupZ+YUsN1O1miqfUJhuafBG+M7doPeXkSh7qpDvMyNZL9A6SpBkBZ7bDnLiso
-	 00fsYca/cKo3lu2qM1FgVhAU=
-Received: by bout3.ijzerbout.nl (Postfix, from userid 1000)
-	id C90B818DA4C; Fri, 18 Oct 2024 21:39:24 +0200 (CEST)
-From: Kees Bakker <kees@ijzerbout.nl>
-Date: Thu, 17 Oct 2024 21:54:47 +0200
-Subject: [PATCH] staging: gpib: avoid unintended sign extension
-To: Dave Penkler <dpenkler@gmail.com>
-Cc: Linux Staging <linux-staging@lists.linux.dev>
-Message-Id: <20241018193924.C90B818DA4C@bout3.ijzerbout.nl>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GYCdnY85"
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-539e690479cso3158008e87.3
+        for <linux-staging@lists.linux.dev>; Fri, 18 Oct 2024 23:45:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729320340; x=1729925140; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:from:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=I/xBFEYk5+1PnZWk62QbDei5REpQoLrsRgMuFoSkY2M=;
+        b=GYCdnY85GNDWH208UK+iihLOz1D/XpTzX+u541YQnN4lVMGyrUxPpojx2GpeChUuFr
+         t17iaRGtNpVHhYF2vn2nRo0W83OrCQCRjx4ciu86hDzXvmwjemdRmVVjQCUvbbfHbAgG
+         qFYa2SRvj45Ak8n0L5sm4CngBAtgAyAs3DZKMks0pku4ZIliXQa4ylpruvu8vVM2je17
+         YI0M/m1tLUbh8KWsjXKW1yOJlvKKd7yr1lVLRNBZoA5mFuklgWRev+JH45zePTVm/jDp
+         IWp0/1ptmOalDVAzAkKlBi8SwFaDMCmiQzilxgkb75ZIhmSu0f8daNaYbqSCf2ZS7vou
+         XCew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729320340; x=1729925140;
+        h=content-transfer-encoding:cc:to:subject:from:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=I/xBFEYk5+1PnZWk62QbDei5REpQoLrsRgMuFoSkY2M=;
+        b=JWQTwwy04O/+XyZZbONC2pxQUghmi3rj3v3/ppirU+Kr+rIe7Crh/NyzDarv3lVNHj
+         gj6yAPTq73EJ0O68ZxY6d2whGbK3WgPgZm4iH1IxyW5W/2+KNnE3e/Hu4kXBVC9jhcwi
+         W21sDCe1pj/oqj/RHOVt+v8p4uHuGXt8b4ErcBlSyXm3s2/ldaKIxStqtlJ8YeilMBwP
+         v2QCnHPy5RiNaMAuNJMn+Re6G6LECKfAoQTzfEGJHyE7o23i6M/tbh/cecRw7rz3xTYJ
+         g9CItDBtQ31+xsg2hjZuea1T751pQYhT/MqlnIDu1WeYn7ZESMwf0Kg9mA6yDpyChURN
+         Tn/w==
+X-Forwarded-Encrypted: i=1; AJvYcCWjz/hK+1s+ZaGOA0roTLOcUd09KCgvk2acb7pIVi7bZYYbkV+80xfdybOJ6RuV7G1MRILNTdx1XUENTS4+@lists.linux.dev
+X-Gm-Message-State: AOJu0YwciJle0f0AAhCR6TvkVB6JW5htzAx903e4TiXSWHwh+irrxUHS
+	0mGmEUUePTBFfeIxY6s/M0wYttMR2HGxfiKKMsBZl+CMiw3qzcZe
+X-Google-Smtp-Source: AGHT+IGj+oVaKApjcHHkZ5rbaWGEk7pnvLlMQPmRLcjNNo1A92fJ0dMwx1gGK6vOZmivsNapG6RqWg==
+X-Received: by 2002:a05:6512:224e:b0:52e:9762:2ba4 with SMTP id 2adb3069b0e04-53a154a9eecmr3025761e87.25.1729320339483;
+        Fri, 18 Oct 2024 23:45:39 -0700 (PDT)
+Received: from [192.168.2.105] (p54a0712c.dip0.t-ipconnect.de. [84.160.113.44])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5ca0b076d7dsm1519593a12.14.2024.10.18.23.45.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 18 Oct 2024 23:45:39 -0700 (PDT)
+Message-ID: <96ae2b42-c0ce-4d9a-8933-eb874dc5589b@gmail.com>
+Date: Sat, 19 Oct 2024 08:45:37 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Subject: [RFC] staging: fieldbus: Proposal to delete driver
+To: Sven Van Asbroeck <TheSven73@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: "Ricardo B. Marliere" <ricardo@marliere.net>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Ruan Jinjie <ruanjinjie@huawei.com>, Zhu Wang <wangzhu9@huawei.com>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Deepak R Varma <drv@mailo.com>, Ajith P V <ajithpv.linux@gmail.com>,
+ Tian Tao <tiantao6@hisilicon.com>,
+ Rikard Falkeborn <rikard.falkeborn@gmail.com>,
+ Ding Xiang <dingxiang@cmss.chinamobile.com>,
+ Jing Xiangfeng <jingxiangfeng@huawei.com>,
+ Cristiane Naves <cristianenavescardoso09@gmail.com>,
+ YueHaibing <yuehaibing@huawei.com>,
+ Oscar Gomez Fuente <oscargomezf@gmail.com>,
+ Nicholas Mc Guire <hofrat@osadl.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The code was basically like this (assuming size_t can be u64)
-    var_u64 |= var_u8 << 24
-var_u8 is first promoted to i32 and then the shift is done. Next, it is
-promoted to u64 by first signextending to 64 bits. This is very unlikely
-what was intended. So now it is first forced to u32.
-    var_u64 |= (u32)var_u8 << 24
+Dear Sirs,
 
-This was detected by Coverity, CID 1600792.
+Sven Van Asbroeck contributed this driver in 2019.
 
-Fixes: 4c41fe886a56 ("staging: gpib: Add Agilent/Keysight 82357x USB GPIB driver")
-Signed-off-by: Kees Bakker <kees@ijzerbout.nl>
----
- drivers/staging/gpib/agilent_82357a/agilent_82357a.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+The following points let me propose to delete the driver:
+- This driver generates maintenance workload
+- only 11 patches during the last 3 years. Part of the patches seem to 
+be motivated because of maintenance (for example - remove deprecated 
+function)
+- Maintainer lost interest, last "Reviewed-by:" is May 2021
+- no blog about usage of this driver
 
-diff --git a/drivers/staging/gpib/agilent_82357a/agilent_82357a.c b/drivers/staging/gpib/agilent_82357a/agilent_82357a.c
-index bbc7e8866872..f3a1b81be22d 100644
---- a/drivers/staging/gpib/agilent_82357a/agilent_82357a.c
-+++ b/drivers/staging/gpib/agilent_82357a/agilent_82357a.c
-@@ -679,10 +679,10 @@ static ssize_t agilent_82357a_generic_write(gpib_board_t *board, uint8_t *buffer
- 		kfree(status_data);
- 		return -EIO;
- 	}
--	*bytes_written	= status_data[2];
--	*bytes_written |= status_data[3] << 8;
--	*bytes_written |= status_data[4] << 16;
--	*bytes_written |= status_data[5] << 24;
-+	*bytes_written	= (u32)status_data[2];
-+	*bytes_written |= (u32)status_data[3] << 8;
-+	*bytes_written |= (u32)status_data[4] << 16;
-+	*bytes_written |= (u32)status_data[5] << 24;
- 
- 	kfree(status_data);
- 	//printk("%s: write completed, bytes_written=%i\n", __func__, (int)*bytes_written);
--- 
-2.47.0
+The staging subsystem is the way for drivers into the kernel - at 
+current speed and interest this is never going to happen.
 
+I think that fieldbus is an interesting topic. But when almost nobody 
+cares about this driver, it does not make sense to keep it.
+
+Please consider that support will remain for years in the longterm kernels.
+
+Thanks for any response about your thoughts.
+
+No response will result in a patch for removal in 14 days. This time can 
+be shorted or extended by appropriate comments.
+
+Bye Philipp
