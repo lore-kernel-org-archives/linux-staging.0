@@ -1,221 +1,105 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C09A7D528
-	for <linux-staging@lists.linux.dev>; Mon, 21 Oct 2024 02:32:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDAFB1E1031
+	for <linux-staging@lists.linux.dev>; Mon, 21 Oct 2024 07:54:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729477942; cv=none; b=qVAZp1lhNWeQBNvPuKiwd5PF5k9lps/MIwzTteuz61XkXFO8EnVgf9tvLbyYg1m/UMcBgt3c/c1BIkjmubSNghLMrBiTxu7wN41K+R2RTstH0lIjOGwI2XMlqi2vtXFW1EYR4G6QlGbaWcHvhByLwxMoeDhT2V/35mrgxOQzYXM=
+	t=1729497284; cv=none; b=NNhss+wweDLJfC72/739ruoIzeKoUzYl3+/Ne/RvfQYB/xfb2Ctkk6su0ZwE4zOdstlTaENiSh7TZMr5UWZTvq5aLqdME68iixCGY9+07uevo/o6UTGh6DTL8OYyIQBkKngks7ce58zYM2Oi5QoJYbdmB7HRQPxdxydCzOXr2ng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729477942; c=relaxed/simple;
-	bh=Daju35WUgjpPsBoONAp6Pf6fDAJSepgSnT6QIpluYV0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZwjLF8ipH/fwtI4+PHxl/4xYmRiXMDYUXF2t5BdTjSz4ewJ5Vu57QIKWvKL8v/lP6MEzM6M1/GmiREq1wQqPqtcJXU2EAsauM2e/QXrk8yGwZqmjDb5dcS0ZAe7QHdwuJsEH5H2tB3QTy5mxgd9eiLxSMehi8l74ZolAXqVnZ40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TDDT9zhJ; arc=none smtp.client-ip=209.85.215.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1729497284; c=relaxed/simple;
+	bh=2M3nQR1afNYLqLMPQk0dtBRrOKtnyuRy5ongKqPPzus=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wn3fTvuQ0+7/MhUGKM5Gz1Zh8gnArArP6YouxNiIsp81DNc1/7YWc1KJ6nGuQu7NckUPeyNHoOrXOeHRQQ/llRjqxAgb0JdhcY0Pdm6pWvmF5TQ2jfo4w6OTZ3m1nsZGP5/gmQRmezpxO6q7XqHnu6QXB8njwRFEzWiwBLSBwBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Q/RSjXtD; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TDDT9zhJ"
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-7ead1edbf1dso980589a12.0
-        for <linux-staging@lists.linux.dev>; Sun, 20 Oct 2024 19:32:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Q/RSjXtD"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-37d447de11dso3326736f8f.1
+        for <linux-staging@lists.linux.dev>; Mon, 21 Oct 2024 00:54:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729477940; x=1730082740; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=JWG/7LkAlgP90UDcguaLP9EXEksqFk5VlcNJRKMNtNM=;
-        b=TDDT9zhJvuZgV+io8k2abEyAhIXnKBkJRrjt6p96c6OVN7KjaxB/fyg36LF46SOdaH
-         UmqmAeSqvzSXSZt3WD1eCAp/QnqeL1NAMUgtQbZ3dosh7rwKw0aL954kASz8ADfbU+YO
-         MbzAscHf62gIWWAOSTeeNZn8MksgKWhNb0fpcehln3oBwOgO55cfUvY8XtKwNv+RvHkP
-         aJM7EATbpHG425bPZOm+J4zwBOV8b9qX3hwpoYOPa9YIiJG2nZyEVBSOT/QmBIux7R0w
-         P1Qt14GLMJz9K+TqDKl/Vhvahij+s/OXSjg0Har4eV1V532bzj/ZK4G5PMtGserThQx/
-         yTyw==
+        d=linaro.org; s=google; t=1729497280; x=1730102080; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=16KJyk4o73a0Vnw9Z4QFoe9Fy7jTXMvGL6+pdoMfdFE=;
+        b=Q/RSjXtDlkngTmyfqxxTrVM7gcwbi79JxhWR8NmwhkwbdSx5oY66+SH8eI9DpShkCX
+         FYD8Z76KR1fm3JBBcXLsFjebR+ar9mDR++da5P+G9tRLosyhs4E0QxTX7Upd6z7v+WRH
+         7hfqmMt/dZLkwDNnMfr7SKFli42lOJAwEgOwbDrgO4B+xU3KM4mRY0EKdWvogjSx20xB
+         fFA/TTdp/4DOIDVuavTREmLNTqdw8DdIODUOEEGC4C2gXe2uEFcqRnnfatsCg79rfvv4
+         AuLUTXU/ZM2ANXKHeC0OLhJuIzBBaG2cSqfak5tRCIYxl8LCEBttQuxcmCUrZJEsNsx+
+         O/sA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729477940; x=1730082740;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JWG/7LkAlgP90UDcguaLP9EXEksqFk5VlcNJRKMNtNM=;
-        b=G8oHqfRbc4CjBvnpEt68ysV3Gq/2c7k1jTjSAS503cO6ld+kgIVPiZxVUDOFRtQ41a
-         gtUpjeWVP5xIkU8nIh00Hp+Tt/U7WgspLJza7OFolhAX2hBhEierE6QzUlbdH0Po6VOr
-         +vqO4aCC4pUFOXAp3sFp5Ro5i5oLXvGlGxF6EX6Izn7Wx5mb1U5pJYjws8tFZ8vjhMKQ
-         a6ceu1sVW3gDufjq8OBVcQdsdjjdqcfNcnMb/3GJ44E1drSBMa99cZ80KFZZeBehvwHw
-         CiBJLbi9F7+fu489LAY+yDJrfVJUUQ8c1QD4UFrcg8HeDjG+v4ghclJBg1ZX/sI0emvv
-         T/jw==
-X-Gm-Message-State: AOJu0Yzy2GSjGTjNCQeL1bf3SxiVvxqnjbTxjBtx1IPBA81PjXXaAlHk
-	K3rdAlXQRArKelY5DUAQLDx+TJAJ66mIclCB2Q1JoOwjwe7bQX+iTvw1McmB
-X-Google-Smtp-Source: AGHT+IFYyk8CVrDwkRticBp6a2dhSCiUkF6YX3DPNYLpCeSb/uvVMWqMV67+Y7VVEu3+lA81yhm5ag==
-X-Received: by 2002:a05:6a20:e605:b0:1d9:ce8:35aa with SMTP id adf61e73a8af0-1d92c590f39mr13959549637.49.1729477939747;
-        Sun, 20 Oct 2024 19:32:19 -0700 (PDT)
-Received: from ryzen.lan ([2601:644:8200:dab8::a86])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20e7f0f64cfsm15969195ad.284.2024.10.20.19.32.18
+        d=1e100.net; s=20230601; t=1729497280; x=1730102080;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=16KJyk4o73a0Vnw9Z4QFoe9Fy7jTXMvGL6+pdoMfdFE=;
+        b=ut1kCZrh/AD5qpeKc/r10wZo1DCqErfvAh+qwD1aPoScXZ0kzNcQsm5smiHceg2LiJ
+         y9al/x6StnqMsM+2sNT0CkUBlu0P341O+GtviTs3BeLVUJbzHfyM4eGYzRfDu/PpwtKw
+         4lqPMFL9FrlQmyARHXefRJl1B4O2LBD7PBTCyLZYglhy73bH8nBErwT1UFLXmgPuG+et
+         M6gPjnbN3psaWLJz/FdWL/bToYA7vjHByjNF9MI1WcvlA67VsdE0LpATGtEiYAFqlQdP
+         y/xGusKqstu5nitV4xjRQN5E3CY5FNg2pcHizsklQ78vzAzgAY0dha5KbLbLxF4QrdnW
+         Oe/g==
+X-Forwarded-Encrypted: i=1; AJvYcCW6BsmCVIL2PAXRUzHF95cB0YEun8ciIiLcWJNGYl7dOmlYZbye1KLly0Keucgf7EjreXxNVP3F5L0Ed+K+@lists.linux.dev
+X-Gm-Message-State: AOJu0YwX+WHL/djdUYRX/txUw4gza55TJIXrci3yv4fwaTISA/sc+pYq
+	1rrKtMe9VrRnjD81uXovEgAx0AsyH2djC8t5V8HGdy9TtHgVKy1+G70yvqLMOw4=
+X-Google-Smtp-Source: AGHT+IHYQthg/Utg41AKFkOz7nI7k06rwyaEZl0zGIJurUJfUkte/1H3GE7cjOT4qIYUeXgYA0WIkQ==
+X-Received: by 2002:a5d:6447:0:b0:37c:cd38:c51e with SMTP id ffacd0b85a97d-37eab4edfebmr5685188f8f.1.1729497280143;
+        Mon, 21 Oct 2024 00:54:40 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37ee0a48d51sm3601987f8f.38.2024.10.21.00.54.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Oct 2024 19:32:19 -0700 (PDT)
-From: Rosen Penev <rosenp@gmail.com>
-To: linux-staging@lists.linux.dev
-Cc: Rui Miguel Silva <rmfrfs@gmail.com>,
-	Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	greybus-dev@lists.linaro.org (moderated list:GREYBUS SUBSYSTEM),
-	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] staging: greybus: gpio: use gpiochip_get_data
-Date: Sun, 20 Oct 2024 19:32:17 -0700
-Message-ID: <20241021023217.319545-1-rosenp@gmail.com>
-X-Mailer: git-send-email 2.47.0
+        Mon, 21 Oct 2024 00:54:39 -0700 (PDT)
+Date: Mon, 21 Oct 2024 10:54:35 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Kees Bakker <kees@ijzerbout.nl>
+Cc: Dave Penkler <dpenkler@gmail.com>,
+	Linux Staging <linux-staging@lists.linux.dev>
+Subject: Re: [PATCH] staging: gpib: Add missing check for NULL
+Message-ID: <4a049f7e-b852-4b69-bfd7-1a4ce3dccbe8@stanley.mountain>
+References: <20241020192243.C6A0F18DA7F@bout3.ijzerbout.nl>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241020192243.C6A0F18DA7F@bout3.ijzerbout.nl>
 
-Instead of container_of, we can populate gpiochip_add_data 's last
-parameter and use gpiochip_get_data. It seems to be the standard.
+On Sun, Oct 20, 2024 at 09:21:43PM +0200, Kees Bakker wrote:
+> This was detected by Coverity, CID 1600787
+> 
+> Signed-off-by: Kees Bakker <kees@ijzerbout.nl>
 
-Signed-off-by: Rosen Penev <rosenp@gmail.com>
----
- drivers/staging/greybus/gpio.c | 33 ++++++++++++++-------------------
- 1 file changed, 14 insertions(+), 19 deletions(-)
+This is how your patch looks like in lore.
+https://lore.kernel.org/all/20241020192243.C6A0F18DA7F@bout3.ijzerbout.nl/
+The subject and the body of the email are far apart.  It's like a book, right?
+The title of the book isn't the first sentence of the book.  Feel free to
+restate the subject if necessary.  The commit message should really say the
+impact of the bug, (how it looks like to the user) and you need a Fixes tag.
 
-diff --git a/drivers/staging/greybus/gpio.c b/drivers/staging/greybus/gpio.c
-index 9b26e148d40f..16bcf7fc8158 100644
---- a/drivers/staging/greybus/gpio.c
-+++ b/drivers/staging/greybus/gpio.c
-@@ -42,11 +42,6 @@ struct gb_gpio_controller {
- 	struct mutex		irq_lock;
- };
- 
--static inline struct gb_gpio_controller *gpio_chip_to_gb_gpio_controller(struct gpio_chip *chip)
--{
--	return container_of(chip, struct gb_gpio_controller, chip);
--}
--
- static struct gpio_chip *irq_data_to_gpio_chip(struct irq_data *d)
- {
- 	return d->domain->host_data;
-@@ -278,7 +273,7 @@ static void _gb_gpio_irq_set_type(struct gb_gpio_controller *ggc,
- static void gb_gpio_irq_mask(struct irq_data *d)
- {
- 	struct gpio_chip *chip = irq_data_to_gpio_chip(d);
--	struct gb_gpio_controller *ggc = gpio_chip_to_gb_gpio_controller(chip);
-+	struct gb_gpio_controller *ggc = gpiochip_get_data(chip);
- 	struct gb_gpio_line *line = &ggc->lines[d->hwirq];
- 
- 	line->masked = true;
-@@ -288,7 +283,7 @@ static void gb_gpio_irq_mask(struct irq_data *d)
- static void gb_gpio_irq_unmask(struct irq_data *d)
- {
- 	struct gpio_chip *chip = irq_data_to_gpio_chip(d);
--	struct gb_gpio_controller *ggc = gpio_chip_to_gb_gpio_controller(chip);
-+	struct gb_gpio_controller *ggc = gpiochip_get_data(chip);
- 	struct gb_gpio_line *line = &ggc->lines[d->hwirq];
- 
- 	line->masked = false;
-@@ -298,7 +293,7 @@ static void gb_gpio_irq_unmask(struct irq_data *d)
- static int gb_gpio_irq_set_type(struct irq_data *d, unsigned int type)
- {
- 	struct gpio_chip *chip = irq_data_to_gpio_chip(d);
--	struct gb_gpio_controller *ggc = gpio_chip_to_gb_gpio_controller(chip);
-+	struct gb_gpio_controller *ggc = gpiochip_get_data(chip);
- 	struct gb_gpio_line *line = &ggc->lines[d->hwirq];
- 	struct device *dev = &ggc->gbphy_dev->dev;
- 	u8 irq_type;
-@@ -336,7 +331,7 @@ static int gb_gpio_irq_set_type(struct irq_data *d, unsigned int type)
- static void gb_gpio_irq_bus_lock(struct irq_data *d)
- {
- 	struct gpio_chip *chip = irq_data_to_gpio_chip(d);
--	struct gb_gpio_controller *ggc = gpio_chip_to_gb_gpio_controller(chip);
-+	struct gb_gpio_controller *ggc = gpiochip_get_data(chip);
- 
- 	mutex_lock(&ggc->irq_lock);
- }
-@@ -344,7 +339,7 @@ static void gb_gpio_irq_bus_lock(struct irq_data *d)
- static void gb_gpio_irq_bus_sync_unlock(struct irq_data *d)
- {
- 	struct gpio_chip *chip = irq_data_to_gpio_chip(d);
--	struct gb_gpio_controller *ggc = gpio_chip_to_gb_gpio_controller(chip);
-+	struct gb_gpio_controller *ggc = gpiochip_get_data(chip);
- 	struct gb_gpio_line *line = &ggc->lines[d->hwirq];
- 
- 	if (line->irq_type_pending) {
-@@ -407,21 +402,21 @@ static int gb_gpio_request_handler(struct gb_operation *op)
- 
- static int gb_gpio_request(struct gpio_chip *chip, unsigned int offset)
- {
--	struct gb_gpio_controller *ggc = gpio_chip_to_gb_gpio_controller(chip);
-+	struct gb_gpio_controller *ggc = gpiochip_get_data(chip);
- 
- 	return gb_gpio_activate_operation(ggc, (u8)offset);
- }
- 
- static void gb_gpio_free(struct gpio_chip *chip, unsigned int offset)
- {
--	struct gb_gpio_controller *ggc = gpio_chip_to_gb_gpio_controller(chip);
-+	struct gb_gpio_controller *ggc = gpiochip_get_data(chip);
- 
- 	gb_gpio_deactivate_operation(ggc, (u8)offset);
- }
- 
- static int gb_gpio_get_direction(struct gpio_chip *chip, unsigned int offset)
- {
--	struct gb_gpio_controller *ggc = gpio_chip_to_gb_gpio_controller(chip);
-+	struct gb_gpio_controller *ggc = gpiochip_get_data(chip);
- 	u8 which;
- 	int ret;
- 
-@@ -435,7 +430,7 @@ static int gb_gpio_get_direction(struct gpio_chip *chip, unsigned int offset)
- 
- static int gb_gpio_direction_input(struct gpio_chip *chip, unsigned int offset)
- {
--	struct gb_gpio_controller *ggc = gpio_chip_to_gb_gpio_controller(chip);
-+	struct gb_gpio_controller *ggc = gpiochip_get_data(chip);
- 
- 	return gb_gpio_direction_in_operation(ggc, (u8)offset);
- }
-@@ -443,14 +438,14 @@ static int gb_gpio_direction_input(struct gpio_chip *chip, unsigned int offset)
- static int gb_gpio_direction_output(struct gpio_chip *chip, unsigned int offset,
- 				    int value)
- {
--	struct gb_gpio_controller *ggc = gpio_chip_to_gb_gpio_controller(chip);
-+	struct gb_gpio_controller *ggc = gpiochip_get_data(chip);
- 
- 	return gb_gpio_direction_out_operation(ggc, (u8)offset, !!value);
- }
- 
- static int gb_gpio_get(struct gpio_chip *chip, unsigned int offset)
- {
--	struct gb_gpio_controller *ggc = gpio_chip_to_gb_gpio_controller(chip);
-+	struct gb_gpio_controller *ggc = gpiochip_get_data(chip);
- 	u8 which;
- 	int ret;
- 
-@@ -464,7 +459,7 @@ static int gb_gpio_get(struct gpio_chip *chip, unsigned int offset)
- 
- static void gb_gpio_set(struct gpio_chip *chip, unsigned int offset, int value)
- {
--	struct gb_gpio_controller *ggc = gpio_chip_to_gb_gpio_controller(chip);
-+	struct gb_gpio_controller *ggc = gpiochip_get_data(chip);
- 
- 	gb_gpio_set_value_operation(ggc, (u8)offset, !!value);
- }
-@@ -472,7 +467,7 @@ static void gb_gpio_set(struct gpio_chip *chip, unsigned int offset, int value)
- static int gb_gpio_set_config(struct gpio_chip *chip, unsigned int offset,
- 			      unsigned long config)
- {
--	struct gb_gpio_controller *ggc = gpio_chip_to_gb_gpio_controller(chip);
-+	struct gb_gpio_controller *ggc = gpiochip_get_data(chip);
- 	u32 debounce;
- 
- 	if (pinconf_to_config_param(config) != PIN_CONFIG_INPUT_DEBOUNCE)
-@@ -579,7 +574,7 @@ static int gb_gpio_probe(struct gbphy_device *gbphy_dev,
- 	if (ret)
- 		goto exit_line_free;
- 
--	ret = gpiochip_add_data(gpio, NULL);
-+	ret = gpiochip_add_data(gpio, ggc);
- 	if (ret) {
- 		dev_err(&gbphy_dev->dev, "failed to add gpio chip: %d\n", ret);
- 		goto exit_line_free;
--- 
-2.47.0
+> ---
+>  drivers/staging/gpib/common/gpib_os.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/staging/gpib/common/gpib_os.c b/drivers/staging/gpib/common/gpib_os.c
+> index d5860a0a131f..57ff1ed30dac 100644
+> --- a/drivers/staging/gpib/common/gpib_os.c
+> +++ b/drivers/staging/gpib/common/gpib_os.c
+> @@ -1667,6 +1667,8 @@ static int autospoll_ioctl(gpib_board_t *board, gpib_file_private_t *file_priv,
+>  		return -EFAULT;
+>  
+>  	desc = handle_to_descriptor(file_priv, 0); /* board handle is 0 */
+> +	if (!desc)
+> +		return -EINVAL;
+
+There is always a board 0 so the check is unnecessary.  This kind of heuristic
+tends to have a lot of false positives.  It's better to just ignore static
+checkers when they are wrong.
+
+regards,
+dan carpenter
 
