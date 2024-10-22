@@ -1,100 +1,100 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A17A019DFB5
-	for <linux-staging@lists.linux.dev>; Tue, 22 Oct 2024 14:25:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 127A4156871
+	for <linux-staging@lists.linux.dev>; Tue, 22 Oct 2024 18:08:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729607130; cv=none; b=gG7p2GtzZ2yWwpYZjPmUDUnc/rWKnOd4oAtVIynyv/ZDjOAoqhDwolat0Ykxkf/OWjM2c3aOHW55fS6G8Nbi8fDV+0NlNRNOzO7z96V5dL3yxdPf8dYLZJZ6GTOgq/VVXYG3ZDekIoW6Cu+Uag9F6HCV1lXfzza1WQ0x+ofg2Ek=
+	t=1729620490; cv=none; b=BkywRh9amF1ie/rMTeIeSvdnaNXp1aQIZw0KI4/83m7f0WfitE0AawR7mU9hBKyU9ddI0FiT8Rf5hEZ5BsJw2h/EOnRHogjgEZ83IUwuhb7JfE7U5olYSel4rWidCggn7lpe6lMJXAcKTh39GLvZoxXoyl50iSalk34VUGWAhNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729607130; c=relaxed/simple;
-	bh=37Iqmo+qy+WFGzsf6uya3SA3tdIscHLZylxDIyGXIns=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C74Gr7o3kqeckXEy5afhlgqZJJT+qVNymz6tNvqxmx4lejXTEVx7qvE5+9Xy44zAbxVsztdVA3DFFk+uOTZkX4swOaPTMQwDg5qEjSMDWhScpcLsDLTk7MD8w0YmJ/BeIVSvvaeE3WeccX6PPWTsIUIQIiV75pQMurSRrQwRMiU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Ajg6+3Bi; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1729620490; c=relaxed/simple;
+	bh=Qfypyu1Nn2V+3gcNfw82SEJviEnlpQZXyb16muLLWlQ=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=ceFSllv7F3dy/IJSIRi8RQV/rmCyHcUTdtb+U/m+LjmTXfvSXYXU1zt9YuTFbqZxSkJW3ziL00YbjqrmOfJ92JZZ0CkmP9eT3poA8yFE4AmcyKRMNwMAjgrOpeNPcEhilMszOXnKpe1efrB3EuCRgat0OHP5NxyopB/BUQs1e8I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HS0vw3vL; arc=none smtp.client-ip=209.85.218.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Ajg6+3Bi"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4314a26002bso63074675e9.0
-        for <linux-staging@lists.linux.dev>; Tue, 22 Oct 2024 07:25:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HS0vw3vL"
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a9a4031f69fso863572266b.0
+        for <linux-staging@lists.linux.dev>; Tue, 22 Oct 2024 11:08:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1729607127; x=1730211927; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=wehu+MEAsSEQ19L7grgHaXBLH+E5c19oiwcAV7y0Jvs=;
-        b=Ajg6+3Bin+DwFOIWyYUsrf5zXMNsaJVLLjjpjC8JBBaZQM0w1wJXCC5vyd8t7A1GEv
-         fc6C3XsUyMtOxEJZIqxOmQlZpaYG9BranZGuvMTzUtdLa7rlO9uie62+8b0KVbaf31Ge
-         D8KT82WyiW/gZ98yJmIS+7n1sOjpMC0BhK5Rj9BzouDnsy0Th+HEY/Rv+mA9RBE9eXxb
-         e2En27F29J/9VwEKWQp+Jw0b1I5L93l0cUf2jNEtLbxxjGqMjE8tYdCL+C/7SXye3acM
-         JHGzlsmGmzLQPRsTe2joAjbaPsxnaNnRShw8lheN8WX7y8n1aukiSNkwt4GWd2R2AnAD
-         cujg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729607127; x=1730211927;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1729620487; x=1730225287; darn=lists.linux.dev;
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wehu+MEAsSEQ19L7grgHaXBLH+E5c19oiwcAV7y0Jvs=;
-        b=UxijebaiOTTm8e5CHFYBqQk+uqSPOAyx3dLNf9DwypCV4ItKDQGV7DZ3eY9R5oQ/98
-         QGAbeVdyPhOZC+aQFV2vW1mjZ4WWd37rUr5MsRN76rQXvUZ5eLhuxSI62eYBs/HALhsd
-         i8K3bcabxVtUE0nhp0Lf+ARzu+UdXqTvF3e8Fkl+inXWoet0XHWmBOCCsVB5It8bhWR4
-         8MgR2dS2QXFcWESpKYQroKrM9JvEyMbidm2eqLGAPVzxayvj9wxLyD0h0B4ibh+m9dvb
-         gxTCeqlWcxeHQxXM08isf+ksHCuhGokycmr2z0k86lBiB/NLrE8mRutBwb9UCs37hfRu
-         bS9w==
-X-Forwarded-Encrypted: i=1; AJvYcCVtEQORf5V8zTBSjcVTB1fi7DA4dbg7ctSFQ7gbmLVKBDAHhALax52yKxfG3udA8eQ+FgZDVwtgevP+PeTr@lists.linux.dev
-X-Gm-Message-State: AOJu0YwJvNzQHgqpuDH8CdHfsfUXl/n5FZOdNvgXQx3EDR1qkay4f5GH
-	6QfyR/TrzD9t2wWQAoibjTvXNwc5VHRlFNHt9rHA45oqdSdWCRjYU2/zvm3iJYQHGYCajkwhcQN
-	CBSA=
-X-Google-Smtp-Source: AGHT+IG2iYYYcddme4KeFQF/W/N4hRK2Bm7CBf1vGlQL3CKnzTF08HVGCHmo4z335CAe2+S+n9JU6Q==
-X-Received: by 2002:a05:600c:1c8d:b0:431:12a8:7f1a with SMTP id 5b1f17b1804b1-4316165d3acmr142075275e9.16.1729607126945;
-        Tue, 22 Oct 2024 07:25:26 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4316f58c125sm89054125e9.26.2024.10.22.07.25.24
+        bh=YHKeAVy/sqJfWF1Y1uRllNLeoPiow2LfJ2lXuumLr4w=;
+        b=HS0vw3vLajrsNCtQ0Go197jv1vUmHYIH23YjQgwFoEJBIVpH00A9cmMS4Y1dbdrZhM
+         amCCEoSqISHs3RFTbiht6roLMnuie+K0amfDiF6OOx/MC4zNa6UKeHfuSFJwHcP5HZ7H
+         G46gtNhrZbF4h1Af9T4MSsZGZ7LvOc5EH1V4MEKOanqEWlDS9z+snuKJhrF7+0naq/j9
+         u9r6F/7TfJS0cW2obYxS88T1dC9tJDCBH/uFBA850255pIy6ANjuZ8AzkjvNZ4whH5Ap
+         FsGKKjO0H8eMRb3mqGn9UiV3EkQGwaDwKy40mB36VCUEPYRAt3uVgVbr8W9gkLMPcqxB
+         GSNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729620487; x=1730225287;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YHKeAVy/sqJfWF1Y1uRllNLeoPiow2LfJ2lXuumLr4w=;
+        b=PAiV3Kh38dRMETHGa8w4D7eM1NkjheUfNQmNZ4GiNKIsaa7aMVdRiWtENTL7aX4/zU
+         GmzEFJK4bvIezWOPzUkKA0B5Wa5qy9ESF/trdTw8FLIevGjI+vIF0IInby0Vz7Mup5lB
+         5q+h2AvG1senslWVTCrvNkJI0DZxDLgbFQnD4EjNZz3v/38lAmQAXvvXNRvxYBzR3gDr
+         qKxvA1xUdcA/JwRpOWiCSurlQ6zwE+XWrKAcG9pD+ide2xq4AM0ywqaniq4cyF2UikNL
+         Tw7OJor9jqEsl3vV2tI5o9Pt7z7YzEmr70JVzVfneQ5OhZ1gaxl1+em+GoB3No2w5cl5
+         L+eQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUXAgoGgEDCLyQ+V8uYdFpiV6lzC8dg3oa+GDd7ly4qELi3zPDXGqZV+PQ8mNFs1A3pPfx+llMKYjYGkKfV@lists.linux.dev
+X-Gm-Message-State: AOJu0YwiEQyEc+in4R4AM/0oJt5+NZaAj/lGGImiWYZ5L1ZTA2upjX0B
+	LBgngZMMXZ4KkxwmNeSRoHW2usjt4nOm+5cUMenBxwAhjdeRd9xq
+X-Google-Smtp-Source: AGHT+IFZ57Kh6ofjTHGWKo3b2N/ZqJNgB4wtTTZHGGPhENJZf1bEnfOrjTuJ9BzbHBw+JSngk4k3XA==
+X-Received: by 2002:a17:907:1c9e:b0:a9a:188f:efd9 with SMTP id a640c23a62f3a-a9a69bad2a2mr1529801266b.29.1729620487109;
+        Tue, 22 Oct 2024 11:08:07 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:e0:9854:5800:84ac:8ecf:df7e:7d6c])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9a912d6255sm376856466b.19.2024.10.22.11.08.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Oct 2024 07:25:25 -0700 (PDT)
-Date: Tue, 22 Oct 2024 17:25:21 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Zicheng Qu <quzicheng@huawei.com>
-Cc: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org,
-	gregkh@linuxfoundation.org, linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	tanghui20@huawei.com, zhangqiao22@huawei.com,
-	judy.chenhui@huawei.com
-Subject: Re: [PATCH] drivers/staging/iio/frequency/ad9832.c: fix division by
- zero in ad9832_calc_freqreg()
-Message-ID: <6c896172-d372-442a-a61e-6b3e46b9cbb0@stanley.mountain>
-References: <20241022134354.574614-1-quzicheng@huawei.com>
+        Tue, 22 Oct 2024 11:08:06 -0700 (PDT)
+From: Omer Faruk BULUT <m.omerfarukbulut@gmail.com>
+To: dpenkler@gmail.com
+Cc: gregkh@linuxfoundation.org,
+	arnd@arndb.de,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Omer Faruk BULUT <m.omerfarukbulut@gmail.com>
+Subject: [PATCH] Staging: gpib/common/gpib_os.c - Remove unnecessary OOM message
+Date: Tue, 22 Oct 2024 21:06:20 +0300
+Message-Id: <20241022180620.12429-1-m.omerfarukbulut@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241022134354.574614-1-quzicheng@huawei.com>
 
-It would be better if the subject prefix were "staging: iio: ad9832:"
+It duplicate the MM subsystem generic OOM message. This patch fixes the following checkpatch warning.
 
-[PATCH] staging: iio: ad9832: fix division by zero in ad9832_calc_freqreg()
+    WARNING: Possible unnecessary 'out of memory' message
 
-On Tue, Oct 22, 2024 at 01:43:54PM +0000, Zicheng Qu wrote:
-> In the ad9832_write_frequency() function, clk_get_rate() might return 0.
-> This can lead to a division by zero when calling ad9832_calc_freqreg().
-> The check if (fout > (clk_get_rate(st->mclk) / 2)) does not protect
-> against the case when fout is 0. The ad9832_write_frequency() function
-> is called from ad9832_write(), and fout is derived from a text buffer,
-> which can contain any value.
-> 
-> Link: https://lore.kernel.org/all/2024100904-CVE-2024-47663-9bdc@gregkh/
-> Fixes: ea707584bac1 ("Staging: IIO: DDS: AD9832 / AD9835 driver")
-> Cc: <stable@vger.kernel.org>
-> Signed-off-by: Zicheng Qu <quzicheng@huawei.com>
+Also, this patch itself might teach to module writers or readers that they have to give attention to MM subsystem
+even they interest another one.
 
-Otherwise it looks good.
+Signed-off-by: Omer Faruk BULUT <m.omerfarukbulut@gmail.com>
+---
+ drivers/staging/gpib/common/gpib_os.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
-
-regards,
-dan carpenter
+diff --git a/drivers/staging/gpib/common/gpib_os.c b/drivers/staging/gpib/common/gpib_os.c
+index 6b12404efe7d..27654b2180a5 100644
+--- a/drivers/staging/gpib/common/gpib_os.c
++++ b/drivers/staging/gpib/common/gpib_os.c
+@@ -2093,10 +2093,9 @@ void gpib_register_driver(gpib_interface_t *interface, struct module *provider_m
+ 	struct gpib_interface_list_struct *entry;
+ 
+ 	entry = kmalloc(sizeof(*entry), GFP_KERNEL);
+-	if (!entry) {
+-		pr_err("gpib: failed register %s interface, out of memory\n", interface->name);
++	if (!entry) 
+ 		return;
+-	}
++	
+ 	entry->interface = interface;
+ 	entry->module = provider_module;
+ 	list_add(&entry->list, &registered_drivers);
+-- 
+2.17.1
 
