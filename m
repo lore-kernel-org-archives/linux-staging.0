@@ -1,132 +1,189 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com [209.85.161.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4BCE1D1506
-	for <linux-staging@lists.linux.dev>; Mon, 21 Oct 2024 20:07:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65B3513B58E
+	for <linux-staging@lists.linux.dev>; Tue, 22 Oct 2024 03:18:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729541231; cv=none; b=Bnhyy85KXGPhSrq+rGwUUO0PBuTaoQMTkcaxKAWPnC7uta6XaXgtK4+8OMVbFzgwr6hEuZEafOP0aQ7s7Xwc55umHg/Rc0vj/pVnzg+lTxycgtjc9kNjq2E3inEUroH5pkFlAOyYLPUEDGIdCGBB8JzoHG7RLLHMg7axBSXgF6o=
+	t=1729567113; cv=none; b=DCsBxXlX/Ukmhh+H5sG1ShvjHQYyB7+0oBRnITwRvY3x+2bcp5q4Yk5BtVJ+pJck/5jd8R2J/+QzeVFxH1vcT0MGtLgXLenewOt6eVY8ywOEWygHaLAlATj5yI1NsxuaftzpGHjGbO5kszkUb4wwIpNZvB/KW1Ndt7UADwvYbKI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729541231; c=relaxed/simple;
-	bh=YN7c+SicrNCrOI714T65jBaZeIjvfcTiodCm2u7dZjA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E2pSEFqQGzku3Y2JhE779h5p9XSGGwGTVjIYP01QZvMejRdBk4oQPpXg5Ppe0haUKBXOTp6e4yz5yG7h7GK6nmqkfGP4mqFmDrEcUMcTA0KU2qo1BOrSHotYrmr4dQvAHrYc9X+0/MfcLxvZegUp/w+qbb0fKxx94HNJT8LKGlg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hZEw3NWT; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1729567113; c=relaxed/simple;
+	bh=piiT3/ZrzB5kUZ5PWGGdD6yCr5n/TgxwLnoCW/Q1rUA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Kb67bt8Qzk46ondG9vZcsSo0zWWe7l2s5zFl0fZGt0FI+z2qd0KVvXSfXZJck1ZnwuOw5TmyEVtunsG87VvCO1vAJ7QRzcwRn9KxbypYo7C5Lh7RP8BqnanIh1rvMqCt+DjZBuuHhoV2FB+9Bl4MlWpYv78e7JcDWpHz5Z9+P/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kOdWdh+W; arc=none smtp.client-ip=209.85.161.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hZEw3NWT"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4316a44d1bbso21546705e9.3
-        for <linux-staging@lists.linux.dev>; Mon, 21 Oct 2024 13:07:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kOdWdh+W"
+Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-5e56759e6d7so2836830eaf.3
+        for <linux-staging@lists.linux.dev>; Mon, 21 Oct 2024 20:18:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1729541228; x=1730146028; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=L3PomcoWryCCzwy7sYRWrSmRynSxSz+3fmsPzcL99BU=;
-        b=hZEw3NWTOaIxOB2ja30TQT5Nr6fQxMhqZniHD34WvPrSAi/CvXN6VVgi08YmLeH3ER
-         mxK0UW0bzJxz71+NjtiJHNRShJhmuMZZ2xRLsIdawwKC9sd+hbfsE17T9eaKmog9USDm
-         nNXQ9I0TXgqURaZSsxJWNmjP5xPTQuytLIrZHVFWcvy+N1pYgmpHzNKN3N1Zs8jNdpMA
-         xEDLOHgT74HP44tFmfj0B4RJ7YfB2YhugesXk6eDINPeRIhP22thH4CS56cSztHBxHeg
-         V9FqB9BqHkW0X0bsD18qyGm3HQqtxmC8ku42vXdromtyGkiFVYIHys5JOPCDMNAMFSjX
-         7ZLw==
+        d=gmail.com; s=20230601; t=1729567111; x=1730171911; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=PpvP7zEl37kj9+P4oZi03XEw8plpvagkd3AZereKUhI=;
+        b=kOdWdh+WO6jDEB4PZ9munHrDM3MllM73kI/f4Er/69bh4oUE8Ur+e0lMl7mfQQcjh+
+         KywnLEOC0MKdZSnwBCPec5mjj3WV6qUUpZtaEkp2T829ZaNg5tmUhz7HatwC3jkUspQy
+         rVczsF+Js6IewM6UMkuz6f6ZTu+0DrDol4PjsN0pyGCBosGW61x5sfxkJsejXlB3jqsp
+         rHcNfzugYD8+HgOqfRbIFGyeJ8QoStrfPqygguyrfNpkL4DwsxzYcgBv5DWd82iKaMoY
+         RqpFQ1pQy7EtSA3XIdafsvdofSkABD8zgmxKvHcw7S+8pLeMU1UnCfpXaxsNW3pYuUqy
+         BBRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729541228; x=1730146028;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=L3PomcoWryCCzwy7sYRWrSmRynSxSz+3fmsPzcL99BU=;
-        b=EIjdEKi6wCISuyzI5xeJ6enEUKXUhrskDMlna7sqY++EEv5DjVV6Yo7eYGllrEGV13
-         uV7lgWNfOL5Ji20R8RBSaRLJLNj3u6zsjFRljuazRIgo7xi03LADtyuV0GIuQI/uVo/n
-         RGzyHVJQzD/kVWwHSc58iJsNqyMXw5HHIy5kDrpg7lSRTco+BQqbfoVOzwxjb9h5HEYs
-         y8ItDC8BKJaJLO1v7NfCsAanpAduDntNumHOU/qvf39V7MSCgTKKV8LMDepghnmsrLiK
-         dB+9mdPD4BXdPYc3k5mVpJcG0Vkurm5R6acpg56E6Gpkc3CMl066uHo5jgKm1UWhYx8g
-         p3vg==
-X-Forwarded-Encrypted: i=1; AJvYcCXD0/ldudZMx41EZiamny23Ed66PORI6MW2Sz1iFT8GXorm+DM1qfVmkh+4YvCJj05r2N0titunOL7ANd5d@lists.linux.dev
-X-Gm-Message-State: AOJu0YxXKtg+U/5oWtXHAXFok0Ntk31ENh+8TsMT26Fnmre9SOQzsOWt
-	pexItME5PJ+7BmyUvZkH6hChyT2Gnvttx1GIYBWTBPTPwWxvBAoyCd4VsmUJqf0=
-X-Google-Smtp-Source: AGHT+IEsguBbbXSd3UhDCvdEdmL5nLBIlu7Q0M+pLxOpiuVNd7Lk8r5NGGzjB0Ud32pOW5Lu0daG2Q==
-X-Received: by 2002:adf:fa4b:0:b0:37c:d1b6:a261 with SMTP id ffacd0b85a97d-37ef21c9902mr197770f8f.59.1729541227848;
-        Mon, 21 Oct 2024 13:07:07 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37ee0a37b35sm5079648f8f.2.2024.10.21.13.07.06
+        d=1e100.net; s=20230601; t=1729567111; x=1730171911;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PpvP7zEl37kj9+P4oZi03XEw8plpvagkd3AZereKUhI=;
+        b=lXRqd+im/MxSE3A5ThBZdms5WRx73XwZ6WI3Cf0yZ+iUk0ZuBjnhhlqww5sKjchz08
+         VQZO+ac832JXpO19wiF5CUCPSpfYBIjYxrGJrhpEtlqS5rdyoqx0vWhrWjv9Cg1aBXjp
+         Zzbvz9xZotEMq/dwt4Y8cm75L6mqYzf5eHRu9YgGNbXXHsED6TESJeEA5jMUHbYxeR0c
+         UGzoKdm+TD2j/57qbaac78A//IUj+/rdaNNOCVzwF0ZeqkbuO/Zd1gex9recp83/Qpfl
+         bskshxZNV8SRPFrA+fsFIIf8pcuEahHocvYmLDsi4IECOUEff17T+pKjJccJIlazGSZD
+         q9FA==
+X-Forwarded-Encrypted: i=1; AJvYcCUbiuJ4ONRLVGiZynqFLOiLLyGtFke/fUANfl9HuOWzBr7UtNSpKLFLOpD7QMRG/idafxzxh91XZYKePX4l@lists.linux.dev
+X-Gm-Message-State: AOJu0YzSYh4OkOPILysd+7zAeVEw6FhCQU0PgLiigGq8r8SWlOBgyAmr
+	dHY6mkCXKT+1nmRJnUaiDxjrSmuiCV3b0IHkT0mcLk77ip4EyXi1
+X-Google-Smtp-Source: AGHT+IHRARnXlUYm0a6dO5U70EwEFqfTyg84VdL67yKHg5b9VrgETNF7ciOBGfx8SjugH/wgS9y1Xw==
+X-Received: by 2002:a05:6870:41cc:b0:277:df58:1647 with SMTP id 586e51a60fabf-28cb00ff15emr1008772fac.35.1729567111362;
+        Mon, 21 Oct 2024 20:18:31 -0700 (PDT)
+Received: from localhost.localdomain ([2804:14d:4c64:81ec:bc18:8647:da38:8192])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7eaebd061c1sm3170652a12.19.2024.10.21.20.18.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Oct 2024 13:07:07 -0700 (PDT)
-Date: Mon, 21 Oct 2024 23:07:03 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Kees Bakker <kees@ijzerbout.nl>
-Cc: Dave Penkler <dpenkler@gmail.com>,
-	Linux Staging <linux-staging@lists.linux.dev>
-Subject: Re: [PATCH] staging: gpib: Add missing check for NULL
-Message-ID: <984a92b4-5e4e-4330-8af1-7d6b4d093a7b@stanley.mountain>
-References: <20241020192243.C6A0F18DA7F@bout3.ijzerbout.nl>
- <4a049f7e-b852-4b69-bfd7-1a4ce3dccbe8@stanley.mountain>
- <95bf0807-5f99-47e3-b926-cdbe794016b6@ijzerbout.nl>
+        Mon, 21 Oct 2024 20:18:30 -0700 (PDT)
+From: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
+To: gregkh@linuxfoundation.org,
+	philipp.g.hortmann@gmail.com
+Cc: ~lkcamp/patches@lists.sr.ht,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] staging: rtl8723bs: change remaining printk to proper api
+Date: Tue, 22 Oct 2024 00:18:25 -0300
+Message-Id: <20241022031825.309568-1-rodrigo.gobbi.7@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <95bf0807-5f99-47e3-b926-cdbe794016b6@ijzerbout.nl>
 
-Actually I've reviewed it again, and I think that board zero is supposed to
-always be present, but that might not necessarily be the case.  I'm not sure if
-the checking in close_dev_ioctl() is sufficient?
+As part of TODO file for future work, use dyn debug api for
+remaining printk statements.
 
-Personally, I don't have a problem with adding a NULL check, but you need to
-sell it better in the commit message.  Just saying Coverity says we should add
-a NULL check is not sufficient.  Anyone reviewing this code has to investigate,
-is Coverity right?  How can we trigger this bug?  If you did that investigation
-for us, then we would review your patches more generously.
+Signed-off-by: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
+---
+I didn't use the netdev_dbg() over drivers/staging/rtl8723bs/hal/hal_com.c
+because I noticed now that rtw_dump_raw_rssi_info() and the hal file is a 
+little broken with -DDBG_RX_SIGNAL_DISPLAY_RAW_DATA, maybe we can 
+fix that in a next patch. 
 
-When you review lots and lots of patches per day, then you develop rules to
-avoid wasting time.  And one of those rules is "We don't do things just to make
-the checker happy."  It's not a rule that I invented, it's the normal rule for
-almost everywhere in the kernel.
+Suggesting to keep the pr_debug() in the hal file for now.
 
-But if instead of a static checker fix, you sold the patch as a clean up then
-maybe that would be fine:
+Tks and regards.
+---
+Changelog
+v2 change to netdev_dbg() as Dan and Greg pointed at rtw_mlme_ext.c file
+v1 https://lore.kernel.org/lkml/2024101608-daycare-exterior-31fd@gregkh/T/#m1b2b4fdb8a5eec605983c12ca211d394b66cc79f
+---
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c     |  6 +++---
+ drivers/staging/rtl8723bs/hal/hal_com.c           |  7 ++++---
+ drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 10 ++++++----
+ drivers/staging/rtl8723bs/os_dep/sdio_intf.c      |  2 +-
+ 4 files changed, 14 insertions(+), 11 deletions(-)
 
-    The NULL checking on handle_to_descriptor() is not consistent.  The ibclose()
-    function has a NULL check for this exact function call but it's not checked
-    here.
-
-    It turns out that the zero board is always supposed to be present.  It's
-    allocated in ibopen() and freed in ibclose().  So, really, the NULL check
-    should not be required.  However, the error message in ibclose() suggests
-    that desc could be NULL in the case of a bug.  Let's just be cautious and
-    add a NULL check here as well.
-
-To be honest, I don't know if that commit message is good enough to get the
-patch past Greg but I might have been sold by something like that.  At a
-minimum it shows that you are invested in the code and we tend of give people
-who care about the driver more freedom.
-
-> If we really hate to add that check, then there can be two alternatives
-> 1. add a comment
-> 
-
-Adding a comment is fine.
-
-> 2. change the code as follows:
->     /* There is always a board 0 */
->     desc = file_priv->descriptors[0];
-
-This is not fine.  It's an example of making the code uglier to silence a
-static checker warning.
-
-Btw, don't get too hung up on silencing every static checker warning.  Kernel
-developers are good at fixing any real bugs so just look at how old the warning
-is and ignore the old ones.  It's not like there is a shortage of real bugs to
-fix.  For example, in open_dev_ioctl() if increment_open_device_count() fails
-then the file_priv->descriptors[i] is not cleaned up.  It can't be used or
-freed.  If ->is_board is false none of the file_priv->descriptors[] elements
-that come afterward can be freed either.
-
-regards,
-dan carpenter
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+index bbdd5fce28a1..ac5066db4e78 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+@@ -1870,10 +1870,10 @@ unsigned int OnAction_sa_query(struct adapter *padapter, union recv_frame *precv
+ 	if (0) {
+ 		int pp;
+ 
+-		printk("pattrib->pktlen = %d =>", pattrib->pkt_len);
++		netdev_dbg(padapter->pnetdev, "pattrib->pktlen = %d =>", pattrib->pkt_len);
+ 		for (pp = 0; pp < pattrib->pkt_len; pp++)
+-			printk(" %02x ", pframe[pp]);
+-		printk("\n");
++			pr_cont(" %02x ", pframe[pp]);
++		pr_cont("\n");
+ 	}
+ 
+ 	return _SUCCESS;
+diff --git a/drivers/staging/rtl8723bs/hal/hal_com.c b/drivers/staging/rtl8723bs/hal/hal_com.c
+index 719dd116d807..484e0b4e489f 100644
+--- a/drivers/staging/rtl8723bs/hal/hal_com.c
++++ b/drivers/staging/rtl8723bs/hal/hal_com.c
+@@ -910,10 +910,11 @@ void rtw_dump_raw_rssi_info(struct adapter *padapter)
+ 
+ 	for (rf_path = 0; rf_path < pHalData->NumTotalRFPath; rf_path++) {
+ 		if (!isCCKrate) {
+-			printk(", rx_ofdm_pwr:%d(dBm), rx_ofdm_snr:%d(dB)\n",
+-			psample_pkt_rssi->ofdm_pwr[rf_path], psample_pkt_rssi->ofdm_snr[rf_path]);
++			pr_debug(", rx_ofdm_pwr:%d(dBm), rx_ofdm_snr:%d(dB)\n",
++				 psample_pkt_rssi->ofdm_pwr[rf_path],
++				 psample_pkt_rssi->ofdm_snr[rf_path]);
+ 		} else {
+-			printk("\n");
++			pr_debug("\n");
+ 		}
+ 	}
+ }
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+index 37ebbbf408ec..b9c6cd1f80d6 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+@@ -62,7 +62,8 @@ static int _BlockWrite(struct adapter *padapter, void *buffer, u32 buffSize)
+ 	for (i = 0; i < blockCount_p1; i++) {
+ 		ret = rtw_write32(padapter, (FW_8723B_START_ADDRESS + i * blockSize_p1), *((u32 *)(bufferPtr + i * blockSize_p1)));
+ 		if (ret == _FAIL) {
+-			printk("====>%s %d i:%d\n", __func__, __LINE__, i);
++			pr_debug("write failed at %s %d, block:%d\n",
++				 __func__, __LINE__, i);
+ 			goto exit;
+ 		}
+ 	}
+@@ -85,7 +86,8 @@ static int _BlockWrite(struct adapter *padapter, void *buffer, u32 buffSize)
+ 			ret = rtw_write8(padapter, (FW_8723B_START_ADDRESS + offset + i), *(bufferPtr + offset + i));
+ 
+ 			if (ret == _FAIL) {
+-				printk("====>%s %d i:%d\n", __func__, __LINE__, i);
++				pr_debug("write failed at %s %d, block:%d\n",
++					 __func__, __LINE__, i);
+ 				goto exit;
+ 			}
+ 		}
+@@ -127,7 +129,7 @@ static int _WriteFW(struct adapter *padapter, void *buffer, u32 size)
+ 		ret = _PageWrite(padapter, page, bufferPtr+offset, MAX_DLFW_PAGE_SIZE);
+ 
+ 		if (ret == _FAIL) {
+-			printk("====>%s %d\n", __func__, __LINE__);
++			pr_debug("page write failed at %s %d\n", __func__, __LINE__);
+ 			goto exit;
+ 		}
+ 	}
+@@ -138,7 +140,7 @@ static int _WriteFW(struct adapter *padapter, void *buffer, u32 size)
+ 		ret = _PageWrite(padapter, page, bufferPtr+offset, remainSize);
+ 
+ 		if (ret == _FAIL) {
+-			printk("====>%s %d\n", __func__, __LINE__);
++			pr_debug("remaining page write failed at %s %d\n", __func__, __LINE__);
+ 			goto exit;
+ 		}
+ 	}
+diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+index d18fde4e5d6c..b845089e8d8e 100644
+--- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
++++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+@@ -72,7 +72,7 @@ static int sdio_alloc_irq(struct dvobj_priv *dvobj)
+ 	err = sdio_claim_irq(func, &sd_sync_int_hdl);
+ 	if (err) {
+ 		dvobj->drv_dbg.dbg_sdio_alloc_irq_error_cnt++;
+-		printk(KERN_CRIT "%s: sdio_claim_irq FAIL(%d)!\n", __func__, err);
++		pr_crit("%s: sdio_claim_irq FAIL(%d)!\n", __func__, err);
+ 	} else {
+ 		dvobj->drv_dbg.dbg_sdio_alloc_irq_cnt++;
+ 		dvobj->irq_alloc = 1;
+-- 
+2.34.1
 
