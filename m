@@ -1,100 +1,89 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 127A4156871
-	for <linux-staging@lists.linux.dev>; Tue, 22 Oct 2024 18:08:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6B4013AA2B;
+	Tue, 22 Oct 2024 20:06:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729620490; cv=none; b=BkywRh9amF1ie/rMTeIeSvdnaNXp1aQIZw0KI4/83m7f0WfitE0AawR7mU9hBKyU9ddI0FiT8Rf5hEZ5BsJw2h/EOnRHogjgEZ83IUwuhb7JfE7U5olYSel4rWidCggn7lpe6lMJXAcKTh39GLvZoxXoyl50iSalk34VUGWAhNU=
+	t=1729627570; cv=none; b=UqNRiZXwHjsX7z3C9G66WQKPlV+My8NZYtehMKFd2o8PQpUaVKpH96G50G4P4mFwhEuzw6I3iPCru5iKhA9Ipo+mEK/ebUyAfcyZg57/xRd9/XA8ZwBZIR9DqiBVV+5sXEz7xrdnPl3pNjni0Pbs/Unj8s0oGz3j3uZW37/Q6f4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729620490; c=relaxed/simple;
-	bh=Qfypyu1Nn2V+3gcNfw82SEJviEnlpQZXyb16muLLWlQ=;
-	h=From:To:Cc:Subject:Date:Message-Id; b=ceFSllv7F3dy/IJSIRi8RQV/rmCyHcUTdtb+U/m+LjmTXfvSXYXU1zt9YuTFbqZxSkJW3ziL00YbjqrmOfJ92JZZ0CkmP9eT3poA8yFE4AmcyKRMNwMAjgrOpeNPcEhilMszOXnKpe1efrB3EuCRgat0OHP5NxyopB/BUQs1e8I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HS0vw3vL; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1729627570; c=relaxed/simple;
+	bh=pTXa0lFnMCDyEuXkjtGuHVSkjWu46Z7KtuaG27m8gsY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Ds8mUDlTf0QTO+T1CIVafh8Csd0jYI/8Lt9X0zmflA9q5//9PRah2GER1M9dNuSrnP5ishg1N4fu1J9/BP/KGzPGGMioUSy4vMZMBZHqFNZzlnUqcoHiokeCU7TGCXbqKIPCrhGHUAqcgRJdw77LR3n6yWtttnEfRl+sM+aGtbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oWU8vR6e; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HS0vw3vL"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a9a4031f69fso863572266b.0
-        for <linux-staging@lists.linux.dev>; Tue, 22 Oct 2024 11:08:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729620487; x=1730225287; darn=lists.linux.dev;
-        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YHKeAVy/sqJfWF1Y1uRllNLeoPiow2LfJ2lXuumLr4w=;
-        b=HS0vw3vLajrsNCtQ0Go197jv1vUmHYIH23YjQgwFoEJBIVpH00A9cmMS4Y1dbdrZhM
-         amCCEoSqISHs3RFTbiht6roLMnuie+K0amfDiF6OOx/MC4zNa6UKeHfuSFJwHcP5HZ7H
-         G46gtNhrZbF4h1Af9T4MSsZGZ7LvOc5EH1V4MEKOanqEWlDS9z+snuKJhrF7+0naq/j9
-         u9r6F/7TfJS0cW2obYxS88T1dC9tJDCBH/uFBA850255pIy6ANjuZ8AzkjvNZ4whH5Ap
-         FsGKKjO0H8eMRb3mqGn9UiV3EkQGwaDwKy40mB36VCUEPYRAt3uVgVbr8W9gkLMPcqxB
-         GSNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729620487; x=1730225287;
-        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YHKeAVy/sqJfWF1Y1uRllNLeoPiow2LfJ2lXuumLr4w=;
-        b=PAiV3Kh38dRMETHGa8w4D7eM1NkjheUfNQmNZ4GiNKIsaa7aMVdRiWtENTL7aX4/zU
-         GmzEFJK4bvIezWOPzUkKA0B5Wa5qy9ESF/trdTw8FLIevGjI+vIF0IInby0Vz7Mup5lB
-         5q+h2AvG1senslWVTCrvNkJI0DZxDLgbFQnD4EjNZz3v/38lAmQAXvvXNRvxYBzR3gDr
-         qKxvA1xUdcA/JwRpOWiCSurlQ6zwE+XWrKAcG9pD+ide2xq4AM0ywqaniq4cyF2UikNL
-         Tw7OJor9jqEsl3vV2tI5o9Pt7z7YzEmr70JVzVfneQ5OhZ1gaxl1+em+GoB3No2w5cl5
-         L+eQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUXAgoGgEDCLyQ+V8uYdFpiV6lzC8dg3oa+GDd7ly4qELi3zPDXGqZV+PQ8mNFs1A3pPfx+llMKYjYGkKfV@lists.linux.dev
-X-Gm-Message-State: AOJu0YwiEQyEc+in4R4AM/0oJt5+NZaAj/lGGImiWYZ5L1ZTA2upjX0B
-	LBgngZMMXZ4KkxwmNeSRoHW2usjt4nOm+5cUMenBxwAhjdeRd9xq
-X-Google-Smtp-Source: AGHT+IFZ57Kh6ofjTHGWKo3b2N/ZqJNgB4wtTTZHGGPhENJZf1bEnfOrjTuJ9BzbHBw+JSngk4k3XA==
-X-Received: by 2002:a17:907:1c9e:b0:a9a:188f:efd9 with SMTP id a640c23a62f3a-a9a69bad2a2mr1529801266b.29.1729620487109;
-        Tue, 22 Oct 2024 11:08:07 -0700 (PDT)
-Received: from localhost.localdomain ([2a02:e0:9854:5800:84ac:8ecf:df7e:7d6c])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9a912d6255sm376856466b.19.2024.10.22.11.08.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Oct 2024 11:08:06 -0700 (PDT)
-From: Omer Faruk BULUT <m.omerfarukbulut@gmail.com>
-To: dpenkler@gmail.com
-Cc: gregkh@linuxfoundation.org,
-	arnd@arndb.de,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Omer Faruk BULUT <m.omerfarukbulut@gmail.com>
-Subject: [PATCH] Staging: gpib/common/gpib_os.c - Remove unnecessary OOM message
-Date: Tue, 22 Oct 2024 21:06:20 +0300
-Message-Id: <20241022180620.12429-1-m.omerfarukbulut@gmail.com>
-X-Mailer: git-send-email 2.17.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oWU8vR6e"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4434C4CEC3;
+	Tue, 22 Oct 2024 20:06:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729627570;
+	bh=pTXa0lFnMCDyEuXkjtGuHVSkjWu46Z7KtuaG27m8gsY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=oWU8vR6eaw/ebks0Qu91duBCh4+FYt6COOeQ6QB1fibVdJistw75v74cYH9EpwrRu
+	 gNI8a5l1jgqpR+ncp9B7Qe8uxORFleXbp+tYs4svPt/tJu7rGj64vTqhjiQDFH41Xm
+	 ewaKr3zd6Es+VdxozjMG8sArLu4m+wf9wCg9KTY2ofyJmqDqFlMPOxM7GZAV4SLHQT
+	 SP9h600q15BUmOj5QMy5ld5CGWSN0yhRsgMNIjiVsXceM5B96MjK+mOxdszLC9dXwg
+	 fkMCE9RgacwTFWqHCak7c1gTHhuB1ecPOuaQjdNC9ShYxEOaZni06HnYNJ8Rr0HIcN
+	 r/kp3tYjCU/Jw==
+Date: Tue, 22 Oct 2024 21:06:02 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Zicheng Qu <quzicheng@huawei.com>, lars@metafoo.de,
+ Michael.Hennerich@analog.com, gregkh@linuxfoundation.org,
+ linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, tanghui20@huawei.com, zhangqiao22@huawei.com,
+ judy.chenhui@huawei.com
+Subject: Re: [PATCH] drivers/staging/iio/frequency/ad9832.c: fix division by
+ zero in ad9832_calc_freqreg()
+Message-ID: <20241022210602.691d6351@jic23-huawei>
+In-Reply-To: <6c896172-d372-442a-a61e-6b3e46b9cbb0@stanley.mountain>
+References: <20241022134354.574614-1-quzicheng@huawei.com>
+	<6c896172-d372-442a-a61e-6b3e46b9cbb0@stanley.mountain>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-It duplicate the MM subsystem generic OOM message. This patch fixes the following checkpatch warning.
+On Tue, 22 Oct 2024 17:25:21 +0300
+Dan Carpenter <dan.carpenter@linaro.org> wrote:
 
-    WARNING: Possible unnecessary 'out of memory' message
+> It would be better if the subject prefix were "staging: iio: ad9832:"
+> 
+> [PATCH] staging: iio: ad9832: fix division by zero in ad9832_calc_freqreg()
+Keep the frequency as well, though less important in staging as we
+have only a few drivers there.
 
-Also, this patch itself might teach to module writers or readers that they have to give attention to MM subsystem
-even they interest another one.
+I fixed up the patch title and applied this to the fixes-togreg branch of iio.git.
 
-Signed-off-by: Omer Faruk BULUT <m.omerfarukbulut@gmail.com>
----
- drivers/staging/gpib/common/gpib_os.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+Thanks,
 
-diff --git a/drivers/staging/gpib/common/gpib_os.c b/drivers/staging/gpib/common/gpib_os.c
-index 6b12404efe7d..27654b2180a5 100644
---- a/drivers/staging/gpib/common/gpib_os.c
-+++ b/drivers/staging/gpib/common/gpib_os.c
-@@ -2093,10 +2093,9 @@ void gpib_register_driver(gpib_interface_t *interface, struct module *provider_m
- 	struct gpib_interface_list_struct *entry;
- 
- 	entry = kmalloc(sizeof(*entry), GFP_KERNEL);
--	if (!entry) {
--		pr_err("gpib: failed register %s interface, out of memory\n", interface->name);
-+	if (!entry) 
- 		return;
--	}
-+	
- 	entry->interface = interface;
- 	entry->module = provider_module;
- 	list_add(&entry->list, &registered_drivers);
--- 
-2.17.1
+Jonathan
+
+> 
+> On Tue, Oct 22, 2024 at 01:43:54PM +0000, Zicheng Qu wrote:
+> > In the ad9832_write_frequency() function, clk_get_rate() might return 0.
+> > This can lead to a division by zero when calling ad9832_calc_freqreg().
+> > The check if (fout > (clk_get_rate(st->mclk) / 2)) does not protect
+> > against the case when fout is 0. The ad9832_write_frequency() function
+> > is called from ad9832_write(), and fout is derived from a text buffer,
+> > which can contain any value.
+> > 
+> > Link: https://lore.kernel.org/all/2024100904-CVE-2024-47663-9bdc@gregkh/
+> > Fixes: ea707584bac1 ("Staging: IIO: DDS: AD9832 / AD9835 driver")
+> > Cc: <stable@vger.kernel.org>
+> > Signed-off-by: Zicheng Qu <quzicheng@huawei.com>  
+> 
+> Otherwise it looks good.
+> 
+> Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+> 
+> regards,
+> dan carpenter
+> 
 
