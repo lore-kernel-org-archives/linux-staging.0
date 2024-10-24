@@ -1,169 +1,131 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CFFA200C84
-	for <linux-staging@lists.linux.dev>; Thu, 24 Oct 2024 18:11:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FA421AF4E2
+	for <linux-staging@lists.linux.dev>; Thu, 24 Oct 2024 22:55:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729793467; cv=none; b=hRgtJsPVjNRRh5xJFhPrBGQRjbm/jcssuHdBgXY7oA8P+wV6/a8u4ZSMpTxo6rczVn1xUVTdDQnZ4gqZR9NQBndeq5pAA7mBMzYz4VFT7iRAtfp9JmdKJo81f4GGcINA1+7A08c0qTS3F5eZ4knxliRaLKOUh+iDgnQrGJxbw0I=
+	t=1729810522; cv=none; b=nLcDY55DELGwtKvxDX5Go3jFWbh+LGAkYG4l8FESVVuJzDEsRl48lUSuQA8RE609yQ9vT/w0NPou1mWqcfnoDgVfMRFE+MdcRu8gGGxJ6soX/YudFHxzPKHEwsBoMnGbvX1JshYbRmg5SflZuobTA2XoGFmCI3+Ikoul6dvfAeA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729793467; c=relaxed/simple;
-	bh=pMXdS9Y43tEVF1g5qT4UYg2DiIIY/uHnTarQtEyEZ9Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=XyD+TCDWGLvuryeBRoek7T2pdnaMNPISqqRPYu3iZHIcQguo8Rdy+g26qaBo5bz+FVafeBtj32svPyDyH7wSIIuuEq0jC+tYPvW1THGLGe+Hzk9yS83zgJJg4Nvb6Vbpc//yGPLpaZrZRLxumrxu9AOrBJZ+qSvZGPAkpSNMZs4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KZ8x61aw; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1729810522; c=relaxed/simple;
+	bh=2t0NQJ4i0sajNkNmezauDEuozrVUAiF615VNOMCaVno=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=RzTnP1KlmYfRz86qDrObUzwtVFIngOA4AdmnwGqLgjYwKtLuo+MN7UCZM/FMQWdVS1n2kFYZUVCjgUwOw6Sy5mv2djFVIV8t3tSZFXxaQFdfB4Qda0fonzLzk5bDm7hQWJCx75BNH7XXWS6QR/Vregf1fI21nRTMxOv5uhEse/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Yt8nOY6l; arc=none smtp.client-ip=209.85.215.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KZ8x61aw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1729793463;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=uqEsnFfp3puSbfjZ9fURZe08WNMsouBpkjmmxvudh7Y=;
-	b=KZ8x61awEfMteZ2tw/YNp0OrAwsOZ3/GCrfMEnjM6UmwBvu2vlFIW/thxz06058oba5OnJ
-	7qIQYnIdPSc4k2x0XR6fBwgYATTQlfDlpznM2HsrFo2iWkNXpzOQcypEa4N13oyEa2rkhn
-	fBxwjGw0qUB8J0dJXCB2/vjCvH7qSQg=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-630-1uQj4VkTNDG6G0y4F0Vnjw-1; Thu,
- 24 Oct 2024 14:11:01 -0400
-X-MC-Unique: 1uQj4VkTNDG6G0y4F0Vnjw-1
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5CD2319560AB;
-	Thu, 24 Oct 2024 18:11:00 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.39.192.75])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 250F619560A2;
-	Thu, 24 Oct 2024 18:10:58 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	linux-staging@lists.linux.dev
-Subject: [PATCH] staging: rtl8723bs: Remove no-op netdevice_notifier()
-Date: Thu, 24 Oct 2024 20:10:52 +0200
-Message-ID: <20241024181052.67031-1-hdegoede@redhat.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Yt8nOY6l"
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-7ed9c16f687so983546a12.0
+        for <linux-staging@lists.linux.dev>; Thu, 24 Oct 2024 15:55:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729810519; x=1730415319; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1BZ5yIebvbjCx11gbUEaKqEHQYCWzk/WEOkgc2gej4o=;
+        b=Yt8nOY6lxRaESAqi80bBzqEO/hfyly7qQ0ub5cNPShDhU1g04xk6X8OUH3ysZq1gG2
+         0UND0rJ5P3iC6Qz8Y8Mt+wgdeCjXORbRpufSDGxusNKt7y2oypvzMlJFfV7Eyenk/lvl
+         RosM+TGZLRpnXklNL8jX18peFs+iqXFewD17LEvg3j7TjNGUM1s8QQVpTe3ioLUfldYu
+         BcTynm9UTzBX1ooO6/t55sjyKMl8YYSCoKmlgpwxeWdPrCHDiPoOiKtZYcCZ0ZwZxnNL
+         /rU0W0PZ1M4REM4vi/XI40fBGRCT1xTxX8upPwbGFuRslkSOvUfyqWE7Fsl8FB6BKMUr
+         V7SA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729810519; x=1730415319;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1BZ5yIebvbjCx11gbUEaKqEHQYCWzk/WEOkgc2gej4o=;
+        b=HH7C24hXHbBjnXlWF8slT9r2PVW3gkxj1P+BB3OPVTPvisssDE+eIMxNrLdQFWWbTL
+         hNBkgMZuYiy4F+OU1i1opyQSvXtR2Yp/u9+KD5NYKhaUlH9DfhHyoP03yW02nR5vXmF0
+         lDQn++SAqMSGRYyIb9Rb8oT31lvHTNY8rO+bj+AYlgUE2X5krNWAIzekFDwKYuU+4omR
+         jYRViP+NIKA8Dbo8bTSvzt5zCAJZ0FIAphMg1cy+jd95UPrqzi0CjJ01po902WxfL6U1
+         tZ3RKtPmgMe2kR2zt7Ab2Tcjcqzd7pS6HhudjPmX2RcOsEODx6ErBzJEaCBS75ebfr39
+         P/FQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWiZ4sTxj2RBuRflZRPrDKZluyt8TOiooDhRLcfYlCqzaFZurcifPmVa4qTWJiy8/wrYnXaNj8OaypYMNYZ@lists.linux.dev
+X-Gm-Message-State: AOJu0YwmrVWjY8SfVAFw/7xWT3S8xETAIliWCrX1L77umIVtH3/6dLn8
+	aIN6jteDw5s6bTEJDcnjheT/siBS0LpdvfQeAgdHJ8/fP954XNxU2QPCnQ==
+X-Google-Smtp-Source: AGHT+IG1CnmN3xWtfp10BtAmupCLlIyz4ArIS6I2qnftlZ9Ec0JzjDaUHnRwh+56tHnosG0rMeW9oQ==
+X-Received: by 2002:a05:6a20:d80c:b0:1d9:2723:64a6 with SMTP id adf61e73a8af0-1d978b2c40amr8713015637.21.1729810518754;
+        Thu, 24 Oct 2024 15:55:18 -0700 (PDT)
+Received: from localhost.localdomain ([2804:14d:4c64:81ec:bf51:a58d:54e:ca72])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7eaeabbca78sm9170227a12.58.2024.10.24.15.55.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Oct 2024 15:55:18 -0700 (PDT)
+From: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
+To: dan.carpenter@linaro.org
+Cc: gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	philipp.g.hortmann@gmail.com,
+	rodrigo.gobbi.7@gmail.com,
+	~lkcamp/patches@lists.sr.ht
+Subject: staging: rtl8723bs: change remaining printk to proper api
+Date: Thu, 24 Oct 2024 19:55:12 -0300
+Message-Id: <20241024225512.7464-1-rodrigo.gobbi.7@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <f61d8272-4af3-40d6-a333-e7731c3fc5ae@stanley.mountain>
+References: <f61d8272-4af3-40d6-a333-e7731c3fc5ae@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
 
-rtw_ndev_notifier_call() does not do anything other then
-a netdev_dbg() + always returning NOTIFY_DONE.
+First, tks for the answer, Dan.
 
-Remove the no-op notifier.
+> little broken with -DDBG_RX_SIGNAL_DISPLAY_RAW_DATA, maybe we can 
+> fix that in a next patch. 
+> How is it broken?
 
-This also fixes a WARN() when unbinding + rebinding the driver
-which was caused by the remove() method not unregistering
-the notifier.
+make -j<> ./drivers/staging/rtl8723bs/r8723bs.ko EXTRA_CFLAGS="-DDBG_RX_SIGNAL_DISPLAY_RAW_DATA"
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- .../staging/rtl8723bs/include/osdep_intf.h    |  3 --
- drivers/staging/rtl8723bs/os_dep/os_intfs.c   | 28 -------------------
- drivers/staging/rtl8723bs/os_dep/sdio_intf.c  | 15 ++--------
- 3 files changed, 2 insertions(+), 44 deletions(-)
+drivers/staging/rtl8723bs/hal/hal_com.c: In function ‘rtw_store_phy_info’:
+drivers/staging/rtl8723bs/hal/hal_com.c:927:43: error: ‘PODM_PHY_INFO_T’ undeclared (first use in this function)
+  927 |         struct odm_phy_info *pPhyInfo  = (PODM_PHY_INFO_T)(&pattrib->phy_info);
+      |                                           ^~~~~~~~~~~~~~~
+drivers/staging/rtl8723bs/hal/hal_com.c:927:43: note: each undeclared identifier is reported only once for each function it appears in
+drivers/staging/rtl8723bs/hal/hal_com.c:940:73: error: ‘struct odm_phy_info’ has no member named ‘RxPwr’; did you mean ‘rx_pwr’?
+  940 |                         psample_pkt_rssi->ofdm_pwr[rf_path] = pPhyInfo->RxPwr[rf_path];
+      |                                                                         ^~~~~
+      |                                                                         rx_pwr
+drivers/staging/rtl8723bs/hal/hal_com.c:941:71: error: ‘struct odm_phy_info’ has no member named ‘RxSNR’
+  941 |                         psample_pkt_rssi->ofdm_snr[rf_path] = pPhyInfo->RxSNR[rf_path];
 
-diff --git a/drivers/staging/rtl8723bs/include/osdep_intf.h b/drivers/staging/rtl8723bs/include/osdep_intf.h
-index 111e0179712a..215ece612f71 100644
---- a/drivers/staging/rtl8723bs/include/osdep_intf.h
-+++ b/drivers/staging/rtl8723bs/include/osdep_intf.h
-@@ -55,9 +55,6 @@ void rtw_unregister_netdevs(struct dvobj_priv *dvobj);
- 
- u16 rtw_recv_select_queue(struct sk_buff *skb);
- 
--int rtw_ndev_notifier_register(void);
--void rtw_ndev_notifier_unregister(void);
--
- void rtw_ips_dev_unload(struct adapter *padapter);
- 
- int rtw_ips_pwr_up(struct adapter *padapter);
-diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-index fc9b9c5efb50..4bcc1c0d9fcd 100644
---- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-+++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-@@ -381,34 +381,6 @@ u16 rtw_recv_select_queue(struct sk_buff *skb)
- 	return rtw_1d_to_queue[priority];
- }
- 
--static int rtw_ndev_notifier_call(struct notifier_block *nb, unsigned long state, void *ptr)
--{
--	struct net_device *dev = netdev_notifier_info_to_dev(ptr);
--
--	if (dev->netdev_ops->ndo_do_ioctl != rtw_ioctl)
--		return NOTIFY_DONE;
--
--	netdev_dbg(dev, FUNC_NDEV_FMT " state:%lu\n", FUNC_NDEV_ARG(dev),
--		    state);
--
--	return NOTIFY_DONE;
--}
--
--static struct notifier_block rtw_ndev_notifier = {
--	.notifier_call = rtw_ndev_notifier_call,
--};
--
--int rtw_ndev_notifier_register(void)
--{
--	return register_netdevice_notifier(&rtw_ndev_notifier);
--}
--
--void rtw_ndev_notifier_unregister(void)
--{
--	unregister_netdevice_notifier(&rtw_ndev_notifier);
--}
--
--
- static int rtw_ndev_init(struct net_device *dev)
- {
- 	struct adapter *adapter = rtw_netdev_priv(dev);
-diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-index d18fde4e5d6c..81867b98d793 100644
---- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-+++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-@@ -382,7 +382,6 @@ static int rtw_drv_init(
- 	if (sdio_alloc_irq(dvobj) != _SUCCESS)
- 		goto free_if1;
- 
--	rtw_ndev_notifier_register();
- 	status = _SUCCESS;
- 
- free_if1:
-@@ -484,22 +483,12 @@ static int rtw_sdio_resume(struct device *dev)
- 
- static int __init rtw_drv_entry(void)
- {
--	int ret;
--
--	ret = sdio_register_driver(&rtl8723bs_sdio_driver);
--	if (ret != 0)
--		rtw_ndev_notifier_unregister();
--
--	return ret;
-+	return sdio_register_driver(&rtl8723bs_sdio_driver);
- }
-+module_init(rtw_drv_entry);
- 
- static void __exit rtw_drv_halt(void)
- {
- 	sdio_unregister_driver(&rtl8723bs_sdio_driver);
--
--	rtw_ndev_notifier_unregister();
- }
--
--
--module_init(rtw_drv_entry);
- module_exit(rtw_drv_halt);
--- 
-2.47.0
+Actually it's not exaclty in the same line of pr_debug/netdev_dbg replacement. Do you think
+we can do the replacement at:
 
+> +			pr_debug(", rx_ofdm_pwr:%d(dBm), rx_ofdm_snr:%d(dB)\n",...
+
+regardless of this build errors? I mean, fixing it here in this patch
+would not be related to the purpose of this simple patch.
+
+> Just delete this line.
+Ok.
+
+> -		printk(KERN_CRIT "%s: sdio_claim_irq FAIL(%d)!\n", __func__, err);
+> +		pr_crit("%s: sdio_claim_irq FAIL(%d)!\n", __func__, err);
+>                ^^^^^^^?
+
+Originally, I didn't replace this because at dvobj of sdio_alloc_irq(struct dvobj_priv *dvobj)  
+there are two adapter fields:
+
+struct dvobj_priv {
+	struct adapter *if1; /* PRIMARY_ADAPTER */
+...
+	struct adapter *padapters;
+...
+}
+
+Checking the "counter part" function of sdio_alloc_irq(), the sdio_free_irq() (which is not used), 
+the if1 (primary) is used for debug purpose:
+
+netdev_err(dvobj->if1->pnetdev...
+
+And checking the initialization path, if1 should be ok at this point.
+But since I can't test this, do you suggest to replace anyway?
+
+Tks and regards.
