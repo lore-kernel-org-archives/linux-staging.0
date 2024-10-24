@@ -1,124 +1,169 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E704919F420
-	for <linux-staging@lists.linux.dev>; Thu, 24 Oct 2024 07:28:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CFFA200C84
+	for <linux-staging@lists.linux.dev>; Thu, 24 Oct 2024 18:11:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729754911; cv=none; b=O/J6k6KkHxYadEhg/48xvx1HNfnUSIC9oZyU8khmr7SrlFFGjeY0xhDjI00Yyhd8H/q01Vpnf4jGTNG0nq0IesJ+YGuxpOlSMxJtPIgEPZOGrScecNPhjEj+YDSfIkuffTKg0Z7u4MpI3SrE7XVwk84UDgWu4BR7jbv7GrqkZ0s=
+	t=1729793467; cv=none; b=hRgtJsPVjNRRh5xJFhPrBGQRjbm/jcssuHdBgXY7oA8P+wV6/a8u4ZSMpTxo6rczVn1xUVTdDQnZ4gqZR9NQBndeq5pAA7mBMzYz4VFT7iRAtfp9JmdKJo81f4GGcINA1+7A08c0qTS3F5eZ4knxliRaLKOUh+iDgnQrGJxbw0I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729754911; c=relaxed/simple;
-	bh=ZtJJpAbqMdpdoXmmBuRnIgoG9V/xCS2Vppl3tp08FS0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QAVGavgoG5qPCOhV1HgBNLMBPzpp+ttRx+FJzPsS0iF0+QXcpN5t1RNeQ+KX+87GmXfE+bvBnERN2dit+lYl4Mg5CLA6QF/IhqFKV41zpxAvEx8YDydStor0WIulji4Nl/8ZLHRAsrA54uBBfmacNBxvINYlNtiUQ7YfDi5ptis=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GNbAzL+v; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1729793467; c=relaxed/simple;
+	bh=pMXdS9Y43tEVF1g5qT4UYg2DiIIY/uHnTarQtEyEZ9Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=XyD+TCDWGLvuryeBRoek7T2pdnaMNPISqqRPYu3iZHIcQguo8Rdy+g26qaBo5bz+FVafeBtj32svPyDyH7wSIIuuEq0jC+tYPvW1THGLGe+Hzk9yS83zgJJg4Nvb6Vbpc//yGPLpaZrZRLxumrxu9AOrBJZ+qSvZGPAkpSNMZs4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KZ8x61aw; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GNbAzL+v"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-37d6ff1cbe1so392469f8f.3
-        for <linux-staging@lists.linux.dev>; Thu, 24 Oct 2024 00:28:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1729754907; x=1730359707; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=kxOUrhJfsj2Yyo7Z+zyHQ67FbF1Rk6t8sl02neWyWkY=;
-        b=GNbAzL+vbJQT3jJBv2fVyV+lL1lsoJquHjNyJD8LfNBhIDJhyzSkRWhUFL3YzVwpVH
-         PBbM6ClSqLs7rti1BFv9JfvdYrxXyrAN+iOibA4zKbh8VWVGcw9MlqwiZD9++bp2MRvo
-         ouoSEMk7NNqO8xzvPhBMpO8GxtxXXg6pFoTEjjpOrxKVIyO8t7AdT2udYGisp1jo4cSe
-         311YabfMVW4LkDS9YjtKpRQ7Tm/ereMqHe+qZ5X0wQAiqqTuhJMdiCWHjvkDY/tw520a
-         w7vkxdI2sNNXnW/82ft4o2Ta5AnhrNTErq41t4SQXYCt70goe0g27jSbS9kLZkJkjDgH
-         UtSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729754907; x=1730359707;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kxOUrhJfsj2Yyo7Z+zyHQ67FbF1Rk6t8sl02neWyWkY=;
-        b=IYyurRdVGBt5Vxe4XcW8D7RNtDIq64cyZAt28sZfZ7EusiBEUSEd/M9TLhRP7ubF2t
-         VwcNn8aen+6cR9hRlY+0mKtDSygVMNgFbXpyLnbzaqr8+s3iHNPgc739v90H6DZd99iX
-         XmWdfVI28gqjNBRtnIHqMFpU0KlK/rBYqgw8kpsHV060yZ6yAigl9lPVUd6VJacxjEIk
-         3kUocLY1WvPEZGr2a44RUmDSwRn4wRCAYmNV2bzDyOEr2sHXr+zD60zsIEblRQRsOKQ+
-         DHRikQBgFHNKWqI+WaGkp9P8ZSfpKr3QvskqWFUiiBiayTH+hzQ8H1S1dx61XUwmfdRA
-         xsyQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVA5cU6mHP3mYKMdnPK1Ex3X5a4SDgZNwVrJBv5AAhyTnwotwPQunWUf/CQQm4iE6iB7zGzZEJoyJ/yI00X@lists.linux.dev
-X-Gm-Message-State: AOJu0YyH2w7noZuOYYelNcqxbA0K5kJwL/nTz6fZz8hk4aFcCGNqNpJU
-	md6l8uszewWxgl/QRsUkAi+eglExr1s8H+aEkicEvU0fau5ghwH8uBNmmo+wGwI=
-X-Google-Smtp-Source: AGHT+IEkc14OXpDtF1URWR3t+XH91jps08DOypXXI/ENusMPhUEulRqck3KhgtV8dhuWSr0NvGRsZA==
-X-Received: by 2002:a5d:45ca:0:b0:37c:ca01:98e9 with SMTP id ffacd0b85a97d-37efcf00572mr3479995f8f.6.1729754907152;
-        Thu, 24 Oct 2024 00:28:27 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37ee0a5b98asm10668926f8f.61.2024.10.24.00.28.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Oct 2024 00:28:26 -0700 (PDT)
-Date: Thu, 24 Oct 2024 10:28:22 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
-Cc: gregkh@linuxfoundation.org, philipp.g.hortmann@gmail.com,
-	~lkcamp/patches@lists.sr.ht, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] staging: rtl8723bs: change remaining printk to proper
- api
-Message-ID: <f61d8272-4af3-40d6-a333-e7731c3fc5ae@stanley.mountain>
-References: <20241023231155.16940-1-rodrigo.gobbi.7@gmail.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KZ8x61aw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1729793463;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=uqEsnFfp3puSbfjZ9fURZe08WNMsouBpkjmmxvudh7Y=;
+	b=KZ8x61awEfMteZ2tw/YNp0OrAwsOZ3/GCrfMEnjM6UmwBvu2vlFIW/thxz06058oba5OnJ
+	7qIQYnIdPSc4k2x0XR6fBwgYATTQlfDlpznM2HsrFo2iWkNXpzOQcypEa4N13oyEa2rkhn
+	fBxwjGw0qUB8J0dJXCB2/vjCvH7qSQg=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-630-1uQj4VkTNDG6G0y4F0Vnjw-1; Thu,
+ 24 Oct 2024 14:11:01 -0400
+X-MC-Unique: 1uQj4VkTNDG6G0y4F0Vnjw-1
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5CD2319560AB;
+	Thu, 24 Oct 2024 18:11:00 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.39.192.75])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 250F619560A2;
+	Thu, 24 Oct 2024 18:10:58 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	linux-staging@lists.linux.dev
+Subject: [PATCH] staging: rtl8723bs: Remove no-op netdevice_notifier()
+Date: Thu, 24 Oct 2024 20:10:52 +0200
+Message-ID: <20241024181052.67031-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241023231155.16940-1-rodrigo.gobbi.7@gmail.com>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 
-On Wed, Oct 23, 2024 at 08:11:55PM -0300, Rodrigo Gobbi wrote:
-> As part of TODO file for future work, use dyn debug api for
-> remaining printk statements.
-> 
-> Signed-off-by: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
-> ---
-> I didn't use the netdev_dbg() over drivers/staging/rtl8723bs/hal/hal_com.c
-> because I noticed now that rtw_dump_raw_rssi_info() and the hal file is a 
-> little broken with -DDBG_RX_SIGNAL_DISPLAY_RAW_DATA, maybe we can 
-> fix that in a next patch. 
+rtw_ndev_notifier_call() does not do anything other then
+a netdev_dbg() + always returning NOTIFY_DONE.
 
-How is it broken?
+Remove the no-op notifier.
 
-> diff --git a/drivers/staging/rtl8723bs/hal/hal_com.c b/drivers/staging/rtl8723bs/hal/hal_com.c
-> index faa6ed2b320d..5994e574ae99 100644
-> --- a/drivers/staging/rtl8723bs/hal/hal_com.c
-> +++ b/drivers/staging/rtl8723bs/hal/hal_com.c
-> @@ -909,10 +909,11 @@ void rtw_dump_raw_rssi_info(struct adapter *padapter)
->  
->  	for (rf_path = 0; rf_path < pHalData->NumTotalRFPath; rf_path++) {
->  		if (!isCCKrate) {
-> -			printk(", rx_ofdm_pwr:%d(dBm), rx_ofdm_snr:%d(dB)\n",
-> -			psample_pkt_rssi->ofdm_pwr[rf_path], psample_pkt_rssi->ofdm_snr[rf_path]);
-> +			pr_debug(", rx_ofdm_pwr:%d(dBm), rx_ofdm_snr:%d(dB)\n",
-> +				 psample_pkt_rssi->ofdm_pwr[rf_path],
-> +				 psample_pkt_rssi->ofdm_snr[rf_path]);
->  		} else {
-> -			printk("\n");
-> +			pr_debug("\n");
+This also fixes a WARN() when unbinding + rebinding the driver
+which was caused by the remove() method not unregistering
+the notifier.
 
-Just delete this line.
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ .../staging/rtl8723bs/include/osdep_intf.h    |  3 --
+ drivers/staging/rtl8723bs/os_dep/os_intfs.c   | 28 -------------------
+ drivers/staging/rtl8723bs/os_dep/sdio_intf.c  | 15 ++--------
+ 3 files changed, 2 insertions(+), 44 deletions(-)
 
->  		}
->  	}
->  }
-
-> diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-> index d18fde4e5d6c..b845089e8d8e 100644
-> --- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-> +++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-> @@ -72,7 +72,7 @@ static int sdio_alloc_irq(struct dvobj_priv *dvobj)
->  	err = sdio_claim_irq(func, &sd_sync_int_hdl);
->  	if (err) {
->  		dvobj->drv_dbg.dbg_sdio_alloc_irq_error_cnt++;
-> -		printk(KERN_CRIT "%s: sdio_claim_irq FAIL(%d)!\n", __func__, err);
-> +		pr_crit("%s: sdio_claim_irq FAIL(%d)!\n", __func__, err);
-                ^^^^^^^?
-
-regards,
-dan carpenter
+diff --git a/drivers/staging/rtl8723bs/include/osdep_intf.h b/drivers/staging/rtl8723bs/include/osdep_intf.h
+index 111e0179712a..215ece612f71 100644
+--- a/drivers/staging/rtl8723bs/include/osdep_intf.h
++++ b/drivers/staging/rtl8723bs/include/osdep_intf.h
+@@ -55,9 +55,6 @@ void rtw_unregister_netdevs(struct dvobj_priv *dvobj);
+ 
+ u16 rtw_recv_select_queue(struct sk_buff *skb);
+ 
+-int rtw_ndev_notifier_register(void);
+-void rtw_ndev_notifier_unregister(void);
+-
+ void rtw_ips_dev_unload(struct adapter *padapter);
+ 
+ int rtw_ips_pwr_up(struct adapter *padapter);
+diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+index fc9b9c5efb50..4bcc1c0d9fcd 100644
+--- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
++++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+@@ -381,34 +381,6 @@ u16 rtw_recv_select_queue(struct sk_buff *skb)
+ 	return rtw_1d_to_queue[priority];
+ }
+ 
+-static int rtw_ndev_notifier_call(struct notifier_block *nb, unsigned long state, void *ptr)
+-{
+-	struct net_device *dev = netdev_notifier_info_to_dev(ptr);
+-
+-	if (dev->netdev_ops->ndo_do_ioctl != rtw_ioctl)
+-		return NOTIFY_DONE;
+-
+-	netdev_dbg(dev, FUNC_NDEV_FMT " state:%lu\n", FUNC_NDEV_ARG(dev),
+-		    state);
+-
+-	return NOTIFY_DONE;
+-}
+-
+-static struct notifier_block rtw_ndev_notifier = {
+-	.notifier_call = rtw_ndev_notifier_call,
+-};
+-
+-int rtw_ndev_notifier_register(void)
+-{
+-	return register_netdevice_notifier(&rtw_ndev_notifier);
+-}
+-
+-void rtw_ndev_notifier_unregister(void)
+-{
+-	unregister_netdevice_notifier(&rtw_ndev_notifier);
+-}
+-
+-
+ static int rtw_ndev_init(struct net_device *dev)
+ {
+ 	struct adapter *adapter = rtw_netdev_priv(dev);
+diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+index d18fde4e5d6c..81867b98d793 100644
+--- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
++++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+@@ -382,7 +382,6 @@ static int rtw_drv_init(
+ 	if (sdio_alloc_irq(dvobj) != _SUCCESS)
+ 		goto free_if1;
+ 
+-	rtw_ndev_notifier_register();
+ 	status = _SUCCESS;
+ 
+ free_if1:
+@@ -484,22 +483,12 @@ static int rtw_sdio_resume(struct device *dev)
+ 
+ static int __init rtw_drv_entry(void)
+ {
+-	int ret;
+-
+-	ret = sdio_register_driver(&rtl8723bs_sdio_driver);
+-	if (ret != 0)
+-		rtw_ndev_notifier_unregister();
+-
+-	return ret;
++	return sdio_register_driver(&rtl8723bs_sdio_driver);
+ }
++module_init(rtw_drv_entry);
+ 
+ static void __exit rtw_drv_halt(void)
+ {
+ 	sdio_unregister_driver(&rtl8723bs_sdio_driver);
+-
+-	rtw_ndev_notifier_unregister();
+ }
+-
+-
+-module_init(rtw_drv_entry);
+ module_exit(rtw_drv_halt);
+-- 
+2.47.0
 
