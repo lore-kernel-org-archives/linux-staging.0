@@ -1,158 +1,183 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [207.246.76.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 367F21BC5C
-	for <linux-staging@lists.linux.dev>; Fri, 25 Oct 2024 07:19:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D7E31C3038
+	for <linux-staging@lists.linux.dev>; Fri, 25 Oct 2024 08:21:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.246.76.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729840785; cv=none; b=m6TjlGCzmLQ2l3FDfgqWswKqDCjwUwjFeX+Ce5I8taYso5vNz8EnlAz0OTWUFXx7aHMRXWeMMS93THtI6owG4cM7oJZsFP8au9r8MKPLnAzOnteF4WXvEfvB8k8moYtV3xTvbAlrzOwv2DqnfGNPm5QcnNEokz6f9F2fer8+tzY=
+	t=1729844471; cv=none; b=UIiu92MXArOXkw584tc34Y16UPtDcTvsuuzyWAd+GRrS+dk2Cnoasrrs2VCxnUg2wGRWFAxa2c12+iUTdIWzIDDz5BRFJwCrNCZs7p6BFr2mCOjUH1ECGunUBjQXjjZzS8nyiD8wEUSxDLZtovUnhJVObZ9O57zLDb7Nr9gDi7c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729840785; c=relaxed/simple;
-	bh=/wSStfEhPSHeZJiEUePtTfIBSJEUMkwEljOu59Vn9no=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sqfAd/rkdWHDRTUihfk7kP3cOBLWAmsgRYwJjipD5iccq1pq6NXUcTIHBmiTuOFgy1SXETlC+YitTEGgRAM+mPDh7ePf9MGyKPIp8hC//ClXA6dJuFhDx2WGYWkuPCNNnirauzB++mTGef99HZ8HE2Q6g9hoxvjelQaQoXJxCqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=h1A+X4mi; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1729844471; c=relaxed/simple;
+	bh=G/6ckttVcaH30xmrrUOhZM99NObo8lQEa+x32+FeI14=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fHFDV/itJExDNYD700mW7+ophMdVvEHy9+5b4qKK6aCY2UoZC+CwOLVvbKWNWF+Bdz9EtOwBTNT2Ho+EK4WiXSIZarOxf5ZiQMIrxT8IdB3cSHF5FQbRsF1zKGO5Dk5YV6fUyCvX2FykbNf3Ew34SxfNrStRuCjxpkGYp+eMg0I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=NC3vnxa+; arc=none smtp.client-ip=207.246.76.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="h1A+X4mi"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43163667f0eso17396975e9.0
-        for <linux-staging@lists.linux.dev>; Fri, 25 Oct 2024 00:19:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1729840777; x=1730445577; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=3bss9bc42ivC2cChRotwSlxrtitEdG/EsNtcIe7xud4=;
-        b=h1A+X4mikqmV51i1ltqrcXiQeXhQsZ/07DVKkcVQQuHTeCF/FU/WXesuhU7k6guknG
-         uFvjr/G6o6RBZIm5VZp31qUv6iTf1lp6Sn+6Ug+HWPE0ye1Ba8iGze17QbhGyCSUJrhQ
-         10u8l7OtF1l5wVKOzBFLhfPFTOZQUzcaRAmtz277bakZ0yIF+ZjKEXD93afOw5Eh2PzY
-         xKgtYU70r1zmZaK/0iS1D+an8z3YP7M34hqikHwEkOfpAFfKyxdaOZmZUF/UjgujKXx3
-         0lf4WdpksioqzCAQ+DA8B1Fh9l36mPGWEB6Px4zNdFYMkd8exGUJfquWazNsLoHd2H4F
-         Jptw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729840777; x=1730445577;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3bss9bc42ivC2cChRotwSlxrtitEdG/EsNtcIe7xud4=;
-        b=UsMPlypTpdj0ns0J+7hvJxEXXDgFQb8OrhqK7UOrIlXnSqQlG1ta0iBdbNZ2eFHj7o
-         yI/FYyMlhysLndbPNpfv+uvfFCehShp1eJqkuclA0Mmx5qGjHppk1scMeyRhIy6tYGeX
-         93PmWafLoJRu+H9GJ0klEzeCal5ST3aF2RwPejJKzlVlcXlWKsaZ/9z60w5urhfN7oM0
-         xp1ERKvCqU8H4KxB9kMUB5wAe4uR+2uKWV3QHhibtfj1Y/FOSiXwe/3xhwYuq+f1GtvS
-         6IxZoa7gpYbHBELbhfeEQkuxfWhKA3hgYdSx6D530sYYRX2e2AJT5p4JnzEntmozVqc8
-         dTVQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUgnieba1nllSF6Rk9syb4zKA3vvxE8YIw5Kov1ykHiep6MpaQD8bapSJcLiOkN6SYucW+upDc9S2U/+NGS@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy6qfrrH5l3Cf5TcvINkc41qFC0Hxb93OnUJbwsYNdF9gNpAlBZ
-	T5s2N6hj7QFma3AZoNS0wiwk6bdHteLIf1TzIqCjRbximEOGOYGv2/34MBa+4ik=
-X-Google-Smtp-Source: AGHT+IHNFvL9ngLdJ2Ef8zFL1tFE3yh5k72SJ5sriFGjDAW8ul7HkN6Susi0cERRtc5r9wYwLcmsfw==
-X-Received: by 2002:a05:600c:19c7:b0:431:5ce5:4864 with SMTP id 5b1f17b1804b1-43184254536mr60334325e9.35.1729840777477;
-        Fri, 25 Oct 2024 00:19:37 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4318b579613sm39381865e9.38.2024.10.25.00.19.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Oct 2024 00:19:36 -0700 (PDT)
-Date: Fri, 25 Oct 2024 10:19:33 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev, philipp.g.hortmann@gmail.com,
-	~lkcamp/patches@lists.sr.ht
-Subject: Re: staging: rtl8723bs: change remaining printk to proper api
-Message-ID: <e12bc7eb-07ed-4bec-84f7-5b178ba802c2@stanley.mountain>
-References: <f61d8272-4af3-40d6-a333-e7731c3fc5ae@stanley.mountain>
- <20241024225512.7464-1-rodrigo.gobbi.7@gmail.com>
+	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="NC3vnxa+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
+ h=Content-Transfer-Encoding: Content-Type: In-Reply-To: From: References:
+ Cc: To: Subject: MIME-Version: Date: Message-ID; q=dns/txt;
+ s=fe-e1b5cab7be; t=1729844449;
+ bh=LkZZAR59UvfigAsheIWK4sIE2MkApoDkQ9BtG/CzxhA=;
+ b=NC3vnxa+lDaylXiMJFMcPI5QLU6Lqo63iMH+9de0Mr3oCL6PsrJhHk36Dv7+JZyjtHKJy5crt
+ 1NiLQAgRkCSRmMyzeCzYBJthJRLGSZhromlxRlIbinFA/w9z+eF+AsQc4rLRf0lxls5jCo1YKgM
+ dAWkVQNdY/unyUQr92Eb5yJ63ZTb3qkkjlH5EYXLwqEx5sk8oT9r54+3MQ4KBBJGAawq/+MUXQh
+ 9td3NIo3nMnx/3sUqvgZ3WqfskSwb2DdIr3LIgKEeEbbbEiYtogsjwCZNjohYahlkDVh/mOXWAc
+ TYz+YlXB0W+toDWMxoWMo9Mo5YsnywCbyM05JDi4V83g==
+Message-ID: <71159f58-be8b-41a4-9fed-522e09a7a564@kwiboo.se>
+Date: Fri, 25 Oct 2024 10:20:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241024225512.7464-1-rodrigo.gobbi.7@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 00/11] media: rkvdec: Add H.264 High 10 and 4:2:2
+ profile support
+To: Sebastian Fricke <sebastian.fricke@collabora.com>
+Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Alex Bee <knaerzche@gmail.com>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Detlev Casanova <detlev.casanova@collabora.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>, linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20240909192522.1076704-1-jonas@kwiboo.se>
+Content-Language: en-US
+From: Jonas Karlman <jonas@kwiboo.se>
+In-Reply-To: <20240909192522.1076704-1-jonas@kwiboo.se>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Report-Abuse-To: abuse@forwardemail.net
+X-Report-Abuse: abuse@forwardemail.net
+X-Complaints-To: abuse@forwardemail.net
+X-ForwardEmail-Version: 0.4.40
+X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
+ 207.246.76.47
+X-ForwardEmail-ID: 671b54df038a5e08a321fe5c
 
-On Thu, Oct 24, 2024 at 07:55:12PM -0300, Rodrigo Gobbi wrote:
-> First, tks for the answer, Dan.
-> 
-> > little broken with -DDBG_RX_SIGNAL_DISPLAY_RAW_DATA, maybe we can 
-> > fix that in a next patch. 
-> > How is it broken?
-> 
-> make -j<> ./drivers/staging/rtl8723bs/r8723bs.ko EXTRA_CFLAGS="-DDBG_RX_SIGNAL_DISPLAY_RAW_DATA"
+Hi Sebastian,
 
-Why are you pasing -DDBG_RX_SIGNAL_DISPLAY_RAW_DATA?  Is there some document
-somewhere which says to do that?  Normally we would just say "Nothing ever
-enables DDBG_RX_SIGNAL_DISPLAY_RAW_DATA so just delete that code" and delete
-it.  But if there is some external document which says to enable it, and it's
-useful stuff then maybe we should keep it?
+Will you have time to look at this series any time soon?
 
-> 
-> drivers/staging/rtl8723bs/hal/hal_com.c: In function ‘rtw_store_phy_info’:
-> drivers/staging/rtl8723bs/hal/hal_com.c:927:43: error: ‘PODM_PHY_INFO_T’ undeclared (first use in this function)
->   927 |         struct odm_phy_info *pPhyInfo  = (PODM_PHY_INFO_T)(&pattrib->phy_info);
->       |                                           ^~~~~~~~~~~~~~~
-> drivers/staging/rtl8723bs/hal/hal_com.c:927:43: note: each undeclared identifier is reported only once for each function it appears in
-> drivers/staging/rtl8723bs/hal/hal_com.c:940:73: error: ‘struct odm_phy_info’ has no member named ‘RxPwr’; did you mean ‘rx_pwr’?
->   940 |                         psample_pkt_rssi->ofdm_pwr[rf_path] = pPhyInfo->RxPwr[rf_path];
->       |                                                                         ^~~~~
->       |                                                                         rx_pwr
-> drivers/staging/rtl8723bs/hal/hal_com.c:941:71: error: ‘struct odm_phy_info’ has no member named ‘RxSNR’
->   941 |                         psample_pkt_rssi->ofdm_snr[rf_path] = pPhyInfo->RxSNR[rf_path];
-> 
-> Actually it's not exaclty in the same line of pr_debug/netdev_dbg replacement. Do you think
-> we can do the replacement at:
-> 
+Would like to send a v2 of the now one year old rkvdec hevc series but
+this series is sort of holding that back ;-)
 
-This has nothing to do with pr_debug/netdev_dbg replacement as you say.
+Regards,
+Jonas
 
-On the other hand, how useful can DDBG_RX_SIGNAL_DISPLAY_RAW_DATA be if it
-doesn't compile?  If you sent a patch to delete it, we will apply that patch.
-
-> > +			pr_debug(", rx_ofdm_pwr:%d(dBm), rx_ofdm_snr:%d(dB)\n",...
+On 2024-09-09 21:24, Jonas Karlman wrote:
+> This series add H.264 High 10 and 4:2:2 profile support to the Rockchip
+> Video Decoder driver.
 > 
-> regardless of this build errors? I mean, fixing it here in this patch
-> would not be related to the purpose of this simple patch.
+> Patch 1 add helpers for calculating plane bytesperline and sizeimage.
+> Patch 2 add two new pixelformats for semi-planer 10-bit 4:2:0/4:2:2 YUV.
 > 
-> > Just delete this line.
-> Ok.
+> Patch 3 change to use bytesperline and buffer height to configure strides.
+> Patch 4 change to use values from SPS/PPS control to configure the HW.
 > 
-> > -		printk(KERN_CRIT "%s: sdio_claim_irq FAIL(%d)!\n", __func__, err);
-> > +		pr_crit("%s: sdio_claim_irq FAIL(%d)!\n", __func__, err);
-> >                ^^^^^^^?
+> Patch 5-9 refactor code to support filtering of CAPUTRE formats based
+> on the image format returned from a get_image_fmt ops.
 > 
-> Originally, I didn't replace this because at dvobj of sdio_alloc_irq(struct dvobj_priv *dvobj)  
-> there are two adapter fields:
+> Patch 10 add final bits to support H.264 High 10 and 4:2:2 profiles.
 > 
-> struct dvobj_priv {
-> 	struct adapter *if1; /* PRIMARY_ADAPTER */
-> ...
-> 	struct adapter *padapters;
-> ...
-> }
+> Patch 11 add a fix for enumerated frame sizes returned to userspace.
 > 
-> Checking the "counter part" function of sdio_alloc_irq(), the sdio_free_irq() (which is not used), 
-> the if1 (primary) is used for debug purpose:
-
-If it's not used, just delete it?
-
+> Tested on a ROCK Pi 4 (RK3399) and Rock64 (RK3328):
 > 
-> netdev_err(dvobj->if1->pnetdev...
+>   v4l2-compliance 1.28.1, 64 bits, 64-bit time_t
+>   ...
+>   Total for rkvdec device /dev/video1: 48, Succeeded: 48, Failed: 0, Warnings: 0
 > 
-> And checking the initialization path, if1 should be ok at this point.
-> But since I can't test this, do you suggest to replace anyway?
-
-Most drivers/staging patches are not tested before sending.  The printk
-conversions are a leading source of bugs.  The common bug with these conversions
-looks like this:
-
-	if (!dev)
-		netdev_err(dev, "no device\n");
-
-Anyway, it's fine to send untested patches so long as you've looked at the
-initialization path and it's okay as you said.
-
-regards,
-dan carpenter
+>   Running test suite JVT-FR-EXT with decoder FFmpeg-H.264-v4l2request
+>   ...
+>   Ran 65/69 tests successfully
+> 
+>   Running test suite JVT-AVC_V1 with decoder FFmpeg-H.264-v4l2request
+>   ...
+>   Ran 129/135 tests successfully
+> 
+> Before this series:
+> 
+>   Running test suite JVT-FR-EXT with decoder FFmpeg-H.264-v4l2request
+>   ...
+>   Ran 44/69 tests successfully
+> 
+> Changes in v6:
+> - Change to use fmt_idx instead of j++ tucked inside a condition (Dan)
+> - Add patch to fix enumerated frame sizes returned to userspace (Alex)
+> - Fluster test score is same as v4 and v5, see [4] and [5]
+> Link to v5: https://lore.kernel.org/linux-media/20240618194647.742037-1-jonas@kwiboo.se/
+> 
+> Changes in v5:
+> - Drop Remove SPS validation at streaming start patch
+> - Move buffer align from rkvdec_fill_decoded_pixfmt to min/step_width
+> - Use correct profiles for V4L2_CID_MPEG_VIDEO_H264_PROFILE
+> - Collect r-b and t-b tags
+> - Fluster test score is same as v4, see [4] and [5]
+> Link to v4: https://lore.kernel.org/linux-media/20231105165521.3592037-1-jonas@kwiboo.se/
+> 
+> Changes in v4:
+> - Fix failed v4l2-compliance tests related to CAPTURE queue
+> - Rework CAPTURE format filter anv validate to use an image format
+> - Run fluster test suite JVT-FR-EXT [4] and JVT-AVC_V1 [5]
+> Link to v3: https://lore.kernel.org/linux-media/20231029183427.1781554-1-jonas@kwiboo.se/
+> 
+> Changes in v3:
+> - Drop merged patches
+> - Use bpp and bpp_div instead of prior misuse of block_w/block_h
+> - New patch to use values from SPS/PPS control to configure the HW
+> - New patch to remove an unnecessary call to validate sps at streaming start
+> - Reworked pixel format validation
+> Link to v2: https://lore.kernel.org/linux-media/20200706215430.22859-1-jonas@kwiboo.se/
+> 
+> Changes in v2:
+> - Collect r-b tags
+> - SPS pic width and height in mbs validation moved to rkvdec_try_ctrl
+> - New patch to not override output buffer sizeimage
+> - Reworked pixel format validation
+> - Only align decoded buffer instead of changing frmsize step_width
+> Link to v1: https://lore.kernel.org/linux-media/20200701215616.30874-1-jonas@kwiboo.se/
+> 
+> To fully runtime test this series you may need FFmpeg patches from [1]
+> and fluster patches from [2], this series is also available at [3].
+> 
+> [1] https://github.com/Kwiboo/FFmpeg/commits/v4l2request-2024-v2-rkvdec/
+> [2] https://github.com/Kwiboo/fluster/commits/ffmpeg-v4l2request-rkvdec/
+> [3] https://github.com/Kwiboo/linux-rockchip/commits/linuxtv-rkvdec-high-10-v6/
+> [4] https://gist.github.com/Kwiboo/f4ac15576b2c72887ae2bc5d58b5c865
+> [5] https://gist.github.com/Kwiboo/459a1c8f1dcb56e45dc7a7a29cc28adf
+> 
+> Regards,
+> Jonas
+> 
+> Alex Bee (1):
+>   media: rkvdec: h264: Don't hardcode SPS/PPS parameters
+> 
+> Jonas Karlman (10):
+>   media: v4l2-common: Add helpers to calculate bytesperline and
+>     sizeimage
+>   media: v4l2: Add NV15 and NV20 pixel formats
+>   media: rkvdec: h264: Use bytesperline and buffer height as virstride
+>   media: rkvdec: Extract rkvdec_fill_decoded_pixfmt into helper
+>   media: rkvdec: Move rkvdec_reset_decoded_fmt helper
+>   media: rkvdec: Extract decoded format enumeration into helper
+>   media: rkvdec: Add image format concept
+>   media: rkvdec: Add get_image_fmt ops
+>   media: rkvdec: h264: Support High 10 and 4:2:2 profiles
+>   media: rkvdec: Fix enumerate frame sizes
+> 
+>  .../media/v4l/pixfmt-yuv-planar.rst           | 128 ++++++++++
+>  drivers/media/v4l2-core/v4l2-common.c         |  80 +++---
+>  drivers/media/v4l2-core/v4l2-ioctl.c          |   2 +
+>  drivers/staging/media/rkvdec/rkvdec-h264.c    |  64 +++--
+>  drivers/staging/media/rkvdec/rkvdec.c         | 239 +++++++++++++-----
+>  drivers/staging/media/rkvdec/rkvdec.h         |  18 +-
+>  include/uapi/linux/videodev2.h                |   2 +
+>  7 files changed, 410 insertions(+), 123 deletions(-)
+> 
 
