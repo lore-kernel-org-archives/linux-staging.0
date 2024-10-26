@@ -1,88 +1,107 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from msa.smtpout.orange.fr (msa-218.smtpout.orange.fr [193.252.23.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1B181FC3
-	for <linux-staging@lists.linux.dev>; Sat, 26 Oct 2024 10:50:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC27F217F22
+	for <linux-staging@lists.linux.dev>; Sat, 26 Oct 2024 11:04:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.252.23.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729939812; cv=none; b=arE9Zn5OGDJi3k7Ns62z3vxqrLYHrW6Hit5mPeUq2s4P/qwufJzhocdmJtCoHTAeCNq4f74a2E4IM6qe1sCx6KNZGgB9Rxcxfc8VaEmsrSJJVSIlXpST+jF1bzPCoMvmYcjuHVJ7tr4/Ix4rPrx1R1eSe346MeJI+Ih2Ja8BSVU=
+	t=1729940695; cv=none; b=kuecXqrg9ZIApJ4iSkySJWW49RrNW/43V7juLyzzjBhvjcEICw0K2AuCQUnMUsquU8AeLDLrM2DCmR5ylT+z8ZomJqeGxrynk3a9LqbeSZ49ojRZLIRSysj6uQ5t0pAFm37fcf5omyiXmGIOuzHpoh+1kpmpwPuT2FeSaeqXbfY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729939812; c=relaxed/simple;
-	bh=HXw9JRhTSgEE+Sya2NxD8TdTvSXkkTx4mgfyPmBh+dc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n5yfr14q5iFIzzhLBNAtfcLx90F3Z8dNq6FFF5JRkcM09CAzDEWQRYMZVa6lIvMfigpnRVxQlgjQZGb/P4/gHz9XNZ9d5YtaG+O1Z+FTRAL1BiWlc8MHsiYxmds3Msy8dnqHYlGOLp+zlO8oKOiwdUxSzeS2rapbbxoBYh330iU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DwDSIa8K; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1729940695; c=relaxed/simple;
+	bh=G84evT0B+lKjUGpRq56h5jxxOl4TYHxpYmAc92bQ8oA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ESJwZMzYSvwDd7LzO9kmWLYOM8+BuaHsaMNHQFtmsuPXkfkEgQuRN7URQfFYyMEBoz9fOT6nzWaJAOclUnNAiBjCgH5dW7f/pGYjn+vk3sdceP9bKGriVDeWvpCEyodPAca/DowZy0eWdXKhyt0MhkjX3X58oaNPqYdjfjb0r7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=h3EaZv8S; arc=none smtp.client-ip=193.252.23.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DwDSIa8K"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4315f24a6bbso27178265e9.1
-        for <linux-staging@lists.linux.dev>; Sat, 26 Oct 2024 03:50:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1729939808; x=1730544608; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=yVz5J6QwYAV8RfgyJiVOhZ6SmvE+XSupxSpNLrKom2E=;
-        b=DwDSIa8KXaS582OZU8H3qUpk1BMpEfn5NqZJ/TNh9pZVQ+cI3yjFylNtDLs64l/dzy
-         iAh1bCw+rqzps3FmpOr1zZmvHg3HPd+tpUnQce8l98h+OCCMHcCu939usrQkOKLmjtnd
-         ibUOml/VEy3SdDuuQXTo7lHSDI5rs/7dvmQAGrQwsYBnaAHboJN6RMuRJL1QLYcsuamp
-         tmP+pDN554TYWRcTY9MAvuArf4ul3yrh/V4TSPBA83xhXbZvBXPYZ8RXQTlbHAuumfnw
-         /02PJvCZXOTMx0/pANf/mgCvRYH9NmecLzm/vlI906U/X0vGlqWaI96SgDUZe0Pp3U9d
-         HmiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729939808; x=1730544608;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yVz5J6QwYAV8RfgyJiVOhZ6SmvE+XSupxSpNLrKom2E=;
-        b=cCgBkYyM9ClC7osui5nHWenyYo/IklIdjJP67xhu8STBlqRmrVUUaJHZtRE00+ogzK
-         4WvtHY4fbAftF0yDNWfJhQ2du00A/vbzZ/aQGoadSwhbgzQ6V4Mh0C/BPyCthaJYH9Zt
-         Cgei9xN0haG1awzJwpJf0RwfOT7I6f3OLJcWcLAoCrOh0zGLGxwKjVNAbSg8nQrUcTmn
-         XMCWqcuhnx0EqC8VFCWspZNjmjWKNpyfyLO7V6wAsV8t0WiUPTaLRMOV7W4cIYP5YzoX
-         ZZutUGrL58vj2kICyaTMmIuXE7Jh6wKYZxkmNLTqkgB9elhfRPlu6ROZwsSCDiBpDnAc
-         4s9w==
-X-Forwarded-Encrypted: i=1; AJvYcCWsbgOsdeXJQG3vZOEYCsk/DchOOcYe/59L4jhuJ1LTKmBdM6loOYnHtnT88OGM9tZxriNfRi4TlrwqhUOT@lists.linux.dev
-X-Gm-Message-State: AOJu0YyacOugU47s0M3rFoan36llP5pcxiHZLYPWgvUkdp6AV/9hgDCm
-	lfJX28lK7xVuRkn3Z9/0p5Jr5QlgZaQD/bAQHRLC9XrGYfmPqmCw3VWeG1aXdv8=
-X-Google-Smtp-Source: AGHT+IHO434LELRXqOVavaqsm+vfx3F+ZefaoIvzcQGEzt13HboaTw4AXDGT9tjmHJFngTmQjqnGqg==
-X-Received: by 2002:a05:6000:12c5:b0:37c:c5be:1121 with SMTP id ffacd0b85a97d-380610f7bb8mr1683045f8f.9.1729939807834;
-        Sat, 26 Oct 2024 03:50:07 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38058b48216sm3981056f8f.59.2024.10.26.03.50.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Oct 2024 03:50:07 -0700 (PDT)
-Date: Sat, 26 Oct 2024 13:50:02 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Yi Yang <yiyang13@huawei.com>
-Cc: vaibhav.sr@gmail.com, mgreer@animalcreek.com, johan@kernel.org,
-	elder@kernel.org, gregkh@linuxfoundation.org,
-	ankov_svetlin@projectara.com, greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev, wangweiyang2@huawei.com
-Subject: Re: [PATCH] staging: greybus: fix possible null-ptr-deref in
- gb_audio_manager_get_module()
-Message-ID: <9ada17f8-7b3a-4bf7-8fc8-f40bf67adb33@stanley.mountain>
-References: <20241026081153.2649890-1-yiyang13@huawei.com>
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="h3EaZv8S"
+Received: from localhost.localdomain ([90.11.132.44])
+	by smtp.orange.fr with ESMTPA
+	id 4ea3tEjBah54N4ea4tPuht; Sat, 26 Oct 2024 13:03:40 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1729940620;
+	bh=G5GY2rPQRKm/v2JYqMqWO5YhIzdqawHoojEX7tDA53g=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=h3EaZv8SCmDWRQWQmRUXi1k/LikSzIZB8nBI6Hs8poRBs07+XCQ4+jqw+619awLEN
+	 lJxHw9tO+aii6QxY3TZr5aRrTTYRiI0ba/DvR9lpzhiP7TogdW9d9N9c0MusKa2oDU
+	 +TA5rYy8oTtyUuWRuhmu+6jo/IhAL4BnI8AMW1cUHEKYVSeROg49C2fP8hjRj3m39J
+	 Hd9NYj68W9hzYMtgHUKu0i7R64iFRf19FYxRU/wg7FJHSKUGpjN19WtAkNs14uuizu
+	 x42ejo/bc25726NiuqOr1ZRUqXHpz4FpOQkUc8ww6QOK/QCdeoYodcJJxXM9x/VBrP
+	 Y5JAAK2UIHU4Q==
+X-ME-Helo: localhost.localdomain
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sat, 26 Oct 2024 13:03:40 +0200
+X-ME-IP: 90.11.132.44
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: Dave Penkler <dpenkler@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Lee Jones <lee@kernel.org>,
+	Thomas Richard <thomas.richard@bootlin.com>
+Cc: linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	linux-staging@lists.linux.dev
+Subject: [PATCH] staging: gpib: Fix error handling paths in cb_gpib_probe()
+Date: Sat, 26 Oct 2024 13:03:30 +0200
+Message-ID: <459c267de8c9bf48fcb555364930ae7e3cdc798b.1729940596.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241026081153.2649890-1-yiyang13@huawei.com>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Oct 26, 2024 at 08:11:53AM +0000, Yi Yang wrote:
-> The gb_audio_manager_get_module() is EXPORT_SYMBOL, and will return NULL
-> when incoming parameter id < 0, fix possible null-ptr-deref by add check
-> for return value.
-> 
-> Fixes: 8db00736d365 ("greybus: audio: Add Audio Manager")
-> Signed-off-by: Yi Yang <yiyang13@huawei.com>
+If cb_gpib_config() fails, 'info' needs to be freed, as already done in the
+remove function.
 
-Where is gb_audio_manager_get_module() called from?  So far as I can see it's
-never used.  Why not just delete it?
+While at it, remove a pointless comment related to gpib_attach().
 
-regards,
-dan carpenter
+Fixes: 6f1067cfbee7 ("mfd: Add Congatec Board Controller driver")
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+*NOT* compile tested, so provided as-is
+
+It does not compile on x86_64 because of some missing includes. I've not
+seen if it was dedicated to a specific arch, so couldn't cross-compile
+---
+ drivers/staging/gpib/cb7210/cb7210.c | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/staging/gpib/cb7210/cb7210.c b/drivers/staging/gpib/cb7210/cb7210.c
+index c827d03dacf5..98f20dab320a 100644
+--- a/drivers/staging/gpib/cb7210/cb7210.c
++++ b/drivers/staging/gpib/cb7210/cb7210.c
+@@ -1194,8 +1194,7 @@ struct local_info {
+ static int cb_gpib_probe(struct pcmcia_device *link)
+ {
+ 	struct local_info *info;
+-
+-//	int ret, i;
++	int ret;
+ 
+ 	DEBUG(0, "%s(0x%p)\n", __func__, link);
+ 
+@@ -1223,8 +1222,16 @@ static int cb_gpib_probe(struct pcmcia_device *link)
+ 
+ 	/* Register with Card Services */
+ 	curr_dev = link;
+-	return cb_gpib_config(link);
+-} /* gpib_attach */
++	ret = cb_gpib_config(link);
++	if (ret)
++		goto free_info;
++
++	return 0;
++
++free_info:
++	kfree(info);
++	return ret;
++}
+ 
+ /*
+  *   This deletes a driver "instance".  The device is de-registered
+-- 
+2.47.0
 
