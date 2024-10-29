@@ -1,89 +1,93 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4149419413C
-	for <linux-staging@lists.linux.dev>; Tue, 29 Oct 2024 15:36:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA35B2076A3
+	for <linux-staging@lists.linux.dev>; Tue, 29 Oct 2024 22:02:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730216176; cv=none; b=OHTm32I4H52wxlJtDtpDsw3whENu2Zt0Fj9NnVw3bgFsoZRSSlNqDfdS3JYG+2naH2aREuBDIyV+88dNQO7hF2ZloHE+V+kVfYCHypqakIwO4zG5nUBqmXiy3z3dyacxdmjUPd9zbvuiQkVpQWKEQGpny+5TXCrPXHCahKl2zlE=
+	t=1730239367; cv=none; b=B1rWNF4xiM5dfdWxDEfSPOzwt2nFA53S/74M3+RU9dW4n5qwSCTnZu9NSGNKJfewKmOjYgGoN9gp1h7ZFOnYX8cijRzeCqJcIJlT1peK+NYKYzbjOhXYPkH+hQICxeBFiHLmP3rjnNyRUBcZzQWSRsN80N7V6DnjUb6HpgABW0E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730216176; c=relaxed/simple;
-	bh=ZYikKo08DE87/S4tbKf8A80bYK39lHlprAydhKEBkcg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MBGQG5cUxJt9A0oKLm77zGFSYZczWSY6lj1i7IfBJ95ItGbLwCb51iiUyhj1ZTBLOteX7O9nGnyTjfe4hziWtGAVir1ZcsewelKz43pn+qF3/W+DQe17ygLdwrCISiK+LoYIpH6/rWEGsEonrT5NVRfi8ImtHgoOC4uHo2xCl8I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ryZuMWn/; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1730239367; c=relaxed/simple;
+	bh=3b1JYhCoogt29e1plZja81sNTk2igpY0OAj+Xq2plEg=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=PQ+pPUOLrHZXf19T6WVJ5u5MZ4TYRN16dK1UbO2z+WTIq2CCWG5Ixp/r4cckETcwRMz9W5UqaJZtasUnozcdoHjMpIRlfa+3b2+DR2LlmRfUAfwlVxh8vTdApY2TgTiV4ooHVu+G2X0vtbhtSEeq+A69mtXimvM2RrijdWLHWhY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KyIOJ5kG; arc=none smtp.client-ip=209.85.216.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ryZuMWn/"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a9a2cdc6f0cso750728266b.2
-        for <linux-staging@lists.linux.dev>; Tue, 29 Oct 2024 08:36:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KyIOJ5kG"
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-2e56df894d4so4769109a91.3
+        for <linux-staging@lists.linux.dev>; Tue, 29 Oct 2024 15:02:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1730216172; x=1730820972; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Az9Dk7+EEGUZ6gjbi4dbeDEuHWYkO2/rkcRJveCLeXI=;
-        b=ryZuMWn/NITaJAL0ys0gxuSC3jlt79zQDhmmH/Juddd5cT+4xDXvurfVK9aYwyuElS
-         S4qEMdD8BGPjvhlLcRrS3gOiNzgzc6bU5yB9NjD725k0EzHWbH6ZAtOg+1w+E4L79MEw
-         qmsp+XyOw4E7txxy+zipUpOCDSuv2Kb22Kv4+5z+bhuy/yiFxQXmYbYQG7Va4IHkQlgQ
-         5u6ScnPqYFb/trT6OAUzzCpt28zw+ZcgCMKmZAWsu9mjqSCvuSzyeajdOtp4717JolhB
-         giN3yot2qGEXsgOFCMsLOPjmdLWAMQr1hB9KupF/HriGQrTuzTlcdv6LQPKkUHgc+qr7
-         7T7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730216172; x=1730820972;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1730239365; x=1730844165; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Az9Dk7+EEGUZ6gjbi4dbeDEuHWYkO2/rkcRJveCLeXI=;
-        b=erUiNJs84IYDKXS9Nu6Y4MsCUYGC01XGAtpwt5SofrczXTAaSDS4+3nPlVbPtzyBgq
-         oNvOhCVKUe+DsUOT8n+srCLkf6nbeuaFPdLc6BTMARgqWCzK3KVybHL8vt9PyMJKhb0E
-         mRwi3RFcN8CIFyGpHa1Xiq5wnQ+UGhlQjoHeLcbK6VDlNcKo0yZlkUbLi40Tkuuj7nLd
-         iFBhZih4JQ1pqvRmoQL8B5evNI1CXQLKpkSmzwrmyEN2PnmJxX/frwgtlHkAXtTlG29u
-         /P1+VFY9xKgOLWdEpdPgJMW3FWr4BWhQrF0lAUhpGLGfE2kmeTB/skjm2iP71SpE5iAf
-         N/aQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU3R3c/LPHNAZQoaaYPjI8zSR+N+XYeSVYbTQ9p8OTN3/yTrCNxbmQ9D25AB+ajkNyEZsEpkeDRTQUPWV7N@lists.linux.dev
-X-Gm-Message-State: AOJu0YzNyi7VVhNjUwEQxxB7k5gK3Rk3BwtVpwowH713cuxsiP244rsm
-	wll1bqnA47+hBWukE/UVLjvSGDT6Z99i3p7CJi565PdQzrnY63c8HGW34IZTY9w=
-X-Google-Smtp-Source: AGHT+IEU1iH/F5CZkTb1Q0OIRBjgpNI0NSgp7znzkrHlLRcaq2cgt2DVKxL54s9Ap1AXt+Hg3XFGdQ==
-X-Received: by 2002:a17:906:dace:b0:a9a:38e6:2fdf with SMTP id a640c23a62f3a-a9de619bb45mr1212224866b.64.1730216172452;
-        Tue, 29 Oct 2024 08:36:12 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9b1f298319sm477938866b.105.2024.10.29.08.36.11
+        bh=Lab7o1g2od5FhlATm1BQJvpKUF+pd5RGVodCqxvDriU=;
+        b=KyIOJ5kG0M1//cp3TVUoslrzGcATfPLp+8ES2XqNZ87LtPselZcGfjlxZ/GYCz9BD0
+         6MHW107nLBtGkIJAzOEC0oepBIwy33RDvk++XByLY5aRO3d0kdmP6xdV/wcIIQSWT4v6
+         1C1x8qoO/zp/y9SiUT+sM3oY2LAZ3kO5QjM1j4OB8I6phtAkNr7MmF9JAtMTNGhwTE1y
+         N2Boo7WZWeYirTDul3lzSwyfI4IltVzQZZGR6s9qmhHGa45jqH4LyibaSXXEY5aZYG+A
+         Jdh9HxWaZEJetGjucuA2QaHd7az3qPOrQGiEkmyr/uw70yGdZ0JUDUUJuLZE+DTXcLT0
+         HT4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730239365; x=1730844165;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Lab7o1g2od5FhlATm1BQJvpKUF+pd5RGVodCqxvDriU=;
+        b=oqFWMcLmxd6geR+bMhmmXgwKwGG2FnEeyuXpT3mm333bIz3xag7H26liXjFQYVQGDh
+         JdvGNwZ2yK0Y+GvDq48alhaJk2K7S+7haOnm/fm6v48wrB0fBI++yET1scHRmTlNj9+x
+         uWfZb9t+xR0govdkh9duOzyaODOYVHuKT39zQE7uVxgJh+fswZ1RDBmAMTqlDcMBSZpR
+         wmepmyo6iD11Cs4n+Zdqa+ViaWUblCL7cVuDzcugTlrrMrmnh82QXjqhNWvSYrf3Wkpq
+         Bg+Jreo43mmULTlzAU1GRFwuK7jHeyohgm9C2/4CB1VB6MG+csQ3PqK5VzwbFk0WTNQG
+         Z8eQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV8f5m4tob7vHT/7BzTaGXpmS8JuzNfk7oA+WIt4q/Kz1Y9mkUEl42tFoc0SnoSIeLwt4u3r3zwgelBBDtX@lists.linux.dev
+X-Gm-Message-State: AOJu0YxlAFxuKzfntZ024QpYhsFSifd5etvWiQKjoy4SGCkQbUB31qRT
+	M2eyKeOWelov/E/QmMbD2uZqTlHPc2A6Qox7WIE2GiyJeQPp5ZJI
+X-Google-Smtp-Source: AGHT+IEbpwmKJX7mC2FkAJx7XhoO5M4gNCTQyCFub1H7kQU1Dhkh4yP8PQ1I6l/sO91+RQiE2V1wqA==
+X-Received: by 2002:a17:90a:a110:b0:2e2:c6c2:b3d5 with SMTP id 98e67ed59e1d1-2e8f10692c1mr16332967a91.9.1730239364603;
+        Tue, 29 Oct 2024 15:02:44 -0700 (PDT)
+Received: from localhost.localdomain ([2804:14d:4c64:81ec:768d:7e1:4b86:da7d])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e92fbe7119sm128701a91.40.2024.10.29.15.02.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Oct 2024 08:36:12 -0700 (PDT)
-Date: Tue, 29 Oct 2024 18:36:08 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Alex Elder <elder@ieee.org>
-Cc: "yiyang (D)" <yiyang13@huawei.com>, vaibhav.sr@gmail.com,
-	mgreer@animalcreek.com, johan@kernel.org, elder@kernel.org,
-	gregkh@linuxfoundation.org, ankov_svetlin@projectara.com,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	wangweiyang2@huawei.com
-Subject: Re: [PATCH] staging: greybus: fix possible null-ptr-deref in
- gb_audio_manager_get_module()
-Message-ID: <90038430-3ead-405b-8a1c-69dce59004b8@stanley.mountain>
-References: <20241026081153.2649890-1-yiyang13@huawei.com>
- <9ada17f8-7b3a-4bf7-8fc8-f40bf67adb33@stanley.mountain>
- <a9cfb5e6-33f4-495c-b329-7e97f626d1a1@ieee.org>
- <541d16d3-ea2e-d956-5dd9-613ede430fe5@huawei.com>
- <01caa8c5-5d7e-449c-a00d-28c81f453e41@ieee.org>
+        Tue, 29 Oct 2024 15:02:43 -0700 (PDT)
+From: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
+To: dan.carpenter@linaro.org
+Cc: gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	philipp.g.hortmann@gmail.com,
+	rodrigo.gobbi.7@gmail.com,
+	~lkcamp/patches@lists.sr.ht
+Subject: Re: staging: rtl8723bs: change remaining printk to proper api
+Date: Tue, 29 Oct 2024 19:02:38 -0300
+Message-Id: <20241029220238.110407-1-rodrigo.gobbi.7@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <e12bc7eb-07ed-4bec-84f7-5b178ba802c2@stanley.mountain>
+References: <e12bc7eb-07ed-4bec-84f7-5b178ba802c2@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <01caa8c5-5d7e-449c-a00d-28c81f453e41@ieee.org>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Oct 29, 2024 at 10:31:14AM -0500, Alex Elder wrote:
-> If you can't find any callers, none exist.  It's fine to propose
-> removing the function.  And if the maintainer accepts it, it's a
-> good change.
+> Why are you pasing -DDBG_RX_SIGNAL_DISPLAY_RAW_DATA?
+> ... But if there is some external document which says to enable it, and it's
+> useful stuff then maybe we should keep it?
 
-Plus in this case specifically Alex is the maintainer so you can already be
-pretty sure he'll accept it.  ;)
+I've enabled this in an arbitrary way just to check the rtw_dump_raw_rssi_info()
+because I was doing the debug replacement within the isolated code. Looking again,
+I didn't find any documentation about this and the history of some files, the #ifdef 
+macro is very old...from 7years ago. We can remove this for sure.
 
-regards,
-dan carpenter
+> If it's not used, just delete it?
+Ok, I'll do it in a next patch too.
+
+> ...as you've looked at the
+> initialization path and it's okay as you said.
+Ok, I'll send a v4.
+
+Tks again and regards!
