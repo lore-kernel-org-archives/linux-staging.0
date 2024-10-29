@@ -1,98 +1,104 @@
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 885F74400
-	for <linux-staging@lists.linux.dev>; Tue, 29 Oct 2024 02:58:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EA771D79B4
+	for <linux-staging@lists.linux.dev>; Tue, 29 Oct 2024 06:39:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730170720; cv=none; b=LuBVu7eYcqTMXjIPi8rwm3iYdK1FSu+ZxKGzbQB+EQ9/l4P8DM94BobGddEuA+jC/qUOevizNWnbc52Wftq8gp7HU3ILUJNOg1bgIxd8zMuiHA5WPDGJF6kgr/04HWkeAcd9goD6+wWFbD2yNg/odAD+rkaiz9Lkrsbqm4kxhBc=
+	t=1730183954; cv=none; b=R8auq5kXF3axQjCUgMBSq29TMggj6ifkog9fEI5C8DQPIryIsPpOPW/ucS95nhkzNZwOVYol5uAYMkavzwz8zvcXLr9iSHTSSUaYSpFQ0kTOtBY2FMlsY4fF0USU8vDbr5MfNHtgArsb9q4YK6E/Qxz4RUcx3LU1NPmYXDtx4RU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730170720; c=relaxed/simple;
-	bh=VAh+/kNuWLTsBEbxpcWAPXK0O3PvoN0bbd67rjXQETU=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=iG4kPUlqhEHQ8qttl1NI5iX7oiCwPCKQ+6lQmi5SftG3n+PFkhmrz2jjFiwgXNIbYfXXd4C4PQDz58wg9AjUDXCN/NO49y3OolTKymeD/TnA8lYWux6shyEIMtXbu+CrvCdI3nLSMzfq3ojifet+pc1EKX/zdhFIl43V16eNcek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.163.48])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Xcvzp13nGzyTwM;
-	Tue, 29 Oct 2024 10:56:54 +0800 (CST)
-Received: from kwepemk200016.china.huawei.com (unknown [7.202.194.82])
-	by mail.maildlp.com (Postfix) with ESMTPS id C5CF6180064;
-	Tue, 29 Oct 2024 10:58:31 +0800 (CST)
-Received: from [10.67.108.122] (10.67.108.122) by
- kwepemk200016.china.huawei.com (7.202.194.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Tue, 29 Oct 2024 10:58:31 +0800
-Subject: Re: [PATCH] staging: greybus: fix possible null-ptr-deref in
- gb_audio_manager_get_module()
-To: Alex Elder <elder@ieee.org>, Dan Carpenter <dan.carpenter@linaro.org>
-CC: <vaibhav.sr@gmail.com>, <mgreer@animalcreek.com>, <johan@kernel.org>,
-	<elder@kernel.org>, <gregkh@linuxfoundation.org>,
-	<ankov_svetlin@projectara.com>, <greybus-dev@lists.linaro.org>,
-	<linux-staging@lists.linux.dev>, <wangweiyang2@huawei.com>
-References: <20241026081153.2649890-1-yiyang13@huawei.com>
- <9ada17f8-7b3a-4bf7-8fc8-f40bf67adb33@stanley.mountain>
- <a9cfb5e6-33f4-495c-b329-7e97f626d1a1@ieee.org>
-From: "yiyang (D)" <yiyang13@huawei.com>
-Message-ID: <541d16d3-ea2e-d956-5dd9-613ede430fe5@huawei.com>
-Date: Tue, 29 Oct 2024 10:58:30 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+	s=arc-20240116; t=1730183954; c=relaxed/simple;
+	bh=e9APVLVM0O9XL0qjKgr8gnAp9m7xUzTv4X256LpfKtE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=FwIruYx0+yGFQaLARlLYAMYzLyYWM2alUtEAjvEydDWGJJ1N+XN/8QXXY6CJMdYknwHY8Uqv8u9KzjrkazqHBKflmUYAjiyK8tVwNsMIBiKG3LraTCfZossVK4O+/KJjzqAZBn+ziplqvK/nM2nyCxDH55Caj+rf6CinWIXAzC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l7nOzaMk; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l7nOzaMk"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-20cdb889222so47987065ad.3
+        for <linux-staging@lists.linux.dev>; Mon, 28 Oct 2024 23:39:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1730183952; x=1730788752; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NoTHtDAF6ws44F47OVjGKPN9wXynxJNwGjXwFS8SeTg=;
+        b=l7nOzaMk4Gz9tvC/8fK1j+WeutY3GQsKkdl7IT1cdy/ad0R+J7gnQQrjhCB+p+YSgn
+         xjbx4OX7drBYNaqHQSkgxfclBtM+6zNHKk0I+8rJRDkOgpE5QPn2RHFile16/buZoV2s
+         m5FrsnzZrlOjgPHx2q9VP5yU0JItZI9Rp8tBGM7e5WCEuRERXEC2v8YsIRhwpSmTXf20
+         25TfWSUmje5+i7V+Fv65gP9HR1ftAEl7Jmi4KqBys14Dj93z596k7hHClU3pgH4ThvGI
+         mp9ECN3octEd9yAwuYVMBiiJAHRryXsPypq0+iWVHocRnNhJ5AZn5F6ASeIobhczc90P
+         esiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730183952; x=1730788752;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NoTHtDAF6ws44F47OVjGKPN9wXynxJNwGjXwFS8SeTg=;
+        b=MZl4VCN/4qFlPq3V9KKjxCwhdch5IoFSUQP/bkAEWqzqiyg7t5RMstnasRp46wR9an
+         SCTTwEntMtRtqix/narHIMdc9sF5WuJUhvKWJUW14uPfPOlKkNGTNQd3hOi0umAgIsmA
+         mCC0Lg5CKb4IlA5qdUROiKHYnYxAAcapbN0bsOHXWqCZdpYFV1dCIO0P1jX/Ow1eTue4
+         pz3w0hnWQetTYd8MqQevo7NvQtxGSAClBwKAnVqfBrZAf9MBV2ZvX+TpBcV3XbUOuhP1
+         xRh/RgSUZ0Ph4RpoSMJO/AZqEocAMxuxev3rB83FBkzV54mYRPM63FGlqohCTKupIOI9
+         FtZg==
+X-Forwarded-Encrypted: i=1; AJvYcCU1v0pjbnppPN38v3UBlKBDlyFk8U3k+lsPWul9KyzQ+PPCwA75jWmWuvyTreXhF8lLIWeFrfc4z6aOOyLx@lists.linux.dev
+X-Gm-Message-State: AOJu0YwTNRGrywOQUS45/Y8/RFmR+6yrtU3me80Ub8+R3TVPNmtKF9V0
+	dGC2I2FkJqP1rvjUDa4UCVQEiaHVlFpBmCFgMoqhWXadOqYG0iBI
+X-Google-Smtp-Source: AGHT+IGgiP7oIWXuGp9Me5fkVVdBioimX2YIYTbB7y0RxwXTtVz3gXwarihKlTlWpugpq7ix+Xj/5g==
+X-Received: by 2002:a17:902:d48b:b0:20c:bff7:2e5f with SMTP id d9443c01a7336-210c6893180mr145648635ad.13.1730183951697;
+        Mon, 28 Oct 2024 23:39:11 -0700 (PDT)
+Received: from dev.. ([129.41.59.4])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-210bc02f16csm60340365ad.209.2024.10.28.23.39.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Oct 2024 23:39:11 -0700 (PDT)
+From: Rohit Chavan <roheetchavan@gmail.com>
+To: Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Rohit Chavan <roheetchavan@gmail.com>
+Subject: [PATCH] staging: vchiq_core: Remove unnecessary blank lines
+Date: Tue, 29 Oct 2024 12:09:01 +0530
+Message-Id: <20241029063901.1857067-1-roheetchavan@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <a9cfb5e6-33f4-495c-b329-7e97f626d1a1@ieee.org>
-Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- kwepemk200016.china.huawei.com (7.202.194.82)
 
+This commit cleans up the formatting in by removing extraneous
+blank lines, improving code readability without changing functionality.
 
-On 2024/10/28 20:46, Alex Elder wrote:
-> On 10/26/24 5:50 AM, Dan Carpenter wrote:
->> On Sat, Oct 26, 2024 at 08:11:53AM +0000, Yi Yang wrote:
->>> The gb_audio_manager_get_module() is EXPORT_SYMBOL, and will return NULL
->>> when incoming parameter id < 0, fix possible null-ptr-deref by add check
->>> for return value.
->>>
->>> Fixes: 8db00736d365 ("greybus: audio: Add Audio Manager")
->>> Signed-off-by: Yi Yang <yiyang13@huawei.com>
->>
->> Where is gb_audio_manager_get_module() called from?  So far as I can 
->> see it's
->> never used.  Why not just delete it?
->>
->> regards,
->> dan carpenter
-> 
-> I agree with this.  I suspected all callers might have guaranteed
-> that the "id" value passed would be always valid, but... there are
-> no callers.
-> 
-> It is a simple function, and could be added back again if it is
-> needed in the future (possibly even by reverting the commit that
-> removes it).
-> 
-> If you do this, please remove gb_audio_put_module() in the same
-> patch.  It too has no callers.
-> 
-> Thank you.
-> 
->                      -Alex
-> 
-> .
+Signed-off-by: Rohit Chavan <roheetchavan@gmail.com>
+---
+ drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-I tried to find the caller before I modified it, but unfortunately I 
-didn't find the caller, so I suspect some non-kernel driver code will 
-try to call this functions.
-
-I just found this problem while reading the code and I'm not sure if I 
-should remove the function.
-
-regards,
-Yiyang
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+index 9e56e34ca4d9..da18c77f3cab 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+@@ -3486,7 +3486,6 @@ vchiq_bulk_xfer_blocking(struct vchiq_instance *instance, unsigned int handle,
+ 	if (vchiq_check_service(service))
+ 		goto error_exit;
+ 
+-
+ 	status = vchiq_bulk_xfer_queue_msg_killable(service, bulk_params);
+ 
+ error_exit:
+@@ -3624,7 +3623,6 @@ vchiq_queue_message(struct vchiq_instance *instance, unsigned int handle,
+ int vchiq_queue_kernel_message(struct vchiq_instance *instance, unsigned int handle, void *data,
+ 			       unsigned int size)
+ {
+-
+ 	return vchiq_queue_message(instance, handle, memcpy_copy_callback,
+ 				   data, size);
+ }
 -- 
+2.34.1
+
