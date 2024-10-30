@@ -1,66 +1,67 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3363F85931
-	for <linux-staging@lists.linux.dev>; Wed, 30 Oct 2024 07:38:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81B9128F7
+	for <linux-staging@lists.linux.dev>; Wed, 30 Oct 2024 09:38:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730273933; cv=none; b=fTlWgcjvYfcg7Fe7uFBTMu/C8dn8kFA42xD+5pXAoQSxZLcP0sE3bObszl4qIwRX2iIi/RQ+w8+FcY3HaeC0YYl49bSLdPoi4hnsM3mRg3o8eVwDmAv+runasWLfdXHyof0UvxWiFpqZGk132Y+VR/mzoNMWsZ+BNN/ERPju9vg=
+	t=1730281116; cv=none; b=k633vuqIAji+S8Ph27zrUKPGxZE4b/7TwtjbX57mgJJKFDyadLkUIBshc/6gRyNW6SinWLpy6AC0JfCeIbCStOL4kEg7reD2bGvj5CU0SlnL/88tdfWfP8kJiqjBlG7mDg9Pw1mU0JQkX9+h+cxufAHzLwIZ25kozZaUxbVs/NA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730273933; c=relaxed/simple;
-	bh=CIfyIWKyAZopCYXAVJs0OQjdB+bx4WxORWZhQJacI6g=;
+	s=arc-20240116; t=1730281116; c=relaxed/simple;
+	bh=bBqDyHLK1vWpbzc4gSQ4P20VPpoRWihqbMxmBhK7XP4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nOJpOSY+sZTD781Zkf2U6NSRg/c27CrTgAgOgv6sKpooWknQJtELbWU/gKTjR+MQbXCqxiJuYidP9rAps/NkGwzE2VGPpCOa3hhd4fws26gzAnlgj9bUqPgRbcK8UQyOn0BepBbr91AF0ksjJVOe0uX9VPJ43Tkkqn7k+0xoa20=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zUDxwJHb; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=Bk/YtlU78odTimK8IjbjLZFtm0BUr2ScXz/uXLIPJO5b0EDf82Cd+nPCMWF4OKzy6aFqjyKxFYCEkMhhwPX3R9R/36V/M8uWIoCftPpAYRFIVSqzLIZMyC9NUNrmkVY1H8UFZzuDXfB408Qf1VkE1GtDsJ8KbP5esk5dVdXXGPo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=PPS5OmUT; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=DZOdZhaZ; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zUDxwJHb"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-37d6a2aa748so4044163f8f.1
-        for <linux-staging@lists.linux.dev>; Wed, 30 Oct 2024 00:38:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1730273929; x=1730878729; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=LhuDhEZJkU9JsxAhgAFW3kJci0MRgq1vPLOeXgFWtYk=;
-        b=zUDxwJHbZbcQ8OwTaq6/Nnyj2/dU2hlwkooRLMUzb4qAOuHjf1s6M15S9/aTS+URs8
-         svxUpiWgggPhUPw3uT3iIPQJtDCETYLeny3npnV5zbEOFsiDrqJHA902j5SKvlVYGZwb
-         /HMLamKc7uG8CnnwqbAnlmlI2xFYNSG5AYzJPI+7v+dyI5Ki9a1Gyd8Lqef3SfWbT73v
-         bKyoyd2WMIbeTjeDtdEW81ZxB+ipMNr4xzXi2gAQpbMWur4QI4EU1YRtrsHrIAsPK7N6
-         FbVPjLXqQ9RvCulcViQ3TBXufHKbm6pXwqEHSivWeYtmX53QPaiFmFIytEkl+nOHMcbr
-         8//A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730273929; x=1730878729;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LhuDhEZJkU9JsxAhgAFW3kJci0MRgq1vPLOeXgFWtYk=;
-        b=v7rXZYqTUi+46rsmegaxGcVaJrOnv0UGaMzKeAplkBsMCXGv4oQQBXNEg40NVpgfQj
-         xt00Huo33WGP947rcVrSfQSkb2i9oDC5/582wU/0JpN3olQWCtKpkENgEovZOBjVwyvh
-         nnmwBjwT6bOep/SbMiswVVAOtmDr7rM0/lc+ZvpkPh37KBxEBwam+/TU+psKxNQ/hxLH
-         3wGmJYRAOZBRDaGmB0l91A3CgJ10kndbKInasNdLTDe/e3/1B79uYKLrfxbwwi8jeYA0
-         WcYiqgSKnEUlWG0QmmHpHldtSPwvbmlqHUUvkMLP9Gj/ZQgHfNDR34MmR5Gi2xpc6QqW
-         Jq3Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXVSzWLaxZqYZSAGBEfzFa8+WhGd5EPfpQzWlLjwimO7Gb3kaCANO4P6esZI2nP0cljgZt+tQoJAZPTUhFp@lists.linux.dev
-X-Gm-Message-State: AOJu0YwdQpeyHKBSSeiXWLf7GmS9QetY4047HAkge5bKneVkP1qMXRda
-	TUCyvTnv+pj1tCtmI1Hb2E9RMWlRdCF9Ekj4QCYc2uLm1ylB2wE5D3b83CtqMbM=
-X-Google-Smtp-Source: AGHT+IGI33jQx6+cHtP7k238HF/+0YJfRR/AYslQCtaxx4oYHXtWzKb8smj2QVp0Aloib/BJCoOhMg==
-X-Received: by 2002:a05:6000:1f06:b0:37d:481e:8e29 with SMTP id ffacd0b85a97d-38061159039mr9314149f8f.25.1730273929282;
-        Wed, 30 Oct 2024 00:38:49 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38058b9d008sm14509226f8f.107.2024.10.30.00.38.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Oct 2024 00:38:48 -0700 (PDT)
-Date: Wed, 30 Oct 2024 10:38:44 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
-Cc: gregkh@linuxfoundation.org, philipp.g.hortmann@gmail.com,
-	~lkcamp/patches@lists.sr.ht, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] staging: rtl8723bs: change remaining printk to proper
- api
-Message-ID: <0d397004-0bfa-46a5-a184-dd85f15f1533@stanley.mountain>
-References: <20241029221544.112800-1-rodrigo.gobbi.7@gmail.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="PPS5OmUT";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="DZOdZhaZ"
+Date: Wed, 30 Oct 2024 10:38:30 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1730281112;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TmbuJ8tIL0U0CXQgiEtrGS9NH/UsX6GKwzkR8vLmdOY=;
+	b=PPS5OmUTStezmCawOKnBMHnewKSlKMXeTiCvWGbabgx1Hef8pIRkFy18kRWnT3Wt5fiPkY
+	mIRF0Bw6KJecwAIChQJbBek05J5E5MmznHblnxfxXqAvYEpY9ua4Gq3bX96N3AdAcrQTlJ
+	kMuZQIKddG4QFnG54le2YoPvFzaWtc7K7LauO+mudy4hwUx6S+dQlEFKiqtHN2XJrxoW4F
+	Yr7AihtmIAjTssxom/OaNPKJ57GtZTX+/RvfPi5EACUOmKLAWPIQFdntLR+pun8m7McU4j
+	nHV3k7sL5Fwpwhx+Lzn/gFSFftvCLZLkIi0463MAIs4fwkCXS7s1ao20gY3ABg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1730281112;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TmbuJ8tIL0U0CXQgiEtrGS9NH/UsX6GKwzkR8vLmdOY=;
+	b=DZOdZhaZeHytsofQoHf/wBsN01A1Ej43ZNjmfQct5VsSi5+1uq06LLRoZh738Df6AtU8ZK
+	iI2vKiGFr57kwDCg==
+From: Nam Cao <namcao@linutronix.de>
+To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Cc: Florian Schilhabel <florian.c.schilhabel@googlemail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Linux Driver Project Developer List <driverdev-devel@linuxdriverproject.org>,
+	Kalle Valo <kvalo@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Larry Finger <Larry.Finger@lwfinger.net>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Dominik Karol =?utf-8?Q?Pi=C4=85tkowski?= <dominik.karol.piatkowski@protonmail.com>,
+	Xingquan Liu <b1n@b1n.io>, Tudor Gheorghiu <tudor.reda@gmail.com>,
+	Ping-Ke Shih <pkshih@realtek.com>,
+	Manisha Singh <masingh.linux@gmail.com>,
+	Dorine Tipo <dorine.a.tipo@gmail.com>,
+	Tchadel Icard <hello@tchadelicard.fr>,
+	Felix Yan <felixonmars@archlinux.org>,
+	Moon Yeounsu <yyyynoom@gmail.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Roshan Khatri <topofeverest8848@gmail.com>,
+	Andy Shevchenko <andy.shevchenko@gmail.com>,
+	Christian Lamparter <chunkeey@gmail.com>
+Subject: Re: [PATCH] staging: rtl8712: Remove driver using deprecated API wext
+Message-ID: <20241030093830.QSofC7Cl@linutronix.de>
+References: <20241020144933.10956-1-philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -69,19 +70,32 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241029221544.112800-1-rodrigo.gobbi.7@gmail.com>
+In-Reply-To: <20241020144933.10956-1-philipp.g.hortmann@gmail.com>
 
-On Tue, Oct 29, 2024 at 07:15:44PM -0300, Rodrigo Gobbi wrote:
-> As part of TODO file for future work, use dyn debug api for
-> remaining printk statements.
+On Sun, Oct 20, 2024 at 04:49:29PM +0200, Philipp Hortmann wrote:
+> This driver is in the staging area since 2010.
 > 
-> Signed-off-by: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
-> ---
+> The following reasons lead to the removal:
+> - This driver generates maintenance workload for itself and for API wext
+> - A MAC80211 driver was available in 2016 time frame; This driver does
+>   not compile anymore but would be a better starting point than the
+>   current driver. Here the note from the TODO file:
+>   A replacement for this driver with MAC80211 support is available
+>   at https://github.com/chunkeey/rtl8192su
+> - no progress changing to mac80211
+> - Using this hardware is security wise not state of the art as WPA3 is
+>   not supported.
+> 
+> The longterm kernels will still support this hardware for years.
+> 
+> Find further discussions in the Link below.
+> 
+> Link: https://lore.kernel.org/linux-staging/a02e3e0b-8a9b-47d5-87cf-2c957a474daa@gmail.com/T/#t
 
-Looks good.  Thanks.
+I added owner of that "replacement driver" to CC:
+Christian Lamparter <chunkeey@gmail.com>
 
-Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+I vaguely remembered that he mentioned the replacement driver doesn't work
+very well. But can't find that email again.
 
-regards,
-dan carpenter
-
+Nam
