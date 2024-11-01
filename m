@@ -1,101 +1,73 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81B9128F7
-	for <linux-staging@lists.linux.dev>; Wed, 30 Oct 2024 09:38:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FEF4154BEC
+	for <linux-staging@lists.linux.dev>; Fri,  1 Nov 2024 07:47:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730281116; cv=none; b=k633vuqIAji+S8Ph27zrUKPGxZE4b/7TwtjbX57mgJJKFDyadLkUIBshc/6gRyNW6SinWLpy6AC0JfCeIbCStOL4kEg7reD2bGvj5CU0SlnL/88tdfWfP8kJiqjBlG7mDg9Pw1mU0JQkX9+h+cxufAHzLwIZ25kozZaUxbVs/NA=
+	t=1730447254; cv=none; b=jP2QsI3VnkgclngMTSEC4QdL1haquRw9bMvyPHSwos1o3Q2lFJ/k5AdTTFtiwZIy/cyRSVopVzL3hM7KnQ9VYlTBPl1iveS8uavAKl2AvtIh7IwsT4cLESxPu/HBv7WRYNu1osbRVkgmjf4pqiZda7DtFlknheGHEm0LYCcU2uE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730281116; c=relaxed/simple;
-	bh=bBqDyHLK1vWpbzc4gSQ4P20VPpoRWihqbMxmBhK7XP4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Bk/YtlU78odTimK8IjbjLZFtm0BUr2ScXz/uXLIPJO5b0EDf82Cd+nPCMWF4OKzy6aFqjyKxFYCEkMhhwPX3R9R/36V/M8uWIoCftPpAYRFIVSqzLIZMyC9NUNrmkVY1H8UFZzuDXfB408Qf1VkE1GtDsJ8KbP5esk5dVdXXGPo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=PPS5OmUT; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=DZOdZhaZ; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="PPS5OmUT";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="DZOdZhaZ"
-Date: Wed, 30 Oct 2024 10:38:30 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1730281112;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TmbuJ8tIL0U0CXQgiEtrGS9NH/UsX6GKwzkR8vLmdOY=;
-	b=PPS5OmUTStezmCawOKnBMHnewKSlKMXeTiCvWGbabgx1Hef8pIRkFy18kRWnT3Wt5fiPkY
-	mIRF0Bw6KJecwAIChQJbBek05J5E5MmznHblnxfxXqAvYEpY9ua4Gq3bX96N3AdAcrQTlJ
-	kMuZQIKddG4QFnG54le2YoPvFzaWtc7K7LauO+mudy4hwUx6S+dQlEFKiqtHN2XJrxoW4F
-	Yr7AihtmIAjTssxom/OaNPKJ57GtZTX+/RvfPi5EACUOmKLAWPIQFdntLR+pun8m7McU4j
-	nHV3k7sL5Fwpwhx+Lzn/gFSFftvCLZLkIi0463MAIs4fwkCXS7s1ao20gY3ABg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1730281112;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TmbuJ8tIL0U0CXQgiEtrGS9NH/UsX6GKwzkR8vLmdOY=;
-	b=DZOdZhaZeHytsofQoHf/wBsN01A1Ej43ZNjmfQct5VsSi5+1uq06LLRoZh738Df6AtU8ZK
-	iI2vKiGFr57kwDCg==
-From: Nam Cao <namcao@linutronix.de>
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Cc: Florian Schilhabel <florian.c.schilhabel@googlemail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Linux Driver Project Developer List <driverdev-devel@linuxdriverproject.org>,
-	Kalle Valo <kvalo@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Larry Finger <Larry.Finger@lwfinger.net>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Dominik Karol =?utf-8?Q?Pi=C4=85tkowski?= <dominik.karol.piatkowski@protonmail.com>,
-	Xingquan Liu <b1n@b1n.io>, Tudor Gheorghiu <tudor.reda@gmail.com>,
-	Ping-Ke Shih <pkshih@realtek.com>,
-	Manisha Singh <masingh.linux@gmail.com>,
-	Dorine Tipo <dorine.a.tipo@gmail.com>,
-	Tchadel Icard <hello@tchadelicard.fr>,
-	Felix Yan <felixonmars@archlinux.org>,
-	Moon Yeounsu <yyyynoom@gmail.com>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	Roshan Khatri <topofeverest8848@gmail.com>,
-	Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Christian Lamparter <chunkeey@gmail.com>
-Subject: Re: [PATCH] staging: rtl8712: Remove driver using deprecated API wext
-Message-ID: <20241030093830.QSofC7Cl@linutronix.de>
-References: <20241020144933.10956-1-philipp.g.hortmann@gmail.com>
+	s=arc-20240116; t=1730447254; c=relaxed/simple;
+	bh=SaqJVCFsipWJ+cHrwfqY+ErSxsR8oOSI7oFTlTavA9A=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=DjI5fymQ7tCtpauGxxYFb66vwG2uIMbzXdAECCOT/PNFIygwVJV3jL2VyukNPNyXqsWUN26kQwy9Vl3qJ6IhDef/K/f0K+mBLtFjwJ7+I8LWw/X3HhSxPizSg5NrvIbZaaDPknTxsNBI7u00o0yHBRaBmjSNkXMFQlD9q+3lMkM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.88.234])
+	by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4XftHs6tfTz1yp2V;
+	Fri,  1 Nov 2024 15:47:37 +0800 (CST)
+Received: from kwepemf500004.china.huawei.com (unknown [7.202.181.242])
+	by mail.maildlp.com (Postfix) with ESMTPS id D8DF214011B;
+	Fri,  1 Nov 2024 15:47:28 +0800 (CST)
+Received: from lihuafei.huawei.com (10.90.53.74) by
+ kwepemf500004.china.huawei.com (7.202.181.242) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Fri, 1 Nov 2024 15:47:28 +0800
+From: Li Huafei <lihuafei1@huawei.com>
+To: <mchehab@kernel.org>
+CC: <andy@kernel.org>, <hdegoede@redhat.com>, <sakari.ailus@linux.intel.com>,
+	<gregkh@linuxfoundation.org>, <linux-media@vger.kernel.org>,
+	<linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+	<lihuafei1@huawei.com>
+Subject: [PATCH] media: atomisp: Add check for rgby_data memory allocation failure
+Date: Fri, 1 Nov 2024 23:48:23 +0800
+Message-ID: <20241101154823.3067891-1-lihuafei1@huawei.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241020144933.10956-1-philipp.g.hortmann@gmail.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ kwepemf500004.china.huawei.com (7.202.181.242)
 
-On Sun, Oct 20, 2024 at 04:49:29PM +0200, Philipp Hortmann wrote:
-> This driver is in the staging area since 2010.
-> 
-> The following reasons lead to the removal:
-> - This driver generates maintenance workload for itself and for API wext
-> - A MAC80211 driver was available in 2016 time frame; This driver does
->   not compile anymore but would be a better starting point than the
->   current driver. Here the note from the TODO file:
->   A replacement for this driver with MAC80211 support is available
->   at https://github.com/chunkeey/rtl8192su
-> - no progress changing to mac80211
-> - Using this hardware is security wise not state of the art as WPA3 is
->   not supported.
-> 
-> The longterm kernels will still support this hardware for years.
-> 
-> Find further discussions in the Link below.
-> 
-> Link: https://lore.kernel.org/linux-staging/a02e3e0b-8a9b-47d5-87cf-2c957a474daa@gmail.com/T/#t
+In ia_css_3a_statistics_allocate(), there is no check on the allocation
+result of the rgby_data memory. If rgby_data is not successfully
+allocated, it may trigger the assert(host_stats->rgby_data) assertion in
+ia_css_s3a_hmem_decode(). Adding a check to fix this potential issue.
 
-I added owner of that "replacement driver" to CC:
-Christian Lamparter <chunkeey@gmail.com>
+Fixes: ad85094b293e ("Revert "media: staging: atomisp: Remove driver"")
+Signed-off-by: Li Huafei <lihuafei1@huawei.com>
+---
+ drivers/staging/media/atomisp/pci/sh_css_params.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-I vaguely remembered that he mentioned the replacement driver doesn't work
-very well. But can't find that email again.
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
+index 232744973ab8..b1feb6f6ebe8 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_params.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
+@@ -4181,6 +4181,8 @@ ia_css_3a_statistics_allocate(const struct ia_css_3a_grid_info *grid)
+ 		goto err;
+ 	/* No weighted histogram, no structure, treat the histogram data as a byte dump in a byte array */
+ 	me->rgby_data = kvmalloc(sizeof_hmem(HMEM0_ID), GFP_KERNEL);
++	if (!me->rgby_data)
++		goto err;
+ 
+ 	IA_CSS_LEAVE("return=%p", me);
+ 	return me;
+-- 
+2.25.1
 
-Nam
