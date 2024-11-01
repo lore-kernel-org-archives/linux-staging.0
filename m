@@ -1,66 +1,66 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D22661D0B8B
-	for <linux-staging@lists.linux.dev>; Fri,  1 Nov 2024 19:55:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A59C31D365A
+	for <linux-staging@lists.linux.dev>; Fri,  1 Nov 2024 20:00:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730490924; cv=none; b=LICx7iakEJgqP/NlJu9dND4bL1hK7rHxX3iAma5xgsHwDwOWjIB1WVbyVSMqhB3bgy55GDZ/pdPzgz/+c/NY01zU30JRfIMaGyU5De3e7v8OBTa9Zd8y6JkHugUuhVE371tXPFDC9e11Qz5bVOEfDBHN20TuZ70VNHNFSK07HN0=
+	t=1730491203; cv=none; b=UZn620eKdtcdEPC2UhIL9N5Z+aBKucxbNix9LrgXw0CfjfpV5fmC2Xn7cqzr5jt/vzqg7lP/XJYsTwvuA0GiToBtY7qHTCmiAYzLUBVApguQd6Cj0ZzG1IbwufhdlYa+8QbZ4ABe4CS3cQ/UfCQIXZTyBQUGsucR5nIDqueOojg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730490924; c=relaxed/simple;
-	bh=kiXT218rgaa/i6xragvSEs2O7A/U/zKhIUlWSZvWPy0=;
+	s=arc-20240116; t=1730491203; c=relaxed/simple;
+	bh=F6kBmZT7OU0NVOBFv4mfxiqC6/Bi11D8yX02duZcFWc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WdUbdvpSH4TyIFo8vgDAMdHoG67S6JTDemvJ6lvbyZ5VFbwPhB07lrAIvhguptspWsIMlPyncbq1fBI3VzFOIpAq3c0nPdO/AfeqH/jjQWetSefDBEqV1c+dKq/81rXpwCNNK9v4BUvyouxOXCK9yuqRtyPuSkHyPlLdEPTERyU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zf3JqrV/; arc=none smtp.client-ip=209.85.221.51
+	 Content-Type:Content-Disposition:In-Reply-To; b=VAIAkBEgCC3MtHmCbKTF1/oHAp/TheAm6S578EiazK2J7lD4D8P9CqzMPIytAxHAPm8cMU6Q7XNUZSgEEkU1kOr4yUB84TVX5zpINEa2yG1LE6knyNE9E2FE2ITimRDYugZmArdyTQZPtw/6L4SiJPKRM03fP2XF5VC255UzXdk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ziKmUbqr; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zf3JqrV/"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-37d447de11dso1804218f8f.1
-        for <linux-staging@lists.linux.dev>; Fri, 01 Nov 2024 12:55:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ziKmUbqr"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4316e9f4a40so18469705e9.2
+        for <linux-staging@lists.linux.dev>; Fri, 01 Nov 2024 13:00:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1730490921; x=1731095721; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1730491200; x=1731096000; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=2KfVmPf7yDTyzuQV5+HlYzS4nyXc918Np3+MFMf2YBE=;
-        b=zf3JqrV/n09eSwCttlgKzjG1wI4EtYMkDotkRnd87HlGA2gPA6ybGOyiAEMpFDvu0N
-         3Wl0y+a9zicm+3P/sBHSEDOHTbQPLTUWhU9c+J7AStE9QASRct5jhDNKKP7Y5PFy2Plp
-         xbX57OU+PppVStzOSbOt24ObJw88NljNiKqRZiHWfSLyX71VFz8hD+favGkXngvYdrSe
-         ARrC5hv1HD/XccmAnLYlWatZg0JXndEbPiJ2x70F2b0zm5bhXuoCEDkB5pPZtZVlqDIW
-         rHlP6gx2TbUl9/MG2jQbV/Up+45UF0iO8VlaCn847fSk/FJ3iwxdvyVSoj1kA/srG3bU
-         Oplw==
+        bh=LtNzEDDdPt17bYZ+ONL9zzS/KcLaUhJn31ZbZyaW9V4=;
+        b=ziKmUbqrksVG0Vw+FWlz/bPHUnf+qFBH/Lq58o0gkbYg6oI5LXJc7lIYlUHL2Jqd2/
+         vGd48FsGaRObQPV3aNftiHXVpsqhlIPrWLa8AzzPzW50py2aava0W4eL/FnBbfqRuMjQ
+         Q7DCKBS+kFovlfL1YPOggUj1Pso4gqPR+2feCyZ/qSnQMJyep+cQJlKBIaiaXDHb+R7A
+         FKknN5olewH9OdL3lDfLnvQVccZi16p+/xYyBlGazLybYva9Sa5o67fKEeVvDHBQUSxk
+         Wt56cDXoCO1SARNcXlWwI1k/whXjjPcD6u3lHfZNbEpkAaY2FkSPznnhBnTKquYsvba9
+         puiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730490921; x=1731095721;
+        d=1e100.net; s=20230601; t=1730491200; x=1731096000;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2KfVmPf7yDTyzuQV5+HlYzS4nyXc918Np3+MFMf2YBE=;
-        b=EAfk+Aq+xTuadfDvX4ib9/WOxXnSYeccpR2NP+7K8g8+CAo3bZuNl0LOFWnhIjh5L5
-         HoZ4BpzlsbiATZO0UTTRamLGKhN7Q7V0AissnkiqHjsgs9zVzZwx1pZvXNLK84J5xGsY
-         c1YyVGWfzefqckOh3HvcG1WW4nE/oweCI9/tB+55WzKmpkT+DOT3vyXLQwKAxZxjweda
-         gfK+xDuS7injxnkRuf7TZZL38RbKQ/86qJ9V6pp0lbLyTu18xckDz2rV33ZfQbhkFSfu
-         b5IWqv0JlaiDBgcvoXHvJoBccwh2W/2zFGyRKxwlmApy7JyZKkcT0RpXCDOpoMhzYeDJ
-         Tu4Q==
-X-Forwarded-Encrypted: i=1; AJvYcCW/r3nwerzSN7mT5NjWO706ILTdMSOV2Mr4rc4XMtAX6uI2MTEpiykOJZvgSLRk5wQsgPdfjpNrB7cciIDX@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw7tlRwZ5j7mmV5gsEdxWTQ24Q6bEmPEXoGJHJK8TYWDM+59Cdk
-	yWhmVrogMc+Q9trvA7aX6fvQNzCkHm3/NG0ZvLUTfM/oZ/w7jUjdhMnGi0+7Fho=
-X-Google-Smtp-Source: AGHT+IHt3uDFbfzDcf71B+rvAWS1uwMPRAkznrr0HHExtuL8F7pBTpvZ0BozP1TN+HDS/qiK/kLfcA==
-X-Received: by 2002:a5d:64a1:0:b0:37d:4fe9:b6a7 with SMTP id ffacd0b85a97d-381bea1c1f4mr6976997f8f.36.1730490920787;
-        Fri, 01 Nov 2024 12:55:20 -0700 (PDT)
+        bh=LtNzEDDdPt17bYZ+ONL9zzS/KcLaUhJn31ZbZyaW9V4=;
+        b=BE4GXmrwpOXLgtEWxxruxIktjA4R/sC+lHcWFbf0HDNxDBbeYSJJZGKxNOYQ1LUzp6
+         u0l9EG3ysJJnz8QsDYnYM76Fs4b3Yctv9TZskHR4wBW8eAZrZRJf3J01+npVSDXAh8ds
+         x+3MKxQYMLneJNG1aNvAZIvjVevoF3Ay5hxmCVuRzNrB5I5JhBDNfb6DytkFKLTZX0gw
+         ZuvDaS4oAeLaxZgPuwhaABY6YIQrJmHttQNWbNS400CiHrJSNJ65KUzKbZmUvzinTt6u
+         h9NuEGrrfpl12b9Y/Pp+hWsBtjiXuVU74r3/2x92Q0i1hc2zFlfbSFcwttPaxqfTJVeB
+         ES6Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXMJdlQ5cDNvrzMw7y4tXiGkgTE+KAvEQKCsYDZVOEiylT3MuQsk4BowMJzbYBQMLk8o3yPKc+Ht1Jkasiv@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy9X6MwiPErZvOLSAsPOCb7s+DPzx/eS7hVUWidWmEzu3Ouypbd
+	W4FiZ4A4jaCeNEYf+5qRw6hKbXKBI2IcLUOR2Y5WXs8d+izm+LChD8hh9lCFZsc=
+X-Google-Smtp-Source: AGHT+IG5skR8+WQG9WSnEgqMZ8NLGirak1/JcBLF4yc1053I18pyf4+wlYqJDyTAjIE4LAs2grJnow==
+X-Received: by 2002:a05:600c:5618:b0:42c:cd88:d0f4 with SMTP id 5b1f17b1804b1-431a01782c6mr198040425e9.22.1730491199963;
+        Fri, 01 Nov 2024 12:59:59 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4327d5c65b8sm71002735e9.18.2024.11.01.12.55.19
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4327d5e8915sm72134045e9.27.2024.11.01.12.59.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Nov 2024 12:55:20 -0700 (PDT)
-Date: Fri, 1 Nov 2024 22:55:17 +0300
+        Fri, 01 Nov 2024 12:59:59 -0700 (PDT)
+Date: Fri, 1 Nov 2024 22:59:56 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Dave Penkler <dpenkler@gmail.com>
 Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
 	arnd@arndb.de
-Subject: Re: [PATCH 8/9] Rationalize lookup tables
-Message-ID: <42c115a0-9611-42ca-b326-e28b13988c5a@stanley.mountain>
+Subject: Re: [PATCH 9/9] Correct check for max secondary address
+Message-ID: <ee7fd6ca-a5ad-47fe-8526-49ed2f7cc341@stanley.mountain>
 References: <20241101174705.12682-1-dpenkler@gmail.com>
- <20241101174705.12682-9-dpenkler@gmail.com>
+ <20241101174705.12682-10-dpenkler@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -69,16 +69,49 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241101174705.12682-9-dpenkler@gmail.com>
+In-Reply-To: <20241101174705.12682-10-dpenkler@gmail.com>
 
-On Fri, Nov 01, 2024 at 06:47:04PM +0100, Dave Penkler wrote:
->    Remove bcm2837 table as the only difference is GPIO14 and GPIO15
->    which are not used with the current pin maps.
->    Remove GPIO14 and GPIO15 lines from the two other tables.
->    Re-order the tables so that the bcm27xx table is used first
->    as these devices are more popular and numerous than the older ones.
+On Fri, Nov 01, 2024 at 06:47:05PM +0100, Dave Penkler wrote:
+>   GPIB secondary addresses can be between 0 and 31 inclusive
+>   unlike primary addresses where address 31 is used for UNT and UNL
 
-This feels like the patch needs to be split into three separate patches.
+What do UNT and UNL stand for?  I don't know what those words mean.
+
+I can tell from looking at the patch that this is a behavior change, but I don't
+know from the commit what the change will look like to the user.  Please,
+explain that better in the commit message.
+
+> 
+> Signed-off-by: Dave Penkler <dpenkler@gmail.com>
+> ---
+>  drivers/staging/gpib/common/gpib_os.c | 3 +--
+>  drivers/staging/gpib/common/iblib.c   | 4 ++--
+>  2 files changed, 3 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/staging/gpib/common/gpib_os.c b/drivers/staging/gpib/common/gpib_os.c
+> index c0b774a831a6..65ab190ac68e 100644
+> --- a/drivers/staging/gpib/common/gpib_os.c
+> +++ b/drivers/staging/gpib/common/gpib_os.c
+> @@ -525,7 +525,6 @@ int serial_poll_all(gpib_board_t *board, unsigned int usec_timeout)
+>   * SPD and UNT are sent at the completion of the poll.
+>   */
+>  
+> -static const int gpib_addr_max = 30;	/* max address for primary/secondary gpib addresses */
+>  
+
+You'd want to delete the blank line as well otherwise you're left with two
+blank lines in a row.
+
+>  int dvrsp(gpib_board_t *board, unsigned int pad, int sad,
+>  	  unsigned int usec_timeout, uint8_t *result)
+> @@ -538,7 +537,7 @@ int dvrsp(gpib_board_t *board, unsigned int pad, int sad,
+>  		return -1;
+>  	}
+>  
+> -	if (pad > gpib_addr_max || sad > gpib_addr_max) {
+> +	if (pad > 30 || sad > 31) {
+
+These should be a define instead of a magic number.
 
 regards,
 dan carpenter
