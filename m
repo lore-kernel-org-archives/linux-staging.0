@@ -1,66 +1,66 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE00A1D1E6C
-	for <linux-staging@lists.linux.dev>; Fri,  1 Nov 2024 19:51:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D22661D0B8B
+	for <linux-staging@lists.linux.dev>; Fri,  1 Nov 2024 19:55:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730490677; cv=none; b=W0VCtjHw6WubvNg1MMekmzv4WlfCDS/RRgjGl5VczAhOLiQdl0V1Cspr1cRSFVwm6h97KWwWotWWNdIVBVXOc4G6ykxsI3wfHq7vp8S0kYTyf7K0/sKsBopd5HNlDJltDTTAcVFlBd/9wah29KSUcQzs0ua9dBw9yuQo0Oo8Jc8=
+	t=1730490924; cv=none; b=LICx7iakEJgqP/NlJu9dND4bL1hK7rHxX3iAma5xgsHwDwOWjIB1WVbyVSMqhB3bgy55GDZ/pdPzgz/+c/NY01zU30JRfIMaGyU5De3e7v8OBTa9Zd8y6JkHugUuhVE371tXPFDC9e11Qz5bVOEfDBHN20TuZ70VNHNFSK07HN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730490677; c=relaxed/simple;
-	bh=MQtGnxAwsf1JT2gO1pk0zvmIp9n6WmA95Nf/ZTXOBuA=;
+	s=arc-20240116; t=1730490924; c=relaxed/simple;
+	bh=kiXT218rgaa/i6xragvSEs2O7A/U/zKhIUlWSZvWPy0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uDThA06ZrjLHuyjQhq5Te8m/zctCDkazDnzuyu2m2ppsxV2AXFP5fK35W8pdinVlX9miGZD3ltlUjkfr9hIX9HmwtIeXeWt55CljSvwlWijRFt6l/2Q5eqlUY2xIWWRI5hH6XiXKnp80BOzm6iJt5Z/2lshx9C9O+iraEbj+S8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MLh0/BXs; arc=none smtp.client-ip=209.85.221.49
+	 Content-Type:Content-Disposition:In-Reply-To; b=WdUbdvpSH4TyIFo8vgDAMdHoG67S6JTDemvJ6lvbyZ5VFbwPhB07lrAIvhguptspWsIMlPyncbq1fBI3VzFOIpAq3c0nPdO/AfeqH/jjQWetSefDBEqV1c+dKq/81rXpwCNNK9v4BUvyouxOXCK9yuqRtyPuSkHyPlLdEPTERyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zf3JqrV/; arc=none smtp.client-ip=209.85.221.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MLh0/BXs"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-37f52925fc8so1399068f8f.1
-        for <linux-staging@lists.linux.dev>; Fri, 01 Nov 2024 12:51:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zf3JqrV/"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-37d447de11dso1804218f8f.1
+        for <linux-staging@lists.linux.dev>; Fri, 01 Nov 2024 12:55:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1730490674; x=1731095474; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1730490921; x=1731095721; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ubumAp7oHPfClW4j0mKbxq7mn8cLAu98dtVt51dy/BM=;
-        b=MLh0/BXsuqzU68TftChSc3CdxGt7GqL9t8wuYOAPSDpZUjxSlEkihj1ZTskufcbQfB
-         ZPGSwSyGMXicT68TPWmfsee8xHKcfyTG8K3lrLU6svXaWjmTAejC91avv57jTnYx8JfI
-         cRj2Zj1Nv6vZxC6w5JYaw458CZwRfHHKyv1Wd8wcSGmuMfw+eko0ypD3OcZy7zW5hIjS
-         gmd1vhUZR2dgJNqzT+yBQoc+jeVDKwb2mfRDTCgmfJQJEqOSBjsdh18JIB65L8lr9V07
-         WDzaHVfLXc5V2YjRc5s/Jt2Vw1yYNO55Fr8XX7d2zUKDOPFPR7ESQJsPIVPDk8wtEn3w
-         iYYg==
+        bh=2KfVmPf7yDTyzuQV5+HlYzS4nyXc918Np3+MFMf2YBE=;
+        b=zf3JqrV/n09eSwCttlgKzjG1wI4EtYMkDotkRnd87HlGA2gPA6ybGOyiAEMpFDvu0N
+         3Wl0y+a9zicm+3P/sBHSEDOHTbQPLTUWhU9c+J7AStE9QASRct5jhDNKKP7Y5PFy2Plp
+         xbX57OU+PppVStzOSbOt24ObJw88NljNiKqRZiHWfSLyX71VFz8hD+favGkXngvYdrSe
+         ARrC5hv1HD/XccmAnLYlWatZg0JXndEbPiJ2x70F2b0zm5bhXuoCEDkB5pPZtZVlqDIW
+         rHlP6gx2TbUl9/MG2jQbV/Up+45UF0iO8VlaCn847fSk/FJ3iwxdvyVSoj1kA/srG3bU
+         Oplw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730490674; x=1731095474;
+        d=1e100.net; s=20230601; t=1730490921; x=1731095721;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ubumAp7oHPfClW4j0mKbxq7mn8cLAu98dtVt51dy/BM=;
-        b=t78+HjybNsdyKnOXyuut5rzgj+HKHoQTqTL9nXN7V6rtsh0i066Xdeq9emFKfUDvDq
-         KjMSqA5nWrEVABNubvrlzMJ4txWi1obNXAlJomKm+FqBOMobaZpUG4EwfskZQ71hfkEA
-         e1qLADRAKQlnhbFqIKwyEl/bLuekUeWdmVs/b70Q2BPAKD1XGskWu6/+WYr5EVI9Uypg
-         kZWpNtUBSAbrrbHvHbaRlMhCPhIDouIToNExiqOh+C/pGtQ2g6UGYjcvy9T159iH/D6m
-         6IP3S8jS9wtwEJv8jV3DSHL3PlVBX9wIEMHXm+3ko1AdjICNfnTVddVvgAmkHiZeQ4G7
-         awpA==
-X-Forwarded-Encrypted: i=1; AJvYcCWhrbCAGhpZTuYPWjmrGvkNtIgQLTmRB/yVksNVqKAqYQk42EGNcqJxpTdzpLy+D40sol2j6Kv7ulWHFLw+@lists.linux.dev
-X-Gm-Message-State: AOJu0YwmjlQi9cmqunkOBBCsc69ccR1KbuVlC7fekFrk4jCyatmQVJvp
-	NJLjhTu8pCMT0SO2b/J7kho6IkQ8zCRfkRcPan8Tp2qf7I6TzGLSddctrJlomJU=
-X-Google-Smtp-Source: AGHT+IHPioO6oD71XBGGsELVS/jdi/1jH8Hr+T/UGbOX83OThn6zU3uR85UiBVncfIeKQAY2cBYc0Q==
-X-Received: by 2002:a05:6000:a08:b0:37d:39df:8658 with SMTP id ffacd0b85a97d-381c7ac8985mr4227904f8f.58.1730490674213;
-        Fri, 01 Nov 2024 12:51:14 -0700 (PDT)
+        bh=2KfVmPf7yDTyzuQV5+HlYzS4nyXc918Np3+MFMf2YBE=;
+        b=EAfk+Aq+xTuadfDvX4ib9/WOxXnSYeccpR2NP+7K8g8+CAo3bZuNl0LOFWnhIjh5L5
+         HoZ4BpzlsbiATZO0UTTRamLGKhN7Q7V0AissnkiqHjsgs9zVzZwx1pZvXNLK84J5xGsY
+         c1YyVGWfzefqckOh3HvcG1WW4nE/oweCI9/tB+55WzKmpkT+DOT3vyXLQwKAxZxjweda
+         gfK+xDuS7injxnkRuf7TZZL38RbKQ/86qJ9V6pp0lbLyTu18xckDz2rV33ZfQbhkFSfu
+         b5IWqv0JlaiDBgcvoXHvJoBccwh2W/2zFGyRKxwlmApy7JyZKkcT0RpXCDOpoMhzYeDJ
+         Tu4Q==
+X-Forwarded-Encrypted: i=1; AJvYcCW/r3nwerzSN7mT5NjWO706ILTdMSOV2Mr4rc4XMtAX6uI2MTEpiykOJZvgSLRk5wQsgPdfjpNrB7cciIDX@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw7tlRwZ5j7mmV5gsEdxWTQ24Q6bEmPEXoGJHJK8TYWDM+59Cdk
+	yWhmVrogMc+Q9trvA7aX6fvQNzCkHm3/NG0ZvLUTfM/oZ/w7jUjdhMnGi0+7Fho=
+X-Google-Smtp-Source: AGHT+IHt3uDFbfzDcf71B+rvAWS1uwMPRAkznrr0HHExtuL8F7pBTpvZ0BozP1TN+HDS/qiK/kLfcA==
+X-Received: by 2002:a5d:64a1:0:b0:37d:4fe9:b6a7 with SMTP id ffacd0b85a97d-381bea1c1f4mr6976997f8f.36.1730490920787;
+        Fri, 01 Nov 2024 12:55:20 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381c10e7465sm6024208f8f.53.2024.11.01.12.51.13
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4327d5c65b8sm71002735e9.18.2024.11.01.12.55.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Nov 2024 12:51:13 -0700 (PDT)
-Date: Fri, 1 Nov 2024 22:51:10 +0300
+        Fri, 01 Nov 2024 12:55:20 -0700 (PDT)
+Date: Fri, 1 Nov 2024 22:55:17 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Dave Penkler <dpenkler@gmail.com>
 Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
 	arnd@arndb.de
-Subject: Re: [PATCH 7/9] Fix Kconfig
-Message-ID: <4c5d1b45-a3eb-447b-8269-8828dcdd2088@stanley.mountain>
+Subject: Re: [PATCH 8/9] Rationalize lookup tables
+Message-ID: <42c115a0-9611-42ca-b326-e28b13988c5a@stanley.mountain>
 References: <20241101174705.12682-1-dpenkler@gmail.com>
- <20241101174705.12682-8-dpenkler@gmail.com>
+ <20241101174705.12682-9-dpenkler@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -69,19 +69,17 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241101174705.12682-8-dpenkler@gmail.com>
+In-Reply-To: <20241101174705.12682-9-dpenkler@gmail.com>
 
-On Fri, Nov 01, 2024 at 06:47:03PM +0100, Dave Penkler wrote:
->    The NI_PCI_ISA driver also supports PCI and PCMCIA
->    Correct spelling error COMPIlE_TEST
-> 
-> Fixes: 2c9f5d8c6ece91ecd33350749230494d224550f1
+On Fri, Nov 01, 2024 at 06:47:04PM +0100, Dave Penkler wrote:
+>    Remove bcm2837 table as the only difference is GPIO14 and GPIO15
+>    which are not used with the current pin maps.
+>    Remove GPIO14 and GPIO15 lines from the two other tables.
+>    Re-order the tables so that the bcm27xx table is used first
+>    as these devices are more popular and numerous than the older ones.
 
-The Fixes tag format looks like this:
-
-Fixes: 2c9f5d8c6ece ("staging: gpib: add bus specific Kconfig dependencies")
+This feels like the patch needs to be split into three separate patches.
 
 regards,
 dan carpenter
-
 
