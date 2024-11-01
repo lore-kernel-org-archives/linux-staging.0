@@ -1,73 +1,74 @@
-Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FEF4154BEC
-	for <linux-staging@lists.linux.dev>; Fri,  1 Nov 2024 07:47:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53FBC156661
+	for <linux-staging@lists.linux.dev>; Fri,  1 Nov 2024 08:30:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730447254; cv=none; b=jP2QsI3VnkgclngMTSEC4QdL1haquRw9bMvyPHSwos1o3Q2lFJ/k5AdTTFtiwZIy/cyRSVopVzL3hM7KnQ9VYlTBPl1iveS8uavAKl2AvtIh7IwsT4cLESxPu/HBv7WRYNu1osbRVkgmjf4pqiZda7DtFlknheGHEm0LYCcU2uE=
+	t=1730449815; cv=none; b=e1k98/lygM+xmVlCuPxUy6IEgx3RVQIvFunSiAhmoSWmhe6rhVZo2N2mkdikTd/rcjfN59Q/K9ZHxZgSr+7t/GGnVhKbmkZshxId06FVZvC5ecqdAvem+iaoCkpP7psGZPWVVZl/QA4G7VS/XNfAyiHPh++Auw5nyf/+rTGHvyU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730447254; c=relaxed/simple;
-	bh=SaqJVCFsipWJ+cHrwfqY+ErSxsR8oOSI7oFTlTavA9A=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=DjI5fymQ7tCtpauGxxYFb66vwG2uIMbzXdAECCOT/PNFIygwVJV3jL2VyukNPNyXqsWUN26kQwy9Vl3qJ6IhDef/K/f0K+mBLtFjwJ7+I8LWw/X3HhSxPizSg5NrvIbZaaDPknTxsNBI7u00o0yHBRaBmjSNkXMFQlD9q+3lMkM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.88.234])
-	by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4XftHs6tfTz1yp2V;
-	Fri,  1 Nov 2024 15:47:37 +0800 (CST)
-Received: from kwepemf500004.china.huawei.com (unknown [7.202.181.242])
-	by mail.maildlp.com (Postfix) with ESMTPS id D8DF214011B;
-	Fri,  1 Nov 2024 15:47:28 +0800 (CST)
-Received: from lihuafei.huawei.com (10.90.53.74) by
- kwepemf500004.china.huawei.com (7.202.181.242) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Fri, 1 Nov 2024 15:47:28 +0800
-From: Li Huafei <lihuafei1@huawei.com>
-To: <mchehab@kernel.org>
-CC: <andy@kernel.org>, <hdegoede@redhat.com>, <sakari.ailus@linux.intel.com>,
-	<gregkh@linuxfoundation.org>, <linux-media@vger.kernel.org>,
-	<linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-	<lihuafei1@huawei.com>
-Subject: [PATCH] media: atomisp: Add check for rgby_data memory allocation failure
-Date: Fri, 1 Nov 2024 23:48:23 +0800
-Message-ID: <20241101154823.3067891-1-lihuafei1@huawei.com>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1730449815; c=relaxed/simple;
+	bh=VqOPLGhf7Rb93vjP8HcIGh65SFnxMBiqidusfVMVaYs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fndIYzl52XSva3EOLClWhPKLzdRYEHO2X/RaRTF3OFvRQ+ROqUOVrk29qPIs49/YXTlY+q14XoXnypnWm6Fnd45P0PFQGBD6p6++2aYqyY2CHeIeN5NmhwvKTaX16sh9fANOHfsWe7TjWObDMMTWSinjEF53NtNSwaKJeZGHEbU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=fail smtp.mailfrom=kernel.org; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=kernel.org
+X-CSE-ConnectionGUID: 3ePJqyFEQyibmtCJLwVZdQ==
+X-CSE-MsgGUID: cMK3qYEtQLOIzFlc4ixv7Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="40756458"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="40756458"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2024 01:30:13 -0700
+X-CSE-ConnectionGUID: mzQsHpgOQnicapQiXI2fRA==
+X-CSE-MsgGUID: f8QbxZH6QqW4yQrKVJc0yg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,249,1725346800"; 
+   d="scan'208";a="83330925"
+Received: from smile.fi.intel.com ([10.237.72.154])
+  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2024 01:30:11 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andy@kernel.org>)
+	id 1t6n2m-00000009xn7-05FX;
+	Fri, 01 Nov 2024 10:30:08 +0200
+Date: Fri, 1 Nov 2024 10:30:07 +0200
+From: Andy Shevchenko <andy@kernel.org>
+To: Li Huafei <lihuafei1@huawei.com>
+Cc: mchehab@kernel.org, hdegoede@redhat.com, sakari.ailus@linux.intel.com,
+	gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: atomisp: Add check for rgby_data memory
+ allocation failure
+Message-ID: <ZySRjyrxI9jrcY1q@smile.fi.intel.com>
+References: <20241101154823.3067891-1-lihuafei1@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- kwepemf500004.china.huawei.com (7.202.181.242)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241101154823.3067891-1-lihuafei1@huawei.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-In ia_css_3a_statistics_allocate(), there is no check on the allocation
-result of the rgby_data memory. If rgby_data is not successfully
-allocated, it may trigger the assert(host_stats->rgby_data) assertion in
-ia_css_s3a_hmem_decode(). Adding a check to fix this potential issue.
+On Fri, Nov 01, 2024 at 11:48:23PM +0800, Li Huafei wrote:
+> In ia_css_3a_statistics_allocate(), there is no check on the allocation
+> result of the rgby_data memory. If rgby_data is not successfully
+> allocated, it may trigger the assert(host_stats->rgby_data) assertion in
+> ia_css_s3a_hmem_decode(). Adding a check to fix this potential issue.
 
-Fixes: ad85094b293e ("Revert "media: staging: atomisp: Remove driver"")
-Signed-off-by: Li Huafei <lihuafei1@huawei.com>
----
- drivers/staging/media/atomisp/pci/sh_css_params.c | 2 ++
- 1 file changed, 2 insertions(+)
+Not sure if this code even run on currently supported hardware / firmware,
+but fix looks okay.
 
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
-index 232744973ab8..b1feb6f6ebe8 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_params.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
-@@ -4181,6 +4181,8 @@ ia_css_3a_statistics_allocate(const struct ia_css_3a_grid_info *grid)
- 		goto err;
- 	/* No weighted histogram, no structure, treat the histogram data as a byte dump in a byte array */
- 	me->rgby_data = kvmalloc(sizeof_hmem(HMEM0_ID), GFP_KERNEL);
-+	if (!me->rgby_data)
-+		goto err;
- 
- 	IA_CSS_LEAVE("return=%p", me);
- 	return me;
+> Fixes: ad85094b293e ("Revert "media: staging: atomisp: Remove driver"")
+
+No, this is an intermediate commit, you should find the original, which is
+earlier in the history.
+
 -- 
-2.25.1
+With Best Regards,
+Andy Shevchenko
+
 
