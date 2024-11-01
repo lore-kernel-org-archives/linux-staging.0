@@ -1,57 +1,57 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBDED1CEAA8
-	for <linux-staging@lists.linux.dev>; Fri,  1 Nov 2024 17:47:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45DB11CEAB0
+	for <linux-staging@lists.linux.dev>; Fri,  1 Nov 2024 17:47:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730483272; cv=none; b=NaQTeKrw0XmUNMkZgn5H7DfFWg12LAKtW2M52AURQk++5dzvCgxO8Eemwslic41d4e8UOVNMC5Xsv1cLc2LZFxdV9Z8w6Dsjkz2mZ9iVnHx3Ds2YbqwHr6TEwzPjR0n7mRZ3eo7wTZyABnFHtnahzcAEAjJLwIdmwQNZa6u6kdI=
+	t=1730483274; cv=none; b=f93+pvRJbVEKs1gINomD0iib/ilHi9TNnR73kt9/1RujbibNVTbxMNGNRBcKtGkDiI1M0vtbFKKqycPm9fmwjQwSgLDJpINJlNC3tjjIXd7VGq/gKIi9+6RDu5xPrKp3KkJQZCmwmYJv1jCCVRZCT1ZO4BNiAlZo9UgyAgW0RrI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730483272; c=relaxed/simple;
-	bh=oa7FxakZaookSds0SFTFTDKYzsIa7xsMb5ayvu/2Js4=;
+	s=arc-20240116; t=1730483274; c=relaxed/simple;
+	bh=E8GpDid0z0L+scbV3cTbbzBQ8cibWDg9h1nXglwEYuI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VPrP1Zs8uHuFpRjq6FE5egqgeY7briPF7x88f5XcWzEpROo3IlGmmVGmhifm4vZiib9dbKdQO0PM18gP0eMfTYlYWQ7FkBCVY5QipXO6AJ8J/DynbBWp3qeJ2gZfFX/FQg70W+5a2dW0fAr7gqTjUiBTS3ROmgBr40ei0iazsEA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Hs6vH+JB; arc=none smtp.client-ip=209.85.128.48
+	 MIME-Version; b=KCIFSjkcCcxznH60SB1+tFazXthnGKAJ2Xg3Ujy9kLO41vzrKukVdMXeiKouc2E88K0qvZED5XwKQMZA6TjGxjA+UbS9TJ9OlyxWbkMyPthLBiXev4z1l6ssHyD+1PE+zk9whGI+UKRw9oQzLX9I94BGYuWxp6Q5Az5MGa1vReY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KvQ6iTI2; arc=none smtp.client-ip=209.85.128.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Hs6vH+JB"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4315baec69eso18900445e9.2
-        for <linux-staging@lists.linux.dev>; Fri, 01 Nov 2024 10:47:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KvQ6iTI2"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4315baa51d8so19589535e9.0
+        for <linux-staging@lists.linux.dev>; Fri, 01 Nov 2024 10:47:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730483269; x=1731088069; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1730483270; x=1731088070; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Dv3PqSzswe4Y5a8fVVX7vlIBbx348r3jo5xKs83X2jQ=;
-        b=Hs6vH+JB6s8A2zHzFBYEtjc20nu6tC2VqN306l5j24OwVs6ayp3IQaa2JFr8t7pvZ+
-         Ql//3CEp8P4DEp7sMmNPF4RFXKnYpk0sXZc8Dw+RLpGR8Y7RMGWTE+uG3OEGQfL7y5il
-         9OtuuYv+dVgDko3t5HUEfLj4cBgiMUlpcb+Z5G8NNOLifEc6lVy4702U1rjxfk5aET+w
-         F/y1J7NQ4C6uRsr0s9s4IiZFEhDlH3hPGU0Vw2b3jfODbdv1uPhbSMFRzEFdcgdP7hCj
-         CTn52KZdElSvERSBhkIsDP1ZgtC2pWu4MHzJJIdlPVF6oKM8uRnXucFhQyaQK0c5+hfg
-         ubGA==
+        bh=6c+vWdnejyhzbmDbcfsvQBCmeK/se4a+fgFkV5D6jqQ=;
+        b=KvQ6iTI2OtJ90UYTtSllLX97f7SNhsBDPmg48P+pQyW9Y+NcT56T+Z9OvQW5xFMxaJ
+         K8OmXAxap8E/W7JrsrLjkVa2lODGJgT2DuM1imtsnO/Yhtd8PqN7qzyRtieVwLkmRWRx
+         QQ35+2ONKKTESsBIzkmJGxWcFXvF6k2KAUa54XsS3WUOS0NmqwFWmJUYh5XhLkpu2f0J
+         Vqzr+X5UaHwjbNns6OzfRfu/FwdW4c/LI8CTxzY+EnokIpAXNU4KW1WGUrsLYrMEY6Oo
+         yue+9E2+KyjRpAFaRcPb6ktqjj0fzzkLLn0XFt+IvkgR4eaOhQBMIbDj0qR+ZQFtPsAb
+         UR0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730483269; x=1731088069;
+        d=1e100.net; s=20230601; t=1730483270; x=1731088070;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Dv3PqSzswe4Y5a8fVVX7vlIBbx348r3jo5xKs83X2jQ=;
-        b=SQwnSxbt19iT3JhowPr0V4H4GUYx8xkg4YZAvztRzu5tIjVQfKTy/SvAjrYX8AnC3E
-         mzKybpxXum8/5hPlHTWJgDDZtYFKiBKPmaxv/gSJZg6sXztUyRSa8OPrCHUHkMXN4wHW
-         TZyaCzf4rbkHnF7N6wYVpzPv6O25OuttRXGgNI34q7TJi1YI3YHk20d+jsADF2RyT1+0
-         aP4GheXE7ON4e1ryTF1DXWfxkvlaJhukA6eb1BlG3R59pO9oRABOv1U+TP5s95u4+3Nz
-         aWPvRrH+xUN3AE22XZ75kXXpFBD/puuhNIjFQ9dODGTj0RljKkfPa+c4rGFnr+Kytjd/
-         rFjA==
-X-Forwarded-Encrypted: i=1; AJvYcCWutH7dNVWdo0JMQxTfV2/9CTXjYQTLCVmV3Sa5CbTubUbgjAl8McwtoTa8xbKcHYQISWSnJVG2/OBhA0w/@lists.linux.dev
-X-Gm-Message-State: AOJu0YwdRu7E8z9ZgvDeDutGW232d86xKmBdHeWYd7zqZH+NfVDr6xFf
-	sIDNLbof74EliiTPmSWSicX1EhpOo9k3RmkdDc+kzMDZ6ob03IKE
-X-Google-Smtp-Source: AGHT+IE0O7ngfpdMaxPEYBKK5+0KGkwJ4Bru5OWs4wnoIv0xOr7IFO5MWtlBds+6seq0q6jQeLc8Kg==
-X-Received: by 2002:a5d:6d8e:0:b0:37c:babe:2c49 with SMTP id ffacd0b85a97d-381c7a4c7d7mr3540674f8f.19.1730483269243;
-        Fri, 01 Nov 2024 10:47:49 -0700 (PDT)
+        bh=6c+vWdnejyhzbmDbcfsvQBCmeK/se4a+fgFkV5D6jqQ=;
+        b=UGtq+3iuRl48cgl5/elLestGPwhz+RQ17qDgK4cPpiE9t895hpNdjOPOiY2l1PhSzz
+         J32VGXbx1dCa5wxSYjFcMcMQHRd4QFHwHCYtM8BbNlSEet2oXvEX1QLbdkYlMx0B+yh5
+         aViP1SDlf8VWh+AIOXs1MPaeZNeGrpiuiuBdHq7WwCg1fyHyN0Ldw1+mQ6oOQ18hSd2s
+         wfTVFQ2FgmH4f/ba3l4tM+AaPHp1saTnXLlqFrNamn5iFiTtRLz10Ob4xpoH+MMqKowe
+         Hh9190jiAzx8ifCFaMIm7jeAvetx4rNzIhREVn53uKgGsSCEv7R3eymdreoyKw45Gmo1
+         rmig==
+X-Forwarded-Encrypted: i=1; AJvYcCWijNXXIUu7b2cJ+5nzH1rok9OP8fUAnITOkzxiwFZJv+SPeICRCh9LJYvEySy84DfCU/qvimf7p8ZKnXku@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw1X3EoY5e9bitUPe3p45OOtwFMjnlk7g6bJzcbqdMVUOeGDv0p
+	FaNOPzMF6zXYxvp4YBb/EnlEQQ+MAUZEZCGo2HvZhxysZOX7ZaysR4S+xpMs
+X-Google-Smtp-Source: AGHT+IG8JrW9cZ5ghpR/F8uKmVF8GGUEafLV+lott5rbv8LEwgWvK92GtmiULMRy+tMKkTaaHRtv7A==
+X-Received: by 2002:a05:600c:1c93:b0:42c:b9c7:f54b with SMTP id 5b1f17b1804b1-4327b70150fmr64121935e9.16.1730483270482;
+        Fri, 01 Nov 2024 10:47:50 -0700 (PDT)
 Received: from localhost.localdomain (82-64-73-52.subs.proxad.net. [82.64.73.52])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381c1185b4bsm5732933f8f.112.2024.11.01.10.47.48
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381c1185b4bsm5732933f8f.112.2024.11.01.10.47.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Nov 2024 10:47:48 -0700 (PDT)
+        Fri, 01 Nov 2024 10:47:49 -0700 (PDT)
 From: Dave Penkler <dpenkler@gmail.com>
 To: gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev,
@@ -59,9 +59,9 @@ To: gregkh@linuxfoundation.org,
 Cc: skhan@linuxfoundation.org,
 	arnd@arndb.de,
 	Dave Penkler <dpenkler@gmail.com>
-Subject: [PATCH 7/9] Fix Kconfig
-Date: Fri,  1 Nov 2024 18:47:03 +0100
-Message-ID: <20241101174705.12682-8-dpenkler@gmail.com>
+Subject: [PATCH 8/9] Rationalize lookup tables
+Date: Fri,  1 Nov 2024 18:47:04 +0100
+Message-ID: <20241101174705.12682-9-dpenkler@gmail.com>
 X-Mailer: git-send-email 2.46.2
 In-Reply-To: <20241101174705.12682-1-dpenkler@gmail.com>
 References: <20241101174705.12682-1-dpenkler@gmail.com>
@@ -73,37 +73,139 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-   The NI_PCI_ISA driver also supports PCI and PCMCIA
-   Correct spelling error COMPIlE_TEST
+   Remove bcm2837 table as the only difference is GPIO14 and GPIO15
+   which are not used with the current pin maps.
+   Remove GPIO14 and GPIO15 lines from the two other tables.
+   Re-order the tables so that the bcm27xx table is used first
+   as these devices are more popular and numerous than the older ones.
 
-Fixes: 2c9f5d8c6ece91ecd33350749230494d224550f1
 Signed-off-by: Dave Penkler <dpenkler@gmail.com>
 ---
- drivers/staging/gpib/Kconfig | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/gpib/gpio/gpib_bitbang.c | 85 +++++++-----------------
+ 1 file changed, 24 insertions(+), 61 deletions(-)
 
-diff --git a/drivers/staging/gpib/Kconfig b/drivers/staging/gpib/Kconfig
-index 0ea9a276c389..95308d15a555 100644
---- a/drivers/staging/gpib/Kconfig
-+++ b/drivers/staging/gpib/Kconfig
-@@ -61,7 +61,7 @@ config GPIB_CEC_PCI
+diff --git a/drivers/staging/gpib/gpio/gpib_bitbang.c b/drivers/staging/gpib/gpio/gpib_bitbang.c
+index 8c03e91c01dc..e7a5248ee80d 100644
+--- a/drivers/staging/gpib/gpio/gpib_bitbang.c
++++ b/drivers/staging/gpib/gpio/gpib_bitbang.c
+@@ -203,41 +203,39 @@ int gpios_vector[] = {
+ /* Lookup table for general GPIOs */
  
- config GPIB_NI_PCI_ISA
- 	tristate "NI PCI/ISA compatible boards"
--	depends on ISA_BUS
-+	depends on ISA_BUS || PCI || PCMCIA
- 	select GPIB_COMMON
- 	select GPIB_NEC7210
- 	help
-@@ -138,7 +138,7 @@ config GPIB_FMH
+ static struct gpiod_lookup_table gpib_gpio_table_0 = {
+-	// for bcm2835/6
+ 	.dev_id = "",	 // device id of board device
+ 	.table = {
+-		GPIO_LOOKUP_IDX("GPIO_GCLK",  U16_MAX, NULL,  4, GPIO_ACTIVE_HIGH),
+-		GPIO_LOOKUP_IDX("GPIO5",	  U16_MAX, NULL,  5, GPIO_ACTIVE_HIGH),
+-		GPIO_LOOKUP_IDX("GPIO6",	  U16_MAX, NULL,  6, GPIO_ACTIVE_HIGH),
+-		GPIO_LOOKUP_IDX("SPI_CE1_N",  U16_MAX, NULL,  7, GPIO_ACTIVE_HIGH),
+-		GPIO_LOOKUP_IDX("SPI_CE0_N",  U16_MAX, NULL,  8, GPIO_ACTIVE_HIGH),
+-		GPIO_LOOKUP_IDX("SPI_MISO",	  U16_MAX, NULL,  9, GPIO_ACTIVE_HIGH),
+-		GPIO_LOOKUP_IDX("SPI_MOSI",	  U16_MAX, NULL, 10, GPIO_ACTIVE_HIGH),
+-		GPIO_LOOKUP_IDX("SPI_SCLK",	  U16_MAX, NULL, 11, GPIO_ACTIVE_HIGH),
+-		GPIO_LOOKUP_IDX("GPIO12",	  U16_MAX, NULL, 12, GPIO_ACTIVE_HIGH),
+-		GPIO_LOOKUP_IDX("GPIO13",	  U16_MAX, NULL, 13, GPIO_ACTIVE_HIGH),
+-		GPIO_LOOKUP_IDX("TXD0",	  U16_MAX, NULL, 14, GPIO_ACTIVE_HIGH),
+-		GPIO_LOOKUP_IDX("RXD0",	  U16_MAX, NULL, 15, GPIO_ACTIVE_HIGH),
+-		GPIO_LOOKUP_IDX("GPIO16",	  U16_MAX, NULL, 16, GPIO_ACTIVE_HIGH),
+-		GPIO_LOOKUP_IDX("GPIO17",	  U16_MAX, NULL, 17, GPIO_ACTIVE_HIGH),
+-		GPIO_LOOKUP_IDX("GPIO18",	  U16_MAX, NULL, 18, GPIO_ACTIVE_HIGH),
+-		GPIO_LOOKUP_IDX("GPIO19",	  U16_MAX, NULL, 19, GPIO_ACTIVE_HIGH),
+-		GPIO_LOOKUP_IDX("GPIO20",	  U16_MAX, NULL, 20, GPIO_ACTIVE_HIGH),
+-		GPIO_LOOKUP_IDX("GPIO21",	  U16_MAX, NULL, 21, GPIO_ACTIVE_HIGH),
+-		GPIO_LOOKUP_IDX("GPIO22",	  U16_MAX, NULL, 22, GPIO_ACTIVE_HIGH),
+-		GPIO_LOOKUP_IDX("GPIO23",	  U16_MAX, NULL, 23, GPIO_ACTIVE_HIGH),
+-		GPIO_LOOKUP_IDX("GPIO24",	  U16_MAX, NULL, 24, GPIO_ACTIVE_HIGH),
+-		GPIO_LOOKUP_IDX("GPIO25",	  U16_MAX, NULL, 25, GPIO_ACTIVE_HIGH),
+-		GPIO_LOOKUP_IDX("GPIO26",	  U16_MAX, NULL, 26, GPIO_ACTIVE_HIGH),
+-		GPIO_LOOKUP_IDX("GPIO27",	  U16_MAX, NULL, 27, GPIO_ACTIVE_HIGH),
++		// for bcm27xx based pis (b b+ 2b 3b 3b+ 4 5)
++		GPIO_LOOKUP_IDX("GPIO4",  U16_MAX, NULL,  4, GPIO_ACTIVE_HIGH),
++		GPIO_LOOKUP_IDX("GPIO5",  U16_MAX, NULL,  5, GPIO_ACTIVE_HIGH),
++		GPIO_LOOKUP_IDX("GPIO6",  U16_MAX, NULL,  6, GPIO_ACTIVE_HIGH),
++		GPIO_LOOKUP_IDX("GPIO7",  U16_MAX, NULL,  7, GPIO_ACTIVE_HIGH),
++		GPIO_LOOKUP_IDX("GPIO8",  U16_MAX, NULL,  8, GPIO_ACTIVE_HIGH),
++		GPIO_LOOKUP_IDX("GPIO9",  U16_MAX, NULL,  9, GPIO_ACTIVE_HIGH),
++		GPIO_LOOKUP_IDX("GPIO10", U16_MAX, NULL, 10, GPIO_ACTIVE_HIGH),
++		GPIO_LOOKUP_IDX("GPIO11", U16_MAX, NULL, 11, GPIO_ACTIVE_HIGH),
++		GPIO_LOOKUP_IDX("GPIO12", U16_MAX, NULL, 12, GPIO_ACTIVE_HIGH),
++		GPIO_LOOKUP_IDX("GPIO13", U16_MAX, NULL, 13, GPIO_ACTIVE_HIGH),
++		GPIO_LOOKUP_IDX("GPIO16", U16_MAX, NULL, 16, GPIO_ACTIVE_HIGH),
++		GPIO_LOOKUP_IDX("GPIO17", U16_MAX, NULL, 17, GPIO_ACTIVE_HIGH),
++		GPIO_LOOKUP_IDX("GPIO18", U16_MAX, NULL, 18, GPIO_ACTIVE_HIGH),
++		GPIO_LOOKUP_IDX("GPIO19", U16_MAX, NULL, 19, GPIO_ACTIVE_HIGH),
++		GPIO_LOOKUP_IDX("GPIO20", U16_MAX, NULL, 20, GPIO_ACTIVE_HIGH),
++		GPIO_LOOKUP_IDX("GPIO21", U16_MAX, NULL, 21, GPIO_ACTIVE_HIGH),
++		GPIO_LOOKUP_IDX("GPIO22", U16_MAX, NULL, 22, GPIO_ACTIVE_HIGH),
++		GPIO_LOOKUP_IDX("GPIO23", U16_MAX, NULL, 23, GPIO_ACTIVE_HIGH),
++		GPIO_LOOKUP_IDX("GPIO24", U16_MAX, NULL, 24, GPIO_ACTIVE_HIGH),
++		GPIO_LOOKUP_IDX("GPIO25", U16_MAX, NULL, 25, GPIO_ACTIVE_HIGH),
++		GPIO_LOOKUP_IDX("GPIO26", U16_MAX, NULL, 26, GPIO_ACTIVE_HIGH),
++		GPIO_LOOKUP_IDX("GPIO27", U16_MAX, NULL, 27, GPIO_ACTIVE_HIGH),
+ 		{ }
+ 	},
+ };
  
- config GPIB_GPIO
-        tristate "RPi GPIO bitbang"
--	depends on ARCH_BCM2835 || COMPIlE_TEST
-+	depends on ARCH_BCM2835 || COMPILE_TEST
-        select GPIB_COMMON
-        help
-          GPIB bitbang driver Raspberry Pi GPIO adapters
+ static struct gpiod_lookup_table gpib_gpio_table_1 = {
++	// for bcm2835/6
+ 	.dev_id = "",	 // device id of board device
+ 	.table = {
+-		// for bcm2837 based pis (3a+ 3b 3b+ )
+ 		GPIO_LOOKUP_IDX("GPIO_GCLK",  U16_MAX, NULL,  4, GPIO_ACTIVE_HIGH),
+ 		GPIO_LOOKUP_IDX("GPIO5",	  U16_MAX, NULL,  5, GPIO_ACTIVE_HIGH),
+ 		GPIO_LOOKUP_IDX("GPIO6",	  U16_MAX, NULL,  6, GPIO_ACTIVE_HIGH),
+@@ -248,8 +246,6 @@ static struct gpiod_lookup_table gpib_gpio_table_1 = {
+ 		GPIO_LOOKUP_IDX("SPI_SCLK",	  U16_MAX, NULL, 11, GPIO_ACTIVE_HIGH),
+ 		GPIO_LOOKUP_IDX("GPIO12",	  U16_MAX, NULL, 12, GPIO_ACTIVE_HIGH),
+ 		GPIO_LOOKUP_IDX("GPIO13",	  U16_MAX, NULL, 13, GPIO_ACTIVE_HIGH),
+-		GPIO_LOOKUP_IDX("TXD1",	  U16_MAX, NULL, 14, GPIO_ACTIVE_HIGH),
+-		GPIO_LOOKUP_IDX("RXD1",	  U16_MAX, NULL, 15, GPIO_ACTIVE_HIGH),
+ 		GPIO_LOOKUP_IDX("GPIO16",	  U16_MAX, NULL, 16, GPIO_ACTIVE_HIGH),
+ 		GPIO_LOOKUP_IDX("GPIO17",	  U16_MAX, NULL, 17, GPIO_ACTIVE_HIGH),
+ 		GPIO_LOOKUP_IDX("GPIO18",	  U16_MAX, NULL, 18, GPIO_ACTIVE_HIGH),
+@@ -266,42 +262,9 @@ static struct gpiod_lookup_table gpib_gpio_table_1 = {
+ 	},
+ };
+ 
+-static struct gpiod_lookup_table gpib_gpio_table_2 = {
+-	.dev_id = "",	 // device id of board device
+-	.table = {
+-		// for bcm27xx based pis (b b+ 2b 3b 3b+ 4 5)
+-		GPIO_LOOKUP_IDX("GPIO4",  U16_MAX, NULL,  4, GPIO_ACTIVE_HIGH),
+-		GPIO_LOOKUP_IDX("GPIO5",  U16_MAX, NULL,  5, GPIO_ACTIVE_HIGH),
+-		GPIO_LOOKUP_IDX("GPIO6",  U16_MAX, NULL,  6, GPIO_ACTIVE_HIGH),
+-		GPIO_LOOKUP_IDX("GPIO7",  U16_MAX, NULL,  7, GPIO_ACTIVE_HIGH),
+-		GPIO_LOOKUP_IDX("GPIO8",  U16_MAX, NULL,  8, GPIO_ACTIVE_HIGH),
+-		GPIO_LOOKUP_IDX("GPIO9",  U16_MAX, NULL,  9, GPIO_ACTIVE_HIGH),
+-		GPIO_LOOKUP_IDX("GPIO10", U16_MAX, NULL, 10, GPIO_ACTIVE_HIGH),
+-		GPIO_LOOKUP_IDX("GPIO11", U16_MAX, NULL, 11, GPIO_ACTIVE_HIGH),
+-		GPIO_LOOKUP_IDX("GPIO12", U16_MAX, NULL, 12, GPIO_ACTIVE_HIGH),
+-		GPIO_LOOKUP_IDX("GPIO13", U16_MAX, NULL, 13, GPIO_ACTIVE_HIGH),
+-		GPIO_LOOKUP_IDX("GPIO14", U16_MAX, NULL, 14, GPIO_ACTIVE_HIGH),
+-		GPIO_LOOKUP_IDX("GPIO15", U16_MAX, NULL, 15, GPIO_ACTIVE_HIGH),
+-		GPIO_LOOKUP_IDX("GPIO16", U16_MAX, NULL, 16, GPIO_ACTIVE_HIGH),
+-		GPIO_LOOKUP_IDX("GPIO17", U16_MAX, NULL, 17, GPIO_ACTIVE_HIGH),
+-		GPIO_LOOKUP_IDX("GPIO18", U16_MAX, NULL, 18, GPIO_ACTIVE_HIGH),
+-		GPIO_LOOKUP_IDX("GPIO19", U16_MAX, NULL, 19, GPIO_ACTIVE_HIGH),
+-		GPIO_LOOKUP_IDX("GPIO20", U16_MAX, NULL, 20, GPIO_ACTIVE_HIGH),
+-		GPIO_LOOKUP_IDX("GPIO21", U16_MAX, NULL, 21, GPIO_ACTIVE_HIGH),
+-		GPIO_LOOKUP_IDX("GPIO22", U16_MAX, NULL, 22, GPIO_ACTIVE_HIGH),
+-		GPIO_LOOKUP_IDX("GPIO23", U16_MAX, NULL, 23, GPIO_ACTIVE_HIGH),
+-		GPIO_LOOKUP_IDX("GPIO24", U16_MAX, NULL, 24, GPIO_ACTIVE_HIGH),
+-		GPIO_LOOKUP_IDX("GPIO25", U16_MAX, NULL, 25, GPIO_ACTIVE_HIGH),
+-		GPIO_LOOKUP_IDX("GPIO26", U16_MAX, NULL, 26, GPIO_ACTIVE_HIGH),
+-		GPIO_LOOKUP_IDX("GPIO27", U16_MAX, NULL, 27, GPIO_ACTIVE_HIGH),
+-		{ }
+-	},
+-};
+-
+ static struct gpiod_lookup_table *lookup_tables[] = {
+ 	&gpib_gpio_table_0,
+ 	&gpib_gpio_table_1,
+-	&gpib_gpio_table_2,
+ 	0
+ };
+ 
 -- 
 2.46.2
 
