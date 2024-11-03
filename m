@@ -1,37 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3810218BB82;
-	Mon,  4 Nov 2024 05:46:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E144B190686
+	for <linux-staging@lists.linux.dev>; Mon,  4 Nov 2024 05:46:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730699213; cv=none; b=UjsSppt22odME5jsgszS3VZ5TnpNAX2H84s2CG80opwfr3kjynDksEsEeiNMd29xNgvbciUeJVKdScEiSTgyfOriiZ/Boo/kqbAK7C1liKA04ClNZMZXVcLUodpHB0TmTBotocS0nGCIW05NUfcY6lMEIzKRAujy+cl7N7XgC2Q=
+	t=1730699216; cv=none; b=QkuySiwbCffA59uxsesCZayXl/AQ807y8YjbYq8cslcBDpHqCOI+ptWJi5T8pkuFLyRi39OdUiqO3zuWNWRX1RTrI5VO5YzkUqKBWbHmbP6lV4rxon/OGQmZmxfI8/e2D4RmEhqOlolUf1qMqrYplbpRUyyt0it5yLL2ukQzcOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730699213; c=relaxed/simple;
-	bh=6gW/lfMQuKvkTV8++YB2N4jXGelmIQ/KnTFrV2w/9yk=;
+	s=arc-20240116; t=1730699216; c=relaxed/simple;
+	bh=TPXcj2FskJgYqY71/0hQwjg8hx4OoVqfRJGiBxmPclY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UUWQF9F/lDqc8OfvQFY3LJE0SWt/SgLRGi1w69bI2QcpczwK0GGae8LDvMYAlftoe4buupxWGRS7g8V9Zt2iwXqkT5qLexBbV4iCfWrUseDvTnnktztl8ek3yO0gzoDrsMUywVsrQSXi8bF3qY0maReycg1d6T6aEGSXWrqXGjo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=iBeyVOCA; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=gzqIxASXTV+9YJIPDnD/7H8dNwi8yX2wNnBs2zb07NtEmg76x+TjZqdyiDWNzGGsn6Tac3TDjNRQkkoknppG9shiFkDCC1Ce0tgFAYnYBo43YcjKVJwTQ4fskX+WfsY7QOcg5Jcwpzr5l2KR2XCMN4J/uQPQP1q0UyfU9Zi+ZdI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=DYQyupig; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="iBeyVOCA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E2FEC4CECE;
-	Mon,  4 Nov 2024 05:46:52 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="DYQyupig"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 343F9C4CED2;
+	Mon,  4 Nov 2024 05:46:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1730699212;
-	bh=6gW/lfMQuKvkTV8++YB2N4jXGelmIQ/KnTFrV2w/9yk=;
+	s=korg; t=1730699215;
+	bh=TPXcj2FskJgYqY71/0hQwjg8hx4OoVqfRJGiBxmPclY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iBeyVOCA9f+381dh3MzoaTSQmIHktzJ01N2xc8v1S4uuXOulaedrFqghAeWP3uEvq
-	 HqRDbvC+hDEinzvmey2Sc4Qee4X9Og1T5OCpqa77pfEztoAjWK8v8wbvs9nnviVyXs
-	 fQq2P6JywkRVrSEsAey9RJOxrxRbnd6cXO/ZNPl4=
-Date: Mon, 4 Nov 2024 00:45:15 +0100
+	b=DYQyupigT5Pa0uBOlblwAf62YDcyIva9I2CwZeTnvqBu0VxPtt2bbC6vGOKPrUhr0
+	 YPd1aEzv01J6qMzv5nlZ3s2PKXC61Qf5BHiOU+wzPyqXWuhmNAUl9LGmWIsz8VuVdt
+	 CqKH14YQudKBXsMpP2gEdnMJt0OtYIyBySvvCeqE=
+Date: Mon, 4 Nov 2024 00:45:57 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Omer Faruk BULUT <m.omerfarukbulut@gmail.com>
-Cc: dpenkler@gmail.com, arnd@arndb.de, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Staging: gpib/common/gpib_os.c - Remove unnecessary OOM
- message
-Message-ID: <2024110458-tank-very-49c4@gregkh>
-References: <20241022180620.12429-1-m.omerfarukbulut@gmail.com>
+To: Kees Bakker <kees@ijzerbout.nl>
+Cc: Dave Penkler <dpenkler@gmail.com>,
+	Linux Staging <linux-staging@lists.linux.dev>
+Subject: Re: [PATCH] staging: gpib: Change return type of
+ fluke_get_dma_residue
+Message-ID: <2024110442-citadel-papyrus-f8c5@gregkh>
+References: <20241020153948.B607818CC05@bout3.ijzerbout.nl>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,46 +40,21 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241022180620.12429-1-m.omerfarukbulut@gmail.com>
+In-Reply-To: <20241020153948.B607818CC05@bout3.ijzerbout.nl>
 
-On Tue, Oct 22, 2024 at 09:06:20PM +0300, Omer Faruk BULUT wrote:
-> It duplicate the MM subsystem generic OOM message. This patch fixes the following checkpatch warning.
-
-Please wrap your changelog text at 72 columns.
-
+On Tue, Oct 15, 2024 at 10:33:30PM +0200, Kees Bakker wrote:
+> The function fluke_get_dma_residue returns an error as a negative value.
+> So the return type must not be unsigned.
 > 
->     WARNING: Possible unnecessary 'out of memory' message
+> This was detected by Coverity, CID 1600782
 > 
-> Also, this patch itself might teach to module writers or readers that they have to give attention to MM subsystem
-> even they interest another one.
-
-I do not understand this comment at all, sorry, what does it have to do
-with the change happening in this proposal?
-
-> 
-> Signed-off-by: Omer Faruk BULUT <m.omerfarukbulut@gmail.com>
+> Signed-off-by: Kees Bakker <kees@ijzerbout.nl>
 > ---
->  drivers/staging/gpib/common/gpib_os.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/staging/gpib/common/gpib_os.c b/drivers/staging/gpib/common/gpib_os.c
-> index 6b12404efe7d..27654b2180a5 100644
-> --- a/drivers/staging/gpib/common/gpib_os.c
-> +++ b/drivers/staging/gpib/common/gpib_os.c
-> @@ -2093,10 +2093,9 @@ void gpib_register_driver(gpib_interface_t *interface, struct module *provider_m
->  	struct gpib_interface_list_struct *entry;
->  
->  	entry = kmalloc(sizeof(*entry), GFP_KERNEL);
-> -	if (!entry) {
-> -		pr_err("gpib: failed register %s interface, out of memory\n", interface->name);
-> +	if (!entry) 
->  		return;
-> -	}
-> +	
+>  v1 -> v2: change type of `residue` var; add note about Coverity CID in commit message
 
-You added trailing whitespace, ALWAYS run scripts/checkpatch.pl on
-changes you are submitting to the kernel, you don't want to add a new
-problem when trying to fix a different one :)
+There is no "v2" in the subject line :(
+
+Please fix and send a v3.
 
 thanks,
 
