@@ -1,55 +1,55 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 528EF15B0E4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEA4E15C14B
 	for <linux-staging@lists.linux.dev>; Sun,  3 Nov 2024 08:14:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730621696; cv=none; b=WX3phRqT+d8yLn+sPvFC/ovwOe304JQe6rZ5IAkh3ISR56uLYLZTFfqPSODMg+wM/aqD1u3wGVTZI55SzfBbbH0ykOAUYuIvN8b+Mt82j4Ssi05t2TsNfIA49uEe+55EtyliiCEkOdSrKsJiVAe1+FIQgVSHqNkHvhrAq5sF8zQ=
+	t=1730621697; cv=none; b=Vxa76PyvMB3YSgE5eQ/vRd5aRdVxpeLiBi703BWA6C+eBulfu3gBmCYY+C3OIQtZpmufIDRf3+jRTYbcPm023Imd2FJ1z6oetqADFnxnGCuIr6pTZQ/ELiRNXr+GmKKMfUPdqzwm397hBWuoEqQbMhbIQrqhUwykEwSNrYsVkw0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730621696; c=relaxed/simple;
-	bh=NwG1+Wj9EwKQULRNQC2RBaRfhLvBJD2j01XeEUWx0HY=;
+	s=arc-20240116; t=1730621697; c=relaxed/simple;
+	bh=7sKe1Pl+7CwfWdmhfNJ2WxpGLVatbPVCfDOtU3av8aY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=noaIe8W9Te4HnJ2SDQTc48mzfUuAPh8aazg/ls9XNfE9IIcWzLpCZp3VeVKyme73DdMc7BEtK5rrk/Rer5RFqlN2fLQyingD6Q7N3FiB3eMduzxeKoB+X41lruZBtyViw8F2/CJyQrm7lgZFbs51H/1TQq2nDi85GZFLyS4IGaw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AyGO2o1W; arc=none smtp.client-ip=209.85.208.47
+	 MIME-Version; b=qR++Sys8ZgTdUEDkVireftoiOEQ4tmx+YZGAaZSmVQXB/bXePkUS7rN8gfbdNLf9umZTSY1XTlvgbViDQCa8xpUf4LVXkfyY6PKcII/G8un6x3ThggXE4hMBDSFccJ21CF8ZHEkrXm1U3qiUJif+67pnvFY1FgfAXPQHTbpBQBE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jofj49nS; arc=none smtp.client-ip=209.85.208.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AyGO2o1W"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5cacb76e924so4168294a12.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jofj49nS"
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5cec8c4e2f6so1339512a12.1
         for <linux-staging@lists.linux.dev>; Sun, 03 Nov 2024 01:14:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1730621694; x=1731226494; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hhrqh6evD3D/ak3hvNLHVK8bkDBFpxBe3o3ECuiVp2c=;
-        b=AyGO2o1WecUL5F/ltKIruFRwZDXyXJEKCnKVn8QIMA9on6zoPPIZrb9lUhtkuZMNDv
-         4ZS8/gujXKF32e3sEajrhvOpBaz4SQsDSedqDjtydBQbH6KIk3vRlPtQfJLeFPqwNFy4
-         08madhYnQlCnnF0JpNS1gCXSEQrC7EPJAxoAlynVQbUhhwEcaSCEjXZn7qg1CbHGP2nA
-         GJIja/VSmZCfDhkfFyL0UMA6Hg8Of0VHqHl7g/PZw1Ogd+epf2PzvFyRqbht/KQ83qdN
-         KNY4oN36segfryoUzq0cfvpp8Y/qKiAIatXDqLOROUdY/907zBeu0/PiYoLlrjJvuTsA
-         VX5g==
+        bh=u9L6U0Gk8YZHjTkzBekNSagvpm2LJGcdztz/F1h/LBM=;
+        b=jofj49nSBEKkxgKbEucIhA3DVM2BPk6KrLiX/Bt0pRYtXVF4gh1Az9Ci2tLHb2Ezdk
+         hBEL/Kz0AbbEbcWogaISwyVy7n7sNA9sTsW0tpPMJ9H50TDeaNKFByKP34UHn0D6TPW+
+         SjE8myUiEarPS1jKZGbItOj8R7P7JdxsEBycuJ0she7OS6Jdx4EXDgxPCZZ8T+IeiRhG
+         Ssetir/Yew97UNSzAxKrReuURHqLDqe5c4nHY5+PMYp5B5LuqP0NxiIkM0FmmHsiCXVx
+         LcOYcHGWZWHNxvi7uprqsl45M9TRf3RXk4p4pKf4sqf/8PnkHgESj0Nj9zzh0AzyLFMR
+         V2SA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1730621694; x=1731226494;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=hhrqh6evD3D/ak3hvNLHVK8bkDBFpxBe3o3ECuiVp2c=;
-        b=CG7ayERglD6E2Ynwz/mwha2rvdKf01e2/Tqd1iqWCzi8z0Z+BHeizxQ71OUlvvMewB
-         mnitLw6yDFaYRkZtBroBno8zVkbm8FOh6I8i56Fq8luDR6PedO5riTDfUGO5mFfEGQNb
-         20Gb/cRRWXQMZKYRLljb18+11nmjTZjGATJEllb3xLEAhF0SQ+sp1OjMWTBIgeeO+4IN
-         VXLXgPDrsOjpZlmj0IKuT4RBTvu9EQlwhYZgkBVV4x1mMJRb2TP7X9r+dxU5i2TTUh4y
-         Xt3Vrj8gyWcyScsRPGIt0UAcXtZbkuop18rtA2PvasLrKbUMb+kJ2cDwWFAoC6vMdcF+
-         9XRg==
-X-Forwarded-Encrypted: i=1; AJvYcCVaaYpBurlsewU3N/U+kCLVTG5hoALExrDcfjRS8N58eBfpZFwNcaHW8bNBfKsrbU8QStqCjRSxDSLhUOlL@lists.linux.dev
-X-Gm-Message-State: AOJu0YzvJTUHEPjP8NqY61d1HuTVCHRrvDK0pvCSeIrwc6so5P59EwxS
-	aWPS2k24PA0DjSg9ETM+/4Ai+tEj15obE1VVyRDwxII3zDPSL7+RsO0Ijg==
-X-Google-Smtp-Source: AGHT+IFrII9FEvZRo5zbQYZe/IbDfG8BuKA5hR8Ye5W9KT3hoFXbU5FmwNTOB6bH14GaPocg7JnF6A==
-X-Received: by 2002:a05:6402:84f:b0:5ce:c7ca:70ca with SMTP id 4fb4d7f45d1cf-5cec7ca71a0mr3751445a12.34.1730621693485;
-        Sun, 03 Nov 2024 01:14:53 -0700 (PDT)
+        bh=u9L6U0Gk8YZHjTkzBekNSagvpm2LJGcdztz/F1h/LBM=;
+        b=TlUZ2ueZePGaRF/pk+H+1Ab437BiTOJCan/fvE865w/NzZfTegTEaOL9HboogNe1wA
+         YZ55sLS/ufxINpL0A/evpSLqHvP2rPbC2l9TVgFB/IFo9+jQKbH/3f7lbrOyxfFqzK7N
+         9T4jpx0RRfCKdmAnBgY97q7OUWuek04WOxLBsDqI5EY7bNvk+xubSuuVdopa/Xtqgo9/
+         fqZCNY5tZhBwksnSNhAJSyx6Vo/K0OhcCl6S7S95aJcrn9guhC38ffiVCYGIR1eLUlZT
+         cmmqRU3w00n4wEejhhcK5lS5UppaDRq856ttkHAZpQewYPLq7KszsXv1smbZwmF9xiUb
+         Ld9w==
+X-Forwarded-Encrypted: i=1; AJvYcCX8WcEZQUkPWzGKR1WfqYhOejhfnW3Q8nNrJWL8u/UXwbsQDP/dEejo/+hbw0d34ZQEtCTHGl5+/LLFSL5S@lists.linux.dev
+X-Gm-Message-State: AOJu0YzPddyopwT/NoXaRFf6Tjz7E8DGJR3GiUkdM43nVosry5Zb+UKo
+	rU4QY+5bIFvtR9buOvAUnAybUJsXtUmTP/q4ym/WHoJAu+W1OC4v
+X-Google-Smtp-Source: AGHT+IFP9igqQElEcdzfvpQCH6ScPEFlcCIEAR+RwKIMPWuu5+OsQEWo9ibchlb+P/6X2aqbLxooIw==
+X-Received: by 2002:a50:ee98:0:b0:5ce:c8ee:7e41 with SMTP id 4fb4d7f45d1cf-5cec8ee80a3mr3127174a12.22.1730621694098;
+        Sun, 03 Nov 2024 01:14:54 -0700 (PDT)
 Received: from kernel-710.speedport.ip (p54a0712c.dip0.t-ipconnect.de. [84.160.113.44])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5ceac789152sm3097882a12.43.2024.11.03.01.14.52
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5ceac789152sm3097882a12.43.2024.11.03.01.14.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Sun, 03 Nov 2024 01:14:53 -0700 (PDT)
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
@@ -57,9 +57,9 @@ To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Subject: [PATCH 03/13] staging: rtl8723bs: Remove #if 1 in function hal_EfuseGetCurrentSize_BT
-Date: Sun,  3 Nov 2024 09:14:24 +0100
-Message-ID: <9259ce43226333a4ab4ba400bbfcaa2eead3f5d1.1730619982.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 04/13] staging: rtl8723bs: Remove #if 1 in function ReadChipVersion8723B
+Date: Sun,  3 Nov 2024 09:14:25 +0100
+Message-ID: <637bc9cfb1188fd0112998aea5d22241e965a50e.1730619982.git.philipp.g.hortmann@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1730619982.git.philipp.g.hortmann@gmail.com>
 References: <cover.1730619982.git.philipp.g.hortmann@gmail.com>
@@ -71,59 +71,29 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove #if 1 in function hal_EfuseGetCurrentSize_BT to shorten code.
+Remove #if 1 in function ReadChipVersion8723B as it is useless.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- .../staging/rtl8723bs/hal/rtl8723b_hal_init.c | 28 -------------------
- 1 file changed, 28 deletions(-)
+ drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-index 2659999404a3..49b6507f991c 100644
+index 49b6507f991c..c3fcadc634f9 100644
 --- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
 +++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-@@ -1028,7 +1028,6 @@ static u16 hal_EfuseGetCurrentSize_BT(struct adapter *padapter, u8 bPseudoTest)
- 		/*  only when bank is switched we have to reset the efuse_addr. */
- 		if (bank != startBank)
- 			efuse_addr = 0;
+@@ -1523,9 +1523,9 @@ static struct hal_version ReadChipVersion8723B(struct adapter *padapter)
+ 	pHalData->MultiFunc |= ((value32 & BT_FUNC_EN) ? RT_MULTI_FUNC_BT : 0);
+ 	pHalData->MultiFunc |= ((value32 & GPS_FUNC_EN) ? RT_MULTI_FUNC_GPS : 0);
+ 	pHalData->PolarityCtl = ((value32 & WL_HWPDN_SL) ? RT_POLARITY_HIGH_ACT : RT_POLARITY_LOW_ACT);
 -#if 1
- 
- 		while (AVAILABLE_EFUSE_ADDR(efuse_addr)) {
- 			if (efuse_OneByteRead(padapter, efuse_addr,
-@@ -1057,33 +1056,6 @@ static u16 hal_EfuseGetCurrentSize_BT(struct adapter *padapter, u8 bPseudoTest)
- 			/* read next header */
- 			efuse_addr += (word_cnts*2)+1;
- 		}
--#else
--	while (
--		bContinual &&
--		efuse_OneByteRead(padapter, efuse_addr, &efuse_data, bPseudoTest) &&
--		AVAILABLE_EFUSE_ADDR(efuse_addr)
--	) {
--			if (efuse_data != 0xFF) {
--				if ((efuse_data&0x1F) == 0x0F) { /* extended header */
--					efuse_addr++;
--					efuse_OneByteRead(padapter, efuse_addr, &efuse_data, bPseudoTest);
--					if ((efuse_data & 0x0F) == 0x0F) {
--						efuse_addr++;
--						continue;
--					} else {
--						hworden = efuse_data & 0x0F;
--					}
--				} else {
--					hworden =  efuse_data & 0x0F;
--				}
--				word_cnts = Efuse_CalculateWordCnts(hworden);
--				/* read next header */
--				efuse_addr = efuse_addr + (word_cnts*2)+1;
--			} else
--				bContinual = false;
--		}
++
+ 	dump_chip_info(ChipVersion);
 -#endif
--
++
+ 	pHalData->VersionID = ChipVersion;
  
- 		/*  Check if we need to check next bank efuse */
- 		if (efuse_addr < retU2)
+ 	return ChipVersion;
 -- 
 2.43.0
 
