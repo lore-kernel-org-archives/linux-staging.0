@@ -1,57 +1,57 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B1C61CEE90
-	for <linux-staging@lists.linux.dev>; Mon,  4 Nov 2024 17:50:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56A051D0178
+	for <linux-staging@lists.linux.dev>; Mon,  4 Nov 2024 17:50:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730742641; cv=none; b=oi4fvBWrU7Qr4FP+3Bk6kdlwssQBii2BIkhOAtSDatIZYEubK4eIMCFjq2as8z3hVV6U2prn3GahB6Zd0v+zR4nXI+XsmU7zVi5XSTt0KCP503fTJKX5d31Yd+JyUXwkMQWCL9g1DQA55PqEIWmnD+cKCgNHnYN4wRs3xPMBkzs=
+	t=1730742643; cv=none; b=ql4sRrxltRfTYsmwprPxW51DmA4osfmUm55KtJh9uDOMlUzAjJSREHb9goVjC81RBe1oNIVuD05Mk1zwHk+kLeQzTWtMWQklRJUT8Ga1Tk/N2GMljp0An8v0cXPQlPNn0ZGbGRFs08OAjbbgFBdqSKgcwJKYLxLf+FSAJ7HrvzU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730742641; c=relaxed/simple;
-	bh=23ngUTksLpTkGw0aoSlNw3ryYZyvaCsuu0KwcDUyKbQ=;
+	s=arc-20240116; t=1730742643; c=relaxed/simple;
+	bh=r8oDawuzwrCTjMJNkuzF+kmtf/cLqFGhI9bi3b/8YqQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QPlH6z9hl9N0hPiRJKSBM1aqdgygeaIZsRpqLxySEC7GKjYcBml3v4qcOYrfL1D0KA0IGJkzzQPL2/vt/tMm8MJk5PDNC9j6DCSUOupKmLhmq/dgdvBWZG6lyKGokUXX+zjQEvNDrCaJp9F+jfWE8w/agVMC0KI5kfayaWMKZsY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iYHLJ1wL; arc=none smtp.client-ip=209.85.221.49
+	 MIME-Version; b=nUKbycatvVRdtBWQf3WuI5S9Tjk1ZfePHeSOhbHhtaUnIabcFR/uzz6HOEq1JOB2i7U0/gEOTOj/W7/MClzRD1FYfVAXztBZttST+Y9JiVoHHNZA+KPsedodptVzh64QO5YniFf2WPN6X/rGniYN4LFZ3XXvE/UASxi/5yPrqFI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DGmF4Thw; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iYHLJ1wL"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-37d41894a32so2551650f8f.1
-        for <linux-staging@lists.linux.dev>; Mon, 04 Nov 2024 09:50:38 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DGmF4Thw"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-43152b79d25so38593605e9.1
+        for <linux-staging@lists.linux.dev>; Mon, 04 Nov 2024 09:50:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730742637; x=1731347437; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1730742639; x=1731347439; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3bZW2vMqumbONmM6bkNUy1UefcqeQAO43C3ir03Pf+8=;
-        b=iYHLJ1wLMne5U5+Y1nEYHgdIWTlxZ/iKHzuLqMUs81lAxY+M1Z534lsQstFzkBSXaW
-         i3NuVjV1T6Hz6hX8QUX0IowIj6cVoGYr+tmKXz4TxPgcW8olx+7y39ctIfUZUkd7UNhW
-         80eEHxAbGj2yHb8Ox+vOli/soHQmsseUmkUE8ih57ZvGJOhRkogt52RMciUszBLzZPT/
-         v7kUUzyuWnhIoOxgRlPfeEY5PmiK5jjcbHvzAJOAGwfqG33Vei9uUzxMvD6gy30uIo2n
-         dBHJnagu09b9/1Nz1TVEdFKCJRmW6mrUAq7aUcIeYW6YnBLBpC5Kmr3kFx1fTqjAZbpK
-         bp9w==
+        bh=OnCRniz6rwW4FxyVUqUDwT3HfYK1tMoSQehysVO/b1w=;
+        b=DGmF4ThwshVv/5IrpaZDz/YKLijof8jky+QkSgo55lVP81d4YcWTqpHDHbYcCF0Eu7
+         uF8fn/kscm3lVsqSBTKi9yo0J2Q455joAl12MPFjzBVuwQG49aoptZXoHxj6IFE+QP0i
+         wTUWFXg4kxTnA7GAnB4/eyIwu6I5Ccv0kqmeIkrXuSa/rxQvCoEB0TIr5CM9/jgYhOIU
+         lqqe9jYLQK9iYMsgNav7p13/z31Ln8u9XDOvlezpyP4GriEg7Op/0u7VfVUjjW4VssZ6
+         rnMylBLxDKgarDuacgNs4I53tq04Y67qdkJDtrRNDaCT05koQzWDs2V1m/LznVJxx45N
+         AOow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730742637; x=1731347437;
+        d=1e100.net; s=20230601; t=1730742639; x=1731347439;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=3bZW2vMqumbONmM6bkNUy1UefcqeQAO43C3ir03Pf+8=;
-        b=CsGOCvEzad4b/Mb6k6Te8/oZXjaDmYR0/VO/ZuIQjWIUQtTYLNeK/6MOiphLnLS/Ft
-         c1Z85S3+dubWta5eghm230VGb86vloIgE2uyueT9n+kM3vKGUIve1uvR+Tx8ZIaTHWJn
-         1zDTN0ktNlfUGal/P3Z1K6AZzRyjlVdzvpox+glY9p2sXqZkPwajTGDa2ZlO0L3j7kDN
-         sPv/tFXoNv5vZwWRjVRQw3a3gPorU4SyxkvBMVtWuT85SiBjAbucbc7AliKL/svp04V9
-         raXxZd5mxCOSzYnFWbkVf8ELEDwiFvAOhzkPtKI+kKTXjm5CZGMlxXpLQoFtDisbFU/K
-         3Cyw==
-X-Forwarded-Encrypted: i=1; AJvYcCVa3d+ea8nUhaDOqyx8rDUjDcr88NmQuiuLLeBDBt0OlXvmpjxAEkf9iu4uOG+qyr9Gb4TjUDXHcUk0hB+J@lists.linux.dev
-X-Gm-Message-State: AOJu0YzbhbvKBbjBrT0T863+7JNrctN1cckSSrke1jo4PDWLGSx5vPLg
-	SZh3Exle4re3+kZFW3mhKI6OlK6R/NXoKu4W+jl654pWJcOQy0DJ
-X-Google-Smtp-Source: AGHT+IED9koMHdtoigV1IUNLC0Lf8hQjcXzlL4YR2SQSl38kHBY6wovIRGamZetZgT8dKXARQicxow==
-X-Received: by 2002:a05:6000:178b:b0:37c:c9bc:1be6 with SMTP id ffacd0b85a97d-381c79bb817mr9913699f8f.16.1730742637254;
-        Mon, 04 Nov 2024 09:50:37 -0800 (PST)
+        bh=OnCRniz6rwW4FxyVUqUDwT3HfYK1tMoSQehysVO/b1w=;
+        b=oVz3gk4H09HIUwOqeRrxxwl37ANaW0AlCK3zeRoMsQKBn6KiS/GEeZ/9+bTO/5sQuB
+         f8+CfII86wW9ADopfQDKp8+JQpD5RQxpo1OBwORWPmiXHCJX04+qRBC4BVmQxwHqdN3X
+         CE2xjKg045WjNocLu5/cCRRDqAj6hazXCVdyTZU39u8gOqdK3Uw2V3HgfwiaVYhLkNM6
+         iQc4Zs/j0dnXYlX91rjIYyTlUc5m/xJ1v4ISHNV7J4+iGWuXZMkhaEQJ1V9VpJ0ItXSf
+         SlhaUX7E0W+v359aX25XqBPWWOGxYGDf2QJQiyqeatbf58F9B7CTNKYBwbqAW91vBrrI
+         2yJw==
+X-Forwarded-Encrypted: i=1; AJvYcCWik9qw8sW+FI8Q4IMApL9+gltfAiS8RgTDXXY3SQjuXrlp/SEJfnoy3TnOJrmagReppnnHwfECO+k032NU@lists.linux.dev
+X-Gm-Message-State: AOJu0YwnMIAStXnmb/ZkPkm6lQUtSK2807d54x8+kJ/jj40Z6YJc8wJt
+	alDkBSmBm3c/cunermz5gpAokmMVXJ9owyPTbnM4EzPw0YVu0MGm
+X-Google-Smtp-Source: AGHT+IGNRKQXMXIFktTsqSu5Cqzlhbz5LhgCV8zs8OBKycVfuNRvFw3mF9TjCqlV/c3pcFyFe6H3dw==
+X-Received: by 2002:a05:600c:3587:b0:42c:c401:6d67 with SMTP id 5b1f17b1804b1-4327b6f464amr133648605e9.6.1730742638570;
+        Mon, 04 Nov 2024 09:50:38 -0800 (PST)
 Received: from localhost.localdomain (82-64-73-52.subs.proxad.net. [82.64.73.52])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381c10b7f80sm13839821f8f.20.2024.11.04.09.50.35
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381c10b7f80sm13839821f8f.20.2024.11.04.09.50.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Nov 2024 09:50:36 -0800 (PST)
+        Mon, 04 Nov 2024 09:50:37 -0800 (PST)
 From: Dave Penkler <dpenkler@gmail.com>
 To: gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev,
@@ -60,9 +60,9 @@ Cc: skhan@linuxfoundation.org,
 	arnd@arndb.de,
 	dan.carpenter@linaro.org,
 	Dave Penkler <dpenkler@gmail.com>
-Subject: [PATCH v3 11/12] staging: gpib: Re-order the lookup tables
-Date: Mon,  4 Nov 2024 18:50:12 +0100
-Message-ID: <20241104175014.12317-12-dpenkler@gmail.com>
+Subject: [PATCH v3 12/12] staging: gpib: Correct check for max secondary address
+Date: Mon,  4 Nov 2024 18:50:13 +0100
+Message-ID: <20241104175014.12317-13-dpenkler@gmail.com>
 X-Mailer: git-send-email 2.46.2
 In-Reply-To: <20241104175014.12317-1-dpenkler@gmail.com>
 References: <20241104175014.12317-1-dpenkler@gmail.com>
@@ -74,46 +74,81 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Re-order the tables so that the bcm27xx table is used first
-as these devices are more popular and numerous than the older ones.
-This is slightly more efficient for the later pi3 and subsequent models
-but should not be noticable in practice for all users.
+GPIB secondary addresses can be between 0 and 31 inclusive
+unlike primary addresses where address 31 is not a valid device
+address.  When 31 is used as a primary talk address it
+forms the UNT (Untalk) command and when used as a listener address it
+forms the UNL (Unlisten) commmand.
+The library was incorrectly not allowing a secondary address
+with a value of 31 to be used.
 
+Fixes: 9dde4559e939 ("staging: gpib: Add GPIB common core driver")
 Signed-off-by: Dave Penkler <dpenkler@gmail.com>
 ---
- drivers/staging/gpib/gpio/gpib_bitbang.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/staging/gpib/common/gpib_os.c | 4 +---
+ drivers/staging/gpib/common/iblib.c   | 6 +++---
+ drivers/staging/gpib/common/ibsys.h   | 3 +++
+ 3 files changed, 7 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/staging/gpib/gpio/gpib_bitbang.c b/drivers/staging/gpib/gpio/gpib_bitbang.c
-index 78032af5061c..a2d562cbd65b 100644
---- a/drivers/staging/gpib/gpio/gpib_bitbang.c
-+++ b/drivers/staging/gpib/gpio/gpib_bitbang.c
-@@ -202,7 +202,7 @@ int gpios_vector[] = {
+diff --git a/drivers/staging/gpib/common/gpib_os.c b/drivers/staging/gpib/common/gpib_os.c
+index e84097ac8f69..0285180ae1f0 100644
+--- a/drivers/staging/gpib/common/gpib_os.c
++++ b/drivers/staging/gpib/common/gpib_os.c
+@@ -525,8 +525,6 @@ int serial_poll_all(gpib_board_t *board, unsigned int usec_timeout)
+  * SPD and UNT are sent at the completion of the poll.
+  */
  
- /* Lookup table for general GPIOs */
+-static const int gpib_addr_max = 30;	/* max address for primary/secondary gpib addresses */
+-
+ int dvrsp(gpib_board_t *board, unsigned int pad, int sad,
+ 	  unsigned int usec_timeout, uint8_t *result)
+ {
+@@ -538,7 +536,7 @@ int dvrsp(gpib_board_t *board, unsigned int pad, int sad,
+ 		return -1;
+ 	}
  
--static struct gpiod_lookup_table gpib_gpio_table_0 = {
-+static struct gpiod_lookup_table gpib_gpio_table_1 = {
- 	// for bcm2835/6
- 	.dev_id = "",	 // device id of board device
- 	.table = {
-@@ -232,7 +232,7 @@ static struct gpiod_lookup_table gpib_gpio_table_0 = {
- 	},
- };
+-	if (pad > gpib_addr_max || sad > gpib_addr_max) {
++	if (pad > MAX_GPIB_PRIMARY_ADDRESS || sad > MAX_GPIB_SECONDARY_ADDRESS) {
+ 		pr_err("gpib: bad address for serial poll");
+ 		return -1;
+ 	}
+diff --git a/drivers/staging/gpib/common/iblib.c b/drivers/staging/gpib/common/iblib.c
+index fc57e760c144..db1911cc1b26 100644
+--- a/drivers/staging/gpib/common/iblib.c
++++ b/drivers/staging/gpib/common/iblib.c
+@@ -479,7 +479,7 @@ int ibsre(gpib_board_t *board, int enable)
+  */
+ int ibpad(gpib_board_t *board, unsigned int addr)
+ {
+-	if (addr > 30) {
++	if (addr > MAX_GPIB_PRIMARY_ADDRESS) {
+ 		pr_err("gpib: invalid primary address %u\n", addr);
+ 		return -1;
+ 	}
+@@ -498,8 +498,8 @@ int ibpad(gpib_board_t *board, unsigned int addr)
+  */
+ int ibsad(gpib_board_t *board, int addr)
+ {
+-	if (addr > 30) {
+-		pr_err("gpib: invalid secondary address %i, must be 0-30\n", addr);
++	if (addr > MAX_GPIB_SECONDARY_ADDRESS) {
++		pr_err("gpib: invalid secondary address %i\n", addr);
+ 		return -1;
+ 	}
+ 	board->sad = addr;
+diff --git a/drivers/staging/gpib/common/ibsys.h b/drivers/staging/gpib/common/ibsys.h
+index b78ca5ea4da1..da20971e9c7e 100644
+--- a/drivers/staging/gpib/common/ibsys.h
++++ b/drivers/staging/gpib/common/ibsys.h
+@@ -16,6 +16,9 @@
+ #include <asm/irq.h>
+ #include <asm/dma.h>
  
--static struct gpiod_lookup_table gpib_gpio_table_2 = {
-+static struct gpiod_lookup_table gpib_gpio_table_0 = {
- 	.dev_id = "",	 // device id of board device
- 	.table = {
- 		// for bcm27xx based pis (b b+ 2b 3b 3b+ 4 5)
-@@ -264,7 +264,7 @@ static struct gpiod_lookup_table gpib_gpio_table_2 = {
- 
- static struct gpiod_lookup_table *lookup_tables[] = {
- 	&gpib_gpio_table_0,
--	&gpib_gpio_table_2,
-+	&gpib_gpio_table_1,
- 	0
- };
++#define MAX_GPIB_PRIMARY_ADDRESS 30
++#define MAX_GPIB_SECONDARY_ADDRESS 31
++
+ int gpib_allocate_board(gpib_board_t *board);
+ void gpib_deallocate_board(gpib_board_t *board);
  
 -- 
 2.46.2
