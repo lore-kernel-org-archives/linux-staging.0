@@ -1,65 +1,65 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9DF71B3953
-	for <linux-staging@lists.linux.dev>; Mon,  4 Nov 2024 11:08:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF5AA1D514C
+	for <linux-staging@lists.linux.dev>; Mon,  4 Nov 2024 11:12:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730718531; cv=none; b=N3dJpaMTBTKFDrOmvz28D4t+h2InBYg+VU69nQbdLJULepHRzVHAn/xfmp5UTy8flFWdBxZPndiUkRNF0unpg4ePKye9s4ptwRYOaxBNd3pLx4tBL4va9SNIwjnROV/QpXpGWNtwEWhLIzrutyCNHE9w94oCaR9Y0+z+xzr5gfI=
+	t=1730718723; cv=none; b=H3HPceyEk+RoNcoOXyT78Rtn8Nc1i891KlqNcfLJl9/hWY1i7nWnsqQhoNoGqwCT8ozreSAUZchGnBkcyHdFNVMDvU3ZrAvA3ZnQU4Q+Fjb0Pk468zV9MB7YjEG3y/twB+sQqhO4485R+DQUxhBw3WE47mtbjP3AhqAG7PSCg94=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730718531; c=relaxed/simple;
-	bh=s5P19hNeuAnGUdrMJ/5Mqch/0JAtnNtGyau8mT1WKzc=;
+	s=arc-20240116; t=1730718723; c=relaxed/simple;
+	bh=sk3d/FHYhRaJyGTKGAjIhgq4yCrcH1MmP5JNRYYh0mo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NH7hKLmEZX0HnUpBZxdKf//4i0ZgDUqNgeb4mjDoaLo18p92auoC6m623ZgFkzBNkP3UyRYIEpvt4QzAdKY0pAnIZB3bzD6EPNAlJH3o+nqpzrmip2qN0QYrm7CYIasQY3mz9H/MbpBeQBg//1x8fWOWWNwNIsNNXW3CnwdG0MY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=DW9QWAx5; arc=none smtp.client-ip=170.10.133.124
+	 In-Reply-To:Content-Type; b=A9AoZOp9j9rmKgPoMrbCvRXpRsRui9o7v4Hy1C3uOKGe+BlpO9fBGYTVY8VZLpm8p58+Rw/nlyWQ/wVS8dwpEAsUxBFzbtRtuvcHRpOPJCNfNaycJ4cWGiNLtwcAXYsto3NCCZfAzQLjV294L/GFLPuupf98f+ExiFh79XPKkN4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Vd0z46qn; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DW9QWAx5"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Vd0z46qn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1730718528;
+	s=mimecast20190719; t=1730718720;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=eiPSsBINkhUGJeoO3ADfkXjMLznBBsiB9KM89Hnjm4M=;
-	b=DW9QWAx51Nv/ZIAdNH3ObuUvUpozYuq1HpSwCeAqbWD/MODGJCbAepC9It75HesqRk1Gva
-	ur2tFoEI3zvXGql1MbIEP1CyAqEPzUflQkMweieb0/h2sx8wTkGIevp2oXgajskkRq0di+
-	lhMrMcz0PeZVdVd7KZ4NQQuWy4jo8P8=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=heB7JxUhN8OMarE9DCmGTXKR/9N4xli4VLKntPUX0uo=;
+	b=Vd0z46qnCEoY+wOtYvDQ1hl4MCfeM0JfjM1Q/1Pm9gEseOlNKB6aUWEWk8yYB3eoGvjG6w
+	rvl2EJjE+JrYE1G76cgeLm2OzjMNKp1naKO0gGjG2oXDi5XrT5K5HQx6Zuu7UtF+phm1Pc
+	ZnsdNThLS0k8Q45jc7w+MJpc2XnOpp0=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-176-w9WVmdehPo6aCm5tSxEvfw-1; Mon, 04 Nov 2024 06:08:47 -0500
-X-MC-Unique: w9WVmdehPo6aCm5tSxEvfw-1
-Received: by mail-ed1-f72.google.com with SMTP id 4fb4d7f45d1cf-5c94862c3adso2923200a12.3
-        for <linux-staging@lists.linux.dev>; Mon, 04 Nov 2024 03:08:47 -0800 (PST)
+ us-mta-287-0gihD1VFOnWOCVQQVQlyJg-1; Mon, 04 Nov 2024 06:11:59 -0500
+X-MC-Unique: 0gihD1VFOnWOCVQQVQlyJg-1
+Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-a99fc3e2285so273278466b.0
+        for <linux-staging@lists.linux.dev>; Mon, 04 Nov 2024 03:11:59 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730718526; x=1731323326;
+        d=1e100.net; s=20230601; t=1730718718; x=1731323518;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=eiPSsBINkhUGJeoO3ADfkXjMLznBBsiB9KM89Hnjm4M=;
-        b=vUw0wswKFrYHKDxZ+7JqiIhaYWKGBA16O7PKQWwjSkFl1UntFZGNRIfjdGcmoWcsJQ
-         3nkxk94aTcS2cqzH38FVMuwxrRLzz6zJAcl0QjV9o92ESSYhNi0lxl+KrmBUuI4XrI6l
-         reaYaGnWyxJ5VUj2x2bbBbW9JwWF7275TYMkxK1YbDKGpTy9/AMt3rKIQzHJxQuNlFEo
-         IkNVkF+YlQB7v+EzVE4XjCIFvKd9LEN+oFOO36WZSMbvBv1wBGH+OBaIUZUsciVMDIzS
-         9W7nVr0dI+XVFi/pbkRAqwE/CXd6WqpfllVdLDt4T7e6h98lIY1t/513Tsu2QH4NQz9y
-         0Fcg==
-X-Forwarded-Encrypted: i=1; AJvYcCWdrDzV4wBRg0aZMSXfkUkWF05cfPi1hxOvKQXMabtts1iZ5RzXO1cUqyE3j7fPXesHcQH3OTjmMnJgAS6h@lists.linux.dev
-X-Gm-Message-State: AOJu0YwavZeUaiIu9DUbYnKlSv38wsRtG9yBYJsbk7bi7sEvvh6yNBOl
-	na5o3+z7ocmdDUEWiPYgK9bFgEi1iyCi5YTB9OYcermPL44zm+dTMVXN6bFZnxmdjdlFGk3gQQ6
-	kCVSlWM8LJD4bHKGZhPQAru9/c0LgyDaudre0hvKjwvwjGD4DFW0/6Z0hy8sYo3o=
-X-Received: by 2002:a05:6402:1d4c:b0:5ce:de14:65d0 with SMTP id 4fb4d7f45d1cf-5cede146642mr966711a12.0.1730718526157;
-        Mon, 04 Nov 2024 03:08:46 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGpuDyO8D1nRRXTlTJuNJPSHeW3WHC0+/HSstAONVJrZSkZK8THp6jyRFyHZaAKg2FAXzHvYw==
-X-Received: by 2002:a05:6402:1d4c:b0:5ce:de14:65d0 with SMTP id 4fb4d7f45d1cf-5cede146642mr966691a12.0.1730718525615;
-        Mon, 04 Nov 2024 03:08:45 -0800 (PST)
+        bh=heB7JxUhN8OMarE9DCmGTXKR/9N4xli4VLKntPUX0uo=;
+        b=TEoz7xNWaLfEMKU0gx+epeyli1TEAMhoezwmObmMqOY7q5vMqx3LCTOsV++LZL3Kea
+         nogMgT1sjW6+gVbVLz+OpJQktDeIrZetHzPR+lOxjBIMbbX4iXDOdEZTn23TgChRrJJJ
+         LVRO49ZP8cO5x0hCIYhgmxGvJGpnmn0Hfdh2FsEqmr7y+DE6dEDyxeH54ny7DnddbM3c
+         GzyFGCEXky3c243NqR+ls/7Z0dkPCx+BXMBz3J+8+xO6HReF5Q26WuGW+B8ACnNQJRot
+         iSUJKtbnUxngHGiHwr8RkH9MkH3pQZjj6L7udPCY3dug4jAsznWm+PXVNV0K6IcnKJqQ
+         ryYw==
+X-Forwarded-Encrypted: i=1; AJvYcCV9VH7uQbTmfO37EXF5BirkS+KOAZsKBhxKuzMSoDsLMDdc8y0JeTieOXuMwbRHfhF6/fLVXhMvBPUAdjul@lists.linux.dev
+X-Gm-Message-State: AOJu0YzVcZCm46SobPqiOsAGkd9MpjcUgxwNgzcnE5k3BD4pvZqjQDGP
+	MY7dlr/K7suy8l9asthz4OcZ2rMKc4DJz+a7xeYnmTMATnch9sM3HvmizEmeOUWlZ3uh5mhp3yb
+	ykA7DZwFbzNDBvc71b3pzMeHqBkvAv/1dxvJKNJVEFOTfmQi1OyhnJxnmtB4D37I=
+X-Received: by 2002:a17:906:6a1d:b0:a99:f91e:4abb with SMTP id a640c23a62f3a-a9e509390fbmr1467889066b.27.1730718718236;
+        Mon, 04 Nov 2024 03:11:58 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IESr0znc6ICl868V7IWLvnxc5lZHB9YcsEzyyAb2F6XqyxC0yWNsunfqaaaTCjKGcIigUv94Q==
+X-Received: by 2002:a17:906:6a1d:b0:a99:f91e:4abb with SMTP id a640c23a62f3a-a9e509390fbmr1467885066b.27.1730718717741;
+        Mon, 04 Nov 2024 03:11:57 -0800 (PST)
 Received: from [10.40.98.157] ([78.108.130.194])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5ceac7c8c91sm4128304a12.75.2024.11.04.03.08.43
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9e56641223sm536105766b.153.2024.11.04.03.11.56
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Nov 2024 03:08:44 -0800 (PST)
-Message-ID: <e25fb120-965d-42e3-9f0a-7aa9bc1c9dee@redhat.com>
-Date: Mon, 4 Nov 2024 12:08:41 +0100
+        Mon, 04 Nov 2024 03:11:57 -0800 (PST)
+Message-ID: <770ad2e1-ceed-40b7-82ae-57534f7790d5@redhat.com>
+Date: Mon, 4 Nov 2024 12:11:54 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -67,14 +67,21 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: atomisp: hmm_bo: Fix spelling errors in hmm_bo.h
-To: "Everest K.C." <everestkc@everestkc.com.np>, mchehab@kernel.org,
- sakari.ailus@linux.intel.com
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20240918082203.4941-1-everestkc@everestkc.com.np>
+Subject: Re: [PATCH v1] media: atomisp: Fix typos in comment
+To: Yu Jiaoliang <yujiaoliang@vivo.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Andy Shevchenko <andy@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Jonathan Bergh <bergh.jonathan@gmail.com>, Kate Hsuan <hpa@redhat.com>,
+ Dipendra Khadka <kdipendra88@gmail.com>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Cc: opensource.kernel@vivo.com
+References: <20240923033032.2420839-1-yujiaoliang@vivo.com>
 From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20240918082203.4941-1-everestkc@everestkc.com.np>
+In-Reply-To: <20240923033032.2420839-1-yujiaoliang@vivo.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
@@ -83,14 +90,18 @@ Content-Transfer-Encoding: 7bit
 
 Hi,
 
-On 18-Sep-24 10:21 AM, Everest K.C. wrote:
-> Fixed spelling errors reported by codespell in
-> drivers/staging/media/atomisp/include/hmm/hmm_bo.h
-> as follows:
->         increse --> increase
-> 	decrese --> decrease
+On 23-Sep-24 5:30 AM, Yu Jiaoliang wrote:
+> Corrected typos:
+> componnet->component,
+> cofiguration->configuration,
+> doubtfull->doubtful,
+> consisit->consist,
+> coppied->copied.
 > 
-> Signed-off-by: Everest K.C. <everestkc@everestkc.com.np>
+> These changes fix the typos in the comment,
+> without affecting the functionality.
+> 
+> Signed-off-by: Yu Jiaoliang <yujiaoliang@vivo.com>
 
 Thank you for your patch(es).
 
@@ -105,27 +116,79 @@ Regards,
 Hans
 
 
+
+
 > ---
->  drivers/staging/media/atomisp/include/hmm/hmm_bo.h | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/staging/media/atomisp/pci/atomisp_v4l2.c                | 2 +-
+>  .../media/atomisp/pci/hive_isp_css_common/host/input_system.c   | 2 +-
+>  drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c   | 2 +-
+>  drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c     | 2 +-
+>  drivers/staging/media/atomisp/pci/sh_css_mipi.c                 | 2 +-
+>  5 files changed, 5 insertions(+), 5 deletions(-)
 > 
-> diff --git a/drivers/staging/media/atomisp/include/hmm/hmm_bo.h b/drivers/staging/media/atomisp/include/hmm/hmm_bo.h
-> index b4c03e0ca9c0..6d3c74156345 100644
-> --- a/drivers/staging/media/atomisp/include/hmm/hmm_bo.h
-> +++ b/drivers/staging/media/atomisp/include/hmm/hmm_bo.h
-> @@ -159,12 +159,12 @@ void hmm_bo_device_exit(struct hmm_bo_device *bdev);
->  int hmm_bo_device_inited(struct hmm_bo_device *bdev);
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+> index c9984f1557b0..eb46ba4f4f13 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+> @@ -55,7 +55,7 @@
+>  /* G-Min addition: pull this in from intel_mid_pm.h */
+>  #define CSTATE_EXIT_LATENCY_C1  1
 >  
->  /*
-> - * increse buffer object reference.
-> + * increase buffer object reference.
->   */
->  void hmm_bo_ref(struct hmm_buffer_object *bo);
+> -/* cross componnet debug message flag */
+> +/* cross component debug message flag */
+>  int dbg_level;
+>  module_param(dbg_level, int, 0644);
+>  MODULE_PARM_DESC(dbg_level, "debug message level (default:0)");
+> diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
+> index 8f2f4e8eddd9..c18f62fe66b3 100644
+> --- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
+> +++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
+> @@ -406,7 +406,7 @@ input_system_err_t input_system_configuration_reset(void)
+>  	config.unallocated_ib_mem_words			 = IB_CAPACITY_IN_WORDS;
+>  	//config.acq_allocated_ib_mem_words		 = 0;
 >  
->  /*
-> - * decrese buffer object reference. if reference reaches 0,
-> + * decrease buffer object reference. if reference reaches 0,
->   * release function of the buffer object will be called.
->   *
->   * this call is also used to release hmm_buffer_object or its
+> -	// Set the start of the session cofiguration.
+> +	// Set the start of the session configuration.
+>  	config.session_flags = INPUT_SYSTEM_CFG_FLAG_REQUIRED;
+>  
+>  	return INPUT_SYSTEM_ERR_NO_ERROR;
+> diff --git a/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c b/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
+> index 7ce2b2d6da11..3bfaf52c5cdd 100644
+> --- a/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
+> +++ b/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
+> @@ -951,7 +951,7 @@ int ia_css_binary_find(struct ia_css_binary_descr *descr, struct ia_css_binary *
+>  	unsigned int i;
+>  
+>  	assert(descr);
+> -	/* MW: used after an error check, may accept NULL, but doubtfull */
+> +	/* MW: used after an error check, may accept NULL, but doubtful */
+>  	assert(binary);
+>  
+>  	dev_dbg(atomisp_dev, "ia_css_binary_find() enter: descr=%p, (mode=%d), binary=%p\n",
+> diff --git a/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c b/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c
+> index 2d7fddb114f6..0ab83e1b51b8 100644
+> --- a/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c
+> +++ b/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c
+> @@ -362,7 +362,7 @@ void ia_css_frame_free_multiple(unsigned int num_frames,
+>  int ia_css_frame_allocate_with_buffer_size(struct ia_css_frame **frame,
+>  					   const unsigned int buffer_size_bytes)
+>  {
+> -	/* AM: Body coppied from frame_allocate_with_data(). */
+> +	/* AM: Body copied from frame_allocate_with_data(). */
+>  	int err;
+>  	struct ia_css_frame *me = frame_create(0, 0,
+>  					       IA_CSS_FRAME_FORMAT_NUM,/* Not valid format yet */
+> diff --git a/drivers/staging/media/atomisp/pci/sh_css_mipi.c b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
+> index 80f0395cc560..710744ff0b24 100644
+> --- a/drivers/staging/media/atomisp/pci/sh_css_mipi.c
+> +++ b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
+> @@ -169,7 +169,7 @@ ia_css_mipi_frame_calculate_size(const unsigned int width,
+>  	/* ceil(words_per_odd_line/8); mem_word = 32 bytes, 8 words */
+>  	mem_words_for_first_line = (words_for_first_line + 7) >> 3;
+>  	mem_words_per_even_line  = (words_per_even_line + 7) >> 3;
+> -	mem_words_for_EOF        = 1; /* last line consisit of the optional (EOL) and EOF */
+> +	mem_words_for_EOF        = 1; /* last line consist of the optional (EOL) and EOF */
+>  
+>  	mem_words = ((embedded_data_size_words + 7) >> 3) +
+>  	mem_words_for_first_line +
 
