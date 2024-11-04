@@ -1,57 +1,57 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2FAE1CBA1B
-	for <linux-staging@lists.linux.dev>; Mon,  4 Nov 2024 17:50:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9A451CACC0
+	for <linux-staging@lists.linux.dev>; Mon,  4 Nov 2024 17:50:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730742635; cv=none; b=kPEnmwftfySV/xTzLyHFoGe9yg/SiKeYvzaVGuUglRN8IXK6dFd83JvIlcF0WNG1Yt1PAnVMr+EbIEnoMltRJKMMNPIUxFy5RRjOpUsxZvAz/Sx9iS56frdYSvu806wGJqnMHVmTtnW+8WlQBQLmojnqnDl4p12z9osrBVhQfg8=
+	t=1730742636; cv=none; b=Cw2Io0cNVAktRlaU2Z6+2PG7iWpV3CbTAuzZiVJZbgzYkj52BJMgUesFlrE9cCWrGIF7FDy2cCq0+R94i5I7phno3LgYgbM5LgirW0NAfRgUgW0ksDZbbBpYiaZ4ObrBUp8UFTbiGwggsSVMJb03PMGkGUfMAmVQHCweP2EL+X0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730742635; c=relaxed/simple;
-	bh=lVjBIPmAWAxvwFpAqjKCBvNzEMuvfZvqfx6EZrhXWBg=;
+	s=arc-20240116; t=1730742636; c=relaxed/simple;
+	bh=4pTAaxFfewlJw9PAEP+mahiy/IhKHj4085X8iVV2nQY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WqW3eJgu8U23jxUiSkh9DhbhyGqItMNpYSwzf/Tw0RbGj/HuKglvcCgIzriYHgogcoyzunIYJSTE7VYDXalHjUKRXFTfp/V3uPbL6lcPl4lnBHe2QZoJ0cwe+wfE/cSI7BmiBMk/9Kt5pyAXoX+4fvcpIJApTZacYLZxaXfDM2A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TOHsZely; arc=none smtp.client-ip=209.85.221.54
+	 MIME-Version; b=YZH/WhChNSMaBKOlskWcw/BXSGjjWiLCtP3O381H+W8/e+jLR0gIUJAYyP6avevj9+hDHGuk/JPyqxmnCxsmcdX+uwe6nPzqQ4VOAQ3OCI7ngfJfjtMIZQEJX6WMRILNFqCZ1k3SM+cyYaamO9i9iO9pAPTxrvi/stCpBHZEVic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q8OCNWRN; arc=none smtp.client-ip=209.85.128.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TOHsZely"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-37d4d1b48f3so2635815f8f.1
-        for <linux-staging@lists.linux.dev>; Mon, 04 Nov 2024 09:50:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q8OCNWRN"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4315eeb2601so54530095e9.2
+        for <linux-staging@lists.linux.dev>; Mon, 04 Nov 2024 09:50:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730742632; x=1731347432; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1730742633; x=1731347433; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=PMiOenlcN+NEHEm2VnBri2kDf2u06cLWkpnyRcrJPNU=;
-        b=TOHsZelyxFRH4LAZobpIO0fDG8rwpGX936MTKTVvT9VtjrhJHckwPhqi0GSwVBuisU
-         J50GNuX3dvXmOchcJhXO35wCINquGr2EnYEdfFXVGtkgBkvWFluRVred7CvFCn8MLW8S
-         eDbCnM6zUVjvSUDzZo4UIIdBZYRnx16HLMwUb8FgEL7CHdqNJEq6QEyXg+tnXKMSZDGt
-         j8mCyyMvsmdjwrhXQDNScHTmra1Pvf+tfwavPJO+J/SWqmizxPDAXPW/hMMYKZQ5rGiD
-         2Zjg598TK8GhDoUCbexpdYcmE9XV1Kk5mshgYbhBjiV5rpT5cdOj6wSs4VXscWjGKCpR
-         74Mg==
+        bh=jGC8SOXxfXFQ5pvO+YRC7IJz4OGiSZL30CVR1jYAJkY=;
+        b=Q8OCNWRNCu+g6fLo3dnclOzt1Sv38R85X6oAR2oGSHyJXMCQhl4taYDAkthaIbyfXY
+         5VWrMuEV/SPepxDkWYwiB7jbzxIsehSlva9p7zXedceEhOIVEHIfUX23JhkXP++bigPX
+         nGfBUpPAm46KZG5b/UxFzh1A7fI6kOVSdsvhRzinJEEq+26N50JMgdvVyrufsyqrXs9G
+         zJtrVxHgI8vwW5a8WHHiHXvheNvx7QhGZjtllgDcU+2Z2x/ekhsR6t0ysgPYGWDiJyLB
+         fe6aleQsKY5lENULjqxQz1GyIUBqZZMI82p5y6CBhiO88psXV7Zs/pOlpJo+WbiKLkgF
+         ZIPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730742632; x=1731347432;
+        d=1e100.net; s=20230601; t=1730742633; x=1731347433;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=PMiOenlcN+NEHEm2VnBri2kDf2u06cLWkpnyRcrJPNU=;
-        b=OliAn8kPz7cKJZzAhXhbzJG0ZlkcCy6rw7O2qQd21aB4BhZ8DAYlg9/M3NX+pLJiK5
-         6og1uvZrjjeFW5aNTQi4zLWC+DURwsG42/B2ERyR0A/WwS9enrDACRFcIuxgo/VxeDjb
-         s5yvxu18NC8NdXTnELA+uROR2vfUnk7qClTJwqXScBgUh/FQFncQ+i5NAfZwADIZURTI
-         vS8B9bu3cwIdPzIIoeIb+YNhGrZdfG0igCZpHLNuz2dKtNJHRrj/8vWVE2L3AfSY9U6n
-         +U92jlaTz8aMdmBkSruQkgO9BAx5DE2smInE7y1bob64gASPAdRugrx2Eo1gzzLXFLg4
-         LkLQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWo+FBoOeboDbz69rRqutC6Ix0EOTVxfyMCu4Hd8JU0dc4DHr0h1v3EoDNH9zuZWs/OZr/EMtzFPmKFMvD1@lists.linux.dev
-X-Gm-Message-State: AOJu0YzWth8F5P9oZtZYTAp4tENxkmQNi5k7vL7Eh8xQqZMAQcX55/yW
-	hGF94LQEi7ICxwKjy/kFxexbJkAeZQYzD+o+rIaQReIGIX9V9OE5
-X-Google-Smtp-Source: AGHT+IEYu0O/zRYXlo0EjgHgU8xNPVMv4v+PIe4NGMmPO3QQGiwv0qNR55PjL+lBtuFIicgA/BlU3g==
-X-Received: by 2002:adf:f6d1:0:b0:37d:4332:e91d with SMTP id ffacd0b85a97d-381b710f7f1mr15130516f8f.52.1730742631823;
-        Mon, 04 Nov 2024 09:50:31 -0800 (PST)
+        bh=jGC8SOXxfXFQ5pvO+YRC7IJz4OGiSZL30CVR1jYAJkY=;
+        b=w2mOR8KXicdAO+soL627mALV5Nl+L4AzvE/ZDVO4QUrMbtoYRTQS2lAX1bh2E7ZWwg
+         AT/LVd6q0YqqtnijkCwcqpzpLId9PiV0m20BXyM76UBf9fzvy+41ZsF2tabPMEPHvi5n
+         jXD1mZsE36iUFTcwnoDa7BRDNzQ/aImWu4Hd5qrrWU2XXJ5a+4xGXGtInOjTT6kJela/
+         s11hWo/+i30S2W/qvPMeDOUz2L0PajcEX1YE8s/2TqZkVkp982GAVwVaufD6lZEzAq/4
+         HIcD1ONIwK3NtYbDD7kkm/qKoU0ECVGlcMspyr/8waF/WsIFIrchYCF9sdiew3W1NyhB
+         Xhjw==
+X-Forwarded-Encrypted: i=1; AJvYcCUbde7UAM+FuDTEqcTB7VpX6evDv3oQjUJTanJXJonEQePjg/weB3Zzbgf8f48foYY9VPrRVVV83FGRrf0O@lists.linux.dev
+X-Gm-Message-State: AOJu0YwcsMfPfNKU5rlN5OyrZEJVrzCzn/1BuF6yqeDy/mbgx/vFHWgC
+	cNrlwHPpHwgRSnmSFrKmvqUVhHdrZ/4MjBgjc20YqnfZlfjtAYn+
+X-Google-Smtp-Source: AGHT+IFuvK6Cz2AIyw5UeTFvXNS0T3fabV3pxzQGYnlHWEehdx4DPu/RKpZaKpKzuhz3vu01WMtk4A==
+X-Received: by 2002:a5d:6da6:0:b0:374:c1c5:43ca with SMTP id ffacd0b85a97d-381c7a6c662mr13202421f8f.32.1730742633009;
+        Mon, 04 Nov 2024 09:50:33 -0800 (PST)
 Received: from localhost.localdomain (82-64-73-52.subs.proxad.net. [82.64.73.52])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381c10b7f80sm13839821f8f.20.2024.11.04.09.50.30
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381c10b7f80sm13839821f8f.20.2024.11.04.09.50.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Nov 2024 09:50:31 -0800 (PST)
+        Mon, 04 Nov 2024 09:50:32 -0800 (PST)
 From: Dave Penkler <dpenkler@gmail.com>
 To: gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev,
@@ -60,9 +60,9 @@ Cc: skhan@linuxfoundation.org,
 	arnd@arndb.de,
 	dan.carpenter@linaro.org,
 	Dave Penkler <dpenkler@gmail.com>
-Subject: [PATCH v3 07/12] staging: gpib: Use dev_xxx for messaging
-Date: Mon,  4 Nov 2024 18:50:08 +0100
-Message-ID: <20241104175014.12317-8-dpenkler@gmail.com>
+Subject: [PATCH v3 08/12] staging: gpib: Fix Kconfig
+Date: Mon,  4 Nov 2024 18:50:09 +0100
+Message-ID: <20241104175014.12317-9-dpenkler@gmail.com>
 X-Mailer: git-send-email 2.46.2
 In-Reply-To: <20241104175014.12317-1-dpenkler@gmail.com>
 References: <20241104175014.12317-1-dpenkler@gmail.com>
@@ -74,227 +74,37 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Change pr_xxx to dev_xxx
+The NI_PCI_ISA driver also supports PCI and PCMCIA
+Correct typo COMPIlE_TEST
 
+Fixes: 2c9f5d8c6ece ("staging: gpib: add bus specific Kconfig dependencies")
 Signed-off-by: Dave Penkler <dpenkler@gmail.com>
 ---
- .../gpib/agilent_82350b/agilent_82350b.c      | 70 +++++++++++--------
- 1 file changed, 42 insertions(+), 28 deletions(-)
+ drivers/staging/gpib/Kconfig | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/gpib/agilent_82350b/agilent_82350b.c b/drivers/staging/gpib/agilent_82350b/agilent_82350b.c
-index 3aa624486c0f..53006d0cc79c 100644
---- a/drivers/staging/gpib/agilent_82350b/agilent_82350b.c
-+++ b/drivers/staging/gpib/agilent_82350b/agilent_82350b.c
-@@ -52,7 +52,8 @@ int agilent_82350b_accel_read(gpib_board_t *board, uint8_t *buffer, size_t lengt
- 		retval = tms9914_read(board, tms_priv, buffer, 1, end, &num_bytes);
- 		*bytes_read += num_bytes;
- 		if (retval < 0)
--			pr_err("%s: tms9914_read failed retval=%i\n", driver_name, retval);
-+			dev_err(board->gpib_dev, "%s: tms9914_read failed retval=%i\n",
-+				driver_name, retval);
- 		if (retval < 0 || *end)
- 			return retval;
- 		++buffer;
-@@ -88,7 +89,7 @@ int agilent_82350b_accel_read(gpib_board_t *board, uint8_t *buffer, size_t lengt
- 						  test_bit(DEV_CLEAR_BN, &tms_priv->state) ||
- 						  test_bit(TIMO_NUM, &board->status));
- 		if (retval) {
--			pr_err("%s: read wait interrupted\n", driver_name);
-+			dev_dbg(board->gpib_dev, "%s: read wait interrupted\n", driver_name);
- 			retval = -ERESTARTSYS;
- 			break;
- 		}
-@@ -102,12 +103,13 @@ int agilent_82350b_accel_read(gpib_board_t *board, uint8_t *buffer, size_t lengt
- 			*end = 1;
- 		}
- 		if (test_bit(TIMO_NUM, &board->status)) {
--			pr_err("%s: minor %i: read timed out\n", driver_name, board->minor);
-+			dev_err(board->gpib_dev, "%s: read timed out\n", driver_name);
- 			retval = -ETIMEDOUT;
- 			break;
- 		}
- 		if (test_bit(DEV_CLEAR_BN, &tms_priv->state)) {
--			pr_err("%s: device clear interrupted read\n", driver_name);
-+			dev_err(board->gpib_dev, "%s: device clear interrupted read\n",
-+				driver_name);
- 			retval = -EINTR;
- 			break;
- 		}
-@@ -138,15 +140,15 @@ static int translate_wait_return_value(gpib_board_t *board, int retval)
- 	struct tms9914_priv *tms_priv = &a_priv->tms9914_priv;
+diff --git a/drivers/staging/gpib/Kconfig b/drivers/staging/gpib/Kconfig
+index 0ea9a276c389..95308d15a555 100644
+--- a/drivers/staging/gpib/Kconfig
++++ b/drivers/staging/gpib/Kconfig
+@@ -61,7 +61,7 @@ config GPIB_CEC_PCI
  
- 	if (retval) {
--		pr_err("%s: write wait interrupted\n", driver_name);
-+		dev_err(board->gpib_dev, "%s: write wait interrupted\n", driver_name);
- 		return -ERESTARTSYS;
- 	}
- 	if (test_bit(TIMO_NUM, &board->status)) {
--		pr_err("%s: minor %i: write timed out\n", driver_name, board->minor);
-+		dev_err(board->gpib_dev, "%s: write timed out\n", driver_name);
- 		return -ETIMEDOUT;
- 	}
- 	if (test_bit(DEV_CLEAR_BN, &tms_priv->state)) {
--		pr_err("%s: device clear interrupted write\n", driver_name);
-+		dev_err(board->gpib_dev, "%s: device clear interrupted write\n", driver_name);
- 		return -EINTR;
- 	}
- 	return 0;
-@@ -558,10 +560,11 @@ static int init_82350a_hardware(gpib_board_t *board, const gpib_board_config_t *
- 		return 0;
- 	// need to programme borg
- 	if (!config->init_data || config->init_data_length != firmware_length) {
--		pr_err("%s: the 82350A board requires firmware after powering on.\n", driver_name);
-+		dev_err(board->gpib_dev, "%s: the 82350A board requires firmware after powering on.\n",
-+			driver_name);
- 		return -EIO;
- 	}
--	pr_info("%s: Loading firmware...\n", driver_name);
-+	dev_info(board->gpib_dev, "%s: Loading firmware...\n", driver_name);
+ config GPIB_NI_PCI_ISA
+ 	tristate "NI PCI/ISA compatible boards"
+-	depends on ISA_BUS
++	depends on ISA_BUS || PCI || PCMCIA
+ 	select GPIB_COMMON
+ 	select GPIB_NEC7210
+ 	help
+@@ -138,7 +138,7 @@ config GPIB_FMH
  
- 	// tickle the borg
- 	writel(plx_cntrl_static_bits | PLX9050_USER3_DATA_BIT,
-@@ -580,7 +583,7 @@ static int init_82350a_hardware(gpib_board_t *board, const gpib_board_config_t *
- 			usleep_range(10, 20);
- 		}
- 		if (j == timeout) {
--			pr_err("%s: timed out loading firmware.\n", driver_name);
-+			dev_err(board->gpib_dev, "%s: timed out loading firmware.\n", driver_name);
- 			return -ETIMEDOUT;
- 		}
- 		writeb(firmware_data[i], a_priv->gpib_base + CONFIG_DATA_REG);
-@@ -591,10 +594,11 @@ static int init_82350a_hardware(gpib_board_t *board, const gpib_board_config_t *
- 		usleep_range(10, 20);
- 	}
- 	if (j == timeout) {
--		pr_err("%s: timed out waiting for firmware load to complete.\n", driver_name);
-+		dev_err(board->gpib_dev, "%s: timed out waiting for firmware load to complete.\n",
-+			driver_name);
- 		return -ETIMEDOUT;
- 	}
--	pr_info("%s: ...done.\n", driver_name);
-+	dev_info(board->gpib_dev, "%s: ...done.\n", driver_name);
- 	return 0;
- }
- 
-@@ -616,14 +620,15 @@ static int test_sram(gpib_board_t *board)
- 		unsigned int read_value = readb(a_priv->sram_base + i);
- 
- 		if ((i & byte_mask) != read_value) {
--			pr_err("%s: SRAM test failed at %d wanted %d got %d\n",
--			       driver_name, i, (i & byte_mask), read_value);
-+			dev_err(board->gpib_dev, "%s: SRAM test failed at %d wanted %d got %d\n",
-+				driver_name, i, (i & byte_mask), read_value);
- 			return -EIO;
- 		}
- 		if (need_resched())
- 			schedule();
- 	}
--	pr_info("%s: SRAM test passed 0x%x bytes checked\n", driver_name, sram_length);
-+	dev_info(board->gpib_dev, "%s: SRAM test passed 0x%x bytes checked\n",
-+		 driver_name, sram_length);
- 	return 0;
- }
- 
-@@ -651,14 +656,14 @@ static int agilent_82350b_generic_attach(gpib_board_t *board, const gpib_board_c
- 						 PCI_DEVICE_ID_82350B, NULL);
- 	if (a_priv->pci_device) {
- 		a_priv->model = MODEL_82350B;
--		pr_info("%s: Agilent 82350B board found\n", driver_name);
-+		dev_info(board->gpib_dev, "%s: Agilent 82350B board found\n", driver_name);
- 
- 	} else	{
- 		a_priv->pci_device = gpib_pci_get_device(config, PCI_VENDOR_ID_AGILENT,
- 							 PCI_DEVICE_ID_82351A, NULL);
- 		if (a_priv->pci_device)	{
- 			a_priv->model = MODEL_82351A;
--			pr_info("%s: Agilent 82351B board found\n", driver_name);
-+			dev_info(board->gpib_dev, "%s: Agilent 82351B board found\n", driver_name);
- 
- 		} else {
- 			a_priv->pci_device = gpib_pci_get_subsys(config, PCI_VENDOR_ID_PLX,
-@@ -668,15 +673,17 @@ static int agilent_82350b_generic_attach(gpib_board_t *board, const gpib_board_c
- 								 a_priv->pci_device);
- 			if (a_priv->pci_device) {
- 				a_priv->model = MODEL_82350A;
--				pr_info("%s: HP/Agilent 82350A board found\n", driver_name);
-+				dev_info(board->gpib_dev, "%s: HP/Agilent 82350A board found\n",
-+					 driver_name);
- 			} else {
--				pr_err("%s: no 82350/82351 board found\n", driver_name);
-+				dev_err(board->gpib_dev, "%s: no 82350/82351 board found\n",
-+					driver_name);
- 				return -ENODEV;
- 			}
- 		}
- 	}
- 	if (pci_enable_device(a_priv->pci_device)) {
--		pr_err("%s: error enabling pci device\n", driver_name);
-+		dev_err(board->gpib_dev, "%s: error enabling pci device\n", driver_name);
- 		return -EIO;
- 	}
- 	if (pci_request_regions(a_priv->pci_device, driver_name))
-@@ -685,23 +692,27 @@ static int agilent_82350b_generic_attach(gpib_board_t *board, const gpib_board_c
- 	case MODEL_82350A:
- 		a_priv->plx_base = ioremap(pci_resource_start(a_priv->pci_device, PLX_MEM_REGION),
- 					   pci_resource_len(a_priv->pci_device, PLX_MEM_REGION));
--		pr_info("%s: plx base address remapped to 0x%p\n", driver_name, a_priv->plx_base);
-+		dev_dbg(board->gpib_dev, "%s: plx base address remapped to 0x%p\n",
-+			driver_name, a_priv->plx_base);
- 		a_priv->gpib_base = ioremap(pci_resource_start(a_priv->pci_device,
- 							       GPIB_82350A_REGION),
- 					    pci_resource_len(a_priv->pci_device,
- 							     GPIB_82350A_REGION));
--		pr_info("%s: gpib base address remapped to 0x%p\n", driver_name, a_priv->gpib_base);
-+		dev_dbg(board->gpib_dev, "%s: gpib base address remapped to 0x%p\n",
-+			driver_name, a_priv->gpib_base);
- 		tms_priv->iobase = a_priv->gpib_base + TMS9914_BASE_REG;
- 		a_priv->sram_base = ioremap(pci_resource_start(a_priv->pci_device,
- 							       SRAM_82350A_REGION),
- 					    pci_resource_len(a_priv->pci_device,
- 							     SRAM_82350A_REGION));
--		pr_info("%s: sram base address remapped to 0x%p\n", driver_name, a_priv->sram_base);
-+		dev_dbg(board->gpib_dev, "%s: sram base address remapped to 0x%p\n",
-+			driver_name, a_priv->sram_base);
- 		a_priv->borg_base = ioremap(pci_resource_start(a_priv->pci_device,
- 							       BORG_82350A_REGION),
- 					    pci_resource_len(a_priv->pci_device,
- 							     BORG_82350A_REGION));
--		pr_info("%s: borg base address remapped to 0x%p\n", driver_name, a_priv->borg_base);
-+		dev_dbg(board->gpib_dev, "%s: borg base address remapped to 0x%p\n",
-+			driver_name, a_priv->borg_base);
- 
- 		retval = init_82350a_hardware(board, config);
- 		if (retval < 0)
-@@ -711,14 +722,17 @@ static int agilent_82350b_generic_attach(gpib_board_t *board, const gpib_board_c
- 	case MODEL_82351A:
- 		a_priv->gpib_base = ioremap(pci_resource_start(a_priv->pci_device, GPIB_REGION),
- 					    pci_resource_len(a_priv->pci_device, GPIB_REGION));
--		pr_info("%s: gpib base address remapped to 0x%p\n", driver_name, a_priv->gpib_base);
-+		dev_dbg(board->gpib_dev, "%s: gpib base address remapped to 0x%p\n",
-+			driver_name, a_priv->gpib_base);
- 		tms_priv->iobase = a_priv->gpib_base + TMS9914_BASE_REG;
- 		a_priv->sram_base = ioremap(pci_resource_start(a_priv->pci_device, SRAM_REGION),
- 					    pci_resource_len(a_priv->pci_device, SRAM_REGION));
--		pr_info("%s: sram base address remapped to 0x%p\n", driver_name, a_priv->sram_base);
-+		dev_dbg(board->gpib_dev, "%s: sram base address remapped to 0x%p\n",
-+			driver_name, a_priv->sram_base);
- 		a_priv->misc_base = ioremap(pci_resource_start(a_priv->pci_device, MISC_REGION),
- 					    pci_resource_len(a_priv->pci_device, MISC_REGION));
--		pr_info("%s: misc base address remapped to 0x%p\n", driver_name, a_priv->misc_base);
-+		dev_dbg(board->gpib_dev, "%s: misc base address remapped to 0x%p\n",
-+			driver_name, a_priv->misc_base);
- 		break;
- 	default:
- 		pr_err("%s: invalid board\n", driver_name);
-@@ -735,7 +749,7 @@ static int agilent_82350b_generic_attach(gpib_board_t *board, const gpib_board_c
- 		return -EIO;
- 	}
- 	a_priv->irq = a_priv->pci_device->irq;
--	pr_info("%s: IRQ %d\n", driver_name, a_priv->irq);
-+	dev_dbg(board->gpib_dev, "%s: IRQ %d\n", driver_name, a_priv->irq);
- 
- 	writeb(0, a_priv->gpib_base + SRAM_ACCESS_CONTROL_REG);
- 	a_priv->card_mode_bits = ENABLE_PCI_IRQ_BIT;
+ config GPIB_GPIO
+        tristate "RPi GPIO bitbang"
+-	depends on ARCH_BCM2835 || COMPIlE_TEST
++	depends on ARCH_BCM2835 || COMPILE_TEST
+        select GPIB_COMMON
+        help
+          GPIB bitbang driver Raspberry Pi GPIO adapters
 -- 
 2.46.2
 
