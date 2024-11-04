@@ -1,101 +1,108 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 682CF1B81DC
-	for <linux-staging@lists.linux.dev>; Mon,  4 Nov 2024 12:30:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20D605680
+	for <linux-staging@lists.linux.dev>; Mon,  4 Nov 2024 12:38:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730723448; cv=none; b=XKiiP1zFfzF8B8c068198nogoB5q19Jp0Nk5sm8WJ+wOpEHoHLj6VKP3/Tg85xTg1bdMjy5D/mfVlpke31jCP5GXAyCpYunYoybSvCoS5JBSUVloMDxQkeu90CuwXjNEBY8N+18VAP1aZx10wpFJzH4pgH/MpOLxE3xEPOFBMpc=
+	t=1730723923; cv=none; b=Hapm3Fuf140UB2CtsXdEaMp7MIEhse6INzAOG/DakjSeM3hkwC/QUNepvhxqQzu7X+sq0nSFAta2LNrHgCBPd20fZG5cpJb8ZuYrId4b9qq0DzVDKDvpN/vQMbhdo7sd9OCAxHIKqqekxyXq4oh4o/pmI+zYVFwCPsl1bW8PnPo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730723448; c=relaxed/simple;
-	bh=+1pwXJjkDZruvn5Q37+5AIlc7Gon+baz3RnyTJMSWMo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rADAm/5YerQtvpOjVt2noH+y/UrhEfti13CpPwCJcd8Hgc2teqg8TxHl7C5Pb6KvRpJZRzoIyJ7/Ir5EFFOyv7xSglTsl7rXUKJ8P6vsUzr/g2M8Whcj5Qb1TWtqdoNOkJwgvkKjUy6DvWYttaclqtK+x0PsqKL1x40Yl6qYULU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PnGemYHb; arc=none smtp.client-ip=209.85.208.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1730723923; c=relaxed/simple;
+	bh=kMRb9z0LlhB8JxNVhjyC70W0C4O+kyzjIdxTWZp+rDs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kGxlrEc3QvC67enZYFId7Zsg1MOsrqAyKa1HrNb7HrjszT5vfijmYkEUDwrAbjHdV/P2VmXDwPXNTzK0oke6T/dHBGg1NUCxEE8hVSlqvLnLl5jzgYsmryVa1JYS3s1KSgNFXXVT+LwqFEUk6fMgBHXllHZhNAr4yzU1PznrLdU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XQeUUKaq; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PnGemYHb"
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5c9454f3bfaso5363635a12.2
-        for <linux-staging@lists.linux.dev>; Mon, 04 Nov 2024 04:30:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730723446; x=1731328246; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+1pwXJjkDZruvn5Q37+5AIlc7Gon+baz3RnyTJMSWMo=;
-        b=PnGemYHbfWNJnC8n5gCa44HO73aRo0+44HQ3S0nVoPfx3Xyl7xgEsEo97hvsLuIDI2
-         u2pOHpRyGecntENk/DylRzEyqVfcA+pCKNlyOzqCAe6rqZSof3Gg8mnYf53osKAPyW1H
-         XiX5aiUE4OmFw6Y6hkjkDqrSM89miqtBjT95oZVNy8nxhZWyMdwCaGD2ln9Ov7oGj9N9
-         1Bi+a9XMFeVRvRv7vw22dSY4RbGza/aSLV64REpOse5cNd/x1h0LumvmUGkUJYv8PFTy
-         0Nyj/7TBtvHhENgKxlERv0pYtRZU8PKdSJL49RgYwsURH10x6/L7q6JeaYKnS7e4nmao
-         36/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730723446; x=1731328246;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+1pwXJjkDZruvn5Q37+5AIlc7Gon+baz3RnyTJMSWMo=;
-        b=Ji9Ek8daXCFKF6H9ALGI8cazNqrIER4B/yvZ3nHpcy8KS2rvFqquDrcd4/e3mLfj8y
-         JoQPncawe461dl0ReF4hvxFPJA9O8XSCwvK7FDTebdF8M5tOjs16zzQwoqmzEPhygD6+
-         MGvOlWaUNAx/R95GeC7Oi1UmUo/wbcHvRY7fwCUrPhYHuYmsu8sN+nKhk7ma77VgOayJ
-         xe2DVIL8defJLs76BW9Mf750FQ8yFVAKgJFvhvF/D9+ihj1s6cnMMqduGhf3A5aNR7eP
-         4cGXIH4fE4ZCb9x0N/ONlklniQXYSn0O9+CThOLt3SU5LGsFWhKiaZi4TwZqAE8b4WC/
-         X2Ig==
-X-Forwarded-Encrypted: i=1; AJvYcCXu8daPVBlPZuyGN5GCKhKxJyJ0wHpLZ+y6xK5fZLdYy+8tbVpilp7WdZ8I7cVa3rhJJhxe2nT/ZGHl40KJ@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywb/EWuh/bGWqMqAvzsiXRHQIvrpWbmd+aEn94ftI/uH+r3MEvb
-	htguG30kXfzNqksnLuxFKj7ztckr4vy4lICjFsiXcejh+Cc34AbpmVrO+o8elkMXZp9JetFs85Z
-	cnTrLq20swljW6INHA6coJ4uZMzw=
-X-Google-Smtp-Source: AGHT+IEShXixc8kpjb5phOvkzq0l3fuUH4YReu8ywuTqRrBUzx5Nyz7vJc+3JDwOca7Pwgn6G6QcRC4P5M36beuY5x4=
-X-Received: by 2002:a17:907:2dac:b0:a99:6791:5449 with SMTP id
- a640c23a62f3a-a9e6587df7fmr1354587266b.52.1730723445505; Mon, 04 Nov 2024
- 04:30:45 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XQeUUKaq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1730723920;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=0TguugBBm63nRqzUI6ZsbECp0dH0NtKZZBhHRwBumm4=;
+	b=XQeUUKaqs/B5dPWIFabp1wuaXxIvN6JWJdd21Pi+bnCcJELykHmiDj0d7rk9VcUGPxmq2I
+	bClRuJkFLoZNhtV2eUhtcsamNLa89dXaSl+YvInKXcAPqwxXPSlfAk+Sy5GFZp7rXKrkbK
+	tGfwURaTHWvzA022Ads9uP0hGixHRYo=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-482-MTYynnx7O8az3bNUCNXZHg-1; Mon,
+ 04 Nov 2024 07:38:38 -0500
+X-MC-Unique: MTYynnx7O8az3bNUCNXZHg-1
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 4E13D19560BA;
+	Mon,  4 Nov 2024 12:38:37 +0000 (UTC)
+Received: from x1.localdomain.com (unknown [10.39.194.12])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id E7D1A19560A2;
+	Mon,  4 Nov 2024 12:38:33 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Tsuchiya Yuto <kitakar@gmail.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Kate Hsuan <hpa@redhat.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH] media: atomisp: Remove gmin_platform Asus T100TA quirks
+Date: Mon,  4 Nov 2024 13:38:32 +0100
+Message-ID: <20241104123832.5539-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240923105539.3569110-1-andriy.shevchenko@linux.intel.com> <28958f62-9051-45a6-a26d-585508e2bd11@redhat.com>
-In-Reply-To: <28958f62-9051-45a6-a26d-585508e2bd11@redhat.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Mon, 4 Nov 2024 14:30:09 +0200
-Message-ID: <CAHp75VdscXFTB+mfUgKBnut3_idT88mas20ZsohSd6nrcVOnFA@mail.gmail.com>
-Subject: Re: [PATCH v1 1/1] media: atomisp: Remove License information boilerplate
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Jeff Johnson <quic_jjohnson@quicinc.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Jonathan Bergh <bergh.jonathan@gmail.com>, Roshan Khatri <topofeverest8848@gmail.com>, 
-	Dipendra Khadka <kdipendra88@gmail.com>, 
-	Sergio de Almeida Cipriano Junior <sergiosacj@riseup.net>, Kent Overstreet <kent.overstreet@linux.dev>, 
-	Kartik Kulkarni <kartik.koolks@gmail.com>, Kathara Sasikumar <katharasasikumar007@gmail.com>, 
-	Tchadel Icard <hello@tchadelicard.fr>, Kate Hsuan <hpa@redhat.com>, 
-	Colin Ian King <colin.i.king@gmail.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-staging@lists.linux.dev, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Andy Shevchenko <andy@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-On Mon, Nov 4, 2024 at 1:57=E2=80=AFPM Hans de Goede <hdegoede@redhat.com> =
-wrote:
-> On 23-Sep-24 12:53 PM, Andy Shevchenko wrote:
-> > We have the respective SPDX identifiers that are already being applied
-> > to the files in question. Remove the License information boilerplate.
-> >
-> > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
->
-> Thank you for your patch(es).
+The Asus T100TA quirks set the same values as the defaults,
+so they are not necessary. Remove them.
 
-Thank you!
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ .../media/atomisp/pci/atomisp_gmin_platform.c   | 17 -----------------
+ 1 file changed, 17 deletions(-)
 
-There is one patch (marked rft) left in the queue. Can you, please,
-apply it locally to your branches which you use to test AtomISP with?
-I'm talking about 20240923085652.3457117-1-andriy.shevchenko@linux.intel.co=
-m.
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+index e176483df301..8ec990293b48 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+@@ -225,16 +225,6 @@ static struct gmin_cfg_var ffrd8_vars[] = {
+ 	{},
+ };
+ 
+-/* Cribbed from MCG defaults in the mt9m114 driver, not actually verified
+- * vs. T100 hardware
+- */
+-static struct gmin_cfg_var t100_vars[] = {
+-	{ "INT33F0:00_CsiPort",  "0" },
+-	{ "INT33F0:00_CsiLanes", "1" },
+-	{ "INT33F0:00_CamClk",   "1" },
+-	{},
+-};
+-
+ static struct gmin_cfg_var mrd7_vars[] = {
+ 	{"INT33F8:00_CamType", "1"},
+ 	{"INT33F8:00_CsiPort", "1"},
+@@ -309,13 +299,6 @@ static const struct dmi_system_id gmin_vars[] = {
+ 		},
+ 		.driver_data = ffrd8_vars,
+ 	},
+-	{
+-		.ident = "T100TA",
+-		.matches = {
+-			DMI_MATCH(DMI_BOARD_NAME, "T100TA"),
+-		},
+-		.driver_data = t100_vars,
+-	},
+ 	{
+ 		.ident = "MRD7",
+ 		.matches = {
+-- 
+2.47.0
 
---=20
-With Best Regards,
-Andy Shevchenko
