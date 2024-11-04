@@ -1,67 +1,48 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4A5F18C038
-	for <linux-staging@lists.linux.dev>; Mon,  4 Nov 2024 08:09:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0197418BC0E
+	for <linux-staging@lists.linux.dev>; Mon,  4 Nov 2024 08:22:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730707773; cv=none; b=oF7UozaVlP329IeeKbd+t18JXfqDmWbQgrQKZMJSh4jEtoZvgMNtzwh4+Y4VANRMfRqONZol9QVJyVu/eJ14Q1psu25mcjemzQFnA+2yVwx/RmmuGAJ1yXGAbrm2HzSs97YxU8NLePqA7qEoRHwBRVOx12Laj4Pa9mq8VEmpxu0=
+	t=1730708580; cv=none; b=qc34kWr00aY8Z1CXj8Epd310aP1LWUImqpGLjKeMtNpxZbyi9+W17aGvEfZA49WB/R6G6FNQZ37cdnwOgazYv04izZBBL5d+mTYPKNIld3grJ9iBlTZeW07d1kss5XU8IUBvUynJJ77OFlHiPoNnVH4W3f3bTnl7onvxLlrQmHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730707773; c=relaxed/simple;
-	bh=+smaqJgqRUBeteC0zyieDxigAF1aK6M9oaRBbBEo8h0=;
+	s=arc-20240116; t=1730708580; c=relaxed/simple;
+	bh=5HaADQkVXbGTf737meYf1U8wE2PbsYxiU69KbYTKBYc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A0Xz9JltEFm7FYRKu0a5hRhaoT8B28MzOAWYo/6ulMnOVLC+ehfOd6mOmhUtAxrsqrRTC7uy0ojZ1z4VipwPHyGOeFu9zzsMLQz76Jj6gTF2GnV7JexGEUmdVdcwQPwBZx9LL1yTrGr6SL+ejBEEPRqPl/sGJQGOokIelblHWmg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=N9hlCBqk; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="N9hlCBqk"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4314c4cb752so34149605e9.2
-        for <linux-staging@lists.linux.dev>; Mon, 04 Nov 2024 00:09:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1730707769; x=1731312569; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=M2TfwqW3q2rlubXI3HLqbss+F3yh9GI0LJK66jFfoE4=;
-        b=N9hlCBqkQBpF6z6M0RqeCbLFW6OBFg2jmK/ImwqKTTqhNF8SG9v4+U1hL8+gszW6DH
-         bMJOIo2ctX3hOkOfGwcruskOPqouhRZTHfqNh1WLFYIH6JGmlUleht+FzhSZHPZfYqPW
-         GHyLkX4ercqORnkvnrhs9ZAP7P35z9gvkggu6BqHSMwSgMxy9pfWOG0nTgHcIw01UULf
-         LethHKzzXm5r8XtN7gQznmPoymq+JwNzQQBRddrLmz+umf0Cn+OKPW9Qnn7jc6r/tD1F
-         Zu1NEm+MhjfqYu8RrG7GTzSAN1R393xh8t5ie1wx5sm+EhwqJRJ7hDFVwKGjJeYc6toT
-         M6Fw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730707769; x=1731312569;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=M2TfwqW3q2rlubXI3HLqbss+F3yh9GI0LJK66jFfoE4=;
-        b=DHiwn/GbmpqoinIXqg5ReBs88dLDUt/77ED4rHWSXhHRhaEq7P1ugTUYcDYguQmIkM
-         jub/tFhCNuGFtEVxNrMaXxeZZN1yKSGsYGsSQaB4xRN4fSQWO+P+l1jZRBP4MWB4EyhY
-         ko80c8BasD4tEn2B662ztTj345E8D0YPatJaFSohCUPJAH+VTqtbhWsxBzBfc4UTlmr3
-         +xn9Dfz24jZzdXVyyy6u/to1VGRY4cpxL4w2gpzSIuu/K28njtyiC5wBrt0OHZTWT36N
-         sr2L/zwk5KRkjvvclslTXBtmbc9cCKlos5sUWySFt1vunKa1sQlWjXU4WRSvAWvmR+O4
-         +Kiw==
-X-Forwarded-Encrypted: i=1; AJvYcCWcQeMOHwvUpZBnCB9JOA0aKtQF9dFyTNFEXilI3JDyWDOG6k0byzUz0ktilYljA45jLqMaYOXHApLA++qk@lists.linux.dev
-X-Gm-Message-State: AOJu0YxNEK+jKlf5Q0FQ73e4Y7YzgRICuMd6L9qI7wfDnq0YCrjzSBcc
-	NFxtfbPpjUQezMQoAexHN/NyfpF31A7yY3lp/UPzKg92Gin8oY+S08rnK1W1gPA=
-X-Google-Smtp-Source: AGHT+IHbLx5OFNtfL02/dK6BVDvg7JZVLBymgPvgLcRyabVsXd/ovAsKFfxvs/h3o0nrWgK5+Sys9w==
-X-Received: by 2002:a05:600c:358f:b0:42c:a574:6360 with SMTP id 5b1f17b1804b1-4327b820b9fmr130822355e9.29.1730707769154;
-        Mon, 04 Nov 2024 00:09:29 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4327d6984e3sm149599395e9.48.2024.11.04.00.09.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Nov 2024 00:09:28 -0800 (PST)
-Date: Mon, 4 Nov 2024 11:09:25 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Dave Penkler <dpenkler@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
-	arnd@arndb.de
-Subject: Re: [PATCH 11/11] staging: gpib: Correct check for max secondary
- address
-Message-ID: <d399795c-8a8d-4fbb-a645-4115cebe2619@stanley.mountain>
-References: <20241103212617.13076-1-dpenkler@gmail.com>
- <20241103212617.13076-12-dpenkler@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=tvJOobdBdOk8Wxtfcc0TzGUqehuXV2OmMpwqLcdGoCDlNE+iw+C3NIhBOXfGr75SLYC4liCqbjQP4EZZJrJgkWY8j6yzduINmpaapDp4Z8f7SPePhaJfr2KbFiwqa3hcQPOcwMzTo6YoaVNh27fbum1LaUUBpJT6k0toOLV/GOY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=fail smtp.mailfrom=kernel.org; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=kernel.org
+X-CSE-ConnectionGUID: eLG90MNdQWi1iZ8krW8jxQ==
+X-CSE-MsgGUID: kRy0XFZVRfizoyt0DhqXWg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11245"; a="34182245"
+X-IronPort-AV: E=Sophos;i="6.11,256,1725346800"; 
+   d="scan'208";a="34182245"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 00:22:58 -0800
+X-CSE-ConnectionGUID: 9FWodsSYQRaV9okRow9tKw==
+X-CSE-MsgGUID: 6DtA0+6yRAKWEPHoPGXhKA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,256,1725346800"; 
+   d="scan'208";a="83108262"
+Received: from smile.fi.intel.com ([10.237.72.154])
+  by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 00:22:56 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andy@kernel.org>)
+	id 1t7sMP-0000000AyqD-2o4O;
+	Mon, 04 Nov 2024 10:22:53 +0200
+Date: Mon, 4 Nov 2024 10:22:53 +0200
+From: Andy Shevchenko <andy@kernel.org>
+To: Li Huafei <lihuafei1@huawei.com>
+Cc: mchehab@kernel.org, alan@linux.intel.com, hdegoede@redhat.com,
+	sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] media: atomisp: Add check for rgby_data memory
+ allocation failure
+Message-ID: <ZyiEXYWU1Yt03UNc@smile.fi.intel.com>
+References: <20241104145051.3088231-1-lihuafei1@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -70,22 +51,32 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241103212617.13076-12-dpenkler@gmail.com>
+In-Reply-To: <20241104145051.3088231-1-lihuafei1@huawei.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Sun, Nov 03, 2024 at 10:26:17PM +0100, Dave Penkler wrote:
-> GPIB secondary addresses can be between 0 and 31 inclusive
-> unlike primary addresses where address 31 is not a valid device
-> address.  When 31 is used as a primary talk address it
-> forms the UNT (Untalk) command and when used as a listener address it
-> forms the UNL (Unlisten) commmand.
-> The library was incorrectly not allowing a secondary address
-> with a value of 31 to be used.
-> 
+On Mon, Nov 04, 2024 at 10:50:51PM +0800, Li Huafei wrote:
+> In ia_css_3a_statistics_allocate(), there is no check on the allocation
+> result of the rgby_data memory. If rgby_data is not successfully
+> allocated, it may trigger the assert(host_stats->rgby_data) assertion in
+> ia_css_s3a_hmem_decode(). Adding a check to fix this potential issue.
 
-This needs a Fixes tag.
+...
 
-> Signed-off-by: Dave Penkler <dpenkler@gmail.com>
+> --- a/drivers/staging/media/atomisp/pci/sh_css_params.c
+> +++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
+> @@ -4181,6 +4181,8 @@ ia_css_3a_statistics_allocate(const struct ia_css_3a_grid_info *grid)
+>  		goto err;
+>  	/* No weighted histogram, no structure, treat the histogram data as a byte dump in a byte array */
+>  	me->rgby_data = kvmalloc(sizeof_hmem(HMEM0_ID), GFP_KERNEL);
+> +	if (!me->rgby_data)
+> +		goto err;
 
-regards,
-dan carpenter
+Which kernel version are you patching?
+
+The problem, you have reported here was fixed ~4.5 years ago.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
