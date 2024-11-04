@@ -1,105 +1,87 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.web.de (mout.web.de [217.72.192.78])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69FF5179956
-	for <linux-staging@lists.linux.dev>; Mon,  4 Nov 2024 08:43:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6616320ED;
+	Mon,  4 Nov 2024 10:15:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.72.192.78
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730709820; cv=none; b=G4e5bCyIL1GjWNslgnhnBiuZXywP9g72wQbrnhFjpEKX8kE2tsyCGZpYGnQFtQX2+iOZhoBjlHx98Qw3J5fYjN8WrD8RbfcD9BTu7TEOhjmmhGS9ZT+KfIdp98fCoF+nfgtxqbPcGtPQQ8RbUeAWW671QjCPlrdowg8DH4/12+8=
+	t=1730715359; cv=none; b=gHzJ5OXJ3oBXeKHcZfmPwTBmEwrg+LBx7O/NLk+uYGytj3bidohRWGdK8UZZXXsGIkHJUR1dS4kDhiLDoQfwdNwDJsLkYYPGNeOcBG1Vb6qSNJ1QwimM4MF/bxQXOjm/5jSZQcfhW+k+ms19ESQlXz5iU4vDDQJXrDF0Kc3xQ/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730709820; c=relaxed/simple;
-	bh=H6+7n6GItmZK1OTaix+oW7p6zjCT1F+cbCg+29+lQaM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f5TvUM7Paz3zQbYvJk0iQ96dPfFxnx+R2eZSO29lqOWUWMUfEsf+T40OWYICaKpFVtEtJ3VoCG7HsM+1ahbCZ3mEvqE3tM4u5nkAO8SSXbfvzZdonGirQh2QNpbGGNHLs7Ny+AecagpczMM8PCvKKywS6yGuT9T8okkwrDnU0+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=nF8w4Fy/; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1730715359; c=relaxed/simple;
+	bh=NQ1fsHIaIHmGq0j/3qRfROeTwLYWzazLpuIXXxQA82Y=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=EzhbMR7YlGsnTUOY3BOkvCxHyF7zcBt5trpceb/QpBRQ4QpbxgJd2NWAwsUJA6bGIutGmfl59LIoFpWQKby/7ae5VOyA1FL75HwXOirmvaDcNjLElABLy9FmuBUqWLs/ZZll37BYMmHm6lVaVd9Neic0d+L7RvBOpAPa/f3SErE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=knjvg/P1; arc=none smtp.client-ip=217.72.192.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nF8w4Fy/"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3807dd08cfcso3397935f8f.1
-        for <linux-staging@lists.linux.dev>; Mon, 04 Nov 2024 00:43:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1730709817; x=1731314617; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6mzcZ40JgGm44C7M2p4ensyZcq29vuN3HSXmBxErva0=;
-        b=nF8w4Fy/swxrHuupSWMYHk0VR8eQaS226igNsMyLbYBiiv+YhWwTn1ZVLGvVlvYTRt
-         TFdNSlX/IT89wxgZIh0SCm4gXVHfaRlQeUMPclecpXbRnni1HnT5/ulQ3Xp1bv/f1zW7
-         dYvn5g2jSvosPihAV0r/4I8nl0HoeV+FImu3uLJfgvsDsgU6uz6lsmO8yH+dVcMLXlrE
-         +GCpw7dNI5JiIn/Z0QsZc8laNAc9maAEwOVJxJn0A5kvIktgZNfMHW6jKSDni5PUX+5M
-         s5UfhFjO/4c9HAL6Wb7/ZMT36gCl2EZ36fYiAHnbkHkp12d2nkAzdb6oojVwof+a7Wpy
-         2NYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730709817; x=1731314617;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6mzcZ40JgGm44C7M2p4ensyZcq29vuN3HSXmBxErva0=;
-        b=fNq0DM2ES4xFcTjHd5oYQA4NBL/sNnFLUbBS/aW4cNzMgV+vofKPfwJwDEs5GynQxG
-         HyuhFyrsdv4d7B71xOTsRBQvVLfbbnMnRxL57+iI40eAbxPt9jlLKJIuBu6jOzl0qS9S
-         Jdi/C7QoZtstg5D1TcxCuUSyjxWh46ETymTuObjYNiJBEoOKHfAgOGWrJjrKYYEISUIn
-         sUK2lk6Hsbf0qkMAUtYoWJY7rqgQ3Hsj6Wldy9GO8OEo6rQ40TEmUUn0LVXTUHT6PDAE
-         BrH1X2qmJx/hVeVxOqgyXZYTvCxVGV1VbjsaJZHo61AwyNZafWxCxhAHRL1XwjA1nXMb
-         Ui6w==
-X-Forwarded-Encrypted: i=1; AJvYcCVYcFAx5ao52vyZ7EXjkb5X2FF0G26/euS49VsNjJiWxwroqih9cR5vGe1R6t8z51eOTvIpQaSKW5qLBHWN@lists.linux.dev
-X-Gm-Message-State: AOJu0YyeUhyb1fRI+iCAOUulrZaP9PWkyuFEFkEqhHoBewfosN7GjGEF
-	B8g/KUyvAYNTABjDYCno6l3Q5MtFtR3ejNMwqTx/fwB2EJhZVKS+XHWjpLwwl0M=
-X-Google-Smtp-Source: AGHT+IH4gn7Kr6XDNOtojQ9jzVG+iu2feJjnJyfKdYBnr/oKuNjDRwhQLv/fQ/43mkl4gpiiDrmIoA==
-X-Received: by 2002:a5d:5a13:0:b0:37c:fbf8:fc4 with SMTP id ffacd0b85a97d-381c7af3be3mr13124947f8f.59.1730709816810;
-        Mon, 04 Nov 2024 00:43:36 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381c113de0esm12595552f8f.85.2024.11.04.00.43.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Nov 2024 00:43:36 -0800 (PST)
-Date: Mon, 4 Nov 2024 11:43:32 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Dave Penkler <dpenkler@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
-	arnd@arndb.de
-Subject: Re: [PATCH 05/11] staging: gpib: Remove GPIB_DEBUG reference and
- update messaging
-Message-ID: <4c4aba7e-c873-4a93-9311-bd2e2bbcd8e8@stanley.mountain>
-References: <20241103212617.13076-1-dpenkler@gmail.com>
- <20241103212617.13076-6-dpenkler@gmail.com>
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="knjvg/P1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1730715323; x=1731320123; i=markus.elfring@web.de;
+	bh=NQ1fsHIaIHmGq0j/3qRfROeTwLYWzazLpuIXXxQA82Y=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=knjvg/P1ZncQoGKlgJrnrqH45eDlrZzwz1AcO/saXxx4wSIzx6zioHC9jO2DYK2z
+	 0Khw89XODrbwK8KvRL1xpYKV9VMXSb7ir3Jl207l2R978ibPyzkDzo4KQlfPZhe93
+	 OZEPddjLUy5z5NtMT9yaJQS4zFmscTCHZtMNt8fc/0TN4qLLxlwCT1CpvR9qt0JMG
+	 Nu2eYLy7Sy+Q/NQ4OWEnpgq95Dt4f8+GVLPmyPk8YD5x0bwRFkaPpXD54aCDfFtvm
+	 ZoGQVlCvLyUedHt3iqd01c8vRQgFrPUbafWedGs/t4dE1+k90+MfxmM76se7+q2xn
+	 qJvzz0MKU7ZmDlblTA==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.88.95]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1M3m9J-1t8jCC26GR-00Exdk; Mon, 04
+ Nov 2024 11:15:23 +0100
+Message-ID: <621ad79f-8a8f-460e-92df-c3164f30e46a@web.de>
+Date: Mon, 4 Nov 2024 11:15:21 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241103212617.13076-6-dpenkler@gmail.com>
+User-Agent: Mozilla Thunderbird
+To: Li Huafei <lihuafei1@huawei.com>, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev, Alan Cox <alan@linux.intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, Andy Shevchenko <andy@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+References: <20241104145051.3088231-1-lihuafei1@huawei.com>
+Subject: Re: [PATCH v2] media: atomisp: Add check for rgby_data memory
+ allocation failure
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20241104145051.3088231-1-lihuafei1@huawei.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:UclgB42S5V1YLaM5QUM06sXODsMAg/7CediUb9KGB8Rry+dLoNe
+ RCH/t88339qmRNLHUNJRT5c+y1rU+ET9Th8BfJTwVKAZ799NM/QGZCnL/HdF95YLX9q1CoP
+ Bn6YUZsyp/QwdAdIOSxdAFIIOz9rQ8efGNbJzNeOFBZUEV/RtbgvBygl9eN7zahA5RSKlz9
+ reJHNgBIjIE0LCtX9ON5g==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:IhRTea/ZbQM=;pJv1edYOIjWdw7XWEJn8YVDuE0Z
+ /HrYUbiyH1soTe4GuIzVxRA+ECwkqxwb97wYyPJmTf8072v0F7sDWbVvwpkbXCKH+YhdSduRu
+ TJ12oQ/O8abP/22+0nhs7am/rzHAQyr8zrIQDyORRR/ZQ2qWwY2CYoogZKmREkNGxVtd0Tpu5
+ M9ukdLmBaZqtfjyovzXChcuLYA+tbLS703hLF0KKzakBY4yqqrzHNHaMcEpdWvm5cbJgqwRby
+ VSCLUpYXzbXPaWyWkracd0oluE2+nAmK6DYXaK0Q83bfm+mpWGN81PD0gxNFAQF+aIZqoC1b0
+ 4VpG1vLFv2T4Zf55XM7P4tNCXtrkXbqXaLoOqg5LucF2xAbgHkBYPRNzmPo8ICPEsHB638QUM
+ EFChZXjK7QXHFZ4sHHBTJDfcg5RbDzktpmk9x8fYNNxr5lr/X6qDOp6trCUDkVsTF6jHE73i1
+ Wv5zq5sC80FQYPHMfI4Z+sA6yolM9qu546GEV2MoZkxuBgKKQjWlgOwsY+RE+LszZ79TeTtA5
+ dHpD1TbP1S7YeJ2SG7kD72t/ueHXDNkKtDs2kAEsTG5NZ/NVMPPwTqrOxv4h5zvpaybf5yDMV
+ emae3iKK8Wd3Qx7CRMw6RsDU8F9YVXfjFKbwiOH/ejeImOs8cQDix7LOBlaXSbsZAGG6Y1z1c
+ MVBsILOI0F7SwEZ9Co4OrewVcoZguQFKrwJQ5Rz/bFN1VWIREnITXP3FaoPYE9f9gMcSD9O2N
+ B26RFPum/QFdeBOodwNoFHPExe3Tf0Y276RNxeG8KOHPwEXm+tCNJhwiI7R2Y201PpAdASlfv
+ OGiyxs7Xrj3wlCM0l16g8H5A==
 
-On Sun, Nov 03, 2024 at 10:26:11PM +0100, Dave Penkler wrote:
-> Change pr_alert to dev_alert
-> 
-> Signed-off-by: Dave Penkler <dpenkler@gmail.com>
-> ---
->  .../gpib/lpvo_usb_gpib/lpvo_usb_gpib.c        | 69 +++++++++----------
->  1 file changed, 34 insertions(+), 35 deletions(-)
-> 
-> diff --git a/drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c b/drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c
-> index 4c580137043f..796c3a5be545 100644
-> --- a/drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c
-> +++ b/drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c
-> @@ -68,11 +68,8 @@ MODULE_DEVICE_TABLE(usb, skel_table);
->   *	      At module loading:  modprobe lpvo_usb_gpib debug={0,1,2}
->   *	      On the fly: echo {0,1,2} > /sys/modules/lpvo_usb_gpib/parameters/debug
->   */
-> -#ifdef GPIB_DEBUG
-> -static int debug = 1;
-> -#else
-> +
->  static int debug;
-> -#endif
->  module_param(debug, int, 0644);
->  
+=E2=80=A6
+> ia_css_s3a_hmem_decode(). Adding a check to fix this potential issue.
 
-Put this in patch #2 instead.
+Please choose an imperative wording for an improved change description.
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
+cumentation/process/submitting-patches.rst?h=3Dv6.12-rc5#n94
 
-regards,
-dan carpenter
-
-
+Regards,
+Markus
