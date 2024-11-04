@@ -1,108 +1,133 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20D605680
-	for <linux-staging@lists.linux.dev>; Mon,  4 Nov 2024 12:38:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A01979C8
+	for <linux-staging@lists.linux.dev>; Mon,  4 Nov 2024 12:51:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730723923; cv=none; b=Hapm3Fuf140UB2CtsXdEaMp7MIEhse6INzAOG/DakjSeM3hkwC/QUNepvhxqQzu7X+sq0nSFAta2LNrHgCBPd20fZG5cpJb8ZuYrId4b9qq0DzVDKDvpN/vQMbhdo7sd9OCAxHIKqqekxyXq4oh4o/pmI+zYVFwCPsl1bW8PnPo=
+	t=1730724709; cv=none; b=GdDrNj8Zaka/zvgXNRKkncaDQxh4exC+EbY/cD7m50fyC4rfW64CwS/xNlvmn2MzESnRjiHNXvlQTVJava0ZCZkXXQnNs8t5/IDzOmKDuRtyEQpSglJlYKkU+dZE0J53mqWf+dz88K7TNbTeh7KIB0S4vQeRWe4TMvhXLIHSgI8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730723923; c=relaxed/simple;
-	bh=kMRb9z0LlhB8JxNVhjyC70W0C4O+kyzjIdxTWZp+rDs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kGxlrEc3QvC67enZYFId7Zsg1MOsrqAyKa1HrNb7HrjszT5vfijmYkEUDwrAbjHdV/P2VmXDwPXNTzK0oke6T/dHBGg1NUCxEE8hVSlqvLnLl5jzgYsmryVa1JYS3s1KSgNFXXVT+LwqFEUk6fMgBHXllHZhNAr4yzU1PznrLdU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XQeUUKaq; arc=none smtp.client-ip=170.10.133.124
+	s=arc-20240116; t=1730724709; c=relaxed/simple;
+	bh=lnsqveZ0+ThHsdtgF8Ous643Z9X8+Nqxx3nDvOsyHnQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tETFztRrTHlOWYs0lg7sP636cIynAPVp5b8gF9H/RpcC2D672/mVMcYvHSXlLnwzSIQ9VZbmeY0aMfi9S0F+/nzLHeSFZvUSMHhCjSLmcCNyo2+dNZaqq57UeVd/EmOq7TaGrbKr7fZQkX3xNv0if47MiFjDq20MChlnj92mcLo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hO+yDS+b; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XQeUUKaq"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hO+yDS+b"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1730723920;
+	s=mimecast20190719; t=1730724706;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=0TguugBBm63nRqzUI6ZsbECp0dH0NtKZZBhHRwBumm4=;
-	b=XQeUUKaqs/B5dPWIFabp1wuaXxIvN6JWJdd21Pi+bnCcJELykHmiDj0d7rk9VcUGPxmq2I
-	bClRuJkFLoZNhtV2eUhtcsamNLa89dXaSl+YvInKXcAPqwxXPSlfAk+Sy5GFZp7rXKrkbK
-	tGfwURaTHWvzA022Ads9uP0hGixHRYo=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-482-MTYynnx7O8az3bNUCNXZHg-1; Mon,
- 04 Nov 2024 07:38:38 -0500
-X-MC-Unique: MTYynnx7O8az3bNUCNXZHg-1
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 4E13D19560BA;
-	Mon,  4 Nov 2024 12:38:37 +0000 (UTC)
-Received: from x1.localdomain.com (unknown [10.39.194.12])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id E7D1A19560A2;
-	Mon,  4 Nov 2024 12:38:33 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Tsuchiya Yuto <kitakar@gmail.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Kate Hsuan <hpa@redhat.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH] media: atomisp: Remove gmin_platform Asus T100TA quirks
-Date: Mon,  4 Nov 2024 13:38:32 +0100
-Message-ID: <20241104123832.5539-1-hdegoede@redhat.com>
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Kay/f3QkJEzZ7UZJfgDuT/JkoWB8O0jH5vqtmG6BCFY=;
+	b=hO+yDS+brCl42JuyvYz55gD0aM/z7n5xg3OIW2vfrKASoxcwJc7ELSY3VMcK+IAVOeMDDU
+	hpjfjtoENmMNifc4XDG6NCLAM1++5ppzVNCZexdamjMt6gscSUDra8XHmDd9PQ96UhsWRD
+	wzfLQpDM7okcTQ8R0frtMVJ/ua+VL38=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-201-ZZ3rUT6oNu-6whkav-BkFA-1; Mon, 04 Nov 2024 07:51:46 -0500
+X-MC-Unique: ZZ3rUT6oNu-6whkav-BkFA-1
+Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-a9adb271de7so335957166b.0
+        for <linux-staging@lists.linux.dev>; Mon, 04 Nov 2024 04:51:45 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730724705; x=1731329505;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Kay/f3QkJEzZ7UZJfgDuT/JkoWB8O0jH5vqtmG6BCFY=;
+        b=GZFs6XcKkbYtn0yq9hvWrfvAnuvvzcaXceKIexOIx7DoyfG1nAFrL5YHhAOVB/RV4r
+         Jay52z38ICyxKqy096oFsnCvnkNNDanvv3n0Dk8cbWLZLMIaciM+G1EKTSBt3LN1wP4N
+         FtywSFH9FUsi23lcGe+FSOBwb5mWUwYVMpPJpqsEuoWI0C+FX4wffVVGuLTcf9n9cp77
+         OLcb273VKBRQNxJRL/orHsaD2fnLYeJRehnaeIVQl+Nfr5zqrWVDIcnrpEtIAAWj6+HW
+         NvI/RlDmT/vSwk+7uiNjaFE/U8wQRAmAeN23XAvmhKK9eDLaujYZ7RwF+Q7Zl0bCZcWh
+         gvUQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX5ar7x1PLpsJC3NnEopDUENlfEhEsh+WoKqua5O3ugRLhT4AkxbtcLgQwGHuSgS1c195Z5TpuInF1vKpJE@lists.linux.dev
+X-Gm-Message-State: AOJu0YyGaEVKWw25XdBSeBI10liaFyUsYeI+8XG2QOcZRbnPxMkKPcvR
+	+Ua28+dcgPQ80E0zcFHaMIWIpJiafHi4EP8ZTqgHqc2d1uBsLSp0aqDgPd88bqejfmHVxjCWUBO
+	ym/oscdNDXOW78igI3b45WlE1be+r5wVMPGN7RSq2i8Irbc191H2wyF+zl+tTp4U=
+X-Received: by 2002:a17:907:940e:b0:a9a:b70:2a92 with SMTP id a640c23a62f3a-a9de5ecc46bmr3272712666b.16.1730724704661;
+        Mon, 04 Nov 2024 04:51:44 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFqeb1LzuRpJ7Mr3jNNDRouhRr6mOiie/34XpsMMVa+S06Kid3Nvi2/6g2auX8Xxu/q/b9OzQ==
+X-Received: by 2002:a17:907:940e:b0:a9a:b70:2a92 with SMTP id a640c23a62f3a-a9de5ecc46bmr3272709166b.16.1730724704235;
+        Mon, 04 Nov 2024 04:51:44 -0800 (PST)
+Received: from [192.168.100.203] ([109.37.147.87])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9e56681c1asm547886666b.213.2024.11.04.04.51.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Nov 2024 04:51:43 -0800 (PST)
+Message-ID: <c2dc7fa6-b455-4964-a1e7-555dd0c01916@redhat.com>
+Date: Mon, 4 Nov 2024 13:51:40 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 1/1] media: atomisp: Remove License information
+ boilerplate
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Jeff Johnson <quic_jjohnson@quicinc.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Jonathan Bergh <bergh.jonathan@gmail.com>,
+ Roshan Khatri <topofeverest8848@gmail.com>,
+ Dipendra Khadka <kdipendra88@gmail.com>,
+ Sergio de Almeida Cipriano Junior <sergiosacj@riseup.net>,
+ Kent Overstreet <kent.overstreet@linux.dev>,
+ Kartik Kulkarni <kartik.koolks@gmail.com>,
+ Kathara Sasikumar <katharasasikumar007@gmail.com>,
+ Tchadel Icard <hello@tchadelicard.fr>, Kate Hsuan <hpa@redhat.com>,
+ Colin Ian King <colin.i.king@gmail.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Andy Shevchenko <andy@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+References: <20240923105539.3569110-1-andriy.shevchenko@linux.intel.com>
+ <28958f62-9051-45a6-a26d-585508e2bd11@redhat.com>
+ <CAHp75VdscXFTB+mfUgKBnut3_idT88mas20ZsohSd6nrcVOnFA@mail.gmail.com>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <CAHp75VdscXFTB+mfUgKBnut3_idT88mas20ZsohSd6nrcVOnFA@mail.gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-The Asus T100TA quirks set the same values as the defaults,
-so they are not necessary. Remove them.
+Hi Andy,
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- .../media/atomisp/pci/atomisp_gmin_platform.c   | 17 -----------------
- 1 file changed, 17 deletions(-)
+On 4-Nov-24 1:30 PM, Andy Shevchenko wrote:
+> On Mon, Nov 4, 2024 at 1:57 PM Hans de Goede <hdegoede@redhat.com> wrote:
+>> On 23-Sep-24 12:53 PM, Andy Shevchenko wrote:
+>>> We have the respective SPDX identifiers that are already being applied
+>>> to the files in question. Remove the License information boilerplate.
+>>>
+>>> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+>>
+>> Thank you for your patch(es).
+> 
+> Thank you!
+> 
+> There is one patch (marked rft) left in the queue. Can you, please,
+> apply it locally to your branches which you use to test AtomISP with?
+> I'm talking about 20240923085652.3457117-1-andriy.shevchenko@linux.intel.com.
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-index e176483df301..8ec990293b48 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-@@ -225,16 +225,6 @@ static struct gmin_cfg_var ffrd8_vars[] = {
- 	{},
- };
- 
--/* Cribbed from MCG defaults in the mt9m114 driver, not actually verified
-- * vs. T100 hardware
-- */
--static struct gmin_cfg_var t100_vars[] = {
--	{ "INT33F0:00_CsiPort",  "0" },
--	{ "INT33F0:00_CsiLanes", "1" },
--	{ "INT33F0:00_CamClk",   "1" },
--	{},
--};
--
- static struct gmin_cfg_var mrd7_vars[] = {
- 	{"INT33F8:00_CamType", "1"},
- 	{"INT33F8:00_CsiPort", "1"},
-@@ -309,13 +299,6 @@ static const struct dmi_system_id gmin_vars[] = {
- 		},
- 		.driver_data = ffrd8_vars,
- 	},
--	{
--		.ident = "T100TA",
--		.matches = {
--			DMI_MATCH(DMI_BOARD_NAME, "T100TA"),
--		},
--		.driver_data = t100_vars,
--	},
- 	{
- 		.ident = "MRD7",
- 		.matches = {
--- 
-2.47.0
+Yes I noticed that one myself too. But atm I'm at the co-working and
+I wanted to get the pull-req for 6.13 out the door (it already is
+a bit late and I hope it will still make it).
+
+I have just added this to my personal repo and I'll try to give it
+a test spin soon.
+
+Regards,
+
+Hans
+
+
 
