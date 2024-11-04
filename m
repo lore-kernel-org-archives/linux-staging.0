@@ -1,59 +1,76 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47FB318FC7C
-	for <linux-staging@lists.linux.dev>; Mon,  4 Nov 2024 05:46:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 697B72CA8
+	for <linux-staging@lists.linux.dev>; Mon,  4 Nov 2024 06:50:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730699218; cv=none; b=LSzIxOyrxwsHCAnhq8cYOlcKzSRPSW1TmJhSqI2I7smtJ0t8Uj8TrgRqfhfLoSu+dfSETfPXZ3ehqR6Vgyf2NPZzTbuuFMGmfsO7vGAmDXyG9PCdDYjTgEmI0umCgECoEdc18jlAd8HjPDUOWTu3rEjIKlsN8zYuMFlUE7kV2Ls=
+	t=1730703006; cv=none; b=Gt0nBeVRs4tx1cCKNGUuvezeXujiGnxbNJv1H64xCAUr57DvCNwv+w0wMFaAwIVNlo365IyyHPyWH6PrKYWJGOGfMZeU9KuxerLXn0NErkB84TYM3AnHoIEQHrcPuSSqYwJkEwnfXWCFzeimpGvwI6ZWjBJPz6khO2vv/zapxQ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730699218; c=relaxed/simple;
-	bh=6xvvjVL1hinQnmXHlSlLp/wtxeDomeRpoiF34rNf3U4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o33KjV8QRApXroibaFXKxje/Ec5gY+GzOb7iMi/hqj1/W34m5zqK6ijzR0yshVmNePsjo7fovCX6H2RjzxPOf1gtbDP60FZHtjqs4IihMPJ+rrLC3G+wz0lerF0Zt5Cz0PL+tuYSCU8HzF24jJkfe36WKaax5CgEC/RvSv9LFpE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=UlIpNjHi; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="UlIpNjHi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE309C4CED0;
-	Mon,  4 Nov 2024 05:46:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1730699218;
-	bh=6xvvjVL1hinQnmXHlSlLp/wtxeDomeRpoiF34rNf3U4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UlIpNjHiBqM8LBrMtZssSatpUHXR/bczierETFJW2KBwo26MgMseFu3kwuNzV1YkM
-	 tTpu0Z7vZgOAt0UBzHakkTB0JjlUD4mhT76VDR8YC7LbCqLRREpH+cZsorlcuxmhrE
-	 UP85IBhrUBizYBTw+PHWiWWOvha+rc1eN61MhXjY=
-Date: Mon, 4 Nov 2024 00:46:14 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Kees Bakker <kees@ijzerbout.nl>
-Cc: Dave Penkler <dpenkler@gmail.com>,
-	Linux Staging <linux-staging@lists.linux.dev>
-Subject: Re: [PATCH] staging: gpib: avoid unintended sign extension
-Message-ID: <2024110403-humongous-overbook-f4a3@gregkh>
-References: <20241019184550.C44F518D8CD@bout3.ijzerbout.nl>
+	s=arc-20240116; t=1730703006; c=relaxed/simple;
+	bh=CSMlutpBpwaIYCs2IDEquG2do+CIX7HDvp/bSm2fivs=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=kbaqaE9hm0qYgoHL1nVNh71h26XhilqOSLIDlKTeb/Ij3OM+iKXDk80lQzstcRkg5ABhJq9tmD/P/vA5TEpZ7HIldvCeFRtO/RolfxGKkOa9XfsrSkCnltRRwvZZV4AP5LxgePV5bkry0bSh/E/ld0M/bJB4zO/vJmu6kWdVdzI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.163.48])
+	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4Xhhrf5Q6NzQsXr;
+	Mon,  4 Nov 2024 14:48:50 +0800 (CST)
+Received: from kwepemf500004.china.huawei.com (unknown [7.202.181.242])
+	by mail.maildlp.com (Postfix) with ESMTPS id 8AD2818007C;
+	Mon,  4 Nov 2024 14:49:55 +0800 (CST)
+Received: from lihuafei.huawei.com (10.90.53.74) by
+ kwepemf500004.china.huawei.com (7.202.181.242) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Mon, 4 Nov 2024 14:49:54 +0800
+From: Li Huafei <lihuafei1@huawei.com>
+To: <mchehab@kernel.org>, <alan@linux.intel.com>
+CC: <andy@kernel.org>, <hdegoede@redhat.com>, <sakari.ailus@linux.intel.com>,
+	<gregkh@linuxfoundation.org>, <linux-media@vger.kernel.org>,
+	<linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+	<lihuafei1@huawei.com>
+Subject: [PATCH v2] media: atomisp: Add check for rgby_data memory allocation failure
+Date: Mon, 4 Nov 2024 22:50:51 +0800
+Message-ID: <20241104145051.3088231-1-lihuafei1@huawei.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241019184550.C44F518D8CD@bout3.ijzerbout.nl>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ kwepemf500004.china.huawei.com (7.202.181.242)
 
-On Thu, Oct 17, 2024 at 09:54:47PM +0200, Kees Bakker wrote:
-> The code was basically like this (assuming size_t can be u64)
->     var_u64 |= var_u8 << 24
-> var_u8 is first promoted to i32 and then the shift is done. Next, it is
-> promoted to u64 by first signextending to 64 bits. This is very unlikely
-> what was intended. So now it is first forced to u32.
->     var_u64 |= (u32)var_u8 << 24
-> 
-> This was detected by Coverity, CID 1600792.
-> 
-> Fixes: 4c41fe886a56 ("staging: gpib: Add Agilent/Keysight 82357x USB GPIB driver")
-> Signed-off-by: Kees Bakker <kees@ijzerbout.nl>
-> ---
->  V1 -> V2: Changed commit message, added Fixes: tag and a reference to the Coverity CID
+In ia_css_3a_statistics_allocate(), there is no check on the allocation
+result of the rgby_data memory. If rgby_data is not successfully
+allocated, it may trigger the assert(host_stats->rgby_data) assertion in
+ia_css_s3a_hmem_decode(). Adding a check to fix this potential issue.
 
-Again, no "v2" in the subject line :(
+Fixes: a49d25364dfb ("staging/atomisp: Add support for the Intel IPU v2")
+Signed-off-by: Li Huafei <lihuafei1@huawei.com>
+---
+Changes in v2:
+ - Corrects the "Fixes" tag.
+---
+ drivers/staging/media/atomisp/pci/sh_css_params.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
+index 232744973ab8..b1feb6f6ebe8 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_params.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
+@@ -4181,6 +4181,8 @@ ia_css_3a_statistics_allocate(const struct ia_css_3a_grid_info *grid)
+ 		goto err;
+ 	/* No weighted histogram, no structure, treat the histogram data as a byte dump in a byte array */
+ 	me->rgby_data = kvmalloc(sizeof_hmem(HMEM0_ID), GFP_KERNEL);
++	if (!me->rgby_data)
++		goto err;
+ 
+ 	IA_CSS_LEAVE("return=%p", me);
+ 	return me;
+-- 
+2.25.1
+
