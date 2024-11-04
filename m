@@ -1,133 +1,107 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A01979C8
-	for <linux-staging@lists.linux.dev>; Mon,  4 Nov 2024 12:51:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A0421BAEDC
+	for <linux-staging@lists.linux.dev>; Mon,  4 Nov 2024 13:11:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730724709; cv=none; b=GdDrNj8Zaka/zvgXNRKkncaDQxh4exC+EbY/cD7m50fyC4rfW64CwS/xNlvmn2MzESnRjiHNXvlQTVJava0ZCZkXXQnNs8t5/IDzOmKDuRtyEQpSglJlYKkU+dZE0J53mqWf+dz88K7TNbTeh7KIB0S4vQeRWe4TMvhXLIHSgI8=
+	t=1730725895; cv=none; b=OdAZnf4rdiSB4ZofntuOXpKnBNWy+xCmwvS94Rtx7A9l0nAcucSP2z0mDX+V4i7VANXau0QUmE1DHbovdwN01KKijoc4kBJ5GtEG3mpM98K5qCVTaHBsRfP7FR3yDtuuD3vKXgkc/HRXRySYbSVqi0m/jByDd8OOM9vhKyhRsC0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730724709; c=relaxed/simple;
-	bh=lnsqveZ0+ThHsdtgF8Ous643Z9X8+Nqxx3nDvOsyHnQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tETFztRrTHlOWYs0lg7sP636cIynAPVp5b8gF9H/RpcC2D672/mVMcYvHSXlLnwzSIQ9VZbmeY0aMfi9S0F+/nzLHeSFZvUSMHhCjSLmcCNyo2+dNZaqq57UeVd/EmOq7TaGrbKr7fZQkX3xNv0if47MiFjDq20MChlnj92mcLo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hO+yDS+b; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hO+yDS+b"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1730724706;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Kay/f3QkJEzZ7UZJfgDuT/JkoWB8O0jH5vqtmG6BCFY=;
-	b=hO+yDS+brCl42JuyvYz55gD0aM/z7n5xg3OIW2vfrKASoxcwJc7ELSY3VMcK+IAVOeMDDU
-	hpjfjtoENmMNifc4XDG6NCLAM1++5ppzVNCZexdamjMt6gscSUDra8XHmDd9PQ96UhsWRD
-	wzfLQpDM7okcTQ8R0frtMVJ/ua+VL38=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-201-ZZ3rUT6oNu-6whkav-BkFA-1; Mon, 04 Nov 2024 07:51:46 -0500
-X-MC-Unique: ZZ3rUT6oNu-6whkav-BkFA-1
-Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-a9adb271de7so335957166b.0
-        for <linux-staging@lists.linux.dev>; Mon, 04 Nov 2024 04:51:45 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730724705; x=1731329505;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Kay/f3QkJEzZ7UZJfgDuT/JkoWB8O0jH5vqtmG6BCFY=;
-        b=GZFs6XcKkbYtn0yq9hvWrfvAnuvvzcaXceKIexOIx7DoyfG1nAFrL5YHhAOVB/RV4r
-         Jay52z38ICyxKqy096oFsnCvnkNNDanvv3n0Dk8cbWLZLMIaciM+G1EKTSBt3LN1wP4N
-         FtywSFH9FUsi23lcGe+FSOBwb5mWUwYVMpPJpqsEuoWI0C+FX4wffVVGuLTcf9n9cp77
-         OLcb273VKBRQNxJRL/orHsaD2fnLYeJRehnaeIVQl+Nfr5zqrWVDIcnrpEtIAAWj6+HW
-         NvI/RlDmT/vSwk+7uiNjaFE/U8wQRAmAeN23XAvmhKK9eDLaujYZ7RwF+Q7Zl0bCZcWh
-         gvUQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX5ar7x1PLpsJC3NnEopDUENlfEhEsh+WoKqua5O3ugRLhT4AkxbtcLgQwGHuSgS1c195Z5TpuInF1vKpJE@lists.linux.dev
-X-Gm-Message-State: AOJu0YyGaEVKWw25XdBSeBI10liaFyUsYeI+8XG2QOcZRbnPxMkKPcvR
-	+Ua28+dcgPQ80E0zcFHaMIWIpJiafHi4EP8ZTqgHqc2d1uBsLSp0aqDgPd88bqejfmHVxjCWUBO
-	ym/oscdNDXOW78igI3b45WlE1be+r5wVMPGN7RSq2i8Irbc191H2wyF+zl+tTp4U=
-X-Received: by 2002:a17:907:940e:b0:a9a:b70:2a92 with SMTP id a640c23a62f3a-a9de5ecc46bmr3272712666b.16.1730724704661;
-        Mon, 04 Nov 2024 04:51:44 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFqeb1LzuRpJ7Mr3jNNDRouhRr6mOiie/34XpsMMVa+S06Kid3Nvi2/6g2auX8Xxu/q/b9OzQ==
-X-Received: by 2002:a17:907:940e:b0:a9a:b70:2a92 with SMTP id a640c23a62f3a-a9de5ecc46bmr3272709166b.16.1730724704235;
-        Mon, 04 Nov 2024 04:51:44 -0800 (PST)
-Received: from [192.168.100.203] ([109.37.147.87])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9e56681c1asm547886666b.213.2024.11.04.04.51.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Nov 2024 04:51:43 -0800 (PST)
-Message-ID: <c2dc7fa6-b455-4964-a1e7-555dd0c01916@redhat.com>
-Date: Mon, 4 Nov 2024 13:51:40 +0100
+	s=arc-20240116; t=1730725895; c=relaxed/simple;
+	bh=1lGdbN0LAG1e6Q5c4FNRN5slOOXeZ+qLxVNUBjrRd+M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=R5aRwV9yheH8MpdJew0K0AbQj1kYoeTFWeuxvNsxyLzj9Oi7gHfFxPrplFu9RUqsJHo4A4xO9bxb0moUWWqahuXaSzX0Ikps1cYuGndjVBoUJ3xDq4rrVyGY9aTkId+12ZiVGLRWOPzvi32GmbmWwcL9nChMHG8KLIuROYuqZYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=fail smtp.mailfrom=gmail.com; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=gmail.com
+X-CSE-ConnectionGUID: hIUIIksESoCKsfRmHl+4Sw==
+X-CSE-MsgGUID: O0hgGyyXT3qjFXBUS3TnrA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30273960"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="30273960"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 05:11:34 -0800
+X-CSE-ConnectionGUID: ZKnO8cPmTneh6IoeZNVc0Q==
+X-CSE-MsgGUID: 9Z4hWyMjRiehbgR7F0LdHw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,257,1725346800"; 
+   d="scan'208";a="114437929"
+Received: from smile.fi.intel.com ([10.237.72.154])
+  by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 05:11:29 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andy.shevchenko@gmail.com>)
+	id 1t7wrc-0000000B4X5-32BK;
+	Mon, 04 Nov 2024 15:11:24 +0200
+Date: Mon, 4 Nov 2024 15:11:24 +0200
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Jeff Johnson <quic_jjohnson@quicinc.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Jonathan Bergh <bergh.jonathan@gmail.com>,
+	Roshan Khatri <topofeverest8848@gmail.com>,
+	Dipendra Khadka <kdipendra88@gmail.com>,
+	Sergio de Almeida Cipriano Junior <sergiosacj@riseup.net>,
+	Kent Overstreet <kent.overstreet@linux.dev>,
+	Kartik Kulkarni <kartik.koolks@gmail.com>,
+	Kathara Sasikumar <katharasasikumar007@gmail.com>,
+	Tchadel Icard <hello@tchadelicard.fr>, Kate Hsuan <hpa@redhat.com>,
+	Colin Ian King <colin.i.king@gmail.com>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v1 1/1] media: atomisp: Remove License information
+ boilerplate
+Message-ID: <ZyjH_FuBIvv2FEj_@smile.fi.intel.com>
+References: <20240923105539.3569110-1-andriy.shevchenko@linux.intel.com>
+ <28958f62-9051-45a6-a26d-585508e2bd11@redhat.com>
+ <CAHp75VdscXFTB+mfUgKBnut3_idT88mas20ZsohSd6nrcVOnFA@mail.gmail.com>
+ <c2dc7fa6-b455-4964-a1e7-555dd0c01916@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/1] media: atomisp: Remove License information
- boilerplate
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Jeff Johnson <quic_jjohnson@quicinc.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Jonathan Bergh <bergh.jonathan@gmail.com>,
- Roshan Khatri <topofeverest8848@gmail.com>,
- Dipendra Khadka <kdipendra88@gmail.com>,
- Sergio de Almeida Cipriano Junior <sergiosacj@riseup.net>,
- Kent Overstreet <kent.overstreet@linux.dev>,
- Kartik Kulkarni <kartik.koolks@gmail.com>,
- Kathara Sasikumar <katharasasikumar007@gmail.com>,
- Tchadel Icard <hello@tchadelicard.fr>, Kate Hsuan <hpa@redhat.com>,
- Colin Ian King <colin.i.king@gmail.com>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Andy Shevchenko <andy@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <20240923105539.3569110-1-andriy.shevchenko@linux.intel.com>
- <28958f62-9051-45a6-a26d-585508e2bd11@redhat.com>
- <CAHp75VdscXFTB+mfUgKBnut3_idT88mas20ZsohSd6nrcVOnFA@mail.gmail.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <CAHp75VdscXFTB+mfUgKBnut3_idT88mas20ZsohSd6nrcVOnFA@mail.gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <c2dc7fa6-b455-4964-a1e7-555dd0c01916@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Hi Andy,
-
-On 4-Nov-24 1:30 PM, Andy Shevchenko wrote:
-> On Mon, Nov 4, 2024 at 1:57 PM Hans de Goede <hdegoede@redhat.com> wrote:
->> On 23-Sep-24 12:53 PM, Andy Shevchenko wrote:
->>> We have the respective SPDX identifiers that are already being applied
->>> to the files in question. Remove the License information boilerplate.
->>>
->>> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
->>
->> Thank you for your patch(es).
+On Mon, Nov 04, 2024 at 01:51:40PM +0100, Hans de Goede wrote:
+> On 4-Nov-24 1:30 PM, Andy Shevchenko wrote:
+> > On Mon, Nov 4, 2024 at 1:57 PM Hans de Goede <hdegoede@redhat.com> wrote:
+> >> On 23-Sep-24 12:53 PM, Andy Shevchenko wrote:
+> >>> We have the respective SPDX identifiers that are already being applied
+> >>> to the files in question. Remove the License information boilerplate.
+> >>>
+> >>> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> >>
+> >> Thank you for your patch(es).
+> > 
+> > Thank you!
+> > 
+> > There is one patch (marked rft) left in the queue. Can you, please,
+> > apply it locally to your branches which you use to test AtomISP with?
+> > I'm talking about 20240923085652.3457117-1-andriy.shevchenko@linux.intel.com.
 > 
-> Thank you!
-> 
-> There is one patch (marked rft) left in the queue. Can you, please,
-> apply it locally to your branches which you use to test AtomISP with?
-> I'm talking about 20240923085652.3457117-1-andriy.shevchenko@linux.intel.com.
+> Yes I noticed that one myself too. But atm I'm at the co-working and
+> I wanted to get the pull-req for 6.13 out the door (it already is
+> a bit late and I hope it will still make it).
 
-Yes I noticed that one myself too. But atm I'm at the co-working and
-I wanted to get the pull-req for 6.13 out the door (it already is
-a bit late and I hope it will still make it).
+It's fine that change needs to be tested, better more than less testing.
 
-I have just added this to my personal repo and I'll try to give it
-a test spin soon.
+> I have just added this to my personal repo and I'll try to give it
+> a test spin soon.
 
-Regards,
+Thank you!
 
-Hans
-
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
