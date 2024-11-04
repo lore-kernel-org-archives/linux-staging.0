@@ -1,64 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 013081AA7A5
-	for <linux-staging@lists.linux.dev>; Mon,  4 Nov 2024 08:26:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FB7B18A947
+	for <linux-staging@lists.linux.dev>; Mon,  4 Nov 2024 08:36:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730708767; cv=none; b=L0mLJIx/8VqVA1BYAstPh/evx/Dekm9rv9e6oa4TcXrIW6JRPypq/CPjcgPRrrI4MNDrGsrzUFiZ3hGPU6v379GN9jLaQI+yRTE6eliDnqmXEolFPQmIFDBPHr9tj2MPZaqQjty0mANTVh+mdynrWoaP5HfZQydS/UuGCiXkjF4=
+	t=1730709401; cv=none; b=JnzguUOOrDQqVxVceJzHYN0gl8Ko4HgO4umbLDhmR8NzhSES7swPiFAoTD/nZdF87cjDOgKPoTyyzhf7fVtY4ZvjxNqHUcaknX0rdVn/gsRvZ9fRMmXNTmbQuOdie3BLLaEvTRJaFso5xwvVYoDUcy1j4VR/gX8qWoT3Z7QJIFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730708767; c=relaxed/simple;
-	bh=5n26+7Eb9Ctuhh6z7GrE22CUnNft0rCMOTsCtn4nm8Q=;
+	s=arc-20240116; t=1730709401; c=relaxed/simple;
+	bh=9ER8Gkglev7unCJFU15f9FqH14o/KXHMMbhVZ0IW0j4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s4tDAW7gE2HsauGB34Qk1cNZy7dai8rgaOwT9Ih4vWzOQn9H1SWU2SPc73kEkbB+liBmBp9UPoAGpxQxGxzCYf2yvaHAuGViM/1ejj1cweGDFDXgWbzmeSYkdnbo1pQQSpTIo2VnItkrZaKdWBK3GjaRnhtojiRdBnG6bW/u6M4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WW1UfQ3e; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=bMy0i6V6G5+rnWY26oRoEcokt8jNjNZmjGqDHtocT27pzIzbr9YasE+lR6PNjQUJT5TJHv60DO+UlBgaOlpW7+sscljHSJ9Xul+1mBf27NUt7zB57DxsqA6Rb1lkg7aEuekgRNVAY6UOpiJvADLcswNpRUSogxh+weWPjBC/qL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=aPhfHDxe; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WW1UfQ3e"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730708765; x=1762244765;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5n26+7Eb9Ctuhh6z7GrE22CUnNft0rCMOTsCtn4nm8Q=;
-  b=WW1UfQ3eBt2oAj2vu78Vib2ux7FlLsVWDtaytoz4/3e1h3s6MNp4fhON
-   Hal0aPBOLPxve0coanIh0csRqVoxPJOvmTPJUO59S6Bex5JMHqTeBaPId
-   2ZS75Y2WrwxF436qiELsOgWVluljSDKZOYlOAXZrbUyjgST/zVDsc/ypy
-   RBG8PGt3WbZdiwi4lhECmS+PUT8Eass8sXF+jwW33S2A+KljKeyxn5ss+
-   9+mO5nhqdRNG+dGQQXfp1CW9O8bwOCvA3mthQB5FBmxR604U7svNc1BVT
-   fXEe1lmMrGVvZu/F0vFIw/HHvbifHfNLzKURQSV35Ymv/dnjzFdEAxhFY
-   Q==;
-X-CSE-ConnectionGUID: TxThpihRQ/CNlgm038qilg==
-X-CSE-MsgGUID: JKKOOmMDRXuDk3Br6JSAnA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="52954096"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="52954096"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 00:26:03 -0800
-X-CSE-ConnectionGUID: Rn0qklN4SCCXK8pukA8nmw==
-X-CSE-MsgGUID: rQRhzDZiR32i6hqrr4yMBQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,256,1725346800"; 
-   d="scan'208";a="106927565"
-Received: from smile.fi.intel.com ([10.237.72.154])
-  by fmviesa002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 00:26:01 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1t7sPO-0000000AytU-1dpi;
-	Mon, 04 Nov 2024 10:25:58 +0200
-Date: Mon, 4 Nov 2024 10:25:58 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Li Huafei <lihuafei1@huawei.com>
-Cc: mchehab@kernel.org, alan@linux.intel.com, hdegoede@redhat.com,
-	sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] media: atomisp: Add check for rgby_data memory
- allocation failure
-Message-ID: <ZyiFFr1fbEn2JkWq@smile.fi.intel.com>
-References: <20241104145051.3088231-1-lihuafei1@huawei.com>
- <ZyiEXYWU1Yt03UNc@smile.fi.intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aPhfHDxe"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4315df7b43fso32189205e9.0
+        for <linux-staging@lists.linux.dev>; Mon, 04 Nov 2024 00:36:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1730709398; x=1731314198; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=wQNba7SJ5waZLtab98P0tal4zlnqC4t8NTIv2ugdpto=;
+        b=aPhfHDxeJjPClluVZAUHuKfeBS03sW24gr3z/sx87lR5XrtANj9+Ji/rHsnTRBZlei
+         eR3snEENXDMglPupSzY5SdDZaZys6Hl02H8y/e3ltXuuYp4Wb4NvSNkg6THo9g/cKfOP
+         Ca9yRlG6pUtF1UbJl/ac7jpFbj/VCDLwCwi9Ny5MrYey3VC0XZC1vh+r7ItYjDBWTHJE
+         Sqjslr9PHALxZlf9nlt3NtEjiDkZ4l+PPTFe6de/ihK2k92qcp715D4JyS4Agw8gcZsL
+         Rs+3y7ymISQkRX2Rcc9OBwUymUfXU6RScNxKATCPzyhKuC1Amxl0iSxa0t0taqQDWRS9
+         dgbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730709398; x=1731314198;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wQNba7SJ5waZLtab98P0tal4zlnqC4t8NTIv2ugdpto=;
+        b=lMG6CZLKmFsunhrNZrMVHX1UW/Paze1SwBiR7V1zXS/MWtkL5gIJhfcDH6BQ09Vm80
+         Yt3lr1TmwLwMD8Sx9bhffz7ZryBIoJ0Pn/oUim7Wym7PuD9nTT4O/dkVX6hCa+d3M+rK
+         BafeADDhcg5DMX21eVooeBolZFOLJUbxiZ5YZmpd7wSyJMh39+/MakK0pgptLddINDjj
+         n6Soqb+VAWHsjLer5qo6Cyvj4ggwoNS6wjItKXRFTPRX7qhub6ivg0gVTu3owp0IRbnv
+         ASr6Ey6pZem0u8xSZrQd4GYtB4wz6qlL6bnpo7E1VtXtrjxtJnCr0NCx7R3wqM8+Pocc
+         hAGQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVyipk2pLGWdGZGHvgXqltXXr2Y4kRxXL85R7oZRP5kq6RGw/lsHegdX+WsFb7XDsVLkADEdGIh4OdJIFmA@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy3AsP2iPrqn4ITSTtHvvxy0vrY2uGJokWl42iDs014RtPIeoKl
+	gmh+2QaDbZgPr8dgjneBieRV8ddmigrdadZl1vbnUiSUwacTsvktu2kFOJgWdC8=
+X-Google-Smtp-Source: AGHT+IGPyUj8y1xAfEDv4tHM9DTcI25WjBafMXnE7fuz26sXWASQTccZDR0aePOo2zm1sQefiJS5Gg==
+X-Received: by 2002:a05:600c:35cb:b0:42c:bc22:e074 with SMTP id 5b1f17b1804b1-4319ad343fbmr291216725e9.29.1730709398454;
+        Mon, 04 Nov 2024 00:36:38 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4327d5abfefsm146381595e9.4.2024.11.04.00.36.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Nov 2024 00:36:38 -0800 (PST)
+Date: Mon, 4 Nov 2024 11:36:34 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Dave Penkler <dpenkler@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+	arnd@arndb.de
+Subject: Re: [PATCH 10/11] staging: gpib: Re-order the lookup tables
+Message-ID: <439184c5-103c-4ae7-8232-d771012b9f07@stanley.mountain>
+References: <20241103212617.13076-1-dpenkler@gmail.com>
+ <20241103212617.13076-11-dpenkler@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -67,38 +69,16 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZyiEXYWU1Yt03UNc@smile.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20241103212617.13076-11-dpenkler@gmail.com>
 
-On Mon, Nov 04, 2024 at 10:22:53AM +0200, Andy Shevchenko wrote:
-> On Mon, Nov 04, 2024 at 10:50:51PM +0800, Li Huafei wrote:
-> > In ia_css_3a_statistics_allocate(), there is no check on the allocation
-> > result of the rgby_data memory. If rgby_data is not successfully
-> > allocated, it may trigger the assert(host_stats->rgby_data) assertion in
-> > ia_css_s3a_hmem_decode(). Adding a check to fix this potential issue.
-
-...
-
-> > --- a/drivers/staging/media/atomisp/pci/sh_css_params.c
-> > +++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
-> > @@ -4181,6 +4181,8 @@ ia_css_3a_statistics_allocate(const struct ia_css_3a_grid_info *grid)
-> >  		goto err;
-> >  	/* No weighted histogram, no structure, treat the histogram data as a byte dump in a byte array */
-> >  	me->rgby_data = kvmalloc(sizeof_hmem(HMEM0_ID), GFP_KERNEL);
-> > +	if (!me->rgby_data)
-> > +		goto err;
+On Sun, Nov 03, 2024 at 10:26:16PM +0100, Dave Penkler wrote:
+> Re-order the tables so that the bcm27xx table is used first
+> as these devices are more popular and numerous than the older ones.
 > 
-> Which kernel version are you patching?
-> 
-> The problem, you have reported here was fixed ~4.5 years ago.
 
-Ah, sorry, I misread the line. Indeed, this one is still present in the current
-code base.
+What is the effect of this in terms of the user experience?  The commit message
+should be clearer about this.
 
-Reviewed-by: Andy Shevchenko <andy@kernel.org>
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+regards,
+dan carpenter
 
