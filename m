@@ -1,81 +1,138 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFC651BBBD0
-	for <linux-staging@lists.linux.dev>; Mon,  4 Nov 2024 13:12:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4E1B1C9ED5
+	for <linux-staging@lists.linux.dev>; Mon,  4 Nov 2024 17:50:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730725952; cv=none; b=g4oKEfFqgg+7EeZVEZ56kFWMiJ6EEg15k0EdWH5Hog9fV8NinyK6vr+hxx+3IntpbkMGag7zTSSjfYvcckAOwiDmWCC6IZYktMqjjH+O8f9uZD+jZaTsubhcjbpFJZAjgowtk5b36RFqPcKZhcunTCrU8uGOhRY2gY+1zgUhQIk=
+	t=1730742624; cv=none; b=YUDK+R+vzQQTKTvg2kjogSbM/f0cdRKYFCHQPUiX4bE7DAmmyP6jUkJdy95mKeTvVwKOanzHyEpyl7xrW7+NomLCYvb9h5J7AxsixvUaJvsdPsepR5lIPBYm4Tr29bw1M5EQfpeuctIoSfuZezrIFJ4Mj4CeWUnG45gts4aUHGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730725952; c=relaxed/simple;
-	bh=sSULQ88VHCCbn81N2He1y0rKpW+nMIvJ+jya3R8y67E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gFMY+dGCY3k3PcZprp3pECTBciEP9nzRqDqS0qtsWb5r4UYfEm5K5IDtQrnMdDBDy1k7fqQehJAAflpi4oFpp/brQIiE+mrXOWQPQLW5ZWYNPDUs42fF+fLHU0dDiLUhRxOooWbs3w73kh7MLKmAq4BZQ2hEnPXB9lGw+2vhvlU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bLH6ndK8; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1730742624; c=relaxed/simple;
+	bh=5mXa1ND1V3waxOlI1xXyCccMxl7SRmuhcCww4LFlQRI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KfFQjFZy+pvcPfqWUE0zhbOslAQeIdEp4Egxsnppgou4t6KiJhMM6P6PNDpv17YndgiUUQyVKq57F3mISHjscJojHkcjXQ0ICcdkhMDCrz593d5zL7iFQrzMSBm8v73EDCvZq8I5xz2G4rzeMZLumz7+tPbr7C4n3co1hTkY+lQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ctuaU3yo; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bLH6ndK8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730725951; x=1762261951;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=sSULQ88VHCCbn81N2He1y0rKpW+nMIvJ+jya3R8y67E=;
-  b=bLH6ndK8px1xqCFZlvo6ekbfqPhc++05vxJ49cuSAYBQDgwaykFbo6dH
-   rAGsmWsX9MmprGBRGlV6cRkHrg+oqeYs6J2CXWrgZGP4ktVjMZfNFz9rn
-   lLt6Jh9IQHfNROwQ/8sd0sZvDW9BsNQBkb759ulJGRN4Kk0vlWlSyu0KW
-   IhSjKzIIMZnY/8OnGmxlwjc7G1eNRMk0Ra8JTtCWO3+Q9Hpn0Grmr9wEF
-   bE3reMUqBkws6VOEz60uqlIrHsi3UtMOpjxpPeLLOGaee91lufOusS2Gx
-   mD8Q3Bkt8RDFMW8Si67zadQfRFmvFBavCOOEvMnaIBtcssmcZOeSrFuRB
-   A==;
-X-CSE-ConnectionGUID: NlneZyDYRRuAQiuo4tCtaw==
-X-CSE-MsgGUID: Dw3vVFHMRkS0xhS4QphO2w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="41526430"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="41526430"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 05:12:30 -0800
-X-CSE-ConnectionGUID: BU5T0UL+Siq0m94a+TuiwQ==
-X-CSE-MsgGUID: 0KWJ51NNSKuUzlG/wR/ugg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,257,1725346800"; 
-   d="scan'208";a="84468017"
-Received: from smile.fi.intel.com ([10.237.72.154])
-  by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 05:12:29 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1t7wsb-0000000B4Xu-2ZPN;
-	Mon, 04 Nov 2024 15:12:25 +0200
-Date: Mon, 4 Nov 2024 15:12:25 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Tsuchiya Yuto <kitakar@gmail.com>, Kate Hsuan <hpa@redhat.com>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH] media: atomisp: Remove gmin_platform Asus T100TA quirks
-Message-ID: <ZyjIObShDnwYaJFj@smile.fi.intel.com>
-References: <20241104123832.5539-1-hdegoede@redhat.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ctuaU3yo"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-37d49a7207cso2829795f8f.0
+        for <linux-staging@lists.linux.dev>; Mon, 04 Nov 2024 09:50:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1730742621; x=1731347421; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mUmBX0B8evIE4Q0UWEXCCXfctNNwNil7XTvRbb1SpDI=;
+        b=ctuaU3yoRtXQ6QuIvAZgU7PLlgz/Qh4hIu97x4xJVw43aKGqXxON3zfq3bcJ5iLbhq
+         gpn7aMbVvmmGeFghLkuBj/bBX0MO8hKhnhPAaaBPTWvoql0t7vdXELPYogcy67piCpN/
+         WFDoGUZcbrb1ighjH9YGmHfHVwKX2XIquncSB2f3kZoEZq6ei6lTstyorwjyRGS88xBf
+         bjJk9hlMNeuiLgInO4HlAwiXrMNJHSUqBB/hsTEzP+jcuIf3vp/tG4LrUWlRF+zJw/Qo
+         kaKLKJCWMAwaoDgePURl/f5HTSaA+2QDYa6ZdTnxtrHfd2/MvvdGNnfuJOqjudLF/S8H
+         Fw9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730742621; x=1731347421;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mUmBX0B8evIE4Q0UWEXCCXfctNNwNil7XTvRbb1SpDI=;
+        b=TaW2xkdXw4rT8gYsQ3ULtal1MlPSKuSQSXESHN0PCBQlNSV8BBaGHgKyoAkYLEiXjf
+         fstDXQbw07klyUAlktSBhDMhC+5QkhGJTx6M7lnHDSs6vnojxPnyhZOhWtl0JZ3KbHB0
+         ai4jZPKKRBuN6WGqudY9WFCLpVAnRpPbhlEq5FF0tTis7QBpA+JFAyqYgWot0u7QxkiQ
+         yIp1Chfmxo3dzyU+CZdTLDBqtNr4rpTJI8SMJgW53g5nDSBwZ/ddBjBaVNlVmNTezTdI
+         S55eAIm7E39PF1/t3sMTxuLq1mo5nVweEsVOjBHVwx9fPqUc6kkBSq2L1z7EzNspbjqr
+         uOxg==
+X-Forwarded-Encrypted: i=1; AJvYcCW6X7olTodPWtrl50y8f9/LwdUj8F813BU+o7U+WNQko/fZpSLppRSBXeYCbPJqu+n10e2M9BUTjr2FhEjw@lists.linux.dev
+X-Gm-Message-State: AOJu0YxEfZSfH1OtKEdRKnlYo5WTWVpP6cejqOYyh4qYThzZDOrhC5ix
+	/IZ0USWL3/LzlBDhR8hbZtzT1ePg+RJTQzbMm8PLJh8wq/ceMi6u
+X-Google-Smtp-Source: AGHT+IFnZNVMMDOAohnCb1dfed8YI8GbSIY3HS8oUEDhEPTqH6n4mqB+1D4kjzpaanKejXCQEdiPJA==
+X-Received: by 2002:a5d:5c01:0:b0:37d:461d:b1ea with SMTP id ffacd0b85a97d-381c7ab30b1mr11347722f8f.48.1730742621060;
+        Mon, 04 Nov 2024 09:50:21 -0800 (PST)
+Received: from localhost.localdomain (82-64-73-52.subs.proxad.net. [82.64.73.52])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381c10b7f80sm13839821f8f.20.2024.11.04.09.50.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Nov 2024 09:50:20 -0800 (PST)
+From: Dave Penkler <dpenkler@gmail.com>
+To: gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: skhan@linuxfoundation.org,
+	arnd@arndb.de,
+	dan.carpenter@linaro.org,
+	Dave Penkler <dpenkler@gmail.com>
+Subject: [PATCH v3 00/12] staging: gpib: Patch set for gpib staging drivers
+Date: Mon,  4 Nov 2024 18:50:01 +0100
+Message-ID: <20241104175014.12317-1-dpenkler@gmail.com>
+X-Mailer: git-send-email 2.46.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241104123832.5539-1-hdegoede@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Mon, Nov 04, 2024 at 01:38:32PM +0100, Hans de Goede wrote:
-> The Asus T100TA quirks set the same values as the defaults,
-> so they are not necessary. Remove them.
+Patch 1 is a bug fix
+Patches 2-4 replace custom debug with dev_dbg as well as
+            using dev_xxx for pr_xxx where feasible.
+Patch 5 Fixes the agilent_usb module description
+Patch 6 Addresses a checkpatch CHECK for mutex comment
+Patch 7 Changes dev_xxx for pr_xxx in the agilent PCI driver
+Patch 8 Corrects some errors in Kconfig
+Patch 9-11 are code cleanups
+Patch 12 corrects some GPIB behaviour
 
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Changes in v3
+Incorporate the lpvo patch 5 into patch 2
+Remove commented out console messages in patch 4
+Add a separate patch for module description -> Patch 5
+Add a separate patch for mutex comment      -> Patch 6
+Change "spelling error" to "typo" in commit message in patch 8 (was 7)
+Clarfiy commit message in patch 11 (was patch 10)
+Add a fixes tag to patch 12 (was 11)
+
+Changes in v2
+Add staging: gpib: prefix to subject lines
+-Patch 1 Use kmalloc_array, remove blanks in commit message and add Fixes tag
+-Patch 3 Delete commented out code
+-Patch 7 Fix Fixes tag
+-Patch 8 Split into 3 patches 8,9 & 10
+-Patch 9 -> 11 Clarify commit message, delete blank line and add defines
+ for max primary and secondary addresses.
+
+
+Dave Penkler (12):
+  staging: gpib: Fix buffer overflow in ni_usb_init
+  staging: gpib: Replace custom debug with dev_dbg
+  staging: gpib: Update messaging and usb_device refs in ni_usb
+  staging: gpib: Update messaging and usb_device refs in agilent_usb
+  staging: gpib: Fix MODULES_DESCRIPTION
+  staging: gpib: Add comment for mutex define
+  staging: gpib: Use dev_xxx for messaging
+  staging: gpib: Fix Kconfig
+  staging: gpib: Remove unneeded lookup table
+  staging: gpib: Remove GPIO14 and GPIO15 lines in lookup tables
+  staging: gpib: Re-order the lookup tables
+  staging: gpib: Correct check for max secondary address
+
+ drivers/staging/gpib/Kconfig                  |  14 +-
+ drivers/staging/gpib/Makefile                 |   1 -
+ .../gpib/agilent_82350b/agilent_82350b.c      |  70 ++--
+ .../gpib/agilent_82357a/agilent_82357a.c      | 261 ++++++------
+ drivers/staging/gpib/cb7210/cb7210.c          |   2 +-
+ drivers/staging/gpib/common/gpib_os.c         | 142 +++----
+ drivers/staging/gpib/common/iblib.c           |  22 +-
+ drivers/staging/gpib/common/ibsys.h           |   7 +-
+ drivers/staging/gpib/eastwood/fluke_gpib.c    |   2 +-
+ drivers/staging/gpib/fmh_gpib/fmh_gpib.c      |   4 +-
+ drivers/staging/gpib/gpio/gpib_bitbang.c      |  41 +-
+ drivers/staging/gpib/include/gpibP.h          |   8 +-
+ drivers/staging/gpib/ines/ines_gpib.c         |   2 +-
+ .../gpib/lpvo_usb_gpib/lpvo_usb_gpib.c        |  69 ++--
+ drivers/staging/gpib/nec7210/nec7210.c        |  34 +-
+ drivers/staging/gpib/ni_usb/ni_usb_gpib.c     | 378 ++++++++++--------
+ drivers/staging/gpib/tms9914/tms9914.c        |   8 +-
+ drivers/staging/gpib/tnt4882/tnt4882_gpib.c   |   7 +-
+ 18 files changed, 551 insertions(+), 521 deletions(-)
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.46.2
 
