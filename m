@@ -1,90 +1,102 @@
-Received: from bout3.ijzerbout.nl (bout3.ijzerbout.nl [136.144.140.114])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98F8B192D7D
-	for <linux-staging@lists.linux.dev>; Mon,  4 Nov 2024 19:40:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=136.144.140.114
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C0951FE0E6
+	for <linux-staging@lists.linux.dev>; Tue,  5 Nov 2024 05:55:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730749239; cv=none; b=kHdqpJf13LkEmF6jG9FXeTfQtaMf8+kCNA8MX6RaTYg9HSbqkacWcQ/UZTf8uYcGEMIkQMm90llUSQTERUkuwchWb+1YUddTsdRp8Q+CLEc1FKG1+WjhMOnSKXSMdcbemc6LCr+HTOjB2wSF44NJJ3g1THV/d7/1wCcXJh5Dg/k=
+	t=1730786131; cv=none; b=Fzr24hTXJqYagKqgIbO2mqIIWXXXviKVrNj+P8SXRoXRxt48+7QqtRKidroZX2CPWzhvDWUiOq7CFNPUdF4+Xd2+Y0yFKMipZjH8b6Wc5Hn/F1RCiC7/I/yIvxwXnkk6n5CfIWD3+zZuYBGRNhfPcUQqiTdCMZRvWiSm00BrdQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730749239; c=relaxed/simple;
-	bh=wduOPLqo1PgPH4ZCh7jh0rk85MoTwCkMuwZwZElLMjs=;
-	h=From:Date:Subject:To:Cc:Message-Id; b=YNPS+MHBo3rzsjdkNk36x4mW1RqCsiX7fv4dbYrUZqpTsSyhKGJQbCxrF6BPs3sCil4deBEqT2lUKWMvVVsrceT7J4ZcBTfbMDi9qZZ03EtRj/tVQsoRfQwzATPKmeMhF0f57uai8j9YkD1R1RZl6oV+U4FAdlL/OQmAMJwFoNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ijzerbout.nl; spf=none smtp.mailfrom=bout3.ijzerbout.nl; dkim=pass (4096-bit key) header.d=ijzerbout.nl header.i=@ijzerbout.nl header.b=TV3hJjFG; arc=none smtp.client-ip=136.144.140.114
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ijzerbout.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bout3.ijzerbout.nl
+	s=arc-20240116; t=1730786131; c=relaxed/simple;
+	bh=mPq80eFRl2XtSXtNqFZH9m1jZ3/JKV2+6yqg72JG+NU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rObcIZqyidD3slUcixVbCxZTAPIMtV3bsNNKDGhrQuhp1hjpS9P9mSrhOCIcoubk78W1cYFVWitm2hgJlLtyLsLpWMelXS97Y2AogecP7NW91af8U3MR+OOVE7Bov45eiMfWVtPWR8Y9tEfKLSIw83TgRkW7kRz9oAwkBam6Nu0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g0T3Kbze; arc=none smtp.client-ip=209.85.218.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=ijzerbout.nl header.i=@ijzerbout.nl header.b="TV3hJjFG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ijzerbout.nl; s=key;
-	t=1730748827; bh=wduOPLqo1PgPH4ZCh7jh0rk85MoTwCkMuwZwZElLMjs=;
-	h=From:Date:Subject:To:Cc:From;
-	b=TV3hJjFG8rhI+l9d8jgGKAmzn+b8AEJ+UhPoGyx90vMtXOtqCBayim+GSpTwZvm5+
-	 sQ6Fk6suUpax7RUzTHsYRzfWGTVVYlQtrGdQosP56UlfdoBfRdkgqJMCq8hNtEvruH
-	 GRClcJybGpPU0SFAWKCd1PrEXEubb5eigU2GlVChXIALhwJ/lLN1ZE68cFQ1HAoicd
-	 NNiVxrUp3vhhqQQXdHQS27lMDDxSN62ruObbEFfdUoiKULXg0npcHU0eyNfy0Uy1XJ
-	 SZpIkbkUmXYJiNScbGX/iklWHEUsyZPe0maXj4867n9MPBxnWhw0QVmWN1wWAKRXZx
-	 xBpPsy9W1OQOxrkvB8WywW5loueOb3Wg99rmf6ercErXmT4Tm4Itdl33dGpo90taJZ
-	 Y/d2uKc+9Kexh2R0Dx7Q2qE9c8/i8dX4cDErMjYLf2NfNKL2CcG/g0U9qcsC9oGNXg
-	 aYspAusriDtDGNHrNXvrmcUH9U2jhSOBdKCw+yowMjsGcX78kQS48a5gAjVFmxnOzA
-	 7EMMJ93F1v3qWWWQ6gaa6u16q2VOahcS4ZePUZAOLhxTbi/aQIatynw1h1BZ8U8WHd
-	 8SK6+zej2jk3Eq2VpwUJyhcOmZ1yWMHN36tI78/1Zh4MwT+Hz5/ZP8n3WKWhVXS4k4
-	 BnIJZluHJvQYEP8kN7dL68HI=
-Received: by bout3.ijzerbout.nl (Postfix, from userid 1000)
-	id A0B5A18DD37; Mon,  4 Nov 2024 20:33:47 +0100 (CET)
-From: Kees Bakker <kees@ijzerbout.nl>
-Date: Tue, 15 Oct 2024 22:33:30 +0200
-Subject: [PATCH v3] staging: gpib: Change return type of fluke_get_dma_residue
-To: Dave Penkler <dpenkler@gmail.com>
-Cc: Linux Staging <linux-staging@lists.linux.dev>
-Message-Id: <20241104193347.A0B5A18DD37@bout3.ijzerbout.nl>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g0T3Kbze"
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a9eb68e0bd1so34428066b.3
+        for <linux-staging@lists.linux.dev>; Mon, 04 Nov 2024 21:55:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1730786128; x=1731390928; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=fhNXg8PIe3GehDMcVl6Kc8dJRsqYwjSzBH96w7wiKxY=;
+        b=g0T3KbzekzoRg2FwDAHv7ivn7FM1Djq1XMCIInV2I+3YoMqrCsIL6Ch+NGu0/y9wxU
+         wTGPfqTW6CKAcs5Dm0tgyg/QkEv6gQUH5CMSdzVP9G1v7ya7gMIGI2ujUSHsW8GLbkg0
+         rGC31wbt4okt3UZovpAi9YxgeFH0SNJ+toeuQaFUFBqRRB6yhkDt+GawJvvkqpzujGuk
+         0LLDGW9I06cNanwwrbV45rWGlOKZYGGl9ux2c2njk2h4Mrja2JHgvI7DUE4J0yTowQVS
+         cmNw1yN2OaQ1pcRIgjRmELTOnEewn+qcdMIHah/NuSB3Q7gYf84OuEsnTPpNWd8iBkI2
+         Dptw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730786128; x=1731390928;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fhNXg8PIe3GehDMcVl6Kc8dJRsqYwjSzBH96w7wiKxY=;
+        b=wWsrhPeGF+vR5EneBHlf2/bHyrBA+9+ix8FPJ0ImcEroXR791Ezlb4eycznD7hnaPH
+         +lBi7BhqeWDDUVm9MaURcbs2NlMq98N0GVzWX4g8FLlv45WPyPpRjSWQKrPvHCwy4jw8
+         oCMe606uNmKfMdYOgipGTQ92aysH8yTA0f6P0nv7yJJfWFwqHazkWKYDMG4axBbiNXp4
+         uUUQJq0+1ood9p6G6J6kEQqGASdZ8l/l8lj83/+sl+6syb/bW7S3jrtQ1ssl7jHaOs/y
+         sK/PZSgrYYCXF3NPpnD6BI1Ue1k7nmMdjy75H4eRhPdpT++GExJdTjDX8z5S3FAlZ35H
+         Z/9A==
+X-Forwarded-Encrypted: i=1; AJvYcCXyQPzcSlXbol2WkHqOdqRkyf/PezlZb8GyccUg2qY8+qSJwYjbEQdJ2iXJ7UBDhC24Eux1AE/tkfDhA6Fk@lists.linux.dev
+X-Gm-Message-State: AOJu0YxEMi0yviLazr2TTgJjK6HbNnxGytB1YKfp5Bcf5AKRtm9+z6cA
+	B3ettNEQyIr+WiSl4Amc0ezUJDoVFQghrbRsQwrifgb/kpG308+1
+X-Google-Smtp-Source: AGHT+IHLC/DCZT3ID7+Joe+6g6Prw6Eaz0Kl69NWdZUlO0033lAVucKbrTt68NyUvJos4FWVCybq/g==
+X-Received: by 2002:a17:907:2d27:b0:a9e:1fc7:fc11 with SMTP id a640c23a62f3a-a9e655b931cmr1558333266b.40.1730786127363;
+        Mon, 04 Nov 2024 21:55:27 -0800 (PST)
+Received: from kernel-710.speedport.ip (p54a0712c.dip0.t-ipconnect.de. [84.160.113.44])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9eb181451bsm78775466b.201.2024.11.04.21.55.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Nov 2024 21:55:27 -0800 (PST)
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Subject: [PATCH 00/16] staging: rtl8723bs: Replace function pointers starting with UpdateRAMaskHandler
+Date: Tue,  5 Nov 2024 06:54:47 +0100
+Message-ID: <cover.1730749680.git.philipp.g.hortmann@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-The function fluke_get_dma_residue returns an error as a negative value.
-So the return type must not be unsigned.
+Replace function pointers with functions to increase readability.
 
-This was detected by Coverity, CID 1600782
+Tested with rtl8723bs in ODYS Trendbook Next 14
 
-Signed-off-by: Kees Bakker <kees@ijzerbout.nl>
----
- v1 -> v2: change type of `residue` var; add note about Coverity CID in commit message
- v2 -> v3: add version in the subject (sorry Greg)
+Philipp Hortmann (16):
+  staging: rtl8723bs: Remove function pointer UpdateRAMaskHandler
+  staging: rtl8723bs: Remove function pointer set_channel_handler
+  staging: rtl8723bs: Remove function pointer set_chnl_bw_handler
+  staging: rtl8723bs: Remove function pointer set_tx_power_level_handler
+  staging: rtl8723bs: Remove function pointer hal_dm_watchdog
+  staging: rtl8723bs: Remove function pointer hal_dm_watchdog_in_lps
+  staging: rtl8723bs: Remove function pointer
+    SetBeaconRelatedRegistersHandler
+  staging: rtl8723bs: Remove function pointer Add_RateATid
+  staging: rtl8723bs: Remove function pointer run_thread
+  staging: rtl8723bs: Remove function pointer cancel_thread
+  staging: rtl8723bs: Remove function pointer read_bbreg
+  staging: rtl8723bs: Remove function pointer write_bbreg
+  staging: rtl8723bs: Remove function pointer read_rfreg
+  staging: rtl8723bs: Remove function pointer write_rfreg
+  staging: rtl8723bs: Remove function pointer EfusePowerSwitch
+  staging: rtl8723bs: Remove function pointer ReadEFuse
 
- drivers/staging/gpib/eastwood/fluke_gpib.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_efuse.c    |  4 +-
+ drivers/staging/rtl8723bs/hal/hal_intf.c      | 47 +++++--------------
+ .../staging/rtl8723bs/hal/rtl8723b_hal_init.c | 33 ++-----------
+ drivers/staging/rtl8723bs/include/hal_intf.h  | 28 ++---------
+ drivers/staging/rtl8723bs/include/rtw_mp.h    |  4 --
+ 5 files changed, 24 insertions(+), 92 deletions(-)
 
-diff --git a/drivers/staging/gpib/eastwood/fluke_gpib.c b/drivers/staging/gpib/eastwood/fluke_gpib.c
-index f9f149db222d..3843e986f104 100644
---- a/drivers/staging/gpib/eastwood/fluke_gpib.c
-+++ b/drivers/staging/gpib/eastwood/fluke_gpib.c
-@@ -536,7 +536,7 @@ static int fluke_accel_write(gpib_board_t *board, uint8_t *buffer, size_t length
- 	return 0;
- }
- 
--static unsigned int fluke_get_dma_residue(struct dma_chan *chan, dma_cookie_t cookie)
-+static int fluke_get_dma_residue(struct dma_chan *chan, dma_cookie_t cookie)
- {
- 	struct dma_tx_state state;
- 	int result;
-@@ -549,7 +549,7 @@ static unsigned int fluke_get_dma_residue(struct dma_chan *chan, dma_cookie_t co
- 	dmaengine_tx_status(chan, cookie, &state);
- 	// hardware doesn't support resume, so dont call this
- 	// method unless the dma transfer is done.
--	return state.residue;
-+	return (int)state.residue;
- }
- 
- static int fluke_dma_read(gpib_board_t *board, uint8_t *buffer,
-@@ -559,7 +559,7 @@ static int fluke_dma_read(gpib_board_t *board, uint8_t *buffer,
- 	struct nec7210_priv *nec_priv = &e_priv->nec7210_priv;
- 	int retval = 0;
- 	unsigned long flags;
--	unsigned int residue;
-+	int residue;
- 	dma_addr_t bus_address;
- 	struct dma_async_tx_descriptor *tx_desc;
- 	dma_cookie_t dma_cookie;
 -- 
-2.47.0
+2.43.0
 
