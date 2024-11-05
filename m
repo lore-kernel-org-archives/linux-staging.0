@@ -1,178 +1,78 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF62B20E02F
-	for <linux-staging@lists.linux.dev>; Tue,  5 Nov 2024 19:35:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D861E3D81
+	for <linux-staging@lists.linux.dev>; Tue,  5 Nov 2024 20:58:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730835356; cv=none; b=Yl3q55XVjf250NE7SSnRne4ztLwj5K+OluMVev58GRB0GKQkyUrnPb1/j06jKJNhiyWAcoGOua3Swr+oih6pHcUSXRApzJx8t8VNKk0qZ2NH4eiMKItKCYvBV7U1vkWdYkoeK3x40+NhPPqVwsvlpmOuO2im1S7GmnsRaKKwDF4=
+	t=1730840333; cv=none; b=deBjrpEwVVwTdJKS3LQqMUomg0Rh53uGO4gF0NkXRA8pkWCbUMJyeStarhXhOUw/nWXty7KsXzNRke2nVs6QlgcRUhRwXHhPCsEtIHlvWrbdcmW4+RlWysLObs8zk1pc0C2kYaWZ8A4GqGm1pQGyEXoBt5z730yk/qb6hLdNijc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730835356; c=relaxed/simple;
-	bh=4+95HUFhL8vPl9O5BC3iJiexytwjFZUxkV+lVi+6onw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=J9E5VrFI0BXRobySEKzDkCv2gYUzUVfnq+mU2lY4o9lmqkUwjrO9aIH9+YpqDqb0bQw+0I8ekfE08QyXLGVUQXyt23EVlZlwtzzsMJo+Hsnu31St82NkRRfr34Naw6nyiZ76brSbUntvbE0Q29DaTDEQjbwiZ7JtrXXKgDTNr+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OG3LIu1Z; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1730840333; c=relaxed/simple;
+	bh=kTrZ23ZN/z/dNF0r5uBHslkTKc8atg+bkgoNPGdUYMo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kd5PScxC+kYnUhgVeRxch6nm8bGmsgE5aKftGO8l7sNxHS35jNLD/vLeqR/M5U2N1qImp2r03s1mkmHWF9zGoiXs3vOjE4/fCbrqsnz7Xpe7KTcCqDNHBxrIVkz1LKUIV7u2IJauG7exRwlJ01m6I9TxRinhlPoq3ojO9RSoEOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=if2k8ss/; arc=none smtp.client-ip=209.85.221.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OG3LIu1Z"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1730835353;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cZKdK16iudZZCyq1X7AC24F8WR5QTZiOTUd+AqJ8W9U=;
-	b=OG3LIu1Zw1erGXWJi6BSHjGO/Tb9lb0M6bZevFrsNbHPD8VKxz2vselvUukdKsq3/psbAA
-	BnRBWV09GrVIwgpgFihqEd4bjQYPbQMLlY8X9F/B4JH9FgygoC1EFJojmrMUnb3HwndhZO
-	iR0BDzRAhi/GXKGrR5jKqPJ3vBKqBeg=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-335-wHV1MtyvNY6w4CPDFATZog-1; Tue, 05 Nov 2024 14:35:52 -0500
-X-MC-Unique: wHV1MtyvNY6w4CPDFATZog-1
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-a9a2c3e75f0so400146066b.1
-        for <linux-staging@lists.linux.dev>; Tue, 05 Nov 2024 11:35:52 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="if2k8ss/"
+Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-50d4a6ef70aso1987036e0c.3
+        for <linux-staging@lists.linux.dev>; Tue, 05 Nov 2024 12:58:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1730840331; x=1731445131; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=kTrZ23ZN/z/dNF0r5uBHslkTKc8atg+bkgoNPGdUYMo=;
+        b=if2k8ss/c0Q0dOzFHHJM5+4Lqzropf0c8UuA8bLq5K4qLCRm+89k9f1k4FcCuLuLj6
+         D9as6ll0V2390NHJ8furTDNDDklR9C+xrXFDGn8Kdmgm1QsmktiY/1xVGpa+duBo0zkp
+         ayQ3Z4uK57bPUt/lFLwJ+rIPpgzYhUNHHUhhhIyhhj9OCCUOh2ZlkxWoxmwVw1PKpMTG
+         obcG9xezctRZpM0lXwYVCaU+37PyqYkg8w/9O6iKHtOUGs5rmF/WdEn3M+8EdT14t1Di
+         P48pTsyO1O8hFDwdCREW8BuKu4j4PT0UP+hMgCQK6MN+Ro4rVXqBlrrFeZpOV6DuH1Uc
+         vc/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730835351; x=1731440151;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cZKdK16iudZZCyq1X7AC24F8WR5QTZiOTUd+AqJ8W9U=;
-        b=aWj1+2Y4855CfxO6meen1OKeQAgSKZGAtkQHj6cyrasbHe05nbXI1MUVBWNI0XHenx
-         /V6NOrSdIR1ZvmL+5vRPAWKxwhYd2E96G0Oo2IwJOavwDcegsvLsqGmVM9J7+5QUnzYn
-         SAKK5XRpBfV61BR+YyshFB7R0lwYNu74cJzABIw4IFT4aMYpVHrPMbPyGQkFDD5hNMi8
-         dTrjrepMaX417WSFBw9A0WwNIW7ENvEzSG6EaXd1IMb8dq5umEf/xbC3MEBC7Wb/c7eQ
-         54fSNHVowi6nx01+dV5wK8Ipym/DpF/GPscAA1dMGrzCnNCB5PLB0hnpMkHjG2QxAW4W
-         AEFw==
-X-Forwarded-Encrypted: i=1; AJvYcCXjCcMtsipzD7pubuwmtIZqEf+wxMVcH3ar7VUmauGSoKLCLTVtymwZGrJ4WHW7UO8JQVg8cy/+y2yB6x4l@lists.linux.dev
-X-Gm-Message-State: AOJu0YylIc8TattiaBHqZHGHQzy+J7ep1KYjD9Dgj14MXJbkRqyfje/Z
-	bCRvxqd9cjVjPCM1+SYzREPveQ1Ayutamvyn44P2S67Wo1+qo24Ab3kcbYfOdaV1cp3WjtkuQbF
-	xzovcmg1siDMQOjTT2FXKzUbgK475Y+C/98iXL53uy6VqhKUyqZbbrHozKT4HTuQ=
-X-Received: by 2002:a05:6402:358f:b0:5ce:d6a0:be32 with SMTP id 4fb4d7f45d1cf-5ced6a0c1bamr6098500a12.1.1730835351247;
-        Tue, 05 Nov 2024 11:35:51 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IE+/jS7yD4IqKehP9xWZffiKY4QUimYf6f82X8Z0SCxVKffpyKS64jEOnMQvkOYbF72XdS3wA==
-X-Received: by 2002:a05:6402:358f:b0:5ce:d6a0:be32 with SMTP id 4fb4d7f45d1cf-5ced6a0c1bamr6098483a12.1.1730835350784;
-        Tue, 05 Nov 2024 11:35:50 -0800 (PST)
-Received: from ?IPV6:2001:1c00:2a07:3a01:e7a9:b143:57e6:261b? (2001-1c00-2a07-3a01-e7a9-b143-57e6-261b.cable.dynamic.v6.ziggo.nl. [2001:1c00:2a07:3a01:e7a9:b143:57e6:261b])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5cee6ac399bsm1683158a12.52.2024.11.05.11.35.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Nov 2024 11:35:49 -0800 (PST)
-Message-ID: <2d5f8d30-e579-4d90-9609-be8d155d6f42@redhat.com>
-Date: Tue, 5 Nov 2024 20:35:47 +0100
+        d=1e100.net; s=20230601; t=1730840331; x=1731445131;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kTrZ23ZN/z/dNF0r5uBHslkTKc8atg+bkgoNPGdUYMo=;
+        b=RLsXXPCOPm9NsO3KD/njHb1v8vb0JlhESJUJxa4C/MbG6i1NKUYgSwZZvnd2z9Q+Ln
+         pnYtOWUAkgYHfnLJz5ANBgcfEHFoItDeHobVnVvFfgLZsHXA0I2VNurO0XWFfRu/rJH6
+         NXfbb47LIMsqVfNLnlJ069cScrwtuGAh45ZSqjM+mY817vGIE5a5ry372KXRrOKbUuMO
+         YRf09BcNcslAN6ht5dTjG+NFIx9Mics12oiyR09Rz+0Ngs2HqLUkgfAfeUoaygFA1y5R
+         NBvjfU6SWJ6nYGPTm5Vqzz+H+JhrXDsUPYtf+01CRHghXWYDKwuaSX7Eh3uE5Co/D6NG
+         5O1A==
+X-Forwarded-Encrypted: i=1; AJvYcCXe4lPh3hPL2GNlCeJSNQYu6Zxa63+XoZi38N52XIvX3+kVEt9aG0XfwhAnKb8iD3fUpbWozpe5Gi7RLifA@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz1Jlx0IjDJsBJWXbpqYBekEhHlAd0NebKkXUIgSjcXwKrQxsIB
+	2GPFODMcmuw+mDbcWPdBVU4HvO2NG9WLSNyOGQTwWvu1DqEHN8Q4r5H4Vo/uPVZwsB6LzVbXD7q
+	9ohyqb6qsn7FlgsjWVRpySlGsgkZNIPCF
+X-Google-Smtp-Source: AGHT+IFXnwefW07oXVzpuW4z07lz6ZhGUwzk3Eyj8AMF+h/Xo9djR6GAj2QVFEFzWKaTsqk8vNDVXI1nBnA7kkLoH1I=
+X-Received: by 2002:a05:6122:659f:b0:50c:a762:8f95 with SMTP id
+ 71dfb90a1353d-51227346c6amr13981212e0c.10.1730840330681; Tue, 05 Nov 2024
+ 12:58:50 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [rft, PATCH v1 1/1] media: atomisp: Replace macros from
- math_support.h
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Kate Hsuan <hpa@redhat.com>,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev
-Cc: Andy Shevchenko <andy@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <20240923085652.3457117-1-andriy.shevchenko@linux.intel.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20240923085652.3457117-1-andriy.shevchenko@linux.intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20241102191436.23177-1-philipp.g.hortmann@gmail.com>
+In-Reply-To: <20241102191436.23177-1-philipp.g.hortmann@gmail.com>
+From: Sven Van Asbroeck <thesven73@gmail.com>
+Date: Tue, 5 Nov 2024 15:58:39 -0500
+Message-ID: <CAGngYiU=aP4FG_3R1f13n7u5o6L7S80HqnYbSTDCgK_NjgNCGQ@mail.gmail.com>
+Subject: Re: [PATCH] staging: fieldbus: Delete unused driver
+To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, "Ricardo B . Marliere" <ricardo@marliere.net>, 
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Ruan Jinjie <ruanjinjie@huawei.com>, 
+	Zhu Wang <wangzhu9@huawei.com>, =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+	Deepak R Varma <drv@mailo.com>, Ajith P V <ajithpv.linux@gmail.com>, 
+	Tian Tao <tiantao6@hisilicon.com>, Rikard Falkeborn <rikard.falkeborn@gmail.com>, 
+	Ding Xiang <dingxiang@cmss.chinamobile.com>, Jing Xiangfeng <jingxiangfeng@huawei.com>, 
+	Cristiane Naves <cristianenavescardoso09@gmail.com>, YueHaibing <yuehaibing@huawei.com>, 
+	Oscar Gomez Fuente <oscargomezf@gmail.com>, Nicholas Mc Guire <hofrat@osadl.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+This is no longer part of any working product that I know of, so:
 
-On 23-Sep-24 10:56 AM, Andy Shevchenko wrote:
-> Replace rarely used macros by generic ones from Linux kernel headers.
-> 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
-> 
-> Please, apply only after tests that confirm everything is working
-> as expected.
-
-I gave this a try today and I'm afraid that it causes problems.
-
-The original CEIL_DIV helper had a check to avoid divide by 0 and
-it looks like that check is necessary in at least some cases
-(I did not investigate this further):
-
-[  494.054038] Oops: divide error: 0000 [#1] PREEMPT SMP PTI
-[  494.054083] CPU: 0 UID: 1000 PID: 2622 Comm: qcam Tainted: G         C  E      6.12.0-rc3+ #175
-[  494.054112] Tainted: [C]=CRAP, [E]=UNSIGNED_MODULE
-[  494.054124] Hardware name: Acer Iconia W4-820/Cheetah3, BIOS V1.16 03/13/2014
-[  494.054138] RIP: 0010:atomisp_css2_hw_store_32+0x503/0x5b0 [atomisp]
-[  494.054296] Code: 48 c1 e8 23 39 f0 72 7b 4c 8b af 68 0f 00 00 41 81 bd 58 01 00 00 ff 1f 00 00 0f 87 9b 00 00 00 89 e8 31 d2 d1 e8 8d 44 01 ff <f7> f1 31 d2 89 c1 44 89 e0 d1 e8 8d 44 06 ff f7 f6 39 c1 0f 85 37
-[  494.054316] RSP: 0018:ffff9e3d458379c0 EFLAGS: 00010206
-[  494.054339] RAX: 00000000000003bf RBX: ffff909c42f584a0 RCX: 0000000000000000
-[  494.054354] RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffff909c42f584a0
-[  494.054369] RBP: 0000000000000780 R08: 00000000000005a0 R09: 0000000000000780
-[  494.054383] R10: ffffffffc0f448e0 R11: 0000000000000000 R12: 00000000000005a0
-[  494.054397] R13: ffff909c42f58028 R14: ffffffffc0f44e20 R15: ffffffffc0f44d90
-[  494.054413] FS:  00007f2c5f4006c0(0000) GS:ffff909cb4800000(0000) knlGS:0000000000000000
-[  494.054431] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  494.054446] CR2: 00007f2c8247ea19 CR3: 00000000327b6000 CR4: 00000000001026f0
-[  494.054463] Call Trace:
-[  494.054478]  <TASK>
-[  494.054494]  ? __die_body.cold+0x19/0x27
-[  494.054523]  ? die+0x2a/0x50
-[  494.054551]  ? do_trap+0xc6/0x110
-[  494.054577]  ? atomisp_css2_hw_store_32+0x503/0x5b0 [atomisp]
-[  494.054717]  ? do_error_trap+0x81/0x110
-[  494.054737]  ? atomisp_css2_hw_store_32+0x503/0x5b0 [atomisp]
-[  494.054890]  ? exc_divide_error+0x34/0x50
-[  494.054916]  ? atomisp_css2_hw_store_32+0x503/0x5b0 [atomisp]
-[  494.055117]  ? asm_exc_divide_error+0x16/0x20
-[  494.055147]  ? __pfx_atomisp_css_preview_get_output_frame_info+0x10/0x10 [atomisp]
-[  494.055357]  ? __pfx_atomisp_css_preview_configure_pp_input+0x10/0x10 [atomisp]
-[  494.055545]  ? __pfx_atomisp_css_preview_configure_output+0x10/0x10 [atomisp]
-[  494.055721]  ? atomisp_css2_hw_store_32+0x503/0x5b0 [atomisp]
-[  494.055933]  atomisp_css_preview_configure_pp_input+0xe0/0x1e0 [atomisp]
-[  494.056151]  ? __pfx_atomisp_css_preview_configure_pp_input+0x10/0x10 [atomisp]
-[  494.056367]  atomisp_set_fmt+0x774/0xb80 [atomisp]
-[  494.056580]  v4l_s_fmt+0x1c7/0x5a0 [videodev]
-[  494.056761]  __video_do_ioctl+0x456/0x480 [videodev]
-[  494.056936]  video_usercopy+0x381/0x830 [videodev]
-[  494.057052]  ? __pfx___video_do_ioctl+0x10/0x10 [videodev]
-[  494.057167]  ? ioctl_has_perm.constprop.0.isra.0+0xa8/0xe0
-[  494.057204]  ? __pfx_inode_insert5+0x5/0x10
-[  494.057235]  ? __fget_files+0x9b/0x190
-[  494.057258]  ? lock_release+0x175/0x2a0
-[  494.057299]  v4l2_ioctl+0x49/0x50 [videodev]
-[  494.057455]  __x64_sys_ioctl+0x90/0xd0
-[  494.057485]  do_syscall_64+0x93/0x180
-[  494.057511]  ? lock_release+0x175/0x2a0
-[  494.057532]  ? _raw_spin_unlock_irqrestore+0x35/0x60
-[  494.057563]  ? ldsem_up_read+0x17/0x40
-[  494.057587]  ? file_tty_write.isra.0+0x224/0x2d0
-[  494.057622]  ? vfs_write+0x259/0x510
-[  494.057654]  ? syscall_exit_to_user_mode+0x11/0x280
-[  494.057681]  ? do_syscall_64+0x9f/0x180
-[  494.057708]  ? lockdep_hardirqs_on+0x78/0x100
-[  494.057738]  ? do_syscall_64+0x9f/0x180
-[  494.057765]  ? __rseq_handle_notify_resume+0x316/0x580
-[  494.057804]  ? do_syscall_64+0x9f/0x180
-[  494.057830]  ? lockdep_hardirqs_on+0x78/0x100
-[  494.057859]  ? do_syscall_64+0x9f/0x180
-[  494.057891]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-[  494.057920] RIP: 0033:0x7f2c818fe0ad
-[  494.057950] Code: 04 25 28 00 00 00 48 89 45 c8 31 c0 48 8d 45 10 c7 45 b0 10 00 00 00 48 89 45 b8 48 8d 45 d0 48 89 45 c0 b8 10 00 00 00 0f 05 <89> c2 3d 00 f0 ff ff 77 1a 48 8b 45 c8 64 48 2b 04 25 28 00 00 00
-[  494.057977] RSP: 002b:00007f2c5f3fe2f0 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-[  494.058004] RAX: ffffffffffffffda RBX: 00007f2c5f3fe750 RCX: 00007f2c818fe0ad
-[  494.058021] RDX: 00007f2c5f3fe390 RSI: 00000000c0d05605 RDI: 0000000000000025
-[  494.058036] RBP: 00007f2c5f3fe340 R08: 00007f2c300178d0 R09: 000000000000000d
-[  494.058052] R10: 00007f2c3000b320 R11: 0000000000000246 R12: 00000000ffffffea
-[  494.058067] R13: 0000000000000001 R14: 00007f2c5f3fe740 R15: 00007f2c5f3fe750
-[  494.058110]  </TASK>
-
-Regards,
-
-Hans
-
-
-
+Acked-by: Sven Van Asbroeck <TheSven73@gmail.com>
