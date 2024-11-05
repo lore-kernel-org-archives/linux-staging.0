@@ -1,57 +1,57 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 718AA13C8F9
-	for <linux-staging@lists.linux.dev>; Tue,  5 Nov 2024 15:54:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D4573D96D
+	for <linux-staging@lists.linux.dev>; Tue,  5 Nov 2024 16:15:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730822099; cv=none; b=HdmiNIdL+jbb9MMBMOOVKhsd++bzEFsBrrI6gEy648ofnGh4PdTsLkJq4VEpGBf3dgDZqS/sCeL8PMX5LIDF0YesVenMjAvajysizDbyfhNiGN0wF6rOXkNtnqbYaT6K3lizvXudKvmqQFtDLwf9IHemGehWU5SVVQmVG2pHEYY=
+	t=1730823315; cv=none; b=qgxLLvGRn40h7bQZtKIQ6c4eF7dniwvuX84FdvDlYVD1X7OUpdrVi2WC8Qz9opvrjyy2A2bAbMxEfVaRBkZHpqS//jZTm3Lm51SSHcIUuVhYD8VU9DazqgbLaajuR5HETFfDs7gvTpO9HBE2g1dqOUMo7gBMCC5JPj591/jnPVM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730822099; c=relaxed/simple;
-	bh=hyWtsIgGDAniL3p39e/pGqovDCo9zE+kY2920F3jbl0=;
+	s=arc-20240116; t=1730823315; c=relaxed/simple;
+	bh=WUSAP7JfoT0KrQZ5hTAXo1+SUCAu6hsTJMVzWxbiRos=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MWZCHMdl0dJeCOn5FzTnbjMLgxtwGYDAMnoH7MW6/YR0JFvZHEHlOnAtU7jT29/JVeZysLjLCjAmSh9I2CVX1q+1cddXygUYs5PbYr9aaMn/xXfLBXLykCH0uMz4jfsQisEc8HEMaM3YGxHkxmd3XUGFItE5Fnzv7rYlhzX9+0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fRAfC6SX; arc=none smtp.client-ip=209.85.221.44
+	 Content-Type:Content-Disposition:In-Reply-To; b=C3CoI78i8Y7sRM+9AeK1ysbdrGgaTUwPGwfM2BjhUJV35zvrD2sAS2DixgNB+CxO1f9SREyvENCCCJ94zHBig/ezIOiWnDjJMsdN/yAsBCqS9JTw0DEGS/7/t0fSAVjxF++4bnCTQceT3yuanDprJNGGGGApYXbz2e2ik1kTdQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bkPnd0pd; arc=none smtp.client-ip=209.85.221.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fRAfC6SX"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-37d49ffaba6so3830427f8f.0
-        for <linux-staging@lists.linux.dev>; Tue, 05 Nov 2024 07:54:57 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bkPnd0pd"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-37d4d1b48f3so3260399f8f.1
+        for <linux-staging@lists.linux.dev>; Tue, 05 Nov 2024 08:15:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1730822096; x=1731426896; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1730823312; x=1731428112; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=3njGTXhIv0MvCjh27pJAW/MEoJztiS2FVGTmfPZr0ck=;
-        b=fRAfC6SX0SFnsmrDfHFsOgFT/il37Zu0DaRZCgQCRXAXIMgLQ+RT2twswqLID3sw2F
-         CvnK2msm+b3gqoQv9mBPb9SHzLSZIj4K6tCSP5B1vueAQrvtLHHMDTKvkgVmoDbXb6d3
-         ZvnHGSG/swzTbunIzzyUVUtJFdGNFi4dEd600fXt873gAasl7kYdn9F8Ki8+4VpFIDyu
-         TV36tDlfa8Vp8URgZf0o2flbW+5VF5uEigmz+XHn0G4dJJekunmuyqdOMVtkEj6Efzj1
-         Zsu7yE2lNKwfyJcVFmDL1WH2iJegPQgYueaO8mLDmqBr1i8gDgAEumyMpw1WeYZMeSXQ
-         ie6g==
+        bh=CW1Cg/cnkPv9u+n4mqogPh24pUykRgt3ujnVhJASOW8=;
+        b=bkPnd0pdnSKOpRh99+Y3rVAG5e9tg7p8DkgxixBe+9ELHgjomn8GYlsaHXJs3nVEdM
+         CprEO+0Z08qxI9W58SFh7CezcOvwjdUO/gFDCqwFZSvHIztXFHbQMGN1BT50SE9TgIQo
+         +C0d0H2F9ubfS6ujm+kyaachmfshsP76xIRBTbrlKAv9q9qgTQrGRhvGfWdLadtOD7W8
+         3VCT8DjdCB6MYt97lX3lS/2hPE97gM7gn5Zub7PooTENUpptaLhcbzZhviIHNt8qQfhw
+         cE8D9fzMFHxIGAF+l6tFjvZFmBz4QWkOHL2ubTI7Gk9VJYR45QLmOZAIlg2XHTAsgnE2
+         eufw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730822096; x=1731426896;
+        d=1e100.net; s=20230601; t=1730823312; x=1731428112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3njGTXhIv0MvCjh27pJAW/MEoJztiS2FVGTmfPZr0ck=;
-        b=I3yFriTCiB3Z/5Neux9yjb97jipq/uu1W47ShB3lT+apYZd+T6xV22yoK5LB/BJDvD
-         Yrtxk7cIEOOHnl+lyQnDJsuHLz8WO1IANgOzGIYp9XG33Z+wW8FpBbECobwNq7dOl/wA
-         gcIPjicyVv0wZG/RhYLfafalhr90wW3DpORZf3zSGCqE7yPFKxoSkcSXHI7pcBPj9FxU
-         G00YPi35z1oqH7Ank2TNeaapwEXb7yH3bO+k+jqpg6w/S7mhjmsWiKNAKHQGTwgE76MF
-         My9MikH/h2U04g7G18jy7y7xfvn+Ufivq7GmLG2+DXJr5ZU7wqttFxf6IlvUi6s+zLL3
-         AVvQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXYBi0lSyL/1SOWGadWVjC7TtBr43HYu7cJmbGElcizKjuJXDjZqzlVNEAlRUwd1TzdtX+dHJVOHuVH0ws0@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywgtnl+J2B1S48MvPvhXKWCe9OrigOzY5IdtVGMQLp9dhErrsa1
-	QzWVf5LpHUCc0UfNBbF+RDNy19B5nY9NV6uwCbGYbSRa6hBgw7INMuysCu8Cels=
-X-Google-Smtp-Source: AGHT+IF7rnb/L+HIkfYfKE4/bBO2tPxiKGqEVY92wIDxONH0zhaa6XG02B8P6pUs+dM/p/GLFXJvgQ==
-X-Received: by 2002:a05:6000:118c:b0:374:c4c2:fc23 with SMTP id ffacd0b85a97d-381b710f70bmr16642600f8f.56.1730822095676;
-        Tue, 05 Nov 2024 07:54:55 -0800 (PST)
-Received: from localhost ([89.101.241.141])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381c10d40casm16558370f8f.27.2024.11.05.07.54.54
+        bh=CW1Cg/cnkPv9u+n4mqogPh24pUykRgt3ujnVhJASOW8=;
+        b=uy9omDNGZ430gsjoE+1It7hcLulFTj0gwDc6b51wicJXt83CdNpVu1DqWSbv+lXFE8
+         VPE0yNbcM/orFBAsfJKdjlEo7E8Kcjz9QMr6usSEGoapnppA3AaLWB//0G3acL5EkgaH
+         r8bUL0mfYS3EE9k2Eqb8Yz9QfNPdJzT27zX/bbjgRKH3HvZExMDQz/vMGy34O4IBbxOc
+         kOFsxKoA7X9HGbpLKdV+chBYayBZ5DDWzWY6CFE1F32uwu+zx4DTRrQuH9TBTfYcKqeP
+         M/cTIgxCiKyGiWWIF1SScw/ibcG5x4h6hPRgnHSrXbqkoWVRAyWyXXf+Xa2Hq7WCD2Hz
+         VIzg==
+X-Forwarded-Encrypted: i=1; AJvYcCWVadk1I9UrnzHNdheSocK9SwVb2ghzvOBAa90nH3a8VJTmcDtqKq1Ot2D+gdTK7/wqVAgvgDyyLUAkihR5@lists.linux.dev
+X-Gm-Message-State: AOJu0YysrrUTIqlxstIRBM2TOs3vNB5mjL9zQtafGrSvbWKUH5I+k3em
+	0KiuQIB7KjJrO9yBk7s1evnCNzZSP/e6bF7CvXh3poW6G74iD/9dT2hkxVDxYA8=
+X-Google-Smtp-Source: AGHT+IF6QXzlIan7zLZ+Ti4McbwWx86e1nJWzWZWC0DEaU8zyIoc2LEiFjd311LHzgQU2S/tBukzHQ==
+X-Received: by 2002:a05:6000:ac1:b0:37d:3280:203a with SMTP id ffacd0b85a97d-381b7057644mr17370896f8f.10.1730823312316;
+        Tue, 05 Nov 2024 08:15:12 -0800 (PST)
+Received: from localhost ([89.101.134.25])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381c113e771sm16717277f8f.81.2024.11.05.08.15.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Nov 2024 07:54:55 -0800 (PST)
-Date: Tue, 5 Nov 2024 18:54:53 +0300
+        Tue, 05 Nov 2024 08:15:11 -0800 (PST)
+Date: Tue, 5 Nov 2024 19:15:11 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Zicheng Qu <quzicheng@huawei.com>
 Cc: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org,
@@ -60,10 +60,10 @@ Cc: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
 	tanghui20@huawei.com, zhangqiao22@huawei.com,
 	judy.chenhui@huawei.com
-Subject: Re: [PATCH 1/2] staging: iio: ad9834: Correct phase range check
-Message-ID: <1405e340-db97-47f8-aa56-5f507ccd821a@suswa.mountain>
+Subject: Re: [PATCH 2/2] staging: iio: ad9832: Correct phase range check
+Message-ID: <fe767a87-f3a4-47a8-882a-2a33f7eca2e7@suswa.mountain>
 References: <20241105140359.2465656-1-quzicheng@huawei.com>
- <20241105140359.2465656-2-quzicheng@huawei.com>
+ <20241105140359.2465656-3-quzicheng@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -72,27 +72,20 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241105140359.2465656-2-quzicheng@huawei.com>
+In-Reply-To: <20241105140359.2465656-3-quzicheng@huawei.com>
 
-On Tue, Nov 05, 2024 at 02:03:58PM +0000, Zicheng Qu wrote:
-> The phase register for the AD9834 is 12 bits, which means the valid
+On Tue, Nov 05, 2024 at 02:03:59PM +0000, Zicheng Qu wrote:
+> The phase register for the AD9832 is 12 bits, which means the valid
 > phase values range from 0 to 4095 (2^12 - 1). The current check uses a
 > greater-than condition with BIT(12), which equals 4096. This allows an
 > invalid phase value of 4096 to pass.
 > 
-
-I tried to figure out how this looks like to the user but I didn't
-figure it out right away.  Please add this information to the commit
-message.
-
 > This patch corrects the check to use greater-than-or-equal-to, ensuring
 > that only phase values within the valid range are accepted.
 > 
 > Fixes: f1d05b5f68cb ("Staging: iio: Prefer using the BIT macro")
 
-The Fixes tag is wrong.  It should be:
-
-Fixes: 12b9d5bf76bf ("Staging: IIO: DDS: AD9833 / AD9834 driver")
+Same comments.
 
 regards,
 dan carpenter
