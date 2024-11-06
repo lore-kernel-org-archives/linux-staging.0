@@ -1,65 +1,65 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C850C208226
-	for <linux-staging@lists.linux.dev>; Wed,  6 Nov 2024 18:33:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25CCF208989
+	for <linux-staging@lists.linux.dev>; Wed,  6 Nov 2024 18:33:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730918039; cv=none; b=RvjnwbJ1fAl9kwytREH7Hylt+lHmDB/CEyB1CzRwte9oy84ZBjMDIckRMTZF2BBY2KEVszepkFiR4X8SrG4Jb5XWmGBsXeCj+SzYprOdE2TINjUbKVKNnxyDkXvlbLOoZFO8Ritc1vc5jM1N0WCjNmRsjEexhLvLlI8TZmbw3ns=
+	t=1730918040; cv=none; b=mKmBSb/k1J3EGYDLSr9xwSv8CnWgHBjD1t2lEMxp90RTOiyMgABYp71iILvw9TRYIsBQ3S+B1q7TF2JDB2k9cx6JUuCEDqAa5DBueiAteSpMYzMlHs388M9riMb8TAuvToyRjD5oYHqPp7CpGgFsz5Iem68K10hy/6bNLbgq9EA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730918039; c=relaxed/simple;
-	bh=g6sBLUYkzsyXOm9RoSLhLsHpH6Q1sdfSsuPbf0Xpnas=;
+	s=arc-20240116; t=1730918040; c=relaxed/simple;
+	bh=JlxoI49Tas3/+Zubaa46kNb6rA7I8AbxfBvVMi493V0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Ny8+yKPoOHkQPVGKRYhD3JVdAJ8howyElHiXLOiWzYrNg816TGyB/JcSzlKgNjeheuRF8TN6R62pX6L7mlqYZsLvWhPZmomCpRDqoR4yTun2oJyoMV/H0G8xoJ79YeFqxr4mghUga9gHyvPEfCyoPVNFEM5sRdiv10nHTMPJg9s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=io7qCWo8; arc=none smtp.client-ip=209.85.218.48
+	 MIME-Version; b=f9dBMvq87gSYEoIEVxW4tNIyk6jsyAu9ur+HchSeEOL6gprZVbOMN33rzjDAUmtjGEmXHrnWFtppQNhFVCFrp4lZ5vHZDqb6IlI1Mx5k9QzD/4QtySVrfGTrMgnkBdDU2mr4ghUqd18r4abuIl3+tUazVVV8Y5wc75n/av6l644=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OJ9Rglbr; arc=none smtp.client-ip=209.85.208.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="io7qCWo8"
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a9ed49ec0f1so11024566b.1
-        for <linux-staging@lists.linux.dev>; Wed, 06 Nov 2024 10:33:57 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OJ9Rglbr"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5cacb76e924so85281a12.0
+        for <linux-staging@lists.linux.dev>; Wed, 06 Nov 2024 10:33:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730918036; x=1731522836; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1730918037; x=1731522837; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FuJSNI4Y5QqkewpyI3LKafSzihDaZEXh1WGwp+tPk54=;
-        b=io7qCWo8UbZ6pzPa0/QNvQjdo6ydfxNqGRvCj54/GcmZq4hsAyyZA+hQdQxMReZYA6
-         CUgbRUq8u7QHT1pUjxgJlZRR00EUfOGPczk123RBw+QeEPHbYn9/6bF/Hg3p/TmISIhx
-         EWyF5exOKYDu3LmSi2aLbwJv4X9qUkcELK/SLCnfVZ3g+rCy4+0YI7F1TLzE1pwq9aSW
-         wDxxls9Tf1gFzRQqnsn0kz6Og3Ei3jYTbZU2NYRv3yhlRsz9NuHDvKPEAii9MN4QFBNE
-         nxmalTdZT2Lm/ac7T4ampa5wGWezQF28+NRXuPikTAVxQLbslZCvTE2fIEb9MNE2CK8o
-         5hdg==
+        bh=iVKE9ffo3aYqFVj1Tqb4OUMVtzlo+x3zucLHdg40mrg=;
+        b=OJ9RglbrFmu/UHUjS9h27OUGS3yUbrQ2vJl8u55FtjNs+mLgz2RFuD0XJLwkAvmLwC
+         MEcyKZ+wfzMb5kajSMKOMevtCTgvT9QPVtJq3/r5ebwJSf48N4yPcrcbENuDunfyW7/T
+         MaSMV76eXKBWnKDvc3Vr7M+L4Bp0SckaUlDSIGTV733uQdvRDhHZDKzj8DIClLUF2VpS
+         LDxYPlAMBxytoVGdgl9Xl3J35dbP+znh7TP+VvFagyyUD1eGh9SnRAuF8PAKvWABGq2X
+         KF/h0DLsHzB0lQaeXZg33SHJW7cOF9mw503pVKX/EMIPprMuK7zJBEvxSukSzrXFOYWS
+         8GtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730918036; x=1731522836;
+        d=1e100.net; s=20230601; t=1730918037; x=1731522837;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=FuJSNI4Y5QqkewpyI3LKafSzihDaZEXh1WGwp+tPk54=;
-        b=rSKp0OdQwsKCfw4/6D/weagogCViEoNZs2C0KhBpa+YvwAdvPwQw9qaVCDuQkkqEKd
-         /gr3zlYiBZ7cWTEQ3tZiDp9qFK6Yd/R7z7BtVTK4gLnP/L8Ems9at7pY+4Soi4Nfu4Ng
-         12+C6IE9PxOwWqLNGT/5osT5FkIcLLpufiTf5Lgd8/MLc4hVpOJMr/thGTY+ASdocyFm
-         IS3NVz6emte+WX+sADFPsF71T3mxVyORVA/DjvJS3O2lWbfFMQploLPF6zf3JNcu7qNr
-         +ZwA/uowDPJlQnY6zBLKTkEMhY3PZBiQXCtkJnoAkFYmbqhHdLZb7w0gp7qSLwuKx0BW
-         dZgw==
-X-Forwarded-Encrypted: i=1; AJvYcCX0klvA6uQS9Qu5N4Otug8AvBJkGIiv9hv+FdJxh9+IyRlh7mfcpjLrgUELcBwrIbRniXl7mwwtKTIBaB0W@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx8c0Kz/8f/PlhdTg+/GmbbFQztELaHj3aYnUYYuEjCvsu6pyUQ
-	wMXb/UJFZJPaaZWfSSwgjuJgtgqCZ8Ze+BY5wxRG3FvTfxppoGR6
-X-Google-Smtp-Source: AGHT+IGl7JHhLJizQ7k5GFivgEP2bu6Q1l8L0CokMFsELwyE66YWlPRM4HHeGC0NIcrCMLgBdxcbhA==
-X-Received: by 2002:a17:907:3f29:b0:a9e:c430:7758 with SMTP id a640c23a62f3a-a9ec430787emr416682366b.10.1730918035949;
-        Wed, 06 Nov 2024 10:33:55 -0800 (PST)
+        bh=iVKE9ffo3aYqFVj1Tqb4OUMVtzlo+x3zucLHdg40mrg=;
+        b=IxSu6nr2UrsljDhYfAikNE3VifS23vK8vNEIu3J4q+veSgkx345LhsNjwzMmXJ7/D3
+         wAeS6Yi3IrVZSIrkHQ0/7avG5gz9/2jhenD73ho45K3cjVPtGxmLDmWwnAGlEJRUaMkq
+         8wAStcdI/CVFmzkkZWUYSGADmROTJg/yN2PRGqONnYV07C/xAkMBSb+CU++JR6oPZayJ
+         jdUn+GKil8G0jbEHzUqR0uJ42/Wt9S72PZXZ0STl6ZApdW5ienv8D9ZvjKnEwX0jKHYP
+         P90+PkiAqSxUqs4PbzyroNK/VgToazcpE4v7MnylkDXqg+MvC2QPtKXyHNJW2Z/5ZTNr
+         gPwg==
+X-Forwarded-Encrypted: i=1; AJvYcCXoChLPfG+jklWzVXa/8PKS/R9g46ufQL5d0ICgVL8aTY5fm3WT7i/STyrG1euOk0xu8jFjB01rD9UKwea6@lists.linux.dev
+X-Gm-Message-State: AOJu0YyTvUdtSlTUUCKWwqWBDIxxyxTr/JeUYFZjN7WRIju7QjAmVu66
+	GxEydQvBYLGfLEW/dQBcuMJVWt5RZXxDacbgAKi3MT9JdvCFbiCgEUaqQg==
+X-Google-Smtp-Source: AGHT+IFoZXcQ3XgiKtwcgCf8KuC/fiFBmdTQJb6P/7cb3mAvIJDNRtneFJwAU865d74mvu0LzO5bWQ==
+X-Received: by 2002:a17:906:c145:b0:a80:f840:9004 with SMTP id a640c23a62f3a-a9e6553bf86mr2141917866b.12.1730918037171;
+        Wed, 06 Nov 2024 10:33:57 -0800 (PST)
 Received: from kernel-710.speedport.ip (p54a0712c.dip0.t-ipconnect.de. [84.160.113.44])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9eb1813a07sm315298966b.190.2024.11.06.10.33.55
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9eb1813a07sm315298966b.190.2024.11.06.10.33.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Nov 2024 10:33:55 -0800 (PST)
+        Wed, 06 Nov 2024 10:33:56 -0800 (PST)
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Subject: [PATCH 03/16] staging: rtl8723bs: Remove unused function Efuse_PgPacketRead
-Date: Wed,  6 Nov 2024 19:33:32 +0100
-Message-ID: <83a819b953cca910c6236c1185d256abd21f2602.1730916582.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 05/16] staging: rtl8723bs: Remove unused function Efuse_PgPacketWrite
+Date: Wed,  6 Nov 2024 19:33:34 +0100
+Message-ID: <0ef7eee047401f62256970eb3186887202ffe851.1730916582.git.philipp.g.hortmann@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1730916582.git.philipp.g.hortmann@gmail.com>
 References: <cover.1730916582.git.philipp.g.hortmann@gmail.com>
@@ -71,47 +71,48 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove unused function Efuse_PgPacketRead.
+Remove unused function Efuse_PgPacketWrite.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_efuse.c    | 10 ----------
+ drivers/staging/rtl8723bs/core/rtw_efuse.c    | 11 -----------
  drivers/staging/rtl8723bs/include/rtw_efuse.h |  1 -
- 2 files changed, 11 deletions(-)
+ 2 files changed, 12 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_efuse.c b/drivers/staging/rtl8723bs/core/rtw_efuse.c
-index 8e6c294c168e..e83daeb9303d 100644
+index e83daeb9303d..557f87306141 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_efuse.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_efuse.c
-@@ -311,16 +311,6 @@ u8 efuse_OneByteWrite(struct adapter *padapter, u16 addr, u8 data, bool bPseudoT
+@@ -311,17 +311,6 @@ u8 efuse_OneByteWrite(struct adapter *padapter, u16 addr, u8 data, bool bPseudoT
  	return bResult;
  }
  
 -int
--Efuse_PgPacketRead(struct adapter *padapter,
+-Efuse_PgPacketWrite(struct adapter *padapter,
 -				u8	offset,
+-				u8	word_en,
 -				u8	*data,
 -				bool		bPseudoTest)
 -{
--	return padapter->HalFunc.Efuse_PgPacketRead(padapter, offset, data,
--						    bPseudoTest);
+-	return padapter->HalFunc.Efuse_PgPacketWrite(padapter, offset, word_en,
+-						     data, bPseudoTest);
 -}
 -
- int
- Efuse_PgPacketWrite(struct adapter *padapter,
- 				u8	offset,
+ /*-----------------------------------------------------------------------------
+  * Function:	efuse_WordEnableDataRead
+  *
 diff --git a/drivers/staging/rtl8723bs/include/rtw_efuse.h b/drivers/staging/rtl8723bs/include/rtw_efuse.h
-index 0cb8c6f6d34d..de4e5906ceb5 100644
+index de4e5906ceb5..546f32dbd33a 100644
 --- a/drivers/staging/rtl8723bs/include/rtw_efuse.h
 +++ b/drivers/staging/rtl8723bs/include/rtw_efuse.h
 @@ -97,7 +97,6 @@ u8 efuse_OneByteRead(struct adapter *padapter, u16 addr, u8 *data, bool	 bPseudo
  u8 efuse_OneByteWrite(struct adapter *padapter, u16 addr, u8 data, bool	 bPseudoTest);
  
  void Efuse_PowerSwitch(struct adapter *padapter, u8 bWrite, u8  PwrState);
--int	Efuse_PgPacketRead(struct adapter *padapter, u8 offset, u8 *data, bool bPseudoTest);
- int	Efuse_PgPacketWrite(struct adapter *padapter, u8 offset, u8 word_en, u8 *data, bool bPseudoTest);
+-int	Efuse_PgPacketWrite(struct adapter *padapter, u8 offset, u8 word_en, u8 *data, bool bPseudoTest);
  void efuse_WordEnableDataRead(u8 word_en, u8 *sourdata, u8 *targetdata);
  u8 Efuse_WordEnableDataWrite(struct adapter *padapter, u16 efuse_addr, u8 word_en, u8 *data, bool bPseudoTest);
+ 
 -- 
 2.43.0
 
