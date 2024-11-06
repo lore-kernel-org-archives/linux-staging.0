@@ -1,65 +1,65 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1230136D
-	for <linux-staging@lists.linux.dev>; Wed,  6 Nov 2024 18:33:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C850C208226
+	for <linux-staging@lists.linux.dev>; Wed,  6 Nov 2024 18:33:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730918038; cv=none; b=i4KhtBY58yVIDKD59RbzO1jEhp8ByFOKDNURmX9mgsg6KwzCzWSt5/DFcSLHbrvBGD1QxhuPJE/a0pvfktYyno/8q4Stmik1Z2jiVDOvwlA86PfBwkGcF5XWaX4FFcajX8bh9sdGXpOwEwJpywZZMOdTwB7PLj+puIyc3E1yTdQ=
+	t=1730918039; cv=none; b=RvjnwbJ1fAl9kwytREH7Hylt+lHmDB/CEyB1CzRwte9oy84ZBjMDIckRMTZF2BBY2KEVszepkFiR4X8SrG4Jb5XWmGBsXeCj+SzYprOdE2TINjUbKVKNnxyDkXvlbLOoZFO8Ritc1vc5jM1N0WCjNmRsjEexhLvLlI8TZmbw3ns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730918038; c=relaxed/simple;
-	bh=RzrCb4oLv8h3AO7d/rVCLj5+SSzNgJU8ETF9pQE696o=;
+	s=arc-20240116; t=1730918039; c=relaxed/simple;
+	bh=g6sBLUYkzsyXOm9RoSLhLsHpH6Q1sdfSsuPbf0Xpnas=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=oTp5KOVgRCwekWyHIbHmi/7ALk64X8m2VZnFE8fRD1HYKfNS6Aikb68+fK8DfcYMt1B4JRk65FK3LUfEpxZ1o4aHC53vNH240cHIq7dZ0fuOo8KiJjheqHd939V0PmMRZpbgTZc+MxgUqR94RqNMVkFyI7PiddtLAS4bcnIex0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ImIpAiE+; arc=none smtp.client-ip=209.85.128.42
+	 MIME-Version; b=Ny8+yKPoOHkQPVGKRYhD3JVdAJ8howyElHiXLOiWzYrNg816TGyB/JcSzlKgNjeheuRF8TN6R62pX6L7mlqYZsLvWhPZmomCpRDqoR4yTun2oJyoMV/H0G8xoJ79YeFqxr4mghUga9gHyvPEfCyoPVNFEM5sRdiv10nHTMPJg9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=io7qCWo8; arc=none smtp.client-ip=209.85.218.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ImIpAiE+"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4316cce103dso1308185e9.3
-        for <linux-staging@lists.linux.dev>; Wed, 06 Nov 2024 10:33:56 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="io7qCWo8"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a9ed49ec0f1so11024566b.1
+        for <linux-staging@lists.linux.dev>; Wed, 06 Nov 2024 10:33:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730918035; x=1731522835; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1730918036; x=1731522836; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=M96Aa4rJwMo6paaVcv0s1fOlpDPMBLDVDsMC1t1/MHI=;
-        b=ImIpAiE+EDu75nNjbZBRBBHfnV1wSAKFGy4DNr3s9EcjkGiu/Whyl2ESD9sx3krmQ9
-         bcIQ/eE6e8JhqaT3mDaBUk4Ivj+ooBjI9v033DsRsltvo0psOLzvfkd2VMPWDWq949yH
-         UH+K4Kd/iai7vzgtFof1J4CH2uRBDwMKAoguX9Gi7UhSHsQPX/225zkchG/GKcce5qAw
-         cXsfunRdNqUJroxsnTtz04xyqh//cmK23Kg0Uycr976l3KWV4hVlt5wONeXLAeLO2loh
-         yhnygp2WboGIM3y0juXuEILifdmW64uwtRyaG/n18jeqIQzs2/Cpl0X+2qK6CQ/w91pP
-         KUkg==
+        bh=FuJSNI4Y5QqkewpyI3LKafSzihDaZEXh1WGwp+tPk54=;
+        b=io7qCWo8UbZ6pzPa0/QNvQjdo6ydfxNqGRvCj54/GcmZq4hsAyyZA+hQdQxMReZYA6
+         CUgbRUq8u7QHT1pUjxgJlZRR00EUfOGPczk123RBw+QeEPHbYn9/6bF/Hg3p/TmISIhx
+         EWyF5exOKYDu3LmSi2aLbwJv4X9qUkcELK/SLCnfVZ3g+rCy4+0YI7F1TLzE1pwq9aSW
+         wDxxls9Tf1gFzRQqnsn0kz6Og3Ei3jYTbZU2NYRv3yhlRsz9NuHDvKPEAii9MN4QFBNE
+         nxmalTdZT2Lm/ac7T4ampa5wGWezQF28+NRXuPikTAVxQLbslZCvTE2fIEb9MNE2CK8o
+         5hdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730918035; x=1731522835;
+        d=1e100.net; s=20230601; t=1730918036; x=1731522836;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=M96Aa4rJwMo6paaVcv0s1fOlpDPMBLDVDsMC1t1/MHI=;
-        b=mT1k99Z4PMAiwLEkZtunH3aKPYiNSYm7QGEDRs4eDMOvr9eUnl8RQOSRhJIm7y22YC
-         lK0I1oNPG+dWRDImtws+1ZHEzWsxxtU5D2fndbNhBfkEhc1Hwg4KjKBZaOJdnI/wg5bb
-         /gMuk06A2kzb08YAhr3ElAaT1H0jyw2u85x32D8rMBcAf5/xhY8Knl8xjiCigwZn5KBw
-         52Wfe09nthT0NBfPY1zbqz35+keH+s5iRT8ImHGCKJQa1M7sxMTvRz8t73cvEDiGe0B2
-         epYwKshJ/8qSyL7BoH09o5VD8mCCEIyNILNHM5xMG5GL/sUnnmFOTpcsrFPPn5ftfwJP
-         /e6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXf2ZCDQdOw1imCOB7BpaP5CbZ6RUqjrQtN5YB2SBHvdFSzGbfWdhe5RNiYuFBHCyoV8cT0eiZPQU/L8VgF@lists.linux.dev
-X-Gm-Message-State: AOJu0YwSrHxri3pFrBgT/0TzCDl+sDZCNwhIxvIR2VJi0Nn9mx1p6o4U
-	Uc0Y4BmHbnCNtWuXscCb/Xuq2TZJOAVOSi5ED+/gdAemuJWBNFjr/RTHzQ==
-X-Google-Smtp-Source: AGHT+IG14Jj5KqrtGGo+MHdpACTy1Bt7UgJyxc82bZwyzAoEpicNPaixsF8bjZgR16rx+1bBcJdujg==
-X-Received: by 2002:a05:6000:2c3:b0:37d:4eeb:7366 with SMTP id ffacd0b85a97d-381c7a461e4mr25482073f8f.4.1730918035009;
+        bh=FuJSNI4Y5QqkewpyI3LKafSzihDaZEXh1WGwp+tPk54=;
+        b=rSKp0OdQwsKCfw4/6D/weagogCViEoNZs2C0KhBpa+YvwAdvPwQw9qaVCDuQkkqEKd
+         /gr3zlYiBZ7cWTEQ3tZiDp9qFK6Yd/R7z7BtVTK4gLnP/L8Ems9at7pY+4Soi4Nfu4Ng
+         12+C6IE9PxOwWqLNGT/5osT5FkIcLLpufiTf5Lgd8/MLc4hVpOJMr/thGTY+ASdocyFm
+         IS3NVz6emte+WX+sADFPsF71T3mxVyORVA/DjvJS3O2lWbfFMQploLPF6zf3JNcu7qNr
+         +ZwA/uowDPJlQnY6zBLKTkEMhY3PZBiQXCtkJnoAkFYmbqhHdLZb7w0gp7qSLwuKx0BW
+         dZgw==
+X-Forwarded-Encrypted: i=1; AJvYcCX0klvA6uQS9Qu5N4Otug8AvBJkGIiv9hv+FdJxh9+IyRlh7mfcpjLrgUELcBwrIbRniXl7mwwtKTIBaB0W@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx8c0Kz/8f/PlhdTg+/GmbbFQztELaHj3aYnUYYuEjCvsu6pyUQ
+	wMXb/UJFZJPaaZWfSSwgjuJgtgqCZ8Ze+BY5wxRG3FvTfxppoGR6
+X-Google-Smtp-Source: AGHT+IGl7JHhLJizQ7k5GFivgEP2bu6Q1l8L0CokMFsELwyE66YWlPRM4HHeGC0NIcrCMLgBdxcbhA==
+X-Received: by 2002:a17:907:3f29:b0:a9e:c430:7758 with SMTP id a640c23a62f3a-a9ec430787emr416682366b.10.1730918035949;
         Wed, 06 Nov 2024 10:33:55 -0800 (PST)
 Received: from kernel-710.speedport.ip (p54a0712c.dip0.t-ipconnect.de. [84.160.113.44])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9eb1813a07sm315298966b.190.2024.11.06.10.33.54
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9eb1813a07sm315298966b.190.2024.11.06.10.33.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Nov 2024 10:33:54 -0800 (PST)
+        Wed, 06 Nov 2024 10:33:55 -0800 (PST)
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Subject: [PATCH 02/16] staging: rtl8723bs: Remove function pointer EfuseGetCurrentSize
-Date: Wed,  6 Nov 2024 19:33:31 +0100
-Message-ID: <58a991eeda12ccb69fe8b81ef1bb2fe3c5aa364b.1730916582.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 03/16] staging: rtl8723bs: Remove unused function Efuse_PgPacketRead
+Date: Wed,  6 Nov 2024 19:33:32 +0100
+Message-ID: <83a819b953cca910c6236c1185d256abd21f2602.1730916582.git.philipp.g.hortmann@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1730916582.git.philipp.g.hortmann@gmail.com>
 References: <cover.1730916582.git.philipp.g.hortmann@gmail.com>
@@ -71,69 +71,47 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove function pointer EfuseGetCurrentSize and use
-Hal_EfuseGetCurrentSize directly to increase readability.
+Remove unused function Efuse_PgPacketRead.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_efuse.c        | 3 +--
- drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 3 +--
- drivers/staging/rtl8723bs/include/hal_intf.h      | 2 +-
- 3 files changed, 3 insertions(+), 5 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_efuse.c    | 10 ----------
+ drivers/staging/rtl8723bs/include/rtw_efuse.h |  1 -
+ 2 files changed, 11 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_efuse.c b/drivers/staging/rtl8723bs/core/rtw_efuse.c
-index b8023e9d7631..8e6c294c168e 100644
+index 8e6c294c168e..e83daeb9303d 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_efuse.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_efuse.c
-@@ -102,8 +102,7 @@ Efuse_GetCurrentSize(
- 	u8	efuseType,
- 	bool		bPseudoTest)
- {
--	return padapter->HalFunc.EfuseGetCurrentSize(padapter, efuseType,
--						     bPseudoTest);
-+	return Hal_EfuseGetCurrentSize(padapter, efuseType, bPseudoTest);
+@@ -311,16 +311,6 @@ u8 efuse_OneByteWrite(struct adapter *padapter, u16 addr, u8 data, bool bPseudoT
+ 	return bResult;
  }
  
- /*  11/16/2008 MH Add description. Get current efuse area enabled word!!. */
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-index 8a4ebe645786..11969a90a5e5 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-@@ -1072,7 +1072,7 @@ static u16 hal_EfuseGetCurrentSize_BT(struct adapter *padapter, u8 bPseudoTest)
- 	return retU2;
- }
+-int
+-Efuse_PgPacketRead(struct adapter *padapter,
+-				u8	offset,
+-				u8	*data,
+-				bool		bPseudoTest)
+-{
+-	return padapter->HalFunc.Efuse_PgPacketRead(padapter, offset, data,
+-						    bPseudoTest);
+-}
+-
+ int
+ Efuse_PgPacketWrite(struct adapter *padapter,
+ 				u8	offset,
+diff --git a/drivers/staging/rtl8723bs/include/rtw_efuse.h b/drivers/staging/rtl8723bs/include/rtw_efuse.h
+index 0cb8c6f6d34d..de4e5906ceb5 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_efuse.h
++++ b/drivers/staging/rtl8723bs/include/rtw_efuse.h
+@@ -97,7 +97,6 @@ u8 efuse_OneByteRead(struct adapter *padapter, u16 addr, u8 *data, bool	 bPseudo
+ u8 efuse_OneByteWrite(struct adapter *padapter, u16 addr, u8 data, bool	 bPseudoTest);
  
--static u16 Hal_EfuseGetCurrentSize(
-+u16 Hal_EfuseGetCurrentSize(
- 	struct adapter *padapter, u8 efuseType, bool bPseudoTest
- )
- {
-@@ -1745,7 +1745,6 @@ void UpdateHalRAMask8723B(struct adapter *padapter, u32 mac_id, u8 rssi_level)
- void rtl8723b_set_hal_ops(struct hal_ops *pHalFunc)
- {
- 	/*  Efuse related function */
--	pHalFunc->EfuseGetCurrentSize = &Hal_EfuseGetCurrentSize;
- 	pHalFunc->Efuse_PgPacketRead = &Hal_EfusePgPacketRead;
- 	pHalFunc->Efuse_PgPacketWrite = &Hal_EfusePgPacketWrite;
- 	pHalFunc->Efuse_WordEnableDataWrite = &Hal_EfuseWordEnableDataWrite;
-diff --git a/drivers/staging/rtl8723bs/include/hal_intf.h b/drivers/staging/rtl8723bs/include/hal_intf.h
-index a513721e763b..48305cbf9929 100644
---- a/drivers/staging/rtl8723bs/include/hal_intf.h
-+++ b/drivers/staging/rtl8723bs/include/hal_intf.h
-@@ -164,7 +164,6 @@ typedef s32 (*c2h_id_filter)(u8 *c2h_evt);
- struct hal_ops {
- 	void (*SetHalODMVarHandler)(struct adapter *padapter, enum hal_odm_variable eVariable, void *pValue1, bool bSet);
- 
--	u16 (*EfuseGetCurrentSize)(struct adapter *padapter, u8 efuseType, bool bPseudoTest);
- 	int	(*Efuse_PgPacketRead)(struct adapter *padapter, u8 offset, u8 *data, bool bPseudoTest);
- 	int	(*Efuse_PgPacketWrite)(struct adapter *padapter, u8 offset, u8 word_en, u8 *data, bool bPseudoTest);
- 	u8 (*Efuse_WordEnableDataWrite)(struct adapter *padapter, u16 efuse_addr, u8 word_en, u8 *data, bool bPseudoTest);
-@@ -291,4 +290,5 @@ void Hal_ReadEFuse(struct adapter *padapter, u8 efuseType, u16 _offset,
- 		   u16 _size_byte, u8 *pbuf, bool bPseudoTest);
- void Hal_GetEfuseDefinition(struct adapter *padapter, u8 efuseType, u8 type,
- 			    void *pOut, bool bPseudoTest);
-+u16 Hal_EfuseGetCurrentSize(struct adapter *padapter, u8 efuseType, bool bPseudoTest);
- #endif /* __HAL_INTF_H__ */
+ void Efuse_PowerSwitch(struct adapter *padapter, u8 bWrite, u8  PwrState);
+-int	Efuse_PgPacketRead(struct adapter *padapter, u8 offset, u8 *data, bool bPseudoTest);
+ int	Efuse_PgPacketWrite(struct adapter *padapter, u8 offset, u8 word_en, u8 *data, bool bPseudoTest);
+ void efuse_WordEnableDataRead(u8 word_en, u8 *sourdata, u8 *targetdata);
+ u8 Efuse_WordEnableDataWrite(struct adapter *padapter, u16 efuse_addr, u8 word_en, u8 *data, bool bPseudoTest);
 -- 
 2.43.0
 
