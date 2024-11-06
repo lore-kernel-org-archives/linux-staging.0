@@ -1,78 +1,113 @@
-Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D861E3D81
-	for <linux-staging@lists.linux.dev>; Tue,  5 Nov 2024 20:58:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7429F218941;
+	Wed,  6 Nov 2024 02:14:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730840333; cv=none; b=deBjrpEwVVwTdJKS3LQqMUomg0Rh53uGO4gF0NkXRA8pkWCbUMJyeStarhXhOUw/nWXty7KsXzNRke2nVs6QlgcRUhRwXHhPCsEtIHlvWrbdcmW4+RlWysLObs8zk1pc0C2kYaWZ8A4GqGm1pQGyEXoBt5z730yk/qb6hLdNijc=
+	t=1730859276; cv=none; b=rawCSQCyYm17s4IzhwEavDbDAdV1vgk1yeV2jzC/Mf13DwRVCXizL5EUTKXlhl7qo+PkKADwvzQYiIIJrQYELpfQB5wjRrao4bhCOzkLyOmE31wcW+lViq2/vMeRTS+Wc4iDPTYoDdzBAXTnHfk7+MlgmaXgQwCQtFqn/74azd4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730840333; c=relaxed/simple;
-	bh=kTrZ23ZN/z/dNF0r5uBHslkTKc8atg+bkgoNPGdUYMo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kd5PScxC+kYnUhgVeRxch6nm8bGmsgE5aKftGO8l7sNxHS35jNLD/vLeqR/M5U2N1qImp2r03s1mkmHWF9zGoiXs3vOjE4/fCbrqsnz7Xpe7KTcCqDNHBxrIVkz1LKUIV7u2IJauG7exRwlJ01m6I9TxRinhlPoq3ojO9RSoEOk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=if2k8ss/; arc=none smtp.client-ip=209.85.221.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1730859276; c=relaxed/simple;
+	bh=3u/kBCazJ6XYfCHjeA1b3m9YnSaY1gMVrcsH3L6STZE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mEz5bUUK2/MAiMlvG8emUBKmei5l2iYKqFvEhEY9SXuOvGXbOOFFu86a6AE1kN4PBAtVJF1VuP444m/cgXQKaWp8UwYWOzn0PZniLbSguiqO9RegHDVPdduEIT+w/84/9mvfInNQuGPkGgMJd4GoUjidThSiF+ACfflSl4BjWnY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q6HLYCYE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="if2k8ss/"
-Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-50d4a6ef70aso1987036e0c.3
-        for <linux-staging@lists.linux.dev>; Tue, 05 Nov 2024 12:58:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730840331; x=1731445131; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=kTrZ23ZN/z/dNF0r5uBHslkTKc8atg+bkgoNPGdUYMo=;
-        b=if2k8ss/c0Q0dOzFHHJM5+4Lqzropf0c8UuA8bLq5K4qLCRm+89k9f1k4FcCuLuLj6
-         D9as6ll0V2390NHJ8furTDNDDklR9C+xrXFDGn8Kdmgm1QsmktiY/1xVGpa+duBo0zkp
-         ayQ3Z4uK57bPUt/lFLwJ+rIPpgzYhUNHHUhhhIyhhj9OCCUOh2ZlkxWoxmwVw1PKpMTG
-         obcG9xezctRZpM0lXwYVCaU+37PyqYkg8w/9O6iKHtOUGs5rmF/WdEn3M+8EdT14t1Di
-         P48pTsyO1O8hFDwdCREW8BuKu4j4PT0UP+hMgCQK6MN+Ro4rVXqBlrrFeZpOV6DuH1Uc
-         vc/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730840331; x=1731445131;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kTrZ23ZN/z/dNF0r5uBHslkTKc8atg+bkgoNPGdUYMo=;
-        b=RLsXXPCOPm9NsO3KD/njHb1v8vb0JlhESJUJxa4C/MbG6i1NKUYgSwZZvnd2z9Q+Ln
-         pnYtOWUAkgYHfnLJz5ANBgcfEHFoItDeHobVnVvFfgLZsHXA0I2VNurO0XWFfRu/rJH6
-         NXfbb47LIMsqVfNLnlJ069cScrwtuGAh45ZSqjM+mY817vGIE5a5ry372KXRrOKbUuMO
-         YRf09BcNcslAN6ht5dTjG+NFIx9Mics12oiyR09Rz+0Ngs2HqLUkgfAfeUoaygFA1y5R
-         NBvjfU6SWJ6nYGPTm5Vqzz+H+JhrXDsUPYtf+01CRHghXWYDKwuaSX7Eh3uE5Co/D6NG
-         5O1A==
-X-Forwarded-Encrypted: i=1; AJvYcCXe4lPh3hPL2GNlCeJSNQYu6Zxa63+XoZi38N52XIvX3+kVEt9aG0XfwhAnKb8iD3fUpbWozpe5Gi7RLifA@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz1Jlx0IjDJsBJWXbpqYBekEhHlAd0NebKkXUIgSjcXwKrQxsIB
-	2GPFODMcmuw+mDbcWPdBVU4HvO2NG9WLSNyOGQTwWvu1DqEHN8Q4r5H4Vo/uPVZwsB6LzVbXD7q
-	9ohyqb6qsn7FlgsjWVRpySlGsgkZNIPCF
-X-Google-Smtp-Source: AGHT+IFXnwefW07oXVzpuW4z07lz6ZhGUwzk3Eyj8AMF+h/Xo9djR6GAj2QVFEFzWKaTsqk8vNDVXI1nBnA7kkLoH1I=
-X-Received: by 2002:a05:6122:659f:b0:50c:a762:8f95 with SMTP id
- 71dfb90a1353d-51227346c6amr13981212e0c.10.1730840330681; Tue, 05 Nov 2024
- 12:58:50 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q6HLYCYE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11E56C4CECF;
+	Wed,  6 Nov 2024 02:14:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730859276;
+	bh=3u/kBCazJ6XYfCHjeA1b3m9YnSaY1gMVrcsH3L6STZE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Q6HLYCYEvVgmKUQ9nuUVmoN+cxSctD/AUhV3qevCfuSDxS3Gf/acAjfN0bf7ctLo0
+	 f66neLzvDx1wdtVDAKildpmh0+PGF9Wyur9+fExg0vQU8FdImsXTZADf/TQ64ZUgr1
+	 ezdZfQ7hDzRU5JK4K07Xe41Igags1TFwrS/fsAVcWfcAuN2Zv8AB71gdepcF4uRkfG
+	 ocASRq7oEPMQzpEPCkDPTJ5xnzsCShc8AMCDFnEBGMo3H5iMxhvx0ml61+tgUXqW3R
+	 KtX4t4T9JOnIrtOGUMlURJZ81q8c8VbcLFDk9lVlZYlsKUt6eymKsvb+Ud8LVsMJ7u
+	 Lpe++Ytwh14aw==
+From: Sasha Levin <sashal@kernel.org>
+To: stable@vger.kernel.org,
+	quzicheng@huawei.com
+Cc: Nuno Sa <nuno.sa@analog.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: FAILED: Patch "staging: iio: frequency: ad9832: fix division by zero in ad9832_calc_freqreg()" failed to apply to v4.19-stable tree
+Date: Tue,  5 Nov 2024 21:14:33 -0500
+Message-ID: <20241106021433.184357-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241102191436.23177-1-philipp.g.hortmann@gmail.com>
-In-Reply-To: <20241102191436.23177-1-philipp.g.hortmann@gmail.com>
-From: Sven Van Asbroeck <thesven73@gmail.com>
-Date: Tue, 5 Nov 2024 15:58:39 -0500
-Message-ID: <CAGngYiU=aP4FG_3R1f13n7u5o6L7S80HqnYbSTDCgK_NjgNCGQ@mail.gmail.com>
-Subject: Re: [PATCH] staging: fieldbus: Delete unused driver
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, "Ricardo B . Marliere" <ricardo@marliere.net>, 
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Ruan Jinjie <ruanjinjie@huawei.com>, 
-	Zhu Wang <wangzhu9@huawei.com>, =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
-	Deepak R Varma <drv@mailo.com>, Ajith P V <ajithpv.linux@gmail.com>, 
-	Tian Tao <tiantao6@hisilicon.com>, Rikard Falkeborn <rikard.falkeborn@gmail.com>, 
-	Ding Xiang <dingxiang@cmss.chinamobile.com>, Jing Xiangfeng <jingxiangfeng@huawei.com>, 
-	Cristiane Naves <cristianenavescardoso09@gmail.com>, YueHaibing <yuehaibing@huawei.com>, 
-	Oscar Gomez Fuente <oscargomezf@gmail.com>, Nicholas Mc Guire <hofrat@osadl.org>
-Content-Type: text/plain; charset="UTF-8"
+X-Patchwork-Hint: ignore
+X-stable: review
+Content-Transfer-Encoding: 8bit
 
-This is no longer part of any working product that I know of, so:
+The patch below does not apply to the v4.19-stable tree.
+If someone wants it applied there, or to any other stable or longterm
+tree, then please email the backport, including the original git commit
+id to <stable@vger.kernel.org>.
 
-Acked-by: Sven Van Asbroeck <TheSven73@gmail.com>
+Thanks,
+Sasha
+
+------------------ original commit in Linus's tree ------------------
+
+From 6bd301819f8f69331a55ae2336c8b111fc933f3d Mon Sep 17 00:00:00 2001
+From: Zicheng Qu <quzicheng@huawei.com>
+Date: Tue, 22 Oct 2024 13:43:54 +0000
+Subject: [PATCH] staging: iio: frequency: ad9832: fix division by zero in
+ ad9832_calc_freqreg()
+
+In the ad9832_write_frequency() function, clk_get_rate() might return 0.
+This can lead to a division by zero when calling ad9832_calc_freqreg().
+The check if (fout > (clk_get_rate(st->mclk) / 2)) does not protect
+against the case when fout is 0. The ad9832_write_frequency() function
+is called from ad9832_write(), and fout is derived from a text buffer,
+which can contain any value.
+
+Link: https://lore.kernel.org/all/2024100904-CVE-2024-47663-9bdc@gregkh/
+Fixes: ea707584bac1 ("Staging: IIO: DDS: AD9832 / AD9835 driver")
+Cc: stable@vger.kernel.org
+Signed-off-by: Zicheng Qu <quzicheng@huawei.com>
+Reviewed-by: Nuno Sa <nuno.sa@analog.com>
+Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+Link: https://patch.msgid.link/20241022134354.574614-1-quzicheng@huawei.com
+Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+---
+ drivers/staging/iio/frequency/ad9832.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/iio/frequency/ad9832.c b/drivers/staging/iio/frequency/ad9832.c
+index 6c390c4eb26de..492612e8f8bad 100644
+--- a/drivers/staging/iio/frequency/ad9832.c
++++ b/drivers/staging/iio/frequency/ad9832.c
+@@ -129,12 +129,15 @@ static unsigned long ad9832_calc_freqreg(unsigned long mclk, unsigned long fout)
+ static int ad9832_write_frequency(struct ad9832_state *st,
+ 				  unsigned int addr, unsigned long fout)
+ {
++	unsigned long clk_freq;
+ 	unsigned long regval;
+ 
+-	if (fout > (clk_get_rate(st->mclk) / 2))
++	clk_freq = clk_get_rate(st->mclk);
++
++	if (!clk_freq || fout > (clk_freq / 2))
+ 		return -EINVAL;
+ 
+-	regval = ad9832_calc_freqreg(clk_get_rate(st->mclk), fout);
++	regval = ad9832_calc_freqreg(clk_freq, fout);
+ 
+ 	st->freq_data[0] = cpu_to_be16((AD9832_CMD_FRE8BITSW << CMD_SHIFT) |
+ 					(addr << ADD_SHIFT) |
+-- 
+2.43.0
+
+
+
+
