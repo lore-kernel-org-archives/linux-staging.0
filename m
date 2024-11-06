@@ -1,68 +1,56 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09A7F20BB4D
-	for <linux-staging@lists.linux.dev>; Wed,  6 Nov 2024 18:34:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A344C1684AC
+	for <linux-staging@lists.linux.dev>; Wed,  6 Nov 2024 21:55:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730918048; cv=none; b=IfEVO4f6JQ1XMRn9u8iecIn1iKOeCszy3V/UgTW0QrVemlIuMcNbCjZmK/Vjo2lH7lGczNiO3wA0pGIJGEn/qJY5lSKwEkLjH2wlZH6pi89rkN251dZi76aQubKycxpXDAQrPt73iMi7IeRR6PTjngPyPzQC6QWCwyKK+XImB+c=
+	t=1730930119; cv=none; b=BrMUpvhqe3hqLfDrOAurSxMBLqrlPIIL1putsZ7FZsrF8ZyOACJBIEzDRECql8wCORqAMOQuBpIt6m4vuz41tcZXXm2bX3Z3CgAQecc51DHAi9cHYDO/T/OGwtLxrx+aTFZSEKZIvid9tP2+2ZANK3u+ij/bLYorETMsYVrSToI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730918048; c=relaxed/simple;
-	bh=IpCwHFvHWB+SD+q5t4kipYkhT8ePEI9get/CWHBF4bk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Zvl5rzcs1ryQePcW+5uQm0VueTS5ePqqN/vpChcfmyWXg8rRQaVxz2PPwB51Kv0ZTp+9790P10rEzWwKj94YZi5ceCjnUonQhYMw2em+V1TbeI+jLQMmtNgtpdMLZ8RFBVOoCxyRlPtIG7LBTdnbLXuteMUJe2J9iIQx2xyo8uI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CHK3O9Th; arc=none smtp.client-ip=209.85.218.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1730930119; c=relaxed/simple;
+	bh=2rAd1MnVecSU/tu628TNkkv6PsrupzayWEJPWEk6hVY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=vCyBctyMJKBZA1cBM/rQujXdx2yrpRmg6o91BmVvJ2Bs3QC7GRhyiuG25X2QOcK1gUt5zCDKzNYU48WrtOij/s33Ciompg76pMoEQ9RMdp6fH8kTFtthGuq99GRafPakMMZ7lvYweSY14V1t7u/gQAUOzJdjbT9ZvvT8dHLMk1E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SG9oaHQ9; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CHK3O9Th"
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a9a0ef5179dso11060166b.1
-        for <linux-staging@lists.linux.dev>; Wed, 06 Nov 2024 10:34:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730918044; x=1731522844; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=z1eOJY0eG7JqZEoh7Tdg13wcvziWr11zSxZYpyAV4F4=;
-        b=CHK3O9ThysI1HC/3XbA4XRR10WU6SWsraOMlS7Nm9YzChyDLNnPkOvsN5McSk+Ji7R
-         RYNvb4DKcf1kmsP01ZkHIYAUdyZ8DwgwBDH/QgB9AtONvUoNoG0HlzHq0YhM2Q1g0afI
-         r9qwsvBErXTN9n45fp9b6eIhRbMdI+onrX1R27x3aGISBEku8qDN/Js3rxGJMKeny9Hp
-         eMNzp9KeJfvGn3O3Thtmao3UlNkwaFAfHJAI/UG910h3PHHuHAz+G5Gs6s5j87pPs8Ky
-         +owVKYqqrUCk+owINUFOlknnb8MZDOFu6UkpiJfwrHY7TK7dDQZbvszPD2FVj68vQvJp
-         y4Pg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730918044; x=1731522844;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=z1eOJY0eG7JqZEoh7Tdg13wcvziWr11zSxZYpyAV4F4=;
-        b=sN96izITKWrmBndEogamz0zdgE8bAT+YXHFYbrtVsWmHXQOq+8hyhSb5EAhpLNRmmg
-         KWkC/54s0F/QbY1aeSQQaI5FykDlIRxnPT8FZ8zNDMG8x5S3PV1sZ25XIZ7QtpKyTEGY
-         ngmcdkC6YKjucdjxr7avGh1O44G1p36e//9uEvOMMRQ1rnD5wxtZ1UVKhF0RXunmzoLB
-         rIAm66kbqAAd7RhPE71Q8JsyWCWLa8X+bxKQ5MHVTDVBXz6MYkgSDFDaN/vg1myuMkaJ
-         t3bEO/ECvFffQDoYsODaBNLzyskYrtCPfxAfH8Ou4UwEamCVZOXokbqmZRxrE+E393/7
-         WXng==
-X-Forwarded-Encrypted: i=1; AJvYcCUgIHwI8OeWILG+jRtvInGt0Yh1imBaspzLSvBGV4MzH+A/gnxNwt7ARmU2pNFM+v0okRMx2Q6T+t8s6jcV@lists.linux.dev
-X-Gm-Message-State: AOJu0YxzydVKqWVa0qoxTWCLvKhBgPgBQBZ9/Tj3uD0V/Cfel6/EAWGC
-	+uU7iM2Z3woDKIG5FUb8Mh/fT4iy6Q7+Q2m3CZfMSQ2BWpTAtEec
-X-Google-Smtp-Source: AGHT+IHUzxOH6GOnntZOQ1br9NTnROwPUrcqBcX4UJSACwGyMDoF2IPXfgk/bCk8lXpR8GaC2HjNtA==
-X-Received: by 2002:a17:907:9815:b0:a99:e326:53f2 with SMTP id a640c23a62f3a-a9de5f67a62mr3580583566b.28.1730918044153;
-        Wed, 06 Nov 2024 10:34:04 -0800 (PST)
-Received: from kernel-710.speedport.ip (p54a0712c.dip0.t-ipconnect.de. [84.160.113.44])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9eb1813a07sm315298966b.190.2024.11.06.10.34.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Nov 2024 10:34:03 -0800 (PST)
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Subject: [PATCH 16/16] staging: rtl8723bs: Remove unused function Efuse_GetCurrentSize
-Date: Wed,  6 Nov 2024 19:33:45 +0100
-Message-ID: <d1b8cb38670b99a75b0e916adde389ed13c15935.1730916582.git.philipp.g.hortmann@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1730916582.git.philipp.g.hortmann@gmail.com>
-References: <cover.1730916582.git.philipp.g.hortmann@gmail.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SG9oaHQ9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1730930116;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=binWOKCnq2uKrWUxdWuj6KlQuZL72pWuKK2ogVB/QoA=;
+	b=SG9oaHQ9jTwSPetWCRX718nNUE6q+d3yidAaHRLIbAmU1OPeefndswqqn5BvN3EwnZH012
+	BAhPSULVVn9x+9ta4Ch+7Nmrkq00pKfcreZgcXuzQEHl9m70iyJi4SORX6FIHF3RXDBKe0
+	m0jTTVR8dVrIawEXvxyutvpNQ8rzao4=
+Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-418-pIm9eDLFOI-x59ITC4gBgA-1; Wed,
+ 06 Nov 2024 16:55:15 -0500
+X-MC-Unique: pIm9eDLFOI-x59ITC4gBgA-1
+X-Mimecast-MFC-AGG-ID: pIm9eDLFOI-x59ITC4gBgA
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 875EB1956096;
+	Wed,  6 Nov 2024 21:55:13 +0000 (UTC)
+Received: from shalem.redhat.com (unknown [10.39.192.71])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 7B91619541A5;
+	Wed,  6 Nov 2024 21:55:11 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Kate Hsuan <hpa@redhat.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH] media: atomisp: Avoid picking too big sensor resolution
+Date: Wed,  6 Nov 2024 22:55:09 +0100
+Message-ID: <20241106215509.40205-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -70,63 +58,50 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-Remove unused function Efuse_GetCurrentSize to shorten code.
+atomisp_try_fmt() is limiting the width of the requested resolution to 1920
+before calling the sensor's try_fmt() method. But it is not limiting
+the height. In case of the old mode-list based t4ka3 driver which has
+a mode list of:
 
-Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+736x496
+896x736
+1936x1096
+3280x2464
+
+This results in 3280x2464 being selected when try_fmt is called
+with a requested resolution of 3280x2464, which is not supported because
+its width > 1920 .
+
+Fix this by also limiting the height when in preview mode.
+
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_efuse.c    | 25 -------------------
- drivers/staging/rtl8723bs/include/rtw_efuse.h |  1 -
- 2 files changed, 26 deletions(-)
+ drivers/staging/media/atomisp/pci/atomisp_cmd.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_efuse.c b/drivers/staging/rtl8723bs/core/rtw_efuse.c
-index fcd9ac58b96f..7a74b011dedc 100644
---- a/drivers/staging/rtl8723bs/core/rtw_efuse.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_efuse.c
-@@ -80,31 +80,6 @@ u8 PwrState)
- 	Hal_EfusePowerSwitch(padapter, bWrite, PwrState);
- }
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+index 02ccf80e6559..10462c5db36f 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+@@ -3784,9 +3784,14 @@ int atomisp_try_fmt(struct atomisp_device *isp, struct v4l2_pix_format *f,
+ 			return -EINVAL;
+ 	}
  
--/*-----------------------------------------------------------------------------
-- * Function:	Efuse_GetCurrentSize
-- *
-- * Overview:	Get current efuse size!!!
-- *
-- * Input:       NONE
-- *
-- * Output:      NONE
-- *
-- * Return:      NONE
-- *
-- * Revised History:
-- * When			Who		Remark
-- * 11/16/2008	MHC		Create Version 0.
-- *
-- *---------------------------------------------------------------------------*/
--u16
--Efuse_GetCurrentSize(
--	struct adapter *padapter,
--	u8	efuseType,
--	bool		bPseudoTest)
--{
--	return Hal_EfuseGetCurrentSize(padapter, efuseType, bPseudoTest);
--}
--
- /*  11/16/2008 MH Add description. Get current efuse area enabled word!!. */
- u8
- Efuse_CalculateWordCnts(u8 word_en)
-diff --git a/drivers/staging/rtl8723bs/include/rtw_efuse.h b/drivers/staging/rtl8723bs/include/rtw_efuse.h
-index 5f72be256acf..d6ea8a4a856f 100644
---- a/drivers/staging/rtl8723bs/include/rtw_efuse.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_efuse.h
-@@ -90,7 +90,6 @@ extern u8 fakeBTEfuseInitMap[];
- extern u8 fakeBTEfuseModifiedMap[];
- /*------------------------Export global variable----------------------------*/
+-	/* The preview pipeline does not support width > 1920 */
+-	if (asd->run_mode->val == ATOMISP_RUN_MODE_PREVIEW)
++	/*
++	 * The preview pipeline does not support width > 1920. Also limit height
++	 * to avoid sensor drivers still picking a too wide resolution.
++	 */
++	if (asd->run_mode->val == ATOMISP_RUN_MODE_PREVIEW) {
+ 		f->width = min_t(u32, f->width, 1920);
++		f->height = min_t(u32, f->height, 1440);
++	}
  
--u16 Efuse_GetCurrentSize(struct adapter *padapter, u8 efuseType, bool bPseudoTest);
- u8 Efuse_CalculateWordCnts(u8 word_en);
- void EFUSE_GetEfuseDefinition(struct adapter *padapter, u8 efuseType, u8 type, void *pOut, bool bPseudoTest);
- u8 efuse_OneByteRead(struct adapter *padapter, u16 addr, u8 *data, bool	 bPseudoTest);
+ 	/*
+ 	 * atomisp_set_fmt() will set the sensor resolution to the requested
 -- 
-2.43.0
+2.47.0
 
