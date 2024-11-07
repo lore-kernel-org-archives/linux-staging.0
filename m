@@ -1,63 +1,37 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCCF917DE36
-	for <linux-staging@lists.linux.dev>; Thu,  7 Nov 2024 08:10:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 296671DD54C
+	for <linux-staging@lists.linux.dev>; Thu,  7 Nov 2024 08:34:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730967024; cv=none; b=C8NtI/zPQO1hEJBD28JpJwQ12PFraQvMDlX6PcK3wLFaP1fW4b0ARNUFz7b0ncaivhwU2SkThDH5S4EoDTxIVMvnNpyG1byt7oj8KXNTlrTKfamkOB6jxcMvKuW3wNgjkTgJ9uySWVQR+GBLKszmLt87qDO9Di83wEnmyxUxEVY=
+	t=1730968486; cv=none; b=tkdfXJmTm+fCP+F2szoPKRUTBgbPtkvpDgJTPWF0zd5++oDn0f6IQuxuvp7K3Q4h35TBcHgYFdkrKpoI7aG49nYQno/EY3Th4FXY/AJHVCO+llTpefL1UF6u/ggzRR03yGGd2nylqREhVFsVSt7WLlNNtxWg9v1KGA9+s/IhmtI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730967024; c=relaxed/simple;
-	bh=n8lyntdpfiepsf4kkPEEAWQYePDF6bNZi2jObNc0H10=;
+	s=arc-20240116; t=1730968486; c=relaxed/simple;
+	bh=rvzkUyfc0varfrtBfivBiKwL4mkG9raDr6bgG2zY/8Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bfeAO7MMIRyny+QlDfvFHjy3c4daZoXFSWAF5KH24AmDNh19yhQaXNTw93OccW4qSe2bl5XwY0MF5s8VPwoxymYlvkT/iEziT6OWPO1a/7PvkFfqbgS2YLSZE0xFJgyliGKiNLvXY2WOLJxrlUXSAvubh9zHYsuXWQ0kA5ZXoLQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jNc32DW0; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=BUJWWrnSbzH+7DS3b3muiwgvuYu5Zpx8Q0QW02XUwRbI8tJMPuQhk0/ixFcufylpdU0R7m+ZbtRvYll2Y7cDgjCxFbGQHIG6PUcGR0MaQQn06FJG0d2Re3ZAjnEgmwLQw3+vUZhco3J5VpYDSYuA1l7BonOUjLBiAwxi0oxUZqg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=UHtPVJ6x; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jNc32DW0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730967023; x=1762503023;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=n8lyntdpfiepsf4kkPEEAWQYePDF6bNZi2jObNc0H10=;
-  b=jNc32DW0r45VKflCrcmY9iTFgao0WBmlOHTspNjRK9orNLjYZCZPBgh+
-   NmefQMtp+JwGB9G7IJlkcqGiV/lbN7O6Gwz/83Rhw9EBE2PK7WgDnoPBJ
-   sr+i9U4ZI5DMNMWslWNCIx3Asr9cyJrRbvxR4H1I8anr9nKddCUoL+96l
-   KRGAbzGo58wRhcmy9I6y1FEJrukuahoYoajl2C5/URsl/YCumQ7yT7lK1
-   D34mpDPiPs3LS/sFlluEYocAIkWjcfPTQHoR5AxMxsQf60gXg2U1sJJUc
-   cc+jJR9eW4Hj8KdwZoWrWDpzujHt7FUpSS1t2RcUCsbJRo468KjAeESs0
-   A==;
-X-CSE-ConnectionGUID: SSe4KAh1TlWrgAWFWeLQ4g==
-X-CSE-MsgGUID: dhCJvZ4LSauVwD06env0Xg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11248"; a="42200574"
-X-IronPort-AV: E=Sophos;i="6.11,265,1725346800"; 
-   d="scan'208";a="42200574"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2024 00:10:22 -0800
-X-CSE-ConnectionGUID: Yst46NlrTWCEZnuCDbNI+A==
-X-CSE-MsgGUID: PJdDhZmWQK6A21bxfYShcw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,265,1725346800"; 
-   d="scan'208";a="108251697"
-Received: from smile.fi.intel.com ([10.237.72.154])
-  by fmviesa002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2024 00:10:21 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1t8xas-0000000CBHN-1mhf;
-	Thu, 07 Nov 2024 10:10:18 +0200
-Date: Thu, 7 Nov 2024 10:10:18 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH] media: atomisp: Avoid picking too big sensor resolution
-Message-ID: <Zyx16tynGrfuZpBU@smile.fi.intel.com>
-References: <20241106215509.40205-1-hdegoede@redhat.com>
- <Zyx1tlwysnNJmcEi@smile.fi.intel.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="UHtPVJ6x"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A1A8C4CED3;
+	Thu,  7 Nov 2024 08:34:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1730968486;
+	bh=rvzkUyfc0varfrtBfivBiKwL4mkG9raDr6bgG2zY/8Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UHtPVJ6xKdQ7pLVC7ne+2gC5r3C4602T3zDXGNNUJCvkCWwG4yKziDjJsu4NEHWiv
+	 edoGybYSfhH1aHuVpOS+5XcDEJCnGAHSdJP8u34zfGh9IFKsrJK810YzFUkLGPoP+P
+	 9AkWHg6bEWS8uWZG7i2NdsMgXPV/iIFNXqtW054c=
+Date: Thu, 7 Nov 2024 09:25:45 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Kees Bakker <kees@ijzerbout.nl>
+Cc: Dave Penkler <dpenkler@gmail.com>,
+	Linux Staging <linux-staging@lists.linux.dev>
+Subject: Re: [PATCH v3] staging: gpib: Change return type of
+ fluke_get_dma_residue
+Message-ID: <2024110714-scanner-apple-0792@gregkh>
+References: <20241104193347.A0B5A18DD37@bout3.ijzerbout.nl>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -66,23 +40,47 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Zyx1tlwysnNJmcEi@smile.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20241104193347.A0B5A18DD37@bout3.ijzerbout.nl>
 
-On Thu, Nov 07, 2024 at 10:09:26AM +0200, Andy Shevchenko wrote:
-> On Wed, Nov 06, 2024 at 10:55:09PM +0100, Hans de Goede wrote:
-
-...
-
-> >  		f->width = min_t(u32, f->width, 1920);
-> > +		f->height = min_t(u32, f->height, 1440);
+On Tue, Oct 15, 2024 at 10:33:30PM +0200, Kees Bakker wrote:
+> The function fluke_get_dma_residue returns an error as a negative value.
+> So the return type must not be unsigned.
 > 
-> Perhaps umin() instead of min_t() in both cases?
+> This was detected by Coverity, CID 1600782
+> 
+> Signed-off-by: Kees Bakker <kees@ijzerbout.nl>
+> ---
+>  v1 -> v2: change type of `residue` var; add note about Coverity CID in commit message
+>  v2 -> v3: add version in the subject (sorry Greg)
+> 
+>  drivers/staging/gpib/eastwood/fluke_gpib.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/staging/gpib/eastwood/fluke_gpib.c b/drivers/staging/gpib/eastwood/fluke_gpib.c
+> index f9f149db222d..3843e986f104 100644
+> --- a/drivers/staging/gpib/eastwood/fluke_gpib.c
+> +++ b/drivers/staging/gpib/eastwood/fluke_gpib.c
+> @@ -536,7 +536,7 @@ static int fluke_accel_write(gpib_board_t *board, uint8_t *buffer, size_t length
+>  	return 0;
+>  }
+>  
+> -static unsigned int fluke_get_dma_residue(struct dma_chan *chan, dma_cookie_t cookie)
+> +static int fluke_get_dma_residue(struct dma_chan *chan, dma_cookie_t cookie)
+>  {
+>  	struct dma_tx_state state;
+>  	int result;
+> @@ -549,7 +549,7 @@ static unsigned int fluke_get_dma_residue(struct dma_chan *chan, dma_cookie_t co
+>  	dmaengine_tx_status(chan, cookie, &state);
+>  	// hardware doesn't support resume, so dont call this
+>  	// method unless the dma transfer is done.
+> -	return state.residue;
+> +	return (int)state.residue;
 
-...or min(..., 1920U); and similar for the second one.
+Shouldn't you be checking the result of dmaengine_tx_status instead?
+residue is a u32 and is NOT an error here so I think the unsigned value
+here is correct as that's not going to give you what you expect it to
+give you.
 
--- 
-With Best Regards,
-Andy Shevchenko
+thanks,
 
-
+greg k-h
