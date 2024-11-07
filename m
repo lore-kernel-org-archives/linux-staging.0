@@ -1,56 +1,43 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A344C1684AC
-	for <linux-staging@lists.linux.dev>; Wed,  6 Nov 2024 21:55:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01A8D5227
+	for <linux-staging@lists.linux.dev>; Thu,  7 Nov 2024 01:21:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730930119; cv=none; b=BrMUpvhqe3hqLfDrOAurSxMBLqrlPIIL1putsZ7FZsrF8ZyOACJBIEzDRECql8wCORqAMOQuBpIt6m4vuz41tcZXXm2bX3Z3CgAQecc51DHAi9cHYDO/T/OGwtLxrx+aTFZSEKZIvid9tP2+2ZANK3u+ij/bLYorETMsYVrSToI=
+	t=1730942483; cv=none; b=tDz/lEUlAHxgFiqe+glQE6UprojUr9C3MJOE3Ae/S10VTGip0P9MGUYnzDcWcuJN08fu4qz142ducHyNxeSVemVYLNB2DjEtSWglEjGQgc/uSXvkWWSOWOmVusw4bQEXG43/fmy2+ULUK9O1DO+6bYQ+7ofD+FP+Ogi2ICBNQOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730930119; c=relaxed/simple;
-	bh=2rAd1MnVecSU/tu628TNkkv6PsrupzayWEJPWEk6hVY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=vCyBctyMJKBZA1cBM/rQujXdx2yrpRmg6o91BmVvJ2Bs3QC7GRhyiuG25X2QOcK1gUt5zCDKzNYU48WrtOij/s33Ciompg76pMoEQ9RMdp6fH8kTFtthGuq99GRafPakMMZ7lvYweSY14V1t7u/gQAUOzJdjbT9ZvvT8dHLMk1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SG9oaHQ9; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SG9oaHQ9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1730930116;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=binWOKCnq2uKrWUxdWuj6KlQuZL72pWuKK2ogVB/QoA=;
-	b=SG9oaHQ9jTwSPetWCRX718nNUE6q+d3yidAaHRLIbAmU1OPeefndswqqn5BvN3EwnZH012
-	BAhPSULVVn9x+9ta4Ch+7Nmrkq00pKfcreZgcXuzQEHl9m70iyJi4SORX6FIHF3RXDBKe0
-	m0jTTVR8dVrIawEXvxyutvpNQ8rzao4=
-Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-418-pIm9eDLFOI-x59ITC4gBgA-1; Wed,
- 06 Nov 2024 16:55:15 -0500
-X-MC-Unique: pIm9eDLFOI-x59ITC4gBgA-1
-X-Mimecast-MFC-AGG-ID: pIm9eDLFOI-x59ITC4gBgA
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 875EB1956096;
-	Wed,  6 Nov 2024 21:55:13 +0000 (UTC)
-Received: from shalem.redhat.com (unknown [10.39.192.71])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 7B91619541A5;
-	Wed,  6 Nov 2024 21:55:11 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Kate Hsuan <hpa@redhat.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH] media: atomisp: Avoid picking too big sensor resolution
-Date: Wed,  6 Nov 2024 22:55:09 +0100
-Message-ID: <20241106215509.40205-1-hdegoede@redhat.com>
+	s=arc-20240116; t=1730942483; c=relaxed/simple;
+	bh=pZDsWsDw2ejRZjyoJS1wFwjYnHt0S34zdcgrFAPrw/s=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=GulhFe0kksb7UxmIYQapEYjxPzWiw+dY83a+Nx618MBvucSS5oGVYQ5lGrUT/8bzhafHjZavaoFpUdqwkTevBG6LNvWDllKUQB/7mjeuBSzM15lMIoC6anqmndJnalLWdHUpmisSpcyAGBXIFpyrRhTCPLUjuoKy/qM9y7U5xaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.88.194])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4XkPPJ0BvBz10V8V;
+	Thu,  7 Nov 2024 09:19:32 +0800 (CST)
+Received: from kwepemd200012.china.huawei.com (unknown [7.221.188.145])
+	by mail.maildlp.com (Postfix) with ESMTPS id 5E0B91402CB;
+	Thu,  7 Nov 2024 09:21:19 +0800 (CST)
+Received: from huawei.com (10.67.175.84) by kwepemd200012.china.huawei.com
+ (7.221.188.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.34; Thu, 7 Nov
+ 2024 09:21:18 +0800
+From: Zicheng Qu <quzicheng@huawei.com>
+To: <lars@metafoo.de>, <Michael.Hennerich@analog.com>, <jic23@kernel.org>,
+	<gregkh@linuxfoundation.org>, <daniel.baluta@intel.com>,
+	<shubhrajyoti@ti.com>, <linux-iio@vger.kernel.org>,
+	<linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+CC: <tanghui20@huawei.com>, <zhangqiao22@huawei.com>,
+	<judy.chenhui@huawei.com>, <quzicheng@huawei.com>
+Subject: [PATCH v2 1/2] staging: iio: ad9834: Correct phase range check
+Date: Thu, 7 Nov 2024 01:10:14 +0000
+Message-ID: <20241107011015.2472600-2-quzicheng@huawei.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20241107011015.2472600-1-quzicheng@huawei.com>
+References: <20241105140359.2465656-1-quzicheng@huawei.com>
+ <20241107011015.2472600-1-quzicheng@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -58,50 +45,54 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+Content-Type: text/plain
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ kwepemd200012.china.huawei.com (7.221.188.145)
 
-atomisp_try_fmt() is limiting the width of the requested resolution to 1920
-before calling the sensor's try_fmt() method. But it is not limiting
-the height. In case of the old mode-list based t4ka3 driver which has
-a mode list of:
+User Perspective:
+When a user sets the phase value, the ad9834_write_phase() is called.
+The phase register has a 12-bit resolution, so the valid range is 0 to
+4095. If the phase offset value of 4096 is input, it effectively exactly
+equals 0 in the lower 12 bits, meaning no offset.
 
-736x496
-896x736
-1936x1096
-3280x2464
+Reasons for the Change:
+1) Original Condition (phase > BIT(AD9834_PHASE_BITS)):
+This condition allows a phase value equal to 2^12, which is 4096.
+However, this value exceeds the valid 12-bit range, as the maximum valid
+phase value should be 4095.
+2) Modified Condition (phase >= BIT(AD9834_PHASE_BITS)):
+Ensures that the phase value is within the valid range, preventing
+invalid datafrom being written.
 
-This results in 3280x2464 being selected when try_fmt is called
-with a requested resolution of 3280x2464, which is not supported because
-its width > 1920 .
+Impact on Subsequent Logic: st->data = cpu_to_be16(addr | phase):
+If the phase value is 2^12, i.e., 4096 (0001 0000 0000 0000), and addr
+is AD9834_REG_PHASE0 (1100 0000 0000 0000), then addr | phase results in
+1101 0000 0000 0000, occupying DB12. According to the section of WRITING
+TO A PHASE REGISTER in the datasheet, the MSB 12 PHASE0 bits should be
+DB11. The original condition leads to incorrect DB12 usage, which
+contradicts the datasheet and could pose potential issues for future
+updates if DB12 is used in such related cases.
 
-Fix this by also limiting the height when in preview mode.
-
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Fixes: 12b9d5bf76bf ("Staging: IIO: DDS: AD9833 / AD9834 driver")
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Zicheng Qu <quzicheng@huawei.com>
 ---
- drivers/staging/media/atomisp/pci/atomisp_cmd.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ drivers/staging/iio/frequency/ad9834.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index 02ccf80e6559..10462c5db36f 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -3784,9 +3784,14 @@ int atomisp_try_fmt(struct atomisp_device *isp, struct v4l2_pix_format *f,
- 			return -EINVAL;
- 	}
+diff --git a/drivers/staging/iio/frequency/ad9834.c b/drivers/staging/iio/frequency/ad9834.c
+index 47e7d7e6d920..6e99e008c5f4 100644
+--- a/drivers/staging/iio/frequency/ad9834.c
++++ b/drivers/staging/iio/frequency/ad9834.c
+@@ -131,7 +131,7 @@ static int ad9834_write_frequency(struct ad9834_state *st,
+ static int ad9834_write_phase(struct ad9834_state *st,
+ 			      unsigned long addr, unsigned long phase)
+ {
+-	if (phase > BIT(AD9834_PHASE_BITS))
++	if (phase >= BIT(AD9834_PHASE_BITS))
+ 		return -EINVAL;
+ 	st->data = cpu_to_be16(addr | phase);
  
--	/* The preview pipeline does not support width > 1920 */
--	if (asd->run_mode->val == ATOMISP_RUN_MODE_PREVIEW)
-+	/*
-+	 * The preview pipeline does not support width > 1920. Also limit height
-+	 * to avoid sensor drivers still picking a too wide resolution.
-+	 */
-+	if (asd->run_mode->val == ATOMISP_RUN_MODE_PREVIEW) {
- 		f->width = min_t(u32, f->width, 1920);
-+		f->height = min_t(u32, f->height, 1440);
-+	}
- 
- 	/*
- 	 * atomisp_set_fmt() will set the sensor resolution to the requested
 -- 
-2.47.0
+2.34.1
 
