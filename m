@@ -1,36 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A474A1D95B0
-	for <linux-staging@lists.linux.dev>; Thu,  7 Nov 2024 08:34:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEE5B1922D8;
+	Thu,  7 Nov 2024 08:34:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730968489; cv=none; b=myjoSM5AJvm+sYvbV8JXytvoaYXFRPETL6kE99hpnaAIDr+VGTLWYfqJPLdHjK1Sp+ZUQN5W54CCzslZZZ5qsaW4s9KYLWpxgLsO0mgLYhInSbzg5hyNgJ6CVk0/QjrKd25cN+qmAdZ2+qXPs49pilhKdAsS7gNRvnHaDrQ8C6g=
+	t=1730968492; cv=none; b=HJhtCTNtH9sPY/hbOSDo7TgbqJffBQYFG5TejNmIW15xNByI2fZZzaLW77m4yrDwJE3BgTKk22Z/ABr8FmrIMzQV7p7TrHSci1Emq7bINJPHnzz/R7F02x6EMxm1ag9SYED2z2YbKQFITGwsKt2l0LWhkzV0JnwKi8P/shCjB7I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730968489; c=relaxed/simple;
-	bh=L+yQHKRqzPSmgkgMSXYqYN/fPOFRtymft12RkMxq/wo=;
+	s=arc-20240116; t=1730968492; c=relaxed/simple;
+	bh=zaSp5Zi/JERPJYX+Ul60OjcFfQieL/7nqYIMSUDALZs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZFbQDDsNb1Pgx4ybeeWxqEUoA0dfwegY/coBFFXg40oXcCTTMGwvk0JE3rmx+yMb/3BgMnEy/oEsMgd7sh1MZ7cdZlj2C4jCCrxYm6u5w76zmnY1Hl4UZ5Nr/nfOeQ6pi7qtjH4TGlRhUJJJNLt54lx60dUTpbOtlfvTNjAe6Tg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=jqtuYeHE; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=mKz7qxndifmwOIkBnM57tnsYSb3zdwkUhQTivbWohamKg6apBjPvfnKSRRN1jHYfHCpPc2p2rHxXMKHgQbwQ7ZZtWVpGkyvjm1xqzypaLuRrgpELkrrIc7FGLuSOBneSj3SrTRCbJbQ58av5ePaxuUlPCmD45XZcnfxMkl4kGd0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=BUsIgnM8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="jqtuYeHE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE9DCC4CECC;
-	Thu,  7 Nov 2024 08:34:48 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="BUsIgnM8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA653C4CECC;
+	Thu,  7 Nov 2024 08:34:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1730968489;
-	bh=L+yQHKRqzPSmgkgMSXYqYN/fPOFRtymft12RkMxq/wo=;
+	s=korg; t=1730968492;
+	bh=zaSp5Zi/JERPJYX+Ul60OjcFfQieL/7nqYIMSUDALZs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jqtuYeHEpXlurEI4rqIS3eKLQTiZmKfXiC5jik4byk66jlZI0cSo+w96WUZXLCMua
-	 TrlpR3zY9chpMPvP1YfvKDm4mybW9VlLhsZd6oHB27FfN9+l1M93I/wlU0qxVA2BAg
-	 U+zLO4lZb0tS/mDrRKuZi+omrVqb+NKFyUtQ6PD4=
-Date: Thu, 7 Nov 2024 09:28:37 +0100
+	b=BUsIgnM82rVj45U0NrV7UJDdsWLgoKuEOSZVeb+YvlyMTQ4T6cCUDKehbp4LZiEzI
+	 YJ+VyO3ZVL1Dm2Srm7qNyXkjKsauyfBOMWO/L6nMpJ4MTgYfgbT7s+2HVzq7wPURhk
+	 hIeRSAyVYMx8QyW/eoMsB+TBgpR0ARokK7p1xlAA=
+Date: Thu, 7 Nov 2024 09:29:05 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Kees Bakker <kees@ijzerbout.nl>
-Cc: Dave Penkler <dpenkler@gmail.com>,
-	Linux Staging <linux-staging@lists.linux.dev>
-Subject: Re: [PATCH V3] staging: gpib: avoid unintended sign extension
-Message-ID: <2024110706-harmony-glowing-148b@gregkh>
-References: <20241104193530.4AA8A18DD38@bout3.ijzerbout.nl>
+To: Qiu-ji Chen <chenqiuji666@gmail.com>
+Cc: dtwlin@gmail.com, johan@kernel.org, elder@kernel.org,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, baijiaju1990@gmail.com
+Subject: Re: [PATCH v2] greybus/uart: Fix atomicity violation in
+ get_serial_info()
+Message-ID: <2024110754-rewind-relish-c476@gregkh>
+References: <20241106095819.15194-1-chenqiuji666@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,30 +41,53 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241104193530.4AA8A18DD38@bout3.ijzerbout.nl>
+In-Reply-To: <20241106095819.15194-1-chenqiuji666@gmail.com>
 
-On Thu, Oct 17, 2024 at 09:54:47PM +0200, Kees Bakker wrote:
-> The code was basically like this (assuming size_t can be u64)
->     var_u64 |= var_u8 << 24
-> var_u8 is first promoted to i32 and then the shift is done. Next, it is
-> promoted to u64 by first signextending to 64 bits. This is very unlikely
-> what was intended. So now it is first forced to u32.
->     var_u64 |= (u32)var_u8 << 24
+On Wed, Nov 06, 2024 at 05:58:19PM +0800, Qiu-ji Chen wrote:
+> Our static checker found a bug where set_serial_info() uses a mutex, but 
+> get_serial_info() does not. Fortunately, the impact of this is relatively 
+> minor. It doesn't cause a crash or any other serious issues. However, if a 
+> race condition occurs between set_serial_info() and get_serial_info(), 
+> there is a chance that the data returned by get_serial_info() will be 
+> meaningless.
 > 
-> This was detected by Coverity, CID 1600792.
-> 
-> Fixes: 4c41fe886a56 ("staging: gpib: Add Agilent/Keysight 82357x USB GPIB driver")
-> Signed-off-by: Kees Bakker <kees@ijzerbout.nl>
+> Signed-off-by: Qiu-ji Chen <chenqiuji666@gmail.com>
+> Fixes: 0aad5ad563c8 ("greybus/uart: switch to ->[sg]et_serial()")
 > ---
->  V1 -> V2: Changed commit message, added Fixes: tag and a reference to the Coverity CID
->  V2 -> V3: add version in the subject (sorry Greg)
+> V2:
+> Modified the patch description to make it more concise and easier to understand.
+> Changed the fix code to ensure the logic is correct.
+> Thanks to Johan Hovold and Dan Carpenter for helpful suggestion.
+> ---
+>  drivers/staging/greybus/uart.c | 2 ++
+>  1 file changed, 2 insertions(+)
 
-Doesn't apply cleanly anymore :(
+Hi,
 
-Also, always cc: all of the relevent people that get_maintainer.pl says
-to cc:.  Can you rebase this against my staging-testing branch and
-resend?
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
+
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- You have marked a patch with a "Fixes:" tag for a commit that is in an
+  older released kernel, yet you do not have a cc: stable line in the
+  signed-off-by area at all, which means that the patch will not be
+  applied to any older kernel releases.  To properly fix this, please
+  follow the documented rules in the
+  Documentation/process/stable-kernel-rules.rst file for how to resolve
+  this.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
 
 thanks,
 
-greg k-h
+greg k-h's patch email bot
