@@ -1,99 +1,219 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A40D1DBB0D
-	for <linux-staging@lists.linux.dev>; Thu,  7 Nov 2024 21:38:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36A56216A32
+	for <linux-staging@lists.linux.dev>; Thu,  7 Nov 2024 22:11:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731015538; cv=none; b=BxkjynwOy8PqF4pg47+rlNgvLilz9GI7eBuwYSwqUya1ZMLC5QcCyhb8SRxyRCUlf6Dd6iCREaLeoHBShYY/1aQ+FnotrapcYaqDguXUNvv/WWPs2rvAZt5eMzcXGiWSwq4ww1qXlHICYkmFA3/deF0RGjwV9V5DhHhqUnQioKg=
+	t=1731017505; cv=none; b=pOJpJuKbbmn7eIbY4MmdHY0VnoPGIzp++175UT5PMPHdDcm1YP/XVWZSFOxItjh0UuX74tut2kNbRuWW60s1WiNQ2vD8UVeTdBIp+eosAmMeslC5SKvWlYRFKR/w92hgA8ayopJUAtm+sr7jOJr+Q9lDgTnxqYWiFYdo/mTMROo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731015538; c=relaxed/simple;
-	bh=nvfpowuQR9GkDF62EOjFvmkjqhi+8SRsaAUYIJIYPUI=;
-	h=From:To:Cc:Subject:Date:Message-Id; b=pf6BoE/FRPmaAavFz7D3V/zqlZVWQbqijKmWYNMYMLTJzObqz6EcI2LIJHS7akIz2AJsE7JbD2MByM8alNGeq9jUn6K/ZjalDZnTHc3ZKTZrW9R+u85NdjOHI/KcTkxAJegX8mvcel0F4Qy+v1V0YAfxJLtcFDN7Cj6hKoWumsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bgPeCB/p; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1731017505; c=relaxed/simple;
+	bh=amCqaDApkO8623sf8Oi9QQ3UbWF36RzHxJBjdGjdEwc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=N/DHiWBq4+A41sugNnJ/24Zv7K20b0FindIG0JS92ZWZ3biD3I9sJNMBIxhN5Qku3jc+hBbkb4uVr3mKCIJMsIJiQtKXMJcfKdZpfnUOsnrpsLm0Gneow/4BGbJcySNPVzAFa92SmMv2qW/LzRTfnvDunSo3eZ1KrFz2ofNtOA8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Dtu6esUv; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bgPeCB/p"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5c941623a5aso4444215a12.0
-        for <linux-staging@lists.linux.dev>; Thu, 07 Nov 2024 13:38:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731015535; x=1731620335; darn=lists.linux.dev;
-        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=K/PXz3VkkWyN+2D2oow1fRGOsXfzv5vjwk8qUZgMvfo=;
-        b=bgPeCB/pRIPwjbtGGIXsr43klnA1KPdUP8Y+niZMCoMNghQExoMbPnYy1crPO4hUP1
-         7dardDDtFOiP103DjWiIirIZX19UNYvZqxZeoTHTEUSflpMTCO3XhpmgLPS4nkSIv2Dt
-         BJ58po+96qM8ov/75h4of23z7FWQcVTWC/BtH7SrDlBrAXwdUfuirjQh05LqCAFc3z96
-         A1sW4cdBMVlk/PTABNXabTllsjonwNK+RaaQIxtjJi0hQ+TfR4LWsmPqaIPGHtPKMu8T
-         YtrqnGDHY7DPtJxTmzrGkogvfRsiko/GnGwFyCpJ+9+4ZchdMKacfcYHJftzNYwP7hme
-         eVDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731015535; x=1731620335;
-        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=K/PXz3VkkWyN+2D2oow1fRGOsXfzv5vjwk8qUZgMvfo=;
-        b=a/X7gLcyrEMrz8at+knLOvXYKka+MYh/iXz/NWbVR7myxyoQIkq/PvKSS8jAX0brKd
-         xLHKWFHXYicK6uSbxOBOGGLBiCcpB6FpVej/fJcfvVg2hb5DkurSLXMbkfFfTsv0KAm3
-         10EOND4TvvYNUD8FTUBo4O9R8ph07/4arH/OjRUW8Aq0RzAe6qkH0V1l21Wk4OflcmHe
-         UXCASLYhgiy/U+Q2YU2xsAuPpl+bp36/msHR+8q26n6vfcu3sFSe9X4tusHvWz8rWg0G
-         tWZOtz86zjsu+5BXzIfOU5NGfWa0z/fyt+0vwnJQXiePJWAfmQkkkJ/9yynEiuQahvu6
-         idVQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVqFTkEDYPj9n/ix5MMX8w0FKzhazIsKWoupwJrhNvekZ5SO9ELfNb7yO+XbQQK1fYtvzVIJW0P+7uLoor9@lists.linux.dev
-X-Gm-Message-State: AOJu0YyR9DwlzsbgFK9XAvlDrEM8wdXG/4UCb6zKCJwTAps6xHj5TIPq
-	b7LBgxYs2Vb7r8Dbnurwrf5A5cl+ecY5yfMTDx/wRz7fN4WLW5WI
-X-Google-Smtp-Source: AGHT+IGrTcEMUOmBG45zZLNEkrmXgDUovpg3LtqbZ0hMpIXyz69P4bY+5b8Ffu15E8z2Ufn44L0JuQ==
-X-Received: by 2002:a17:906:f598:b0:a9e:b174:9cf7 with SMTP id a640c23a62f3a-a9eefeb4df1mr31857966b.13.1731015534837;
-        Thu, 07 Nov 2024 13:38:54 -0800 (PST)
-Received: from localhost.localdomain ([2a02:e0:9868:f700:985c:6c07:e7e5:186a])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9ee0deebabsm144917366b.153.2024.11.07.13.38.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Nov 2024 13:38:54 -0800 (PST)
-From: Omer Faruk BULUT <m.omerfarukbulut@gmail.com>
-To: dpenkler@gmail.com,
-	gregkh@linuxfoundation.org
-Cc: arnd@arndb.de,
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Dtu6esUv"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1731017503;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=6XdLsK6dGSUVDL3FIk1GPBWJGXdP9D65IRQ5gVT1UIo=;
+	b=Dtu6esUv1CFiNf8wlQCwJXWtoAjfEMrKaP3zVZi5JtWWpIrdBEoYUr2ufHa1ntkesjD+xP
+	53YChG+vL32A1V4rr4qx8tBNfQ1Y9zwax+ieNYdtHMqxfIemoPviZC5kcfRmbK7yvP0906
+	G0VxIAoGP1KMVN1SqO0GUHTiE60Ebvo=
+Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-16-65stCUCROAWsWgalPv2_xg-1; Thu,
+ 07 Nov 2024 17:11:39 -0500
+X-MC-Unique: 65stCUCROAWsWgalPv2_xg-1
+X-Mimecast-MFC-AGG-ID: 65stCUCROAWsWgalPv2_xg
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 0091B19560AF;
+	Thu,  7 Nov 2024 22:11:38 +0000 (UTC)
+Received: from shalem.redhat.com (unknown [10.39.194.177])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 9059D1953882;
+	Thu,  7 Nov 2024 22:11:35 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Omer Faruk BULUT <m.omerfarukbulut@gmail.com>
-Subject: [PATCH v2] Staging: gpib: gpib_os.c - Remove unnecessary OOM message
-Date: Fri,  8 Nov 2024 00:38:12 +0300
-Message-Id: <20241107213813.19185-1-m.omerfarukbulut@gmail.com>
-X-Mailer: git-send-email 2.17.1
+	Bartosz Golaszewski <brgl@bgdev.pl>
+Subject: [PATCH] media: atomisp: gmin: Remove GPIO driven regulator support
+Date: Thu,  7 Nov 2024 23:11:34 +0100
+Message-ID: <20241107221134.596149-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-It duplicate the MM subsystem generic OOM message. This patch fixes
-the following checkpatch warning.
+The GMIN code has support for sensors using external regulators enabled
+by GPIOS, rather then using regulators build into the PMIC.
 
-     WARNING: Possible unnecessary 'out of memory' message
+With the exception of the Trekstor ST70408-4 (1) tablet there are no known
+devices which actually use external regulators for the sensors and the code
+for this is using deprecated old style GPIO numbers support for which is
+going away.
 
-Signed-off-by: Omer Faruk BULUT <m.omerfarukbulut@gmail.com>
+Remove the GPIO driven regulator support so that the gmin code no longer
+depends on deprecated GPIO APIs.
+
+1) The GMIN support itself is also deprecated and all sensor drivers still
+using it are being moved over to use ACPI + runtime-pm and the ST70408-4
+shipped with Android as factory OS and thus will have broken ACPI tables
+for the sensors, so like other Android factory OS tablets it will need
+a bespoke solution anyways.
+
+Reported-by: Bartosz Golaszewski <brgl@bgdev.pl>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
-v2:
-	Changelog text  wrapped at 72 character
-        Unrelated changelog text removed
-        Trailing spaces removed
+Bart reported this to me by an off list email, so no Closes tag
 ---
- drivers/staging/gpib/common/gpib_os.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../media/atomisp/pci/atomisp_gmin_platform.c | 69 -------------------
+ 1 file changed, 69 deletions(-)
 
-diff --git a/drivers/staging/gpib/common/gpib_os.c b/drivers/staging/gpib/common/gpib_os.c
-index 27654b2180a5..7d5244113f1b 100644
---- a/drivers/staging/gpib/common/gpib_os.c
-+++ b/drivers/staging/gpib/common/gpib_os.c
-@@ -2093,7 +2093,7 @@ void gpib_register_driver(gpib_interface_t *interface, struct module *provider_m
- 	struct gpib_interface_list_struct *entry;
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+index 8ec990293b48..e7923dc38f2e 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+@@ -85,9 +85,6 @@ struct gmin_subdev {
+ 	bool v2p8_on;
+ 	bool v1p2_on;
  
- 	entry = kmalloc(sizeof(*entry), GFP_KERNEL);
--	if (!entry) 
-+	if (!entry)
- 		return;
- 	
- 	entry->interface = interface;
+-	int v1p8_gpio;
+-	int v2p8_gpio;
+-
+ 	u8 pwm_i2c_addr;
+ 
+ 	/* For PMIC AXP */
+@@ -242,22 +239,6 @@ static struct gmin_cfg_var mrd7_vars[] = {
+ 	{},
+ };
+ 
+-static struct gmin_cfg_var ecs7_vars[] = {
+-	{"INT33BE:00_CsiPort", "1"},
+-	{"INT33BE:00_CsiLanes", "2"},
+-	{"INT33BE:00_CsiFmt", "13"},
+-	{"INT33BE:00_CsiBayer", "2"},
+-	{"INT33BE:00_CamClk", "0"},
+-
+-	{"INT33F0:00_CsiPort", "0"},
+-	{"INT33F0:00_CsiLanes", "1"},
+-	{"INT33F0:00_CsiFmt", "13"},
+-	{"INT33F0:00_CsiBayer", "0"},
+-	{"INT33F0:00_CamClk", "1"},
+-	{"gmin_V2P8GPIO", "402"},
+-	{},
+-};
+-
+ static struct gmin_cfg_var i8880_vars[] = {
+ 	{"XXOV2680:00_CsiPort", "1"},
+ 	{"XXOV2680:00_CsiLanes", "1"},
+@@ -307,13 +288,6 @@ static const struct dmi_system_id gmin_vars[] = {
+ 		},
+ 		.driver_data = mrd7_vars,
+ 	},
+-	{
+-		.ident = "ST70408",
+-		.matches = {
+-			DMI_MATCH(DMI_BOARD_NAME, "ST70408"),
+-		},
+-		.driver_data = ecs7_vars,
+-	},
+ 	{
+ 		.ident = "VTA0803",
+ 		.matches = {
+@@ -531,23 +505,6 @@ static int gmin_subdev_add(struct gmin_subdev *gs)
+ 	else
+ 		dev_info(dev, "will handle gpio1 via ACPI\n");
+ 
+-	/*
+-	 * Those are used only when there is an external regulator apart
+-	 * from the PMIC that would be providing power supply, like on the
+-	 * two cases below:
+-	 *
+-	 * The ECS E7 board drives camera 2.8v from an external regulator
+-	 * instead of the PMIC.  There's a gmin_CamV2P8 config variable
+-	 * that specifies the GPIO to handle this particular case,
+-	 * but this needs a broader architecture for handling camera power.
+-	 *
+-	 * The CHT RVP board drives camera 1.8v from an* external regulator
+-	 * instead of the PMIC just like ECS E7 board.
+-	 */
+-
+-	gs->v1p8_gpio = gmin_get_var_int(dev, true, "V1P8GPIO", -1);
+-	gs->v2p8_gpio = gmin_get_var_int(dev, true, "V2P8GPIO", -1);
+-
+ 	/*
+ 	 * FIXME:
+ 	 *
+@@ -820,16 +777,6 @@ static int gmin_v1p8_ctrl(struct v4l2_subdev *subdev, int on)
+ 	if (!gs || gs->v1p8_on == on)
+ 		return 0;
+ 
+-	if (gs->v1p8_gpio >= 0) {
+-		pr_info("atomisp_gmin_platform: 1.8v power on GPIO %d\n",
+-			gs->v1p8_gpio);
+-		ret = gpio_request(gs->v1p8_gpio, "camera_v1p8_en");
+-		if (!ret)
+-			ret = gpio_direction_output(gs->v1p8_gpio, 0);
+-		if (ret)
+-			pr_err("V1P8 GPIO initialization failed\n");
+-	}
+-
+ 	gs->v1p8_on = on;
+ 
+ 	ret = 0;
+@@ -844,9 +791,6 @@ static int gmin_v1p8_ctrl(struct v4l2_subdev *subdev, int on)
+ 			goto out; /* Still needed */
+ 	}
+ 
+-	if (gs->v1p8_gpio >= 0)
+-		gpio_set_value(gs->v1p8_gpio, on);
+-
+ 	if (gs->v1p8_reg) {
+ 		regulator_set_voltage(gs->v1p8_reg, 1800000, 1800000);
+ 		if (on)
+@@ -901,16 +845,6 @@ static int gmin_v2p8_ctrl(struct v4l2_subdev *subdev, int on)
+ 	if (WARN_ON(!gs))
+ 		return -ENODEV;
+ 
+-	if (gs->v2p8_gpio >= 0) {
+-		pr_info("atomisp_gmin_platform: 2.8v power on GPIO %d\n",
+-			gs->v2p8_gpio);
+-		ret = gpio_request(gs->v2p8_gpio, "camera_v2p8");
+-		if (!ret)
+-			ret = gpio_direction_output(gs->v2p8_gpio, 0);
+-		if (ret)
+-			pr_err("V2P8 GPIO initialization failed\n");
+-	}
+-
+ 	if (gs->v2p8_on == on)
+ 		return 0;
+ 	gs->v2p8_on = on;
+@@ -927,9 +861,6 @@ static int gmin_v2p8_ctrl(struct v4l2_subdev *subdev, int on)
+ 			goto out; /* Still needed */
+ 	}
+ 
+-	if (gs->v2p8_gpio >= 0)
+-		gpio_set_value(gs->v2p8_gpio, on);
+-
+ 	if (gs->v2p8_reg) {
+ 		regulator_set_voltage(gs->v2p8_reg, 2900000, 2900000);
+ 		if (on)
 -- 
-2.17.1
+2.47.0
 
