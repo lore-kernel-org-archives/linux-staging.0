@@ -1,78 +1,99 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D884218323
-	for <linux-staging@lists.linux.dev>; Thu,  7 Nov 2024 19:48:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A40D1DBB0D
+	for <linux-staging@lists.linux.dev>; Thu,  7 Nov 2024 21:38:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731008903; cv=none; b=QXmMyF5UTqg7tpwRqFJBcBNVD40T00ZTa2YLuWDbA1lX7vY3CKT5wVbNaVSDngT2VpHL/2rag3FHNyvOJ5Ig1vFWMKRvIxh+BD+lDihtUDjGHOI0EMsM6JvjE7vYtVG5CzxPBiVwTi/N4VcGno7sPhORW3qwRDV4Wsj90oGeiNQ=
+	t=1731015538; cv=none; b=BxkjynwOy8PqF4pg47+rlNgvLilz9GI7eBuwYSwqUya1ZMLC5QcCyhb8SRxyRCUlf6Dd6iCREaLeoHBShYY/1aQ+FnotrapcYaqDguXUNvv/WWPs2rvAZt5eMzcXGiWSwq4ww1qXlHICYkmFA3/deF0RGjwV9V5DhHhqUnQioKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731008903; c=relaxed/simple;
-	bh=f0YywPWanEM24s0q52GKso9Nv195uicG46KTsPUxLW8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BH9ADiTk+Ouk9kcIsqdsedc7E4nil6B9a6M3IGWg8JgSWPpRGxjUI5s5bQNRmNLNShqy593s4cLV98vMH4RUFprCe7Zbi7LR3pcNUztcnSMeEN7GobKbZm789U6jnNUf4ySsjH1gV0ZN7iLdhdb/bW0SodGeAYCRrAzf6Hzu9So=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ZyAD5dPw; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1731015538; c=relaxed/simple;
+	bh=nvfpowuQR9GkDF62EOjFvmkjqhi+8SRsaAUYIJIYPUI=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=pf6BoE/FRPmaAavFz7D3V/zqlZVWQbqijKmWYNMYMLTJzObqz6EcI2LIJHS7akIz2AJsE7JbD2MByM8alNGeq9jUn6K/ZjalDZnTHc3ZKTZrW9R+u85NdjOHI/KcTkxAJegX8mvcel0F4Qy+v1V0YAfxJLtcFDN7Cj6hKoWumsE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bgPeCB/p; arc=none smtp.client-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ZyAD5dPw"
-Received: from umang.jain (unknown [IPv6:2405:201:2015:f873:c173:4b:4a04:3a21])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7B4DFA44;
-	Thu,  7 Nov 2024 20:48:10 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1731008892;
-	bh=f0YywPWanEM24s0q52GKso9Nv195uicG46KTsPUxLW8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ZyAD5dPwUsqoCX0oK08eQBVUxzuucLvpE56CEQAcS1Bg2BQ5gySzMC4cKZgAS41Px
-	 0VteNgF5hMwh7EEv6c37NDD6FUPMz8ha9H6yXOXyWJxiO9r9N9TDBOv4EbXHM1ob54
-	 vurRy453/TxYeVJO2wOYSU6LAEe/j+XR/1GEGuOo=
-From: Umang Jain <umang.jain@ideasonboard.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
-Cc: linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bgPeCB/p"
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5c941623a5aso4444215a12.0
+        for <linux-staging@lists.linux.dev>; Thu, 07 Nov 2024 13:38:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1731015535; x=1731620335; darn=lists.linux.dev;
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=K/PXz3VkkWyN+2D2oow1fRGOsXfzv5vjwk8qUZgMvfo=;
+        b=bgPeCB/pRIPwjbtGGIXsr43klnA1KPdUP8Y+niZMCoMNghQExoMbPnYy1crPO4hUP1
+         7dardDDtFOiP103DjWiIirIZX19UNYvZqxZeoTHTEUSflpMTCO3XhpmgLPS4nkSIv2Dt
+         BJ58po+96qM8ov/75h4of23z7FWQcVTWC/BtH7SrDlBrAXwdUfuirjQh05LqCAFc3z96
+         A1sW4cdBMVlk/PTABNXabTllsjonwNK+RaaQIxtjJi0hQ+TfR4LWsmPqaIPGHtPKMu8T
+         YtrqnGDHY7DPtJxTmzrGkogvfRsiko/GnGwFyCpJ+9+4ZchdMKacfcYHJftzNYwP7hme
+         eVDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731015535; x=1731620335;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=K/PXz3VkkWyN+2D2oow1fRGOsXfzv5vjwk8qUZgMvfo=;
+        b=a/X7gLcyrEMrz8at+knLOvXYKka+MYh/iXz/NWbVR7myxyoQIkq/PvKSS8jAX0brKd
+         xLHKWFHXYicK6uSbxOBOGGLBiCcpB6FpVej/fJcfvVg2hb5DkurSLXMbkfFfTsv0KAm3
+         10EOND4TvvYNUD8FTUBo4O9R8ph07/4arH/OjRUW8Aq0RzAe6qkH0V1l21Wk4OflcmHe
+         UXCASLYhgiy/U+Q2YU2xsAuPpl+bp36/msHR+8q26n6vfcu3sFSe9X4tusHvWz8rWg0G
+         tWZOtz86zjsu+5BXzIfOU5NGfWa0z/fyt+0vwnJQXiePJWAfmQkkkJ/9yynEiuQahvu6
+         idVQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVqFTkEDYPj9n/ix5MMX8w0FKzhazIsKWoupwJrhNvekZ5SO9ELfNb7yO+XbQQK1fYtvzVIJW0P+7uLoor9@lists.linux.dev
+X-Gm-Message-State: AOJu0YyR9DwlzsbgFK9XAvlDrEM8wdXG/4UCb6zKCJwTAps6xHj5TIPq
+	b7LBgxYs2Vb7r8Dbnurwrf5A5cl+ecY5yfMTDx/wRz7fN4WLW5WI
+X-Google-Smtp-Source: AGHT+IGrTcEMUOmBG45zZLNEkrmXgDUovpg3LtqbZ0hMpIXyz69P4bY+5b8Ffu15E8z2Ufn44L0JuQ==
+X-Received: by 2002:a17:906:f598:b0:a9e:b174:9cf7 with SMTP id a640c23a62f3a-a9eefeb4df1mr31857966b.13.1731015534837;
+        Thu, 07 Nov 2024 13:38:54 -0800 (PST)
+Received: from localhost.localdomain ([2a02:e0:9868:f700:985c:6c07:e7e5:186a])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9ee0deebabsm144917366b.153.2024.11.07.13.38.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Nov 2024 13:38:54 -0800 (PST)
+From: Omer Faruk BULUT <m.omerfarukbulut@gmail.com>
+To: dpenkler@gmail.com,
+	gregkh@linuxfoundation.org
+Cc: arnd@arndb.de,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Stefan Wahren <wahrenst@gmx.net>,
-	Umang Jain <umang.jain@ideasonboard.com>
-Subject: [PATCH 3/3] staging: vchiq_debugfs: Use forward declarations
-Date: Fri,  8 Nov 2024 01:18:06 +0530
-Message-ID: <20241107194806.90408-4-umang.jain@ideasonboard.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20241107194806.90408-1-umang.jain@ideasonboard.com>
-References: <20241107194806.90408-1-umang.jain@ideasonboard.com>
+	Omer Faruk BULUT <m.omerfarukbulut@gmail.com>
+Subject: [PATCH v2] Staging: gpib: gpib_os.c - Remove unnecessary OOM message
+Date: Fri,  8 Nov 2024 00:38:12 +0300
+Message-Id: <20241107213813.19185-1-m.omerfarukbulut@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Use forward declarations for struct vchiq_state and vchiq_instance.
-We can then drop the vchiq_core.h header from vchiq_debugfs.h.
+It duplicate the MM subsystem generic OOM message. This patch fixes
+the following checkpatch warning.
 
-Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+     WARNING: Possible unnecessary 'out of memory' message
+
+Signed-off-by: Omer Faruk BULUT <m.omerfarukbulut@gmail.com>
 ---
- .../staging/vc04_services/interface/vchiq_arm/vchiq_debugfs.h  | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+v2:
+	Changelog text  wrapped at 72 character
+        Unrelated changelog text removed
+        Trailing spaces removed
+---
+ drivers/staging/gpib/common/gpib_os.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_debugfs.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_debugfs.h
-index fabffd81b1ec..b29e6693c949 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_debugfs.h
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_debugfs.h
-@@ -4,7 +4,8 @@
- #ifndef VCHIQ_DEBUGFS_H
- #define VCHIQ_DEBUGFS_H
+diff --git a/drivers/staging/gpib/common/gpib_os.c b/drivers/staging/gpib/common/gpib_os.c
+index 27654b2180a5..7d5244113f1b 100644
+--- a/drivers/staging/gpib/common/gpib_os.c
++++ b/drivers/staging/gpib/common/gpib_os.c
+@@ -2093,7 +2093,7 @@ void gpib_register_driver(gpib_interface_t *interface, struct module *provider_m
+ 	struct gpib_interface_list_struct *entry;
  
--#include "vchiq_core.h"
-+struct vchiq_state;
-+struct vchiq_instance;
- 
- struct vchiq_debugfs_node {
- 	struct dentry *dentry;
+ 	entry = kmalloc(sizeof(*entry), GFP_KERNEL);
+-	if (!entry) 
++	if (!entry)
+ 		return;
+ 	
+ 	entry->interface = interface;
 -- 
-2.45.2
+2.17.1
 
