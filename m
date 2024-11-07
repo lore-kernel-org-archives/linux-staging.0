@@ -1,96 +1,65 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7D362101BC;
-	Thu,  7 Nov 2024 18:39:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1AC921731F
+	for <linux-staging@lists.linux.dev>; Thu,  7 Nov 2024 19:48:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731004760; cv=none; b=QcSsvb3cre1HbOON5hXEpWYYo6gvzxpke1BCDC/sLibn+/EzSwHtVUHCNwJnhNYBHAP0oIzdVHKCUd0RAFl9zgNgjg1Kxeh76df6/Z582khWX7OPk8PkDg6xbg4y4TjL35UdGFJ3UT9aNy4t7hdYmeITmZ0LGTDIo5qURYmEs4c=
+	t=1731008900; cv=none; b=aYn3N918+rbhxUZ+Cq9jIKi2TY7ksUPgfQD+KhEwDuJbBJs8MjG/KBwoK472fyW/quVPgAiUW6rCPSt9m/75FywaT3Kvmpm4xpa47zSSLhxN1ID6oFubZmwvdaNVnZvFEVFl8Vkoqrm2JyCVAP+OUfM+MXDyrHIZtRJALfRJ2T8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731004760; c=relaxed/simple;
-	bh=hCkkdu73hQGPvGzbLfLCeST5jOjzoBQGbV91cnCWD0U=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CTaRnzFZq5q+3JS1F8vbOXuky00QXVIcPS9f3fcPkE7TzQevX8hrUFQbUK7+pWId8K9slXdFUSU98pEw1OV3UMpA4A5PL3Ybx87/hTgViMgHPY+o4o7mTgRReDFke/zpBhwU2auSmUyO1OMUappwGA0QbdiEN/gzsS9ygQ/TMzg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tNAG+MJt; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1731008900; c=relaxed/simple;
+	bh=GZ3n4cGUFb9X0QXdd9Kdf3Hk/WUzfeCTMfx/Vj51ysE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aUaAOmmOlyx8ZYvtxGU1A2vLGEz60hrqaiDpk6Crzhdfj5AnoGArNtCjc+hoWYpKDwihx+lP5VKyH2TT0WlvapOpkc1mJQQ8HgvIGNqxaK/C8xIvB7H2oM8BBrn+1yuZybOBw9cK6q5HwDiClrfgIO8UrWx27sQ1BsTcGuYS8A0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=jXjBq2Jl; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tNAG+MJt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35012C4CECC;
-	Thu,  7 Nov 2024 18:39:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731004758;
-	bh=hCkkdu73hQGPvGzbLfLCeST5jOjzoBQGbV91cnCWD0U=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=tNAG+MJtqHQORwp12W5tqpy9AAV068tUC/40ZMwFjqFKc50LIauzpv1OtqbuA3LQv
-	 jWUDMxma1PnUoWCF/mGwLDjr4W8tJqEdnWSaLhjaQbebBOPs7/bakm3BtSrFag/KGz
-	 wHr/0wKFTOSQNSU1SfeECNKsQw94TVXcMmR1q/6qpX6kWwd1K1hPsskytoBoaxMUrB
-	 WJ8snLcan8XDZOZsv8qeY2A9/CQl253SqDTnvIryx79ceR3wAirhjHfQryPnmkege4
-	 xIcOCgY875h/5nyPpAnBQ4+6CBjU+4sUpUPIM6mEZa7SWnTawONAMlak7Lom8rUjki
-	 vxF1qhLvwONyQ==
-Date: Thu, 7 Nov 2024 18:39:08 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Dominik Karol =?UTF-8?B?UGnEhXRrb3dza2k=?=
- <dominik.karol.piatkowski@protonmail.com>
-Cc: lars@metafoo.de, gregkh@linuxfoundation.org,
- parthiban.veerasooran@microchip.com, christian.gromm@microchip.com,
- sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
- linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-fbdev@vger.kernel.org, Michael
- Hennerich <Michael.Hennerich@analog.com>
-Subject: Re: [PATCH 1/4] staging: iio: Remove TODO file
-Message-ID: <20241107183908.248ed108@jic23-huawei>
-In-Reply-To: <20241107172908.95530-2-dominik.karol.piatkowski@protonmail.com>
-References: <20241107172908.95530-1-dominik.karol.piatkowski@protonmail.com>
-	<20241107172908.95530-2-dominik.karol.piatkowski@protonmail.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="jXjBq2Jl"
+Received: from umang.jain (unknown [IPv6:2405:201:2015:f873:c173:4b:4a04:3a21])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CA73822A;
+	Thu,  7 Nov 2024 20:48:03 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1731008886;
+	bh=GZ3n4cGUFb9X0QXdd9Kdf3Hk/WUzfeCTMfx/Vj51ysE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=jXjBq2JlXpoAA9J7MX0LWSdJ/tjY8Pl5LCVuMjW9T9lJd8RHkA1frsHXyT4ssxyyc
+	 R+9exTw54vl3e1iIZeq9grpedm/NOYSUBgHiAJku7yylySTRLmF5Qrkv7afqOobhB5
+	 xJ8/71lKtccCxAqsbQ62NSlB5tL/3HAcYHBtqVO8=
+From: Umang Jain <umang.jain@ideasonboard.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+Cc: linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Stefan Wahren <wahrenst@gmx.net>,
+	Umang Jain <umang.jain@ideasonboard.com>
+Subject: [PATCH 0/3] staging: vc04_services: Assorted fixes
+Date: Fri,  8 Nov 2024 01:18:03 +0530
+Message-ID: <20241107194806.90408-1-umang.jain@ideasonboard.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, 07 Nov 2024 17:30:51 +0000
-Dominik Karol Pi=C4=85tkowski <dominik.karol.piatkowski@protonmail.com> wro=
-te:
+Assorted fixes for headers and TODO file
 
-> Remove TODO file, as it only contains contact information.
->=20
-> Signed-off-by: Dominik Karol Pi=C4=85tkowski <dominik.karol.piatkowski@pr=
-otonmail.com>
-> ---
->  drivers/staging/iio/TODO | 5 -----
->  1 file changed, 5 deletions(-)
->  delete mode 100644 drivers/staging/iio/TODO
->=20
-> diff --git a/drivers/staging/iio/TODO b/drivers/staging/iio/TODO
-> deleted file mode 100644
-> index 0fa6a5500bdb..000000000000
-> --- a/drivers/staging/iio/TODO
-> +++ /dev/null
-> @@ -1,5 +0,0 @@
-> -2020-02-25
-> -
-> -
-> -Contact: Jonathan Cameron <jic23@kernel.org>.
-> -Mailing list: linux-iio@vger.kernel.org
+Umang Jain (3):
+  staging: vc04_services: Cleanup TODO entry
+  staging: vchiq_core: Rectify header include for vchiq_dump_state()
+  staging: vchiq_debugfs: Use forward declarations
 
-kernel.org entries tend not to get stale very quickly.
+ drivers/staging/vc04_services/interface/TODO             | 9 ---------
+ .../vc04_services/interface/vchiq_arm/vchiq_core.h       | 2 +-
+ .../vc04_services/interface/vchiq_arm/vchiq_debugfs.h    | 3 ++-
+ 3 files changed, 3 insertions(+), 11 deletions(-)
 
-Indeed redundant.  I'll assume Greg will pick this up if he is
-happy with it.
-
-Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-
-Hmm. We should probably write a meaningful todo for the left over
-IIO drivers in staging beyond 'fix the driver, mostly ABI issues'
-but doing so involves going half the way to actually fixing them.
-
-Every now and then I moot just deleting them all and instead
-poke Analog to remind them these exist.
-
-Michael, consider this another poke :)
-
-Jonathan
+-- 
+2.45.2
 
