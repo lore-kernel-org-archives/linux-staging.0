@@ -1,106 +1,91 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CAFC1537B9
-	for <linux-staging@lists.linux.dev>; Sat,  9 Nov 2024 13:06:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D0AC19415E;
+	Sat,  9 Nov 2024 14:39:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731157604; cv=none; b=rpnV0rhOHD2TOy/N7svV6wa8Qnc/sNRbaTQdFBB/YaF4LVS62678YOYJNRnbSvKamv/pPlqD2IKUVtFeEsz7arHiIIR1OSlpoZ0X9oiO/8Qi5c4dnTsWw3ipu7dDL3Q3NzmT3BxBSH2DSvNgA4iwiC34bAR+ylQLnQsTH0KOX4A=
+	t=1731163195; cv=none; b=VRxWGU3QnlOU+oX+B/T0cgXOlzIvisn0+fNT79fSeM6iOETz9RC0Mwbw4fAW2yhhrLNGl7m6FxoeIHkgeSXrRG8cYvJzYZdaBPEd/5PMjXp2OhLiC4ArTs5BuL7n6cpg0gz/3M/xxVegsGgykUydArCABaS9fgin0GFnC8xaK2s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731157604; c=relaxed/simple;
-	bh=mm9K2xz6Oebcgou/IL/b/qlatzpNrubhgk+71MJ3grM=;
-	h=From:To:Cc:Subject:Date:Message-Id; b=aLisNHconYS6T9FFCTXTi3IAbTbueN3ytQLO1++0gDcE34cAmev/83Ig3pqfh1cjloYm5mATguUTvlXi8auhY6qBvY9oxfzCWffCcSHITeiyMQZqZSBl0PP4t6y00rC4kuWC37R49H01AkGXWSKcqbP2FRseYC35SnxL3VBF6Yg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YExqlwu3; arc=none smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1731163195; c=relaxed/simple;
+	bh=T510t+l0xB/kz/9PFkuaSPd/d4vzbmijLpOLZUZl87o=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=l5Vs9492FgsLhBQBCZKbzYSgeWjsnfrTcHeQtpA0dOCJI3Cf3Yd9Y6n+Mrx+5JbYMkxMk4TLyAfbD8i+62m9rAC0cAzyjUCJS/qpq23Od3cvpOeTyfiIDrANCNoEIEhviOM/SRyPQz9I5/o3yllBnmUlUnznLOYZoTB1Kgkv+S8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mk8lNYys; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YExqlwu3"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5c9388a00cfso3735965a12.3
-        for <linux-staging@lists.linux.dev>; Sat, 09 Nov 2024 05:06:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731157601; x=1731762401; darn=lists.linux.dev;
-        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=y1LH9F4fl/SCwwpRhotRkshccuFBLM0AoD3ZbJEdUKs=;
-        b=YExqlwu3/HpGy26cwXDDBztTPB6X3nfY/D6y8yXV4tQnpug5qRA7+Cj4FXYvpP1t4I
-         CmgU8hCX6KS4p1MmJDcsOx99carFg+pYcjjKYF1qskjY+EhT8mOzQKcJWWhgZVq2jPQS
-         BqAAA9gmH99GSa6z7IL012tSlu3iEVnP+WIqs0i2ofeUUefxYY2fwK++HYWnimuxE/85
-         kkraxsBLNufXt9TV7o5bXV8N0lHvEo5J+ujQ2Ta1uTfD0AsjnjdK9tyAzycKcE73KDr1
-         s8FZljiq5oq/OcX8DhRBLGwfzYq4WG+MGP+pfdR9OeDc+cN5jlf15uY3L2y+NR9U/Swz
-         josw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731157601; x=1731762401;
-        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=y1LH9F4fl/SCwwpRhotRkshccuFBLM0AoD3ZbJEdUKs=;
-        b=TaHMFc/08qa6hbT23FgNaHf0NS0B1Dgz93RKr3t2F9O/dlP+z4iomnbubDDUbaZGcL
-         MwWMwTuBkIxtqKbzX3N/mZ+nZ1IvJ5mjiU2/ZzxXzix0Nf0cIMxsWcLEm8lo2ZFoO5oK
-         t6qg36ZZ776+XdoPT6RDoWGp/sdEgIIOJpzB2Fak4r2YhJyO9FJRfT2Gjl18mNH0fCPo
-         gFiNv7boLrW9oR/iyHjC5kWcy26htCLDKW/7DJl0O2eqjNp15fwJEhdBjXOXr35+K1JJ
-         NBl7Bf9G5p6Xzfh+KhtDOj/RlSi4BOhscMZt7eP+7s8Cvu1HNnDtFFberWX1KNQdVjMl
-         wcuA==
-X-Forwarded-Encrypted: i=1; AJvYcCWEtLKRkjVCxh+XvuIrbeyhNLlwmJszUFeZ1k1ZEloiPJAAW6oMQcHG3BUoPW8Caxs+BfORM4+dQCbVLVhz@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywcjvw3IhOrMGh8GKkaR87AWTk+rsvvGMVr+pG8HcYlNtCIPaai
-	rsMmFQGsbfeGbBeVbDNJfzrIvJZGiVb1l+8UdLJTGXskaHszD3Yv
-X-Google-Smtp-Source: AGHT+IFwskzHVlYtfLNHpgXDc3MAep1lUrE6+lpwhYGiO61NRE1vLY6Sz72u6wFh36h6WeJiN8oRYQ==
-X-Received: by 2002:a17:906:4f96:b0:a9f:168:efdf with SMTP id a640c23a62f3a-a9f0169008dmr189961566b.6.1731157601093;
-        Sat, 09 Nov 2024 05:06:41 -0800 (PST)
-Received: from localhost.localdomain ([2a02:e0:9868:f700:d4f1:16c9:67f3:ed1d])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5cf03bb83acsm2972516a12.51.2024.11.09.05.06.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 09 Nov 2024 05:06:40 -0800 (PST)
-From: Omer Faruk BULUT <m.omerfarukbulut@gmail.com>
-To: dpenkler@gmail.com,
-	gregkh@linuxfoundation.org
-Cc: arnd@arndb.de,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Omer Faruk BULUT <m.omerfarukbulut@gmail.com>
-Subject: [PATCH v3] Staging: gpib: gpib_os.c - Remove unnecessary OOM message
-Date: Sat,  9 Nov 2024 16:05:54 +0300
-Message-Id: <20241109130554.3652-1-m.omerfarukbulut@gmail.com>
-X-Mailer: git-send-email 2.17.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mk8lNYys"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB9C2C4CECE;
+	Sat,  9 Nov 2024 14:39:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1731163194;
+	bh=T510t+l0xB/kz/9PFkuaSPd/d4vzbmijLpOLZUZl87o=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=mk8lNYysok1s5E1nICm/PNW3pliB63UBH2mjf3k0g1bCAVwA0pYi6zstHO2/5i6QA
+	 kEA5dNkmxcMB2h72ApXVuhTnFE8ZG416VzxLnOp0NxeIkfwLJfvxVq2tBQ9vUHxxU4
+	 vRmZWy9hUn7otj7j2QUO4/C/4Fgs71BZNG6dsftesXuv4Kl+gbJAKXQ/tuv8sPTWYz
+	 W+wxVnqwMitwRT+hzrvj4Nmn+gv0uFS9a3BENZrd5ESvNGRKINV54eQPKZoRM/ATEq
+	 X6PpbrGvNKwJzy2AVG0rLOcElVhJlcjws/TBv6yKFToqDOkd5TasVCSnhCCJMxR6Ur
+	 wxfKiMBVy2aAg==
+Date: Sat, 9 Nov 2024 14:39:45 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Zicheng Qu <quzicheng@huawei.com>
+Cc: <lars@metafoo.de>, <Michael.Hennerich@analog.com>,
+ <gregkh@linuxfoundation.org>, <daniel.baluta@intel.com>,
+ <shubhrajyoti@ti.com>, <linux-iio@vger.kernel.org>,
+ <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+ <tanghui20@huawei.com>, <zhangqiao22@huawei.com>, <judy.chenhui@huawei.com>
+Subject: Re: [PATCH v2 0/2] Fix phase range check in AD9832 and AD9834
+ drivers
+Message-ID: <20241109143945.2616c5d5@jic23-huawei>
+In-Reply-To: <20241107011015.2472600-1-quzicheng@huawei.com>
+References: <20241105140359.2465656-1-quzicheng@huawei.com>
+	<20241107011015.2472600-1-quzicheng@huawei.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-It dublicate the MM subsystem generic OOM message. This patch fixes
-the following checkpatch warning.
+On Thu, 7 Nov 2024 01:10:13 +0000
+Zicheng Qu <quzicheng@huawei.com> wrote:
 
-	WARNING: Possible unnecessary 'out of memory' message
+> Hi,
+> 
+> The previous link is: https://lore.kernel.org/linux-iio/20241105140359.2465656-1-quzicheng@huawei.com/T/#u
+> 
+> This patch (v2) addresses an issue in both the AD9832 and AD9834 drivers
+> where the phase range check allows an invalid value of 4096. The
+> condition has been corrected to ensure only valid 12-bit values (0-4095)
+> are accepted.
+> 
+> These changes ensure compliance with datasheet specifications and
+> prevent potential issues with incorrect phase settings.
+> 
+> Zicheng Qu (2):
+>   staging: iio: ad9834: Correct phase range check
+>   staging: iio: ad9832: Correct phase range check
+> 
+>  drivers/staging/iio/frequency/ad9832.c | 2 +-
+>  drivers/staging/iio/frequency/ad9834.c | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> Thank you for reviewing this patch.
+> 
+For future reference, for IIO at least (and most of the kernel) don't
+reply to previous version when posting a new version.  That tends to
+make it likely your patch set will be lost way up the pile of email
+in a maintainers in box.
 
-Signed-off-by: Omer Faruk BULUT <m.omerfarukbulut@gmail.com>
----
-v1->v2:
-	Changelog text wrapped at 72 characters
-	Unrelated changelog text removed
-	Trailing spaces removed
-v2->v3:
-	v2 patch wasn't about what changelog text specified. That
-unintentional mistake is corrected.
----
- drivers/staging/gpib/common/gpib_os.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+Many maintainers start at latest and work backwards until they run out
+of time :)
 
-diff --git a/drivers/staging/gpib/common/gpib_os.c b/drivers/staging/gpib/common/gpib_os.c
-index 6b12404efe7d..6eec8ed79a3a 100644
---- a/drivers/staging/gpib/common/gpib_os.c
-+++ b/drivers/staging/gpib/common/gpib_os.c
-@@ -2093,10 +2093,9 @@ void gpib_register_driver(gpib_interface_t *interface, struct module *provider_m
- 	struct gpib_interface_list_struct *entry;
- 
- 	entry = kmalloc(sizeof(*entry), GFP_KERNEL);
--	if (!entry) {
--		pr_err("gpib: failed register %s interface, out of memory\n", interface->name);
-+	if (!entry)
- 		return;
--	}
-+
- 	entry->interface = interface;
- 	entry->module = provider_module;
- 	list_add(&entry->list, &registered_drivers);
--- 
-2.17.1
+Jonathan
+
+> Best regards,
+> 
+> Zicheng
 
