@@ -1,113 +1,124 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD61B4779F
-	for <linux-staging@lists.linux.dev>; Sat,  9 Nov 2024 09:19:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38D058C07;
+	Sat,  9 Nov 2024 09:31:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731143962; cv=none; b=Ee+rs40CHXfdZ3DHHekF8v9vYf+fXYP5H8PpXMWmTpdy0CaS7tbrjw7HBUwkX2/athuqnGeKl5CHlfL+uA9JSuE2CGQE1sENcHQJMhSWICwjpuXh49CnjM0i23TpHqnETDf0rXkqOpDh9OI4+JAoBxzuhlXQPQolAYz97HiZyAw=
+	t=1731144689; cv=none; b=rluVaz1vASsuPK/xyjsWR/2rnL8JzAXZwOmxhkxElenXWzY3eL5TuVrH8C4U9tCn3KPHlWIUTu+gCNxkRjko5xVZ99lF4564Y6LF04iZFghP44G9uapcgMDM+cMe/nBrsALTvKdzDhjKTlNSYXV7LIep7RAOeJQjBT+LZx0KbAE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731143962; c=relaxed/simple;
-	bh=izouzB/5ns6y4szMVLv6hmt1MHQuVilQ2FqjaH9P09w=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AIwrg3Q1aXcL9zJnkerlaMFNBSbgGm5k/9kk8O+zEHwnGtEQlt3jcgQ1rYsh3CwBIX1AyW3Bud2gJXH5qBCcDNEiLfzeZnWXKtb3sVo1+NwXtX/49RBDsdJ6/4JP0qKJmx6IQKVcoz6802ChPhrU6OTiriy7zfejDG/WowGGCS4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: aed4f01c9e7b11efa216b1d71e6e1362-20241109
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.38,REQID:a7f4d244-5893-4a49-95b0-3a0b52fc30ee,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:82c5f88,CLOUDID:3be22847dbd25ccf88b01841480c1bec,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,URL:0
-	,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:
-	NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: aed4f01c9e7b11efa216b1d71e6e1362-20241109
-Received: from mail.kylinos.cn [(10.44.16.175)] by mailgw.kylinos.cn
-	(envelope-from <zhangheng@kylinos.cn>)
-	(Generic MTA)
-	with ESMTP id 1824792887; Sat, 09 Nov 2024 17:19:12 +0800
-Received: from mail.kylinos.cn (localhost [127.0.0.1])
-	by mail.kylinos.cn (NSMail) with SMTP id 2B348E0080FF;
-	Sat,  9 Nov 2024 17:19:12 +0800 (CST)
-X-ns-mid: postfix-672F2910-395305
-Received: from kylin-pc.. (unknown [172.25.130.133])
-	by mail.kylinos.cn (NSMail) with ESMTPA id 71926E0080FF;
-	Sat,  9 Nov 2024 17:19:11 +0800 (CST)
-From: zhangheng <zhangheng@kylinos.cn>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	zhangheng <zhangheng@kylinos.cn>
-Subject: [PATCH 2/4] staging: octeon: Use DEV_STAT_INC()
-Date: Sat,  9 Nov 2024 17:19:09 +0800
-Message-ID: <20241109091909.4038571-1-zhangheng@kylinos.cn>
-X-Mailer: git-send-email 2.45.2
+	s=arc-20240116; t=1731144689; c=relaxed/simple;
+	bh=Hl4soNYNkoJoO8s2LrDmBcSuJ+qYTprtpvDjVX0t7zQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EJSPDH/diqAR/dXcduOKcrjuypapEBFwJ6EqnQleRuDa4LzJrI1KbZF1bc/7hXuf+bgkR9An/G/xWm46Du+wbQy0Tc+0t/vTafbmJbXoTtoVmKvRRWcbJssFLQ7XNKZjutNk7lw6YT9raoG9yewpHZcOb0PZ+5CpMs8F/BqXfG0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Dqh+k6j+; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Dqh+k6j+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42E75C4CECE;
+	Sat,  9 Nov 2024 09:31:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1731144688;
+	bh=Hl4soNYNkoJoO8s2LrDmBcSuJ+qYTprtpvDjVX0t7zQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Dqh+k6j+BGpTnpGqlB4KIFRz7bk9LnwsPveSlAeiOQ2vUHX6l4x9nWm4SaqmEBJsc
+	 lNPaNkUHX2gAVvgA+A4mxzgn+9kOkXCyAXbBEm0lZXQf9hW7dLz0fWSlo/9kbo6RK3
+	 H2cAMNPNSk2afKaDHVB3d9lj10OfxrDYS6IjYiAU=
+Date: Sat, 9 Nov 2024 10:31:25 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: zhangheng <zhangheng@kylinos.cn>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/4] staging: octeon: Use DEV_STAT_INC()
+Message-ID: <2024110910-playroom-oppressed-6a7c@gregkh>
+References: <20241109091909.4038571-1-zhangheng@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241109091909.4038571-1-zhangheng@kylinos.cn>
 
-syzbot/KCSAN reported that races happen when multiple CPUs updating
-dev->stats.tx_error concurrently. Adopt SMP safe DEV_STATS_INC() to
-update the dev->stats fields.
----
- drivers/staging/octeon/ethernet-tx.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+On Sat, Nov 09, 2024 at 05:19:09PM +0800, zhangheng wrote:
+> syzbot/KCSAN reported that races happen when multiple CPUs updating
+> dev->stats.tx_error concurrently. Adopt SMP safe DEV_STATS_INC() to
+> update the dev->stats fields.
+> ---
+>  drivers/staging/octeon/ethernet-tx.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/staging/octeon/ethernet-tx.c b/drivers/staging/octeon/ethernet-tx.c
+> index bbf33b88bb7c..f9c38bf25851 100644
+> --- a/drivers/staging/octeon/ethernet-tx.c
+> +++ b/drivers/staging/octeon/ethernet-tx.c
+> @@ -442,7 +442,7 @@ netdev_tx_t cvm_oct_xmit(struct sk_buff *skb, struct net_device *dev)
+>  	case QUEUE_DROP:
+>  		skb->next = to_free_list;
+>  		to_free_list = skb;
+> -		dev->stats.tx_dropped++;
+> +		DEV_STATS_INC(dev, tx_dropped);
+>  		break;
+>  	case QUEUE_HW:
+>  		cvmx_fau_atomic_add32(FAU_NUM_PACKET_BUFFERS_TO_FREE, -1);
+> @@ -516,7 +516,7 @@ netdev_tx_t cvm_oct_xmit_pow(struct sk_buff *skb, struct net_device *dev)
+>  	if (unlikely(!work)) {
+>  		printk_ratelimited("%s: Failed to allocate a work queue entry\n",
+>  				   dev->name);
+> -		dev->stats.tx_dropped++;
+> +		DEV_STATS_INC(dev, tx_dropped);
+>  		dev_kfree_skb_any(skb);
+>  		return 0;
+>  	}
+> @@ -527,7 +527,7 @@ netdev_tx_t cvm_oct_xmit_pow(struct sk_buff *skb, struct net_device *dev)
+>  		printk_ratelimited("%s: Failed to allocate a packet buffer\n",
+>  				   dev->name);
+>  		cvmx_fpa_free(work, CVMX_FPA_WQE_POOL, 1);
+> -		dev->stats.tx_dropped++;
+> +		DEV_STATS_INC(dev, tx_dropped);
+>  		dev_kfree_skb_any(skb);
+>  		return 0;
+>  	}
+> @@ -644,8 +644,8 @@ netdev_tx_t cvm_oct_xmit_pow(struct sk_buff *skb, struct net_device *dev)
+>  	/* Submit the packet to the POW */
+>  	cvmx_pow_work_submit(work, work->word1.tag, work->word1.tag_type,
+>  			     cvmx_wqe_get_qos(work), cvmx_wqe_get_grp(work));
+> -	dev->stats.tx_packets++;
+> -	dev->stats.tx_bytes += skb->len;
+> +	DEV_STATS_INC(dev, tx_packets);
+> +	DEV_STATS_ADD(dev, tx_bytes, skb->len);
+>  	dev_consume_skb_any(skb);
+>  	return 0;
+>  }
+> -- 
+> 2.45.2
+> 
+> 
 
-diff --git a/drivers/staging/octeon/ethernet-tx.c b/drivers/staging/octeo=
-n/ethernet-tx.c
-index bbf33b88bb7c..f9c38bf25851 100644
---- a/drivers/staging/octeon/ethernet-tx.c
-+++ b/drivers/staging/octeon/ethernet-tx.c
-@@ -442,7 +442,7 @@ netdev_tx_t cvm_oct_xmit(struct sk_buff *skb, struct =
-net_device *dev)
- 	case QUEUE_DROP:
- 		skb->next =3D to_free_list;
- 		to_free_list =3D skb;
--		dev->stats.tx_dropped++;
-+		DEV_STATS_INC(dev, tx_dropped);
- 		break;
- 	case QUEUE_HW:
- 		cvmx_fau_atomic_add32(FAU_NUM_PACKET_BUFFERS_TO_FREE, -1);
-@@ -516,7 +516,7 @@ netdev_tx_t cvm_oct_xmit_pow(struct sk_buff *skb, str=
-uct net_device *dev)
- 	if (unlikely(!work)) {
- 		printk_ratelimited("%s: Failed to allocate a work queue entry\n",
- 				   dev->name);
--		dev->stats.tx_dropped++;
-+		DEV_STATS_INC(dev, tx_dropped);
- 		dev_kfree_skb_any(skb);
- 		return 0;
- 	}
-@@ -527,7 +527,7 @@ netdev_tx_t cvm_oct_xmit_pow(struct sk_buff *skb, str=
-uct net_device *dev)
- 		printk_ratelimited("%s: Failed to allocate a packet buffer\n",
- 				   dev->name);
- 		cvmx_fpa_free(work, CVMX_FPA_WQE_POOL, 1);
--		dev->stats.tx_dropped++;
-+		DEV_STATS_INC(dev, tx_dropped);
- 		dev_kfree_skb_any(skb);
- 		return 0;
- 	}
-@@ -644,8 +644,8 @@ netdev_tx_t cvm_oct_xmit_pow(struct sk_buff *skb, str=
-uct net_device *dev)
- 	/* Submit the packet to the POW */
- 	cvmx_pow_work_submit(work, work->word1.tag, work->word1.tag_type,
- 			     cvmx_wqe_get_qos(work), cvmx_wqe_get_grp(work));
--	dev->stats.tx_packets++;
--	dev->stats.tx_bytes +=3D skb->len;
-+	DEV_STATS_INC(dev, tx_packets);
-+	DEV_STATS_ADD(dev, tx_bytes, skb->len);
- 	dev_consume_skb_any(skb);
- 	return 0;
- }
---=20
-2.45.2
+Hi,
 
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
+
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- Your patch does not have a Signed-off-by: line.  Please read the
+  kernel file, Documentation/process/submitting-patches.rst and resend
+  it after adding that line.  Note, the line needs to be in the body of
+  the email, before the patch, not at the bottom of the patch or in the
+  email signature.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
