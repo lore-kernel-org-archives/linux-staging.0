@@ -1,102 +1,72 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1667914E2CC;
-	Sat,  9 Nov 2024 14:41:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61B18EED8;
+	Sun, 10 Nov 2024 06:31:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731163297; cv=none; b=om5FYsbYHBOuhQVxzE9TJ0sQ5RtxNXrcyTSlSVqfzmqe4KhRN9qKA9BOXP40P5ApGP3YmXfeeRnImZ+nqN1tAZ9yezV+K11APt+iVtqPHcl7jmjBoxWFwFnyhUrFKatfhth+xfLBm4l8pIdWh9lbhbyFlkfEFbEC5xe90CfbQts=
+	t=1731220318; cv=none; b=GdeGCPPcG/u05S4o6ht2JimMlO+TQrZh5PgEGzbZiKSMX+11RSAsLP9SVDrhS1Km8osPbq6I4VyoC5GEXA9CPyoSKH8pl+X69ms1wPc0ZoeTDKn50XvcbNgR1KbcwmP5T3VYv50Hp4WcNmtCxXnzvjtj2YByovPWWPrzoBJ0sf8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731163297; c=relaxed/simple;
-	bh=8xA45PajLIDr7rfRu1J8gvJ0H+nJU1IizyLP9wfSjAY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UpZiflEM68xuKA4g44OjS+NpJlrGJX3KBqU13ANRZN6++xNLyKIOX/g/rmWA83eJRolGwngeRxbirS68vHcvT8H1uu7fen6Gfy99KntL8SSMmN6NPLZZn/6nszgtTQbDR0EzmjerWGv0G8EUSSBlWnZZmNRPdSho45TF5VW1UQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E2Xt6bWt; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1731220318; c=relaxed/simple;
+	bh=fzNdD925ObhXP254JcPMkti77begVal/v/vinG+FHHE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=kHO5biJukf1PcVq3e4fI86VCKWwfQO8xaY7FHlx5GKnn6qzuaIzawzvRVCm2HvkbHbuzHxU7QZmn9WtmJVDIxrCqkUqBkt1T1mb706R1sF7sOP2voJu11XzyhvwVy/HHhlRNdLKF3SdDC/94fEiO3vFLcshQPtm1LD2GEjfph8Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=wP3xTUyI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E2Xt6bWt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9E1AC4CECE;
-	Sat,  9 Nov 2024 14:41:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731163296;
-	bh=8xA45PajLIDr7rfRu1J8gvJ0H+nJU1IizyLP9wfSjAY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=E2Xt6bWtY46etBkbT8x5xd2IrCU39XsjNvEASRIn14lIERp/DiNc6kF/9mDSyPt/B
-	 WvIe5cQg3PefaNDhxnfY/9+vABfWzU8QQ9Rom0CWLEhnGlhzIWjnatt6o7sf9Z6k01
-	 S2AN2EVS9YRwnTD3UXulqajlhqAfyLLNdDxQhD3zY3qNackvcvYjNmdC7kr5LGWyjH
-	 SXEm+0a5nS05po9nknqFqvC58yCnoVO0cSh5bBCAdUCCsf2WQrh4e5Zvroza52pmXv
-	 f43wEugDXOxzFPgJyUwiUCRSPCUsIkQd7nEvRTIdD6U0gtYvOg67UhB7pnGJVwHUcP
-	 JWO+N6/wL1eTw==
-Date: Sat, 9 Nov 2024 14:41:26 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Zicheng Qu <quzicheng@huawei.com>, lars@metafoo.de,
- Michael.Hennerich@analog.com, gregkh@linuxfoundation.org,
- daniel.baluta@intel.com, shubhrajyoti@ti.com, linux-iio@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- tanghui20@huawei.com, zhangqiao22@huawei.com, judy.chenhui@huawei.com
-Subject: Re: [PATCH v2 1/2] staging: iio: ad9834: Correct phase range check
-Message-ID: <20241109144126.5efb84b6@jic23-huawei>
-In-Reply-To: <333c54f3-3d4b-4038-94a9-ce8396b452ce@suswa.mountain>
-References: <20241105140359.2465656-1-quzicheng@huawei.com>
-	<20241107011015.2472600-1-quzicheng@huawei.com>
-	<20241107011015.2472600-2-quzicheng@huawei.com>
-	<333c54f3-3d4b-4038-94a9-ce8396b452ce@suswa.mountain>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="wP3xTUyI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1623C4CECD;
+	Sun, 10 Nov 2024 06:31:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1731220318;
+	bh=fzNdD925ObhXP254JcPMkti77begVal/v/vinG+FHHE=;
+	h=Date:From:To:Cc:Subject:From;
+	b=wP3xTUyI3yRGB7KFHx6AV/LAlCKha2u7KT+gJ7Wj3PP0feXjnQ/4DH8xXu/bVoHCp
+	 lhr7QPm/mzvUL64uM+ijUNSSFrxv9kr9iHIcm2OC3CqQzooaLoxh4dmerQ5iwWS7VE
+	 17ium454yCx4/3rBDSFaB28+whLT4K9odhxkJX3w=
+Date: Sun, 10 Nov 2024 07:31:36 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Stephen Rothwell <sfr@canb.auug.org.au>
+Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: [GIT PULL] Staging driver fixes for 6.12-rc7
+Message-ID: <ZzBTSKyx1daFpdky@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, 7 Nov 2024 13:32:42 +0300
-Dan Carpenter <dan.carpenter@linaro.org> wrote:
+The following changes since commit 8cf0b93919e13d1e8d4466eb4080a4c4d9d66d7b:
 
-> On Thu, Nov 07, 2024 at 01:10:14AM +0000, Zicheng Qu wrote:
-> > User Perspective:
-> > When a user sets the phase value, the ad9834_write_phase() is called.
-> > The phase register has a 12-bit resolution, so the valid range is 0 to
-> > 4095. If the phase offset value of 4096 is input, it effectively exactly
-> > equals 0 in the lower 12 bits, meaning no offset.
-> > 
-> > Reasons for the Change:
-> > 1) Original Condition (phase > BIT(AD9834_PHASE_BITS)):
-> > This condition allows a phase value equal to 2^12, which is 4096.
-> > However, this value exceeds the valid 12-bit range, as the maximum valid
-> > phase value should be 4095.
-> > 2) Modified Condition (phase >= BIT(AD9834_PHASE_BITS)):
-> > Ensures that the phase value is within the valid range, preventing
-> > invalid datafrom being written.
-> > 
-> > Impact on Subsequent Logic: st->data = cpu_to_be16(addr | phase):
-> > If the phase value is 2^12, i.e., 4096 (0001 0000 0000 0000), and addr
-> > is AD9834_REG_PHASE0 (1100 0000 0000 0000), then addr | phase results in
-> > 1101 0000 0000 0000, occupying DB12. According to the section of WRITING
-> > TO A PHASE REGISTER in the datasheet, the MSB 12 PHASE0 bits should be
-> > DB11. The original condition leads to incorrect DB12 usage, which
-> > contradicts the datasheet and could pose potential issues for future
-> > updates if DB12 is used in such related cases.
-> > 
-> > Fixes: 12b9d5bf76bf ("Staging: IIO: DDS: AD9833 / AD9834 driver")
-> > Cc: <stable@vger.kernel.org>
-> > Signed-off-by: Zicheng Qu <quzicheng@huawei.com>
-> > ---  
-> 
-> Fair enough.  Thanks.
-> 
-> Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
-Applied both patches to the fixes-togreg branch of iio.git.
+  Linux 6.12-rc2 (2024-10-06 15:32:27 -0700)
 
-Note they probably won't go upstream now until after rc1.
+are available in the Git repository at:
 
-Thanks,
+  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.12-rc7
 
-Jonathan
+for you to fetch changes up to 807babf69027b4f1c55e72b06879658e83830880:
 
-> 
-> regards,
-> dan carpenter
-> 
+  staging: vchiq_arm: Use devm_kzalloc() for drv_mgmt allocation (2024-10-19 10:04:57 +0200)
 
+----------------------------------------------------------------
+Staging driver fixes for 6.12-rc7
+
+Here are 2 small memory leak fixes for the vchiq_arm staging driver that
+have been sitting in my tree for weeks and should get merged for
+6.12-rc7 so that people don't keep tripping over them.
+
+They both have been in linux-next for a while with no reported problems.
+
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+----------------------------------------------------------------
+Umang Jain (2):
+      staging: vchiq_arm: Use devm_kzalloc() for vchiq_arm_state allocation
+      staging: vchiq_arm: Use devm_kzalloc() for drv_mgmt allocation
+
+ drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
