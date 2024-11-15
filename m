@@ -1,33 +1,33 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C069213138
-	for <linux-staging@lists.linux.dev>; Fri, 15 Nov 2024 21:26:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35DDE214437
+	for <linux-staging@lists.linux.dev>; Fri, 15 Nov 2024 21:26:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731706011; cv=none; b=Rr7CQYP9fL+cqJGiwqdBLAuMImvWmwxawQi8vxgD+IQ7Gfke+3vG4nBm4JXQ4wBAW3G4kI9VPhM0Re/SzgZQ8sM7qAnA4YiXl+qAEo36a9n4kY/mqWpyTkMvJ0AIq5FL1Np/dEvkLz9SuzTrR82eq73/rYjIKH6bVZpCizoH5xg=
+	t=1731706011; cv=none; b=pmPVu01iIlfYgGoWm9copWodJlkQ7DbaW842NcU0WNNcZg9Gkbp7jFbm2CP5QdZWO6goNGaHcic/hlPuqCsaGHT8M7G6C7Iewwtkj5PgwIGjU9xLYLLZuuZUWjNiwv/4PiFB0df3ePXcBaqUb7t7DiYzIdsfPeL+Z6F4dcXRqYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1731706011; c=relaxed/simple;
-	bh=rc9ZC19HIInirsSIXiQaedvTTkyvfoYETKmf3YmX0tI=;
+	bh=hLifXlOLHsE3kXCNlCKS/n+6uaXR+bsdZy8DWb2YafI=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=IfBti5TchrK3EJX97erZMiGBE+iCFGIxj2/F1222xohkIi3vbmxBNblyw3cDpCAxUEj2jWqO6Nm8bBtak4BrLp34TGkkNybbm4KSk5OscLDy3PXPeY6/oAiqCjd+FrUuTWzuHdya5Jzd40jpNd3Bt6EVfMwuiwp6fJfdu8V6vEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=eAVIrYLN; arc=none smtp.client-ip=13.77.154.182
+	 In-Reply-To:To:Cc; b=hGTb7pBVuIyaLN8Ky4If2c+q38syzmS5v1FKFnD867/K6GEqbsj5TJH5TmTvU8yAktQZ1jtQ/la4DcVNMGP8vOkyC+pVuk9sPDSkVlaEyfUMhQxIHjVJeF1BIZuimVUtGL08xzE3payg3x/UECpy8d82mfhtVAMunhgy2HUG43o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=oW00wAHd; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="eAVIrYLN"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="oW00wAHd"
 Received: from eahariha-devbox.internal.cloudapp.net (unknown [40.91.112.99])
-	by linux.microsoft.com (Postfix) with ESMTPSA id E651E23718AC;
-	Fri, 15 Nov 2024 13:26:43 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com E651E23718AC
+	by linux.microsoft.com (Postfix) with ESMTPSA id 750BA2383EC7;
+	Fri, 15 Nov 2024 13:26:44 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 750BA2383EC7
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
 	s=default; t=1731706004;
-	bh=pCX0EpdqmyNkdZPLk4Z0q7m89NufhvHb1Y+2Mrmnnrk=;
+	bh=tK04utDeNCseuvXH6irwCudSXxUYSbugurANWfhj/RA=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=eAVIrYLNHkRW1opV+l10sI01k9fp5RPobV2nEm7OQtZTXvL1OZpViQrABNURt8i3R
-	 Lt5oz4EgCq0BgTDEpnRIgtHazGUHt44mhOWeQa6X66HXQwFE3odFdSj0nTsElRySJE
-	 uoqOVSbVkxhvj88d1jkAwyWIgOOXRrS//ir9JXro=
+	b=oW00wAHdTMgD3/TVNA1hZU5X5M4jnpeZUWcg0SOafgo7IxhPi77X6wrerdoxYG1Qb
+	 /d2D6KpobO9ihzhc6ZJVrlOxlz5U66VAL6WTsDlCtIaa36R7/WidCC3/10uBG5CLMB
+	 DbALShHl/X1H/ANvKovErIH2SEM7ywfupUlqJSTY=
 From: Easwar Hariharan <eahariha@linux.microsoft.com>
-Date: Fri, 15 Nov 2024 21:26:30 +0000
-Subject: [PATCH v2 13/21] xen/blkback: Convert timeouts to
+Date: Fri, 15 Nov 2024 21:26:32 +0000
+Subject: [PATCH v2 15/21] wifi: ath11k: Convert timeouts to
  secs_to_jiffies()
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -37,7 +37,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241115-converge-secs-to-jiffies-v2-13-911fb7595e79@linux.microsoft.com>
+Message-Id: <20241115-converge-secs-to-jiffies-v2-15-911fb7595e79@linux.microsoft.com>
 References: <20241115-converge-secs-to-jiffies-v2-0-911fb7595e79@linux.microsoft.com>
 In-Reply-To: <20241115-converge-secs-to-jiffies-v2-0-911fb7595e79@linux.microsoft.com>
 To: Pablo Neira Ayuso <pablo@netfilter.org>, 
@@ -121,22 +121,22 @@ Changes made with the following Coccinelle rules:
 
 Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
 ---
- drivers/block/xen-blkback/blkback.c | 2 +-
+ drivers/net/wireless/ath/ath11k/debugfs.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/block/xen-blkback/blkback.c b/drivers/block/xen-blkback/blkback.c
-index 838064593f62b75f3d937c0c041ea78dedbbaf84..a7c2b04ab943de9cbd69b596aad177a0534f7762 100644
---- a/drivers/block/xen-blkback/blkback.c
-+++ b/drivers/block/xen-blkback/blkback.c
-@@ -544,7 +544,7 @@ static void print_stats(struct xen_blkif_ring *ring)
- 		 ring->st_rd_req, ring->st_wr_req,
- 		 ring->st_f_req, ring->st_ds_req,
- 		 ring->persistent_gnt_c, max_pgrants);
--	ring->st_print = jiffies + msecs_to_jiffies(10 * 1000);
-+	ring->st_print = jiffies + secs_to_jiffies(10);
- 	ring->st_rd_req = 0;
- 	ring->st_wr_req = 0;
- 	ring->st_oo_req = 0;
+diff --git a/drivers/net/wireless/ath/ath11k/debugfs.c b/drivers/net/wireless/ath/ath11k/debugfs.c
+index 57281a135dd7fa6b8610636f47873c8bba21053c..bf192529e3fe26a91e72105a77b4c6f849b905ec 100644
+--- a/drivers/net/wireless/ath/ath11k/debugfs.c
++++ b/drivers/net/wireless/ath/ath11k/debugfs.c
+@@ -178,7 +178,7 @@ static int ath11k_debugfs_fw_stats_request(struct ath11k *ar,
+ 	 * received 'update stats' event, we keep a 3 seconds timeout in case,
+ 	 * fw_stats_done is not marked yet
+ 	 */
+-	timeout = jiffies + msecs_to_jiffies(3 * 1000);
++	timeout = jiffies + secs_to_jiffies(3);
+ 
+ 	ath11k_debugfs_fw_stats_reset(ar);
+ 
 
 -- 
 2.34.1
