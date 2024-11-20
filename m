@@ -1,101 +1,83 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07177145335;
-	Wed, 20 Nov 2024 18:47:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from bout3.ijzerbout.nl (bout3.ijzerbout.nl [136.144.140.114])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0507A1BBBE8
+	for <linux-staging@lists.linux.dev>; Wed, 20 Nov 2024 19:54:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=136.144.140.114
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732128434; cv=none; b=lMDi6fP1iZd7HIAtiL0NsrUFnexZRWD67nxkUO6BAJChybEtgKcDCZkHDo4P7LxZWwk9trnDNpuShZ7piauGH5vgR8DVGhasNhiG2gK/IytzjCHOGSD2GVtlAJyzMjGVrAdVtqJwByPe99MgMu0kaPDAG1C3u+dmafqfj4gphZE=
+	t=1732132464; cv=none; b=StDhy4Uf+250/zsTlssC+puXOfw+fRD2kp/6Pa69JSTYXybvLNiTuyamhbHLqlaFUvvtf7LtdAznRtnPKbU8+CrN6m4NTXTG/UumjA9iKEmGMczzOUekYtQRjo08JRhjyFfJRgOkO9crt6hJQbLp5BlqyKnmZ6ekt4gZ4nXRSyE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732128434; c=relaxed/simple;
-	bh=VPZbRtB6R/qrw+dDwMBShyl1Ada0N3cTfH0MSJN7Ylc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TOexVUClY3CX5hdGaY3qCj67X5N5l1PIFkMnR9ikjYYmAhkuSQ5rksIuBLjFvlJV78zG+jUYIui7lMuQ2OzKpOAudSAKeJSCoDCASFFsmKY+s7qA2asWL1WNmT/a2lEHin+xgn/D38gIfqEtWfBQjqd6aLxjSzbU4tAfH5yNd10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=QQR9hfWF; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1732132464; c=relaxed/simple;
+	bh=Z1UST9dyZvnnefvn1fbytVF4WRanCzx88qMsSR24xVc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XVZSpdYTNI+Hw4Qi6RkkxaZWBuUFjRUZoqkVSyPDYWTa/jqGi4G3RQgvTUj5KQHPvkzASUj50uML93vH7cGkGSdFjRHUezuxkmeRSV/jkMho2v4KFvdVe4WPTwIYPLlhmQFfqyDSw3ODFo4ZsKf6nby1QQB5TWA2AfTSqArFJkA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ijzerbout.nl; spf=pass smtp.mailfrom=ijzerbout.nl; dkim=pass (4096-bit key) header.d=ijzerbout.nl header.i=@ijzerbout.nl header.b=N7gpouy+; arc=none smtp.client-ip=136.144.140.114
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ijzerbout.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ijzerbout.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="QQR9hfWF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BEC0C4CECD;
-	Wed, 20 Nov 2024 18:47:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1732128433;
-	bh=VPZbRtB6R/qrw+dDwMBShyl1Ada0N3cTfH0MSJN7Ylc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QQR9hfWF+KoaMToJ4HaqXg8f4pVvevpJ6bl4FZl0RafZUFqpJMQusBTodl1zua0iO
-	 sog4JRWmnyHPhbxdfRJHKzsZ643eHDDbOkAtvyyZo3d4GBCIJWTPrdoFRU0wOYxIZh
-	 qKfFR19F4kKZF5gMy8XEm6YoyNlp/xYMay42z54g=
-Date: Wed, 20 Nov 2024 19:46:48 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Cheolu Choi <ray@rasom.in>
-Cc: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: sm750fb: Remove unnecessary parentheses
-Message-ID: <2024112016-deepen-lethargy-626f@gregkh>
-References: <Zz4R8L7493vTJmry@rasomin>
+	dkim=pass (4096-bit key) header.d=ijzerbout.nl header.i=@ijzerbout.nl header.b="N7gpouy+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ijzerbout.nl; s=key;
+	t=1732132458; bh=Z1UST9dyZvnnefvn1fbytVF4WRanCzx88qMsSR24xVc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=N7gpouy+TbAyzT7TPgO/ATDPG7Af2oNjjptwxuW1WA6DDz6ZvvaT09g1eZ03qN+b0
+	 i2/vAGEr9WZHqUFKVh0htPgEyD0J4r2bsd7C1zzwsEXbFcJSbJPIM/b9Su3lfwlxI3
+	 CFB+rlc773ACGkknJ2xrIfXkyEi0QbcK6ZhZVruTNwpv9y0mhpge6BheD+8UWpvf22
+	 UOrcjRJk9+sjBtuGBKF15BoBx0KABN1VbnDXDQqLgHws+5AD1G+601/F3xUh+U0Lhv
+	 7gHXOvlsNawRHNam39bHuM4wC4827ixMlP566Vd9kEQrcB3ctlr1jkf38D0l9UDiOw
+	 2AniAQia7dbN6QmTm7cvwG9bdn1m4vmtVZQFVlBK02aw8h6C4VF3n4do2O4GtpLhe+
+	 xletOQ+1cakVwDuuSO8mpwgza8pLePI8fJI0PWJSHDVGkD9gpGByByQ/8AeQbG+sAP
+	 h1ThIUvQt7d7ybotDmayxDMz9OM9FA7h/hBa6dFEKTUXrwSGJlwrOVKlzzeXo6c3QU
+	 RpWHCgxojZzD2QsTeW5fMo88Z0DC+K8ouOdD4jTyUTtxLCmT1JWXsZB7pn+KWII/o6
+	 H9/GP4DLkWB633Zf0TOyz5Kt6Djm3ojA4oRKT0xfBcleZJBeuKMJwMwFgc288QRWOI
+	 SAfveP+v5OAbPTOxR4LQELpA=
+Received: from [IPV6:2a10:3781:99:1:1ac0:4dff:fea7:ec3a] (racer.ijzerbout.nl [IPv6:2a10:3781:99:1:1ac0:4dff:fea7:ec3a])
+	by bout3.ijzerbout.nl (Postfix) with ESMTPSA id 3177C18E0BB;
+	Wed, 20 Nov 2024 20:54:18 +0100 (CET)
+Message-ID: <6ca90e87-965a-4895-ba72-8144540f6e4c@ijzerbout.nl>
+Date: Wed, 20 Nov 2024 20:54:16 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Zz4R8L7493vTJmry@rasomin>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging:gpib: Fix a dereference before null check issue
+To: Dan Carpenter <dan.carpenter@linaro.org>, Paolo Perego <pperego@suse.de>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Dave Penkler <dpenkler@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Arnd Bergmann <arnd@arndb.de>
+References: <20241120144653.377795-1-pperego@suse.de>
+ <a0807e04-b2c9-4261-9b3f-7660fe258f56@stanley.mountain>
+Content-Language: en-US
+From: Kees Bakker <kees@ijzerbout.nl>
+In-Reply-To: <a0807e04-b2c9-4261-9b3f-7660fe258f56@stanley.mountain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Nov 20, 2024 at 04:44:39PM +0000, Cheolu Choi wrote:
-> Adhere to Linux kernel coding style.
-> 
-> Reported by checkpatch:
-> CHECK: Unnecessary parentheses around 'clk_gpio > 31'
-> CHECK: Unnecessary parentheses around 'data_gpio > 31'
-> 
-> Signed-off-by: Cheolu Choi <ray@rasom.in>
-> ---
->  drivers/staging/sm750fb/ddk750_swi2c.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/sm750fb/ddk750_swi2c.c b/drivers/staging/sm750fb/ddk750_swi2c.c
-> index 0ef8d4ff2ef9..50e51d730d86 100644
-> --- a/drivers/staging/sm750fb/ddk750_swi2c.c
-> +++ b/drivers/staging/sm750fb/ddk750_swi2c.c
-> @@ -393,7 +393,7 @@ long sm750_sw_i2c_init(unsigned char clk_gpio, unsigned char data_gpio)
->  	 * Return 0 if the GPIO pins to be used is out of range. The
->  	 * range is only from [0..63]
->  	 */
-> -	if ((clk_gpio > 31) || (data_gpio > 31))
-> +	if (clk_gpio > 31 || data_gpio > 31)
->  		return -1;
->  
->  	if (sm750_get_chip_type() == SM750LE)
-> -- 
-> 2.34.1
-> 
-> 
-> 
+Op 20-11-2024 om 18:04 schreef Dan Carpenter:
+> On Wed, Nov 20, 2024 at 03:46:53PM +0100, Paolo Perego wrote:
+>> This commit fixes a dereference before null check issue discovered by
+>> Coverity (CID 1601566).
+>>
+>> The check ad line 1450 suggests that a_priv can be NULL, however it has
+>> been derefenced before, in the interface_to_usbdev() call.
+>>
+>> Signed-off-by: Paolo Perego <pperego@suse.de>
+>> ---
+> You need a Fixes tag.  But I'm pretty sure the correct fix is to remove the NULL
+> check.
+In the whole agilent_82357a.c module there is no consistency whether
+board->private_data needs to be checked for a NULL or not.
 
-Hi,
+If Dan is correct then it is better to drop the NULL check, not only here
+but in a few more places as well. There are at least 10 functions were
+there is no NULL check for private_data.
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+Run this command and you'll see what I mean
+git grep -3 -e '->private_data' -- drivers/staging/gpib/agilent_82357a
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+>
+> regards,
+> dan carpenter
+>
 
-- You sent a patch that has been sent multiple times in the past, days,
-  and is almost identical to ones that have been rejected.  Please
-  always look at the mailing list traffic to determine if you are
-  duplicating other people's work.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
