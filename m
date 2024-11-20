@@ -1,156 +1,90 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F12E919AA68
-	for <linux-staging@lists.linux.dev>; Wed, 20 Nov 2024 09:30:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F1501A2562
+	for <linux-staging@lists.linux.dev>; Wed, 20 Nov 2024 11:20:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732095034; cv=none; b=Asr3+KiOudSfgHIO0AjIGo1hPzJuJ6C3RZNPpGcAZFaPyj0jTyxvOnE/ONn4EkJC3ZbEuXD/SeEHZoGaQ9yBXqWKNHvaRDhV4roZKLgjKtKtayMSHY2peBVP6Iy97jmQbqk2GPb4+eejk4+IyMWBETPE0AJIDK8oI5sphOe1mMI=
+	t=1732101655; cv=none; b=UkCZ/pWXfv63iUIxJdd3Uu3SowCgqUy/Q2XVLZ3l0NYCMkHrmffh8hHi2pbmSXaqt5jGuPEwy/U9c1HEKW/ctydhaEApDNe71L9d0QV1bpC+8fE67pMtZyQT/AiebSkHzTUBYf7g6PG0metpjP3G0mFogOKDyrpeLaw7feQ5DG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732095034; c=relaxed/simple;
-	bh=j4OkGv0QWzN9YW1RGIkRru8mwRAeg0fkhg/mvdATgSY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kDAde1y82AXsSWTukCYW/8Wub0zIfxl1rgGDTVg9yUddGM9tMHtuA5403yVCSJkH+0jgCbIi3e34hLuXBZoa0Rh/r7xHLHhH0NKiLT+70JJPtHK+4xz9jrR4yP18hSe2RVzqxvnu1Y0oJeseJ1HpaUvjyJEwZmS3Pn2Estx1iJk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=eQ1WZAfx; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=jiENKcB7; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=eQ1WZAfx; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=jiENKcB7; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1732101655; c=relaxed/simple;
+	bh=l7G39Ni/WM+NIaPXJqS6inv2T6BnJhhqnj0CHz9jRB0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UGiYl1C4IJXCQ91K8UStNCPlsBgCgbn2JkWhPwN1hkzUKfgCH32rOY1zn4/YjPJwX4z5Erju00gRRPW93uGLDePKY9opqp+Vwz2qzCjAMFGI7q5f0DoqeSMegZXWb3twaHHHIRycIIa+e0rd6WnZ14KrRKdqpssriwXQOWqw2Q8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZhCl3TAK; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="eQ1WZAfx";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="jiENKcB7";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="eQ1WZAfx";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="jiENKcB7"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 4DB48219E5;
-	Wed, 20 Nov 2024 09:30:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1732095030; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0VfsgsxGOXOnzEUyuEZfWiii0Ydk9i7uA2SrKMC247A=;
-	b=eQ1WZAfxl+Z7iNndOrx1BitjneAEWExruaVBmmB+Sr63bkGtGKiLGz9byvxKBvORcqGzpY
-	nQJitik8bjtaaRqKvi12DwFYQ25E378UhWw2mmTT4wM457qh6CLLc5Tj8wZtZmnIdEGITL
-	9m4ZHe0NHsKbxdl63Q4plPlgBfmMCa8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1732095030;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0VfsgsxGOXOnzEUyuEZfWiii0Ydk9i7uA2SrKMC247A=;
-	b=jiENKcB7aUI7T6+Seh78eFBYLsRWTY+g2dJmsUSD6Z5oTVnYLKRI0cteuZgO1gjWWgESGW
-	eAva0jHuwvzYCqAg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1732095030; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0VfsgsxGOXOnzEUyuEZfWiii0Ydk9i7uA2SrKMC247A=;
-	b=eQ1WZAfxl+Z7iNndOrx1BitjneAEWExruaVBmmB+Sr63bkGtGKiLGz9byvxKBvORcqGzpY
-	nQJitik8bjtaaRqKvi12DwFYQ25E378UhWw2mmTT4wM457qh6CLLc5Tj8wZtZmnIdEGITL
-	9m4ZHe0NHsKbxdl63Q4plPlgBfmMCa8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1732095030;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0VfsgsxGOXOnzEUyuEZfWiii0Ydk9i7uA2SrKMC247A=;
-	b=jiENKcB7aUI7T6+Seh78eFBYLsRWTY+g2dJmsUSD6Z5oTVnYLKRI0cteuZgO1gjWWgESGW
-	eAva0jHuwvzYCqAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D430B13942;
-	Wed, 20 Nov 2024 09:30:29 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id IBqtMTWsPWdeUgAAD6G6ig
-	(envelope-from <pperego@suse.de>); Wed, 20 Nov 2024 09:30:29 +0000
-From: Paolo Perego <pperego@suse.de>
-To: dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	Lee Jones <lee@kernel.org>,
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZhCl3TAK"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43163667f0eso37683055e9.0
+        for <linux-staging@lists.linux.dev>; Wed, 20 Nov 2024 03:20:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1732101653; x=1732706453; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=DH68XPkDBDr2SFdw3UbWf74PCLjCq+oTGZBI03sAE6E=;
+        b=ZhCl3TAKl8ndLGjmCz4kywcKFFV+csmXK26Ex2Vi+I2yro7yn6gEmtyA8Yjn6glMxN
+         Nl6CtqLDzAY607hJyPZUNpm5ahW7Vnkm+nCmemHBMYQtWOvrmJCdqSNS6ScX93rXIq/n
+         bH/FuQKbomggdFpfRJQ4h+5zqclU7KH93TbsQw9VP46PkyySJcp2NZ9XvKf3iB1vD2kW
+         gTvqbj6cd0e7j9dZNt+C6qV8s96/Qmfp8CghXKYivNsMLBdQXqjTwSRwWgAY1HfrA9EQ
+         bcfonEGdcLhHVG3YdlwIqTJ5xfd1Vwy2lRHPSixBV8tqd91c6TYecoyfB50AHtXs5YQJ
+         8iZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732101653; x=1732706453;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DH68XPkDBDr2SFdw3UbWf74PCLjCq+oTGZBI03sAE6E=;
+        b=fF7bbSL/ezfSKKo/EbqsY0EBBoGZu/mdhvi/LHrTLIhMFp2c3mJfgztHJ0bAmYMwCl
+         uEaJnjGrBGgEkiabgrklG2w7aNFtRyM/vNeLRLyNDLpHKjmoNTCaAm2q+QCHcg8y2Mz6
+         pqSNk2//MGB0uV1if7zAj5EbdbZzrxwn3/uB+Zndoa2avYm2tuKZj0slZ06KeJ9MnZ1l
+         m8PmzG5HFSrY29SrmthRNJSdArO7RdFpwJbgGGfisT15V1tAK+RD82PFRFsxuhB3rNei
+         8umgs8NTsUCAb861AY6W6VFiyVZan5+W3y0p+79J/01l+rB4j/upWVcvQ3C77W14yzve
+         eIcg==
+X-Forwarded-Encrypted: i=1; AJvYcCVpmhRWnRFuObR17OcRdKshZ12Llo6qEG7MxxNxzIaHSyjr2ZzGdoLOQqf21HXs/JcqSentFy20R9hknruf@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzo/GxduWcbWqcBy2S4NLOtW5Ia9ZRnpCAmYB+RCggdXpjplbEK
+	HtanMV2GK82ju0nbTdzXcWuwp2AU27vAAwxiRuLQjLK0ymZgV+km9QmDejF5fYk=
+X-Google-Smtp-Source: AGHT+IFoW0aGrY44f798dMADxQS0s2HP8FnMFtMgd/GYwO11/AYw3oJvuDLaWXWp9ideXtqi2/lvsQ==
+X-Received: by 2002:a05:600c:5250:b0:431:4f29:9542 with SMTP id 5b1f17b1804b1-433489970efmr19437515e9.6.1732101652707;
+        Wed, 20 Nov 2024 03:20:52 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3825493ea20sm1778948f8f.93.2024.11.20.03.20.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Nov 2024 03:20:52 -0800 (PST)
+Date: Wed, 20 Nov 2024 14:20:48 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Paolo Perego <pperego@suse.de>
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>, Lee Jones <lee@kernel.org>,
 	Jani Nikula <jani.nikula@intel.com>,
-	Paolo Perego <pperego@suse.de>,
 	Riyan Dhiman <riyandhiman14@gmail.com>
-Subject: [PATCH 1/1] Remove hard-coded strings by using the helper functions str_true_false()
-Date: Wed, 20 Nov 2024 10:30:20 +0100
-Message-ID: <20241120093020.6409-2-pperego@suse.de>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <20241120093020.6409-1-pperego@suse.de>
+Subject: Re: [PATCH 1/1] Remove hard-coded strings by using the helper
+ functions str_true_false()
+Message-ID: <4c8f5e95-6d33-49bc-8af3-e6dec2dc7c62@stanley.mountain>
 References: <20241120093020.6409-1-pperego@suse.de>
+ <20241120093020.6409-2-pperego@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -6.80
-X-Spamd-Result: default: False [-6.80 / 50.00];
-	REPLY(-4.00)[];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[linuxfoundation.org,suse.de,linaro.org,kernel.org,intel.com,gmail.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com]
-X-Spam-Flag: NO
-X-Spam-Level: 
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241120093020.6409-2-pperego@suse.de>
 
-Signed-off-by: Paolo Perego <pperego@suse.de>
----
- drivers/staging/fbtft/fb_ssd1351.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+On Wed, Nov 20, 2024 at 10:30:20AM +0100, Paolo Perego wrote:
+> Signed-off-by: Paolo Perego <pperego@suse.de>
 
-diff --git a/drivers/staging/fbtft/fb_ssd1351.c b/drivers/staging/fbtft/fb_ssd1351.c
-index f6db2933ebba..6736b09b2f45 100644
---- a/drivers/staging/fbtft/fb_ssd1351.c
-+++ b/drivers/staging/fbtft/fb_ssd1351.c
-@@ -6,6 +6,7 @@
- #include <linux/init.h>
- #include <linux/spi/spi.h>
- #include <linux/delay.h>
-+#include <linux/string_choices.h>
- 
- #include "fbtft.h"
- 
-@@ -162,7 +163,7 @@ static int set_gamma(struct fbtft_par *par, u32 *curves)
- static int blank(struct fbtft_par *par, bool on)
- {
- 	fbtft_par_dbg(DEBUG_BLANK, par, "(%s=%s)\n",
--		      __func__, on ? "true" : "false");
-+		      __func__, str_true_false(on));
- 	if (on)
- 		write_reg(par, 0xAE);
- 	else
--- 
-2.47.0
+You need to have a subsystem prefix in the subject.  The subject is probably too
+long as well.  You need to have a commit message.
+
+Otherwise, fine.
+
+https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
+
+regards,
+dan carpenter
 
