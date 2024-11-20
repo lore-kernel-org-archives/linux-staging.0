@@ -1,84 +1,82 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 309ED1A2554
-	for <linux-staging@lists.linux.dev>; Wed, 20 Nov 2024 13:57:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63C531C75E1
+	for <linux-staging@lists.linux.dev>; Wed, 20 Nov 2024 14:47:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732111060; cv=none; b=JD2CaDj5dlF6EFX+3uICi4qYGwXIqT+DXq3dUbDOxmAbKmanVb1F0vWL/0wd657GDWyMxdy0SK8JaeYHwtQjWq1rQ+FmS1yE6vFE9uflRiIDwOAWvPEYkLnKbnOcynC35M9dVBGVuTmuTKO29gP2YcyFOMvBwWlA6o0LvELj0g8=
+	t=1732114032; cv=none; b=HaTqwPyGVh5LnaoINOemr4aEoKf9ZKDzkDvex0ap+iOV9kNmurMQpiGTJBMQLL7WwLdL44mkovoeubIRafZh2AULlGIsv4Ra5qbcxwgatF7DZLc+0BNtWrAxpS9FqD1yElUtNKkHEctxDedhyEaNjhPv/QXGn81XLA+24j4zYxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732111060; c=relaxed/simple;
-	bh=1ERZ6fOi6BU8Qxio0+0d4KwScBGQan7Alj22HVwIGng=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AKxIXrJoe92kVLmtStxnSYXMlMI6XF9Ku4wVVMoVhlX07wrZIXpPRC7+Sx7tybfI+NfBUVQIg/IKTy+Svg2YJxppqRHvxV9JNThgRYUG2tT613UqqnNwK+Ewhqa3VFXAO+eFpFLErz6Uxl6AfHQFXjVTmNTQz0pOyi8irACTtfM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LVA/NzK/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ej6EaNNU; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LVA/NzK/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ej6EaNNU; arc=none smtp.client-ip=195.135.223.130
+	s=arc-20240116; t=1732114032; c=relaxed/simple;
+	bh=Q//CceOGU1KDOVF7hhFvXgmcJjAmUOZIg4W19EMSW9A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LRV/kRqkYFLTbfpyUMYjnSARK+8+GsougicUu60pBaGdniYnHa12NMEoUSLJkXfaj9VkbZpVBqxO2d3QZuCW1h668kvpYSL0/m/F8P9B5cCCpO5UK9zhDv753mhYpvQxLly/OovW++2NIkwCva6uY/tlgUpqqq3p2aMJem7f20w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=pcFDLmkH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PSqLD9t6; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=pcFDLmkH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PSqLD9t6; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LVA/NzK/";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ej6EaNNU";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LVA/NzK/";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ej6EaNNU"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="pcFDLmkH";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PSqLD9t6";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="pcFDLmkH";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PSqLD9t6"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 826FF219E3;
-	Wed, 20 Nov 2024 13:57:37 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 920FA21983;
+	Wed, 20 Nov 2024 14:47:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1732111057; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1732114028; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=95q/eQjrFsjKAC4Bo3PIaetIW5NSqwy1FT+F/0l4/No=;
-	b=LVA/NzK/d6lHIdZvmZtKOUyk3HZ1jMmuZ2G96qMocOdKKEDA71E6vJvg6QcDniZHNFvClk
-	7gWVXgKxD6K1wW44QmWFlGY4iqUkcg3Jfoct+BvBY4df5pAq7P7d1TQPTr/KX+WLOdTR/i
-	mYWL+Zt6qqa4YZlHrQxeku5JCRzTWqM=
+	bh=eTjEPcqQSzMAywwV8WVIkb9ZCpihPqw/U/xxDZQayo0=;
+	b=pcFDLmkHQvt2hSh6KLg3ubqvitELmEtlHS03i4FA4f+J1pHbSpgqAQXgsKmitySXAluJnF
+	D1SbQAEKPug2lklLFdIbOaSeEpTjUcoH/aXtXYvJRQXuRjvq7XQYc6BFGzpPPItf+ga7Nw
+	SavAw4HAJmNqBa68EDdk6KSMWvFF79U=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1732111057;
+	s=susede2_ed25519; t=1732114028;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=95q/eQjrFsjKAC4Bo3PIaetIW5NSqwy1FT+F/0l4/No=;
-	b=ej6EaNNUZLtYG/383n37mfk9VthCTCIN6MExjROYs46/KgsyZtWEVmGhwRdWk2GnTXnbUZ
-	hviyaLBcHr4BN1Cg==
+	bh=eTjEPcqQSzMAywwV8WVIkb9ZCpihPqw/U/xxDZQayo0=;
+	b=PSqLD9t6fBDrGfFJ3QcjDDWV75ZHn0OT3VxoU/xKcHBcnl19E0AaU9f3i0umhlGXnonkRj
+	5cSiLtnpBOkMCuBA==
 Authentication-Results: smtp-out1.suse.de;
-	none
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=pcFDLmkH;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=PSqLD9t6
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1732111057; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1732114028; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=95q/eQjrFsjKAC4Bo3PIaetIW5NSqwy1FT+F/0l4/No=;
-	b=LVA/NzK/d6lHIdZvmZtKOUyk3HZ1jMmuZ2G96qMocOdKKEDA71E6vJvg6QcDniZHNFvClk
-	7gWVXgKxD6K1wW44QmWFlGY4iqUkcg3Jfoct+BvBY4df5pAq7P7d1TQPTr/KX+WLOdTR/i
-	mYWL+Zt6qqa4YZlHrQxeku5JCRzTWqM=
+	bh=eTjEPcqQSzMAywwV8WVIkb9ZCpihPqw/U/xxDZQayo0=;
+	b=pcFDLmkHQvt2hSh6KLg3ubqvitELmEtlHS03i4FA4f+J1pHbSpgqAQXgsKmitySXAluJnF
+	D1SbQAEKPug2lklLFdIbOaSeEpTjUcoH/aXtXYvJRQXuRjvq7XQYc6BFGzpPPItf+ga7Nw
+	SavAw4HAJmNqBa68EDdk6KSMWvFF79U=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1732111057;
+	s=susede2_ed25519; t=1732114028;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=95q/eQjrFsjKAC4Bo3PIaetIW5NSqwy1FT+F/0l4/No=;
-	b=ej6EaNNUZLtYG/383n37mfk9VthCTCIN6MExjROYs46/KgsyZtWEVmGhwRdWk2GnTXnbUZ
-	hviyaLBcHr4BN1Cg==
+	bh=eTjEPcqQSzMAywwV8WVIkb9ZCpihPqw/U/xxDZQayo0=;
+	b=PSqLD9t6fBDrGfFJ3QcjDDWV75ZHn0OT3VxoU/xKcHBcnl19E0AaU9f3i0umhlGXnonkRj
+	5cSiLtnpBOkMCuBA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 12E3D13297;
-	Wed, 20 Nov 2024 13:57:37 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 33874137CF;
+	Wed, 20 Nov 2024 14:47:08 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 9WFXAtHqPWcjKQAAD6G6ig
-	(envelope-from <pperego@suse.de>); Wed, 20 Nov 2024 13:57:37 +0000
+	id a9Z4Cmz2PWcCOAAAD6G6ig
+	(envelope-from <pperego@suse.de>); Wed, 20 Nov 2024 14:47:08 +0000
 From: Paolo Perego <pperego@suse.de>
-To: dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
+To: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
+Cc: Dave Penkler <dpenkler@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Dan Carpenter <dan.carpenter@linaro.org>,
-	Lee Jones <lee@kernel.org>,
-	Jani Nikula <jani.nikula@intel.com>,
+	Kees Bakker <kees@ijzerbout.nl>,
 	Paolo Perego <pperego@suse.de>,
-	Riyan Dhiman <riyandhiman14@gmail.com>
-Subject: [PATCH v2] staging:fbtft: Using str_true_false() helper instead of hardcoded strings
-Date: Wed, 20 Nov 2024 14:57:27 +0100
-Message-ID: <20241120135727.376556-1-pperego@suse.de>
+	Arnd Bergmann <arnd@arndb.de>
+Subject: [PATCH] staging:gpib: Fix a dereference before null check issue
+Date: Wed, 20 Nov 2024 15:46:53 +0100
+Message-ID: <20241120144653.377795-1-pperego@suse.de>
 X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -87,65 +85,66 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 920FA21983
 X-Spam-Level: 
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	ARC_NA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[linuxfoundation.org,suse.de,linaro.org,kernel.org,intel.com,gmail.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
 	TO_DN_SOME(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FREEMAIL_CC(0.00)[gmail.com,linuxfoundation.org,linaro.org,ijzerbout.nl,suse.de,arndb.de];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,suse.de:mid];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com]
-X-Spam-Score: -2.80
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.01
 X-Spam-Flag: NO
 
-Using str_true_false() helper instead of hardcoded strings.
+This commit fixes a dereference before null check issue discovered by
+Coverity (CID 1601566).
+
+The check ad line 1450 suggests that a_priv can be NULL, however it has
+been derefenced before, in the interface_to_usbdev() call.
 
 Signed-off-by: Paolo Perego <pperego@suse.de>
 ---
-v2: 
-* Used a shorter email subject
-* Added a commit message
-* The email subject now contains kernel subsytem
+ drivers/staging/gpib/agilent_82357a/agilent_82357a.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- drivers/staging/fbtft/fb_ssd1351.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/staging/fbtft/fb_ssd1351.c b/drivers/staging/fbtft/fb_ssd1351.c
-index f6db2933ebba..6736b09b2f45 100644
---- a/drivers/staging/fbtft/fb_ssd1351.c
-+++ b/drivers/staging/fbtft/fb_ssd1351.c
-@@ -6,6 +6,7 @@
- #include <linux/init.h>
- #include <linux/spi/spi.h>
- #include <linux/delay.h>
-+#include <linux/string_choices.h>
+diff --git a/drivers/staging/gpib/agilent_82357a/agilent_82357a.c b/drivers/staging/gpib/agilent_82357a/agilent_82357a.c
+index bf05fb4a736b..604e13c32dfb 100644
+--- a/drivers/staging/gpib/agilent_82357a/agilent_82357a.c
++++ b/drivers/staging/gpib/agilent_82357a/agilent_82357a.c
+@@ -1446,8 +1446,8 @@ static void agilent_82357a_detach(gpib_board_t *board)
+ 	mutex_lock(&agilent_82357a_hotplug_lock);
  
- #include "fbtft.h"
- 
-@@ -162,7 +163,7 @@ static int set_gamma(struct fbtft_par *par, u32 *curves)
- static int blank(struct fbtft_par *par, bool on)
- {
- 	fbtft_par_dbg(DEBUG_BLANK, par, "(%s=%s)\n",
--		      __func__, on ? "true" : "false");
-+		      __func__, str_true_false(on));
- 	if (on)
- 		write_reg(par, 0xAE);
- 	else
+ 	a_priv = board->private_data;
+-	usb_dev = interface_to_usbdev(a_priv->bus_interface);
+ 	if (a_priv) {
++		usb_dev = interface_to_usbdev(a_priv->bus_interface);
+ 		if (a_priv->bus_interface) {
+ 			agilent_82357a_go_idle(board);
+ 			usb_set_intfdata(a_priv->bus_interface, NULL);
 -- 
 2.47.0
 
