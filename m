@@ -1,142 +1,169 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 861F4433D9
-	for <linux-staging@lists.linux.dev>; Thu, 21 Nov 2024 14:17:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D34251CD1EE
+	for <linux-staging@lists.linux.dev>; Thu, 21 Nov 2024 15:22:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732198639; cv=none; b=Vlq1FSRWvoKdrKSQRejMPg7MMqL+YC23PXYdtHkbUUxCFBVQvk7JgywP7mVx0CZaTJ3oHNAQLlv0Insev06s3zouIGN2JAZNTZFgyrCMIMIwDlqwXPjPhxAK77B8O/91b4eIbprry2db9fnyqwOpJPjfEhJ0sRJTMqujtJcp724=
+	t=1732202554; cv=none; b=eVHmix+/p4cxYrxnGfhvWkzoms0GSfc++i83+7QsEy5ONaVC09g9Avj3GBdj2J2rsLmgeAH9RlioWz1DnglOYKBJmLSqVCwkSfY8FfaExgf42iM6t6taFiUAd6gmef8ZehAHeT9KT8qBzYe95wU7JadWZK2C9vLC+/GKbkNOzzg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732198639; c=relaxed/simple;
-	bh=gY4slTsrzigmIW7W5TPf/5NTUCDpLiT/MxahrSWIQEI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DXn/h5AS16qITYmuGbci5pko8K9sn1TNuv1o/Eh8usWrfj3tdlr2xzeAYgWneBu1KACesrBpuSO31C0BxC95lcRK9Ing0G4xaxqAnLcvHNBiK/v7WSdt9cXEj01IzitKEc7g1ueOMEF15uxQ5CrT9k9md8nOxQkn7aDtVKD4XEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VW8uen7s; arc=none smtp.client-ip=209.85.208.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1732202554; c=relaxed/simple;
+	bh=J7W5TrnwenWvKnMX3d2yc9yTu73XYLUKgJ/OUeyUX0g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FG7rudEhneY2SDMI2G48mxWzdM0nMHTuEp40bdlw44nHr/TlFtXkQ2vtMhI+TkV6waRhjplhgRIj9qvQH6X3Pni4+V+fkxz+gl1kLYHI60QCl17Vb99bxlas6zmdtEagEG1tKsF7PxIyNpEV3bxYhETtPgbLvTAop6qf/oP9nvk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=x+kfQ4v+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=qCXoi7Z+; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Ekgrctxf; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=9CE+WNgv; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VW8uen7s"
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5cfc035649bso1335707a12.2
-        for <linux-staging@lists.linux.dev>; Thu, 21 Nov 2024 06:17:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1732198635; x=1732803435; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=qjYV0f9LV8DKVMMDSPPIZsuPEs8fFiR62vH6BjDoHdA=;
-        b=VW8uen7sYAeNFGWc7mpSZZap3Yj5Noftx6PuTPTTQf9hawDq3za0gl0HBRZGUCYbdP
-         sgdlShcEvB5A0zFHAa/CVeRbWXDmFMkCe3tELN08xc7ZM1RnY+tLH4o2ioYEP4meV1PB
-         crUCi25L65I4lGseAUjIsVg73EUEeuQS0l1dUz5AJqnoKWnBjtjUZpXMo1VEIww/w5FY
-         jTKaNCa5kThwuQ69lHF0XWCTrkbsj7gFHCzE2P1NUuDZSp2vCJbEQoJzqYlfFX0BE3Za
-         EJx3NE4V++jhWKELUWf707f+V7BmMGirHqOXfa7wlVROWpTNP74l/r3up7r2vYRZvASg
-         oHAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732198635; x=1732803435;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qjYV0f9LV8DKVMMDSPPIZsuPEs8fFiR62vH6BjDoHdA=;
-        b=mR6rTG4cjq2TJTsPpekum1TrJijIBeFYCcU4gAkTUPKCUndaz1scKEaggXRAg52yyl
-         kNYKa3KWfmJq07k3uR1690GYp1mMSrKSsYLOZkogvDaAv8thS+3Js0UF7WnIJ77SwZv3
-         46h6XSXquIT8hYGJkIuK/cTq3BYUCKjPq/55wsf5U//lKyzn1gi1YIaqx8lLPNbHt3nP
-         Dv8WacbloVzmNCQyakIK2aTuaizRfJA7htCQJ3FWWACNAVVdGz9F9pRN/Uv1L1280ElF
-         tM1BQLi2Bn63Y03XyJX8ffAMV2si9ZozQh4vhZa+8tdN/evcOW+l/9uV60g3wWCnca2E
-         uZvw==
-X-Forwarded-Encrypted: i=1; AJvYcCWp+8YoKaXBCcbWE214sNq25IfLA4H+3JqnJd4J7+chh7x1Dd/967NAI8xCwqEe4DqC/vg1Uv+eXx204I2h@lists.linux.dev
-X-Gm-Message-State: AOJu0YyLQoG528on0Zk6dJ6NfYZ0MMz9Hv3yd00aILMPhaGV3fr/9OkF
-	2LRzOdU5mgnFDZw5ilcgpLmpe6tgnTKHqXIloR9lb9m+haev+PY1axXIb0v9GYxHALDgCpfSipS
-	CWQZA7w==
-X-Gm-Gg: ASbGncubXLOWwti74bjH1bTkxFjCsDLqQmhfuFwC6wnISmIyPh1BahV4/5LromFcKWJ
-	FxBOXY1on2QcgqkCmR3uK7pebSw3Xc+ZIk0TbftNfusvxHhUWKlxxqZEyUITnRdyA35Qqf46oiQ
-	cvKmxvbOZjR+V1XTgzxA9ZYNFGTWSFJ0nqESVKRJqJKQqRwdUTp+GuX5IFLM/t35DE23Pv4RlWC
-	OXjeRXSue30R0IxYd2NjHx1NQuCoHCHj3PRe5AWq2fGhUTcirnK/IU=
-X-Google-Smtp-Source: AGHT+IFyOr66P+E7C7fnM/4Z3SPEljF0WWGFDrqoTUQ0MA6Kwx1at3Yb3Tko4ioxPpp2Dhuf/ouQLQ==
-X-Received: by 2002:a05:6402:4404:b0:5cf:d5ad:2809 with SMTP id 4fb4d7f45d1cf-5cff4cb51c3mr5195197a12.24.1732198634797;
-        Thu, 21 Nov 2024 06:17:14 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5cff44ef2d7sm1866994a12.19.2024.11.21.06.17.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Nov 2024 06:17:14 -0800 (PST)
-Date: Thu, 21 Nov 2024 17:17:10 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Paolo Perego <pperego@suse.de>
-Cc: Kees Bakker <kees@ijzerbout.nl>, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Dave Penkler <dpenkler@gmail.com>,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="x+kfQ4v+";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qCXoi7Z+";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ekgrctxf";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9CE+WNgv"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id ECF4E1F7BB;
+	Thu, 21 Nov 2024 15:22:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1732202550; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=K91uPR6lTMWLrN85XaN0xXrhmyBOJcTrqOt7sb4zvpo=;
+	b=x+kfQ4v+gkgO6A/oKcfRPTIvji8WdVP8x44FpIaXOgJRJkXS798LSc+8Mfg604Xk48wngm
+	FnVQFaamIajw5C0DZTjaumiwxyhjbu46z7qQMsI64k0/oq8ZArwD9/JyeAu8J6auwYxI7x
+	pT5Sq7M82zZXMba7dGkFV6XfKq8WL0M=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1732202550;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=K91uPR6lTMWLrN85XaN0xXrhmyBOJcTrqOt7sb4zvpo=;
+	b=qCXoi7Z+uW6XlcWH5L6a6QrAsNHRaKoAlv/lpti93UxgGBZ8hcNzPnjFTATnzfXR/lwH7F
+	tjkTFpP7flEmtpAw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1732202549; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=K91uPR6lTMWLrN85XaN0xXrhmyBOJcTrqOt7sb4zvpo=;
+	b=EkgrctxfRJZxncdpcrJ/S8xVA88eefaF6VX77EkSVHFAnZhf3PvyuczUj/YWNHDj+Pkns2
+	Hq2AzIMpGsJs1ixNNix546mrHYy44mf8n60LWTzJyKUqHv4rk+9ZHBLC/wg8G/6Blie1Ej
+	PbUVDoNX0cg9Vyql1zyvhqm56FZmwwk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1732202549;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=K91uPR6lTMWLrN85XaN0xXrhmyBOJcTrqOt7sb4zvpo=;
+	b=9CE+WNgvayaE0kDDafV9/OTZx5ZOHnmPQwcDm4xhdPMVv3n3yeYu3ehjC9hc9BfoCX2o9Q
+	omFAVaQxdUAkuLBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8C698137CF;
+	Thu, 21 Nov 2024 15:22:29 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id VS5cIDVQP2eaSwAAD6G6ig
+	(envelope-from <pperego@suse.de>); Thu, 21 Nov 2024 15:22:29 +0000
+From: Paolo Perego <pperego@suse.de>
+To: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Dave Penkler <dpenkler@gmail.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Kees Bakker <kees@ijzerbout.nl>,
+	Paolo Perego <pperego@suse.de>,
 	Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH] staging:gpib: Fix a dereference before null check issue
-Message-ID: <47c36187-7315-4a32-802c-4909599e36f7@stanley.mountain>
-References: <20241120144653.377795-1-pperego@suse.de>
- <a0807e04-b2c9-4261-9b3f-7660fe258f56@stanley.mountain>
- <6ca90e87-965a-4895-ba72-8144540f6e4c@ijzerbout.nl>
- <b843f8a9-1562-458c-8f6a-c59b1037b756@stanley.mountain>
- <wgcv5wesq3q3xank6elouewntisernnw4agfziqekkeirftx6i@ajucs5yqsvus>
+Subject: [PATCH v2] staging:gpib: Fix a dereference before null check issue
+Date: Thu, 21 Nov 2024 16:22:21 +0100
+Message-ID: <20241121152221.6415-1-pperego@suse.de>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <wgcv5wesq3q3xank6elouewntisernnw4agfziqekkeirftx6i@ajucs5yqsvus>
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[gmail.com,linuxfoundation.org,linaro.org,ijzerbout.nl,suse.de,arndb.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com]
+X-Spam-Score: -2.80
+X-Spam-Flag: NO
 
-On Thu, Nov 21, 2024 at 03:10:02PM +0100, Paolo Perego wrote:
-> On Thu, Nov 21, 2024 at 10:37:30AM GMT, Dan Carpenter wrote:
-> > On Wed, Nov 20, 2024 at 08:54:16PM +0100, Kees Bakker wrote:
-> > > Op 20-11-2024 om 18:04 schreef Dan Carpenter:
-> > > > On Wed, Nov 20, 2024 at 03:46:53PM +0100, Paolo Perego wrote:
-> > > > > This commit fixes a dereference before null check issue discovered by
-> > > > > Coverity (CID 1601566).
-> > > > > 
-> > > > > The check ad line 1450 suggests that a_priv can be NULL, however it has
-> > > > > been derefenced before, in the interface_to_usbdev() call.
-> > > > > 
-> > > > > Signed-off-by: Paolo Perego <pperego@suse.de>
-> > > > > ---
-> > > > You need a Fixes tag.  But I'm pretty sure the correct fix is to remove the NULL
-> > > > check.
-> > > In the whole agilent_82357a.c module there is no consistency whether
-> > > board->private_data needs to be checked for a NULL or not.
-> > > 
-> > > If Dan is correct then it is better to drop the NULL check, not only here
-> > > but in a few more places as well. There are at least 10 functions were
-> > > there is no NULL check for private_data.
-> > > 
-> > > Run this command and you'll see what I mean
-> > > git grep -3 -e '->private_data' -- drivers/staging/gpib/agilent_82357a
-> > > 
-> > 
-> > I had looked at similar issue in a different driver:
-> > https://lore.kernel.org/all/2d99b7a6-f427-4d54-bde7-fb3df5e19e53@stanley.mountain/
-> > 
-> > Here the NULL check we are discussing is the same thing.  The private data is
-> > allocated in attach() and freed in detach().  The detach has no need to check
-> > for NULL because we can't detach something which isn't attached.
-> > 
-> > The other NULL checks are in agilent_82357a_driver_disconnect(),
-> > agilent_82357a_driver_suspend() and agilent_82357a_driver_resume().  And there
-> > the NULL checks are required because it could happen when the driver isn't
-> > attached.
-> > 
-> > I also did a quick glance through to see if any of the functions which didn't
-> > check for NULL should get a NULL check but they all seemed okay because either
-> > the board was attached or the caller had a NULL check.
-> > 
-> 
-> Hi all and thanks for the fruitful discussion. 
-> 
-> > So I think we can just remove this one NULL check and everything else makes
-> > sense.
-> Please, apologise if I'm too newbie here to understand next step on my
-> own. Am I asked to do something, to submit a V2 with the correct Tag or
-> the patch is good as is?
-> 
-> ( No pressure to be accepted, it's just my willing to understand and go
-> into the process :-) )
-> 
+This commit fixes a dereference before null check issue discovered by 
+Coverity (CID 1601566).
 
-Please send a v2 which deletes the NULL check.
+The check at line 1450 suggests that a_priv can be NULL, however it has
+been dereferenced before, in the interface_to_usbdev() call.
 
-regards,
-dan carpenter
+After a discussion, the NULL check is useless because private data is allocated
+in attach routine and freed in detach routine, so in detach routine the pointer
+has to be not NULL for sure.
+
+Signed-off-by: Paolo Perego <pperego@suse.de>
+Fixes: Removes a useless NULL check
+
+---
+v2: 
+* After a discussion, we agreed the NULL check is useless because private data
+  is freed in detach routine and allocated while attaching. For such a reason,
+  the pointer has to be not NULL while detaching the device
+
+ .../gpib/agilent_82357a/agilent_82357a.c      | 20 +++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/staging/gpib/agilent_82357a/agilent_82357a.c b/drivers/staging/gpib/agilent_82357a/agilent_82357a.c
+index bf05fb4a736b..e940429dea19 100644
+--- a/drivers/staging/gpib/agilent_82357a/agilent_82357a.c
++++ b/drivers/staging/gpib/agilent_82357a/agilent_82357a.c
+@@ -1447,17 +1447,17 @@ static void agilent_82357a_detach(gpib_board_t *board)
+ 
+ 	a_priv = board->private_data;
+ 	usb_dev = interface_to_usbdev(a_priv->bus_interface);
+-	if (a_priv) {
+-		if (a_priv->bus_interface) {
+-			agilent_82357a_go_idle(board);
+-			usb_set_intfdata(a_priv->bus_interface, NULL);
+-		}
+-		mutex_lock(&a_priv->control_alloc_lock);
+-		mutex_lock(&a_priv->bulk_alloc_lock);
+-		mutex_lock(&a_priv->interrupt_alloc_lock);
+-		agilent_82357a_cleanup_urbs(a_priv);
+-		agilent_82357a_free_private(a_priv);
++
++	if (a_priv->bus_interface) {
++		agilent_82357a_go_idle(board);
++		usb_set_intfdata(a_priv->bus_interface, NULL);
+ 	}
++	
++	mutex_lock(&a_priv->control_alloc_lock);
++	mutex_lock(&a_priv->bulk_alloc_lock);
++	mutex_lock(&a_priv->interrupt_alloc_lock);
++	agilent_82357a_cleanup_urbs(a_priv);
++	agilent_82357a_free_private(a_priv);
+ 	dev_info(&usb_dev->dev, "%s: detached\n", __func__);
+ 	mutex_unlock(&agilent_82357a_hotplug_lock);
+ }
+-- 
+2.47.0
 
