@@ -1,101 +1,99 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8860D4595B
-	for <linux-staging@lists.linux.dev>; Thu, 21 Nov 2024 18:55:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCE99EADC;
+	Sat, 23 Nov 2024 20:03:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732215343; cv=none; b=Y5dRwoB0Teqt7r6ptRRa2qW9xiCXRBPQ97Gd/8rKUJgzQIZFJ0NovQyAjQXN2sjn6t32eRxUZ2ym8/+Muw+2HqBxJlhL+E/Z3HOPFquJLsXDENDHS7o/gEV1KM06Gow+T8YFOddl+aCEkbDw2/dHHZUQtRZUhKon/SEKKF5rW70=
+	t=1732392220; cv=none; b=Xg6xJeJ9DRkywwoYqiRJMzMwMA6LfCMpjcXXNoMkFSorRgaKFAKuLtLH5awbPnW7IGTtJdNL3GtjGdZ1mVNULznQTRcAfA0zjuK1wgJID/RWkwXJGUR6+tEiKCYaBLmgfVGomSUW7nbz/LSLNhebDyJ62Dj6hQyCEwzYf3f0jpA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732215343; c=relaxed/simple;
-	bh=utNGoZkjgvglt/ZQDAjDh2iz+WWusLLFgdqTAHc9ZcE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GLlpZrZa9KalmHeb9tU+C8LXuUb2ps+Vza4ReSfdhENF4eXTHwsTbXUr0H1AcffbivBUyd/msPzzYoQEU7rwAHW3u+2GlPyEgUQ3pYJZJYVubwUBTII1wZj58Jrl0H4kdoi0k6wAC8+aTvfPtO2CzWO7eA9rnJgBuxOTbJgHSwc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=agZRxZpR; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1732392220; c=relaxed/simple;
+	bh=awX1OHgdqsxsHC3kU5IcFhrvdjajWLHd4mnWWIWjVM4=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Fd8CSBRJzfgRabin++uxNwP514ALpoL14VCkt3ugDkQE/vsgzmkxP5gJbCj8QRn+RSZBXmlTlnjLD+c3QpXlUN8VN4MFwNy/hOBWVfKjNLc4M9zAT+IkgwkDL8CsDDuSS+OAaEPNF2Sf1/U/pRq7vnlnLq+U3f2biJ8Y6oAiAiE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ISVv6ieq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="agZRxZpR"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-43167ff0f91so10787315e9.1
-        for <linux-staging@lists.linux.dev>; Thu, 21 Nov 2024 10:55:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1732215338; x=1732820138; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=zzzPxQcvikn1NUF9cz7KZrPBlQYcHbkUU7Sgh4Ie0Vc=;
-        b=agZRxZpR1ecG8JI/ad/J6qjhc3OZVlHszuPKX1ouPqgyB0aqSEQN/iVmSXFG9v0wAr
-         3KD2axRRRyU68lFnAEKGMI1VzEGXgrv6jRaZOFrUgrV2ATpjW+iRehtCEzxkjD2NSZLK
-         UZ651jAMIQN9SbNL/0JhT25UX/2HUf8UYj0gOZ/NLmAVDOcNOO4H5A19SnILP9qPCQtn
-         yZXcnkNFO65QCoSWB86MF954J59Nba1Pqvf53BnJNSngobrOVdeHOrhdZvoVcjaA17ng
-         Hj/az1juEiXae+8kJVyvG3pHQSuJAgfOSeJpokRQbAaUyOqXvviTm3LJZW3CReJf0oAD
-         Yz7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732215338; x=1732820138;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zzzPxQcvikn1NUF9cz7KZrPBlQYcHbkUU7Sgh4Ie0Vc=;
-        b=izWMNcGA7eMguzxtQxFs8OY4jDQLlhlyMLVAtdEc4pT3FE/fwPp0MgjpVMfYzT1HvY
-         bPfesb5K9S424NVSIe2P/9/7oMdA1LfJf1GQ2IC99Ldtp/P0Z3UI9iybGD1JrfUaUDfa
-         fIP+EVZnjDfIls1JcP6k1og3H5pUIssA+VotxThqtVO1ZnsjgsR1r5ZruJZOiIWzVM5m
-         rBjB29uqPy4Gf8scz715WLR38OpwXS5NQWxBY4ClYBNgCrVMFYQNUHwDz8I8iLU9Xyi5
-         ujgxHwTo+amNQcANmT59nNaY/rJ/yJ36ztOKD6YzK/x2QXnlPP4at/JpyAW8j1kP8dII
-         hocA==
-X-Gm-Message-State: AOJu0Yy1KeRzUgUp7WZ+vTuBmw/xNg0iwDtPgP+jyW+GH+y3noHB0kHB
-	63tJqK6NogyW9W2qms8XpfjWy0eCuilSlyIroL1X2bQLhJ3IqAkJ+rSSj7l+kh0=
-X-Gm-Gg: ASbGncunNZZMW0lmn/WY40o22B6FCLpIQ2Ye0iMi3k1bRm49m6f2fmJ5Ioxo+Y20MV7
-	w2GdnX+pAimtNQHdrD0Ai80r5/dVOwP95xRX7Hp02lsmEohQqguAoVSPtG+eaLDOftGoz380Nss
-	eL3KCrDySdV3EHqBUeLkhUEHgb5be6zhzQtM5JnN3zrUTwmIEquXI61MMvqN+UAi4Syz9Sc3Qo2
-	6JMo+9JYtGAW8kFAFiyMm7yhGoCb1y9dfvEX7F5JfdKrmnudgwiE1c=
-X-Google-Smtp-Source: AGHT+IFmXIVpqP3HqT9KlJLNs+gw8NPLRwz++A/b/6fhrRW6TBSJRYOt2LadxPAG05FPEhMGpniIPg==
-X-Received: by 2002:a05:600c:3585:b0:432:c774:2e24 with SMTP id 5b1f17b1804b1-433489b2389mr71992225e9.9.1732215337852;
-        Thu, 21 Nov 2024 10:55:37 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-433cde8c8c8sm1441095e9.34.2024.11.21.10.55.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Nov 2024 10:55:37 -0800 (PST)
-Date: Thu, 21 Nov 2024 21:55:33 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Paolo Perego <pperego@suse.de>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Dave Penkler <dpenkler@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Kees Bakker <kees@ijzerbout.nl>, Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH v2] staging:gpib: Fix a dereference before null check
- issue
-Message-ID: <dcefdd75-643f-4492-9e65-8b289cbf418e@stanley.mountain>
-References: <20241121152221.6415-1-pperego@suse.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ISVv6ieq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 111E0C4CECD;
+	Sat, 23 Nov 2024 20:03:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1732392219;
+	bh=awX1OHgdqsxsHC3kU5IcFhrvdjajWLHd4mnWWIWjVM4=;
+	h=From:Date:Subject:To:Cc:From;
+	b=ISVv6ieqm/cuXatmH24O4oeGMpbRkgIXj/sg9WC+froq7CMPaE6Jzc0s+O9ZgXWtj
+	 qKLF0UUNR6NYTevejyQJ57ZoN6JnhlWwioZcIi0ppftJ76EptHxfzBTcMzsc5IRaYw
+	 HNvCc9/jXHVaJNEkKZ4E/kfd8RR/luHTRy061VuzI8flPDK2soZ8cQRA2WG/v+1us8
+	 l0siS5VUAap6D9fGc/oMuLWSglcHcmQJPfc4TbHRFW0PTIU4LpInHpRdi70/IVXbDq
+	 8gzisVMmGBhz7SUC8trpVauh/Lhy4a1wvv+1bqMT2aOxTq+rnePczy9gL1Dfa4XQno
+	 BOPdnIf6gsjhg==
+From: Nathan Chancellor <nathan@kernel.org>
+Date: Sat, 23 Nov 2024 13:03:25 -0700
+Subject: [PATCH] staging: gpib: Make GPIB_NI_PCI_ISA depend on HAS_IOPORT
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241121152221.6415-1-pperego@suse.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20241123-gpib-tnt4882-depends-on-has_ioport-v1-1-033c58b64751@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAAw1QmcC/x3NwQrCMAyA4VcZORuwsZPhq4hIt2RbLmlpighj7
+ 27x+F3+/wCXquLwGA6o8lHXbB3hMsCyJ9sElbuBrhRDoBtuRWds1uI0EbIUMXbMhnvyt+aSa8O
+ ZmSLfZUyyQA+VKqt+/5Pn6zx/W8aW5XQAAAA=
+X-Change-ID: 20241123-gpib-tnt4882-depends-on-has_ioport-bdd24d6e5aec
+To: Dave Penkler <dpenkler@gmail.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Arnd Bergmann <arnd@arndb.de>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Nathan Chancellor <nathan@kernel.org>
+X-Mailer: b4 0.15-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1735; i=nathan@kernel.org;
+ h=from:subject:message-id; bh=awX1OHgdqsxsHC3kU5IcFhrvdjajWLHd4mnWWIWjVM4=;
+ b=owGbwMvMwCUmm602sfCA1DTG02pJDOlOplKzz33ilJr9wNL9XMLJebJ2M7IvduaEGGqWWn1M+
+ 5F1XM6so5SFQYyLQVZMkaX6sepxQ8M5ZxlvnJoEM4eVCWQIAxenAEyk8hMjw+VDB4OqAtll/S4x
+ KrAfCY7frbWz63Cup8+M85cFEr5N/cnI0H3OdGOItyYnT+qxye/bLHdP/PXT+d+3Lxdvhv046iT
+ WyAgA
+X-Developer-Key: i=nathan@kernel.org; a=openpgp;
+ fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
 
-On Thu, Nov 21, 2024 at 04:22:21PM +0100, Paolo Perego wrote:
-> This commit fixes a dereference before null check issue discovered by 
-> Coverity (CID 1601566).
-> 
-> The check at line 1450 suggests that a_priv can be NULL, however it has
-> been dereferenced before, in the interface_to_usbdev() call.
-> 
-> After a discussion, the NULL check is useless because private data is allocated
-> in attach routine and freed in detach routine, so in detach routine the pointer
-> has to be not NULL for sure.
-> 
-> Signed-off-by: Paolo Perego <pperego@suse.de>
-> Fixes: Removes a useless NULL check
+After commit 78ecb0375685 ("staging: gpib: make port I/O code
+conditional"), building tnt4882.ko on platforms without HAS_IOPORT (such
+as hexagon and s390) fails with:
 
-This isn't how the Fixes tag works.  It's supposed to refer to the patch which
-introduces the static checker warning.
-Fixes: fbae7090f30c ("staging: gpib: Update messaging and usb_device refs in agilent_usb")
+  ERROR: modpost: "inb_wrapper" [drivers/staging/gpib/tnt4882/tnt4882.ko] undefined!
+  ERROR: modpost: "inw_wrapper" [drivers/staging/gpib/tnt4882/tnt4882.ko] undefined!
+  ERROR: modpost: "nec7210_locking_ioport_write_byte" [drivers/staging/gpib/tnt4882/tnt4882.ko] undefined!
+  ERROR: modpost: "nec7210_locking_ioport_read_byte" [drivers/staging/gpib/tnt4882/tnt4882.ko] undefined!
+  ERROR: modpost: "outb_wrapper" [drivers/staging/gpib/tnt4882/tnt4882.ko] undefined!
+  ERROR: modpost: "outw_wrapper" [drivers/staging/gpib/tnt4882/tnt4882.ko] undefined!
 
-The patch has a couple checkpatch issues as well.  Please, fix those up and
-resend.
+Only allow tnt4882.ko to be built when CONFIG_HAS_IOPORT is set to avoid
+this build failure, as this driver unconditionally needs it.
 
-regards,
-dan carpenter
+Fixes: 78ecb0375685 ("staging: gpib: make port I/O code conditional")
+Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+---
+ drivers/staging/gpib/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/staging/gpib/Kconfig b/drivers/staging/gpib/Kconfig
+index 95308d15a55516de9118e7ae90a6103ee8c6c003..9ee4323164654916e7ed49190eaf5bb02ce7f045 100644
+--- a/drivers/staging/gpib/Kconfig
++++ b/drivers/staging/gpib/Kconfig
+@@ -62,6 +62,7 @@ config GPIB_CEC_PCI
+ config GPIB_NI_PCI_ISA
+ 	tristate "NI PCI/ISA compatible boards"
+ 	depends on ISA_BUS || PCI || PCMCIA
++	depends on HAS_IOPORT
+ 	select GPIB_COMMON
+ 	select GPIB_NEC7210
+ 	help
+
+---
+base-commit: 114eae3c9fde35220cca623840817a740a2eb7b3
+change-id: 20241123-gpib-tnt4882-depends-on-has_ioport-bdd24d6e5aec
+
+Best regards,
+-- 
+Nathan Chancellor <nathan@kernel.org>
 
