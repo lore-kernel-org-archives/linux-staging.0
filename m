@@ -1,125 +1,173 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E430616EB4C
-	for <linux-staging@lists.linux.dev>; Mon, 25 Nov 2024 22:53:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 735D019CC02
+	for <linux-staging@lists.linux.dev>; Thu, 28 Nov 2024 12:28:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732575216; cv=none; b=H3xedsvU+YKBsaR0x+G1ShN5la93uM+NXzvRUadU2aisb8RsimEpGHKqr1ENa+ePaf5gGCt71LtYK8KSs/vzrzrqs/aAAdDIC4PrQrDg/xStNcbXRVxHq+0PznMfqfNgKEABfAHLx+AAvNYxjuStxDzjGFNAg8bvwMifgfSrbnc=
+	t=1732796937; cv=none; b=fU8xjRwV6RSA+GX22qPaO+Bdj4GMpVnP+liw/0raTKI1g+nMCDXgBc3omRzoMtiHzdn+veWkawKnztjKd7qPP/O/OkOtXuRk8exNOtfq/CH1QfsQZdn7HG0xIVd+Hotp31TQhQohCII6F1Av4IX/yQ3X/I9WQDgPNS1jygBy9oM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732575216; c=relaxed/simple;
-	bh=z8d6Z5DoxDAN9pjge71M9GbAXIHRYZWcfYoQdcMTatw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JFh2ct9f5wOrG4VR9qw6XbaqdAhXtzH3NB9NWUdkQv+WPm3jWJdfDYjpinJIYrEK7T91vL9r4/kBqvYU/Y+Vfy46SKyn+WxXAr+xO/aH9bJAXJk7dol8YDZBheChUyNAqCv7E+eNkgiZNmZ8nSWS13ECEVSYIZnOMJuONkOO5xM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=En8wB3dl; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1732796937; c=relaxed/simple;
+	bh=7YyGrl4KoRmc0JeVQNy93UMWTak4tQ4PB7z7wqFR2wU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=h78Kww+S9CDrsLeX8M2bzE97FXq1Uygmo4e7/ANK0pRl1CSiSBkrhb7TAbCi/zDnuWQUf8CIWoFBkAw/u6kz9BOnc8jYpe4ooXBPZWwV6MZiWpJengDjeUvoqpkrffcUZuct1pQxKtoMpbYSKx9BEwnW3PxPp6XAPXeWpO+TlLw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SR+2143n; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="En8wB3dl"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-724e14b90cfso2995925b3a.2
-        for <linux-staging@lists.linux.dev>; Mon, 25 Nov 2024 14:53:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732575214; x=1733180014; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=sf0UnYlMfG0Zaof4x8glKBufQrY/Z6YuQPrhM1VLm6E=;
-        b=En8wB3dlawAh2DGkXPWSOU/5tw2W0p6uSPtl7BWeDfPVutwuCsmelJx2vPaovENFWU
-         ivofQ6CjqUXeQR4gUeRVhj7hvvZJh3juhCsHNpVET7CAt5UspNV9AxW0+c1CVFGLm9Al
-         DQgBvTodeKwSL8c6zDdEv3PH865IWgjnXdlfkJngwQjL+dIVieKRGXobfdjl80O3uGAr
-         VDSSmx9fGEQorT929UHg/tZrBE2xzZ6pbvIAAal9ExfZpwtUkCi11w2u/i3fVH4kul8S
-         9/AwQf/a298uuLx8gXt9ovGxqcXLsGo0v0DrcCkTKF0gVARTFLZMmWx99BaYZzXGMopE
-         oHUQ==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SR+2143n"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1732796934;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZACMslqIaF7iVtmlx12c8LPoSlN7TzLegXngDuX2z78=;
+	b=SR+2143n/ny/c1ljGZjDnEADm/Ip4JnzZKHEGegX2fSpQuWWcE1/kNzNUvhvIvpffUaami
+	pQnV8KfkLGfnmwFF1tW7gB4vxoTu6M1GGF94HZMZeKWCvFMHdHksmJydcDHl7j7pLyw10t
+	usmZaRSuxFMIGWqNTbACv75cFVGLQL0=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-272-tv-pxs6fMV2BaA1GGPWlYw-1; Thu, 28 Nov 2024 07:28:53 -0500
+X-MC-Unique: tv-pxs6fMV2BaA1GGPWlYw-1
+X-Mimecast-MFC-AGG-ID: tv-pxs6fMV2BaA1GGPWlYw
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-38242c5b4ffso437450f8f.1
+        for <linux-staging@lists.linux.dev>; Thu, 28 Nov 2024 04:28:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732575214; x=1733180014;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sf0UnYlMfG0Zaof4x8glKBufQrY/Z6YuQPrhM1VLm6E=;
-        b=Cj9TzaT0c+iZUUfyMGXN4d3IOTP+Xaa5NEGCynzrFhsY75pvxTqbhQnr+EVvMoA8h/
-         kK4Bv7sUo1pBu8bQrUVM+5J1/NJmsKxAvP0W+Jhcl0M1KFzunAX7JTpbsxzHxi8a9G/N
-         OoshYkTvVXfwxqVt8nPf27i8sDR6AU5/bKsqlp6BqEwrvR3+ztcHUfnQ6u4jIuKavDiw
-         vz2Q4MDrIasIgqDAWgaSxFMvMpNa1olfN1uG/gqkOwjlVLzTBx/Skod5nAK3Zq2aWDrx
-         QzHNjy3USraSiW74PLCoFYR3In1zfW8BovwPRNahDHvkaD/gRHohdrK2SClRU+FG03a4
-         w/iA==
-X-Forwarded-Encrypted: i=1; AJvYcCW9baDpTzu9vKaROddV2MXVCMHly80rNOlKNGtxsIRUvoiL76YwNYtY6zzKdPC9SnGYg24hbC1Ep2dpcSci@lists.linux.dev
-X-Gm-Message-State: AOJu0YzMB8B8RdoulSdrLoD93fL11wTvbmv18w9+cqeQYXMqJsjXAPK4
-	NdSnXNVSGm3Do+Wa3IkEdBvSKZVA5KJi/Ywby4NkMr2FuUxAD/i+
-X-Gm-Gg: ASbGncvOQbqUXJ1afC17rzj9LyXuCpa6twwthRL64C6c0L6Ke5+zqRTJMGIWs/6+eop
-	iLa5+hvrT2q4isIcHtQYKodT3bn/scuZdxcgwyl3JEM60UXitJz9CeNGH3iUaRfMw6Rfgl+6pFO
-	/iwzm+frEm8R3rFO964qCSfNTEURBh9WEs0yxxc/s2e9HafDH++NQolBEuueVS9/kuvHtPddoFM
-	ngZ7dVKBnV+DfIVG3GXonVCHioWMBehkryT5U+EPqyHilHzG5/v8UtYUgklB974sEZvwi27oA==
-X-Google-Smtp-Source: AGHT+IHPTH0aVJf2SFTOfQ/+2jgplaOyqlz3jX+/P6YUgcDzTZb1h4bhyPQfRMIO4wKu5X84qgqA/w==
-X-Received: by 2002:a05:6a00:2d10:b0:71e:2a0:b0d0 with SMTP id d2e1a72fcca58-724df645b70mr18260344b3a.13.1732575214183;
-        Mon, 25 Nov 2024 14:53:34 -0800 (PST)
-Received: from localhost.localdomain ([2804:14d:4c64:81ec:7409:107a:a63b:a3da])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724dea69e96sm6977544b3a.73.2024.11.25.14.53.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Nov 2024 14:53:33 -0800 (PST)
-From: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
-To: gregkh@linuxfoundation.org,
-	philipp.g.hortmann@gmail.com
-Cc: ~lkcamp/patches@lists.sr.ht,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] staging: rtl8723bs: fix broken code when cflag is used
-Date: Mon, 25 Nov 2024 19:45:04 -0300
-Message-ID: <20241125225308.8702-1-rodrigo.gobbi.7@gmail.com>
-X-Mailer: git-send-email 2.47.0
+        d=1e100.net; s=20230601; t=1732796932; x=1733401732;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZACMslqIaF7iVtmlx12c8LPoSlN7TzLegXngDuX2z78=;
+        b=fxqJYEEvyo49Aa1/4vLAJbt3KMoSDC9qXNJGct8vkMULROUYjCVgTCkj21dfMZ5Ujv
+         c2K1ddw4xMJXA5+i/ebahFPEcUJ4fE1iZOWN2fbK9iCXlumKDu9+yLoYNkP/dMpj00Uo
+         +MhCRFELm83IgKLNOPBh0AZ43hPwCe3Lidx+n4h08JafANQurKjX7QIWWrEl5nO+V1AZ
+         Omt2YddmpwmyIFGK3IQektEq3Oc7Z5CVlCiN4df+qlc+ph3cvk12lO5MQ1Paxf7USbsu
+         YtT6yKPCJ09lysipAVBplizqAzQhL6/iSrllJF5OTZ5i5s6vPalZUFD7R3lRT489O4bL
+         A3Pw==
+X-Forwarded-Encrypted: i=1; AJvYcCXcCVG1ugv0qvcKt0is+Bq80sNtsfrIY/IrhEsZRsettvvDDpT+ISeg1Z/sae7ouyGLnyzSOP9DDrYjh687@lists.linux.dev
+X-Gm-Message-State: AOJu0YyouHZ9Aqdp8igIi6HnfYEa8CvOq5otlfEY1PdhtVfJZ4rkkFFq
+	Pm/DgiZ6mw0VNvO+6DkcCH+a46SRYCjDh7lMpLRf8iJBwttWkTJ82sCesOHUV0OwF5UBCpCy7tD
+	JLzxeTDBNMrpaSmLWkTg0yToEiqZEwNQyod5skZ0VFT58LsRtxaw4z4N0XY+3zLdplfQUx8W3S0
+	kqCWSL5QbBZDtSpB+l6T3eG129lrSY8nEVOtHaUg==
+X-Gm-Gg: ASbGnctPWAd185S0ghpaUZkjGSOVnxArA32IfnV62mGVjJY0RDDwjyMkGwctnYBkri6
+	Xz3ieG6WgjIARyDsnK675f2zrJqrYnfc=
+X-Received: by 2002:a05:6000:18ac:b0:382:4a27:1319 with SMTP id ffacd0b85a97d-385c6eb5840mr5776087f8f.6.1732796931925;
+        Thu, 28 Nov 2024 04:28:51 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGGOqoP8tsZ6KQpRsoqtGa6KHF61EJ3NUmj3Aw3MlprtODTvHQ/TDY7uTpa3Nw0Vy2Is2RlK3QrcXMwzmVV8rU=
+X-Received: by 2002:a05:6000:18ac:b0:382:4a27:1319 with SMTP id
+ ffacd0b85a97d-385c6eb5840mr5776067f8f.6.1732796931576; Thu, 28 Nov 2024
+ 04:28:51 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20241115-converge-secs-to-jiffies-v2-0-911fb7595e79@linux.microsoft.com>
+ <20241115-converge-secs-to-jiffies-v2-18-911fb7595e79@linux.microsoft.com>
+In-Reply-To: <20241115-converge-secs-to-jiffies-v2-18-911fb7595e79@linux.microsoft.com>
+From: Alex Markuze <amarkuze@redhat.com>
+Date: Thu, 28 Nov 2024 14:28:40 +0200
+Message-ID: <CAO8a2SgQ-==SjhDFZpi2s3r9FUGA96jwuJL7kTDwE=Hw4UcgUg@mail.gmail.com>
+Subject: Re: [PATCH v2 18/21] ceph: Convert timeouts to secs_to_jiffies()
+To: Easwar Hariharan <eahariha@linux.microsoft.com>
+Cc: Pablo Neira Ayuso <pablo@netfilter.org>, Jozsef Kadlecsik <kadlec@netfilter.org>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Julia Lawall <Julia.Lawall@inria.fr>, Nicolas Palix <nicolas.palix@imag.fr>, 
+	Daniel Mack <daniel@zonque.org>, Haojian Zhuang <haojian.zhuang@gmail.com>, 
+	Robert Jarzmik <robert.jarzmik@free.fr>, Russell King <linux@armlinux.org.uk>, 
+	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
+	Alexander Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>, 
+	Sven Schnelle <svens@linux.ibm.com>, Ofir Bitton <obitton@habana.ai>, 
+	Oded Gabbay <ogabbay@kernel.org>, Lucas De Marchi <lucas.demarchi@intel.com>, 
+	=?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
+	Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>, 
+	Shailend Chand <shailend@google.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	James Smart <james.smart@broadcom.com>, Dick Kennedy <dick.kennedy@broadcom.com>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
+	"Martin K. Petersen" <martin.petersen@oracle.com>, =?UTF-8?Q?Roger_Pau_Monn=C3=A9?= <roger.pau@citrix.com>, 
+	Jens Axboe <axboe@kernel.dk>, Kalle Valo <kvalo@kernel.org>, Jeff Johnson <jjohnson@kernel.org>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Jack Wang <jinpu.wang@cloud.ionos.com>, Marcel Holtmann <marcel@holtmann.org>, 
+	Johan Hedberg <johan.hedberg@gmail.com>, Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Xiubo Li <xiubli@redhat.com>, 
+	Ilya Dryomov <idryomov@gmail.com>, Josh Poimboeuf <jpoimboe@kernel.org>, Jiri Kosina <jikos@kernel.org>, 
+	Miroslav Benes <mbenes@suse.cz>, Petr Mladek <pmladek@suse.com>, 
+	Joe Lawrence <joe.lawrence@redhat.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Lucas Stach <l.stach@pengutronix.de>, Russell King <linux+etnaviv@armlinux.org.uk>, 
+	Christian Gmeiner <christian.gmeiner@gmail.com>, Louis Peens <louis.peens@corigine.com>, 
+	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
+	Christophe Leroy <christophe.leroy@csgroup.eu>, Naveen N Rao <naveen@kernel.org>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, netfilter-devel@vger.kernel.org, 
+	coreteam@netfilter.org, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	cocci@inria.fr, linux-arm-kernel@lists.infradead.org, 
+	linux-s390@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	intel-xe@lists.freedesktop.org, linux-scsi@vger.kernel.org, 
+	xen-devel@lists.xenproject.org, linux-block@vger.kernel.org, 
+	linux-wireless@vger.kernel.org, ath11k@lists.infradead.org, 
+	linux-mm@kvack.org, linux-bluetooth@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-rpi-kernel@lists.infradead.org, 
+	ceph-devel@vger.kernel.org, live-patching@vger.kernel.org, 
+	linux-sound@vger.kernel.org, etnaviv@lists.freedesktop.org, 
+	oss-drivers@corigine.com, linuxppc-dev@lists.ozlabs.org, 
+	Anna-Maria Behnsen <anna-maria@linutronix.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: VlRv9NKZXr4U3Pvs1UGPnq0jfyCy2crb8mgvtQP6AjE_1732796932
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-When using an extra cflag, DBG_RX_SIGNAL_DISPLAY_RAW_DATA,
-hal_com.c file doesn't compile.
+looks good
 
-Fixes: ec57f8641fbc ("staging: rtl8723bs: Rework 'struct _ODM_Phy_Status_Info_' coding style.")
-Signed-off-by: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
----
-As noticed at [1], hal_com.c is not compiling with -DDBG_RX_SIGNAL_DISPLAY_RAW_DATA due
-the changes at [2] (a few statements were not replaced with the new struct).
-A little discussion was made at [1] too about how useful this cflag was or if
-the code under the cflag should be deleted. I think there is no harm to keep those things 
-as is since we can easily fix the error and someone might be interested in using that
-to further debug the driver.
-Tks and regards.
-
-[1] https://lore.kernel.org/linux-staging/f61d8272-4af3-40d6-a333-e7731c3fc5ae@stanley.mountain/T/#mffa281a89e67c609db9b125878d5b8d090776812
-[2] "staging: rtl8723bs: Rework 'struct _ODM_Phy_Status_Info_' coding style.", commit ec57f8641fbca07bbb61a75bd4760fd7aef86860
----
-Changelog
-v2: add missing commit msg and fixes tag;
-v1: https://lore.kernel.org/linux-staging/2024112500-authentic-primarily-b5da@gregkh/T/#mea4fba3775a1015f345dfe322854c55db0cddf43
----
- drivers/staging/rtl8723bs/hal/hal_com.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/hal/hal_com.c b/drivers/staging/rtl8723bs/hal/hal_com.c
-index 95fb38283c58..63bf6f034f61 100644
---- a/drivers/staging/rtl8723bs/hal/hal_com.c
-+++ b/drivers/staging/rtl8723bs/hal/hal_com.c
-@@ -906,7 +906,7 @@ void rtw_store_phy_info(struct adapter *padapter, union recv_frame *prframe)
- 	struct hal_com_data *pHalData =  GET_HAL_DATA(padapter);
- 	struct rx_pkt_attrib *pattrib = &prframe->u.hdr.attrib;
- 
--	struct odm_phy_info *pPhyInfo  = (PODM_PHY_INFO_T)(&pattrib->phy_info);
-+	struct odm_phy_info *pPhyInfo  = (struct odm_phy_info *)(&pattrib->phy_info);
- 	struct rx_raw_rssi *psample_pkt_rssi = &padapter->recvpriv.raw_rssi_info;
- 
- 	psample_pkt_rssi->data_rate = pattrib->data_rate;
-@@ -919,8 +919,8 @@ void rtw_store_phy_info(struct adapter *padapter, union recv_frame *prframe)
- 		psample_pkt_rssi->mimo_signal_strength[rf_path] = pPhyInfo->rx_mimo_signal_strength[rf_path];
- 		psample_pkt_rssi->mimo_signal_quality[rf_path] = pPhyInfo->rx_mimo_signal_quality[rf_path];
- 		if (!isCCKrate) {
--			psample_pkt_rssi->ofdm_pwr[rf_path] = pPhyInfo->RxPwr[rf_path];
--			psample_pkt_rssi->ofdm_snr[rf_path] = pPhyInfo->RxSNR[rf_path];
-+			psample_pkt_rssi->ofdm_pwr[rf_path] = pPhyInfo->rx_pwr[rf_path];
-+			psample_pkt_rssi->ofdm_snr[rf_path] = pPhyInfo->rx_snr[rf_path];
- 		}
- 	}
- }
--- 
-2.47.0
+On Sat, Nov 16, 2024 at 12:32=E2=80=AFAM Easwar Hariharan
+<eahariha@linux.microsoft.com> wrote:
+>
+> Changes made with the following Coccinelle rules:
+>
+> @@ constant C; @@
+>
+> - msecs_to_jiffies(C * 1000)
+> + secs_to_jiffies(C)
+>
+> @@ constant C; @@
+>
+> - msecs_to_jiffies(C * MSEC_PER_SEC)
+> + secs_to_jiffies(C)
+>
+> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
+> ---
+>  fs/ceph/quota.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/fs/ceph/quota.c b/fs/ceph/quota.c
+> index 06ee397e0c3a6172592e62dba95cd267cfff0db1..d90eda19bcc4618f98bfed833=
+c10a6071cf2e2ac 100644
+> --- a/fs/ceph/quota.c
+> +++ b/fs/ceph/quota.c
+> @@ -166,7 +166,7 @@ static struct inode *lookup_quotarealm_inode(struct c=
+eph_mds_client *mdsc,
+>         if (IS_ERR(in)) {
+>                 doutc(cl, "Can't lookup inode %llx (err: %ld)\n", realm->=
+ino,
+>                       PTR_ERR(in));
+> -               qri->timeout =3D jiffies + msecs_to_jiffies(60 * 1000); /=
+* XXX */
+> +               qri->timeout =3D jiffies + secs_to_jiffies(60); /* XXX */
+>         } else {
+>                 qri->timeout =3D 0;
+>                 qri->inode =3D in;
+>
+> --
+> 2.34.1
+>
+>
 
