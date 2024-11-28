@@ -1,173 +1,57 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from inbox0.redstarhavacilik.info (unknown [79.141.163.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52D2D1991DA
-	for <linux-staging@lists.linux.dev>; Thu, 28 Nov 2024 12:29:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9F191974FE
+	for <linux-staging@lists.linux.dev>; Thu, 28 Nov 2024 13:57:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.141.163.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732796957; cv=none; b=X3G8j1O0FAAFrNFBEFNYn9oa/WSoj1jCXTVttwpnT2DCtuxpgyyWRG2+ZUIAvtVhFtcp5BFp3h/OFjy4DlcPVmapnnE8WMPJIv6nkOrGyjsIFNPtO0QYG0UzKA3UymoLNs5xfdqCbEziajtIkOKRKAyxp0gShV9Er4zM12eEko0=
+	t=1732802293; cv=none; b=Zhe1t3eGi1sOwUEVGMdJgzyNOTHf/xOWStccjcgraH3y/2OLzlQnG3NmezPZcPghi5LX7+RsklsRVlnlHTBH3GNbbJNmBTl/Jyhj1uZ4o3QqgeVA9XdWvqU8hJgOk/f2VOLQ38rODxv8j3ZRe9HLh987okqGDP20KlXzym7dkFw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732796957; c=relaxed/simple;
-	bh=JpPbSJkGmB+FiXHSVu+2bxdWkGhcoXfBF30rmHgjyGg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bQXyNQViHw40lBZYcK34FqyiBYROqiZ/tdvVje2EKDZoBDhMTVm+CKIvfj/hZctGiN7vSOEhjKduGeAB9Kpome07RvHFOKlfn4CvkbGdmSwEPRhwc5OFycmnROK8xCAEzLPMZnSq32YmgbGDH0+mAJaHnjrmbznhOJNP4aC2Hhs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=NF86R7YP; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NF86R7YP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1732796954;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0Nxf6CkGK3NslY+JLgqPcTLt32q1OCumzkrHYUKQkbE=;
-	b=NF86R7YPaO4OmYapdN/YmkctK36hyatOwgFnMmypDgOYs+5hDSzw9VI6kPrX1Sfwh9Y/oh
-	pkRUEbh4+BmMaTxCAagWRlwi7lwQxDFd7HAWNdry//JprUXWVkYB37Tpxs4gq9uxDC5E3q
-	Hb7mXLh0aj/aMRbdo2tBNwPWG0P55Bs=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-111-3F5IHx4xO7GhChNGc6UAfA-1; Thu, 28 Nov 2024 07:29:13 -0500
-X-MC-Unique: 3F5IHx4xO7GhChNGc6UAfA-1
-X-Mimecast-MFC-AGG-ID: 3F5IHx4xO7GhChNGc6UAfA
-Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-aa51a52a5a5so41791466b.2
-        for <linux-staging@lists.linux.dev>; Thu, 28 Nov 2024 04:29:13 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732796952; x=1733401752;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0Nxf6CkGK3NslY+JLgqPcTLt32q1OCumzkrHYUKQkbE=;
-        b=G08aXMAlFeBPIRlspfNYkcJu+LjiTX7UWO/PDgxFN9LZVQDP+iznjiO4lotwJupyEx
-         LKT0GmNYLbHXMzsLBPhGd50PV6nbbC8kuefepFqucjCk/T+0/dABwVJkfrdQ7hXwJCfH
-         WgOko1IwbjxpmiZsPjSBn1HPIkXNyGP4MWAFRPhbOxVT2/ifjxgoXUy5dN7mEjltYUOi
-         U/X+NAcDdBMRNyQxTnnjJ7D4UAiou3SWBjLHhmVygPHLAsw6/NUKqETp7EwZWfyKZWg9
-         +Rk1RqTIG4AKs1C2rpOnZMFr+CnfyEtdzCOPP60E9UYD3x7o0CrIPt2f4gVZDEnekiEQ
-         UVaA==
-X-Forwarded-Encrypted: i=1; AJvYcCW1oVBuMbfoCzuPJd3v2pBgAecZ/CgKE00+09jI6uDvs1I3SXfOvhUEvPpkVlqT4qMeh1kowr/Gz1VBoXMu@lists.linux.dev
-X-Gm-Message-State: AOJu0YweBuchTRSY5Ro5VFqUr4nnGpaq7BPaNLH6XtX5z+5ok1+b4jai
-	O5c8PmiHialQz5hYZ2mo23jEo7WDn17XtojsDl1OL4xXpzpx8XTvP16FB8lLF06IhvjXmlRwUSq
-	nypNW2mihNnac90UiMKw3vH/B/VW8tllyGDgbXDp+MGiXpcsWC2klEUMr5y8jVBDOeG1Nz+OfkC
-	EjMtaVj86I/xwaqKu1PKNQx528ARTyekpYQCpuog==
-X-Gm-Gg: ASbGncueHChsz3uQ4j8oGw/+npd+eYlTA86KTi8ZKz1lDphkWJQ2AJm4ntpWR+VLPVc
-	3Squ/BGaHXLiPsuh+kR3HBD6xNWPwaVg=
-X-Received: by 2002:a05:6402:5243:b0:5cf:e26b:9797 with SMTP id 4fb4d7f45d1cf-5d080c604fcmr5605089a12.29.1732796951915;
-        Thu, 28 Nov 2024 04:29:11 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGuE0zkJ6zJza+fGet7qX+06h7Jmet7/bu0xRwgqC9A06SMAgod8PaoQJd1k5pY7KRDfw0cJAGqmNIglvOyUZo=
-X-Received: by 2002:a05:6402:5243:b0:5cf:e26b:9797 with SMTP id
- 4fb4d7f45d1cf-5d080c604fcmr5605060a12.29.1732796951475; Thu, 28 Nov 2024
- 04:29:11 -0800 (PST)
+	s=arc-20240116; t=1732802293; c=relaxed/simple;
+	bh=EOnrZLyXZHj4HOKgjKekgWX31znFRWBOurAKtPC8dGk=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=CInTXVo9bz4pnuDHQba2k67bNnT1wLieNO5vlNly0wbJ/mPuxE/E6kpI+a5WN3F3EG+YuU0B7bzHpuc5OIJ4O91S+ylQZmfsheYQmdlFNmw8Kv2XMUQDBm53smvs4rpsAd4AP4WsYoYf83K99gBWnB53WROpE4x8MaZYPhFKBvQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rohanenterprises.info; spf=pass smtp.mailfrom=redstarhavacilik.info; arc=none smtp.client-ip=79.141.163.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rohanenterprises.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redstarhavacilik.info
+Reply-To: ethanallen094@zohomail.eu
+From: Ethan Allen <admln@rohanenterprises.info>
+To: linux-staging@lists.linux.dev
+Subject: M&E- Consult-RQ387690
+Date: 28 Nov 2024 05:57:51 -0800
+Message-ID: <20241128055751.D32D1ED99BE73AD8@rohanenterprises.info>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241115-converge-secs-to-jiffies-v1-0-19aadc34941b@linux.microsoft.com>
- <20241115-converge-secs-to-jiffies-v1-18-19aadc34941b@linux.microsoft.com>
-In-Reply-To: <20241115-converge-secs-to-jiffies-v1-18-19aadc34941b@linux.microsoft.com>
-From: Alex Markuze <amarkuze@redhat.com>
-Date: Thu, 28 Nov 2024 14:29:00 +0200
-Message-ID: <CAO8a2SjKS2nWWVkAcqXkZhR+Q1TocULkwRk09ABf8XQjjzwJPQ@mail.gmail.com>
-Subject: Re: [PATCH 18/22] ceph: Convert timeouts to secs_to_jiffies()
-To: Easwar Hariharan <eahariha@linux.microsoft.com>
-Cc: Pablo Neira Ayuso <pablo@netfilter.org>, Jozsef Kadlecsik <kadlec@netfilter.org>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Julia Lawall <Julia.Lawall@inria.fr>, Nicolas Palix <nicolas.palix@imag.fr>, 
-	Daniel Mack <daniel@zonque.org>, Haojian Zhuang <haojian.zhuang@gmail.com>, 
-	Robert Jarzmik <robert.jarzmik@free.fr>, Russell King <linux@armlinux.org.uk>, 
-	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
-	Alexander Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>, 
-	Sven Schnelle <svens@linux.ibm.com>, Ofir Bitton <obitton@habana.ai>, 
-	Oded Gabbay <ogabbay@kernel.org>, Lucas De Marchi <lucas.demarchi@intel.com>, 
-	=?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
-	Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>, 
-	Shailend Chand <shailend@google.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	James Smart <james.smart@broadcom.com>, Dick Kennedy <dick.kennedy@broadcom.com>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	"Martin K. Petersen" <martin.petersen@oracle.com>, =?UTF-8?Q?Roger_Pau_Monn=C3=A9?= <roger.pau@citrix.com>, 
-	Jens Axboe <axboe@kernel.dk>, Kalle Valo <kvalo@kernel.org>, Jeff Johnson <jjohnson@kernel.org>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Jack Wang <jinpu.wang@cloud.ionos.com>, Marcel Holtmann <marcel@holtmann.org>, 
-	Johan Hedberg <johan.hedberg@gmail.com>, Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Florian Fainelli <florian.fainelli@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
-	Scott Branden <sbranden@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Xiubo Li <xiubli@redhat.com>, 
-	Ilya Dryomov <idryomov@gmail.com>, Josh Poimboeuf <jpoimboe@kernel.org>, Jiri Kosina <jikos@kernel.org>, 
-	Miroslav Benes <mbenes@suse.cz>, Petr Mladek <pmladek@suse.com>, 
-	Joe Lawrence <joe.lawrence@redhat.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Lucas Stach <l.stach@pengutronix.de>, Russell King <linux+etnaviv@armlinux.org.uk>, 
-	Christian Gmeiner <christian.gmeiner@gmail.com>, Louis Peens <louis.peens@corigine.com>, 
-	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
-	Christophe Leroy <christophe.leroy@csgroup.eu>, Naveen N Rao <naveen@kernel.org>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, netfilter-devel@vger.kernel.org, 
-	coreteam@netfilter.org, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	cocci@inria.fr, linux-arm-kernel@lists.infradead.org, 
-	linux-s390@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	intel-xe@lists.freedesktop.org, linux-scsi@vger.kernel.org, 
-	xen-devel@lists.xenproject.org, linux-block@vger.kernel.org, 
-	linux-wireless@vger.kernel.org, ath11k@lists.infradead.org, 
-	linux-mm@kvack.org, linux-bluetooth@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-rpi-kernel@lists.infradead.org, 
-	ceph-devel@vger.kernel.org, live-patching@vger.kernel.org, 
-	linux-sound@vger.kernel.org, etnaviv@lists.freedesktop.org, 
-	oss-drivers@corigine.com, linuxppc-dev@lists.ozlabs.org, 
-	Anna-Maria Behnsen <anna-maria@linutronix.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: qh9o1hArRO94L7NRboVsJ3sDoZjIG9Nzod7Wxkx19AI_1732796952
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain;
+	charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-looks good
+Good day Sir/Madam,
 
-On Fri, Nov 15, 2024 at 11:35=E2=80=AFPM Easwar Hariharan
-<eahariha@linux.microsoft.com> wrote:
->
-> Changes made with the following Coccinelle rules:
->
-> @@ constant C; @@
->
-> - msecs_to_jiffies(C * 1000)
-> + secs_to_jiffies(C)
->
-> @@ constant C; @@
->
-> - msecs_to_jiffies(C * MSEC_PER_SEC)
-> + secs_to_jiffies(C)
->
-> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
-> ---
->  fs/ceph/quota.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/fs/ceph/quota.c b/fs/ceph/quota.c
-> index 06ee397e0c3a6172592e62dba95cd267cfff0db1..d90eda19bcc4618f98bfed833=
-c10a6071cf2e2ac 100644
-> --- a/fs/ceph/quota.c
-> +++ b/fs/ceph/quota.c
-> @@ -166,7 +166,7 @@ static struct inode *lookup_quotarealm_inode(struct c=
-eph_mds_client *mdsc,
->         if (IS_ERR(in)) {
->                 doutc(cl, "Can't lookup inode %llx (err: %ld)\n", realm->=
-ino,
->                       PTR_ERR(in));
-> -               qri->timeout =3D jiffies + msecs_to_jiffies(60 * 1000); /=
-* XXX */
-> +               qri->timeout =3D jiffies + secs_to_jiffies(60); /* XXX */
->         } else {
->                 qri->timeout =3D 0;
->                 qri->inode =3D in;
->
-> --
-> 2.34.1
->
->
+I am Ethan Allen, Procurement Managerr at MACHINARY&EQUIPMENT Co.=20
+Inc. We have
+bulk order requirement for export to our customers in Spain and=20
+India.
+
+kindly confirm if you can supply to Spain and India.
+
+We would greatly appreciate any additional information you can
+provide, as well as digital copy of your products catalog (PDF or=20
+Online link),
+information on new or featured products, pricing and packaging=20
+details.
+
+I look forward to reviewing your catalog.
+
+Regards, 
+
+Ethan Allen
+Procurement Manager
+Northern California 3401 Bayshore Blvd, Brisbane, CA 94005
++1 415 467-3400
++1 909 599-3916
+www.machineryandequipment.com
 
