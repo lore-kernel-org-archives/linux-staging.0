@@ -1,105 +1,110 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0562020899E
-	for <linux-staging@lists.linux.dev>; Mon,  2 Dec 2024 15:35:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC26C134AC
+	for <linux-staging@lists.linux.dev>; Mon,  2 Dec 2024 15:47:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733153712; cv=none; b=feDkm5Sk7AUYug71RfHj9PUfF0CFYHi51by7RrK+7pYx18cHr5h++7y23SGRJK/P1sgFYF6GURg6B1dDM5wAfvYiMz9lod0LcTq7KbbUN1y0hsYNI/OD37YkdEiOE9PtnkPg8Op1uV3eXMCE2M8Iy5dlaFgAQH3wID3MzT9KaA8=
+	t=1733154442; cv=none; b=TYzOkYrRt3oe2zuOh+mcoW79PCeqyRvlrbNjxvD5tvugghVmuXSEh6khs9vItkAR7CR9Z2LIdEvcSHz5IDkWSG+o1gTV/EvHw/3iN9eoCBC9ONf25Xa8ndCC6CG5KLVL99AJJ/T0OlazZhhxN8dDI1km8l45gBa6OYFEuaR4keA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733153712; c=relaxed/simple;
-	bh=Gh0oZs8+YzMS7aG0V1l/FJUBvC8sDDhkH8XK9OIML+A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uY4U7bjHrkLcH9/QKvjMIcFPpRF92UajllU64Yv0Es8juSQLP2g3wnJ3Acj9rjGCX/+Yu2/t4eetNhCXd2oHF/BOEr+TfIU1ApnnC6fGUspMEBqbpSijhTi0hmjUehZwzmIlJadHkyx70H2rxG7K/pl3HKzGEmZLGKdg1CoR56U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WrkMfPht; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1733154442; c=relaxed/simple;
+	bh=8u8fF5ha9BCebV7dj4HE28mCFH9G7mXA1hYQMfM+p5U=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=kuhRasXXIkld68XqSmlosfqxaZqwMacGygcAPjEUAqRtwpb/dvACGyWwYk1eFBe7kQZ4oVaO+1xiTkZyLKZjC9dHn2IYK4JY/NX2Mq3IqFdp1vL53gZpoTwks2LySngoyj88jpzjX2yBc2OXyHU5Q7UliLvvejUTEWl+FDN1V6U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=JA1j0mbZ; arc=none smtp.client-ip=209.85.167.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WrkMfPht"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-434a8640763so37441345e9.1
-        for <linux-staging@lists.linux.dev>; Mon, 02 Dec 2024 07:35:10 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="JA1j0mbZ"
+Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-3ea55e95d0fso2110318b6e.2
+        for <linux-staging@lists.linux.dev>; Mon, 02 Dec 2024 07:47:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733153709; x=1733758509; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=KwQoSlg/CRXta7tinu4nzK9A8fmWpb1sD/ndqJQH9ZI=;
-        b=WrkMfPhthHwfOUvb2yewybK8ObQ1VkgJVz+X94PF0VVfzgWURZD/Txhad8YAMGEHwv
-         Z3N6K+rfYQ0+bKJsEvA72RNB7I8dLB+jMl4X/kq/82QqGoYq0O+miG/0FCGux3jYEC61
-         BWEypGaO/y7kqaf7uzwHG0xJDqIXbgJj+fXBGzQi8AUfkVVQBidEkH8u8HfZcG/mKH1O
-         vBBVDTKCTdwPE3wYmUzUcefdR9YlCO77hLm44dusoSRCPKfUrytOVVNW2MRHoYn9CrNZ
-         lUu7DYNzOodrpD7AUZZBu05re8EB2MHIA+2L3zMGDwN9KYoBuimfv2ytaxmPth84eNia
-         BHSA==
+        d=chromium.org; s=google; t=1733154439; x=1733759239; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=QNctqgbgKX4M7vIwY0GeY040xXoP0R2au1vBq2qCPD0=;
+        b=JA1j0mbZWT6aFeAwDr4fRxsolMAX7kqQnnWTfrbjIVj2egw806yY8uan+fE2+hhc9K
+         W3JaZkWeQDygHky+UaQo/Tak6JqPu7ChyX5oxa74aTjFSpF68t4iT0pffqR7jAxTdUpP
+         UXk0sBpgtoZF91cOkLibV4XTTwJkC+LKX/+ds=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733153709; x=1733758509;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KwQoSlg/CRXta7tinu4nzK9A8fmWpb1sD/ndqJQH9ZI=;
-        b=hWRb8mNPHw9fOB4dqyqHQxMhQXDCi8sfriW5GoeTaqHncKFu+HyGmmAI97nFS6ZiHy
-         tCKWp/6Wh9sA16ElOlvczTfCxaRJhlqunESrB2xNwDyOYBEY55IZFvWQvrgG9ep473Ex
-         ZsCi1BzvLvJ1Nsx3rY5Th2jcBptnYUm6vLy/06SEf2f1yUsVYo9HXe6Y1PmeDx9WgRnf
-         tyR/IfurAFemUUVhl+t7CakG/Phqf1sOAN7uvLC9Hd+E4UNYnEaT1bXR/CglNAkcQzv9
-         6PYbwOoqf9DKCzo71Ln0PEO4dKeZAphquTNZvPrOfiy5QP161+Zea6nTP4ooX0fFLCwa
-         NtbQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWYv6nGOoUOW9rZNtqWKi7IjEvEAuSqFycPOGLmbL8WgEKQlQSMzAOTXdAl0apTHAmoymB3pEIhlU0DCljS@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy04CnEkdJXj/te34296aPcx/KDpdxbUx9qbxSOMsvUlVx8C0C2
-	ByiMrmlQ8AmUy/R4yf/3ZvSgfmxDe5xRVsYl+wI/AOYf+S0mTKUO
-X-Gm-Gg: ASbGncsu9pWRc1VdK3a9Gpfi9S0U5aa0IulYZA3xLJNHPEG6xzqwMjmSCQUXo29qpXp
-	MyxUvNxEUTe07i0lpn0W5tjPNKNhbZ1BMnaOQfJu740JMFsqlro3SuLh6XyJgVhh8nHey3d+SwU
-	Npqdt7K5UC7t+NNz1lKt4zowHVoXonXS/EvFgo+ruvQ5X+ebuTBngTuy1xW/8TaiCKLfvHCMzVc
-	DSzwJuhLLLTBFO4BFH5DSAWdua07k7pX+3QwWN6o/nWnTk2+21P1welAc1+PVws2Q==
-X-Google-Smtp-Source: AGHT+IGBTrglvrKp5qU2mZgN2kGd2HuOxElLlSuOyMKA1D6iXB7TZwlqKAUTda4yKuSfgAlf2BaINg==
-X-Received: by 2002:a05:600c:3585:b0:434:a4a6:51f8 with SMTP id 5b1f17b1804b1-434a9d328f1mr229926915e9.0.1733153708961;
-        Mon, 02 Dec 2024 07:35:08 -0800 (PST)
-Received: from egonzo (82-64-73-52.subs.proxad.net. [82.64.73.52])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434aa7e5e59sm190838035e9.44.2024.12.02.07.35.07
+        d=1e100.net; s=20230601; t=1733154439; x=1733759239;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=QNctqgbgKX4M7vIwY0GeY040xXoP0R2au1vBq2qCPD0=;
+        b=vCNN6IbzPyRjuAYJejpFX7kyjxSQU8VDPBTvk/eThzhuiWNt/BR+92kt/uodPe1Wr9
+         jyZVlSQZNlj6ALMlC//HHxM54WRjEdrodY9iVKyX/ybjhftEP0pP8JvG0v4w39kIAeLK
+         xv4zAPdqmNZr1qmCQLlbp2pincSXyGXKFm+FLCd/RV9SmV7yPsyZ5cFvz779sS+jXFr9
+         0GYLTwJDoTOV5Q/10U1DkeRSbzzvIDXgzmikZIMOdmdiOLc/5iluUniyLw1JgpWbiQOc
+         3Nf0aNvsTbqS56clNk/iXhuFagwmiRz4HxI1/5I2pElP9T0GJaulsueXXaJz/G2X2r2u
+         IjdQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU193CHaK93DUF6UytDYT2JlB69v6GF9AOHPujtn3/klW3JFZXxZVbAZ1Ak4a5T4BmEqxpzRnLmXtewrcMI@lists.linux.dev
+X-Gm-Message-State: AOJu0YwQeDGgjeWiciM2Ue6OOpm1hg6RPdHHEDgPoKPFO4Vyix6kVkBn
+	iPAuVxTa0eJye32MAs0jJJEU3QjPuzBtxjvy2Jelkh1O36VruglLCV2EkT5x0g==
+X-Gm-Gg: ASbGncu6SLqKCQaCxX0R5747v+ud+6ucjekHwErc1/os2sqYNT+FCMud3Ic8Nt5bMc7
+	WpmVPCiSb106zoX6nCBAnT0w8MrpIaAzuuf/rPa0Wakdpw6u8wKUKuZlhFT6GWAGaSJ0Vi9Ci4I
+	5a5Qz8d1yngtiS18qLz1ZcMBuAQr1ykQCIjP0ImJf8j9cC2Ncv8A34ezljvFbPz6BYgZ3RRF6qt
+	6Nimwrgp24pwbz1gFaNfszEinw/27RJZz7/AVzwWZFMrHb7d7huzEYWYJSk1fWnCCox5/FNJFRK
+	IYVVb12aAFDeXxelLzV5kvPn
+X-Google-Smtp-Source: AGHT+IH/7hpTfNse9nN9Jr+DgfzObAaRxU/S7oa2RXexy0e4f94BDSUNP4uGp0FObZdTBwMHoHxTgQ==
+X-Received: by 2002:a05:6808:1589:b0:3e6:2471:4d10 with SMTP id 5614622812f47-3ea6dbd43f1mr21613568b6e.11.1733154438947;
+        Mon, 02 Dec 2024 07:47:18 -0800 (PST)
+Received: from denia.c.googlers.com (5.236.236.35.bc.googleusercontent.com. [35.236.236.5])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5156d0f8ad6sm1159729e0c.49.2024.12.02.07.47.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Dec 2024 07:35:08 -0800 (PST)
-Date: Mon, 2 Dec 2024 16:35:05 +0100
-From: Dave Penkler <dpenkler@gmail.com>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Greg KH <gregkh@linuxfoundation.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Stephen Rothwell <sfr@canb.auug.org.au>,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [GIT PULL] Staging driver changes for 6.13-rc1
-Message-ID: <Z03TqThAOa29MEjD@egonzo>
-References: <Z0lCyXBV06VyH96s@kroah.com>
- <f10e976e-7a04-4454-b38d-39cd18f142da@roeck-us.net>
- <2024113025-sly-footer-3462@gregkh>
- <7d7e65af-b818-45de-a92c-ee59a864dbdb@roeck-us.net>
- <Z02Cz6GbdtGNPywE@egonzo>
- <f4ded99e-35c7-4651-8c73-376390ceb130@roeck-us.net>
+        Mon, 02 Dec 2024 07:47:17 -0800 (PST)
+From: Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH 0/3] media: Fix warnings with llvm9
+Date: Mon, 02 Dec 2024 15:47:14 +0000
+Message-Id: <20241202-fix-llvm9-v1-0-2a50f5acfd0b@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f4ded99e-35c7-4651-8c73-376390ceb130@roeck-us.net>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAIPWTWcC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxNDIKGbllmhm5NTlmupa5JskWJuYJpsmWqcqgRUX1CUCpQEmxUdW1sLAOK
+ puwFbAAAA
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Nathan Chancellor <nathan@kernel.org>, 
+ Nick Desaulniers <ndesaulniers@google.com>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+ Hans de Goede <hdegoede@redhat.com>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Andy Shevchenko <andy@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Tiffany Lin <tiffany.lin@mediatek.com>, 
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>, 
+ Yunfei Dong <yunfei.dong@mediatek.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ llvm@lists.linux.dev, linux-staging@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ Ricardo Ribalda <ribalda@chromium.org>
+X-Mailer: b4 0.13.0
 
-On Mon, Dec 02, 2024 at 06:52:28AM -0800, Guenter Roeck wrote:
-> On Mon, Dec 02, 2024 at 10:50:07AM +0100, Dave Penkler wrote:
-> [ ... ]
-> > That is weird: the type of resource.start is resource_size_t which resolves to u32 via phys_addr_t on i386 which should be the same size as void *
-> > For compile check purposes simply changing iobase type to phys_addr_t the following error message appears:
-> > 
-> > drivers/staging/gpib/ines/ines_gpib.c: In function 'ines_common_pci_attach':
-> > drivers/staging/gpib/ines/ines_gpib.c:783:28: error: cast to pointer from integer of different size [-Werror=int-to-pointer-cast]
-> >   783 |         nec_priv->iobase = (void *)(pci_resource_start(ines_priv->pci_device,
-> >       |                            ^
-> > drivers/staging/gpib/ines/ines_gpib.c:783:26: error: assignment to 'phys_addr_t' {aka 'long long unsigned int'} from 'void *' makes integer from pointer without a cast [-Wint-conversion]
-> >   783 |         nec_priv->iobase = (void *)(pci_resource_start(ines_priv->pci_device,
-> >       |                          ^
-> > 
-> > It would seem that for some reason phys_addr_t resolves to long long unsigned int
-> 
-> Check out CONFIG_X86_PAE, which adds 64-bit physical address support to
-> 32-bit x86 images. Pointers are still 32 bit in that mode, though.
-> 
-> Guenter
-OK thanks. I will submit a patch to use ioremap.
--Dave
+When we tried to build media with llvm we got some new warnings, lets
+try to fix them before llvm is part of our CI.
+
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+Ricardo Ribalda (3):
+      media: cx231xx: Convert enum into a define
+      media: atomisp: Use the actual value of the enum instead of the enum
+      media: mediatek: vcodec: Workaround a compiler warning
+
+ .../mediatek/vcodec/encoder/venc/venc_h264_if.c        |  6 ++++--
+ drivers/media/usb/cx231xx/cx231xx-pcb-cfg.h            | 18 +++++++-----------
+ .../media/atomisp/pci/hive_isp_css_common/irq_global.h |  2 +-
+ 3 files changed, 12 insertions(+), 14 deletions(-)
+---
+base-commit: 40384c840ea1944d7c5a392e8975ed088ecf0b37
+change-id: 20241202-fix-llvm9-4c8d705c9e3e
+
+Best regards,
+-- 
+Ricardo Ribalda <ribalda@chromium.org>
+
