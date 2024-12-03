@@ -1,109 +1,197 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2908C186284
-	for <linux-staging@lists.linux.dev>; Tue,  3 Dec 2024 08:43:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+Received: from 189.cn (ptr.189.cn [183.61.185.103])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 510E31D6182
+	for <linux-staging@lists.linux.dev>; Tue,  3 Dec 2024 09:18:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=183.61.185.103
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733215419; cv=none; b=Z/y+N+pfH/pqMwPHLJndhJMICOcpEQGrBoDT6EMzqIIa8HY/OC2LrHDwKRqPzBcaEN4SEKo7hhrjqP2Ux4h2n0PVtp8CkHWDLdB37lW+Ph3clgMn3sNYz4S3XdBHutLnSEai6NXlo4oywiTYIXdRAb7shXMLtj+rke5z9YIZh7U=
+	t=1733217530; cv=none; b=lpcwKfhVOtxs+F3EboTyFqxOVJI5zdkXSohEsbYCJoWrfC3JYb2B/BUmPhlYYKEAxuizTbADJcUEkJ8a+f84lu/tPFaKkqQcVlbZY87RmHpvdxj+tnPAtxpls76HLRmCc54OZL1qLY4Snoea3Cko3HAfM/PEKN0uH5LQCJs25II=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733215419; c=relaxed/simple;
-	bh=XUFBDuUtFue67ZYw/w8HYhrY9y8TqE5ABGL8g27JrgI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dPZS65Ch2AEPM50C6C7/p0oLeQ11KXXSypJ8OXygHXMBfzAe8JKCQGz5Pyzny2cyhm9uCFPWX970cQ7un/mq0oOnKrVPPsBc1MCjLLG4FGR75IMtshldwmQ/JlOOuTHtpyR0BEs3lHNXfNZQQd6bRFKsQTonPT8ljCpZTur7HbQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OGcoBjQF; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OGcoBjQF"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-434a0fd9778so48227135e9.0
-        for <linux-staging@lists.linux.dev>; Tue, 03 Dec 2024 00:43:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733215416; x=1733820216; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=xqAESCNdyH0hYpJR1TiLOsIkSE13c2KuYctoyXS+XnI=;
-        b=OGcoBjQFIFCtK/90uls9IVamqVZ4i9y6DLIE8FBiMJWvO+H7LtDBWVmw/L+Ok3ioer
-         Xp+LBBelGQfsMmGu8YWYIkArLvyAPJLguUVWS1Y4XxWuKk0baG0koHQm0lrc233cMNOV
-         6EApCs8cJmSbMdaxFU4dFWVsixWM+/IYNOf6/uE4zSAG8k2jEv82annfn93vpv10kDXn
-         XcVF70vdTQsFZm/Pcwm3pDiQmjxx4/l3/myTDixvaWx6dOrdKyIXmAzZiX62oJ8Ray2Z
-         iokTEYtOlez0GtV0SS4tpN4XMiprmPPvVjYmr3bh0TYr6fXzdL1PtkABEql+NXBzMGUt
-         uR3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733215416; x=1733820216;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xqAESCNdyH0hYpJR1TiLOsIkSE13c2KuYctoyXS+XnI=;
-        b=FvI9LGTuxC+k3WyCqwcT4Hky0RKtGLuh2sgcolcOG0fFFQZra4XkBPxQEtOc6lIpkb
-         mEtCl+iJSrQtGuPWZcE/Xf8byrlB6Ib5RrQ0ZBhD637nGznmwrs4dVyjBgAFHzxQwwnC
-         fVXPyFAWmPxBQL8JMTB/EJhjZC91KewNpmYelcqZXksEdsiBCZrdpPBWuEvdI+5S9zyI
-         YQ5Y6A0wDNvayLY7uCdKKIp5SsgpmAnguxkoJ/elSbdDCUF7QiT21oG5TF2k95G45Qde
-         v9r0BLM2WJs6esZ49szd9BKFFVOCtFdKGrh4ADjHfxVA3RyhhFP3kFqR2twzIwDZXbDF
-         0AWw==
-X-Forwarded-Encrypted: i=1; AJvYcCXo8RGS9r8nKOCpF+N4Vxc5XHsrDf1IClIartibwnsghGlIY8KCy4w0pO8Xob8ISei6YnKvaiyk6+WTQX+y@lists.linux.dev
-X-Gm-Message-State: AOJu0YzO023r/mWuDMG5GzG5oE54TG0o4fFawdLfa+H4Bkil8biXOKCT
-	nPeHx3e1xNxNGh2MEmIzeUE2x4yqlfXiDNpBfV3q4H8NqfH9qq7R
-X-Gm-Gg: ASbGncsEIxoj751qP38e+QzRvc6etdFGv8A67l9Lx4B9A9E1mxijGYBUUT9I0kE+mIq
-	A0pud8dBoJ0//ImU6Jal3lai2Cs0GqMfJCuM2imb1QqfIhbLgU5IxFe9ajx8zsZv7NEs1j3s9u2
-	a2FQpizeyowfKFpLN5gEhvI5Wgvuvgi65SwtUYLWwppwQALKFGhqiTyC2L4bQOsLWN9KhJF0hQ/
-	fmIN2FMgrXP2wHCr8rq0LFdigB8k8WUaszp4m+pNOkMTXP6GF3YkxmfV7FkHRtN/g==
-X-Google-Smtp-Source: AGHT+IENLOrwB29hz4yyazQXQj58T2rlPdBVtgNJqP7WpG7tt6gWrr2MNVy6B+j8IhXWXwChfidJyg==
-X-Received: by 2002:a05:6000:4604:b0:385:faaa:9d1d with SMTP id ffacd0b85a97d-385fd3f15camr1504549f8f.35.1733215416260;
-        Tue, 03 Dec 2024 00:43:36 -0800 (PST)
-Received: from egonzo (82-64-73-52.subs.proxad.net. [82.64.73.52])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434aa7d25c5sm211926285e9.28.2024.12.03.00.43.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Dec 2024 00:43:35 -0800 (PST)
-Date: Tue, 3 Dec 2024 09:43:33 +0100
-From: Dave Penkler <dpenkler@gmail.com>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: gpib: Fix i386 build issue
-Message-ID: <Z07EtdJpe6mnKYOH@egonzo>
-References: <20241202173301.6462-1-dpenkler@gmail.com>
- <88c8ede5-47c0-49ec-805d-161293eec679@roeck-us.net>
+	s=arc-20240116; t=1733217530; c=relaxed/simple;
+	bh=zs1BzBx0FFWchhyw0wpO+X0yZ1KXKXDEChtwQhKQDEM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=geGItGI9u5F51Jj0UW1pgqKakz+r9qr0Z6L8t2GE4KWB5nw5NXHYZ2oOgfGXCRE30gD9ffUVNk3YBr4LsIoD6d54vqHkosuABJO5Ig3S8HyKElvvSEkUqkc+7bsOa4wMio5fEzDgISHDe4K3jqFNiBf17dBUbcjj4vAGdmiYtnM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=189.cn; spf=pass smtp.mailfrom=189.cn; arc=none smtp.client-ip=183.61.185.103
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=189.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=189.cn
+HMM_SOURCE_IP:10.158.243.18:62357.39060554
+HMM_ATTACHE_NUM:0000
+HMM_SOURCE_TYPE:SMTP
+Received: from clientip-123.150.8.42 (unknown [10.158.243.18])
+	by 189.cn (HERMES) with SMTP id 6F41C100226;
+	Tue,  3 Dec 2024 17:14:38 +0800 (CST)
+Received: from  ([123.150.8.42])
+	by gateway-153622-dep-5c5f88b874-pd459 with ESMTP id cd71642bd5cb447ab35934049a789864 for andy@kernel.org;
+	Tue, 03 Dec 2024 17:14:39 CST
+X-Transaction-ID: cd71642bd5cb447ab35934049a789864
+X-Real-From: chensong_2000@189.cn
+X-Receive-IP: 123.150.8.42
+X-MEDUSA-Status: 0
+Sender: chensong_2000@189.cn
+From: Song Chen <chensong_2000@189.cn>
+To: andy@kernel.org,
+	hdegoede@redhat.com,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	gregkh@linuxfoundation.org,
+	bergh.jonathan@gmail.com
+Cc: arnd@arndb.de,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Song Chen <chensong_2000@189.cn>
+Subject: [PATCH] drivers/staging/media/atomisp: replace legacy GPIO APIs in atomisp_gmin_platform
+Date: Tue,  3 Dec 2024 17:14:36 +0800
+Message-Id: <20241203091436.203745-1-chensong_2000@189.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <88c8ede5-47c0-49ec-805d-161293eec679@roeck-us.net>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Dec 02, 2024 at 09:48:49AM -0800, Guenter Roeck wrote:
-> On 12/2/24 09:33, Dave Penkler wrote:
-> > Both drivers cast resource_type_t to void * causing the build to fail.
-> > 
-> > With CONFIG_X86_PAE enabled the resource_size_t type is a 64bit unsigned int
-> > which cannot be cast to a 32 bit pointer.
-> > 
-> > Use ioremap() instead of pci_resource_start()
-> > 
-> > Reported_by: Guenter Roeck <linux@roeck-us.net>
-> > Link: https://lore.kernel.org/all/f10e976e-7a04-4454-b38d-39cd18f142da@roeck-us.net/
-> > Fixes: bb1bd92fa0f2 ("staging: gpib: Add ines GPIB driver")
-> > Fixes: e1339245eba3 ("staging: gpib: Add Computer Equipment Corporation GPIB driver")
-> > 
-> > Signed-off-by: Dave Penkler <dpenkler@gmail.com>
-> > ---
-> > v1 -> v2 changed pci_resource_start to pci_resource_len for second parameter of ioremap
-> > 
-> Sorry, there are some more.
-> 
-> drivers/staging/gpib/tnt4882/tnt4882_gpib.c: In function ???ni_isa_attach_common???:
-> drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1430:26: error: cast to pointer from integer of different size [-Werror=int-to-pointer-cast]
-> 
-> drivers/staging/gpib/cb7210/cb7210.c: In function 'cb_pci_attach':
-> drivers/staging/gpib/cb7210/cb7210.c:974:36: error: cast to pointer from integer of different size
-> 
-> Not sure if that really fixes the problem though, since there is other code
-> which maps the void * back to phys_addr_t (or, rather, to unsigned long).
-> It might be better to work around the problem for now by disabling support
-> for platforms where sizeof(phys_addr_t) > sizeof(void *).
+In atomisp_gmin_platform, gpio0 and gpio1 have moved to descriptor-based
+GPIO APIs, but v1p8_gpio and v2p8_gpio still remain calling legacy ones,
+such as gpio_request.
 
-I think it is dealt with in v3.
-- Dave
+This patch replaces old with new, also removes including gpio.h.
+
+Signed-off-by: Song Chen <chensong_2000@189.cn>
+---
+ .../media/atomisp/pci/atomisp_gmin_platform.c | 63 ++++++++-----------
+ 1 file changed, 25 insertions(+), 38 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+index e176483df301..7ff548ac3171 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+@@ -11,7 +11,6 @@
+ #include <linux/mfd/intel_soc_pmic.h>
+ #include <linux/regulator/consumer.h>
+ #include <linux/gpio/consumer.h>
+-#include <linux/gpio.h>
+ #include <linux/platform_device.h>
+ #include "../../include/linux/atomisp_platform.h"
+ #include "../../include/linux/atomisp_gmin_platform.h"
+@@ -85,8 +84,8 @@ struct gmin_subdev {
+ 	bool v2p8_on;
+ 	bool v1p2_on;
+ 
+-	int v1p8_gpio;
+-	int v2p8_gpio;
++	struct gpio_desc *v1p8_gpiod;
++	struct gpio_desc *v2p8_gpiod;
+ 
+ 	u8 pwm_i2c_addr;
+ 
+@@ -548,23 +547,6 @@ static int gmin_subdev_add(struct gmin_subdev *gs)
+ 	else
+ 		dev_info(dev, "will handle gpio1 via ACPI\n");
+ 
+-	/*
+-	 * Those are used only when there is an external regulator apart
+-	 * from the PMIC that would be providing power supply, like on the
+-	 * two cases below:
+-	 *
+-	 * The ECS E7 board drives camera 2.8v from an external regulator
+-	 * instead of the PMIC.  There's a gmin_CamV2P8 config variable
+-	 * that specifies the GPIO to handle this particular case,
+-	 * but this needs a broader architecture for handling camera power.
+-	 *
+-	 * The CHT RVP board drives camera 1.8v from an* external regulator
+-	 * instead of the PMIC just like ECS E7 board.
+-	 */
+-
+-	gs->v1p8_gpio = gmin_get_var_int(dev, true, "V1P8GPIO", -1);
+-	gs->v2p8_gpio = gmin_get_var_int(dev, true, "V2P8GPIO", -1);
+-
+ 	/*
+ 	 * FIXME:
+ 	 *
+@@ -830,21 +812,23 @@ static int gmin_v1p2_ctrl(struct v4l2_subdev *subdev, int on)
+ static int gmin_v1p8_ctrl(struct v4l2_subdev *subdev, int on)
+ {
+ 	struct gmin_subdev *gs = find_gmin_subdev(subdev);
++	struct i2c_client *client = v4l2_get_subdevdata(gs->subdev);
++	struct device *dev = &client->dev;
+ 	int ret;
+ 	int value;
+ 	int reg;
++	int v1p8_gpio;
+ 
+ 	if (!gs || gs->v1p8_on == on)
+ 		return 0;
+ 
+-	if (gs->v1p8_gpio >= 0) {
+-		pr_info("atomisp_gmin_platform: 1.8v power on GPIO %d\n",
+-			gs->v1p8_gpio);
+-		ret = gpio_request(gs->v1p8_gpio, "camera_v1p8_en");
+-		if (!ret)
+-			ret = gpio_direction_output(gs->v1p8_gpio, 0);
+-		if (ret)
++	v1p8_gpio = gmin_get_var_int(dev, true, "V1P8GPIO", -1);
++	if (v1p8_gpio >= 0) {
++		gs->v1p8_gpiod = gpiod_get_index(dev, "camera_v1p8", v1p8_gpio, GPIOD_ASIS);
++		if (IS_ERR(gs->v1p8_gpiod))
+ 			pr_err("V1P8 GPIO initialization failed\n");
++		else
++			gpiod_direction_output(gs->v1p8_gpiod, 0);
+ 	}
+ 
+ 	gs->v1p8_on = on;
+@@ -861,8 +845,8 @@ static int gmin_v1p8_ctrl(struct v4l2_subdev *subdev, int on)
+ 			goto out; /* Still needed */
+ 	}
+ 
+-	if (gs->v1p8_gpio >= 0)
+-		gpio_set_value(gs->v1p8_gpio, on);
++	if (v1p8_gpio >= 0)
++		gpiod_set_value(gs->v1p8_gpiod, on);
+ 
+ 	if (gs->v1p8_reg) {
+ 		regulator_set_voltage(gs->v1p8_reg, 1800000, 1800000);
+@@ -911,21 +895,24 @@ static int gmin_v1p8_ctrl(struct v4l2_subdev *subdev, int on)
+ static int gmin_v2p8_ctrl(struct v4l2_subdev *subdev, int on)
+ {
+ 	struct gmin_subdev *gs = find_gmin_subdev(subdev);
++	struct i2c_client *client = v4l2_get_subdevdata(gs->subdev);
++	struct device *dev = &client->dev;
+ 	int ret;
+ 	int value;
+ 	int reg;
++	int v2p8_gpio;
+ 
+ 	if (WARN_ON(!gs))
+ 		return -ENODEV;
+ 
+-	if (gs->v2p8_gpio >= 0) {
+-		pr_info("atomisp_gmin_platform: 2.8v power on GPIO %d\n",
+-			gs->v2p8_gpio);
+-		ret = gpio_request(gs->v2p8_gpio, "camera_v2p8");
+-		if (!ret)
+-			ret = gpio_direction_output(gs->v2p8_gpio, 0);
+-		if (ret)
++	v2p8_gpio = gmin_get_var_int(dev, true, "V2P8GPIO", -1);
++	if (v2p8_gpio >= 0) {
++		pr_info("atomisp_gmin_platform: 2.8v power on GPIO %d\n", v2p8_gpio);
++		gs->v2p8_gpiod = gpiod_get_index(dev, "camera_v2p8", v2p8_gpio, GPIOD_ASIS);
++		if (IS_ERR(gs->v2p8_gpiod))
+ 			pr_err("V2P8 GPIO initialization failed\n");
++		else
++			gpiod_direction_output(gs->v2p8_gpiod, 0);
+ 	}
+ 
+ 	if (gs->v2p8_on == on)
+@@ -944,8 +931,8 @@ static int gmin_v2p8_ctrl(struct v4l2_subdev *subdev, int on)
+ 			goto out; /* Still needed */
+ 	}
+ 
+-	if (gs->v2p8_gpio >= 0)
+-		gpio_set_value(gs->v2p8_gpio, on);
++	if (v2p8_gpio >= 0)
++		gpiod_set_value(gs->v2p8_gpiod, on);
+ 
+ 	if (gs->v2p8_reg) {
+ 		regulator_set_voltage(gs->v2p8_reg, 2900000, 2900000);
+-- 
+2.25.1
+
