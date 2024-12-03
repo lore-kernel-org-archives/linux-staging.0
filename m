@@ -1,216 +1,137 @@
-Received: from 189.cn (ptr.189.cn [183.61.185.103])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 320721EBA06
-	for <linux-staging@lists.linux.dev>; Tue,  3 Dec 2024 12:46:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=183.61.185.103
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D5F91FC0E8
+	for <linux-staging@lists.linux.dev>; Tue,  3 Dec 2024 17:47:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733230016; cv=none; b=m1RjFyOFwqunQdoFxZaVCIFUnlfjBAG0mpt4DGuv7enwPaP7PW/sKxt4XUH8DJUz1N7vJslZ9NeVV6ALRu9eIIzG6ptMM5S1WA0Vf2FDx0r1IRNN+8jQTT+sGqkAwt/HbCnd3HN+UIajYVNq02QZz6QhR5IRlgX/YtXB+n6STPg=
+	t=1733248056; cv=none; b=utQQ0330xf9/8oWg7j3TTquqMQj0P1zNnO+p5sypfMc+MWiWDF7DH85dpttMsQiKnKuQQkFv+EKXJmXqiVbEPEjfnq4tpBz37Isqm0n6o9yYWemgIv0CD6Nj5bBhrGGSTS3oir3892o0Q+R09S5a5yzVXU+0f2Uw63VwE4DUtJc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733230016; c=relaxed/simple;
-	bh=XUvKG8rmpTeKfs6cJxGKS5fKCHuP/bWdL33sNoy5MUs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=s7BB/UER8CVh7cfnPvqtxNmeep6e5x38udOI5izztHKxZoxyNhO0njZXj8By0YJ3qNpA2PoeQw1lgwAi8yWhschFqAqVaXRlCCWJfTOeXNLkvrbfhfOmK97RIRAx+j6OdTLbhLlJrBsxeXdFieGXNL3SGRRa1ozgm4MoK21A7kk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=189.cn; spf=pass smtp.mailfrom=189.cn; arc=none smtp.client-ip=183.61.185.103
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=189.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=189.cn
-HMM_SOURCE_IP:10.158.243.220:61015.1046576544
-HMM_ATTACHE_NUM:0000
-HMM_SOURCE_TYPE:SMTP
-Received: from clientip-117.15.92.245 (unknown [10.158.243.220])
-	by 189.cn (HERMES) with SMTP id D578F1000E6;
-	Tue,  3 Dec 2024 20:46:49 +0800 (CST)
-Received: from  ([117.15.92.245])
-	by gateway-153622-dep-5c5f88b874-f78lq with ESMTP id f59ace2d81c7420d85fd34d7fce76345 for hdegoede@redhat.com;
-	Tue, 03 Dec 2024 20:46:50 CST
-X-Transaction-ID: f59ace2d81c7420d85fd34d7fce76345
-X-Real-From: chensong_2000@189.cn
-X-Receive-IP: 117.15.92.245
-X-MEDUSA-Status: 0
-Sender: chensong_2000@189.cn
-Message-ID: <98cfdcf2-e823-4773-a396-84148a4d6a5b@189.cn>
-Date: Tue, 3 Dec 2024 20:46:48 +0800
+	s=arc-20240116; t=1733248056; c=relaxed/simple;
+	bh=Q95+gOI7pTAZtpI5+UrdylhdkgXfWijiKSsgRKgGNcI=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=fh3AFV0quEpCft+SDxEL0h5ZjJAkPytXRUCeHYMSsJWJ04uaXXE1vV19Km0ZqeWy+i9i6nGfYDOI6NF/e9Qb/M2Hlw8AN89zYPbp9Hr8Ur1CMIksO/6sQ7USMNivHae0h4JeDUQFM2b/VZgZmJKghsisKfWhXHhnmKMMnvXyqK0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[IPv6:::1])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <l.stach@pengutronix.de>)
+	id 1tIWyE-0003sq-Mm; Tue, 03 Dec 2024 18:45:58 +0100
+Message-ID: <fc624e3fd4a4a38dedf02e31be9e4f1c85fb40a0.camel@pengutronix.de>
+Subject: Re: [PATCH 09/22] drm/etnaviv: Convert timeouts to secs_to_jiffies()
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Easwar Hariharan <eahariha@linux.microsoft.com>, Pablo Neira Ayuso
+ <pablo@netfilter.org>, Jozsef Kadlecsik <kadlec@netfilter.org>, "David S.
+ Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
+ Kicinski <kuba@kernel.org>,  Paolo Abeni <pabeni@redhat.com>, Simon Horman
+ <horms@kernel.org>, Julia Lawall <Julia.Lawall@inria.fr>,  Nicolas Palix
+ <nicolas.palix@imag.fr>, Daniel Mack <daniel@zonque.org>, Haojian Zhuang
+ <haojian.zhuang@gmail.com>, Robert Jarzmik <robert.jarzmik@free.fr>,
+ Russell King <linux@armlinux.org.uk>, Heiko Carstens <hca@linux.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>, Alexander Gordeev
+ <agordeev@linux.ibm.com>, Christian Borntraeger
+ <borntraeger@linux.ibm.com>, Sven Schnelle <svens@linux.ibm.com>, Ofir
+ Bitton <obitton@habana.ai>, Oded Gabbay <ogabbay@kernel.org>, Lucas De
+ Marchi <lucas.demarchi@intel.com>, Thomas =?ISO-8859-1?Q?Hellstr=F6m?=
+ <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jeroen de Borst
+ <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
+ Shailend Chand <shailend@google.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ James Smart <james.smart@broadcom.com>, Dick Kennedy
+ <dick.kennedy@broadcom.com>, "James E.J. Bottomley"
+ <James.Bottomley@HansenPartnership.com>, "Martin K. Petersen"
+ <martin.petersen@oracle.com>, Roger Pau =?ISO-8859-1?Q?Monn=E9?=
+ <roger.pau@citrix.com>, Jens Axboe <axboe@kernel.dk>, Kalle Valo
+ <kvalo@kernel.org>, Jeff Johnson <jjohnson@kernel.org>, Catalin Marinas
+ <catalin.marinas@arm.com>, Andrew Morton <akpm@linux-foundation.org>, Jack
+ Wang <jinpu.wang@cloud.ionos.com>, Marcel Holtmann <marcel@holtmann.org>,
+ Johan Hedberg <johan.hedberg@gmail.com>, Luiz Augusto von Dentz
+ <luiz.dentz@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Florian Fainelli <florian.fainelli@broadcom.com>, Ray Jui
+ <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, Broadcom
+ internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Xiubo
+ Li <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>,  Josh Poimboeuf
+ <jpoimboe@kernel.org>, Jiri Kosina <jikos@kernel.org>, Miroslav Benes
+ <mbenes@suse.cz>, Petr Mladek <pmladek@suse.com>, Joe Lawrence
+ <joe.lawrence@redhat.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+ <tiwai@suse.com>, Russell King <linux+etnaviv@armlinux.org.uk>, Christian
+ Gmeiner <christian.gmeiner@gmail.com>,  Louis Peens
+ <louis.peens@corigine.com>, Michael Ellerman <mpe@ellerman.id.au>, Nicholas
+ Piggin <npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Naveen N Rao <naveen@kernel.org>, Madhavan Srinivasan <maddy@linux.ibm.com>
+Cc: netfilter-devel@vger.kernel.org, coreteam@netfilter.org, 
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org, cocci@inria.fr, 
+ linux-arm-kernel@lists.infradead.org, linux-s390@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
+ linux-scsi@vger.kernel.org, xen-devel@lists.xenproject.org, 
+ linux-block@vger.kernel.org, linux-wireless@vger.kernel.org, 
+ ath11k@lists.infradead.org, linux-mm@kvack.org,
+ linux-bluetooth@vger.kernel.org,  linux-staging@lists.linux.dev,
+ linux-rpi-kernel@lists.infradead.org,  ceph-devel@vger.kernel.org,
+ live-patching@vger.kernel.org,  linux-sound@vger.kernel.org,
+ etnaviv@lists.freedesktop.org,  oss-drivers@corigine.com,
+ linuxppc-dev@lists.ozlabs.org, Anna-Maria Behnsen <anna-maria@linutronix.de>
+Date: Tue, 03 Dec 2024 18:45:50 +0100
+In-Reply-To: <20241115-converge-secs-to-jiffies-v1-9-19aadc34941b@linux.microsoft.com>
+References: 
+	<20241115-converge-secs-to-jiffies-v1-0-19aadc34941b@linux.microsoft.com>
+	 <20241115-converge-secs-to-jiffies-v1-9-19aadc34941b@linux.microsoft.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drivers/staging/media/atomisp: replace legacy GPIO APIs
- in atomisp_gmin_platform
-To: Hans de Goede <hdegoede@redhat.com>, andy@kernel.org, mchehab@kernel.org,
- sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org,
- bergh.jonathan@gmail.com
-Cc: arnd@arndb.de, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev
-References: <20241203091436.203745-1-chensong_2000@189.cn>
- <81a63f9d-afe4-4a29-ae98-5c5837bcd7cb@redhat.com>
-Content-Language: en-US
-From: Song Chen <chensong_2000@189.cn>
-In-Reply-To: <81a63f9d-afe4-4a29-ae98-5c5837bcd7cb@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-staging@lists.linux.dev
 
-oh, good to know, many thanks.
+Am Freitag, dem 15.11.2024 um 21:22 +0000 schrieb Easwar Hariharan:
+> Changes made with the following Coccinelle rules:
+>=20
+> @@ constant C; @@
+>=20
+> - msecs_to_jiffies(C * 1000)
+> + secs_to_jiffies(C)
+>=20
+> @@ constant C; @@
+>=20
+> - msecs_to_jiffies(C * MSEC_PER_SEC)
+> + secs_to_jiffies(C)
+>=20
+Thanks, applied to etnaviv/next.
 
-Song
+Regards,
+Lucas
 
-在 2024/12/3 18:13, Hans de Goede 写道:
-> Hi,
-> 
-> On 3-Dec-24 10:14 AM, Song Chen wrote:
->> In atomisp_gmin_platform, gpio0 and gpio1 have moved to descriptor-based
->> GPIO APIs, but v1p8_gpio and v2p8_gpio still remain calling legacy ones,
->> such as gpio_request.
->>
->> This patch replaces old with new, also removes including gpio.h.
->>
->> Signed-off-by: Song Chen <chensong_2000@189.cn>
-> 
-> Thank you for your patch, this is already addresses by this patch
-> which I plan to merge soon:
-> 
-> https://lore.kernel.org/linux-media/20241107221134.596149-1-hdegoede@redhat.com/
-> 
-> Regards,
-> 
-> Hans
-> 
-> 
->> ---
->>   .../media/atomisp/pci/atomisp_gmin_platform.c | 63 ++++++++-----------
->>   1 file changed, 25 insertions(+), 38 deletions(-)
->>
->> diff --git a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
->> index e176483df301..7ff548ac3171 100644
->> --- a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
->> +++ b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
->> @@ -11,7 +11,6 @@
->>   #include <linux/mfd/intel_soc_pmic.h>
->>   #include <linux/regulator/consumer.h>
->>   #include <linux/gpio/consumer.h>
->> -#include <linux/gpio.h>
->>   #include <linux/platform_device.h>
->>   #include "../../include/linux/atomisp_platform.h"
->>   #include "../../include/linux/atomisp_gmin_platform.h"
->> @@ -85,8 +84,8 @@ struct gmin_subdev {
->>   	bool v2p8_on;
->>   	bool v1p2_on;
->>   
->> -	int v1p8_gpio;
->> -	int v2p8_gpio;
->> +	struct gpio_desc *v1p8_gpiod;
->> +	struct gpio_desc *v2p8_gpiod;
->>   
->>   	u8 pwm_i2c_addr;
->>   
->> @@ -548,23 +547,6 @@ static int gmin_subdev_add(struct gmin_subdev *gs)
->>   	else
->>   		dev_info(dev, "will handle gpio1 via ACPI\n");
->>   
->> -	/*
->> -	 * Those are used only when there is an external regulator apart
->> -	 * from the PMIC that would be providing power supply, like on the
->> -	 * two cases below:
->> -	 *
->> -	 * The ECS E7 board drives camera 2.8v from an external regulator
->> -	 * instead of the PMIC.  There's a gmin_CamV2P8 config variable
->> -	 * that specifies the GPIO to handle this particular case,
->> -	 * but this needs a broader architecture for handling camera power.
->> -	 *
->> -	 * The CHT RVP board drives camera 1.8v from an* external regulator
->> -	 * instead of the PMIC just like ECS E7 board.
->> -	 */
->> -
->> -	gs->v1p8_gpio = gmin_get_var_int(dev, true, "V1P8GPIO", -1);
->> -	gs->v2p8_gpio = gmin_get_var_int(dev, true, "V2P8GPIO", -1);
->> -
->>   	/*
->>   	 * FIXME:
->>   	 *
->> @@ -830,21 +812,23 @@ static int gmin_v1p2_ctrl(struct v4l2_subdev *subdev, int on)
->>   static int gmin_v1p8_ctrl(struct v4l2_subdev *subdev, int on)
->>   {
->>   	struct gmin_subdev *gs = find_gmin_subdev(subdev);
->> +	struct i2c_client *client = v4l2_get_subdevdata(gs->subdev);
->> +	struct device *dev = &client->dev;
->>   	int ret;
->>   	int value;
->>   	int reg;
->> +	int v1p8_gpio;
->>   
->>   	if (!gs || gs->v1p8_on == on)
->>   		return 0;
->>   
->> -	if (gs->v1p8_gpio >= 0) {
->> -		pr_info("atomisp_gmin_platform: 1.8v power on GPIO %d\n",
->> -			gs->v1p8_gpio);
->> -		ret = gpio_request(gs->v1p8_gpio, "camera_v1p8_en");
->> -		if (!ret)
->> -			ret = gpio_direction_output(gs->v1p8_gpio, 0);
->> -		if (ret)
->> +	v1p8_gpio = gmin_get_var_int(dev, true, "V1P8GPIO", -1);
->> +	if (v1p8_gpio >= 0) {
->> +		gs->v1p8_gpiod = gpiod_get_index(dev, "camera_v1p8", v1p8_gpio, GPIOD_ASIS);
->> +		if (IS_ERR(gs->v1p8_gpiod))
->>   			pr_err("V1P8 GPIO initialization failed\n");
->> +		else
->> +			gpiod_direction_output(gs->v1p8_gpiod, 0);
->>   	}
->>   
->>   	gs->v1p8_on = on;
->> @@ -861,8 +845,8 @@ static int gmin_v1p8_ctrl(struct v4l2_subdev *subdev, int on)
->>   			goto out; /* Still needed */
->>   	}
->>   
->> -	if (gs->v1p8_gpio >= 0)
->> -		gpio_set_value(gs->v1p8_gpio, on);
->> +	if (v1p8_gpio >= 0)
->> +		gpiod_set_value(gs->v1p8_gpiod, on);
->>   
->>   	if (gs->v1p8_reg) {
->>   		regulator_set_voltage(gs->v1p8_reg, 1800000, 1800000);
->> @@ -911,21 +895,24 @@ static int gmin_v1p8_ctrl(struct v4l2_subdev *subdev, int on)
->>   static int gmin_v2p8_ctrl(struct v4l2_subdev *subdev, int on)
->>   {
->>   	struct gmin_subdev *gs = find_gmin_subdev(subdev);
->> +	struct i2c_client *client = v4l2_get_subdevdata(gs->subdev);
->> +	struct device *dev = &client->dev;
->>   	int ret;
->>   	int value;
->>   	int reg;
->> +	int v2p8_gpio;
->>   
->>   	if (WARN_ON(!gs))
->>   		return -ENODEV;
->>   
->> -	if (gs->v2p8_gpio >= 0) {
->> -		pr_info("atomisp_gmin_platform: 2.8v power on GPIO %d\n",
->> -			gs->v2p8_gpio);
->> -		ret = gpio_request(gs->v2p8_gpio, "camera_v2p8");
->> -		if (!ret)
->> -			ret = gpio_direction_output(gs->v2p8_gpio, 0);
->> -		if (ret)
->> +	v2p8_gpio = gmin_get_var_int(dev, true, "V2P8GPIO", -1);
->> +	if (v2p8_gpio >= 0) {
->> +		pr_info("atomisp_gmin_platform: 2.8v power on GPIO %d\n", v2p8_gpio);
->> +		gs->v2p8_gpiod = gpiod_get_index(dev, "camera_v2p8", v2p8_gpio, GPIOD_ASIS);
->> +		if (IS_ERR(gs->v2p8_gpiod))
->>   			pr_err("V2P8 GPIO initialization failed\n");
->> +		else
->> +			gpiod_direction_output(gs->v2p8_gpiod, 0);
->>   	}
->>   
->>   	if (gs->v2p8_on == on)
->> @@ -944,8 +931,8 @@ static int gmin_v2p8_ctrl(struct v4l2_subdev *subdev, int on)
->>   			goto out; /* Still needed */
->>   	}
->>   
->> -	if (gs->v2p8_gpio >= 0)
->> -		gpio_set_value(gs->v2p8_gpio, on);
->> +	if (v2p8_gpio >= 0)
->> +		gpiod_set_value(gs->v2p8_gpiod, on);
->>   
->>   	if (gs->v2p8_reg) {
->>   		regulator_set_voltage(gs->v2p8_reg, 2900000, 2900000);
-> 
-> 
+> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c b/drivers/gpu/drm/e=
+tnaviv/etnaviv_cmdbuf.c
+> index 721d633aece9d4c81f0019e4c55884f26ee61c60..0f5a2c885d0ab7029c7248e15=
+d6ea3c31823b782 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c
+> @@ -100,7 +100,7 @@ int etnaviv_cmdbuf_init(struct etnaviv_cmdbuf_suballo=
+c *suballoc,
+>  		mutex_unlock(&suballoc->lock);
+>  		ret =3D wait_event_interruptible_timeout(suballoc->free_event,
+>  						       suballoc->free_space,
+> -						       msecs_to_jiffies(10 * 1000));
+> +						       secs_to_jiffies(10));
+>  		if (!ret) {
+>  			dev_err(suballoc->dev,
+>  				"Timeout waiting for cmdbuf space\n");
+>=20
+
