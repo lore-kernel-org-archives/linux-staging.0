@@ -1,69 +1,70 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E86B9192D8B
-	for <linux-staging@lists.linux.dev>; Wed,  4 Dec 2024 08:33:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A97241ABEDC
+	for <linux-staging@lists.linux.dev>; Wed,  4 Dec 2024 12:01:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733301187; cv=none; b=ilWbbocEufhdgHCRWn6jEftsLQt13XTmUAHxizr+E5tPurYcz3Fh7PdJfBltXfpEHvhm7Ug5EIhZBR2zOJOydalIjqS69UNMpaerHWihrw1EBsXGDAlqxsMRFRK0S9f7Ed+jHay0hZIsGC7CCsau234lOSX/hUQ7vZMKp4RrmIc=
+	t=1733313720; cv=none; b=WaJDwL8/VKCi0ubqXaz6ItFXUtB5Y6z/rzuppPcj9fiHqxx7I3MOdgGe3IvchKzNqhjYJssQEgJy/OoHe6OddUr2fcRPkW7iV5wQynhqi9dgkDe2s+8OzWiHy4tX8HFZ4o32M5Bn6qYhxm3cuLoJy2pe4AIQLBFo4wMYAuBJiB4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733301187; c=relaxed/simple;
-	bh=eaVTqrnLcSvqSeHgiAGMeuVqAGJ0Z+uaOXHZkDI7jJs=;
+	s=arc-20240116; t=1733313720; c=relaxed/simple;
+	bh=yu9K6L0reByIxM4EZiwlstKaAxLSrHPxGYe85KbLfgs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hgw8Jjxw5LSxJTfSFWDZ7cjVOACNQlsjYAoyf9SD/e1J/4QlYm69MRqLbSRwi21O3q9s3vDBvT+90rrys1ykrY303lWYpCg/JQtgr5EpDqAjYr6lxTGo+UDd9O6EsglFN2Q4mE9P9lQZzKEvcpw6KSdDVo79UbSrrYZeqneUfTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=OrjGrohv; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=fcBfcy0q+IDxMgxtBrRvkzL4yvlpjLK5fyRnQyVjFjFi+QLRHlwZdp3BYghPb0mOgbwYALrCVkJt5y/U5ZtaagVdAz3jvIYHrc6LoBNsZKZf7qBDvoeI+pwgJVkfdza4507pd1s4ozSgYo1lST7qoDNXl/I0g8jwdRyizydeiLQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i8/xtRIf; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OrjGrohv"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-434a2033562so53485755e9.1
-        for <linux-staging@lists.linux.dev>; Wed, 04 Dec 2024 00:33:05 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i8/xtRIf"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-434a742481aso55361495e9.3
+        for <linux-staging@lists.linux.dev>; Wed, 04 Dec 2024 04:01:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733301184; x=1733905984; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1733313715; x=1733918515; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=XM0M3/5dx4Uwy2+HHwie/c/1qf4lMtXq3L0KJwbY528=;
-        b=OrjGrohvAKQ4fpoznQIRvGz1WVorwR1LkfDATYm6dhnhWNrm3fu3RkCDLSuhf2pQzf
-         0yhCYbRyaxYcQG2KrahSMOt2KfH2DBOg3By4NrKMVAmlG0pGmC/H53WwzqCP2gTlV1jG
-         6dnT6FFrTrWUZQnEn1AXDNASvXNHamK6nmVKpi/YLvVmUvG0IcrspuZFbfmkysb5ieWk
-         giGrTpUP+hWmOarwJKYt1f1bgmZt4ZS8EXsfAlTgg28pQn/at2/fxqAelx2dbsHUGHOY
-         jNtS8PJEQrdxaDWQ4SOySgHzfd8NjbWYl+vNkkAPj/m2MTsMtONjQwkECd3gw2XmlMBg
-         J9iw==
+        bh=g351fpLdK2lkyYhcqP1PpLN3dK/iLJKWziU/9Oqsr9E=;
+        b=i8/xtRIfcOG3Fd0kMVxEZY/1X6syTJ+G2mnGYcgdKFRWZQnzZEhMwH+GoAI/lkBG29
+         yBt1v9RKC91qfQXiD5bMRyTkE6dnX0TsJbgaKtPDmBbLJ9uqz8I/ieCzdnjdHPdISN01
+         zE95LbzgNjT9WLBXtSmC9shHRtcdTqPxxuA7Vp5Zr40gTQQ9HvDUvoJJo6VFT3piFkYy
+         nUyrZ8IERzJWcXmBljQTmgVx/aOhG4bxaDMKdRv4gkAFuK+yb0xIqGFJLxvNGxrki9lm
+         bCJbi9+ZUNncuZ9aGahXOeUiYgCmHGFrnk43/JEwyNFDNPwJj6bKQ0o1Oxkw6iHGJdN7
+         KBXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733301184; x=1733905984;
+        d=1e100.net; s=20230601; t=1733313715; x=1733918515;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=XM0M3/5dx4Uwy2+HHwie/c/1qf4lMtXq3L0KJwbY528=;
-        b=HHUTsEanu0YUlvQ4gb6o+3ZaWXu3yBWtnfhJyWfKrqfHZAkQXqOEZFZuh1KcxPfVC7
-         9NpswGh822ay2R9h28S/Ba1+mwXq83IBUpCAXDRAZodQtiko5pqIwE5H8g6TJzB9T8F0
-         YOGAQBa6YGzCQn7uENVd8UxBkjBL/bXagEeWc/p5vTb+1inCn7teZSFQjVyqgyW3dKPM
-         vuGgekLnmSYDNxhIg2OlNKD1GQqM5O/engXKbuE/9f+knQHRn+Tm6QcuLpXmFxamadZc
-         8Vn2RWWxnL6jG7+t/Ooas1Ze6i09oM5gSGbPZNDGwQF+8BfrjD/B4aH2BMH+9GjTrrde
-         33Wg==
-X-Forwarded-Encrypted: i=1; AJvYcCX4P4yOeNCvCd+cx79GedIsLQ12geUAVANUY9JHRoqRC26T5kbNKzJ3erb5lacqt7wdv8qAPg6Bor2Yru1Q@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw13dM0cFRYTxQ/rfMtcGkbm4sKxRFceuGroZOg7wmrWOq0wn2M
-	aOtIo43odo++bO/JQqIqHJadzhRoeTwmbJikE0Ol+c7zrv2+FuZRpg+qvbQIdoQ=
-X-Gm-Gg: ASbGncumHCgToB7TfElgrVxVuHMVPhNlm6Ln5IJ9WDyvq21XU1CUOntxz7+SfjvpoTl
-	jfWSOHD7r7mmyxlF1qpCLQSLBgt5rHQm6TYf7rGpNF5uOMjOiVO8sEnAIpKZtq+zIowm5GvCCg6
-	4pC5SG6G0Az/tZ2yS23h5kf/AbR9oC99cyo/0nkT0aWWqX8RmexnMPsfvrYZ/wc64+/9AgTJXcH
-	w6oENFbyqGmZar4lXBWKcfkqNL4tdtlSkm1mC6kohRqKl2QDfIo9dQ=
-X-Google-Smtp-Source: AGHT+IE+Fgf3i7WYOHBgZVu2WScurxt2yWtjCETS3pz3YbW6ZOFMTKZatopzgDHP0TrCPTYtHxKlig==
-X-Received: by 2002:a05:600c:3b23:b0:434:a924:44e9 with SMTP id 5b1f17b1804b1-434d09c1598mr50365995e9.15.1733301184221;
-        Wed, 04 Dec 2024 00:33:04 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434d527f86fsm16236975e9.18.2024.12.04.00.33.02
+        bh=g351fpLdK2lkyYhcqP1PpLN3dK/iLJKWziU/9Oqsr9E=;
+        b=CNtsRWKbb9+5h7Fw4njcSVFXTvOQPlervY/XN57irNgbJWgLdi1hggauWEvfjOlggb
+         G/dx5BCdAcWC2CG4k+NQ4GehGMOP+NyskkolEXjdFDCcdP1/t7kPJVkvaM8eyMbiCUGf
+         p91d8bRjqfsBRWRsdG3Y7YRAZlp/SE/uHI5gsmTF8ZdQvjzkfSP/QjFmUefj4rwkvrYC
+         ntk14aPgz2xsUPHe1p0dOAAU6NKyP0RDqKPwnefmP34/veeyL4gLeMJO37JM0HiYgIFS
+         jhDsp6ABl9WIRNWpl3Fxj8cPSHvir8y9cPxfEwpPaqnrmIPd+5fn1Bd8m2SNWu82MLkH
+         wgAg==
+X-Forwarded-Encrypted: i=1; AJvYcCW6huac7bpHRKrbDz5C6zHSR1UiFBj+7de+1gHi+nuAKeseUvLKGDaHSfUAC6jGPxAib5snHcY/Jrvh1QO3@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz/gOlCcecCkvIZIqCwMoODN6EZ6SAogM9KQuRNsm/eje33Hqr+
+	g4tqbhtkCf3ouXoomIxCKg16GptwFDDDb9sn852GGcdRahN/XUsu1d+XQqUG
+X-Gm-Gg: ASbGncvLXQsj4MniiUWGatoVpuZmShBzTjQUJX/obHX6PEcl5Nz2KTGxiLn7Gy1aURa
+	kYyfQIYnHjW62xLU6Ae3pKB/ZXsR5Ig9bOkc6QlgNPHlW3e1O3oUapE6tXVM6lZCyCIi2twa63T
+	cc65MNAktWC8MqgwINo96jw/MQ2Yu71uJi5qzas/rp0GRAtGS5u418gKVSbpB0jj18BDa+gI2kS
+	Wcdvfra2rHbwJYWYWZ9T311oh0dVDhBtBM7qUak9X0c/JCgoceleAj2/SK29wFVpg==
+X-Google-Smtp-Source: AGHT+IF9NqIgghnkEvv/kl/PYOge+dz/Z66I+zobuoCi4wMGv79T9pki3Apb0qMW6ImoKaW4ahhW8A==
+X-Received: by 2002:a05:600c:3c9b:b0:431:5ab3:d28d with SMTP id 5b1f17b1804b1-434d09b630amr56228135e9.9.1733313714460;
+        Wed, 04 Dec 2024 04:01:54 -0800 (PST)
+Received: from egonzo (82-64-73-52.subs.proxad.net. [82.64.73.52])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434d526b131sm22909155e9.7.2024.12.04.04.01.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Dec 2024 00:33:03 -0800 (PST)
-Date: Wed, 4 Dec 2024 11:32:59 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Chenguang Zhao <zhaochenguang@kylinos.cn>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Philipp Hortmann <philipp.g.hortmann@gmail.com>,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: rtl8723bs: Add a blank line after declarations
-Message-ID: <2137176c-24a1-4257-a658-cbbd72094e90@stanley.mountain>
-References: <20241204081314.194701-1-zhaochenguang@kylinos.cn>
+        Wed, 04 Dec 2024 04:01:53 -0800 (PST)
+Date: Wed, 4 Dec 2024 13:01:51 +0100
+From: Dave Penkler <dpenkler@gmail.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: gpib: Fix i386 build issue
+Message-ID: <Z1BEr4QEF3vPDo57@egonzo>
+References: <20241202173301.6462-1-dpenkler@gmail.com>
+ <88c8ede5-47c0-49ec-805d-161293eec679@roeck-us.net>
+ <Z07EtdJpe6mnKYOH@egonzo>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -72,43 +73,42 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241204081314.194701-1-zhaochenguang@kylinos.cn>
+In-Reply-To: <Z07EtdJpe6mnKYOH@egonzo>
 
-On Wed, Dec 04, 2024 at 04:13:14PM +0800, Chenguang Zhao wrote:
-> There's a warning when using checkpatch.pl check rtw_io.c:
+On Tue, Dec 03, 2024 at 09:43:33AM +0100, Dave Penkler wrote:
+> On Mon, Dec 02, 2024 at 09:48:49AM -0800, Guenter Roeck wrote:
+> > On 12/2/24 09:33, Dave Penkler wrote:
+> > > Both drivers cast resource_type_t to void * causing the build to fail.
+> > > 
+> > > With CONFIG_X86_PAE enabled the resource_size_t type is a 64bit unsigned int
+> > > which cannot be cast to a 32 bit pointer.
+> > > 
+> > > Use ioremap() instead of pci_resource_start()
+> > > 
+> > > Reported_by: Guenter Roeck <linux@roeck-us.net>
+> > > Link: https://lore.kernel.org/all/f10e976e-7a04-4454-b38d-39cd18f142da@roeck-us.net/
+> > > Fixes: bb1bd92fa0f2 ("staging: gpib: Add ines GPIB driver")
+> > > Fixes: e1339245eba3 ("staging: gpib: Add Computer Equipment Corporation GPIB driver")
+> > > 
+> > > Signed-off-by: Dave Penkler <dpenkler@gmail.com>
+> > > ---
+> > > v1 -> v2 changed pci_resource_start to pci_resource_len for second parameter of ioremap
+> > > 
+> > Sorry, there are some more.
+> > 
+> > drivers/staging/gpib/tnt4882/tnt4882_gpib.c: In function ???ni_isa_attach_common???:
+> > drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1430:26: error: cast to pointer from integer of different size [-Werror=int-to-pointer-cast]
+> > 
+> > drivers/staging/gpib/cb7210/cb7210.c: In function 'cb_pci_attach':
+> > drivers/staging/gpib/cb7210/cb7210.c:974:36: error: cast to pointer from integer of different size
+> > 
+> > Not sure if that really fixes the problem though, since there is other code
+> > which maps the void * back to phys_addr_t (or, rather, to unsigned long).
+> > It might be better to work around the problem for now by disabling support
+> > for platforms where sizeof(phys_addr_t) > sizeof(void *).
 > 
->     WARNING: Missing a blank line after declarations
->     146: FILE: drivers/staging/rtl8723bs/core/rtw_io.c:146:
->     int value = atomic_inc_return(&dvobj->continual_io_error);
->     if (value > MAX_CONTINUAL_IO_ERR)
-> 
-> The patch fixes it.
-> 
-> Signed-off-by: Chenguang Zhao <zhaochenguang@kylinos.cn>
-> ---
->  drivers/staging/rtl8723bs/core/rtw_io.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_io.c b/drivers/staging/rtl8723bs/core/rtw_io.c
-> index fcda9db6ebb5..fb72d64f4403 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_io.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_io.c
-> @@ -143,6 +143,7 @@ int rtw_inc_and_chk_continual_io_error(struct dvobj_priv *dvobj)
->  {
->  	int ret = false;
->  	int value = atomic_inc_return(&dvobj->continual_io_error);
-> +
->  	if (value > MAX_CONTINUAL_IO_ERR)
->  		ret = true;
-
-Instead of mechanically adding a blank line it would be better to step
-back and say "What does this function do?  How can we make it better?"
-
-"value" is a useless variable name.  It's too vague.  A better name
-would be "error_count".  And instead of setting "ret = true; return ret;"
-we could do it in one step.  "return true;"  Get rid of the "ret"
-variable.
-
-regards,
-dan carpenter
-
+> I think it is dealt with in v3.
+> - Dave
+OK this does not work so I will submit a v4 which makes these
+drivers depend on !X86_PAE
+-Dave
