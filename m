@@ -1,36 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4331320A5FC;
-	Wed,  4 Dec 2024 15:52:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 978614A28;
+	Wed,  4 Dec 2024 15:57:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733327579; cv=none; b=IUhgeF6MMLAw64INKLxOro4k9vBvMDUdFb2DIUGOE/8eKnzKdqRvopgTgTbn3uZ/Z7VcMJZCcWrzBnAIH4zGNvOY6FURSAjMSX5BJlVuBBJmbYPg+WasKauX2a7xYR5nel339aDuMarsbe9dZV47W4z5wdOQNwQCUQezqmloEqc=
+	t=1733327820; cv=none; b=GWcE/dFCx2mP8X3OOGimiRbFzEOCXKNrfKRkLYfS4rjYZT0zFoc6BXdbS2/4iu2ry2cmKIuYe2+xkfwjEg8G92mZKgxaF07Vae6cXgPbfLTquoTaBLYkEu9LvrLVe36XroIIBfB8+O2VcuADjEUiqXi9uTtjEcVWbewVI7vT8dE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733327579; c=relaxed/simple;
-	bh=rYzR5iA+832IYD8XZPdYk8GIWIBb77RihMzScqCDuaM=;
+	s=arc-20240116; t=1733327820; c=relaxed/simple;
+	bh=7MuzFaF7/PzJgw3wMYY7sgx8oUD2VziZD1Y2qehSPBM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EvNmDsM6s7P7daFy0+ZKww1XOhBbBbLsX6pQ3cNY2hWvldFxL2WzXYVntcK8R5RaKAyth36ldhlhHwE+zZ+IZ1VleDeBchd/3mC5Vu8wUi5/mO7KjOUW2/rP9qlm4qPbFsdb8t8VK3aFzYZ+fBc7fIhTPqtyEBRfJ4zJIp9VXbY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=DGRNeuBX; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=KcGa4Cikclg+R4KyuOQVhKcMzvxLcJtZ612zHnKUZOJ+hT8/kxVH+VPY/KIu1B4HfOIcoGI6I8oa+UU+ifXfQrr6kBvmuCK9b5lUG+f9Ces/KsAyd8DIwRueD5k1a7XXySd57dCjFAGLXUbgYSyUaCQwfT8OXqFZqeSujHUwIlk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=bwsZfyCg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="DGRNeuBX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59B39C4CECD;
-	Wed,  4 Dec 2024 15:52:58 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="bwsZfyCg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0B69C4CECD;
+	Wed,  4 Dec 2024 15:56:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1733327578;
-	bh=rYzR5iA+832IYD8XZPdYk8GIWIBb77RihMzScqCDuaM=;
+	s=korg; t=1733327820;
+	bh=7MuzFaF7/PzJgw3wMYY7sgx8oUD2VziZD1Y2qehSPBM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DGRNeuBX1xoK7+XlzIIlDBekaNTlJWcaAna5prPVsOWmcxqdtUXoE2cZXLddb+QRI
-	 cg7NSc2oePjWV6KyasUlxY3aA5YLc7Dqbqf2pg3k4hDL1HrMVEw5Y/kFL2Ue5/qe81
-	 kQ7ijrev66JoVu2hDAll6K4Sg8OvxhDAg+/7dulI=
-Date: Wed, 4 Dec 2024 16:52:55 +0100
+	b=bwsZfyCg63dksC7ETuAK+qJ2wnEPyEDcoUyWU+CBvBBu/jP8nDhW0k847ttEp6TjL
+	 ynan2WSImgegH4d1AtXfNib6aldWq/Rm6dXu4si6tJzUx+n1CHYmTb2pORmAL8P/8x
+	 rRzOa80LAlCj4NG4oEeUM7PO1JSI6ZMK5JPLBRkY=
+Date: Wed, 4 Dec 2024 16:56:57 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
-Cc: philipp.g.hortmann@gmail.com, ~lkcamp/patches@lists.sr.ht,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: rtl8723bs: fix broken code when cflag is used
-Message-ID: <2024120426-shininess-scorpion-cc26@gregkh>
-References: <20241125225308.8702-1-rodrigo.gobbi.7@gmail.com>
+To: Dave Penkler <dpenkler@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH v4] staging: gpib: Fix i386 build issue
+Message-ID: <2024120444-apron-levers-d701@gregkh>
+References: <20241204153612.22867-1-dpenkler@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,24 +39,30 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241125225308.8702-1-rodrigo.gobbi.7@gmail.com>
+In-Reply-To: <20241204153612.22867-1-dpenkler@gmail.com>
 
-On Mon, Nov 25, 2024 at 07:45:04PM -0300, Rodrigo Gobbi wrote:
-> When using an extra cflag, DBG_RX_SIGNAL_DISPLAY_RAW_DATA,
-> hal_com.c file doesn't compile.
+On Wed, Dec 04, 2024 at 04:36:12PM +0100, Dave Penkler wrote:
+> These drivers cast resource_type_t to void * causing the build to fail.
 > 
-> Fixes: ec57f8641fbc ("staging: rtl8723bs: Rework 'struct _ODM_Phy_Status_Info_' coding style.")
-> Signed-off-by: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
+> With CONFIG_X86_PAE enabled the resource_size_t type is a 64bit unsigned int
+> which cannot be cast to a 32 bit pointer.
+> 
+> Disable these drivers if X68_PAE is enabled
+> 
+> Reported-by: Guenter Roeck <linux@roeck-us.net>
+> Link: https://lore.kernel.org/all/f10e976e-7a04-4454-b38d-39cd18f142da@roeck-us.net/
+> Fixes: e9dc69956d4d ("staging: gpib: Add Computer Boards GPIB driver")
+> Fixes: e1339245eba3 ("staging: gpib: Add Computer Equipment Corporation GPIB driver")
+> Fixes: bb1bd92fa0f2 ("staging: gpib: Add ines GPIB driver")
+> Fixes: 0cd5b05551e0 ("staging: gpib: Add TNT4882 chip based GPIB driver")
 > ---
-> As noticed at [1], hal_com.c is not compiling with -DDBG_RX_SIGNAL_DISPLAY_RAW_DATA due
-> the changes at [2] (a few statements were not replaced with the new struct).
-> A little discussion was made at [1] too about how useful this cflag was or if
-> the code under the cflag should be deleted. I think there is no harm to keep those things 
-> as is since we can easily fix the error and someone might be interested in using that
-> to further debug the driver.
+> v1 -> v2 changed pci_resource_start to pci_resource_len for second parameter of ioremap
+> v2 -> v3 add changes for cb7210 and tnt4882 drivers
+> v3 -> v4 disable build of drivers when X86_PAE is enabled
 
-Let's just delete that flag entirely, no one builds in-kernel modules
-with different cflags.  Please just remove the code completly.
+You forgot to sign off on this change :(
+
+v5?
 
 thanks,
 
