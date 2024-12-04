@@ -1,133 +1,120 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6B1220D4F4
-	for <linux-staging@lists.linux.dev>; Wed,  4 Dec 2024 17:05:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08CAE1B87C6
+	for <linux-staging@lists.linux.dev>; Wed,  4 Dec 2024 17:21:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733331936; cv=none; b=YQwlTex7aYr+FKBUZCfGcuYp2ibQX1YTr7FO+IN3M0aRJeIsbCJ8Tf0jFKFYkN6QaI3Oj73Vpvx8C5Kh0tZP1wNjh/u9XDCSEkmBD0/otWCLOjoMKvrEvu59MXdlh3atebPkzF6Mz04LDU72nAx1VM/VDKhz3UfVnca/Y6nlYEw=
+	t=1733332870; cv=none; b=oNm0Y2nQje9a2kCFCe/mqpynnPS2Irc97sraaEA5nB+LwopwqpBwXwbW8tAIYEcznQFatFJ/owgUrwO3IF4FjbtsT6cSLwcsTF0JU1MoQLUOZKcil/smFmS6NdcBk/U/X8knFU61AcssPmsFY8dQc6Zc9wbOEJ42nobc6MXurRI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733331936; c=relaxed/simple;
-	bh=SwdIkwAyBADHolNVHGKonu13CQKyD3zHMnYIOIO5/MU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ocq/tEWGNP9lx3FHhg4Sa0N4ufvK4t7QT391QLauWIO+FCONFeSUKm+ooS4txh1qnu2kotMgNFnv0cDeNQz7IvpM0ROi4GoIUg5xo09iRA5epdDNPz+hT+BTF53KT80Z1ZVfEdw0ZaGL57PvU6VQsH7WDe3jDknkA7+2TtZ/4j8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JPMaEAVz; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1733332870; c=relaxed/simple;
+	bh=cS4i0U6cm/rszccFiZBNCF5t6wXp4Gy6L1mmeeVxTLA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iXFOXGRaD6tzlgtM/CH6nN6HUaUCJiO0YnXlkPj24rfoSDosQ44QUpPUO0nccQREKBCWvdqcA8WVKWxEhtFNLRwMhwcxP3rqoOueT40dv7NHLi1oismGttRPbAGy1UlrylYTEElDblNtDNLTVlYeGs3xRj8Etzl2iwDMvdFl9ck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xZh9Gduq; arc=none smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JPMaEAVz"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-382610c7116so19356f8f.0
-        for <linux-staging@lists.linux.dev>; Wed, 04 Dec 2024 09:05:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xZh9Gduq"
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-53de556ecdaso44279e87.1
+        for <linux-staging@lists.linux.dev>; Wed, 04 Dec 2024 09:21:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733331933; x=1733936733; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9cuQDS9XjCoh01d12eDFy34pmkiiHwb9j2F8JlmKFAE=;
-        b=JPMaEAVz7XcHhgskUxsX5xwaleJlFredouMiVhYDvZ5GXtGIYwQ6JAkWeI7cGxQuCH
-         OuwwhZP7g1+5Xvx1jMTnaMkE93cEIkVaFPgq5pshysf1IFFG4BCpdg4/GYevsdZOkpa3
-         N6swD1KFmmV7l/ERMGMCn6GMlt1mo7JJmagh5HdMc7sQ+4O7ojQ7X8jcISGCTbE8EpBO
-         uHA8Kup1+oJGF1fWRcBC+8cSNnd7HHyu7kYVcZxK6tYO9qchC/n+gB52hMnt+6Ia1E5c
-         aSVr986BBBjBjW9eTgeWXrUUG+zImKCkjuPiMTvuBp2Tr1ccSa7UEdXlkIVO5YPSgkPP
-         3uiw==
+        d=linaro.org; s=google; t=1733332867; x=1733937667; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=CwUi8SmsPb5Vycsa9GB+I0BWedaEfg/jRhZVV6qa67w=;
+        b=xZh9GduqUEEucKOc+Kf9iCeFQ3E5Du2j03NfUgBGcWSnmmts6JBJZ10aoXtetghEVd
+         jd5ESQKfNOGwkuLSZL+pF3Nicg6XU5bthJNsIc7KLZc+lmRje8/i0hp6l5sBV7J93Iar
+         cwhQvF2DlUwu93tQ0qtPnR6lfeG6QXMgRw9KhRxddJ9+hmKxjTYiOsn5CWT4CFxvF/4s
+         WEhZW8qO1JLwle7sjNDyFZG/PVET07CYmPkwrKuj/0KR7Bm+MwcLVgZ+sPTnA3LAPB12
+         036WLXYp04aWtkJSCg1+0Cef64AC9rZux/6To4pOlajQoOdpIMjKsLYmh8cqPXktio4N
+         Z81Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733331933; x=1733936733;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9cuQDS9XjCoh01d12eDFy34pmkiiHwb9j2F8JlmKFAE=;
-        b=GH4FRchWVetDtMnOHKrjv1LI9qUeGsEa19juA+1MRQAkMqyv6JBOgL8xXvDm+rYGu2
-         7skmUPm1+1yUwrZ6b6+cIO1PyzsjuCanFp3v5NGZvHBurhYLxumenhiJBMd+0i95ZUBV
-         XeVlZUdvyB99pAXKSbrUBYsz3yI+E3/ErTq6PzAcScBS1rd6SeRsz6VIDAzIukrUWMTM
-         3Bx4+5Pbgc0JPtrUAhhuDq+hExdIgsAYcuHFK597J+8OA16cxbFTceFo660Udmwxeh5y
-         Gn0Fu/3E6EuG+nZ+obwG+qsKAIXi9W+YgRE9J5Q2G/juCsLPYs06gSCADM4u5Fcn+64M
-         ZfiA==
-X-Forwarded-Encrypted: i=1; AJvYcCUmzj37XuUbFe3/zVHiW6E7/5o7j2kogGbhD0nBeDMZjV2kFeU1g5FCdDt2hvvDo3jGZHBR6CCs0cGxShrK@lists.linux.dev
-X-Gm-Message-State: AOJu0YwauYxWYaniGUm8ytpOxqCwBq6+NVIF0miT39kKATzibNBHIhXT
-	59zwqnvk81EZ/PDs5uWi3RHoIzGN1oxKIFImviSmt3pZcJg8O1lV
-X-Gm-Gg: ASbGncslzAl/8nI6K27IbB8G1tCI39kKG3PzXGtWcMe8ob6p65mBrWZN4dCY2mYviom
-	eW/lFZJrKaZdIBbXcLMlsXlwcYS4u5SQNwRbxmDOG4KB6dNpI28ybdefFLvxCBYtYJ8r5fwt03q
-	kKezci1oA4zy8xjX5KTNOWOufeEnOliqa4I6NuMwhGDQMdDm/5HBd1aulxiv9intv3bJvC8qMvJ
-	qmUFs6+iYMIGcoNj7ubZhQCvNs6U75w1ON0FyPXB4jcsViWl5FdhWaxJSl1HJ9Mp3oMrfYVP5yh
-	nd9DNLkMhA==
-X-Google-Smtp-Source: AGHT+IH6Z+DHxmfTB0THiad8h84UNVfaQ7Wmykz0fyCn8uzv/XiXEMhZdpHTCuKzRh2vvihTlptIgw==
-X-Received: by 2002:a05:6000:4025:b0:382:31a2:17fd with SMTP id ffacd0b85a97d-385fd532b93mr6685415f8f.55.1733331932630;
-        Wed, 04 Dec 2024 09:05:32 -0800 (PST)
-Received: from localhost.localdomain (82-64-73-52.subs.proxad.net. [82.64.73.52])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-385d80a77a0sm17025470f8f.58.2024.12.04.09.05.31
+        d=1e100.net; s=20230601; t=1733332867; x=1733937667;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CwUi8SmsPb5Vycsa9GB+I0BWedaEfg/jRhZVV6qa67w=;
+        b=R0I9zJoIZGlAMeKPaToS5t+5b9q1nG5IXj2nwmC2F+lu2moJx6UHzNSWgGjzhRjAw1
+         PxkDjJOo3YMCz99LG5sHjy+9zgbCVBvT3ynhcEvxV/gYg9wgBpcw8RtHxVuuLPydgktT
+         vNlN2uQYbzVIrG7yE4TQVDtS4r7LIqiPbYBCvrxEZaM8FvsMEQOz8alE5sCACnJsOa2R
+         caWCFMFplg0o07tkbptX1b3lmachQX2r5rhMMxosAzWZSDBuVZPkw5KA8RhmMkQA9qhr
+         8xdd89vtlyHhIPqS7viB0j10O5Hgz1Ocpsw2Ktz+lmj87tSws9fGljzQJm1fuDqgUL20
+         eUEQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU/cMFMeggwdHTHBmwDs2E6mNiLoVuHmGn96ZqojEVMN9qGyowSoNv7i7+vZNqTb+jKXvMBildfsNBDrrnO@lists.linux.dev
+X-Gm-Message-State: AOJu0YzDWHiqKvgzac5Xq3tz2XK0wjKqPrlZXUMyXGKlmnnt0wjO4M+G
+	K4gqvPXx/bX3CgH7Z107wvkwh4UVF0R26hEzWHdBumQu8WDjsjkHUcdFKGobXTU=
+X-Gm-Gg: ASbGncvX9/65w3jf+DXxZadV3mGicZ7CD/lMQani64or57PIg9JUF9ml0vKEXaMsxvF
+	/XDBx5eYKNOnkC+/zVHsPYmUCTiTOTFqChRZPTz3X7f3il4f0TfT2rfK5JCdxrQL40XxTmhGUG5
+	V6wQKg01KMB1NaaLt0AmMex+0hG8GBkQZDac7f+GXrc4lZWPtmicLpOQ0u4/AUSCPFjFfIu0n9J
+	ejN7cibrULsO+tM/aEkbM1mzRgOFnj1wR8Q2PPhQYdsNRdOVjaTRRci5CnUbl+aFfK+ZOYVdA==
+X-Google-Smtp-Source: AGHT+IEPTiihAPUsJWXirfrgqA0sgpTCOG2Fx4MskWfdIdP1ollzTCwt1fpOL8Ol16tbpJQQ/vIs4w==
+X-Received: by 2002:a05:6512:4028:b0:53e:1b94:727d with SMTP id 2adb3069b0e04-53e1b947326mr3303792e87.10.1733332867234;
+        Wed, 04 Dec 2024 09:21:07 -0800 (PST)
+Received: from localhost (hdeb.n1.ips.mtn.co.ug. [41.210.141.235])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa5997d55b1sm755789866b.72.2024.12.04.09.21.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Dec 2024 09:05:31 -0800 (PST)
-From: Dave Penkler <dpenkler@gmail.com>
-To: gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: dan.carpenter@linaro.org,
-	Dave Penkler <dpenkler@gmail.com>,
+        Wed, 04 Dec 2024 09:21:06 -0800 (PST)
+Date: Wed, 4 Dec 2024 20:21:02 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Dave Penkler <dpenkler@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
 	Marcello Carla' <marcello.carla@gmx.com>
-Subject: [PATCH 3/4 v2] staging: gpib: Fix erroneous removal of blank before newline
-Date: Wed,  4 Dec 2024 18:04:43 +0100
-Message-ID: <20241204170443.28333-1-dpenkler@gmail.com>
-X-Mailer: git-send-email 2.47.1
+Subject: Re: [PATCH 3/4 v2] staging: gpib: Fix erroneous removal of blank
+ before newline
+Message-ID: <1012388b-f316-47a3-a98f-0f40dc74948e@stanley.mountain>
+References: <20241204170443.28333-1-dpenkler@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241204170443.28333-1-dpenkler@gmail.com>
 
-The original commit removed the blanks before the newline
-in the protocol string constants to satisfy checkpatch.pl
-This broke the driver since it relies on the correct length
-of the string constants including the blank.
-For example the original
-  #define USB_GPIB_SET_LINES   "\nIBDC \n"
-became
-  #define USB_GPIB_SET_LINES   "\nIBDC\n"
-which broke the driver.
+On Wed, Dec 04, 2024 at 06:04:43PM +0100, Dave Penkler wrote:
+> The original commit removed the blanks before the newline
+> in the protocol string constants to satisfy checkpatch.pl
+> This broke the driver since it relies on the correct length
+> of the string constants including the blank.
+> For example the original
+>   #define USB_GPIB_SET_LINES   "\nIBDC \n"
+> became
+>   #define USB_GPIB_SET_LINES   "\nIBDC\n"
+> which broke the driver.
+> 
+> The solution is to replace original blanks in protocol constants
+> with "."
+> e.g.:
+>   #define USB_GPIB_SET_LINES   "\nIBDC.\n"
+> 
 
-The solution is to replace original blanks in protocol constants
-with "."
-e.g.:
-  #define USB_GPIB_SET_LINES   "\nIBDC.\n"
+Let me help you write the commit message.
 
-Reported-by: Marcello Carla' <marcello.carla@gmx.com>
-Fixes: fce79512a96a ("staging: gpib: Add LPVO DIY USB GPIB driver")
-Co-developed-by: Marcello Carla' <marcello.carla@gmx.com>
-Signed-off-by: Marcello Carla' <marcello.carla@gmx.com>
-Signed-off-by: Dave Penkler <dpenkler@gmail.com>
----
-v1 -> v2
-  Add more details to the commit message
-  Add Signed-off by co developer
-  Add spaces around assignment
-  Fix tabs
-  
- drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+    The USB_GPIB_SET_LINES string used to be: "\nIBDC \n" but when we
+    were merging this code into the upstream kernel we deleted the space
+    character before the newline to make checkpatch happy.  That turned
+    out to be a mistake.
 
-diff --git a/drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c b/drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c
-index 1a8eb3bfb61c..81c110f29e76 100644
---- a/drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c
-+++ b/drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c
-@@ -97,8 +97,8 @@ module_param(debug, int, 0644);
- #define USB_GPIB_DEBUG_ON    "\nIBDE\xAA\n"
- #define USB_GPIB_SET_LISTEN  "\nIBDT0\n"
- #define USB_GPIB_SET_TALK    "\nIBDT1\n"
--#define USB_GPIB_SET_LINES   "\nIBDC\n"
--#define USB_GPIB_SET_DATA    "\nIBDM\n"
-+#define USB_GPIB_SET_LINES   "\nIBDC.\n"
-+#define USB_GPIB_SET_DATA    "\nIBDM.\n"
- #define USB_GPIB_READ_LINES  "\nIBD?C\n"
- #define USB_GPIB_READ_DATA   "\nIBD?M\n"
- #define USB_GPIB_READ_BUS    "\nIBD??\n"
-@@ -587,7 +587,7 @@ static int usb_gpib_command(gpib_board_t *board,
- 			    size_t *bytes_written)
- {
- 	int i, retval;
--	char command[6] = "IBc\n";
-+	char command[6] = "IBc.\n";
- 
- 	DIA_LOG(1, "enter %p\n", board);
- 
--- 
-2.47.1
+    The "\nIBDC" part of the string is a command that we pass to the
+    firmware and the next character is u8 value.  It gets set in
+    set_control_line().
+
+	msg[leng - 2] = value ? (retval & ~line) : retval | line;
+
+    Imagine the parameter was supposed to be 8.
+      Old: "\nIBDC8\n"
+      New: "\nIBD8\n"
+
+    The firmware doesn't recognize IBD as a valid command and [whatever
+    starts beeping and sets the computer on fire].
+
+    Put a . where the parameter is supposed to go which fixes the driver
+    and makes checkpatch happy.  Same thing with the other defines.
+
+regards,
+dan carpenter
 
