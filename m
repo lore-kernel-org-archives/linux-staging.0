@@ -1,114 +1,101 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A97241ABEDC
-	for <linux-staging@lists.linux.dev>; Wed,  4 Dec 2024 12:01:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B95A01BC9F0
+	for <linux-staging@lists.linux.dev>; Wed,  4 Dec 2024 13:47:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733313720; cv=none; b=WaJDwL8/VKCi0ubqXaz6ItFXUtB5Y6z/rzuppPcj9fiHqxx7I3MOdgGe3IvchKzNqhjYJssQEgJy/OoHe6OddUr2fcRPkW7iV5wQynhqi9dgkDe2s+8OzWiHy4tX8HFZ4o32M5Bn6qYhxm3cuLoJy2pe4AIQLBFo4wMYAuBJiB4=
+	t=1733320077; cv=none; b=CBwGX7s4LWtHkGxteQrRRYs+aZ1e87oauqefNnaGyWkfm2gG/QdMGKPqZS5WTqJGJGmQvTPJLZSz3c0cxPa2qJq/FAOU2TJ2UeKkUfQ4OXT00Qj7uEc+hY2aD8QpBcZNa9274ZIdLBJlfgsmlw2L4+Fx91JE+DHjddYPzLiAYaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733313720; c=relaxed/simple;
-	bh=yu9K6L0reByIxM4EZiwlstKaAxLSrHPxGYe85KbLfgs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fcBfcy0q+IDxMgxtBrRvkzL4yvlpjLK5fyRnQyVjFjFi+QLRHlwZdp3BYghPb0mOgbwYALrCVkJt5y/U5ZtaagVdAz3jvIYHrc6LoBNsZKZf7qBDvoeI+pwgJVkfdza4507pd1s4ozSgYo1lST7qoDNXl/I0g8jwdRyizydeiLQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i8/xtRIf; arc=none smtp.client-ip=209.85.128.53
+	s=arc-20240116; t=1733320077; c=relaxed/simple;
+	bh=N7/vkh77qk1fPHVjfiBISqmE4uv/JTxV7LgwE4hm2a0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=s0n+ZyKq6prwK0MovNdSHzuynN/RQPWF8MzTE+KI09G00pM6aEo9fmmtX8b6YK7PIHMNXSZ6CtwUfSGVbs1dWaNrH0nS/GDERgVOn0x89d72UUsEZK3+bx7hBgIR9DyLT2Bg0t32MGpAWyg6n5vxxdqCojle+zPnXM+8hYdeiU0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R3eA7I8o; arc=none smtp.client-ip=209.85.128.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i8/xtRIf"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-434a742481aso55361495e9.3
-        for <linux-staging@lists.linux.dev>; Wed, 04 Dec 2024 04:01:56 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R3eA7I8o"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-434a0fd9778so62838705e9.0
+        for <linux-staging@lists.linux.dev>; Wed, 04 Dec 2024 05:47:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733313715; x=1733918515; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=g351fpLdK2lkyYhcqP1PpLN3dK/iLJKWziU/9Oqsr9E=;
-        b=i8/xtRIfcOG3Fd0kMVxEZY/1X6syTJ+G2mnGYcgdKFRWZQnzZEhMwH+GoAI/lkBG29
-         yBt1v9RKC91qfQXiD5bMRyTkE6dnX0TsJbgaKtPDmBbLJ9uqz8I/ieCzdnjdHPdISN01
-         zE95LbzgNjT9WLBXtSmC9shHRtcdTqPxxuA7Vp5Zr40gTQQ9HvDUvoJJo6VFT3piFkYy
-         nUyrZ8IERzJWcXmBljQTmgVx/aOhG4bxaDMKdRv4gkAFuK+yb0xIqGFJLxvNGxrki9lm
-         bCJbi9+ZUNncuZ9aGahXOeUiYgCmHGFrnk43/JEwyNFDNPwJj6bKQ0o1Oxkw6iHGJdN7
-         KBXw==
+        d=gmail.com; s=20230601; t=1733320073; x=1733924873; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7dkS0jxrNDHpGzyQIGNBb3o5Ra/IS2ul8BnWsJrSOvg=;
+        b=R3eA7I8oohadoCtD9IBtCVJ8uaEDx7zSKzbn39mXR8yd/RplHk5EVwWahuyIJQp/TD
+         JhkpZnBX3qQwcanJbT8UKt1G2ptXY55qhBmb8ylmFLWQfudWEV1Wf7bpidFFtOVNIYYr
+         1xezCr0WR3mojhM+h/imYjgRBCPo1CFvwJkPII2oUMlwyXIqq2DyJf16EtQd8iGszvUc
+         /d0+tiZCuGz3MZXmWzmm95UUgO2kZmyw1EBB7ShGNmq/4BPV0Bf1qr5RaULDN9deJ0gI
+         /PhvvvPwNCP4s2pQIsbt39/+aV65aRKu8C60KcJ7fO2PzYo/JrJIEvG/U485owew/Nfa
+         abJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733313715; x=1733918515;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=g351fpLdK2lkyYhcqP1PpLN3dK/iLJKWziU/9Oqsr9E=;
-        b=CNtsRWKbb9+5h7Fw4njcSVFXTvOQPlervY/XN57irNgbJWgLdi1hggauWEvfjOlggb
-         G/dx5BCdAcWC2CG4k+NQ4GehGMOP+NyskkolEXjdFDCcdP1/t7kPJVkvaM8eyMbiCUGf
-         p91d8bRjqfsBRWRsdG3Y7YRAZlp/SE/uHI5gsmTF8ZdQvjzkfSP/QjFmUefj4rwkvrYC
-         ntk14aPgz2xsUPHe1p0dOAAU6NKyP0RDqKPwnefmP34/veeyL4gLeMJO37JM0HiYgIFS
-         jhDsp6ABl9WIRNWpl3Fxj8cPSHvir8y9cPxfEwpPaqnrmIPd+5fn1Bd8m2SNWu82MLkH
-         wgAg==
-X-Forwarded-Encrypted: i=1; AJvYcCW6huac7bpHRKrbDz5C6zHSR1UiFBj+7de+1gHi+nuAKeseUvLKGDaHSfUAC6jGPxAib5snHcY/Jrvh1QO3@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz/gOlCcecCkvIZIqCwMoODN6EZ6SAogM9KQuRNsm/eje33Hqr+
-	g4tqbhtkCf3ouXoomIxCKg16GptwFDDDb9sn852GGcdRahN/XUsu1d+XQqUG
-X-Gm-Gg: ASbGncvLXQsj4MniiUWGatoVpuZmShBzTjQUJX/obHX6PEcl5Nz2KTGxiLn7Gy1aURa
-	kYyfQIYnHjW62xLU6Ae3pKB/ZXsR5Ig9bOkc6QlgNPHlW3e1O3oUapE6tXVM6lZCyCIi2twa63T
-	cc65MNAktWC8MqgwINo96jw/MQ2Yu71uJi5qzas/rp0GRAtGS5u418gKVSbpB0jj18BDa+gI2kS
-	Wcdvfra2rHbwJYWYWZ9T311oh0dVDhBtBM7qUak9X0c/JCgoceleAj2/SK29wFVpg==
-X-Google-Smtp-Source: AGHT+IF9NqIgghnkEvv/kl/PYOge+dz/Z66I+zobuoCi4wMGv79T9pki3Apb0qMW6ImoKaW4ahhW8A==
-X-Received: by 2002:a05:600c:3c9b:b0:431:5ab3:d28d with SMTP id 5b1f17b1804b1-434d09b630amr56228135e9.9.1733313714460;
-        Wed, 04 Dec 2024 04:01:54 -0800 (PST)
-Received: from egonzo (82-64-73-52.subs.proxad.net. [82.64.73.52])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434d526b131sm22909155e9.7.2024.12.04.04.01.52
+        d=1e100.net; s=20230601; t=1733320073; x=1733924873;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7dkS0jxrNDHpGzyQIGNBb3o5Ra/IS2ul8BnWsJrSOvg=;
+        b=d90hPIiyJVmAZ7BizyBd/n5YZX8n1GhvxRAoTnoULGYC1iogjkf4nwntz5WzZPCi6N
+         gO1Kzjyt7k0fZeUj86MKEIYAA07RCogIH/xhn1QKrsz64+nLSHUVyTfBjic3teLHe425
+         zHh9vFjkHSmcKAAmDSVpgc8nNuR39e3ir53Z0QGCtAixkyjlFbep3GIpQTU0isw7qgsY
+         h+tRlKaR9ysCYQomsl54jkk7IQYDwgEbjldftfJOmFbUy24poze4nb8ngOx7Gg33lnD2
+         OkMGykMB3K8P4jBelZ44UQ6fGZfQsk4VMQ9vBSJmDp+9sBAiCKJn+bqdUbAGwBG9+VL2
+         3MGA==
+X-Forwarded-Encrypted: i=1; AJvYcCUQNr5ist7OBbAIJa1xRC5Kaqk46FZwo673MJuHVmW/mmi7MpbdiunL8fEKzRzaCLMGAMbmpbUZCMaq1o8I@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz4oJo+AkF13AC4d2yGfu6vSO+mmkKH2wy1SD9HtRPDu44hBYV/
+	C34vKlPqT/DxLDgM7lT84Axc7xPLMmf+7niWKhpDovaSKVd2t0iwQK5LHsgr
+X-Gm-Gg: ASbGncvjxx1EDp2nEaOQzCYlcM0CoLllJglrb1cXfVwEgTI8np3vKqySd7KfsaPcUSI
+	N/2cJa0cw5mwGzcYTSAnisQuX8WfsM4dyxaTOB42QLpQu7H1PFUEmtUWODZf9CIQzOCMw/K+iRn
+	Amk/BR/AGWFhY2aCMB8CCjI2trYXjyy+qnUYA6i5jc+yS/WAsoLHCp4zFMB4WuTcNZzgztyiZxC
+	nheX/RMNsBqVfkO2Zcdkq2eNZDlz36OCPY/GZlWqA+9DSuYlw4C59ibH6Y85+z719k9acCJNPrk
+	WNdXflRK9g==
+X-Google-Smtp-Source: AGHT+IEERzG3Y2W6qTUJPL9AaT3DvYbYKP20IfUHmhXP+mAbXsk1BfF07T4abHbvNiGofdVOsKIM8A==
+X-Received: by 2002:a05:6000:1fa5:b0:382:47d0:64be with SMTP id ffacd0b85a97d-385fd3ec1c0mr5280390f8f.29.1733320072859;
+        Wed, 04 Dec 2024 05:47:52 -0800 (PST)
+Received: from localhost.localdomain (82-64-73-52.subs.proxad.net. [82.64.73.52])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-385deeb6acdsm15939891f8f.81.2024.12.04.05.47.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Dec 2024 04:01:53 -0800 (PST)
-Date: Wed, 4 Dec 2024 13:01:51 +0100
+        Wed, 04 Dec 2024 05:47:52 -0800 (PST)
 From: Dave Penkler <dpenkler@gmail.com>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+To: gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: gpib: Fix i386 build issue
-Message-ID: <Z1BEr4QEF3vPDo57@egonzo>
-References: <20241202173301.6462-1-dpenkler@gmail.com>
- <88c8ede5-47c0-49ec-805d-161293eec679@roeck-us.net>
- <Z07EtdJpe6mnKYOH@egonzo>
+Cc: sfr@canb.auug.org.au,
+	Dave Penkler <dpenkler@gmail.com>
+Subject: [PATCH] staging: gpib: Workaround for ppc build failure
+Date: Wed,  4 Dec 2024 14:47:36 +0100
+Message-ID: <20241204134736.6660-1-dpenkler@gmail.com>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z07EtdJpe6mnKYOH@egonzo>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Dec 03, 2024 at 09:43:33AM +0100, Dave Penkler wrote:
-> On Mon, Dec 02, 2024 at 09:48:49AM -0800, Guenter Roeck wrote:
-> > On 12/2/24 09:33, Dave Penkler wrote:
-> > > Both drivers cast resource_type_t to void * causing the build to fail.
-> > > 
-> > > With CONFIG_X86_PAE enabled the resource_size_t type is a 64bit unsigned int
-> > > which cannot be cast to a 32 bit pointer.
-> > > 
-> > > Use ioremap() instead of pci_resource_start()
-> > > 
-> > > Reported_by: Guenter Roeck <linux@roeck-us.net>
-> > > Link: https://lore.kernel.org/all/f10e976e-7a04-4454-b38d-39cd18f142da@roeck-us.net/
-> > > Fixes: bb1bd92fa0f2 ("staging: gpib: Add ines GPIB driver")
-> > > Fixes: e1339245eba3 ("staging: gpib: Add Computer Equipment Corporation GPIB driver")
-> > > 
-> > > Signed-off-by: Dave Penkler <dpenkler@gmail.com>
-> > > ---
-> > > v1 -> v2 changed pci_resource_start to pci_resource_len for second parameter of ioremap
-> > > 
-> > Sorry, there are some more.
-> > 
-> > drivers/staging/gpib/tnt4882/tnt4882_gpib.c: In function ???ni_isa_attach_common???:
-> > drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1430:26: error: cast to pointer from integer of different size [-Werror=int-to-pointer-cast]
-> > 
-> > drivers/staging/gpib/cb7210/cb7210.c: In function 'cb_pci_attach':
-> > drivers/staging/gpib/cb7210/cb7210.c:974:36: error: cast to pointer from integer of different size
-> > 
-> > Not sure if that really fixes the problem though, since there is other code
-> > which maps the void * back to phys_addr_t (or, rather, to unsigned long).
-> > It might be better to work around the problem for now by disabling support
-> > for platforms where sizeof(phys_addr_t) > sizeof(void *).
-> 
-> I think it is dealt with in v3.
-> - Dave
-OK this does not work so I will submit a v4 which makes these
-drivers depend on !X86_PAE
--Dave
+Make GPIB_FMH depend on !PPC
+
+Reported_by: Stephen Rothwell <sfr@canb.auug.org.au>
+Link: https://lore.kernel.org/all/20241015165538.634707e5@canb.auug.org.au/
+
+Signed-off-by: Dave Penkler <dpenkler@gmail.com>
+---
+ drivers/staging/gpib/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/staging/gpib/Kconfig b/drivers/staging/gpib/Kconfig
+index 95308d15a555..a9b811165f6b 100644
+--- a/drivers/staging/gpib/Kconfig
++++ b/drivers/staging/gpib/Kconfig
+@@ -128,7 +128,7 @@ config GPIB_FMH
+        tristate "FMH FPGA based devices"
+        select GPIB_COMMON
+        select GPIB_NEC7210
+-       depends on BROKEN
++       depends on !PPC
+        depends on OF && PCI
+        help
+          GPIB driver for fmhess FPGA based devices
+-- 
+2.47.1
+
