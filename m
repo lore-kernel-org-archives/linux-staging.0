@@ -1,259 +1,92 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 108FF1F95E;
-	Wed,  4 Dec 2024 02:19:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12A4B189BB3
+	for <linux-staging@lists.linux.dev>; Wed,  4 Dec 2024 08:13:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733278775; cv=none; b=IIHa0qrBXy1asucgP99l/Pe27JBF9S+OIgVE3bwtT9SB09Tv+x+LM5cotEj6GwvFfp1dwUJwDXywFK7+yOw4sMcW7nXRDexoPAxnaY6ASsGy4a/D15YSe0HcHwaIoLAbf+k3tNjH0gUO0eVLK+EDCT6bGRQAqdIU/zu3NxsQBCw=
+	t=1733300030; cv=none; b=PwgeTRxx1uSN8QttYtP2tNO4BkheKyGQiNJhMrtSyBvZdYsUfaL5EVQeNqR+Hdk7BwKP7qLJMPRHTjHTZMDJyMBuPiDHiYx/WPBS8qE1l29syHXLX/MYPbRYpIenscQSZU9SZeKYyj9NjfL2j1GVhCBZa2m5Q2DKAChhgOSuA/U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733278775; c=relaxed/simple;
-	bh=wi11SfWz/6zS0Pk8E1VA7e+kzU8B4OpUzH1KkaB3P5Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Wb4Ol6Zq/lExp4CQkiRAoDpfSDPTl5ORsGFxLvpQgaPzv8d6YF4cFPJLuC4lmvxDHA9QguKrSwt3P9fUPfSuNoChmX9J7HVqIbmp6TD/Z9CdMUYRm2Kva6V/GZTgRU+6tHEKJ0fphqIjXaoUbRGYbH1gfr477g1syMCQFXKPn44=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zjh0yc4u; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zjh0yc4u"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733278773; x=1764814773;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=wi11SfWz/6zS0Pk8E1VA7e+kzU8B4OpUzH1KkaB3P5Q=;
-  b=Zjh0yc4uVdTsZowgKCm8/S3pUJ+f+Pz9+Ap1NUUkqx3i8ESExjvzqkOh
-   WZaPVTuAzfbiei0zYoRe3USGpOTKggGEVm1rb7INPPcyLr3RXo7dpZqzs
-   0zIKW0tXwHt2SeFiI92ksPxesND9pNrYU/x7v542gBfuNCg4ker/CJTUd
-   zdjO82Ps12LJ9c25zPEZqdChlPbDC+PM63wnFzhwhkW6WSONJiH1siX2V
-   Kz2RvqkNNasLR2Obs/8QQnbqDxi8MRM5wiXKnPR1UX1Ke0SH76SOKRGJw
-   JMb3o7AiWsinnIv4VBT8tASJaSxrkK4ImmF5Y2FCbC6FlQshI0V+6lLZX
-   w==;
-X-CSE-ConnectionGUID: bX+6AFDpQEiRok8pet52xQ==
-X-CSE-MsgGUID: qV355fCRRr+aNlXUc0lZVA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11275"; a="37297153"
-X-IronPort-AV: E=Sophos;i="6.12,206,1728975600"; 
-   d="scan'208";a="37297153"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2024 18:19:32 -0800
-X-CSE-ConnectionGUID: Lx09kYhrSfWTNj65jol4ZQ==
-X-CSE-MsgGUID: +nfuBq5CRMK2hzdFGzfaSA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,206,1728975600"; 
-   d="scan'208";a="124451647"
-Received: from lkp-server02.sh.intel.com (HELO 1f5a171d57e2) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 03 Dec 2024 18:19:30 -0800
-Received: from kbuild by 1f5a171d57e2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tIez6-0000Sz-1z;
-	Wed, 04 Dec 2024 02:19:26 +0000
-Date: Wed, 4 Dec 2024 10:18:22 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dave Penkler <dpenkler@gmail.com>, gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux@roeck-us.net,
-	Dave Penkler <dpenkler@gmail.com>
-Subject: Re: [PATCH v3] staging: gpib: Fix i386 build issue
-Message-ID: <202412040913.WApPUuyd-lkp@intel.com>
-References: <20241203084116.2228-1-dpenkler@gmail.com>
+	s=arc-20240116; t=1733300030; c=relaxed/simple;
+	bh=wH70K2GOIxi0/t3zWwyO/QSXnTwU089RcBu5wjo/mlg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=JE2Cu2r/rOqCxHYUh8mviuC52Ib4NXlY6OjZA6PacMQqP8tvlgvIBhSYvaiLrrIKo3QW2MTx0JJTr5AeU04WybB0keV10YUuCFKM15xJPNLgsUXwuWKCs0MKPskPTTOI23XIGjwVQnSXjFf9XFMGosriAXU/1RkSNKVrAJyN5Y4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: a4793b00b21711efa216b1d71e6e1362-20241204
+X-CTIC-Tags:
+	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_8B
+	HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
+	HR_SJ_DIGIT_LEN, HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM
+	HR_SJ_PHRASE, HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT
+	HR_TO_NAME, IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED, SA_UNTRUSTED
+	SA_UNFAMILIAR, SN_UNTRUSTED, SN_UNFAMILIAR, SPF_NOPASS, DKIM_NOPASS
+	DMARC_NOPASS, CIE_BAD, CIE_GOOD, CIE_GOOD_SPF, GTI_FG_BS
+	GTI_RG_INFO, GTI_C_BU, AMN_GOOD, ABX_MISS_RDNS
+X-CID-O-RULE: Release_Ham
+X-CID-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.38,REQID:c6b3aa05-931b-441c-8cab-5b7ce3913e65,IP:10,
+	URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:1,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:6
+X-CID-INFO: VERSION:1.1.38,REQID:c6b3aa05-931b-441c-8cab-5b7ce3913e65,IP:10,UR
+	L:0,TC:0,Content:-5,EDM:0,RT:0,SF:1,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:6
+X-CID-META: VersionHash:82c5f88,CLOUDID:d130fbfea83dda00315248486d4b7898,BulkI
+	D:241204152336OJ3S9VF6,BulkQuantity:2,Recheck:0,SF:19|24|38|43|66|72|74|10
+	2,TC:nil,Content:0,EDM:-3,IP:-2,URL:11|1,File:nil,RT:nil,Bulk:40,QS:nil,BE
+	C:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_FSI,TF_CID_SPAM_ULN,TF_CID_SPAM_SNR,TF_CID_SPAM_FSD
+X-UUID: a4793b00b21711efa216b1d71e6e1362-20241204
+X-User: zhaochenguang@kylinos.cn
+Received: from localhost.localdomain [(223.70.160.239)] by mailgw.kylinos.cn
+	(envelope-from <zhaochenguang@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1172613489; Wed, 04 Dec 2024 16:13:28 +0800
+From: Chenguang Zhao <zhaochenguang@kylinos.cn>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Cc: Chenguang Zhao <zhaochenguang@kylinos.cn>,
+	linux-staging@lists.linux.dev
+Subject: [PATCH] staging: rtl8723bs: Add a blank line after declarations
+Date: Wed,  4 Dec 2024 16:13:14 +0800
+Message-Id: <20241204081314.194701-1-zhaochenguang@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241203084116.2228-1-dpenkler@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Dave,
+There's a warning when using checkpatch.pl check rtw_io.c:
 
-kernel test robot noticed the following build warnings:
+    WARNING: Missing a blank line after declarations
+    146: FILE: drivers/staging/rtl8723bs/core/rtw_io.c:146:
+    int value = atomic_inc_return(&dvobj->continual_io_error);
+    if (value > MAX_CONTINUAL_IO_ERR)
 
-[auto build test WARNING on staging/staging-testing]
+The patch fixes it.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Penkler/staging-gpib-Fix-i386-build-issue/20241203-164356
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20241203084116.2228-1-dpenkler%40gmail.com
-patch subject: [PATCH v3] staging: gpib: Fix i386 build issue
-config: i386-randconfig-061-20241203 (https://download.01.org/0day-ci/archive/20241204/202412040913.WApPUuyd-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241204/202412040913.WApPUuyd-lkp@intel.com/reproduce)
+Signed-off-by: Chenguang Zhao <zhaochenguang@kylinos.cn>
+---
+ drivers/staging/rtl8723bs/core/rtw_io.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412040913.WApPUuyd-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1019:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1020:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1021:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1022:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1023:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1024:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1025:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1026:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1027:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1028:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1029:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1030:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1031:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1032:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1033:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1034:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1038:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1039:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1040:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1041:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1042:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1043:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1044:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1045:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1046:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1047:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1048:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1049:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1050:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1051:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1052:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1053:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1054:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1055:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1056:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1057:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1058:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1059:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1060:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1061:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1062:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1066:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1067:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1068:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1069:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1070:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1071:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1072:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1073:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1074:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1075:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1076:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1077:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1078:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1079:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1080:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1081:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1082:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1083:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1084:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1085:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1086:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1087:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1088:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1089:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1090:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1094:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1095:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1096:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1097:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1098:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1099:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1100:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1101:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1102:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1103:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1104:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1105:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1106:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1107:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1108:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1109:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1110:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1111:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1112:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1113:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1114:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1115:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1116:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1117:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1118:1: sparse: sparse: obsolete struct initializer, use C99 syntax
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:897:18: sparse: sparse: symbol 'ni_pci_interface' was not declared. Should it be static?
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:925:18: sparse: sparse: symbol 'ni_pci_accel_interface' was not declared. Should it be static?
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:953:18: sparse: sparse: symbol 'ni_isa_interface' was not declared. Should it be static?
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:981:18: sparse: sparse: symbol 'ni_nat4882_isa_interface' was not declared. Should it be static?
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1009:18: sparse: sparse: symbol 'ni_nec_isa_interface' was not declared. Should it be static?
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1037:18: sparse: sparse: symbol 'ni_isa_accel_interface' was not declared. Should it be static?
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1065:18: sparse: sparse: symbol 'ni_nat4882_isa_accel_interface' was not declared. Should it be static?
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1093:18: sparse: sparse: symbol 'ni_nec_isa_accel_interface' was not declared. Should it be static?
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1423:31: sparse: sparse: Using plain integer as NULL pointer
->> drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1443:26: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *iobase @@     got void [noderef] __iomem * @@
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1443:26: sparse:     expected void *iobase
-   drivers/staging/gpib/tnt4882/tnt4882_gpib.c:1443:26: sparse:     got void [noderef] __iomem *
-
-vim +1443 drivers/staging/gpib/tnt4882/tnt4882_gpib.c
-
-  1396	
-  1397	static int ni_isa_attach_common(gpib_board_t *board, const gpib_board_config_t *config,
-  1398					enum nec7210_chipset chipset)
-  1399	{
-  1400		struct tnt4882_priv *tnt_priv;
-  1401		struct nec7210_priv *nec_priv;
-  1402		int isr_flags = 0;
-  1403		resource_size_t iobase;
-  1404		unsigned long ibbase;
-  1405		int irq;
-  1406	
-  1407		board->status = 0;
-  1408	
-  1409		if (tnt4882_allocate_private(board))
-  1410			return -ENOMEM;
-  1411		tnt_priv = board->private_data;
-  1412		tnt_priv->io_writeb = outb_wrapper;
-  1413		tnt_priv->io_readb = inb_wrapper;
-  1414		tnt_priv->io_writew = outw_wrapper;
-  1415		tnt_priv->io_readw = inw_wrapper;
-  1416		nec_priv = &tnt_priv->nec7210_priv;
-  1417		nec_priv->type = chipset;
-  1418		nec_priv->read_byte = nec7210_locking_ioport_read_byte;
-  1419		nec_priv->write_byte = nec7210_locking_ioport_write_byte;
-  1420		nec_priv->offset = atgpib_reg_offset;
-  1421	
-  1422		// look for plug-n-play board
-  1423		if (config->ibbase == 0) {
-  1424			struct pnp_dev *dev;
-  1425			int retval;
-  1426	
-  1427			retval = ni_isapnp_find(&dev);
-  1428			if (retval < 0)
-  1429				return retval;
-  1430			tnt_priv->pnp_dev = dev;
-  1431			iobase = pnp_port_start(dev, 0);
-  1432			irq = pnp_irq(dev, 0);
-  1433		} else {
-  1434			ibbase = (unsigned long)config->ibbase;
-  1435			iobase = ibbase;
-  1436			irq = config->ibirq;
-  1437		}
-  1438		// allocate ioports
-  1439		if (!request_region(iobase, atgpib_iosize, "atgpib")) {
-  1440			pr_err("tnt4882: failed to allocate ioports\n");
-  1441			return -1;
-  1442		}
-> 1443		nec_priv->iobase = ioremap(iobase, pnp_port_len(tnt_priv->pnp_dev, 0));
-  1444	
-  1445		// get irq
-  1446		if (request_irq(irq, tnt4882_interrupt, isr_flags, "atgpib", board)) {
-  1447			pr_err("gpib: can't request IRQ %d\n", irq);
-  1448			return -1;
-  1449		}
-  1450		tnt_priv->irq = irq;
-  1451	
-  1452		tnt4882_init(tnt_priv, board);
-  1453	
-  1454		return 0;
-  1455	}
-  1456	
-
+diff --git a/drivers/staging/rtl8723bs/core/rtw_io.c b/drivers/staging/rtl8723bs/core/rtw_io.c
+index fcda9db6ebb5..fb72d64f4403 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_io.c
++++ b/drivers/staging/rtl8723bs/core/rtw_io.c
+@@ -143,6 +143,7 @@ int rtw_inc_and_chk_continual_io_error(struct dvobj_priv *dvobj)
+ {
+ 	int ret = false;
+ 	int value = atomic_inc_return(&dvobj->continual_io_error);
++
+ 	if (value > MAX_CONTINUAL_IO_ERR)
+ 		ret = true;
+ 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.25.1
+
