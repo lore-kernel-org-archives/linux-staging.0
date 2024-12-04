@@ -1,96 +1,132 @@
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4B9320B816
-	for <linux-staging@lists.linux.dev>; Wed,  4 Dec 2024 16:05:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67E8A4A28
+	for <linux-staging@lists.linux.dev>; Wed,  4 Dec 2024 16:21:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733328353; cv=none; b=VBQKz/NgMGbqrVGkBW1hUot09DlnVc+OVAfj2d3ZEg4XC17FpnyEhfJefIm4IBHkxHwliM7xfCrF18SsiT5vt4DVzJzSk09RmzOGCWb62WA/qu0XxaTm4zVh/Kcut55WMaPGW8S77JquHvNiWaN/4nyAyhmKsL7Y0JSVzTiU3bo=
+	t=1733329295; cv=none; b=eg8AmSU62kmbi5INe0FftDah05lZALpwXs5HFptOThgdB6ugXvjMMdpwYIPF7EcjR6aYqWSIcW2Au89DW4GlBNpK9AbonSFAn+LDqWjFRkLiSNkCWjcYeiXemY7Ih7HdxgQckaBmcQv158ZdE51HdmqjmSZjZxLpuLGWo3DKIpI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733328353; c=relaxed/simple;
-	bh=wd/eY6phlvlnKp9dl486zt0nJnh+efyg1sis2+V6M3U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eRRCLZWVqPzJb+CFGm2mOoBqTGzFdOw2870yyuJXu36jh5pY3fG1rnrsvptiLBnuVwI3+cIbAeXtFJ/CHB6GVZxcsBrdxuO6Qfrr+dTx6zFzQwbtt8Kutt4r/ZDbWwqjuAH1Jrjcp86HkOWgLAXIzp4o66uV7qxI8O9Pr09tMhc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zytTfSJr; arc=none smtp.client-ip=209.85.208.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1733329295; c=relaxed/simple;
+	bh=a6WjITYDh8FlQbh3cr+ztIE3gMFYDSCNCAv8bVk/eYQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nW+gw+nB2M2HDtDdS5H783mNcxLjfcFZRTJcxS4sNmfCiVCsg0jyH8fOqjuD9ss8RCfSzv1u5aXbH4GEC68JIp/lFxc7a//1/0qKZwr71tV801H3ZmdxhKovLkJc0qvkM5/SfBS4Yfz61FjPFCIHaSMPLBqNxDmQ1vRUNX6OSNs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N7dULuCd; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zytTfSJr"
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2ffb3cbcbe4so76642041fa.0
-        for <linux-staging@lists.linux.dev>; Wed, 04 Dec 2024 08:05:51 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N7dULuCd"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-434a45f05feso85698175e9.3
+        for <linux-staging@lists.linux.dev>; Wed, 04 Dec 2024 08:21:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733328350; x=1733933150; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=+tRejvXUxMNCLgTlAPgfWHyqlQiv1kzmjvxRvEB55ZU=;
-        b=zytTfSJrqcMGN6kuv71c7a8QEG6AKVM5mN6HNIruwf9K9aQCVp15K3B9BAC5J5PIma
-         TyUcjepWkaYG573S3UFMpYI0bteuoDMrx4F6M3o8qlRjfSS6Nt0MeTtQ/5KqWWCazuJy
-         MfaRngZEI9CdqdfnCr1FExefD2TCpp5IUKxMul/vQVIRDDT+NTIzuqWTdXseK47OzCr1
-         C7i6AZ3t4vUEYPRI7rwT/ayU3c8esM4yueVFHHcy8lm0y31QMnLvjLLzE8AP2ittEOei
-         lli2aozZwGSyM/lFixti/GNxqryUZsrSeZ+KeSU4OM4s54bSxqvkl4+KbZHKUR03nod1
-         NXGA==
+        d=gmail.com; s=20230601; t=1733329293; x=1733934093; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dXdDkWsDnFtUrE2+z+ujQNEAqNP+3i4+ZyErVIQ9EKA=;
+        b=N7dULuCddLLfqbrnbeav5M4cqQTJp13XDE2eiOvDPlh0BctL/z/i0MleiRpA8Awrjn
+         2Y00S1Te+iUQWG8ZB4jPJ7U05shzAwrX3rW3Ovmbh9BXT/O6YqavcIsyfZzx6nEgbpcx
+         ssPKLcHyxhZqdMeGl99DxiotZZ+JOv5sxN0Hv6E67iGR0mf7F07yRFiHVZU1uMgSXTVU
+         6O8DeeGNErMUobg6nJbxlWLkSIE0avdxK9HLcqD8rW6Z4eCbg5ZqI2/FBqziwXG/7N8K
+         FiuEhsoJmxWCOq/mgZWl6LN6evpGRH/elI7gW6NQ8EeqcsWegQwAPRwJZYgNmo8w4zFg
+         M7wA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733328350; x=1733933150;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+tRejvXUxMNCLgTlAPgfWHyqlQiv1kzmjvxRvEB55ZU=;
-        b=kc+8mZYTWiOJTFFTaXgIQgpMTJ9YQSB+aTiv+Vnvy5E4IO3WKEvIt4lBBzfAHhiFuO
-         7ymU8gTw/6RitLESWHhBlqgEAaQrdGSc7IGpNkjNPJ2o4nZE+1nWYD6knBoy+Y/fiOEP
-         tPNy6hEKXqSzsby1zX6W/ktnaVWVjns/uvLobTI44FRFIakw084efg0G5G5/3ocaw9x1
-         pchDBpNx5O2bWCBl9UExVNyLdGO4FDQhlR7uHqSiPy6rgxAGxat1Ftmb5dLz2TPPvK/W
-         JlFoVnCMVyNmYAdHvn3UGjNK09xKNeY1xxzgmUTvvFv8qYQoHRz6jgr0ZlhMiQbZu/Yj
-         ZwUQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWeWEl42xPbL2vjyWvP73hB6o7B3KdIJtRlqMTMkUXVOvQVLCl8K1cMm1F0+eihPoHKvcf5DzPrbHu/bNgj@lists.linux.dev
-X-Gm-Message-State: AOJu0YxQa7W/TpBa3jbCegwFx2ZDzCD0krFEVC1iPwEgiECd+1Sdp2o4
-	kIUgTdK4jR++n4VgIy61OSw8ThNvwqAhIxW6hSjKyYwJ/+qk0AVn1j0eTHF3WXQ=
-X-Gm-Gg: ASbGncuYrp4K9YdW3b/pcZ2lj5+BLk7ozpoYzlYGnMhSkv6A57kJ6wm8pibDrLpvIDp
-	ncg9NaZPddivY7QoSfYdZarzevkmpN6Rp7H1rfQz65qi7pNXq9c/cUJvLwYTB/b4c+s1IKGwTx9
-	ef5vqROkMvoaiooB2Pr0EyB0WOVy5MpyXiWNBvAmTXp06DHc7ylqMyIDmxETMh5LfMiTHIIa9Xc
-	al6I8CLOKcRNczunQqnpcaL37fJVF+U2wAKQu4wB6N5gsLdJMoNTySMJGamNqWT09FxmcgyIQ==
-X-Google-Smtp-Source: AGHT+IGVMkIZj30kVvAf36Q6fe+cEPTr02QBVfzgeQHxUvaYCIvIXkRxggrpjHDjlMn9DSOZZc5/CA==
-X-Received: by 2002:a05:6512:3052:b0:53d:f09e:99b0 with SMTP id 2adb3069b0e04-53e12961f1fmr4259889e87.0.1733328348299;
-        Wed, 04 Dec 2024 08:05:48 -0800 (PST)
-Received: from localhost (hdeb.n1.ips.mtn.co.ug. [41.210.141.235])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa599957594sm742833166b.197.2024.12.04.08.05.47
+        d=1e100.net; s=20230601; t=1733329293; x=1733934093;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dXdDkWsDnFtUrE2+z+ujQNEAqNP+3i4+ZyErVIQ9EKA=;
+        b=Cb47NZc6JJpKFpkJA0qtp8NGJKYrDvsea/4PmT+ialtfaveBGfT7os6HZ0WgtDTLOX
+         xufA91mmrzkje4afU+236sR5AV1agWMZP/Pym2BBLb11zIVGMf7YAEXb5sjr0zZbz8Hl
+         1oBAex7c3CjM5yGLMeyOZMjGWpLWAIVaD/6QiAO3Hn28M8fnQk1Zyl17VTyifJo6Rmir
+         mR7sAe5qrIJaAtudZ0NfAMhk9QMRDPWVki0YTH9CoFB2+9ZjDEkSROAtqWhsYmBM6N/Q
+         aTacVtGYunS6hWyWRdMezkWHLgmzpezrwxGMjdRRLs3tCOeQX0NjMJlZS5VAF6dB/N3u
+         Oc9w==
+X-Forwarded-Encrypted: i=1; AJvYcCVKsgECbNb5PqxL7ZOOO0iqHgI83tBJqIfetcnCrtL9gu5gmURX8xVru+T3NKF1PKh/BoQx2W7vou0HxwI0@lists.linux.dev
+X-Gm-Message-State: AOJu0YypCWScu79PrcQuM4iTS0eAReIxvNIuw2K9TlomfPSpxVnHVwYp
+	4VbSfv38vN+qBIOcJo5IraQtXqKSg/cMReHGsRraMWjMvN9nVsEB
+X-Gm-Gg: ASbGncs4NAl/cuH3bJHT8qD1io8PbwN77cX7OcswACIf9+hFsQeBL8V95bEDOdSlnvl
+	JYf0TI7C3YnVe0MV8SNn62+U8ePAe2z4856+LIQq4tdYcyaih7slFybrWL3wNufbGRewxiHKZ8b
+	Jnb5OPK/0o/5A4TnlqRREfI/Xc55MulwP6esJtl1GPO3QyK27s3hHWpLpD7qXe8WplX3OX9vk+y
+	pEMFZk+HeLDEMMT4WFPtCNloRZhDi/UpQmYnrQ8wO1E2dhBRBfkQtPeMsDc8PBqekQ9B5vjo7Xn
+	fBQncixUUw==
+X-Google-Smtp-Source: AGHT+IEw1stCh48pN2T4EgDGQFXpVxFIxkZLFpmeriseUp2AmBTMzqWCbk3SxePuXPXryX7tk6wu0w==
+X-Received: by 2002:a05:6000:78d:b0:385:d7f9:f157 with SMTP id ffacd0b85a97d-385fd4350fdmr8134370f8f.36.1733329292574;
+        Wed, 04 Dec 2024 08:21:32 -0800 (PST)
+Received: from localhost.localdomain (82-64-73-52.subs.proxad.net. [82.64.73.52])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-385f0d38a89sm9705177f8f.97.2024.12.04.08.21.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Dec 2024 08:05:47 -0800 (PST)
-Date: Wed, 4 Dec 2024 19:05:42 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Dave Penkler <dpenkler@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Marcello Carla' <marcello.carla@gmx.com>
-Subject: Re: [PATCH 3/4] staging: gpib: Fix erroneous removal of blank before
- newline
-Message-ID: <83d08acd-3195-41a0-9708-ad17aaa15b5d@stanley.mountain>
-References: <20241204145713.11889-1-dpenkler@gmail.com>
- <20241204145713.11889-4-dpenkler@gmail.com>
+        Wed, 04 Dec 2024 08:21:31 -0800 (PST)
+From: Dave Penkler <dpenkler@gmail.com>
+To: gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Dave Penkler <dpenkler@gmail.com>,
+	Guenter Roeck <linux@roeck-us.net>
+Subject: [PATCH v5] staging: gpib: Fix i386 build issue
+Date: Wed,  4 Dec 2024 17:21:28 +0100
+Message-ID: <20241204162128.25617-1-dpenkler@gmail.com>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241204145713.11889-4-dpenkler@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-You're going to need to resend this.  Run checkpatch.pl etc.
+These drivers cast resource_type_t to void * causing the build to fail.
 
-On Wed, Dec 04, 2024 at 03:57:12PM +0100, Dave Penkler wrote:
-> Replace original blanks with "."
-> 
+With CONFIG_X86_PAE enabled the resource_size_t type is a 64bit unsigned
+int which cannot be cast to a 32 bit pointer.
 
-Take a look at how this look like on lore:
-https://lore.kernel.org/all/20241204145713.11889-4-dpenkler@gmail.com/
-The subject is hard to see.  It's better to think of it as the title
-instead of the first sentence.
+Disable these drivers if X68_PAE is enabled
 
-To be honest, I don't really understand this commit.  Presumably this
-gets printed out or something?  Can you cut a paste a few lines of
-before and after text to show us how it looks like?
+Reported-by: Guenter Roeck <linux@roeck-us.net>
+Closes: https://lore.kernel.org/all/f10e976e-7a04-4454-b38d-39cd18f142da@roeck-us.net/
+Fixes: e9dc69956d4d ("staging: gpib: Add Computer Boards GPIB driver")
+Fixes: e1339245eba3 ("staging: gpib: Add Computer Equipment Corporation GPIB driver")
+Fixes: bb1bd92fa0f2 ("staging: gpib: Add ines GPIB driver")
+Fixes: 0cd5b05551e0 ("staging: gpib: Add TNT4882 chip based GPIB driver")
+Signed-off-by: Dave Penkler <dpenkler@gmail.com>
+---
+ drivers/staging/gpib/Kconfig | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-regards,
-dan carpenter
+diff --git a/drivers/staging/gpib/Kconfig b/drivers/staging/gpib/Kconfig
+index 95308d15a555..6cf05586ca10 100644
+--- a/drivers/staging/gpib/Kconfig
++++ b/drivers/staging/gpib/Kconfig
+@@ -50,6 +50,7 @@ config GPIB_CEC_PCI
+ 	tristate "CEC PCI board"
+ 	depends on PCI
+ 	depends on HAS_IOPORT
++	depends on !X86_PAE
+ 	select GPIB_COMMON
+ 	select GPIB_NEC7210
+ 	help
+@@ -62,6 +63,7 @@ config GPIB_CEC_PCI
+ config GPIB_NI_PCI_ISA
+ 	tristate "NI PCI/ISA compatible boards"
+ 	depends on ISA_BUS || PCI || PCMCIA
++	depends on !X86_PAE
+ 	select GPIB_COMMON
+ 	select GPIB_NEC7210
+ 	help
+@@ -85,6 +87,7 @@ config GPIB_CB7210
+        tristate "Measurement Computing compatible boards"
+ 	depends on HAS_IOPORT
+ 	depends on ISA_BUS || PCI || PCMCIA
++	depends on !X86_PAE
+        select GPIB_COMMON
+ 	select GPIB_NEC7210
+        help
+@@ -174,6 +177,7 @@ config GPIB_INES
+        tristate "INES"
+ 	depends on PCI || ISA_BUS || PCMCIA
+ 	depends on HAS_IOPORT
++	depends on !X86_PAE
+        select GPIB_COMMON
+        select GPIB_NEC7210
+        help
+-- 
+2.47.1
 
