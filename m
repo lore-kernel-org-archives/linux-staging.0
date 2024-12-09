@@ -1,62 +1,62 @@
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4B4019CC22
-	for <linux-staging@lists.linux.dev>; Mon,  9 Dec 2024 19:25:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E77D219D083
+	for <linux-staging@lists.linux.dev>; Mon,  9 Dec 2024 19:25:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733772346; cv=none; b=jaoIJd8iElxlEJJgVwgPTiiq0Dz63aKaFxGWesJXiXKGFmjzirFW+ZTRNow7XgneGUPebhjaW4ONDWj4QIssRJ9EWyHc7NV/zZKnDY8L7Zzqm0uyvluEH/cB2zQWB3InySo5CdVKKcsCyJS/GIjYNrvABYEB+ejjB4/d5QchEwY=
+	t=1733772346; cv=none; b=JZQAlV1kHcGaZYiBRmOzyFkptlBmiUO/pbq1oI0pro2l5vXrjI5FdnUjgnChMFK4dt2fU+y+3gjZsYoHJiB6x6CH3QzXjS1dILVrvROjkGSU1QjkCVuXbCl9vTueOZbVuyIbiA7F4UDIB6/AqG57CDphuoWDpA+FvyDM/ZhMiwI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1733772346; c=relaxed/simple;
-	bh=YVfCDMG+ewVwUxyDDbbSOUAdz+veaEMx7LKaz5GBLvs=;
+	bh=xfUwtSBU2RPjXRdqhWZRl04Dp2rWNk2bKx3bk1pDlLs=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Ro/0i8+TDXjP0mkA4thYagKDaUlPUlzdZzzjTaN1bQIhICh6Sdaj2UpObWJdwrHIWQzm2Ls9JOKrYJ7xOMt/dH+V9PnV+oPVd3BIR7yhn6EvsiqrtS6gdWqPz5CMRaC06m9Tx1Q+08mcegBWBD3Vr/Q3+RHlO44jAfsCjSyjI4w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=BH/a0Gke; arc=none smtp.client-ip=209.85.222.175
+	 In-Reply-To:To:Cc; b=RTJNk7narwB6NdG5NAQ58h4fPdJQ8VIadlaOBzkPWZaS/3xekBzqWsHjnOwDOKpramOr6B3SigZ1FC+DEHe4pShiQ80t/XqL/hhoYuudkzTkvW3ULD0w0p1U2pOXq3q70XRnUSNYPcqw1WstNAaPJQ72j2jxmW/qmHSewBe3tn0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=FiR0xxOW; arc=none smtp.client-ip=209.85.160.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="BH/a0Gke"
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-7b15467f383so415488385a.3
-        for <linux-staging@lists.linux.dev>; Mon, 09 Dec 2024 11:25:43 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="FiR0xxOW"
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-46677ef6920so37460741cf.0
+        for <linux-staging@lists.linux.dev>; Mon, 09 Dec 2024 11:25:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google; t=1733772343; x=1734377143; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=L2k1H7nZ6EFiaX0ZIjONbwuF9mUJ/0XMhcmQKMZ+rwA=;
-        b=BH/a0Gke6xhLpn4DLbLT57QqPGMylS8zqu3wfGWJUo7uZBrWENb3fBNL50Hyv1ew8K
-         a0fL4/dPkDh0/9VQqWYKRSo02seWJb+vXvw9oXz+vEjQVRnwpMjIHWmAyfpaHE/G2UVa
-         8sfow4mBzPq/DBR3OroWYJh7wz1NJwYq2ssIQ=
+        bh=T9/yEI3m3K/0zf7XJobUGHsXsYeP/0tT64hyQf5D30E=;
+        b=FiR0xxOWbk5qRnqvNlw3xnVfwpxzAtnbJtI5x35EOjQ64l2uFVrW+r3rjqQjMa0D4W
+         7rYVCStkFFLdA7zKT03MuhQkJ0m5uNcXcQyzPgkuE6B+pMJNy50NIHoz9ZP8Zx8/kZoK
+         yZS13R2pucEmzHGPhdaAHssyz1WsLN7bmxdgM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1733772343; x=1734377143;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=L2k1H7nZ6EFiaX0ZIjONbwuF9mUJ/0XMhcmQKMZ+rwA=;
-        b=KGkHnTCDgPtjJSMTAMn/ObrBzH04yRc+ChXjn/1oERNmjnHaXzjhEUJYJ+GRHhwSHp
-         PC5EuTJOazrgv++IhcIWk/CjxG9g+KhiJHGH+obEWds+Zjmm156a2qgswPWDdg5d3ZPL
-         ctVqdjYh8fpWMSJScPPTdIF8M08r2mViapAc6+GECv3iHjYoq7DtVFbpLp0aaraaf6ia
-         qo33UM/1P3AwV00T4fIzyBAt1a6Dgy3YnnMbHnER+s/0ScL9f/0quoztBazzwDzTwTvt
-         J14Gt5tgstD95lsk8x0FP5Oqc8VHLiY1yNYz64EX5HAOiGfaNF9jiIEx0ypIqIKfc54g
-         ZWlQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWBVK2geA+i6ItVbsI/NFEAXp1SO4XnFHOH0mbHdvKyht+npSO41RDwH0hvSVeRnTnoCth16nGeaF3HwMFg@lists.linux.dev
-X-Gm-Message-State: AOJu0YyVVG8eeKWIaGELzelp85lZrphzftMuH8H52UOslyI5i2u/wut7
-	+Bdlmg9NOXeUrAZRPRk4fFnunDyfEgBPDx3ai0BNORqilQ8S4DmrKSvF39pntw==
-X-Gm-Gg: ASbGncvu2Of1JQuQED7oXpb3MvH13tZsDX5AsINqc3meZ/FGVOHi5vFrx8+x0+z0Ox8
-	hjD2pDzt01BBkfbFipEL2VW4hbz5a+lYdkwuxcZdWC5hTrhYgV8Drtyn2ZPuTFS2NN10/ODuNtn
-	13mUoBznPZr3tlFEAI8LB/nbAJ5G+uAMp13WJ8WABuvoj4LX9bMa0B2n621Ea49jNbKjH9BNU+q
-	PLVsYoMjw8rbFjPVfFUdmg0pk8Voc8iOdvbB/J+lc9Kt8usASlioTdDSyztgjxvIVWvXPjsO/+o
-	luR+IxReNikiJL1XFGREnXuF
-X-Google-Smtp-Source: AGHT+IEEiNvdKrQR0ZlgT/dI9fWuGcmjgZ2kgyinLriV9vaeViM47DQlUbu8twZBqoLXdUvISKJmXQ==
-X-Received: by 2002:a05:620a:1918:b0:7b1:48ff:6b3c with SMTP id af79cd13be357-7b6dcdfe7c9mr246350985a.16.1733772342811;
-        Mon, 09 Dec 2024 11:25:42 -0800 (PST)
+        bh=T9/yEI3m3K/0zf7XJobUGHsXsYeP/0tT64hyQf5D30E=;
+        b=tSyqBTA/3BTzSX69iR2KzVoRzD9aR5l1sGTFFIJy1TShDL8vbBwQeZbk/Ky1FGBKD8
+         ydOUl4SGY4kLAYuBuBLCh/e9unxgIqlPXbvldZoAwFGQ05l4x4SUpWOvAbCgOOXwuzXu
+         +409lPHNJ0P113OHvDp7vLNm8dNjivXdy6IVKZh9mUuoJC5WNa6juCu0dk5We0M+0wl5
+         3VwvBkWEbK/oRTfbxO0jGNyRI0RA2Nd46SA1ATyVIu+1HpPdg+LnF3YvxZ/mSymyh+VU
+         0UQyyBcxYDKoZXjpEnNvvd9GNsmJTCoYdRhIv/+9XlFSmcDAFtzTL/tZH3b1jBxq2Dy+
+         INTQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW4JRn9+H7LVYrK7pEwEt4/LGviG0qJT1Sf2/GE+MiUakm6Agekz/PC3ODly3ikzvCHdy4YuXz4lGeJyPbj@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxx5cqD85Y6bF8DWNTA7luchQCqOCrGQJhRNl/PgUjrvKCAJ87N
+	Cc3zLnv9PsDIOtpO8XjpUIKhW/NXJBIpyc8S5E/bMYFn+0lfY4syp51sYn+NtA==
+X-Gm-Gg: ASbGncudvdy0TOl+CBrVww16y6a1KjG6dv2n3BerXvwLWj5S2VyBpIiVbjb2rWkVJT4
+	jLmPqnzB6S487Lf7ZlFErqG1I9DupYwb7MhidRRyF5Sg9nRN90rh15wQxv6D8fyPR3Dz/UCNjtM
+	xbpZtAG1oRKCT5fAtGX5rNK+xWHC4W3Cm+nv5YARJeXJSayeMaq8bhiDGqwOXSmekujqcOg2c4Z
+	KW4qY0x8cKgrJ6k9KLRFv5IUa1hoCfVvsjs0l41QZrnIqGf/f2oGmFfxytDPU6DFUUlnAb7Ut9X
+	yitmkrPuiySlK34R9hFqwD9/q5nf
+X-Google-Smtp-Source: AGHT+IHgsfDAcmQoVPz3OqjY4fsfStHe8w+bApIyZU3horEfuMPbagTTxS37mo+7l7Vwk3GrfCkZRA==
+X-Received: by 2002:a05:622a:1647:b0:466:93b9:8356 with SMTP id d75a77b69052e-4677528b6camr10363241cf.22.1733772343653;
+        Mon, 09 Dec 2024 11:25:43 -0800 (PST)
 Received: from denia.c.googlers.com (5.236.236.35.bc.googleusercontent.com. [35.236.236.5])
         by smtp.gmail.com with ESMTPSA id af79cd13be357-7b6cc1cf6fesm217433385a.102.2024.12.09.11.25.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Dec 2024 11:25:42 -0800 (PST)
+        Mon, 09 Dec 2024 11:25:43 -0800 (PST)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 09 Dec 2024 19:25:40 +0000
-Subject: [PATCH 09/10] media: cx231xx: Replace s_ctrl with s_ext_ctrls
+Date: Mon, 09 Dec 2024 19:25:41 +0000
+Subject: [PATCH 10/10] media: v4l2: Remove vidioc_s_ctrl callback
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -65,7 +65,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241209-queryctrl-v1-9-deff7acfcdcb@chromium.org>
+Message-Id: <20241209-queryctrl-v1-10-deff7acfcdcb@chromium.org>
 References: <20241209-queryctrl-v1-0-deff7acfcdcb@chromium.org>
 In-Reply-To: <20241209-queryctrl-v1-0-deff7acfcdcb@chromium.org>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -80,58 +80,64 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-staging@lists.linux.dev, Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.13.0
 
-The v4l2 ioctl framework can provide support for s_ctrl. This the last
-driver implementing s_ctrl.
+All the drivers either use the control framework or provide a
+vidiod_ext_ctrl. We can remove this callback.
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/usb/cx231xx/cx231xx-417.c | 21 ++++++++++++++-------
- 1 file changed, 14 insertions(+), 7 deletions(-)
+ drivers/media/v4l2-core/v4l2-dev.c   | 2 +-
+ drivers/media/v4l2-core/v4l2-ioctl.c | 2 --
+ include/media/v4l2-ioctl.h           | 4 ----
+ 3 files changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/drivers/media/usb/cx231xx/cx231xx-417.c b/drivers/media/usb/cx231xx/cx231xx-417.c
-index a4a9781328c5..3c1941709ebf 100644
---- a/drivers/media/usb/cx231xx/cx231xx-417.c
-+++ b/drivers/media/usb/cx231xx/cx231xx-417.c
-@@ -1538,17 +1538,24 @@ static int vidioc_s_std(struct file *file, void *priv, v4l2_std_id id)
- 	return 0;
- }
+diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+index 068ee67cd574..b40c08ce909d 100644
+--- a/drivers/media/v4l2-core/v4l2-dev.c
++++ b/drivers/media/v4l2-core/v4l2-dev.c
+@@ -578,7 +578,7 @@ static void determine_valid_ioctls(struct video_device *vdev)
+ 		__set_bit(_IOC_NR(VIDIOC_QUERY_EXT_CTRL), valid_ioctls);
+ 	if (vdev->ctrl_handler || ops->vidioc_g_ext_ctrls)
+ 		__set_bit(_IOC_NR(VIDIOC_G_CTRL), valid_ioctls);
+-	if (vdev->ctrl_handler || ops->vidioc_s_ctrl || ops->vidioc_s_ext_ctrls)
++	if (vdev->ctrl_handler || ops->vidioc_s_ext_ctrls)
+ 		__set_bit(_IOC_NR(VIDIOC_S_CTRL), valid_ioctls);
+ 	if (vdev->ctrl_handler || ops->vidioc_g_ext_ctrls)
+ 		__set_bit(_IOC_NR(VIDIOC_G_EXT_CTRLS), valid_ioctls);
+diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+index 4e65d50bef27..5a54e796086d 100644
+--- a/drivers/media/v4l2-core/v4l2-ioctl.c
++++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+@@ -2396,8 +2396,6 @@ static int v4l_s_ctrl(const struct v4l2_ioctl_ops *ops,
+ 		return v4l2_s_ctrl(vfh, vfh->ctrl_handler, p);
+ 	if (vfd->ctrl_handler)
+ 		return v4l2_s_ctrl(NULL, vfd->ctrl_handler, p);
+-	if (ops->vidioc_s_ctrl)
+-		return ops->vidioc_s_ctrl(file, fh, p);
+ 	if (ops->vidioc_s_ext_ctrls == NULL)
+ 		return -ENOTTY;
  
--static int vidioc_s_ctrl(struct file *file, void *priv,
--				struct v4l2_control *ctl)
-+static int cx231xx_s_ext_ctrls(struct file *file, void *priv,
-+			       struct v4l2_ext_controls *ctls)
- {
- 	struct cx231xx *dev = video_drvdata(file);
-+	struct v4l2_control ctl;
- 	struct v4l2_subdev *sd;
-+	unsigned int i;
- 
--	dprintk(3, "enter vidioc_s_ctrl()\n");
-+	dprintk(3, "enter vidioc_s_ext_ctrl()\n");
- 	/* Update the A/V core */
--	v4l2_device_for_each_subdev(sd, &dev->v4l2_dev)
--		v4l2_s_ctrl(NULL, sd->ctrl_handler, ctl);
--	dprintk(3, "exit vidioc_s_ctrl()\n");
-+	for (i = 0; i < ctls->count; i++) {
-+		ctl.id = ctls->controls[i].id;
-+		ctl.value = ctls->controls[i].value;
-+		v4l2_device_for_each_subdev(sd, &dev->v4l2_dev)
-+			v4l2_s_ctrl(NULL, sd->ctrl_handler, &ctl);
-+		ctls->controls[i].value = ctl.value;
-+	}
-+	dprintk(3, "exit vidioc_s_ext_ctrl()\n");
- 	return 0;
- }
- 
-@@ -1627,7 +1634,7 @@ static const struct v4l2_ioctl_ops mpeg_ioctl_ops = {
- 	.vidioc_enum_input	 = cx231xx_enum_input,
- 	.vidioc_g_input		 = cx231xx_g_input,
- 	.vidioc_s_input		 = cx231xx_s_input,
--	.vidioc_s_ctrl		 = vidioc_s_ctrl,
-+	.vidioc_s_ext_ctrls	 = cx231xx_s_ext_ctrls,
- 	.vidioc_g_pixelaspect	 = vidioc_g_pixelaspect,
- 	.vidioc_g_selection	 = vidioc_g_selection,
- 	.vidioc_querycap	 = cx231xx_querycap,
+diff --git a/include/media/v4l2-ioctl.h b/include/media/v4l2-ioctl.h
+index 4d69128023f8..c6ec87e88dfe 100644
+--- a/include/media/v4l2-ioctl.h
++++ b/include/media/v4l2-ioctl.h
+@@ -195,8 +195,6 @@ struct v4l2_fh;
+  *	:ref:`VIDIOC_S_OUTPUT <vidioc_g_output>` ioctl
+  * @vidioc_query_ext_ctrl: pointer to the function that implements
+  *	:ref:`VIDIOC_QUERY_EXT_CTRL <vidioc_queryctrl>` ioctl
+- * @vidioc_s_ctrl: pointer to the function that implements
+- *	:ref:`VIDIOC_S_CTRL <vidioc_g_ctrl>` ioctl
+  * @vidioc_g_ext_ctrls: pointer to the function that implements
+  *	:ref:`VIDIOC_G_EXT_CTRLS <vidioc_g_ext_ctrls>` ioctl
+  * @vidioc_s_ext_ctrls: pointer to the function that implements
+@@ -459,8 +457,6 @@ struct v4l2_ioctl_ops {
+ 		/* Control handling */
+ 	int (*vidioc_query_ext_ctrl)(struct file *file, void *fh,
+ 				     struct v4l2_query_ext_ctrl *a);
+-	int (*vidioc_s_ctrl)(struct file *file, void *fh,
+-			     struct v4l2_control *a);
+ 	int (*vidioc_g_ext_ctrls)(struct file *file, void *fh,
+ 				  struct v4l2_ext_controls *a);
+ 	int (*vidioc_s_ext_ctrls)(struct file *file, void *fh,
 
 -- 
 2.47.0.338.g60cca15819-goog
