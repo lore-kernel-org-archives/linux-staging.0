@@ -1,33 +1,33 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F15EA23EA97
-	for <linux-staging@lists.linux.dev>; Tue, 10 Dec 2024 22:02:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95A1923A57D
+	for <linux-staging@lists.linux.dev>; Tue, 10 Dec 2024 22:02:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733868171; cv=none; b=rP0SmQBwEt4ubfrlfAAEdHSvwEoeZu0yMelcZRq3fJAgSj8FOHRHId6WhuqDwYqXvEYET/F0r8/829hFtL63VDBn1hEvrP2/+D+8XzfR1CRq2eIqIyutEy19+hnzSV/zoNtOVE2UJHzkqhDZlsOT/wUkYuXW2XQx2AbUPKyz/l4=
+	t=1733868171; cv=none; b=SJzzEAJlGlH1u0zgKG2AZo9+gCw2sHmXbO7d7HmminkedmjUKsHpG+eY2Zo/wOtMgIeGIEZY6LB1rzIo0i9wyWiHr1me5MKmGIdJDfHhQeptg8c9AZS/bHyV+EceBa/P05+bRdwdcA5yYhtNJLkZ9V87ZOEa3XfwQvzT9LEDPJs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1733868171; c=relaxed/simple;
-	bh=XcsLnChgfo/Ij9QISU+GaLiQM2djU+sxD31sRhcZThk=;
+	bh=E6uqxlfwCmnx95jtFhPi6wiH3Bbmndoy9tWcTmWRzgc=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=uvFJjemGrVJ9gbTVrm8zXggeebNAXhmqncS1ZA7e48a6CbUOYVKjlhYaaMi0omBqMOiT7c3Zf1jHi26zJfZaHKskwIsjyDVugqqIysjH3uME5IRjcgRM8KxnwINz1Td+SEbtWgSDJ5m5KperjfSTvCpbf7oZRWpf9z5+MIsuw30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=R9JyWtdI; arc=none smtp.client-ip=13.77.154.182
+	 In-Reply-To:To:Cc; b=G9vadWOojEwiOt0+08Wh9gnFdxVkxyx7AngIrEP57HD1GINr3ohWtmGtWCBbTCrOuZUcytC8s/vSxBN92bYU4oGED7fn7HKfB/w4I5AUs8r+Jq0mEgIxsvB0MzNUmopkOTX22RyplP+mQspE7ghvkDLUEpeg4d1ita7irF7yzVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=Vt8vx6jK; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="R9JyWtdI"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="Vt8vx6jK"
 Received: from eahariha-devbox.internal.cloudapp.net (unknown [40.91.112.99])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 3576020ACD6C;
+	by linux.microsoft.com (Postfix) with ESMTPSA id F1ABA20ACD6F;
 	Tue, 10 Dec 2024 14:02:39 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 3576020ACD6C
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com F1ABA20ACD6F
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1733868159;
-	bh=2KdSABVpHGeIl3K+Zfq51kwhEReKGYYzt3DUWqeHGog=;
+	s=default; t=1733868160;
+	bh=zXBBaQqpACacMQS0Kj7gcrwl6nw/WBuJMa6i20JWtiI=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=R9JyWtdIUEb4/zKyVfibrupVtLSA8I4Ge9h6DsznbqwDXYuMt91s9gMK2E8wvHrfF
-	 DAI6C0uY79rteNLP8XN3j0zl2c4hIe69V64Jd/WfL7mt75W43sZOrZK3S3e5zHR6NX
-	 Fb6Kd6ZyvfvV2PAG+yCh6AjQd+L5BQfffwiXvwAk=
+	b=Vt8vx6jKTs+Ctim/qcZbBmxzvKglLplBaf8u3Ss1TuSPMlqyDk6c0iiPlA+LzR+m0
+	 YPZ/Qdi+1XcZwtu1UmEnzASc3HPTGQ/HgM/xmF7CmRGYf/aXx12mOKI6ka1aNTAUbz
+	 /gGdJ/+VOZh0/gOcfBkHqPOaIC1SiZYddw+BwdBw=
 From: Easwar Hariharan <eahariha@linux.microsoft.com>
-Date: Tue, 10 Dec 2024 22:02:46 +0000
-Subject: [PATCH v3 15/19] Bluetooth: MGMT: Convert timeouts to
+Date: Tue, 10 Dec 2024 22:02:50 +0000
+Subject: [PATCH v3 19/19] ALSA: line6: Convert timeouts to
  secs_to_jiffies()
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -37,7 +37,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241210-converge-secs-to-jiffies-v3-15-ddfefd7e9f2a@linux.microsoft.com>
+Message-Id: <20241210-converge-secs-to-jiffies-v3-19-ddfefd7e9f2a@linux.microsoft.com>
 References: <20241210-converge-secs-to-jiffies-v3-0-ddfefd7e9f2a@linux.microsoft.com>
 In-Reply-To: <20241210-converge-secs-to-jiffies-v3-0-ddfefd7e9f2a@linux.microsoft.com>
 To: Pablo Neira Ayuso <pablo@netfilter.org>, 
@@ -122,22 +122,22 @@ the following Coccinelle rules:
 
 Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
 ---
- net/bluetooth/mgmt.c | 2 +-
+ sound/usb/line6/toneport.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/net/bluetooth/mgmt.c b/net/bluetooth/mgmt.c
-index b31192d473d09b663dc7babd107b4894088ebf6d..8c993763ee0f0360e0d92705f9035f47754b793b 100644
---- a/net/bluetooth/mgmt.c
-+++ b/net/bluetooth/mgmt.c
-@@ -210,7 +210,7 @@ static const u16 mgmt_untrusted_events[] = {
- 	MGMT_EV_EXP_FEATURE_CHANGED,
- };
+diff --git a/sound/usb/line6/toneport.c b/sound/usb/line6/toneport.c
+index ca2c6f5de407ece21ab69a39ed603e3f10069039..c073b38cd6738176fc6a276d05ed553526573341 100644
+--- a/sound/usb/line6/toneport.c
++++ b/sound/usb/line6/toneport.c
+@@ -386,7 +386,7 @@ static int toneport_setup(struct usb_line6_toneport *toneport)
+ 		toneport_update_led(toneport);
  
--#define CACHE_TIMEOUT	msecs_to_jiffies(2 * 1000)
-+#define CACHE_TIMEOUT	secs_to_jiffies(2)
+ 	schedule_delayed_work(&toneport->line6.startup_work,
+-			      msecs_to_jiffies(TONEPORT_PCM_DELAY * 1000));
++			      secs_to_jiffies(TONEPORT_PCM_DELAY));
+ 	return 0;
+ }
  
- #define ZERO_KEY "\x00\x00\x00\x00\x00\x00\x00\x00" \
- 		 "\x00\x00\x00\x00\x00\x00\x00\x00"
 
 -- 
 2.43.0
