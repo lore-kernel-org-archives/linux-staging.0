@@ -1,45 +1,39 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mail-4018.proton.ch (mail-4018.proton.ch [185.70.40.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8CEA23DEA1
-	for <linux-staging@lists.linux.dev>; Tue, 10 Dec 2024 09:59:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A2B21AF0D4
+	for <linux-staging@lists.linux.dev>; Tue, 10 Dec 2024 14:19:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.40.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733824781; cv=none; b=AX2YpogUTt9E9PRqFI1uOOE6sHChn+nsE6XpUGgBvOy8NzCNOFvPEgXwk9YrugKCRtz1ori+JmhW3BUTVHkHuTdDlSdN8cRqdg+9JGZn9hCbhMShPn5prhyyMGS3fM/labNr6ea3rgYdcSkmN3gJHZXi5PUK/b1WrH3LayvNAL0=
+	t=1733840346; cv=none; b=EEim5Wy3u+obxtVHhKbQBoubh58R236teW6Ul+6OiqRHjOYIDQs4F/FYnykTNHIj9cA2IKysKAglagShAFUUmvZ7UoJDly2MdQI0DCb0p0qQc5BsnE4jImhzfdo4xEntyYXvRMyAyeKVMdNu5sK7jr2l4pwFBMWR8NC4bI5nqN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733824781; c=relaxed/simple;
-	bh=2dgi13MdYkX55Qs/64w3566Wi7SlLKksGmoSdYUqWtg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hprp4gqQ/CgR9gsnFZ34icKphhwCyoWPwjTnw+b2FaIE7i5uNVq+QhC/ESjUW+rvGDifH7DikTAidDAxPDgvoJe/Uu3BJTIGAkaU+Whk0WgNg++7f+JkQvn2xwmcWl0dTE9g48vq/M2JZGXcQCEhmsvQbZOEN/Zc558boPVudzE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=MkGU94Ov; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1733840346; c=relaxed/simple;
+	bh=3i+zRGoIAHKVd1ck+sBGI2cSTSVfLNulHCLRTB2UM2Q=;
+	h=Date:To:From:Subject:Message-ID:MIME-Version:Content-Type; b=bk7L25vgYsSze0TFMr0DTRQuT+Q0we19ItYkCzdyqHu2fGdb/LcjICm2Jd7ujWLQg/ZbnW4XkOB09u1/Ltrj45lfkEaDB7LxLbQzZGpruPq0XJxqzS9aJKwp1k9Ai817xE8GyuiuO7+hZq27as2ojT0p0TojcweK6a1mcTkq5sA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ariccio.me; spf=pass smtp.mailfrom=ariccio.me; dkim=pass (2048-bit key) header.d=ariccio.me header.i=@ariccio.me header.b=S9rRYHQf; arc=none smtp.client-ip=185.70.40.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ariccio.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ariccio.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="MkGU94Ov"
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DB28D6EC;
-	Tue, 10 Dec 2024 10:59:05 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1733824746;
-	bh=2dgi13MdYkX55Qs/64w3566Wi7SlLKksGmoSdYUqWtg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MkGU94Ovvg7Y0ddYQmHu3+y6wRcPhjRbaWqc8fnB0cw7uUoP8Jpckqg08NnnTuKJ7
-	 TJzqGRp2UX60SIz2LuLhbvcmrT96oNmzz/rRPpLgeNC0Dc/fAXbQ+X2+pLLq00YFS5
-	 tWSc3MMb02hZknmTgkmRIUM7b470EYRfW/kmE27U=
-Date: Tue, 10 Dec 2024 11:59:22 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Mike Isely <isely@pobox.com>, Hans de Goede <hdegoede@redhat.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 04/11] media: uvcvideo: Remove vidioc_queryctrl
-Message-ID: <20241210095922.GD573@pendragon.ideasonboard.com>
-References: <20241210-queryctrl-v2-0-c0a33d69f416@chromium.org>
- <20241210-queryctrl-v2-4-c0a33d69f416@chromium.org>
+	dkim=pass (2048-bit key) header.d=ariccio.me header.i=@ariccio.me header.b="S9rRYHQf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ariccio.me;
+	s=protonmail2; t=1733840335; x=1734099535;
+	bh=3i+zRGoIAHKVd1ck+sBGI2cSTSVfLNulHCLRTB2UM2Q=;
+	h=Date:To:From:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector:
+	 List-Unsubscribe:List-Unsubscribe-Post;
+	b=S9rRYHQfXfj/PIluj2/xZdYstKBPvz3w0HeYZrsoNQ9RBF6YoEg/U8PagBXHmKeg2
+	 HjWVsRJA/sZEh+jUCzuWD6oA5JL9yscBL0MvN/yzf0E5vO3+P3gzd8Qk8/9uENTqVw
+	 FVDmNEn607DIbOjBGKjooQ1+HZjFHOgwJOl6yfNrRl/u8K5sKzQ0XgJofFOiAVaG3S
+	 D9SrZ4DZAMseQTjDAd9isaJz4ix4vet27w1XZTzbjcgRuvuUjybyCYeUAuNHPP7AhS
+	 Gs2eYthrr+N3uXnR6IJWM6w9EZyFPhQq7LEzgrTMIq8nzSauLUSxW8WtO6p1R8e3du
+	 zuXzfiuL+uOhg==
+Date: Tue, 10 Dec 2024 14:18:48 +0000
+To: gregkh@linuxfoundation.org, dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+From: Antonio Riccio <linux@ariccio.me>
+Subject: [PATCH] staging: fbtft: Remove unnecessary parentheses
+Message-ID: <Z1hNxNkVSt11ncXs@stream-circuit>
+Feedback-ID: 117734652:user:proton
+X-Pm-Message-ID: 81922902d7a06e1f45d4210d9402e12cd586accb
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -47,51 +41,35 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241210-queryctrl-v2-4-c0a33d69f416@chromium.org>
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Dec 10, 2024 at 09:28:48AM +0000, Ricardo Ribalda wrote:
-> It can be implemented by the v4l2 ioctl framework using
-> vidioc_query_ext_ctrl.
-> 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+Adhere to Linux kernel coding style.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reported by checkpatch:
 
-> ---
->  drivers/media/usb/uvc/uvc_v4l2.c | 10 ----------
->  1 file changed, 10 deletions(-)
-> 
-> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-> index 97c5407f6603..39f0ddb6d01c 100644
-> --- a/drivers/media/usb/uvc/uvc_v4l2.c
-> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
-> @@ -1014,15 +1014,6 @@ static int uvc_ioctl_s_input(struct file *file, void *fh, unsigned int input)
->  	return ret;
->  }
->  
-> -static int uvc_ioctl_queryctrl(struct file *file, void *fh,
-> -			       struct v4l2_queryctrl *qc)
-> -{
-> -	struct uvc_fh *handle = fh;
-> -	struct uvc_video_chain *chain = handle->chain;
-> -
-> -	return uvc_query_v4l2_ctrl(chain, qc);
-> -}
-> -
->  static int uvc_ioctl_query_ext_ctrl(struct file *file, void *fh,
->  				    struct v4l2_query_ext_ctrl *qec)
->  {
-> @@ -1563,7 +1554,6 @@ const struct v4l2_ioctl_ops uvc_ioctl_ops = {
->  	.vidioc_enum_input = uvc_ioctl_enum_input,
->  	.vidioc_g_input = uvc_ioctl_g_input,
->  	.vidioc_s_input = uvc_ioctl_s_input,
-> -	.vidioc_queryctrl = uvc_ioctl_queryctrl,
->  	.vidioc_query_ext_ctrl = uvc_ioctl_query_ext_ctrl,
->  	.vidioc_g_ext_ctrls = uvc_ioctl_g_ext_ctrls,
->  	.vidioc_s_ext_ctrls = uvc_ioctl_s_ext_ctrls,
+CHECK: Unnecessary parentheses around 'devcode !=3D 0x0000'
+CHECK: Unnecessary parentheses around 'devcode !=3D 0x9320'
 
--- 
-Regards,
+Signed-off-by: Antonio Riccio <linux@ariccio.me>
+---
+ drivers/staging/fbtft/fb_ili9320.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Laurent Pinchart
+diff --git a/drivers/staging/fbtft/fb_ili9320.c b/drivers/staging/fbtft/fb_=
+ili9320.c
+index 050fc2367c12..9f97cfa34b81 100644
+--- a/drivers/staging/fbtft/fb_ili9320.c
++++ b/drivers/staging/fbtft/fb_ili9320.c
+@@ -35,7 +35,7 @@ static int init_display(struct fbtft_par *par)
+ =09par->fbtftops.reset(par);
+=20
+ =09devcode =3D read_devicecode(par);
+-=09if ((devcode !=3D 0x0000) && (devcode !=3D 0x9320))
++=09if (devcode !=3D 0x0000 && devcode !=3D 0x9320)
+ =09=09dev_warn(par->info->device,
+ =09=09=09 "Unrecognized Device code: 0x%04X (expected 0x9320)\n",
+ =09=09=09devcode);
+--=20
+2.43.0
+
+
