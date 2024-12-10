@@ -1,33 +1,33 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57C2823EBF3
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 342C523EBE2
 	for <linux-staging@lists.linux.dev>; Tue, 10 Dec 2024 22:02:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733868169; cv=none; b=lAZHYW9yJWvhH7cWN83Zv5737Y/c5g03gW7Jfl8AkUZR5WuniG6iqd2gqUJpsaKRHPHxg0iMx7TcCFRy+Vd34/vHFRD3iGX/WHNQL08WXKP4ACd5hxIBb8SBscREO07ml3pO6BwH6CSyUB8X/mw6N2Gd2hii/qRYStNahw/cJ5g=
+	t=1733868170; cv=none; b=jKcUyeJWmVJmjUgO/aulphVNw6egKdGLVsRlfP6Vcvi7ENiCnL0LfCIlE9k3+ldqlSM4b7BZgfLlkdRUCP7WJIRdGh/1ziollc8709Gnj+zesrt6J2IQ0ydRB2eVgZJpFWtcpV4i3d/XRhdH1m4AAVVNwhAXc/xNqF76mhD0MOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733868169; c=relaxed/simple;
-	bh=GSlksGiYWxYpmNbuHiusFpTpA4z9hFWsPNdU13pv/n0=;
+	s=arc-20240116; t=1733868170; c=relaxed/simple;
+	bh=frqXhZTljXQf4Hj4uuht2qQqPwJblQXtPO/1Lu5KZMY=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=lu9UJH+XRaXy7Owb0W70VRRmZiP6Ayz3JW06rruykdlyRHQMB4+djW4KA6Yg/VWlWdJUT5pPvoqWG6qou33wnBUGdqqiEHQH9ykZntDhOmhZjA2kvFBnN3cQxf450Ml3p3xhv9kbvDkxS/D6SU7GtwKFMwLRPNCz0i1fiTW8isM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=dOK8RnNQ; arc=none smtp.client-ip=13.77.154.182
+	 In-Reply-To:To:Cc; b=ZZgRAO4ZxGgwcegwiN62AFwPibN5iQSH0r/5BwNOV1ylxeuJePPINd8Td0r31MQAQVjMM8DLexpkOUXeBihdeqZkDT8SSlkdApIIm+GiHAsX1gMFpSYC9r4L3lQm2HgcTqOhzlPXN7wuDqG8kLdHEwYhlFItyd+QhK3evWGjkEw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=ey2u4hFu; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="dOK8RnNQ"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="ey2u4hFu"
 Received: from eahariha-devbox.internal.cloudapp.net (unknown [40.91.112.99])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 6531B20ACD6B;
-	Tue, 10 Dec 2024 14:02:39 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 6531B20ACD6B
+	by linux.microsoft.com (Postfix) with ESMTPSA id 4B3EA204722C;
+	Tue, 10 Dec 2024 14:02:37 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 4B3EA204722C
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1733868159;
-	bh=bkW4y6ENFXKRD3xTlI1AhDo8V7CjSAjUn/pFIvR2ry8=;
+	s=default; t=1733868157;
+	bh=pNf1urZZ7beXITMyG6cNpTQM4ujE/reyCjI7dxR8TrA=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=dOK8RnNQMEEDnIPfeOf2mTH3/slP0EgBsz1RphSjHbLnDrQKEVkY9HcyDwOhMk5R6
-	 eaO83rvpJomkJuzNdNBxnuRf37TDgqADuidRQb6NchFG64SiUCMfdU7nMnXJqoCbUe
-	 LiFzIadqv43ZC7HtDm7c2pnyXRduc6YAQ9XNwlB0=
+	b=ey2u4hFur56upsg36Bzzf5E6sp9TxIQJWauHtVHyZKWxl2TYAXbOMES9gB/LrtTHt
+	 EMIcdvfnDr4nFfA+fPKgnRb6wrIZBNFQYmxUUa3IOMgJ6rbLPy51pP+s0wIlgpVbyY
+	 W7PI6jGCodUt7pK+WAXoxoZrhQg9ZJ/5kGvj+4iw=
 From: Easwar Hariharan <eahariha@linux.microsoft.com>
-Date: Tue, 10 Dec 2024 22:02:47 +0000
-Subject: [PATCH v3 16/19] staging: vc04_services: Convert timeouts to
+Date: Tue, 10 Dec 2024 22:02:36 +0000
+Subject: [PATCH v3 05/19] powerpc/papr_scm: Convert timeouts to
  secs_to_jiffies()
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -37,7 +37,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241210-converge-secs-to-jiffies-v3-16-ddfefd7e9f2a@linux.microsoft.com>
+Message-Id: <20241210-converge-secs-to-jiffies-v3-5-ddfefd7e9f2a@linux.microsoft.com>
 References: <20241210-converge-secs-to-jiffies-v3-0-ddfefd7e9f2a@linux.microsoft.com>
 In-Reply-To: <20241210-converge-secs-to-jiffies-v3-0-ddfefd7e9f2a@linux.microsoft.com>
 To: Pablo Neira Ayuso <pablo@netfilter.org>, 
@@ -122,22 +122,22 @@ the following Coccinelle rules:
 
 Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
 ---
- drivers/staging/vc04_services/bcm2835-audio/bcm2835-vchiq.c | 2 +-
+ arch/powerpc/platforms/pseries/papr_scm.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/vc04_services/bcm2835-audio/bcm2835-vchiq.c b/drivers/staging/vc04_services/bcm2835-audio/bcm2835-vchiq.c
-index dc0d715ed97078ad0f0a41db78428db4f4135a76..0dbe76ee557032d7861acfc002cc203ff2e6971d 100644
---- a/drivers/staging/vc04_services/bcm2835-audio/bcm2835-vchiq.c
-+++ b/drivers/staging/vc04_services/bcm2835-audio/bcm2835-vchiq.c
-@@ -59,7 +59,7 @@ static int bcm2835_audio_send_msg_locked(struct bcm2835_audio_instance *instance
+diff --git a/arch/powerpc/platforms/pseries/papr_scm.c b/arch/powerpc/platforms/pseries/papr_scm.c
+index f84ac9fbe203c111046464b9100866dddae687bb..f7c9271bda58433f395648063e60409a8d3c11d9 100644
+--- a/arch/powerpc/platforms/pseries/papr_scm.c
++++ b/arch/powerpc/platforms/pseries/papr_scm.c
+@@ -544,7 +544,7 @@ static int drc_pmem_query_health(struct papr_scm_priv *p)
  
- 	if (wait) {
- 		if (!wait_for_completion_timeout(&instance->msg_avail_comp,
--						 msecs_to_jiffies(10 * 1000))) {
-+						 secs_to_jiffies(10))) {
- 			dev_err(instance->dev,
- 				"vchi message timeout, msg=%d\n", m->type);
- 			return -ETIMEDOUT;
+ 	/* Jiffies offset for which the health data is assumed to be same */
+ 	cache_timeout = p->lasthealth_jiffies +
+-		msecs_to_jiffies(MIN_HEALTH_QUERY_INTERVAL * 1000);
++		secs_to_jiffies(MIN_HEALTH_QUERY_INTERVAL);
+ 
+ 	/* Fetch new health info is its older than MIN_HEALTH_QUERY_INTERVAL */
+ 	if (time_after(jiffies, cache_timeout))
 
 -- 
 2.43.0
