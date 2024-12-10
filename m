@@ -1,102 +1,150 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71B6123238B
-	for <linux-staging@lists.linux.dev>; Tue, 10 Dec 2024 21:08:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F64A2397A7
+	for <linux-staging@lists.linux.dev>; Tue, 10 Dec 2024 22:02:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733864910; cv=none; b=XJyEE+6Ybgw07/uBXAhD8AxE0dsHNTtHuUJnkhcJA8Uxh1PGA5jmqxTF/bT4XxAmIOuUft3SsrCzCLhTfcou7cPrEFHwFN680ZPOyXODBojxGnaK95947lwLyqtxfXBIxfSGjAt+aYs58aYBWUsVazlwdZJ42QfxGmesAY7Fh0c=
+	t=1733868164; cv=none; b=vFKAC2Xm1kBvzB9ewcEzj8GgLoKoBdxweDkPjfmzwacS9jSAleeaYD3Pop1ARPdWbl8fRohT47siKbccIpIiL1stO6GtG5guGl+3dpPZkZF4E0VpEF/S2oABsvGUv12WUXcqs9K66z32A/S+jBFkc/SoHd9/eGsrJLbWOH6gZ4Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733864910; c=relaxed/simple;
-	bh=CDXIfy3YQvMoIcBioQwy2dUQZMASYSjIFSFtueGVukU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=F9n36A0+byUC1l30dAp3EB4xmP2oVFNAFTwa+zSqhUm/7cjqt9vZ1lG/Y5Sc1YTZaDG6OHj7SU5ejYam8n3kr+JP/w/b2bEvS2B1fTw4khJnRs1sNkC28RMext5ZJaJfojVZgKmEfZxGGHbT4WhFO1Fiyk/kTNCOat7PhgddeMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QUFa+jIS; arc=none smtp.client-ip=209.85.216.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1733868164; c=relaxed/simple;
+	bh=SBfPEYowjaxMuaBy4H9/dtIZretkvlCG/dwNEW+xthU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=JqgNA/XOUm+WQa75AyRSaF6em6ymg4QNd8uweVV5W5Joimp00aQ81i5PlZsfOaV2DolPXFMj3bp6gcHiM13P7EBBPS1/0UM9b2sFl3VdM5kL+oamhILzFcUltnavZOaiHHlAeomKcLoQJ4GZV6UsU7tzSx9lj1Bl25VzvBw/CW0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=U3VeWMEj; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QUFa+jIS"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-2ef87d24c2dso2806403a91.1
-        for <linux-staging@lists.linux.dev>; Tue, 10 Dec 2024 13:08:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733864908; x=1734469708; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cmM5ilpxdp/4WJ1oVXkjuvQCAWPFFBfzL+5a70ISH3A=;
-        b=QUFa+jIS9o/GPTAczOaeqtNLOZnSyWxK/iXPVcD1eowOm3dDzt+q8R36KbD1eEwdiL
-         fMwZIdWcJKXDkYjgnpPknIRQqqimPzgsuLrJAIW8FcW5qc3TUbw92FymlhKFX/GptSoD
-         CcnIrL89NgJTU+lf/Bm8gglH2uwC26HfGJFr1NtlVlD2yYPr5pkybEqSri/0zZnQdtS9
-         gpIykrWE356mRm02p73UbophCzdlKi64sqHURnromYLorcQLqSkO/LHxITeEIW+Da4ZS
-         +9mB+B0IOEZDX0N7nKwYijGatDlcSEboLLZbDeW+4XYXiTfiBPAqfLVBBNFg6yzmOs9d
-         bYvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733864908; x=1734469708;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cmM5ilpxdp/4WJ1oVXkjuvQCAWPFFBfzL+5a70ISH3A=;
-        b=d8r0OoVCVKfUNxbtPrU75feHWU4rdzolopwDKiQKu03jCRT/KyLXZgG1KYYezXeJdh
-         HZi4AJXQkFGrj2rc1+W+8LMjBo9TDTanF44702AqSU95HiRQs4U4z91mXoIWil3X6wPk
-         2GotVxaxhG+jbMFecEVY/6qXwDxrYtEo/dLjeEGmppmv9OppqwSu+OvRSQwU91ZEQ4Zf
-         yerkyfeL0LWHpkQbayiUUN18gkrb0DgvLAbFcdvk+kDDLaB3CVOvvdjB8kbqmJZHLLjI
-         1HmWPzenAn4hDyT0SQisry07M7Zo5PsVkf45zicckBs54UCcYnOUstNaNJmwc+5n5f4f
-         rE7A==
-X-Forwarded-Encrypted: i=1; AJvYcCXuF/xAtgyXIeOnyM6NiHJRxpZ57/SgZFcl1Pl0ezoKho06dRt0Mu9wJ4EboLzjz5qlxyNwLl576yx0rph7@lists.linux.dev
-X-Gm-Message-State: AOJu0YxNEtX7WnrXxZu2BJBwC6bryuYJ0nUm75U73ebu5GIpEbkw9NOJ
-	CPvSN6ijm0ugEJJb1CxFFBDMTzOTVE6NR5ajgunW33pUkGVbsdLL
-X-Gm-Gg: ASbGncu9Pxd0j7WECmA0drT1wvgAtrLWmeUPJhhPcpN1wlp5E4VJU9zj7rRl3RlvbSG
-	3YyWZklPY/BaBxT7I9vNqQ7pazRl6Nr4hTbQ9BDdhyC/41Q+gzuPcdEw5qg5ICh3iqE9sBknXi6
-	HWx4rkh8OXlho0cRJJZu7XpJe6uGnQFtPg54xIta5pw/n8X45Da1JKJuizSPUQvmA1X+/9I++Aa
-	NkLSwmI3qbkKbTQYwj7a5NBzu3/ezO6/ObWKQuYOvQzR+Y8epiOnr59l4nlk2G6SU5UVOP5vt/E
-	NA==
-X-Google-Smtp-Source: AGHT+IG3jeXkz7uIamB7vFNp+gUbCT+d8SNySxHxTgaFtqZZSw2v1DEnnuvbqQj7GfGUZ0uwHg4eTg==
-X-Received: by 2002:a17:90b:1650:b0:2ee:a4f2:b311 with SMTP id 98e67ed59e1d1-2f127f55cacmr693734a91.8.1733864907550;
-        Tue, 10 Dec 2024 13:08:27 -0800 (PST)
-Received: from localhost.localdomain ([2804:14d:4c64:81ec:7409:107a:a63b:a3da])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2ef2700979fsm13385731a91.18.2024.12.10.13.08.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Dec 2024 13:08:27 -0800 (PST)
-From: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
-To: gregkh@linuxfoundation.org,
-	philipp.g.hortmann@gmail.com
-Cc: ~lkcamp/patches@lists.sr.ht,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v4 3/3] staging: rtl8723bs: remove HAL_DEF_DBG_RX_INFO_DUMP caller
-Date: Tue, 10 Dec 2024 17:48:20 -0300
-Message-ID: <20241210210741.17101-4-rodrigo.gobbi.7@gmail.com>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <20241210210741.17101-1-rodrigo.gobbi.7@gmail.com>
-References: <20241210210741.17101-1-rodrigo.gobbi.7@gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="U3VeWMEj"
+Received: from eahariha-devbox.internal.cloudapp.net (unknown [40.91.112.99])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 8EC1F2047228;
+	Tue, 10 Dec 2024 14:02:36 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 8EC1F2047228
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1733868156;
+	bh=oAoRcxFx6r3qiWDnRBBsiLzbuwo4yEAyTzO1K822O7I=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=U3VeWMEj1NoccyfU44IlXr+eH+dIb+Y1FX88FHYXU4q03PECflKzMMc2KhmQfWdxA
+	 2LtcSsTBowp5J1k4JjK8tQOvB5yIwMjDbVNHxvHTREwcCEJZMCYyv+0rZVYLLCY+lW
+	 lVwyzMWVt2MunqqkcT6KDTr1TpTutKDRbWdkcUjw=
+From: Easwar Hariharan <eahariha@linux.microsoft.com>
+Date: Tue, 10 Dec 2024 22:02:32 +0000
+Subject: [PATCH v3 01/19] netfilter: conntrack: Cleanup timeout definitions
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20241210-converge-secs-to-jiffies-v3-1-ddfefd7e9f2a@linux.microsoft.com>
+References: <20241210-converge-secs-to-jiffies-v3-0-ddfefd7e9f2a@linux.microsoft.com>
+In-Reply-To: <20241210-converge-secs-to-jiffies-v3-0-ddfefd7e9f2a@linux.microsoft.com>
+To: Pablo Neira Ayuso <pablo@netfilter.org>, 
+ Jozsef Kadlecsik <kadlec@netfilter.org>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Simon Horman <horms@kernel.org>, Julia Lawall <Julia.Lawall@inria.fr>, 
+ Nicolas Palix <nicolas.palix@imag.fr>, Daniel Mack <daniel@zonque.org>, 
+ Haojian Zhuang <haojian.zhuang@gmail.com>, 
+ Robert Jarzmik <robert.jarzmik@free.fr>, 
+ Russell King <linux@armlinux.org.uk>, Heiko Carstens <hca@linux.ibm.com>, 
+ Vasily Gorbik <gor@linux.ibm.com>, 
+ Alexander Gordeev <agordeev@linux.ibm.com>, 
+ Christian Borntraeger <borntraeger@linux.ibm.com>, 
+ Sven Schnelle <svens@linux.ibm.com>, Ofir Bitton <obitton@habana.ai>, 
+ Oded Gabbay <ogabbay@kernel.org>, 
+ Lucas De Marchi <lucas.demarchi@intel.com>, 
+ =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Jeroen de Borst <jeroendb@google.com>, 
+ Praveen Kaligineedi <pkaligineedi@google.com>, 
+ Shailend Chand <shailend@google.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+ James Smart <james.smart@broadcom.com>, 
+ Dick Kennedy <dick.kennedy@broadcom.com>, 
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, 
+ "Martin K. Petersen" <martin.petersen@oracle.com>, 
+ =?utf-8?q?Roger_Pau_Monn=C3=A9?= <roger.pau@citrix.com>, 
+ Jens Axboe <axboe@kernel.dk>, Kalle Valo <kvalo@kernel.org>, 
+ Jeff Johnson <jjohnson@kernel.org>, 
+ Catalin Marinas <catalin.marinas@arm.com>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Jack Wang <jinpu.wang@cloud.ionos.com>, 
+ Marcel Holtmann <marcel@holtmann.org>, 
+ Johan Hedberg <johan.hedberg@gmail.com>, 
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Florian Fainelli <florian.fainelli@broadcom.com>, 
+ Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ Xiubo Li <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>, 
+ Josh Poimboeuf <jpoimboe@kernel.org>, Jiri Kosina <jikos@kernel.org>, 
+ Miroslav Benes <mbenes@suse.cz>, Petr Mladek <pmladek@suse.com>, 
+ Joe Lawrence <joe.lawrence@redhat.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Louis Peens <louis.peens@corigine.com>, 
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
+ Christophe Leroy <christophe.leroy@csgroup.eu>, 
+ Naveen N Rao <naveen@kernel.org>, Madhavan Srinivasan <maddy@linux.ibm.com>
+Cc: netfilter-devel@vger.kernel.org, coreteam@netfilter.org, 
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org, cocci@inria.fr, 
+ linux-arm-kernel@lists.infradead.org, linux-s390@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
+ linux-scsi@vger.kernel.org, xen-devel@lists.xenproject.org, 
+ linux-block@vger.kernel.org, linux-wireless@vger.kernel.org, 
+ ath11k@lists.infradead.org, linux-mm@kvack.org, 
+ linux-bluetooth@vger.kernel.org, linux-staging@lists.linux.dev, 
+ linux-rpi-kernel@lists.infradead.org, ceph-devel@vger.kernel.org, 
+ live-patching@vger.kernel.org, linux-sound@vger.kernel.org, 
+ oss-drivers@corigine.com, linuxppc-dev@lists.ozlabs.org, 
+ Anna-Maria Behnsen <anna-maria@linutronix.de>, 
+ Easwar Hariharan <eahariha@linux.microsoft.com>
+X-Mailer: b4 0.14.2
 
-Remove the HAL_DEF_DBG_RX_INFO_DUMP enum caller due
-to the removal of DBG_RX_SIGNAL_DISPLAY_RAW_DATA ifdef.
+None of the higher order definitions are used anymore, so remove
+definitions for minutes, hours, and days timeouts. Convert the seconds
+denominated timeouts to secs_to_jiffies()
 
-Signed-off-by: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
+Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 1 -
- 1 file changed, 1 deletion(-)
+ net/netfilter/nf_conntrack_proto_sctp.c | 21 ++++++++-------------
+ 1 file changed, 8 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index 317f3db19397..952ce6dd5af9 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -4959,7 +4959,6 @@ void _linked_info_dump(struct adapter *padapter)
- 					rtw_hal_get_def_var(padapter, HW_DEF_RA_INFO_DUMP, &i);
- 			}
- 		}
--		rtw_hal_set_def_var(padapter, HAL_DEF_DBG_RX_INFO_DUMP, NULL);
- 	}
- }
+diff --git a/net/netfilter/nf_conntrack_proto_sctp.c b/net/netfilter/nf_conntrack_proto_sctp.c
+index 4cc97f971264ed779434ab4597dd0162586b3736..7c6f7c9f73320dd208bd0940f539bd9e662e62d0 100644
+--- a/net/netfilter/nf_conntrack_proto_sctp.c
++++ b/net/netfilter/nf_conntrack_proto_sctp.c
+@@ -39,20 +39,15 @@ static const char *const sctp_conntrack_names[] = {
+ 	[SCTP_CONNTRACK_HEARTBEAT_SENT]		= "HEARTBEAT_SENT",
+ };
  
+-#define SECS  * HZ
+-#define MINS  * 60 SECS
+-#define HOURS * 60 MINS
+-#define DAYS  * 24 HOURS
+-
+ static const unsigned int sctp_timeouts[SCTP_CONNTRACK_MAX] = {
+-	[SCTP_CONNTRACK_CLOSED]			= 10 SECS,
+-	[SCTP_CONNTRACK_COOKIE_WAIT]		= 3 SECS,
+-	[SCTP_CONNTRACK_COOKIE_ECHOED]		= 3 SECS,
+-	[SCTP_CONNTRACK_ESTABLISHED]		= 210 SECS,
+-	[SCTP_CONNTRACK_SHUTDOWN_SENT]		= 3 SECS,
+-	[SCTP_CONNTRACK_SHUTDOWN_RECD]		= 3 SECS,
+-	[SCTP_CONNTRACK_SHUTDOWN_ACK_SENT]	= 3 SECS,
+-	[SCTP_CONNTRACK_HEARTBEAT_SENT]		= 30 SECS,
++	[SCTP_CONNTRACK_CLOSED]			= secs_to_jiffies(10),
++	[SCTP_CONNTRACK_COOKIE_WAIT]		= secs_to_jiffies(3),
++	[SCTP_CONNTRACK_COOKIE_ECHOED]		= secs_to_jiffies(3),
++	[SCTP_CONNTRACK_ESTABLISHED]		= secs_to_jiffies(210),
++	[SCTP_CONNTRACK_SHUTDOWN_SENT]		= secs_to_jiffies(3),
++	[SCTP_CONNTRACK_SHUTDOWN_RECD]		= secs_to_jiffies(3),
++	[SCTP_CONNTRACK_SHUTDOWN_ACK_SENT]	= secs_to_jiffies(3),
++	[SCTP_CONNTRACK_HEARTBEAT_SENT]		= secs_to_jiffies(30),
+ };
+ 
+ #define	SCTP_FLAG_HEARTBEAT_VTAG_FAILED	1
+
 -- 
-2.47.0
+2.43.0
 
