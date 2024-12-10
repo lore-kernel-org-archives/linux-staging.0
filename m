@@ -1,34 +1,33 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3840A23A58F
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0801823A57D
 	for <linux-staging@lists.linux.dev>; Tue, 10 Dec 2024 22:02:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733868167; cv=none; b=fdbhBNi1wtzwSdi9V5rS6zDY1+x1hnGirrgcrm5cO/FSFoFPtd4EOjRp6rqlZKYrw+YkEUocbOkO7oO2obY2nGyWQrx/CXJaa+QMu5gzkbbiItUQ2OnlUlEeHWIJrCs4zp3RG2+fZTVZvw1mSpk9Cr5t8VUVQnMUlHxFgETHSRE=
+	t=1733868168; cv=none; b=AMBajXEqsoPARDteWr5VVQWmxCdkSfkDJJsm+Vf1lwVSYmtQRnHsIqWkahs+l1N/6tSSxBqInIln+xKxv7wnBq8BhqxLrLWZkq5UxFT19z4R1m8Tl+S4/74wLId5Vw/yfWEUZW1YgJIeBYS1XPbvd+8SvyYLLc1UWVjIEdQfA2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733868167; c=relaxed/simple;
-	bh=sp7pHxLRhVCkDNgRacO3E6RHNFI16HCD77Wiy2UCfoo=;
+	s=arc-20240116; t=1733868168; c=relaxed/simple;
+	bh=aBectz+gE6ET59jY9l0ZXZLyi+BhbT+QhmjaTFhBPnM=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=KMA5jJKQZer5MTpwpDpGpqRSDJ8PJi2vHJYs9ZnMyO8L0XpS3ED1zb8I4BKM86luevaUqzcFCBknMQiv3mFgAqZqdnrh4czcVEok8lM6v7TQs6Xo8DXuGdPXaHg1VuieKr9zbISNvOhkx6Qm2wOcuhwHmZBjOV9I/KmK+mKKHZg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=Cha0cDHP; arc=none smtp.client-ip=13.77.154.182
+	 In-Reply-To:To:Cc; b=vCicr3XAg35wmXLfQpx5i+ZGNP68XVwZUCez450TUOwqEwIt53SPF0h6naMFArRnuQifz1M4DXR4bR5FqDl4K57H11llVJcmnmvkwCVV2sBQMgLIna5RyCsnow/XqidY2E6r8CAnDvjQXbuuJwiXJJG3ivSW+kcxe1zdywHXej0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=h7xNg+CJ; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="Cha0cDHP"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="h7xNg+CJ"
 Received: from eahariha-devbox.internal.cloudapp.net (unknown [40.91.112.99])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 1CDB6204722B;
-	Tue, 10 Dec 2024 14:02:37 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 1CDB6204722B
+	by linux.microsoft.com (Postfix) with ESMTPSA id 102E5204722E;
+	Tue, 10 Dec 2024 14:02:38 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 102E5204722E
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1733868157;
-	bh=q4DaHZqCWeIKQe7TTG2rV3K7PdI1M/As9LhjCxxNuts=;
+	s=default; t=1733868158;
+	bh=4PsoF6SsPfbe/epEx07m/H71eMXFwTragWU3TWb95lc=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=Cha0cDHP2vqeI8GSgKLIifsRbCjhIP9dfadMSDrPMIXzCzmN2lfENv6VOGo3TWGGc
-	 RhOk4eEHD3feUGZkxL7/wUYX3ev+tB6zBroy0qt0RlqU7ha1EGeg6x38R1w2x8kfbl
-	 wuStr/zn04e6xBcfNPjBsiQEchSCZugge2XzJeQs=
+	b=h7xNg+CJMXTd5DQ9X3jMinLoN7vSFDg8Wc8ctVRvzEZXRU6zr2IuGvATvzcH5C5mv
+	 8tZpWnxa3guMlnaHImjL8p97Vyif6Q4iPn6nrKcU0WRTq12Y7YJw/78q0d2IIYZwV/
+	 HU4b3GuDdaH6l3YJ/3viq/heQZ5TTvrnm5sB3x44=
 From: Easwar Hariharan <eahariha@linux.microsoft.com>
-Date: Tue, 10 Dec 2024 22:02:35 +0000
-Subject: [PATCH v3 04/19] s390: kernel: Convert timeouts to use
- secs_to_jiffies()
+Date: Tue, 10 Dec 2024 22:02:40 +0000
+Subject: [PATCH v3 09/19] scsi: lpfc: Convert timeouts to secs_to_jiffies()
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -37,7 +36,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241210-converge-secs-to-jiffies-v3-4-ddfefd7e9f2a@linux.microsoft.com>
+Message-Id: <20241210-converge-secs-to-jiffies-v3-9-ddfefd7e9f2a@linux.microsoft.com>
 References: <20241210-converge-secs-to-jiffies-v3-0-ddfefd7e9f2a@linux.microsoft.com>
 In-Reply-To: <20241210-converge-secs-to-jiffies-v3-0-ddfefd7e9f2a@linux.microsoft.com>
 To: Pablo Neira Ayuso <pablo@netfilter.org>, 
@@ -104,7 +103,7 @@ Cc: netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
 X-Mailer: b4 0.14.2
 
 Commit b35108a51cf7 ("jiffies: Define secs_to_jiffies()") introduced
-secs_to_jiffies(). As the values here are a multiple of 1000, use
+secs_to_jiffies(). As the value here is a multiple of 1000, use
 secs_to_jiffies() instead of msecs_to_jiffies to avoid the multiplication.
 
 This is converted using scripts/coccinelle/misc/secs_to_jiffies.cocci with
@@ -122,56 +121,178 @@ the following Coccinelle rules:
 
 Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
 ---
- arch/s390/kernel/lgr.c      | 2 +-
- arch/s390/kernel/time.c     | 4 ++--
- arch/s390/kernel/topology.c | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/scsi/lpfc/lpfc_init.c      | 18 +++++++++---------
+ drivers/scsi/lpfc/lpfc_nportdisc.c |  8 ++++----
+ drivers/scsi/lpfc/lpfc_nvme.c      |  2 +-
+ drivers/scsi/lpfc/lpfc_sli.c       |  4 ++--
+ drivers/scsi/lpfc/lpfc_vmid.c      |  2 +-
+ 5 files changed, 17 insertions(+), 17 deletions(-)
 
-diff --git a/arch/s390/kernel/lgr.c b/arch/s390/kernel/lgr.c
-index 6652e54cf3db9fbdd8cfb06f8a0dc1d4c05ae7d7..6d1ffca5f798086160112990cb947ec8deed0659 100644
---- a/arch/s390/kernel/lgr.c
-+++ b/arch/s390/kernel/lgr.c
-@@ -166,7 +166,7 @@ static struct timer_list lgr_timer;
-  */
- static void lgr_timer_set(void)
- {
--	mod_timer(&lgr_timer, jiffies + msecs_to_jiffies(LGR_TIMER_INTERVAL_SECS * MSEC_PER_SEC));
-+	mod_timer(&lgr_timer, jiffies + secs_to_jiffies(LGR_TIMER_INTERVAL_SECS));
+diff --git a/drivers/scsi/lpfc/lpfc_init.c b/drivers/scsi/lpfc/lpfc_init.c
+index 7f57397d91a90d8fea689a6d095c30c974fd63f6..4fed2e1243e05896c7e67902b6a9924bed1a5ea9 100644
+--- a/drivers/scsi/lpfc/lpfc_init.c
++++ b/drivers/scsi/lpfc/lpfc_init.c
+@@ -598,7 +598,7 @@ lpfc_config_port_post(struct lpfc_hba *phba)
+ 		  jiffies + msecs_to_jiffies(1000 * timeout));
+ 	/* Set up heart beat (HB) timer */
+ 	mod_timer(&phba->hb_tmofunc,
+-		  jiffies + msecs_to_jiffies(1000 * LPFC_HB_MBOX_INTERVAL));
++		  jiffies + secs_to_jiffies(LPFC_HB_MBOX_INTERVAL));
+ 	clear_bit(HBA_HBEAT_INP, &phba->hba_flag);
+ 	clear_bit(HBA_HBEAT_TMO, &phba->hba_flag);
+ 	phba->last_completion_time = jiffies;
+@@ -1267,7 +1267,7 @@ lpfc_hb_mbox_cmpl(struct lpfc_hba * phba, LPFC_MBOXQ_t * pmboxq)
+ 	    !test_bit(FC_UNLOADING, &phba->pport->load_flag))
+ 		mod_timer(&phba->hb_tmofunc,
+ 			  jiffies +
+-			  msecs_to_jiffies(1000 * LPFC_HB_MBOX_INTERVAL));
++			  secs_to_jiffies(LPFC_HB_MBOX_INTERVAL));
+ 	return;
  }
  
- /*
-diff --git a/arch/s390/kernel/time.c b/arch/s390/kernel/time.c
-index 34a65c141ea076ba97b3238f1f36f077b15961df..e9f47c3a61978a45c72aee23bc44dcb128113c8c 100644
---- a/arch/s390/kernel/time.c
-+++ b/arch/s390/kernel/time.c
-@@ -662,12 +662,12 @@ static void stp_check_leap(void)
- 		if (ret < 0)
- 			pr_err("failed to set leap second flags\n");
- 		/* arm Timer to clear leap second flags */
--		mod_timer(&stp_timer, jiffies + msecs_to_jiffies(14400 * MSEC_PER_SEC));
-+		mod_timer(&stp_timer, jiffies + secs_to_jiffies(14400));
- 	} else {
- 		/* The day the leap second is scheduled for hasn't been reached. Retry
- 		 * in one hour.
- 		 */
--		mod_timer(&stp_timer, jiffies + msecs_to_jiffies(3600 * MSEC_PER_SEC));
-+		mod_timer(&stp_timer, jiffies + secs_to_jiffies(3600));
+@@ -1555,7 +1555,7 @@ lpfc_hb_timeout_handler(struct lpfc_hba *phba)
+ 		/* If IOs are completing, no need to issue a MBX_HEARTBEAT */
+ 		spin_lock_irq(&phba->pport->work_port_lock);
+ 		if (time_after(phba->last_completion_time +
+-				msecs_to_jiffies(1000 * LPFC_HB_MBOX_INTERVAL),
++				secs_to_jiffies(LPFC_HB_MBOX_INTERVAL),
+ 				jiffies)) {
+ 			spin_unlock_irq(&phba->pport->work_port_lock);
+ 			if (test_bit(HBA_HBEAT_INP, &phba->hba_flag))
+@@ -3354,7 +3354,7 @@ lpfc_block_mgmt_io(struct lpfc_hba *phba, int mbx_action)
+ 	spin_unlock_irqrestore(&phba->hbalock, iflag);
+ 	if (mbx_action == LPFC_MBX_NO_WAIT)
+ 		return;
+-	timeout = msecs_to_jiffies(LPFC_MBOX_TMO * 1000) + jiffies;
++	timeout = secs_to_jiffies(LPFC_MBOX_TMO) + jiffies;
+ 	spin_lock_irqsave(&phba->hbalock, iflag);
+ 	if (phba->sli.mbox_active) {
+ 		actcmd = phba->sli.mbox_active->u.mb.mbxCommand;
+@@ -4924,14 +4924,14 @@ int lpfc_scan_finished(struct Scsi_Host *shost, unsigned long time)
+ 		stat = 1;
+ 		goto finished;
  	}
+-	if (time >= msecs_to_jiffies(30 * 1000)) {
++	if (time >= secs_to_jiffies(30)) {
+ 		lpfc_printf_log(phba, KERN_INFO, LOG_INIT,
+ 				"0461 Scanning longer than 30 "
+ 				"seconds.  Continuing initialization\n");
+ 		stat = 1;
+ 		goto finished;
+ 	}
+-	if (time >= msecs_to_jiffies(15 * 1000) &&
++	if (time >= secs_to_jiffies(15) &&
+ 	    phba->link_state <= LPFC_LINK_DOWN) {
+ 		lpfc_printf_log(phba, KERN_INFO, LOG_INIT,
+ 				"0465 Link down longer than 15 "
+@@ -4945,7 +4945,7 @@ int lpfc_scan_finished(struct Scsi_Host *shost, unsigned long time)
+ 	if (vport->num_disc_nodes || vport->fc_prli_sent)
+ 		goto finished;
+ 	if (!atomic_read(&vport->fc_map_cnt) &&
+-	    time < msecs_to_jiffies(2 * 1000))
++	    time < secs_to_jiffies(2))
+ 		goto finished;
+ 	if ((phba->sli.sli_flag & LPFC_SLI_MBOX_ACTIVE) != 0)
+ 		goto finished;
+@@ -5179,8 +5179,8 @@ lpfc_vmid_poll(struct timer_list *t)
+ 		lpfc_worker_wake_up(phba);
+ 
+ 	/* restart the timer for the next iteration */
+-	mod_timer(&phba->inactive_vmid_poll, jiffies + msecs_to_jiffies(1000 *
+-							LPFC_VMID_TIMER));
++	mod_timer(&phba->inactive_vmid_poll,
++		  jiffies + secs_to_jiffies(LPFC_VMID_TIMER));
  }
  
-diff --git a/arch/s390/kernel/topology.c b/arch/s390/kernel/topology.c
-index 4f9c301a705b63f8dd0e7bc33e7206ad1222e7a7..0fd56a1cadbd4f41a9876a3a3fec7f5dc08ac2db 100644
---- a/arch/s390/kernel/topology.c
-+++ b/arch/s390/kernel/topology.c
-@@ -371,7 +371,7 @@ static void set_topology_timer(void)
- 	if (atomic_add_unless(&topology_poll, -1, 0))
- 		mod_timer(&topology_timer, jiffies + msecs_to_jiffies(100));
- 	else
--		mod_timer(&topology_timer, jiffies + msecs_to_jiffies(60 * MSEC_PER_SEC));
-+		mod_timer(&topology_timer, jiffies + secs_to_jiffies(60));
- }
+ /**
+diff --git a/drivers/scsi/lpfc/lpfc_nportdisc.c b/drivers/scsi/lpfc/lpfc_nportdisc.c
+index 4d88cfe71caed398d376030c9ae06d3aad6ae00c..08a7f5c6157ff984d6e37751ca5398adbf80b607 100644
+--- a/drivers/scsi/lpfc/lpfc_nportdisc.c
++++ b/drivers/scsi/lpfc/lpfc_nportdisc.c
+@@ -906,7 +906,7 @@ lpfc_rcv_logo(struct lpfc_vport *vport, struct lpfc_nodelist *ndlp,
+ 		    (ndlp->nlp_state >= NLP_STE_ADISC_ISSUE ||
+ 		     ndlp->nlp_state <= NLP_STE_PRLI_ISSUE)) {
+ 			mod_timer(&ndlp->nlp_delayfunc,
+-				  jiffies + msecs_to_jiffies(1000 * 1));
++				  jiffies + secs_to_jiffies(1));
+ 			set_bit(NLP_DELAY_TMO, &ndlp->nlp_flag);
+ 			ndlp->nlp_last_elscmd = ELS_CMD_PLOGI;
+ 			lpfc_printf_vlog(vport, KERN_INFO,
+@@ -1332,7 +1332,7 @@ lpfc_rcv_els_plogi_issue(struct lpfc_vport *vport, struct lpfc_nodelist *ndlp,
+ 	}
  
- void topology_expect_change(void)
+ 	/* Put ndlp in npr state set plogi timer for 1 sec */
+-	mod_timer(&ndlp->nlp_delayfunc, jiffies + msecs_to_jiffies(1000 * 1));
++	mod_timer(&ndlp->nlp_delayfunc, jiffies + secs_to_jiffies(1));
+ 	set_bit(NLP_DELAY_TMO, &ndlp->nlp_flag);
+ 	ndlp->nlp_last_elscmd = ELS_CMD_PLOGI;
+ 	ndlp->nlp_prev_state = NLP_STE_PLOGI_ISSUE;
+@@ -1936,7 +1936,7 @@ lpfc_cmpl_reglogin_reglogin_issue(struct lpfc_vport *vport,
+ 
+ 		/* Put ndlp in npr state set plogi timer for 1 sec */
+ 		mod_timer(&ndlp->nlp_delayfunc,
+-			  jiffies + msecs_to_jiffies(1000 * 1));
++			  jiffies + secs_to_jiffies(1));
+ 		set_bit(NLP_DELAY_TMO, &ndlp->nlp_flag);
+ 		ndlp->nlp_last_elscmd = ELS_CMD_PLOGI;
+ 
+@@ -2743,7 +2743,7 @@ lpfc_rcv_prlo_npr_node(struct lpfc_vport *vport, struct lpfc_nodelist *ndlp,
+ 
+ 	if (!test_bit(NLP_DELAY_TMO, &ndlp->nlp_flag)) {
+ 		mod_timer(&ndlp->nlp_delayfunc,
+-			  jiffies + msecs_to_jiffies(1000 * 1));
++			  jiffies + secs_to_jiffies(1));
+ 		set_bit(NLP_DELAY_TMO, &ndlp->nlp_flag);
+ 		clear_bit(NLP_NPR_ADISC, &ndlp->nlp_flag);
+ 		ndlp->nlp_last_elscmd = ELS_CMD_PLOGI;
+diff --git a/drivers/scsi/lpfc/lpfc_nvme.c b/drivers/scsi/lpfc/lpfc_nvme.c
+index 43dc1da4a1567c05d6ac5f8bda19032737998e64..b1adb9f59097d083a3ae24f4ddf6413350a0368d 100644
+--- a/drivers/scsi/lpfc/lpfc_nvme.c
++++ b/drivers/scsi/lpfc/lpfc_nvme.c
+@@ -2237,7 +2237,7 @@ lpfc_nvme_lport_unreg_wait(struct lpfc_vport *vport,
+ 	 * wait. Print a message if a 10 second wait expires and renew the
+ 	 * wait. This is unexpected.
+ 	 */
+-	wait_tmo = msecs_to_jiffies(LPFC_NVME_WAIT_TMO * 1000);
++	wait_tmo = secs_to_jiffies(LPFC_NVME_WAIT_TMO);
+ 	while (true) {
+ 		ret = wait_for_completion_timeout(lport_unreg_cmp, wait_tmo);
+ 		if (unlikely(!ret)) {
+diff --git a/drivers/scsi/lpfc/lpfc_sli.c b/drivers/scsi/lpfc/lpfc_sli.c
+index 874644b31a3ebd815d5bf55bc4b3464c94d9cfa6..3fd9723cd271c8a024b6f34e583668e973404e6f 100644
+--- a/drivers/scsi/lpfc/lpfc_sli.c
++++ b/drivers/scsi/lpfc/lpfc_sli.c
+@@ -9012,7 +9012,7 @@ lpfc_sli4_hba_setup(struct lpfc_hba *phba)
+ 
+ 	/* Start heart beat timer */
+ 	mod_timer(&phba->hb_tmofunc,
+-		  jiffies + msecs_to_jiffies(1000 * LPFC_HB_MBOX_INTERVAL));
++		  jiffies + secs_to_jiffies(LPFC_HB_MBOX_INTERVAL));
+ 	clear_bit(HBA_HBEAT_INP, &phba->hba_flag);
+ 	clear_bit(HBA_HBEAT_TMO, &phba->hba_flag);
+ 	phba->last_completion_time = jiffies;
+@@ -13323,7 +13323,7 @@ lpfc_sli_mbox_sys_shutdown(struct lpfc_hba *phba, int mbx_action)
+ 		lpfc_sli_mbox_sys_flush(phba);
+ 		return;
+ 	}
+-	timeout = msecs_to_jiffies(LPFC_MBOX_TMO * 1000) + jiffies;
++	timeout = secs_to_jiffies(LPFC_MBOX_TMO) + jiffies;
+ 
+ 	/* Disable softirqs, including timers from obtaining phba->hbalock */
+ 	local_bh_disable();
+diff --git a/drivers/scsi/lpfc/lpfc_vmid.c b/drivers/scsi/lpfc/lpfc_vmid.c
+index cc3e4736f2fe29e1fd4afe221c9c7c40ecf382d4..14dbfe954e423acc47d1b1c80160ff193783f500 100644
+--- a/drivers/scsi/lpfc/lpfc_vmid.c
++++ b/drivers/scsi/lpfc/lpfc_vmid.c
+@@ -278,7 +278,7 @@ int lpfc_vmid_get_appid(struct lpfc_vport *vport, char *uuid,
+ 		if (!(vport->phba->pport->vmid_flag & LPFC_VMID_TIMER_ENBLD)) {
+ 			mod_timer(&vport->phba->inactive_vmid_poll,
+ 				  jiffies +
+-				  msecs_to_jiffies(1000 * LPFC_VMID_TIMER));
++				  secs_to_jiffies(LPFC_VMID_TIMER));
+ 			vport->phba->pport->vmid_flag |= LPFC_VMID_TIMER_ENBLD;
+ 		}
+ 	}
 
 -- 
 2.43.0
